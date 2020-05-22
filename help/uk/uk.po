@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: evolution master\n"
 "POT-Creation-Date: 2020-05-19 15:54+0000\n"
-"PO-Revision-Date: 2020-05-21 17:58+0300\n"
+"PO-Revision-Date: 2020-05-22 12:29+0300\n"
 "Last-Translator: Yuri Chornoivan <yurchor@ukr.net>\n"
 "Language-Team: Ukrainian <trans-uk@lists.fedoraproject.org>\n"
 "Language: uk\n"
@@ -1948,6 +1948,11 @@ msgid ""
 "addresses and click the arrow buttons to move them into the appropriate "
 "address columns."
 msgstr ""
+"Крім того, ви можете натиснути кнопки <gui>Кому:</gui>, <gui>Копія:</gui> або"
+" <gui>Прих.копія:</"
+"gui>, щоб отримати писок адрес електронної пошти у ваших записах контактів."
+" Вибирайте адреси і натискайте кнопки зі стрілками, щоб пересунути їх до"
+" відповідних стовпчиків адрес."
 
 #. (itstool) path: info/desc
 #: C/contacts-google.page:18
@@ -2002,6 +2007,11 @@ msgid ""
 "maintain a shared set of contact information. Many companies keep a common "
 "LDAP address book for all their employees or for client contacts."
 msgstr ""
+"Протокол LDAP створено для того, щоб надати змогу користувачам ділитися"
+" інформацією щодо контактів мережею шляхом надання спільного доступу до"
+" центрального каталогу. LDAP уможливлює для компанії супровід спільного"
+" набору даних контактів. У багатьох компаніях зберігають загальну адресну"
+" книгу LDAP для усіх співробітників або для усіх контактів клієнтів."
 
 #. (itstool) path: section/title
 #: C/contacts-ldap.page:36
@@ -2107,6 +2117,8 @@ msgid ""
 "Timeout (minutes): The maximum time <app>Evolution</app> attempts to "
 "download data from the server before giving up."
 msgstr ""
+"Час очікування (у хвилинах): максимальний час, протягом якого <app>Evolution<"
+"/app> намагатиметься отримати дані з сервера, перш ніж припинити спроби."
 
 #. (itstool) path: item/p
 #: C/contacts-ldap.page:107
@@ -2115,6 +2127,9 @@ msgid ""
 "servers refuse to send more than 500 contacts, but you can set the number "
 "lower if you want to shorten downloads for very broad searches."
 msgstr ""
+"Обмеження: максимальна кількість результатів вказаного пошуку. Більшість"
+" серверів відмовляється надсилати понад 500 контактів, але ви можете вказати"
+" менше значення, щоб скоротити обсяг даних для дуже широких пошуків."
 
 #. (itstool) path: note/p
 #: C/contacts-ldap.page:117
@@ -2145,6 +2160,11 @@ msgid ""
 "some of the network directory. You do this by dragging and dropping your "
 "desired contacts into the local address books."
 msgstr ""
+"Доступ до мережевих тек відкрито, лише якщо встановлено з'єднання з мережею."
+" Якщо ви користуєтеся ноутбуком або комутованим з'єднанням за допомогою"
+" модема, вам варто скопіювати або створити кеш мережевого каталогу. Зробити"
+" це можна перетягуванням зі скиданням потрібних вам записів контактів до"
+" локальних адресних книг."
 
 #. (itstool) path: item/p
 #: C/contacts-ldap.page:137
@@ -2153,6 +2173,10 @@ msgid ""
 "right-click the folder, click <gui>Properties</gui> and select <gui>Copy "
 "folder content locally for offline operation</gui>."
 msgstr ""
+"Ви також можете позначити мережеву теку для автономного використання. Щоб"
+" позначити теку, клацніть на її пункті правою кнопкою миші, виберіть у"
+" контекстному меню пункт <gui>Властивості</gui> і позначте пункт <gui"
+">Скопіювати вміст теки на локальну машину для _автономної роботи</gui>."
 
 #. (itstool) path: item/p
 #: C/contacts-ldap.page:142
@@ -2160,6 +2184,9 @@ msgid ""
 "To prevent excess network traffic, <app>Evolution</app> does not normally "
 "load data from the LDAP server upon opening."
 msgstr ""
+"Щоб запобігти надмірному використанню каналу з'єднання, <app>Evolution</app>,"
+" зазвичай» не завантажуватиме дані із сервера LDAP одразу після запуску"
+" програми."
 
 #. (itstool) path: item/p
 #: C/contacts-ldap.page:146
@@ -2170,6 +2197,12 @@ msgid ""
 "app> allows. Check with your system administrator if you need different "
 "settings."
 msgstr ""
+"Залежно від параметрів вашого сервера, редагування деяких полів у записах"
+" контактів, які зберігаються на сервері LDAP, може бути заборонено. На деяких"
+" серверах взагалі заборонено внесення змін, на інших — зміни можливі лише у"
+" частині полів, підтримку яких передбачено у <app>Evolution</app>. Зв'яжіться"
+" із адміністратором вашої системи, щоб визначити правильні значення"
+" параметрів роботи програми."
 
 #. (itstool) path: info/desc
 #: C/contacts-libreoffice.page:17
@@ -2212,11 +2245,16 @@ msgid ""
 "gui> is available as a source. Click on the small triangle to get the list "
 "of your <app>Evolution</app> address books."
 msgstr ""
+"На правій панелі під міткою <gui>Доступні бази даних</gui> можна скористатися"
+" джерелом <gui>EvolutionLocal</gui>. Клацніть на маленькому трикутничку, щоб"
+" отримати список адресних книг <app>Evolution</app>."
 
 #. (itstool) path: item/p
 #: C/contacts-libreoffice.page:38
 msgid "Choose an addressbook and click <gui style=\"button\">Define</gui>."
 msgstr ""
+"Виберіть адресну книгу і натисніть кнопку <gui style=\"button\">Визначити<"
+"/gui>."
 
 #. (itstool) path: page/p
 #: C/contacts-libreoffice.page:42
@@ -2225,16 +2263,20 @@ msgid ""
 "LibreOffice. You can now select a field to insert into a LibreOffice "
 "document via <guiseq><gui>Insert</gui><gui>Field</gui></guiseq>."
 msgstr ""
+"Це зробить адресну книгу <app>Evolution</app> типовим джерелом даних для"
+" LibreOffice. Після цього ви зможете вибрати поле для вставлення до документа"
+" LibreOffice за допомогою пункту меню <guiseq><gui>Вставка</gui><gui>Поле<"
+"/gui></guiseq>."
 
 #. (itstool) path: info/desc
 #: C/contacts-local.page:17
 msgid "Adding another local address book."
-msgstr ""
+msgstr "Додавання ще однієї локальної адресної книги."
 
 #. (itstool) path: page/title
 #: C/contacts-local.page:20
 msgid "Adding another local address book"
-msgstr ""
+msgstr "Додавання додаткової локальної адресної книги"
 
 #. (itstool) path: page/p
 #: C/contacts-local.page:22
@@ -2242,16 +2284,19 @@ msgid ""
 "To add another local address book to <app>Evolution</app>, perform the "
 "following steps:"
 msgstr ""
+"Щоб додати іншу локальну адресну книгу до <app>Evolution</app>, виконайте"
+" такі "
+"дії:"
 
 #. (itstool) path: info/desc
 #: C/contacts-organizing.page:18
 msgid "On address books, searching, contact lists, and categories."
-msgstr ""
+msgstr "Про адресні книги, пошук, списки контактів та категорії."
 
 #. (itstool) path: page/title
 #: C/contacts-organizing.page:21
 msgid "Sorting, organizing and grouping contacts"
-msgstr ""
+msgstr "Упорядкування, сортування та групування контактів"
 
 #. (itstool) path: page/p
 #: C/contacts-organizing.page:23
@@ -2260,21 +2305,24 @@ msgid ""
 "addressbooks and categories, and for conveniently sending messages to a "
 "group of people contact lists are available."
 msgstr ""
+"Існує декілька способів упорядковування ваших записів контактів. Ви можете"
+" скористатися декількома адресними книгами або категоріями, а для зручного"
+" надсилання повідомлень групам адресатів передбачено списки контактів."
 
 #. (itstool) path: info/desc
 #: C/contacts-searching.page:25
 msgid "Searching contacts."
-msgstr ""
+msgstr "Пошук у контактах."
 
 #. (itstool) path: page/title
 #: C/contacts-searching.page:28
 msgid "Searching Contacts"
-msgstr ""
+msgstr "Пошук у контактах"
 
 #. (itstool) path: section/title
 #: C/contacts-searching.page:31
 msgid "Searching in a Single Contact"
-msgstr ""
+msgstr "Пошук у окремому записі контакту"
 
 #. (itstool) path: section/p
 #: C/contacts-searching.page:33
@@ -2282,11 +2330,13 @@ msgid ""
 "To find text in the displayed contact, select <guiseq><gui>Edit</"
 "gui><gui>Find in Contact…</gui></guiseq> from the main menu."
 msgstr ""
+"Щоб знайти певний текст у показаному записі контакту, скористайтеся пунктом <"
+"guiseq><gui>Зміни</gui><gui>Знайти у контакті…</gui></guiseq> головного меню."
 
 #. (itstool) path: section/title
 #: C/contacts-searching.page:40
 msgid "Searching Across Contacts"
-msgstr ""
+msgstr "Пошук у всіх записах контактів"
 
 #. (itstool) path: section/p
 #: C/contacts-searching.page:44
@@ -2294,21 +2344,23 @@ msgid ""
 "In the Contacts view, you can quickly search for contacts either by category "
 "or by contact's info."
 msgstr ""
+"За допомогою панелі «Контакти» ви можете швидко виконувати пошук контактів за"
+" категорією або даними контакту."
 
 #. (itstool) path: section/p
 #: C/contacts-searching.page:46
 msgid "Searching by contact's info:"
-msgstr ""
+msgstr "Пошук за даними контакту:"
 
 #. (itstool) path: info/desc
 #: C/contacts-usage-add-contact.page:17
 msgid "Adding a contact to your address book."
-msgstr ""
+msgstr "Додавання запису контакту до вашої адресної книги."
 
 #. (itstool) path: page/title
 #: C/contacts-usage-add-contact.page:20
 msgid "Adding a Contact"
-msgstr ""
+msgstr "Додавання контакту"
 
 #. (itstool) path: item/p
 #: C/contacts-usage-add-contact.page:24
@@ -2318,17 +2370,25 @@ msgid ""
 "Contact…</gui>, or press <keyseq><key>Shift</key><key>Ctrl</key><key>C</"
 "key></keyseq>."
 msgstr ""
+"Виберіть пункт меню <guiseq><gui>Файл</gui><gui>Створити</gui><gui>Контакт<"
+"/gui></guiseq>, або клацніть правою кнопкою миші на порожньому місці у списку"
+" контактів і виберіть у контекстному меню пункт <gui>Створити контакт…</gui>"
+" або натисніть комбінацію клавіш <keyseq><key>Shift</key><key>Ctrl</key><key"
+">C</"
+"key></keyseq>."
 
 #. (itstool) path: item/p
 #: C/contacts-usage-add-contact.page:31 C/contacts-using-contact-lists.page:51
 msgid ""
 "Select the address book under <gui>Where:</gui> to which it will be added."
 msgstr ""
+"Виберіть адресну книгу, до якої має бути додано запис, зі списку <gui>Місце:<"
+"/gui>."
 
 #. (itstool) path: item/p
 #: C/contacts-usage-add-contact.page:35
 msgid "Enter the contact information. Note that there are several tabs."
-msgstr ""
+msgstr "Введіть дані контакту. Зауважте, що у вікні буде декілька вкладок."
 
 #. (itstool) path: item/p
 #: C/contacts-usage-add-contact.page:38
@@ -2336,26 +2396,32 @@ msgid ""
 "You can add a photograph to the contact by clicking the large field (showing "
 "a stylized person) next to <gui>Full Name</gui> and <gui>Categories</gui>."
 msgstr ""
+"Ви можете додати фотографію контакту, клацнувши на великому полі (де показано"
+" стилізоване зображення особи), розташованому поряд із мітками <gui>Повне"
+" ім'я</gui> і <gui>Категорії</gui>."
 
 #. (itstool) path: section/title
 #: C/contacts-usage-add-contact.page:48
 msgid "Contact Quick-Add from the Email Window"
-msgstr ""
+msgstr "Швидке додавання контакту з вікна електронної пошти"
 
 #. (itstool) path: section/p
 #: C/contacts-usage-add-contact.page:50
 msgid "You can also add a contact directly from an email."
 msgstr ""
+"Ви також можете додати запис контакту безпосередньо з повідомлення"
+" електронної пошти."
 
 #. (itstool) path: item/p
 #: C/contacts-usage-add-contact.page:54
 msgid "Right-click on the email address in the message header."
 msgstr ""
+"Клацніть правою кнопкою на адресі електронної пошти у заголовку повідомлення."
 
 #. (itstool) path: item/p
 #: C/contacts-usage-add-contact.page:57
 msgid "Select <gui>Add to Address Book…</gui>."
-msgstr ""
+msgstr "Виберіть <gui>Додати до адресної книги…</gui>."
 
 #. (itstool) path: item/p
 #: C/contacts-usage-add-contact.page:60
@@ -2364,16 +2430,20 @@ msgid ""
 "<gui>Contact Editor</gui>, or click <gui style=\"button\">OK</gui> to "
 "directly add the contact to the chosen address book."
 msgstr ""
+"Або натисніть кнопку <gui style=\"button\">Зміна повного імені</gui>, щоб"
+" відкрити вікно <gui>Редактора контактів</gui>, або натисніть кнопку <gui"
+" style=\"button\">Гаразд</gui>, щоб безпосередньо додати запис контакту до"
+" вибраної адресної книги."
 
 #. (itstool) path: info/desc
 #: C/contacts-usage-delete-contact.page:17
 msgid "Deleting a contact from your address book."
-msgstr ""
+msgstr "Вилучення запису контакту з вашої адресної книги."
 
 #. (itstool) path: page/title
 #: C/contacts-usage-delete-contact.page:20
 msgid "Deleting a Contact"
-msgstr ""
+msgstr "Вилучення контакту"
 
 #. (itstool) path: page/p
 #: C/contacts-usage-delete-contact.page:22
@@ -2384,22 +2454,31 @@ msgid ""
 "key></keyseq>, or click <guiseq><gui>Edit</gui><gui>Delete Contact</gui></"
 "guiseq>."
 msgstr ""
+"Якщо ви хочете вилучити запис контакту у ваших адресних книгах, клацніть"
+" правою кнопкою миші на пункті контакту і виберіть у контекстному меню пункт"
+" <gui>Вилучити</gui>, або клацніть на пункті контакту і натисніть кнопку <gui"
+">Вилучити</gui> на панелі інструментів, або натисніть комбінацію клавіш <"
+"keyseq><key>Ctrl</key><key>D</key></keyseq>, або виберіть пункт меню <guiseq"
+"><gui>Зміни</gui><gui>Вилучити контакт</gui></"
+"guiseq>."
 
 #. (itstool) path: info/desc
 #: C/contacts-usage-edit-contact.page:17
 msgid "Editing a contact in your address book."
-msgstr ""
+msgstr "Редагування запису контакту у вашій адресній книзі."
 
 #. (itstool) path: page/title
 #: C/contacts-usage-edit-contact.page:20
 msgid "Editing a Contact"
-msgstr ""
+msgstr "Редагування контакту"
 
 #. (itstool) path: page/p
 #: C/contacts-usage-edit-contact.page:22
 msgid ""
 "If you want to change a contact that already exists in your address books,"
 msgstr ""
+"Якщо ви хочете змінити параметри запису контакту, який вже зберігається у"
+" ваших адресних книгах, виконайте такі дії,"
 
 #. (itstool) path: item/p
 #: C/contacts-usage-edit-contact.page:27
@@ -2407,31 +2486,33 @@ msgid ""
 "Double-click on the contact that you want to edit in the list of contacts, "
 "or select the contact and press <key>Enter</key>."
 msgstr ""
+"Двічі клацніть на записі контакту, який ви хочете редагувати, у списку"
+" контактів або позначте контакт і натисніть клавішу <key>Enter</key>."
 
 #. (itstool) path: item/p
 #: C/contacts-usage-edit-contact.page:31
 msgid "Edit the contact information."
-msgstr ""
+msgstr "Змініть дані контакту."
 
 #. (itstool) path: info/desc
 #: C/contacts-usage.page:17
 msgid "On adding, editing, and deleting contacts in address books."
-msgstr ""
+msgstr "Про додавання, редагування і вилучення контактів у адресних книгах."
 
 #. (itstool) path: page/title
 #: C/contacts-usage.page:20
 msgid "Add, Edit, and Delete Contacts"
-msgstr ""
+msgstr "Додавання, редагування та вилучення контактів"
 
 #. (itstool) path: info/desc
 #: C/contacts-using-contact-lists.page:23
 msgid "Using contact lists for grouping contacts."
-msgstr ""
+msgstr "Користування списками контактів для групування записів контактів."
 
 #. (itstool) path: page/title
 #: C/contacts-using-contact-lists.page:26
 msgid "Using Contact Lists"
-msgstr ""
+msgstr "Користування списками контактів"
 
 #. (itstool) path: page/p
 #: C/contacts-using-contact-lists.page:28
@@ -2442,6 +2523,11 @@ msgid ""
 "on your computer as a convenience to you, rather than as an actual email "
 "address managed by a mailing list application on a server."
 msgstr ""
+"Список контактів — створений вами набір контактів із визначеною вами назвою."
+" Коли ви надсилатимете пошту до цієї назви, пошта надсилатиметься усім"
+" контактам зі списку. Список контактів відрізняється від «справжнього» списку"
+" листування тим, що він існує лише на вашому комп'ютері, а не є справжньою"
+" адресою електронної пошти, якою керує поштова програма на сервері."
 
 #. (itstool) path: page/p
 #: C/contacts-using-contact-lists.page:34
@@ -2451,17 +2537,24 @@ msgid ""
 "entering each person's email address individually, you can send emails to "
 "\"Family\" and the messages would go to all of them."
 msgstr ""
+"Наприклад, ви можете створити один контакт для кожного члена вашої родити, а"
+" потім додати ці контакти до списку контактів «Родина». Далі, замість"
+" введення адреси кожного члена родини окремо, ви можете надсилати"
+" повідомлення контакту «Родина», а програма надішле повідомлення усім членами"
+" родини."
 
 #. (itstool) path: section/title
 #: C/contacts-using-contact-lists.page:40
 msgid "Creating a contact list"
-msgstr ""
+msgstr "Створення списку контактів"
 
 #. (itstool) path: item/p
 #: C/contacts-using-contact-lists.page:44
 msgid ""
 "Click <guiseq><gui>File</gui><gui>New</gui> <gui>Contact List</gui></guiseq>."
 msgstr ""
+"Виберіть пункт меню <guiseq><gui>Файл</gui><gui>Створити</gui> <gui>Список"
+" контактів</gui></guiseq>."
 
 #. (itstool) path: item/p
 #: C/contacts-using-contact-lists.page:55
@@ -2471,6 +2564,10 @@ msgid ""
 "from the Contacts window into the list, or by using the <gui style=\"button"
 "\">Select…</gui> button."
 msgstr ""
+"Вкажіть учасників списку, ввівши імена або адреси електронної пошти контактів"
+" (у полі для введення тексту передбачено автоматичне доповнення), або"
+" перетягнувши записи контактів з вікна «Контакти» до списку, або за допомогою"
+" кнопки <gui style=\"button\">Вибрати…</gui>."
 
 #. (itstool) path: item/p
 #: C/contacts-using-contact-lists.page:61
@@ -2478,6 +2575,8 @@ msgid ""
 "Choose whether you want to hide the email addresses when you send a message "
 "to the list."
 msgstr ""
+"Вкажіть, чи хочете ви приховувати адреси електронної пошти, коли надсилаєте"
+" повідомлення до списку."
 
 #. (itstool) path: item/p
 #: C/contacts-using-contact-lists.page:62
@@ -2487,6 +2586,11 @@ msgid ""
 "discussed in <link xref=\"mail-composer-several-recipients\">Sending a "
 "message to several recipients</link>."
 msgstr ""
+"Якщо список не є зовсім маленьким, рекомендуємо вам приховати адреси."
+" Результат буде аналогічним до використання поля «Прихована копія»."
+" Відповідне обговорення можна знайти у розділі <link"
+" xref=\"mail-composer-several-recipients\">Надсилання повідомлення декількома"
+" адресатам</link>."
 
 #. (itstool) path: section/p
 #: C/contacts-using-contact-lists.page:73
@@ -2494,11 +2598,13 @@ msgid ""
 "The contact list will be added to the chosen address book in <app>Evolution</"
 "app>."
 msgstr ""
+"Список контактів буде додано для вибраної адресної книги в <app>Evolution</"
+"app>."
 
 #. (itstool) path: section/title
 #: C/contacts-using-contact-lists.page:79
 msgid "Sending messages to a contact list"
-msgstr ""
+msgstr "Надсилання повідомлень списку контактів"
 
 #. (itstool) path: section/p
 #: C/contacts-using-contact-lists.page:81
@@ -2508,17 +2614,24 @@ msgid ""
 "the contact list in your address book and select <gui>Send Message to List</"
 "gui>."
 msgstr ""
+"Щоб надіслати повідомлення списку контактів, введіть назву, яку ви вибрали"
+" для списку контактів, як отримувача у редакторі повідомлень. Крім того, ви"
+" можете клацнути правою кнопкою на списку контактів у вашій адресній книзі і"
+" виберіть у контекстному меню пункт <gui>Надіслати повідомлення у список</"
+"gui>."
 
 #. (itstool) path: info/desc
 #: C/contacts-using-several-addressbooks.page:17
 msgid ""
 "Adding different types of address books and using more than one address book."
 msgstr ""
+"Додавання адресних книг різних типів і користування декількома адресними"
+" книгами."
 
 #. (itstool) path: page/title
 #: C/contacts-using-several-addressbooks.page:21
 msgid "Adding and creating address books"
-msgstr ""
+msgstr "Додавання і створення адресних книг"
 
 #. (itstool) path: page/p
 #: C/contacts-using-several-addressbooks.page:23
@@ -2527,6 +2640,11 @@ msgid ""
 "book for work related contacts and one for private contacts. The side bar "
 "lists those address books, and you can select which address book is shown."
 msgstr ""
+"Ви можете користуватися одночасно декількома адресними книгами. Наприклад, ви"
+" можете створити одну адресну книгу для контактів, пов'язаних із вашою"
+" роботою і одну адресну книгу для ваших приватних контактів. На бічній панелі"
+" буде показано список цих адресних книг, і ви зможете вказати ту з них, яку"
+" буде використано для показу записів контактів."
 
 #. (itstool) path: page/p
 #: C/contacts-using-several-addressbooks.page:28
@@ -2534,11 +2652,14 @@ msgid ""
 "You can also use address books that are not on your computer, such as on the "
 "internet (e.g. Google) or in a local network (e.g. LDAP)."
 msgstr ""
+"Ви також можете скористатися адресними книгами, які не зберігаються на вашому"
+" комп'ютері, зокрема календарями у інтернеті (наприклад у Google) і у"
+" локальній мережі (наприклад у LDAP)."
 
 #. (itstool) path: info/desc
 #: C/credits.page:5
 msgid "Credits and Acknowledgment."
-msgstr ""
+msgstr "Подяки та присвяти."
 
 #. (itstool) path: page/title
 #: C/credits.page:20
@@ -2621,11 +2742,13 @@ msgstr ""
 msgid ""
 "Moving and changing tool bar buttons, menu entries, and keyboard shortcuts."
 msgstr ""
+"Пересування і зміна кнопок на панелі інструментів, пунктів меню та"
+" клавіатурних скорочень."
 
 #. (itstool) path: page/title
 #: C/customize-ui-items.page:21
 msgid "Customizing tool bar and menu items"
-msgstr ""
+msgstr "Налаштовування панелі інструментів та пунктів меню"
 
 #. (itstool) path: note/p
 #: C/customize-ui-items.page:24
@@ -2633,6 +2756,8 @@ msgid ""
 "These steps are for tech savvy users. These steps are not suitable for "
 "average users."
 msgstr ""
+"Ці кроки призначено для технічного грамотних користувачів. Звичайним"
+" користувачам не варто їх виконувати."
 
 #. (itstool) path: page/p
 #: C/customize-ui-items.page:27
@@ -2678,17 +2803,19 @@ msgstr ""
 #. (itstool) path: info/desc
 #: C/data-storage.page:5
 msgid "Where does <app>Evolution</app> store my data on the harddisk?"
-msgstr ""
+msgstr "Де <app>Evolution</app> зберігає дані на жорсткому диску?"
 
 #. (itstool) path: page/title
 #: C/data-storage.page:20
 msgid "Data storage locations"
-msgstr ""
+msgstr "Місця зберігання даних"
 
 #. (itstool) path: note/p
 #: C/data-storage.page:23
 msgid "This is only relevant for advanced users who want to debug problems."
 msgstr ""
+"Цей розділ призначено для досвідчених користувачів, яким наведені дані"
+" потрібні для діагностики причин проблем."
 
 #. (itstool) path: page/p
 #: C/data-storage.page:26
@@ -2697,6 +2824,10 @@ msgid ""
 "href=\"https://www.freedesktop.org/wiki/Specifications/basedir-spec\">XDG "
 "Base Directory Specification</link>. By default this means:"
 msgstr ""
+"У <app>Evolution</app> 3.6 та новіших версіях дані зберігаються відповідно до"
+" <link "
+"href=\"https://www.freedesktop.org/wiki/Specifications/basedir-spec\""
+">специфікації основних каталогів XDG</link>. У типовій системі це означає, що:"
 
 #. (itstool) path: item/title
 #: C/data-storage.page:30
@@ -2711,7 +2842,7 @@ msgstr "<file>$HOME/.local/share/evolution</file>"
 #. (itstool) path: item/title
 #: C/data-storage.page:34
 msgid "Various configuration and state files"
-msgstr ""
+msgstr "Різноманітні файли налаштувань і станів"
 
 #. (itstool) path: item/p
 #: C/data-storage.page:35
@@ -2752,12 +2883,12 @@ msgstr ""
 #. (itstool) path: item/title
 #: C/data-storage.page:47
 msgid "Disposable data caches"
-msgstr ""
+msgstr "Одноразові кеші даних"
 
 #. (itstool) path: item/p
 #: C/data-storage.page:48
 msgid "<file>$HOME/.cache/evolution</file>"
-msgstr ""
+msgstr "<file>$HOME/.cache/evolution</file>"
 
 #. (itstool) path: info/desc
 #: C/default-browser.page:7
@@ -2765,11 +2896,13 @@ msgid ""
 "Opening links from an email in a browser and opening the mail composer from "
 "an email link on a website."
 msgstr ""
+"Відкриття посилань у повідомленнях електронної пошти у браузері і відкриття"
+" редактора повідомлень за посиланням з електронною поштою зі сторінок сайтів."
 
 #. (itstool) path: page/title
 #: C/default-browser.page:22
 msgid "Opening links in and from the web browser"
-msgstr ""
+msgstr "Відкриття посилань у браузері і з браузера"
 
 #. (itstool) path: section/title
 #: C/default-browser.page:27
@@ -2786,7 +2919,7 @@ msgstr ""
 #. (itstool) path: item/p
 #: C/default-browser.page:34
 msgid "Open a terminal application."
-msgstr ""
+msgstr "Відкрийте програму-термінал."
 
 #. (itstool) path: item/p
 #: C/default-browser.page:37
@@ -2805,6 +2938,8 @@ msgid ""
 "Type this command, replace <cmd>browser.desktop</cmd> by the actual "
 "filename, and press <key>Enter</key>:"
 msgstr ""
+"Введіть вказану команду, замінивши <cmd>browser.desktop</cmd> на назву"
+" справжнього файла, і натисніть клавішу <key>Enter</key>:"
 
 #. (itstool) path: item/p
 #: C/default-browser.page:52
@@ -2812,6 +2947,8 @@ msgid ""
 "<app>Evolution</app> may need to be restarted for the settings to take "
 "effect."
 msgstr ""
+"Можливо, <app>Evolution</app> доведеться перезапустити, щоб нові значення"
+" параметрів набули чинності."
 
 #. (itstool) path: note/p
 #: C/default-browser.page:56
@@ -2819,12 +2956,16 @@ msgid ""
 "If the error message \"xdg-settings: command not found\" is shown, you need "
 "to install the package <sys>xdg-utils</sys>."
 msgstr ""
+"Якщо буде показано повідомлення про помилку «xdg-settings: команду не"
+" знайдено», вам слід встановити пакунок <sys>xdg-utils</sys>."
 
 #. (itstool) path: when/p
 #: C/default-browser.page:59
 msgid ""
 "<link action=\"install:xdg-utils\" style=\"button\">Install xdg-utils</link>"
 msgstr ""
+"<link action=\"install:xdg-utils\" style=\"button\">Встановити xdg-utils<"
+"/link>"
 
 #. (itstool) path: choose/p
 #: C/default-browser.page:64
@@ -2833,6 +2974,10 @@ msgid ""
 "help.gnome.org/users/gnome-help/stable/net-default-browser\">the GNOME "
 "Desktop Help</link>."
 msgstr ""
+"Будь ласка, ознайомтеся із <link xref=\"help:gnome-help/net-default-browser\""
+" href=\"https://"
+"help.gnome.org/users/gnome-help/stable/net-default-browser\">довідкою щодо"
+" стільничного середовища GNOME</link>."
 
 #. (itstool) path: choose/p
 #: C/default-browser.page:66
@@ -2841,6 +2986,9 @@ msgid ""
 "work correctly please contact your distribution via their forum or bug "
 "tracker."
 msgstr ""
+"Якщо типовою програмою встановлено бажаний браузер, але він не працює"
+" належним чином, будь ласка, зв'яжіться із розробниками вашого дистрибутива"
+" за допомогою форуму або системи стеження за вадами."
 
 #. (itstool) path: note/p
 #: C/default-browser.page:69
@@ -2848,6 +2996,8 @@ msgid ""
 "If the error message \"Could not open the link: Operation not supported\" is "
 "shown, you need to install the package <sys>gvfs</sys>."
 msgstr ""
+"Якщо ви бачите повідомлення про помилку «Не вдалося відкрити посилання:"
+" підтримки дії не передбачено», вам слід встановити пакунок <sys>gvfs</sys>."
 
 #. (itstool) path: when/p
 #: C/default-browser.page:72
@@ -2855,11 +3005,14 @@ msgid ""
 "<link action=\"install:gvfs\" href=\"https://ftp.gnome.org/pub/gnome/sources/"
 "gvfs/\" style=\"button\">Install gvfs</link>"
 msgstr ""
+"<link action=\"install:gvfs\" href=\"https://ftp.gnome.org/pub/gnome/sources/"
+"gvfs/\" style=\"button\">Встановити gvfs</link>"
 
 #. (itstool) path: section/title
 #: C/default-browser.page:81
 msgid "Change which mail application is used to write emails"
 msgstr ""
+"Зміна поштової програми, яка використовуватиметься для написання повідомлень"
 
 #. (itstool) path: section/p
 #: C/default-browser.page:83
@@ -2868,6 +3021,9 @@ msgid ""
 "help.gnome.org/users/gnome-help/stable/net-default-email\">the GNOME Desktop "
 "Help</link>."
 msgstr ""
+"Будь ласка, ознайомтеся із <link xref=\"help:gnome-help/net-default-email\""
+" href=\"https://help.gnome.org/users/gnome-help/stable/net-default-email\""
+">довідкою щодо стільничного середовища GNOME</link>."
 
 #. (itstool) path: section/title
 #: C/default-browser.page:88
@@ -2885,12 +3041,12 @@ msgstr ""
 #. (itstool) path: info/desc
 #: C/deleting-appointments.page:5
 msgid "Deleting calendar entries to reduce the size of the mailbox."
-msgstr ""
+msgstr "Вилучення записів календаря для зменшення розміру поштової скриньки."
 
 #. (itstool) path: page/title
 #: C/deleting-appointments.page:20
 msgid "Deleting old appointments permanently"
-msgstr ""
+msgstr "Остаточне вилучення застарілих записів зустрічей"
 
 #. (itstool) path: page/p
 #: C/deleting-appointments.page:22
@@ -2906,11 +3062,13 @@ msgstr ""
 #: C/deleting-emails.page:5
 msgid "Deleting emails or attachments to reduce the size of the mailbox."
 msgstr ""
+"Вилучення повідомлень електронної пошти або долучень для зменшення розміру"
+" поштової скриньки."
 
 #. (itstool) path: page/title
 #: C/deleting-emails.page:26
 msgid "Deleting emails or attachments permanently"
-msgstr ""
+msgstr "Остаточне вилучення повідомлень або долучень"
 
 #. (itstool) path: section/title
 #: C/deleting-emails.page:29 C/import-supported-file-formats.page:28
@@ -2957,17 +3115,17 @@ msgstr ""
 #. (itstool) path: page/title
 #: C/deleting-to-free-disk-space.page:20
 msgid "Freeing disk space by deleting items"
-msgstr ""
+msgstr "Вивільнення місця на диску вилученням записів"
 
 #. (itstool) path: info/desc
 #: C/exporting-data-calendar.page:5
 msgid "How to export calendar data from <app>Evolution</app>."
-msgstr ""
+msgstr "Як експортувати дані календаря з <app>Evolution</app>."
 
 #. (itstool) path: page/title
 #: C/exporting-data-calendar.page:20
 msgid "Exporting calendar data"
-msgstr ""
+msgstr "Експортування даних календаря"
 
 #. (itstool) path: page/p
 #: C/exporting-data-calendar.page:22
@@ -2989,18 +3147,20 @@ msgstr ""
 #. (itstool) path: info/desc
 #: C/exporting-data-contacts.page:5
 msgid "How to export contacts data from <app>Evolution</app>."
-msgstr ""
+msgstr "Як експортувати дані контактів з <app>Evolution</app>."
 
 #. (itstool) path: page/title
 #: C/exporting-data-contacts.page:23
 msgid "Exporting contacts data"
-msgstr ""
+msgstr "Експортування даних контактів"
 
 #. (itstool) path: page/p
 #: C/exporting-data-contacts.page:25
 msgid ""
 "Contacts files are stored in a database, but can be saved as a vCard file."
 msgstr ""
+"Дані контактів зберігаються у базі даних, але ви можете зберегти їх у форматі"
+" файла vCard."
 
 #. (itstool) path: page/p
 #: C/exporting-data-contacts.page:26
@@ -3008,6 +3168,8 @@ msgid ""
 "To export a complete address book, click <guiseq><gui>File</gui><gui>Save "
 "Address Book As vCard</gui></guiseq>."
 msgstr ""
+"Щоб експортувати адресну книгу повністю, виберіть пункт меню <guiseq><gui"
+">Файл</gui><gui>Зберегти адресну книгу як vCard</gui></guiseq>."
 
 #. (itstool) path: page/p
 #: C/exporting-data-contacts.page:27
@@ -3016,16 +3178,20 @@ msgid ""
 "gui><gui>Save as vCard</gui></guiseq> or right-click on the contact and "
 "click <gui>Save as vCard</gui>."
 msgstr ""
+"Якщо ви хочете експортувати лише один запис контакту, виберіть пункт <guiseq"
+"><gui>Файл</"
+"gui><gui>Зберегти як vCard</gui></guiseq> або клацніть правою кнопкою миші на"
+" контакті і виберіть у контекстному меню пункт <gui>Зберегти як vCard</gui>."
 
 #. (itstool) path: info/desc
 #: C/exporting-data-mail.page:5
 msgid "How to export mail data from <app>Evolution</app>."
-msgstr ""
+msgstr "Як експортувати дані пошти з <app>Evolution</app>."
 
 #. (itstool) path: page/title
 #: C/exporting-data-mail.page:20
 msgid "Exporting mail data"
-msgstr ""
+msgstr "Експортування даних пошти"
 
 #. (itstool) path: page/p
 #: C/exporting-data-mail.page:22
@@ -3035,6 +3201,13 @@ msgid ""
 "gui><gui>Save as mbox…</gui></guiseq> or right-click on the message and "
 "click <gui>Save as mbox…</gui>."
 msgstr ""
+"Щоб зберегти повідомлення електронної пошти до файла у форматі <link"
+" href=\"https://en.wikipedia.org/wiki/Mbox"
+"\">mbox</link>, виберіть повідомлення електронної пошти і скористайтеся"
+" пунктом меню <guiseq><gui>Файл</"
+"gui><gui>Зберегти як mbox…</gui></guiseq> або клацніть правою кнопкою миші на"
+" повідомленні і виберіть у контекстному меню пункт <gui>Зберегти як mbox…<"
+"/gui>."
 
 #. (itstool) path: page/p
 #: C/exporting-data-mail.page:24
@@ -3042,6 +3215,8 @@ msgid ""
 "The same steps apply to save a complete mail folder, but you have to mark "
 "all messages in it first."
 msgstr ""
+"Ті самі кроки можна застосувати для збереження усієї теки пошти, але вам слід"
+" спочатку позначити усі повідомлення у теці."
 
 #. (itstool) path: page/p
 #: C/exporting-data-mail.page:25 C/mail-filters.page:30
@@ -3050,26 +3225,32 @@ msgid ""
 "gui><gui>Select All</gui></guiseq> or pressing <keyseq><key>Ctrl</"
 "key><key>A</key></keyseq>."
 msgstr ""
+"Ви можете позначити усі повідомлення у теці вибором пункту меню <guiseq><gui"
+">Зміни</"
+"gui><gui>Вибрати все</gui></guiseq> або натисканням комбінації клавіш <keyseq"
+"><key>Ctrl</"
+"key><key>A</key></keyseq>."
 
 #. (itstool) path: info/desc
 #: C/exporting-data.page:5
 msgid "How to export data from <app>Evolution</app>."
-msgstr ""
+msgstr "Як експортувати дані з <app>Evolution</app>."
 
 #. (itstool) path: page/title
 #: C/exporting-data.page:20
 msgid "Exporting data from <app>Evolution</app>"
-msgstr ""
+msgstr "Експортування даних з <app>Evolution</app>"
 
 #. (itstool) path: info/desc
 #: C/flatpak-limitations.page:5
 msgid "Limitations when using a Flatpak package of <app>Evolution</app>."
-msgstr ""
+msgstr "Обмеження при використанні пакунка Flatpak <app>Evolution</app>."
 
 #. (itstool) path: page/title
 #: C/flatpak-limitations.page:20
 msgid "Cannot print mail, add or save attachments, or open the help"
 msgstr ""
+"Неможливо надрукувати пошту, додати або зберегти долучення чи відкрити довідку"
 
 #. (itstool) path: page/p
 #: C/flatpak-limitations.page:22
@@ -3077,6 +3258,8 @@ msgid ""
 "If you run a <link href=\"https://flathub.org/\">Flatpak</link> version of "
 "<app>Evolution</app>, then there are several limitations. Examples are:"
 msgstr ""
+"Якщо ви працюєте із пакунком <link href=\"https://flathub.org/\">Flatpak<"
+"/link> <app>Evolution</app>, можливості програми буде дещо обмежено. Приклади:"
 
 #. (itstool) path: item/p
 #: C/flatpak-limitations.page:26
@@ -3084,6 +3267,7 @@ msgid ""
 "Adding attachments to an email or saving attachments from an email might not "
 "be possible."
 msgstr ""
+"Ймовірно, не можна буде додавати або зберігати долучення до повідомлень."
 
 #. (itstool) path: item/p
 #: C/flatpak-limitations.page:28
@@ -3092,6 +3276,10 @@ msgid ""
 "webkit.org/show_bug.cgi?id=192748\">limitation of the underlying WebKitGTK "
 "library</link>."
 msgstr ""
+"Ви не зможете надрукувати повідомлення на принтері. Це є <link"
+" href=\"https://bugs."
+"webkit.org/show_bug.cgi?id=192748\">обмеженням базової бібліотеки WebKitGTK<"
+"/link>."
 
 #. (itstool) path: item/p
 #: C/flatpak-limitations.page:31
@@ -3099,27 +3287,32 @@ msgid ""
 "To print an email to a file, you can run <cmd>flatpak run --filesystem=home "
 "org.gnome.Evolution</cmd> as a workaround."
 msgstr ""
+"Щоб надрукувати повідомлення до файла, можете скористатися командою <cmd"
+">flatpak run --filesystem=home "
+"org.gnome.Evolution</cmd>."
 
 #. (itstool) path: item/p
 #: C/flatpak-limitations.page:33
 msgid ""
 "The local user documentation might not included, to make the package smaller."
 msgstr ""
+"З метою зменшення розмірів пакунка розробники можуть виключити з нього"
+" локальну документацію."
 
 #. (itstool) path: info/desc
 #: C/google-services.page:5
 msgid "Using Google services."
-msgstr ""
+msgstr "Користування службами Google."
 
 #. (itstool) path: page/title
 #: C/google-services.page:18
 msgid "Using Google services"
-msgstr ""
+msgstr "Користування службами Google"
 
 #. (itstool) path: info/desc
 #: C/import-apps-mozilla.page:5
 msgid "Importing data from Mozilla <app>Thunderbird</app>."
-msgstr ""
+msgstr "Імпортування даних з Mozilla <app>Thunderbird</app>."
 
 #. (itstool) path: page/title
 #: C/import-apps-mozilla.page:20
@@ -3130,6 +3323,8 @@ msgstr "Mozilla"
 #: C/import-apps-mozilla.page:26
 msgid "The instructions below might be outdated and not work anymore."
 msgstr ""
+"Наведені нижче настанови є застарілими — вони не працюватимуть у сучасних"
+" версіях."
 
 #. (itstool) path: note/p
 #: C/import-apps-mozilla.page:26
@@ -3138,6 +3333,10 @@ msgid ""
 "February/msg00055.html\">this mailing list posting</link> for an alternative "
 "method that you could try."
 msgstr ""
+"Скористайтеся настановами з <link href=\"https://mail.gnome.org/archives/evolu"
+"tion-list/2019-"
+"February/msg00055.html\">цього допису у списку листування</link>, де наведено"
+" альтернативний спосіб вирішення проблеми."
 
 #. (itstool) path: item/p
 #: C/import-apps-mozilla.page:29
@@ -3145,12 +3344,15 @@ msgid ""
 "<link href=\"https://support.mozilla.org/en-US/kb/profiles-where-thunderbird-"
 "stores-user-data\">Find your <app>Thunderbird</app> profile folder.</link>"
 msgstr ""
+"<link href=\"https://support.mozilla.org/en-US/kb/profiles-where-thunderbird-"
+"stores-user-data\">Знайдіть вашу теку профілів <app>Thunderbird</app>.</link>"
 
 #. (itstool) path: item/p
 #: C/import-apps-mozilla.page:30 C/import-apps-outlook.page:62
 #: C/import-single-files.page:24
 msgid "Click <guiseq><gui>File</gui><gui>Import</gui></guiseq>."
 msgstr ""
+"Виберіть пункт меню <guiseq><gui>Файл</gui><gui>Імпортувати</gui></guiseq>."
 
 #. (itstool) path: item/p
 #: C/import-apps-mozilla.page:31 C/import-apps-outlook.page:63
@@ -3158,6 +3360,8 @@ msgstr ""
 msgid ""
 "In the <gui>Importer Type</gui> tab, click <gui>Import a single file</gui>."
 msgstr ""
+"На вкладці <gui>Тип імпортування</gui> виберіть <gui>Імпортувати окремий"
+" файл</gui>."
 
 #. (itstool) path: item/p
 #: C/import-apps-mozilla.page:32
@@ -3225,21 +3429,22 @@ msgstr "KMail"
 #: C/import-apps-kmail.page:21
 msgid "Note that <app>Evolution</app> only recognized KDE 4 directories:"
 msgstr ""
+"Зауважте, що каталогами KDE 4, які розпізнає <app>Evolution</app>, є лише:"
 
 #. (itstool) path: item/p
 #: C/import-apps-kmail.page:23
 msgid "<file>$HOME/.kde4/share/apps/kmail/mail</file> for mail"
-msgstr ""
+msgstr "<file>$HOME/.kde4/share/apps/kmail/mail</file> для пошти"
 
 #. (itstool) path: item/p
 #: C/import-apps-kmail.page:24
 msgid "<file>$HOME/.kde4/share/apps/kabc</file> for contacts"
-msgstr ""
+msgstr "<file>$HOME/.kde4/share/apps/kabc</file> для контактів"
 
 #. (itstool) path: info/desc
 #: C/import-apps-outlook.page:5
 msgid "Importing data from Microsoft Outlook."
-msgstr ""
+msgstr "Імпортування даних з Microsoft Outlook."
 
 #. (itstool) path: page/title
 #: C/import-apps-outlook.page:23
@@ -3259,12 +3464,13 @@ msgstr ""
 #. (itstool) path: section/title
 #: C/import-apps-outlook.page:31
 msgid "Prerequisites under Windows"
-msgstr ""
+msgstr "Попередні вимоги у Windows"
 
 #. (itstool) path: section/p
 #: C/import-apps-outlook.page:32
 msgid "First, while using Microsoft Windows, prepare your messages for import:"
 msgstr ""
+"Спочатку, у Microsoft Windows, підготуйте ваші повідомлення для імпортування:"
 
 #. (itstool) path: item/p
 #: C/import-apps-outlook.page:34
@@ -3272,6 +3478,8 @@ msgid ""
 "Find your Outlook files (they normally have the file ending <file>.pst</"
 "file> or <file>.ost</file>):"
 msgstr ""
+"Знайдіть ваші файли Outlook (такі файли, зазвичай, мають суфікси назв <file"
+">.pst</file> або <file>.ost</file>):"
 
 #. (itstool) path: td/p
 #: C/import-apps-outlook.page:37
@@ -3334,6 +3542,8 @@ msgid ""
 "Copy the Outlook files to the system or partition that <app>Evolution</app> "
 "is installed on."
 msgstr ""
+"Скопіюйте файли Outlook до системи або розділу, на якому встановлено <app"
+">Evolution</app>."
 
 #. (itstool) path: item/p
 #: C/import-apps-outlook.page:50
@@ -3346,7 +3556,7 @@ msgstr ""
 #. (itstool) path: section/title
 #: C/import-apps-outlook.page:55
 msgid "Importing into <app>Evolution</app>"
-msgstr ""
+msgstr "Імпортування до <app>Evolution</app>"
 
 #. (itstool) path: item/p
 #: C/import-apps-outlook.page:57
@@ -3361,11 +3571,13 @@ msgstr ""
 msgid ""
 "Copy all the mail files into your home directory or another convenient place."
 msgstr ""
+"Скопіюйте усі файли пошти до вашого домашнього каталогу або іншого зручного"
+" місця."
 
 #. (itstool) path: item/p
 #: C/import-apps-outlook.page:59 C/mail-filters-not-working.page:48
 msgid "Start <app>Evolution</app>."
-msgstr ""
+msgstr "Запустіть <app>Evolution</app>."
 
 #. (itstool) path: item/p
 #: C/import-apps-outlook.page:60
@@ -3374,6 +3586,10 @@ msgid ""
 "gui></guiseq> to create the <link xref=\"mail-folders\">folders</link> you "
 "want."
 msgstr ""
+"Необов'язково, виберіть пункт меню <guiseq><gui>Файл</gui><gui>Створити</gui"
+"><gui>Поштова тека</"
+"gui></guiseq> для створення потрібних вам <link xref=\"mail-folders\">тек<"
+"/link>."
 
 #. (itstool) path: item/p
 #: C/import-apps-outlook.page:64
@@ -3381,6 +3597,7 @@ msgid ""
 "Choose the Outlook personal folders (.pst) file that you would like to "
 "import."
 msgstr ""
+"Виберіть файл особистих тек Outlook (.pst), який ви хочете імпортувати."
 
 #. (itstool) path: note/p
 #: C/import-apps-outlook.page:65
@@ -3397,36 +3614,39 @@ msgid ""
 "Choose the destination (e.g. the folder in <app>Evolution</app>) for the "
 "imported data."
 msgstr ""
+"Виберіть призначення (наприклад теку у <app>Evolution</app>) для імпортованих"
+" даних."
 
 #. (itstool) path: info/desc
 #: C/import-data.page:5
 msgid "Importing data from another application."
-msgstr ""
+msgstr "Імпортування даних з іншої програми."
 
 #. (itstool) path: page/title
 #: C/import-data.page:20
 msgid "Importing data from another application"
-msgstr ""
+msgstr "Імпортування даних з іншої програми"
 
 #. (itstool) path: section/title
 #: C/import-data.page:23
 msgid "Applications"
-msgstr ""
+msgstr "Програми"
 
 #. (itstool) path: info/desc
 #: C/import-single-files.page:5
 msgid "Importing single files."
-msgstr ""
+msgstr "Імпортування окремих файлів."
 
 #. (itstool) path: page/title
 #: C/import-single-files.page:20
 msgid "Importing single files"
-msgstr ""
+msgstr "Імпортування окремих файлів"
 
 #. (itstool) path: page/p
 #: C/import-single-files.page:22
 msgid "To import single files (mail, calendar data or contacts):"
 msgstr ""
+"Щоб імпортувати окремі файли (пошти, даних календаря або записів контактів):"
 
 #. (itstool) path: item/p
 #: C/import-single-files.page:26
@@ -3439,6 +3659,9 @@ msgid ""
 "You can also import contacts that you have received as a vCard attachment of "
 "an email from its attachment menu."
 msgstr ""
+"Ви також можете імпортувати записи контактів, які ви отримали як долучення"
+" vCard до повідомлення за допомогою меню долучень повідомлення електронної"
+" пошти."
 
 #. (itstool) path: note/p
 #: C/import-single-files.page:32
@@ -3459,7 +3682,7 @@ msgstr ""
 #. (itstool) path: info/desc
 #: C/import-supported-file-formats.page:5
 msgid "Supported file formats for importing data."
-msgstr ""
+msgstr "Підтримувані формати файлів для імпортування даних."
 
 #. (itstool) path: page/title
 #: C/import-supported-file-formats.page:23
@@ -3469,12 +3692,12 @@ msgstr "Підтримувані формати файлів"
 #. (itstool) path: page/p
 #: C/import-supported-file-formats.page:25
 msgid "<app>Evolution</app> can import the following types of files:"
-msgstr ""
+msgstr "<app>Evolution</app> може імпортувати файли таких типів:"
 
 #. (itstool) path: item/p
 #: C/import-supported-file-formats.page:30
 msgid "Berkeley Mailbox (.mbox or no extension):"
-msgstr ""
+msgstr "Berkeley Mailbox (.mbox або без суфікса назви):"
 
 #. (itstool) path: item/p
 #: C/import-supported-file-formats.page:32
@@ -3483,11 +3706,15 @@ msgid ""
 "<app>Evolution</app> (for local folders until version 2.32), <app>Eudora</"
 "app>, and many other email clients."
 msgstr ""
+"Формат повідомлень електронної пошти, який використовується у <app>Mozilla<"
+"/app>, <app>Netscape</app>, "
+"<app>Evolution</app> (для локальних тек, аж до версії 2.32), <app>Eudora</"
+"app> та багатьох інших клієнтах електронної пошти."
 
 #. (itstool) path: item/p
 #: C/import-supported-file-formats.page:34
 msgid "Maildir (no extension):"
-msgstr ""
+msgstr "Maildir (без суфікса назви):"
 
 #. (itstool) path: item/p
 #: C/import-supported-file-formats.page:36
@@ -3520,7 +3747,7 @@ msgstr "Календар"
 #. (itstool) path: item/p
 #: C/import-supported-file-formats.page:48
 msgid "vCalendar (.vcs):"
-msgstr ""
+msgstr "vCalendar (.vcs):"
 
 #. (itstool) path: item/p
 #: C/import-supported-file-formats.page:50
@@ -3529,11 +3756,14 @@ msgid ""
 "<app>Evolution</app>, <app>Microsoft Outlook</app>, <app>Sunbird</app>, and "
 "<app>Korganizer</app>."
 msgstr ""
+"Формат для зберігання файлів календарів, який, загалом, використовується у <"
+"app>Evolution</app>, <app>Microsoft Outlook</app>, <app>Sunbird</app> і <app"
+">Korganizer</app>."
 
 #. (itstool) path: item/p
 #: C/import-supported-file-formats.page:52
 msgid "iCalendar or iCal (.ics):"
-msgstr ""
+msgstr "iCalendar або iCal (.ics):"
 
 #. (itstool) path: item/p
 #: C/import-supported-file-formats.page:54
@@ -3541,6 +3771,10 @@ msgid ""
 "A format for storing calendar files. iCalendar is used by <app>Evolution</"
 "app>, <app>Microsoft Outlook</app>, Palm OS handhelds, and others."
 msgstr ""
+"Формат для зберігання файлів календарів. iCalendar використовується у <app"
+">Evolution</"
+"app>, <app>Microsoft Outlook</app>, кишенькових комп'ютерах під керуванням"
+" Palm OS та інших програмах."
 
 #. (itstool) path: section/title
 #: C/import-supported-file-formats.page:60 C/intro-keyboard-shortcuts.page:326
@@ -3556,7 +3790,7 @@ msgstr "Формат обміну даними системи LDAP (.ldif):"
 #. (itstool) path: item/p
 #: C/import-supported-file-formats.page:64
 msgid "A standard data format for contact cards."
-msgstr ""
+msgstr "Стандартний формат даних для карток контактів."
 
 #. (itstool) path: item/p
 #: C/import-supported-file-formats.page:66
@@ -3579,7 +3813,7 @@ msgstr "Різне"
 #. (itstool) path: item/p
 #: C/import-supported-file-formats.page:76
 msgid "<app>Evolution</app>/Mozilla/Outlook CSV/Tab (.csv, .tab):"
-msgstr ""
+msgstr "<app>Evolution</app>/Mozilla/Outlook CSV/Tab (.csv, .tab):"
 
 #. (itstool) path: item/p
 #: C/import-supported-file-formats.page:78
@@ -3730,6 +3964,8 @@ msgstr ""
 #: C/intro-first-run.page:8
 msgid "Set up email accounts, import data, or restore from a backup."
 msgstr ""
+"Налаштовування облікових записів електронної пошти, імпортування даних та"
+" відновлення даних з резервних копій."
 
 #. (itstool) path: page/title
 #: C/intro-first-run.page:23
@@ -3743,6 +3979,10 @@ msgid ""
 "Assistant. It helps you set up email accounts and <link xref=\"import-data"
 "\">import data from other applications.</link>"
 msgstr ""
+"Під час першого запуску <app>Evolution</app> програма відкриває помічник"
+" першого запуску. Ця допоміжна програма полегшує налаштовування облікових"
+" записів електронної пошти та <link xref=\"import-data"
+"\">імпортування даних з інших програм</link>."
 
 #. (itstool) path: page/p
 #: C/intro-first-run.page:27
@@ -3813,6 +4053,9 @@ msgid ""
 "You will be asked whether to restore from a backup of a previous version. If "
 "you do not have a backup, go to the next page."
 msgstr ""
+"Програма запитає вас, чи слід відновлювати дані з резервної копії попередньої"
+" версії. Якщо у вас немає резервної копії, просто перейдіть до наступної"
+" сторінки."
 
 #. (itstool) path: info/title
 #: C/intro-first-run.page:41
@@ -3839,6 +4082,7 @@ msgstr "Отримання пошти"
 msgid ""
 "First, choose the server type from the <gui>Server Type</gui> drop-down list."
 msgstr ""
+"Спочатку, виберіть тип сервера зі спадного списку <gui>Тип сервера</gui>."
 
 #. (itstool) path: section/p
 #: C/intro-first-run.page:53
@@ -3846,6 +4090,9 @@ msgid ""
 "If you are unsure about the type of server to choose, ask your system "
 "administrator or Internet Service Provider."
 msgstr ""
+"Якщо ви не певні щодо того, який з типів серверів слід вибрати, спитайте про"
+" це адміністратора вашої системи або службу підтримки надавача послуг"
+" інтернету."
 
 #. (itstool) path: note/p
 #: C/intro-first-run.page:55
@@ -4900,7 +5147,7 @@ msgstr "Список завдань"
 #. (itstool) path: td/p
 #: C/intro-main-window.page:116
 msgid "Month pane"
-msgstr ""
+msgstr "Панель місяця"
 
 #. (itstool) path: td/p
 #: C/intro-main-window.page:117
@@ -4910,7 +5157,7 @@ msgstr "Список приміток"
 #. (itstool) path: item/title
 #: C/intro-main-window.page:128
 msgid "Appointment List"
-msgstr ""
+msgstr "Список зустрічей"
 
 #. (itstool) path: item/p
 #: C/intro-main-window.page:129
@@ -7338,17 +7585,17 @@ msgstr ""
 #. (itstool) path: info/desc
 #: C/mail-composer-reply.page:5
 msgid "Answering a received email."
-msgstr ""
+msgstr "Надсилання відповідей на отримані повідомлення."
 
 #. (itstool) path: page/title
 #: C/mail-composer-reply.page:23
 msgid "Replying to a message"
-msgstr ""
+msgstr "Надсилання відповіді на повідомлення"
 
 #. (itstool) path: section/title
 #: C/mail-composer-reply.page:26
 msgid "Replying to Email Messages"
-msgstr ""
+msgstr "Надсилання відповідей на повідомлення електронної пошти"
 
 #. (itstool) path: section/p
 #: C/mail-composer-reply.page:27
@@ -7376,7 +7623,7 @@ msgstr ""
 #. (itstool) path: section/title
 #: C/mail-composer-reply.page:32
 msgid "Using the Reply To All Feature"
-msgstr ""
+msgstr "Користування можливістю «Відповісти усім»"
 
 #. (itstool) path: section/p
 #: C/mail-composer-reply.page:33
@@ -7434,12 +7681,12 @@ msgstr ""
 #. (itstool) path: info/desc
 #: C/mail-composer-search.page:5
 msgid "Searching for text in the mail composer."
-msgstr ""
+msgstr "Пошук тексту у редакторі повідомлень."
 
 #. (itstool) path: page/title
 #: C/mail-composer-search.page:21
 msgid "Searching in the mail composer"
-msgstr ""
+msgstr "Пошук у редакторі повідомлень"
 
 #. (itstool) path: page/p
 #: C/mail-composer-search.page:23
@@ -7462,12 +7709,12 @@ msgstr ""
 #. (itstool) path: item/p
 #: C/mail-composer-search.page:30
 msgid "<gui>Find Again</gui>:"
-msgstr ""
+msgstr "<gui>Знайти знову</gui>:"
 
 #. (itstool) path: item/p
 #: C/mail-composer-search.page:31
 msgid "Select this item to repeat the last search you performed."
-msgstr ""
+msgstr "Виберіть цей пункт, щоб повторити останній виконаний вами пошук."
 
 #. (itstool) path: item/p
 #: C/mail-composer-search.page:34
@@ -7477,7 +7724,7 @@ msgstr "<gui>Замінити</gui>:"
 #. (itstool) path: item/p
 #: C/mail-composer-search.page:35
 msgid "Find a word or phrase, and replace it with something else."
-msgstr ""
+msgstr "Пошук слова чи фрази із заміною їх на якісь інші слова або фрази."
 
 #. (itstool) path: page/p
 #: C/mail-composer-search.page:39
@@ -7498,7 +7745,7 @@ msgstr ""
 #. (itstool) path: info/desc
 #: C/mail-composer-send-account-overrides.page:5
 msgid "Assign your mail accounts to certain folders or recipients."
-msgstr ""
+msgstr "Прив'язування вашої пошти до певних тек або отримувачів."
 
 #. (itstool) path: page/title
 #: C/mail-composer-send-account-overrides.page:22
@@ -7544,11 +7791,13 @@ msgstr ""
 #: C/mail-composer-several-recipients.page:5
 msgid "Sending to more than one person and using CC or BCC."
 msgstr ""
+"Надсилання повідомлення декільком особам за допомогою полів «Копія» і"
+" «Прихована копія»."
 
 #. (itstool) path: page/title
 #: C/mail-composer-several-recipients.page:26
 msgid "Sending a message to several recipients"
-msgstr ""
+msgstr "Надсилання повідомлення декількома адресатам"
 
 #. (itstool) path: page/p
 #: C/mail-composer-several-recipients.page:28
