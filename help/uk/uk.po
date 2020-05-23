@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: evolution master\n"
 "POT-Creation-Date: 2020-05-19 15:54+0000\n"
-"PO-Revision-Date: 2020-05-22 21:57+0300\n"
+"PO-Revision-Date: 2020-05-23 11:20+0300\n"
 "Last-Translator: Yuri Chornoivan <yurchor@ukr.net>\n"
 "Language-Team: Ukrainian <trans-uk@lists.fedoraproject.org>\n"
 "Language: uk\n"
@@ -2955,6 +2955,12 @@ msgid ""
 "<cmd>opera-browser.desktop</cmd>. If you are unsure you can look up most "
 "<cmd>.desktop</cmd> files in the folder <cmd>/usr/share/applications/</cmd>."
 msgstr ""
+"Визначте назву файла <cmd>.desktop</cmd> бажаного для вас браузера. Залежно"
+" від браузера і дистрибутива, файл може називатися, наприклад, <cmd"
+">epiphany.desktop</cmd>, <cmd>firefox.desktop</cmd>, <cmd"
+">google-chrome.desktop</cmd>, <cmd>konqbrowser.desktop</cmd> або <cmd"
+">opera-browser.desktop</cmd>. Якщо ви не певні, можете пошукати серед файлів"
+" <cmd>.desktop</cmd> у теці <cmd>/usr/share/applications/</cmd>."
 
 #. (itstool) path: item/p
 #: C/default-browser.page:40 C/default-browser.page:46
@@ -3061,6 +3067,9 @@ msgid ""
 "defining scheme-handlers in <file>$HOME/.local/share/applications/mimeapps."
 "list</file>."
 msgstr ""
+"Якщо у вас є певний досвід, ви можете скоригувати ці параметри визначенням"
+" обробників схем у <file>$HOME/.local/share/applications/mimeapps."
+"list</file>."
 
 #. (itstool) path: info/desc
 #: C/deleting-appointments.page:5
@@ -3081,6 +3090,12 @@ msgid ""
 "will be applied to the currently opened calendar (selected in the list of "
 "calendars on the left); other calendars remain unchanged."
 msgstr ""
+"Щоб остаточно витерти застарілі записи з календаря, скористайтеся пунктом"
+" меню <guiseq><gui>Дії</"
+"gui><gui>Очистити</gui></guiseq> на панелі перегляду календаря. Програма"
+" запитає вас, за скільки днів слід витерти записи подій з календаря. Дію буде"
+" застосовано до поточного відкритого календаря (календар можна вибрати зі"
+" списку календарів ліворуч); інші календарі лишаться незмінними."
 
 #. (itstool) path: info/desc
 #: C/deleting-emails.page:5
@@ -3107,6 +3122,9 @@ msgid ""
 "messages for deletion; space is not freed until you <em>expunge</em> the "
 "marked emails."
 msgstr ""
+"<app>Evolution</app> вилучає повідомлення з серверів IMAP <em>позначаючи</em>"
+" повідомлення для вилучення; місце на диску не буде вивільнено, аж доки ви не"
+" <em>витрете</em> позначені повідомлення."
 
 #. (itstool) path: section/p
 #: C/deleting-emails.page:32
@@ -3116,6 +3134,12 @@ msgid ""
 "Expunge all folders, go to <guiseq><gui>File</gui><gui>Empty Trash</gui></"
 "guiseq>. This applies to other types of accounts as well."
 msgstr ""
+"Щоб витерти певну теку, скористайтеся пунктом меню <guiseq><gui>Тека</gui><"
+"gui>Викреслити</"
+"gui></guiseq> або натисніть комбінацію клавіш <keyseq><key>Ctrl</key><key>E<"
+"/key></keyseq>. Щоб витерти усі теки, скористайтеся пунктом меню <guiseq><gui"
+">Файл</gui><gui>Очистити теку «Вилучені»</gui></guiseq>. Це стосується також"
+" інших типів облікових записів."
 
 #. (itstool) path: section/title
 #: C/deleting-emails.page:36
@@ -3128,6 +3152,9 @@ msgid ""
 "To delete the attachments of an email, select the message and click "
 "<guiseq><gui>Message</gui><gui>Remove Attachments</gui></guiseq>."
 msgstr ""
+"Щоб вилучити долучення до повідомлення електронної пошти, виберіть"
+" повідомлення і скористайтеся пунктом меню <guiseq><gui>Повідомлення</gui><"
+"gui>Вилучити долучення</gui></guiseq>."
 
 #. (itstool) path: info/desc
 #: C/deleting-to-free-disk-space.page:5
@@ -3135,6 +3162,8 @@ msgid ""
 "Deleting emails and calendar entries to reduce the size of the files used by "
 "<app>Evolution</app>."
 msgstr ""
+"Вилучення повідомлень електронної пошти і записів календаря для заощадження"
+" місця, яке використовується <app>Evolution</app>."
 
 #. (itstool) path: page/title
 #: C/deleting-to-free-disk-space.page:20
@@ -3158,6 +3187,10 @@ msgid ""
 "calendars and click <gui>Save as</gui>. Available formats are iCalendar "
 "format (ICS, recommended), comma separated values (CSV), and RDF format."
 msgstr ""
+"Щоб експортувати увесь календар, клацніть правою кнопкою миші на пункті"
+" календаря у списку календарів і виберіть у контекстному меню пункт <gui"
+">Зберегти як</gui>. Доступними форматами є формат iCalendar (ICS,"
+" рекомендовано), формат відокремлених комами значень (CSV) і формат RDF."
 
 #. (itstool) path: page/p
 #: C/exporting-data-calendar.page:23
@@ -3167,6 +3200,11 @@ msgid ""
 "gui></guiseq>, or right-click on the appointment and click <gui>Save as "
 "iCalendar…</gui>."
 msgstr ""
+"Якщо ви хочете експортувати лише один запис зустрічі (або завдання чи"
+" примітки), або виберіть запис зустрічі і скористайтеся пунктом меню <guiseq"
+"><gui>Файл</gui><gui>Зберегти як iCalendar…</gui></guiseq>, або клацніть"
+" правою кнопкою миші на пункті зустрічі і виберіть у контекстному меню пункт"
+" <gui>Зберегти як iCalendar…</gui>."
 
 #. (itstool) path: info/desc
 #: C/exporting-data-contacts.page:5
@@ -3395,6 +3433,10 @@ msgid ""
 "href=\"https://help.gnome.org/users/gnome-help/stable/files-hidden#show-"
 "hidden\">show hidden files</link> in the file selector dialog."
 msgstr ""
+"Перейдіть до теки, у якій <app>Thunderbird</app> зберігає дані. Вам варто"
+" увімкнути <link xref=\"help:gnome-help/files-hidden#show-hidden\" "
+"href=\"https://help.gnome.org/users/gnome-help/stable/files-hidden#show-hidden"
+"\">показ прихованих файлів</link> у діалоговому вікні вибору файлів."
 
 #. (itstool) path: item/p
 #: C/import-apps-mozilla.page:35
@@ -3405,6 +3447,13 @@ msgid ""
 "address of your remote mail server. Files without a file ending include your "
 "messages (not the <file>.msf</file> files)."
 msgstr ""
+"Якщо ви хочете імпортувати пошту <app>Thunderbird</app>, перейдіть до <file"
+">Mail/"
+"Local Folders</file> (для локальних облікових записів пошти) або <file"
+">ImapMail/назва_сервера</file> (для віддалених облікових записів пошти)."
+" Значенням параметра <file>назва_сервера</file> є адреса вашого сервера"
+" віддаленої пошти. У файлах без суфікса назви зберігаються ваші повідомлення"
+" (а не у файлах <file>.msf</file>)."
 
 #. (itstool) path: item/p
 #: C/import-apps-mozilla.page:36
@@ -3415,6 +3464,12 @@ msgid ""
 "<app>Evolution</app>. This is required as <app>Thunderbird</app> stores its "
 "calendar data in a non-standard database format."
 msgstr ""
+"Якщо вам потрібно імпортувати дані календарів <app>Thunderbird/Lightning</app"
+">, ви можете спочатку експортувати ваші записи подій <app>Thunderbird</app>"
+" як файл <file>."
+"ical</file>/<file>.ics</file>, а потім імпортувати цей файл до <app"
+">Evolution</app>. Така процедура потрібна, оскільки <app>Thunderbird</app>"
+" зберігає дані календарів у форматі нестандартної бази даних."
 
 #. (itstool) path: item/p
 #: C/import-apps-mozilla.page:38 C/import-apps-outlook.page:64
@@ -3487,6 +3542,11 @@ msgid ""
 "corresponding account in <app>Evolution</app> and the data will be "
 "downloaded."
 msgstr ""
+"Ці кроки стосуються локально збережених даних, зокрема облікових записів POP."
+" Для віддалених даних (зокрема IMAP) у них немає потреби, оскільки дані"
+" зберігаються на сервері — ї= не потрібно переносити вручну. Ви можете"
+" налаштувати відповідний обліковий запис в <app>Evolution</app>, і дані"
+" просто буде отримано з сервера."
 
 #. (itstool) path: section/title
 #: C/import-apps-outlook.page:31
@@ -11060,11 +11120,13 @@ msgid ""
 "You can apply a secondary sort criterion by clicking a column label while "
 "pressing <key>Ctrl</key>."
 msgstr ""
+"Ви можете застосувати вторинний критерій сортування, клацнувши на мітці"
+" стовпчика із одночасним утримуванням натиснутою клавіші <key>Ctrl</key>."
 
 #. (itstool) path: section/title
 #: C/mail-sorting-message-list.page:62
 msgid "Using Other Sorting Options"
-msgstr ""
+msgstr "Користування іншими параметрами сортування"
 
 #. (itstool) path: section/p
 #: C/mail-sorting-message-list.page:63
@@ -11087,7 +11149,7 @@ msgstr ""
 #: C/mail-sorting-message-list.page:68 C/mail-sorting-message-list.page:98
 #: C/mail-sorting-message-list.page:107 C/mail-sorting-message-list.page:116
 msgid "Right-click on the message list column headers."
-msgstr ""
+msgstr "Клацніть правою кнопкою на заголовку стовпчика у списку повідомлень."
 
 #. (itstool) path: item/p
 #: C/mail-sorting-message-list.page:69
@@ -11098,6 +11160,8 @@ msgstr ""
 #: C/mail-sorting-message-list.page:69
 msgid "This brings up this list of criteria for sorting email messages:"
 msgstr ""
+"У відповідь буде відкрито список критеріїв для сортування повідомлень"
+" електронної пошти:"
 
 #. (itstool) path: item/p
 #: C/mail-sorting-message-list.page:71
@@ -11193,6 +11257,8 @@ msgstr "Інший"
 #: C/mail-sorting-message-list.page:91
 msgid "Select the option you wish to use in sorting email messages."
 msgstr ""
+"Виберіть варіант, яким ви хочете скористатися для сортування повідомлень"
+" електронної пошти."
 
 #. (itstool) path: section/title
 #: C/mail-sorting-message-list.page:96
@@ -11335,6 +11401,8 @@ msgid ""
 "<link action=\"install:bogofilter\" href=\"http://bogofilter.sourceforge.net/"
 "\" style=\"button\">Install bogofilter</link>"
 msgstr ""
+"<link action=\"install:bogofilter\" href=\"http://bogofilter.sourceforge.net/"
+"\" style=\"button\">Встановити bogofilter</link>"
 
 #. (itstool) path: when/p
 #: C/mail-spam-settings.page:47
@@ -11342,6 +11410,8 @@ msgid ""
 "<link action=\"install:spamassassin\" href=\"http://spamassassin.apache.org/"
 "\" style=\"button\">Install spamassassin</link>"
 msgstr ""
+"<link action=\"install:spamassassin\" href=\"http://spamassassin.apache.org/"
+"\" style=\"button\">Встановити spamassassin</link>"
 
 #. (itstool) path: section/p
 #: C/mail-spam-settings.page:52
@@ -11498,12 +11568,12 @@ msgstr ""
 #. (itstool) path: info/desc
 #: C/mail-usenet-subscriptions.page:5
 msgid "Subscribing to Usenet newsgroups."
-msgstr ""
+msgstr "Підписування на групи новин Usenet."
 
 #. (itstool) path: page/title
 #: C/mail-usenet-subscriptions.page:25
 msgid "Newsgroups Subscriptions"
-msgstr ""
+msgstr "Підписування на групи новин"
 
 #. (itstool) path: page/p
 #: C/mail-usenet-subscriptions.page:27
@@ -11520,7 +11590,7 @@ msgstr ""
 #. (itstool) path: item/p
 #: C/mail-usenet-subscriptions.page:31
 msgid "Click a group's checkbox to add a folder to your subscriptions."
-msgstr ""
+msgstr "Клацніть на позначці групи, щоб додати теку до ваших підписок."
 
 #. (itstool) path: info/desc
 #: C/mail-vertical-view.page:5
@@ -11530,7 +11600,7 @@ msgstr ""
 #. (itstool) path: page/title
 #: C/mail-vertical-view.page:22
 msgid "Vertical view"
-msgstr ""
+msgstr "Вертикальний вигляд"
 
 #. (itstool) path: page/p
 #: C/mail-vertical-view.page:24
