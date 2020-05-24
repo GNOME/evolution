@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: evolution master\n"
 "POT-Creation-Date: 2020-05-19 15:54+0000\n"
-"PO-Revision-Date: 2020-05-23 19:14+0300\n"
+"PO-Revision-Date: 2020-05-24 16:46+0300\n"
 "Last-Translator: Yuri Chornoivan <yurchor@ukr.net>\n"
 "Language-Team: Ukrainian <trans-uk@lists.fedoraproject.org>\n"
 "Language: uk\n"
@@ -8537,6 +8537,9 @@ msgid ""
 "To save an image that is embedded in an HTML email, right-click on the image "
 "and click <gui>Save Image…</gui>."
 msgstr ""
+"Щоб зберегти зображення, яке вбудовано до повідомлення електронної пошти у"
+" форматі HTML, клацніть правою кнопкою на зображенні і виберіть у"
+" контекстному меню пункт <gui>Зберегти зображення…</gui>."
 
 #. (itstool) path: info/desc
 #: C/mail-displaying-message.page:5
@@ -8587,6 +8590,9 @@ msgid ""
 "email if the sender is in one of your address books and has a photograph "
 "stored."
 msgstr ""
+"Крім того, ви можете увімкнути показ фотографії відправника повідомлення"
+" електронної пошти вручну, якщо запис відправника є у одній із ваших адресних"
+" книг і має збережену фотографію."
 
 #. (itstool) path: page/p
 #: C/mail-displaying-sender-photograph.page:31
@@ -8595,12 +8601,18 @@ msgid ""
 "gui><gui>Preferences</gui><gui>Mail Preferences</gui><gui>Headers</"
 "gui><gui>Show the photograph of sender in the message preview</gui></guiseq>."
 msgstr ""
+"Щоб увімкнути цю функціональну можливість, скористайтеся пунктом <guiseq><gui"
+">Зміни</gui><gui>Параметри</gui><gui>Параметри пошти</gui><gui>Заголовки</gui"
+"><gui>Показувати фотографію відправника у панелі перегляду пошти</gui><"
+"/guiseq>."
 
 #. (itstool) path: page/p
 #: C/mail-displaying-sender-photograph.page:33
 msgid ""
 "If there are multiple matches for a contact, the first one is always used."
 msgstr ""
+"Якщо відповідників контакту буде декілька, завжди буде використано перший з"
+" відповідників."
 
 #. (itstool) path: note/p
 #: C/mail-displaying-sender-photograph.page:36
@@ -8627,6 +8639,10 @@ msgid ""
 "Source</gui></guiseq> or press <keyseq><key>Ctrl</key><key>U</key></keyseq>. "
 "This will display the message data in a new window."
 msgstr ""
+"Щоб переглянути дані повідомлення, виберіть пункт меню <guiseq><gui>Перегляд<"
+"/gui><gui>Джерело повідомлення</gui></guiseq> або натисніть комбінацію клавіш"
+" <keyseq><key>Ctrl</key><key>U</key></keyseq>. У відповідь програма покаже"
+" дані повідомлення у новому вікні."
 
 #. (itstool) path: page/p
 #: C/mail-display-message-source.page:24
@@ -8635,21 +8651,24 @@ msgid ""
 "gui><gui>All Message Headers</gui></guiseq>. This will display the complete "
 "header data on the viewing pane."
 msgstr ""
+"Щоб переглянути лише усі заголовки повідомлення, виберіть пункт меню <guiseq"
+"><gui>Перегляд</gui><gui>Усі заголовки повідомлень</gui></guiseq>. У"
+" відповідь програма покаже усі дані заголовків на панелі перегляду."
 
 #. (itstool) path: info/desc
 #: C/mail-duplicates.page:5
 msgid "How to handle duplicated email messages"
-msgstr ""
+msgstr "Як працювати із дублікатами повідомлень електронної пошти"
 
 #. (itstool) path: page/title
 #: C/mail-duplicates.page:24
 msgid "Duplicate emails get downloaded"
-msgstr ""
+msgstr "Отримано дублікати повідомлень електронної пошти"
 
 #. (itstool) path: section/title
 #: C/mail-duplicates.page:27
 msgid "Removing duplicate emails"
-msgstr ""
+msgstr "Вилучення дублікатів повідомлень"
 
 #. (itstool) path: section/p
 #: C/mail-duplicates.page:28
@@ -8670,17 +8689,18 @@ msgstr "Причини"
 #: C/mail-duplicates.page:34
 msgid ""
 "Downloading duplicate emails may be due to one of the following reasons:"
-msgstr ""
+msgstr "Причин отримання дублікатів повідомлень може бути декілька:"
 
 #. (itstool) path: item/p
 #: C/mail-duplicates.page:36
 msgid "There are several copies of the same message in the mailbox"
 msgstr ""
+"У поштовій скриньці зберігається декілька копій того самого повідомлення"
 
 #. (itstool) path: item/p
 #: C/mail-duplicates.page:37
 msgid "<app>Evolution</app> is having a problem with the UIDL extension."
-msgstr ""
+msgstr "В <app>Evolution</app> виникли проблеми із розширенням UIDL."
 
 #. (itstool) path: item/p
 #: C/mail-duplicates.page:38
@@ -8688,16 +8708,20 @@ msgid ""
 "The cache files located at <file>$HOME/.local/share/evolution/mail/local/</"
 "file> are not writable."
 msgstr ""
+"Файли кешу, які зберігаються у <file>$HOME/.local/share/evolution/mail/local/<"
+"/file>, є непридатними до запису."
 
 #. (itstool) path: info/desc
 #: C/mail-encryption-gpg-create-key.page:5
 msgid "Signing or encrypting messages that you send via GPG/OpenPGP."
 msgstr ""
+"Підписування або шифрування надісланих вами повідомлень за допомогою"
+" GPG/OpenPGP."
 
 #. (itstool) path: page/title
 #: C/mail-encryption-gpg-create-key.page:20
 msgid "Creating a GPG key"
-msgstr ""
+msgstr "Створення ключа GPG"
 
 #. (itstool) path: page/p
 #: C/mail-encryption-gpg-create-key.page:24
@@ -8715,17 +8739,17 @@ msgstr ""
 #. (itstool) path: info/desc
 #: C/mail-encryption-gpg-decrypting.page:5
 msgid "Decrypting and checking the signature of received GPG messages."
-msgstr ""
+msgstr "Розшифровування та перевірка підписів отриманих повідомлень GPG."
 
 #. (itstool) path: page/title
 #: C/mail-encryption-gpg-decrypting.page:23
 msgid "Receiving messages encrypted or signed via GPG"
-msgstr ""
+msgstr "Отримання повідомлень, які зашифровано або підписано за допомогою GPG"
 
 #. (itstool) path: section/title
 #: C/mail-encryption-gpg-decrypting.page:26
 msgid "Decrypting a received message"
-msgstr ""
+msgstr "Розшифровування отриманого повідомлення"
 
 #. (itstool) path: section/p
 #: C/mail-encryption-gpg-decrypting.page:27
@@ -8733,6 +8757,8 @@ msgid ""
 "If you receive an encrypted message, you need to decrypt it before you can "
 "read it."
 msgstr ""
+"Якщо ви отримали зашифроване повідомлення, вам слід розшифрувати його, перш"
+" ніж ви зможете його прочитати."
 
 #. (itstool) path: section/p
 #: C/mail-encryption-gpg-decrypting.page:28
@@ -8740,6 +8766,9 @@ msgid ""
 "When you view the message, <app>Evolution</app> prompts you for your PGP "
 "password. Enter it, and the unencrypted message is displayed."
 msgstr ""
+"Коли ви захочете переглянути повідомлення, <app>Evolution</app> попросить вас"
+" ввести ваш пароль PGP. Введіть пароль, і програма покаже розшифроване"
+" повідомлення."
 
 #. (itstool) path: note/p
 #: C/mail-encryption-gpg-decrypting.page:29
@@ -8747,11 +8776,13 @@ msgid ""
 "Senders must have your GPG public key before they can send you an encrypted "
 "message."
 msgstr ""
+"Відправники повинні мати ваш відкритий ключ GPG, перш ніж зможуть надсилати"
+" вам зашифровані повідомлення."
 
 #. (itstool) path: section/title
 #: C/mail-encryption-gpg-decrypting.page:33
 msgid "Checking the signature of a received message"
-msgstr ""
+msgstr "Перевірка підпису отриманого повідомлення"
 
 #. (itstool) path: section/p
 #: C/mail-encryption-gpg-decrypting.page:34
@@ -8760,16 +8791,20 @@ msgid ""
 "bottom of the message and click the logo. <app>Evolution</app> will display "
 "<gui>Security Information</gui> for the message."
 msgstr ""
+"Щоб перевірити підпис відправника отриманого повідомлення, виконайте гортання"
+" до нижньої частини повідомлення і натисніть логотип. <app>Evolution</app>"
+" покаже "
+"<gui>Дані щодо захисту</gui> для повідомлення."
 
 #. (itstool) path: info/desc
 #: C/mail-encryption-gpg-getting-keys.page:5
 msgid "Getting and Using GPG Public Keys."
-msgstr ""
+msgstr "Отримання відкритих ключів GPG та користування ними."
 
 #. (itstool) path: page/title
 #: C/mail-encryption-gpg-getting-keys.page:23
 msgid "Getting and using GPG public keys"
-msgstr ""
+msgstr "Отримання відкритих ключів GPG та користування ними"
 
 #. (itstool) path: page/p
 #: C/mail-encryption-gpg-getting-keys.page:25
@@ -8780,6 +8815,12 @@ msgid ""
 "\"https://help.gnome.org/users/seahorse/stable/pgp-import\">get the public "
 "key and add it to your keyring</link>."
 msgstr ""
+"Щоб надіслати зашифроване повідомлення, вам слід скористатися відкритим"
+" ключем отримувача у поєднанні із вашим закритим ключем. <app>Evolution</app>"
+" виконає шифрування, але вам потрібно буде <link"
+" xref=\"help:seahorse/pgp-import\" href=\"https://help.gnome.org/users/seahors"
+"e/stable/pgp-import\">отримати відкритий ключ і додати його до вашої зв'язки"
+" ключів</link>."
 
 #. (itstool) path: info/desc
 #: C/mail-encryption-gpg-set-up.page:5
@@ -8787,11 +8828,13 @@ msgid ""
 "Setting up GPG for your mail account to sign and/or encrypt and decrypt "
 "messages."
 msgstr ""
+"Налаштовування GPG для вашого облікового запису пошти для підписування і/або"
+" шифрування та розшифровування повідомлень."
 
 #. (itstool) path: page/title
 #: C/mail-encryption-gpg-set-up.page:23
 msgid "Setting up GPG for your mail account"
-msgstr ""
+msgstr "Налаштовування GPG для вашого поштового облікового запису"
 
 #. (itstool) path: note/p
 #: C/mail-encryption-gpg-set-up.page:26
@@ -8799,6 +8842,9 @@ msgid ""
 "You need a GPG key to do this. If you do not have one yet, please refer to "
 "<link xref=\"mail-encryption-gpg-create-key\">Creating a GPG key</link>."
 msgstr ""
+"Для цього вам потрібен ключ GPG. Якщо у вас немає такого ключа, будь ласка,"
+" ознайомтеся із розділом щодо <link xref=\"mail-encryption-gpg-create-key\""
+">створення ключа GPG</link>."
 
 #. (itstool) path: item/p
 #: C/mail-encryption-gpg-set-up.page:29
@@ -8808,6 +8854,8 @@ msgid ""
 "Select <guiseq><gui>Edit</gui><gui>Preferences</gui><gui>Mail Accounts</"
 "gui></guiseq>."
 msgstr ""
+"Виберіть пункт меню <guiseq><gui>Зміни</gui><gui>Параметри</gui><gui>Облікові"
+" записи</gui></guiseq>."
 
 #. (itstool) path: item/p
 #: C/mail-encryption-gpg-set-up.page:30
@@ -8815,18 +8863,21 @@ msgid ""
 "Select the account you want to use securely, then click <gui style=\"button"
 "\">Edit</gui>."
 msgstr ""
+"Виберіть обліковий запис, повідомлення якого ви хочете захистити, і натисніть"
+" кнопку <gui style=\"button\">Редагувати</gui>."
 
 #. (itstool) path: item/p
 #: C/mail-encryption-gpg-set-up.page:31
 #: C/mail-encryption-gpg-signing-encrypting.page:38
 #: C/mail-encryption-s-mime-signing-encrypting.page:33
 msgid "Click the <gui>Security</gui> tab."
-msgstr ""
+msgstr "Перейдіть на вкладку <gui>Безпека</gui>."
 
 #. (itstool) path: item/p
 #: C/mail-encryption-gpg-set-up.page:32
 msgid "Specify your key ID in the <gui>OpenPGP Key ID</gui> field."
 msgstr ""
+"Вкажіть ваш ідентифікатор ключа у полі <gui>Ідентифікатор ключа OpenPGP</gui>."
 
 #. (itstool) path: note/p
 #: C/mail-encryption-gpg-set-up.page:33
@@ -8834,6 +8885,8 @@ msgid ""
 "Below the field you can choose whether to always sign outgoing messages when "
 "using this account, and other options."
 msgstr ""
+"Під полем ви можете визначити, чи слід завжди підписувати вихідні"
+" повідомлення при використанні цього облікового запису, та інші параметри."
 
 #. (itstool) path: item/p
 #: C/mail-encryption-gpg-set-up.page:36
@@ -8855,12 +8908,13 @@ msgstr ""
 #: C/mail-encryption-gpg-signing-encrypting.page:5
 msgid "Signing or encrypting messages via GPG that you send."
 msgstr ""
+"Підписування або шифрування надісланих вами повідомлень за допомогою GPG."
 
 #. (itstool) path: page/title
 #: C/mail-encryption-gpg-signing-encrypting.page:23
 #: C/mail-encryption-s-mime-signing-encrypting.page:23
 msgid "Signing or encrypting messages"
-msgstr ""
+msgstr "Підписування або шифрування повідомлень"
 
 #. (itstool) path: page/p
 #: C/mail-encryption-gpg-signing-encrypting.page:30
@@ -8879,18 +8933,21 @@ msgid ""
 "The Subject line of the message will not be encrypted and should not be used "
 "for sensitive information."
 msgstr ""
+"Рядок «Тема» повідомлення не буде зашифровано — його не слід використовувати"
+" для надання якоїсь конфіденційної інформації."
 
 #. (itstool) path: page/p
 #: C/mail-encryption-gpg-signing-encrypting.page:33
 #: C/mail-encryption-s-mime-signing-encrypting.page:28
 msgid "To have every message signed or encrypted:"
 msgstr ""
+"Щоб усі повідомлення підписувалися або шифрувалися, виконайте такі дії:"
 
 #. (itstool) path: item/p
 #: C/mail-encryption-gpg-signing-encrypting.page:36
 #: C/mail-encryption-s-mime-signing-encrypting.page:31
 msgid "Select the mail account to encrypt the messages in."
-msgstr ""
+msgstr "Виберіть поштовий обліковий запис для шифрування повідомлень."
 
 #. (itstool) path: item/p
 #: C/mail-encryption-gpg-signing-encrypting.page:37
@@ -8903,16 +8960,18 @@ msgstr "Натисніть <gui style=\"button\">Змінити</gui>."
 msgid ""
 "Select <gui>Always sign outgoing messages when using this account</gui>."
 msgstr ""
+"Позначте пункт <gui>Завжди підписувати листи, коли використовуєте цей"
+" обліковий запис</gui>."
 
 #. (itstool) path: info/desc
 #: C/mail-encryption.page:5
 msgid "Sending and receiving encrypted mail."
-msgstr ""
+msgstr "Надсилання і отримання зашифрованої пошти."
 
 #. (itstool) path: page/title
 #: C/mail-encryption.page:30
 msgid "Mail encryption and certificates"
-msgstr ""
+msgstr "Шифрування пошти і сертифікати"
 
 #. (itstool) path: page/p
 #: C/mail-encryption.page:32
@@ -8921,11 +8980,14 @@ msgid ""
 "and encrypting email messages. S/MIME is used most often in corporate "
 "environments."
 msgstr ""
+"У <app>Evolution</app> передбачено підтримку шифрування за допомогою GPG і"
+" S/MIME для підписування та шифрування повідомлень електронної пошти. S/MIME"
+" використовується передусім у корпоративних середовищах."
 
 #. (itstool) path: section/title
 #: C/mail-encryption.page:35
 msgid "GPG"
-msgstr ""
+msgstr "GPG"
 
 #. (itstool) path: section/title
 #: C/mail-encryption.page:39
@@ -8935,12 +8997,12 @@ msgstr "S/MIME"
 #. (itstool) path: info/desc
 #: C/mail-encryption-s-mime-manage.page:5
 msgid "Adding, editing, viewing and deleting S/MIME certificates."
-msgstr ""
+msgstr "Додавання, редагування, перегляд та вилучення сертифікатів S/MIME."
 
 #. (itstool) path: page/title
 #: C/mail-encryption-s-mime-manage.page:23
 msgid "Managing S/MIME certificates"
-msgstr ""
+msgstr "Керування сертифікатами S/MIME"
 
 #. (itstool) path: page/p
 #: C/mail-encryption-s-mime-manage.page:25
@@ -8949,6 +9011,9 @@ msgid ""
 "connection, or sign a message confirming your identity to the contact. These "
 "settings only apply to S/MIME encryption."
 msgstr ""
+"За допомогою сертифікатів ви можете безпечно обмінюватися даними шифрованим"
+" з'єднанням або підписати повідомлення, підтверджуючи його ідентичність для"
+" вашого контакту. Ці параметри стосуються лише шифрування за допомогою S/MIME."
 
 #. (itstool) path: page/p
 #: C/mail-encryption-s-mime-manage.page:26
@@ -8957,6 +9022,10 @@ msgid ""
 "your certificates under <guiseq><gui>Edit</gui><gui>Preferences</"
 "gui><gui>Certificates</gui></guiseq>."
 msgstr ""
+"Ви можете імпортувати, переглядати, редагувати (окрім ваших власних"
+" сертифікатів) і вилучати ваші сертифікати за допомогою пункту меню <guiseq><"
+"gui>Зміни</gui><gui>Параметри</"
+"gui><gui>Сертифікати</gui></guiseq>."
 
 #. (itstool) path: note/p
 #: C/mail-encryption-s-mime-manage.page:28
@@ -8995,6 +9064,7 @@ msgstr ""
 #: C/mail-encryption-s-mime-signing-encrypting.page:5
 msgid "Signing or encrypting messages via S/MIME that you send."
 msgstr ""
+"Підписування або шифрування надісланих вами повідомлень за допомогою S/MIME."
 
 #. (itstool) path: page/p
 #: C/mail-encryption-s-mime-signing-encrypting.page:25
@@ -9019,17 +9089,17 @@ msgstr ""
 #. (itstool) path: item/p
 #: C/mail-encryption-s-mime-signing-encrypting.page:35
 msgid "Select the appropriate options."
-msgstr ""
+msgstr "Виберіть відповідні значення параметрів."
 
 #. (itstool) path: info/desc
 #: C/mail-filters-actions.page:5
 msgid "Available actions for setting up filtering."
-msgstr ""
+msgstr "Доступні дії для налаштовування фільтрування."
 
 #. (itstool) path: page/title
 #: C/mail-filters-actions.page:23
 msgid "Available Filter actions"
-msgstr ""
+msgstr "Доступні дії з фільтрування"
 
 #. (itstool) path: item/p
 #: C/mail-filters-actions.page:26
@@ -9039,7 +9109,7 @@ msgstr "Перемістити в теку:"
 #. (itstool) path: item/p
 #: C/mail-filters-actions.page:27
 msgid "Moves the message into a folder you specify."
-msgstr ""
+msgstr "Пересуває повідомлення до вказаної вами теки."
 
 #. (itstool) path: item/p
 #: C/mail-filters-actions.page:29
@@ -9049,7 +9119,7 @@ msgstr "Скопіювати у теку:"
 #. (itstool) path: item/p
 #: C/mail-filters-actions.page:30
 msgid "Puts a copy of the message into a folder you specify."
-msgstr ""
+msgstr "Зберігає копію повідомлення до вказаної вами теки."
 
 #. (itstool) path: item/p
 #: C/mail-filters-actions.page:32
@@ -9062,6 +9132,8 @@ msgid ""
 "Marks the message for deletion. The message can be undeleted until you "
 "expunge or empty the trash."
 msgstr ""
+"Позначає повідомлення на вилучення. Повідомлення може бути відновлено, аж"
+" доки ви не витрете або спорожните теку смітника."
 
 #. (itstool) path: item/p
 #: C/mail-filters-actions.page:35
@@ -9083,7 +9155,7 @@ msgstr "Встановити позначку:"
 #. (itstool) path: item/p
 #: C/mail-filters-actions.page:39
 msgid "Adds a label to a message."
-msgstr ""
+msgstr "Додає мітку до повідомлення."
 
 #. (itstool) path: item/p
 #: C/mail-filters-actions.page:41
@@ -9093,7 +9165,7 @@ msgstr "Призначити колір:"
 #. (itstool) path: item/p
 #: C/mail-filters-actions.page:42
 msgid "Marks the message with a color of your choice."
-msgstr ""
+msgstr "Позначає повідомлення вибраним вами кольором."
 
 #. (itstool) path: item/p
 #: C/mail-filters-actions.page:44
@@ -9103,7 +9175,7 @@ msgstr "Призначити вагу:"
 #. (itstool) path: item/p
 #: C/mail-filters-actions.page:45
 msgid "Assigns the message a numeric score."
-msgstr ""
+msgstr "Призначає повідомленню числовий рейтинг."
 
 #. (itstool) path: item/p
 #: C/mail-filters-actions.page:47
@@ -9113,7 +9185,7 @@ msgstr "Скоригувати вагу:"
 #. (itstool) path: item/p
 #: C/mail-filters-actions.page:48
 msgid "Changes the numeric score by the amount you set."
-msgstr ""
+msgstr "Змінює числовий рейтинг на встановлене вами значення."
 
 #. (itstool) path: item/p
 #: C/mail-filters-actions.page:50
@@ -9147,7 +9219,7 @@ msgstr "Звукове повідомлення:"
 #. (itstool) path: item/p
 #: C/mail-filters-actions.page:57
 msgid "Makes the system beep."
-msgstr ""
+msgstr "Наказує системі видати звуковий гудок."
 
 #. (itstool) path: item/p
 #: C/mail-filters-actions.page:59
@@ -9157,7 +9229,7 @@ msgstr "Відтворити звук:"
 #. (itstool) path: item/p
 #: C/mail-filters-actions.page:60
 msgid "Select a sound file for <app>Evolution</app> to play."
-msgstr ""
+msgstr "Виберіть звуковий файл, який має бути відтворено <app>Evolution</app>."
 
 #. (itstool) path: item/p
 #: C/mail-filters-actions.page:62
@@ -9167,7 +9239,7 @@ msgstr "Запустити програму:"
 #. (itstool) path: item/p
 #: C/mail-filters-actions.page:63
 msgid "<app>Evolution</app> runs an application."
-msgstr ""
+msgstr "<app>Evolution</app> запускає програму."
 
 #. (itstool) path: item/p
 #: C/mail-filters-actions.page:65 C/mail-filters-conditions.page:36
@@ -9191,7 +9263,7 @@ msgstr "Переслати:"
 #. (itstool) path: item/p
 #: C/mail-filters-actions.page:69
 msgid "Forwards the message to another email address."
-msgstr ""
+msgstr "Переспрямовує повідомлення на іншу адресу електронної пошти."
 
 #. (itstool) path: info/desc
 #: C/mail-filters-conditions.page:5
