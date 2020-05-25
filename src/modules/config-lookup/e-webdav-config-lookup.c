@@ -380,6 +380,8 @@ webdav_config_lookup_worker_run (EConfigLookupWorker *lookup_worker,
 				url = g_strconcat ("https://", servers_strv[ii], NULL);
 			}
 
+			g_clear_error (error);
+
 			should_stop = webdav_config_lookup_discover (dummy_source, url, trust_response, certificate, config_lookup,
 				params, out_restart_params, &authentication_failed, cancellable, error);
 
