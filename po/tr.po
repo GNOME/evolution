@@ -15,8 +15,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: evolution\n"
 "Report-Msgid-Bugs-To: https://gitlab.gnome.org/GNOME/evolution/issues\n"
-"POT-Creation-Date: 2020-05-15 14:15+0000\n"
-"PO-Revision-Date: 2020-05-17 12:38+0300\n"
+"POT-Creation-Date: 2020-05-26 13:40+0000\n"
+"PO-Revision-Date: 2020-05-26 19:47+0300\n"
 "Last-Translator: Emin Tufan Çetin <etcetin@gmail.com>\n"
 "Language-Team: <gnome-turk@gnome.org>\n"
 "Language: tr\n"
@@ -24,7 +24,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=1; plural=0;\n"
-"X-Generator: Poedit 2.3\n"
+"X-Generator: Poedit 2.3.1\n"
 
 #: ../data/org.gnome.evolution.addressbook.gschema.xml.in.h:1
 msgid "Enable address formatting"
@@ -3421,7 +3421,7 @@ msgstr "Takvim"
 #: ../src/e-util/e-send-options.c:536 ../src/mail/importers/elm-importer.c:330
 #: ../src/mail/importers/kmail-importer.c:251
 #: ../src/mail/importers/pine-importer.c:423
-#: ../src/modules/mail/e-mail-shell-view.c:1591
+#: ../src/modules/mail/e-mail-shell-view.c:1624
 #: ../src/smime/gui/certificate-manager.c:1666
 msgid "Mail"
 msgstr "Posta"
@@ -5705,13 +5705,13 @@ msgid "Phone"
 msgstr "Telefon"
 
 #: ../src/calendar/calendar.error.xml.h:1
-msgid "Would you like to send all the participants a cancelation notice?"
+msgid "Would you like to send all the participants a cancellation notice?"
 msgstr "Tüm katılımcılara iptal bildirimi göndermek ister misiniz?"
 
 #: ../src/calendar/calendar.error.xml.h:2
 msgid ""
-"If you do not send a cancelation notice, the other participants may not know "
-"the meeting is canceled."
+"If you do not send a cancellation notice, the other participants may not "
+"know the meeting is canceled."
 msgstr ""
 "Eğer iptal bildirimi göndermezseniz, diğer katılımcılar toplantının iptal "
 "olduğunu bilemeyebilirler."
@@ -5739,11 +5739,11 @@ msgstr ""
 
 #: ../src/calendar/calendar.error.xml.h:8
 msgid ""
-"If you do not send a cancelation notice, the other participants may not know "
-"the task has been deleted."
+"If you do not send a cancellation notice, the other participants may not "
+"know the task has been deleted."
 msgstr ""
-"Eğer iptal bildirimi göndermezseniz, diğer katılımcılar görevin silinmiş "
-"olduğunu bilemeyebilirler."
+"Eğer iptal bildirimi göndermezseniz, diğer katılımcılar görevin silindiğini "
+"bilemeyebilirler."
 
 #: ../src/calendar/calendar.error.xml.h:9
 #: ../src/calendar/gui/e-cal-dialogs.c:507
@@ -5757,16 +5757,16 @@ msgstr ""
 "Bu görev ile ilgili tüm bilgiler silinecek ve bir daha geri getirilemeyecek."
 
 #: ../src/calendar/calendar.error.xml.h:11
-msgid "Would you like to send a cancelation notice for this memo?"
+msgid "Would you like to send a cancellation notice for this memo?"
 msgstr "Bu not için iptal bildirimi göndermek ister misiniz?"
 
 #: ../src/calendar/calendar.error.xml.h:12
 msgid ""
-"If you do not send a cancelation notice, the other participants may not know "
-"the memo has been deleted."
+"If you do not send a cancellation notice, the other participants may not "
+"know the memo has been deleted."
 msgstr ""
-"Eğer iptal bildirimi göndermezseniz, diğer katılımcılar notunsilinmiş "
-"olduğunu bilemeyebilirler."
+"Eğer iptal bildirimi göndermezseniz, diğer katılımcılar notun silindiğini "
+"bilemeyebilirler."
 
 #: ../src/calendar/calendar.error.xml.h:13
 #: ../src/calendar/gui/e-cal-dialogs.c:510
@@ -6837,7 +6837,7 @@ msgid "calendar view for one or more weeks"
 msgstr "bir ya da daha çok hafta için takvim görünümü"
 
 #: ../src/calendar/gui/e-cal-component-preview.c:237
-#: ../src/e-util/e-filter-rule.c:986 ../src/mail/e-mail-config-page.c:124
+#: ../src/e-util/e-filter-rule.c:989 ../src/mail/e-mail-config-page.c:124
 msgid "Untitled"
 msgstr "Adsız"
 
@@ -7118,7 +7118,7 @@ msgstr "iCalendar verisi yapıştırılıyor"
 msgid "Organizer: %s <%s>"
 msgstr "Organizatör: %s <%s>"
 
-#. With SunOne accouts, there may be no ':' in organiser.value
+#. With SunOne accounts, there may be no ':' in organiser.value
 #. With SunOne accounts, there may be no ':' in
 #. * organizer.value.
 #: ../src/calendar/gui/e-calendar-view.c:1892
@@ -8593,7 +8593,7 @@ msgstr "Özet Yok"
 #: ../src/e-util/e-table-field-chooser-dialog.c:205
 #: ../src/mail/e-mail-browser.c:166
 #: ../src/mail/e-mail-folder-sort-order-dialog.c:758
-#: ../src/mail/e-mail-notes.c:1011 ../src/mail/em-filter-editor.c:45
+#: ../src/mail/e-mail-notes.c:1015 ../src/mail/em-filter-editor.c:45
 #: ../src/mail/em-folder-properties.c:1458
 #: ../src/mail/em-subscription-editor.c:1741
 #: ../src/modules/plugin-manager/evolution-plugin-manager.c:306
@@ -8695,7 +8695,7 @@ msgstr "_Sınıflandırma"
 #: ../src/calendar/gui/e-comp-editor.c:2120
 #: ../src/e-util/e-html-editor-actions.c:1123
 #: ../src/e-util/e-mail-signature-editor.c:333 ../src/mail/e-mail-browser.c:210
-#: ../src/mail/e-mail-notes.c:1025 ../src/shell/e-shell-window-actions.c:1052
+#: ../src/mail/e-mail-notes.c:1029 ../src/shell/e-shell-window-actions.c:1052
 msgid "_File"
 msgstr "_Dosya"
 
@@ -8721,7 +8721,7 @@ msgid "Save current changes"
 msgstr "Geçerli değişiklikleri kaydet"
 
 #: ../src/calendar/gui/e-comp-editor.c:2165
-#: ../src/e-util/e-mail-signature-editor.c:328 ../src/mail/e-mail-notes.c:1020
+#: ../src/e-util/e-mail-signature-editor.c:328 ../src/mail/e-mail-notes.c:1024
 msgid "Save and Close"
 msgstr "Kaydet ve Kapat"
 
@@ -9215,7 +9215,7 @@ msgstr "Yapılacaklar"
 #. Translators: the first '%s' is replaced with a component summary;
 #. the second '%s' is replaced with an event location.
 #. Example: "Meet John Doe (Central Park)"
-#: ../src/calendar/gui/e-week-view.c:3705
+#: ../src/calendar/gui/e-week-view.c:3703
 #, c-format
 msgctxt "SummaryWithLocation"
 msgid "%s (%s)"
@@ -11877,7 +11877,7 @@ msgstr "(konu yok)"
 msgid "Remote content download had been blocked for this message."
 msgstr "Bu ileti için uzaktan içerik indirmek engellenmiş."
 
-#. Translators: This message suggests to the receipients
+#. Translators: This message suggests to the recipients
 #. * that the sender of the mail is different from the one
 #. * listed in From field.
 #: ../src/em-format/e-mail-formatter-headers.c:359
@@ -12295,7 +12295,7 @@ msgstr "evolution takvim ögesi"
 
 #: ../src/e-util/e-accounts-window.c:557 ../src/e-util/e-accounts-window.c:674
 #: ../src/e-util/e-accounts-window.c:894
-#: ../src/modules/mail/e-mail-shell-backend.c:910
+#: ../src/modules/mail/e-mail-shell-backend.c:914
 msgid "Mail Accounts"
 msgstr "Posta Hesapları"
 
@@ -13598,23 +13598,23 @@ msgstr "Karşılaştırmak için saat seç"
 msgid "Choose a File"
 msgstr "Dosya Seç"
 
-#: ../src/e-util/e-filter-rule.c:979
+#: ../src/e-util/e-filter-rule.c:982
 msgid "R_ule name:"
 msgstr "_Kural adı:"
 
-#: ../src/e-util/e-filter-rule.c:1035
+#: ../src/e-util/e-filter-rule.c:1038
 msgid "all the following conditions"
 msgstr "aşağıdaki koşulların tümü"
 
-#: ../src/e-util/e-filter-rule.c:1036
+#: ../src/e-util/e-filter-rule.c:1039
 msgid "any of the following conditions"
 msgstr "aşağıdaki koşulların herhangi biri"
 
-#: ../src/e-util/e-filter-rule.c:1042
+#: ../src/e-util/e-filter-rule.c:1045
 msgid "_Find items which match:"
 msgstr "Eşleşen ögeleri _bul:"
 
-#: ../src/e-util/e-filter-rule.c:1065
+#: ../src/e-util/e-filter-rule.c:1068
 msgid "Find items that meet the following conditions"
 msgstr "Aşağıdaki koşullara uygun ögeleri bul"
 
@@ -13622,7 +13622,7 @@ msgstr "Aşağıdaki koşullara uygun ögeleri bul"
 #. * part of "Include threads: None"
 #. protocol:
 #. name:
-#: ../src/e-util/e-filter-rule.c:1080
+#: ../src/e-util/e-filter-rule.c:1083
 #: ../src/e-util/e-html-editor-page-dialog.c:62
 #: ../src/e-util/e-mail-identity-combo-box.c:694
 #: ../src/e-util/e-mail-signature-combo-box.c:422
@@ -13633,36 +13633,36 @@ msgstr "Aşağıdaki koşullara uygun ögeleri bul"
 msgid "None"
 msgstr "Yok"
 
-#: ../src/e-util/e-filter-rule.c:1081
+#: ../src/e-util/e-filter-rule.c:1084
 msgid "All related"
 msgstr "İlgili olanların tümü"
 
-#: ../src/e-util/e-filter-rule.c:1082 ../src/e-util/e-send-options.ui.h:24
+#: ../src/e-util/e-filter-rule.c:1085 ../src/e-util/e-send-options.ui.h:24
 msgid "Replies"
 msgstr "Yanıtlar"
 
-#: ../src/e-util/e-filter-rule.c:1083
+#: ../src/e-util/e-filter-rule.c:1086
 msgid "Replies and parents"
 msgstr "Yanıtlar ve ilk iletiler"
 
-#: ../src/e-util/e-filter-rule.c:1084
+#: ../src/e-util/e-filter-rule.c:1087
 msgid "No reply or parent"
 msgstr "Yanıt ya da üst yok"
 
-#: ../src/e-util/e-filter-rule.c:1087
+#: ../src/e-util/e-filter-rule.c:1090
 msgid "I_nclude threads:"
 msgstr "_Alt iletileri de içer:"
 
-#: ../src/e-util/e-filter-rule.c:1165
+#: ../src/e-util/e-filter-rule.c:1168
 msgid "A_dd Condition"
 msgstr "_Koşul Ekle"
 
-#: ../src/e-util/e-filter-rule.c:1485 ../src/e-util/filter.ui.h:1
+#: ../src/e-util/e-filter-rule.c:1488 ../src/e-util/filter.ui.h:1
 #: ../src/mail/em-filter-rule.c:1042 ../src/mail/em-utils.c:166
 msgid "Incoming"
 msgstr "Gelen"
 
-#: ../src/e-util/e-filter-rule.c:1485 ../src/mail/em-filter-rule.c:1043
+#: ../src/e-util/e-filter-rule.c:1488 ../src/mail/em-filter-rule.c:1043
 #: ../src/mail/em-utils.c:167
 msgid "Outgoing"
 msgstr "Giden"
@@ -14886,11 +14886,11 @@ msgstr "gün"
 msgid "Autogenerated"
 msgstr "Kendiliğinden oluşturulmuş"
 
-#: ../src/e-util/e-mail-signature-editor.c:321 ../src/mail/e-mail-notes.c:1013
+#: ../src/e-util/e-mail-signature-editor.c:321 ../src/mail/e-mail-notes.c:1017
 msgid "Close"
 msgstr "Kapat"
 
-#: ../src/e-util/e-mail-signature-editor.c:326 ../src/mail/e-mail-notes.c:1018
+#: ../src/e-util/e-mail-signature-editor.c:326 ../src/mail/e-mail-notes.c:1022
 msgid "_Save and Close"
 msgstr "_Kaydet ve Kapat"
 
@@ -16716,7 +16716,7 @@ msgstr "Yönlendirilmiş ileti"
 msgid "Setting up Search Folder: %s"
 msgstr "Arama Klasörü ayarlanıyor: %s"
 
-#: ../src/libemail-engine/mail-vfolder.c:302
+#: ../src/libemail-engine/mail-vfolder.c:303
 #, c-format
 msgid "Updating Search Folders for “%s : %s”"
 msgstr "“%s : %s” için Arama Klasörleri güncelleniyor"
@@ -16726,7 +16726,7 @@ msgstr "“%s : %s” için Arama Klasörleri güncelleniyor"
 #. * removed folder. For more than one search folder is
 #. * each of them on a separate line, with four spaces
 #. * in front of its name, without quotes.
-#: ../src/libemail-engine/mail-vfolder.c:666
+#: ../src/libemail-engine/mail-vfolder.c:667
 #, c-format
 msgid ""
 "The Search Folder “%s” has been modified to account for the deleted folder\n"
@@ -16805,19 +16805,20 @@ msgid "Missing domain in email address"
 msgstr "E-posta adresinde alan adı eksik"
 
 #: ../src/mail/e-mail-autoconfig.c:1321
-#: ../src/modules/config-lookup/e-srv-config-lookup.c:82
-#: ../src/modules/config-lookup/e-srv-config-lookup.c:83
+#: ../src/modules/config-lookup/e-srv-config-lookup.c:87
+#: ../src/modules/config-lookup/e-srv-config-lookup.c:88
 msgid "IMAP server"
 msgstr "IMAP sunucusu"
 
 #: ../src/mail/e-mail-autoconfig.c:1328
-#: ../src/modules/config-lookup/e-srv-config-lookup.c:84
-#: ../src/modules/config-lookup/e-srv-config-lookup.c:85
+#: ../src/modules/config-lookup/e-srv-config-lookup.c:89
+#: ../src/modules/config-lookup/e-srv-config-lookup.c:90
 msgid "POP3 server"
 msgstr "POP3 sunucusu"
 
 #: ../src/mail/e-mail-autoconfig.c:1335
-#: ../src/modules/config-lookup/e-srv-config-lookup.c:86
+#: ../src/modules/config-lookup/e-srv-config-lookup.c:91
+#: ../src/modules/config-lookup/e-srv-config-lookup.c:92
 msgid "SMTP server"
 msgstr "SMTP sunucusu"
 
@@ -17155,7 +17156,7 @@ msgstr "%s — %s"
 #: ../src/modules/addressbook/autocompletion-config.c:115
 #: ../src/modules/calendar/e-calendar-preferences.c:621
 #: ../src/modules/calendar/e-calendar-preferences.ui.h:48
-#: ../src/modules/mail/e-mail-shell-backend.c:802
+#: ../src/modules/mail/e-mail-shell-backend.c:806
 #: ../src/plugins/publish-calendar/publish-calendar.ui.h:17
 msgid "General"
 msgstr "Genel"
@@ -17538,11 +17539,11 @@ msgstr "Metin, iletiye çevrilemedi"
 msgid "Storing changes…"
 msgstr "Değişiklikler kaydediliyor…"
 
-#: ../src/mail/e-mail-notes.c:1048
+#: ../src/mail/e-mail-notes.c:1052
 msgid "Edit Message Note"
 msgstr "İleti Notunu Düzenle"
 
-#: ../src/mail/e-mail-notes.c:1204
+#: ../src/mail/e-mail-notes.c:1207
 msgid "Retrieving message…"
 msgstr "İleti alınıyor…"
 
@@ -21022,20 +21023,20 @@ msgstr "%d %b %l:%M %p"
 msgid "%b %d %Y"
 msgstr "%d %b %Y"
 
-#: ../src/mail/message-list.c:3311
+#: ../src/mail/message-list.c:3361
 msgid "Select all visible messages"
 msgstr "Tüm görünen iletileri seç"
 
-#: ../src/mail/message-list.c:4076 ../src/mail/message-list.etspec.h:17
+#: ../src/mail/message-list.c:4135 ../src/mail/message-list.etspec.h:17
 msgid "Messages"
 msgstr "İletiler"
 
 #. default follow-up flag name to use when clicked in the message list column
-#: ../src/mail/message-list.c:5645
+#: ../src/mail/message-list.c:5704
 msgid "Follow-up"
 msgstr "Takip-eden"
 
-#: ../src/mail/message-list.c:6708
+#: ../src/mail/message-list.c:6795
 msgid ""
 "No message satisfies your search criteria. Change search criteria by "
 "selecting a new Show message filter from the drop down list above or by "
@@ -21046,11 +21047,11 @@ msgstr ""
 "yeni Gösterim ileti süzgeci seçerek değiştirin veya Ara→Temizle menüsü "
 "yardımıyla silip yeni arama çalıştırın ya da aşağıdaki sorguyu değiştirin."
 
-#: ../src/mail/message-list.c:6716
+#: ../src/mail/message-list.c:6803
 msgid "There are no messages in this folder."
 msgstr "Bu klasörde hiçbir ileti yok."
 
-#: ../src/mail/message-list.c:6792
+#: ../src/mail/message-list.c:6879
 msgid "Generating message list…"
 msgstr "İleti listesi oluşturuluyor…"
 
@@ -23339,53 +23340,54 @@ msgstr "Posta iletisine dönüştür"
 msgid "Look up configuration with e-mail domain"
 msgstr "Yapılandırmaya e-posta alan adıyla bak"
 
-#: ../src/modules/config-lookup/e-srv-config-lookup.c:82
-#: ../src/modules/config-lookup/e-srv-config-lookup.c:83
+#: ../src/modules/config-lookup/e-srv-config-lookup.c:87
+#: ../src/modules/config-lookup/e-srv-config-lookup.c:88
 msgid "Looking up IMAP server…"
 msgstr "IMAP sunucusuna bakılıyor…"
 
-#: ../src/modules/config-lookup/e-srv-config-lookup.c:84
-#: ../src/modules/config-lookup/e-srv-config-lookup.c:85
+#: ../src/modules/config-lookup/e-srv-config-lookup.c:89
+#: ../src/modules/config-lookup/e-srv-config-lookup.c:90
 msgid "Looking up POP3 server…"
 msgstr "POP3 sunucusuna bakılıyor…"
 
-#: ../src/modules/config-lookup/e-srv-config-lookup.c:86
+#: ../src/modules/config-lookup/e-srv-config-lookup.c:91
+#: ../src/modules/config-lookup/e-srv-config-lookup.c:92
 msgid "Looking up SMTP server…"
 msgstr "SMTP sunucusuna bakılıyor…"
 
-#: ../src/modules/config-lookup/e-srv-config-lookup.c:87
-#: ../src/modules/config-lookup/e-srv-config-lookup.c:88
+#: ../src/modules/config-lookup/e-srv-config-lookup.c:93
+#: ../src/modules/config-lookup/e-srv-config-lookup.c:94
 #: ../src/modules/config-lookup/e-webdav-config-lookup.c:118
 msgid "CalDAV server"
 msgstr "CalDAV sunucusu"
 
-#: ../src/modules/config-lookup/e-srv-config-lookup.c:87
-#: ../src/modules/config-lookup/e-srv-config-lookup.c:88
+#: ../src/modules/config-lookup/e-srv-config-lookup.c:93
+#: ../src/modules/config-lookup/e-srv-config-lookup.c:94
 msgid "Looking up CalDAV server…"
 msgstr "CalDAV sunucusuna bakılıyor…"
 
-#: ../src/modules/config-lookup/e-srv-config-lookup.c:89
-#: ../src/modules/config-lookup/e-srv-config-lookup.c:90
+#: ../src/modules/config-lookup/e-srv-config-lookup.c:95
+#: ../src/modules/config-lookup/e-srv-config-lookup.c:96
 #: ../src/modules/config-lookup/e-webdav-config-lookup.c:118
 msgid "CardDAV server"
 msgstr "CardDAV sunucusu"
 
-#: ../src/modules/config-lookup/e-srv-config-lookup.c:89
-#: ../src/modules/config-lookup/e-srv-config-lookup.c:90
+#: ../src/modules/config-lookup/e-srv-config-lookup.c:95
+#: ../src/modules/config-lookup/e-srv-config-lookup.c:96
 msgid "Looking up CardDAV server…"
 msgstr "CardDAV sunucusuna bakılıyor…"
 
-#: ../src/modules/config-lookup/e-srv-config-lookup.c:91
-#: ../src/modules/config-lookup/e-srv-config-lookup.c:92
+#: ../src/modules/config-lookup/e-srv-config-lookup.c:97
+#: ../src/modules/config-lookup/e-srv-config-lookup.c:98
 msgid "LDAP server"
 msgstr "LDAP sunucusu"
 
-#: ../src/modules/config-lookup/e-srv-config-lookup.c:91
-#: ../src/modules/config-lookup/e-srv-config-lookup.c:92
+#: ../src/modules/config-lookup/e-srv-config-lookup.c:97
+#: ../src/modules/config-lookup/e-srv-config-lookup.c:98
 msgid "Looking up LDAP server…"
 msgstr "LDAP sunucusuna bakılıyor…"
 
-#: ../src/modules/config-lookup/e-srv-config-lookup.c:279
+#: ../src/modules/config-lookup/e-srv-config-lookup.c:285
 msgid "Look up in SRV records"
 msgstr "SRV kayıtlarından bak"
 
@@ -24084,11 +24086,11 @@ msgid "Organizer has removed the delegate %s "
 msgstr "Organizatör %s temsilcisini sildi "
 
 #: ../src/modules/itip-formatter/itip-view.c:5229
-msgid "Sent a cancelation notice to the delegate"
+msgid "Sent a cancellation notice to the delegate"
 msgstr "Temsilciye iptal bildirimi gönderildi"
 
 #: ../src/modules/itip-formatter/itip-view.c:5233
-msgid "Could not send the cancelation notice to the delegate"
+msgid "Could not send the cancellation notice to the delegate"
 msgstr "Temsilciye iptal uyarısı gönderilemedi"
 
 #: ../src/modules/itip-formatter/itip-view.c:5279
@@ -24420,65 +24422,65 @@ msgid "Create a new mail folder"
 msgstr "Yeni posta klasörü oluştur"
 
 #. Translators: One of the known implementation names of the GNetworkMonitor. Either translate
-#. it to some user-frienly form, or keep it as is.
-#: ../src/modules/mail/e-mail-shell-backend.c:782
+#. it to some user-friendly form, or keep it as is.
+#: ../src/modules/mail/e-mail-shell-backend.c:786
 msgctxt "NetworkMonitor"
 msgid "base"
 msgstr "base"
 
 #. Translators: One of the known implementation names of the GNetworkMonitor. Either translate
-#. it to some user-frienly form, or keep it as is.
-#: ../src/modules/mail/e-mail-shell-backend.c:785
+#. it to some user-friendly form, or keep it as is.
+#: ../src/modules/mail/e-mail-shell-backend.c:789
 msgctxt "NetworkMonitor"
 msgid "netlink"
 msgstr "netlink"
 
 #. Translators: One of the known implementation names of the GNetworkMonitor. Either translate
-#. it to some user-frienly form, or keep it as is.
-#: ../src/modules/mail/e-mail-shell-backend.c:788
+#. it to some user-friendly form, or keep it as is.
+#: ../src/modules/mail/e-mail-shell-backend.c:792
 msgctxt "NetworkMonitor"
 msgid "networkmanager"
 msgstr "networkmanager"
 
-#: ../src/modules/mail/e-mail-shell-backend.c:818
+#: ../src/modules/mail/e-mail-shell-backend.c:822
 msgctxt "NetworkMonitor"
 msgid "Method to detect _online state:"
 msgstr "_Çevrim içi durumu saptama yöntemi:"
 
 #. Translators: The '%s' is replaced with the actual name of the GNetworkMonitor implementation
-#: ../src/modules/mail/e-mail-shell-backend.c:829
+#: ../src/modules/mail/e-mail-shell-backend.c:833
 #, c-format
 msgctxt "NetworkMonitor"
 msgid "Default (%s)"
 msgstr "Öntanımlı (%s)"
 
 #. Always as the first
-#: ../src/modules/mail/e-mail-shell-backend.c:833
+#: ../src/modules/mail/e-mail-shell-backend.c:837
 msgctxt "NetworkMonitor"
 msgid "Default"
 msgstr "Öntanımlı"
 
 #. Always as the last
-#: ../src/modules/mail/e-mail-shell-backend.c:850
+#: ../src/modules/mail/e-mail-shell-backend.c:854
 msgctxt "NetworkMonitor"
 msgid "Always Online"
 msgstr "Her Zaman Çevrim İçi"
 
-#: ../src/modules/mail/e-mail-shell-backend.c:919
+#: ../src/modules/mail/e-mail-shell-backend.c:923
 msgid "Mail Preferences"
 msgstr "Posta Tercihleri"
 
-#: ../src/modules/mail/e-mail-shell-backend.c:928
+#: ../src/modules/mail/e-mail-shell-backend.c:932
 msgid "Composer Preferences"
 msgstr "Düzenleyici Tercihleri"
 
-#: ../src/modules/mail/e-mail-shell-backend.c:937
+#: ../src/modules/mail/e-mail-shell-backend.c:941
 msgid "Network Preferences"
 msgstr "Ağ Tercihleri"
 
 #. Translators: The first item in the list, to be
 #. * able to set rule: [Label] [is/is-not] [None]
-#: ../src/modules/mail/e-mail-shell-backend.c:1298
+#: ../src/modules/mail/e-mail-shell-backend.c:1302
 msgctxt "label"
 msgid "None"
 msgstr "Hiçbiri"
@@ -24848,15 +24850,15 @@ msgstr "Şimdiki Klasör"
 msgid "Current Folder and Subfolders"
 msgstr "Geçerli Klasör ve Alt Klasörler"
 
-#: ../src/modules/mail/e-mail-shell-view.c:995
+#: ../src/modules/mail/e-mail-shell-view.c:1028
 msgid "Current Folder and Subfolders Search"
 msgstr "Geçerli Klasör ve Alt Klasörleri Ara"
 
-#: ../src/modules/mail/e-mail-shell-view.c:1117
+#: ../src/modules/mail/e-mail-shell-view.c:1150
 msgid "All Account Search"
 msgstr "Tüm Hesapları Ara"
 
-#: ../src/modules/mail/e-mail-shell-view.c:1227
+#: ../src/modules/mail/e-mail-shell-view.c:1260
 msgid "Account Search"
 msgstr "Hesap Arama"
 
