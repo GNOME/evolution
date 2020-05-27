@@ -13,7 +13,7 @@ msgstr ""
 "Project-Id-Version: evolution\n"
 "Report-Msgid-Bugs-To: https://gitlab.gnome.org/GNOME/evolution/issues\n"
 "POT-Creation-Date: 2020-05-15 14:20+0000\n"
-"PO-Revision-Date: 2020-05-18 19:14+0300\n"
+"PO-Revision-Date: 2020-05-27 19:01+0300\n"
 "Last-Translator: Yuri Chornoivan <yurchor@ukr.net>\n"
 "Language-Team: Ukrainian <trans-uk@lists.fedoraproject.org>\n"
 "Language: uk\n"
@@ -14117,12 +14117,12 @@ msgstr "Вставити посилання"
 #: ../src/e-util/e-html-editor-actions.c:1309
 #: ../src/e-util/e-html-editor-actions.c:1353
 msgid "_Rule…"
-msgstr "_Правило…"
+msgstr "_Відріз…"
 
 #. Translators: 'Rule' here means a horizontal line in an HTML text
 #: ../src/e-util/e-html-editor-actions.c:1312
 msgid "Insert Rule"
-msgstr "Вставити правило"
+msgstr "Вставити відріз"
 
 #: ../src/e-util/e-html-editor-actions.c:1317
 #: ../src/e-util/e-html-editor-actions.c:1360
@@ -14362,7 +14362,7 @@ msgstr "По_силання"
 #. Translators: 'Rule' here means a horizontal line in an HTML text
 #: ../src/e-util/e-html-editor-actions.c:2097
 msgid "_Rule"
-msgstr "_Правило"
+msgstr "_Відріз"
 
 #: ../src/e-util/e-html-editor-actions.c:2100
 #: ../src/e-util/e-html-editor-cell-dialog.c:448
