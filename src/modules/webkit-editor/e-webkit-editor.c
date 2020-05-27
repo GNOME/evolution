@@ -4194,16 +4194,11 @@ webkit_editor_constructor (GType type,
 			static gpointer web_context = NULL;
 
 			if (!web_context) {
-				static gchar sandbox_option = -1;
-
-				if (sandbox_option == -1)
-					sandbox_option = g_strcmp0 (g_getenv ("DISABLE_WEBKIT_SANDBOX"), "1") == 0 ? 0 : 1;
-
 				web_context = webkit_web_context_new ();
 
 				webkit_web_context_set_cache_model (web_context, WEBKIT_CACHE_MODEL_DOCUMENT_VIEWER);
 				webkit_web_context_set_web_extensions_directory (web_context, EVOLUTION_WEB_EXTENSIONS_WEBKIT_EDITOR_DIR);
-				webkit_web_context_set_sandbox_enabled (web_context, sandbox_option != 0);
+				webkit_web_context_set_sandbox_enabled (web_context, TRUE);
 				webkit_web_context_add_path_to_sandbox (web_context, EVOLUTION_WEBKITDATADIR, TRUE);
 				#if ENABLE_MAINTAINER_MODE
 				webkit_web_context_add_path_to_sandbox (web_context, EVOLUTION_SOURCE_WEBKITDATADIR, TRUE);
