@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: evolution master\n"
 "POT-Creation-Date: 2020-05-19 15:54+0000\n"
-"PO-Revision-Date: 2020-05-26 16:38+0300\n"
+"PO-Revision-Date: 2020-05-27 19:04+0300\n"
 "Last-Translator: Yuri Chornoivan <yurchor@ukr.net>\n"
 "Language-Team: Ukrainian <trans-uk@lists.fedoraproject.org>\n"
 "Language: uk\n"
@@ -5719,6 +5719,14 @@ msgid ""
 "first-run\">First-Run Assistant</link>, except for not getting asked whether "
 "to import data from other applications or to restore from a backup file."
 msgstr ""
+"Облікові записи пошти можна додати за допомогою сторінки <guiseq><gui>Файл<"
+"/gui><gui>Створити</"
+"gui><gui>Обліковий запис</gui></guiseq> або <guiseq><gui>Зміни</gui><gui"
+">Параметри</gui><gui>Облікові записи</gui><gui style=\"button\">Додати</gui><"
+"/guiseq>. Дії здебільшого такі самі, як у <link xref=\"intro-"
+"first-run\">помічнику першого запуску</link>, окрім того, що програма не"
+" питатиме вас, слід імпортувати дані з інших програм чи відновлювати дані з"
+" файла резервної копії."
 
 #. (itstool) path: section/p
 #: C/mail-account-manage-imap-plus.page:25
@@ -5731,6 +5739,11 @@ msgid ""
 "right-clicking on the respective top-level node in the folder list and "
 "choosing <gui>Properties</gui>."
 msgstr ""
+"До облікових записів пошти можна внести зміни за допомогою пункту <guiseq><"
+"gui>Зміни</gui><gui>Параметри</"
+"gui><gui>Облікові записи</gui><gui style=\"button\">Редагувати</gui></guiseq>"
+" або клацання правою кнопкою миші на відповідному вузлі верхнього рівня у"
+" списку тек і вибору у контекстному меню пункту <gui>Властивості</gui>."
 
 #. (itstool) path: section/p
 #: C/mail-account-manage-imap-plus.page:26
@@ -5872,11 +5885,13 @@ msgstr ""
 #: C/mail-account-manage-local-delivery.page:5
 msgid "Add and edit a Local Delivery account in <app>Evolution</app>."
 msgstr ""
+"Додавання і редагування облікового запису локального доставлення в <app"
+">Evolution</app>."
 
 #. (itstool) path: page/title
 #: C/mail-account-manage-local-delivery.page:20
 msgid "Local Delivery account settings"
-msgstr ""
+msgstr "Параметри облікового запису локального доставлення"
 
 #. (itstool) path: section/p
 #: C/mail-account-manage-local-delivery.page:25
@@ -5889,6 +5904,9 @@ msgid ""
 "Mail accounts can be edited via <guiseq><gui>Edit</gui><gui>Preferences</"
 "gui><gui>Mail Accounts</gui><gui style=\"button\">Edit</gui></guiseq>."
 msgstr ""
+"До облікових записів пошти можна внести зміни за допомогою пункту <guiseq"
+"><gui>Зміни</gui><gui>Параметри</gui><gui>Облікові записи</gui><gui"
+" style=\"button\">Редагувати</gui></guiseq>."
 
 #. (itstool) path: info/title
 #: C/mail-account-manage-local-delivery.page:36
@@ -5927,11 +5945,13 @@ msgid ""
 "Add and edit a Maildir Format Mail Directories account in <app>Evolution</"
 "app>."
 msgstr ""
+"Додавання та редагування облікового запису із поштовими каталогами у форматі"
+" Maildir в <app>Evolution</app>."
 
 #. (itstool) path: page/title
 #: C/mail-account-manage-maildir-format-directories.page:20
 msgid "Maildir Format Mail Directories account settings"
-msgstr ""
+msgstr "Параметри облікових записів поштових каталогів у форматі Maildir"
 
 #. (itstool) path: section/p
 #: C/mail-account-manage-maildir-format-directories.page:24
@@ -5945,30 +5965,35 @@ msgid ""
 "Receiving Email and Receiving options (Maildir Format Mail Directories "
 "accounts)"
 msgstr ""
+"Параметри отримання електронної пошти (облікові записи поштових каталогів у"
+" форматі Maildir)"
 
 #. (itstool) path: info/title
 #: C/mail-account-manage-maildir-format-directories.page:44
 msgctxt "link"
 msgid "Sending Email (Maildir Format Mail Directories accounts)"
 msgstr ""
+"Надсилання пошти (облікові записи поштових каталогів у форматі Maildir)"
 
 #. (itstool) path: info/title
 #: C/mail-account-manage-maildir-format-directories.page:51
 msgctxt "link"
 msgid "Defaults (Maildir Format Mail Directories accounts)"
 msgstr ""
+"Типові параметри (облікові записи поштових каталогів у форматі Maildir)"
 
 #. (itstool) path: info/title
 #: C/mail-account-manage-maildir-format-directories.page:58
 msgctxt "link"
 msgid "Composing Messages (Maildir Format Mail Directories accounts)"
 msgstr ""
+"Редагування повідомлень (облікові записи поштових каталогів у форматі Maildir)"
 
 #. (itstool) path: info/title
 #: C/mail-account-manage-maildir-format-directories.page:65
 msgctxt "link"
 msgid "Security (Maildir Format Mail Directories accounts)"
-msgstr ""
+msgstr "Безпека (облікові записи поштових каталогів у форматі Maildir)"
 
 #. (itstool) path: info/desc
 #: C/mail-account-management.page:5
@@ -6001,11 +6026,13 @@ msgstr "Типи корпоративних облікових записів"
 msgid ""
 "Add and edit a MH Format Mail Directories account in <app>Evolution</app>."
 msgstr ""
+"Додавання та редагування облікового запису із поштовими каталогами у форматі"
+" MH в <app>Evolution</app>."
 
 #. (itstool) path: page/title
 #: C/mail-account-manage-mh-format-directories.page:20
 msgid "MH Format Mail Directories account settings"
-msgstr ""
+msgstr "Параметри облікових записів поштових каталогів у форматі MH"
 
 #. (itstool) path: info/title
 #: C/mail-account-manage-mh-format-directories.page:36
@@ -6013,30 +6040,33 @@ msgctxt "link"
 msgid ""
 "Receiving Email and Receiving options (MH Format Mail Directories accounts)"
 msgstr ""
+"Параметри отримання електронної пошти (облікові записи поштових каталогів у"
+" форматі MH)"
 
 #. (itstool) path: info/title
 #: C/mail-account-manage-mh-format-directories.page:43
 msgctxt "link"
 msgid "Sending Email (MH Format Mail Directories accounts)"
-msgstr ""
+msgstr "Надсилання пошти (облікові записи поштових каталогів у форматі MH)"
 
 #. (itstool) path: info/title
 #: C/mail-account-manage-mh-format-directories.page:50
 msgctxt "link"
 msgid "Defaults (MH Format Mail Directories accounts)"
-msgstr ""
+msgstr "Типові параметри (облікові записи поштових каталогів у форматі MH)"
 
 #. (itstool) path: info/title
 #: C/mail-account-manage-mh-format-directories.page:57
 msgctxt "link"
 msgid "Composing Messages (MH Format Mail Directories accounts)"
 msgstr ""
+"Редагування повідомлень (облікові записи поштових каталогів у форматі MH)"
 
 #. (itstool) path: info/title
 #: C/mail-account-manage-mh-format-directories.page:64
 msgctxt "link"
 msgid "Security (MH Format Mail Directories accounts)"
-msgstr ""
+msgstr "Безпека (облікові записи поштових каталогів у форматі MH)"
 
 #. (itstool) path: info/desc
 #: C/mail-account-manage-microsoft-exchange-evo-ews.page:5
@@ -6064,19 +6094,19 @@ msgstr ""
 #: C/mail-account-manage-microsoft-exchange-evo-ews.page:43
 msgctxt "link"
 msgid "Defaults (Exchange Web Services accounts)"
-msgstr ""
+msgstr "Типові параметри (облікові записи Web Services Exchange)"
 
 #. (itstool) path: info/title
 #: C/mail-account-manage-microsoft-exchange-evo-ews.page:50
 msgctxt "link"
 msgid "Composing Messages (Exchange Web Services accounts)"
-msgstr ""
+msgstr "Створення повідомлень (облікові записи Web Services Exchange)"
 
 #. (itstool) path: info/title
 #: C/mail-account-manage-microsoft-exchange-evo-ews.page:57
 msgctxt "link"
 msgid "Security (Exchange Web Services accounts)"
-msgstr ""
+msgstr "Безпека (облікові записи Web Services Exchange)"
 
 #. (itstool) path: section/title
 #: C/mail-account-manage-microsoft-exchange-evo-ews.page:63
@@ -6089,6 +6119,8 @@ msgid ""
 "Define the email reply to automatically send to internal or external persons "
 "in a certain time period."
 msgstr ""
+"Визначення відповіді електронною поштою для автоматичного надсилання"
+" працівникам організації та за межі організації у певний період часу."
 
 #. (itstool) path: section/title
 #: C/mail-account-manage-microsoft-exchange-evo-ews.page:68
@@ -6100,6 +6132,8 @@ msgstr "Делегати"
 msgid ""
 "Define who can send emails and reply to meeting requests on your behalf."
 msgstr ""
+"Визначення того, хто може надсилання повідомлення та відповіді на запити щодо"
+" засідань від вашого імені."
 
 #. (itstool) path: info/desc
 #: C/mail-account-manage-microsoft-exchange-evo-mapi.page:5
@@ -6166,6 +6200,9 @@ msgid ""
 "like to connect to it is required to make sure that an additional package is "
 "installed that provides this functionality."
 msgstr ""
+"Залежно від версії сервера Microsoft Exchange, з яким ви хочете встановити"
+" з'єднання, слід переконатися, що у системі встановлено додатковий пакунок,"
+" який забезпечує працездатність відповідних можливостей."
 
 #. (itstool) path: note/p
 #: C/mail-account-manage-microsoft-exchange.page:26
@@ -6173,6 +6210,8 @@ msgid ""
 "For Microsoft Exchange 2007, 2010 and newer it is recommended to use the "
 "package <sys>evolution-ews</sys>."
 msgstr ""
+"Для Microsoft Exchange 2007, 2010 і новіших версій рекомендуємо скористатися"
+" пакунком <sys>evolution-ews</sys>."
 
 #. (itstool) path: note/p
 #: C/mail-account-manage-microsoft-exchange.page:36
@@ -6183,6 +6222,12 @@ msgid ""
 "<sys>evolution-mapi</sys> requires installing <sys>OpenChange</sys> and "
 "<sys>Samba 4</sys>, and is not as performant as <sys>evolution-ews</sys>."
 msgstr ""
+"Для старіших версій Microsoft Exchange або випадків, коли <sys>evolution-ews<"
+"/sys> не працює у вас належним чином, спробуйте пакунок <sys>evolution-mapi<"
+"/sys>. У цьому пакунку використано програмний інтерфейс обміну повідомленнями"
+" Microsoft, який також використовується у Microsoft Outlook. Втім, <sys"
+">evolution-mapi</sys> потребує встановлення <sys>OpenChange</sys> і "
+"<sys>Samba 4</sys> і працює не так швидко, як <sys>evolution-ews</sys>."
 
 #. (itstool) path: note/p
 #: C/mail-account-manage-microsoft-exchange.page:46
@@ -6190,6 +6235,9 @@ msgid ""
 "If you are unsure which Microsoft Exchange server version is used, you may "
 "want to contact your system administrator for more information."
 msgstr ""
+"Якщо ви не певні щодо того, яку версію сервера Microsoft Exchange"
+" використано, ви можете зв'язатися із адміністратором вашої системи, щоб"
+" дізнатися більше."
 
 #. (itstool) path: page/p
 #: C/mail-account-manage-microsoft-exchange.page:48
@@ -6198,6 +6246,9 @@ msgid ""
 "gnome.org/users/evolution/2.32/usage-exchange.html\">old <app>Evolution</"
 "app> manual</link>."
 msgstr ""
+"Щодо тем, які не вісвітлено у цьому підручнику, зверніться до <link"
+" href=\"https://help.gnome.org/users/evolution/2.32/usage-exchange.html\""
+">старого підручника з <app>Evolution</app></link>."
 
 #. (itstool) path: info/desc
 #: C/mail-account-manage-pop.page:5
@@ -6246,11 +6297,14 @@ msgid ""
 "Add and edit a Standard Unix mbox Spool Directory account in <app>Evolution</"
 "app>."
 msgstr ""
+"Додавання і редагування облікового запису стандартного для Unix каталогу"
+" буфера mbox в <app>Evolution</"
+"app>."
 
 #. (itstool) path: page/title
 #: C/mail-account-manage-unix-mbox-spool-directory.page:20
 msgid "Standard Unix mbox Spool Directory account settings"
-msgstr ""
+msgstr "Параметри облікового запису стандартного для Unix каталогу буфера mbox"
 
 #. (itstool) path: info/title
 #: C/mail-account-manage-unix-mbox-spool-directory.page:36
@@ -6259,41 +6313,50 @@ msgid ""
 "Receiving Email and Receiving options (Standard Unix mbox Spool Directory "
 "accounts)"
 msgstr ""
+"Параметри отримання електронної пошти (облікові записи стандартного для Unix"
+" каталогу буфера mbox)"
 
 #. (itstool) path: info/title
 #: C/mail-account-manage-unix-mbox-spool-directory.page:43
 msgctxt "link"
 msgid "Sending Email (Standard Unix mbox Spool Directory accounts)"
 msgstr ""
+"Надсилання електронної пошти (облікові записи стандартного для Unix каталогу"
+" буфера mbox)"
 
 #. (itstool) path: info/title
 #: C/mail-account-manage-unix-mbox-spool-directory.page:50
 msgctxt "link"
 msgid "Defaults (Standard Unix mbox Spool Directory accounts)"
 msgstr ""
+"Типові параметри (облікові записи стандартного для Unix каталогу буфера mbox)"
 
 #. (itstool) path: info/title
 #: C/mail-account-manage-unix-mbox-spool-directory.page:57
 msgctxt "link"
 msgid "Composing Messages (Standard Unix mbox Spool Directory accounts)"
 msgstr ""
+"Редагування повідомлень (облікові записи стандартного для Unix каталогу"
+" буфера mbox)"
 
 #. (itstool) path: info/title
 #: C/mail-account-manage-unix-mbox-spool-directory.page:64
 msgctxt "link"
 msgid "Security (Standard Unix mbox Spool Directory accounts)"
-msgstr ""
+msgstr "Безпека (облікові записи стандартного для Unix каталогу буфера mbox)"
 
 #. (itstool) path: info/desc
 #: C/mail-account-manage-unix-mbox-spool-file.page:5
 msgid ""
 "Add and edit a Standard Unix mbox Spool File account in <app>Evolution</app>."
 msgstr ""
+"Додавання і редагування облікового запису стандартного для Unix файла буфера"
+" mbox в <app>Evolution</app>."
 
 #. (itstool) path: page/title
 #: C/mail-account-manage-unix-mbox-spool-file.page:20
 msgid "Standard Unix mbox Spool File account settings"
-msgstr ""
+msgstr "Параметри облікового запису стандартного для Unix файла буфера mbox"
 
 #. (itstool) path: info/title
 #: C/mail-account-manage-unix-mbox-spool-file.page:36
@@ -6302,52 +6365,60 @@ msgid ""
 "Receiving Email and Receiving options (Standard Unix mbox Spool File "
 "accounts)"
 msgstr ""
+"Параметри отримання електронної пошти (облікові записи стандартного для Unix"
+" файла буфера mbox)"
 
 #. (itstool) path: info/title
 #: C/mail-account-manage-unix-mbox-spool-file.page:43
 msgctxt "link"
 msgid "Sending Email (Standard Unix mbox Spool File accounts)"
 msgstr ""
+"Надсилання електронної пошти (облікові записи стандартного для Unix файла"
+" буфера mbox)"
 
 #. (itstool) path: info/title
 #: C/mail-account-manage-unix-mbox-spool-file.page:50
 msgctxt "link"
 msgid "Defaults (Standard Unix mbox Spool File accounts)"
 msgstr ""
+"Типові параметри (облікові записи стандартного для Unix файла буфера mbox)"
 
 #. (itstool) path: info/title
 #: C/mail-account-manage-unix-mbox-spool-file.page:57
 msgctxt "link"
 msgid "Composing Messages (Standard Unix mbox Spool File accounts)"
 msgstr ""
+"Редагування повідомлень (облікові записи стандартного для Unix файла буфера"
+" mbox)"
 
 #. (itstool) path: info/title
 #: C/mail-account-manage-unix-mbox-spool-file.page:64
 msgctxt "link"
 msgid "Security (Standard Unix mbox Spool File accounts)"
-msgstr ""
+msgstr "Безпека (облікові записи стандартного для Unix файла буфера mbox)"
 
 #. (itstool) path: info/desc
 #: C/mail-account-manage-usenet-news.page:5
 msgid "Add and edit a Usenet news account in <app>Evolution</app>."
 msgstr ""
+"Додавання і редагування облікового запису новин Usenet в <app>Evolution</app>."
 
 #. (itstool) path: page/title
 #: C/mail-account-manage-usenet-news.page:20
 msgid "Usenet news account settings"
-msgstr ""
+msgstr "Параметри облікового запису новин Usenet"
 
 #. (itstool) path: info/title
 #: C/mail-account-manage-usenet-news.page:36
 msgctxt "link"
 msgid "Receiving Email and Receiving options (Usenet News accounts)"
-msgstr ""
+msgstr "Параметри отримання електронної пошти (облікові записи новин Usenet)"
 
 #. (itstool) path: info/title
 #: C/mail-account-manage-usenet-news.page:43
 msgctxt "link"
 msgid "Sending Email (Usenet News accounts)"
-msgstr ""
+msgstr "Надсилання електронної пошти (облікові записи новин Usenet)"
 
 #. (itstool) path: info/title
 #: C/mail-account-manage-usenet-news.page:50
@@ -6402,6 +6473,11 @@ msgid ""
 "\"button\">Save</gui> or <gui style=\"button\">Save All</gui> button between "
 "the email header and the content of the email."
 msgstr ""
+"Якщо ви отримаєте повідомлення електронної пошти із одним або декількома"
+" файловими долученнями, <app>Evolution</app> покаже кількість долучень і"
+" кнопку <gui style="
+"\"button\">Зберегти</gui> або <gui style=\"button\">Зберегти як</gui> між"
+" заголовком і вмістом повідомлення електронної пошти."
 
 #. (itstool) path: note/p
 #: C/mail-attachments-received.page:27
@@ -6409,11 +6485,15 @@ msgid ""
 "<app>Evolution</app> does not support saving all attachments of all messages "
 "in one folder at once."
 msgstr ""
+"В <app>Evolution</app> не передбачено підтримки збереження усіх долучень до"
+" усіх повідомлень до однієї теки одночасно."
 
 #. (itstool) path: page/p
 #: C/mail-attachments-received.page:29
 msgid "A list of attachments is also available at the bottom of the email."
 msgstr ""
+"Список долучень буде також показано у нижній частині повідомлення електронної"
+" пошти."
 
 #. (itstool) path: page/p
 #: C/mail-attachments-received.page:30
@@ -6421,6 +6501,9 @@ msgid ""
 "To save an attachment to disk, click the down-arrow next to the attachment "
 "icon and click <gui>Save As</gui>."
 msgstr ""
+"Щоб зберегти долучення на диск, натисніть кнопку зі стрілкою вниз, яку"
+" розташовано поряд із піктограмою долучення, і виберіть пункт <gui>Зберегти"
+" як</gui>."
 
 #. (itstool) path: page/p
 #: C/mail-attachments-received.page:31
@@ -6428,6 +6511,9 @@ msgid ""
 "To open an attachment in another application, click the down-arrow next to "
 "the attachment icon and choose one of the available applications."
 msgstr ""
+"Щоб відкрити долучення у іншій програмі, натисніть кнопку зі стрілочкою вниз,"
+" яку розташовано поряд із пунктом долучення, і виберіть одну із доступних"
+" програм."
 
 #. (itstool) path: note/p
 #: C/mail-attachments-received.page:33
@@ -6437,6 +6523,9 @@ msgid ""
 "desktop environment's MIME database defines which applications can be used "
 "to open a specific file format."
 msgstr ""
+"Перелік пунктів дій для долучення залежить від типу долучення та програм, які"
+" встановлено у вашій системі. Список програм, які можуть працювати із файлами"
+" у певних форматах визначаєть базою даних типів MIME стільничного середовища."
 
 #. (itstool) path: note/p
 #: C/mail-attachments-received.page:33
@@ -6444,6 +6533,9 @@ msgid ""
 "To see the list of registered applications for a MIME type, use <cmd>gio "
 "mime</cmd>. Example: <cmd>gio mime \"application/pdf\"</cmd>"
 msgstr ""
+"Щоб переглянути список зареєстрованих програм для типу MIME, скористайтеся"
+" командою <cmd>gio mime</cmd>. Приклад: <cmd>gio mime \"application/pdf\"<"
+"/cmd>"
 
 #. (itstool) path: info/desc
 #: C/mail-attachments-sending.page:5
@@ -6488,6 +6580,8 @@ msgstr "Виберіть файл, який ви хочете долучити."
 #: C/mail-attachments-sending.page:34
 msgid "You can also drag a file to the attachment bar of the composer window."
 msgstr ""
+"Ви також можете перетягнути пункт файла долучення на панель долучень вікна"
+" редактора повідомлень."
 
 #. (itstool) path: section/p
 #: C/mail-attachments-sending.page:36
@@ -6495,6 +6589,9 @@ msgid ""
 "When you send the message, a copy of the attached file goes with it. Be "
 "aware that large attachments can take a long time to send and receive."
 msgstr ""
+"При надсиланні повідомлення буде надіслано копію долученого до нього файла."
+" Зауважте, що долучення великих файлів може призвести до уповільнення"
+" надсилання і отримання повідомлень."
 
 #. (itstool) path: section/title
 #: C/mail-attachments-sending.page:40
@@ -6508,11 +6605,15 @@ msgid ""
 "yourself to attach a file to an email. If it determines that you have not "
 "attached the file, it displays a reminder window before the email is sent."
 msgstr ""
+"У <app>Evolution</app> передбачено додаток нагадування щодо долучень, яким ви"
+" можете скористатися для того, щоб не забути долучити файл до повідомлення."
+" Якщо додатку вдасться встановити, що ви забули долучити файл, він нагадає"
+" про це за допомогою вікна сповіщення під час надсилання повідомлення."
 
 #. (itstool) path: section/p
 #: C/mail-attachments-sending.page:44
 msgid "To enable the Attachment Reminder:"
-msgstr ""
+msgstr "Щоб увімкнути додаток «Нагадування про долучення», виконайте такі дії:"
 
 #. (itstool) path: item/p
 #: C/mail-attachments-sending.page:47
@@ -6533,6 +6634,8 @@ msgid ""
 "Click <gui style=\"button\">Add</gui>, then enter keywords in your language "
 "such as \"Attach\" or \"enclosed\"."
 msgstr ""
+"Натисніть кнопку <gui style=\"button\">Додати</gui> і введіть ключові слова"
+" вашою рідною мовою, наприклад «долучити» або «вкладено»."
 
 #. (itstool) path: section/p
 #: C/mail-attachments-sending.page:53
@@ -6541,6 +6644,10 @@ msgid ""
 "of every mail you are going to send. If it finds any of the keywords in your "
 "email and there is no actual attached file, the reminder window is displayed."
 msgstr ""
+"<app>Evolution</app> виконуватиме пошук доданих вами ключових слів у тексті"
+" повідомлень, які ви надсилатимете. Якщо буде знайдено якесь із цих слів, і"
+" не буде виявлено долучених файлів, програма покаже вікно з нагадуванням щодо"
+" долучення файла."
 
 #. (itstool) path: info/desc
 #: C/mail-calendar-sending-invitations.page:5
@@ -6559,6 +6666,10 @@ msgid ""
 "invitations to the attendee list through the <app>Evolution</app> email "
 "tool. The invitation card is sent as an attachment in iCal format."
 msgstr ""
+"Якщо вами буде створено запис події у компоненті календаря, ви зможете"
+" надсилати запрошення до списку учасників за допомогою засобу роботи з"
+" електронною поштою <app>Evolution</app>. Картку запрошення буде надіслано як"
+" долучення у форматі iCal."
 
 #. (itstool) path: page/p
 #: C/mail-calendar-sending-invitations.page:25
@@ -6566,6 +6677,8 @@ msgid ""
 "To send an invitation, right-click on the entry in the calendar and choose "
 "<gui>Forward as iCalendar</gui>."
 msgstr ""
+"Щоб надіслати запрошення, клацніть правою кнопкою миші на записі у календарі"
+" і виберіть у контекстному меню пункт <gui>Переслати як iCalendar</gui>."
 
 #. (itstool) path: page/p
 #: C/mail-calendar-sending-invitations.page:27
@@ -6585,6 +6698,8 @@ msgid ""
 "Indicates you will attend the meeting. When you click the OK button, the "
 "meeting is entered into your calendar."
 msgstr ""
+"Вказує на те, що ви приймаєте запрошення на засідання. Після натискання"
+" кнопки «Гаразд» запис засідання буде додано до вашого календаря."
 
 #. (itstool) path: item/p
 #: C/mail-calendar-sending-invitations.page:33
@@ -6598,6 +6713,9 @@ msgid ""
 "button, the meeting is entered into your calendar, but is marked as "
 "tentative."
 msgstr ""
+"Вказує на те, що ви можливо відвідаєте засідання. Після натискання"
+" кнопки «Гаразд» запис засідання буде додано до вашого календаря, але"
+" позначено як умовний."
 
 #. (itstool) path: item/p
 #: C/mail-calendar-sending-invitations.page:36
@@ -6611,6 +6729,10 @@ msgid ""
 "into your calendar when you click OK, although your response is sent to the "
 "meeting host if you have selected the Send reply to sender option."
 msgstr ""
+"Вказує на те, що ви не зможете взяти участь у засіданні. Запис засідання не"
+" буде додано до календаря після натискання кнопки «Гаразд», хоча вашу"
+" відповідь буде надіслано організатору засідання, якщо ви позначили пункт"
+" «Надіслати відповідь» у параметрах відправника."
 
 #. (itstool) path: item/p
 #: C/mail-calendar-sending-invitations.page:39
@@ -6643,6 +6765,9 @@ msgid ""
 "link> on incoming (or outgoing) messages. These could be automatically "
 "moving your messages to another destination."
 msgstr ""
+"Перевірте, чи <link xref=\"mail-filters-not-working\">використовуються"
+" фільтри</link> для вхідних (або вихідних) повідомлень. Використання фільтрів"
+" може призвести до автоматичного пересування ваших повідомлень до інших тек."
 
 #. (itstool) path: item/p
 #: C/mail-cannot-see.page:27
@@ -6653,6 +6778,11 @@ msgid ""
 "input filed contains some value. Click the broom icon to clear the search "
 "field."
 msgstr ""
+"Перевірте вашу <link xref=\"mail-searching#search-many\">панель пошуку на"
+" смужці пошуку</link> безпосередньо над списком повідомлень. Можливо, у"
+" спадному списку <gui>Показати</gui> встановлено фільтр, зокрема <gui"
+">Прочитані повідомлення</gui>, або у полі для введення тексту міститься"
+" якийсь рядок. Натисніть піктограму із віником, щоб очистити поле пошуку."
 
 #. (itstool) path: item/p
 #: C/mail-cannot-see.page:30
@@ -6662,6 +6792,11 @@ msgid ""
 "this, click <guiseq><gui>View</gui><gui>Preview</gui><gui>Show Message "
 "Preview</gui></guiseq>."
 msgstr ""
+"Якщо програма не показує жодного повідомлення у теці, перевірте, чи не було"
+" максимізовано панель попереднього перегляду повідомлень (так, що для панелі"
+" списку повідомлень просто не вистачило місця). Для цього скористайтеся"
+" пунктом меню <guiseq><gui>Перегляд</gui><gui>Попередній перегляд</gui><gui"
+">Попередній перегляд повідомлення</gui></guiseq>."
 
 #. (itstool) path: item/p
 #: C/mail-cannot-see.page:33
@@ -6670,6 +6805,9 @@ msgid ""
 "and <guiseq><gui>View</gui><gui>Show Junk Messages</gui></guiseq> to make "
 "sure all messages are visible."
 msgstr ""
+"Позначте пункти меню <guiseq><gui>Перегляд</gui><gui>Показати вилучені листи<"
+"/gui></guiseq> і <guiseq><gui>Перегляд</gui><gui>Показувати листи зі спамом<"
+"/gui></guiseq>, щоб забезпечити показ усіх повідомлень."
 
 #. (itstool) path: item/p
 #: C/mail-cannot-see.page:36
@@ -6678,6 +6816,8 @@ msgid ""
 "link> Perhaps they are set to some other folder than the folder you thought "
 "of."
 msgstr ""
+"<link xref=\"mail-default-folder-locations\">Перевірте параметри ваших тек.<"
+"/link> Можливо, потрібні вам параметри було встановлено не для тих тек."
 
 #. (itstool) path: info/desc
 #: C/mail-change-columns-in-message-list.page:5
@@ -6696,6 +6836,9 @@ msgid ""
 "the column headers and choose either <gui>Add a Column…</gui> or <gui>Remove "
 "This Column</gui>."
 msgstr ""
+"Якщо ви хочете внести зміни до стовпчиків у списку повідомлень, клацніть"
+" правою кнопкою миші на заголовках стовпчиків і виберіть або пункт <gui"
+">Додати стовпчик…</gui>, або пункт <gui>Вилучити цей стовпчик</gui>."
 
 #. (itstool) path: note/p
 #: C/mail-change-columns-in-message-list.page:23
@@ -6706,6 +6849,12 @@ msgid ""
 "sender's name and email address by the <gui>Sender</gui> column which will "
 "only display the sender's name."
 msgstr ""
+"Якщо ви працюєте за екраном із малими розмірами, можете замінити стовпчик <"
+"gui>Тема</gui> на стовпчик <gui>Тема — скорочено</gui>. У такому стовпчику"
+" програма вилучатиме префікси, зокрема «Re:». Ви також можете замінити"
+" стовпчик <gui>Від</gui>, у якому програма показує ім'я і адресу електронної"
+" пошти відправника, на стовпчик <gui>Відправник</gui>, у якому буде показано"
+" лише ім'я відправника."
 
 #. (itstool) path: note/p
 #: C/mail-change-columns-in-message-list.page:25
@@ -6718,6 +6867,15 @@ msgid ""
 "list#email-threads\"><gui>Group by Threads</gui></link> and the <gui>Message "
 "Preview</gui> visibility in all folders."
 msgstr ""
+"Якщо ви хочете мати однакове компонування стовпчиків в усіх теках електронної"
+" пошти, окрім теки <gui>Надіслані</gui>, ви можете позначити пункт <guiseq><"
+"gui>Зміни</"
+"gui><gui>Параметри</gui><gui>Параметри пошти</gui><gui>Загальне</"
+"gui><gui>Застосувати однаковий перегляд налаштувань для всіх тек</gui><"
+"/guiseq>. Зауважте, що цей параметр також стосується режиму <link"
+" xref=\"mail-sorting-message-"
+"list#email-threads\"><gui>Групувати за гілками</gui></link> та видимості"
+" панелі <gui>Попередній перегляд повідомлення</gui> в усі теках."
 
 #. (itstool) path: note/p
 #: C/mail-change-columns-in-message-list.page:27
@@ -6731,6 +6889,14 @@ msgid ""
 "gui><gui>Save Custom View…</gui></guiseq> and apply the view also to other "
 "folders."
 msgstr ""
+"Якщо ви хочете змінити упорядкування і/або стовпчики у певних теках"
+" електронної пошти, зніміть позначку з пункту <guiseq><gui>Зміни</gui><gui"
+">Параметри</gui><gui>Параметри пошти</gui><gui>Загальне</"
+"gui><gui>Застосувати однаковий перегляд налаштувань для всіх тек</gui><"
+"/guiseq>. Далі, ви можете змінити параметри перегляду і зберегти зміни за"
+" допомогою пункту <guiseq><gui>Перегляд</gui><gui>Поточний перегляд</gui><gui"
+">Зберегти нетиповий перегляд…</gui></guiseq>, а потім застосувати відповідний"
+" режим перегляду до інших тек."
 
 #. (itstool) path: info/desc
 #: C/mail-change-time-format.page:5
@@ -6750,6 +6916,10 @@ msgid ""
 "gui><gui>Mail Preferences</gui><gui>Headers</gui><gui>Date/Time format</"
 "gui></guiseq>."
 msgstr ""
+"Ви можете змінити формат вмісту стовпчика <gui>Дата</gui>, встановивши"
+" бажаний для вас формат за допомогою пункту <guiseq><gui>Зміни</gui><gui"
+">Параметри</gui><gui>Параметри пошти</gui><gui>Заголовки</gui><gui>Формат"
+" дати та часу</gui></guiseq>."
 
 #. (itstool) path: info/desc
 #: C/mail-composer-change-quotation-string.page:7
@@ -6757,11 +6927,13 @@ msgid ""
 "It is not possible to change the quotation introduction added when answering "
 "mail."
 msgstr ""
+"Неможливо змінити початковий запис цитування, який додається у відповідях на"
+" повідомлення."
 
 #. (itstool) path: page/title
 #: C/mail-composer-change-quotation-string.page:24
 msgid "Changing the \"On date, person wrote:\" string when replying"
-msgstr ""
+msgstr "Зміна запису «У дату, особа пише:» у відповідях"
 
 #. (itstool) path: note/p
 #: C/mail-composer-change-quotation-string.page:27
@@ -6784,7 +6956,7 @@ msgstr ""
 #. (itstool) path: page/p
 #: C/mail-composer-change-quotation-string.page:35
 msgid "Advanced users can change this string."
-msgstr ""
+msgstr "Досвідчені користувачі можуть змінити цей рядок."
 
 #. (itstool) path: item/p
 #: C/mail-composer-change-quotation-string.page:38
@@ -6886,6 +7058,11 @@ msgid ""
 "the Custom Header. You can enter multiple values for the keys. You must use "
 "a semicolon to separate every value you enter."
 msgstr ""
+"Ви можете додавати, редагувати та вилучати поля заголовка. Для кожного з"
+" доданих полів заголовка ви можете вказати ключі і значення. Ключ"
+" використовується як назва нетипового заголовка. Ви можете вказати декілька"
+" значень для кожного ключа. Для відокремлення записів значень слід"
+" використовувати крапку з комою."
 
 #. (itstool) path: section/title
 #: C/mail-composer-custom-header-lines.page:41
@@ -6899,6 +7076,9 @@ msgid ""
 "<keyseq><key>Shift</key><key>Ctrl</key><key>M</key></keyseq> to open the "
 "message composer window."
 msgstr ""
+"Виберіть пункт <guiseq><gui>Створити</gui><gui>Поштове повідомлення</gui><"
+"/guiseq> або натисніть комбінацію клавіш <keyseq><key>Shift</key><key>Ctrl<"
+"/key><key>M</key></keyseq>, щоб відкрити вікно редактора повідомлень."
 
 #. (itstool) path: item/p
 #: C/mail-composer-custom-header-lines.page:44
@@ -6913,6 +7093,8 @@ msgid ""
 "In the <gui>Email Custom Header</gui> window, you can view all the defined "
 "header fields and values."
 msgstr ""
+"У вікні <gui>Додаткові заголовки</gui> ви можете переглянути усі визначені"
+" поля заголовка та їхні значення."
 
 #. (itstool) path: item/p
 #: C/mail-composer-custom-header-lines.page:46
@@ -6936,6 +7118,9 @@ msgid ""
 "email composer by choosing <guiseq><gui>Format</gui><gui>HTML</gui></guiseq> "
 "from the menu bar."
 msgstr ""
+"Ви можете змінити формат повідомлення електронної пошти зі звичайного тексту"
+" на HTML у вікні редактора повідомлень, скориставшись пунктом меню <guiseq><"
+"gui>Формат</gui><gui>HTML</gui></guiseq>."
 
 #. (itstool) path: page/p
 #: C/mail-composer-enable-html-format.page:24
@@ -6943,6 +7128,8 @@ msgid ""
 "Alternately, you also can change the first dropdown list below the "
 "<gui>Subject</gui> line from <gui>Plain Text</gui> to <gui>HTML</gui>."
 msgstr ""
+"Крім того, ви можете змінити значення у першому спадному списку під рядком <"
+"gui>Тема</gui> зі <gui>Звичайний текст</gui> на <gui>HTML</gui>."
 
 #. (itstool) path: page/p
 #: C/mail-composer-enable-html-format.page:25
@@ -6950,6 +7137,8 @@ msgid ""
 "If you choose HTML format, a second tool bar will be displayed below the "
 "<gui>Subject</gui> line with HTML-only options."
 msgstr ""
+"Якщо ви виберете формат HTML, під рядком <gui>Тема</gui> буде показано другу"
+" панель інструментів із кнопками для форматування HTML."
 
 #. (itstool) path: page/p
 #: C/mail-composer-enable-html-format.page:26
@@ -6958,6 +7147,10 @@ msgid ""
 "gui><gui>Preferences</gui><gui>Composer Preferences</gui><gui>Default "
 "Behavior</gui><gui>Format messages in HTML</gui></guiseq>."
 msgstr ""
+"Щоб ваша пошта типово надсилалася у форматі HTML, позначте пункт <guiseq><gui"
+">Зміни</"
+"gui><gui>Параметри</gui><gui>Параметри редактора</gui><gui>Типова поведінка<"
+"/gui><gui>Форматувати лист у HTML</gui></guiseq>."
 
 #. (itstool) path: info/desc
 #: C/mail-composer-external-editor.page:5
@@ -6977,6 +7170,9 @@ msgid ""
 "You can compose the body of your message externally in your favorite text "
 "editor application so you can use its specific functionality."
 msgstr ""
+"Ви можете сформувати вміст вашого повідомлення у вашому улюбленому"
+" зовнішньому текстовому редакторі, щоб скористатися відповідними"
+" функціональними можливостями."
 
 #. (itstool) path: item/p
 #: C/mail-composer-external-editor.page:26
@@ -6995,6 +7191,10 @@ msgid ""
 "need to select <guiseq><gui>File</gui><gui>Compose in External Editor</gui></"
 "guiseq> in the mail composer."
 msgstr ""
+"Якщо пункт <gui>Автоматично запускати при редагуванні нової пошти</gui> не"
+" позначено, вам слід вибрати пункт меню <guiseq><gui>Файл</gui><gui"
+">Створювати повідомлення у зовнішньому редакторі</gui></guiseq> у редакторі"
+" повідомлень."
 
 #. (itstool) path: info/desc
 #: C/mail-composer-forward.page:5
@@ -7012,6 +7212,8 @@ msgid ""
 "When you receive an email, you can forward it to other individuals or groups "
 "that might be interested."
 msgstr ""
+"Після отримання поштового повідомлення ви можете переспрямувати його до інших"
+" зацікавлених осіб або груп."
 
 #. (itstool) path: page/p
 #: C/mail-composer-forward.page:26
@@ -7021,6 +7223,11 @@ msgid ""
 "link>), inline (in your message without the &gt; character before each "
 "line), or quoted (with &gt; character before each line)."
 msgstr ""
+"Ви можете переспрямувати повідомлення як долучення до нового повідомлення (це"
+" типовий варіант, див <link xref=\"#default-settings\">Типові параметри</link"
+">), вбудованим до повідомлення (у вашому повідомлення без символів &gt; на"
+" початку кожного рядка) або як цитату (із символом &gt; на початку кожного"
+" рядка)."
 
 #. (itstool) path: page/p
 #: C/mail-composer-forward.page:27
@@ -7030,6 +7237,11 @@ msgid ""
 "send portions of a message, or if you have a large number of comments on "
 "different sections of the message you are forwarding."
 msgstr ""
+"Переспрямовування у форматі долучення є найкращим варіантом, якщо ви хочете"
+" надіслати комусь повідомлення повністю без змін. Варіанти із вбудовуванням"
+" або цитуванням можна використати при надсиланні частини повідомлення або"
+" якщо ви маєте якісь коментарі до різних частин повідомлення, яке ви"
+" переспрямовуєте."
 
 #. (itstool) path: page/p
 #: C/mail-composer-forward.page:29
@@ -7047,6 +7259,15 @@ msgid ""
 "gui><gui>Forward as</gui></guiseq> or the small dropdown arrow next to the "
 "<gui>Forward</gui> button in the toolbar to choose the method."
 msgstr ""
+"Виберіть пункт <guiseq><gui>Повідомлення</gui><gui>Переслати</gui></guiseq>,"
+" натисніть кнопку "
+"<gui>Переслати</gui> на панелі інструментів або натисніть комбінацію клавіш <"
+"keyseq><key>Ctrl</"
+"key><key>F</key></keyseq>, щоб скористатися типовим способом"
+" переспрямовування. Якщо ви хочете скористатися іншим способом"
+" переспрямовування, виберіть пункт меню <guiseq><gui>Повідомлення</gui><gui"
+">Переслати як</gui></guiseq> або невеличкою кнопкою спадного списку поряд із"
+" кнопкою <gui>Переслати</gui> для вибору способу."
 
 #. (itstool) path: item/p
 #: C/mail-composer-forward.page:32
@@ -7078,6 +7299,9 @@ msgid ""
 "the original message as an attachment. Inline messages do not forward any "
 "attachments."
 msgstr ""
+"Долучення до повідомлення, яке ви переспрямовуєте, буде переспрямовано, лише"
+" якщо ви надсилаєте початкове повідомлення як долучення. Долучення до"
+" вбудованих повідомлень не додаються."
 
 #. (itstool) path: section/title
 #: C/mail-composer-forward.page:40 C/mail-composer-reply.page:53
@@ -7092,6 +7316,11 @@ msgid ""
 "gui><gui>General</gui><gui>Replies and Forwards</gui><gui>Forward style</"
 "gui></guiseq>."
 msgstr ""
+"Типові параметр відповідей та пересланих повідомлень можна змінити за"
+" допомогою пункту <guiseq><gui>Зміни</gui><gui>Параметри</gui><gui>Параметри"
+" редактора</gui><gui>Загальне</gui><gui>Відповіді та переслані</gui><gui"
+">Стиль пересилання</"
+"gui></guiseq>."
 
 #. (itstool) path: info/desc
 #: C/mail-composer-forward-as-attachment.page:5
@@ -7110,6 +7339,10 @@ msgid ""
 "<gui>Attachment</gui>, so the forwarded email and also its attachments get "
 "attached to the email you want to send."
 msgstr ""
+"Виберіть пункт меню <guiseq><gui>Повідомлення</gui><gui>Переслати як…</gui><"
+"/guiseq> і скористайтеся варіантом <gui>Долучення</gui>, щоб переспрямоване"
+" повідомлення разом із долученнями до нього було долучено до повідомлення,"
+" яке ви хочете надіслати."
 
 #. (itstool) path: note/p
 #: C/mail-composer-forward-as-attachment.page:26
@@ -7118,6 +7351,10 @@ msgid ""
 "gui><gui>Preferences</gui><gui>Composer Preferences</gui><gui>Forward Style</"
 "gui></guiseq> to <gui>Attachment</gui>."
 msgstr ""
+"Якщо ви хочете зробити цей варіант типовим, встановіть для пункту <guiseq><"
+"gui>Зміни</"
+"gui><gui>Параметри</gui><gui>Параметри редактора</gui><gui>Стиль пересилання</"
+"gui></guiseq> значення <gui>Долучення</gui>."
 
 #. (itstool) path: info/desc
 #: C/mail-composer-from-field-override.page:5
@@ -7139,6 +7376,10 @@ msgid ""
 "and change the default sender name and email address in the corresponding "
 "fields."
 msgstr ""
+"Щоб встановити нетипову адресу електронної пошти та ім'я відправника для"
+" повідомлення, яке ви хочете надіслати, позначте пункт <guiseq><gui>Перегляд<"
+"/gui><gui>Заміна поля Від</gui></guiseq> і змініть типове ім'я відправника і"
+" адресу електронної пошти у відповідних полях."
 
 #. (itstool) path: page/p
 #. Translators: If no Wikipedia article exists for your language and you
@@ -7152,6 +7393,12 @@ msgid ""
 "<link href=\"https://en.wikipedia.org/wiki/Email_address#Address_tags\">sub-"
 "addressing</link>."
 msgstr ""
+"Ця функціональна можливість може бути корисною для <link"
+" href=\"https://en.wikipedia.org/"
+"wiki/Qmail#Innovations\">поштових скриньок-замінників при використанні qmail<"
+"/link> та "
+"<link href=\"https://en.wikipedia.org/wiki/Email_address#Address_tags\""
+">використанні підадрес</link>."
 
 #. (itstool) path: note/p
 #. Translators: If no Wikipedia article exists for your language and you
@@ -7165,6 +7412,11 @@ msgid ""
 "Framework</link> and/or <link href=\"https://en.wikipedia.org/wiki/"
 "DomainKeys_Identified_Mail\">DomainKeys Identified Mail</link> restrictions."
 msgstr ""
+"Встановлення довільної адреси може призвести до конфлікту із <link "
+"href=\"https://en.wikipedia.org/wiki/Sender_Policy_Framework\">правилами"
+" надсилання пошти</link> вашого постачальника послуг електронної пошти і/або"
+" обмеженнями на <link href=\"https://en.wikipedia.org/wiki/"
+"DomainKeys_Identified_Mail\">ідентифікацію пошти за доменами і ключами</link>."
 
 #. (itstool) path: info/desc
 #: C/mail-composer-html-image.page:5
@@ -7209,6 +7461,9 @@ msgid ""
 "the <gui>Subject</gui> line, or drag an image into the text area of the "
 "message composer."
 msgstr ""
+"Крім того, ви можете скористатися піктограмою <_:media-1/> на другій панелі"
+" під рядком <gui>Тема</gui> або перетягти зображення цієї піктограми на текст"
+" у вікні редактора повідомлень."
 
 #. (itstool) path: info/desc
 #: C/mail-composer-html-link.page:5
@@ -7237,6 +7492,10 @@ msgid ""
 "menubar, or right-click on the selected text and click <gui>Insert Link</"
 "gui>."
 msgstr ""
+"Або виберіть пункт меню <guiseq><gui>Вставка</gui><gui>Посилання…</gui><"
+"/guiseq>, або клацніть правою кнопкою миші на позначеному фрагменті тексту і"
+" виберіть у контекстному меню пункт <gui>Вставити посилання</"
+"gui>."
 
 #. (itstool) path: item/p
 #: C/mail-composer-html-link.page:29 C/mail-composer-html-rule.page:28
@@ -7251,6 +7510,8 @@ msgid ""
 "Alternately, you can also use the <_:media-1/> icon in the second bar below "
 "the <gui>Subject</gui> line."
 msgstr ""
+"Крім того, ви можете скористатися піктограмою <_:media-1/> на другій панелі"
+" під рядком <gui>Тема</gui>."
 
 #. (itstool) path: page/p
 #: C/mail-composer-html-link.page:34
@@ -7258,6 +7519,9 @@ msgid ""
 "If you do not want a special link text you can just enter the address of the "
 "link directly. It will be automatically recognized as a link."
 msgstr ""
+"Якщо вам не потрібен спеціальний текст посилання, ви можете просто ввести"
+" адресу посилання безпосередньо. Програма автоматично розпізнає її як"
+" посилання."
 
 #. (itstool) path: info/desc
 #: C/mail-composer-html.page:5
@@ -7279,6 +7543,9 @@ msgid ""
 "located in the tool bar below the <gui>Subject</gui> line. They also appear "
 "in the <gui>Insert</gui> and <gui>Format</gui> menus."
 msgstr ""
+"Кнопки форматування тексту для базового вирівнювання та форматування абзаців"
+" розташовано на панелі інструментів під рядком <gui>Тема</gui>. Відповідні"
+" пункти меню можна знайти у меню <gui>Вставка</gui> і <gui>Формат</gui>."
 
 #. (itstool) path: page/p
 #: C/mail-composer-html.page:26 C/mail-composer-html-text.page:24
@@ -7287,6 +7554,9 @@ msgid ""
 "The icons in the tool bar are explained in tooltips which appear when you "
 "hold your mouse pointer over the buttons."
 msgstr ""
+"Пояснення щодо піктограм на панелі інструментів наведено у підказках, які"
+" з'являються, якщо ви наведете вказівник миші на відповідну кнопку і"
+" затримаєте його."
 
 #. (itstool) path: page/p
 #: C/mail-composer-html.page:28
@@ -7295,6 +7565,11 @@ msgid ""
 "However, most newer email applications can do this by using HTML format, "
 "which is the format that also web pages use."
 msgstr ""
+"Типово, ви не можете встановити колір і розмір символів тексту або вставити"
+" зображення до повідомлення. А "
+"Втім, у більшості новітніх програм для роботи з електронною поштою"
+" передбачено таку можливість на основі форматування HTML, яке також"
+" використовується для вебсторінок."
 
 #. (itstool) path: page/p
 #: C/mail-composer-html.page:30
@@ -7304,6 +7579,11 @@ msgid ""
 "this, <app>Evolution</app> sends plain text unless you explicitly ask for "
 "HTML."
 msgstr ""
+"У декого клієнти електронної пошти не можуть працювати із HTML, а дехто не"
+" хоче отримувати повідомлення у форматі HTML, оскільки вони повільніше"
+" завантажуються і показуються. Через це <app>Evolution</app> надсилає"
+" повідомлення у форматі звичайного тексту, якщо ви явним чином не вкажете"
+" програмі, що слід використовувати HTML."
 
 #. (itstool) path: section/title
 #: C/mail-composer-html.page:33
@@ -7331,12 +7611,15 @@ msgid ""
 "You can insert a horizontal line into the email (at the current position of "
 "the cursor) to help divide two sections:"
 msgstr ""
+"Ви можете вставити до повідомлення горизонтальну лінію (у поточній позиції"
+" курсора), яка поділить його на дві частини:"
 
 #. (itstool) path: item/p
 #: C/mail-composer-html-rule.page:25
 msgid ""
 "Click <guiseq><gui>Insert</gui><gui>Rule…</gui></guiseq> in the menubar."
 msgstr ""
+"Виберіть пункт меню <guiseq><gui>Вставка</gui><gui>Відріз…</gui></guiseq>."
 
 #. (itstool) path: item/p
 #: C/mail-composer-html-rule.page:26
@@ -7346,7 +7629,7 @@ msgstr "Виберіть ширину, розмір і вирівнювання.
 #. (itstool) path: item/p
 #: C/mail-composer-html-rule.page:27
 msgid "Select <gui>Shaded</gui> if wanted."
-msgstr ""
+msgstr "Позначте, якщо хочете, пункт <gui>Відтінено</gui>."
 
 #. (itstool) path: info/desc
 #: C/mail-composer-html-table.page:5
@@ -12918,7 +13201,7 @@ msgstr ""
 #. (itstool) path: page/p
 #: C/tasks-webdav.page:37
 msgid "The list will be added in <app>Evolution</app>."
-msgstr ""
+msgstr "Список буде додано до <app>Evolution</app>."
 
 #. (itstool) path: info/desc
 #: C/using-categories.page:5
@@ -12929,7 +13212,7 @@ msgstr ""
 #. (itstool) path: page/title
 #: C/using-categories.page:25
 msgid "Using Categories"
-msgstr ""
+msgstr "Користування категоріями"
 
 #. (itstool) path: page/p
 #: C/using-categories.page:27
@@ -12982,7 +13265,7 @@ msgstr ""
 #. (itstool) path: section/title
 #: C/using-categories.page:44
 msgid "Adding and managing categories"
-msgstr ""
+msgstr "Додавання категорій та керування ними"
 
 #. (itstool) path: section/p
 #: C/using-categories.page:46
@@ -13295,12 +13578,12 @@ msgstr "формальний вираз"
 #. (itstool) path: link/cmd
 #: C/xinclude-filter-vfolder-conditions.xml:62
 msgid "grep"
-msgstr ""
+msgstr "grep"
 
 #. (itstool) path: p/link
 #: C/xinclude-filter-vfolder-conditions.xml:62
 msgid "the man page for the <_:cmd-1/>"
-msgstr ""
+msgstr "сторінка підручника щодо <_:cmd-1/>"
 
 #. (itstool) path: item/p
 #: C/xinclude-filter-vfolder-conditions.xml:62
@@ -13339,7 +13622,7 @@ msgstr "Додати критерій"
 #. (itstool) path: item/p
 #: C/xinclude-searching.xml:7
 msgid "Click <_:gui-1/> to add any number of rules."
-msgstr ""
+msgstr "Натисніть <_:gui-1/>, щоб додати довільну кількість правил."
 
 #. (itstool) path: item/p
 #: C/xinclude-searching.xml:8
@@ -13362,7 +13645,7 @@ msgstr ""
 #. (itstool) path: section/title
 #: C/xinclude-searching.xml:14
 msgid "Clearing the Search results"
-msgstr ""
+msgstr "Спорожнення списку результатів пошуку"
 
 #. (itstool) path: p/gui
 #. (itstool) path: guiseq/gui
@@ -13432,7 +13715,7 @@ msgstr "Редагування збереженого пошуку"
 #. (itstool) path: guiseq/gui
 #: C/xinclude-searching.xml:27
 msgid "Edit Saved Searches"
-msgstr ""
+msgstr "Редагувати збережені результати пошуку"
 
 #. (itstool) path: item/p
 #: C/xinclude-searching.xml:27
@@ -13462,4 +13745,4 @@ msgstr ""
 #. (itstool) path: item/p
 #: C/xinclude-searching.xml:30
 msgid "Click <_:gui-1/>."
-msgstr ""
+msgstr "Натисніть <_:gui-1/>."
