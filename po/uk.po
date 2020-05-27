@@ -12,8 +12,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: evolution\n"
 "Report-Msgid-Bugs-To: https://gitlab.gnome.org/GNOME/evolution/issues\n"
-"POT-Creation-Date: 2020-05-19 06:16+0000\n"
-"PO-Revision-Date: 2020-05-19 09:23+0300\n"
+"POT-Creation-Date: 2020-05-26 13:40+0000\n"
+"PO-Revision-Date: 2020-05-27 19:12+0300\n"
 "Last-Translator: Yuri Chornoivan <yurchor@ukr.net>\n"
 "Language-Team: Ukrainian <trans-uk@lists.fedoraproject.org>\n"
 "Language: uk\n"
@@ -3446,7 +3446,7 @@ msgstr "Календар"
 #: ../src/e-util/e-send-options.c:536 ../src/mail/importers/elm-importer.c:330
 #: ../src/mail/importers/kmail-importer.c:251
 #: ../src/mail/importers/pine-importer.c:423
-#: ../src/modules/mail/e-mail-shell-view.c:1591
+#: ../src/modules/mail/e-mail-shell-view.c:1624
 #: ../src/smime/gui/certificate-manager.c:1666
 msgid "Mail"
 msgstr "Пошта"
@@ -5740,14 +5740,10 @@ msgid "Phone"
 msgstr "Телефон"
 
 #: ../src/calendar/calendar.error.xml.h:1
-#| msgid "Would you like to send all the participants a cancelation notice?"
 msgid "Would you like to send all the participants a cancellation notice?"
 msgstr "Надіслати усім учасникам повідомлення про скасування?"
 
 #: ../src/calendar/calendar.error.xml.h:2
-#| msgid ""
-#| "If you do not send a cancelation notice, the other participants may not "
-#| "know the meeting is canceled."
 msgid ""
 "If you do not send a cancellation notice, the other participants may not "
 "know the meeting is canceled."
@@ -5777,9 +5773,6 @@ msgstr ""
 "відновлення."
 
 #: ../src/calendar/calendar.error.xml.h:8
-#| msgid ""
-#| "If you do not send a cancelation notice, the other participants may not "
-#| "know the task has been deleted."
 msgid ""
 "If you do not send a cancellation notice, the other participants may not "
 "know the task has been deleted."
@@ -5798,14 +5791,10 @@ msgid "All information on this task will be deleted and can not be restored."
 msgstr "Усі відомості про це завдання будуть остаточно вилучено."
 
 #: ../src/calendar/calendar.error.xml.h:11
-#| msgid "Would you like to send a cancelation notice for this memo?"
 msgid "Would you like to send a cancellation notice for this memo?"
 msgstr "Надіслати сповіщення про скасування цієї примітки?"
 
 #: ../src/calendar/calendar.error.xml.h:12
-#| msgid ""
-#| "If you do not send a cancelation notice, the other participants may not "
-#| "know the memo has been deleted."
 msgid ""
 "If you do not send a cancellation notice, the other participants may not "
 "know the memo has been deleted."
@@ -6872,7 +6861,7 @@ msgid "calendar view for one or more weeks"
 msgstr "вікно календаря одного чи більше тижнів"
 
 #: ../src/calendar/gui/e-cal-component-preview.c:237
-#: ../src/e-util/e-filter-rule.c:986 ../src/mail/e-mail-config-page.c:124
+#: ../src/e-util/e-filter-rule.c:989 ../src/mail/e-mail-config-page.c:124
 msgid "Untitled"
 msgstr "Без заголовку"
 
@@ -8681,7 +8670,7 @@ msgstr "Немає зведення"
 #: ../src/e-util/e-table-field-chooser-dialog.c:205
 #: ../src/mail/e-mail-browser.c:166
 #: ../src/mail/e-mail-folder-sort-order-dialog.c:758
-#: ../src/mail/e-mail-notes.c:1011 ../src/mail/em-filter-editor.c:45
+#: ../src/mail/e-mail-notes.c:1015 ../src/mail/em-filter-editor.c:45
 #: ../src/mail/em-folder-properties.c:1458
 #: ../src/mail/em-subscription-editor.c:1741
 #: ../src/modules/plugin-manager/evolution-plugin-manager.c:306
@@ -8783,7 +8772,7 @@ msgstr "Класи_фікація"
 #: ../src/calendar/gui/e-comp-editor.c:2120
 #: ../src/e-util/e-html-editor-actions.c:1123
 #: ../src/e-util/e-mail-signature-editor.c:333 ../src/mail/e-mail-browser.c:210
-#: ../src/mail/e-mail-notes.c:1025 ../src/shell/e-shell-window-actions.c:1052
+#: ../src/mail/e-mail-notes.c:1029 ../src/shell/e-shell-window-actions.c:1052
 msgid "_File"
 msgstr "_Файл"
 
@@ -8809,7 +8798,7 @@ msgid "Save current changes"
 msgstr "Зберегти поточні зміни"
 
 #: ../src/calendar/gui/e-comp-editor.c:2165
-#: ../src/e-util/e-mail-signature-editor.c:328 ../src/mail/e-mail-notes.c:1020
+#: ../src/e-util/e-mail-signature-editor.c:328 ../src/mail/e-mail-notes.c:1024
 msgid "Save and Close"
 msgstr "Зберегти і закрити"
 
@@ -8951,7 +8940,7 @@ msgstr "Додатковий учасник"
 #: ../src/calendar/gui/e-meeting-store.c:151
 #: ../src/calendar/gui/e-meeting-store.c:168 ../src/calendar/gui/print.c:1281
 msgid "Non-Participant"
-msgstr "Не приймає участь"
+msgstr "Не бере участі"
 
 #: ../src/calendar/gui/e-meeting-list-view.c:207
 #: ../src/calendar/gui/e-meeting-store.c:177
@@ -9302,7 +9291,7 @@ msgstr "Зробити"
 #. Translators: the first '%s' is replaced with a component summary;
 #. the second '%s' is replaced with an event location.
 #. Example: "Meet John Doe (Central Park)"
-#: ../src/calendar/gui/e-week-view.c:3705
+#: ../src/calendar/gui/e-week-view.c:3703
 #, c-format
 msgctxt "SummaryWithLocation"
 msgid "%s (%s)"
@@ -12415,7 +12404,7 @@ msgstr "елемент календаря Evolution"
 
 #: ../src/e-util/e-accounts-window.c:557 ../src/e-util/e-accounts-window.c:674
 #: ../src/e-util/e-accounts-window.c:894
-#: ../src/modules/mail/e-mail-shell-backend.c:910
+#: ../src/modules/mail/e-mail-shell-backend.c:914
 msgid "Mail Accounts"
 msgstr "Облікові записи"
 
@@ -13766,23 +13755,23 @@ msgstr "Вибір часу для порівняння"
 msgid "Choose a File"
 msgstr "Виберіть файл"
 
-#: ../src/e-util/e-filter-rule.c:979
+#: ../src/e-util/e-filter-rule.c:982
 msgid "R_ule name:"
 msgstr "_Назва правила"
 
-#: ../src/e-util/e-filter-rule.c:1035
+#: ../src/e-util/e-filter-rule.c:1038
 msgid "all the following conditions"
 msgstr "усі подальші умови"
 
-#: ../src/e-util/e-filter-rule.c:1036
+#: ../src/e-util/e-filter-rule.c:1039
 msgid "any of the following conditions"
 msgstr "будь-який з подальших умов"
 
-#: ../src/e-util/e-filter-rule.c:1042
+#: ../src/e-util/e-filter-rule.c:1045
 msgid "_Find items which match:"
 msgstr "З_найти об'єкти, які збігаються:"
 
-#: ../src/e-util/e-filter-rule.c:1065
+#: ../src/e-util/e-filter-rule.c:1068
 msgid "Find items that meet the following conditions"
 msgstr "Знайти елементи, що відповідають вказаним критеріям"
 
@@ -13790,7 +13779,7 @@ msgstr "Знайти елементи, що відповідають вказа�
 #. * part of "Include threads: None"
 #. protocol:
 #. name:
-#: ../src/e-util/e-filter-rule.c:1080
+#: ../src/e-util/e-filter-rule.c:1083
 #: ../src/e-util/e-html-editor-page-dialog.c:62
 #: ../src/e-util/e-mail-identity-combo-box.c:694
 #: ../src/e-util/e-mail-signature-combo-box.c:422
@@ -13801,36 +13790,36 @@ msgstr "Знайти елементи, що відповідають вказа�
 msgid "None"
 msgstr "Немає"
 
-#: ../src/e-util/e-filter-rule.c:1081
+#: ../src/e-util/e-filter-rule.c:1084
 msgid "All related"
 msgstr "Усе пов'язане"
 
-#: ../src/e-util/e-filter-rule.c:1082 ../src/e-util/e-send-options.ui.h:24
+#: ../src/e-util/e-filter-rule.c:1085 ../src/e-util/e-send-options.ui.h:24
 msgid "Replies"
 msgstr "Відповіді"
 
-#: ../src/e-util/e-filter-rule.c:1083
+#: ../src/e-util/e-filter-rule.c:1086
 msgid "Replies and parents"
 msgstr "Відповіді та батьківські"
 
-#: ../src/e-util/e-filter-rule.c:1084
+#: ../src/e-util/e-filter-rule.c:1087
 msgid "No reply or parent"
 msgstr "Не є відповіддю чи батьківським"
 
-#: ../src/e-util/e-filter-rule.c:1087
+#: ../src/e-util/e-filter-rule.c:1090
 msgid "I_nclude threads:"
 msgstr "_Ураховуючи гілки:"
 
-#: ../src/e-util/e-filter-rule.c:1165
+#: ../src/e-util/e-filter-rule.c:1168
 msgid "A_dd Condition"
 msgstr "Додати _критерій"
 
-#: ../src/e-util/e-filter-rule.c:1485 ../src/e-util/filter.ui.h:1
+#: ../src/e-util/e-filter-rule.c:1488 ../src/e-util/filter.ui.h:1
 #: ../src/mail/em-filter-rule.c:1042 ../src/mail/em-utils.c:166
 msgid "Incoming"
 msgstr "Вхідні"
 
-#: ../src/e-util/e-filter-rule.c:1485 ../src/mail/em-filter-rule.c:1043
+#: ../src/e-util/e-filter-rule.c:1488 ../src/mail/em-filter-rule.c:1043
 #: ../src/mail/em-utils.c:167
 msgid "Outgoing"
 msgstr "Вихідні"
@@ -14170,12 +14159,12 @@ msgstr "Вставити посилання"
 #: ../src/e-util/e-html-editor-actions.c:1426
 #: ../src/e-util/e-html-editor-actions.c:1470
 msgid "_Rule…"
-msgstr "_Правило…"
+msgstr "_Відріз…"
 
 #. Translators: 'Rule' here means a horizontal line in an HTML text
 #: ../src/e-util/e-html-editor-actions.c:1429
 msgid "Insert Rule"
-msgstr "Вставити правило"
+msgstr "Вставити відріз"
 
 #: ../src/e-util/e-html-editor-actions.c:1434
 #: ../src/e-util/e-html-editor-actions.c:1477
@@ -14427,7 +14416,7 @@ msgstr "По_силання"
 #. Translators: 'Rule' here means a horizontal line in an HTML text
 #: ../src/e-util/e-html-editor-actions.c:2222
 msgid "_Rule"
-msgstr "_Правило"
+msgstr "_Відріз"
 
 #: ../src/e-util/e-html-editor-actions.c:2225
 #: ../src/e-util/e-html-editor-cell-dialog.c:448
@@ -15056,11 +15045,11 @@ msgstr "діб"
 msgid "Autogenerated"
 msgstr "Генерується автоматично"
 
-#: ../src/e-util/e-mail-signature-editor.c:321 ../src/mail/e-mail-notes.c:1013
+#: ../src/e-util/e-mail-signature-editor.c:321 ../src/mail/e-mail-notes.c:1017
 msgid "Close"
 msgstr "Закрити"
 
-#: ../src/e-util/e-mail-signature-editor.c:326 ../src/mail/e-mail-notes.c:1018
+#: ../src/e-util/e-mail-signature-editor.c:326 ../src/mail/e-mail-notes.c:1022
 msgid "_Save and Close"
 msgstr "З_берегти та закрити"
 
@@ -16902,7 +16891,7 @@ msgstr "Переслане повідомлення"
 msgid "Setting up Search Folder: %s"
 msgstr "Налаштовування віртуальної теки: %s"
 
-#: ../src/libemail-engine/mail-vfolder.c:302
+#: ../src/libemail-engine/mail-vfolder.c:303
 #, c-format
 msgid "Updating Search Folders for “%s : %s”"
 msgstr "Оновлення тек пошуку для «%s : %s»"
@@ -16912,7 +16901,7 @@ msgstr "Оновлення тек пошуку для «%s : %s»"
 #. * removed folder. For more than one search folder is
 #. * each of them on a separate line, with four spaces
 #. * in front of its name, without quotes.
-#: ../src/libemail-engine/mail-vfolder.c:666
+#: ../src/libemail-engine/mail-vfolder.c:667
 #, c-format
 msgid ""
 "The Search Folder “%s” has been modified to account for the deleted folder\n"
@@ -17003,19 +16992,20 @@ msgid "Missing domain in email address"
 msgstr "Немає домену в поштовій адресі"
 
 #: ../src/mail/e-mail-autoconfig.c:1321
-#: ../src/modules/config-lookup/e-srv-config-lookup.c:82
-#: ../src/modules/config-lookup/e-srv-config-lookup.c:83
+#: ../src/modules/config-lookup/e-srv-config-lookup.c:87
+#: ../src/modules/config-lookup/e-srv-config-lookup.c:88
 msgid "IMAP server"
 msgstr "Сервер IMAP"
 
 #: ../src/mail/e-mail-autoconfig.c:1328
-#: ../src/modules/config-lookup/e-srv-config-lookup.c:84
-#: ../src/modules/config-lookup/e-srv-config-lookup.c:85
+#: ../src/modules/config-lookup/e-srv-config-lookup.c:89
+#: ../src/modules/config-lookup/e-srv-config-lookup.c:90
 msgid "POP3 server"
 msgstr "Сервер POP3"
 
 #: ../src/mail/e-mail-autoconfig.c:1335
-#: ../src/modules/config-lookup/e-srv-config-lookup.c:86
+#: ../src/modules/config-lookup/e-srv-config-lookup.c:91
+#: ../src/modules/config-lookup/e-srv-config-lookup.c:92
 msgid "SMTP server"
 msgstr "Сервер SMTP"
 
@@ -17356,7 +17346,7 @@ msgstr "%s — %s"
 #: ../src/modules/addressbook/autocompletion-config.c:115
 #: ../src/modules/calendar/e-calendar-preferences.c:621
 #: ../src/modules/calendar/e-calendar-preferences.ui.h:48
-#: ../src/modules/mail/e-mail-shell-backend.c:802
+#: ../src/modules/mail/e-mail-shell-backend.c:806
 #: ../src/plugins/publish-calendar/publish-calendar.ui.h:17
 msgid "General"
 msgstr "Загальне"
@@ -17741,11 +17731,11 @@ msgstr "Не вдалося перетворити текст на повідо�
 msgid "Storing changes…"
 msgstr "Зберігаємо зміни…"
 
-#: ../src/mail/e-mail-notes.c:1048
+#: ../src/mail/e-mail-notes.c:1052
 msgid "Edit Message Note"
 msgstr "Редагувати примітки до листа"
 
-#: ../src/mail/e-mail-notes.c:1204
+#: ../src/mail/e-mail-notes.c:1207
 msgid "Retrieving message…"
 msgstr "Отримуємо повідомлення…"
 
@@ -20266,7 +20256,7 @@ msgid ""
 "HTML email:\n"
 "{0}"
 msgstr ""
-"Перевірте, що наступні адресати бажають приймати пошту у форматі HTML:\n"
+"Перевірте, чи наступні адресати бажають приймати пошту у форматі HTML:\n"
 "{0}"
 
 #: ../src/mail/mail.error.xml.h:9
@@ -21289,20 +21279,20 @@ msgstr "%b %d %l:%M %p"
 msgid "%b %d %Y"
 msgstr "%d %b %Y"
 
-#: ../src/mail/message-list.c:3311
+#: ../src/mail/message-list.c:3361
 msgid "Select all visible messages"
 msgstr "Вибрати всі видимі повідомлення"
 
-#: ../src/mail/message-list.c:4076 ../src/mail/message-list.etspec.h:17
+#: ../src/mail/message-list.c:4135 ../src/mail/message-list.etspec.h:17
 msgid "Messages"
 msgstr "Повідомлення"
 
 #. default follow-up flag name to use when clicked in the message list column
-#: ../src/mail/message-list.c:5645
+#: ../src/mail/message-list.c:5704
 msgid "Follow-up"
 msgstr "Відповісти"
 
-#: ../src/mail/message-list.c:6708
+#: ../src/mail/message-list.c:6795
 msgid ""
 "No message satisfies your search criteria. Change search criteria by "
 "selecting a new Show message filter from the drop down list above or by "
@@ -21314,11 +21304,11 @@ msgstr ""
 "запустивши новий пошук через очищення його за допомогою пункту меню «Пошук → "
 "Очистити пункт меню» або зміну запиту вище."
 
-#: ../src/mail/message-list.c:6716
+#: ../src/mail/message-list.c:6803
 msgid "There are no messages in this folder."
 msgstr "У теці немає повідомлень."
 
-#: ../src/mail/message-list.c:6792
+#: ../src/mail/message-list.c:6879
 msgid "Generating message list…"
 msgstr "Створення списку повідомлень…"
 
@@ -23619,53 +23609,54 @@ msgstr "Перетворити на поштове повідомлення"
 msgid "Look up configuration with e-mail domain"
 msgstr "Знайти конфігурацію через домен електронної пошти"
 
-#: ../src/modules/config-lookup/e-srv-config-lookup.c:82
-#: ../src/modules/config-lookup/e-srv-config-lookup.c:83
+#: ../src/modules/config-lookup/e-srv-config-lookup.c:87
+#: ../src/modules/config-lookup/e-srv-config-lookup.c:88
 msgid "Looking up IMAP server…"
 msgstr "Пошук сервера IMAP…"
 
-#: ../src/modules/config-lookup/e-srv-config-lookup.c:84
-#: ../src/modules/config-lookup/e-srv-config-lookup.c:85
+#: ../src/modules/config-lookup/e-srv-config-lookup.c:89
+#: ../src/modules/config-lookup/e-srv-config-lookup.c:90
 msgid "Looking up POP3 server…"
 msgstr "Пошук сервера POP3…"
 
-#: ../src/modules/config-lookup/e-srv-config-lookup.c:86
+#: ../src/modules/config-lookup/e-srv-config-lookup.c:91
+#: ../src/modules/config-lookup/e-srv-config-lookup.c:92
 msgid "Looking up SMTP server…"
 msgstr "Пошук сервера SMTP…"
 
-#: ../src/modules/config-lookup/e-srv-config-lookup.c:87
-#: ../src/modules/config-lookup/e-srv-config-lookup.c:88
+#: ../src/modules/config-lookup/e-srv-config-lookup.c:93
+#: ../src/modules/config-lookup/e-srv-config-lookup.c:94
 #: ../src/modules/config-lookup/e-webdav-config-lookup.c:118
 msgid "CalDAV server"
 msgstr "Сервер CalDAV"
 
-#: ../src/modules/config-lookup/e-srv-config-lookup.c:87
-#: ../src/modules/config-lookup/e-srv-config-lookup.c:88
+#: ../src/modules/config-lookup/e-srv-config-lookup.c:93
+#: ../src/modules/config-lookup/e-srv-config-lookup.c:94
 msgid "Looking up CalDAV server…"
 msgstr "Пошук сервера CalDAV…"
 
-#: ../src/modules/config-lookup/e-srv-config-lookup.c:89
-#: ../src/modules/config-lookup/e-srv-config-lookup.c:90
+#: ../src/modules/config-lookup/e-srv-config-lookup.c:95
+#: ../src/modules/config-lookup/e-srv-config-lookup.c:96
 #: ../src/modules/config-lookup/e-webdav-config-lookup.c:118
 msgid "CardDAV server"
 msgstr "Сервер CardDAV"
 
-#: ../src/modules/config-lookup/e-srv-config-lookup.c:89
-#: ../src/modules/config-lookup/e-srv-config-lookup.c:90
+#: ../src/modules/config-lookup/e-srv-config-lookup.c:95
+#: ../src/modules/config-lookup/e-srv-config-lookup.c:96
 msgid "Looking up CardDAV server…"
 msgstr "Пошук сервера CardDAV…"
 
-#: ../src/modules/config-lookup/e-srv-config-lookup.c:91
-#: ../src/modules/config-lookup/e-srv-config-lookup.c:92
+#: ../src/modules/config-lookup/e-srv-config-lookup.c:97
+#: ../src/modules/config-lookup/e-srv-config-lookup.c:98
 msgid "LDAP server"
 msgstr "Сервер LDAP"
 
-#: ../src/modules/config-lookup/e-srv-config-lookup.c:91
-#: ../src/modules/config-lookup/e-srv-config-lookup.c:92
+#: ../src/modules/config-lookup/e-srv-config-lookup.c:97
+#: ../src/modules/config-lookup/e-srv-config-lookup.c:98
 msgid "Looking up LDAP server…"
 msgstr "Пошук сервера LDAP…"
 
-#: ../src/modules/config-lookup/e-srv-config-lookup.c:279
+#: ../src/modules/config-lookup/e-srv-config-lookup.c:285
 msgid "Look up in SRV records"
 msgstr "Шукати у записах SRV"
 
@@ -24385,12 +24376,10 @@ msgid "Organizer has removed the delegate %s "
 msgstr "Організатор вилучив уповноваженого %s "
 
 #: ../src/modules/itip-formatter/itip-view.c:5229
-#| msgid "Sent a cancelation notice to the delegate"
 msgid "Sent a cancellation notice to the delegate"
 msgstr "Надіслано уповноваженому сповіщення про скасування"
 
 #: ../src/modules/itip-formatter/itip-view.c:5233
-#| msgid "Could not send the cancelation notice to the delegate"
 msgid "Could not send the cancellation notice to the delegate"
 msgstr "Не вдалося надіслати сповіщення про скасування"
 
@@ -24727,64 +24716,64 @@ msgstr "Створити нову поштову теку"
 
 #. Translators: One of the known implementation names of the GNetworkMonitor. Either translate
 #. it to some user-friendly form, or keep it as is.
-#: ../src/modules/mail/e-mail-shell-backend.c:782
+#: ../src/modules/mail/e-mail-shell-backend.c:786
 msgctxt "NetworkMonitor"
 msgid "base"
 msgstr "base"
 
 #. Translators: One of the known implementation names of the GNetworkMonitor. Either translate
 #. it to some user-friendly form, or keep it as is.
-#: ../src/modules/mail/e-mail-shell-backend.c:785
+#: ../src/modules/mail/e-mail-shell-backend.c:789
 msgctxt "NetworkMonitor"
 msgid "netlink"
 msgstr "netlink"
 
 #. Translators: One of the known implementation names of the GNetworkMonitor. Either translate
 #. it to some user-friendly form, or keep it as is.
-#: ../src/modules/mail/e-mail-shell-backend.c:788
+#: ../src/modules/mail/e-mail-shell-backend.c:792
 msgctxt "NetworkMonitor"
 msgid "networkmanager"
 msgstr "networkmanager"
 
-#: ../src/modules/mail/e-mail-shell-backend.c:818
+#: ../src/modules/mail/e-mail-shell-backend.c:822
 msgctxt "NetworkMonitor"
 msgid "Method to detect _online state:"
 msgstr "Спосіб визначення стану _мережі:"
 
 #. Translators: The '%s' is replaced with the actual name of the GNetworkMonitor implementation
-#: ../src/modules/mail/e-mail-shell-backend.c:829
+#: ../src/modules/mail/e-mail-shell-backend.c:833
 #, c-format
 msgctxt "NetworkMonitor"
 msgid "Default (%s)"
 msgstr "Типове (%s)"
 
 #. Always as the first
-#: ../src/modules/mail/e-mail-shell-backend.c:833
+#: ../src/modules/mail/e-mail-shell-backend.c:837
 msgctxt "NetworkMonitor"
 msgid "Default"
 msgstr "Типовий"
 
 #. Always as the last
-#: ../src/modules/mail/e-mail-shell-backend.c:850
+#: ../src/modules/mail/e-mail-shell-backend.c:854
 msgctxt "NetworkMonitor"
 msgid "Always Online"
 msgstr "Завжди в мережі"
 
-#: ../src/modules/mail/e-mail-shell-backend.c:919
+#: ../src/modules/mail/e-mail-shell-backend.c:923
 msgid "Mail Preferences"
 msgstr "Параметри пошти"
 
-#: ../src/modules/mail/e-mail-shell-backend.c:928
+#: ../src/modules/mail/e-mail-shell-backend.c:932
 msgid "Composer Preferences"
 msgstr "Параметри редактора"
 
-#: ../src/modules/mail/e-mail-shell-backend.c:937
+#: ../src/modules/mail/e-mail-shell-backend.c:941
 msgid "Network Preferences"
 msgstr "Параметри мережі"
 
 #. Translators: The first item in the list, to be
 #. * able to set rule: [Label] [is/is-not] [None]
-#: ../src/modules/mail/e-mail-shell-backend.c:1298
+#: ../src/modules/mail/e-mail-shell-backend.c:1302
 msgctxt "label"
 msgid "None"
 msgstr "Немає"
@@ -25154,15 +25143,15 @@ msgstr "Поточна тека"
 msgid "Current Folder and Subfolders"
 msgstr "Поточна тека і підтеки"
 
-#: ../src/modules/mail/e-mail-shell-view.c:995
+#: ../src/modules/mail/e-mail-shell-view.c:1028
 msgid "Current Folder and Subfolders Search"
 msgstr "Пошук у поточній теці і підтеках"
 
-#: ../src/modules/mail/e-mail-shell-view.c:1117
+#: ../src/modules/mail/e-mail-shell-view.c:1150
 msgid "All Account Search"
 msgstr "Усі облікові записи"
 
-#: ../src/modules/mail/e-mail-shell-view.c:1227
+#: ../src/modules/mail/e-mail-shell-view.c:1260
 msgid "Account Search"
 msgstr "Поточний обліковий запис"
 
