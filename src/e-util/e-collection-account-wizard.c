@@ -1307,6 +1307,7 @@ collection_account_wizard_write_changes_thread (ESimpleAsyncResult *result,
 				}
 
 				if (source && !e_source_store_password_sync (source, password, TRUE, cancellable, &local_error)) {
+					g_prefix_error (&local_error, "%s", _("Failed to store password: "));
 					e_simple_async_result_set_user_data (result, local_error, (GDestroyNotify) g_error_free);
 					break;
 				}
@@ -1316,6 +1317,7 @@ collection_account_wizard_write_changes_thread (ESimpleAsyncResult *result,
 
 	if (!e_simple_async_result_get_user_data (result) && /* No error from password save */
 	    !e_source_registry_create_sources_sync (wizard->priv->registry, sources, cancellable, &local_error) && local_error) {
+		g_prefix_error (&local_error, "%s", _("Failed to create sources: "));
 		e_simple_async_result_set_user_data (result, local_error, (GDestroyNotify) g_error_free);
 	}
 
@@ -1343,6 +1345,7 @@ collection_account_wizard_write_changes_done (GObject *source_object,
 		is_cancelled = g_error_matches (error, G_IO_ERROR, G_IO_ERROR_CANCELLED);
 
 		gtk_label_set_text (GTK_LABEL (wizard->priv->finish_label), error->message);
+		gtk_label_set_selectable (GTK_LABEL (wizard->priv->finish_label), TRUE);
 	}
 
 	e_spinner_stop (E_SPINNER (wizard->priv->finish_spinner));
@@ -1482,6 +1485,7 @@ collection_account_wizard_save_sources (ECollectionAccountWizard *wizard)
 	g_warn_if_fail (wizard->priv->finish_cancellable == NULL);
 
 	gtk_label_set_text (GTK_LABEL (wizard->priv->finish_label), _("Saving account settings, please wait…"));
+	gtk_label_set_selectable (GTK_LABEL (wizard->priv->finish_label), FALSE);
 	gtk_widget_show (wizard->priv->finish_spinner);
 	gtk_widget_show (wizard->priv->finish_label);
 	gtk_widget_show (wizard->priv->finish_cancel_button);
