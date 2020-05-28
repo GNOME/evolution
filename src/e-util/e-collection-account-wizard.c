@@ -2060,16 +2060,21 @@ collection_account_wizard_constructed (GObject *object)
 
 	gtk_box_pack_end (vbox, GTK_WIDGET (grid), FALSE, FALSE, 0);
 
-	hbox = GTK_BOX (gtk_box_new (GTK_ORIENTATION_HORIZONTAL, 4));
-	g_object_set (G_OBJECT (hbox),
+	widget = gtk_box_new (GTK_ORIENTATION_HORIZONTAL, 4);
+	g_object_set (G_OBJECT (widget),
 		"hexpand", FALSE,
 		"halign", GTK_ALIGN_START,
 		"vexpand", FALSE,
 		"valign", GTK_ALIGN_START,
 		"margin-start", 12,
+		"margin-top", 24,
 		"visible", FALSE,
 		NULL);
-	wizard->priv->finish_running_box = GTK_WIDGET (hbox);
+	wizard->priv->finish_running_box = widget;
+
+	gtk_grid_attach (grid, widget, 0, 3, 2, 1);
+
+	hbox = GTK_BOX (widget);
 
 	widget = e_spinner_new ();
 	g_object_set (G_OBJECT (widget),
