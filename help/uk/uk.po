@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: evolution master\n"
 "POT-Creation-Date: 2020-05-19 15:54+0000\n"
-"PO-Revision-Date: 2020-05-28 17:30+0300\n"
+"PO-Revision-Date: 2020-05-29 21:28+0300\n"
 "Last-Translator: Yuri Chornoivan <yurchor@ukr.net>\n"
 "Language-Team: Ukrainian <trans-uk@lists.fedoraproject.org>\n"
 "Language: uk\n"
@@ -8689,6 +8689,12 @@ msgid ""
 "concern. If the <gui>Bcc:</gui> text field is not shown, click "
 "<guiseq><gui>View</gui><gui>Bcc Field</gui></guiseq>."
 msgstr ""
+"Адреси у текстовому полі <gui>Прих.копія:</gui> буде приховано від інших"
+" отримувачів повідомлення. Такими адресами можна скористатися для надсилання"
+" пошти великим групам адресатів, особливо якщо адресати не знають один одного"
+" або якщо важлива конфіденційність. Якщо ви не бачите поля <gui>Прих.копія:<"
+"/gui>, скористайтеся пунктом меню <guiseq><gui>Перегляд</gui><gui>Поле"
+" прихованої копії</gui></guiseq>."
 
 #. (itstool) path: section/title
 #: C/mail-composer-several-recipients.page:40
@@ -8702,6 +8708,10 @@ msgid ""
 "\">Autocompletion</link> feature of the <app>Evolution</app> address book "
 "for entering addresses. By using this you avoid typos and save time."
 msgstr ""
+"Для введення адрес рекомендуємо скористатися можливістю <link"
+" xref=\"contacts-autocompletion\">автодоповнення</link> адресної книги <app"
+">Evolution</app>. Таким чином ви зможете уникнути друкарських помилок і"
+" заощадити час."
 
 #. (itstool) path: section/title
 #: C/mail-composer-several-recipients.page:45
@@ -8717,6 +8727,13 @@ msgid ""
 "books. Select the addresses and click the arrow buttons to move them into "
 "the appropriate address columns (To:, Cc:, Bcc:)."
 msgstr ""
+"Замість введення вручну імен отримувачів ви можете натиснути кнопку <gui"
+" style=\"button\">Кому:</gui>, <gui style=\"button\">Копія:</gui> або <gui"
+" style=\"button"
+"\">Прих.копія:</gui>, щоб відкрити список адрес електронної пошти з ваших"
+" адресних книг. Виберіть адреси і натисніть кнопки зі стрілочками, щоб"
+" пересунути адреси до відповідних стовпчиків адрес (Кому:, Копія:,"
+" Прих.копія:)."
 
 #. (itstool) path: info/desc
 #: C/mail-composer-spellcheck.page:7
@@ -8743,6 +8760,10 @@ msgid ""
 "<sys>enchant</sys> package are installed via the software management tool of "
 "your distribution."
 msgstr ""
+"Щоб скористатися засобами перевірки правопису у написаних вами повідомленнях,"
+" вам слід спочатку встановити пакунок <sys>hunspell</sys> для потрібної вам"
+" мови та пакунок <sys>enchant</sys> за допомогою програми для керування"
+" пакунками у вашому дистрибутиві."
 
 #. (itstool) path: note/p
 #: C/mail-composer-spellcheck.page:31
@@ -8783,6 +8804,10 @@ msgid ""
 "Preferences</gui><gui>Spell Checking</gui><gui>Options</gui></guiseq> you "
 "can define whether your spelling is checked while you type."
 msgstr ""
+"За допомогою сторінки <guiseq><gui>Зміни</gui><gui>Параметри</gui><gui"
+">Параметри редактора</gui><gui>Перевірка орфографії</gui><gui>Параметри</gui"
+"></guiseq> ви можете визначити, чи буде використано перевірку правопису під"
+" час введення тексту."
 
 #. (itstool) path: section/p
 #: C/mail-composer-spellcheck.page:46
@@ -8793,6 +8818,11 @@ msgid ""
 "gui></guiseq> or in the email composer via <guiseq><gui>Edit</"
 "gui><gui>Current Languages</gui></guiseq>."
 msgstr ""
+"Ви також можете встановити, які зі встановлених мов буде використано для"
+" перевірки правопису, у списку на сторінці <guiseq><gui>Зміни</gui><gui"
+">Параметри</gui><gui>Параметри редактора</gui><gui>Перевірка орфографії</gui"
+"><gui>Мови</gui></guiseq> або у вікні редактора за допомогою пункту <guiseq><"
+"gui>Зміни</gui><gui>Поточні мови</gui></guiseq>."
 
 #. (itstool) path: section/title
 #: C/mail-composer-spellcheck.page:50
@@ -8807,6 +8837,11 @@ msgid ""
 "spell check in the email composer by clicking <guiseq><gui>Edit</"
 "gui><gui>Check Spelling…</gui></guiseq> or by pressing <key>F7</key>."
 msgstr ""
+"Якщо не позначено пункт <gui>Перевіряти правопис під час набору тексту</gui>"
+" у <link xref=\"#global-preferences\">параметрах редактора</link>, ви можете"
+" запустити перевірку правопису у редакторі повідомлень за допомогою пункту"
+" меню <guiseq><gui>Зміни</gui><gui>Перевірити орфографію…</gui></guiseq> або"
+" натискання клавіші <key>F7</key>."
 
 #. (itstool) path: info/desc
 #: C/mail-composer-write-new-message.page:5
@@ -8840,6 +8875,10 @@ msgid ""
 "several-recipients\"/> for more information on sending messages to more than "
 "one person."
 msgstr ""
+"Введіть адресу електронної пошти у полі <gui>Кому:</gui>. Якщо ви хочете"
+" ввести декілька адрес, відокремте їх комами. Див. розділ <link"
+" xref=\"mail-composer-several-recipients\"/>, щоб дізнатися більше про"
+" надсилання повідомлень декільком особам."
 
 #. (itstool) path: page/p
 #: C/mail-composer-write-new-message.page:29
@@ -8869,6 +8908,13 @@ msgid ""
 "editor (<guiseq><gui>Edit</gui><gui>Preferences</gui><gui>Mail Accounts</"
 "gui><gui style=\"button\">Edit</gui><gui>Composing Messages</gui></guiseq>)."
 msgstr ""
+"Ви можете встановити адреси електронної пошти, на які слід надіслати копії"
+" вашого повідомлення (або як копії, видимі для усіх отримувачів, або як"
+" приховані копії, які є невидимими для інших отримувачів) у розділі <gui"
+">Створення повідомлення</gui> редактора облікових записів пошти (<guiseq><gui"
+">Зміни</gui><gui>Параметри</gui><gui>Облікові записи</"
+"gui><gui style=\"button\">Редагувати</gui><gui>Створення повідомлення</gui><"
+"/guiseq>)."
 
 #. (itstool) path: info/desc
 #: C/mail-default-folder-locations.page:5
@@ -8876,6 +8922,8 @@ msgid ""
 "Changing the location of <gui>Draft</gui>, <gui>Sent</gui>, <gui>Trash</gui> "
 "and <gui>Junk</gui> folders."
 msgstr ""
+"Зміна розташування тек <gui>Чернетки</gui>, <gui>Надіслані</gui>, <gui"
+">Смітник</gui> і <gui>Спам</gui>."
 
 #. (itstool) path: page/title
 #: C/mail-default-folder-locations.page:29
@@ -8891,6 +8939,11 @@ msgid ""
 "gui><gui>Mail Accounts</gui><gui style=\"button\">Edit</gui><gui>Defaults</"
 "gui></guiseq>)."
 msgstr ""
+"Ви можете встановити інше місце для зберігання повідомлень у ваших теках <gui"
+">Чернетки</gui> та <gui>Надіслані</gui> за допомогою розділу <gui>Умовчання<"
+"/gui> редактора облікових записів пошти (<guiseq><gui>Зміни</gui><gui"
+">Параметри</gui><gui>Облікові записи</gui><gui style=\"button\">Редагувати<"
+"/gui><gui>Умовчання</gui></guiseq>)."
 
 #. (itstool) path: page/p
 #: C/mail-default-folder-locations.page:32
@@ -8902,6 +8955,13 @@ msgid ""
 "<guiseq><gui>Message</gui><gui>Archive</gui></guiseq> in the main window "
 "moves the selected message to the specified folder."
 msgstr ""
+"Ви можете визначити <gui>Архівну теку</gui> для цього облікового запису для"
+" пересування до неї застарілих повідомлень. Для цього спочатку слід створити"
+" резервну теку за допомогою сторінки <guiseq><gui>Зміни</gui><gui>Параметри<"
+"/gui><gui>Параметри пошти</gui><gui>Загальне</gui><gui>Архівувати пошту</gui"
+"></guiseq>. Вибір пункту <guiseq><gui>Повідомлення</gui><gui>Архівувати</gui"
+"></guiseq> у головному меню пересуватиме позначення повідомлення до вказаної"
+" теки."
 
 #. (itstool) path: page/p
 #: C/mail-default-folder-locations.page:33
@@ -8911,6 +8971,12 @@ msgid ""
 "Real Folder</gui> option. In this case, <app>Evolution</app>'s local <link "
 "xref=\"mail-search-folders\">virtual folders</link> will not be used."
 msgstr ""
+"Для типів віддалених облікових записів (облікових записів, подібних до IMAP)"
+" ви також можете скористатися теками на сервері електронної пошти для спаму і"
+" смітника, вибравши відповідне значення для параметра <gui>Використовувати"
+" справжню теку</gui>. У цьому випадку у <app>Evolution</app> не"
+" використовуватимуться локальні <link xref=\"mail-search-folders\">віртуальні"
+" теки</link>."
 
 #. (itstool) path: info/desc
 #: C/mail-delete-and-undelete.page:5
@@ -8935,6 +9001,11 @@ msgid ""
 "<keyseq><key>Ctrl</key><key>D</key></keyseq>, or right-click the message and "
 "click <gui>Delete</gui>."
 msgstr ""
+"Щоб вилучити повідомлення, позначте його і натисніть клавішу <key>Delete</key"
+">, або натисніть кнопку <gui style=\"button\">Вилучити</gui> на панелі"
+" інструментів, або натисніть комбінацію клавіш <keyseq><key>Ctrl</key><key>D<"
+"/key></keyseq>, або клацніть правою кнопкою на пункті повідомлення і виберіть"
+" у контекстному меню <gui>Вилучити</gui>."
 
 #. (itstool) path: section/p
 #: C/mail-delete-and-undelete.page:32
@@ -8945,6 +9016,12 @@ msgid ""
 "<guiseq><gui>View</gui><gui>Show Deleted Messages</gui></guiseq>. You can "
 "view the messages stricken off for later deletion."
 msgstr ""
+"Після натискання кнопки «Вилучити» або клацання на теці <gui>Смітник</gui>"
+" вашу пошту не буде насправді вилучено, а лише позначено для вилучення. Ви"
+" можете переглянути усі повідомлення, які позначено для вилучення, у теці <"
+"gui>Смітник</gui>. Щоб переглянути вилучені повідомлення, виберіть пункт меню"
+" <guiseq><gui>Перегляд</gui><gui>Показати вилучені листи</gui></guiseq>. Там"
+" буде показано повідомлення, які позначено для наступного вилучення."
 
 #. (itstool) path: section/p
 #: C/mail-delete-and-undelete.page:34
@@ -8953,6 +9030,9 @@ msgid ""
 "<guiseq><gui>Folder</gui><gui>Expunge</gui></guiseq> or press "
 "<keyseq><key>Ctrl</key><key>E</key></keyseq>."
 msgstr ""
+"Щоб остаточно витерти усі вилучені повідомлення у теці, виберіть пункт меню <"
+"guiseq><gui>Тека</gui><gui>Витерти</gui></guiseq> або натисніть комбінацію"
+" клавіш <keyseq><key>Ctrl</key><key>E</key></keyseq>."
 
 #. (itstool) path: note/p
 #: C/mail-delete-and-undelete.page:36
@@ -8962,6 +9042,11 @@ msgid ""
 "instead, run the command <cmd>gsettings set org.gnome.evolution.mail browser-"
 "close-on-delete-or-junk true</cmd>"
 msgstr ""
+"При читанні повідомлень в окремому вікні після вилучення повідомлення буде"
+" показано наступне повідомлення. Якщо ви хочете, щоб замість цього вікно було"
+" закрито, віддайте команду <cmd>gsettings set org.gnome.evolution.mail"
+" browser-"
+"close-on-delete-or-junk true</cmd>"
 
 #. (itstool) path: section/title
 #: C/mail-delete-and-undelete.page:41
@@ -8977,6 +9062,12 @@ msgid ""
 "gui><gui>Show Deleted Messages</gui></guiseq> must be enabled for this to "
 "work."
 msgstr ""
+"Ви можете скасувати вилучення повідомлення, яке було вилучено, але не було"
+" витерто. Щоб скасувати вилучення повідомлення, позначте повідомлення і"
+" виберіть пункт меню <guiseq><gui>Зміни</"
+"gui><gui>Відновити повідомлення</gui></guiseq>. Зауважте, що для того, щоб це"
+" спрацювало, має бути позначено пункт меню <guiseq><gui>Перегляд</gui><gui"
+">Показати вилучені листи</gui></guiseq>."
 
 #. (itstool) path: section/p
 #: C/mail-delete-and-undelete.page:45
@@ -8984,6 +9075,9 @@ msgid ""
 "If you have marked a message for deletion, undeleting it unmarks it, and the "
 "message is not shown anymore in the <gui>Trash</gui> folder."
 msgstr ""
+"Якщо ви позначили повідомлення для вилучення, відновлення повідомлення скасує"
+" таке позначення, і повідомлення більше не буде показано у теці <gui>Смітник<"
+"/gui>."
 
 #. (itstool) path: info/desc
 #: C/mail-displaying-character-encodings.page:5
@@ -9012,6 +9106,14 @@ msgid ""
 "character encoding to an appropriate one that might be the encoding used by "
 "the sender. You have to make this change every time you view the message."
 msgstr ""
+"Якщо програма для роботи з електронною поштою відправника працює неправильно"
+" або її неправильно налаштовано, прості текстові повідомлення можуть не"
+" містити даних щодо використаного кодування символів. Якщо ви отримаєте таке"
+" повідомлення, виберіть пункт головного меню <guiseq><gui>Перегляд</gui><gui"
+">Кодування символів</gui></guiseq> і змініть поточне вибране кодування"
+" символів на відповідне, яким може бути кодування, яке було використано"
+" відправником. Вам доведеться виконувати цю зміну кожного разу, коли ви"
+" переглядатимете відповідне повідомлення."
 
 #. (itstool) path: section/p
 #: C/mail-displaying-character-encodings.page:27
@@ -9020,6 +9122,9 @@ msgid ""
 "gui><gui>Preferences</gui><gui>Mail Preferences</gui><gui>General</"
 "gui><gui>Message Display</gui><gui>Default character encoding</gui></guiseq>."
 msgstr ""
+"Щоб зробити цей параметр типовим, скористайтеся пунктом <guiseq><gui>Зміни<"
+"/gui><gui>Параметри</gui><gui>Параметри пошти</gui><gui>Загальне</gui><gui"
+">Показ повідомлень</gui><gui>Типовий набір символів</gui></guiseq>."
 
 #. (itstool) path: section/p
 #: C/mail-displaying-character-encodings.page:34
@@ -9029,6 +9134,11 @@ msgid ""
 "gui><gui>Preferences</gui><gui>Composer Preferences</gui><gui>Default "
 "Behavior</gui><gui>Character encoding</gui></guiseq>."
 msgstr ""
+"Малоймовірним випадком є випадок, коли у вас виникне потреба у зміні типового"
+" кодування символів повідомлень, які ви надсилаєте. Для цього можете"
+" скористатися пунктом <guiseq><gui>Зміни</"
+"gui><gui>Параметри</gui><gui>Параметри редактора</gui><gui>Типова поведінка<"
+"/gui><gui>Кодування символів</gui></guiseq>."
 
 #. (itstool) path: note/p
 #: C/mail-displaying-character-encodings.page:35
@@ -9056,6 +9166,9 @@ msgid ""
 "<app>Evolution</app> compresses the To, Cc and Bcc headers of received mail "
 "and shows only five addresses in the message preview."
 msgstr ""
+"<app>Evolution</app> стискає заголовки «Кому», «Копія» та «Прихована копія»"
+" отриманої пошти і показує лише п'ять адрес на панелі попереднього перегляду"
+" повідомлення."
 
 #. (itstool) path: page/p
 #: C/mail-displaying-collapsible-headers.page:27
@@ -9064,6 +9177,9 @@ msgid ""
 "gui> or <gui>Cc:</gui> line, or click the ellipsis (…) at the end of the "
 "five displayed addresses."
 msgstr ""
+"Щоб переглянути усіх отримувачів, натисніть піктограму <_:media-1/> поряд із"
+" рядком <gui>Кому:</gui> або <gui>Копія:</gui> або натисніть кнопку (…)"
+" наприкінці п'яти показаних адрес."
 
 #. (itstool) path: page/p
 #: C/mail-displaying-collapsible-headers.page:29
@@ -9072,6 +9188,10 @@ msgid ""
 "sender in one line, click the icon <_:media-1/> next to the <gui>From:</gui> "
 "line. This is helpful on small screens."
 msgstr ""
+"Щоб згорнути усі заголовки повідомлення або наказати програмі показувати тему"
+" і відправника у одному рядку, натисніть піктограму <_:media-1/>, розташовану"
+" поряд із рядком <gui>Від:</gui>. Ці заходи будуть корисними для користувачів"
+" малих екранів."
 
 #. (itstool) path: info/desc
 #: C/mail-displaying-images-in-html.page:5
@@ -9090,6 +9210,10 @@ msgid ""
 "message (for example, the welcome message in your Inbox), <app>Evolution</"
 "app> displays the image inside the message."
 msgstr ""
+"Якщо хтось надішле вам повідомлення HTML, до вмісту якого буде включено"
+" зображення (наприклад, вітальне повідомлення у вашій теці «Вхідні»), <app"
+">Evolution</"
+"app> покаже зображення у повідомленні."
 
 #. (itstool) path: section/title
 #: C/mail-displaying-images-in-html.page:32
@@ -9105,6 +9229,13 @@ msgid ""
 "be slow to load and display, and can even be used by spammers to track who "
 "reads the email. Not automatically loading images helps protect your privacy."
 msgstr ""
+"Деякі зображення можуть бути посиланнями у повідомленні, а не частиною"
+" повідомлення. <app>Evolution</app> може отримувати такі зображення з"
+" інтернету, але не робитиме цього без вашого запиту. Причиною цього є те, що"
+" розміщені на віддалених комп'ютерах зображення повільно завантажуються і не"
+" одразу показуються, ними можуть скористатися спамери для стеження за"
+" прочитанням пошти. Вимикання автоматичного завантаження зображень захищає"
+" вас від зовнішніх загроз."
 
 #. (itstool) path: section/p
 #: C/mail-displaying-images-in-html.page:35
@@ -9123,6 +9254,10 @@ msgid ""
 "gui><gui>Preferences</gui><gui>Mail Preferences</gui><gui>HTML Messages</"
 "gui><gui>Loading Remote Content</gui></guiseq>."
 msgstr ""
+"Щоб встановити типову дію щодо завантаження зображень, скористайтеся пунктом"
+" <guiseq><gui>Зміни</gui><gui>Параметри</gui><gui>Параметри пошти</gui><gui"
+">Повідомлення HTML</"
+"gui><gui>Завантаження віддаленого вмісту</gui></guiseq>."
 
 #. (itstool) path: section/title
 #: C/mail-displaying-images-in-html.page:41
@@ -9138,6 +9273,11 @@ msgid ""
 "gui><gui>HTML Messages</gui><gui>Loading Images</gui></guiseq>. Enable the "
 "<gui>Load images only in messages from contacts</gui> option."
 msgstr ""
+"Ви можете наказати програмі отримувати зображення з повідомлень електронної"
+" пошти, які надіслано вашими контактами. Для цього скористайтеся пунктом <"
+"guiseq><gui>Зміни</gui><gui>Параметри</gui><gui>Параметри пошти</gui><gui"
+">Повідомлення HTML</gui><gui>Завантаження зображень</gui></guiseq>. Позначте"
+" пункт <gui>Завантажувати віддалений вміст лише в листах від контактів</gui>."
 
 #. (itstool) path: section/p
 #: C/mail-displaying-images-in-html.page:45
@@ -9146,6 +9286,10 @@ msgid ""
 "gui><gui>Autocompletion</gui></guiseq>. Enable autocompletion by ticking the "
 "<gui>Always show address of the autocompleted contact</gui> checkbox."
 msgstr ""
+"Далі, скористайтеся пунктом <guiseq><gui>Зміни</gui><gui>Параметри</gui><gui"
+">Контакти</gui><gui>Автодоповнення</gui></guiseq>. Увімкніть автодоповнення"
+" позначенням пункту <gui>Завжди показувати адресу контакту автозаповнення<"
+"/gui>."
 
 #. (itstool) path: section/title
 #: C/mail-displaying-images-in-html.page:49
@@ -9180,6 +9324,12 @@ msgid ""
 "gui><gui>HTML Messages</gui></guiseq>. For example, you can display them as "
 "plain text or block loading remote content."
 msgstr ""
+"Ви можете визначити, яким чином буде показано отримані повідомлення HTML, за"
+" допомогою пункту <guiseq><gui>Зміни</gui><gui>Параметри</gui><gui>Параметри"
+" пошти</"
+"gui><gui>Повідомлення HTML</gui></guiseq>. Наприклад, ви можете наказати"
+" програмі показувати їх як простий текст або заборонити завантажувати дані з"
+" інтернету."
 
 #. (itstool) path: section/title
 #: C/mail-displaying-message.page:26
@@ -9203,6 +9353,9 @@ msgid ""
 "email at the right side of the message header if the sender already embedded "
 "a photograph in the message."
 msgstr ""
+"<app>Evolution</app> автоматично показуватиме фотографію відправника"
+" повідомлення праворуч від заголовка повідомлення, якщо цю фотографію було"
+" вбудовано відправником до повідомлення."
 
 #. (itstool) path: page/p
 #: C/mail-displaying-sender-photograph.page:29
@@ -9242,6 +9395,10 @@ msgid ""
 "<guiseq><gui>Edit</gui><gui>Plugins</gui><gui>Face</gui></guiseq>. The image "
 "has to have a size of 48 x 48 pixels and be in PNG file format."
 msgstr ""
+"Ви також можете вбудувати власне зображення до повідомлень, які ви"
+" надсилаєте, за допомогою пункту <guiseq><gui>Зміни</gui><gui>Додатки</gui><"
+"gui>Фото</gui></guiseq>. Зображення має бути розміром 48 x 48 пікселів і"
+" зберігатися у форматі PNG."
 
 #. (itstool) path: info/desc
 #: C/mail-display-message-source.page:5
@@ -9300,6 +9457,13 @@ msgid ""
 "click <guiseq><gui>Message</gui><gui>Remove Duplicate Messages</gui></"
 "guiseq>."
 msgstr ""
+"Щоб вилучити дублікати повідомлень з теки, позначте декілька повідомлень (або"
+" позначте усі повідомлення у теці за допомогою пункту меню <guiseq><gui"
+">Зміни</gui><gui>Вибрати все</"
+"gui></guiseq> або натискання комбінації клавіш <keyseq><key>Ctrl</key><key>A<"
+"/key></keyseq>) і виберіть пункт меню <guiseq><gui>Повідомлення</gui><gui"
+">Вилучити подвійні повідомлення</gui></"
+"guiseq>."
 
 #. (itstool) path: section/title
 #: C/mail-duplicates.page:33
@@ -9767,6 +9931,9 @@ msgid ""
 "Select this if you want to all other filters ignore this message. Note that "
 "only filters listed after this particular rule will be ignored."
 msgstr ""
+"Позначте цей пункт, якщо хочете, щоб це повідомлення було проігноровано усіма"
+" іншими фільтрами. Зауважте, що буде проігноровано лише фільтри, які"
+" перебувають у списку після саме цього правила."
 
 #. (itstool) path: item/p
 #: C/mail-filters-actions.page:38
@@ -9819,6 +9986,8 @@ msgid ""
 "Sets the status of the message. The status can be Replied To, Draft, "
 "Important, Read, or Junk."
 msgstr ""
+"Встановлює стан повідомлення. Передбачено стани «У відповідь до», «Чернетка»,"
+" «Важливе», «Прочитане» і «Спам»."
 
 #. (itstool) path: item/p
 #: C/mail-filters-actions.page:53
@@ -9831,6 +10000,8 @@ msgid ""
 "If the message has a status value, unsets it. If a status value is not set, "
 "it does nothing."
 msgstr ""
+"Якщо повідомлення має якесь значення стану, скидає його. Якщо значення стану"
+" не було встановлено, ніяких змін внесено не буде."
 
 #. (itstool) path: item/p
 #: C/mail-filters-actions.page:56
@@ -10722,6 +10893,8 @@ msgid ""
 "localized-re 'AW,SV'</cmd> (in case that you want \"AW:\" and \"SV:\" to be "
 "recognized)."
 msgstr ""
+"Віддайте команду <cmd>gsettings set org.gnome.evolution.mail composer-"
+"localized-re 'AW,SV'</cmd> (якщо хочете, щоб було розпізнано «AW:» і «SV:»)."
 
 #. (itstool) path: info/desc
 #: C/mail-moving-emails.page:5
@@ -10796,7 +10969,7 @@ msgstr ""
 #. (itstool) path: info/desc
 #: C/mail-organizing.page:5
 msgid "On folders, sorting, searching, filters, search folders, and labels."
-msgstr ""
+msgstr "Про теки, упорядкування, пошук, фільтри, пошук у теках та мітки."
 
 #. (itstool) path: page/title
 #: C/mail-organizing.page:21
@@ -10809,6 +10982,8 @@ msgid ""
 "<app>Evolution</app> provides several options to organize your mail "
 "according to your needs."
 msgstr ""
+"У <app>Evolution</app> передбачено декілька можливостей для упорядковування"
+" вашої пошти у бажаний для вас спосіб."
 
 #. (itstool) path: section/title
 #: C/mail-organizing.page:26
@@ -10868,6 +11043,10 @@ msgid ""
 "emblem to the mailer icon in the window <link xref=\"intro-main-window"
 "\">switcher</link>."
 msgstr ""
+"<app>Evolution</app> завжди сповіщає вас про надходження нових повідомлень"
+" додаванням маленької емблеми до піктограми пошти у вікні <link"
+" xref=\"intro-main-window"
+"\">перемикача</link>."
 
 #. (itstool) path: page/media
 #. This is a reference to an external file such as an image or video. When
@@ -10888,18 +11067,20 @@ msgstr ""
 #. yellow star in the Mail icon
 #: C/mail-received-notification.page:25
 msgid "Switcher layout when a new message has arrived"
-msgstr ""
+msgstr "Перемикач, коли надійшла нове повідомлення"
 
 #. (itstool) path: page/p
 #: C/mail-received-notification.page:28
 msgid ""
 "In order to also be notified of new messages in GNOME desktop notifications:"
 msgstr ""
+"Щоб отримувати сповіщення щодо надходження повідомлень за допомогою загальних"
+" стільничних сповіщень у GNOME, виконайте такі дії:"
 
 #. (itstool) path: item/p
 #: C/mail-received-notification.page:31
 msgid "Enable <gui>Mail Notification</gui>."
-msgstr ""
+msgstr "Увімкніть <gui>Сповіщення про нову пошту</gui>."
 
 #. (itstool) path: item/p
 #: C/mail-received-notification.page:34
@@ -10907,6 +11088,8 @@ msgid ""
 "Open the <gui style=\"tab\">Configuration</gui> tab and set your preferred "
 "options."
 msgstr ""
+"Відкрийте вкладку <gui style=\"tab\">Налаштування</gui> і встановіть бажані"
+" значення параметрів."
 
 #. (itstool) path: item/p
 #: C/mail-received-notification.page:35
@@ -10914,6 +11097,8 @@ msgid ""
 "Open the <gui style=\"tab\">Accounts</gui> tab to select the mail accounts "
 "for which you would like to see notifications."
 msgstr ""
+"Відкрийте вкладку <gui style=\"tab\">Облікові записи</gui> і виберіть поштові"
+" облікові записи, для яких ви хочете бачити сповіщення."
 
 #. (itstool) path: page/p
 #: C/mail-received-notification.page:38
@@ -10922,6 +11107,10 @@ msgid ""
 "gnome.org/users/gnome-help/stable/shell-notifications\">the GNOME Desktop "
 "Help</link> for more information."
 msgstr ""
+"Докладніший опис можна знайти у <link xref=\"help:gnome-help/shell-notificatio"
+"ns\" href=\"https://help."
+"gnome.org/users/gnome-help/stable/shell-notifications\">довідці зі стільниці"
+" GNOME</link>."
 
 #. (itstool) path: info/desc
 #: C/mail-receiving-options-exchange-ews.page:5
@@ -10965,6 +11154,8 @@ msgid ""
 "If you are in an organizational environment, you may want to contact your "
 "system administrator for more information."
 msgstr ""
+"Якщо ви працюєте у середовищі якоїсь організації, вам варто зв'язатися із"
+" адміністратором системи, щоб дізнатися більше про налаштування."
 
 #. (itstool) path: item/p
 #: C/mail-receiving-options-exchange-ews.page:31
@@ -11034,6 +11225,8 @@ msgid ""
 "You can also define if <app>Evolution</app> checks for new messages in all "
 "folders."
 msgstr ""
+"Крім того, ви можете визначити, чи слід <app>Evolution</app> шукати нові"
+" повідомлення у всіх теках."
 
 #. (itstool) path: item/p
 #: C/mail-receiving-options-exchange-ews.page:44
@@ -11069,6 +11262,8 @@ msgid ""
 "Enter the address of the email server in the <gui>Server</gui> field and "
 "enter your username for that server."
 msgstr ""
+"Введіть адресу сервера електронної пошти у поле <gui>Сервер</gui> і вкажіть"
+" ваше ім'я користувача відповідного сервера."
 
 #. (itstool) path: item/p
 #: C/mail-receiving-options-exchange-mapi.page:29
@@ -11084,16 +11279,20 @@ msgid ""
 "Select if you want to use a secure connection (TLS or its deprecated "
 "predecessor SSL)."
 msgstr ""
+"Вкажіть, чи хочете ви використовувати захищене з'єднання (TLS або його"
+" застарілого попередника — SSL)."
 
 #. (itstool) path: item/p
 #: C/mail-receiving-options-exchange-mapi.page:33
 msgid "Click <gui style=\"button\">Authenticate</gui> and enter your password."
 msgstr ""
+"Натисніть кнопку <gui style=\"button\">Автентифікація</gui> і введіть ваш"
+" пароль."
 
 #. (itstool) path: info/desc
 #: C/mail-receiving-options-imap-plus.page:5
 msgid "Receiving options for IMAP+ accounts."
-msgstr ""
+msgstr "Параметри отримання пошти для облікових записів IMAP+."
 
 #. (itstool) path: item/p
 #: C/mail-receiving-options-imap-plus.page:32
@@ -11101,6 +11300,8 @@ msgstr ""
 #: C/mail-receiving-options-usenet-news.page:32
 msgid "You should enable this option if your server supports it."
 msgstr ""
+"Вам слід позначити цей пункт, якщо на вашому сервері передбачено підтримку"
+" відповідної можливості."
 
 #. (itstool) path: note/p
 #: C/mail-receiving-options-imap-plus.page:33
@@ -11112,13 +11313,17 @@ msgid ""
 "can be used. If you are in an organizational environment, you may want to "
 "contact your system administrator for more information."
 msgstr ""
+"Надавачі безкоштовних послуг електронної пошти часто надають відомості щодо"
+" того, якими з цих параметрів можна скористатися. Якщо ви працюєте у"
+" середовищі якоїсь організації, вам варто зв'язатися із адміністратором"
+" системи, щоб дізнатися більше про налаштування."
 
 #. (itstool) path: item/p
 #: C/mail-receiving-options-imap-plus.page:35
 #: C/mail-receiving-options-pop.page:39
 #: C/mail-receiving-options-usenet-news.page:35
 msgid "Select if you want <app>Evolution</app> to remember your password."
-msgstr ""
+msgstr "Вкажіть, чи слід <app>Evolution</app> запам'ятовувати введений пароль."
 
 #. (itstool) path: item/p
 #: C/mail-receiving-options-imap-plus.page:47
@@ -11143,6 +11348,8 @@ msgid ""
 "You can also define if <app>Evolution</app> checks for new messages in all "
 "folders, or only in subscribed folders."
 msgstr ""
+"Крім того, ви можете визначити, чи слід <app>Evolution</app> шукати нові"
+" повідомлення у всіх теках чи лише у теках із оформленою підпискою."
 
 #. (itstool) path: item/p
 #: C/mail-receiving-options-imap-plus.page:51
@@ -11150,11 +11357,14 @@ msgid ""
 "Select if you want <app>Evolution</app> to show only <link xref=\"mail-imap-"
 "subscriptions\">subscribed folders</link>."
 msgstr ""
+"Вкажіть, чи слід <app>Evolution</app> показувати лише <link xref=\"mail-imap-"
+"subscriptions\">теки із оформленою підпискою</link>."
 
 #. (itstool) path: info/desc
 #: C/mail-receiving-options-local-delivery.page:5
 msgid "Receiving options for Local delivery accounts."
 msgstr ""
+"Параметри отримання пошти для облікових записів локального доставлення."
 
 #. (itstool) path: item/p
 #: C/mail-receiving-options-local-delivery.page:28
@@ -12796,7 +13006,7 @@ msgstr ""
 #. (itstool) path: info/desc
 #: C/memos-usage-edit-memo.page:5
 msgid "Editing a memo in your memo list."
-msgstr ""
+msgstr "Редагування примітки у вашому списку приміток."
 
 #. (itstool) path: page/title
 #: C/memos-usage-edit-memo.page:20
