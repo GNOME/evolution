@@ -4200,7 +4200,7 @@ webkit_editor_constructor (GType type,
 				webkit_web_context_set_web_extensions_directory (web_context, EVOLUTION_WEB_EXTENSIONS_WEBKIT_EDITOR_DIR);
 				webkit_web_context_set_sandbox_enabled (web_context, TRUE);
 				webkit_web_context_add_path_to_sandbox (web_context, EVOLUTION_WEBKITDATADIR, TRUE);
-				#if ENABLE_MAINTAINER_MODE
+				#ifdef ENABLE_MAINTAINER_MODE
 				webkit_web_context_add_path_to_sandbox (web_context, EVOLUTION_SOURCE_WEBKITDATADIR, TRUE);
 				#endif
 
