@@ -1,3 +1,66 @@
+Evolution 3.37.2 2020-05-29
+---------------------------
+
+Bug Fixes:
+	Bug 725254 - Smaller font size shown as 0 in preview when received (Milan Crha)
+	I#783 - e-editor.js: Remove body margin/padding styles and attributes (Milan Crha)
+	I#821 - Slow message search (Milan Crha)
+	I#884 - Composer: Text split for wrapping can produce invalid UTF-8 text (Milan Crha)
+	I#906 - composer-plain-text-starts-preformatted is not followed when replying to HTML emails (Milan Crha)
+	I#914 - Allow setting Reply-To and From values via a mailto: URI (Milan Crha)
+	I#915 - Fix some issues reported by Clang's ubsan sanitizer (Milan Crha)
+	I#917 - Crash under html_editor_update_actions (Milan Crha)
+	I#923 - e-canvas-background.c: Limit boundary rectangle to fit 'int' type (Milan Crha)
+	I#925 - Check _submissions._tcp SRV records during account setup (Milan Crha)
+	I#929 - Allow calendar week view to start on Sunday (Bryan Dunsmore)
+	I#930 - gnome-canvas.c: Avoid integer value overflow in redraw_if_visible() (Milan Crha)
+	I#947 - ECollectionAccountWizard: Error message hidden when sources' save failed (Milan Crha)
+	M!53 - data/webkit/*.js: change the emacs mode to JavaScript (Дилян Палаузов)
+	M!54 - Add the enumeration of possible values for ENABLE_PLUGINS (Дилян Палаузов)
+	M!57 - gal-a11y-e-cell-text.c: Replace deprecated G_CONST_RETURN usage (Дилян Палаузов)
+	ews-I#99 - All-day events date shown by one day off (Milan Crha)
+
+Miscellaneous:
+	EWebKitEditor: Switch to JavaScriptCore API (Milan Crha)
+	HACKING: Replace 404 projects.gnome.org with wiki.gnome.org URL (Andre Klapper)
+	Default Inbox message: Replace projects.gnome.org URL with wiki.gnome.org URL (Andre Klapper)
+	Default Inbox message: Remove reference to outdated on-wiki FAQ (Andre Klapper)
+	Default Inbox message: Remove Japanese version (broken binary noise) (Andre Klapper)
+	Default Inbox message: Update mailing list URL (Andre Klapper)
+	Default Inbox message: Replace Bugzilla with Gitlab URL (Andre Klapper)
+	Default Inbox message: Remove Novell email address from footer (Andre Klapper)
+	Default Inbox message: Remove updates for version 2.8 from Portuguese version (Andre Klapper)
+	README.md: Update WebKitGTK+ version, to match the one in CMakeLists.txt (Milan Crha)
+	e-editor.js: Remove insignificant new lines when pre-processing loaded HTML (Milan Crha)
+	e-convert.js: Correct conversion of citations with nested blocks (Milan Crha)
+	e-editor.js: Normalize blockquote-s for replies/forwards (Milan Crha)
+	e-editor.js: Fix various issues related to citation editing (Milan Crha)
+	e-editor.js: Remove all body attributes when using Plain Text mode (Milan Crha)
+	e-editor.js: Block format change doesn't set DIV width in Plain Text mode (Milan Crha)
+	Enable sandbox usage for WebKitGTK (Milan Crha)
+	Calendar: Show probable HTML-formatted component DESCRIPTION as formatted text (Milan Crha)
+	mail_execute_shell_command: Add logging for easier debugging (Milan Crha)
+	SetupBuildFlags.cmake: Use -Werror=implicit-function-declaration only for C code compilation (Milan Crha)
+	ECompEditorPageSchedule: Fix some minor issues reported by Coverity Scan (Milan Crha)
+	Fix minor typos (Yuri Chornoivan)
+	MessageList: Update localized re values only if the setting changed (Milan Crha)
+	EWebDAVConfigLookup: Clear output GError before using it (Milan Crha)
+	ECollectionAccountWizard: Prefix errors when finishing the wizard (Milan Crha)
+	e-convert.js: Treat dash as a wrap-able character (Milan Crha)
+	help: Fix broken Catalan help translation (Andre Klapper)
+	help: 'Send and Receive' button is called 'Send / Receive' (Andre Klapper)
+	help: Search folders must be enabled in order to display the menu item (Andre Klapper)
+	help: Add missing file to CMakeLists.txt (Andre Klapper)
+
+Translations:
+	Yuri Chornoivan (uk)
+	shiitake256 (ja)
+	Daniel Mustieles (es)
+	Daniel Șerbănescu (ro)
+	Florentina Mușat (ro)
+	Emin Tufan Çetin (tr)
+	Jordi Mas (ca)
+
 Evolution 3.37.1 2020-04-24
 ---------------------------
 
