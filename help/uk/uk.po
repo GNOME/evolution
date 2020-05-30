@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: evolution master\n"
 "POT-Creation-Date: 2020-05-19 15:54+0000\n"
-"PO-Revision-Date: 2020-05-29 21:28+0300\n"
+"PO-Revision-Date: 2020-05-30 20:23+0300\n"
 "Last-Translator: Yuri Chornoivan <yurchor@ukr.net>\n"
 "Language-Team: Ukrainian <trans-uk@lists.fedoraproject.org>\n"
 "Language: uk\n"
@@ -9520,6 +9520,16 @@ msgid ""
 "pgp-publish\">share your public key with your friends to allow them sending "
 "you encrypted messages</link>."
 msgstr ""
+"Перш ніж ви зможете отримувати або надсилати зашифровані GPG повідомлення,"
+" вам слід <link xref=\"help:seahorse/pgp-create\""
+" href=\"https://help.gnome.org/users/seahorse/stable/pgp-create\">створити"
+" ваш відкритий і закритий ключі за допомогою GPG</link>. Після створення"
+" ключів і <link xref=\"mail-encryption-gpg-set-up\">налаштовування "
+"<app>Evolution</app> на використання ключа</link>, вам слід <link"
+" xref=\"help:seahorse/pgp-publish\" href=\"https://help.gnome.org/users/seahor"
+"se/stable/pgp-publish\">поділитися вашим відкритим ключем з вашими"
+" кореспондентами, щоб вони могли надсилати вам зашифровані повідомлення</link"
+">."
 
 #. (itstool) path: info/desc
 #: C/mail-encryption-gpg-decrypting.page:5
@@ -9688,6 +9698,14 @@ msgid ""
 "<gui>Properties</gui> and copy the <gui>Key ID</gui>. Your key ID is an "
 "eight-character string with random numbers and letters."
 msgstr ""
+"<app>Evolution</app> потрібно, щоб ви знали ідентифікатор вашого ключа. Якщо"
+" ви його не пам'ятаєте, запустіть програму <app>Паролі й ключі</app>,"
+" відкрийте сторінку <gui>Ключі GnuPG</gui>, виберіть потрібний вам ключ GPG,"
+" клацніть правою кнопкою миші на його пункті, виберіть у контекстному меню"
+" пункт "
+"<gui>Властивості</gui> і скопіюйте <gui>Ідентифікатор ключа</gui>."
+" Ідентифікатором вашого ключа є восьмисимвольний рядок, який складено з"
+" різних цифр і літер."
 
 #. (itstool) path: info/desc
 #: C/mail-encryption-gpg-signing-encrypting.page:5
@@ -9710,6 +9728,11 @@ msgid ""
 "gui> from the message composer menu or clicking the corresponding toolbar "
 "icon."
 msgstr ""
+"Після <link xref=\"mail-encryption-gpg-set-up\">налаштовування вашого ключа"
+" GPG</link> ви зможете підписувати і шифрувати повідомлення за допомогою"
+" пункту меню <guiseq><gui>Параметри</gui><gui>Підписати використовуючи PGP<"
+"/gui></guiseq>, або пункту <gui>Підписати використовуючи PGP</gui> з меню"
+" редактора повідомлень, або відповідної кнопки панелі інструментів."
 
 #. (itstool) path: note/p
 #: C/mail-encryption-gpg-signing-encrypting.page:31
@@ -9820,6 +9843,12 @@ msgid ""
 "adding your mail certificate, go to <gui>Authorities</gui> and enable "
 "<gui>Trust this CA to identify email users</gui> for the certificate."
 msgstr ""
+"Якщо ви бачите повідомлення про помилку «Peer's certificate issuer has been"
+" marked as not "
+"trusted by the user. (-8172) - Cannot add SMIMEEncKeyPrefs attribute» після"
+" додавання вашого поштового сертифіката, перейдіть до <gui>Постачальники</gui"
+"> і позначте пункт <gui>Довіряти цій CA для ідентифікації поштових"
+" користувачів</gui> для сертифіката."
 
 #. (itstool) path: page/p
 #: C/mail-encryption-s-mime-manage.page:30
@@ -9829,6 +9858,10 @@ msgid ""
 "select the file to import, then click <gui style=\"button\">Open</gui> and "
 "enter a password."
 msgstr ""
+"У списку <gui>Ваші сертифікати</gui> буде показано сертифікати, власником"
+" яких ви є. Щоб додати сертифікат для підписування, натисніть кнопку <gui"
+" style=\"button\">Імпортувати</gui>, виберіть файл для імпортування,"
+" натисніть кнопку <gui style=\"button\">Відкрити</gui> і введіть пароль."
 
 #. (itstool) path: page/p
 #: C/mail-encryption-s-mime-manage.page:31
@@ -9837,6 +9870,9 @@ msgid ""
 "have for contacts. These certificates allow you to decrypt messages as well "
 "verify signed messages."
 msgstr ""
+"У списку <gui>Сертифікати контактів</gui> буде показано наявний у вас список"
+" сертифікатів контактів. За допомогою цих сертифікатів ви можете"
+" розшифровувати повідомлення, а також перевіряти підписані повідомлення."
 
 #. (itstool) path: page/p
 #: C/mail-encryption-s-mime-manage.page:32
@@ -9844,6 +9880,8 @@ msgid ""
 "<gui>Authorities</gui> displays a list of trusted certificate authorities "
 "that verify that your own certificate is valid."
 msgstr ""
+"У списку <gui>Постачальники</gui> буде показано список довірених служб"
+" сертифікації, які можуть засвідчити ідентичність вашого власного сертифіката."
 
 #. (itstool) path: info/desc
 #: C/mail-encryption-s-mime-signing-encrypting.page:5
@@ -9860,6 +9898,12 @@ msgid ""
 "Encrypt</gui> from the message composer menu or clicking the corresponding "
 "toolbar icon."
 msgstr ""
+"Після <link xref=\"mail-encryption-s-mime-manage\">додавання вашого"
+" сертифіката</link> ви можете підписувати або шифрувати повідомлення за"
+" допомогою пункту меню <guiseq><gui>Параметри</gui><gui>Підписати"
+" використовуючи S/MIME</gui></guiseq>, або пункту <gui>Підписати"
+" використовуючи S/MIME</gui> у меню редактора повідомлень, або натискання"
+" відповідної кнопки на панелі інструментів."
 
 #. (itstool) path: item/p
 #: C/mail-encryption-s-mime-signing-encrypting.page:34
@@ -9870,6 +9914,12 @@ msgid ""
 "next to <gui>Encryption Certificate</gui> and specify the path to your "
 "encryption certificate."
 msgstr ""
+"У розділі <gui>Безпечний MIME (S/MIME)</gui> натисніть кнопку <gui"
+" style=\"button\">Вибрати</gui>, яку розташовано поряд із міткою <gui"
+">Сертифікат підпису</gui>, і вкажіть шлях до вашого сертифіката для"
+" підписування, або натисніть кнопку <gui style=\"button\">Вибрати</gui>, яку"
+" розташовано поряд із міткою <gui>Сертифікат для шифрування</gui>, і вкажіть"
+" шлях до вашого сертифіката для шифрування."
 
 #. (itstool) path: item/p
 #: C/mail-encryption-s-mime-signing-encrypting.page:35
@@ -10127,6 +10177,10 @@ msgid ""
 "emails that did not match any conditions for the preceding filters in the "
 "list."
 msgstr ""
+"Застосовує дію завжди до будь-якого повідомлення без врахування подальших"
+" умов. Цей варіант може бути корисним наприкінці списку фільтрів повідомлень"
+" для обробки усіх повідомлень, які не відповідають жодній іншій умові обробки"
+" фільтрами у списку."
 
 #. (itstool) path: info/desc
 #: C/mail-filters-not-working.page:5
@@ -10176,6 +10230,12 @@ msgid ""
 "applied to the original message that is now marked for deletion. Therefore "
 "moving a message should usually appear last in a sequence of filter rules."
 msgstr ""
+"Коли ви пересуваєте повідомлення до іншої теки, «пересування» насправді"
+" означає дописування копії повідомлення до теки призначення і позначення"
+" початкового повідомлення до вилучення. Отже, усі наступні правила"
+" фільтрування буде застосовано до початкового повідомлення, яке вже позначено"
+" до вилучення. Через це, пересування повідомлення, зазвичай, має бути"
+" останнім у послідовності правил фільтрування."
 
 #. (itstool) path: section/p
 #: C/mail-filters-not-working.page:32
@@ -10184,6 +10244,9 @@ msgid ""
 "in the <gui>Then</gui> section by <link xref=\"mail-filters#editing"
 "\">editing the filter</link>."
 msgstr ""
+"Щоб перевірити правила та порядок їхнього застосування, перегляньте його дію"
+" у розділі <gui>Потім</gui> <link xref=\"mail-filters#editing\">редагуючи"
+" фільтр</link>."
 
 #. (itstool) path: section/title
 #: C/mail-filters-not-working.page:36
@@ -10198,6 +10261,11 @@ msgid ""
 "fetched from the server. If you use another email client aside from "
 "<app>Evolution</app>, your filters may not work automatically."
 msgstr ""
+"Ще одним фактором, який слід взяти до уваги, є те, що фільтри залежать від"
+" прапорця «нове», який встановлюється на сервері, коли певне повідомлення"
+" електронної пошти вперше отримується з сервера. Якщо ви використовуєте інший"
+" клієнт електронної пошти, а не <app>Evolution</app>, ваші фільтри можуть не"
+" працювати автоматично."
 
 #. (itstool) path: section/title
 #: C/mail-filters-not-working.page:41
@@ -10318,6 +10386,15 @@ msgid ""
 "gui><gui>Options</gui><gui>Apply filters to new messages in Inbox on this "
 "server</gui></guiseq>."
 msgstr ""
+"Фільтри буде автоматично застосовано до вхідних повідомлень для локальних"
+" облікових записів (зокрема POP). Поштові сервери для віддалених облікових"
+" записів (зокрема IMAP) часто фільтрують пошту безпосередньо на сервері,"
+" оскільки це швидше. Якщо ви хочете застосувати ваші фільтри <app>Evolution<"
+"/app> до віддалених облікових записів, ви можете увімкнути їх за допомогою"
+" пункту <guiseq><gui>Зміни</gui><gui>Параметри</gui><gui>Облікові записи</gui"
+"><gui style=\"button\">Редагувати</gui><gui>Параметри отримання</gui><gui"
+">Параметри</gui><gui>Застосувати фільтри до нових повідомлень у теці «Вхідні»"
+" на цьому сервері</gui></guiseq>."
 
 #. (itstool) path: page/p
 #: C/mail-filters.page:29
@@ -10429,6 +10506,10 @@ msgid ""
 "existing filters to be applied choose <gui>Stop Processing</gui> as the "
 "second action in the list."
 msgstr ""
+"Якщо ви хочете визначити декілька дій, натисніть кнопку <gui style=\"button\""
+">Додати дію</gui> і повторіть попередній крок. Наприклад, якщо ви хочете, щоб"
+" не було застосовано ніякі інші наявні фільтри, виберіть <gui>Зупинити"
+" обробку</gui> як другу дію у списку."
 
 #. (itstool) path: section/title
 #: C/mail-filters.page:56
@@ -10483,6 +10564,10 @@ msgid ""
 "messages. You start out with a few mail folders such as the Inbox, Outbox, "
 "and Drafts. You can, however, create more folders if required."
 msgstr ""
+"<app>Evolution</app>, як більшість поштових систем, використовує теки для"
+" зберігання повідомлень електронної пошти. На початку у вас буде декілька тек"
+" електронної пошти, зокрема «Вхідні», «Вихідні» та «Чернетки». Втім, якщо"
+" потрібно, ви можете створити додаткові теки."
 
 #. (itstool) path: section/title
 #: C/mail-folders.page:34
@@ -10501,6 +10586,9 @@ msgid ""
 "click anywhere on the folder list and select the <gui>New Folder</gui> "
 "option."
 msgstr ""
+"Натисніть пункт <gui>Тека</gui> і виберіть <gui>Створити</gui>. Ви також"
+" можете клацнути правою кнопкою у довільному місці списку тек і вибрати у"
+" контекстному меню пункт <gui>Створити теку</gui>."
 
 #. (itstool) path: item/p
 #: C/mail-folders.page:38
@@ -10531,6 +10619,12 @@ msgid ""
 "messages that exist in the Inbox. If this happens, move the folders to the "
 "IMAP account."
 msgstr ""
+"На більшості серверів IMAP у теці <gui>Вхідні</gui> не можуть міститися"
+" одночасно повідомлення і підтеки. При створенні додаткових тек на вашому"
+" сервері IMAP створюйте відгалуження кореневої теки облікового запису IMAP, а"
+" не теки «Вхідні». Створення підтек у вашій теці «Вхідні» може призвести до"
+" неможливості читання повідомлень, які вже зберігаються у теці «Вхідні». Якщо"
+" таке трапилося, пересуньте теки до кореневої теки облікового запису IMAP."
 
 #. (itstool) path: section/title
 #: C/mail-folders.page:50
@@ -10630,6 +10724,10 @@ msgid ""
 "<guiseq><gui>Message</gui><gui>Mark as</gui><gui>Follow Up…</gui></guiseq> "
 "or by pressing <keyseq><key>Shift</key><key>Ctrl</key><key>G</key></keyseq>."
 msgstr ""
+"Крім того, ви можете зробити це позначенням повідомлень із наступним вибором"
+" пункту меню <guiseq><gui>Повідомлення</gui><gui>Позначити як</gui><gui>До"
+" виконання…</gui></guiseq> або натисканням комбінації клавіш <keyseq><key"
+">Shift</key><key>Ctrl</key><key>G</key></keyseq>."
 
 #. (itstool) path: page/p
 #: C/mail-follow-up-flag.page:32
@@ -10644,6 +10742,8 @@ msgid ""
 "The flag itself is the action you want to remind yourself about, such as "
 "Call, Forward and Reply."
 msgstr ""
+"Сам прапорець є дією, про яку ви хочете собі нагадати, зокрема дією"
+" «Подзвонити», «Переспрямувати» або «Відповісти»."
 
 #. (itstool) path: page/p
 #: C/mail-follow-up-flag.page:36
@@ -10652,6 +10752,10 @@ msgid ""
 "entirely by right-clicking the message and clicking either <gui>Flag "
 "Completed</gui> or <gui>Clear Flag</gui>."
 msgstr ""
+"Після додавання прапорця ви можете позначити відповідне завдання як виконане"
+" або вилучити прапорець клацанням правою кнопкою миші на повідомленні і"
+" вибором пункту <gui>Прапорець «Виконано»</gui> або <gui>Очистити ознаку</gui"
+">."
 
 #. (itstool) path: page/p
 #: C/mail-follow-up-flag.page:38
@@ -10660,6 +10764,10 @@ msgid ""
 "before the message headers. An overdue message might tell you \"Overdue: "
 "Call by April 07, 2012, 5:00 PM.\""
 msgstr ""
+"При читанні повідомлення із прапорцем його прапорець буде показано у верхній"
+" частині повідомлення до заголовків повідомлення. Може бути показано"
+" повідомлення про простроченість — «Прострочено: Подзвонити від 07 квітня"
+" 2012, 17:00.»"
 
 #. (itstool) path: page/p
 #: C/mail-follow-up-flag.page:40
@@ -10671,6 +10779,14 @@ msgid ""
 "displays all your flagged messages, then clear the flags when you're done, "
 "so the search folder contains only messages with upcoming deadlines."
 msgstr ""
+"Прапорці можуть допомогти вам упорядкувати вашу роботу у декілька способів."
+" Наприклад, ви можете <link xref=\"mail-change-columns-in-message-list\""
+">додати стовпчик стану прапорця</link> до вашого списку повідомлень і"
+" упорядкувати його за прапорцями. Крім того, ви можете створити <link"
+" xref=\"mail-search-folders\">теку пошуку</link>, у якій буде показано усі"
+" ваші повідомлення із прапорцями, а потім зняти прапорці, коли виконаєте"
+" завдання. Після цього, у теці пошуку будуть міститися лише повідомлення із"
+" термінами виконання у майбутньому."
 
 #. (itstool) path: note/p
 #: C/mail-follow-up-flag.page:42
@@ -10680,6 +10796,11 @@ msgid ""
 "Important</gui>, or by selecting <guiseq><gui>Message</gui><gui>Mark as</"
 "gui><gui>Important</gui></guiseq> from the menubar."
 msgstr ""
+"Якщо ви надаєте перевагу простішому способу нагадування собі про"
+" повідомлення, ви можете позначити повідомлення як важливі — клацніть правою"
+" кнопкою миші на пункті повідомлення, потім виберіть у контекстному меню"
+" пункт <gui>Позначити як важливе</gui>, або виберіть пункт меню <guiseq><gui"
+">Повідомлення</gui><gui>Позначити як</gui><gui>Важливе</gui></guiseq>."
 
 #. (itstool) path: info/desc
 #: C/mail-imap-change-send-method.page:5
@@ -10704,6 +10825,8 @@ msgstr ""
 msgid ""
 "If you used Sendmail so far but now want to use an SMTP connection instead:"
 msgstr ""
+"Якщо ви до цього використовували Sendmail, а тепер хочете скористатися"
+" з'єднанням SMTP:"
 
 #. (itstool) path: item/p
 #: C/mail-imap-change-send-method.page:29
@@ -10722,6 +10845,8 @@ msgid ""
 "<code>BackendName=sendmail</code> with <code>BackendName=smtp</code> or vice "
 "versa."
 msgstr ""
+"У розділі <code>[Mail Transport]</code> замініть <code>BackendName=sendmail<"
+"/code> на <code>BackendName=smtp</code> або навпаки."
 
 #. (itstool) path: item/p
 #: C/mail-imap-change-send-method.page:33
@@ -10729,6 +10854,8 @@ msgid ""
 "Restart the <code>evolution-source-registry</code> background process, for "
 "example by rebooting your system."
 msgstr ""
+"Перезапустіть фонову службу <code>evolution-source-registry</code>,"
+" наприклад, перезавантаживши операційну систему."
 
 #. (itstool) path: item/p
 #: C/mail-imap-change-send-method.page:35
@@ -10736,6 +10863,8 @@ msgid ""
 "Start <app>Evolution</app> and edit the account SMTP settings for the "
 "account as needed."
 msgstr ""
+"Запустіть <app>Evolution</app> і внесіть відповідні зміни до параметрів SMTP"
+" вашого облікового запису."
 
 #. (itstool) path: info/desc
 #: C/mail-imap-subscriptions.page:5
@@ -10754,6 +10883,10 @@ msgid ""
 "IMAP folders to check and display in <app>Evolution</app>, and which ones to "
 "ignore for the time being, via the <gui>IMAP Subscriptions Manager</gui>."
 msgstr ""
+"Оскільки відкриття багатьох тек IMAP на сервері потребує певного часу, ви"
+" можете визначити, у яких теках IMAP слід шукати нові повідомлення і які теки"
+" слід показувати у <app>Evolution</app>, а також визначити теки, які слід"
+" ігнорувати за допомогою <gui>вікна керування підписками IMAP</gui>."
 
 #. (itstool) path: item/p
 #: C/mail-imap-subscriptions.page:29
@@ -10762,6 +10895,10 @@ msgid ""
 "click on the top level node of an email account in the folder list and click "
 "<gui>Manage subscriptions</gui>."
 msgstr ""
+"Виберіть пункт меню <guiseq><gui>Тека</gui><gui>Підписки</gui></guiseq> або"
+" клацніть правою кнопкою миші на вузлі верхнього рівня у списку облікового"
+" запису електронної пошти і виберіть у контекстному меню пункт <gui"
+">Організувати підписки</gui>."
 
 #. (itstool) path: item/p
 #: C/mail-imap-subscriptions.page:30 C/mail-usenet-subscriptions.page:30
@@ -10769,6 +10906,8 @@ msgid ""
 "If you have accounts on multiple servers, select the server where you want "
 "to manage your subscriptions."
 msgstr ""
+"Якщо у вас є облікові записи на декількох серверах, виберіть сервер, на якому"
+" ви хочете керувати вашими підписками."
 
 #. (itstool) path: item/p
 #: C/mail-imap-subscriptions.page:31
@@ -10776,6 +10915,8 @@ msgid ""
 "<app>Evolution</app> displays a list of files and folders available on the "
 "IMAP server."
 msgstr ""
+"<app>Evolution</app> покаже список файлів і тек, які є доступними на сервері"
+" IMAP."
 
 #. (itstool) path: item/p
 #: C/mail-imap-subscriptions.page:32
@@ -10789,6 +10930,10 @@ msgid ""
 "way your IMAP server is configured, the list of available files might "
 "include non-mail folders. If it does, you can ignore them."
 msgstr ""
+"Вам слід вибрати принаймні теку <gui>Вхідні</gui>. Залежно від способу"
+" налаштовування сервера IMAP, до списку доступних файлів може бути включено"
+" теки, які не пов'язано із електронною поштою. Якщо це так, ви можете"
+" ігнорувати ці теки."
 
 #. (itstool) path: item/p
 #: C/mail-imap-subscriptions.page:34
@@ -10814,6 +10959,10 @@ msgid ""
 "similar to <link xref=\"using-categories\">Categories</link> in the other "
 "<app>Evolution</app> windows."
 msgstr ""
+"Ви можете додавати кольорові мітки до повідомлень електронної пошти з метою"
+" категоризації. Додавання таких міток подібне до визначення <link"
+" xref=\"using-categories\">категорій</link> на інших панелях <app>Evolution<"
+"/app>."
 
 #. (itstool) path: page/p
 #: C/mail-labels.page:25
@@ -10822,6 +10971,11 @@ msgid ""
 "\"mail-searching\">quick search dropdown</link>. Also, <link xref=\"mail-"
 "search-folders\">search folders</link> can be created based on labels."
 msgstr ""
+"Ви можете виконувати пошук повідомлень із певними мітками за допомогою <link"
+" xref="
+"\"mail-searching\">спадного списку швидкого пошуку</link>. Крім того, на"
+" основі міток можна створювати <link xref=\"mail-"
+"search-folders\">пошукові теки</link>."
 
 #. (itstool) path: section/title
 #: C/mail-labels.page:28
@@ -10836,11 +10990,19 @@ msgid ""
 "apply, or right-click the message, click <gui>Label</gui>, and choose the "
 "label to apply."
 msgstr ""
+"Щоб призначити мітку до повідомлення, або скористайтеся пунктом меню <guiseq"
+"><gui>Повідомлення</"
+"gui><gui>Позначити як</gui><gui>Позначка</gui></guiseq> і виберіть мітку, яку"
+" слід застосувати, або клацніть правою кнопкою миші на повідомленні, виберіть"
+" у контекстному меню пункт <gui>Позначка</gui> і виберіть мітку, яку слід"
+" застосувати."
 
 #. (itstool) path: section/p
 #: C/mail-labels.page:30
 msgid "You can also quickly add a new label by choosing <gui>New Label</gui>."
 msgstr ""
+"Ви також можете швидко додати нову мітку за допомогою пункту <gui>Нова"
+" позначка</gui>."
 
 #. (itstool) path: section/title
 #: C/mail-labels.page:34
@@ -10854,6 +11016,10 @@ msgid ""
 "gui><gui>Preferences</gui><gui>Mail Preferences</gui><gui>Labels</gui></"
 "guiseq>. Note that you cannot remove the default labels."
 msgstr ""
+"Ви можете додати мітку, змінити мітку і вилучити усі мітки за допомогою"
+" сторінки <guiseq><gui>Зміни</"
+"gui><gui>Параметри</gui><gui>Параметри пошти</gui><gui>Позначки</gui></guiseq"
+">. Зауважте, що типові мітки не можна вилучати."
 
 #. (itstool) path: info/desc
 #: C/mail-layout-changing.page:5
@@ -10861,6 +11027,8 @@ msgid ""
 "Changing the display of the mail window (message list columns and "
 "widescreen)."
 msgstr ""
+"Зміна вигляду головного вікна (стовпчиків списку повідомлень та пристосування"
+" до широкого екрана)."
 
 #. (itstool) path: page/title
 #: C/mail-layout-changing.page:20
@@ -10871,6 +11039,7 @@ msgstr "Зміна компонування вікна пошти"
 #: C/mail-localized-re-subjects.page:5
 msgid "Avoid long subject lines due to translated \"Re:\" prefixes."
 msgstr ""
+"Уникнення збільшення довжини рядків теми через перекладені префікси «Re:»."
 
 #. (itstool) path: page/title
 #: C/mail-localized-re-subjects.page:19
@@ -10885,6 +11054,12 @@ msgid ""
 "in Danish or \"AW: in German). <app>Evolution</app> can recognize these "
 "terms to avoid subject lines getting longer as the conversation continues."
 msgstr ""
+"Традиційно, під час створення відповідей на повідомлення електронної пошти до"
+" рядка теми повідомлення додається префікс «Re:». У деяких програмах для"
+" роботи з електронною поштою використовуються локалізовані префікси"
+" (наприклад, «SV:» для данської мови або «AW:» для німецької). <app"
+">Evolution</app> може виявляти такі префікси для уникнення невиправданого"
+" збільшення розмірів рядка теми під час обміну повідомленнями."
 
 #. (itstool) path: item/p
 #: C/mail-localized-re-subjects.page:25
@@ -10947,6 +11122,10 @@ msgid ""
 "are correct. If the message contains a wrong or invalid email address, the "
 "message will not be sent."
 msgstr ""
+"Некоректна адреса електронної пошти. Перевірте, чи усі адреси у списку"
+" отримувачів повідомлень є правильними. Якщо у повідомленні міститься"
+" помилкова або некоректна адреса електронної пошти, повідомлення не буде"
+" надіслано."
 
 #. (itstool) path: item/p
 #: C/mail-not-sent.page:27
@@ -10955,6 +11134,9 @@ msgid ""
 "are correct. Using the incorrect server address or authentication method may "
 "prevent emails from being sent."
 msgstr ""
+"Помилкові параметри SMTP. Перевірте, чи правильно вказано параметри для"
+" вихідних повідомлень. Використання помилкової адреси сервера або способу"
+" розпізнавання призводить до неможливості надіслати повідомлення."
 
 #. (itstool) path: item/p
 #: C/mail-not-sent.page:28
@@ -11378,6 +11560,8 @@ msgstr ""
 #: C/mail-receiving-options-maildir-format-directories.page:5
 msgid "Receiving options for Maildir-format mail directories accounts."
 msgstr ""
+"Параметри отримання пошти для облікових записів каталогів пошти у форматі"
+" Maildir."
 
 #. (itstool) path: item/p
 #: C/mail-receiving-options-maildir-format-directories.page:28
@@ -11403,36 +11587,38 @@ msgstr ""
 #: C/mail-receiving-options-mh-format-directories.page:5
 msgid "Receiving options for MH-format mail directories accounts."
 msgstr ""
+"Параметри отримання пошти для облікових записів каталогів пошти у форматі MH."
 
 #. (itstool) path: info/desc
 #: C/mail-receiving-options.page:5
 msgid "Available mail receiving options for several server types."
-msgstr ""
+msgstr "Доступні параметри отримання пошти для декількох типів серверів."
 
 #. (itstool) path: page/title
 #: C/mail-receiving-options.page:18
 msgid "Mail Receiving Options"
-msgstr ""
+msgstr "Параметри отримання пошти"
 
 #. (itstool) path: section/title
 #: C/mail-receiving-options.page:21
 msgid "Mail receiving options for common server types"
-msgstr ""
+msgstr "Параметри отримання пошти для стандартних типів серверів"
 
 #. (itstool) path: section/title
 #: C/mail-receiving-options.page:24
 msgid "Mail receiving options for corporate server types"
-msgstr ""
+msgstr "Параметри отримання пошти для корпоративних типів серверів"
 
 #. (itstool) path: section/title
 #: C/mail-receiving-options.page:27
 msgid "Mail receiving options for local account server types"
 msgstr ""
+"Параметри отримання пошти для типів серверів для локальних облікових записів"
 
 #. (itstool) path: info/desc
 #: C/mail-receiving-options-pop.page:5
 msgid "Receiving options for POP accounts."
-msgstr ""
+msgstr "Параметри отримання пошти для облікових записів POP."
 
 #. (itstool) path: item/p
 #: C/mail-receiving-options-pop.page:51
@@ -11457,6 +11643,8 @@ msgstr ""
 #: C/mail-receiving-options-unix-mbox-spool-directory.page:5
 msgid "Receiving options for standard Unix mbox spool directory accounts."
 msgstr ""
+"Параметри отримання пошти для облікових записів стандартного для Unix"
+" каталогу буфера mbox."
 
 #. (itstool) path: item/p
 #: C/mail-receiving-options-unix-mbox-spool-directory.page:28
@@ -11471,11 +11659,13 @@ msgstr ""
 #: C/mail-receiving-options-unix-mbox-spool-file.page:5
 msgid "Receiving options for standard Unix mbox spool file accounts."
 msgstr ""
+"Параметри отримання пошти для облікових записів стандартного для Unix"
+" файла буфера mbox."
 
 #. (itstool) path: info/desc
 #: C/mail-receiving-options-usenet-news.page:5
 msgid "Receiving options for Usenet news accounts."
-msgstr ""
+msgstr "Параметри отримання пошти для облікових записів новин Usenet."
 
 #. (itstool) path: item/p
 #: C/mail-receiving-options-usenet-news.page:47
