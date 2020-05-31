@@ -6,7 +6,7 @@
 
     <link type="guide" xref="import-data#import-from-apps" />
 
-    <revision pkgversion="3.35.91" version="0.1" date="2020-02-21" status="final"/>
+    <revision pkgversion="3.36.2" version="0.1" date="2020-05-31" status="final"/>
     <credit type="author">
       <name its:translate="no">Andre Klapper</name>
       <email its:translate="no">ak-47@gmx.net</email>
@@ -23,6 +23,11 @@
   <item><p><file>$HOME/.kde4/share/apps/kmail/mail</file> for mail</p></item>
   <item><p><file>$HOME/.kde4/share/apps/kabc</file> for contacts</p></item>
   </list>
+  
+  <p>For more recent versions, follow
+  <link href="https://mail.gnome.org/archives/evolution-list/2020-March/msg00168.html">the
+  instructions in this post</link>. If you run into problems, follow
+  <link xref="problems-getting-help" />.</p>
 
 <!-- from https://mail.gnome.org/archives/evolution-list/2019-October/msg00044.html -->
 
