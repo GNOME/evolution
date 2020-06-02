@@ -6,8 +6,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: evolution master\n"
-"POT-Creation-Date: 2020-05-31 19:41+0000\n"
-"PO-Revision-Date: 2020-06-01 13:16+0300\n"
+"POT-Creation-Date: 2020-06-01 10:33+0000\n"
+"PO-Revision-Date: 2020-06-02 16:08+0300\n"
 "Last-Translator: Yuri Chornoivan <yurchor@ukr.net>\n"
 "Language-Team: Ukrainian <trans-uk@lists.fedoraproject.org>\n"
 "Language: uk\n"
@@ -3510,10 +3510,6 @@ msgstr "<file>$HOME/.kde4/share/apps/kabc</file> для контактів"
 
 #. (itstool) path: page/p
 #: C/import-apps-kmail.page:27
-#| msgid ""
-#| "Follow <link href=\"https://mail.gnome.org/archives/evolution-list/2019-"
-#| "February/msg00055.html\">this mailing list posting</link> for an "
-#| "alternative method that you could try."
 msgid ""
 "For more recent versions, follow <link href=\"https://mail.gnome.org/"
 "archives/evolution-list/2020-March/msg00168.html\">the instructions in this "
@@ -3521,10 +3517,9 @@ msgid ""
 "help\"/>."
 msgstr ""
 "У свіжіших версіях скористайтеся <link href=\"https://mail.gnome.org/"
-"archives/evolution-list/2020-March/msg00168.html\">настановами з цього"
-" допису</link>. Якщо у вас виникнуть проблеми, ознайомтеся із розділом <link"
-" xref=\"problems-getting-"
-"help\"/>."
+"archives/evolution-list/2020-March/msg00168.html\">настановами з цього "
+"допису</link>. Якщо у вас виникнуть проблеми, ознайомтеся із розділом <link "
+"xref=\"problems-getting-help\"/>."
 
 #. (itstool) path: info/desc
 #: C/import-apps-outlook.page:5
@@ -12223,9 +12218,9 @@ msgid ""
 "If you start directly from the fourth step, text will be searched in mail's "
 "subjects and addresses and scope will be \"Current folder\"."
 msgstr ""
-"Якщо ви розпочинаєте безпосередньо з четвертого кроку, пошук тексту буде"
-" виконано у темах повідомлень та адресах, а областю пошуку буде «Поточна"
-" тека»."
+"Якщо ви розпочинаєте безпосередньо з четвертого кроку, пошук тексту буде "
+"виконано у темах повідомлень та адресах, а областю пошуку буде «Поточна "
+"тека»."
 
 #. (itstool) path: note/p
 #: C/mail-searching.page:54
@@ -12234,9 +12229,9 @@ msgid ""
 "might want to create a search folder instead; see <link xref=\"mail-search-"
 "folders\">Using Search Folders</link> for more detail."
 msgstr ""
-"Якщо ви шукаєте повідомлення, які зберігаються у різних теках, досить часто"
-" вартим уваги рішенням є створення теки пошуку. Докладніший опис наведено у"
-" розділі <link xref=\"mail-search-folders\">Користування теками пошуку</link>."
+"Якщо ви шукаєте повідомлення, які зберігаються у різних теках, досить часто "
+"вартим уваги рішенням є створення теки пошуку. Докладніший опис наведено у "
+"розділі <link xref=\"mail-search-folders\">Користування теками пошуку</link>."
 
 #. (itstool) path: info/desc
 #: C/mail-send-and-receive-automatically.page:5
@@ -12258,13 +12253,13 @@ msgid ""
 "gui><gui style=\"button\">Edit</gui><gui>Receiving Options</gui></guiseq>) "
 "and select the frequency in minutes."
 msgstr ""
-"Якщо ви хочете, щоб <app>Evolution</app> автоматично шукала нові"
-" повідомлення, позначте пункт <gui>Перевіряти нову пошту кожні … хвилин</gui>"
-" на сторінці <gui>Параметри отримання</gui> параметрів облікового запису"
-" електронної пошти (доступ до сторінки можна отримати за допомогою пунктів <"
-"guiseq><gui>Зміни</gui><gui>Параметри</gui><gui>Облікові записи</gui><gui"
-" style=\"button\">Редагувати</gui><gui>Параметри отримання</gui></guiseq>) і"
-" виберіть інтервал між перевірками у хвилинах."
+"Якщо ви хочете, щоб <app>Evolution</app> автоматично шукала нові "
+"повідомлення, позначте пункт <gui>Перевіряти нову пошту кожні … хвилин</gui> "
+"на сторінці <gui>Параметри отримання</gui> параметрів облікового запису "
+"електронної пошти (доступ до сторінки можна отримати за допомогою пунктів "
+"<guiseq><gui>Зміни</gui><gui>Параметри</gui><gui>Облікові записи</gui><gui "
+"style=\"button\">Редагувати</gui><gui>Параметри отримання</gui></guiseq>) і "
+"виберіть інтервал між перевірками у хвилинах."
 
 #. (itstool) path: note/p
 #: C/mail-send-and-receive-automatically.page:23
@@ -12274,10 +12269,10 @@ msgid ""
 "supports the <link href=\"https://tools.ietf.org/search/rfc5465\">IMAP "
 "NOTIFY</link> extension."
 msgstr ""
-"В <app>Evolution</app> передбачено підтримку <link"
-" href=\"https://en.wikipedia.org/wiki/IMAP_IDLE\">IMAP IDLE</link> для"
-" поточної позначеної теки та часткову підтримку розширення <link"
-" href=\"https://tools.ietf.org/search/rfc5465\">IMAP NOTIFY</link>."
+"В <app>Evolution</app> передбачено підтримку <link href=\"https://en."
+"wikipedia.org/wiki/IMAP_IDLE\">IMAP IDLE</link> для поточної позначеної теки "
+"та часткову підтримку розширення <link href=\"https://tools.ietf.org/search/"
+"rfc5465\">IMAP NOTIFY</link>."
 
 #. (itstool) path: info/desc
 #: C/mail-send-and-receive-manual.page:5
@@ -12297,10 +12292,10 @@ msgid ""
 "Receive</gui> button in the toolbar, or press <key>F12</key>, or choose "
 "<guiseq><gui>File</gui><gui>Send / Receive</gui></guiseq> from the main menu."
 msgstr ""
-"Щоб отримати нові повідомлення з сервера електронної пошти і надіслати"
-" написані вами повідомлення із локальної теки «Вихідні», натисніть кнопку <"
-"gui style=\"button\">Надіслати / Отримати</gui> на панелі інструментів, або"
-" натисніть клавішу <key>F12</key>, або скористайтеся пунктом головного меню "
+"Щоб отримати нові повідомлення з сервера електронної пошти і надіслати "
+"написані вами повідомлення із локальної теки «Вихідні», натисніть кнопку "
+"<gui style=\"button\">Надіслати / Отримати</gui> на панелі інструментів, або "
+"натисніть клавішу <key>F12</key>, або скористайтеся пунктом головного меню "
 "<guiseq><gui>Файл</gui><gui>Надіслати / Отримати</gui></guiseq>."
 
 #. (itstool) path: page/p
@@ -12310,10 +12305,10 @@ msgid ""
 "only receive, click the small down-arrow next to the <gui style=\"button"
 "\">Send / Receive</gui> button and choose the corresponding option."
 msgstr ""
-"Щоб надіслати повідомлення і отримати повідомлення лише на одному з ваших"
-" облікових записів або лише надіслати чи лише отримати повідомлення,"
-" натисніть малу стрілочку вниз поряд із кнопкою <gui style=\"button\""
-">Надіслати / Отримати</gui> і виберіть відповідний пункт дії."
+"Щоб надіслати повідомлення і отримати повідомлення лише на одному з ваших "
+"облікових записів або лише надіслати чи лише отримати повідомлення, "
+"натисніть малу стрілочку вниз поряд із кнопкою <gui style=\"button"
+"\">Надіслати / Отримати</gui> і виберіть відповідний пункт дії."
 
 #. (itstool) path: page/p
 #: C/mail-send-and-receive-manual.page:23
@@ -12321,9 +12316,9 @@ msgid ""
 "If you just want to send messages which are in your Outbox, you can right-"
 "click on the Outbox and click <gui>Flush Outbox</gui>."
 msgstr ""
-"Якщо ви хочете просто надіслати повідомлення із теки «Вихідні», можете просто"
-" клацнути правою кнопкою на пункті теки «Вихідні» і вибрати у контекстному"
-" меню пункт <gui>Надіслати вихідні</gui>."
+"Якщо ви хочете просто надіслати повідомлення із теки «Вихідні», можете "
+"просто клацнути правою кнопкою на пункті теки «Вихідні» і вибрати у "
+"контекстному меню пункт <gui>Надіслати вихідні</gui>."
 
 #. (itstool) path: info/desc
 #: C/mail-send-and-receive.page:5
@@ -12342,9 +12337,9 @@ msgid ""
 "writing a new message, please refer to the <link xref=\"index#mail-composing"
 "\">Composing mail</link> section."
 msgstr ""
-"Цей розділ стосується отримання пошти і надсилання набраних повідомлень. Щоб"
-" створити нове повідомлення, будь ласка, скористайтеся порадами з розділу <"
-"link xref=\"index#mail-composing\">Редагування повідомлень</link>."
+"Цей розділ стосується отримання пошти і надсилання набраних повідомлень. Щоб "
+"створити нове повідомлення, будь ласка, скористайтеся порадами з розділу "
+"<link xref=\"index#mail-composing\">Редагування повідомлень</link>."
 
 #. (itstool) path: info/desc
 #: C/mail-sending-options-smtp.page:5
@@ -12358,9 +12353,9 @@ msgid ""
 "gui> field and select if the server requires authentication (entering a "
 "username and a password)."
 msgstr ""
-"Введіть адресу вашого поштового сервера для надсилання пошти у полі <gui"
-">Сервер</gui> і вкажіть, чи слід проходити розпізнавання на сервері (вводити"
-" ім'я користувача і пароль)."
+"Введіть адресу вашого поштового сервера для надсилання пошти у полі "
+"<gui>Сервер</gui> і вкажіть, чи слід проходити розпізнавання на сервері "
+"(вводити ім'я користувача і пароль)."
 
 #. (itstool) path: item/p
 #: C/mail-sending-options-smtp.page:32
@@ -12368,8 +12363,8 @@ msgid ""
 "If the server requires authentication, you need to provide the following "
 "information:"
 msgstr ""
-"Якщо для доступу до сервера слід проходити розпізнавання, вам слід надати"
-" такі дані:"
+"Якщо для доступу до сервера слід проходити розпізнавання, вам слід надати "
+"такі дані:"
 
 #. (itstool) path: item/p
 #: C/mail-sending-options-smtp.page:34
@@ -12379,18 +12374,18 @@ msgid ""
 "Some servers do not support this, so clicking this button is not a guarantee "
 "that available mechanisms actually work."
 msgstr ""
-"Виберіть тип розпізнавання зі списку «Автентифікація» або натисніть кнопку <"
-"gui>Перевірити підтримувані типи</gui>, щоб наказати <app>Evolution</app>"
-" виявити підтримувані механізми розпізнавання. Деякі сервери не показують"
-" механізмів розпізнавання, підтримку яких передбачено, тому натискання цієї"
-" кнопки не гарантує, що доступні механізми працюватимуть."
+"Виберіть тип розпізнавання зі списку «Автентифікація» або натисніть кнопку "
+"<gui>Перевірити підтримувані типи</gui>, щоб наказати <app>Evolution</app> "
+"виявити підтримувані механізми розпізнавання. Деякі сервери не показують "
+"механізмів розпізнавання, підтримку яких передбачено, тому натискання цієї "
+"кнопки не гарантує, що доступні механізми працюватимуть."
 
 #. (itstool) path: info/desc
 #: C/mail-several-pop-accounts.page:5
 msgid "How to split and sort mail when using more than one local account."
 msgstr ""
-"Як розділити і упорядкувати пошту при використанні декількох локальних"
-" облікових записів."
+"Як розділити і упорядкувати пошту при використанні декількох локальних "
+"облікових записів."
 
 #. (itstool) path: page/title
 #: C/mail-several-pop-accounts.page:22
@@ -12403,9 +12398,9 @@ msgid ""
 "It is not possible to have separate accounts in the accounts and folder list "
 "pane. <app>Evolution</app> only has one unique inbox for incoming email."
 msgstr ""
-"У програмі не передбачено використання декількох окремих облікових записів на"
-" панелі облікових записів і списку тек. В <app>Evolution</app> передбачено"
-" лише одну теку «Вхідні» для вхідних повідомлень."
+"У програмі не передбачено використання декількох окремих облікових записів "
+"на панелі облікових записів і списку тек. В <app>Evolution</app> передбачено "
+"лише одну теку «Вхідні» для вхідних повідомлень."
 
 #. (itstool) path: page/p
 #: C/mail-several-pop-accounts.page:25
@@ -12420,16 +12415,16 @@ msgid ""
 "outgoing filter to move outgoing mail to the sent folder by filtering on the "
 "sender's address."
 msgstr ""
-"Ви можете або скористатися IMAP замість POP, або пересунути вхідні"
-" повідомлення до різних тек за допомогою <link xref=\"mail-folders\""
-">створення тек</link> і <link xref=\"mail-filters\">фільтрів</link>: створіть"
-" теку і дів підтеки (для вхідних і для надісланих повідомлень відповідного"
-" облікового запису). Далі, налаштуйте фільтр вхідних повідомлень за допомогою"
-" пункту <guiseq><gui>Зміни</gui><gui>Фільтри повідомлень…</"
-"gui><gui style=\"button\">Додати</gui></guiseq> для пересування вхідних"
-" повідомлень до теки вхідних фільтруванням за адресою отримування і фільтр"
-" вихідних повідомлень для пересування вихідних повідомлень до теки"
-" «Надіслані» фільтруванням за адресою відправника."
+"Ви можете або скористатися IMAP замість POP, або пересунути вхідні "
+"повідомлення до різних тек за допомогою <link xref=\"mail-folders"
+"\">створення тек</link> і <link xref=\"mail-filters\">фільтрів</link>: "
+"створіть теку і дів підтеки (для вхідних і для надісланих повідомлень "
+"відповідного облікового запису). Далі, налаштуйте фільтр вхідних повідомлень "
+"за допомогою пункту <guiseq><gui>Зміни</gui><gui>Фільтри повідомлень…</"
+"gui><gui style=\"button\">Додати</gui></guiseq> для пересування вхідних "
+"повідомлень до теки вхідних фільтруванням за адресою отримування і фільтр "
+"вихідних повідомлень для пересування вихідних повідомлень до теки "
+"«Надіслані» фільтруванням за адресою відправника."
 
 #. (itstool) path: info/desc
 #: C/mail-sorting-folder-list.page:5
@@ -12452,8 +12447,8 @@ msgid ""
 "By default the <link xref=\"intro-main-window#e-mail\">mail folder list</"
 "link> in the left pane contains top-level nodes in the following order:"
 msgstr ""
-"Типово, у <link xref=\"intro-main-window#e-mail\">списку поштових тек</link>"
-" на лівій панелі вузли верхнього рівня буде показано у такому порядку:"
+"Типово, у <link xref=\"intro-main-window#e-mail\">списку поштових тек</link> "
+"на лівій панелі вузли верхнього рівня буде показано у такому порядку:"
 
 #. (itstool) path: item/p
 #: C/mail-sorting-folder-list.page:27
@@ -12461,15 +12456,15 @@ msgid ""
 "<gui>On This Computer</gui> - contains all mail for local account types (if "
 "configured)"
 msgstr ""
-"<gui>На цьому комп'ютері</gui> — містить усю пошту для локальних облікових"
-" записів (якщо такі налаштовано)"
+"<gui>На цьому комп'ютері</gui> — містить усю пошту для локальних облікових "
+"записів (якщо такі налаштовано)"
 
 #. (itstool) path: item/p
 #: C/mail-sorting-folder-list.page:28
 msgid "One or more remote email account types (if configured)"
 msgstr ""
-"Один або декілька облікових записів із віддаленим зберіганням поштових даних"
-" (якщо такі налаштовано)"
+"Один або декілька облікових записів із віддаленим зберіганням поштових даних "
+"(якщо такі налаштовано)"
 
 #. (itstool) path: item/p
 #: C/mail-sorting-folder-list.page:29
@@ -12477,8 +12472,8 @@ msgid ""
 "<gui><link xref=\"mail-search-folders\">Search Folders</link></gui> (if "
 "enabled)"
 msgstr ""
-"<gui><link xref=\"mail-search-folders\">Теки пошуку (віртуальні теки)</link><"
-"/gui> (якщо такі увімкнено)"
+"<gui><link xref=\"mail-search-folders\">Теки пошуку (віртуальні теки)</"
+"link></gui> (якщо такі увімкнено)"
 
 #. (itstool) path: section/p
 #: C/mail-sorting-folder-list.page:31
@@ -12497,10 +12492,10 @@ msgid ""
 "<guiseq><gui>Edit</gui><gui>Preferences</gui><gui>Mail Accounts</gui></"
 "guiseq> by dragging an account in the list up or down."
 msgstr ""
-"Ви можете змінити типове упорядковування вузлів верхнього рівня за допомогою"
-" сторінки <guiseq><gui>Зміни</gui><gui>Параметри</gui><gui>Облікові записи<"
-"/gui></guiseq> перетягуванням пунктів у списку вище або нижче за поточну"
-" позицію."
+"Ви можете змінити типове упорядковування вузлів верхнього рівня за допомогою "
+"сторінки <guiseq><gui>Зміни</gui><gui>Параметри</gui><gui>Облікові записи</"
+"gui></guiseq> перетягуванням пунктів у списку вище або нижче за поточну "
+"позицію."
 
 #. (itstool) path: section/p
 #: C/mail-sorting-folder-list.page:39
@@ -12509,9 +12504,9 @@ msgid ""
 "gui><gui>Preferences</gui><gui>Mail Accounts</gui><gui style=\"button"
 "\">Restore Default</gui></guiseq>."
 msgstr ""
-"Повернутися до типового упорядкування можна за допомогою пункту <guiseq><gui"
-">Зміни</gui><gui>Параметри</gui><gui>Облікові записи</gui><gui"
-" style=\"button\">Типові значення</gui></guiseq>."
+"Повернутися до типового упорядкування можна за допомогою пункту "
+"<guiseq><gui>Зміни</gui><gui>Параметри</gui><gui>Облікові записи</gui><gui "
+"style=\"button\">Типові значення</gui></guiseq>."
 
 #. (itstool) path: info/desc
 #: C/mail-sorting-message-list.page:5
@@ -12545,10 +12540,10 @@ msgid ""
 "click on <guiseq><gui>View</gui><gui>Group By Threads</gui></guiseq> or "
 "press <keyseq><key>Ctrl</key><key>T</key></keyseq>."
 msgstr ""
-"Для упорядковування повідомлень ви можете скористатися переглядом повідомлень"
-" із гілками. Щоб увімкнути цю можливість, скористайтеся пунктом меню <guiseq"
-"><gui>Перегляд</gui><gui>Групувати за гілками</gui></guiseq> або комбінацією"
-" клавіш <keyseq><key>Ctrl</key><key>T</key></keyseq>."
+"Для упорядковування повідомлень ви можете скористатися переглядом "
+"повідомлень із гілками. Щоб увімкнути цю можливість, скористайтеся пунктом "
+"меню <guiseq><gui>Перегляд</gui><gui>Групувати за гілками</gui></guiseq> або "
+"комбінацією клавіш <keyseq><key>Ctrl</key><key>T</key></keyseq>."
 
 #. (itstool) path: section/p
 #: C/mail-sorting-message-list.page:35
@@ -12557,9 +12552,9 @@ msgid ""
 "allows you to follow the flow of the conversation from one message to the "
 "next."
 msgstr ""
-"Якщо увімкнути цю можливість, відповіді буде згруповано із початковим"
-" повідомленням і ви зможете стежити за ходом обговорення, читаючи"
-" повідомлення у ньому послідовно."
+"Якщо увімкнути цю можливість, відповіді буде згруповано із початковим "
+"повідомленням і ви зможете стежити за ходом обговорення, читаючи "
+"повідомлення у ньому послідовно."
 
 #. (itstool) path: note/p
 #: C/mail-sorting-message-list.page:36
@@ -12570,9 +12565,10 @@ msgid ""
 "gui><gui>Fall back to threading messages by subject</gui></guiseq>."
 msgstr ""
 "<app>Evolution</app> розпізнає заголовки повідомлень <_:code-1/> і <_:code-2/"
-">. Крім того, ви можете увімкнути <guiseq><gui>Зміни</gui><gui>Параметри</gui"
-"><gui>Параметри пошти</gui><gui>Загальне</gui><gui>Показ повідомлень</gui><"
-"gui>Повернутись до розбиття повідомлень на гілки за темою</gui></guiseq>."
+">. Крім того, ви можете увімкнути <guiseq><gui>Зміни</gui><gui>Параметри</"
+"gui><gui>Параметри пошти</gui><gui>Загальне</gui><gui>Показ повідомлень</"
+"gui><gui>Повернутись до розбиття повідомлень на гілки за темою</gui></"
+"guiseq>."
 
 #. (itstool) path: section/p
 #: C/mail-sorting-message-list.page:37
@@ -12581,9 +12577,9 @@ msgid ""
 "Threads are sorted and displayed based on the date of the most recent "
 "message received."
 msgstr ""
-"Коли надійде нове повідомлення, його буде додано під батьківським"
-" повідомленням. Гілки буде упорядковано і показано на основі дати"
-" найсвіжішого отриманого повідомлення."
+"Коли надійде нове повідомлення, його буде додано під батьківським "
+"повідомленням. Гілки буде упорядковано і показано на основі дати "
+"найсвіжішого отриманого повідомлення."
 
 #. (itstool) path: note/p
 #: C/mail-sorting-message-list.page:38
@@ -12591,9 +12587,9 @@ msgid ""
 "For Advanced Users: By default, all email threads are expanded. If you want "
 "all threads to be collapsed by default:"
 msgstr ""
-"Для досвідчених користувачів: типово, усі гілки повідомлень електронної пошти"
-" буде розгорнуто. Якщо ви хочете, щоб типово усі гілки було згорнуто,"
-" виконайте такі дії:"
+"Для досвідчених користувачів: типово, усі гілки повідомлень електронної "
+"пошти буде розгорнуто. Якщо ви хочете, щоб типово усі гілки було згорнуто, "
+"виконайте такі дії:"
 
 #. (itstool) path: item/p
 #: C/mail-sorting-message-list.page:41
@@ -12617,11 +12613,11 @@ msgid ""
 "date, and the subject. To change the columns used in the message list, you "
 "can do one of the following:"
 msgstr ""
-"У списку повідомлень буде показано стовпчики, які вказують на те, чи було"
-" повідомлення прочитано, те, чи має повідомлення долучення, наскільки"
-" важливим є повідомлення, дані щодо відправника, дати та теми повідомлення."
-" Щоб змінити перелік стовпчиків, які буде використано у списку повідомлень,"
-" ви можете виконати одну з таких дій:"
+"У списку повідомлень буде показано стовпчики, які вказують на те, чи було "
+"повідомлення прочитано, те, чи має повідомлення долучення, наскільки "
+"важливим є повідомлення, дані щодо відправника, дати та теми повідомлення. "
+"Щоб змінити перелік стовпчиків, які буде використано у списку повідомлень, "
+"ви можете виконати одну з таких дій:"
 
 #. (itstool) path: item/p
 #: C/mail-sorting-message-list.page:50
@@ -12648,10 +12644,10 @@ msgid ""
 "Just click on the column label to sort the emails. The direction of the "
 "arrow next to the label indicates the direction of the sort."
 msgstr ""
-"У <app>Evolution</app> передбачено можливість упорядковування повідомлень за"
-" допомогою цих стовпчиків. Достатньо клацнути на мітці заголовка стовпчика,"
-" щоб упорядкувати повідомлення за цим стовпчиком. Напрямок стрілочки у"
-" заголовку стовпчика вказує на порядок сортування."
+"У <app>Evolution</app> передбачено можливість упорядковування повідомлень за "
+"допомогою цих стовпчиків. Достатньо клацнути на мітці заголовка стовпчика, "
+"щоб упорядкувати повідомлення за цим стовпчиком. Напрямок стрілочки у "
+"заголовку стовпчика вказує на порядок сортування."
 
 #. (itstool) path: section/p
 #: C/mail-sorting-message-list.page:55
@@ -12673,10 +12669,10 @@ msgid ""
 "<app>Evolution</app> provides other ways for sorting email messages. You can "
 "use Sort By, Sort Ascending, Sort Descending, or Reset sort."
 msgstr ""
-"В <app>Evolution</app> передбачено інші способи упорядковування повідомлень"
-" електронної пошти. Ви можете визначити критерій упорядковування,"
-" упорядкувати повідомлення за зростанням, за спаданням і відновити початкове"
-" упорядковування."
+"В <app>Evolution</app> передбачено інші способи упорядковування повідомлень "
+"електронної пошти. Ви можете визначити критерій упорядковування, "
+"упорядкувати повідомлення за зростанням, за спаданням і відновити початкове "
+"упорядковування."
 
 #. (itstool) path: section/title
 #: C/mail-sorting-message-list.page:65
@@ -12687,8 +12683,8 @@ msgstr "Упорядкувати за"
 #: C/mail-sorting-message-list.page:66
 msgid "You can also sort email messages using the <gui>Sort By</gui> list."
 msgstr ""
-"Крім того, ви можете упорядкувати повідомлення за допомогою списку <gui"
-">Упорядкувати за</gui>."
+"Крім того, ви можете упорядкувати повідомлення за допомогою списку "
+"<gui>Упорядкувати за</gui>."
 
 #. (itstool) path: item/p
 #: C/mail-sorting-message-list.page:68 C/mail-sorting-message-list.page:98
@@ -12853,8 +12849,8 @@ msgid ""
 "This removes sorting from the column, reverting to the order of messages as "
 "they were added to the folder."
 msgstr ""
-"У результаті упорядковування за стовпчиком буде знято — програма відновить"
-" сортування за порядком, у якому повідомлення було додано до теки."
+"У результаті упорядковування за стовпчиком буде знято — програма відновить "
+"сортування за порядком, у якому повідомлення було додано до теки."
 
 #. (itstool) path: info/desc
 #: C/mail-spam-marking.page:5
@@ -12878,15 +12874,15 @@ msgid ""
 "gui> mail folder frequently to be sure that legitimate mail doesn't get "
 "flagged as junk mail."
 msgstr ""
-"SpamAssassin постачається із набором попередньо визначених правил, а"
-" Bogofilter спочатку слід натренувати на автоматичне фільтрування спаму. Якщо"
-" ви вказуватимете Bogofilter лише повідомлення зі спамом, програма вважатиме"
-" усі повідомлення спамом (оскільки нічого не знатиме про різницю між типами"
-" повідомлень), тому не прийматиме рішень, аж доки не накопичить достатньо"
-" велику базу даних, щоб визначити, чи є спамом те чи інше повідомлення. Щоб"
-" там не було, коли ви почнете користуватися блокуванням спаму, регулярно"
-" перевіряйте поштову теку <gui>Спам</gui>, щоб переконатися, що до неї не"
-" потрапляють корисні повідомлення, які було позначено як спам."
+"SpamAssassin постачається із набором попередньо визначених правил, а "
+"Bogofilter спочатку слід натренувати на автоматичне фільтрування спаму. Якщо "
+"ви вказуватимете Bogofilter лише повідомлення зі спамом, програма вважатиме "
+"усі повідомлення спамом (оскільки нічого не знатиме про різницю між типами "
+"повідомлень), тому не прийматиме рішень, аж доки не накопичить достатньо "
+"велику базу даних, щоб визначити, чи є спамом те чи інше повідомлення. Щоб "
+"там не було, коли ви почнете користуватися блокуванням спаму, регулярно "
+"перевіряйте поштову теку <gui>Спам</gui>, щоб переконатися, що до неї не "
+"потрапляють корисні повідомлення, які було позначено як спам."
 
 #. (itstool) path: section/title
 #: C/mail-spam-marking.page:35
@@ -12902,12 +12898,13 @@ msgid ""
 "button in the tool bar. When you correct it, the filter can recognize "
 "similar messages in the future, and becomes more accurate as time goes on."
 msgstr ""
-"Якщо <app>Evolution</app> пропускає спам, клацніть правою кнопкою миші на"
-" повідомленні зі спамом, виберіть у контекстному меню пункт <gui>Позначити як"
-" спам</gui>, або позначте повідомлення і натисніть комбінацію клавіш "
-"<keyseq><key>Ctrl</key><key>J</key></keyseq>, або натисніть кнопку <gui>Спам<"
-"/gui> на панелі інструментів. Кожне виправлення надає змогу визначати подібні"
-" повідомлення у майбутньому — фільтрування ставатиме з часом точнішим."
+"Якщо <app>Evolution</app> пропускає спам, клацніть правою кнопкою миші на "
+"повідомленні зі спамом, виберіть у контекстному меню пункт <gui>Позначити як "
+"спам</gui>, або позначте повідомлення і натисніть комбінацію клавіш "
+"<keyseq><key>Ctrl</key><key>J</key></keyseq>, або натисніть кнопку "
+"<gui>Спам</gui> на панелі інструментів. Кожне виправлення надає змогу "
+"визначати подібні повідомлення у майбутньому — фільтрування ставатиме з "
+"часом точнішим."
 
 #. (itstool) path: section/p
 #: C/mail-spam-marking.page:37
@@ -12917,11 +12914,11 @@ msgid ""
 "or pressing <keyseq><key>Shift</key><key>Ctrl</key><key>J</key></keyseq>, or "
 "mark the message and click the <gui>Not Junk</gui> button."
 msgstr ""
-"Якщо як спам позначено звичайне повідомлення, вилучте його із теки <gui>Спам<"
-"/gui> клацанням правою кнопкою миші із наступним вибором у контекстному меню"
-" пункту <gui>Позначити як не спам</gui>, або натисніть комбінацію клавіш <"
-"keyseq><key>Shift</key><key>Ctrl</key><key>J</key></keyseq>, або позначте"
-" повідомлення і натисніть кнопку <gui>Не спам</gui>."
+"Якщо як спам позначено звичайне повідомлення, вилучте його із теки "
+"<gui>Спам</gui> клацанням правою кнопкою миші із наступним вибором у "
+"контекстному меню пункту <gui>Позначити як не спам</gui>, або натисніть "
+"комбінацію клавіш <keyseq><key>Shift</key><key>Ctrl</key><key>J</key></"
+"keyseq>, або позначте повідомлення і натисніть кнопку <gui>Не спам</gui>."
 
 #. (itstool) path: info/desc
 #: C/mail-spam.page:5
@@ -12956,10 +12953,10 @@ msgid ""
 "tools, you need to make sure that they are installed via the software "
 "management tool of your distribution."
 msgstr ""
-"<app>Evolution</app> надає змогу шукати небажану кореспонденцію або спам за"
-" допомогою інструментів <app>Bogofilter</app> або <app>SpamAssassin</app>."
-" Щоб скористатися цими інструментами, вам слід встановити їх за допомогою"
-" інструмента керування пакунками вашого дистрибутива."
+"<app>Evolution</app> надає змогу шукати небажану кореспонденцію або спам за "
+"допомогою інструментів <app>Bogofilter</app> або <app>SpamAssassin</app>. "
+"Щоб скористатися цими інструментами, вам слід встановити їх за допомогою "
+"інструмента керування пакунками вашого дистрибутива."
 
 #. (itstool) path: note/p
 #: C/mail-spam-settings.page:43
@@ -12967,8 +12964,8 @@ msgid ""
 "You might need to install <app>Bogofilter</app> or <app>SpamAssassin</app> "
 "to perform these steps."
 msgstr ""
-"Для виконання цих кроків, ймовірно, вам слід встановити <app>Bogofilter</app>"
-" або <app>SpamAssassin</app>."
+"Для виконання цих кроків, ймовірно, вам слід встановити <app>Bogofilter</"
+"app> або <app>SpamAssassin</app>."
 
 #. (itstool) path: when/p
 #: C/mail-spam-settings.page:46
@@ -12997,12 +12994,12 @@ msgid ""
 "You must <link xref=\"mail-spam-marking\">train it</link> first to make it "
 "work. You can modify the actions of SpamAssassin by training it as well."
 msgstr ""
-"SpamAssassin працює на основі набору попереднього визначених правил, тому"
-" може визначати спам одразу. У Bogofilter не передбачено типового набору"
-" критеріїв пошуку спаму, тому цей інструмент не зможе автоматично фільтрувати"
-" пошту одразу після встановлення. Вам слід спочатку <link"
-" xref=\"mail-spam-marking\">натренувати його</link>, щоб він запрацював. Ви"
-" так само можете коригувати роботу SpamAssassin тренуванням."
+"SpamAssassin працює на основі набору попереднього визначених правил, тому "
+"може визначати спам одразу. У Bogofilter не передбачено типового набору "
+"критеріїв пошуку спаму, тому цей інструмент не зможе автоматично фільтрувати "
+"пошту одразу після встановлення. Вам слід спочатку <link xref=\"mail-spam-"
+"marking\">натренувати його</link>, щоб він запрацював. Ви так само можете "
+"коригувати роботу SpamAssassin тренуванням."
 
 #. (itstool) path: section/title
 #: C/mail-spam-settings.page:56
@@ -13016,9 +13013,9 @@ msgid ""
 "automatically via SpamAssassin or Bogofilter) will be moved to the "
 "<gui>Junk</gui> mail folder."
 msgstr ""
-"Повідомлення, які позначено як спам (вручну користувачем або автоматично за"
-" допомогою SpamAssassin або Bogofilter) буде пересунуто до поштової теки <gui"
-">Спам</gui>."
+"Повідомлення, які позначено як спам (вручну користувачем або автоматично за "
+"допомогою SpamAssassin або Bogofilter) буде пересунуто до поштової теки "
+"<gui>Спам</gui>."
 
 #. (itstool) path: section/p
 #: C/mail-spam-settings.page:58
@@ -13026,8 +13023,8 @@ msgid ""
 "The exact location depends on <link xref=\"mail-default-folder-locations"
 "\">your junk folder setting</link>."
 msgstr ""
-"Точне місце залежить від <link xref=\"mail-default-folder-locations\""
-">встановленого вами параметра теки зі спамом</link>."
+"Точне місце залежить від <link xref=\"mail-default-folder-locations"
+"\">встановленого вами параметра теки зі спамом</link>."
 
 #. (itstool) path: section/title
 #: C/mail-spam-settings.page:62
@@ -13040,8 +13037,8 @@ msgid ""
 "You can modify how <app>Evolution</app> handles junk mail by changing the "
 "Junk Mail Preferences:"
 msgstr ""
-"Ви можете змінити спосіб обробки небажаної кореспонденції в <app>Evolution<"
-"/app> внісши зміни до параметрів обробки спаму:"
+"Ви можете змінити спосіб обробки небажаної кореспонденції в <app>Evolution</"
+"app> внісши зміни до параметрів обробки спаму:"
 
 #. (itstool) path: item/p
 #: C/mail-spam-settings.page:65
@@ -13049,9 +13046,9 @@ msgid ""
 "Click <guiseq><gui>Edit</gui><gui>Preferences</gui></guiseq> or press "
 "<keyseq><key>Shift</key><key>Ctrl</key><key>S</key></keyseq>."
 msgstr ""
-"Виберіть пункт меню <guiseq><gui>Зміни</gui><gui>Параметри</gui></guiseq> або"
-" натисніть комбінацію клавіш <keyseq><key>Shift</key><key>Ctrl</key><key>S<"
-"/key></keyseq>."
+"Виберіть пункт меню <guiseq><gui>Зміни</gui><gui>Параметри</gui></guiseq> "
+"або натисніть комбінацію клавіш <keyseq><key>Shift</key><key>Ctrl</"
+"key><key>S</key></keyseq>."
 
 #. (itstool) path: item/p
 #: C/mail-spam-settings.page:66
@@ -13064,6 +13061,8 @@ msgid ""
 "Click on the <gui>Junk</gui> tab. Here, you can specify the following global "
 "settings that are applied to all mail accounts:"
 msgstr ""
+"Клацніть на вкладці <gui>Спам</gui>. Тут ви можете вказати такі загальні"
+" параметри, які буде застосовано до усіх поштових облікових записів:"
 
 #. (itstool) path: item/p
 #: C/mail-spam-settings.page:69
@@ -13072,23 +13071,29 @@ msgid ""
 "enabled, enabling junk mail options for a specific account (see below) will "
 "not have any effect."
 msgstr ""
+"Перевірка вхідних повідомлень на спам. Це загальний параметр: якщо його не"
+" позначено, вмикання параметрів пошуку спаму для окремого облікового запису"
+" (див. нижче) ні на що не впливатиме."
 
 #. (itstool) path: item/p
 #: C/mail-spam-settings.page:70
 msgid ""
 "Deleting junk messages upon exit, and how often junk messages are to be "
 "deleted."
-msgstr ""
+msgstr "Вилучення спаму при виході та частота вилучення повідомлень зі спамом."
 
 #. (itstool) path: item/p
 #: C/mail-spam-settings.page:71
 msgid "Marking messages as not junk if the sender is in the address book."
 msgstr ""
+"Позначення повідомлень як бажаних, якщо запис відправника є в адресній книзі."
 
 #. (itstool) path: item/p
 #: C/mail-spam-settings.page:72
 msgid "Checking custom mail headers (added by your mail server) for junk."
 msgstr ""
+"Перевірка нетипових заголовків пошти (заголовків, які додає ваш поштовий"
+" сервер) на спам."
 
 #. (itstool) path: item/p
 #: C/mail-spam-settings.page:75
@@ -13099,6 +13104,13 @@ msgid ""
 "style=\"button\">Edit</gui><gui>Receiving Options</gui><gui>Check new "
 "messages for Junk contents</gui></guiseq>."
 msgstr ""
+"Параметри обробки спаму для окремого облікового запису електронної пошти"
+" (доступі для усіх типів облікових записів, окрім облікових записів POP, для"
+" яких використовуються загальні параметри) можна встановити за допомогою"
+" пункту "
+"<guiseq><gui>Зміни</gui><gui>Параметри</gui><gui>Облікові записи</gui><gui"
+" style=\"button\">Редагувати</gui><gui>Параметри отримання</gui><gui"
+">Перевіряти, чи є нові повідомлення спамом</gui></guiseq>."
 
 #. (itstool) path: note/p
 #: C/mail-spam-settings.page:78
@@ -13109,16 +13121,24 @@ msgid ""
 "resp. <link href=\"https://wiki.apache.org/spamassassin/"
 "FrequentlyAskedQuestions\">SpamAssassin</link>."
 msgstr ""
+"Щоб дізнатися більше та ознайомитися із відповідями на типові питання щодо"
+" налаштовування Bogofilter або SpamAssassin, рекомендуємо вивчити,"
+" відповідно, списки поширених питань та відповідей на них для <link"
+" href=\"http://bogofilter.sourceforge.net/faq.shtml\">Bogofilter</link> та <"
+"link href=\"https://wiki.apache.org/spamassassin/"
+"FrequentlyAskedQuestions\">SpamAssassin</link>."
 
 #. (itstool) path: info/desc
 #: C/mail-two-trash-folders.page:5
 msgid "How to have only one trash or junk folder per account."
 msgstr ""
+"Як створити єдину теку для смітника та спаму для кожного облікового запису."
 
 #. (itstool) path: page/title
 #: C/mail-two-trash-folders.page:25
 msgid "Two Trash or <gui>Junk</gui> folders shown for the same account"
 msgstr ""
+"Для одного облікового запису показано дві теки «Смітник» або «<gui>Спам</gui>»"
 
 #. (itstool) path: page/p
 #: C/mail-two-trash-folders.page:27
@@ -13127,6 +13147,9 @@ msgid ""
 "folders on the server you might face duplicated folders in <app>Evolution</"
 "app>."
 msgstr ""
+"Якщо ви користуєтеся поштовим обліковим записом із віддаленим зберіганням"
+" даних, у якому теки «Спам» і/або «<gui>Смітник</gui>» зберігаються і на боці"
+" сервера, в <app>Evolution</app> може бути показано теки-дублікати."
 
 #. (itstool) path: page/p
 #: C/mail-two-trash-folders.page:28
@@ -13136,6 +13159,9 @@ msgid ""
 "icon whereas the other physical <gui>Trash</gui> folder looks like any other "
 "folder."
 msgstr ""
+"Відрізнити дві теки «<gui>Trash</gui>» дуже просто за їхніми піктограмами. В"
+" <app>Evolution</app> тека «<gui>Смітник</gui>» має спеціальну піктограму, а"
+" інша, фізична» тека «<gui>Trash</gui>» виглядає як будь-які звичайна тека."
 
 #. (itstool) path: page/p
 #: C/mail-two-trash-folders.page:30
@@ -13145,6 +13171,11 @@ msgid ""
 "do not really exist but simply display all the messages that are marked as "
 "junk or for deletion in any folders of that account."
 msgstr ""
+"Типово, в <app>Evolution</app> теки «<gui>Смітник</gui>» і «<gui>Junk</gui>»"
+" є <link xref=\"mail-search-folders\">теками пошуку</link> (віртуальними"
+" теками). Ці теки насправді не існують, а є лише відображенням усіх"
+" повідомлень, які позначено як спам або позначено до вилучення у будь-якій з"
+" тек відповідного облікового запису."
 
 #. (itstool) path: page/p
 #: C/mail-two-trash-folders.page:32
@@ -13155,6 +13186,12 @@ msgid ""
 "style=\"button\">Edit</gui><gui>Defaults</gui></guiseq>. In this case, "
 "<app>Evolution</app>'s local virtual folders will not be used."
 msgstr ""
+"Якщо ви хочете використовувати лише теки «Спам» і «Смітник» з поштового"
+" сервера, позначте відповідні пункти <gui>Використовувати справжню теку</gui>"
+" на сторінці <guiseq><gui>Зміни</gui><gui>Параметри</gui><gui>Облікові"
+" записи</gui><gui style=\"button\">Редагувати</gui><gui>Умовчання</gui><"
+"/guiseq>. Після цього, локальні віртуальні теки "
+"<app>Evolution</app> не використовуватимуться."
 
 #. (itstool) path: info/desc
 #: C/mail-usenet-subscriptions.page:5
@@ -13172,11 +13209,14 @@ msgid ""
 "When you create a newsgroup account, you are not subscribed to any groups. "
 "To subscribe to a newsgroup:"
 msgstr ""
+"Одразу після створення облікового запису груп новин вас не буде підписано на"
+" жодну з груп. Щоб підписатися на групу новин, виконайте такі дії:"
 
 #. (itstool) path: item/p
 #: C/mail-usenet-subscriptions.page:29
 msgid "Select <guiseq><gui>Folder</gui><gui>Subscriptions</gui></guiseq>."
 msgstr ""
+"Виберіть пункт меню <guiseq><gui>Тека</gui><gui>Підписки</gui></guiseq>."
 
 #. (itstool) path: item/p
 #: C/mail-usenet-subscriptions.page:31
@@ -13187,6 +13227,7 @@ msgstr "Клацніть на позначці групи, щоб додати �
 #: C/mail-vertical-view.page:5
 msgid "Changing the mail view for widescreen displays."
 msgstr ""
+"Налаштовування панелі перегляду пошти на роботу із широкоекранними дисплеями."
 
 #. (itstool) path: page/title
 #: C/mail-vertical-view.page:22
@@ -13202,6 +13243,12 @@ msgid ""
 "message preview pane is placed below the message list. Vertical view enables "
 "you to use the extra width of wide screen monitors."
 msgstr ""
+"Окрім класичного режиму перегляду, в <app>Evolution</app> передбачено"
+" вертикальний режим перегляду. У вертикальному режимі панель попереднього"
+" перегляду повідомлень буде розташовано праворуч від списку повідомлень, а у"
+" звичайному режимі цю панель розташовано під списком повідомлень. У"
+" вертикальному режимі програма використовує додаткову ширину зображення на"
+" широкоформатних моніторах."
 
 #. (itstool) path: page/p
 #: C/mail-vertical-view.page:26
@@ -13209,6 +13256,9 @@ msgid ""
 "To switch to vertical view, click <guiseq><gui>View</gui><gui>Preview</"
 "gui><gui>Vertical View</gui></guiseq>."
 msgstr ""
+"Щоб перемкнутися у вертикальний режим, скористайтеся пунктом меню <guiseq><"
+"gui>Перегляд</gui><gui>Попередній перегляд</"
+"gui><gui>Вертикальний вигляд</gui></guiseq>."
 
 #. (itstool) path: page/p
 #: C/mail-vertical-view.page:28
@@ -13218,6 +13268,11 @@ msgid ""
 "The compressed columns have Sender Name and Email, Attachment Icon, Date and "
 "Subject in the second line."
 msgstr ""
+"У вертикальному режимі список повідомлень містить подвійні рядки стиснених"
+" заголовків, що надає змогу скористатися додатковою шириною у стовпчику"
+" попереднього перегляду. У стиснених стовпчиках міститимуться дані щодо імені"
+" відправника і адреси електронної пошти; піктограму долучень, дату і тему"
+" буде показано у другому рядку."
 
 #. (itstool) path: page/p
 #: C/mail-vertical-view.page:30
@@ -13225,16 +13280,19 @@ msgid ""
 "To switch back to classical view, click <guiseq><gui>View</gui><gui>Preview</"
 "gui><gui>Classical View</gui></guiseq>."
 msgstr ""
+"Щоб повернутися до класичного режиму перегляду, скористайтеся пунктом меню <"
+"guiseq><gui>Перегляд</gui><gui>Попередній перегляд</gui><gui>Класичний"
+" вигляд</gui></guiseq>."
 
 #. (itstool) path: info/desc
 #: C/mail-word-wrap.page:5
 msgid "Words are wrapped in outgoing mail at 72 characters."
-msgstr ""
+msgstr "У вихідних повідомленнях рядки переносяться на позиції 72 символу."
 
 #. (itstool) path: page/title
 #: C/mail-word-wrap.page:20
 msgid "Words are wrapped in outgoing mail at 72 characters"
-msgstr ""
+msgstr "У вихідних повідомленнях рядки переносяться на позиції 72 символу"
 
 #. (itstool) path: page/p
 #: C/mail-word-wrap.page:22
@@ -13242,6 +13300,8 @@ msgid ""
 "For better readability lines are wrapped after 72 characters. This value is "
 "hardcoded and cannot be changed."
 msgstr ""
+"Щоб повідомлення було простіше читати, програма переносить рядки на позиції"
+" 72 символу. Це значення включено до коду програми — його не можна змінити."
 
 #. (itstool) path: page/p
 #: C/mail-word-wrap.page:23
@@ -13250,11 +13310,14 @@ msgid ""
 "<guiseq><gui>Format</gui><gui>Paragraph Style</gui><gui>Preformatted</gui></"
 "guiseq> in the mail composer."
 msgstr ""
+"Щоб вимкнути перенесення рядків в абзаці, позначте абзац і скористайтеся"
+" пунктом меню <guiseq><gui>Формат</gui><gui>Стиль параграфа</gui><gui"
+">Попередньо сформатовані</gui></guiseq> у вікні редактора повідомлень."
 
 #. (itstool) path: info/desc
 #: C/mail-working-offline.page:5
 msgid "Work with your mail while not being connected to the network."
-msgstr ""
+msgstr "Робота із поштою у режимі без з'єднання із мережею."
 
 #. (itstool) path: page/title
 #: C/mail-working-offline.page:23
@@ -13267,6 +13330,9 @@ msgid ""
 "<app>Evolution</app> can keep a local copy of folders located on remote mail "
 "systems like IMAP or Exchange, to allow you to read messages."
 msgstr ""
+"В <app>Evolution</app> передбачено можливість зберігання локальної копії тек,"
+" які зберігаються у віддалених поштових системах, зокрема IMAP або Exchange,"
+" для уможливлення читання повідомлень."
 
 #. (itstool) path: note/p
 #: C/mail-working-offline.page:27 C/offline.page:40
@@ -13274,6 +13340,8 @@ msgid ""
 "<app>Evolution</app>'s forced offline mode only refers to mail and does not "
 "apply to contacts and calendars."
 msgstr ""
+"Примусовий автономний режим в <app>Evolution</app> стосується лише пошти і не"
+" стосується записів контактів та календарів."
 
 #. (itstool) path: page/p
 #: C/mail-working-offline.page:29
@@ -13284,6 +13352,13 @@ msgid ""
 "you force <app>Evolution</app> to be offline, <app>Evolution</app> downloads "
 "the unread messages from the folders you have chosen to store."
 msgstr ""
+"Для облікових записів POP програма отримує усі повідомлення до локальної"
+" системи, але для облікових записів із віддаленим зберіганням даних,"
+" зазвичай, програма отримує лише заголовки. Решту, зокрема вміст"
+" повідомлення, буде отримано, лише якщо ви захочете прочитати повідомлення."
+" Перш ніж ви примусово переведете <app>Evolution</app> у режим автономної"
+" роботи, <app>Evolution</app> отримає усі непрочитані повідомлення з тек, які"
+" ви вибрали для зберігання даних."
 
 #. (itstool) path: section/p
 #: C/mail-working-offline.page:33
@@ -13292,6 +13367,10 @@ msgid ""
 "accounts offer an option to <gui>Synchronize remote mail locally in all "
 "folders</gui> which is applied to all folders of that account."
 msgstr ""
+"У <link xref=\"mail-receiving-options\">параметрах отримання</link> для"
+" облікових записів із віддаленим зберіганням даних є пункт <gui"
+">Синхронізувати віддалену пошту локально у всіх теках</gui>, який стосується"
+" усіх тек відповідного облікового запису."
 
 #. (itstool) path: section/p
 #: C/mail-working-offline.page:34
@@ -13299,11 +13378,13 @@ msgid ""
 "To avoid downloading large amounts of data, you can also disable "
 "synchronizing messages which are older than a certain time period."
 msgstr ""
+"Щоб уникнути отримання великого обсягу даних, ви можете також вимкнути"
+" синхронізацію повідомлень, які є старішими за вказаний момент часу."
 
 #. (itstool) path: section/title
 #: C/mail-working-offline.page:38
 msgid "Marking folders for offline usage"
-msgstr ""
+msgstr "Позначення тек для автономного користування"
 
 #. (itstool) path: section/p
 #: C/mail-working-offline.page:39
@@ -13311,26 +13392,34 @@ msgid ""
 "If you do not have <gui>Synchronize remote mail locally in all folders</gui> "
 "for the account enabled, you can synchronize individual folders."
 msgstr ""
+"Якщо ви не позначили пункт <gui>Синхронізувати віддалену пошту локально у"
+" всіх теках</gui> для облікового запису, ви можете наказати програмі"
+" синхронізувати вміст окремих тек."
 
 #. (itstool) path: section/p
 #: C/mail-working-offline.page:40
 msgid "To mark a mail folder for offline use,"
 msgstr ""
+"Щоб позначити поштову теку для автономного користування, виконайте такі дії:"
 
 #. (itstool) path: item/p
 #: C/mail-working-offline.page:42
 msgid "Right-click the folder, then click <gui>Properties</gui>."
 msgstr ""
+"Клацніть правою кнопкою миші на пункті теки і виберіть у контекстному меню"
+" пункт <gui>Властивості</gui>."
 
 #. (itstool) path: item/p
 #: C/mail-working-offline.page:43
 msgid "Click <gui>Copy folder content locally for offline operation</gui>."
 msgstr ""
+"Позначте пункт <gui>Скопіювати вміст теки локально для автономної роботи</gui"
+">."
 
 #. (itstool) path: section/title
 #: C/mail-working-offline.page:48
 msgid "Syncing messages for offline usage"
-msgstr ""
+msgstr "Синхронізація повідомлень для автономної роботи"
 
 #. (itstool) path: section/p
 #: C/mail-working-offline.page:49
@@ -13342,6 +13431,14 @@ msgid ""
 "cables separate. You can either go offline immediately or synchronize remote "
 "folders with your local copy before you go offline."
 msgstr ""
+"Ваш стан з'єднання буде показано піктограмою у смужці стану <link"
+" xref=\"intro-main-window\">головного вікна</link>. Якщо з'єднання із мережею"
+" встановлено, піктограма показуватиме два з'єднаних кабелі. Коли ви примусово"
+" перемикаєте програму в автономний режим натисканням піктограми або за"
+" допомогою пункту меню <guiseq><gui>Файл</gui><gui>Працювати автономно</gui><"
+"/guiseq>, кабелі на піктограмі роз'єднуються. Ви можете перейти в автономний"
+" режим негайно або синхронізувати віддалені теки із вашою локальною копією до"
+" переходу в автономний режим."
 
 #. (itstool) path: section/p
 #: C/mail-working-offline.page:50
@@ -13350,11 +13447,14 @@ msgid ""
 "<guiseq><gui>File</gui><gui>Download Messages for Offline Usage</gui></"
 "guiseq>."
 msgstr ""
+"Щоб синхронізувати теки без негайного переходу в автономний режим, виберіть"
+" пункт меню <guiseq><gui>Файл</gui><gui>Завантажити повідомлення для"
+" автономної роботи</gui></guiseq>."
 
 #. (itstool) path: section/title
 #: C/mail-working-offline.page:54
 msgid "Automatic Network State Handling"
-msgstr ""
+msgstr "Автоматична обробка стану мережі"
 
 #. (itstool) path: section/p
 #: C/mail-working-offline.page:55
@@ -13364,21 +13464,25 @@ msgid ""
 "when the network goes down and automatically switches on when the network is "
 "up again."
 msgstr ""
+"В <app>Evolution</app> передбачено автоматичну обробку стану мережі і"
+" виконання відповідних дій. Наприклад, <app>Evolution</app> перемикається в"
+" автономний режим, коли комп'ютер втрачає з'єднання, і автоматично вмикає"
+" зв'язок, коли з'єднання встановлюється знову."
 
 #. (itstool) path: info/desc
 #: C/memos-searching.page:5
 msgid "Searching memos."
-msgstr ""
+msgstr "Пошук у примітках."
 
 #. (itstool) path: page/title
 #: C/memos-searching.page:28
 msgid "Searching Memos"
-msgstr ""
+msgstr "Пошук у примітках"
 
 #. (itstool) path: section/title
 #: C/memos-searching.page:31
 msgid "Searching in a Single Memo"
-msgstr ""
+msgstr "Пошук в окремій примітці"
 
 #. (itstool) path: section/p
 #: C/memos-searching.page:32
@@ -13386,11 +13490,14 @@ msgid ""
 "To find text in the displayed memo, select <guiseq><gui>Edit</gui><gui>Find "
 "in Memo…</gui></guiseq> from the main menu."
 msgstr ""
+"Щоб виконати пошук тексту у показаній примітці, скористайтеся пунктом"
+" головного меню <guiseq><gui>Зміни</gui><gui>Знайти у примітці…</gui></guiseq"
+">."
 
 #. (itstool) path: section/title
 #: C/memos-searching.page:36
 msgid "Searching Across Memos"
-msgstr ""
+msgstr "Пошук у сховищі приміток"
 
 #. (itstool) path: section/p
 #: C/memos-searching.page:40
@@ -13398,16 +13505,18 @@ msgid ""
 "In the Memos view, you can quickly search for memos either by summary or by "
 "category."
 msgstr ""
+"На панелі перегляду приміток ви можете швидко шукати у примітках за резюме"
+" або за категорією."
 
 #. (itstool) path: info/desc
 #: C/memos-usage-add-memo.page:5
 msgid "Adding a memo to your memo list."
-msgstr ""
+msgstr "Додавання примітки до вашого списку приміток."
 
 #. (itstool) path: page/title
 #: C/memos-usage-add-memo.page:23
 msgid "Adding a Memo"
-msgstr ""
+msgstr "Додавання примітки"
 
 #. (itstool) path: item/p
 #: C/memos-usage-add-memo.page:26
@@ -13415,16 +13524,19 @@ msgid ""
 "Click <guiseq><gui>File</gui><gui>New</gui><gui>Memo</gui></guiseq>, or "
 "press <keyseq><key>Shift</key><key>Ctrl</key><key>O</key></keyseq>."
 msgstr ""
+"Виберіть пункт меню <guiseq><gui>Файл</gui><gui>Створити</gui><gui>Примітка<"
+"/gui></guiseq> або натисніть комбінацію клавіш <keyseq><key>Shift</key><key"
+">Ctrl</key><key>O</key></keyseq>."
 
 #. (itstool) path: item/p
 #: C/memos-usage-add-memo.page:27
 msgid "Select a memo list in the <gui>List</gui> dropdown list."
-msgstr ""
+msgstr "Виберіть список приміток у спадному списку <gui>Список</gui>."
 
 #. (itstool) path: item/p
 #: C/memos-usage-add-memo.page:28
 msgid "Enter the memo information."
-msgstr ""
+msgstr "Введіть відомості щодо примітки."
 
 #. (itstool) path: page/p
 #: C/memos-usage-add-memo.page:32
@@ -13432,6 +13544,8 @@ msgid ""
 "If you just want to quickly add a memo by entering a summary you can "
 "directly enter it in the list of memos."
 msgstr ""
+"Якщо ви просто хочете швидко додати примітку введенням резюме, ви можете"
+" безпосередньо ввести його у списку приміток."
 
 #. (itstool) path: page/p
 #: C/memos-usage-add-memo.page:34
@@ -13440,11 +13554,14 @@ msgid ""
 "<link xref=\"calendar-classifications\">classification</link> for the memo, "
 "or add an attachment."
 msgstr ""
+"Ви також можете визначити <link xref=\"using-categories\">категорію</link>"
+" або <link xref=\"calendar-classifications\">класифікацію</link> для примітки"
+" або додати долучення."
 
 #. (itstool) path: section/title
 #: C/memos-usage-add-memo.page:37
 msgid "Shared Memos"
-msgstr ""
+msgstr "Спільні примітки"
 
 #. (itstool) path: section/p
 #: C/memos-usage-add-memo.page:39
@@ -13455,11 +13572,18 @@ msgid ""
 "shared memos are placed in your Calendar on the date you specify. They are "
 "not placed in your Mailbox or in any other user's Mailbox."
 msgstr ""
+"Спільні примітки подібні до поштових повідомлень, але відрізняються тим, що"
+" їх заплановано на певний день, і вони з'являються у календарі у відповідному"
+" записі дати. Ви можете скористатися спільними примітками для показу"
+" відпусток, свят, днів сплати, днів народжень тощо. Створені спільні примітки"
+" розташовуються у вашому календарі у вказаному пункті дати. Вони не"
+" розташовуються у вашій поштовій скриньці або у поштовій скриньці будь-якого"
+" іншого користувача."
 
 #. (itstool) path: section/p
 #: C/memos-usage-add-memo.page:41
 msgid "To send a Shared Memo,"
-msgstr ""
+msgstr "Щоб надіслати спільну примітку, виконайте такі дії:"
 
 #. (itstool) path: item/p
 #: C/memos-usage-add-memo.page:43
@@ -13467,6 +13591,9 @@ msgid ""
 "Click <guiseq><gui>File</gui><gui>New</gui><gui>Shared Memo</gui></guiseq>, "
 "or press <keyseq><key>Shift</key><key>Ctrl</key><key>H</key></keyseq>."
 msgstr ""
+"Виберіть пункт меню <guiseq><gui>Файл</gui><gui>Створити</gui><gui>Спільна"
+" примітка</gui></guiseq> або натисніть комбінацію клавіш <keyseq><key>Shift<"
+"/key><key>Ctrl</key><key>H</key></keyseq>."
 
 #. (itstool) path: item/p
 #: C/memos-usage-add-memo.page:44
@@ -13474,6 +13601,8 @@ msgid ""
 "Select the Organizer's account name from the drop-down list given next to "
 "the <gui>Organizer</gui> field."
 msgstr ""
+"Виберіть назву облікового запису організатора зі спадного списку, який"
+" розташовано поряд із полем <gui>Організатор</gui>."
 
 #. (itstool) path: item/p
 #: C/memos-usage-add-memo.page:45
@@ -13481,6 +13610,8 @@ msgid ""
 "In the <gui>To</gui> field, type a username, then press <key>Enter</key>. "
 "Repeat this for additional users."
 msgstr ""
+"У полі <gui>Кому</gui> введіть ім'я користувача, потім натисніть клавішу <key"
+">Enter</key>. Повторіть процедуру для додавання інших записів користувачів."
 
 #. (itstool) path: item/p
 #: C/memos-usage-add-memo.page:46
@@ -13488,6 +13619,8 @@ msgid ""
 "Select the task list (under <gui>List</gui>) in which you would like to "
 "create the entry."
 msgstr ""
+"Виберіть список завдань (у полі <gui>Список</gui>), у якому ви хочете"
+" створити запис."
 
 #. (itstool) path: item/p
 #: C/memos-usage-add-memo.page:48
@@ -13495,11 +13628,13 @@ msgid ""
 "In the <gui>Start Date</gui> field, type the date this shared memo should "
 "appear in the recipients' calendars."
 msgstr ""
+"У полі <gui>Дата початку</gui> введіть дату, коли ця спільна примітка має"
+" з'явитися у календарях отримувачів."
 
 #. (itstool) path: info/desc
 #: C/memos-usage-delete-memo.page:5
 msgid "Deleting a memo from your memo list."
-msgstr ""
+msgstr "Вилучення примітки з вашого списку приміток."
 
 #. (itstool) path: page/title
 #: C/memos-usage-delete-memo.page:20
@@ -13514,6 +13649,12 @@ msgid ""
 "in the tool bar, or click <guiseq><gui>Edit</gui><gui>Delete Memo</gui></"
 "guiseq>."
 msgstr ""
+"Якщо ви хочете вилучити примітку з ваших списків приміток, клацніть правою"
+" кнопкою миші на пункті примітки і виберіть у контекстному меню пункт <gui"
+">Вилучити</gui>, або клацніть на примітці і натисніть кнопку <gui>Вилучити<"
+"/gui> на панелі інструментів, або виберіть пункт меню <guiseq><gui>Зміни</gui"
+"><gui>Вилучити примітку</gui></"
+"guiseq>."
 
 #. (itstool) path: info/desc
 #: C/memos-usage-edit-memo.page:5
@@ -13523,12 +13664,14 @@ msgstr "Редагування примітки у вашому списку п�
 #. (itstool) path: page/title
 #: C/memos-usage-edit-memo.page:20
 msgid "Editing a Memo"
-msgstr ""
+msgstr "Редагування примітки"
 
 #. (itstool) path: page/p
 #: C/memos-usage-edit-memo.page:22
 msgid "If you want to change a memo that already exists in your memo lists,"
 msgstr ""
+"Якщо ви хочете внести зміни до примітки, яка вже є у ваших списках приміток,"
+" виконайте такі дії:"
 
 #. (itstool) path: item/p
 #: C/memos-usage-edit-memo.page:25
@@ -13536,21 +13679,24 @@ msgid ""
 "Double-click on the memo that you want to edit in the list of memos, or "
 "right-click on the memo and click <gui>Open Memo</gui>."
 msgstr ""
+"Двічі клацніть на пункті примітки, яку ви хочете змінити, у списку приміток"
+" або клацніть правою кнопкою миші на пункті примітки і виберіть у"
+" контекстному меню пункт <gui>Відкрити примітку</gui>."
 
 #. (itstool) path: item/p
 #: C/memos-usage-edit-memo.page:26
 msgid "Edit the memo information."
-msgstr ""
+msgstr "Редагування відомостей щодо примітки."
 
 #. (itstool) path: info/desc
 #: C/memos-usage.page:5
 msgid "On adding, editing, and deleting memos."
-msgstr ""
+msgstr "Про додавання, редагування та вилучення приміток."
 
 #. (itstool) path: page/title
 #: C/memos-usage.page:20
 msgid "Add, Edit and Delete Memos"
-msgstr ""
+msgstr "Додавання, редагування та вилучення приміток"
 
 #. (itstool) path: note/p
 #: C/memos-usage.page:22
@@ -13558,16 +13704,19 @@ msgid ""
 "Currently there is no support for syncing memos with the <app>Tomboy</app> "
 "or <app>Gnote</app> applications."
 msgstr ""
+"У поточній версії не передбачено синхронізації приміток із програмами <app"
+">Tomboy</app> та <app>Gnote</app>."
 
 #. (itstool) path: info/desc
 #: C/offline.page:5
 msgid "Make <app>Evolution</app> mail be online again."
-msgstr ""
+msgstr "Як відновити з'єднання <app>Evolution</app> із мережею."
 
 #. (itstool) path: page/title
 #: C/offline.page:27
 msgid "Why is <app>Evolution</app>'s mail component offline?"
 msgstr ""
+"Чому поштовий компонент <app>Evolution</app> переходить в автономний режим?"
 
 #. (itstool) path: page/p
 #: C/offline.page:28
@@ -13575,6 +13724,8 @@ msgid ""
 "You may have started <app>Evolution</app> with the <cmd>--offline</cmd> "
 "commandline option to enforce offline mode."
 msgstr ""
+"Можливо, ви запустили <app>Evolution</app> із параметром <cmd>--offline</cmd"
+">, примусово увімкнувши автономний режим."
 
 #. (itstool) path: page/p
 #: C/offline.page:30
@@ -13611,17 +13762,17 @@ msgstr ""
 #. (itstool) path: info/desc
 #: C/organizing.page:5
 msgid "On organizing and finding your data in <app>Evolution</app>."
-msgstr ""
+msgstr "Про впорядкування та пошук даних в <app>Evolution</app>."
 
 #. (itstool) path: page/title
 #: C/organizing.page:18
 msgid "Sorting and organizing"
-msgstr ""
+msgstr "Сортування і упорядковування"
 
 #. (itstool) path: info/desc
 #: C/problems-debug-how-to.page:5
 msgid "How to provide good information when tracking down a problem."
-msgstr ""
+msgstr "Як надати якісну інформацію при пошуку причин проблеми."
 
 #. (itstool) path: page/title
 #: C/problems-debug-how-to.page:21
