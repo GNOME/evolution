@@ -49,6 +49,14 @@ macro(add_printable_variable_path _name _description _default_value)
 	add_printable_variable_bare(${_name})
 endmacro()
 
+macro(add_printable_variable_filepath _name _description _default_value)
+	if(_name STREQUAL "")
+		message(FATAL_ERROR "filepath variable name cannot be empty")
+	endif(_name STREQUAL "")
+	set(${_name} ${_default_value} CACHE FILEPATH ${_description})
+	add_printable_variable_bare(${_name})
+endmacro()
+
 function(print_build_options)
 	message(STATUS "Configure options:")
 
