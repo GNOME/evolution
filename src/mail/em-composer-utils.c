@@ -1485,7 +1485,8 @@ set_up_new_composer (EMsgComposer *composer,
 		     const gchar *subject,
 		     CamelFolder *folder,
 		     CamelMimeMessage *message,
-		     const gchar *message_uid)
+		     const gchar *message_uid,
+		     gboolean is_new_message)
 {
 	EClientCache *client_cache;
 	ESourceRegistry *registry;
@@ -1504,7 +1505,11 @@ set_up_new_composer (EMsgComposer *composer,
 
 		if (message) {
 			g_object_ref (message);
-		} else if (message_uid) {
+		} else if (message_uid && !is_new_message) {
+			/* Do this only if it's not a new message, in case the default account
+			   has set "always CC/Bcc" address, which might match one of the configured
+			   accounts, which in turn forces to use the default account due to this
+			   read back from the composer. */
 			message = em_utils_get_composer_recipients_as_message (composer);
 		}
 
@@ -1659,7 +1664,7 @@ em_utils_compose_new_message_with_selection (EMsgComposer *composer,
 	if (folder)
 		g_return_if_fail (CAMEL_IS_FOLDER (folder));
 
-	set_up_new_composer (composer, "", folder, NULL, message_uid);
+	set_up_new_composer (composer, "", folder, NULL, message_uid, TRUE);
 	composer_set_no_change (composer);
 
 	gtk_widget_show (GTK_WIDGET (composer));
@@ -1787,7 +1792,7 @@ msg_composer_created_with_mailto_cb (GObject *source_object,
 	if (ccd->mailto)
 		e_msg_composer_setup_from_url (composer, ccd->mailto);
 
-	set_up_new_composer (composer, NULL, ccd->folder, NULL, ccd->message_uid);
+	set_up_new_composer (composer, NULL, ccd->folder, NULL, ccd->message_uid, TRUE);
 
 	table = e_msg_composer_get_header_table (composer);
 
@@ -2526,7 +2531,7 @@ forward_non_attached (EMsgComposer *composer,
 	/* Setup composer's From account before calling quoting_text(),
 	   because quoting_text() relies on that account. */
 	subject = mail_tool_generate_forward_subject (message);
-	set_up_new_composer (composer, subject, folder, message, uid);
+	set_up_new_composer (composer, subject, folder, message, uid, FALSE);
 	g_free (subject);
 
 	forward = quoting_text (QUOTING_FORWARD, composer);
@@ -2642,7 +2647,7 @@ em_utils_forward_attachment (EMsgComposer *composer,
 
 	e_msg_composer_set_is_reply_or_forward (composer, TRUE);
 
-	set_up_new_composer (composer, subject, folder, NULL, NULL);
+	set_up_new_composer (composer, subject, folder, NULL, NULL, FALSE);
 
 	e_msg_composer_attach (composer, part);
 
