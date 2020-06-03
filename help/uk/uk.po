@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: evolution master\n"
 "POT-Creation-Date: 2020-06-01 10:33+0000\n"
-"PO-Revision-Date: 2020-06-02 16:08+0300\n"
+"PO-Revision-Date: 2020-06-03 15:11+0300\n"
 "Last-Translator: Yuri Chornoivan <yurchor@ukr.net>\n"
 "Language-Team: Ukrainian <trans-uk@lists.fedoraproject.org>\n"
 "Language: uk\n"
@@ -16,7 +16,7 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=4; plural=n==1 ? 3 : n%10==1 && n%100!=11 ? 0 : n"
 "%10>=2 && n%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2;\n"
-"X-Generator: Lokalize 20.03.70\n"
+"X-Generator: Lokalize 20.07.70\n"
 
 #. Put one translator per line, in the form NAME <EMAIL>, YEAR1, YEAR2
 msgctxt "_"
@@ -13738,6 +13738,13 @@ msgid ""
 "style=\"button\">Send/Receive</gui> button is grayed out). Click on the icon "
 "to change its state."
 msgstr ""
+"Якщо причина не у цьому, і <app>Evolution</app> працює належним чином, але"
+" несподівано розриває з'єднання із вашими поштовими обліковими записами,"
+" можливо, ви ненавмисне настили піктограму з'єднання у нижньому лівому куті"
+" вікна програми. У з'єднаному стані піктограма показує пару кабелів, які"
+" з'єднано. Якщо кабелі роз'єднано, з'єднання із поштовими обліковими записами"
+" розірвано (і кнопку <gui style=\"button\">Надіслати/Отримано</gui> буде"
+" показано сірим кольором). Натисніть піктограму, щоб змінити її стан."
 
 #. (itstool) path: page/p
 #: C/offline.page:32
@@ -13750,6 +13757,13 @@ msgid ""
 "stable/net-problem\">Desktop help</link> or seek help from your distribution "
 "support forums, mailing lists etc."
 msgstr ""
+"Якщо проблему не вдалося усунути, і ви певні, що не натискали піктограму, а"
+" інші програми можуть працювати у мережі (браузери, FTP, SSH, ping тощо),"
+" може так статися, що ваше з'єднання мережі не налаштовано належним чином."
+" Щоб дізнатися більше, будь ласка, ознайомтеся із <link"
+" xref=\"help:gnome-help/net-problem\" href=\"https://help.gnome.org/users/gnom"
+"e-help/stable/net-problem\">загальною довідкою</link> або попросіть про"
+" допомогу на форумі підтримки вашого дистрибутива, у списках листування тощо."
 
 #. (itstool) path: page/p
 #: C/offline.page:35
@@ -13758,6 +13772,9 @@ msgid ""
 "that <app>Evolution</app> is not running and open a <app>Terminal</app> "
 "window and type the following command:"
 msgstr ""
+"Якщо ви хочете примусово перевести <app>Evolution</app> у режим з'єднання,"
+" переконайтеся, що <app>Evolution</app> не запущено, відкрийте вікно програми"
+" <app>Термінал</app> і введіть там таку команду:"
 
 #. (itstool) path: info/desc
 #: C/organizing.page:5
@@ -13777,7 +13794,7 @@ msgstr "Як надати якісну інформацію при пошуку 
 #. (itstool) path: page/title
 #: C/problems-debug-how-to.page:21
 msgid "How to track down a problem"
-msgstr ""
+msgstr "Як знайти причину проблеми"
 
 #. (itstool) path: page/p
 #: C/problems-debug-how-to.page:23
@@ -13785,6 +13802,8 @@ msgid ""
 "As a first hint, error messages will be either displayed in the statusbar or "
 "between the tool bar and the search bar."
 msgstr ""
+"Перша підказка: повідомлення про помилки буде показано у смужці стану або між"
+" панеллю інструментів і панеллю пошуку."
 
 #. (itstool) path: page/p
 #: C/problems-debug-how-to.page:25
@@ -13793,6 +13812,10 @@ msgid ""
 "href=\"https://wiki.gnome.org/Apps/Evolution/Debugging\"><app>Evolution</"
 "app> project website</link>."
 msgstr ""
+"Щоб виконати подальші кроки з пошуку причини проблеми, скористайтеся"
+" параметрами діагностики зі списку на <link "
+"href=\"https://wiki.gnome.org/Apps/Evolution/Debugging\">сайті проєкту <app"
+">Evolution</app></link>."
 
 #. (itstool) path: page/p
 #: C/problems-debug-how-to.page:27
@@ -13800,16 +13823,19 @@ msgid ""
 "To contact the <app>Evolution</app> community for help, please see <link "
 "xref=\"problems-getting-help\">How to get help</link>."
 msgstr ""
+"Щоб зв'язати зі спільнотою <app>Evolution</app> для отримання допомоги, будь"
+" ласка, ознайомтеся із розділом <link xref=\"problems-getting-help\">Як"
+" отримати допомогу</link>."
 
 #. (itstool) path: info/desc
 #: C/problems-getting-help.page:5
 msgid "How to get help for problems."
-msgstr ""
+msgstr "Як отримати допомогу із усуванням проблем."
 
 #. (itstool) path: page/title
 #: C/problems-getting-help.page:22
 msgid "How to get help"
-msgstr "Як дістати довідку"
+msgstr "Як отримати допомогу"
 
 #. (itstool) path: page/p
 #: C/problems-getting-help.page:24
@@ -13821,16 +13847,23 @@ msgid ""
 "you can for example <link xref=\"help:polari/\" href=\"https://help.gnome."
 "org/users/polari/stable/\">use the application <app>Polari</app></link>."
 msgstr ""
+"Щоб отримати допомогу із вирішенням проблем, ви можете надіслати повідомлення"
+" електронної пошти до <link href=\"http://mail.gnome.org/mailman/listinfo/evol"
+"ution-list\">списку листування <app>Evolution</app></link> або поспілкуватися"
+" із розробниками та іншими користувачами на каналі спілкування IRC #evolution"
+" на сервері irc.gimp.net. Щоб з'єднатися із сервером IRC ви можете,"
+" наприклад, <link xref=\"help:polari/\" href=\"https://help.gnome.org/users/po"
+"lari/stable/\">скористатися програмою <app>Polari</app></link>."
 
 #. (itstool) path: info/desc
 #: C/problems-reporting-bugs.page:5
 msgid "How to report mistakes in the application."
-msgstr ""
+msgstr "Як повідомляти про помилки у програмі."
 
 #. (itstool) path: page/title
 #: C/problems-reporting-bugs.page:21
 msgid "How to report bugs"
-msgstr ""
+msgstr "Як звітувати про вади"
 
 #. (itstool) path: page/p
 #: C/problems-reporting-bugs.page:23
@@ -13844,6 +13877,14 @@ msgid ""
 "Community/GettingInTouch/BugReportingGuidelines\">bug writing guidelines</"
 "link> first."
 msgstr ""
+"Якщо вам не потрібна допомога із налаштовуванням, і ви певні, що виявили"
+" помилку або помилкову поведінку у програмному забезпеченні <app>Evolution<"
+"/app>, або ви хочете попросити про реалізацію якоїсь можливості, ви можете"
+" створити звіт у <link href=\"https://gitlab.gnome.org/GNOME/evolution/issues/"
+"\">системі стеження за вадами у GNOME</link>. Зауважте, що це потребує"
+" реєстрації. Будь ласка, спробуйте уникнути створення звітів-дублікатів і"
+" ознайомтеся із <link href=\"https://wiki.gnome.org/Community/GettingInTouch/B"
+"ugReportingGuidelines\">настановами щодо написання звітів щодо вад</link>."
 
 #. (itstool) path: page/p
 #: C/problems-reporting-bugs.page:23
@@ -13855,6 +13896,12 @@ msgid ""
 "NonGnome#Bug_trackers_for_distributions\">the bug tracker of your GNOME "
 "distribution</link> instead."
 msgstr ""
+"Також слід зауважити, що автори дистрибутивів GNOME іноді впроваджують власні"
+" зміни до <app>Evolution</app>, які не включено до <app>Evolution</app> у"
+" GNOME. Користувачам важко у цьому розібратися, але якщо ви впевнені, що"
+" причина у додаткових зміна, будь ласка, створіть звіт щодо вади у <link"
+" href=\"https://wiki.gnome.org/Bugsquad/TriageGuide/NonGnome#Bug_trackers_for_"
+"distributions\">системі стеження за вадами у вашому дистрибутиві GNOME</link>."
 
 #. (itstool) path: page/p
 #: C/problems-reporting-bugs.page:25
@@ -13867,16 +13914,24 @@ msgid ""
 "\"https://wiki.gnome.org/Community/GettingInTouch/BugReportingGuidelines"
 "\">Bug Writing Guidelines</link> for more information."
 msgstr ""
+"При звітування щодо вад корисними є усі точні відомості, оскільки вони"
+" полегшують іншим відтворення та виправлення вади. Якщо можна, будь ласка,"
+" включіть відомості, зокрема про версію <app>Evolution</app> (можна визначити"
+" за допомогою пункту меню <guiseq><gui>Довідка</gui><gui>Про програму</gui><"
+"/guiseq>), про ваш дистрибутив і про точні кроки щодо відтворення проблеми,"
+" крок за кроком. Щоб дізнатися більше, ознайомтеся із <link"
+" href=\"https://wiki.gnome.org/Community/GettingInTouch/BugReportingGuidelines"
+"\">настановами щодо написання звітів щодо вад</link>."
 
 #. (itstool) path: info/desc
 #: C/searching-items.page:5
 msgid "Searching content and data within <app>Evolution</app>."
-msgstr ""
+msgstr "Пошук даних у <app>Evolution</app>."
 
 #. (itstool) path: page/title
 #: C/searching-items.page:18
 msgid "Searching items"
-msgstr ""
+msgstr "Пошук записів"
 
 #. (itstool) path: info/desc
 #: C/sync-with-other-devices.page:5
@@ -13884,16 +13939,18 @@ msgid ""
 "Synchronize <app>Evolution</app> data with handheld devices and mobile "
 "phones."
 msgstr ""
+"Синхронізація даних <app>Evolution</app> із кишеньковими пристроями та"
+" мобільними телефонами."
 
 #. (itstool) path: page/title
 #: C/sync-with-other-devices.page:19
 msgid "Synchronize <app>Evolution</app> with other devices"
-msgstr ""
+msgstr "Синхронізація <app>Evolution</app> із іншими пристроями"
 
 #. (itstool) path: page/p
 #: C/sync-with-other-devices.page:21
 msgid "There are currently no \"recommended instructions\" for users."
-msgstr ""
+msgstr "Поки ми не маємо «рекомендованих настанов» для користувачів."
 
 #. (itstool) path: page/p
 #: C/sync-with-other-devices.page:23
@@ -13903,6 +13960,10 @@ msgid ""
 "combination with devices that support <link href=\"https://en.wikipedia.org/"
 "wiki/SyncML\">SyncML</link>."
 msgstr ""
+"У багатьох дистрибутивах є пакунок програми <app><link"
+" href=\"https://syncevolution.org/\">SyncEvolution</link></app>, якою можна"
+" скористатися у поєднанні із пристроями, на яких передбачено підтримку <link"
+" href=\"https://en.wikipedia.org/wiki/SyncML\">SyncML</link>."
 
 #. (itstool) path: page/p
 #: C/sync-with-other-devices.page:25
@@ -13913,6 +13974,11 @@ msgid ""
 "href=\"https://en.wikipedia.org/wiki/List_of_collaborative_software\">list "
 "of collaborative software</link> is available on Wikipedia."
 msgstr ""
+"Загалом, рекомендуємо скористатися програмами і пристроями, у яких одночасно"
+" передбачено підтримку <link href=\"https://en.wikipedia.org/wiki/ActiveSync\""
+">протоколу ActiveSync</link> (зокрема <app>SyncEvolution</app>). <link"
+" href=\"https://en.wikipedia.org/wiki/List_of_collaborative_software\">Список"
+" відповідного програмного забезпечення</link> можна знайти на Вікіпедії."
 
 #. (itstool) path: page/p
 #: C/sync-with-other-devices.page:27
@@ -13921,16 +13987,20 @@ msgid ""
 "free to file a bug report in <link href=\"https://gitlab.gnome.org/GNOME/"
 "evolution/issues/new\">GNOME's bug tracking system</link>."
 msgstr ""
+"Якщо ви можете повідомити про надійні способи досягти потрібного результату"
+" або поділитися додатковими відомостями щодо цієї теми, не вагайтеся і"
+" створіть повідомлення про ваду у <link href=\"https://gitlab.gnome.org/GNOME/"
+"evolution/issues/new\">системі стеження за вадами GNOME</link>."
 
 #. (itstool) path: info/desc
 #: C/tasks-caldav.page:5
 msgid "Using an online CalDAV task list or memo list."
-msgstr ""
+msgstr "Користування списком завдань або списком приміток CalDAV у мережі."
 
 #. (itstool) path: page/title
 #: C/tasks-caldav.page:20
 msgid "Using a CalDAV task or memo list"
-msgstr ""
+msgstr "Користування списками завдань або приміток CalDAV"
 
 #. (itstool) path: page/p
 #: C/tasks-caldav.page:22 C/tasks-webdav.page:24
@@ -13938,6 +14008,8 @@ msgid ""
 "To add such a task list or memo list to <app>Evolution</app>, perform the "
 "following steps:"
 msgstr ""
+"Щоб додати такий список завдань або список приміток до <app>Evolution</app>,"
+" виконайте такі дії:"
 
 #. (itstool) path: item/p
 #: C/tasks-caldav.page:24 C/tasks-local.page:24 C/tasks-webdav.page:26
@@ -13945,11 +14017,15 @@ msgid ""
 "Click <guiseq><gui>File</gui><gui>New</gui><gui>Task List</gui></guiseq> or "
 "<guiseq><gui>File</gui><gui>New</gui><gui>Memo List</gui></guiseq>."
 msgstr ""
+"Виберіть пункт меню <guiseq><gui>Файл</gui><gui>Створити</gui><gui>Список"
+" завдань</gui></guiseq> або <guiseq><gui>Файл</gui><gui>Створити</gui><gui"
+">Список приміток</gui></guiseq>."
 
 #. (itstool) path: item/p
 #: C/tasks-caldav.page:28 C/tasks-webdav.page:30
 msgid "Choose if you want to be able to view the content also while offline."
 msgstr ""
+"Виберіть, чи хочете ви мати можливість переглядати дані у автономному режимі."
 
 #. (itstool) path: page/p
 #: C/tasks-caldav.page:35 C/tasks-local.page:31
@@ -13957,16 +14033,17 @@ msgid ""
 "The task list will be added to the list of task lists in <app>Evolution</"
 "app>."
 msgstr ""
+"Список завдань буде додано до списку списків завдань в <app>Evolution</app>."
 
 #. (itstool) path: info/desc
 #: C/tasks-display-settings.page:5
 msgid "Options for displaying task completion and due dates."
-msgstr ""
+msgstr "Параметри для показу завершеності завдань або часу виконання завдань."
 
 #. (itstool) path: page/title
 #: C/tasks-display-settings.page:23
 msgid "Displaying of tasks"
-msgstr ""
+msgstr "Показ завдань"
 
 #. (itstool) path: page/p
 #: C/tasks-display-settings.page:27
@@ -13975,16 +14052,20 @@ msgid ""
 "gui><gui>Preferences</gui><gui>Calendar and Tasks</gui><gui>Tasks</gui></"
 "guiseq>."
 msgstr ""
+"Доступ до вказаних нижче параметрів, які пов'язано із завданнями, можна"
+" отримати за допомогою пункту <guiseq><gui>Зміни</gui><gui>Параметри</gui><"
+"gui>Календар та завдання</gui><gui>Завдання</gui></guiseq>."
 
 #. (itstool) path: item/p
 #: C/tasks-display-settings.page:31
 msgid "Tasks due today:"
-msgstr ""
+msgstr "Завдання на сьогодні:"
 
 #. (itstool) path: item/p
 #: C/tasks-display-settings.page:32
 msgid "Select the color for tasks due today."
 msgstr ""
+"Вибір кольору для завдань, строк виконання яких визначено як поточну дату."
 
 #. (itstool) path: item/p
 #: C/tasks-display-settings.page:33
@@ -13994,12 +14075,12 @@ msgstr "Прострочені завдання:"
 #. (itstool) path: item/p
 #: C/tasks-display-settings.page:34
 msgid "Select the color for overdue tasks."
-msgstr ""
+msgstr "Вибір кольору для прострочених завдань."
 
 #. (itstool) path: item/p
 #: C/tasks-display-settings.page:35
 msgid "Hide completed tasks after:"
-msgstr ""
+msgstr "Приховувати виконані завдання через:"
 
 #. (itstool) path: item/p
 #: C/tasks-display-settings.page:36
@@ -14008,16 +14089,20 @@ msgid ""
 "measured in days, hours, or minutes. If you do not select this option, "
 "completed tasks remain in your task list, marked as complete."
 msgstr ""
+"Позначте цей пункт, якщо завершені завдання слід приховувати за вказаний"
+" період часу, який вимірюватиметься у днях, годинах або хвилинах. Якщо ви не"
+" позначите цей пункт, завершені завдання лишатимуться у вашому списку"
+" завдань, позначені як завершені."
 
 #. (itstool) path: info/desc
 #: C/tasks-local.page:5
 msgid "Adding another local task or memo list."
-msgstr ""
+msgstr "Додавання локального списку завдань або приміток."
 
 #. (itstool) path: page/title
 #: C/tasks-local.page:20
 msgid "Adding another local task or memo list"
-msgstr ""
+msgstr "Додавання локального списку завдань або приміток"
 
 #. (itstool) path: page/p
 #: C/tasks-local.page:22
@@ -14025,31 +14110,33 @@ msgid ""
 "To add another local task list to <app>Evolution</app>, perform the "
 "following steps:"
 msgstr ""
+"Щоб додати локальний список завдань в <app>Evolution</app>, виконайте такі"
+" дії:"
 
 #. (itstool) path: info/desc
 #: C/tasks-organizing.page:5
 msgid "On task and memo lists, searching, and categories."
-msgstr ""
+msgstr "Про списки завдань і приміток, пошук та категорії."
 
 #. (itstool) path: page/title
 #: C/tasks-organizing.page:21
 msgid "Sorting and organizing tasks and memos"
-msgstr ""
+msgstr "Сортування та упорядковування завдань і приміток"
 
 #. (itstool) path: info/desc
 #: C/tasks-searching.page:5
 msgid "Searching tasks."
-msgstr ""
+msgstr "Пошук завдань."
 
 #. (itstool) path: page/title
 #: C/tasks-searching.page:28
 msgid "Searching Tasks"
-msgstr ""
+msgstr "Пошук завдань"
 
 #. (itstool) path: section/title
 #: C/tasks-searching.page:31
 msgid "Searching in a Single Task"
-msgstr ""
+msgstr "Пошук в окремому завданні"
 
 #. (itstool) path: section/p
 #: C/tasks-searching.page:32
@@ -14057,11 +14144,14 @@ msgid ""
 "To find text in the displayed task, select <guiseq><gui>Edit</gui><gui>Find "
 "in Task…</gui></guiseq> from the main menu."
 msgstr ""
+"Щоб виконати пошук тексту у показаному завданні, скористайтеся пунктом"
+" головного меню <guiseq><gui>Зміни</gui><gui>Знайти у завданні…</gui></guiseq"
+">."
 
 #. (itstool) path: section/title
 #: C/tasks-searching.page:36
 msgid "Searching Across Tasks"
-msgstr ""
+msgstr "Пошук у всіх записах завдань"
 
 #. (itstool) path: section/p
 #: C/tasks-searching.page:40
@@ -14069,16 +14159,18 @@ msgid ""
 "In the Tasks view, you can quickly search for tasks either by summary or by "
 "category."
 msgstr ""
+"На панелі перегляду завдань ви можете швидко шукати у завданнях за резюме"
+" або за категорією."
 
 #. (itstool) path: info/desc
 #: C/tasks-usage-add-task.page:5
 msgid "Adding a task to your task list."
-msgstr ""
+msgstr "Додавання запису завдання до вашого списку завдань."
 
 #. (itstool) path: page/title
 #: C/tasks-usage-add-task.page:23
 msgid "Adding a Task"
-msgstr ""
+msgstr "Додавання завдання"
 
 #. (itstool) path: item/p
 #: C/tasks-usage-add-task.page:26
@@ -14086,16 +14178,19 @@ msgid ""
 "Click <guiseq><gui>File</gui><gui>New</gui><gui>Task</gui></guiseq>, or "
 "press <keyseq><key>Shift</key><key>Ctrl</key><key>T</key></keyseq>."
 msgstr ""
+"Виберіть пункт меню <guiseq><gui>Файл</gui><gui>Створити</gui><gui>Завдання<"
+"/gui></guiseq> або натисніть комбінацію клавіш <keyseq><key>Shift</key><key"
+">Ctrl</key><key>T</key></keyseq>."
 
 #. (itstool) path: item/p
 #: C/tasks-usage-add-task.page:27
 msgid "Select a task list in the <gui>List</gui> dropdown list."
-msgstr ""
+msgstr "Виберіть список завдань у спадному списку <gui>Список</gui>."
 
 #. (itstool) path: item/p
 #: C/tasks-usage-add-task.page:28
 msgid "Enter the task information."
-msgstr ""
+msgstr "Введіть дані завдання."
 
 #. (itstool) path: page/p
 #: C/tasks-usage-add-task.page:32
@@ -14103,6 +14198,8 @@ msgid ""
 "If you just want to quickly add a task by entering a summary you can "
 "directly enter it in the list of tasks."
 msgstr ""
+"Якщо ви просто хочете швидко додати завдання введенням резюме, ви можете"
+" безпосередньо ввести його у списку завдань."
 
 #. (itstool) path: page/p
 #: C/tasks-usage-add-task.page:34
@@ -14113,16 +14210,25 @@ msgid ""
 "task, or add an attachment or set a <link xref=\"calendar-alarms-and-"
 "reminders\">reminder</link> (via the corresponding tabs)."
 msgstr ""
+"Ви також можете визначити <link xref=\"calendar-timezones\">часовий пояс</"
+"link>, <link xref=\"using-categories\">категорію</link> або <link"
+" xref=\"calendar-"
+"classifications\">класифікацію</link> (за допомогою спадного меню) для"
+" завдання або додати долучення чи встановити <link"
+" xref=\"calendar-alarms-and-reminders\">нагадування</link> (за допомогою"
+" відповідних вкладок)."
 
 #. (itstool) path: section/title
 #: C/tasks-usage-add-task.page:37
 msgid "Assigned Tasks"
-msgstr ""
+msgstr "Призначення завдань"
 
 #. (itstool) path: section/p
 #: C/tasks-usage-add-task.page:39
 msgid "<app>Evolution</app> can be used to assign a task to multiple people."
 msgstr ""
+"<app>Evolution</app> можна скористатися для пов'язування завдання із"
+" декількома виконавцями."
 
 #. (itstool) path: section/p
 #: C/tasks-usage-add-task.page:40
@@ -14132,6 +14238,11 @@ msgid ""
 "sent an email with the task information, which also gives them the option to "
 "respond."
 msgstr ""
+"Коли ви призначаєте завдання, ви можете вказати "
+"учасників у декількох категоріях, зокрема «голова» або «обов'язковий». Коли "
+"ви зберігаєте завдання, кожному учаснику буде надіслано повідомлення "
+"електронної пошти із даними щодо завдання, яке також надасть учасникам "
+"можливість відповісти на завдання."
 
 #. (itstool) path: section/p
 #: C/tasks-usage-add-task.page:41
@@ -14139,6 +14250,9 @@ msgid ""
 "This is similar to <link xref=\"calendar-meetings-sending-invitation"
 "\">meetings</link>."
 msgstr ""
+"Увесь процес подібних до організації <link"
+" xref=\"calendar-meetings-sending-invitation"
+"\">засідань</link>."
 
 #. (itstool) path: section/p
 #: C/tasks-usage-add-task.page:42
@@ -14146,11 +14260,13 @@ msgid ""
 "To create an assigned task, click <guiseq><gui>File</gui><gui>New</"
 "gui><gui>Assigned Task</gui></guiseq>."
 msgstr ""
+"Щоб створити призначене завдання, виберіть пункт меню <guiseq><gui>Файл</gui"
+"><gui>Створити</gui><gui>Призначене завдання</gui></guiseq>."
 
 #. (itstool) path: info/desc
 #: C/tasks-usage-delete-task.page:5
 msgid "Deleting a task from your task list."
-msgstr ""
+msgstr "Вилучення завдання з вашого списку завдань."
 
 #. (itstool) path: page/title
 #: C/tasks-usage-delete-task.page:20
@@ -14165,21 +14281,29 @@ msgid ""
 "in the tool bar or press <keyseq><key>Ctrl</key><key>D</key></keyseq>, or "
 "click <guiseq><gui>Edit</gui><gui>Delete Task</gui></guiseq>."
 msgstr ""
+"Якщо ви хочете вилучити завдання з ваших списків завдань, клацніть правою"
+" кнопкою миші на пункті завдання і виберіть у контекстному меню пункт <gui"
+">Вилучити</gui>, або клацніть на завданні і натисніть кнопку <gui>Вилучити<"
+"/gui> на панелі інструментів чи комбінацію клавіш <keyseq><key>Ctrl</key><key"
+">D</key></keyseq>, або виберіть пункт меню <guiseq><gui>Зміни</gui"
+"><gui>Вилучити завдання</gui></guiseq>."
 
 #. (itstool) path: info/desc
 #: C/tasks-usage-edit-task.page:5
 msgid "Editing a task in your task list."
-msgstr ""
+msgstr "Редагування завдання у вашому списку завдань."
 
 #. (itstool) path: page/title
 #: C/tasks-usage-edit-task.page:20
 msgid "Editing a Task"
-msgstr ""
+msgstr "Редагування завдання"
 
 #. (itstool) path: page/p
 #: C/tasks-usage-edit-task.page:22
 msgid "If you want to change a task that already exists in your task lists,"
 msgstr ""
+"Якщо ви хочете внести зміни до завдання, яке вже є у ваших списках завдань,"
+" виконайте такі дії:"
 
 #. (itstool) path: item/p
 #: C/tasks-usage-edit-task.page:25
@@ -14187,31 +14311,36 @@ msgid ""
 "Double-click on the task that you want to edit in the list of tasks, or "
 "right-click on the task and click <gui>Open Task</gui>."
 msgstr ""
+"Двічі клацніть лівою кнопкою миші на пункті завдання, яке ви хочете змінити,"
+" у списку завдань або клацніть правою кнопкою миші на пункті завдання і"
+" виберіть у контекстному меню пункт <gui>Відкрити завдання</gui>."
 
 #. (itstool) path: item/p
 #: C/tasks-usage-edit-task.page:26
 msgid "Edit the task information."
-msgstr ""
+msgstr "Редагування даних завдання."
 
 #. (itstool) path: info/desc
 #: C/tasks-usage.page:5
 msgid "On adding, editing, and deleting tasks."
-msgstr ""
+msgstr "Про додавання, редагування та вилучення завдань."
 
 #. (itstool) path: page/title
 #: C/tasks-usage.page:20
 msgid "Add, Edit, and Delete Tasks"
-msgstr ""
+msgstr "Додавання, редагування та вилучення завдань"
 
 #. (itstool) path: info/desc
 #: C/tasks-using-several-tasklists.page:5
 msgid "Adding and using more than one task list or memo list."
 msgstr ""
+"Додавання списку завдань або приміток та користування декількома списками"
+" завдань або приміток."
 
 #. (itstool) path: page/title
 #: C/tasks-using-several-tasklists.page:20
 msgid "Using several task lists or memo lists"
-msgstr ""
+msgstr "Користування декількома списками завдань або приміток"
 
 #. (itstool) path: page/p
 #: C/tasks-using-several-tasklists.page:22
@@ -14222,11 +14351,19 @@ msgid ""
 "these lists, and you can select or deselect any of the boxes next to them to "
 "show and hide the corresponding tasks or memos in your view."
 msgstr ""
+"У вас може бути декілька списків завдань або приміток. Ви можете вибрати, які"
+" з ваших списків буде показано. Наприклад, у вас можуть бути завдання для"
+" роботи, завдання для дому і завдання для хору, учасником якого ви є. На"
+" бічній панелі вікна програми буде показано ці списки, і ви зможете позначити"
+" або зняти позначення із пункті поряд із назвами списків, щоб наказати"
+" програми показати або приховати відповідні завдання або примітки зі списку."
 
 #. (itstool) path: page/p
 #: C/tasks-using-several-tasklists.page:24
 msgid "Tasks and memos from each task or memo list appear as different colors."
 msgstr ""
+"Завдання і примітки з кожного зі списків завдань або приміток буде показано"
+" різними кольорами."
 
 #. (itstool) path: page/p
 #: C/tasks-using-several-tasklists.page:26
@@ -14234,21 +14371,23 @@ msgid ""
 "You can also use lists that are not on your computer, such as on the "
 "internet."
 msgstr ""
+"Ви також можете скористатися списками, які не зберігаються на вашому "
+"комп'ютері, зокрема списками в інтернеті."
 
 #. (itstool) path: info/desc
 #: C/tasks-webdav.page:5
 msgid "Using an online WebDAV task list or memo list."
-msgstr ""
+msgstr "Користування списком завдань або приміток WebDAV у мережі."
 
 #. (itstool) path: page/title
 #: C/tasks-webdav.page:20
 msgid "Using a WebDAV task or memo list"
-msgstr ""
+msgstr "Користування списками завдань або приміток WebDAV"
 
 #. (itstool) path: page/p
 #: C/tasks-webdav.page:22
 msgid "Lists of this type are read-only."
-msgstr ""
+msgstr "Списки цього типу є придатними лише до читання."
 
 #. (itstool) path: page/p
 #: C/tasks-webdav.page:37
@@ -14260,6 +14399,8 @@ msgstr "Список буде додано до <app>Evolution</app>."
 msgid ""
 "Using and managing categories for appointments, contacts, memos and tasks."
 msgstr ""
+"Користування категоріями для зустрічей, контактів, приміток та завдань та"
+" керування категоріями."
 
 #. (itstool) path: page/title
 #: C/using-categories.page:25
@@ -14276,6 +14417,14 @@ msgid ""
 "the \"Business\" category because he works with you and the \"Friends\" "
 "category because he is a friend."
 msgstr ""
+"Ще одним способом групування контактів, зустрічей, завдань та приміток"
+" (усього того, що надалі у цьому тексті ми називатимемо «об'єктами) є"
+" позначення їх як таких, що належать до різних категорій. Ви можете позначити"
+" будь-який об'єкт як такий, що належить до декількох категорій, або як такий,"
+" що не належить до жодної категорії. Наприклад, у вашій адресній книзі ви"
+" можете додати запис вашого друга або подруги до категорії «Бізнес», оскільки"
+" ви працюєте разом із ним чи нею, і додати запис до категорії «Друзі»,"
+" оскільки це ваш друг або подруга."
 
 #. (itstool) path: note/p
 #: C/using-categories.page:29
@@ -14284,21 +14433,25 @@ msgid ""
 "corresponding category in the quick <link xref=\"searching-items\">search</"
 "link> bar."
 msgstr ""
+"Щоб наказати програмі показати лише об'єкти із певної категорії, виберіть"
+" відповідну категорію на панелі <link xref=\"searching-items\">пошуку</link>."
 
 #. (itstool) path: section/title
 #: C/using-categories.page:32
 msgid "Setting categories for an object"
-msgstr ""
+msgstr "Встановлення категорій для об'єкта"
 
 #. (itstool) path: section/p
 #: C/using-categories.page:34
 msgid "To mark an object as belonging to a category,"
 msgstr ""
+"Щоб позначити об'єкт як такий, що належить до певної категорії, виконайте"
+" такі дії:"
 
 #. (itstool) path: item/p
 #: C/using-categories.page:36
 msgid "Double-click the object to bring up the corresponding editor."
-msgstr ""
+msgstr "Двічі клацніть на об'єкті, щоб відкрити вікно відповідного редактора."
 
 #. (itstool) path: item/p
 #: C/using-categories.page:37 C/using-categories.page:49
@@ -14306,6 +14459,9 @@ msgid ""
 "Click <gui style=\"button\">Categories…</gui>. (If this button is not "
 "available, select <guiseq><gui>View</gui><gui>Categories</gui></guiseq>.)"
 msgstr ""
+"Натисніть кнопку <gui style=\"button\">Категорії…</gui>. (Якщо цю кнопку не"
+" показано, скористайтеся пунктом меню <guiseq><gui>Перегляд</gui><gui"
+">Категорії</gui></guiseq>.)"
 
 #. (itstool) path: item/p
 #: C/using-categories.page:38
@@ -14313,6 +14469,8 @@ msgid ""
 "Select the category from the list. You can select as many or as few "
 "categories as you like."
 msgstr ""
+"Виберіть категорію зі списку. Ви можете вибрати довільну кількість"
+" відповідних категорій."
 
 #. (itstool) path: section/title
 #: C/using-categories.page:44
@@ -14326,16 +14484,22 @@ msgid ""
 "own categories either directly via <guiseq><gui>Edit</gui><gui>Available "
 "Categories</gui></guiseq>, or indirectly when editing an object:"
 msgstr ""
+"Якщо записів у типовому списку категорій недостатньо для ваших потреб, ви"
+" можете додати власні категорії або безпосередньо за допомогою пункту меню <"
+"guiseq><gui>Зміни</gui><gui>Доступні категорії</gui></guiseq>, або"
+" опосередковано при редагуванні об'єкта:"
 
 #. (itstool) path: item/p
 #: C/using-categories.page:48
 msgid "Double-click any object to bring up the corresponding editor."
 msgstr ""
+"Двічі клацніть на будь-якому об'єкті, щоб відкрити вікно відповідного"
+" редактора."
 
 #. (itstool) path: item/p
 #: C/using-categories.page:50
 msgid "Enter the new category in the entry box at the top."
-msgstr ""
+msgstr "Введіть нову категорію до поля у верхній частині вікна."
 
 #. (itstool) path: item/p
 #: C/using-categories.page:52
@@ -14343,6 +14507,8 @@ msgid ""
 "You can now see the category in the <gui>Categories</gui> text field in the "
 "editor."
 msgstr ""
+"Після цього ви зможете побачити категорію у текстовому полі <gui>Категорії<"
+"/gui> у вікні редактора."
 
 #. (itstool) path: section/p
 #: C/using-categories.page:56
@@ -14352,6 +14518,11 @@ msgid ""
 "the bottom of the <gui>Categories</gui> window. Press <gui style=\"button"
 "\">Delete</gui> to delete categories from the list."
 msgstr ""
+"За допомогою <gui>Редактора категорій</gui> ви можете редагувати і"
+" встановлювати колір і піктограму для усіх доступних категорій натисканням"
+" кнопки <gui style=\"button\">Редагувати</gui> у нижній частині вікна <gui"
+">Категорії</gui>. Щоб вилучити категорію зі списку, натисніть кнопку <gui"
+" style=\"button\">Вилучити</gui>."
 
 #. (itstool) path: item/p
 #: C/xinclude-filter-vfolder-conditions.xml:3
@@ -14361,7 +14532,7 @@ msgstr "Відправник:"
 #. (itstool) path: item/p
 #: C/xinclude-filter-vfolder-conditions.xml:4
 msgid "The sender's email address or the name of the sender."
-msgstr ""
+msgstr "Адреса електронної пошти або ім'я відправника."
 
 #. (itstool) path: item/p
 #: C/xinclude-filter-vfolder-conditions.xml:6
@@ -14371,7 +14542,7 @@ msgstr "Отримувачі:"
 #. (itstool) path: item/p
 #: C/xinclude-filter-vfolder-conditions.xml:7
 msgid "The recipients of the message."
-msgstr ""
+msgstr "Отримувачі повідомлення."
 
 #. (itstool) path: item/p
 #: C/xinclude-filter-vfolder-conditions.xml:9
@@ -14381,7 +14552,7 @@ msgstr "Копія:"
 #. (itstool) path: item/p
 #: C/xinclude-filter-vfolder-conditions.xml:10
 msgid "Only the CC recipients of the message."
-msgstr ""
+msgstr "Лише отримувачі копій повідомлення."
 
 #. (itstool) path: item/p
 #: C/xinclude-filter-vfolder-conditions.xml:12
@@ -14394,6 +14565,8 @@ msgid ""
 "Only the BCC recipients of the message. Obviously this can only be applied "
 "to outgoing filters."
 msgstr ""
+"Лише отримувачі прихованих копій повідомлення. Звичайно ж, цей можна"
+" застосовувати лише для фільтрів вихідної пошти."
 
 #. (itstool) path: item/p
 #: C/xinclude-filter-vfolder-conditions.xml:15
@@ -14406,6 +14579,7 @@ msgid ""
 "The sender's email address or the name of the sender or the recipients of "
 "the message."
 msgstr ""
+"Адреса електронної пошти або ім'я відправника чи отримувачів повідомлення."
 
 #. (itstool) path: item/p
 #: C/xinclude-filter-vfolder-conditions.xml:18
@@ -14415,7 +14589,7 @@ msgstr "Тема:"
 #. (itstool) path: item/p
 #: C/xinclude-filter-vfolder-conditions.xml:19
 msgid "The subject line of the message."
-msgstr ""
+msgstr "Рядок теми повідомлення."
 
 #. (itstool) path: item/p
 #: C/xinclude-filter-vfolder-conditions.xml:21
@@ -14425,12 +14599,12 @@ msgstr "Особливий заголовок:"
 #. (itstool) path: p/link
 #: C/xinclude-filter-vfolder-conditions.xml:22
 msgid "custom ones"
-msgstr ""
+msgstr "нетиповими"
 
 #. (itstool) path: item/p
 #: C/xinclude-filter-vfolder-conditions.xml:22
 msgid "Any header including <_:link-1/>."
-msgstr ""
+msgstr "Будь-який заголовок, включно із <_:link-1/>."
 
 #. (itstool) path: p/app
 #: C/xinclude-filter-vfolder-conditions.xml:23
@@ -14448,6 +14622,14 @@ msgid ""
 "\", <_:app-2/> filters as though the second declaration did not occur. To "
 "filter on messages that use headers multiple times, use a regular expression."
 msgstr ""
+"Якщо у повідомленні якийсь заголовок використано декілька разів, <_:app-1/>"
+" використовуватиме лише перший екземпляр, навіть якщо у повідомленні"
+" заголовок вдруге визначається іншим чином. Наприклад, якщо повідомлення"
+" оголошує заголовок Resent-From: як «engineering@example.com», а потім"
+" повторно оголошує його як «marketing@example.com», фільтрування в <_:app-2/>"
+" буде виконано так, наче другого оголошення не існує. Для фільтрування"
+" повідомлень, у яких заголовок визначається декілька разів використовуйте"
+" формальний вираз."
 
 #. (itstool) path: item/p
 #: C/xinclude-filter-vfolder-conditions.xml:25
@@ -14457,7 +14639,7 @@ msgstr "Вміст повідомлення:"
 #. (itstool) path: item/p
 #: C/xinclude-filter-vfolder-conditions.xml:26
 msgid "Searches in the actual text of the message."
-msgstr ""
+msgstr "Виконати пошук у самому тексті повідомлення."
 
 #. (itstool) path: item/p
 #: C/xinclude-filter-vfolder-conditions.xml:28
@@ -14475,6 +14657,8 @@ msgid ""
 "(For programmers only) Match a message according to an expression you write "
 "in the Scheme language used to define <_:link-1/> in <_:app-2/>."
 msgstr ""
+"(Лише для програмістів) Встановити відповідність повідомлення за написаним"
+" вами мовою Scheme виразом, який визначає <_:link-1/> в <_:app-2/>."
 
 #. (itstool) path: item/p
 #: C/xinclude-filter-vfolder-conditions.xml:31
@@ -14484,13 +14668,15 @@ msgstr "Вираз у довільній формі:"
 #. (itstool) path: p/link
 #: C/xinclude-filter-vfolder-conditions.xml:32
 msgid "special syntax"
-msgstr ""
+msgstr "спеціалізованого синтаксису"
 
 #. (itstool) path: item/p
 #: C/xinclude-filter-vfolder-conditions.xml:32
 msgid ""
 "(For advanced users only) Combine numerous conditions by using a <_:link-1/>."
 msgstr ""
+"(Лише для досвідчених користувачів) Поєднати декілька виразів за допомогою <"
+"_:link-1/>."
 
 #. (itstool) path: item/p
 #: C/xinclude-filter-vfolder-conditions.xml:34
@@ -14508,6 +14694,14 @@ msgid ""
 "for a message within a range of time relative to the filter, such as two to "
 "four days ago."
 msgstr ""
+"Фільтрувати повідомлення відповідно до дати, коли їх було надіслано. Спочатку"
+" виберіть умови, яким має задовольняти повідомлення, наприклад, бути"
+" надісланим до вказаної дати або після вказаної дати. Потім виберіть час. При"
+" фільтруванні фільтр виконує порівняння часової позначки повідомлення із"
+" даними загальносистемного годинника або вказаним часом і датою з календаря."
+" Крім того, ви можете наказати програмі шукати повідомлення у певному"
+" діапазоні часу відносно моменту фільтрування, зокрема шукати повідомлення"
+" які було надіслано від двох до чотирьох днів тому."
 
 #. (itstool) path: item/p
 #: C/xinclude-filter-vfolder-conditions.xml:37
@@ -14520,6 +14714,8 @@ msgid ""
 "This works the same way as the Date Sent option, except that it compares the "
 "time you received the message with the dates you specify."
 msgstr ""
+"Цей варіант працює подібно до варіанта із датою надсилання, але порівняння"
+" часу із вказаною вами датою виконується для часу отримання повідомлення."
 
 #. (itstool) path: item/p
 #: C/xinclude-filter-vfolder-conditions.xml:40
@@ -14537,6 +14733,9 @@ msgid ""
 "Messages can have <_:link-1/> of Important, Work, Personal, To Do, or Later. "
 "You can set labels with other filters or manually."
 msgstr ""
+"У повідомлень можуть бути <_:link-1/> «Важливе», «Робота», «Особисте»,"
+" «Зробити» або «Пізніше». Ви можете встановлювати мітки із іншими фільтрами"
+" або вручну."
 
 #. (itstool) path: item/p
 #: C/xinclude-filter-vfolder-conditions.xml:43
@@ -14552,6 +14751,12 @@ msgid ""
 "particular: it is simply a number you can assign to messages so other "
 "filters can process them."
 msgstr ""
+"Встановлює оцінку (рахунок) повідомлення у будь-яке ціле значення, яке є"
+" більшим за 0. Ви можете створити один набір фільтрів або змінити оцінку"
+" повідомлення, а потім налаштувати інший фільтр для пересування повідомлень,"
+" які ви оцінили. Оцінка повідомлення не має чітких критеріїв визначення — це"
+" просто число, яке ви пов'язуєте із повідомленнями, щоб інші фільтри могли"
+" його обробити."
 
 #. (itstool) path: item/p
 #: C/xinclude-filter-vfolder-conditions.xml:46
@@ -14561,7 +14766,7 @@ msgstr "Розмір (кБ):"
 #. (itstool) path: item/p
 #: C/xinclude-filter-vfolder-conditions.xml:47
 msgid "Sorts based on the size of the message in kilobytes."
-msgstr ""
+msgstr "Упорядкувати повідомлення на основі розміру у кілобайтах."
 
 #. (itstool) path: item/p
 #: C/xinclude-filter-vfolder-conditions.xml:49
@@ -14574,6 +14779,8 @@ msgid ""
 "Filters according to the status of a message. The status can be Replied To, "
 "Draft, Important, Read, or Junk."
 msgstr ""
+"Фільтрувати за станом повідомлення. Передбачено стани «У відповідь до», "
+"«Чернетка», «Важливе», «Прочитане» і «Спам»."
 
 #. (itstool) path: item/p
 #: C/xinclude-filter-vfolder-conditions.xml:52
@@ -14583,7 +14790,7 @@ msgstr "До виконання:"
 #. (itstool) path: p/link
 #: C/xinclude-filter-vfolder-conditions.xml:53
 msgid "flagged for follow-up"
-msgstr ""
+msgstr "до виконання"
 
 #. (itstool) path: item/p
 #: C/xinclude-filter-vfolder-conditions.xml:53
@@ -14591,6 +14798,8 @@ msgid ""
 "Checks whether the message is <_:link-1/> or completed (after a certain "
 "date)."
 msgstr ""
+"Перевірити, чи позначено повідомлення як <_:link-1/> або виконане (після"
+" певної дати)."
 
 #. (itstool) path: item/p
 #: C/xinclude-filter-vfolder-conditions.xml:55
@@ -14600,7 +14809,7 @@ msgstr "Долучення:"
 #. (itstool) path: item/p
 #: C/xinclude-filter-vfolder-conditions.xml:56
 msgid "Checks whether there is an attachment for the email."
-msgstr ""
+msgstr "Перевірити, чи долучено до повідомлення якийсь файл."
 
 #. (itstool) path: item/p
 #: C/xinclude-filter-vfolder-conditions.xml:58
@@ -14616,6 +14825,12 @@ msgid ""
 "mail. Mail from list servers that do not set X-BeenThere properly are not be "
 "caught by these filters."
 msgstr ""
+"Фільтрувати на основі списку листування, з якого надійшло повідомлення. Цей"
+" фільтр може пропускати повідомлення з деяких серверів списків, оскільки"
+" виконує обробку заголовка X-BeenThere, який використовується для"
+" ідентифікації списків листування або інших поширювачів пошти. Такі фільтри"
+" не можуть перехоплювати пошту із серверів списків, які не встановлюють"
+" заголовок X-BeenThere належним чином."
 
 #. (itstool) path: item/p
 #: C/xinclude-filter-vfolder-conditions.xml:61
@@ -14635,7 +14850,7 @@ msgstr "grep"
 #. (itstool) path: p/link
 #: C/xinclude-filter-vfolder-conditions.xml:62
 msgid "the man page for the <_:cmd-1/>"
-msgstr "сторінка підручника щодо <_:cmd-1/>"
+msgstr "сторінкою підручника щодо <_:cmd-1/>"
 
 #. (itstool) path: item/p
 #: C/xinclude-filter-vfolder-conditions.xml:62
@@ -14647,6 +14862,13 @@ msgid ""
 "messages that declare a particular header twice. For information about how "
 "to use regular expressions, check <_:link-2/> command."
 msgstr ""
+"(Лише для програмістів) Якщо ви знаєте, як працювати із <_:link-1/> або"
+" формальними виразами, за допомогою цього варіанта ви зможете виконувати"
+" пошук складних взірців, складених із літер. Отже ви можете, наприклад,"
+" виконати пошук усіх слів, які починаються з «а» і закінчуються на «м», мають"
+" від 6 до 15 літер у довжину, або усіх повідомлень, у яких певний заголовок"
+" оголошено двічі. Щоб дізнатися більше про користування формальними виразами,"
+" ознайомтеся зі <_:link-2/>."
 
 #. (itstool) path: section/title
 #. (itstool) path: guiseq/gui
@@ -14665,6 +14887,7 @@ msgstr "Пошук"
 #: C/xinclude-searching.xml:6
 msgid "Select the <_:guiseq-1/> menu to open the dialog box."
 msgstr ""
+"Скористайтеся пунктом меню <_:guiseq-1/>, щоб відкрити діалогову панель."
 
 #. (itstool) path: p/gui
 #: C/xinclude-searching.xml:7
@@ -14682,6 +14905,8 @@ msgid ""
 "Select the condition from the dropdown list, and then type a search entry in "
 "the field."
 msgstr ""
+"Виберіть умову зі спадного списку, а потім введіть критерій пошуку у"
+" відповідне поле."
 
 #. (itstool) path: p/gui
 #: C/xinclude-searching.xml:9 C/xinclude-searching.xml:21
@@ -14692,7 +14917,7 @@ msgstr "Гаразд"
 #. (itstool) path: item/p
 #: C/xinclude-searching.xml:9
 msgid "Click <_:gui-1/> to get the search results displayed."
-msgstr ""
+msgstr "Натисніть кнопку <_:gui-1/>, щоб отримати список результатів пошуку."
 
 #. (itstool) path: section/title
 #: C/xinclude-searching.xml:14
@@ -14727,6 +14952,10 @@ msgid ""
 "gui-1/> icon in the search string field, or choose <_:guiseq-2/> from the "
 "menubar. You can also press <_:keyseq-3/> to clear the search."
 msgstr ""
+"Щоб очистити панель пошуку і повернутися до типового режиму перегляду,"
+" натисніть піктограму <_:gui-1/> у полі рядка пошуку або виберіть пункт меню"
+" <_:guiseq-2/>. Крім того, ви можете натиснути комбінацію клавіш <_:keyseq-3/"
+">, щоб очистити поле пошуку."
 
 #. (itstool) path: section/title
 #: C/xinclude-searching.xml:19
@@ -14739,6 +14968,8 @@ msgid ""
 "If you search for something rather often, you will prefer not to type it "
 "many times. In this case you can use saved searches."
 msgstr ""
+"Якщо ви шукаєте щось одне досить часто, варто заощадити час на набирання"
+" критерію пошуку. Для цього ви можете скористатися збереженими пошуками."
 
 #. (itstool) path: p/gui
 #: C/xinclude-searching.xml:21
@@ -14758,6 +14989,10 @@ msgid ""
 "select <_:guiseq-3/>. From now on this search will be directly available "
 "from the <_:gui-4/> menu."
 msgstr ""
+"Щоб зберегти результати пошуку, або натисніть <_:gui-1/> замість <_:gui-2/> у"
+" діалоговому вікні пошуку, або, якщо результати пошуку вже показано, виберіть"
+" <_:guiseq-3/>. Після цього, відповідний пошук буде безпосередньо доступним у"
+" меню <_:gui-4/>."
 
 #. (itstool) path: section/title
 #: C/xinclude-searching.xml:25
@@ -14772,7 +15007,7 @@ msgstr "Редагувати збережені результати пошук�
 #. (itstool) path: item/p
 #: C/xinclude-searching.xml:27
 msgid "Select <_:guiseq-1/> from the menu bar to open the window."
-msgstr ""
+msgstr "Виберіть пункт меню <_:guiseq-1/>, щоб відкрити вікно."
 
 #. (itstool) path: p/gui
 #: C/xinclude-searching.xml:28
@@ -14787,12 +15022,14 @@ msgstr "Змінити правило"
 #. (itstool) path: item/p
 #: C/xinclude-searching.xml:28
 msgid "Click the <_:gui-1/> button to open the <_:gui-2/> window."
-msgstr ""
+msgstr "Натисніть кнопку <_:gui-1/>, щоб відкрити вікно <_:gui-2/>."
 
 #. (itstool) path: item/p
 #: C/xinclude-searching.xml:29
 msgid "Edit the title or search conditions from the dialog box."
 msgstr ""
+"Змініть заголовок або умови пошуку за допомогою відповідних полів діалогового"
+" вікна."
 
 #. (itstool) path: item/p
 #: C/xinclude-searching.xml:30
