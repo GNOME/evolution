@@ -124,6 +124,8 @@ struct _EMsgComposerPrivate {
 
 	guint content_hash_ref_count; /* when reaches 0, the content_hash is freed; to be able to reuse it */
 	EContentEditorContentHash *content_hash;
+
+	GCancellable *load_signature_cancellable;
 };
 
 void		e_composer_private_constructed	(EMsgComposer *composer);

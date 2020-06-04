@@ -615,6 +615,7 @@ e_mail_signature_combo_box_set_identity (EMailSignatureComboBox *combo_box,
 typedef struct _LoadContext LoadContext;
 
 struct _LoadContext {
+	GCancellable *cancellable;
 	gchar *contents;
 	gsize length;
 	gboolean is_html;
@@ -623,6 +624,7 @@ struct _LoadContext {
 static void
 load_context_free (LoadContext *context)
 {
+	g_clear_object (&context->cancellable);
 	g_free (context->contents);
 	g_slice_free (LoadContext, context);
 }
@@ -761,6 +763,7 @@ e_mail_signature_combo_box_load_selected (EMailSignatureComboBox *combo_box,
 	g_return_if_fail (E_IS_MAIL_SIGNATURE_COMBO_BOX (combo_box));
 
 	context = g_slice_new0 (LoadContext);
+	context->cancellable = cancellable ? g_object_ref (cancellable) : NULL;
 
 	simple = g_simple_async_result_new (
 		G_OBJECT (combo_box), callback, user_data,
@@ -822,6 +825,9 @@ e_mail_signature_combo_box_load_selected_finish (EMailSignatureComboBox *combo_b
 	context = g_simple_async_result_get_op_res_gpointer (simple);
 
 	if (g_simple_async_result_propagate_error (simple, error))
+		return FALSE;
+
+	if (g_cancellable_set_error_if_cancelled (context->cancellable, error))
 		return FALSE;
 
 	if (contents != NULL) {

@@ -712,6 +712,7 @@ test_bug_772513 (TestFixture *fixture)
 		cnt_editor,
 		"",
 		FALSE,
+		FALSE,
 		"none",
 		&set_signature_from_message,
 		&check_if_signature_is_changed,

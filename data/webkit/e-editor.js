@@ -79,7 +79,6 @@ var EvoEditor = {
 	UNICODE_SMILEYS : false,
 	WRAP_QUOTED_TEXT_IN_REPLIES : true,
 	START_BOTTOM : false,
-	TOP_SIGNATURE : false,
 
 	FORCE_NO : 0,
 	FORCE_YES : 1,
@@ -4719,6 +4718,31 @@ EvoEditor.GetCurrentSignatureUid = function()
 	return "";
 }
 
+EvoEditor.insertEmptyParagraphBefore = function(beforeNode)
+{
+	var node = document.createElement("DIV");
+
+	node.appendChild(document.createElement("BR"));
+	document.body.insertBefore(node, beforeNode);
+	EvoEditor.maybeUpdateParagraphWidth(node);
+
+	return node;
+}
+
+EvoEditor.scrollIntoSelection = function()
+{
+	var node = document.getSelection().focusNode;
+
+	if (node) {
+		if (node.nodeType != node.ELEMENT_NODE)
+			node = node.parentElement;
+
+		if (node && node.scrollIntoView != undefined) {
+			node.scrollIntoView();
+		}
+	}
+}
+
 EvoEditor.removeUnwantedTags = function(parent)
 {
 	if (!parent)
@@ -4735,12 +4759,9 @@ EvoEditor.removeUnwantedTags = function(parent)
 	}
 }
 
-EvoEditor.InsertSignature = function(content, isHTML, uid, fromMessage, checkChanged, ignoreNextChange, startBottom, topSignature, addDelimiter)
+EvoEditor.InsertSignature = function(content, isHTML, canRepositionCaret, uid, fromMessage, checkChanged, ignoreNextChange, startBottom, topSignature, addDelimiter)
 {
-	var sigSpan, node, scrollX, scrollY;
-
-	scrollX = window.scrollX;
-	scrollY = window.scrollY;
+	var sigSpan, node;
 
 	sigSpan = document.createElement("SPAN");
 	sigSpan.className = "-x-evo-signature";
@@ -4819,8 +4840,9 @@ EvoEditor.InsertSignature = function(content, isHTML, uid, fromMessage, checkCha
 				if (checkChanged) {
 					/* Normalize the signature that we want to insert as the one in the
 					 * message already is normalized. */
-					webkit_dom_node_normalize (WEBKIT_DOM_NODE (signature_to_insert));
-					if (!webkit_dom_node_is_equal_node (WEBKIT_DOM_NODE (signature_to_insert), signature)) {
+					signature.normalize();
+
+					if (signature.firstElementChild && !signature.firstElementChild.isEqualNode(sigSpan)) {
 						/* Signature in the body is different than the one with the
 						 * same id, so set the active signature to None and leave
 						 * the signature that is in the body. */
@@ -4835,7 +4857,7 @@ EvoEditor.InsertSignature = function(content, isHTML, uid, fromMessage, checkCha
 					if (signature.hasAttribute("name")) {
 						id = signature.getAttribute("name");
 						signature.id = id;
-						signature.removeAttribute(name);
+						signature.removeAttribute("name");
 					} else {
 						id = signature.id;
 					}
@@ -4902,7 +4924,9 @@ EvoEditor.InsertSignature = function(content, isHTML, uid, fromMessage, checkCha
 
 				EvoUndoRedo.StartRecord(EvoUndoRedo.RECORD_KIND_CUSTOM, "InsertSignature::new-changes", document.body, document.body, EvoEditor.CLAIM_CONTENT_FLAG_SAVE_HTML);
 				try {
-					if (topSignature) {
+					var emptyDocument = !document.body.firstElementChild || !document.body.firstElementChild.nextElementSibling;
+
+					if (topSignature && !emptyDocument) {
 						document.body.insertBefore(useWrapper, document.body.firstChild);
 
 						node = document.createElement("DIV");
@@ -4910,7 +4934,15 @@ EvoEditor.InsertSignature = function(content, isHTML, uid, fromMessage, checkCha
 						node.className = "-x-evo-top-signature-spacer";
 
 						document.body.insertBefore(node, useWrapper.nextSibling);
+
+						// Insert empty paragraph before the signature
+						EvoEditor.insertEmptyParagraphBefore(document.body.firstChild);
 					} else {
+						if (!startBottom && !emptyDocument) {
+							// Insert empty paragraph before the signature
+							EvoEditor.insertEmptyParagraphBefore(null);
+						}
+
 						document.body.appendChild(useWrapper);
 					}
 				} finally {
@@ -4920,35 +4952,26 @@ EvoEditor.InsertSignature = function(content, isHTML, uid, fromMessage, checkCha
 
 			fromMessage = false;
 
-			// Position the caret and scroll to it
-			if (startBottom) {
-				if (topSignature) {
-					document.getSelection().setPosition(document.body.lastChild, 0);
-				} else if (useWrapper.previousSibling) {
-					document.getSelection().setPosition(useWrapper.previousSibling, 0);
+			if (canRepositionCaret) {
+				// Position the caret and scroll to it
+				if (startBottom) {
+					if (topSignature) {
+						document.getSelection().setPosition(document.body.lastChild, 0);
+					} else if (useWrapper.previousSibling) {
+						document.getSelection().setPosition(useWrapper.previousSibling, 0);
+					} else {
+						document.getSelection().setPosition(useWrapper, 0);
+					}
 				} else {
-					document.getSelection().setPosition(useWrapper, 0);
+					document.getSelection().setPosition(document.body.firstChild, 0);
 				}
-			} else {
-				document.getSelection().setPosition(document.body.firstChild, 0);
-			}
 
-			node = document.getSelection().anchorNode;
-
-			if (node) {
-				if (node.nodeType != node.ELEMENT_NODE)
-					node = node.parentElement;
-
-				if (node && node.scrollIntoViewIfNeeded != undefined)
-					node.scrollIntoViewIfNeeded();
+				EvoEditor.scrollIntoSelection();
 			}
 		}
 	} finally {
 		EvoUndoRedo.StopRecord(EvoUndoRedo.RECORD_KIND_GROUP, "InsertSignature");
 	}
-
-	// the above changes can cause change of the scroll offset, thus restore it
-	window.scrollTo(scrollX, scrollY);
 
 	var res = [];
 
@@ -5716,15 +5739,12 @@ EvoEditor.processLoadedContent = function()
 		node.scrollIntoView();
 	}
 
-	if (EvoEditor.START_BOTTOM) {
-		var node = document.createElement("DIV");
-
-		node.appendChild(document.createElement("BR"));
-		document.body.appendChild(node);
-		EvoEditor.maybeUpdateParagraphWidth(node);
-
+	if (EvoEditor.START_BOTTOM && document.body.firstElementChild && document.body.firstElementChild.nextElementSibling) {
+		node = EvoEditor.insertEmptyParagraphBefore(null);
 		document.getSelection().setPosition(node, 0);
 		node.scrollIntoView();
+	} else {
+		EvoEditor.scrollIntoSelection();
 	}
 }
 

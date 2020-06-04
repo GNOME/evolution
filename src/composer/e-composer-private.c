@@ -548,6 +548,8 @@ e_composer_private_finalize (EMsgComposer *composer)
 	g_ptr_array_foreach (array, (GFunc) g_free, NULL);
 	g_ptr_array_free (array, TRUE);
 
+	g_clear_object (&composer->priv->load_signature_cancellable);
+
 	g_free (composer->priv->charset);
 	g_free (composer->priv->mime_type);
 	g_free (composer->priv->mime_body);
@@ -769,11 +771,29 @@ e_composer_selection_is_image_uris (EMsgComposer *composer,
 	return all_image_uris;
 }
 
+typedef struct _UpdateSignatureData {
+	EMsgComposer *composer;
+	gboolean can_reposition_caret;
+} UpdateSignatureData;
+
+static void
+update_signature_data_free (gpointer ptr)
+{
+	UpdateSignatureData *usd = ptr;
+
+	if (usd) {
+		g_clear_object (&usd->composer);
+		g_slice_free (UpdateSignatureData, usd);
+	}
+}
+
 static void
 composer_load_signature_cb (EMailSignatureComboBox *combo_box,
-                            GAsyncResult *result,
-                            EMsgComposer *composer)
+			    GAsyncResult *result,
+			    gpointer user_data)
 {
+	UpdateSignatureData *usd = user_data;
+	EMsgComposer *composer = usd->composer;
 	gchar *contents = NULL, *new_signature_id;
 	gsize length = 0;
 	gboolean is_html;
@@ -786,15 +806,18 @@ composer_load_signature_cb (EMailSignatureComboBox *combo_box,
 
 	/* FIXME Use an EAlert here. */
 	if (error != NULL) {
-		g_warning ("%s: %s", G_STRFUNC, error->message);
+		if (!g_error_matches (error, G_IO_ERROR, G_IO_ERROR_CANCELLED))
+			g_warning ("%s: %s", G_STRFUNC, error->message);
 		g_error_free (error);
-		g_object_unref (composer);
+		update_signature_data_free (usd);
 		return;
 	}
 
+	g_clear_object (&composer->priv->load_signature_cancellable);
+
 	if (composer->priv->ignore_next_signature_change) {
 		composer->priv->ignore_next_signature_change = FALSE;
-		g_object_unref (composer);
+		update_signature_data_free (usd);
 		return;
 	}
 
@@ -805,6 +828,7 @@ composer_load_signature_cb (EMailSignatureComboBox *combo_box,
 		cnt_editor,
 		contents,
 		is_html,
+		usd->can_reposition_caret,
 		gtk_combo_box_get_active_id (GTK_COMBO_BOX (combo_box)),
 		&composer->priv->set_signature_from_message,
 		&composer->priv->check_if_signature_is_changed,
@@ -833,7 +857,7 @@ composer_load_signature_cb (EMailSignatureComboBox *combo_box,
 
 	g_free (new_signature_id);
 	g_free (contents);
-	g_object_unref (composer);
+	update_signature_data_free (usd);
 }
 
 static void
@@ -853,8 +877,14 @@ e_composer_update_signature (EMsgComposer *composer)
 	EMailSignatureComboBox *combo_box;
 	EHTMLEditor *editor;
 	EContentEditor *cnt_editor;
+	UpdateSignatureData *usd;
 
 	g_return_if_fail (E_IS_MSG_COMPOSER (composer));
+
+	if (composer->priv->load_signature_cancellable) {
+		g_cancellable_cancel (composer->priv->load_signature_cancellable);
+		g_clear_object (&composer->priv->load_signature_cancellable);
+	}
 
 	/* Do nothing if we're redirecting a message or we disabled
 	 * the signature on purpose */
@@ -874,13 +904,19 @@ e_composer_update_signature (EMsgComposer *composer)
 		return;
 	}
 
+	composer->priv->load_signature_cancellable = g_cancellable_new ();
+
+	usd = g_slice_new (UpdateSignatureData);
+	usd->composer = g_object_ref (composer);
+	usd->can_reposition_caret = e_msg_composer_get_is_reply_or_forward (composer) &&
+		!gtk_widget_get_realized (GTK_WIDGET (composer));
+
 	/* XXX Signature files should be local and therefore load quickly,
 	 *     so while we do load them asynchronously we don't allow for
 	 *     user cancellation and we keep the composer alive until the
 	 *     asynchronous loading is complete. */
 	e_mail_signature_combo_box_load_selected (
-		combo_box, G_PRIORITY_DEFAULT, NULL,
+		combo_box, G_PRIORITY_DEFAULT, composer->priv->load_signature_cancellable,
 		(GAsyncReadyCallback) composer_load_signature_cb,
-		g_object_ref (composer));
+		usd);
 }
-

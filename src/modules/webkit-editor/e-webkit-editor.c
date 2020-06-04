@@ -2470,10 +2470,6 @@ webkit_editor_set_top_signature (EWebKitEditor *wk_editor,
 
 	wk_editor->priv->top_signature = value;
 
-	e_web_view_jsc_run_script (WEBKIT_WEB_VIEW (wk_editor), wk_editor->priv->cancellable,
-		"EvoEditor.TOP_SIGNATURE = %x;",
-		e_webkit_editor_three_state_to_bool (value, "composer-top-signature"));
-
 	g_object_notify (G_OBJECT (wk_editor), "top-signature");
 }
 
@@ -2579,6 +2575,7 @@ static gchar *
 webkit_editor_insert_signature (EContentEditor *editor,
                                 const gchar *content,
                                 gboolean is_html,
+				gboolean can_reposition_caret,
                                 const gchar *signature_id,
                                 gboolean *set_signature_from_message,
                                 gboolean *check_if_signature_is_changed,
@@ -2597,9 +2594,10 @@ webkit_editor_insert_signature (EContentEditor *editor,
 	}
 
 	jsc_value = webkit_editor_call_jsc_sync (E_WEBKIT_EDITOR (editor),
-		"EvoEditor.InsertSignature(%s, %x, %s, %x, %x, %x, %x, %x, %x);",
+		"EvoEditor.InsertSignature(%s, %x, %x, %s, %x, %x, %x, %x, %x, %x);",
 		content ? content : "",
 		is_html,
+		can_reposition_caret,
 		signature_id,
 		*set_signature_from_message,
 		*check_if_signature_is_changed,
@@ -4798,10 +4796,8 @@ webkit_editor_load_changed_cb (EWebKitEditor *wk_editor,
 		return;
 
 	e_web_view_jsc_run_script (WEBKIT_WEB_VIEW (wk_editor), wk_editor->priv->cancellable,
-		"EvoEditor.START_BOTTOM = %x;\n"
-		"EvoEditor.TOP_SIGNATURE = %x;",
-		e_webkit_editor_three_state_to_bool (wk_editor->priv->start_bottom, "composer-reply-start-bottom"),
-		e_webkit_editor_three_state_to_bool (wk_editor->priv->top_signature, "composer-top-signature"));
+		"EvoEditor.START_BOTTOM = %x;",
+		e_webkit_editor_three_state_to_bool (wk_editor->priv->start_bottom, "composer-reply-start-bottom"));
 
 	/* Dispatch queued operations - as we are using this just for load
 	 * operations load just the latest request and throw away the rest. */
