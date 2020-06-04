@@ -18,8 +18,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: evolution.master\n"
 "Report-Msgid-Bugs-To: https://gitlab.gnome.org/GNOME/evolution/issues\n"
-"POT-Creation-Date: 2020-05-19 15:04+0000\n"
-"PO-Revision-Date: 2020-05-20 11:55+0200\n"
+"POT-Creation-Date: 2020-06-02 12:03+0000\n"
+"PO-Revision-Date: 2020-06-03 11:43+0200\n"
 "Last-Translator: Daniel Mustieles <daniel.mustieles@gmail.com>\n"
 "Language-Team: Spanish - Spain <gnome-es-list@gnome.org>\n"
 "Language: es_ES\n"
@@ -3571,7 +3571,7 @@ msgstr "Calendario"
 #: ../src/e-util/e-send-options.c:536 ../src/mail/importers/elm-importer.c:330
 #: ../src/mail/importers/kmail-importer.c:251
 #: ../src/mail/importers/pine-importer.c:423
-#: ../src/modules/mail/e-mail-shell-view.c:1591
+#: ../src/modules/mail/e-mail-shell-view.c:1624
 #: ../src/smime/gui/certificate-manager.c:1666
 msgid "Mail"
 msgstr "Correo"
@@ -4268,8 +4268,8 @@ msgstr "Opciones"
 #: ../src/e-util/e-categories-dialog.c:80 ../src/e-util/e-category-editor.c:169
 #: ../src/e-util/e-category-editor.c:257 ../src/e-util/e-charset-combo-box.c:99
 #: ../src/e-util/e-collection-account-wizard.c:238
-#: ../src/e-util/e-collection-account-wizard.c:1864
-#: ../src/e-util/e-collection-account-wizard.c:2100
+#: ../src/e-util/e-collection-account-wizard.c:1868
+#: ../src/e-util/e-collection-account-wizard.c:2109
 #: ../src/e-util/e-color-chooser-widget.c:125
 #: ../src/e-util/e-filter-datespec.c:300
 #: ../src/e-util/e-html-editor-actions.c:342
@@ -4284,10 +4284,10 @@ msgstr "Opciones"
 #: ../src/e-util/e-source-selector-dialog.c:370
 #: ../src/e-util/e-table-config.c:548 ../src/e-util/e-table-config.ui.h:3
 #: ../src/e-util/e-timezone-dialog.ui.h:2
-#: ../src/e-util/evolution-source-viewer.c:835 ../src/e-util/e-web-view.c:3915
+#: ../src/e-util/evolution-source-viewer.c:835 ../src/e-util/e-web-view.c:3910
 #: ../src/e-util/gal-view-instance-save-as-dialog.c:267
 #: ../src/mail/e-mail-config-window.c:334 ../src/mail/e-mail-label-dialog.c:194
-#: ../src/mail/e-mail-tag-editor.c:160 ../src/mail/em-composer-utils.c:4045
+#: ../src/mail/e-mail-tag-editor.c:160 ../src/mail/em-composer-utils.c:4050
 #: ../src/mail/em-folder-selector.c:333 ../src/mail/mail-config.ui.h:2
 #: ../src/mail/mail.error.xml.h:16 ../src/mail/mail-send-recv.c:874
 #: ../src/mail/mail-send-recv.c:955 ../src/mail/mail-vfolder-ui.c:149
@@ -4322,7 +4322,7 @@ msgstr "_Cancelar"
 #: ../src/e-util/e-attachment-store.c:848
 #: ../src/e-util/e-attachment-store.c:855
 #: ../src/e-util/e-mail-signature-script-dialog.c:370
-#: ../src/e-util/e-webdav-browser.c:2476 ../src/e-util/e-web-view.c:3915
+#: ../src/e-util/e-webdav-browser.c:2476 ../src/e-util/e-web-view.c:3910
 #: ../src/e-util/gal-view-instance-save-as-dialog.c:268
 #: ../src/shell/e-shell-content.c:642 ../src/shell/e-shell-utils.c:133
 #: ../src/smime/gui/certificate-manager.c:651
@@ -5868,15 +5868,11 @@ msgid "Phone"
 msgstr "Telefono"
 
 #: ../src/calendar/calendar.error.xml.h:1
-#| msgid "Would you like to send all the participants a cancelation notice?"
 msgid "Would you like to send all the participants a cancellation notice?"
 msgstr ""
 "¿Quiere enviar a todos los participantes una notificación de cancelación?"
 
 #: ../src/calendar/calendar.error.xml.h:2
-#| msgid ""
-#| "If you do not send a cancelation notice, the other participants may not "
-#| "know the meeting is canceled."
 msgid ""
 "If you do not send a cancellation notice, the other participants may not "
 "know the meeting is canceled."
@@ -5906,9 +5902,6 @@ msgstr ""
 "recuperar."
 
 #: ../src/calendar/calendar.error.xml.h:8
-#| msgid ""
-#| "If you do not send a cancelation notice, the other participants may not "
-#| "know the task has been deleted."
 msgid ""
 "If you do not send a cancellation notice, the other participants may not "
 "know the task has been deleted."
@@ -5929,14 +5922,10 @@ msgstr ""
 "recuperar."
 
 #: ../src/calendar/calendar.error.xml.h:11
-#| msgid "Would you like to send a cancelation notice for this memo?"
 msgid "Would you like to send a cancellation notice for this memo?"
 msgstr "¿Quiere enviar una notificación de cancelación para esta nota?"
 
 #: ../src/calendar/calendar.error.xml.h:12
-#| msgid ""
-#| "If you do not send a cancelation notice, the other participants may not "
-#| "know the memo has been deleted."
 msgid ""
 "If you do not send a cancellation notice, the other participants may not "
 "know the memo has been deleted."
@@ -6581,7 +6570,7 @@ msgstr "no contiene"
 #: ../src/calendar/gui/memotypes.xml.in.h:4
 #: ../src/calendar/gui/tasktypes.xml.in.h:4
 #: ../src/e-util/e-attachment-tree-view.c:147
-#: ../src/e-util/e-collection-account-wizard.c:1956
+#: ../src/e-util/e-collection-account-wizard.c:1960
 #: ../src/e-util/e-table-config.ui.h:20
 #: ../src/modules/plugin-manager/evolution-plugin-manager.c:66
 msgid "Description"
@@ -7005,7 +6994,7 @@ msgid "calendar view for one or more weeks"
 msgstr "vista de calendario para una o más semanas"
 
 #: ../src/calendar/gui/e-cal-component-preview.c:237
-#: ../src/e-util/e-filter-rule.c:986 ../src/mail/e-mail-config-page.c:124
+#: ../src/e-util/e-filter-rule.c:989 ../src/mail/e-mail-config-page.c:124
 msgid "Untitled"
 msgstr "Sin título"
 
@@ -7416,7 +7405,7 @@ msgstr "Estado"
 #: ../src/calendar/gui/e-task-table.etspec.h:3
 #: ../src/e-util/e-accounts-window.c:1443
 #: ../src/e-util/e-attachment-tree-view.c:205
-#: ../src/e-util/e-collection-account-wizard.c:1997
+#: ../src/e-util/e-collection-account-wizard.c:2001
 #: ../src/e-util/e-webdav-browser.c:2390
 #: ../src/mail/e-mail-account-tree-view.c:158
 msgid "Type"
@@ -7760,8 +7749,8 @@ msgstr "La hora de inicio no es una hora válida"
 #: ../src/e-util/e-misc-utils.c:3992 ../src/e-util/e-misc-utils.c:4004
 #: ../src/e-util/e-misc-utils.c:4018 ../src/mail/e-mail-autoconfig.c:1041
 #: ../src/mail/e-mail-display.c:2444 ../src/mail/e-mail-notes.c:875
-#: ../src/mail/e-mail-reader-utils.c:805 ../src/mail/em-composer-utils.c:3838
-#: ../src/mail/em-composer-utils.c:3869 ../src/mail/mail-send-recv.c:598
+#: ../src/mail/e-mail-reader-utils.c:805 ../src/mail/em-composer-utils.c:3843
+#: ../src/mail/em-composer-utils.c:3874 ../src/mail/mail-send-recv.c:598
 #: ../src/mail/mail-send-recv.c:1493
 #: ../src/modules/accounts-window/e-accounts-window-editors.c:172
 #: ../src/plugins/face/face.c:175 ../src/shell/e-shell.c:1235
@@ -8787,7 +8776,7 @@ msgstr "Sin resumen"
 #: ../src/e-util/e-table-field-chooser-dialog.c:205
 #: ../src/mail/e-mail-browser.c:166
 #: ../src/mail/e-mail-folder-sort-order-dialog.c:758
-#: ../src/mail/e-mail-notes.c:1011 ../src/mail/em-filter-editor.c:45
+#: ../src/mail/e-mail-notes.c:1015 ../src/mail/em-filter-editor.c:45
 #: ../src/mail/em-folder-properties.c:1458
 #: ../src/mail/em-subscription-editor.c:1741
 #: ../src/modules/plugin-manager/evolution-plugin-manager.c:306
@@ -8812,7 +8801,7 @@ msgstr "_Copiar"
 #: ../src/calendar/gui/e-comp-editor.c:2036 ../src/e-util/e-focus-tracker.c:203
 #: ../src/e-util/e-focus-tracker.c:259 ../src/e-util/e-focus-tracker.c:312
 #: ../src/e-util/e-focus-tracker.c:807 ../src/e-util/e-web-view.c:470
-#: ../src/e-util/e-web-view.c:1999 ../src/mail/e-mail-browser.c:175
+#: ../src/e-util/e-web-view.c:1994 ../src/mail/e-mail-browser.c:175
 #: ../src/shell/e-shell-window-actions.c:905
 msgid "Copy the selection"
 msgstr "Copiar la selección"
@@ -8826,7 +8815,7 @@ msgstr "Cor_tar"
 
 #: ../src/calendar/gui/e-comp-editor.c:2043 ../src/e-util/e-focus-tracker.c:196
 #: ../src/e-util/e-focus-tracker.c:252 ../src/e-util/e-focus-tracker.c:306
-#: ../src/e-util/e-focus-tracker.c:802 ../src/e-util/e-web-view.c:2008
+#: ../src/e-util/e-focus-tracker.c:802 ../src/e-util/e-web-view.c:2003
 #: ../src/mail/e-mail-browser.c:182 ../src/shell/e-shell-window-actions.c:912
 msgid "Cut the selection"
 msgstr "Cortar la selección"
@@ -8850,7 +8839,7 @@ msgstr "_Pegar"
 
 #: ../src/calendar/gui/e-comp-editor.c:2064 ../src/e-util/e-focus-tracker.c:210
 #: ../src/e-util/e-focus-tracker.c:266 ../src/e-util/e-focus-tracker.c:318
-#: ../src/e-util/e-focus-tracker.c:812 ../src/e-util/e-web-view.c:2017
+#: ../src/e-util/e-focus-tracker.c:812 ../src/e-util/e-web-view.c:2012
 #: ../src/mail/e-mail-browser.c:189 ../src/shell/e-shell-window-actions.c:940
 msgid "Paste the clipboard"
 msgstr "Pega el contenido del porta papeles"
@@ -8889,7 +8878,7 @@ msgstr "_Clasificación"
 #: ../src/calendar/gui/e-comp-editor.c:2120
 #: ../src/e-util/e-html-editor-actions.c:1123
 #: ../src/e-util/e-mail-signature-editor.c:333 ../src/mail/e-mail-browser.c:210
-#: ../src/mail/e-mail-notes.c:1025 ../src/shell/e-shell-window-actions.c:1052
+#: ../src/mail/e-mail-notes.c:1029 ../src/shell/e-shell-window-actions.c:1052
 msgid "_File"
 msgstr "_Archivo"
 
@@ -8915,7 +8904,7 @@ msgid "Save current changes"
 msgstr "Guardar los cambios actuales"
 
 #: ../src/calendar/gui/e-comp-editor.c:2165
-#: ../src/e-util/e-mail-signature-editor.c:328 ../src/mail/e-mail-notes.c:1020
+#: ../src/e-util/e-mail-signature-editor.c:328 ../src/mail/e-mail-notes.c:1024
 msgid "Save and Close"
 msgstr "Guardar y cerrar"
 
@@ -11656,7 +11645,7 @@ msgid "Save Draft"
 msgstr "Guardar borrador"
 
 #: ../src/composer/e-composer-from-header.c:108
-#: ../src/e-util/e-collection-account-wizard.c:2029
+#: ../src/e-util/e-collection-account-wizard.c:2033
 #: ../src/e-util/e-mail-signature-script-dialog.c:416
 #: ../src/e-util/e-webdav-browser.c:2417
 #: ../src/e-util/gal-view-instance-save-as-dialog.ui.h:2
@@ -12507,7 +12496,7 @@ msgstr "elemento de calendario de Evolution"
 
 #: ../src/e-util/e-accounts-window.c:557 ../src/e-util/e-accounts-window.c:674
 #: ../src/e-util/e-accounts-window.c:894
-#: ../src/modules/mail/e-mail-shell-backend.c:910
+#: ../src/modules/mail/e-mail-shell-backend.c:914
 msgid "Mail Accounts"
 msgstr "Cuentas de correo"
 
@@ -13219,30 +13208,40 @@ msgstr "Lista de tareas"
 msgid "Looking up LDAP server’s search base…"
 msgstr "Buscando bases de búsqueda del servidor LDAP…"
 
-#: ../src/e-util/e-collection-account-wizard.c:1484
+#: ../src/e-util/e-collection-account-wizard.c:1310
+#| msgid "Failed to create a thread: "
+msgid "Failed to store password: "
+msgstr "Falló al guardar la contraseña: "
+
+#: ../src/e-util/e-collection-account-wizard.c:1320
+#| msgid "Failed to create a thread: "
+msgid "Failed to create sources: "
+msgstr "Falló al crear las fuentes: "
+
+#: ../src/e-util/e-collection-account-wizard.c:1487
 msgid "Saving account settings, please wait…"
 msgstr "Guardando detalles de la cuenta, espere…"
 
-#: ../src/e-util/e-collection-account-wizard.c:1635
+#: ../src/e-util/e-collection-account-wizard.c:1639
 msgid "User details"
 msgstr "Detalles del usuario"
 
-#: ../src/e-util/e-collection-account-wizard.c:1648
+#: ../src/e-util/e-collection-account-wizard.c:1652
 msgid "_Email Address or User name:"
 msgstr "Dirección de correo-e o nombre de usuario:"
 
-#: ../src/e-util/e-collection-account-wizard.c:1679
+#: ../src/e-util/e-collection-account-wizard.c:1683
 msgid "_Advanced Options"
 msgstr "_Opciones avanzadas"
 
-#: ../src/e-util/e-collection-account-wizard.c:1684
+#: ../src/e-util/e-collection-account-wizard.c:1688
 #: ../src/modules/mail-config/e-mail-config-remote-accounts.c:217
 #: ../src/modules/mail-config/e-mail-config-smtp-backend.c:173
 #: ../src/plugins/publish-calendar/publish-calendar.ui.h:25
 msgid "_Server:"
 msgstr "_Servidor:"
 
-#: ../src/e-util/e-collection-account-wizard.c:1703
+#: ../src/e-util/e-collection-account-wizard.c:1707
 msgid ""
 "Semicolon (“;”) separated list of servers to look up information for, in "
 "addition to the domain of the e-mail address."
@@ -13250,11 +13249,11 @@ msgstr ""
 "Lista de servidores separados por «;» en los que buscar información, además "
 "del dominio para la dirección de correo-e."
 
-#: ../src/e-util/e-collection-account-wizard.c:1896
+#: ../src/e-util/e-collection-account-wizard.c:1900
 msgid "Select which parts should be configured:"
 msgstr "Seleccione qué partes se deben configurar:"
 
-#: ../src/e-util/e-collection-account-wizard.c:2020
+#: ../src/e-util/e-collection-account-wizard.c:2024
 #: ../src/mail/e-mail-config-identity-page.c:542
 #: ../src/mail/e-mail-config-summary-page.c:325
 msgid "Account Information"
@@ -13837,23 +13836,23 @@ msgstr "Seleccione una fecha con la que comparar"
 msgid "Choose a File"
 msgstr "Elegir un archivo"
 
-#: ../src/e-util/e-filter-rule.c:979
+#: ../src/e-util/e-filter-rule.c:982
 msgid "R_ule name:"
 msgstr "Nombre de la _regla:"
 
-#: ../src/e-util/e-filter-rule.c:1035
+#: ../src/e-util/e-filter-rule.c:1038
 msgid "all the following conditions"
 msgstr "todas las condiciones siguientes"
 
-#: ../src/e-util/e-filter-rule.c:1036
+#: ../src/e-util/e-filter-rule.c:1039
 msgid "any of the following conditions"
 msgstr "alguna de las condiciones siguientes"
 
-#: ../src/e-util/e-filter-rule.c:1042
+#: ../src/e-util/e-filter-rule.c:1045
 msgid "_Find items which match:"
 msgstr "_Buscar elementos que coinciden con:"
 
-#: ../src/e-util/e-filter-rule.c:1065
+#: ../src/e-util/e-filter-rule.c:1068
 msgid "Find items that meet the following conditions"
 msgstr "Buscar elementos que cumplen con estos criterios"
 
@@ -13861,7 +13860,7 @@ msgstr "Buscar elementos que cumplen con estos criterios"
 #. * part of "Include threads: None"
 #. protocol:
 #. name:
-#: ../src/e-util/e-filter-rule.c:1080
+#: ../src/e-util/e-filter-rule.c:1083
 #: ../src/e-util/e-html-editor-page-dialog.c:62
 #: ../src/e-util/e-mail-identity-combo-box.c:694
 #: ../src/e-util/e-mail-signature-combo-box.c:422
@@ -13872,36 +13871,36 @@ msgstr "Buscar elementos que cumplen con estos criterios"
 msgid "None"
 msgstr "Ninguna"
 
-#: ../src/e-util/e-filter-rule.c:1081
+#: ../src/e-util/e-filter-rule.c:1084
 msgid "All related"
 msgstr "Todas las relacionadas"
 
-#: ../src/e-util/e-filter-rule.c:1082 ../src/e-util/e-send-options.ui.h:24
+#: ../src/e-util/e-filter-rule.c:1085 ../src/e-util/e-send-options.ui.h:24
 msgid "Replies"
 msgstr "Respuestas"
 
-#: ../src/e-util/e-filter-rule.c:1083
+#: ../src/e-util/e-filter-rule.c:1086
 msgid "Replies and parents"
 msgstr "Respuestas y antecesores"
 
-#: ../src/e-util/e-filter-rule.c:1084
+#: ../src/e-util/e-filter-rule.c:1087
 msgid "No reply or parent"
 msgstr "Sin respuesta o antecesor"
 
-#: ../src/e-util/e-filter-rule.c:1087
+#: ../src/e-util/e-filter-rule.c:1090
 msgid "I_nclude threads:"
 msgstr "I_ncluir conversaciones:"
 
-#: ../src/e-util/e-filter-rule.c:1165
+#: ../src/e-util/e-filter-rule.c:1168
 msgid "A_dd Condition"
 msgstr "Añadir a_cción"
 
-#: ../src/e-util/e-filter-rule.c:1485 ../src/e-util/filter.ui.h:1
+#: ../src/e-util/e-filter-rule.c:1488 ../src/e-util/filter.ui.h:1
 #: ../src/mail/em-filter-rule.c:1042 ../src/mail/em-utils.c:166
 msgid "Incoming"
 msgstr "Entrante"
 
-#: ../src/e-util/e-filter-rule.c:1485 ../src/mail/em-filter-rule.c:1043
+#: ../src/e-util/e-filter-rule.c:1488 ../src/mail/em-filter-rule.c:1043
 #: ../src/mail/em-utils.c:167
 msgid "Outgoing"
 msgstr "Saliente"
@@ -15128,11 +15127,11 @@ msgstr "días"
 msgid "Autogenerated"
 msgstr "Autogenerado"
 
-#: ../src/e-util/e-mail-signature-editor.c:321 ../src/mail/e-mail-notes.c:1013
+#: ../src/e-util/e-mail-signature-editor.c:321 ../src/mail/e-mail-notes.c:1017
 msgid "Close"
 msgstr "Cerrar"
 
-#: ../src/e-util/e-mail-signature-editor.c:326 ../src/mail/e-mail-notes.c:1018
+#: ../src/e-util/e-mail-signature-editor.c:326 ../src/mail/e-mail-notes.c:1022
 msgid "_Save and Close"
 msgstr "_Guardar y cerrar"
 
@@ -16388,24 +16387,24 @@ msgstr "Buscar en la _web…"
 msgid "Search the Web with the selected text"
 msgstr "Buscar en la web el texto seleccionado"
 
-#: ../src/e-util/e-web-view.c:487 ../src/e-util/e-web-view.c:2021
+#: ../src/e-util/e-web-view.c:487 ../src/e-util/e-web-view.c:2016
 msgid "Select all text and images"
 msgstr "Seleccionar todo el texto y las imágenes"
 
-#: ../src/e-util/e-web-view.c:3725
+#: ../src/e-util/e-web-view.c:3720
 msgid "Copying image to clipboard"
 msgstr "Copiando imagen al portapapeles"
 
-#: ../src/e-util/e-web-view.c:3913
+#: ../src/e-util/e-web-view.c:3908
 msgid "Save Image"
 msgstr "Guardar imagen"
 
-#: ../src/e-util/e-web-view.c:3950
+#: ../src/e-util/e-web-view.c:3945
 #, c-format
 msgid "Saving image to “%s”"
 msgstr "Guardando imagen en «%s»"
 
-#: ../src/e-util/e-web-view.c:4097
+#: ../src/e-util/e-web-view.c:4092
 #, c-format
 msgid "Cannot get URI “%s”, do not know how to download it."
 msgstr "No se puede obtener el URI «%s», o no se sabe de dónde bajarlo."
@@ -16988,7 +16987,7 @@ msgstr "Mensaje reenviado"
 msgid "Setting up Search Folder: %s"
 msgstr "Configurando carpeta de búsqueda: %s"
 
-#: ../src/libemail-engine/mail-vfolder.c:302
+#: ../src/libemail-engine/mail-vfolder.c:303
 #, c-format
 msgid "Updating Search Folders for “%s : %s”"
 msgstr "Actualizando carpetas de búsqueda para «%s : %s»"
@@ -16998,7 +16997,7 @@ msgstr "Actualizando carpetas de búsqueda para «%s : %s»"
 #. * removed folder. For more than one search folder is
 #. * each of them on a separate line, with four spaces
 #. * in front of its name, without quotes.
-#: ../src/libemail-engine/mail-vfolder.c:666
+#: ../src/libemail-engine/mail-vfolder.c:667
 #, c-format
 msgid ""
 "The Search Folder “%s” has been modified to account for the deleted folder\n"
@@ -17081,19 +17080,20 @@ msgid "Missing domain in email address"
 msgstr "Falta el dominio en la dirección de correo-e"
 
 #: ../src/mail/e-mail-autoconfig.c:1321
-#: ../src/modules/config-lookup/e-srv-config-lookup.c:82
-#: ../src/modules/config-lookup/e-srv-config-lookup.c:83
+#: ../src/modules/config-lookup/e-srv-config-lookup.c:87
+#: ../src/modules/config-lookup/e-srv-config-lookup.c:88
 msgid "IMAP server"
 msgstr "Servidor IMAP"
 
 #: ../src/mail/e-mail-autoconfig.c:1328
-#: ../src/modules/config-lookup/e-srv-config-lookup.c:84
-#: ../src/modules/config-lookup/e-srv-config-lookup.c:85
+#: ../src/modules/config-lookup/e-srv-config-lookup.c:89
+#: ../src/modules/config-lookup/e-srv-config-lookup.c:90
 msgid "POP3 server"
 msgstr "Servidor POP3"
 
 #: ../src/mail/e-mail-autoconfig.c:1335
-#: ../src/modules/config-lookup/e-srv-config-lookup.c:86
+#: ../src/modules/config-lookup/e-srv-config-lookup.c:91
+#: ../src/modules/config-lookup/e-srv-config-lookup.c:92
 msgid "SMTP server"
 msgstr "Servidor SMTP"
 
@@ -17194,12 +17194,12 @@ msgid "Language for Reply and Forward attribution text"
 msgstr "El idioma que atribuir en el texto al Responder y Reenviar"
 
 #: ../src/mail/e-mail-config-composing-page.c:524
-#: ../src/mail/em-composer-utils.c:4143 ../src/mail/mail-config.ui.h:22
+#: ../src/mail/em-composer-utils.c:4148 ../src/mail/mail-config.ui.h:22
 msgid "Start _typing at the bottom"
 msgstr "Comenzar a _escribir en la parte final"
 
 #: ../src/mail/e-mail-config-composing-page.c:531
-#: ../src/mail/em-composer-utils.c:4146 ../src/mail/mail-config.ui.h:23
+#: ../src/mail/em-composer-utils.c:4151 ../src/mail/mail-config.ui.h:23
 msgid "_Keep signature above the original message"
 msgstr "_Mantener la firma por encima del mensaje original"
 
@@ -17433,7 +17433,7 @@ msgstr "%s — %s"
 #: ../src/modules/addressbook/autocompletion-config.c:115
 #: ../src/modules/calendar/e-calendar-preferences.c:621
 #: ../src/modules/calendar/e-calendar-preferences.ui.h:48
-#: ../src/modules/mail/e-mail-shell-backend.c:802
+#: ../src/modules/mail/e-mail-shell-backend.c:806
 #: ../src/plugins/publish-calendar/publish-calendar.ui.h:17
 msgid "General"
 msgstr "General"
@@ -17824,11 +17824,11 @@ msgstr "Falló al convertir el texto en mensaje"
 msgid "Storing changes…"
 msgstr "Guardando cambios…"
 
-#: ../src/mail/e-mail-notes.c:1048
+#: ../src/mail/e-mail-notes.c:1052
 msgid "Edit Message Note"
 msgstr "Editar la nota del mensaje"
 
-#: ../src/mail/e-mail-notes.c:1204
+#: ../src/mail/e-mail-notes.c:1207
 msgid "Retrieving message…"
 msgstr "Descargando mensaje…"
 
@@ -18339,7 +18339,7 @@ msgstr "Quitar correos _duplicados"
 msgid "Checks selected messages for duplicates"
 msgstr "Comprobar los mensajes seleccionados para buscar duplicados"
 
-#: ../src/mail/e-mail-reader.c:2784 ../src/mail/em-composer-utils.c:4097
+#: ../src/mail/e-mail-reader.c:2784 ../src/mail/em-composer-utils.c:4102
 #: ../src/mail/mail.error.xml.h:28
 #: ../src/modules/calendar/e-cal-shell-view-actions.c:1452
 #: ../src/modules/mail/e-mail-attachment-handler.c:396
@@ -18359,7 +18359,7 @@ msgstr "Respuesta al_ternativa…"
 msgid "Choose reply options for the selected message"
 msgstr "Elija las opciones de respuesta para el mensaje seleccionado"
 
-#: ../src/mail/e-mail-reader.c:2798 ../src/mail/em-composer-utils.c:4092
+#: ../src/mail/e-mail-reader.c:2798 ../src/mail/em-composer-utils.c:4097
 #: ../src/mail/mail.error.xml.h:26
 #: ../src/modules/mail/e-mail-attachment-handler.c:403
 msgid "Reply to _List"
@@ -18759,7 +18759,7 @@ msgstr "Esperando a que carguen los adjuntos…"
 #. * when quoting messages.  Each ${Variable} gets replaced
 #. * with a value.  To see a full list of available variables,
 #. * see mail/em-composer-utils.c:attribvars array.
-#: ../src/mail/em-composer-utils.c:2027
+#: ../src/mail/em-composer-utils.c:2032
 msgid ""
 "On ${AbbrevWeekdayName}, ${Year}-${Month}-${Day} at ${24Hour}:${Minute} "
 "${TimeZone}, ${Sender} wrote:"
@@ -18767,79 +18767,79 @@ msgstr ""
 "El ${AbbrevWeekdayName}, ${Day}-${Month}-${Year} a las ${24Hour}:${Minute} "
 "${TimeZone}, ${Sender} escribió:"
 
-#: ../src/mail/em-composer-utils.c:2033
+#: ../src/mail/em-composer-utils.c:2038
 msgid "-------- Forwarded Message --------"
 msgstr "--------- Mensaje reenviado --------"
 
-#: ../src/mail/em-composer-utils.c:2038
+#: ../src/mail/em-composer-utils.c:2043
 msgid "-----Original Message-----"
 msgstr "-----Mensaje original-----"
 
 #. Translators: This is a reply attribution in the message reply subject. The %s is replaced with the subject of the original message. Both 'Re'-s in the 'reply-attribution' translation context should translate into the same string, the same as the ':' separator.
-#: ../src/mail/em-composer-utils.c:2799
+#: ../src/mail/em-composer-utils.c:2804
 #, c-format
 msgctxt "reply-attribution"
 msgid "Re: %s"
 msgstr "Re: %s"
 
-#: ../src/mail/em-composer-utils.c:3417
+#: ../src/mail/em-composer-utils.c:3422
 msgid "an unknown sender"
 msgstr "un remitente desconocido"
 
-#: ../src/mail/em-composer-utils.c:4043
+#: ../src/mail/em-composer-utils.c:4048
 msgid "Alternative Reply"
 msgstr "Respuesta alternativa"
 
-#: ../src/mail/em-composer-utils.c:4046
+#: ../src/mail/em-composer-utils.c:4051
 #: ../src/modules/calendar/e-cal-shell-view-actions.c:1445
 msgid "_Reply"
 msgstr "_Responder"
 
-#: ../src/mail/em-composer-utils.c:4059
+#: ../src/mail/em-composer-utils.c:4064
 msgid "Recipients:"
 msgstr "Destinatarios:"
 
-#: ../src/mail/em-composer-utils.c:4087
+#: ../src/mail/em-composer-utils.c:4092
 msgid "Reply to _Sender"
 msgstr "Responder al _remitente"
 
-#: ../src/mail/em-composer-utils.c:4109
+#: ../src/mail/em-composer-utils.c:4114
 msgid "Reply style:"
 msgstr "Estilo de _respuesta:"
 
-#: ../src/mail/em-composer-utils.c:4117
+#: ../src/mail/em-composer-utils.c:4122
 msgid "_Default"
 msgstr "_Predeterminado"
 
-#: ../src/mail/em-composer-utils.c:4121
+#: ../src/mail/em-composer-utils.c:4126
 msgid "Attach_ment"
 msgstr "Adj_unto"
 
-#: ../src/mail/em-composer-utils.c:4125
+#: ../src/mail/em-composer-utils.c:4130
 msgid "Inline (_Outlook style)"
 msgstr "En línea (estilo _Outlook)"
 
-#: ../src/mail/em-composer-utils.c:4129
+#: ../src/mail/em-composer-utils.c:4134
 msgid "_Quote"
 msgstr "_Citar"
 
-#: ../src/mail/em-composer-utils.c:4133
+#: ../src/mail/em-composer-utils.c:4138
 msgid "Do _Not Quote"
 msgstr "_No entrecomillar"
 
-#: ../src/mail/em-composer-utils.c:4140
+#: ../src/mail/em-composer-utils.c:4145
 msgid "_Format message in HTML"
 msgstr "_Formatear _mensaje en HTML"
 
-#: ../src/mail/em-composer-utils.c:4153
+#: ../src/mail/em-composer-utils.c:4158
 msgid "Apply t_emplate"
 msgstr "Aplicar p_lantilla"
 
-#: ../src/mail/em-composer-utils.c:4165
+#: ../src/mail/em-composer-utils.c:4170
 msgid "Preserve original message S_ubject"
 msgstr "Conservar el as_unto del mensaje original"
 
-#: ../src/mail/em-composer-utils.c:4231
+#: ../src/mail/em-composer-utils.c:4236
 #, c-format
 msgid "one recipient"
 msgid_plural "%d recipients"
@@ -18847,11 +18847,11 @@ msgstr[0] "un destinatario"
 msgstr[1] "%d destinatarios"
 
 #. FIXME GTK_WINDOW (composer)
-#: ../src/mail/em-composer-utils.c:4664
+#: ../src/mail/em-composer-utils.c:4669
 msgid "Posting destination"
 msgstr "Destino de publicación"
 
-#: ../src/mail/em-composer-utils.c:4669
+#: ../src/mail/em-composer-utils.c:4674
 msgid "Choose folders to post the message to."
 msgstr "Elija las carpetas en las que publicar el mensaje."
 
@@ -21364,20 +21364,20 @@ msgstr "%e de %b %l:%M %p"
 msgid "%b %d %Y"
 msgstr "%e de %b de %Y"
 
-#: ../src/mail/message-list.c:3311
+#: ../src/mail/message-list.c:3361
 msgid "Select all visible messages"
 msgstr "Selecciona todos los mensajes visibles"
 
-#: ../src/mail/message-list.c:4076 ../src/mail/message-list.etspec.h:17
+#: ../src/mail/message-list.c:4135 ../src/mail/message-list.etspec.h:17
 msgid "Messages"
 msgstr "Mensajes"
 
 #. default follow-up flag name to use when clicked in the message list column
-#: ../src/mail/message-list.c:5645
+#: ../src/mail/message-list.c:5704
 msgid "Follow-up"
 msgstr "Seguimiento"
 
-#: ../src/mail/message-list.c:6708
+#: ../src/mail/message-list.c:6795
 msgid ""
 "No message satisfies your search criteria. Change search criteria by "
 "selecting a new Show message filter from the drop down list above or by "
@@ -21389,11 +21389,11 @@ msgstr ""
 "desplegable o ejecutando una búsqueda nueva, limpiándola con Buscar→Limpiar "
 "o cambiando la consulta anterior."
 
-#: ../src/mail/message-list.c:6716
+#: ../src/mail/message-list.c:6803
 msgid "There are no messages in this folder."
 msgstr "No hay mensajes en esta carpeta."
 
-#: ../src/mail/message-list.c:6792
+#: ../src/mail/message-list.c:6879
 msgid "Generating message list…"
 msgstr "Generando la lista de mensajes…"
 
@@ -23704,53 +23704,54 @@ msgstr "Convertir al mensaje de correo"
 msgid "Look up configuration with e-mail domain"
 msgstr "Buscar la configuración con el domino de correo electrónico"
 
-#: ../src/modules/config-lookup/e-srv-config-lookup.c:82
-#: ../src/modules/config-lookup/e-srv-config-lookup.c:83
+#: ../src/modules/config-lookup/e-srv-config-lookup.c:87
+#: ../src/modules/config-lookup/e-srv-config-lookup.c:88
 msgid "Looking up IMAP server…"
 msgstr "Buscando servidor IMAP…"
 
-#: ../src/modules/config-lookup/e-srv-config-lookup.c:84
-#: ../src/modules/config-lookup/e-srv-config-lookup.c:85
+#: ../src/modules/config-lookup/e-srv-config-lookup.c:89
+#: ../src/modules/config-lookup/e-srv-config-lookup.c:90
 msgid "Looking up POP3 server…"
 msgstr "Buscando servidor POP3…"
 
-#: ../src/modules/config-lookup/e-srv-config-lookup.c:86
+#: ../src/modules/config-lookup/e-srv-config-lookup.c:91
+#: ../src/modules/config-lookup/e-srv-config-lookup.c:92
 msgid "Looking up SMTP server…"
 msgstr "Buscando servidor SMTP…"
 
-#: ../src/modules/config-lookup/e-srv-config-lookup.c:87
-#: ../src/modules/config-lookup/e-srv-config-lookup.c:88
+#: ../src/modules/config-lookup/e-srv-config-lookup.c:93
+#: ../src/modules/config-lookup/e-srv-config-lookup.c:94
 #: ../src/modules/config-lookup/e-webdav-config-lookup.c:118
 msgid "CalDAV server"
 msgstr "Servidor CalDAV"
 
-#: ../src/modules/config-lookup/e-srv-config-lookup.c:87
-#: ../src/modules/config-lookup/e-srv-config-lookup.c:88
+#: ../src/modules/config-lookup/e-srv-config-lookup.c:93
+#: ../src/modules/config-lookup/e-srv-config-lookup.c:94
 msgid "Looking up CalDAV server…"
 msgstr "Buscando servidor CalDAV…"
 
-#: ../src/modules/config-lookup/e-srv-config-lookup.c:89
-#: ../src/modules/config-lookup/e-srv-config-lookup.c:90
+#: ../src/modules/config-lookup/e-srv-config-lookup.c:95
+#: ../src/modules/config-lookup/e-srv-config-lookup.c:96
 #: ../src/modules/config-lookup/e-webdav-config-lookup.c:118
 msgid "CardDAV server"
 msgstr "Servidor CardDAV"
 
-#: ../src/modules/config-lookup/e-srv-config-lookup.c:89
-#: ../src/modules/config-lookup/e-srv-config-lookup.c:90
+#: ../src/modules/config-lookup/e-srv-config-lookup.c:95
+#: ../src/modules/config-lookup/e-srv-config-lookup.c:96
 msgid "Looking up CardDAV server…"
 msgstr "Buscando servidor CardDAV…"
 
-#: ../src/modules/config-lookup/e-srv-config-lookup.c:91
-#: ../src/modules/config-lookup/e-srv-config-lookup.c:92
+#: ../src/modules/config-lookup/e-srv-config-lookup.c:97
+#: ../src/modules/config-lookup/e-srv-config-lookup.c:98
 msgid "LDAP server"
 msgstr "Servidor LDAP"
 
-#: ../src/modules/config-lookup/e-srv-config-lookup.c:91
-#: ../src/modules/config-lookup/e-srv-config-lookup.c:92
+#: ../src/modules/config-lookup/e-srv-config-lookup.c:97
+#: ../src/modules/config-lookup/e-srv-config-lookup.c:98
 msgid "Looking up LDAP server…"
 msgstr "Buscando servidor LDAP…"
 
-#: ../src/modules/config-lookup/e-srv-config-lookup.c:279
+#: ../src/modules/config-lookup/e-srv-config-lookup.c:285
 msgid "Look up in SRV records"
 msgstr "Buscar en registros SRV"
 
@@ -24467,12 +24468,10 @@ msgid "Organizer has removed the delegate %s "
 msgstr "El organizador ha quitado al delegado %s"
 
 #: ../src/modules/itip-formatter/itip-view.c:5229
-#| msgid "Sent a cancelation notice to the delegate"
 msgid "Sent a cancellation notice to the delegate"
 msgstr "Enviar una notificación de cancelación al delegado"
 
 #: ../src/modules/itip-formatter/itip-view.c:5233
-#| msgid "Could not send the cancelation notice to the delegate"
 msgid "Could not send the cancellation notice to the delegate"
 msgstr "No se pudo enviar una notificación de cancelación al delegado"
 
@@ -24812,64 +24811,64 @@ msgstr "Crea una carpeta de correo nueva"
 
 #. Translators: One of the known implementation names of the GNetworkMonitor. Either translate
 #. it to some user-friendly form, or keep it as is.
-#: ../src/modules/mail/e-mail-shell-backend.c:782
+#: ../src/modules/mail/e-mail-shell-backend.c:786
 msgctxt "NetworkMonitor"
 msgid "base"
 msgstr "base"
 
 #. Translators: One of the known implementation names of the GNetworkMonitor. Either translate
 #. it to some user-friendly form, or keep it as is.
-#: ../src/modules/mail/e-mail-shell-backend.c:785
+#: ../src/modules/mail/e-mail-shell-backend.c:789
 msgctxt "NetworkMonitor"
 msgid "netlink"
 msgstr "enlace de red"
 
 #. Translators: One of the known implementation names of the GNetworkMonitor. Either translate
 #. it to some user-friendly form, or keep it as is.
-#: ../src/modules/mail/e-mail-shell-backend.c:788
+#: ../src/modules/mail/e-mail-shell-backend.c:792
 msgctxt "NetworkMonitor"
 msgid "networkmanager"
 msgstr "networkmanager"
 
-#: ../src/modules/mail/e-mail-shell-backend.c:818
+#: ../src/modules/mail/e-mail-shell-backend.c:822
 msgctxt "NetworkMonitor"
 msgid "Method to detect _online state:"
 msgstr "Método para detectar el _estado en línea:"
 
 #. Translators: The '%s' is replaced with the actual name of the GNetworkMonitor implementation
-#: ../src/modules/mail/e-mail-shell-backend.c:829
+#: ../src/modules/mail/e-mail-shell-backend.c:833
 #, c-format
 msgctxt "NetworkMonitor"
 msgid "Default (%s)"
 msgstr "Predeterminado (%s)"
 
 #. Always as the first
-#: ../src/modules/mail/e-mail-shell-backend.c:833
+#: ../src/modules/mail/e-mail-shell-backend.c:837
 msgctxt "NetworkMonitor"
 msgid "Default"
 msgstr "Predeterminado"
 
 #. Always as the last
-#: ../src/modules/mail/e-mail-shell-backend.c:850
+#: ../src/modules/mail/e-mail-shell-backend.c:854
 msgctxt "NetworkMonitor"
 msgid "Always Online"
 msgstr "Siempre en línea"
 
-#: ../src/modules/mail/e-mail-shell-backend.c:919
+#: ../src/modules/mail/e-mail-shell-backend.c:923
 msgid "Mail Preferences"
 msgstr "Opciones de correo"
 
-#: ../src/modules/mail/e-mail-shell-backend.c:928
+#: ../src/modules/mail/e-mail-shell-backend.c:932
 msgid "Composer Preferences"
 msgstr "Preferencias del editor"
 
-#: ../src/modules/mail/e-mail-shell-backend.c:937
+#: ../src/modules/mail/e-mail-shell-backend.c:941
 msgid "Network Preferences"
 msgstr "Preferencias de red"
 
 #. Translators: The first item in the list, to be
 #. * able to set rule: [Label] [is/is-not] [None]
-#: ../src/modules/mail/e-mail-shell-backend.c:1298
+#: ../src/modules/mail/e-mail-shell-backend.c:1302
 msgctxt "label"
 msgid "None"
 msgstr "Ninguno"
@@ -25244,15 +25243,15 @@ msgstr "Carpeta actual"
 msgid "Current Folder and Subfolders"
 msgstr "Carpeta actual y subcarpetas"
 
-#: ../src/modules/mail/e-mail-shell-view.c:995
+#: ../src/modules/mail/e-mail-shell-view.c:1028
 msgid "Current Folder and Subfolders Search"
 msgstr "Búsqueda en la carpeta actual y subcarpetas"
 
-#: ../src/modules/mail/e-mail-shell-view.c:1117
+#: ../src/modules/mail/e-mail-shell-view.c:1150
 msgid "All Account Search"
 msgstr "Búsqueda en todas las cuentas"
 
-#: ../src/modules/mail/e-mail-shell-view.c:1227
+#: ../src/modules/mail/e-mail-shell-view.c:1260
 msgid "Account Search"
 msgstr "Búsqueda en la cuenta"
 
