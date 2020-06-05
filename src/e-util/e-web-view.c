@@ -99,6 +99,8 @@ struct _EWebViewPrivate {
 	gchar *last_popup_iframe_id;
 	gchar *last_popup_element_id;
 	gchar *last_popup_link_uri;
+
+	gint minimum_font_size;
 };
 
 struct _AsyncContext {
@@ -118,6 +120,7 @@ enum {
 	PROP_DISABLE_SAVE_TO_DISK,
 	PROP_HAS_SELECTION,
 	PROP_NEED_INPUT,
+	PROP_MINIMUM_FONT_SIZE,
 	PROP_OPEN_PROXY,
 	PROP_PASTE_TARGET_LIST,
 	PROP_PRINT_PROXY,
@@ -962,6 +965,12 @@ web_view_set_property (GObject *object,
 				g_value_get_boolean (value));
 			return;
 
+		case PROP_MINIMUM_FONT_SIZE:
+			e_web_view_set_minimum_font_size (
+				E_WEB_VIEW (object),
+				g_value_get_int (value));
+			return;
+
 		case PROP_OPEN_PROXY:
 			e_web_view_set_open_proxy (
 				E_WEB_VIEW (object),
@@ -1032,6 +1041,12 @@ web_view_get_property (GObject *object,
 
 		case PROP_HAS_SELECTION:
 			g_value_set_boolean (value, e_web_view_has_selection (E_WEB_VIEW (object)));
+			return;
+
+		case PROP_MINIMUM_FONT_SIZE:
+			g_value_set_int (
+				value, e_web_view_get_minimum_font_size (
+				E_WEB_VIEW (object)));
 			return;
 
 		case PROP_NEED_INPUT:
@@ -1500,9 +1515,9 @@ web_view_constructed (GObject *object)
 	WebKitSettings *web_settings;
 	WebKitUserContentManager *manager;
 	EWebView *web_view = E_WEB_VIEW (object);
-#ifndef G_OS_WIN32
 	GSettings *settings;
 
+#ifndef G_OS_WIN32
 	settings = e_util_ref_settings ("org.gnome.desktop.lockdown");
 
 	g_settings_bind (
@@ -1517,6 +1532,15 @@ web_view_constructed (GObject *object)
 
 	g_object_unref (settings);
 #endif
+
+	settings = e_util_ref_settings ("org.gnome.evolution.shell");
+
+	g_settings_bind (
+		settings, "webkit-minimum-font-size",
+		object, "minimum-font-size",
+		G_SETTINGS_BIND_GET);
+
+	g_clear_object (&settings);
 
 	g_signal_connect_object (webkit_web_view_get_context (WEBKIT_WEB_VIEW (web_view)), "initialize-web-extensions",
 		G_CALLBACK (e_web_view_initialize_web_extensions_cb), web_view, 0);
@@ -2210,6 +2234,16 @@ e_web_view_class_init (EWebViewClass *class)
 			NULL,
 			FALSE,
 			G_PARAM_READABLE));
+
+	g_object_class_install_property (
+		object_class,
+		PROP_MINIMUM_FONT_SIZE,
+		g_param_spec_int (
+			"minimum-font-size",
+			"Minimum Font Size",
+			NULL,
+			G_MININT, G_MAXINT, 0,
+			G_PARAM_READWRITE));
 
 	g_object_class_install_property (
 		object_class,
@@ -3557,7 +3591,9 @@ e_web_view_update_fonts_settings (GSettings *font_settings,
 WebKitSettings *
 e_web_view_get_default_webkit_settings (void)
 {
-	return webkit_settings_new_with_settings (
+	WebKitSettings *settings;
+
+	settings = webkit_settings_new_with_settings (
 		"auto-load-images", TRUE,
 		"default-charset", "utf-8",
 		"enable-html5-database", FALSE,
@@ -3572,6 +3608,55 @@ e_web_view_get_default_webkit_settings (void)
 		"enable-smooth-scrolling", FALSE,
 		"media-playback-allows-inline", FALSE,
 		NULL);
+
+	e_web_view_utils_apply_minimum_font_size (settings);
+
+	return settings;
+}
+
+void
+e_web_view_utils_apply_minimum_font_size (WebKitSettings *wk_settings)
+{
+	GSettings *settings;
+	gint value;
+
+	g_return_if_fail (WEBKIT_IS_SETTINGS (wk_settings));
+
+	settings = e_util_ref_settings ("org.gnome.evolution.shell");
+	value = g_settings_get_int (settings, "webkit-minimum-font-size");
+	g_clear_object (&settings);
+
+	if (value < 0)
+		value = 0;
+
+	if (webkit_settings_get_minimum_font_size (wk_settings) != (guint32) value)
+		webkit_settings_set_minimum_font_size (wk_settings, value);
+}
+
+gint
+e_web_view_get_minimum_font_size (EWebView *web_view)
+{
+	g_return_val_if_fail (E_IS_WEB_VIEW (web_view), -1);
+
+	return web_view->priv->minimum_font_size;
+}
+
+void
+e_web_view_set_minimum_font_size (EWebView *web_view,
+				  gint pixels)
+{
+	g_return_if_fail (E_IS_WEB_VIEW (web_view));
+
+	if (web_view->priv->minimum_font_size != pixels) {
+		WebKitSettings *wk_settings;
+
+		web_view->priv->minimum_font_size = pixels;
+
+		wk_settings = webkit_web_view_get_settings (WEBKIT_WEB_VIEW (web_view));
+		e_web_view_utils_apply_minimum_font_size (wk_settings);
+
+		g_object_notify (G_OBJECT (web_view), "minimum-font-size");
+	}
 }
 
 GCancellable *

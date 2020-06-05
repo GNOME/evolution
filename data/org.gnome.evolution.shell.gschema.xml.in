@@ -130,6 +130,11 @@
       <_summary>Prefix of the URI to use to search the web with selected text.</_summary>
       <_description>The prefix of a URL to be used for searches on the web. The actual text selection is escaped and appended to this string. The URI should start with https://.</_description>
     </key>
+    <key name="webkit-minimum-font-size" type="i">
+      <default>0</default>
+      <_summary>Minimum font size to be used by WebKitGTK</_summary>
+      <_description>The minimum font size in pixels used to display text in WebKitGTK. This setting controls the absolute smallest size. Values other than 0 can potentially break page layouts. Negative values are treated as 0.</_description>
+    </key>
     <child name="window" schema="org.gnome.evolution.window"/>
   </schema>
 </schemalist>

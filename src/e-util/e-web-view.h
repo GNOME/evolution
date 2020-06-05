@@ -127,6 +127,11 @@ GtkWidget *	e_web_view_new			(void);
 WebKitSettings *
 		e_web_view_get_default_webkit_settings
 						(void);
+void		e_web_view_utils_apply_minimum_font_size
+						(WebKitSettings *wk_settings);
+gint		e_web_view_get_minimum_font_size(EWebView *web_view);
+void		e_web_view_set_minimum_font_size(EWebView *web_view,
+						 gint pixels);
 GCancellable *	e_web_view_get_cancellable	(EWebView *web_view);
 void		e_web_view_register_content_request_for_scheme
 						(EWebView *web_view,

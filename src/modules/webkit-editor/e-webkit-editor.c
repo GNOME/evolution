@@ -70,7 +70,8 @@ enum {
 	PROP_MAGIC_LINKS,
 	PROP_MAGIC_SMILEYS,
 	PROP_UNICODE_SMILEYS,
-	PROP_WRAP_QUOTED_TEXT_IN_REPLIES
+	PROP_WRAP_QUOTED_TEXT_IN_REPLIES,
+	PROP_MINIMUM_FONT_SIZE
 };
 
 struct _EWebKitEditorPrivate {
@@ -158,6 +159,8 @@ struct _EWebKitEditorPrivate {
 	gboolean is_malfunction;
 
 	GError *last_error;
+
+	gint minimum_font_size;
 };
 
 static const GdkRGBA black = { 0, 0, 0, 1 };
@@ -4035,6 +4038,32 @@ webkit_editor_get_wrap_quoted_text_in_replies (EWebKitEditor *wk_editor)
 	return wk_editor->priv->wrap_quoted_text_in_replies;
 }
 
+static gint
+webkit_editor_get_minimum_font_size (EWebKitEditor *wk_editor)
+{
+	g_return_val_if_fail (E_IS_WEBKIT_EDITOR (wk_editor), -1);
+
+	return wk_editor->priv->minimum_font_size;
+}
+
+static void
+webkit_editor_set_minimum_font_size (EWebKitEditor *wk_editor,
+				     gint pixels)
+{
+	g_return_if_fail (E_IS_WEBKIT_EDITOR (wk_editor));
+
+	if (wk_editor->priv->minimum_font_size != pixels) {
+		WebKitSettings *wk_settings;
+
+		wk_editor->priv->minimum_font_size = pixels;
+
+		wk_settings = webkit_web_view_get_settings (WEBKIT_WEB_VIEW (wk_editor));
+		e_web_view_utils_apply_minimum_font_size (wk_settings);
+
+		g_object_notify (G_OBJECT (wk_editor), "minimum-font-size");
+	}
+}
+
 static void
 e_webkit_editor_initialize_web_extensions_cb (WebKitWebContext *web_context,
 					      gpointer user_data)
@@ -4120,6 +4149,8 @@ webkit_editor_constructed (GObject *object)
 	webkit_settings_set_enable_write_console_messages_to_stdout (web_settings, e_util_get_webkit_developer_mode_enabled ());
 	webkit_settings_set_enable_developer_extras (web_settings, e_util_get_webkit_developer_mode_enabled ());
 
+	e_web_view_utils_apply_minimum_font_size (web_settings);
+
 	settings = e_util_ref_settings ("org.gnome.evolution.mail");
 
 	g_settings_bind (
@@ -4148,6 +4179,15 @@ webkit_editor_constructed (GObject *object)
 		G_SETTINGS_BIND_GET);
 
 	g_object_unref (settings);
+
+	settings = e_util_ref_settings ("org.gnome.evolution.shell");
+
+	g_settings_bind (
+		settings, "webkit-minimum-font-size",
+		wk_editor, "minimum-font-size",
+		G_SETTINGS_BIND_GET);
+
+	g_clear_object (&settings);
 
 	webkit_web_view_load_html (WEBKIT_WEB_VIEW (wk_editor), "", "evo-file:///");
 }
@@ -4472,6 +4512,12 @@ webkit_editor_set_property (GObject *object,
 				E_WEBKIT_EDITOR (object),
 				g_value_get_boxed (value));
 			return;
+
+		case PROP_MINIMUM_FONT_SIZE:
+			webkit_editor_set_minimum_font_size (
+				E_WEBKIT_EDITOR (object),
+				g_value_get_int (value));
+			return;
 	}
 
 	G_OBJECT_WARN_INVALID_PROPERTY_ID (object, property_id, pspec);
@@ -4700,6 +4746,11 @@ webkit_editor_get_property (GObject *object,
 				value,
 				webkit_editor_get_last_error (
 					E_WEBKIT_EDITOR (object)));
+			return;
+
+		case PROP_MINIMUM_FONT_SIZE:
+			g_value_set_int (value,
+				webkit_editor_get_minimum_font_size (E_WEBKIT_EDITOR (object)));
 			return;
 	}
 
@@ -5477,6 +5528,16 @@ e_webkit_editor_class_init (EWebKitEditorClass *class)
 			G_PARAM_READWRITE |
 			G_PARAM_CONSTRUCT |
 			G_PARAM_STATIC_STRINGS));
+
+	g_object_class_install_property (
+		object_class,
+		PROP_MINIMUM_FONT_SIZE,
+		g_param_spec_int (
+			"minimum-font-size",
+			"Minimum Font Size",
+			NULL,
+			G_MININT, G_MAXINT, 0,
+			G_PARAM_READWRITE));
 }
 
 static void

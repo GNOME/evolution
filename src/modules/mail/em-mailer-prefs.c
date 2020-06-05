@@ -1790,6 +1790,16 @@ em_mailer_prefs_construct (EMMailerPrefs *prefs,
 	gtk_container_add (GTK_CONTAINER (prefs), toplevel);
 
 	g_object_unref (settings);
+
+	settings = e_util_ref_settings ("org.gnome.evolution.shell");
+
+	widget = e_builder_get_widget (prefs->priv->builder, "minFontSize");
+	g_settings_bind (
+		settings, "webkit-minimum-font-size",
+		widget, "value",
+		G_SETTINGS_BIND_DEFAULT);
+
+	g_object_unref (settings);
 }
 
 GtkWidget *
