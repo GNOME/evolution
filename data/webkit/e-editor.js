@@ -5754,10 +5754,15 @@ EvoEditor.LoadHTML = function(html)
 {
 	EvoUndoRedo.Disable();
 	try {
+		var themeCss = EvoEditor.UpdateThemeStyleSheet(null);
+
 		document.documentElement.innerHTML = html;
 
 		EvoEditor.processLoadedContent();
 		EvoEditor.initializeContent();
+
+		if (themeCss)
+			EvoEditor.UpdateThemeStyleSheet(themeCss);
 	} finally {
 		EvoUndoRedo.Enable();
 		EvoUndoRedo.Clear();
