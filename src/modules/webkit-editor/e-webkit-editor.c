@@ -6211,6 +6211,28 @@ webkit_editor_drag_leave_cb (EWebKitEditor *wk_editor,
 }
 
 static gboolean
+webkit_editor_drag_motion_cb (GtkWidget *widget,
+			      GdkDragContext *context,
+			      gint x,
+			      gint y,
+			      guint time,
+			      gpointer user_data)
+{
+	GdkAtom chosen;
+
+	chosen = gtk_drag_dest_find_target (widget, context, NULL);
+
+	/* This is when dragging message from the message list, which can eventually freeze
+	   Evolution, if PDF file format is set, when processes by WebKitGTK itself. */
+	if (chosen != GDK_NONE && chosen == gdk_atom_intern ("x-uid-list", TRUE)) {
+		gdk_drag_status (context, GDK_ACTION_COPY, time);
+		return TRUE;
+	}
+
+	return FALSE;
+}
+
+static gboolean
 webkit_editor_drag_drop_cb (EWebKitEditor *wk_editor,
                             GdkDragContext *context,
                             gint x,
@@ -6584,6 +6606,10 @@ e_webkit_editor_init (EWebKitEditor *wk_editor)
 	g_signal_connect (
 		wk_editor, "drag-drop",
 		G_CALLBACK (webkit_editor_drag_drop_cb), NULL);
+
+	g_signal_connect (
+		wk_editor, "drag-motion",
+		G_CALLBACK (webkit_editor_drag_motion_cb), NULL);
 
 	g_signal_connect (
 		wk_editor, "web-process-crashed",
