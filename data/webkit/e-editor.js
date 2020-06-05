@@ -2713,9 +2713,11 @@ EvoEditor.GetContent = function(flags, cid_uid_prefix)
 		if ((flags & EvoEditor.E_CONTENT_EDITOR_GET_RAW_DRAFT) != 0) {
 			document.head.setAttribute("x-evo-selection", EvoSelection.ToString(EvoSelection.Store(document)));
 			try {
-				content_data["raw-draft"] = document.documentElement.innerHTML;
+				document.body.setAttribute("data-evo-draft", "");
+				content_data["raw-draft"] = document.documentElement.outerHTML;
 			} finally {
 				document.head.removeAttribute("x-evo-selection");
+				document.body.removeAttribute("data-evo-draft");
 			}
 		}
 
