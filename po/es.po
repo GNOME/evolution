@@ -18,8 +18,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: evolution.master\n"
 "Report-Msgid-Bugs-To: https://gitlab.gnome.org/GNOME/evolution/issues\n"
-"POT-Creation-Date: 2020-06-02 12:03+0000\n"
-"PO-Revision-Date: 2020-06-03 11:43+0200\n"
+"POT-Creation-Date: 2020-06-05 19:19+0000\n"
+"PO-Revision-Date: 2020-06-08 16:04+0200\n"
 "Last-Translator: Daniel Mustieles <daniel.mustieles@gmail.com>\n"
 "Language-Team: Spanish - Spain <gnome-es-list@gnome.org>\n"
 "Language: es_ES\n"
@@ -3436,6 +3436,21 @@ msgstr ""
 "El prefijo del URL usado para buscar en la web. La selección de texto se "
 "escapa y se anexa a esta cadena. El URI debería comenzar con https://."
 
+#: ../data/org.gnome.evolution.shell.gschema.xml.in.h:40
+msgid "Minimum font size to be used by WebKitGTK"
+msgstr "Tamaño mínimo de tipografía que puede usar WebKitGTK"
+
+#: ../data/org.gnome.evolution.shell.gschema.xml.in.h:41
+msgid ""
+"The minimum font size in pixels used to display text in WebKitGTK. This "
+"setting controls the absolute smallest size. Values other than 0 can "
+"potentially break page layouts. Negative values are treated as 0."
+msgstr ""
+"El tamaño mínimo de tipografía, en píxeles, usado para mostrar texto en "
+"WebKitGTK. Esta opción controla el tamaño absoluto más pequeño. Valores "
+"distintos de 0 pueden romper la distribución de la página. Los valores "
+"negativos se tratan como 0."
+
 #: ../data/org.gnome.evolution.spamassassin.gschema.xml.in.h:1
 msgid "Use only local spam tests."
 msgstr "Usar sólo comprobaciones de SPAM locales."
@@ -4284,7 +4299,7 @@ msgstr "Opciones"
 #: ../src/e-util/e-source-selector-dialog.c:370
 #: ../src/e-util/e-table-config.c:548 ../src/e-util/e-table-config.ui.h:3
 #: ../src/e-util/e-timezone-dialog.ui.h:2
-#: ../src/e-util/evolution-source-viewer.c:835 ../src/e-util/e-web-view.c:3910
+#: ../src/e-util/evolution-source-viewer.c:835 ../src/e-util/e-web-view.c:3995
 #: ../src/e-util/gal-view-instance-save-as-dialog.c:267
 #: ../src/mail/e-mail-config-window.c:334 ../src/mail/e-mail-label-dialog.c:194
 #: ../src/mail/e-mail-tag-editor.c:160 ../src/mail/em-composer-utils.c:4050
@@ -4322,7 +4337,7 @@ msgstr "_Cancelar"
 #: ../src/e-util/e-attachment-store.c:848
 #: ../src/e-util/e-attachment-store.c:855
 #: ../src/e-util/e-mail-signature-script-dialog.c:370
-#: ../src/e-util/e-webdav-browser.c:2476 ../src/e-util/e-web-view.c:3910
+#: ../src/e-util/e-webdav-browser.c:2476 ../src/e-util/e-web-view.c:3995
 #: ../src/e-util/gal-view-instance-save-as-dialog.c:268
 #: ../src/shell/e-shell-content.c:642 ../src/shell/e-shell-utils.c:133
 #: ../src/smime/gui/certificate-manager.c:651
@@ -4993,17 +5008,17 @@ msgid "Copy _Email Address"
 msgstr "Copiar dirección de _correo-e"
 
 #: ../src/addressbook/gui/widgets/eab-contact-display.c:187
-#: ../src/e-util/e-web-view.c:429
+#: ../src/e-util/e-web-view.c:432
 msgid "Copy the email address to the clipboard"
 msgstr "Copiar la dirección de correo-e al portapapeles"
 
 #: ../src/addressbook/gui/widgets/eab-contact-display.c:192
-#: ../src/e-util/e-web-view.c:441
+#: ../src/e-util/e-web-view.c:444
 msgid "_Send New Message To…"
 msgstr "_Enviar un correo nuevo a…"
 
 #: ../src/addressbook/gui/widgets/eab-contact-display.c:194
-#: ../src/e-util/e-web-view.c:443
+#: ../src/e-util/e-web-view.c:446
 msgid "Send a mail message to this address"
 msgstr "Enviar un correo a esta dirección"
 
@@ -8793,15 +8808,15 @@ msgstr "Cerrar la ventana actual"
 #. copy menu item
 #: ../src/calendar/gui/e-comp-editor.c:2034 ../src/e-util/e-focus-tracker.c:806
 #: ../src/e-util/e-html-editor-actions.c:1072 ../src/e-util/e-text.c:2080
-#: ../src/e-util/e-web-view.c:468 ../src/mail/e-mail-browser.c:173
+#: ../src/e-util/e-web-view.c:471 ../src/mail/e-mail-browser.c:173
 #: ../src/mail/mail.error.xml.h:147 ../src/shell/e-shell-window-actions.c:903
 msgid "_Copy"
 msgstr "_Copiar"
 
 #: ../src/calendar/gui/e-comp-editor.c:2036 ../src/e-util/e-focus-tracker.c:203
 #: ../src/e-util/e-focus-tracker.c:259 ../src/e-util/e-focus-tracker.c:312
-#: ../src/e-util/e-focus-tracker.c:807 ../src/e-util/e-web-view.c:470
-#: ../src/e-util/e-web-view.c:1994 ../src/mail/e-mail-browser.c:175
+#: ../src/e-util/e-focus-tracker.c:807 ../src/e-util/e-web-view.c:473
+#: ../src/e-util/e-web-view.c:2018 ../src/mail/e-mail-browser.c:175
 #: ../src/shell/e-shell-window-actions.c:905
 msgid "Copy the selection"
 msgstr "Copiar la selección"
@@ -8815,7 +8830,7 @@ msgstr "Cor_tar"
 
 #: ../src/calendar/gui/e-comp-editor.c:2043 ../src/e-util/e-focus-tracker.c:196
 #: ../src/e-util/e-focus-tracker.c:252 ../src/e-util/e-focus-tracker.c:306
-#: ../src/e-util/e-focus-tracker.c:802 ../src/e-util/e-web-view.c:2003
+#: ../src/e-util/e-focus-tracker.c:802 ../src/e-util/e-web-view.c:2027
 #: ../src/mail/e-mail-browser.c:182 ../src/shell/e-shell-window-actions.c:912
 msgid "Cut the selection"
 msgstr "Cortar la selección"
@@ -8839,7 +8854,7 @@ msgstr "_Pegar"
 
 #: ../src/calendar/gui/e-comp-editor.c:2064 ../src/e-util/e-focus-tracker.c:210
 #: ../src/e-util/e-focus-tracker.c:266 ../src/e-util/e-focus-tracker.c:318
-#: ../src/e-util/e-focus-tracker.c:812 ../src/e-util/e-web-view.c:2012
+#: ../src/e-util/e-focus-tracker.c:812 ../src/e-util/e-web-view.c:2036
 #: ../src/mail/e-mail-browser.c:189 ../src/shell/e-shell-window-actions.c:940
 msgid "Paste the clipboard"
 msgstr "Pega el contenido del porta papeles"
@@ -8860,7 +8875,7 @@ msgid "Pre_view…"
 msgstr "Vista pre_via…"
 
 #: ../src/calendar/gui/e-comp-editor.c:2083 ../src/e-util/e-focus-tracker.c:821
-#: ../src/e-util/e-html-editor-actions.c:1100 ../src/e-util/e-web-view.c:485
+#: ../src/e-util/e-html-editor-actions.c:1100 ../src/e-util/e-web-view.c:488
 #: ../src/mail/e-mail-browser.c:194 ../src/shell/e-shell-window-actions.c:1008
 msgid "Select _All"
 msgstr "Seleccionar _todo"
@@ -13209,12 +13224,10 @@ msgid "Looking up LDAP server’s search base…"
 msgstr "Buscando bases de búsqueda del servidor LDAP…"
 
 #: ../src/e-util/e-collection-account-wizard.c:1310
-#| msgid "Failed to create a thread: "
 msgid "Failed to store password: "
 msgstr "Falló al guardar la contraseña: "
 
 #: ../src/e-util/e-collection-account-wizard.c:1320
-#| msgid "Failed to create a thread: "
 msgid "Failed to create sources: "
 msgstr "Falló al crear las fuentes: "
 
@@ -16333,78 +16346,78 @@ msgstr "Crear _calendario "
 msgid "Create Collectio_n"
 msgstr "Crear colecció_n"
 
-#: ../src/e-util/e-web-view.c:407
+#: ../src/e-util/e-web-view.c:410
 msgid "_Copy Link Location"
 msgstr "_Copiar dirección del enlace"
 
-#: ../src/e-util/e-web-view.c:409
+#: ../src/e-util/e-web-view.c:412
 msgid "Copy the link to the clipboard"
 msgstr "Copiar el enlace al portapapeles"
 
-#: ../src/e-util/e-web-view.c:417
+#: ../src/e-util/e-web-view.c:420
 msgid "_Open Link in Browser"
 msgstr "_Abrir enlace en el navegador"
 
-#: ../src/e-util/e-web-view.c:419
+#: ../src/e-util/e-web-view.c:422
 msgid "Open the link in a web browser"
 msgstr "_Abrir enlace en el navegador"
 
-#: ../src/e-util/e-web-view.c:427
+#: ../src/e-util/e-web-view.c:430
 msgid "_Copy Email Address"
 msgstr "_Copiar dirección de correo-e"
 
-#: ../src/e-util/e-web-view.c:434
+#: ../src/e-util/e-web-view.c:437
 msgid "Copy _Raw Email Address"
 msgstr "Copiar dirección de _correo-e en bruto"
 
-#: ../src/e-util/e-web-view.c:436
+#: ../src/e-util/e-web-view.c:439
 msgid "Copy the raw email address to the clipboard"
 msgstr "Copiar la dirección de correo-e en bruto al portapapeles"
 
-#: ../src/e-util/e-web-view.c:451
+#: ../src/e-util/e-web-view.c:454
 msgid "_Copy Image"
 msgstr "_Copiar imagen"
 
-#: ../src/e-util/e-web-view.c:453
+#: ../src/e-util/e-web-view.c:456
 msgid "Copy the image to the clipboard"
 msgstr "Copiar la imagen al portapapeles"
 
-#: ../src/e-util/e-web-view.c:458
+#: ../src/e-util/e-web-view.c:461
 msgid "Save _Image…"
 msgstr "Guardar _imagen…"
 
-#: ../src/e-util/e-web-view.c:460
+#: ../src/e-util/e-web-view.c:463
 msgid "Save the image to a file"
 msgstr "Guardar la imagen en un archivo"
 
-#: ../src/e-util/e-web-view.c:475 ../src/mail/e-mail-browser.c:201
+#: ../src/e-util/e-web-view.c:478 ../src/mail/e-mail-browser.c:201
 #: ../src/mail/e-mail-reader.c:2819
 msgid "Search _Web…"
 msgstr "Buscar en la _web…"
 
-#: ../src/e-util/e-web-view.c:477 ../src/mail/e-mail-browser.c:203
+#: ../src/e-util/e-web-view.c:480 ../src/mail/e-mail-browser.c:203
 #: ../src/mail/e-mail-reader.c:2821
 msgid "Search the Web with the selected text"
 msgstr "Buscar en la web el texto seleccionado"
 
-#: ../src/e-util/e-web-view.c:487 ../src/e-util/e-web-view.c:2016
+#: ../src/e-util/e-web-view.c:490 ../src/e-util/e-web-view.c:2040
 msgid "Select all text and images"
 msgstr "Seleccionar todo el texto y las imágenes"
 
-#: ../src/e-util/e-web-view.c:3720
+#: ../src/e-util/e-web-view.c:3805
 msgid "Copying image to clipboard"
 msgstr "Copiando imagen al portapapeles"
 
-#: ../src/e-util/e-web-view.c:3908
+#: ../src/e-util/e-web-view.c:3993
 msgid "Save Image"
 msgstr "Guardar imagen"
 
-#: ../src/e-util/e-web-view.c:3945
+#: ../src/e-util/e-web-view.c:4030
 #, c-format
 msgid "Saving image to “%s”"
 msgstr "Guardando imagen en «%s»"
 
-#: ../src/e-util/e-web-view.c:4092
+#: ../src/e-util/e-web-view.c:4177
 #, c-format
 msgid "Cannot get URI “%s”, do not know how to download it."
 msgstr "No se puede obtener el URI «%s», o no se sabe de dónde bajarlo."
@@ -16505,7 +16518,7 @@ msgstr "la fecha que especifique"
 msgid "a time relative to the current time"
 msgstr "una fecha relativa al momento actual"
 
-#: ../src/e-util/filter.ui.h:5 ../src/mail/mail-config.ui.h:95
+#: ../src/e-util/filter.ui.h:5 ../src/mail/mail-config.ui.h:98
 msgid "seconds"
 msgstr "segundos"
 
@@ -17860,7 +17873,7 @@ msgstr "Nombre de la cabecera"
 msgid "Header Value"
 msgstr "Valor de la cabecera"
 
-#: ../src/mail/e-mail-printer.c:103 ../src/mail/mail-config.ui.h:132
+#: ../src/mail/e-mail-printer.c:103 ../src/mail/mail-config.ui.h:135
 msgid "Headers"
 msgstr "Cabeceras"
 
@@ -19027,7 +19040,7 @@ msgstr "Apariencia"
 msgid "Archive"
 msgstr "Archivador"
 
-#: ../src/mail/em-folder-properties.c:1377 ../src/mail/mail-config.ui.h:123
+#: ../src/mail/em-folder-properties.c:1377 ../src/mail/mail-config.ui.h:126
 #: ../src/mail/message-list.etspec.h:19
 msgid "Labels"
 msgstr "Etiquetas"
@@ -19465,7 +19478,7 @@ msgstr "Importante"
 msgid "Read"
 msgstr "Leído"
 
-#: ../src/mail/filtertypes.xml.in.h:41 ../src/mail/mail-config.ui.h:139
+#: ../src/mail/filtertypes.xml.in.h:41 ../src/mail/mail-config.ui.h:142
 #: ../src/mail/vfoldertypes.xml.in.h:44
 msgid "Junk"
 msgstr "SPAM"
@@ -20040,191 +20053,201 @@ msgid "Fix_ed Width Font:"
 msgstr "Tipografía de anchura _fija:"
 
 #: ../src/mail/mail-config.ui.h:94
+#| msgid "Font _Size"
+msgid "Minimum Font _Size:"
+msgstr "_Tamaño mínimo de la tipografía:"
+
+#. Translators: This is part of 'Minimum Font Size: [ spin button ] (in pixels)'
+#: ../src/mail/mail-config.ui.h:96
+msgid "(in pixels)"
+msgstr "(en píxeles)"
+
+#: ../src/mail/mail-config.ui.h:97
 msgid "_Mark messages as read after"
 msgstr "_Marcar mensajes como leídos tras"
 
 # Esta cadena debe permanecer así
-#: ../src/mail/mail-config.ui.h:96
+#: ../src/mail/mail-config.ui.h:99
 msgid "Highlight _quotations with"
 msgstr "Resaltar texto _citado con este color:"
 
-#: ../src/mail/mail-config.ui.h:97
+#: ../src/mail/mail-config.ui.h:100
 #: ../src/modules/calendar/e-calendar-preferences.ui.h:66
 msgid "Pick a color"
 msgstr "Elija un color"
 
 # Esta traducción debe mantenerse así
-#: ../src/mail/mail-config.ui.h:98
+#: ../src/mail/mail-config.ui.h:101
 msgid "color"
 msgstr "color"
 
-#: ../src/mail/mail-config.ui.h:99
+#: ../src/mail/mail-config.ui.h:102
 msgid "Default character e_ncoding:"
 msgstr "_Codificación de caracteres predeterminada:"
 
-#: ../src/mail/mail-config.ui.h:100
+#: ../src/mail/mail-config.ui.h:103
 msgid "Apply the same _view settings to all folders"
 msgstr "Aplicar los mismos ajustes de _vista a todas las carpetas"
 
-#: ../src/mail/mail-config.ui.h:101
+#: ../src/mail/mail-config.ui.h:104
 msgid "F_all back to threading messages by subject"
 msgstr "Agrupar los mensajes por _asunto"
 
-#: ../src/mail/mail-config.ui.h:102
+#: ../src/mail/mail-config.ui.h:105
 msgid "Delete Mail"
 msgstr "Eliminar correo-e"
 
-#: ../src/mail/mail-config.ui.h:103
+#: ../src/mail/mail-config.ui.h:106
 msgid "Empty _trash folders"
 msgstr "Vaciar carpetas de_papelera"
 
-#: ../src/mail/mail-config.ui.h:104
+#: ../src/mail/mail-config.ui.h:107
 msgid "Confirm _when expunging a folder"
 msgstr "_Confirmar antes de purgar una carpeta"
 
-#: ../src/mail/mail-config.ui.h:105
+#: ../src/mail/mail-config.ui.h:108
 msgid "Confirm when emptying a _Junk folder"
 msgstr "_Confirmar an vaciar la carpeta SPAM"
 
-#: ../src/mail/mail-config.ui.h:106
+#: ../src/mail/mail-config.ui.h:109
 msgid "Go to the previ_ous message after message deletion"
 msgstr "Ir al mensaje anteri_or después de eliminar un mensaje"
 
-#: ../src/mail/mail-config.ui.h:107
+#: ../src/mail/mail-config.ui.h:110
 msgid "Archive Mail"
 msgstr "Archivar correo"
 
-#: ../src/mail/mail-config.ui.h:108
+#: ../src/mail/mail-config.ui.h:111
 msgid "Archive folder to use for On This Computer messages"
 msgstr "Carpeta de archivo que usar para mensajes en este equipo"
 
-#: ../src/mail/mail-config.ui.h:109
+#: ../src/mail/mail-config.ui.h:112
 msgid "On This Computer A_rchive folder:"
 msgstr "Carpeta de a_rchivo en este equipo:"
 
 #. If enabled, show animation; if disabled, only display a static image without any animation
-#: ../src/mail/mail-config.ui.h:111
+#: ../src/mail/mail-config.ui.h:114
 msgid "_Show animated images"
 msgstr "_Mostrar las imágenes animadas"
 
-#: ../src/mail/mail-config.ui.h:112
+#: ../src/mail/mail-config.ui.h:115
 msgid "_Prompt on sending HTML mail to contacts that do not want them"
 msgstr "_Preguntar al enviar mensajes en HTML a contactos que no los quieren"
 
 # Título de preferencias
-#: ../src/mail/mail-config.ui.h:113
+#: ../src/mail/mail-config.ui.h:116
 msgid "Loading Remote Content"
 msgstr "Cargar contenido remoto"
 
-#: ../src/mail/mail-config.ui.h:114
+#: ../src/mail/mail-config.ui.h:117
 msgid "_Never load remote content from the Internet"
 msgstr "_Nunca cargar contenido remoto desde Internet"
 
-#: ../src/mail/mail-config.ui.h:115
+#: ../src/mail/mail-config.ui.h:118
 msgid "_Load remote content only in messages from contacts"
 msgstr "Cargar el _contenido remoto sólo en los mensajes de los contactos"
 
-#: ../src/mail/mail-config.ui.h:116
+#: ../src/mail/mail-config.ui.h:119
 msgid "_Always load remote content from the Internet"
 msgstr "_Siempre cargar el contenido remoto desde Internet"
 
-#: ../src/mail/mail-config.ui.h:117
+#: ../src/mail/mail-config.ui.h:120
 msgid "Notify about _missing remote content in the message preview"
 msgstr ""
 "Informar de pé_rdida de contenido remoto en la vista previa del mensaje"
 
-#: ../src/mail/mail-config.ui.h:118
+#: ../src/mail/mail-config.ui.h:121
 msgid "Add"
 msgstr "Añadir"
 
-#: ../src/mail/mail-config.ui.h:119
+#: ../src/mail/mail-config.ui.h:122
 msgid "Remove"
 msgstr "Eliminar"
 
-#: ../src/mail/mail-config.ui.h:120
+#: ../src/mail/mail-config.ui.h:123
 msgid "Allow for sites:"
 msgstr "Permitir para los sitios:"
 
-#: ../src/mail/mail-config.ui.h:121
+#: ../src/mail/mail-config.ui.h:124
 msgid "Allow for senders:"
 msgstr "Permitir para los remitentes:"
 
-#: ../src/mail/mail-config.ui.h:122
+#: ../src/mail/mail-config.ui.h:125
 msgid "HTML Messages"
 msgstr "Mensajes HTML"
 
-#: ../src/mail/mail-config.ui.h:124
+#: ../src/mail/mail-config.ui.h:127
 msgid "Sender Photograph"
 msgstr "Foto del remitente"
 
-#: ../src/mail/mail-config.ui.h:125
+#: ../src/mail/mail-config.ui.h:128
 msgid "_Show the photograph of sender in the message preview"
 msgstr "_Mostrar la foto del remitente en la vista previa del mensaje"
 
-#: ../src/mail/mail-config.ui.h:126
+#: ../src/mail/mail-config.ui.h:129
 msgid "Search libra_vatar.org for the photograph of sender"
 msgstr "Buscar en libra_vatar.org la foto del remitente"
 
-#: ../src/mail/mail-config.ui.h:127
+#: ../src/mail/mail-config.ui.h:130
 msgid "Displayed Message Headers"
 msgstr "Cabeceras mostradas del mensaje"
 
-#: ../src/mail/mail-config.ui.h:128
+#: ../src/mail/mail-config.ui.h:131
 msgid "Show _full mail addresses in message preview"
 msgstr ""
 "Mostrar la dirección de correo _completa en la vista previa del mensaje"
 
-#: ../src/mail/mail-config.ui.h:129
+#: ../src/mail/mail-config.ui.h:132
 msgid "Mail Headers Table"
 msgstr "Tabla de cabeceras de correo"
 
-#: ../src/mail/mail-config.ui.h:130
+#: ../src/mail/mail-config.ui.h:133
 msgid "Re_set"
 msgstr "Re_stablecer"
 
-#: ../src/mail/mail-config.ui.h:131
+#: ../src/mail/mail-config.ui.h:134
 #: ../src/modules/addressbook/autocompletion-config.c:118
 #: ../src/modules/calendar/e-calendar-preferences.ui.h:45
 msgid "Date/Time Format"
 msgstr "Formato de la fecha y hora"
 
-#: ../src/mail/mail-config.ui.h:133
+#: ../src/mail/mail-config.ui.h:136
 msgid "Check incoming _messages for junk"
 msgstr "Comprobar si los _mensajes entrantes son basura"
 
-#: ../src/mail/mail-config.ui.h:134
+#: ../src/mail/mail-config.ui.h:137
 msgid "_Delete junk messages"
 msgstr "_Eliminar los mensajes SPAM"
 
-#: ../src/mail/mail-config.ui.h:135
+#: ../src/mail/mail-config.ui.h:138
 msgid "Junk Test Options"
 msgstr "Opciones de prueba de spam"
 
-#: ../src/mail/mail-config.ui.h:136
+#: ../src/mail/mail-config.ui.h:139
 msgid "Do not mar_k messages as junk if sender is in my address book"
 msgstr ""
 "_No marcar los mensajes como basura si el remitente está en mi libreta de "
 "direcciones"
 
-#: ../src/mail/mail-config.ui.h:137
+#: ../src/mail/mail-config.ui.h:140
 msgid "_Lookup in local address book only"
 msgstr "_Buscar sólo en la libreta de direcciones local"
 
-#: ../src/mail/mail-config.ui.h:138
+#: ../src/mail/mail-config.ui.h:141
 msgid "Check cu_stom headers for junk"
 msgstr "Compro_bar las cabeceras personalizadas contra SPAM"
 
-#: ../src/mail/mail-config.ui.h:140
+#: ../src/mail/mail-config.ui.h:143
 #: ../src/modules/mail-config/e-mail-config-remote-accounts.c:303
 #: ../src/modules/mail-config/e-mail-config-smtp-backend.c:246
 msgid "No encryption"
 msgstr "Sin cifrado"
 
-#: ../src/mail/mail-config.ui.h:141
+#: ../src/mail/mail-config.ui.h:144
 msgid "TLS encryption"
 msgstr "Cifrado TLS"
 
-#: ../src/mail/mail-config.ui.h:142
+#: ../src/mail/mail-config.ui.h:145
 msgid "SSL encryption"
 msgstr "Cifrado SSL"
 
