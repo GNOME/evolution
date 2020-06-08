@@ -4847,8 +4847,18 @@ webkit_editor_load_changed_cb (EWebKitEditor *wk_editor,
 		return;
 
 	e_web_view_jsc_run_script (WEBKIT_WEB_VIEW (wk_editor), wk_editor->priv->cancellable,
-		"EvoEditor.START_BOTTOM = %x;",
-		e_webkit_editor_three_state_to_bool (wk_editor->priv->start_bottom, "composer-reply-start-bottom"));
+		"EvoEditor.NORMAL_PARAGRAPH_WIDTH = %d;"
+		"EvoEditor.START_BOTTOM = %x;"
+		"EvoEditor.MAGIC_LINKS = %x;"
+		"EvoEditor.MAGIC_SMILEYS = %x;"
+		"EvoEditor.UNICODE_SMILEYS = %x;"
+		"EvoEditor.WRAP_QUOTED_TEXT_IN_REPLIES = %x;",
+		wk_editor->priv->normal_paragraph_width,
+		e_webkit_editor_three_state_to_bool (wk_editor->priv->start_bottom, "composer-reply-start-bottom"),
+		wk_editor->priv->magic_links,
+		wk_editor->priv->magic_smileys,
+		wk_editor->priv->unicode_smileys,
+		wk_editor->priv->wrap_quoted_text_in_replies);
 
 	/* Dispatch queued operations - as we are using this just for load
 	 * operations load just the latest request and throw away the rest. */
