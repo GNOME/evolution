@@ -1,6 +1,18 @@
 glib_mkenums(e-shell-enumtypes e-shell.h E_SHELL_ENUMTYPES_H)
 add_error_files(shell shell.error)
 
+set(RESOURCES
+	e-shell-window.ui
+)
+
+glib_compile_resources(
+	${CMAKE_CURRENT_SOURCE_DIR}
+	shell-resources
+	shell_resources
+	shell.gresource.xml
+	${RESOURCES}
+)
+
 configure_file(evo-version.h.in
 	evo-version.h
 	@ONLY
@@ -33,6 +45,7 @@ set(SOURCES
 	e-shell-window-actions.c
 	${CMAKE_CURRENT_BINARY_DIR}/e-shell-enumtypes.c
 	${CMAKE_CURRENT_BINARY_DIR}/evo-version.h
+	${CMAKE_CURRENT_BINARY_DIR}/shell-resources.c
 )
 
 set(HEADERS
@@ -49,6 +62,7 @@ set(HEADERS
 	e-shell-window.h
 	e-shell-window-actions.h
 	${CMAKE_CURRENT_BINARY_DIR}/e-shell-enumtypes.h
+	${CMAKE_CURRENT_BINARY_DIR}/shell-resources.h
 )
 
 add_library(evolution-shell SHARED

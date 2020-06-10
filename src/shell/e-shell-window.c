@@ -59,7 +59,7 @@ static void	e_shell_window_alert_sink_init
 G_DEFINE_TYPE_WITH_CODE (
 	EShellWindow,
 	e_shell_window,
-	GTK_TYPE_WINDOW,
+	GTK_TYPE_APPLICATION_WINDOW,
 	G_IMPLEMENT_INTERFACE (
 		E_TYPE_ALERT_SINK, e_shell_window_alert_sink_init)
 	G_IMPLEMENT_INTERFACE (
@@ -1136,6 +1136,9 @@ e_shell_window_class_init (EShellWindowClass *class)
 	binding_set = gtk_binding_set_by_class (class);
 	gtk_binding_entry_add_signal (
 		binding_set, GDK_KEY_Escape, 0, "close-alert", 0);
+
+	gtk_widget_class_set_template_from_resource (
+		widget_class, "/org/gnome/evolution/shell/e-shell-window.ui");
 }
 
 static void
@@ -1161,6 +1164,8 @@ e_shell_window_init (EShellWindow *shell_window)
 
 	g_signal_connect (shell_window, "delete-event",
 		G_CALLBACK (shell_window_delete_event_cb), NULL);
+
+	gtk_widget_init_template (GTK_WIDGET (shell_window));
 }
 
 /**
