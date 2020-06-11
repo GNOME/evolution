@@ -6176,7 +6176,7 @@ message_list_regen_thread (GSimpleAsyncResult *simple,
 	/* The 'expr' should be enclosed in "(match-all ...)", thus the search traverses
 	   folder content, but also try to not repeat it, to avoid unnecessary performance hits. */
 	if (regen_data->search != NULL) {
-		gboolean is_match_all = g_str_has_prefix (regen_data->search, "(match-all ");
+		gboolean is_match_all = g_str_has_prefix (regen_data->search, "(match-all ") && !strstr (regen_data->search, "(body-contains ");
 		gboolean is_match_threads = strstr (regen_data->search, "(match-threads ") != NULL;
 
 		if (expr->len == 0) {
@@ -6186,25 +6186,21 @@ message_list_regen_thread (GSimpleAsyncResult *simple,
 				g_string_prepend (expr, "(match-all ");
 				g_string_append_c (expr, ')');
 			}
-		} else if (is_match_threads) {
+		} else if (is_match_threads || !is_match_all) {
 			/* The "match-threads" cannot be below "match-all". */
 			g_string_prepend (expr, "(and (match-all ");
 			g_string_append (expr, ") ");
 			g_string_append (expr, regen_data->search);
 			g_string_append_c (expr, ')');
 		} else {
+			const gchar *stripped_search = regen_data->search + 11; /* strlen ("(match-all ") */
+			gint len = strlen (stripped_search);
+
 			g_string_prepend (expr, "(match-all (and ");
 			g_string_append_c (expr, ' ');
 
-			if (is_match_all) {
-				const gchar *stripped_search = regen_data->search + 11; /* strlen ("(match-all ") */
-				gint len = strlen (stripped_search);
-
-				if (len > 0 && stripped_search[len - 1] == ')') {
-					g_string_append_len (expr, stripped_search, len - 1);
-				} else {
-					g_string_append (expr, regen_data->search);
-				}
+			if (len > 0 && stripped_search[len - 1] == ')') {
+				g_string_append_len (expr, stripped_search, len - 1);
 			} else {
 				g_string_append (expr, regen_data->search);
 			}

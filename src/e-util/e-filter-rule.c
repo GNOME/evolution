@@ -811,9 +811,16 @@ filter_rule_xml_decode (EFilterRule *rule,
 }
 
 static void
-filter_rule_build_code (EFilterRule *rule,
-                        GString *out)
+filter_rule_build_code_for_parts (EFilterRule *rule,
+				  GList *parts,
+				  gboolean without_match_all,
+				  gboolean force_match_all,
+				  GString *out)
 {
+	g_return_if_fail (rule != NULL);
+	g_return_if_fail (parts != NULL);
+	g_return_if_fail (out != NULL);
+
 	switch (rule->threading) {
 	case E_FILTER_THREAD_NONE:
 		break;
@@ -831,25 +838,97 @@ filter_rule_build_code (EFilterRule *rule,
 		break;
 	}
 
-	if (rule->threading != E_FILTER_THREAD_NONE)
+	if ((rule->threading != E_FILTER_THREAD_NONE && !without_match_all) || force_match_all)
 		g_string_append (out, "(match-all ");
 
-	switch (rule->grouping) {
-	case E_FILTER_GROUP_ALL:
-		g_string_append (out, " (and\n  ");
-		break;
-	case E_FILTER_GROUP_ANY:
-		g_string_append (out, " (or\n  ");
-		break;
-	default:
-		g_warning ("Invalid grouping");
+	if (parts->next) {
+		switch (rule->grouping) {
+		case E_FILTER_GROUP_ALL:
+			g_string_append (out, " (and\n  ");
+			break;
+		case E_FILTER_GROUP_ANY:
+			g_string_append (out, " (or\n  ");
+			break;
+		default:
+			g_warning ("Invalid grouping");
+		}
 	}
 
-	e_filter_part_build_code_list (rule->parts, out);
-	g_string_append (out, ")\n");
+	e_filter_part_build_code_list (parts, out);
 
-	if (rule->threading != E_FILTER_THREAD_NONE)
-		g_string_append (out, "))\n");
+	if (parts->next)
+		g_string_append (out, ")\n");
+
+	if (rule->threading != E_FILTER_THREAD_NONE) {
+		if (without_match_all && !force_match_all)
+			g_string_append (out, ")\n");
+		else
+			g_string_append (out, "))\n");
+	} else if (force_match_all) {
+		g_string_append (out, ")\n");
+	}
+}
+
+static void
+filter_rule_build_code (EFilterRule *rule,
+                        GString *out)
+{
+	GList *link;
+	gboolean has_body_search = FALSE;
+
+	if (!rule->parts)
+		return;
+
+	for (link = rule->parts; link && !has_body_search; link = g_list_next (link)) {
+		EFilterPart *part = link->data;
+
+		has_body_search = g_strcmp0 (part->name, "body") == 0;
+	}
+
+	if (has_body_search) {
+		GList *body_searches = NULL, *other_searches = NULL;
+
+		for (link = rule->parts; link; link = g_list_next (link)) {
+			EFilterPart *part = link->data;
+
+			if (g_strcmp0 (part->name, "body") == 0) {
+				body_searches = g_list_prepend (body_searches, part);
+			} else {
+				other_searches = g_list_prepend (other_searches, part);
+			}
+		}
+
+		if (other_searches && body_searches) {
+			switch (rule->grouping) {
+			case E_FILTER_GROUP_ALL:
+				g_string_append (out, "(and ");
+				break;
+			case E_FILTER_GROUP_ANY:
+				g_string_append (out, "(or ");
+				break;
+			default:
+				g_warning ("Invalid grouping");
+			}
+
+			body_searches = g_list_reverse (body_searches);
+			other_searches = g_list_reverse (other_searches);
+
+			filter_rule_build_code_for_parts (rule, other_searches, FALSE, TRUE, out);
+
+			g_string_append_c (out, ' ');
+
+			filter_rule_build_code_for_parts (rule, body_searches, TRUE, FALSE, out);
+
+			g_string_append_c (out, ')');
+		} else {
+			filter_rule_build_code_for_parts (rule, rule->parts, FALSE, FALSE, out);
+		}
+
+		g_list_free (body_searches);
+		g_list_free (other_searches);
+	} else {
+		filter_rule_build_code_for_parts (rule, rule->parts, FALSE, FALSE, out);
+	}
 }
 
 static void

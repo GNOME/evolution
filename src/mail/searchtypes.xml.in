@@ -728,10 +728,6 @@
           <value name="subject-type" type="option" value="contains"/>
           <value name="subject" type="string"/>
         </part>
-        <part name="body">
-          <value name="body-type" type="option" value="contains"/>
-          <value name="word" type="string"/>
-        </part>
         <part name="sender">
           <value name="sender-type" type="option" value="contains"/>
           <value name="sender" type="string"/>
@@ -739,6 +735,10 @@
         <part name="to">
           <value name="recipient-type" type="option" value="contains"/>
           <value name="recipient" type="address"/>
+        </part>
+        <part name="body">
+          <value name="body-type" type="option" value="contains"/>
+          <value name="word" type="string"/>
         </part>
       </partset>
       <sources/>
