@@ -752,7 +752,7 @@ filter:
 
 	/* Apply selected filter. */
 
-	if (query && *query && !g_str_has_prefix (query, "(match-all ") && !strstr (query, "(match-threads ")) {
+	if (query && *query && !strstr (query, "(match-all ") && !strstr (query, "(match-threads ")) {
 		/* Make sure the query is enclosed in "(match-all ...)", to traverse the folders' content */
 		temp = g_strconcat ("(match-all ", query, ")", NULL);
 		g_free (query);
