@@ -52,8 +52,6 @@
 	E_SHELL_WINDOW_ACTION ((window), "gal-save-custom-view")
 #define E_SHELL_WINDOW_ACTION_IMPORT(window) \
 	E_SHELL_WINDOW_ACTION ((window), "import")
-#define E_SHELL_WINDOW_ACTION_NEW_WINDOW(window) \
-	E_SHELL_WINDOW_ACTION ((window), "new-window")
 #define E_SHELL_WINDOW_ACTION_PAGE_SETUP(window) \
 	E_SHELL_WINDOW_ACTION ((window), "page-setup")
 #define E_SHELL_WINDOW_ACTION_PASTE_CLIPBOARD(window) \
@@ -82,8 +80,6 @@
 	E_SHELL_WINDOW_ACTION ((window), "show-menubar")
 #define E_SHELL_WINDOW_ACTION_SHOW_SIDEBAR(window) \
 	E_SHELL_WINDOW_ACTION ((window), "show-sidebar")
-#define E_SHELL_WINDOW_ACTION_SHOW_SWITCHER(window) \
-	E_SHELL_WINDOW_ACTION ((window), "show-switcher")
 #define E_SHELL_WINDOW_ACTION_SHOW_TASKBAR(window) \
 	E_SHELL_WINDOW_ACTION ((window), "show-taskbar")
 #define E_SHELL_WINDOW_ACTION_SHOW_TOOLBAR(window) \
@@ -92,16 +88,6 @@
 	E_SHELL_WINDOW_ACTION ((window), "submit-bug")
 #define E_SHELL_WINDOW_ACTION_SWITCHER_INITIAL(window) \
 	E_SHELL_WINDOW_ACTION ((window), "switcher-initial")
-#define E_SHELL_WINDOW_ACTION_SWITCHER_MENU(window) \
-	E_SHELL_WINDOW_ACTION ((window), "switcher-menu")
-#define E_SHELL_WINDOW_ACTION_SWITCHER_STYLE_BOTH(window) \
-	E_SHELL_WINDOW_ACTION ((window), "switcher-style-both")
-#define E_SHELL_WINDOW_ACTION_SWITCHER_STYLE_ICONS(window) \
-	E_SHELL_WINDOW_ACTION ((window), "switcher-style-icons")
-#define E_SHELL_WINDOW_ACTION_SWITCHER_STYLE_TEXT(window) \
-	E_SHELL_WINDOW_ACTION ((window), "switcher-style-text")
-#define E_SHELL_WINDOW_ACTION_SWITCHER_STYLE_USER(window) \
-	E_SHELL_WINDOW_ACTION ((window), "switcher-style-user")
 #define E_SHELL_WINDOW_ACTION_WORK_OFFLINE(window) \
 	E_SHELL_WINDOW_ACTION ((window), "work-offline")
 #define E_SHELL_WINDOW_ACTION_WORK_ONLINE(window) \

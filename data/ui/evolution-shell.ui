@@ -53,14 +53,6 @@
         <placeholder name='view-layout-custom-menus'/>
       </menu>
       <placeholder name='view-custom-menus'/>
-      <menu action='switcher-menu'>
-        <menuitem action='switcher-style-both'/>
-        <menuitem action='switcher-style-icons'/>
-        <menuitem action='switcher-style-text'/>
-        <menuitem action='switcher-style-user'/>
-        <separator/>
-        <menuitem action='show-switcher'/>
-      </menu>
     </menu>
     <placeholder name='custom-menus'/>
     <menu action='search-menu'>

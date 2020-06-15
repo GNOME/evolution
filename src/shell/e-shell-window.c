@@ -38,7 +38,6 @@ enum {
 	PROP_SHELL,
 	PROP_MENUBAR_VISIBLE,
 	PROP_SIDEBAR_VISIBLE,
-	PROP_SWITCHER_VISIBLE,
 	PROP_TASKBAR_VISIBLE,
 	PROP_TOOLBAR_VISIBLE,
 	PROP_UI_MANAGER
@@ -60,6 +59,7 @@ G_DEFINE_TYPE_WITH_CODE (
 	EShellWindow,
 	e_shell_window,
 	GTK_TYPE_APPLICATION_WINDOW,
+	G_ADD_PRIVATE (EShellWindow)
 	G_IMPLEMENT_INTERFACE (
 		E_TYPE_ALERT_SINK, e_shell_window_alert_sink_init)
 	G_IMPLEMENT_INTERFACE (
@@ -284,12 +284,6 @@ shell_window_set_property (GObject *object,
 				g_value_get_boolean (value));
 			return;
 
-		case PROP_SWITCHER_VISIBLE:
-			e_shell_window_set_switcher_visible (
-				E_SHELL_WINDOW (object),
-				g_value_get_boolean (value));
-			return;
-
 		case PROP_TASKBAR_VISIBLE:
 			e_shell_window_set_taskbar_visible (
 				E_SHELL_WINDOW (object),
@@ -352,12 +346,6 @@ shell_window_get_property (GObject *object,
 		case PROP_SIDEBAR_VISIBLE:
 			g_value_set_boolean (
 				value, e_shell_window_get_sidebar_visible (
-				E_SHELL_WINDOW (object)));
-			return;
-
-		case PROP_SWITCHER_VISIBLE:
-			g_value_set_boolean (
-				value, e_shell_window_get_switcher_visible (
 				E_SHELL_WINDOW (object)));
 			return;
 
@@ -561,25 +549,10 @@ static GtkWidget *
 shell_window_construct_sidebar (EShellWindow *shell_window)
 {
 	GtkWidget *notebook;
-	GtkWidget *switcher;
-
-	switcher = e_shell_switcher_new ();
-	shell_window->priv->switcher = g_object_ref_sink (switcher);
-
-	e_binding_bind_property (
-		shell_window, "sidebar-visible",
-		switcher, "visible",
-		G_BINDING_SYNC_CREATE);
-
-	e_binding_bind_property (
-		shell_window, "switcher-visible",
-		switcher, "toolbar-visible",
-		G_BINDING_SYNC_CREATE);
 
 	notebook = gtk_notebook_new ();
 	gtk_notebook_set_show_tabs (GTK_NOTEBOOK (notebook), FALSE);
 	gtk_notebook_set_show_border (GTK_NOTEBOOK (notebook), FALSE);
-	gtk_container_add (GTK_CONTAINER (switcher), notebook);
 	shell_window->priv->sidebar_notebook = g_object_ref (notebook);
 	gtk_widget_show (notebook);
 
@@ -587,7 +560,7 @@ shell_window_construct_sidebar (EShellWindow *shell_window)
 		shell_window, "notify::active-view",
 		G_CALLBACK (shell_window_set_notebook_page), notebook);
 
-	return switcher;
+	return notebook;;
 }
 
 static GtkWidget *
@@ -879,8 +852,6 @@ e_shell_window_class_init (EShellWindowClass *class)
 	GtkWidgetClass *widget_class;
 	GtkBindingSet *binding_set;
 
-	g_type_class_add_private (class, sizeof (EShellWindowPrivate));
-
 	object_class = G_OBJECT_CLASS (class);
 	object_class->set_property = shell_window_set_property;
 	object_class->get_property = shell_window_get_property;
@@ -1033,23 +1004,6 @@ e_shell_window_class_init (EShellWindowClass *class)
 			G_PARAM_STATIC_STRINGS));
 
 	/**
-	 * EShellWindow:switcher-visible
-	 *
-	 * Whether the shell window's switcher buttons are visible.
-	 **/
-	g_object_class_install_property (
-		object_class,
-		PROP_SWITCHER_VISIBLE,
-		g_param_spec_boolean (
-			"switcher-visible",
-			"Switcher Visible",
-			"Whether the shell window's "
-			"switcher buttons are visible",
-			TRUE,
-			G_PARAM_READWRITE |
-			G_PARAM_STATIC_STRINGS));
-
-	/**
 	 * EShellWindow:taskbar-visible
 	 *
 	 * Whether the shell window's task bar is visible.
@@ -1139,6 +1093,8 @@ e_shell_window_class_init (EShellWindowClass *class)
 
 	gtk_widget_class_set_template_from_resource (
 		widget_class, "/org/gnome/evolution/shell/e-shell-window.ui");
+	gtk_widget_class_bind_template_child_private (
+		widget_class, EShellWindow, switcher);
 }
 
 static void
@@ -1152,7 +1108,10 @@ e_shell_window_init (EShellWindow *shell_window)
 {
 	GtkCssProvider *css_provider;
 
-	shell_window->priv = E_SHELL_WINDOW_GET_PRIVATE (shell_window);
+	shell_window->priv = e_shell_window_get_instance_private (shell_window);
+
+	g_type_ensure (E_TYPE_SHELL_SWITCHER);
+	gtk_widget_init_template (GTK_WIDGET (shell_window));
 
 	e_shell_window_private_init (shell_window);
 
@@ -1164,8 +1123,6 @@ e_shell_window_init (EShellWindow *shell_window)
 
 	g_signal_connect (shell_window, "delete-event",
 		G_CALLBACK (shell_window_delete_event_cb), NULL);
-
-	gtk_widget_init_template (GTK_WIDGET (shell_window));
 }
 
 /**
@@ -1506,16 +1463,13 @@ e_shell_window_set_active_view (EShellWindow *shell_window,
                                 const gchar *view_name)
 {
 	GtkAction *action;
-	EShellView *shell_view;
+	EShellSwitcher *switcher;
 
 	g_return_if_fail (E_IS_SHELL_WINDOW (shell_window));
 	g_return_if_fail (view_name != NULL);
 
-	shell_view = e_shell_window_get_shell_view (shell_window, view_name);
-	g_return_if_fail (shell_view != NULL);
-
-	action = e_shell_view_get_action (shell_view);
-	gtk_action_activate (action);
+	switcher = E_SHELL_SWITCHER (shell_window->priv->switcher);
+	e_shell_switcher_switch_to_view (switcher, view_name);
 
 	/* Renegotiate the shell window size in case a newly-created
 	 * shell view needs tweaked to accommodate a smaller screen. */
@@ -1734,43 +1688,6 @@ e_shell_window_set_sidebar_visible (EShellWindow *shell_window,
 	shell_window->priv->sidebar_visible = sidebar_visible;
 
 	g_object_notify (G_OBJECT (shell_window), "sidebar-visible");
-}
-
-/**
- * e_shell_window_get_switcher_visible:
- * @shell_window: an #EShellWindow
- *
- * Returns %TRUE if @shell_window<!-- -->'s switcher buttons are visible.
- *
- * Returns: %TRUE is the switcher buttons are visible
- **/
-gboolean
-e_shell_window_get_switcher_visible (EShellWindow *shell_window)
-{
-	g_return_val_if_fail (E_IS_SHELL_WINDOW (shell_window), FALSE);
-
-	return shell_window->priv->switcher_visible;
-}
-
-/**
- * e_shell_window_set_switcher_visible:
- * @shell_window: an #EShellWindow
- * @switcher_visible: whether the switcher buttons should be visible
- *
- * Makes @shell_window<!-- -->'s switcher buttons visible or invisible.
- **/
-void
-e_shell_window_set_switcher_visible (EShellWindow *shell_window,
-                                     gboolean switcher_visible)
-{
-	g_return_if_fail (E_IS_SHELL_WINDOW (shell_window));
-
-	if (shell_window->priv->switcher_visible == switcher_visible)
-		return;
-
-	shell_window->priv->switcher_visible = switcher_visible;
-
-	g_object_notify (G_OBJECT (shell_window), "switcher-visible");
 }
 
 /**

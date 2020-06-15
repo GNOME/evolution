@@ -4,8 +4,6 @@ disabled-eplugins = /apps/evolution/eplugin/disabled
 
 [org.gnome.evolution.shell]
 attachment-view = /apps/evolution/shell/attachment_view
-buttons-style = /apps/evolution/shell/view_defaults/buttons_style
-buttons-visible = /apps/evolution/shell/view_defaults/buttons_visible
 default-component-id = /apps/evolution/shell/view_defaults/component_id
 express-mode = /apps/evolution/shell/express_mode
 file-chooser-folder = /apps/evolution/shell/file_chooser_folder

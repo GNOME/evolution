@@ -600,15 +600,6 @@ action_search_save_cb (GtkAction *action,
  **/
 
 /**
- * E_SHELL_WINDOW_ACTION_SHOW_SWITCHER:
- * @window: an #EShellWindow
- *
- * This toggle action controls whether the switcher buttons are visible.
- *
- * Main menu item: View -> Switcher Appearance -> Show Buttons
- **/
-
-/**
  * E_SHELL_WINDOW_ACTION_SHOW_TASKBAR:
  * @window: an #EShellWindow
  *
@@ -666,87 +657,6 @@ action_switcher_cb (GtkRadioAction *action,
 
 	view_name = g_object_get_data (G_OBJECT (current), "view-name");
 	e_shell_window_switch_to_view (shell_window, view_name);
-}
-
-static void
-action_new_view_window_cb (GtkAction *action,
-                           EShellWindow *shell_window)
-{
-	EShell *shell;
-	const gchar *view_name;
-	gchar *modified_view_name;
-
-	shell = e_shell_window_get_shell (shell_window);
-	view_name = g_object_get_data (G_OBJECT (action), "view-name");
-
-	/* Just a feature to not change default component, when
-	   the view name begins with a star */
-	modified_view_name = g_strconcat ("*", view_name, NULL);
-
-	e_shell_create_shell_window (shell, modified_view_name);
-
-	g_free (modified_view_name);
-}
-
-/**
- * E_SHELL_WINDOW_ACTION_SWITCHER_STYLE_BOTH:
- * @window: an #EShellWindow
- *
- * This radio action displays switcher buttons with icons and text.
- *
- * Main menu item: View -> Switcher Appearance -> Icons and Text
- **/
-
-/**
- * E_SHELL_WINDOW_ACTION_SWITCHER_STYLE_ICONS:
- * @window: an #EShellWindow
- *
- * This radio action displays switcher buttons with icons only.
- *
- * Main menu item: View -> Switcher Appearance -> Icons Only
- **/
-
-/**
- * E_SHELL_WINDOW_ACTION_SWITCHER_STYLE_TEXT:
- * @window: an #EShellWindow
- *
- * This radio action displays switcher buttons with text only.
- *
- * Main menu item: View -> Switcher Appearance -> Text Only
- **/
-
-/**
- * E_SHELL_WINDOW_ACTION_SWITCHER_STYLE_USER:
- * @window: an #EShellWindow
- *
- * This radio action displays switcher buttons according to the desktop
- * toolbar setting.
- *
- * Main menu item: View -> Switcher Appearance -> Toolbar Style
- **/
-static void
-action_switcher_style_cb (GtkRadioAction *action,
-                          GtkRadioAction *current,
-                          EShellWindow *shell_window)
-{
-	EShellSwitcher *switcher;
-	GtkToolbarStyle style;
-
-	switcher = E_SHELL_SWITCHER (shell_window->priv->switcher);
-	style = gtk_radio_action_get_current_value (action);
-
-	switch (style) {
-		case GTK_TOOLBAR_ICONS:
-		case GTK_TOOLBAR_TEXT:
-		case GTK_TOOLBAR_BOTH:
-		case GTK_TOOLBAR_BOTH_HORIZ:
-			e_shell_switcher_set_style (switcher, style);
-			break;
-
-		default:
-			e_shell_switcher_unset_style (switcher);
-			break;
-	}
 }
 
 /**
@@ -1142,14 +1052,6 @@ static GtkToggleActionEntry shell_toggle_entries[] = {
 	  NULL,
 	  TRUE },
 
-	{ "show-switcher",
-	  NULL,
-	  N_("Show _Buttons"),
-	  NULL,
-	  N_("Show the switcher buttons"),
-	  NULL,
-	  TRUE },
-
 	{ "show-taskbar",
 	  NULL,
 	  N_("Show _Status Bar"),
@@ -1177,37 +1079,6 @@ static GtkRadioActionEntry shell_switcher_entries[] = {
 	  NULL,
 	  NULL,
 	  NULL,
-	  -1 }
-};
-
-static GtkRadioActionEntry shell_switcher_style_entries[] = {
-
-	{ "switcher-style-icons",
-	  NULL,
-	  N_("_Icons Only"),
-	  NULL,
-	  N_("Display window buttons with icons only"),
-	  GTK_TOOLBAR_ICONS },
-
-	{ "switcher-style-text",
-	  NULL,
-	  N_("_Text Only"),
-	  NULL,
-	  N_("Display window buttons with text only"),
-	  GTK_TOOLBAR_TEXT },
-
-	{ "switcher-style-both",
-	  NULL,
-	  N_("Icons _and Text"),
-	  NULL,
-	  N_("Display window buttons with icons and text"),
-	  GTK_TOOLBAR_BOTH_HORIZ },
-
-	{ "switcher-style-user",
-	  NULL,
-	  N_("Tool_bar Style"),
-	  NULL,
-	  N_("Display window buttons using the desktop toolbar setting"),
 	  -1 }
 };
 
@@ -1345,11 +1216,6 @@ e_shell_window_actions_init (EShellWindow *shell_window)
 	gtk_action_group_add_toggle_actions (
 		action_group, shell_toggle_entries,
 		G_N_ELEMENTS (shell_toggle_entries), shell_window);
-	gtk_action_group_add_radio_actions (
-		action_group, shell_switcher_style_entries,
-		G_N_ELEMENTS (shell_switcher_style_entries),
-		E_SHELL_SWITCHER_DEFAULT_TOOLBAR_STYLE,
-		G_CALLBACK (action_switcher_style_cb), shell_window);
 	gtk_action_group_add_actions (
 		action_group, shell_gal_view_entries,
 		G_N_ELEMENTS (shell_gal_view_entries), shell_window);
@@ -1404,12 +1270,6 @@ e_shell_window_actions_init (EShellWindow *shell_window)
 		G_BINDING_SYNC_CREATE);
 
 	e_binding_bind_property (
-		shell_window, "switcher-visible",
-		ACTION (SHOW_SWITCHER), "active",
-		G_BINDING_BIDIRECTIONAL |
-		G_BINDING_SYNC_CREATE);
-
-	e_binding_bind_property (
 		shell_window, "taskbar-visible",
 		ACTION (SHOW_TASKBAR), "active",
 		G_BINDING_BIDIRECTIONAL |
@@ -1419,36 +1279,6 @@ e_shell_window_actions_init (EShellWindow *shell_window)
 		shell_window, "toolbar-visible",
 		ACTION (SHOW_TOOLBAR), "active",
 		G_BINDING_BIDIRECTIONAL |
-		G_BINDING_SYNC_CREATE);
-
-	e_binding_bind_property (
-		ACTION (SHOW_SIDEBAR), "active",
-		ACTION (SHOW_SWITCHER), "sensitive",
-		G_BINDING_SYNC_CREATE);
-
-	e_binding_bind_property (
-		ACTION (SHOW_SIDEBAR), "active",
-		ACTION (SWITCHER_STYLE_BOTH), "sensitive",
-		G_BINDING_SYNC_CREATE);
-
-	e_binding_bind_property (
-		ACTION (SHOW_SIDEBAR), "active",
-		ACTION (SWITCHER_STYLE_ICONS), "sensitive",
-		G_BINDING_SYNC_CREATE);
-
-	e_binding_bind_property (
-		ACTION (SHOW_SIDEBAR), "active",
-		ACTION (SWITCHER_STYLE_TEXT), "sensitive",
-		G_BINDING_SYNC_CREATE);
-
-	e_binding_bind_property (
-		ACTION (SHOW_SIDEBAR), "active",
-		ACTION (SWITCHER_STYLE_USER), "sensitive",
-		G_BINDING_SYNC_CREATE);
-
-	e_binding_bind_property (
-		ACTION (SHOW_SIDEBAR), "active",
-		ACTION (SWITCHER_MENU), "sensitive",
 		G_BINDING_SYNC_CREATE);
 
 	/* Submitting bug reports requires bug-buddy. */
@@ -1569,7 +1399,6 @@ e_shell_window_create_switcher_actions (EShellWindow *shell_window)
 	GSList *group = NULL;
 	GtkRadioAction *s_action;
 	GtkActionGroup *s_action_group;
-	GtkActionGroup *n_action_group;
 	GtkUIManager *ui_manager;
 	EShellSwitcher *switcher;
 	EShell *shell;
@@ -1580,7 +1409,6 @@ e_shell_window_create_switcher_actions (EShellWindow *shell_window)
 	g_return_if_fail (E_IS_SHELL_WINDOW (shell_window));
 
 	s_action_group = ACTION_GROUP (SWITCHER);
-	n_action_group = ACTION_GROUP (NEW_WINDOW);
 	switcher = E_SHELL_SWITCHER (shell_window->priv->switcher);
 	ui_manager = e_shell_window_get_ui_manager (shell_window);
 	merge_id = gtk_ui_manager_new_merge_id (ui_manager);
@@ -1600,12 +1428,10 @@ e_shell_window_create_switcher_actions (EShellWindow *shell_window)
 		EShellBackend *shell_backend = iter->data;
 		EShellBackendClass *backend_class;
 		EShellViewClass *class;
-		GtkAction *n_action;
 		GType view_type;
 		const gchar *view_name;
 		gchar *accelerator;
 		gchar *s_action_name;
-		gchar *n_action_name;
 		gchar *tooltip;
 
 		/* The backend name is also the view name. */
@@ -1666,22 +1492,8 @@ e_shell_window_create_switcher_actions (EShellWindow *shell_window)
 			GTK_UI_MANAGER_AUTO, FALSE);
 		g_free (s_action_name);
 
-		/* Create in new window actions */
-		n_action_name = g_strdup_printf (
-			E_SHELL_NEW_WINDOW_FORMAT, view_name);
-		n_action = e_shell_window_create_switcher_action (
-			GTK_TYPE_ACTION,
-			class, n_action_name,
-			tooltip, view_name);
-		g_signal_connect (
-			n_action, "activate",
-			G_CALLBACK (action_new_view_window_cb), shell_window);
-		gtk_action_group_add_action (n_action_group, n_action);
+		e_shell_switcher_add_action (switcher, GTK_ACTION (s_action));
 
-		e_shell_switcher_add_action (
-			switcher, GTK_ACTION (s_action), n_action);
-
-		g_free (n_action_name);
 		g_free (tooltip);
 
 		g_type_class_unref (class);
