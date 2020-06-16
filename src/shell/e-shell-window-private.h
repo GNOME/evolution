@@ -74,8 +74,11 @@ struct _EShellWindowPrivate {
 	/*** Header Bar ***/
 
 	GtkWidget *switcher;
+	GtkWidget *primary_menu_button;
 
 	/*** Widgetry ***/
+
+	GtkShortcutsWindow *help_overlay;
 
 	GtkWidget *alert_bar;
 	GtkWidget *content_pane;

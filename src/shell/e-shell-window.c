@@ -1095,6 +1095,8 @@ e_shell_window_class_init (EShellWindowClass *class)
 		widget_class, "/org/gnome/evolution/shell/e-shell-window.ui");
 	gtk_widget_class_bind_template_child_private (
 		widget_class, EShellWindow, switcher);
+	gtk_widget_class_bind_template_child_private (
+		widget_class, EShellWindow, primary_menu_button);
 }
 
 static void

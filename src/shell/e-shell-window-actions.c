@@ -22,20 +22,78 @@
 
 #include "e-shell-window-private.h"
 
-/**
- * E_SHELL_WINDOW_ACTION_ABOUT:
- * @window: an #EShellWindow
- *
- * Activation of this action displays the application's About dialog.
- *
- * Main menu item: Help -> About
- **/
 static void
-action_about_cb (GtkAction *action,
-                 EShellWindow *shell_window)
+shell_window_about (GSimpleAction *action,
+                    GVariant      *parameter,
+                    gpointer       user_data)
 {
-	e_shell_utils_run_help_about (e_shell_window_get_shell (shell_window));
+	EShellWindow *shell_window = user_data;
+
+	const char *copyright =
+		"Copyright \xC2\xA9 1999 - 2008 Novell, Inc. and Others\n"
+		"Copyright \xC2\xA9 2008 - 2020 The Evolution Team";
+
+	const char *authors[] = {
+		"The Evolution Team",
+		"",
+		"Milan Crha <mcrha@redhat.com>",
+		"Fabiano Fid\xC3\xAAncia <fabiano@fidencio.org>",
+		"",
+		"and many past contributors",
+		NULL
+	};
+
+	const char *documenters[] = {
+		"Andre Klapper",
+		NULL
+	};
+
+	/* The translator-credits string is for translators to list
+	 * per-language credits for translation, displayed in the
+	 * about dialog. */
+	gchar *translator_credits = _("translator-credits");
+	if (g_strcmp0 (translator_credits, "translator-credits") == 0)
+		translator_credits = NULL;
+
+	gtk_show_about_dialog (
+		GTK_WINDOW (shell_window),
+		"program-name", "Evolution",
+		"version", VERSION VERSION_SUBSTRING " " VERSION_COMMENT,
+		"copyright", copyright,
+		"comments", _("Groupware Suite"),
+		"website", PACKAGE_URL,
+		"website-label", _("Website"),
+		"authors", authors,
+		"documenters", documenters,
+		"translator-credits", translator_credits,
+		"logo-icon-name", "evolution",
+		"license-type", GTK_LICENSE_GPL_2_0,
+		NULL);
 }
+
+static void
+shell_window_help (GSimpleAction *action,
+                   GVariant      *parameter,
+                   gpointer       user_data)
+{
+	GtkWindow *window = user_data;
+
+#ifdef G_OS_WIN32
+	gchar *online_help_url = g_strconcat (
+		"http://library.gnome.org/users/evolution/",
+		BASE_VERSION, NULL);
+
+	e_show_uri (window, online_help_url);
+	g_free (online_help_url);
+#else
+	e_display_help (window, NULL);
+#endif
+}
+
+static const GActionEntry actions[] = {
+	{ "about", shell_window_about },
+	{ "help", shell_window_help },
+};
 
 static void
 action_accounts_cb (GtkAction *action,
@@ -81,39 +139,6 @@ action_close_cb (GtkAction *action,
 	event->any.send_event = TRUE;
 	gtk_main_do_event (event);
 	gdk_event_free (event);
-}
-
-/**
- * E_SHELL_WINDOW_ACTION_CONTENTS:
- * @window: an #EShellWindow
- *
- * Activation of this action opens the application's user manual.
- *
- * Main menu item: Help -> Contents
- **/
-static void
-action_contents_cb (GtkAction *action,
-                    EShellWindow *shell_window)
-{
-	e_shell_utils_run_help_contents (e_shell_window_get_shell (shell_window));
-}
-
-static void
-action_shortcuts_cb (GtkAction *action,
-		     EShellWindow *shell_window)
-{
-	GtkBuilder *builder;
-	GtkWidget *widget;
-
-	builder = gtk_builder_new ();
-	e_load_ui_builder_definition (builder, "evolution-shortcuts.ui");
-
-	widget = e_builder_get_widget (builder, "evolution-shortcuts");
-	gtk_window_set_transient_for (GTK_WINDOW (widget), GTK_WINDOW (shell_window));
-
-	gtk_widget_show (widget);
-
-	g_object_unref (builder);
 }
 
 static void
@@ -364,21 +389,6 @@ action_categories_cb (GtkAction *action,
 }
 
 /**
- * E_SHELL_WINDOW_ACTION_PREFERENCES:
- * @window: an #EShellWindow
- *
- * Activation of this action opens the application's Preferences window.
- *
- * Main menu item: Edit -> Preferences
- **/
-static void
-action_preferences_cb (GtkAction *action,
-                       EShellWindow *shell_window)
-{
-	e_shell_utils_run_preferences (e_shell_window_get_shell (shell_window));
-}
-
-/**
  * E_SHELL_WINDOW_ACTION_QUIT:
  * @window: an #EShellWindow
  *
@@ -617,37 +627,6 @@ action_search_save_cb (GtkAction *action,
  * Main menu item: View -> Layout -> Show Tool Bar
  **/
 
-/**
- * E_SHELL_WINDOW_ACTION_SUBMIT_BUG:
- * @window: an #EShellWindow
- *
- * Activation of this action allows users to report a bug using
- * Bug Buddy.
- *
- * Main menu item: Help -> Submit Bug Report
- **/
-static void
-action_submit_bug_cb (GtkAction *action,
-                      EShellWindow *shell_window)
-{
-	const gchar *command_line;
-	GError *error = NULL;
-
-	command_line = "bug-buddy --package=Evolution";
-
-	g_debug ("Spawning: %s", command_line);
-	g_spawn_command_line_async (command_line, &error);
-
-	if (error != NULL) {
-		e_notice (
-			shell_window, GTK_MESSAGE_ERROR,
-			error->code == G_SPAWN_ERROR_NOENT ?
-			_("Bug Buddy is not installed.") :
-			_("Bug Buddy could not be run."));
-		g_error_free (error);
-	}
-}
-
 static void
 action_switcher_cb (GtkRadioAction *action,
                     GtkRadioAction *current,
@@ -766,13 +745,6 @@ static GtkActionEntry new_source_entries[] = {
 
 static GtkActionEntry shell_entries[] = {
 
-	{ "about",
-	  "help-about",
-	  N_("_About"),
-	  NULL,
-	  N_("Show information about Evolution"),
-	  G_CALLBACK (action_about_cb) },
-
 	{ "accounts",
 	  NULL,
 	  N_("_Accounts"),
@@ -800,13 +772,6 @@ static GtkActionEntry shell_entries[] = {
 	  "<Control>w",
 	  N_("Close this window"),
 	  G_CALLBACK (action_close_cb) },
-
-	{ "contents",
-	  "help-browser",
-	  N_("_Contents"),
-	  "F1",
-	  N_("Open the Evolution User Guide"),
-	  G_CALLBACK (action_contents_cb) },
 
 	{ "copy-clipboard",
 	  "edit-copy",
@@ -856,13 +821,6 @@ static GtkActionEntry shell_entries[] = {
 	  NULL,
 	  N_("Manage available categories"),
 	  G_CALLBACK (action_categories_cb) },
-
-	{ "preferences",
-	  "preferences-system",
-	  N_("_Preferences"),
-	  "<Control><Shift>s",
-	  N_("Configure Evolution"),
-	  G_CALLBACK (action_preferences_cb) },
 
 	{ "quit",
 	  "application-exit",
@@ -920,20 +878,6 @@ static GtkActionEntry shell_entries[] = {
 	  N_("Select all text"),
 	  NULL },  /* Handled by EFocusTracker */
 
-	{ "shortcuts",
-	  NULL,
-	  N_("_Keyboard Shortcuts"),
-	  "<Control><Shift>question",
-	  N_("Show keyboard shortcuts"),
-	  G_CALLBACK (action_shortcuts_cb) },
-
-	{ "submit-bug",
-	  NULL,
-	  N_("Submit _Bug Report…"),
-	  NULL,
-	  N_("Submit a bug report using Bug Buddy"),
-	  G_CALLBACK (action_submit_bug_cb) },
-
 	{ "work-offline",
 	  "stock_disconnect",
 	  N_("_Work Offline"),
@@ -960,13 +904,6 @@ static GtkActionEntry shell_entries[] = {
 	{ "file-menu",
 	  NULL,
 	  N_("_File"),
-	  NULL,
-	  NULL,
-	  NULL },
-
-	{ "help-menu",
-	  NULL,
-	  N_("_Help"),
 	  NULL,
 	  NULL,
 	  NULL },
@@ -1198,6 +1135,10 @@ e_shell_window_actions_init (EShellWindow *shell_window)
 
 	g_return_if_fail (E_IS_SHELL_WINDOW (shell_window));
 
+	g_action_map_add_action_entries (G_ACTION_MAP (shell_window),
+					 actions, G_N_ELEMENTS (actions),
+					 shell_window);
+
 	ui_manager = e_shell_window_get_ui_manager (shell_window);
 
 	e_load_ui_manager_definition (ui_manager, "evolution-shell.ui");
@@ -1280,12 +1221,6 @@ e_shell_window_actions_init (EShellWindow *shell_window)
 		ACTION (SHOW_TOOLBAR), "active",
 		G_BINDING_BIDIRECTIONAL |
 		G_BINDING_SYNC_CREATE);
-
-	/* Submitting bug reports requires bug-buddy. */
-	path = g_find_program_in_path ("bug-buddy");
-	if (path == NULL)
-		gtk_action_set_visible (ACTION (SUBMIT_BUG), FALSE);
-	g_free (path);
 }
 
 GtkWidget *

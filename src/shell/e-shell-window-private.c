@@ -154,6 +154,13 @@ e_shell_window_private_init (EShellWindow *shell_window)
 	 *     of specific shell views, but we need a sane fallback. */
 	priv->active_view = "mail";
 
+	GtkBuilder *builder = gtk_builder_new_from_resource ("/org/gnome/evolution/shell/e-shell-help.ui");
+	priv->help_overlay = GTK_SHORTCUTS_WINDOW (gtk_builder_get_object (builder, "help_overlay"));
+
+	gtk_application_window_set_help_overlay (
+		GTK_APPLICATION_WINDOW (shell_window),
+		shell_window->priv->help_overlay);
+
 	e_shell_window_add_action_group (shell_window, "shell");
 	e_shell_window_add_action_group (shell_window, "gal-view");
 	e_shell_window_add_action_group (shell_window, "new-item");
@@ -336,12 +343,18 @@ e_shell_window_private_constructed (EShellWindow *shell_window)
 	guint merge_id;
 	const gchar *id;
 	GSettings *settings;
+	GtkBuilder *builder;
+	GMenuModel *menu;
 
 #ifndef G_OS_WIN32
 	GtkActionGroup *action_group;
 #endif
 
 	window = GTK_WINDOW (shell_window);
+	builder = gtk_builder_new_from_resource ("/org/gnome/evolution/shell/e-shell-menus.ui");
+
+	menu = G_MENU_MODEL (gtk_builder_get_object (builder, "primary-menu"));
+	gtk_menu_button_set_menu_model (GTK_MENU_BUTTON (priv->primary_menu_button), menu);
 
 	shell = e_shell_window_get_shell (shell_window);
 	shell_window->priv->is_main_instance = shell_window_check_is_main_instance (GTK_APPLICATION (shell), window);
@@ -618,6 +631,8 @@ e_shell_window_private_dispose (EShellWindow *shell_window)
 	g_clear_object (&priv->ui_manager);
 
 	g_hash_table_remove_all (priv->loaded_views);
+
+	g_clear_object (&priv->help_overlay);
 
 	g_clear_object (&priv->alert_bar);
 	g_clear_object (&priv->content_pane);

@@ -2,6 +2,8 @@ glib_mkenums(e-shell-enumtypes e-shell.h E_SHELL_ENUMTYPES_H)
 add_error_files(shell shell.error)
 
 set(RESOURCES
+	e-shell-help.ui
+	e-shell-menus.ui
 	e-shell-window.ui
 )
 
