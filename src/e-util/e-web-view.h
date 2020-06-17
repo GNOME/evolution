@@ -139,7 +139,6 @@ void		e_web_view_register_content_request_for_scheme
 						 EContentRequest *content_request);
 void		e_web_view_update_fonts_settings
 						(GSettings *font_settings,
-						 GSettings *aliasing_settings,
 						 PangoFontDescription *ms_font,
 						 PangoFontDescription *vw_font,
 						 GtkWidget *view_widget);

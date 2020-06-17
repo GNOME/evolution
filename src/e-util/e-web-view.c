@@ -75,9 +75,6 @@ struct _EWebViewPrivate {
 	gulong font_name_changed_handler_id;
 	gulong monospace_font_name_changed_handler_id;
 
-	GSettings *aliasing_settings;
-	gulong antialiasing_changed_handler_id;
-
 	GHashTable *old_settings;
 
 	WebKitFindController *find_controller;
@@ -1117,13 +1114,6 @@ web_view_dispose (GObject *object)
 		priv->monospace_font_name_changed_handler_id = 0;
 	}
 
-	if (priv->antialiasing_changed_handler_id > 0) {
-		g_signal_handler_disconnect (
-			priv->aliasing_settings,
-			priv->antialiasing_changed_handler_id);
-		priv->antialiasing_changed_handler_id = 0;
-	}
-
 	if (priv->found_text_handler_id > 0) {
 		g_signal_handler_disconnect (
 			priv->find_controller,
@@ -1147,7 +1137,6 @@ web_view_dispose (GObject *object)
 	g_clear_object (&priv->open_proxy);
 	g_clear_object (&priv->print_proxy);
 	g_clear_object (&priv->save_as_proxy);
-	g_clear_object (&priv->aliasing_settings);
 	g_clear_object (&priv->font_settings);
 
 	/* Chain up to parent's dispose() method. */
@@ -1296,9 +1285,7 @@ static void
 web_view_initialize (WebKitWebView *web_view)
 {
 	EContentRequest *content_request;
-	const gchar *id = "org.gnome.settings-daemon.plugins.xsettings";
-	GSettings *settings = NULL, *font_settings;
-	GSettingsSchema *settings_schema;
+	GSettings *font_settings;
 
 	content_request = e_file_request_new ();
 	e_web_view_register_content_request_for_scheme (E_WEB_VIEW (web_view), "evo-file", content_request);
@@ -1311,22 +1298,11 @@ web_view_initialize (WebKitWebView *web_view)
 	e_web_view_register_content_request_for_scheme (E_WEB_VIEW (web_view), "gtk-stock", content_request);
 	g_object_unref (content_request);
 
-	/* Optional schema */
-	settings_schema = g_settings_schema_source_lookup (
-		g_settings_schema_source_get_default (), id, FALSE);
-
-	if (settings_schema) {
-		settings = e_util_ref_settings (id);
-		g_settings_schema_unref (settings_schema);
-	}
-
 	font_settings = e_util_ref_settings ("org.gnome.desktop.interface");
-	e_web_view_update_fonts_settings (
-		font_settings, settings, NULL, NULL, GTK_WIDGET (web_view));
+
+	e_web_view_update_fonts_settings (font_settings, NULL, NULL, GTK_WIDGET (web_view));
 
 	g_object_unref (font_settings);
-	if (settings)
-		g_object_unref (settings);
 }
 
 static void
@@ -2403,7 +2379,6 @@ e_web_view_init (EWebView *web_view)
 	GtkUIManager *ui_manager;
 	GtkActionGroup *action_group;
 	EPopupAction *popup_action;
-	GSettingsSchema *settings_schema;
 	GSettings *settings;
 	const gchar *domain = GETTEXT_PACKAGE;
 	const gchar *id;
@@ -2458,21 +2433,6 @@ e_web_view_init (EWebView *web_view)
 		G_CALLBACK (e_web_view_test_change_and_update_fonts_cb), web_view);
 	web_view->priv->monospace_font_name_changed_handler_id = handler_id;
 	g_object_unref (settings);
-
-	/* This schema is optional.  Use if available. */
-	id = "org.gnome.settings-daemon.plugins.xsettings";
-	settings_schema = g_settings_schema_source_lookup (
-		g_settings_schema_source_get_default (), id, FALSE);
-	if (settings_schema != NULL) {
-		settings = e_util_ref_settings (id);
-		web_view->priv->aliasing_settings = g_object_ref (settings);
-		handler_id = g_signal_connect_swapped (
-			settings, "changed::antialiasing",
-			G_CALLBACK (e_web_view_test_change_and_update_fonts_cb), web_view);
-		web_view->priv->antialiasing_changed_handler_id = handler_id;
-		g_object_unref (settings);
-		g_settings_schema_unref (settings_schema);
-	}
 
 	action_group = gtk_action_group_new ("uri");
 	gtk_action_group_set_translation_domain (action_group, domain);
@@ -3289,15 +3249,12 @@ e_web_view_get_citation_color_for_level (gint level)
 
 void
 e_web_view_update_fonts_settings (GSettings *font_settings,
-                                  GSettings *aliasing_settings,
                                   PangoFontDescription *ms_font,
                                   PangoFontDescription *vw_font,
                                   GtkWidget *view_widget)
 {
 	gboolean clean_ms = FALSE, clean_vw = FALSE;
-	gchar *aa = NULL;
 	const gchar *styles[] = { "normal", "oblique", "italic" };
-	const gchar *smoothing = NULL;
 	gchar fsbuff[G_ASCII_DTOSTR_BUF_SIZE];
 	GdkColor *link = NULL;
 	GdkColor *visited = NULL;
@@ -3355,25 +3312,6 @@ e_web_view_update_fonts_settings (GSettings *font_settings,
 		fsbuff,
 		pango_font_description_get_weight (vw),
 		styles[pango_font_description_get_style (vw)]);
-
-	if (aliasing_settings != NULL)
-		aa = g_settings_get_string (
-			aliasing_settings, "antialiasing");
-
-	if (g_strcmp0 (aa, "none") == 0)
-		smoothing = "none";
-	else if (g_strcmp0 (aa, "grayscale") == 0)
-		smoothing = "antialiased";
-	else if (g_strcmp0 (aa, "rgba") == 0)
-		smoothing = "subpixel-antialiased";
-
-	if (smoothing != NULL)
-		g_string_append_printf (
-			stylesheet,
-			" -webkit-font-smoothing: %s;\n",
-			smoothing);
-
-	g_free (aa);
 
 	g_string_append (stylesheet, "}\n");
 
@@ -3683,7 +3621,6 @@ e_web_view_update_fonts (EWebView *web_view)
 
 	e_web_view_update_fonts_settings (
 		web_view->priv->font_settings,
-		web_view->priv->aliasing_settings,
 		ms, vw, GTK_WIDGET (web_view));
 
 	pango_font_description_free (ms);

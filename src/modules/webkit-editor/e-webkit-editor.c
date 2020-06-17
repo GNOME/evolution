@@ -129,7 +129,6 @@ struct _EWebKitEditorPrivate {
 
 	GSettings *mail_settings;
 	GSettings *font_settings;
-	GSettings *aliasing_settings;
 
 	GHashTable *old_settings;
 
@@ -1160,9 +1159,8 @@ webkit_editor_update_styles (EContentEditor *editor)
 {
 	EWebKitEditor *wk_editor;
 	gboolean mark_citations, use_custom_font;
-	gchar *font, *aa = NULL, *citation_color;
+	gchar *font, *citation_color;
 	const gchar *styles[] = { "normal", "oblique", "italic" };
-	const gchar *smoothing = NULL;
 	gchar fsbuff[G_ASCII_DTOSTR_BUF_SIZE];
 	GString *stylesheet;
 	PangoFontDescription *ms, *vw;
@@ -1220,25 +1218,6 @@ webkit_editor_update_styles (EContentEditor *editor)
 		fsbuff,
 		pango_font_description_get_weight (vw),
 		styles[pango_font_description_get_style (vw)]);
-
-	if (wk_editor->priv->aliasing_settings != NULL)
-		aa = g_settings_get_string (
-			wk_editor->priv->aliasing_settings, "antialiasing");
-
-	if (g_strcmp0 (aa, "none") == 0)
-		smoothing = "none";
-	else if (g_strcmp0 (aa, "grayscale") == 0)
-		smoothing = "antialiased";
-	else if (g_strcmp0 (aa, "rgba") == 0)
-		smoothing = "subpixel-antialiased";
-
-	if (smoothing != NULL)
-		g_string_append_printf (
-			stylesheet,
-			" -webkit-font-smoothing: %s;\n",
-			smoothing);
-
-	g_free (aa);
 
 	g_string_append (stylesheet, "}\n");
 
@@ -4266,12 +4245,6 @@ webkit_editor_dispose (GObject *object)
 	if (priv->cancellable)
 		g_cancellable_cancel (priv->cancellable);
 
-	if (priv->aliasing_settings != NULL) {
-		g_signal_handlers_disconnect_by_data (priv->aliasing_settings, object);
-		g_object_unref (priv->aliasing_settings);
-		priv->aliasing_settings = NULL;
-	}
-
 	if (priv->current_user_stylesheet != NULL) {
 		g_free (priv->current_user_stylesheet);
 		priv->current_user_stylesheet = NULL;
@@ -5576,7 +5549,6 @@ static void
 e_webkit_editor_init (EWebKitEditor *wk_editor)
 {
 	GSettings *g_settings;
-	GSettingsSchema *settings_schema;
 
 	wk_editor->priv = E_WEBKIT_EDITOR_GET_PRIVATE (wk_editor);
 
@@ -5657,18 +5629,6 @@ e_webkit_editor_init (EWebKitEditor *wk_editor)
 	g_signal_connect (
 		g_settings, "changed::composer-inherit-theme-colors",
 		G_CALLBACK (webkit_editor_style_settings_changed_cb), wk_editor);
-
-	/* This schema is optional.  Use if available. */
-	settings_schema = g_settings_schema_source_lookup (
-		g_settings_schema_source_get_default (),
-		"org.gnome.settings-daemon.plugins.xsettings", FALSE);
-	if (settings_schema != NULL) {
-		g_settings = e_util_ref_settings ("org.gnome.settings-daemon.plugins.xsettings");
-		g_signal_connect (
-			g_settings, "changed::antialiasing",
-			G_CALLBACK (webkit_editor_settings_changed_cb), wk_editor);
-		wk_editor->priv->aliasing_settings = g_settings;
-	}
 
 	wk_editor->priv->html_mode = TRUE;
 	wk_editor->priv->changed = FALSE;
