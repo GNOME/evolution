@@ -14,23 +14,24 @@
 # Julien Hardelin <jhardlin@orange.fr>, 2012, 2015.
 # Alain Lojewski <allomervan@gmail.com>, 2013-2016.
 # Yvan Masson <yvan@masson-informatique.fr>, 2020.
-# Charles Monzat <charles.monzat@free.fr>, 2016-2020.
 # Guillaume Bernard <associations@guillaume-bernard.fr>, 2020.
+# Charles Monzat <charles.monzat@free.fr>, 2016-2020.
+# vanadiae <vanadiae35@gmail.com>, 2020.
 #
 msgid ""
 msgstr ""
 "Project-Id-Version: Evolution doc fr\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2020-03-06 08:48+0000\n"
-"PO-Revision-Date: 2020-03-08 10:20+0100\n"
-"Last-Translator: Guillaume Bernard <associations@guillaume-bernard.fr>\n"
+"POT-Creation-Date: 2020-05-15 14:20+0000\n"
+"PO-Revision-Date: 2020-06-17 14:13+0200\n"
+"Last-Translator: vanadiae <vanadiae35@gmail.com>\n"
 "Language-Team: GNOME French Team <gnomefr@traduc.org>\n"
 "Language: fr\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n > 1);\n"
-"X-Generator: Gtranslator 3.34.0\n"
+"X-Generator: Gtranslator 3.36.0\n"
 
 #. Put one translator per line, in the form NAME <EMAIL>, YEAR1, YEAR2
 msgctxt "_"
@@ -44,7 +45,8 @@ msgstr ""
 "Julien Hardelin <jhardlin@orange.fr, 2012, 2015\n"
 "Alain Lojewski <allomervan@gmail.com>, 2013-2016\n"
 "Yvan Masson <yvan@masson-informatique.fr>, 2017\n"
-"Charles Monzat <charles.monzat@free.fr>, 2020"
+"Charles Monzat <charles.monzat@free.fr>, 2020\n"
+"vanadiae <vanadiae35@gmail.com>, 2020"
 
 #. (itstool) path: info/desc
 #: C/backup-restore.page:18
@@ -12426,6 +12428,90 @@ msgstr ""
 "l’adresse du destinataire, et configurez un filtre sortant pour déplacer les "
 "courriels sortants dans le dossier des messages envoyés en filtrant sur "
 "l’adresse de l’expéditeur."
+
+#. (itstool) path: info/desc
+#: C/mail-sorting-folder-list.page:5
+msgid "Sorting the mail folder list in the left pane."
+msgstr "Trier la liste des dossiers de courriels dans le panneau de gauche."
+
+#. (itstool) path: page/title
+#: C/mail-sorting-folder-list.page:21
+msgid "Sorting the mail folder list"
+msgstr "Tri de la liste des dossiers de courriels"
+
+#. (itstool) path: section/title
+#: C/mail-sorting-folder-list.page:24
+msgid "Default sort order"
+msgstr "Ordre de tri par défaut"
+
+#. (itstool) path: section/p
+#: C/mail-sorting-folder-list.page:25
+msgid ""
+"By default the <link xref=\"intro-main-window#e-mail\">mail folder list</"
+"link> in the left pane contains top-level nodes in the following order:"
+msgstr ""
+"Par défaut la <link xref=\"intro-main-window#e-mail\">liste des dossiers de "
+"courriels</link> dans le panneau de gauche contient des nœuds de niveau "
+"supérieur dans l’ordre suivant :"
+
+#. (itstool) path: item/p
+#: C/mail-sorting-folder-list.page:27
+msgid ""
+"<gui>On This Computer</gui> - contains all mail for local account types (if "
+"configured)"
+msgstr ""
+"<gui>Sur cet ordinateur</gui>  - contient tous les courriels pour les "
+"comptes locaux (si configurés)"
+
+# pour celle là et celle juste au dessus j'ai ignoré le "type" parce que ça sonne très peu naturel avec
+#. (itstool) path: item/p
+#: C/mail-sorting-folder-list.page:28
+msgid "One or more remote email account types (if configured)"
+msgstr "Un ou plusieurs comptes distants de courriels (si configurés)"
+
+#. (itstool) path: item/p
+#: C/mail-sorting-folder-list.page:29
+msgid ""
+"<gui><link xref=\"mail-search-folders\">Search Folders</link></gui> (if "
+"enabled)"
+msgstr ""
+"<gui><link xref=\"mail-search-folders\">Dossiers de recherche</link></gui> "
+"(si activés)"
+
+#. (itstool) path: section/p
+#: C/mail-sorting-folder-list.page:31
+msgid "The folders under each top-level node are sorted in alphabetical order."
+msgstr ""
+"Les dossiers sous chaque nœud de niveau supérieur sont triés par ordre "
+"alphabétique."
+
+#. (itstool) path: section/title
+#: C/mail-sorting-folder-list.page:35
+msgid "Changing the sort order"
+msgstr "Modification de l’ordre de tri"
+
+#. (itstool) path: section/p
+#: C/mail-sorting-folder-list.page:37
+msgid ""
+"You can change the default sort order of the top-level nodes under "
+"<guiseq><gui>Edit</gui><gui>Preferences</gui><gui>Mail Accounts</gui></"
+"guiseq> by dragging an account in the list up or down."
+msgstr ""
+"Vous pouvez changer l’ordre de tri par défaut des nœuds de niveau supérieur "
+"sous <guiseq><gui>Édition</gui><gui>Préférences</gui><gui>Comptes de "
+"messagerie</gui></guiseq> en faisant glisser un compte présent dans la liste "
+"vers le haut ou vers le bas."
+
+#. (itstool) path: section/p
+#: C/mail-sorting-folder-list.page:39
+msgid ""
+"You can revert your custom sort order by choosing <guiseq><gui>Edit</"
+"gui><gui>Preferences</gui><gui>Mail Accounts</gui><gui style=\"button"
+"\">Restore Default</gui></guiseq>."
+msgstr ""
+"Vous pouvez réinitialiser votre ordre de tri personnalisé en choisissant "
+"<guiseq><gui>Édition</gui><gui>Préférences</gui><gui>Comptes de messagerie</"
+"gui><gui style=\"button\">Réinitialiser l’ordre</gui></guiseq>."
 
 #. (itstool) path: info/desc
 #: C/mail-sorting-message-list.page:5
