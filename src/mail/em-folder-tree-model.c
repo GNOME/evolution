@@ -1385,7 +1385,7 @@ em_folder_tree_model_set_session (EMFolderTreeModel *model,
 	g_object_notify (G_OBJECT (model), "session");
 }
 
-void
+gboolean
 em_folder_tree_model_set_folder_info (EMFolderTreeModel *model,
                                       GtkTreeIter *iter,
                                       CamelStore *store,
@@ -1414,18 +1414,18 @@ em_folder_tree_model_set_folder_info (EMFolderTreeModel *model,
 	gboolean folder_is_outbox = FALSE;
 	gchar *uri;
 
-	g_return_if_fail (EM_IS_FOLDER_TREE_MODEL (model));
-	g_return_if_fail (iter != NULL);
-	g_return_if_fail (CAMEL_IS_STORE (store));
-	g_return_if_fail (fi != NULL);
+	g_return_val_if_fail (EM_IS_FOLDER_TREE_MODEL (model), FALSE);
+	g_return_val_if_fail (iter != NULL, FALSE);
+	g_return_val_if_fail (CAMEL_IS_STORE (store), FALSE);
+	g_return_val_if_fail (fi != NULL, FALSE);
 
 	si = folder_tree_model_store_index_lookup (model, store);
-	g_return_if_fail (si != NULL);
+	g_return_val_if_fail (si != NULL, FALSE);
 
 	/* Make sure we don't already know about it. */
 	if (g_hash_table_lookup (si->full_hash, fi->full_name)) {
 		store_info_unref (si);
-		return;
+		return FALSE;
 	}
 
 	if (!si->loaded)
@@ -1568,7 +1568,7 @@ em_folder_tree_model_set_folder_info (EMFolderTreeModel *model,
 		g_signal_emit (model, signals[LOADED_ROW], 0, path, iter);
 		g_signal_emit (model, signals[LOADING_ROW], 0, path, iter);
 		gtk_tree_path_free (path);
-		return;
+		return TRUE;
 	}
 
 	if (fi->child) {
@@ -1587,8 +1587,9 @@ em_folder_tree_model_set_folder_info (EMFolderTreeModel *model,
 				emitted = TRUE;
 			}
 
-			em_folder_tree_model_set_folder_info (
-				model, &sub, store, fi, fully_loaded);
+			if (!em_folder_tree_model_set_folder_info (model, &sub, store, fi, fully_loaded))
+				gtk_tree_store_remove (tree_store, &sub);
+
 			fi = fi->next;
 		} while (fi);
 	}
@@ -1598,6 +1599,8 @@ em_folder_tree_model_set_folder_info (EMFolderTreeModel *model,
 		g_signal_emit (model, signals[LOADED_ROW], 0, path, iter);
 		gtk_tree_path_free (path);
 	}
+
+	return TRUE;
 }
 
 static void
@@ -1676,8 +1679,9 @@ folder_tree_model_folder_renamed_cb (CamelStore *store,
 	gtk_tree_path_free (path);
 
 	gtk_tree_store_append (GTK_TREE_STORE (model), &iter, &root);
-	em_folder_tree_model_set_folder_info (
-		EM_FOLDER_TREE_MODEL (model), &iter, store, info, TRUE);
+
+	if (!em_folder_tree_model_set_folder_info (EM_FOLDER_TREE_MODEL (model), &iter, store, info, TRUE))
+		gtk_tree_store_remove (GTK_TREE_STORE (model), &iter);
 }
 
 static void
@@ -1741,9 +1745,9 @@ folder_tree_model_folder_subscribed_cb (CamelStore *store,
 
 	gtk_tree_store_append (GTK_TREE_STORE (model), &iter, &parent);
 
-	em_folder_tree_model_set_folder_info (
-		EM_FOLDER_TREE_MODEL (model), &iter, store, fi,
-		(fi->flags & (CAMEL_FOLDER_NOINFERIORS | CAMEL_FOLDER_NOCHILDREN)) != 0);
+	if (!em_folder_tree_model_set_folder_info (EM_FOLDER_TREE_MODEL (model), &iter, store, fi,
+		(fi->flags & (CAMEL_FOLDER_NOINFERIORS | CAMEL_FOLDER_NOCHILDREN)) != 0))
+		gtk_tree_store_remove (GTK_TREE_STORE (model), &iter);
 }
 
 static void

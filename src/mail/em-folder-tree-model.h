@@ -123,7 +123,7 @@ EMailSession *	em_folder_tree_model_get_session
 void		em_folder_tree_model_set_session
 					(EMFolderTreeModel *model,
 					 EMailSession *session);
-void		em_folder_tree_model_set_folder_info
+gboolean	em_folder_tree_model_set_folder_info
 					(EMFolderTreeModel *model,
 					 GtkTreeIter *iter,
 					 CamelStore *store,
