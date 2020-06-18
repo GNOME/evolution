@@ -363,9 +363,8 @@ folder_tree_get_folder_info_cb (CamelStore *store,
 						GTK_TREE_STORE (model),
 						&iter, &root);
 
-				em_folder_tree_model_set_folder_info (
-					EM_FOLDER_TREE_MODEL (model),
-					&iter, store, child_info, TRUE);
+				if (!em_folder_tree_model_set_folder_info (EM_FOLDER_TREE_MODEL (model), &iter, store, child_info, TRUE))
+					gtk_tree_store_remove (GTK_TREE_STORE (model), &iter);
 			}
 
 			child_info = child_info->next;
