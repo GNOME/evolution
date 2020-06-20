@@ -135,6 +135,13 @@ task_shell_view_execute_search (EShellView *shell_view)
 			query = temp;
 			break;
 
+		case TASK_FILTER_UNCOMPLETED_TASKS:
+			temp = g_strdup_printf (
+				"(not (is-completed?) %s)", query);
+			g_free (query);
+			query = temp;
+			break;
+
 		case TASK_FILTER_NEXT_7_DAYS_TASKS:
 			start_range = now_time;
 			end_range = time_day_end (time_add_day (start_range, 7));

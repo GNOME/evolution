@@ -56,8 +56,9 @@ G_BEGIN_DECLS
 /* Filter items are displayed in ascending order.
  * Non-negative values are reserved for categories. */
 enum {
-	TASK_FILTER_ANY_CATEGORY = -8,
-	TASK_FILTER_UNMATCHED = -7,
+	TASK_FILTER_ANY_CATEGORY = -9,
+	TASK_FILTER_UNMATCHED = -8,
+	TASK_FILTER_UNCOMPLETED_TASKS = -7,
 	TASK_FILTER_NEXT_7_DAYS_TASKS = -6,
 	TASK_FILTER_ACTIVE_TASKS = -5,
 	TASK_FILTER_OVERDUE_TASKS = -4,
