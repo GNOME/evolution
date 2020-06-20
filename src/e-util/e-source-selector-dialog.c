@@ -21,6 +21,7 @@
 #include "evolution-config.h"
 
 #include <glib/gi18n-lib.h>
+#include "e-util.h"
 #include "e-source-selector.h"
 #include "e-source-selector-dialog.h"
 
@@ -207,7 +208,6 @@ source_selector_dialog_constructed (GObject *object)
 {
 	ESourceSelectorDialog *dialog;
 	ESource *primary_selection;
-	GtkWidget *label, *hgrid;
 	GtkWidget *container;
 	GtkWidget *widget;
 	gchar *label_text;
@@ -217,54 +217,13 @@ source_selector_dialog_constructed (GObject *object)
 
 	dialog = E_SOURCE_SELECTOR_DIALOG (object);
 
+	gtk_window_set_default_size (GTK_WINDOW (dialog), 400, 500);
+
 	container = gtk_dialog_get_content_area (GTK_DIALOG (dialog));
 
-	widget = g_object_new (
-		GTK_TYPE_GRID,
-		"orientation", GTK_ORIENTATION_VERTICAL,
-		"column-homogeneous", FALSE,
-		"row-spacing", 12,
-		NULL);
-	gtk_container_set_border_width (GTK_CONTAINER (widget), 12);
+	widget = e_tree_view_frame_new ();
+	e_tree_view_frame_set_toolbar_visible (E_TREE_VIEW_FRAME (widget), FALSE);
 	gtk_box_pack_start (GTK_BOX (container), widget, TRUE, TRUE, 0);
-	gtk_widget_show (widget);
-
-	container = widget;
-
-	label_text = g_strdup_printf ("<b>%s</b>", _("_Destination"));
-	label = gtk_label_new_with_mnemonic (label_text);
-	gtk_label_set_use_markup (GTK_LABEL (label), TRUE);
-	gtk_misc_set_alignment (GTK_MISC (label), 0, 0.5);
-	gtk_container_add (GTK_CONTAINER (container), label);
-	gtk_widget_show (label);
-	g_free (label_text);
-
-	hgrid = g_object_new (
-		GTK_TYPE_GRID,
-		"orientation", GTK_ORIENTATION_HORIZONTAL,
-		"row-homogeneous", FALSE,
-		"column-spacing", 12,
-		"vexpand", TRUE,
-		"valign", GTK_ALIGN_FILL,
-		NULL);
-	gtk_container_add (GTK_CONTAINER (container), hgrid);
-	gtk_widget_show (hgrid);
-
-	widget = gtk_label_new ("");
-	gtk_container_add (GTK_CONTAINER (hgrid), widget);
-	gtk_widget_show (widget);
-
-	widget = gtk_scrolled_window_new (NULL, NULL);
-	gtk_scrolled_window_set_policy (
-		GTK_SCROLLED_WINDOW (widget),
-		GTK_POLICY_AUTOMATIC, GTK_POLICY_AUTOMATIC);
-	gtk_scrolled_window_set_shadow_type (
-		GTK_SCROLLED_WINDOW (widget), GTK_SHADOW_IN);
-	gtk_widget_set_hexpand (widget, TRUE);
-	gtk_widget_set_halign (widget, GTK_ALIGN_FILL);
-	gtk_widget_set_vexpand (widget, TRUE);
-	gtk_widget_set_valign (widget, GTK_ALIGN_FILL);
-	gtk_container_add (GTK_CONTAINER (hgrid), widget);
 	gtk_widget_show (widget);
 
 	container = widget;
@@ -273,10 +232,10 @@ source_selector_dialog_constructed (GObject *object)
 		dialog->priv->registry,
 		dialog->priv->extension_name);
 	e_source_selector_set_show_toggles (E_SOURCE_SELECTOR (widget), FALSE);
-	gtk_label_set_mnemonic_widget (GTK_LABEL (label), widget);
-	gtk_container_add (GTK_CONTAINER (container), widget);
+	e_tree_view_frame_set_tree_view (
+		E_TREE_VIEW_FRAME (container),
+		GTK_TREE_VIEW (widget));
 	dialog->priv->selector = widget;
-	gtk_widget_show (widget);
 
 	g_signal_connect (
 		widget, "row_activated",
@@ -352,18 +311,16 @@ static void
 e_source_selector_dialog_init (ESourceSelectorDialog *dialog)
 {
 	GtkWidget *action_area;
-	GtkWidget *content_area;
 
 	dialog->priv = E_SOURCE_SELECTOR_DIALOG_GET_PRIVATE (dialog);
 
 	action_area = gtk_dialog_get_action_area (GTK_DIALOG (dialog));
-	content_area = gtk_dialog_get_content_area (GTK_DIALOG (dialog));
 
 	gtk_window_set_title (GTK_WINDOW (dialog), _("Select destination"));
-	gtk_window_set_default_size (GTK_WINDOW (dialog), 320, 240);
+	gtk_window_set_default_size (GTK_WINDOW (dialog), 320, 400);
 
-	gtk_container_set_border_width (GTK_CONTAINER (content_area), 0);
-	gtk_container_set_border_width (GTK_CONTAINER (action_area), 12);
+	gtk_container_set_border_width (GTK_CONTAINER (dialog), 18);
+	gtk_widget_set_margin_top (action_area, 18);
 
 	gtk_dialog_add_buttons (
 		GTK_DIALOG (dialog),
