@@ -10,8 +10,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: evolution master\n"
 "Report-Msgid-Bugs-To: https://gitlab.gnome.org/GNOME/evolution/issues\n"
-"POT-Creation-Date: 2020-06-11 17:03+0000\n"
-"PO-Revision-Date: 2020-06-12 15:56+0200\n"
+"POT-Creation-Date: 2020-06-18 07:56+0000\n"
+"PO-Revision-Date: 2020-06-18 23:16+0200\n"
 "Last-Translator: Matej Urbančič <mateju@svn.gnome.org>\n"
 "Language-Team: Slovenščina <gnome-si@googlegroups.com>\n"
 "Language: sl\n"
@@ -919,7 +919,7 @@ msgid ""
 msgstr ""
 "Dnevi, s katerimi so opredeljene ure začetka in konca delovnika. (Ključ je opuščen z različico "
 "3.10 in ne bo več v rabi. Priporočena je uporaba možnosti »prvi dan je ponedeljek«, »prvi dan "
-"je torek« ...)."
+"je torek« …)."
 
 #: ../data/org.gnome.evolution.gschema.xml.in.h:1
 msgid "Previous Evolution version"
@@ -1739,7 +1739,7 @@ msgid ""
 "is shown."
 msgstr ""
 "Nastavitev določa število naslovov, ki se prikažejo v privzetem pogledu seznama, za katerimi "
-"se izpiše tropičje » ... «."
+"se izpiše tropičje » … «."
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:152
 msgid "Show mails in headers part of the message preview when name is available"
@@ -2316,7 +2316,7 @@ msgstr "Arhivska mapa za mape Na tem računalniku."
 msgid ""
 "An Archive folder to use for Messages|Archive... feature when in an On This Computer folder."
 msgstr ""
-"Mapa arhiva, ki naj bo uporabljen za možnost Sporočila|Arhiv ... , ko je v uporabi v ustrezni "
+"Mapa arhiva, ki naj bo uporabljen za možnost Sporočila|Arhiv … , ko je v uporabi v ustrezni "
 "mapi."
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:258
@@ -2431,22 +2431,16 @@ msgstr ""
 "odgovoru"
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:282
-#, fuzzy
-#| msgid "Put personalized signatures at the top of replies"
 msgid "Put the signature at the top of the message"
-msgstr "Postavi poosebljene podpise na vrh odgovorov"
+msgstr "Postavi podpis na vrh sporočila"
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:283
-#, fuzzy
-#| msgid ""
-#| "This determines whether the cursor is placed at the top of the message or the bottom when "
-#| "using Alternative Reply."
 msgid ""
 "This determines whether the signature is placed at the top of the message or the bottom when "
 "using Alternative Reply."
 msgstr ""
-"Nastavitev določa, ali je kazalka postavljena na vrh ali na dno sporočila pri alternativnem "
-"odgovoru"
+"Nastavitev določa, ali je podpis postavljena na vrh ali na dno sporočila pri alternativnem "
+"odgovoru."
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:284
 msgid "Apply chosen template when using Alternative Reply"
@@ -3032,7 +3026,7 @@ msgstr ""
 
 #: ../data/org.gnome.evolution.shell.gschema.xml.in.h:40
 msgid "Minimum font size to be used by WebKitGTK"
-msgstr ""
+msgstr "Najmanjša velikost pisave, ki je v uporabi pri WebKitGTK"
 
 #: ../data/org.gnome.evolution.shell.gschema.xml.in.h:41
 msgid ""
@@ -3040,6 +3034,9 @@ msgid ""
 "absolute smallest size. Values other than 0 can potentially break page layouts. Negative "
 "values are treated as 0."
 msgstr ""
+"Najmanjša velikost pisave, določena v točkah, za prikaz besedila v vmesniku WebKit GTK. "
+"Nastavitev nadzira absolutno najmanjšo velikost. Vrednosti različne od 0 lahko včasih okvarijo "
+"postavitev, manjše pa so obravnavane kot 0."
 
 #: ../data/org.gnome.evolution.spamassassin.gschema.xml.in.h:1
 msgid "Use only local spam tests."
@@ -3840,7 +3837,7 @@ msgstr "Možnosti"
 #: ../src/e-util/e-source-config-dialog.c:360 ../src/e-util/e-source-selector-dialog.c:370
 #: ../src/e-util/e-table-config.c:548 ../src/e-util/e-table-config.ui.h:3
 #: ../src/e-util/e-timezone-dialog.ui.h:2 ../src/e-util/evolution-source-viewer.c:835
-#: ../src/e-util/e-web-view.c:3995 ../src/e-util/gal-view-instance-save-as-dialog.c:267
+#: ../src/e-util/e-web-view.c:3932 ../src/e-util/gal-view-instance-save-as-dialog.c:267
 #: ../src/mail/e-mail-config-window.c:334 ../src/mail/e-mail-label-dialog.c:194
 #: ../src/mail/e-mail-tag-editor.c:160 ../src/mail/em-composer-utils.c:4050
 #: ../src/mail/em-folder-selector.c:333 ../src/mail/mail-config.ui.h:2
@@ -3871,7 +3868,7 @@ msgstr "_Prekliči"
 #: ../src/composer/e-composer-actions.c:242 ../src/composer/e-composer-actions.c:354
 #: ../src/e-util/e-attachment-store.c:848 ../src/e-util/e-attachment-store.c:855
 #: ../src/e-util/e-mail-signature-script-dialog.c:370 ../src/e-util/e-webdav-browser.c:2476
-#: ../src/e-util/e-web-view.c:3995 ../src/e-util/gal-view-instance-save-as-dialog.c:268
+#: ../src/e-util/e-web-view.c:3932 ../src/e-util/gal-view-instance-save-as-dialog.c:268
 #: ../src/shell/e-shell-content.c:642 ../src/shell/e-shell-utils.c:133
 #: ../src/smime/gui/certificate-manager.c:651 ../src/smime/gui/certificate-manager.c:724
 msgid "_Save"
@@ -3904,11 +3901,11 @@ msgstr "_Kje:"
 
 #: ../src/addressbook/gui/contact-editor/contact-editor.ui.h:21
 msgid "Ca_tegories..."
-msgstr "Ka_tegorije ..."
+msgstr "Ka_tegorije …"
 
 #: ../src/addressbook/gui/contact-editor/contact-editor.ui.h:22
 msgid "Full _Name..."
-msgstr "_Polno ime ..."
+msgstr "_Polno ime …"
 
 #: ../src/addressbook/gui/contact-editor/contact-editor.ui.h:23
 #: ../src/addressbook/gui/widgets/eab-contact-formatter.c:925
@@ -4520,15 +4517,15 @@ msgstr "imenik Evolution"
 msgid "Copy _Email Address"
 msgstr "Kopiraj _elektronski naslov"
 
-#: ../src/addressbook/gui/widgets/eab-contact-display.c:187 ../src/e-util/e-web-view.c:432
+#: ../src/addressbook/gui/widgets/eab-contact-display.c:187 ../src/e-util/e-web-view.c:429
 msgid "Copy the email address to the clipboard"
 msgstr "Kopira elektronski naslov v odložišče"
 
-#: ../src/addressbook/gui/widgets/eab-contact-display.c:192 ../src/e-util/e-web-view.c:444
+#: ../src/addressbook/gui/widgets/eab-contact-display.c:192 ../src/e-util/e-web-view.c:441
 msgid "_Send New Message To…"
 msgstr "Pošlji novo _sporočilo za …"
 
-#: ../src/addressbook/gui/widgets/eab-contact-display.c:194 ../src/e-util/e-web-view.c:446
+#: ../src/addressbook/gui/widgets/eab-contact-display.c:194 ../src/e-util/e-web-view.c:443
 msgid "Send a mail message to this address"
 msgstr "Pošlji poštno sporočilo na ta naslov"
 
@@ -5391,22 +5388,16 @@ msgid "Phone"
 msgstr "Telefon"
 
 #: ../src/calendar/calendar.error.xml.h:1
-#, fuzzy
-#| msgid "Would you like to send all the participants a cancelation notice?"
 msgid "Would you like to send all the participants a cancellation notice?"
 msgstr "Ali želite vsem udeležencem poslati sporočilo o preklicu?"
 
 #: ../src/calendar/calendar.error.xml.h:2
-#, fuzzy
-#| msgid ""
-#| "If you do not send a cancelation notice, the other participants may not know the meeting is "
-#| "canceled."
 msgid ""
 "If you do not send a cancellation notice, the other participants may not know the meeting is "
 "canceled."
 msgstr ""
-"V kolikor ne pošljete sporočila o preklicu, ostali sodelujoči morda ne bodo vedeli, da je "
-"srečanje odpovedano."
+"Če sporočila o preklicu ne pošljete, ostali sodelujoči morda ne bodo izvedeli, da je srečanje "
+"odpovedano."
 
 #: ../src/calendar/calendar.error.xml.h:3
 msgid "Do _not Send"
@@ -5426,15 +5417,11 @@ msgid "All information on this meeting will be deleted and can not be restored."
 msgstr "Vsi podatki o tem srečanju bodo izbrisani in jih ne bo mogoče obnoviti."
 
 #: ../src/calendar/calendar.error.xml.h:8
-#, fuzzy
-#| msgid ""
-#| "If you do not send a cancelation notice, the other participants may not know the task has "
-#| "been deleted."
 msgid ""
 "If you do not send a cancellation notice, the other participants may not know the task has "
 "been deleted."
 msgstr ""
-"V kolikor ne pošljete sporočila o preklicu, ostali sodelujoči morda ne bodo vedeli, da je bila "
+"Če sporočila o preklicu ne pošljete, ostali sodelujoči morda ne bodo izvedeli, da je bila "
 "naloga izbrisana."
 
 #: ../src/calendar/calendar.error.xml.h:9 ../src/calendar/gui/e-cal-dialogs.c:507
@@ -5447,21 +5434,15 @@ msgid "All information on this task will be deleted and can not be restored."
 msgstr "Vsi podatki o tej nalogi bodo izbrisani in jih ne bo mogoče obnoviti."
 
 #: ../src/calendar/calendar.error.xml.h:11
-#, fuzzy
-#| msgid "Would you like to send a cancelation notice for this memo?"
 msgid "Would you like to send a cancellation notice for this memo?"
 msgstr "Ali želite poslati sporočilo o preklicu tega opomnika?"
 
 #: ../src/calendar/calendar.error.xml.h:12
-#, fuzzy
-#| msgid ""
-#| "If you do not send a cancelation notice, the other participants may not know the memo has "
-#| "been deleted."
 msgid ""
 "If you do not send a cancellation notice, the other participants may not know the memo has "
 "been deleted."
 msgstr ""
-"V kolikor ne pošljete sporočila o preklicu, ostali sodelujoči morda ne bodo vedeli, da je bil "
+"Če sporočila o preklicu ne pošljete, ostali sodelujoči morda ne bodo izvedeli, da je bil "
 "opomnik izbrisan."
 
 #: ../src/calendar/calendar.error.xml.h:13 ../src/calendar/gui/e-cal-dialogs.c:510
@@ -7987,7 +7968,7 @@ msgstr "Uredi kot besedilo"
 
 #: ../src/calendar/gui/e-comp-editor-property-parts.c:573
 msgid "View as HTML"
-msgstr ""
+msgstr "Pokaži kot HTML"
 
 #: ../src/calendar/gui/e-comp-editor-property-parts.c:656
 msgctxt "ECompEditor"
@@ -8172,15 +8153,15 @@ msgstr "Zapri trenutno okno"
 #. copy menu item
 #: ../src/calendar/gui/e-comp-editor.c:2034 ../src/e-util/e-focus-tracker.c:806
 #: ../src/e-util/e-html-editor-actions.c:1072 ../src/e-util/e-text.c:2080
-#: ../src/e-util/e-web-view.c:471 ../src/mail/e-mail-browser.c:173
+#: ../src/e-util/e-web-view.c:468 ../src/mail/e-mail-browser.c:173
 #: ../src/mail/mail.error.xml.h:147 ../src/shell/e-shell-window-actions.c:903
 msgid "_Copy"
 msgstr "_Kopiraj"
 
 #: ../src/calendar/gui/e-comp-editor.c:2036 ../src/e-util/e-focus-tracker.c:203
 #: ../src/e-util/e-focus-tracker.c:259 ../src/e-util/e-focus-tracker.c:312
-#: ../src/e-util/e-focus-tracker.c:807 ../src/e-util/e-web-view.c:473
-#: ../src/e-util/e-web-view.c:2018 ../src/mail/e-mail-browser.c:175
+#: ../src/e-util/e-focus-tracker.c:807 ../src/e-util/e-web-view.c:470
+#: ../src/e-util/e-web-view.c:1994 ../src/mail/e-mail-browser.c:175
 #: ../src/shell/e-shell-window-actions.c:905
 msgid "Copy the selection"
 msgstr "Kopira izbor"
@@ -8194,7 +8175,7 @@ msgstr "_Izreži"
 
 #: ../src/calendar/gui/e-comp-editor.c:2043 ../src/e-util/e-focus-tracker.c:196
 #: ../src/e-util/e-focus-tracker.c:252 ../src/e-util/e-focus-tracker.c:306
-#: ../src/e-util/e-focus-tracker.c:802 ../src/e-util/e-web-view.c:2027
+#: ../src/e-util/e-focus-tracker.c:802 ../src/e-util/e-web-view.c:2003
 #: ../src/mail/e-mail-browser.c:182 ../src/shell/e-shell-window-actions.c:912
 msgid "Cut the selection"
 msgstr "Izreže izbor"
@@ -8218,7 +8199,7 @@ msgstr "_Prilepi"
 
 #: ../src/calendar/gui/e-comp-editor.c:2064 ../src/e-util/e-focus-tracker.c:210
 #: ../src/e-util/e-focus-tracker.c:266 ../src/e-util/e-focus-tracker.c:318
-#: ../src/e-util/e-focus-tracker.c:812 ../src/e-util/e-web-view.c:2036
+#: ../src/e-util/e-focus-tracker.c:812 ../src/e-util/e-web-view.c:2012
 #: ../src/mail/e-mail-browser.c:189 ../src/shell/e-shell-window-actions.c:940
 msgid "Paste the clipboard"
 msgstr "Prilepi iz odložišča"
@@ -8238,7 +8219,7 @@ msgid "Pre_view…"
 msgstr "_Predogled …"
 
 #: ../src/calendar/gui/e-comp-editor.c:2083 ../src/e-util/e-focus-tracker.c:821
-#: ../src/e-util/e-html-editor-actions.c:1100 ../src/e-util/e-web-view.c:488
+#: ../src/e-util/e-html-editor-actions.c:1100 ../src/e-util/e-web-view.c:485
 #: ../src/mail/e-mail-browser.c:194 ../src/shell/e-shell-window-actions.c:1008
 msgid "Select _All"
 msgstr "Izberi _vse"
@@ -11809,7 +11790,7 @@ msgstr "Ime računa"
 
 #: ../src/e-util/e-accounts-window.c:1482
 msgid "Collection _Account"
-msgstr "Račun _zbirke"
+msgstr "_Zbirni račun"
 
 #: ../src/e-util/e-accounts-window.c:1483
 msgid "_Mail Account"
@@ -12366,7 +12347,7 @@ msgstr "_Naprej"
 
 #: ../src/e-util/e-collection-account-wizard.c:184
 msgid "New Collection Account"
-msgstr "Nov račun zbirke"
+msgstr "Nov zbirni račun"
 
 #: ../src/e-util/e-collection-account-wizard.c:258 ../src/e-util/e-search-bar.c:668
 #: ../src/modules/accounts-window/e-collection-wizard-page.c:78
@@ -12457,14 +12438,12 @@ msgid "Failed to store password: "
 msgstr "Shranjevanje gesla je spodletelo: "
 
 #: ../src/e-util/e-collection-account-wizard.c:1320
-#, fuzzy
-#| msgid "Failed to create a thread: "
 msgid "Failed to create sources: "
-msgstr "Ustvarjanje niti je spodletelo: "
+msgstr "Ustvarjanje virov je spodletelo: "
 
 #: ../src/e-util/e-collection-account-wizard.c:1487
 msgid "Saving account settings, please wait…"
-msgstr "Poteka shranjevanje nastavitev računa. Počakajte ..."
+msgstr "Poteka shranjevanje nastavitev računa. Počakajte …"
 
 #: ../src/e-util/e-collection-account-wizard.c:1639
 msgid "User details"
@@ -12675,7 +12654,7 @@ msgstr "bela"
 
 #: ../src/e-util/e-config-lookup.c:819
 msgid "Running…"
-msgstr "Poteka zaganjanje ..."
+msgstr "Poteka zaganjanje …"
 
 #: ../src/e-util/e-dateedit.c:526
 msgid "Date and Time"
@@ -13380,11 +13359,11 @@ msgstr "Sredinska poravnava"
 #. Justified
 #: ../src/e-util/e-html-editor-actions.c:1269 ../src/e-util/e-html-editor-paragraph-dialog.c:127
 msgid "_Justified"
-msgstr "Obojestranska poravnava"
+msgstr "_Obojestransko"
 
 #: ../src/e-util/e-html-editor-actions.c:1271
 msgid "Align Justified"
-msgstr ""
+msgstr "Obojestranska poravnava"
 
 #. Left
 #: ../src/e-util/e-html-editor-actions.c:1276 ../src/e-util/e-html-editor-paragraph-dialog.c:100
@@ -13662,7 +13641,7 @@ msgstr "Vrstica pod"
 
 #: ../src/e-util/e-html-editor-actions.c:1729
 msgid "Cell…"
-msgstr "Celica ..."
+msgstr "Celica …"
 
 #: ../src/e-util/e-html-editor-actions.c:1736
 msgid "Image…"
@@ -13775,10 +13754,8 @@ msgid "Font Name"
 msgstr "Ime pisave"
 
 #: ../src/e-util/e-html-editor.c:1523
-#, fuzzy
-#| msgid "Failed to insert text file."
 msgid "Failed to obtain content of editor"
-msgstr "Napaka med vstavljanjem besedilne datoteke."
+msgstr "Pridobivanje vsebine urejevalnika je spodletelo"
 
 #: ../src/e-util/e-html-editor-cell-dialog.c:408
 msgid "<b>Scope</b>"
@@ -14975,7 +14952,7 @@ msgstr "(ni predlogov)"
 
 #: ../src/e-util/e-spell-entry.c:503
 msgid "More…"
-msgstr "Več ..."
+msgstr "Več …"
 
 #. + Add to Dictionary
 #: ../src/e-util/e-spell-entry.c:588
@@ -15385,13 +15362,13 @@ msgid "Events"
 msgstr "Dogodki"
 
 #: ../src/e-util/e-webdav-browser.c:515 ../src/mail/em-folder-tree-model.c:1555
-#: ../src/mail/em-folder-tree-model.c:1932
+#: ../src/mail/em-folder-tree-model.c:1936
 msgid "Loading…"
-msgstr "Poteka nalaganje ..."
+msgstr "Poteka nalaganje …"
 
 #: ../src/e-util/e-webdav-browser.c:1387
 msgid "Searching collection children…"
-msgstr "Poteka iskanje predmetov zbirke ..."
+msgstr "Poteka iskanje predmetov zbirke …"
 
 #: ../src/e-util/e-webdav-browser.c:1389
 msgid "Failed to search for collection children"
@@ -15399,7 +15376,7 @@ msgstr "Iskanje predmetov zbirke je spodletelo."
 
 #: ../src/e-util/e-webdav-browser.c:1423
 msgid "Searching for user home, please wait…"
-msgstr "Poteka iskanje uporabniške mape. Počakajte ..."
+msgstr "Poteka iskanje uporabniške mape. Počakajte …"
 
 #: ../src/e-util/e-webdav-browser.c:1425
 msgid "Failed to search for user home"
@@ -15419,7 +15396,7 @@ msgstr "Shranjevanje sprememb je spodletelo"
 
 #: ../src/e-util/e-webdav-browser.c:1821
 msgid "Creating new book…"
-msgstr "Poteka ustvarjanje nove knjige ..."
+msgstr "Poteka ustvarjanje nove knjige …"
 
 #: ../src/e-util/e-webdav-browser.c:1822
 msgid "Failed to create new book"
@@ -15427,7 +15404,7 @@ msgstr "Ustvarjanje nove knjige je spodletelo"
 
 #: ../src/e-util/e-webdav-browser.c:1824
 msgid "Creating new calendar…"
-msgstr "Poteka ustvarjanje novega koledarja ..."
+msgstr "Poteka ustvarjanje novega koledarja …"
 
 #: ../src/e-util/e-webdav-browser.c:1825
 msgid "Failed to create new calendar"
@@ -15435,7 +15412,7 @@ msgstr "Ustvarjanje novega koledarja je spodletelo."
 
 #: ../src/e-util/e-webdav-browser.c:1827
 msgid "Creating new collection…"
-msgstr "Poteka ustvarjanje nove zbirke ..."
+msgstr "Poteka ustvarjanje nove zbirke …"
 
 #: ../src/e-util/e-webdav-browser.c:1828
 msgid "Failed to create new collection"
@@ -15452,7 +15429,7 @@ msgstr "Ni dovoljeno ustvariti koledarja znotraj druge knjige ali koledarja."
 
 #: ../src/e-util/e-webdav-browser.c:2198
 msgid "Deleting book…"
-msgstr "Poteka brisanje knjige ..."
+msgstr "Poteka brisanje knjige …"
 
 #: ../src/e-util/e-webdav-browser.c:2199
 msgid "Failed to delete book"
@@ -15460,7 +15437,7 @@ msgstr "Brisanje knjige je spodletelo"
 
 #: ../src/e-util/e-webdav-browser.c:2202
 msgid "Deleting calendar…"
-msgstr "Poteka brisanje koledarja ..."
+msgstr "Poteka brisanje koledarja …"
 
 #: ../src/e-util/e-webdav-browser.c:2203
 msgid "Failed to delete calendar"
@@ -15468,7 +15445,7 @@ msgstr "Brisanje koledarja je spodletelo"
 
 #: ../src/e-util/e-webdav-browser.c:2206
 msgid "Deleting collection…"
-msgstr "Poteka brisanje zbirke ..."
+msgstr "Poteka brisanje zbirke …"
 
 #: ../src/e-util/e-webdav-browser.c:2207
 msgid "Failed to delete collection"
@@ -15498,78 +15475,78 @@ msgstr "Ustvari _koledar"
 msgid "Create Collectio_n"
 msgstr "Ustvari _zbirko"
 
-#: ../src/e-util/e-web-view.c:410
+#: ../src/e-util/e-web-view.c:407
 msgid "_Copy Link Location"
 msgstr "_Kopiraj mesto povezave"
 
-#: ../src/e-util/e-web-view.c:412
+#: ../src/e-util/e-web-view.c:409
 msgid "Copy the link to the clipboard"
 msgstr "Kopira povezavo na odložišče"
 
-#: ../src/e-util/e-web-view.c:420
+#: ../src/e-util/e-web-view.c:417
 msgid "_Open Link in Browser"
 msgstr "_Odpri povezavo v brskalniku"
 
-#: ../src/e-util/e-web-view.c:422
+#: ../src/e-util/e-web-view.c:419
 msgid "Open the link in a web browser"
 msgstr "Odpre povezavo v spletnemu brskalniku"
 
-#: ../src/e-util/e-web-view.c:430
+#: ../src/e-util/e-web-view.c:427
 msgid "_Copy Email Address"
 msgstr "Kopiraj _elektronski naslov"
 
-#: ../src/e-util/e-web-view.c:437
+#: ../src/e-util/e-web-view.c:434
 msgid "Copy _Raw Email Address"
 msgstr "Kopiraj le _elektronski naslov"
 
-#: ../src/e-util/e-web-view.c:439
+#: ../src/e-util/e-web-view.c:436
 msgid "Copy the raw email address to the clipboard"
 msgstr "Kopiraj elektronski naslov v odložišče"
 
-#: ../src/e-util/e-web-view.c:454
+#: ../src/e-util/e-web-view.c:451
 msgid "_Copy Image"
 msgstr "_Kopiraj sliko"
 
-#: ../src/e-util/e-web-view.c:456
+#: ../src/e-util/e-web-view.c:453
 msgid "Copy the image to the clipboard"
 msgstr "Kopira sliko v odložišče"
 
-#: ../src/e-util/e-web-view.c:461
+#: ../src/e-util/e-web-view.c:458
 msgid "Save _Image…"
 msgstr "Shrani _sliko …"
 
-#: ../src/e-util/e-web-view.c:463
+#: ../src/e-util/e-web-view.c:460
 msgid "Save the image to a file"
 msgstr "Shrani sliko v datoteko"
 
-#: ../src/e-util/e-web-view.c:478 ../src/mail/e-mail-browser.c:201
+#: ../src/e-util/e-web-view.c:475 ../src/mail/e-mail-browser.c:201
 #: ../src/mail/e-mail-reader.c:2819
 msgid "Search _Web…"
-msgstr "Preišči _splet ..."
+msgstr "Preišči _splet …"
 
-#: ../src/e-util/e-web-view.c:480 ../src/mail/e-mail-browser.c:203
+#: ../src/e-util/e-web-view.c:477 ../src/mail/e-mail-browser.c:203
 #: ../src/mail/e-mail-reader.c:2821
 msgid "Search the Web with the selected text"
 msgstr "Uporabi izbrano besedilo kot niz za iskanje po spletu"
 
-#: ../src/e-util/e-web-view.c:490 ../src/e-util/e-web-view.c:2040
+#: ../src/e-util/e-web-view.c:487 ../src/e-util/e-web-view.c:2016
 msgid "Select all text and images"
 msgstr "Izberi vse besedilo in slike"
 
-#: ../src/e-util/e-web-view.c:3805
+#: ../src/e-util/e-web-view.c:3742
 msgid "Copying image to clipboard"
 msgstr "Poteka kopiranje slike v odložišče"
 
-#: ../src/e-util/e-web-view.c:3993
+#: ../src/e-util/e-web-view.c:3930
 msgid "Save Image"
 msgstr "Shrani sliko"
 
-#: ../src/e-util/e-web-view.c:4030
+#: ../src/e-util/e-web-view.c:3967
 #, c-format
 msgid "Saving image to “%s”"
 msgstr "Poteka shranjevanje slike v »%s«"
 
-#: ../src/e-util/e-web-view.c:4177
+#: ../src/e-util/e-web-view.c:4114
 #, c-format
 msgid "Cannot get URI “%s”, do not know how to download it."
 msgstr "Ni mogoče pridobiti naslova URI »%s«, zato datoteke ni mogoče prejeti."
@@ -15934,11 +15911,11 @@ msgstr "Pripadajočega vira za storitev z UID »%s« ni mogoče najti."
 
 #: ../src/libemail-engine/e-mail-session.c:1909
 msgid "Looking up recipient S/MIME certificates in address books…"
-msgstr "Poteka preverjanje potrdil S/MIME prejemnikov v imenikih ..."
+msgstr "Poteka preverjanje potrdil S/MIME prejemnikov v imenikih …"
 
 #: ../src/libemail-engine/e-mail-session.c:1911
 msgid "Looking up recipient PGP keys in address books…"
-msgstr "Poteka preverjanje ključev PGP v imenikih ..."
+msgstr "Poteka preverjanje ključev PGP v imenikih …"
 
 #: ../src/libemail-engine/e-mail-session.c:2958
 #, c-format
@@ -16368,7 +16345,7 @@ msgid ""
 msgstr ""
 "Nastavljanje poštnega računa je končano.\n"
 "\n"
-"Sedaj je mogoče prejemati in pošiljati pošto s programom Evolution.\n"
+"Sedaj lahko pošto sprejemate in pošiljate tudi s programom Evolution.\n"
 "\n"
 "S klikom na gumb »Uveljavi« bodo spremembe shranjene."
 
@@ -16729,7 +16706,7 @@ msgstr ""
 #: ../src/mail/e-mail-config-welcome-page.c:172
 #: ../src/modules/startup-wizard/e-startup-assistant.c:182
 msgid "Welcome"
-msgstr "Uvod"
+msgstr "Uvodna stran"
 
 #: ../src/mail/e-mail-config-window.c:329
 msgid "Account Editor"
@@ -16880,7 +16857,7 @@ msgstr "Po_membno"
 #. red
 #: ../src/mail/e-mail-label-list-store.c:56
 msgid "_Work"
-msgstr "_Služba"
+msgstr "_Službeno"
 
 #. orange
 #: ../src/mail/e-mail-label-list-store.c:57
@@ -16890,7 +16867,7 @@ msgstr "_Osebno"
 #. green
 #: ../src/mail/e-mail-label-list-store.c:58
 msgid "_To Do"
-msgstr "_Seznam opravil"
+msgstr "_Opravila"
 
 #. blue
 #: ../src/mail/e-mail-label-list-store.c:59
@@ -16927,10 +16904,8 @@ msgid "Cannot find message in its folder summary"
 msgstr "V povzetku mape ni mogoče najti sporočila"
 
 #: ../src/mail/e-mail-notes.c:870
-#, fuzzy
-#| msgid "Failed to remove attachments from messages."
 msgid "Failed to convert text to message"
-msgstr "Odstranjevanje priloge iz sporočila je spodletelo."
+msgstr "Pretvajranje besedila v sporočilo je spodletelo."
 
 #: ../src/mail/e-mail-notes.c:884 ../src/mail/e-mail-notes.c:909
 msgid "Storing changes…"
@@ -17046,7 +17021,7 @@ msgstr "Preveri, ali so izbrana sporočila vsiljena"
 
 #: ../src/mail/e-mail-reader.c:2418
 msgid "Assign C_olor…"
-msgstr "Dodeli _barvo ..."
+msgstr "Dodeli _barvo …"
 
 #: ../src/mail/e-mail-reader.c:2420
 msgid "Assign color for the selected messages"
@@ -17126,7 +17101,7 @@ msgstr "Ustvari pravilo za filtriranje sporočil tega pošiljatelja"
 
 #: ../src/mail/e-mail-reader.c:2488
 msgid "Create a Filter Rule for _Subject…"
-msgstr "Ustvari pravilo filtriranja za _zadevo ..."
+msgstr "Ustvari pravilo filtriranja za _zadevo …"
 
 #: ../src/mail/e-mail-reader.c:2490
 msgid "Create a rule to filter messages with this subject"
@@ -17166,7 +17141,7 @@ msgstr "Nastavi zastavico navezave kot razrešeno nalogo na izbranih sporočilih
 
 #: ../src/mail/e-mail-reader.c:2523
 msgid "Follow _Up…"
-msgstr "Na_vezava ..."
+msgstr "Na_vezava …"
 
 #: ../src/mail/e-mail-reader.c:2525
 msgid "Flag the selected messages for follow-up"
@@ -17449,7 +17424,7 @@ msgstr "Sestavi odgovor vsem prejemnikom izbranega sporočila"
 
 #: ../src/mail/e-mail-reader.c:2791
 msgid "Al_ternative Reply…"
-msgstr "_Alternativni odgovor ..."
+msgstr "_Alternativni odgovor …"
 
 #: ../src/mail/e-mail-reader.c:2793
 msgid "Choose reply options for the selected message"
@@ -17675,7 +17650,7 @@ msgstr "Ne opozori več"
 #: ../src/mail/e-mail-reader-utils.c:632
 #, c-format
 msgid "Deleting messages in Junk folder “%s”…"
-msgstr "Poteka brisanje sporočil iz mape vsiljene pošte »%s« ..."
+msgstr "Poteka brisanje sporočil iz mape vsiljene pošte »%s« …"
 
 #: ../src/mail/e-mail-reader-utils.c:727
 #, c-format
@@ -17988,7 +17963,7 @@ msgstr "Nato"
 
 #: ../src/mail/em-filter-editor.c:408
 msgid "De_scribe Filters…"
-msgstr "_Opiši filtre ..."
+msgstr "_Opiši filtre …"
 
 #: ../src/mail/em-filter-editor-folder-element.c:154
 msgid "Select Folder"
@@ -18143,7 +18118,7 @@ msgstr "<kliknite tukaj za izbiro mape>"
 msgid "Create a new folder"
 msgstr "Ustvari novo mapo"
 
-#: ../src/mail/em-folder-tree.c:685
+#: ../src/mail/em-folder-tree.c:684
 msgid "Folder names cannot contain “/”"
 msgstr "Ime mape ne sme vsebovati znaka »/«"
 
@@ -18165,37 +18140,37 @@ msgstr "Ime mape ne sme vsebovati znaka »/«"
 #. * Do not translate the "folder-display|" part. Remove it
 #. * from your translation.
 #.
-#: ../src/mail/em-folder-tree.c:879
+#: ../src/mail/em-folder-tree.c:878
 #, c-format
 msgctxt "folder-display"
 msgid "%s (%u%s)"
 msgstr "%s (%u%s)"
 
-#: ../src/mail/em-folder-tree.c:1741
+#: ../src/mail/em-folder-tree.c:1740
 msgid "Mail Folder Tree"
 msgstr "Drevesna razporeditev poštnih map"
 
-#: ../src/mail/em-folder-tree.c:2290
+#: ../src/mail/em-folder-tree.c:2289
 #, c-format
 msgid "Moving folder %s"
 msgstr "Premikanje mape %s"
 
-#: ../src/mail/em-folder-tree.c:2293
+#: ../src/mail/em-folder-tree.c:2292
 #, c-format
 msgid "Copying folder %s"
 msgstr "Kopiranje mape %s"
 
-#: ../src/mail/em-folder-tree.c:2300 ../src/mail/message-list.c:2632
+#: ../src/mail/em-folder-tree.c:2299 ../src/mail/message-list.c:2632
 #, c-format
 msgid "Moving messages into folder %s"
 msgstr "Premikanje sporočil v mapo %s"
 
-#: ../src/mail/em-folder-tree.c:2304 ../src/mail/message-list.c:2634
+#: ../src/mail/em-folder-tree.c:2303 ../src/mail/message-list.c:2634
 #, c-format
 msgid "Copying messages into folder %s"
 msgstr "Kopiranje sporočil v mapo %s"
 
-#: ../src/mail/em-folder-tree.c:2323
+#: ../src/mail/em-folder-tree.c:2322
 #, c-format
 msgid "Cannot drop message(s) into toplevel store"
 msgstr "Sporočil(a) ni mogoče spustiti v vrhnjo shrambo"
@@ -19122,10 +19097,8 @@ msgid "Fix_ed Width Font:"
 msgstr "_Pisava stalne širine:"
 
 #: ../src/mail/mail-config.ui.h:94
-#, fuzzy
-#| msgid "Font _Size"
 msgid "Minimum Font _Size:"
-msgstr "Velikost _pisave"
+msgstr "Najmanjša _velikost pisave:"
 
 #. Translators: This is part of 'Minimum Font Size: [ spin button ] (in pixels)'
 #: ../src/mail/mail-config.ui.h:96
@@ -19170,11 +19143,11 @@ msgstr "I_zprazni mape smeti"
 
 #: ../src/mail/mail-config.ui.h:107
 msgid "Confirm _when expunging a folder"
-msgstr "Zahtevaj potrditev ob trajnem brisanju mape"
+msgstr "Zahtevaj potrditev za trajno brisanje mape"
 
 #: ../src/mail/mail-config.ui.h:108
 msgid "Confirm when emptying a _Junk folder"
-msgstr "Zahtevaj potrditev ob _praznjenju mape vsiljene pošte."
+msgstr "Zahtevaj potrditev ob _praznjenju mape vsiljene pošte"
 
 #: ../src/mail/mail-config.ui.h:109
 msgid "Go to the previ_ous message after message deletion"
@@ -19199,7 +19172,7 @@ msgstr "_Pokaži animirane slike"
 
 #: ../src/mail/mail-config.ui.h:115
 msgid "_Prompt on sending HTML mail to contacts that do not want them"
-msgstr "O_pozori ob pošiljanju oblikovanih poročil stikom, ki tega niso potrdili"
+msgstr "O_pozori ob pošiljanju HTML sporočil stikom, ki tega niso potrdili"
 
 #: ../src/mail/mail-config.ui.h:116
 msgid "Loading Remote Content"
@@ -19250,10 +19223,8 @@ msgid "_Show the photograph of sender in the message preview"
 msgstr "Pokaži sliko pošiljatelja v _predogledu sporočila"
 
 #: ../src/mail/mail-config.ui.h:129
-#, fuzzy
-#| msgid "Search gra_vatar.com for the photograph of sender"
 msgid "Search libra_vatar.org for the photograph of sender"
-msgstr "Fotografijo pošiljatelja poišči na gra_vatar.com"
+msgstr "Fotografijo pošiljatelja poišči na libra_vatar.org"
 
 #: ../src/mail/mail-config.ui.h:130
 msgid "Displayed Message Headers"
@@ -20922,9 +20893,9 @@ msgid ""
 "\n"
 "This will restore all your personal data, settings mail filters, etc."
 msgstr ""
-"Evolution lahko obnovite iz varnostne kopije.\n"
+"Podatke je mogoče obnoviti iz varnostne kopije.\n"
 "\n"
-"Obnovljeni bodo vsi osebni podatki, nastavitvi, filtri sporočil, itd."
+"Obnovljeni bodo osebni podatki, nastavitve, filtri sporočila in drugo."
 
 #: ../src/modules/backup-restore/e-mail-config-restore-page.c:178
 msgid "_Restore from a backup file:"
@@ -20939,7 +20910,7 @@ msgstr "Izberite varnostno kopijo za obnovitev"
 #: ../src/modules/backup-restore/e-mail-config-restore-page.c:292
 #: ../src/modules/backup-restore/e-mail-config-restore-ready-page.c:57
 msgid "Restore from Backup"
-msgstr "Obnovi iz varnostne kopije"
+msgstr "Obnovitev iz varnostne kopije"
 
 #: ../src/modules/backup-restore/evolution-backup-restore.c:306
 msgid "Select name of the Evolution backup file"
@@ -21202,7 +21173,7 @@ msgstr "Uporabniško ime ne sme biti prazno"
 
 #: ../src/modules/book-config-ldap/evolution-book-config-ldap.c:418
 msgid "Looking up server search bases, please wait…"
-msgstr "Poteka preiskovanje iskalniške zbirke strežnika. Počakajte ..."
+msgstr "Poteka preiskovanje iskalniške zbirke strežnika. Počakajte …"
 
 #: ../src/modules/book-config-ldap/evolution-book-config-ldap.c:494
 msgid "Standard LDAP Port"
@@ -21460,16 +21431,12 @@ msgid "Location cannot be empty"
 msgstr "Trenutno mesto ne more biti prazno"
 
 #: ../src/modules/cal-config-webdav-notes/evolution-cal-config-webdav-notes.c:106
-#, fuzzy
-#| msgid "Show Notes"
 msgid "Choose Notes"
-msgstr "Pokaži opombe"
+msgstr "Izberi opombe"
 
 #: ../src/modules/cal-config-webdav-notes/evolution-cal-config-webdav-notes.c:337
-#, fuzzy
-#| msgid "_Find Now"
 msgid "Find Notes"
-msgstr "_Najdi zdaj"
+msgstr "Najdi opombe"
 
 #: ../src/modules/calendar/e-cal-attachment-handler.c:283 ../src/smime/gui/smime-ui.ui.h:7
 msgid "I_mport"
@@ -22695,17 +22662,17 @@ msgstr "Poizvedba nastavitev prek domene elektronskega naslova"
 #: ../src/modules/config-lookup/e-srv-config-lookup.c:87
 #: ../src/modules/config-lookup/e-srv-config-lookup.c:88
 msgid "Looking up IMAP server…"
-msgstr "Poteka preverjanje strežnika IMAP ..."
+msgstr "Poteka preverjanje strežnika IMAP …"
 
 #: ../src/modules/config-lookup/e-srv-config-lookup.c:89
 #: ../src/modules/config-lookup/e-srv-config-lookup.c:90
 msgid "Looking up POP3 server…"
-msgstr "Poteka preverjanje strežnika POP3 ..."
+msgstr "Poteka preverjanje strežnika POP3 …"
 
 #: ../src/modules/config-lookup/e-srv-config-lookup.c:91
 #: ../src/modules/config-lookup/e-srv-config-lookup.c:92
 msgid "Looking up SMTP server…"
-msgstr "Poteka preverjanje strežnika SMTP ..."
+msgstr "Poteka preverjanje strežnika SMTP …"
 
 #: ../src/modules/config-lookup/e-srv-config-lookup.c:93
 #: ../src/modules/config-lookup/e-srv-config-lookup.c:94
@@ -22716,7 +22683,7 @@ msgstr "Strežnik CalDAV"
 #: ../src/modules/config-lookup/e-srv-config-lookup.c:93
 #: ../src/modules/config-lookup/e-srv-config-lookup.c:94
 msgid "Looking up CalDAV server…"
-msgstr "Poteka preverjanje strežnika CalDAV ..."
+msgstr "Poteka preverjanje strežnika CalDAV …"
 
 #: ../src/modules/config-lookup/e-srv-config-lookup.c:95
 #: ../src/modules/config-lookup/e-srv-config-lookup.c:96
@@ -22727,7 +22694,7 @@ msgstr "Strežnik CardDAV"
 #: ../src/modules/config-lookup/e-srv-config-lookup.c:95
 #: ../src/modules/config-lookup/e-srv-config-lookup.c:96
 msgid "Looking up CardDAV server…"
-msgstr "Poteka preverjanje strežnika CardDAV ..."
+msgstr "Poteka preverjanje strežnika CardDAV …"
 
 #: ../src/modules/config-lookup/e-srv-config-lookup.c:97
 #: ../src/modules/config-lookup/e-srv-config-lookup.c:98
@@ -22737,7 +22704,7 @@ msgstr "Strežnik LDAP"
 #: ../src/modules/config-lookup/e-srv-config-lookup.c:97
 #: ../src/modules/config-lookup/e-srv-config-lookup.c:98
 msgid "Looking up LDAP server…"
-msgstr "Poteka preverjanje strežnika LDAP ..."
+msgstr "Poteka preverjanje strežnika LDAP …"
 
 #: ../src/modules/config-lookup/e-srv-config-lookup.c:285
 msgid "Look up in SRV records"
@@ -22759,7 +22726,7 @@ msgstr "Strežnik CardDAV in CalDAV"
 
 #: ../src/modules/config-lookup/e-webdav-config-lookup.c:213
 msgid "Look up for a CalDAV/CardDAV server"
-msgstr "Pregled vire za strežnik CalDAV/CardDAV"
+msgstr "Preglej vire za strežnik CalDAV/CardDAV"
 
 #: ../src/modules/itip-formatter/e-mail-formatter-itip.c:165
 msgid "ITIP"
@@ -22906,8 +22873,6 @@ msgstr "%A, %e. %B %Y %H.%M.%S"
 #. Example: 'Tomorrow 10:30 (20.2.2020)'
 #: ../src/modules/itip-formatter/itip-view.c:425
 #, c-format
-#| msgctxt "SummaryWithLocation"
-#| msgid "%s (%s)"
 msgctxt "cal-itip"
 msgid "%s (%s)"
 msgstr "%s (%s)"
@@ -23431,14 +23396,10 @@ msgid "Organizer has removed the delegate %s "
 msgstr "Organizator je odstranil pooblaščenca %s "
 
 #: ../src/modules/itip-formatter/itip-view.c:5229
-#, fuzzy
-#| msgid "Sent a cancelation notice to the delegate"
 msgid "Sent a cancellation notice to the delegate"
 msgstr "Pooblaščencu je bilo poslano obvestilo o preklicu"
 
 #: ../src/modules/itip-formatter/itip-view.c:5233
-#, fuzzy
-#| msgid "Could not send the cancelation notice to the delegate"
 msgid "Could not send the cancellation notice to the delegate"
 msgstr "Pooblaščencu ni mogoče poslati obvestila o preklicu"
 
@@ -23890,7 +23851,7 @@ msgstr "Trajno odstrani mapo"
 
 #: ../src/modules/mail/e-mail-shell-view-actions.c:1635
 msgid "Edit Sort _Order…"
-msgstr "Uredi _način razvrščanja ..."
+msgstr "Uredi _način razvrščanja …"
 
 #: ../src/modules/mail/e-mail-shell-view-actions.c:1637
 msgid "Change sort order of the folders in the folder tree"
@@ -24573,18 +24534,18 @@ msgid ""
 msgstr ""
 "Zagnali ste program Evolution.\n"
 "\n"
-"Naslednjih nekaj korakov omogoča povezovanje s poštnimi računi in uvoz datotek iz drugih "
+"V naslednjih nekaj korakih lahko nastavite poštne račune in uvozite datoteke iz drugih "
 "programov."
 
 #: ../src/modules/startup-wizard/e-startup-assistant.c:193
 msgid "Do not _show this wizard again"
-msgstr "Ne pokaži več tega _čarovnika"
+msgstr "Tega _čarovnika ne pokaži več"
 
 #. Translators: This is part of "Alternatively, you can %s (email, contacts and calendaring) instead." sentence from the same translation context.
 #: ../src/modules/startup-wizard/e-startup-assistant.c:206
 msgctxt "wizard-ca-note"
 msgid "create a collection account"
-msgstr "ustvarite račun zbirke"
+msgstr "ustvarite zbirni račun"
 
 #. Translators: The '%s' is replaced with "create a collection account" from the same translation context.
 #: ../src/modules/startup-wizard/e-startup-assistant.c:208
@@ -25981,11 +25942,11 @@ msgstr "Programa Bug buddy ni mogoče zagnati."
 
 #: ../src/shell/e-shell-window-actions.c:851
 msgid "Collect_ion Account"
-msgstr "Račun _zbirke"
+msgstr "_Zbirni račun"
 
 #: ../src/shell/e-shell-window-actions.c:853
 msgid "Create a new collection account"
-msgstr "Ustvari nov račun zbirke"
+msgstr "Ustvari nov zbirni račun"
 
 #: ../src/shell/e-shell-window-actions.c:861
 msgid "_About"
@@ -26618,7 +26579,7 @@ msgstr "Elektronski naslov"
 
 #: ../src/smime/gui/certificate-manager.c:648
 msgid "Select a file to backup your key and certificate…"
-msgstr "Izberite datoteko za varnostno kopiranje varnostnega ključa in potrdila ..."
+msgstr "Izberite datoteko za varnostno kopiranje varnostnega ključa in potrdila …"
 
 #. To Translators:
 #. * %s-backup.p12 is the default file name suggested by the file selection dialog,
