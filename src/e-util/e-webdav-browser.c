@@ -632,8 +632,7 @@ typedef struct _SearchHomeData {
 
 static gboolean
 webdav_browser_search_home_hrefs_cb (EWebDAVSession *webdav,
-				     xmlXPathContextPtr xpath_ctx,
-				     const gchar *xpath_prop_prefix,
+				     xmlNodePtr prop_node,
 				     const SoupURI *request_uri,
 				     const gchar *href,
 				     guint status_code,
@@ -643,72 +642,59 @@ webdav_browser_search_home_hrefs_cb (EWebDAVSession *webdav,
 
 	g_return_val_if_fail (shd != NULL, FALSE);
 
-	if (!xpath_prop_prefix) {
-		e_xml_xpath_context_register_namespaces (xpath_ctx,
-			"C", E_WEBDAV_NS_CALDAV,
-			"A", E_WEBDAV_NS_CARDDAV,
-			NULL);
-	} else if (status_code == SOUP_STATUS_OK) {
-		xmlXPathObjectPtr xpath_obj;
-		gchar *principal_href, *full_href;
+	if (status_code == SOUP_STATUS_OK) {
+		xmlNodePtr home_set_node, node;
+		const xmlChar *href_value;
+		gchar *full_href;
 
-		xpath_obj = e_xml_xpath_eval (xpath_ctx, "%s/A:addressbook-home-set/D:href", xpath_prop_prefix);
-		if (xpath_obj) {
-			gint ii, length;
+		home_set_node = e_xml_find_child (prop_node, E_WEBDAV_NS_CARDDAV, "addressbook-home-set");
 
-			length = xmlXPathNodeSetGetLength (xpath_obj->nodesetval);
+		if (home_set_node) {
+			for (node = e_xml_find_child (home_set_node, E_WEBDAV_NS_DAV, "href");
+			     node;
+			     node = e_xml_find_next_sibling (node, E_WEBDAV_NS_DAV, "href")) {
+				href_value = e_xml_get_node_text (node);
 
-			for (ii = 0; ii < length; ii++) {
-				gchar *home_set_href;
+				if (href_value && *href_value) {
+					full_href = e_webdav_session_ensure_full_uri (webdav, request_uri, (const gchar *) href_value);
 
-				full_href = NULL;
-
-				home_set_href = e_xml_xpath_eval_as_string (xpath_ctx, "%s/A:addressbook-home-set/D:href[%d]", xpath_prop_prefix, ii + 1);
-				if (home_set_href && *home_set_href) {
-					full_href = e_webdav_session_ensure_full_uri (webdav, request_uri, home_set_href);
 					if (full_href && *full_href && !g_hash_table_contains (shd->covered_home_hrefs, full_href)) {
 						shd->home_hrefs = g_slist_prepend (shd->home_hrefs, full_href);
 						g_hash_table_insert (shd->covered_home_hrefs, g_strdup (full_href), NULL);
 						full_href = NULL;
 					}
+
+					g_free (full_href);
 				}
-
-				g_free (home_set_href);
-				g_free (full_href);
 			}
-
-			xmlXPathFreeObject (xpath_obj);
 		}
 
-		xpath_obj = e_xml_xpath_eval (xpath_ctx, "%s/C:calendar-home-set/D:href", xpath_prop_prefix);
-		if (xpath_obj) {
-			gint ii, length;
+		home_set_node = e_xml_find_child (prop_node, E_WEBDAV_NS_CALDAV, "calendar-home-set");
 
-			length = xmlXPathNodeSetGetLength (xpath_obj->nodesetval);
+		if (home_set_node) {
+			for (node = e_xml_find_child (home_set_node, E_WEBDAV_NS_DAV, "href");
+			     node;
+			     node = e_xml_find_next_sibling (node, E_WEBDAV_NS_DAV, "href")) {
+				href_value = e_xml_get_node_text (node);
 
-			for (ii = 0; ii < length; ii++) {
-				gchar *home_set_href, *full_href = NULL;
+				if (href_value && *href_value) {
+					full_href = e_webdav_session_ensure_full_uri (webdav, request_uri, (const gchar *) href_value);
 
-				home_set_href = e_xml_xpath_eval_as_string (xpath_ctx, "%s/C:calendar-home-set/D:href[%d]", xpath_prop_prefix, ii + 1);
-				if (home_set_href && *home_set_href) {
-					full_href = e_webdav_session_ensure_full_uri (webdav, request_uri, home_set_href);
 					if (full_href && *full_href && !g_hash_table_contains (shd->covered_home_hrefs, full_href)) {
 						shd->home_hrefs = g_slist_prepend (shd->home_hrefs, full_href);
 						g_hash_table_insert (shd->covered_home_hrefs, g_strdup (full_href), NULL);
 						full_href = NULL;
 					}
+
+					g_free (full_href);
 				}
-
-				g_free (home_set_href);
-				g_free (full_href);
 			}
-
-			xmlXPathFreeObject (xpath_obj);
 		}
 
-		principal_href = e_xml_xpath_eval_as_string (xpath_ctx, "%s/D:current-user-principal/D:href", xpath_prop_prefix);
-		if (principal_href && *principal_href) {
-			full_href = e_webdav_session_ensure_full_uri (webdav, request_uri, principal_href);
+		href_value = e_xml_get_node_text (e_xml_find_in_hierarchy (prop_node, E_WEBDAV_NS_DAV,"current-user-principal", E_WEBDAV_NS_DAV, "href", NULL, NULL));
+
+		if (href_value && *href_value) {
+			full_href = e_webdav_session_ensure_full_uri (webdav, request_uri, (const gchar *) href_value);
 
 			if (full_href && *full_href &&
 			    !g_hash_table_contains (shd->covered_todo_hrefs, full_href)) {
@@ -718,16 +704,14 @@ webdav_browser_search_home_hrefs_cb (EWebDAVSession *webdav,
 			}
 
 			g_free (full_href);
-			g_free (principal_href);
 
 			return TRUE;
 		}
 
-		g_free (principal_href);
+		href_value = e_xml_get_node_text (e_xml_find_in_hierarchy (prop_node, E_WEBDAV_NS_DAV,"principal-URL", E_WEBDAV_NS_DAV, "href", NULL, NULL));
 
-		principal_href = e_xml_xpath_eval_as_string (xpath_ctx, "%s/D:principal-URL/D:href", xpath_prop_prefix);
-		if (principal_href && *principal_href) {
-			full_href = e_webdav_session_ensure_full_uri (webdav, request_uri, principal_href);
+		if (href_value && *href_value) {
+			full_href = e_webdav_session_ensure_full_uri (webdav, request_uri, (const gchar *) href_value);
 
 			if (full_href && *full_href &&
 			    !g_hash_table_contains (shd->covered_todo_hrefs, full_href)) {
@@ -737,12 +721,9 @@ webdav_browser_search_home_hrefs_cb (EWebDAVSession *webdav,
 			}
 
 			g_free (full_href);
-			g_free (principal_href);
 
 			return TRUE;
 		}
-
-		g_free (principal_href);
 	}
 
 	return TRUE;
