@@ -12,8 +12,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: evolution\n"
 "Report-Msgid-Bugs-To: https://gitlab.gnome.org/GNOME/evolution/issues\n"
-"POT-Creation-Date: 2020-06-05 08:49+0000\n"
-"PO-Revision-Date: 2020-06-05 22:17+0300\n"
+"POT-Creation-Date: 2020-06-22 20:32+0000\n"
+"PO-Revision-Date: 2020-06-23 09:41+0300\n"
 "Last-Translator: Yuri Chornoivan <yurchor@ukr.net>\n"
 "Language-Team: Ukrainian <trans-uk@lists.fedoraproject.org>\n"
 "Language: uk\n"
@@ -3322,11 +3322,11 @@ msgid ""
 "setting controls the absolute smallest size. Values other than 0 can "
 "potentially break page layouts. Negative values are treated as 0."
 msgstr ""
-"Мінімальний розмір шрифту у пікселях для показу тексту у WebKitGTK. Цей"
-" параметр керує абсолютним найменшим значенням. Значення, які"
-" відрізнятимуться від 0, потенційно можуть призвести до помилкового показу"
-" компонування сторінок. Від'ємні значення оброблятимуться тотожно до"
-" нульового."
+"Мінімальний розмір шрифту у пікселях для показу тексту у WebKitGTK. Цей "
+"параметр керує абсолютним найменшим значенням. Значення, які "
+"відрізнятимуться від 0, потенційно можуть призвести до помилкового показу "
+"компонування сторінок. Від'ємні значення оброблятимуться тотожно до "
+"нульового."
 
 #: ../data/org.gnome.evolution.spamassassin.gschema.xml.in.h:1
 msgid "Use only local spam tests."
@@ -3485,7 +3485,7 @@ msgstr "Примітки"
 #: ../src/modules/calendar/e-cal-shell-content.c:1733
 #: ../src/modules/calendar/e-task-shell-view-actions.c:220
 #: ../src/modules/calendar/e-task-shell-view-actions.c:235
-#: ../src/modules/calendar/e-task-shell-view.c:508
+#: ../src/modules/calendar/e-task-shell-view.c:515
 msgid "Tasks"
 msgstr "Завдання"
 
@@ -3790,11 +3790,11 @@ msgstr "_Широкий вигляд"
 msgid "As Sent Folder for Wi_de View"
 msgstr "Як тека надісланих повідомлень _широкий вигляд"
 
-#: ../data/views/memos/galview.xml.h:1 ../src/e-util/e-webdav-browser.c:2448
+#: ../data/views/memos/galview.xml.h:1 ../src/e-util/e-webdav-browser.c:2429
 msgid "_Memos"
 msgstr "_Примітки"
 
-#: ../data/views/tasks/galview.xml.h:1 ../src/e-util/e-webdav-browser.c:2452
+#: ../data/views/tasks/galview.xml.h:1 ../src/e-util/e-webdav-browser.c:2433
 #: ../src/plugins/pst-import/pst-importer.c:571
 msgid "_Tasks"
 msgstr "_Завдання"
@@ -4167,7 +4167,7 @@ msgstr "Параметри"
 #: ../src/e-util/e-source-selector-dialog.c:370
 #: ../src/e-util/e-table-config.c:548 ../src/e-util/e-table-config.ui.h:3
 #: ../src/e-util/e-timezone-dialog.ui.h:2
-#: ../src/e-util/evolution-source-viewer.c:835 ../src/e-util/e-web-view.c:3995
+#: ../src/e-util/evolution-source-viewer.c:835 ../src/e-util/e-web-view.c:3932
 #: ../src/e-util/gal-view-instance-save-as-dialog.c:267
 #: ../src/mail/e-mail-config-window.c:334 ../src/mail/e-mail-label-dialog.c:194
 #: ../src/mail/e-mail-tag-editor.c:160 ../src/mail/em-composer-utils.c:4050
@@ -4205,7 +4205,7 @@ msgstr "_Скасувати"
 #: ../src/e-util/e-attachment-store.c:848
 #: ../src/e-util/e-attachment-store.c:855
 #: ../src/e-util/e-mail-signature-script-dialog.c:370
-#: ../src/e-util/e-webdav-browser.c:2476 ../src/e-util/e-web-view.c:3995
+#: ../src/e-util/e-webdav-browser.c:2457 ../src/e-util/e-web-view.c:3932
 #: ../src/e-util/gal-view-instance-save-as-dialog.c:268
 #: ../src/shell/e-shell-content.c:642 ../src/shell/e-shell-utils.c:133
 #: ../src/smime/gui/certificate-manager.c:651
@@ -4860,7 +4860,7 @@ msgstr "Поштова адреса починається з"
 #: ../src/modules/addressbook/e-book-shell-view-actions.c:1295
 #: ../src/modules/calendar/e-cal-shell-view-actions.c:1692
 #: ../src/modules/calendar/e-memo-shell-view-actions.c:807
-#: ../src/modules/calendar/e-task-shell-view-actions.c:1015
+#: ../src/modules/calendar/e-task-shell-view-actions.c:1022
 msgid "Any field contains"
 msgstr "Будь-яке поле містить"
 
@@ -4875,17 +4875,17 @@ msgid "Copy _Email Address"
 msgstr "Копіювати _адресу ел.пошти"
 
 #: ../src/addressbook/gui/widgets/eab-contact-display.c:187
-#: ../src/e-util/e-web-view.c:432
+#: ../src/e-util/e-web-view.c:429
 msgid "Copy the email address to the clipboard"
 msgstr "Копіює елементи у буфер обміну"
 
 #: ../src/addressbook/gui/widgets/eab-contact-display.c:192
-#: ../src/e-util/e-web-view.c:444
+#: ../src/e-util/e-web-view.c:441
 msgid "_Send New Message To…"
 msgstr "_Надіслати нове повідомлення до…"
 
 #: ../src/addressbook/gui/widgets/eab-contact-display.c:194
-#: ../src/e-util/e-web-view.c:446
+#: ../src/e-util/e-web-view.c:443
 msgid "Send a mail message to this address"
 msgstr "Перетворити виділене повідомлення на завдання"
 
@@ -5285,7 +5285,7 @@ msgstr "Вилучити цей контакт (%s)?"
 #: ../src/calendar/gui/e-comp-editor.c:2048
 #: ../src/e-util/e-accounts-window.c:1753 ../src/e-util/e-focus-tracker.c:816
 #: ../src/e-util/evolution-source-viewer.c:806
-#: ../src/e-util/e-webdav-browser.c:2697
+#: ../src/e-util/e-webdav-browser.c:2678
 #: ../src/mail/e-mail-account-manager.c:739
 #: ../src/modules/addressbook/e-book-shell-view-actions.c:1173
 #: ../src/modules/calendar/e-cal-shell-view-actions.c:1499
@@ -6877,7 +6877,7 @@ msgid "calendar view for one or more weeks"
 msgstr "вікно календаря одного чи більше тижнів"
 
 #: ../src/calendar/gui/e-cal-component-preview.c:237
-#: ../src/e-util/e-filter-rule.c:989 ../src/mail/e-mail-config-page.c:124
+#: ../src/e-util/e-filter-rule.c:1068 ../src/mail/e-mail-config-page.c:124
 msgid "Untitled"
 msgstr "Без заголовку"
 
@@ -7288,7 +7288,7 @@ msgstr "Стан"
 #: ../src/e-util/e-accounts-window.c:1443
 #: ../src/e-util/e-attachment-tree-view.c:205
 #: ../src/e-util/e-collection-account-wizard.c:2001
-#: ../src/e-util/e-webdav-browser.c:2390
+#: ../src/e-util/e-webdav-browser.c:2371
 #: ../src/mail/e-mail-account-tree-view.c:158
 msgid "Type"
 msgstr "Тип"
@@ -8010,7 +8010,7 @@ msgstr "_Учасники…"
 #: ../src/e-util/e-accounts-window.c:1745
 #: ../src/e-util/e-html-editor-actions.c:1116
 #: ../src/e-util/e-mail-signature-manager.c:358
-#: ../src/e-util/e-webdav-browser.c:2690 ../src/e-util/filter.ui.h:26
+#: ../src/e-util/e-webdav-browser.c:2671 ../src/e-util/filter.ui.h:26
 #: ../src/mail/e-mail-account-manager.c:730 ../src/mail/e-mail-browser.c:217
 #: ../src/mail/e-mail-label-manager.c:380
 #: ../src/mail/em-folder-properties.c:1333 ../src/mail/mail-config.ui.h:68
@@ -8667,7 +8667,7 @@ msgid "Sending notifications to attendees…"
 msgstr "Надсилання сповіщення учасникам…"
 
 #: ../src/calendar/gui/e-comp-editor.c:985
-#: ../src/e-util/e-webdav-browser.c:1818
+#: ../src/e-util/e-webdav-browser.c:1799
 msgid "Saving changes…"
 msgstr "Збереження змін…"
 
@@ -8703,15 +8703,15 @@ msgstr "Закрити поточне вікно"
 #. copy menu item
 #: ../src/calendar/gui/e-comp-editor.c:2034 ../src/e-util/e-focus-tracker.c:806
 #: ../src/e-util/e-html-editor-actions.c:1072 ../src/e-util/e-text.c:2080
-#: ../src/e-util/e-web-view.c:471 ../src/mail/e-mail-browser.c:173
+#: ../src/e-util/e-web-view.c:468 ../src/mail/e-mail-browser.c:173
 #: ../src/mail/mail.error.xml.h:147 ../src/shell/e-shell-window-actions.c:903
 msgid "_Copy"
 msgstr "_Скопіювати"
 
 #: ../src/calendar/gui/e-comp-editor.c:2036 ../src/e-util/e-focus-tracker.c:203
 #: ../src/e-util/e-focus-tracker.c:259 ../src/e-util/e-focus-tracker.c:312
-#: ../src/e-util/e-focus-tracker.c:807 ../src/e-util/e-web-view.c:473
-#: ../src/e-util/e-web-view.c:2018 ../src/mail/e-mail-browser.c:175
+#: ../src/e-util/e-focus-tracker.c:807 ../src/e-util/e-web-view.c:470
+#: ../src/e-util/e-web-view.c:1994 ../src/mail/e-mail-browser.c:175
 #: ../src/shell/e-shell-window-actions.c:905
 msgid "Copy the selection"
 msgstr "Копіювати виділене"
@@ -8725,7 +8725,7 @@ msgstr "_Вирізати"
 
 #: ../src/calendar/gui/e-comp-editor.c:2043 ../src/e-util/e-focus-tracker.c:196
 #: ../src/e-util/e-focus-tracker.c:252 ../src/e-util/e-focus-tracker.c:306
-#: ../src/e-util/e-focus-tracker.c:802 ../src/e-util/e-web-view.c:2027
+#: ../src/e-util/e-focus-tracker.c:802 ../src/e-util/e-web-view.c:2003
 #: ../src/mail/e-mail-browser.c:182 ../src/shell/e-shell-window-actions.c:912
 msgid "Cut the selection"
 msgstr "Вирізати виділене"
@@ -8749,7 +8749,7 @@ msgstr "Вст_авити"
 
 #: ../src/calendar/gui/e-comp-editor.c:2064 ../src/e-util/e-focus-tracker.c:210
 #: ../src/e-util/e-focus-tracker.c:266 ../src/e-util/e-focus-tracker.c:318
-#: ../src/e-util/e-focus-tracker.c:812 ../src/e-util/e-web-view.c:2036
+#: ../src/e-util/e-focus-tracker.c:812 ../src/e-util/e-web-view.c:2012
 #: ../src/mail/e-mail-browser.c:189 ../src/shell/e-shell-window-actions.c:940
 msgid "Paste the clipboard"
 msgstr "Вставити з буфера обміну"
@@ -8765,12 +8765,12 @@ msgstr "Над_рукувати…"
 #: ../src/modules/addressbook/e-book-shell-view-actions.c:1326
 #: ../src/modules/calendar/e-cal-shell-view-actions.c:1723
 #: ../src/modules/calendar/e-memo-shell-view-actions.c:838
-#: ../src/modules/calendar/e-task-shell-view-actions.c:1046
+#: ../src/modules/calendar/e-task-shell-view-actions.c:1053
 msgid "Pre_view…"
 msgstr "_Перегляд…"
 
 #: ../src/calendar/gui/e-comp-editor.c:2083 ../src/e-util/e-focus-tracker.c:821
-#: ../src/e-util/e-html-editor-actions.c:1100 ../src/e-util/e-web-view.c:488
+#: ../src/e-util/e-html-editor-actions.c:1100 ../src/e-util/e-web-view.c:485
 #: ../src/mail/e-mail-browser.c:194 ../src/shell/e-shell-window-actions.c:1008
 msgid "Select _All"
 msgstr "Вибрати _все"
@@ -11563,7 +11563,7 @@ msgstr "Зберегти _чернетку"
 #: ../src/composer/e-composer-from-header.c:108
 #: ../src/e-util/e-collection-account-wizard.c:2033
 #: ../src/e-util/e-mail-signature-script-dialog.c:416
-#: ../src/e-util/e-webdav-browser.c:2417
+#: ../src/e-util/e-webdav-browser.c:2398
 #: ../src/e-util/gal-view-instance-save-as-dialog.ui.h:2
 #: ../src/mail/e-mail-config-identity-page.c:551
 #: ../src/mail/e-mail-config-summary-page.c:334
@@ -12024,7 +12024,7 @@ msgid "Format part as an RFC822 message"
 msgstr "Форматувати частину як лист RFC822"
 
 #: ../src/em-format/e-mail-formatter-print.c:50
-#: ../src/e-util/e-webdav-browser.c:2361
+#: ../src/e-util/e-webdav-browser.c:2342
 #: ../src/e-util/gal-view-instance-save-as-dialog.c:92
 #: ../src/mail/e-mail-label-tree-view.c:96
 #: ../src/modules/plugin-manager/evolution-plugin-manager.c:64
@@ -12492,7 +12492,7 @@ msgstr "Облікові записи Evolution"
 #. widget = gtk_button_new_with_mnemonic (_("_Permissions"));
 #. gtk_box_pack_start (GTK_BOX (container), widget, FALSE, FALSE, 0);
 #. webdav_browser->priv->permissions_button = widget;
-#: ../src/e-util/e-accounts-window.c:1761 ../src/e-util/e-webdav-browser.c:2708
+#: ../src/e-util/e-accounts-window.c:1761 ../src/e-util/e-webdav-browser.c:2689
 #: ../src/mail/em-subscription-editor.c:1952
 #: ../src/modules/mail/e-mail-shell-view-actions.c:1600
 #: ../src/modules/mail/e-mail-shell-view-actions.c:1678
@@ -12623,7 +12623,7 @@ msgstr "_Назва файлу:"
 #: ../src/e-util/e-attachment-dialog.c:354
 #: ../src/e-util/e-html-editor-image-dialog.c:513
 #: ../src/e-util/e-html-editor-link-dialog.c:226
-#: ../src/e-util/e-webdav-browser.c:2456
+#: ../src/e-util/e-webdav-browser.c:2437
 msgid "_Description:"
 msgstr "_Опис:"
 
@@ -13779,23 +13779,23 @@ msgstr "Вибір часу для порівняння"
 msgid "Choose a File"
 msgstr "Виберіть файл"
 
-#: ../src/e-util/e-filter-rule.c:982
+#: ../src/e-util/e-filter-rule.c:1061
 msgid "R_ule name:"
 msgstr "_Назва правила"
 
-#: ../src/e-util/e-filter-rule.c:1038
+#: ../src/e-util/e-filter-rule.c:1117
 msgid "all the following conditions"
 msgstr "усі подальші умови"
 
-#: ../src/e-util/e-filter-rule.c:1039
+#: ../src/e-util/e-filter-rule.c:1118
 msgid "any of the following conditions"
 msgstr "будь-який з подальших умов"
 
-#: ../src/e-util/e-filter-rule.c:1045
+#: ../src/e-util/e-filter-rule.c:1124
 msgid "_Find items which match:"
 msgstr "З_найти об'єкти, які збігаються:"
 
-#: ../src/e-util/e-filter-rule.c:1068
+#: ../src/e-util/e-filter-rule.c:1147
 msgid "Find items that meet the following conditions"
 msgstr "Знайти елементи, що відповідають вказаним критеріям"
 
@@ -13803,7 +13803,7 @@ msgstr "Знайти елементи, що відповідають вказа�
 #. * part of "Include threads: None"
 #. protocol:
 #. name:
-#: ../src/e-util/e-filter-rule.c:1083
+#: ../src/e-util/e-filter-rule.c:1162
 #: ../src/e-util/e-html-editor-page-dialog.c:62
 #: ../src/e-util/e-mail-identity-combo-box.c:694
 #: ../src/e-util/e-mail-signature-combo-box.c:422
@@ -13814,36 +13814,36 @@ msgstr "Знайти елементи, що відповідають вказа�
 msgid "None"
 msgstr "Немає"
 
-#: ../src/e-util/e-filter-rule.c:1084
+#: ../src/e-util/e-filter-rule.c:1163
 msgid "All related"
 msgstr "Усе пов'язане"
 
-#: ../src/e-util/e-filter-rule.c:1085 ../src/e-util/e-send-options.ui.h:24
+#: ../src/e-util/e-filter-rule.c:1164 ../src/e-util/e-send-options.ui.h:24
 msgid "Replies"
 msgstr "Відповіді"
 
-#: ../src/e-util/e-filter-rule.c:1086
+#: ../src/e-util/e-filter-rule.c:1165
 msgid "Replies and parents"
 msgstr "Відповіді та батьківські"
 
-#: ../src/e-util/e-filter-rule.c:1087
+#: ../src/e-util/e-filter-rule.c:1166
 msgid "No reply or parent"
 msgstr "Не є відповіддю чи батьківським"
 
-#: ../src/e-util/e-filter-rule.c:1090
+#: ../src/e-util/e-filter-rule.c:1169
 msgid "I_nclude threads:"
 msgstr "_Ураховуючи гілки:"
 
-#: ../src/e-util/e-filter-rule.c:1168
+#: ../src/e-util/e-filter-rule.c:1247
 msgid "A_dd Condition"
 msgstr "Додати _критерій"
 
-#: ../src/e-util/e-filter-rule.c:1488 ../src/e-util/filter.ui.h:1
+#: ../src/e-util/e-filter-rule.c:1567 ../src/e-util/filter.ui.h:1
 #: ../src/mail/em-filter-rule.c:1042 ../src/mail/em-utils.c:166
 msgid "Incoming"
 msgstr "Вхідні"
 
-#: ../src/e-util/e-filter-rule.c:1488 ../src/mail/em-filter-rule.c:1043
+#: ../src/e-util/e-filter-rule.c:1567 ../src/mail/em-filter-rule.c:1043
 #: ../src/mail/em-utils.c:167
 msgid "Outgoing"
 msgstr "Вихідні"
@@ -14920,7 +14920,7 @@ msgstr "_Заповнення:"
 
 #: ../src/e-util/e-html-editor-table-dialog.c:676
 #: ../src/e-util/e-html-editor-text-dialog.c:248
-#: ../src/e-util/e-webdav-browser.c:2427
+#: ../src/e-util/e-webdav-browser.c:2408
 msgid "_Color:"
 msgstr "_Колір:"
 
@@ -15659,7 +15659,7 @@ msgstr "Тип:"
 msgid "Name:"
 msgstr "Назва:"
 
-#: ../src/e-util/e-source-config.c:850 ../src/e-util/e-webdav-browser.c:1752
+#: ../src/e-util/e-source-config.c:850 ../src/e-util/e-webdav-browser.c:1733
 msgid "Name cannot be empty"
 msgstr "Назва не може бути порожня"
 
@@ -16147,191 +16147,191 @@ msgid "Events"
 msgstr "Події"
 
 #: ../src/e-util/e-webdav-browser.c:515 ../src/mail/em-folder-tree-model.c:1555
-#: ../src/mail/em-folder-tree-model.c:1932
+#: ../src/mail/em-folder-tree-model.c:1936
 msgid "Loading…"
 msgstr "Завантаження…"
 
-#: ../src/e-util/e-webdav-browser.c:1387
+#: ../src/e-util/e-webdav-browser.c:1368
 msgid "Searching collection children…"
 msgstr "Пошук складових збірки…"
 
-#: ../src/e-util/e-webdav-browser.c:1389
+#: ../src/e-util/e-webdav-browser.c:1370
 msgid "Failed to search for collection children"
 msgstr "Не вдалося здійснити пошук складових колекції"
 
-#: ../src/e-util/e-webdav-browser.c:1423
+#: ../src/e-util/e-webdav-browser.c:1404
 msgid "Searching for user home, please wait…"
 msgstr "Пошук домівки користувача, будь ласка, зачекайте…"
 
-#: ../src/e-util/e-webdav-browser.c:1425
+#: ../src/e-util/e-webdav-browser.c:1406
 msgid "Failed to search for user home"
 msgstr "Не вдалося знайти домівку користувача"
 
-#: ../src/e-util/e-webdav-browser.c:1768
+#: ../src/e-util/e-webdav-browser.c:1749
 msgid "At least one component type should be set"
 msgstr "Має бути визначений принаймні один тип компонента"
 
-#: ../src/e-util/e-webdav-browser.c:1787
+#: ../src/e-util/e-webdav-browser.c:1768
 msgid "Failed to get selected collection HREF"
 msgstr "Не вдалося отримати HREF вибраної збірки"
 
-#: ../src/e-util/e-webdav-browser.c:1819
+#: ../src/e-util/e-webdav-browser.c:1800
 msgid "Failed to save changes"
 msgstr "Не вдалося зберегти зміни"
 
-#: ../src/e-util/e-webdav-browser.c:1821
+#: ../src/e-util/e-webdav-browser.c:1802
 msgid "Creating new book…"
 msgstr "Створення нової книги…"
 
-#: ../src/e-util/e-webdav-browser.c:1822
+#: ../src/e-util/e-webdav-browser.c:1803
 msgid "Failed to create new book"
 msgstr "Не вдалося створити нову книгу"
 
-#: ../src/e-util/e-webdav-browser.c:1824
+#: ../src/e-util/e-webdav-browser.c:1805
 msgid "Creating new calendar…"
 msgstr "Створення нового календаря…"
 
-#: ../src/e-util/e-webdav-browser.c:1825
+#: ../src/e-util/e-webdav-browser.c:1806
 msgid "Failed to create new calendar"
 msgstr "Не вдалося створити новий календар"
 
-#: ../src/e-util/e-webdav-browser.c:1827
+#: ../src/e-util/e-webdav-browser.c:1808
 msgid "Creating new collection…"
 msgstr "Створення нової збірки…"
 
-#: ../src/e-util/e-webdav-browser.c:1828
+#: ../src/e-util/e-webdav-browser.c:1809
 msgid "Failed to create new collection"
 msgstr "Не вдалося створити нову збірку"
 
-#: ../src/e-util/e-webdav-browser.c:1967
+#: ../src/e-util/e-webdav-browser.c:1948
 msgid "It is not allowed to create book under another book or calendar"
 msgstr "Не дозволяється створювати книги під іншою книгою чи календарем"
 
 #. if (button == webdav_browser->priv->create_calendar_button)
-#: ../src/e-util/e-webdav-browser.c:1969
+#: ../src/e-util/e-webdav-browser.c:1950
 msgid "It is not allowed to create calendar under another book or calendar"
 msgstr "Не дозволяється створювати календар під іншою книгою чи календарем"
 
-#: ../src/e-util/e-webdav-browser.c:2198
+#: ../src/e-util/e-webdav-browser.c:2179
 msgid "Deleting book…"
 msgstr "Вилучення книги…"
 
-#: ../src/e-util/e-webdav-browser.c:2199
+#: ../src/e-util/e-webdav-browser.c:2180
 msgid "Failed to delete book"
 msgstr "Не вдалося вилучити книгу"
 
-#: ../src/e-util/e-webdav-browser.c:2202
+#: ../src/e-util/e-webdav-browser.c:2183
 msgid "Deleting calendar…"
 msgstr "Вилучення календаря…"
 
-#: ../src/e-util/e-webdav-browser.c:2203
+#: ../src/e-util/e-webdav-browser.c:2184
 msgid "Failed to delete calendar"
 msgstr "Не вдалося вилучити календар"
 
-#: ../src/e-util/e-webdav-browser.c:2206
+#: ../src/e-util/e-webdav-browser.c:2187
 msgid "Deleting collection…"
 msgstr "Вилучення збірки…"
 
-#: ../src/e-util/e-webdav-browser.c:2207
+#: ../src/e-util/e-webdav-browser.c:2188
 msgid "Failed to delete collection"
 msgstr "Не вдалося вилучити збірку"
 
-#: ../src/e-util/e-webdav-browser.c:2438
+#: ../src/e-util/e-webdav-browser.c:2419
 msgid "For Components:"
 msgstr "Для компонентів:"
 
-#: ../src/e-util/e-webdav-browser.c:2444
+#: ../src/e-util/e-webdav-browser.c:2425
 msgid "_Events"
 msgstr "_Події"
 
-#: ../src/e-util/e-webdav-browser.c:2634
+#: ../src/e-util/e-webdav-browser.c:2615
 msgid "WebDAV server:"
 msgstr "Сервер WebDAV:"
 
-#: ../src/e-util/e-webdav-browser.c:2669
+#: ../src/e-util/e-webdav-browser.c:2650
 msgid "Create _Book"
 msgstr "Створити _книгу"
 
-#: ../src/e-util/e-webdav-browser.c:2676
+#: ../src/e-util/e-webdav-browser.c:2657
 msgid "Create _Calendar"
 msgstr "Створити _календар"
 
-#: ../src/e-util/e-webdav-browser.c:2683
+#: ../src/e-util/e-webdav-browser.c:2664
 msgid "Create Collectio_n"
 msgstr "Створити з_бірку"
 
-#: ../src/e-util/e-web-view.c:410
+#: ../src/e-util/e-web-view.c:407
 msgid "_Copy Link Location"
 msgstr "_Копіювати посилання"
 
-#: ../src/e-util/e-web-view.c:412
+#: ../src/e-util/e-web-view.c:409
 msgid "Copy the link to the clipboard"
 msgstr "Копіювати посилання у буфер обміну"
 
-#: ../src/e-util/e-web-view.c:420
+#: ../src/e-util/e-web-view.c:417
 msgid "_Open Link in Browser"
 msgstr "_Відкрити посилання у Інтернет-навігаторі"
 
-#: ../src/e-util/e-web-view.c:422
+#: ../src/e-util/e-web-view.c:419
 msgid "Open the link in a web browser"
 msgstr "Відкрити посилання у Інтернет-навігаторі"
 
-#: ../src/e-util/e-web-view.c:430
+#: ../src/e-util/e-web-view.c:427
 msgid "_Copy Email Address"
 msgstr "_Копіювати адресу ел.пошти"
 
-#: ../src/e-util/e-web-view.c:437
+#: ../src/e-util/e-web-view.c:434
 msgid "Copy _Raw Email Address"
 msgstr "Копіювати _чисту адресу пошти"
 
-#: ../src/e-util/e-web-view.c:439
+#: ../src/e-util/e-web-view.c:436
 msgid "Copy the raw email address to the clipboard"
 msgstr "Копіювати чисту адресу пошти у буфер"
 
-#: ../src/e-util/e-web-view.c:454
+#: ../src/e-util/e-web-view.c:451
 msgid "_Copy Image"
 msgstr "_копіювати зображення"
 
-#: ../src/e-util/e-web-view.c:456
+#: ../src/e-util/e-web-view.c:453
 msgid "Copy the image to the clipboard"
 msgstr "Копіювати зображення в буфер"
 
-#: ../src/e-util/e-web-view.c:461
+#: ../src/e-util/e-web-view.c:458
 msgid "Save _Image…"
 msgstr "З_берегти зображення…"
 
-#: ../src/e-util/e-web-view.c:463
+#: ../src/e-util/e-web-view.c:460
 msgid "Save the image to a file"
 msgstr "Зберегти зображення у файл"
 
-#: ../src/e-util/e-web-view.c:478 ../src/mail/e-mail-browser.c:201
+#: ../src/e-util/e-web-view.c:475 ../src/mail/e-mail-browser.c:201
 #: ../src/mail/e-mail-reader.c:2819
 msgid "Search _Web…"
 msgstr "Шукати в _інтернеті…"
 
-#: ../src/e-util/e-web-view.c:480 ../src/mail/e-mail-browser.c:203
+#: ../src/e-util/e-web-view.c:477 ../src/mail/e-mail-browser.c:203
 #: ../src/mail/e-mail-reader.c:2821
 msgid "Search the Web with the selected text"
 msgstr "Шукати позначений фрагмент тексту в інтернеті"
 
-#: ../src/e-util/e-web-view.c:490 ../src/e-util/e-web-view.c:2040
+#: ../src/e-util/e-web-view.c:487 ../src/e-util/e-web-view.c:2016
 msgid "Select all text and images"
 msgstr "Виділити весь текст та зображення"
 
-#: ../src/e-util/e-web-view.c:3805
+#: ../src/e-util/e-web-view.c:3742
 msgid "Copying image to clipboard"
 msgstr "Копіювати зображення в буфер"
 
-#: ../src/e-util/e-web-view.c:3993
+#: ../src/e-util/e-web-view.c:3930
 msgid "Save Image"
 msgstr "Зберегти зображення"
 
-#: ../src/e-util/e-web-view.c:4030
+#: ../src/e-util/e-web-view.c:3967
 #, c-format
 msgid "Saving image to “%s”"
 msgstr "Збереження зображення до «%s»"
 
-#: ../src/e-util/e-web-view.c:4177
+#: ../src/e-util/e-web-view.c:4114
 #, c-format
 msgid "Cannot get URI “%s”, do not know how to download it."
 msgstr "Не вдалося отримати URI «%s», невідомо, як його завантажити."
@@ -18998,7 +18998,7 @@ msgstr "<клацніть, щоб вибрати теку>"
 msgid "Create a new folder"
 msgstr "Створити нову теку"
 
-#: ../src/mail/em-folder-tree.c:685
+#: ../src/mail/em-folder-tree.c:684
 msgid "Folder names cannot contain “/”"
 msgstr "Назви файлів не можуть містити «/»"
 
@@ -19020,37 +19020,37 @@ msgstr "Назви файлів не можуть містити «/»"
 #. * Do not translate the "folder-display|" part. Remove it
 #. * from your translation.
 #.
-#: ../src/mail/em-folder-tree.c:879
+#: ../src/mail/em-folder-tree.c:878
 #, c-format
 msgctxt "folder-display"
 msgid "%s (%u%s)"
 msgstr "%s (%u%s)"
 
-#: ../src/mail/em-folder-tree.c:1741
+#: ../src/mail/em-folder-tree.c:1740
 msgid "Mail Folder Tree"
 msgstr "Дерево поштових тек"
 
-#: ../src/mail/em-folder-tree.c:2290
+#: ../src/mail/em-folder-tree.c:2289
 #, c-format
 msgid "Moving folder %s"
 msgstr "Переміщення теки %s"
 
-#: ../src/mail/em-folder-tree.c:2293
+#: ../src/mail/em-folder-tree.c:2292
 #, c-format
 msgid "Copying folder %s"
 msgstr "Відкривання теки %s"
 
-#: ../src/mail/em-folder-tree.c:2300 ../src/mail/message-list.c:2632
+#: ../src/mail/em-folder-tree.c:2299 ../src/mail/message-list.c:2632
 #, c-format
 msgid "Moving messages into folder %s"
 msgstr "Переміщення повідомлень у теку %s"
 
-#: ../src/mail/em-folder-tree.c:2304 ../src/mail/message-list.c:2634
+#: ../src/mail/em-folder-tree.c:2303 ../src/mail/message-list.c:2634
 #, c-format
 msgid "Copying messages into folder %s"
 msgstr "Копіювання повідомлень у теку %s"
 
-#: ../src/mail/em-folder-tree.c:2323
+#: ../src/mail/em-folder-tree.c:2322
 #, c-format
 msgid "Cannot drop message(s) into toplevel store"
 msgstr "Не вдалося скинути повідомлення у сховище верхнього рівня"
@@ -19995,7 +19995,6 @@ msgid "Fix_ed Width Font:"
 msgstr "Шрифт не_змінної ширини:"
 
 #: ../src/mail/mail-config.ui.h:94
-#| msgid "Font _Size"
 msgid "Minimum Font _Size:"
 msgstr "Мінімальний _розмір шрифту:"
 
@@ -21326,7 +21325,7 @@ msgstr "Повідомлення"
 msgid "Follow-up"
 msgstr "Відповісти"
 
-#: ../src/mail/message-list.c:6795
+#: ../src/mail/message-list.c:6791
 msgid ""
 "No message satisfies your search criteria. Change search criteria by "
 "selecting a new Show message filter from the drop down list above or by "
@@ -21338,11 +21337,11 @@ msgstr ""
 "запустивши новий пошук через очищення його за допомогою пункту меню «Пошук → "
 "Очистити пункт меню» або зміну запиту вище."
 
-#: ../src/mail/message-list.c:6803
+#: ../src/mail/message-list.c:6799
 msgid "There are no messages in this folder."
 msgstr "У теці немає повідомлень."
 
-#: ../src/mail/message-list.c:6879
+#: ../src/mail/message-list.c:6875
 msgid "Generating message list…"
 msgstr "Створення списку повідомлень…"
 
@@ -21793,14 +21792,14 @@ msgstr "Показувати попередній перегляд контак�
 #: ../src/modules/addressbook/e-book-shell-view-actions.c:1278
 #: ../src/modules/calendar/e-cal-shell-view-actions.c:1675
 #: ../src/modules/calendar/e-memo-shell-view-actions.c:790
-#: ../src/modules/calendar/e-task-shell-view-actions.c:998
+#: ../src/modules/calendar/e-task-shell-view-actions.c:1005
 msgid "Unmatched"
 msgstr "Інше"
 
 #: ../src/modules/addressbook/e-book-shell-view-actions.c:1288
 #: ../src/modules/calendar/e-cal-shell-view-actions.c:1685
 #: ../src/modules/calendar/e-memo-shell-view-actions.c:800
-#: ../src/modules/calendar/e-task-shell-view-actions.c:1008
+#: ../src/modules/calendar/e-task-shell-view-actions.c:1015
 #: ../src/modules/mail/e-mail-shell-view-actions.c:2083
 #: ../src/shell/e-shell-content.c:639
 msgid "Advanced Search"
@@ -23159,13 +23158,13 @@ msgstr "Трапилось менше за 5 разів"
 
 #: ../src/modules/calendar/e-cal-shell-view-actions.c:1699
 #: ../src/modules/calendar/e-memo-shell-view-actions.c:814
-#: ../src/modules/calendar/e-task-shell-view-actions.c:1022
+#: ../src/modules/calendar/e-task-shell-view-actions.c:1029
 msgid "Description contains"
 msgstr "Опис містить"
 
 #: ../src/modules/calendar/e-cal-shell-view-actions.c:1706
 #: ../src/modules/calendar/e-memo-shell-view-actions.c:821
-#: ../src/modules/calendar/e-task-shell-view-actions.c:1029
+#: ../src/modules/calendar/e-task-shell-view-actions.c:1036
 msgid "Summary contains"
 msgstr "Зведення містить"
 
@@ -23175,8 +23174,8 @@ msgstr "Зведення містить"
 #: ../src/modules/calendar/e-cal-shell-view-taskpad.c:363
 #: ../src/modules/calendar/e-memo-shell-view-actions.c:831
 #: ../src/modules/calendar/e-memo-shell-view-actions.c:845
-#: ../src/modules/calendar/e-task-shell-view-actions.c:1039
-#: ../src/modules/calendar/e-task-shell-view-actions.c:1053
+#: ../src/modules/calendar/e-task-shell-view-actions.c:1046
+#: ../src/modules/calendar/e-task-shell-view-actions.c:1060
 msgid "Print…"
 msgstr "Надрукувати…"
 
@@ -23192,7 +23191,7 @@ msgstr "Переглянути перегляд календаря при дру
 #: ../src/modules/calendar/e-cal-shell-view-memopad.c:279
 #: ../src/modules/calendar/e-cal-shell-view-taskpad.c:373
 #: ../src/modules/calendar/e-memo-shell-view-actions.c:862
-#: ../src/modules/calendar/e-task-shell-view-actions.c:1070
+#: ../src/modules/calendar/e-task-shell-view-actions.c:1077
 msgid "_Save as iCalendar…"
 msgstr "З_берегти як iCalendar…"
 
@@ -23325,7 +23324,7 @@ msgid "View the selected task"
 msgstr "Переглянути виділене завдання"
 
 #: ../src/modules/calendar/e-cal-shell-view-taskpad.c:365
-#: ../src/modules/calendar/e-task-shell-view-actions.c:1055
+#: ../src/modules/calendar/e-task-shell-view-actions.c:1062
 msgid "Print the selected task"
 msgstr "Друкувати виділене завдання"
 
@@ -23584,33 +23583,38 @@ msgstr "Скасовані завдання"
 
 #: ../src/modules/calendar/e-task-shell-view-actions.c:970
 msgid "Completed Tasks"
-msgstr "Завершені завдання "
+msgstr "Завершені завдання"
 
 #: ../src/modules/calendar/e-task-shell-view-actions.c:977
+#| msgid "Completed Tasks"
+msgid "Uncompleted Tasks"
+msgstr "Незавершені завдання"
+
+#: ../src/modules/calendar/e-task-shell-view-actions.c:984
 msgid "Next 7 Days’ Tasks"
 msgstr "Завдання наступних 7 днів"
 
-#: ../src/modules/calendar/e-task-shell-view-actions.c:984
+#: ../src/modules/calendar/e-task-shell-view-actions.c:991
 msgid "Overdue Tasks"
 msgstr "Прострочені завдання"
 
-#: ../src/modules/calendar/e-task-shell-view-actions.c:991
+#: ../src/modules/calendar/e-task-shell-view-actions.c:998
 msgid "Tasks with Attachments"
 msgstr "Завдання з долученнями"
 
-#: ../src/modules/calendar/e-task-shell-view-actions.c:1041
+#: ../src/modules/calendar/e-task-shell-view-actions.c:1048
 msgid "Print the list of tasks"
 msgstr "Надрукувати список завдань"
 
-#: ../src/modules/calendar/e-task-shell-view-actions.c:1048
+#: ../src/modules/calendar/e-task-shell-view-actions.c:1055
 msgid "Preview the list of tasks to be printed"
 msgstr "Попередній перегляд списку завдань для друку"
 
-#: ../src/modules/calendar/e-task-shell-view.c:346
+#: ../src/modules/calendar/e-task-shell-view.c:353
 msgid "Delete Tasks"
 msgstr "Вилучити завдання"
 
-#: ../src/modules/calendar/e-task-shell-view.c:348
+#: ../src/modules/calendar/e-task-shell-view.c:355
 msgid "Delete Task"
 msgstr "Вилучити завдання"
 
