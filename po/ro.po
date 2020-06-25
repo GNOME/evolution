@@ -13,9 +13,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: evolution.HEAD.ro\n"
 "Report-Msgid-Bugs-To: https://gitlab.gnome.org/GNOME/evolution/issues\n"
-"POT-Creation-Date: 2020-06-18 07:56+0000\n"
-"PO-Revision-Date: 2020-06-18 19:35+0200\n"
-"Last-Translator: Florentina Mușat <emryslokadottir [at] gmail [dot] com>\n"
+"POT-Creation-Date: 2020-06-24 10:45+0000\n"
+"PO-Revision-Date: 2020-06-25 12:09+0300\n"
+"Last-Translator: Florentina Mușat <florentina.musat.28@gmail.com>\n"
 "Language-Team: Gnome Romanian Translation Team <gnomero-list@lists.sourceforge.net>\n"
 "Language: ro\n"
 "MIME-Version: 1.0\n"
@@ -2994,7 +2994,7 @@ msgstr "Memo-uri"
 #: ../src/calendar/importers/icalendar-importer.c:77 ../src/calendar/importers/icalendar-importer.c:1141
 #: ../src/e-util/e-webdav-browser.c:461 ../src/modules/calendar/e-calendar-preferences.ui.h:72
 #: ../src/modules/calendar/e-cal-shell-content.c:1733 ../src/modules/calendar/e-task-shell-view-actions.c:220
-#: ../src/modules/calendar/e-task-shell-view-actions.c:235 ../src/modules/calendar/e-task-shell-view.c:508
+#: ../src/modules/calendar/e-task-shell-view-actions.c:235 ../src/modules/calendar/e-task-shell-view.c:515
 msgid "Tasks"
 msgstr "Sarcini"
 
@@ -3298,11 +3298,11 @@ msgstr "Pentru vizualizarea _lărgită"
 msgid "As Sent Folder for Wi_de View"
 msgstr "Ca director Trimise pentru vizualizarea _lărgită"
 
-#: ../data/views/memos/galview.xml.h:1 ../src/e-util/e-webdav-browser.c:2448
+#: ../data/views/memos/galview.xml.h:1 ../src/e-util/e-webdav-browser.c:2429
 msgid "_Memos"
 msgstr "_Memo-uri"
 
-#: ../data/views/tasks/galview.xml.h:1 ../src/e-util/e-webdav-browser.c:2452 ../src/plugins/pst-import/pst-importer.c:571
+#: ../data/views/tasks/galview.xml.h:1 ../src/e-util/e-webdav-browser.c:2433 ../src/plugins/pst-import/pst-importer.c:571
 msgid "_Tasks"
 msgstr "_Sarcini"
 
@@ -3640,7 +3640,7 @@ msgstr "_Anulează"
 #: ../src/addressbook/gui/widgets/eab-contact-merging.c:755 ../src/calendar/calendar.error.xml.h:47
 #: ../src/calendar/gui/e-comp-editor.c:2158 ../src/composer/e-composer-actions.c:242 ../src/composer/e-composer-actions.c:354
 #: ../src/e-util/e-attachment-store.c:848 ../src/e-util/e-attachment-store.c:855
-#: ../src/e-util/e-mail-signature-script-dialog.c:370 ../src/e-util/e-webdav-browser.c:2476 ../src/e-util/e-web-view.c:3932
+#: ../src/e-util/e-mail-signature-script-dialog.c:370 ../src/e-util/e-webdav-browser.c:2457 ../src/e-util/e-web-view.c:3932
 #: ../src/e-util/gal-view-instance-save-as-dialog.c:268 ../src/shell/e-shell-content.c:642 ../src/shell/e-shell-utils.c:133
 #: ../src/smime/gui/certificate-manager.c:651 ../src/smime/gui/certificate-manager.c:724
 msgid "_Save"
@@ -4232,7 +4232,7 @@ msgstr "Email-ul începe cu"
 #: ../src/addressbook/gui/widgets/addresstypes.xml.h:3 ../src/calendar/gui/caltypes.xml.in.h:26
 #: ../src/calendar/gui/memotypes.xml.in.h:19 ../src/calendar/gui/tasktypes.xml.in.h:30
 #: ../src/modules/addressbook/e-book-shell-view-actions.c:1295 ../src/modules/calendar/e-cal-shell-view-actions.c:1692
-#: ../src/modules/calendar/e-memo-shell-view-actions.c:807 ../src/modules/calendar/e-task-shell-view-actions.c:1015
+#: ../src/modules/calendar/e-memo-shell-view-actions.c:807 ../src/modules/calendar/e-task-shell-view-actions.c:1022
 msgid "Any field contains"
 msgstr "Orice câmp conține"
 
@@ -4625,7 +4625,7 @@ msgstr "Sigur doriți să ștergeți acest contact (%s)?"
 
 #: ../src/addressbook/gui/widgets/e-addressbook-view.c:1323 ../src/calendar/gui/e-comp-editor.c:2048
 #: ../src/e-util/e-accounts-window.c:1753 ../src/e-util/e-focus-tracker.c:816 ../src/e-util/evolution-source-viewer.c:806
-#: ../src/e-util/e-webdav-browser.c:2697 ../src/mail/e-mail-account-manager.c:739
+#: ../src/e-util/e-webdav-browser.c:2678 ../src/mail/e-mail-account-manager.c:739
 #: ../src/modules/addressbook/e-book-shell-view-actions.c:1173 ../src/modules/calendar/e-cal-shell-view-actions.c:1499
 #: ../src/modules/calendar/e-memo-shell-view-actions.c:697 ../src/modules/calendar/e-task-shell-view-actions.c:851
 #: ../src/modules/mail/e-mail-shell-view-actions.c:1628 ../src/shell/e-shell-window-actions.c:917
@@ -6429,7 +6429,7 @@ msgstr "Stare"
 #: ../src/calendar/gui/e-meeting-time-sel.etspec.h:4 ../src/calendar/gui/e-memo-table.etspec.h:3
 #: ../src/calendar/gui/e-task-table.etspec.h:3 ../src/e-util/e-accounts-window.c:1443
 #: ../src/e-util/e-attachment-tree-view.c:205 ../src/e-util/e-collection-account-wizard.c:2001
-#: ../src/e-util/e-webdav-browser.c:2390 ../src/mail/e-mail-account-tree-view.c:158
+#: ../src/e-util/e-webdav-browser.c:2371 ../src/mail/e-mail-account-tree-view.c:158
 msgid "Type"
 msgstr "Tip"
 
@@ -7067,7 +7067,7 @@ msgstr "Participa_nți…"
 
 #: ../src/calendar/gui/e-comp-editor-page-general.c:1533 ../src/calendar/gui/e-comp-editor-page-recurrence.c:2321
 #: ../src/calendar/gui/e-comp-editor.c:2113 ../src/e-util/e-accounts-window.c:1745 ../src/e-util/e-html-editor-actions.c:1116
-#: ../src/e-util/e-mail-signature-manager.c:358 ../src/e-util/e-webdav-browser.c:2690 ../src/e-util/filter.ui.h:26
+#: ../src/e-util/e-mail-signature-manager.c:358 ../src/e-util/e-webdav-browser.c:2671 ../src/e-util/filter.ui.h:26
 #: ../src/mail/e-mail-account-manager.c:730 ../src/mail/e-mail-browser.c:217 ../src/mail/e-mail-label-manager.c:380
 #: ../src/mail/em-folder-properties.c:1333 ../src/mail/mail-config.ui.h:68
 #: ../src/plugins/attachment-reminder/attachment-reminder.c:549 ../src/plugins/email-custom-header/email-custom-header.c:844
@@ -7707,7 +7707,7 @@ msgstr "fișier atașat"
 msgid "Sending notifications to attendees…"
 msgstr "Se trimit notificări participanților…"
 
-#: ../src/calendar/gui/e-comp-editor.c:985 ../src/e-util/e-webdav-browser.c:1818
+#: ../src/calendar/gui/e-comp-editor.c:985 ../src/e-util/e-webdav-browser.c:1799
 msgid "Saving changes…"
 msgstr "_Se salvează modificările…"
 
@@ -7784,7 +7784,7 @@ msgstr "Ti_părește…"
 
 #: ../src/calendar/gui/e-comp-editor.c:2076 ../src/mail/e-mail-reader.c:2756
 #: ../src/modules/addressbook/e-book-shell-view-actions.c:1326 ../src/modules/calendar/e-cal-shell-view-actions.c:1723
-#: ../src/modules/calendar/e-memo-shell-view-actions.c:838 ../src/modules/calendar/e-task-shell-view-actions.c:1046
+#: ../src/modules/calendar/e-memo-shell-view-actions.c:838 ../src/modules/calendar/e-task-shell-view-actions.c:1053
 msgid "Pre_view…"
 msgstr "Pre_vizualizare…"
 
@@ -10503,7 +10503,7 @@ msgid "Save Draft"
 msgstr "Salvează ciornă"
 
 #: ../src/composer/e-composer-from-header.c:108 ../src/e-util/e-collection-account-wizard.c:2033
-#: ../src/e-util/e-mail-signature-script-dialog.c:416 ../src/e-util/e-webdav-browser.c:2417
+#: ../src/e-util/e-mail-signature-script-dialog.c:416 ../src/e-util/e-webdav-browser.c:2398
 #: ../src/e-util/gal-view-instance-save-as-dialog.ui.h:2 ../src/mail/e-mail-config-identity-page.c:551
 #: ../src/mail/e-mail-config-summary-page.c:334 ../src/modules/accounts-window/e-accounts-window-editors.c:297
 msgid "_Name:"
@@ -10891,7 +10891,7 @@ msgstr "Mesaj RFC822"
 msgid "Format part as an RFC822 message"
 msgstr "Formatează partea ca un mesaj RFC822"
 
-#: ../src/em-format/e-mail-formatter-print.c:50 ../src/e-util/e-webdav-browser.c:2361
+#: ../src/em-format/e-mail-formatter-print.c:50 ../src/e-util/e-webdav-browser.c:2342
 #: ../src/e-util/gal-view-instance-save-as-dialog.c:92 ../src/mail/e-mail-label-tree-view.c:96
 #: ../src/modules/plugin-manager/evolution-plugin-manager.c:64
 msgid "Name"
@@ -11292,7 +11292,7 @@ msgstr "Conturi Evolution"
 #. widget = gtk_button_new_with_mnemonic (_("_Permissions"));
 #. gtk_box_pack_start (GTK_BOX (container), widget, FALSE, FALSE, 0);
 #. webdav_browser->priv->permissions_button = widget;
-#: ../src/e-util/e-accounts-window.c:1761 ../src/e-util/e-webdav-browser.c:2708 ../src/mail/em-subscription-editor.c:1952
+#: ../src/e-util/e-accounts-window.c:1761 ../src/e-util/e-webdav-browser.c:2689 ../src/mail/em-subscription-editor.c:1952
 #: ../src/modules/mail/e-mail-shell-view-actions.c:1600 ../src/modules/mail/e-mail-shell-view-actions.c:1678
 msgid "_Refresh"
 msgstr "_Reîmprospătează"
@@ -11416,7 +11416,7 @@ msgid "F_ilename:"
 msgstr "Nume f_ișier:"
 
 #: ../src/e-util/e-attachment-dialog.c:354 ../src/e-util/e-html-editor-image-dialog.c:513
-#: ../src/e-util/e-html-editor-link-dialog.c:226 ../src/e-util/e-webdav-browser.c:2456
+#: ../src/e-util/e-html-editor-link-dialog.c:226 ../src/e-util/e-webdav-browser.c:2437
 msgid "_Description:"
 msgstr "_Descriere:"
 
@@ -13607,7 +13607,7 @@ msgid "_Padding:"
 msgstr "Com_pletare:"
 
 #: ../src/e-util/e-html-editor-table-dialog.c:676 ../src/e-util/e-html-editor-text-dialog.c:248
-#: ../src/e-util/e-webdav-browser.c:2427
+#: ../src/e-util/e-webdav-browser.c:2408
 msgid "_Color:"
 msgstr "_Culoare:"
 
@@ -14306,7 +14306,7 @@ msgstr "Tip:"
 msgid "Name:"
 msgstr "Nume:"
 
-#: ../src/e-util/e-source-config.c:850 ../src/e-util/e-webdav-browser.c:1752
+#: ../src/e-util/e-source-config.c:850 ../src/e-util/e-webdav-browser.c:1733
 msgid "Name cannot be empty"
 msgstr "Numele nu poate fi gol"
 
@@ -14774,112 +14774,112 @@ msgstr "Evenimente"
 msgid "Loading…"
 msgstr "Se încarcă…"
 
-#: ../src/e-util/e-webdav-browser.c:1387
+#: ../src/e-util/e-webdav-browser.c:1368
 msgid "Searching collection children…"
 msgstr "Se caută descendenții colecției…"
 
-#: ../src/e-util/e-webdav-browser.c:1389
+#: ../src/e-util/e-webdav-browser.c:1370
 msgid "Failed to search for collection children"
 msgstr "Eșec la căutarea după copii colecției"
 
-#: ../src/e-util/e-webdav-browser.c:1423
+#: ../src/e-util/e-webdav-browser.c:1404
 msgid "Searching for user home, please wait…"
 msgstr "Se caută dosarul personal al utilizatorului, așteptați…"
 
-#: ../src/e-util/e-webdav-browser.c:1425
+#: ../src/e-util/e-webdav-browser.c:1406
 msgid "Failed to search for user home"
 msgstr "Nu s-a putut căuta dosarul personal al utilizatorului"
 
-#: ../src/e-util/e-webdav-browser.c:1768
+#: ../src/e-util/e-webdav-browser.c:1749
 msgid "At least one component type should be set"
 msgstr "Cel puțin un tip de component ar trebui stabilit"
 
-#: ../src/e-util/e-webdav-browser.c:1787
+#: ../src/e-util/e-webdav-browser.c:1768
 msgid "Failed to get selected collection HREF"
 msgstr "Nu s-a putut obține HREF-ul colecției selectate"
 
-#: ../src/e-util/e-webdav-browser.c:1819
+#: ../src/e-util/e-webdav-browser.c:1800
 msgid "Failed to save changes"
 msgstr "Eșec la aplicarea modificărilor"
 
-#: ../src/e-util/e-webdav-browser.c:1821
+#: ../src/e-util/e-webdav-browser.c:1802
 msgid "Creating new book…"
 msgstr "Se creează o agendă nouă…"
 
-#: ../src/e-util/e-webdav-browser.c:1822
+#: ../src/e-util/e-webdav-browser.c:1803
 msgid "Failed to create new book"
 msgstr "Eșec la crearea unei noi cărți"
 
-#: ../src/e-util/e-webdav-browser.c:1824
+#: ../src/e-util/e-webdav-browser.c:1805
 msgid "Creating new calendar…"
 msgstr "Se creează un calendar nou…"
 
-#: ../src/e-util/e-webdav-browser.c:1825
+#: ../src/e-util/e-webdav-browser.c:1806
 msgid "Failed to create new calendar"
 msgstr "Eșec la crearea unui nou calendar"
 
-#: ../src/e-util/e-webdav-browser.c:1827
+#: ../src/e-util/e-webdav-browser.c:1808
 msgid "Creating new collection…"
 msgstr "Creează o colecție nouă…"
 
-#: ../src/e-util/e-webdav-browser.c:1828
+#: ../src/e-util/e-webdav-browser.c:1809
 msgid "Failed to create new collection"
 msgstr "Eșec la crearea unei noi colecții"
 
-#: ../src/e-util/e-webdav-browser.c:1967
+#: ../src/e-util/e-webdav-browser.c:1948
 msgid "It is not allowed to create book under another book or calendar"
 msgstr "Nu este permisă crearea unei cărți sub o altă carte sau alt calendar"
 
 #. if (button == webdav_browser->priv->create_calendar_button)
-#: ../src/e-util/e-webdav-browser.c:1969
+#: ../src/e-util/e-webdav-browser.c:1950
 msgid "It is not allowed to create calendar under another book or calendar"
 msgstr "Nu este permisă crearea unui calendar sub o altă carte sau alt calendar"
 
-#: ../src/e-util/e-webdav-browser.c:2198
+#: ../src/e-util/e-webdav-browser.c:2179
 msgid "Deleting book…"
 msgstr "Se șterge cartea…"
 
-#: ../src/e-util/e-webdav-browser.c:2199
+#: ../src/e-util/e-webdav-browser.c:2180
 msgid "Failed to delete book"
 msgstr "Eșec la ștergerea agendei"
 
-#: ../src/e-util/e-webdav-browser.c:2202
+#: ../src/e-util/e-webdav-browser.c:2183
 msgid "Deleting calendar…"
 msgstr "Se șterge calendarul…"
 
-#: ../src/e-util/e-webdav-browser.c:2203
+#: ../src/e-util/e-webdav-browser.c:2184
 msgid "Failed to delete calendar"
 msgstr "Eșec la ștergerea calendarului"
 
-#: ../src/e-util/e-webdav-browser.c:2206
+#: ../src/e-util/e-webdav-browser.c:2187
 msgid "Deleting collection…"
 msgstr "Se șterge colecția…"
 
-#: ../src/e-util/e-webdav-browser.c:2207
+#: ../src/e-util/e-webdav-browser.c:2188
 msgid "Failed to delete collection"
 msgstr "Eșec la ștergerea colecției"
 
-#: ../src/e-util/e-webdav-browser.c:2438
+#: ../src/e-util/e-webdav-browser.c:2419
 msgid "For Components:"
 msgstr "Pentru componente:"
 
-#: ../src/e-util/e-webdav-browser.c:2444
+#: ../src/e-util/e-webdav-browser.c:2425
 msgid "_Events"
 msgstr "_Evenimente"
 
-#: ../src/e-util/e-webdav-browser.c:2634
+#: ../src/e-util/e-webdav-browser.c:2615
 msgid "WebDAV server:"
 msgstr "Server WebDAV:"
 
-#: ../src/e-util/e-webdav-browser.c:2669
+#: ../src/e-util/e-webdav-browser.c:2650
 msgid "Create _Book"
 msgstr "Creează car_te"
 
-#: ../src/e-util/e-webdav-browser.c:2676
+#: ../src/e-util/e-webdav-browser.c:2657
 msgid "Create _Calendar"
 msgstr "Creează _calendar"
 
-#: ../src/e-util/e-webdav-browser.c:2683
+#: ../src/e-util/e-webdav-browser.c:2664
 msgid "Create Collectio_n"
 msgstr "Creează co_lecție"
 
@@ -20056,12 +20056,12 @@ msgid "Show contact preview alongside the contact list"
 msgstr "Arată previzualizarea contactului lângă lista de contacte"
 
 #: ../src/modules/addressbook/e-book-shell-view-actions.c:1278 ../src/modules/calendar/e-cal-shell-view-actions.c:1675
-#: ../src/modules/calendar/e-memo-shell-view-actions.c:790 ../src/modules/calendar/e-task-shell-view-actions.c:998
+#: ../src/modules/calendar/e-memo-shell-view-actions.c:790 ../src/modules/calendar/e-task-shell-view-actions.c:1005
 msgid "Unmatched"
 msgstr "Nicio potrivire"
 
 #: ../src/modules/addressbook/e-book-shell-view-actions.c:1288 ../src/modules/calendar/e-cal-shell-view-actions.c:1685
-#: ../src/modules/calendar/e-memo-shell-view-actions.c:800 ../src/modules/calendar/e-task-shell-view-actions.c:1008
+#: ../src/modules/calendar/e-memo-shell-view-actions.c:800 ../src/modules/calendar/e-task-shell-view-actions.c:1015
 #: ../src/modules/mail/e-mail-shell-view-actions.c:2083 ../src/shell/e-shell-content.c:639
 msgid "Advanced Search"
 msgstr "Căutare avansată"
@@ -21386,19 +21386,19 @@ msgid "Occurs Less Than 5 Times"
 msgstr "Apare mai puțin de 5 ori"
 
 #: ../src/modules/calendar/e-cal-shell-view-actions.c:1699 ../src/modules/calendar/e-memo-shell-view-actions.c:814
-#: ../src/modules/calendar/e-task-shell-view-actions.c:1022
+#: ../src/modules/calendar/e-task-shell-view-actions.c:1029
 msgid "Description contains"
 msgstr "Descrierea conține"
 
 #: ../src/modules/calendar/e-cal-shell-view-actions.c:1706 ../src/modules/calendar/e-memo-shell-view-actions.c:821
-#: ../src/modules/calendar/e-task-shell-view-actions.c:1029
+#: ../src/modules/calendar/e-task-shell-view-actions.c:1036
 msgid "Summary contains"
 msgstr "Rezumatul conține"
 
 #: ../src/modules/calendar/e-cal-shell-view-actions.c:1716 ../src/modules/calendar/e-cal-shell-view-actions.c:1730
 #: ../src/modules/calendar/e-cal-shell-view-memopad.c:269 ../src/modules/calendar/e-cal-shell-view-taskpad.c:363
 #: ../src/modules/calendar/e-memo-shell-view-actions.c:831 ../src/modules/calendar/e-memo-shell-view-actions.c:845
-#: ../src/modules/calendar/e-task-shell-view-actions.c:1039 ../src/modules/calendar/e-task-shell-view-actions.c:1053
+#: ../src/modules/calendar/e-task-shell-view-actions.c:1046 ../src/modules/calendar/e-task-shell-view-actions.c:1060
 msgid "Print…"
 msgstr "Tipărește…"
 
@@ -21412,7 +21412,7 @@ msgstr "Previzualizează calendar pentru tipărire"
 
 #: ../src/modules/calendar/e-cal-shell-view-actions.c:1747 ../src/modules/calendar/e-cal-shell-view-memopad.c:279
 #: ../src/modules/calendar/e-cal-shell-view-taskpad.c:373 ../src/modules/calendar/e-memo-shell-view-actions.c:862
-#: ../src/modules/calendar/e-task-shell-view-actions.c:1070
+#: ../src/modules/calendar/e-task-shell-view-actions.c:1077
 msgid "_Save as iCalendar…"
 msgstr "_Salvează ca iCalendar…"
 
@@ -21525,7 +21525,7 @@ msgstr "_Deschide sarcina"
 msgid "View the selected task"
 msgstr "Afișează sarcina selectată"
 
-#: ../src/modules/calendar/e-cal-shell-view-taskpad.c:365 ../src/modules/calendar/e-task-shell-view-actions.c:1055
+#: ../src/modules/calendar/e-cal-shell-view-taskpad.c:365 ../src/modules/calendar/e-task-shell-view-actions.c:1062
 msgid "Print the selected task"
 msgstr "Tipărește sarcina selectată"
 
@@ -21781,30 +21781,34 @@ msgid "Completed Tasks"
 msgstr "Sarcini Finalizate"
 
 #: ../src/modules/calendar/e-task-shell-view-actions.c:977
+msgid "Uncompleted Tasks"
+msgstr "Sarcini necompletate"
+
+#: ../src/modules/calendar/e-task-shell-view-actions.c:984
 msgid "Next 7 Days’ Tasks"
 msgstr "Sarcinile pentru următoarele 7 zile"
 
-#: ../src/modules/calendar/e-task-shell-view-actions.c:984
+#: ../src/modules/calendar/e-task-shell-view-actions.c:991
 msgid "Overdue Tasks"
 msgstr "Sarcini restante"
 
-#: ../src/modules/calendar/e-task-shell-view-actions.c:991
+#: ../src/modules/calendar/e-task-shell-view-actions.c:998
 msgid "Tasks with Attachments"
 msgstr "Sarcini cu fișiere atașate"
 
-#: ../src/modules/calendar/e-task-shell-view-actions.c:1041
+#: ../src/modules/calendar/e-task-shell-view-actions.c:1048
 msgid "Print the list of tasks"
 msgstr "Tipărește lista de sarcini"
 
-#: ../src/modules/calendar/e-task-shell-view-actions.c:1048
+#: ../src/modules/calendar/e-task-shell-view-actions.c:1055
 msgid "Preview the list of tasks to be printed"
 msgstr "Previzualizează lista sarcinilor ce vor fi tipărite"
 
-#: ../src/modules/calendar/e-task-shell-view.c:346
+#: ../src/modules/calendar/e-task-shell-view.c:353
 msgid "Delete Tasks"
 msgstr "Șterge sarcini"
 
-#: ../src/modules/calendar/e-task-shell-view.c:348
+#: ../src/modules/calendar/e-task-shell-view.c:355
 msgid "Delete Task"
 msgstr "Șterge sarcină"
 
@@ -24992,7 +24996,7 @@ msgstr ""
 "Jobava <jobaval10n@gmail.com>, 2015\n"
 "Adelin Șerbănescu <sadelin106@gmail.com>, 2018\n"
 "Daniel Șerbănescu <daniel [at] serbanescu [dot] dk>, 2019\n"
-"Florentina Mușat <emryslokadottir [at] gmail [dot] com>, 2020"
+"Florentina Mușat <florentina [dot] musat [dot] 28 [at] gmail [dot] com>, 2020"
 
 #: ../src/shell/e-shell-utils.c:354
 msgid "Website"
