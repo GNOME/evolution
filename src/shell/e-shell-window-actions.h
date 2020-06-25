@@ -28,14 +28,10 @@
 	(e_shell_window_get_action_group (E_SHELL_WINDOW (window), (name)))
 
 /* Actions */
-#define E_SHELL_WINDOW_ACTION_ABOUT(window) \
-	E_SHELL_WINDOW_ACTION ((window), "about")
 #define E_SHELL_WINDOW_ACTION_ACCOUNTS(window) \
 	E_SHELL_WINDOW_ACTION ((window), "accounts")
 #define E_SHELL_WINDOW_ACTION_CLOSE(window) \
 	E_SHELL_WINDOW_ACTION ((window), "close")
-#define E_SHELL_WINDOW_ACTION_CONTENTS(window) \
-	E_SHELL_WINDOW_ACTION ((window), "contents")
 #define E_SHELL_WINDOW_ACTION_COPY_CLIPBOARD(window) \
 	E_SHELL_WINDOW_ACTION ((window), "copy-clipboard")
 #define E_SHELL_WINDOW_ACTION_CUT_CLIPBOARD(window) \
@@ -52,14 +48,10 @@
 	E_SHELL_WINDOW_ACTION ((window), "gal-save-custom-view")
 #define E_SHELL_WINDOW_ACTION_IMPORT(window) \
 	E_SHELL_WINDOW_ACTION ((window), "import")
-#define E_SHELL_WINDOW_ACTION_NEW_WINDOW(window) \
-	E_SHELL_WINDOW_ACTION ((window), "new-window")
 #define E_SHELL_WINDOW_ACTION_PAGE_SETUP(window) \
 	E_SHELL_WINDOW_ACTION ((window), "page-setup")
 #define E_SHELL_WINDOW_ACTION_PASTE_CLIPBOARD(window) \
 	E_SHELL_WINDOW_ACTION ((window), "paste-clipboard")
-#define E_SHELL_WINDOW_ACTION_PREFERENCES(window) \
-	E_SHELL_WINDOW_ACTION ((window), "preferences")
 #define E_SHELL_WINDOW_ACTION_QUIT(window) \
 	E_SHELL_WINDOW_ACTION ((window), "quit")
 #define E_SHELL_WINDOW_ACTION_SEARCH_ADVANCED(window) \
@@ -76,32 +68,16 @@
 	E_SHELL_WINDOW_ACTION ((window), "search-save")
 #define E_SHELL_WINDOW_ACTION_SELECT_ALL(window) \
 	E_SHELL_WINDOW_ACTION ((window), "select-all")
-#define E_SHELL_WINDOW_ACTION_SHORTCUTS(window) \
-	E_SHELL_WINDOW_ACTION ((window), "shortcuts")
 #define E_SHELL_WINDOW_ACTION_SHOW_MENUBAR(window) \
 	E_SHELL_WINDOW_ACTION ((window), "show-menubar")
 #define E_SHELL_WINDOW_ACTION_SHOW_SIDEBAR(window) \
 	E_SHELL_WINDOW_ACTION ((window), "show-sidebar")
-#define E_SHELL_WINDOW_ACTION_SHOW_SWITCHER(window) \
-	E_SHELL_WINDOW_ACTION ((window), "show-switcher")
 #define E_SHELL_WINDOW_ACTION_SHOW_TASKBAR(window) \
 	E_SHELL_WINDOW_ACTION ((window), "show-taskbar")
 #define E_SHELL_WINDOW_ACTION_SHOW_TOOLBAR(window) \
 	E_SHELL_WINDOW_ACTION ((window), "show-toolbar")
-#define E_SHELL_WINDOW_ACTION_SUBMIT_BUG(window) \
-	E_SHELL_WINDOW_ACTION ((window), "submit-bug")
 #define E_SHELL_WINDOW_ACTION_SWITCHER_INITIAL(window) \
 	E_SHELL_WINDOW_ACTION ((window), "switcher-initial")
-#define E_SHELL_WINDOW_ACTION_SWITCHER_MENU(window) \
-	E_SHELL_WINDOW_ACTION ((window), "switcher-menu")
-#define E_SHELL_WINDOW_ACTION_SWITCHER_STYLE_BOTH(window) \
-	E_SHELL_WINDOW_ACTION ((window), "switcher-style-both")
-#define E_SHELL_WINDOW_ACTION_SWITCHER_STYLE_ICONS(window) \
-	E_SHELL_WINDOW_ACTION ((window), "switcher-style-icons")
-#define E_SHELL_WINDOW_ACTION_SWITCHER_STYLE_TEXT(window) \
-	E_SHELL_WINDOW_ACTION ((window), "switcher-style-text")
-#define E_SHELL_WINDOW_ACTION_SWITCHER_STYLE_USER(window) \
-	E_SHELL_WINDOW_ACTION ((window), "switcher-style-user")
 #define E_SHELL_WINDOW_ACTION_WORK_OFFLINE(window) \
 	E_SHELL_WINDOW_ACTION ((window), "work-offline")
 #define E_SHELL_WINDOW_ACTION_WORK_ONLINE(window) \

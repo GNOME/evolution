@@ -23,78 +23,6 @@
 #include "e-shell-window-private.h"
 
 static void
-shell_window_save_switcher_style_cb (GtkRadioAction *action,
-                                     GtkRadioAction *current,
-                                     EShellWindow *shell_window)
-{
-	GSettings *settings;
-	GtkToolbarStyle style;
-	const gchar *string;
-
-	settings = e_util_ref_settings ("org.gnome.evolution.shell");
-
-	style = gtk_radio_action_get_current_value (action);
-
-	switch (style) {
-		case GTK_TOOLBAR_ICONS:
-			string = "icons";
-			break;
-
-		case GTK_TOOLBAR_TEXT:
-			string = "text";
-			break;
-
-		case GTK_TOOLBAR_BOTH:
-		case GTK_TOOLBAR_BOTH_HORIZ:
-			string = "both";
-			break;
-
-		default:
-			string = "toolbar";
-			break;
-	}
-
-	g_settings_set_string (settings, "buttons-style", string);
-	g_object_unref (settings);
-}
-
-static void
-shell_window_init_switcher_style (EShellWindow *shell_window)
-{
-	GtkAction *action;
-	GSettings *settings;
-	GtkToolbarStyle style;
-	gchar *string;
-
-	settings = e_util_ref_settings ("org.gnome.evolution.shell");
-
-	action = ACTION (SWITCHER_STYLE_ICONS);
-	string = g_settings_get_string (settings, "buttons-style");
-	g_object_unref (settings);
-
-	if (string != NULL) {
-		if (strcmp (string, "icons") == 0)
-			style = GTK_TOOLBAR_ICONS;
-		else if (strcmp (string, "text") == 0)
-			style = GTK_TOOLBAR_TEXT;
-		else if (strcmp (string, "both") == 0)
-			style = GTK_TOOLBAR_BOTH_HORIZ;
-		else
-			style = -1;
-
-		gtk_radio_action_set_current_value (
-			GTK_RADIO_ACTION (action), style);
-
-		g_free (string);
-	}
-
-	g_signal_connect (
-		action, "changed",
-		G_CALLBACK (shell_window_save_switcher_style_cb),
-		shell_window);
-}
-
-static void
 shell_window_menu_item_select_cb (EShellWindow *shell_window,
                                   GtkWidget *widget)
 {
@@ -225,6 +153,13 @@ e_shell_window_private_init (EShellWindow *shell_window)
 	/* XXX This kind of violates the shell window being unaware
 	 *     of specific shell views, but we need a sane fallback. */
 	priv->active_view = "mail";
+
+	GtkBuilder *builder = gtk_builder_new_from_resource ("/org/gnome/evolution/shell/e-shell-help.ui");
+	priv->help_overlay = GTK_SHORTCUTS_WINDOW (gtk_builder_get_object (builder, "help_overlay"));
+
+	gtk_application_window_set_help_overlay (
+		GTK_APPLICATION_WINDOW (shell_window),
+		shell_window->priv->help_overlay);
 
 	e_shell_window_add_action_group (shell_window, "shell");
 	e_shell_window_add_action_group (shell_window, "gal-view");
@@ -408,12 +343,18 @@ e_shell_window_private_constructed (EShellWindow *shell_window)
 	guint merge_id;
 	const gchar *id;
 	GSettings *settings;
+	GtkBuilder *builder;
+	GMenuModel *menu;
 
 #ifndef G_OS_WIN32
 	GtkActionGroup *action_group;
 #endif
 
 	window = GTK_WINDOW (shell_window);
+	builder = gtk_builder_new_from_resource ("/org/gnome/evolution/shell/e-shell-menus.ui");
+
+	menu = G_MENU_MODEL (gtk_builder_get_object (builder, "primary-menu"));
+	gtk_menu_button_set_menu_model (GTK_MENU_BUTTON (priv->primary_menu_button), menu);
 
 	shell = e_shell_window_get_shell (shell_window);
 	shell_window->priv->is_main_instance = shell_window_check_is_main_instance (GTK_APPLICATION (shell), window);
@@ -482,10 +423,6 @@ e_shell_window_private_constructed (EShellWindow *shell_window)
 	e_signal_connect_notify (
 		shell_window, "notify::active-view",
 		G_CALLBACK (e_shell_window_update_title), NULL);
-
-	e_signal_connect_notify (
-		shell_window, "notify::active-view",
-		G_CALLBACK (e_shell_window_update_view_menu), NULL);
 
 	e_signal_connect_notify (
 		shell_window, "notify::active-view",
@@ -586,11 +523,6 @@ e_shell_window_private_constructed (EShellWindow *shell_window)
 			G_SETTINGS_BIND_DEFAULT);
 
 		g_settings_bind (
-			settings, "buttons-visible",
-			shell_window, "switcher-visible",
-			G_SETTINGS_BIND_DEFAULT);
-
-		g_settings_bind (
 			settings, "toolbar-visible",
 			shell_window, "toolbar-visible",
 			G_SETTINGS_BIND_DEFAULT);
@@ -620,12 +552,6 @@ e_shell_window_private_constructed (EShellWindow *shell_window)
 			G_SETTINGS_BIND_GET_NO_CHANGES);
 
 		g_settings_bind (
-			settings, "buttons-visible-sub",
-			shell_window, "switcher-visible",
-			G_SETTINGS_BIND_DEFAULT |
-			G_SETTINGS_BIND_GET_NO_CHANGES);
-
-		g_settings_bind (
 			settings, "toolbar-visible-sub",
 			shell_window, "toolbar-visible",
 			G_SETTINGS_BIND_DEFAULT |
@@ -649,8 +575,6 @@ e_shell_window_private_constructed (EShellWindow *shell_window)
 			window, "/org/gnome/evolution/shell/window/",
 			E_RESTORE_WINDOW_SIZE | E_RESTORE_WINDOW_POSITION);
 	}
-
-	shell_window_init_switcher_style (shell_window);
 
 	id = "org.gnome.evolution.shell";
 	e_plugin_ui_register_manager (ui_manager, id, shell_window);
@@ -708,11 +632,12 @@ e_shell_window_private_dispose (EShellWindow *shell_window)
 
 	g_hash_table_remove_all (priv->loaded_views);
 
+	g_clear_object (&priv->help_overlay);
+
 	g_clear_object (&priv->alert_bar);
 	g_clear_object (&priv->content_pane);
 	g_clear_object (&priv->content_notebook);
 	g_clear_object (&priv->sidebar_notebook);
-	g_clear_object (&priv->switcher);
 	g_clear_object (&priv->tooltip_label);
 	g_clear_object (&priv->status_notebook);
 

@@ -71,13 +71,19 @@ struct _EShellWindowPrivate {
 	const gchar *active_view;
 	GHashTable *action_groups_by_view;
 
+	/*** Header Bar ***/
+
+	GtkWidget *switcher;
+	GtkWidget *primary_menu_button;
+
 	/*** Widgetry ***/
+
+	GtkShortcutsWindow *help_overlay;
 
 	GtkWidget *alert_bar;
 	GtkWidget *content_pane;
 	GtkWidget *content_notebook;
 	GtkWidget *sidebar_notebook;
-	GtkWidget *switcher;
 	GtkWidget *tooltip_label;
 	GtkWidget *status_notebook;
 
@@ -93,7 +99,6 @@ struct _EShellWindowPrivate {
 	guint safe_mode : 1;
 	guint menubar_visible : 1;
 	guint sidebar_visible : 1;
-	guint switcher_visible : 1;
 	guint taskbar_visible : 1;
 	guint toolbar_visible : 1;
 	guint is_main_instance : 1;

@@ -58,12 +58,12 @@ typedef struct _EShellWindowPrivate EShellWindowPrivate;
  * functions below.
  **/
 struct _EShellWindow {
-	GtkWindow parent;
+	GtkApplicationWindow parent;
 	EShellWindowPrivate *priv;
 };
 
 struct _EShellWindowClass {
-	GtkWindowClass parent_class;
+	GtkApplicationWindowClass parent_class;
 
 	/* Signals */
 	void		(*close_alert)		(EShellWindow *shell_window);

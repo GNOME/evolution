@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<gresources>
+  <gresource prefix="/org/gnome/evolution/shell/">
+    <file compressed="true">e-shell-help.ui</file>
+    <file compressed="true">e-shell-menus.ui</file>
+    <file compressed="true">e-shell-window.ui</file>
+  </gresource>
+</gresources>

@@ -196,8 +196,6 @@ def cleanup():
 
     # Skip warning dialog
     system("gsettings set org.gnome.evolution.shell skip-warning-dialog true")
-    # Show switcher buttons as icons (to minimize tree scrolling)
-    system("gsettings set org.gnome.evolution.shell buttons-style icons")
     # Skip default mailer handler dialog
     system("gsettings set org.gnome.evolution.mail prompt-check-if-default-mailer false")
 

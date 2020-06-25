@@ -127,6 +127,20 @@ G_DEFINE_TYPE_WITH_CODE (
 		E_TYPE_EXTENSIBLE, NULL))
 
 static void
+shell_preferences (GSimpleAction *action,
+                   GVariant      *parameter,
+                   gpointer       user_data)
+{
+	EShell *shell = user_data;
+
+	e_shell_utils_run_preferences (shell);
+}
+
+static const GActionEntry actions[] = {
+	{ "preferences", shell_preferences },
+};
+
+static void
 shell_alert_response_cb (EShell *shell,
                          gint response_id,
                          EAlert *alert)
@@ -276,6 +290,11 @@ shell_add_actions (GApplication *application)
 	GSimpleAction *action;
 
 	action_map = G_ACTION_MAP (application);
+
+	g_action_map_add_action_entries (
+		action_map,
+		actions, G_N_ELEMENTS (actions),
+		application);
 
 	/* Add actions that remote instances can invoke. */
 

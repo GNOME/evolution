@@ -31,7 +31,6 @@
       <separator/>
       <menuitem action='accounts'/>
       <placeholder name='administrative-actions'/>
-      <menuitem action='preferences'/>
     </menu>
     <menu action='view-menu'>
       <menu action='gal-view-menu'>
@@ -53,14 +52,6 @@
         <placeholder name='view-layout-custom-menus'/>
       </menu>
       <placeholder name='view-custom-menus'/>
-      <menu action='switcher-menu'>
-        <menuitem action='switcher-style-both'/>
-        <menuitem action='switcher-style-icons'/>
-        <menuitem action='switcher-style-text'/>
-        <menuitem action='switcher-style-user'/>
-        <separator/>
-        <menuitem action='show-switcher'/>
-      </menu>
     </menu>
     <placeholder name='custom-menus'/>
     <menu action='search-menu'>
@@ -75,14 +66,6 @@
       <placeholder name='search-actions'/>
       <separator/>
       <placeholder name='custom-rules'/>
-    </menu>
-    <menu action='help-menu'>
-      <menuitem action='contents'/>
-      <menuitem action='shortcuts'/>
-      <separator/>
-      <menuitem action='submit-bug'/>
-      <separator/>
-      <menuitem action='about'/>
     </menu>
   </menubar>
   <toolbar name='main-toolbar'>

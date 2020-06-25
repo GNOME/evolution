@@ -35,550 +35,223 @@
 
 #include "e-shell-window-private.h"
 
-#define E_SHELL_SWITCHER_GET_PRIVATE(obj) \
-	(G_TYPE_INSTANCE_GET_PRIVATE \
-	((obj), E_TYPE_SHELL_SWITCHER, EShellSwitcherPrivate))
+struct _EShellSwitcher {
+	GtkBin parent;
 
-#define E_SHELL_SWITCHER_GET_PRIVATE(obj) \
-	(G_TYPE_INSTANCE_GET_PRIVATE \
-	((obj), E_TYPE_SHELL_SWITCHER, EShellSwitcherPrivate))
+	gint button_width;
+	gint menu_button_width;
 
-#define H_PADDING 6
-#define V_PADDING 6
+	gint n_buttons;
+	gint n_visible_buttons;
 
-struct _EShellSwitcherPrivate {
-	GList *proxies;
-	gboolean style_set;
-	GtkToolbarStyle style;
-	GtkSettings *settings;
-	gulong settings_handler_id;
-	gboolean toolbar_visible;
+	GSList *view_buttons;
+
+	GtkWidget *box;
+	GtkWidget *menu_button;
+	GtkWidget *popover;
+	GtkWidget *popover_box;
 };
 
-enum {
-	PROP_0,
-	PROP_TOOLBAR_STYLE,
-	PROP_TOOLBAR_VISIBLE
-};
+G_DEFINE_TYPE (EShellSwitcher, e_shell_switcher, GTK_TYPE_BIN);
 
-enum {
-	STYLE_CHANGED,
-	LAST_SIGNAL
-};
+static void e_shell_switcher_update_button_width (EShellSwitcher *self);
+static void e_shell_switcher_show_buttons (EShellSwitcher *self);
+static void e_shell_switcher_dispose (GObject *object);
+static void e_shell_switcher_get_preferred_width (GtkWidget *widget, gint *minimum, gint *natural);
+static void e_shell_switcher_size_allocate (GtkWidget *widget, GtkAllocation *alloc);
 
-static guint signals[LAST_SIGNAL];
-
-/* Forward Declarations */
-static void shell_switcher_tool_shell_iface_init (GtkToolShellIface *iface);
-
-G_DEFINE_TYPE_WITH_CODE (
-	EShellSwitcher,
-	e_shell_switcher,
-	GTK_TYPE_BIN,
-	G_IMPLEMENT_INTERFACE (
-		E_TYPE_EXTENSIBLE, NULL)
-	G_IMPLEMENT_INTERFACE (
-		GTK_TYPE_TOOL_SHELL,
-		shell_switcher_tool_shell_iface_init))
-
-static gint
-shell_switcher_layout_actions (EShellSwitcher *switcher)
+static void
+e_shell_switcher_update_button_width (EShellSwitcher *self)
 {
-	GtkAllocation allocation;
-	gint num_btns = g_list_length (switcher->priv->proxies), btns_per_row;
-	GList **rows, *p;
-	gboolean icons_only;
-	gint row_number;
-	gint max_width = 0;
-	gint max_height = 0;
-	gint row_last;
-	gint x, y;
-	gint i;
+	g_return_if_fail (E_IS_SHELL_SWITCHER (self));
 
-	gtk_widget_get_allocation (GTK_WIDGET (switcher), &allocation);
+	gint new_button_width = 0;
+	for (GSList *iter = self->view_buttons; iter; iter = iter->next) {
+		gint button_width;
 
-	y = allocation.y + allocation.height;
+		/* It is important to call `gtk_widget_show' to ensure that the button
+		 * has been realized before we attempt to get the button width.
+		 */
+		gtk_widget_show (iter->data);
+		gtk_widget_get_preferred_width (iter->data, &button_width, NULL);
 
-	if (num_btns == 0)
-		return allocation.height;
-
-	icons_only = (switcher->priv->style == GTK_TOOLBAR_ICONS);
-
-	/* Figure out the max width and height. */
-	for (p = switcher->priv->proxies; p != NULL; p = p->next) {
-		GtkWidget *widget = p->data;
-		GtkRequisition requisition;
-
-		gtk_widget_get_preferred_size (widget, &requisition, NULL);
-		max_height = MAX (max_height, requisition.height);
-		max_width = MAX (max_width, requisition.width);
+		new_button_width = MAX (button_width, new_button_width);
 	}
 
-	/* Figure out how many rows and columns we'll use. */
-	btns_per_row = MAX (1, allocation.width / (max_width + H_PADDING));
-	if (!icons_only) {
-		/* If using text buttons, we want to try to have a
-		 * completely filled-in grid, but if we can't, we want
-		 * the odd row to have just a single button. */
-		while (btns_per_row > 0 && num_btns % btns_per_row > 1)
-			btns_per_row--;
+	self->button_width = new_button_width;
+
+	for (GSList *iter = self->view_buttons; iter; iter = iter->next)
+		gtk_widget_set_size_request (iter->data, self->button_width, -1);
+}
+
+static void
+remove_all_container_children (GtkContainer *container)
+{
+	GList *children = gtk_container_get_children (container);
+	for (GList *iter = children; iter; iter = iter->next)
+		gtk_container_remove (container, iter->data);
+	g_list_free (children);
+}
+
+static void
+e_shell_switcher_show_buttons (EShellSwitcher *self)
+{
+	g_return_if_fail (E_IS_SHELL_SWITCHER (self));
+
+	remove_all_container_children (GTK_CONTAINER (self->box));
+	remove_all_container_children (GTK_CONTAINER (self->popover_box));
+
+	gboolean active_visible = FALSE;
+	GSList *iter = self->view_buttons;
+
+	/* The first (n - 1) buttons are always shown, so show them. */
+	for (gint i = 0; i < (self->n_visible_buttons - 1); i++, iter = iter->next) {
+		GtkWidget *button = iter->data;
+		if (gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (button)))
+			active_visible = TRUE;
+		gtk_box_pack_start (GTK_BOX (self->box), button, FALSE, FALSE, 0);
 	}
 
-	if (btns_per_row <= 0)
-		btns_per_row = 1;
+	/* Only one button is active.  If that button is already visible, then we
+	 * pack the next button to fill the visible slot and pack the rest to fill
+	 * the popover box.
+	 *
+	 * If the active button is not yet visible, then we iterate over the remaining
+	 * buttons and pack the active button to fill the visible slot and pack the
+	 * rest to fill the popover box.
+	 */
+	if (active_visible) {
+		GtkWidget *button = iter->data;
+		iter = iter->next;
 
-	/* Assign buttons to rows. */
-	rows = g_new0 (GList *, num_btns / btns_per_row + 1);
+		gtk_box_pack_start (GTK_BOX (self->box), button, FALSE, FALSE, 0);
 
-	if (!icons_only && num_btns % btns_per_row != 0 && switcher->priv->proxies) {
-		rows[0] = g_list_append (rows[0], switcher->priv->proxies->data);
-
-		p = switcher->priv->proxies->next;
-		row_number = p ? 1 : 0;
+		for (gint i = self->n_visible_buttons; i < self->n_buttons; i++, iter = iter->next) {
+			GtkWidget *button = iter->data;
+			gtk_box_pack_start (GTK_BOX (self->popover_box), button, FALSE, FALSE, 0);
+		}
 	} else {
-		p = switcher->priv->proxies;
-		row_number = 0;
-	}
-
-	for (; p != NULL; p = p->next) {
-		GtkWidget *widget = p->data;
-
-		if (g_list_length (rows[row_number]) == btns_per_row)
-			row_number++;
-
-		rows[row_number] = g_list_append (rows[row_number], widget);
-	}
-
-	row_last = row_number;
-
-	/* Layout the buttons. */
-	for (i = row_last; i >= 0; i--) {
-		gint len, extra_width;
-
-		x = H_PADDING + allocation.x;
-		y -= max_height + V_PADDING;
-		len = g_list_length (rows[i]);
-		if (!icons_only)
-			extra_width =
-				(allocation.width - (len * max_width) -
-				(len * H_PADDING + H_PADDING)) / len;
-		else
-			extra_width = 0;
-		for (p = rows[i]; p != NULL; p = p->next) {
-			GtkAllocation child_allocation;
-
-			child_allocation.x = x;
-			child_allocation.y = y;
-			child_allocation.width = max_width + extra_width;
-			child_allocation.height = max_height;
-
-			gtk_widget_size_allocate (
-				GTK_WIDGET (p->data), &child_allocation);
-
-			x += child_allocation.width + H_PADDING;
+		for (gint i = self->n_visible_buttons - 1; i < self->n_buttons; i++, iter = iter->next) {
+			GtkWidget *button = iter->data;
+			if (gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (button)))
+				gtk_box_pack_start (GTK_BOX (self->box), button, FALSE, FALSE, 0);
+			else
+				gtk_box_pack_start (GTK_BOX (self->popover_box), button, FALSE, FALSE, 0);
 		}
 	}
 
-	for (i = 0; i <= row_last; i++)
-		g_list_free (rows[i]);
-	g_free (rows);
+	if (self->n_visible_buttons < self->n_buttons)
+		gtk_box_pack_start (GTK_BOX (self->box), self->menu_button, FALSE, FALSE, 0);
 
-	return y - allocation.y - V_PADDING;
+	gtk_widget_show_all (self->box);
+	gtk_widget_show_all (self->popover_box);
 }
 
 static void
-shell_switcher_toolbar_style_changed_cb (EShellSwitcher *switcher)
+e_shell_switcher_dispose (GObject *object)
 {
-	if (!switcher->priv->style_set) {
-		switcher->priv->style_set = TRUE;
-		e_shell_switcher_unset_style (switcher);
-	}
-}
+	EShellSwitcher *self = E_SHELL_SWITCHER (object);
 
-static void
-shell_switcher_set_property (GObject *object,
-                             guint property_id,
-                             const GValue *value,
-                             GParamSpec *pspec)
-{
-	switch (property_id) {
-		case PROP_TOOLBAR_STYLE:
-			e_shell_switcher_set_style (
-				E_SHELL_SWITCHER (object),
-				g_value_get_enum (value));
-			return;
+	g_clear_pointer (&self->menu_button, gtk_widget_unparent);
+	g_clear_pointer (&self->popover, gtk_widget_unparent);
 
-		case PROP_TOOLBAR_VISIBLE:
-			e_shell_switcher_set_visible (
-				E_SHELL_SWITCHER (object),
-				g_value_get_boolean (value));
-			return;
-	}
-
-	G_OBJECT_WARN_INVALID_PROPERTY_ID (object, property_id, pspec);
-}
-
-static void
-shell_switcher_get_property (GObject *object,
-                             guint property_id,
-                             GValue *value,
-                             GParamSpec *pspec)
-{
-	switch (property_id) {
-		case PROP_TOOLBAR_STYLE:
-			g_value_set_enum (
-				value, e_shell_switcher_get_style (
-				E_SHELL_SWITCHER (object)));
-			return;
-
-		case PROP_TOOLBAR_VISIBLE:
-			g_value_set_boolean (
-				value, e_shell_switcher_get_visible (
-				E_SHELL_SWITCHER (object)));
-			return;
-	}
-
-	G_OBJECT_WARN_INVALID_PROPERTY_ID (object, property_id, pspec);
-}
-
-static void
-shell_switcher_dispose (GObject *object)
-{
-	EShellSwitcherPrivate *priv;
-
-	priv = E_SHELL_SWITCHER_GET_PRIVATE (object);
-
-	while (priv->proxies != NULL) {
-		GtkWidget *widget = priv->proxies->data;
-		gtk_container_remove (GTK_CONTAINER (object), widget);
-	}
-
-	/* Chain up to parent's dispose() method. */
 	G_OBJECT_CLASS (e_shell_switcher_parent_class)->dispose (object);
 }
 
 static void
-shell_switcher_get_preferred_width (GtkWidget *widget,
-                                    gint *minimum,
-                                    gint *natural)
+e_shell_switcher_get_preferred_width (GtkWidget *widget,
+                                      gint      *minimum,
+                                      gint      *natural)
 {
-	EShellSwitcherPrivate *priv;
-	GtkWidget *child;
-	GList *iter;
+	EShellSwitcher *self = E_SHELL_SWITCHER (widget);
 
-	priv = E_SHELL_SWITCHER_GET_PRIVATE (widget);
-
-	*minimum = *natural = 0;
-
-	child = gtk_bin_get_child (GTK_BIN (widget));
-	if (child != NULL)
-		gtk_widget_get_preferred_width (child, minimum, natural);
-
-	if (!priv->toolbar_visible)
-		return;
-
-	for (iter = priv->proxies; iter != NULL; iter = iter->next) {
-		GtkWidget *widget_proxy = iter->data;
-		gint child_min, child_nat;
-
-		gtk_widget_get_preferred_width (
-			widget_proxy, &child_min, &child_nat);
-
-		child_min += H_PADDING;
-		child_nat += H_PADDING;
-
-		*minimum = MAX (*minimum, child_min);
-		*natural = MAX (*natural, child_nat);
-	}
-}
-
-static void
-shell_switcher_get_preferred_height (GtkWidget *switcher_widget,
-                                     gint *minimum,
-                                     gint *natural)
-{
-	EShellSwitcherPrivate *priv;
-	GtkWidget *child;
-	GList *iter;
-
-	priv = E_SHELL_SWITCHER_GET_PRIVATE (switcher_widget);
-
-	*minimum = *natural = 0;
-
-	child = gtk_bin_get_child (GTK_BIN (switcher_widget));
-	if (child != NULL)
-		gtk_widget_get_preferred_height (child, minimum, natural);
-
-	if (!priv->toolbar_visible)
-		return;
-
-	for (iter = priv->proxies; iter != NULL; iter = iter->next) {
-		GtkWidget *widget = iter->data;
-		gint child_min, child_nat;
-
-		gtk_widget_get_preferred_height (
-			widget, &child_min, &child_nat);
-
-		child_min += V_PADDING;
-		child_nat += V_PADDING;
-
-		*minimum += child_min;
-		*natural += child_nat;
-	}
-}
-
-static void
-shell_switcher_size_allocate (GtkWidget *widget,
-                              GtkAllocation *allocation)
-{
-	EShellSwitcher *switcher;
-	GtkAllocation child_allocation;
-	GtkWidget *child;
-	gint height;
-
-	switcher = E_SHELL_SWITCHER (widget);
-
-	gtk_widget_set_allocation (widget, allocation);
-
-	if (switcher->priv->toolbar_visible)
-		height = shell_switcher_layout_actions (switcher);
+	if (self->n_buttons > 1)
+		*minimum = self->button_width + self->menu_button_width;
 	else
-		height = allocation->height;
-
-	child_allocation.x = allocation->x;
-	child_allocation.y = allocation->y;
-	child_allocation.width = allocation->width;
-	child_allocation.height = height;
-
-	child = gtk_bin_get_child (GTK_BIN (widget));
-	if (child != NULL)
-		gtk_widget_size_allocate (child, &child_allocation);
+		*minimum = self->button_width;
+	*natural = self->button_width * self->n_buttons;
 }
 
 static void
-shell_switcher_screen_changed (GtkWidget *widget,
-                               GdkScreen *previous_screen)
+e_shell_switcher_size_allocate (GtkWidget     *widget,
+                              GtkAllocation *alloc)
 {
-	EShellSwitcherPrivate *priv;
-	GtkSettings *settings;
+	EShellSwitcher *self = E_SHELL_SWITCHER (widget);
 
-	priv = E_SHELL_SWITCHER_GET_PRIVATE (widget);
+	if (self->button_width == 0)
+		goto chain_up;
 
-	if (gtk_widget_has_screen (widget))
-		settings = gtk_widget_get_settings (widget);
-	else
-		settings = NULL;
+	gint n_visible_buttons = alloc->width / self->button_width;
+	n_visible_buttons = MIN (self->n_buttons, n_visible_buttons);
 
-	if (settings == priv->settings)
-		return;
+	if (n_visible_buttons < self->n_buttons)
+		n_visible_buttons = (alloc->width - self->menu_button_width) / self->button_width;
 
-	if (priv->settings != NULL) {
-		g_signal_handler_disconnect (
-			priv->settings, priv->settings_handler_id);
-		g_object_unref (priv->settings);
+	if (n_visible_buttons != self->n_visible_buttons) {
+		self->n_visible_buttons = n_visible_buttons;
+		e_shell_switcher_show_buttons (self);
 	}
 
-	if (settings != NULL) {
-		priv->settings = g_object_ref (settings);
-		priv->settings_handler_id = e_signal_connect_notify_swapped (
-			settings, "notify::gtk-toolbar-style",
-			G_CALLBACK (shell_switcher_toolbar_style_changed_cb),
-			widget);
-	} else
-		priv->settings = NULL;
-
-	shell_switcher_toolbar_style_changed_cb (E_SHELL_SWITCHER (widget));
+chain_up:
+	GTK_WIDGET_CLASS (e_shell_switcher_parent_class)->size_allocate (widget, alloc);
 }
-
-static void
-shell_switcher_remove (GtkContainer *container,
-                       GtkWidget *remove_widget)
-{
-	EShellSwitcherPrivate *priv;
-	GList *link;
-
-	priv = E_SHELL_SWITCHER_GET_PRIVATE (container);
-
-	/* Look in the internal widgets first. */
-
-	link = g_list_find (priv->proxies, remove_widget);
-	if (link != NULL) {
-		GtkWidget *widget = link->data;
-
-		gtk_widget_unparent (widget);
-		priv->proxies = g_list_delete_link (priv->proxies, link);
-		gtk_widget_queue_resize (GTK_WIDGET (container));
-		return;
-	}
-
-	/* Chain up to parent's remove() method. */
-	GTK_CONTAINER_CLASS (e_shell_switcher_parent_class)->remove (
-		container, remove_widget);
-}
-
-static void
-shell_switcher_forall (GtkContainer *container,
-                       gboolean include_internals,
-                       GtkCallback callback,
-                       gpointer callback_data)
-{
-	EShellSwitcherPrivate *priv;
-
-	priv = E_SHELL_SWITCHER_GET_PRIVATE (container);
-
-	if (include_internals)
-		g_list_foreach (
-			priv->proxies, (GFunc) callback, callback_data);
-
-	/* Chain up to parent's forall() method. */
-	GTK_CONTAINER_CLASS (e_shell_switcher_parent_class)->forall (
-		container, include_internals, callback, callback_data);
-}
-
-static void
-shell_switcher_style_changed (EShellSwitcher *switcher,
-                              GtkToolbarStyle style)
-{
-	if (switcher->priv->style == style)
-		return;
-
-	switcher->priv->style = style;
-
-	g_list_foreach (
-		switcher->priv->proxies,
-		(GFunc) gtk_tool_item_toolbar_reconfigured, NULL);
-
-	gtk_widget_queue_resize (GTK_WIDGET (switcher));
-	g_object_notify (G_OBJECT (switcher), "toolbar-style");
-}
-
-static GtkIconSize
-shell_switcher_get_icon_size (GtkToolShell *shell)
-{
-	return GTK_ICON_SIZE_LARGE_TOOLBAR;
-}
-
-static GtkOrientation
-shell_switcher_get_orientation (GtkToolShell *shell)
-{
-	return GTK_ORIENTATION_HORIZONTAL;
-}
-
-static GtkToolbarStyle
-shell_switcher_get_style (GtkToolShell *shell)
-{
-	return e_shell_switcher_get_style (E_SHELL_SWITCHER (shell));
-}
-
-static GtkReliefStyle
-shell_switcher_get_relief_style (GtkToolShell *shell)
-{
-	return GTK_RELIEF_NORMAL;
-}
-
-static gfloat
-shell_switcher_get_text_alignment (GtkToolShell *shell)
-{
-	return 0.0;
-}
-
 static void
 e_shell_switcher_class_init (EShellSwitcherClass *class)
 {
-	GObjectClass *object_class;
-	GtkWidgetClass *widget_class;
-	GtkContainerClass *container_class;
+	GObjectClass *object_class = G_OBJECT_CLASS (class);
+	GtkWidgetClass *widget_class = GTK_WIDGET_CLASS (class);
 
-	g_type_class_add_private (class, sizeof (EShellSwitcherPrivate));
+	object_class->dispose = e_shell_switcher_dispose;
 
-	object_class = G_OBJECT_CLASS (class);
-	object_class->set_property = shell_switcher_set_property;
-	object_class->get_property = shell_switcher_get_property;
-	object_class->dispose = shell_switcher_dispose;
-
-	widget_class = GTK_WIDGET_CLASS (class);
-	widget_class->get_preferred_width = shell_switcher_get_preferred_width;
-	widget_class->get_preferred_height = shell_switcher_get_preferred_height;
-	widget_class->size_allocate = shell_switcher_size_allocate;
-	widget_class->screen_changed = shell_switcher_screen_changed;
-
-	container_class = GTK_CONTAINER_CLASS (class);
-	container_class->remove = shell_switcher_remove;
-	container_class->forall = shell_switcher_forall;
-
-	class->style_changed = shell_switcher_style_changed;
-
-	/**
-	 * EShellSwitcher:toolbar-style
-	 *
-	 * The switcher's toolbar style.
-	 **/
-	g_object_class_install_property (
-		object_class,
-		PROP_TOOLBAR_STYLE,
-		g_param_spec_enum (
-			"toolbar-style",
-			"Toolbar Style",
-			"The switcher's toolbar style",
-			GTK_TYPE_TOOLBAR_STYLE,
-			E_SHELL_SWITCHER_DEFAULT_TOOLBAR_STYLE,
-			G_PARAM_READWRITE |
-			G_PARAM_CONSTRUCT |
-			G_PARAM_STATIC_STRINGS));
-
-	/**
-	 * EShellSwitcher:toolbar-visible
-	 *
-	 * Whether the switcher is visible.
-	 **/
-	g_object_class_install_property (
-		object_class,
-		PROP_TOOLBAR_VISIBLE,
-		g_param_spec_boolean (
-			"toolbar-visible",
-			"Toolbar Visible",
-			"Whether the switcher is visible",
-			TRUE,
-			G_PARAM_READWRITE |
-			G_PARAM_CONSTRUCT |
-			G_PARAM_STATIC_STRINGS));
-
-	/**
-	 * EShellSwitcher::style-changed
-	 * @switcher: the #EShellSwitcher which emitted the signal
-	 * @style: the new #GtkToolbarStyle of the switcher
-	 *
-	 * Emitted when the style of the switcher changes.
-	 **/
-	signals[STYLE_CHANGED] = g_signal_new (
-		"style-changed",
-		G_OBJECT_CLASS_TYPE (class),
-		G_SIGNAL_RUN_FIRST,
-		G_STRUCT_OFFSET (EShellSwitcherClass, style_changed),
-		NULL, NULL,
-		g_cclosure_marshal_VOID__ENUM,
-		G_TYPE_NONE, 1,
-		GTK_TYPE_TOOLBAR_STYLE);
+	widget_class->get_preferred_width = e_shell_switcher_get_preferred_width;
+	widget_class->size_allocate = e_shell_switcher_size_allocate;
 }
 
 static void
-e_shell_switcher_init (EShellSwitcher *switcher)
+e_shell_switcher_init (EShellSwitcher *self)
 {
-	switcher->priv = E_SHELL_SWITCHER_GET_PRIVATE (switcher);
+	GtkStyleContext *context;
 
-	gtk_widget_set_has_window (GTK_WIDGET (switcher), FALSE);
+	self->button_width = 0;
+	self->menu_button_width = 0;
 
-	e_extensible_load_extensions (E_EXTENSIBLE (switcher));
-}
+	self->n_buttons = 0;
+	self->n_visible_buttons = 0;
 
-static void
-shell_switcher_tool_shell_iface_init (GtkToolShellIface *iface)
-{
-	iface->get_icon_size = shell_switcher_get_icon_size;
-	iface->get_orientation = shell_switcher_get_orientation;
-	iface->get_style = shell_switcher_get_style;
-	iface->get_relief_style = shell_switcher_get_relief_style;
-	iface->get_text_alignment = shell_switcher_get_text_alignment;
+	self->view_buttons = NULL;
+
+	self->box = gtk_box_new (GTK_ORIENTATION_HORIZONTAL, 0);
+	gtk_widget_set_halign (self->box, GTK_ALIGN_CENTER);
+	context = gtk_widget_get_style_context (self->box);
+	gtk_style_context_add_class (context, "linked");
+
+	self->menu_button = gtk_menu_button_new ();
+	gtk_widget_set_halign (self->menu_button, GTK_ALIGN_START);
+
+	/* It is important to call `gtk_widget_show' to ensure that the button
+	 * has been realized before we attempt to get the button width.
+	 */
+	gtk_widget_show (self->menu_button);
+	gtk_widget_get_preferred_width (self->menu_button, &self->menu_button_width, NULL);
+
+	/* When we clear self->box in e_shell_switcher_show_buttons (), all of the
+	 * buttons in the container will be unreferenced and thus finalized.
+	 * Therefore, we need to hold an extra reference to all of the buttons in
+	 * self->box.
+	 */
+	g_object_ref (self->menu_button);
+
+	self->popover = gtk_popover_new (self->menu_button);
+	gtk_menu_button_set_use_popover (GTK_MENU_BUTTON (self->menu_button), TRUE);
+	gtk_menu_button_set_popover (GTK_MENU_BUTTON (self->menu_button), self->popover);
+
+	self->popover_box = gtk_box_new (GTK_ORIENTATION_HORIZONTAL, 0);
+	context = gtk_widget_get_style_context (self->popover_box);
+	gtk_style_context_add_class (context, "linked");
+
+	gtk_container_add (GTK_CONTAINER (self->popover), self->popover_box);
+	gtk_container_add (GTK_CONTAINER (self), self->box);
+	gtk_widget_show_all (GTK_WIDGET (self));
 }
 
 /**
@@ -594,85 +267,96 @@ e_shell_switcher_new (void)
 	return g_object_new (E_TYPE_SHELL_SWITCHER, NULL);
 }
 
-/*
- * gtk+ doesn't give us what we want - a middle click,
- * option on toolbar items, so we have to get it by force.
- */
-static GtkButton *
-tool_item_get_button (GtkWidget *widget)
+/**
+ * e_shell_switcher_switch_to_view:
+ * @self: an #EShellSwitcher
+ * @action: a #GtkAction
+ *
+ * Toggles the button associated with the action.
+ **/
+void
+e_shell_switcher_switch_to_view (EShellSwitcher *self,
+                                 const gchar *view_name)
 {
-	GtkWidget *child;
+	g_return_if_fail (E_IS_SHELL_SWITCHER (self));
 
-	g_return_val_if_fail (GTK_IS_TOOL_ITEM (widget), NULL);
-
-	child = gtk_bin_get_child (GTK_BIN (widget));
-	if (child != NULL && GTK_IS_BUTTON (child))
-		return GTK_BUTTON (child);
-	else
-		return NULL;
+	for (GSList *iter = self->view_buttons; iter; iter = iter->next) {
+		GtkAction *button_action = g_object_get_data (G_OBJECT (iter->data), "action");
+		gchar *button_view_name = g_object_get_data (G_OBJECT (button_action), "view-name");
+		if (g_strcmp0 (view_name, button_view_name) == 0) {
+			gtk_action_activate (button_action);
+			gtk_toggle_button_set_active (iter->data, TRUE);
+		}
+	}
 }
 
 static gboolean
-tool_item_button_cb (GtkWidget *internal_widget,
-                     GdkEvent *button_event,
-                     GtkAction *action)
+switch_to_view (GtkWidget *button,
+		GdkEvent  *event,
+		GtkAction *action)
 {
-	guint32 my_mods = GDK_SHIFT_MASK | GDK_CONTROL_MASK | GDK_MOD1_MASK |
-		GDK_SUPER_MASK | GDK_HYPER_MASK | GDK_META_MASK;
-	GdkModifierType event_state = 0;
-	guint event_button = 0;
-
 	g_return_val_if_fail (GTK_IS_ACTION (action), FALSE);
 
-	gdk_event_get_button (button_event, &event_button);
-	gdk_event_get_state (button_event, &event_state);
+	if (!gtk_action_is_sensitive (action))
+		return GDK_EVENT_PROPAGATE;
 
-	if (event_button == 2 || (event_button == 1 && (event_state & my_mods) == GDK_SHIFT_MASK)) {
+	guint event_button;
+	GdkModifierType event_state;
+
+	gdk_event_get_button (event, &event_button);
+	gdk_event_get_state (event, &event_state);
+
+	GdkModifierType new_window_mods = GDK_SHIFT_MASK | GDK_CONTROL_MASK;
+	if (event_button == GDK_BUTTON_MIDDLE ||
+	    (event_button == GDK_BUTTON_PRIMARY && (event_state & new_window_mods))) {
+		gchar *view_name = g_object_get_data (G_OBJECT (action), "view-name");
+		view_name = g_strconcat ("*", view_name, NULL);
+
+		GtkWidget *window = gtk_widget_get_toplevel (button);
+		g_return_val_if_fail (E_IS_SHELL_WINDOW (window), GDK_EVENT_PROPAGATE);
+
+		EShell *shell = e_shell_window_get_shell (E_SHELL_WINDOW (window));
+		e_shell_create_shell_window (shell, view_name);
+	} else {
 		gtk_action_activate (action);
-		return TRUE;
 	}
 
-	return FALSE;
+	return GDK_EVENT_PROPAGATE;
+}
+
+static void
+update_buttons (GtkButton      *button,
+		EShellSwitcher *switcher)
+{
+	e_shell_switcher_show_buttons (switcher);
 }
 
 /**
  * e_shell_switcher_add_action:
- * @switcher: an #EShellSwitcher
- * @switch_action: a #GtkAction
- * @new_window_action: a #GtkAction
+ * @self: an #EShellSwitcher
+ * @action: a #GtkAction
  *
- * Adds a button to @switcher that proxies for @switcher_action.
- * Switcher buttons appear in the order they were added. A middle
- * click opens a new window of this type.
+ * Adds a button to @self that proxies for @action.
+ * Switcher buttons appear in the order they were added.
  *
  * #EShellWindow adds switcher actions in the order given by the
  * <structfield>sort_order</structfield> field in #EShellBackendClass.
  **/
 void
-e_shell_switcher_add_action (EShellSwitcher *switcher,
-                             GtkAction *switch_action,
-                             GtkAction *new_window_action)
+e_shell_switcher_add_action (EShellSwitcher *self,
+                             GtkAction      *action)
 {
-	GtkWidget *widget;
-	GtkButton *button;
-	GSettings *settings;
-	gchar **strv;
-	gint ii;
-	gboolean skip = FALSE;
+	g_return_if_fail (E_IS_SHELL_SWITCHER (self));
+	g_return_if_fail (GTK_IS_ACTION (action));
 
-	g_return_if_fail (E_IS_SHELL_SWITCHER (switcher));
-	g_return_if_fail (GTK_IS_ACTION (switch_action));
-	g_return_if_fail (GTK_IS_ACTION (new_window_action));
-
-	settings = e_util_ref_settings ("org.gnome.evolution.shell");
-	strv = g_settings_get_strv (settings, "buttons-hide");
+	GSettings *settings = e_util_ref_settings ("org.gnome.evolution.shell");
+	gchar **strv = g_settings_get_strv (settings, "buttons-hide");
 	g_clear_object (&settings);
 
-	for (ii = 0; strv && strv[ii] && !skip; ii++) {
-		gchar *name;
-
-		name = g_strdup_printf (E_SHELL_SWITCHER_FORMAT, strv[ii]);
-		skip = g_strcmp0 (name, gtk_action_get_name (switch_action)) == 0;
+	gboolean skip = FALSE;
+	for (gint i = 0; strv && strv[i] && !skip; i++) {
+		gchar *name = g_strdup_printf (E_SHELL_SWITCHER_FORMAT, strv[i]);
+		skip = g_strcmp0 (name, gtk_action_get_name (action)) == 0;
 		g_free (name);
 	}
 
@@ -681,144 +365,21 @@ e_shell_switcher_add_action (EShellSwitcher *switcher,
 	if (skip)
 		return;
 
-	g_object_ref (switch_action);
-	widget = gtk_action_create_tool_item (switch_action);
-	gtk_tool_item_set_is_important (GTK_TOOL_ITEM (widget), TRUE);
-	gtk_widget_show (widget);
+	const gchar *action_name = gtk_action_get_label (action);
+	GtkWidget *button = gtk_radio_button_new_with_label (self->view_buttons, action_name);
+	gtk_toggle_button_set_mode (GTK_TOGGLE_BUTTON (button), FALSE);
 
-	button = tool_item_get_button (widget);
-	if (button != NULL)
-		g_signal_connect (
-			button, "button-release-event",
-			G_CALLBACK (tool_item_button_cb),
-			new_window_action);
+	g_object_set_data (G_OBJECT (button), "action", action);
+	g_signal_connect (button, "button-release-event", G_CALLBACK (switch_to_view), action);
+	g_signal_connect (button, "toggled", G_CALLBACK (update_buttons), self);
 
-	gtk_widget_set_visible (widget, switcher->priv->toolbar_visible);
+	g_object_ref (action);
+	g_object_ref (button);
 
-	switcher->priv->proxies = g_list_append (
-		switcher->priv->proxies, widget);
+	self->n_buttons++;
+	self->n_visible_buttons++;
+	self->view_buttons = g_slist_append (self->view_buttons, button);
 
-	gtk_widget_set_parent (widget, GTK_WIDGET (switcher));
-	gtk_widget_queue_resize (GTK_WIDGET (switcher));
-}
-
-/**
- * e_shell_switcher_get_style:
- * @switcher: an #EShellSwitcher
- *
- * Returns whether @switcher has text, icons or both.
- *
- * Returns: the current style of @shell
- **/
-GtkToolbarStyle
-e_shell_switcher_get_style (EShellSwitcher *switcher)
-{
-	g_return_val_if_fail (
-		E_IS_SHELL_SWITCHER (switcher),
-		E_SHELL_SWITCHER_DEFAULT_TOOLBAR_STYLE);
-
-	return switcher->priv->style;
-}
-
-/**
- * e_shell_switcher_set_style:
- * @switcher: an #EShellSwitcher
- * @style: the new style for @switcher
- *
- * Alters the view of @switcher to display either icons only, text only,
- * or both.
- **/
-void
-e_shell_switcher_set_style (EShellSwitcher *switcher,
-                            GtkToolbarStyle style)
-{
-	g_return_if_fail (E_IS_SHELL_SWITCHER (switcher));
-
-	switcher->priv->style_set = TRUE;
-	g_signal_emit (switcher, signals[STYLE_CHANGED], 0, style);
-}
-
-/**
- * e_shell_switcher_unset_style:
- * @switcher: an #EShellSwitcher
- *
- * Unsets a switcher style set with e_shell_switcher_set_style(), so
- * that user preferences will be used to determine the switcher style.
- **/
-void
-e_shell_switcher_unset_style (EShellSwitcher *switcher)
-{
-	GtkSettings *settings;
-	GtkToolbarStyle style;
-
-	g_return_if_fail (E_IS_SHELL_SWITCHER (switcher));
-
-	if (!switcher->priv->style_set)
-		return;
-
-	settings = switcher->priv->settings;
-	if (settings != NULL)
-		g_object_get (settings, "gtk-toolbar-style", &style, NULL);
-	else
-		style = E_SHELL_SWITCHER_DEFAULT_TOOLBAR_STYLE;
-
-	if (style == GTK_TOOLBAR_BOTH)
-		style = GTK_TOOLBAR_BOTH_HORIZ;
-
-	if (style != switcher->priv->style)
-		g_signal_emit (switcher, signals[STYLE_CHANGED], 0, style);
-
-	switcher->priv->style_set = FALSE;
-}
-
-/**
- * e_shell_switcher_get_visible:
- * @switcher: an #EShellSwitcher
- *
- * Returns %TRUE if the switcher buttons are visible.
- *
- * Note that switcher button visibility is different than
- * @switcher<!-- -->'s GTK_VISIBLE flag, since #EShellSwitcher
- * is actually a container widget for #EShellSidebar.
- *
- * Returns: %TRUE if the switcher buttons are visible
- **/
-gboolean
-e_shell_switcher_get_visible (EShellSwitcher *switcher)
-{
-	g_return_val_if_fail (E_IS_SHELL_SWITCHER (switcher), FALSE);
-
-	return switcher->priv->toolbar_visible;
-}
-
-/**
- * e_shell_switcher_set_visible:
- * @switcher: an #EShellSwitcher
- * @visible: whether the switcher buttons should be visible
- *
- * Sets the switcher button visiblity to @visible.
- *
- * Note that switcher button visibility is different than
- * @switcher<!-- -->'s GTK_VISIBLE flag, since #EShellSwitcher
- * is actually a container widget for #EShellSidebar.
- **/
-void
-e_shell_switcher_set_visible (EShellSwitcher *switcher,
-                              gboolean visible)
-{
-	GList *iter;
-
-	g_return_if_fail (E_IS_SHELL_SWITCHER (switcher));
-
-	if (switcher->priv->toolbar_visible == visible)
-		return;
-
-	switcher->priv->toolbar_visible = visible;
-
-	for (iter = switcher->priv->proxies; iter != NULL; iter = iter->next)
-		g_object_set (iter->data, "visible", visible, NULL);
-
-	gtk_widget_queue_resize (GTK_WIDGET (switcher));
-
-	g_object_notify (G_OBJECT (switcher), "toolbar-visible");
+	e_shell_switcher_update_button_width (self);
+	e_shell_switcher_show_buttons (self);
 }
