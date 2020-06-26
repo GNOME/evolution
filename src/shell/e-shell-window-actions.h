@@ -64,6 +64,8 @@
 	E_SHELL_WINDOW_ACTION ((window), "quit")
 #define E_SHELL_WINDOW_ACTION_SEARCH_ADVANCED(window) \
 	E_SHELL_WINDOW_ACTION ((window), "search-advanced")
+#define E_SHELL_WINDOW_ACTION_SAVED_SEARCHES(window) \
+	E_SHELL_WINDOW_ACTION ((window), "saved-searches")
 #define E_SHELL_WINDOW_ACTION_SEARCH_CLEAR(window) \
 	E_SHELL_WINDOW_ACTION ((window), "search-clear")
 #define E_SHELL_WINDOW_ACTION_SEARCH_EDIT(window) \

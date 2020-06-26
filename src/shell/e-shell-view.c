@@ -34,6 +34,7 @@
 
 #include "e-shell-searchbar.h"
 #include "e-shell-window-actions.h"
+#include "e-shell-window-private.h"
 
 #define E_SHELL_VIEW_GET_PRIVATE(obj) \
 	(G_TYPE_INSTANCE_GET_PRIVATE \
@@ -726,6 +727,9 @@ shell_view_toggled (EShellView *shell_view)
 	}
 
 	gtk_ui_manager_ensure_update (ui_manager);
+
+	if (view_is_active)
+		e_shell_window_update_search_menu (shell_window);
 }
 
 static void

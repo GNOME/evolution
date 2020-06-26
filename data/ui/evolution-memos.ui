@@ -80,5 +80,8 @@
     <menuitem action='memo-search-any-field-contains'/>
     <separator/>
     <menuitem action='search-advanced'/>
+    <menu action='saved-searches'>
+      <placeholder name='custom-rules'/>
+    </menu>
   </popup>
 </ui>

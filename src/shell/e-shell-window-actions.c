@@ -961,6 +961,13 @@ static GtkActionEntry shell_entries[] = {
 	  N_("Exit the program"),
 	  G_CALLBACK (action_quit_cb) },
 
+	{ "saved-searches",
+	  NULL,
+	  N_("_Saved Searches"),
+	  NULL,
+	  NULL,
+	  NULL },
+
 	{ "search-advanced",
 	  NULL,
 	  N_("_Advanced Search…"),
@@ -1825,6 +1832,7 @@ e_shell_window_update_search_menu (EShellWindow *shell_window)
 	GtkActionGroup *action_group;
 	const gchar *source;
 	const gchar *view_name;
+	gchar *search_options_path;
 	gboolean sensitive;
 	guint merge_id;
 	gint ii = 0;
@@ -1842,6 +1850,7 @@ e_shell_window_update_search_menu (EShellWindow *shell_window)
 
 	shell_view_class = E_SHELL_VIEW_GET_CLASS (shell_view);
 	context = shell_view_class->search_context;
+	search_options_path = g_strconcat (shell_view_class->search_options, "/saved-searches/custom-rules", NULL);
 
 	source = E_FILTER_SOURCE_INCOMING;
 
@@ -1858,6 +1867,9 @@ e_shell_window_update_search_menu (EShellWindow *shell_window)
 	gtk_ui_manager_remove_ui (ui_manager, merge_id);
 	e_action_group_remove_all_actions (action_group);
 	gtk_ui_manager_ensure_update (ui_manager);
+
+	if (!gtk_ui_manager_get_widget (ui_manager, search_options_path))
+		g_clear_pointer (&search_options_path, g_free);
 
 	rule = e_rule_context_next_rule (context, NULL, source);
 	while (rule != NULL) {
@@ -1900,9 +1912,19 @@ e_shell_window_update_search_menu (EShellWindow *shell_window)
 			action_name, action_name,
 			GTK_UI_MANAGER_AUTO, FALSE);
 
+		if (search_options_path) {
+			gtk_ui_manager_add_ui (
+				ui_manager, merge_id,
+				search_options_path,
+				action_name, action_name,
+				GTK_UI_MANAGER_AUTO, FALSE);
+		}
+
 		g_free (action_name);
 		g_free (action_label);
 
 		rule = e_rule_context_next_rule (context, rule, source);
 	}
+
+	g_clear_pointer (&search_options_path, g_free);
 }

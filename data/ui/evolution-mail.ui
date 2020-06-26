@@ -173,5 +173,8 @@
     <menuitem action='mail-search-free-form-expr'/>
     <separator/>
     <menuitem action='search-advanced'/>
+    <menu action='saved-searches'>
+      <placeholder name='custom-rules'/>
+    </menu>
   </popup>
 </ui>

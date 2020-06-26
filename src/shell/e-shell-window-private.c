@@ -487,10 +487,6 @@ e_shell_window_private_constructed (EShellWindow *shell_window)
 		shell_window, "notify::active-view",
 		G_CALLBACK (e_shell_window_update_view_menu), NULL);
 
-	e_signal_connect_notify (
-		shell_window, "notify::active-view",
-		G_CALLBACK (e_shell_window_update_search_menu), NULL);
-
 #ifndef G_OS_WIN32
 	/* Support lockdown. */
 
