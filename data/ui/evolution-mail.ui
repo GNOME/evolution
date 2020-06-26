@@ -164,10 +164,11 @@
   <popup name='mail-search-options'>
     <menuitem action='mail-search-advanced-hidden'/>
     <menuitem action='mail-search-subject-or-addresses-contain'/>
-    <menuitem action='mail-search-recipients-contain'/>
-    <menuitem action='mail-search-message-contains'/>
     <menuitem action='mail-search-subject-contains'/>
     <menuitem action='mail-search-sender-contains'/>
+    <menuitem action='mail-search-recipients-contain'/>
+    <separator/>
+    <menuitem action='mail-search-message-contains'/>
     <menuitem action='mail-search-body-contains'/>
     <menuitem action='mail-search-free-form-expr'/>
     <separator/>
