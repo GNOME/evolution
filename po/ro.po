@@ -13,8 +13,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: evolution.HEAD.ro\n"
 "Report-Msgid-Bugs-To: https://gitlab.gnome.org/GNOME/evolution/issues\n"
-"POT-Creation-Date: 2020-06-24 10:45+0000\n"
-"PO-Revision-Date: 2020-06-25 12:09+0300\n"
+"POT-Creation-Date: 2020-06-26 07:03+0000\n"
+"PO-Revision-Date: 2020-06-26 11:52+0300\n"
 "Last-Translator: Florentina Mușat <florentina.musat.28@gmail.com>\n"
 "Language-Team: Gnome Romanian Translation Team <gnomero-list@lists.sourceforge.net>\n"
 "Language: ro\n"
@@ -3648,7 +3648,7 @@ msgstr "_Salvează"
 
 #: ../src/addressbook/gui/contact-editor/contact-editor.ui.h:16 ../src/calendar/gui/e-comp-editor.c:2055
 #: ../src/calendar/gui/e-comp-editor.c:2127 ../src/e-util/e-preferences-window.c:390 ../src/e-util/e-send-options.ui.h:15
-#: ../src/plugins/email-custom-header/org-gnome-email-custom-header.ui.h:2 ../src/shell/e-shell-window-actions.c:1059
+#: ../src/plugins/email-custom-header/org-gnome-email-custom-header.ui.h:2 ../src/shell/e-shell-window-actions.c:1066
 msgid "_Help"
 msgstr "_Ajutor"
 
@@ -4837,7 +4837,7 @@ msgstr "Mi_cșorează"
 
 #. Search button
 #: ../src/addressbook/gui/widgets/e-contact-map-window.c:447 ../src/e-util/e-html-editor-actions.c:2206
-#: ../src/e-util/e-html-editor-find-dialog.c:244 ../src/shell/e-shell-window-actions.c:987
+#: ../src/e-util/e-html-editor-find-dialog.c:244 ../src/shell/e-shell-window-actions.c:994
 msgid "_Find"
 msgstr "_Caută"
 
@@ -7072,7 +7072,7 @@ msgstr "Participa_nți…"
 #: ../src/mail/em-folder-properties.c:1333 ../src/mail/mail-config.ui.h:68
 #: ../src/plugins/attachment-reminder/attachment-reminder.c:549 ../src/plugins/email-custom-header/email-custom-header.c:844
 #: ../src/plugins/publish-calendar/publish-calendar.ui.h:34 ../src/plugins/templates/templates.c:469
-#: ../src/shell/e-shell-window-actions.c:1045 ../src/smime/gui/smime-ui.ui.h:11
+#: ../src/shell/e-shell-window-actions.c:1052 ../src/smime/gui/smime-ui.ui.h:11
 msgid "_Edit"
 msgstr "_Editare"
 
@@ -7789,12 +7789,12 @@ msgid "Pre_view…"
 msgstr "Pre_vizualizare…"
 
 #: ../src/calendar/gui/e-comp-editor.c:2083 ../src/e-util/e-focus-tracker.c:821 ../src/e-util/e-html-editor-actions.c:1100
-#: ../src/e-util/e-web-view.c:485 ../src/mail/e-mail-browser.c:194 ../src/shell/e-shell-window-actions.c:1008
+#: ../src/e-util/e-web-view.c:485 ../src/mail/e-mail-browser.c:194 ../src/shell/e-shell-window-actions.c:1015
 msgid "Select _All"
 msgstr "Selectează to_ate"
 
 #: ../src/calendar/gui/e-comp-editor.c:2085 ../src/e-util/e-focus-tracker.c:224 ../src/e-util/e-focus-tracker.c:280
-#: ../src/e-util/e-focus-tracker.c:822 ../src/mail/e-mail-browser.c:196 ../src/shell/e-shell-window-actions.c:1010
+#: ../src/e-util/e-focus-tracker.c:822 ../src/mail/e-mail-browser.c:196 ../src/shell/e-shell-window-actions.c:1017
 msgid "Select all text"
 msgstr "Selectează tot textul"
 
@@ -7804,7 +7804,7 @@ msgstr "_Clasificare"
 
 #: ../src/calendar/gui/e-comp-editor.c:2120 ../src/e-util/e-html-editor-actions.c:1123
 #: ../src/e-util/e-mail-signature-editor.c:333 ../src/mail/e-mail-browser.c:210 ../src/mail/e-mail-notes.c:1029
-#: ../src/shell/e-shell-window-actions.c:1052
+#: ../src/shell/e-shell-window-actions.c:1059
 msgid "_File"
 msgstr "_Fișier"
 
@@ -7817,7 +7817,7 @@ msgid "_Options"
 msgstr "_Opțiuni"
 
 #: ../src/calendar/gui/e-comp-editor.c:2148 ../src/e-util/e-html-editor-actions.c:1165 ../src/mail/e-mail-browser.c:224
-#: ../src/shell/e-shell-window-actions.c:1095 ../src/smime/gui/certificate-manager.c:1646 ../src/smime/gui/smime-ui.ui.h:3
+#: ../src/shell/e-shell-window-actions.c:1102 ../src/smime/gui/certificate-manager.c:1646 ../src/smime/gui/smime-ui.ui.h:3
 msgid "_View"
 msgstr "_Vizualizare"
 
@@ -14686,7 +14686,7 @@ msgstr "C_ea mai bună potrivire"
 msgid "Format Column_s…"
 msgstr "Formatează coloan_e…"
 
-#: ../src/e-util/e-table-header-item.c:1675 ../src/shell/e-shell-window-actions.c:1232
+#: ../src/e-util/e-table-header-item.c:1675 ../src/shell/e-shell-window-actions.c:1239
 msgid "Custo_mize Current View…"
 msgstr "Perso_nalizează vizualizarea curentă…"
 
@@ -16000,7 +16000,7 @@ msgid "Select"
 msgstr "Selectează"
 
 #: ../src/mail/e-mail-config-security-page.c:686 ../src/mail/e-mail-config-security-page.c:784
-#: ../src/shell/e-shell-window-actions.c:973
+#: ../src/shell/e-shell-window-actions.c:980
 msgid "_Clear"
 msgstr "_Curăță"
 
@@ -25002,7 +25002,7 @@ msgstr ""
 msgid "Website"
 msgstr "Pagină web"
 
-#: ../src/shell/e-shell-view.c:295
+#: ../src/shell/e-shell-view.c:296
 msgid "Saving user interface state"
 msgstr "Se salvează starea interfeței cu utilizatorul"
 
@@ -25087,218 +25087,222 @@ msgid "Exit the program"
 msgstr "Ieșiți din program"
 
 #: ../src/shell/e-shell-window-actions.c:966
+msgid "_Saved Searches"
+msgstr "Căutări _salvate"
+
+#: ../src/shell/e-shell-window-actions.c:973
 msgid "_Advanced Search…"
 msgstr "Căut_are avansată…"
 
-#: ../src/shell/e-shell-window-actions.c:968
+#: ../src/shell/e-shell-window-actions.c:975
 msgid "Construct a more advanced search"
 msgstr "Construiește o căutare mai avansată"
 
-#: ../src/shell/e-shell-window-actions.c:975
+#: ../src/shell/e-shell-window-actions.c:982
 msgid "Clear the current search parameters"
 msgstr "Curăță parametrii de căutare actuali"
 
-#: ../src/shell/e-shell-window-actions.c:980
+#: ../src/shell/e-shell-window-actions.c:987
 msgid "_Edit Saved Searches…"
 msgstr "_Editează căutările salvate…"
 
-#: ../src/shell/e-shell-window-actions.c:982
+#: ../src/shell/e-shell-window-actions.c:989
 msgid "Manage your saved searches"
 msgstr "Gestionați căutările salvate"
 
-#: ../src/shell/e-shell-window-actions.c:989
+#: ../src/shell/e-shell-window-actions.c:996
 msgid "Click here to change the search type"
 msgstr "Click aici pentru modifica tipul de căutare"
 
-#: ../src/shell/e-shell-window-actions.c:994
+#: ../src/shell/e-shell-window-actions.c:1001
 msgid "_Find Now"
 msgstr "_Caută acum"
 
-#: ../src/shell/e-shell-window-actions.c:996
+#: ../src/shell/e-shell-window-actions.c:1003
 msgid "Execute the current search parameters"
 msgstr "Execută parametrii de căutare curenți"
 
-#: ../src/shell/e-shell-window-actions.c:1001
+#: ../src/shell/e-shell-window-actions.c:1008
 msgid "_Save Search…"
 msgstr "_Salvează căutarea…"
 
-#: ../src/shell/e-shell-window-actions.c:1003
+#: ../src/shell/e-shell-window-actions.c:1010
 msgid "Save the current search parameters"
 msgstr "Salvează parametrii de căutare curenți"
 
-#: ../src/shell/e-shell-window-actions.c:1015
+#: ../src/shell/e-shell-window-actions.c:1022
 msgid "_Keyboard Shortcuts"
 msgstr "Scurtături de _tastatură"
 
-#: ../src/shell/e-shell-window-actions.c:1017
+#: ../src/shell/e-shell-window-actions.c:1024
 msgid "Show keyboard shortcuts"
 msgstr "Arată scurtăturile de tastatură"
 
-#: ../src/shell/e-shell-window-actions.c:1022
+#: ../src/shell/e-shell-window-actions.c:1029
 msgid "Submit _Bug Report…"
 msgstr "Trimite raportul de _defecțiune…"
 
-#: ../src/shell/e-shell-window-actions.c:1024
+#: ../src/shell/e-shell-window-actions.c:1031
 msgid "Submit a bug report using Bug Buddy"
 msgstr "Trimite un raport de defecțiune utilizând Bug Buddy"
 
-#: ../src/shell/e-shell-window-actions.c:1029
+#: ../src/shell/e-shell-window-actions.c:1036
 msgid "_Work Offline"
 msgstr "_Lucrează deconectat"
 
-#: ../src/shell/e-shell-window-actions.c:1031
+#: ../src/shell/e-shell-window-actions.c:1038
 msgid "Put Evolution into offline mode"
 msgstr "Plasează Evolution în modul deconectat"
 
-#: ../src/shell/e-shell-window-actions.c:1036
+#: ../src/shell/e-shell-window-actions.c:1043
 msgid "_Work Online"
 msgstr "_Muncește offline"
 
-#: ../src/shell/e-shell-window-actions.c:1038
+#: ../src/shell/e-shell-window-actions.c:1045
 msgid "Put Evolution into online mode"
 msgstr "Plasează Evolution în modul conectat"
 
-#: ../src/shell/e-shell-window-actions.c:1066
+#: ../src/shell/e-shell-window-actions.c:1073
 msgid "Lay_out"
 msgstr "_Aranjament"
 
 #. Translators: This is a New menu item caption, under File->New
-#: ../src/shell/e-shell-window-actions.c:1074
+#: ../src/shell/e-shell-window-actions.c:1081
 msgid "_New"
 msgstr "_Nou"
 
-#: ../src/shell/e-shell-window-actions.c:1081
+#: ../src/shell/e-shell-window-actions.c:1088
 msgid "_Search"
 msgstr "_Caută"
 
-#: ../src/shell/e-shell-window-actions.c:1088
+#: ../src/shell/e-shell-window-actions.c:1095
 msgid "_Switcher Appearance"
 msgstr "Aspect _comutator"
 
-#: ../src/shell/e-shell-window-actions.c:1102
+#: ../src/shell/e-shell-window-actions.c:1109
 msgid "_Window"
 msgstr "_Fereastră"
 
-#: ../src/shell/e-shell-window-actions.c:1131
+#: ../src/shell/e-shell-window-actions.c:1138
 msgid "Show _Menu Bar"
 msgstr "Arată bara de _meniu"
 
-#: ../src/shell/e-shell-window-actions.c:1133
+#: ../src/shell/e-shell-window-actions.c:1140
 msgid "Show the menu bar"
 msgstr "Arată bara de meniu"
 
-#: ../src/shell/e-shell-window-actions.c:1139
+#: ../src/shell/e-shell-window-actions.c:1146
 msgid "Show Side _Bar"
 msgstr "Arată _bara laterală"
 
-#: ../src/shell/e-shell-window-actions.c:1141
+#: ../src/shell/e-shell-window-actions.c:1148
 msgid "Show the side bar"
 msgstr "Arată bara laterală"
 
-#: ../src/shell/e-shell-window-actions.c:1147
+#: ../src/shell/e-shell-window-actions.c:1154
 msgid "Show _Buttons"
 msgstr "Arată butoanele"
 
-#: ../src/shell/e-shell-window-actions.c:1149
+#: ../src/shell/e-shell-window-actions.c:1156
 msgid "Show the switcher buttons"
 msgstr "Arată butoanele comutatorului"
 
-#: ../src/shell/e-shell-window-actions.c:1155
+#: ../src/shell/e-shell-window-actions.c:1162
 msgid "Show _Status Bar"
 msgstr "Arată bara de _stare"
 
-#: ../src/shell/e-shell-window-actions.c:1157
+#: ../src/shell/e-shell-window-actions.c:1164
 msgid "Show the status bar"
 msgstr "Arată bara de stare"
 
-#: ../src/shell/e-shell-window-actions.c:1163
+#: ../src/shell/e-shell-window-actions.c:1170
 msgid "Show _Tool Bar"
 msgstr "Arată bara de unel_te"
 
-#: ../src/shell/e-shell-window-actions.c:1165
+#: ../src/shell/e-shell-window-actions.c:1172
 msgid "Show the tool bar"
 msgstr "Arată bara de unelte"
 
-#: ../src/shell/e-shell-window-actions.c:1187
+#: ../src/shell/e-shell-window-actions.c:1194
 msgid "_Icons Only"
 msgstr "Doar _iconițe"
 
-#: ../src/shell/e-shell-window-actions.c:1189
+#: ../src/shell/e-shell-window-actions.c:1196
 msgid "Display window buttons with icons only"
 msgstr "Afișează butoanele ferestrei doar cu iconițe"
 
-#: ../src/shell/e-shell-window-actions.c:1194
+#: ../src/shell/e-shell-window-actions.c:1201
 msgid "_Text Only"
 msgstr "Doar _text"
 
-#: ../src/shell/e-shell-window-actions.c:1196
+#: ../src/shell/e-shell-window-actions.c:1203
 msgid "Display window buttons with text only"
 msgstr "Afișează butoanele ferestrei doar cu text"
 
-#: ../src/shell/e-shell-window-actions.c:1201
+#: ../src/shell/e-shell-window-actions.c:1208
 msgid "Icons _and Text"
 msgstr "Iconițe ș_i text"
 
-#: ../src/shell/e-shell-window-actions.c:1203
+#: ../src/shell/e-shell-window-actions.c:1210
 msgid "Display window buttons with icons and text"
 msgstr "Afișează butoanele ferestrei cu iconițe și text"
 
-#: ../src/shell/e-shell-window-actions.c:1208
+#: ../src/shell/e-shell-window-actions.c:1215
 msgid "Tool_bar Style"
 msgstr "Stil _bară de unelte"
 
-#: ../src/shell/e-shell-window-actions.c:1210
+#: ../src/shell/e-shell-window-actions.c:1217
 msgid "Display window buttons using the desktop toolbar setting"
 msgstr "Afișează butoanele ferestrei utilizând configurarea barei de unelte a desktopului"
 
-#: ../src/shell/e-shell-window-actions.c:1218
+#: ../src/shell/e-shell-window-actions.c:1225
 msgid "Delete Current View"
 msgstr "Șterge _vizualizarea curentă"
 
-#: ../src/shell/e-shell-window-actions.c:1225
+#: ../src/shell/e-shell-window-actions.c:1232
 msgid "Save Custom View…"
 msgstr "Salvează vizualizarea personalizată…"
 
-#: ../src/shell/e-shell-window-actions.c:1227
+#: ../src/shell/e-shell-window-actions.c:1234
 msgid "Save current custom view"
 msgstr "Salvează vizualizarea personalizată curentă"
 
-#: ../src/shell/e-shell-window-actions.c:1241
+#: ../src/shell/e-shell-window-actions.c:1248
 msgid "C_urrent View"
 msgstr "Vizualizare c_urentă"
 
-#: ../src/shell/e-shell-window-actions.c:1251
+#: ../src/shell/e-shell-window-actions.c:1258
 msgid "Custom View"
 msgstr "Vizualizare personalizată"
 
-#: ../src/shell/e-shell-window-actions.c:1253
+#: ../src/shell/e-shell-window-actions.c:1260
 msgid "Current view is a customized view"
 msgstr "Vizualizarea curentă este o vizualizare personalizată"
 
-#: ../src/shell/e-shell-window-actions.c:1261
+#: ../src/shell/e-shell-window-actions.c:1268
 msgid "Page Set_up…"
 msgstr "_Stabilire pagină…"
 
-#: ../src/shell/e-shell-window-actions.c:1263
+#: ../src/shell/e-shell-window-actions.c:1270
 msgid "Change the page settings for your current printer"
 msgstr "Modifică configurările paginii pentru imprimanta curentă"
 
-#: ../src/shell/e-shell-window-actions.c:1633
+#: ../src/shell/e-shell-window-actions.c:1640
 #, c-format
 msgid "Switch to %s"
 msgstr "Comută la %s"
 
-#: ../src/shell/e-shell-window-actions.c:1757
+#: ../src/shell/e-shell-window-actions.c:1764
 #, c-format
 msgid "Select view: %s"
 msgstr "Selectează vizualizarea: %s"
 
-#: ../src/shell/e-shell-window-actions.c:1774
+#: ../src/shell/e-shell-window-actions.c:1781
 #, c-format
 msgid "Delete view: %s"
 msgstr "Șterge vizualizarea: %s"
 
-#: ../src/shell/e-shell-window-actions.c:1884
+#: ../src/shell/e-shell-window-actions.c:1896
 msgid "Execute these search parameters"
 msgstr "Execută acești parametri de căutare"
 
@@ -25310,7 +25314,7 @@ msgid "New"
 msgstr "Nou"
 
 #. Translators: This is used for the main window title.
-#: ../src/shell/e-shell-window-private.c:826
+#: ../src/shell/e-shell-window-private.c:822
 #, c-format
 msgid "%s — Evolution"
 msgstr "%s — Evolution"
