@@ -931,10 +931,7 @@ gnome_canvas_text_set_property (GObject *object,
 		if (color_name) {
 			GdkColor color;
 			if (gdk_color_parse (color_name, &color)) {
-				text->rgba = ((color.red & 0xff00) << 16 |
-					      (color.green & 0xff00) << 8 |
-					      (color.blue & 0xff00) |
-					      0xff);
+				text->rgba = GNOME_CANVAS_COLOR (color.red, color.green, color.blue);
 			} else {
 				g_warning (
 					"%s: Failed to parse color form string '%s'",
@@ -947,10 +944,7 @@ gnome_canvas_text_set_property (GObject *object,
 	case PROP_FILL_COLOR_GDK:
 		pcolor = g_value_get_boxed (value);
 		if (pcolor) {
-			text->rgba = ((pcolor->red & 0xff00) << 16 |
-				      (pcolor->green & 0xff00) << 8|
-				      (pcolor->blue & 0xff00) |
-				      0xff);
+			text->rgba = GNOME_CANVAS_COLOR (pcolor->red, pcolor->green, pcolor->blue);
 		} else {
 			text->rgba = 0;
 		}

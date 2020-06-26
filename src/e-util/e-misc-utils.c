@@ -1376,9 +1376,9 @@ e_rgba_to_value (const GdkRGBA *rgba)
 	blue = 255 * rgba->blue;
 
 	return (guint32)
-		((((red & 0xFF) << 16) |
-		((green & 0xFF) << 8) |
-		(blue & 0xFF)) & 0xffffff);
+		((((red & 0xFFu) << 16) |
+		((green & 0xFFu) << 8) |
+		(blue & 0xFFu)) & 0xffffffu);
 }
 
 /**

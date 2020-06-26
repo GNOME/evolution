@@ -94,10 +94,10 @@ get_rgba_from_color (GdkColor *color)
 	bb = 0xFF * color->blue / 65535.0;
 	aa = 0xFF;
 
-	return (rr & 0xFF) << 24 |
-		(gg & 0xFF) << 16 |
-		(bb & 0xFF) << 8 |
-		(aa & 0xFF);
+	return (rr & 0xFFu) << 24 |
+		(gg & 0xFFu) << 16 |
+		(bb & 0xFFu) << 8 |
+		(aa & 0xFFu);
 }
 
 static gboolean

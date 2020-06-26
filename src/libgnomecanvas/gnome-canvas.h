@@ -46,15 +46,15 @@ G_BEGIN_DECLS
  * [0, 255].
  */
 
-#define GNOME_CANVAS_COLOR(r, g, b) ((((guint) (r) & 0xff) << 24) \
-				     | (((guint) (g) & 0xff) << 16) \
-				     | (((guint) (b) & 0xff) << 8) \
-				     | 0xff)
+#define GNOME_CANVAS_COLOR(r, g, b) ((((guint) (r) & 0xffu) << 24) \
+				     | (((guint) (g) & 0xffu) << 16) \
+				     | (((guint) (b) & 0xffu) << 8) \
+				     | 0xffu)
 
-#define GNOME_CANVAS_COLOR_A(r, g, b, a) ((((guint) (r) & 0xff) << 24) \
-					  | (((guint) (g) & 0xff) << 16) \
-					  | (((guint) (b) & 0xff) << 8) \
-					  | ((guint) (a) & 0xff))
+#define GNOME_CANVAS_COLOR_A(r, g, b, a) ((((guint) (r) & 0xffu) << 24) \
+					  | (((guint) (g) & 0xffu) << 16) \
+					  | (((guint) (b) & 0xffu) << 8) \
+					  | ((guint) (a) & 0xffu))
 
 typedef struct _GnomeCanvas           GnomeCanvas;
 typedef struct _GnomeCanvasClass      GnomeCanvasClass;
