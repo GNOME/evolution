@@ -25,8 +25,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: evolution master\n"
 "Report-Msgid-Bugs-To: https://gitlab.gnome.org/GNOME/evolution/issues\n"
-"POT-Creation-Date: 2020-06-23 06:43+0000\n"
-"PO-Revision-Date: 2020-06-23 15:23-0400\n"
+"POT-Creation-Date: 2020-06-26 07:03+0000\n"
+"PO-Revision-Date: 2020-06-27 11:52-0400\n"
 "Last-Translator: Boyuan Yang <073plan@gmail.com>\n"
 "Language-Team: Chinese (China) <i18n-zh@googlegroups.com>\n"
 "Language: zh_CN\n"
@@ -4348,7 +4348,7 @@ msgstr "保存(_S)"
 #: ../src/e-util/e-preferences-window.c:390
 #: ../src/e-util/e-send-options.ui.h:15
 #: ../src/plugins/email-custom-header/org-gnome-email-custom-header.ui.h:2
-#: ../src/shell/e-shell-window-actions.c:1059
+#: ../src/shell/e-shell-window-actions.c:1066
 msgid "_Help"
 msgstr "帮助(_H)"
 
@@ -5618,7 +5618,7 @@ msgstr "缩小(_O)"
 #: ../src/addressbook/gui/widgets/e-contact-map-window.c:447
 #: ../src/e-util/e-html-editor-actions.c:2206
 #: ../src/e-util/e-html-editor-find-dialog.c:244
-#: ../src/shell/e-shell-window-actions.c:987
+#: ../src/shell/e-shell-window-actions.c:994
 msgid "_Find"
 msgstr "查找(_F)"
 
@@ -8220,7 +8220,7 @@ msgstr "出席者(_N)…"
 #: ../src/plugins/email-custom-header/email-custom-header.c:844
 #: ../src/plugins/publish-calendar/publish-calendar.ui.h:34
 #: ../src/plugins/templates/templates.c:469
-#: ../src/shell/e-shell-window-actions.c:1045 ../src/smime/gui/smime-ui.ui.h:11
+#: ../src/shell/e-shell-window-actions.c:1052 ../src/smime/gui/smime-ui.ui.h:11
 msgid "_Edit"
 msgstr "编辑(_E)"
 
@@ -8693,7 +8693,7 @@ msgstr "查询出席者的忙闲信息"
 #: ../src/calendar/gui/e-comp-editor-property-parts.c:92
 msgctxt "ECompEditor"
 msgid "_Summary:"
-msgstr "概要：(_S)"
+msgstr "概要(_S)："
 
 #: ../src/calendar/gui/e-comp-editor-property-parts.c:341
 msgctxt "ECompEditor"
@@ -8721,17 +8721,17 @@ msgstr "描述(_D)："
 #: ../src/calendar/gui/e-comp-editor-property-parts.c:892
 msgctxt "ECompEditor"
 msgid "_Web page:"
-msgstr "网页：(_W)"
+msgstr "网页(_W)："
 
 #: ../src/calendar/gui/e-comp-editor-property-parts.c:1263
 msgctxt "ECompEditor"
 msgid "D_ue date:"
-msgstr "截止日期：(_U)"
+msgstr "截止日期(_U)："
 
 #: ../src/calendar/gui/e-comp-editor-property-parts.c:1357
 msgctxt "ECompEditor"
 msgid "Date _completed:"
-msgstr "完成日期：(_C)"
+msgstr "完成日期(_C)："
 
 #: ../src/calendar/gui/e-comp-editor-property-parts.c:1373
 msgctxt "ECompEditor"
@@ -8751,12 +8751,12 @@ msgstr "机密"
 #: ../src/calendar/gui/e-comp-editor-property-parts.c:1391
 msgctxt "ECompEditor"
 msgid "C_lassification:"
-msgstr "分类：(_L)"
+msgstr "分类(_L)："
 
 #: ../src/calendar/gui/e-comp-editor-property-parts.c:1454
 msgctxt "ECompEditor"
 msgid "_Status:"
-msgstr "状态：(_S)"
+msgstr "状态(_S)："
 
 #: ../src/calendar/gui/e-comp-editor-property-parts.c:1484
 msgctxt "ECompEditor"
@@ -8781,7 +8781,7 @@ msgstr "低"
 #: ../src/calendar/gui/e-comp-editor-property-parts.c:1496
 msgctxt "ECompEditor"
 msgid "Priorit_y:"
-msgstr "优先级：(_Y)"
+msgstr "优先级(_Y)："
 
 #: ../src/calendar/gui/e-comp-editor-property-parts.c:1550
 msgctxt "ECompEditor"
@@ -8973,13 +8973,13 @@ msgstr "预览(_V)…"
 
 #: ../src/calendar/gui/e-comp-editor.c:2083 ../src/e-util/e-focus-tracker.c:821
 #: ../src/e-util/e-html-editor-actions.c:1100 ../src/e-util/e-web-view.c:485
-#: ../src/mail/e-mail-browser.c:194 ../src/shell/e-shell-window-actions.c:1008
+#: ../src/mail/e-mail-browser.c:194 ../src/shell/e-shell-window-actions.c:1015
 msgid "Select _All"
 msgstr "全选(_A)"
 
 #: ../src/calendar/gui/e-comp-editor.c:2085 ../src/e-util/e-focus-tracker.c:224
 #: ../src/e-util/e-focus-tracker.c:280 ../src/e-util/e-focus-tracker.c:822
-#: ../src/mail/e-mail-browser.c:196 ../src/shell/e-shell-window-actions.c:1010
+#: ../src/mail/e-mail-browser.c:196 ../src/shell/e-shell-window-actions.c:1017
 msgid "Select all text"
 msgstr "选中所有文字"
 
@@ -8990,7 +8990,7 @@ msgstr "分类(_C)"
 #: ../src/calendar/gui/e-comp-editor.c:2120
 #: ../src/e-util/e-html-editor-actions.c:1123
 #: ../src/e-util/e-mail-signature-editor.c:333 ../src/mail/e-mail-browser.c:210
-#: ../src/mail/e-mail-notes.c:1029 ../src/shell/e-shell-window-actions.c:1052
+#: ../src/mail/e-mail-notes.c:1029 ../src/shell/e-shell-window-actions.c:1059
 msgid "_File"
 msgstr "文件(_F)"
 
@@ -9006,7 +9006,7 @@ msgstr "选项(_O)"
 
 #: ../src/calendar/gui/e-comp-editor.c:2148
 #: ../src/e-util/e-html-editor-actions.c:1165 ../src/mail/e-mail-browser.c:224
-#: ../src/shell/e-shell-window-actions.c:1095
+#: ../src/shell/e-shell-window-actions.c:1102
 #: ../src/smime/gui/certificate-manager.c:1646 ../src/smime/gui/smime-ui.ui.h:3
 msgid "_View"
 msgstr "查看(_V)"
@@ -11833,17 +11833,13 @@ msgstr "新建消息"
 
 #: ../src/composer/e-msg-composer.c:4362
 #: ../src/modules/composer-to-meeting/e-composer-to-meeting.c:352
-#, fuzzy
-#| msgid "Loading Remote Content"
 msgid "Reading text content…"
-msgstr "加载远程内容"
+msgstr "正在读取文本内容…"
 
 #: ../src/composer/e-msg-composer.c:5172
-#, fuzzy
-#| msgid "Remove attachments"
 msgid "Review attachment before sending."
 msgid_plural "Review attachments before sending."
-msgstr[0] "移除附件"
+msgstr[0] "发送前审查附件。"
 
 #: ../src/composer/e-msg-composer.c:5177
 #, c-format
@@ -11878,8 +11874,6 @@ msgstr "无法从 {0} 获取要附加的信息。"
 
 #: ../src/composer/mail-composer.error.xml.h:4
 #: ../src/e-util/e-system.error.xml.h:5
-#, fuzzy
-#| msgid "Because \"{1}\"."
 msgid "Because “{1}”."
 msgstr "原因是“{1}”。"
 
@@ -11966,8 +11960,6 @@ msgid ""
 msgstr "由于“{0}”，您可能要选择不同的邮件选项。"
 
 #: ../src/composer/mail-composer.error.xml.h:24
-#, fuzzy
-#| msgid "Could not read signature file &quot;{0}&quot;."
 msgid "Could not read signature file “{0}”."
 msgstr "无法读取签名文件“{0}”。"
 
@@ -11984,9 +11976,6 @@ msgid "An error occurred while saving to your Outbox folder."
 msgstr "在保存到您的发件箱文件夹时出现了一个错误。"
 
 #: ../src/composer/mail-composer.error.xml.h:28
-#, fuzzy
-#| msgid ""
-#| "The reported error was &quot;{0}&quot;. The message has not been sent."
 msgid "The reported error was “{0}”. The message has not been sent."
 msgstr "报告的错误为“{0}”。信息很可能没有发送。"
 
@@ -11995,10 +11984,6 @@ msgid "An error occurred while saving to your Drafts folder."
 msgstr "在保存到您的草稿文件夹时出现了一个错误。"
 
 #: ../src/composer/mail-composer.error.xml.h:30
-#, fuzzy
-#| msgid ""
-#| "The reported error was &quot;{0}&quot;. The message has most likely not "
-#| "been saved."
 msgid ""
 "The reported error was “{0}”. The message has most likely not been saved."
 msgstr "报告的错误为“{0}”。信息很可能没有保存。"
@@ -12009,8 +11994,6 @@ msgstr "在发送时出错了错误。您想继续吗？"
 
 #: ../src/composer/mail-composer.error.xml.h:32
 #: ../src/mail/mail.error.xml.h:178
-#, fuzzy
-#| msgid "The reported error was &quot;{0}&quot;."
 msgid "The reported error was “{0}”."
 msgstr "报告的错误为“{0}”。"
 
@@ -12115,10 +12098,8 @@ msgid ""
 msgstr ""
 
 #: ../src/composer/mail-composer.error.xml.h:51
-#, fuzzy
-#| msgid "Compose Message"
 msgid "Convert to _Message"
-msgstr "新建消息"
+msgstr "转换为信息(_M)"
 
 #: ../src/composer/mail-composer.error.xml.h:52
 #, fuzzy
@@ -12156,10 +12137,8 @@ msgid ""
 msgstr ""
 
 #: ../src/composer/mail-composer.error.xml.h:58
-#, fuzzy
-#| msgid "An error occurred while printing"
 msgid "An error occurred while creating message composer."
-msgstr "打印时发生了错误"
+msgstr "创建信息编辑器时出现了错误。"
 
 #: ../src/em-format/e-mail-formatter-attachment.c:335
 msgid "Display as attachment"
@@ -12293,7 +12272,7 @@ msgstr "有效签名"
 
 #: ../src/em-format/e-mail-formatter-secure-button.c:55
 msgid "Valid signature, but sender address and signer address do not match"
-msgstr ""
+msgstr "签名有效，但发送者地址和签名者地址不匹配"
 
 #: ../src/em-format/e-mail-formatter-secure-button.c:56
 msgid ""
@@ -12525,10 +12504,9 @@ msgid "Pointer to remote data (%s)"
 msgstr "指向远程数据 (%s)"
 
 #: ../src/em-format/e-mail-parser-message-external.c:149
-#, fuzzy, c-format
-#| msgid "Pointer to unknown external data (\"%s\" type)"
+#, c-format
 msgid "Pointer to unknown external data (“%s” type)"
-msgstr "指向未知的外部数据 (“%s”类型)"
+msgstr "指向未知的外部数据（“%s”类型）"
 
 #: ../src/em-format/e-mail-parser-multipart-encrypted.c:74
 #: ../src/em-format/e-mail-parser-multipart-signed.c:109
@@ -13536,7 +13514,7 @@ msgstr "白色"
 
 #: ../src/e-util/e-config-lookup.c:819
 msgid "Running…"
-msgstr ""
+msgstr "正在运行…"
 
 #: ../src/e-util/e-dateedit.c:526
 msgid "Date and Time"
@@ -14264,38 +14242,26 @@ msgid "_Normal"
 msgstr "中(_N)"
 
 #: ../src/e-util/e-html-editor-actions.c:1317
-#, fuzzy
-#| msgid "Header _1"
 msgid "Heading _1"
 msgstr "标题 _1"
 
 #: ../src/e-util/e-html-editor-actions.c:1324
-#, fuzzy
-#| msgid "Header _2"
 msgid "Heading _2"
 msgstr "标题 _2"
 
 #: ../src/e-util/e-html-editor-actions.c:1331
-#, fuzzy
-#| msgid "Header _3"
 msgid "Heading _3"
 msgstr "标题 _3"
 
 #: ../src/e-util/e-html-editor-actions.c:1338
-#, fuzzy
-#| msgid "Header _4"
 msgid "Heading _4"
 msgstr "标题 _4"
 
 #: ../src/e-util/e-html-editor-actions.c:1345
-#, fuzzy
-#| msgid "Header _5"
 msgid "Heading _5"
 msgstr "标题 _5"
 
 #: ../src/e-util/e-html-editor-actions.c:1352
-#, fuzzy
-#| msgid "Header _6"
 msgid "Heading _6"
 msgstr "标题 _6"
 
@@ -14414,28 +14380,20 @@ msgid "Strikethrough"
 msgstr "删除线"
 
 #: ../src/e-util/e-html-editor-actions.c:1535
-#, fuzzy
-#| msgid "S_cript:"
 msgid "Subs_cript"
-msgstr "脚本(_C)："
+msgstr "下标(_C)"
 
 #: ../src/e-util/e-html-editor-actions.c:1537
-#, fuzzy
-#| msgid "_Subscribe"
 msgid "Subscript"
-msgstr "订阅(_S)"
+msgstr "下标"
 
 #: ../src/e-util/e-html-editor-actions.c:1543
-#, fuzzy
-#| msgid "S_cript:"
 msgid "Su_perscript"
-msgstr "脚本(_C)："
+msgstr "上标(_P)"
 
 #: ../src/e-util/e-html-editor-actions.c:1545
-#, fuzzy
-#| msgid "Description"
 msgid "Superscript"
-msgstr "描述"
+msgstr "上标"
 
 #: ../src/e-util/e-html-editor-actions.c:1551
 #: ../src/e-util/e-html-editor-text-dialog.c:223
@@ -14653,10 +14611,8 @@ msgid "Font Name"
 msgstr "字体名称"
 
 #: ../src/e-util/e-html-editor.c:1523
-#, fuzzy
-#| msgid "Failed to insert text file."
 msgid "Failed to obtain content of editor"
-msgstr "插入文本文件失败。"
+msgstr "获取编辑器内容失败"
 
 #: ../src/e-util/e-html-editor-cell-dialog.c:408
 msgid "<b>Scope</b>"
@@ -14951,10 +14907,8 @@ msgstr "背景(_B)："
 
 #. == Text ==
 #: ../src/e-util/e-html-editor-page-dialog.c:475
-#, fuzzy
-#| msgid "_Text:"
 msgid "Text"
-msgstr "文字(_T)："
+msgstr "文字"
 
 #: ../src/e-util/e-html-editor-page-dialog.c:493
 msgid "_Font Name:"
@@ -15036,10 +14990,9 @@ msgid "Replace"
 msgstr "替换"
 
 #: ../src/e-util/e-html-editor-spell-check-dialog.c:83
-#, fuzzy, c-format
-#| msgid "<b>Suggestions for '%s'</b>"
+#, c-format
 msgid "<b>Suggestions for “%s”</b>"
-msgstr "<b>“%s”建议</b>"
+msgstr "<b>“%s”的建议</b>"
 
 #: ../src/e-util/e-html-editor-spell-check-dialog.c:387
 msgid "<b>Suggestions</b>"
@@ -15323,10 +15276,9 @@ msgid "Could not display help for Evolution."
 msgstr "无法显示 Evolution 的帮助。"
 
 #: ../src/e-util/e-misc-utils.c:2562
-#, fuzzy, c-format
-#| msgid "Opening calendar '%s'"
+#, c-format
 msgid "Opening calendar “%s”"
-msgstr "打开日历“%s”"
+msgstr "正在打开日历“%s”"
 
 #: ../src/e-util/e-misc-utils.c:2565
 #, fuzzy, c-format
@@ -15335,14 +15287,12 @@ msgid "Opening memo list “%s”"
 msgstr "打开备忘录“%s”"
 
 #: ../src/e-util/e-misc-utils.c:2568
-#, fuzzy, c-format
-#| msgid "Opening task list '%s'"
+#, c-format
 msgid "Opening task list “%s”"
 msgstr "正在打开任务列表“%s”"
 
 #: ../src/e-util/e-misc-utils.c:2571
-#, fuzzy, c-format
-#| msgid "Opening address book '%s'"
+#, c-format
 msgid "Opening address book “%s”"
 msgstr "正在打开地址簿“%s”"
 
@@ -16270,7 +16220,7 @@ msgid "Format Column_s…"
 msgstr "格式化列(_S)..."
 
 #: ../src/e-util/e-table-header-item.c:1675
-#: ../src/shell/e-shell-window-actions.c:1232
+#: ../src/shell/e-shell-window-actions.c:1239
 #, fuzzy
 #| msgid "Customize Current View"
 msgid "Custo_mize Current View…"
@@ -17780,7 +17730,7 @@ msgstr "选择"
 
 #: ../src/mail/e-mail-config-security-page.c:686
 #: ../src/mail/e-mail-config-security-page.c:784
-#: ../src/shell/e-shell-window-actions.c:973
+#: ../src/shell/e-shell-window-actions.c:980
 msgid "_Clear"
 msgstr "清除(_C)"
 
@@ -18208,10 +18158,8 @@ msgid "Filter the selected messages for junk status"
 msgstr "把选中的信息标记为垃圾信息"
 
 #: ../src/mail/e-mail-reader.c:2418
-#, fuzzy
-#| msgid "Assign Color"
 msgid "Assign C_olor…"
-msgstr "分配颜色"
+msgstr "分配颜色(_O)…"
 
 #: ../src/mail/e-mail-reader.c:2420
 #, fuzzy
@@ -18326,10 +18274,8 @@ msgid "Apply filter rules to the selected messages"
 msgstr "应用过滤规则到选中的信息"
 
 #: ../src/mail/e-mail-reader.c:2502
-#, fuzzy
-#| msgid "_Find in Message..."
 msgid "_Find in Message…"
-msgstr "在信息中查找(_F)..."
+msgstr "在信息中查找(_F)…"
 
 #: ../src/mail/e-mail-reader.c:2504
 msgid "Search for text in the body of the displayed message"
@@ -18352,10 +18298,8 @@ msgid "Set the follow-up flag to completed on the selected messages"
 msgstr "设置选中信息的跟随标志为已完成"
 
 #: ../src/mail/e-mail-reader.c:2523
-#, fuzzy
-#| msgid "Follow Up"
 msgid "Follow _Up…"
-msgstr "跟随"
+msgstr "跟随(_U)…"
 
 #: ../src/mail/e-mail-reader.c:2525
 msgid "Flag the selected messages for follow-up"
@@ -20892,20 +20836,14 @@ msgid "Error loading filter definitions."
 msgstr "载入过滤器定义错误。"
 
 #: ../src/mail/mail.error.xml.h:54
-#, fuzzy
-#| msgid "Cannot save to directory \"{0}\"."
 msgid "Cannot save to directory “{0}”."
 msgstr "无法保存到目录“{0}”。"
 
 #: ../src/mail/mail.error.xml.h:55
-#, fuzzy
-#| msgid "Cannot save to file \"{0}\"."
 msgid "Cannot save to file “{0}”."
 msgstr "无法保存到文件“{0}”。"
 
 #: ../src/mail/mail.error.xml.h:56
-#, fuzzy
-#| msgid "Cannot create the save directory, because \"{1}\""
 msgid "Cannot create the save directory, because “{1}”"
 msgstr "无法创建保存目录，原因是“{1}”"
 
@@ -20922,14 +20860,10 @@ msgid "File exists but is not a regular file."
 msgstr "文件存在但不是普通文件。"
 
 #: ../src/mail/mail.error.xml.h:60
-#, fuzzy
-#| msgid "Cannot delete folder \"{0}\"."
 msgid "Cannot delete folder “{0}”."
 msgstr "无法删除文件夹“{0}”。"
 
 #: ../src/mail/mail.error.xml.h:61
-#, fuzzy
-#| msgid "Cannot delete system folder \"{0}\"."
 msgid "Cannot delete system folder “{0}”."
 msgstr "无法删除系统文件夹“{0}”。"
 
@@ -20940,51 +20874,32 @@ msgid ""
 msgstr "您无法重命名、移动或删除要让 Evolution 正常运作所需的系统文件夹。"
 
 #: ../src/mail/mail.error.xml.h:63
-#, fuzzy
-#| msgid "Failed to expunge folder &quot;{0}&quot;."
 msgid "Failed to expunge folder “{0}”."
-msgstr "擦除文件夹“{0}”失败。"
+msgstr "清理文件夹“{0}”失败。"
 
 #: ../src/mail/mail.error.xml.h:65
-#, fuzzy
-#| msgid "Failed to refresh folder &quot;{0}&quot;."
 msgid "Failed to refresh folder “{0}”."
 msgstr "刷新文件夹“{0}”失败。"
 
 #: ../src/mail/mail.error.xml.h:66
-#, fuzzy
-#| msgid "Cannot rename or move system folder \"{0}\"."
 msgid "Cannot rename or move system folder “{0}”."
 msgstr "无法重命名或移动系统文件夹“{0}”。"
 
 #: ../src/mail/mail.error.xml.h:67
-#, fuzzy
-#| msgid "Really delete folder \"{0}\" and all of its subfolders?"
 msgid "Really delete folder “{0}” and all of its subfolders?"
 msgstr "真的要删除文件夹“{0}”及其全部子文件夹吗？"
 
 #: ../src/mail/mail.error.xml.h:68
-#, fuzzy
-#| msgid ""
-#| "If you delete the folder, all of its contents and its subfolders' "
-#| "contents will be deleted permanently."
 msgid ""
 "If you delete the folder, all of its contents and its subfolders’ contents "
 "will be deleted permanently."
 msgstr "如果您删除文件夹，其中的全部内容及其子文件夹内容将被永久删除。"
 
 #: ../src/mail/mail.error.xml.h:70
-#, fuzzy
-#| msgid "Really unsubscribe folder \"{0}\"?"
 msgid "Really unsubscribe folder “{0}”?"
 msgstr "真要退订文件夹“{0}”？"
 
 #: ../src/mail/mail.error.xml.h:71
-#, fuzzy
-#| msgid ""
-#| "If you unsubscribe the folder, it might not be visible in the Evolution, "
-#| "while still being available on the server. You can re-subscribe in Folder-"
-#| ">Subscriptions... menu."
 msgid ""
 "If you unsubscribe the folder, it might not be visible in the Evolution, "
 "while still being available on the server. You can re-subscribe in "
@@ -20998,8 +20913,6 @@ msgid "Do _Not Unsubscribe"
 msgstr "不要退订(_N)"
 
 #: ../src/mail/mail.error.xml.h:74
-#, fuzzy
-#| msgid "Really delete folder \"{0}\"?"
 msgid "Really delete folder “{0}”?"
 msgstr "真要删除文件夹“{0}”？"
 
@@ -21022,20 +20935,14 @@ msgstr ""
 "实际信息。您真的要删除这些信息吗？"
 
 #: ../src/mail/mail.error.xml.h:78
-#, fuzzy
-#| msgid "Cannot rename \"{0}\" to \"{1}\"."
 msgid "Cannot rename “{0}” to “{1}”."
 msgstr "无法将“{0}”重命名为“{1}”。"
 
 #: ../src/mail/mail.error.xml.h:79
-#, fuzzy
-#| msgid "A folder named \"{1}\" already exists. Please use a different name."
 msgid "A folder named “{1}” already exists. Please use a different name."
 msgstr "已经存在名为“{1}”的文件夹。请使用不同的名称。"
 
 #: ../src/mail/mail.error.xml.h:80
-#, fuzzy
-#| msgid "Cannot move folder \"{0}\" to \"{1}\"."
 msgid "Cannot move folder “{0}” to “{1}”."
 msgstr "无法将文件夹“{0}”移至“{1}”。"
 
@@ -21048,14 +20955,10 @@ msgid "Cannot open target folder. Error: {2}"
 msgstr "无法打开目标文件夹。错误：{2}"
 
 #: ../src/mail/mail.error.xml.h:83
-#, fuzzy
-#| msgid "Cannot copy folder \"{0}\" to \"{1}\"."
 msgid "Cannot copy folder “{0}” to “{1}”."
 msgstr "无法将文件夹“{0}”复制到“{1}”。"
 
 #: ../src/mail/mail.error.xml.h:84
-#, fuzzy
-#| msgid "Cannot create folder \"{0}\"."
 msgid "Cannot create folder “{0}”."
 msgstr "无法创建文件夹“{0}”。"
 
@@ -21076,10 +20979,8 @@ msgid "You may not create two accounts with the same name."
 msgstr "您不能创建两个同名帐号。"
 
 #: ../src/mail/mail.error.xml.h:89
-#, fuzzy
-#| msgid "Are you sure you want to delete the memo '{0}'?"
 msgid "Are you sure you want to delete account “{0}”?"
-msgstr "您确定要删除“{0}”备忘吗？"
+msgstr "您确定要删除“{0}”帐号吗？"
 
 #: ../src/mail/mail.error.xml.h:90
 msgid "If you proceed, the account information will be deleted permanently."
@@ -21113,8 +21014,6 @@ msgid "_Disable"
 msgstr "禁用(_D)"
 
 #: ../src/mail/mail.error.xml.h:98
-#, fuzzy
-#| msgid "Cannot edit Search Folder \"{0}\" as it does not exist."
 msgid "Cannot edit Search Folder “{0}” as it does not exist."
 msgstr "无法编辑搜索文件夹“{0}”，原因是该文件夹不存在。"
 
@@ -21126,14 +21025,10 @@ msgstr ""
 "此文件夹可能已经隐式添加了。如果需要的话，请转到搜索文件夹编辑器显式添加。"
 
 #: ../src/mail/mail.error.xml.h:101
-#, fuzzy
-#| msgid "Cannot add Search Folder \"{0}\"."
 msgid "Cannot add Search Folder “{0}”."
 msgstr "无法添加搜索文件夹“{0}”。"
 
 #: ../src/mail/mail.error.xml.h:102
-#, fuzzy
-#| msgid "A folder named \"{0}\" already exists. Please use a different name."
 msgid "A folder named “{0}” already exists. Please use a different name."
 msgstr "已经存在名为“{0}”的文件夹。请使用不同的名称。"
 
@@ -21171,10 +21066,8 @@ msgstr ""
 "或者逐一选择文件夹，或者选中全部本地文件夹和/或全部远程文件夹。"
 
 #: ../src/mail/mail.error.xml.h:112
-#, fuzzy
-#| msgid "Problem migrating old mail folder \"{0}\"."
 msgid "Problem migrating old mail folder “{0}”."
-msgstr "升迁旧的邮件文件夹“{0}”出现问题。"
+msgstr "迁移旧的邮件文件夹“{0}”出现问题。"
 
 #: ../src/mail/mail.error.xml.h:113
 #, fuzzy
@@ -22356,10 +22249,9 @@ msgid "_Send Message to Contact"
 msgstr "给联系人发送信息(_M)"
 
 #: ../src/modules/alarm-notify/alarm-notify.c:171
-#, fuzzy, c-format
-#| msgid "Failed to open calendar '{0}'"
+#, c-format
 msgid "Failed to launch command “%s”:"
-msgstr "打开日历“{0}”失败"
+msgstr "启动命令“%s”失败："
 
 #: ../src/modules/backup-restore/e-mail-config-restore-page.c:162
 msgid ""
@@ -22403,26 +22295,21 @@ msgid "Select name of the Evolution backup file to restore"
 msgstr "选择要恢复的 Evolution 备份文件名称"
 
 #: ../src/modules/backup-restore/evolution-backup-restore.c:437
-#, fuzzy, c-format
-#| msgid "Checking content of backup file '%s', please wait..."
+#, c-format
 msgid "Checking content of backup file “%s”, please wait…"
-msgstr "检查备份文件“%s”的内容，请稍候…"
+msgstr "正在检查备份文件“%s”的内容，请稍候…"
 
 #: ../src/modules/backup-restore/evolution-backup-restore.c:458
-#, fuzzy
-#| msgid "_Back up Evolution Data..."
 msgid "_Back up Evolution Data…"
-msgstr "备份 Evolution 数据(_B)..."
+msgstr "备份 Evolution 数据(_B)…"
 
 #: ../src/modules/backup-restore/evolution-backup-restore.c:460
 msgid "Back up Evolution data and settings to an archive file"
 msgstr "备份 Evolution 的数据和设置到一个归档文件"
 
 #: ../src/modules/backup-restore/evolution-backup-restore.c:465
-#, fuzzy
-#| msgid "R_estore Evolution Data..."
 msgid "R_estore Evolution Data…"
-msgstr "恢复 Evolution 数据(_E)..."
+msgstr "恢复 Evolution 数据(_E)…"
 
 #: ../src/modules/backup-restore/evolution-backup-restore.c:467
 msgid "Restore Evolution data and settings from an archive file"
@@ -25651,10 +25538,8 @@ msgid "F_older"
 msgstr "文件夹(_O)"
 
 #: ../src/modules/mail/e-mail-shell-view-actions.c:1844
-#, fuzzy
-#| msgid "C_reate Search Folder From Search..."
 msgid "C_reate Search Folder From Search…"
-msgstr "从头创建搜索文件夹(_R)..."
+msgstr "从搜索创建搜索文件夹(_R)…"
 
 #: ../src/modules/mail/e-mail-shell-view-actions.c:1851
 msgid "Search F_olders"
@@ -25665,10 +25550,8 @@ msgid "Create or edit search folder definitions"
 msgstr "创建或编辑搜索文件夹定义"
 
 #: ../src/modules/mail/e-mail-shell-view-actions.c:1896
-#, fuzzy
-#| msgid "_New Folder..."
 msgid "_New Folder…"
-msgstr "新建文件夹(_N)..."
+msgstr "新建文件夹(_N)…"
 
 #: ../src/modules/mail/e-mail-shell-view-actions.c:1924
 msgid "Show Message _Preview"
@@ -25713,14 +25596,12 @@ msgid "Threaded message list"
 msgstr "按线索排列信息"
 
 #: ../src/modules/mail/e-mail-shell-view-actions.c:1964
-#, fuzzy
-#| msgid "Show _Tool Bar"
 msgid "Show To _Do Bar"
-msgstr "显示工具栏(_T)"
+msgstr "显示待办栏(_D)"
 
 #: ../src/modules/mail/e-mail-shell-view-actions.c:1966
 msgid "Show To Do bar with appointments and tasks"
-msgstr ""
+msgstr "显示包含约会和任务的待办事项侧边栏"
 
 #: ../src/modules/mail/e-mail-shell-view-actions.c:1972
 msgid "_Unmatched Folder Enabled"
@@ -27601,7 +27482,7 @@ msgstr ""
 msgid "Website"
 msgstr "网站"
 
-#: ../src/shell/e-shell-view.c:295
+#: ../src/shell/e-shell-view.c:296
 msgid "Saving user interface state"
 msgstr "保存用户界面状态"
 
@@ -27691,222 +27572,222 @@ msgid "Exit the program"
 msgstr "退出程序"
 
 #: ../src/shell/e-shell-window-actions.c:966
+msgid "_Saved Searches"
+msgstr "已保存的搜索(_S)"
+
+#: ../src/shell/e-shell-window-actions.c:973
 msgid "_Advanced Search…"
 msgstr "高级搜索(_A)…"
 
-#: ../src/shell/e-shell-window-actions.c:968
+#: ../src/shell/e-shell-window-actions.c:975
 msgid "Construct a more advanced search"
 msgstr "构造一个更高级的搜索"
 
-#: ../src/shell/e-shell-window-actions.c:975
+#: ../src/shell/e-shell-window-actions.c:982
 msgid "Clear the current search parameters"
 msgstr "清除当前搜索参数"
 
-#: ../src/shell/e-shell-window-actions.c:980
-#, fuzzy
-#| msgid "_Edit Saved Searches..."
+#: ../src/shell/e-shell-window-actions.c:987
 msgid "_Edit Saved Searches…"
-msgstr "编辑保存的搜索(_E)..."
+msgstr "编辑保存的搜索(_E)…"
 
-#: ../src/shell/e-shell-window-actions.c:982
+#: ../src/shell/e-shell-window-actions.c:989
 msgid "Manage your saved searches"
 msgstr "管理您保存的搜索"
 
-#: ../src/shell/e-shell-window-actions.c:989
+#: ../src/shell/e-shell-window-actions.c:996
 msgid "Click here to change the search type"
 msgstr "单击此处更改搜索类型"
 
-#: ../src/shell/e-shell-window-actions.c:994
+#: ../src/shell/e-shell-window-actions.c:1001
 msgid "_Find Now"
 msgstr "立即查找(_F)"
 
-#: ../src/shell/e-shell-window-actions.c:996
+#: ../src/shell/e-shell-window-actions.c:1003
 msgid "Execute the current search parameters"
 msgstr "执行当前搜索参数"
 
-#: ../src/shell/e-shell-window-actions.c:1001
-#, fuzzy
-#| msgid "Save Search"
+#: ../src/shell/e-shell-window-actions.c:1008
 msgid "_Save Search…"
-msgstr "保存搜索"
+msgstr "保存搜索(_S)…"
 
-#: ../src/shell/e-shell-window-actions.c:1003
+#: ../src/shell/e-shell-window-actions.c:1010
 msgid "Save the current search parameters"
 msgstr "保存当前搜索参数"
 
-#: ../src/shell/e-shell-window-actions.c:1015
+#: ../src/shell/e-shell-window-actions.c:1022
 msgid "_Keyboard Shortcuts"
 msgstr "键盘快捷键(_K)"
 
-#: ../src/shell/e-shell-window-actions.c:1017
+#: ../src/shell/e-shell-window-actions.c:1024
 msgid "Show keyboard shortcuts"
 msgstr "显示键盘快捷键"
 
-#: ../src/shell/e-shell-window-actions.c:1022
+#: ../src/shell/e-shell-window-actions.c:1029
 msgid "Submit _Bug Report…"
 msgstr "提交错误报告(_B)…"
 
-#: ../src/shell/e-shell-window-actions.c:1024
+#: ../src/shell/e-shell-window-actions.c:1031
 msgid "Submit a bug report using Bug Buddy"
 msgstr "用 Bug Buddy 提交错误报告"
 
-#: ../src/shell/e-shell-window-actions.c:1029
+#: ../src/shell/e-shell-window-actions.c:1036
 msgid "_Work Offline"
 msgstr "离线工作(_W)"
 
-#: ../src/shell/e-shell-window-actions.c:1031
+#: ../src/shell/e-shell-window-actions.c:1038
 msgid "Put Evolution into offline mode"
 msgstr "将 Evolution 转入离线模式"
 
-#: ../src/shell/e-shell-window-actions.c:1036
+#: ../src/shell/e-shell-window-actions.c:1043
 msgid "_Work Online"
 msgstr "在线工作(_W)"
 
-#: ../src/shell/e-shell-window-actions.c:1038
+#: ../src/shell/e-shell-window-actions.c:1045
 msgid "Put Evolution into online mode"
 msgstr "将 Evolution 转入在线模式"
 
-#: ../src/shell/e-shell-window-actions.c:1066
+#: ../src/shell/e-shell-window-actions.c:1073
 msgid "Lay_out"
 msgstr "布局(_O)"
 
 #. Translators: This is a New menu item caption, under File->New
-#: ../src/shell/e-shell-window-actions.c:1074
+#: ../src/shell/e-shell-window-actions.c:1081
 msgid "_New"
 msgstr "新建(_N)"
 
-#: ../src/shell/e-shell-window-actions.c:1081
+#: ../src/shell/e-shell-window-actions.c:1088
 msgid "_Search"
 msgstr "搜索(_S)"
 
-#: ../src/shell/e-shell-window-actions.c:1088
+#: ../src/shell/e-shell-window-actions.c:1095
 msgid "_Switcher Appearance"
 msgstr "切换器外观(_S)"
 
-#: ../src/shell/e-shell-window-actions.c:1102
+#: ../src/shell/e-shell-window-actions.c:1109
 msgid "_Window"
 msgstr "窗口(_W)"
 
-#: ../src/shell/e-shell-window-actions.c:1131
+#: ../src/shell/e-shell-window-actions.c:1138
 msgid "Show _Menu Bar"
 msgstr "显示菜单栏(_M)"
 
-#: ../src/shell/e-shell-window-actions.c:1133
+#: ../src/shell/e-shell-window-actions.c:1140
 msgid "Show the menu bar"
 msgstr "显示菜单栏"
 
-#: ../src/shell/e-shell-window-actions.c:1139
+#: ../src/shell/e-shell-window-actions.c:1146
 msgid "Show Side _Bar"
 msgstr "显示侧边栏(_B)"
 
-#: ../src/shell/e-shell-window-actions.c:1141
+#: ../src/shell/e-shell-window-actions.c:1148
 msgid "Show the side bar"
 msgstr "显示侧边栏"
 
-#: ../src/shell/e-shell-window-actions.c:1147
+#: ../src/shell/e-shell-window-actions.c:1154
 msgid "Show _Buttons"
 msgstr "显示按钮(_B)"
 
-#: ../src/shell/e-shell-window-actions.c:1149
+#: ../src/shell/e-shell-window-actions.c:1156
 msgid "Show the switcher buttons"
 msgstr "显示切换器按钮"
 
-#: ../src/shell/e-shell-window-actions.c:1155
+#: ../src/shell/e-shell-window-actions.c:1162
 msgid "Show _Status Bar"
 msgstr "显示状态栏(_S)"
 
-#: ../src/shell/e-shell-window-actions.c:1157
+#: ../src/shell/e-shell-window-actions.c:1164
 msgid "Show the status bar"
 msgstr "显示状态栏"
 
-#: ../src/shell/e-shell-window-actions.c:1163
+#: ../src/shell/e-shell-window-actions.c:1170
 msgid "Show _Tool Bar"
 msgstr "显示工具栏(_T)"
 
-#: ../src/shell/e-shell-window-actions.c:1165
+#: ../src/shell/e-shell-window-actions.c:1172
 msgid "Show the tool bar"
 msgstr "显示工具栏"
 
-#: ../src/shell/e-shell-window-actions.c:1187
+#: ../src/shell/e-shell-window-actions.c:1194
 msgid "_Icons Only"
 msgstr "只有图标(_I)"
 
-#: ../src/shell/e-shell-window-actions.c:1189
+#: ../src/shell/e-shell-window-actions.c:1196
 msgid "Display window buttons with icons only"
 msgstr "显示只有图标的窗口按钮"
 
-#: ../src/shell/e-shell-window-actions.c:1194
+#: ../src/shell/e-shell-window-actions.c:1201
 msgid "_Text Only"
 msgstr "只有文字(_T)"
 
-#: ../src/shell/e-shell-window-actions.c:1196
+#: ../src/shell/e-shell-window-actions.c:1203
 msgid "Display window buttons with text only"
 msgstr "显示只有文字的窗口按钮"
 
-#: ../src/shell/e-shell-window-actions.c:1201
+#: ../src/shell/e-shell-window-actions.c:1208
 msgid "Icons _and Text"
 msgstr "图标和文字(_A)"
 
-#: ../src/shell/e-shell-window-actions.c:1203
+#: ../src/shell/e-shell-window-actions.c:1210
 msgid "Display window buttons with icons and text"
 msgstr "显示带图标和文字的窗口按钮"
 
-#: ../src/shell/e-shell-window-actions.c:1208
+#: ../src/shell/e-shell-window-actions.c:1215
 msgid "Tool_bar Style"
 msgstr "工具栏样式(_B)"
 
-#: ../src/shell/e-shell-window-actions.c:1210
+#: ../src/shell/e-shell-window-actions.c:1217
 msgid "Display window buttons using the desktop toolbar setting"
 msgstr "使用桌面工具栏设置显示窗口按钮"
 
-#: ../src/shell/e-shell-window-actions.c:1218
+#: ../src/shell/e-shell-window-actions.c:1225
 msgid "Delete Current View"
 msgstr "保存当前视图"
 
-#: ../src/shell/e-shell-window-actions.c:1225
+#: ../src/shell/e-shell-window-actions.c:1232
 msgid "Save Custom View…"
 msgstr "保存当前视图…"
 
-#: ../src/shell/e-shell-window-actions.c:1227
+#: ../src/shell/e-shell-window-actions.c:1234
 msgid "Save current custom view"
 msgstr "保存当前自定义视图"
 
-#: ../src/shell/e-shell-window-actions.c:1241
+#: ../src/shell/e-shell-window-actions.c:1248
 msgid "C_urrent View"
 msgstr "当前视图(_U)"
 
-#: ../src/shell/e-shell-window-actions.c:1251
+#: ../src/shell/e-shell-window-actions.c:1258
 msgid "Custom View"
 msgstr "当前视图"
 
-#: ../src/shell/e-shell-window-actions.c:1253
+#: ../src/shell/e-shell-window-actions.c:1260
 msgid "Current view is a customized view"
 msgstr "当前视图为自定义视图"
 
-#: ../src/shell/e-shell-window-actions.c:1261
+#: ../src/shell/e-shell-window-actions.c:1268
 msgid "Page Set_up…"
 msgstr "页面设置(_U)…"
 
-#: ../src/shell/e-shell-window-actions.c:1263
+#: ../src/shell/e-shell-window-actions.c:1270
 msgid "Change the page settings for your current printer"
 msgstr "更改当前打印机的页面设置"
 
-#: ../src/shell/e-shell-window-actions.c:1633
+#: ../src/shell/e-shell-window-actions.c:1640
 #, c-format
 msgid "Switch to %s"
 msgstr "切换到 %s"
 
-#: ../src/shell/e-shell-window-actions.c:1757
+#: ../src/shell/e-shell-window-actions.c:1764
 #, c-format
 msgid "Select view: %s"
 msgstr "选择视图：%s"
 
-#: ../src/shell/e-shell-window-actions.c:1774
+#: ../src/shell/e-shell-window-actions.c:1781
 #, c-format
 msgid "Delete view: %s"
 msgstr "删除视图：%s"
 
-#: ../src/shell/e-shell-window-actions.c:1884
+#: ../src/shell/e-shell-window-actions.c:1896
 msgid "Execute these search parameters"
 msgstr "执行这些搜索参数"
 
@@ -27918,7 +27799,7 @@ msgid "New"
 msgstr "新建"
 
 #. Translators: This is used for the main window title.
-#: ../src/shell/e-shell-window-private.c:826
+#: ../src/shell/e-shell-window-private.c:822
 #, c-format
 msgid "%s — Evolution"
 msgstr "%s — Evolution"
