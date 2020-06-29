@@ -66,6 +66,27 @@ online_button_update_tooltip (EOnlineButton *button)
 }
 
 static void
+online_button_update_icon (GtkImage *image,
+			   const gchar *filename)
+{
+	GdkPixbuf *pixbuf = NULL;
+	gint height = -1;
+
+	if (!filename)
+		return;
+
+	if (gdk_pixbuf_get_file_info (filename, NULL, &height) && height > 16)
+		pixbuf = gdk_pixbuf_new_from_file_at_scale (filename, -1, 16, TRUE, NULL);
+
+	if (pixbuf) {
+		gtk_image_set_from_pixbuf (image, pixbuf);
+		g_object_unref (pixbuf);
+	} else {
+		gtk_image_set_from_file (image, filename);
+	}
+}
+
+static void
 online_button_set_property (GObject *object,
                              guint property_id,
                              const GValue *value,
@@ -202,7 +223,7 @@ e_online_button_set_online (EOnlineButton *button,
 	icon_info = gtk_icon_theme_lookup_icon (
 		icon_theme, icon_name, GTK_ICON_SIZE_BUTTON, 0);
 	filename = gtk_icon_info_get_filename (icon_info);
-	gtk_image_set_from_file (image, filename);
+	online_button_update_icon (image, filename);
 	gtk_icon_info_free (icon_info);
 
 	g_object_notify (G_OBJECT (button), "online");
