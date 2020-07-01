@@ -25,8 +25,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: evolution master\n"
 "Report-Msgid-Bugs-To: https://gitlab.gnome.org/GNOME/evolution/issues\n"
-"POT-Creation-Date: 2020-06-26 07:03+0000\n"
-"PO-Revision-Date: 2020-06-27 11:52-0400\n"
+"POT-Creation-Date: 2020-06-29 13:56+0000\n"
+"PO-Revision-Date: 2020-07-01 14:26-0400\n"
 "Last-Translator: Boyuan Yang <073plan@gmail.com>\n"
 "Language-Team: Chinese (China) <i18n-zh@googlegroups.com>\n"
 "Language: zh_CN\n"
@@ -514,12 +514,8 @@ msgid "Hide task units"
 msgstr "隐藏任务单位"
 
 #: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:65
-#, fuzzy
-#| msgid ""
-#| "Units for determining when to hide tasks, \"minutes\", \"hours\" or \"days"
-#| "\""
 msgid "Units for determining when to hide tasks, “minutes”, “hours” or “days”"
-msgstr "决定何时隐藏任务的单位，可为“分钟”，“小时”或“天”。"
+msgstr "决定何时隐藏任务的单位，可为“分钟”，“小时”或“天”"
 
 #: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:66
 msgid "Hide task value"
@@ -540,10 +536,8 @@ msgid "Whether to hide cancelled events in the calendar view"
 msgstr "是否在任务视图中隐藏已完成的任务。"
 
 #: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:70
-#, fuzzy
-#| msgid "Hide completed tasks"
 msgid "Hide cancelled tasks"
-msgstr "隐藏已完成的任务"
+msgstr "隐藏取消的任务"
 
 #: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:71
 #, fuzzy
@@ -885,16 +879,12 @@ msgid "Timezone"
 msgstr "时区"
 
 #: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:136
-#, fuzzy
-#| msgid ""
-#| "The default timezone to use for dates and times in the calendar, as an "
-#| "untranslated Olson timezone database location like \"America/New York\""
 msgid ""
 "The default timezone to use for dates and times in the calendar, as an "
 "untranslated Olson timezone database location like “America/New York”"
 msgstr ""
 "日历中日期和时间所使用的默认时区，以未翻译的 Olson 时区数据库位置表示，"
-"如“Asia/Chongqing”。"
+"如“Asia/Chongqing”"
 
 #: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:137
 msgid "Twenty four hour time format"
@@ -1022,11 +1012,6 @@ msgid "Previous Evolution version"
 msgstr "上个 Evolution 版本"
 
 #: ../data/org.gnome.evolution.gschema.xml.in.h:2
-#, fuzzy
-#| msgid ""
-#| "The most recently used version of Evolution, expressed as \"major.minor."
-#| "micro\". This is used for data and settings migration from older to newer "
-#| "versions."
 msgid ""
 "The most recently used version of Evolution, expressed as “major.minor."
 "micro”. This is used for data and settings migration from older to newer "
@@ -1068,22 +1053,16 @@ msgid "GNOME Calendar’s calendar import done"
 msgstr "Gnome 日历的日历导入完成"
 
 #: ../data/org.gnome.evolution.importer.gschema.xml.in.h:2
-#, fuzzy
-#| msgid "Whether calendar from Gnome Calendar has been imported or not"
 msgid "Whether calendar from GNOME Calendar has been imported or not"
-msgstr "Gnome 日历中的日历是否已被导入"
+msgstr "GNOME 日历中的日历是否已被导入"
 
 #: ../data/org.gnome.evolution.importer.gschema.xml.in.h:3
-#, fuzzy
-#| msgid "Gnome Calendar's tasks import done"
 msgid "GNOME Calendar’s tasks import done"
-msgstr "Gnome 日历中的任务导入完毕"
+msgstr "GNOME 日历中的任务导入完毕"
 
 #: ../data/org.gnome.evolution.importer.gschema.xml.in.h:4
-#, fuzzy
-#| msgid "Whether tasks from Gnome Calendar have been imported or not"
 msgid "Whether tasks from GNOME Calendar have been imported or not"
-msgstr "Gnome 日历中的任务是否已被导入"
+msgstr "GNOME 日历中的任务是否已被导入"
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:1
 msgid "Check whether Evolution is the default mailer"
@@ -1107,25 +1086,16 @@ msgid "Name of the editor to prefer in the message composer"
 msgstr "在信息预览中首选的编辑器名称"
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:6
-#, fuzzy
-#| msgid ""
-#| "If the name doesn't correspond to any known editor, then the built-in "
-#| "WebKit editor is used."
 msgid ""
 "If the name doesn’t correspond to any known editor, then the built-in WebKit "
 "editor is used."
-msgstr "如果没有在已知的编辑器中找到对应的名字，则使用内部 WebKit 编辑器。"
+msgstr "如果没有在已知的编辑器中找到对应的名字，则使用内建 WebKit 编辑器。"
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:7
 msgid "Path where picture gallery should search for its content"
 msgstr "图像库搜索内容的路径"
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:8
-#, fuzzy
-#| msgid ""
-#| "This value can be an empty string, which means it'll use the system "
-#| "Picture folder, usually set to ~/Pictures. This folder will be also used "
-#| "when the set path is not pointing to the existent folder"
 msgid ""
 "This value can be an empty string, which means it’ll use the system Picture "
 "folder, usually set to ~/Pictures. This folder will be also used when the "
@@ -1272,26 +1242,18 @@ msgid "How many recently used spell checking languages to remember"
 msgstr ""
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:36
-#, fuzzy
-#| msgid "Show \"Bcc\" field when sending a mail message"
 msgid "Show “Bcc” field when sending a mail message"
 msgstr "在发送邮件信息时显示密件抄送域"
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:37
-#, fuzzy
-#| msgid ""
-#| "Show the \"Bcc\" field when sending a mail message. This is controlled "
-#| "from the View menu when a mail account is chosen."
 msgid ""
 "Show the “Bcc” field when sending a mail message. This is controlled from "
 "the View menu when a mail account is chosen."
 msgstr ""
-"在发送邮件信息时显示密件抄送域。在选定了一个邮件帐号时可以在查看菜单中控制此"
-"功能。"
+"在发送邮件信息时显示密件抄送域。在选定了一个邮件帐号时可以在“查看”菜单中控制"
+"此功能。"
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:38
-#, fuzzy
-#| msgid "Show \"Cc\" field when sending a mail message"
 msgid "Show “Cc” field when sending a mail message"
 msgstr "在发送邮件信息时显示抄送域"
 
@@ -1597,10 +1559,8 @@ msgid ""
 msgstr ""
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:80
-#, fuzzy
-#| msgid "Failed to mark messages as read."
 msgid "Mark replied to messages as read"
-msgstr "无法将信息标记为已读。"
+msgstr ""
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:81
 msgid ""
@@ -2050,7 +2010,7 @@ msgstr "记录过滤动作的日志文件"
 msgid ""
 "If not set, or being “stdout”, then the logging is done to stdout, instead "
 "to a file."
-msgstr ""
+msgstr "如果没有设置，或者设置为“stdout”，则日志将输出至标准输出而非文件。"
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:168
 msgid "Flush Outbox after filtering"
@@ -2694,20 +2654,16 @@ msgid ""
 msgstr ""
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:278
-#, fuzzy
-#| msgid "Default reply style"
 msgid "Alternative reply style"
-msgstr "默认回复样式"
+msgstr "备选回复样式"
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:279
 msgid "Format message in HTML"
 msgstr "以 HTML 方式格式化信息"
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:280
-#, fuzzy
-#| msgid "Put the cursor at the bottom of replies"
 msgid "Put the cursor at the bottom of alternative replies"
-msgstr "将光标置于回复底部"
+msgstr "将光标置于备选回复底部"
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:281
 msgid ""
@@ -2716,8 +2672,6 @@ msgid ""
 msgstr ""
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:282
-#, fuzzy
-#| msgid "Put personalized signatures at the top of replies"
 msgid "Put the signature at the top of the message"
 msgstr "在回复的顶部添加个性签名"
 
@@ -2804,10 +2758,8 @@ msgid ""
 msgstr ""
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:297
-#, fuzzy
-#| msgid "Inherit theme colors in HTML mode"
 msgid "Whether unset colors provided in HTML mails."
-msgstr "继承主题的颜色为 HTML 模式"
+msgstr ""
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:298
 msgid ""
@@ -2820,10 +2772,6 @@ msgid "(Deprecated) Default forward style"
 msgstr "(已弃用) 默认转发方式"
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:300
-#, fuzzy
-#| msgid ""
-#| "This key was deprecated in version 3.10 and should no longer be used. Use "
-#| "\"forward-style-name\" instead."
 msgid ""
 "This key was deprecated in version 3.10 and should no longer be used. Use "
 "“forward-style-name” instead."
@@ -2834,10 +2782,6 @@ msgid "(Deprecated) Default reply style"
 msgstr "(已弃用) 默认回复样式"
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:302
-#, fuzzy
-#| msgid ""
-#| "This key was deprecated in version 3.10 and should no longer be used. Use "
-#| "\"reply-style-name\" instead."
 msgid ""
 "This key was deprecated in version 3.10 and should no longer be used. Use "
 "“reply-style-name” instead."
@@ -2848,10 +2792,6 @@ msgid "(Deprecated) List of custom headers and whether they are enabled."
 msgstr "(已弃用)自定义信头及是否启用。"
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:304
-#, fuzzy
-#| msgid ""
-#| "This key was deprecated in version 3.10 and should no longer be used. Use "
-#| "\"show-headers\" instead."
 msgid ""
 "This key was deprecated in version 3.10 and should no longer be used. Use "
 "“show-headers” instead."
@@ -2862,10 +2802,6 @@ msgid "(Deprecated) Load images for HTML messages over HTTP"
 msgstr "(已弃用) 在 HTML 信息中载入 HTTP 图像"
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:306
-#, fuzzy
-#| msgid ""
-#| "This key was deprecated in version 3.10 and should no longer be used. Use "
-#| "\"image-loading-policy\" instead."
 msgid ""
 "This key was deprecated in version 3.10 and should no longer be used. Use "
 "“image-loading-policy” instead."
@@ -2879,10 +2815,6 @@ msgid ""
 msgstr "(已弃用) 在用户转发或回复显示在窗口中的信息时，询问是否关闭信息窗口"
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:308
-#, fuzzy
-#| msgid ""
-#| "This key was deprecated in version 3.10 and should no longer be used. Use "
-#| "\"browser-close-on-reply-policy\" instead."
 msgid ""
 "This key was deprecated in version 3.10 and should no longer be used. Use "
 "“browser-close-on-reply-policy” instead."
@@ -3035,10 +2967,8 @@ msgid "Whether to delete processed iTip objects"
 msgstr "是否删除已处理的 iTip 对象"
 
 #: ../data/org.gnome.evolution.plugin.itip.gschema.xml.in.h:3
-#, fuzzy
-#| msgid "_Preserve my reminder"
 msgid "Preserve existing reminder by default"
-msgstr "保留我的提醒(_P)"
+msgstr "默认保留已有的提醒"
 
 #: ../data/org.gnome.evolution.plugin.itip.gschema.xml.in.h:4
 msgid "Whether to preset option to preserve existing reminder by default"
@@ -3427,14 +3357,12 @@ msgstr ""
 "learn 。命令不该包含任何其他参数。"
 
 #: ../data/org.gnome.evolution.text-highlight.gschema.xml.in.h:1
-#, fuzzy
-#| msgid "Whether the plugin is enabled"
 msgid "Whether the text-highlight module is enabled"
-msgstr "插件是否已启用"
+msgstr "text-highlight 模块是否被启用"
 
 #: ../data/org.gnome.evolution.text-highlight.gschema.xml.in.h:2
 msgid "Theme name to use, defaults to “bclear”"
-msgstr ""
+msgstr "要使用的主题名称，默认为“bclear”"
 
 #: ../data/org.gnome.evolution.text-highlight.gschema.xml.in.h:3
 msgid ""
@@ -3463,22 +3391,15 @@ msgid ""
 msgstr "Evolution 是一款个人信息管理应用，提供集成的邮件、日历和地址簿功能。"
 
 #: ../data/org.gnome.Evolution.appdata.xml.in.in.h:4
-#, fuzzy
-#| msgid ""
-#| "Evolution supports a wide range of industry standard data formats and "
-#| "network protocols for information exchange, with an emphasis on standards "
-#| "compliance and security. Evolution can also integrate smoothly with "
-#| "Microsoft Exchange by way of the \"Exchange Web Services\" (EWS) "
-#| "extension."
 msgid ""
 "Evolution supports a wide range of industry standard data formats and "
 "network protocols for information exchange, with an emphasis on standards "
 "compliance and security. Evolution can also integrate smoothly with "
 "Microsoft Exchange by way of the “Exchange Web Services” (EWS) extension."
 msgstr ""
-"Evolution 支持众多的工业标准数据格式和信息交换的网络协议，并强化了标准兼容性"
-"和安全。Evolution 也能与 Microsoft Exchange 通过“Exchange 网络服务”(EWS) 扩展"
-"进行顺利集成。"
+"Evolution 支持众多的工业标准数据格式和信息交换的网络协议，同时强调标准兼容性"
+"和安全性。Evolution 也能与 Microsoft Exchange 通过“Exchange 网络服务”(EWS) 扩"
+"展进行顺利集成。"
 
 #: ../data/org.gnome.Evolution.appdata.xml.in.in.h:5
 msgid "The Evolution Team"
@@ -3667,11 +3588,9 @@ msgid "Create a new message"
 msgstr "创建新信息"
 
 #: ../data/ui/evolution-shortcuts.ui.h:20
-#, fuzzy
-#| msgid "Sent and Draft Messages"
 msgctxt "shortcut window"
 msgid "Send and receive messages"
-msgstr "发送信息并保存草稿"
+msgstr "发送和接收消息"
 
 #: ../data/ui/evolution-shortcuts.ui.h:21
 #, fuzzy
@@ -3728,11 +3647,9 @@ msgid "Forward selected messages"
 msgstr "转发的信息"
 
 #: ../data/ui/evolution-shortcuts.ui.h:29
-#, fuzzy
-#| msgid "_Reply to Sender"
 msgctxt "shortcut window"
 msgid "Reply to sender"
-msgstr "回复发件人(_R)"
+msgstr "回复发件人"
 
 #: ../data/ui/evolution-shortcuts.ui.h:30
 #, fuzzy
@@ -3916,10 +3833,8 @@ msgid "This address book could not be opened."
 msgstr "无法打开此地址簿。"
 
 #: ../src/addressbook/addressbook.error.xml.h:2
-#, fuzzy
-#| msgid "Failed to authenticate with LDAP server."
 msgid "Failed to communicate with LDAP server."
-msgstr "与 LDAP 服务器认证失败。"
+msgstr "与 LDAP 服务器通信失败。"
 
 #: ../src/addressbook/addressbook.error.xml.h:3
 msgid "This address book server does not have any suggested search bases."
@@ -4032,7 +3947,7 @@ msgstr "您所选择的图像太大。您是否想要缩放并存储？"
 
 #: ../src/addressbook/addressbook.error.xml.h:24
 msgid "An expected image size is up to 96 x 96 pixels."
-msgstr ""
+msgstr "使用的图像尺寸最大不应超过 96 x 96 像素。"
 
 #: ../src/addressbook/addressbook.error.xml.h:25
 msgid "_Resize"
@@ -21421,10 +21336,8 @@ msgid "Printing failed."
 msgstr "打印失败。"
 
 #: ../src/mail/mail.error.xml.h:188
-#, fuzzy
-#| msgid "The printer replied &quot;{0}&quot;."
 msgid "The printer replied “{0}”."
-msgstr "打印机返回 &quot;{0}&quot;。"
+msgstr "打印机返回“{0}”;。"
 
 #: ../src/mail/mail.error.xml.h:189
 msgid "Could not perform this operation on {0}."
@@ -22039,10 +21952,8 @@ msgstr "显示选中地址簿中所有联系人的地图"
 #: ../src/modules/calendar/e-memo-shell-view-actions.c:640
 #: ../src/modules/calendar/e-task-shell-view-actions.c:766
 #: ../src/modules/mail/e-mail-shell-view-actions.c:1685
-#, fuzzy
-#| msgid "_Rename..."
 msgid "_Rename…"
-msgstr "重命名(_R)..."
+msgstr "重命名(_R)…"
 
 #: ../src/modules/addressbook/e-book-shell-view-actions.c:1080
 msgid "Rename the selected address book"
@@ -22383,20 +22294,18 @@ msgid "Evolution Back Up"
 msgstr "Evolution 备份"
 
 #: ../src/modules/backup-restore/evolution-backup-tool.c:904
-#, fuzzy, c-format
-#| msgid "Backing up to the folder %s"
+#, c-format
 msgid "Backing up to the file %s"
-msgstr "正在备份到文件夹 %s"
+msgstr "正在备份到文件 %s"
 
 #: ../src/modules/backup-restore/evolution-backup-tool.c:908
 msgid "Evolution Restore"
 msgstr "Evolution 恢复"
 
 #: ../src/modules/backup-restore/evolution-backup-tool.c:909
-#, fuzzy, c-format
-#| msgid "Restoring from the folder %s"
+#, c-format
 msgid "Restoring from the file %s"
-msgstr "正在从文件夹 %s 中恢复"
+msgstr "正在从文件 %s 中恢复"
 
 #: ../src/modules/backup-restore/evolution-backup-tool.c:978
 msgid "Backing up Evolution Data"
@@ -22423,8 +22332,6 @@ msgid "Invalid Evolution backup file"
 msgstr "无效的 Evolution 备份文件"
 
 #: ../src/modules/backup-restore/org-gnome-backup-restore.error.xml.h:2
-#, fuzzy
-#| msgid "File '{0}' is not a valid Evolution backup file."
 msgid "File “{0}” is not a valid Evolution backup file."
 msgstr "文件“{0}”不是有效的 Evolution 备份文件。"
 
@@ -22927,10 +22834,8 @@ msgid "_Delete message after acting"
 msgstr "操作后删除信息(_D)"
 
 #: ../src/modules/calendar/e-calendar-preferences.c:645
-#, fuzzy
-#| msgid "_Preserve my reminder"
 msgid "_Preserve existing reminder by default"
-msgstr "保留我的提醒(_P)"
+msgstr "默认保留已有的提醒(_P)"
 
 #: ../src/modules/calendar/e-calendar-preferences.c:659
 #: ../src/modules/calendar/e-calendar-preferences.c:690
@@ -23185,7 +23090,7 @@ msgstr "待办"
 
 #: ../src/modules/calendar/e-calendar-preferences.ui.h:71
 msgid "Show Tasks without _Due date"
-msgstr ""
+msgstr "显示没有截止日期的任务(_D)"
 
 #: ../src/modules/calendar/e-calendar-preferences.ui.h:74
 #, fuzzy
@@ -23211,17 +23116,13 @@ msgstr "显示已完成工作的提醒(_T)"
 
 #. This is the first half of a user preference. "Set default reminder [time-period] before every new appointment"
 #: ../src/modules/calendar/e-calendar-preferences.ui.h:79
-#, fuzzy
-#| msgid "Default reminder value"
 msgid "Set _default reminder"
-msgstr "默认提醒值"
+msgstr "设置默认提醒(_D)"
 
 #. This is the last half of a user preference. "Set default reminder [time-period] before every new appointment"
 #: ../src/modules/calendar/e-calendar-preferences.ui.h:81
-#, fuzzy
-#| msgid "before every appointment"
 msgid "before every new appointment"
-msgstr "在每次约会前"
+msgstr "在每次新约会前"
 
 #. This is the first half of a user preference. "Show a reminder [time-period] before every anniversary/birthday"
 #: ../src/modules/calendar/e-calendar-preferences.ui.h:83
