@@ -59,7 +59,7 @@ static void	e_shell_window_alert_sink_init
 G_DEFINE_TYPE_WITH_CODE (
 	EShellWindow,
 	e_shell_window,
-	GTK_TYPE_WINDOW,
+	GTK_TYPE_APPLICATION_WINDOW,
 	G_IMPLEMENT_INTERFACE (
 		E_TYPE_ALERT_SINK, e_shell_window_alert_sink_init)
 	G_IMPLEMENT_INTERFACE (
