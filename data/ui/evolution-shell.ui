@@ -80,8 +80,6 @@
       <menuitem action='contents'/>
       <menuitem action='shortcuts'/>
       <separator/>
-      <menuitem action='submit-bug'/>
-      <separator/>
       <menuitem action='about'/>
     </menu>
   </menubar>

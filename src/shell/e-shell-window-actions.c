@@ -626,37 +626,6 @@ action_search_save_cb (GtkAction *action,
  * Main menu item: View -> Layout -> Show Tool Bar
  **/
 
-/**
- * E_SHELL_WINDOW_ACTION_SUBMIT_BUG:
- * @window: an #EShellWindow
- *
- * Activation of this action allows users to report a bug using
- * Bug Buddy.
- *
- * Main menu item: Help -> Submit Bug Report
- **/
-static void
-action_submit_bug_cb (GtkAction *action,
-                      EShellWindow *shell_window)
-{
-	const gchar *command_line;
-	GError *error = NULL;
-
-	command_line = "bug-buddy --package=Evolution";
-
-	g_debug ("Spawning: %s", command_line);
-	g_spawn_command_line_async (command_line, &error);
-
-	if (error != NULL) {
-		e_notice (
-			shell_window, GTK_MESSAGE_ERROR,
-			error->code == G_SPAWN_ERROR_NOENT ?
-			_("Bug Buddy is not installed.") :
-			_("Bug Buddy could not be run."));
-		g_error_free (error);
-	}
-}
-
 static void
 action_switcher_cb (GtkRadioAction *action,
                     GtkRadioAction *current,
@@ -1023,13 +992,6 @@ static GtkActionEntry shell_entries[] = {
 	  "<Control><Shift>question",
 	  N_("Show keyboard shortcuts"),
 	  G_CALLBACK (action_shortcuts_cb) },
-
-	{ "submit-bug",
-	  NULL,
-	  N_("Submit _Bug Report…"),
-	  NULL,
-	  N_("Submit a bug report using Bug Buddy"),
-	  G_CALLBACK (action_submit_bug_cb) },
 
 	{ "work-offline",
 	  "stock_disconnect",
@@ -1457,12 +1419,6 @@ e_shell_window_actions_init (EShellWindow *shell_window)
 		ACTION (SHOW_SIDEBAR), "active",
 		ACTION (SWITCHER_MENU), "sensitive",
 		G_BINDING_SYNC_CREATE);
-
-	/* Submitting bug reports requires bug-buddy. */
-	path = g_find_program_in_path ("bug-buddy");
-	if (path == NULL)
-		gtk_action_set_visible (ACTION (SUBMIT_BUG), FALSE);
-	g_free (path);
 }
 
 GtkWidget *
