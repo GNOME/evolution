@@ -21,7 +21,8 @@
 #include "evolution-config.h"
 
 #include <glib/gi18n-lib.h>
-#include "e-util.h"
+
+#include "e-tree-view-frame.h"
 #include "e-source-selector.h"
 #include "e-source-selector-dialog.h"
 
@@ -217,8 +218,6 @@ source_selector_dialog_constructed (GObject *object)
 
 	dialog = E_SOURCE_SELECTOR_DIALOG (object);
 
-	gtk_window_set_default_size (GTK_WINDOW (dialog), 400, 500);
-
 	container = gtk_dialog_get_content_area (GTK_DIALOG (dialog));
 
 	widget = e_tree_view_frame_new ();
@@ -317,10 +316,10 @@ e_source_selector_dialog_init (ESourceSelectorDialog *dialog)
 	action_area = gtk_dialog_get_action_area (GTK_DIALOG (dialog));
 
 	gtk_window_set_title (GTK_WINDOW (dialog), _("Select destination"));
-	gtk_window_set_default_size (GTK_WINDOW (dialog), 320, 400);
+	gtk_window_set_default_size (GTK_WINDOW (dialog), 400, 500);
 
-	gtk_container_set_border_width (GTK_CONTAINER (dialog), 18);
-	gtk_widget_set_margin_top (action_area, 18);
+	gtk_container_set_border_width (GTK_CONTAINER (dialog), 5);
+	gtk_widget_set_margin_top (action_area, 5);
 
 	gtk_dialog_add_buttons (
 		GTK_DIALOG (dialog),
