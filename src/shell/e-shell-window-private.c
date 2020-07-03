@@ -217,6 +217,8 @@ e_shell_window_private_init (EShellWindow *shell_window)
 
 	signal_handler_ids = g_array_new (FALSE, FALSE, sizeof (gulong));
 
+	priv->menubar = NULL;
+	priv->menu_merge_id = 0;
 	priv->ui_manager = gtk_ui_manager_new ();
 	priv->loaded_views = loaded_views;
 	priv->signal_handler_ids = signal_handler_ids;

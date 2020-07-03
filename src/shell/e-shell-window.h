@@ -144,6 +144,10 @@ gboolean	e_shell_window_get_toolbar_visible
 void		e_shell_window_set_toolbar_visible
 						(EShellWindow *shell_window,
 						 gboolean toolbar_visible);
+gint		e_shell_window_merge_menu	(EShellWindow *shell_window,
+						 GMenu *menu);
+void		e_shell_window_unmerge_menu	(EShellWindow *shell_window,
+						 gint merge_id);
 
 /* Helper function to open clients from shell's client cache in a dedicated
    thread with a callback being called in the main thread */

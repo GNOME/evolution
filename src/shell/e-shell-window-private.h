@@ -65,6 +65,9 @@ struct _EShellWindowPrivate {
 	guint custom_rule_merge_id;
 	guint gal_view_merge_id;
 
+	GMenu *menubar;
+	gint menu_merge_id;
+
 	/*** Shell Views ***/
 
 	GHashTable *loaded_views;
