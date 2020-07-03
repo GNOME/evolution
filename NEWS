@@ -1,3 +1,41 @@
+Evolution 3.37.3 2020-07-03
+---------------------------
+
+Bug Fixes:
+	I#854 - Offer "Saved searches" submenu in the search bar (Milan Crha)
+	I#855 - Order mail search entries by type and speed (Milan Crha)
+	I#858 - Add an option to show uncompleted tasks (RALOVICH, Kristof)
+	I#934 - CMake: Spam-filtering options should be files, not paths (Milan Crha)
+	I#963 - Composer: New message can incorrectly keep selected default account (Milan Crha)
+	I#966 - Composer: Correct caret placement around signature wrapper (Milan Crha)
+	I#969 - Workaround freeze on drag of message over composer body (Milan Crha)
+	I#975 - Composer: Some user options not propagated to the WebProcess (Milan Crha)
+	I#979 - Undeletable empty item in folder list (Milan Crha)
+	I#982 - 'Message contains'-search broken in 3.36.3 (Milan Crha)
+	I#985 - Ensure 16px online/offline icon height in the status bar (Milan Crha)
+	I#1003 - ASAN: Left shift of 0xFF00 by 16 places cannot be represented in type 'int' (Milan Crha)
+	eds-I#223 - WebDAV: Inefficient processing of returned XML data (Milan Crha)
+
+Miscellaneous:
+	Address a compiler warning about ENABLE_MAINTAINER_MODE (Milan Crha)
+	Composer: Asks for format change on Plain Text draft open (Milan Crha)
+	e-editor.js: EvoEditor.LoadHTML: Preserve theme CSS (Milan Crha)
+	Add an option to specify minimum font size for WebKitGTK (Milan Crha)
+	Drop (optional) dependency on org.gnome.settings-daemon.plugins.xsettings schema (Milan Crha)
+	help: Update KMail import instructions (Andre Klapper)
+
+Translations:
+	Aurimas Černius (lt)
+	Daniel Mustieles (es)
+	Yuri Chornoivan (uk)
+	Jordi Mas (ca)
+	Fabio Tomat (fur)
+	Matej Urbančič (sl)
+	Florentina Mușat (ro)
+	Boyuan Yang (zh_CN)
+	Baurzhan Muftakhidinov (kk)
+	Charles Monzat (fr)
+
 Evolution 3.37.2 2020-05-29
 ---------------------------
 
