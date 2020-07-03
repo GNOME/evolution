@@ -1,3 +1,19 @@
+Evolution 3.36.4 2020-07-03
+---------------------------
+
+Bug Fixes:
+	I#963 - Composer: New message can incorrectly keep selected default account (Milan Crha)
+	I#969 - Workaround freeze on drag of message over composer body (Milan Crha)
+	I#979 - Undeletable empty item in folder list (Milan Crha)
+	I#982 - 'Message contains'-search broken in 3.36.3 (Milan Crha)
+	I#985 - Ensure 16px online/offline icon height in the status bar (Milan Crha)
+
+Translations:
+	Matej Urbančič (sl)
+	Baurzhan Muftakhidinov (kk)
+	Yuri Chornoivan (uk)
+	Charles Monzat (fr)
+
 Evolution 3.36.3 2020-05-29
 ---------------------------
 
