@@ -25,6 +25,8 @@
 #include <shell/e-shell-window.h>
 #include <shell/e-shell-window-actions.h>
 
+#define E_PLUGIN_ID "e-module-plugin-manager"
+
 /* Standard GObject macros */
 #define E_TYPE_PLUGIN_MANAGER \
 	(e_plugin_manager_get_type ())
@@ -275,8 +277,9 @@ eppm_enable_toggled (GtkCellRendererToggle *renderer,
 }
 
 static void
-action_plugin_manager_cb (GtkAction *action,
-                          EExtension *extension)
+action_plugin_manager_cb (GSimpleAction *action,
+                          GVariant      *parameter,
+                          gpointer       user_data)
 {
 	Manager *m;
 	gint i;
@@ -292,6 +295,8 @@ action_plugin_manager_cb (GtkAction *action,
 	gchar *string;
 	GtkWidget *subvbox;
 	EExtensible *extensible;
+
+	EExtension *extension = user_data;
 
 	m = g_malloc0 (sizeof (*m));
 
@@ -515,42 +520,36 @@ plugin_manager_constructed (GObject *object)
 	EExtensible *extensible;
 	EPluginManager *extension;
 	EShellWindow *shell_window;
-	GtkActionGroup *action_group;
-	GtkUIManager *ui_manager;
-	GtkAction *action;
-	const gchar *action_name;
-	const gchar *action_label;
-	const gchar *action_tooltip;
-	const gchar *widget_path;
-	guint merge_id;
+	EShell *shell;
+	GSimpleActionGroup *action_group;
+	GSimpleAction *action;
+	GMenuItem *item;
+	GMenu *menu;
 
 	extension = E_PLUGIN_MANAGER (object);
 	extensible = e_extension_get_extensible (E_EXTENSION (extension));
-
 	shell_window = E_SHELL_WINDOW (extensible);
-	action_group = E_SHELL_WINDOW_ACTION_GROUP_SHELL (shell_window);
-	ui_manager = e_shell_window_get_ui_manager (shell_window);
-	merge_id = gtk_ui_manager_new_merge_id (ui_manager);
+	action_group = g_simple_action_group_new ();
 
-	action_name = "plugin-manager";
-	action_label = _("_Plugins");
-	action_tooltip = _("Enable and disable plugins");
-	widget_path = "/main-menu/edit-menu/administrative-actions";
-
-	action = gtk_action_new (
-		action_name, action_label, action_tooltip, NULL);
-
+	action = g_simple_action_new ("plugin-manager", NULL);
 	g_signal_connect (
 		action, "activate",
 		G_CALLBACK (action_plugin_manager_cb), extension);
-
-	gtk_action_group_add_action (action_group, action);
-
-	gtk_ui_manager_add_ui (
-		ui_manager, merge_id, widget_path, action_name,
-		action_name, GTK_UI_MANAGER_AUTO, FALSE);
-
+	g_action_map_add_action (G_ACTION_MAP (action_group), G_ACTION (action));
 	g_object_unref (action);
+
+	gtk_widget_insert_action_group (
+		GTK_WIDGET (shell_window),
+		E_PLUGIN_ID,
+		G_ACTION_GROUP (action_group));
+
+	menu = g_menu_new ();
+	item = g_menu_item_new (_("_Plugins"), E_PLUGIN_ID ".plugin-manager");
+	g_menu_item_set_attribute (item, "after", "s", "accounts");
+	g_menu_insert_item (menu, 0, item);
+	g_object_unref (item);
+
+	e_shell_window_merge_menu (shell_window, menu);
 
 	/* Chain up to parent's constructed() method. */
 	G_OBJECT_CLASS (e_plugin_manager_parent_class)->constructed (object);

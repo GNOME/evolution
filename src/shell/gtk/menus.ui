@@ -1,0 +1,199 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<interface>
+  <menu id="shell-menubar">
+    <submenu>
+      <attribute name="id">file-menu</attribute>
+      <attribute name="label" translatable="yes">_File</attribute>
+      <section>
+        <item>
+          <attribute name="id">new-window</attribute>
+          <attribute name="label" translatable="yes">New _Window</attribute>
+          <attribute name="action">app.new-window</attribute>
+        </item>
+      </section>
+      <section>
+        <item>
+          <attribute name="id">page-setup</attribute>
+          <attribute name="label" translatable="yes">Page Set_up…</attribute>
+          <attribute name="action">win.page-setup</attribute>
+        </item>
+      </section>
+      <section>
+        <item>
+          <attribute name="id">import</attribute>
+          <attribute name="label" translatable="yes">I_mport…</attribute>
+          <attribute name="action">app.import</attribute>
+        </item>
+      </section>
+      <section>
+        <item>
+          <attribute name="id">work-offline</attribute>
+          <attribute name="label" translatable="yes">_Work Offline</attribute>
+        </item>
+        <item>
+          <attribute name="id">close-window</attribute>
+          <attribute name="label" translatable="yes">Close</attribute>
+          <attribute name="action">win.close</attribute>
+        </item>
+        <item>
+          <attribute name="id">quit-app</attribute>
+          <attribute name="label" translatable="yes">Quit</attribute>
+          <attribute name="action">app.quit</attribute>
+        </item>
+      </section>
+    </submenu>
+    <submenu>
+      <attribute name="id">edit-menu</attribute>
+      <attribute name="label" translatable="yes">_Edit</attribute>
+      <section>
+        <item>
+          <attribute name="id">cut</attribute>
+          <attribute name="label" translatable="yes">Cut</attribute>
+        </item>
+        <item>
+          <attribute name="id">copy</attribute>
+          <attribute name="label" translatable="yes">Copy</attribute>
+        </item>
+        <item>
+          <attribute name="id">paste</attribute>
+          <attribute name="label" translatable="yes">Paste</attribute>
+        </item>
+      </section>
+      <section>
+        <item>
+          <attribute name="id">select-all</attribute>
+          <attribute name="label" translatable="yes">Select _All</attribute>
+        </item>
+      </section>
+      <section>
+        <item>
+          <attribute name="id">accounts</attribute>
+          <attribute name="label" translatable="yes">_Accounts</attribute>
+          <attribute name="action">app.accounts</attribute>
+        </item>
+        <item>
+          <attribute name="id">preferences</attribute>
+          <attribute name="label" translatable="yes">_Preferences</attribute>
+          <attribute name="action">app.preferences</attribute>
+        </item>
+      </section>
+    </submenu>
+    <submenu>
+      <attribute name="id">view-menu</attribute>
+      <attribute name="label" translatable="yes">_View</attribute>
+      <section>
+        <submenu>
+          <attribute name="id">layout-menu</attribute>
+          <attribute name="label" translatable="yes">Lay_out</attribute>
+          <section>
+            <attribute name="id">layout-section</attribute>
+            <item>
+              <attribute name="label" translatable="yes">Show _Menu Bar</attribute>
+              <attribute name="action">win.show-menubar</attribute>
+            </item>
+            <item>
+              <attribute name="label" translatable="yes">Show _Tool Bar</attribute>
+              <attribute name="action">win.show-toolbar</attribute>
+            </item>
+            <item>
+              <attribute name="label" translatable="yes">Show _Status Bar</attribute>
+              <attribute name="action">win.show-taskbar</attribute>
+            </item>
+            <item>
+              <attribute name="label" translatable="yes">Show Side _Bar</attribute>
+              <attribute name="action">win.show-sidebar</attribute>
+            </item>
+          </section>
+        </submenu>
+        <submenu>
+          <attribute name="id">switcher-menu</attribute>
+          <attribute name="label" translatable="yes">_Switcher Appearance</attribute>
+          <section>
+            <item>
+              <attribute name="label" translatable="yes">Icons _and Text</attribute>
+              <attribute name="action">win.style-switcher</attribute>
+              <attribute name="target">both</attribute>
+            </item>
+            <item>
+              <attribute name="label" translatable="yes">_Icons Only</attribute>
+              <attribute name="action">win.style-switcher</attribute>
+              <attribute name="target">icons</attribute>
+            </item>
+            <item>
+              <attribute name="label" translatable="yes">_Text Only</attribute>
+              <attribute name="action">win.style-switcher</attribute>
+              <attribute name="target">text</attribute>
+            </item>
+            <item>
+              <attribute name="label" translatable="yes">Tool_bar Style</attribute>
+              <attribute name="action">win.style-switcher</attribute>
+              <attribute name="target">user</attribute>
+            </item>
+          </section>
+          <section>
+            <item>
+              <attribute name="label" translatable="yes">Show _Buttons</attribute>
+              <attribute name="action">win.show-switcher</attribute>
+            </item>
+          </section>
+        </submenu>
+      </section>
+    </submenu>
+    <submenu>
+      <attribute name="id">search-menu</attribute>
+      <attribute name="label" translatable="yes">_Search</attribute>
+      <section>
+        <item>
+          <attribute name="id">search-quick</attribute>
+          <attribute name="label" translatable="yes">_Find Now</attribute>
+          <attribute name="action">win.search-quick</attribute>
+        </item>
+        <item>
+          <attribute name="id">clear-search</attribute>
+          <attribute name="label" translatable="yes">_Clear</attribute>
+          <attribute name="action">win.clear-search</attribute>
+        </item>
+        <item>
+          <attribute name="id">search-advanced</attribute>
+          <attribute name="label" translatable="yes">_Advanced Search…</attribute>
+          <attribute name="action">win.search-advanced</attribute>
+        </item>
+      </section>
+      <section>
+        <item>
+          <attribute name="id">save-search</attribute>
+          <attribute name="label" translatable="yes">_Save Search…</attribute>
+          <attribute name="action">win.save-search</attribute>
+        </item>
+        <item>
+          <attribute name="id">edit-search</attribute>
+          <attribute name="label" translatable="yes">_Edit Saved Searches…</attribute>
+          <attribute name="action">win.edit-search</attribute>
+        </item>
+      </section>
+    </submenu>
+    <submenu>
+      <attribute name="id">help-menu</attribute>
+      <attribute name="label" translatable="yes">_Help</attribute>
+      <section>
+        <item>
+          <attribute name="id">help</attribute>
+          <attribute name="label" translatable="yes">_Contents</attribute>
+          <attribute name="action">app.help</attribute>
+        </item>
+        <item>
+          <attribute name="id">help-overlay</attribute>
+          <attribute name="label" translatable="yes">_Keyboard Shortcuts</attribute>
+          <attribute name="action">win.show-help-overlay</attribute>
+        </item>
+      </section>
+      <section>
+        <item>
+          <attribute name="id">about</attribute>
+          <attribute name="label" translatable="yes">_About</attribute>
+          <attribute name="action">app.about</attribute>
+        </item>
+      </section>
+    </submenu>
+  </menu>
+</interface>

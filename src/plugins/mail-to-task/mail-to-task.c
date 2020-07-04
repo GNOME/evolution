@@ -44,13 +44,13 @@
 #include "libemail-engine/libemail-engine.h"
 
 #define E_SHELL_WINDOW_ACTION_CONVERT_TO_APPOINTMENT(window) \
-	E_SHELL_WINDOW_ACTION ((window), "mail-convert-to-appointment")
+	E_SHELL_WINDOW_ACTIONX ((window), "mail-convert-to-appointment")
 #define E_SHELL_WINDOW_ACTION_CONVERT_TO_MEETING(window) \
-	E_SHELL_WINDOW_ACTION ((window), "mail-convert-to-meeting")
+	E_SHELL_WINDOW_ACTIONX ((window), "mail-convert-to-meeting")
 #define E_SHELL_WINDOW_ACTION_CONVERT_TO_MEMO(window) \
-	E_SHELL_WINDOW_ACTION ((window), "mail-convert-to-memo")
+	E_SHELL_WINDOW_ACTIONX ((window), "mail-convert-to-memo")
 #define E_SHELL_WINDOW_ACTION_CONVERT_TO_TASK(window) \
-	E_SHELL_WINDOW_ACTION ((window), "mail-convert-to-task")
+	E_SHELL_WINDOW_ACTIONX ((window), "mail-convert-to-task")
 
 gboolean	mail_browser_init		(GtkUIManager *ui_manager,
 						 EMailBrowser *browser);

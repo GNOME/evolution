@@ -2343,7 +2343,7 @@ e_mail_shell_view_actions_init (EMailShellView *mail_shell_view)
 	 * in sync with "Save Search" so that its only selectable when
 	 * showing search results. */
 	e_binding_bind_property (
-		ACTION (SEARCH_SAVE), "sensitive",
+		E_SHELL_WINDOW_ACTION (shell_window, "save-search"), "enabled",
 		ACTION (MAIL_CREATE_SEARCH_FOLDER), "sensitive",
 		G_BINDING_SYNC_CREATE);
 

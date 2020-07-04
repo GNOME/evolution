@@ -22,55 +22,53 @@
 
 #include "e-shell-window-private.h"
 
-/**
- * E_SHELL_WINDOW_ACTION_ABOUT:
- * @window: an #EShellWindow
- *
- * Activation of this action displays the application's About dialog.
- *
- * Main menu item: Help -> About
- **/
+typedef struct {
+	const gchar *name;
+	const gchar *property_name;
+} EPropertyActionEntry;
+
 static void
-action_about_cb (GtkAction *action,
-                 EShellWindow *shell_window)
+e_action_map_add_property_action_entries (GActionMap                 *action_map,
+                                          const EPropertyActionEntry *entries,
+                                          gint                        n_entries,
+                                          gpointer                    object)
 {
-	e_shell_utils_run_help_about (e_shell_window_get_shell (shell_window));
+	GPropertyAction *action;
+
+	for (gint i = 0; i < n_entries; i++) {
+		action = g_property_action_new (
+			entries[i].name, object, entries[i].property_name);
+		g_action_map_add_action (action_map, G_ACTION (action));
+		g_object_unref (action);
+	}
 }
 
 static void
-action_accounts_cb (GtkAction *action,
-		    EShellWindow *shell_window)
+win_clear_search (GSimpleAction *action,
+                  GVariant      *parameter,
+                  gpointer       user_data)
 {
-	ESourceRegistry *registry;
-	EShell *shell;
-	GtkWidget *accounts_window;
+	EShellView *shell_view;
+	const gchar *view_name;
 
-	g_return_if_fail (E_IS_SHELL_WINDOW (shell_window));
+	EShellWindow *shell_window = user_data;
 
-	shell = e_shell_window_get_shell (shell_window);
-	registry = e_shell_get_registry (shell);
+	view_name = e_shell_window_get_active_view (shell_window);
+	shell_view = e_shell_window_get_shell_view (shell_window, view_name);
 
-	accounts_window = e_accounts_window_new (registry);
-
-	e_accounts_window_show_with_parent (E_ACCOUNTS_WINDOW (accounts_window), GTK_WINDOW (shell_window));
+	e_shell_view_clear_search (shell_view);
 }
 
-/**
- * E_SHELL_WINDOW_ACTION_CLOSE:
- * @window: an #EShellWindow
- *
- * Activation of this action closes @window.  If this is the last window,
- * the application initiates shutdown.
- *
- * Main menu item: File -> Close
- **/
 static void
-action_close_cb (GtkAction *action,
-                 EShellWindow *shell_window)
+win_close (GSimpleAction *action,
+           GVariant      *parameter,
+           gpointer       user_data)
 {
 	GtkWidget *widget;
 	GdkWindow *window;
 	GdkEvent *event;
+
+	EShellWindow *shell_window = user_data;
 
 	widget = GTK_WIDGET (shell_window);
 	window = gtk_widget_get_window (widget);
@@ -83,38 +81,135 @@ action_close_cb (GtkAction *action,
 	gdk_event_free (event);
 }
 
-/**
- * E_SHELL_WINDOW_ACTION_CONTENTS:
- * @window: an #EShellWindow
- *
- * Activation of this action opens the application's user manual.
- *
- * Main menu item: Help -> Contents
- **/
 static void
-action_contents_cb (GtkAction *action,
-                    EShellWindow *shell_window)
+win_edit_search (GSimpleAction *action,
+                 GVariant      *parameter,
+                 gpointer       user_data)
 {
-	e_shell_utils_run_help_contents (e_shell_window_get_shell (shell_window));
+	EShellView *shell_view;
+	EShellContent *shell_content;
+	const gchar *view_name;
+
+	EShellWindow *shell_window = user_data;
+
+	view_name = e_shell_window_get_active_view (shell_window);
+	shell_view = e_shell_window_get_shell_view (shell_window, view_name);
+	shell_content = e_shell_view_get_shell_content (shell_view);
+
+	e_shell_content_run_edit_searches_dialog (shell_content);
+	e_shell_window_update_search_menu (shell_window);
 }
 
 static void
-action_shortcuts_cb (GtkAction *action,
-		     EShellWindow *shell_window)
+win_page_setup (GSimpleAction *action,
+                GVariant      *parameter,
+                gpointer       user_data)
 {
-	GtkBuilder *builder;
-	GtkWidget *widget;
+	EShellWindow *shell_window = user_data;
 
-	builder = gtk_builder_new ();
-	e_load_ui_builder_definition (builder, "evolution-shortcuts.ui");
-
-	widget = e_builder_get_widget (builder, "evolution-shortcuts");
-	gtk_window_set_transient_for (GTK_WINDOW (widget), GTK_WINDOW (shell_window));
-
-	gtk_widget_show (widget);
-
-	g_object_unref (builder);
+	e_print_run_page_setup_dialog (GTK_WINDOW (shell_window));
 }
+
+static void
+win_save_search (GSimpleAction *action,
+                 GVariant      *parameter,
+                 gpointer       user_data)
+{
+	EShellView *shell_view;
+	EShellContent *shell_content;
+	const gchar *view_name;
+
+	EShellWindow *shell_window = user_data;
+
+	view_name = e_shell_window_get_active_view (shell_window);
+	shell_view = e_shell_window_get_shell_view (shell_window, view_name);
+	shell_content = e_shell_view_get_shell_content (shell_view);
+
+	e_shell_content_run_save_search_dialog (shell_content);
+	e_shell_window_update_search_menu (shell_window);
+}
+
+static void
+win_search_advanced (GSimpleAction *action,
+                     GVariant      *parameter,
+                     gpointer       user_data)
+{
+	EShellView *shell_view;
+	EShellContent *shell_content;
+	const gchar *view_name;
+
+	EShellWindow *shell_window = user_data;
+
+	view_name = e_shell_window_get_active_view (shell_window);
+	shell_view = e_shell_window_get_shell_view (shell_window, view_name);
+	shell_content = e_shell_view_get_shell_content (shell_view);
+
+	e_shell_content_run_advanced_search_dialog (shell_content);
+	e_shell_window_update_search_menu (shell_window);
+}
+
+static void
+win_search_quick (GSimpleAction *action,
+                  GVariant      *parameter,
+                  gpointer       user_data)
+{
+	EShellView *shell_view;
+	const gchar *view_name;
+
+	EShellWindow *shell_window = user_data;
+
+	view_name = e_shell_window_get_active_view (shell_window);
+	shell_view = e_shell_window_get_shell_view (shell_window, view_name);
+
+	e_shell_view_execute_search (shell_view);
+}
+
+static void
+win_style_switcher (GSimpleAction *action,
+                    GVariant      *value,
+                    gpointer       user_data)
+{
+	const gchar *stylev;
+	GtkToolbarStyle style;
+
+	EShellWindow *shell_window = user_data;
+
+	g_simple_action_set_state (action, value);
+
+	stylev = g_variant_get_string (value, NULL);
+	if (g_strcmp0 (stylev, "both") == 0)
+		style = GTK_TOOLBAR_BOTH;
+	else if (g_strcmp0 (stylev, "icons") == 0)
+		style = GTK_TOOLBAR_ICONS;
+	else if (g_strcmp0 (stylev, "text") == 0)
+		style = GTK_TOOLBAR_TEXT;
+	else if (g_strcmp0 (stylev, "user") == 0)
+		style = GTK_TOOLBAR_BOTH_HORIZ;
+	else
+		style = E_SHELL_SWITCHER_DEFAULT_TOOLBAR_STYLE;
+
+	e_shell_switcher_set_style (
+		E_SHELL_SWITCHER (shell_window->priv->switcher), style);
+}
+
+static GActionEntry win_entries[] = {
+	{ "clear-search",    win_clear_search },
+	{ "close",           win_close },
+	{ "edit-search",     win_edit_search },
+	{ "page-setup",      win_page_setup },
+	{ "save-search",     win_save_search },
+	{ "search-advanced", win_search_advanced },
+	{ "search-quick",    win_search_quick },
+	{ "style-switcher",  NULL, "s", "'user'", win_style_switcher },
+};
+
+static EPropertyActionEntry win_property_entries[] = {
+	{ "show-menubar",  "menubar-visible" },
+	{ "show-sidebar",  "sidebar-visible" },
+	{ "show-switcher", "switcher-visible" },
+	{ "show-taskbar",  "taskbar-visible" },
+	{ "show-toolbar",  "toolbar-visible" },
+};
 
 static void
 action_custom_rule_cb (GtkAction *action,
@@ -255,79 +350,6 @@ action_gal_customize_view_cb (GtkAction *action,
 }
 
 /**
- * E_SHELL_WINDOW_ACTION_IMPORT:
- * @window: an #EShellWindow
- *
- * Activation of this action opens the Evolution Import Assistant.
- *
- * Main menu item: File -> Import...
- **/
-static void
-action_import_cb (GtkAction *action,
-                  EShellWindow *shell_window)
-{
-	GtkWidget *assistant;
-
-	assistant = e_import_assistant_new (GTK_WINDOW (shell_window));
-
-	/* These are "Run Last" signals, so use g_signal_connect_after()
-	 * to give the default handlers a chance to run before we destroy
-	 * the window. */
-
-	g_signal_connect_after (
-		assistant, "cancel",
-		G_CALLBACK (gtk_widget_destroy), NULL);
-
-	g_signal_connect_after (
-		assistant, "finished",
-		G_CALLBACK (gtk_widget_destroy), NULL);
-
-	gtk_widget_show (assistant);
-}
-
-/**
- * E_SHELL_WINDOW_ACTION_NEW_WINDOW:
- * @window: an #EShellWindow
- *
- * Activation of this action opens a new shell window.
- *
- * Main menu item: File -> New Window
- **/
-static void
-action_new_window_cb (GtkAction *action,
-                      EShellWindow *shell_window)
-{
-	EShell *shell;
-	EShellView *shell_view;
-	const gchar *view_name;
-
-	shell = e_shell_window_get_shell (shell_window);
-	view_name = e_shell_window_get_active_view (shell_window);
-
-	shell_view = e_shell_window_get_shell_view (shell_window, view_name);
-
-	if (shell_view)
-		e_shell_view_save_state_immediately (shell_view);
-
-	e_shell_create_shell_window (shell, view_name);
-}
-
-/**
- * E_SHELL_WINDOW_ACTION_PAGE_SETUP:
- * @window: an #EShellWindow
- *
- * Activation of this action opens the application's Page Setup dialog.
- *
- * Main menu item: File -> Page Setup...
- **/
-static void
-action_page_setup_cb (GtkAction *action,
-                      EShellWindow *shell_window)
-{
-	e_print_run_page_setup_dialog (GTK_WINDOW (shell_window));
-}
-
-/**
  * E_SHELL_WINDOW_ACTION_CATEGORIES
  * @window: and #EShellWindow
  *
@@ -361,108 +383,6 @@ action_categories_cb (GtkAction *action,
 	gtk_dialog_run (GTK_DIALOG (dialog));
 
 	gtk_widget_destroy (dialog);
-}
-
-/**
- * E_SHELL_WINDOW_ACTION_PREFERENCES:
- * @window: an #EShellWindow
- *
- * Activation of this action opens the application's Preferences window.
- *
- * Main menu item: Edit -> Preferences
- **/
-static void
-action_preferences_cb (GtkAction *action,
-                       EShellWindow *shell_window)
-{
-	e_shell_utils_run_preferences (e_shell_window_get_shell (shell_window));
-}
-
-/**
- * E_SHELL_WINDOW_ACTION_QUIT:
- * @window: an #EShellWindow
- *
- * Activation of this action initiates application shutdown.
- *
- * Main menu item: File -> Quit
- **/
-static void
-action_quit_cb (GtkAction *action,
-                EShellWindow *shell_window)
-{
-	EShell *shell;
-
-	shell = e_shell_window_get_shell (shell_window);
-	e_shell_quit (shell, E_SHELL_QUIT_ACTION);
-}
-
-/**
- * E_SHELL_WINDOW_ACTION_SEARCH_ADVANCED:
- * @window: an #EShellWindow
- *
- * Activation of this action opens an Advanced Search dialog.
- *
- * Main menu item: Search -> Advanced Search...
- **/
-static void
-action_search_advanced_cb (GtkAction *action,
-                           EShellWindow *shell_window)
-{
-	EShellView *shell_view;
-	EShellContent *shell_content;
-	const gchar *view_name;
-
-	view_name = e_shell_window_get_active_view (shell_window);
-	shell_view = e_shell_window_get_shell_view (shell_window, view_name);
-	shell_content = e_shell_view_get_shell_content (shell_view);
-
-	e_shell_content_run_advanced_search_dialog (shell_content);
-	e_shell_window_update_search_menu (shell_window);
-}
-
-/**
- * E_SHELL_WINDOW_ACTION_SEARCH_CLEAR:
- * @window: an #EShellWindow
- *
- * Activation of this action clears the most recent search results.
- *
- * Main menu item: Search -> Clear
- **/
-static void
-action_search_clear_cb (GtkAction *action,
-                        EShellWindow *shell_window)
-{
-	EShellView *shell_view;
-	const gchar *view_name;
-
-	view_name = e_shell_window_get_active_view (shell_window);
-	shell_view = e_shell_window_get_shell_view (shell_window, view_name);
-
-	e_shell_view_clear_search (shell_view);
-}
-
-/**
- * E_SHELL_WINDOW_ACTION_SEARCH_EDIT:
- * @window: an #EShellWindow
- *
- * Activation of this action opens a dialog for editing saved searches.
- *
- * Main menu item: Search -> Edit Saved Searches...
- **/
-static void
-action_search_edit_cb (GtkAction *action,
-                       EShellWindow *shell_window)
-{
-	EShellView *shell_view;
-	EShellContent *shell_content;
-	const gchar *view_name;
-
-	view_name = e_shell_window_get_active_view (shell_window);
-	shell_view = e_shell_window_get_shell_view (shell_window, view_name);
-	shell_content = e_shell_view_get_shell_content (shell_view);
-
-	e_shell_content_run_edit_searches_dialog (shell_content);
-	e_shell_window_update_search_menu (shell_window);
 }
 
 static void
@@ -534,98 +454,6 @@ action_search_options_cb (GtkAction *action,
 	}
 }
 
-/**
- * E_SHELL_WINDOW_ACTION_SEARCH_QUICK:
- * @window: an #EShellWindow
- *
- * Activation of this action executes the current search conditions.
- *
- * Main menu item: Search -> Find Now
- **/
-static void
-action_search_quick_cb (GtkAction *action,
-                        EShellWindow *shell_window)
-{
-	EShellView *shell_view;
-	const gchar *view_name;
-
-	view_name = e_shell_window_get_active_view (shell_window);
-	shell_view = e_shell_window_get_shell_view (shell_window, view_name);
-
-	e_shell_view_execute_search (shell_view);
-}
-
-/**
- * E_SHELL_WINDOW_ACTION_SEARCH_SAVE:
- * @window: an #EShellWindow
- *
- * Activation of this action saves the current search conditions.
- *
- * Main menu item: Search -> Save Search...
- **/
-static void
-action_search_save_cb (GtkAction *action,
-                       EShellWindow *shell_window)
-{
-	EShellView *shell_view;
-	EShellContent *shell_content;
-	const gchar *view_name;
-
-	view_name = e_shell_window_get_active_view (shell_window);
-	shell_view = e_shell_window_get_shell_view (shell_window, view_name);
-	shell_content = e_shell_view_get_shell_content (shell_view);
-
-	e_shell_content_run_save_search_dialog (shell_content);
-	e_shell_window_update_search_menu (shell_window);
-}
-
-/**
- * E_SHELL_WINDOW_ACTION_SHOW_MENUBAR:
- * @window: an #EShellWindow
- *
- * This toggle action controls whether the menu bar is visible.
- *
- * Main menu item: View -> Layout -> Show Menu Bar
- *
- * Since: 3.24
- **/
-
-/**
- * E_SHELL_WINDOW_ACTION_SHOW_SIDEBAR:
- * @window: an #EShellWindow
- *
- * This toggle action controls whether the side bar is visible.
- *
- * Main menu item: View -> Layout -> Show Side Bar
- **/
-
-/**
- * E_SHELL_WINDOW_ACTION_SHOW_SWITCHER:
- * @window: an #EShellWindow
- *
- * This toggle action controls whether the switcher buttons are visible.
- *
- * Main menu item: View -> Switcher Appearance -> Show Buttons
- **/
-
-/**
- * E_SHELL_WINDOW_ACTION_SHOW_TASKBAR:
- * @window: an #EShellWindow
- *
- * This toggle action controls whether the task bar is visible.
- *
- * Main menu item: View -> Layout -> Show Status Bar
- **/
-
-/**
- * E_SHELL_WINDOW_ACTION_SHOW_TOOLBAR:
- * @window: an #EShellWindow
- *
- * This toggle action controls whether the tool bar is visible.
- *
- * Main menu item: View -> Layout -> Show Tool Bar
- **/
-
 static void
 action_switcher_cb (GtkRadioAction *action,
                     GtkRadioAction *current,
@@ -655,67 +483,6 @@ action_new_view_window_cb (GtkAction *action,
 	e_shell_create_shell_window (shell, modified_view_name);
 
 	g_free (modified_view_name);
-}
-
-/**
- * E_SHELL_WINDOW_ACTION_SWITCHER_STYLE_BOTH:
- * @window: an #EShellWindow
- *
- * This radio action displays switcher buttons with icons and text.
- *
- * Main menu item: View -> Switcher Appearance -> Icons and Text
- **/
-
-/**
- * E_SHELL_WINDOW_ACTION_SWITCHER_STYLE_ICONS:
- * @window: an #EShellWindow
- *
- * This radio action displays switcher buttons with icons only.
- *
- * Main menu item: View -> Switcher Appearance -> Icons Only
- **/
-
-/**
- * E_SHELL_WINDOW_ACTION_SWITCHER_STYLE_TEXT:
- * @window: an #EShellWindow
- *
- * This radio action displays switcher buttons with text only.
- *
- * Main menu item: View -> Switcher Appearance -> Text Only
- **/
-
-/**
- * E_SHELL_WINDOW_ACTION_SWITCHER_STYLE_USER:
- * @window: an #EShellWindow
- *
- * This radio action displays switcher buttons according to the desktop
- * toolbar setting.
- *
- * Main menu item: View -> Switcher Appearance -> Toolbar Style
- **/
-static void
-action_switcher_style_cb (GtkRadioAction *action,
-                          GtkRadioAction *current,
-                          EShellWindow *shell_window)
-{
-	EShellSwitcher *switcher;
-	GtkToolbarStyle style;
-
-	switcher = E_SHELL_SWITCHER (shell_window->priv->switcher);
-	style = gtk_radio_action_get_current_value (action);
-
-	switch (style) {
-		case GTK_TOOLBAR_ICONS:
-		case GTK_TOOLBAR_TEXT:
-		case GTK_TOOLBAR_BOTH:
-		case GTK_TOOLBAR_BOTH_HORIZ:
-			e_shell_switcher_set_style (switcher, style);
-			break;
-
-		default:
-			e_shell_switcher_unset_style (switcher);
-			break;
-	}
 }
 
 /**
@@ -825,48 +592,6 @@ static GtkActionEntry new_source_entries[] = {
 
 static GtkActionEntry shell_entries[] = {
 
-	{ "about",
-	  "help-about",
-	  N_("_About"),
-	  NULL,
-	  N_("Show information about Evolution"),
-	  G_CALLBACK (action_about_cb) },
-
-	{ "accounts",
-	  NULL,
-	  N_("_Accounts"),
-	  NULL,
-	  N_("Configure Evolution Accounts"),
-	  G_CALLBACK (action_accounts_cb) },
-
-	{ "close",
-	  "window-close",
-	  N_("_Close Window"),
-	  "<Control>w",
-	  N_("Close this window"),
-	  G_CALLBACK (action_close_cb) },
-
-	{ "close-window-menu",
-	  "window-close",
-	  N_("_Close"),
-	  "<Control>w",
-	  N_("Close this window"),
-	  G_CALLBACK (action_close_cb) },
-
-	{ "close-window",
-	  "window-close",
-	  N_("_Close Window"),
-	  "<Control>w",
-	  N_("Close this window"),
-	  G_CALLBACK (action_close_cb) },
-
-	{ "contents",
-	  "help-browser",
-	  N_("_Contents"),
-	  "F1",
-	  N_("Open the Evolution User Guide"),
-	  G_CALLBACK (action_contents_cb) },
-
 	{ "copy-clipboard",
 	  "edit-copy",
 	  N_("_Copy"),
@@ -888,20 +613,6 @@ static GtkActionEntry shell_entries[] = {
 	  N_("Delete the selection"),
 	  NULL },  /* Handled by EFocusTracker */
 
-	{ "import",
-	  "stock_mail-import",
-	  N_("I_mport…"),
-	  NULL,
-	  N_("Import data from other programs"),
-	  G_CALLBACK (action_import_cb) },
-
-	{ "new-window",
-	  "window-new",
-	  N_("New _Window"),
-	  "<Control><Shift>w",
-	  N_("Create a new window displaying this view"),
-	  G_CALLBACK (action_new_window_cb) },
-
 	{ "paste-clipboard",
 	  "edit-paste",
 	  N_("_Paste"),
@@ -916,47 +627,12 @@ static GtkActionEntry shell_entries[] = {
 	  N_("Manage available categories"),
 	  G_CALLBACK (action_categories_cb) },
 
-	{ "preferences",
-	  "preferences-system",
-	  N_("_Preferences"),
-	  "<Control><Shift>s",
-	  N_("Configure Evolution"),
-	  G_CALLBACK (action_preferences_cb) },
-
-	{ "quit",
-	  "application-exit",
-	  N_("_Quit"),
-	  "<Control>q",
-	  N_("Exit the program"),
-	  G_CALLBACK (action_quit_cb) },
-
 	{ "saved-searches",
 	  NULL,
 	  N_("_Saved Searches"),
 	  NULL,
 	  NULL,
 	  NULL },
-
-	{ "search-advanced",
-	  NULL,
-	  N_("_Advanced Search…"),
-	  NULL,
-	  N_("Construct a more advanced search"),
-	  G_CALLBACK (action_search_advanced_cb) },
-
-	{ "search-clear",
-	  "edit-clear",
-	  N_("_Clear"),
-	  "<Control><Shift>q",
-	  N_("Clear the current search parameters"),
-	  G_CALLBACK (action_search_clear_cb) },
-
-	{ "search-edit",
-	  NULL,
-	  N_("_Edit Saved Searches…"),
-	  NULL,
-	  N_("Manage your saved searches"),
-	  G_CALLBACK (action_search_edit_cb) },
 
 	{ "search-options",
 	  "edit-find",
@@ -965,33 +641,12 @@ static GtkActionEntry shell_entries[] = {
 	  N_("Click here to change the search type"),
 	  G_CALLBACK (action_search_options_cb) },
 
-	{ "search-quick",
-	  "edit-find",
-	  N_("_Find Now"),
-	  NULL,
-	  N_("Execute the current search parameters"),
-	  G_CALLBACK (action_search_quick_cb) },
-
-	{ "search-save",
-	  NULL,
-	  N_("_Save Search…"),
-	  NULL,
-	  N_("Save the current search parameters"),
-	  G_CALLBACK (action_search_save_cb) },
-
 	{ "select-all",
 	  "edit-select-all",
 	  N_("Select _All"),
 	  "<Control>a",
 	  N_("Select all text"),
 	  NULL },  /* Handled by EFocusTracker */
-
-	{ "shortcuts",
-	  NULL,
-	  N_("_Keyboard Shortcuts"),
-	  "<Control><Shift>question",
-	  N_("Show keyboard shortcuts"),
-	  G_CALLBACK (action_shortcuts_cb) },
 
 	{ "work-offline",
 	  "stock_disconnect",
@@ -1023,20 +678,6 @@ static GtkActionEntry shell_entries[] = {
 	  NULL,
 	  NULL },
 
-	{ "help-menu",
-	  NULL,
-	  N_("_Help"),
-	  NULL,
-	  NULL,
-	  NULL },
-
-	{ "layout-menu",
-	  NULL,
-	  N_("Lay_out"),
-	  NULL,
-	  NULL,
-	  NULL },
-
 	{ "new-menu",
 	  "document-new",
 	  /* Translators: This is a New menu item caption, under File->New */
@@ -1048,13 +689,6 @@ static GtkActionEntry shell_entries[] = {
 	{ "search-menu",
 	  NULL,
 	  N_("_Search"),
-	  NULL,
-	  NULL,
-	  NULL },
-
-	{ "switcher-menu",
-	  NULL,
-	  N_("_Switcher Appearance"),
 	  NULL,
 	  NULL,
 	  NULL },
@@ -1093,49 +727,6 @@ static EPopupActionEntry shell_popup_entries[] = {
 	  "paste-clipboard" }
 };
 
-static GtkToggleActionEntry shell_toggle_entries[] = {
-
-	{ "show-menubar",
-	  NULL,
-	  N_("Show _Menu Bar"),
-	  NULL,
-	  N_("Show the menu bar"),
-	  NULL,
-	  TRUE },
-
-	{ "show-sidebar",
-	  NULL,
-	  N_("Show Side _Bar"),
-	  "F9",
-	  N_("Show the side bar"),
-	  NULL,
-	  TRUE },
-
-	{ "show-switcher",
-	  NULL,
-	  N_("Show _Buttons"),
-	  NULL,
-	  N_("Show the switcher buttons"),
-	  NULL,
-	  TRUE },
-
-	{ "show-taskbar",
-	  NULL,
-	  N_("Show _Status Bar"),
-	  NULL,
-	  N_("Show the status bar"),
-	  NULL,
-	  TRUE },
-
-	{ "show-toolbar",
-	  NULL,
-	  N_("Show _Tool Bar"),
-	  NULL,
-	  N_("Show the tool bar"),
-	  NULL,
-	  TRUE }
-};
-
 static GtkRadioActionEntry shell_switcher_entries[] = {
 
 	/* This action represents the initial active shell view.
@@ -1146,37 +737,6 @@ static GtkRadioActionEntry shell_switcher_entries[] = {
 	  NULL,
 	  NULL,
 	  NULL,
-	  -1 }
-};
-
-static GtkRadioActionEntry shell_switcher_style_entries[] = {
-
-	{ "switcher-style-icons",
-	  NULL,
-	  N_("_Icons Only"),
-	  NULL,
-	  N_("Display window buttons with icons only"),
-	  GTK_TOOLBAR_ICONS },
-
-	{ "switcher-style-text",
-	  NULL,
-	  N_("_Text Only"),
-	  NULL,
-	  N_("Display window buttons with text only"),
-	  GTK_TOOLBAR_TEXT },
-
-	{ "switcher-style-both",
-	  NULL,
-	  N_("Icons _and Text"),
-	  NULL,
-	  N_("Display window buttons with icons and text"),
-	  GTK_TOOLBAR_BOTH_HORIZ },
-
-	{ "switcher-style-user",
-	  NULL,
-	  N_("Tool_bar Style"),
-	  NULL,
-	  N_("Display window buttons using the desktop toolbar setting"),
 	  -1 }
 };
 
@@ -1221,16 +781,6 @@ static GtkRadioActionEntry shell_gal_view_radio_entries[] = {
 	  NULL,
 	  N_("Current view is a customized view"),
 	  -1 }
-};
-
-static GtkActionEntry shell_lockdown_print_setup_entries[] = {
-
-	{ "page-setup",
-	  "document-page-setup",
-	  N_("Page Set_up…"),
-	  NULL,
-	  N_("Change the page settings for your current printer"),
-	  G_CALLBACK (action_page_setup_cb) }
 };
 
 static void
@@ -1289,12 +839,34 @@ shell_window_extract_actions (EShellWindow *shell_window,
 void
 e_shell_window_actions_init (EShellWindow *shell_window)
 {
+	EShell *shell;
+	GActionMap *action_map;
+	GAction *action;
 	GtkActionGroup *action_group;
 	EFocusTracker *focus_tracker;
 	GtkUIManager *ui_manager;
 	gchar *path;
 
 	g_return_if_fail (E_IS_SHELL_WINDOW (shell_window));
+
+	shell = e_shell_window_get_shell (shell_window);
+	action_map = G_ACTION_MAP (shell_window);
+
+	g_action_map_add_action_entries (
+		action_map,
+		win_entries, G_N_ELEMENTS (win_entries),
+		shell_window);
+
+	e_shell_set_accelerator (shell, "win.clear-search", "<Shift><Ctrl>q");
+	e_shell_set_accelerator (shell, "win.close", "<Ctrl>w");
+
+	e_action_map_add_property_action_entries (
+		action_map,
+		win_property_entries, G_N_ELEMENTS (win_property_entries),
+		shell_window);
+
+	e_shell_set_accelerator (shell, "win.show-menubar", "F8");
+	e_shell_set_accelerator (shell, "win.show-sidebar", "F9");
 
 	ui_manager = e_shell_window_get_ui_manager (shell_window);
 
@@ -1311,14 +883,6 @@ e_shell_window_actions_init (EShellWindow *shell_window)
 	e_action_group_add_popup_actions (
 		action_group, shell_popup_entries,
 		G_N_ELEMENTS (shell_popup_entries));
-	gtk_action_group_add_toggle_actions (
-		action_group, shell_toggle_entries,
-		G_N_ELEMENTS (shell_toggle_entries), shell_window);
-	gtk_action_group_add_radio_actions (
-		action_group, shell_switcher_style_entries,
-		G_N_ELEMENTS (shell_switcher_style_entries),
-		E_SHELL_SWITCHER_DEFAULT_TOOLBAR_STYLE,
-		G_CALLBACK (action_switcher_style_cb), shell_window);
 	gtk_action_group_add_actions (
 		action_group, shell_gal_view_entries,
 		G_N_ELEMENTS (shell_gal_view_entries), shell_window);
@@ -1333,13 +897,6 @@ e_shell_window_actions_init (EShellWindow *shell_window)
 		action_group, shell_switcher_entries,
 		G_N_ELEMENTS (shell_switcher_entries),
 		-1, G_CALLBACK (action_switcher_cb), shell_window);
-
-	/* Lockdown Print Setup Actions */
-	action_group = ACTION_GROUP (LOCKDOWN_PRINT_SETUP);
-	gtk_action_group_add_actions (
-		action_group, shell_lockdown_print_setup_entries,
-		G_N_ELEMENTS (shell_lockdown_print_setup_entries),
-		shell_window);
 
 	/* Configure an EFocusTracker to manage selection actions. */
 
@@ -1358,67 +915,8 @@ e_shell_window_actions_init (EShellWindow *shell_window)
 
 	/* Fine tuning. */
 
-	gtk_action_set_sensitive (ACTION (SEARCH_QUICK), FALSE);
-
-	e_binding_bind_property (
-		shell_window, "menubar-visible",
-		ACTION (SHOW_MENUBAR), "active",
-		G_BINDING_BIDIRECTIONAL |
-		G_BINDING_SYNC_CREATE);
-
-	e_binding_bind_property (
-		shell_window, "sidebar-visible",
-		ACTION (SHOW_SIDEBAR), "active",
-		G_BINDING_BIDIRECTIONAL |
-		G_BINDING_SYNC_CREATE);
-
-	e_binding_bind_property (
-		shell_window, "switcher-visible",
-		ACTION (SHOW_SWITCHER), "active",
-		G_BINDING_BIDIRECTIONAL |
-		G_BINDING_SYNC_CREATE);
-
-	e_binding_bind_property (
-		shell_window, "taskbar-visible",
-		ACTION (SHOW_TASKBAR), "active",
-		G_BINDING_BIDIRECTIONAL |
-		G_BINDING_SYNC_CREATE);
-
-	e_binding_bind_property (
-		shell_window, "toolbar-visible",
-		ACTION (SHOW_TOOLBAR), "active",
-		G_BINDING_BIDIRECTIONAL |
-		G_BINDING_SYNC_CREATE);
-
-	e_binding_bind_property (
-		ACTION (SHOW_SIDEBAR), "active",
-		ACTION (SHOW_SWITCHER), "sensitive",
-		G_BINDING_SYNC_CREATE);
-
-	e_binding_bind_property (
-		ACTION (SHOW_SIDEBAR), "active",
-		ACTION (SWITCHER_STYLE_BOTH), "sensitive",
-		G_BINDING_SYNC_CREATE);
-
-	e_binding_bind_property (
-		ACTION (SHOW_SIDEBAR), "active",
-		ACTION (SWITCHER_STYLE_ICONS), "sensitive",
-		G_BINDING_SYNC_CREATE);
-
-	e_binding_bind_property (
-		ACTION (SHOW_SIDEBAR), "active",
-		ACTION (SWITCHER_STYLE_TEXT), "sensitive",
-		G_BINDING_SYNC_CREATE);
-
-	e_binding_bind_property (
-		ACTION (SHOW_SIDEBAR), "active",
-		ACTION (SWITCHER_STYLE_USER), "sensitive",
-		G_BINDING_SYNC_CREATE);
-
-	e_binding_bind_property (
-		ACTION (SHOW_SIDEBAR), "active",
-		ACTION (SWITCHER_MENU), "sensitive",
-		G_BINDING_SYNC_CREATE);
+	action = E_SHELL_WINDOW_ACTION (shell_window, "search-quick");
+	g_simple_action_set_enabled (G_SIMPLE_ACTION (action), FALSE);
 }
 
 GtkWidget *

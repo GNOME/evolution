@@ -25,251 +25,251 @@
 
 /* Mail Actions */
 #define E_SHELL_WINDOW_ACTION_MAIL_ACCOUNT_DISABLE(window) \
-	E_SHELL_WINDOW_ACTION ((window), "mail-account-disable")
+	E_SHELL_WINDOW_ACTIONX ((window), "mail-account-disable")
 #define E_SHELL_WINDOW_ACTION_MAIL_ACCOUNT_EXPUNGE(window) \
-	E_SHELL_WINDOW_ACTION ((window), "mail-account-expunge")
+	E_SHELL_WINDOW_ACTIONX ((window), "mail-account-expunge")
 #define E_SHELL_WINDOW_ACTION_MAIL_ACCOUNT_EMPTY_JUNK(window) \
-	E_SHELL_WINDOW_ACTION ((window), "mail-account-empty-junk")
+	E_SHELL_WINDOW_ACTIONX ((window), "mail-account-empty-junk")
 #define E_SHELL_WINDOW_ACTION_MAIL_ACCOUNT_PROPERTIES(window) \
-	E_SHELL_WINDOW_ACTION ((window), "mail-account-properties")
+	E_SHELL_WINDOW_ACTIONX ((window), "mail-account-properties")
 #define E_SHELL_WINDOW_ACTION_MAIL_ACCOUNT_REFRESH(window) \
-	E_SHELL_WINDOW_ACTION ((window), "mail-account-refresh")
+	E_SHELL_WINDOW_ACTIONX ((window), "mail-account-refresh")
 #define E_SHELL_WINDOW_ACTION_MAIL_ADD_SENDER(window) \
-	E_SHELL_WINDOW_ACTION ((window), "mail-add-sender")
+	E_SHELL_WINDOW_ACTIONX ((window), "mail-add-sender")
 #define E_SHELL_WINDOW_ACTION_MAIL_ATTACHMENT_BAR(window) \
-	E_SHELL_WINDOW_ACTION ((window), "mail-attachment-bar")
+	E_SHELL_WINDOW_ACTIONX ((window), "mail-attachment-bar")
 #define E_SHELL_WINDOW_ACTION_MAIL_CARET_MODE(window) \
-	E_SHELL_WINDOW_ACTION ((window), "mail-caret-mode")
+	E_SHELL_WINDOW_ACTIONX ((window), "mail-caret-mode")
 #define E_SHELL_WINDOW_ACTION_MAIL_CHECK_FOR_JUNK(window) \
-	E_SHELL_WINDOW_ACTION ((window), "mail-check-for-junk")
+	E_SHELL_WINDOW_ACTIONX ((window), "mail-check-for-junk")
 #define E_SHELL_WINDOW_ACTION_MAIL_CLIPBOARD_COPY(window) \
 	E_SHELL_WINDOw_ACTION ((window), "mail-clipboard-copy")
 #define E_SHELL_WINDOW_ACTION_MAIL_COPY(window) \
-	E_SHELL_WINDOW_ACTION ((window), "mail-copy")
+	E_SHELL_WINDOW_ACTIONX ((window), "mail-copy")
 #define E_SHELL_WINDOW_ACTION_MAIL_CREATE_SEARCH_FOLDER(window) \
-	E_SHELL_WINDOW_ACTION ((window), "mail-create-search-folder")
+	E_SHELL_WINDOW_ACTIONX ((window), "mail-create-search-folder")
 #define E_SHELL_WINDOW_ACTION_MAIL_DELETE(window) \
-	E_SHELL_WINDOW_ACTION ((window), "mail-delete")
+	E_SHELL_WINDOW_ACTIONX ((window), "mail-delete")
 #define E_SHELL_WINDOW_ACTION_MAIL_DOWNLOAD(window) \
-	E_SHELL_WINDOW_ACTION ((window), "mail-download")
+	E_SHELL_WINDOW_ACTIONX ((window), "mail-download")
 #define E_SHELL_WINDOW_ACTION_MAIL_FILTER_RULE_FOR_MAILING_LIST(window) \
-	E_SHELL_WINDOW_ACTION ((window), "mail-filter-rule-for-mailing-list")
+	E_SHELL_WINDOW_ACTIONX ((window), "mail-filter-rule-for-mailing-list")
 #define E_SHELL_WINDOW_ACTION_MAIL_FILTER_RULE_FOR_RECIPIENTS(window) \
-	E_SHELL_WINDOW_ACTION ((window), "mail-filter-rule-for-recipients")
+	E_SHELL_WINDOW_ACTIONX ((window), "mail-filter-rule-for-recipients")
 #define E_SHELL_WINDOW_ACTION_MAIL_FILTER_RULE_FOR_SENDER(window) \
-	E_SHELL_WINDOW_ACTION ((window), "mail-filter-rule-for-sender")
+	E_SHELL_WINDOW_ACTIONX ((window), "mail-filter-rule-for-sender")
 #define E_SHELL_WINDOW_ACTION_MAIL_FILTER_RULE_FOR_SUBJECT(window) \
-	E_SHELL_WINDOW_ACTION ((window), "mail-filter-rule-for-subject")
+	E_SHELL_WINDOW_ACTIONX ((window), "mail-filter-rule-for-subject")
 #define E_SHELL_WINDOW_ACTION_MAIL_FILTERS_APPLY(window) \
-	E_SHELL_WINDOW_ACTION ((window), "mail-filters-apply")
+	E_SHELL_WINDOW_ACTIONX ((window), "mail-filters-apply")
 #define E_SHELL_WINDOW_ACTION_MAIL_FIND(window) \
-	E_SHELL_WINDOW_ACTION ((window), "mail-find")
+	E_SHELL_WINDOW_ACTIONX ((window), "mail-find")
 #define E_SHELL_WINDOW_ACTION_MAIL_FLAG_CLEAR(window) \
-	E_SHELL_WINDOW_ACTION ((window), "mail-flag-clear")
+	E_SHELL_WINDOW_ACTIONX ((window), "mail-flag-clear")
 #define E_SHELL_WINDOW_ACTION_MAIL_FLAG_COMPLETED(window) \
-	E_SHELL_WINDOW_ACTION ((window), "mail-flag-completed")
+	E_SHELL_WINDOW_ACTIONX ((window), "mail-flag-completed")
 #define E_SHELL_WINDOW_ACTION_MAIL_FLAG_FOR_FOLLOWUP(window) \
-	E_SHELL_WINDOW_ACTION ((window), "mail-flag-for-followup")
+	E_SHELL_WINDOW_ACTIONX ((window), "mail-flag-for-followup")
 #define E_SHELL_WINDOW_ACTION_MAIL_FLUSH_OUTBOX(window) \
-	E_SHELL_WINDOW_ACTION ((window), "mail-flush-outbox")
+	E_SHELL_WINDOW_ACTIONX ((window), "mail-flush-outbox")
 #define E_SHELL_WINDOW_ACTION_MAIL_FOLDER_COPY(window) \
-	E_SHELL_WINDOW_ACTION ((window), "mail-folder-copy")
+	E_SHELL_WINDOW_ACTIONX ((window), "mail-folder-copy")
 #define E_SHELL_WINDOW_ACTION_MAIL_FOLDER_DELETE(window) \
-	E_SHELL_WINDOW_ACTION ((window), "mail-folder-delete")
+	E_SHELL_WINDOW_ACTIONX ((window), "mail-folder-delete")
 #define E_SHELL_WINDOW_ACTION_MAIL_FOLDER_EDIT_SORT_ORDER(window) \
-	E_SHELL_WINDOW_ACTION ((window), "mail-folder-edit-sort-order")
+	E_SHELL_WINDOW_ACTIONX ((window), "mail-folder-edit-sort-order")
 #define E_SHELL_WINDOW_ACTION_MAIL_FOLDER_EXPUNGE(window) \
-	E_SHELL_WINDOW_ACTION ((window), "mail-folder-expunge")
+	E_SHELL_WINDOW_ACTIONX ((window), "mail-folder-expunge")
 #define E_SHELL_WINDOW_ACTION_MAIL_FOLDER_MARK_ALL_AS_READ(window) \
-	E_SHELL_WINDOW_ACTION ((window), "mail-folder-mark-all-as-read")
+	E_SHELL_WINDOW_ACTIONX ((window), "mail-folder-mark-all-as-read")
 #define E_SHELL_WINDOW_ACTION_MAIL_FOLDER_MOVE(window) \
-	E_SHELL_WINDOW_ACTION ((window), "mail-folder-move")
+	E_SHELL_WINDOW_ACTIONX ((window), "mail-folder-move")
 #define E_SHELL_WINDOW_ACTION_MAIL_FOLDER_NEW(window) \
-	E_SHELL_WINDOW_ACTION ((window), "mail-folder-new")
+	E_SHELL_WINDOW_ACTIONX ((window), "mail-folder-new")
 #define E_SHELL_WINDOW_ACTION_MAIL_FOLDER_PROPERTIES(window) \
-	E_SHELL_WINDOW_ACTION ((window), "mail-folder-properties")
+	E_SHELL_WINDOW_ACTIONX ((window), "mail-folder-properties")
 #define E_SHELL_WINDOW_ACTION_MAIL_FOLDER_REFRESH(window) \
-	E_SHELL_WINDOW_ACTION ((window), "mail-folder-refresh")
+	E_SHELL_WINDOW_ACTIONX ((window), "mail-folder-refresh")
 #define E_SHELL_WINDOW_ACTION_MAIL_FOLDER_RENAME(window) \
-	E_SHELL_WINDOW_ACTION ((window), "mail-folder-rename")
+	E_SHELL_WINDOW_ACTIONX ((window), "mail-folder-rename")
 #define E_SHELL_WINDOW_ACTION_MAIL_FOLDER_SELECT_ALL(window) \
-	E_SHELL_WINDOW_ACTION ((window), "mail-folder-select-all")
+	E_SHELL_WINDOW_ACTIONX ((window), "mail-folder-select-all")
 #define E_SHELL_WINDOW_ACTION_MAIL_FOLDER_SELECT_THREAD(window) \
-	E_SHELL_WINDOW_ACTION ((window), "mail-folder-select-thread")
+	E_SHELL_WINDOW_ACTIONX ((window), "mail-folder-select-thread")
 #define E_SHELL_WINDOW_ACTION_MAIL_FOLDER_SELECT_SUBTHREAD(window) \
-	E_SHELL_WINDOW_ACTION ((window), "mail-folder-select-subthread")
+	E_SHELL_WINDOW_ACTIONX ((window), "mail-folder-select-subthread")
 #define E_SHELL_WINDOW_ACTION_MAIL_FOLDER_UNSUBSCRIBE(window) \
-	E_SHELL_WINDOW_ACTION ((window), "mail-folder-unsubscribe")
+	E_SHELL_WINDOW_ACTIONX ((window), "mail-folder-unsubscribe")
 #define E_SHELL_WINDOW_ACTION_MAIL_FORWARD(window) \
-	E_SHELL_WINDOW_ACTION ((window), "mail-forward")
+	E_SHELL_WINDOW_ACTIONX ((window), "mail-forward")
 #define E_SHELL_WINDOW_ACTION_MAIL_FORWARD_ATTACHED(window) \
-	E_SHELL_WINDOW_ACTION ((window), "mail-forward-attached")
+	E_SHELL_WINDOW_ACTIONX ((window), "mail-forward-attached")
 #define E_SHELL_WINDOW_ACTION_MAIL_FORWARD_INLINE(window) \
-	E_SHELL_WINDOW_ACTION ((window), "mail-forward-inline")
+	E_SHELL_WINDOW_ACTIONX ((window), "mail-forward-inline")
 #define E_SHELL_WINDOW_ACTION_MAIL_FORWARD_QUOTED(window) \
-	E_SHELL_WINDOW_ACTION ((window), "mail-forward-quoted")
+	E_SHELL_WINDOW_ACTIONX ((window), "mail-forward-quoted")
 #define E_SHELL_WINDOW_ACTION_MAIL_LOAD_IMAGES(window) \
-	E_SHELL_WINDOW_ACTION ((window), "mail-load-images")
+	E_SHELL_WINDOW_ACTIONX ((window), "mail-load-images")
 #define E_SHELL_WINDOW_ACTION_MAIL_MANAGE_SUBSCRIPTIONS(window) \
-	E_SHELL_WINDOW_ACTION ((window), "mail-manage-subscriptions")
+	E_SHELL_WINDOW_ACTIONX ((window), "mail-manage-subscriptions")
 #define E_SHELL_WINDOW_ACTION_MAIL_MARK_IMPORTANT(window) \
-	E_SHELL_WINDOW_ACTION ((window), "mail-mark-important")
+	E_SHELL_WINDOW_ACTIONX ((window), "mail-mark-important")
 #define E_SHELL_WINDOW_ACTION_MAIL_MARK_JUNK(window) \
-	E_SHELL_WINDOW_ACTION ((window), "mail-mark-junk")
+	E_SHELL_WINDOW_ACTIONX ((window), "mail-mark-junk")
 #define E_SHELL_WINDOW_ACTION_MAIL_MARK_NOTJUNK(window) \
-	E_SHELL_WINDOW_ACTION ((window), "mail-mark-notjunk")
+	E_SHELL_WINDOW_ACTIONX ((window), "mail-mark-notjunk")
 #define E_SHELL_WINDOW_ACTION_MAIL_MARK_READ(window) \
-	E_SHELL_WINDOW_ACTION ((window), "mail-mark-read")
+	E_SHELL_WINDOW_ACTIONX ((window), "mail-mark-read")
 #define E_SHELL_WINDOW_ACTION_MAIL_MARK_UNIMPORTANT(window) \
-	E_SHELL_WINDOW_ACTION ((window), "mail-mark-unimportant")
+	E_SHELL_WINDOW_ACTIONX ((window), "mail-mark-unimportant")
 #define E_SHELL_WINDOW_ACTION_MAIL_MARK_UNREAD(window) \
-	E_SHELL_WINDOW_ACTION ((window), "mail-mark-unread")
+	E_SHELL_WINDOW_ACTIONX ((window), "mail-mark-unread")
 #define E_SHELL_WINDOW_ACTION_MAIL_MESSAGE_EDIT(window) \
-	E_SHELL_WINDOW_ACTION ((window), "mail-message-edit")
+	E_SHELL_WINDOW_ACTIONX ((window), "mail-message-edit")
 #define E_SHELL_WINDOW_ACTION_MAIL_MESSAGE_NEW(window) \
-	E_SHELL_WINDOW_ACTION ((window), "mail-message-new")
+	E_SHELL_WINDOW_ACTIONX ((window), "mail-message-new")
 #define E_SHELL_WINDOW_ACTION_MAIL_MESSAGE_OPEN(window) \
-	E_SHELL_WINDOW_ACTION ((window), "mail-message-open")
+	E_SHELL_WINDOW_ACTIONX ((window), "mail-message-open")
 #define E_SHELL_WINDOW_ACTION_MAIL_MOVE(window) \
-	E_SHELL_WINDOW_ACTION ((window), "mail-move")
+	E_SHELL_WINDOW_ACTIONX ((window), "mail-move")
 #define E_SHELL_WINDOW_ACTION_MAIL_NEXT(window) \
-	E_SHELL_WINDOW_ACTION ((window), "mail-next")
+	E_SHELL_WINDOW_ACTIONX ((window), "mail-next")
 #define E_SHELL_WINDOW_ACTION_MAIL_NEXT_IMPORTANT(window) \
-	E_SHELL_WINDOW_ACTION ((window), "mail-next-important")
+	E_SHELL_WINDOW_ACTIONX ((window), "mail-next-important")
 #define E_SHELL_WINDOW_ACTION_MAIL_NEXT_THREAD(window) \
-	E_SHELL_WINDOW_ACTION ((window), "mail-next-thread")
+	E_SHELL_WINDOW_ACTIONX ((window), "mail-next-thread")
 #define E_SHELL_WINDOW_ACTION_MAIL_NEXT_UNREAD(window) \
-	E_SHELL_WINDOW_ACTION ((window), "mail-next-unread")
+	E_SHELL_WINDOW_ACTIONX ((window), "mail-next-unread")
 #define E_SHELL_WINDOW_ACTION_MAIL_POPUP_FOLDER_MARK_ALL_AS_READ(window) \
-	E_SHELL_WINDOW_ACTION ((window), "mail-popup-folder-mark-all-as-read")
+	E_SHELL_WINDOW_ACTIONX ((window), "mail-popup-folder-mark-all-as-read")
 #define E_SHELL_WINDOW_ACTION_MAIL_PREVIEW(window) \
-	E_SHELL_WINDOW_ACTION ((window), "mail-preview")
+	E_SHELL_WINDOW_ACTIONX ((window), "mail-preview")
 #define E_SHELL_WINDOW_ACTION_MAIL_PREVIOUS(window) \
-	E_SHELL_WINDOW_ACTION ((window), "mail-previous")
+	E_SHELL_WINDOW_ACTIONX ((window), "mail-previous")
 #define E_SHELL_WINDOW_ACTION_MAIL_PREVIOUS_IMPORTANT(window) \
-	E_SHELL_WINDOW_ACTION ((window), "mail-previous-important")
+	E_SHELL_WINDOW_ACTIONX ((window), "mail-previous-important")
 #define E_SHELL_WINDOW_ACTION_MAIL_PREVIOUS_UNREAD(window) \
-	E_SHELL_WINDOW_ACTION ((window), "mail-previous-unread")
+	E_SHELL_WINDOW_ACTIONX ((window), "mail-previous-unread")
 #define E_SHELL_WINDOW_ACTION_MAIL_PRINT(window) \
-	E_SHELL_WINDOW_ACTION ((window), "mail-print")
+	E_SHELL_WINDOW_ACTIONX ((window), "mail-print")
 #define E_SHELL_WINDOW_ACTION_MAIL_PRINT_PREVIEW(window) \
-	E_SHELL_WINDOW_ACTION ((window), "mail-print-preview")
+	E_SHELL_WINDOW_ACTIONX ((window), "mail-print-preview")
 #define E_SHELL_WINDOW_ACTION_MAIL_REDIRECT(window) \
-	E_SHELL_WINDOW_ACTION ((window), "mail-redirect")
+	E_SHELL_WINDOW_ACTIONX ((window), "mail-redirect")
 #define E_SHELL_WINDOW_ACTION_MAIL_REPLY_ALL(window) \
-	E_SHELL_WINDOW_ACTION ((window), "mail-reply-all")
+	E_SHELL_WINDOW_ACTIONX ((window), "mail-reply-all")
 #define E_SHELL_WINDOW_ACTION_MAIL_REPLY_LIST(window) \
-	E_SHELL_WINDOW_ACTION ((window), "mail-reply-list")
+	E_SHELL_WINDOW_ACTIONX ((window), "mail-reply-list")
 #define E_SHELL_WINDOW_ACTION_MAIL_REPLY_SENDER(window) \
-	E_SHELL_WINDOW_ACTION ((window), "mail-reply-sender")
+	E_SHELL_WINDOW_ACTIONX ((window), "mail-reply-sender")
 #define E_SHELL_WINDOW_ACTION_MAIL_SEARCH_ADVANCED_HIDDEN(window) \
-	E_SHELL_WINDOW_ACTION ((window), "mail-search-advanced-hidden")
+	E_SHELL_WINDOW_ACTIONX ((window), "mail-search-advanced-hidden")
 #define E_SHELL_WINDOW_ACTION_MAIL_SEARCH_FOLDER_FROM_MAILING_LIST(window) \
-	E_SHELL_WINDOW_ACTION ((window), "mail-search-folder-from-mailing-list")
+	E_SHELL_WINDOW_ACTIONX ((window), "mail-search-folder-from-mailing-list")
 #define E_SHELL_WINDOW_ACTION_MAIL_SEARCH_FOLDER_FROM_RECIPIENTS(window) \
-	E_SHELL_WINDOW_ACTION ((window), "mail-search-folder-from-recipients")
+	E_SHELL_WINDOW_ACTIONX ((window), "mail-search-folder-from-recipients")
 #define E_SHELL_WINDOW_ACTION_MAIL_SEARCH_FOLDER_FROM_SENDER(window) \
-	E_SHELL_WINDOW_ACTION ((window), "mail-search-folder-from-sender")
+	E_SHELL_WINDOW_ACTIONX ((window), "mail-search-folder-from-sender")
 #define E_SHELL_WINDOW_ACTION_MAIL_SEARCH_FOLDER_FROM_SUBJECT(window) \
-	E_SHELL_WINDOW_ACTION ((window), "mail-search-folder-from-subject")
+	E_SHELL_WINDOW_ACTIONX ((window), "mail-search-folder-from-subject")
 #define E_SHELL_WINDOW_ACTION_MAIL_SELECT_ALL(window) \
-	E_SHELL_WINDOW_ACTION ((window), "mail-select-all")
+	E_SHELL_WINDOW_ACTIONX ((window), "mail-select-all")
 #define E_SHELL_WINDOW_ACTION_MAIL_SEND_RECEIVE(window) \
-	E_SHELL_WINDOW_ACTION ((window), "mail-send-receive")
+	E_SHELL_WINDOW_ACTIONX ((window), "mail-send-receive")
 #define E_SHELL_WINDOW_ACTION_MAIL_SEND_RECEIVE_RECEIVE_ALL(window) \
-	E_SHELL_WINDOW_ACTION ((window), "mail-send-receive-receive-all")
+	E_SHELL_WINDOW_ACTIONX ((window), "mail-send-receive-receive-all")
 #define E_SHELL_WINDOW_ACTION_MAIL_SEND_RECEIVE_SEND_ALL(window) \
-	E_SHELL_WINDOW_ACTION ((window), "mail-send-receive-send-all")
+	E_SHELL_WINDOW_ACTIONX ((window), "mail-send-receive-send-all")
 #define E_SHELL_WINDOW_ACTION_MAIL_SEND_RECEIVE_SUBMENU(window) \
-	E_SHELL_WINDOW_ACTION ((window), "mail-send-receive-submenu")
+	E_SHELL_WINDOW_ACTIONX ((window), "mail-send-receive-submenu")
 #define E_SHELL_WINDOW_ACTION_MAIL_SHOW_ALL_HEADERS(window) \
-	E_SHELL_WINDOW_ACTION ((window), "mail-show-all-headers")
+	E_SHELL_WINDOW_ACTIONX ((window), "mail-show-all-headers")
 #define E_SHELL_WINDOW_ACTION_MAIL_SHOW_DELETED(window) \
-	E_SHELL_WINDOW_ACTION ((window), "mail-show-deleted")
+	E_SHELL_WINDOW_ACTIONX ((window), "mail-show-deleted")
 #define E_SHELL_WINDOW_ACTION_MAIL_SHOW_JUNK(window) \
-	E_SHELL_WINDOW_ACTION ((window), "mail-show-junk")
+	E_SHELL_WINDOW_ACTIONX ((window), "mail-show-junk")
 #define E_SHELL_WINDOW_ACTION_MAIL_SHOW_SOURCE(window) \
-	E_SHELL_WINDOW_ACTION ((window), "mail-show-source")
+	E_SHELL_WINDOW_ACTIONX ((window), "mail-show-source")
 #define E_SHELL_WINDOW_ACTION_MAIL_SMART_BACKWARD(window) \
-	E_SHELL_WINDOW_ACTION ((window), "mail-smart-backward")
+	E_SHELL_WINDOW_ACTIONX ((window), "mail-smart-backward")
 #define E_SHELL_WINDOW_ACTION_MAIL_SMART_FORWARD(window) \
-	E_SHELL_WINDOW_ACTION ((window), "mail-smart-forward")
+	E_SHELL_WINDOW_ACTIONX ((window), "mail-smart-forward")
 #define E_SHELL_WINDOW_ACTION_MAIL_STOP(window) \
-	E_SHELL_WINDOW_ACTION ((window), "mail-stop")
+	E_SHELL_WINDOW_ACTIONX ((window), "mail-stop")
 #define E_SHELL_WINDOW_ACTION_MAIL_THREADS_COLLAPSE_ALL(window) \
-	E_SHELL_WINDOW_ACTION ((window), "mail-threads-collapse-all")
+	E_SHELL_WINDOW_ACTIONX ((window), "mail-threads-collapse-all")
 #define E_SHELL_WINDOW_ACTION_MAIL_THREADS_EXPAND_ALL(window) \
-	E_SHELL_WINDOW_ACTION ((window), "mail-threads-expand-all")
+	E_SHELL_WINDOW_ACTIONX ((window), "mail-threads-expand-all")
 #define E_SHELL_WINDOW_ACTION_MAIL_THREADS_GROUP_BY(window) \
-	E_SHELL_WINDOW_ACTION ((window), "mail-threads-group-by")
+	E_SHELL_WINDOW_ACTIONX ((window), "mail-threads-group-by")
 #define E_SHELL_WINDOW_ACTION_MAIL_TOOLS_FILTERS(window) \
-	E_SHELL_WINDOW_ACTION ((window), "mail-tools-filters")
+	E_SHELL_WINDOW_ACTIONX ((window), "mail-tools-filters")
 #define E_SHELL_WINDOW_ACTION_MAIL_TOOLS_SEARCH_FOLDERS(window) \
-	E_SHELL_WINDOW_ACTION ((window), "mail-tools-search-folders")
+	E_SHELL_WINDOW_ACTIONX ((window), "mail-tools-search-folders")
 #define E_SHELL_WINDOW_ACTION_MAIL_TOOLS_SUBSCRIPTIONS(window) \
-	E_SHELL_WINDOW_ACTION ((window), "mail-tools-subscriptions")
+	E_SHELL_WINDOW_ACTIONX ((window), "mail-tools-subscriptions")
 #define E_SHELL_WINDOW_ACTION_MAIL_TO_DO_BAR(window) \
-	E_SHELL_WINDOW_ACTION ((window), "mail-to-do-bar")
+	E_SHELL_WINDOW_ACTIONX ((window), "mail-to-do-bar")
 #define E_SHELL_WINDOW_ACTION_MAIL_UNDELETE(window) \
-	E_SHELL_WINDOW_ACTION ((window), "mail-undelete")
+	E_SHELL_WINDOW_ACTIONX ((window), "mail-undelete")
 #define E_SHELL_WINDOW_ACTION_MAIL_VFOLDER_UNMATCHED_ENABLE(window) \
-	E_SHELL_WINDOW_ACTION ((window), "mail-vfolder-unmatched-enable")
+	E_SHELL_WINDOW_ACTIONX ((window), "mail-vfolder-unmatched-enable")
 #define E_SHELL_WINDOW_ACTION_MAIL_VIEW_CLASSIC(window) \
-	E_SHELL_WINDOW_ACTION ((window), "mail-view-classic")
+	E_SHELL_WINDOW_ACTIONX ((window), "mail-view-classic")
 #define E_SHELL_WINDOW_ACTION_MAIL_VIEW_VERTICAL(window) \
-	E_SHELL_WINDOW_ACTION ((window), "mail-view-vertical")
+	E_SHELL_WINDOW_ACTIONX ((window), "mail-view-vertical")
 #define E_SHELL_WINDOW_ACTION_MAIL_ZOOM_100(window) \
-	E_SHELL_WINDOW_ACTION ((window), "mail-zoom-100")
+	E_SHELL_WINDOW_ACTIONX ((window), "mail-zoom-100")
 #define E_SHELL_WINDOW_ACTION_MAIL_ZOOM_IN(window) \
-	E_SHELL_WINDOW_ACTION ((window), "mail-zoom-in")
+	E_SHELL_WINDOW_ACTIONX ((window), "mail-zoom-in")
 #define E_SHELL_WINDOW_ACTION_MAIL_ZOOM_OUT(window) \
-	E_SHELL_WINDOW_ACTION ((window), "mail-zoom-out")
+	E_SHELL_WINDOW_ACTIONX ((window), "mail-zoom-out")
 
 /* Mail Query Actions */
 #define E_SHELL_WINDOW_ACTION_MAIL_FILTER_ALL_MESSAGES(window) \
-	E_SHELL_WINDOW_ACTION ((window), "mail-filter-all-messages")
+	E_SHELL_WINDOW_ACTIONX ((window), "mail-filter-all-messages")
 #define E_SHELL_WINDOW_ACTION_MAIL_FILTER_IMPORTANT_MESSAGES(window) \
-	E_SHELL_WINDOW_ACTION ((window), "mail-filter-important-messages")
+	E_SHELL_WINDOW_ACTIONX ((window), "mail-filter-important-messages")
 #define E_SHELL_WINDOW_ACTION_MAIL_FILTER_LAST_5_DAYS_MESSAGES(window) \
-	E_SHELL_WINDOW_ACTION ((window), "mail-filter-last-5-days-messages")
+	E_SHELL_WINDOW_ACTIONX ((window), "mail-filter-last-5-days-messages")
 #define E_SHELL_WINDOW_ACTION_MAIL_FILTER_MESSAGE_THREAD(window) \
-	E_SHELL_WINDOW_ACTION ((window), "mail-filter-message-thread")
+	E_SHELL_WINDOW_ACTIONX ((window), "mail-filter-message-thread")
 #define E_SHELL_WINDOW_ACTION_MAIL_FILTER_MESSAGES_NOT_JUNK(window) \
-	E_SHELL_WINDOW_ACTION ((window), "mail-filter-messages-not-junk")
+	E_SHELL_WINDOW_ACTIONX ((window), "mail-filter-messages-not-junk")
 #define E_SHELL_WINDOW_ACTION_MAIL_FILTER_MESSAGES_WITH_ATTACHMENTS(window) \
-	E_SHELL_WINDOW_ACTION ((window), "mail-filter-messages-with-attachments")
+	E_SHELL_WINDOW_ACTIONX ((window), "mail-filter-messages-with-attachments")
 #define E_SHELL_WINDOW_ACTION_MAIL_FILTER_MESSAGES_WITH_NOTES(window) \
-	E_SHELL_WINDOW_ACTION ((window), "mail-filter-messages-with-notes")
+	E_SHELL_WINDOW_ACTIONX ((window), "mail-filter-messages-with-notes")
 #define E_SHELL_WINDOW_ACTION_MAIL_FILTER_NO_LABEL(window) \
-	E_SHELL_WINDOW_ACTION ((window), "mail-filter-no-label")
+	E_SHELL_WINDOW_ACTIONX ((window), "mail-filter-no-label")
 #define E_SHELL_WINDOW_ACTION_MAIL_FILTER_READ_MESSAGES(window) \
-	E_SHELL_WINDOW_ACTION ((window), "mail-filter-read-messages")
+	E_SHELL_WINDOW_ACTIONX ((window), "mail-filter-read-messages")
 #define E_SHELL_WINDOW_ACTION_MAIL_FILTER_UNREAD_MESSAGES(window) \
-	E_SHELL_WINDOW_ACTION ((window), "mail-filter-unread-messages")
+	E_SHELL_WINDOW_ACTIONX ((window), "mail-filter-unread-messages")
 #define E_SHELL_WINDOW_ACTION_MAIL_SCOPE_ALL_ACCOUNTS(window) \
-	E_SHELL_WINDOW_ACTION ((window), "mail-scope-all-accounts")
+	E_SHELL_WINDOW_ACTIONX ((window), "mail-scope-all-accounts")
 #define E_SHELL_WINDOW_ACTION_MAIL_SCOPE_CURRENT_ACCOUNT(window) \
-	E_SHELL_WINDOW_ACTION ((window), "mail-scope-current-account")
+	E_SHELL_WINDOW_ACTIONX ((window), "mail-scope-current-account")
 #define E_SHELL_WINDOW_ACTION_MAIL_SCOPE_CURRENT_FOLDER(window) \
-	E_SHELL_WINDOW_ACTION ((window), "mail-scope-current-folder")
+	E_SHELL_WINDOW_ACTIONX ((window), "mail-scope-current-folder")
 #define E_SHELL_WINDOW_ACTION_MAIL_SCOPE_CURRENT_FOLDER_AND_SUBFOLDERS(window) \
-	E_SHELL_WINDOW_ACTION ((window), "mail-scope-current-folder-and-subfolders")
+	E_SHELL_WINDOW_ACTIONX ((window), "mail-scope-current-folder-and-subfolders")
 #define E_SHELL_WINDOW_ACTION_MAIL_SCOPE_CURRENT_MESSAGE(window) \
-	E_SHELL_WINDOW_ACTION ((window), "mail-scope-current-message")
+	E_SHELL_WINDOW_ACTIONX ((window), "mail-scope-current-message")
 #define E_SHELL_WINDOW_ACTION_MAIL_SEARCH_BODY_CONTAINS(window) \
-	E_SHELL_WINDOW_ACTION ((window), "mail-search-body-contains")
+	E_SHELL_WINDOW_ACTIONX ((window), "mail-search-body-contains")
 #define E_SHELL_WINDOW_ACTION_MAIL_SEARCH_FREE_FORM_EXPR(window) \
-	E_SHELL_WINDOW_ACTION ((window), "mail-search-free-form-expr")
+	E_SHELL_WINDOW_ACTIONX ((window), "mail-search-free-form-expr")
 #define E_SHELL_WINDOW_ACTION_MAIL_SEARCH_MESSAGE_CONTAINS(window) \
-	E_SHELL_WINDOW_ACTION ((window), "mail-search-message-contains")
+	E_SHELL_WINDOW_ACTIONX ((window), "mail-search-message-contains")
 #define E_SHELL_WINDOW_ACTION_MAIL_SEARCH_RECIPIENTS_CONTAIN(window) \
-	E_SHELL_WINDOW_ACTION ((window), "mail-search-recipients-contain")
+	E_SHELL_WINDOW_ACTIONX ((window), "mail-search-recipients-contain")
 #define E_SHELL_WINDOW_ACTION_MAIL_SEARCH_SENDER_CONTAINS(window) \
-	E_SHELL_WINDOW_ACTION ((window), "mail-search-sender-contains")
+	E_SHELL_WINDOW_ACTIONX ((window), "mail-search-sender-contains")
 #define E_SHELL_WINDOW_ACTION_MAIL_SEARCH_SUBJECT_CONTAINS(window) \
-	E_SHELL_WINDOW_ACTION ((window), "mail-search-subject-contains")
+	E_SHELL_WINDOW_ACTIONX ((window), "mail-search-subject-contains")
 #define E_SHELL_WINDOW_ACTION_MAIL_SEARCH_SUBJECT_OR_ADDRESSES_CONTAIN(window) \
-	E_SHELL_WINDOW_ACTION ((window), "mail-search-subject-or-addresses-contain")
+	E_SHELL_WINDOW_ACTIONX ((window), "mail-search-subject-or-addresses-contain")
 
 /* Action Groups */
 #define E_SHELL_WINDOW_ACTION_GROUP_MAIL(window) \

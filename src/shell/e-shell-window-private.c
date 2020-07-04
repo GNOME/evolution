@@ -23,73 +23,39 @@
 #include "e-shell-window-private.h"
 
 static void
-shell_window_save_switcher_style_cb (GtkRadioAction *action,
-                                     GtkRadioAction *current,
-                                     EShellWindow *shell_window)
+shell_window_save_switcher_style_cb (GSimpleAction *action,
+                                     GVariant      *value,
+                                     gpointer       user_data)
 {
 	GSettings *settings;
-	GtkToolbarStyle style;
-	const gchar *string;
+	const gchar *style;
 
 	settings = e_util_ref_settings ("org.gnome.evolution.shell");
+	style = g_variant_get_string (value, NULL);
 
-	style = gtk_radio_action_get_current_value (action);
-
-	switch (style) {
-		case GTK_TOOLBAR_ICONS:
-			string = "icons";
-			break;
-
-		case GTK_TOOLBAR_TEXT:
-			string = "text";
-			break;
-
-		case GTK_TOOLBAR_BOTH:
-		case GTK_TOOLBAR_BOTH_HORIZ:
-			string = "both";
-			break;
-
-		default:
-			string = "toolbar";
-			break;
-	}
-
-	g_settings_set_string (settings, "buttons-style", string);
+	g_settings_set_string (settings, "buttons-style", style);
 	g_object_unref (settings);
 }
 
 static void
 shell_window_init_switcher_style (EShellWindow *shell_window)
 {
-	GtkAction *action;
+	GAction *action;
 	GSettings *settings;
 	GtkToolbarStyle style;
 	gchar *string;
 
+	action = E_SHELL_WINDOW_ACTION (shell_window, "style-switcher");
 	settings = e_util_ref_settings ("org.gnome.evolution.shell");
 
-	action = ACTION (SWITCHER_STYLE_ICONS);
 	string = g_settings_get_string (settings, "buttons-style");
 	g_object_unref (settings);
 
-	if (string != NULL) {
-		if (strcmp (string, "icons") == 0)
-			style = GTK_TOOLBAR_ICONS;
-		else if (strcmp (string, "text") == 0)
-			style = GTK_TOOLBAR_TEXT;
-		else if (strcmp (string, "both") == 0)
-			style = GTK_TOOLBAR_BOTH_HORIZ;
-		else
-			style = -1;
-
-		gtk_radio_action_set_current_value (
-			GTK_RADIO_ACTION (action), style);
-
-		g_free (string);
-	}
+	if (string != NULL)
+		E_SHELL_WINDOW_CHANGE_ACTION_STATE (action, "s", string);
 
 	g_signal_connect (
-		action, "changed",
+		action, "change-state",
 		G_CALLBACK (shell_window_save_switcher_style_cb),
 		shell_window);
 }
@@ -237,7 +203,6 @@ e_shell_window_private_init (EShellWindow *shell_window)
 	e_shell_window_add_action_group (shell_window, "new-window");
 	e_shell_window_add_action_group (shell_window, "lockdown-application-handlers");
 	e_shell_window_add_action_group (shell_window, "lockdown-printing");
-	e_shell_window_add_action_group (shell_window, "lockdown-print-setup");
 	e_shell_window_add_action_group (shell_window, "lockdown-save-to-disk");
 
 	gtk_window_set_title (GTK_WINDOW (shell_window), _("Evolution"));
@@ -400,7 +365,8 @@ e_shell_window_private_constructed (EShellWindow *shell_window)
 {
 	EShellWindowPrivate *priv = shell_window->priv;
 	EShell *shell;
-	GtkAction *action;
+	GAction *action;
+	GtkAction *gtkaction;
 	GtkAccelGroup *accel_group;
 	GtkUIManager *ui_manager;
 	GtkBox *box;
@@ -502,11 +468,11 @@ e_shell_window_private_constructed (EShellWindow *shell_window)
 		G_SETTINGS_BIND_GET |
 		G_SETTINGS_BIND_INVERT_BOOLEAN);
 
-	action_group = ACTION_GROUP (LOCKDOWN_PRINT_SETUP);
+	action = E_SHELL_WINDOW_ACTION (shell_window, "page-setup");
 
 	g_settings_bind (
 		settings, "disable-print-setup",
-		action_group, "visible",
+		action, "enabled",
 		G_SETTINGS_BIND_GET |
 		G_SETTINGS_BIND_INVERT_BOOLEAN);
 
@@ -523,29 +489,29 @@ e_shell_window_private_constructed (EShellWindow *shell_window)
 
 	/* Bind GObject properties to GObject properties. */
 
-	action = ACTION (WORK_OFFLINE);
+	gtkaction = ACTION (WORK_OFFLINE);
 
 	e_binding_bind_property (
 		shell, "online",
-		action, "visible",
+		gtkaction, "visible",
 		G_BINDING_SYNC_CREATE);
 
 	e_binding_bind_property (
 		shell, "network-available",
-		action, "sensitive",
+		gtkaction, "sensitive",
 		G_BINDING_SYNC_CREATE);
 
-	action = ACTION (WORK_ONLINE);
+	gtkaction = ACTION (WORK_ONLINE);
 
 	e_binding_bind_property (
 		shell, "online",
-		action, "visible",
+		gtkaction, "visible",
 		G_BINDING_SYNC_CREATE |
 		G_BINDING_INVERT_BOOLEAN);
 
 	e_binding_bind_property (
 		shell, "network-available",
-		action, "sensitive",
+		gtkaction, "sensitive",
 		G_BINDING_SYNC_CREATE);
 
 	/* Bind GObject properties to GSettings keys. */

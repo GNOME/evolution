@@ -177,6 +177,7 @@ shell_window_update_close_action_cb (EShellWindow *shell_window)
 {
 	EShell *shell;
 	GtkApplication *application;
+	GAction *action;
 	GList *list;
 	gint n_shell_windows = 0;
 
@@ -194,7 +195,8 @@ shell_window_update_close_action_cb (EShellWindow *shell_window)
 
 	/* Disable Close Window if there's only one shell window.
 	 * Helps prevent users from accidentally quitting. */
-	gtk_action_set_sensitive (ACTION (CLOSE), n_shell_windows > 1);
+	action = E_SHELL_WINDOW_ACTION (shell_window, "close");
+	g_simple_action_set_enabled (G_SIMPLE_ACTION (action), n_shell_windows > 1);
 }
 
 static void
@@ -450,24 +452,29 @@ shell_window_menubar_deactivate_cb (GtkWidget *main_menu,
 static GtkWidget *
 shell_window_construct_menubar (EShellWindow *shell_window)
 {
-	GtkWidget *main_menu;
+	EShell *shell;
+	GMenu *main_menu;
+	GtkWidget *menubar;
 
-	main_menu = e_shell_window_get_managed_widget (
-		shell_window, "/main-menu");
+	shell = e_shell_window_get_shell (shell_window);
+	main_menu = gtk_application_get_menu_by_id (
+		GTK_APPLICATION (shell), "shell-menubar");
+	shell_window->priv->menubar = main_menu;
+	menubar = gtk_menu_bar_new_from_model (G_MENU_MODEL (main_menu));
 
-	g_signal_connect (main_menu, "deactivate",
+	g_signal_connect (menubar, "deactivate",
 		G_CALLBACK (shell_window_menubar_deactivate_cb), shell_window);
 
 	e_binding_bind_property (
 		shell_window, "menubar-visible",
-		main_menu, "visible",
+		menubar, "visible",
 		G_BINDING_SYNC_CREATE);
 
 	e_signal_connect_notify (
 		shell_window, "notify::active-view",
 		G_CALLBACK (shell_window_menubar_update_new_menu), NULL);
 
-	return main_menu;
+	return menubar;
 }
 
 static GtkWidget *
