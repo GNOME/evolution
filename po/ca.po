@@ -20062,7 +20062,7 @@ msgstr "Utilitza per carpetes"
 #. Translators: Label of a frame with a list of recipients for whom to use selected account in Send account overrides
 #: ../src/mail/mail-config.ui.h:71
 msgid "Use for Recipients"
-msgstr "Utilitza per destinataris"
+msgstr "Utilitza per a destinataris"
 
 #. Translators: Label of a frame with a list of configured accounts in Send account overrides
 #: ../src/mail/mail-config.ui.h:73 ../src/modules/mail/em-composer-prefs.c:876
