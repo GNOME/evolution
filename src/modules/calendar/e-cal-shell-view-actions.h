@@ -25,139 +25,139 @@
 
 /* Calendar Actions */
 #define E_SHELL_WINDOW_ACTION_CALENDAR_COPY(window) \
-	E_SHELL_WINDOW_ACTION ((window), "calendar-copy")
+	E_SHELL_WINDOW_ACTIONX ((window), "calendar-copy")
 #define E_SHELL_WINDOW_ACTION_CALENDAR_DELETE(window) \
-	E_SHELL_WINDOW_ACTION ((window), "calendar-delete")
+	E_SHELL_WINDOW_ACTIONX ((window), "calendar-delete")
 #define E_SHELL_WINDOW_ACTION_CALENDAR_GO_BACK(window) \
-	E_SHELL_WINDOW_ACTION ((window), "calendar-go-back")
+	E_SHELL_WINDOW_ACTIONX ((window), "calendar-go-back")
 #define E_SHELL_WINDOW_ACTION_CALENDAR_GO_FORWARD(window) \
-	E_SHELL_WINDOW_ACTION ((window), "calendar-go-forward")
+	E_SHELL_WINDOW_ACTIONX ((window), "calendar-go-forward")
 #define E_SHELL_WINDOW_ACTION_CALENDAR_GO_TODAY(window) \
-	E_SHELL_WINDOW_ACTION ((window), "calendar-go-today")
+	E_SHELL_WINDOW_ACTIONX ((window), "calendar-go-today")
 #define E_SHELL_WINDOW_ACTION_CALENDAR_JUMP_TO(window) \
-	E_SHELL_WINDOW_ACTION ((window), "calendar-jump-to")
+	E_SHELL_WINDOW_ACTIONX ((window), "calendar-jump-to")
 #define E_SHELL_WINDOW_ACTION_CALENDAR_NEW(window) \
-	E_SHELL_WINDOW_ACTION ((window), "calendar-new")
+	E_SHELL_WINDOW_ACTIONX ((window), "calendar-new")
 #define E_SHELL_WINDOW_ACTION_CALENDAR_PRINT(window) \
-	E_SHELL_WINDOW_ACTION ((window), "calendar-print")
+	E_SHELL_WINDOW_ACTIONX ((window), "calendar-print")
 #define E_SHELL_WINDOW_ACTION_CALENDAR_PRINT_PREVIEW(window) \
-	E_SHELL_WINDOW_ACTION ((window), "calendar-print-preview")
+	E_SHELL_WINDOW_ACTIONX ((window), "calendar-print-preview")
 #define E_SHELL_WINDOW_ACTION_CALENDAR_PROPERTIES(window) \
-	E_SHELL_WINDOW_ACTION ((window), "calendar-properties")
+	E_SHELL_WINDOW_ACTIONX ((window), "calendar-properties")
 #define E_SHELL_WINDOW_ACTION_CALENDAR_PURGE(window) \
-	E_SHELL_WINDOW_ACTION ((window), "calendar-purge")
+	E_SHELL_WINDOW_ACTIONX ((window), "calendar-purge")
 #define E_SHELL_WINDOW_ACTION_CALENDAR_REFRESH(window) \
-	E_SHELL_WINDOW_ACTION ((window), "calendar-refresh")
+	E_SHELL_WINDOW_ACTIONX ((window), "calendar-refresh")
 #define E_SHELL_WINDOW_ACTION_CALENDAR_REFRESH_BACKEND(window) \
-	E_SHELL_WINDOW_ACTION ((window), "calendar-refresh-backend")
+	E_SHELL_WINDOW_ACTIONX ((window), "calendar-refresh-backend")
 #define E_SHELL_WINDOW_ACTION_CALENDAR_RENAME(window) \
-	E_SHELL_WINDOW_ACTION ((window), "calendar-rename")
+	E_SHELL_WINDOW_ACTIONX ((window), "calendar-rename")
 #define E_SHELL_WINDOW_ACTION_CALENDAR_SEARCH_PREV(window) \
-	E_SHELL_WINDOW_ACTION ((window), "calendar-search-prev")
+	E_SHELL_WINDOW_ACTIONX ((window), "calendar-search-prev")
 #define E_SHELL_WINDOW_ACTION_CALENDAR_SEARCH_NEXT(window) \
-	E_SHELL_WINDOW_ACTION ((window), "calendar-search-next")
+	E_SHELL_WINDOW_ACTIONX ((window), "calendar-search-next")
 #define E_SHELL_WINDOW_ACTION_CALENDAR_SEARCH_STOP(window) \
-	E_SHELL_WINDOW_ACTION ((window), "calendar-search-stop")
+	E_SHELL_WINDOW_ACTIONX ((window), "calendar-search-stop")
 #define E_SHELL_WINDOW_ACTION_CALENDAR_SELECT_ALL(window) \
-	E_SHELL_WINDOW_ACTION ((window), "calendar-select-all")
+	E_SHELL_WINDOW_ACTIONX ((window), "calendar-select-all")
 #define E_SHELL_WINDOW_ACTION_CALENDAR_SELECT_ONE(window) \
-	E_SHELL_WINDOW_ACTION ((window), "calendar-select-one")
+	E_SHELL_WINDOW_ACTIONX ((window), "calendar-select-one")
 #define E_SHELL_WINDOW_ACTION_CALENDAR_VIEW_DAY(window) \
-	E_SHELL_WINDOW_ACTION ((window), "calendar-view-day")
+	E_SHELL_WINDOW_ACTIONX ((window), "calendar-view-day")
 #define E_SHELL_WINDOW_ACTION_CALENDAR_VIEW_LIST(window) \
-	E_SHELL_WINDOW_ACTION ((window), "calendar-view-list")
+	E_SHELL_WINDOW_ACTIONX ((window), "calendar-view-list")
 #define E_SHELL_WINDOW_ACTION_CALENDAR_VIEW_MONTH(window) \
-	E_SHELL_WINDOW_ACTION ((window), "calendar-view-month")
+	E_SHELL_WINDOW_ACTIONX ((window), "calendar-view-month")
 #define E_SHELL_WINDOW_ACTION_CALENDAR_VIEW_WEEK(window) \
-	E_SHELL_WINDOW_ACTION ((window), "calendar-view-week")
+	E_SHELL_WINDOW_ACTIONX ((window), "calendar-view-week")
 #define E_SHELL_WINDOW_ACTION_CALENDAR_VIEW_WORKWEEK(window) \
-	E_SHELL_WINDOW_ACTION ((window), "calendar-view-workweek")
+	E_SHELL_WINDOW_ACTIONX ((window), "calendar-view-workweek")
 
 /* Event Actions */
 #define E_SHELL_WINDOW_ACTION_EVENT_DELEGATE(window) \
-	E_SHELL_WINDOW_ACTION ((window), "event-delegate")
+	E_SHELL_WINDOW_ACTIONX ((window), "event-delegate")
 #define E_SHELL_WINDOW_ACTION_EVENT_DELETE(window) \
-	E_SHELL_WINDOW_ACTION ((window), "event-delete")
+	E_SHELL_WINDOW_ACTIONX ((window), "event-delete")
 #define E_SHELL_WINDOW_ACTION_EVENT_DELETE_OCCURRENCE(window) \
-	E_SHELL_WINDOW_ACTION ((window), "event-delete-occurrence")
+	E_SHELL_WINDOW_ACTIONX ((window), "event-delete-occurrence")
 #define E_SHELL_WINDOW_ACTION_EVENT_DELETE_OCCURRENCE_ALL(window) \
-	E_SHELL_WINDOW_ACTION ((window), "event-delete-occurrence-all")
+	E_SHELL_WINDOW_ACTIONX ((window), "event-delete-occurrence-all")
 #define E_SHELL_WINDOW_ACTION_EVENT_EDIT_AS_NEW(window) \
-	E_SHELL_WINDOW_ACTION ((window), "event-edit-as-new")
+	E_SHELL_WINDOW_ACTIONX ((window), "event-edit-as-new")
 #define E_SHELL_WINDOW_ACTION_EVENT_FORWARD(window) \
-	E_SHELL_WINDOW_ACTION ((window), "event-forward")
+	E_SHELL_WINDOW_ACTIONX ((window), "event-forward")
 #define E_SHELL_WINDOW_ACTION_EVENT_OPEN(window) \
-	E_SHELL_WINDOW_ACTION ((window), "event-open")
+	E_SHELL_WINDOW_ACTIONX ((window), "event-open")
 #define E_SHELL_WINDOW_ACTION_EVENT_PRINT(window) \
-	E_SHELL_WINDOW_ACTION ((window), "event-print")
+	E_SHELL_WINDOW_ACTIONX ((window), "event-print")
 #define E_SHELL_WINDOW_ACTION_EVENT_SAVE_AS(window) \
-	E_SHELL_WINDOW_ACTION ((window), "event-save-as")
+	E_SHELL_WINDOW_ACTIONX ((window), "event-save-as")
 #define E_SHELL_WINDOW_ACTION_EVENT_SCHEDULE(window) \
-	E_SHELL_WINDOW_ACTION ((window), "event-schedule")
+	E_SHELL_WINDOW_ACTIONX ((window), "event-schedule")
 #define E_SHELL_WINDOW_ACTION_EVENT_SCHEDULE_APPOINTMENT(window) \
-	E_SHELL_WINDOW_ACTION ((window), "event-schedule-appointment")
+	E_SHELL_WINDOW_ACTIONX ((window), "event-schedule-appointment")
 #define E_SHELL_WINDOW_ACTION_EVENT_REPLY(window) \
-	E_SHELL_WINDOW_ACTION ((window), "event-reply")
+	E_SHELL_WINDOW_ACTIONX ((window), "event-reply")
 #define E_SHELL_WINDOW_ACTION_EVENT_REPLY_ALL(window) \
-	E_SHELL_WINDOW_ACTION ((window), "event-reply-all")
+	E_SHELL_WINDOW_ACTIONX ((window), "event-reply-all")
 #define E_SHELL_WINDOW_ACTION_EVENT_OCCURRENCE_MOVABLE(window) \
-	E_SHELL_WINDOW_ACTION ((window), "event-occurrence-movable")
+	E_SHELL_WINDOW_ACTIONX ((window), "event-occurrence-movable")
 #define E_SHELL_WINDOW_ACTION_EVENT_MEETING_NEW(window) \
-	E_SHELL_WINDOW_ACTION ((window), "event-meeting-new")
+	E_SHELL_WINDOW_ACTIONX ((window), "event-meeting-new")
 
 /* Memo Pad Actions */
 #define E_SHELL_WINDOW_ACTION_CALENDAR_MEMOPAD_FORWARD(window) \
-        E_SHELL_WINDOW_ACTION ((window), "calendar-memopad-forward")
+        E_SHELL_WINDOW_ACTIONX ((window), "calendar-memopad-forward")
 #define E_SHELL_WINDOW_ACTION_CALENDAR_MEMOPAD_NEW(window) \
-        E_SHELL_WINDOW_ACTION ((window), "calendar-memopad-new")
+        E_SHELL_WINDOW_ACTIONX ((window), "calendar-memopad-new")
 #define E_SHELL_WINDOW_ACTION_CALENDAR_MEMOPAD_OPEN(window) \
-        E_SHELL_WINDOW_ACTION ((window), "calendar-memopad-open")
+        E_SHELL_WINDOW_ACTIONX ((window), "calendar-memopad-open")
 #define E_SHELL_WINDOW_ACTION_CALENDAR_MEMOPAD_OPEN_URL(window) \
-        E_SHELL_WINDOW_ACTION ((window), "calendar-memopad-open-url")
+        E_SHELL_WINDOW_ACTIONX ((window), "calendar-memopad-open-url")
 #define E_SHELL_WINDOW_ACTION_CALENDAR_MEMOPAD_PRINT(window) \
-        E_SHELL_WINDOW_ACTION ((window), "calendar-memopad-print")
+        E_SHELL_WINDOW_ACTIONX ((window), "calendar-memopad-print")
 #define E_SHELL_WINDOW_ACTION_CALENDAR_MEMOPAD_SAVE_AS(window) \
-        E_SHELL_WINDOW_ACTION ((window), "calendar-memopad-save-as")
+        E_SHELL_WINDOW_ACTIONX ((window), "calendar-memopad-save-as")
 
 /* Task Pad Actions */
 #define E_SHELL_WINDOW_ACTION_CALENDAR_TASKPAD_ASSIGN(window) \
-	E_SHELL_WINDOW_ACTION ((window), "calendar-taskpad-assign")
+	E_SHELL_WINDOW_ACTIONX ((window), "calendar-taskpad-assign")
 #define E_SHELL_WINDOW_ACTION_CALENDAR_TASKPAD_FORWARD(window) \
-        E_SHELL_WINDOW_ACTION ((window), "calendar-taskpad-forward")
+        E_SHELL_WINDOW_ACTIONX ((window), "calendar-taskpad-forward")
 #define E_SHELL_WINDOW_ACTION_CALENDAR_TASKPAD_MARK_COMPLETE(window) \
-	E_SHELL_WINDOW_ACTION ((window), "calendar-taskpad-mark-complete")
+	E_SHELL_WINDOW_ACTIONX ((window), "calendar-taskpad-mark-complete")
 #define E_SHELL_WINDOW_ACTION_CALENDAR_TASKPAD_MARK_INCOMPLETE(window) \
-	E_SHELL_WINDOW_ACTION ((window), "calendar-taskpad-mark-incomplete")
+	E_SHELL_WINDOW_ACTIONX ((window), "calendar-taskpad-mark-incomplete")
 #define E_SHELL_WINDOW_ACTION_CALENDAR_TASKPAD_NEW(window) \
-        E_SHELL_WINDOW_ACTION ((window), "calendar-taskpad-new")
+        E_SHELL_WINDOW_ACTIONX ((window), "calendar-taskpad-new")
 #define E_SHELL_WINDOW_ACTION_CALENDAR_TASKPAD_OPEN(window) \
-        E_SHELL_WINDOW_ACTION ((window), "calendar-taskpad-open")
+        E_SHELL_WINDOW_ACTIONX ((window), "calendar-taskpad-open")
 #define E_SHELL_WINDOW_ACTION_CALENDAR_TASKPAD_OPEN_URL(window) \
-        E_SHELL_WINDOW_ACTION ((window), "calendar-taskpad-open-url")
+        E_SHELL_WINDOW_ACTIONX ((window), "calendar-taskpad-open-url")
 #define E_SHELL_WINDOW_ACTION_CALENDAR_TASKPAD_PRINT(window) \
-        E_SHELL_WINDOW_ACTION ((window), "calendar-taskpad-print")
+        E_SHELL_WINDOW_ACTIONX ((window), "calendar-taskpad-print")
 #define E_SHELL_WINDOW_ACTION_CALENDAR_TASKPAD_SAVE_AS(window) \
-        E_SHELL_WINDOW_ACTION ((window), "calendar-taskpad-save-as")
+        E_SHELL_WINDOW_ACTIONX ((window), "calendar-taskpad-save-as")
 
 /* Calendar Query Actions */
 #define E_SHELL_WINDOW_ACTION_CALENDAR_FILTER_ACTIVE_APPOINTMENTS(window) \
-	E_SHELL_WINDOW_ACTION ((window), "calendar-filter-active-appointments")
+	E_SHELL_WINDOW_ACTIONX ((window), "calendar-filter-active-appointments")
 #define E_SHELL_WINDOW_ACTION_CALENDAR_FILTER_ANY_CATEGORY(window) \
-	E_SHELL_WINDOW_ACTION ((window), "calendar-filter-any-category")
+	E_SHELL_WINDOW_ACTIONX ((window), "calendar-filter-any-category")
 #define E_SHELL_WINDOW_ACTION_CALENDAR_FILTER_NEXT_7_DAYS_APPOINTMENTS(window) \
-	E_SHELL_WINDOW_ACTION ((window), "calendar-filter-next-7-days-appointments")
+	E_SHELL_WINDOW_ACTIONX ((window), "calendar-filter-next-7-days-appointments")
 #define E_SHELL_WINDOW_ACTION_CALENDAR_FILTER_OCCURS_LESS_THAN_5_TIMES(window) \
-	E_SHELL_WINDOW_ACTION ((window), "calendar-filter-occurs-less-than-5-times")
+	E_SHELL_WINDOW_ACTIONX ((window), "calendar-filter-occurs-less-than-5-times")
 #define E_SHELL_WINDOW_ACTION_CALENDAR_FILTER_UNMATCHED(window) \
-	E_SHELL_WINDOW_ACTION ((window), "calendar-filter-unmatched")
+	E_SHELL_WINDOW_ACTIONX ((window), "calendar-filter-unmatched")
 #define E_SHELL_WINDOW_ACTION_CALENDAR_SEARCH_ADVANCED_HIDDEN(window) \
-	E_SHELL_WINDOW_ACTION ((window), "calendar-search-advanced-hidden")
+	E_SHELL_WINDOW_ACTIONX ((window), "calendar-search-advanced-hidden")
 #define E_SHELL_WINDOW_ACTION_CALENDAR_SEARCH_ANY_FIELD_CONTAINS(window) \
-	E_SHELL_WINDOW_ACTION ((window), "calendar-search-any-field-contains")
+	E_SHELL_WINDOW_ACTIONX ((window), "calendar-search-any-field-contains")
 #define E_SHELL_WINDOW_ACTION_CALENDAR_SEARCH_DESCRIPTION_CONTAINS(window) \
-	E_SHELL_WINDOW_ACTION ((window), "calendar-search-description-contains")
+	E_SHELL_WINDOW_ACTIONX ((window), "calendar-search-description-contains")
 #define E_SHELL_WINDOW_ACTION_CALENDAR_SEARCH_SUMMARY_CONTAINS(window) \
-	E_SHELL_WINDOW_ACTION ((window), "calendar-search-summary-contains")
+	E_SHELL_WINDOW_ACTIONX ((window), "calendar-search-summary-contains")
 
 /* Action Groups */
 #define E_SHELL_WINDOW_ACTION_GROUP_CALENDAR(window) \

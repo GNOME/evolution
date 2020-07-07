@@ -752,7 +752,7 @@ shell_view_update_actions (EShellView *shell_view)
 {
 	EShellWindow *shell_window;
 	EFocusTracker *focus_tracker;
-	GtkAction *action;
+	GAction *action;
 	GtkActionGroup *action_group;
 
 	g_return_if_fail (e_shell_view_is_active (shell_view));
@@ -765,8 +765,8 @@ shell_view_update_actions (EShellView *shell_view)
 	action_group = E_SHELL_WINDOW_ACTION_GROUP_CUSTOM_RULES (shell_window);
 	gtk_action_group_set_sensitive (action_group, TRUE);
 
-	action = E_SHELL_WINDOW_ACTION_SEARCH_ADVANCED (shell_window);
-	gtk_action_set_sensitive (action, TRUE);
+	action = E_SHELL_WINDOW_ACTION (shell_window, "search-advanced");
+	g_simple_action_set_enabled (G_SIMPLE_ACTION (action), TRUE);
 }
 
 static void

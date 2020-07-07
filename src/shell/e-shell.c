@@ -38,6 +38,7 @@
 
 #include "e-shell-backend.h"
 #include "e-shell-enumtypes.h"
+#include "e-shell-view.h"
 #include "e-shell-window.h"
 #include "e-shell-utils.h"
 
@@ -125,6 +126,124 @@ G_DEFINE_TYPE_WITH_CODE (
 		G_TYPE_INITABLE, e_shell_initable_init)
 	G_IMPLEMENT_INTERFACE (
 		E_TYPE_EXTENSIBLE, NULL))
+
+static void
+app_about (GSimpleAction *action,
+           GVariant      *parameter,
+           gpointer       user_data)
+{
+	EShell *shell = user_data;
+
+	e_shell_utils_run_help_about (shell);
+}
+
+static void
+app_accounts (GSimpleAction *action,
+              GVariant      *parameter,
+              gpointer       user_data)
+{
+	ESourceRegistry *registry;
+	GtkWidget *accounts_window;
+	GtkWindow *shell_window;
+
+	EShell *shell = user_data;
+
+	registry = e_shell_get_registry (shell);
+	accounts_window = e_accounts_window_new (registry);
+	shell_window = gtk_application_get_active_window (GTK_APPLICATION (shell));
+
+	e_accounts_window_show_with_parent (
+		E_ACCOUNTS_WINDOW (accounts_window), shell_window);
+}
+
+static void
+app_help (GSimpleAction *action,
+          GVariant      *parameter,
+          gpointer       user_data)
+{
+	EShell *shell = user_data;
+
+	e_shell_utils_run_help_contents (shell);
+}
+
+static void
+app_import (GSimpleAction *action,
+            GVariant      *parameter,
+            gpointer       user_data)
+{
+	GtkWindow *window;
+	GtkWidget *assistant;
+
+	EShell *shell = user_data;
+
+	window = gtk_application_get_active_window (GTK_APPLICATION (shell));
+	assistant = e_import_assistant_new (window);
+
+	/* These are "Run Last" signals, so use g_signal_connect_after()
+	 * to give the default handlers a chance to run before we destroy
+	 * the window. */
+
+	g_signal_connect_after (
+		assistant, "cancel",
+		G_CALLBACK (gtk_widget_destroy), NULL);
+
+	g_signal_connect_after (
+		assistant, "finished",
+		G_CALLBACK (gtk_widget_destroy), NULL);
+
+	gtk_widget_show (assistant);
+}
+
+static void
+app_new_window (GSimpleAction *action,
+                GVariant      *parameter,
+                gpointer       user_data)
+{
+	GtkWindow *window;
+	EShellView *shell_view;
+	const gchar *view_name;
+
+	EShell *shell = user_data;
+
+	window = e_shell_get_active_window (shell);
+	view_name = e_shell_window_get_active_view (E_SHELL_WINDOW (window));
+	shell_view = e_shell_window_get_shell_view (E_SHELL_WINDOW (window), view_name);
+
+	if (shell_view)
+		e_shell_view_save_state_immediately (shell_view);
+
+	e_shell_create_shell_window (shell, view_name);
+}
+
+static void
+app_preferences (GSimpleAction *action,
+                 GVariant      *parameter,
+                 gpointer       user_data)
+{
+	EShell *shell = user_data;
+
+	e_shell_utils_run_preferences (shell);
+}
+
+static void
+app_quit (GSimpleAction *action,
+          GVariant      *parameter,
+          gpointer       user_data)
+{
+	EShell *shell;
+
+	e_shell_quit (shell, E_SHELL_QUIT_ACTION);
+}
+
+static GActionEntry app_entries[] = {
+	{ "about",        app_about },
+	{ "accounts",     app_accounts },
+	{ "help",         app_help },
+	{ "import",       app_import },
+	{ "new-window",   app_new_window },
+	{ "preferences",  app_preferences },
+	{ "quit",         app_quit },
+};
 
 static void
 shell_alert_response_cb (EShell *shell,
@@ -276,6 +395,16 @@ shell_add_actions (GApplication *application)
 	GSimpleAction *action;
 
 	action_map = G_ACTION_MAP (application);
+
+	g_action_map_add_action_entries (
+		action_map,
+		app_entries, G_N_ELEMENTS (app_entries),
+		application);
+
+	e_shell_set_accelerator (E_SHELL (application), "app.help", "F1");
+	e_shell_set_accelerator (E_SHELL (application), "app.new-window", "<Shift><Ctrl>w");
+	e_shell_set_accelerator (E_SHELL (application), "app.preferences", "<Shift><Ctrl>s");
+	e_shell_set_accelerator (E_SHELL (application), "app.quit", "<Ctrl>q");
 
 	/* Add actions that remote instances can invoke. */
 
@@ -2813,6 +2942,23 @@ e_shell_set_online (EShell *shell,
 		shell_prepare_for_online (shell);
 	else
 		shell_prepare_for_offline (shell);
+}
+
+/**
+ * e_shell_set_accelerator:
+ * @shell: an #EShell
+ * @action_name: the name of the action to associate with the accelerator
+ * @accel: the accelerator
+ *
+ * Associates the detailed action name with an accelerator.
+ **/
+void
+e_shell_set_accelerator (EShell      *shell,
+                         const gchar *action_name,
+                         const gchar *accel)
+{
+	const gchar *vaccels[] = { accel, NULL };
+	gtk_application_set_accels_for_action (GTK_APPLICATION (shell), action_name, vaccels);
 }
 
 /**

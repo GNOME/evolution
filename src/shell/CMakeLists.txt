@@ -6,6 +6,19 @@ configure_file(evo-version.h.in
 	@ONLY
 )
 
+set(RESOURCES
+	gtk/help-overlay.ui
+	gtk/menus.ui
+)
+
+glib_compile_resources(
+	${CMAKE_CURRENT_SOURCE_DIR}
+	e-shell-resources
+	e_shell_resources
+	shell.gresource.xml
+	${RESOURCES}
+)
+
 # ******************************
 # evolution-shell library
 # ******************************
@@ -32,6 +45,7 @@ set(SOURCES
 	e-shell-migrate.h
 	e-shell-window-actions.c
 	${CMAKE_CURRENT_BINARY_DIR}/e-shell-enumtypes.c
+	${CMAKE_CURRENT_BINARY_DIR}/e-shell-resources.c
 	${CMAKE_CURRENT_BINARY_DIR}/evo-version.h
 )
 
@@ -49,6 +63,7 @@ set(HEADERS
 	e-shell-window.h
 	e-shell-window-actions.h
 	${CMAKE_CURRENT_BINARY_DIR}/e-shell-enumtypes.h
+	${CMAKE_CURRENT_BINARY_DIR}/e-shell-resources.h
 )
 
 add_library(evolution-shell SHARED

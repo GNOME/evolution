@@ -59,7 +59,7 @@ static void	e_shell_window_alert_sink_init
 G_DEFINE_TYPE_WITH_CODE (
 	EShellWindow,
 	e_shell_window,
-	GTK_TYPE_WINDOW,
+	GTK_TYPE_APPLICATION_WINDOW,
 	G_IMPLEMENT_INTERFACE (
 		E_TYPE_ALERT_SINK, e_shell_window_alert_sink_init)
 	G_IMPLEMENT_INTERFACE (
@@ -177,6 +177,7 @@ shell_window_update_close_action_cb (EShellWindow *shell_window)
 {
 	EShell *shell;
 	GtkApplication *application;
+	GAction *action;
 	GList *list;
 	gint n_shell_windows = 0;
 
@@ -194,7 +195,8 @@ shell_window_update_close_action_cb (EShellWindow *shell_window)
 
 	/* Disable Close Window if there's only one shell window.
 	 * Helps prevent users from accidentally quitting. */
-	gtk_action_set_sensitive (ACTION (CLOSE), n_shell_windows > 1);
+	action = E_SHELL_WINDOW_ACTION (shell_window, "close");
+	g_simple_action_set_enabled (G_SIMPLE_ACTION (action), n_shell_windows > 1);
 }
 
 static void
@@ -450,24 +452,29 @@ shell_window_menubar_deactivate_cb (GtkWidget *main_menu,
 static GtkWidget *
 shell_window_construct_menubar (EShellWindow *shell_window)
 {
-	GtkWidget *main_menu;
+	EShell *shell;
+	GMenu *main_menu;
+	GtkWidget *menubar;
 
-	main_menu = e_shell_window_get_managed_widget (
-		shell_window, "/main-menu");
+	shell = e_shell_window_get_shell (shell_window);
+	main_menu = gtk_application_get_menu_by_id (
+		GTK_APPLICATION (shell), "shell-menubar");
+	shell_window->priv->menubar = main_menu;
+	menubar = gtk_menu_bar_new_from_model (G_MENU_MODEL (main_menu));
 
-	g_signal_connect (main_menu, "deactivate",
+	g_signal_connect (menubar, "deactivate",
 		G_CALLBACK (shell_window_menubar_deactivate_cb), shell_window);
 
 	e_binding_bind_property (
 		shell_window, "menubar-visible",
-		main_menu, "visible",
+		menubar, "visible",
 		G_BINDING_SYNC_CREATE);
 
 	e_signal_connect_notify (
 		shell_window, "notify::active-view",
 		G_CALLBACK (shell_window_menubar_update_new_menu), NULL);
 
-	return main_menu;
+	return menubar;
 }
 
 static GtkWidget *
@@ -2172,4 +2179,197 @@ e_shell_window_get_need_input (EShellWindow *shell_window,
 	return focused && (GTK_IS_ENTRY (focused) ||
 		GTK_IS_EDITABLE (focused) ||
 		(GTK_IS_TREE_VIEW (focused) && event->keyval != GDK_KEY_F2 && gtk_tree_view_get_search_column (GTK_TREE_VIEW (focused)) >= 0));
+}
+
+/* The depth is how many links we should follow.  Note that the number of links
+ * is not equivalent to the number of submenus.  Sections are also a link in a
+ * GMenuModel.  Therefore, for example, if you wish to position a menu relative
+ * to an item in a section of a submenu, you should let @max_depth be the 2. */
+static void
+merge_menu (GMenu *into,
+            GMenu *from,
+            gint   merge_id,
+            gint   depth,
+            gint   max_depth)
+{
+	gint n_into;
+	gint n_from;
+
+	g_assert (G_IS_MENU (into));
+	g_assert (G_IS_MENU (from));
+
+	if (depth > max_depth)
+		return;
+
+	n_into = g_menu_model_get_n_items (G_MENU_MODEL (into));
+	n_from = g_menu_model_get_n_items (G_MENU_MODEL (from));
+
+	for (gint i = 0; i < n_into; i++) {
+		GMenuModel *link_model;
+		gboolean has_id;
+		const gchar *id;
+		gint before_offset;
+		gint after_offset;
+
+		link_model = g_menu_model_get_item_link (
+			G_MENU_MODEL (into), i, G_MENU_LINK_SECTION);
+		if (link_model) {
+			merge_menu (
+				G_MENU (link_model), from, merge_id,
+				depth + 1, max_depth);
+			g_object_unref (link_model);
+		}
+
+		link_model = g_menu_model_get_item_link (
+			G_MENU_MODEL (into), i, G_MENU_LINK_SUBMENU);
+		if (link_model) {
+			merge_menu (
+				G_MENU (link_model), from, merge_id,
+				depth + 1, max_depth);
+			g_object_unref (link_model);
+		}
+
+		has_id = g_menu_model_get_item_attribute (
+			G_MENU_MODEL (into), i, "id", "s", &id);
+		if (!has_id)
+			continue;
+
+		before_offset = 0;
+		after_offset = 0;
+
+		for (gint j = 0; j < n_from; j++) {
+			GMenuItem *item;
+			gboolean has_position;
+			gchar *position;
+
+			has_position = g_menu_model_get_item_attribute (
+				G_MENU_MODEL (from), j, "before", "s", &position);
+			if (has_position && g_strcmp0 (position, id) == 0) {
+				item = g_menu_item_new_from_model (
+					G_MENU_MODEL (from), j);
+				g_menu_item_set_attribute (
+					item, "merge-id", "i", merge_id);
+				g_menu_insert_item (into, i - before_offset, item);
+				g_object_unref (item);
+
+				before_offset++;
+			}
+
+			has_position = g_menu_model_get_item_attribute (
+				G_MENU_MODEL (from), j, "after", "s", &position);
+			if (has_position && g_strcmp0 (position, id) == 0) {
+				item = g_menu_item_new_from_model (
+					G_MENU_MODEL (from), j);
+				g_menu_item_set_attribute (
+					item, "merge-id", "i", merge_id);
+				/* If we insert an item before the current item in the into
+				 * menu, then the index i places us behind the current item
+				 * in the into menu.  Therefore, we must add before_offset
+				 * to the index. */
+				g_menu_insert_item (
+					into, i + before_offset + after_offset + 1, item);
+				g_object_unref (item);
+
+				after_offset++;
+			}
+		}
+
+		/* Suppose we add an item before the current item in the into menu.  Then,
+		 * at this point, the index i actually places us behind the item we just
+		 * considered.  If we simply incremented the index i, then we would be
+		 * stuck in a loop.  Allowing items in the from menu to be positioned
+		 * relative to one another poses problems, so we skip them and only
+		 * consider items in the original into menu. */
+		i += before_offset + after_offset;
+		n_into += before_offset + after_offset;
+	}
+}
+
+/**
+ * e_shell_window_merge_menu:
+ * @shell_window: an #EShellWindow
+ * @menu: a #GMenu
+ *
+ * Merges @menu with @shell_window<!-- -->'s menubar.
+ *
+ * Returns: A merge id that refers to @menu.  The merge id can be used
+ *          to unmerge the menu with e_shell_window_unmerge_menu().
+ **/
+gint
+e_shell_window_merge_menu (EShellWindow *shell_window,
+                           GMenu        *menu)
+{
+	gint merge_id;
+
+	g_return_val_if_fail (E_IS_SHELL_WINDOW (shell_window), 0);
+	g_return_val_if_fail (G_IS_MENU (menu), 0);
+
+	merge_id = shell_window->priv->menu_merge_id++;
+	merge_menu (shell_window->priv->menubar, menu, merge_id, 0, 2);
+
+	return merge_id;
+}
+
+static void
+unmerge_menu (GMenu *menu,
+              gint   merge_id,
+              gint   depth,
+              gint   max_depth)
+{
+	gint n_items;
+
+	g_assert (G_IS_MENU (menu));
+
+	if (depth > max_depth)
+		return;
+
+	n_items = g_menu_model_get_n_items (G_MENU_MODEL (menu));
+	for (gint i = 0; i < n_items; i++) {
+		gboolean has_merge_id;
+		gint item_merge_id;
+		GMenuModel *link_model;
+
+		has_merge_id = g_menu_model_get_item_attribute (
+			G_MENU_MODEL (menu), i, "merge-id", "i", &item_merge_id);
+		if (has_merge_id && item_merge_id == merge_id) {
+			g_menu_remove (menu, i);
+
+			i--;
+			n_items--;
+		} else {
+			link_model = g_menu_model_get_item_link (
+				G_MENU_MODEL (menu), i, G_MENU_LINK_SECTION);
+			if (link_model) {
+				unmerge_menu (
+					G_MENU (link_model), merge_id,
+					depth + 1, max_depth);
+				g_object_unref (link_model);
+			}
+
+			link_model = g_menu_model_get_item_link (
+				G_MENU_MODEL (menu), i, G_MENU_LINK_SUBMENU);
+			if (link_model) {
+				unmerge_menu (
+					G_MENU (link_model), merge_id,
+					depth + 1, max_depth);
+				g_object_unref (link_model);
+			}
+		}
+	}
+}
+
+/**
+ * e_shell_window_unmerge_menu:
+ * @shell_window: an #EShellWindow
+ * @merge_id: the merge id returned by e_shell_window_merge_menu()
+ *
+ * Unmerges the menu referenced by @merge_id.
+ **/
+void
+e_shell_window_unmerge_menu (EShellWindow *shell_window,
+                             gint          merge_id)
+{
+	g_return_if_fail (E_IS_SHELL_WINDOW (shell_window));
+
+	unmerge_menu (shell_window->priv->menubar, merge_id, 0, 2);
 }
