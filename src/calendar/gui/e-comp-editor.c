@@ -916,11 +916,39 @@ ece_save_component_thread (EAlertSinkThreadJobData *job_data,
 	if (sd->success && !sd->close_after_save) {
 		ICalComponent *comp = NULL;
 		gchar *uid, *rid = NULL;
+		GError *local_error = NULL;
 
 		uid = g_strdup (i_cal_component_get_uid (sd->component));
 		rid = e_cal_util_component_get_recurid_as_string (sd->component);
 
-		sd->success = e_cal_client_get_object_sync (sd->target_client, uid, rid, &comp, cancellable, error);
+		sd->success = e_cal_client_get_object_sync (sd->target_client, uid, rid, &comp, cancellable, &local_error);
+
+		/* Re-read without recurrence ID and add it manually in case the edited component is not a detached instance. */
+		if (!sd->success && rid && *rid && g_error_matches (local_error, E_CAL_CLIENT_ERROR, E_CAL_CLIENT_ERROR_OBJECT_NOT_FOUND)) {
+			g_clear_error (&local_error);
+
+			sd->success = e_cal_client_get_object_sync (sd->target_client, uid, NULL, &comp, cancellable, error);
+
+			if (sd->success && comp) {
+				ICalProperty *rid_prop;
+
+				rid_prop = i_cal_component_get_first_property (sd->component, I_CAL_RECURRENCEID_PROPERTY);
+
+				if (rid_prop) {
+					ICalProperty *clone;
+
+					clone = i_cal_property_clone (rid_prop);
+
+					if (clone)
+						i_cal_component_take_property (comp, clone);
+				}
+
+				g_clear_object (&rid_prop);
+			}
+		} else if (local_error) {
+			g_propagate_error (error, local_error);
+		}
+
 		if (sd->success && comp) {
 			g_clear_object (&sd->component);
 			sd->component = comp;
