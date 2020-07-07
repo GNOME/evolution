@@ -1883,6 +1883,16 @@ eti_unrealize (GnomeCanvasItem *item)
 		(*GNOME_CANVAS_ITEM_CLASS (e_table_item_parent_class)->unrealize)(item);
 }
 
+gboolean
+e_table_item_get_row_selected (ETableItem *eti,
+			       gint row)
+{
+	g_return_val_if_fail (E_IS_TABLE_ITEM (eti), FALSE);
+
+	return row >= 0 && row < eti->rows &&
+		e_selection_model_is_row_selected (E_SELECTION_MODEL (eti->selection), view_to_model_row (eti, row));
+}
+
 static void
 eti_draw_grid_line (ETableItem *eti,
                     cairo_t *cr,
@@ -2035,7 +2045,7 @@ eti_draw (GnomeCanvasItem *item,
 
 		xd = x_offset;
 
-		selected = e_selection_model_is_row_selected (E_SELECTION_MODEL (eti->selection), view_to_model_row (eti,row));
+		selected = e_table_item_get_row_selected (eti, row);
 
 		g_object_get (
 			eti->selection,

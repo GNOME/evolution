@@ -264,7 +264,8 @@ void		e_table_item_cursor_scrolled	(ETableItem *eti);
 
 void		e_table_item_cancel_scroll_to_cursor
 						(ETableItem *eti);
-
+gboolean	e_table_item_get_row_selected	(ETableItem *eti,
+						 gint row);
 void		e_table_item_freeze		(ETableItem *eti);
 void		e_table_item_thaw		(ETableItem *eti);
 

@@ -322,7 +322,9 @@ ect_draw (ECellView *ecell_view,
 
 			r = rect;
 			r.width -= 2;
-			draw_expander (tree_view, cr, expanded ? GTK_EXPANDER_EXPANDED : GTK_EXPANDER_COLLAPSED, GTK_STATE_NORMAL, &r);
+			draw_expander (tree_view, cr,
+				expanded ? GTK_EXPANDER_EXPANDED : GTK_EXPANDER_COLLAPSED,
+				(flags & E_CELL_SELECTED) != 0 ? GTK_STATE_SELECTED : GTK_STATE_NORMAL, &r);
 		}
 	}
 
@@ -392,6 +394,7 @@ typedef struct {
 	ETreeTableAdapter *etta;
 	ETreePath node;
 	gboolean expanded;
+	gboolean selected;
 	gboolean finish;
 	GdkRectangle area;
 } animate_closure_t;
@@ -418,11 +421,9 @@ animate_expander (gpointer data)
 
 	cr = gdk_cairo_create (window);
 
-	draw_expander (
-		closure->ectv, cr, closure->expanded ?
-		GTK_EXPANDER_SEMI_COLLAPSED :
-		GTK_EXPANDER_SEMI_EXPANDED,
-		GTK_STATE_NORMAL, &closure->area);
+	draw_expander (closure->ectv, cr,
+		closure->expanded ? GTK_EXPANDER_SEMI_COLLAPSED : GTK_EXPANDER_SEMI_EXPANDED,
+		closure->selected ? GTK_STATE_SELECTED : GTK_STATE_NORMAL, &closure->area);
 	closure->finish = TRUE;
 
 	cairo_destroy (cr);
@@ -449,6 +450,7 @@ ect_event (ECellView *ecell_view,
 	ETreeTableAdapter *etta = e_cell_tree_get_tree_table_adapter (ecell_view->e_table_model, row);
 	ETreePath node = e_cell_tree_get_node (ecell_view->e_table_model, row);
 	gint offset = offset_of_node (tree_view, ecell_view->e_table_model, row, view_col);
+	gboolean selected = e_table_item_get_row_selected (tree_view->cell_view.e_table_item_view, row);
 	gint result;
 
 	layout = GTK_LAYOUT (tree_view->canvas);
@@ -477,17 +479,16 @@ ect_event (ECellView *ecell_view,
 					area.height += hgt;
 
 				cr = gdk_cairo_create (window);
-				draw_expander (
-					tree_view, cr, expanded ?
-					GTK_EXPANDER_SEMI_EXPANDED :
-					GTK_EXPANDER_SEMI_COLLAPSED,
-					GTK_STATE_NORMAL, &area);
+				draw_expander (tree_view, cr,
+					expanded ? GTK_EXPANDER_SEMI_EXPANDED : GTK_EXPANDER_SEMI_COLLAPSED,
+					selected ? GTK_STATE_SELECTED : GTK_STATE_NORMAL, &area);
 				cairo_destroy (cr);
 
 				closure->ectv = tree_view;
 				closure->etta = etta;
 				closure->node = node;
 				closure->expanded = expanded;
+				closure->selected = selected;
 				closure->area = area;
 				tree_view->animate_timeout =
 					e_named_timeout_add_full (G_PRIORITY_DEFAULT,
@@ -521,7 +522,7 @@ ect_event (ECellView *ecell_view,
 					tree_view, cr,
 					e_tree_table_adapter_node_is_expanded (etta, node) ?
 					GTK_EXPANDER_EXPANDED : GTK_EXPANDER_COLLAPSED,
-					in_expander ? GTK_STATE_PRELIGHT : GTK_STATE_NORMAL, &area);
+					selected ? GTK_STATE_SELECTED : in_expander ? GTK_STATE_PRELIGHT : GTK_STATE_NORMAL, &area);
 				cairo_destroy (cr);
 
 				tree_view->prelit = in_expander;
@@ -548,7 +549,7 @@ ect_event (ECellView *ecell_view,
 				tree_view, cr,
 				e_tree_table_adapter_node_is_expanded (etta, node) ?
 				GTK_EXPANDER_EXPANDED : GTK_EXPANDER_COLLAPSED,
-				GTK_STATE_NORMAL, &area);
+				selected ? GTK_STATE_SELECTED : GTK_STATE_NORMAL, &area);
 			cairo_destroy (cr);
 
 			tree_view->prelit = FALSE;
