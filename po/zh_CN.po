@@ -25,8 +25,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: evolution master\n"
 "Report-Msgid-Bugs-To: https://gitlab.gnome.org/GNOME/evolution/issues\n"
-"POT-Creation-Date: 2020-06-29 13:56+0000\n"
-"PO-Revision-Date: 2020-07-01 14:26-0400\n"
+"POT-Creation-Date: 2020-07-07 16:55+0000\n"
+"PO-Revision-Date: 2020-07-10 12:49-0400\n"
 "Last-Translator: Boyuan Yang <073plan@gmail.com>\n"
 "Language-Team: Chinese (China) <i18n-zh@googlegroups.com>\n"
 "Language: zh_CN\n"
@@ -245,10 +245,6 @@ msgid "Birthday and anniversary reminder units"
 msgstr "生日和纪念日提醒单位"
 
 #: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:6
-#, fuzzy
-#| msgid ""
-#| "Units for a birthday or anniversary reminder, \"minutes\", \"hours\" or "
-#| "\"days\""
 msgid ""
 "Units for a birthday or anniversary reminder, “minutes”, “hours” or “days”"
 msgstr "生日或周年纪念日提醒的单位，可为“分钟”，“小时”或“天”"
@@ -979,10 +975,6 @@ msgid "(Deprecated) First day of the week, from Sunday (0) to Saturday (6)"
 msgstr "(已弃用)一周开始的日子，从星期日(0)到星期六(6)"
 
 #: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:159
-#, fuzzy
-#| msgid ""
-#| "This key was deprecated in version 3.10 and should no longer be used. Use "
-#| "\"week-start-day-name\" instead."
 msgid ""
 "This key was deprecated in version 3.10 and should no longer be used. Use "
 "“week-start-day-name” instead."
@@ -994,18 +986,13 @@ msgid "(Deprecated) Work days"
 msgstr "(已弃用)工作日"
 
 #: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:161
-#, fuzzy
-#| msgid ""
-#| "Days on which the start and end of work hours should be indicated. (This "
-#| "key was deprecated in version 3.10 and should no longer be used. Use the "
-#| "\"work-day-monday\", \"work-day-tuesday\", etc. keys instead.)"
 msgid ""
 "Days on which the start and end of work hours should be indicated. (This key "
 "was deprecated in version 3.10 and should no longer be used. Use the “work-"
 "day-monday”, “work-day-tuesday”, etc. keys instead.)"
 msgstr ""
-"应当指定工作时间开始和结束的日子。(该键在 3.10 版本中已弃用，不应再使用。请转"
-"用 \"work-day-monday\"，\"work-day-tuesday\" 等键。)"
+"应当指定工作时间开始和结束的日子。（该键在 3.10 版本中已弃用，不应再使用。请"
+"转用“work-day-monday”、“work-day-tuesday”等键。）"
 
 #: ../data/org.gnome.evolution.gschema.xml.in.h:1
 msgid "Previous Evolution version"
@@ -1543,10 +1530,8 @@ msgid "Wrap quoted text in replies"
 msgstr "为回复中引用的文本换行"
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:77
-#, fuzzy
-#| msgid "If set to 'true' quoted text in replies will be wrapped."
 msgid "If set to “true” quoted text in replies will be wrapped."
-msgstr "如设置为 true，则将为回复中引用的文本换行"
+msgstr "如设置为”true“，则将为回复中引用的文本换行。"
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:78
 msgid "Convert UTC time in reply credits to local time"
@@ -1641,14 +1626,10 @@ msgid "Enable to use a similar message list view settings for all folders."
 msgstr "启用以在所有文件夹中使用相似的信息列表视图设置。"
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:96
-#, fuzzy
-#| msgid "Mark citations in the message \"Preview\""
 msgid "Mark citations in the message “Preview”"
 msgstr "在信息“预览”中标出引用"
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:97
-#, fuzzy
-#| msgid "Mark citations in the message \"Preview\"."
 msgid "Mark citations in the message “Preview”."
 msgstr "在信息“预览”中标出引用。"
 
@@ -4208,7 +4189,7 @@ msgstr "选项"
 #: ../src/e-util/e-rule-editor.c:187 ../src/e-util/e-rule-editor.c:298
 #: ../src/e-util/e-rule-editor.c:933 ../src/e-util/e-send-options.ui.h:16
 #: ../src/e-util/e-source-config-dialog.c:360
-#: ../src/e-util/e-source-selector-dialog.c:370
+#: ../src/e-util/e-source-selector-dialog.c:325
 #: ../src/e-util/e-table-config.c:548 ../src/e-util/e-table-config.ui.h:3
 #: ../src/e-util/e-timezone-dialog.ui.h:2
 #: ../src/e-util/evolution-source-viewer.c:835 ../src/e-util/e-web-view.c:3932
@@ -4243,7 +4224,7 @@ msgstr "取消(_C)"
 #: ../src/addressbook/gui/contact-list-editor/contact-list-editor.ui.h:3
 #: ../src/addressbook/gui/widgets/eab-contact-merging.c:755
 #: ../src/calendar/calendar.error.xml.h:47
-#: ../src/calendar/gui/e-comp-editor.c:2158
+#: ../src/calendar/gui/e-comp-editor.c:2186
 #: ../src/composer/e-composer-actions.c:242
 #: ../src/composer/e-composer-actions.c:354
 #: ../src/e-util/e-attachment-store.c:848
@@ -4258,8 +4239,8 @@ msgid "_Save"
 msgstr "保存(_S)"
 
 #: ../src/addressbook/gui/contact-editor/contact-editor.ui.h:16
-#: ../src/calendar/gui/e-comp-editor.c:2055
-#: ../src/calendar/gui/e-comp-editor.c:2127
+#: ../src/calendar/gui/e-comp-editor.c:2083
+#: ../src/calendar/gui/e-comp-editor.c:2155
 #: ../src/e-util/e-preferences-window.c:390
 #: ../src/e-util/e-send-options.ui.h:15
 #: ../src/plugins/email-custom-header/org-gnome-email-custom-header.ui.h:2
@@ -4537,25 +4518,25 @@ msgid "Certificates"
 msgstr "证书"
 
 #: ../src/addressbook/gui/contact-editor/e-contact-editor.c:261
-#: ../src/calendar/gui/e-comp-editor.c:2090
+#: ../src/calendar/gui/e-comp-editor.c:2118
 #: ../src/e-util/e-html-editor-actions.c:1107
 msgid "_Undo"
 msgstr "撤消(_U)"
 
 #: ../src/addressbook/gui/contact-editor/e-contact-editor.c:263
-#: ../src/calendar/gui/e-comp-editor.c:2092 ../src/e-util/e-focus-tracker.c:147
+#: ../src/calendar/gui/e-comp-editor.c:2120 ../src/e-util/e-focus-tracker.c:147
 #: ../src/e-util/e-focus-tracker.c:150
 msgid "Undo"
 msgstr "撤消"
 
 #: ../src/addressbook/gui/contact-editor/e-contact-editor.c:268
-#: ../src/calendar/gui/e-comp-editor.c:2097
+#: ../src/calendar/gui/e-comp-editor.c:2125
 #: ../src/e-util/e-html-editor-actions.c:1093
 msgid "_Redo"
 msgstr "重做(_R)"
 
 #: ../src/addressbook/gui/contact-editor/e-contact-editor.c:270
-#: ../src/calendar/gui/e-comp-editor.c:2099 ../src/e-util/e-focus-tracker.c:163
+#: ../src/calendar/gui/e-comp-editor.c:2127 ../src/e-util/e-focus-tracker.c:163
 #: ../src/e-util/e-focus-tracker.c:166
 msgid "Redo"
 msgstr "重做"
@@ -4705,7 +4686,7 @@ msgstr "无效的联系人。"
 #: ../src/e-util/e-rule-editor.c:188 ../src/e-util/e-rule-editor.c:299
 #: ../src/e-util/e-rule-editor.c:934 ../src/e-util/e-send-options.ui.h:17
 #: ../src/e-util/e-source-config-dialog.c:361
-#: ../src/e-util/e-source-selector-dialog.c:371
+#: ../src/e-util/e-source-selector-dialog.c:326
 #: ../src/e-util/e-table-config.c:549 ../src/e-util/e-table-config.ui.h:4
 #: ../src/e-util/e-timezone-dialog.ui.h:3
 #: ../src/mail/e-mail-config-window.c:335 ../src/mail/e-mail-tag-editor.c:162
@@ -5316,7 +5297,7 @@ msgid "Are you sure you want to delete this contact (%s)?"
 msgstr "您确定要删除联系人(%s)吗？"
 
 #: ../src/addressbook/gui/widgets/e-addressbook-view.c:1323
-#: ../src/calendar/gui/e-comp-editor.c:2048
+#: ../src/calendar/gui/e-comp-editor.c:2076
 #: ../src/e-util/e-accounts-window.c:1753 ../src/e-util/e-focus-tracker.c:816
 #: ../src/e-util/evolution-source-viewer.c:806
 #: ../src/e-util/e-webdav-browser.c:2678
@@ -7906,10 +7887,9 @@ msgid "Meeting — %s"
 msgstr "会议 — %s"
 
 #: ../src/calendar/gui/e-comp-editor-event.c:1026
-#, fuzzy, c-format
-#| msgid "Appointment - %s"
+#, c-format
 msgid "Appointment — %s"
-msgstr "约会 - %s"
+msgstr "约会 — %s"
 
 #: ../src/calendar/gui/e-comp-editor-memo.c:59
 #: ../src/calendar/gui/e-comp-editor-memo.c:88
@@ -8123,7 +8103,7 @@ msgstr "出席者(_N)…"
 
 #: ../src/calendar/gui/e-comp-editor-page-general.c:1533
 #: ../src/calendar/gui/e-comp-editor-page-recurrence.c:2321
-#: ../src/calendar/gui/e-comp-editor.c:2113
+#: ../src/calendar/gui/e-comp-editor.c:2141
 #: ../src/e-util/e-accounts-window.c:1745
 #: ../src/e-util/e-html-editor-actions.c:1116
 #: ../src/e-util/e-mail-signature-manager.c:358
@@ -8783,17 +8763,17 @@ msgstr "附件"
 msgid "Sending notifications to attendees…"
 msgstr "正向参与者发送通知……"
 
-#: ../src/calendar/gui/e-comp-editor.c:985
+#: ../src/calendar/gui/e-comp-editor.c:1013
 #: ../src/e-util/e-webdav-browser.c:1799
 msgid "Saving changes…"
 msgstr "正在保存更改……"
 
-#: ../src/calendar/gui/e-comp-editor.c:1245
+#: ../src/calendar/gui/e-comp-editor.c:1273
 msgid "No Summary"
 msgstr "没有概要"
 
 #. == Button box ==
-#: ../src/calendar/gui/e-comp-editor.c:2027
+#: ../src/calendar/gui/e-comp-editor.c:2055
 #: ../src/composer/e-composer-actions.c:333
 #: ../src/e-util/e-accounts-window.c:1778
 #: ../src/e-util/e-html-editor-dialog.c:194
@@ -8813,19 +8793,19 @@ msgstr "没有概要"
 msgid "_Close"
 msgstr "关闭(_C)"
 
-#: ../src/calendar/gui/e-comp-editor.c:2029
+#: ../src/calendar/gui/e-comp-editor.c:2057
 msgid "Close the current window"
 msgstr "关闭当前窗口"
 
 #. copy menu item
-#: ../src/calendar/gui/e-comp-editor.c:2034 ../src/e-util/e-focus-tracker.c:806
+#: ../src/calendar/gui/e-comp-editor.c:2062 ../src/e-util/e-focus-tracker.c:806
 #: ../src/e-util/e-html-editor-actions.c:1072 ../src/e-util/e-text.c:2080
 #: ../src/e-util/e-web-view.c:468 ../src/mail/e-mail-browser.c:173
 #: ../src/mail/mail.error.xml.h:147 ../src/shell/e-shell-window-actions.c:903
 msgid "_Copy"
 msgstr "复制(_C)"
 
-#: ../src/calendar/gui/e-comp-editor.c:2036 ../src/e-util/e-focus-tracker.c:203
+#: ../src/calendar/gui/e-comp-editor.c:2064 ../src/e-util/e-focus-tracker.c:203
 #: ../src/e-util/e-focus-tracker.c:259 ../src/e-util/e-focus-tracker.c:312
 #: ../src/e-util/e-focus-tracker.c:807 ../src/e-util/e-web-view.c:470
 #: ../src/e-util/e-web-view.c:1994 ../src/mail/e-mail-browser.c:175
@@ -8834,51 +8814,51 @@ msgid "Copy the selection"
 msgstr "复制选中内容"
 
 #. cut menu item
-#: ../src/calendar/gui/e-comp-editor.c:2041 ../src/e-util/e-focus-tracker.c:801
+#: ../src/calendar/gui/e-comp-editor.c:2069 ../src/e-util/e-focus-tracker.c:801
 #: ../src/e-util/e-html-editor-actions.c:1079 ../src/e-util/e-text.c:2066
 #: ../src/mail/e-mail-browser.c:180 ../src/shell/e-shell-window-actions.c:910
 msgid "Cu_t"
 msgstr "剪切(_T)"
 
-#: ../src/calendar/gui/e-comp-editor.c:2043 ../src/e-util/e-focus-tracker.c:196
+#: ../src/calendar/gui/e-comp-editor.c:2071 ../src/e-util/e-focus-tracker.c:196
 #: ../src/e-util/e-focus-tracker.c:252 ../src/e-util/e-focus-tracker.c:306
 #: ../src/e-util/e-focus-tracker.c:802 ../src/e-util/e-web-view.c:2003
 #: ../src/mail/e-mail-browser.c:182 ../src/shell/e-shell-window-actions.c:912
 msgid "Cut the selection"
 msgstr "剪切选中内容"
 
-#: ../src/calendar/gui/e-comp-editor.c:2050 ../src/e-util/e-focus-tracker.c:217
+#: ../src/calendar/gui/e-comp-editor.c:2078 ../src/e-util/e-focus-tracker.c:217
 #: ../src/e-util/e-focus-tracker.c:273 ../src/e-util/e-focus-tracker.c:817
 #: ../src/shell/e-shell-window-actions.c:919
 msgid "Delete the selection"
 msgstr "删除选中内容"
 
-#: ../src/calendar/gui/e-comp-editor.c:2057
+#: ../src/calendar/gui/e-comp-editor.c:2085
 msgid "View help"
 msgstr "查看帮助"
 
 #. paste menu item
-#: ../src/calendar/gui/e-comp-editor.c:2062 ../src/e-util/e-focus-tracker.c:811
+#: ../src/calendar/gui/e-comp-editor.c:2090 ../src/e-util/e-focus-tracker.c:811
 #: ../src/e-util/e-html-editor-actions.c:1086 ../src/e-util/e-text.c:2092
 #: ../src/mail/e-mail-browser.c:187 ../src/shell/e-shell-window-actions.c:938
 msgid "_Paste"
 msgstr "粘贴(_P)"
 
-#: ../src/calendar/gui/e-comp-editor.c:2064 ../src/e-util/e-focus-tracker.c:210
+#: ../src/calendar/gui/e-comp-editor.c:2092 ../src/e-util/e-focus-tracker.c:210
 #: ../src/e-util/e-focus-tracker.c:266 ../src/e-util/e-focus-tracker.c:318
 #: ../src/e-util/e-focus-tracker.c:812 ../src/e-util/e-web-view.c:2012
 #: ../src/mail/e-mail-browser.c:189 ../src/shell/e-shell-window-actions.c:940
 msgid "Paste the clipboard"
 msgstr "粘贴剪贴板"
 
-#: ../src/calendar/gui/e-comp-editor.c:2069
+#: ../src/calendar/gui/e-comp-editor.c:2097
 #: ../src/composer/e-composer-actions.c:387 ../src/mail/e-mail-reader.c:2749
 #: ../src/modules/addressbook/e-book-shell-view-actions.c:1319
 #: ../src/modules/addressbook/e-book-shell-view-actions.c:1333
 msgid "_Print…"
 msgstr "打印(_P)…"
 
-#: ../src/calendar/gui/e-comp-editor.c:2076 ../src/mail/e-mail-reader.c:2756
+#: ../src/calendar/gui/e-comp-editor.c:2104 ../src/mail/e-mail-reader.c:2756
 #: ../src/modules/addressbook/e-book-shell-view-actions.c:1326
 #: ../src/modules/calendar/e-cal-shell-view-actions.c:1723
 #: ../src/modules/calendar/e-memo-shell-view-actions.c:838
@@ -8886,56 +8866,56 @@ msgstr "打印(_P)…"
 msgid "Pre_view…"
 msgstr "预览(_V)…"
 
-#: ../src/calendar/gui/e-comp-editor.c:2083 ../src/e-util/e-focus-tracker.c:821
+#: ../src/calendar/gui/e-comp-editor.c:2111 ../src/e-util/e-focus-tracker.c:821
 #: ../src/e-util/e-html-editor-actions.c:1100 ../src/e-util/e-web-view.c:485
 #: ../src/mail/e-mail-browser.c:194 ../src/shell/e-shell-window-actions.c:1015
 msgid "Select _All"
 msgstr "全选(_A)"
 
-#: ../src/calendar/gui/e-comp-editor.c:2085 ../src/e-util/e-focus-tracker.c:224
+#: ../src/calendar/gui/e-comp-editor.c:2113 ../src/e-util/e-focus-tracker.c:224
 #: ../src/e-util/e-focus-tracker.c:280 ../src/e-util/e-focus-tracker.c:822
 #: ../src/mail/e-mail-browser.c:196 ../src/shell/e-shell-window-actions.c:1017
 msgid "Select all text"
 msgstr "选中所有文字"
 
-#: ../src/calendar/gui/e-comp-editor.c:2106
+#: ../src/calendar/gui/e-comp-editor.c:2134
 msgid "_Classification"
 msgstr "分类(_C)"
 
-#: ../src/calendar/gui/e-comp-editor.c:2120
+#: ../src/calendar/gui/e-comp-editor.c:2148
 #: ../src/e-util/e-html-editor-actions.c:1123
 #: ../src/e-util/e-mail-signature-editor.c:333 ../src/mail/e-mail-browser.c:210
 #: ../src/mail/e-mail-notes.c:1029 ../src/shell/e-shell-window-actions.c:1059
 msgid "_File"
 msgstr "文件(_F)"
 
-#: ../src/calendar/gui/e-comp-editor.c:2134
+#: ../src/calendar/gui/e-comp-editor.c:2162
 #: ../src/e-util/e-html-editor-actions.c:1144
 msgid "_Insert"
 msgstr "插入(_I)"
 
-#: ../src/calendar/gui/e-comp-editor.c:2141
+#: ../src/calendar/gui/e-comp-editor.c:2169
 #: ../src/composer/e-composer-actions.c:377
 msgid "_Options"
 msgstr "选项(_O)"
 
-#: ../src/calendar/gui/e-comp-editor.c:2148
+#: ../src/calendar/gui/e-comp-editor.c:2176
 #: ../src/e-util/e-html-editor-actions.c:1165 ../src/mail/e-mail-browser.c:224
 #: ../src/shell/e-shell-window-actions.c:1102
 #: ../src/smime/gui/certificate-manager.c:1646 ../src/smime/gui/smime-ui.ui.h:3
 msgid "_View"
 msgstr "查看(_V)"
 
-#: ../src/calendar/gui/e-comp-editor.c:2160
+#: ../src/calendar/gui/e-comp-editor.c:2188
 msgid "Save current changes"
 msgstr "保存当前更改"
 
-#: ../src/calendar/gui/e-comp-editor.c:2165
+#: ../src/calendar/gui/e-comp-editor.c:2193
 #: ../src/e-util/e-mail-signature-editor.c:328 ../src/mail/e-mail-notes.c:1024
 msgid "Save and Close"
 msgstr "保存并关闭"
 
-#: ../src/calendar/gui/e-comp-editor.c:2167
+#: ../src/calendar/gui/e-comp-editor.c:2195
 msgid "Save current changes and close editor"
 msgstr "保存当前更改并关闭编辑器"
 
@@ -15747,11 +15727,7 @@ msgstr "管理群组"
 msgid "Available Groups:"
 msgstr "可用组："
 
-#: ../src/e-util/e-source-selector-dialog.c:234
-msgid "_Destination"
-msgstr "目标位置(_D)"
-
-#: ../src/e-util/e-source-selector-dialog.c:362
+#: ../src/e-util/e-source-selector-dialog.c:317
 msgid "Select destination"
 msgstr "选择目标位置"
 
@@ -15766,8 +15742,7 @@ msgstr "更多…"
 
 #. + Add to Dictionary
 #: ../src/e-util/e-spell-entry.c:588
-#, fuzzy, c-format
-#| msgid "Add \"%s\" to Dictionary"
+#, c-format
 msgid "Add “%s” to Dictionary"
 msgstr "添加“%s”到字典"
 
@@ -15781,37 +15756,25 @@ msgid "Spelling Suggestions"
 msgstr "拼写建议"
 
 #: ../src/e-util/e-system.error.xml.h:1
-#, fuzzy
-#| msgid "A file named \"{0}\" already exists. Do you want to replace it?"
 msgid "A file named “{0}” already exists. Do you want to replace it?"
 msgstr "已经存在名为“{0}”的文件。您想替换它吗？"
 
 #: ../src/e-util/e-system.error.xml.h:2
-#, fuzzy
-#| msgid ""
-#| "The file already exists in \"{0}\". Replacing it will overwrite its "
-#| "contents."
 msgid ""
 "The file already exists in “{0}”. Replacing it will overwrite its contents."
 msgstr "文件已存在于“{0}”中。若替换它会覆盖其内容。"
 
 #: ../src/e-util/e-system.error.xml.h:4
-#, fuzzy
-#| msgid "Cannot save file \"{0}\"."
 msgid "Cannot save file “{0}”."
 msgstr "无法保存文件“{0}”。"
 
 #: ../src/e-util/e-system.error.xml.h:6
-#, fuzzy
-#| msgid "Cannot open file \"{0}\"."
 msgid "Cannot open file “{0}”."
 msgstr "无法打开文件“{0}”。"
 
 #: ../src/e-util/e-system.error.xml.h:7
-#, fuzzy
-#| msgid "Failed to remove data source &quot;{0}&quot;."
 msgid "Failed to remove data source “{0}”."
-msgstr "无法移除数据源“{0}”。"
+msgstr "移除数据源“{0}”失败。"
 
 #: ../src/e-util/e-system.error.xml.h:8 ../src/mail/mail.error.xml.h:64
 #, fuzzy
@@ -15826,10 +15789,8 @@ msgid "Failed to update data source “{0}”."
 msgstr "无法更新数据源“{0}”。"
 
 #: ../src/e-util/e-system.error.xml.h:10
-#, fuzzy
-#| msgid "Failed to delete resource &quot;{0}&quot;."
 msgid "Failed to delete resource “{0}”."
-msgstr "无法删除资源“{0}”。"
+msgstr "删除资源“{0}”失败。"
 
 #: ../src/e-util/e-system.error.xml.h:11
 #, fuzzy
@@ -16115,10 +16076,8 @@ msgid "Remove This _Column"
 msgstr "删除该列(_C)"
 
 #: ../src/e-util/e-table-header-item.c:1661
-#, fuzzy
-#| msgid "Add a Column"
 msgid "Add a C_olumn…"
-msgstr "添加一列"
+msgstr "添加列(_O)…"
 
 #: ../src/e-util/e-table-header-item.c:1665
 msgid "A_lignment"
@@ -16129,17 +16088,13 @@ msgid "B_est Fit"
 msgstr "最佳匹配(_E)"
 
 #: ../src/e-util/e-table-header-item.c:1671
-#, fuzzy
-#| msgid "Format Column_s..."
 msgid "Format Column_s…"
-msgstr "格式化列(_S)..."
+msgstr "格式化列(_S)…"
 
 #: ../src/e-util/e-table-header-item.c:1675
 #: ../src/shell/e-shell-window-actions.c:1239
-#, fuzzy
-#| msgid "Customize Current View"
 msgid "Custo_mize Current View…"
-msgstr "自定义当前视图"
+msgstr "自定义当前视图(_M)…"
 
 #: ../src/e-util/e-table-header-item.c:1742
 msgid "_Sort By"
@@ -16228,10 +16183,8 @@ msgstr "事件"
 
 #: ../src/e-util/e-webdav-browser.c:515 ../src/mail/em-folder-tree-model.c:1555
 #: ../src/mail/em-folder-tree-model.c:1936
-#, fuzzy
-#| msgid "Loading"
 msgid "Loading…"
-msgstr "载入"
+msgstr "正在载入……"
 
 #: ../src/e-util/e-webdav-browser.c:1368
 #, fuzzy
@@ -16267,10 +16220,8 @@ msgid "Failed to get selected collection HREF"
 msgstr "删除选中参与者失败"
 
 #: ../src/e-util/e-webdav-browser.c:1800
-#, fuzzy
-#| msgid "Failed to save attachments"
 msgid "Failed to save changes"
-msgstr "保存附件失败"
+msgstr "保存更改失败"
 
 #: ../src/e-util/e-webdav-browser.c:1802
 #, fuzzy
@@ -16331,10 +16282,8 @@ msgid "Failed to delete book"
 msgstr "删除联系人失败"
 
 #: ../src/e-util/e-webdav-browser.c:2183
-#, fuzzy
-#| msgid "Opening calendar"
 msgid "Deleting calendar…"
-msgstr "打开日历"
+msgstr "正在删除日历……"
 
 #: ../src/e-util/e-webdav-browser.c:2184
 #, fuzzy
@@ -16363,10 +16312,8 @@ msgid "_Events"
 msgstr "事件(_E)"
 
 #: ../src/e-util/e-webdav-browser.c:2615
-#, fuzzy
-#| msgid "LDAP Servers"
 msgid "WebDAV server:"
-msgstr "LDAP 服务器"
+msgstr "WebDAV 服务器："
 
 #: ../src/e-util/e-webdav-browser.c:2650
 #, fuzzy
@@ -16375,16 +16322,12 @@ msgid "Create _Book"
 msgstr "目标地址簿"
 
 #: ../src/e-util/e-webdav-browser.c:2657
-#, fuzzy
-#| msgid "Weather Calendars"
 msgid "Create _Calendar"
-msgstr "天气月历"
+msgstr "创建日历(_C)"
 
 #: ../src/e-util/e-webdav-browser.c:2664
-#, fuzzy
-#| msgid "Collection"
 msgid "Create Collectio_n"
-msgstr "收藏"
+msgstr "创建收藏(_N)"
 
 #: ../src/e-util/e-web-view.c:407
 msgid "_Copy Link Location"
@@ -16432,17 +16375,13 @@ msgstr "保存该图像为文件"
 
 #: ../src/e-util/e-web-view.c:475 ../src/mail/e-mail-browser.c:201
 #: ../src/mail/e-mail-reader.c:2819
-#, fuzzy
-#| msgid "Search Rule"
 msgid "Search _Web…"
-msgstr "搜索过滤器"
+msgstr "搜索互联网(_W)…"
 
 #: ../src/e-util/e-web-view.c:477 ../src/mail/e-mail-browser.c:203
 #: ../src/mail/e-mail-reader.c:2821
-#, fuzzy
-#| msgid "Send a message to the selected contacts"
 msgid "Search the Web with the selected text"
-msgstr "给选中的联系人发送信息"
+msgstr "在网上搜索选中的文本"
 
 #: ../src/e-util/e-web-view.c:487 ../src/e-util/e-web-view.c:2016
 msgid "Select all text and images"
@@ -16457,10 +16396,9 @@ msgid "Save Image"
 msgstr "保存图像"
 
 #: ../src/e-util/e-web-view.c:3967
-#, fuzzy, c-format
-#| msgid "Saving image to '%s'"
+#, c-format
 msgid "Saving image to “%s”"
-msgstr "正在保存图像至 %s"
+msgstr "正在保存图像至”%s“"
 
 #: ../src/e-util/e-web-view.c:4114
 #, fuzzy, c-format
@@ -16469,26 +16407,18 @@ msgid "Cannot get URI “%s”, do not know how to download it."
 msgstr "不能获取 URI “%s”，不知道如何下载。"
 
 #: ../src/e-util/e-widget-undo.c:428
-#, fuzzy
-#| msgid "Undo 'Insert text'"
 msgid "Undo “Insert text”"
 msgstr "撤消“插入文字”"
 
 #: ../src/e-util/e-widget-undo.c:430
-#, fuzzy
-#| msgid "Redo 'Insert text'"
 msgid "Redo “Insert text”"
 msgstr "重做“插入文字”"
 
 #: ../src/e-util/e-widget-undo.c:444
-#, fuzzy
-#| msgid "Undo 'Delete text'"
 msgid "Undo “Delete text”"
 msgstr "撤消 ”删除文字“"
 
 #: ../src/e-util/e-widget-undo.c:446
-#, fuzzy
-#| msgid "Redo 'Delete text'"
 msgid "Redo “Delete text”"
 msgstr "重做“删除文字”"
 
@@ -16509,20 +16439,14 @@ msgid "You must specify a filename."
 msgstr "您必须指定一个文件名。"
 
 #: ../src/e-util/filter.error.xml.h:5
-#, fuzzy
-#| msgid "File &quot;{0}&quot; does not exist or is not a regular file."
 msgid "File “{0}” does not exist or is not a regular file."
 msgstr "文件“{0}”不存在或不是普通文件。"
 
 #: ../src/e-util/filter.error.xml.h:6
-#, fuzzy
-#| msgid "Bad regular expression &quot;{0}&quot;."
 msgid "Bad regular expression “{0}”."
 msgstr "无效的正则表达式“{0}”。"
 
 #: ../src/e-util/filter.error.xml.h:7
-#, fuzzy
-#| msgid "Could not compile regular expression &quot;{1}&quot;."
 msgid "Could not compile regular expression “{1}”."
 msgstr "无法编译正则表达式“{1}”。"
 
@@ -16535,8 +16459,6 @@ msgid "You must name this filter."
 msgstr "您必须为该过滤规则命名。"
 
 #: ../src/e-util/filter.error.xml.h:10
-#, fuzzy
-#| msgid "Name &quot;{0}&quot; already used."
 msgid "Name “{0}” already used."
 msgstr "名称“{0}”已使用。"
 
@@ -16561,8 +16483,6 @@ msgid "One or more values cannot be empty."
 msgstr "一个或多个值不能为空。"
 
 #: ../src/e-util/filter.error.xml.h:16
-#, fuzzy
-#| msgid "Are you sure you want to remove rule '{0}'?"
 msgid "Are you sure you want to remove rule “{0}”?"
 msgstr "您确定要删除规则“{0}”吗？"
 
@@ -16740,16 +16660,13 @@ msgid "Could not save signature."
 msgstr "无法保存签名。"
 
 #: ../src/e-util/widgets.error.xml.h:10
-#, fuzzy
-#| msgid "Could not get a selection to delete."
 msgid "Could not get selected text."
-msgstr "无法获得要删除的选中项。"
+msgstr "无法获取选中的文本。"
 
 #: ../src/libemail-engine/e-mail-folder-utils.c:106
-#, fuzzy, c-format
-#| msgid "Saving message to folder '%s'"
+#, c-format
 msgid "Saving message to folder “%s”"
-msgstr "把信息保存到文件夹 %s 中"
+msgstr "正在保存信息至文件夹”%s“"
 
 #: ../src/libemail-engine/e-mail-folder-utils.c:567
 msgid "Forwarded messages"
@@ -16764,19 +16681,17 @@ msgstr[0] "收取 %d 封信"
 
 #: ../src/libemail-engine/e-mail-folder-utils.c:779
 msgid "Scanning messages for duplicates"
-msgstr "扫描信息中的重复信息？"
+msgstr "扫描信息中的重复信息"
 
 #: ../src/libemail-engine/e-mail-folder-utils.c:1152
-#, fuzzy, c-format
-#| msgid "Removing folder '%s'"
+#, c-format
 msgid "Removing folder “%s”"
-msgstr "删除文件夹 %s"
+msgstr "正在删除文件夹“%s”"
 
 #: ../src/libemail-engine/e-mail-folder-utils.c:1333
-#, fuzzy, c-format
-#| msgid "File \"%s\" has been removed."
+#, c-format
 msgid "File “%s” has been removed."
-msgstr "已经删除了“%s”文件。"
+msgstr "文件“%s”已删除。"
 
 #: ../src/libemail-engine/e-mail-folder-utils.c:1337
 msgid "File has been removed."
@@ -16793,10 +16708,9 @@ msgid_plural "Saving %d messages"
 msgstr[0] "保存 %d 封信"
 
 #: ../src/libemail-engine/e-mail-folder-utils.c:1963
-#, fuzzy, c-format
-#| msgid "Invalid folder URI '%s'"
+#, c-format
 msgid "Invalid folder URI “%s”"
-msgstr "无效的文件夹 URI：“%s”"
+msgstr "无效的文件夹 URI “%s”"
 
 #. Some local folders
 #: ../src/libemail-engine/e-mail-session.c:120
@@ -16930,17 +16844,15 @@ msgid "Sending message"
 msgstr "发送信息"
 
 #: ../src/libemail-engine/e-mail-store-utils.c:188
-#, fuzzy, c-format
-#| msgid "Disconnecting from '%s'"
+#, c-format
 msgid "Disconnecting from “%s”"
-msgstr "断开与 %s 的连接"
+msgstr "正在断开与“%s”的连接"
 
 #: ../src/libemail-engine/e-mail-store-utils.c:264
 #: ../src/mail/e-mail-backend.c:1048
-#, fuzzy, c-format
-#| msgid "Reconnecting to '%s'"
+#, c-format
 msgid "Reconnecting to “%s”"
-msgstr "重新连接到 %s"
+msgstr "正在重新连接到”%s“"
 
 #: ../src/libemail-engine/e-mail-store-utils.c:349
 #: ../src/mail/mail-send-recv.c:1086
@@ -16971,10 +16883,9 @@ msgstr ""
 "原错误为：%s"
 
 #: ../src/libemail-engine/mail-ops.c:225
-#, fuzzy, c-format
-#| msgid "Fetching mail from '%s'"
+#, c-format
 msgid "Fetching mail from “%s”"
-msgstr "正在从 '%s' 收取邮件"
+msgstr "正在从”%s“收取邮件"
 
 #: ../src/libemail-engine/mail-ops.c:738
 #, fuzzy, c-format
@@ -17016,22 +16927,19 @@ msgid "Complete."
 msgstr "完成。"
 
 #: ../src/libemail-engine/mail-ops.c:1221
-#, fuzzy, c-format
-#| msgid "Moving messages to '%s'"
+#, c-format
 msgid "Moving messages to “%s”"
-msgstr "正在移动信息至 %s"
+msgstr "正在移动信息至”%s“"
 
 #: ../src/libemail-engine/mail-ops.c:1222
-#, fuzzy, c-format
-#| msgid "Copying messages to '%s'"
+#, c-format
 msgid "Copying messages to “%s”"
-msgstr "把信息复制到 %s"
+msgstr "正在复制信息至”%s“"
 
 #: ../src/libemail-engine/mail-ops.c:1341
-#, fuzzy, c-format
-#| msgid "Storing folder '%s'"
+#, c-format
 msgid "Storing folder “%s”"
-msgstr "存储文件夹“%s”"
+msgstr "正在保存文件夹“%s”"
 
 #: ../src/libemail-engine/mail-ops.c:1469
 #, fuzzy, c-format
@@ -19114,16 +19022,12 @@ msgid "Add Ac_tion"
 msgstr "添加动作(_T)"
 
 #: ../src/mail/em-folder-properties.c:170
-#, fuzzy
-#| msgid "Selected Column"
 msgid "Select Custom Icon"
-msgstr "选中列"
+msgstr "选择自定义图标"
 
 #: ../src/mail/em-folder-properties.c:219
-#, fuzzy
-#| msgid "Use custom fonts"
 msgid "_Use custom icon"
-msgstr "使用自定义字体"
+msgstr "使用自定义图标(_U)"
 
 #: ../src/mail/em-folder-properties.c:312
 msgid "Use te_xt color"
@@ -19242,10 +19146,8 @@ msgid "Folder Properties"
 msgstr "文件夹属性"
 
 #: ../src/mail/em-folder-properties.c:1694
-#, fuzzy
-#| msgid "Category Properties"
 msgid "Gathering folder properties"
-msgstr "类别属性"
+msgstr "正在收集文件夹属性"
 
 #: ../src/mail/em-folder-selection-button.c:80
 msgid "<click here to select a folder>"
@@ -19256,8 +19158,6 @@ msgid "Create a new folder"
 msgstr "创建新文件夹"
 
 #: ../src/mail/em-folder-tree.c:684
-#, fuzzy
-#| msgid "Folder names cannot contain '/'"
 msgid "Folder names cannot contain “/”"
 msgstr "文件夹名不能含有字符“/”"
 
@@ -19321,28 +19221,24 @@ msgid "UNMATCHED"
 msgstr "不匹配"
 
 #: ../src/mail/em-folder-utils.c:111
-#, fuzzy, c-format
-#| msgid "Removing folder '%s'"
+#, c-format
 msgid "Moving folder “%s”"
-msgstr "删除文件夹 %s"
+msgstr "正在移动文件夹“%s”"
 
 #: ../src/mail/em-folder-utils.c:113
-#, fuzzy, c-format
-#| msgid "Storing folder '%s'"
+#, c-format
 msgid "Copying folder “%s”"
-msgstr "存储文件夹“%s”"
+msgstr "正在复制文件夹“%s”"
 
 #: ../src/mail/em-folder-utils.c:252
-#, fuzzy, c-format
-#| msgid "Removing folder '%s'"
+#, c-format
 msgid "Moving folder “%s” (%d/%d)"
-msgstr "删除文件夹 %s"
+msgstr "移动文件夹“%s” (%d/%d)"
 
 #: ../src/mail/em-folder-utils.c:252
-#, fuzzy, c-format
-#| msgid "Storing folder '%s'"
+#, c-format
 msgid "Copying folder “%s” (%d/%d)"
-msgstr "存储文件夹“%s”"
+msgstr "复制文件夹“%s” (%d/%d)"
 
 #: ../src/mail/em-folder-utils.c:569
 msgid "Move Folder To"
@@ -19975,10 +19871,8 @@ msgstr[0] ""
 "“%s”。"
 
 #: ../src/mail/mail-autofilter.c:560
-#, fuzzy
-#| msgid "Message Filters"
 msgid "Open Message Filters"
-msgstr "邮件过滤器"
+msgstr "打开邮件过滤器"
 
 #: ../src/mail/mail-config.ui.h:1
 msgid "Set custom junk header"
@@ -23240,10 +23134,8 @@ msgstr "保存为 iCalendar"
 #: ../src/modules/calendar/e-cal-shell-view-actions.c:1228
 #: ../src/modules/calendar/e-memo-shell-view-actions.c:591
 #: ../src/modules/calendar/e-task-shell-view-actions.c:717
-#, fuzzy
-#| msgid "_Copy"
 msgid "_Copy…"
-msgstr "复制(_C)"
+msgstr "复制(_C)…"
 
 #: ../src/modules/calendar/e-cal-shell-view-actions.c:1235
 msgid "D_elete Calendar"
@@ -23274,10 +23166,8 @@ msgid "Select a specific date"
 msgstr "选择特定日期"
 
 #: ../src/modules/calendar/e-cal-shell-view-actions.c:1270
-#, fuzzy
-#| msgid "_Manage Calendar groups..."
 msgid "_Manage Calendar groups…"
-msgstr "管理日历组...(_M)"
+msgstr "管理日历组(_M)…"
 
 #: ../src/modules/calendar/e-cal-shell-view-actions.c:1272
 msgid "Manage Calendar groups order and visibility"
@@ -23441,10 +23331,8 @@ msgid "Converts an appointment to a meeting"
 msgstr "转换约会为会议"
 
 #: ../src/modules/calendar/e-cal-shell-view-actions.c:1466
-#, fuzzy
-#| msgid "Conv_ert to Appointment..."
 msgid "Conv_ert to Appointment…"
-msgstr "转换到约会(_E)..."
+msgstr "转换为约会(_E)…"
 
 #: ../src/modules/calendar/e-cal-shell-view-actions.c:1468
 msgid "Converts a meeting to an appointment"
@@ -23495,8 +23383,6 @@ msgid "Active Appointments"
 msgstr "活动约会"
 
 #: ../src/modules/calendar/e-cal-shell-view-actions.c:1661
-#, fuzzy
-#| msgid "Next 7 Days' Appointments"
 msgid "Next 7 Days’ Appointments"
 msgstr "下一周的约会"
 
@@ -23524,10 +23410,8 @@ msgstr "概要含有"
 #: ../src/modules/calendar/e-memo-shell-view-actions.c:845
 #: ../src/modules/calendar/e-task-shell-view-actions.c:1046
 #: ../src/modules/calendar/e-task-shell-view-actions.c:1060
-#, fuzzy
-#| msgid "Print"
 msgid "Print…"
-msgstr "打印"
+msgstr "打印…"
 
 #: ../src/modules/calendar/e-cal-shell-view-actions.c:1718
 msgid "Print this calendar"
@@ -23850,10 +23734,8 @@ msgid "_Delete Task"
 msgstr "删除任务(_D)"
 
 #: ../src/modules/calendar/e-task-shell-view-actions.c:703
-#, fuzzy
-#| msgid "_Find in Task..."
 msgid "_Find in Task…"
-msgstr "在任务中查找(_F)..."
+msgstr "在任务中查找(_F)…"
 
 #: ../src/modules/calendar/e-task-shell-view-actions.c:705
 msgid "Search for text in the displayed task"
@@ -23868,10 +23750,8 @@ msgid "Delete the selected task list"
 msgstr "重命名选中任务列表"
 
 #: ../src/modules/calendar/e-task-shell-view-actions.c:731
-#, fuzzy
-#| msgid "_Manage Task List groups..."
 msgid "_Manage Task List groups…"
-msgstr "管理任务列表组...(_M)"
+msgstr "管理任务列表组(_M)…"
 
 #: ../src/modules/calendar/e-task-shell-view-actions.c:738
 msgid "_New Task List"
@@ -23976,10 +23856,8 @@ msgid_plural "%d tasks"
 msgstr[0] "%d 个任务"
 
 #: ../src/modules/composer-to-meeting/e-composer-to-meeting.c:380
-#, fuzzy
-#| msgid "Create a _Meeting"
 msgid "Convert to M_eeting"
-msgstr "创建一个会议(_M)"
+msgstr "转换为会议(_E)"
 
 #: ../src/modules/composer-to-meeting/e-composer-to-meeting.c:382
 #, fuzzy
@@ -24044,8 +23922,6 @@ msgstr ""
 
 #: ../src/modules/config-lookup/e-srv-config-lookup.c:97
 #: ../src/modules/config-lookup/e-srv-config-lookup.c:98
-#, fuzzy
-#| msgid "LDAP Servers"
 msgid "LDAP server"
 msgstr "LDAP 服务器"
 
@@ -24615,14 +24491,12 @@ msgid_plural ""
 msgstr[0] "日历“%s”中的一个约会与此会议冲突"
 
 #: ../src/modules/itip-formatter/itip-view.c:3826
-#, fuzzy, c-format
-#| msgid "Found the appointment in the calendar '%s'"
+#, c-format
 msgid "Found the appointment in the calendar “%s”"
 msgstr "在日历“%s”中找到了约会"
 
 #: ../src/modules/itip-formatter/itip-view.c:3831
-#, fuzzy, c-format
-#| msgid "Moving a task into the task list '%s'"
+#, c-format
 msgid "Found the task in the task list “%s”"
 msgstr "正在将任务移至任务列表“%s”"
 
@@ -24633,10 +24507,8 @@ msgid "Found the memo in the memo list “%s”"
 msgstr "正在将备忘移至备忘录“%s”"
 
 #: ../src/modules/itip-formatter/itip-view.c:3847
-#, fuzzy
-#| msgid "The meeting is invalid and cannot be updated"
 msgid "This meeting invitation is obsolete. It had been updated."
-msgstr "会议无效，无法更新"
+msgstr "此会议邀请已过时。它已被更新。"
 
 #: ../src/modules/itip-formatter/itip-view.c:3989
 msgid "Unable to find any calendars"
@@ -24767,16 +24639,12 @@ msgid "Sent to memo list “%s” as cancelled"
 msgstr "将“%s”作为已取消日历发送"
 
 #: ../src/modules/itip-formatter/itip-view.c:4907
-#, fuzzy
-#| msgid "Saving changes to the calendar. Please wait..."
 msgid "Saving changes to the calendar. Please wait…"
-msgstr "正在保存日历更改，请稍候..."
+msgstr "正在保存日历更改，请稍候……"
 
 #: ../src/modules/itip-formatter/itip-view.c:4910
-#, fuzzy
-#| msgid "Saving changes to the calendar. Please wait..."
 msgid "Saving changes to the task list. Please wait…"
-msgstr "正在保存日历更改，请稍候..."
+msgstr "正在保存任务列表更改，请稍候……"
 
 #: ../src/modules/itip-formatter/itip-view.c:4913
 #, fuzzy
@@ -24932,29 +24800,24 @@ msgstr "添加 Google Con_tacts 到此帐号"
 #. Translators: This is part of a sentence "You may need to enable IMAP access and Calendars to synchronize",
 #. where the 'IMAP access' and 'Calendars to synchronize' are clickable.
 #: ../src/modules/mail-config/e-mail-config-google-summary.c:330
-#, fuzzy
-#| msgid "IMAP Headers"
 msgctxt "GoggleSummary"
 msgid "IMAP access"
-msgstr "IMAP 信头"
+msgstr "IMAP 访问"
 
 #. Translators: This is part of a sentence "You may need to enable IMAP access and Calendars to synchronize",
 #. where the 'IMAP access' and 'Calendars to synchronize' are clickable.
 #: ../src/modules/mail-config/e-mail-config-google-summary.c:333
-#, fuzzy
-#| msgid "Calendars to run reminders for"
 msgctxt "GoggleSummary"
 msgid "Calendars to synchronize"
-msgstr "用来运行提醒的日历"
+msgstr "要同步的日历"
 
 #. Translators: This is part of a sentence "You may need to enable IMAP access and Calendars to synchronize",
 #. where the 'IMAP access' and 'Calendars to synchronize' are clickable.
 #: ../src/modules/mail-config/e-mail-config-google-summary.c:336
-#, fuzzy, c-format
-#| msgid "You may need to enable IMAP access"
+#, c-format
 msgctxt "GoggleSummary"
 msgid "You may need to enable %s and %s"
-msgstr "您可能需要启用 IMAP 访问"
+msgstr "您可能需要启用 %s 和 %s"
 
 #: ../src/modules/mail-config/e-mail-config-local-accounts.c:268
 #: ../src/modules/mail-config/e-mail-config-local-accounts.c:316
@@ -25069,19 +24932,14 @@ msgid "Cus_tom arguments:"
 msgstr "自定义参数(_T)："
 
 #: ../src/modules/mail-config/e-mail-config-sendmail-backend.c:120
-#, fuzzy
-#| msgid ""
-#| "Default arguments are '-i -f %F -- %R', where\n"
-#| "   %F - stands for the From address\n"
-#| "   %R - stands for the recipient addresses"
 msgid ""
 "Default arguments are “-i -f %F -- %R”, where\n"
 "   %F — stands for the From address\n"
 "   %R — stands for the recipient addresses"
 msgstr ""
-"默认参数是 '-i -f %F -- %R'，其中\n"
-"   %F - 表示来源地址\n"
-"   %R - 表示收件人地址"
+"默认参数是”-i -f %F -- %R“，其中\n"
+"   %F — 表示来源地址\n"
+"   %R — 表示收件人地址"
 
 #: ../src/modules/mail-config/e-mail-config-sendmail-backend.c:135
 msgid "Send mail also when in offline _mode"
@@ -28475,6 +28333,9 @@ msgstr "无法写存储到磁盘，错误码：%i"
 #: ../src/smime/lib/e-pkcs12.c:407
 msgid "Imported Certificate"
 msgstr "导入的证书"
+
+#~ msgid "_Destination"
+#~ msgstr "目标位置(_D)"
 
 #~ msgid "Evolution Alarm Notify"
 #~ msgstr "Evolution 提醒通知"
