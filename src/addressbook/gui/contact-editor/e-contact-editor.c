@@ -2461,7 +2461,8 @@ append_to_address_label (gchar *address_label,
 
 static void
 set_address_label (EContact *contact,
-                   EContactField field,
+                   EContactField label_field,
+                   EContactField address_field,
                    EContactAddress *address)
 {
 	gchar *address_label = NULL;
@@ -2469,7 +2470,7 @@ set_address_label (EContact *contact,
 	GSettings *settings;
 
 	if (!address) {
-		e_contact_set (contact, field, NULL);
+		e_contact_set (contact, label_field, NULL);
 		return;
 	}
 
@@ -2477,13 +2478,8 @@ set_address_label (EContact *contact,
 	format_address = g_settings_get_boolean (settings, "address-formatting");
 	g_object_unref (settings);
 
-	if (format_address) {
-		address_label = eab_format_address (
-			contact,
-			(field == E_CONTACT_ADDRESS_LABEL_WORK) ?
-				E_CONTACT_ADDRESS_WORK :
-				E_CONTACT_ADDRESS_HOME);
-	}
+	if (format_address)
+		address_label = eab_format_address (contact, address_field);
 
 	if (!format_address || !address_label) {
 		address_label = append_to_address_label (
@@ -2502,7 +2498,7 @@ set_address_label (EContact *contact,
 			address_label, address->country, TRUE);
 	}
 
-	e_contact_set (contact, field, address_label);
+	e_contact_set (contact, label_field, address_label);
 	g_free (address_label);
 }
 
@@ -2523,11 +2519,11 @@ extract_address_record (EContactEditor *editor,
 	    !STRING_IS_EMPTY (address->po)       ||
 	    !STRING_IS_EMPTY (address->country)) {
 		e_contact_set (editor->priv->contact, addresses[record], address);
-		set_address_label (editor->priv->contact, address_labels[record], address);
+		set_address_label (editor->priv->contact, address_labels[record], addresses[record], address);
 	}
 	else {
 		e_contact_set (editor->priv->contact, addresses[record], NULL);
-		set_address_label (editor->priv->contact, address_labels[record], NULL);
+		set_address_label (editor->priv->contact, address_labels[record], addresses[record], NULL);
 	}
 
 	e_contact_address_free (address);
