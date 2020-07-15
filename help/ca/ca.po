@@ -4296,7 +4296,7 @@ msgid ""
 msgstr ""
 "Lliurament local: si voleu moure el correu electrònic de la cua (la ubicació "
 "on el correu espera el lliurament) i emmagatzemar-lo al vostre directori "
-"personal. Heu d'indicar la ruta d'accés la cua de correu que voleu "
+"personal. Heu d'indicar el camí d'accés a la cua de correu que voleu "
 "utilitzar. Si voleu deixar el correu electrònic en els fitxers de cua del "
 "vostre sistema, seleccioneu l'opció <gui>Standard Unix Mbox Spool</gui>."
 
@@ -7718,7 +7718,7 @@ msgid ""
 "\"mail-encryption\">encryption</link>."
 msgstr ""
 "\"Signatura\" també s'utilitza de manera diferent en termes d'<link xref="
-"\"mail-encryption\">encriptació</link>."
+"\"mail-encryption\">xifratge</link>."
 
 #. (itstool) path: info/desc
 #: C/mail-composer-mail-signatures-per-account.page:5
@@ -9296,7 +9296,7 @@ msgstr ""
 #: C/mail-encryption-gpg-create-key.page:5
 msgid "Signing or encrypting messages that you send via GPG/OpenPGP."
 msgstr ""
-"Signatura o encriptat dels missatges que s'enviïn a través de GPG / OpenPGP."
+"Signatura o xifratge dels missatges que s'enviïn a través de GPG / OpenPGP."
 
 #. (itstool) path: page/title
 #: C/mail-encryption-gpg-create-key.page:20
@@ -9315,7 +9315,7 @@ msgid ""
 "pgp-publish\">share your public key with your friends to allow them sending "
 "you encrypted messages</link>."
 msgstr ""
-"Abans de poder rebre o enviar missatges de correu encriptat amb GPG, heu de "
+"Abans de poder rebre o enviar missatges de correu xifrat amb GPG, heu de "
 "<link xref=\"help:seahorse/pgp-create\" href=\"https://help.gnome.org/users/"
 "seahorse/stable/pgp-create\">generar les vostres claus públiques i privades "
 "amb GPG</link>. Després de fer-ho i <link xref=\"mail-encryption-gpg-set-up"
@@ -9559,12 +9559,12 @@ msgstr ""
 #. (itstool) path: info/desc
 #: C/mail-encryption.page:5
 msgid "Sending and receiving encrypted mail."
-msgstr "Envieu i rebeu correus electrònics encriptats."
+msgstr "Envieu i rebeu correus electrònics xifrats."
 
 #. (itstool) path: page/title
 #: C/mail-encryption.page:30
 msgid "Mail encryption and certificates"
-msgstr "Encriptació de correu i certificats"
+msgstr "Xifratge de correu i certificats"
 
 #. (itstool) path: page/p
 #: C/mail-encryption.page:32
@@ -9682,7 +9682,7 @@ msgid ""
 "toolbar icon."
 msgstr ""
 "Un cop hàgiu <link xref=\"mail-encryption-s-mime-manage\">afegit el vostre "
-"certificat</link>, podeu signar o encriptar un missatge seleccionant "
+"certificat</link>, podeu signar o xifrar un missatge seleccionant "
 "<guiseq><gui>Opcions</gui><gui>Signa S/MIME</gui></guiseq> o <gui>Xifra "
 "S/MIME</gui> des del menú d'edició de missatges o fent clic a la icona de la "
 "barra d'eines corresponent."
@@ -10042,7 +10042,7 @@ msgid ""
 "<app>Evolution</app>, your filters may not work automatically."
 msgstr ""
 "Una altra cosa que cal tenir en compte és que els filtres depenen de "
-"l'indicador \"nou\" que s'estableix al servidor quan un missatge de correu "
+"l'indicador «nou» que s'estableix al servidor quan un missatge de correu "
 "electrònic determinat s'obté inicialment del servidor. Si utilitzeu un altre "
 "client de correu electrònic a part d'<app>Evolution</app>, és possible que "
 "els vostres filtres no funcionin automàticament."
@@ -10095,7 +10095,7 @@ msgstr ""
 "file \"/home/myusername/my-filter-log\"</cmd> i reemplaçar <cmd>myusername</"
 "cmd> pel seu usuari. Això crearà un fitxer text anomenat <file>my-filter-"
 "log</file> al vostre directori personal. Tingueu en compte que s'ha "
-"d'introduir la ruta d'accés absoluta al nom del fitxer; una sintaxi semblant "
+"d'introduir el camí d'accés absolut al nom del fitxer; una sintaxi semblant "
 "<sys>~</sys> o <sys>$HOME</sys> no funcionarà."
 
 #. (itstool) path: item/p
@@ -14037,7 +14037,7 @@ msgid ""
 "You can also use lists that are not on your computer, such as on the "
 "internet."
 msgstr ""
-"També podeu utilitzar llistes que no estan a l'ordinador, com ara a Internet."
+"També podeu utilitzar llistes que no són a l'ordinador, com ara a Internet."
 
 #. (itstool) path: info/desc
 #: C/tasks-webdav.page:5

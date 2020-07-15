@@ -4131,7 +4131,7 @@ msgid ""
 "You are trying to add addresses that are part of this list already. Would "
 "you like to add them anyway?"
 msgstr ""
-"Les adreces que voleu afegir ja estan a la llista. Les voleu afegir de totes"
+"Les adreces que voleu afegir ja són a la llista. Les voleu afegir de totes"
 " maneres?"
 
 #: ../src/addressbook/addressbook.error.xml.h:35
@@ -14713,7 +14713,7 @@ msgstr "Color de la lletra"
 
 #: ../src/e-util/e-html-editor.c:900
 msgid "Background Color"
-msgstr "_Color de fons:"
+msgstr "Color de fons"
 
 #: ../src/e-util/e-html-editor.c:910
 msgid "Font Size"
@@ -17701,7 +17701,7 @@ msgstr "Si_gna sempre els missatges de sortida d'aquest compte"
 
 #: ../src/mail/e-mail-config-security-page.c:584
 msgid "Always enc_rypt outgoing messages when using this account"
-msgstr "Enc_ripta sempre els missatges de sortida  quan usi aquest compte"
+msgstr "_Xifra sempre els missatges de sortida quan usi aquest compte"
 
 # «to myself» vol dir «amb la meva clau», de manera que el remitent pugui
 # llegir també els correus xifrats que ell mateix enviï - dpm
@@ -17716,7 +17716,7 @@ msgstr "Confia sempre en les claus del meu anell de claus en _xifrar"
 #: ../src/mail/e-mail-config-security-page.c:620
 msgid "Prefer _inline sign/encrypt for plain text messages"
 msgstr ""
-"Prefereix la signatura / el xifratge _interns per als missatges de text "
+"Prefereix la signatura i el xifratge _interns per als missatges de text "
 "sense format"
 
 #: ../src/mail/e-mail-config-security-page.c:644
@@ -17748,7 +17748,7 @@ msgstr "Signa sempre els missatges de sortida d'aquest compte"
 
 #: ../src/mail/e-mail-config-security-page.c:751
 msgid "Encryption certificate:"
-msgstr "Certificat de xifratge"
+msgstr "Certificat de xifratge:"
 
 #: ../src/mail/e-mail-config-security-page.c:793
 msgid "Always encrypt outgoing messages when using this account"
