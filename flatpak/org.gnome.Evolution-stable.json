@@ -242,7 +242,7 @@
 				{
 					"type": "git",
 					"url": "https://git.code.sf.net/p/bogofilter/git",
-					"branch": "master"
+					"branch": "main"
 				}
 			]
 		},
