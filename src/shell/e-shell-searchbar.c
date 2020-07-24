@@ -190,9 +190,8 @@ shell_searchbar_save_search_scope (EShellSearchbar *searchbar)
 	const gchar *key;
 
 	shell_view = e_shell_searchbar_get_shell_view (searchbar);
-
-	/* Search scope is hard-coded to the default state group. */
-	state_group = STATE_GROUP_DEFAULT;
+	state_group = e_shell_searchbar_get_state_group (searchbar);
+	g_return_if_fail (state_group != NULL);
 
 	key = STATE_KEY_SEARCH_SCOPE;
 	key_file = e_shell_view_get_state_key_file (shell_view);
@@ -1383,9 +1382,6 @@ e_shell_searchbar_load_state (EShellSearchbar *searchbar)
 	if (g_strcmp0 (string, search_text) != 0)
 		e_shell_searchbar_set_search_text (searchbar, string);
 	g_free (string);
-
-	/* Search scope is hard-coded to the default state group. */
-	state_group = STATE_GROUP_DEFAULT;
 
 	key = STATE_KEY_SEARCH_SCOPE;
 	string = g_key_file_get_string (key_file, state_group, key, NULL);
