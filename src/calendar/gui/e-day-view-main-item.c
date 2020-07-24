@@ -477,7 +477,7 @@ day_view_main_item_draw_day_event (EDayViewMainItem *main_item,
 		draw_curved_rectangle (cr, x0, y0, rect_width, rect_height, radius);
 	}
 
-	date_fraction = rect_height / day_view->row_height;
+	date_fraction = (day_view->row_height - 12) / (item_h - 15.5);
 	interval = event->end_minute - event->start_minute;
 
 	if ((interval / time_divisions) >= 2)
@@ -497,9 +497,9 @@ day_view_main_item_draw_day_event (EDayViewMainItem *main_item,
 		item_x + E_DAY_VIEW_BAR_WIDTH + 1.75, item_y + 7.75,
 		item_x + E_DAY_VIEW_BAR_WIDTH + 1.75, item_y + item_h - 7.75);
 	if (!short_event) {
-		cairo_pattern_add_color_stop_rgba (pat, 1, bg_rgba.red, bg_rgba.green, bg_rgba.blue, 0.8 * bg_rgba.alpha);
-		cairo_pattern_add_color_stop_rgba (pat, 1 / (date_fraction + (rect_height / 18)), bg_rgba.red, bg_rgba.green, bg_rgba.blue, 0.8 * bg_rgba.alpha);
-		cairo_pattern_add_color_stop_rgba (pat, 1 / (date_fraction + (rect_height / 18)), bg_rgba.red, bg_rgba.green, bg_rgba.blue, 0.4 * bg_rgba.alpha);
+		cairo_pattern_add_color_stop_rgba (pat, 0, bg_rgba.red, bg_rgba.green, bg_rgba.blue, 0.8 * bg_rgba.alpha);
+		cairo_pattern_add_color_stop_rgba (pat, date_fraction, bg_rgba.red, bg_rgba.green, bg_rgba.blue, 0.8 * bg_rgba.alpha);
+		cairo_pattern_add_color_stop_rgba (pat, date_fraction, bg_rgba.red, bg_rgba.green, bg_rgba.blue, 0.4 * bg_rgba.alpha);
 		cairo_pattern_add_color_stop_rgba (pat, 1, bg_rgba.red, bg_rgba.green, bg_rgba.blue, 0.8 * bg_rgba.alpha);
 	} else {
 		cairo_pattern_add_color_stop_rgba (pat, 1, bg_rgba.red, bg_rgba.green, bg_rgba.blue, 0.8 * bg_rgba.alpha);
@@ -816,8 +816,8 @@ day_view_main_item_draw_day_event (EDayViewMainItem *main_item,
 		cairo_save (cr);
 		cairo_rectangle (
 			cr, item_x + E_DAY_VIEW_BAR_WIDTH + 1.75, item_y + 2.75,
-			item_w - E_DAY_VIEW_BAR_WIDTH - (draw_flat_events ? 0.0 : 4.5),
-			14);
+			item_w - E_DAY_VIEW_BAR_WIDTH - 4.5,
+			day_view->row_height);
 
 		cairo_clip (cr);
 		cairo_new_path (cr);
