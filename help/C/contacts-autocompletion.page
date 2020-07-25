@@ -5,6 +5,7 @@
   <info>
     <link type="guide" xref="index#contacts"/>
     <link type="guide" xref="index#mail-composing"/>
+    <link type="seealso" xref="contacts-add-automatically"/>
     <link type="seealso" xref="mail-composer-forward"/>
     <link type="seealso" xref="mail-composer-reply"/>
     <link type="seealso" xref="mail-composer-write-new-message"/>

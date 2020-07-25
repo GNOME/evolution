@@ -4,6 +4,7 @@
 
   <info>
     <link type="guide" xref="contacts-usage"/>
+    <link type="seealso" xref="contacts-autocompletion"/>
 
     <revision pkgversion="3.1.5" version="0.3" date="2011-08-19" status="final"/>
 
