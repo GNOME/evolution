@@ -77,6 +77,7 @@ e_cell_date_class_init (ECellDateClass *class)
 static void
 e_cell_date_init (ECellDate *ecd)
 {
+	g_object_set (ecd, "use-tabular-numbers", TRUE, NULL);
 }
 
 /**

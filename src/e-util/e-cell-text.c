@@ -85,7 +85,8 @@ enum {
 	PROP_ITALIC_COLUMN,
 	PROP_STRIKEOUT_COLOR_COLUMN,
 	PROP_EDITABLE,
-	PROP_BG_COLOR_COLUMN
+	PROP_BG_COLOR_COLUMN,
+	PROP_USE_TABULAR_NUMBERS,
 };
 
 enum {
@@ -468,6 +469,11 @@ build_attr_list (ECellTextView *text_view,
 
 		attr->start_index = 0;
 		attr->end_index = text_length;
+
+		pango_attr_list_insert_before (attrs, attr);
+	}
+	if (ect->use_tabular_numbers) {
+		PangoAttribute *attr = pango_attr_font_features_new ("tnum=1");
 
 		pango_attr_list_insert_before (attrs, attr);
 	}
@@ -1602,6 +1608,10 @@ ect_set_property (GObject *object,
 		text->bg_color_column = g_value_get_int (value);
 		break;
 
+	case PROP_USE_TABULAR_NUMBERS:
+		text->use_tabular_numbers = g_value_get_boolean (value);
+		break;
+
 	default:
 		return;
 	}
@@ -1649,6 +1659,10 @@ ect_get_property (GObject *object,
 
 	case PROP_BG_COLOR_COLUMN:
 		g_value_set_int (value, text->bg_color_column);
+		break;
+
+	case PROP_USE_TABULAR_NUMBERS:
+		g_value_set_boolean (value, text->use_tabular_numbers);
 		break;
 
 	default:
@@ -1800,6 +1814,16 @@ e_cell_text_class_init (ECellTextClass *class)
 			"BG Color Column",
 			NULL,
 			-1, G_MAXINT, -1,
+			G_PARAM_READWRITE));
+
+	g_object_class_install_property (
+		object_class,
+		PROP_USE_TABULAR_NUMBERS,
+		g_param_spec_boolean (
+			"use-tabular-numbers",
+			"Use tabular numbers",
+			NULL,
+			FALSE,
 			G_PARAM_READWRITE));
 
 	if (!clipboard_atom)
@@ -1975,6 +1999,7 @@ e_cell_text_init (ECellText *ect)
 	ect->color_column = -1;
 	ect->bg_color_column = -1;
 	ect->editable = TRUE;
+	ect->use_tabular_numbers = FALSE;
 }
 
 /**
