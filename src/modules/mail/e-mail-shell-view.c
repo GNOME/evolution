@@ -1294,6 +1294,9 @@ current_accout_setup:
 
 execute:
 
+	if (folder && CAMEL_IS_VEE_FOLDER (folder))
+		camel_vee_folder_propagate_skipped_changes (CAMEL_VEE_FOLDER (folder));
+
 	/* Finally, execute the search. */
 
 	message_list_set_search (MESSAGE_LIST (message_list), query);
