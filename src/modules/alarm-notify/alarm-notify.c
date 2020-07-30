@@ -23,6 +23,7 @@
 
 #include <libedataserverui/libedataserverui.h>
 
+#include "calendar/gui/comp-util.h"
 #include "e-util/e-util.h"
 
 /* Standard GObject macros */
@@ -95,22 +96,13 @@ alarm_notify_module_format_time_cb (EReminderWatcher *watcher,
 				    gchar **inout_buffer,
 				    gint buffer_size)
 {
-	struct tm tm;
-	gchar *text;
-
 	g_return_if_fail (rd != NULL);
 	g_return_if_fail (itt != NULL);
 	g_return_if_fail (inout_buffer != NULL);
 	g_return_if_fail (*inout_buffer != NULL);
 	g_return_if_fail (buffer_size > 0);
 
-	tm = e_cal_util_icaltime_to_tm (itt);
-	text = e_datetime_format_format_tm ("calendar", "table", i_cal_time_is_date (itt) ? DTFormatKindDate : DTFormatKindDateTime, &tm);
-
-	if (text) {
-		g_snprintf (*inout_buffer, buffer_size, "%s", text);
-		g_free (text);
-	}
+	cal_comp_util_format_itt (itt, *inout_buffer, buffer_size);
 }
 
 static gboolean

@@ -318,9 +318,10 @@ cal_component_preview_write_html (ECalComponentPreview *preview,
 	icomp = e_cal_component_get_icalcomponent (comp);
 
 	if (e_cal_util_component_has_recurrences (icomp)) {
-		str = e_cal_recur_describe_recurrence (icomp,
+		str = e_cal_recur_describe_recurrence_ex (icomp,
 			calendar_config_get_week_start_day (),
-			E_CAL_RECUR_DESCRIBE_RECURRENCE_FLAG_NONE);
+			E_CAL_RECUR_DESCRIBE_RECURRENCE_FLAG_NONE,
+			cal_comp_util_format_itt);
 
 		if (str) {
 			cal_component_preview_add_table_line (buffer, _("Recurs:"), str);

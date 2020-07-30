@@ -49,10 +49,23 @@ gchar *		e_datetime_format_format	(const gchar *component,
 						 const gchar *part,
 						 DTFormatKind kind,
 						 time_t value);
+void		e_datetime_format_format_inline	(const gchar *component,
+						 const gchar *part,
+						 DTFormatKind kind,
+						 time_t value,
+						 gchar *buffer,
+						 gint buffer_size);
 gchar *		e_datetime_format_format_tm	(const gchar *component,
 						 const gchar *part,
 						 DTFormatKind kind,
 						 struct tm *tm_time);
+void		e_datetime_format_format_tm_inline
+						(const gchar *component,
+						 const gchar *part,
+						 DTFormatKind kind,
+						 struct tm *tm_time,
+						 gchar *buffer,
+						 gint buffer_size);
 gboolean	e_datetime_format_includes_day_name
 						(const gchar *component,
 						 const gchar *part,

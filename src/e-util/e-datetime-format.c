@@ -276,14 +276,15 @@ format_relative_date (time_t tvalue,
 	return res;
 }
 
-static gchar *
+static void
 format_internal (const gchar *key,
-                 DTFormatKind kind,
-                 time_t tvalue,
-                 struct tm *tm_value)
+		 DTFormatKind kind,
+		 time_t tvalue,
+		 struct tm *tm_value,
+		 gchar *buffer,
+		 gint buffer_size)
 {
 	const gchar *fmt;
-	gchar buff[129];
 	GString *use_fmt = NULL;
 	gint i, last = 0;
 	struct tm today, value;
@@ -350,12 +351,12 @@ format_internal (const gchar *key,
 		g_string_append_len (use_fmt, fmt + last, i - last);
 	}
 
-	e_utf8_strftime_fix_am_pm (buff, sizeof (buff) - 1, use_fmt ? use_fmt->str : fmt, tm_value);
+	e_utf8_strftime_fix_am_pm (buffer, buffer_size, use_fmt ? use_fmt->str : fmt, tm_value);
 
 	if (use_fmt)
 		g_string_free (use_fmt, TRUE);
 
-	return g_strstrip (g_strdup (buff));
+	g_strstrip (buffer);
 }
 
 static void
@@ -477,7 +478,7 @@ update_preview_widget (GtkWidget *combo)
 {
 	GtkWidget *preview;
 	const gchar *key;
-	gchar *value;
+	gchar buffer[129];
 	time_t now;
 
 	g_return_if_fail (GTK_IS_COMBO_BOX (combo));
@@ -491,9 +492,8 @@ update_preview_widget (GtkWidget *combo)
 
 	time (&now);
 
-	value = format_internal (key, GPOINTER_TO_INT (g_object_get_data (G_OBJECT (combo), "format-kind")), now, NULL);
-	gtk_label_set_text (GTK_LABEL (preview), value ? value : "");
-	g_free (value);
+	format_internal (key, GPOINTER_TO_INT (g_object_get_data (G_OBJECT (combo), "format-kind")), now, NULL, buffer, sizeof (buffer));
+	gtk_label_set_text (GTK_LABEL (preview), buffer);
 }
 
 static void
@@ -664,19 +664,39 @@ e_datetime_format_format (const gchar *component,
                           DTFormatKind kind,
                           time_t value)
 {
-	gchar *key, *res;
+	gchar buffer[129];
 
 	g_return_val_if_fail (component != NULL, NULL);
 	g_return_val_if_fail (*component != 0, NULL);
 
-	key = gen_key (component, part, kind);
-	g_return_val_if_fail (key != NULL, NULL);
+	e_datetime_format_format_inline (component, part, kind, value, buffer, sizeof (buffer));
 
-	res = format_internal (key, kind, value, NULL);
+	return g_strdup (buffer);
+}
+
+void
+e_datetime_format_format_inline (const gchar *component,
+				 const gchar *part,
+				 DTFormatKind kind,
+				 time_t value,
+				 gchar *buffer,
+				 gint buffer_size)
+{
+	gchar *key;
+
+	g_return_if_fail (component != NULL);
+	g_return_if_fail (*component != 0);
+	g_return_if_fail (buffer != NULL);
+	g_return_if_fail (buffer_size > 0);
+
+	key = gen_key (component, part, kind);
+	g_return_if_fail (key != NULL);
+
+	format_internal (key, kind, value, NULL, buffer, buffer_size - 1);
 
 	g_free (key);
 
-	return res;
+	buffer[buffer_size - 1] = '\0';
 }
 
 gchar *
@@ -685,20 +705,41 @@ e_datetime_format_format_tm (const gchar *component,
                              DTFormatKind kind,
                              struct tm *tm_time)
 {
-	gchar *key, *res;
+	gchar buffer[129];
 
 	g_return_val_if_fail (component != NULL, NULL);
 	g_return_val_if_fail (*component != 0, NULL);
 	g_return_val_if_fail (tm_time != NULL, NULL);
 
-	key = gen_key (component, part, kind);
-	g_return_val_if_fail (key != NULL, NULL);
+	e_datetime_format_format_tm_inline (component, part, kind, tm_time, buffer, sizeof (buffer));
 
-	res = format_internal (key, kind, 0, tm_time);
+	return g_strdup (buffer);
+}
+
+void
+e_datetime_format_format_tm_inline (const gchar *component,
+				    const gchar *part,
+				    DTFormatKind kind,
+				    struct tm *tm_time,
+				    gchar *buffer,
+				    gint buffer_size)
+{
+	gchar *key;
+
+	g_return_if_fail (component != NULL);
+	g_return_if_fail (*component != 0);
+	g_return_if_fail (tm_time != NULL);
+	g_return_if_fail (buffer != NULL);
+	g_return_if_fail (buffer_size > 0);
+
+	key = gen_key (component, part, kind);
+	g_return_if_fail (key != NULL);
+
+	format_internal (key, kind, 0, tm_time, buffer, buffer_size - 1);
 
 	g_free (key);
 
-	return res;
+	buffer[buffer_size - 1] = '\0';
 }
 
 gboolean

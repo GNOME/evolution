@@ -6280,9 +6280,10 @@ itip_view_add_recurring_info (ItipView *view)
 {
 	gchar *description;
 
-	description = e_cal_recur_describe_recurrence (e_cal_component_get_icalcomponent (view->priv->comp),
+	description = e_cal_recur_describe_recurrence_ex (e_cal_component_get_icalcomponent (view->priv->comp),
 		calendar_config_get_week_start_day (),
-		E_CAL_RECUR_DESCRIBE_RECURRENCE_FLAG_PREFIXED | E_CAL_RECUR_DESCRIBE_RECURRENCE_FLAG_FALLBACK);
+		E_CAL_RECUR_DESCRIBE_RECURRENCE_FLAG_PREFIXED | E_CAL_RECUR_DESCRIBE_RECURRENCE_FLAG_FALLBACK,
+		cal_comp_util_format_itt);
 
 	if (description) {
 		itip_view_add_upper_info_item (view, ITIP_VIEW_INFO_ITEM_TYPE_INFO, description);

@@ -23,6 +23,8 @@
 
 #include "evolution-config.h"
 
+#include "comp-util.h"
+
 #include "e-date-time-list.h"
 
 #include <string.h>
@@ -141,12 +143,9 @@ get_exception_string (EDateTimeList *date_time_list,
 		      ICalTime *itt)
 {
 	static gchar buf[256];
-	struct tm tmp_tm;
 	ICalTime *tt;
 	ICalTimezone *zone;
-	gboolean use_24_hour_format;
 
-	use_24_hour_format = e_date_time_list_get_use_24_hour_format (date_time_list);
 	zone = e_date_time_list_get_timezone (date_time_list);
 
 	if (zone)
@@ -154,11 +153,7 @@ get_exception_string (EDateTimeList *date_time_list,
 	else
 		tt = g_object_ref (itt);
 
-	tmp_tm = e_cal_util_icaltime_to_tm (tt);
-
-	e_time_format_date_and_time (
-		&tmp_tm, use_24_hour_format,
-		FALSE, FALSE, buf, sizeof (buf));
+	cal_comp_util_format_itt (tt, buf, sizeof (buf));
 
 	g_clear_object (&tt);
 

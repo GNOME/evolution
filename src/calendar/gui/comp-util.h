@@ -172,4 +172,8 @@ void		cal_comp_util_maybe_ensure_allday_timezone_properties
 						(ECalClient *client,
 						 ICalComponent *icomp,
 						 ICalTimezone *zone);
+void		cal_comp_util_format_itt	(ICalTime *itt,
+						 gchar *buffer,
+						 gint buffer_size);
+
 #endif

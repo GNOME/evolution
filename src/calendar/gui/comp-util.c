@@ -1829,3 +1829,20 @@ cal_comp_util_maybe_ensure_allday_timezone_properties (ECalClient *client,
 	ensure_allday_timezone_property (icomp, zone, I_CAL_DTSTART_PROPERTY, i_cal_component_get_dtstart, i_cal_component_set_dtstart);
 	ensure_allday_timezone_property (icomp, zone, I_CAL_DTEND_PROPERTY, i_cal_component_get_dtend, i_cal_component_set_dtend);
 }
+
+void
+cal_comp_util_format_itt (ICalTime *itt,
+			  gchar *buffer,
+			  gint buffer_size)
+{
+	struct tm tm;
+
+	g_return_if_fail (itt != NULL);
+	g_return_if_fail (buffer != NULL);
+	g_return_if_fail (buffer_size > 0);
+
+	buffer[0] = '\0';
+
+	tm = e_cal_util_icaltime_to_tm (itt);
+	e_datetime_format_format_tm_inline ("calendar", "table", i_cal_time_is_date (itt) ? DTFormatKindDate : DTFormatKindDateTime, &tm, buffer, buffer_size);
+}
