@@ -112,7 +112,7 @@ emfe_itip_format (EMailFormatterExtension *extension,
 		old_message = itip_part->message;
 		old_message_uid = itip_part->message_uid;
 
-		itip_part->folder = g_object_ref (folder);
+		itip_part->folder = folder ? g_object_ref (folder) : NULL;
 		itip_part->message = g_object_ref (message);
 		itip_part->message_uid = g_strdup (message_uid);
 

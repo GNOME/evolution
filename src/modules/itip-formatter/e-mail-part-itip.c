@@ -80,7 +80,7 @@ mail_part_itip_content_loaded (EMailPart *part,
 
 	pitip = E_MAIL_PART_ITIP (part);
 
-	if (pitip->folder && pitip->message_uid && pitip->message) {
+	if (pitip->message) {
 		ItipView *itip_view;
 		GSList *link;
 
