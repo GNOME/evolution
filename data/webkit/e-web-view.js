@@ -622,10 +622,12 @@ Evo.initialize = function(elem)
 	elems = doc.getElementsByTagName("iframe");
 
 	for (ii = 0; ii < elems.length; ii++) {
-		elems[ii].onload = function() { Evo.initializeAndPostContentLoaded(this); };
+		var iframe = elems[ii];
 
-		if (elems[ii].contentDocument.body && elems[ii].contentDocument.body.childElementCount > 0)
-			Evo.initializeAndPostContentLoaded(elems[ii]);
+		iframe.onload = function() { Evo.initializeAndPostContentLoaded(this); };
+
+		if (iframe.contentDocument && iframe.contentDocument.body && iframe.contentDocument.body.childElementCount > 0)
+			Evo.initializeAndPostContentLoaded(iframe);
 	}
 
 	if (doc.defaultView && !doc.defaultView.frameElement && !doc.body.hasAttribute("class"))
