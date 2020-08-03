@@ -629,6 +629,7 @@ read_notify_status (EMEventTargetMessage *t)
 
 #ifdef HAVE_CANBERRA
 static ca_context *mailnotification = NULL;
+static gint eca_debug = -1;
 #endif
 
 static void
@@ -638,16 +639,35 @@ do_play_sound (gboolean beep,
 {
 	if (!beep) {
 #ifdef HAVE_CANBERRA
+		gint err;
+
+		if (eca_debug == -1)
+			eca_debug = g_strcmp0 (g_getenv ("ECA_DEBUG"), "1") == 0 ? 1 : 0;
+
 		if (!use_theme && file && *file)
-			ca_context_play (
+			err = ca_context_play (
 				mailnotification, 0,
 				CA_PROP_MEDIA_FILENAME, file,
 				NULL);
 		else
-			ca_context_play (
+			err = ca_context_play (
 				mailnotification, 0,
-				CA_PROP_EVENT_ID,"message-new-email",
+				CA_PROP_EVENT_ID, "message-new-email",
 				NULL);
+
+		if (eca_debug) {
+			if (err != 0 && file && *file)
+				e_util_debug_print ("ECA", "Mail Notification: Failed to play '%s': %s\n", file, ca_strerror (err));
+			else if (err != 0)
+				e_util_debug_print ("ECA", "Mail Notification: Failed to play 'message-new-email' sound: %s\n", ca_strerror (err));
+			else if (file && *file)
+				e_util_debug_print ("ECA", "Mail Notification: Played file '%s'\n", file);
+			else
+				e_util_debug_print ("ECA", "Mail Notification: Played 'message-new-email' sound\n");
+		}
+#else
+		if (eca_debug)
+			e_util_debug_print ("ECA", "Mail Notification: Cannot play sound, not compiled with libcanberra\n");
 #endif
 	} else
 		gdk_display_beep (gdk_display_get_default ());
@@ -763,9 +783,10 @@ enable_sound (gint enable)
 			CA_PROP_APPLICATION_NAME,
 			"mailnotification Plugin",
 			NULL);
-	}
-	else
+	} else {
 		ca_context_destroy (mailnotification);
+		mailnotification = NULL;
+	}
 #endif
 }
 

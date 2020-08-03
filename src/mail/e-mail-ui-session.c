@@ -63,6 +63,11 @@
 	(G_TYPE_INSTANCE_GET_PRIVATE \
 	((obj), E_TYPE_MAIL_UI_SESSION, EMailUISessionPrivate))
 
+#ifdef HAVE_CANBERRA
+static ca_context *cactx = NULL;
+static gint eca_debug = -1;
+#endif
+
 typedef struct _SourceContext SourceContext;
 
 struct _EMailUISessionPrivate {
@@ -179,12 +184,34 @@ static gboolean
 session_play_sound_cb (const gchar *filename)
 {
 #ifdef HAVE_CANBERRA
-	if (filename != NULL && *filename != '\0')
-		ca_context_play (
-			ca_gtk_context_get (), 0,
+	if (filename && *filename) {
+		gint err;
+
+		if (eca_debug == -1)
+			eca_debug = g_strcmp0 (g_getenv ("ECA_DEBUG"), "1") == 0 ? 1 : 0;
+
+		if (!cactx) {
+			ca_context_create (&cactx);
+			ca_context_change_props (cactx,
+				CA_PROP_APPLICATION_NAME, "Evolution",
+				NULL);
+		}
+
+		err = ca_context_play (
+			cactx, 0,
 			CA_PROP_MEDIA_FILENAME, filename,
 			NULL);
-	else
+
+		if (eca_debug) {
+			if (err != 0)
+				e_util_debug_print ("ECA", "Session Play Sound: Failed to play '%s': %s\n", filename, ca_strerror (err));
+			else
+				e_util_debug_print ("ECA", "Session Play Sound: Played file '%s'\n", filename);
+		}
+	} else
+#else
+	if (eca_debug)
+		e_util_debug_print ("ECA", "Session Play Sound: Cannot play sound, not compiled with libcanberra\n");
 #endif
 		gdk_display_beep (gdk_display_get_default ());
 
@@ -452,6 +479,13 @@ mail_ui_session_finalize (GObject *object)
 	priv = E_MAIL_UI_SESSION_GET_PRIVATE (object);
 
 	g_mutex_clear (&priv->address_cache_mutex);
+
+#ifdef HAVE_CANBERRA
+	if (cactx) {
+		ca_context_destroy (cactx);
+		cactx = NULL;
+	}
+#endif
 
 	/* Chain up to parent's method. */
 	G_OBJECT_CLASS (e_mail_ui_session_parent_class)->finalize (object);
