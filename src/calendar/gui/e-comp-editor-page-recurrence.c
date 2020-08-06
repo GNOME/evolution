@@ -887,13 +887,15 @@ static void
 ecep_recurrence_set_special_defaults (ECompEditorPageRecurrence *page_recurrence,
 				      ICalComponent *component)
 {
-	guint8 mask;
-
 	g_return_if_fail (E_IS_COMP_EDITOR_PAGE_RECURRENCE (page_recurrence));
 
-	mask = ecep_recurrence_get_start_weekday_mask (component);
+	if (!page_recurrence->priv->weekday_day_mask) {
+		guint8 mask;
 
-	page_recurrence->priv->weekday_day_mask = mask;
+		mask = ecep_recurrence_get_start_weekday_mask (component);
+
+		page_recurrence->priv->weekday_day_mask = mask;
+	}
 }
 
 static void
