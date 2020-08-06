@@ -785,7 +785,7 @@ comp_util_sanitize_recurrence_master_sync (ECalComponent *comp,
 	if (rdt && sdt &&
 	    i_cal_time_compare_date_only (e_cal_component_datetime_get_value (rdt), e_cal_component_datetime_get_value (sdt)) == 0) {
 		ECalComponentDateTime *msdt, *medt, *edt;
-		gint sequence, yy = 0, mm = 0, dd = 0;
+		gint yy = 0, mm = 0, dd = 0;
 
 		msdt = e_cal_component_get_dtstart (master);
 		medt = e_cal_component_get_dtend (master);
@@ -811,9 +811,6 @@ comp_util_sanitize_recurrence_master_sync (ECalComponent *comp,
 
 		e_cal_component_set_dtstart (comp, sdt);
 		e_cal_component_set_dtend (comp, edt);
-
-		sequence = e_cal_component_get_sequence (master);
-		e_cal_component_set_sequence (comp, sequence);
 
 		e_cal_component_datetime_free (msdt);
 		e_cal_component_datetime_free (medt);
