@@ -40,6 +40,7 @@ static ESupportedLocales e_supported_locales[] = {
 	{ "bs", "bs_BA" },
 	{ "ca", "ca_ES" },
 	{ "ca@valencia", "ca_ES@valencia" },
+	{ "ckb", "ckb_IQ" },
 	{ "cs", "cs_CZ" },
 	{ "cy", "cy_GB" },
 	{ "da", "da_DK" },
