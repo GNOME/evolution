@@ -1,3 +1,37 @@
+Evolution 3.37.90 2020-08-07
+----------------------------
+
+Bug Fixes:
+	I#895 - "Time" portion of calendar entries not scaling with font (Stefan Paul Noack)
+	I#973 - Increase size of calendar copy/move dialog (Bryan Dunsmore)
+	I#998 - ETree: Hard to see thread expander on selected row (Milan Crha)
+	I#1017 - ECompEditor: Error when save-only (all instances) of a recurring event (Milan Crha)
+	I#1027 - Calendar: SEQUENCE not changed when modifying All Instances (Milan Crha)
+	I#1030 - Calendar: Component editor shows incomplete RRULE (Milan Crha)
+	I#1034 - Calendar: Event non-libical time zone reset to UTC on edit (Milan Crha)
+	I#1038 - EShellSearchbar: Save search scope per folder (Milan Crha)
+	I#1041 - Search folders can show non-matches after filter change (Milan Crha)
+	I#1042 - Show recurrence information with user-specified date format (Milan Crha)
+	M!62 - ECellText/ECellDate: Use tabular numbers for date (Zander Brown)
+
+Miscellaneous:
+	EContactEditor: Other mailing address has stored incorrect address label (Milan Crha)
+	Flatpak manifests: Adapt to the branch name change for the bogofilter project (Milan Crha)
+	e-web-view.js: Check iframe property validity in Evo.initialize() (Milan Crha)
+	itip-formatter: Content not shown when showing message without folder (Milan Crha)
+	Message filters not playing sounds (Milan Crha)
+	Add Central Kurdish translation to the list of supported locales (Milan Crha)
+	help: Mailing List filter criterion checks numerous mail headers (Andre Klapper)
+	help: Link Contact Autocompletion and automatic Contacts (Andre Klapper)
+
+Translations:
+	Jordi Mas (ca)
+	Boyuan Yang (zh_CN)
+	Fabio Tomat (fur)
+	Aurimas Černius (lt)
+	Jwtiyar Nariman (ckb)
+	Yuri Chornoivan (uk)
+
 Evolution 3.37.3 2020-07-03
 ---------------------------
 
