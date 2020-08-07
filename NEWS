@@ -1,3 +1,21 @@
+Evolution 3.36.5 2020-08-07
+---------------------------
+
+Bug Fixes:
+	I#895 - "Time" portion of calendar entries not scaling with font (Stefan Paul Noack)
+	I#1017 - ECompEditor: Error when save-only (all instances) of a recurring event (Milan Crha)
+	I#1027 - Calendar: SEQUENCE not changed when modifying All Instances (Milan Crha)
+	I#1034 - Calendar: Event non-libical time zone reset to UTC on edit (Milan Crha)
+
+Miscellaneous:
+	EContactEditor: Other mailing address has stored incorrect address label (Milan Crha)
+	help: Mailing List filter criterion checks numerous mail headers (Andre Klapper)
+
+Translations:
+	Jordi Mas (ca)
+	Jwtiyar Nariman (ckb)
+	Yuri Chornoivan (uk)
+
 Evolution 3.36.4 2020-07-03
 ---------------------------
 
