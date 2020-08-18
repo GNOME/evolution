@@ -79,8 +79,9 @@ vCard (.vcf, .gcrd):</p>
 </p></item>
 <item><p>
 Outlook Personal Folders (.pst):</p>
-<p>A file format used to store local copies of messages, calendar events, and other items within Microsoft software such as <app>Microsoft Exchange Client</app>, <app>Windows Messaging</app>, and <app>Microsoft Outlook</app>. It is also called "Personal Storage Table".
-</p></item>
+<p>A file format used to store local copies of messages, calendar events, and other items within Microsoft software such as <app>Microsoft Exchange Client</app>, <app>Windows Messaging</app>, and <app>Microsoft Outlook</app>. It is also called "Personal Storage Table".</p>
+<p>See <link xref="import-apps-outlook" /> for more information.</p>
+</item>
 </list>
 </section>
 
