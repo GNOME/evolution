@@ -6,8 +6,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: evolution master\n"
-"POT-Creation-Date: 2020-07-04 16:46+0000\n"
-"PO-Revision-Date: 2020-07-04 20:03+0300\n"
+"POT-Creation-Date: 2020-08-18 10:44+0000\n"
+"PO-Revision-Date: 2020-08-18 15:28+0300\n"
 "Last-Translator: Yuri Chornoivan <yurchor@ukr.net>\n"
 "Language-Team: Ukrainian <trans-uk@lists.fedoraproject.org>\n"
 "Language: uk\n"
@@ -16,7 +16,7 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=4; plural=n==1 ? 3 : n%10==1 && n%100!=11 ? 0 : n"
 "%10>=2 && n%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2;\n"
-"X-Generator: Lokalize 20.07.70\n"
+"X-Generator: Lokalize 20.11.70\n"
 
 #. Put one translator per line, in the form NAME <EMAIL>, YEAR1, YEAR2
 msgctxt "_"
@@ -1805,19 +1805,19 @@ msgid "Enter your username."
 msgstr "Введіть ваше ім'я користувача."
 
 #. (itstool) path: info/desc
-#: C/contacts-add-automatically.page:21
+#: C/contacts-add-automatically.page:22
 msgid ""
 "Automatically add senders of mail that you have received to your contacts."
 msgstr ""
 "Автоматичне додавання відправників отриманої вами пошти до ваших контактів."
 
 #. (itstool) path: page/title
-#: C/contacts-add-automatically.page:25
+#: C/contacts-add-automatically.page:26
 msgid "Adding people automatically to my contacts"
 msgstr "Автоматичне додавання кореспондентів до контактів"
 
 #. (itstool) path: page/p
-#: C/contacts-add-automatically.page:27
+#: C/contacts-add-automatically.page:28
 msgid ""
 "You can add people automatically to your contacts when you reply to received "
 "email."
@@ -1826,7 +1826,7 @@ msgstr ""
 "контактів при отримання повідомлень електронної пошти."
 
 #. (itstool) path: item/p
-#: C/contacts-add-automatically.page:30 C/mail-attachments-sending.page:46
+#: C/contacts-add-automatically.page:31 C/mail-attachments-sending.page:46
 #: C/mail-composer-custom-header-lines.page:31
 #: C/mail-composer-external-editor.page:25
 #: C/mail-composer-message-templates.page:27
@@ -1836,12 +1836,12 @@ msgid "Select <guiseq><gui>Edit</gui><gui>Plugins</gui></guiseq>."
 msgstr "Виберіть <guiseq><gui>Зміни</gui><gui>Додатки</gui></guiseq>."
 
 #. (itstool) path: item/p
-#: C/contacts-add-automatically.page:31
+#: C/contacts-add-automatically.page:32
 msgid "Enable <gui>Automatic Contacts</gui>."
 msgstr "Позначте пункт <gui>Автоматичні контакти</gui>."
 
 #. (itstool) path: note/p
-#: C/contacts-add-automatically.page:32 C/mail-attachments-sending.page:48
+#: C/contacts-add-automatically.page:33 C/mail-attachments-sending.page:48
 #: C/mail-composer-custom-header-lines.page:33
 #: C/mail-composer-external-editor.page:28
 #: C/mail-composer-message-templates.page:29
@@ -1860,7 +1860,7 @@ msgstr ""
 "вимкнути якісь додатки або виокремити додатки у інший пакунок."
 
 #. (itstool) path: item/p
-#: C/contacts-add-automatically.page:34
+#: C/contacts-add-automatically.page:35
 msgid ""
 "Go to <guiseq><gui>Edit</gui><gui>Preferences</gui><gui>Contacts</gui> "
 "<gui>Automatic Contacts</gui></guiseq>."
@@ -1869,7 +1869,7 @@ msgstr ""
 "gui><gui>Контакти</gui> <gui>Автоматичні контакти</gui></guiseq>."
 
 #. (itstool) path: item/p
-#: C/contacts-add-automatically.page:36
+#: C/contacts-add-automatically.page:37
 msgid ""
 "Enable <gui>Create address book entries when sending emails</gui> and select "
 "an address book in the drop-down field below that will receive the new "
@@ -1881,7 +1881,7 @@ msgstr ""
 "нижче."
 
 #. (itstool) path: page/p
-#: C/contacts-add-automatically.page:41
+#: C/contacts-add-automatically.page:42
 msgid ""
 "From now on, contacts will be automatically created for senders of received "
 "mail when you reply to that mail."
@@ -1891,7 +1891,7 @@ msgstr ""
 "повідомлення."
 
 #. (itstool) path: info/desc
-#: C/contacts-autocompletion.page:27
+#: C/contacts-autocompletion.page:28
 msgid ""
 "Autocompletion of names and email addresses entered in the mail composer."
 msgstr ""
@@ -1899,12 +1899,12 @@ msgstr ""
 "редакторі повідомлень."
 
 #. (itstool) path: page/title
-#: C/contacts-autocompletion.page:30
+#: C/contacts-autocompletion.page:31
 msgid "Autocompletion of mail recipients"
 msgstr "Автодоповнення записів отримувачів пошти"
 
 #. (itstool) path: page/p
-#: C/contacts-autocompletion.page:32
+#: C/contacts-autocompletion.page:33
 msgid ""
 "You can enter the first three letters of names and email addresses in the "
 "recipients text field and <app>Evolution</app> will present you with a list "
@@ -1915,7 +1915,7 @@ msgstr ""
 "список відповідних записів з ваших адресних книг."
 
 #. (itstool) path: page/p
-#: C/contacts-autocompletion.page:36
+#: C/contacts-autocompletion.page:37
 msgid ""
 "To enable autocompletion, go to <guiseq><gui>Edit</gui><gui>Preferences</"
 "gui><gui>Contacts</gui> <gui>Autocompletion</gui></guiseq> and choose the "
@@ -1928,7 +1928,7 @@ msgstr ""
 "відповідники, зі списку."
 
 #. (itstool) path: page/p
-#: C/contacts-autocompletion.page:41
+#: C/contacts-autocompletion.page:42
 msgid ""
 "Select <gui>Always show address of the autocompleted contact</gui> to also "
 "show the email address along with the name. This can be helpful to "
@@ -1940,7 +1940,7 @@ msgstr ""
 "електронної пошти."
 
 #. (itstool) path: page/p
-#: C/contacts-autocompletion.page:45
+#: C/contacts-autocompletion.page:46
 msgid ""
 "Alternately, you can click the <gui>To:</gui>, <gui>Cc:</gui>, or <gui>Bcc:</"
 "gui> buttons to get a list of the email addresses in your contacts. Select "
@@ -3693,16 +3693,24 @@ msgstr ""
 
 #. (itstool) path: note/p
 #: C/import-apps-outlook.page:65
+#| msgid ""
+#| "If the option to import Outlook personal folders (.pst files) is not "
+#| "available under <guiseq><gui>File</gui><gui>Import</gui><gui>Import "
+#| "single file</gui><gui>File type</gui></guiseq>, your distribution might "
+#| "have not enabled this functionality."
 msgid ""
 "If the option to import Outlook personal folders (.pst files) is not "
 "available under <guiseq><gui>File</gui><gui>Import</gui><gui>Import single "
 "file</gui><gui>File type</gui></guiseq>, your distribution might have not "
-"enabled this functionality."
+"enabled this functionality in Evolution. Please ask in a support forum of "
+"your distribution."
 msgstr ""
 "Якщо варіант із імпортуванням особистих тек Outlook (файлів .pst) є "
 "недоступним з меню <guiseq><gui>Файл</gui><gui>Імпортувати</gui><gui>Імпорт "
 "одного файлу</gui><gui>Тип файлу</gui></guiseq>, ймовірно, у вашому "
-"дистрибутиві не було зібрано відповідну функціональну можливість."
+"дистрибутиві не було зібрано відповідну функціональну можливість у Evolution."
+" Будь ласка, зверніться до форуму підтримки вашого дистрибутива, щоб"
+" виправити це."
 
 #. (itstool) path: item/p
 #: C/import-apps-outlook.page:67 C/import-single-files.page:27
@@ -3961,6 +3969,11 @@ msgstr ""
 "забезпеченні Microsoft, зокрема <app>Microsoft Exchange Client</app>, "
 "<app>Windows Messaging</app> та <app>Microsoft Outlook</app>. Цей формат "
 "також називають «Personal Storage Table» («Особиста таблиця зберігання»)."
+
+#. (itstool) path: item/p
+#: C/import-supported-file-formats.page:83
+msgid "See <link xref=\"import-apps-outlook\"/> for more information."
+msgstr "Див. <link xref=\"import-apps-outlook\"/>, щоб дізнатися більше."
 
 #. (itstool) path: info/desc
 #: C/index.page:5
@@ -14821,11 +14834,11 @@ msgid ""
 "for a variety of common mailing list related headers but might miss messages "
 "from some list servers if they use uncommon headers."
 msgstr ""
-"Фільтри на основі списку листування, з якого надійшло повідомлення. Цей"
-" фільтр виконує пошук даних у діапазоні типових заголовків повідомлення, які"
-" пов'язано із списками листування, але може пропустити повідомлення з деяких"
-" серверів списків листування, якщо на цих серверах використано нетипові"
-" заголовки."
+"Фільтри на основі списку листування, з якого надійшло повідомлення. Цей "
+"фільтр виконує пошук даних у діапазоні типових заголовків повідомлення, які "
+"пов'язано із списками листування, але може пропустити повідомлення з деяких "
+"серверів списків листування, якщо на цих серверах використано нетипові "
+"заголовки."
 
 #. (itstool) path: item/p
 #: C/xinclude-filter-vfolder-conditions.xml:61
