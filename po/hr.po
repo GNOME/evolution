@@ -5,8 +5,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: evolution 0\n"
 "Report-Msgid-Bugs-To: https://gitlab.gnome.org/GNOME/evolution/issues\n"
-"POT-Creation-Date: 2020-08-08 08:04+0000\n"
-"PO-Revision-Date: 2020-08-17 23:28+0200\n"
+"POT-Creation-Date: 2020-08-17 21:29+0000\n"
+"PO-Revision-Date: 2020-08-19 19:59+0200\n"
 "Last-Translator: gogo <trebelnik2@gmail.com>\n"
 "Language-Team: Croatian <lokalizacija@linux.hr>\n"
 "Language: hr\n"
@@ -16,7 +16,7 @@ msgstr ""
 "Plural-Forms: nplurals=3; plural=n%10==1 && n%100!=11 ? 0 : n%10>=2 && n"
 "%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2;\n"
 "X-Launchpad-Export-Date: 2020-03-28 23:52+0000\n"
-"X-Generator: Poedit 2.3\n"
+"X-Generator: Poedit 2.4.1\n"
 
 #: ../data/org.gnome.evolution.addressbook.gschema.xml.in.h:1
 msgid "Enable address formatting"
@@ -13959,14 +13959,12 @@ msgstr "Srednje poravnanje"
 #. Justified
 #: ../src/e-util/e-html-editor-actions.c:1269
 #: ../src/e-util/e-html-editor-paragraph-dialog.c:127
-#, fuzzy
-#| msgid "Last modified"
 msgid "_Justified"
-msgstr "Zadnja promjena"
+msgstr "_Obostrano"
 
 #: ../src/e-util/e-html-editor-actions.c:1271
 msgid "Align Justified"
-msgstr ""
+msgstr "Obostrano poravnanje"
 
 #. Left
 #: ../src/e-util/e-html-editor-actions.c:1276
@@ -14144,28 +14142,20 @@ msgid "Strikethrough"
 msgstr "Precrtano"
 
 #: ../src/e-util/e-html-editor-actions.c:1535
-#, fuzzy
-#| msgid "S_cript:"
 msgid "Subs_cript"
-msgstr "S_kripta:"
+msgstr "Inde_ks"
 
 #: ../src/e-util/e-html-editor-actions.c:1537
-#, fuzzy
-#| msgid "_Subscribe"
 msgid "Subscript"
-msgstr "_Pretplata"
+msgstr "Indeks"
 
 #: ../src/e-util/e-html-editor-actions.c:1543
-#, fuzzy
-#| msgid "S_cript:"
 msgid "Su_perscript"
-msgstr "S_kripta:"
+msgstr "Ek_sponent"
 
 #: ../src/e-util/e-html-editor-actions.c:1545
-#, fuzzy
-#| msgid "Description"
 msgid "Superscript"
-msgstr "Opis"
+msgstr "Eksponent"
 
 #: ../src/e-util/e-html-editor-actions.c:1551
 #: ../src/e-util/e-html-editor-text-dialog.c:223
