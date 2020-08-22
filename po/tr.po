@@ -9,22 +9,23 @@
 # VOLKAN ALBAYRAK <volkanalb@gmail.com>, 2015.
 # Çağatay Yiğit Şahin <cyigitsahin@outlook.com>, 2017.
 # Muhammet Kara <muhammetk@gnome.org>, 2011, 2012, 2014, 2015, 2016, 2017, 2018.
+# Ahmet Elgün <ahmetelgn@gmail.com>, 2020.
 # Emin Tufan Çetin <etcetin@gmail.com>, 2017-2020.
 #
 msgid ""
 msgstr ""
 "Project-Id-Version: evolution\n"
 "Report-Msgid-Bugs-To: https://gitlab.gnome.org/GNOME/evolution/issues\n"
-"POT-Creation-Date: 2020-05-26 13:40+0000\n"
-"PO-Revision-Date: 2020-05-26 19:47+0300\n"
+"POT-Creation-Date: 2020-08-06 08:18+0000\n"
+"PO-Revision-Date: 2020-08-22 08:57+0300\n"
 "Last-Translator: Emin Tufan Çetin <etcetin@gmail.com>\n"
-"Language-Team: <gnome-turk@gnome.org>\n"
+"Language-Team: Turkish <gnome-turk@gnome.org>\n"
 "Language: tr\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Plural-Forms: nplurals=1; plural=0;\n"
-"X-Generator: Poedit 2.3.1\n"
+"Plural-Forms: nplurals=1; plural=0\n"
+"X-Generator: Gtranslator 3.36.0\n"
 
 #: ../data/org.gnome.evolution.addressbook.gschema.xml.in.h:1
 msgid "Enable address formatting"
@@ -3288,6 +3289,20 @@ msgstr ""
 "Webʼde arama için kullanılacak URLʼnin ön eki. Asıl metin seçimi alınacak ve "
 "bu dizgeye eklenecek. URI, https:// ile başlamalıdır."
 
+#: ../data/org.gnome.evolution.shell.gschema.xml.in.h:40
+msgid "Minimum font size to be used by WebKitGTK"
+msgstr "WebKitGTK tarafından kullanılacak en küçük yazı tipi boyutu"
+
+#: ../data/org.gnome.evolution.shell.gschema.xml.in.h:41
+msgid ""
+"The minimum font size in pixels used to display text in WebKitGTK. This "
+"setting controls the absolute smallest size. Values other than 0 can "
+"potentially break page layouts. Negative values are treated as 0."
+msgstr ""
+"WebKitGTK’de metin görüntülenirken kullanılacak piksel türünde en küçük "
+"yazı tipi boyutu. Bu ayar, mutlak en küçük boyutu denetler. 0’dan başka "
+"değer sayfa düzenini bozabilir. Negatif değerler 0 olarak işlem görür."
+
 #: ../data/org.gnome.evolution.spamassassin.gschema.xml.in.h:1
 msgid "Use only local spam tests."
 msgstr "Yalnızca yerel spam denetimlerini kullan."
@@ -3421,7 +3436,7 @@ msgstr "Takvim"
 #: ../src/e-util/e-send-options.c:536 ../src/mail/importers/elm-importer.c:330
 #: ../src/mail/importers/kmail-importer.c:251
 #: ../src/mail/importers/pine-importer.c:423
-#: ../src/modules/mail/e-mail-shell-view.c:1624
+#: ../src/modules/mail/e-mail-shell-view.c:1627
 #: ../src/smime/gui/certificate-manager.c:1666
 msgid "Mail"
 msgstr "Posta"
@@ -3444,7 +3459,7 @@ msgstr "Notlar"
 #: ../src/modules/calendar/e-cal-shell-content.c:1733
 #: ../src/modules/calendar/e-task-shell-view-actions.c:220
 #: ../src/modules/calendar/e-task-shell-view-actions.c:235
-#: ../src/modules/calendar/e-task-shell-view.c:508
+#: ../src/modules/calendar/e-task-shell-view.c:515
 msgid "Tasks"
 msgstr "Görevler"
 
@@ -3749,11 +3764,11 @@ msgstr "_Geniş Görünüm İçin"
 msgid "As Sent Folder for Wi_de View"
 msgstr "Geniş Görünümde _Gönderilen Klasörü Olarak"
 
-#: ../data/views/memos/galview.xml.h:1 ../src/e-util/e-webdav-browser.c:2448
+#: ../data/views/memos/galview.xml.h:1 ../src/e-util/e-webdav-browser.c:2429
 msgid "_Memos"
 msgstr "_Notlar"
 
-#: ../data/views/tasks/galview.xml.h:1 ../src/e-util/e-webdav-browser.c:2452
+#: ../data/views/tasks/galview.xml.h:1 ../src/e-util/e-webdav-browser.c:2433
 #: ../src/plugins/pst-import/pst-importer.c:571
 msgid "_Tasks"
 msgstr "_Görevler"
@@ -4075,7 +4090,7 @@ msgstr "Sertifikaları Göster"
 #: ../src/addressbook/gui/contact-editor/contact-editor.ui.h:12
 #: ../src/addressbook/gui/contact-editor/e-contact-editor.c:724
 #: ../src/addressbook/gui/contact-editor/e-contact-editor.c:746
-#: ../src/addressbook/gui/contact-editor/e-contact-editor.c:3115
+#: ../src/addressbook/gui/contact-editor/e-contact-editor.c:3111
 msgid "Contact Editor"
 msgstr "Bağlantı Düzenleyici"
 
@@ -4088,10 +4103,10 @@ msgstr "Seçenekler"
 #. This is only shown if the EActivity has a GCancellable.
 #. no flags
 #: ../src/addressbook/gui/contact-editor/contact-editor.ui.h:14
-#: ../src/addressbook/gui/contact-editor/e-contact-editor.c:3278
-#: ../src/addressbook/gui/contact-editor/e-contact-editor.c:3508
-#: ../src/addressbook/gui/contact-editor/e-contact-editor.c:4340
-#: ../src/addressbook/gui/contact-editor/e-contact-editor.c:4346
+#: ../src/addressbook/gui/contact-editor/e-contact-editor.c:3274
+#: ../src/addressbook/gui/contact-editor/e-contact-editor.c:3504
+#: ../src/addressbook/gui/contact-editor/e-contact-editor.c:4336
+#: ../src/addressbook/gui/contact-editor/e-contact-editor.c:4342
 #: ../src/addressbook/gui/contact-editor/e-contact-editor-fullname.c:220
 #: ../src/addressbook/gui/contact-editor/e-contact-quick-add.c:453
 #: ../src/addressbook/gui/contact-editor/fullname.ui.h:14
@@ -4111,8 +4126,8 @@ msgstr "Seçenekler"
 #: ../src/e-util/e-categories-dialog.c:80 ../src/e-util/e-category-editor.c:169
 #: ../src/e-util/e-category-editor.c:257 ../src/e-util/e-charset-combo-box.c:99
 #: ../src/e-util/e-collection-account-wizard.c:238
-#: ../src/e-util/e-collection-account-wizard.c:1864
-#: ../src/e-util/e-collection-account-wizard.c:2100
+#: ../src/e-util/e-collection-account-wizard.c:1868
+#: ../src/e-util/e-collection-account-wizard.c:2109
 #: ../src/e-util/e-color-chooser-widget.c:125
 #: ../src/e-util/e-filter-datespec.c:300
 #: ../src/e-util/e-html-editor-actions.c:342
@@ -4124,13 +4139,13 @@ msgstr "Seçenekler"
 #: ../src/e-util/e-rule-editor.c:187 ../src/e-util/e-rule-editor.c:298
 #: ../src/e-util/e-rule-editor.c:933 ../src/e-util/e-send-options.ui.h:16
 #: ../src/e-util/e-source-config-dialog.c:360
-#: ../src/e-util/e-source-selector-dialog.c:370
+#: ../src/e-util/e-source-selector-dialog.c:325
 #: ../src/e-util/e-table-config.c:548 ../src/e-util/e-table-config.ui.h:3
 #: ../src/e-util/e-timezone-dialog.ui.h:2
-#: ../src/e-util/evolution-source-viewer.c:835 ../src/e-util/e-web-view.c:3915
+#: ../src/e-util/evolution-source-viewer.c:835 ../src/e-util/e-web-view.c:3932
 #: ../src/e-util/gal-view-instance-save-as-dialog.c:267
 #: ../src/mail/e-mail-config-window.c:334 ../src/mail/e-mail-label-dialog.c:194
-#: ../src/mail/e-mail-tag-editor.c:160 ../src/mail/em-composer-utils.c:4045
+#: ../src/mail/e-mail-tag-editor.c:160 ../src/mail/em-composer-utils.c:4050
 #: ../src/mail/em-folder-selector.c:333 ../src/mail/mail-config.ui.h:2
 #: ../src/mail/mail.error.xml.h:16 ../src/mail/mail-send-recv.c:874
 #: ../src/mail/mail-send-recv.c:955 ../src/mail/mail-vfolder-ui.c:149
@@ -4155,17 +4170,17 @@ msgid "_Cancel"
 msgstr "_İptal"
 
 #: ../src/addressbook/gui/contact-editor/contact-editor.ui.h:15
-#: ../src/addressbook/gui/contact-editor/e-contact-editor.c:3508
+#: ../src/addressbook/gui/contact-editor/e-contact-editor.c:3504
 #: ../src/addressbook/gui/contact-list-editor/contact-list-editor.ui.h:3
 #: ../src/addressbook/gui/widgets/eab-contact-merging.c:755
 #: ../src/calendar/calendar.error.xml.h:47
-#: ../src/calendar/gui/e-comp-editor.c:2158
+#: ../src/calendar/gui/e-comp-editor.c:2186
 #: ../src/composer/e-composer-actions.c:242
 #: ../src/composer/e-composer-actions.c:354
 #: ../src/e-util/e-attachment-store.c:848
 #: ../src/e-util/e-attachment-store.c:855
 #: ../src/e-util/e-mail-signature-script-dialog.c:370
-#: ../src/e-util/e-webdav-browser.c:2476 ../src/e-util/e-web-view.c:3915
+#: ../src/e-util/e-webdav-browser.c:2457 ../src/e-util/e-web-view.c:3932
 #: ../src/e-util/gal-view-instance-save-as-dialog.c:268
 #: ../src/shell/e-shell-content.c:642 ../src/shell/e-shell-utils.c:133
 #: ../src/smime/gui/certificate-manager.c:651
@@ -4174,12 +4189,12 @@ msgid "_Save"
 msgstr "_Kaydet"
 
 #: ../src/addressbook/gui/contact-editor/contact-editor.ui.h:16
-#: ../src/calendar/gui/e-comp-editor.c:2055
-#: ../src/calendar/gui/e-comp-editor.c:2127
+#: ../src/calendar/gui/e-comp-editor.c:2083
+#: ../src/calendar/gui/e-comp-editor.c:2155
 #: ../src/e-util/e-preferences-window.c:390
 #: ../src/e-util/e-send-options.ui.h:15
 #: ../src/plugins/email-custom-header/org-gnome-email-custom-header.ui.h:2
-#: ../src/shell/e-shell-window-actions.c:1059
+#: ../src/shell/e-shell-window-actions.c:1066
 msgid "_Help"
 msgstr "_Yardım"
 
@@ -4453,25 +4468,25 @@ msgid "Certificates"
 msgstr "Sertifikalar"
 
 #: ../src/addressbook/gui/contact-editor/e-contact-editor.c:261
-#: ../src/calendar/gui/e-comp-editor.c:2090
+#: ../src/calendar/gui/e-comp-editor.c:2118
 #: ../src/e-util/e-html-editor-actions.c:1107
 msgid "_Undo"
 msgstr "_Geri Al"
 
 #: ../src/addressbook/gui/contact-editor/e-contact-editor.c:263
-#: ../src/calendar/gui/e-comp-editor.c:2092 ../src/e-util/e-focus-tracker.c:147
+#: ../src/calendar/gui/e-comp-editor.c:2120 ../src/e-util/e-focus-tracker.c:147
 #: ../src/e-util/e-focus-tracker.c:150
 msgid "Undo"
 msgstr "Geri Al"
 
 #: ../src/addressbook/gui/contact-editor/e-contact-editor.c:268
-#: ../src/calendar/gui/e-comp-editor.c:2097
+#: ../src/calendar/gui/e-comp-editor.c:2125
 #: ../src/e-util/e-html-editor-actions.c:1093
 msgid "_Redo"
 msgstr "_Yinele"
 
 #: ../src/addressbook/gui/contact-editor/e-contact-editor.c:270
-#: ../src/calendar/gui/e-comp-editor.c:2099 ../src/e-util/e-focus-tracker.c:163
+#: ../src/calendar/gui/e-comp-editor.c:2127 ../src/e-util/e-focus-tracker.c:163
 #: ../src/e-util/e-focus-tracker.c:166
 msgid "Redo"
 msgstr "Yinele"
@@ -4490,20 +4505,20 @@ msgid "Error removing contact"
 msgstr "Bağlantıyı silerken hata oluştu"
 
 #: ../src/addressbook/gui/contact-editor/e-contact-editor.c:740
-#: ../src/addressbook/gui/contact-editor/e-contact-editor.c:3109
+#: ../src/addressbook/gui/contact-editor/e-contact-editor.c:3105
 #, c-format
 msgid "Contact Editor — %s"
 msgstr "Bağlantı Düzenleyici — %s"
 
-#: ../src/addressbook/gui/contact-editor/e-contact-editor.c:3245
+#: ../src/addressbook/gui/contact-editor/e-contact-editor.c:3241
 msgid "X.509 certificates"
 msgstr "X.509 Sertifikaları"
 
-#: ../src/addressbook/gui/contact-editor/e-contact-editor.c:3250
+#: ../src/addressbook/gui/contact-editor/e-contact-editor.c:3246
 msgid "PGP keys"
 msgstr "PGP anahtarları"
 
-#: ../src/addressbook/gui/contact-editor/e-contact-editor.c:3256
+#: ../src/addressbook/gui/contact-editor/e-contact-editor.c:3252
 #: ../src/e-util/e-html-editor-actions.c:395
 #: ../src/e-util/e-image-chooser-dialog.c:193
 #: ../src/smime/gui/certificate-manager.c:672
@@ -4511,17 +4526,17 @@ msgstr "PGP anahtarları"
 msgid "All files"
 msgstr "Tüm dosyalar"
 
-#: ../src/addressbook/gui/contact-editor/e-contact-editor.c:3276
+#: ../src/addressbook/gui/contact-editor/e-contact-editor.c:3272
 msgid "Open PGP key"
 msgstr "PGP anahtarını aç"
 
-#: ../src/addressbook/gui/contact-editor/e-contact-editor.c:3276
+#: ../src/addressbook/gui/contact-editor/e-contact-editor.c:3272
 msgid "Open X.509 certificate"
 msgstr "X.509 sertifikasını aç"
 
-#: ../src/addressbook/gui/contact-editor/e-contact-editor.c:3278
-#: ../src/addressbook/gui/contact-editor/e-contact-editor.c:4340
-#: ../src/addressbook/gui/contact-editor/e-contact-editor.c:4347
+#: ../src/addressbook/gui/contact-editor/e-contact-editor.c:3274
+#: ../src/addressbook/gui/contact-editor/e-contact-editor.c:4336
+#: ../src/addressbook/gui/contact-editor/e-contact-editor.c:4343
 #: ../src/e-util/e-attachment-store.c:666 ../src/e-util/e-category-editor.c:177
 #: ../src/e-util/e-html-editor-actions.c:342
 #: ../src/e-util/e-html-editor-actions.c:386
@@ -4531,49 +4546,49 @@ msgstr "X.509 sertifikasını aç"
 msgid "_Open"
 msgstr "_Aç"
 
-#: ../src/addressbook/gui/contact-editor/e-contact-editor.c:3293
-#: ../src/addressbook/gui/contact-editor/e-contact-editor.c:3521
+#: ../src/addressbook/gui/contact-editor/e-contact-editor.c:3289
+#: ../src/addressbook/gui/contact-editor/e-contact-editor.c:3517
 msgid "Chosen file is not a local file."
 msgstr "Seçilen dosya, yerel dosya değil."
 
-#: ../src/addressbook/gui/contact-editor/e-contact-editor.c:3306
+#: ../src/addressbook/gui/contact-editor/e-contact-editor.c:3302
 #, c-format
 msgid "Failed to load certificate: %s"
 msgstr "Sertifika yükleme başarısız: %s"
 
-#: ../src/addressbook/gui/contact-editor/e-contact-editor.c:3335
+#: ../src/addressbook/gui/contact-editor/e-contact-editor.c:3331
 msgctxt "cert-kind"
 msgid "X.509"
 msgstr "X.509"
 
-#: ../src/addressbook/gui/contact-editor/e-contact-editor.c:3335
+#: ../src/addressbook/gui/contact-editor/e-contact-editor.c:3331
 msgctxt "cert-kind"
 msgid "PGP"
 msgstr "PGP"
 
-#: ../src/addressbook/gui/contact-editor/e-contact-editor.c:3506
+#: ../src/addressbook/gui/contact-editor/e-contact-editor.c:3502
 msgid "Save PGP key"
 msgstr "PGP anahtarını kaydet"
 
-#: ../src/addressbook/gui/contact-editor/e-contact-editor.c:3506
+#: ../src/addressbook/gui/contact-editor/e-contact-editor.c:3502
 msgid "Save X.509 certificate"
 msgstr "X.509 sertifikasını kaydet"
 
-#: ../src/addressbook/gui/contact-editor/e-contact-editor.c:3533
+#: ../src/addressbook/gui/contact-editor/e-contact-editor.c:3529
 #, c-format
 msgid "Failed to save certificate: %s"
 msgstr "Sertifika kaydetme başarısız: %s"
 
-#: ../src/addressbook/gui/contact-editor/e-contact-editor.c:4337
-#: ../src/addressbook/gui/contact-editor/e-contact-editor.c:4343
+#: ../src/addressbook/gui/contact-editor/e-contact-editor.c:4333
+#: ../src/addressbook/gui/contact-editor/e-contact-editor.c:4339
 msgid "Please select an image for this contact"
 msgstr "Lütfen bu bağlantı için resim seçin"
 
-#: ../src/addressbook/gui/contact-editor/e-contact-editor.c:4348
+#: ../src/addressbook/gui/contact-editor/e-contact-editor.c:4344
 msgid "_No image"
 msgstr "_Resim yok"
 
-#: ../src/addressbook/gui/contact-editor/e-contact-editor.c:4711
+#: ../src/addressbook/gui/contact-editor/e-contact-editor.c:4707
 msgid ""
 "The contact data is invalid:\n"
 "\n"
@@ -4581,28 +4596,28 @@ msgstr ""
 "Bağlantı verisi geçersiz:\n"
 "\n"
 
-#: ../src/addressbook/gui/contact-editor/e-contact-editor.c:4717
+#: ../src/addressbook/gui/contact-editor/e-contact-editor.c:4713
 #, c-format
 msgid "“%s” has an invalid format"
 msgstr "“%s” geçersiz biçime sahip"
 
-#: ../src/addressbook/gui/contact-editor/e-contact-editor.c:4725
+#: ../src/addressbook/gui/contact-editor/e-contact-editor.c:4721
 #, c-format
 msgid "“%s” cannot be a future date"
 msgstr "“%s” gelecekteki tarih olamaz"
 
-#: ../src/addressbook/gui/contact-editor/e-contact-editor.c:4733
+#: ../src/addressbook/gui/contact-editor/e-contact-editor.c:4729
 #, c-format
 msgid "%s“%s” has an invalid format"
 msgstr "%s“%s” geçersiz biçime sahip"
 
-#: ../src/addressbook/gui/contact-editor/e-contact-editor.c:4746
-#: ../src/addressbook/gui/contact-editor/e-contact-editor.c:4760
+#: ../src/addressbook/gui/contact-editor/e-contact-editor.c:4742
+#: ../src/addressbook/gui/contact-editor/e-contact-editor.c:4756
 #, c-format
 msgid "%s“%s” is empty"
 msgstr "%s“%s” boş"
 
-#: ../src/addressbook/gui/contact-editor/e-contact-editor.c:4775
+#: ../src/addressbook/gui/contact-editor/e-contact-editor.c:4771
 msgid "Invalid contact."
 msgstr "Geçersiz bağlantı."
 
@@ -4621,7 +4636,7 @@ msgstr "Geçersiz bağlantı."
 #: ../src/e-util/e-rule-editor.c:188 ../src/e-util/e-rule-editor.c:299
 #: ../src/e-util/e-rule-editor.c:934 ../src/e-util/e-send-options.ui.h:17
 #: ../src/e-util/e-source-config-dialog.c:361
-#: ../src/e-util/e-source-selector-dialog.c:371
+#: ../src/e-util/e-source-selector-dialog.c:326
 #: ../src/e-util/e-table-config.c:549 ../src/e-util/e-table-config.ui.h:4
 #: ../src/e-util/e-timezone-dialog.ui.h:3
 #: ../src/mail/e-mail-config-window.c:335 ../src/mail/e-mail-tag-editor.c:162
@@ -4820,7 +4835,7 @@ msgstr "E-posta başlangıcı"
 #: ../src/modules/addressbook/e-book-shell-view-actions.c:1295
 #: ../src/modules/calendar/e-cal-shell-view-actions.c:1692
 #: ../src/modules/calendar/e-memo-shell-view-actions.c:807
-#: ../src/modules/calendar/e-task-shell-view-actions.c:1015
+#: ../src/modules/calendar/e-task-shell-view-actions.c:1022
 msgid "Any field contains"
 msgstr "Herhangi bir alanın içeriği"
 
@@ -5243,10 +5258,10 @@ msgid "Are you sure you want to delete this contact (%s)?"
 msgstr "Bu kişiyi (%s) silmek istediğinizden emin misiniz?"
 
 #: ../src/addressbook/gui/widgets/e-addressbook-view.c:1323
-#: ../src/calendar/gui/e-comp-editor.c:2048
+#: ../src/calendar/gui/e-comp-editor.c:2076
 #: ../src/e-util/e-accounts-window.c:1753 ../src/e-util/e-focus-tracker.c:816
 #: ../src/e-util/evolution-source-viewer.c:806
-#: ../src/e-util/e-webdav-browser.c:2697
+#: ../src/e-util/e-webdav-browser.c:2678
 #: ../src/mail/e-mail-account-manager.c:739
 #: ../src/modules/addressbook/e-book-shell-view-actions.c:1173
 #: ../src/modules/calendar/e-cal-shell-view-actions.c:1499
@@ -5460,7 +5475,7 @@ msgstr "_Uzaklaştır"
 #: ../src/addressbook/gui/widgets/e-contact-map-window.c:447
 #: ../src/e-util/e-html-editor-actions.c:2206
 #: ../src/e-util/e-html-editor-find-dialog.c:244
-#: ../src/shell/e-shell-window-actions.c:987
+#: ../src/shell/e-shell-window-actions.c:994
 msgid "_Find"
 msgstr "_Bul"
 
@@ -6415,7 +6430,7 @@ msgstr "içermez"
 #: ../src/calendar/gui/memotypes.xml.in.h:4
 #: ../src/calendar/gui/tasktypes.xml.in.h:4
 #: ../src/e-util/e-attachment-tree-view.c:147
-#: ../src/e-util/e-collection-account-wizard.c:1956
+#: ../src/e-util/e-collection-account-wizard.c:1960
 #: ../src/e-util/e-table-config.ui.h:20
 #: ../src/modules/plugin-manager/evolution-plugin-manager.c:66
 msgid "Description"
@@ -6527,7 +6542,7 @@ msgid "Do Not Exist"
 msgstr "Bulunmaz"
 
 #: ../src/calendar/gui/caltypes.xml.in.h:19
-#: ../src/calendar/gui/e-comp-editor-page-recurrence.c:2101
+#: ../src/calendar/gui/e-comp-editor-page-recurrence.c:2103
 msgid "Recurrence"
 msgstr "Yineleme"
 
@@ -6559,64 +6574,64 @@ msgstr "Özet İçerir"
 msgid "Description Contains"
 msgstr "Tanım İçerir"
 
-#: ../src/calendar/gui/comp-util.c:1546
+#: ../src/calendar/gui/comp-util.c:1543
 #: ../src/modules/itip-formatter/itip-view.c:2294
 #, c-format
 msgid "with one guest"
 msgid_plural "with %d guests"
 msgstr[0] "%d misafirle"
 
-#: ../src/calendar/gui/comp-util.c:1605
+#: ../src/calendar/gui/comp-util.c:1602
 #, c-format
 msgid "Comments: %s"
 msgstr "Yorumlar: %s"
 
-#: ../src/calendar/gui/comp-util.c:1619 ../src/calendar/gui/comp-util.c:1622
+#: ../src/calendar/gui/comp-util.c:1616 ../src/calendar/gui/comp-util.c:1619
 msgctxt "iCalendarStatus"
 msgid "None"
 msgstr "Yok"
 
-#: ../src/calendar/gui/comp-util.c:1620
+#: ../src/calendar/gui/comp-util.c:1617
 msgctxt "iCalendarStatus"
 msgid "Tentative"
 msgstr "Girişimli"
 
-#: ../src/calendar/gui/comp-util.c:1621
+#: ../src/calendar/gui/comp-util.c:1618
 msgctxt "iCalendarStatus"
 msgid "Confirmed"
 msgstr "Onaylanmış"
 
-#: ../src/calendar/gui/comp-util.c:1623
+#: ../src/calendar/gui/comp-util.c:1620
 msgctxt "iCalendarStatus"
 msgid "Draft"
 msgstr "Taslak"
 
-#: ../src/calendar/gui/comp-util.c:1624
+#: ../src/calendar/gui/comp-util.c:1621
 msgctxt "iCalendarStatus"
 msgid "Final"
 msgstr "Son"
 
-#: ../src/calendar/gui/comp-util.c:1625
+#: ../src/calendar/gui/comp-util.c:1622
 msgctxt "iCalendarStatus"
 msgid "Not Started"
 msgstr "Başlamadı"
 
-#: ../src/calendar/gui/comp-util.c:1626
+#: ../src/calendar/gui/comp-util.c:1623
 msgctxt "iCalendarStatus"
 msgid "Needs Action"
 msgstr "Eylem Gerektiriyor"
 
-#: ../src/calendar/gui/comp-util.c:1627
+#: ../src/calendar/gui/comp-util.c:1624
 msgctxt "iCalendarStatus"
 msgid "In Progress"
 msgstr "Süreçte"
 
-#: ../src/calendar/gui/comp-util.c:1628
+#: ../src/calendar/gui/comp-util.c:1625
 msgctxt "iCalendarStatus"
 msgid "Completed"
 msgstr "Tamamlandı"
 
-#: ../src/calendar/gui/comp-util.c:1629
+#: ../src/calendar/gui/comp-util.c:1626
 msgctxt "iCalendarStatus"
 msgid "Cancelled"
 msgstr "İptal Edilmiş"
@@ -6837,7 +6852,7 @@ msgid "calendar view for one or more weeks"
 msgstr "bir ya da daha çok hafta için takvim görünümü"
 
 #: ../src/calendar/gui/e-cal-component-preview.c:237
-#: ../src/e-util/e-filter-rule.c:989 ../src/mail/e-mail-config-page.c:124
+#: ../src/e-util/e-filter-rule.c:1068 ../src/mail/e-mail-config-page.c:124
 msgid "Untitled"
 msgstr "Adsız"
 
@@ -6864,24 +6879,24 @@ msgstr "Bitiş Tarihi:"
 msgid "Due Date:"
 msgstr "Teslim Tarihi:"
 
-#: ../src/calendar/gui/e-cal-component-preview.c:326
+#: ../src/calendar/gui/e-cal-component-preview.c:327
 msgid "Recurs:"
 msgstr "Yineler:"
 
-#: ../src/calendar/gui/e-cal-component-preview.c:338
+#: ../src/calendar/gui/e-cal-component-preview.c:339
 #: ../src/modules/itip-formatter/itip-view.c:1703
 #: ../src/modules/itip-formatter/itip-view.c:1820
 msgid "Status:"
 msgstr "Durum:"
 
-#: ../src/calendar/gui/e-cal-component-preview.c:347
+#: ../src/calendar/gui/e-cal-component-preview.c:348
 #: ../src/calendar/gui/e-task-table.c:471
 #: ../src/calendar/gui/tasktypes.xml.in.h:19
 #: ../src/e-util/e-send-options.ui.h:2 ../src/mail/message-list.c:334
 msgid "High"
 msgstr "Yüksek"
 
-#: ../src/calendar/gui/e-cal-component-preview.c:349
+#: ../src/calendar/gui/e-cal-component-preview.c:350
 #: ../src/calendar/gui/e-cal-model.c:1872
 #: ../src/calendar/gui/e-task-table.c:472
 #: ../src/calendar/gui/tasktypes.xml.in.h:20
@@ -6889,31 +6904,31 @@ msgstr "Yüksek"
 msgid "Normal"
 msgstr "Olağan"
 
-#: ../src/calendar/gui/e-cal-component-preview.c:351
+#: ../src/calendar/gui/e-cal-component-preview.c:352
 #: ../src/calendar/gui/e-task-table.c:473
 #: ../src/calendar/gui/tasktypes.xml.in.h:21
 #: ../src/e-util/e-send-options.ui.h:4 ../src/mail/message-list.c:332
 msgid "Low"
 msgstr "Düşük"
 
-#: ../src/calendar/gui/e-cal-component-preview.c:353
+#: ../src/calendar/gui/e-cal-component-preview.c:354
 msgid "Priority:"
 msgstr "Öncelik:"
 
-#: ../src/calendar/gui/e-cal-component-preview.c:365
+#: ../src/calendar/gui/e-cal-component-preview.c:366
 msgid "Organizer:"
 msgstr "Düzenleyici:"
 
-#: ../src/calendar/gui/e-cal-component-preview.c:406
+#: ../src/calendar/gui/e-cal-component-preview.c:407
 msgid "Attendees:"
 msgstr "Katılımcılar:"
 
-#: ../src/calendar/gui/e-cal-component-preview.c:453
+#: ../src/calendar/gui/e-cal-component-preview.c:454
 #: ../src/mail/e-mail-config-service-page.c:533
 msgid "Description:"
 msgstr "Açıklama:"
 
-#: ../src/calendar/gui/e-cal-component-preview.c:507
+#: ../src/calendar/gui/e-cal-component-preview.c:508
 msgid "Web Page:"
 msgstr "Web Sayfası:"
 
@@ -7248,8 +7263,8 @@ msgstr "Durum"
 #: ../src/calendar/gui/e-task-table.etspec.h:3
 #: ../src/e-util/e-accounts-window.c:1443
 #: ../src/e-util/e-attachment-tree-view.c:205
-#: ../src/e-util/e-collection-account-wizard.c:1997
-#: ../src/e-util/e-webdav-browser.c:2390
+#: ../src/e-util/e-collection-account-wizard.c:2001
+#: ../src/e-util/e-webdav-browser.c:2371
 #: ../src/mail/e-mail-account-tree-view.c:158
 msgid "Type"
 msgstr "Tür"
@@ -7262,7 +7277,7 @@ msgstr "Tür"
 #: ../src/calendar/gui/e-meeting-store.c:215 ../src/calendar/gui/print.c:1265
 #: ../src/calendar/gui/print.c:1282 ../src/e-util/e-charset.c:49
 #: ../src/modules/itip-formatter/itip-view.c:3460
-#: ../src/modules/itip-formatter/itip-view.c:6505
+#: ../src/modules/itip-formatter/itip-view.c:6506
 #: ../src/modules/plugin-manager/evolution-plugin-manager.c:97
 msgid "Unknown"
 msgstr "Bilinmiyor"
@@ -7311,7 +7326,7 @@ msgstr "Hayır"
 #: ../src/calendar/gui/e-meeting-list-view.c:208
 #: ../src/calendar/gui/e-meeting-store.c:179
 #: ../src/calendar/gui/e-meeting-store.c:202
-#: ../src/modules/itip-formatter/itip-view.c:6493
+#: ../src/modules/itip-formatter/itip-view.c:6494
 msgid "Accepted"
 msgstr "Onaylandı"
 
@@ -7319,7 +7334,7 @@ msgstr "Onaylandı"
 #: ../src/calendar/gui/e-meeting-list-view.c:209
 #: ../src/calendar/gui/e-meeting-store.c:181
 #: ../src/calendar/gui/e-meeting-store.c:204
-#: ../src/modules/itip-formatter/itip-view.c:6499
+#: ../src/modules/itip-formatter/itip-view.c:6500
 msgid "Declined"
 msgstr "Reddedildi"
 
@@ -7335,7 +7350,7 @@ msgstr "Girişimli"
 #: ../src/calendar/gui/e-meeting-list-view.c:211
 #: ../src/calendar/gui/e-meeting-store.c:185
 #: ../src/calendar/gui/e-meeting-store.c:208
-#: ../src/modules/itip-formatter/itip-view.c:6502
+#: ../src/modules/itip-formatter/itip-view.c:6503
 msgid "Delegated"
 msgstr "Temsilci"
 
@@ -7577,8 +7592,8 @@ msgstr "Başlangıç saati geçerli zaman değil"
 #: ../src/e-util/e-misc-utils.c:3992 ../src/e-util/e-misc-utils.c:4004
 #: ../src/e-util/e-misc-utils.c:4018 ../src/mail/e-mail-autoconfig.c:1041
 #: ../src/mail/e-mail-display.c:2444 ../src/mail/e-mail-notes.c:875
-#: ../src/mail/e-mail-reader-utils.c:805 ../src/mail/em-composer-utils.c:3838
-#: ../src/mail/em-composer-utils.c:3869 ../src/mail/mail-send-recv.c:598
+#: ../src/mail/e-mail-reader-utils.c:805 ../src/mail/em-composer-utils.c:3843
+#: ../src/mail/em-composer-utils.c:3874 ../src/mail/mail-send-recv.c:598
 #: ../src/mail/mail-send-recv.c:1493
 #: ../src/modules/accounts-window/e-accounts-window-editors.c:172
 #: ../src/plugins/face/face.c:175 ../src/shell/e-shell.c:1235
@@ -7917,12 +7932,12 @@ msgid "Atte_ndees…"
 msgstr "Katılı_mcılar…"
 
 #: ../src/calendar/gui/e-comp-editor-page-general.c:1533
-#: ../src/calendar/gui/e-comp-editor-page-recurrence.c:2321
-#: ../src/calendar/gui/e-comp-editor.c:2113
+#: ../src/calendar/gui/e-comp-editor-page-recurrence.c:2323
+#: ../src/calendar/gui/e-comp-editor.c:2141
 #: ../src/e-util/e-accounts-window.c:1745
 #: ../src/e-util/e-html-editor-actions.c:1116
 #: ../src/e-util/e-mail-signature-manager.c:358
-#: ../src/e-util/e-webdav-browser.c:2690 ../src/e-util/filter.ui.h:26
+#: ../src/e-util/e-webdav-browser.c:2671 ../src/e-util/filter.ui.h:26
 #: ../src/mail/e-mail-account-manager.c:730 ../src/mail/e-mail-browser.c:217
 #: ../src/mail/e-mail-label-manager.c:380
 #: ../src/mail/em-folder-properties.c:1333 ../src/mail/mail-config.ui.h:68
@@ -7930,7 +7945,7 @@ msgstr "Katılı_mcılar…"
 #: ../src/plugins/email-custom-header/email-custom-header.c:844
 #: ../src/plugins/publish-calendar/publish-calendar.ui.h:34
 #: ../src/plugins/templates/templates.c:469
-#: ../src/shell/e-shell-window-actions.c:1045 ../src/smime/gui/smime-ui.ui.h:11
+#: ../src/shell/e-shell-window-actions.c:1052 ../src/smime/gui/smime-ui.ui.h:11
 msgid "_Edit"
 msgstr "Dü_zenle"
 
@@ -8088,122 +8103,122 @@ msgctxt "ECompEditorPageRecur"
 msgid "on the"
 msgstr "gününde"
 
-#: ../src/calendar/gui/e-comp-editor-page-recurrence.c:1091
+#: ../src/calendar/gui/e-comp-editor-page-recurrence.c:1093
 msgctxt "ECompEditorPageRecur"
 msgid "occurrences"
 msgstr "yinelemeler"
 
 #. Translators: Entire string is for example:     'This appointment recurs/Every[x][day(s)][for][1]occurrences' (combobox options are in [square brackets])
-#: ../src/calendar/gui/e-comp-editor-page-recurrence.c:1556
-#: ../src/calendar/gui/e-comp-editor-page-recurrence.c:2113
+#: ../src/calendar/gui/e-comp-editor-page-recurrence.c:1558
+#: ../src/calendar/gui/e-comp-editor-page-recurrence.c:2115
 msgctxt "ECompEditorPageRecur"
 msgid "This appointment rec_urs"
 msgstr "Bu toplantı _yinelenir"
 
 #. Translators: Entire string is for example:     'This task recurs/Every[x][day(s)][for][1]occurrences' (combobox options are in [square brackets])
-#: ../src/calendar/gui/e-comp-editor-page-recurrence.c:1561
+#: ../src/calendar/gui/e-comp-editor-page-recurrence.c:1563
 msgctxt "ECompEditorPageRecur"
 msgid "This task rec_urs"
 msgstr "Bu görev _yinelenir"
 
 #. Translators: Entire string is for example:     'This memo recurs/Every[x][day(s)][for][1]occurrences' (combobox options are in [square brackets])
-#: ../src/calendar/gui/e-comp-editor-page-recurrence.c:1566
+#: ../src/calendar/gui/e-comp-editor-page-recurrence.c:1568
 msgctxt "ECompEditorPageRecur"
 msgid "This memo rec_urs"
 msgstr "Bu not _yinelenir"
 
 #. Translators: Entire string is for example:     'This component recurs/Every[x][day(s)][for][1]occurrences' (combobox options are in [square brackets])
-#: ../src/calendar/gui/e-comp-editor-page-recurrence.c:1571
+#: ../src/calendar/gui/e-comp-editor-page-recurrence.c:1573
 msgctxt "ECompEditorPageRecur"
 msgid "This component rec_urs"
 msgstr "Bu bileşen _yinelenir"
 
-#: ../src/calendar/gui/e-comp-editor-page-recurrence.c:1942
+#: ../src/calendar/gui/e-comp-editor-page-recurrence.c:1944
 msgid "Recurrence exception date is invalid"
 msgstr "Yineleme istisna tarihi geçersiz"
 
-#: ../src/calendar/gui/e-comp-editor-page-recurrence.c:1998
+#: ../src/calendar/gui/e-comp-editor-page-recurrence.c:2000
 msgid "End time of the recurrence is before the start"
 msgstr "Yinelemenin bitiş saati başlangıçtan önce"
 
-#: ../src/calendar/gui/e-comp-editor-page-recurrence.c:2041
+#: ../src/calendar/gui/e-comp-editor-page-recurrence.c:2043
 msgid "R_ecurrence"
 msgstr "_Yinele"
 
-#: ../src/calendar/gui/e-comp-editor-page-recurrence.c:2043
+#: ../src/calendar/gui/e-comp-editor-page-recurrence.c:2045
 msgid "Set or unset recurrence"
 msgstr "Yinelemeyi ayarla veya ayarlama"
 
 #. Translators: Entire string is for example:     'This appointment recurs/Every[x][day(s)][for][1]occurrences' (combobox options are in [square brackets])
-#: ../src/calendar/gui/e-comp-editor-page-recurrence.c:2145
+#: ../src/calendar/gui/e-comp-editor-page-recurrence.c:2147
 msgctxt "ECompEditorPageRecur"
 msgid "Every"
 msgstr "Her"
 
 #. Translators: Entire string is for example:     'This appointment recurs/Every[x][day(s)][for][1]occurrences' (combobox options are in [square brackets])
-#: ../src/calendar/gui/e-comp-editor-page-recurrence.c:2180
+#: ../src/calendar/gui/e-comp-editor-page-recurrence.c:2182
 msgctxt "ECompEditorPageRecur"
 msgid "day(s)"
 msgstr "gün"
 
 #. Translators: Entire string is for example:     'This appointment recurs/Every[x][day(s)][for][1]occurrences' (combobox options are in [square brackets])
-#: ../src/calendar/gui/e-comp-editor-page-recurrence.c:2182
+#: ../src/calendar/gui/e-comp-editor-page-recurrence.c:2184
 msgctxt "ECompEditorPageRecur"
 msgid "week(s)"
 msgstr "hafta"
 
 #. Translators: Entire string is for example:     'This appointment recurs/Every[x][day(s)][for][1]occurrences' (combobox options are in [square brackets])
-#: ../src/calendar/gui/e-comp-editor-page-recurrence.c:2184
+#: ../src/calendar/gui/e-comp-editor-page-recurrence.c:2186
 msgctxt "ECompEditorPageRecur"
 msgid "month(s)"
 msgstr "ay"
 
 #. Translators: Entire string is for example:     'This appointment recurs/Every[x][day(s)][for][1]occurrences' (combobox options are in [square brackets])
-#: ../src/calendar/gui/e-comp-editor-page-recurrence.c:2186
+#: ../src/calendar/gui/e-comp-editor-page-recurrence.c:2188
 msgctxt "ECompEditorPageRecur"
 msgid "year(s)"
 msgstr "yıl"
 
 #. Translators: Entire string is for example:     'This appointment recurs/Every[x][day(s)][for][1]occurrences' (combobox options are in [square brackets])
-#: ../src/calendar/gui/e-comp-editor-page-recurrence.c:2215
+#: ../src/calendar/gui/e-comp-editor-page-recurrence.c:2217
 msgctxt "ECompEditorPageRecur"
 msgid "for"
 msgstr "için"
 
 #. Translators: Entire string is for example:     'This appointment recurs/Every[x][day(s)][for][1]occurrences' (combobox options are in [square brackets])
-#: ../src/calendar/gui/e-comp-editor-page-recurrence.c:2217
+#: ../src/calendar/gui/e-comp-editor-page-recurrence.c:2219
 msgctxt "ECompEditorPageRecur"
 msgid "until"
 msgstr "dek"
 
 #. Translators: Entire string is for example:     'This appointment recurs/Every[x][day(s)][for][1]occurrences' (combobox options are in [square brackets])
-#: ../src/calendar/gui/e-comp-editor-page-recurrence.c:2219
+#: ../src/calendar/gui/e-comp-editor-page-recurrence.c:2221
 msgctxt "ECompEditorPageRecur"
 msgid "forever"
 msgstr "sonsuza dek"
 
-#: ../src/calendar/gui/e-comp-editor-page-recurrence.c:2235
+#: ../src/calendar/gui/e-comp-editor-page-recurrence.c:2237
 msgid "This appointment contains recurrences that Evolution cannot edit."
 msgstr "Bu randevu Evolutionʼın düzenleyemeyeceği yinelemelere sahip."
 
-#: ../src/calendar/gui/e-comp-editor-page-recurrence.c:2248
+#: ../src/calendar/gui/e-comp-editor-page-recurrence.c:2250
 msgid "Exceptions"
 msgstr "İstisnalar"
 
-#: ../src/calendar/gui/e-comp-editor-page-recurrence.c:2313
+#: ../src/calendar/gui/e-comp-editor-page-recurrence.c:2315
 #: ../src/calendar/gui/e-comp-editor-page-reminders.c:2168
 #: ../src/mail/e-mail-config-identity-page.c:854
 #: ../src/mail/mail-config.ui.h:67
 msgid "A_dd"
 msgstr "_Ekle"
 
-#: ../src/calendar/gui/e-comp-editor-page-recurrence.c:2329
+#: ../src/calendar/gui/e-comp-editor-page-recurrence.c:2331
 #: ../src/calendar/gui/e-comp-editor-page-reminders.c:2176
 #: ../src/mail/mail-config.ui.h:69
 msgid "Re_move"
 msgstr "Çı_kart"
 
-#: ../src/calendar/gui/e-comp-editor-page-recurrence.c:2337
+#: ../src/calendar/gui/e-comp-editor-page-recurrence.c:2339
 msgid "Preview"
 msgstr "Önizleme"
 
@@ -8573,17 +8588,17 @@ msgstr "ek"
 msgid "Sending notifications to attendees…"
 msgstr "Katılımcılara bildirim gönderiliyor…"
 
-#: ../src/calendar/gui/e-comp-editor.c:985
-#: ../src/e-util/e-webdav-browser.c:1818
+#: ../src/calendar/gui/e-comp-editor.c:1013
+#: ../src/e-util/e-webdav-browser.c:1799
 msgid "Saving changes…"
 msgstr "Değişiklikler kaydediliyor…"
 
-#: ../src/calendar/gui/e-comp-editor.c:1245
+#: ../src/calendar/gui/e-comp-editor.c:1273
 msgid "No Summary"
 msgstr "Özet Yok"
 
 #. == Button box ==
-#: ../src/calendar/gui/e-comp-editor.c:2027
+#: ../src/calendar/gui/e-comp-editor.c:2055
 #: ../src/composer/e-composer-actions.c:333
 #: ../src/e-util/e-accounts-window.c:1778
 #: ../src/e-util/e-html-editor-dialog.c:194
@@ -8603,129 +8618,129 @@ msgstr "Özet Yok"
 msgid "_Close"
 msgstr "_Kapat"
 
-#: ../src/calendar/gui/e-comp-editor.c:2029
+#: ../src/calendar/gui/e-comp-editor.c:2057
 msgid "Close the current window"
 msgstr "Geçerli pencereyi kapat"
 
 #. copy menu item
-#: ../src/calendar/gui/e-comp-editor.c:2034 ../src/e-util/e-focus-tracker.c:806
+#: ../src/calendar/gui/e-comp-editor.c:2062 ../src/e-util/e-focus-tracker.c:806
 #: ../src/e-util/e-html-editor-actions.c:1072 ../src/e-util/e-text.c:2080
 #: ../src/e-util/e-web-view.c:468 ../src/mail/e-mail-browser.c:173
 #: ../src/mail/mail.error.xml.h:147 ../src/shell/e-shell-window-actions.c:903
 msgid "_Copy"
 msgstr "_Kopyala"
 
-#: ../src/calendar/gui/e-comp-editor.c:2036 ../src/e-util/e-focus-tracker.c:203
+#: ../src/calendar/gui/e-comp-editor.c:2064 ../src/e-util/e-focus-tracker.c:203
 #: ../src/e-util/e-focus-tracker.c:259 ../src/e-util/e-focus-tracker.c:312
 #: ../src/e-util/e-focus-tracker.c:807 ../src/e-util/e-web-view.c:470
-#: ../src/e-util/e-web-view.c:1999 ../src/mail/e-mail-browser.c:175
+#: ../src/e-util/e-web-view.c:1994 ../src/mail/e-mail-browser.c:175
 #: ../src/shell/e-shell-window-actions.c:905
 msgid "Copy the selection"
 msgstr "Seçimi kopyala"
 
 #. cut menu item
-#: ../src/calendar/gui/e-comp-editor.c:2041 ../src/e-util/e-focus-tracker.c:801
+#: ../src/calendar/gui/e-comp-editor.c:2069 ../src/e-util/e-focus-tracker.c:801
 #: ../src/e-util/e-html-editor-actions.c:1079 ../src/e-util/e-text.c:2066
 #: ../src/mail/e-mail-browser.c:180 ../src/shell/e-shell-window-actions.c:910
 msgid "Cu_t"
 msgstr "K_es"
 
-#: ../src/calendar/gui/e-comp-editor.c:2043 ../src/e-util/e-focus-tracker.c:196
+#: ../src/calendar/gui/e-comp-editor.c:2071 ../src/e-util/e-focus-tracker.c:196
 #: ../src/e-util/e-focus-tracker.c:252 ../src/e-util/e-focus-tracker.c:306
-#: ../src/e-util/e-focus-tracker.c:802 ../src/e-util/e-web-view.c:2008
+#: ../src/e-util/e-focus-tracker.c:802 ../src/e-util/e-web-view.c:2003
 #: ../src/mail/e-mail-browser.c:182 ../src/shell/e-shell-window-actions.c:912
 msgid "Cut the selection"
 msgstr "Seçimi kes"
 
-#: ../src/calendar/gui/e-comp-editor.c:2050 ../src/e-util/e-focus-tracker.c:217
+#: ../src/calendar/gui/e-comp-editor.c:2078 ../src/e-util/e-focus-tracker.c:217
 #: ../src/e-util/e-focus-tracker.c:273 ../src/e-util/e-focus-tracker.c:817
 #: ../src/shell/e-shell-window-actions.c:919
 msgid "Delete the selection"
 msgstr "Seçimi sil"
 
-#: ../src/calendar/gui/e-comp-editor.c:2057
+#: ../src/calendar/gui/e-comp-editor.c:2085
 msgid "View help"
 msgstr "Yardımı görüntüle"
 
 #. paste menu item
-#: ../src/calendar/gui/e-comp-editor.c:2062 ../src/e-util/e-focus-tracker.c:811
+#: ../src/calendar/gui/e-comp-editor.c:2090 ../src/e-util/e-focus-tracker.c:811
 #: ../src/e-util/e-html-editor-actions.c:1086 ../src/e-util/e-text.c:2092
 #: ../src/mail/e-mail-browser.c:187 ../src/shell/e-shell-window-actions.c:938
 msgid "_Paste"
 msgstr "_Yapıştır"
 
-#: ../src/calendar/gui/e-comp-editor.c:2064 ../src/e-util/e-focus-tracker.c:210
+#: ../src/calendar/gui/e-comp-editor.c:2092 ../src/e-util/e-focus-tracker.c:210
 #: ../src/e-util/e-focus-tracker.c:266 ../src/e-util/e-focus-tracker.c:318
-#: ../src/e-util/e-focus-tracker.c:812 ../src/e-util/e-web-view.c:2017
+#: ../src/e-util/e-focus-tracker.c:812 ../src/e-util/e-web-view.c:2012
 #: ../src/mail/e-mail-browser.c:189 ../src/shell/e-shell-window-actions.c:940
 msgid "Paste the clipboard"
 msgstr "Panodan yapıştır"
 
-#: ../src/calendar/gui/e-comp-editor.c:2069
+#: ../src/calendar/gui/e-comp-editor.c:2097
 #: ../src/composer/e-composer-actions.c:387 ../src/mail/e-mail-reader.c:2749
 #: ../src/modules/addressbook/e-book-shell-view-actions.c:1319
 #: ../src/modules/addressbook/e-book-shell-view-actions.c:1333
 msgid "_Print…"
 msgstr "_Yazdır…"
 
-#: ../src/calendar/gui/e-comp-editor.c:2076 ../src/mail/e-mail-reader.c:2756
+#: ../src/calendar/gui/e-comp-editor.c:2104 ../src/mail/e-mail-reader.c:2756
 #: ../src/modules/addressbook/e-book-shell-view-actions.c:1326
 #: ../src/modules/calendar/e-cal-shell-view-actions.c:1723
 #: ../src/modules/calendar/e-memo-shell-view-actions.c:838
-#: ../src/modules/calendar/e-task-shell-view-actions.c:1046
+#: ../src/modules/calendar/e-task-shell-view-actions.c:1053
 msgid "Pre_view…"
 msgstr "Öniz_leme…"
 
-#: ../src/calendar/gui/e-comp-editor.c:2083 ../src/e-util/e-focus-tracker.c:821
+#: ../src/calendar/gui/e-comp-editor.c:2111 ../src/e-util/e-focus-tracker.c:821
 #: ../src/e-util/e-html-editor-actions.c:1100 ../src/e-util/e-web-view.c:485
-#: ../src/mail/e-mail-browser.c:194 ../src/shell/e-shell-window-actions.c:1008
+#: ../src/mail/e-mail-browser.c:194 ../src/shell/e-shell-window-actions.c:1015
 msgid "Select _All"
 msgstr "Tümünü _Seç"
 
-#: ../src/calendar/gui/e-comp-editor.c:2085 ../src/e-util/e-focus-tracker.c:224
+#: ../src/calendar/gui/e-comp-editor.c:2113 ../src/e-util/e-focus-tracker.c:224
 #: ../src/e-util/e-focus-tracker.c:280 ../src/e-util/e-focus-tracker.c:822
-#: ../src/mail/e-mail-browser.c:196 ../src/shell/e-shell-window-actions.c:1010
+#: ../src/mail/e-mail-browser.c:196 ../src/shell/e-shell-window-actions.c:1017
 msgid "Select all text"
 msgstr "Tüm metni seç"
 
-#: ../src/calendar/gui/e-comp-editor.c:2106
+#: ../src/calendar/gui/e-comp-editor.c:2134
 msgid "_Classification"
 msgstr "_Sınıflandırma"
 
-#: ../src/calendar/gui/e-comp-editor.c:2120
+#: ../src/calendar/gui/e-comp-editor.c:2148
 #: ../src/e-util/e-html-editor-actions.c:1123
 #: ../src/e-util/e-mail-signature-editor.c:333 ../src/mail/e-mail-browser.c:210
-#: ../src/mail/e-mail-notes.c:1029 ../src/shell/e-shell-window-actions.c:1052
+#: ../src/mail/e-mail-notes.c:1029 ../src/shell/e-shell-window-actions.c:1059
 msgid "_File"
 msgstr "_Dosya"
 
-#: ../src/calendar/gui/e-comp-editor.c:2134
+#: ../src/calendar/gui/e-comp-editor.c:2162
 #: ../src/e-util/e-html-editor-actions.c:1144
 msgid "_Insert"
 msgstr "Araya _Ekle"
 
-#: ../src/calendar/gui/e-comp-editor.c:2141
+#: ../src/calendar/gui/e-comp-editor.c:2169
 #: ../src/composer/e-composer-actions.c:377
 msgid "_Options"
 msgstr "_Seçenekler"
 
-#: ../src/calendar/gui/e-comp-editor.c:2148
+#: ../src/calendar/gui/e-comp-editor.c:2176
 #: ../src/e-util/e-html-editor-actions.c:1165 ../src/mail/e-mail-browser.c:224
-#: ../src/shell/e-shell-window-actions.c:1095
+#: ../src/shell/e-shell-window-actions.c:1102
 #: ../src/smime/gui/certificate-manager.c:1646 ../src/smime/gui/smime-ui.ui.h:3
 msgid "_View"
 msgstr "_Görünüm"
 
-#: ../src/calendar/gui/e-comp-editor.c:2160
+#: ../src/calendar/gui/e-comp-editor.c:2188
 msgid "Save current changes"
 msgstr "Geçerli değişiklikleri kaydet"
 
-#: ../src/calendar/gui/e-comp-editor.c:2165
+#: ../src/calendar/gui/e-comp-editor.c:2193
 #: ../src/e-util/e-mail-signature-editor.c:328 ../src/mail/e-mail-notes.c:1024
 msgid "Save and Close"
 msgstr "Kaydet ve Kapat"
 
-#: ../src/calendar/gui/e-comp-editor.c:2167
+#: ../src/calendar/gui/e-comp-editor.c:2195
 msgid "Save current changes and close editor"
 msgstr "Değişiklikleri kaydet düzenleyiciyi kapat"
 
@@ -11458,9 +11473,9 @@ msgid "Save Draft"
 msgstr "_Taslağı Kaydet"
 
 #: ../src/composer/e-composer-from-header.c:108
-#: ../src/e-util/e-collection-account-wizard.c:2029
+#: ../src/e-util/e-collection-account-wizard.c:2033
 #: ../src/e-util/e-mail-signature-script-dialog.c:416
-#: ../src/e-util/e-webdav-browser.c:2417
+#: ../src/e-util/e-webdav-browser.c:2398
 #: ../src/e-util/gal-view-instance-save-as-dialog.ui.h:2
 #: ../src/mail/e-mail-config-identity-page.c:551
 #: ../src/mail/e-mail-config-summary-page.c:334
@@ -11902,7 +11917,7 @@ msgid "Format part as an RFC822 message"
 msgstr "Parçayı RFC822 iletisi olarak biçimlendir"
 
 #: ../src/em-format/e-mail-formatter-print.c:50
-#: ../src/e-util/e-webdav-browser.c:2361
+#: ../src/e-util/e-webdav-browser.c:2342
 #: ../src/e-util/gal-view-instance-save-as-dialog.c:92
 #: ../src/mail/e-mail-label-tree-view.c:96
 #: ../src/modules/plugin-manager/evolution-plugin-manager.c:64
@@ -12325,14 +12340,14 @@ msgstr "Görev Listeleri"
 #: ../src/mail/e-mail-account-tree-view.c:84
 #: ../src/modules/mail/em-composer-prefs.c:1306
 #: ../src/modules/plugin-manager/evolution-plugin-manager.c:407
-#: ../src/plugins/mail-notification/mail-notification.c:1124
+#: ../src/plugins/mail-notification/mail-notification.c:1145
 #: ../src/plugins/publish-calendar/publish-calendar.c:854
 msgid "Enabled"
 msgstr "Etkin"
 
 #: ../src/e-util/e-accounts-window.c:1415
 #: ../src/mail/e-mail-account-tree-view.c:108
-#: ../src/plugins/mail-notification/mail-notification.c:1140
+#: ../src/plugins/mail-notification/mail-notification.c:1161
 msgid "Account Name"
 msgstr "Hesap Adı"
 
@@ -12367,7 +12382,7 @@ msgstr "Evolution Hesapları"
 #. widget = gtk_button_new_with_mnemonic (_("_Permissions"));
 #. gtk_box_pack_start (GTK_BOX (container), widget, FALSE, FALSE, 0);
 #. webdav_browser->priv->permissions_button = widget;
-#: ../src/e-util/e-accounts-window.c:1761 ../src/e-util/e-webdav-browser.c:2708
+#: ../src/e-util/e-accounts-window.c:1761 ../src/e-util/e-webdav-browser.c:2689
 #: ../src/mail/em-subscription-editor.c:1952
 #: ../src/modules/mail/e-mail-shell-view-actions.c:1600
 #: ../src/modules/mail/e-mail-shell-view-actions.c:1678
@@ -12498,7 +12513,7 @@ msgstr "_Dosya adı:"
 #: ../src/e-util/e-attachment-dialog.c:354
 #: ../src/e-util/e-html-editor-image-dialog.c:513
 #: ../src/e-util/e-html-editor-link-dialog.c:226
-#: ../src/e-util/e-webdav-browser.c:2456
+#: ../src/e-util/e-webdav-browser.c:2437
 msgid "_Description:"
 msgstr "_Açıklama:"
 
@@ -12766,8 +12781,8 @@ msgstr "Yapılandırmada “%s” kategorisi zaten var. Lütfen başka ad kullan
 msgid "popup list"
 msgstr "açılır liste"
 
-#: ../src/e-util/e-cell-date.c:49 ../src/e-util/e-cell-date.c:137
-#: ../src/e-util/e-cell-date.c:157 ../src/mail/message-list.c:2146
+#: ../src/e-util/e-cell-date.c:49 ../src/e-util/e-cell-date.c:138
+#: ../src/e-util/e-cell-date.c:158 ../src/mail/message-list.c:2146
 msgid "?"
 msgstr "?"
 
@@ -12995,30 +13010,38 @@ msgstr "Görev Listesi"
 msgid "Looking up LDAP server’s search base…"
 msgstr "LDAP sunucusunun arama veri tabanı aranıyor…"
 
-#: ../src/e-util/e-collection-account-wizard.c:1484
+#: ../src/e-util/e-collection-account-wizard.c:1310
+msgid "Failed to store password: "
+msgstr "Şifre saklanırken hata: "
+
+#: ../src/e-util/e-collection-account-wizard.c:1320
+msgid "Failed to create sources: "
+msgstr "Kaynak oluşturulurken hata: "
+
+#: ../src/e-util/e-collection-account-wizard.c:1487
 msgid "Saving account settings, please wait…"
 msgstr "Hesap ayarları kaydediliyor, lütfen bekleyin…"
 
-#: ../src/e-util/e-collection-account-wizard.c:1635
+#: ../src/e-util/e-collection-account-wizard.c:1639
 msgid "User details"
 msgstr "Kullanıcı ayrıntıları"
 
-#: ../src/e-util/e-collection-account-wizard.c:1648
+#: ../src/e-util/e-collection-account-wizard.c:1652
 msgid "_Email Address or User name:"
 msgstr "_E-posta Adresi ya da Kullanıcı adı:"
 
-#: ../src/e-util/e-collection-account-wizard.c:1679
+#: ../src/e-util/e-collection-account-wizard.c:1683
 msgid "_Advanced Options"
 msgstr "_Gelişmiş Seçenekler"
 
-#: ../src/e-util/e-collection-account-wizard.c:1684
+#: ../src/e-util/e-collection-account-wizard.c:1688
 #: ../src/modules/mail-config/e-mail-config-remote-accounts.c:217
 #: ../src/modules/mail-config/e-mail-config-smtp-backend.c:173
 #: ../src/plugins/publish-calendar/publish-calendar.ui.h:25
 msgid "_Server:"
 msgstr "_Sunucu:"
 
-#: ../src/e-util/e-collection-account-wizard.c:1703
+#: ../src/e-util/e-collection-account-wizard.c:1707
 msgid ""
 "Semicolon (“;”) separated list of servers to look up information for, in "
 "addition to the domain of the e-mail address."
@@ -13026,11 +13049,11 @@ msgstr ""
 "E-posta adresinin alan adına ek olarak bilgi için bakılacak sunucuların "
 "noktalı virgülle (“;”) ayrılmış listesi."
 
-#: ../src/e-util/e-collection-account-wizard.c:1896
+#: ../src/e-util/e-collection-account-wizard.c:1900
 msgid "Select which parts should be configured:"
 msgstr "Hangi bölümlerin yapılandırılması gerektiğini seçin:"
 
-#: ../src/e-util/e-collection-account-wizard.c:2020
+#: ../src/e-util/e-collection-account-wizard.c:2024
 #: ../src/mail/e-mail-config-identity-page.c:542
 #: ../src/mail/e-mail-config-summary-page.c:325
 msgid "Account Information"
@@ -13322,8 +13345,8 @@ msgctxt "DateFmt"
 msgid "Next Sun"
 msgstr "Sonraki Pazar"
 
-#: ../src/e-util/e-datetime-format.c:367 ../src/e-util/e-datetime-format.c:377
-#: ../src/e-util/e-datetime-format.c:386
+#: ../src/e-util/e-datetime-format.c:368 ../src/e-util/e-datetime-format.c:378
+#: ../src/e-util/e-datetime-format.c:387
 msgid "Use locale default"
 msgstr "Öntanımlı lokali kullan"
 
@@ -13598,23 +13621,23 @@ msgstr "Karşılaştırmak için saat seç"
 msgid "Choose a File"
 msgstr "Dosya Seç"
 
-#: ../src/e-util/e-filter-rule.c:982
+#: ../src/e-util/e-filter-rule.c:1061
 msgid "R_ule name:"
 msgstr "_Kural adı:"
 
-#: ../src/e-util/e-filter-rule.c:1038
+#: ../src/e-util/e-filter-rule.c:1117
 msgid "all the following conditions"
 msgstr "aşağıdaki koşulların tümü"
 
-#: ../src/e-util/e-filter-rule.c:1039
+#: ../src/e-util/e-filter-rule.c:1118
 msgid "any of the following conditions"
 msgstr "aşağıdaki koşulların herhangi biri"
 
-#: ../src/e-util/e-filter-rule.c:1045
+#: ../src/e-util/e-filter-rule.c:1124
 msgid "_Find items which match:"
 msgstr "Eşleşen ögeleri _bul:"
 
-#: ../src/e-util/e-filter-rule.c:1068
+#: ../src/e-util/e-filter-rule.c:1147
 msgid "Find items that meet the following conditions"
 msgstr "Aşağıdaki koşullara uygun ögeleri bul"
 
@@ -13622,7 +13645,7 @@ msgstr "Aşağıdaki koşullara uygun ögeleri bul"
 #. * part of "Include threads: None"
 #. protocol:
 #. name:
-#: ../src/e-util/e-filter-rule.c:1083
+#: ../src/e-util/e-filter-rule.c:1162
 #: ../src/e-util/e-html-editor-page-dialog.c:62
 #: ../src/e-util/e-mail-identity-combo-box.c:694
 #: ../src/e-util/e-mail-signature-combo-box.c:422
@@ -13633,36 +13656,36 @@ msgstr "Aşağıdaki koşullara uygun ögeleri bul"
 msgid "None"
 msgstr "Yok"
 
-#: ../src/e-util/e-filter-rule.c:1084
+#: ../src/e-util/e-filter-rule.c:1163
 msgid "All related"
 msgstr "İlgili olanların tümü"
 
-#: ../src/e-util/e-filter-rule.c:1085 ../src/e-util/e-send-options.ui.h:24
+#: ../src/e-util/e-filter-rule.c:1164 ../src/e-util/e-send-options.ui.h:24
 msgid "Replies"
 msgstr "Yanıtlar"
 
-#: ../src/e-util/e-filter-rule.c:1086
+#: ../src/e-util/e-filter-rule.c:1165
 msgid "Replies and parents"
 msgstr "Yanıtlar ve ilk iletiler"
 
-#: ../src/e-util/e-filter-rule.c:1087
+#: ../src/e-util/e-filter-rule.c:1166
 msgid "No reply or parent"
 msgstr "Yanıt ya da üst yok"
 
-#: ../src/e-util/e-filter-rule.c:1090
+#: ../src/e-util/e-filter-rule.c:1169
 msgid "I_nclude threads:"
 msgstr "_Alt iletileri de içer:"
 
-#: ../src/e-util/e-filter-rule.c:1168
+#: ../src/e-util/e-filter-rule.c:1247
 msgid "A_dd Condition"
 msgstr "_Koşul Ekle"
 
-#: ../src/e-util/e-filter-rule.c:1488 ../src/e-util/filter.ui.h:1
+#: ../src/e-util/e-filter-rule.c:1567 ../src/e-util/filter.ui.h:1
 #: ../src/mail/em-filter-rule.c:1042 ../src/mail/em-utils.c:166
 msgid "Incoming"
 msgstr "Gelen"
 
-#: ../src/e-util/e-filter-rule.c:1488 ../src/mail/em-filter-rule.c:1043
+#: ../src/e-util/e-filter-rule.c:1567 ../src/mail/em-filter-rule.c:1043
 #: ../src/mail/em-utils.c:167
 msgid "Outgoing"
 msgstr "Giden"
@@ -14736,7 +14759,7 @@ msgstr "_Doldurma:"
 
 #: ../src/e-util/e-html-editor-table-dialog.c:676
 #: ../src/e-util/e-html-editor-text-dialog.c:248
-#: ../src/e-util/e-webdav-browser.c:2427
+#: ../src/e-util/e-webdav-browser.c:2408
 msgid "_Color:"
 msgstr "_Renk:"
 
@@ -15473,7 +15496,7 @@ msgstr "Tür:"
 msgid "Name:"
 msgstr "Ad:"
 
-#: ../src/e-util/e-source-config.c:850 ../src/e-util/e-webdav-browser.c:1752
+#: ../src/e-util/e-source-config.c:850 ../src/e-util/e-webdav-browser.c:1733
 msgid "Name cannot be empty"
 msgstr "Ad boş olamaz"
 
@@ -15520,11 +15543,7 @@ msgstr "Kümeleri Yönet"
 msgid "Available Groups:"
 msgstr "Kullanılabilir Kümeler:"
 
-#: ../src/e-util/e-source-selector-dialog.c:234
-msgid "_Destination"
-msgstr "_Hedef"
-
-#: ../src/e-util/e-source-selector-dialog.c:362
+#: ../src/e-util/e-source-selector-dialog.c:317
 msgid "Select destination"
 msgstr "Hedef seç"
 
@@ -15868,7 +15887,7 @@ msgid "Format Column_s…"
 msgstr "_Sütunları Biçimle…"
 
 #: ../src/e-util/e-table-header-item.c:1675
-#: ../src/shell/e-shell-window-actions.c:1232
+#: ../src/shell/e-shell-window-actions.c:1239
 msgid "Custo_mize Current View…"
 msgstr "Geçerli Görünümü Özelle_ştir…"
 
@@ -15956,116 +15975,116 @@ msgid "Events"
 msgstr "Olaylar"
 
 #: ../src/e-util/e-webdav-browser.c:515 ../src/mail/em-folder-tree-model.c:1555
-#: ../src/mail/em-folder-tree-model.c:1932
+#: ../src/mail/em-folder-tree-model.c:1936
 msgid "Loading…"
 msgstr "Yükleniyor…"
 
-#: ../src/e-util/e-webdav-browser.c:1387
+#: ../src/e-util/e-webdav-browser.c:1368
 msgid "Searching collection children…"
 msgstr "Koleksiyon çocukları aranıyor…"
 
-#: ../src/e-util/e-webdav-browser.c:1389
+#: ../src/e-util/e-webdav-browser.c:1370
 msgid "Failed to search for collection children"
 msgstr "Koleksiyon çocukları aranırken başarısız olundu"
 
-#: ../src/e-util/e-webdav-browser.c:1423
+#: ../src/e-util/e-webdav-browser.c:1404
 msgid "Searching for user home, please wait…"
 msgstr "Kullanıcı evi aranıyor, lütfen bekleyin…"
 
-#: ../src/e-util/e-webdav-browser.c:1425
+#: ../src/e-util/e-webdav-browser.c:1406
 msgid "Failed to search for user home"
 msgstr "Kullanıcı evi aranırken başarısız olundu"
 
-#: ../src/e-util/e-webdav-browser.c:1768
+#: ../src/e-util/e-webdav-browser.c:1749
 msgid "At least one component type should be set"
 msgstr "En az bir bileşen türü ayarlanmış olmalı"
 
-#: ../src/e-util/e-webdav-browser.c:1787
+#: ../src/e-util/e-webdav-browser.c:1768
 msgid "Failed to get selected collection HREF"
 msgstr "Seçili koleksiyon HREF’i alınırken başarısız olundu"
 
-#: ../src/e-util/e-webdav-browser.c:1819
+#: ../src/e-util/e-webdav-browser.c:1800
 msgid "Failed to save changes"
 msgstr "Değişiklikler kaydedilemedi"
 
-#: ../src/e-util/e-webdav-browser.c:1821
+#: ../src/e-util/e-webdav-browser.c:1802
 msgid "Creating new book…"
 msgstr "Yeni defter oluşturuluyor…"
 
-#: ../src/e-util/e-webdav-browser.c:1822
+#: ../src/e-util/e-webdav-browser.c:1803
 msgid "Failed to create new book"
 msgstr "Yeni defter oluşturulamadı"
 
-#: ../src/e-util/e-webdav-browser.c:1824
+#: ../src/e-util/e-webdav-browser.c:1805
 msgid "Creating new calendar…"
 msgstr "Yeni takvim oluşturuluyor…"
 
-#: ../src/e-util/e-webdav-browser.c:1825
+#: ../src/e-util/e-webdav-browser.c:1806
 msgid "Failed to create new calendar"
 msgstr "Yeni takvim oluşturulamadı"
 
-#: ../src/e-util/e-webdav-browser.c:1827
+#: ../src/e-util/e-webdav-browser.c:1808
 msgid "Creating new collection…"
 msgstr "Yeni koleksiyon oluşturuluyor…"
 
-#: ../src/e-util/e-webdav-browser.c:1828
+#: ../src/e-util/e-webdav-browser.c:1809
 msgid "Failed to create new collection"
 msgstr "Yeni koleksiyon oluşturulurken başarısız olundu"
 
-#: ../src/e-util/e-webdav-browser.c:1967
+#: ../src/e-util/e-webdav-browser.c:1948
 msgid "It is not allowed to create book under another book or calendar"
 msgstr "Başka kitabın veya takvimin altında kitap oluşturmaya izin verilmez"
 
 #. if (button == webdav_browser->priv->create_calendar_button)
-#: ../src/e-util/e-webdav-browser.c:1969
+#: ../src/e-util/e-webdav-browser.c:1950
 msgid "It is not allowed to create calendar under another book or calendar"
 msgstr "Başka kitabın veya takvimin altında takvim oluşturmaya izin verilmez"
 
-#: ../src/e-util/e-webdav-browser.c:2198
+#: ../src/e-util/e-webdav-browser.c:2179
 msgid "Deleting book…"
 msgstr "Defter siliniyor…"
 
-#: ../src/e-util/e-webdav-browser.c:2199
+#: ../src/e-util/e-webdav-browser.c:2180
 msgid "Failed to delete book"
 msgstr "Defter silme başarısız"
 
-#: ../src/e-util/e-webdav-browser.c:2202
+#: ../src/e-util/e-webdav-browser.c:2183
 msgid "Deleting calendar…"
 msgstr "Takvim siliniyor…"
 
-#: ../src/e-util/e-webdav-browser.c:2203
+#: ../src/e-util/e-webdav-browser.c:2184
 msgid "Failed to delete calendar"
 msgstr "Takvim silinemedi"
 
-#: ../src/e-util/e-webdav-browser.c:2206
+#: ../src/e-util/e-webdav-browser.c:2187
 msgid "Deleting collection…"
 msgstr "Koleksiyon siliniyor…"
 
-#: ../src/e-util/e-webdav-browser.c:2207
+#: ../src/e-util/e-webdav-browser.c:2188
 msgid "Failed to delete collection"
 msgstr "Koleksiyon silinirken başarısız olundu"
 
-#: ../src/e-util/e-webdav-browser.c:2438
+#: ../src/e-util/e-webdav-browser.c:2419
 msgid "For Components:"
 msgstr "Bileşenler için:"
 
-#: ../src/e-util/e-webdav-browser.c:2444
+#: ../src/e-util/e-webdav-browser.c:2425
 msgid "_Events"
 msgstr "_Olaylar"
 
-#: ../src/e-util/e-webdav-browser.c:2634
+#: ../src/e-util/e-webdav-browser.c:2615
 msgid "WebDAV server:"
 msgstr "WebDAV sunucusu:"
 
-#: ../src/e-util/e-webdav-browser.c:2669
+#: ../src/e-util/e-webdav-browser.c:2650
 msgid "Create _Book"
 msgstr "_Defter Oluştur"
 
-#: ../src/e-util/e-webdav-browser.c:2676
+#: ../src/e-util/e-webdav-browser.c:2657
 msgid "Create _Calendar"
 msgstr "_Takvim Oluştur"
 
-#: ../src/e-util/e-webdav-browser.c:2683
+#: ../src/e-util/e-webdav-browser.c:2664
 msgid "Create Collectio_n"
 msgstr "Koleksiyon _oluştur"
 
@@ -16123,24 +16142,24 @@ msgstr "_Webʼde Ara…"
 msgid "Search the Web with the selected text"
 msgstr "Seçilen metinle Web’de arama yapın"
 
-#: ../src/e-util/e-web-view.c:487 ../src/e-util/e-web-view.c:2021
+#: ../src/e-util/e-web-view.c:487 ../src/e-util/e-web-view.c:2016
 msgid "Select all text and images"
 msgstr "Tüm metin ve resimleri seç"
 
-#: ../src/e-util/e-web-view.c:3725
+#: ../src/e-util/e-web-view.c:3742
 msgid "Copying image to clipboard"
 msgstr "Resim panoya kopyalanıyor"
 
-#: ../src/e-util/e-web-view.c:3913
+#: ../src/e-util/e-web-view.c:3930
 msgid "Save Image"
 msgstr "Görüntüyü Kaydet"
 
-#: ../src/e-util/e-web-view.c:3950
+#: ../src/e-util/e-web-view.c:3967
 #, c-format
 msgid "Saving image to “%s”"
 msgstr "Resim “%s” konumuna kaydediliyor"
 
-#: ../src/e-util/e-web-view.c:4097
+#: ../src/e-util/e-web-view.c:4114
 #, c-format
 msgid "Cannot get URI “%s”, do not know how to download it."
 msgstr "URI “%s” alınamıyor, nasıl indirileceği bilinmiyor."
@@ -16241,7 +16260,7 @@ msgstr "belirteceğiniz zaman"
 msgid "a time relative to the current time"
 msgstr "şimdiki zamana göre bir zaman"
 
-#: ../src/e-util/filter.ui.h:5 ../src/mail/mail-config.ui.h:95
+#: ../src/e-util/filter.ui.h:5 ../src/mail/mail-config.ui.h:98
 msgid "seconds"
 msgstr "saniye"
 
@@ -16919,12 +16938,12 @@ msgid "Language for Reply and Forward attribution text"
 msgstr "Yanıtla ve İlet öznitelik metni için dil"
 
 #: ../src/mail/e-mail-config-composing-page.c:524
-#: ../src/mail/em-composer-utils.c:4143 ../src/mail/mail-config.ui.h:22
+#: ../src/mail/em-composer-utils.c:4148 ../src/mail/mail-config.ui.h:22
 msgid "Start _typing at the bottom"
 msgstr "_Yazmaya aşağıdan başla"
 
 #: ../src/mail/e-mail-config-composing-page.c:531
-#: ../src/mail/em-composer-utils.c:4146 ../src/mail/mail-config.ui.h:23
+#: ../src/mail/em-composer-utils.c:4151 ../src/mail/mail-config.ui.h:23
 msgid "_Keep signature above the original message"
 msgstr "Yanıtlarken imzayı özgün iletinin üzerinde _tut"
 
@@ -17236,7 +17255,7 @@ msgstr "Seç"
 
 #: ../src/mail/e-mail-config-security-page.c:686
 #: ../src/mail/e-mail-config-security-page.c:784
-#: ../src/shell/e-shell-window-actions.c:973
+#: ../src/shell/e-shell-window-actions.c:980
 msgid "_Clear"
 msgstr "_Temizle"
 
@@ -17575,7 +17594,7 @@ msgstr "Başlık Adı"
 msgid "Header Value"
 msgstr "Başlık Değeri"
 
-#: ../src/mail/e-mail-printer.c:103 ../src/mail/mail-config.ui.h:132
+#: ../src/mail/e-mail-printer.c:103 ../src/mail/mail-config.ui.h:135
 msgid "Headers"
 msgstr "Başlıklar"
 
@@ -18047,7 +18066,7 @@ msgstr "_Yinelenen İletileri Sil"
 msgid "Checks selected messages for duplicates"
 msgstr "Seçili iletilerin aynılarını arar"
 
-#: ../src/mail/e-mail-reader.c:2784 ../src/mail/em-composer-utils.c:4097
+#: ../src/mail/e-mail-reader.c:2784 ../src/mail/em-composer-utils.c:4102
 #: ../src/mail/mail.error.xml.h:28
 #: ../src/modules/calendar/e-cal-shell-view-actions.c:1452
 #: ../src/modules/mail/e-mail-attachment-handler.c:396
@@ -18067,7 +18086,7 @@ msgstr "Al_ternatif Yanıt…"
 msgid "Choose reply options for the selected message"
 msgstr "Seçilen iletiye yanıt seçeneklerini seç"
 
-#: ../src/mail/e-mail-reader.c:2798 ../src/mail/em-composer-utils.c:4092
+#: ../src/mail/e-mail-reader.c:2798 ../src/mail/em-composer-utils.c:4097
 #: ../src/mail/mail.error.xml.h:26
 #: ../src/modules/mail/e-mail-attachment-handler.c:403
 msgid "Reply to _List"
@@ -18402,12 +18421,12 @@ msgstr "T_emizle"
 msgid "No Title"
 msgstr "Başlık Yok"
 
-#: ../src/mail/e-mail-ui-session.c:820
+#: ../src/mail/e-mail-ui-session.c:854
 #, c-format
 msgid "%s authentication failed"
 msgstr "%s kimlik doğrulaması başarısız"
 
-#: ../src/mail/e-mail-ui-session.c:870
+#: ../src/mail/e-mail-ui-session.c:904
 #, c-format
 msgid "No data source found for UID “%s”"
 msgstr "UID “%s” için veri kaynağı bulunamadı"
@@ -18453,7 +18472,7 @@ msgstr "Eklerin yüklenmesi bekleniyor…"
 #. * when quoting messages.  Each ${Variable} gets replaced
 #. * with a value.  To see a full list of available variables,
 #. * see mail/em-composer-utils.c:attribvars array.
-#: ../src/mail/em-composer-utils.c:2027
+#: ../src/mail/em-composer-utils.c:2032
 msgid ""
 "On ${AbbrevWeekdayName}, ${Year}-${Month}-${Day} at ${24Hour}:${Minute} "
 "${TimeZone}, ${Sender} wrote:"
@@ -18461,90 +18480,90 @@ msgstr ""
 "${AbbrevWeekdayName}, ${Year}-${Month}-${Day} tarihinde ${24Hour}:${Minute} "
 "${TimeZone} saatinde, ${Sender} yazdı:"
 
-#: ../src/mail/em-composer-utils.c:2033
+#: ../src/mail/em-composer-utils.c:2038
 msgid "-------- Forwarded Message --------"
 msgstr "-------- Yönlendirilmiş İleti --------"
 
-#: ../src/mail/em-composer-utils.c:2038
+#: ../src/mail/em-composer-utils.c:2043
 msgid "-----Original Message-----"
 msgstr "-------- Özgün İleti --------"
 
 #. Translators: This is a reply attribution in the message reply subject. The %s is replaced with the subject of the original message. Both 'Re'-s in the 'reply-attribution' translation context should translate into the same string, the same as the ':' separator.
-#: ../src/mail/em-composer-utils.c:2799
+#: ../src/mail/em-composer-utils.c:2804
 #, c-format
 msgctxt "reply-attribution"
 msgid "Re: %s"
 msgstr "Ynt: %s"
 
-#: ../src/mail/em-composer-utils.c:3417
+#: ../src/mail/em-composer-utils.c:3422
 msgid "an unknown sender"
 msgstr "bilinmeyen gönderici"
 
-#: ../src/mail/em-composer-utils.c:4043
+#: ../src/mail/em-composer-utils.c:4048
 msgid "Alternative Reply"
 msgstr "Alternatif Yanıt"
 
-#: ../src/mail/em-composer-utils.c:4046
+#: ../src/mail/em-composer-utils.c:4051
 #: ../src/modules/calendar/e-cal-shell-view-actions.c:1445
 msgid "_Reply"
 msgstr "_Yanıtla"
 
-#: ../src/mail/em-composer-utils.c:4059
+#: ../src/mail/em-composer-utils.c:4064
 msgid "Recipients:"
 msgstr "Alıcılar:"
 
-#: ../src/mail/em-composer-utils.c:4087
+#: ../src/mail/em-composer-utils.c:4092
 msgid "Reply to _Sender"
 msgstr "_Gönderene Yanıtla"
 
-#: ../src/mail/em-composer-utils.c:4109
+#: ../src/mail/em-composer-utils.c:4114
 msgid "Reply style:"
 msgstr "Yanıtlama biçemi:"
 
-#: ../src/mail/em-composer-utils.c:4117
+#: ../src/mail/em-composer-utils.c:4122
 msgid "_Default"
 msgstr "_Öntanımlı"
 
-#: ../src/mail/em-composer-utils.c:4121
+#: ../src/mail/em-composer-utils.c:4126
 msgid "Attach_ment"
 msgstr "_Ek"
 
-#: ../src/mail/em-composer-utils.c:4125
+#: ../src/mail/em-composer-utils.c:4130
 msgid "Inline (_Outlook style)"
 msgstr "Satır Arası (_Outlook biçimi)"
 
-#: ../src/mail/em-composer-utils.c:4129
+#: ../src/mail/em-composer-utils.c:4134
 msgid "_Quote"
 msgstr "_Alıntı"
 
-#: ../src/mail/em-composer-utils.c:4133
+#: ../src/mail/em-composer-utils.c:4138
 msgid "Do _Not Quote"
 msgstr "Alıntı Yap_ma"
 
-#: ../src/mail/em-composer-utils.c:4140
+#: ../src/mail/em-composer-utils.c:4145
 msgid "_Format message in HTML"
 msgstr "İletiyi HTML olarak biçi_mlendir"
 
-#: ../src/mail/em-composer-utils.c:4153
+#: ../src/mail/em-composer-utils.c:4158
 msgid "Apply t_emplate"
 msgstr "Şabl_on uygula"
 
-#: ../src/mail/em-composer-utils.c:4165
+#: ../src/mail/em-composer-utils.c:4170
 msgid "Preserve original message S_ubject"
 msgstr "Özgün ileti Kon_usunu koru"
 
-#: ../src/mail/em-composer-utils.c:4231
+#: ../src/mail/em-composer-utils.c:4236
 #, c-format
 msgid "one recipient"
 msgid_plural "%d recipients"
 msgstr[0] "%d alıcı"
 
 #. FIXME GTK_WINDOW (composer)
-#: ../src/mail/em-composer-utils.c:4664
+#: ../src/mail/em-composer-utils.c:4669
 msgid "Posting destination"
 msgstr "Gönderme konumu"
 
-#: ../src/mail/em-composer-utils.c:4669
+#: ../src/mail/em-composer-utils.c:4674
 msgid "Choose folders to post the message to."
 msgstr "İletinin gönderileceği klasörleri seç."
 
@@ -18718,7 +18737,7 @@ msgstr "Görünüm"
 msgid "Archive"
 msgstr "Arşiv"
 
-#: ../src/mail/em-folder-properties.c:1377 ../src/mail/mail-config.ui.h:123
+#: ../src/mail/em-folder-properties.c:1377 ../src/mail/mail-config.ui.h:126
 #: ../src/mail/message-list.etspec.h:19
 msgid "Labels"
 msgstr "Etiketler"
@@ -18739,7 +18758,7 @@ msgstr "<klasör seçmek için tıkla>"
 msgid "Create a new folder"
 msgstr "Yeni dizin oluştur"
 
-#: ../src/mail/em-folder-tree.c:685
+#: ../src/mail/em-folder-tree.c:684
 msgid "Folder names cannot contain “/”"
 msgstr "Klasör adları “/” karakteri bulunduramaz"
 
@@ -18761,37 +18780,37 @@ msgstr "Klasör adları “/” karakteri bulunduramaz"
 #. * Do not translate the "folder-display|" part. Remove it
 #. * from your translation.
 #.
-#: ../src/mail/em-folder-tree.c:879
+#: ../src/mail/em-folder-tree.c:878
 #, c-format
 msgctxt "folder-display"
 msgid "%s (%u%s)"
 msgstr "%s (%u%s)"
 
-#: ../src/mail/em-folder-tree.c:1741
+#: ../src/mail/em-folder-tree.c:1740
 msgid "Mail Folder Tree"
 msgstr "Posta Klasör Ağacı"
 
-#: ../src/mail/em-folder-tree.c:2290
+#: ../src/mail/em-folder-tree.c:2289
 #, c-format
 msgid "Moving folder %s"
 msgstr "%s klasörü taşınıyor"
 
-#: ../src/mail/em-folder-tree.c:2293
+#: ../src/mail/em-folder-tree.c:2292
 #, c-format
 msgid "Copying folder %s"
 msgstr "%s klasörü kopyalanıyor"
 
-#: ../src/mail/em-folder-tree.c:2300 ../src/mail/message-list.c:2632
+#: ../src/mail/em-folder-tree.c:2299 ../src/mail/message-list.c:2632
 #, c-format
 msgid "Moving messages into folder %s"
 msgstr "İletiler %s klasörüne taşınıyor"
 
-#: ../src/mail/em-folder-tree.c:2304 ../src/mail/message-list.c:2634
+#: ../src/mail/em-folder-tree.c:2303 ../src/mail/message-list.c:2634
 #, c-format
 msgid "Copying messages into folder %s"
 msgstr "İletiler %s klasörüne kopyalanıyor"
 
-#: ../src/mail/em-folder-tree.c:2323
+#: ../src/mail/em-folder-tree.c:2322
 #, c-format
 msgid "Cannot drop message(s) into toplevel store"
 msgstr "İleti(ler) üst düzey konuma taşınamıyor"
@@ -19152,7 +19171,7 @@ msgstr "Önemli"
 msgid "Read"
 msgstr "Oku"
 
-#: ../src/mail/filtertypes.xml.in.h:41 ../src/mail/mail-config.ui.h:139
+#: ../src/mail/filtertypes.xml.in.h:41 ../src/mail/mail-config.ui.h:142
 #: ../src/mail/vfoldertypes.xml.in.h:44
 msgid "Junk"
 msgstr "Gereksiz"
@@ -19716,184 +19735,193 @@ msgid "Fix_ed Width Font:"
 msgstr "S_abit Genişlikli Yazı Tipi:"
 
 #: ../src/mail/mail-config.ui.h:94
+msgid "Minimum Font _Size:"
+msgstr "En Küçük Yazı Tipi _Boyutu:"
+
+#. Translators: This is part of 'Minimum Font Size: [ spin button ] (in pixels)'
+#: ../src/mail/mail-config.ui.h:96
+msgid "(in pixels)"
+msgstr "(piksel türünde)"
+
+#: ../src/mail/mail-config.ui.h:97
 msgid "_Mark messages as read after"
 msgstr "_Belirtilen süre sonrası iletileri okundu olarak imle"
 
-#: ../src/mail/mail-config.ui.h:96
+#: ../src/mail/mail-config.ui.h:99
 msgid "Highlight _quotations with"
 msgstr "_Alıntılarda belirtirken"
 
-#: ../src/mail/mail-config.ui.h:97
+#: ../src/mail/mail-config.ui.h:100
 #: ../src/modules/calendar/e-calendar-preferences.ui.h:66
 msgid "Pick a color"
 msgstr "Renk seç"
 
-#: ../src/mail/mail-config.ui.h:98
+#: ../src/mail/mail-config.ui.h:101
 msgid "color"
 msgstr "rengini kullan"
 
-#: ../src/mail/mail-config.ui.h:99
+#: ../src/mail/mail-config.ui.h:102
 msgid "Default character e_ncoding:"
 msgstr "Ö_ntanımlı karakter kodlaması:"
 
-#: ../src/mail/mail-config.ui.h:100
+#: ../src/mail/mail-config.ui.h:103
 msgid "Apply the same _view settings to all folders"
 msgstr "Aynı _görünüm ayarlarını tüm klasörlere uygula"
 
-#: ../src/mail/mail-config.ui.h:101
+#: ../src/mail/mail-config.ui.h:104
 msgid "F_all back to threading messages by subject"
 msgstr "En son olarak iletileri _konuya göre dallandır"
 
-#: ../src/mail/mail-config.ui.h:102
+#: ../src/mail/mail-config.ui.h:105
 msgid "Delete Mail"
 msgstr "Posta Sil"
 
-#: ../src/mail/mail-config.ui.h:103
+#: ../src/mail/mail-config.ui.h:106
 msgid "Empty _trash folders"
 msgstr "Çöp dizinlerini boşal_t"
 
-#: ../src/mail/mail-config.ui.h:104
+#: ../src/mail/mail-config.ui.h:107
 msgid "Confirm _when expunging a folder"
 msgstr "_Klasörü temizlemeden önce onay sor"
 
-#: ../src/mail/mail-config.ui.h:105
+#: ../src/mail/mail-config.ui.h:108
 msgid "Confirm when emptying a _Junk folder"
 msgstr "_Gereksiz klasörünü temizlemeden önce onay sor"
 
-#: ../src/mail/mail-config.ui.h:106
+#: ../src/mail/mail-config.ui.h:109
 msgid "Go to the previ_ous message after message deletion"
 msgstr "İletiyi sildikten sonra _önceki iletiye git"
 
-#: ../src/mail/mail-config.ui.h:107
+#: ../src/mail/mail-config.ui.h:110
 msgid "Archive Mail"
 msgstr "E-Posta Arşivle"
 
-#: ../src/mail/mail-config.ui.h:108
+#: ../src/mail/mail-config.ui.h:111
 msgid "Archive folder to use for On This Computer messages"
 msgstr "Bu Bilgisayarda iletileri için kullanılacak Arşiv dizini"
 
-#: ../src/mail/mail-config.ui.h:109
+#: ../src/mail/mail-config.ui.h:112
 msgid "On This Computer A_rchive folder:"
 msgstr "Bu Bilgisayarda A_rşiv dizini:"
 
 #. If enabled, show animation; if disabled, only display a static image without any animation
-#: ../src/mail/mail-config.ui.h:111
+#: ../src/mail/mail-config.ui.h:114
 msgid "_Show animated images"
 msgstr "_Hareketli resimleri göster"
 
-#: ../src/mail/mail-config.ui.h:112
+#: ../src/mail/mail-config.ui.h:115
 msgid "_Prompt on sending HTML mail to contacts that do not want them"
 msgstr "HTML iletileri istemeyen bağlantılara HTML ileti gönderirken _uyar"
 
-#: ../src/mail/mail-config.ui.h:113
+#: ../src/mail/mail-config.ui.h:116
 msgid "Loading Remote Content"
 msgstr "Uzaktaki İçerik Yükleniyor"
 
-#: ../src/mail/mail-config.ui.h:114
+#: ../src/mail/mail-config.ui.h:117
 msgid "_Never load remote content from the Internet"
 msgstr "Uzaktaki içeriği _hiçbir zaman İnternetʼten yükleme"
 
-#: ../src/mail/mail-config.ui.h:115
+#: ../src/mail/mail-config.ui.h:118
 msgid "_Load remote content only in messages from contacts"
 msgstr "Yalnızca kayıtlı kişilerden gelen iletilerdeki uzak içeriği _yükle"
 
-#: ../src/mail/mail-config.ui.h:116
+#: ../src/mail/mail-config.ui.h:119
 msgid "_Always load remote content from the Internet"
 msgstr "İnternetteki uzak içeriği her zaman y_ükle"
 
-#: ../src/mail/mail-config.ui.h:117
+#: ../src/mail/mail-config.ui.h:120
 msgid "Notify about _missing remote content in the message preview"
 msgstr "İleti ön izlemesinde _eksik uzak içerik hakkında beni uyar"
 
-#: ../src/mail/mail-config.ui.h:118
+#: ../src/mail/mail-config.ui.h:121
 msgid "Add"
 msgstr "Ekle"
 
-#: ../src/mail/mail-config.ui.h:119
+#: ../src/mail/mail-config.ui.h:122
 msgid "Remove"
 msgstr "Kaldır"
 
-#: ../src/mail/mail-config.ui.h:120
+#: ../src/mail/mail-config.ui.h:123
 msgid "Allow for sites:"
 msgstr "Şu sitelere izin ver:"
 
-#: ../src/mail/mail-config.ui.h:121
+#: ../src/mail/mail-config.ui.h:124
 msgid "Allow for senders:"
 msgstr "Şu göndericilere izin ver:"
 
-#: ../src/mail/mail-config.ui.h:122
+#: ../src/mail/mail-config.ui.h:125
 msgid "HTML Messages"
 msgstr "HTML İletileri"
 
-#: ../src/mail/mail-config.ui.h:124
+#: ../src/mail/mail-config.ui.h:127
 msgid "Sender Photograph"
 msgstr "Gönderici Fotoğrafı"
 
-#: ../src/mail/mail-config.ui.h:125
+#: ../src/mail/mail-config.ui.h:128
 msgid "_Show the photograph of sender in the message preview"
 msgstr "İleti önizlemesinde gönderenin fotoğrafını _göster"
 
-#: ../src/mail/mail-config.ui.h:126
+#: ../src/mail/mail-config.ui.h:129
 msgid "Search libra_vatar.org for the photograph of sender"
 msgstr "Gönderenin fotoğrafı için libra_vatar.org araması yap"
 
-#: ../src/mail/mail-config.ui.h:127
+#: ../src/mail/mail-config.ui.h:130
 msgid "Displayed Message Headers"
 msgstr "Gösterilen İleti Başlıkları"
 
-#: ../src/mail/mail-config.ui.h:128
+#: ../src/mail/mail-config.ui.h:131
 msgid "Show _full mail addresses in message preview"
 msgstr "İleti önizlemesinde _tam posta adreslerini göster"
 
-#: ../src/mail/mail-config.ui.h:129
+#: ../src/mail/mail-config.ui.h:132
 msgid "Mail Headers Table"
 msgstr "Posta Başlıkları Tablosu"
 
-#: ../src/mail/mail-config.ui.h:130
+#: ../src/mail/mail-config.ui.h:133
 msgid "Re_set"
 msgstr "_Sıfırla"
 
-#: ../src/mail/mail-config.ui.h:131
+#: ../src/mail/mail-config.ui.h:134
 #: ../src/modules/addressbook/autocompletion-config.c:118
 #: ../src/modules/calendar/e-calendar-preferences.ui.h:45
 msgid "Date/Time Format"
 msgstr "Tarih/Zaman Biçimi"
 
-#: ../src/mail/mail-config.ui.h:133
+#: ../src/mail/mail-config.ui.h:136
 msgid "Check incoming _messages for junk"
 msgstr "_Gereksiz için gelen iletileri denetle"
 
-#: ../src/mail/mail-config.ui.h:134
+#: ../src/mail/mail-config.ui.h:137
 msgid "_Delete junk messages"
 msgstr "Gereksiz i_letileri sil"
 
-#: ../src/mail/mail-config.ui.h:135
+#: ../src/mail/mail-config.ui.h:138
 msgid "Junk Test Options"
 msgstr "İstenmeyen Posta Test İşlemleri"
 
-#: ../src/mail/mail-config.ui.h:136
+#: ../src/mail/mail-config.ui.h:139
 msgid "Do not mar_k messages as junk if sender is in my address book"
 msgstr "Eğer gönderen adres defterinde ise iletileri _gereksiz olarak imleme"
 
-#: ../src/mail/mail-config.ui.h:137
+#: ../src/mail/mail-config.ui.h:140
 msgid "_Lookup in local address book only"
 msgstr "_Yalnızca yerel adres defterinde ara"
 
-#: ../src/mail/mail-config.ui.h:138
+#: ../src/mail/mail-config.ui.h:141
 msgid "Check cu_stom headers for junk"
 msgstr "_Gereksiz için özel başlıkları denetle"
 
-#: ../src/mail/mail-config.ui.h:140
+#: ../src/mail/mail-config.ui.h:143
 #: ../src/modules/mail-config/e-mail-config-remote-accounts.c:303
 #: ../src/modules/mail-config/e-mail-config-smtp-backend.c:246
 msgid "No encryption"
 msgstr "Şifreleme yok"
 
-#: ../src/mail/mail-config.ui.h:141
+#: ../src/mail/mail-config.ui.h:144
 msgid "TLS encryption"
 msgstr "TLS şifreleme"
 
-#: ../src/mail/mail-config.ui.h:142
+#: ../src/mail/mail-config.ui.h:145
 msgid "SSL encryption"
 msgstr "SSL şifreleme"
 
@@ -21036,7 +21064,7 @@ msgstr "İletiler"
 msgid "Follow-up"
 msgstr "Takip-eden"
 
-#: ../src/mail/message-list.c:6795
+#: ../src/mail/message-list.c:6791
 msgid ""
 "No message satisfies your search criteria. Change search criteria by "
 "selecting a new Show message filter from the drop down list above or by "
@@ -21047,11 +21075,11 @@ msgstr ""
 "yeni Gösterim ileti süzgeci seçerek değiştirin veya Ara→Temizle menüsü "
 "yardımıyla silip yeni arama çalıştırın ya da aşağıdaki sorguyu değiştirin."
 
-#: ../src/mail/message-list.c:6803
+#: ../src/mail/message-list.c:6799
 msgid "There are no messages in this folder."
 msgstr "Bu klasörde hiçbir ileti yok."
 
-#: ../src/mail/message-list.c:6879
+#: ../src/mail/message-list.c:6875
 msgid "Generating message list…"
 msgstr "İleti listesi oluşturuluyor…"
 
@@ -21502,14 +21530,14 @@ msgstr "Bağlantı önizlemesini bağlantı listesinin yanında göster"
 #: ../src/modules/addressbook/e-book-shell-view-actions.c:1278
 #: ../src/modules/calendar/e-cal-shell-view-actions.c:1675
 #: ../src/modules/calendar/e-memo-shell-view-actions.c:790
-#: ../src/modules/calendar/e-task-shell-view-actions.c:998
+#: ../src/modules/calendar/e-task-shell-view-actions.c:1005
 msgid "Unmatched"
 msgstr "Eşleme yok"
 
 #: ../src/modules/addressbook/e-book-shell-view-actions.c:1288
 #: ../src/modules/calendar/e-cal-shell-view-actions.c:1685
 #: ../src/modules/calendar/e-memo-shell-view-actions.c:800
-#: ../src/modules/calendar/e-task-shell-view-actions.c:1008
+#: ../src/modules/calendar/e-task-shell-view-actions.c:1015
 #: ../src/modules/mail/e-mail-shell-view-actions.c:2083
 #: ../src/shell/e-shell-content.c:639
 msgid "Advanced Search"
@@ -21565,7 +21593,7 @@ msgstr "Listeye İleti _Gönder"
 msgid "_Send Message to Contact"
 msgstr "Bağlantıya İleti _Gönder"
 
-#: ../src/modules/alarm-notify/alarm-notify.c:171
+#: ../src/modules/alarm-notify/alarm-notify.c:163
 #, c-format
 msgid "Failed to launch command “%s”:"
 msgstr "“%s” komutu başlatılamadı:"
@@ -22868,13 +22896,13 @@ msgstr "5 Kezden Az Bulunur"
 
 #: ../src/modules/calendar/e-cal-shell-view-actions.c:1699
 #: ../src/modules/calendar/e-memo-shell-view-actions.c:814
-#: ../src/modules/calendar/e-task-shell-view-actions.c:1022
+#: ../src/modules/calendar/e-task-shell-view-actions.c:1029
 msgid "Description contains"
 msgstr "Tanım içeriği"
 
 #: ../src/modules/calendar/e-cal-shell-view-actions.c:1706
 #: ../src/modules/calendar/e-memo-shell-view-actions.c:821
-#: ../src/modules/calendar/e-task-shell-view-actions.c:1029
+#: ../src/modules/calendar/e-task-shell-view-actions.c:1036
 msgid "Summary contains"
 msgstr "Özet içeriği"
 
@@ -22884,8 +22912,8 @@ msgstr "Özet içeriği"
 #: ../src/modules/calendar/e-cal-shell-view-taskpad.c:363
 #: ../src/modules/calendar/e-memo-shell-view-actions.c:831
 #: ../src/modules/calendar/e-memo-shell-view-actions.c:845
-#: ../src/modules/calendar/e-task-shell-view-actions.c:1039
-#: ../src/modules/calendar/e-task-shell-view-actions.c:1053
+#: ../src/modules/calendar/e-task-shell-view-actions.c:1046
+#: ../src/modules/calendar/e-task-shell-view-actions.c:1060
 msgid "Print…"
 msgstr "Yazdır…"
 
@@ -22901,7 +22929,7 @@ msgstr "Yazdırılacak olan takvimi önizle"
 #: ../src/modules/calendar/e-cal-shell-view-memopad.c:279
 #: ../src/modules/calendar/e-cal-shell-view-taskpad.c:373
 #: ../src/modules/calendar/e-memo-shell-view-actions.c:862
-#: ../src/modules/calendar/e-task-shell-view-actions.c:1070
+#: ../src/modules/calendar/e-task-shell-view-actions.c:1077
 msgid "_Save as iCalendar…"
 msgstr "iCalendar Olarak _Kaydet…"
 
@@ -23028,7 +23056,7 @@ msgid "View the selected task"
 msgstr "Seçilen görevi görüntüle"
 
 #: ../src/modules/calendar/e-cal-shell-view-taskpad.c:365
-#: ../src/modules/calendar/e-task-shell-view-actions.c:1055
+#: ../src/modules/calendar/e-task-shell-view-actions.c:1062
 msgid "Print the selected task"
 msgstr "Seçilen görevi yazdır"
 
@@ -23287,30 +23315,34 @@ msgid "Completed Tasks"
 msgstr "Tamamlanmış Görevler"
 
 #: ../src/modules/calendar/e-task-shell-view-actions.c:977
+msgid "Uncompleted Tasks"
+msgstr "Tamamlanmamış Görevler"
+
+#: ../src/modules/calendar/e-task-shell-view-actions.c:984
 msgid "Next 7 Days’ Tasks"
 msgstr "Sonraki 7 Günün Görevleri"
 
-#: ../src/modules/calendar/e-task-shell-view-actions.c:984
+#: ../src/modules/calendar/e-task-shell-view-actions.c:991
 msgid "Overdue Tasks"
 msgstr "Teslimi Geçmiş Görevler"
 
-#: ../src/modules/calendar/e-task-shell-view-actions.c:991
+#: ../src/modules/calendar/e-task-shell-view-actions.c:998
 msgid "Tasks with Attachments"
 msgstr "Eki olan Görevler"
 
-#: ../src/modules/calendar/e-task-shell-view-actions.c:1041
+#: ../src/modules/calendar/e-task-shell-view-actions.c:1048
 msgid "Print the list of tasks"
 msgstr "Görevler listesini yazdır"
 
-#: ../src/modules/calendar/e-task-shell-view-actions.c:1048
+#: ../src/modules/calendar/e-task-shell-view-actions.c:1055
 msgid "Preview the list of tasks to be printed"
 msgstr "Yazdırılacak olan görevlere göz at"
 
-#: ../src/modules/calendar/e-task-shell-view.c:346
+#: ../src/modules/calendar/e-task-shell-view.c:353
 msgid "Delete Tasks"
 msgstr "Görevleri Sil"
 
-#: ../src/modules/calendar/e-task-shell-view.c:348
+#: ../src/modules/calendar/e-task-shell-view.c:355
 msgid "Delete Task"
 msgstr "Görevi Sil"
 
@@ -24183,12 +24215,12 @@ msgid ""
 msgstr ""
 "Bu ögelerin tümünü işlemek için, dosya kaydedilmeli ve takvim içe aktarılmalı"
 
-#: ../src/modules/itip-formatter/itip-view.c:6478
+#: ../src/modules/itip-formatter/itip-view.c:6479
 msgctxt "cal-itip"
 msgid "None"
 msgstr "Hiçbiri"
 
-#: ../src/modules/itip-formatter/itip-view.c:6496
+#: ../src/modules/itip-formatter/itip-view.c:6497
 msgid "Tentatively Accepted"
 msgstr "Geçici Olarak Kabul Edildi"
 
@@ -24302,7 +24334,7 @@ msgstr "Mbox kuyruk dizini boş olamaz"
 #: ../src/modules/mail-config/e-mail-config-sendmail-backend.c:59
 #: ../src/modules/mail-config/e-mail-config-smtp-backend.c:155
 #: ../src/modules/plugin-manager/evolution-plugin-manager.c:193
-#: ../src/plugins/mail-notification/mail-notification.c:1220
+#: ../src/plugins/mail-notification/mail-notification.c:1241
 msgid "Configuration"
 msgstr "Yapılandırma"
 
@@ -26009,44 +26041,44 @@ msgstr "Evolutionʼda yeni e-posta"
 msgid "Show %s"
 msgstr "%sʼi Göster"
 
-#: ../src/plugins/mail-notification/mail-notification.c:792
+#: ../src/plugins/mail-notification/mail-notification.c:813
 msgid "_Play sound when a new message arrives"
 msgstr "Yeni ileti geldiğinde _ses çal"
 
-#: ../src/plugins/mail-notification/mail-notification.c:824
+#: ../src/plugins/mail-notification/mail-notification.c:845
 msgid "_Beep"
 msgstr "_Biple"
 
-#: ../src/plugins/mail-notification/mail-notification.c:837
+#: ../src/plugins/mail-notification/mail-notification.c:858
 msgid "Use sound _theme"
 msgstr "Ses _teması kullan"
 
-#: ../src/plugins/mail-notification/mail-notification.c:856
+#: ../src/plugins/mail-notification/mail-notification.c:877
 msgid "Play _file:"
 msgstr "_Ses dosyası çal:"
 
-#: ../src/plugins/mail-notification/mail-notification.c:865
+#: ../src/plugins/mail-notification/mail-notification.c:886
 msgid "Select sound file"
 msgstr "Ses dosyası seç"
 
-#: ../src/plugins/mail-notification/mail-notification.c:1014
+#: ../src/plugins/mail-notification/mail-notification.c:1035
 msgid "Select _accounts for which enable notifications:"
 msgstr "Bildirimleri etkinleştirilecek _hesapları seç:"
 
-#: ../src/plugins/mail-notification/mail-notification.c:1176
+#: ../src/plugins/mail-notification/mail-notification.c:1197
 #: ../src/plugins/mail-notification/org-gnome-mail-notification.eplug.xml.h:1
 msgid "Mail Notification"
 msgstr "Posta Bildirimi"
 
-#: ../src/plugins/mail-notification/mail-notification.c:1190
+#: ../src/plugins/mail-notification/mail-notification.c:1211
 msgid "Notify new messages for _Inbox only"
 msgstr "Yalnızca _Gelen Kutusu için yeni iletileri bildir"
 
-#: ../src/plugins/mail-notification/mail-notification.c:1206
+#: ../src/plugins/mail-notification/mail-notification.c:1227
 msgid "Show _notification when a new message arrives"
 msgstr "Yeni ileti ulaştığında uyarı alanında _bildirim göster"
 
-#: ../src/plugins/mail-notification/mail-notification.c:1224
+#: ../src/plugins/mail-notification/mail-notification.c:1245
 msgid "Accounts"
 msgstr "Hesaplar"
 
@@ -26591,19 +26623,19 @@ msgstr "Aramayı Kaydet"
 #. * allows the user to filter the current view.  Examples of
 #. * items that appear in the combo box are "Unread Messages",
 #. * "Important Messages", or "Active Appointments".
-#: ../src/shell/e-shell-searchbar.c:925
+#: ../src/shell/e-shell-searchbar.c:924
 msgid "Sho_w:"
 msgstr "Göste_r:"
 
 #. Translators: This is part of the quick search interface.
 #. * example: Search: [_______________] in [ Current Folder ]
-#: ../src/shell/e-shell-searchbar.c:951
+#: ../src/shell/e-shell-searchbar.c:950
 msgid "Sear_ch:"
 msgstr "_Ara:"
 
 #. Translators: This is part of the quick search interface.
 #. * example: Search: [_______________] in [ Current Folder ]
-#: ../src/shell/e-shell-searchbar.c:1019
+#: ../src/shell/e-shell-searchbar.c:1018
 msgid "i_n"
 msgstr "_içinde"
 
@@ -26629,7 +26661,7 @@ msgstr ""
 msgid "Website"
 msgstr "Web Sitesi"
 
-#: ../src/shell/e-shell-view.c:295
+#: ../src/shell/e-shell-view.c:296
 msgid "Saving user interface state"
 msgstr "Kullanıcı arayüzü durumu kaydediliyor"
 
@@ -26715,218 +26747,222 @@ msgid "Exit the program"
 msgstr "Programdan çık"
 
 #: ../src/shell/e-shell-window-actions.c:966
+msgid "_Saved Searches"
+msgstr "_Kayıtlı Aramalar"
+
+#: ../src/shell/e-shell-window-actions.c:973
 msgid "_Advanced Search…"
 msgstr "_Gelişmiş Arama…"
 
-#: ../src/shell/e-shell-window-actions.c:968
+#: ../src/shell/e-shell-window-actions.c:975
 msgid "Construct a more advanced search"
 msgstr "Daha gelişmiş arama oluştur"
 
-#: ../src/shell/e-shell-window-actions.c:975
+#: ../src/shell/e-shell-window-actions.c:982
 msgid "Clear the current search parameters"
 msgstr "Geçerli arama parametrelerini temizle"
 
-#: ../src/shell/e-shell-window-actions.c:980
+#: ../src/shell/e-shell-window-actions.c:987
 msgid "_Edit Saved Searches…"
 msgstr "Kayıtlı Aramaları _Düzenle…"
 
-#: ../src/shell/e-shell-window-actions.c:982
+#: ../src/shell/e-shell-window-actions.c:989
 msgid "Manage your saved searches"
 msgstr "Kayıtlı aramalarınızı yönetin"
 
-#: ../src/shell/e-shell-window-actions.c:989
+#: ../src/shell/e-shell-window-actions.c:996
 msgid "Click here to change the search type"
 msgstr "Arama türünü değiştirmek için buraya tıklayın"
 
-#: ../src/shell/e-shell-window-actions.c:994
+#: ../src/shell/e-shell-window-actions.c:1001
 msgid "_Find Now"
 msgstr "Ş_imdi Bul"
 
-#: ../src/shell/e-shell-window-actions.c:996
+#: ../src/shell/e-shell-window-actions.c:1003
 msgid "Execute the current search parameters"
 msgstr "Geçerli arama parametrelerini çalıştır"
 
-#: ../src/shell/e-shell-window-actions.c:1001
+#: ../src/shell/e-shell-window-actions.c:1008
 msgid "_Save Search…"
 msgstr "Aramayı _Kaydet…"
 
-#: ../src/shell/e-shell-window-actions.c:1003
+#: ../src/shell/e-shell-window-actions.c:1010
 msgid "Save the current search parameters"
 msgstr "Geçerli arama parametrelerini kaydet"
 
-#: ../src/shell/e-shell-window-actions.c:1015
+#: ../src/shell/e-shell-window-actions.c:1022
 msgid "_Keyboard Shortcuts"
 msgstr "_Klavye Kısayolları"
 
-#: ../src/shell/e-shell-window-actions.c:1017
+#: ../src/shell/e-shell-window-actions.c:1024
 msgid "Show keyboard shortcuts"
 msgstr "Klavye kısayolarını göster"
 
-#: ../src/shell/e-shell-window-actions.c:1022
+#: ../src/shell/e-shell-window-actions.c:1029
 msgid "Submit _Bug Report…"
 msgstr "_Hata Raporu Gönder…"
 
-#: ../src/shell/e-shell-window-actions.c:1024
+#: ../src/shell/e-shell-window-actions.c:1031
 msgid "Submit a bug report using Bug Buddy"
 msgstr "Bug Buddy kullanarak hata raporu gönder"
 
-#: ../src/shell/e-shell-window-actions.c:1029
+#: ../src/shell/e-shell-window-actions.c:1036
 msgid "_Work Offline"
 msgstr "Çe_vrimdışı Çalış"
 
-#: ../src/shell/e-shell-window-actions.c:1031
+#: ../src/shell/e-shell-window-actions.c:1038
 msgid "Put Evolution into offline mode"
 msgstr "Evolutionʼu çevrim dışı kipe sok"
 
-#: ../src/shell/e-shell-window-actions.c:1036
+#: ../src/shell/e-shell-window-actions.c:1043
 msgid "_Work Online"
 msgstr "Ç_evrim İçi Çalış"
 
-#: ../src/shell/e-shell-window-actions.c:1038
+#: ../src/shell/e-shell-window-actions.c:1045
 msgid "Put Evolution into online mode"
 msgstr "Evolutionʼu çevrim içi kipe sok"
 
-#: ../src/shell/e-shell-window-actions.c:1066
+#: ../src/shell/e-shell-window-actions.c:1073
 msgid "Lay_out"
 msgstr "_Düzen"
 
 #. Translators: This is a New menu item caption, under File->New
-#: ../src/shell/e-shell-window-actions.c:1074
+#: ../src/shell/e-shell-window-actions.c:1081
 msgid "_New"
 msgstr "_Yeni"
 
-#: ../src/shell/e-shell-window-actions.c:1081
+#: ../src/shell/e-shell-window-actions.c:1088
 msgid "_Search"
 msgstr "A_ra"
 
-#: ../src/shell/e-shell-window-actions.c:1088
+#: ../src/shell/e-shell-window-actions.c:1095
 msgid "_Switcher Appearance"
 msgstr "_Değiştirici Görünümü"
 
-#: ../src/shell/e-shell-window-actions.c:1102
+#: ../src/shell/e-shell-window-actions.c:1109
 msgid "_Window"
 msgstr "_Pencere"
 
-#: ../src/shell/e-shell-window-actions.c:1131
+#: ../src/shell/e-shell-window-actions.c:1138
 msgid "Show _Menu Bar"
 msgstr "_Menü Çubuğunu Göster"
 
-#: ../src/shell/e-shell-window-actions.c:1133
+#: ../src/shell/e-shell-window-actions.c:1140
 msgid "Show the menu bar"
 msgstr "Menü çubuğunu göster"
 
-#: ../src/shell/e-shell-window-actions.c:1139
+#: ../src/shell/e-shell-window-actions.c:1146
 msgid "Show Side _Bar"
 msgstr "_Kenar Çubuğunu Göster"
 
-#: ../src/shell/e-shell-window-actions.c:1141
+#: ../src/shell/e-shell-window-actions.c:1148
 msgid "Show the side bar"
 msgstr "Kenar çubuğunu göster"
 
-#: ../src/shell/e-shell-window-actions.c:1147
+#: ../src/shell/e-shell-window-actions.c:1154
 msgid "Show _Buttons"
 msgstr "Düğmeleri _Göster"
 
-#: ../src/shell/e-shell-window-actions.c:1149
+#: ../src/shell/e-shell-window-actions.c:1156
 msgid "Show the switcher buttons"
 msgstr "Değiştirici düğmeleri göster"
 
-#: ../src/shell/e-shell-window-actions.c:1155
+#: ../src/shell/e-shell-window-actions.c:1162
 msgid "Show _Status Bar"
 msgstr "_Durum Çubuğunu Göster"
 
-#: ../src/shell/e-shell-window-actions.c:1157
+#: ../src/shell/e-shell-window-actions.c:1164
 msgid "Show the status bar"
 msgstr "Durum çubuğunu göster"
 
-#: ../src/shell/e-shell-window-actions.c:1163
+#: ../src/shell/e-shell-window-actions.c:1170
 msgid "Show _Tool Bar"
 msgstr "Araç Çubuğu_nu Göster"
 
-#: ../src/shell/e-shell-window-actions.c:1165
+#: ../src/shell/e-shell-window-actions.c:1172
 msgid "Show the tool bar"
 msgstr "Araç çubuğunu göster"
 
-#: ../src/shell/e-shell-window-actions.c:1187
+#: ../src/shell/e-shell-window-actions.c:1194
 msgid "_Icons Only"
 msgstr "S_adece Simgeler"
 
-#: ../src/shell/e-shell-window-actions.c:1189
+#: ../src/shell/e-shell-window-actions.c:1196
 msgid "Display window buttons with icons only"
 msgstr "Pencere düğmelerini yalnızca simge olarak göster"
 
-#: ../src/shell/e-shell-window-actions.c:1194
+#: ../src/shell/e-shell-window-actions.c:1201
 msgid "_Text Only"
 msgstr "_Yalnızca Metin"
 
-#: ../src/shell/e-shell-window-actions.c:1196
+#: ../src/shell/e-shell-window-actions.c:1203
 msgid "Display window buttons with text only"
 msgstr "Pencere düğmelerini yalnızca metin olarak göster"
 
-#: ../src/shell/e-shell-window-actions.c:1201
+#: ../src/shell/e-shell-window-actions.c:1208
 msgid "Icons _and Text"
 msgstr "Simgeler _ve Metin"
 
-#: ../src/shell/e-shell-window-actions.c:1203
+#: ../src/shell/e-shell-window-actions.c:1210
 msgid "Display window buttons with icons and text"
 msgstr "Pencere düğmelerini simgelerle ve metinle göster"
 
-#: ../src/shell/e-shell-window-actions.c:1208
+#: ../src/shell/e-shell-window-actions.c:1215
 msgid "Tool_bar Style"
 msgstr "_Araç Cubuğu Biçemi"
 
-#: ../src/shell/e-shell-window-actions.c:1210
+#: ../src/shell/e-shell-window-actions.c:1217
 msgid "Display window buttons using the desktop toolbar setting"
 msgstr "Masaüstü araç çubuğu ayarlarını kullanarak pencere düğmelerini göster"
 
-#: ../src/shell/e-shell-window-actions.c:1218
+#: ../src/shell/e-shell-window-actions.c:1225
 msgid "Delete Current View"
 msgstr "Şimdiki Görünümü Sil"
 
-#: ../src/shell/e-shell-window-actions.c:1225
+#: ../src/shell/e-shell-window-actions.c:1232
 msgid "Save Custom View…"
 msgstr "Özel Görünümü Kaydet…"
 
-#: ../src/shell/e-shell-window-actions.c:1227
+#: ../src/shell/e-shell-window-actions.c:1234
 msgid "Save current custom view"
 msgstr "Geçerli özel görünümü kaydet"
 
-#: ../src/shell/e-shell-window-actions.c:1241
+#: ../src/shell/e-shell-window-actions.c:1248
 msgid "C_urrent View"
 msgstr "Şimdiki _Görünüm"
 
-#: ../src/shell/e-shell-window-actions.c:1251
+#: ../src/shell/e-shell-window-actions.c:1258
 msgid "Custom View"
 msgstr "Özel Görünüm"
 
-#: ../src/shell/e-shell-window-actions.c:1253
+#: ../src/shell/e-shell-window-actions.c:1260
 msgid "Current view is a customized view"
 msgstr "Geçerli görünüm özel görünümdür"
 
-#: ../src/shell/e-shell-window-actions.c:1261
+#: ../src/shell/e-shell-window-actions.c:1268
 msgid "Page Set_up…"
 msgstr "Sayfa _Ayarı…"
 
-#: ../src/shell/e-shell-window-actions.c:1263
+#: ../src/shell/e-shell-window-actions.c:1270
 msgid "Change the page settings for your current printer"
 msgstr "Güncel yazıcı için sayfa ayarlarını değiştir"
 
-#: ../src/shell/e-shell-window-actions.c:1633
+#: ../src/shell/e-shell-window-actions.c:1640
 #, c-format
 msgid "Switch to %s"
 msgstr "%s Konumuna Geç"
 
-#: ../src/shell/e-shell-window-actions.c:1757
+#: ../src/shell/e-shell-window-actions.c:1764
 #, c-format
 msgid "Select view: %s"
 msgstr "Görünümü seç: %s"
 
-#: ../src/shell/e-shell-window-actions.c:1774
+#: ../src/shell/e-shell-window-actions.c:1781
 #, c-format
 msgid "Delete view: %s"
 msgstr "Görünümü sil: %s"
 
-#: ../src/shell/e-shell-window-actions.c:1884
+#: ../src/shell/e-shell-window-actions.c:1896
 msgid "Execute these search parameters"
 msgstr "Bu arama parametrelerini çalıştır"
 
@@ -26938,7 +26974,7 @@ msgid "New"
 msgstr "Yeni"
 
 #. Translators: This is used for the main window title.
-#: ../src/shell/e-shell-window-private.c:826
+#: ../src/shell/e-shell-window-private.c:822
 #, c-format
 msgid "%s — Evolution"
 msgstr "%s — Evolution"
@@ -27676,6 +27712,9 @@ msgstr "Deponun diske yazılması başarısız, hata_kodu: %i"
 #: ../src/smime/lib/e-pkcs12.c:407
 msgid "Imported Certificate"
 msgstr "Aktarılmış Sertifika"
+
+#~ msgid "_Destination"
+#~ msgstr "_Hedef"
 
 #~ msgid "Ctrl-click to open a link"
 #~ msgstr "Bağlantıyı açmak için Ctrl+tıklama yapın"
