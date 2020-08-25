@@ -113,4 +113,6 @@ gboolean             e_cert_db_login_to_slot      (ECertDB *cert_db,
 gboolean	     e_cert_db_change_cert_trust  (CERTCertificate *cert,
 						   CERTCertTrust *trust);
 
+const gchar *	     e_cert_db_nss_error_to_string (gint errorcode);
+
 #endif /* _E_CERT_DB_H_ */

@@ -465,7 +465,40 @@ nickname_collision (SECItem *oldNick,
 static gboolean
 handle_error (gint myerr)
 {
-	printf ("handle_error (%d)\n", myerr);
+	switch (myerr) {
+	case PKCS12_RESTORE_OK:
+		printf ("PKCS12: Restore succeeded\n");
+		break;
+	case PKCS12_BACKUP_OK:
+		printf ("PKCS12: Backup succeeded\n");
+		break;
+	case PKCS12_USER_CANCELED:
+		printf ("PKCS12: User cancelled operation\n");
+		break;
+	case PKCS12_NOSMARTCARD_EXPORT:
+		printf ("PKCS12: No smart card export\n");
+		break;
+	case PKCS12_RESTORE_FAILED:
+		printf ("PKCS12: Restore failed\n");
+		break;
+	case PKCS12_BACKUP_FAILED:
+		printf ("PKCS12: Backup failed\n");
+		break;
+	case PKCS12_NSS_ERROR: {
+		gint nss_code = PORT_GetError ();
+		const gchar *nss_errstr = e_cert_db_nss_error_to_string (nss_code);
+
+		if (nss_code && nss_errstr)
+			printf ("PKCS12: NSS error: %d (%s)\n", nss_code, nss_errstr);
+		else if (nss_code)
+			printf ("PKCS12: NSS error: %d\n", nss_code);
+		else
+			printf ("PKCS12: Unknown NSS error\n");
+		} break;
+	default:
+		printf ("PKCS12: handle_error (%d)\n", myerr);
+		break;
+	}
 
 	return FALSE;
 }

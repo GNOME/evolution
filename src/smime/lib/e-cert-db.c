@@ -98,8 +98,8 @@ e_certdb_error_quark (void)
 	return q;
 }
 
-static const gchar *
-nss_error_to_string (glong errorcode)
+const gchar *
+e_cert_db_nss_error_to_string (gint errorcode)
 {
 #define cs(a,b) case a: return b;
 
@@ -287,7 +287,7 @@ nss_error_to_string (glong errorcode)
 static void
 set_nss_error (GError **error)
 {
-	glong err_code;
+	gint err_code;
 	const gchar *err_str;
 
 	if (!error)
@@ -300,7 +300,7 @@ set_nss_error (GError **error)
 	if (!err_code)
 		return;
 
-	err_str = nss_error_to_string (err_code);
+	err_str = e_cert_db_nss_error_to_string (err_code);
 	if (!err_str)
 		return;
 
@@ -897,10 +897,10 @@ gboolean e_cert_db_change_cert_trust (CERTCertificate *cert, CERTCertTrust *trus
 			cert, trust);
 
 	if (srv != SECSuccess) {
-		glong err = PORT_GetError ();
+		gint err = PORT_GetError ();
 		g_warning (
 			"CERT_ChangeCertTrust() failed: %s\n",
-			nss_error_to_string (err));
+			e_cert_db_nss_error_to_string (err));
 		return FALSE;
 	}
 	return TRUE;
