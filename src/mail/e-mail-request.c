@@ -122,7 +122,8 @@ mail_request_process_mail_sync (EContentRequest *request,
 
 	g_free (tmp);
 
-	if (!part_list && E_IS_MAIL_DISPLAY (requester)) {
+	if (!part_list && E_IS_MAIL_DISPLAY (requester) &&
+	    e_mail_display_get_mode (E_MAIL_DISPLAY (requester)) == E_MAIL_FORMATTER_MODE_SOURCE) {
 		part_list = e_mail_display_get_part_list (E_MAIL_DISPLAY (requester));
 		if (part_list)
 			g_object_ref (part_list);
