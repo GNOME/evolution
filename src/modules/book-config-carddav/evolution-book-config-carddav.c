@@ -249,9 +249,6 @@ book_config_carddav_insert_widgets (ESourceConfigBackend *backend,
 		G_OBJECT (backend), uid, context,
 		(GDestroyNotify) book_config_carddav_context_free);
 
-	e_book_source_config_add_offline_toggle (
-		E_BOOK_SOURCE_CONFIG (config), scratch_source);
-
 	extension_name = E_SOURCE_EXTENSION_WEBDAV_BACKEND;
 	extension = e_source_get_extension (scratch_source, extension_name);
 

@@ -282,9 +282,6 @@ cal_config_webdav_notes_insert_widgets (ESourceConfigBackend *backend,
 	config = e_source_config_backend_get_config (backend);
 	collection_source = e_source_config_get_collection_source (config);
 
-	e_cal_source_config_add_offline_toggle (
-		E_CAL_SOURCE_CONFIG (config), scratch_source);
-
 	uid = e_source_get_uid (scratch_source);
 	context = cal_config_webdav_notes_context_new (backend, scratch_source);
 

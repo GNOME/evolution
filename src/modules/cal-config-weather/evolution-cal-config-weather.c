@@ -241,9 +241,6 @@ cal_config_weather_insert_widgets (ESourceConfigBackend *backend,
 
 	world = gweather_location_get_world ();
 
-	e_cal_source_config_add_offline_toggle (
-		E_CAL_SOURCE_CONFIG (config), scratch_source);
-
 	widget = gweather_location_entry_new (world);
 	e_source_config_insert_widget (
 		config, scratch_source, _("Location:"), widget);

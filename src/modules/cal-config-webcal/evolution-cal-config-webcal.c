@@ -134,9 +134,6 @@ cal_config_webcal_insert_widgets (ESourceConfigBackend *backend,
 		G_OBJECT (backend), uid, context,
 		(GDestroyNotify) cal_config_webcal_context_free);
 
-	e_cal_source_config_add_offline_toggle (
-		E_CAL_SOURCE_CONFIG (config), scratch_source);
-
 	if (e_source_config_get_collection_source (config)) {
 		widget = gtk_label_new ("");
 		g_object_set (G_OBJECT (widget),

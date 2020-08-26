@@ -88,9 +88,6 @@ cal_config_google_insert_widgets (ESourceConfigBackend *backend,
 		G_OBJECT (backend), uid, context,
 		(GDestroyNotify) cal_config_google_context_free);
 
-	e_cal_source_config_add_offline_toggle (
-		E_CAL_SOURCE_CONFIG (config), scratch_source);
-
 	context->user_entry = g_object_ref (e_source_config_add_user_entry (config, scratch_source));
 
 	widget = e_google_chooser_button_new (scratch_source, config);
