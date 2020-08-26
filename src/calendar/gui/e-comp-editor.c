@@ -3588,3 +3588,12 @@ e_comp_editor_lookup_timezone (ECompEditor *comp_editor,
 
 	return zone;
 }
+
+ICalTimezone *
+e_comp_editor_lookup_timezone_cb (const gchar *tzid,
+				  gpointer user_data, /* ECompEditor * */
+				  GCancellable *cancellable,
+				  GError **error)
+{
+	return e_comp_editor_lookup_timezone (user_data, tzid);
+}

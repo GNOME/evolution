@@ -1268,6 +1268,7 @@ ecep_recurrence_simple_recur_to_comp (ECompEditorPageRecurrence *page_recurrence
 				      ICalComponent *component)
 {
 	enum ending_type ending_type;
+	ECompEditor *comp_editor;
 	ICalProperty *prop;
 	ICalRecurrence *recur;
 	ICalTime *until;
@@ -1276,6 +1277,7 @@ ecep_recurrence_simple_recur_to_comp (ECompEditorPageRecurrence *page_recurrence
 
 	g_return_if_fail (E_IS_COMP_EDITOR_PAGE_RECURRENCE (page_recurrence));
 
+	comp_editor = e_comp_editor_page_ref_editor (E_COMP_EDITOR_PAGE (page_recurrence));
 	recur = i_cal_recurrence_new ();
 
 	/* Frequency, interval, week start */
@@ -1462,6 +1464,7 @@ ecep_recurrence_simple_recur_to_comp (ECompEditorPageRecurrence *page_recurrence
 		until = i_cal_time_new_null_time ();
 		i_cal_time_set_date (until, year, month, day);
 		i_cal_time_set_is_date (until, 1);
+		e_cal_util_normalize_rrule_until_value (component, until, e_comp_editor_lookup_timezone_cb, comp_editor);
 		i_cal_recurrence_set_until (recur, until);
 		g_clear_object (&until);
 
@@ -1481,6 +1484,7 @@ ecep_recurrence_simple_recur_to_comp (ECompEditorPageRecurrence *page_recurrence
 	prop = i_cal_property_new_rrule (recur);
 	i_cal_component_take_property (component, prop);
 
+	g_clear_object (&comp_editor);
 	g_clear_object (&recur);
 }
 

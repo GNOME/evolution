@@ -182,6 +182,10 @@ ECompEditor *	e_comp_editor_find_existing_for	(ESource *origin_source,
 						 const ICalComponent *component);
 ICalTimezone *	e_comp_editor_lookup_timezone	(ECompEditor *comp_editor,
 						 const gchar *tzid);
+ICalTimezone *	e_comp_editor_lookup_timezone_cb(const gchar *tzid,
+						 gpointer user_data, /* ECompEditor * */
+						 GCancellable *cancellable,
+						 GError **error);
 
 G_END_DECLS
 

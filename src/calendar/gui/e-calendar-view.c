@@ -263,7 +263,8 @@ calendar_view_delete_event (ECalendarView *cal_view,
 				instance_rid = i_cal_time_new_from_timet_with_zone (
 					event->comp_data->instance_start,
 					TRUE, zone ? zone : i_cal_timezone_get_utc_timezone ());
-				e_cal_util_remove_instances (event->comp_data->icalcomp, instance_rid, E_CAL_OBJ_MOD_THIS);
+				e_cal_util_remove_instances_ex (event->comp_data->icalcomp, instance_rid, E_CAL_OBJ_MOD_THIS,
+					e_cal_client_tzlookup_cb, event->comp_data->client);
 				e_cal_ops_modify_component (model, event->comp_data->client, event->comp_data->icalcomp,
 					E_CAL_OBJ_MOD_THIS, E_CAL_OPS_SEND_FLAG_DONT_SEND);
 
