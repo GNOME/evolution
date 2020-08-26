@@ -174,7 +174,7 @@ static GtkWindow *
 collection_account_wizard_create_window (GtkWindow *parent,
 					 GtkWidget *wizard)
 {
-	GtkWidget *widget, *vbox, *hbox;
+	GtkWidget *widget, *vbox, *hbox, *scrolled_window;
 	GtkWindow *window;
 	GtkAccelGroup *accel_group;
 	WizardWindowData *wwd;
@@ -203,6 +203,8 @@ collection_account_wizard_create_window (GtkWindow *parent,
 	gtk_widget_set_vexpand (widget, TRUE);
 	gtk_container_add (GTK_CONTAINER (window), widget);
 	gtk_widget_show (widget);
+
+	scrolled_window = widget;
 
 	vbox = gtk_box_new (GTK_ORIENTATION_VERTICAL, 0);
 	gtk_container_add (GTK_CONTAINER (widget), vbox);
@@ -295,6 +297,12 @@ collection_account_wizard_create_window (GtkWindow *parent,
 
 	e_collection_account_wizard_reset (wwd->collection_wizard);
 	collection_wizard_window_update_button_captions (wwd);
+
+	e_signal_connect_notify_swapped (
+		gtk_scrolled_window_get_vadjustment (GTK_SCROLLED_WINDOW (scrolled_window)), "notify::upper",
+		G_CALLBACK (e_util_ensure_scrolled_window_height), scrolled_window);
+
+	g_signal_connect (scrolled_window, "map", G_CALLBACK (e_util_ensure_scrolled_window_height), NULL);
 
 	return window;
 }
@@ -1733,6 +1741,8 @@ collection_account_wizard_constructed (GObject *object)
 
 	gtk_box_pack_start (vbox, widget, TRUE, TRUE, 0);
 
+	scrolled_window = widget;
+
 	label = gtk_label_new ("");
 	g_object_set (G_OBJECT (label),
 		"hexpand", FALSE,
@@ -1884,6 +1894,12 @@ collection_account_wizard_constructed (GObject *object)
 	}
 
 	g_slist_free_full (workers, g_object_unref);
+
+	e_signal_connect_notify_swapped (
+		gtk_scrolled_window_get_vadjustment (GTK_SCROLLED_WINDOW (scrolled_window)), "notify::upper",
+		G_CALLBACK (e_util_ensure_scrolled_window_height), scrolled_window);
+
+	g_signal_connect (scrolled_window, "map", G_CALLBACK (e_util_ensure_scrolled_window_height), NULL);
 
 	/* Parts page */
 

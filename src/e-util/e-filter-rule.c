@@ -975,66 +975,13 @@ ensure_scrolled_width_cb (GtkAdjustment *adj,
 }
 
 static void
-ensure_scrolled_height_cb (GtkAdjustment *adj,
-                           GParamSpec *param_spec,
-                           GtkScrolledWindow *scrolled_window)
-{
-	GtkWidget *toplevel;
-	GdkScreen *screen;
-	gint toplevel_height, scw_height, require_scw_height = 0, max_height;
-
-	toplevel = gtk_widget_get_toplevel (GTK_WIDGET (scrolled_window));
-	if (!toplevel || !gtk_widget_is_toplevel (toplevel))
-		return;
-
-	scw_height = gtk_widget_get_allocated_height (GTK_WIDGET (scrolled_window));
-
-	gtk_widget_get_preferred_height_for_width (gtk_bin_get_child (GTK_BIN (scrolled_window)),
-		gtk_widget_get_allocated_width (GTK_WIDGET (scrolled_window)),
-		&require_scw_height, NULL);
-
-	if (scw_height >= require_scw_height) {
-		if (require_scw_height > 0)
-			gtk_scrolled_window_set_min_content_height (scrolled_window, require_scw_height);
-		return;
-	}
-
-	if (!GTK_IS_WINDOW (toplevel) ||
-	    !gtk_widget_get_window (toplevel))
-		return;
-
-	screen = gtk_window_get_screen (GTK_WINDOW (toplevel));
-	if (screen) {
-		gint monitor;
-		GdkRectangle workarea;
-
-		monitor = gdk_screen_get_monitor_at_window (screen, gtk_widget_get_window (toplevel));
-		if (monitor < 0)
-			monitor = 0;
-
-		gdk_screen_get_monitor_workarea (screen, monitor, &workarea);
-
-		/* can enlarge up to 4 / 5 monitor's work area height */
-		max_height = workarea.height * 4 / 5;
-	} else {
-		return;
-	}
-
-	toplevel_height = gtk_widget_get_allocated_height (toplevel);
-	if (toplevel_height + require_scw_height - scw_height > max_height)
-		return;
-
-	gtk_scrolled_window_set_min_content_height (scrolled_window, require_scw_height);
-}
-
-static void
 parts_grid_mapped_cb (GtkWidget *widget,
 		      GtkScrolledWindow *scrolled_window)
 {
 	g_return_if_fail (GTK_IS_SCROLLED_WINDOW (scrolled_window));
 
 	ensure_scrolled_width_cb (gtk_scrolled_window_get_hadjustment (scrolled_window), NULL, scrolled_window);
-	ensure_scrolled_height_cb (gtk_scrolled_window_get_vadjustment (scrolled_window), NULL, scrolled_window);
+	e_util_ensure_scrolled_window_height (scrolled_window);
 }
 
 static GtkWidget *
@@ -1224,9 +1171,9 @@ filter_rule_get_widget (EFilterRule *rule,
 	e_signal_connect_notify (
 		hadj, "notify::upper",
 		G_CALLBACK (ensure_scrolled_width_cb), scrolledwindow);
-	e_signal_connect_notify (
+	e_signal_connect_notify_swapped (
 		vadj, "notify::upper",
-		G_CALLBACK (ensure_scrolled_height_cb), scrolledwindow);
+		G_CALLBACK (e_util_ensure_scrolled_window_height), scrolledwindow);
 
 	gtk_scrolled_window_set_policy (
 		GTK_SCROLLED_WINDOW (scrolledwindow),

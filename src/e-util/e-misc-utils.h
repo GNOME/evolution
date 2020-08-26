@@ -339,6 +339,9 @@ void		e_util_enum_supported_locales	(void);
 const ESupportedLocales *
 		e_util_get_supported_locales	(void);
 
+void		e_util_ensure_scrolled_window_height
+						(GtkScrolledWindow *scrolled_window);
+
 G_END_DECLS
 
 #endif /* E_MISC_UTILS_H */
