@@ -1005,7 +1005,14 @@ static GtkRadioActionEntry task_filter_entries[] = {
 	  N_("Unmatched"),
 	  NULL,
 	  NULL,  /* XXX Add a tooltip! */
-	  TASK_FILTER_UNMATCHED }
+	  TASK_FILTER_UNMATCHED },
+
+	{ "task-filter-started",
+	  NULL,
+	  N_("Started Tasks"),
+	  NULL,
+	  N_("Filters for tasks that either do not have a start date or the start date is earlier than the time the filter is selected at"),
+	  TASK_FILTER_STARTED }
 };
 
 static GtkRadioActionEntry task_search_entries[] = {

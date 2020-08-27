@@ -207,6 +207,15 @@ task_shell_view_execute_search (EShellView *shell_view)
 			query = temp;
 			break;
 
+		case TASK_FILTER_STARTED:
+			temp = g_strdup_printf (
+				"(or (and %s (starts-before? "
+				"(time-now))) "
+				"(not (has-start?)))", query);
+			g_free (query);
+			query = temp;
+			break;
+
 		default:
 		{
 			GList *categories;

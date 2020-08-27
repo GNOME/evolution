@@ -94,6 +94,8 @@
 	E_SHELL_WINDOW_ACTION ((window), "task-filter-overdue-tasks")
 #define E_SHELL_WINDOW_ACTION_TASK_FILTER_TASKS_WITH_ATTACHMENTS(window) \
 	E_SHELL_WINDOW_ACTION ((window), "task-filter-tasks-with-attachments")
+#define E_SHELL_WINDOW_ACTION_TASK_FILTER_TASK_FILTER_STARTED(window) \
+	E_SHELL_WINDOW_ACTION ((window), "task-filter-started")
 #define E_SHELL_WINDOW_ACTION_TASK_FILTER_UNMATCHED(window) \
 	E_SHELL_WINDOW_ACTION ((window), "task-filter-unmatched")
 #define E_SHELL_WINDOW_ACTION_TASK_SEARCH_ADVANCED_HIDDEN(window) \
