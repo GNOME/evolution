@@ -3643,7 +3643,8 @@ set_signature_gui (EMsgComposer *composer)
 static void
 composer_add_auto_recipients (ESource *source,
                               const gchar *property_name,
-                              GHashTable *hash_table)
+                              GHashTable *hash_table,
+			      GList **inout_destinations)
 {
 	ESourceMailComposition *extension;
 	CamelInternetAddress *inet_addr;
@@ -3679,8 +3680,18 @@ composer_add_auto_recipients (ESource *source,
 		const gchar *name;
 		const gchar *addr;
 
-		if (camel_internet_address_get (inet_addr, ii, &name, &addr))
+		if (camel_internet_address_get (inet_addr, ii, &name, &addr)) {
+			EDestination *dest;
+
 			g_hash_table_add (hash_table, g_strdup (addr));
+
+			dest = e_destination_new ();
+			e_destination_set_name (dest, name);
+			e_destination_set_email (dest, addr);
+			e_destination_set_auto_recipient (dest, TRUE);
+
+			*inout_destinations = g_list_append (*inout_destinations, dest);
+		}
 	}
 
 	g_object_unref (inet_addr);
@@ -3803,8 +3814,8 @@ e_msg_composer_setup_with_message (EMsgComposer *composer,
 		(GDestroyNotify) NULL);
 
 	if (source != NULL) {
-		composer_add_auto_recipients (source, "cc", auto_cc);
-		composer_add_auto_recipients (source, "bcc", auto_bcc);
+		composer_add_auto_recipients (source, "cc", auto_cc, &Cc);
+		composer_add_auto_recipients (source, "bcc", auto_bcc, &Bcc);
 	}
 
 	to = camel_mime_message_get_recipients (message, CAMEL_RECIPIENT_TYPE_TO);
@@ -3831,12 +3842,14 @@ e_msg_composer_setup_with_message (EMsgComposer *composer,
 		const gchar *name, *addr;
 
 		if (camel_internet_address_get (cc, i, &name, &addr)) {
-			EDestination *dest = e_destination_new ();
-			e_destination_set_name (dest, name);
-			e_destination_set_email (dest, addr);
+			EDestination *dest;
 
 			if (g_hash_table_contains (auto_cc, addr))
-				e_destination_set_auto_recipient (dest, TRUE);
+				continue;
+
+			dest = e_destination_new ();
+			e_destination_set_name (dest, name);
+			e_destination_set_email (dest, addr);
 
 			Cc = g_list_append (Cc, dest);
 		}
@@ -3851,12 +3864,14 @@ e_msg_composer_setup_with_message (EMsgComposer *composer,
 		const gchar *name, *addr;
 
 		if (camel_internet_address_get (bcc, i, &name, &addr)) {
-			EDestination *dest = e_destination_new ();
-			e_destination_set_name (dest, name);
-			e_destination_set_email (dest, addr);
+			EDestination *dest;
 
 			if (g_hash_table_contains (auto_bcc, addr))
-				e_destination_set_auto_recipient (dest, TRUE);
+				continue;
+
+			dest = e_destination_new ();
+			e_destination_set_name (dest, name);
+			e_destination_set_email (dest, addr);
 
 			Bcc = g_list_append (Bcc, dest);
 		}
