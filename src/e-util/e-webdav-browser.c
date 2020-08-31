@@ -48,6 +48,7 @@ struct _EWebDAVBrowserPrivate {
 	GMutex property_lock;
 	EWebDAVSession *session;
 	GCancellable *cancellable;
+	gboolean refresh_collection;
 
 	guint update_ui_id;
 	GSList *resources; /* ResourceData * */
@@ -178,6 +179,59 @@ webdav_browser_add_alert (EWebDAVBrowser *webdav_browser,
 	e_alert_bar_add_alert (webdav_browser->priv->alert_bar, alert);
 
 	g_object_unref (alert);
+}
+
+static void
+webdav_browser_refresh_collection_done_cb (GObject *source_object,
+					   GAsyncResult *result,
+					   gpointer user_data)
+{
+	ESourceRegistry *registry;
+	GError *local_error = NULL;
+
+	g_return_if_fail (E_IS_SOURCE_REGISTRY (source_object));
+
+	registry = E_SOURCE_REGISTRY (source_object);
+
+	e_source_registry_refresh_backend_finish (registry, result, &local_error);
+
+	if (local_error && !g_error_matches (local_error, G_IO_ERROR, G_IO_ERROR_CANCELLED))
+		g_warning ("%s: Failed to refresh collection: %s", G_STRFUNC, local_error->message);
+
+	g_clear_error (&local_error);
+}
+
+static void
+webdav_browser_refresh_collection (EWebDAVBrowser *webdav_browser)
+{
+	g_return_if_fail (E_IS_WEBDAV_BROWSER (webdav_browser));
+
+	webdav_browser->priv->refresh_collection = FALSE;
+
+	if (webdav_browser->priv->session) {
+		ESource *source;
+
+		source = e_soup_session_get_source (E_SOUP_SESSION (webdav_browser->priv->session));
+
+		if (source) {
+			ESourceRegistry *registry;
+
+			registry = e_credentials_prompter_get_registry (webdav_browser->priv->credentials_prompter);
+
+			if (registry) {
+				ESource *collection_source;
+
+				collection_source = e_source_registry_find_extension (registry, source, E_SOURCE_EXTENSION_COLLECTION);
+
+				if (collection_source) {
+					e_source_registry_refresh_backend (registry, e_source_get_uid (collection_source), NULL,
+						webdav_browser_refresh_collection_done_cb, NULL);
+
+					g_object_unref (collection_source);
+				}
+			}
+		}
+	}
 }
 
 typedef struct _LoginErrorsData {
@@ -1552,6 +1606,7 @@ typedef struct _SaveChangesData {
 	GdkRGBA rgba;
 	guint32 supports; /* bit-or of EWebDAVResourceSupports */
 	gchar *description;
+	gboolean success;
 } SaveChangesData;
 
 static void
@@ -1560,6 +1615,17 @@ save_changes_data_free (gpointer ptr)
 	SaveChangesData *scd = ptr;
 
 	if (scd) {
+		if (scd->success) {
+			EWebDAVBrowser *webdav_browser;
+
+			webdav_browser = g_weak_ref_get (scd->webdav_browser_weakref);
+
+			if (webdav_browser) {
+				webdav_browser->priv->refresh_collection = TRUE;
+				g_object_unref (webdav_browser);
+			}
+		}
+
 		e_weak_ref_free (scd->webdav_browser_weakref);
 		g_free (scd->href);
 		g_free (scd->name);
@@ -1700,6 +1766,8 @@ webdav_browser_save_changes_thread (EAlertSinkThreadJobData *job_data,
 	} else {
 		webdav_browser_schedule_ui_update (webdav_browser, NULL, NULL, NULL);
 	}
+
+	scd->success = success;
 
 	g_object_unref (webdav_browser);
 	g_object_unref (session);
@@ -2072,6 +2140,7 @@ webdav_browser_edit_clicked_cb (GtkWidget *button,
 typedef struct _DeleteData {
 	GWeakRef *webdav_browser_weakref;
 	gchar *href;
+	gboolean success;
 } DeleteData;
 
 static void
@@ -2080,6 +2149,17 @@ delete_data_free (gpointer ptr)
 	DeleteData *dd = ptr;
 
 	if (dd) {
+		if (dd->success) {
+			EWebDAVBrowser *webdav_browser;
+
+			webdav_browser = g_weak_ref_get (dd->webdav_browser_weakref);
+
+			if (webdav_browser) {
+				webdav_browser->priv->refresh_collection = TRUE;
+				g_object_unref (webdav_browser);
+			}
+		}
+
 		e_weak_ref_free (dd->webdav_browser_weakref);
 		g_free (dd->href);
 		g_slice_free (DeleteData, dd);
@@ -2138,6 +2218,8 @@ webdav_browser_delete_thread (EAlertSinkThreadJobData *job_data,
 	}
 
 	if (e_webdav_session_delete_sync (session, dd->href, E_WEBDAV_DEPTH_THIS_AND_CHILDREN, NULL, cancellable, error)) {
+		dd->success = TRUE;
+
 		webdav_browser_schedule_ui_update (webdav_browser,
 			webdav_browser_delete_done, g_strdup (dd->href), g_free);
 	} else {
@@ -2568,6 +2650,9 @@ webdav_browser_dispose (GObject *object)
 		g_clear_object (&webdav_browser->priv->cancellable);
 	}
 
+	if (webdav_browser->priv->refresh_collection)
+		webdav_browser_refresh_collection (webdav_browser);
+
 	g_clear_object (&webdav_browser->priv->session);
 	g_clear_object (&webdav_browser->priv->credentials_prompter);
 
@@ -2840,6 +2925,9 @@ e_webdav_browser_set_source (EWebDAVBrowser *webdav_browser,
 		g_mutex_unlock (&webdav_browser->priv->property_lock);
 		return;
 	}
+
+	if (webdav_browser->priv->refresh_collection)
+		webdav_browser_refresh_collection (webdav_browser);
 
 	g_clear_object (&webdav_browser->priv->session);
 
