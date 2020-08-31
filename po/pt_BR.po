@@ -23,8 +23,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: evolution\n"
 "Report-Msgid-Bugs-To: https://gitlab.gnome.org/GNOME/evolution/issues\n"
-"POT-Creation-Date: 2020-08-06 08:18+0000\n"
-"PO-Revision-Date: 2020-08-21 14:35-0300\n"
+"POT-Creation-Date: 2020-08-26 19:21+0000\n"
+"PO-Revision-Date: 2020-08-31 08:09-0300\n"
 "Last-Translator: Rafael Fontenelle <rafaelff@gnome.org>\n"
 "Language-Team: Brazilian Portuguese <gnome-pt_br-list@gnome.org>\n"
 "Language: pt_BR\n"
@@ -3372,6 +3372,20 @@ msgstr ""
 "O prefixo de uma URL a ser usado para pesquisas na web. A seleção de texto "
 "real é escapada e anexada a essa string. A URI deve começar com https://."
 
+#: ../data/org.gnome.evolution.shell.gschema.xml.in.h:40
+msgid "Minimum font size to be used by WebKitGTK"
+msgstr "Tamanho mínimo da fonte para usar pelo WebKitGTK"
+
+#: ../data/org.gnome.evolution.shell.gschema.xml.in.h:41
+msgid ""
+"The minimum font size in pixels used to display text in WebKitGTK. This "
+"setting controls the absolute smallest size. Values other than 0 can "
+"potentially break page layouts. Negative values are treated as 0."
+msgstr ""
+"O tamanho mínimo da fonte em pixels usado para exibir texto no WebKitGTK. "
+"Esta configuração controla o menor tamanho absoluto. Valores diferentes de 0 "
+"podem quebrar layouts de página. Os valores negativos são tratados como 0."
+
 #: ../data/org.gnome.evolution.spamassassin.gschema.xml.in.h:1
 msgid "Use only local spam tests."
 msgstr "Usar apenas testes de SPAM locais."
@@ -3495,7 +3509,7 @@ msgstr "Contatos"
 
 #: ../data/org.gnome.Evolution.desktop.in.in.h:9
 #: ../src/addressbook/gui/widgets/eab-contact-formatter.c:1009
-#: ../src/e-util/e-collection-account-wizard.c:839
+#: ../src/e-util/e-collection-account-wizard.c:847
 #: ../src/e-util/e-send-options.c:544 ../src/e-util/e-webdav-browser.c:470
 #: ../src/modules/calendar/e-cal-shell-view-actions.c:199
 #: ../src/modules/calendar/e-cal-shell-view.c:599
@@ -4205,9 +4219,9 @@ msgstr "Opções"
 #: ../src/e-util/e-attachment-store.c:854 ../src/e-util/e-attachment-view.c:301
 #: ../src/e-util/e-categories-dialog.c:80 ../src/e-util/e-category-editor.c:169
 #: ../src/e-util/e-category-editor.c:257 ../src/e-util/e-charset-combo-box.c:99
-#: ../src/e-util/e-collection-account-wizard.c:238
-#: ../src/e-util/e-collection-account-wizard.c:1868
-#: ../src/e-util/e-collection-account-wizard.c:2109
+#: ../src/e-util/e-collection-account-wizard.c:240
+#: ../src/e-util/e-collection-account-wizard.c:1878
+#: ../src/e-util/e-collection-account-wizard.c:2125
 #: ../src/e-util/e-color-chooser-widget.c:125
 #: ../src/e-util/e-filter-datespec.c:300
 #: ../src/e-util/e-html-editor-actions.c:342
@@ -4355,7 +4369,7 @@ msgid "Home Page:"
 msgstr "Página web:"
 
 #: ../src/addressbook/gui/contact-editor/contact-editor.ui.h:34
-#: ../src/modules/cal-config-google/e-cal-config-google.c:97
+#: ../src/modules/cal-config-google/e-cal-config-google.c:94
 msgid "Calendar:"
 msgstr "Agenda:"
 
@@ -4428,14 +4442,14 @@ msgstr "Bod_as:"
 #: ../src/addressbook/gui/contact-editor/contact-editor.ui.h:52
 #: ../src/addressbook/gui/widgets/eab-contact-formatter.c:1055
 #: ../src/addressbook/gui/widgets/e-addressbook-view.etspec.h:47
-#: ../src/calendar/gui/e-calendar-view.c:2098
+#: ../src/calendar/gui/e-calendar-view.c:2099
 msgid "Anniversary"
 msgstr "Bodas"
 
 #: ../src/addressbook/gui/contact-editor/contact-editor.ui.h:53
 #: ../src/addressbook/gui/widgets/eab-contact-formatter.c:1054
 #: ../src/addressbook/gui/widgets/e-addressbook-view.etspec.h:46
-#: ../src/calendar/gui/e-calendar-view.c:2097
+#: ../src/calendar/gui/e-calendar-view.c:2098
 msgid "Birthday"
 msgstr "Aniversário"
 
@@ -5806,14 +5820,10 @@ msgid "Phone"
 msgstr "Telefone"
 
 #: ../src/calendar/calendar.error.xml.h:1
-#| msgid "Would you like to send all the participants a cancelation notice?"
 msgid "Would you like to send all the participants a cancellation notice?"
 msgstr "Você deseja enviar um aviso de cancelamento a todos os participantes?"
 
 #: ../src/calendar/calendar.error.xml.h:2
-#| msgid ""
-#| "If you do not send a cancelation notice, the other participants may not "
-#| "know the meeting is canceled."
 msgid ""
 "If you do not send a cancellation notice, the other participants may not "
 "know the meeting is canceled."
@@ -5843,9 +5853,6 @@ msgstr ""
 "recuperadas."
 
 #: ../src/calendar/calendar.error.xml.h:8
-#| msgid ""
-#| "If you do not send a cancelation notice, the other participants may not "
-#| "know the task has been deleted."
 msgid ""
 "If you do not send a cancellation notice, the other participants may not "
 "know the task has been deleted."
@@ -5866,14 +5873,10 @@ msgstr ""
 "recuperadas."
 
 #: ../src/calendar/calendar.error.xml.h:11
-#| msgid "Would you like to send a cancelation notice for this memo?"
 msgid "Would you like to send a cancellation notice for this memo?"
 msgstr "Você deseja enviar um aviso de cancelamento para este memorando?"
 
 #: ../src/calendar/calendar.error.xml.h:12
-#| msgid ""
-#| "If you do not send a cancelation notice, the other participants may not "
-#| "know the memo has been deleted."
 msgid ""
 "If you do not send a cancellation notice, the other participants may not "
 "know the memo has been deleted."
@@ -6529,7 +6532,7 @@ msgstr "não contém"
 #: ../src/calendar/gui/memotypes.xml.in.h:4
 #: ../src/calendar/gui/tasktypes.xml.in.h:4
 #: ../src/e-util/e-attachment-tree-view.c:147
-#: ../src/e-util/e-collection-account-wizard.c:1960
+#: ../src/e-util/e-collection-account-wizard.c:1976
 #: ../src/e-util/e-table-config.ui.h:20
 #: ../src/modules/plugin-manager/evolution-plugin-manager.c:66
 msgid "Description"
@@ -6641,7 +6644,7 @@ msgid "Do Not Exist"
 msgstr "Não existe"
 
 #: ../src/calendar/gui/caltypes.xml.in.h:19
-#: ../src/calendar/gui/e-comp-editor-page-recurrence.c:2103
+#: ../src/calendar/gui/e-comp-editor-page-recurrence.c:2107
 msgid "Recurrence"
 msgstr "Recorrência"
 
@@ -6953,7 +6956,7 @@ msgid "calendar view for one or more weeks"
 msgstr "exibição de agenda para uma ou mais semanas"
 
 #: ../src/calendar/gui/e-cal-component-preview.c:237
-#: ../src/e-util/e-filter-rule.c:1068 ../src/mail/e-mail-config-page.c:124
+#: ../src/e-util/e-filter-rule.c:1015 ../src/mail/e-mail-config-page.c:124
 msgid "Untitled"
 msgstr "Sem título"
 
@@ -6962,7 +6965,7 @@ msgid "Categories:"
 msgstr "Categorias:"
 
 #: ../src/calendar/gui/e-cal-component-preview.c:288
-#: ../src/modules/cal-config-weather/evolution-cal-config-weather.c:249
+#: ../src/modules/cal-config-weather/evolution-cal-config-weather.c:246
 #: ../src/modules/itip-formatter/itip-view.c:1700
 #: ../src/modules/itip-formatter/itip-view.c:1811
 msgid "Location:"
@@ -7182,46 +7185,46 @@ msgstr "Enviar meus lembretes com este evento"
 msgid "Notify new attendees _only"
 msgstr "Notificar s_omente os novos participantes"
 
-#: ../src/calendar/gui/e-calendar-view.c:478
+#: ../src/calendar/gui/e-calendar-view.c:479
 msgid "Cut selected events to the clipboard"
 msgstr "Recortar os eventos selecionados para a área de transferência"
 
-#: ../src/calendar/gui/e-calendar-view.c:484
+#: ../src/calendar/gui/e-calendar-view.c:485
 msgid "Copy selected events to the clipboard"
 msgstr "Copiar os eventos selecionados para a área de transferência"
 
-#: ../src/calendar/gui/e-calendar-view.c:490
+#: ../src/calendar/gui/e-calendar-view.c:491
 msgid "Paste events from the clipboard"
 msgstr "Colar os eventos da área de transferência"
 
-#: ../src/calendar/gui/e-calendar-view.c:496
+#: ../src/calendar/gui/e-calendar-view.c:497
 msgid "Delete selected events"
 msgstr "Exclui os eventos selecionados"
 
-#: ../src/calendar/gui/e-calendar-view.c:906
+#: ../src/calendar/gui/e-calendar-view.c:907
 msgid "Pasted text doesn’t contain valid iCalendar data"
 msgstr "O texto colado não contém dados iCalendar válidos"
 
-#: ../src/calendar/gui/e-calendar-view.c:917
+#: ../src/calendar/gui/e-calendar-view.c:918
 #: ../src/calendar/gui/e-cal-ops.c:1582
 msgid "Default calendar not found"
 msgstr "Agenda padrão não encontrada"
 
-#: ../src/calendar/gui/e-calendar-view.c:922
+#: ../src/calendar/gui/e-calendar-view.c:923
 #: ../src/calendar/gui/e-cal-ops.c:1585
 msgid "Default memo list not found"
 msgstr "Lista de memorandos padrão não encontrada"
 
-#: ../src/calendar/gui/e-calendar-view.c:927
+#: ../src/calendar/gui/e-calendar-view.c:928
 #: ../src/calendar/gui/e-cal-ops.c:1588
 msgid "Default task list not found"
 msgstr "Lista de tarefas padrão não encontrada"
 
-#: ../src/calendar/gui/e-calendar-view.c:1019
+#: ../src/calendar/gui/e-calendar-view.c:1020
 msgid "No suitable component found"
 msgstr "Nenhum componente adequado encontrado"
 
-#: ../src/calendar/gui/e-calendar-view.c:1089
+#: ../src/calendar/gui/e-calendar-view.c:1090
 msgid "Pasting iCalendar data"
 msgstr "Colando dados iCalendar"
 
@@ -7230,7 +7233,7 @@ msgstr "Colando dados iCalendar"
 #. * "Organizer: NameOfTheUser <email@ofuser.com>"
 #. To Translators: It will display
 #. * "Organizer: NameOfTheUser <email@ofuser.com>"
-#: ../src/calendar/gui/e-calendar-view.c:1889
+#: ../src/calendar/gui/e-calendar-view.c:1890
 #: ../src/calendar/gui/e-memo-table.c:572
 #: ../src/calendar/gui/e-task-table.c:736
 #, c-format
@@ -7240,7 +7243,7 @@ msgstr "Organizador: %s <%s>"
 #. With SunOne accounts, there may be no ':' in organiser.value
 #. With SunOne accounts, there may be no ':' in
 #. * organizer.value.
-#: ../src/calendar/gui/e-calendar-view.c:1892
+#: ../src/calendar/gui/e-calendar-view.c:1893
 #: ../src/calendar/gui/e-memo-table.c:577
 #: ../src/calendar/gui/e-task-table.c:740
 #, c-format
@@ -7249,7 +7252,7 @@ msgstr "Organizador: %s"
 
 #. Translators: It will display "Location: PlaceOfTheMeeting"
 #. Translators: It will display "Location: LocationOfTheAppointment"
-#: ../src/calendar/gui/e-calendar-view.c:1911
+#: ../src/calendar/gui/e-calendar-view.c:1912
 #: ../src/calendar/gui/e-meeting-time-sel.c:2580
 #: ../src/calendar/gui/e-task-table.c:758
 #: ../src/calendar/gui/e-to-do-pane.c:377 ../src/calendar/gui/print.c:3627
@@ -7259,7 +7262,7 @@ msgstr "Local: %s"
 
 #. To Translators: It will display "Time: ActualStartDateAndTime (DurationOfTheMeeting)"
 #. Translators: It will display "Time: StartDateAndTime (Duration)"
-#: ../src/calendar/gui/e-calendar-view.c:1970
+#: ../src/calendar/gui/e-calendar-view.c:1971
 #: ../src/calendar/gui/e-to-do-pane.c:480
 #, c-format
 msgid "Time: %s %s"
@@ -7269,16 +7272,16 @@ msgstr "Data: %s %s"
 #. The string is used for Birthday & Anniversary events where the first year is
 #. know, constructing a summary which also shows how many years the birthday or
 #. anniversary is for. Example: "Birthday: John Doe (13)"
-#: ../src/calendar/gui/e-calendar-view.c:2117
+#: ../src/calendar/gui/e-calendar-view.c:2118
 #, c-format
 msgctxt "BirthdaySummary"
 msgid "%s (%d)"
 msgstr "%s (%d)"
 
-#: ../src/calendar/gui/e-calendar-view.c:2318
-#: ../src/calendar/gui/e-calendar-view.c:2321
-#: ../src/calendar/gui/e-calendar-view.c:2324
+#: ../src/calendar/gui/e-calendar-view.c:2319
+#: ../src/calendar/gui/e-calendar-view.c:2322
 #: ../src/calendar/gui/e-calendar-view.c:2325
+#: ../src/calendar/gui/e-calendar-view.c:2326
 msgid "%d %b %Y"
 msgstr "%d %b %Y"
 
@@ -7287,14 +7290,14 @@ msgstr "%d %b %Y"
 #. strftime format %d = day of month, %b = abbreviated
 #. * month name. You can change the order but don't
 #. * change the specifiers or add anything.
-#: ../src/calendar/gui/e-calendar-view.c:2320
+#: ../src/calendar/gui/e-calendar-view.c:2321
 #: ../src/calendar/gui/e-day-view.c:3079
 #: ../src/calendar/gui/e-day-view-top-item.c:858
 #: ../src/calendar/gui/e-week-view-main-item.c:228
 msgid "%d %b"
 msgstr "%d %b"
 
-#: ../src/calendar/gui/e-calendar-view.c:2331
+#: ../src/calendar/gui/e-calendar-view.c:2332
 msgid "%A %d %b %Y"
 msgstr "%A %d %b %Y"
 
@@ -7304,16 +7307,16 @@ msgstr "%A %d %b %Y"
 #. * %d = day of month, %b = abbreviated month name.
 #. * You can change the order but don't change the
 #. * specifiers or add anything.
-#: ../src/calendar/gui/e-calendar-view.c:2333
+#: ../src/calendar/gui/e-calendar-view.c:2334
 #: ../src/calendar/gui/e-day-view.c:3063
 #: ../src/calendar/gui/e-day-view-top-item.c:854
 #: ../src/calendar/gui/e-week-view-main-item.c:214
 msgid "%a %d %b"
 msgstr "%a %d %b"
 
-#: ../src/calendar/gui/e-calendar-view.c:2334
-#: ../src/calendar/gui/e-calendar-view.c:2336
+#: ../src/calendar/gui/e-calendar-view.c:2335
 #: ../src/calendar/gui/e-calendar-view.c:2337
+#: ../src/calendar/gui/e-calendar-view.c:2338
 msgid "%a %d %b %Y"
 msgstr "%a %d %b %Y"
 
@@ -7367,7 +7370,7 @@ msgstr "Estado"
 #: ../src/calendar/gui/e-task-table.etspec.h:3
 #: ../src/e-util/e-accounts-window.c:1443
 #: ../src/e-util/e-attachment-tree-view.c:205
-#: ../src/e-util/e-collection-account-wizard.c:2001
+#: ../src/e-util/e-collection-account-wizard.c:2017
 #: ../src/e-util/e-webdav-browser.c:2371
 #: ../src/mail/e-mail-account-tree-view.c:158
 msgid "Type"
@@ -8066,7 +8069,7 @@ msgid "Atte_ndees…"
 msgstr "Participa_ntes…"
 
 #: ../src/calendar/gui/e-comp-editor-page-general.c:1533
-#: ../src/calendar/gui/e-comp-editor-page-recurrence.c:2323
+#: ../src/calendar/gui/e-comp-editor-page-recurrence.c:2327
 #: ../src/calendar/gui/e-comp-editor.c:2141
 #: ../src/e-util/e-accounts-window.c:1745
 #: ../src/e-util/e-html-editor-actions.c:1116
@@ -8244,116 +8247,116 @@ msgid "occurrences"
 msgstr "ocorrências"
 
 #. Translators: Entire string is for example:     'This appointment recurs/Every[x][day(s)][for][1]occurrences' (combobox options are in [square brackets])
-#: ../src/calendar/gui/e-comp-editor-page-recurrence.c:1558
-#: ../src/calendar/gui/e-comp-editor-page-recurrence.c:2115
+#: ../src/calendar/gui/e-comp-editor-page-recurrence.c:1562
+#: ../src/calendar/gui/e-comp-editor-page-recurrence.c:2119
 msgctxt "ECompEditorPageRecur"
 msgid "This appointment rec_urs"
 msgstr "Este compromisso se _repete"
 
 #. Translators: Entire string is for example:     'This task recurs/Every[x][day(s)][for][1]occurrences' (combobox options are in [square brackets])
-#: ../src/calendar/gui/e-comp-editor-page-recurrence.c:1563
+#: ../src/calendar/gui/e-comp-editor-page-recurrence.c:1567
 msgctxt "ECompEditorPageRecur"
 msgid "This task rec_urs"
 msgstr "Esta tarefa se _repete"
 
 #. Translators: Entire string is for example:     'This memo recurs/Every[x][day(s)][for][1]occurrences' (combobox options are in [square brackets])
-#: ../src/calendar/gui/e-comp-editor-page-recurrence.c:1568
+#: ../src/calendar/gui/e-comp-editor-page-recurrence.c:1572
 msgctxt "ECompEditorPageRecur"
 msgid "This memo rec_urs"
 msgstr "Este memorando se _repete"
 
 #. Translators: Entire string is for example:     'This component recurs/Every[x][day(s)][for][1]occurrences' (combobox options are in [square brackets])
-#: ../src/calendar/gui/e-comp-editor-page-recurrence.c:1573
+#: ../src/calendar/gui/e-comp-editor-page-recurrence.c:1577
 msgctxt "ECompEditorPageRecur"
 msgid "This component rec_urs"
 msgstr "Este componente se _repete"
 
-#: ../src/calendar/gui/e-comp-editor-page-recurrence.c:1944
+#: ../src/calendar/gui/e-comp-editor-page-recurrence.c:1948
 msgid "Recurrence exception date is invalid"
 msgstr "A data de exceção à recorrência é inválida"
 
-#: ../src/calendar/gui/e-comp-editor-page-recurrence.c:2000
+#: ../src/calendar/gui/e-comp-editor-page-recurrence.c:2004
 msgid "End time of the recurrence is before the start"
 msgstr "O período de término da recorrência é anterior ao de início"
 
-#: ../src/calendar/gui/e-comp-editor-page-recurrence.c:2043
+#: ../src/calendar/gui/e-comp-editor-page-recurrence.c:2047
 msgid "R_ecurrence"
 msgstr "R_ecorrência"
 
-#: ../src/calendar/gui/e-comp-editor-page-recurrence.c:2045
+#: ../src/calendar/gui/e-comp-editor-page-recurrence.c:2049
 msgid "Set or unset recurrence"
 msgstr "Define ou remove recorrência"
 
 #. Translators: Entire string is for example:     'This appointment recurs/Every[x][day(s)][for][1]occurrences' (combobox options are in [square brackets])
-#: ../src/calendar/gui/e-comp-editor-page-recurrence.c:2147
+#: ../src/calendar/gui/e-comp-editor-page-recurrence.c:2151
 msgctxt "ECompEditorPageRecur"
 msgid "Every"
 msgstr "A cada"
 
 #. Translators: Entire string is for example:     'This appointment recurs/Every[x][day(s)][for][1]occurrences' (combobox options are in [square brackets])
-#: ../src/calendar/gui/e-comp-editor-page-recurrence.c:2182
+#: ../src/calendar/gui/e-comp-editor-page-recurrence.c:2186
 msgctxt "ECompEditorPageRecur"
 msgid "day(s)"
 msgstr "dia(s)"
 
 #. Translators: Entire string is for example:     'This appointment recurs/Every[x][day(s)][for][1]occurrences' (combobox options are in [square brackets])
-#: ../src/calendar/gui/e-comp-editor-page-recurrence.c:2184
+#: ../src/calendar/gui/e-comp-editor-page-recurrence.c:2188
 msgctxt "ECompEditorPageRecur"
 msgid "week(s)"
 msgstr "semana(s)"
 
 #. Translators: Entire string is for example:     'This appointment recurs/Every[x][day(s)][for][1]occurrences' (combobox options are in [square brackets])
-#: ../src/calendar/gui/e-comp-editor-page-recurrence.c:2186
+#: ../src/calendar/gui/e-comp-editor-page-recurrence.c:2190
 msgctxt "ECompEditorPageRecur"
 msgid "month(s)"
 msgstr "mês(es)"
 
 #. Translators: Entire string is for example:     'This appointment recurs/Every[x][day(s)][for][1]occurrences' (combobox options are in [square brackets])
-#: ../src/calendar/gui/e-comp-editor-page-recurrence.c:2188
+#: ../src/calendar/gui/e-comp-editor-page-recurrence.c:2192
 msgctxt "ECompEditorPageRecur"
 msgid "year(s)"
 msgstr "ano(s)"
 
 #. Translators: Entire string is for example:     'This appointment recurs/Every[x][day(s)][for][1]occurrences' (combobox options are in [square brackets])
-#: ../src/calendar/gui/e-comp-editor-page-recurrence.c:2217
+#: ../src/calendar/gui/e-comp-editor-page-recurrence.c:2221
 msgctxt "ECompEditorPageRecur"
 msgid "for"
 msgstr "por"
 
 #. Translators: Entire string is for example:     'This appointment recurs/Every[x][day(s)][for][1]occurrences' (combobox options are in [square brackets])
-#: ../src/calendar/gui/e-comp-editor-page-recurrence.c:2219
+#: ../src/calendar/gui/e-comp-editor-page-recurrence.c:2223
 msgctxt "ECompEditorPageRecur"
 msgid "until"
 msgstr "até"
 
 #. Translators: Entire string is for example:     'This appointment recurs/Every[x][day(s)][for][1]occurrences' (combobox options are in [square brackets])
-#: ../src/calendar/gui/e-comp-editor-page-recurrence.c:2221
+#: ../src/calendar/gui/e-comp-editor-page-recurrence.c:2225
 msgctxt "ECompEditorPageRecur"
 msgid "forever"
 msgstr "para sempre"
 
-#: ../src/calendar/gui/e-comp-editor-page-recurrence.c:2237
+#: ../src/calendar/gui/e-comp-editor-page-recurrence.c:2241
 msgid "This appointment contains recurrences that Evolution cannot edit."
 msgstr "Este compromisso possui recorrências que o Evolution não pode editar."
 
-#: ../src/calendar/gui/e-comp-editor-page-recurrence.c:2250
+#: ../src/calendar/gui/e-comp-editor-page-recurrence.c:2254
 msgid "Exceptions"
 msgstr "Exceções"
 
-#: ../src/calendar/gui/e-comp-editor-page-recurrence.c:2315
+#: ../src/calendar/gui/e-comp-editor-page-recurrence.c:2319
 #: ../src/calendar/gui/e-comp-editor-page-reminders.c:2168
 #: ../src/mail/e-mail-config-identity-page.c:854
 #: ../src/mail/mail-config.ui.h:67
 msgid "A_dd"
 msgstr "A_dicionar"
 
-#: ../src/calendar/gui/e-comp-editor-page-recurrence.c:2331
+#: ../src/calendar/gui/e-comp-editor-page-recurrence.c:2335
 #: ../src/calendar/gui/e-comp-editor-page-reminders.c:2176
 #: ../src/mail/mail-config.ui.h:69
 msgid "Re_move"
 msgstr "Re_mover"
 
-#: ../src/calendar/gui/e-comp-editor-page-recurrence.c:2339
+#: ../src/calendar/gui/e-comp-editor-page-recurrence.c:2343
 msgid "Preview"
 msgstr "Visualizar"
 
@@ -8561,7 +8564,6 @@ msgid "_Categories…"
 msgstr "_Categorias…"
 
 #: ../src/calendar/gui/e-comp-editor-property-parts.c:573
-#| msgid "Edit as Ne_w…"
 msgid "Edit as text"
 msgstr "Editar como texto"
 
@@ -9060,7 +9062,7 @@ msgid "Failure reason: %s"
 msgstr "Razão da falha: %s"
 
 #: ../src/calendar/gui/e-meeting-store.c:2018
-#: ../src/e-util/e-collection-account-wizard.c:493
+#: ../src/e-util/e-collection-account-wizard.c:501
 #: ../src/plugins/publish-calendar/publish-calendar.c:350
 #: ../src/smime/gui/component.c:61
 msgid "Enter password"
@@ -11622,7 +11624,7 @@ msgid "Save Draft"
 msgstr "Salvar rascunho"
 
 #: ../src/composer/e-composer-from-header.c:108
-#: ../src/e-util/e-collection-account-wizard.c:2033
+#: ../src/e-util/e-collection-account-wizard.c:2049
 #: ../src/e-util/e-mail-signature-script-dialog.c:416
 #: ../src/e-util/e-webdav-browser.c:2398
 #: ../src/e-util/gal-view-instance-save-as-dialog.ui.h:2
@@ -11712,7 +11714,6 @@ msgstr "Redigir mensagem"
 
 #: ../src/composer/e-msg-composer.c:4362
 #: ../src/modules/composer-to-meeting/e-composer-to-meeting.c:352
-#| msgid "Loading Remote Content"
 msgid "Reading text content…"
 msgstr "Lendo conteúdo de texto…"
 
@@ -11893,7 +11894,7 @@ msgid "_Save to Outbox"
 msgstr "_Salvar para caixa de saída"
 
 #: ../src/composer/mail-composer.error.xml.h:34
-#: ../src/e-util/e-collection-account-wizard.c:694
+#: ../src/e-util/e-collection-account-wizard.c:702
 msgid "_Try Again"
 msgstr "_Tentar novamente"
 
@@ -13089,7 +13090,7 @@ msgid "_Look Up"
 msgstr "_Procurar"
 
 #: ../src/e-util/e-collection-account-wizard.c:112
-#: ../src/e-util/e-collection-account-wizard.c:273
+#: ../src/e-util/e-collection-account-wizard.c:275
 #: ../src/e-util/e-search-bar.c:680
 #: ../src/modules/accounts-window/e-collection-wizard-page.c:85
 #: ../src/modules/accounts-window/e-collection-wizard-page.c:244
@@ -13100,27 +13101,27 @@ msgstr "Próxi_ma"
 msgid "New Collection Account"
 msgstr "Nova coleção de contas"
 
-#: ../src/e-util/e-collection-account-wizard.c:258
+#: ../src/e-util/e-collection-account-wizard.c:260
 #: ../src/e-util/e-search-bar.c:668
 #: ../src/modules/accounts-window/e-collection-wizard-page.c:78
 msgid "_Previous"
 msgstr "Anterio_r"
 
-#: ../src/e-util/e-collection-account-wizard.c:439
+#: ../src/e-util/e-collection-account-wizard.c:447
 msgid "Looking up details, please wait…"
 msgstr "Procurando detalhes, por favor aguarde…"
 
 #. Translators: The %s is replaced with a clickable text "Enter password", thus it'll be "Requires password to continue. Enter password." at the end.
-#: ../src/e-util/e-collection-account-wizard.c:496
+#: ../src/e-util/e-collection-account-wizard.c:504
 #, c-format
 msgid "Requires password to continue. %s."
 msgstr "Requer senha para continuar. %s."
 
-#: ../src/e-util/e-collection-account-wizard.c:509
+#: ../src/e-util/e-collection-account-wizard.c:517
 msgid "View certificate"
 msgstr "Ver certificado"
 
-#: ../src/e-util/e-collection-account-wizard.c:550
+#: ../src/e-util/e-collection-account-wizard.c:558
 msgid ""
 "Found no candidates. It can also mean that the server doesn’t provide any "
 "information about its configuration using the selected lookup methods. Enter "
@@ -13131,95 +13132,93 @@ msgstr ""
 "pesquisa selecionados. Digite a conta manualmente ou mude as configurações "
 "acima."
 
-#: ../src/e-util/e-collection-account-wizard.c:552
+#: ../src/e-util/e-collection-account-wizard.c:560
 #, c-format
 msgid "Found one candidate"
 msgid_plural "Found %d candidates"
 msgstr[0] "Encontrado um candidato"
 msgstr[1] "Encontrado %d candidatos"
 
-#: ../src/e-util/e-collection-account-wizard.c:663
+#: ../src/e-util/e-collection-account-wizard.c:671
 #: ../src/plugins/publish-calendar/publish-calendar.ui.h:29
 msgid "_Username:"
 msgstr "Nome do _usuário:"
 
-#: ../src/e-util/e-collection-account-wizard.c:675
+#: ../src/e-util/e-collection-account-wizard.c:683
 #: ../src/plugins/publish-calendar/publish-calendar.ui.h:30
 #: ../src/smime/gui/certificate-manager.c:766
 msgid "_Password:"
 msgstr "S_enha:"
 
-#: ../src/e-util/e-collection-account-wizard.c:688
+#: ../src/e-util/e-collection-account-wizard.c:696
 #: ../src/plugins/publish-calendar/publish-calendar.ui.h:31
 msgid "_Remember password"
 msgstr "_Lembrar senha"
 
-#: ../src/e-util/e-collection-account-wizard.c:835
+#: ../src/e-util/e-collection-account-wizard.c:843
 #: ../src/e-util/e-webdav-browser.c:474
 msgid "Collection"
 msgstr "Coleção"
 
-#: ../src/e-util/e-collection-account-wizard.c:836
+#: ../src/e-util/e-collection-account-wizard.c:844
 msgid "Mail Receive"
 msgstr "Recebimento de e-mail"
 
-#: ../src/e-util/e-collection-account-wizard.c:837
+#: ../src/e-util/e-collection-account-wizard.c:845
 msgid "Mail Send"
 msgstr "Envio de e-mail"
 
-#: ../src/e-util/e-collection-account-wizard.c:838
+#: ../src/e-util/e-collection-account-wizard.c:846
 #: ../src/e-util/e-name-selector-dialog.c:445
 #: ../src/mail/importers/pine-importer.c:430
 msgid "Address Book"
 msgstr "Catálogo de endereços"
 
-#: ../src/e-util/e-collection-account-wizard.c:840
+#: ../src/e-util/e-collection-account-wizard.c:848
 msgid "Memo List"
 msgstr "Lista de memorandos"
 
-#: ../src/e-util/e-collection-account-wizard.c:841
+#: ../src/e-util/e-collection-account-wizard.c:849
 #: ../src/modules/calendar/e-calendar-preferences.ui.h:64
 msgid "Task List"
 msgstr "Lista de tarefas"
 
-#: ../src/e-util/e-collection-account-wizard.c:1177
+#: ../src/e-util/e-collection-account-wizard.c:1185
 msgid "Looking up LDAP server’s search base…"
 msgstr "Procurando na base de pesquisa do servidor LDAP…"
 
-#: ../src/e-util/e-collection-account-wizard.c:1310
-#| msgid "Failed to create a thread: "
+#: ../src/e-util/e-collection-account-wizard.c:1318
 msgid "Failed to store password: "
 msgstr "Falha ao armazenar a senha: "
 
-#: ../src/e-util/e-collection-account-wizard.c:1320
-#| msgid "Failed to create a thread: "
+#: ../src/e-util/e-collection-account-wizard.c:1328
 msgid "Failed to create sources: "
 msgstr "Falha ao criar os fontes: "
 
-#: ../src/e-util/e-collection-account-wizard.c:1487
+#: ../src/e-util/e-collection-account-wizard.c:1495
 msgid "Saving account settings, please wait…"
 msgstr "Salvando configurações da conta, por favor aguarde…"
 
-#: ../src/e-util/e-collection-account-wizard.c:1639
+#: ../src/e-util/e-collection-account-wizard.c:1647
 msgid "User details"
 msgstr "Detalhes do usuário"
 
-#: ../src/e-util/e-collection-account-wizard.c:1652
+#: ../src/e-util/e-collection-account-wizard.c:1660
 msgid "_Email Address or User name:"
 msgstr "Endereço de _e-mail ou nome de usuário:"
 
-#: ../src/e-util/e-collection-account-wizard.c:1683
+#: ../src/e-util/e-collection-account-wizard.c:1691
 msgid "_Advanced Options"
 msgstr "Opções _avançadas"
 
-#: ../src/e-util/e-collection-account-wizard.c:1688
+#: ../src/e-util/e-collection-account-wizard.c:1696
 #: ../src/modules/mail-config/e-mail-config-remote-accounts.c:217
 #: ../src/modules/mail-config/e-mail-config-smtp-backend.c:173
 #: ../src/plugins/publish-calendar/publish-calendar.ui.h:25
 msgid "_Server:"
 msgstr "_Servidor:"
 
-#: ../src/e-util/e-collection-account-wizard.c:1707
+#: ../src/e-util/e-collection-account-wizard.c:1715
 msgid ""
 "Semicolon (“;”) separated list of servers to look up information for, in "
 "addition to the domain of the e-mail address."
@@ -13227,11 +13226,11 @@ msgstr ""
 "Lista separada por ponto e vírgula (“;”) de servidores para procurar por "
 "informações, além do domínio do endereço de e-mail."
 
-#: ../src/e-util/e-collection-account-wizard.c:1900
+#: ../src/e-util/e-collection-account-wizard.c:1916
 msgid "Select which parts should be configured:"
 msgstr "Selecione quais partes devem ser configuradas:"
 
-#: ../src/e-util/e-collection-account-wizard.c:2024
+#: ../src/e-util/e-collection-account-wizard.c:2040
 #: ../src/mail/e-mail-config-identity-page.c:542
 #: ../src/mail/e-mail-config-summary-page.c:325
 msgid "Account Information"
@@ -13813,23 +13812,23 @@ msgstr "Selecionar um momento para comparar com"
 msgid "Choose a File"
 msgstr "Escolher um arquivo"
 
-#: ../src/e-util/e-filter-rule.c:1061
+#: ../src/e-util/e-filter-rule.c:1008
 msgid "R_ule name:"
 msgstr "_Nome da regra:"
 
-#: ../src/e-util/e-filter-rule.c:1117
+#: ../src/e-util/e-filter-rule.c:1064
 msgid "all the following conditions"
 msgstr "todos os critérios a seguir"
 
-#: ../src/e-util/e-filter-rule.c:1118
+#: ../src/e-util/e-filter-rule.c:1065
 msgid "any of the following conditions"
 msgstr "qualquer um dos critérios a seguir"
 
-#: ../src/e-util/e-filter-rule.c:1124
+#: ../src/e-util/e-filter-rule.c:1071
 msgid "_Find items which match:"
 msgstr "_Localizar itens correspondentes a:"
 
-#: ../src/e-util/e-filter-rule.c:1147
+#: ../src/e-util/e-filter-rule.c:1094
 msgid "Find items that meet the following conditions"
 msgstr "Localizar itens que atendam aos seguintes critérios"
 
@@ -13837,7 +13836,7 @@ msgstr "Localizar itens que atendam aos seguintes critérios"
 #. * part of "Include threads: None"
 #. protocol:
 #. name:
-#: ../src/e-util/e-filter-rule.c:1162
+#: ../src/e-util/e-filter-rule.c:1109
 #: ../src/e-util/e-html-editor-page-dialog.c:62
 #: ../src/e-util/e-mail-identity-combo-box.c:694
 #: ../src/e-util/e-mail-signature-combo-box.c:422
@@ -13848,36 +13847,36 @@ msgstr "Localizar itens que atendam aos seguintes critérios"
 msgid "None"
 msgstr "Nenhuma"
 
-#: ../src/e-util/e-filter-rule.c:1163
+#: ../src/e-util/e-filter-rule.c:1110
 msgid "All related"
 msgstr "Tudo relacionado"
 
-#: ../src/e-util/e-filter-rule.c:1164 ../src/e-util/e-send-options.ui.h:24
+#: ../src/e-util/e-filter-rule.c:1111 ../src/e-util/e-send-options.ui.h:24
 msgid "Replies"
 msgstr "Respostas"
 
-#: ../src/e-util/e-filter-rule.c:1165
+#: ../src/e-util/e-filter-rule.c:1112
 msgid "Replies and parents"
 msgstr "Respostas e anteriores"
 
-#: ../src/e-util/e-filter-rule.c:1166
+#: ../src/e-util/e-filter-rule.c:1113
 msgid "No reply or parent"
 msgstr "Nenhuma réplica ou parente"
 
-#: ../src/e-util/e-filter-rule.c:1169
+#: ../src/e-util/e-filter-rule.c:1116
 msgid "I_nclude threads:"
 msgstr "I_ncluir discussões:"
 
-#: ../src/e-util/e-filter-rule.c:1247
+#: ../src/e-util/e-filter-rule.c:1194
 msgid "A_dd Condition"
 msgstr "A_dicionar critério"
 
-#: ../src/e-util/e-filter-rule.c:1567 ../src/e-util/filter.ui.h:1
-#: ../src/mail/em-filter-rule.c:1042 ../src/mail/em-utils.c:166
+#: ../src/e-util/e-filter-rule.c:1514 ../src/e-util/filter.ui.h:1
+#: ../src/mail/em-filter-rule.c:981 ../src/mail/em-utils.c:166
 msgid "Incoming"
 msgstr "Recebidas"
 
-#: ../src/e-util/e-filter-rule.c:1567 ../src/mail/em-filter-rule.c:1043
+#: ../src/e-util/e-filter-rule.c:1514 ../src/mail/em-filter-rule.c:982
 #: ../src/mail/em-utils.c:167
 msgid "Outgoing"
 msgstr "Enviadas"
@@ -14034,7 +14033,6 @@ msgid "Insert Emoji"
 msgstr "Inserir emoji"
 
 #: ../src/e-util/e-html-editor-actions.c:1189
-#| msgid "Insert Emoji"
 msgid "Insert E_moji"
 msgstr "Inserir e_moji"
 
@@ -14099,7 +14097,6 @@ msgstr "Alinhamento centralizado"
 #. Justified
 #: ../src/e-util/e-html-editor-actions.c:1269
 #: ../src/e-util/e-html-editor-paragraph-dialog.c:127
-#| msgid "Last modified"
 msgid "_Justified"
 msgstr "_Justificado"
 
@@ -14283,22 +14280,18 @@ msgid "Strikethrough"
 msgstr "Riscar"
 
 #: ../src/e-util/e-html-editor-actions.c:1535
-#| msgid "S_cript:"
 msgid "Subs_cript"
 msgstr "Subs_crito"
 
 #: ../src/e-util/e-html-editor-actions.c:1537
-#| msgid "_Subscribe"
 msgid "Subscript"
 msgstr "Subscrito"
 
 #: ../src/e-util/e-html-editor-actions.c:1543
-#| msgid "S_cript:"
 msgid "Su_perscript"
 msgstr "So_brescrito"
 
 #: ../src/e-util/e-html-editor-actions.c:1545
-#| msgid "Description"
 msgid "Superscript"
 msgstr "Sobrescrito"
 
@@ -14500,7 +14493,6 @@ msgid "Font Color"
 msgstr "Cor da fonte"
 
 #: ../src/e-util/e-html-editor.c:900
-#| msgid "_Background:"
 msgid "Background Color"
 msgstr "Cor de fundo"
 
@@ -14509,12 +14501,10 @@ msgid "Font Size"
 msgstr "Tamanho da fonte"
 
 #: ../src/e-util/e-html-editor.c:919
-#| msgid "Account Name"
 msgid "Font Name"
 msgstr "Nome da fonte"
 
 #: ../src/e-util/e-html-editor.c:1523
-#| msgid "Failed to insert text file."
 msgid "Failed to obtain content of editor"
 msgstr "Falha ao obter o conteúdo do editor"
 
@@ -14790,7 +14780,6 @@ msgstr "Papel de gráfico"
 
 #. == Colors ==
 #: ../src/e-util/e-html-editor-page-dialog.c:402
-#| msgid "Color"
 msgid "Colors"
 msgstr "Cores"
 
@@ -14812,18 +14801,15 @@ msgstr "Plano de _fundo:"
 
 #. == Text ==
 #: ../src/e-util/e-html-editor-page-dialog.c:475
-#| msgid "_Text:"
 msgid "Text"
 msgstr "Texto"
 
 #: ../src/e-util/e-html-editor-page-dialog.c:493
-#| msgid "_Name:"
 msgid "_Font Name:"
 msgstr "_Nome da fonte:"
 
 #. == Background Image ==
 #: ../src/e-util/e-html-editor-page-dialog.c:500
-#| msgid "Choose Background Image"
 msgid "Background Image"
 msgstr "Imagem de plano de fundo"
 
@@ -17792,7 +17778,6 @@ msgid "Cannot find message in its folder summary"
 msgstr "Não foi possível localizar a mensagem em sua pasta de resumo"
 
 #: ../src/mail/e-mail-notes.c:870
-#| msgid "Failed to remove attachments from messages."
 msgid "Failed to convert text to message"
 msgstr "Falha ao converter texto para mensagem"
 
@@ -18657,7 +18642,7 @@ msgstr ""
 "Você pode baixar o conteúdo remoto manualmente, ou definir para lembrar de "
 "baixar conteúdo remoto para este remetente ou sites comuns."
 
-#: ../src/mail/e-mail-request.c:288
+#: ../src/mail/e-mail-request.c:289
 msgid "The message has no text content."
 msgstr "A mensagem não possui conteúdo de texto."
 
@@ -18866,7 +18851,7 @@ msgid "If any of the following conditions are met"
 msgstr "Se qualquer uma das condições a seguir forem atendidas"
 
 #. and now for the action area
-#: ../src/mail/em-filter-editor.c:203 ../src/mail/em-filter-rule.c:1067
+#: ../src/mail/em-filter-editor.c:203 ../src/mail/em-filter-rule.c:1006
 msgid "Then"
 msgstr "Então"
 
@@ -18879,20 +18864,20 @@ msgid "Select Folder"
 msgstr "Selecionar pasta"
 
 #. Translators: This is in a Mail filter rule editor, part of "For account: [ Any   ]" section
-#: ../src/mail/em-filter-rule.c:940
+#: ../src/mail/em-filter-rule.c:879
 msgctxt "mail-filter-rule"
 msgid "Any"
 msgstr "Qualquer"
 
-#: ../src/mail/em-filter-rule.c:1037
+#: ../src/mail/em-filter-rule.c:976
 msgid "Rul_e type:"
 msgstr "Tipo de r_egra:"
 
-#: ../src/mail/em-filter-rule.c:1055
+#: ../src/mail/em-filter-rule.c:994
 msgid "_For Account:"
 msgstr "_Para a conta:"
 
-#: ../src/mail/em-filter-rule.c:1140
+#: ../src/mail/em-filter-rule.c:1079
 msgid "Add Ac_tion"
 msgstr "Adicionar açã_o"
 
@@ -20014,7 +19999,6 @@ msgid "Fix_ed Width Font:"
 msgstr "_Fonte de largura fixa:"
 
 #: ../src/mail/mail-config.ui.h:94
-#| msgid "Font _Size"
 msgid "Minimum Font _Size:"
 msgstr "_Tamanho mínimo da fonte:"
 
@@ -22168,35 +22152,35 @@ msgstr "Filtro de spam usando Bogofilter"
 msgid "Choose an Address Book"
 msgstr "Escolha um catálogo de endereços"
 
-#: ../src/modules/book-config-carddav/evolution-book-config-carddav.c:264
-#: ../src/modules/book-config-carddav/evolution-book-config-carddav.c:277
-#: ../src/modules/cal-config-caldav/evolution-cal-config-caldav.c:313
-#: ../src/modules/cal-config-caldav/evolution-cal-config-caldav.c:334
-#: ../src/modules/cal-config-webcal/evolution-cal-config-webcal.c:147
-#: ../src/modules/cal-config-webcal/evolution-cal-config-webcal.c:168
-#: ../src/modules/cal-config-webdav-notes/evolution-cal-config-webdav-notes.c:302
-#: ../src/modules/cal-config-webdav-notes/evolution-cal-config-webdav-notes.c:323
+#: ../src/modules/book-config-carddav/evolution-book-config-carddav.c:261
+#: ../src/modules/book-config-carddav/evolution-book-config-carddav.c:274
+#: ../src/modules/cal-config-caldav/evolution-cal-config-caldav.c:310
+#: ../src/modules/cal-config-caldav/evolution-cal-config-caldav.c:331
+#: ../src/modules/cal-config-webcal/evolution-cal-config-webcal.c:144
+#: ../src/modules/cal-config-webcal/evolution-cal-config-webcal.c:165
+#: ../src/modules/cal-config-webdav-notes/evolution-cal-config-webdav-notes.c:299
+#: ../src/modules/cal-config-webdav-notes/evolution-cal-config-webdav-notes.c:320
 msgid "URL:"
 msgstr "URL:"
 
-#: ../src/modules/book-config-carddav/evolution-book-config-carddav.c:288
+#: ../src/modules/book-config-carddav/evolution-book-config-carddav.c:285
 msgid "Find Address Books"
 msgstr "Localizar Catálogo de endereços"
 
-#: ../src/modules/book-config-carddav/evolution-book-config-carddav.c:299
+#: ../src/modules/book-config-carddav/evolution-book-config-carddav.c:296
 msgid "Avoid IfMatch (needed on Apache < 2.2.8)"
 msgstr "Evitar IfMatch (necessário no apache < 2.2.8)"
 
-#: ../src/modules/book-config-carddav/evolution-book-config-carddav.c:352
-#: ../src/modules/cal-config-caldav/evolution-cal-config-caldav.c:453
-#: ../src/modules/cal-config-webcal/evolution-cal-config-webcal.c:233
-#: ../src/modules/cal-config-webdav-notes/evolution-cal-config-webdav-notes.c:401
+#: ../src/modules/book-config-carddav/evolution-book-config-carddav.c:349
+#: ../src/modules/cal-config-caldav/evolution-cal-config-caldav.c:450
+#: ../src/modules/cal-config-webcal/evolution-cal-config-webcal.c:230
+#: ../src/modules/cal-config-webdav-notes/evolution-cal-config-webdav-notes.c:398
 msgid "URL is not a valid http:// nor https:// URL"
 msgstr "A URL não é uma URL http:// nem https:// válidas"
 
 #: ../src/modules/book-config-google/evolution-book-config-google.c:93
 #: ../src/modules/book-config-ldap/evolution-book-config-ldap.c:1069
-#: ../src/modules/cal-config-google/e-cal-config-google.c:190
+#: ../src/modules/cal-config-google/e-cal-config-google.c:187
 #: ../src/modules/cal-config-google/e-cal-config-gtasks.c:115
 #: ../src/modules/mail-config/e-mail-config-remote-accounts.c:444
 #: ../src/modules/mail-config/e-mail-config-smtp-backend.c:479
@@ -22374,23 +22358,23 @@ msgstr "Escolha uma lista de memorandos"
 msgid "Choose a Task List"
 msgstr "Escolha uma lista de tarefas"
 
-#: ../src/modules/cal-config-caldav/evolution-cal-config-caldav.c:349
+#: ../src/modules/cal-config-caldav/evolution-cal-config-caldav.c:346
 msgid "Find Calendars"
 msgstr "Localizar agendas"
 
-#: ../src/modules/cal-config-caldav/evolution-cal-config-caldav.c:352
+#: ../src/modules/cal-config-caldav/evolution-cal-config-caldav.c:349
 msgid "Find Memo Lists"
 msgstr "Localizar listas de memorandos"
 
-#: ../src/modules/cal-config-caldav/evolution-cal-config-caldav.c:355
+#: ../src/modules/cal-config-caldav/evolution-cal-config-caldav.c:352
 msgid "Find Task Lists"
 msgstr "Localizar listas de tarefas"
 
-#: ../src/modules/cal-config-caldav/evolution-cal-config-caldav.c:374
+#: ../src/modules/cal-config-caldav/evolution-cal-config-caldav.c:371
 msgid "Email:"
 msgstr "E-mail:"
 
-#: ../src/modules/cal-config-caldav/evolution-cal-config-caldav.c:380
+#: ../src/modules/cal-config-caldav/evolution-cal-config-caldav.c:377
 msgid "Server handles meeting invitations"
 msgstr "Gerenciamento de convites de reuniões pelo servidor"
 
@@ -22402,7 +22386,7 @@ msgstr "Escolha quais catálogos de endereços usar."
 msgid "Use in Birthdays & Anniversaries calendar"
 msgstr "Usar na agenda de aniversários e bodas"
 
-#: ../src/modules/cal-config-google/e-cal-config-google.c:101
+#: ../src/modules/cal-config-google/e-cal-config-google.c:98
 msgid "Enable Calendars to synchronize"
 msgstr "Habilitar agendas para sincronização"
 
@@ -22443,26 +22427,26 @@ msgstr "default:mm"
 
 #. Translators: This is the temperature in degrees
 #. * Fahrenheit. (\302\260 is U+00B0 DEGREE SIGN)
-#: ../src/modules/cal-config-weather/evolution-cal-config-weather.c:259
+#: ../src/modules/cal-config-weather/evolution-cal-config-weather.c:256
 msgid "Fahrenheit (°F)"
 msgstr "Fahrenheit (°F)"
 
 #. Translators: This is the temperature in degrees
 #. * Celsius. (\302\260 is U+00B0 DEGREE SIGN)
-#: ../src/modules/cal-config-weather/evolution-cal-config-weather.c:264
+#: ../src/modules/cal-config-weather/evolution-cal-config-weather.c:261
 msgid "Centigrade (°C)"
 msgstr "Centígrado (°C)"
 
 #. Translators: This is the temperature in kelvin.
-#: ../src/modules/cal-config-weather/evolution-cal-config-weather.c:268
+#: ../src/modules/cal-config-weather/evolution-cal-config-weather.c:265
 msgid "Kelvin (K)"
 msgstr "Kelvin (K)"
 
-#: ../src/modules/cal-config-weather/evolution-cal-config-weather.c:270
+#: ../src/modules/cal-config-weather/evolution-cal-config-weather.c:267
 msgid "Units:"
 msgstr "Unidades:"
 
-#: ../src/modules/cal-config-weather/evolution-cal-config-weather.c:322
+#: ../src/modules/cal-config-weather/evolution-cal-config-weather.c:319
 msgid "Location cannot be empty"
 msgstr "A localização não pode estar vazia"
 
@@ -22470,7 +22454,7 @@ msgstr "A localização não pode estar vazia"
 msgid "Choose Notes"
 msgstr "Escolher notas"
 
-#: ../src/modules/cal-config-webdav-notes/evolution-cal-config-webdav-notes.c:337
+#: ../src/modules/cal-config-webdav-notes/evolution-cal-config-webdav-notes.c:334
 msgid "Find Notes"
 msgstr "Localizar notas"
 
@@ -23640,7 +23624,6 @@ msgid "Completed Tasks"
 msgstr "Tarefas completadas"
 
 #: ../src/modules/calendar/e-task-shell-view-actions.c:977
-#| msgid "Completed Tasks"
 msgid "Uncompleted Tasks"
 msgstr "Tarefas incompletas"
 
@@ -24463,12 +24446,10 @@ msgid "Organizer has removed the delegate %s "
 msgstr "O organizador removeu o representante %s "
 
 #: ../src/modules/itip-formatter/itip-view.c:5229
-#| msgid "Sent a cancelation notice to the delegate"
 msgid "Sent a cancellation notice to the delegate"
 msgstr "Enviada uma notificação de cancelamento para o representante"
 
 #: ../src/modules/itip-formatter/itip-view.c:5233
-#| msgid "Could not send the cancelation notice to the delegate"
 msgid "Could not send the cancellation notice to the delegate"
 msgstr ""
 "Não foi possível enviar a notificação de cancelamento para o representante"
@@ -27152,7 +27133,6 @@ msgid "Exit the program"
 msgstr "Sair do programa"
 
 #: ../src/shell/e-shell-window-actions.c:966
-#| msgid "Save Search"
 msgid "_Saved Searches"
 msgstr "Pesquisas _salvas"
 
