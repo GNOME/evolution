@@ -1797,6 +1797,7 @@ e_calendar_view_destroy_tooltip (ECalendarView *cal_view)
  *	Location: PlaceOfTheMeeting
  *	Time : DateAndTime (xx Minutes)
  *      Status: Accepted: X   Declined: Y   ...
+ *      \n<description>
  */
 
 gboolean
@@ -1817,6 +1818,7 @@ e_calendar_view_get_tooltips (const ECalendarViewEventData *data)
 	ICalTimezone *zone, *default_zone;
 	ECalModel *model;
 	ECalClient *client = NULL;
+	const gchar *description;
 
 	/* This function is a timeout callback. */
 
@@ -2013,6 +2015,46 @@ e_calendar_view_get_tooltips (const ECalendarViewEventData *data)
 	if (tmp) {
 		hbox = gtk_box_new (GTK_ORIENTATION_HORIZONTAL, 0);
 		gtk_box_pack_start ((GtkBox *) hbox, gtk_label_new (tmp), FALSE, FALSE, 0);
+		ebox = gtk_event_box_new ();
+		gtk_container_add ((GtkContainer *) ebox, hbox);
+		gtk_box_pack_start ((GtkBox *) box, ebox, FALSE, FALSE, 0);
+
+		g_free (tmp);
+	}
+
+	description = i_cal_component_get_description (e_cal_component_get_icalcomponent (newcomp));
+	if (description && *description && g_utf8_validate (description, -1, NULL) &&
+	    !g_str_equal (description, "\r") &&
+	    !g_str_equal (description, "\n") &&
+	    !g_str_equal (description, "\r\n")) {
+		#define MAX_TOOLTIP_DESCRIPTION_LEN 1024
+		glong len;
+
+		tmp = NULL;
+
+		len = g_utf8_strlen (description, -1);
+		if (len > MAX_TOOLTIP_DESCRIPTION_LEN) {
+			GString *str;
+			const gchar *end;
+
+			end = g_utf8_offset_to_pointer (description, MAX_TOOLTIP_DESCRIPTION_LEN);
+			str = g_string_new_len (description, end - description);
+			g_string_append (str, "…");
+
+			tmp = g_string_free (str, FALSE);
+		}
+
+		hbox = gtk_box_new (GTK_ORIENTATION_HORIZONTAL, 0);
+		gtk_widget_set_margin_top (hbox, 12);
+		label = gtk_label_new (tmp ? tmp : description);
+		g_object_set (G_OBJECT (label),
+			"wrap", TRUE,
+			"width-chars", 80,
+			"max-width-chars", 100,
+			"xalign", 0.0,
+			NULL);
+
+		gtk_box_pack_start ((GtkBox *) hbox, label, FALSE, FALSE, 0);
 		ebox = gtk_event_box_new ();
 		gtk_container_add ((GtkContainer *) ebox, hbox);
 		gtk_box_pack_start ((GtkBox *) box, ebox, FALSE, FALSE, 0);
