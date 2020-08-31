@@ -16,6 +16,7 @@ set(DEPENDENCIES
 	eabutil
 	econtacteditor
 	econtactlisteditor
+	email-engine
 	evolution-calendar-importers
 	evolution-mail-composer
 	evolution-shell

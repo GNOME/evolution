@@ -3836,7 +3836,7 @@ alt_reply_composer_created_cb (GObject *source_object,
 		} else {
 			em_utils_reply_to_message (composer, context->source_message,
 				context->folder, context->message_uid, context->type, context->style,
-				context->source, NULL, context->flags);
+				context->source, NULL, context->flags | E_MAIL_REPLY_FLAG_FORCE_SENDER_REPLY);
 		}
 	} else {
 		e_alert_submit (context->alert_sink, "mail-composer:failed-create-composer",
@@ -4521,6 +4521,12 @@ em_utils_reply_to_message (EMsgComposer *composer,
 
 	shell = e_msg_composer_get_shell (composer);
 	registry = e_shell_get_registry (shell);
+
+	if (type == E_MAIL_REPLY_TO_SENDER &&
+	    !(reply_flags & E_MAIL_REPLY_FLAG_FORCE_SENDER_REPLY) &&
+	    em_utils_sender_is_user (registry, message, TRUE)) {
+		type = E_MAIL_REPLY_TO_ALL;
+	}
 
 	source = em_composer_utils_guess_identity_source (shell, message, folder, message_uid, &identity_name, &identity_address);
 

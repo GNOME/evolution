@@ -91,5 +91,11 @@ void		em_utils_get_real_folder_and_message_uid
 						 CamelFolder **out_real_folder,
 						 gchar **folder_uri,
 						 gchar **message_uid);
+gboolean	em_utils_address_is_user	(ESourceRegistry *registry,
+						 const gchar *address,
+						 gboolean only_enabled_accounts);
+gboolean	em_utils_sender_is_user		(ESourceRegistry *registry,
+						 CamelMimeMessage *message,
+						 gboolean only_enabled_accounts);
 
 #endif /* E_MAIL_UTILS_H */

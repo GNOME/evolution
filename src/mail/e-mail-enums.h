@@ -56,13 +56,15 @@ typedef enum {
  *    with @E_MAIL_REPLY_FLAG_FORMAT_PLAIN. If none of these is set, then uses
  *    global setting.
  * @E_MAIL_REPLY_FLAG_TOP_POSTING: Force top posting; cannot be used together
- *    with @E_MAIL_REPLY_FLAG_BOTTOM_POSTING. If none it set, then uses global settings.
+ *    with @E_MAIL_REPLY_FLAG_BOTTOM_POSTING. If none is set, then uses global settings.
  * @E_MAIL_REPLY_FLAG_BOTTOM_POSTING: Force bottom posting; cannot be used together
- *    with @E_MAIL_REPLY_FLAG_TOP_POSTING. If none it set, then uses global settings.
+ *    with @E_MAIL_REPLY_FLAG_TOP_POSTING. If none is set, then uses global settings.
  * @E_MAIL_REPLY_FLAG_TOP_SIGNATURE: Force placing signature to the top; cannot be used together
- *    with @E_MAIL_REPLY_FLAG_BOTTOM_SIGNATURE. If none it set, then uses global settings.
+ *    with @E_MAIL_REPLY_FLAG_BOTTOM_SIGNATURE. If none is set, then uses global settings.
  * @E_MAIL_REPLY_FLAG_BOTTOM_SIGNATURE: Force placing signature to the bottom; cannot be used together
- *    with @E_MAIL_REPLY_FLAG_TOP_SIGNATURE. If none it set, then uses global settings.
+ *    with @E_MAIL_REPLY_FLAG_TOP_SIGNATURE. If none is set, then uses global settings.
+ * @E_MAIL_REPLY_FLAG_FORCE_SENDER_REPLY: Force sender reply, to not switch it to reply-all, when
+ *    the From address of the message is the user.
  *
  * Flags influencing behavior of em_utils_reply_to_message().
  *
@@ -76,7 +78,8 @@ typedef enum { /*< flags >*/
 	E_MAIL_REPLY_FLAG_TOP_POSTING		= 1 << 3,
 	E_MAIL_REPLY_FLAG_BOTTOM_POSTING	= 1 << 4,
 	E_MAIL_REPLY_FLAG_TOP_SIGNATURE		= 1 << 5,
-	E_MAIL_REPLY_FLAG_BOTTOM_SIGNATURE	= 1 << 6
+	E_MAIL_REPLY_FLAG_BOTTOM_SIGNATURE	= 1 << 6,
+	E_MAIL_REPLY_FLAG_FORCE_SENDER_REPLY	= 1 << 7
 } EMailReplyFlags;
 
 G_END_DECLS

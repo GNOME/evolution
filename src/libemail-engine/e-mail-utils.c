@@ -940,3 +940,70 @@ em_utils_get_real_folder_and_message_uid (CamelFolder *folder,
 	if (message_uid)
 		*message_uid = g_strdup (uid);
 }
+
+gboolean
+em_utils_address_is_user (ESourceRegistry *registry,
+			  const gchar *address,
+			  gboolean only_enabled_accounts)
+{
+	GList *list, *iter;
+	const gchar *extension_name;
+	gboolean match = FALSE;
+
+	g_return_val_if_fail (E_IS_SOURCE_REGISTRY (registry), FALSE);
+	g_return_val_if_fail (address != NULL, FALSE);
+
+	extension_name = E_SOURCE_EXTENSION_MAIL_IDENTITY;
+
+	if (only_enabled_accounts)
+		list = e_source_registry_list_enabled (registry, extension_name);
+	else
+		list = e_source_registry_list_sources (registry, extension_name);
+
+	for (iter = list; iter && !match; iter = g_list_next (iter)) {
+		ESource *source = E_SOURCE (iter->data);
+		ESourceMailIdentity *extension;
+		GHashTable *aliases;
+		const gchar *id_address;
+
+		extension = e_source_get_extension (source, extension_name);
+		id_address = e_source_mail_identity_get_address (extension);
+
+		if (id_address && g_ascii_strcasecmp (address, id_address) == 0) {
+			match = TRUE;
+			break;
+		}
+
+		aliases = e_source_mail_identity_get_aliases_as_hash_table (extension);
+		if (aliases) {
+			match = g_hash_table_contains (aliases, address);
+			g_hash_table_destroy (aliases);
+		}
+	}
+
+	g_list_free_full (list, (GDestroyNotify) g_object_unref);
+
+	return match;
+}
+
+gboolean
+em_utils_sender_is_user (ESourceRegistry *registry,
+			 CamelMimeMessage *message,
+			 gboolean only_enabled_accounts)
+{
+	CamelInternetAddress *from;
+	const gchar *addr = NULL;
+
+	g_return_val_if_fail (E_IS_SOURCE_REGISTRY (registry), FALSE);
+	g_return_val_if_fail (CAMEL_IS_MIME_MESSAGE (message), FALSE);
+
+	from = camel_mime_message_get_from (message);
+
+	if (!from)
+		return FALSE;
+
+	if (!camel_internet_address_get (from, 0, NULL, &addr) || !addr || !*addr)
+		return FALSE;
+
+	return em_utils_address_is_user (registry, addr, only_enabled_accounts);
+}
