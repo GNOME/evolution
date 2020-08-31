@@ -107,6 +107,7 @@ add_folders_from_store (GList **folders,
 typedef struct {
 	MailMsg base;
 
+	MessageList *message_list;
 	CamelFolder *folder;
 	GCancellable *cancellable;
 	GList *stores_list;
@@ -148,11 +149,13 @@ search_results_exec (SearchResultsMsg *msg,
 static void
 search_results_done (SearchResultsMsg *msg)
 {
+	message_list_dec_setting_up_search_folder (msg->message_list);
 }
 
 static void
 search_results_free (SearchResultsMsg *msg)
 {
+	g_object_unref (msg->message_list);
 	g_object_unref (msg->folder);
 	g_list_free_full (msg->stores_list, g_object_unref);
 }
@@ -166,7 +169,8 @@ static MailMsgInfo search_results_setup_info = {
 };
 
 static gint
-mail_shell_view_setup_search_results_folder (CamelFolder *folder,
+mail_shell_view_setup_search_results_folder (MessageList *message_list,
+					     CamelFolder *folder,
                                              GList *stores,
                                              GCancellable *cancellable)
 {
@@ -176,9 +180,12 @@ mail_shell_view_setup_search_results_folder (CamelFolder *folder,
 	g_object_ref (folder);
 
 	msg = mail_msg_new (&search_results_setup_info);
+	msg->message_list = g_object_ref (message_list);
 	msg->folder = folder;
 	msg->cancellable = cancellable;
 	msg->stores_list = stores;
+
+	message_list_inc_setting_up_search_folder (message_list);
 
 	id = msg->base.seq;
 	mail_msg_slow_ordered_push (msg);
@@ -189,6 +196,7 @@ mail_shell_view_setup_search_results_folder (CamelFolder *folder,
 typedef struct {
 	MailMsg base;
 
+	MessageList *message_list;
 	CamelFolder *vfolder;
 	GCancellable *cancellable;
 	CamelFolder *root_folder;
@@ -261,11 +269,13 @@ search_results_with_subfolders_exec (SearchResultsWithSubfoldersMsg *msg,
 static void
 search_results_with_subfolders_done (SearchResultsWithSubfoldersMsg *msg)
 {
+	message_list_dec_setting_up_search_folder (msg->message_list);
 }
 
 static void
 search_results_with_subfolders_free (SearchResultsWithSubfoldersMsg *msg)
 {
+	g_object_unref (msg->message_list);
 	g_object_unref (msg->vfolder);
 	g_object_unref (msg->root_folder);
 }
@@ -279,7 +289,8 @@ static MailMsgInfo search_results_with_subfolders_setup_info = {
 };
 
 static gint
-mail_shell_view_setup_search_results_folder_and_subfolders (CamelFolder *vfolder,
+mail_shell_view_setup_search_results_folder_and_subfolders (MessageList *message_list,
+							    CamelFolder *vfolder,
 							    CamelFolder *root_folder,
 							    GCancellable *cancellable)
 {
@@ -290,9 +301,12 @@ mail_shell_view_setup_search_results_folder_and_subfolders (CamelFolder *vfolder
 		return 0;
 
 	msg = mail_msg_new (&search_results_with_subfolders_setup_info);
+	msg->message_list = g_object_ref (message_list);
 	msg->vfolder = g_object_ref (vfolder);
 	msg->cancellable = cancellable;
 	msg->root_folder = g_object_ref (root_folder);
+
+	message_list_inc_setting_up_search_folder (message_list);
 
 	id = msg->base.seq;
 	mail_msg_slow_ordered_push (msg);
@@ -1055,6 +1069,7 @@ filter:
 	priv->search_account_cancel = camel_operation_new ();
 
 	mail_shell_view_setup_search_results_folder_and_subfolders (
+		MESSAGE_LIST (message_list),
 		CAMEL_FOLDER (search_folder), folder,
 		priv->search_account_cancel);
 
@@ -1165,6 +1180,7 @@ all_accounts_setup:
 
 	/* This takes ownership of the stores list. */
 	mail_shell_view_setup_search_results_folder (
+		MESSAGE_LIST (message_list),
 		CAMEL_FOLDER (search_folder), list,
 		priv->search_account_cancel);
 
@@ -1285,6 +1301,7 @@ current_accout_setup:
 
 	/* This takes ownership of the stores list. */
 	mail_shell_view_setup_search_results_folder (
+		MESSAGE_LIST (message_list),
 		CAMEL_FOLDER (search_folder), list,
 		priv->search_account_cancel);
 

@@ -134,6 +134,8 @@ struct _MessageListPrivate {
 	gchar *new_mail_fg_color;
 
 	guint update_actions_idle_id;
+
+	volatile gint setting_up_search_folder;
 };
 
 /* XXX Plain GNode suffers from O(N) tail insertions, and that won't
@@ -6423,6 +6425,50 @@ message_list_correct_row_for_remove_in_selection (MessageList *message_list,
 }
 
 static void
+message_list_update_tree_text (MessageList *message_list)
+{
+	ETreeTableAdapter *adapter;
+	ETree *tree;
+	const gchar *info_message;
+	gboolean have_search_expr;
+	gint row_count;
+
+	g_return_if_fail (IS_MESSAGE_LIST (message_list));
+	g_return_if_fail (e_util_is_main_thread (g_thread_self ()));
+
+	if (!gtk_widget_get_visible (GTK_WIDGET (message_list)))
+		return;
+
+	tree = E_TREE (message_list);
+	adapter = e_tree_get_table_adapter (tree);
+	row_count = e_table_model_row_count (E_TABLE_MODEL (adapter));
+
+	/* space is used to indicate no search too */
+	have_search_expr =
+		(message_list->search != NULL) &&
+		(*message_list->search != '\0') &&
+		(strcmp (message_list->search, " ") != 0);
+
+	if (row_count > 0) {
+		info_message = NULL;
+	} else if (message_list_is_setting_up_search_folder (message_list)) {
+		info_message = _("Generating message list…");
+	} else if (have_search_expr) {
+		info_message =
+			_("No message satisfies your search criteria. "
+			"Change search criteria by selecting a new "
+			"Show message filter from the drop down list "
+			"above or by running a new search either by "
+			"clearing it with Search→Clear menu item or "
+			"by changing the query above.");
+	} else {
+		info_message = _("There are no messages in this folder.");
+	}
+
+	e_tree_set_info_message (tree, info_message);
+}
+
+static void
 message_list_regen_done_cb (GObject *source_object,
                             GAsyncResult *result,
                             gpointer user_data)
@@ -6774,33 +6820,7 @@ message_list_regen_done_cb (GObject *source_object,
 	if (last_row_uid)
 		camel_pstring_free (last_row_uid);
 
-	if (gtk_widget_get_visible (GTK_WIDGET (message_list))) {
-		const gchar *info_message;
-		gboolean have_search_expr;
-
-		/* space is used to indicate no search too */
-		have_search_expr =
-			(message_list->search != NULL) &&
-			(*message_list->search != '\0') &&
-			(strcmp (message_list->search, " ") != 0);
-
-		if (row_count > 0) {
-			info_message = NULL;
-		} else if (have_search_expr) {
-			info_message =
-				_("No message satisfies your search criteria. "
-				"Change search criteria by selecting a new "
-				"Show message filter from the drop down list "
-				"above or by running a new search either by "
-				"clearing it with Search→Clear menu item or "
-				"by changing the query above.");
-		} else {
-			info_message =
-				_("There are no messages in this folder.");
-		}
-
-		e_tree_set_info_message (tree, info_message);
-	}
+	message_list_update_tree_text (message_list);
 
 	g_signal_handlers_unblock_by_func (
 		adapter, ml_tree_sorting_changed, message_list);
@@ -7085,4 +7105,29 @@ message_list_contains_uid (MessageList *message_list,
 		return FALSE;
 
 	return g_hash_table_lookup (message_list->uid_nodemap, uid) != NULL;
+}
+
+void
+message_list_inc_setting_up_search_folder (MessageList *message_list)
+{
+	g_return_if_fail (IS_MESSAGE_LIST (message_list));
+
+	g_atomic_int_add (&message_list->priv->setting_up_search_folder, 1);
+}
+
+void
+message_list_dec_setting_up_search_folder (MessageList *message_list)
+{
+	g_return_if_fail (IS_MESSAGE_LIST (message_list));
+
+	if (g_atomic_int_dec_and_test (&message_list->priv->setting_up_search_folder))
+		message_list_update_tree_text (message_list);
+}
+
+gboolean
+message_list_is_setting_up_search_folder (MessageList *message_list)
+{
+	g_return_val_if_fail (IS_MESSAGE_LIST (message_list), FALSE);
+
+	return g_atomic_int_get (&message_list->priv->setting_up_search_folder) > 0;
 }

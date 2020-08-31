@@ -235,6 +235,12 @@ void		message_list_sort_uids		(MessageList *message_list,
 						 GPtrArray *uids);
 gboolean	message_list_contains_uid	(MessageList *message_list,
 						 const gchar *uid);
+void		message_list_inc_setting_up_search_folder
+						(MessageList *message_list);
+void		message_list_dec_setting_up_search_folder
+						(MessageList *message_list);
+gboolean	message_list_is_setting_up_search_folder
+						(MessageList *message_list);
 
 G_END_DECLS
 
