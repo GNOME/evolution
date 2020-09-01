@@ -1414,7 +1414,6 @@ mail_shell_view_update_actions (EShellView *shell_view)
 	gboolean folder_is_virtual;
 	gboolean folder_has_unread = FALSE;
 	gboolean folder_has_unread_rec = FALSE;
-	gboolean folder_tree_and_message_list_agree = TRUE;
 	gboolean store_is_builtin;
 	gboolean store_is_subscribable;
 	gboolean store_can_be_disabled;
@@ -1465,33 +1464,8 @@ mail_shell_view_update_actions (EShellView *shell_view)
 
 	if (em_folder_tree_get_selected (folder_tree, &store, &folder_name)) {
 		GtkTreeRowReference *reference;
-		CamelFolder *folder;
 
 		folder_is_selected = TRUE;
-
-		folder = e_mail_reader_ref_folder (reader);
-
-		/* XXX If the user right-clicks on a folder other than what
-		 *     the message list is showing, disable folder rename.
-		 *     Between fetching the CamelFolder asynchronously and
-		 *     knowing when NOT to move the folder tree selection
-		 *     back to where it was to avoid cancelling the inline
-		 *     folder tree editing, it's just too hairy to try to
-		 *     get right.  So we're punting. */
-		if (folder != NULL) {
-			gchar *uri1, *uri2;
-
-			uri1 = e_mail_folder_uri_from_folder (folder);
-			uri2 = e_mail_folder_uri_build (store, folder_name);
-
-			folder_tree_and_message_list_agree =
-				(g_strcmp0 (uri1, uri2) == 0);
-
-			g_free (uri1);
-			g_free (uri2);
-
-			g_object_unref (folder);
-		}
 
 		reference = em_folder_tree_model_get_row_reference (
 			model, store, folder_name);
@@ -1585,8 +1559,7 @@ mail_shell_view_update_actions (EShellView *shell_view)
 	action = ACTION (MAIL_FOLDER_RENAME);
 	sensitive =
 		folder_is_selected &&
-		folder_can_be_deleted &&
-		folder_tree_and_message_list_agree;
+		folder_can_be_deleted;
 	gtk_action_set_sensitive (action, sensitive);
 
 	action = ACTION (MAIL_FOLDER_SELECT_THREAD);

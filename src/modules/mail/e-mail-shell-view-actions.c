@@ -1055,13 +1055,7 @@ static void
 action_mail_folder_rename_cb (GtkAction *action,
                               EMailShellView *mail_shell_view)
 {
-	EMailShellSidebar *mail_shell_sidebar;
-	EMFolderTree *folder_tree;
-
-	mail_shell_sidebar = mail_shell_view->priv->mail_shell_sidebar;
-	folder_tree = e_mail_shell_sidebar_get_folder_tree (mail_shell_sidebar);
-
-	em_folder_tree_edit_selected (folder_tree);
+	e_mail_shell_view_rename_folder (mail_shell_view);
 }
 
 static void

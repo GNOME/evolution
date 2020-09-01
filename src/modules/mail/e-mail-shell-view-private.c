@@ -184,8 +184,7 @@ exit:
 }
 
 static void
-mail_shell_view_folder_tree_selection_done_cb (EMailShellView *mail_shell_view,
-                                               GtkWidget *menu)
+mail_shell_view_match_folder_tree_and_message_list_folder (EMailShellView *mail_shell_view)
 {
 	EMailShellContent *mail_shell_content;
 	EMailShellSidebar *mail_shell_sidebar;
@@ -225,6 +224,16 @@ mail_shell_view_folder_tree_selection_done_cb (EMailShellView *mail_shell_view,
 
 	g_free (list_uri);
 	g_free (tree_uri);
+}
+
+static void
+mail_shell_view_folder_tree_selection_done_cb (EMailShellView *mail_shell_view,
+                                               GtkWidget *menu)
+{
+	if (!mail_shell_view->priv->ignore_folder_popup_selection_done)
+		mail_shell_view_match_folder_tree_and_message_list_folder (mail_shell_view);
+
+	mail_shell_view->priv->ignore_folder_popup_selection_done = FALSE;
 
 	/* Disconnect from the "selection-done" signal. */
 	g_signal_handlers_disconnect_by_func (
@@ -236,7 +245,11 @@ static void
 mail_shell_view_folder_tree_popup_event_cb (EShellView *shell_view,
                                             GdkEvent *button_event)
 {
+	EMailShellView *mail_shell_view;
 	GtkWidget *menu;
+
+	mail_shell_view = E_MAIL_SHELL_VIEW (shell_view);
+	mail_shell_view->priv->ignore_folder_popup_selection_done = FALSE;
 
 	menu = e_shell_view_show_popup_menu (
 		shell_view, "/mail-folder-popup", button_event);
@@ -1524,4 +1537,37 @@ e_mail_shell_view_update_send_receive_menus (EMailShellView *mail_shell_view)
 		gtk_menu_tool_button_set_menu (
 			GTK_MENU_TOOL_BUTTON (priv->send_receive_tool_item),
 			create_send_receive_submenu (mail_shell_view));
+}
+
+static void
+mail_shell_view_folder_renamed_cb (EMFolderTree *folder_tree,
+				   gboolean is_cancelled,
+				   EMailShellView *mail_shell_view)
+{
+	g_return_if_fail (EM_IS_FOLDER_TREE (folder_tree));
+	g_return_if_fail (E_IS_MAIL_SHELL_VIEW (mail_shell_view));
+
+	mail_shell_view_match_folder_tree_and_message_list_folder (mail_shell_view);
+
+	g_signal_handlers_disconnect_by_func (folder_tree,
+		mail_shell_view_folder_renamed_cb, mail_shell_view);
+}
+
+void
+e_mail_shell_view_rename_folder (EMailShellView *mail_shell_view)
+{
+	EMailShellSidebar *mail_shell_sidebar;
+	EMFolderTree *folder_tree;
+
+	g_return_if_fail (E_IS_MAIL_SHELL_VIEW (mail_shell_view));
+
+	mail_shell_sidebar = mail_shell_view->priv->mail_shell_sidebar;
+	folder_tree = e_mail_shell_sidebar_get_folder_tree (mail_shell_sidebar);
+
+	em_folder_tree_edit_selected (folder_tree);
+
+	mail_shell_view->priv->ignore_folder_popup_selection_done = TRUE;
+
+	g_signal_connect_object (folder_tree, "folder-renamed",
+		G_CALLBACK (mail_shell_view_folder_renamed_cb), mail_shell_view, 0);
 }

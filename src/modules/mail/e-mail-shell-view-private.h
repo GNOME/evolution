@@ -137,6 +137,7 @@ struct _EMailShellViewPrivate {
 	GtkToolItem *send_receive_tool_separator;
 
 	gboolean vfolder_allow_expunge;
+	gboolean ignore_folder_popup_selection_done;
 
 	/* Selected UIDs for MAIL_FILTER_MESSAGE_THREAD filter */
 	GSList *selected_uids;
@@ -164,6 +165,8 @@ void		e_mail_shell_view_update_sidebar
 void		e_mail_shell_view_update_send_receive_menus
 					(EMailShellView *mail_shell_view);
 GDBusProxy *	e_mail_shell_view_get_web_extension_proxy
+					(EMailShellView *mail_shell_view);
+void		e_mail_shell_view_rename_folder
 					(EMailShellView *mail_shell_view);
 
 G_END_DECLS

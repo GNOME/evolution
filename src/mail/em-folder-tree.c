@@ -130,6 +130,7 @@ enum {
 enum {
 	FOLDER_ACTIVATED,  /* aka double-clicked or user hit enter */
 	FOLDER_SELECTED,
+	FOLDER_RENAMED,
 	POPUP_EVENT,
 	HIDDEN_KEY_EVENT,
 	LAST_SIGNAL
@@ -723,11 +724,19 @@ folder_tree_cell_edited_cb (EMFolderTree *folder_tree,
 	em_folder_tree_set_selected (folder_tree, folder_uri, FALSE);
 	g_free (folder_uri);
 
-exit:
+ exit:
+	g_signal_emit (folder_tree, signals[FOLDER_RENAMED], 0, FALSE, NULL);
+
 	g_free (old_name);
 	g_free (old_full_name);
 	g_free (new_full_name);
 	g_clear_object (&store);
+}
+
+static void
+folder_tree_editing_canceled_cb (EMFolderTree *folder_tree)
+{
+	g_signal_emit (folder_tree, signals[FOLDER_RENAMED], 0, TRUE, NULL);
 }
 
 static void
@@ -1350,6 +1359,10 @@ folder_tree_constructed (GObject *object)
 		renderer, "edited",
 		G_CALLBACK (folder_tree_cell_edited_cb), object);
 
+	g_signal_connect_swapped (
+		renderer, "editing-canceled",
+		G_CALLBACK (folder_tree_editing_canceled_cb), object);
+
 	column = gtk_tree_view_column_new ();
 	gtk_tree_view_append_column (tree_view, column);
 
@@ -1700,6 +1713,16 @@ em_folder_tree_class_init (EMFolderTreeClass *class)
 		G_TYPE_NONE, 2,
 		CAMEL_TYPE_STORE,
 		G_TYPE_STRING);
+
+	signals[FOLDER_RENAMED] = g_signal_new (
+		"folder-renamed",
+		G_OBJECT_CLASS_TYPE (object_class),
+		G_SIGNAL_RUN_FIRST,
+		0,
+		NULL, NULL,
+		g_cclosure_marshal_VOID__BOOLEAN,
+		G_TYPE_NONE, 1,
+		G_TYPE_BOOLEAN);
 
 	signals[POPUP_EVENT] = g_signal_new (
 		"popup-event",
