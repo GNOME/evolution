@@ -164,8 +164,6 @@ void		e_mail_shell_view_update_sidebar
 					(EMailShellView *mail_shell_view);
 void		e_mail_shell_view_update_send_receive_menus
 					(EMailShellView *mail_shell_view);
-GDBusProxy *	e_mail_shell_view_get_web_extension_proxy
-					(EMailShellView *mail_shell_view);
 void		e_mail_shell_view_rename_folder
 					(EMailShellView *mail_shell_view);
 
