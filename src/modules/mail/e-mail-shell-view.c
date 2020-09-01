@@ -798,10 +798,10 @@ filter:
 		case MAIL_FILTER_NO_LABEL:
 			string = g_string_sized_new (1024);
 			if (query && *query)
-				g_string_append_printf (string, "(and %s (and ", query);
+				g_string_append_printf (string, "(and %s (match-all ", query);
 			else
-				g_string_append (string, "(and ");
-			g_string_append (string, "(match-all ");
+				g_string_append (string, "(match-all ");
+			g_string_append (string, "(and ");
 			valid = gtk_tree_model_get_iter_first (
 				GTK_TREE_MODEL (label_store), &tree_iter);
 			while (valid) {
