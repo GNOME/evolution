@@ -520,6 +520,7 @@ mail_session_send_to_thread (GSimpleAsyncResult *simple,
 	/* Send the message to all recipients. */
 
 	if (context->transport == NULL) {
+		mail_tool_restore_xevolution_headers (context->message, context->xev_headers);
 		g_simple_async_result_set_error (
 			simple, CAMEL_SERVICE_ERROR,
 			CAMEL_SERVICE_ERROR_UNAVAILABLE,
@@ -529,6 +530,7 @@ mail_session_send_to_thread (GSimpleAsyncResult *simple,
 
 	if (!e_mail_session_mark_service_used_sync (session, context->transport, cancellable)) {
 		g_warn_if_fail (g_cancellable_set_error_if_cancelled (cancellable, &error));
+		mail_tool_restore_xevolution_headers (context->message, context->xev_headers);
 		g_simple_async_result_take_error (simple, error);
 		return;
 	}
@@ -552,6 +554,7 @@ mail_session_send_to_thread (GSimpleAsyncResult *simple,
 		camel_service_connect_sync (context->transport, cancellable, &error);
 
 		if (error != NULL) {
+			mail_tool_restore_xevolution_headers (context->message, context->xev_headers);
 			g_simple_async_result_take_error (simple, error);
 			e_mail_session_unmark_service_used (session, context->transport);
 			return;
@@ -587,6 +590,7 @@ mail_session_send_to_thread (GSimpleAsyncResult *simple,
 	e_mail_session_unmark_service_used (session, context->transport);
 
 	if (error != NULL) {
+		mail_tool_restore_xevolution_headers (context->message, context->xev_headers);
 		g_simple_async_result_take_error (simple, error);
 		return;
 	}
@@ -604,6 +608,7 @@ skip_send:
 
 		if (error != NULL) {
 			g_warn_if_fail (folder == NULL);
+			mail_tool_restore_xevolution_headers (context->message, context->xev_headers);
 			g_simple_async_result_take_error (simple, error);
 			return;
 		}
@@ -621,6 +626,7 @@ skip_send:
 		g_object_unref (folder);
 
 		if (error != NULL) {
+			mail_tool_restore_xevolution_headers (context->message, context->xev_headers);
 			g_simple_async_result_take_error (simple, error);
 			return;
 		}

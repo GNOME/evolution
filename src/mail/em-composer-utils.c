@@ -675,6 +675,7 @@ composer_send_completed (GObject *source_object,
 		/* Clear the activity bar before
 		 * presenting the error dialog. */
 		g_clear_object (&async_context->activity);
+		async_context->activity = e_html_editor_new_activity (e_msg_composer_get_editor (async_context->composer));
 		activity = async_context->activity;
 
 		response = e_alert_run_dialog_for_args (
