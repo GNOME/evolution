@@ -630,6 +630,22 @@ Evo.initialize = function(elem)
 			Evo.initializeAndPostContentLoaded(iframe);
 	}
 
+	/* Ensure selection, used for the caret mode */
+	if (!doc.getSelection().anchorNode && doc.body.firstChild) {
+		if (doc.body) {
+			doc.getSelection().setPosition(doc.body.firstChild, 0);
+		}
+
+		if (doc.defaultView && !doc.defaultView.frameElement) {
+			var iframe = doc.getElementsByTagName('IFRAME')[0];
+
+			if (iframe && iframe.contentDocument && iframe.contentDocument.body && iframe.contentDocument.body.firstChild) {
+				iframe.focus();
+				iframe.contentDocument.getSelection().setPosition(iframe.contentDocument.body.firstChild, 0);
+			}
+		}
+	}
+
 	if (doc.defaultView && !doc.defaultView.frameElement && !doc.body.hasAttribute("class"))
 		doc.body.className = "-e-web-view-background-color -e-web-view-text-color";
 

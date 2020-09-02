@@ -1340,6 +1340,19 @@ mail_display_content_loaded_cb (EWebView *web_view,
 			"", "__evo-remote-content-img-large", FALSE,
 			e_web_view_get_cancellable (web_view));
 	}
+
+	/* Re-grab the focus, which is needed for the caret mode to show the cursor */
+	if (e_web_view_get_caret_mode (web_view) &&
+	    gtk_widget_has_focus (GTK_WIDGET (web_view))) {
+		GtkWidget *toplevel, *widget = GTK_WIDGET (web_view);
+
+		toplevel = gtk_widget_get_toplevel (widget);
+
+		if (GTK_IS_WINDOW (toplevel)) {
+			gtk_window_set_focus (GTK_WINDOW (toplevel), NULL);
+			gtk_widget_grab_focus (widget);
+		}
+	}
 }
 
 static void
