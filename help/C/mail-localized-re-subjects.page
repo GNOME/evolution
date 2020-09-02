@@ -18,7 +18,7 @@
 
 <title>Handling localized "Re:" in subjects</title>
 
-<p>Traditionally a "Re:" prefix is added to a subject line when replying to an email. Some email applications use localized terms for this (like "SV:" in Danish or "AW: in German). <app>Evolution</app> can recognize these terms to avoid subject lines getting longer as the conversation continues.</p>
+<p>Traditionally a "Re:" prefix is added to a subject line when replying to an email. Some email applications use localized terms for this (like "SV:" in Danish or "AW:" in German). <app>Evolution</app> can recognize these terms to avoid subject lines getting longer as the conversation continues.</p>
 
 <list>
 <item><p>Open the <app>Terminal</app> application.</p></item>
