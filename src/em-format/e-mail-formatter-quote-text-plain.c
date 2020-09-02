@@ -52,6 +52,7 @@ emqfe_text_plain_format (EMailFormatterExtension *extension,
 {
 	GOutputStream *filtered_stream;
 	GOutputStream *temp_stream;
+	GSettings *settings;
 	CamelMimeFilter *filter;
 	CamelMimePart *mime_part;
 	CamelContentType *type;
@@ -67,9 +68,17 @@ emqfe_text_plain_format (EMailFormatterExtension *extension,
 	qf_context = (EMailFormatterQuoteContext *) context;
 
 	text_flags =
-		CAMEL_MIME_FILTER_TOHTML_PRE |
 		CAMEL_MIME_FILTER_TOHTML_CONVERT_URLS |
 		CAMEL_MIME_FILTER_TOHTML_CONVERT_ADDRESSES;
+
+	settings = e_util_ref_settings ("org.gnome.evolution.mail");
+
+	if (g_settings_get_boolean (settings, "composer-wrap-quoted-text-in-replies"))
+		text_flags |= CAMEL_MIME_FILTER_TOHTML_DIV | CAMEL_MIME_FILTER_TOHTML_CONVERT_NL | CAMEL_MIME_FILTER_TOHTML_CONVERT_SPACES;
+	else
+		text_flags |= CAMEL_MIME_FILTER_TOHTML_PRE;
+
+	g_clear_object (&settings);
 
 	/* XXX Should we define a separate EMailFormatter property
 	 *     for using CAMEL_MIME_FILTER_TOHTML_QUOTE_CITATION? */
