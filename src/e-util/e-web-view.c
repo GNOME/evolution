@@ -1527,6 +1527,7 @@ web_view_constructed (GObject *object)
 	e_extensible_load_extensions (E_EXTENSIBLE (object));
 
 	web_settings = webkit_web_view_get_settings (WEBKIT_WEB_VIEW (object));
+	webkit_settings_set_enable_write_console_messages_to_stdout (web_settings, e_util_get_webkit_developer_mode_enabled ());
 
 	g_object_set (
 		G_OBJECT (web_settings),
