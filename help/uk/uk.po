@@ -6,8 +6,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: evolution master\n"
-"POT-Creation-Date: 2020-08-18 10:44+0000\n"
-"PO-Revision-Date: 2020-08-18 15:28+0300\n"
+"POT-Creation-Date: 2020-09-03 09:27+0000\n"
+"PO-Revision-Date: 2020-09-03 14:54+0300\n"
 "Last-Translator: Yuri Chornoivan <yurchor@ukr.net>\n"
 "Language-Team: Ukrainian <trans-uk@lists.fedoraproject.org>\n"
 "Language: uk\n"
@@ -3693,11 +3693,6 @@ msgstr ""
 
 #. (itstool) path: note/p
 #: C/import-apps-outlook.page:65
-#| msgid ""
-#| "If the option to import Outlook personal folders (.pst files) is not "
-#| "available under <guiseq><gui>File</gui><gui>Import</gui><gui>Import "
-#| "single file</gui><gui>File type</gui></guiseq>, your distribution might "
-#| "have not enabled this functionality."
 msgid ""
 "If the option to import Outlook personal folders (.pst files) is not "
 "available under <guiseq><gui>File</gui><gui>Import</gui><gui>Import single "
@@ -3708,9 +3703,9 @@ msgstr ""
 "Якщо варіант із імпортуванням особистих тек Outlook (файлів .pst) є "
 "недоступним з меню <guiseq><gui>Файл</gui><gui>Імпортувати</gui><gui>Імпорт "
 "одного файлу</gui><gui>Тип файлу</gui></guiseq>, ймовірно, у вашому "
-"дистрибутиві не було зібрано відповідну функціональну можливість у Evolution."
-" Будь ласка, зверніться до форуму підтримки вашого дистрибутива, щоб"
-" виправити це."
+"дистрибутиві не було зібрано відповідну функціональну можливість у "
+"Evolution. Будь ласка, зверніться до форуму підтримки вашого дистрибутива, "
+"щоб виправити це."
 
 #. (itstool) path: item/p
 #: C/import-apps-outlook.page:67 C/import-single-files.page:27
@@ -11025,10 +11020,16 @@ msgstr "Обробка локалізованих записів «Re:» у те
 
 #. (itstool) path: page/p
 #: C/mail-localized-re-subjects.page:21
+#| msgid ""
+#| "Traditionally a \"Re:\" prefix is added to a subject line when replying "
+#| "to an email. Some email applications use localized terms for this (like "
+#| "\"SV:\" in Danish or \"AW: in German). <app>Evolution</app> can recognize "
+#| "these terms to avoid subject lines getting longer as the conversation "
+#| "continues."
 msgid ""
 "Traditionally a \"Re:\" prefix is added to a subject line when replying to "
 "an email. Some email applications use localized terms for this (like \"SV:\" "
-"in Danish or \"AW: in German). <app>Evolution</app> can recognize these "
+"in Danish or \"AW:\" in German). <app>Evolution</app> can recognize these "
 "terms to avoid subject lines getting longer as the conversation continues."
 msgstr ""
 "Традиційно, під час створення відповідей на повідомлення електронної пошти "
