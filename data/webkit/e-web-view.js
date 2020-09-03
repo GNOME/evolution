@@ -628,6 +628,8 @@ Evo.initialize = function(elem)
 
 		if (iframe.contentDocument && iframe.contentDocument.body && iframe.contentDocument.body.childElementCount > 0)
 			Evo.initializeAndPostContentLoaded(iframe);
+		else if (iframe.contentDocument && iframe.contentDocument.body)
+			iframe.contentDocument.body.onload = function() { Evo.initializeAndPostContentLoaded(this); };
 	}
 
 	/* Ensure selection, used for the caret mode */
@@ -686,22 +688,33 @@ Evo.initializeAndPostContentLoaded = function(elem)
 	else if (window.frameElement)
 		iframe_id = window.frameElement.id;
 
+	Evo.initialize(elem);
+
 	/* Skip, when its content is not loaded yet */
 	if (iframe_id != "" && elem && elem.tagName == "IFRAME" && elem.contentDocument &&
 	    (!elem.contentDocument.body || !elem.contentDocument.body.childElementCount)) {
 		if (elem.contentDocument.body) {
 			elem.contentDocument.body.onload = function() { Evo.initializeAndPostContentLoaded(this); };
 		}
-		return;
+	} else {
+		window.webkit.messageHandlers.contentLoaded.postMessage(iframe_id);
 	}
-
-	Evo.initialize(elem);
-	window.webkit.messageHandlers.contentLoaded.postMessage(iframe_id);
 
 	if (window.webkit.messageHandlers.mailDisplayMagicSpacebarStateChanged)
 		Evo.mailDisplayUpdateMagicSpacebarState();
 
 	Evo.AddTooltipToLinks(iframe_id);
+
+	var traversar = {
+		exec : function(doc, ifrm_id, level) {
+			if (doc.body && doc.body.firstElementChild) {
+				window.webkit.messageHandlers.contentLoaded.postMessage(ifrm_id);
+			}
+			return true;
+		}
+	};
+
+	Evo.foreachIFrameDocument(document, traversar, false, 0);
 }
 
 Evo.EnsureMainDocumentInitialized = function()
