@@ -632,7 +632,8 @@ e_mail_part_set_is_printable (EMailPart *part,
 
 void
 e_mail_part_content_loaded (EMailPart *part,
-			    EWebView *web_view)
+			    EWebView *web_view,
+			    const gchar *iframe_id)
 {
 	EMailPartClass *class;
 
@@ -643,7 +644,7 @@ e_mail_part_content_loaded (EMailPart *part,
 	g_return_if_fail (class != NULL);
 
 	if (class->content_loaded)
-		class->content_loaded (part, web_view);
+		class->content_loaded (part, web_view, iframe_id);
 }
 
 static EMailPartValidityPair *

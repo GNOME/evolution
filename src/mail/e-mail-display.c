@@ -1314,7 +1314,7 @@ mail_display_content_loaded_cb (EWebView *web_view,
 			for (link = head; link; link = g_list_next (link)) {
 				EMailPart *part = E_MAIL_PART (link->data);
 
-				e_mail_part_content_loaded (part, web_view);
+				e_mail_part_content_loaded (part, web_view, NULL);
 			}
 
 			while (!g_queue_is_empty (&queue))
@@ -1325,7 +1325,7 @@ mail_display_content_loaded_cb (EWebView *web_view,
 			part = e_mail_part_list_ref_part (mail_display->priv->part_list, iframe_id);
 
 			if (part)
-				e_mail_part_content_loaded (part, web_view);
+				e_mail_part_content_loaded (part, web_view, iframe_id);
 
 			g_clear_object (&part);
 		}

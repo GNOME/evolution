@@ -312,7 +312,8 @@ secure_button_details_clicked_cb (EWebView *web_view,
 
 static void
 mail_part_secure_button_content_loaded (EMailPart *mail_part,
-					EWebView *web_view)
+					EWebView *web_view,
+					const gchar *iframe_id)
 {
 	g_return_if_fail (E_IS_MAIL_PART_SECURE_BUTTON (mail_part));
 	g_return_if_fail (E_IS_WEB_VIEW (web_view));

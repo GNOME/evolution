@@ -71,12 +71,16 @@ mail_part_itip_finalize (GObject *object)
 
 static void
 mail_part_itip_content_loaded (EMailPart *part,
-			       EWebView *web_view)
+			       EWebView *web_view,
+			       const gchar *iframe_id)
 {
 	EMailPartItip *pitip;
 
 	g_return_if_fail (E_IS_MAIL_PART_ITIP (part));
 	g_return_if_fail (E_IS_WEB_VIEW (web_view));
+
+	if (g_strcmp0 ((iframe_id && *iframe_id) ? iframe_id : NULL, e_mail_part_get_id (part)) != 0)
+		return;
 
 	pitip = E_MAIL_PART_ITIP (part);
 

@@ -181,7 +181,8 @@ mail_part_vcard_constructed (GObject *object)
 
 static void
 mail_part_vcard_content_loaded (EMailPart *part,
-				EWebView *web_view)
+				EWebView *web_view,
+				const gchar *iframe_id)
 {
 	g_return_if_fail (E_IS_WEB_VIEW (web_view));
 	g_return_if_fail (E_IS_MAIL_PART_VCARD (part));

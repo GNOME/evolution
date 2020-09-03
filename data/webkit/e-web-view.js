@@ -686,6 +686,15 @@ Evo.initializeAndPostContentLoaded = function(elem)
 	else if (window.frameElement)
 		iframe_id = window.frameElement.id;
 
+	/* Skip, when its content is not loaded yet */
+	if (iframe_id != "" && elem && elem.tagName == "IFRAME" && elem.contentDocument &&
+	    (!elem.contentDocument.body || !elem.contentDocument.body.childElementCount)) {
+		if (elem.contentDocument.body) {
+			elem.contentDocument.body.onload = function() { Evo.initializeAndPostContentLoaded(this); };
+		}
+		return;
+	}
+
 	Evo.initialize(elem);
 	window.webkit.messageHandlers.contentLoaded.postMessage(iframe_id);
 

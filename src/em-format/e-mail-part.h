@@ -86,7 +86,8 @@ struct _EMailPartClass {
 	GObjectClass parent_class;
 
 	void		(*content_loaded)	(EMailPart *part,
-						 EWebView *web_view);
+						 EWebView *web_view,
+						 const gchar *iframe_id);
 };
 
 GType		e_mail_part_get_type		(void) G_GNUC_CONST;
@@ -123,7 +124,8 @@ gboolean	e_mail_part_get_is_printable	(EMailPart *part);
 void		e_mail_part_set_is_printable	(EMailPart *part,
 						 gboolean is_printable);
 void		e_mail_part_content_loaded	(EMailPart *part,
-						 EWebView *web_view);
+						 EWebView *web_view,
+						 const gchar *iframe_id);
 void		e_mail_part_update_validity	(EMailPart *part,
 						 CamelCipherValidity *validity,
 						 EMailPartValidityFlags validity_type);
