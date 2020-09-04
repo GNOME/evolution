@@ -277,7 +277,7 @@ mail_shell_view_process_key_press_event (EMailShellView *mail_shell_view,
 	mail_view = e_mail_shell_content_get_mail_view (E_MAIL_SHELL_CONTENT (shell_content));
 	mail_display = e_mail_reader_get_mail_display (E_MAIL_READER (mail_view));
 
-	if (!event || (event->state & (GDK_CONTROL_MASK | GDK_SHIFT_MASK | GDK_MOD1_MASK)) != 0)
+	if (!event || (event->state & (GDK_CONTROL_MASK | GDK_MOD1_MASK)) != 0)
 		return event && e_mail_display_need_key_event (mail_display, event);
 
 	if (e_shell_window_get_need_input (shell_window, event))

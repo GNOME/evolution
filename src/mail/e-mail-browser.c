@@ -466,7 +466,7 @@ mail_browser_key_press_event_cb (GtkWindow *mail_browser,
 
 	mail_display = e_mail_reader_get_mail_display (E_MAIL_READER (mail_browser));
 
-	if (!event || (event->state & (GDK_CONTROL_MASK | GDK_SHIFT_MASK | GDK_MOD1_MASK)) != 0 ||
+	if (!event || (event->state & (GDK_CONTROL_MASK | GDK_MOD1_MASK)) != 0 ||
 	    event->keyval == GDK_KEY_Tab ||
 	    event->keyval == GDK_KEY_Return ||
 	    event->keyval == GDK_KEY_KP_Tab ||

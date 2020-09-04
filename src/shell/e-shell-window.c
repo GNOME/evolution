@@ -2147,7 +2147,7 @@ e_shell_window_get_need_input (EShellWindow *shell_window,
 	g_return_val_if_fail (E_IS_SHELL_WINDOW (shell_window), FALSE);
 	g_return_val_if_fail (event != NULL, FALSE);
 
-	if ((event->state & (GDK_CONTROL_MASK | GDK_SHIFT_MASK | GDK_MOD1_MASK)) != 0)
+	if ((event->state & (GDK_CONTROL_MASK | GDK_MOD1_MASK)) != 0)
 		return FALSE;
 
 	if (event->keyval == GDK_KEY_F1 ||

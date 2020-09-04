@@ -352,7 +352,7 @@ e_shell_window_key_press_event_cb (GtkWidget *widget,
 {
 	g_return_val_if_fail (E_IS_SHELL_WINDOW (widget), FALSE);
 
-	if ((event->state & (GDK_CONTROL_MASK | GDK_SHIFT_MASK | GDK_MOD1_MASK)) != 0 ||
+	if ((event->state & (GDK_CONTROL_MASK | GDK_MOD1_MASK)) != 0 ||
 	    event->keyval == GDK_KEY_Tab ||
 	    event->keyval == GDK_KEY_Return ||
 	    event->keyval == GDK_KEY_Escape ||
