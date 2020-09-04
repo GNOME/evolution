@@ -1,3 +1,49 @@
+Evolution 3.37.92 2020-09-04
+----------------------------
+
+Bug Fixes:
+	I#461 - Let 'Wrap quoted text in replies' influence paragraph style (Milan Crha)
+	I#561 - Composer: Restore X-Evolution headers when send fails (Milan Crha)
+	I#657 - Cannot rename other than selected mail folder (Milan Crha)
+	I#841 - Bcc field reset when composing as "Edit as New Message" (Milan Crha)
+	I#893 - Include description in the tooltip of the events (Milan Crha)
+	I#908 - Focus body in message window when caret mode is enabled (Milan Crha)
+	I#919 - Better figure out intended recipient with Reply to Sender (Milan Crha)
+	I#931 - WebDAV browser: Refresh list of server sources on dialog close (Milan Crha)
+	I#981 - Mail: Misleading message when searching in multiple folders (Milan Crha)
+	I#1014 - Calendar: Correct RRULE's UNTIL value saving (Milan Crha)
+	I#1061 - Mail preview can cause WebKit do 100% endless loop (Milan Crha)
+	I#1063 - Enhance debug prints of PKCS12 file import (Milan Crha)
+	I#1064 - Hide 'Copy content for offline use' when not used (Milan Crha)
+	I#1067 - The "No label" filter shows emails with labels (Milan Crha)
+	I#1068 - Attached event invitation not properly displayed (Milan Crha)
+	I#1071 - Shift+number key cannot be typed in the search field (Milan Crha)
+	M!64 - help: Add missing double quote in a string (Jordi Mas)
+
+Miscellaneous:
+	Let the New Collection Account window resize based on its content (Milan Crha)
+	EWebView: Write console messages to stdout when WebKit developer mode is enabled (Milan Crha)
+	help: Clarify what to do if PST import is not available (Andre Klapper)
+
+Translations:
+	Christian Kirbach (de)
+	Zander Brown (en_GB)
+	Thibault Martin (fr)
+	Fran Dieguez (gl)
+	Goran Vidović (hr)
+	Matej Urbančič (sl)
+	Ahmet Elgün (tr)
+	Boyuan Yang (zh_CN)
+	Ask Hjorth Larsen (da)
+	Rafael Fontenelle (pt_BR)
+	Kukuh Syafaat (id)
+	Jiri Grönroos (fi)
+	Piotr Drąg (pl)
+	Changwoo Ryu (ko)
+	Asier Sarasua Garmendia (eu)
+	Yuri Chornoivan (uk)
+	Jordi Mas (ca)
+
 Evolution 3.37.90 2020-08-07
 ----------------------------
 
