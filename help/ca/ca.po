@@ -988,7 +988,7 @@ msgstr "La línia vermella \"Marcus Bains\" mostra l'hora actual."
 #. (itstool) path: page/title
 #: C/calendar-marcus-bains-line.page:20
 msgid "Time display in the Day view"
-msgstr "Visualització de l'hora a la vista de Dia"
+msgstr "Visualització de l'hora a la vista de dia"
 
 #. (itstool) path: page/p
 #: C/calendar-marcus-bains-line.page:22
@@ -6828,7 +6828,7 @@ msgid ""
 " and <guiseq><gui>View</gui><gui>Show Junk Messages</gui></guiseq> to make "
 "sure all messages are visible."
 msgstr ""
-"Seleccioneu <guiseq><gui>Visualitza</gui><gui>Mostra els missatge "
+"Seleccioneu <guiseq><gui>Visualitza</gui><gui>Mostra els missatges "
 "suprimits</gui></guiseq> i <guiseq><gui>Visualitza</gui><gui>Mostra els "
 "missatges de correu brossa</gui></guiseq> perquè tots els missatges siguin "
 "visibles."
@@ -8048,12 +8048,12 @@ msgstr "Deseu un missatge existent o nou com a plantilla"
 #. (itstool) path: page/title
 #: C/mail-composer-message-templates-save.page:23
 msgid "Saving Messages as Templates"
-msgstr "Desar els Missatges com a Plantilles"
+msgstr "Desar els missatges com a plantilles"
 
 #. (itstool) path: section/title
 #: C/mail-composer-message-templates-save.page:26
 msgid "Saving an Existing Message as a Template"
-msgstr "Desar un Missatge Existent com a Plantilla"
+msgstr "Desar un missatge existent com a plantilla"
 
 #. (itstool) path: item/p
 #: C/mail-composer-message-templates-save.page:28
@@ -8284,7 +8284,7 @@ msgstr ""
 #. (itstool) path: page/title
 #: C/mail-composer-plain-text.page:21
 msgid "Formatting Text in Plain Text Format"
-msgstr "Formatar el text en Text Pla"
+msgstr "Formatar el text en text pla"
 
 #. (itstool) path: page/p
 #: C/mail-composer-plain-text.page:23
@@ -10832,7 +10832,7 @@ msgstr "Canvieu l'enviament de correu mitjançant SMTP a Sendmail o viceversa."
 #. (itstool) path: page/title
 #: C/mail-imap-change-send-method.page:21
 msgid "Change the outgoing method for an IMAP+ account"
-msgstr "Canvieu el mètode de sortida d'un compte IMAP+"
+msgstr "Canviar el mètode de sortida d'un compte IMAP+"
 
 #. (itstool) path: page/p
 #: C/mail-imap-change-send-method.page:23
@@ -14319,7 +14319,7 @@ msgid ""
 "to respond."
 msgstr ""
 "Quan assigneu una tasca, podeu especificar els assistents en diverses "
-"categories, com ara \"organitzador\" o \"obligatori\". Quan deseu la tasca, "
+"categories, com ara «organitzador» o «obligatori». Quan deseu la tasca, "
 "cada assistent rep un correu electrònic amb la informació de la tasca, que "
 "també els dóna l'opció respondre-la."
 
@@ -14488,11 +14488,11 @@ msgid ""
 "category because he is a friend."
 msgstr ""
 "Una altra manera d'agrupar contactes, cites, tasques i notes (resumits pel "
-"terme \"objectes\" en el següent text) és marcar-los com pertanyents a "
+"terme «objectes» en el següent text) és marcar-los com pertanyents a "
 "diferents categories. Podeu marcar un objecte com si estigués en diverses "
 "categories o a cap categoria. Per exemple, a la vostra llibreta d'adreces, "
-"poseu un amic a la categoria \"Negocis\" perquè treballa amb vostè i a la "
-"categoria \"Amics\" perquè és amic."
+"poseu un amic a la categoria «Negocis» perquè treballa amb vostè i a la "
+"categoria «Amics» perquè és amic."
 
 #. (itstool) path: note/p
 #: C/using-categories.page:29
