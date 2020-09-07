@@ -133,7 +133,7 @@ ece_memo_notify_target_client_cb (GObject *object,
 	memo_editor = E_COMP_EDITOR_MEMO (object);
 	comp_editor = E_COMP_EDITOR (memo_editor);
 	cal_client = e_comp_editor_get_target_client (comp_editor);
-	description_widget = gtk_bin_get_child (GTK_BIN (e_comp_editor_property_part_get_edit_widget (memo_editor->priv->description)));
+	description_widget = e_comp_editor_property_part_string_get_real_edit_widget (E_COMP_EDITOR_PROPERTY_PART_STRING (memo_editor->priv->description));
 	text_buffer = gtk_text_view_get_buffer (GTK_TEXT_VIEW (description_widget));
 
 	if (cal_client && e_client_check_capability (E_CLIENT (cal_client), E_CAL_STATIC_CAPABILITY_SIMPLE_MEMO)) {
