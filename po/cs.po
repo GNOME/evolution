@@ -12,7 +12,7 @@
 # Jakub Friedl <jfriedl@suse.cz>, 2006, 2007.
 # Petr Kovar <pknbe@volny.cz>, 2008, 2010.
 # Andre Klapper <ak-47@gmx.net>, 2009.
-# Marek Černocký <marek@manet.cz>, 2010, 2014, 2015, 2016, 2017, 2018, 2019, 2020.
+# Marek Černocký <marek@manet.cz>, 2010, 2014, 2015, 2016, 2017, 2018, 2019.
 # Jiri Eischmann <jiri@eischmann.cz>, 2008-2019.
 #
 msgid ""
@@ -21,7 +21,7 @@ msgstr ""
 "Report-Msgid-Bugs-To: https://gitlab.gnome.org/GNOME/evolution/issues\n"
 "POT-Creation-Date: 2020-01-03 16:33+0000\n"
 "PO-Revision-Date: 2019-08-23 17:06+0200\n"
-"Last-Translator: Marek Černocký <marek@manet.cz>\n"
+"Last-Translator: Jiri Eischmann <jiri@eischmann.cz>\n"
 "Language-Team: čeština <>\n"
 "Language: cs\n"
 "MIME-Version: 1.0\n"
@@ -229,21 +229,21 @@ msgstr "Složka pro ukládání zvukových souborů připomenutí"
 
 #: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:3
 msgid "Birthday and anniversary reminder value"
-msgstr "Hodnota připomenutí narozenin a výročí"
+msgstr "Hodnota připomínky narozenin a výročí"
 
 #: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:4
 msgid "Number of units for determining a birthday or anniversary reminder"
-msgstr "Počet jednotek pro určení připomenutí narozenin nebo výročí"
+msgstr "Počet jednotek pro určení připomínky narozenin nebo výročí"
 
 #: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:5
 msgid "Birthday and anniversary reminder units"
-msgstr "Jednotky připomenutí narozenin a výročí"
+msgstr "Jednotky připomínky narozenin a výročí"
 
 #: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:6
 msgid ""
 "Units for a birthday or anniversary reminder, “minutes”, “hours” or “days”"
 msgstr ""
-"Jednotky pro připomenití narozenin a výročí, „minutes“ (minuty), "
+"Jednotky pro připomínku narozenin a výročí, „minutes“ (minuty), "
 "„hours“ (hodiny) nebo „days“ (dny)"
 
 #: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:7
@@ -433,20 +433,20 @@ msgstr ""
 
 #: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:46
 msgid "Default reminder value"
-msgstr "Výchozí hodnota připomenutí"
+msgstr "Výchozí hodnota připomínky"
 
 #: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:47
 msgid "Number of units for determining a default reminder"
-msgstr "Počet jednotek pro určení výchozího připomenutí"
+msgstr "Počet jednotek pro určení výchozí připomínky"
 
 #: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:48
 msgid "Default reminder units"
-msgstr "Jednotky výchozího připomenutí"
+msgstr "Výchozí jednotka připomínky"
 
 #: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:49
 msgid "Units for a default reminder, “minutes”, “hours” or “days”"
 msgstr ""
-"Jednotky výchozího připomenutí, „minutes“ (minuty), „hours“ (hodiny) nebo "
+"Jednotky výchozí připomínky, „minutes“ (minuty), „hours“ (hodiny) nebo "
 "„days“ (dny)"
 
 #: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:50
@@ -557,7 +557,7 @@ msgstr "Poslední čas připomenutí"
 
 #: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:75
 msgid "Time the last reminder ran, in time_t"
-msgstr "Čas, kdy běželo poslední připomenutí, ve formátu time_t"
+msgstr "Čas, kdy běžela poslední připomínka, ve formátu time_t"
 
 #: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:76
 msgid "Marcus Bains Line Color — Day View"
@@ -864,19 +864,19 @@ msgstr ""
 
 #: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:137
 msgid "Birthday and anniversary reminder"
-msgstr "Připomenutí narozenin a výročí"
+msgstr "Připomínka narozenin a výročí"
 
 #: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:138
 msgid "Whether to set a reminder for birthdays and anniversaries"
-msgstr "Zda nastavovat připomenutí narozenin a výročí"
+msgstr "Jestli nastavovat připomínku narozenin a výročí"
 
 #: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:139
 msgid "Default appointment reminder"
-msgstr "Výchozí připomenutí události"
+msgstr "Výchozí připomínka události"
 
 #: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:140
 msgid "Whether to set a default reminder for appointments"
-msgstr "Zda nastavovat výchozí připomenutí událostí"
+msgstr "Jestli nastavovat výchozí připomínku událostí"
 
 #: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:141
 msgid "Use system timezone"
@@ -946,7 +946,7 @@ msgstr ""
 
 #: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:155
 msgid "User-defined reminder times, in minutes"
-msgstr "Časy připomenutí určené uživateli, v minutách"
+msgstr "Časy připomínek určené uživateli, v minutách"
 
 #: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:156
 msgid "(Deprecated) First day of the week, from Sunday (0) to Saturday (6)"
@@ -2911,16 +2911,17 @@ msgstr "Smazat zpracované"
 
 #: ../data/org.gnome.evolution.plugin.itip.gschema.xml.in.h:2
 msgid "Whether to delete processed iTip objects"
-msgstr "Zda se mají smazat zpracované objekty iTip."
+msgstr "Zda smazat zpracované objekty iTip"
 
 #: ../data/org.gnome.evolution.plugin.itip.gschema.xml.in.h:3
 msgid "Preserve existing reminder by default"
-msgstr "Standardně zachovat existující připomenutí"
+msgstr "Zachovat automaticky existující připomínku"
 
 #: ../data/org.gnome.evolution.plugin.itip.gschema.xml.in.h:4
 msgid "Whether to preset option to preserve existing reminder by default"
 msgstr ""
-"Zda přednastavit volbu, že se má standardně existující připomenutí zachovat."
+"Zda přednastavit možnost, že se má ve výchozím stavu existující připomínka "
+"zachovat"
 
 #: ../data/org.gnome.evolution.plugin.mail-notification.gschema.xml.in.h:1
 msgid "Notify new messages for Inbox only."
@@ -22158,7 +22159,7 @@ msgstr "_Smazat zprávu po zpracování"
 
 #: ../src/modules/calendar/e-calendar-preferences.c:645
 msgid "_Preserve existing reminder by default"
-msgstr "_Zachovat standardně existující připomenutí"
+msgstr "_Zachovat automaticky existující připomínku"
 
 #: ../src/modules/calendar/e-calendar-preferences.c:659
 #: ../src/modules/calendar/e-calendar-preferences.c:690
@@ -22409,7 +22410,7 @@ msgstr "Zobrazovat úkoly bez naplánovaného termínu _dokončení"
 
 #: ../src/modules/calendar/e-calendar-preferences.ui.h:73
 msgid "Display Reminders window with _notifications"
-msgstr "Zobrazovat okno připomenutí s _upozorněními"
+msgstr "Zobrazovat okno připomínek s _upozorněními"
 
 #: ../src/modules/calendar/e-calendar-preferences.ui.h:74
 msgid "Keep reminder notification _window always on top"
@@ -22417,11 +22418,11 @@ msgstr "U_držovat okno s připomenutím vždy nahoře"
 
 #: ../src/modules/calendar/e-calendar-preferences.ui.h:75
 msgid "Display reminders for completed _tasks"
-msgstr "Zobrazovat připomenutí dokončených úkolů"
+msgstr "Zobrazovat připomínky dokončených úkolů"
 
 #: ../src/modules/calendar/e-calendar-preferences.ui.h:76
 msgid "Display reminders for _past events"
-msgstr "Zobrazovat připomenutí _promeškaných událostí"
+msgstr "Zobrazovat připomínky _promeškaných událostí"
 
 #. This is the first half of a user preference. "Set default reminder [time-period] before every new appointment"
 #: ../src/modules/calendar/e-calendar-preferences.ui.h:78
@@ -22436,7 +22437,7 @@ msgstr "před každou novou událostí"
 #. This is the first half of a user preference. "Show a reminder [time-period] before every anniversary/birthday"
 #: ../src/modules/calendar/e-calendar-preferences.ui.h:82
 msgid "Show a _reminder"
-msgstr "Zob_razit připomenutí"
+msgstr "Zob_razit připomínku"
 
 #. This is the last half of a user preference. "Show a reminder [time-period] before every anniversary/birthday"
 #: ../src/modules/calendar/e-calendar-preferences.ui.h:84
@@ -23801,11 +23802,11 @@ msgstr "Zobrazovat čas jako _volný"
 
 #: ../src/modules/itip-formatter/itip-view.c:1843
 msgid "_Preserve my reminder"
-msgstr "_Zachovat moje připomenutí"
+msgstr "_Zachovat moji připomínku"
 
 #: ../src/modules/itip-formatter/itip-view.c:1844
 msgid "_Inherit reminder"
-msgstr "Děd_it připomenutí"
+msgstr "Děd_it připomínku"
 
 #: ../src/modules/itip-formatter/itip-view.c:2118
 msgid "_Tasks:"
@@ -25488,7 +25489,7 @@ msgstr "_Upravit zprávu"
 
 #: ../src/plugins/attachment-reminder/org-gnome-evolution-attachment-reminder.eplug.xml.h:1
 msgid "Attachment Reminder"
-msgstr "Připomenutí přílohy"
+msgstr "Připomínka přílohy"
 
 #: ../src/plugins/attachment-reminder/org-gnome-evolution-attachment-reminder.eplug.xml.h:2
 msgid "Reminds you when you forgot to add an attachment to a mail message."
@@ -27490,7 +27491,7 @@ msgid ""
 "then you trust the authenticity of this certificate unless otherwise "
 "indicated here"
 msgstr ""
-"Protože důvěřujete certifikační autoritě, která vydala tento certifikát, "
+"Protože důvěřujete certifikační agentuře, která vydala tento certifikát, "
 "důvěřujete pravosti tohoto certifikátu, pokud zde není uvedeno jinak"
 
 #: ../src/smime/gui/cert-trust-dialog.c:155
@@ -27499,7 +27500,7 @@ msgid ""
 "certificate, then you do not trust the authenticity of this certificate "
 "unless otherwise indicated here"
 msgstr ""
-"Protože nedůvěřujete certifikační autoritě, která vydala tento certifikát, "
+"Protože nedůvěřujete certifikační agentuře, která vydala tento certifikát, "
 "nedůvěřujete pravosti tohoto certifikátu, pokud zde není uvedeno jinak"
 
 #: ../src/smime/gui/component.c:53
@@ -27657,3 +27658,245 @@ msgstr "Nelze zapsat úložiště na disk, kód chyby: %i"
 #: ../src/smime/lib/e-pkcs12.c:407
 msgid "Imported Certificate"
 msgstr "Importovaný certifikát"
+
+#~| msgid "_Preserve my reminder"
+#~ msgid "Preserve exiting reminder by default"
+#~ msgstr "Ve výchozím stavu zachovat existující připomínku "
+
+#~ msgid "%d week"
+#~ msgid_plural "%d weeks"
+#~ msgstr[0] "%d týden"
+#~ msgstr[1] "%d týdny"
+#~ msgstr[2] "%d týdnů"
+
+#~ msgctxt "cal-task-status"
+#~ msgid "None"
+#~ msgstr "Žádný"
+
+#~ msgid "_Attachment..."
+#~ msgstr "_Přílohu…"
+
+#~ msgctxt "ECompEditor"
+#~ msgid "Atte_ndees..."
+#~ msgstr "Úč_astníci…"
+
+#~ msgid "%d day before"
+#~ msgid_plural "%d days before"
+#~ msgstr[0] "%d den před"
+#~ msgstr[1] "%d dny před"
+#~ msgstr[2] "%d dnů před"
+
+#~ msgid "%d hour before"
+#~ msgid_plural "%d hours before"
+#~ msgstr[0] "%d hodinu před"
+#~ msgstr[1] "%d hodiny před"
+#~ msgstr[2] "%d hodin před"
+
+#~ msgid "%d minute before"
+#~ msgid_plural "%d minutes before"
+#~ msgstr[0] "%d minutu před"
+#~ msgstr[1] "%d minuty před"
+#~ msgstr[2] "%d minut před"
+
+#~ msgctxt "cal-reminders"
+#~ msgid "15 minutes before"
+#~ msgstr "15 minut před"
+
+#~ msgctxt "cal-reminders"
+#~ msgid "1 hour before"
+#~ msgstr "1 hodinu před"
+
+#~ msgctxt "cal-reminders"
+#~ msgid "1 day before"
+#~ msgstr "1 den před"
+
+#~ msgctxt "ECompEditor"
+#~ msgid "_Categories..."
+#~ msgstr "Kate_gorie…"
+
+#~ msgctxt "ECompEditor"
+#~ msgid "Not Started"
+#~ msgstr "Nezapočato"
+
+#~ msgctxt "ECompEditor"
+#~ msgid "In Progress"
+#~ msgstr "Probíhá"
+
+#~ msgctxt "ECompEditor"
+#~ msgid "Completed"
+#~ msgstr "Dokončeno"
+
+#~ msgctxt "ECompEditor"
+#~ msgid "Cancelled"
+#~ msgstr "Zrušeno"
+
+#~ msgid "Saving changes..."
+#~ msgstr "Ukládají se změny…"
+
+#~ msgid "_Print..."
+#~ msgstr "_Tisk…"
+
+#~ msgid "Pre_view..."
+#~ msgstr "Náh_led…"
+
+#~ msgid "Select..."
+#~ msgstr "Vybrat…"
+
+#~ msgid "Atte_ndees..."
+#~ msgstr "Úč_astníci…"
+
+#~ msgid "New _Appointment..."
+#~ msgstr "Nová _událost…"
+
+#~ msgid "New _Meeting..."
+#~ msgstr "Nová _schůzka…"
+
+#~ msgid "New _Task..."
+#~ msgstr "Nový ú_kol…"
+
+#~ msgid "_Open..."
+#~ msgstr "_Otevřít…"
+
+#~ msgid "_Delete..."
+#~ msgstr "_Smazat…"
+
+#~ msgid "Save _As..."
+#~ msgstr "Uložit j_ako…"
+
+#~ msgid "A_dd Attachment..."
+#~ msgstr "_Přidat přílohu…"
+
+#~ msgid "Other..."
+#~ msgstr "Jiné…"
+
+#~ msgid "_Find..."
+#~ msgstr "_Hledat…"
+
+#~ msgid "Re_place..."
+#~ msgstr "_Nahradit…"
+
+#~ msgid "_Image..."
+#~ msgstr "O_brázek…"
+
+#~ msgid "_Link..."
+#~ msgstr "Odk_az…"
+
+#~ msgid "_Rule..."
+#~ msgstr "Oddělovací čá_ra…"
+
+#~ msgid "_Table..."
+#~ msgstr "_Tabulka…"
+
+#~ msgid "Cell..."
+#~ msgstr "Buňka…"
+
+#~ msgid "Image..."
+#~ msgstr "Obrázek…"
+
+#~ msgid "Link..."
+#~ msgstr "Odkaz…"
+
+#~ msgid "Page..."
+#~ msgstr "Stránka…"
+
+#~ msgid "Rule..."
+#~ msgstr "Oddělovací čára…"
+
+#~ msgid "Table..."
+#~ msgstr "Tabulka…"
+
+#~ msgid "Text..."
+#~ msgstr "Text…"
+
+#~ msgid "More..."
+#~ msgstr "Více…"
+
+#~ msgid "Add a C_olumn..."
+#~ msgstr "Přidat s_loupec…"
+
+#~ msgid "Custo_mize Current View..."
+#~ msgstr "Při_způsobit aktuální zobrazení…"
+
+#~ msgid "Save _Image..."
+#~ msgstr "Uložit _obrázek…"
+
+#~ msgid "Storing changes..."
+#~ msgstr "Ukládají se změny…"
+
+#~ msgid "Retrieving message..."
+#~ msgstr "Získává se zpráva…"
+
+#~ msgid "_Archive..."
+#~ msgstr "_Archivovat…"
+
+#~ msgid "_Copy to Folder..."
+#~ msgstr "_Kopírovat do složky…"
+
+#~ msgid "Follow _Up..."
+#~ msgstr "_K vyřízení…"
+
+#~ msgid "_Move to Folder..."
+#~ msgstr "Pře_sunout do složky…"
+
+#~ msgid "Loading..."
+#~ msgstr "Načítá se…"
+
+#~ msgid "_Forward Contact..."
+#~ msgstr "_Přeposlat kontakt…"
+
+#~ msgid "_New Contact..."
+#~ msgstr "_Nový kontakt…"
+
+#~ msgid "New Contact _List..."
+#~ msgstr "Nový _seznam kontaktů…"
+
+#~ msgid "_Send Message to Contact..."
+#~ msgstr "Poslat kontaktu _zprávu…"
+
+#~ msgid "_Save as vCard..."
+#~ msgstr "_Uložit jako VCard…"
+
+#~ msgid "Selected Memo Lists for Notifications of Reminders"
+#~ msgstr "Vybrané seznamy poznámek pro zobrazování připomenutí"
+
+#~ msgid "_Copy..."
+#~ msgstr "_Kopírovat…"
+
+#~ msgid "New All Day _Event..."
+#~ msgstr "Nová _celodenní událost…"
+
+#~ msgid "Print..."
+#~ msgstr "Tisk…"
+
+#~ msgid "_Save as iCalendar..."
+#~ msgstr "_Uložit jako iCalendar…"
+
+#~ msgid "_Copy Folder To..."
+#~ msgstr "_Kopírovat složku do…"
+
+#~ msgid "_Move Folder To..."
+#~ msgstr "Pře_sunout složku do…"
+
+#~ msgid "_New..."
+#~ msgstr "_Nový…"
+
+#~ msgid "Preparing to quit..."
+#~ msgstr "Probíhá příprava k ukončení…"
+
+#~ msgid "Evolution Website"
+#~ msgstr "Webová stránka Evolution"
+
+#~ msgid "I_mport..."
+#~ msgstr "_Importovat…"
+
+#~ msgid "_Advanced Search..."
+#~ msgstr "_Pokročilé hledání…"
+
+#~ msgid "_Save Search..."
+#~ msgstr "_Uložit vyhledávání…"
+
+#~ msgid "%d/%m/%Y"
+#~ msgstr "%e. %m. %Y"
+
+#~ msgid "Summary:"
+#~ msgstr "Shrnutí"
