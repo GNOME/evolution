@@ -2,14 +2,14 @@
 # Copyright (C) 2008, 2009, 2010 the author(s) of evolution.
 # This file is distributed under the same license as the evolution package.
 #
-# Marek Černocký <marek@manet.cz>, 2014, 2015, 2016, 2017, 2018.
+# Marek Černocký <marek@manet.cz>, 2014, 2015, 2016, 2017, 2018, 2020.
 # Jiri Eischmann <jiri@eischmann.cz>, 2008-2019.
 #
 msgid ""
 msgstr ""
 "Project-Id-Version: evolution\n"
-"POT-Creation-Date: 2019-07-25 12:05+0000\n"
-"PO-Revision-Date: 2019-08-23 17:13+0200\n"
+"POT-Creation-Date: 2020-09-08 18:16+0000\n"
+"PO-Revision-Date: 2019-09-09 14:40+0200\n"
 "Last-Translator: Jiri Eischmann <jiri@eischmann.cz>\n"
 "Language-Team: čeština <>\n"
 "Language: cs\n"
@@ -97,7 +97,7 @@ msgstr ""
 "file>, pokud SpamAssassing, pak skrytou složku <file>~/.spamassassin/</file>."
 
 #. (itstool) path: section/title
-#: C/backup-restore.page:58 C/intro-first-run.page:40
+#: C/backup-restore.page:58 C/intro-first-run.page:43
 msgid "Restoring"
 msgstr "Obnova"
 
@@ -999,11 +999,11 @@ msgstr "Vyberte kontakty, kterým chcete schůzku postoupit."
 #: C/calendar-meetings-delegating.page:41 C/contacts-usage-add-contact.page:43
 #: C/contacts-usage-edit-contact.page:34 C/contacts-using-contact-lists.page:69
 #: C/mail-attachments-sending.page:32
-#: C/mail-composer-custom-header-lines.page:45
+#: C/mail-composer-custom-header-lines.page:47
 #: C/mail-encryption-gpg-set-up.page:35
 #: C/mail-encryption-gpg-signing-encrypting.page:40
 #: C/mail-encryption-s-mime-signing-encrypting.page:36 C/mail-filters.page:50
-#: C/mail-filters.page:71 C/mail-search-folders-add.page:46
+#: C/mail-filters.page:71 C/mail-search-folders-add.page:47
 #: C/using-categories.page:51 C/using-categories.page:53
 msgid "Click <gui style=\"button\">OK</gui>."
 msgstr "Klikněte na <gui style=\"button\">Budiž</gui>."
@@ -1402,14 +1402,14 @@ msgstr "V seznamu vyberte podmínky hledání."
 
 #. (itstool) path: item/p
 #: C/calendar-searching.page:50 C/contacts-searching.page:58
-#: C/mail-searching.page:49 C/memos-searching.page:45 C/tasks-searching.page:45
+#: C/mail-searching.page:50 C/memos-searching.page:45 C/tasks-searching.page:45
 msgid "Enter the text you want to search for and press <key>Enter</key>."
 msgstr "Zadejte text, který chcete vyhledat, a zmáčkněte <key>Enter</key>."
 
 #. (itstool) path: item/p
 #: C/calendar-searching.page:53 C/calendar-searching.page:67
 #: C/contacts-searching.page:62 C/contacts-searching.page:76
-#: C/mail-searching.page:50 C/memos-searching.page:46 C/memos-searching.page:52
+#: C/mail-searching.page:51 C/memos-searching.page:46 C/memos-searching.page:52
 #: C/tasks-searching.page:46 C/tasks-searching.page:52
 msgid "<app>Evolution</app> displays the search results."
 msgstr "<app>Evolution</app> zobrazí výsledky hledání."
@@ -1446,7 +1446,7 @@ msgstr ""
 
 #. (itstool) path: section/p
 #: C/calendar-searching.page:76 C/contacts-searching.page:80
-#: C/mail-searching.page:54 C/memos-searching.page:54 C/tasks-searching.page:54
+#: C/mail-searching.page:55 C/memos-searching.page:54 C/tasks-searching.page:54
 msgid ""
 "If you want to set several search conditions, you should use an Advanced "
 "search, which is described below."
@@ -1767,7 +1767,7 @@ msgid "Enter your username."
 msgstr "Zadejte uživatelské jméno."
 
 #. (itstool) path: info/desc
-#: C/contacts-add-automatically.page:21
+#: C/contacts-add-automatically.page:22
 msgid ""
 "Automatically add senders of mail that you have received to your contacts."
 msgstr ""
@@ -1775,33 +1775,75 @@ msgstr ""
 "obdrželi."
 
 #. (itstool) path: page/title
-#: C/contacts-add-automatically.page:25
+#: C/contacts-add-automatically.page:26
 msgid "Adding people automatically to my contacts"
 msgstr "Automatické přidávání lidí do kontaktů"
 
 #. (itstool) path: page/p
-#: C/contacts-add-automatically.page:27
+#: C/contacts-add-automatically.page:28
 msgid ""
 "You can add people automatically to your contacts when you reply to received "
-"email. Enable the plugin <gui>Automatic Contacts</gui> by going to "
-"<guiseq><gui>Edit</gui><gui>Plugins</gui></guiseq>; click on <gui>Automatic "
-"Contacts</gui> so that it shows a check mark. Then go to <guiseq><gui>Edit</"
-"gui><gui>Preferences</gui><gui>Contacts</gui> <gui>Automatic Contacts</gui></"
-"guiseq> and enable the <gui>Create address book entries when sending emails</"
-"gui> option and select an address book in the drop-down field below that "
-"will receive the new contacts."
+"email."
 msgstr ""
 "Můžete nechat automaticky přidávat kontakty ve chvíli, kdy odpovíte na "
-"zprávu. K tomu povolte zásuvný modul <gui>Automatické kontakty</gui> pomocí "
-"<guiseq><gui>Upravit</gui> <gui>Zásuvné moduly</gui></guiseq>. Klikněte na "
-"<gui>Automatické kontakty</gui>, aby se zaškrtly. Pak přejděte do "
-"<guiseq><gui>Upravit</gui> <gui>Předvolby</gui> <gui>Kontakty</gui> "
-"<gui>Automatické kontakty</gui></guiseq> a zapněte volbu <gui>Vytvářet "
-"položky v adresáři při odesílání pošty</gui> a v rozbalovacím seznamu pod "
-"tím vyberte adresář, ve kterém se nové kontakty mají vytvářet."
+"zprávu."
+
+#. (itstool) path: item/p
+#: C/contacts-add-automatically.page:31 C/mail-attachments-sending.page:46
+#: C/mail-composer-custom-header-lines.page:31
+#: C/mail-composer-external-editor.page:25
+#: C/mail-composer-message-templates.page:27
+#: C/mail-composer-message-templates-variables.page:28
+#: C/mail-received-notification.page:30
+msgid "Select <guiseq><gui>Edit</gui><gui>Plugins</gui></guiseq>."
+msgstr "Vyberte <guiseq><gui>Upravit</gui> <gui>Zásuvné moduly</gui></guiseq>."
+
+#. (itstool) path: item/p
+#: C/contacts-add-automatically.page:32
+msgid "Enable <gui>Automatic Contacts</gui>."
+msgstr "Zapněte <gui>Automatické kontakty</gui>."
+
+#. (itstool) path: note/p
+#: C/contacts-add-automatically.page:33 C/mail-attachments-sending.page:48
+#: C/mail-composer-custom-header-lines.page:33
+#: C/mail-composer-external-editor.page:28
+#: C/mail-composer-message-templates.page:29
+#: C/mail-composer-message-templates-variables.page:30
+#: C/mail-displaying-sender-photograph.page:37
+#: C/mail-received-notification.page:32
+msgid ""
+"If a plugin is not available under <guiseq><gui>Edit</gui><gui>Plugins</"
+"gui></guiseq>, then please ask in a support forum of your distribution. Your "
+"distribution might have decided to disable some plugins or to ship plugins "
+"in a separate package."
+msgstr ""
+"Pokud se zásuvný modul v <guiseq><gui>Upravit</gui><gui>Zásuvné moduly</gui>"
+"</guiseq> nenachází, obraťte se prosím do diskuzního fóra podpory své "
+"distribuce. Možná se ve vaší distribuci rozhodli zásuvný modul zakázat, nebo "
+"jej šíří v samostatném balíčku."
+
+#. (itstool) path: item/p
+#: C/contacts-add-automatically.page:35
+msgid ""
+"Go to <guiseq><gui>Edit</gui><gui>Preferences</gui><gui>Contacts</gui> "
+"<gui>Automatic Contacts</gui></guiseq>."
+msgstr ""
+"Přejděte do <guiseq><gui>Upravit</gui> <gui>Předvolby</gui> <gui>Kontakty</"
+"gui> <gui>Automatické kontakty</gui></guiseq>."
+
+#. (itstool) path: item/p
+#: C/contacts-add-automatically.page:37
+msgid ""
+"Enable <gui>Create address book entries when sending emails</gui> and select "
+"an address book in the drop-down field below that will receive the new "
+"contacts."
+msgstr ""
+"Zapněte <gui>Vytvářet položky v adresáři při odesílání pošty</gui> a v "
+"rozbalovacím seznamu níže vyberte adresář, ve kterém budou nové kontakty "
+"končit."
 
 #. (itstool) path: page/p
-#: C/contacts-add-automatically.page:37
+#: C/contacts-add-automatically.page:42
 msgid ""
 "From now on, contacts will be automatically created for senders of received "
 "mail when you reply to that mail."
@@ -1810,19 +1852,19 @@ msgstr ""
 "chvíli, kdy odpovíte na zprávu, kterou jste od něj obdrželi."
 
 #. (itstool) path: info/desc
-#: C/contacts-autocompletion.page:27
+#: C/contacts-autocompletion.page:28
 msgid ""
 "Autocompletion of names and email addresses entered in the mail composer."
 msgstr ""
 "Automatické doplňování jmen a e-mailových adres zadávaných při psaní pošty."
 
 #. (itstool) path: page/title
-#: C/contacts-autocompletion.page:30
+#: C/contacts-autocompletion.page:31
 msgid "Autocompletion of mail recipients"
 msgstr "Automatické doplňování příjemců"
 
 #. (itstool) path: page/p
-#: C/contacts-autocompletion.page:32
+#: C/contacts-autocompletion.page:33
 msgid ""
 "You can enter the first three letters of names and email addresses in the "
 "recipients text field and <app>Evolution</app> will present you with a list "
@@ -1833,7 +1875,7 @@ msgstr ""
 "vašich adresářů."
 
 #. (itstool) path: page/p
-#: C/contacts-autocompletion.page:36
+#: C/contacts-autocompletion.page:37
 msgid ""
 "To enable autocompletion, go to <guiseq><gui>Edit</gui><gui>Preferences</"
 "gui><gui>Contacts</gui> <gui>Autocompletion</gui></guiseq> and choose the "
@@ -1846,7 +1888,7 @@ msgstr ""
 "kterých má <app>Evolution</app> hledat shody."
 
 #. (itstool) path: page/p
-#: C/contacts-autocompletion.page:41
+#: C/contacts-autocompletion.page:42
 msgid ""
 "Select <gui>Always show address of the autocompleted contact</gui> to also "
 "show the email address along with the name. This can be helpful to "
@@ -1857,7 +1899,7 @@ msgstr ""
 "potřebujete odlišit kontakt, který má několik e-mailových adres."
 
 #. (itstool) path: page/p
-#: C/contacts-autocompletion.page:45
+#: C/contacts-autocompletion.page:46
 msgid ""
 "Alternately, you can click the <gui>To:</gui>, <gui>Cc:</gui>, or <gui>Bcc:</"
 "gui> buttons to get a list of the email addresses in your contacts. Select "
@@ -2627,7 +2669,6 @@ msgstr ""
 
 #. (itstool) path: info/desc
 #: C/customize-ui-items.page:18
-#| msgid "Moving and changing tool bar buttons and entries in the main menu."
 msgid ""
 "Moving and changing tool bar buttons, menu entries, and keyboard shortcuts."
 msgstr ""
@@ -2696,11 +2737,13 @@ msgstr ""
 msgid ""
 "To change keyboard shortcuts, edit <file>~/.config/evolution/accels</file> "
 "while <app>Evolution</app> is not running. Commented lines start with a "
-"comma character. Not all shortcuts can be changed though."
+"<code>;</code> character and will be ignored. Not all shortcuts can be "
+"changed though."
 msgstr ""
 "Chcete-li změnit klávesové zkratky, upravte <file>~/.config/evolution/"
-"accels</file>, když <app>Evolution</app> neběží. Řádky s komentáři začínají "
-"čárkou. Ne všechny zkratky však mohou být změněny."
+"accels</file> ve chvíli, kdy <app>Evolution</app> neběží. Komentářové řádky "
+"začínají znakem <code>;</code> a jsou ignorovány. Ne všechny zkratky však "
+"mohou být změněny."
 
 #. (itstool) path: info/desc
 #: C/data-storage.page:5
@@ -3172,6 +3215,62 @@ msgid "Exporting data from <app>Evolution</app>"
 msgstr "Export dat z aplikace <app>Evolution</app>"
 
 #. (itstool) path: info/desc
+#: C/flatpak-limitations.page:5
+msgid "Limitations when using a Flatpak package of <app>Evolution</app>."
+msgstr ""
+"Jaká jsou omezení při použití aplikace <app>Evolution</app> z balíčku Flatpak."
+
+#. (itstool) path: page/title
+#: C/flatpak-limitations.page:20
+msgid "Cannot print mail, add or save attachments, or open the help"
+msgstr ""
+"Nelze vytisknout zprávy, přidat nebo uložit přílohy, nebo otevřít nápovědu"
+
+#. (itstool) path: page/p
+#: C/flatpak-limitations.page:22
+msgid ""
+"If you run a <link href=\"https://flathub.org/\">Flatpak</link> version of "
+"<app>Evolution</app>, then there are several limitations. Examples are:"
+msgstr ""
+"Pokud spouštíte <app>Evolution</app> ve verzi <link href=\"https://flathub.org"
+"/\">Flatpak</link>, je zde několik omezení. Například:"
+
+#. (itstool) path: item/p
+#: C/flatpak-limitations.page:26
+msgid ""
+"Adding attachments to an email or saving attachments from an email might not "
+"be possible."
+msgstr "Není možné přidávat přílohy do e-mailů a ukládat přílony z e-mailů."
+
+#. (itstool) path: item/p
+#: C/flatpak-limitations.page:28
+msgid ""
+"You cannot print an email to a printer. This is a <link href=\"https://bugs."
+"webkit.org/show_bug.cgi?id=192748\">limitation of the underlying WebKitGTK "
+"library</link>."
+msgstr ""
+"Nemůžete tisknout e-maily na tiskárně. Jedná se o <link href=\"https://bugs."
+"webkit.org/show_bug.cgi?id=192748\">omezení podkladové knihovny WebKitGTK"
+"</link>."
+
+#. (itstool) path: item/p
+#: C/flatpak-limitations.page:31
+msgid ""
+"To print an email to a file, you can run <cmd>flatpak run --filesystem=home "
+"org.gnome.Evolution</cmd> as a workaround."
+msgstr ""
+"U tisk e-mailu do souboru se dá problém obejít spuštěním <cmd>flatpak run "
+"--filesystem=home org.gnome.Evolution</cmd>"
+
+#. (itstool) path: item/p
+#: C/flatpak-limitations.page:33
+msgid ""
+"The local user documentation might not included, to make the package smaller."
+msgstr ""
+"Z důvodu velikosti balíčku nemusí být jeho součástí místní verze uživateské "
+"dokumentace."
+
+#. (itstool) path: info/desc
 #: C/google-services.page:5
 msgid "Using Google services."
 msgstr "Jak na používání služeb Google."
@@ -3191,11 +3290,24 @@ msgstr "Jak importovat data z pošťáka Mozilla <app>Thunderbird</app>."
 msgid "Mozilla"
 msgstr "Mozilla"
 
+#. (itstool) path: note/p
+#: C/import-apps-mozilla.page:26
+msgid "The instructions below might be outdated and not work anymore."
+msgstr "Instrukce uvedené níže mohou být zastaralé a nemusí fungovat."
+
+#. (itstool) path: note/p
+#: C/import-apps-mozilla.page:26
+msgid ""
+"Follow <link href=\"https://mail.gnome.org/archives/evolution-list/2019-"
+"February/msg00055.html\">this mailing list posting</link> for an alternative "
+"method that you could try."
+msgstr ""
+"Alternativní metodu, kterou můžete zkusit, najdete <link href=\"https://mail."
+"gnome.org/archives/evolution-list/2019-February/msg00055.html\">v tomto "
+"příspěvku v poštovní konferenci</link>."
+
 #. (itstool) path: item/p
-#: C/import-apps-mozilla.page:25
-#| msgid ""
-#| "<link href=\"https://support.mozilla.org/kb/profiles-tb#w_how-to-find-"
-#| "your-profile\">Find your <app>Thunderbird</app> profile folder.</link>"
+#: C/import-apps-mozilla.page:29
 msgid ""
 "<link href=\"https://support.mozilla.org/en-US/kb/profiles-where-thunderbird-"
 "stores-user-data\">Find your <app>Thunderbird</app> profile folder.</link>"
@@ -3205,13 +3317,13 @@ msgstr ""
 "<app>Thunderbird</app>.</link>"
 
 #. (itstool) path: item/p
-#: C/import-apps-mozilla.page:26 C/import-apps-outlook.page:62
+#: C/import-apps-mozilla.page:30 C/import-apps-outlook.page:62
 #: C/import-single-files.page:24
 msgid "Click <guiseq><gui>File</gui><gui>Import</gui></guiseq>."
 msgstr "Klikněte na <guiseq><gui>Soubor</gui> <gui>Importovat</gui></guiseq>."
 
 #. (itstool) path: item/p
-#: C/import-apps-mozilla.page:27 C/import-apps-outlook.page:63
+#: C/import-apps-mozilla.page:31 C/import-apps-outlook.page:63
 #: C/import-single-files.page:25
 msgid ""
 "In the <gui>Importer Type</gui> tab, click <gui>Import a single file</gui>."
@@ -3220,7 +3332,7 @@ msgstr ""
 "gui>."
 
 #. (itstool) path: item/p
-#: C/import-apps-mozilla.page:28
+#: C/import-apps-mozilla.page:32
 msgid ""
 "Go to the folder in which <app>Thunderbird</app> stores its data. You will "
 "have to make sure to <link xref=\"help:gnome-help/files-hidden#show-hidden\" "
@@ -3234,7 +3346,7 @@ msgstr ""
 "skrytých souborů</link>."
 
 #. (itstool) path: item/p
-#: C/import-apps-mozilla.page:31
+#: C/import-apps-mozilla.page:35
 msgid ""
 "If you would like to import <app>Thunderbird</app> mail, go to <file>Mail/"
 "Local Folders</file> (for local mail accounts) or <file>ImapMail/servername</"
@@ -3249,7 +3361,7 @@ msgstr ""
 "Soubory bez přípony (ne soubory <file>.msf</file>) obsahují vaše zprávy."
 
 #. (itstool) path: item/p
-#: C/import-apps-mozilla.page:32
+#: C/import-apps-mozilla.page:36
 msgid ""
 "If you would like to import <app>Thunderbird/Lightning</app> calendar data, "
 "you may be able to export your <app>Thunderbird</app> events as an <file>."
@@ -3265,13 +3377,13 @@ msgstr ""
 "databázovém formátu."
 
 #. (itstool) path: item/p
-#: C/import-apps-mozilla.page:34 C/import-apps-outlook.page:64
+#: C/import-apps-mozilla.page:38 C/import-apps-outlook.page:64
 #: C/import-single-files.page:26
 msgid "The file type will be automatically determined."
 msgstr "Typ souboru bude určen automaticky."
 
 #. (itstool) path: item/p
-#: C/import-apps-mozilla.page:35
+#: C/import-apps-mozilla.page:39
 msgid ""
 "Choose the destination (e.g. the folder or calendar in <app>Evolution</app>) "
 "for the imported data."
@@ -3280,9 +3392,52 @@ msgstr ""
 "importovaná data."
 
 #. (itstool) path: item/p
-#: C/import-apps-mozilla.page:36 C/import-apps-outlook.page:68
+#: C/import-apps-mozilla.page:40 C/import-apps-outlook.page:68
 msgid "Repeat the import steps until you have imported all your data."
 msgstr "Opakujte kroky importu, dokud nebudete mít naimportována všechna data."
+
+#. (itstool) path: info/desc
+#: C/import-apps-kmail.page:5
+msgid ""
+"If <app>KMail</app> data cannot be found by the <app>Evolution</app> "
+"importer."
+msgstr ""
+"Když import do pošťáka <app>Evolution</app> nemůže najít data z pošťáka <app>"
+"KMail</app>."
+
+#. (itstool) path: page/title
+#: C/import-apps-kmail.page:19
+msgid "KMail"
+msgstr "KMail"
+
+#. (itstool) path: page/p
+#: C/import-apps-kmail.page:21
+msgid "Note that <app>Evolution</app> only recognized KDE 4 directories:"
+msgstr ""
+"Upozorňujeme, že <app>Evolution</app> umí rozpoznat pouze složky z KDE 4:"
+
+#. (itstool) path: item/p
+#: C/import-apps-kmail.page:23
+msgid "<file>$HOME/.kde4/share/apps/kmail/mail</file> for mail"
+msgstr "<file>$HOME/.kde4/share/apps/kmail/mail</file> pro e-maily"
+
+#. (itstool) path: item/p
+#: C/import-apps-kmail.page:24
+msgid "<file>$HOME/.kde4/share/apps/kabc</file> for contacts"
+msgstr "<file>$HOME/.kde4/share/apps/kabc</file> pro kontakty"
+
+#. (itstool) path: page/p
+#: C/import-apps-kmail.page:27
+msgid ""
+"For more recent versions, follow <link href=\"https://mail.gnome.org/"
+"archives/evolution-list/2020-March/msg00168.html\">the instructions in this "
+"post</link>. If you run into problems, follow <link xref=\"problems-getting-"
+"help\"/>."
+msgstr ""
+"U novějších verzí se řiďte <link href=\"https://mail.gnome.org/archives/"
+"evolution-list/2020-March/msg00168.html\">instrukcemi z tohoto příspěvku"
+"</link>. Pokud se dostanete do problémů, podívejte se na <link xref=\""
+"problems-getting-help\"/>."
 
 #. (itstool) path: info/desc
 #: C/import-apps-outlook.page:5
@@ -3457,12 +3612,14 @@ msgid ""
 "If the option to import Outlook personal folders (.pst files) is not "
 "available under <guiseq><gui>File</gui><gui>Import</gui><gui>Import single "
 "file</gui><gui>File type</gui></guiseq>, your distribution might have not "
-"enabled this functionality."
+"enabled this functionality in Evolution. Please ask in a support forum of "
+"your distribution."
 msgstr ""
 "V případě, že volba pro import osobních složek Outlook (soubory .pst) není "
 "pod <guiseq><gui>Soubor</gui> <gui>Import</gui> <gui>Importovat jeden "
 "soubor</gui> <gui>Typ souboru</gui></guiseq> přístupná, nemá vaše distribuce "
-"tuto funkcionali možná zprovozněnou."
+"tuto funkcionalitu pro Evolution možná zprovozněnou. Poptejte se prosím v "
+"diskuzním fóru podpory své distribuce."
 
 #. (itstool) path: item/p
 #: C/import-apps-outlook.page:67 C/import-single-files.page:27
@@ -3519,19 +3676,6 @@ msgstr ""
 
 #. (itstool) path: note/p
 #: C/import-single-files.page:32
-#| msgid ""
-#| "When setting <gui>File type</gui> to <gui>Contacts CSV or Tab</gui>, the "
-#| "column headers must correspond to the first entry in each item in English "
-#| "in the importer code for <link href=\"https://git.gnome.org/browse/"
-#| "evolution/tree/src/addressbook/importers/evolution-csv-importer.c?"
-#| "id=bc5f32786d09823247d8188c5f211dcd354097de#n228\"><app>Evolution</app></"
-#| "link>, <link href=\"https://git.gnome.org/browse/evolution/tree/src/"
-#| "addressbook/importers/evolution-csv-importer.c?"
-#| "id=bc5f32786d09823247d8188c5f211dcd354097de#n188\"><app>Mozilla</app></"
-#| "link> and <link href=\"https://git.gnome.org/browse/evolution/tree/src/"
-#| "addressbook/importers/evolution-csv-importer.c?"
-#| "id=bc5f32786d09823247d8188c5f211dcd354097de#n93\"><app>Outlook</app></"
-#| "link>."
 msgid ""
 "When setting <gui>File type</gui> to <gui>Contacts CSV or Tab</gui>, the "
 "column headers must correspond to the first entry in each item in English in "
@@ -3731,6 +3875,11 @@ msgstr ""
 "<app>Microsoft Outlook</app>. Zkratka pochází ze spojení „Personal Storage "
 "Table“ (tabulka pro uchování osobních dat)."
 
+#. (itstool) path: item/p
+#: C/import-supported-file-formats.page:83
+msgid "See <link xref=\"import-apps-outlook\"/> for more information."
+msgstr "Více informací viz <link xref=\"import-apps-outlook\"/>."
+
 #. (itstool) path: info/desc
 #: C/index.page:5
 msgid "Manage your email, contacts and schedule"
@@ -3905,12 +4054,66 @@ msgstr ""
 "odstranit takový účet je možné jen v aplikaci <app>Účty on-line</app>."
 
 #. (itstool) path: section/title
-#: C/intro-first-run.page:33
+#: C/intro-first-run.page:30 C/mail-account-manage-imap-plus.page:29
+#: C/mail-account-manage-local-delivery.page:29
+#: C/mail-account-manage-maildir-format-directories.page:30
+#: C/mail-account-manage-mh-format-directories.page:29
+#: C/mail-account-manage-microsoft-exchange-evo-ews.page:29
+#: C/mail-account-manage-microsoft-exchange-evo-mapi.page:29
+#: C/mail-account-manage-pop.page:29
+#: C/mail-account-manage-unix-mbox-spool-directory.page:29
+#: C/mail-account-manage-unix-mbox-spool-file.page:29
+#: C/mail-account-manage-usenet-news.page:29
+msgid "Identity"
+msgstr "Identita"
+
+#. (itstool) path: section/p
+#: C/intro-first-run.page:31 C/mail-account-manage-imap-plus.page:30
+#: C/mail-account-manage-local-delivery.page:30
+#: C/mail-account-manage-maildir-format-directories.page:31
+#: C/mail-account-manage-mh-format-directories.page:30
+#: C/mail-account-manage-microsoft-exchange-evo-ews.page:30
+#: C/mail-account-manage-microsoft-exchange-evo-mapi.page:30
+#: C/mail-account-manage-pop.page:30
+#: C/mail-account-manage-unix-mbox-spool-directory.page:30
+#: C/mail-account-manage-unix-mbox-spool-file.page:30
+#: C/mail-account-manage-usenet-news.page:30
+msgid "Here you define your name and your email address."
+msgstr "Zde určujete svoje jméno a e-mailovou adresu."
+
+#. (itstool) path: section/p
+#: C/intro-first-run.page:32 C/mail-account-manage-imap-plus.page:31
+#: C/mail-account-manage-local-delivery.page:31
+#: C/mail-account-manage-maildir-format-directories.page:32
+#: C/mail-account-manage-mh-format-directories.page:31
+#: C/mail-account-manage-microsoft-exchange-evo-ews.page:31
+#: C/mail-account-manage-microsoft-exchange-evo-mapi.page:31
+#: C/mail-account-manage-pop.page:31
+#: C/mail-account-manage-unix-mbox-spool-directory.page:31
+#: C/mail-account-manage-unix-mbox-spool-file.page:31
+#: C/mail-account-manage-usenet-news.page:31
+msgid ""
+"Optionally you can set a Reply-To email address (if you want replies to "
+"messages sent to a different address), set an organization (a company or "
+"organization you represent when you send email from this account), your "
+"default <link xref=\"mail-composer-mail-signatures\">signature</link> for "
+"this account, and <link href=\"https://en.wikipedia.org/wiki/Email_alias"
+"\">email aliases</link>."
+msgstr ""
+"Volitelně můžete nastavit e-mailovou adresu „Komu odpovědět“ (když chcete, "
+"aby odpovědi na zprávy chodily na jinou adresu), nastavit organizaci "
+"(společnost, ve které pracujete, nebo organizaci, kterou reprezentujete, "
+"když odesíláte e-maily z tohoto účtu), svůj výchozí <link xref="
+"\"mail-composer-mail-signatures\">podpis</link> k tomuto účtu a <link href="
+"\"https://en.wikipedia.org/wiki/Email_alias\">aliasy</link>."
+
+#. (itstool) path: section/title
+#: C/intro-first-run.page:36
 msgid "Restore from backup"
 msgstr "Obnovit ze zálohy"
 
 #. (itstool) path: section/p
-#: C/intro-first-run.page:34
+#: C/intro-first-run.page:37
 msgid ""
 "You will be asked whether to restore from a backup of a previous version. If "
 "you do not have a backup, go to the next page."
@@ -3919,13 +4122,13 @@ msgstr ""
 "verze. Pokud zálohu nemáte, pokračujte na další stránku."
 
 #. (itstool) path: info/title
-#: C/intro-first-run.page:38
+#: C/intro-first-run.page:41
 msgctxt "ui:collapsed"
 msgid "Show how to restore from a backup"
 msgstr "Zobrazit, jak se obnovuje ze zálohy"
 
 #. (itstool) path: section/title
-#: C/intro-first-run.page:48 C/mail-receiving-options-exchange-ews.page:23
+#: C/intro-first-run.page:51 C/mail-receiving-options-exchange-ews.page:23
 #: C/mail-receiving-options-exchange-mapi.page:23
 #: C/mail-receiving-options-imap-plus.page:26
 #: C/mail-receiving-options-local-delivery.page:23
@@ -3939,14 +4142,14 @@ msgid "Receiving Email"
 msgstr "Příjem pošty"
 
 #. (itstool) path: section/p
-#: C/intro-first-run.page:49
+#: C/intro-first-run.page:52
 msgid ""
 "First, choose the server type from the <gui>Server Type</gui> drop-down list."
 msgstr ""
 "Nejprve zvolte typ serveru v rozbalovacím seznamu <gui>Typ serveru</gui>."
 
 #. (itstool) path: section/p
-#: C/intro-first-run.page:50
+#: C/intro-first-run.page:53
 msgid ""
 "If you are unsure about the type of server to choose, ask your system "
 "administrator or Internet Service Provider."
@@ -3955,7 +4158,7 @@ msgstr ""
 "poskytovatele připojení k Internetu."
 
 #. (itstool) path: note/p
-#: C/intro-first-run.page:52
+#: C/intro-first-run.page:55
 msgid ""
 "Later on, if you want to change an account, or if you want to create another "
 "one, go to <guiseq><gui>Edit</gui><gui>Preferences</gui><gui>Mail Accounts</"
@@ -3970,12 +4173,12 @@ msgstr ""
 "style=\"button\">Přidat</gui>."
 
 #. (itstool) path: section/title
-#: C/intro-first-run.page:55
+#: C/intro-first-run.page:58
 msgid "IMAP+"
 msgstr "IMAP+"
 
 #. (itstool) path: section/p
-#: C/intro-first-run.page:56
+#: C/intro-first-run.page:59
 msgid ""
 "Keeps the mail on the server so you can access your mail from multiple "
 "systems."
@@ -3983,45 +4186,45 @@ msgstr ""
 "Ponechává vaši poštu na serveru, takže k ní můžete přistupovat z více míst."
 
 #. (itstool) path: info/title
-#: C/intro-first-run.page:60 C/intro-first-run.page:76
-#: C/intro-first-run.page:92 C/intro-first-run.page:116
-#: C/intro-first-run.page:140 C/intro-first-run.page:156
-#: C/intro-first-run.page:172 C/intro-first-run.page:188
-#: C/intro-first-run.page:204 C/intro-first-run.page:220
-#: C/intro-first-run.page:247
+#: C/intro-first-run.page:63 C/intro-first-run.page:79
+#: C/intro-first-run.page:95 C/intro-first-run.page:119
+#: C/intro-first-run.page:143 C/intro-first-run.page:159
+#: C/intro-first-run.page:175 C/intro-first-run.page:191
+#: C/intro-first-run.page:207 C/intro-first-run.page:223
+#: C/intro-first-run.page:250
 msgctxt "ui:collapsed"
 msgid "Show how to configure this account type"
 msgstr "Zobrazit, jak se nastavuje tento typ účtu"
 
 #. (itstool) path: section/title
 #. (itstool) path: page/title
-#: C/intro-first-run.page:62 C/mail-receiving-options-imap-plus.page:23
+#: C/intro-first-run.page:65 C/mail-receiving-options-imap-plus.page:23
 msgid "IMAP+ receiving options"
 msgstr "Možnosti přijmu u IMAP+"
 
 #. (itstool) path: section/title
-#: C/intro-first-run.page:71
+#: C/intro-first-run.page:74
 msgid "POP"
 msgstr "POP"
 
 #. (itstool) path: section/p
-#: C/intro-first-run.page:72
+#: C/intro-first-run.page:75
 msgid "Downloads your email to your hard disk."
 msgstr "Stahuje vaše e-maily na váš disk."
 
 #. (itstool) path: section/title
 #. (itstool) path: page/title
-#: C/intro-first-run.page:78 C/mail-receiving-options-pop.page:27
+#: C/intro-first-run.page:81 C/mail-receiving-options-pop.page:27
 msgid "POP receiving options"
 msgstr "Možnosti přijmu u POP"
 
 #. (itstool) path: section/title
-#: C/intro-first-run.page:87
+#: C/intro-first-run.page:90
 msgid "USENET News"
 msgstr "Diskusní skupiny USENET"
 
 #. (itstool) path: section/p
-#: C/intro-first-run.page:88
+#: C/intro-first-run.page:91
 msgid ""
 "Connects to a news server and downloads a list of available news digests."
 msgstr ""
@@ -4030,17 +4233,17 @@ msgstr ""
 
 #. (itstool) path: section/title
 #. (itstool) path: page/title
-#: C/intro-first-run.page:94 C/mail-receiving-options-usenet-news.page:23
+#: C/intro-first-run.page:97 C/mail-receiving-options-usenet-news.page:23
 msgid "Usenet news receiving options"
 msgstr "Možnosti přijmu u diskuzních skupin Usenet"
 
 #. (itstool) path: section/title
-#: C/intro-first-run.page:103
+#: C/intro-first-run.page:106
 msgid "Exchange EWS"
 msgstr "Exchange EWS"
 
 #. (itstool) path: section/p
-#: C/intro-first-run.page:104
+#: C/intro-first-run.page:107
 msgid ""
 "For connecting to a Microsoft Exchange 2007/2010 or OpenChange server. Note "
 "that this is currently under development and will replace the <gui>Exchange "
@@ -4053,13 +4256,13 @@ msgstr ""
 "dispozici ve vaší distribuci."
 
 #. (itstool) path: note/p
-#: C/intro-first-run.page:106
+#: C/intro-first-run.page:109
 msgid "This requires having the <sys>evolution-ews</sys> package installed."
 msgstr "Vyžaduje, aby byl nainstalován balíček <sys>evolution-ews</sys>."
 
 #. (itstool) path: when/p
 #. (itstool) path: note/p
-#: C/intro-first-run.page:109 C/mail-account-manage-microsoft-exchange.page:30
+#: C/intro-first-run.page:112 C/mail-account-manage-microsoft-exchange.page:30
 msgid ""
 "<link action=\"install:evolution-ews\" href=\"https://wiki.gnome.org/Apps/"
 "Evolution#Get_the_Source_Code\" style=\"button\">Install evolution-ews</link>"
@@ -4070,28 +4273,28 @@ msgstr ""
 
 #. (itstool) path: section/title
 #. (itstool) path: page/title
-#: C/intro-first-run.page:118 C/mail-receiving-options-exchange-ews.page:20
+#: C/intro-first-run.page:121 C/mail-receiving-options-exchange-ews.page:20
 msgid "Exchange Web Services receiving options"
 msgstr "Možnosti příjmu u Exchange Web Services"
 
 #. (itstool) path: section/title
-#: C/intro-first-run.page:127
+#: C/intro-first-run.page:130
 msgid "Exchange MAPI"
 msgstr "Exchange MAPI"
 
 #. (itstool) path: section/p
-#: C/intro-first-run.page:128
+#: C/intro-first-run.page:131
 msgid "For connecting to a Microsoft Exchange 2007/2010 or OpenChange server."
 msgstr "Pro připojení k serveru Microsoft Exchange 2007/2010 nebo OpenChange."
 
 #. (itstool) path: note/p
-#: C/intro-first-run.page:130
+#: C/intro-first-run.page:133
 msgid "This requires having the <sys>evolution-mapi</sys> package installed."
 msgstr "Vyžaduje, aby byl nainstalován balíček <sys>evolution-mapi</sys>."
 
 #. (itstool) path: when/p
 #. (itstool) path: note/p
-#: C/intro-first-run.page:133 C/mail-account-manage-microsoft-exchange.page:41
+#: C/intro-first-run.page:136 C/mail-account-manage-microsoft-exchange.page:41
 msgid ""
 "<link action=\"install:evolution-mapi\" href=\"https://wiki.gnome.org/Apps/"
 "Evolution#Get_the_Source_Code\" style=\"button\">Install evolution-mapi</"
@@ -4103,17 +4306,17 @@ msgstr ""
 
 #. (itstool) path: section/title
 #. (itstool) path: page/title
-#: C/intro-first-run.page:142 C/mail-receiving-options-exchange-mapi.page:20
+#: C/intro-first-run.page:145 C/mail-receiving-options-exchange-mapi.page:20
 msgid "Exchange MAPI receiving options"
 msgstr "Možnosti přijmu u Exchange MAPI"
 
 #. (itstool) path: section/title
-#: C/intro-first-run.page:151
+#: C/intro-first-run.page:154
 msgid "Local delivery"
 msgstr "Místní doručování"
 
 #. (itstool) path: section/p
-#: C/intro-first-run.page:152
+#: C/intro-first-run.page:155
 msgid ""
 "Local delivery: If you want to move email from the spool (the location where "
 "mail waits for delivery) and store it in your home directory. You need to "
@@ -4129,35 +4332,35 @@ msgstr ""
 
 #. (itstool) path: section/title
 #. (itstool) path: page/title
-#: C/intro-first-run.page:158 C/mail-receiving-options-local-delivery.page:20
+#: C/intro-first-run.page:161 C/mail-receiving-options-local-delivery.page:20
 msgid "Local delivery receiving options"
 msgstr "Možnosti přijmu u místního doručení"
 
 #. (itstool) path: section/title
-#: C/intro-first-run.page:167
+#: C/intro-first-run.page:170
 msgid "MH-Format Mail Directories"
 msgstr "Poštovní složky ve formátu MH"
 
 #. (itstool) path: section/p
-#: C/intro-first-run.page:168
+#: C/intro-first-run.page:171
 msgid "For downloading email using MH or another MH-style application."
 msgstr ""
 "Pro stahování pošty pomocí MH nebo jiné aplikace používající formát MH."
 
 #. (itstool) path: section/title
 #. (itstool) path: page/title
-#: C/intro-first-run.page:174
+#: C/intro-first-run.page:177
 #: C/mail-receiving-options-mh-format-directories.page:20
 msgid "MH-format mail directories receiving options"
 msgstr "Možnosti přijmu adresářů pošty ve formátu MH"
 
 #. (itstool) path: section/title
-#: C/intro-first-run.page:183
+#: C/intro-first-run.page:186
 msgid "Maildir-Format Mail Directories"
 msgstr "Poštovní složky ve formátu Maildir"
 
 #. (itstool) path: section/p
-#: C/intro-first-run.page:184
+#: C/intro-first-run.page:187
 msgid ""
 "Maildir-Format Mail Directories: For downloading your email using Qmail or "
 "another Maildir-style application."
@@ -4167,18 +4370,18 @@ msgstr ""
 
 #. (itstool) path: section/title
 #. (itstool) path: page/title
-#: C/intro-first-run.page:190
+#: C/intro-first-run.page:193
 #: C/mail-receiving-options-maildir-format-directories.page:20
 msgid "Maildir-format mail directories receiving options"
 msgstr "Možnosti přijmu adresářů pošty ve formátu maildir"
 
 #. (itstool) path: section/title
-#: C/intro-first-run.page:199
+#: C/intro-first-run.page:202
 msgid "Standard Unix mbox spool file"
 msgstr "Standardní unixový soubor mbox"
 
 #. (itstool) path: section/p
-#: C/intro-first-run.page:200
+#: C/intro-first-run.page:203
 msgid ""
 "Standard Unix mbox spool file: For reading and storing email in the mail "
 "spool file on your local system."
@@ -4188,18 +4391,18 @@ msgstr ""
 
 #. (itstool) path: section/title
 #. (itstool) path: page/title
-#: C/intro-first-run.page:206
+#: C/intro-first-run.page:209
 #: C/mail-receiving-options-unix-mbox-spool-file.page:20
 msgid "Standard Unix mbox spool file receiving options"
 msgstr "Možnosti přiju u standardního unixového souboru mbox"
 
 #. (itstool) path: section/title
-#: C/intro-first-run.page:215
+#: C/intro-first-run.page:218
 msgid "Standard Unix mbox spool directory"
 msgstr "Standardní unixová složka mbox"
 
 #. (itstool) path: section/p
-#: C/intro-first-run.page:216
+#: C/intro-first-run.page:219
 msgid ""
 "Standard Unix mbox spool directory: For reading and storing email in the "
 "mail spool directory on your local system."
@@ -4209,39 +4412,39 @@ msgstr ""
 
 #. (itstool) path: section/title
 #. (itstool) path: page/title
-#: C/intro-first-run.page:222
+#: C/intro-first-run.page:225
 #: C/mail-receiving-options-unix-mbox-spool-directory.page:20
 msgid "Standard Unix mbox spool directory receiving options"
 msgstr "Možnosti příjmu u standardní unixové složky mbox"
 
 #. (itstool) path: section/title
-#: C/intro-first-run.page:231
+#: C/intro-first-run.page:234
 msgid "None"
 msgstr "Žádný"
 
 #. (itstool) path: section/p
-#: C/intro-first-run.page:232
+#: C/intro-first-run.page:235
 msgid "If you do not plan to use <app>Evolution</app> for receiving email."
 msgstr ""
 "V případě, že neplánujete používat <app>Evolution</app> pro příjem pošty."
 
 #. (itstool) path: section/title
-#: C/intro-first-run.page:238 C/mail-displaying-character-encodings.page:32
+#: C/intro-first-run.page:241 C/mail-displaying-character-encodings.page:32
 msgid "Sending mail"
 msgstr "Posílání pošty"
 
 #. (itstool) path: section/p
-#: C/intro-first-run.page:239
+#: C/intro-first-run.page:242
 msgid "Available server types are:"
 msgstr "Dostupné typy serverů jsou:"
 
 #. (itstool) path: section/title
-#: C/intro-first-run.page:242
+#: C/intro-first-run.page:245
 msgid "SMTP"
 msgstr "SMTP"
 
 #. (itstool) path: section/p
-#: C/intro-first-run.page:243
+#: C/intro-first-run.page:246
 msgid ""
 "Sends mail using an outbound mail server. This is the most common choice for "
 "sending mail."
@@ -4251,17 +4454,17 @@ msgstr ""
 
 #. (itstool) path: section/title
 #. (itstool) path: page/title
-#: C/intro-first-run.page:249 C/mail-sending-options-smtp.page:26
+#: C/intro-first-run.page:252 C/mail-sending-options-smtp.page:26
 msgid "SMTP sending options"
 msgstr "Možnosti odesílání SMTP"
 
 #. (itstool) path: section/title
-#: C/intro-first-run.page:258
+#: C/intro-first-run.page:261
 msgid "Sendmail"
 msgstr "Sendmail"
 
 #. (itstool) path: section/p
-#: C/intro-first-run.page:259
+#: C/intro-first-run.page:262
 msgid ""
 "Uses the <app>Sendmail</app> application to send mail from your system. It "
 "is not easy to configure, so you should select this option only if you know "
@@ -4272,22 +4475,22 @@ msgstr ""
 "jen pokud máte patřičné znalosti."
 
 #. (itstool) path: section/title
-#: C/intro-first-run.page:265
+#: C/intro-first-run.page:268
 msgid "Account Information"
 msgstr "Informace o účtu"
 
 #. (itstool) path: section/p
-#: C/intro-first-run.page:266
+#: C/intro-first-run.page:269
 msgid "Give the account any name you prefer."
 msgstr "Dejte účtu název, který vám vyhovuje."
 
 #. (itstool) path: section/title
-#: C/intro-first-run.page:270
+#: C/intro-first-run.page:273
 msgid "Importing Mail (Optional)"
 msgstr "Import pošty (volitelné)"
 
 #. (itstool) path: section/p
-#: C/intro-first-run.page:271
+#: C/intro-first-run.page:274
 msgid ""
 "Continue with <link xref=\"import-data\">Importing data from another "
 "application</link>."
@@ -4664,8 +4867,6 @@ msgstr "Posunout dolů"
 
 #. (itstool) path: section/p
 #: C/intro-keyboard-shortcuts.page:242
-#| msgid ""
-#| "<key>Space</key> also allows navigating in unread mail across folders:"
 msgid ""
 "<key>Space</key> and <key>Backspace</key> also allow navigating in unread "
 "mail across folders:"
@@ -4873,10 +5074,6 @@ msgstr ""
 #. update your localized copy. The msgstr is not used at all. Set it to
 #. whatever you like once you have updated your copy of the file.
 #: C/intro-main-window.page:37
-#| msgctxt "_"
-#| msgid ""
-#| "external ref='./figures/window-overview-layers.png' "
-#| "md5='db7d3aa3175cbf13f3c5d9a825ca10c6'"
 msgctxt "_"
 msgid ""
 "external ref='./figures/window-overview-layers.png' "
@@ -5057,7 +5254,7 @@ msgstr ""
 #. (itstool) path: note/p
 #: C/intro-main-window.page:94
 msgid ""
-"If you ever accidentially hide the menu bar, press <key>Alt</key> and re-"
+"If you ever accidentally hide the menu bar, press <key>Alt</key> and re-"
 "enable it by toggling <guiseq><gui>View</gui><gui>Layout</gui><gui>Show Menu "
 "Bar</gui></guiseq>."
 msgstr ""
@@ -6168,7 +6365,7 @@ msgstr ""
 "Pokud chcete otevřít přílohu v jiné aplikaci, klikněte na rozbalovací šipku "
 "vedle ikony přílohy a pak zvolte jednu s dostupných aplikací."
 
-#. (itstool) path: page/p
+#. (itstool) path: note/p
 #: C/mail-attachments-received.page:33
 msgid ""
 "The options available for an attachment vary depending on the type of "
@@ -6180,6 +6377,15 @@ msgstr ""
 "ve vašem systému nainstalované. Databáze typů MIME ve vašem uživatelském "
 "prostředí definuje, která aplikace se má použít pro který konkrétní formát "
 "souboru."
+
+#. (itstool) path: note/p
+#: C/mail-attachments-received.page:33
+msgid ""
+"To see the list of registered applications for a MIME type, use <cmd>gio "
+"mime</cmd>. Example: <cmd>gio mime \"application/pdf\"</cmd>"
+msgstr ""
+"K prohlížení seznamu registrovaných aplikací pro jednotlivé typy MIME "
+"použijte <cmd>gio mime</cmd>. Příklad: <cmd>gio mime \"application/pdf\"</cmd>"
 
 #. (itstool) path: info/desc
 #: C/mail-attachments-sending.page:5
@@ -6254,26 +6460,20 @@ msgid "To enable the Attachment Reminder:"
 msgstr "Chcete-li zapnout upomínání na přílohy:"
 
 #. (itstool) path: item/p
-#: C/mail-attachments-sending.page:46
-#: C/mail-composer-custom-header-lines.page:31
-#: C/mail-composer-message-templates-variables.page:28
-msgid "Select <guiseq><gui>Edit</gui><gui>Plugins</gui></guiseq>."
-msgstr "Vyberte <guiseq><gui>Upravit</gui> <gui>Zásuvné moduly</gui></guiseq>."
-
-#. (itstool) path: item/p
 #: C/mail-attachments-sending.page:47
 msgid "Enable <gui>Attachment Reminder</gui>."
 msgstr "Zapněte <gui>Připomínka přílohy</gui>."
 
 #. (itstool) path: item/p
-#: C/mail-attachments-sending.page:48
-#: C/mail-composer-custom-header-lines.page:33
-#: C/mail-composer-message-templates-variables.page:30
+#: C/mail-attachments-sending.page:50
+#: C/mail-composer-custom-header-lines.page:35
+#: C/mail-composer-external-editor.page:27
+#: C/mail-composer-message-templates-variables.page:32
 msgid "Click the <gui>Configuration</gui> tab."
 msgstr "Klikněte na kartu <gui>Nastavení</gui>."
 
 #. (itstool) path: item/p
-#: C/mail-attachments-sending.page:49
+#: C/mail-attachments-sending.page:51
 msgid ""
 "Click <gui style=\"button\">Add</gui>, then enter keywords in your language "
 "such as \"Attach\" or \"enclosed\"."
@@ -6282,7 +6482,7 @@ msgstr ""
 "ve svém jazyce, jako „přikládám“ nebo „vloženo“."
 
 #. (itstool) path: section/p
-#: C/mail-attachments-sending.page:51
+#: C/mail-attachments-sending.page:53
 msgid ""
 "Based on the keywords you have added, <app>Evolution</app> searches the text "
 "of every mail you are going to send. If it finds any of the keywords in your "
@@ -6438,17 +6638,14 @@ msgstr ""
 
 #. (itstool) path: item/p
 #: C/mail-cannot-see.page:33
-#| msgid ""
-#| "Click <guiseq><gui>View</gui><gui>Show Deleted Messages</gui></guiseq> to "
-#| "make sure all messages are visible."
 msgid ""
 "Select both <guiseq><gui>View</gui><gui>Show Deleted Messages</gui></guiseq> "
 "and <guiseq><gui>View</gui><gui>Show Junk Messages</gui></guiseq> to make "
 "sure all messages are visible."
 msgstr ""
 "Klikněte na <guiseq><gui>Zobrazit</gui><gui>Zobrazit smazané zprávy</gui></"
-"guiseq> a <guiseq><gui>Zobrazit</gui><gui>Zobrazit nevyžádané zprávy</gui>"
-"</guiseq>, abyste měli jistotu, že jsou vidět všechny zprávy."
+"guiseq> a <guiseq><gui>Zobrazit</gui><gui>Zobrazit nevyžádané zprávy</gui></"
+"guiseq>, abyste měli jistotu, že jsou vidět všechny zprávy."
 
 #. (itstool) path: item/p
 #: C/mail-cannot-see.page:36
@@ -6518,14 +6715,6 @@ msgstr ""
 #. (itstool) path: note/p
 #: C/mail-change-columns-in-message-list.page:27
 #: C/mail-sorting-message-list.page:57
-#| msgid ""
-#| "If you would like to have the same column layout in all mail folders "
-#| "except for the <gui>Sent</gui> folder, you can enable <guiseq><gui>Edit</"
-#| "gui><gui>Preferences</gui><gui>Mail Preferences</gui><gui>General</"
-#| "gui><gui>Apply the same view settings to all folders</gui></guiseq>. Note "
-#| "that this setting also influences <link xref=\"mail-sorting-message-"
-#| "list#email-threads\"><gui>Group by Threads</gui></link> and the "
-#| "<gui>Message Preview</gui> visibility in all folders."
 msgid ""
 "If you would like to have a different sort order and/or columns for specific "
 "mail folders, make sure that <guiseq><gui>Edit</gui><gui>Preferences</"
@@ -6694,7 +6883,7 @@ msgid "Enable <gui>Custom Header</gui>."
 msgstr "Zapněte <gui>Vlastní hlavičky</gui>."
 
 #. (itstool) path: item/p
-#: C/mail-composer-custom-header-lines.page:34
+#: C/mail-composer-custom-header-lines.page:36
 msgid ""
 "You can add, edit, or remove the header fields. For every header field you "
 "add, you can specify the keys and values. The key is used as the title of "
@@ -6707,12 +6896,12 @@ msgstr ""
 "přičemž jednotlivé hodnoty musíte oddělit středníkem."
 
 #. (itstool) path: section/title
-#: C/mail-composer-custom-header-lines.page:39
+#: C/mail-composer-custom-header-lines.page:41
 msgid "Inserting custom headers in a message"
 msgstr "Vložení vlastních hlaviček do zprávy"
 
 #. (itstool) path: item/p
-#: C/mail-composer-custom-header-lines.page:41
+#: C/mail-composer-custom-header-lines.page:43
 msgid ""
 "Click <guiseq><gui>New</gui><gui>Mail Message</gui></guiseq> or press "
 "<keyseq><key>Shift</key><key>Ctrl</key><key>M</key></keyseq> to open the "
@@ -6723,13 +6912,13 @@ msgstr ""
 "otevřete okno pro psaní zpráv."
 
 #. (itstool) path: item/p
-#: C/mail-composer-custom-header-lines.page:42
+#: C/mail-composer-custom-header-lines.page:44
 msgid "Select <guiseq><gui>Insert</gui><gui>Custom Header</gui></guiseq>."
 msgstr ""
 "Vyberte <guiseq><gui>Vložit</gui> <gui>Vlastní hlavička</gui></guiseq>."
 
 #. (itstool) path: item/p
-#: C/mail-composer-custom-header-lines.page:43
+#: C/mail-composer-custom-header-lines.page:45
 msgid ""
 "In the <gui>Email Custom Header</gui> window, you can view all the defined "
 "header fields and values."
@@ -6738,7 +6927,7 @@ msgstr ""
 "hodnoty hlavičky, které jste přidali."
 
 #. (itstool) path: item/p
-#: C/mail-composer-custom-header-lines.page:44
+#: C/mail-composer-custom-header-lines.page:46
 msgid "Set the values for the header fields by using the dropdown list."
 msgstr ""
 "Pomocí rozbalovacích seznamů navolte hodnoty pro jednotlivá pole hlavičky."
@@ -6807,19 +6996,23 @@ msgstr "Používání externího editoru"
 #: C/mail-composer-external-editor.page:22
 msgid ""
 "You can compose the body of your message externally in your favorite text "
-"editor application so you can use its specific functionality. Enable "
-"<guiseq><gui>Edit</gui><gui>Plugins</gui><gui>External Editor</gui></guiseq> "
-"and set the corresponding <gui>Command</gui> to start the application under "
-"<gui>Configuration</gui>."
+"editor application so you can use its specific functionality."
 msgstr ""
-"Tělo své zprávy může napsat i mimo Evolution ve svém oblíbeném textovém "
-"editoru, díky čemuž můžete využít všechny jeho funkce. Zapněte "
-"<guiseq><gui>Upravit</gui> <gui>Zásuvné moduly</gui> <gui>Externí editor</"
-"gui></guiseq> a v části <gui>Nastavení</gui> nastavte příslušný <gui>Příkaz</"
-"gui>, který aplikaci editoru spustí."
+"Tělo zprávy můžete napsat samostatně ve svém oblíbeném textovém editoru za "
+"použití jejích vlastních funkci."
 
-#. (itstool) path: page/p
-#: C/mail-composer-external-editor.page:23
+#. (itstool) path: item/p
+#: C/mail-composer-external-editor.page:26
+msgid "Enable <gui>External Editor</gui>."
+msgstr "Zapněte <gui>Externí editor</gui>."
+
+#. (itstool) path: item/p
+#: C/mail-composer-external-editor.page:30
+msgid "Set the corresponding <gui>Command</gui> to start the application."
+msgstr "Nastavte příslušný <gui>Příkaz</gui> pro spuštění aplikace."
+
+#. (itstool) path: item/p
+#: C/mail-composer-external-editor.page:31
 msgid ""
 "If <gui>Automatically launch when a new mail is edited</gui> is not set, you "
 "need to select <guiseq><gui>File</gui><gui>Compose in External Editor</gui></"
@@ -7537,7 +7730,7 @@ msgstr "Šablony zpráv, které můžete opakovaně používat k psaní zpráv."
 #. (itstool) path: page/title
 #. (itstool) path: section/title
 #: C/mail-composer-message-templates.page:23
-#: C/mail-composer-message-templates.page:28
+#: C/mail-composer-message-templates.page:35
 msgid "Message Templates"
 msgstr "Šablony zpráv"
 
@@ -7552,13 +7745,13 @@ msgstr ""
 
 #. (itstool) path: page/p
 #: C/mail-composer-message-templates.page:25
-msgid ""
-"To enable the Message Template Plugin, click <guiseq><gui>Edit</"
-"gui><gui>Plugins</gui></guiseq> and enable <gui>Templates</gui>."
-msgstr ""
-"Pokud chcete povolit zásuvný modul Šablona zpráv, klikněte na "
-"<guiseq><gui>Upravit</gui> <gui>Zásuvné moduly</gui></guiseq> a povolte "
-"<gui>Šablony</gui>."
+msgid "To enable the Message Template Plugin:"
+msgstr "Chcete-li zapnout zásuvný modul Šablony zpráv:"
+
+#. (itstool) path: item/p
+#: C/mail-composer-message-templates.page:28
+msgid "Enable <gui>Templates</gui>."
+msgstr "Povolte <gui>Šablony</gui>."
 
 #. (itstool) path: info/desc
 #: C/mail-composer-message-templates-reply.page:5
@@ -7704,7 +7897,7 @@ msgid "Click <gui>Templates</gui>."
 msgstr "Klikněte na <gui>Šablony</gui>."
 
 #. (itstool) path: item/p
-#: C/mail-composer-message-templates-variables.page:31
+#: C/mail-composer-message-templates-variables.page:33
 msgid ""
 "You can add, edit or remove the key-value pairs. You can specify any number "
 "of key-value pairs."
@@ -7713,7 +7906,7 @@ msgstr ""
 "libovolný počet párů klíč - hodnota."
 
 #. (itstool) path: section/p
-#: C/mail-composer-message-templates-variables.page:33
+#: C/mail-composer-message-templates-variables.page:35
 msgid ""
 "In any template, the occurrence of every $key is replaced by the value it "
 "has in the configuration. For example, if you set the key to Manager and the "
@@ -7725,7 +7918,7 @@ msgstr ""
 "jakýkoliv výskyt $vedouci je nahrazen ve zprávě výrazem Jindra. "
 
 #. (itstool) path: section/p
-#: C/mail-composer-message-templates-variables.page:34
+#: C/mail-composer-message-templates-variables.page:36
 msgid ""
 "Assume that you have 1000 message templates with your current manager's name "
 "in them. When the current manager is replaced by a new one, it is not easy "
@@ -7740,7 +7933,7 @@ msgstr ""
 "zásuvného modulu."
 
 #. (itstool) path: section/p
-#: C/mail-composer-message-templates-variables.page:35
+#: C/mail-composer-message-templates-variables.page:37
 msgid ""
 "By default, the entire environment variables are used as a key-value pair. "
 "An occurrence of $env_variable is replaced by the value it carries. For "
@@ -7753,12 +7946,12 @@ msgstr ""
 "použita."
 
 #. (itstool) path: section/p
-#: C/mail-composer-message-templates-variables.page:36
+#: C/mail-composer-message-templates-variables.page:38
 msgid "The replacement process uses the following order of precedence:"
 msgstr "Proces nahrazování používá následující pořadí priorit:"
 
 #. (itstool) path: item/p
-#: C/mail-composer-message-templates-variables.page:39
+#: C/mail-composer-message-templates-variables.page:41
 msgid ""
 "$key is replaced by the value set for it in the Configuration tab of the "
 "Templates plugin."
@@ -7767,14 +7960,14 @@ msgstr ""
 "Šablona."
 
 #. (itstool) path: item/p
-#: C/mail-composer-message-templates-variables.page:42
+#: C/mail-composer-message-templates-variables.page:44
 msgid ""
 "If the key is not found, it is then replaced with the value of its "
 "environment variable."
 msgstr "Pokud není klíč nalezen, je nahrazen hodnotou proměnné z prostředí."
 
 #. (itstool) path: item/p
-#: C/mail-composer-message-templates-variables.page:45
+#: C/mail-composer-message-templates-variables.page:47
 msgid ""
 "If key is neither a configuration option nor an environment variable, no "
 "changes are made."
@@ -7783,12 +7976,12 @@ msgstr ""
 "změny neproběhnou."
 
 #. (itstool) path: section/title
-#: C/mail-composer-message-templates-variables.page:52
+#: C/mail-composer-message-templates-variables.page:54
 msgid "Using Elements From a Message in a Template When Replying"
 msgstr "Použití prvků ze zprávy v šabloně pro odpověď̈́"
 
 #. (itstool) path: section/p
-#: C/mail-composer-message-templates-variables.page:53
+#: C/mail-composer-message-templates-variables.page:55
 msgid ""
 "Templates can contain more than just the predefined set of <link xref="
 "\"#configure\">key-value pairs</link>. You can also get any message header "
@@ -7802,7 +7995,7 @@ msgstr ""
 #. (itstool) path: section/p
 #. TO TRANSLATORS: Do NOT translate $ORIG[subject] and $ORIG[body] in this
 #. sentence!
-#: C/mail-composer-message-templates-variables.page:55
+#: C/mail-composer-message-templates-variables.page:57
 msgid ""
 "In order to do this, use the format <code>$ORIG[header_name]</code> and "
 "replace the variable <code>header_name</code> by the actual header. For "
@@ -7819,7 +8012,7 @@ msgstr ""
 #. (itstool) path: section/p
 #. TO TRANSLATORS: Do NOT translate $ORIG[body] and $ORIG[reply-to] in
 #. this sentence!
-#: C/mail-composer-message-templates-variables.page:57
+#: C/mail-composer-message-templates-variables.page:59
 msgid ""
 "If no replacement for a variable is found, the variable is not removed "
 "(except for <code>$ORIG[body]</code>) but left in place so that you see that "
@@ -8154,12 +8347,12 @@ msgid "Assign your mail accounts to certain folders or recipients."
 msgstr "Jak přiřadit vaše poštovní účty konkrétním složkám a příjemcům."
 
 #. (itstool) path: page/title
-#: C/mail-composer-send-account-overrides.page:21
+#: C/mail-composer-send-account-overrides.page:22
 msgid "Send Account Overrides"
 msgstr "Přepisování účtu odesilatele"
 
 #. (itstool) path: page/p
-#: C/mail-composer-send-account-overrides.page:23
+#: C/mail-composer-send-account-overrides.page:24
 msgid ""
 "If you use more than one email account, you can define which account should "
 "always be used as your sender address:"
@@ -8168,7 +8361,7 @@ msgstr ""
 "účet by se měl vždy použít jak vaše adresa odesilatele:"
 
 #. (itstool) path: item/p
-#: C/mail-composer-send-account-overrides.page:25
+#: C/mail-composer-send-account-overrides.page:26
 msgid ""
 "When replying to mail in specific <link xref=\"mail-folders\">folders</link>."
 msgstr ""
@@ -8176,7 +8369,7 @@ msgstr ""
 "\">složkách</link>."
 
 #. (itstool) path: item/p
-#: C/mail-composer-send-account-overrides.page:26
+#: C/mail-composer-send-account-overrides.page:27
 msgid ""
 "When replying to certain email addresses, names, or parts of email addresses "
 "or names."
@@ -8185,7 +8378,19 @@ msgstr ""
 "adresy či jména."
 
 #. (itstool) path: page/p
-#: C/mail-composer-send-account-overrides.page:28
+#: C/mail-composer-send-account-overrides.page:30
+msgid ""
+"The checkbox <gui>Folder override has precedence over Recipient override</"
+"gui> defines how Evolution should behave when you reply to a message which "
+"matches both a folder and an email address or name which you have defined."
+msgstr ""
+"Zaškrtávací políčko <gui>Nahrazení podle složky má přednost před nahrazením "
+"podle příjemce</gui> definuje, jak by se měl Evolution chovat, když "
+"odpovídáte na zprávu, která vyhovuje jak složce, tak e-mailové adrese nebo "
+"jménu, které jste definovali."
+
+#. (itstool) path: page/p
+#: C/mail-composer-send-account-overrides.page:34
 msgid ""
 "These settings are available under <guiseq><gui>Edit</gui><gui>Preferences</"
 "gui><gui>Composer Preferences</gui><gui>Send Account</gui></guiseq>."
@@ -8497,11 +8702,6 @@ msgstr ""
 
 #. (itstool) path: page/p
 #: C/mail-default-folder-locations.page:32
-#| msgid ""
-#| "You can define an <gui>Archive Folder</gui>, for example to move older "
-#| "messages there. Selecting <guiseq><gui>Message</gui><gui>Archive</gui></"
-#| "guiseq> in the main window moves the selected message to the specified "
-#| "folder."
 msgid ""
 "You can define an <gui>Archive Folder</gui> for this account to move older "
 "messages there. This requires to first set a fallback folder under "
@@ -8584,13 +8784,26 @@ msgstr ""
 "<guiseq><gui>Složka</gui> <gui>Vyčistit</gui></guiseq> nebo zmáčkněte "
 "<keyseq><key>Ctrl</key><key>E</key></keyseq>."
 
+#. (itstool) path: note/p
+#: C/mail-delete-and-undelete.page:36
+msgid ""
+"When reading messages in a separate window, the next message will be "
+"displayed after you have deleted a message. If you want the window to close "
+"instead, run the command <cmd>gsettings set org.gnome.evolution.mail browser-"
+"close-on-delete-or-junk true</cmd>"
+msgstr ""
+"Když čtete zprávu v samostatném okně a smažete ji, zobrazí se následující "
+"zpráva. Pokud chcete, aby se místo toho okno zavřelo, spusťte příkaz <cmd>"
+"gsettings set org.gnome.evolution.mail browser-close-on-delete-or-junk true"
+"</cmd>"
+
 #. (itstool) path: section/title
-#: C/mail-delete-and-undelete.page:38
+#: C/mail-delete-and-undelete.page:41
 msgid "Undeleting Messages"
 msgstr "Obnovení smazaných zpráv"
 
 #. (itstool) path: section/p
-#: C/mail-delete-and-undelete.page:40
+#: C/mail-delete-and-undelete.page:43
 msgid ""
 "You can undelete a message that has been deleted but not expunged yet. To "
 "undelete a message, select the message, click <guiseq><gui>Edit</"
@@ -8605,7 +8818,7 @@ msgstr ""
 "<guiseq><gui>Zobrazit</gui> <gui>Zobrazovat odstraněné zprávy</gui></guiseq>."
 
 #. (itstool) path: section/p
-#: C/mail-delete-and-undelete.page:42
+#: C/mail-delete-and-undelete.page:45
 msgid ""
 "If you have marked a message for deletion, undeleting it unmarks it, and the "
 "message is not shown anymore in the <gui>Trash</gui> folder."
@@ -8773,10 +8986,6 @@ msgstr ""
 
 #. (itstool) path: section/p
 #: C/mail-displaying-images-in-html.page:37
-#| msgid ""
-#| "To set the default action for loading images, go to <guiseq><gui>Edit</"
-#| "gui><gui>Preferences</gui><gui>Mail Preferences</gui><gui>HTML Messages</"
-#| "gui><gui>Loading Images</gui></guiseq>."
 msgid ""
 "To set the default action for loading images, go to <guiseq><gui>Edit</"
 "gui><gui>Preferences</gui><gui>Mail Preferences</gui><gui>HTML Messages</"
@@ -8843,10 +9052,6 @@ msgstr "Zobrazení zprávy"
 
 #. (itstool) path: page/p
 #: C/mail-displaying-message.page:23
-#| msgid ""
-#| "You can add, edit and delete all labels under <guiseq><gui>Edit</"
-#| "gui><gui>Preferences</gui><gui>Mail Preferences</gui><gui>Labels</gui></"
-#| "guiseq>. Note that you cannot remove the default labels."
 msgid ""
 "You can define how received HTML messages are displayed via "
 "<guiseq><gui>Edit</gui><gui>Preferences</gui><gui>Mail Preferences</"
@@ -9772,7 +9977,7 @@ msgstr ""
 "zapnout zaznamenávání činností filtrů."
 
 #. (itstool) path: item/p
-#: C/mail-filters-not-working.page:44
+#: C/mail-filters-not-working.page:44 C/mail-imap-change-send-method.page:28
 msgid "Close <app>Evolution</app>."
 msgstr "Zavřete <app>Evolution</app>."
 
@@ -9910,17 +10115,17 @@ msgstr ""
 "a vyberte kritérium, ze kterého bude filtr vycházet."
 
 #. (itstool) path: item/p
-#: C/mail-filters.page:37 C/mail-search-folders-add.page:27
+#: C/mail-filters.page:37 C/mail-search-folders-add.page:28
 msgid "Click <gui style=\"button\">Add</gui>."
 msgstr "Klikněte na <gui style=\"button\">Přidat</gui>."
 
 #. (itstool) path: item/p
-#: C/mail-filters.page:38 C/mail-search-folders-add.page:28
+#: C/mail-filters.page:38 C/mail-search-folders-add.page:29
 msgid "Enter a name in the <gui>Rule name</gui> field."
 msgstr "Zadejte název do pole <gui>Název pravidla</gui>."
 
 #. (itstool) path: item/p
-#: C/mail-filters.page:39 C/mail-search-folders-add.page:29
+#: C/mail-filters.page:39 C/mail-search-folders-add.page:30
 msgid ""
 "Define the conditions for the rule. For each condition, you first select "
 "which part of the message will be checked and then define the comparison."
@@ -9938,7 +10143,7 @@ msgstr ""
 "conditions\">Dostupné podmínky filtrů</link>."
 
 #. (itstool) path: item/p
-#: C/mail-filters.page:40 C/mail-search-folders-add.page:30
+#: C/mail-filters.page:40 C/mail-search-folders-add.page:31
 msgid ""
 "If you want to define multiple conditions, define under <gui>Find items</"
 "gui> if any or if all conditions have to apply, and click <gui style=\"button"
@@ -10279,6 +10484,70 @@ msgstr ""
 "guiseq>."
 
 #. (itstool) path: info/desc
+#: C/mail-imap-change-send-method.page:5
+msgid "Switch from sending mail via SMTP to Sendmail or vice versa."
+msgstr ""
+"Jak přepnout odesílání pošty přes SMTP na odesílání přes Sendmail a naopak."
+
+#. (itstool) path: page/title
+#: C/mail-imap-change-send-method.page:21
+msgid "Change the outgoing method for an IMAP+ account"
+msgstr "Změna odchozí metody u účtů IMAP+"
+
+#. (itstool) path: page/p
+#: C/mail-imap-change-send-method.page:23
+msgid ""
+"There is no user interface to change the outgoing method of an IMAP account."
+msgstr ""
+"Pro změnut odchozí metody u účtu IMAP není k dispozici žádné nastavení v "
+"uživatelském rozhraní."
+
+#. (itstool) path: page/p
+#: C/mail-imap-change-send-method.page:25
+msgid ""
+"If you used Sendmail so far but now want to use an SMTP connection instead:"
+msgstr ""
+"Pokud zatím používáte Sendmail, ale od teď chcete raději používat připojení "
+"SMTP:"
+
+#. (itstool) path: item/p
+#: C/mail-imap-change-send-method.page:29
+msgid ""
+"Find and open the corresponding account file in <file>$HOME/.config/"
+"evolution/sources/</file> with a text editor."
+msgstr ""
+"Najděte a pomocí textového editoru otevřete příslušný soubor účtu v <file>"
+"$HOME/.config/evolution/sources/</file>."
+
+#. (itstool) path: item/p
+#: C/mail-imap-change-send-method.page:31
+msgid ""
+"In the <code>[Mail Transport]</code> section, replace "
+"<code>BackendName=sendmail</code> with <code>BackendName=smtp</code> or vice "
+"versa."
+msgstr ""
+"V části <code>[Mail Transport]</code> nahraďte <code>BackendName=sendmail"
+"</code> za <code>BackendName=smtp</code>, případně naopak."
+
+#. (itstool) path: item/p
+#: C/mail-imap-change-send-method.page:33
+msgid ""
+"Restart the <code>evolution-source-registry</code> background process, for "
+"example by rebooting your system."
+msgstr ""
+"Restartujte proces na pozadí <code>evolution-source-registry</code>, třeba "
+"tím, že restartujete počítač."
+
+#. (itstool) path: item/p
+#: C/mail-imap-change-send-method.page:35
+msgid ""
+"Start <app>Evolution</app> and edit the account SMTP settings for the "
+"account as needed."
+msgstr ""
+"Spusťte <app>Evolution</app> a upravte nastavení účtu SMTP pro účet podle "
+"potřeby."
+
+#. (itstool) path: info/desc
 #: C/mail-imap-subscriptions.page:5
 msgid "IMAP folder subscriptions."
 msgstr "Jak se přihlásit k odběru složky IMAP."
@@ -10452,7 +10721,7 @@ msgstr "Rozpoznání lokalizovaného „Re:“ v předmětu"
 msgid ""
 "Traditionally a \"Re:\" prefix is added to a subject line when replying to "
 "an email. Some email applications use localized terms for this (like \"SV:\" "
-"in Danish or \"AW: in German). <app>Evolution</app> can recognize these "
+"in Danish or \"AW:\" in German). <app>Evolution</app> can recognize these "
 "terms to avoid subject lines getting longer as the conversation continues."
 msgstr ""
 "Předpona „Re:“ se tradičně přidává na řádek s předmětem, když odpovídáte na "
@@ -10516,17 +10785,17 @@ msgid "Possible reasons why emails are not sent."
 msgstr "Možné důvody, proč pošta neodchází."
 
 #. (itstool) path: page/title
-#: C/mail-not-sent.page:20
+#: C/mail-not-sent.page:21
 msgid "Mail is not sent"
 msgstr "Pošta se neodeslala"
 
 #. (itstool) path: page/p
-#: C/mail-not-sent.page:22
+#: C/mail-not-sent.page:23
 msgid "There can be several reasons why emails are not sent:"
 msgstr "Může být několik důvodů, proč se pošta neodeslala:"
 
 #. (itstool) path: item/p
-#: C/mail-not-sent.page:25
+#: C/mail-not-sent.page:26
 msgid ""
 "Invalid email address. Check if all the addresses listed as mail recipients "
 "are correct. If the message contains a wrong or invalid email address, the "
@@ -10537,7 +10806,7 @@ msgstr ""
 "neplatnou e-mailovou adresu, tak se neodešle."
 
 #. (itstool) path: item/p
-#: C/mail-not-sent.page:26
+#: C/mail-not-sent.page:27
 msgid ""
 "Incorrect SMTP settings. Verify if the settings used for outgoing messages "
 "are correct. Using the incorrect server address or authentication method may "
@@ -10548,12 +10817,12 @@ msgstr ""
 "může zabránit v odeslání pošty."
 
 #. (itstool) path: item/p
-#: C/mail-not-sent.page:27
+#: C/mail-not-sent.page:28
 msgid ""
 "Offline status. <app>Evolution</app> may be offline. Check on the <gui style="
-"\"button\">Send and Receive</gui> button; if it is greyed out, then you are "
+"\"button\">Send / Receive</gui> button; if it is greyed out, then you are "
 "offline. To go online, go to <guiseq><gui>File</gui><gui>Work online</gui></"
-"guiseq>. You should now be able to use the <gui style=\"button\">Send and "
+"guiseq>. You should now be able to use the <gui style=\"button\">Send / "
 "Receive</gui> button."
 msgstr ""
 "Stav odpojení. Aplikace <app>Evolution</app> může být off-line. Podívejte se "
@@ -10645,10 +10914,6 @@ msgstr "Upozorňování na novou poštu"
 
 #. (itstool) path: page/p
 #: C/mail-received-notification.page:23
-#| msgid ""
-#| "<app>Evolution</app> always notifies you of new messages by adding a "
-#| "yellow star to the mailer icon in the window <link xref=\"intro-main-"
-#| "window\">switcher</link>."
 msgid ""
 "<app>Evolution</app> always notifies you of new messages by adding a small "
 "emblem to the mailer icon in the window <link xref=\"intro-main-window"
@@ -10664,10 +10929,6 @@ msgstr ""
 #. update your localized copy. The msgstr is not used at all. Set it to
 #. whatever you like once you have updated your copy of the file.
 #: C/mail-received-notification.page:24
-#| msgctxt "_"
-#| msgid ""
-#| "external ref='./figures/new-mail-switcher.png' "
-#| "md5='be4dbdb5f6e3dcbd5111b87169cae268'"
 msgctxt "_"
 msgid ""
 "external ref='./figures/new-mail-switcher.png' "
@@ -10686,35 +10947,44 @@ msgstr "Vzhled přepínače, když přijde nová pošta"
 #. (itstool) path: page/p
 #: C/mail-received-notification.page:28
 msgid ""
-"In order to also be notified of new messages in the GNOME Notification area "
-"at the bottom of the screen, make sure that <guiseq><gui>Edit</"
-"gui><gui>Plugins</gui><gui>Mail Notification</gui></guiseq> is enabled and "
-"that you have set your preferred options in the <gui>Configuration</gui> tab."
+"In order to also be notified of new messages in GNOME desktop notifications:"
 msgstr ""
-"Abyste byli upozorňováni na nové zprávy také v oznamovací oblasti GNOME ve "
-"spodní části obrazovky, musíte mít zapnutý zásuvný modul "
-"<guiseq><gui>Upravit</gui><gui>Zásuvné moduly</gui><gui>Upozorňování na "
-"poštu</gui></guiseq> a mít správně nastavené volby na kartě <gui>Nastavení</"
-"gui>."
+"Abyste byli navíc upozorněni na nové zprávy i pomocí upozornění uživatelského "
+"prostředí GNOME:"
 
-#. (itstool) path: page/media
-#. This is a reference to an external file such as an image or video. When
-#. the file changes, the md5 hash will change to let you know you need to
-#. update your localized copy. The msgstr is not used at all. Set it to
-#. whatever you like once you have updated your copy of the file.
-#: C/mail-received-notification.page:30
-msgctxt "_"
-msgid ""
-"external ref='./figures/new-mail-notification.png' "
-"md5='0cffd6d89388aefb8c8bca904bcc1c9e'"
-msgstr ""
-"external ref='./figures/new-mail-notification.png' "
-"md5='0cffd6d89388aefb8c8bca904bcc1c9e'"
-
-#. (itstool) path: media/p
+#. (itstool) path: item/p
 #: C/mail-received-notification.page:31
-msgid "GNOME notification area when a new message has arrived"
-msgstr "Upozorňovací oblast GNOME ve chvíli, kdy dorazila nová zpráva"
+msgid "Enable <gui>Mail Notification</gui>."
+msgstr "Zapněte <gui>Upozornění na novou poštu</gui>."
+
+#. (itstool) path: item/p
+#: C/mail-received-notification.page:34
+msgid ""
+"Open the <gui style=\"tab\">Configuration</gui> tab and set your preferred "
+"options."
+msgstr ""
+"Otevřete kartu <gui style=\"tab\">Nastavení</gui> a nastavte své "
+"upřednostňované volby."
+
+#. (itstool) path: item/p
+#: C/mail-received-notification.page:35
+msgid ""
+"Open the <gui style=\"tab\">Accounts</gui> tab to select the mail accounts "
+"for which you would like to see notifications."
+msgstr ""
+"Otevřete kartu <gui style=\"tab\">Účty</gui>, abyste mohli vybrat poštovní "
+"účet, pro který chcete upozornění vidět."
+
+#. (itstool) path: page/p
+#: C/mail-received-notification.page:38
+msgid ""
+"See <link xref=\"help:gnome-help/shell-notifications\" href=\"https://help."
+"gnome.org/users/gnome-help/stable/shell-notifications\">the GNOME Desktop "
+"Help</link> for more information."
+msgstr ""
+"Více informací viz <link xref=\"help:gnome-help/shell-notifications\" href="
+"\"https://help.gnome.org/users/gnome-help/stable/shell-notifications\">"
+"Nápověda k uživatelskému prostředí GNOME</link>."
 
 #. (itstool) path: info/desc
 #: C/mail-receiving-options-exchange-ews.page:5
@@ -10905,7 +11175,6 @@ msgstr "Zadejte doménový název pro tento server."
 #: C/mail-receiving-options-imap-plus.page:32
 #: C/mail-receiving-options-pop.page:36
 #: C/mail-receiving-options-usenet-news.page:32
-#| msgid "Select if you want to use a secure connection (SSL or TLS)."
 msgid ""
 "Select if you want to use a secure connection (TLS or its deprecated "
 "predecessor SSL)."
@@ -11249,7 +11518,19 @@ msgid "Creating A Search Folder"
 msgstr "Vytvoření vyhledávací složky"
 
 #. (itstool) path: item/p
-#: C/mail-search-folders-add.page:26
+#. (itstool) path: note/p
+#: C/mail-search-folders-add.page:26 C/mail-search-folders.page:30
+msgid ""
+"If you have not utilized search folders before, enable <guiseq><gui>Edit</"
+"gui><gui>Preferences</gui><gui>Mail Accounts</gui><gui>Search Folders</gui></"
+"guiseq>."
+msgstr ""
+"Jestliže nemáte vyhledávací složky doposud použité, povolte je v <guiseq><gui>"
+"Upravit</gui> <gui>Předvolby</gui> <gui>Poštovní účty</gui> <gui style="
+"\"button\">Vyhledávací složky</gui></guiseq>."
+
+#. (itstool) path: item/p
+#: C/mail-search-folders-add.page:27
 msgid ""
 "Click <guiseq><gui>Edit</gui><gui>Search Folders</gui></guiseq>, or click "
 "<guiseq><gui>Message</gui><gui>Create Rule</gui></guiseq> and select the "
@@ -11265,7 +11546,7 @@ msgstr ""
 "gui></guiseq>."
 
 #. (itstool) path: item/p
-#: C/mail-search-folders-add.page:29
+#: C/mail-search-folders-add.page:30
 msgid ""
 "For more information on the available conditions see <link xref=\"mail-"
 "search-folders-conditions\">Available Search Folder conditions</link>."
@@ -11275,7 +11556,7 @@ msgstr ""
 "link>."
 
 #. (itstool) path: item/p
-#: C/mail-search-folders-add.page:31
+#: C/mail-search-folders-add.page:32
 msgid ""
 "Select which folders will be used for the search folder in the section "
 "<gui>Search Folder Sources</gui>. Options are:"
@@ -11284,12 +11565,12 @@ msgstr ""
 "<gui>Zdroje vyhledávacích složek</gui>. Možnosti jsou:"
 
 #. (itstool) path: item/p
-#: C/mail-search-folders-add.page:33
+#: C/mail-search-folders-add.page:34
 msgid "All local folders:"
 msgstr "Všechny místní složky:"
 
 #. (itstool) path: item/p
-#: C/mail-search-folders-add.page:34
+#: C/mail-search-folders-add.page:35
 msgid ""
 "Uses all local folders for the search folder source in addition to "
 "individual folders that are selected."
@@ -11298,12 +11579,12 @@ msgstr ""
 "které jste jednotlivě vybrali."
 
 #. (itstool) path: item/p
-#: C/mail-search-folders-add.page:36
+#: C/mail-search-folders-add.page:37
 msgid "All active remote folders:"
 msgstr "Všechny aktivní, vzdálené složky:"
 
 #. (itstool) path: item/p
-#: C/mail-search-folders-add.page:37
+#: C/mail-search-folders-add.page:38
 msgid ""
 "Remote folders are considered active if you are connected to the server; you "
 "must be connected to your mail server for the search folder to include any "
@@ -11316,12 +11597,12 @@ msgstr ""
 "vybrali jednotlivě."
 
 #. (itstool) path: item/p
-#: C/mail-search-folders-add.page:39
+#: C/mail-search-folders-add.page:40
 msgid "All local and active remote folders:"
 msgstr "Všechny místní a aktivní, vzdálené složky:"
 
 #. (itstool) path: item/p
-#: C/mail-search-folders-add.page:40
+#: C/mail-search-folders-add.page:41
 msgid ""
 "Uses all local and active remote folders for the search folder source in "
 "addition to individual folders that are selected."
@@ -11330,12 +11611,12 @@ msgstr ""
 "složky, navíc ke složkám, které jste vybrali jednotlivě."
 
 #. (itstool) path: item/p
-#: C/mail-search-folders-add.page:42
+#: C/mail-search-folders-add.page:43
 msgid "Specific folders only:"
 msgstr "Pouze konkrétní složky:"
 
 #. (itstool) path: item/p
-#: C/mail-search-folders-add.page:43
+#: C/mail-search-folders-add.page:44
 msgid ""
 "Uses individual folders for the search folder source. In this case, click "
 "the <gui style=\"button\">Add</gui> to select folders."
@@ -11430,23 +11711,17 @@ msgstr ""
 "které mohou být v několika různých složkách. Zprávy, které obsahuje, jsou za "
 "běhu vybírány podle kritérií, které nastavíte při vytváření složky."
 
-#. (itstool) path: note/p
+#. (itstool) path: page/p
 #: C/mail-search-folders.page:28
 msgid ""
-"In the unlikely case that there is no <gui>Search folders</gui> top-level "
-"node displayed at the bottom of the <link xref=\"intro-main-window#e-mail"
-"\">mail folder list</link> you have to enable <guiseq><gui>Edit</"
-"gui><gui>Preferences</gui><gui>Mail Accounts</gui><gui>Search Folders</gui></"
-"guiseq>."
+"<gui>Search folders</gui> are displayed at the bottom of the <link xref="
+"\"intro-main-window#e-mail\">mail folder list</link>."
 msgstr ""
-"V málo pravděpodobném případě, že neexistuje žádná <gui>vyhledávací složka</"
-"gui> v uzlu nejvyšší úrovně zobrazeném v dolní části <link xref=\"intro-main-"
-"window#e-mail\">seznamu poštovních složek</link>, musíte zapnout "
-"<guiseq><gui>Upravit</gui> <gui>Předvolby</gui> <gui>Poštovní účty</gui> "
-"<gui>Vyhledávací složky</gui></guiseq>."
+"<gui>Vyhledávací složky</gui> jsou zobrazené ve spodní části <link xref="
+"\"intro-main-window#e-mail\">seznamu poštovních složek</link>."
 
 #. (itstool) path: page/p
-#: C/mail-search-folders.page:30
+#: C/mail-search-folders.page:32
 msgid ""
 "<app>Evolution</app> automatically updates the search folder contents when "
 "new messages are received or messages are deleted. You can also manually "
@@ -11461,7 +11736,7 @@ msgstr ""
 "<gui>Aktualizovat</gui>."
 
 #. (itstool) path: page/p
-#: C/mail-search-folders.page:32
+#: C/mail-search-folders.page:34
 msgid ""
 "The <gui>Unmatched</gui> search folder is the opposite of other search "
 "folders: it displays all messages that do not appear in other search folders."
@@ -11471,7 +11746,7 @@ msgstr ""
 "vyhledávacích složkách. "
 
 #. (itstool) path: page/p
-#: C/mail-search-folders.page:34
+#: C/mail-search-folders.page:36
 msgid ""
 "If you use remote email storage like IMAP, and have created search folders "
 "to search through them, the <gui>Unmatched</gui> search folder also searches "
@@ -11486,7 +11761,7 @@ msgstr ""
 "vyhledávací složka <gui>Nepřiřazené</gui> je nebude prohledávat také."
 
 #. (itstool) path: note/p
-#: C/mail-search-folders.page:36
+#: C/mail-search-folders.page:38
 msgid ""
 "If you need to find out which physical folder a message displayed in a "
 "Search Folder is located in, <link xref=\"mail-change-columns-in-message-list"
@@ -11559,6 +11834,28 @@ msgstr "Klikněte na ikonu hledání <_:media-1/>, aby se rozbalil seznam."
 #. (itstool) path: note/p
 #: C/mail-searching.page:44
 msgid ""
+"Some searches might be slow on remote mail accounts (e.g. IMAP+). If you "
+"select a search condition like <gui>Body contains</gui> or <gui>Message "
+"contains</gui> and <app>Evolution</app> is in online mode and the folder(s) "
+"you are about to search in are not <link xref=\"mail-working-offline"
+"\">already copied locally for offline usage</link>, Evolution automatically "
+"runs the search on the mail server side if the server advertises support for "
+"server-side searches. When doing a search on search criteria already locally "
+"available (e.g. recipients or subject of messages), the search will be run "
+"locally."
+msgstr ""
+"U vzdálených poštovních účtů (např. IMAP+) mohou být některá hledání pomalá. "
+"Pokud vyberete podmínku hledání jako je <gui>Tělo obsahuje</gui> nebo <gui>"
+"Zpráva obsahuje</gui> a <app>Evolution</app> je v režimu on-line a složky, "
+"které hodláte prohledat, nejsou <link xref=\"mail-working-offline\">zatím "
+"zkopírované lokálně pro použití off-line</link>, Evolution automaticky spustí "
+"hledání na straně poštovního serveru, pokud server propaguje podporu pro "
+"vyhledávání na straně serveru. Když hledáte podle věcí, které jsou již "
+"dostupné lokálně (např. příjemci nebo předmět zprávy), hledání poběží lokálně."
+
+#. (itstool) path: note/p
+#: C/mail-searching.page:45
+msgid ""
 "Advanced users can <link href=\"https://bugzilla.gnome.org/show_bug.cgi?"
 "id=550796#c10\">combine numerous conditions by using the <gui>Free form "
 "expression</gui> syntax</link>."
@@ -11568,12 +11865,12 @@ msgstr ""
 "ve volném tvaru</gui></link>."
 
 #. (itstool) path: item/p
-#: C/mail-searching.page:46
+#: C/mail-searching.page:47
 msgid "Select the scope from the drop-down list right to the text box."
 msgstr "Vyberte rozsah z rozbalovacího seznamu napravo od textového pole."
 
 #. (itstool) path: note/p
-#: C/mail-searching.page:47
+#: C/mail-searching.page:48
 msgid ""
 "For the <gui>Current Account</gui> scope, the term \"account\" refers to top-"
 "level nodes in the <link xref=\"intro-main-window#e-mail\"> mail folder "
@@ -11584,7 +11881,7 @@ msgstr ""
 "jako například „V tomto počítači“ nebo vzdálené poštovní účty."
 
 #. (itstool) path: note/p
-#: C/mail-searching.page:52
+#: C/mail-searching.page:53
 msgid ""
 "If you start directly from the fourth step, text will be searched in mail's "
 "subjects and addresses and scope will be \"Current folder\"."
@@ -11593,7 +11890,7 @@ msgstr ""
 "zpráv a v adresách a rozsah bude „Aktuální složka“."
 
 #. (itstool) path: note/p
-#: C/mail-searching.page:53
+#: C/mail-searching.page:54
 msgid ""
 "If you search for messages that are not in the same folder rather often you "
 "might want to create a search folder instead; see <link xref=\"mail-search-"
@@ -11789,6 +12086,86 @@ msgstr ""
 "podle adresy odesilatele."
 
 #. (itstool) path: info/desc
+#: C/mail-sorting-folder-list.page:5
+msgid "Sorting the mail folder list in the left pane."
+msgstr "Jak seřadit složky pošty v levém panelu."
+
+#. (itstool) path: page/title
+#: C/mail-sorting-folder-list.page:21
+msgid "Sorting the mail folder list"
+msgstr "Řazení seznam složek pošty"
+
+#. (itstool) path: section/title
+#: C/mail-sorting-folder-list.page:24
+msgid "Default sort order"
+msgstr "Výchozí řazení"
+
+#. (itstool) path: section/p
+#: C/mail-sorting-folder-list.page:25
+msgid ""
+"By default the <link xref=\"intro-main-window#e-mail\">mail folder list</"
+"link> in the left pane contains top-level nodes in the following order:"
+msgstr ""
+"Ve výchozím stavu <link xref=\"intro-main-window#e-mail\">seznam složek "
+"pošty</link> v levém panelu obsahuje uzly nejvyšší úrovně v následujícím "
+"pořadí:"
+
+#. (itstool) path: item/p
+#: C/mail-sorting-folder-list.page:27
+msgid ""
+"<gui>On This Computer</gui> - contains all mail for local account types (if "
+"configured)"
+msgstr ""
+"<gui>V tomto počítači</gui> – obsahuje všechny e-maily z místních typů účtů "
+"(pokud jsou nastavené)"
+
+#. (itstool) path: item/p
+#: C/mail-sorting-folder-list.page:28
+msgid "One or more remote email account types (if configured)"
+msgstr "Jeden nebo více vzdálených typů účtů (pokud jsou nastavené)"
+
+#. (itstool) path: item/p
+#: C/mail-sorting-folder-list.page:29
+msgid ""
+"<gui><link xref=\"mail-search-folders\">Search Folders</link></gui> (if "
+"enabled)"
+msgstr ""
+"<gui><link xref=\"mail-search-folders\">Vyhledávací složky</link></gui> "
+"(pokud jsou povolené)"
+
+#. (itstool) path: section/p
+#: C/mail-sorting-folder-list.page:31
+msgid "The folders under each top-level node are sorted in alphabetical order."
+msgstr "Složky pod jednotlivými uzly nejvyšší úrovně jsou řazené abecedně."
+
+#. (itstool) path: section/title
+#: C/mail-sorting-folder-list.page:35
+msgid "Changing the sort order"
+msgstr "Změna řazení"
+
+#. (itstool) path: section/p
+#: C/mail-sorting-folder-list.page:37
+msgid ""
+"You can change the default sort order of the top-level nodes under "
+"<guiseq><gui>Edit</gui><gui>Preferences</gui><gui>Mail Accounts</gui></"
+"guiseq> by dragging an account in the list up or down."
+msgstr ""
+"Výchozí řazení uzlů nejvyšší úroně můžete změnit v <guiseq><gui>Upravit</gui> "
+"<gui>Předvolby</gui> <gui>Poštovní účty</gui></guiseq> prostým přetažením "
+"účtu v seznamu nahoru nebo dolů."
+
+#. (itstool) path: section/p
+#: C/mail-sorting-folder-list.page:39
+msgid ""
+"You can revert your custom sort order by choosing <guiseq><gui>Edit</"
+"gui><gui>Preferences</gui><gui>Mail Accounts</gui><gui style=\"button"
+"\">Restore Default</gui></guiseq>."
+msgstr ""
+"Vlastní řazení můžete vrátit zpět na původní pomocí <guiseq><gui>Upravit"
+"</gui> <gui>Předvolby</gui> <gui>Poštovní účty</gui> <gui style=\"button\">"
+"Obnovit výchozí</gui></guiseq>."
+
+#. (itstool) path: info/desc
 #: C/mail-sorting-message-list.page:5
 msgid "Sorting the message list of a mail folder."
 msgstr "Řazení seznamu zpráv ve složce pošty."
@@ -11868,9 +12245,6 @@ msgstr ""
 
 #. (itstool) path: item/p
 #: C/mail-sorting-message-list.page:41
-#| msgid ""
-#| "Run the command <cmd>gsettings set org.gnome.evolution.mail filters-log-"
-#| "actions true</cmd>"
 msgid ""
 "Run the command <cmd>gsettings set org.gnome.evolution.mail thread-expand "
 "false</cmd>"
@@ -13109,8 +13483,9 @@ msgid ""
 "if you want to request a feature, you can file a report in the <link href="
 "\"https://gitlab.gnome.org/GNOME/evolution/issues/\">GNOME bug tracking "
 "system</link>. Note that this requires registration first. Please try to "
-"avoid filing duplicates and check the <link href=\"https://bugzilla.gnome."
-"org/page.cgi?id=bug-writing.html\">bug writing guidelines</link> first."
+"avoid filing duplicates and check the <link href=\"https://wiki.gnome.org/"
+"Community/GettingInTouch/BugReportingGuidelines\">bug writing guidelines</"
+"link> first."
 msgstr ""
 "Pokud nepotřebujete pomoct s nastavením, ale jste si jistí, že jste našli "
 "chybu nebo nesprávné chování v softwaru <app>Evolution</app>, nebo pokud "
@@ -13118,8 +13493,8 @@ msgstr ""
 "gitlab.gnome.org/GNOME/evolution/issues/\">systému pro sledování chyb v "
 "GNOME</link>. Všimněte si, že nejdříve se musíte zaregistrovat. Zkuste se "
 "prosím vyhnout duplicitnímu hlášení a projděte si nejdříve <link href="
-"\"https://bugzilla.gnome.org/page.cgi?id=bug-writing.html\">pokyny pro "
-"hlášení chyb</link>."
+"\"https://wiki.gnome.org/Community/GettingInTouch/BugReportingGuidelines\">"
+"pokyny pro hlášení chyb</link>."
 
 #. (itstool) path: page/p
 #: C/problems-reporting-bugs.page:23
@@ -13146,16 +13521,16 @@ msgid ""
 "information such as the <app>Evolution</app> version (under "
 "<guiseq><gui>Help</gui><gui>About</gui></guiseq>), your distribution, and "
 "exact steps to reproduce the problem, click by click. See the <link href="
-"\"https://bugzilla.gnome.org/page.cgi?id=bug-writing.html\">Bug Writing "
-"Guidelines</link> for more information."
+"\"https://wiki.gnome.org/Community/GettingInTouch/BugReportingGuidelines"
+"\">Bug Writing Guidelines</link> for more information."
 msgstr ""
 "Když hlásíte chyby, přesná informace je vítána, protože to ostatním usnadní "
 "reprodukovat a opravit problém. Je-li to možné, přidejte informace jako "
 "verze aplikace <app>Evolution</app> (najdete v <guiseq><gui>Nápověda</"
 "gui><gui>O aplikaci</gui></guiseq>), vaše distribuce, přesné kroky, kliknutí "
 "za kliknutím, kterými lze problém reprodukovat. Více informací naleznete v "
-"<link href=\"https://bugzilla.gnome.org/page.cgi?id=bug-writing.html"
-"\">Pokynech pro hlášení chyb</link>."
+"<link href=\"https://wiki.gnome.org/Community/GettingInTouch/"
+"BugReportingGuidelines\">Pokynech pro hlášení chyb</link>."
 
 #. (itstool) path: info/desc
 #: C/searching-items.page:5
@@ -14017,17 +14392,14 @@ msgstr "Poštovní konference:"
 #. (itstool) path: item/p
 #: C/xinclude-filter-vfolder-conditions.xml:59
 msgid ""
-"Filters based on the mailing list the message came from. This filter might "
-"miss messages from some list servers, because it checks for the X-BeenThere "
-"header, which is used to identify mailing lists or other redistributors of "
-"mail. Mail from list servers that do not set X-BeenThere properly are not be "
-"caught by these filters."
+"Filters based on the mailing list the message came from. This filter checks "
+"for a variety of common mailing list related headers but might miss messages "
+"from some list servers if they use uncommon headers."
 msgstr ""
-"Filtruje na základě poštovní konference, ze které zpráva přišla. Filtr může "
-"minout zprávy z některých poštovních konferencí, protože kontroluje hlavičku "
-"X-BeenThere, která se používá k identifikaci poštovních konferencí a jiných "
-"systémů pro šíření e-mailů. Zprávy z poštovních serverů, které nenastaví X-"
-"BeenThere správně, nebudou tímto filtrem zachyceny."
+"Filtry založené na poštovních konferencích, ze kterých přichází. Tyto filtry "
+"kontrolují celou škálu běžných hlaviček souvisejících s poštovními "
+"konferencemi. Pokud ale použijete nějakou méně běžnou, můžete promeškat "
+"zprávy z některých serverů."
 
 #. (itstool) path: item/p
 #: C/xinclude-filter-vfolder-conditions.xml:61
@@ -14064,40 +14436,6 @@ msgstr ""
 "všechna slova, která začínají na „m“ a končí na „a“ a mají šest až patnáct "
 "znaků, nebo všechny zprávy, které deklarují určitou hlavičku dvakrát. "
 "Informace o regulárních výrazech najdete v <_:link-2/>."
-
-#. (itstool) path: section/title
-#: C/xinclude-mail-account-identity.xml:4
-msgid "Identity"
-msgstr "Identita"
-
-#. (itstool) path: section/p
-#: C/xinclude-mail-account-identity.xml:5
-msgid "Here you define your name and your email address."
-msgstr "Zde určujete svoje jméno a e-mailovou adresu."
-
-#. (itstool) path: p/link
-#: C/xinclude-mail-account-identity.xml:6
-msgid "signature"
-msgstr "podpis"
-
-#. (itstool) path: p/link
-#: C/xinclude-mail-account-identity.xml:6
-msgid "email aliases"
-msgstr "e-mailové aliasy"
-
-#. (itstool) path: section/p
-#: C/xinclude-mail-account-identity.xml:6
-msgid ""
-"Optionally you can set a Reply-To email address (if you want replies to "
-"messages sent to a different address), set an organization (a company or "
-"organization you represent when you send email from this account), your "
-"default <_:link-1/> for this account, and <_:link-2/>."
-msgstr ""
-"Volitelně můžete nastavit e-mailovou adresu „Komu odpovědět“ (když chcete, "
-"aby odpovědi na zprávy chodily na jinou adresu), nastavit organizaci "
-"(společnost, ve které pracujete, nebo organizace, kterou reprezentujete, "
-"když odesíláte e-maily z tohoto účtu), svůj výchozí <_:link-1/> k tomuto "
-"účtu a <_:link-2/>."
 
 #. (itstool) path: section/title
 #. (itstool) path: guiseq/gui
@@ -14260,63 +14598,3 @@ msgstr "V dialogovém okně upravte název nebo podmínky hledání."
 #: C/xinclude-searching.xml:30
 msgid "Click <_:gui-1/>."
 msgstr "Klikněte na <_:gui-1/>."
-
-#~ msgid ""
-#~ "Look in the <link xref=\"mail-spam\"><gui>Junk</gui> folder</link>. "
-#~ "Messages that are marked as Junk disappear from the original folder and "
-#~ "are moved to the <gui>Junk</gui> folder."
-#~ msgstr ""
-#~ "Podívejte se do <link xref=\"mail-spam\">složky <gui>Nevyžádané</gui></"
-#~ "link>. Zprávy, které se označí jako nevyžádané, zmizí z původní složky a "
-#~ "přesunou se do složky <gui>Nevyžádané</gui>."
-
-#~ msgid ""
-#~ "For Advanced Users: There is a GSettings key that allows you to toggle "
-#~ "between the collapsed and expanded state of the email threads. The "
-#~ "collapsed state is enabled by default. It can be changed by starting the "
-#~ "<app>Terminal</app> application and running the command <cmd>gsettings "
-#~ "set org.gnome.evolution.mail thread-expand true</cmd>"
-#~ msgstr ""
-#~ "Pro pokročilé uživatele: Existuje klíč GSettings, který určuje, jestli "
-#~ "mají být vlákna sbalená nebo rozbalená na jednotlivé zprávy. Výchozí "
-#~ "volbou jsou sbalená vlákna. Změnu můžete provést v aplikaci "
-#~ "<app>Terminál</app> spuštěním příkazu <cmd>gsettings set org.gnome."
-#~ "evolution.mail thread-expand true</cmd>"
-
-#~ msgid ""
-#~ "Run the command <cmd>gsettings set org.gnome.desktop.interface can-change-"
-#~ "accels true</cmd>"
-#~ msgstr ""
-#~ "Spusťte příkaz <cmd>gsettings set org.gnome.desktop.interface can-change-"
-#~ "accels true</cmd>"
-
-#~ msgid "Day (<keyseq><key>Ctrl</key><key>Y</key></keyseq>)"
-#~ msgstr "Den (<keyseq><key>Ctrl</key><key>Y</key></keyseq>)"
-
-#~ msgid "Work Week (<keyseq><key>Ctrl</key><key>J</key></keyseq>)"
-#~ msgstr "Pracovní týden (<keyseq><key>Ctrl</key><key>J</key></keyseq>)"
-
-#~ msgid "Week (<keyseq><key>Ctrl</key><key>K</key></keyseq>)"
-#~ msgstr "Týden (<keyseq><key>Ctrl</key><key>K</key></keyseq>)"
-
-#~ msgid "Month (<keyseq><key>Ctrl</key><key>M</key></keyseq>)"
-#~ msgstr "Měsíc (<keyseq><key>Ctrl</key><key>M</key></keyseq>)"
-
-#~ msgid "List (<keyseq><key>Ctrl</key><key>L</key></keyseq>)"
-#~ msgstr "Seznam (<keyseq><key>Ctrl</key><key>L</key></keyseq>)"
-
-#~ msgid ""
-#~ "If you ever accidentially hide the menu bar, open a Terminal application "
-#~ "and run the command <cmd>gsettings set org.gnome.evolution.shell menubar-"
-#~ "visible true</cmd> to reenable it."
-#~ msgstr ""
-#~ "Pokud si nechtěně skryjete nabídkovou lištu, otevřete aplikaci Terminál a "
-#~ "spuštěním příkazu <cmd>gsettings set org.gnome.evolution.shell menubar-"
-#~ "visible true</cmd> si ji znovu zapněte."
-
-#~ msgid ""
-#~ "Please refer to the <link xref=\"mail-account-manage-imap-plus\">IMAP+ "
-#~ "mail account settings</link>."
-#~ msgstr ""
-#~ "Přejděte prosím na téma <link xref=\"mail-account-manage-imap-plus"
-#~ "\">Nastavení poštovního účtu IMAP+</link>."

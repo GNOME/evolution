@@ -26261,7 +26261,7 @@ msgstr "Vyberte úč_ty, pro které povolit oznamování:"
 #: ../src/plugins/mail-notification/mail-notification.c:1197
 #: ../src/plugins/mail-notification/org-gnome-mail-notification.eplug.xml.h:1
 msgid "Mail Notification"
-msgstr "Oznámení o nové poště"
+msgstr "Upozornění na novou poštu"
 
 #: ../src/plugins/mail-notification/mail-notification.c:1211
 msgid "Notify new messages for _Inbox only"
