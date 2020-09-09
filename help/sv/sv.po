@@ -8,8 +8,8 @@ msgstr ""
 "Project-Id-Version: evolution.help.HEAD\n"
 "Report-Msgid-Bugs-To: http://bugzilla.gnome.org/enter_bug.cgi?"
 "product=evolution&keywords=I18N+L10N&component=User%20Documentation\n"
-"POT-Creation-Date: 2020-03-21 21:50+0000\n"
-"PO-Revision-Date: 2020-03-24 21:59+0100\n"
+"POT-Creation-Date: 2020-09-08 18:16+0000\n"
+"PO-Revision-Date: 2020-09-09 02:28+0200\n"
 "Last-Translator: Anders Jonsson <anders.jonsson@norsjovallen.se>\n"
 "Language-Team: Swedish <tp-sv@listor.tp-sv.se>\n"
 "Language: sv\n"
@@ -17,7 +17,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
-"X-Generator: Poedit 2.3\n"
+"X-Generator: Poedit 2.4.1\n"
 
 #. Put one translator per line, in the form NAME <EMAIL>, YEAR1, YEAR2
 msgctxt "_"
@@ -1013,7 +1013,7 @@ msgstr "Välj kontakterna du vill delegera sammanträdet till."
 #: C/mail-encryption-gpg-set-up.page:35
 #: C/mail-encryption-gpg-signing-encrypting.page:40
 #: C/mail-encryption-s-mime-signing-encrypting.page:36 C/mail-filters.page:50
-#: C/mail-filters.page:71 C/mail-search-folders-add.page:46
+#: C/mail-filters.page:71 C/mail-search-folders-add.page:47
 #: C/using-categories.page:51 C/using-categories.page:53
 msgid "Click <gui style=\"button\">OK</gui>."
 msgstr "Klicka på <gui style=\"button\">OK</gui>."
@@ -1785,7 +1785,7 @@ msgid "Enter your username."
 msgstr "Ange ditt användarnamn."
 
 #. (itstool) path: info/desc
-#: C/contacts-add-automatically.page:21
+#: C/contacts-add-automatically.page:22
 msgid ""
 "Automatically add senders of mail that you have received to your contacts."
 msgstr ""
@@ -1793,12 +1793,12 @@ msgstr ""
 "du tagit emot."
 
 #. (itstool) path: page/title
-#: C/contacts-add-automatically.page:25
+#: C/contacts-add-automatically.page:26
 msgid "Adding people automatically to my contacts"
 msgstr "Lägga till folk automatiskt till mina kontakter"
 
 #. (itstool) path: page/p
-#: C/contacts-add-automatically.page:27
+#: C/contacts-add-automatically.page:28
 msgid ""
 "You can add people automatically to your contacts when you reply to received "
 "email."
@@ -1807,7 +1807,7 @@ msgstr ""
 "mottagen e-post."
 
 #. (itstool) path: item/p
-#: C/contacts-add-automatically.page:30 C/mail-attachments-sending.page:46
+#: C/contacts-add-automatically.page:31 C/mail-attachments-sending.page:46
 #: C/mail-composer-custom-header-lines.page:31
 #: C/mail-composer-external-editor.page:25
 #: C/mail-composer-message-templates.page:27
@@ -1817,12 +1817,12 @@ msgid "Select <guiseq><gui>Edit</gui><gui>Plugins</gui></guiseq>."
 msgstr "Välj <guiseq><gui>Redigera</gui><gui>Insticksmoduler</gui></guiseq>."
 
 #. (itstool) path: item/p
-#: C/contacts-add-automatically.page:31
+#: C/contacts-add-automatically.page:32
 msgid "Enable <gui>Automatic Contacts</gui>."
 msgstr "Aktivera <gui>Automatiska kontakter</gui>."
 
 #. (itstool) path: note/p
-#: C/contacts-add-automatically.page:32 C/mail-attachments-sending.page:48
+#: C/contacts-add-automatically.page:33 C/mail-attachments-sending.page:48
 #: C/mail-composer-custom-header-lines.page:33
 #: C/mail-composer-external-editor.page:28
 #: C/mail-composer-message-templates.page:29
@@ -1841,7 +1841,7 @@ msgstr ""
 "insticksmoduler eller att skeppa insticksmoduler i ett separat paket."
 
 #. (itstool) path: item/p
-#: C/contacts-add-automatically.page:34
+#: C/contacts-add-automatically.page:35
 msgid ""
 "Go to <guiseq><gui>Edit</gui><gui>Preferences</gui><gui>Contacts</gui> "
 "<gui>Automatic Contacts</gui></guiseq>."
@@ -1850,7 +1850,7 @@ msgstr ""
 "gui><gui>Automatiska kontakter</gui></guiseq>."
 
 #. (itstool) path: item/p
-#: C/contacts-add-automatically.page:36
+#: C/contacts-add-automatically.page:37
 msgid ""
 "Enable <gui>Create address book entries when sending emails</gui> and select "
 "an address book in the drop-down field below that will receive the new "
@@ -1861,7 +1861,7 @@ msgstr ""
 "kontakterna."
 
 #. (itstool) path: page/p
-#: C/contacts-add-automatically.page:41
+#: C/contacts-add-automatically.page:42
 msgid ""
 "From now on, contacts will be automatically created for senders of received "
 "mail when you reply to that mail."
@@ -1870,7 +1870,7 @@ msgstr ""
 "mottagen e-post när du svarar på det e-postmeddelandet."
 
 #. (itstool) path: info/desc
-#: C/contacts-autocompletion.page:27
+#: C/contacts-autocompletion.page:28
 msgid ""
 "Autocompletion of names and email addresses entered in the mail composer."
 msgstr ""
@@ -1878,12 +1878,12 @@ msgstr ""
 "meddelanderedigeraren."
 
 #. (itstool) path: page/title
-#: C/contacts-autocompletion.page:30
+#: C/contacts-autocompletion.page:31
 msgid "Autocompletion of mail recipients"
 msgstr "Automatisk komplettering av e-postmottagare"
 
 #. (itstool) path: page/p
-#: C/contacts-autocompletion.page:32
+#: C/contacts-autocompletion.page:33
 msgid ""
 "You can enter the first three letters of names and email addresses in the "
 "recipients text field and <app>Evolution</app> will present you with a list "
@@ -1894,7 +1894,7 @@ msgstr ""
 "lista över matchningar från dina adressböcker."
 
 #. (itstool) path: page/p
-#: C/contacts-autocompletion.page:36
+#: C/contacts-autocompletion.page:37
 msgid ""
 "To enable autocompletion, go to <guiseq><gui>Edit</gui><gui>Preferences</"
 "gui><gui>Contacts</gui> <gui>Autocompletion</gui></guiseq> and choose the "
@@ -1907,7 +1907,7 @@ msgstr ""
 "<app>Evolution</app> bör leta i efter matchningar."
 
 #. (itstool) path: page/p
-#: C/contacts-autocompletion.page:41
+#: C/contacts-autocompletion.page:42
 msgid ""
 "Select <gui>Always show address of the autocompleted contact</gui> to also "
 "show the email address along with the name. This can be helpful to "
@@ -1918,7 +1918,7 @@ msgstr ""
 "hjälp för att avgöra om en kontakt har flera e-postadresser."
 
 #. (itstool) path: page/p
-#: C/contacts-autocompletion.page:45
+#: C/contacts-autocompletion.page:46
 msgid ""
 "Alternately, you can click the <gui>To:</gui>, <gui>Cc:</gui>, or <gui>Bcc:</"
 "gui> buttons to get a list of the email addresses in your contacts. Select "
@@ -3310,8 +3310,25 @@ msgstr "Importera data från Mozilla <app>Thunderbird</app>."
 msgid "Mozilla"
 msgstr "Mozilla"
 
+#. (itstool) path: note/p
+#: C/import-apps-mozilla.page:26
+msgid "The instructions below might be outdated and not work anymore."
+msgstr ""
+"Instruktionerna nedan kan vara inaktuella och kanske inte fungerar längre."
+
+#. (itstool) path: note/p
+#: C/import-apps-mozilla.page:26
+msgid ""
+"Follow <link href=\"https://mail.gnome.org/archives/evolution-list/2019-"
+"February/msg00055.html\">this mailing list posting</link> for an alternative "
+"method that you could try."
+msgstr ""
+"Följ <link href=\"https://mail.gnome.org/archives/evolution-list/2019-"
+"February/msg00055.html\">detta meddelande från sändlistan</link> för en "
+"alternativ metod som du kan pröva."
+
 #. (itstool) path: item/p
-#: C/import-apps-mozilla.page:25
+#: C/import-apps-mozilla.page:29
 msgid ""
 "<link href=\"https://support.mozilla.org/en-US/kb/profiles-where-thunderbird-"
 "stores-user-data\">Find your <app>Thunderbird</app> profile folder.</link>"
@@ -3320,13 +3337,13 @@ msgstr ""
 "stores-user-data\">Hitta din profilmapp för <app>Thunderbird</app>.</link>"
 
 #. (itstool) path: item/p
-#: C/import-apps-mozilla.page:26 C/import-apps-outlook.page:62
+#: C/import-apps-mozilla.page:30 C/import-apps-outlook.page:62
 #: C/import-single-files.page:24
 msgid "Click <guiseq><gui>File</gui><gui>Import</gui></guiseq>."
 msgstr "Klicka på <guiseq><gui>Arkiv</gui><gui>Importera</gui></guiseq>."
 
 #. (itstool) path: item/p
-#: C/import-apps-mozilla.page:27 C/import-apps-outlook.page:63
+#: C/import-apps-mozilla.page:31 C/import-apps-outlook.page:63
 #: C/import-single-files.page:25
 msgid ""
 "In the <gui>Importer Type</gui> tab, click <gui>Import a single file</gui>."
@@ -3335,7 +3352,7 @@ msgstr ""
 
 # sebras: should Thunderbird use <app>?
 #. (itstool) path: item/p
-#: C/import-apps-mozilla.page:28
+#: C/import-apps-mozilla.page:32
 msgid ""
 "Go to the folder in which <app>Thunderbird</app> stores its data. You will "
 "have to make sure to <link xref=\"help:gnome-help/files-hidden#show-hidden\" "
@@ -3348,7 +3365,7 @@ msgstr ""
 "\">visa dolda filer</link> är aktiverat i filvalsdialogen."
 
 #. (itstool) path: item/p
-#: C/import-apps-mozilla.page:31
+#: C/import-apps-mozilla.page:35
 msgid ""
 "If you would like to import <app>Thunderbird</app> mail, go to <file>Mail/"
 "Local Folders</file> (for local mail accounts) or <file>ImapMail/servername</"
@@ -3364,7 +3381,7 @@ msgstr ""
 
 # sebras: should Thunderbird/Lightning use <app>?
 #. (itstool) path: item/p
-#: C/import-apps-mozilla.page:32
+#: C/import-apps-mozilla.page:36
 msgid ""
 "If you would like to import <app>Thunderbird/Lightning</app> calendar data, "
 "you may be able to export your <app>Thunderbird</app> events as an <file>."
@@ -3379,13 +3396,13 @@ msgstr ""
 "sina kalenderdata i ett icke-standardiserat databasformat."
 
 #. (itstool) path: item/p
-#: C/import-apps-mozilla.page:34 C/import-apps-outlook.page:64
+#: C/import-apps-mozilla.page:38 C/import-apps-outlook.page:64
 #: C/import-single-files.page:26
 msgid "The file type will be automatically determined."
 msgstr "Filtypen kommer att fastställas automatiskt."
 
 #. (itstool) path: item/p
-#: C/import-apps-mozilla.page:35
+#: C/import-apps-mozilla.page:39
 msgid ""
 "Choose the destination (e.g. the folder or calendar in <app>Evolution</app>) "
 "for the imported data."
@@ -3394,7 +3411,7 @@ msgstr ""
 "importerade datan."
 
 #. (itstool) path: item/p
-#: C/import-apps-mozilla.page:36 C/import-apps-outlook.page:68
+#: C/import-apps-mozilla.page:40 C/import-apps-outlook.page:68
 msgid "Repeat the import steps until you have imported all your data."
 msgstr "Upprepa importstegen till du har importerat alla dina data."
 
@@ -3408,7 +3425,6 @@ msgstr ""
 
 #. (itstool) path: page/title
 #: C/import-apps-kmail.page:19
-#| msgid "Mail"
 msgid "KMail"
 msgstr "KMail"
 
@@ -3427,6 +3443,19 @@ msgstr "<file>$HOME/.kde4/share/apps/kmail/mail</file> för e-post"
 #: C/import-apps-kmail.page:24
 msgid "<file>$HOME/.kde4/share/apps/kabc</file> for contacts"
 msgstr "<file>$HOME/.kde4/share/apps/kabc</file> för kontakter"
+
+#. (itstool) path: page/p
+#: C/import-apps-kmail.page:27
+msgid ""
+"For more recent versions, follow <link href=\"https://mail.gnome.org/"
+"archives/evolution-list/2020-March/msg00168.html\">the instructions in this "
+"post</link>. If you run into problems, follow <link xref=\"problems-getting-"
+"help\"/>."
+msgstr ""
+"För senare versioner, följ <link href=\"https://mail.gnome.org/archives/"
+"evolution-list/2020-March/msg00168.html\">instruktionerna i detta "
+"meddelande</link>. Om du stöter på problem, följ <link xref=\"problems-"
+"getting-help\"/>."
 
 #. (itstool) path: info/desc
 #: C/import-apps-outlook.page:5
@@ -3599,12 +3628,14 @@ msgid ""
 "If the option to import Outlook personal folders (.pst files) is not "
 "available under <guiseq><gui>File</gui><gui>Import</gui><gui>Import single "
 "file</gui><gui>File type</gui></guiseq>, your distribution might have not "
-"enabled this functionality."
+"enabled this functionality in Evolution. Please ask in a support forum of "
+"your distribution."
 msgstr ""
 "Om alternativet att importera Outlook-personliga mappar (.pst-filer) inte "
 "finns under <guiseq><gui>Arkiv</gui><gui>Importera</gui><gui>Importera en "
 "enda fil</gui><gui>Filtyp</gui></guiseq>, kanske din distribution inte har "
-"aktiverat denna funktionalitet."
+"aktiverat denna funktionalitet i Evolution. Fråga i ett supportforum för din "
+"distribution."
 
 # sebras: <app>?
 #. (itstool) path: item/p
@@ -3858,6 +3889,11 @@ msgstr ""
 "kalenderevenemang och andra objekt i Microsoft-programvara så som "
 "<app>Microsoft Exchange Client</app>, <app>Windows Messaging</app> och "
 "<app>Microsoft Outlook</app>. Det kallas också ”Personal Storage Table”."
+
+#. (itstool) path: item/p
+#: C/import-supported-file-formats.page:83
+msgid "See <link xref=\"import-apps-outlook\"/> for more information."
+msgstr "Se <link xref=\"import-apps-outlook\"/> för mer information."
 
 #. (itstool) path: info/desc
 #: C/index.page:5
@@ -5239,7 +5275,7 @@ msgstr ""
 #. (itstool) path: note/p
 #: C/intro-main-window.page:94
 msgid ""
-"If you ever accidentially hide the menu bar, press <key>Alt</key> and re-"
+"If you ever accidentally hide the menu bar, press <key>Alt</key> and re-"
 "enable it by toggling <guiseq><gui>View</gui><gui>Layout</gui><gui>Show Menu "
 "Bar</gui></guiseq>."
 msgstr ""
@@ -7053,7 +7089,7 @@ msgstr ""
 "oförändrade meddelandet till någon annan. Infogad eller citerad "
 "vidarebefordran är bäst om du vill skicka delar av ett meddelande, eller om "
 "du har ett stort antal kommentarer på olika delar av meddelandet du "
-"vidarefordrar."
+"vidarebefordrar."
 
 #. (itstool) path: page/p
 #: C/mail-composer-forward.page:29
@@ -7133,7 +7169,7 @@ msgstr ""
 #. (itstool) path: info/desc
 #: C/mail-composer-forward-as-attachment.page:5
 msgid "How to forward a message with its attachments."
-msgstr "Hur man vidarefordrar ett meddelande med dess bilagor."
+msgstr "Hur man vidarebefordrar ett meddelande med dess bilagor."
 
 #. (itstool) path: page/title
 #: C/mail-composer-forward-as-attachment.page:21
@@ -10015,7 +10051,7 @@ msgstr ""
 "du aktivera loggning av filteråtgärder."
 
 #. (itstool) path: item/p
-#: C/mail-filters-not-working.page:44
+#: C/mail-filters-not-working.page:44 C/mail-imap-change-send-method.page:28
 msgid "Close <app>Evolution</app>."
 msgstr "Stäng <app>Evolution</app>."
 
@@ -10153,17 +10189,17 @@ msgstr ""
 "välj kriteriet som filtret ska baseras på."
 
 #. (itstool) path: item/p
-#: C/mail-filters.page:37 C/mail-search-folders-add.page:27
+#: C/mail-filters.page:37 C/mail-search-folders-add.page:28
 msgid "Click <gui style=\"button\">Add</gui>."
 msgstr "Klicka på <gui style=\"button\">Lägg till</gui>."
 
 #. (itstool) path: item/p
-#: C/mail-filters.page:38 C/mail-search-folders-add.page:28
+#: C/mail-filters.page:38 C/mail-search-folders-add.page:29
 msgid "Enter a name in the <gui>Rule name</gui> field."
 msgstr "Ange ett namn i fältet <gui>Regelnamn</gui>."
 
 #. (itstool) path: item/p
-#: C/mail-filters.page:39 C/mail-search-folders-add.page:29
+#: C/mail-filters.page:39 C/mail-search-folders-add.page:30
 msgid ""
 "Define the conditions for the rule. For each condition, you first select "
 "which part of the message will be checked and then define the comparison."
@@ -10182,7 +10218,7 @@ msgstr ""
 "filters-conditions\">Tillgängliga filtervillkor</link>."
 
 #. (itstool) path: item/p
-#: C/mail-filters.page:40 C/mail-search-folders-add.page:30
+#: C/mail-filters.page:40 C/mail-search-folders-add.page:31
 msgid ""
 "If you want to define multiple conditions, define under <gui>Find items</"
 "gui> if any or if all conditions have to apply, and click <gui style=\"button"
@@ -10524,6 +10560,69 @@ msgstr ""
 "guiseq> från menyfältet."
 
 #. (itstool) path: info/desc
+#: C/mail-imap-change-send-method.page:5
+msgid "Switch from sending mail via SMTP to Sendmail or vice versa."
+msgstr "Växla från att sända e-post via SMTP till Sendmail eller tvärtom."
+
+#. (itstool) path: page/title
+#: C/mail-imap-change-send-method.page:21
+msgid "Change the outgoing method for an IMAP+ account"
+msgstr "Ändra utgående metod för ett IMAP+-konto"
+
+#. (itstool) path: page/p
+#: C/mail-imap-change-send-method.page:23
+msgid ""
+"There is no user interface to change the outgoing method of an IMAP account."
+msgstr ""
+"Det finns inget användargränssnitt för att ändra den utgående metoden för "
+"ett IMAP-konto."
+
+#. (itstool) path: page/p
+#: C/mail-imap-change-send-method.page:25
+msgid ""
+"If you used Sendmail so far but now want to use an SMTP connection instead:"
+msgstr ""
+"Om du har använt Sendmail så här långt men nu vill använda en SMTP-"
+"anslutning istället:"
+
+#. (itstool) path: item/p
+#: C/mail-imap-change-send-method.page:29
+msgid ""
+"Find and open the corresponding account file in <file>$HOME/.config/"
+"evolution/sources/</file> with a text editor."
+msgstr ""
+"Hitta och öppna den motsvarande kontofilen i <file>$HOME/.config/evolution/"
+"sources/</file> med en textredigerare."
+
+#. (itstool) path: item/p
+#: C/mail-imap-change-send-method.page:31
+msgid ""
+"In the <code>[Mail Transport]</code> section, replace "
+"<code>BackendName=sendmail</code> with <code>BackendName=smtp</code> or vice "
+"versa."
+msgstr ""
+"Ersätt <code>BackendName=sendmail</code> med <code>BackendName=smtp</code> "
+"eller tvärtom i avsnittet <code>[Mail Transport]</code>."
+
+#. (itstool) path: item/p
+#: C/mail-imap-change-send-method.page:33
+msgid ""
+"Restart the <code>evolution-source-registry</code> background process, for "
+"example by rebooting your system."
+msgstr ""
+"Starta om bakgrundsprocessen <code>evolution-source-registry</code>, till "
+"exempel genom att starta om ditt system."
+
+#. (itstool) path: item/p
+#: C/mail-imap-change-send-method.page:35
+msgid ""
+"Start <app>Evolution</app> and edit the account SMTP settings for the "
+"account as needed."
+msgstr ""
+"Starta <app>Evolution</app> och redigera SMTP-kontoinställningarna för "
+"kontot enligt behov."
+
+#. (itstool) path: info/desc
 #: C/mail-imap-subscriptions.page:5
 msgid "IMAP folder subscriptions."
 msgstr "Prenumerationer på IMAP-mappar."
@@ -10702,7 +10801,7 @@ msgstr "Hantera lokalanpassade ”Re:” i ämnesrader"
 msgid ""
 "Traditionally a \"Re:\" prefix is added to a subject line when replying to "
 "an email. Some email applications use localized terms for this (like \"SV:\" "
-"in Danish or \"AW: in German). <app>Evolution</app> can recognize these "
+"in Danish or \"AW:\" in German). <app>Evolution</app> can recognize these "
 "terms to avoid subject lines getting longer as the conversation continues."
 msgstr ""
 "Traditionellt kommer ett ”Re:”-prefix att läggas till i en ämnesrad när du "
@@ -10765,17 +10864,17 @@ msgid "Possible reasons why emails are not sent."
 msgstr "Möjliga skäl till varför e-postmeddelanden inte skickas."
 
 #. (itstool) path: page/title
-#: C/mail-not-sent.page:20
+#: C/mail-not-sent.page:21
 msgid "Mail is not sent"
 msgstr "Meddelande är inte skickat"
 
 #. (itstool) path: page/p
-#: C/mail-not-sent.page:22
+#: C/mail-not-sent.page:23
 msgid "There can be several reasons why emails are not sent:"
 msgstr "De kan finnas flera skäl till varför e-postmeddelanden inte skickas:"
 
 #. (itstool) path: item/p
-#: C/mail-not-sent.page:25
+#: C/mail-not-sent.page:26
 msgid ""
 "Invalid email address. Check if all the addresses listed as mail recipients "
 "are correct. If the message contains a wrong or invalid email address, the "
@@ -10786,7 +10885,7 @@ msgstr ""
 "eller ogiltig e-postadress kommer meddelandet inte att skickas."
 
 #. (itstool) path: item/p
-#: C/mail-not-sent.page:26
+#: C/mail-not-sent.page:27
 msgid ""
 "Incorrect SMTP settings. Verify if the settings used for outgoing messages "
 "are correct. Using the incorrect server address or authentication method may "
@@ -10797,19 +10896,19 @@ msgstr ""
 "autentiseringsmetod kan förhindra e-postmeddelanden från att skickas."
 
 #. (itstool) path: item/p
-#: C/mail-not-sent.page:27
+#: C/mail-not-sent.page:28
 msgid ""
 "Offline status. <app>Evolution</app> may be offline. Check on the <gui style="
-"\"button\">Send and Receive</gui> button; if it is greyed out, then you are "
+"\"button\">Send / Receive</gui> button; if it is greyed out, then you are "
 "offline. To go online, go to <guiseq><gui>File</gui><gui>Work online</gui></"
-"guiseq>. You should now be able to use the <gui style=\"button\">Send and "
+"guiseq>. You should now be able to use the <gui style=\"button\">Send / "
 "Receive</gui> button."
 msgstr ""
 "Frånkoppladstatus. <app>Evolution</app> kan vara frånkopplat. Kontrollera "
-"knappen <gui style=\"button\">Skicka och ta emot</gui>; om den är utgråad så "
+"knappen <gui style=\"button\">Skicka / Ta emot</gui>; om den är utgråad så "
 "är du frånkopplad. För att ansluta till nätet, gå till <guiseq><gui>Arkiv</"
 "gui><gui>Arbeta ansluten</gui></guiseq>. Du bör nu kunna använda knappen "
-"<gui style=\"button\">Skicka och ta emot</gui>."
+"<gui style=\"button\">Skicka / Ta emot</gui>."
 
 #. (itstool) path: info/desc
 #: C/mail-organizing.page:5
@@ -11505,7 +11604,19 @@ msgid "Creating A Search Folder"
 msgstr "Skapa en sökmapp"
 
 #. (itstool) path: item/p
-#: C/mail-search-folders-add.page:26
+#. (itstool) path: note/p
+#: C/mail-search-folders-add.page:26 C/mail-search-folders.page:30
+msgid ""
+"If you have not utilized search folders before, enable <guiseq><gui>Edit</"
+"gui><gui>Preferences</gui><gui>Mail Accounts</gui><gui>Search Folders</gui></"
+"guiseq>."
+msgstr ""
+"Om du inte använt sökmappar tidigare, aktivera <guiseq><gui>Redigera</"
+"gui><gui>Inställningar</gui><gui>E-postkonton</gui><gui>Sökmappar</gui></"
+"guiseq>."
+
+#. (itstool) path: item/p
+#: C/mail-search-folders-add.page:27
 msgid ""
 "Click <guiseq><gui>Edit</gui><gui>Search Folders</gui></guiseq>, or click "
 "<guiseq><gui>Message</gui><gui>Create Rule</gui></guiseq> and select the "
@@ -11520,7 +11631,7 @@ msgstr ""
 "gui></guiseq>."
 
 #. (itstool) path: item/p
-#: C/mail-search-folders-add.page:29
+#: C/mail-search-folders-add.page:30
 msgid ""
 "For more information on the available conditions see <link xref=\"mail-"
 "search-folders-conditions\">Available Search Folder conditions</link>."
@@ -11529,7 +11640,7 @@ msgstr ""
 "folders-conditions\">Tillgängliga villkor för sökmappar</link>."
 
 #. (itstool) path: item/p
-#: C/mail-search-folders-add.page:31
+#: C/mail-search-folders-add.page:32
 msgid ""
 "Select which folders will be used for the search folder in the section "
 "<gui>Search Folder Sources</gui>. Options are:"
@@ -11538,12 +11649,12 @@ msgstr ""
 "<gui>Sökmappskällor</gui>. Alternativen är:"
 
 #. (itstool) path: item/p
-#: C/mail-search-folders-add.page:33
+#: C/mail-search-folders-add.page:34
 msgid "All local folders:"
 msgstr "Alla lokala mappar:"
 
 #. (itstool) path: item/p
-#: C/mail-search-folders-add.page:34
+#: C/mail-search-folders-add.page:35
 msgid ""
 "Uses all local folders for the search folder source in addition to "
 "individual folders that are selected."
@@ -11552,12 +11663,12 @@ msgstr ""
 "som är markerade."
 
 #. (itstool) path: item/p
-#: C/mail-search-folders-add.page:36
+#: C/mail-search-folders-add.page:37
 msgid "All active remote folders:"
 msgstr "Alla aktiva fjärrmappar:"
 
 #. (itstool) path: item/p
-#: C/mail-search-folders-add.page:37
+#: C/mail-search-folders-add.page:38
 msgid ""
 "Remote folders are considered active if you are connected to the server; you "
 "must be connected to your mail server for the search folder to include any "
@@ -11569,12 +11680,12 @@ msgstr ""
 "från den källan utöver de individuella mappar som är valda."
 
 #. (itstool) path: item/p
-#: C/mail-search-folders-add.page:39
+#: C/mail-search-folders-add.page:40
 msgid "All local and active remote folders:"
 msgstr "Alla lokala och aktiva fjärrmappar:"
 
 #. (itstool) path: item/p
-#: C/mail-search-folders-add.page:40
+#: C/mail-search-folders-add.page:41
 msgid ""
 "Uses all local and active remote folders for the search folder source in "
 "addition to individual folders that are selected."
@@ -11583,12 +11694,12 @@ msgstr ""
 "individuella mappar som är markerade."
 
 #. (itstool) path: item/p
-#: C/mail-search-folders-add.page:42
+#: C/mail-search-folders-add.page:43
 msgid "Specific folders only:"
 msgstr "Endast specifika mappar:"
 
 #. (itstool) path: item/p
-#: C/mail-search-folders-add.page:43
+#: C/mail-search-folders-add.page:44
 msgid ""
 "Uses individual folders for the search folder source. In this case, click "
 "the <gui style=\"button\">Add</gui> to select folders."
@@ -11684,22 +11795,17 @@ msgstr ""
 "farten via en uppsättning kriterier som du har valt när du ställde in "
 "sökmappen."
 
-#. (itstool) path: note/p
+#. (itstool) path: page/p
 #: C/mail-search-folders.page:28
 msgid ""
-"In the unlikely case that there is no <gui>Search folders</gui> top-level "
-"node displayed at the bottom of the <link xref=\"intro-main-window#e-mail"
-"\">mail folder list</link> you have to enable <guiseq><gui>Edit</"
-"gui><gui>Preferences</gui><gui>Mail Accounts</gui><gui>Search Folders</gui></"
-"guiseq>."
+"<gui>Search folders</gui> are displayed at the bottom of the <link xref="
+"\"intro-main-window#e-mail\">mail folder list</link>."
 msgstr ""
-"I det osannolika fallet att det inte visas någon toppnivånod <gui>Sökmappar</"
-"gui> längst ner i <link xref=\"intro-main-window#e-mail\">e-postmapplistan</"
-"link> måste du aktivera <guiseq><gui>Redigera</gui><gui>Inställningar</"
-"gui><gui>E-postkonton</gui><gui>Sökmappar</gui></guiseq>."
+"<gui>Sökmappar</gui> visas längst ner i <link xref=\"intro-main-window#e-mail"
+"\">e-postmapplistan</link>."
 
 #. (itstool) path: page/p
-#: C/mail-search-folders.page:30
+#: C/mail-search-folders.page:32
 msgid ""
 "<app>Evolution</app> automatically updates the search folder contents when "
 "new messages are received or messages are deleted. You can also manually "
@@ -11714,7 +11820,7 @@ msgstr ""
 "<gui>Uppdatera</gui>."
 
 #. (itstool) path: page/p
-#: C/mail-search-folders.page:32
+#: C/mail-search-folders.page:34
 msgid ""
 "The <gui>Unmatched</gui> search folder is the opposite of other search "
 "folders: it displays all messages that do not appear in other search folders."
@@ -11723,7 +11829,7 @@ msgstr ""
 "alla meddelanden som inte finns i andra sökmappar."
 
 #. (itstool) path: page/p
-#: C/mail-search-folders.page:34
+#: C/mail-search-folders.page:36
 msgid ""
 "If you use remote email storage like IMAP, and have created search folders "
 "to search through them, the <gui>Unmatched</gui> search folder also searches "
@@ -11738,7 +11844,7 @@ msgstr ""
 "söka igenom den."
 
 #. (itstool) path: note/p
-#: C/mail-search-folders.page:36
+#: C/mail-search-folders.page:38
 msgid ""
 "If you need to find out which physical folder a message displayed in a "
 "Search Folder is located in, <link xref=\"mail-change-columns-in-message-list"
@@ -12070,6 +12176,84 @@ msgstr ""
 "att filtrera på mottagarens adress och ställ in ett utgående filter att "
 "flytta utgående e-post till mappen skickad genom att filtrera på avsändarens "
 "adress."
+
+#. (itstool) path: info/desc
+#: C/mail-sorting-folder-list.page:5
+msgid "Sorting the mail folder list in the left pane."
+msgstr "Sortera e-postmapplistan i vänsterpanelen."
+
+#. (itstool) path: page/title
+#: C/mail-sorting-folder-list.page:21
+msgid "Sorting the mail folder list"
+msgstr "Sortera e-postmapplistan"
+
+#. (itstool) path: section/title
+#: C/mail-sorting-folder-list.page:24
+msgid "Default sort order"
+msgstr "Standardsorteringsordning"
+
+#. (itstool) path: section/p
+#: C/mail-sorting-folder-list.page:25
+msgid ""
+"By default the <link xref=\"intro-main-window#e-mail\">mail folder list</"
+"link> in the left pane contains top-level nodes in the following order:"
+msgstr ""
+"Som standard innehåller <link xref=\"intro-main-window#e-mail\">e-"
+"postmapplistan</link> i den vänstra panelen toppnivånoder i följande ordning:"
+
+#. (itstool) path: item/p
+#: C/mail-sorting-folder-list.page:27
+msgid ""
+"<gui>On This Computer</gui> - contains all mail for local account types (if "
+"configured)"
+msgstr ""
+"<gui>På denna dator</gui> - innehåller all e-post för lokala kontotyper (om "
+"konfigurerad)"
+
+#. (itstool) path: item/p
+#: C/mail-sorting-folder-list.page:28
+msgid "One or more remote email account types (if configured)"
+msgstr "En eller flera fjärr-e-postkontotyper (om konfigurerad)"
+
+#. (itstool) path: item/p
+#: C/mail-sorting-folder-list.page:29
+msgid ""
+"<gui><link xref=\"mail-search-folders\">Search Folders</link></gui> (if "
+"enabled)"
+msgstr ""
+"<gui><link xref=\"mail-search-folders\">Sökmappar</link></gui> (om aktiverad)"
+
+#. (itstool) path: section/p
+#: C/mail-sorting-folder-list.page:31
+msgid "The folders under each top-level node are sorted in alphabetical order."
+msgstr "Mapparna under varje toppnivånod sorteras i alfabetisk ordning."
+
+#. (itstool) path: section/title
+#: C/mail-sorting-folder-list.page:35
+msgid "Changing the sort order"
+msgstr "Ändra sorteringsordningen"
+
+#. (itstool) path: section/p
+#: C/mail-sorting-folder-list.page:37
+msgid ""
+"You can change the default sort order of the top-level nodes under "
+"<guiseq><gui>Edit</gui><gui>Preferences</gui><gui>Mail Accounts</gui></"
+"guiseq> by dragging an account in the list up or down."
+msgstr ""
+"Du kan ändra standardsorteringsordningen för toppnivånoderna under "
+"<guiseq><gui>Redigera</gui><gui>Inställningar</gui><gui>E-postkonton</gui></"
+"guiseq> genom att dra ett konto i listan uppåt eller nedåt."
+
+#. (itstool) path: section/p
+#: C/mail-sorting-folder-list.page:39
+msgid ""
+"You can revert your custom sort order by choosing <guiseq><gui>Edit</"
+"gui><gui>Preferences</gui><gui>Mail Accounts</gui><gui style=\"button"
+"\">Restore Default</gui></guiseq>."
+msgstr ""
+"Du kan återställa din anpassade sorteringsordning genom att välja "
+"<guiseq><gui>Redigera</gui><gui>Inställningar</gui><gui>E-postkonton</"
+"gui><gui style=\"button\">Återställ till standardvärden</gui></guiseq>."
 
 #. (itstool) path: info/desc
 #: C/mail-sorting-message-list.page:5
@@ -14007,7 +14191,7 @@ msgstr ""
 #. (itstool) path: item/p
 #: C/using-categories.page:50
 msgid "Enter the new category in the entry box at the top."
-msgstr "Ange den nya kategorin i inmatningsrutan längs upp."
+msgstr "Ange den nya kategorin i inmatningsrutan längst upp."
 
 #. (itstool) path: item/p
 #: C/using-categories.page:52
@@ -14324,17 +14508,13 @@ msgstr "Sändlista:"
 #. (itstool) path: item/p
 #: C/xinclude-filter-vfolder-conditions.xml:59
 msgid ""
-"Filters based on the mailing list the message came from. This filter might "
-"miss messages from some list servers, because it checks for the X-BeenThere "
-"header, which is used to identify mailing lists or other redistributors of "
-"mail. Mail from list servers that do not set X-BeenThere properly are not be "
-"caught by these filters."
+"Filters based on the mailing list the message came from. This filter checks "
+"for a variety of common mailing list related headers but might miss messages "
+"from some list servers if they use uncommon headers."
 msgstr ""
-"Filter baserade på sändlistan som meddelandet kom från. Detta filter kan "
-"missa meddelanden från vissa listservrar eftersom det letar efter rubriken X-"
-"BeenThere, som används för att identifiera sändlistor eller andra "
-"återdistributörer av post. Post från listservrar som inte har X-BeenThere "
-"satt korrekt fångas inte av dessa filter."
+"Filter baserade på sändlistan som meddelandet kom från. Detta filter tittar "
+"efter ett antal vanliga rubriker relaterade till sändlistor men kan missa "
+"meddelanden från listservrar om de använder ovanliga rubriker."
 
 #. (itstool) path: item/p
 #: C/xinclude-filter-vfolder-conditions.xml:61
@@ -14533,6 +14713,32 @@ msgstr "Redigera titeln eller sökvillkoren från dialogrutan."
 #: C/xinclude-searching.xml:30
 msgid "Click <_:gui-1/>."
 msgstr "Klicka på <_:gui-1/>."
+
+#~ msgid ""
+#~ "In the unlikely case that there is no <gui>Search folders</gui> top-level "
+#~ "node displayed at the bottom of the <link xref=\"intro-main-window#e-mail"
+#~ "\">mail folder list</link> you have to enable <guiseq><gui>Edit</"
+#~ "gui><gui>Preferences</gui><gui>Mail Accounts</gui><gui>Search Folders</"
+#~ "gui></guiseq>."
+#~ msgstr ""
+#~ "I det osannolika fallet att det inte visas någon toppnivånod "
+#~ "<gui>Sökmappar</gui> längst ner i <link xref=\"intro-main-window#e-mail"
+#~ "\">e-postmapplistan</link> måste du aktivera <guiseq><gui>Redigera</"
+#~ "gui><gui>Inställningar</gui><gui>E-postkonton</gui><gui>Sökmappar</gui></"
+#~ "guiseq>."
+
+#~ msgid ""
+#~ "Filters based on the mailing list the message came from. This filter "
+#~ "might miss messages from some list servers, because it checks for the X-"
+#~ "BeenThere header, which is used to identify mailing lists or other "
+#~ "redistributors of mail. Mail from list servers that do not set X-"
+#~ "BeenThere properly are not be caught by these filters."
+#~ msgstr ""
+#~ "Filter baserade på sändlistan som meddelandet kom från. Detta filter kan "
+#~ "missa meddelanden från vissa listservrar eftersom det letar efter "
+#~ "rubriken X-BeenThere, som används för att identifiera sändlistor eller "
+#~ "andra återdistributörer av post. Post från listservrar som inte har X-"
+#~ "BeenThere satt korrekt fångas inte av dessa filter."
 
 #~ msgid ""
 #~ "You can add people automatically to your contacts when you reply to "
@@ -14848,65 +15054,6 @@ msgstr "Klicka på <_:gui-1/>."
 
 #~ msgid "Show Buttons"
 #~ msgstr "Visa knappar"
-
-#~ msgid "Sorting the mail folder list in the left pane."
-#~ msgstr "Sortera e-postmapplistan i vänsterpanelen."
-
-#~ msgid "Sorting the mail folder list"
-#~ msgstr "Sortera e-postmapplistan"
-
-#~ msgid "Default sort order"
-#~ msgstr "Standardsorteringsordning"
-
-#~ msgid ""
-#~ "By default the <link xref=\"intro-main-window#e-mail\">mail folder list</"
-#~ "link> in the left pane contains top-level nodes in the following order:"
-#~ msgstr ""
-#~ "Som standard innehåller <link xref=\"intro-main-window#e-mail\">e-"
-#~ "postmapplistan</link> i den vänstra panelen toppnivånoder i följande "
-#~ "ordning:"
-
-#~ msgid ""
-#~ "<gui>On This Computer</gui> - contains all mail for local account types "
-#~ "(if configured)"
-#~ msgstr ""
-#~ "<gui>På denna dator</gui> - innehåller all e-post för lokala kontotyper "
-#~ "(om konfigurerad)"
-
-#~ msgid "One or more remote email account types (if configured)"
-#~ msgstr "En eller flera fjärr-e-postkontotyper (om konfigurerad)"
-
-#~ msgid ""
-#~ "<gui><link xref=\"mail-search-folders\">Search Folders</link></gui> (if "
-#~ "enabled)"
-#~ msgstr ""
-#~ "<gui><link xref=\"mail-search-folders\">Sökmappar</link></gui> (om "
-#~ "aktiverad)"
-
-#~ msgid ""
-#~ "The folders under each top-level node are sorted in alphabetical order."
-#~ msgstr "Mapparna under varje toppnivånod sorteras i alfabetisk ordning."
-
-#~ msgid "Changing the sort order"
-#~ msgstr "Ändra sorteringsordningen"
-
-#~ msgid ""
-#~ "You can change the default sort order of the top-level nodes under "
-#~ "<guiseq><gui>Edit</gui><gui>Preferences</gui><gui>Mail Accounts</gui></"
-#~ "guiseq> by dragging an account in the list up or down."
-#~ msgstr ""
-#~ "Du kan ändra standardsorteringsordningen för toppnivånoderna under "
-#~ "<guiseq><gui>Redigera</gui><gui>Inställningar</gui><gui>E-postkonton</"
-#~ "gui></guiseq> genom att dra ett konto i listan uppåt eller nedåt."
-
-#~ msgid ""
-#~ "You can revert your custom sort order by choosing <guiseq><gui>Edit</"
-#~ "gui><gui>Preferences</gui><gui>Mail Accounts</gui><gui style=\"button"
-#~ "\">Restore Default</gui></guiseq>."
-#~ msgstr ""
-#~ "Du kan återställa din anpassade sorteringsordning genom att välja "
-#~ "<guiseq><gui>Redigera</gui><gui>Inställningar</gui><gui>E-postkonton</"
-#~ "gui><gui style=\"button\">Återställ till standardvärden</gui></guiseq>."
 
 #~ msgid ""
 #~ "Please first read <link xref=\"exchange-connectors-overview\">Choosing "
