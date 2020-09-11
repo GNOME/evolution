@@ -18,8 +18,6 @@
 #include <gtk/gtk.h>
 #include <glib/gi18n.h>
 
-#include "e-mail-parser-prefer-plain.h"
-
 #include <em-format/e-mail-extension-registry.h>
 #include <em-format/e-mail-parser-extension.h>
 #include <em-format/e-mail-part.h>
@@ -28,13 +26,10 @@
 #include <libebackend/libebackend.h>
 #include <e-util/e-util.h>
 
-#define d(x)
+#include "e-mail-parser-prefer-plain.h"
 
 typedef struct _EMailParserPreferPlain EMailParserPreferPlain;
 typedef struct _EMailParserPreferPlainClass EMailParserPreferPlainClass;
-
-typedef EExtension EMailParserPreferPlainLoader;
-typedef EExtensionClass EMailParserPreferPlainLoaderClass;
 
 struct _EMailParserPreferPlain {
 	EMailParserExtension parent;
@@ -57,10 +52,7 @@ enum {
 	ONLY_PLAIN
 };
 
-G_DEFINE_DYNAMIC_TYPE (
-	EMailParserPreferPlain,
-	e_mail_parser_prefer_plain,
-	E_TYPE_MAIL_PARSER_EXTENSION)
+G_DEFINE_DYNAMIC_TYPE (EMailParserPreferPlain, e_mail_parser_prefer_plain, E_TYPE_MAIL_PARSER_EXTENSION)
 
 static const gchar *parser_mime_types[] = {
 	"multipart/alternative",
@@ -196,6 +188,150 @@ hide_parts (GQueue *work_queue)
 	}
 }
 
+static gchar *
+mail_parser_prefer_plain_dup_part_text (CamelMimePart *mime_part,
+				        GCancellable *cancellable)
+{
+	CamelDataWrapper *data_wrapper;
+	CamelMedium *medium;
+	CamelStream *stream;
+	GByteArray *array;
+	gchar *content;
+
+	if (!mime_part)
+		return NULL;
+
+	array = g_byte_array_new ();
+	medium = CAMEL_MEDIUM (mime_part);
+
+	/* Stream takes ownership of the byte array. */
+	stream = camel_stream_mem_new_with_byte_array (array);
+	data_wrapper = camel_medium_get_content (medium);
+	camel_data_wrapper_decode_to_stream_sync (
+		data_wrapper, stream, NULL, NULL);
+
+	content = g_strndup ((gchar *) array->data, array->len);
+
+	g_object_unref (stream);
+
+	return content;
+}
+
+typedef struct _AsyncContext {
+	gchar *text_input;
+	gchar *text_output;
+	GCancellable *cancellable;
+	EFlag *flag;
+	WebKitWebView *web_view;
+} AsyncContext;
+
+static void
+mail_parser_prefer_plain_convert_jsc_call_done_cb (GObject *source,
+						   GAsyncResult *result,
+						   gpointer user_data)
+{
+	WebKitJavascriptResult *js_result;
+	AsyncContext *async_context = user_data;
+	GError *error = NULL;
+
+	g_return_if_fail (async_context != NULL);
+
+	js_result = webkit_web_view_run_javascript_finish (WEBKIT_WEB_VIEW (source), result, &error);
+
+	if (error) {
+		if (!g_error_matches (error, G_IO_ERROR, G_IO_ERROR_CANCELLED) &&
+		    (!g_error_matches (error, WEBKIT_JAVASCRIPT_ERROR, WEBKIT_JAVASCRIPT_ERROR_SCRIPT_FAILED) ||
+		     /* WebKit can return empty error message, thus ignore those. */
+		     (error->message && *(error->message))))
+			g_warning ("%s: JSC call failed: %s:%d: %s", G_STRFUNC, g_quark_to_string (error->domain), error->code, error->message);
+		g_clear_error (&error);
+	}
+
+	if (js_result) {
+		JSCException *exception;
+		JSCValue *value;
+
+		value = webkit_javascript_result_get_js_value (js_result);
+		exception = jsc_context_get_exception (jsc_value_get_context (value));
+
+		if (exception) {
+			g_warning ("%s: JSC call failed: %s", G_STRFUNC, jsc_exception_get_message (exception));
+			jsc_context_clear_exception (jsc_value_get_context (value));
+		} else if (jsc_value_is_string (value)) {
+			async_context->text_output = jsc_value_to_string (value);
+		}
+
+		webkit_javascript_result_unref (js_result);
+	}
+
+	g_clear_object (&async_context->web_view);
+
+	e_flag_set (async_context->flag);
+}
+
+static gboolean
+mail_parser_prefer_plain_convert_text (gpointer user_data)
+{
+	AsyncContext *async_context = user_data;
+	gchar *script;
+
+	g_return_val_if_fail (async_context != NULL, FALSE);
+
+	async_context->web_view = g_object_ref_sink (e_web_view_new ());
+
+	e_web_view_load_uri (E_WEB_VIEW (async_context->web_view), "evo://disable-remote-content");
+
+	script = e_web_view_jsc_printf_script (
+		"var elem;\n"
+		"elem = document.createElement('X-EVO-CONVERT');\n"
+		"elem.innerHTML = %s;\n"
+		"EvoConvert.ToPlainText(elem, -1);",
+		async_context->text_input);
+
+	webkit_web_view_run_javascript (async_context->web_view, script, async_context->cancellable,
+		mail_parser_prefer_plain_convert_jsc_call_done_cb, async_context);
+
+	g_free (script);
+
+	return FALSE;
+}
+
+static gchar *
+mail_parser_prefer_plain_convert_content_sync (CamelMimePart *mime_part,
+					       GCancellable *cancellable)
+{
+	AsyncContext async_context;
+	gchar *res = NULL;
+
+	memset (&async_context, 0, sizeof (AsyncContext));
+
+	async_context.text_input = mail_parser_prefer_plain_dup_part_text (mime_part, cancellable);
+
+	if (!async_context.text_input || g_cancellable_is_cancelled (cancellable)) {
+		g_free (async_context.text_input);
+		return NULL;
+	}
+
+	async_context.flag = e_flag_new ();
+	async_context.cancellable = cancellable;
+
+	/* Run it in the main/GUI thread */
+	g_timeout_add (1, mail_parser_prefer_plain_convert_text, &async_context);
+
+	e_flag_wait (async_context.flag);
+	e_flag_free (async_context.flag);
+
+	if (async_context.text_output) {
+		res = async_context.text_output;
+		async_context.text_output = NULL;
+	}
+
+	g_free (async_context.text_input);
+	g_free (async_context.text_output);
+
+	return res;
+}
+
 static gboolean
 empe_prefer_plain_parse (EMailParserExtension *extension,
                          EMailParser *parser,
@@ -250,12 +386,40 @@ empe_prefer_plain_parse (EMailParserExtension *extension,
 		if (emp_pp->mode != ONLY_PLAIN)
 			return FALSE;
 
-		/* Enforcing text/plain but got only HTML part, so add it
-		 * as attachment to not show empty message preview, which
-		 * is confusing. */
-		make_part_attachment (
-			parser, part, part_id, TRUE,
-			cancellable, out_mail_parts);
+		if (!e_mail_part_is_attachment (part)) {
+			gchar *content;
+
+			partidlen = part_id->len;
+
+			g_string_truncate (part_id, partidlen);
+			g_string_append_printf (part_id, ".alternative-prefer-plain.%d.converted", -1);
+
+			content = mail_parser_prefer_plain_convert_content_sync (part, cancellable);
+
+			if (content) {
+				EMailPart *mail_part;
+				CamelMimePart *text_part;
+
+				text_part = camel_mime_part_new ();
+				camel_mime_part_set_content (text_part, content, strlen (content), "application/vnd.evolution.plaintext");
+				mail_part = e_mail_part_new (text_part, part_id->str);
+				e_mail_part_set_mime_type (mail_part, "application/vnd.evolution.plaintext");
+				g_free (content);
+
+				g_queue_push_tail (out_mail_parts, mail_part);
+			}
+
+			g_string_truncate (part_id, partidlen);
+		}
+
+		if (emp_pp->show_suppressed || e_mail_part_is_attachment (part)) {
+			/* Enforcing text/plain but got only HTML part, so add it
+			 * as attachment to not show empty message preview, which
+			 * is confusing. */
+			make_part_attachment (
+				parser, part, part_id, TRUE,
+				cancellable, out_mail_parts);
+		}
 
 		return TRUE;
 	}
@@ -565,4 +729,3 @@ e_mail_parser_prefer_plain_type_register (GTypeModule *type_module)
 {
 	e_mail_parser_prefer_plain_register_type (type_module);
 }
-

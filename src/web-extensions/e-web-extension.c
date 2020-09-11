@@ -104,11 +104,14 @@ web_page_send_request_cb (WebKitWebPage *web_page,
 	request_uri = webkit_uri_request_get_uri (request);
 	page_uri = webkit_web_page_get_uri (web_page);
 
+	if (!request_uri)
+		return FALSE;
+
 	/* Always load the main resource. */
 	if (g_strcmp0 (request_uri, page_uri) == 0 ||
 	    /* Do not influence real pages, like those with eds OAuth sign-in */
-	    g_str_has_prefix (page_uri, "http:") ||
-	    g_str_has_prefix (page_uri, "https:"))
+	    (page_uri && (g_str_has_prefix (page_uri, "http:") ||
+			  g_str_has_prefix (page_uri, "https:"))))
 		return FALSE;
 
 	if (g_str_has_prefix (request_uri, "http:") ||

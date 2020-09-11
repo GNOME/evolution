@@ -188,6 +188,7 @@ e_http_request_process_sync (EContentRequest *request,
 	gchar *mail_uri = NULL;
 	GInputStream *stream;
 	gboolean force_load_images = FALSE;
+	gboolean disable_remote_content = FALSE;
 	EImageLoadingPolicy image_policy;
 	gchar *uri_md5;
 	EShell *shell;
@@ -341,9 +342,17 @@ e_http_request_process_sync (EContentRequest *request,
 	if (!e_shell_get_online (shell))
 		goto cleanup;
 
-	settings = e_util_ref_settings ("org.gnome.evolution.mail");
-	image_policy = g_settings_get_enum (settings, "image-loading-policy");
-	g_object_unref (settings);
+	if (WEBKIT_IS_WEB_VIEW (requester))
+		disable_remote_content = g_strcmp0 (webkit_web_view_get_uri (WEBKIT_WEB_VIEW (requester)), "evo://disable-remote-content") == 0;
+
+	if (disable_remote_content) {
+		force_load_images = FALSE;
+		image_policy = E_IMAGE_LOADING_POLICY_NEVER;
+	} else {
+		settings = e_util_ref_settings ("org.gnome.evolution.mail");
+		image_policy = g_settings_get_enum (settings, "image-loading-policy");
+		g_object_unref (settings);
+	}
 
 	/* Item not found in cache, but image loading policy allows us to fetch
 	 * it from the interwebs */
