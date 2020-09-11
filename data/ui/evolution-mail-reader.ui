@@ -1,4 +1,4 @@
-<ui evolution-ui-version="1.0">
+<ui evolution-ui-version="1.1">
   <accelerator action='mail-smart-backward'/>
   <accelerator action='mail-smart-forward'/>
 
@@ -159,6 +159,7 @@
       <toolitem action='mail-mark-junk'/>
       <toolitem action='mail-mark-notjunk'/>
       <toolitem action='mail-archive'/>
+      <toolitem action='mail-load-images'/>
     </placeholder>
     <separator/>
     <placeholder name='mail-toolbar-navigation'>
