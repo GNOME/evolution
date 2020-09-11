@@ -1,3 +1,24 @@
+Evolution 3.38.0 2020-09-11
+---------------------------
+
+Miscellaneous:
+	ECompEditorMemo: Invalid cast of a widget object (Milan Crha)
+
+Translations:
+	Daniel Mustieles (es)
+	Balázs Meskó (hu)
+	Alan Mortensen (da)
+	Julien Humbert (fr)
+	Anders Jonsson (sv)
+	Dušan Kazik (sk)
+	Gil Forcada (ca)
+	Марко Костић (sr)
+	Marek Černocký (cs)
+	Waldo Luís Ribeiro (pt)
+	Juliano Camargo (pt)
+	Gianvito Cavasoli (it)
+	Jordi Mas (ca)
+
 Evolution 3.37.92 2020-09-04
 ----------------------------
 
