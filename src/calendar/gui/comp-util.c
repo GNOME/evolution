@@ -809,8 +809,17 @@ comp_util_sanitize_recurrence_master_sync (ECalComponent *comp,
 		i_cal_time_get_date (e_cal_component_datetime_get_value (medt), &yy, &mm, &dd);
 		i_cal_time_set_date (e_cal_component_datetime_get_value (edt), yy, mm, dd);
 
+		/* Make sure the DATE value of the DTSTART and DTEND do not match */
+		if (i_cal_time_is_date (e_cal_component_datetime_get_value (sdt)) &&
+		    i_cal_time_is_date (e_cal_component_datetime_get_value (edt)) &&
+		    i_cal_time_compare_date_only (e_cal_component_datetime_get_value (sdt), e_cal_component_datetime_get_value (edt)) == 0) {
+			i_cal_time_adjust (e_cal_component_datetime_get_value (edt), 1, 0, 0, 0);
+		}
+
 		e_cal_component_set_dtstart (comp, sdt);
 		e_cal_component_set_dtend (comp, edt);
+
+		e_cal_component_abort_sequence (comp);
 
 		e_cal_component_datetime_free (msdt);
 		e_cal_component_datetime_free (medt);
