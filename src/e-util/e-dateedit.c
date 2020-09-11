@@ -2011,7 +2011,7 @@ on_date_entry_focus_out (GtkEntry *entry,
                          GdkEventFocus *event,
                          EDateEdit *dedit)
 {
-	gboolean did_change;
+	gboolean did_change, success = TRUE;
 	struct tm tmp_tm;
 
 	tmp_tm.tm_year = 0;
@@ -2024,12 +2024,20 @@ on_date_entry_focus_out (GtkEntry *entry,
 		gtk_entry_set_icon_from_icon_name (entry, GTK_ENTRY_ICON_SECONDARY, "dialog-warning");
 		gtk_entry_set_icon_tooltip_text (entry, GTK_ENTRY_ICON_SECONDARY, _("Invalid Date Value"));
 		gtk_entry_grab_focus_without_selecting (entry);
-		return FALSE;
+		success = FALSE;
 	} else if (e_date_edit_get_date (
 		dedit, &tmp_tm.tm_year, &tmp_tm.tm_mon, &tmp_tm.tm_mday)) {
 
 		e_date_edit_set_date (
 			dedit,tmp_tm.tm_year,tmp_tm.tm_mon,tmp_tm.tm_mday);
+	} else {
+		dedit->priv->date_set_to_none = TRUE;
+		e_date_edit_update_date_entry (dedit);
+	}
+
+	if (success) {
+		gtk_entry_set_icon_from_icon_name (entry, GTK_ENTRY_ICON_SECONDARY, NULL);
+		gtk_entry_set_icon_tooltip_text (entry, GTK_ENTRY_ICON_SECONDARY, NULL);
 
 		if (!did_change && dedit->priv->date_been_changed) {
 			/* The previous one didn't emit changed signal,
@@ -2038,13 +2046,7 @@ on_date_entry_focus_out (GtkEntry *entry,
 		}
 
 		dedit->priv->date_been_changed = FALSE;
-	} else {
-		dedit->priv->date_set_to_none = TRUE;
-		e_date_edit_update_date_entry (dedit);
 	}
-
-	gtk_entry_set_icon_from_icon_name (entry, GTK_ENTRY_ICON_SECONDARY, NULL);
-	gtk_entry_set_icon_tooltip_text (entry, GTK_ENTRY_ICON_SECONDARY, NULL);
 
 	return FALSE;
 }
