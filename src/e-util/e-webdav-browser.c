@@ -395,8 +395,8 @@ webdav_browser_update_ui (EWebDAVBrowser *webdav_browser)
 		GtkTreePath *path;
 		GdkRGBA rgba;
 		GString *type_info;
-		const gchar *icon_name = NULL;
-		gchar *parent_href, *ptr;
+		const gchar *icon_name = NULL, *description;
+		gchar *parent_href, *ptr, *tmp = NULL;
 		gboolean has_parent_iter = FALSE, has_color, is_loaded_row = FALSE, is_existing_row = FALSE;
 		gint len;
 
@@ -534,11 +534,22 @@ webdav_browser_update_ui (EWebDAVBrowser *webdav_browser)
 			has_color = gdk_rgba_parse (&rgba, rd->resource->color);
 		}
 
+		if (rd->resource->kind == E_WEBDAV_RESOURCE_KIND_COLLECTION) {
+			if (rd->resource->description && *rd->resource->description) {
+				tmp = g_strconcat (rd->resource->description, "\n\n", rd->resource->href, NULL);
+				description = tmp;
+			} else {
+				description = rd->resource->href;
+			}
+		} else {
+			description = rd->resource->description;
+		}
+
 		gtk_tree_store_set (tree_store, &iter,
 			COLUMN_STRING_DISPLAY_NAME, rd->resource->display_name,
 			COLUMN_STRING_TYPE, type_info->str,
 			COLUMN_STRING_HREF, rd->resource->href,
-			COLUMN_STRING_DESCRIPTION, rd->resource->description,
+			COLUMN_STRING_DESCRIPTION, description,
 			COLUMN_STRING_ICON_NAME, icon_name,
 			COLUMN_BOOL_ICON_VISIBLE, icon_name != NULL,
 			COLUMN_RGBA_COLOR, has_color ? &rgba : NULL,
@@ -550,6 +561,7 @@ webdav_browser_update_ui (EWebDAVBrowser *webdav_browser)
 
 		g_string_free (type_info, TRUE);
 		g_free (parent_href);
+		g_free (tmp);
 	}
 
 	g_slist_free_full (webdav_browser->priv->resources, resource_data_free);
