@@ -146,7 +146,7 @@ html_editor_link_dialog_show (GtkWidget *widget)
 	cnt_editor = e_html_editor_get_content_editor (editor);
 
 	/* Reset to default values */
-	gtk_entry_set_text (GTK_ENTRY (dialog->priv->url_edit), "http://");
+	gtk_entry_set_text (GTK_ENTRY (dialog->priv->url_edit), "https://");
 	gtk_entry_set_text (GTK_ENTRY (dialog->priv->label_edit), "");
 	gtk_widget_set_sensitive (dialog->priv->label_edit, TRUE);
 	gtk_widget_set_sensitive (dialog->priv->remove_link_button, TRUE);
