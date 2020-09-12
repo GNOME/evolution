@@ -156,7 +156,7 @@ msgid ""
 "You can also define whether to show a reminder for every appointment and for"
 " every birthday and anniversary."
 msgstr ""
-"A <guiseq><gui>Edita</gui><gui>Preferènces</gui> <gui>Calendari i "
+"A <guiseq><gui>Edita</gui><gui>Preferències</gui> <gui>Calendari i "
 "tasques</gui><gui>Recordatoris</gui></guiseq> podeu seleccionar els "
 "calendaris per als quals voleu rebre notificacions de recordatoris. Si no "
 "seleccioneu un calendari, no rebreu recordatoris de cap esdeveniment "
@@ -6643,7 +6643,7 @@ msgstr "Per activar el recordatori d'adjuncions:"
 #. (itstool) path: item/p
 #: C/mail-attachments-sending.page:47
 msgid "Enable <gui>Attachment Reminder</gui>."
-msgstr "Activar <gui>Recordatori d'adjuncions </gui>."
+msgstr "Activar <gui>Recordatori d'adjuncions</gui>."
 
 #. (itstool) path: item/p
 #: C/mail-attachments-sending.page:50
@@ -8480,8 +8480,8 @@ msgid ""
 "<gui>Reply</gui> or <gui>Reply to All</gui>."
 msgstr ""
 "Si us subscriviu a una llista de correu i voleu que la vostra resposta es "
-"dirigeixi a la llista més que al remitent, seleccioneu <gui>Respondre a la "
-"Llista</gui> en comptes de <gui>Respon</gui> o <gui>Respondre a "
+"dirigeixi a la llista més que al remitent, seleccioneu <gui>Respon a la "
+"llista</gui> en comptes de <gui>Respon</gui> o <gui>Respondre a "
 "tothom</gui>."
 
 #. (itstool) path: section/title
@@ -9624,7 +9624,7 @@ msgid ""
 msgstr ""
 "Per comprovar la signatura del remitent d'un missatge rebut, desplaceu-vos "
 "fins a la part inferior del missatge i feu clic al logotip. "
-"<app>Evolution</app> us mostrarà la <gui>Informació de Seguretat</gui> del "
+"<app>Evolution</app> us mostrarà la <gui>Informació de seguretat</gui> del "
 "missatge."
 
 #. (itstool) path: info/desc
@@ -12642,7 +12642,7 @@ msgstr ""
 "<app>Evolution</app> reconeix <_:code-1/> <_:code-2/> les capçaleres dels "
 "correus electrònics. A més, podeu habilitar "
 "<guiseq><gui>Edita</gui><gui>Preferències</gui><gui>Preferències de "
-"correu</gui><gui>General</gui><gui>Mostra missatge</gui><gui>Torna a tractar"
+"correu</gui><gui>General</gui><gui>Visualització dels missatges</gui><gui>Torna a tractar"
 " els missatges per tema</gui></guiseq>."
 
 #. (itstool) path: section/p
@@ -14096,7 +14096,7 @@ msgid ""
 "Click <guiseq><gui>File</gui><gui>New</gui><gui>Task List</gui></guiseq> or "
 "<guiseq><gui>File</gui><gui>New</gui><gui>Memo List</gui></guiseq>."
 msgstr ""
-"Feu clic a <guiseq><gui>Fitxer</gui><gui>Nou</gui><gui>Llista "
+"Feu clic a <guiseq><gui>Fitxer</gui><gui>Nou</gui><gui>Llista de "
 "tasques</gui></guiseq> o <guiseq><gui>Fitxer</gui><gui>Nou</gui><gui>Llista "
 "notes</gui></guiseq>."
 
@@ -14134,7 +14134,7 @@ msgid ""
 "Tasks</gui><gui>Tasks</gui></guiseq>."
 msgstr ""
 "Les següents opcions relacionades amb la tasca estan disponibles a "
-"<guiseq><gui>Edita</gui><gui>Preferènces</gui><gui>Calendari i "
+"<guiseq><gui>Edita</gui><gui>Preferències</gui><gui>Calendari i "
 "tasques</gui><gui>Tasques</gui></guiseq>."
 
 #. (itstool) path: item/p
