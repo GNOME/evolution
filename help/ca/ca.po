@@ -8659,7 +8659,7 @@ msgid ""
 msgstr ""
 "Aquesta configuració està disponible a "
 "<guiseq><gui>Edita</gui><gui>Preferències</gui><gui>Edita "
-"Preferències</gui><gui>Envia compte</gui></guiseq>."
+"Preferències</gui><gui>Compte d'enviament</gui></guiseq>."
 
 #. (itstool) path: info/desc
 #: C/mail-composer-several-recipients.page:5
@@ -11258,7 +11258,7 @@ msgid ""
 msgstr ""
 "Per llegir les notificacions de recepció que rebeu, podeu definir el "
 "comportament d'<app>Evolution</app> a <gui>Recepció de missatges</gui> a la "
-"secció <gui>Edita missatges</gui> a <link xref=\"mail-account-"
+"secció <gui>Redacció de missatges</gui> a <link xref=\"mail-account-"
 "management\">preferències del compte</link>."
 
 #. (itstool) path: info/desc
@@ -14583,7 +14583,7 @@ msgid ""
 "the bottom of the <gui>Categories</gui> window. Press <gui "
 "style=\"button\">Delete</gui> to delete categories from the list."
 msgstr ""
-"A l'<gui>Editor categories</gui> podeu editar o configurar el color i la "
+"A l'<gui>Editor de categories</gui> podeu editar o configurar el color i la "
 "icona per a cada categoria disponible fent clic a <gui "
 "style=\"button\">Edita</gui> a la part inferior de la finestra de "
 "<gui>Categories</gui>. Premeu <gui style=\"button\">Suprimeix</gui> per "
