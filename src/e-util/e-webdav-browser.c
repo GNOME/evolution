@@ -124,6 +124,7 @@ enum {
 	COLUMN_BOOL_CHILDREN_LOADED,
 	COLUMN_UINT_EDITING_FLAGS,
 	COLUMN_UINT_SUPPORTS,
+	COLUMN_STRING_TOOLTIP,
 	N_COLUMNS
 };
 
@@ -396,7 +397,7 @@ webdav_browser_update_ui (EWebDAVBrowser *webdav_browser)
 		GdkRGBA rgba;
 		GString *type_info;
 		const gchar *icon_name = NULL, *description;
-		gchar *parent_href, *ptr, *tmp = NULL;
+		gchar *parent_href, *ptr, *tmp = NULL, *tooltip;
 		gboolean has_parent_iter = FALSE, has_color, is_loaded_row = FALSE, is_existing_row = FALSE;
 		gint len;
 
@@ -545,6 +546,8 @@ webdav_browser_update_ui (EWebDAVBrowser *webdav_browser)
 			description = rd->resource->description;
 		}
 
+		tooltip = description ? g_markup_escape_text (description, -1) : NULL;
+
 		gtk_tree_store_set (tree_store, &iter,
 			COLUMN_STRING_DISPLAY_NAME, rd->resource->display_name,
 			COLUMN_STRING_TYPE, type_info->str,
@@ -557,10 +560,12 @@ webdav_browser_update_ui (EWebDAVBrowser *webdav_browser)
 			COLUMN_BOOL_CHILDREN_LOADED, is_loaded_row,
 			COLUMN_UINT_EDITING_FLAGS, rd->editing_flags,
 			COLUMN_UINT_SUPPORTS, rd->resource->supports,
+			COLUMN_STRING_TOOLTIP, tooltip,
 			-1);
 
 		g_string_free (type_info, TRUE);
 		g_free (parent_href);
+		g_free (tooltip);
 		g_free (tmp);
 	}
 
@@ -2413,7 +2418,8 @@ webdav_browser_tree_view_new (EWebDAVBrowser *webdav_browser)
 		G_TYPE_BOOLEAN,	/* COLUMN_BOOL_COLOR_VISIBLE */
 		G_TYPE_BOOLEAN,	/* COLUMN_BOOL_CHILDREN_LOADED */
 		G_TYPE_UINT,	/* COLUMN_UINT_EDITING_FLAGS */
-		G_TYPE_UINT	/* COLUMN_UINT_SUPPORTS */
+		G_TYPE_UINT,	/* COLUMN_UINT_SUPPORTS */
+		G_TYPE_STRING	/* COLUMN_STRING_TOOLTIP */
 	);
 
 	sort_model = gtk_tree_model_sort_new_with_model (GTK_TREE_MODEL (tree_store));
@@ -2426,7 +2432,7 @@ webdav_browser_tree_view_new (EWebDAVBrowser *webdav_browser)
 	g_object_unref (tree_store);
 
 	gtk_tree_view_set_reorderable (tree_view, FALSE);
-	gtk_tree_view_set_tooltip_column (tree_view, COLUMN_STRING_DESCRIPTION);
+	gtk_tree_view_set_tooltip_column (tree_view, COLUMN_STRING_TOOLTIP);
 
 	/* Column: Name */
 
