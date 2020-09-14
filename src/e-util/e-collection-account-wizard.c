@@ -2550,8 +2550,38 @@ e_collection_account_wizard_next (ECollectionAccountWizard *wizard)
 
 		text = gtk_entry_get_text (GTK_ENTRY (wizard->priv->display_name_entry));
 		if (!text || !*text) {
-			gtk_entry_set_text (GTK_ENTRY (wizard->priv->display_name_entry),
-				gtk_entry_get_text (GTK_ENTRY (wizard->priv->email_entry)));
+			gchar *tmp = NULL;
+
+			text = gtk_entry_get_text (GTK_ENTRY (wizard->priv->email_entry));
+
+			if (!text || !*text) {
+				text = gtk_entry_get_text (GTK_ENTRY (wizard->priv->servers_entry));
+
+				if (text && *text) {
+					gchar *ptr;
+
+					if (g_ascii_strncasecmp (text, "http://", 7) == 0)
+						text += 7;
+					else if (g_ascii_strncasecmp (text, "https://", 8) == 0)
+						text += 8;
+
+					/* get the first entered server name */
+					ptr = strchr (text, ';');
+					tmp = ptr ? g_strndup (text, ptr - text) : g_strdup (text);
+
+					/* eventually skip the path */
+					ptr = strchr (tmp, '/');
+					if (ptr)
+						*ptr = '\0';
+
+					text = tmp;
+				}
+			}
+
+			if (text && *text)
+				gtk_entry_set_text (GTK_ENTRY (wizard->priv->display_name_entry), text);
+
+			g_free (tmp);
 		}
 
 		gtk_notebook_set_current_page (GTK_NOTEBOOK (wizard), 2);
@@ -2563,6 +2593,10 @@ e_collection_account_wizard_next (ECollectionAccountWizard *wizard)
 		changed = FALSE;
 		break;
 	}
+
+	/* To update sensitivity of the "Next"/"Finish" button */
+	if (changed)
+		g_object_notify (G_OBJECT (wizard), "can-run");
 
 	return changed;
 }
@@ -2592,6 +2626,9 @@ e_collection_account_wizard_prev (ECollectionAccountWizard *wizard)
 		return FALSE;
 
 	gtk_notebook_set_current_page (GTK_NOTEBOOK (wizard), current_page - 1);
+
+	/* To update sensitivity of the "Next"/"Finish" button */
+	g_object_notify (G_OBJECT (wizard), "can-run");
 
 	return TRUE;
 }
