@@ -22,6 +22,7 @@
 #define TEXT_ROW_SENDER "text_row_sender"
 #define TABLE_ROW_SUMMARY "table_row_summary"
 #define TABLE_ROW_LOCATION "table_row_location"
+#define TABLE_ROW_URL "table_row_url"
 #define TABLE_ROW_START_DATE "table_row_start_time"
 #define TABLE_ROW_END_DATE "table_row_end_time"
 #define TABLE_ROW_STATUS "table_row_status"

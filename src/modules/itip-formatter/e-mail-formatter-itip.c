@@ -86,7 +86,6 @@ emfe_itip_format (EMailFormatterExtension *extension,
 		buffer = g_string_sized_new (2048);
 
 		itip_view_write (itip_part, formatter, buffer);
-
 	} else {
 		CamelFolder *folder, *old_folder;
 		CamelMimeMessage *message, *old_message;

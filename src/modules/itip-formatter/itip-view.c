@@ -82,6 +82,7 @@ struct _ItipViewPrivate {
 	gchar *location;
         gchar *status;
 	gchar *comment;
+	gchar *url;
 
 	struct tm *start_tm;
 	guint start_tm_is_date : 1;
@@ -686,7 +687,8 @@ htmlize_text (const gchar *id,
 	      gchar **out_tmp)
 {
 	if (text && *text) {
-		if (g_strcmp0 (id, TABLE_ROW_LOCATION) == 0) {
+		if (g_strcmp0 (id, TABLE_ROW_LOCATION) == 0 ||
+		    g_strcmp0 (id, TABLE_ROW_URL) == 0) {
 			*out_tmp = camel_text_to_html (text, CAMEL_MIME_FILTER_TOHTML_CONVERT_URLS | CAMEL_MIME_FILTER_TOHTML_CONVERT_ADDRESSES, 0);
 		} else {
 			*out_tmp = g_markup_escape_text (text, -1);
@@ -1485,6 +1487,7 @@ itip_view_finalize (GObject *object)
 	g_free (priv->location);
 	g_free (priv->status);
 	g_free (priv->comment);
+	g_free (priv->url);
 	g_free (priv->start_tm);
 	g_free (priv->start_label);
 	g_free (priv->end_tm);
@@ -1698,6 +1701,7 @@ itip_view_write (gpointer itip_part_ptr,
 
 	append_text_table_row (buffer, TABLE_ROW_SUMMARY, NULL, NULL);
 	append_text_table_row (buffer, TABLE_ROW_LOCATION, _("Location:"), NULL);
+	append_text_table_row (buffer, TABLE_ROW_URL, _("URL:"), NULL);
 	append_text_table_row (buffer, TABLE_ROW_START_DATE, _("Start time:"), NULL);
 	append_text_table_row (buffer, TABLE_ROW_END_DATE, _("End time:"), NULL);
 	append_text_table_row (buffer, TABLE_ROW_STATUS, _("Status:"), NULL);
@@ -1809,6 +1813,9 @@ itip_view_write_for_printing (ItipView *view,
 	append_text_table_row_nonempty (
 		buffer, TABLE_ROW_LOCATION,
 		_("Location:"), view->priv->location);
+	append_text_table_row_nonempty (
+		buffer, TABLE_ROW_URL,
+		_("URL:"), view->priv->url);
 	append_text_table_row_nonempty (
 		buffer, TABLE_ROW_START_DATE,
 		view->priv->start_header, view->priv->start_label);
@@ -2189,6 +2196,30 @@ itip_view_get_location (ItipView *view)
 	g_return_val_if_fail (ITIP_IS_VIEW (view), NULL);
 
 	return view->priv->location;
+}
+
+void
+itip_view_set_url (ItipView *view,
+		   const gchar *url)
+{
+	g_return_if_fail (ITIP_IS_VIEW (view));
+
+	if (view->priv->url == url)
+		return;
+
+	g_free (view->priv->url);
+
+	view->priv->url = url ? g_strstrip (e_utf8_ensure_valid (url)) : NULL;
+
+	set_area_text (view, TABLE_ROW_URL, view->priv->url);
+}
+
+const gchar *
+itip_view_get_url (ItipView *view)
+{
+	g_return_val_if_fail (ITIP_IS_VIEW (view), NULL);
+
+	return view->priv->url;
 }
 
 void
@@ -6481,6 +6512,10 @@ itip_view_init_view (ItipView *view)
 
 	string = e_cal_component_get_location (view->priv->comp);
 	itip_view_set_location (view, string);
+	g_free (string);
+
+	string = e_cal_component_get_url (view->priv->comp);
+	itip_view_set_url (view, string);
 	g_free (string);
 
         /* Status really only applies for REPLY */

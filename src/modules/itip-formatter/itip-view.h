@@ -158,6 +158,9 @@ void		itip_view_set_summary		(ItipView *view,
 const gchar *	itip_view_get_location		(ItipView *view);
 void		itip_view_set_location		(ItipView *view,
 						 const gchar *location);
+const gchar *	itip_view_get_url		(ItipView *view);
+void		itip_view_set_url		(ItipView *view,
+						 const gchar *url);
 const gchar *	itip_view_get_status		(ItipView *view);
 void		itip_view_set_status		(ItipView *view,
 						 const gchar *status);
