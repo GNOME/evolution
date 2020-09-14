@@ -740,6 +740,7 @@ e_mail_parser_error (EMailParser *parser,
 
 	mail_part = e_mail_part_new (part, uri);
 	e_mail_part_set_mime_type (mail_part, mime_type);
+	e_mail_part_set_is_printable (mail_part, FALSE);
 	mail_part->is_error = TRUE;
 
 	g_free (uri);
