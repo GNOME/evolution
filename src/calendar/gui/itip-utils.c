@@ -2010,6 +2010,8 @@ itip_send_component_begin (ItipSendComponentData *isc,
 			   GCancellable *cancellable,
 			   GError **error)
 {
+	GSList *link;
+
 	g_return_if_fail (isc != NULL);
 
 	isc->completed = FALSE;
@@ -2035,6 +2037,24 @@ itip_send_component_begin (ItipSendComponentData *isc,
 			cal_comp_util_copy_new_attendees (isc->send_comps->data, old_send_comps->data);
 
 			g_slist_free_full (old_send_comps, g_object_unref);
+		}
+	}
+
+	for (link = isc->send_comps; link; link = g_slist_next (link)) {
+		ECalComponent *comp = link->data;
+
+		if (comp && e_cal_component_has_attachments (comp)) {
+			ECalComponent *clone;
+
+			clone = e_cal_component_clone (comp);
+			g_object_unref (comp);
+
+			link->data = clone;
+
+			if (!e_cal_util_inline_local_attachments_sync (e_cal_component_get_icalcomponent (clone), cancellable, error)) {
+				isc->success = FALSE;
+				return;
+			}
 		}
 	}
 
