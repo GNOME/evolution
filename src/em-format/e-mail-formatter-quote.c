@@ -99,6 +99,10 @@ mail_formatter_quote_run (EMailFormatter *formatter,
 
 		mime_type = e_mail_part_get_mime_type (part);
 
+		/* Skip error messages in the quoted part */
+		if (g_strcmp0 (mime_type, "application/vnd.evolution.error") == 0)
+			continue;
+
 		e_mail_formatter_format_as (
 			formatter, context, part, stream,
 			mime_type, cancellable);
