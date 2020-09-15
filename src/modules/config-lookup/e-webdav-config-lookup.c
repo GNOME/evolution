@@ -158,10 +158,10 @@ webdav_config_lookup_propagate_error (GError **error,
 				      gboolean *out_authentication_failed)
 {
 	if (g_error_matches (local_error, SOUP_HTTP_ERROR, SOUP_STATUS_UNAUTHORIZED)) {
-		local_error->domain = E_CONFIG_LOOKUP_WORKER_ERROR;
-		local_error->code = E_CONFIG_LOOKUP_WORKER_ERROR_REQUIRES_PASSWORD;
+		g_set_error_literal (error, E_CONFIG_LOOKUP_WORKER_ERROR, E_CONFIG_LOOKUP_WORKER_ERROR_REQUIRES_PASSWORD,
+			_("Requires password to continue."));
 
-		g_propagate_error (error, local_error);
+		g_clear_error (&local_error);
 
 		if (out_authentication_failed)
 			*out_authentication_failed = TRUE;

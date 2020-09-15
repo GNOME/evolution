@@ -500,8 +500,16 @@ collection_account_wizard_worker_finished_cb (EConfigLookup *config_lookup,
 
 		link = g_markup_printf_escaped ("<a href=\"evo:enter-password\">%s</a>", _("Enter password"));
 
-		/* Translators: The %s is replaced with a clickable text "Enter password", thus it'll be "Requires password to continue. Enter password." at the end. */
-		markup = g_strdup_printf (_("Requires password to continue. %s."), link);
+		if (error->message && *error->message) {
+			gchar *escaped;
+
+			escaped = g_markup_escape_text (error->message, -1);
+			markup = g_strconcat (escaped, " ", link, NULL);
+			g_free (escaped);
+		} else {
+			/* Translators: The %s is replaced with a clickable text "Enter password", thus it'll be "Requires password to continue. Enter password." at the end. */
+			markup = g_strdup_printf (_("Requires password to continue. %s."), link);
+		}
 
 		gtk_label_set_markup (GTK_LABEL (wd->running_label), markup);
 
@@ -510,17 +518,20 @@ collection_account_wizard_worker_finished_cb (EConfigLookup *config_lookup,
 	} else if (g_error_matches (error, E_CONFIG_LOOKUP_WORKER_ERROR, E_CONFIG_LOOKUP_WORKER_ERROR_CERTIFICATE) &&
 		   restart_params && e_named_parameters_exists (restart_params, E_CONFIG_LOOKUP_PARAM_CERTIFICATE_PEM) &&
 		   e_named_parameters_exists (restart_params, E_CONFIG_LOOKUP_PARAM_CERTIFICATE_HOST)) {
-		gchar *markup, *link;
+		gchar *markup, *link, *escaped = NULL;
 
 		wd->certificate_error = g_strdup (error->message);
 
 		link = g_markup_printf_escaped ("<a href=\"evo:view-certificate\">%s</a>", _("View certificate"));
 
-		markup = g_strconcat (error->message ? error->message : "",
-			error->message ? "\n" : "", link, NULL);
+		if (error->message && *error->message)
+			escaped = g_markup_escape_text (error->message, -1);
+
+		markup = g_strconcat (escaped ? escaped : "", escaped ? "\n" : "", link, NULL);
 
 		gtk_label_set_markup (GTK_LABEL (wd->running_label), markup);
 
+		g_free (escaped);
 		g_free (markup);
 		g_free (link);
 	} else if (error) {
@@ -1865,6 +1876,7 @@ collection_account_wizard_constructed (GObject *object)
 			"valign", GTK_ALIGN_CENTER,
 			"visible", TRUE,
 			"ellipsize", PANGO_ELLIPSIZE_END,
+			"selectable", TRUE,
 			NULL);
 		wd->running_label = label;
 
