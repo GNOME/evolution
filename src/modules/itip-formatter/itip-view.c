@@ -782,8 +782,9 @@ show_checkbox (ItipView *view,
 
 static void
 set_area_text (ItipView *view,
-               const gchar *id,
-               const gchar *text)
+	       const gchar *id,
+	       const gchar *text,
+	       gboolean is_html)
 {
 	EWebView *web_view;
 
@@ -791,7 +792,8 @@ set_area_text (ItipView *view,
 	if (web_view) {
 		gchar *tmp = NULL;
 
-		text = htmlize_text (id, text, &tmp);
+		if (!is_html)
+			text = htmlize_text (id, text, &tmp);
 
 		e_web_view_jsc_run_script (WEBKIT_WEB_VIEW (web_view), e_web_view_get_cancellable (web_view),
 			"EvoItip.SetAreaText(%s, %s, %s);",
@@ -2165,7 +2167,7 @@ itip_view_set_summary (ItipView *view,
 
 	view->priv->summary = summary ? g_strstrip (e_utf8_ensure_valid (summary)) : NULL;
 
-	set_area_text (view, TABLE_ROW_SUMMARY, view->priv->summary);
+	set_area_text (view, TABLE_ROW_SUMMARY, view->priv->summary, FALSE);
 }
 
 const gchar *
@@ -2187,7 +2189,7 @@ itip_view_set_location (ItipView *view,
 
 	view->priv->location = location ? g_strstrip (e_utf8_ensure_valid (location)) : NULL;
 
-	set_area_text (view, TABLE_ROW_LOCATION, view->priv->location);
+	set_area_text (view, TABLE_ROW_LOCATION, view->priv->location, FALSE);
 }
 
 const gchar *
@@ -2211,7 +2213,7 @@ itip_view_set_url (ItipView *view,
 
 	view->priv->url = url ? g_strstrip (e_utf8_ensure_valid (url)) : NULL;
 
-	set_area_text (view, TABLE_ROW_URL, view->priv->url);
+	set_area_text (view, TABLE_ROW_URL, view->priv->url, FALSE);
 }
 
 const gchar *
@@ -2233,7 +2235,7 @@ itip_view_set_status (ItipView *view,
 
 	view->priv->status = status ? g_strstrip (e_utf8_ensure_valid (status)) : NULL;
 
-	set_area_text (view, TABLE_ROW_STATUS, view->priv->status);
+	set_area_text (view, TABLE_ROW_STATUS, view->priv->status, FALSE);
 }
 
 const gchar *
@@ -2255,7 +2257,7 @@ itip_view_set_comment (ItipView *view,
 
 	view->priv->comment = comment ? g_strstrip (e_utf8_ensure_valid (comment)) : NULL;
 
-	set_area_text (view, TABLE_ROW_COMMENT, view->priv->comment);
+	set_area_text (view, TABLE_ROW_COMMENT, view->priv->comment, TRUE);
 }
 
 const gchar *
