@@ -183,13 +183,13 @@ static JSCValue *
 evo_editor_jsc_split_text_with_links (const gchar *text,
 				      JSCContext *jsc_context)
 {
-	// stephenhay from https://mathiasbynens.be/demo/url-regex
+	/* stephenhay from https://mathiasbynens.be/demo/url-regex */
 	const gchar *URL_PATTERN = "((?:(?:(?:"
 				   "news|telnet|nntp|file|https?|s?ftp|webcal|localhost|ssh"
 				   ")\\:\\/\\/)|(?:www\\.|ftp\\.))[^\\s\\/\\$\\.\\?#].[^\\s]*+)";
-	// from camel-url-scanner.c
+	/* from camel-url-scanner.c */
 	const gchar *URL_INVALID_TRAILING_CHARS = ",.:;?!-|}])\">";
-	// http://www.w3.org/TR/html5/forms.html#valid-e-mail-address
+	/* http://www.w3.org/TR/html5/forms.html#valid-e-mail-address */
 	const gchar *EMAIL_PATTERN = "[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}"
 				     "[a-zA-Z0-9])?(?:\\.[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?)*+";
 	JSCValue *array = NULL;
@@ -217,9 +217,18 @@ evo_editor_jsc_split_text_with_links (const gchar *text,
 		evo_editor_find_pattern (text, is_email ? EMAIL_PATTERN : URL_PATTERN, &start, &end);
 
 		if (start >= 0 && end >= 0) {
-			const gchar *url_end;
+			const gchar *url_end, *ptr;
 
 			url_end = text + end - 1;
+
+			/* Stop on the angle brackets, which cannot be part of the URL (see RFC 3986 Appendix C) */
+			for (ptr = text + start; ptr <= url_end; ptr++) {
+				if (*ptr == '<' || *ptr == '>') {
+					end = ptr - text;
+					url_end = text + end - 1;
+					break;
+				}
+			}
 
 			/* URLs are extremely unlikely to end with any punctuation, so
 			 * strip any trailing punctuation off from link and put it after
@@ -238,7 +247,6 @@ evo_editor_jsc_split_text_with_links (const gchar *text,
 
 				if (open_bracket != 0) {
 					gint n_opened = 0, n_closed = 0;
-					const gchar *ptr;
 
 					for (ptr = text + start; ptr <= url_end; ptr++) {
 						if (*ptr == open_bracket)
