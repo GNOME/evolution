@@ -541,6 +541,7 @@ struct _ECompEditorPropertyPartDescription {
 
 	gboolean has_html;
 	gboolean mode_html;
+	gchar *alt_desc; /* X-ALT-DESC with text/html format */
 	GtkWidget *real_edit_widget;
 	GtkWidget *view_as_label;
 	GtkWidget *web_view_scrolled_window;
@@ -579,22 +580,26 @@ ecepp_description_update_view_mode (ECompEditorPropertyPartDescription *descript
 		gtk_widget_show (description_part->view_as_label);
 
 		if (description_part->mode_html) {
-			GtkTextBuffer *buffer;
-			GtkTextIter text_iter_start, text_iter_end;
-			GtkWidget *edit_widget;
-			gchar *value;
+			if (description_part->alt_desc) {
+				e_web_view_load_string (E_WEB_VIEW (description_part->web_view), description_part->alt_desc);
+			} else {
+				GtkTextBuffer *buffer;
+				GtkTextIter text_iter_start, text_iter_end;
+				GtkWidget *edit_widget;
+				gchar *value;
 
-			edit_widget = e_comp_editor_property_part_string_get_real_edit_widget (E_COMP_EDITOR_PROPERTY_PART_STRING (description_part));
-			g_return_if_fail (GTK_IS_TEXT_VIEW (edit_widget));
+				edit_widget = e_comp_editor_property_part_string_get_real_edit_widget (E_COMP_EDITOR_PROPERTY_PART_STRING (description_part));
+				g_return_if_fail (GTK_IS_TEXT_VIEW (edit_widget));
 
-			buffer = gtk_text_view_get_buffer (GTK_TEXT_VIEW (edit_widget));
-			gtk_text_buffer_get_start_iter (buffer, &text_iter_start);
-			gtk_text_buffer_get_end_iter (buffer, &text_iter_end);
-			value = gtk_text_buffer_get_text (buffer, &text_iter_start, &text_iter_end, FALSE);
+				buffer = gtk_text_view_get_buffer (GTK_TEXT_VIEW (edit_widget));
+				gtk_text_buffer_get_start_iter (buffer, &text_iter_start);
+				gtk_text_buffer_get_end_iter (buffer, &text_iter_end);
+				value = gtk_text_buffer_get_text (buffer, &text_iter_start, &text_iter_end, FALSE);
 
-			e_web_view_load_string (E_WEB_VIEW (description_part->web_view), value ? value : "");
+				e_web_view_load_string (E_WEB_VIEW (description_part->web_view), value ? value : "");
 
-			g_free (value);
+				g_free (value);
+			}
 
 			gtk_widget_hide (description_part->real_edit_widget);
 			gtk_widget_show (description_part->web_view_scrolled_window);
@@ -754,7 +759,9 @@ ecepp_description_contains_html (const gchar *value)
 	if (!value || !*value)
 		return FALSE;
 
-	return camel_strstrcase (value, "<br>") ||
+	return camel_strstrcase (value, "<html>") ||
+		camel_strstrcase (value, "<body>") ||
+		camel_strstrcase (value, "<br>") ||
 		camel_strstrcase (value, "<span>") ||
 		camel_strstrcase (value, "<b>") ||
 		camel_strstrcase (value, "<i>") ||
@@ -797,11 +804,79 @@ ecepp_description_fill_widget (ECompEditorPropertyPart *property_part,
 	gtk_text_buffer_get_end_iter (buffer, &text_iter_end);
 	value = gtk_text_buffer_get_text (buffer, &text_iter_start, &text_iter_end, FALSE);
 
+	g_clear_pointer (&description_part->alt_desc, g_free);
+
 	description_part->has_html = ecepp_description_contains_html (value);
+
+	if (!description_part->has_html && value && *value) {
+		ICalProperty *prop;
+
+		for (prop = i_cal_component_get_first_property (component, I_CAL_X_PROPERTY);
+		     prop;
+		     g_object_unref (prop), prop = i_cal_component_get_next_property (component, I_CAL_X_PROPERTY)) {
+			if (i_cal_property_get_x_name (prop) && g_ascii_strcasecmp (i_cal_property_get_x_name (prop), "X-ALT-DESC") == 0) {
+				ICalParameter *param;
+
+				param = i_cal_property_get_first_parameter (prop, I_CAL_FMTTYPE_PARAMETER);
+
+				if (param && i_cal_parameter_get_fmttype (param) &&
+				    g_ascii_strcasecmp (i_cal_parameter_get_fmttype (param), "text/html") == 0) {
+					ICalValue *value;
+					const gchar *str = NULL;
+
+					value = i_cal_property_get_value (prop);
+
+					if (value)
+						str = i_cal_value_get_x (value);
+
+					if (str && *str) {
+						description_part->alt_desc = g_strdup (str);
+					}
+
+					g_clear_object (&value);
+				}
+
+				g_clear_object (&param);
+
+				if (description_part->alt_desc) {
+					description_part->has_html = TRUE;
+					g_object_unref (prop);
+					break;
+				}
+			}
+		}
+	}
 
 	ecepp_description_update_view_mode (description_part);
 
 	g_free (value);
+}
+
+static void
+ecepp_description_fill_component (ECompEditorPropertyPart *property_part,
+				  ICalComponent *component)
+{
+	ECompEditorPropertyPartClass *part_class;
+
+	part_class = E_COMP_EDITOR_PROPERTY_PART_CLASS (e_comp_editor_property_part_description_parent_class);
+	g_return_if_fail (part_class != NULL);
+	g_return_if_fail (part_class->fill_component != NULL);
+
+	part_class->fill_component (property_part, component);
+
+	while (e_cal_util_component_remove_x_property (component, "X-ALT-DESC")) {
+		/* Remove all of them, not only text/html, they are obsolete now */
+	}
+}
+
+static void
+ecepp_description_dispose (GObject *object)
+{
+	ECompEditorPropertyPartDescription *description_part = E_COMP_EDITOR_PROPERTY_PART_DESCRIPTION (object);
+
+	g_clear_pointer (&description_part->alt_desc, g_free);
+
+	G_OBJECT_CLASS (e_comp_editor_property_part_description_parent_class)->dispose (object);
 }
 
 static void
@@ -815,6 +890,7 @@ e_comp_editor_property_part_description_class_init (ECompEditorPropertyPartDescr
 {
 	ECompEditorPropertyPartStringClass *part_string_class;
 	ECompEditorPropertyPartClass *part_class;
+	GObjectClass *object_class;
 
 	part_string_class = E_COMP_EDITOR_PROPERTY_PART_STRING_CLASS (klass);
 	part_string_class->entry_type = GTK_TYPE_TEXT_VIEW;
@@ -827,6 +903,10 @@ e_comp_editor_property_part_description_class_init (ECompEditorPropertyPartDescr
 	part_class = E_COMP_EDITOR_PROPERTY_PART_CLASS (klass);
 	part_class->create_widgets = ecepp_description_create_widgets;
 	part_class->fill_widget = ecepp_description_fill_widget;
+	part_class->fill_component = ecepp_description_fill_component;
+
+	object_class = G_OBJECT_CLASS (klass);
+	object_class->dispose = ecepp_description_dispose;
 }
 
 ECompEditorPropertyPart *
