@@ -6336,10 +6336,12 @@ itip_view_init_view (ItipView *view)
 	GString *gstring = NULL;
 	GSList *list, *l;
 	ICalComponent *icomp;
+	ICalProperty *prop;
 	const gchar *org;
 	gchar *string;
 	gboolean response_enabled;
 	gboolean have_alarms = FALSE;
+	gboolean description_is_html = FALSE;
 
 	g_return_if_fail (ITIP_IS_VIEW (view));
 
@@ -6576,35 +6578,72 @@ itip_view_init_view (ItipView *view)
 
 	itip_view_extract_attendee_info (view);
 
-	list = e_cal_component_get_descriptions (view->priv->comp);
-	for (l = list; l; l = l->next) {
-		text = l->data;
+	icomp = e_cal_component_get_icalcomponent (view->priv->comp);
+	prop = e_cal_util_component_find_x_property (icomp, "X-ALT-DESC");
 
-		if (!text)
-			continue;
+	if (prop) {
+		ICalParameter *param;
 
-		if (!gstring && e_cal_component_text_get_value (text))
-			gstring = g_string_new (e_cal_component_text_get_value (text));
-		else if (e_cal_component_text_get_value (text))
-			g_string_append_printf (gstring, "\n\n%s", e_cal_component_text_get_value (text));
+		param = i_cal_property_get_first_parameter (prop, I_CAL_FMTTYPE_PARAMETER);
+
+		if (param && i_cal_parameter_get_fmttype (param) &&
+		    g_ascii_strcasecmp (i_cal_parameter_get_fmttype (param), "text/html") == 0) {
+			ICalValue *value;
+			const gchar *str = NULL;
+
+			value = i_cal_property_get_value (prop);
+
+			if (value)
+				str = i_cal_value_get_x (value);
+
+			if (str && *str) {
+				gstring = g_string_new (str);
+				description_is_html = TRUE;
+			}
+
+			g_clear_object (&value);
+		}
+
+		g_clear_object (&param);
+		g_object_unref (prop);
 	}
 
-	g_slist_free_full (list, e_cal_component_text_free);
+	if (!gstring) {
+		list = e_cal_component_get_descriptions (view->priv->comp);
+		for (l = list; l; l = l->next) {
+			text = l->data;
+
+			if (!text)
+				continue;
+
+			if (!gstring && e_cal_component_text_get_value (text))
+				gstring = g_string_new (e_cal_component_text_get_value (text));
+			else if (e_cal_component_text_get_value (text))
+				g_string_append_printf (gstring, "\n\n%s", e_cal_component_text_get_value (text));
+		}
+
+		g_slist_free_full (list, e_cal_component_text_free);
+	}
 
 	if (gstring) {
 		gchar *html = NULL;
 
+		if (description_is_html) {
+			/* Do nothing, trust the text provider */
+
 		/* Google encodes HTML into the description, without giving a clue about it,
 		   but try to guess whether it can be an HTML blob or not. */
-		if (camel_strstrcase (gstring->str, "<br>") ||
-		    camel_strstrcase (gstring->str, "<span>") ||
-		    camel_strstrcase (gstring->str, "<b>") ||
-		    camel_strstrcase (gstring->str, "<i>") ||
-		    camel_strstrcase (gstring->str, "<u>") ||
-		    camel_strstrcase (gstring->str, "&nbsp;") ||
-		    camel_strstrcase (gstring->str, "<ul>") ||
-		    camel_strstrcase (gstring->str, "<li>") ||
-		    camel_strstrcase (gstring->str, "</a>")) {
+		} else if (camel_strstrcase (gstring->str, "<html>") ||
+			   camel_strstrcase (gstring->str, "<body>") ||
+			   camel_strstrcase (gstring->str, "<br>") ||
+			   camel_strstrcase (gstring->str, "<span>") ||
+			   camel_strstrcase (gstring->str, "<b>") ||
+			   camel_strstrcase (gstring->str, "<i>") ||
+			   camel_strstrcase (gstring->str, "<u>") ||
+			   camel_strstrcase (gstring->str, "&nbsp;") ||
+			   camel_strstrcase (gstring->str, "<ul>") ||
+			   camel_strstrcase (gstring->str, "<li>") ||
+			   camel_strstrcase (gstring->str, "</a>")) {
 			gchar *ptr = gstring->str;
 			/* To make things easier, Google mixes HTML '<br>' with plain text '\n'... */
 			while (ptr = strchr (ptr, '\n'), ptr) {
@@ -6677,8 +6716,6 @@ itip_view_init_view (ItipView *view)
 
 		g_clear_object (&from_zone);
 	}
-
-	icomp = e_cal_component_get_icalcomponent (view->priv->comp);
 
         /* Set the recurrence id */
 	if (check_is_instance (icomp) && datetime && e_cal_component_datetime_get_value (datetime)) {
