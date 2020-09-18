@@ -51,6 +51,29 @@
 		},
 
 		{
+			"name": "libcanberra",
+			"config-opts": [
+				"--disable-gtk",
+				"--disable-oss",
+				"--enable-alsa",
+				"--enable-gtk3",
+				"--enable-null",
+				"--without-systemdsystemunitdir",
+				"--with-builtin=dso",
+				"--disable-gtk-doc",
+				"--disable-gtk-doc-html"
+			],
+			"cleanup": [ "/bin", "/share/gtk-doc" ],
+			"sources": [
+				{
+					"type": "git",
+					"url": "http://git.0pointer.net/clone/libcanberra.git",
+					"branch": "master"
+				}
+			]
+		},
+
+		{
 			"name": "libical",
 			"cleanup": [ "/lib/cmake" ],
 			"buildsystem": "cmake-ninja",
