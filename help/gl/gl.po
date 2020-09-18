@@ -6,8 +6,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: evolution master\n"
-"POT-Creation-Date: 2020-09-10 09:40+0000\n"
-"PO-Revision-Date: 2020-09-19 01:01+0200\n"
+"POT-Creation-Date: 2020-09-18 23:03+0000\n"
+"PO-Revision-Date: 2020-09-19 01:07+0200\n"
 "Last-Translator: Fran Dieguez <frandieguez@gnome.org>\n"
 "Language-Team: Galician <proxecto@trasno.gal>\n"
 "Language: gl\n"
@@ -20,7 +20,7 @@ msgstr ""
 #. Put one translator per line, in the form NAME <EMAIL>, YEAR1, YEAR2
 msgctxt "_"
 msgid "translator-credits"
-msgstr "Fran Dieguez <frandieguez@gnome.org>, 2009-2013."
+msgstr "Fran Dieguez <frandieguez@gnome.org>, 2009-2020."
 
 #. (itstool) path: info/desc
 #: C/backup-restore.page:18
