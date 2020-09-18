@@ -1,7 +1,7 @@
 {
 	"app-id": "org.gnome.Evolution",
 	"runtime": "org.gnome.Platform",
-	"runtime-version": "3.36",
+	"runtime-version": "3.38",
 	"sdk": "org.gnome.Sdk",
 	"command": "evolution",
 	"rename-icon": "evolution",
@@ -47,6 +47,29 @@
 					"type": "archive",
 					"url": "https://launchpad.net/intltool/trunk/0.51.0/+download/intltool-0.51.0.tar.gz",
 					"sha256": "67c74d94196b153b774ab9f89b2fa6c6ba79352407037c8c14d5aeb334e959cd"
+				}
+			]
+		},
+
+		{
+			"name": "libcanberra",
+			"config-opts": [
+				"--disable-gtk",
+				"--disable-oss",
+				"--enable-alsa",
+				"--enable-gtk3",
+				"--enable-null",
+				"--without-systemdsystemunitdir",
+				"--with-builtin=dso",
+				"--disable-gtk-doc",
+				"--disable-gtk-doc-html"
+			],
+			"cleanup": [ "/bin", "/share/gtk-doc" ],
+			"sources": [
+				{
+					"type": "git",
+					"url": "http://git.0pointer.net/clone/libcanberra.git",
+					"branch": "master"
 				}
 			]
 		},
