@@ -5079,11 +5079,12 @@ webkit_editor_drag_data_received_cb (GtkWidget *widget,
 	    info == E_DND_TARGET_TYPE_UTF8_STRING || info == E_DND_TARGET_TYPE_STRING ||
 	    info == E_DND_TARGET_TYPE_TEXT_PLAIN || info == E_DND_TARGET_TYPE_TEXT_PLAIN_UTF8) {
 		gdk_drag_status (context, gdk_drag_context_get_selected_action(context), time);
-		if (!GTK_WIDGET_CLASS (e_webkit_editor_parent_class)->drag_drop (widget, context, x, y, time)) {
-			g_warning ("Drop failed in WebKit");
+		if (!GTK_WIDGET_CLASS (e_webkit_editor_parent_class)->drag_drop ||
+		    !GTK_WIDGET_CLASS (e_webkit_editor_parent_class)->drag_drop (widget, context, x, y, time)) {
 			goto process_ourselves;
 		} else {
-			GTK_WIDGET_CLASS (e_webkit_editor_parent_class)->drag_leave(widget, context, time);
+			if (GTK_WIDGET_CLASS (e_webkit_editor_parent_class)->drag_leave)
+				GTK_WIDGET_CLASS (e_webkit_editor_parent_class)->drag_leave (widget, context, time);
 			g_signal_stop_emission_by_name (widget, "drag-data-received");
 			e_content_editor_emit_drop_handled (E_CONTENT_EDITOR (widget));
 		}
@@ -5318,7 +5319,8 @@ webkit_editor_button_press_event (GtkWidget *widget,
 	}
 
 	/* Chain up to parent's button_press_event() method. */
-	return GTK_WIDGET_CLASS (e_webkit_editor_parent_class)->button_press_event (widget, event);
+	return GTK_WIDGET_CLASS (e_webkit_editor_parent_class)->button_press_event &&
+	       GTK_WIDGET_CLASS (e_webkit_editor_parent_class)->button_press_event (widget, event);
 }
 
 static gboolean
@@ -5391,7 +5393,8 @@ webkit_editor_key_press_event (GtkWidget *widget,
 		return FALSE;
 
 	/* Chain up to parent's key_press_event() method. */
-	return GTK_WIDGET_CLASS (e_webkit_editor_parent_class)->key_press_event (widget, event);
+	return GTK_WIDGET_CLASS (e_webkit_editor_parent_class)->key_press_event &&
+	       GTK_WIDGET_CLASS (e_webkit_editor_parent_class)->key_press_event (widget, event);
 }
 
 static void
