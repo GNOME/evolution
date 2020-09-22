@@ -4206,7 +4206,27 @@ get_object_list_ready_cb (GObject *source_object,
 		g_error_free (error);
 
 	} else {
-		g_hash_table_insert (fd->conflicts, cal_client, objects);
+		GSList *link = objects;
+
+		while (link) {
+			ICalComponent *icomp = link->data;
+			ICalProperty *prop;
+
+			link = g_slist_next (link);
+
+			prop = icomp ? i_cal_component_get_first_property (icomp, I_CAL_TRANSP_PROPERTY) : NULL;
+
+			/* Ignore non-opaque components in the conflict search */
+			if (prop && i_cal_property_get_transp (prop) != I_CAL_TRANSP_OPAQUE && i_cal_property_get_transp (prop) != I_CAL_TRANSP_NONE) {
+				objects = g_slist_remove (objects, icomp);
+				g_object_unref (icomp);
+			}
+
+			g_clear_object (&prop);
+		}
+
+		if (objects)
+			g_hash_table_insert (fd->conflicts, cal_client, objects);
 	}
 
 	e_cal_client_get_object (
