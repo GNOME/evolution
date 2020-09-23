@@ -29,6 +29,7 @@
 struct _ESourceComboBoxPrivate {
 	ESourceRegistry *registry;
 	gchar *extension_name;
+	GHashTable *hide_sources;
 
 	gulong source_added_handler_id;
 	gulong source_removed_handler_id;
@@ -78,12 +79,29 @@ source_combo_box_traverse (GNode *node,
 
 	ext_name = e_source_combo_box_get_extension_name (combo_box);
 
+	source = E_SOURCE (node->data);
+
+	if (ext_name != NULL && e_source_has_extension (source, ext_name)) {
+		extension = e_source_get_extension (source, ext_name);
+		sensitive = TRUE;
+
+		if (g_hash_table_size (combo_box->priv->hide_sources) && E_IS_SOURCE_BACKEND (extension) &&
+		    g_hash_table_contains (combo_box->priv->hide_sources, e_source_backend_get_backend_name (E_SOURCE_BACKEND (extension)))) {
+			return FALSE;
+		}
+	}
+
+	uid = e_source_get_uid (source);
+
+	if (g_hash_table_contains (combo_box->priv->hide_sources, uid) || (e_source_get_parent (source) &&
+	    g_hash_table_contains (combo_box->priv->hide_sources, e_source_get_parent (source)))) {
+		return FALSE;
+	}
+
+	display_name = e_source_get_display_name (source);
+
 	model = gtk_combo_box_get_model (GTK_COMBO_BOX (combo_box));
 	gtk_list_store_append (GTK_LIST_STORE (model), &iter);
-
-	source = E_SOURCE (node->data);
-	uid = e_source_get_uid (source);
-	display_name = e_source_get_display_name (source);
 
 	indented = g_string_new (NULL);
 
@@ -92,11 +110,6 @@ source_combo_box_traverse (GNode *node,
 	while (--depth > 1)
 		g_string_append (indented, "    ");
 	g_string_append (indented, display_name);
-
-	if (ext_name != NULL && e_source_has_extension (source, ext_name)) {
-		extension = e_source_get_extension (source, ext_name);
-		sensitive = TRUE;
-	}
 
 	if (E_IS_SOURCE_SELECTABLE (extension)) {
 		const gchar *color_spec;
@@ -172,6 +185,32 @@ source_combo_box_build_model (ESourceComboBox *combo_box)
 		if (source != NULL) {
 			e_source_combo_box_set_active (combo_box, source);
 			g_object_unref (source);
+		}
+	}
+
+	if (!gtk_combo_box_get_active_id (gtk_combo_box)) {
+		GtkTreeIter iter;
+
+		if (gtk_tree_model_get_iter_first (model, &iter)) {
+			do {
+				gboolean sensitive = FALSE;
+
+				gtk_tree_model_get (model, &iter, COLUMN_SENSITIVE, &sensitive, -1);
+
+				if (sensitive) {
+					gchar *uid = NULL;
+
+					gtk_tree_model_get (model, &iter, COLUMN_UID, &uid, -1);
+
+					if (uid) {
+						gtk_combo_box_set_active_id (gtk_combo_box, uid);
+						g_free (uid);
+						break;
+					} else {
+						g_free (uid);
+					}
+				}
+			} while (gtk_tree_model_iter_next (model, &iter));
 		}
 	}
 }
@@ -305,6 +344,7 @@ source_combo_box_finalize (GObject *object)
 	priv = E_SOURCE_COMBO_BOX_GET_PRIVATE (object);
 
 	g_free (priv->extension_name);
+	g_hash_table_destroy (priv->hide_sources);
 
 	/* Chain up to parent's "finalize" method. */
 	G_OBJECT_CLASS (e_source_combo_box_parent_class)->finalize (object);
@@ -419,7 +459,7 @@ static void
 e_source_combo_box_init (ESourceComboBox *combo_box)
 {
 	combo_box->priv = E_SOURCE_COMBO_BOX_GET_PRIVATE (combo_box);
-
+	combo_box->priv->hide_sources = g_hash_table_new_full (camel_strcase_hash, camel_strcase_equal, g_free, NULL);
 }
 
 /**
@@ -696,3 +736,36 @@ e_source_combo_box_set_active (ESourceComboBox *combo_box,
 	gtk_combo_box_set_active_id (gtk_combo_box, uid);
 }
 
+/**
+ * e_source_combo_box_hide_sources:
+ * @combo_box: an #ESourceComboBox
+ * @...: a NULL-terminated list of UID-s of the sources to hide
+ *
+ * The UID-s can be also backend names. Apart of that, these are checked
+ * for both the ESource::uid and the ESource::parent.
+ *
+ * The next call replaces the list of source UID-s to be hidden.
+ *
+ * Since: 3.40
+ **/
+void
+e_source_combo_box_hide_sources (ESourceComboBox *combo_box,
+				  ...)
+{
+	const gchar *backend_name;
+	va_list va;
+
+	g_return_if_fail (E_IS_SOURCE_COMBO_BOX (combo_box));
+
+	g_hash_table_remove_all (combo_box->priv->hide_sources);
+
+	va_start (va, combo_box);
+
+	while (backend_name = va_arg (va, const gchar *), backend_name) {
+		g_hash_table_insert (combo_box->priv->hide_sources, g_strdup (backend_name), NULL);
+	}
+
+	va_end (va);
+
+	source_combo_box_build_model (combo_box);
+}

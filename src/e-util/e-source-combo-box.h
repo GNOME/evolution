@@ -82,6 +82,8 @@ void		e_source_combo_box_set_show_colors
 ESource *	e_source_combo_box_ref_active	(ESourceComboBox *combo_box);
 void		e_source_combo_box_set_active	(ESourceComboBox *combo_box,
 						 ESource *source);
+void		e_source_combo_box_hide_sources	(ESourceComboBox *combo_box,
+						 ...) G_GNUC_NULL_TERMINATED;
 
 G_END_DECLS
 

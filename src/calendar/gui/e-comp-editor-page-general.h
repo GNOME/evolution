@@ -113,6 +113,8 @@ GSList *	e_comp_editor_page_general_get_added_attendees
 							(ECompEditorPageGeneral *page_general);
 GSList *	e_comp_editor_page_general_get_removed_attendees
 							(ECompEditorPageGeneral *page_general);
+GtkWidget *	e_comp_editor_page_general_get_source_combo_box
+							(ECompEditorPageGeneral *page_general);
 
 G_END_DECLS
 

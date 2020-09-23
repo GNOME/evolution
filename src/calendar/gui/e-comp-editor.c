@@ -1600,6 +1600,31 @@ ece_connect_time_parts (ECompEditor *comp_editor,
 }
 
 static void
+ece_update_source_combo_box_by_flags (ECompEditor *comp_editor)
+{
+	ECompEditorPage *page;
+
+	page = e_comp_editor_get_page (comp_editor, E_TYPE_COMP_EDITOR_PAGE_GENERAL);
+
+	if (page) {
+		GtkWidget *source_combo_box;
+
+		source_combo_box = e_comp_editor_page_general_get_source_combo_box (E_COMP_EDITOR_PAGE_GENERAL (page));
+
+		if (source_combo_box) {
+			if ((comp_editor->priv->flags & E_COMP_EDITOR_FLAG_IS_NEW) != 0) {
+				e_source_combo_box_hide_sources (E_SOURCE_COMBO_BOX (source_combo_box),
+					"webcal-stub", "weather-stub", "contacts-stub",
+					"webcal", "weather", "contacts", "birthdays",
+					NULL);
+			} else {
+				e_source_combo_box_hide_sources (E_SOURCE_COMBO_BOX (source_combo_box), NULL);
+			}
+		}
+	}
+}
+
+static void
 ece_sensitize_widgets (ECompEditor *comp_editor,
 		       gboolean force_insensitive)
 {
@@ -1681,6 +1706,7 @@ comp_editor_realize_cb (ECompEditor *comp_editor)
 
 	e_comp_editor_update_window_title (comp_editor);
 	e_comp_editor_sensitize_widgets (comp_editor);
+	ece_update_source_combo_box_by_flags (comp_editor);
 
 	if (comp_editor->priv->page_general && comp_editor->priv->origin_source) {
 		e_comp_editor_page_general_set_selected_source (
@@ -2830,6 +2856,8 @@ e_comp_editor_set_flags (ECompEditor *comp_editor,
 		return;
 
 	comp_editor->priv->flags = flags;
+
+	ece_update_source_combo_box_by_flags (comp_editor);
 
 	g_object_notify (G_OBJECT (comp_editor), "flags");
 }

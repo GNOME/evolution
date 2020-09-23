@@ -2027,3 +2027,11 @@ e_comp_editor_page_general_get_removed_attendees (ECompEditorPageGeneral *page_g
 
 	return g_slist_reverse (removed_attendees);
 }
+
+GtkWidget *
+e_comp_editor_page_general_get_source_combo_box (ECompEditorPageGeneral *page_general)
+{
+	g_return_val_if_fail (E_IS_COMP_EDITOR_PAGE_GENERAL (page_general), NULL);
+
+	return page_general->priv->source_combo_box;
+}
