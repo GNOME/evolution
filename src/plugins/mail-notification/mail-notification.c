@@ -629,20 +629,21 @@ read_notify_status (EMEventTargetMessage *t)
 
 #ifdef HAVE_CANBERRA
 static ca_context *mailnotification = NULL;
-static gint eca_debug = -1;
 #endif
+
+static gint eca_debug = -1;
 
 static void
 do_play_sound (gboolean beep,
                gboolean use_theme,
                const gchar *file)
 {
+	if (eca_debug == -1)
+		eca_debug = g_strcmp0 (g_getenv ("ECA_DEBUG"), "1") == 0 ? 1 : 0;
+
 	if (!beep) {
 #ifdef HAVE_CANBERRA
 		gint err;
-
-		if (eca_debug == -1)
-			eca_debug = g_strcmp0 (g_getenv ("ECA_DEBUG"), "1") == 0 ? 1 : 0;
 
 		if (!use_theme && file && *file)
 			err = ca_context_play (

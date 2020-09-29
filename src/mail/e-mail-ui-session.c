@@ -65,8 +65,9 @@
 
 #ifdef HAVE_CANBERRA
 static ca_context *cactx = NULL;
-static gint eca_debug = -1;
 #endif
+
+static gint eca_debug = -1;
 
 typedef struct _SourceContext SourceContext;
 
@@ -183,12 +184,12 @@ get_folder (CamelFilterDriver *d,
 static gboolean
 session_play_sound_cb (const gchar *filename)
 {
+	if (eca_debug == -1)
+		eca_debug = g_strcmp0 (g_getenv ("ECA_DEBUG"), "1") == 0 ? 1 : 0;
+
 #ifdef HAVE_CANBERRA
 	if (filename && *filename) {
 		gint err;
-
-		if (eca_debug == -1)
-			eca_debug = g_strcmp0 (g_getenv ("ECA_DEBUG"), "1") == 0 ? 1 : 0;
 
 		if (!cactx) {
 			ca_context_create (&cactx);
