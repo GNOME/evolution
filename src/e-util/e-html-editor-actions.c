@@ -2067,9 +2067,7 @@ editor_actions_setup_spell_check_menu (EHTMLEditor *editor)
 			action, "activate",
 			G_CALLBACK (action_context_spell_add_cb), editor);
 
-		/* Visibility is dependent on whether the
-		 * corresponding language action is active. */
-		gtk_action_set_visible (action, FALSE);
+		gtk_action_set_visible (action, e_spell_checker_get_language_active (spell_checker, code));
 
 		gtk_action_group_add_action (action_group, action);
 
