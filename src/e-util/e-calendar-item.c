@@ -45,6 +45,7 @@ static const gint e_calendar_item_days_in_month[12] = {
   e_calendar_item_days_in_month[month] + (((month) == 1 \
   && ((year) % 4 == 0 && ((year) % 100 != 0 || (year) % 400 == 0))) ? 1 : 0)
 
+static void	e_calendar_item_constructed	(GObject *object);
 static void	e_calendar_item_dispose		(GObject *object);
 static void	e_calendar_item_get_property	(GObject *object,
 						 guint property_id,
@@ -265,6 +266,7 @@ e_calendar_item_class_init (ECalendarItemClass *class)
 	GnomeCanvasItemClass *item_class;
 
 	object_class = G_OBJECT_CLASS (class);
+	object_class->constructed = e_calendar_item_constructed;
 	object_class->dispose = e_calendar_item_dispose;
 	object_class->get_property = e_calendar_item_get_property;
 	object_class->set_property = e_calendar_item_set_property;
@@ -647,6 +649,16 @@ e_calendar_item_init (ECalendarItem *calitem)
 }
 
 static void
+e_calendar_item_constructed (GObject *object)
+{
+	ECalendarItem *calitem = E_CALENDAR_ITEM (object);
+
+	G_OBJECT_CLASS (e_calendar_item_parent_class)->constructed (object);
+
+	e_extensible_load_extensions (E_EXTENSIBLE (calitem));
+}
+
+static void
 e_calendar_item_dispose (GObject *object)
 {
 	ECalendarItem *calitem;
@@ -805,28 +817,32 @@ e_calendar_item_set_property (GObject *object,
 		dvalue = g_value_get_double (value);
 		if (calitem->x1 != dvalue) {
 			calitem->x1 = dvalue;
-			gnome_canvas_item_request_update (item);
+			if (item->canvas)
+				gnome_canvas_item_request_update (item);
 		}
 		return;
 	case PROP_Y1:
 		dvalue = g_value_get_double (value);
 		if (calitem->y1 != dvalue) {
 			calitem->y1 = dvalue;
-			gnome_canvas_item_request_update (item);
+			if (item->canvas)
+				gnome_canvas_item_request_update (item);
 		}
 		return;
 	case PROP_X2:
 		dvalue = g_value_get_double (value);
 		if (calitem->x2 != dvalue) {
 			calitem->x2 = dvalue;
-			gnome_canvas_item_request_update (item);
+			if (item->canvas)
+				gnome_canvas_item_request_update (item);
 		}
 		return;
 	case PROP_Y2:
 		dvalue = g_value_get_double (value);
 		if (calitem->y2 != dvalue) {
 			calitem->y2 = dvalue;
-			gnome_canvas_item_request_update (item);
+			if (item->canvas)
+				gnome_canvas_item_request_update (item);
 		}
 		return;
 	case PROP_FONT_DESC:
@@ -834,21 +850,24 @@ e_calendar_item_set_property (GObject *object,
 		if (calitem->font_desc)
 			pango_font_description_free (calitem->font_desc);
 		calitem->font_desc = pango_font_description_copy (font_desc);
-		gnome_canvas_item_request_update (item);
+		if (item->canvas)
+			gnome_canvas_item_request_update (item);
 		return;
 	case PROP_WEEK_NUMBER_FONT_DESC:
 		font_desc = g_value_get_boxed (value);
 		if (calitem->week_number_font_desc)
 			pango_font_description_free (calitem->week_number_font_desc);
 		calitem->week_number_font_desc = pango_font_description_copy (font_desc);
-		gnome_canvas_item_request_update (item);
+		if (item->canvas)
+			gnome_canvas_item_request_update (item);
 		return;
 	case PROP_MINIMUM_ROWS:
 		ivalue = g_value_get_int (value);
 		ivalue = MAX (1, ivalue);
 		if (calitem->min_rows != ivalue) {
 			calitem->min_rows = ivalue;
-			gnome_canvas_item_request_update (item);
+			if (item->canvas)
+				gnome_canvas_item_request_update (item);
 		}
 		return;
 	case PROP_MINIMUM_COLUMNS:
@@ -856,35 +875,40 @@ e_calendar_item_set_property (GObject *object,
 		ivalue = MAX (1, ivalue);
 		if (calitem->min_cols != ivalue) {
 			calitem->min_cols = ivalue;
-			gnome_canvas_item_request_update (item);
+			if (item->canvas)
+				gnome_canvas_item_request_update (item);
 		}
 		return;
 	case PROP_MAXIMUM_ROWS:
 		ivalue = g_value_get_int (value);
 		if (calitem->max_rows != ivalue) {
 			calitem->max_rows = ivalue;
-			gnome_canvas_item_request_update (item);
+			if (item->canvas)
+				gnome_canvas_item_request_update (item);
 		}
 		return;
 	case PROP_MAXIMUM_COLUMNS:
 		ivalue = g_value_get_int (value);
 		if (calitem->max_cols != ivalue) {
 			calitem->max_cols = ivalue;
-			gnome_canvas_item_request_update (item);
+			if (item->canvas)
+				gnome_canvas_item_request_update (item);
 		}
 		return;
 	case PROP_WEEK_START_DAY:
 		ivalue = g_value_get_enum (value);
 		if (calitem->week_start_day != ivalue) {
 			calitem->week_start_day = ivalue;
-			gnome_canvas_item_request_update (item);
+			if (item->canvas)
+				gnome_canvas_item_request_update (item);
 		}
 		return;
 	case PROP_SHOW_WEEK_NUMBERS:
 		bvalue = g_value_get_boolean (value);
 		if (calitem->show_week_numbers != bvalue) {
 			calitem->show_week_numbers = bvalue;
-			gnome_canvas_item_request_update (item);
+			if (item->canvas)
+				gnome_canvas_item_request_update (item);
 		}
 		return;
 	case PROP_KEEP_WDAYS_ON_WEEKNUM_CLICK:
@@ -926,8 +950,6 @@ e_calendar_item_realize (GnomeCanvasItem *item)
 	calitem = E_CALENDAR_ITEM (item);
 
 	e_calendar_item_style_updated (GTK_WIDGET (item->canvas), calitem);
-
-	e_extensible_load_extensions (E_EXTENSIBLE (calitem));
 }
 
 static void
