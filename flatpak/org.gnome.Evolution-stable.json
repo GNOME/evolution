@@ -67,7 +67,7 @@
 			"sources": [
 				{
 					"type": "git",
-					"url": "http://git.0pointer.net/clone/libcanberra.git",
+					"url": "git://git.0pointer.net/libcanberra.git",
 					"branch": "master"
 				}
 			]
