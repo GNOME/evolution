@@ -2632,7 +2632,7 @@ folder_tree_drop_target (EMFolderTree *folder_tree,
 		/* FIXME: this is a total hack, but i think all we can do at present */
 		/* Check for dragging from special folders which can't be moved/copied */
 
-		/* Don't allow moving any of the the special local folders. */
+		/* Don't allow moving any of the special local folders. */
 		if (src_is_local && is_special_local_folder (src_full_name)) {
 			GdkAtom xfolder;
 

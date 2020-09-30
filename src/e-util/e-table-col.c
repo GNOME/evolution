@@ -101,7 +101,7 @@ e_table_col_init (ETableCol *etc)
  * collection of ETableCols).  The ETableHeader is the definition of the
  * order in which columns are shown to the user.
  *
- * The @text argument is the the text that will be shown as a header to the
+ * The @text argument is the text that will be shown as a header to the
  * user. @col_idx reflects where the data for this ETableCol object will
  * be fetch from an ETableModel.  So even if the user changes the order
  * of the columns being viewed (the ETableCols in the ETableHeader), the

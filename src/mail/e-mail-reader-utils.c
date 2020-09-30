@@ -1536,7 +1536,7 @@ mail_reader_print_message_cb (GObject *source_object,
 
 	} else {
 		/* Set activity as completed, and keep it displayed for a few
-		 * seconds so that user can actually see the the printing was
+		 * seconds so that user can actually see the printing was
 		 * successfully finished. */
 		e_activity_set_state (activity, E_ACTIVITY_COMPLETED);
 	}

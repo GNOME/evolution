@@ -2416,7 +2416,7 @@ e_file_lock_get_pid (void)
  * Tries to determine the MIME type for @filename.  Free the returned
  * string with g_free().
  *
- * Returns: the MIME type of @filename, or %NULL if the the MIME type could
+ * Returns: the MIME type of @filename, or %NULL if the MIME type could
  *          not be determined
  **/
 gchar *

@@ -877,7 +877,7 @@
 	      <listitem>
 		<simpara>
 		  If present, then a plugin-specific function specification of
-		  the the function to invoke when the the menu is being
+		  the function to invoke when the menu is being
 		  created.  This function will normally call
 		  e_popup_add_items() to add custom menu items.  It is used to
 		  provide more control than the visible and enable masks
@@ -2718,7 +2718,7 @@
 	Contacts Hooks
       </title>
       <para>
-	Hooks available in the the contacts component.
+	Hooks available in the contacts component.
       </para>
 
       <sect1 id="contacts-hooks-popup">
@@ -2785,7 +2785,7 @@
 	Calendar Hooks
       </title>
       <para>
-	Hooks available in the the calendar component.
+	Hooks available in the calendar component.
       </para>
 
       <sect1 id="calendar-hooks-popup">

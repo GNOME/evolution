@@ -1947,7 +1947,7 @@ e_calendar_item_get_week_number (ECalendarItem *calitem,
 	return week_num + 1;
 }
 
-/* This is supposed to return the nearest item the the point and the distance.
+/* This is supposed to return the nearest item to the point and the distance.
  * Since we are the only item we just return ourself and 0 for the distance.
  * This is needed so that we get button/motion events. */
 static GnomeCanvasItem *
