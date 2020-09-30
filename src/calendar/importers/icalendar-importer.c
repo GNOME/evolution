@@ -270,11 +270,15 @@ button_toggled_cb (GtkWidget *widget,
 
 	selector = E_SOURCE_SELECTOR (sd->selector);
 	source = e_source_selector_ref_primary_selection (selector);
-	g_return_if_fail (source != NULL);
 
-	g_datalist_set_data_full (
-		&sd->target->data, "primary-source",
-		source, (GDestroyNotify) g_object_unref);
+	e_import_set_widget_complete (sd->target->import, source != NULL);
+
+	if (source) {
+		g_datalist_set_data_full (
+			&sd->target->data, "primary-source",
+			source, (GDestroyNotify) g_object_unref);
+	}
+
 	g_datalist_set_data (
 		&sd->target->data, "primary-type",
 		GINT_TO_POINTER (import_type_map[sd->page]));
@@ -290,11 +294,14 @@ primary_selection_changed_cb (ESourceSelector *selector,
 	ESource *source;
 
 	source = e_source_selector_ref_primary_selection (selector);
-	g_return_if_fail (source != NULL);
 
-	g_datalist_set_data_full (
-		&target->data, "primary-source",
-		source, (GDestroyNotify) g_object_unref);
+	e_import_set_widget_complete (target->import, source != NULL);
+
+	if (source) {
+		g_datalist_set_data_full (
+			&target->data, "primary-source",
+			source, (GDestroyNotify) g_object_unref);
+	}
 }
 
 static void

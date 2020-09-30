@@ -44,10 +44,16 @@ struct _EImportImporters {
 	gpointer data;
 };
 
-G_DEFINE_TYPE (
-	EImport,
-	e_import,
-	G_TYPE_OBJECT)
+typedef struct _EImportPrivate {
+	gboolean widget_complete;
+} EImportPrivate;
+
+enum {
+	PROP_0,
+	PROP_WIDGET_COMPLETE
+};
+
+G_DEFINE_TYPE_WITH_PRIVATE (EImport, e_import, G_TYPE_OBJECT)
 
 static void
 import_finalize (GObject *object)
@@ -58,6 +64,36 @@ import_finalize (GObject *object)
 
 	/* Chain up to parent's finalize () method. */
 	G_OBJECT_CLASS (e_import_parent_class)->finalize (object);
+}
+
+static void
+import_set_property (GObject *object,
+		     guint property_id,
+		     const GValue *value,
+		     GParamSpec *pspec)
+{
+	switch (property_id) {
+		case PROP_WIDGET_COMPLETE:
+			e_import_set_widget_complete (E_IMPORT (object), g_value_get_boolean (value));
+		return;
+	}
+
+	G_OBJECT_WARN_INVALID_PROPERTY_ID (object, property_id, pspec);
+}
+
+static void
+import_get_property (GObject *object,
+		     guint property_id,
+		     GValue *value,
+		     GParamSpec *pspec)
+{
+	switch (property_id) {
+		case PROP_WIDGET_COMPLETE:
+			g_value_set_boolean (value, e_import_get_widget_complete (E_IMPORT (object)));
+			return;
+	}
+
+	G_OBJECT_WARN_INVALID_PROPERTY_ID (object, property_id, pspec);
 }
 
 static void
@@ -87,13 +123,57 @@ e_import_class_init (EImportClass *class)
 
 	object_class = G_OBJECT_CLASS (class);
 	object_class->finalize = import_finalize;
+	object_class->set_property = import_set_property;
+	object_class->get_property = import_get_property;
 
 	class->target_free = import_target_free;
+
+	g_object_class_install_property (
+		object_class,
+		PROP_WIDGET_COMPLETE,
+		g_param_spec_boolean (
+			"widget-complete",
+			NULL,
+			NULL,
+			FALSE,
+			G_PARAM_READWRITE));
 }
 
 static void
 e_import_init (EImport *import)
 {
+	EImportPrivate *priv = e_import_get_instance_private (import);
+
+	priv->widget_complete = TRUE;
+}
+
+gboolean
+e_import_get_widget_complete (EImport *import)
+{
+	EImportPrivate *priv;
+
+	g_return_val_if_fail (E_IS_IMPORT (import), FALSE);
+
+	priv = e_import_get_instance_private (import);
+
+	return priv->widget_complete;
+}
+
+void
+e_import_set_widget_complete (EImport *import,
+			      gboolean value)
+{
+	EImportPrivate *priv;
+
+	g_return_if_fail (E_IS_IMPORT (import));
+
+	priv = e_import_get_instance_private (import);
+
+	if ((priv->widget_complete ? 1 : 0) != (value ? 1 : 0)) {
+		priv->widget_complete = value;
+
+		g_object_notify (G_OBJECT (import), "widget-complete");
+	}
 }
 
 /**

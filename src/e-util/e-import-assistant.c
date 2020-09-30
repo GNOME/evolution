@@ -34,6 +34,7 @@
 #include "e-dialog-utils.h"
 #include "e-dialog-widgets.h"
 #include "e-import.h"
+#include "e-misc-utils.h"
 #include "e-util-private.h"
 
 #define E_IMPORT_ASSISTANT_GET_PRIVATE(obj) \
@@ -759,7 +760,7 @@ prepare_destination_page (GtkAssistant *assistant,
 		priv->file_page.target, priv->file_page.importer);
 
 	gtk_box_pack_start (GTK_BOX (vbox), page->control, TRUE, TRUE, 0);
-	gtk_assistant_set_page_complete (assistant, vbox, TRUE);
+	gtk_assistant_set_page_complete (assistant, vbox, e_import_get_widget_complete (priv->import));
 
 	return FALSE;
 }
@@ -985,7 +986,7 @@ prepare_simple_page (GtkAssistant *assistant,
 
 static gboolean
 prepare_simple_destination_page (GtkAssistant *assistant,
-                          GtkWidget *vbox)
+				 GtkWidget *vbox)
 {
 	EImportAssistantPrivate *priv;
 	ImportDestinationPage *page;
@@ -1003,7 +1004,7 @@ prepare_simple_destination_page (GtkAssistant *assistant,
 		simple_page->target, simple_page->importer);
 
 	gtk_box_pack_start (GTK_BOX (vbox), page->control, TRUE, TRUE, 0);
-	gtk_assistant_set_page_complete (assistant, vbox, TRUE);
+	gtk_assistant_set_page_complete (assistant, vbox, e_import_get_widget_complete (priv->import));
 
 	return FALSE;
 }
@@ -1229,6 +1230,29 @@ import_assistant_key_press_event (GtkWidget *widget,
 }
 
 static void
+import_assistant_notify_widget_complete_cb (EImport *import,
+					    GParamSpec *param,
+					    gpointer user_data)
+{
+	GtkAssistant *assistant = user_data;
+	gint page_no;
+	gboolean is_simple = FALSE;
+
+	g_return_if_fail (E_IS_IMPORT (import));
+	g_return_if_fail (E_IS_IMPORT_ASSISTANT (assistant));
+
+	page_no = gtk_assistant_get_current_page (assistant);
+	g_object_get (assistant, "is-simple", &is_simple, NULL);
+
+	if ((is_simple && page_no == 1) || (!is_simple && page_no == PAGE_FILE_DEST)) {
+		GtkWidget *page;
+
+		page = gtk_assistant_get_nth_page (assistant, page_no);
+		gtk_assistant_set_page_complete (assistant, page, e_import_get_widget_complete (import));
+	}
+}
+
+static void
 import_assistant_prepare (GtkAssistant *assistant,
                           GtkWidget *page)
 {
@@ -1425,6 +1449,9 @@ import_assistant_construct (EImportAssistant *import_assistant)
 		forward_cb, import_assistant, NULL);
 
 	gtk_assistant_update_buttons_state (assistant);
+
+	e_signal_connect_notify_object (import_assistant->priv->import, "notify::widget-complete",
+		G_CALLBACK (import_assistant_notify_widget_complete_cb), import_assistant, 0);
 }
 
 static void

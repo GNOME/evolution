@@ -223,6 +223,9 @@ GtkWidget *	e_import_get_widget		(EImport *import,
 GtkWidget *	e_import_get_preview_widget	(EImport *import,
 						 EImportTarget *target,
 						 EImportImporter *im);
+gboolean	e_import_get_widget_complete	(EImport *import);
+void		e_import_set_widget_complete	(EImport *import,
+						 gboolean value);
 void		e_import_status			(EImport *import,
 						 EImportTarget *target,
 						 const gchar *what,
