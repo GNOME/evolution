@@ -30,6 +30,7 @@
 		"--filesystem=~/.gnupg:rw",
 		"--filesystem=xdg-run/dconf",
 		"--filesystem=~/.config/dconf:ro",
+		"--filesystem=/run/.heim_org.h5l.kcm-socket",
 		"--env=DCONF_USER_CONFIG_DIR=.config/dconf",
 		"--talk-name=ca.desrt.dconf",
 		"--talk-name=org.freedesktop.Notifications",
