@@ -68,7 +68,7 @@ webdav_browser_page_selection_changed_cb (EAccountsWindow *accounts_window,
 					  gpointer user_data)
 {
 	EWebDAVBrowserPage *page = user_data;
-	gboolean has_path = FALSE;
+	gboolean can_use = FALSE;
 
 	g_return_if_fail (E_IS_ACCOUNTS_WINDOW (accounts_window));
 	g_return_if_fail (E_IS_WEBDAV_BROWSER_PAGE (page));
@@ -78,12 +78,30 @@ webdav_browser_page_selection_changed_cb (EAccountsWindow *accounts_window,
 
 		path = e_source_webdav_dup_resource_path (e_source_get_extension (source, E_SOURCE_EXTENSION_WEBDAV_BACKEND));
 
-		has_path = path && *path;
+		can_use = path && *path;
 
 		g_free (path);
 	}
 
-	gtk_widget_set_sensitive (page->browse_button, has_path);
+	if (source && can_use) {
+		ESourceBackend *backend_extension = NULL;
+
+		if (e_source_has_extension (source, E_SOURCE_EXTENSION_ADDRESS_BOOK))
+			backend_extension = e_source_get_extension (source, E_SOURCE_EXTENSION_ADDRESS_BOOK);
+		else if (e_source_has_extension (source, E_SOURCE_EXTENSION_CALENDAR))
+			backend_extension = e_source_get_extension (source, E_SOURCE_EXTENSION_CALENDAR);
+		else if (e_source_has_extension (source, E_SOURCE_EXTENSION_TASK_LIST))
+			backend_extension = e_source_get_extension (source, E_SOURCE_EXTENSION_TASK_LIST);
+		else if (e_source_has_extension (source, E_SOURCE_EXTENSION_MEMO_LIST))
+			backend_extension = e_source_get_extension (source, E_SOURCE_EXTENSION_MEMO_LIST);
+
+		can_use = backend_extension && (
+			g_strcmp0 (e_source_backend_get_backend_name (backend_extension), "caldav") == 0 ||
+			g_strcmp0 (e_source_backend_get_backend_name (backend_extension), "carddav") == 0 ||
+			g_strcmp0 (e_source_backend_get_backend_name (backend_extension), "webdav-notes") == 0);
+	}
+
+	gtk_widget_set_sensitive (page->browse_button, can_use);
 }
 
 static void
