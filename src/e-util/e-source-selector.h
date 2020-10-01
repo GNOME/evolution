@@ -162,6 +162,13 @@ void		e_source_selector_set_source_is_busy
 gboolean	e_source_selector_get_source_is_busy
 						(ESourceSelector *selector,
 						 ESource *source);
+void		e_source_selector_set_source_connection_status
+						(ESourceSelector *selector,
+						 ESource *source,
+						 guint value);
+guint		e_source_selector_get_source_connection_status
+						(ESourceSelector *selector,
+						 ESource *source);
 gboolean	e_source_selector_manage_groups	(ESourceSelector *selector);
 gboolean	e_source_selector_save_groups_setup
 						(ESourceSelector *selector,

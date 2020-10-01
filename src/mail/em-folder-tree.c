@@ -989,6 +989,72 @@ folder_tree_render_icon (GtkTreeViewColumn *column,
 	g_free (icon_name);
 }
 
+static gboolean
+em_folder_tree_query_tooltip_cb (GtkTreeView *tree_view,
+				 gint xx,
+				 gint yy,
+				 gboolean keyboard_mode,
+				 GtkTooltip *tooltip,
+				 gpointer user_data)
+{
+	GtkCellRenderer *renderer = user_data;
+	GtkTreeModel *model = NULL;
+	GtkTreePath *path = NULL;
+	GtkTreeIter iter;
+	CamelService *service = NULL;
+	gboolean is_store = FALSE;
+	gboolean has_tooltip = FALSE;
+	guint status_code = EMFT_STATUS_CODE_UNKNOWN;
+
+	g_return_val_if_fail (EM_IS_FOLDER_TREE (tree_view), FALSE);
+	g_return_val_if_fail (GTK_IS_CELL_RENDERER (renderer), FALSE);
+
+	if (keyboard_mode)
+		return FALSE;
+
+	if (!gtk_tree_view_get_tooltip_context (tree_view, &xx, &yy, keyboard_mode, &model, &path, &iter))
+		return FALSE;
+
+	gtk_tree_model_get (model, &iter,
+		COL_OBJECT_CAMEL_STORE, &service,
+		COL_BOOL_IS_STORE, &is_store,
+		COL_UINT_STATUS_CODE, &status_code,
+		-1);
+
+	if (is_store && service && status_code != EMFT_STATUS_CODE_UNKNOWN && CAMEL_IS_NETWORK_SERVICE (service)) {
+		GtkTreeViewColumn *column;
+
+		column = gtk_tree_view_get_column (tree_view, 1);
+
+		gtk_tree_view_set_tooltip_cell (tree_view, tooltip, path, column, renderer);
+
+		has_tooltip = TRUE;
+
+		switch (status_code) {
+		case EMFT_STATUS_CODE_DISCONNECTED:
+			gtk_tooltip_set_text (tooltip, C_("Status", "Offline"));
+			break;
+		case EMFT_STATUS_CODE_CONNECTED:
+			gtk_tooltip_set_text (tooltip, C_("Status", "Online"));
+			break;
+		case EMFT_STATUS_CODE_NO_ROUTE:
+			gtk_tooltip_set_text (tooltip, C_("Status", "Unreachable"));
+			break;
+		case EMFT_STATUS_CODE_OTHER_ERROR:
+			gtk_tooltip_set_text (tooltip, C_("Status", "Failed to connect"));
+			break;
+		default:
+			has_tooltip = FALSE;
+			break;
+		}
+	}
+
+	gtk_tree_path_free (path);
+	g_clear_object (&service);
+
+	return has_tooltip;
+}
+
 static void
 folder_tree_selection_changed_cb (EMFolderTree *folder_tree,
                                   GtkTreeSelection *selection)
@@ -1373,6 +1439,10 @@ folder_tree_constructed (GObject *object)
 		column, renderer, "gicon", COL_STATUS_ICON);
 	gtk_tree_view_column_add_attribute (
 		column, renderer, "visible", COL_STATUS_ICON_VISIBLE);
+
+	g_signal_connect_object (tree_view, "query-tooltip",
+		G_CALLBACK (em_folder_tree_query_tooltip_cb), renderer, 0);
+	gtk_widget_set_has_tooltip (GTK_WIDGET (tree_view), TRUE);
 
 	renderer = gtk_cell_renderer_spinner_new ();
 	g_object_set (renderer, "xalign", 1.0, NULL);

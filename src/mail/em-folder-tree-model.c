@@ -1000,7 +1000,8 @@ folder_tree_model_constructed (GObject *object)
 		G_TYPE_STRING,    /* COL_STRING_FOLDER_URI */
 		G_TYPE_ICON,      /* COL_GICON_CUSTOM_ICON */
 		GDK_TYPE_RGBA,    /* COL_RGBA_FOREGROUND_RGBA */
-		G_TYPE_UINT       /* COL_UINT_SORT_ORDER */
+		G_TYPE_UINT,      /* COL_UINT_SORT_ORDER */
+		G_TYPE_UINT       /* COL_UINT_STATUS_CODE */
 	};
 
 	g_warn_if_fail (G_N_ELEMENTS (col_types) == NUM_COLUMNS);
@@ -1785,6 +1786,7 @@ folder_tree_model_update_status_icon (StoreInfo *si)
 	const gchar *icon_name = NULL;
 	gboolean was_connecting;
 	gboolean host_reachable;
+	guint status_code = EMFT_STATUS_CODE_UNKNOWN;
 
 	g_return_if_fail (si != NULL);
 
@@ -1801,12 +1803,16 @@ folder_tree_model_update_status_icon (StoreInfo *si)
 
 	switch (status) {
 		case CAMEL_SERVICE_DISCONNECTED:
-			if (!host_reachable)
+			if (!host_reachable) {
 				icon_name = "network-no-route-symbolic";
-			else if (was_connecting)
+				status_code = EMFT_STATUS_CODE_NO_ROUTE;
+			} else if (was_connecting) {
 				icon_name = "network-error-symbolic";
-			else
+				status_code = EMFT_STATUS_CODE_OTHER_ERROR;
+			} else {
 				icon_name = "network-offline-symbolic";
+				status_code = EMFT_STATUS_CODE_DISCONNECTED;
+			}
 			break;
 
 		case CAMEL_SERVICE_CONNECTING:
@@ -1815,6 +1821,7 @@ folder_tree_model_update_status_icon (StoreInfo *si)
 
 		case CAMEL_SERVICE_CONNECTED:
 			icon_name = "network-idle-symbolic";
+			status_code = EMFT_STATUS_CODE_CONNECTED;
 			break;
 
 		case CAMEL_SERVICE_DISCONNECTING:
@@ -1851,6 +1858,7 @@ folder_tree_model_update_status_icon (StoreInfo *si)
 		COL_STATUS_ICON, icon,
 		COL_STATUS_ICON_VISIBLE, (icon_name != NULL),
 		COL_STATUS_SPINNER_VISIBLE, (icon_name == NULL),
+		COL_UINT_STATUS_CODE, status_code,
 		-1);
 
 	g_clear_object (&icon);

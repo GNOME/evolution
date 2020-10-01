@@ -191,6 +191,7 @@ src/e-util/e-cell-text.c
 src/e-util/e-charset.c
 src/e-util/e-charset-combo-box.c
 src/e-util/e-client-cache.c
+src/e-util/e-client-selector.c
 src/e-util/e-collection-account-wizard.c
 src/e-util/e-color-chooser-widget.c
 src/e-util/e-color-combo.c

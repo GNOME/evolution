@@ -27,6 +27,7 @@
  * backends associated with the displayed data sources.
  **/
 
+#include <glib/gi18n-lib.h>
 #include <libedataserver/libedataserver.h>
 
 #include "e-client-selector.h"
@@ -38,6 +39,7 @@
 typedef struct _AsyncContext AsyncContext;
 
 struct _EClientSelectorPrivate {
+	GtkTreeViewColumn *connection_column;
 	EClientCache *client_cache;
 	gulong backend_died_handler_id;
 	gulong client_created_handler_id;
@@ -58,6 +60,14 @@ G_DEFINE_TYPE (
 	EClientSelector,
 	e_client_selector,
 	E_TYPE_SOURCE_SELECTOR)
+
+enum {
+	CONNECTION_STATUS_UNKNOWN	= 0,
+	CONNECTION_STATUS_DISCONNECTED	= 1,
+	CONNECTION_STATUS_CONNECTED	= 2,
+	CONNECTION_STATUS_NO_ROUTE	= 3,
+	CONNECTION_STATUS_OTHER_ERROR	= 4
+};
 
 static void
 async_context_free (AsyncContext *async_context)
@@ -85,10 +95,17 @@ client_selector_update_status_icon_cb (GtkTreeViewColumn *column,
 		E_CLIENT_SELECTOR (tree_view), iter);
 
 	if (client != NULL) {
-		if (e_client_is_online (client))
+		guint connection_status = CONNECTION_STATUS_UNKNOWN;
+
+		if (e_client_is_online (client)) {
 			icon_name = "network-idle-symbolic";
-		else
+			connection_status = CONNECTION_STATUS_CONNECTED;
+		} else {
 			icon_name = "network-offline-symbolic";
+			connection_status = CONNECTION_STATUS_DISCONNECTED;
+		}
+
+		e_source_selector_set_source_connection_status (E_SOURCE_SELECTOR (tree_view), e_client_get_source (client), connection_status);
 
 		g_object_unref (client);
 
@@ -106,6 +123,7 @@ client_selector_update_status_icon_cb (GtkTreeViewColumn *column,
 				E_CLIENT_SELECTOR (tree_view), source);
 			if (dead_backend) {
 				icon_name = "network-error-symbolic";
+				e_source_selector_set_source_connection_status (E_SOURCE_SELECTOR (tree_view), source, CONNECTION_STATUS_OTHER_ERROR);
 			} else {
 				gpointer data;
 
@@ -130,6 +148,80 @@ client_selector_update_status_icon_cb (GtkTreeViewColumn *column,
 	} else {
 		g_object_set (renderer, "gicon", NULL, NULL);
 	}
+}
+
+static gboolean
+client_selector_query_tooltip_cb (GtkTreeView *tree_view,
+				  gint xx,
+				  gint yy,
+				  gboolean keyboard_mode,
+				  GtkTooltip *tooltip,
+				  gpointer user_data)
+{
+	EClientSelector *client_selector;
+	ESourceSelector *selector;
+	ESource *source;
+	GtkCellRenderer *renderer = user_data;
+	GtkTreeModel *model = NULL;
+	GtkTreePath *path = NULL;
+	gboolean has_tooltip = FALSE;
+	guint connection_status = CONNECTION_STATUS_UNKNOWN;
+
+	g_return_val_if_fail (E_IS_CLIENT_SELECTOR (tree_view), FALSE);
+	g_return_val_if_fail (GTK_IS_CELL_RENDERER (renderer), FALSE);
+
+	if (!gtk_tree_view_get_tooltip_context (tree_view, &xx, &yy, keyboard_mode, &model, &path, NULL))
+		return FALSE;
+
+	selector = E_SOURCE_SELECTOR (tree_view);
+	client_selector = E_CLIENT_SELECTOR (tree_view);
+	source = e_source_selector_ref_source_by_path (selector, path);
+
+	if (source)
+		connection_status = e_source_selector_get_source_connection_status (selector, source);
+
+	if (connection_status != CONNECTION_STATUS_UNKNOWN) {
+		gtk_tree_view_set_tooltip_cell (tree_view, tooltip, path, client_selector->priv->connection_column, renderer);
+
+		has_tooltip = TRUE;
+
+		switch (connection_status) {
+		case CONNECTION_STATUS_DISCONNECTED:
+			gtk_tooltip_set_text (tooltip, C_("Status", "Offline"));
+			break;
+		case CONNECTION_STATUS_CONNECTED:
+			gtk_tooltip_set_text (tooltip, C_("Status", "Online"));
+			break;
+		case CONNECTION_STATUS_NO_ROUTE:
+			gtk_tooltip_set_text (tooltip, C_("Status", "Unreachable"));
+			break;
+		case CONNECTION_STATUS_OTHER_ERROR:
+			gtk_tooltip_set_text (tooltip, C_("Status", "Failed to connect"));
+			break;
+		default:
+			has_tooltip = FALSE;
+			break;
+		}
+	}
+
+	if (!has_tooltip && source) {
+		gchar *text;
+
+		text = e_source_selector_dup_source_tooltip (selector, source);
+
+		if (text && *text) {
+			has_tooltip = TRUE;
+			gtk_tree_view_set_tooltip_cell (tree_view, tooltip, path, NULL, NULL);
+			gtk_tooltip_set_text (tooltip, text);
+		}
+
+		g_free (text);
+	}
+
+	gtk_tree_path_free (path);
+	g_clear_object (&source);
+
+	return has_tooltip;
 }
 
 static void
@@ -190,17 +282,23 @@ client_selector_can_reach_cb (GObject *source_object,
 	/* EClient's online state is authoritative.
 	 * Defer to it if an instance already exists. */
 	if (client == NULL) {
+		guint connection_status;
 		const gchar *icon_name;
 
-		if (reachable)
+		if (reachable) {
 			icon_name = "network-idle-symbolic";
-		else
+			connection_status = CONNECTION_STATUS_CONNECTED;
+		} else {
 			icon_name = "network-offline-symbolic";
+			connection_status = CONNECTION_STATUS_DISCONNECTED;
+		}
 
 		/* XXX Hackish way to stash the initial icon name. */
 		g_object_set_data (
 			G_OBJECT (async_context->source),
 			"initial-icon-name", (gpointer) icon_name);
+
+		e_source_selector_set_source_connection_status (E_SOURCE_SELECTOR (async_context->selector), async_context->source, connection_status);
 
 		e_source_selector_update_row (
 			E_SOURCE_SELECTOR (async_context->selector),
@@ -324,6 +422,12 @@ client_selector_constructed (GObject *object)
 		column, renderer,
 		client_selector_update_status_icon_cb,
 		NULL, (GDestroyNotify) NULL);
+
+	selector->priv->connection_column = column;
+
+	g_signal_connect_object (tree_view, "query-tooltip",
+		G_CALLBACK (client_selector_query_tooltip_cb), renderer, 0);
+	gtk_widget_set_has_tooltip (GTK_WIDGET (tree_view), TRUE);
 
 	/* Listen for signals that may change the icon. */
 

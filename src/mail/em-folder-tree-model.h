@@ -55,6 +55,14 @@ typedef struct _EMFolderTreeModelClass EMFolderTreeModelClass;
 typedef struct _EMFolderTreeModelPrivate EMFolderTreeModelPrivate;
 
 enum {
+	EMFT_STATUS_CODE_UNKNOWN	= 0,
+	EMFT_STATUS_CODE_DISCONNECTED	= 1,
+	EMFT_STATUS_CODE_CONNECTED	= 2,
+	EMFT_STATUS_CODE_NO_ROUTE	= 3,
+	EMFT_STATUS_CODE_OTHER_ERROR	= 4
+};
+
+enum {
 	COL_STRING_DISPLAY_NAME,	/* string that appears in the tree */
 	COL_OBJECT_CAMEL_STORE,		/* CamelStore object */
 	COL_STRING_FULL_NAME,		/* if node is a folder, the full path
@@ -81,6 +89,8 @@ enum {
 	COL_GICON_CUSTOM_ICON,		/* a custom icon to use for the folder; NULL to use COL_STRING_ICON_NAME */
 	COL_RGBA_FOREGROUND_RGBA,	/* GdkRGBA for the foreground color; can be NULL */
 	COL_UINT_SORT_ORDER,		/* 0 - use default; non-zero - define sort order on its level */
+
+	COL_UINT_STATUS_CODE,		/* Status code for the store - one of EMFT_STATUS_CODE_ constancts */
 
 	NUM_COLUMNS
 };

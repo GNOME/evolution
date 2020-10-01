@@ -101,6 +101,7 @@ enum {
 	COLUMN_SOURCE,
 	COLUMN_TOOLTIP,
 	COLUMN_IS_BUSY,
+	COLUMN_CONNECTION_STATUS,
 	NUM_COLUMNS
 };
 
@@ -1920,7 +1921,8 @@ e_source_selector_init (ESourceSelector *selector)
 		G_TYPE_INT,		/* COLUMN_WEIGHT */
 		E_TYPE_SOURCE,		/* COLUMN_SOURCE */
 		G_TYPE_STRING,		/* COLUMN_TOOLTIP */
-		G_TYPE_BOOLEAN);	/* COLUMN_IS_BUSY */
+		G_TYPE_BOOLEAN,		/* COLUMN_IS_BUSY */
+		G_TYPE_UINT);		/* COLUMN_CONNECTION_STATUS */
 
 	gtk_tree_view_set_model (tree_view, GTK_TREE_MODEL (tree_store));
 
@@ -2985,6 +2987,41 @@ e_source_selector_update_all_rows (ESourceSelector *selector)
 	g_list_free_full (list, (GDestroyNotify) g_object_unref);
 }
 
+static gboolean
+e_source_selector_get_source_iter (ESourceSelector *selector,
+				   ESource *source,
+				   GtkTreeIter *iter,
+				   GtkTreeModel **out_model)
+{
+	GtkTreeRowReference *reference;
+	GtkTreeModel *model;
+	GtkTreePath *path;
+	gboolean found;
+
+	g_return_val_if_fail (E_IS_SOURCE_SELECTOR (selector), FALSE);
+	g_return_val_if_fail (E_IS_SOURCE (source), FALSE);
+	g_return_val_if_fail (iter, FALSE);
+
+	reference = g_hash_table_lookup (selector->priv->source_index, source);
+
+	/* If the ESource is not in our tree model then return silently. */
+	if (!reference)
+		return FALSE;
+
+	/* If we do have a row reference, it should be valid. */
+	g_return_val_if_fail (gtk_tree_row_reference_valid (reference), FALSE);
+
+	model = gtk_tree_row_reference_get_model (reference);
+	path = gtk_tree_row_reference_get_path (reference);
+	found = gtk_tree_model_get_iter (model, iter, path);
+	gtk_tree_path_free (path);
+
+	if (found && out_model)
+		*out_model = model;
+
+	return found;
+}
+
 /**
  * e_source_selector_set_source_tooltip:
  * @selector: an #ESourceSelector
@@ -2999,27 +3036,14 @@ e_source_selector_set_source_tooltip (ESourceSelector *selector,
 				      ESource *source,
 				      const gchar *tooltip)
 {
-	GtkTreeRowReference *reference;
-	GtkTreeModel *model;
-	GtkTreePath *path;
+	GtkTreeModel *model = NULL;
 	GtkTreeIter iter;
 
 	g_return_if_fail (E_IS_SOURCE_SELECTOR (selector));
 	g_return_if_fail (E_IS_SOURCE (source));
 
-	reference = g_hash_table_lookup (selector->priv->source_index, source);
-
-	/* If the ESource is not in our tree model then return silently. */
-	if (reference == NULL)
+	if (!e_source_selector_get_source_iter (selector, source, &iter, &model))
 		return;
-
-	/* If we do have a row reference, it should be valid. */
-	g_return_if_fail (gtk_tree_row_reference_valid (reference));
-
-	model = gtk_tree_row_reference_get_model (reference);
-	path = gtk_tree_row_reference_get_path (reference);
-	gtk_tree_model_get_iter (model, &iter, path);
-	gtk_tree_path_free (path);
 
 	gtk_tree_store_set (
 		GTK_TREE_STORE (model), &iter,
@@ -3041,28 +3065,15 @@ gchar *
 e_source_selector_dup_source_tooltip (ESourceSelector *selector,
 				      ESource *source)
 {
-	GtkTreeRowReference *reference;
-	GtkTreeModel *model;
-	GtkTreePath *path;
+	GtkTreeModel *model = NULL;
 	GtkTreeIter iter;
 	gchar *tooltip = NULL;
 
 	g_return_val_if_fail (E_IS_SOURCE_SELECTOR (selector), NULL);
 	g_return_val_if_fail (E_IS_SOURCE (source), NULL);
 
-	reference = g_hash_table_lookup (selector->priv->source_index, source);
-
-	/* If the ESource is not in our tree model then return silently. */
-	if (reference == NULL)
+	if (!e_source_selector_get_source_iter (selector, source, &iter, &model))
 		return NULL;
-
-	/* If we do have a row reference, it should be valid. */
-	g_return_val_if_fail (gtk_tree_row_reference_valid (reference), FALSE);
-
-	model = gtk_tree_row_reference_get_model (reference);
-	path = gtk_tree_row_reference_get_path (reference);
-	gtk_tree_model_get_iter (model, &iter, path);
-	gtk_tree_path_free (path);
 
 	gtk_tree_model_get (
 		model, &iter,
@@ -3086,31 +3097,17 @@ e_source_selector_set_source_is_busy (ESourceSelector *selector,
 				      ESource *source,
 				      gboolean is_busy)
 {
-	GtkTreeRowReference *reference;
-	GtkTreeModel *model;
-	GtkTreePath *path;
+	GtkTreeModel *model = NULL;
 	GtkTreeIter iter;
 	gboolean old_is_busy = FALSE;
 
 	g_return_if_fail (E_IS_SOURCE_SELECTOR (selector));
 	g_return_if_fail (E_IS_SOURCE (source));
 
-	reference = g_hash_table_lookup (selector->priv->source_index, source);
-
-	/* If the ESource is not in our tree model then return silently. */
-	if (reference == NULL)
+	if (!e_source_selector_get_source_iter (selector, source, &iter, &model))
 		return;
 
-	/* If we do have a row reference, it should be valid. */
-	g_return_if_fail (gtk_tree_row_reference_valid (reference));
-
-	model = gtk_tree_row_reference_get_model (reference);
-	path = gtk_tree_row_reference_get_path (reference);
-	gtk_tree_model_get_iter (model, &iter, path);
-	gtk_tree_path_free (path);
-
-	gtk_tree_model_get (
-		GTK_TREE_MODEL (model), &iter,
+	gtk_tree_model_get (model, &iter,
 		COLUMN_IS_BUSY, &old_is_busy,
 		-1);
 
@@ -3141,28 +3138,15 @@ gboolean
 e_source_selector_get_source_is_busy (ESourceSelector *selector,
 				      ESource *source)
 {
-	GtkTreeRowReference *reference;
-	GtkTreeModel *model;
-	GtkTreePath *path;
+	GtkTreeModel *model = NULL;
 	GtkTreeIter iter;
 	gboolean is_busy = FALSE;
 
 	g_return_val_if_fail (E_IS_SOURCE_SELECTOR (selector), FALSE);
 	g_return_val_if_fail (E_IS_SOURCE (source), FALSE);
 
-	reference = g_hash_table_lookup (selector->priv->source_index, source);
-
-	/* If the ESource is not in our tree model then return silently. */
-	if (reference == NULL)
+	if (!e_source_selector_get_source_iter (selector, source, &iter, &model))
 		return FALSE;
-
-	/* If we do have a row reference, it should be valid. */
-	g_return_val_if_fail (gtk_tree_row_reference_valid (reference), FALSE);
-
-	model = gtk_tree_row_reference_get_model (reference);
-	path = gtk_tree_row_reference_get_path (reference);
-	gtk_tree_model_get_iter (model, &iter, path);
-	gtk_tree_path_free (path);
 
 	gtk_tree_model_get (
 		model, &iter,
@@ -3170,6 +3154,72 @@ e_source_selector_get_source_is_busy (ESourceSelector *selector,
 		-1);
 
 	return is_busy;
+}
+
+/**
+ * e_source_selector_set_source_connection_status:
+ * @selector: an #ESourceSelector
+ * @source: an #ESource for which to set the connection status
+ * @value: the value to set
+ *
+ * Sets connection status for the @source. It's not interpreted by the @selector,
+ * it only saves it into the model. Read it back with e_source_selector_get_source_connection_status().
+ *
+ * Since: 3.40
+ **/
+void
+e_source_selector_set_source_connection_status (ESourceSelector *selector,
+						ESource *source,
+						guint value)
+{
+	GtkTreeModel *model = NULL;
+	GtkTreeIter iter;
+
+	g_return_if_fail (E_IS_SOURCE_SELECTOR (selector));
+	g_return_if_fail (E_IS_SOURCE (source));
+
+	if (!e_source_selector_get_source_iter (selector, source, &iter, &model))
+		return;
+
+	gtk_tree_store_set (
+		GTK_TREE_STORE (model), &iter,
+		COLUMN_CONNECTION_STATUS, value,
+		-1);
+}
+
+/**
+ * e_source_selector_get_source_connection_status:
+ * @selector: an #ESourceSelector
+ * @source: an #ESource for which to get the stored connection status
+ *
+ * Gets connection status for the @source. It's not interpreted by the @selector,
+ * it only returns what had been saved into the model with e_source_selector_set_source_connection_status().
+ *
+ * Returns: Value previously stored with e_source_selector_set_source_connection_status(),
+ *    or 0 when not set or when the @source was not found.
+ *
+ * Since: 3.40
+ **/
+guint
+e_source_selector_get_source_connection_status (ESourceSelector *selector,
+						ESource *source)
+{
+	GtkTreeModel *model = NULL;
+	GtkTreeIter iter;
+	guint value = 0;
+
+	g_return_val_if_fail (E_IS_SOURCE_SELECTOR (selector), 0);
+	g_return_val_if_fail (E_IS_SOURCE (source), 0);
+
+	if (!e_source_selector_get_source_iter (selector, source, &iter, &model))
+		return 0;
+
+	gtk_tree_model_get (
+		model, &iter,
+		COLUMN_CONNECTION_STATUS, &value,
+		-1);
+
+	return value;
 }
 
 static gboolean
