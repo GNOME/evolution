@@ -154,7 +154,7 @@ filename_changed (GtkWidget *widget,
 	EImportAssistantPrivate *priv;
 	ImportFilePage *page;
 	GtkWidget *child;
-	const gchar *filename;
+	gchar *filename;
 	gint fileok;
 
 	priv = E_IMPORT_ASSISTANT_GET_PRIVATE (assistant);
@@ -243,6 +243,8 @@ filename_changed (GtkWidget *widget,
 
 	widget = gtk_assistant_get_nth_page (assistant, PAGE_FILE_CHOOSE);
 	gtk_assistant_set_page_complete (assistant, widget, fileok);
+
+	g_free (filename);
 }
 
 static void
