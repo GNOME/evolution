@@ -151,10 +151,10 @@ mbox_fill_preview_cb (GObject *preview,
                       CamelMimeMessage *msg)
 {
 	EShell *shell;
+	EShellBackend *shell_backend;
 	EMailDisplay *display;
 	EMailParser *parser;
-	EMailSession *mail_session;
-	ESourceRegistry *registry;
+	EMailSession *mail_session = NULL;
 
 	g_return_if_fail (preview != NULL);
 	g_return_if_fail (msg != NULL);
@@ -163,8 +163,21 @@ mbox_fill_preview_cb (GObject *preview,
 	g_return_if_fail (display != NULL);
 
 	shell = e_shell_get_default ();
-	registry = e_shell_get_registry (shell);
-	mail_session = e_mail_session_new (registry);
+	shell_backend = e_shell_get_backend_by_name (shell, BACKEND_NAME);
+
+	if (E_IS_MAIL_BACKEND (shell_backend)) {
+		mail_session = e_mail_backend_get_session (E_MAIL_BACKEND (shell_backend));
+
+		if (mail_session)
+			g_object_ref (mail_session);
+	}
+
+	if (!mail_session) {
+		ESourceRegistry *registry;
+
+		registry = e_shell_get_registry (shell);
+		mail_session = e_mail_session_new (registry);
+	}
 
 	parser = e_mail_parser_new (CAMEL_SESSION (mail_session));
 	e_mail_parser_parse (
