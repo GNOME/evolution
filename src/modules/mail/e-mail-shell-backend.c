@@ -119,8 +119,10 @@ message_parsed_cb (GObject *source_object,
 	display = g_object_get_data (preview, "mbox-imp-display");
 
 	parts_list = e_mail_parser_parse_finish (parser, res, NULL);
-	if (!parts_list)
+	if (!parts_list) {
+		g_object_unref (parser);
 		return;
+	}
 
 	folder = e_mail_part_list_get_folder (parts_list);
 	message_uid = e_mail_part_list_get_message_uid (parts_list);
@@ -144,6 +146,7 @@ message_parsed_cb (GObject *source_object,
 	e_mail_display_load (display, NULL);
 
 	g_object_unref (parts_list);
+	g_object_unref (parser);
 }
 
 static void
