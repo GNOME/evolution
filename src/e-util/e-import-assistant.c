@@ -51,6 +51,7 @@ typedef struct _ImportSimplePage ImportSimplePage;
 struct _ImportFilePage {
 	GtkWidget *filename;
 	GtkWidget *filetype;
+	GtkWidget *preview_scrolled_window;
 
 	EImportTargetURI *target;
 	EImportImporter *importer;
@@ -152,11 +153,17 @@ filename_changed (GtkWidget *widget,
 {
 	EImportAssistantPrivate *priv;
 	ImportFilePage *page;
+	GtkWidget *child;
 	const gchar *filename;
 	gint fileok;
 
 	priv = E_IMPORT_ASSISTANT_GET_PRIVATE (assistant);
 	page = &priv->file_page;
+
+	child = gtk_bin_get_child (GTK_BIN (page->preview_scrolled_window));
+
+	if (child)
+		gtk_widget_destroy (child);
 
 	filename = gtk_file_chooser_get_filename (GTK_FILE_CHOOSER (widget));
 
@@ -171,6 +178,7 @@ filename_changed (GtkWidget *widget,
 		GSList *l;
 		EImportImporter *first = NULL;
 		gint i = 0, firstitem = 0;
+		gboolean importer_can_handle = FALSE;
 
 		g_free (page->target->uri_src);
 		page->target->uri_src = g_filename_to_uri (filename, NULL, NULL);
@@ -188,6 +196,11 @@ filename_changed (GtkWidget *widget,
 				if (first == NULL) {
 					firstitem = i;
 					first = eii;
+
+					if (!page->importer || page->importer == eii)
+						importer_can_handle = TRUE;
+				} else if (page->importer == eii) {
+					importer_can_handle = TRUE;
 				}
 				gtk_list_store_set (GTK_LIST_STORE (model), &iter, 1, TRUE, -1);
 			} else {
@@ -203,7 +216,15 @@ filename_changed (GtkWidget *widget,
 		if (page->importer == NULL && first) {
 			page->importer = first;
 			gtk_combo_box_set_active (GTK_COMBO_BOX (page->filetype), firstitem);
+		} else if (page->importer && importer_can_handle) {
+			GtkWidget *preview;
+
+			preview = e_import_get_preview_widget (priv->import, (EImportTarget *) page->target, page->importer);
+
+			if (preview)
+				gtk_container_add (GTK_CONTAINER (page->preview_scrolled_window), preview);
 		}
+
 		fileok = first != NULL;
 	} else {
 		GtkTreeIter iter;
@@ -217,6 +238,8 @@ filename_changed (GtkWidget *widget,
 			gtk_list_store_set (GTK_LIST_STORE (model), &iter, 1, FALSE, -1);
 		}
 	}
+
+	gtk_widget_set_visible (page->preview_scrolled_window, gtk_bin_get_child (GTK_BIN (page->preview_scrolled_window)) != NULL);
 
 	widget = gtk_assistant_get_nth_page (assistant, PAGE_FILE_CHOOSE);
 	gtk_assistant_set_page_complete (assistant, widget, fileok);
@@ -324,6 +347,26 @@ import_assistant_file_page_init (EImportAssistant *import_assistant)
 	gtk_cell_layout_set_attributes (
 		GTK_CELL_LAYOUT (widget), cell,
 		"text", 0, "sensitive", 1, NULL);
+
+	row++;
+
+	widget = gtk_label_new_with_mnemonic (_("Pre_view:"));
+	gtk_misc_set_alignment (GTK_MISC (widget), 1, 0);
+	gtk_table_attach (
+		GTK_TABLE (container), widget,
+		0, 1, row, row + 1, GTK_FILL, GTK_FILL, 0, 0);
+
+	label = widget;
+
+	widget = gtk_scrolled_window_new (NULL, NULL);
+	gtk_scrolled_window_set_shadow_type (GTK_SCROLLED_WINDOW (widget), GTK_SHADOW_IN);
+	gtk_label_set_mnemonic_widget (GTK_LABEL (label), widget);
+	gtk_table_attach (
+		GTK_TABLE (container), widget,
+		1, 2, row, row + 1, GTK_EXPAND | GTK_FILL, GTK_EXPAND | GTK_FILL, 0, 0);
+	import_assistant->priv->file_page.preview_scrolled_window = widget;
+
+	e_binding_bind_property (widget, "visible", label, "visible", G_BINDING_DEFAULT);
 
 	return page;
 }
