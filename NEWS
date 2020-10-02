@@ -1,3 +1,38 @@
+Evolution 3.38.1 2020-10-02
+---------------------------
+
+Bug Fixes:
+	I#766 - Flatpak: Enable access to Kerberos tickets (Milan Crha)
+	I#1070 - Improve URL scanner (detect angle brackets) (Milan Crha)
+	I#1072 - EDateEdit: Doesn't signal date change when set to None (Milan Crha)
+	I#1073 - Calendar: Recurring DATE value can match DTSTART and DTEND (Milan Crha)
+	I#1085 - WebDAVBrowser: Show the collection URL in the tooltip (Milan Crha)
+	I#1089 - Extend the iTIP formatter to show ATTACH and URL (Milan Crha)
+	I#1090 - Forward as iCalendar: Embed event's local attachments (Milan Crha)
+	I#1092 - Mail: Skip error parts when quoting/printing messages (Milan Crha)
+	I#1094 - CollectionAccountWizard: Eventually prefill account name from server name (Milan Crha)
+	I#1095 - WebDAVBrowser: Escape text for use in markup (Milan Crha)
+	I#1096 - iTip formatter: Do not double-HTML-escape user comment (Milan Crha)
+	I#1097 - iTip formatter: Show HTML Description, when available (Milan Crha)
+	I#1103 - iTip formatter: Ignore non-opaque events in the conflict search (Milan Crha)
+	I#1123 - Composer: Spell check menu hides "Add to Dictionary" after open (Milan Crha)
+	I#1127 - EWebDAVBrowserPage: Offer 'Browse' for WebDAV sources only (Milan Crha)
+	M!65 - Resolve build failure with ENABLE_CANBERRA set to OFF (David Ward)
+
+Miscellaneous:
+	Flatpak: Switch to 3.38 SDK and build its own libcanberra (Milan Crha)
+	EWebKitEditor: Prevent NULL dereference on call to WebKitWebView methods (Milan Crha)
+	Flatpak: Change git URL for libcanberra (Milan Crha)
+	ECalendarItem: Settings loaded only when being shown (Milan Crha)
+
+Translations:
+	Efstathios Iosifidis (el)
+	Fabio Tomat (fur)
+	Juliano de Souza Camargo (pt)
+	Yosef Or Boczko (he)
+	Mario Blättermann (de)
+	Fran Dieguez (gl)
+
 Evolution 3.38.0 2020-09-11
 ---------------------------
 
