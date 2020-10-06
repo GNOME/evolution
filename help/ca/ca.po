@@ -2365,7 +2365,7 @@ msgstr ""
 #. (itstool) path: section/title
 #: C/contacts-searching.page:40
 msgid "Searching Across Contacts"
-msgstr "Cerca a través dels contactes"
+msgstr "Cercar a través dels contactes"
 
 #. (itstool) path: section/p
 #: C/contacts-searching.page:44
@@ -8530,7 +8530,7 @@ msgstr "Cerca de text a l'editor de correu."
 #. (itstool) path: page/title
 #: C/mail-composer-search.page:21
 msgid "Searching in the mail composer"
-msgstr "Cerca a l'editor de correu"
+msgstr "Cercar a l'editor de correu"
 
 #. (itstool) path: page/p
 #: C/mail-composer-search.page:23
@@ -9480,7 +9480,7 @@ msgstr "Com gestionar missatges de correu electrònic duplicats"
 #. (itstool) path: page/title
 #: C/mail-duplicates.page:24
 msgid "Duplicate emails get downloaded"
-msgstr "Descarregar correus electrònics duplicats"
+msgstr "Es baixen els correus electrònics duplicats"
 
 #. (itstool) path: section/title
 #: C/mail-duplicates.page:27
@@ -12211,7 +12211,7 @@ msgstr ""
 #. (itstool) path: section/title
 #: C/mail-searching.page:36
 msgid "Searching Across Messages"
-msgstr "Cerca a través de missatges"
+msgstr "Cercar a través de missatges"
 
 #. (itstool) path: section/p
 #: C/mail-searching.page:40
@@ -13572,7 +13572,7 @@ msgstr ""
 #. (itstool) path: section/title
 #: C/memos-searching.page:36
 msgid "Searching Across Memos"
-msgstr "Cerca a través de notes"
+msgstr "Cercar a través de notes"
 
 #. (itstool) path: section/p
 #: C/memos-searching.page:40
@@ -14231,7 +14231,7 @@ msgstr ""
 #. (itstool) path: section/title
 #: C/tasks-searching.page:36
 msgid "Searching Across Tasks"
-msgstr "Cerca a través de tasques"
+msgstr "Cercar a través de tasques"
 
 #. (itstool) path: section/p
 #: C/tasks-searching.page:40
