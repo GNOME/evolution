@@ -42,7 +42,6 @@
 #define EVOLUTION "evolution"
 #define EVOLUTION_DIR "$DATADIR/"
 #define EVOLUTION_DIR_FILE EVOLUTION ".dir"
-#define DBUS_SOURCE_REGISTRY_SERVICE_FILE "$DBUSDATADIR/org.gnome.evolution.dataserver.Sources.service"
 
 #define ANCIENT_GCONF_DUMP_FILE "backup-restore-gconf.xml"
 
@@ -424,42 +423,96 @@ get_dir_level (const gchar *dir)
 	return res;
 }
 
+#define DEFAULT_SOURCES_DBUS_NAME "org.gnome.evolution.dataserver.Sources0"
+
 static gchar *
 get_source_manager_reload_command (void)
 {
 	GString *tmp;
 	gchar *command;
 
-	tmp = replace_variables (DBUS_SOURCE_REGISTRY_SERVICE_FILE, TRUE);
+	tmp = replace_variables ("$DBUSDATADIR", TRUE);
+
 	if (tmp) {
-		GKeyFile *key_file;
-		gchar *str = NULL;
+		/* The service file is named based on the service name, thus search for it in the D-Bus directory. */
+		GDir *dir;
 
-		key_file = g_key_file_new ();
-		if (g_key_file_load_from_file (key_file, tmp->str, G_KEY_FILE_NONE, NULL)) {
-			str = g_key_file_get_string (key_file, "D-BUS Service", "Name", NULL);
-		}
-		g_key_file_free (key_file);
+		dir = g_dir_open (tmp->str, 0, NULL);
 
-		if (str && *str) {
-			g_string_assign (tmp, str);
+		if (dir) {
+			gchar *base_filename;
+			gint base_filename_len;
+
+			g_string_free (tmp, TRUE);
+			tmp = NULL;
+
+			base_filename = g_strdup (EDS_SOURCES_DBUS_SERVICE_NAME);
+
+			if (!base_filename || !*base_filename) {
+				g_free (base_filename);
+				base_filename = g_strdup (DEFAULT_SOURCES_DBUS_NAME);
+			}
+
+			base_filename_len = strlen (base_filename);
+
+			while (base_filename_len > 0 && base_filename[base_filename_len - 1] >= '0' && base_filename[base_filename_len - 1] <= '9') {
+				base_filename_len--;
+				base_filename[base_filename_len] = '\0';
+			}
+
+			while (!tmp) {
+				const gchar *name;
+
+				name = g_dir_read_name (dir);
+
+				if (!name)
+					break;
+
+				if (g_ascii_strncasecmp (name, base_filename, base_filename_len) == 0 &&
+				    g_ascii_strncasecmp (name + strlen (name) - 8, ".service", 8) == 0) {
+					gchar *filename;
+
+					filename = g_strconcat ("$DBUSDATADIR", G_DIR_SEPARATOR_S, name, NULL);
+					tmp = replace_variables (filename, TRUE);
+					g_free (filename);
+
+					if (tmp) {
+						GKeyFile *key_file;
+						gchar *str = NULL;
+
+						key_file = g_key_file_new ();
+						if (g_key_file_load_from_file (key_file, tmp->str, G_KEY_FILE_NONE, NULL)) {
+							str = g_key_file_get_string (key_file, "D-BUS Service", "Name", NULL);
+						}
+						g_key_file_free (key_file);
+
+						if (str && *str) {
+							g_string_assign (tmp, str);
+						} else {
+							g_string_free (tmp, TRUE);
+							tmp = NULL;
+						}
+
+						g_free (str);
+					}
+				}
+			}
+
+			g_free (base_filename);
+			g_dir_close (dir);
 		} else {
 			g_string_free (tmp, TRUE);
 			tmp = NULL;
 		}
-
-		g_free (str);
 	}
-
-	if (!tmp)
-		tmp = g_string_new ("org.gnome.evolution.dataserver.Sources0");
 
 	command = g_strdup_printf ("gdbus call --session --dest %s "
 		"--object-path /org/gnome/evolution/dataserver/SourceManager "
 		"--method org.gnome.evolution.dataserver.SourceManager.Reload",
-		tmp->str);
+		tmp ? tmp->str : DEFAULT_SOURCES_DBUS_NAME);
 
-	g_string_free (tmp, TRUE);
+	if (tmp)
+		g_string_free (tmp, TRUE);
 
 	return command;
 }
