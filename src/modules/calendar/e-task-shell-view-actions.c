@@ -979,6 +979,13 @@ static GtkRadioActionEntry task_filter_entries[] = {
 	  NULL,  /* XXX Add a tooltip! */
 	  TASK_FILTER_UNCOMPLETED_TASKS },
 
+	{ "task-filter-scheduled-tasks",
+	  NULL,
+	  N_("Scheduled Tasks"),
+	  NULL,
+	  N_("Show scheduled tasks, aka those with a Due date"),
+	  TASK_FILTER_SCHEDULED_TASKS },
+
 	{ "task-filter-next-7-days-tasks",
 	  NULL,
 	  N_("Next 7 Days’ Tasks"),

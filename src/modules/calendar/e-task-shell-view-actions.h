@@ -92,6 +92,8 @@
 	E_SHELL_WINDOW_ACTION ((window), "task-filter-next-7-days-tasks")
 #define E_SHELL_WINDOW_ACTION_TASK_FILTER_OVERDUE_TASKS(window) \
 	E_SHELL_WINDOW_ACTION ((window), "task-filter-overdue-tasks")
+#define E_SHELL_WINDOW_ACTION_TASK_FILTER_SCHEDULED_TASKS(window) \
+	E_SHELL_WINDOW_ACTION ((window), "task-filter-scheduled-tasks")
 #define E_SHELL_WINDOW_ACTION_TASK_FILTER_TASKS_WITH_ATTACHMENTS(window) \
 	E_SHELL_WINDOW_ACTION ((window), "task-filter-tasks-with-attachments")
 #define E_SHELL_WINDOW_ACTION_TASK_FILTER_TASK_FILTER_STARTED(window) \

@@ -193,6 +193,12 @@ task_shell_view_execute_search (EShellView *shell_view)
 			query = temp;
 			break;
 
+		case TASK_FILTER_SCHEDULED_TASKS:
+			temp = g_strdup_printf ("(and (has-due?) %s)", query);
+			g_free (query);
+			query = temp;
+			break;
+
 		case TASK_FILTER_COMPLETED_TASKS:
 			temp = g_strdup_printf (
 				"(and (is-completed?) %s)", query);
