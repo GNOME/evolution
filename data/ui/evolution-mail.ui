@@ -158,8 +158,6 @@
       <menuitem action='mail-search-folder-from-recipients'/>
       <menuitem action='mail-search-folder-from-mailing-list'/>
     </menu>
-    <separator/>
-    <placeholder name='mail-message-templates'/>
   </popup>
   <popup name='mail-search-options'>
     <menuitem action='mail-search-advanced-hidden'/>

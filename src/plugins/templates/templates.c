@@ -923,7 +923,9 @@ templates_update_actions_cb (EShellView *shell_view,
 			ui_manager = e_shell_window_get_ui_manager (shell_window);
 
 			e_mail_templates_store_build_menu (td->templates_store, shell_view, ui_manager, action_group,
-				"/mail-message-popup/mail-message-templates", td->merge_id,
+				"/main-menu/custom-menus/mail-message-menu/mail-reply-template",
+				"/mail-message-popup/mail-message-popup-common-actions/mail-popup-reply-template",
+				td->merge_id,
 				action_reply_with_template_cb, shell_view);
 		}
 	}

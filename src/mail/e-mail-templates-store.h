@@ -95,6 +95,7 @@ void		e_mail_templates_store_build_menu
 						 GtkUIManager *ui_manager,
 						 GtkActionGroup *action_group,
 						 const gchar *base_menu_path,
+						 const gchar *base_popup_path,
 						 guint merge_id,
 						 EMailTemplatesStoreActionFunc action_cb,
 						 gpointer action_cb_user_data);

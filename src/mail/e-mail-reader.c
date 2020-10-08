@@ -2807,6 +2807,13 @@ static GtkActionEntry mail_reader_entries[] = {
 	  N_("Compose a reply to the sender of the selected message"),
 	  G_CALLBACK (action_mail_reply_sender_cb) },
 
+	{ "mail-reply-template",
+	  NULL,
+	  N_("Repl_y with Template"),
+	  NULL,
+	  NULL,
+	  NULL },
+
 	{ "mail-save-as",
 	  "document-save-as",
 	  N_("_Save as mbox…"),
@@ -3077,6 +3084,10 @@ static EPopupActionEntry mail_reader_popup_entries[] = {
 	{ "mail-popup-reply-sender",
 	  NULL,
 	  "mail-reply-sender" },
+
+	{ "mail-popup-reply-template",
+	  NULL,
+	  "mail-reply-template" },
 
 	{ "mail-popup-save-as",
 	  NULL,

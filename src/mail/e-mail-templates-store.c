@@ -2068,6 +2068,7 @@ templates_store_add_to_menu_recurse (EMailTemplatesStore *templates_store,
 				     GtkUIManager *ui_manager,
 				     GtkActionGroup *action_group,
 				     const gchar *base_menu_path,
+				     const gchar *base_popup_path,
 				     guint merge_id,
 				     EMailTemplatesStoreActionFunc action_cb,
 				     gpointer action_cb_user_data,
@@ -2085,8 +2086,9 @@ templates_store_add_to_menu_recurse (EMailTemplatesStore *templates_store,
 
 			if (tfd->folder) {
 				GtkAction *action;
-				gchar *action_name, *menu_path = NULL;
+				gchar *action_name, *menu_path = NULL, *popup_path = NULL;
 				const gchar *use_menu_path;
+				const gchar *use_popup_path;
 				GSList *link;
 
 				if (with_folder_menu) {
@@ -2099,18 +2101,25 @@ templates_store_add_to_menu_recurse (EMailTemplatesStore *templates_store,
 					gtk_ui_manager_add_ui (ui_manager, merge_id, base_menu_path, action_name,
 						action_name, GTK_UI_MANAGER_MENU, FALSE);
 
+					gtk_ui_manager_add_ui (ui_manager, merge_id, base_popup_path, action_name,
+						action_name, GTK_UI_MANAGER_MENU, FALSE);
+
 					menu_path = g_strdup_printf ("%s/%s", base_menu_path, action_name);
 					use_menu_path = menu_path;
+
+					popup_path = g_strdup_printf ("%s/%s", base_popup_path, action_name);
+					use_popup_path = popup_path;
 
 					g_object_unref (action);
 					g_free (action_name);
 				} else {
 					use_menu_path = base_menu_path;
+					use_popup_path = base_popup_path;
 				}
 
 				if (node->children) {
 					templates_store_add_to_menu_recurse (templates_store, node->children,
-						ui_manager, action_group, use_menu_path, merge_id,
+						ui_manager, action_group, use_menu_path, use_popup_path, merge_id,
 						action_cb, action_cb_user_data, TRUE, action_count);
 				}
 
@@ -2135,12 +2144,17 @@ templates_store_add_to_menu_recurse (EMailTemplatesStore *templates_store,
 							ui_manager, merge_id, use_menu_path, action_name,
 							action_name, GTK_UI_MANAGER_MENUITEM, FALSE);
 
+						gtk_ui_manager_add_ui (
+							ui_manager, merge_id, use_popup_path, action_name,
+							action_name, GTK_UI_MANAGER_MENUITEM, FALSE);
+
 						g_object_unref (action);
 						g_free (action_name);
 					}
 				}
 
 				g_free (menu_path);
+				g_free (popup_path);
 			}
 
 			tmpl_folder_data_unlock (tfd);
@@ -2156,6 +2170,7 @@ e_mail_templates_store_build_menu (EMailTemplatesStore *templates_store,
 				   GtkUIManager *ui_manager,
 				   GtkActionGroup *action_group,
 				   const gchar *base_menu_path,
+				   const gchar *base_popup_path,
 				   guint merge_id,
 				   EMailTemplatesStoreActionFunc action_cb,
 				   gpointer action_cb_user_data)
@@ -2165,6 +2180,7 @@ e_mail_templates_store_build_menu (EMailTemplatesStore *templates_store,
 	gint multiple_accounts = 0;
 	guint action_count = 0;
 	const gchar *main_menu_path = base_menu_path;
+	const gchar *main_popup_path = base_popup_path;
 	gchar *tmp_menu_path = NULL;
 	gchar *action_name;
 
@@ -2173,6 +2189,7 @@ e_mail_templates_store_build_menu (EMailTemplatesStore *templates_store,
 	g_return_if_fail (GTK_IS_UI_MANAGER (ui_manager));
 	g_return_if_fail (GTK_IS_ACTION_GROUP (action_group));
 	g_return_if_fail (base_menu_path != NULL);
+	g_return_if_fail (base_popup_path != NULL);
 	g_return_if_fail (merge_id != 0);
 	g_return_if_fail (action_cb != NULL);
 
@@ -2204,25 +2221,6 @@ e_mail_templates_store_build_menu (EMailTemplatesStore *templates_store,
 		tmpl_store_data_unlock (tsd);
 	}
 
-	if (multiple_accounts > 0) {
-		action_name = g_strdup_printf ("templates-menu-%d", action_count);
-		action_count++;
-
-		action = gtk_action_new (action_name, _("Templates"), NULL, NULL);
-
-		gtk_action_group_add_action (action_group, action);
-
-		gtk_ui_manager_add_ui (
-			ui_manager, merge_id, base_menu_path, action_name,
-			action_name, GTK_UI_MANAGER_MENU, FALSE);
-
-		tmp_menu_path = g_strdup_printf ("%s/%s", base_menu_path, action_name);
-		main_menu_path = tmp_menu_path;
-
-		g_object_unref (action);
-		g_free (action_name);
-	}
-
 	for (link = templates_store->priv->stores; link && multiple_accounts > 0; link = g_slist_next (link)) {
 		TmplStoreData *tsd = link->data;
 
@@ -2236,8 +2234,9 @@ e_mail_templates_store_build_menu (EMailTemplatesStore *templates_store,
 
 			store = g_weak_ref_get (tsd->store_weakref);
 			if (store) {
-				gchar *menu_path = NULL;
+				gchar *menu_path = NULL, *popup_path = NULL;
 				const gchar *use_menu_path = main_menu_path;
+				const gchar *use_popup_path = main_popup_path;
 
 				if (multiple_accounts > 1) {
 					action_name = g_strdup_printf ("templates-menu-%d", action_count);
@@ -2251,18 +2250,26 @@ e_mail_templates_store_build_menu (EMailTemplatesStore *templates_store,
 						ui_manager, merge_id, main_menu_path, action_name,
 						action_name, GTK_UI_MANAGER_MENU, FALSE);
 
+					gtk_ui_manager_add_ui (
+						ui_manager, merge_id, main_popup_path, action_name,
+						action_name, GTK_UI_MANAGER_MENU, FALSE);
+
 					menu_path = g_strdup_printf ("%s/%s", main_menu_path, action_name);
 					use_menu_path = menu_path;
+
+					popup_path = g_strdup_printf ("%s/%s", main_popup_path, action_name);
+					use_popup_path = popup_path;
 
 					g_object_unref (action);
 					g_free (action_name);
 				}
 
 				templates_store_add_to_menu_recurse (templates_store, tsd->folders->children,
-					ui_manager, action_group, use_menu_path, merge_id,
+					ui_manager, action_group, use_menu_path, use_popup_path, merge_id,
 					action_cb, action_cb_user_data, FALSE, &action_count);
 
 				g_free (menu_path);
+				g_free (popup_path);
 			}
 
 			g_clear_object (&store);

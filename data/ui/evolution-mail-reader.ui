@@ -64,6 +64,7 @@
         <menuitem action='mail-reply-sender'/>
         <menuitem action='mail-reply-list'/>
         <menuitem action='mail-reply-all'/>
+        <menu action='mail-reply-template'/>
         <menuitem action='mail-reply-alternative'/>
         <menuitem action='mail-forward'/>
         <menu action='mail-forward-as-menu'>
@@ -141,6 +142,7 @@
         <menu action='mail-reply-group-menu'>
           <menuitem action='mail-reply-all'/>
           <menuitem action='mail-reply-list'/>
+          <menu action='mail-reply-template'/>
           <menuitem action='mail-reply-alternative'/>
         </menu>
       </toolitem>
@@ -171,6 +173,7 @@
     <placeholder name='mail-message-popup-common-actions'>
       <menuitem action='mail-popup-reply-sender'/>
       <menuitem action='mail-popup-reply-all'/>
+      <menu action='mail-popup-reply-template'/>
       <menuitem action='mail-popup-forward'/>
       <separator/>
       <menuitem action='mail-popup-message-edit'/>
@@ -186,6 +189,7 @@
     <separator/>
     <menuitem action='mail-popup-reply-sender'/>
     <menuitem action='mail-popup-reply-all'/>
+    <menu action='mail-popup-reply-template'/>
     <menuitem action='mail-popup-forward'/>
     <separator/>
     <menuitem action='mail-popup-message-edit'/>
