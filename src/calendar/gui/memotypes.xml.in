@@ -121,6 +121,11 @@
   </input>
  </part>
 
+ <part name="sexp">
+   <_title>Expression</_title>
+   <input type="code" name="code"/>
+ </part>
+
 </partset>
 
 <ruleset>

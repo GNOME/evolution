@@ -200,6 +200,10 @@
             <input type="completedpercent" name="versus"/>
         </part>
 
+        <part name="sexp">
+            <_title>Expression</_title>
+            <input type="code" name="code"/>
+        </part>
     </partset>
     <ruleset>
         <rule grouping="any" source="demand">
