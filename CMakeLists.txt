@@ -279,6 +279,8 @@ pkg_check_modules(A11Y REQUIRED atk)
 pkg_check_modules(LIBSOUP REQUIRED libsoup-2.4>=${soup_minimum_version})
 pkg_check_modules(WEB_EXTENSION REQUIRED webkit2gtk-4.0>=${webkit2gtk_minimum_version})
 
+pkg_check_variable(EDS_SOURCES_DBUS_SERVICE_NAME evolution-data-server-1.2 sourcesdbusservicename)
+
 # ******************************
 # Enchant - support both, but better to use the same as the dependencies (gspell, webkitgtk+,...)
 # ******************************
