@@ -285,7 +285,7 @@ pkg_check_variable(EDS_SOURCES_DBUS_SERVICE_NAME evolution-data-server-1.2 sourc
 # Enchant - support both, but better to use the same as the dependencies (gspell, webkitgtk+,...)
 # ******************************
 
-add_printable_option(WITH_ENCHANT_VERSION "Set Enchant version to use, values are: 'auto' (default), 1 or 2" "auto")
+add_printable_variable(WITH_ENCHANT_VERSION "Set Enchant version to use, values are: 'auto' (default), 1 or 2" "auto")
 
 if(WITH_ENCHANT_VERSION STREQUAL "1")
 	pkg_check_modules(ENCHANT REQUIRED enchant>=${enchant1_minimum_version})
