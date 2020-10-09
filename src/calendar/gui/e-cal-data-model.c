@@ -1104,7 +1104,7 @@ cal_data_model_instance_generated (ICalComponent *icomp,
 	GenerateInstancesData *gid = user_data;
 	ComponentData *comp_data;
 	ECalComponent *comp_copy;
-	ICalTime *tt, *tt2;
+	ICalTime *tt = NULL, *tt2 = NULL;
 	time_t start_tt, end_tt;
 
 	g_return_val_if_fail (gid != NULL, FALSE);
@@ -1123,26 +1123,6 @@ cal_data_model_instance_generated (ICalComponent *icomp,
 
 	comp_copy = e_cal_component_new_from_icalcomponent (i_cal_component_clone (icomp));
 	g_return_val_if_fail (comp_copy != NULL, FALSE);
-
-	tt = i_cal_component_get_dtstart (e_cal_component_get_icalcomponent (comp_copy));
-	tt2 = i_cal_time_convert_to_zone (instance_start, gid->zone);
-	if (i_cal_time_is_date (tt) || !i_cal_time_get_timezone (tt) || i_cal_time_is_utc (tt))
-		i_cal_time_set_timezone (tt2, NULL);
-	else
-		i_cal_time_set_timezone (tt2, gid->zone);
-	i_cal_component_set_dtstart (e_cal_component_get_icalcomponent (comp_copy), tt2);
-	g_clear_object (&tt);
-	g_clear_object (&tt2);
-
-	tt = i_cal_component_get_dtend (e_cal_component_get_icalcomponent (comp_copy));
-	tt2 = i_cal_time_convert_to_zone (instance_end, gid->zone);
-	if (i_cal_time_is_date (tt) || !i_cal_time_get_timezone (tt) || i_cal_time_is_utc (tt))
-		i_cal_time_set_timezone (tt2, NULL);
-	else
-		i_cal_time_set_timezone (tt2, gid->zone);
-	i_cal_component_set_dtend (e_cal_component_get_icalcomponent (comp_copy), tt2);
-	g_clear_object (&tt);
-	g_clear_object (&tt2);
 
 	cal_comp_get_instance_times (gid->client, e_cal_component_get_icalcomponent (comp_copy),
 		gid->zone, &tt, &tt2, cancellable);
