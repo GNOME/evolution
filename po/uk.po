@@ -12,8 +12,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: evolution\n"
 "Report-Msgid-Bugs-To: https://gitlab.gnome.org/GNOME/evolution/issues\n"
-"POT-Creation-Date: 2020-10-02 10:25+0000\n"
-"PO-Revision-Date: 2020-10-05 17:48+0300\n"
+"POT-Creation-Date: 2020-10-10 11:52+0000\n"
+"PO-Revision-Date: 2020-10-10 19:07+0300\n"
 "Last-Translator: Yuri Chornoivan <yurchor@ukr.net>\n"
 "Language-Team: Ukrainian <trans-uk@lists.fedoraproject.org>\n"
 "Language: uk\n"
@@ -3485,7 +3485,7 @@ msgstr "Примітки"
 #: ../src/modules/calendar/e-cal-shell-content.c:1733
 #: ../src/modules/calendar/e-task-shell-view-actions.c:220
 #: ../src/modules/calendar/e-task-shell-view-actions.c:235
-#: ../src/modules/calendar/e-task-shell-view.c:524
+#: ../src/modules/calendar/e-task-shell-view.c:530
 msgid "Tasks"
 msgstr "Завдання"
 
@@ -4176,7 +4176,7 @@ msgstr "Параметри"
 #: ../src/mail/mail-send-recv.c:955 ../src/mail/mail-vfolder-ui.c:149
 #: ../src/mail/mail-vfolder-ui.c:271
 #: ../src/modules/accounts-window/e-accounts-window-editors.c:277
-#: ../src/modules/backup-restore/evolution-backup-tool.c:936
+#: ../src/modules/backup-restore/evolution-backup-tool.c:989
 #: ../src/modules/book-config-ldap/evolution-book-config-ldap.c:409
 #: ../src/modules/calendar/e-cal-attachment-handler.c:281
 #: ../src/plugins/email-custom-header/org-gnome-email-custom-header.ui.h:3
@@ -4854,13 +4854,13 @@ msgid "Email begins with"
 msgstr "Поштова адреса починається з"
 
 #: ../src/addressbook/gui/widgets/addresstypes.xml.h:3
-#: ../src/calendar/gui/caltypes.xml.in.h:26
-#: ../src/calendar/gui/memotypes.xml.in.h:19
-#: ../src/calendar/gui/tasktypes.xml.in.h:30
+#: ../src/calendar/gui/caltypes.xml.in.h:27
+#: ../src/calendar/gui/memotypes.xml.in.h:20
+#: ../src/calendar/gui/tasktypes.xml.in.h:31
 #: ../src/modules/addressbook/e-book-shell-view-actions.c:1295
 #: ../src/modules/calendar/e-cal-shell-view-actions.c:1692
 #: ../src/modules/calendar/e-memo-shell-view-actions.c:807
-#: ../src/modules/calendar/e-task-shell-view-actions.c:1029
+#: ../src/modules/calendar/e-task-shell-view-actions.c:1036
 msgid "Any field contains"
 msgstr "Будь-яке поле містить"
 
@@ -5503,7 +5503,7 @@ msgstr "З_близити"
 
 #. Zoom-out button
 #: ../src/addressbook/gui/widgets/e-contact-map-window.c:417
-#: ../src/mail/e-mail-reader.c:2861
+#: ../src/mail/e-mail-reader.c:2868
 msgid "Zoom _Out"
 msgstr "З_меншити"
 
@@ -6584,12 +6584,20 @@ msgstr "Більше за"
 #: ../src/calendar/gui/caltypes.xml.in.h:24
 #: ../src/calendar/gui/memotypes.xml.in.h:17
 #: ../src/calendar/gui/tasktypes.xml.in.h:28
-msgid "Summary Contains"
-msgstr "Зведення містить"
+#: ../src/mail/filtertypes.xml.in.h:23 ../src/mail/searchtypes.xml.in.h:25
+#: ../src/mail/vfoldertypes.xml.in.h:25
+msgid "Expression"
+msgstr "Вираз"
 
 #: ../src/calendar/gui/caltypes.xml.in.h:25
 #: ../src/calendar/gui/memotypes.xml.in.h:18
 #: ../src/calendar/gui/tasktypes.xml.in.h:29
+msgid "Summary Contains"
+msgstr "Зведення містить"
+
+#: ../src/calendar/gui/caltypes.xml.in.h:26
+#: ../src/calendar/gui/memotypes.xml.in.h:19
+#: ../src/calendar/gui/tasktypes.xml.in.h:30
 msgid "Description Contains"
 msgstr "Опис містить"
 
@@ -6957,17 +6965,17 @@ msgstr "Опис:"
 msgid "Web Page:"
 msgstr "Веб-сторінка:"
 
-#: ../src/calendar/gui/e-cal-data-model.c:1753
+#: ../src/calendar/gui/e-cal-data-model.c:1733
 #, c-format
 msgid "Creating view for calendar “%s”"
 msgstr "Створення огляду для календаря «%s»"
 
-#: ../src/calendar/gui/e-cal-data-model.c:1757
+#: ../src/calendar/gui/e-cal-data-model.c:1737
 #, c-format
 msgid "Creating view for task list “%s”"
 msgstr "Створення огляду для списку завдань «%s»"
 
-#: ../src/calendar/gui/e-cal-data-model.c:1761
+#: ../src/calendar/gui/e-cal-data-model.c:1741
 #, c-format
 msgid "Creating view for memo list “%s”"
 msgstr "Створення огляду для списку приміток «%s»"
@@ -8765,7 +8773,7 @@ msgstr "Над_рукувати…"
 #: ../src/modules/addressbook/e-book-shell-view-actions.c:1326
 #: ../src/modules/calendar/e-cal-shell-view-actions.c:1723
 #: ../src/modules/calendar/e-memo-shell-view-actions.c:838
-#: ../src/modules/calendar/e-task-shell-view-actions.c:1060
+#: ../src/modules/calendar/e-task-shell-view-actions.c:1067
 msgid "Pre_view…"
 msgstr "_Перегляд…"
 
@@ -13019,14 +13027,11 @@ msgid "Cannot create a client object from extension name “%s”"
 msgstr "Неможливо створити клієнтський об'єкт з назвою розширення «%s»"
 
 #: ../src/e-util/e-client-selector.c:190 ../src/mail/em-folder-tree.c:1035
-#| msgid "_Work Offline"
 msgctxt "Status"
 msgid "Offline"
 msgstr "Поза мережею"
 
 #: ../src/e-util/e-client-selector.c:193 ../src/mail/em-folder-tree.c:1038
-#| msgctxt "ReplyForward"
-#| msgid "Inline"
 msgctxt "Status"
 msgid "Online"
 msgstr "У мережі"
@@ -13037,7 +13042,6 @@ msgid "Unreachable"
 msgstr "Недоступний"
 
 #: ../src/e-util/e-client-selector.c:199 ../src/mail/em-folder-tree.c:1044
-#| msgid "Failed to connect “{0}”"
 msgctxt "Status"
 msgid "Failed to connect"
 msgstr "Не вдалося з'єднатися"
@@ -13207,7 +13211,7 @@ msgstr "Вибрати нетиповий колір"
 #: ../src/mail/e-mail-account-tree-view.c:135
 #: ../src/mail/e-mail-config-security-page.c:544
 #: ../src/mail/e-mail-config-security-page.c:708
-#: ../src/mail/e-mail-reader.c:4870 ../src/mail/mail-config.ui.h:78
+#: ../src/mail/e-mail-reader.c:4881 ../src/mail/mail-config.ui.h:78
 msgid "Default"
 msgstr "Типовий"
 
@@ -14978,7 +14982,6 @@ msgid "File _type:"
 msgstr "_Тип файлу:"
 
 #: ../src/e-util/e-import-assistant.c:355
-#| msgid "Preview"
 msgid "Pre_view:"
 msgstr "П_ерегляд:"
 
@@ -16330,12 +16333,12 @@ msgid "Save the image to a file"
 msgstr "Зберегти зображення у файл"
 
 #: ../src/e-util/e-web-view.c:475 ../src/mail/e-mail-browser.c:201
-#: ../src/mail/e-mail-reader.c:2819
+#: ../src/mail/e-mail-reader.c:2826
 msgid "Search _Web…"
 msgstr "Шукати в _інтернеті…"
 
 #: ../src/e-util/e-web-view.c:477 ../src/mail/e-mail-browser.c:203
-#: ../src/mail/e-mail-reader.c:2821
+#: ../src/mail/e-mail-reader.c:2828
 msgid "Search the Web with the selected text"
 msgstr "Шукати позначений фрагмент тексту в інтернеті"
 
@@ -16703,7 +16706,6 @@ msgstr "Надіслані"
 
 #. E_MAIL_LOCAL_FOLDER_SENT
 #: ../src/libemail-engine/e-mail-session.c:124
-#: ../src/mail/e-mail-templates-store.c:2211
 #: ../src/mail/em-folder-tree-model.c:1500
 #: ../src/mail/importers/kmail-libs.c:146
 #: ../src/modules/mail/e-mail-shell-view-private.c:1030
@@ -17859,7 +17861,7 @@ msgstr "_Завжди ігнорувати відповісти на: для с�
 msgid "Failed to retrieve message:"
 msgstr "Не вдалося одержати лист:"
 
-#: ../src/mail/e-mail-reader.c:2196 ../src/mail/e-mail-reader.c:3686
+#: ../src/mail/e-mail-reader.c:2196 ../src/mail/e-mail-reader.c:3697
 #, c-format
 msgid "Retrieving message “%s”"
 msgstr "Отримання повідомлення «%s»"
@@ -18078,7 +18080,7 @@ msgstr "_Завантажити зображення"
 msgid "Force images in HTML mail to be loaded"
 msgstr "Ввімкнути завантаження зображень у пошті в форматі HTML"
 
-#: ../src/mail/e-mail-reader.c:2595 ../src/mail/e-mail-reader.c:3014
+#: ../src/mail/e-mail-reader.c:2595 ../src/mail/e-mail-reader.c:3021
 msgid "_Ignore Subthread"
 msgstr "_Нехтувати підгілкою"
 
@@ -18086,7 +18088,7 @@ msgstr "_Нехтувати підгілкою"
 msgid "Mark new mails in a subthread as read automatically"
 msgstr "Автоматично зазначати нову пошту в підгілці як прочитану "
 
-#: ../src/mail/e-mail-reader.c:2602 ../src/mail/e-mail-reader.c:3018
+#: ../src/mail/e-mail-reader.c:2602 ../src/mail/e-mail-reader.c:3025
 msgid "_Ignore Thread"
 msgstr "_Нехтувати гілкою"
 
@@ -18126,7 +18128,7 @@ msgstr "_Читання"
 msgid "Mark the selected messages as having been read"
 msgstr "Позначити виділені повідомлення як прочитані"
 
-#: ../src/mail/e-mail-reader.c:2637 ../src/mail/e-mail-reader.c:3038
+#: ../src/mail/e-mail-reader.c:2637 ../src/mail/e-mail-reader.c:3045
 msgid "Do not _Ignore Subthread"
 msgstr "Не не_хтувати підгілкою"
 
@@ -18134,7 +18136,7 @@ msgstr "Не не_хтувати підгілкою"
 msgid "Do not mark new mails in a subthread as read automatically"
 msgstr "Автоматично не зазначати нову пошту в підгілці як прочитану "
 
-#: ../src/mail/e-mail-reader.c:2644 ../src/mail/e-mail-reader.c:3042
+#: ../src/mail/e-mail-reader.c:2644 ../src/mail/e-mail-reader.c:3049
 msgid "Do not _Ignore Thread"
 msgstr "Не не_хтувати гілкою"
 
@@ -18332,172 +18334,177 @@ msgid "Compose a reply to the sender of the selected message"
 msgstr "Відповісти відправнику цього повідомлення"
 
 #: ../src/mail/e-mail-reader.c:2812
+#| msgid "Apply t_emplate"
+msgid "Repl_y with Template"
+msgstr "Від_повісти за шаблоном"
+
+#: ../src/mail/e-mail-reader.c:2819
 msgid "_Save as mbox…"
 msgstr "З_берегти як mbox…"
 
-#: ../src/mail/e-mail-reader.c:2814
+#: ../src/mail/e-mail-reader.c:2821
 msgid "Save selected messages as an mbox file"
 msgstr "Зберегти виділені повідомлення як файл mbox"
 
-#: ../src/mail/e-mail-reader.c:2826
+#: ../src/mail/e-mail-reader.c:2833
 msgid "_Message Source"
 msgstr "Джерело _повідомлення"
 
-#: ../src/mail/e-mail-reader.c:2828
+#: ../src/mail/e-mail-reader.c:2835
 msgid "Show the raw email source of the message"
 msgstr "Показати повний вихідний текст повідомлення"
 
-#: ../src/mail/e-mail-reader.c:2840
+#: ../src/mail/e-mail-reader.c:2847
 msgid "_Undelete Message"
 msgstr "Від_новити повідомлення"
 
-#: ../src/mail/e-mail-reader.c:2842
+#: ../src/mail/e-mail-reader.c:2849
 msgid "Undelete the selected messages"
 msgstr "Відновити вибрані повідомлення"
 
-#: ../src/mail/e-mail-reader.c:2847
+#: ../src/mail/e-mail-reader.c:2854
 msgid "_Normal Size"
 msgstr "З_вичайний розмір"
 
-#: ../src/mail/e-mail-reader.c:2849
+#: ../src/mail/e-mail-reader.c:2856
 msgid "Reset the text to its original size"
 msgstr "Повернути оригінальний розмір тексту"
 
-#: ../src/mail/e-mail-reader.c:2854
+#: ../src/mail/e-mail-reader.c:2861
 msgid "_Zoom In"
 msgstr "З_більшити"
 
-#: ../src/mail/e-mail-reader.c:2856
+#: ../src/mail/e-mail-reader.c:2863
 msgid "Increase the text size"
 msgstr "Збільшити розмір тексту"
 
-#: ../src/mail/e-mail-reader.c:2863
+#: ../src/mail/e-mail-reader.c:2870
 msgid "Decrease the text size"
 msgstr "Зменшити розмір тексту"
 
-#: ../src/mail/e-mail-reader.c:2870
+#: ../src/mail/e-mail-reader.c:2877
 msgid "Cre_ate"
 msgstr "С_творити"
 
-#: ../src/mail/e-mail-reader.c:2877
+#: ../src/mail/e-mail-reader.c:2884
 msgid "Ch_aracter Encoding"
 msgstr "Набір си_мволів"
 
-#: ../src/mail/e-mail-reader.c:2884
+#: ../src/mail/e-mail-reader.c:2891
 #: ../src/modules/mail/e-mail-attachment-handler.c:424
 msgid "F_orward As"
 msgstr "_Переслати як…"
 
-#: ../src/mail/e-mail-reader.c:2891
+#: ../src/mail/e-mail-reader.c:2898
 msgid "_Label"
 msgstr "_Позначка"
 
-#: ../src/mail/e-mail-reader.c:2898
+#: ../src/mail/e-mail-reader.c:2905
 msgid "_Group Reply"
 msgstr "_Групувати відповіді"
 
-#: ../src/mail/e-mail-reader.c:2905
+#: ../src/mail/e-mail-reader.c:2912
 msgid "_Go To"
 msgstr "Пере_йти до"
 
-#: ../src/mail/e-mail-reader.c:2912
+#: ../src/mail/e-mail-reader.c:2919
 msgid "Mar_k As"
 msgstr "По_значити як"
 
-#: ../src/mail/e-mail-reader.c:2919
+#: ../src/mail/e-mail-reader.c:2926
 msgid "_Message"
 msgstr "П_овідомлення"
 
-#: ../src/mail/e-mail-reader.c:2926
+#: ../src/mail/e-mail-reader.c:2933
 msgid "_Zoom"
 msgstr "Зміна _масштабу"
 
-#: ../src/mail/e-mail-reader.c:2936
+#: ../src/mail/e-mail-reader.c:2943
 msgid "Create a Search Folder from Mailing _List…"
 msgstr "Створити теку пошуку зі списку _листування…"
 
-#: ../src/mail/e-mail-reader.c:2938
+#: ../src/mail/e-mail-reader.c:2945
 msgid "Create a search folder for this mailing list"
 msgstr "Створити теку пошуку для цього списку листування"
 
-#: ../src/mail/e-mail-reader.c:2943
+#: ../src/mail/e-mail-reader.c:2950
 msgid "Create a Search Folder from Recipien_ts…"
 msgstr "Створити теку пошуку з _одержувачів…"
 
-#: ../src/mail/e-mail-reader.c:2945
+#: ../src/mail/e-mail-reader.c:2952
 msgid "Create a search folder for these recipients"
 msgstr "Створити теку пошуку для цих отримувачів"
 
-#: ../src/mail/e-mail-reader.c:2950
+#: ../src/mail/e-mail-reader.c:2957
 msgid "Create a Search Folder from Sen_der…"
 msgstr "Створити теку пошуку з _відправників…"
 
-#: ../src/mail/e-mail-reader.c:2952
+#: ../src/mail/e-mail-reader.c:2959
 msgid "Create a search folder for this sender"
 msgstr "Створити теку пошуку для цього відправника"
 
-#: ../src/mail/e-mail-reader.c:2957
+#: ../src/mail/e-mail-reader.c:2964
 msgid "Create a Search Folder from S_ubject…"
 msgstr "Створити теку пошуку з _теми…"
 
-#: ../src/mail/e-mail-reader.c:2959
+#: ../src/mail/e-mail-reader.c:2966
 msgid "Create a search folder for this subject"
 msgstr "Створити теку пошуку для цієї теми"
 
-#: ../src/mail/e-mail-reader.c:3006
+#: ../src/mail/e-mail-reader.c:3013
 msgid "Mark for Follo_w Up…"
 msgstr "Позначити як «_до виконання»…"
 
-#: ../src/mail/e-mail-reader.c:3022
+#: ../src/mail/e-mail-reader.c:3029
 msgid "Mark as _Important"
 msgstr "Позначити як ва_жливе"
 
-#: ../src/mail/e-mail-reader.c:3026
+#: ../src/mail/e-mail-reader.c:3033
 msgid "Mark as _Junk"
 msgstr "Зазначити як _спам"
 
-#: ../src/mail/e-mail-reader.c:3030
+#: ../src/mail/e-mail-reader.c:3037
 msgid "Mark as _Not Junk"
 msgstr "Позначити як _не спам"
 
-#: ../src/mail/e-mail-reader.c:3034
+#: ../src/mail/e-mail-reader.c:3041
 msgid "Mar_k as Read"
 msgstr "Позначити як _прочитане"
 
-#: ../src/mail/e-mail-reader.c:3046
+#: ../src/mail/e-mail-reader.c:3053
 msgid "Mark as Uni_mportant"
 msgstr "Позначити як н_еважливе"
 
-#: ../src/mail/e-mail-reader.c:3050
+#: ../src/mail/e-mail-reader.c:3057
 msgid "Mark as _Unread"
 msgstr "Позначити як непро_читане"
 
-#: ../src/mail/e-mail-reader.c:3098
+#: ../src/mail/e-mail-reader.c:3109
 msgid "_Caret Mode"
 msgstr "Режим _каретки"
 
-#: ../src/mail/e-mail-reader.c:3100
+#: ../src/mail/e-mail-reader.c:3111
 msgid "Show a blinking cursor in the body of displayed messages"
 msgstr "Показувати мерехтливий курсор у тілі повідомлень, що відображаються"
 
-#: ../src/mail/e-mail-reader.c:3106
+#: ../src/mail/e-mail-reader.c:3117
 msgid "All Message _Headers"
 msgstr "Усі заг_оловки повідомлень"
 
-#: ../src/mail/e-mail-reader.c:3108
+#: ../src/mail/e-mail-reader.c:3119
 msgid "Show messages with all email headers"
 msgstr "Показати повідомлення з усіма заголовками"
 
-#: ../src/mail/e-mail-reader.c:3692
+#: ../src/mail/e-mail-reader.c:3703
 msgid "Retrieving message"
 msgstr "Одержання листа"
 
-#: ../src/mail/e-mail-reader.c:5062
+#: ../src/mail/e-mail-reader.c:5073
 #: ../src/modules/mail/e-mail-attachment-handler.c:389
 msgid "_Forward"
 msgstr "_Переслати"
 
-#: ../src/mail/e-mail-reader.c:5063
+#: ../src/mail/e-mail-reader.c:5074
 #: ../src/modules/mail/e-mail-attachment-handler.c:391
 msgid "Forward the selected message to someone"
 msgstr "Переслати вибране повідомлення до когось"
@@ -18506,29 +18513,29 @@ msgstr "Переслати вибране повідомлення до кого
 #. * (if possible and if that configuration option is enabled), or else
 #. * it will reply to all. The word "Group" was chosen because it covers
 #. * either of those, without too strongly implying one or the other.
-#: ../src/mail/e-mail-reader.c:5082
+#: ../src/mail/e-mail-reader.c:5093
 msgid "Group Reply"
 msgstr "Групувати відповіді"
 
-#: ../src/mail/e-mail-reader.c:5083
+#: ../src/mail/e-mail-reader.c:5094
 msgid "Reply to the mailing list, or to all recipients"
 msgstr "Відповісти у список листування або всім одержувачам"
 
-#: ../src/mail/e-mail-reader.c:5149 ../src/mail/filtertypes.xml.in.h:67
+#: ../src/mail/e-mail-reader.c:5160 ../src/mail/filtertypes.xml.in.h:67
 msgid "Delete"
 msgstr "Вилучити"
 
-#: ../src/mail/e-mail-reader.c:5161
+#: ../src/mail/e-mail-reader.c:5172
 #: ../src/modules/calendar/e-cal-shell-view-actions.c:1249
 msgid "Next"
 msgstr "Далі"
 
-#: ../src/mail/e-mail-reader.c:5165
+#: ../src/mail/e-mail-reader.c:5176
 #: ../src/modules/calendar/e-cal-shell-view-actions.c:1242
 msgid "Previous"
 msgstr "Попереднє"
 
-#: ../src/mail/e-mail-reader.c:5174 ../src/mail/mail-dialogs.ui.h:9
+#: ../src/mail/e-mail-reader.c:5185 ../src/mail/mail-dialogs.ui.h:9
 msgid "Reply"
 msgstr "Відповісти"
 
@@ -19378,11 +19385,6 @@ msgstr "не існує"
 #: ../src/mail/vfoldertypes.xml.in.h:24
 msgid "Message Body"
 msgstr "Вміст повідомлення"
-
-#: ../src/mail/filtertypes.xml.in.h:23 ../src/mail/searchtypes.xml.in.h:25
-#: ../src/mail/vfoldertypes.xml.in.h:25
-msgid "Expression"
-msgstr "Вираз"
 
 #: ../src/mail/filtertypes.xml.in.h:24 ../src/mail/searchtypes.xml.in.h:26
 #: ../src/mail/vfoldertypes.xml.in.h:26
@@ -21817,14 +21819,14 @@ msgstr "Показувати попередній перегляд контак�
 #: ../src/modules/addressbook/e-book-shell-view-actions.c:1278
 #: ../src/modules/calendar/e-cal-shell-view-actions.c:1675
 #: ../src/modules/calendar/e-memo-shell-view-actions.c:790
-#: ../src/modules/calendar/e-task-shell-view-actions.c:1005
+#: ../src/modules/calendar/e-task-shell-view-actions.c:1012
 msgid "Unmatched"
 msgstr "Інше"
 
 #: ../src/modules/addressbook/e-book-shell-view-actions.c:1288
 #: ../src/modules/calendar/e-cal-shell-view-actions.c:1685
 #: ../src/modules/calendar/e-memo-shell-view-actions.c:800
-#: ../src/modules/calendar/e-task-shell-view-actions.c:1022
+#: ../src/modules/calendar/e-task-shell-view-actions.c:1029
 #: ../src/modules/mail/e-mail-shell-view-actions.c:2077
 #: ../src/shell/e-shell-content.c:639
 msgid "Advanced Search"
@@ -21947,105 +21949,105 @@ msgstr "_Відновити дані Evolution…"
 msgid "Restore Evolution data and settings from an archive file"
 msgstr "Відновити дані та параметри Evolution з архівного файлу"
 
-#: ../src/modules/backup-restore/evolution-backup-tool.c:73
+#: ../src/modules/backup-restore/evolution-backup-tool.c:72
 msgid "Back up Evolution directory"
 msgstr "Зберегти каталог Evolution"
 
-#: ../src/modules/backup-restore/evolution-backup-tool.c:75
+#: ../src/modules/backup-restore/evolution-backup-tool.c:74
 msgid "Restore Evolution directory"
 msgstr "Відновити каталог Evolution"
 
-#: ../src/modules/backup-restore/evolution-backup-tool.c:77
+#: ../src/modules/backup-restore/evolution-backup-tool.c:76
 msgid "Check Evolution Back up"
 msgstr "Перевірити архів Evolution"
 
-#: ../src/modules/backup-restore/evolution-backup-tool.c:79
+#: ../src/modules/backup-restore/evolution-backup-tool.c:78
 msgid "Restart Evolution"
 msgstr "Перезапустити Evolution"
 
-#: ../src/modules/backup-restore/evolution-backup-tool.c:81
+#: ../src/modules/backup-restore/evolution-backup-tool.c:80
 msgid "With Graphical User Interface"
 msgstr "з графічним інтерфейсом"
 
 #. FIXME Will the versioned setting always work?
-#: ../src/modules/backup-restore/evolution-backup-tool.c:294
-#: ../src/modules/backup-restore/evolution-backup-tool.c:498
+#: ../src/modules/backup-restore/evolution-backup-tool.c:293
+#: ../src/modules/backup-restore/evolution-backup-tool.c:551
 msgid "Shutting down Evolution"
 msgstr "Зупиняється Evolution"
 
-#: ../src/modules/backup-restore/evolution-backup-tool.c:303
+#: ../src/modules/backup-restore/evolution-backup-tool.c:302
 msgid "Backing Evolution accounts and settings"
 msgstr "Збереження та відновлення даних та параметрів"
 
-#: ../src/modules/backup-restore/evolution-backup-tool.c:320
+#: ../src/modules/backup-restore/evolution-backup-tool.c:319
 msgid "Backing Evolution data (Mails, Contacts, Calendar, Tasks, Memos)"
 msgstr ""
 "Збереження даних Evolution (листів, контактів, календарів, задач, приміток)"
 
-#: ../src/modules/backup-restore/evolution-backup-tool.c:336
+#: ../src/modules/backup-restore/evolution-backup-tool.c:335
 msgid "Back up complete"
 msgstr "Архів створено"
 
-#: ../src/modules/backup-restore/evolution-backup-tool.c:343
-#: ../src/modules/backup-restore/evolution-backup-tool.c:705
+#: ../src/modules/backup-restore/evolution-backup-tool.c:342
+#: ../src/modules/backup-restore/evolution-backup-tool.c:758
 msgid "Restarting Evolution"
 msgstr "Перезапуск Evolution"
 
-#: ../src/modules/backup-restore/evolution-backup-tool.c:504
+#: ../src/modules/backup-restore/evolution-backup-tool.c:557
 msgid "Back up current Evolution data"
 msgstr "Зберегти поточні дані Evolution"
 
-#: ../src/modules/backup-restore/evolution-backup-tool.c:511
+#: ../src/modules/backup-restore/evolution-backup-tool.c:564
 msgid "Extracting files from back up"
 msgstr "Розпакування файлів з архіву"
 
-#: ../src/modules/backup-restore/evolution-backup-tool.c:606
+#: ../src/modules/backup-restore/evolution-backup-tool.c:659
 msgid "Loading Evolution settings"
 msgstr "Завантаження параметрів Evolution"
 
-#: ../src/modules/backup-restore/evolution-backup-tool.c:676
+#: ../src/modules/backup-restore/evolution-backup-tool.c:729
 msgid "Removing temporary back up files"
 msgstr "Вилучення тимчасових резервних файлів"
 
-#: ../src/modules/backup-restore/evolution-backup-tool.c:690
+#: ../src/modules/backup-restore/evolution-backup-tool.c:743
 msgid "Reloading registry service"
 msgstr "Перезавантаження служби реєстру"
 
-#: ../src/modules/backup-restore/evolution-backup-tool.c:903
+#: ../src/modules/backup-restore/evolution-backup-tool.c:956
 msgid "Evolution Back Up"
 msgstr "Архів Evolution"
 
-#: ../src/modules/backup-restore/evolution-backup-tool.c:904
+#: ../src/modules/backup-restore/evolution-backup-tool.c:957
 #, c-format
 msgid "Backing up to the file %s"
 msgstr "Резервування у файл %s"
 
-#: ../src/modules/backup-restore/evolution-backup-tool.c:908
+#: ../src/modules/backup-restore/evolution-backup-tool.c:961
 msgid "Evolution Restore"
 msgstr "Відновлення Evolution"
 
-#: ../src/modules/backup-restore/evolution-backup-tool.c:909
+#: ../src/modules/backup-restore/evolution-backup-tool.c:962
 #, c-format
 msgid "Restoring from the file %s"
 msgstr "Відновлення з файла %s"
 
-#: ../src/modules/backup-restore/evolution-backup-tool.c:978
+#: ../src/modules/backup-restore/evolution-backup-tool.c:1031
 msgid "Backing up Evolution Data"
 msgstr "Резервне копіювання даних Evolution"
 
-#: ../src/modules/backup-restore/evolution-backup-tool.c:979
+#: ../src/modules/backup-restore/evolution-backup-tool.c:1032
 msgid "Please wait while Evolution is backing up your data."
 msgstr "Зачекайте, доки Evolution виконає резервне копіювання ваших даних."
 
-#: ../src/modules/backup-restore/evolution-backup-tool.c:981
+#: ../src/modules/backup-restore/evolution-backup-tool.c:1034
 msgid "Restoring Evolution Data"
 msgstr "Відновлення даних Evolution"
 
-#: ../src/modules/backup-restore/evolution-backup-tool.c:982
+#: ../src/modules/backup-restore/evolution-backup-tool.c:1035
 msgid "Please wait while Evolution is restoring your data."
 msgstr "Зачекайте, доки Evolution відновлює ваші дані."
 
-#: ../src/modules/backup-restore/evolution-backup-tool.c:1004
+#: ../src/modules/backup-restore/evolution-backup-tool.c:1057
 msgid "This may take a while depending on the amount of data in your account."
 msgstr ""
 "Це може зайняти деякий час, залежно від обсягу даних вашого облікового "
@@ -23185,13 +23187,13 @@ msgstr "Трапилось менше за 5 разів"
 
 #: ../src/modules/calendar/e-cal-shell-view-actions.c:1699
 #: ../src/modules/calendar/e-memo-shell-view-actions.c:814
-#: ../src/modules/calendar/e-task-shell-view-actions.c:1036
+#: ../src/modules/calendar/e-task-shell-view-actions.c:1043
 msgid "Description contains"
 msgstr "Опис містить"
 
 #: ../src/modules/calendar/e-cal-shell-view-actions.c:1706
 #: ../src/modules/calendar/e-memo-shell-view-actions.c:821
-#: ../src/modules/calendar/e-task-shell-view-actions.c:1043
+#: ../src/modules/calendar/e-task-shell-view-actions.c:1050
 msgid "Summary contains"
 msgstr "Зведення містить"
 
@@ -23201,8 +23203,8 @@ msgstr "Зведення містить"
 #: ../src/modules/calendar/e-cal-shell-view-taskpad.c:363
 #: ../src/modules/calendar/e-memo-shell-view-actions.c:831
 #: ../src/modules/calendar/e-memo-shell-view-actions.c:845
-#: ../src/modules/calendar/e-task-shell-view-actions.c:1053
-#: ../src/modules/calendar/e-task-shell-view-actions.c:1067
+#: ../src/modules/calendar/e-task-shell-view-actions.c:1060
+#: ../src/modules/calendar/e-task-shell-view-actions.c:1074
 msgid "Print…"
 msgstr "Надрукувати…"
 
@@ -23218,7 +23220,7 @@ msgstr "Переглянути перегляд календаря при дру
 #: ../src/modules/calendar/e-cal-shell-view-memopad.c:279
 #: ../src/modules/calendar/e-cal-shell-view-taskpad.c:373
 #: ../src/modules/calendar/e-memo-shell-view-actions.c:862
-#: ../src/modules/calendar/e-task-shell-view-actions.c:1084
+#: ../src/modules/calendar/e-task-shell-view-actions.c:1091
 msgid "_Save as iCalendar…"
 msgstr "З_берегти як iCalendar…"
 
@@ -23351,7 +23353,7 @@ msgid "View the selected task"
 msgstr "Переглянути виділене завдання"
 
 #: ../src/modules/calendar/e-cal-shell-view-taskpad.c:365
-#: ../src/modules/calendar/e-task-shell-view-actions.c:1069
+#: ../src/modules/calendar/e-task-shell-view-actions.c:1076
 msgid "Print the selected task"
 msgstr "Друкувати виділене завдання"
 
@@ -23617,22 +23619,32 @@ msgid "Uncompleted Tasks"
 msgstr "Незавершені завдання"
 
 #: ../src/modules/calendar/e-task-shell-view-actions.c:984
+#| msgid "Cancelled Tasks"
+msgid "Scheduled Tasks"
+msgstr "Заплановані завдання"
+
+#: ../src/modules/calendar/e-task-shell-view-actions.c:986
+#| msgid "_Show Tasks without Due date"
+msgid "Show scheduled tasks, aka those with a Due date"
+msgstr "Показати заплановані завдання або завдання із терміном виконання"
+
+#: ../src/modules/calendar/e-task-shell-view-actions.c:991
 msgid "Next 7 Days’ Tasks"
 msgstr "Завдання наступних 7 днів"
 
-#: ../src/modules/calendar/e-task-shell-view-actions.c:991
+#: ../src/modules/calendar/e-task-shell-view-actions.c:998
 msgid "Overdue Tasks"
 msgstr "Прострочені завдання"
 
-#: ../src/modules/calendar/e-task-shell-view-actions.c:998
+#: ../src/modules/calendar/e-task-shell-view-actions.c:1005
 msgid "Tasks with Attachments"
 msgstr "Завдання з долученнями"
 
-#: ../src/modules/calendar/e-task-shell-view-actions.c:1012
+#: ../src/modules/calendar/e-task-shell-view-actions.c:1019
 msgid "Started Tasks"
 msgstr "Початі завдання"
 
-#: ../src/modules/calendar/e-task-shell-view-actions.c:1014
+#: ../src/modules/calendar/e-task-shell-view-actions.c:1021
 msgid ""
 "Filters for tasks that either do not have a start date or the start date is "
 "earlier than the time the filter is selected at"
@@ -23640,19 +23652,19 @@ msgstr ""
 "Лишає у списку завдання, у яких немає дати початку, або завдання, дата "
 "початку яких передує вибраному часу фільтрування"
 
-#: ../src/modules/calendar/e-task-shell-view-actions.c:1055
+#: ../src/modules/calendar/e-task-shell-view-actions.c:1062
 msgid "Print the list of tasks"
 msgstr "Надрукувати список завдань"
 
-#: ../src/modules/calendar/e-task-shell-view-actions.c:1062
+#: ../src/modules/calendar/e-task-shell-view-actions.c:1069
 msgid "Preview the list of tasks to be printed"
 msgstr "Попередній перегляд списку завдань для друку"
 
-#: ../src/modules/calendar/e-task-shell-view.c:362
+#: ../src/modules/calendar/e-task-shell-view.c:368
 msgid "Delete Tasks"
 msgstr "Вилучити завдання"
 
-#: ../src/modules/calendar/e-task-shell-view.c:364
+#: ../src/modules/calendar/e-task-shell-view.c:370
 msgid "Delete Task"
 msgstr "Вилучити завдання"
 
