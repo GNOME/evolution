@@ -430,11 +430,20 @@ describe_contact (EContact *contact)
 	return g_string_free (description, FALSE);
 }
 
+static gchar *
+describe_contact_source (EBookClient *client,
+			 EContact *contact)
+{
+	return g_strdup_printf ("%p\n%s", client, (const gchar *) e_contact_get_const (contact, E_CONTACT_UID));
+}
+
 static gboolean
 is_duplicate_contact_and_remember (ENameSelectorEntry *nsentry,
+				   EBookClient *client,
 				   EContact *contact)
 {
 	gchar *description;
+	gchar *source_ident, *known_source_ident;
 
 	g_return_val_if_fail (E_IS_NAME_SELECTOR_ENTRY (nsentry), FALSE);
 	g_return_val_if_fail (E_IS_CONTACT (contact), FALSE);
@@ -445,12 +454,24 @@ is_duplicate_contact_and_remember (ENameSelectorEntry *nsentry,
 		return FALSE;
 	}
 
-	if (g_hash_table_lookup (nsentry->priv->known_contacts, description)) {
+	source_ident = describe_contact_source (client, contact);
+	known_source_ident = g_hash_table_lookup (nsentry->priv->known_contacts, description);
+
+	/* It's known, from the same book with the same UID */
+	if (g_strcmp0 (known_source_ident, source_ident) == 0) {
 		g_free (description);
+		g_free (source_ident);
+		return FALSE;
+	}
+
+	/* It's known, but from a different book or with a different UID - then skip it */
+	if (known_source_ident) {
+		g_free (description);
+		g_free (source_ident);
 		return TRUE;
 	}
 
-	g_hash_table_insert (nsentry->priv->known_contacts, description, GINT_TO_POINTER (1));
+	g_hash_table_insert (nsentry->priv->known_contacts, description, source_ident);
 
 	return FALSE;
 }
@@ -2364,7 +2385,7 @@ generate_contact_rows (EContactStore *contact_store,
 	if (!contact_uid)
 		return 0;  /* Can happen with broken databases */
 
-	if (is_duplicate_contact_and_remember (name_selector_entry, contact))
+	if (is_duplicate_contact_and_remember (name_selector_entry, e_contact_store_get_client (contact_store, iter), contact))
 		return 0;
 
 	if (e_contact_get (contact, E_CONTACT_IS_LIST))
@@ -3429,7 +3450,7 @@ e_name_selector_entry_init (ENameSelectorEntry *name_selector_entry)
 	name_selector_entry->priv->minimum_query_length = 3;
 	name_selector_entry->priv->show_address = FALSE;
 	name_selector_entry->priv->block_entry_changed_signal = FALSE;
-	name_selector_entry->priv->known_contacts = g_hash_table_new_full (g_str_hash, g_str_equal, g_free, NULL);
+	name_selector_entry->priv->known_contacts = g_hash_table_new_full (g_str_hash, g_str_equal, g_free, g_free);
 
 	/* Edit signals */
 
