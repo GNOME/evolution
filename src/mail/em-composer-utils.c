@@ -1774,9 +1774,6 @@ msg_composer_created_with_mailto_cb (GObject *source_object,
 {
 	CreateComposerData *ccd = user_data;
 	EMsgComposer *composer;
-	EComposerHeaderTable *table;
-	EClientCache *client_cache;
-	ESourceRegistry *registry;
 	GError *error = NULL;
 
 	g_return_if_fail (ccd != NULL);
@@ -1795,32 +1792,7 @@ msg_composer_created_with_mailto_cb (GObject *source_object,
 
 	set_up_new_composer (composer, NULL, ccd->folder, NULL, ccd->message_uid, TRUE);
 
-	table = e_msg_composer_get_header_table (composer);
-
-	client_cache = e_composer_header_table_ref_client_cache (table);
-	registry = e_client_cache_ref_registry (client_cache);
-
 	composer_set_no_change (composer);
-
-	/* If a CamelFolder was given, we need to backtrack and find
-	 * the corresponding ESource with a Mail Identity extension. */
-
-	if (ccd->folder) {
-		ESource *source;
-		CamelStore *store;
-
-		store = camel_folder_get_parent_store (ccd->folder);
-		source = em_utils_ref_mail_identity_for_store (registry, store);
-
-		if (source != NULL) {
-			const gchar *uid = e_source_get_uid (source);
-			e_composer_header_table_set_identity_uid (table, uid, NULL, NULL);
-			g_object_unref (source);
-		}
-	}
-
-	g_object_unref (client_cache);
-	g_object_unref (registry);
 
 	gtk_window_present (GTK_WINDOW (composer));
 
