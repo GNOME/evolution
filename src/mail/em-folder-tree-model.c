@@ -696,13 +696,13 @@ em_folder_tree_model_get_icon_name_for_folder_uri (EMFolderTreeModel *model,
 						   const gchar *folder_uri,
 						   CamelStore *store,
 						   const gchar *full_name,
-						   guint32 folder_flags)
+						   guint32 *inout_folder_flags)
 {
 	const gchar *icon_name = "folder";
 	CamelFolder *folder;
 	EMailSession *session;
 	MailFolderCache *folder_cache;
-	guint32 add_flags = 0;
+	guint32 folder_flags;
 	gboolean folder_is_drafts = FALSE;
 	gboolean folder_is_templates = FALSE;
 	gboolean folder_is_archive = FALSE;
@@ -710,11 +710,13 @@ em_folder_tree_model_get_icon_name_for_folder_uri (EMFolderTreeModel *model,
 	g_return_val_if_fail (EM_IS_FOLDER_TREE_MODEL (model), icon_name);
 	g_return_val_if_fail (CAMEL_IS_STORE (store), icon_name);
 	g_return_val_if_fail (folder_uri != NULL, icon_name);
+	g_return_val_if_fail (inout_folder_flags != NULL, icon_name);
 
 	session = em_folder_tree_model_get_session (model);
 	if (!session)
 		return icon_name;
 
+	folder_flags = *inout_folder_flags;
 	folder_cache = e_mail_session_get_folder_cache (session);
 
 	folder_is_archive = e_mail_session_is_archive_folder (session, folder_uri);
@@ -749,9 +751,10 @@ em_folder_tree_model_get_icon_name_for_folder_uri (EMFolderTreeModel *model,
 			&drafts_folder_uri, &templates_folder_uri, &sent_folder_uri);
 
 		if (!folder_is_drafts && drafts_folder_uri != NULL) {
-			folder_is_drafts = e_mail_folder_uri_equal (
-				CAMEL_SESSION (session),
-				folder_uri, drafts_folder_uri);
+			folder_is_drafts = e_mail_folder_uri_equal (CAMEL_SESSION (session), folder_uri, drafts_folder_uri);
+
+			if (folder_is_drafts)
+				folder_flags |= CAMEL_FOLDER_TYPE_DRAFTS;
 		}
 
 		if (!folder_is_templates && templates_folder_uri != NULL) {
@@ -760,11 +763,9 @@ em_folder_tree_model_get_icon_name_for_folder_uri (EMFolderTreeModel *model,
 				folder_uri, templates_folder_uri);
 		}
 
-		if (sent_folder_uri != NULL) {
-			if (e_mail_folder_uri_equal (
-				CAMEL_SESSION (session),
-				folder_uri, sent_folder_uri)) {
-				add_flags = CAMEL_FOLDER_TYPE_SENT;
+		if (sent_folder_uri && !(folder_flags & CAMEL_FOLDER_TYPE_MASK)) {
+			if (e_mail_folder_uri_equal (CAMEL_SESSION (session), folder_uri, sent_folder_uri)) {
+				folder_flags |= CAMEL_FOLDER_TYPE_SENT;
 			}
 		}
 
@@ -774,7 +775,7 @@ em_folder_tree_model_get_icon_name_for_folder_uri (EMFolderTreeModel *model,
 	}
 
 	/* Choose an icon name for the folder. */
-	icon_name = em_folder_utils_get_icon_name (folder_flags | add_flags);
+	icon_name = em_folder_utils_get_icon_name (folder_flags);
 
 	if (g_str_equal (icon_name, "folder")) {
 		if (folder_is_drafts)
@@ -784,6 +785,8 @@ em_folder_tree_model_get_icon_name_for_folder_uri (EMFolderTreeModel *model,
 		else if (folder_is_archive)
 			icon_name = "mail-archive";
 	}
+
+	*inout_folder_flags = folder_flags;
 
 	return icon_name;
 }
@@ -828,7 +831,7 @@ em_folder_tree_model_update_folder_icon (EMFolderTreeModel *model,
 			COL_STRING_ICON_NAME, &old_icon_name,
 			-1);
 
-		new_icon_name = em_folder_tree_model_get_icon_name_for_folder_uri (model, folder_uri, store, full_name, folder_flags);
+		new_icon_name = em_folder_tree_model_get_icon_name_for_folder_uri (model, folder_uri, store, full_name, &folder_flags);
 
 		if (g_strcmp0 (old_icon_name, new_icon_name) != 0) {
 			gtk_tree_store_set (
@@ -1413,6 +1416,7 @@ em_folder_tree_model_set_folder_info (EMFolderTreeModel *model,
 	gboolean load = FALSE;
 	gboolean folder_is_drafts = FALSE;
 	gboolean folder_is_outbox = FALSE;
+	gboolean folder_is_sent = FALSE;
 	gchar *uri;
 
 	g_return_val_if_fail (EM_IS_FOLDER_TREE_MODEL (model), FALSE);
@@ -1472,6 +1476,7 @@ em_folder_tree_model_set_folder_info (EMFolderTreeModel *model,
 	if (folder != NULL) {
 		folder_is_drafts = em_utils_folder_is_drafts (registry, folder);
 		folder_is_outbox = em_utils_folder_is_outbox (registry, folder);
+		folder_is_sent = em_utils_folder_is_sent (registry, folder);
 
 		if (folder_is_drafts || folder_is_outbox) {
 			gint total;
@@ -1507,14 +1512,40 @@ em_folder_tree_model_set_folder_info (EMFolderTreeModel *model,
 				CAMEL_FOLDER_TYPE_OUTBOX;
 			display_name = _("Outbox");
 		} else if (strcmp (fi->full_name, "Sent") == 0) {
-			flags = (flags & ~CAMEL_FOLDER_TYPE_MASK) |
-				CAMEL_FOLDER_TYPE_SENT;
+			folder_is_sent = TRUE;
 			display_name = _("Sent");
 		}
 	}
 
+	if (folder_is_drafts)
+		flags = (flags & ~CAMEL_FOLDER_TYPE_MASK) | CAMEL_FOLDER_TYPE_DRAFTS;
+	if (folder_is_sent)
+		flags = (flags & ~CAMEL_FOLDER_TYPE_MASK) | CAMEL_FOLDER_TYPE_SENT;
+
 	/* Choose an icon name for the folder. */
-	icon_name = em_folder_tree_model_get_icon_name_for_folder_uri (model, uri, store, fi->full_name, flags);
+	icon_name = em_folder_tree_model_get_icon_name_for_folder_uri (model, uri, store, fi->full_name, &flags);
+
+	if (!store_is_local) {
+		struct _special_folders {
+			guint32 folder_type;
+			const gchar *bare_name;
+		} special_folders[] = {
+			{ CAMEL_FOLDER_TYPE_INBOX, N_("Inbox") },
+			{ CAMEL_FOLDER_TYPE_TRASH, N_("Trash") },
+			{ CAMEL_FOLDER_TYPE_JUNK, N_("Junk") },
+			{ CAMEL_FOLDER_TYPE_SENT, N_("Sent") },
+			{ CAMEL_FOLDER_TYPE_DRAFTS, N_("Drafts") }
+		};
+		gint ii;
+
+		for (ii = 0; ii < G_N_ELEMENTS (special_folders); ii++) {
+			if ((flags & CAMEL_FOLDER_TYPE_MASK) == special_folders[ii].folder_type &&
+			    g_strcmp0 (fi->display_name, special_folders[ii].bare_name) == 0) {
+				display_name = _(special_folders[ii].bare_name);
+				break;
+			}
+		}
+	}
 
 	gtk_tree_store_set (
 		tree_store, iter,
