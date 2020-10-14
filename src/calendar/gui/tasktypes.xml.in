@@ -200,6 +200,39 @@
             <input type="completedpercent" name="versus"/>
         </part>
 
+        <part name="currentstate">
+            <_title>Current State</_title>
+            <input type="optionlist" name="currentstate-type">
+                <option value="is-overdue">
+                    <_title>is Overdue</_title>
+                    <code>(and (due-in-time-range? (make-time "19700101T000000Z") (time-day-end time-now)) (not (is-completed?)))</code>
+                </option>
+                <option value="is-scheduled">
+                    <_title>is Scheduled</_title>
+                    <code>(has-due?)</code>
+                </option>
+                <option value="is-not-scheduled">
+                    <_title>is not Scheduled</_title>
+                    <code>(not (has-due?))</code>
+                </option>
+            </input>
+        </part>
+
+        <part name="duein">
+            <_title>Due In</_title>
+            <input type="optionlist" name="duein-type">
+                <option value="nextdays">
+                    <_title>Next Days</_title>
+                    <code>(due-in-time-range? (time-day-end time-now) (time-add-day (time-day-end time-now) ${value}))</code>
+                </option>
+                <option value="prevdays">
+                    <_title>Previous Days</_title>
+                    <code>(due-in-time-range? (time-add-day (time-day-begin time-now) (- 0 ${value})) (time-day-begin time-now))</code>
+                </option>
+            </input>
+            <input type="integer" name="value"/>
+        </part>
+
         <part name="sexp">
             <_title>Expression</_title>
             <input type="code" name="code"/>
