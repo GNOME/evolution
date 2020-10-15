@@ -57,6 +57,16 @@ is_html_newline_marker (const gchar *text,
 		gint caselen = strlen (cases[ii]);
 
 		if (len >= caselen && g_ascii_strncasecmp (text, cases[ii], caselen) == 0) {
+			if (cases[ii][caselen - 1] != '>') {
+				/* Need to find the tag end, in a lazy way */
+				while (text[caselen] && text[caselen] != '>')
+					caselen++;
+
+				/* Advance after the '>' */
+				if (text[caselen])
+					caselen++;
+			}
+
 			*advance_by_chars = caselen;
 			return TRUE;
 		}
