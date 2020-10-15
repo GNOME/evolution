@@ -2466,6 +2466,7 @@ EvoEditor.convertHtmlToSend = function()
 
 		for (ii = 0; ii < elems.length; ii++) {
 			elems[ii].setAttribute("style", EvoEditor.BLOCKQUOTE_STYLE);
+			elems[ii].removeAttribute("spellcheck");
 		}
 	}
 
@@ -2476,6 +2477,7 @@ EvoEditor.convertHtmlToSend = function()
 
 		for (ii = 0; ii < elems.length; ii++) {
 			elems[ii].removeAttribute("style");
+			elems[ii].setAttribute("spellcheck", "true");
 		}
 	}
 
@@ -5013,6 +5015,7 @@ EvoEditor.InsertContent = function(text, isHTML, quote)
 
 		if (quote) {
 			content.setAttribute("type", "cite");
+			content.setAttribute("spellcheck", "false");
 		}
 
 		if (isHTML) {
@@ -5455,6 +5458,7 @@ EvoEditor.processLoadedContent = function()
 	if (didCite) {
 		didCite = document.createElement("BLOCKQUOTE");
 		didCite.setAttribute("type", "cite");
+		didCite.setAttribute("spellcheck", "false");
 
 		while (document.body.firstChild) {
 			didCite.appendChild(document.body.firstChild);
@@ -5564,6 +5568,7 @@ EvoEditor.processLoadedContent = function()
 		blockquoteNode.removeAttribute("class");
 		blockquoteNode.removeAttribute("style");
 		blockquoteNode.setAttribute("type", "cite");
+		blockquoteNode.setAttribute("spellcheck", "false");
 	}
 
 	if (EvoEditor.mode == EvoEditor.MODE_PLAIN_TEXT) {
