@@ -684,6 +684,24 @@ EvoConvert.ImgToText = function(img)
 	return txt ? txt : "";
 }
 
+EvoConvert.appendNodeText = function(node, str, text)
+{
+	/* This breaks "-- <br>", thus disable it for now. Cannot distinguish from test 70 of /EWebView/ConvertToPlain.
+
+	if (node && node.parentElement && text.startsWith('\n') && str.endsWith(" ")) {
+		var whiteSpace = "normal";
+
+		if (node.parentElement)
+			whiteSpace = window.getComputedStyle(node.parentElement).whiteSpace;
+
+		if (!whiteSpace || whiteSpace == "normal") {
+			return str.substr(0, str.length - 1) + text;
+		}
+	} */
+
+	return str + text;
+}
+
 EvoConvert.extractElemText = function(elem, normalDivWidth, quoteLevel)
 {
 	if (!elem)
@@ -700,7 +718,7 @@ EvoConvert.extractElemText = function(elem, normalDivWidth, quoteLevel)
 		if (!node)
 			continue;
 
-		str += EvoConvert.processNode(node, normalDivWidth, quoteLevel);
+		str = EvoConvert.appendNodeText(node, str, EvoConvert.processNode(node, normalDivWidth, quoteLevel));
 	}
 
 	return str;
@@ -731,7 +749,7 @@ EvoConvert.mergeConsecutiveSpaces = function(str)
 	return str;
 }
 
-EvoConvert.RemoveInsignificantNewLines = function(node)
+EvoConvert.RemoveInsignificantNewLines = function(node, stripSingleSpace)
 {
 	var str = "";
 
@@ -774,6 +792,11 @@ EvoConvert.RemoveInsignificantNewLines = function(node)
 					}
 
 					str = EvoConvert.mergeConsecutiveSpaces(str.replace(/\t/g, " ").replace(/\r/g, " ").replace(/\n/g, " "));
+
+					if ((!whiteSpace || whiteSpace == "normal") && str == " " && (stripSingleSpace || (
+					    !node.nextElementSibling || node.nextElementSibling.tagName == "DIV" || node.nextElementSibling.tagName == "P" || node.nextElementSibling.tagName == "PRE"))) {
+						str = "";
+					}
 				}
 			}
 		}
@@ -876,6 +899,13 @@ EvoConvert.processNode = function(node, normalDivWidth, quoteLevel)
 			}
 
 			str = EvoConvert.formatParagraph(EvoConvert.extractElemText(node, normalDivWidth, quoteLevel), ltr, align, indent, whiteSpace, width, extraIndent, liText, quoteLevel);
+
+			if (!liText && node.parentElement && (node.parentElement.tagName == "DIV" || node.parentElement.tagName == "P") &&
+			    style.display == "block" && str != "" && node.previousSibling &&
+			    ((node.previousSibling.nodeType == node.ELEMENT_NODE && node.previousSibling.tagName != "DIV" && node.previousSibling.tagName != "P" && node.previousSibling.tagName != "BR") ||
+			    (node.previousSibling.nodeType == node.TEXT_NODE && EvoConvert.RemoveInsignificantNewLines(node.previousSibling, true) != ""))) {
+				str = "\n" + str;
+			}
 		} else if (node.tagName == "PRE") {
 			str = EvoConvert.formatParagraph(EvoConvert.extractElemText(node, normalDivWidth, quoteLevel), ltr, align, indent, "pre", -1, 0, "", quoteLevel);
 		} else if (node.tagName == "BR") {
@@ -974,7 +1004,7 @@ EvoConvert.ToPlainText = function(element, normalDivWidth)
 			if (!node)
 				continue;
 
-			str += EvoConvert.processNode(node, normalDivWidth, 0);
+			str = EvoConvert.appendNodeText(node, str, EvoConvert.processNode(node, normalDivWidth, 0));
 		}
 	} finally {
 		if (disconnectFromHead)
