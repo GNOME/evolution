@@ -2477,7 +2477,7 @@ EvoEditor.convertHtmlToSend = function()
 
 		for (ii = 0; ii < elems.length; ii++) {
 			elems[ii].removeAttribute("style");
-			elems[ii].setAttribute("spellcheck", "true");
+			elems[ii].setAttribute("spellcheck", "false");
 		}
 	}
 
