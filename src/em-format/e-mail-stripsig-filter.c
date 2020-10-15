@@ -36,7 +36,15 @@ is_html_newline_marker (const gchar *text,
 {
 	const gchar *cases[] = {
 		"<br>",
-		"div><br></div>",
+		"<div>",
+		"<div ",
+		"</div>",
+		"<p>",
+		"<p ",
+		"</p>",
+		"<pre>",
+		"<pre ",
+		"</pre>",
 		NULL };
 	gint ii;
 
