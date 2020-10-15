@@ -2623,6 +2623,63 @@ test_convert_to_plain (TestFixture *fixture)
 		"----------\n"
 		"--------\n"
 		"123\n",
+		10 },
+	/* 68 */{ HTML ("<div>123<div>456</div><div><br></div><div>7 8 9<b>b</b><div>abc</div>def<br><div>ghi</div></div></div>"),
+		"123\n"
+		"456\n"
+		"\n"
+		"7 8 9b\n"
+		"abc\n"
+		"def\n"
+		"ghi\n",
+		10 },
+	/* 69 */{ HTML ("<div>123<div>456</div><div><br></div><div><div>7 8 9<b>b</b></div><div>abc</div>def<br><div>ghi</div></div></div>"),
+		"123\n"
+		"456\n"
+		"\n"
+		"7 8 9b\n"
+		"abc\n"
+		"def\n"
+		"ghi\n",
+		10 },
+	/* 70 */{ HTML ("<div>123\n"
+			"   <div>456</div>\n"
+			"   <div><br></div>\n"
+			"   <div>\n"
+			"	<div>7 8 9<b>b</b></div>\n"
+			"	<div>abc</div>\n"
+			"	def<br>\n"
+			"   	<div>ghi</div>\n"
+			"   </div>\n"
+			"</div>"),
+		"123 \n" /* The space should not be there, but see EvoConvert.appendNodeText() */
+		"456\n"
+		"\n"
+		"7 8 9b\n"
+		"abc\n"
+		"def\n"
+		"ghi\n",
+		10 },
+	/* 71 */{ HTML ("<div>aaa bbb,\n"
+			"<div><div><br></div>\n"
+			"<div>cc dd ee\n"
+			"</div>\n"
+			"<div><br></div>\n"
+			"<div>ff,<b>gg</b></div>\n"
+			"<div>-- <br>\n"
+			"   <div>\n"
+			"      <div>hh ii<div>jj kk</div>\n"
+			"   </div>\n"
+			"</div>\n"
+			"</div></div></div>\n"),
+		"aaa bbb,\n"
+		"\n"
+		"cc dd ee\n"
+		"\n"
+		"ff,gg\n"
+		"-- \n"
+		"hh ii\n"
+		"jj kk\n",
 		10 }
 	};
 
