@@ -1055,7 +1055,8 @@ source_changed_cb (ItipView *view)
 static void
 append_checkbox_table_row (GString *buffer,
                            const gchar *name,
-                           const gchar *label)
+                           const gchar *label,
+			   gboolean checked)
 {
 	gchar *access_key, *html_label;
 
@@ -1064,11 +1065,12 @@ append_checkbox_table_row (GString *buffer,
 	g_string_append_printf (
 		buffer,
 		"<tr id=\"table_row_%s\" hidden=\"\"><td colspan=\"2\">"
-		"<input type=\"checkbox\" name=\"%s\" id=\"%s\" value=\"%s\" >"
+		"<input type=\"checkbox\" name=\"%s\" id=\"%s\" value=\"%s\"%s>"
 		"<label for=\"%s\" accesskey=\"%s\">%s</label>"
 		"</td></tr>\n",
-		name, name, name, name, name,
-		access_key ? access_key : "", html_label);
+		name, name, name, name,
+		checked ? " checked" : "",
+		name, access_key ? access_key : "", html_label);
 
 	g_free (html_label);
 
@@ -1743,7 +1745,7 @@ itip_view_write (gpointer itip_part_ptr,
 		"</tr>\n");
 
 	/* RSVP area */
-	append_checkbox_table_row (buffer, CHECKBOX_RSVP, _("Send reply to sender"));
+	append_checkbox_table_row (buffer, CHECKBOX_RSVP, _("Send reply to sender"), TRUE);
 
         /* Comments */
 	g_string_append_printf (
@@ -1758,13 +1760,13 @@ itip_view_write (gpointer itip_part_ptr,
 		_("Comment:"));
 
         /* Updates */
-	append_checkbox_table_row (buffer, CHECKBOX_UPDATE, _("Send _updates to attendees"));
+	append_checkbox_table_row (buffer, CHECKBOX_UPDATE, _("Send _updates to attendees"), TRUE);
 
         /* The recurrence check button */
-	append_checkbox_table_row (buffer, CHECKBOX_RECUR, _("_Apply to all instances"));
-	append_checkbox_table_row (buffer, CHECKBOX_FREE_TIME, _("Show time as _free"));
-	append_checkbox_table_row (buffer, CHECKBOX_KEEP_ALARM, _("_Preserve my reminder"));
-	append_checkbox_table_row (buffer, CHECKBOX_INHERIT_ALARM, _("_Inherit reminder"));
+	append_checkbox_table_row (buffer, CHECKBOX_RECUR, _("_Apply to all instances"), FALSE);
+	append_checkbox_table_row (buffer, CHECKBOX_FREE_TIME, _("Show time as _free"), FALSE);
+	append_checkbox_table_row (buffer, CHECKBOX_KEEP_ALARM, _("_Preserve my reminder"), FALSE);
+	append_checkbox_table_row (buffer, CHECKBOX_INHERIT_ALARM, _("_Inherit reminder"), TRUE);
 
 	g_string_append (buffer, "</table>\n");
 
