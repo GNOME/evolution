@@ -508,7 +508,7 @@ e_tree_model_get_node_by_id (ETreeModel *tree_model,
  * @tree_model in column @col and node @path.  The data returned can be a
  * pointer or any data value that can be stored inside a pointer.
  *
- * The data returned is typically used by an sort renderer if it wants
+ * The data returned is typically used by a sort renderer if it wants
  * to proxy the data of cell value_at at a better sorting order.
  *
  * The data returned must be valid until the model sends a signal that

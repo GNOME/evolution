@@ -3940,7 +3940,7 @@ e_util_resize_window_for_screen (GtkWindow *window,
  * @error: return location for a #GError, or %NULL
  *
  * Queries an LDAP server identified by @host and @port for supported
- * search bases and returns them as an NULL-terminated array of strings
+ * search bases and returns them as a NULL-terminated array of strings
  * at @out_root_dse. It sets @out_root_dse to NULL on error.
  * Free the returned @out_root_dse with g_strfreev() when no longer needed.
  *

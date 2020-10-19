@@ -3772,7 +3772,7 @@ web_view_cursor_image_copy_request_cb (GObject *source_object,
  *
  * Asynchronously copies the image under the cursor to the clipboard.
  *
- * This function triggers a #EWebView::new-activity signal emission so
+ * This function triggers an #EWebView::new-activity signal emission so
  * the asynchronous operation can be tracked and/or cancelled.
  **/
 void
@@ -3955,7 +3955,7 @@ web_view_cursor_image_save_request_cb (GObject *source_object,
  * Prompts the user to choose a destination file and then asynchronously
  * saves the image under the cursor to the destination file.
  *
- * This function triggers a #EWebView::new-activity signal emission so
+ * This function triggers an #EWebView::new-activity signal emission so
  * the asynchronous operation can be tracked and/or cancelled.
  **/
 void

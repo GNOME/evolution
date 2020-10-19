@@ -401,7 +401,7 @@ emfe_text_highlight_format (EMailFormatterExtension *extension,
 
 		if (!success) {
 			/* We can't call e_mail_formatter_format_as on text/plain,
-			 * because text-highlight is registered as an handler for
+			 * because text-highlight is registered as a handler for
 			 * text/plain, so we would end up in an endless recursion.
 			 *
 			 * Just return FALSE here and EMailFormatter will automatically

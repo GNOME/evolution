@@ -6142,7 +6142,7 @@ view_response_cb (ItipView *view,
 		}
 	}
 
-	/* check if it is a  recur instance (no master object) and
+	/* check if it is a recur instance (no master object) and
 	 * add a property */
 	if (itip_view_get_recur_check_state (view)) {
 		prop = i_cal_property_new_x ("All");

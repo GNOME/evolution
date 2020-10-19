@@ -853,7 +853,7 @@ e_client_cache_class_init (EClientCacheClass *class)
 	 * @client: the #EClient that received the D-Bus notification
 	 * @alert: an #EAlert with a user-friendly error description
 	 *
-	 * Rebroadcasts a #EClient::backend-died signal emitted by @client,
+	 * Rebroadcasts an #EClient::backend-died signal emitted by @client,
 	 * along with a pre-formatted #EAlert.
 	 *
 	 * As a convenience to signal handlers, this signal is always
@@ -876,7 +876,7 @@ e_client_cache_class_init (EClientCacheClass *class)
 	 * @client: the #EClient that received the D-Bus notification
 	 * @alert: an #EAlert with a user-friendly error description
 	 *
-	 * Rebroadcasts a #EClient::backend-error signal emitted by @client,
+	 * Rebroadcasts an #EClient::backend-error signal emitted by @client,
 	 * along with a pre-formatted #EAlert.
 	 *
 	 * As a convenience to signal handlers, this signal is always
@@ -1437,7 +1437,7 @@ e_client_cache_ref_cached_client (EClientCache *client_cache,
  * @extension_name: an extension name
  *
  * Returns %TRUE if an #EClient instance for @source and @extension_name
- * was recently discarded after having emitted a #EClient::backend-died
+ * was recently discarded after having emitted an #EClient::backend-died
  * signal, and a replacement #EClient instance has not yet been created.
  *
  * Returns: whether the backend for @source and @extension_name died

@@ -1240,7 +1240,7 @@ e_shell_window_is_main_instance (EShellWindow *shell_window)
  * active view name, as returned by e_shell_window_get_active_view(),
  * should be requested.
  *
- * The function emits a #EShellWindow::shell-view-created signal with
+ * The function emits an #EShellWindow::shell-view-created signal with
  * @view_name as the signal detail when it instantiates an #EShellView.
  *
  * Returns: the requested #EShellView, or %NULL if no such view is

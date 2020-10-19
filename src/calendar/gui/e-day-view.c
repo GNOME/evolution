@@ -3448,7 +3448,7 @@ e_day_view_update_long_event_label (EDayView *day_view,
 }
 
 /* Finds the day and index of the event with the given canvas item.
- * If is is a long event, -1 is returned as the day.
+ * If it is a long event, -1 is returned as the day.
  * Returns TRUE if the event was found. */
 gboolean
 e_day_view_find_event_from_item (EDayView *day_view,
@@ -3490,7 +3490,7 @@ e_day_view_find_event_from_item (EDayView *day_view,
 }
 
 /* Finds the day and index of the event with the given uid.
- * If is is a long event, E_DAY_VIEW_LONG_EVENT is returned as the day.
+ * If it is a long event, E_DAY_VIEW_LONG_EVENT is returned as the day.
  * Returns TRUE if an event with the uid was found.
  * Note that for recurring events there may be several EDayViewEvents, one
  * for each instance, all with the same iCalObject and uid. So only use this

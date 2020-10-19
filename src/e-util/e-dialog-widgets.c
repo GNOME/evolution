@@ -33,7 +33,7 @@
 
 #include "e-dialog-widgets.h"
 
-/* Converts an mapped value to the appropriate index in an item group.  The
+/* Converts a mapped value to the appropriate index in an item group.  The
  * values for the items are provided as a -1-terminated array.
  */
 static gint

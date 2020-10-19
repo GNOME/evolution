@@ -38,7 +38,7 @@ e_mail_formatter_extension_init (EMailFormatterExtension *extension)
  * @extension: an #EMailFormatterExtension
  * @formatter: an #EMailFormatter
  * @context: an #EMailFormatterContext
- * @part: a #EMailPart to be formatter
+ * @part: an #EMailPart to be formatter
  * @stream: a #GOutputStream to which the output should be written
  * @cancellable: (allow-none) a #GCancellable
  *

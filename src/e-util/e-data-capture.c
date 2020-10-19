@@ -21,7 +21,7 @@
  * @short_description: Capture data from streams
  *
  * #EDataCapture is a #GConverter that captures data until the end of
- * the input data is seen, then emits a #EDataCapture:finished signal
+ * the input data is seen, then emits an #EDataCapture:finished signal
  * with the captured data in a #GBytes instance.
  *
  * When used with #GConverterInputStream or #GConverterOutputStream,

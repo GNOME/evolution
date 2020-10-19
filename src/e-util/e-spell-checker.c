@@ -573,7 +573,7 @@ e_spell_checker_count_active_languages (ESpellChecker *checker)
 
 /**
  * e_spell_checker_check_word:
- * @checker: an #SpellChecker
+ * @checker: a #SpellChecker
  * @word: a word to spell-check
  * @length: length of @word in bytes or -1 when %NULL-terminated
  *

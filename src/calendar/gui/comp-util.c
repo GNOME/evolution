@@ -88,7 +88,7 @@ cal_comp_util_tzid_equal (const gchar *tzid1,
 /**
  * cal_comp_util_compare_event_timezones:
  * @comp: A calendar component object.
- * @client: A #ECalClient.
+ * @client: An #ECalClient.
  *
  * Checks if the component uses the given timezone for both the start and
  * the end time, or if the UTC offsets of the start and end times are the same

@@ -2861,12 +2861,12 @@ e_shell_event (EShell *shell,
  * Requests an application shutdown.  This happens in two phases: the
  * first is synchronous, the second is asynchronous.
  *
- * In the first phase, the @shell emits a #EShell::quit-requested signal
+ * In the first phase, the @shell emits an #EShell::quit-requested signal
  * to potentially give the user a chance to cancel shutdown.  If the user
  * cancels shutdown, the function returns %FALSE.  Otherwise it proceeds
  * into the second phase.
  *
- * In the second phase, the @shell emits a #EShell::prepare-for-quit
+ * In the second phase, the @shell emits an #EShell::prepare-for-quit
  * signal and immediately returns %TRUE.  Signal handlers may delay the
  * actual application shutdown while they clean up resources, but there
  * is no way to cancel shutdown at this point.
@@ -2915,7 +2915,7 @@ remote:  /* Send a message to the other Evolution process. */
  * handlers to prevent Evolution from quitting.  Calling this will stop
  * further emission of the #EShell::quit-requested signal.
  *
- * Note: This function has no effect during a #EShell::prepare-for-quit
+ * Note: This function has no effect during an #EShell::prepare-for-quit
  * signal emission.
  **/
 void

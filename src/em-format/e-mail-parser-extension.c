@@ -36,7 +36,7 @@ e_mail_parser_extension_init (EMailParserExtension *extension)
 /**
  * e_mail_parser_extension_parse
  * @extension: an #EMailParserExtension
- * @parser: a #EMailParser
+ * @parser: an #EMailParser
  * @mime_part: (allow-none) a #CamelMimePart to parse
  * @part_id: a #GString to which parser will append ID of the parsed part.
  * @cancellable: (allow-none) A #GCancellable

@@ -917,7 +917,7 @@ e_client_selector_ref_cached_client_by_iter (EClientSelector *selector,
  *
  * Returns %TRUE if an #EClient instance for @source and the value of
  * #ESourceSelector:extension-name was recently discarded after having
- * emitted a #EClient:backend-died signal, and a replacement #EClient
+ * emitted an #EClient:backend-died signal, and a replacement #EClient
  * instance has not yet been created.
  *
  * Returns: whether the backend for @source died

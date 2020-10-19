@@ -6157,7 +6157,7 @@ e_mail_reader_unset_folder_just_selected (EMailReader *reader)
  * @composer: an #EMsgComposer
  * @message: the source #CamelMimeMessage, or %NULL
  *
- * Emits a #EMailReader::composer-created signal to indicate the @composer
+ * Emits an #EMailReader::composer-created signal to indicate the @composer
  * window was created in response to a user action on @reader.  Examples of
  * such actions include replying, forwarding, and composing a new message.
  * If applicable, the source @message (i.e. the message being replied to or

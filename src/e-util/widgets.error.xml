@@ -11,7 +11,7 @@
 
   <error id="blank-signature" type="error">
     <_primary>Blank Signature</_primary>
-    <_secondary>Please provide an unique name to identify this signature.</_secondary>
+    <_secondary>Please provide a unique name to identify this signature.</_secondary>
   </error>
 
   <error id="no-image-copy" type="warning">

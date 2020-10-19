@@ -160,7 +160,7 @@ sort_identities_by_email_cb (gconstpointer ptr1,
  * Returns a %NULL-terminated array of name + address strings based on
  * registered mail identities.  Free the returned array with g_strfreev().
  *
- * Returns: an %NULL-terminated array of mail identity strings
+ * Returns: a %NULL-terminated array of mail identity strings
  **/
 gchar **
 itip_get_user_identities (ESourceRegistry *registry)
