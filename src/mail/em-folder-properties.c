@@ -365,18 +365,17 @@ mail_identity_combo_box_changed_cb (GtkComboBox *combo_box,
 }
 
 static gint
-add_numbered_row (GtkTable *table,
-                  gint row,
-                  const gchar *description,
-                  const gchar *format,
-                  gint num)
+add_text_row (GtkTable *table,
+	      gint row,
+	      const gchar *description,
+	      const gchar *text,
+	      gboolean selectable)
 {
-	gchar *str;
 	GtkWidget *label;
 
 	g_return_val_if_fail (table != NULL, row);
 	g_return_val_if_fail (description != NULL, row);
-	g_return_val_if_fail (format != NULL, row);
+	g_return_val_if_fail (text != NULL, row);
 
 	label = gtk_label_new (description);
 	gtk_widget_show (label);
@@ -385,18 +384,40 @@ add_numbered_row (GtkTable *table,
 		table, label, 0, 1, row, row + 1,
 		GTK_FILL, 0, 0, 0);
 
-	str = g_strdup_printf (format, num);
-
-	label = gtk_label_new (str);
+	label = gtk_label_new (text);
+	if (selectable) {
+		gtk_label_set_selectable (GTK_LABEL (label), selectable);
+		gtk_label_set_ellipsize (GTK_LABEL (label), PANGO_ELLIPSIZE_MIDDLE);
+	}
 	gtk_widget_show (label);
 	gtk_misc_set_alignment (GTK_MISC (label), 1.0, 0.5);
 	gtk_table_attach (
 		table, label, 1, 2, row, row + 1,
 		GTK_FILL | GTK_EXPAND, 0, 0, 0);
 
+	return row + 1;
+}
+
+static gint
+add_numbered_row (GtkTable *table,
+                  gint row,
+                  const gchar *description,
+                  const gchar *format,
+                  gint num)
+{
+	gchar *str;
+
+	g_return_val_if_fail (table != NULL, row);
+	g_return_val_if_fail (description != NULL, row);
+	g_return_val_if_fail (format != NULL, row);
+
+	str = g_strdup_printf (format, num);
+
+	row = add_text_row (table, row, description, str, FALSE);
+
 	g_free (str);
 
-	return row + 1;
+	return row;
 }
 
 typedef struct _ThreeStateData {
@@ -486,6 +507,17 @@ emfp_get_folder_item (EConfig *ec,
 	gtk_widget_show (table);
 	gtk_box_pack_start ((GtkBox *) parent, table, TRUE, TRUE, 0);
 
+	store = camel_folder_get_parent_store (context->folder);
+	folder_name = camel_folder_get_full_name (context->folder);
+
+	if (store) {
+		gchar *path;
+
+		path = g_strconcat (camel_service_get_display_name (CAMEL_SERVICE (store)), "/", folder_name, NULL);
+		row = add_text_row (GTK_TABLE (table), row, _("Path:"), path, TRUE);
+		g_free (path);
+	}
+
 	/* To be on the safe side, ngettext is used here,
 	 * see e.g. comment #3 at bug 272567 */
 	row = add_numbered_row (
@@ -537,9 +569,6 @@ emfp_get_folder_item (EConfig *ec,
 			g_free (descr);
 		}
 	}
-
-	store = camel_folder_get_parent_store (context->folder);
-	folder_name = camel_folder_get_full_name (context->folder);
 
 	session = camel_service_ref_session (CAMEL_SERVICE (store));
 
