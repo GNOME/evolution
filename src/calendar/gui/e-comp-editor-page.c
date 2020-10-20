@@ -71,23 +71,11 @@ ecep_sensitize_widgets (ECompEditorPage *page,
 
 	for (link = page->priv->parts; link; link = g_slist_next (link)) {
 		PropertyPartData *ppd = link->data;
-		GtkWidget *widget;
 
 		g_warn_if_fail (ppd != NULL);
-		if (!ppd || e_comp_editor_property_part_get_sensitize_handled (ppd->part))
-			continue;
 
-		widget = e_comp_editor_property_part_get_label_widget (ppd->part);
-		if (widget)
-			gtk_widget_set_sensitive (widget, !force_insensitive);
-
-		widget = e_comp_editor_property_part_get_edit_widget (ppd->part);
-		if (widget) {
-			if (GTK_IS_ENTRY (widget))
-				g_object_set (G_OBJECT (widget), "editable", !force_insensitive, NULL);
-			else
-				gtk_widget_set_sensitive (widget, !force_insensitive);
-		}
+		if (ppd)
+			e_comp_editor_property_part_sensitize_widgets (ppd->part, force_insensitive);
 	}
 }
 

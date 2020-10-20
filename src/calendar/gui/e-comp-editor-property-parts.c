@@ -543,6 +543,7 @@ struct _ECompEditorPropertyPartDescription {
 	gboolean mode_html;
 	gchar *alt_desc; /* X-ALT-DESC with text/html format */
 	GtkWidget *real_edit_widget;
+	GtkWidget *description_label;
 	GtkWidget *view_as_label;
 	GtkWidget *web_view_scrolled_window;
 	GtkWidget *web_view;
@@ -571,7 +572,9 @@ ecepp_description_update_view_mode (ECompEditorPropertyPartDescription *descript
 		gchar *markup;
 
 		markup = g_markup_printf_escaped ("<a href=\"evo-switch-view-mode\">%s</a>",
-			description_part->mode_html ? _("Edit as text") : _("View as HTML"));
+			description_part->mode_html ?
+			((description_part->description_label && gtk_widget_get_sensitive (description_part->description_label)) ?
+			_("Edit as text") : _("View as text")) : _("View as HTML"));
 
 		gtk_label_set_markup (GTK_LABEL (description_part->view_as_label), markup);
 
@@ -660,6 +663,8 @@ ecepp_description_create_widgets (ECompEditorPropertyPart *property_part,
 
 	label = gtk_label_new_with_mnemonic (C_("ECompEditor", "_Description:"));
 	gtk_label_set_mnemonic_widget (GTK_LABEL (label), *out_edit_widget);
+
+	description_part->description_label = label;
 
 	text_view = GTK_TEXT_VIEW (gtk_bin_get_child (GTK_BIN (*out_edit_widget)));
 	gtk_text_view_set_wrap_mode (text_view, GTK_WRAP_WORD);
@@ -870,6 +875,27 @@ ecepp_description_fill_component (ECompEditorPropertyPart *property_part,
 }
 
 static void
+ecepp_description_sensitize_widgets (ECompEditorPropertyPart *property_part,
+				     gboolean force_insensitive)
+{
+	ECompEditorPropertyPartDescription *description_part;
+	GtkWidget *widget;
+
+	g_return_if_fail (E_IS_COMP_EDITOR_PROPERTY_PART_DESCRIPTION (property_part));
+
+	description_part = E_COMP_EDITOR_PROPERTY_PART_DESCRIPTION (property_part);
+
+	if (description_part->description_label)
+		gtk_widget_set_sensitive (description_part->description_label, !force_insensitive);
+
+	widget = e_comp_editor_property_part_string_get_real_edit_widget (E_COMP_EDITOR_PROPERTY_PART_STRING (description_part));
+	if (widget)
+		g_object_set (G_OBJECT (widget), "editable", !force_insensitive, NULL);
+
+	ecepp_description_update_view_mode (description_part);
+}
+
+static void
 ecepp_description_dispose (GObject *object)
 {
 	ECompEditorPropertyPartDescription *description_part = E_COMP_EDITOR_PROPERTY_PART_DESCRIPTION (object);
@@ -904,6 +930,7 @@ e_comp_editor_property_part_description_class_init (ECompEditorPropertyPartDescr
 	part_class->create_widgets = ecepp_description_create_widgets;
 	part_class->fill_widget = ecepp_description_fill_widget;
 	part_class->fill_component = ecepp_description_fill_component;
+	part_class->sensitize_widgets = ecepp_description_sensitize_widgets;
 
 	object_class = G_OBJECT_CLASS (klass);
 	object_class->dispose = ecepp_description_dispose;

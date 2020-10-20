@@ -168,6 +168,8 @@ struct _ECompEditorPropertyPartClass {
 						 ICalComponent *component);
 	void		(* fill_component)	(ECompEditorPropertyPart *property_part,
 						 ICalComponent *component);
+	void		(* sensitize_widgets)	(ECompEditorPropertyPart *property_part,
+						 gboolean force_insensitive);
 
 	/* Signals */
 	void		(* changed)		(ECompEditorPropertyPart *property_part);
@@ -191,6 +193,8 @@ void		e_comp_editor_property_part_fill_widget		(ECompEditorPropertyPart *propert
 								 ICalComponent *component);
 void		e_comp_editor_property_part_fill_component	(ECompEditorPropertyPart *property_part,
 								 ICalComponent *component);
+void		e_comp_editor_property_part_sensitize_widgets	(ECompEditorPropertyPart *property_part,
+								 gboolean force_insensitive);
 void		e_comp_editor_property_part_emit_changed	(ECompEditorPropertyPart *property_part);
 
 /* ************************************************************************* */

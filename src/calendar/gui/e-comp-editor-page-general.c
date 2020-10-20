@@ -879,15 +879,7 @@ ecep_general_sensitize_widgets (ECompEditorPage *page,
 
 	if (page_general->priv->comp_color &&
 	    !e_comp_editor_property_part_get_sensitize_handled (page_general->priv->comp_color)) {
-		GtkWidget *widget;
-
-		widget = e_comp_editor_property_part_get_label_widget (page_general->priv->comp_color);
-		if (widget)
-			gtk_widget_set_sensitive (widget, !force_insensitive && !read_only);
-
-		widget = e_comp_editor_property_part_get_edit_widget (page_general->priv->comp_color);
-		if (widget)
-			gtk_widget_set_sensitive (widget, !force_insensitive && !read_only);
+		e_comp_editor_property_part_sensitize_widgets (page_general->priv->comp_color, force_insensitive || read_only);
 	}
 
 	g_clear_object (&comp_editor);

@@ -497,7 +497,6 @@ ece_task_sensitize_widgets (ECompEditor *comp_editor,
 {
 	ECompEditorTask *task_editor;
 	GtkAction *action;
-	GtkWidget *widget;
 	gboolean is_organizer;
 	guint32 flags;
 
@@ -508,12 +507,6 @@ ece_task_sensitize_widgets (ECompEditor *comp_editor,
 	flags = e_comp_editor_get_flags (comp_editor);
 	is_organizer = (flags & (E_COMP_EDITOR_FLAG_IS_NEW | E_COMP_EDITOR_FLAG_ORGANIZER_IS_USER)) != 0;
 	task_editor = E_COMP_EDITOR_TASK (comp_editor);
-
-	/* Make the Description read-only, not completely insensitive,
-	   thus it can be read and scrolled through and so on */
-	widget = e_comp_editor_property_part_string_get_real_edit_widget (E_COMP_EDITOR_PROPERTY_PART_STRING (task_editor->priv->description));
-	gtk_text_view_set_editable (GTK_TEXT_VIEW (widget), gtk_widget_get_sensitive (widget));
-	gtk_widget_set_sensitive (widget, TRUE);
 
 	action = e_comp_editor_get_action (comp_editor, "all-day-task");
 	gtk_action_set_sensitive (action, !force_insensitive && is_organizer);

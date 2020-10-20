@@ -145,6 +145,27 @@ e_comp_editor_property_part_dispose (GObject *object)
 }
 
 static void
+e_comp_editor_property_part_impl_sensitize_widgets (ECompEditorPropertyPart *property_part,
+						    gboolean force_insensitive)
+{
+	GtkWidget *widget;
+
+	g_return_if_fail (E_IS_COMP_EDITOR_PROPERTY_PART (property_part));
+
+	widget = e_comp_editor_property_part_get_label_widget (property_part);
+	if (widget)
+		gtk_widget_set_sensitive (widget, !force_insensitive);
+
+	widget = e_comp_editor_property_part_get_edit_widget (property_part);
+	if (widget) {
+		if (GTK_IS_ENTRY (widget))
+			g_object_set (G_OBJECT (widget), "editable", !force_insensitive, NULL);
+		else
+			gtk_widget_set_sensitive (widget, !force_insensitive);
+	}
+}
+
+static void
 e_comp_editor_property_part_init (ECompEditorPropertyPart *property_part)
 {
 	property_part->priv = G_TYPE_INSTANCE_GET_PRIVATE (property_part,
@@ -160,6 +181,8 @@ e_comp_editor_property_part_class_init (ECompEditorPropertyPartClass *klass)
 	GObjectClass *object_class;
 
 	g_type_class_add_private (klass, sizeof (ECompEditorPropertyPartPrivate));
+
+	klass->sensitize_widgets = e_comp_editor_property_part_impl_sensitize_widgets;
 
 	object_class = G_OBJECT_CLASS (klass);
 	object_class->set_property = e_comp_editor_property_part_set_property;
@@ -306,6 +329,24 @@ e_comp_editor_property_part_fill_component (ECompEditorPropertyPart *property_pa
 	g_return_if_fail (klass->fill_component != NULL);
 
 	klass->fill_component (property_part, component);
+}
+
+void
+e_comp_editor_property_part_sensitize_widgets (ECompEditorPropertyPart *property_part,
+					       gboolean force_insensitive)
+{
+	ECompEditorPropertyPartClass *klass;
+
+	g_return_if_fail (E_IS_COMP_EDITOR_PROPERTY_PART (property_part));
+
+	if (e_comp_editor_property_part_get_sensitize_handled (property_part))
+		return;
+
+	klass = E_COMP_EDITOR_PROPERTY_PART_GET_CLASS (property_part);
+	g_return_if_fail (klass != NULL);
+
+	if (klass->sensitize_widgets)
+		klass->sensitize_widgets (property_part, force_insensitive);
 }
 
 void
@@ -533,6 +574,24 @@ ecepp_string_fill_component (ECompEditorPropertyPart *property_part,
 	g_free (value);
 }
 
+static void
+ecepp_string_sensitize_widgets (ECompEditorPropertyPart *property_part,
+				gboolean force_insensitive)
+{
+	GtkWidget *widget;
+
+	g_return_if_fail (E_IS_COMP_EDITOR_PROPERTY_PART_STRING (property_part));
+
+	widget = e_comp_editor_property_part_get_label_widget (property_part);
+	if (widget)
+		gtk_widget_set_sensitive (widget, !force_insensitive);
+
+	widget = e_comp_editor_property_part_string_get_real_edit_widget (E_COMP_EDITOR_PROPERTY_PART_STRING (property_part));
+	g_return_if_fail (GTK_IS_ENTRY (widget) || GTK_IS_TEXT_VIEW (widget));
+
+	g_object_set (G_OBJECT (widget), "editable", !force_insensitive, NULL);
+}
+
 static GtkWidget *
 ecepp_string_get_real_edit_widget (ECompEditorPropertyPartString *part_string)
 {
@@ -569,6 +628,7 @@ e_comp_editor_property_part_string_class_init (ECompEditorPropertyPartStringClas
 	part_class->create_widgets = ecepp_string_create_widgets;
 	part_class->fill_widget = ecepp_string_fill_widget;
 	part_class->fill_component = ecepp_string_fill_component;
+	part_class->sensitize_widgets = ecepp_string_sensitize_widgets;
 }
 
 void
