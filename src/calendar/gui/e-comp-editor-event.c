@@ -157,7 +157,7 @@ ece_event_sensitize_widgets (ECompEditor *comp_editor,
 	ECompEditorEvent *event_editor;
 	gboolean is_organizer;
 	GtkAction *action;
-	GtkWidget *widget;
+	GtkWidget *widget, *edit_widget;
 	guint32 flags;
 
 	g_return_if_fail (E_IS_COMP_EDITOR_EVENT (comp_editor));
@@ -189,8 +189,9 @@ ece_event_sensitize_widgets (ECompEditor *comp_editor,
 	/* Make the Description read-only, not completely insensitive,
 	   thus it can be read and scrolled through and so on */
 	widget = e_comp_editor_property_part_string_get_real_edit_widget (E_COMP_EDITOR_PROPERTY_PART_STRING (event_editor->priv->description));
-	gtk_text_view_set_editable (GTK_TEXT_VIEW (widget), gtk_widget_get_sensitive (widget));
-	gtk_widget_set_sensitive (widget, TRUE);
+	edit_widget = e_comp_editor_property_part_get_edit_widget (event_editor->priv->description);
+	gtk_text_view_set_editable (GTK_TEXT_VIEW (widget), gtk_widget_get_sensitive (edit_widget));
+	gtk_widget_set_sensitive (edit_widget, TRUE);
 
 	action = e_comp_editor_get_action (comp_editor, "all-day-event");
 	gtk_action_set_sensitive (action, !force_insensitive && is_organizer);
