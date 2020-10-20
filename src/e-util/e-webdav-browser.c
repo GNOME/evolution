@@ -378,13 +378,14 @@ static void
 webdav_browser_update_ui (EWebDAVBrowser *webdav_browser)
 {
 	GtkTreeModel *model;
+	GtkTreeModel *sort_model;
 	GtkTreeStore *tree_store;
 	GSList *added_iters = NULL, *link;
 
 	g_return_if_fail (E_IS_WEBDAV_BROWSER (webdav_browser));
 
-	model = gtk_tree_view_get_model (GTK_TREE_VIEW (webdav_browser->priv->tree_view));
-	model = gtk_tree_model_sort_get_model (GTK_TREE_MODEL_SORT (model));
+	sort_model = gtk_tree_view_get_model (GTK_TREE_VIEW (webdav_browser->priv->tree_view));
+	model = gtk_tree_model_sort_get_model (GTK_TREE_MODEL_SORT (sort_model));
 	tree_store = GTK_TREE_STORE (model);
 
 	webdav_browser->priv->resources = g_slist_sort (webdav_browser->priv->resources, resource_data_compare);
@@ -450,10 +451,13 @@ webdav_browser_update_ui (EWebDAVBrowser *webdav_browser)
 
 			if (!is_loaded) {
 				GtkTreeIter child;
+				GtkTreeIter sort_iter;
 
 				gtk_tree_store_set (tree_store, &parent_iter, COLUMN_BOOL_CHILDREN_LOADED, TRUE, -1);
 
-				path = gtk_tree_model_get_path (model, &parent_iter);
+				gtk_tree_model_sort_convert_child_iter_to_iter (GTK_TREE_MODEL_SORT (sort_model), &sort_iter, &parent_iter);
+
+				path = gtk_tree_model_get_path (sort_model, &sort_iter);
 				if (path) {
 					gtk_tree_view_expand_row (GTK_TREE_VIEW (webdav_browser->priv->tree_view), path, FALSE);
 					gtk_tree_path_free (path);
