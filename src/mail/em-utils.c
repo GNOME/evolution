@@ -1898,3 +1898,74 @@ em_utils_process_autoarchive_sync (EMailBackend *mail_backend,
 
 	return success;
 }
+
+/**
+ * em_utils_account_path_to_folder_uri:
+ * @session: (nullable): a #CamelSession, or %NULL
+ * @account_path: the account path to transform to folder URI
+ *
+ * Transform the @account_path to a folder URI. It can be in a form
+ * of 'account-name/folder/path', aka 'On This Computer/Inbox/Private'.
+ * The account name is compared case insensitively.
+ *
+ * When the @session is %NULL, it' is taken from the default shell, if
+ * such exists.
+ *
+ * Returns: (nullable): a folder URI corresponding to the @account_path,
+ *    or %NULL, when the account could not be found. Free the returned
+ *    string with g_free(), when no longer needed.
+ *
+ * Since: 3.40
+ **/
+gchar *
+em_utils_account_path_to_folder_uri (CamelSession *session,
+				     const gchar *account_path)
+{
+	GList *services, *link;
+	const gchar *dash;
+	gchar *folder_uri = NULL, *account_name;
+
+	g_return_val_if_fail (account_path != NULL, NULL);
+
+	dash = strchr (account_path, '/');
+	if (!dash)
+		return NULL;
+
+	if (!session) {
+		EShell *shell;
+		EShellBackend *shell_backend;
+		EMailSession *mail_session;
+
+		shell = e_shell_get_default ();
+		if (!shell)
+			return NULL;
+
+		shell_backend = e_shell_get_backend_by_name (shell, "mail");
+		if (!shell_backend)
+			return NULL;
+
+		mail_session = e_mail_backend_get_session (E_MAIL_BACKEND (shell_backend));
+		if (!mail_session)
+			return NULL;
+
+		session = CAMEL_SESSION (mail_session);
+	}
+
+	account_name = e_util_utf8_data_make_valid (account_path, dash - account_path);
+
+	services = camel_session_list_services (session);
+	for (link = services; link; link = g_list_next (link)) {
+		CamelService *service = link->data;
+
+		/* Case sensitive account name compare, because the folder names are also compared case sensitively */
+		if (CAMEL_IS_STORE (service) && g_strcmp0 (camel_service_get_display_name (service), account_name) == 0) {
+			folder_uri = e_mail_folder_uri_build (CAMEL_STORE (service), dash + 1);
+			break;
+		}
+	}
+
+	g_list_free_full (services, g_object_unref);
+	g_free (account_name);
+
+	return folder_uri;
+}

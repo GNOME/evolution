@@ -23,8 +23,10 @@
 #include <string.h>
 
 #include <camel/camel.h>
-#include <e-util/e-util.h>
 #include <libedataserver/libedataserver.h>
+
+#include "e-util/e-util.h"
+#include "em-utils.h"
 
 #include "e-mail-free-form-exp.h"
 
@@ -474,25 +476,63 @@ mail_ffe_received (const gchar *word,
 	return mail_ffe_process_date ("get-received-date", word, options);
 }
 
+static gboolean
+mail_ffe_is_neg (const gchar *value)
+{
+	return value &&
+	       (g_ascii_strcasecmp (value, "!") == 0 ||
+		g_ascii_strcasecmp (value, "0") == 0 ||
+		g_ascii_strcasecmp (value, "no") == 0 ||
+		g_ascii_strcasecmp (value, "not") == 0 ||
+		g_ascii_strcasecmp (value, "false") == 0 ||
+		g_ascii_strcasecmp (value, C_("ffe", "no")) == 0 ||
+		g_ascii_strcasecmp (value, C_("ffe", "not")) == 0 ||
+		g_ascii_strcasecmp (value, C_("ffe", "false")) == 0);
+}
+
 static gchar *
 mail_ffe_attachment (const gchar *word,
 		     const gchar *options,
 		     const gchar *hint)
 {
-	gboolean is_neg = FALSE;
+	gboolean is_neg;
 
 	if (!word)
 		return NULL;
 
-	if (g_ascii_strcasecmp (word, "no") == 0 ||
-	    g_ascii_strcasecmp (word, "false") == 0 ||
-	    g_ascii_strcasecmp (word, C_("ffe", "no")) == 0 ||
-	    g_ascii_strcasecmp (word, C_("ffe", "false")) == 0 ||
-	    g_ascii_strcasecmp (word, "0") == 0) {
-		is_neg = TRUE;
-	}
+	is_neg = mail_ffe_is_neg (word);
 
 	return g_strdup_printf ("%s(system-flag \"Attachments\")%s", is_neg ? "(not " : "", is_neg ? ")" : "");
+}
+
+static gchar *
+mail_ffe_location (const gchar *word,
+		   const gchar *options,
+		   const gchar *hint)
+{
+	GString *encoded_uri;
+	gchar *sexp, *folder_uri;
+	gboolean is_neg;
+
+	if (!word)
+		return NULL;
+
+	is_neg = mail_ffe_is_neg (options);
+
+	folder_uri = em_utils_account_path_to_folder_uri (NULL, word);
+
+	if (!folder_uri)
+		return NULL;
+
+	encoded_uri = g_string_new ("");
+	camel_sexp_encode_string (encoded_uri, folder_uri);
+
+	sexp = g_strdup_printf ("%s(message-location %s)%s", is_neg ? "(not " : "", encoded_uri->str, is_neg ? ")" : "");
+
+	g_string_free (encoded_uri, TRUE);
+	g_free (folder_uri);
+
+	return sexp;
 }
 
 static const EFreeFormExpSymbol mail_ffe_symbols[] = {
@@ -514,6 +554,7 @@ static const EFreeFormExpSymbol mail_ffe_symbols[] = {
 	{ "sent",	NULL,	mail_ffe_sent },
 	{ "received:rcv", NULL,	mail_ffe_received },
 	{ "attachment:a", NULL,	mail_ffe_attachment },
+	{ "location:m",	NULL,	mail_ffe_location },
 	{ NULL,		NULL,	NULL}
 };
 

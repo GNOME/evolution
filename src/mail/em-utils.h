@@ -110,6 +110,9 @@ gboolean	em_utils_process_autoarchive_sync
 gchar *		em_utils_build_export_basename	(CamelFolder *folder,
 						 const gchar *uid,
 						 const gchar *extension);
+gchar *		em_utils_account_path_to_folder_uri
+						(CamelSession *session,
+						 const gchar *account_path); /* On This Computer/Inbox/Subfolder... */
 
 G_END_DECLS
 
