@@ -1959,10 +1959,10 @@ emcu_prepare_attribution_locale (ESource *identity_source,
 	}
 
 	if (lang) {
-		if (!strchr (lang, '.')) {
+		if (!g_str_equal (lang, "C") && !strchr (lang, '.')) {
 			gchar *tmp;
 
-			tmp = g_strconcat (lang, ".utf8", NULL);
+			tmp = g_strconcat (lang, ".UTF-8", NULL);
 			g_free (lang);
 			lang = tmp;
 		}
