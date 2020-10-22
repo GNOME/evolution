@@ -1337,7 +1337,7 @@ em_composer_prefs_construct (EMComposerPrefs *prefs,
 		G_SETTINGS_BIND_DEFAULT);
 
 	widget = e_builder_get_widget (prefs->builder, "comboboxForwardReplyAttribLanguage");
-	gtk_combo_box_text_append (GTK_COMBO_BOX_TEXT (widget), NULL, _("Same as user interface"));
+	gtk_combo_box_text_append (GTK_COMBO_BOX_TEXT (widget), "", _("Same as user interface"));
 	em_utils_add_installed_languages (GTK_COMBO_BOX_TEXT (widget));
 
 	g_settings_bind (

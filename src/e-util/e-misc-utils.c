@@ -4506,7 +4506,7 @@ e_util_enum_supported_locales (void)
 		catalog_filename = g_build_filename (EVOLUTION_LOCALEDIR, e_supported_locales[ii].code, "LC_MESSAGES", GETTEXT_PACKAGE ".mo", NULL);
 
 		if (catalog_filename && g_file_test (catalog_filename, G_FILE_TEST_EXISTS)) {
-			g_string_printf (locale, "%s.utf8", e_supported_locales[ii].locale);
+			g_string_printf (locale, "%s.UTF-8", e_supported_locales[ii].locale);
 
 			if (!setlocale (category, locale->str)) {
 				e_supported_locales[ii].locale = NULL;
