@@ -1272,13 +1272,11 @@ preview_comp (EWebViewPreview *preview,
 	}
 
 	have = FALSE;
-	if (e_cal_component_has_recurrences (comp)) {
-		e_web_view_preview_add_section (preview, /*have ? NULL :*/ str, C_("iCalImp", "has recurrences"));
-		have = TRUE;
-	}
-
 	if (e_cal_component_is_instance (comp)) {
 		e_web_view_preview_add_section (preview, have ? NULL : str, C_("iCalImp", "is an instance"));
+		have = TRUE;
+	} else if (e_cal_component_has_recurrences (comp)) {
+		e_web_view_preview_add_section (preview, /*have ? NULL :*/ str, C_("iCalImp", "has recurrences"));
 		have = TRUE;
 	}
 
