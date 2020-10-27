@@ -494,16 +494,107 @@ exit:
 	return TRUE;
 }
 
+static EShellWindow *
+mail_shell_backend_get_mail_window (EShell *shell)
+{
+	GList *link;
+
+	for (link = gtk_application_get_windows (GTK_APPLICATION (shell)); link; link = g_list_next (link)) {
+		GtkWindow *window = GTK_WINDOW (link->data);
+
+		if (E_IS_SHELL_WINDOW (window)) {
+			EShellWindow *shell_window;
+			const gchar *active_view;
+
+			shell_window = E_SHELL_WINDOW (window);
+			active_view = e_shell_window_get_active_view (shell_window);
+
+			if (g_strcmp0 (active_view, "mail") == 0)
+				return shell_window;
+		}
+	}
+
+	return E_SHELL_WINDOW (e_shell_create_shell_window (shell, "mail"));
+}
+
+static void
+mail_shell_backend_select_folder_uri (EMailShellBackend *mail_shell_backend,
+				      const gchar *in_uri)
+{
+	EMailSession *mail_session;
+	CamelSession *session;
+	CamelStore *store = NULL;
+	gchar *decoded_uri = NULL;
+	gchar *folder_uri = NULL;
+	const gchar *uri = in_uri;
+
+	g_return_if_fail (E_IS_MAIL_SHELL_BACKEND (mail_shell_backend));
+	g_return_if_fail (uri != NULL);
+	g_return_if_fail (g_str_has_prefix (uri, "folder:"));
+
+	mail_session = e_mail_backend_get_session (E_MAIL_BACKEND (mail_shell_backend));
+	session = CAMEL_SESSION (mail_session);
+
+	if (strchr (uri, '%')) {
+		decoded_uri = g_uri_unescape_string (uri, NULL);
+
+		if (decoded_uri)
+			uri = decoded_uri;
+	}
+
+	if (!e_mail_folder_uri_parse (session, uri, &store, NULL, NULL)) {
+		folder_uri = em_utils_account_path_to_folder_uri (session, uri + 7 /* strlen ("folder:") */);
+
+		if (folder_uri) {
+			if (e_mail_folder_uri_parse (session, folder_uri, &store, NULL, NULL))
+				uri = folder_uri;
+		}
+	}
+
+	if (store) {
+		EShellWindow *window;
+		EShell *shell;
+
+		shell = e_shell_backend_get_shell (E_SHELL_BACKEND (mail_shell_backend));
+		window = mail_shell_backend_get_mail_window (shell);
+
+		if (window) {
+			EShellView *shell_view;
+
+			shell_view = e_shell_window_get_shell_view (window, "mail");
+
+			if (shell_view) {
+				EShellSidebar *shell_sidebar;
+				EMFolderTree *folder_tree;
+
+				shell_sidebar = e_shell_view_get_shell_sidebar (shell_view);
+				folder_tree = e_mail_shell_sidebar_get_folder_tree (E_MAIL_SHELL_SIDEBAR (shell_sidebar));
+
+				em_folder_tree_set_selected (folder_tree, folder_uri ? folder_uri : uri, FALSE);
+			}
+
+			gtk_window_present (GTK_WINDOW (window));
+		}
+	}
+
+	g_clear_object (&store);
+	g_free (decoded_uri);
+	g_free (folder_uri);
+}
+
 static gboolean
 mail_shell_backend_handle_uri_cb (EShell *shell,
                                   const gchar *uri,
                                   EMailShellBackend *mail_shell_backend)
 {
-	gboolean handled = FALSE;
+	gboolean handled = TRUE;
 
 	if (g_str_has_prefix (uri, "mailto:")) {
 		em_utils_compose_new_message_with_mailto (shell, uri, NULL);
-		handled = TRUE;
+	} else if (g_str_has_prefix (uri, "folder:")) {
+		mail_shell_backend_select_folder_uri (mail_shell_backend, uri);
+	} else {
+		handled = FALSE;
 	}
 
 	return handled;
