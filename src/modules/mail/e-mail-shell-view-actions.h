@@ -172,6 +172,8 @@
 	E_SHELL_WINDOW_ACTION ((window), "mail-search-folder-from-sender")
 #define E_SHELL_WINDOW_ACTION_MAIL_SEARCH_FOLDER_FROM_SUBJECT(window) \
 	E_SHELL_WINDOW_ACTION ((window), "mail-search-folder-from-subject")
+#define E_SHELL_WINDOW_ACTION_MAIL_SEARCH_FREE_FORM_EXPR(window) \
+	E_SHELL_WINDOW_ACTION ((window), "mail-search-free-form-expr")
 #define E_SHELL_WINDOW_ACTION_MAIL_SELECT_ALL(window) \
 	E_SHELL_WINDOW_ACTION ((window), "mail-select-all")
 #define E_SHELL_WINDOW_ACTION_MAIL_SEND_RECEIVE(window) \

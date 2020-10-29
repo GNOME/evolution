@@ -535,6 +535,27 @@ mail_ffe_location (const gchar *word,
 	return sexp;
 }
 
+static gchar *
+mail_ffe_message_id (const gchar *word,
+		     const gchar *options,
+		     const gchar *hint)
+{
+	GString *encoded_mid;
+	gchar *sexp;
+
+	if (!word)
+		return NULL;
+
+	encoded_mid = g_string_new ("");
+	camel_sexp_encode_string (encoded_mid, word);
+
+	sexp = g_strdup_printf ("(header-matches \"MESSAGE-ID\" %s)", encoded_mid->str);
+
+	g_string_free (encoded_mid, TRUE);
+
+	return sexp;
+}
+
 static const EFreeFormExpSymbol mail_ffe_symbols[] = {
 	{ "",		"1",	mail_ffe_recips },
 	{ "from:f",	NULL,	mail_ffe_from },
@@ -555,6 +576,7 @@ static const EFreeFormExpSymbol mail_ffe_symbols[] = {
 	{ "received:rcv", NULL,	mail_ffe_received },
 	{ "attachment:a", NULL,	mail_ffe_attachment },
 	{ "location:m",	NULL,	mail_ffe_location },
+	{ "mid",	NULL,	mail_ffe_message_id },
 	{ NULL,		NULL,	NULL}
 };
 

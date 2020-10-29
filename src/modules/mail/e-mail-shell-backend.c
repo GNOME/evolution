@@ -24,8 +24,11 @@
 
 #include <glib/gi18n.h>
 
-#include <shell/e-shell.h>
-#include <shell/e-shell-window.h>
+#include "shell/e-shell.h"
+#include "shell/e-shell-content.h"
+#include "shell/e-shell-searchbar.h"
+#include "shell/e-shell-view.h"
+#include "shell/e-shell-window.h"
 
 #include <composer/e-msg-composer.h>
 
@@ -46,8 +49,10 @@
 #include <em-format/e-mail-formatter.h>
 #include <em-format/e-mail-part-utils.h>
 
+#include "e-mail-shell-content.h"
 #include "e-mail-shell-sidebar.h"
 #include "e-mail-shell-view.h"
+#include "e-mail-shell-view-private.h"
 #include "em-account-prefs.h"
 #include "em-composer-prefs.h"
 #include "em-mailer-prefs.h"
@@ -582,6 +587,87 @@ mail_shell_backend_select_folder_uri (EMailShellBackend *mail_shell_backend,
 	g_free (folder_uri);
 }
 
+static void
+mail_shell_backend_search_mid (EMailShellBackend *mail_shell_backend,
+			       const gchar *in_uri)
+{
+	EShellWindow *window;
+	EShell *shell;
+	gchar *decoded_uri = NULL;
+	const gchar *uri = in_uri, *message_id;
+
+	g_return_if_fail (E_IS_MAIL_SHELL_BACKEND (mail_shell_backend));
+	g_return_if_fail (uri != NULL);
+	g_return_if_fail (g_str_has_prefix (uri, "mid:"));
+
+	if (strchr (uri, '%')) {
+		decoded_uri = g_uri_unescape_string (uri, NULL);
+
+		if (decoded_uri)
+			uri = decoded_uri;
+	}
+
+	message_id = uri + 4; /* strlen ("mid:") */
+
+	if (!*message_id) {
+		g_free (decoded_uri);
+		return;
+	}
+
+	shell = e_shell_backend_get_shell (E_SHELL_BACKEND (mail_shell_backend));
+	window = mail_shell_backend_get_mail_window (shell);
+
+	if (window) {
+		EShellView *shell_view;
+
+		shell_view = e_shell_window_get_shell_view (window, "mail");
+
+		if (shell_view) {
+			EShellSearchbar *shell_searchbar;
+			EShellWindow *shell_window = E_SHELL_WINDOW (window);
+			GString *expr;
+			GtkAction *action;
+			gint ii;
+
+			shell_searchbar = e_mail_shell_content_get_searchbar (E_MAIL_SHELL_CONTENT (e_shell_view_get_shell_content (shell_view)));
+
+			expr = g_string_sized_new (strlen (message_id) + 4 + 2 + 1); /* strlen ("mid:") + 2 * strlen ("\"") + NUL-terminator */
+			g_string_append (expr, "mid:\"");
+
+			for (ii = 0; message_id[ii]; ii++) {
+				/* skip white-spaces and double-quotes */
+				if (!g_ascii_isspace (message_id[ii]) && message_id[ii] != '\"')
+					g_string_append_c (expr, message_id[ii]);
+			}
+
+			g_string_append_c (expr, '\"');
+
+			e_shell_view_block_execute_search (shell_view);
+
+			action = ACTION (MAIL_FILTER_ALL_MESSAGES);
+			gtk_action_activate (action);
+
+			action = ACTION (MAIL_SEARCH_FREE_FORM_EXPR);
+			gtk_action_activate (action);
+
+			action = ACTION (MAIL_SCOPE_ALL_ACCOUNTS);
+			gtk_action_activate (action);
+
+			e_shell_view_set_search_rule (shell_view, NULL);
+			e_shell_searchbar_set_search_text (shell_searchbar, expr->str);
+
+			e_shell_view_unblock_execute_search (shell_view);
+			e_shell_view_execute_search (shell_view);
+
+			g_string_free (expr, TRUE);
+		}
+
+		gtk_window_present (GTK_WINDOW (window));
+	}
+
+	g_free (decoded_uri);
+}
+
 static gboolean
 mail_shell_backend_handle_uri_cb (EShell *shell,
                                   const gchar *uri,
@@ -593,6 +679,8 @@ mail_shell_backend_handle_uri_cb (EShell *shell,
 		em_utils_compose_new_message_with_mailto (shell, uri, NULL);
 	} else if (g_str_has_prefix (uri, "folder:")) {
 		mail_shell_backend_select_folder_uri (mail_shell_backend, uri);
+	} else if (g_str_has_prefix (uri, "mid:")) {
+		mail_shell_backend_search_mid (mail_shell_backend, uri);
 	} else {
 		handled = FALSE;
 	}
