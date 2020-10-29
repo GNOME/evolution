@@ -19,7 +19,7 @@
 	   -->
     </credit>
 
-    <include href="legal.xml" xmlns="https://www.w3.org/2001/XInclude"/>
+    <include href="legal.xml" xmlns="http://www.w3.org/2001/XInclude"/>
 
     <desc>Using the Free/Busy view on a groupware server to set up
     meetings.</desc>

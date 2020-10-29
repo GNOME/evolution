@@ -17,7 +17,7 @@
 	   https://help.gnome.org/users/evolution/2.32/bshlzlu.html.en -->
     </credit>
 
-    <include href="legal.xml" xmlns="https://www.w3.org/2001/XInclude"/>
+    <include href="legal.xml" xmlns="http://www.w3.org/2001/XInclude"/>
 
     <desc>Using time zones in the calendar.</desc>
   </info>
