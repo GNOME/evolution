@@ -88,7 +88,6 @@ set(HELP_FILES
 	import-single-files.page
 	import-supported-file-formats.page
 	index.page
-	intro-application.page
 	intro-first-run.page
 	intro-keyboard-shortcuts.page
 	intro-main-window.page
