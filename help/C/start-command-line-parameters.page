@@ -1,0 +1,72 @@
+<page xmlns="http://projectmallard.org/1.0/" xmlns:its="http://www.w3.org/2005/11/its"
+      type="topic" id="start-command-line-parameters">
+
+  <info>
+    <link type="guide" xref="index#common-other-problems" />
+
+    <revision pkgversion="3.39.0" version="0.1" date="2020-10-29" status="draft"/>
+
+    <credit type="author">
+      <name its:translate="no">Andre Klapper</name>
+      <email its:translate="no">ak-47@gmx.net</email>
+    </credit>
+
+    <include href="legal.xml" xmlns="http://www.w3.org/2001/XInclude"/>
+
+    <desc>How to make Evolution show a specific window or folder when starting the application.</desc>
+  </info>
+
+<!-- TODO: Update page once https://bugzilla.gnome.org/show_bug.cgi?id=626635 has more info -->
+
+  <title>Define what to display when starting <app>Evolution</app></title>
+
+  <p>When <app>Evolution</app> starts, it remembers the last view that you used.</p>
+
+  <p>To make <app>Evolution</app> display something else after starting
+  the application, you will have to run the application from the
+  <app>Terminal</app> application and pass corresponding parameters.</p>
+
+  <section id="tools">
+    <title>Windows</title>
+
+    <p its:locNote="TO TRANSLATORS: Do NOT translate 'component' here!">To start
+    <app>Evolution</app> in a specific view, pass the "component" parameter.</p>
+
+    <p>Examples:</p>
+    <list>
+      <item><p><cmd its:translate="no">evolution --component=calendar</cmd></p></item>
+      <item><p><cmd its:translate="no">evolution --component=contacts</cmd></p></item>
+      <item><p><cmd its:translate="no">evolution --component=mail</cmd></p></item>
+      <item><p><cmd its:translate="no">evolution --component=memos</cmd></p></item>
+      <item><p><cmd its:translate="no">evolution --component=tasks</cmd></p></item>
+    </list>
+  </section>
+
+  <section id="mail-folders">
+    <title>Mail folders</title>
+
+    <!-- Introduced in https://gitlab.gnome.org/GNOME/evolution/-/issues/1176 : -->
+    <p its:locNote="TO TRANSLATORS: Do NOT translate 'folder' here!">To make
+    <app>Evolution</app> open a specific mail folder, pass the "folder" parameter.</p>
+
+    <p>Examples:</p>
+    <list>
+      <item><p><cmd its:translate="no">evolution "folder:On This Computer/Inbox"</cmd></p></item>
+      <item><p><cmd its:translate="no">evolution folder:On%20This%20Computer/Inbox</cmd></p></item>
+      <item><p><cmd its:translate="no">evolution folder://local/Inbox</cmd></p></item>
+    </list>
+  </section>
+
+  <section id="mail-composer">
+    <title>Mail composer</title>
+
+    <p its:locNote="TO TRANSLATORS: Do NOT translate 'folder' here!">To make <app>Evolution</app>
+    open a mail composer window with some predefined values and content:</p>
+
+    <p>Examples:</p>
+    <list>
+      <item><p><cmd its:translate="no">evolution mailto:recipient@example.com?cc=cc@example.com\&amp;subject=Your\ subject\ line\&amp;body=Message\ content\&amp;attach=/home/user/file</cmd></p></item>
+    </list>
+  </section>
+
+</page>

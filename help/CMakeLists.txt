@@ -219,6 +219,7 @@ set(HELP_FILES
 	problems-getting-help.page
 	problems-reporting-bugs.page
 	searching-items.page
+	start-command-line-parameters.page
 	sync-with-other-devices.page
 	tasks-caldav.page
 	tasks-display-settings.page
