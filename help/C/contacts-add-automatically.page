@@ -17,7 +17,7 @@
       <email its:translate="no">barbtobias09@gmail.com</email>
     </credit>
 
-    <include href="legal.xml" xmlns="https://www.w3.org/2001/XInclude"/>
+    <include href="legal.xml" xmlns="http://www.w3.org/2001/XInclude"/>
 
     <desc>Automatically add senders of mail that you have received to your
     contacts.</desc>

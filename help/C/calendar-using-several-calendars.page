@@ -20,7 +20,7 @@
 	   -->
     </credit>
 
-    <include href="legal.xml" xmlns="https://www.w3.org/2001/XInclude"/>
+    <include href="legal.xml" xmlns="http://www.w3.org/2001/XInclude"/>
 
     <desc>Adding and using more than one calendar and different types.</desc>
   </info>

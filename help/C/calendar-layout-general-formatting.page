@@ -17,7 +17,7 @@
 	   -->
     </credit>
 
-    <include href="legal.xml" xmlns="https://www.w3.org/2001/XInclude"/>
+    <include href="legal.xml" xmlns="http://www.w3.org/2001/XInclude"/>
 
     <!-- TODO:POST-3-8: Just listing the partially busted UI options (also see
 	 calendar-layout-appointment-display) here is very poor and not

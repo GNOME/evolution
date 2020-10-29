@@ -19,7 +19,7 @@
       <name its:translate="no">Novell, Inc</name> <!-- Content partially from https://help.gnome.org/users/evolution/2.32/usage-mainwindow-starting.html.en -->
     </credit>
     
-    <include href="legal.xml" xmlns="https://www.w3.org/2001/XInclude"/>
+    <include href="legal.xml" xmlns="http://www.w3.org/2001/XInclude"/>
     
 
   </info>

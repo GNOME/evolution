@@ -18,7 +18,7 @@
      <!-- Content partially from https://help.gnome.org/users/evolution/2.32/config-prefs-cal.html.en#CACHCGCI -->
     </credit>
 
-    <include href="legal.xml" xmlns="https://www.w3.org/2001/XInclude"/>
+    <include href="legal.xml" xmlns="http://www.w3.org/2001/XInclude"/>
 
     <desc>Setting up reminder notifications for appointments.</desc>
   </info>

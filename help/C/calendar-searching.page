@@ -22,7 +22,7 @@
 	   -->
     </credit>
 
-    <include href="legal.xml" xmlns="https://www.w3.org/2001/XInclude"/>
+    <include href="legal.xml" xmlns="http://www.w3.org/2001/XInclude"/>
 
     <desc>Searching appointments and meetings.</desc>
   </info>
