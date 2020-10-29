@@ -43,7 +43,7 @@
   <title>Restoring</title>
   <include href="backup-restore.page"
    xpointer="xmlns(mal=http://projectmallard.org/1.0/)xpointer(/mal:page/mal:section[@id='restore']/mal:list)"
-   xmlns="https://www.w3.org/2001/XInclude"/>
+   xmlns="http://www.w3.org/2001/XInclude"/>
  </section>
 </section>
 
@@ -65,7 +65,7 @@
   <title>IMAP+ receiving options</title>
   <include href="mail-receiving-options-imap-plus.page"
    xpointer="xmlns(mal=http://projectmallard.org/1.0/)xpointer(/mal:page/mal:section)"
-   xmlns="https://www.w3.org/2001/XInclude"/>
+   xmlns="http://www.w3.org/2001/XInclude"/>
  </section>
 
 </section>
@@ -81,7 +81,7 @@
   <title>POP receiving options</title>
   <include href="mail-receiving-options-pop.page"
    xpointer="xmlns(mal=http://projectmallard.org/1.0/)xpointer(/mal:page/mal:section)"
-   xmlns="https://www.w3.org/2001/XInclude"/>
+   xmlns="http://www.w3.org/2001/XInclude"/>
  </section>
 
 </section>
@@ -97,7 +97,7 @@
   <title>Usenet news receiving options</title>
   <include href="mail-receiving-options-usenet-news.page"
    xpointer="xmlns(mal=http://projectmallard.org/1.0/)xpointer(/mal:page/mal:section)"
-   xmlns="https://www.w3.org/2001/XInclude"/>
+   xmlns="http://www.w3.org/2001/XInclude"/>
  </section>
 
 </section>
@@ -121,7 +121,7 @@
   <title>Exchange Web Services receiving options</title>
   <include href="mail-receiving-options-exchange-ews.page"
    xpointer="xmlns(mal=http://projectmallard.org/1.0/)xpointer(/mal:page/mal:section)"
-   xmlns="https://www.w3.org/2001/XInclude"/>
+   xmlns="http://www.w3.org/2001/XInclude"/>
  </section>
 
 </section>
@@ -145,7 +145,7 @@
   <title>Exchange MAPI receiving options</title>
   <include href="mail-receiving-options-exchange-mapi.page"
    xpointer="xmlns(mal=http://projectmallard.org/1.0/)xpointer(/mal:page/mal:section)"
-   xmlns="https://www.w3.org/2001/XInclude"/>
+   xmlns="http://www.w3.org/2001/XInclude"/>
  </section>
 
 </section>
@@ -161,7 +161,7 @@
   <title>Local delivery receiving options</title>
   <include href="mail-receiving-options-local-delivery.page"
    xpointer="xmlns(mal=http://projectmallard.org/1.0/)xpointer(/mal:page/mal:section)"
-   xmlns="https://www.w3.org/2001/XInclude"/>
+   xmlns="http://www.w3.org/2001/XInclude"/>
  </section>
 
 </section>
@@ -177,7 +177,7 @@
   <title>MH-format mail directories receiving options</title>
   <include href="mail-receiving-options-mh-format-directories.page"
    xpointer="xmlns(mal=http://projectmallard.org/1.0/)xpointer(/mal:page/mal:section)"
-   xmlns="https://www.w3.org/2001/XInclude"/>
+   xmlns="http://www.w3.org/2001/XInclude"/>
  </section>
 
 </section>
@@ -193,7 +193,7 @@
   <title>Maildir-format mail directories receiving options</title>
   <include href="mail-receiving-options-maildir-format-directories.page"
    xpointer="xmlns(mal=http://projectmallard.org/1.0/)xpointer(/mal:page/mal:section)"
-   xmlns="https://www.w3.org/2001/XInclude"/>
+   xmlns="http://www.w3.org/2001/XInclude"/>
  </section>
 
 </section>
@@ -209,7 +209,7 @@
   <title>Standard Unix mbox spool file receiving options</title>
   <include href="mail-receiving-options-unix-mbox-spool-file.page"
    xpointer="xmlns(mal=http://projectmallard.org/1.0/)xpointer(/mal:page/mal:section)"
-   xmlns="https://www.w3.org/2001/XInclude"/>
+   xmlns="http://www.w3.org/2001/XInclude"/>
  </section>
 
 </section>
@@ -225,7 +225,7 @@
   <title>Standard Unix mbox spool directory receiving options</title>
   <include href="mail-receiving-options-unix-mbox-spool-directory.page"
    xpointer="xmlns(mal=http://projectmallard.org/1.0/)xpointer(/mal:page/mal:section)"
-   xmlns="https://www.w3.org/2001/XInclude"/>
+   xmlns="http://www.w3.org/2001/XInclude"/>
  </section>
 
 </section>
@@ -252,7 +252,7 @@
   <title>SMTP sending options</title>
   <include href="mail-sending-options-smtp.page"
    xpointer="xmlns(mal=http://projectmallard.org/1.0/)xpointer(/mal:page/mal:list)"
-   xmlns="https://www.w3.org/2001/XInclude"/>
+   xmlns="http://www.w3.org/2001/XInclude"/>
  </section>
 
 </section>
