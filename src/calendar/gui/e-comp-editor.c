@@ -2895,6 +2895,28 @@ e_comp_editor_get_managed_widget (ECompEditor *comp_editor,
 	return widget;
 }
 
+static gchar *
+e_comp_editor_extract_email_address (const gchar *email_address)
+{
+	CamelInternetAddress *addr;
+	const gchar *str_addr;
+	gchar *address;
+
+	if (!email_address || !*email_address)
+		return NULL;
+
+	addr = camel_internet_address_new ();
+	if (camel_address_unformat (CAMEL_ADDRESS (addr), email_address) == 1 &&
+	    camel_internet_address_get (addr, 0, NULL, &str_addr)) {
+		address = g_strdup (str_addr);
+	} else {
+		address = g_strdup (email_address);
+	}
+	g_object_unref (addr);
+
+	return address;
+}
+
 const gchar *
 e_comp_editor_get_alarm_email_address (ECompEditor *comp_editor)
 {
@@ -2913,7 +2935,7 @@ e_comp_editor_set_alarm_email_address (ECompEditor *comp_editor,
 		return;
 
 	g_free (comp_editor->priv->alarm_email_address);
-	comp_editor->priv->alarm_email_address = g_strdup (alarm_email_address);
+	comp_editor->priv->alarm_email_address = e_comp_editor_extract_email_address (alarm_email_address);
 
 	g_object_notify (G_OBJECT (comp_editor), "alarm-email-address");
 }
@@ -2936,7 +2958,7 @@ e_comp_editor_set_cal_email_address (ECompEditor *comp_editor,
 		return;
 
 	g_free (comp_editor->priv->cal_email_address);
-	comp_editor->priv->cal_email_address = g_strdup (cal_email_address);
+	comp_editor->priv->cal_email_address = e_comp_editor_extract_email_address (cal_email_address);
 
 	g_object_notify (G_OBJECT (comp_editor), "cal-email-address");
 }
