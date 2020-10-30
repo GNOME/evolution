@@ -73,78 +73,6 @@ enum {
 
 G_DEFINE_TYPE (ECompEditorPageGeneral, e_comp_editor_page_general, E_TYPE_COMP_EDITOR_PAGE)
 
-/* Begin of customized GtkComboBoxText, which doesn't use width as the longest text in it */
-
-typedef struct _ECEPGeneralOrganizerComboBox {
-	GtkComboBoxText parent;
-} ECEPGeneralOrganizerComboBox;
-
-typedef struct _ECEPGeneralOrganizerComboBoxClass {
-	GtkComboBoxTextClass parent_class;
-} ECEPGeneralOrganizerComboBoxClass;
-
-GType ecep_general_organizer_combo_box_get_type (void) G_GNUC_CONST;
-
-G_DEFINE_TYPE (ECEPGeneralOrganizerComboBox, ecep_general_organizer_combo_box, GTK_TYPE_COMBO_BOX_TEXT)
-
-static void
-ecep_general_organizer_combo_box_get_preferred_width (GtkWidget *widget,
-						      gint *minimum_width,
-						      gint *natural_width)
-{
-	GTK_WIDGET_CLASS (ecep_general_organizer_combo_box_parent_class)->get_preferred_width (widget, minimum_width, natural_width);
-
-	if (*natural_width > 250)
-		*natural_width = 225;
-}
-
-static void
-ecep_general_organizer_combo_box_constructed (GObject *object)
-{
-	GList *cells, *link;
-
-	G_OBJECT_CLASS (ecep_general_organizer_combo_box_parent_class)->constructed (object);
-
-	cells = gtk_cell_layout_get_cells (GTK_CELL_LAYOUT (object));
-	for (link = cells; link; link = g_list_next (link)) {
-		if (GTK_IS_CELL_RENDERER_TEXT (link->data)) {
-			g_object_set (link->data,
-				"ellipsize", PANGO_ELLIPSIZE_END,
-				NULL);
-		}
-	}
-
-	g_list_free (cells);
-}
-
-static void
-ecep_general_organizer_combo_box_class_init (ECEPGeneralOrganizerComboBoxClass *klass)
-{
-	GtkWidgetClass *widget_class;
-	GObjectClass *object_class;
-
-	widget_class = GTK_WIDGET_CLASS (klass);
-	widget_class->get_preferred_width = ecep_general_organizer_combo_box_get_preferred_width;
-
-	object_class = G_OBJECT_CLASS (klass);
-	object_class->constructed = ecep_general_organizer_combo_box_constructed;
-}
-
-static void
-ecep_general_organizer_combo_box_init (ECEPGeneralOrganizerComboBox *object)
-{
-}
-
-static GtkWidget *
-ecep_general_organizer_combo_box_new (void)
-{
-	return g_object_new (ecep_general_organizer_combo_box_get_type (),
-		"has-entry", FALSE,
-		NULL);
-}
-
-/* End of customized GtkComboBoxText, which doesn't use width as the longest text in it */
-
 static void ecep_general_sensitize_widgets (ECompEditorPage *page,
 					    gboolean force_insensitive);
 
@@ -1353,7 +1281,7 @@ ecep_general_constructed (GObject *object)
 
 	page_general->priv->organizer_hbox = widget;
 
-	widget = ecep_general_organizer_combo_box_new ();
+	widget = e_ellipsized_combo_box_text_new (FALSE);
 	g_object_set (G_OBJECT (widget),
 		"hexpand", TRUE,
 		"halign", GTK_ALIGN_FILL,

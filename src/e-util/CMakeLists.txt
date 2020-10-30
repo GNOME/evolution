@@ -113,6 +113,7 @@ set(SOURCES
 	e-destination-store.c
 	e-dialog-utils.c
 	e-dialog-widgets.c
+	e-ellipsized-combo-box-text.c
 	e-emoticon-action.c
 	e-emoticon-chooser-menu.c
 	e-emoticon-chooser.c
@@ -387,6 +388,7 @@ set(HEADERS
 	e-destination-store.h
 	e-dialog-utils.h
 	e-dialog-widgets.h
+	e-ellipsized-combo-box-text.h
 	e-emoticon-action.h
 	e-emoticon-chooser-menu.h
 	e-emoticon-chooser.h

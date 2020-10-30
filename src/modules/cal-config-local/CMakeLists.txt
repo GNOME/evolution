@@ -1,4 +1,6 @@
-set(extra_deps)
+set(extra_deps
+	evolution-calendar
+)
 set(sources
 	evolution-cal-config-local.c
 )

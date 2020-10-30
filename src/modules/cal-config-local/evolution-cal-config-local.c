@@ -22,7 +22,8 @@
 #include <libebackend/libebackend.h>
 #include <libedataserver/libedataserver.h>
 
-#include <e-util/e-util.h>
+#include "e-util/e-util.h"
+#include "calendar/gui/itip-utils.h"
 
 typedef ESourceConfigBackend ECalConfigLocal;
 typedef ESourceConfigBackendClass ECalConfigLocalClass;
@@ -46,6 +47,22 @@ G_DEFINE_DYNAMIC_TYPE (
 	ECalConfigLocal,
 	e_cal_config_local,
 	E_TYPE_SOURCE_CONFIG_BACKEND)
+
+static void
+cal_config_local_fill_addresses (ESourceRegistry *registry,
+				 GtkComboBoxText *combo_box)
+{
+	gchar **address_strings;
+	gint ii;
+
+	address_strings = itip_get_user_identities (registry);
+
+	for (ii = 0; address_strings && address_strings[ii]; ii++) {
+		gtk_combo_box_text_append_text (combo_box, address_strings[ii]);
+	}
+
+	g_strfreev (address_strings);
+}
 
 static void
 cal_config_local_context_free (Context *context)
@@ -146,98 +163,108 @@ cal_config_local_insert_widgets (ESourceConfigBackend *backend,
 	source_is_builtin |= e_source_equal (scratch_source, builtin_source);
 	g_object_unref (builtin_source);
 
-	if (source_is_builtin)
-		return;
-
-	context = g_slice_new (Context);
-
-	g_object_set_data_full (
-		G_OBJECT (backend), uid, context,
-		(GDestroyNotify) cal_config_local_context_free);
-
-	widget = gtk_check_button_new_with_label (
-		_("Use an existing iCalendar (ics) file"));
-	e_source_config_insert_widget (
-		config, scratch_source, NULL, widget);
-	context->custom_file_checkbox = g_object_ref (widget);
-	gtk_widget_show (widget);
-
-	g_signal_connect_swapped (
-		widget, "toggled",
-		G_CALLBACK (e_source_config_resize_window), config);
-
-	container = e_source_config_get_page (config, scratch_source);
-
-	/* Put some extra padding above and below the header. */
-	widget = gtk_alignment_new (0.0, 0.0, 1.0, 1.0);
-	gtk_alignment_set_padding (GTK_ALIGNMENT (widget), 12, 6, 0, 0);
-	gtk_box_pack_start (GTK_BOX (container), widget, FALSE, FALSE, 0);
-	gtk_widget_show (widget);
-
-	e_binding_bind_property (
-		context->custom_file_checkbox, "active",
-		widget, "visible",
-		G_BINDING_SYNC_CREATE);
-
-	container = widget;
-
-	markup = g_markup_printf_escaped ("<b>%s</b>", _("iCalendar File"));
-	widget = gtk_label_new (markup);
-	gtk_label_set_use_markup (GTK_LABEL (widget), TRUE);
-	gtk_misc_set_alignment (GTK_MISC (widget), 0.0, 0.5);
-	gtk_container_add (GTK_CONTAINER (container), widget);
-	gtk_widget_show (widget);
-	g_free (markup);
-
-	filter = gtk_file_filter_new ();
-	gtk_file_filter_add_mime_type (filter, "text/calendar");
-
-	widget = gtk_file_chooser_button_new (
-		_("Choose an iCalendar file"), GTK_FILE_CHOOSER_ACTION_OPEN);
-	gtk_file_chooser_set_filter (GTK_FILE_CHOOSER (widget), filter);
-	e_source_config_insert_widget (
-		config, scratch_source, _("File:"), widget);
-	context->custom_file_chooser = g_object_ref (widget);
-	gtk_widget_show (widget);
-
-	g_signal_connect (
-		widget, "file-set",
-		G_CALLBACK (cal_config_local_file_set_cb),
-		context->custom_file_checkbox);
-
-	e_binding_bind_property (
-		context->custom_file_checkbox, "active",
-		widget, "visible",
-		G_BINDING_SYNC_CREATE);
-
-	widget = gtk_check_button_new_with_label (
-		_("Allow Evolution to update the file"));
-	e_source_config_insert_widget (
-		config, scratch_source, NULL, widget);
-	context->writable_checkbox = g_object_ref (widget);
-	gtk_widget_show (widget);
-
-	e_binding_bind_property (
-		context->custom_file_checkbox, "active",
-		widget, "visible",
-		G_BINDING_SYNC_CREATE);
-
 	extension_name = E_SOURCE_EXTENSION_LOCAL_BACKEND;
 	extension = e_source_get_extension (scratch_source, extension_name);
 
-	e_binding_bind_property_full (
-		extension, "custom-file",
-		context->custom_file_checkbox, "active",
-		G_BINDING_BIDIRECTIONAL |
-		G_BINDING_SYNC_CREATE,
-		cal_config_local_custom_file_to_active,
-		cal_config_local_active_to_custom_file,
-		context, (GDestroyNotify) NULL);
+	if (!source_is_builtin) {
+		context = g_slice_new (Context);
 
-	e_binding_bind_property (
-		extension, "writable",
-		context->writable_checkbox, "active",
-		G_BINDING_BIDIRECTIONAL | G_BINDING_SYNC_CREATE);
+		g_object_set_data_full (
+			G_OBJECT (backend), uid, context,
+			(GDestroyNotify) cal_config_local_context_free);
+
+		widget = gtk_check_button_new_with_label (
+			_("Use an existing iCalendar (ics) file"));
+		e_source_config_insert_widget (
+			config, scratch_source, NULL, widget);
+		context->custom_file_checkbox = g_object_ref (widget);
+		gtk_widget_show (widget);
+
+		g_signal_connect_swapped (
+			widget, "toggled",
+			G_CALLBACK (e_source_config_resize_window), config);
+
+		container = e_source_config_get_page (config, scratch_source);
+
+		/* Put some extra padding above and below the header. */
+		widget = gtk_alignment_new (0.0, 0.0, 1.0, 1.0);
+		gtk_alignment_set_padding (GTK_ALIGNMENT (widget), 12, 6, 0, 0);
+		gtk_box_pack_start (GTK_BOX (container), widget, FALSE, FALSE, 0);
+		gtk_widget_show (widget);
+
+		e_binding_bind_property (
+			context->custom_file_checkbox, "active",
+			widget, "visible",
+			G_BINDING_SYNC_CREATE);
+
+		container = widget;
+
+		markup = g_markup_printf_escaped ("<b>%s</b>", _("iCalendar File"));
+		widget = gtk_label_new (markup);
+		gtk_label_set_use_markup (GTK_LABEL (widget), TRUE);
+		gtk_misc_set_alignment (GTK_MISC (widget), 0.0, 0.5);
+		gtk_container_add (GTK_CONTAINER (container), widget);
+		gtk_widget_show (widget);
+		g_free (markup);
+
+		filter = gtk_file_filter_new ();
+		gtk_file_filter_add_mime_type (filter, "text/calendar");
+
+		widget = gtk_file_chooser_button_new (
+			_("Choose an iCalendar file"), GTK_FILE_CHOOSER_ACTION_OPEN);
+		gtk_file_chooser_set_filter (GTK_FILE_CHOOSER (widget), filter);
+		e_source_config_insert_widget (
+			config, scratch_source, _("File:"), widget);
+		context->custom_file_chooser = g_object_ref (widget);
+		gtk_widget_show (widget);
+
+		g_signal_connect (
+			widget, "file-set",
+			G_CALLBACK (cal_config_local_file_set_cb),
+			context->custom_file_checkbox);
+
+		e_binding_bind_property (
+			context->custom_file_checkbox, "active",
+			widget, "visible",
+			G_BINDING_SYNC_CREATE);
+
+		widget = gtk_check_button_new_with_label (
+			_("Allow Evolution to update the file"));
+		e_source_config_insert_widget (
+			config, scratch_source, NULL, widget);
+		context->writable_checkbox = g_object_ref (widget);
+		gtk_widget_show (widget);
+
+		e_binding_bind_property (
+			context->custom_file_checkbox, "active",
+			widget, "visible",
+			G_BINDING_SYNC_CREATE);
+
+		e_binding_bind_property_full (
+			extension, "custom-file",
+			context->custom_file_checkbox, "active",
+			G_BINDING_BIDIRECTIONAL |
+			G_BINDING_SYNC_CREATE,
+			cal_config_local_custom_file_to_active,
+			cal_config_local_active_to_custom_file,
+			context, (GDestroyNotify) NULL);
+
+		e_binding_bind_property (
+			extension, "writable",
+			context->writable_checkbox, "active",
+			G_BINDING_BIDIRECTIONAL | G_BINDING_SYNC_CREATE);
+	}
+
+	widget = e_ellipsized_combo_box_text_new (TRUE);
+	cal_config_local_fill_addresses (registry, GTK_COMBO_BOX_TEXT (widget));
+	e_source_config_insert_widget (config, scratch_source, _("Email:"), widget);
+	gtk_widget_show (widget);
+
+	e_binding_bind_object_text_property (
+		extension, "email-address",
+		gtk_bin_get_child (GTK_BIN (widget)), "text",
+		G_BINDING_BIDIRECTIONAL |
+		G_BINDING_SYNC_CREATE);
 }
 
 static gboolean
