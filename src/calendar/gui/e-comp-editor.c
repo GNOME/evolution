@@ -2953,6 +2953,7 @@ e_comp_editor_extract_email_address (const gchar *email_address)
 	} else {
 		address = g_strdup (email_address);
 	}
+	g_object_unref (addr);
 
 	return address;
 }
