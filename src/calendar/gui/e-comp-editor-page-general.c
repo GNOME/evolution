@@ -34,6 +34,8 @@
 
 #include "e-comp-editor-page-general.h"
 
+#define BACKEND_EMAIL_ID "backend-email-id"
+
 struct _ECompEditorPageGeneralPrivate {
 	GtkWidget *source_label;
 	GtkWidget *source_combo_box;
@@ -550,9 +552,39 @@ ecep_general_get_organizer (ECompEditorPageGeneral *page_general,
 	return valid;
 }
 
+static void
+ecep_general_remove_organizer_backend_address (GtkComboBox *combo_box)
+{
+	GtkTreeModel *model;
+	GtkTreeIter iter;
+
+	model = gtk_combo_box_get_model (combo_box);
+
+	if (gtk_tree_model_get_iter_first (model, &iter)) {
+		gint id_column;
+
+		id_column = gtk_combo_box_get_id_column (combo_box);
+
+		do {
+			gchar *value = NULL;
+
+			gtk_tree_model_get (model, &iter, id_column, &value, -1);
+
+			if (g_strcmp0 (value, BACKEND_EMAIL_ID) == 0) {
+				g_free (value);
+				gtk_list_store_remove (GTK_LIST_STORE (model), &iter);
+				break;
+			}
+
+			g_free (value);
+		} while (gtk_tree_model_iter_next (model, &iter));
+	}
+}
+
 static gboolean
 ecep_general_pick_organizer_for_email_address (ECompEditorPageGeneral *page_general,
-					       const gchar *email_address)
+					       const gchar *email_address,
+					       gboolean can_add)
 {
 	GtkTreeModel *model;
 	GtkTreeIter iter;
@@ -561,35 +593,51 @@ ecep_general_pick_organizer_for_email_address (ECompEditorPageGeneral *page_gene
 
 	g_return_val_if_fail (E_IS_COMP_EDITOR_PAGE_GENERAL (page_general), FALSE);
 
-	email_address = itip_strip_mailto (email_address);
-
-	if (!email_address || !*email_address)
-		return FALSE;
-
 	combo_box = GTK_COMBO_BOX (page_general->priv->organizer_combo_box);
 	model = gtk_combo_box_get_model (combo_box);
+
+	if (can_add)
+		ecep_general_remove_organizer_backend_address (combo_box);
+
+	email_address = itip_strip_mailto (email_address);
+
+	if (!email_address || !*email_address) {
+		if (can_add && gtk_combo_box_get_active (combo_box) == -1 &&
+		    gtk_tree_model_get_iter_first (model, &iter))
+			gtk_combo_box_set_active (combo_box, 0);
+
+		return FALSE;
+	}
+
 	entry_text_column = gtk_combo_box_get_entry_text_column (combo_box);
 
-	if (!gtk_tree_model_get_iter_first (model, &iter))
-		return FALSE;
+	if (gtk_tree_model_get_iter_first (model, &iter)) {
+		ii = 0;
 
-	ii = 0;
+		do {
+			gchar *value = NULL;
 
-	do {
-		gchar *value = NULL;
+			gtk_tree_model_get (model, &iter, entry_text_column, &value, -1);
 
-		gtk_tree_model_get (model, &iter, entry_text_column, &value, -1);
+			if (value && g_strrstr (value, email_address)) {
+				g_free (value);
+				gtk_combo_box_set_active (combo_box, ii);
+				return TRUE;
+			}
 
-		if (value && g_strrstr (value, email_address)) {
 			g_free (value);
-			gtk_combo_box_set_active (combo_box, ii);
-			return TRUE;
-		}
 
-		g_free (value);
+			ii++;
+		} while (gtk_tree_model_iter_next (model, &iter));
+	}
 
-		ii++;
-	} while (gtk_tree_model_iter_next (model, &iter));
+	if (can_add) {
+		/* The expected address is not in the list, thus add it */
+		gtk_combo_box_text_append (GTK_COMBO_BOX_TEXT (combo_box), BACKEND_EMAIL_ID, email_address);
+		gtk_combo_box_set_active (combo_box, ii);
+
+		return TRUE;
+	}
 
 	return FALSE;
 }
@@ -608,7 +656,7 @@ ecep_general_target_client_notify_cb (ECompEditor *comp_editor,
 		const gchar *cal_email_address;
 
 		cal_email_address = e_comp_editor_get_cal_email_address (comp_editor);
-		ecep_general_pick_organizer_for_email_address (page_general, cal_email_address);
+		ecep_general_pick_organizer_for_email_address (page_general, cal_email_address, TRUE);
 	}
 
 	if (page_general->priv->comp_color) {
@@ -979,7 +1027,7 @@ ecep_general_fill_widgets (ECompEditorPage *page,
 				value = g_strdup (itip_strip_mailto (organizer));
 
 			if (!(flags & E_COMP_EDITOR_FLAG_ORGANIZER_IS_USER) ||
-			    !ecep_general_pick_organizer_for_email_address (page_general, organizer)) {
+			    !ecep_general_pick_organizer_for_email_address (page_general, organizer, FALSE)) {
 				GtkComboBoxText *combo_box_text;
 
 				combo_box_text = GTK_COMBO_BOX_TEXT (page_general->priv->organizer_combo_box);
