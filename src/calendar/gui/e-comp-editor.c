@@ -73,6 +73,8 @@ struct _ECompEditorPrivate {
 	ECompEditorPropertyPart *dtend_part;
 
 	GtkWidget *restore_focus;
+
+	gulong target_backend_property_change_id;
 };
 
 enum {
@@ -1168,6 +1170,15 @@ update_activity_bar_cb (gpointer user_data)
 }
 
 static void
+e_comp_editor_disconnect_target_backend_property_change_handler (ECompEditor *comp_editor)
+{
+	if (comp_editor->priv->target_client && comp_editor->priv->target_backend_property_change_id) {
+		g_signal_handler_disconnect (comp_editor->priv->target_client, comp_editor->priv->target_backend_property_change_id);
+		comp_editor->priv->target_backend_property_change_id = 0;
+	}
+}
+
+static void
 e_comp_editor_open_target_client (ECompEditor *comp_editor)
 {
 	OpenTargetClientData *otc;
@@ -1196,6 +1207,7 @@ e_comp_editor_open_target_client (ECompEditor *comp_editor)
 		g_clear_object (&comp_editor->priv->target_client_opening);
 	}
 
+	e_comp_editor_disconnect_target_backend_property_change_handler (comp_editor);
 	is_target_client_change = comp_editor->priv->target_client != NULL;
 	g_clear_object (&comp_editor->priv->target_client);
 
@@ -2439,6 +2451,7 @@ e_comp_editor_dispose (GObject *object)
 
 	g_clear_object (&comp_editor->priv->component);
 
+	e_comp_editor_disconnect_target_backend_property_change_handler (comp_editor);
 	ece_connect_time_parts (comp_editor, NULL, NULL);
 
 	g_clear_object (&comp_editor->priv->origin_source);
@@ -3055,6 +3068,25 @@ e_comp_editor_get_target_client (ECompEditor *comp_editor)
 	return comp_editor->priv->target_client;
 }
 
+static void
+comp_editor_target_backend_property_changed_cb (EClient *client,
+						const gchar *property_name,
+						const gchar *property_value,
+						gpointer user_data)
+{
+	ECompEditor *comp_editor = user_data;
+
+	g_return_if_fail (E_IS_COMP_EDITOR (comp_editor));
+
+	if (!g_direct_equal (client, comp_editor->priv->target_client))
+		return;
+
+	if (g_strcmp0 (property_name, E_CAL_BACKEND_PROPERTY_CAL_EMAIL_ADDRESS) == 0)
+		e_comp_editor_set_cal_email_address (comp_editor, property_value);
+	else if (g_strcmp0 (property_name, E_CAL_BACKEND_PROPERTY_ALARM_EMAIL_ADDRESS) == 0)
+		e_comp_editor_set_alarm_email_address (comp_editor, property_value);
+}
+
 void
 e_comp_editor_set_target_client (ECompEditor *comp_editor,
 				 ECalClient *client)
@@ -3066,6 +3098,8 @@ e_comp_editor_set_target_client (ECompEditor *comp_editor,
 
 	if (client)
 		g_object_ref (client);
+
+	e_comp_editor_disconnect_target_backend_property_change_handler (comp_editor);
 	g_clear_object (&comp_editor->priv->target_client);
 	comp_editor->priv->target_client = client;
 
@@ -3073,6 +3107,10 @@ e_comp_editor_set_target_client (ECompEditor *comp_editor,
 	    e_source_equal (e_client_get_source (E_CLIENT (client)), comp_editor->priv->origin_source))
 		e_comp_editor_set_source_client (comp_editor, client);
 
+	if (client) {
+		comp_editor->priv->target_backend_property_change_id = g_signal_connect (client,
+			"backend-property-changed", G_CALLBACK (comp_editor_target_backend_property_changed_cb), comp_editor);
+	}
 	e_comp_editor_sensitize_widgets (comp_editor);
 
 	g_object_notify (G_OBJECT (comp_editor), "target-client");
