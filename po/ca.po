@@ -1619,7 +1619,7 @@ msgid ""
 msgstr ""
 "Quan s'estableix en cert, els missatges de text pla nous tindran el mode de "
 "paràgraf preformatat prèviament seleccionat. El mode de paràgraf normal "
-"s’utilitzarà quan ho ajusteu a fals."
+"s'utilitzarà quan ho ajusteu a fals."
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:84
 msgid "Whether to obey Content-Disposition:inline message header hint"
@@ -2111,7 +2111,7 @@ msgid ""
 "to use the same language as the user interface."
 msgstr ""
 "Reenvia i respon una etiqueta de llengua, com ara ca_ES. La cadena buida "
-"significa utilitzar el mateix idioma que la interfície d’usuari."
+"significa utilitzar el mateix idioma que la interfície d'usuari."
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:173
 msgid "Prompt on send when using key accelerator (Ctrl+Enter)"
@@ -3434,7 +3434,7 @@ msgid ""
 "selection is escaped and appended to this string. The URI should start with "
 "https://."
 msgstr ""
-"El prefix d’un URL a usar per a fer cerques a la web. La selecció de text "
+"El prefix d'un URL a usar per a fer cerques a la web. La selecció de text "
 "actual s'escapa i s'afegeix a aquesta cadena. L'URI ha de començar amb "
 "https://."
 
