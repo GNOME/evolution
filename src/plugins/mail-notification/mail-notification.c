@@ -42,6 +42,7 @@
 #include <mail/em-utils.h>
 #include <mail/em-event.h>
 #include <mail/em-folder-tree.h>
+#include <mail/message-list.h>
 #include <shell/e-shell-view.h>
 
 #ifdef HAVE_LIBNOTIFY
@@ -363,16 +364,46 @@ notification_callback (NotifyNotification *notification)
 
 /* -------------------------------------------------------------------  */
 
+typedef struct _NotifyDefaultActionData NotifyDefaultActionData;
+
+struct _NotifyDefaultActionData {
+	gchar *folder_uri;
+	gchar *msg_uid;
+};
+
+static NotifyDefaultActionData *
+notify_default_action_data_new (const gchar *folder_uri,
+                                const gchar *msg_uid)
+{
+	NotifyDefaultActionData *result;
+	result = g_slice_new (NotifyDefaultActionData);
+	result->folder_uri = g_strdup (folder_uri);
+	result->msg_uid = g_strdup (msg_uid);
+	return result;
+}
+
+static void
+notify_default_action_free_cb (gpointer user_data)
+{
+	NotifyDefaultActionData *data = user_data;
+	g_free (data->folder_uri);
+	g_free (data->msg_uid);
+	g_slice_free (NotifyDefaultActionData, data);
+}
+
 static void
 notify_default_action_cb (NotifyNotification *notification,
-                          const gchar *label,
-                          const gchar *folder_uri)
+                          gchar *label,
+                          gpointer user_data)
 {
+	NotifyDefaultActionData *data = user_data;
 	EShell *shell;
 	EShellView *shell_view;
 	EShellWindow *shell_window;
 	EShellSidebar *shell_sidebar;
+	EMailReader *shell_reader;
 	EMFolderTree *folder_tree;
+	MessageList *message_list;
 	GtkApplication *application;
 	GtkAction *action;
 	GList *list, *fallback = NULL;
@@ -414,7 +445,14 @@ notify_default_action_cb (NotifyNotification *notification,
 	/* Select the latest folder with new mail. */
 	shell_sidebar = e_shell_view_get_shell_sidebar (shell_view);
 	g_object_get (shell_sidebar, "folder-tree", &folder_tree, NULL);
-	em_folder_tree_set_selected (folder_tree, folder_uri, FALSE);
+	em_folder_tree_set_selected (folder_tree, data->folder_uri, FALSE);
+
+	if (data->msg_uid) {
+		/* Select the message. */
+		shell_reader = E_MAIL_READER (e_shell_view_get_shell_content (shell_view));
+		message_list = MESSAGE_LIST (e_mail_reader_get_message_list (shell_reader));
+		message_list_select_uid (message_list, data->msg_uid, TRUE);
+	}
 
 	remove_notification ();
 }
@@ -538,29 +576,29 @@ new_notify_status (EMEventTargetFolder *t)
 				notify, "sound-name",
 				g_variant_new_string ("message-new-email"));
 		}
+	}
 
-		/* Check if actions are supported */
-		if (can_support_actions ()) {
-			gchar *label;
-			gchar *folder_uri;
+	/* Check if actions are supported */
+	if (can_support_actions ()) {
+		gchar *label;
+		NotifyDefaultActionData *data;
 
-			/* NotifyAction takes ownership. */
-			folder_uri = g_strdup (t->folder_name);
+		/* NotifyAction takes ownership. */
+		data = notify_default_action_data_new (t->folder_name, t->msg_uid);
 
-			label = g_strdup_printf (
-				/* Translators: The '%s' is a mail
-				 * folder name.  (e.g. "Show Inbox") */
-				_("Show %s"), t->display_name);
+		label = g_strdup_printf (
+			/* Translators: The '%s' is a mail
+			 * folder name.  (e.g. "Show Inbox") */
+			_("Show %s"), t->display_name);
 
-			notify_notification_add_action (
-				notify, "default", label,
-				(NotifyActionCallback)
-				notify_default_action_cb,
-				folder_uri,
-				(GFreeFunc) g_free);
+		notify_notification_clear_actions (notify);
+		notify_notification_add_action (
+			notify, "default", label,
+			notify_default_action_cb,
+			data,
+			notify_default_action_free_cb);
 
-			g_free (label);
-		}
+		g_free (label);
 	}
 
 	g_idle_add_full (
