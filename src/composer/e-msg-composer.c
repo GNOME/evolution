@@ -3121,8 +3121,13 @@ e_msg_composer_flush_pending_body (EMsgComposer *composer)
 	is_html = GPOINTER_TO_INT (
 		g_object_get_data (G_OBJECT (composer), "body:text_mime_type"));
 
-	if (body != NULL)
-		set_editor_text (composer, body, is_html, FALSE);
+	if (body != NULL) {
+		const gchar *signature_uid;
+
+		signature_uid = e_composer_header_table_get_signature_uid (e_msg_composer_get_header_table (composer));
+
+		set_editor_text (composer, body, is_html, g_strcmp0 (signature_uid, "none") != 0);
+	}
 
 	g_object_set_data (G_OBJECT (composer), "body:text", NULL);
 }
