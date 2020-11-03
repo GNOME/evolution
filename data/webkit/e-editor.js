@@ -2412,7 +2412,7 @@ EvoEditor.convertHtmlToSend = function()
 	var html, bgcolor, text, link, vlink;
 	var unsetBgcolor = false, unsetText = false, unsetLink = false, unsetVlink = false;
 	var themeCss, inheritThemeColors = EvoEditor.inheritThemeColors;
-	var ii, styles, styleNode = null, topSignatureSpacers, elems;
+	var ii, styles, styleNode = null, topSignatureSpacers, signatureWrappers, signatures, signatureIds, elems;
 
 	themeCss = EvoEditor.UpdateThemeStyleSheet(null);
 	bgcolor = document.documentElement.getAttribute("x-evo-bgcolor");
@@ -2426,9 +2426,21 @@ EvoEditor.convertHtmlToSend = function()
 	document.documentElement.removeAttribute("x-evo-vlink");
 
 	topSignatureSpacers = document.querySelectorAll(".-x-evo-top-signature-spacer");
-
 	for (ii = topSignatureSpacers.length - 1; ii >= 0; ii--) {
 		topSignatureSpacers[ii].removeAttribute("class");
+	}
+
+	signatureWrappers = document.querySelectorAll(".-x-evo-signature-wrapper");
+	for (ii = signatureWrappers.length - 1; ii >= 0; ii--) {
+		signatureWrappers[ii].removeAttribute("class");
+	}
+
+	signatures = document.querySelectorAll(".-x-evo-signature");
+	signatureIds = [];
+	for (ii = signatures.length - 1; ii >= 0; ii--) {
+		signatureIds[signatures.length - ii - 1] = signatures[ii].id;
+		signatures[ii].removeAttribute("class");
+		signatures[ii].removeAttribute("id");
 	}
 
 	if (inheritThemeColors) {
@@ -2516,6 +2528,15 @@ EvoEditor.convertHtmlToSend = function()
 			elem.className = "-x-evo-top-signature-spacer";
 			break;
 		}
+	}
+
+	for (ii = signatures.length - 1; ii >= 0; ii--) {
+		signatures[ii].className = "-x-evo-signature";
+		signatures[ii].id = signatureIds[signatures.length - ii - 1];
+	}
+
+	for (ii = signatureWrappers.length - 1; ii >= 0; ii--) {
+		signatureWrappers[ii].className = "-x-evo-signature-wrapper";
 	}
 
 	if (themeCss)
