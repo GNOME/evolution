@@ -2077,9 +2077,9 @@ EvoEditor.SetNormalParagraphWidth = function(value)
 EvoEditor.moveNodeContent = function(node, intoNode)
 {
 	if (!node || !node.parentElement)
-		return;
+		return null;
 
-	var parent = node.parentElement;
+	var parent = node.parentElement, firstChild = node.firstChild;
 
 	while (node.firstChild) {
 		if (intoNode) {
@@ -2088,6 +2088,8 @@ EvoEditor.moveNodeContent = function(node, intoNode)
 			parent.insertBefore(node.firstChild, node);
 		}
 	}
+
+	return firstChild;
 }
 
 EvoEditor.convertTags = function()
@@ -2134,7 +2136,10 @@ EvoEditor.convertTags = function()
 	while (node) {
 		var removeNode = false;
 
-		if (node.nodeType == node.ELEMENT_NODE) {
+		next = null;
+
+		/* Keep the signature SPAN there, it's required */
+		if (node.nodeType == node.ELEMENT_NODE && (node.tagName != "SPAN" || node.className != "-x-evo-signature")) {
 			if (node.tagName != "DIV" &&
 			    node.tagName != "PRE" &&
 			    node.tagName != "BLOCKQUOTE" &&
@@ -2150,15 +2155,12 @@ EvoEditor.convertTags = function()
 					EvoEditor.moveNodeContent(node, div);
 					node.parentElement.insertBefore(div, node.nextSibling);
 				} else {
-					EvoEditor.moveNodeContent(node);
+					next = EvoEditor.moveNodeContent(node);
 				}
 			}
 		}
 
-		// skip the signature wrapper
-		if (!removeNode && node.tagName == "DIV" && node.className == "-x-evo-signature-wrapper")
-			next = node.nextSibling;
-		else
+		if (!next)
 			next = EvoEditor.getNextNodeInHierarchy(node, document.body);
 
 		if (removeNode)

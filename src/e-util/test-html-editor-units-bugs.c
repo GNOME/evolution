@@ -1969,6 +1969,80 @@ test_issue_1197 (TestFixture *fixture)
 	}
 }
 
+static void
+test_issue_913 (TestFixture *fixture)
+{
+	if (!test_utils_process_commands (fixture,
+		"mode:html\n")) {
+		g_test_fail ();
+		return;
+	}
+
+	if (!test_utils_run_simple_test (fixture,
+		"type:aa \n"
+		"action:size-plus-two\n"
+		"type:bb \n"
+		"action:bold\n"
+		"type:cc\n"
+		"action:bold\n"
+		"type: dd\n"
+		"action:size-plus-zero\n"
+		"type:\\nee\n",
+		HTML_PREFIX
+		"<div>aa <font size=\"5\">bb <b>cc</b> dd</font></div>"
+		"<div><font size=\"3\">ee</font></div>"
+		HTML_SUFFIX,
+		"aa bb cc dd\n"
+		"ee\n")) {
+		g_test_fail ();
+		return;
+	}
+
+	test_utils_insert_signature (fixture,
+		"<div>tt <b>uu <i>vv</i> <font size=\"2\">ww</font> xx</b> yy</div>",
+		TRUE, "UID", FALSE, FALSE, TRUE);
+
+	if (!test_utils_run_simple_test (fixture,
+		"",
+		HTML_PREFIX
+		"<div>aa <font size=\"5\">bb <b>cc</b> dd</font></div>"
+		"<div><font size=\"3\">ee</font></div>"
+		"<div><br></div>"
+		"<div class=\"-x-evo-signature-wrapper\"><span class=\"-x-evo-signature\" id=\"UID\">"
+		"<pre>-- <br></pre>"
+		"<div>tt <b>uu <i>vv</i> <font size=\"2\">ww</font> xx</b> yy</div>"
+		"</span></div>"
+		HTML_SUFFIX,
+		"aa bb cc dd\n"
+		"ee\n"
+		"\n"
+		"-- \n"
+		"tt uu vv ww xx yy\n")) {
+		g_test_fail ();
+		return;
+	}
+
+	if (!test_utils_run_simple_test (fixture,
+		"mode:plain\n",
+		HTML_PREFIX
+		"<div style=\"width: 71ch;\">aa bb cc dd</div>"
+		"<div style=\"width: 71ch;\">ee</div>"
+		"<div style=\"width: 71ch;\"><br></div>"
+		"<div style=\"width: 71ch;\" class=\"-x-evo-signature-wrapper\"><span class=\"-x-evo-signature\" id=\"UID\">"
+		"<pre>-- <br></pre>"
+		"<div>tt uu vv ww xx yy</div>"
+		"</span></div>"
+		HTML_SUFFIX,
+		"aa bb cc dd\n"
+		"ee\n"
+		"\n"
+		"-- \n"
+		"tt uu vv ww xx yy\n")) {
+		g_test_fail ();
+		return;
+	}
+}
+
 void
 test_add_html_editor_bug_tests (void)
 {
@@ -2004,4 +2078,5 @@ test_add_html_editor_bug_tests (void)
 	test_utils_add_test ("/issue/884", test_issue_884);
 	test_utils_add_test ("/issue/783", test_issue_783);
 	test_utils_add_test ("/issue/1197", test_issue_1197);
+	test_utils_add_test ("/issue/913", test_issue_913);
 }
