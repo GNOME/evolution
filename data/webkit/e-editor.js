@@ -3174,16 +3174,42 @@ EvoEditor.beforeInputCb = function(inputEvent)
 			EvoUndoRedo.StartRecord(EvoUndoRedo.RECORD_KIND_EVENT, inputEvent.inputType, selection.anchorNode, selection.anchorNode,
 				EvoEditor.CLAIM_CONTENT_FLAG_SAVE_HTML | EvoEditor.CLAIM_CONTENT_FLAG_USE_PARENT_BLOCK_NODE);
 			try {
-				var next = selection.anchorNode.nextSibling;
+				var next, offset = 0;
 
-				if (!next)
+				if (inputEvent.inputType == "deleteContentBackward") {
 					next = selection.anchorNode.previousSibling;
-				if (!next)
+					if (next) {
+						while (next.lastChild) {
+							next = next.lastChild;
+						}
+
+						if (next.nodeType == next.TEXT_NODE)
+							offset = next.nodeValue.length;
+
+					} else {
+						next = selection.anchorNode.nextSibling;
+					}
+				} else {
+					next = selection.anchorNode.nextSibling;
+					if (!next)
+						next = selection.anchorNode.previousSibling;
+				}
+
+				if (!next) {
 					next = selection.anchorNode.parentElement;
+					if (next && inputEvent.inputType == "deleteContentBackward") {
+						while (next.lastChild) {
+							next = next.lastChild;
+						}
+
+						if (next.nodeType == next.TEXT_NODE)
+							offset = next.nodeValue.length;
+					}
+				}
 
 				selection.anchorNode.remove();
 
-				selection.setPosition(next, 0);
+				selection.setPosition(next, offset);
 			} finally {
 				EvoUndoRedo.StopRecord(EvoUndoRedo.RECORD_KIND_EVENT, inputEvent.inputType);
 			}

@@ -1788,6 +1788,187 @@ test_issue_783 (TestFixture *fixture)
 	}
 }
 
+static void
+test_issue_1197 (TestFixture *fixture)
+{
+	if (!test_utils_run_simple_test (fixture,
+		"mode:plain\n"
+		"type:a\\n\\n\\n\\nb\n"
+		"seq:uub\n"
+		"type:c\n",
+		HTML_PREFIX
+		"<div style=\"width: 71ch;\">a</div>"
+		"<div style=\"width: 71ch;\">c</div>"
+		"<div style=\"width: 71ch;\"><br></div>"
+		"<div style=\"width: 71ch;\">b</div>"
+		HTML_SUFFIX,
+		"a\n"
+		"c\n"
+		"\n"
+		"b\n")) {
+		g_test_fail ();
+		return;
+	}
+
+	if (!test_utils_run_simple_test (fixture,
+		"seq:b\n",
+		HTML_PREFIX
+		"<div style=\"width: 71ch;\">a</div>"
+		"<div style=\"width: 71ch;\"><br></div>"
+		"<div style=\"width: 71ch;\"><br></div>"
+		"<div style=\"width: 71ch;\">b</div>"
+		HTML_SUFFIX,
+		"a\n"
+		"\n"
+		"\n"
+		"b\n")) {
+		g_test_fail ();
+		return;
+	}
+
+	if (!test_utils_run_simple_test (fixture,
+		"seq:b\n"
+		"type:d\n",
+		HTML_PREFIX
+		"<div style=\"width: 71ch;\">ad</div>"
+		"<div style=\"width: 71ch;\"><br></div>"
+		"<div style=\"width: 71ch;\">b</div>"
+		HTML_SUFFIX,
+		"ad\n"
+		"\n"
+		"b\n")) {
+		g_test_fail ();
+		return;
+	}
+
+	if (!test_utils_run_simple_test (fixture,
+		"seq:bnn\n",
+		HTML_PREFIX
+		"<div style=\"width: 71ch;\">a</div>"
+		"<div style=\"width: 71ch;\"><br></div>"
+		"<div style=\"width: 71ch;\"><br></div>"
+		"<div style=\"width: 71ch;\"><br></div>"
+		"<div style=\"width: 71ch;\">b</div>"
+		HTML_SUFFIX,
+		"a\n"
+		"\n"
+		"\n"
+		"\n"
+		"b\n")) {
+		g_test_fail ();
+		return;
+	}
+
+	if (!test_utils_run_simple_test (fixture,
+		"type:e\n",
+		HTML_PREFIX
+		"<div style=\"width: 71ch;\">a</div>"
+		"<div style=\"width: 71ch;\"><br></div>"
+		"<div style=\"width: 71ch;\">e</div>"
+		"<div style=\"width: 71ch;\"><br></div>"
+		"<div style=\"width: 71ch;\">b</div>"
+		HTML_SUFFIX,
+		"a\n"
+		"\n"
+		"e\n"
+		"\n"
+		"b\n")) {
+		g_test_fail ();
+		return;
+	}
+
+	if (!test_utils_run_simple_test (fixture,
+		"seq:lDD\n"
+		"type:f\n",
+		HTML_PREFIX
+		"<div style=\"width: 71ch;\">a</div>"
+		"<div style=\"width: 71ch;\"><br></div>"
+		"<div style=\"width: 71ch;\">f</div>"
+		"<div style=\"width: 71ch;\">b</div>"
+		HTML_SUFFIX,
+		"a\n"
+		"\n"
+		"f\n"
+		"b\n")) {
+		g_test_fail ();
+		return;
+	}
+
+	if (!test_utils_run_simple_test (fixture,
+		"seq:bD\n"
+		"type:g\n",
+		HTML_PREFIX
+		"<div style=\"width: 71ch;\">a</div>"
+		"<div style=\"width: 71ch;\"><br></div>"
+		"<div style=\"width: 71ch;\">gb</div>"
+		HTML_SUFFIX,
+		"a\n"
+		"\n"
+		"gb\n")) {
+		g_test_fail ();
+		return;
+	}
+
+	if (!test_utils_run_simple_test (fixture,
+		"seq:bunnuuue\n"
+		"mode:html\n"
+		"type: \n"
+		"action:bold\n"
+		"type:bold\n"
+		"action:bold\n"
+		"type: hh\n"
+		"seq:dd",
+		HTML_PREFIX
+		"<div>a <b>bold</b> hh</div>"
+		"<div><br></div>"
+		"<div><br></div>"
+		"<div><br></div>"
+		"<div>b</div>"
+		HTML_SUFFIX,
+		"a bold hh\n"
+		"\n"
+		"\n"
+		"\n"
+		"b\n")) {
+		g_test_fail ();
+		return;
+	}
+
+	if (!test_utils_run_simple_test (fixture,
+		"type:i\n",
+		HTML_PREFIX
+		"<div>a <b>bold</b> hh</div>"
+		"<div><br></div>"
+		"<div>i</div>"
+		"<div><br></div>"
+		"<div>b</div>"
+		HTML_SUFFIX,
+		"a bold hh\n"
+		"\n"
+		"i\n"
+		"\n"
+		"b\n")) {
+		g_test_fail ();
+		return;
+	}
+
+
+	if (!test_utils_run_simple_test (fixture,
+		"seq:bbb\n"
+		"type:j\n",
+		HTML_PREFIX
+		"<div>a <b>bold</b> hhj</div>"
+		"<div><br></div>"
+		"<div>b</div>"
+		HTML_SUFFIX,
+		"a bold hhj\n"
+		"\n"
+		"b\n")) {
+		g_test_fail ();
+		return;
+	}
+}
+
 void
 test_add_html_editor_bug_tests (void)
 {
@@ -1822,4 +2003,5 @@ test_add_html_editor_bug_tests (void)
 	test_utils_add_test ("/issue/107", test_issue_107);
 	test_utils_add_test ("/issue/884", test_issue_884);
 	test_utils_add_test ("/issue/783", test_issue_783);
+	test_utils_add_test ("/issue/1197", test_issue_1197);
 }
