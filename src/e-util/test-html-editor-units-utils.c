@@ -773,7 +773,7 @@ test_utils_html_equal (TestFixture *fixture,
 		"}\n"
 		"EvoEditorTest.isHTMLEqual(%s, %s);", html1, html2);
 
-	hed.async_data = test_utils_async_call_prepare();
+	hed.async_data = test_utils_async_call_prepare ();
 	hed.equal = FALSE;
 
 	webkit_web_view_run_javascript (WEBKIT_WEB_VIEW (cnt_editor), script, NULL,
@@ -1332,4 +1332,75 @@ test_utils_dup_image_uri (const gchar *path)
 	g_assert_nonnull (image_uri);
 
 	return image_uri;
+}
+
+static void
+test_utils_insert_signature_done_cb (GObject *source_object,
+				     GAsyncResult *result,
+				     gpointer user_data)
+{
+	gpointer async_data = user_data;
+	WebKitJavascriptResult *js_result;
+	JSCException *exception;
+	JSCValue *js_value;
+	GError *error = NULL;
+
+	g_return_if_fail (async_data != NULL);
+
+	js_result = webkit_web_view_run_javascript_finish (WEBKIT_WEB_VIEW (source_object), result, &error);
+
+	g_assert_no_error (error);
+	g_clear_error (&error);
+
+	g_assert_nonnull (js_result);
+
+	js_value = webkit_javascript_result_get_js_value (js_result);
+	g_assert_nonnull (js_value);
+
+	exception = jsc_context_get_exception (jsc_value_get_context (js_value));
+
+	if (exception) {
+		g_warning ("Failed to call EvoEditor.InsertSignature: %s", jsc_exception_get_message (exception));
+		jsc_context_clear_exception (jsc_value_get_context (js_value));
+	}
+
+	webkit_javascript_result_unref (js_result);
+
+	test_utils_async_call_finish (async_data);
+}
+
+void
+test_utils_insert_signature (TestFixture *fixture,
+			     const gchar *content,
+			     gboolean is_html,
+			     const gchar *uid,
+			     gboolean start_bottom,
+			     gboolean top_signature,
+			     gboolean add_delimiter)
+{
+	EContentEditor *cnt_editor;
+	gchar *script;
+	gpointer async_data;
+
+	g_return_if_fail (fixture != NULL);
+	g_return_if_fail (E_IS_HTML_EDITOR (fixture->editor));
+	g_return_if_fail (content != NULL);
+	g_return_if_fail (uid != NULL);
+
+	cnt_editor = e_html_editor_get_content_editor (fixture->editor);
+	g_return_if_fail (cnt_editor != NULL);
+	g_return_if_fail (WEBKIT_IS_WEB_VIEW (cnt_editor));
+
+	script = e_web_view_jsc_printf_script (
+		"EvoEditor.InsertSignature(%s, %x, false, %s, false, false, true, %x, %x, %x);",
+		content, is_html, uid, start_bottom, top_signature, add_delimiter);
+
+	async_data = test_utils_async_call_prepare ();
+
+	webkit_web_view_run_javascript (WEBKIT_WEB_VIEW (cnt_editor), script, NULL,
+		test_utils_insert_signature_done_cb, async_data);
+
+	test_utils_async_call_wait (async_data, 10);
+
+	g_free (script);
 }

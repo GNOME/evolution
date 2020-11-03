@@ -106,6 +106,13 @@ gchar *		test_utils_get_clipboard_text	(gboolean request_html);
 EContentEditor *
 		test_utils_get_content_editor	(TestFixture *fixture);
 gchar *		test_utils_dup_image_uri	(const gchar *path);
+void		test_utils_insert_signature	(TestFixture *fixture,
+						 const gchar *content,
+						 gboolean is_html,
+						 const gchar *uid,
+						 gboolean start_bottom,
+						 gboolean top_signature,
+						 gboolean add_delimiter);
 
 G_END_DECLS
 
