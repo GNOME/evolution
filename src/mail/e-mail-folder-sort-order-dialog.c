@@ -234,15 +234,8 @@ sort_order_tree_finish_drag (EMailFolderSortOrderDialog *dialog,
 		dialog->priv->autoscroll_id = 0;
 	}
 
-	if (dialog->priv->drag_row) {
-		gtk_tree_row_reference_free (dialog->priv->drag_row);
-		dialog->priv->drag_row = NULL;
-	}
-
-	if (dialog->priv->drag_state) {
-		g_hash_table_destroy (dialog->priv->drag_state);
-		dialog->priv->drag_state = NULL;
-	}
+	g_clear_pointer (&dialog->priv->drag_row, gtk_tree_row_reference_free);
+	g_clear_pointer (&dialog->priv->drag_state, g_hash_table_destroy);
 }
 
 #define SCROLL_EDGE_SIZE 15
@@ -782,10 +775,7 @@ e_mail_folder_sort_order_dialog_dispose (GObject *object)
 		dialog->priv->autoscroll_id = 0;
 	}
 
-	if (dialog->priv->drag_row) {
-		gtk_tree_row_reference_free (dialog->priv->drag_row);
-		dialog->priv->drag_row = NULL;
-	}
+	g_clear_pointer (&dialog->priv->drag_row, gtk_tree_row_reference_free);
 
 	/* Chain up to parent's method. */
 	G_OBJECT_CLASS (e_mail_folder_sort_order_dialog_parent_class)->dispose (object);

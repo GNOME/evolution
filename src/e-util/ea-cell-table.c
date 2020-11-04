@@ -60,13 +60,13 @@ ea_cell_table_destroy (EaCellTable *cell_data)
 	g_return_if_fail (cell_data);
 
 	for (index = 0; index < cell_data->columns; ++index)
-		if (cell_data->column_labels[index])
-			g_free (cell_data->column_labels[index]);
+		g_free (cell_data->column_labels[index]);
+
 	g_free (cell_data->column_labels);
 
 	for (index = 0; index < cell_data->rows; ++index)
-		if (cell_data->row_labels[index])
-			g_free (cell_data->row_labels[index]);
+		g_free (cell_data->row_labels[index]);
+
 	g_free (cell_data->row_labels);
 
 	for (index = (cell_data->columns * cell_data->rows) -1;
@@ -168,8 +168,7 @@ ea_cell_table_set_column_label (EaCellTable *cell_data,
 	g_return_if_fail (cell_data);
 	g_return_if_fail ((column >= 0 && column < cell_data->columns));
 
-	if (cell_data->column_labels[column])
-		g_free (cell_data->column_labels[column]);
+	g_free (cell_data->column_labels[column]);
 	cell_data->column_labels[column] = g_strdup (label);
 }
 
@@ -191,8 +190,7 @@ ea_cell_table_set_row_label (EaCellTable *cell_data,
 	g_return_if_fail (cell_data);
 	g_return_if_fail ((row >= 0 && row < cell_data->rows));
 
-	if (cell_data->row_labels[row])
-		g_free (cell_data->row_labels[row]);
+	g_free (cell_data->row_labels[row]);
 	cell_data->row_labels[row] = g_strdup (label);
 }
 

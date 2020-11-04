@@ -174,11 +174,7 @@ mail_config_security_page_dispose (GObject *object)
 	EMailConfigSecurityPagePrivate *priv;
 
 	priv = E_MAIL_CONFIG_SECURITY_PAGE_GET_PRIVATE (object);
-
-	if (priv->identity_source != NULL) {
-		g_object_unref (priv->identity_source);
-		priv->identity_source = NULL;
-	}
+	g_clear_object (&priv->identity_source);
 
 	/* Chain up to parent's dispose() method. */
 	G_OBJECT_CLASS (e_mail_config_security_page_parent_class)->

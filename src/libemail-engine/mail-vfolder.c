@@ -1232,8 +1232,5 @@ mail_vfolder_shutdown (void)
 		vfolder_hash = NULL;
 	}
 
-	if (context) {
-		g_object_unref (context);
-		context = NULL;
-	}
+	g_clear_object (&context);
 }

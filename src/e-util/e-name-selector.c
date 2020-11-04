@@ -314,10 +314,7 @@ name_selector_dispose (GObject *object)
 		priv->dialog = NULL;
 	}
 
-	if (priv->model) {
-		g_object_unref (priv->model);
-		priv->model = NULL;
-	}
+	g_clear_object (&priv->model);
 
 	/* Chain up to parent's dispose() method. */
 	G_OBJECT_CLASS (e_name_selector_parent_class)->dispose (object);

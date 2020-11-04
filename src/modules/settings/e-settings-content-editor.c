@@ -171,11 +171,7 @@ settings_content_editor_finalize (GObject *object)
 	ESettingsContentEditorPrivate *priv;
 
 	priv = E_SETTINGS_CONTENT_EDITOR_GET_PRIVATE (object);
-
-	if (priv->old_settings) {
-		g_hash_table_destroy (priv->old_settings);
-		priv->old_settings = NULL;
-	}
+	g_clear_pointer (&priv->old_settings, g_hash_table_destroy);
 
 	/* Chain up to parent's finalize() method. */
 	G_OBJECT_CLASS (e_settings_content_editor_parent_class)->finalize (object);

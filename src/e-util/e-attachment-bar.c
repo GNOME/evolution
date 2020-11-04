@@ -274,66 +274,18 @@ attachment_bar_dispose (GObject *object)
 	EAttachmentBarPrivate *priv;
 
 	priv = E_ATTACHMENT_BAR_GET_PRIVATE (object);
-
-	if (priv->model != NULL) {
-		g_object_unref (priv->model);
-		priv->model = NULL;
-	}
-
-	if (priv->vbox != NULL) {
-		g_object_unref (priv->vbox);
-		priv->vbox = NULL;
-	}
-
-	if (priv->expander != NULL) {
-		g_object_unref (priv->expander);
-		priv->expander = NULL;
-	}
-
-	if (priv->combo_box != NULL) {
-		g_object_unref (priv->combo_box);
-		priv->combo_box = NULL;
-	}
-
-	if (priv->icon_view != NULL) {
-		g_object_unref (priv->icon_view);
-		priv->icon_view = NULL;
-	}
-
-	if (priv->tree_view != NULL) {
-		g_object_unref (priv->tree_view);
-		priv->tree_view = NULL;
-	}
-
-	if (priv->icon_frame != NULL) {
-		g_object_unref (priv->icon_frame);
-		priv->icon_frame = NULL;
-	}
-
-	if (priv->tree_frame != NULL) {
-		g_object_unref (priv->tree_frame);
-		priv->tree_frame = NULL;
-	}
-
-	if (priv->status_icon != NULL) {
-		g_object_unref (priv->status_icon);
-		priv->status_icon = NULL;
-	}
-
-	if (priv->status_label != NULL) {
-		g_object_unref (priv->status_label);
-		priv->status_label = NULL;
-	}
-
-	if (priv->save_all_button != NULL) {
-		g_object_unref (priv->save_all_button);
-		priv->save_all_button = NULL;
-	}
-
-	if (priv->save_one_button != NULL) {
-		g_object_unref (priv->save_one_button);
-		priv->save_one_button = NULL;
-	}
+	g_clear_object (&priv->model);
+	g_clear_object (&priv->vbox);
+	g_clear_object (&priv->expander);
+	g_clear_object (&priv->combo_box);
+	g_clear_object (&priv->icon_view);
+	g_clear_object (&priv->tree_view);
+	g_clear_object (&priv->icon_frame);
+	g_clear_object (&priv->tree_frame);
+	g_clear_object (&priv->status_icon);
+	g_clear_object (&priv->status_label);
+	g_clear_object (&priv->save_all_button);
+	g_clear_object (&priv->save_one_button);
 
 	/* Chain up to parent's dispose() method. */
 	G_OBJECT_CLASS (e_attachment_bar_parent_class)->dispose (object);

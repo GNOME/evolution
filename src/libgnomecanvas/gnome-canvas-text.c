@@ -603,20 +603,9 @@ gnome_canvas_text_dispose (GnomeCanvasItem *object)
 	g_free (text->text);
 	text->text = NULL;
 
-	if (text->layout != NULL) {
-		g_object_unref (text->layout);
-		text->layout = NULL;
-	}
-
-	if (text->font_desc != NULL) {
-		pango_font_description_free (text->font_desc);
-		text->font_desc = NULL;
-	}
-
-	if (text->attr_list != NULL) {
-		pango_attr_list_unref (text->attr_list);
-		text->attr_list = NULL;
-	}
+	g_clear_object (&text->layout);
+	g_clear_pointer (&text->font_desc, pango_font_description_free);
+	g_clear_pointer (&text->attr_list, pango_attr_list_unref);
 
 	GNOME_CANVAS_ITEM_CLASS (gnome_canvas_text_parent_class)->
 		dispose (object);

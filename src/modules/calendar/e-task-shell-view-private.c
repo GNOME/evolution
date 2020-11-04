@@ -507,10 +507,7 @@ e_task_shell_view_private_dispose (ETaskShellView *task_shell_view)
 void
 e_task_shell_view_private_finalize (ETaskShellView *task_shell_view)
 {
-	if (task_shell_view->priv->old_settings) {
-		g_hash_table_destroy (task_shell_view->priv->old_settings);
-		task_shell_view->priv->old_settings = NULL;
-	}
+	g_clear_pointer (&task_shell_view->priv->old_settings, g_hash_table_destroy);
 }
 
 void

@@ -126,26 +126,10 @@ mail_label_manager_dispose (GObject *object)
 	EMailLabelManagerPrivate *priv;
 
 	priv = E_MAIL_LABEL_MANAGER_GET_PRIVATE (object);
-
-	if (priv->tree_view != NULL) {
-		g_object_unref (priv->tree_view);
-		priv->tree_view = NULL;
-	}
-
-	if (priv->add_button != NULL) {
-		g_object_unref (priv->add_button);
-		priv->add_button = NULL;
-	}
-
-	if (priv->edit_button != NULL) {
-		g_object_unref (priv->edit_button);
-		priv->edit_button = NULL;
-	}
-
-	if (priv->remove_button != NULL) {
-		g_object_unref (priv->remove_button);
-		priv->remove_button = NULL;
-	}
+	g_clear_object (&priv->tree_view);
+	g_clear_object (&priv->add_button);
+	g_clear_object (&priv->edit_button);
+	g_clear_object (&priv->remove_button);
 
 	/* Chain up to parent's dispose() method. */
 	G_OBJECT_CLASS (e_mail_label_manager_parent_class)->dispose (object);

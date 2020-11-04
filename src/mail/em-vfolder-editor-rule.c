@@ -126,10 +126,7 @@ vfolder_editor_rule_dispose (GObject *object)
 	EMVFolderEditorRulePrivate *priv;
 
 	priv = EM_VFOLDER_EDITOR_RULE_GET_PRIVATE (object);
-	if (priv->session != NULL) {
-		g_object_unref (priv->session);
-		priv->session = NULL;
-	}
+	g_clear_object (&priv->session);
 
 	/* Chain up to parent's dispose() method. */
 	G_OBJECT_CLASS (em_vfolder_editor_rule_parent_class)->dispose (object);

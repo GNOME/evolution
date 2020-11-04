@@ -325,11 +325,7 @@ week_view_main_item_dispose (GObject *object)
 	EWeekViewMainItemPrivate *priv;
 
 	priv = E_WEEK_VIEW_MAIN_ITEM_GET_PRIVATE (object);
-
-	if (priv->week_view != NULL) {
-		g_object_unref (priv->week_view);
-		priv->week_view = NULL;
-	}
+	g_clear_object (&priv->week_view);
 
 	/* Chain up to parent's dispose() method. */
 	G_OBJECT_CLASS (e_week_view_main_item_parent_class)->dispose (object);

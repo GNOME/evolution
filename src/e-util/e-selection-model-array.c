@@ -188,11 +188,7 @@ esma_dispose (GObject *object)
 	ESelectionModelArray *esma;
 
 	esma = E_SELECTION_MODEL_ARRAY (object);
-
-	if (esma->eba) {
-		g_object_unref (esma->eba);
-		esma->eba = NULL;
-	}
+	g_clear_object (&esma->eba);
 
 	/* Chain up to parent's dispose() method. */
 	G_OBJECT_CLASS (e_selection_model_array_parent_class)->dispose (object);
@@ -262,10 +258,7 @@ static void
 esma_clear (ESelectionModel *selection)
 {
 	ESelectionModelArray *esma = E_SELECTION_MODEL_ARRAY (selection);
-	if (esma->eba) {
-		g_object_unref (esma->eba);
-		esma->eba = NULL;
-	}
+	g_clear_object (&esma->eba);
 	esma->cursor_row = -1;
 	esma->cursor_col = -1;
 	esma->cursor_row_sorted = -1;

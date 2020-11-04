@@ -5208,11 +5208,7 @@ e_contact_editor_dispose (GObject *object)
 {
 	EContactEditor *e_contact_editor = E_CONTACT_EDITOR (object);
 
-	if (e_contact_editor->priv->image_selector) {
-		gtk_widget_destroy (e_contact_editor->priv->image_selector);
-		e_contact_editor->priv->image_selector = NULL;
-	}
-
+	g_clear_pointer (&e_contact_editor->priv->image_selector, gtk_widget_destroy);
 	g_clear_object (&e_contact_editor->priv->image_selector_native);
 
 	g_slist_free_full (
@@ -5231,10 +5227,7 @@ e_contact_editor_dispose (GObject *object)
 			e_contact_editor->priv->target_editable_id);
 	}
 
-	if (e_contact_editor->priv->name) {
-		e_contact_name_free (e_contact_editor->priv->name);
-		e_contact_editor->priv->name = NULL;
-	}
+	g_clear_pointer (&e_contact_editor->priv->name, e_contact_name_free);
 
 	if (e_contact_editor->priv->focus_tracker) {
 		g_signal_handlers_disconnect_by_data (

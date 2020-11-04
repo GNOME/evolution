@@ -114,10 +114,7 @@ vfolder_editor_context_dispose (GObject *object)
 	EMVFolderEditorContextPrivate *priv;
 
 	priv = EM_VFOLDER_EDITOR_CONTEXT_GET_PRIVATE (object);
-	if (priv->session != NULL) {
-		g_object_unref (priv->session);
-		priv->session = NULL;
-	}
+	g_clear_object (&priv->session);
 
 	/* Chain up to parent's dispose() method. */
 	G_OBJECT_CLASS (em_vfolder_editor_context_parent_class)->dispose (object);

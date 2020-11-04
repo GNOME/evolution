@@ -744,10 +744,7 @@ add_destination (ENameSelectorModel *name_selector_model,
 static void
 disable_sort (ENameSelectorDialog *dialog)
 {
-	if (dialog->priv->contact_sort) {
-		g_object_unref (dialog->priv->contact_sort);
-		dialog->priv->contact_sort = NULL;
-	}
+	g_clear_object (&dialog->priv->contact_sort);
 
 	gtk_tree_view_set_model (
 		dialog->priv->contact_view,
@@ -1707,10 +1704,7 @@ shutdown_name_selector_model (ENameSelectorDialog *name_selector_dialog)
 
 	/* Free sorting model */
 
-	if (name_selector_dialog->priv->contact_sort) {
-		g_object_unref (name_selector_dialog->priv->contact_sort);
-		name_selector_dialog->priv->contact_sort = NULL;
-	}
+	g_clear_object (&name_selector_dialog->priv->contact_sort);
 
 	/* Free backend model */
 

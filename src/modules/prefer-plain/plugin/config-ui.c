@@ -178,10 +178,7 @@ e_plugin_lib_enable (EPlugin *ep,
 
 		epp_show_suppressed = g_settings_get_boolean (epp_settings, "show-suppressed");
 	} else {
-		if (epp_settings) {
-			g_object_unref (epp_settings);
-			epp_settings = NULL;
-		}
+		g_clear_object (&epp_settings);
 	}
 
 	return 0;

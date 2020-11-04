@@ -639,10 +639,7 @@ e_cal_shell_view_private_dispose (ECalShellView *cal_shell_view)
 void
 e_cal_shell_view_private_finalize (ECalShellView *cal_shell_view)
 {
-	if (cal_shell_view->priv->old_settings) {
-		g_hash_table_destroy (cal_shell_view->priv->old_settings);
-		cal_shell_view->priv->old_settings = NULL;
-	}
+	g_clear_pointer (&cal_shell_view->priv->old_settings, g_hash_table_destroy);
 }
 
 void

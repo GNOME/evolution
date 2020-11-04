@@ -350,16 +350,8 @@ action_combo_box_dispose (GObject *object)
 {
 	EActionComboBoxPrivate *priv = E_ACTION_COMBO_BOX_GET_PRIVATE (object);
 
-	if (priv->action != NULL) {
-		g_object_unref (priv->action);
-		priv->action = NULL;
-	}
-
-	if (priv->action_group != NULL) {
-		g_object_unref (priv->action_group);
-		priv->action_group = NULL;
-	}
-
+	g_clear_object (&priv->action);
+	g_clear_object (&priv->action_group);
 	g_hash_table_remove_all (priv->index);
 
 	/* Chain up to parent's dispose() method. */

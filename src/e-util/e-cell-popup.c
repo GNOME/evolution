@@ -156,9 +156,7 @@ e_cell_popup_dispose (GObject *object)
 {
 	ECellPopup *ecp = E_CELL_POPUP (object);
 
-	if (ecp->child)
-		g_object_unref (ecp->child);
-	ecp->child = NULL;
+	g_clear_object (&ecp->child);
 
 	G_OBJECT_CLASS (e_cell_popup_parent_class)->dispose (object);
 }

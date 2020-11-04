@@ -1612,10 +1612,7 @@ shell_dispose (GObject *object)
 	g_clear_object (&priv->credentials_prompter);
 	g_clear_object (&priv->client_cache);
 
-	if (priv->preferences_window) {
-		gtk_widget_destroy (priv->preferences_window);
-		priv->preferences_window = NULL;
-	}
+	g_clear_pointer (&priv->preferences_window, gtk_widget_destroy);
 
 	if (priv->preparing_for_line_change != NULL) {
 		g_object_remove_weak_pointer (

@@ -120,17 +120,9 @@ e_table_field_chooser_dialog_dispose (GObject *object)
 {
 	ETableFieldChooserDialog *etfcd = E_TABLE_FIELD_CHOOSER_DIALOG (object);
 
-	if (etfcd->dnd_code)
-		g_free (etfcd->dnd_code);
-	etfcd->dnd_code = NULL;
-
-	if (etfcd->full_header)
-		g_object_unref (etfcd->full_header);
-	etfcd->full_header = NULL;
-
-	if (etfcd->header)
-		g_object_unref (etfcd->header);
-	etfcd->header = NULL;
+	g_clear_pointer (&etfcd->dnd_code, g_free);
+	g_clear_object (&etfcd->full_header);
+	g_clear_object (&etfcd->header);
 
 	G_OBJECT_CLASS (e_table_field_chooser_dialog_parent_class)->dispose (object);
 }

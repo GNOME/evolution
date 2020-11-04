@@ -837,11 +837,7 @@ static void
 clear_selection (MessageList *message_list,
                  struct _MLSelection *selection)
 {
-	if (selection->uids != NULL) {
-		g_ptr_array_unref (selection->uids);
-		selection->uids = NULL;
-	}
-
+	g_clear_pointer (&selection->uids, g_ptr_array_unref);
 	g_clear_object (&selection->folder);
 }
 
@@ -3237,15 +3233,8 @@ message_list_dispose (GObject *object)
 		priv->folder_changed_handler_id = 0;
 	}
 
-	if (priv->copy_target_list != NULL) {
-		gtk_target_list_unref (priv->copy_target_list);
-		priv->copy_target_list = NULL;
-	}
-
-	if (priv->paste_target_list != NULL) {
-		gtk_target_list_unref (priv->paste_target_list);
-		priv->paste_target_list = NULL;
-	}
+	g_clear_pointer (&priv->copy_target_list, gtk_target_list_unref);
+	g_clear_pointer (&priv->paste_target_list, gtk_target_list_unref);
 
 	priv->destroyed = TRUE;
 
@@ -3255,10 +3244,7 @@ message_list_dispose (GObject *object)
 	g_mutex_lock (&message_list->priv->regen_lock);
 
 	/* This can happen when the regen_idle_id is removed before it's invoked */
-	if (message_list->priv->regen_data) {
-		regen_data_unref (message_list->priv->regen_data);
-		message_list->priv->regen_data = NULL;
-	}
+	g_clear_pointer (&message_list->priv->regen_data, regen_data_unref);
 
 	g_mutex_unlock (&message_list->priv->regen_lock);
 
@@ -6573,12 +6559,9 @@ message_list_regen_done_cb (GObject *source_object,
 
 		if (message_list->just_set_folder) {
 			message_list->just_set_folder = FALSE;
-			if (regen_data->expand_state != NULL) {
-				/* Load state from disk rather than use
-				 * the memory data when changing folders. */
-				xmlFreeDoc (regen_data->expand_state);
-				regen_data->expand_state = NULL;
-			}
+			/* Load state from disk rather than use
+			 * the memory data when changing folders. */
+			g_clear_pointer (&regen_data->expand_state, xmlFreeDoc);
 		}
 
 		if (forcing_expand_state) {

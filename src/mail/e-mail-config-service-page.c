@@ -381,25 +381,14 @@ mail_config_service_page_dispose (GObject *object)
 	EMailConfigServicePagePrivate *priv;
 
 	priv = E_MAIL_CONFIG_SERVICE_PAGE_GET_PRIVATE (object);
-
-	if (priv->registry != NULL) {
-		g_object_unref (priv->registry);
-		priv->registry = NULL;
-	}
-
-	if (priv->active_backend != NULL) {
-		g_object_unref (priv->active_backend);
-		priv->active_backend = NULL;
-	}
+	g_clear_object (&priv->registry);
+	g_clear_object (&priv->active_backend);
 
 	g_hash_table_remove_all (priv->backends);
 	g_ptr_array_set_size (priv->candidates, 0);
 	g_ptr_array_set_size (priv->hidden_candidates, 0);
 
-	if (priv->list_store != NULL) {
-		g_object_unref (priv->list_store);
-		priv->list_store = NULL;
-	}
+	g_clear_object (&priv->list_store);
 
 	/* Chain up to parent's dispose() method. */
 	G_OBJECT_CLASS (e_mail_config_service_page_parent_class)->dispose (object);

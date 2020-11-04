@@ -581,17 +581,11 @@ source_viewer_dispose (GObject *object)
 		viewer->registry = NULL;
 	}
 
-	if (viewer->tree_store != NULL) {
-		g_object_unref (viewer->tree_store);
-		viewer->tree_store = NULL;
-	}
+	g_clear_object (&viewer->tree_store);
 
 	g_hash_table_remove_all (viewer->source_index);
 
-	if (viewer->delete_operation != NULL) {
-		g_object_unref (viewer->delete_operation);
-		viewer->delete_operation = NULL;
-	}
+	g_clear_object (&viewer->delete_operation);
 
 	/* Chain up to parent's dispose() method. */
 	G_OBJECT_CLASS (e_source_viewer_parent_class)->dispose (object);

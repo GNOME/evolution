@@ -131,11 +131,7 @@ account_prefs_dispose (GObject *object)
 	EMAccountPrefsPrivate *priv;
 
 	priv = EM_ACCOUNT_PREFS_GET_PRIVATE (object);
-
-	if (priv->backend != NULL) {
-		g_object_unref (priv->backend);
-		priv->backend = NULL;
-	}
+	g_clear_object (&priv->backend);
 
 	/* Chain up to parent's dispose() method. */
 	G_OBJECT_CLASS (em_account_prefs_parent_class)->dispose (object);

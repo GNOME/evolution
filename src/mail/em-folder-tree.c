@@ -1313,20 +1313,9 @@ folder_tree_dispose (GObject *object)
 		priv->autoexpand_id = 0;
 	}
 
-	if (priv->alert_sink != NULL) {
-		g_object_unref (priv->alert_sink);
-		priv->alert_sink = NULL;
-	}
-
-	if (priv->session != NULL) {
-		g_object_unref (priv->session);
-		priv->session = NULL;
-	}
-
-	if (priv->text_renderer != NULL) {
-		g_object_unref (priv->text_renderer);
-		priv->text_renderer = NULL;
-	}
+	g_clear_object (&priv->alert_sink);
+	g_clear_object (&priv->session);
+	g_clear_object (&priv->text_renderer);
 
 	/* Chain up to parent's dispose() method. */
 	G_OBJECT_CLASS (em_folder_tree_parent_class)->dispose (object);
@@ -2857,10 +2846,7 @@ tree_drag_end (GtkWidget *widget,
 {
 	EMFolderTreePrivate *priv = folder_tree->priv;
 
-	if (priv->drag_row != NULL) {
-		gtk_tree_row_reference_free (priv->drag_row);
-		priv->drag_row = NULL;
-	}
+	g_clear_pointer (&priv->drag_row, gtk_tree_row_reference_free);
 
 	/* FIXME: undo anything done in drag-begin */
 }
@@ -3337,10 +3323,7 @@ em_folder_tree_select_next_path (EMFolderTree *folder_tree,
 		current_path = gtk_tree_model_get_path (model, &iter);
 
 		do {
-			if (path) {
-				gtk_tree_path_free (path);
-				path = NULL;
-			}
+			g_clear_pointer (&path, gtk_tree_path_free);
 
 			if (gtk_tree_model_iter_has_child (model, &iter)) {
 				if (!gtk_tree_model_iter_children (model, &child, &iter))

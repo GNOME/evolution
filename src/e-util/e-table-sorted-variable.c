@@ -64,13 +64,8 @@ etsv_dispose (GObject *object)
 		etsv->insert_idle_id = 0;
 	}
 
-	if (etsv->sort_info)
-		g_object_unref (etsv->sort_info);
-	etsv->sort_info = NULL;
-
-	if (etsv->full_header)
-		g_object_unref (etsv->full_header);
-	etsv->full_header = NULL;
+	g_clear_object (&etsv->sort_info);
+	g_clear_object (&etsv->full_header);
 
 	G_OBJECT_CLASS (e_table_sorted_variable_parent_class)->dispose (object);
 }

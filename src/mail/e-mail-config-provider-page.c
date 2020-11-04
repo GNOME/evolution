@@ -694,11 +694,7 @@ mail_config_provider_page_dispose (GObject *object)
 	EMailConfigProviderPagePrivate *priv;
 
 	priv = E_MAIL_CONFIG_PROVIDER_PAGE_GET_PRIVATE (object);
-
-	if (priv->backend != NULL) {
-		g_object_unref (priv->backend);
-		priv->backend = NULL;
-	}
+	g_clear_object (&priv->backend);
 
 	/* Chain up parent's dispose() method. */
 	G_OBJECT_CLASS (e_mail_config_provider_page_parent_class)->

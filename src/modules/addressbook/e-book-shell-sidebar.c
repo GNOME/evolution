@@ -112,11 +112,7 @@ book_shell_sidebar_dispose (GObject *object)
 	EBookShellSidebarPrivate *priv;
 
 	priv = E_BOOK_SHELL_SIDEBAR_GET_PRIVATE (object);
-
-	if (priv->selector != NULL) {
-		g_object_unref (priv->selector);
-		priv->selector = NULL;
-	}
+	g_clear_object (&priv->selector);
 
 	/* Chain up to parent's dispose() method. */
 	G_OBJECT_CLASS (e_book_shell_sidebar_parent_class)->dispose (object);

@@ -513,8 +513,7 @@ find_cert_cb (GtkTreeModel *model,
 		fcd->path = gtk_tree_path_copy (path);
 	}
 
-	if (cert)
-		g_object_unref (cert);
+	g_clear_object (&cert);
 
 	return fcd->path != NULL;
 }
@@ -678,11 +677,7 @@ run_cert_backup_dialog_file_chooser (GtkButton *file_button,
 
 		cert_backup_dialog_maybe_correct_extension (GTK_FILE_CHOOSER (native));
 
-		if (*data->file) {
-			g_object_unref (*data->file);
-			*data->file = NULL;
-		}
-
+		g_clear_object (&(*data->file));
 		*data->file = gtk_file_chooser_get_file (GTK_FILE_CHOOSER (native));
 
 		basename = g_file_get_basename (*data->file);
@@ -1978,11 +1973,7 @@ cert_page_free (CertPage *cp)
 		cp->streemodel = NULL;
 	}
 
-	if (cp->root_hash) {
-		g_hash_table_unref (cp->root_hash);
-		cp->root_hash = NULL;
-	}
-
+	g_clear_pointer (&cp->root_hash, g_hash_table_unref);
 	g_free (cp);
 }
 
@@ -1991,30 +1982,16 @@ cert_manager_config_dispose (GObject *object)
 {
 	ECertManagerConfig *ecmc = E_CERT_MANAGER_CONFIG (object);
 
-	if (ecmc->priv->yourcerts_page) {
-		cert_page_free (ecmc->priv->yourcerts_page);
-		ecmc->priv->yourcerts_page = NULL;
-	}
-
-	if (ecmc->priv->contactcerts_page) {
-		cert_page_free (ecmc->priv->contactcerts_page);
-		ecmc->priv->contactcerts_page = NULL;
-	}
-
-	if (ecmc->priv->authoritycerts_page) {
-		cert_page_free (ecmc->priv->authoritycerts_page);
-		ecmc->priv->authoritycerts_page = NULL;
-	}
+	g_clear_pointer (&ecmc->priv->yourcerts_page, cert_page_free);
+	g_clear_pointer (&ecmc->priv->contactcerts_page, cert_page_free);
+	g_clear_pointer (&ecmc->priv->authoritycerts_page, cert_page_free);
 
 	if (ecmc->priv->mail_model) {
 		gtk_tree_model_foreach (ecmc->priv->mail_model, cm_unref_camel_cert, NULL);
 		g_clear_object (&ecmc->priv->mail_model);
 	}
 
-	if (ecmc->priv->builder) {
-		g_object_unref (ecmc->priv->builder);
-			ecmc->priv->builder = NULL;
-	}
+	g_clear_object (&ecmc->priv->builder);
 
 	if (ecmc->priv->pref_window) {
 		g_signal_handlers_disconnect_matched (ecmc->priv->pref_window, G_SIGNAL_MATCH_DATA, 0, 0, NULL, NULL, ecmc);

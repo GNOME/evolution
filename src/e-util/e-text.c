@@ -181,9 +181,7 @@ e_text_dispose (GObject *object)
 			text->model_repos_signal_id);
 	text->model_repos_signal_id = 0;
 
-	if (text->model)
-		g_object_unref (text->model);
-	text->model = NULL;
+	g_clear_object (&text->model);
 
 	if (text->tep_command_id)
 		g_signal_handler_disconnect (
@@ -191,9 +189,7 @@ e_text_dispose (GObject *object)
 			text->tep_command_id);
 	text->tep_command_id = 0;
 
-	if (text->tep)
-		g_object_unref (text->tep);
-	text->tep = NULL;
+	g_clear_object (&text->tep);
 
 	g_free (text->revert);
 	text->revert = NULL;
@@ -219,10 +215,7 @@ e_text_dispose (GObject *object)
 		text->tpl_timeout = 0;
 	}
 
-	if (text->layout) {
-		g_object_unref (text->layout);
-		text->layout = NULL;
-	}
+	g_clear_object (&text->layout);
 
 	if (text->im_context) {
 		disconnect_im_context (text);
@@ -230,10 +223,7 @@ e_text_dispose (GObject *object)
 		text->im_context = NULL;
 	}
 
-	if (text->font_desc) {
-		pango_font_description_free (text->font_desc);
-		text->font_desc = NULL;
-	}
+	g_clear_pointer (&text->font_desc, pango_font_description_free);
 
 	/* Chain up to parent's dispose() method. */
 	G_OBJECT_CLASS (e_text_parent_class)->dispose (object);
@@ -290,8 +280,7 @@ insert_preedit_text (EText *text)
 	} else
 		text->preedit_len = 0;
 
-	if (preedit_string)
-		g_free (preedit_string);
+	g_free (preedit_string);
 	if (preedit_attrs)
 		pango_attr_list_unref (preedit_attrs);
 	if (tmp_string)
@@ -797,8 +786,7 @@ e_text_set_property (GObject *object,
 		break;
 
 	case PROP_ELLIPSIS:
-		if (text->ellipsis)
-			g_free (text->ellipsis);
+		g_free (text->ellipsis);
 
 		text->ellipsis = g_strdup (g_value_get_string (value));
 		calc_ellipsis (text);
@@ -819,10 +807,7 @@ e_text_set_property (GObject *object,
 		break;
 
 	case PROP_BREAK_CHARACTERS:
-		if (text->break_characters) {
-			g_free (text->break_characters);
-			text->break_characters = NULL;
-		}
+		g_clear_pointer (&text->break_characters, g_free);
 		if (g_value_get_string (value))
 			text->break_characters = g_strdup (g_value_get_string (value));
 		text->needs_split_into_lines = 1;
@@ -2316,8 +2301,7 @@ _get_updated_position (EText *text,
 		}
 	}
 
-	if (log_attrs)
-		g_free (log_attrs);
+	g_free (log_attrs);
 
 	return new_pos;
 }

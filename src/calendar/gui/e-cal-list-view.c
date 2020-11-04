@@ -396,10 +396,7 @@ e_cal_list_view_dispose (GObject *object)
 
 	cal_list_view = E_CAL_LIST_VIEW (object);
 
-	if (cal_list_view->priv->cursor_event) {
-		g_free (cal_list_view->priv->cursor_event);
-		cal_list_view->priv->cursor_event = NULL;
-	}
+	g_clear_pointer (&cal_list_view->priv->cursor_event, g_free);
 
 	if (cal_list_view->priv->table) {
 		gtk_widget_destroy (GTK_WIDGET (cal_list_view->priv->table));
@@ -595,10 +592,7 @@ e_cal_list_view_get_selected_events (ECalendarView *cal_view)
 	GList *event_list = NULL;
 	gint   cursor_row;
 
-	if (E_CAL_LIST_VIEW (cal_view)->priv->cursor_event) {
-		g_free (E_CAL_LIST_VIEW (cal_view)->priv->cursor_event);
-		E_CAL_LIST_VIEW (cal_view)->priv->cursor_event = NULL;
-	}
+	g_clear_pointer (&E_CAL_LIST_VIEW (cal_view)->priv->cursor_event, g_free);
 
 	cursor_row = e_table_get_cursor_row (
 		E_CAL_LIST_VIEW (cal_view)->priv->table);

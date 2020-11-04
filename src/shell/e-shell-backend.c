@@ -252,11 +252,7 @@ shell_backend_dispose (GObject *object)
 	EShellBackendPrivate *priv;
 
 	priv = E_SHELL_BACKEND_GET_PRIVATE (object);
-
-	if (priv->shell_view_class != NULL) {
-		g_type_class_unref (priv->shell_view_class);
-		priv->shell_view_class = NULL;
-	}
+	g_clear_pointer (&priv->shell_view_class, g_type_class_unref);
 
 	if (priv->notify_busy_handler_id > 0) {
 		g_signal_handler_disconnect (

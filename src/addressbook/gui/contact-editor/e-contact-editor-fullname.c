@@ -152,16 +152,8 @@ e_contact_editor_fullname_dispose (GObject *object)
 	EContactEditorFullname *e_contact_editor_fullname;
 
 	e_contact_editor_fullname = E_CONTACT_EDITOR_FULLNAME (object);
-
-	if (e_contact_editor_fullname->builder) {
-		g_object_unref (e_contact_editor_fullname->builder);
-		e_contact_editor_fullname->builder = NULL;
-	}
-
-	if (e_contact_editor_fullname->name) {
-		e_contact_name_free (e_contact_editor_fullname->name);
-		e_contact_editor_fullname->name = NULL;
-	}
+	g_clear_object (&e_contact_editor_fullname->builder);
+	g_clear_pointer (&e_contact_editor_fullname->name, e_contact_name_free);
 
 	/* Chain up to parent's dispose() method. */
 	G_OBJECT_CLASS (e_contact_editor_fullname_parent_class)->dispose (object);

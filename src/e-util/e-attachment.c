@@ -2865,31 +2865,15 @@ attachment_save_context_free (SaveContext *save_context)
 {
 	g_object_unref (save_context->attachment);
 	g_object_unref (save_context->simple);
-
-	if (save_context->directory != NULL)
-		g_object_unref (save_context->directory);
-
-	if (save_context->destination != NULL)
-		g_object_unref (save_context->destination);
-
-	if (save_context->input_stream != NULL)
-		g_object_unref (save_context->input_stream);
-
-	if (save_context->output_stream != NULL)
-		g_object_unref (save_context->output_stream);
-
-	if (save_context->input_buffer != NULL)
-		g_byte_array_unref (save_context->input_buffer);
-
-	if (save_context->suggested_destname != NULL)
-		g_free (save_context->suggested_destname);
-
-	if (save_context->temporary_file != NULL)
-		g_clear_object (&save_context->temporary_file);
-
+	g_clear_object (&save_context->directory);
+	g_clear_object (&save_context->destination);
+	g_clear_object (&save_context->input_stream);
+	g_clear_object (&save_context->output_stream);
+	g_clear_pointer (&save_context->input_buffer, g_byte_array_unref);
+	g_free (save_context->suggested_destname);
+	g_clear_object (&save_context->temporary_file);
 	g_mutex_clear (&(save_context->completed_tasks_mutex));
 	g_mutex_clear (&(save_context->prepared_tasks_mutex));
-
 	g_slice_free (SaveContext, save_context);
 }
 

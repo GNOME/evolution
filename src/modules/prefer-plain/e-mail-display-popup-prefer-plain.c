@@ -371,11 +371,7 @@ e_mail_display_popup_prefer_plain_dispose (GObject *object)
 	EMailDisplayPopupPreferPlain *extension;
 
 	extension = E_MAIL_DISPLAY_POPUP_PREFER_PLAIN (object);
-
-	if (extension->action_group != NULL) {
-		g_object_unref (extension->action_group);
-		extension->action_group = NULL;
-	}
+	g_clear_object (&extension->action_group);
 
 	/* Chain up to parent's dispose() method. */
 	G_OBJECT_CLASS (e_mail_display_popup_prefer_plain_parent_class)->dispose (object);

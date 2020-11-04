@@ -147,11 +147,7 @@ mail_config_import_progress_page_dispose (GObject *object)
 	EMailConfigImportProgressPagePrivate *priv;
 
 	priv = E_MAIL_CONFIG_IMPORT_PROGRESS_PAGE_GET_PRIVATE (object);
-
-	if (priv->activity != NULL) {
-		g_object_unref (priv->activity);
-		priv->activity = NULL;
-	}
+	g_clear_object (&priv->activity);
 
 	/* Chain up to parent's dispose() method. */
 	G_OBJECT_CLASS (e_mail_config_import_progress_page_parent_class)->

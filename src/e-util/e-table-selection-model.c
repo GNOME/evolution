@@ -55,13 +55,8 @@ save_to_hash (gint model_row,
 static void
 free_hash (ETableSelectionModel *etsm)
 {
-	if (etsm->hash) {
-		g_hash_table_destroy (etsm->hash);
-		etsm->hash = NULL;
-	}
-	if (etsm->cursor_id)
-		g_free (etsm->cursor_id);
-	etsm->cursor_id = NULL;
+	g_clear_pointer (&etsm->hash, g_hash_table_destroy);
+	g_clear_pointer (&etsm->cursor_id, g_free);
 }
 
 static void

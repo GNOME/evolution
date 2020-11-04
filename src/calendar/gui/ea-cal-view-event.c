@@ -194,10 +194,7 @@ ea_cal_view_event_dispose (GObject *object)
 {
 	EaCalViewEvent *a11y = EA_CAL_VIEW_EVENT (object);
 
-	if (a11y->state_set) {
-		g_object_unref (a11y->state_set);
-		a11y->state_set = NULL;
-	}
+	g_clear_object (&a11y->state_set);
 
 	/* Chain up to parent's dispose() method. */
 	G_OBJECT_CLASS (ea_cal_view_event_parent_class)->dispose (object);

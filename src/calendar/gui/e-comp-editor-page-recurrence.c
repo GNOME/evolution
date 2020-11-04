@@ -949,10 +949,7 @@ ecep_recurrence_make_recurrence_special (ECompEditorPageRecurrence *page_recurre
 
 	g_return_if_fail (E_IS_COMP_EDITOR_PAGE_RECURRENCE (page_recurrence));
 
-	if (page_recurrence->priv->month_num_combo != NULL) {
-		gtk_widget_destroy (page_recurrence->priv->month_num_combo);
-		page_recurrence->priv->month_num_combo = NULL;
-	}
+	g_clear_pointer (&page_recurrence->priv->month_num_combo, gtk_widget_destroy);
 
 	child = ecep_recurrence_get_box_first_child (page_recurrence->priv->recr_interval_special_box);
 	if (child != NULL) {

@@ -473,10 +473,7 @@ photo_data_set_bytes (PhotoData *photo_data,
 {
 	g_mutex_lock (&photo_data->lock);
 
-	if (photo_data->bytes != NULL) {
-		g_bytes_unref (photo_data->bytes);
-		photo_data->bytes = NULL;
-	}
+	g_clear_pointer (&photo_data->bytes, g_bytes_unref);
 
 	if (bytes != NULL)
 		photo_data->bytes = g_bytes_ref (bytes);

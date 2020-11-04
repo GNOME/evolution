@@ -2636,10 +2636,7 @@ msg_composer_dispose (GObject *object)
 	EMsgComposerPrivate *priv = E_MSG_COMPOSER_GET_PRIVATE (composer);
 	EShell *shell;
 
-	if (priv->address_dialog != NULL) {
-		gtk_widget_destroy (priv->address_dialog);
-		priv->address_dialog = NULL;
-	}
+	g_clear_pointer (&priv->address_dialog, gtk_widget_destroy);
 
 	/* FIXME Our EShell is already unreferenced. */
 	shell = e_shell_get_default ();

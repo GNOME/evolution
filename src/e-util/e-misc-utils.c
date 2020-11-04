@@ -3255,10 +3255,7 @@ e_util_cleanup_settings (void)
 {
 	g_mutex_lock (&settings_hash_lock);
 
-	if (settings_hash) {
-		g_hash_table_destroy (settings_hash);
-		settings_hash = NULL;
-	}
+	g_clear_pointer (&settings_hash, g_hash_table_destroy);
 
 	g_mutex_unlock (&settings_hash_lock);
 }
@@ -4409,15 +4406,8 @@ e_util_get_language_name (const gchar *language_tag)
 void
 e_misc_util_free_global_memory (void)
 {
-	if (iso_639_table) {
-		g_hash_table_destroy (iso_639_table);
-		iso_639_table = NULL;
-	}
-
-	if (iso_3166_table) {
-		g_hash_table_destroy (iso_3166_table);
-		iso_3166_table = NULL;
-	}
+	g_clear_pointer (&iso_639_table, g_hash_table_destroy);
+	g_clear_pointer (&iso_3166_table, g_hash_table_destroy);
 
 	e_util_cleanup_settings ();
 	e_spell_checker_free_global_memory ();

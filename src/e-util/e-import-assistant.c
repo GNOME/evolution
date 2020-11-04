@@ -1230,10 +1230,7 @@ import_assistant_dispose (GObject *object)
 		priv->simple_page.target = NULL;
 	}
 
-	if (priv->import != NULL) {
-		g_object_unref (priv->import);
-		priv->import = NULL;
-	}
+	g_clear_object (&priv->import);
 
 	if (priv->fileuris != NULL) {
 		g_ptr_array_foreach (priv->fileuris, (GFunc) g_free, NULL);

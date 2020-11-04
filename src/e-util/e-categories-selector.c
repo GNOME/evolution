@@ -231,11 +231,7 @@ categories_selector_dispose (GObject *object)
 	ECategoriesSelectorPrivate *priv;
 
 	priv = E_CATEGORIES_SELECTOR_GET_PRIVATE (object);
-
-	if (priv->selected_categories != NULL) {
-		g_hash_table_destroy (priv->selected_categories);
-		priv->selected_categories = NULL;
-	}
+	g_clear_pointer (&priv->selected_categories, g_hash_table_destroy);
 
 	/* Chain up to parent's dispose() method.*/
 	G_OBJECT_CLASS (e_categories_selector_parent_class)->dispose (object);

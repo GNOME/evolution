@@ -143,19 +143,9 @@ e_meeting_time_selector_item_dispose (GObject *object)
 	EMeetingTimeSelectorItem *mts_item;
 
 	mts_item = E_MEETING_TIME_SELECTOR_ITEM (object);
-
-	if (mts_item->normal_cursor) {
-		g_object_unref (mts_item->normal_cursor);
-		mts_item->normal_cursor = NULL;
-	}
-	if (mts_item->resize_cursor) {
-		g_object_unref (mts_item->resize_cursor);
-		mts_item->resize_cursor = NULL;
-	}
-	if (mts_item->busy_cursor) {
-		g_object_unref (mts_item->busy_cursor);
-		mts_item->busy_cursor = NULL;
-	}
+	g_clear_object (&mts_item->normal_cursor);
+	g_clear_object (&mts_item->resize_cursor);
+	g_clear_object (&mts_item->busy_cursor);
 
 	G_OBJECT_CLASS (e_meeting_time_selector_item_parent_class)->dispose (object);
 }

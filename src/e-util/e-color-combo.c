@@ -414,21 +414,9 @@ color_combo_dispose (GObject *object)
 	EColorComboPrivate *priv;
 
 	priv = E_COLOR_COMBO_GET_PRIVATE (object);
-
-	if (priv->popover) {
-		gtk_widget_destroy (priv->popover);
-		priv->popover = NULL;
-	}
-
-	if (priv->current_color != NULL) {
-		gdk_rgba_free (priv->current_color);
-		priv->current_color = NULL;
-	}
-
-	if (priv->default_color != NULL) {
-		gdk_rgba_free (priv->default_color);
-		priv->default_color = NULL;
-	}
+	g_clear_pointer (&priv->popover, gtk_widget_destroy);
+	g_clear_pointer (&priv->current_color, gdk_rgba_free);
+	g_clear_pointer (&priv->default_color, gdk_rgba_free);
 
 	g_list_free_full (priv->palette, (GDestroyNotify) gdk_rgba_free);
 	priv->palette = NULL;

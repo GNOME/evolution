@@ -290,8 +290,7 @@ set_description (ECalComponent *comp,
 	e_cal_component_set_descriptions (comp, sl);
 
 	g_free (str);
-	if (convert_str)
-		g_free (convert_str);
+	g_free (convert_str);
 	g_slist_free_full (sl, e_cal_component_text_free);
 }
 
@@ -575,8 +574,7 @@ free_manage_comp_struct (struct _manage_comp *mc)
 	g_clear_object (&mc->stored_comp);
 	g_mutex_clear (&mc->mutex);
 	g_cond_clear (&mc->cond);
-	if (mc->editor_title)
-		g_free (mc->editor_title);
+	g_free (mc->editor_title);
 
 	g_slice_free (struct _manage_comp, mc);
 }
@@ -724,8 +722,7 @@ comp_editor_title_changed (GtkWidget *widget,
 	/* Remember the new title, so that when gtk_window_set_title() causes
 	 * this handler to be recursively called, we can recognize that and
 	 * prevent endless recursion */
-	if (mc->editor_title)
-		g_free (mc->editor_title);
+	g_free (mc->editor_title);
 	mc->editor_title = new_title;
 
 	gtk_window_set_title (editor, new_title);

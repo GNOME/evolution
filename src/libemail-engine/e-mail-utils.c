@@ -631,10 +631,7 @@ second_preference:
 	/* Second Preference: Choose any enabled mail account whose
 	 * address appears in the list to To: or Cc: recipients. */
 
-	if (source != NULL) {
-		g_object_unref (source);
-		source = NULL;
-	}
+	g_clear_object (&source);
 
 	extension_name = E_SOURCE_EXTENSION_MAIL_ACCOUNT;
 	list = e_source_registry_list_enabled (registry, extension_name);

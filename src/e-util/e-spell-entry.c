@@ -855,10 +855,7 @@ spell_entry_dispose (GObject *object)
 
 	g_clear_object (&priv->spell_checker);
 
-	if (priv->attr_list != NULL) {
-		pango_attr_list_unref (priv->attr_list);
-		priv->attr_list = NULL;
-	}
+	g_clear_pointer (&priv->attr_list, pango_attr_list_unref);
 
 	/* Chain up to parent's dispose() method. */
 	G_OBJECT_CLASS (e_spell_entry_parent_class)->dispose (object);

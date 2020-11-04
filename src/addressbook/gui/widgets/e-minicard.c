@@ -432,10 +432,7 @@ e_minicard_dispose (GObject *object)
 		e_minicard->fields = NULL;
 	}
 
-	if (e_minicard->list_icon_pixbuf) {
-		g_object_unref (e_minicard->list_icon_pixbuf);
-		e_minicard->list_icon_pixbuf = NULL;
-	}
+	g_clear_object (&e_minicard->list_icon_pixbuf);
 
 	/* Chain up to parent's dispose() method. */
 	G_OBJECT_CLASS (e_minicard_parent_class)->dispose (object);
@@ -450,16 +447,8 @@ e_minicard_finalize (GObject *object)
 	g_return_if_fail (E_IS_MINICARD (object));
 
 	e_minicard = E_MINICARD (object);
-
-	if (e_minicard->contact) {
-		g_object_unref (e_minicard->contact);
-		e_minicard->contact = NULL;
-	}
-
-	if (e_minicard->list_icon_pixbuf) {
-		g_object_unref (e_minicard->list_icon_pixbuf);
-		e_minicard->list_icon_pixbuf = NULL;
-	}
+	g_clear_object (&e_minicard->contact);
+	g_clear_object (&e_minicard->list_icon_pixbuf);
 
 	/* Chain up to parent's finalize() method. */
 	G_OBJECT_CLASS (e_minicard_parent_class)->finalize (object);

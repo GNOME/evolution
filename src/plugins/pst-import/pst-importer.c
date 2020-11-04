@@ -821,10 +821,7 @@ pst_import_folders (PstImporter *m,
 		pst_process_item (m, d_ptr, &previous_folder);
 
 		if (d_ptr->child != NULL) {
-			if (m->folder) {
-				g_object_unref (m->folder);
-				m->folder = NULL;
-			}
+			g_clear_object (&m->folder);
 
 			g_return_if_fail (m->folder_uri != NULL);
 			g_hash_table_insert (node_to_folderuri, d_ptr, g_strdup (m->folder_uri));
@@ -841,10 +838,7 @@ pst_import_folders (PstImporter *m,
 			d_ptr = d_ptr->next;
 		} else {
 			while (d_ptr && d_ptr != topitem && d_ptr->next == NULL) {
-				if (m->folder) {
-					g_object_unref (m->folder);
-					m->folder = NULL;
-				}
+				g_clear_object (&m->folder);
 
 				g_free (m->folder_uri);
 				m->folder_uri = NULL;
@@ -998,10 +992,7 @@ pst_process_folder (PstImporter *m,
 	g_free (m->folder_uri);
 	m->folder_uri = uri;
 
-	if (m->folder) {
-		g_object_unref (m->folder);
-		m->folder = NULL;
-	}
+	g_clear_object (&m->folder);
 
 	m->folder_count = item->folder->item_count;
 	m->current_item = 0;
@@ -1036,10 +1027,7 @@ pst_create_folder (PstImporter *m)
 
 	g_return_if_fail (g_str_has_prefix (dest, parent));
 
-	if (m->folder) {
-		g_object_unref (m->folder);
-		m->folder = NULL;
-	}
+	g_clear_object (&m->folder);
 
 	dest_len = strlen (dest);
 	dest_end = dest + dest_len;

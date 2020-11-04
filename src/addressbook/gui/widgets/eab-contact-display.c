@@ -288,11 +288,7 @@ contact_display_dispose (GObject *object)
 	EABContactDisplayPrivate *priv;
 
 	priv = EAB_CONTACT_DISPLAY_GET_PRIVATE (object);
-
-	if (priv->contact != NULL) {
-		g_object_unref (priv->contact);
-		priv->contact = NULL;
-	}
+	g_clear_object (&priv->contact);
 
 	/* Chain up to parent's dispose() method. */
 	G_OBJECT_CLASS (eab_contact_display_parent_class)->dispose (object);

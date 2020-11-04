@@ -1544,15 +1544,8 @@ subscription_editor_dispose (GObject *object)
 
 	priv = EM_SUBSCRIPTION_EDITOR_GET_PRIVATE (object);
 
-	if (priv->session != NULL) {
-		g_object_unref (priv->session);
-		priv->session = NULL;
-	}
-
-	if (priv->initial_store != NULL) {
-		g_object_unref (priv->initial_store);
-		priv->initial_store = NULL;
-	}
+	g_clear_object (&priv->session);
+	g_clear_object (&priv->initial_store);
 
 	if (priv->timeout_id > 0) {
 		g_source_remove (priv->timeout_id);

@@ -1427,15 +1427,8 @@ contact_list_editor_dispose (GObject *object)
 		priv->name_selector = NULL;
 	}
 
-	if (priv->contact) {
-		g_object_unref (priv->contact);
-		priv->contact = NULL;
-	}
-
-	if (priv->builder) {
-		g_object_unref (priv->builder);
-		priv->builder = NULL;
-	}
+	g_clear_object (&priv->contact);
+	g_clear_object (&priv->builder);
 
 	/* Chain up to parent's dispose() method. */
 	G_OBJECT_CLASS (e_contact_list_editor_parent_class)->dispose (object);

@@ -556,10 +556,7 @@ collection_account_wizard_worker_finished_cb (EConfigLookup *config_lookup,
 			gtk_widget_set_sensitive (wd2->enabled_check, TRUE);
 		}
 
-		if (wizard->priv->running_result) {
-			e_simple_async_result_complete_idle_take (wizard->priv->running_result);
-			wizard->priv->running_result = NULL;
-		}
+		g_clear_pointer (&wizard->priv->running_result, e_simple_async_result_complete_idle_take);
 
 		g_object_notify (G_OBJECT (wizard), "can-run");
 
@@ -2163,21 +2160,9 @@ collection_account_wizard_dispose (GObject *object)
 	g_clear_object (&wizard->priv->registry);
 	g_clear_object (&wizard->priv->config_lookup);
 	g_clear_object (&wizard->priv->finish_cancellable);
-
-	if (wizard->priv->workers) {
-		g_hash_table_destroy (wizard->priv->workers);
-		wizard->priv->workers = NULL;
-	}
-
-	if (wizard->priv->store_passwords) {
-		g_hash_table_destroy (wizard->priv->store_passwords);
-		wizard->priv->store_passwords = NULL;
-	}
-
-	if (wizard->priv->running_result) {
-		e_simple_async_result_complete_idle_take (wizard->priv->running_result);
-		wizard->priv->running_result = NULL;
-	}
+	g_clear_pointer (&wizard->priv->workers, g_hash_table_destroy);
+	g_clear_pointer (&wizard->priv->store_passwords, g_hash_table_destroy);
+	g_clear_pointer (&wizard->priv->running_result, e_simple_async_result_complete_idle_take);
 
 	for (ii = 0; ii <= E_CONFIG_LOOKUP_RESULT_LAST_KIND; ii++) {
 		g_clear_object (&wizard->priv->sources[ii]);

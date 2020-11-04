@@ -815,8 +815,7 @@ get_address_format (AddressFormat address_format,
 	}
 
 	if (format) {
-		if (*format)
-			g_free (*format);
+		g_free (*format);
 		*format = get_key_file_locale_string (key_file, addr_key, loc);
 		if (!*format && address_format == ADDRESS_FORMAT_HOME) {
 			*format = g_strdup (ADDRESS_DEFAULT_FORMAT);
@@ -825,8 +824,7 @@ get_address_format (AddressFormat address_format,
 	}
 
 	if (country_position) {
-		if (*country_position)
-			g_free (*country_position);
+		g_free (*country_position);
 		*country_position = get_key_file_locale_string (key_file, country_key, loc);
 		if (!*country_position && address_format == ADDRESS_FORMAT_HOME)
 			*country_position = g_strdup (ADDRESS_DEFAULT_COUNTRY_POSITION);

@@ -79,15 +79,8 @@ contact_list_model_dispose (GObject *object)
 {
 	EContactListModelPrivate *priv = E_CONTACT_LIST_MODEL (object)->priv;
 
-	if (priv->uids_table) {
-		g_hash_table_destroy (priv->uids_table);
-		priv->uids_table = NULL;
-	}
-
-	if (priv->emails_table) {
-		g_hash_table_destroy (priv->emails_table);
-		priv->emails_table = NULL;
-	}
+	g_clear_pointer (&priv->uids_table, g_hash_table_destroy);
+	g_clear_pointer (&priv->emails_table, g_hash_table_destroy);
 
 	G_OBJECT_CLASS (e_contact_list_model_parent_class)->dispose (object);
 }

@@ -62,16 +62,8 @@ book_source_config_dispose (GObject *object)
 	EBookSourceConfigPrivate *priv;
 
 	priv = E_BOOK_SOURCE_CONFIG_GET_PRIVATE (object);
-
-	if (priv->default_button != NULL) {
-		g_object_unref (priv->default_button);
-		priv->default_button = NULL;
-	}
-
-	if (priv->autocomplete_button != NULL) {
-		g_object_unref (priv->autocomplete_button);
-		priv->autocomplete_button = NULL;
-	}
+	g_clear_object (&priv->default_button);
+	g_clear_object (&priv->autocomplete_button);
 
 	/* Chain up to parent's dispose() method. */
 	G_OBJECT_CLASS (e_book_source_config_parent_class)->dispose (object);

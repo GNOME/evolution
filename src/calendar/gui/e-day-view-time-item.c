@@ -161,11 +161,7 @@ day_view_time_item_dispose (GObject *object)
 	EDayViewTimeItemPrivate *priv;
 
 	priv = E_DAY_VIEW_TIME_ITEM_GET_PRIVATE (object);
-
-	if (priv->day_view != NULL) {
-		g_object_unref (priv->day_view);
-		priv->day_view = NULL;
-	}
+	g_clear_object (&priv->day_view);
 
 	/* Chain up to parent's dispose() method. */
 	G_OBJECT_CLASS (e_day_view_time_item_parent_class)->dispose (object);

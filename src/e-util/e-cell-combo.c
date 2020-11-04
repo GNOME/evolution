@@ -217,10 +217,7 @@ e_cell_combo_dispose (GObject *object)
 {
 	ECellCombo *ecc = E_CELL_COMBO (object);
 
-	if (ecc->popup_window != NULL) {
-		gtk_widget_destroy (ecc->popup_window);
-		ecc->popup_window = NULL;
-	}
+	g_clear_pointer (&ecc->popup_window, gtk_widget_destroy);
 
 	if (ecc->grabbed_keyboard != NULL) {
 		gdk_device_ungrab (ecc->grabbed_keyboard, GDK_CURRENT_TIME);

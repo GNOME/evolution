@@ -145,10 +145,7 @@ static void
 editor_destroy (ERuleEditor *editor,
                 GObject *deadbeef)
 {
-	if (editor->edit) {
-		g_object_unref (editor->edit);
-		editor->edit = NULL;
-	}
+	g_clear_object (&editor->edit);
 
 	editor->dialog = NULL;
 

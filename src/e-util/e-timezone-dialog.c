@@ -150,25 +150,15 @@ e_timezone_dialog_dispose (GObject *object)
 	priv = E_TIMEZONE_DIALOG_GET_PRIVATE (object);
 
 	/* Destroy the actual dialog. */
-	if (priv->app != NULL) {
-		gtk_widget_destroy (priv->app);
-		priv->app = NULL;
-	}
+	g_clear_pointer (&priv->app, gtk_widget_destroy);
 
 	if (priv->timeout_id) {
 		g_source_remove (priv->timeout_id);
 		priv->timeout_id = 0;
 	}
 
-	if (priv->builder) {
-		g_object_unref (priv->builder);
-		priv->builder = NULL;
-	}
-
-	if (priv->index) {
-		g_hash_table_destroy (priv->index);
-		priv->index = NULL;
-	}
+	g_clear_object (&priv->builder);
+	g_clear_pointer (&priv->index, g_hash_table_destroy);
 
 	g_slist_free_full (priv->custom_zones, g_object_unref);
 	priv->custom_zones = NULL;

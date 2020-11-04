@@ -238,11 +238,7 @@ mail_shell_content_dispose (GObject *object)
 	EMailShellContentPrivate *priv;
 
 	priv = E_MAIL_SHELL_CONTENT_GET_PRIVATE (object);
-
-	if (priv->mail_view != NULL) {
-		g_object_unref (priv->mail_view);
-		priv->mail_view = NULL;
-	}
+	g_clear_object (&priv->mail_view);
 
 	/* Intentionally after freeing the mail_view, because
 	   the widgets it contains/references can be freed already */

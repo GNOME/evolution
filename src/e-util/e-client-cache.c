@@ -763,10 +763,7 @@ client_cache_dispose (GObject *object)
 
 	g_hash_table_remove_all (priv->client_ht);
 
-	if (priv->main_context != NULL) {
-		g_main_context_unref (priv->main_context);
-		priv->main_context = NULL;
-	}
+	g_clear_pointer (&priv->main_context, g_main_context_unref);
 
 	/* Chain up to parent's dispose() method. */
 	G_OBJECT_CLASS (e_client_cache_parent_class)->dispose (object);

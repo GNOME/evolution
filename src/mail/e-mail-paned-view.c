@@ -491,15 +491,8 @@ mail_paned_view_dispose (GObject *object)
 
 	e_mail_reader_dispose (E_MAIL_READER (object));
 
-	if (priv->paned != NULL) {
-		g_object_unref (priv->paned);
-		priv->paned = NULL;
-	}
-
-	if (priv->scrolled_window != NULL) {
-		g_object_unref (priv->scrolled_window);
-		priv->scrolled_window = NULL;
-	}
+	g_clear_object (&priv->paned);
+	g_clear_object (&priv->scrolled_window);
 
 	if (priv->message_list != NULL) {
 		/* It can be disconnected by EMailReader in e_mail_reader_dispose() */
@@ -514,15 +507,8 @@ mail_paned_view_dispose (GObject *object)
 		priv->message_list = NULL;
 	}
 
-	if (priv->preview_pane != NULL) {
-		g_object_unref (priv->preview_pane);
-		priv->preview_pane = NULL;
-	}
-
-	if (priv->view_instance != NULL) {
-		g_object_unref (priv->view_instance);
-		priv->view_instance = NULL;
-	}
+	g_clear_object (&priv->preview_pane);
+	g_clear_object (&priv->view_instance);
 
 	g_clear_pointer (&priv->last_selected_uid, g_free);
 
@@ -1094,10 +1080,7 @@ mail_paned_view_update_view_instance (EMailView *view)
 	if (folder == NULL)
 		return;
 
-	if (priv->view_instance != NULL) {
-		g_object_unref (priv->view_instance);
-		priv->view_instance = NULL;
-	}
+	g_clear_object (&priv->view_instance);
 
 	view_id = empv_create_view_id (folder);
 	e_filename_make_safe (view_id);

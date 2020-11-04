@@ -810,8 +810,7 @@ set_sender_text (ItipView *view)
 	ItipViewPrivate *priv;
 	priv = view->priv;
 
-	if (priv->sender)
-		g_free (priv->sender);
+	g_free (priv->sender);
 
 	switch (priv->type) {
 	case E_CAL_CLIENT_SOURCE_TYPE_EVENTS:
@@ -847,10 +846,8 @@ update_start_end_times (ItipView *view)
 	now = time (NULL);
 	now_tm = localtime (&now);
 
-	if (priv->start_label)
-		g_free (priv->start_label);
-	if (priv->end_label)
-		g_free (priv->end_label);
+	g_free (priv->start_label);
+	g_free (priv->end_label);
 
 	#define is_same(_member) (priv->start_tm->_member == priv->end_tm->_member)
 	if (priv->start_tm && priv->end_tm && priv->start_tm_is_date && priv->end_tm_is_date
@@ -1074,8 +1071,7 @@ append_checkbox_table_row (GString *buffer,
 
 	g_free (html_label);
 
-	if (access_key)
-		g_free (access_key);
+	g_free (access_key);
 }
 
 static void
@@ -1234,8 +1230,7 @@ buttons_table_write_button (GString *buffer,
 
 	g_free (html_label);
 
-	if (access_key)
-		g_free (access_key);
+	g_free (access_key);
 }
 
 static void
@@ -2011,9 +2006,7 @@ itip_view_set_item_type (ItipView *view,
 
 	g_object_unref (web_view);
 	g_free (html_label);
-
-	if (access_key)
-		g_free (access_key);
+	g_free (access_key);
 
 	set_sender_text (view);
 }
@@ -2032,8 +2025,7 @@ itip_view_set_organizer (ItipView *view,
 {
 	g_return_if_fail (ITIP_IS_VIEW (view));
 
-	if (view->priv->organizer)
-		g_free (view->priv->organizer);
+	g_free (view->priv->organizer);
 
 	view->priv->organizer = e_utf8_ensure_valid (organizer);
 
@@ -2054,8 +2046,7 @@ itip_view_set_organizer_sentby (ItipView *view,
 {
 	g_return_if_fail (ITIP_IS_VIEW (view));
 
-	if (view->priv->organizer_sentby)
-		g_free (view->priv->organizer_sentby);
+	g_free (view->priv->organizer_sentby);
 
 	view->priv->organizer_sentby = e_utf8_ensure_valid (sentby);
 
@@ -2076,8 +2067,7 @@ itip_view_set_attendee (ItipView *view,
 {
 	g_return_if_fail (ITIP_IS_VIEW (view));
 
-	if (view->priv->attendee)
-		g_free (view->priv->attendee);
+	g_free (view->priv->attendee);
 
 	view->priv->attendee = e_utf8_ensure_valid (attendee);
 
@@ -2098,8 +2088,7 @@ itip_view_set_attendee_sentby (ItipView *view,
 {
 	g_return_if_fail (ITIP_IS_VIEW (view));
 
-	if (view->priv->attendee_sentby)
-		g_free (view->priv->attendee_sentby);
+	g_free (view->priv->attendee_sentby);
 
 	view->priv->attendee_sentby = e_utf8_ensure_valid (sentby);
 
@@ -2120,8 +2109,7 @@ itip_view_set_proxy (ItipView *view,
 {
 	g_return_if_fail (ITIP_IS_VIEW (view));
 
-	if (view->priv->proxy)
-		g_free (view->priv->proxy);
+	g_free (view->priv->proxy);
 
 	view->priv->proxy = e_utf8_ensure_valid (proxy);
 
@@ -2142,8 +2130,7 @@ itip_view_set_delegator (ItipView *view,
 {
 	g_return_if_fail (ITIP_IS_VIEW (view));
 
-	if (view->priv->delegator)
-		g_free (view->priv->delegator);
+	g_free (view->priv->delegator);
 
 	view->priv->delegator = e_utf8_ensure_valid (delegator);
 
@@ -2164,8 +2151,7 @@ itip_view_set_summary (ItipView *view,
 {
 	g_return_if_fail (ITIP_IS_VIEW (view));
 
-	if (view->priv->summary)
-		g_free (view->priv->summary);
+	g_free (view->priv->summary);
 
 	view->priv->summary = summary ? g_strstrip (e_utf8_ensure_valid (summary)) : NULL;
 
@@ -2186,8 +2172,7 @@ itip_view_set_location (ItipView *view,
 {
 	g_return_if_fail (ITIP_IS_VIEW (view));
 
-	if (view->priv->location)
-		g_free (view->priv->location);
+	g_free (view->priv->location);
 
 	view->priv->location = location ? g_strstrip (e_utf8_ensure_valid (location)) : NULL;
 
@@ -2232,8 +2217,7 @@ itip_view_set_status (ItipView *view,
 {
 	g_return_if_fail (ITIP_IS_VIEW (view));
 
-	if (view->priv->status)
-		g_free (view->priv->status);
+	g_free (view->priv->status);
 
 	view->priv->status = status ? g_strstrip (e_utf8_ensure_valid (status)) : NULL;
 
@@ -2254,8 +2238,7 @@ itip_view_set_comment (ItipView *view,
 {
 	g_return_if_fail (ITIP_IS_VIEW (view));
 
-	if (view->priv->comment)
-		g_free (view->priv->comment);
+	g_free (view->priv->comment);
 
 	view->priv->comment = comment ? g_strstrip (e_utf8_ensure_valid (comment)) : NULL;
 
@@ -2426,8 +2409,7 @@ itip_view_set_description (ItipView *view,
 {
 	g_return_if_fail (ITIP_IS_VIEW (view));
 
-	if (view->priv->description)
-		g_free (view->priv->description);
+	g_free (view->priv->description);
 
 	view->priv->description = description ? g_strstrip (e_utf8_ensure_valid (description)) : NULL;
 
@@ -4056,8 +4038,7 @@ decrease_find_data (FormatItipFindData *fd)
 		g_object_unref (fd->view);
 		g_free (fd->uid);
 		g_free (fd->rid);
-		if (fd->sexp)
-			g_free (fd->sexp);
+		g_free (fd->sexp);
 		g_slice_free (FormatItipFindData, fd);
 	}
 }

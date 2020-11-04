@@ -390,11 +390,7 @@ picture_gallery_dispose (GObject *object)
 	EPictureGallery *gallery;
 
 	gallery = E_PICTURE_GALLERY (object);
-
-	if (gallery->priv->monitor) {
-		g_object_unref (gallery->priv->monitor);
-		gallery->priv->monitor = NULL;
-	}
+	g_clear_object (&gallery->priv->monitor);
 
 	g_free (gallery->priv->path);
 	gallery->priv->path = NULL;

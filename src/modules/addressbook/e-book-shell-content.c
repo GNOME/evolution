@@ -230,21 +230,9 @@ book_shell_content_dispose (GObject *object)
 	EBookShellContentPrivate *priv;
 
 	priv = E_BOOK_SHELL_CONTENT_GET_PRIVATE (object);
-
-	if (priv->paned != NULL) {
-		g_object_unref (priv->paned);
-		priv->paned = NULL;
-	}
-
-	if (priv->notebook != NULL) {
-		g_object_unref (priv->notebook);
-		priv->notebook = NULL;
-	}
-
-	if (priv->preview_pane != NULL) {
-		g_object_unref (priv->preview_pane);
-		priv->preview_pane = NULL;
-	}
+	g_clear_object (&priv->paned);
+	g_clear_object (&priv->notebook);
+	g_clear_object (&priv->preview_pane);
 
 	/* Chain up to parent's dispose() method. */
 	G_OBJECT_CLASS (e_book_shell_content_parent_class)->dispose (object);

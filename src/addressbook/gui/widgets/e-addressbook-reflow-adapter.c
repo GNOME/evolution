@@ -107,10 +107,7 @@ unlink_model (EAddressbookReflowAdapter *adapter)
 	priv->search_result_id = 0;
 	priv->notify_client_id = 0;
 
-	if (priv->model)
-		g_object_unref (priv->model);
-
-	priv->model = NULL;
+	g_clear_object (&priv->model);
 }
 
 static gint

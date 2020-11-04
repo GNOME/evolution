@@ -130,10 +130,7 @@ filter_editor_folder_element_dispose (GObject *object)
 	EMFilterEditorFolderElementPrivate *priv;
 
 	priv = EM_FILTER_EDITOR_FOLDER_ELEMENT_GET_PRIVATE (object);
-	if (priv->session != NULL) {
-		g_object_unref (priv->session);
-		priv->session = NULL;
-	}
+	g_clear_object (&priv->session);
 
 	/* Chain up to parent's dispose() method. */
 	G_OBJECT_CLASS (em_filter_editor_folder_element_parent_class)->dispose (object);

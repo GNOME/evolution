@@ -215,11 +215,7 @@ addressbook_selector_dispose (GObject *object)
 	EAddressbookSelectorPrivate *priv;
 
 	priv = E_ADDRESSBOOK_SELECTOR_GET_PRIVATE (object);
-
-	if (priv->current_view != NULL) {
-		g_object_unref (priv->current_view);
-		priv->current_view = NULL;
-	}
+	g_clear_object (&priv->current_view);
 
 	/* Chain up to parent's dispose() method. */
 	G_OBJECT_CLASS (e_addressbook_selector_parent_class)->dispose (object);
@@ -442,10 +438,7 @@ e_addressbook_selector_set_current_view (EAddressbookSelector *selector,
 	if (selector->priv->current_view == current_view)
 		return;
 
-	if (selector->priv->current_view != NULL) {
-		g_object_unref (selector->priv->current_view);
-		selector->priv->current_view = NULL;
-	}
+	g_clear_object (&selector->priv->current_view);
 
 	if (current_view != NULL)
 		g_object_ref (current_view);

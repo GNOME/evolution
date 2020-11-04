@@ -78,10 +78,7 @@ gal_a11y_e_table_column_header_dispose (GObject *object)
 	GalA11yETableColumnHeader *a11y = GAL_A11Y_E_TABLE_COLUMN_HEADER (object);
 	GalA11yETableColumnHeaderPrivate *priv = GET_PRIVATE (a11y);
 
-	if (priv->state_set) {
-		g_object_unref (priv->state_set);
-		priv->state_set = NULL;
-	}
+	g_clear_object (&priv->state_set);
 
 	if (parent_class->dispose)
 		parent_class->dispose (object);

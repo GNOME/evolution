@@ -756,9 +756,7 @@ free_height_cache (ETableItem *eti)
 	item = GNOME_CANVAS_ITEM (eti);
 
 	if (item->flags & GNOME_CANVAS_ITEM_REALIZED) {
-		if (eti->height_cache)
-			g_free (eti->height_cache);
-		eti->height_cache = NULL;
+		g_clear_pointer (&eti->height_cache, g_free);
 		eti->height_cache_idle_count = 0;
 		eti->uniform_row_height_cache = -1;
 
@@ -1594,9 +1592,7 @@ eti_dispose (GObject *object)
 		eti->cursor_idle_id = 0;
 	}
 
-	if (eti->height_cache)
-		g_free (eti->height_cache);
-	eti->height_cache = NULL;
+	g_clear_pointer (&eti->height_cache, g_free);
 
 	/* Chain up to parent's dispose() method. */
 	G_OBJECT_CLASS (e_table_item_parent_class)->dispose (object);
@@ -1870,9 +1866,7 @@ eti_unrealize (GnomeCanvasItem *item)
 		eti->height_cache_idle_id = 0;
 	}
 
-	if (eti->height_cache)
-		g_free (eti->height_cache);
-	eti->height_cache = NULL;
+	g_clear_pointer (&eti->height_cache, g_free);
 	eti->height_cache_idle_count = 0;
 
 	eti_unrealize_cell_views (eti);

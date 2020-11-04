@@ -56,10 +56,7 @@ composer_prefs_dispose (GObject *object)
 {
 	EMComposerPrefs *prefs = (EMComposerPrefs *) object;
 
-	if (prefs->builder != NULL) {
-		g_object_unref (prefs->builder);
-		prefs->builder = NULL;
-	}
+	g_clear_object (&prefs->builder);
 
 	/* Chain up to parent's dispose() method. */
 	G_OBJECT_CLASS (em_composer_prefs_parent_class)->dispose (object);

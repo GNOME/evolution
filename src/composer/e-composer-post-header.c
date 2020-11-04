@@ -146,11 +146,7 @@ composer_post_header_dispose (GObject *object)
 	EComposerPostHeaderPrivate *priv;
 
 	priv = E_COMPOSER_POST_HEADER_GET_PRIVATE (object);
-
-	if (priv->mail_account != NULL) {
-		g_object_unref (priv->mail_account);
-		priv->mail_account = NULL;
-	}
+	g_clear_object (&priv->mail_account);
 
 	/* Chain up to parent's dispose() method. */
 	G_OBJECT_CLASS (e_composer_post_header_parent_class)->dispose (object);

@@ -231,11 +231,7 @@ tmpl_folder_data_unref (gpointer ptr)
 			tfd->changed_handler_id = 0;
 		}
 
-		if (tfd->templates_store_weakref) {
-			e_weak_ref_free (tfd->templates_store_weakref);
-			tfd->templates_store_weakref = NULL;
-		}
-
+		g_clear_pointer (&tfd->templates_store_weakref, e_weak_ref_free);
 		g_clear_object (&tfd->folder);
 
 		g_mutex_clear (&tfd->busy_lock);
@@ -699,10 +695,7 @@ tmpl_store_data_unref (gpointer ptr)
 		if (!g_atomic_int_dec_and_test (&tsd->ref_count))
 			return;
 
-		if (tsd->templates_store_weakref) {
-			e_weak_ref_free (tsd->templates_store_weakref);
-			tsd->templates_store_weakref = NULL;
-		}
+		g_clear_pointer (&tsd->templates_store_weakref, e_weak_ref_free);
 
 		if (tsd->store_weakref) {
 			CamelStore *store;

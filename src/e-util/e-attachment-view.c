@@ -523,10 +523,8 @@ attachment_view_uri_list (EAttachmentView *view,
 
 			g_object_unref (attachment);
 			g_object_unref (mime_part);
-			if (mime_type)
-				g_free (mime_type);
-			if (filename)
-				g_free (filename);
+			g_free (mime_type);
+			g_free (filename);
 			g_free (base64_data);
 		} else {
 			/* regular URIs */
@@ -962,15 +960,8 @@ e_attachment_view_dispose (EAttachmentView *view)
 
 	priv = e_attachment_view_get_private (view);
 
-	if (priv->target_list != NULL) {
-		gtk_target_list_unref (priv->target_list);
-		priv->target_list = NULL;
-	}
-
-	if (priv->ui_manager != NULL) {
-		g_object_unref (priv->ui_manager);
-		priv->ui_manager = NULL;
-	}
+	g_clear_pointer (&priv->target_list, gtk_target_list_unref);
+	g_clear_object (&priv->ui_manager);
 }
 
 void

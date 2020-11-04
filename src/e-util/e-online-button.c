@@ -127,10 +127,7 @@ online_button_dispose (GObject *object)
 
 	priv = E_ONLINE_BUTTON_GET_PRIVATE (object);
 
-	if (priv->image != NULL) {
-		g_object_unref (priv->image);
-		priv->image = NULL;
-	}
+	g_clear_object (&priv->image);
 
 	/* Chain up to parent's dispose() method. */
 	G_OBJECT_CLASS (e_online_button_parent_class)->dispose (object);

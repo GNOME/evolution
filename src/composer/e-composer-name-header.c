@@ -173,11 +173,7 @@ composer_name_header_dispose (GObject *object)
 	EComposerNameHeaderPrivate *priv;
 
 	priv = E_COMPOSER_NAME_HEADER_GET_PRIVATE (object);
-
-	if (priv->name_selector != NULL) {
-		g_object_unref (priv->name_selector);
-		priv->name_selector = NULL;
-	}
+	g_clear_object (&priv->name_selector);
 
 	/* Chain up to parent's dispose() method. */
 	G_OBJECT_CLASS (e_composer_name_header_parent_class)->dispose (object);

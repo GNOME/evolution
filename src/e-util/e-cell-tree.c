@@ -792,9 +792,7 @@ ect_dispose (GObject *object)
 	ECellTree *ect = E_CELL_TREE (object);
 
 	/* destroy our subcell */
-	if (ect->subcell)
-		g_object_unref (ect->subcell);
-	ect->subcell = NULL;
+	g_clear_object (&ect->subcell);
 
 	G_OBJECT_CLASS (e_cell_tree_parent_class)->dispose (object);
 }

@@ -373,16 +373,8 @@ image_chooser_dispose (GObject *object)
 	EImageChooserPrivate *priv;
 
 	priv = E_IMAGE_CHOOSER_GET_PRIVATE (object);
-
-	if (priv->frame != NULL) {
-		g_object_unref (priv->frame);
-		priv->frame = NULL;
-	}
-
-	if (priv->image != NULL) {
-		g_object_unref (priv->image);
-		priv->image = NULL;
-	}
+	g_clear_object (&priv->frame);
+	g_clear_object (&priv->image);
 
 	/* Chain up to parent's dispose() method. */
 	G_OBJECT_CLASS (e_image_chooser_parent_class)->dispose (object);

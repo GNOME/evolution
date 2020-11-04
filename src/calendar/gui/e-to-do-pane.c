@@ -2972,10 +2972,7 @@ e_to_do_pane_set_overdue_color (EToDoPane *to_do_pane,
 	     gdk_rgba_equal (to_do_pane->priv->overdue_color, overdue_color)))
 		return;
 
-	if (to_do_pane->priv->overdue_color) {
-		gdk_rgba_free (to_do_pane->priv->overdue_color);
-		to_do_pane->priv->overdue_color = NULL;
-	}
+	g_clear_pointer (&to_do_pane->priv->overdue_color, gdk_rgba_free);
 
 	if (overdue_color)
 		to_do_pane->priv->overdue_color = gdk_rgba_copy (overdue_color);

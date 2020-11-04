@@ -72,13 +72,8 @@ etfci_dispose (GObject *object)
 	etfci_drop_table_header (etfci);
 	etfci_drop_full_header (etfci);
 
-	if (etfci->combined_header)
-		g_object_unref (etfci->combined_header);
-	etfci->combined_header = NULL;
-
-	if (etfci->font_desc)
-		pango_font_description_free (etfci->font_desc);
-	etfci->font_desc = NULL;
+	g_clear_object (&etfci->combined_header);
+	g_clear_pointer (&etfci->font_desc, pango_font_description_free);
 
 	g_free (etfci->dnd_code);
 	etfci->dnd_code = NULL;
@@ -472,9 +467,7 @@ etfci_unrealize (GnomeCanvasItem *item)
 {
 	ETableFieldChooserItem *etfci = E_TABLE_FIELD_CHOOSER_ITEM (item);
 
-	if (etfci->font_desc)
-		pango_font_description_free (etfci->font_desc);
-	etfci->font_desc = NULL;
+	g_clear_pointer (&etfci->font_desc, pango_font_description_free);
 
 	g_signal_handler_disconnect (item->canvas, etfci->drag_end_id);
 	etfci->drag_end_id = 0;

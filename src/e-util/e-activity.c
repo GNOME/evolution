@@ -185,11 +185,7 @@ activity_dispose (GObject *object)
 	EActivityPrivate *priv;
 
 	priv = E_ACTIVITY_GET_PRIVATE (object);
-
-	if (priv->alert_sink != NULL) {
-		g_object_unref (priv->alert_sink);
-		priv->alert_sink = NULL;
-	}
+	g_clear_object (&priv->alert_sink);
 
 	if (priv->cancellable != NULL) {
 		g_signal_handlers_disconnect_matched (

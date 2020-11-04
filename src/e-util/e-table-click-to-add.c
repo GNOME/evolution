@@ -193,9 +193,7 @@ etcta_dispose (GObject *object)
 	etcta_drop_table_header (etcta);
 	etcta_drop_model (etcta);
 	etcta_drop_message (etcta);
-	if (etcta->selection)
-		g_object_unref (etcta->selection);
-	etcta->selection = NULL;
+	g_clear_object (&etcta->selection);
 
 	/* Chain up to parent's dispose() method. */
 	G_OBJECT_CLASS (e_table_click_to_add_parent_class)->dispose (object);

@@ -86,10 +86,7 @@ e_meeting_list_view_finalize (GObject *object)
 		priv->name_selector = NULL;
 	}
 
-	if (priv->renderers) {
-		g_hash_table_destroy (priv->renderers);
-		priv->renderers = NULL;
-	}
+	g_clear_pointer (&priv->renderers, g_hash_table_destroy);
 
 	/* Chain up to parent's finalize() method. */
 	G_OBJECT_CLASS (e_meeting_list_view_parent_class)->finalize (object);
@@ -1021,11 +1018,7 @@ process_section (EMeetingListView *view,
 			g_free (email_addr);
 		}
 
-		if (des) {
-			g_object_unref (des);
-			des = NULL;
-		}
-
+		g_clear_object (&des);
 	}
 }
 
@@ -1136,11 +1129,7 @@ e_meeting_list_view_set_name_selector (EMeetingListView *lview,
 	g_return_if_fail (E_IS_MEETING_LIST_VIEW (lview));
 
 	priv = lview->priv;
-
-	if (priv->name_selector) {
-		g_object_unref (priv->name_selector);
-		priv->name_selector = NULL;
-	}
+	g_clear_object (&priv->name_selector);
 
 	priv->name_selector = g_object_ref (name_selector);
 }

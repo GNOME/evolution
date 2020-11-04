@@ -866,23 +866,10 @@ week_view_dispose (GObject *object)
 		week_view->events = NULL;
 	}
 
-	if (week_view->small_font_desc) {
-		pango_font_description_free (week_view->small_font_desc);
-		week_view->small_font_desc = NULL;
-	}
-
-	if (week_view->normal_cursor) {
-		g_object_unref (week_view->normal_cursor);
-		week_view->normal_cursor = NULL;
-	}
-	if (week_view->move_cursor) {
-		g_object_unref (week_view->move_cursor);
-		week_view->move_cursor = NULL;
-	}
-	if (week_view->resize_width_cursor) {
-		g_object_unref (week_view->resize_width_cursor);
-		week_view->resize_width_cursor = NULL;
-	}
+	g_clear_pointer (&week_view->small_font_desc, pango_font_description_free);
+	g_clear_object (&week_view->normal_cursor);
+	g_clear_object (&week_view->move_cursor);
+	g_clear_object (&week_view->resize_width_cursor);
 
 	calendar_config_remove_notification (
 		month_scroll_by_week_changed_cb, week_view);
@@ -4599,10 +4586,7 @@ e_week_view_change_event_time (EWeekView *week_view,
 
 	e_cal_component_commit_sequence (comp);
 
-	if (week_view->last_edited_comp_string != NULL) {
-		g_free (week_view->last_edited_comp_string);
-		week_view->last_edited_comp_string = NULL;
-	}
+	g_clear_pointer (&week_view->last_edited_comp_string, g_free);
 
 	week_view->last_edited_comp_string = e_cal_component_get_as_string (comp);
 
@@ -5123,8 +5107,7 @@ e_week_view_do_key_press (GtkWidget *widget,
 
 	e_week_view_add_new_event_in_selected_range (week_view, initial_text, FALSE);
 
-	if (initial_text)
-		g_free (initial_text);
+	g_free (initial_text);
 
 	return TRUE;
 }

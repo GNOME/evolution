@@ -1511,18 +1511,10 @@ mail_display_finalize (GObject *object)
 	EMailDisplayPrivate *priv;
 
 	priv = E_MAIL_DISPLAY_GET_PRIVATE (object);
-
-	if (priv->old_settings) {
-		g_hash_table_destroy (priv->old_settings);
-		priv->old_settings = NULL;
-	}
+	g_clear_pointer (&priv->old_settings, g_hash_table_destroy);
 
 	g_mutex_lock (&priv->remote_content_lock);
-	if (priv->skipped_remote_content_sites) {
-		g_hash_table_destroy (priv->skipped_remote_content_sites);
-		priv->skipped_remote_content_sites = NULL;
-	}
-
+	g_clear_pointer (&priv->skipped_remote_content_sites, g_hash_table_destroy);
 	g_hash_table_destroy (priv->attachment_flags);
 	g_clear_object (&priv->remote_content);
 	g_mutex_unlock (&priv->remote_content_lock);

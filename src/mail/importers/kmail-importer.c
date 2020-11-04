@@ -78,8 +78,7 @@ kmail_import_done (gpointer data,
 	KMailImporter *importer = data;
 
 	g_source_remove (importer->status_timeout_id);
-	if (importer->status_what)
-		g_free (importer->status_what);
+	g_free (importer->status_what);
 
 	g_mutex_clear (&importer->status_lock);
 	g_object_unref (importer->cancellable);
@@ -137,8 +136,7 @@ static void
 folder_selected (EMFolderSelectionButton *button,
                  EImportTargetURI *target)
 {
-	if (target->uri_dest)
-		g_free (target->uri_dest);
+	g_free (target->uri_dest);
 	target->uri_dest = g_strdup (em_folder_selection_button_get_folder_uri (button));
 }
 

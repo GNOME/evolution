@@ -564,38 +564,16 @@ addressbook_view_dispose (GObject *object)
 		priv->activity = NULL;
 	}
 
-	if (priv->source != NULL) {
-		g_object_unref (priv->source);
-		priv->source = NULL;
-	}
-
-	if (priv->view_instance != NULL) {
-		g_object_unref (priv->view_instance);
-		priv->view_instance = NULL;
-	}
+	g_clear_object (&priv->source);
+	g_clear_object (&priv->view_instance);
 
 	priv->filter_id = 0;
 	priv->search_id = 0;
 
-	if (priv->search_text) {
-		g_free (priv->search_text);
-		priv->search_text = NULL;
-	}
-
-	if (priv->advanced_search) {
-		g_object_unref (priv->advanced_search);
-		priv->advanced_search = NULL;
-	}
-
-	if (priv->copy_target_list != NULL) {
-		gtk_target_list_unref (priv->copy_target_list);
-		priv->copy_target_list = NULL;
-	}
-
-	if (priv->paste_target_list != NULL) {
-		gtk_target_list_unref (priv->paste_target_list);
-		priv->paste_target_list = NULL;
-	}
+	g_clear_pointer (&priv->search_text, g_free);
+	g_clear_object (&priv->advanced_search);
+	g_clear_pointer (&priv->copy_target_list, gtk_target_list_unref);
+	g_clear_pointer (&priv->paste_target_list, gtk_target_list_unref);
 
 	/* Chain up to parent's dispose() method. */
 	G_OBJECT_CLASS (e_addressbook_view_parent_class)->dispose (object);
@@ -1642,9 +1620,7 @@ e_addressbook_view_set_search (EAddressbookView *view,
 	g_return_if_fail (E_IS_ADDRESSBOOK_VIEW (view));
 
 	priv = view->priv;
-
-	if (priv->search_text)
-		g_free (priv->search_text);
+	g_free (priv->search_text);
 	if (priv->advanced_search)
 		g_object_unref (priv->advanced_search);
 

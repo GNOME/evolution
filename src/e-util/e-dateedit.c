@@ -336,10 +336,7 @@ date_edit_dispose (GObject *object)
 
 	e_date_edit_set_get_time_callback (dedit, NULL, NULL, NULL);
 
-	if (dedit->priv->cal_popup != NULL) {
-		gtk_widget_destroy (dedit->priv->cal_popup);
-		dedit->priv->cal_popup = NULL;
-	}
+	g_clear_pointer (&dedit->priv->cal_popup, gtk_widget_destroy);
 
 	if (dedit->priv->grabbed_keyboard != NULL) {
 		gdk_device_ungrab (

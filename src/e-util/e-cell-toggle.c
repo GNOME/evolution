@@ -106,11 +106,7 @@ cell_toggle_dispose (GObject *object)
 	ECellTogglePrivate *priv;
 
 	priv = E_CELL_TOGGLE_GET_PRIVATE (object);
-
-	if (priv->empty != NULL) {
-		g_object_unref (priv->empty);
-		priv->empty = NULL;
-	}
+	g_clear_object (&priv->empty);
 
 	/* This unrefs all the elements. */
 	g_ptr_array_set_size (priv->pixbufs, 0);

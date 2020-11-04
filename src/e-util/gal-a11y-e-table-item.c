@@ -125,11 +125,7 @@ item_finalized (gpointer user_data,
 	if (priv->selection)
 		gal_a11y_e_table_item_unref_selection (a11y);
 
-	if (priv->columns) {
-		free_columns (priv->columns);
-		priv->columns = NULL;
-	}
-
+	g_clear_pointer (&priv->columns, free_columns);
 	g_object_unref (a11y);
 }
 
@@ -334,10 +330,7 @@ eti_dispose (GObject *object)
 	GHashTableIter iter;
 	gpointer key, value;
 
-	if (priv->columns) {
-		free_columns (priv->columns);
-		priv->columns = NULL;
-	}
+	g_clear_pointer (&priv->columns, free_columns);
 
 	if (priv->item) {
 		g_object_weak_unref (G_OBJECT (priv->item), item_finalized, a11y);

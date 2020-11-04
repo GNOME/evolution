@@ -252,11 +252,7 @@ emoticon_tool_button_dispose (GObject *object)
 	EEmoticonToolButtonPrivate *priv;
 
 	priv = E_EMOTICON_TOOL_BUTTON_GET_PRIVATE (object);
-
-	if (priv->popover != NULL) {
-		gtk_widget_destroy (priv->popover);
-		priv->popover = NULL;
-	}
+	g_clear_pointer (&priv->popover, gtk_widget_destroy);
 
 	/* Chain up to parent's dispose() method. */
 	G_OBJECT_CLASS (e_emoticon_tool_button_parent_class)->dispose (object);

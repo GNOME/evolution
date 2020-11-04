@@ -1105,10 +1105,7 @@ mail_session_dispose (GObject *object)
 		priv->outbox_changed_handler_id = 0;
 	}
 
-	if (priv->folder_cache != NULL) {
-		g_object_unref (priv->folder_cache);
-		priv->folder_cache = NULL;
-	}
+	g_clear_object (&priv->folder_cache);
 
 	g_ptr_array_set_size (priv->local_folders, 0);
 	g_ptr_array_set_size (priv->local_folder_uris, 0);
@@ -1127,15 +1124,8 @@ mail_session_dispose (GObject *object)
 
 	g_mutex_unlock (&priv->preparing_flush_lock);
 
-	if (priv->local_store != NULL) {
-		g_object_unref (priv->local_store);
-		priv->local_store = NULL;
-	}
-
-	if (priv->vfolder_store != NULL) {
-		g_object_unref (priv->vfolder_store);
-		priv->vfolder_store = NULL;
-	}
+	g_clear_object (&priv->local_store);
+	g_clear_object (&priv->vfolder_store);
 
 	g_mutex_lock (&priv->archive_folders_hash_lock);
 

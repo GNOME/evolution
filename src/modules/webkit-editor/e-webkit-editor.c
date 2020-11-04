@@ -4245,10 +4245,7 @@ webkit_editor_dispose (GObject *object)
 	if (priv->cancellable)
 		g_cancellable_cancel (priv->cancellable);
 
-	if (priv->current_user_stylesheet != NULL) {
-		g_free (priv->current_user_stylesheet);
-		priv->current_user_stylesheet = NULL;
-	}
+	g_clear_pointer (&priv->current_user_stylesheet, g_free);
 
 	if (priv->font_settings != NULL) {
 		g_signal_handlers_disconnect_by_data (priv->font_settings, object);
@@ -4289,10 +4286,7 @@ webkit_editor_finalize (GObject *object)
 
 	priv = E_WEBKIT_EDITOR_GET_PRIVATE (object);
 
-	if (priv->old_settings) {
-		g_hash_table_destroy (priv->old_settings);
-		priv->old_settings = NULL;
-	}
+	g_clear_pointer (&priv->old_settings, g_hash_table_destroy);
 
 	if (priv->post_reload_operations) {
 		g_warn_if_fail (g_queue_is_empty (priv->post_reload_operations));

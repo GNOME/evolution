@@ -560,10 +560,7 @@ addressbook_model_dispose (GObject *object)
 	g_clear_object (&model->priv->client_cache);
 	g_clear_object (&model->priv->book_client);
 
-	if (model->priv->query_str) {
-		g_free (model->priv->query_str);
-		model->priv->query_str = NULL;
-	}
+	g_clear_pointer (&model->priv->query_str, g_free);
 
 	/* Chain up to parent's dispose() method. */
 	G_OBJECT_CLASS (e_addressbook_model_parent_class)->dispose (object);

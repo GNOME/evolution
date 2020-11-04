@@ -127,16 +127,8 @@ cal_source_config_dispose (GObject *object)
 	ECalSourceConfigPrivate *priv;
 
 	priv = E_CAL_SOURCE_CONFIG_GET_PRIVATE (object);
-
-	if (priv->color_button != NULL) {
-		g_object_unref (priv->color_button);
-		priv->color_button = NULL;
-	}
-
-	if (priv->default_button != NULL) {
-		g_object_unref (priv->default_button);
-		priv->default_button = NULL;
-	}
+	g_clear_object (&priv->color_button);
+	g_clear_object (&priv->default_button);
 
 	/* Chain up to parent's dispose() method. */
 	G_OBJECT_CLASS (e_cal_source_config_parent_class)->dispose (object);

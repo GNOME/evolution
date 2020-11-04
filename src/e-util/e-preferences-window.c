@@ -223,10 +223,7 @@ preferences_window_dispose (GObject *object)
 		priv->icon_view = NULL;
 	}
 
-	if (priv->notebook != NULL) {
-		g_object_unref (priv->notebook);
-		priv->notebook = NULL;
-	}
+	g_clear_object (&priv->notebook);
 
 	if (priv->shell) {
 		g_object_remove_weak_pointer (priv->shell, &priv->shell);

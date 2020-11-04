@@ -699,8 +699,7 @@ dbx_import_file (DbxImporter *m)
  out:
 	if (m->dbx_fd != -1)
 		close (m->dbx_fd);
-	if (m->indices)
-		g_free (m->indices);
+	g_free (m->indices);
 	/* FIXME Not passing GCancellable or GError here. */
 	camel_folder_synchronize_sync (folder, FALSE, NULL, NULL);
 	camel_folder_thaw (folder);

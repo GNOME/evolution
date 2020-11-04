@@ -170,20 +170,9 @@ composer_header_dispose (GObject *object)
 {
 	EComposerHeader *header = E_COMPOSER_HEADER (object);
 
-	if (header->title_widget != NULL) {
-		g_object_unref (header->title_widget);
-		header->title_widget = NULL;
-	}
-
-	if (header->input_widget != NULL) {
-		g_object_unref (header->input_widget);
-		header->input_widget = NULL;
-	}
-
-	if (header->priv->registry != NULL) {
-		g_object_unref (header->priv->registry);
-		header->priv->registry = NULL;
-	}
+	g_clear_object (&header->title_widget);
+	g_clear_object (&header->input_widget);
+	g_clear_object (&header->priv->registry);
 
 	/* Chain up to parent's dispose() method. */
 	G_OBJECT_CLASS (e_composer_header_parent_class)->dispose (object);

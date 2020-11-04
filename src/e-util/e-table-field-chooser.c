@@ -241,13 +241,8 @@ e_table_field_chooser_dispose (GObject *object)
 	g_free (etfc->dnd_code);
 	etfc->dnd_code = NULL;
 
-	if (etfc->full_header)
-		g_object_unref (etfc->full_header);
-	etfc->full_header = NULL;
-
-	if (etfc->header)
-		g_object_unref (etfc->header);
-	etfc->header = NULL;
+	g_clear_object (&etfc->full_header);
+	g_clear_object (&etfc->header);
 
 	/* Chain up to parent's dispose() method. */
 	G_OBJECT_CLASS (e_table_field_chooser_parent_class)->dispose (object);

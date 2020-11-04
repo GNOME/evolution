@@ -103,21 +103,10 @@ etgc_dispose (GObject *object)
 	if (etgc->children)
 		e_table_group_container_list_free (etgc);
 
-	if (etgc->font_desc)
-		pango_font_description_free (etgc->font_desc);
-	etgc->font_desc = NULL;
-
-	if (etgc->ecol)
-		g_object_unref (etgc->ecol);
-	etgc->ecol = NULL;
-
-	if (etgc->sort_info)
-		g_object_unref (etgc->sort_info);
-	etgc->sort_info = NULL;
-
-	if (etgc->selection_model)
-		g_object_unref (etgc->selection_model);
-	etgc->selection_model = NULL;
+	g_clear_pointer (&etgc->font_desc, pango_font_description_free);
+	g_clear_object (&etgc->ecol);
+	g_clear_object (&etgc->sort_info);
+	g_clear_object (&etgc->selection_model);
 
 	if (etgc->rect)
 		g_object_run_dispose (G_OBJECT (etgc->rect));
@@ -1500,9 +1489,7 @@ e_table_group_container_reset (EPrintable *ep,
                                ETGCPrintContext *groupcontext)
 {
 	groupcontext->child = groupcontext->etgc->children;
-	if (groupcontext->child_printable)
-		g_object_unref (groupcontext->child_printable);
-	groupcontext->child_printable = NULL;
+	g_clear_object (&groupcontext->child_printable);
 }
 
 static gdouble

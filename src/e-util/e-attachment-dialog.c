@@ -164,31 +164,11 @@ attachment_dialog_dispose (GObject *object)
 	EAttachmentDialogPrivate *priv;
 
 	priv = E_ATTACHMENT_DIALOG_GET_PRIVATE (object);
-
-	if (priv->attachment != NULL) {
-		g_object_unref (priv->attachment);
-		priv->attachment = NULL;
-	}
-
-	if (priv->display_name_entry != NULL) {
-		g_object_unref (priv->display_name_entry);
-		priv->display_name_entry = NULL;
-	}
-
-	if (priv->description_entry != NULL) {
-		g_object_unref (priv->description_entry);
-		priv->description_entry = NULL;
-	}
-
-	if (priv->content_type_label != NULL) {
-		g_object_unref (priv->content_type_label);
-		priv->content_type_label = NULL;
-	}
-
-	if (priv->disposition_checkbox != NULL) {
-		g_object_unref (priv->disposition_checkbox);
-		priv->disposition_checkbox = NULL;
-	}
+	g_clear_object (&priv->attachment);
+	g_clear_object (&priv->display_name_entry);
+	g_clear_object (&priv->description_entry);
+	g_clear_object (&priv->content_type_label);
+	g_clear_object (&priv->disposition_checkbox);
 
 	/* Chain up to parent's dispose() method. */
 	G_OBJECT_CLASS (e_attachment_dialog_parent_class)->dispose (object);

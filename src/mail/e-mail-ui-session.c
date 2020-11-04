@@ -441,11 +441,7 @@ mail_ui_session_dispose (GObject *object)
 	EMailUISessionPrivate *priv;
 
 	priv = E_MAIL_UI_SESSION_GET_PRIVATE (object);
-
-	if (priv->registry != NULL) {
-		g_object_unref (priv->registry);
-		priv->registry = NULL;
-	}
+	g_clear_object (&priv->registry);
 
 	if (priv->account_store != NULL) {
 		e_mail_account_store_clear (priv->account_store);
@@ -453,15 +449,8 @@ mail_ui_session_dispose (GObject *object)
 		priv->account_store = NULL;
 	}
 
-	if (priv->label_store != NULL) {
-		g_object_unref (priv->label_store);
-		priv->label_store = NULL;
-	}
-
-	if (priv->photo_cache != NULL) {
-		g_object_unref (priv->photo_cache);
-		priv->photo_cache = NULL;
-	}
+	g_clear_object (&priv->label_store);
+	g_clear_object (&priv->photo_cache);
 
 	g_mutex_lock (&priv->address_cache_mutex);
 	g_slist_free_full (priv->address_cache, address_cache_data_free);
@@ -482,10 +471,7 @@ mail_ui_session_finalize (GObject *object)
 	g_mutex_clear (&priv->address_cache_mutex);
 
 #ifdef HAVE_CANBERRA
-	if (cactx) {
-		ca_context_destroy (cactx);
-		cactx = NULL;
-	}
+	g_clear_pointer (&cactx, ca_context_destroy);
 #endif
 
 	/* Chain up to parent's method. */

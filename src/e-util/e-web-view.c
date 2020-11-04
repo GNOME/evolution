@@ -1160,10 +1160,7 @@ web_view_finalize (GObject *object)
 	while (!g_queue_is_empty (&priv->highlights))
 		g_free (g_queue_pop_head (&priv->highlights));
 
-	if (priv->old_settings) {
-		g_hash_table_destroy (priv->old_settings);
-		priv->old_settings = NULL;
-	}
+	g_clear_pointer (&priv->old_settings, g_hash_table_destroy);
 
 	g_hash_table_destroy (priv->element_clicked_cbs);
 

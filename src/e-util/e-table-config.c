@@ -57,17 +57,9 @@ config_finalize (GObject *object)
 {
 	ETableConfig *config = E_TABLE_CONFIG (object);
 
-	if (config->state)
-		g_object_unref (config->state);
-	config->state = NULL;
-
-	if (config->source_state)
-		g_object_unref (config->source_state);
-	config->source_state = NULL;
-
-	if (config->source_spec)
-		g_object_unref (config->source_spec);
-	config->source_spec = NULL;
+	g_clear_object (&config->state);
+	g_clear_object (&config->source_state);
+	g_clear_object (&config->source_spec);
 
 	g_free (config->header);
 	config->header = NULL;

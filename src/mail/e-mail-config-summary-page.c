@@ -267,15 +267,8 @@ mail_config_summary_page_dispose (GObject *object)
 		priv->transport_source_changed_id = 0;
 	}
 
-	if (priv->account_backend != NULL) {
-		g_object_unref (priv->account_backend);
-		priv->account_backend = NULL;
-	}
-
-	if (priv->transport_backend != NULL) {
-		g_object_unref (priv->transport_backend);
-		priv->transport_backend = NULL;
-	}
+	g_clear_object (&priv->account_backend);
+	g_clear_object (&priv->transport_backend);
 
 	/* Chain up to parent's dispose() method. */
 	G_OBJECT_CLASS (e_mail_config_summary_page_parent_class)->
@@ -941,10 +934,7 @@ e_mail_config_summary_page_set_identity_source (EMailConfigSummaryPage *page,
 	page->priv->identity_source = identity_source;
 	page->priv->identity_source_changed_id = 0;
 
-	if (page->priv->account_name_binding) {
-		g_binding_unbind (page->priv->account_name_binding);
-		page->priv->account_name_binding = NULL;
-	}
+	g_clear_pointer (&page->priv->account_name_binding, g_binding_unbind);
 
 	if (identity_source != NULL) {
 		gulong handler_id;

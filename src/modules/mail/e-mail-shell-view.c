@@ -968,10 +968,7 @@ filter:
 		CamelStore *selected_store = NULL;
 		gchar *selected_folder_name = NULL;
 
-		if (priv->search_folder_and_subfolders != NULL) {
-			g_object_unref (priv->search_folder_and_subfolders);
-			priv->search_folder_and_subfolders = NULL;
-		}
+		g_clear_object (&priv->search_folder_and_subfolders);
 
 		if (priv->search_account_cancel != NULL) {
 			g_cancellable_cancel (priv->search_account_cancel);
@@ -1090,10 +1087,7 @@ all_accounts:
 		CamelStore *selected_store = NULL;
 		gchar *selected_folder_name = NULL;
 
-		if (priv->search_account_all != NULL) {
-			g_object_unref (priv->search_account_all);
-			priv->search_account_all = NULL;
-		}
+		g_clear_object (&priv->search_account_all);
 
 		if (priv->search_account_cancel != NULL) {
 			g_cancellable_cancel (priv->search_account_cancel);
@@ -1201,10 +1195,7 @@ current_account:
 		CamelStore *selected_store = NULL;
 		gchar *selected_folder_name = NULL;
 
-		if (priv->search_account_current != NULL) {
-			g_object_unref (priv->search_account_current);
-			priv->search_account_current = NULL;
-		}
+		g_clear_object (&priv->search_account_current);
 
 		if (priv->search_account_cancel != NULL) {
 			g_cancellable_cancel (priv->search_account_cancel);

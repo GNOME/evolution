@@ -273,36 +273,12 @@ mail_config_window_dispose (GObject *object)
 	EMailConfigWindowPrivate *priv;
 
 	priv = E_MAIL_CONFIG_WINDOW_GET_PRIVATE (object);
-
-	if (priv->session != NULL) {
-		g_object_unref (priv->session);
-		priv->session = NULL;
-	}
-
-	if (priv->original_source != NULL) {
-		g_object_unref (priv->original_source);
-		priv->original_source = NULL;
-	}
-
-	if (priv->account_source != NULL) {
-		g_object_unref (priv->account_source);
-		priv->account_source = NULL;
-	}
-
-	if (priv->identity_source != NULL) {
-		g_object_unref (priv->identity_source);
-		priv->identity_source = NULL;
-	}
-
-	if (priv->transport_source != NULL) {
-		g_object_unref (priv->transport_source);
-		priv->transport_source = NULL;
-	}
-
-	if (priv->collection_source != NULL) {
-		g_object_unref (priv->collection_source);
-		priv->collection_source = NULL;
-	}
+	g_clear_object (&priv->session);
+	g_clear_object (&priv->original_source);
+	g_clear_object (&priv->account_source);
+	g_clear_object (&priv->identity_source);
+	g_clear_object (&priv->transport_source);
+	g_clear_object (&priv->collection_source);
 
 	/* Chain up to parent's dispose() method. */
 	G_OBJECT_CLASS (e_mail_config_window_parent_class)->dispose (object);

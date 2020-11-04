@@ -160,10 +160,7 @@ book_config_birthdays_dispose (GObject *object)
 
 	birthdays = E_BOOK_CONFIG_BIRTHDAYS (object);
 
-	if (birthdays->button != NULL) {
-		g_object_unref (birthdays->button);
-		birthdays->button = NULL;
-	}
+	g_clear_object (&birthdays->button);
 
 	/* Chain up to parent's dispose() method. */
 	G_OBJECT_CLASS (e_book_config_birthdays_parent_class)->dispose (object);

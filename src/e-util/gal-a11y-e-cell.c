@@ -93,10 +93,7 @@ gal_a11y_e_cell_dispose (GObject *object)
 		g_object_unref (a11y->parent);
 #endif
 
-	if (a11y->state_set) {
-		g_object_unref (a11y->state_set);
-		a11y->state_set = NULL;
-	}
+	g_clear_object (&a11y->state_set);
 
 	if (a11y->action_list) {
 		g_list_foreach (a11y->action_list, _gal_a11y_e_cell_destroy_action_info, NULL);

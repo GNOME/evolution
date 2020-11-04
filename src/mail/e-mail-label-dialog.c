@@ -108,16 +108,8 @@ mail_label_dialog_dispose (GObject *object)
 	EMailLabelDialogPrivate *priv;
 
 	priv = E_MAIL_LABEL_DIALOG_GET_PRIVATE (object);
-
-	if (priv->entry != NULL) {
-		g_object_unref (priv->entry);
-		priv->entry = NULL;
-	}
-
-	if (priv->colorsel != NULL) {
-		g_object_unref (priv->colorsel);
-		priv->colorsel = NULL;
-	}
+	g_clear_object (&priv->entry);
+	g_clear_object (&priv->colorsel);
 
 	/* Chain up to parent's dispose() method. */
 	G_OBJECT_CLASS (e_mail_label_dialog_parent_class)->dispose (object);

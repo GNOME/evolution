@@ -100,9 +100,7 @@ format_handlers_foreach_free (gpointer data)
 	if (handler->options_widget)
 		gtk_widget_destroy (handler->options_widget);
 
-	if (handler->data)
-		g_free (handler->data);
-
+	g_free (handler->data);
 	g_free (data);
 }
 
@@ -270,9 +268,8 @@ open_for_writing (GtkWindow *parent,
 				g_object_unref (fostream);
 				fostream = NULL;
 			}
-		} else if (fostream) {
-			g_object_unref (fostream);
-			fostream = NULL;
+		} else {
+			g_clear_object (&fostream);
 		}
 	}
 

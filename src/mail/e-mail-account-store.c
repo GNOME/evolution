@@ -522,10 +522,7 @@ mail_account_store_dispose (GObject *object)
 		priv->session = NULL;
 	}
 
-	if (priv->default_service != NULL) {
-		g_object_unref (priv->default_service);
-		priv->default_service = NULL;
-	}
+	g_clear_object (&priv->default_service);
 
 	g_hash_table_remove_all (priv->service_index);
 

@@ -784,16 +784,10 @@ composer_header_table_dispose (GObject *object)
 	priv = E_COMPOSER_HEADER_TABLE_GET_PRIVATE (object);
 
 	for (ii = 0; ii < G_N_ELEMENTS (priv->headers); ii++) {
-		if (priv->headers[ii] != NULL) {
-			g_object_unref (priv->headers[ii]);
-			priv->headers[ii] = NULL;
-		}
+		g_clear_object (&priv->headers[ii]);
 	}
 
-	if (priv->signature_combo_box != NULL) {
-		g_object_unref (priv->signature_combo_box);
-		priv->signature_combo_box = NULL;
-	}
+	g_clear_object (&priv->signature_combo_box);
 
 	if (priv->name_selector != NULL) {
 		e_name_selector_cancel_loading (priv->name_selector);
@@ -801,10 +795,7 @@ composer_header_table_dispose (GObject *object)
 		priv->name_selector = NULL;
 	}
 
-	if (priv->client_cache != NULL) {
-		g_object_unref (priv->client_cache);
-		priv->client_cache = NULL;
-	}
+	g_clear_object (&priv->client_cache);
 
 	g_free (priv->previous_from_uid);
 	priv->previous_from_uid = NULL;

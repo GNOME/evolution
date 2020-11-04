@@ -189,11 +189,7 @@ mail_signature_preview_dispose (GObject *object)
 	EMailSignaturePreviewPrivate *priv;
 
 	priv = E_MAIL_SIGNATURE_PREVIEW_GET_PRIVATE (object);
-
-	if (priv->registry != NULL) {
-		g_object_unref (priv->registry);
-		priv->registry = NULL;
-	}
+	g_clear_object (&priv->registry);
 
 	if (priv->cancellable != NULL) {
 		g_cancellable_cancel (priv->cancellable);

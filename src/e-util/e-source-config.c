@@ -616,51 +616,15 @@ source_config_dispose (GObject *object)
 	ESourceConfigPrivate *priv;
 
 	priv = E_SOURCE_CONFIG_GET_PRIVATE (object);
-
-	if (priv->original_source != NULL) {
-		g_object_unref (priv->original_source);
-		priv->original_source = NULL;
-	}
-
-	if (priv->collection_source != NULL) {
-		g_object_unref (priv->collection_source);
-		priv->collection_source = NULL;
-	}
-
-	if (priv->registry != NULL) {
-		g_object_unref (priv->registry);
-		priv->registry = NULL;
-	}
-
-	if (priv->type_label != NULL) {
-		g_object_unref (priv->type_label);
-		priv->type_label = NULL;
-	}
-
-	if (priv->type_combo != NULL) {
-		g_object_unref (priv->type_combo);
-		priv->type_combo = NULL;
-	}
-
-	if (priv->name_label != NULL) {
-		g_object_unref (priv->name_label);
-		priv->name_label = NULL;
-	}
-
-	if (priv->name_entry != NULL) {
-		g_object_unref (priv->name_entry);
-		priv->name_entry = NULL;
-	}
-
-	if (priv->backend_box != NULL) {
-		g_object_unref (priv->backend_box);
-		priv->backend_box = NULL;
-	}
-
-	if (priv->size_group != NULL) {
-		g_object_unref (priv->size_group);
-		priv->size_group = NULL;
-	}
+	g_clear_object (&priv->original_source);
+	g_clear_object (&priv->collection_source);
+	g_clear_object (&priv->registry);
+	g_clear_object (&priv->type_label);
+	g_clear_object (&priv->type_combo);
+	g_clear_object (&priv->name_label);
+	g_clear_object (&priv->name_entry);
+	g_clear_object (&priv->backend_box);
+	g_clear_object (&priv->size_group);
 
 	g_hash_table_remove_all (priv->backends);
 	g_ptr_array_set_size (priv->candidates, 0);

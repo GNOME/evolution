@@ -40,11 +40,7 @@ settings_name_selector_entry_dispose (GObject *object)
 	ESettingsNameSelectorEntryPrivate *priv;
 
 	priv = E_SETTINGS_NAME_SELECTOR_ENTRY_GET_PRIVATE (object);
-
-	if (priv->settings != NULL) {
-		g_object_unref (priv->settings);
-		priv->settings = NULL;
-	}
+	g_clear_object (&priv->settings);
 
 	/* Chain up to parent's dispose() method. */
 	G_OBJECT_CLASS (e_settings_name_selector_entry_parent_class)->

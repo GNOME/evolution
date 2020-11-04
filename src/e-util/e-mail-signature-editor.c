@@ -463,21 +463,9 @@ mail_signature_editor_dispose (GObject *object)
 	EMailSignatureEditorPrivate *priv;
 
 	priv = E_MAIL_SIGNATURE_EDITOR_GET_PRIVATE (object);
-
-	if (priv->editor != NULL) {
-		g_object_unref (priv->editor);
-		priv->editor = NULL;
-	}
-
-	if (priv->action_group != NULL) {
-		g_object_unref (priv->action_group);
-		priv->action_group = NULL;
-	}
-
-	if (priv->focus_tracker != NULL) {
-		g_object_unref (priv->focus_tracker);
-		priv->focus_tracker = NULL;
-	}
+	g_clear_object (&priv->editor);
+	g_clear_object (&priv->action_group);
+	g_clear_object (&priv->focus_tracker);
 
 	if (priv->cancellable != NULL) {
 		g_cancellable_cancel (priv->cancellable);
@@ -485,15 +473,8 @@ mail_signature_editor_dispose (GObject *object)
 		priv->cancellable = NULL;
 	}
 
-	if (priv->registry != NULL) {
-		g_object_unref (priv->registry);
-		priv->registry = NULL;
-	}
-
-	if (priv->source != NULL) {
-		g_object_unref (priv->source);
-		priv->source = NULL;
-	}
+	g_clear_object (&priv->registry);
+	g_clear_object (&priv->source);
 
 	/* Chain up to parent's dispose() method. */
 	G_OBJECT_CLASS (e_mail_signature_editor_parent_class)->

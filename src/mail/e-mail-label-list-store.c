@@ -212,10 +212,7 @@ mail_label_list_store_dispose (GObject *object)
 		priv->idle_changed_id = 0;
 	}
 
-	if (priv->mail_settings != NULL) {
-		g_object_unref (priv->mail_settings);
-		priv->mail_settings = NULL;
-	}
+	g_clear_object (&priv->mail_settings);
 
 	/* Chain up to parent's dispose() method. */
 	G_OBJECT_CLASS (e_mail_label_list_store_parent_class)->

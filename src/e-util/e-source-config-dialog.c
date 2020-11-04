@@ -213,11 +213,7 @@ source_config_dialog_dispose (GObject *object)
 	ESourceConfigDialogPrivate *priv;
 
 	priv = E_SOURCE_CONFIG_DIALOG_GET_PRIVATE (object);
-
-	if (priv->config != NULL) {
-		g_object_unref (priv->config);
-		priv->config = NULL;
-	}
+	g_clear_object (&priv->config);
 
 	if (priv->registry != NULL) {
 		g_signal_handlers_disconnect_matched (

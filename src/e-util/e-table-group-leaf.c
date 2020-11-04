@@ -71,10 +71,7 @@ etgl_dispose (GObject *object)
 {
 	ETableGroupLeaf *etgl = E_TABLE_GROUP_LEAF (object);
 
-	if (etgl->ets) {
-		g_object_unref (etgl->ets);
-		etgl->ets = NULL;
-	}
+	g_clear_object (&etgl->ets);
 
 	if (etgl->item) {
 		if (etgl->etgl_cursor_change_id != 0)
@@ -120,10 +117,7 @@ etgl_dispose (GObject *object)
 		etgl->item = NULL;
 	}
 
-	if (etgl->selection_model) {
-		g_object_unref (etgl->selection_model);
-		etgl->selection_model = NULL;
-	}
+	g_clear_object (&etgl->selection_model);
 
 	/* Chain up to parent's dispose() method. */
 	G_OBJECT_CLASS (e_table_group_leaf_parent_class)->dispose (object);

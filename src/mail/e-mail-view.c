@@ -170,16 +170,8 @@ mail_view_dispose (GObject *object)
 	EMailViewPrivate *priv;
 
 	priv = E_MAIL_VIEW_GET_PRIVATE (object);
-
-	if (priv->shell_view != NULL) {
-		g_object_unref (priv->shell_view);
-		priv->shell_view = NULL;
-	}
-
-	if (priv->previous_view != NULL) {
-		g_object_unref (priv->previous_view);
-		priv->previous_view = NULL;
-	}
+	g_clear_object (&priv->shell_view);
+	g_clear_object (&priv->previous_view);
 
 	/* Chain up to parent's dispose() method. */
 	G_OBJECT_CLASS (e_mail_view_parent_class)->dispose (object);

@@ -456,15 +456,8 @@ epech_custom_header_options_commit (EMsgComposer *comp,
 		current_dialog = new_email_custom_header_window->epech_dialog;
 	}
 
-	if (current_dialog) {
-		g_free (current_dialog);
-		current_dialog = NULL;
-	}
-
-	if (new_email_custom_header_window) {
-		g_free (new_email_custom_header_window);
-		new_email_custom_header_window = NULL;
-	}
+	g_clear_pointer (&current_dialog, g_free);
+	g_clear_pointer (&new_email_custom_header_window, g_free);
 }
 
 static gint
@@ -484,9 +477,6 @@ static void
 destroy_compo_data (gpointer data)
 {
 	EmailCustomHeaderWindow *compo_data = (EmailCustomHeaderWindow *) data;
-
-	if (!compo_data)
-		return;
 
 	g_free (compo_data);
 }
@@ -764,9 +754,6 @@ static void
 destroy_cd_data (gpointer data)
 {
 	ConfigData *cd = (ConfigData *) data;
-
-	if (!cd)
-		return;
 
 	g_free (cd);
 }

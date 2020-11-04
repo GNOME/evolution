@@ -147,16 +147,8 @@ mail_part_list_dispose (GObject *object)
 	EMailPartListPrivate *priv;
 
 	priv = E_MAIL_PART_LIST_GET_PRIVATE (object);
-
-	if (priv->folder != NULL) {
-		g_object_unref (priv->folder);
-		priv->folder = NULL;
-	}
-
-	if (priv->message != NULL) {
-		g_object_unref (priv->message);
-		priv->message = NULL;
-	}
+	g_clear_object (&priv->folder);
+	g_clear_object (&priv->message);
 
 	g_mutex_lock (&priv->queue_lock);
 	while (!g_queue_is_empty (&priv->queue))

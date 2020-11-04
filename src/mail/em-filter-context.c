@@ -101,11 +101,7 @@ filter_context_dispose (GObject *object)
 	EMFilterContextPrivate *priv;
 
 	priv = EM_FILTER_CONTEXT_GET_PRIVATE (object);
-
-	if (priv->session != NULL) {
-		g_object_unref (priv->session);
-		priv->session = NULL;
-	}
+	g_clear_object (&priv->session);
 
 	g_list_foreach (priv->actions, (GFunc) g_object_unref, NULL);
 	g_list_free (priv->actions);

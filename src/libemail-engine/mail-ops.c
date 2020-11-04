@@ -429,10 +429,7 @@ exit:
 	/* we unref this here as it may have more work to do (syncing
 	 * folders and whatnot) before we are really done */
 	/* should this be cancellable too? (i.e. above unregister above) */
-	if (fm->driver) {
-		g_object_unref (fm->driver);
-		fm->driver = NULL;
-	}
+	g_clear_object (&fm->driver);
 
 	/* also disconnect if not a local delivery mbox;
 	 * there is no need to keep the connection alive forever */
@@ -1096,10 +1093,7 @@ send_queue_exec (struct _send_queue_msg *m,
 	else
 		report_status (m, CAMEL_FILTER_STATUS_END, 100, _("Complete."));
 
-	if (m->driver) {
-		g_object_unref (m->driver);
-		m->driver = NULL;
-	}
+	g_clear_object (&m->driver);
 
 	camel_folder_free_uids (m->queue, uids);
 	g_ptr_array_free (send_uids, TRUE);

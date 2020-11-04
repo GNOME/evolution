@@ -379,15 +379,8 @@ calendar_view_dispose (GObject *object)
 		priv->model = NULL;
 	}
 
-	if (priv->copy_target_list != NULL) {
-		gtk_target_list_unref (priv->copy_target_list);
-		priv->copy_target_list = NULL;
-	}
-
-	if (priv->paste_target_list != NULL) {
-		gtk_target_list_unref (priv->paste_target_list);
-		priv->paste_target_list = NULL;
-	}
+	g_clear_pointer (&priv->copy_target_list, gtk_target_list_unref);
+	g_clear_pointer (&priv->paste_target_list, gtk_target_list_unref);
 
 	if (priv->selected_cut_list) {
 		g_slist_foreach (priv->selected_cut_list, (GFunc) g_object_unref, NULL);

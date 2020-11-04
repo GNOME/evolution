@@ -195,8 +195,7 @@ filter_input_xml_create (EFilterElement *element,
 			xmlChar *func = xmlGetProp (n, (xmlChar *) "func");
 
 			if (func && *func) {
-				if (input->code_gen_func)
-					g_free (input->code_gen_func);
+				g_free (input->code_gen_func);
 				input->code_gen_func = g_strdup ((gchar *) func);
 			}
 

@@ -484,55 +484,16 @@ e_composer_private_dispose (EMsgComposer *composer)
 		composer->priv->shell = NULL;
 	}
 
-	if (composer->priv->editor != NULL) {
-		g_object_unref (composer->priv->editor);
-		composer->priv->editor = NULL;
-	}
-
-	if (composer->priv->header_table != NULL) {
-		g_object_unref (composer->priv->header_table);
-		composer->priv->header_table = NULL;
-	}
-
-	if (composer->priv->attachment_paned != NULL) {
-		g_object_unref (composer->priv->attachment_paned);
-		composer->priv->attachment_paned = NULL;
-	}
-
-	if (composer->priv->focus_tracker != NULL) {
-		g_object_unref (composer->priv->focus_tracker);
-		composer->priv->focus_tracker = NULL;
-	}
-
-	if (composer->priv->window_group != NULL) {
-		g_object_unref (composer->priv->window_group);
-		composer->priv->window_group = NULL;
-	}
-
-	if (composer->priv->async_actions != NULL) {
-		g_object_unref (composer->priv->async_actions);
-		composer->priv->async_actions = NULL;
-	}
-
-	if (composer->priv->charset_actions != NULL) {
-		g_object_unref (composer->priv->charset_actions);
-		composer->priv->charset_actions = NULL;
-	}
-
-	if (composer->priv->composer_actions != NULL) {
-		g_object_unref (composer->priv->composer_actions);
-		composer->priv->composer_actions = NULL;
-	}
-
-	if (composer->priv->gallery_scrolled_window != NULL) {
-		g_object_unref (composer->priv->gallery_scrolled_window);
-		composer->priv->gallery_scrolled_window = NULL;
-	}
-
-	if (composer->priv->redirect != NULL) {
-		g_object_unref (composer->priv->redirect);
-		composer->priv->redirect = NULL;
-	}
+	g_clear_object (&composer->priv->editor);
+	g_clear_object (&composer->priv->header_table);
+	g_clear_object (&composer->priv->attachment_paned);
+	g_clear_object (&composer->priv->focus_tracker);
+	g_clear_object (&composer->priv->window_group);
+	g_clear_object (&composer->priv->async_actions);
+	g_clear_object (&composer->priv->charset_actions);
+	g_clear_object (&composer->priv->composer_actions);
+	g_clear_object (&composer->priv->gallery_scrolled_window);
+	g_clear_object (&composer->priv->redirect);
 }
 
 void

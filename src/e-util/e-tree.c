@@ -449,32 +449,14 @@ et_dispose (GObject *object)
 
 	et_disconnect_from_etta (E_TREE (object));
 
-	if (priv->etta != NULL) {
-		g_object_unref (priv->etta);
-		priv->etta = NULL;
-	}
-
-	if (priv->model != NULL) {
-		g_object_unref (priv->model);
-		priv->model = NULL;
-	}
-
-	if (priv->full_header != NULL) {
-		g_object_unref (priv->full_header);
-		priv->full_header = NULL;
-	}
+	g_clear_object (&priv->etta);
+	g_clear_object (&priv->model);
+	g_clear_object (&priv->full_header);
 
 	disconnect_header (E_TREE (object));
 
-	if (priv->selection != NULL) {
-		g_object_unref (priv->selection);
-		priv->selection = NULL;
-	}
-
-	if (priv->spec != NULL) {
-		g_object_unref (priv->spec);
-		priv->spec = NULL;
-	}
+	g_clear_object (&priv->selection);
+	g_clear_object (&priv->spec);
 
 	if (priv->header_canvas != NULL) {
 		gtk_widget_destroy (GTK_WIDGET (priv->header_canvas));

@@ -294,50 +294,15 @@ attachment_paned_dispose (GObject *object)
 		priv->model = NULL;
 	}
 
-	if (priv->expander != NULL) {
-		g_object_unref (priv->expander);
-		priv->expander = NULL;
-	}
-
-	if (priv->notebook != NULL) {
-		g_object_unref (priv->notebook);
-		priv->notebook = NULL;
-	}
-
-	if (priv->combo_box != NULL) {
-		g_object_unref (priv->combo_box);
-		priv->combo_box = NULL;
-	}
-
-	if (priv->icon_view != NULL) {
-		g_object_unref (priv->icon_view);
-		priv->icon_view = NULL;
-	}
-
-	if (priv->tree_view != NULL) {
-		g_object_unref (priv->tree_view);
-		priv->tree_view = NULL;
-	}
-
-	if (priv->show_hide_label != NULL) {
-		g_object_unref (priv->show_hide_label);
-		priv->show_hide_label = NULL;
-	}
-
-	if (priv->status_icon != NULL) {
-		g_object_unref (priv->status_icon);
-		priv->status_icon = NULL;
-	}
-
-	if (priv->status_label != NULL) {
-		g_object_unref (priv->status_label);
-		priv->status_label = NULL;
-	}
-
-	if (priv->content_area != NULL) {
-		g_object_unref (priv->content_area);
-		priv->content_area = NULL;
-	}
+	g_clear_object (&priv->expander);
+	g_clear_object (&priv->notebook);
+	g_clear_object (&priv->combo_box);
+	g_clear_object (&priv->icon_view);
+	g_clear_object (&priv->tree_view);
+	g_clear_object (&priv->show_hide_label);
+	g_clear_object (&priv->status_icon);
+	g_clear_object (&priv->status_label);
+	g_clear_object (&priv->content_area);
 
 	/* Chain up to parent's dispose() method. */
 	G_OBJECT_CLASS (e_attachment_paned_parent_class)->dispose (object);

@@ -378,40 +378,13 @@ search_bar_dispose (GObject *object)
 		priv->web_view = NULL;
 	}
 
-	if (priv->entry != NULL) {
-		g_object_unref (priv->entry);
-		priv->entry = NULL;
-	}
-
-	if (priv->case_sensitive_button != NULL) {
-		g_object_unref (priv->case_sensitive_button);
-		priv->case_sensitive_button = NULL;
-	}
-
-	if (priv->prev_button != NULL) {
-		g_object_unref (priv->prev_button);
-		priv->prev_button = NULL;
-	}
-
-	if (priv->next_button != NULL) {
-		g_object_unref (priv->next_button);
-		priv->next_button = NULL;
-	}
-
-	if (priv->wrapped_next_box != NULL) {
-		g_object_unref (priv->wrapped_next_box);
-		priv->wrapped_next_box = NULL;
-	}
-
-	if (priv->wrapped_prev_box != NULL) {
-		g_object_unref (priv->wrapped_prev_box);
-		priv->wrapped_prev_box = NULL;
-	}
-
-	if (priv->matches_label != NULL) {
-		g_object_unref (priv->matches_label);
-		priv->matches_label = NULL;
-	}
+	g_clear_object (&priv->entry);
+	g_clear_object (&priv->case_sensitive_button);
+	g_clear_object (&priv->prev_button);
+	g_clear_object (&priv->next_button);
+	g_clear_object (&priv->wrapped_next_box);
+	g_clear_object (&priv->wrapped_prev_box);
+	g_clear_object (&priv->matches_label);
 
 	/* Chain up to parent's dispose() method. */
 	G_OBJECT_CLASS (e_search_bar_parent_class)->dispose (object);

@@ -109,8 +109,7 @@ static void
 ecv_dispose (GObject *object)
 {
 	GalA11yECellVbox *gaev = GAL_A11Y_E_CELL_VBOX (object);
-	if (gaev->a11y_subcells)
-		g_free (gaev->a11y_subcells);
+	g_free (gaev->a11y_subcells);
 
 	if (parent_class->dispose)
 		parent_class->dispose (object);

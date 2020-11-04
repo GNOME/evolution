@@ -375,35 +375,12 @@ et_dispose (GObject *object)
 
 	disconnect_header (et);
 
-	if (et->model) {
-		g_object_unref (et->model);
-		et->model = NULL;
-	}
-
-	if (et->full_header) {
-		g_object_unref (et->full_header);
-		et->full_header = NULL;
-	}
-
-	if (et->sort_info) {
-		g_object_unref (et->sort_info);
-		et->sort_info = NULL;
-	}
-
-	if (et->sorter) {
-		g_object_unref (et->sorter);
-		et->sorter = NULL;
-	}
-
-	if (et->selection) {
-		g_object_unref (et->selection);
-		et->selection = NULL;
-	}
-
-	if (et->spec) {
-		g_object_unref (et->spec);
-		et->spec = NULL;
-	}
+	g_clear_object (&et->model);
+	g_clear_object (&et->full_header);
+	g_clear_object (&et->sort_info);
+	g_clear_object (&et->sorter);
+	g_clear_object (&et->selection);
+	g_clear_object (&et->spec);
 
 	if (et->header_canvas != NULL) {
 		gtk_widget_destroy (GTK_WIDGET (et->header_canvas));

@@ -83,10 +83,7 @@ sorter_array_sort (ESorterArray *sorter_array)
 			sorter_array->sorted, rows, sizeof (gint),
 			esort_callback, sorter_array);
 
-		if (sorter_array->cmp_cache) {
-			g_hash_table_destroy (sorter_array->cmp_cache);
-			sorter_array->cmp_cache = NULL;
-		}
+		g_clear_pointer (&sorter_array->cmp_cache, g_hash_table_destroy);
 	}
 }
 

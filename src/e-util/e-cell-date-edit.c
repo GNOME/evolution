@@ -487,10 +487,7 @@ e_cell_date_edit_dispose (GObject *object)
 
 	e_cell_date_edit_set_get_time_callback (ecde, NULL, NULL, NULL);
 
-	if (ecde->popup_window != NULL) {
-		gtk_widget_destroy (ecde->popup_window);
-		ecde->popup_window = NULL;
-	}
+	g_clear_pointer (&ecde->popup_window, gtk_widget_destroy);
 
 	/* Chain up to parent's dispose() method. */
 	G_OBJECT_CLASS (e_cell_date_edit_parent_class)->dispose (object);

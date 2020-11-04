@@ -970,32 +970,12 @@ day_view_dispose (GObject *object)
 
 	e_day_view_stop_auto_scroll (day_view);
 
-	if (day_view->large_font_desc) {
-		pango_font_description_free (day_view->large_font_desc);
-		day_view->large_font_desc = NULL;
-	}
-
-	if (day_view->small_font_desc) {
-		pango_font_description_free (day_view->small_font_desc);
-		day_view->small_font_desc = NULL;
-	}
-
-	if (day_view->normal_cursor) {
-		g_object_unref (day_view->normal_cursor);
-		day_view->normal_cursor = NULL;
-	}
-	if (day_view->move_cursor) {
-		g_object_unref (day_view->move_cursor);
-		day_view->move_cursor = NULL;
-	}
-	if (day_view->resize_width_cursor) {
-		g_object_unref (day_view->resize_width_cursor);
-		day_view->resize_width_cursor = NULL;
-	}
-	if (day_view->resize_height_cursor) {
-		g_object_unref (day_view->resize_height_cursor);
-		day_view->resize_height_cursor = NULL;
-	}
+	g_clear_pointer (&day_view->large_font_desc, pango_font_description_free);
+	g_clear_pointer (&day_view->small_font_desc, pango_font_description_free);
+	g_clear_object (&day_view->normal_cursor);
+	g_clear_object (&day_view->move_cursor);
+	g_clear_object (&day_view->resize_width_cursor);
+	g_clear_object (&day_view->resize_height_cursor);
 
 	if (day_view->long_events) {
 		e_day_view_free_events (day_view);
@@ -5609,10 +5589,7 @@ e_day_view_finish_resize (EDayView *day_view)
 
 	e_cal_component_commit_sequence (comp);
 
-	if (day_view->last_edited_comp_string != NULL) {
-		g_free (day_view->last_edited_comp_string);
-		day_view->last_edited_comp_string = NULL;
-	}
+	g_clear_pointer (&day_view->last_edited_comp_string, g_free);
 
 	day_view->last_edited_comp_string = e_cal_component_get_as_string (comp);
 
@@ -7278,8 +7255,7 @@ e_day_view_start_editing_event (EDayView *day_view,
 				event->canvas_item,
 				"text", initial_text,
 				NULL);
-			if (initial_text)
-				g_free (initial_text);
+			g_free (initial_text);
 		}
 	}
 
@@ -7744,10 +7720,7 @@ e_day_view_change_event_time (EDayView *day_view,
 
 	e_cal_component_commit_sequence (comp);
 
-	if (day_view->last_edited_comp_string != NULL) {
-		g_free (day_view->last_edited_comp_string);
-		day_view->last_edited_comp_string = NULL;
-	}
+	g_clear_pointer (&day_view->last_edited_comp_string, g_free);
 
 	day_view->last_edited_comp_string = e_cal_component_get_as_string (comp);
 

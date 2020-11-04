@@ -381,10 +381,7 @@ canvas_dispose (GObject *object)
 		canvas->toplevel = NULL;
 	}
 
-	if (canvas->im_context) {
-		g_object_unref (canvas->im_context);
-		canvas->im_context = NULL;
-	}
+	g_clear_object (&canvas->im_context);
 
 	/* Chain up to parent's dispose() method. */
 	G_OBJECT_CLASS (e_canvas_parent_class)->dispose (object);

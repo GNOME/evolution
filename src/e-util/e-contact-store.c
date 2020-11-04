@@ -132,10 +132,7 @@ contact_store_dispose (GObject *object)
 	}
 	g_array_set_size (priv->contact_sources, 0);
 
-	if (priv->query != NULL) {
-		e_book_query_unref (priv->query);
-		priv->query = NULL;
-	}
+	g_clear_pointer (&priv->query, e_book_query_unref);
 
 	/* Chain up to parent's dispose() method. */
 	G_OBJECT_CLASS (e_contact_store_parent_class)->dispose (object);

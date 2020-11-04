@@ -112,21 +112,9 @@ startup_assistant_dispose (GObject *object)
 	EStartupAssistantPrivate *priv;
 
 	priv = E_STARTUP_ASSISTANT_GET_PRIVATE (object);
-
-	if (priv->import_activity != NULL) {
-		g_object_unref (priv->import_activity);
-		priv->import_activity = NULL;
-	}
-
-	if (priv->import_page != NULL) {
-		g_object_unref (priv->import_page);
-		priv->import_page = NULL;
-	}
-
-	if (priv->progress_page != NULL) {
-		g_object_unref (priv->progress_page);
-		priv->progress_page = NULL;
-	}
+	g_clear_object (&priv->import_activity);
+	g_clear_object (&priv->import_page);
+	g_clear_object (&priv->progress_page);
 
 	/* Chain up to parent's dispose() method. */
 	G_OBJECT_CLASS (e_startup_assistant_parent_class)->dispose (object);

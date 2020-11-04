@@ -184,40 +184,13 @@ name_selector_entry_dispose (GObject *object)
 
 	gtk_editable_set_position (GTK_EDITABLE (object), 0);
 
-	if (priv->client_cache != NULL) {
-		g_object_unref (priv->client_cache);
-		priv->client_cache = NULL;
-	}
-
-	if (priv->attr_list != NULL) {
-		pango_attr_list_unref (priv->attr_list);
-		priv->attr_list = NULL;
-	}
-
-	if (priv->entry_completion) {
-		g_object_unref (priv->entry_completion);
-		priv->entry_completion = NULL;
-	}
-
-	if (priv->destination_store) {
-		g_object_unref (priv->destination_store);
-		priv->destination_store = NULL;
-	}
-
-	if (priv->email_generator) {
-		g_object_unref (priv->email_generator);
-		priv->email_generator = NULL;
-	}
-
-	if (priv->contact_store) {
-		g_object_unref (priv->contact_store);
-		priv->contact_store = NULL;
-	}
-
-	if (priv->known_contacts) {
-		g_hash_table_destroy (priv->known_contacts);
-		priv->known_contacts = NULL;
-	}
+	g_clear_object (&priv->client_cache);
+	g_clear_pointer (&priv->attr_list, pango_attr_list_unref);
+	g_clear_object (&priv->entry_completion);
+	g_clear_object (&priv->destination_store);
+	g_clear_object (&priv->email_generator);
+	g_clear_object (&priv->contact_store);
+	g_clear_pointer (&priv->known_contacts, g_hash_table_destroy);
 
 	g_slist_foreach (priv->user_query_fields, (GFunc) g_free, NULL);
 	g_slist_free (priv->user_query_fields);
@@ -2415,10 +2388,7 @@ ensure_type_ahead_complete_on_timeout (ENameSelectorEntry *name_selector_entry)
 static void
 setup_contact_store (ENameSelectorEntry *name_selector_entry)
 {
-	if (name_selector_entry->priv->email_generator) {
-		g_object_unref (name_selector_entry->priv->email_generator);
-		name_selector_entry->priv->email_generator = NULL;
-	}
+	g_clear_object (&name_selector_entry->priv->email_generator);
 
 	if (name_selector_entry->priv->contact_store) {
 		name_selector_entry->priv->email_generator =
@@ -2756,10 +2726,7 @@ prepare_popup_destination (ENameSelectorEntry *name_selector_entry,
 	if (event_button->button != 3)
 		return FALSE;
 
-	if (name_selector_entry->priv->popup_destination) {
-		g_object_unref (name_selector_entry->priv->popup_destination);
-		name_selector_entry->priv->popup_destination = NULL;
-	}
+	g_clear_object (&name_selector_entry->priv->popup_destination);
 
 	gtk_entry_get_layout_offsets (
 		GTK_ENTRY (name_selector_entry),

@@ -229,16 +229,8 @@ folder_selection_button_dispose (GObject *object)
 	EMFolderSelectionButtonPrivate *priv;
 
 	priv = EM_FOLDER_SELECTION_BUTTON_GET_PRIVATE (object);
-
-	if (priv->session != NULL) {
-		g_object_unref (priv->session);
-		priv->session = NULL;
-	}
-
-	if (priv->store != NULL) {
-		g_object_unref (priv->store);
-		priv->store = NULL;
-	}
+	g_clear_object (&priv->session);
+	g_clear_object (&priv->store);
 
 	/* Chain up to parent's dispose() method. */
 	G_OBJECT_CLASS (em_folder_selection_button_parent_class)->

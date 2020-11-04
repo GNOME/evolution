@@ -61,26 +61,10 @@ ete_finalize (GObject *object)
 	ETableExtrasPrivate *priv;
 
 	priv = E_TABLE_EXTRAS_GET_PRIVATE (object);
-
-	if (priv->cells) {
-		g_hash_table_destroy (priv->cells);
-		priv->cells = NULL;
-	}
-
-	if (priv->compares) {
-		g_hash_table_destroy (priv->compares);
-		priv->compares = NULL;
-	}
-
-	if (priv->searches) {
-		g_hash_table_destroy (priv->searches);
-		priv->searches = NULL;
-	}
-
-	if (priv->icon_names) {
-		g_hash_table_destroy (priv->icon_names);
-		priv->icon_names = NULL;
-	}
+	g_clear_pointer (&priv->cells, g_hash_table_destroy);
+	g_clear_pointer (&priv->compares, g_hash_table_destroy);
+	g_clear_pointer (&priv->searches, g_hash_table_destroy);
+	g_clear_pointer (&priv->icon_names, g_hash_table_destroy);
 
 	G_OBJECT_CLASS (e_table_extras_parent_class)->finalize (object);
 }

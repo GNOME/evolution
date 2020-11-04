@@ -369,11 +369,7 @@ gnome_canvas_rect_dispose (GnomeCanvasItem *object)
 	g_return_if_fail (GNOME_IS_CANVAS_RECT (object));
 
 	rect = GNOME_CANVAS_RECT (object);
-
-	if (rect->priv->path != NULL) {
-		cairo_path_destroy (rect->priv->path);
-		rect->priv->path = NULL;
-	}
+	g_clear_pointer (&rect->priv->path, cairo_path_destroy);
 
 	g_free (rect->priv->dash);
 	rect->priv->dash = NULL;

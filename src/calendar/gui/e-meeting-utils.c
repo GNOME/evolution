@@ -82,14 +82,8 @@ e_meeting_xfb_data_clear (EMeetingXfbData *xfb)
 	 * but not the xfb structure itself
 	 */
 
-	if (xfb->summary != NULL) {
-		g_free (xfb->summary);
-		xfb->summary = NULL;
-	}
-	if (xfb->location != NULL) {
-		g_free (xfb->location);
-		xfb->location = NULL;
-	}
+	g_clear_pointer (&xfb->summary, g_free);
+	g_clear_pointer (&xfb->location, g_free);
 }
 
 /* Creates an XFB string from a string property of a vfreebusy

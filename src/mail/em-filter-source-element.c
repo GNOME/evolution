@@ -116,11 +116,7 @@ filter_source_element_dispose (GObject *object)
 	EMFilterSourceElementPrivate *priv;
 
 	priv = EM_FILTER_SOURCE_ELEMENT_GET_PRIVATE (object);
-
-	if (priv->session != NULL) {
-		g_object_unref (priv->session);
-		priv->session = NULL;
-	}
+	g_clear_object (&priv->session);
 
 	/* Chain up to parent's dispose() method. */
 	G_OBJECT_CLASS (em_filter_source_element_parent_class)->dispose (object);

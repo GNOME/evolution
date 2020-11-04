@@ -105,15 +105,8 @@ ethi_dispose (GObject *object)
 
 	scroll_off (ethi);
 
-	if (ethi->resize_cursor) {
-		g_object_unref (ethi->resize_cursor);
-		ethi->resize_cursor = NULL;
-	}
-
-	if (ethi->dnd_code) {
-		g_free (ethi->dnd_code);
-		ethi->dnd_code = NULL;
-	}
+	g_clear_object (&ethi->resize_cursor);
+	g_clear_pointer (&ethi->dnd_code, g_free);
 
 	if (ethi->sort_info) {
 		if (ethi->sort_info_changed_id)
@@ -126,17 +119,13 @@ ethi_dispose (GObject *object)
 		ethi->sort_info = NULL;
 	}
 
-	if (ethi->full_header)
-		g_object_unref (ethi->full_header);
-	ethi->full_header = NULL;
+	g_clear_object (&ethi->full_header);
 
 	if (ethi->etfcd.widget)
 		g_object_remove_weak_pointer (
 			G_OBJECT (ethi->etfcd.widget), &ethi->etfcd.pointer);
 
-	if (ethi->config)
-		g_object_unref (ethi->config);
-	ethi->config = NULL;
+	g_clear_object (&ethi->config);
 
 	/* Chain up to parent's dispose() method. */
 	G_OBJECT_CLASS (ethi_parent_class)->dispose (object);
@@ -989,10 +978,7 @@ ethi_unrealize (GnomeCanvasItem *item)
 {
 	ETableHeaderItem *ethi = E_TABLE_HEADER_ITEM (item);
 
-	if (ethi->font_desc != NULL) {
-		pango_font_description_free (ethi->font_desc);
-		ethi->font_desc = NULL;
-	}
+	g_clear_pointer (&ethi->font_desc, pango_font_description_free);
 
 	g_signal_handlers_disconnect_by_func (item->canvas, G_CALLBACK (ethi_style_updated_cb), ethi);
 

@@ -223,11 +223,7 @@ test_keyfile_settings_backend_finalize (GObject *object)
 	TestKeyfileSettingsBackend *tk_backend = TEST_KEYFILE_SETTINGS_BACKEND (object);
 
 	g_clear_object (&tk_backend->kf_backend);
-
-	if (tk_backend->change_listeners) {
-		g_hash_table_destroy (tk_backend->change_listeners);
-		tk_backend->change_listeners = NULL;
-	}
+	g_clear_pointer (&tk_backend->change_listeners, g_hash_table_destroy);
 
 	G_OBJECT_CLASS (test_keyfile_settings_backend_parent_class)->finalize (object);
 }

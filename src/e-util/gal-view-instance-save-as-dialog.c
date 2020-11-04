@@ -209,9 +209,7 @@ gal_view_instance_save_as_dialog_dispose (GObject *object)
 {
 	GalViewInstanceSaveAsDialog *gal_view_instance_save_as_dialog = GAL_VIEW_INSTANCE_SAVE_AS_DIALOG (object);
 
-	if (gal_view_instance_save_as_dialog->builder)
-		g_object_unref (gal_view_instance_save_as_dialog->builder);
-	gal_view_instance_save_as_dialog->builder = NULL;
+	g_clear_object (&gal_view_instance_save_as_dialog->builder);
 
 	/* Chain up to parent's dispose() method. */
 	G_OBJECT_CLASS (gal_view_instance_save_as_dialog_parent_class)->dispose (object);

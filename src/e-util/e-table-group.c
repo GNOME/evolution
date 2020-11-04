@@ -61,20 +61,9 @@ etg_dispose (GObject *object)
 {
 	ETableGroup *table_group = E_TABLE_GROUP (object);
 
-	if (table_group->header) {
-		g_object_unref (table_group->header);
-		table_group->header = NULL;
-	}
-
-	if (table_group->full_header) {
-		g_object_unref (table_group->full_header);
-		table_group->full_header = NULL;
-	}
-
-	if (table_group->model) {
-		g_object_unref (table_group->model);
-		table_group->model = NULL;
-	}
+	g_clear_object (&table_group->header);
+	g_clear_object (&table_group->full_header);
+	g_clear_object (&table_group->model);
 
 	/* Chain up to parent's dispose() method. */
 	G_OBJECT_CLASS (e_table_group_parent_class)->dispose (object);

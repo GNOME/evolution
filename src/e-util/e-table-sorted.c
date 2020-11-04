@@ -65,9 +65,7 @@ ets_dispose (GObject *object)
 		ets->sort_info = NULL;
 	}
 
-	if (ets->full_header)
-		g_object_unref (ets->full_header);
-	ets->full_header = NULL;
+	g_clear_object (&ets->full_header);
 
 	G_OBJECT_CLASS (e_table_sorted_parent_class)->dispose (object);
 }

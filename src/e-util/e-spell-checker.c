@@ -284,10 +284,7 @@ e_spell_checker_free_global_memory (void)
 		global_broker = NULL;
 	}
 
-	if (global_language_tags) {
-		g_hash_table_destroy (global_language_tags);
-		global_language_tags = NULL;
-	}
+	g_clear_pointer (&global_language_tags, g_hash_table_destroy);
 
 	G_UNLOCK (global_memory);
 }

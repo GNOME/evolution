@@ -173,11 +173,7 @@ mail_config_service_notebook_dispose (GObject *object)
 	EMailConfigServiceNotebookPrivate *priv;
 
 	priv = E_MAIL_CONFIG_SERVICE_NOTEBOOK_GET_PRIVATE (object);
-
-	if (priv->active_backend != NULL) {
-		g_object_unref (priv->active_backend);
-		priv->active_backend = NULL;
-	}
+	g_clear_object (&priv->active_backend);
 
 	/* Chain up to parent's dispose() method. */
 	G_OBJECT_CLASS (e_mail_config_service_notebook_parent_class)->

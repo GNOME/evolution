@@ -190,11 +190,7 @@ mail_config_yahoo_summary_dispose (GObject *object)
 	EMailConfigYahooSummaryPrivate *priv;
 
 	priv = E_MAIL_CONFIG_YAHOO_SUMMARY_GET_PRIVATE (object);
-
-	if (priv->collection_source != NULL) {
-		g_object_unref (priv->collection_source);
-		priv->collection_source = NULL;
-	}
+	g_clear_object (&priv->collection_source);
 
 	/* Chain up to parent's dispose() method. */
 	G_OBJECT_CLASS (e_mail_config_yahoo_summary_parent_class)->

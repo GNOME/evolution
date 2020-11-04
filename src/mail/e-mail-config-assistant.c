@@ -636,41 +636,13 @@ mail_config_assistant_dispose (GObject *object)
 	EMailConfigAssistantPrivate *priv;
 
 	priv = E_MAIL_CONFIG_ASSISTANT_GET_PRIVATE (object);
-
-	if (priv->session != NULL) {
-		g_object_unref (priv->session);
-		priv->session = NULL;
-	}
-
-	if (priv->identity_source != NULL) {
-		g_object_unref (priv->identity_source);
-		priv->identity_source = NULL;
-	}
-
-	if (priv->receiving_page != NULL) {
-		g_object_unref (priv->receiving_page);
-		priv->receiving_page = NULL;
-	}
-
-	if (priv->sending_page != NULL) {
-		g_object_unref (priv->sending_page);
-		priv->sending_page = NULL;
-	}
-
-	if (priv->summary_page != NULL) {
-		g_object_unref (priv->summary_page);
-		priv->summary_page = NULL;
-	}
-
-	if (priv->lookup_page != NULL) {
-		g_object_unref (priv->lookup_page);
-		priv->lookup_page = NULL;
-	}
-
-	if (priv->identity_page != NULL) {
-		g_object_unref (priv->identity_page);
-		priv->identity_page = NULL;
-	}
+	g_clear_object (&priv->session);
+	g_clear_object (&priv->identity_source);
+	g_clear_object (&priv->receiving_page);
+	g_clear_object (&priv->sending_page);
+	g_clear_object (&priv->summary_page);
+	g_clear_object (&priv->lookup_page);
+	g_clear_object (&priv->identity_page);
 
 	g_ptr_array_set_size (priv->account_sources, 0);
 	g_ptr_array_set_size (priv->transport_sources, 0);

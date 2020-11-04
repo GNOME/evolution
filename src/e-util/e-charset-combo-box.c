@@ -221,16 +221,8 @@ charset_combo_box_dispose (GObject *object)
 	ECharsetComboBoxPrivate *priv;
 
 	priv = E_CHARSET_COMBO_BOX_GET_PRIVATE (object);
-
-	if (priv->action_group != NULL) {
-		g_object_unref (priv->action_group);
-		priv->action_group = NULL;
-	}
-
-	if (priv->other_action != NULL) {
-		g_object_unref (priv->other_action);
-		priv->other_action = NULL;
-	}
+	g_clear_object (&priv->action_group);
+	g_clear_object (&priv->other_action);
 
 	g_hash_table_remove_all (priv->charset_index);
 

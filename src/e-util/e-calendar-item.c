@@ -668,28 +668,17 @@ e_calendar_item_dispose (GObject *object)
 	e_calendar_item_set_style_callback (calitem, NULL, NULL, NULL);
 	e_calendar_item_set_get_time_callback (calitem, NULL, NULL, NULL);
 
-	if (calitem->styles) {
-		g_free (calitem->styles);
-		calitem->styles = NULL;
-	}
+	g_clear_pointer (&calitem->styles, g_free);
 
 	if (calitem->signal_emission_idle_id > 0) {
 		g_source_remove (calitem->signal_emission_idle_id);
 		calitem->signal_emission_idle_id = -1;
 	}
 
-	if (calitem->font_desc) {
-		pango_font_description_free (calitem->font_desc);
-		calitem->font_desc = NULL;
-	}
+	g_clear_pointer (&calitem->font_desc, pango_font_description_free);
+	g_clear_pointer (&calitem->week_number_font_desc, pango_font_description_free);
 
-	if (calitem->week_number_font_desc) {
-		pango_font_description_free (calitem->week_number_font_desc);
-		calitem->week_number_font_desc = NULL;
-	}
-
-	if (calitem->selecting_axis)
-		g_free (calitem->selecting_axis);
+	g_free (calitem->selecting_axis);
 
 	G_OBJECT_CLASS (e_calendar_item_parent_class)->dispose (object);
 }
@@ -1984,10 +1973,7 @@ e_calendar_item_stop_selecting (ECalendarItem *calitem,
 			calitem->month + 1, FALSE);
 
 	calitem->selection_changed = TRUE;
-	if (calitem->selecting_axis) {
-		g_free (calitem->selecting_axis);
-		calitem->selecting_axis = NULL;
-	}
+	g_clear_pointer (&calitem->selecting_axis, g_free);
 
 	e_calendar_item_queue_signal_emission (calitem);
 	gnome_canvas_item_request_update (GNOME_CANVAS_ITEM (calitem));
@@ -2038,10 +2024,7 @@ e_calendar_item_selection_add_days (ECalendarItem *calitem,
 	}
 	else {
 		/* clear "selecting_axis", it is only for mulit-selecting */
-		if (calitem->selecting_axis) {
-			g_free (calitem->selecting_axis);
-			calitem->selecting_axis = NULL;
-		}
+		g_clear_pointer (&calitem->selecting_axis, g_free);
 		g_date_add_days (&gdate_start, n_days);
 		gdate_end = gdate_start;
 	}

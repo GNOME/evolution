@@ -121,16 +121,8 @@ mail_config_service_backend_dispose (GObject *object)
 	EMailConfigServiceBackendPrivate *priv;
 
 	priv = E_MAIL_CONFIG_SERVICE_BACKEND_GET_PRIVATE (object);
-
-	if (priv->source != NULL) {
-		g_object_unref (priv->source);
-		priv->source = NULL;
-	}
-
-	if (priv->collection != NULL) {
-		g_object_unref (priv->collection);
-		priv->collection = NULL;
-	}
+	g_clear_object (&priv->source);
+	g_clear_object (&priv->collection);
 
 	/* Chain up to parent's dispose() method. */
 	G_OBJECT_CLASS (e_mail_config_service_backend_parent_class)->

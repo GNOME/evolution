@@ -330,15 +330,8 @@ task_table_dispose (GObject *object)
 		priv->model = NULL;
 	}
 
-	if (priv->copy_target_list != NULL) {
-		gtk_target_list_unref (priv->copy_target_list);
-		priv->copy_target_list = NULL;
-	}
-
-	if (priv->paste_target_list != NULL) {
-		gtk_target_list_unref (priv->paste_target_list);
-		priv->paste_target_list = NULL;
-	}
+	g_clear_pointer (&priv->copy_target_list, gtk_target_list_unref);
+	g_clear_pointer (&priv->paste_target_list, gtk_target_list_unref);
 
 	/* Chain up to parent's dispose() method. */
 	G_OBJECT_CLASS (e_task_table_parent_class)->dispose (object);

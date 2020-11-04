@@ -561,10 +561,7 @@ e_map_finalize (GObject *object)
 		e_map_tween_destroy (map, map->priv->tweens->data);
 	e_map_stop_tweening (map);
 
-	if (map->priv->map_pixbuf) {
-		g_object_unref (map->priv->map_pixbuf);
-		map->priv->map_pixbuf = NULL;
-	}
+	g_clear_object (&map->priv->map_pixbuf);
 
 	/* gone in unrealize */
 	g_warn_if_fail (map->priv->map_render_surface == NULL);

@@ -131,10 +131,7 @@ mail_junk_options_rebuild (EMailJunkOptions *options)
 	/* Remove the GtkComboBox:active-id binding so it doesn't
 	 * affect EMailSession:junk-filter-name when we clear the
 	 * combo box's list model. */
-	if (options->priv->active_id_binding != NULL) {
-		g_object_unref (options->priv->active_id_binding);
-		options->priv->active_id_binding = NULL;
-	}
+	g_clear_object (&options->priv->active_id_binding);
 
 	model = gtk_combo_box_get_model (combo_box);
 	gtk_list_store_clear (GTK_LIST_STORE (model));
@@ -248,11 +245,7 @@ mail_junk_options_dispose (GObject *object)
 	EMailJunkOptionsPrivate *priv;
 
 	priv = E_MAIL_JUNK_OPTIONS_GET_PRIVATE (object);
-
-	if (priv->session != NULL) {
-		g_object_unref (priv->session);
-		priv->session = NULL;
-	}
+	g_clear_object (&priv->session);
 
 	/* Chain up to parent's dispose() method. */
 	G_OBJECT_CLASS (e_mail_junk_options_parent_class)->dispose (object);

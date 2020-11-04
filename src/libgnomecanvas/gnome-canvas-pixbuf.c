@@ -115,10 +115,7 @@ gnome_canvas_pixbuf_dispose (GnomeCanvasItem *object)
 	gcp = GNOME_CANVAS_PIXBUF (object);
 	priv = gcp->priv;
 
-	if (priv->pixbuf != NULL) {
-		g_object_unref (priv->pixbuf);
-		priv->pixbuf = NULL;
-	}
+	g_clear_object (&priv->pixbuf);
 
 	if (GNOME_CANVAS_ITEM_CLASS (gnome_canvas_pixbuf_parent_class)->dispose)
 		GNOME_CANVAS_ITEM_CLASS (gnome_canvas_pixbuf_parent_class)->dispose (object);

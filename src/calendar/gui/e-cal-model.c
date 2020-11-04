@@ -229,10 +229,7 @@ e_cal_model_component_finalize (GObject *object)
 {
 	ECalModelComponent *comp_data = E_CAL_MODEL_COMPONENT (object);
 
-	if (comp_data->client) {
-		g_object_unref (comp_data->client);
-		comp_data->client = NULL;
-	}
+	g_clear_object (&comp_data->client);
 
 	e_cal_model_component_set_icalcomponent (comp_data, NULL, NULL);
 
@@ -1748,8 +1745,7 @@ cal_model_free_value (ETableModel *etm,
 	case E_CAL_MODEL_FIELD_DESCRIPTION :
 	case E_CAL_MODEL_FIELD_SUMMARY :
 	case E_CAL_MODEL_FIELD_SOURCE:
-		if (value)
-			g_free (value);
+		g_free (value);
 		break;
 	case E_CAL_MODEL_FIELD_CLASSIFICATION :
 	case E_CAL_MODEL_FIELD_HAS_ALARMS :

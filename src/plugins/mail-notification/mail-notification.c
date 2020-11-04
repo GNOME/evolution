@@ -143,9 +143,8 @@ mail_notify_not_accounts_changed_locked (GSettings *settings)
 		for (ii = 0; uids[ii]; ii++) {
 			g_hash_table_insert (not_accounts, g_strdup (uids[ii]), NULL);
 		}
-	} else if (not_accounts) {
-		g_hash_table_destroy (not_accounts);
-		not_accounts = NULL;
+	} else {
+		g_clear_pointer (&not_accounts, g_hash_table_destroy);
 	}
 
 	g_strfreev (uids);
@@ -315,9 +314,8 @@ enable_dbus (gint enable)
 	if (enable) {
 		/* we ignore errors here */
 		init_gdbus ();
-	} else if (connection != NULL) {
-		g_object_unref (connection);
-		connection = NULL;
+	} else {
+		g_clear_object (&connection);
 	}
 }
 
@@ -1406,10 +1404,7 @@ e_plugin_lib_enable (EPlugin *ep,
 
 			not_accounts_handler_id = 0;
 
-			if (not_accounts) {
-				g_hash_table_destroy (not_accounts);
-				not_accounts = NULL;
-			}
+			g_clear_pointer (&not_accounts, g_hash_table_destroy);
 		}
 
 		g_mutex_unlock (&mlock);

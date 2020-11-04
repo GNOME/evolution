@@ -249,11 +249,7 @@ idle_dates_changed (gpointer data)
 	g_return_val_if_fail (EA_IS_CAL_VIEW (data), FALSE);
 
 	ea_cal_view = ATK_OBJECT (data);
-
-	if (ea_cal_view->name) {
-		g_free (ea_cal_view->name);
-		ea_cal_view->name = NULL;
-	}
+	g_clear_pointer (&ea_cal_view->name, g_free);
 	g_object_notify (G_OBJECT (ea_cal_view), "accessible-name");
 	g_signal_emit_by_name (ea_cal_view, "visible_data_changed");
 	g_signal_emit_by_name (ea_cal_view, "children_changed", NULL, NULL, NULL);

@@ -235,11 +235,7 @@ mail_signature_manager_dispose (GObject *object)
 	EMailSignatureManagerPrivate *priv;
 
 	priv = E_MAIL_SIGNATURE_MANAGER_GET_PRIVATE (object);
-
-	if (priv->registry != NULL) {
-		g_object_unref (priv->registry);
-		priv->registry = NULL;
-	}
+	g_clear_object (&priv->registry);
 
 	/* Chain up to parent's dispose() method. */
 	G_OBJECT_CLASS (e_mail_signature_manager_parent_class)->

@@ -535,8 +535,7 @@ layout_with_preedit (ECellTextView *text_view,
 		pango_attr_list_splice (attrs, preedit_attrs, mlen, preedit_length);
 	pango_layout_set_attributes (layout, attrs);
 	g_string_free (tmp_string, TRUE);
-	if (preedit_string)
-		g_free (preedit_string);
+	g_free (preedit_string);
 	if (preedit_attrs)
 		pango_attr_list_unref (preedit_attrs);
 	pango_attr_list_unref (attrs);

@@ -44,8 +44,7 @@ create_uri (UrlEditorDialog *dialog)
 	uri = dialog->uri;
 
 	if (uri->service_type == TYPE_URI) {
-		if (uri->location)
-			g_free (uri->location);
+		g_free (uri->location);
 		uri->location = g_strdup (gtk_entry_get_text (GTK_ENTRY (dialog->server_entry)));
 	} else {
 		const gchar *method = "file";
@@ -85,8 +84,7 @@ create_uri (UrlEditorDialog *dialog)
 			break;
 		}
 
-		if (uri->location)
-			g_free (uri->location);
+		g_free (uri->location);
 		uri->location = g_strdup_printf (
 			"%s://%s%s%s%s%s%s%s",
 			method,
@@ -555,14 +553,8 @@ url_editor_dialog_dispose (GObject *obj)
 {
 	UrlEditorDialog *dialog = (UrlEditorDialog *) obj;
 
-	if (dialog->url_list_model) {
-		g_object_unref (dialog->url_list_model);
-		dialog->url_list_model = NULL;
-	}
-	if (dialog->builder) {
-		g_object_unref (dialog->builder);
-		dialog->builder = NULL;
-	}
+	g_clear_object (&dialog->url_list_model);
+	g_clear_object (&dialog->builder);
 
 	G_OBJECT_CLASS (url_editor_dialog_parent_class)->dispose (obj);
 }
@@ -590,8 +582,7 @@ url_editor_dialog_run (UrlEditorDialog *dialog)
 	if (response == GTK_RESPONSE_OK) {
 		GList *list, *link;
 
-		if (dialog->uri->password)
-			g_free (dialog->uri->password);
+		g_free (dialog->uri->password);
 		if (dialog->uri->events) {
 			g_slist_foreach (dialog->uri->events, (GFunc) g_free, NULL);
 			dialog->uri->events = NULL;

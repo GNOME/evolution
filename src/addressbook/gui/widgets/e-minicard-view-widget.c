@@ -301,19 +301,9 @@ e_minicard_view_widget_dispose (GObject *object)
 {
 	EMinicardViewWidget *view = E_MINICARD_VIEW_WIDGET (object);
 
-	if (view->book_client) {
-		g_object_unref (view->book_client);
-		view->book_client = NULL;
-	}
-	if (view->query) {
-		g_free (view->query);
-		view->query = NULL;
-	}
-
-	if (view->adapter) {
-		g_object_unref (view->adapter);
-		view->adapter = NULL;
-	}
+	g_clear_object (&view->book_client);
+	g_clear_pointer (&view->query, g_free);
+	g_clear_object (&view->adapter);
 
 	/* Chain up to parent's dispose() method. */
 	G_OBJECT_CLASS (e_minicard_view_widget_parent_class)->dispose (object);
