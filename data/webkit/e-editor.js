@@ -3087,16 +3087,18 @@ EvoEditor.linkifyText = function(anchorNode, withUndo)
 		parent = anchorNode.parentElement;
 
 		for (ii = 0; ii < parts.length; ii++) {
-			var part = parts[ii], node, isLast = ii + 1 >= parts.length;
+			var part = parts[ii], node, isLast = ii + 1 >= parts.length, textLen = part.text.length;
 
 			if (part.href) {
 				node = document.createElement("A");
 				node.href = part.href;
 				node.innerText = part.text;
 			} else if (isLast) {
-				node = null;
 				// it can be a space, which cannot be added after the element, thus workaround it this way
-				newAnchorNode = anchorNode.splitText(matchEnd);
+				node = anchorNode.splitText(matchEnd);
+				if (!newAnchorNode && offset <= textLen)
+					newAnchorNode = node;
+				node = null;
 			} else {
 				node = document.createTextNode(part.text);
 			}
@@ -3104,18 +3106,19 @@ EvoEditor.linkifyText = function(anchorNode, withUndo)
 			if (node)
 				parent.insertBefore(node, insBefore);
 
-			if (!isLast) {
-				matchEnd += part.text.length;
-			} else if (node) {
+			if (node && !newAnchorNode && offset <= textLen)
 				newAnchorNode = node;
-			}
+			else if (!newAnchorNode && offset > textLen)
+				offset -= textLen;
+
+			matchEnd += textLen;
 		}
 
 		if (anchorNode)
 			anchorNode.remove();
 
-		if (updateSelection && newAnchorNode && offset - matchEnd >= 0)
-			selection.setPosition(newAnchorNode, offset - matchEnd);
+		if (updateSelection && newAnchorNode)
+			selection.setPosition(newAnchorNode, offset);
 	} finally {
 		if (withUndo) {
 			EvoUndoRedo.StopRecord(EvoUndoRedo.RECORD_KIND_CUSTOM, "magicLink");
