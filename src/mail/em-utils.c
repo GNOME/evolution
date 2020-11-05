@@ -980,8 +980,11 @@ em_utils_selection_set_urilist (GtkSelectionData *data,
 	gchar *tmpdir;
 	gchar *uri;
 	gint fd;
+	/* This is waiting for https://bugs.webkit.org/show_bug.cgi?id=212814 */
+	#if 0
 	GSettings *settings;
 	gchar *save_file_format;
+	#endif
 	gboolean save_as_mbox;
 
 	g_return_if_fail (uids != NULL);
@@ -994,6 +997,8 @@ em_utils_selection_set_urilist (GtkSelectionData *data,
 	if (tmpdir == NULL)
 		return;
 
+	/* This is waiting for https://bugs.webkit.org/show_bug.cgi?id=212814 */
+	#if 0
 	settings = e_util_ref_settings ("org.gnome.evolution.mail");
 
 	/* Save format is mbox unless pdf is explicitly requested. */
@@ -1003,6 +1008,9 @@ em_utils_selection_set_urilist (GtkSelectionData *data,
 	g_free (save_file_format);
 
 	g_object_unref (settings);
+	#else
+	save_as_mbox = TRUE;
+	#endif
 
 	if (save_as_mbox) {
 		CamelStream *fstream;
