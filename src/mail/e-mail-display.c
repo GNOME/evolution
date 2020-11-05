@@ -1965,7 +1965,7 @@ mail_display_save_part_for_drop (CamelMimePart *mime_part,
 		part_filename = "mail-part";
 
 	tmp = g_strdup (part_filename);
-	e_filename_make_safe (tmp);
+	e_util_make_safe_filename (tmp);
 
 	filename = g_build_filename (path, tmp, NULL);
 	g_free (tmp);

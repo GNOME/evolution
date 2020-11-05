@@ -98,7 +98,7 @@ mail_backend_uri_to_evname (const gchar *uri,
 	data_dir = mail_session_get_data_dir ();
 
 	safe = g_strdup (uri);
-	e_filename_make_safe (safe);
+	e_util_make_safe_filename (safe);
 	basename = g_strdup_printf ("%s%s.xml", prefix, safe);
 	filename = g_build_filename (data_dir, basename, NULL);
 	g_free (basename);

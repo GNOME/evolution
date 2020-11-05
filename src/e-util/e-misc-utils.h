@@ -341,6 +341,7 @@ const ESupportedLocales *
 
 void		e_util_ensure_scrolled_window_height
 						(GtkScrolledWindow *scrolled_window);
+void		e_util_make_safe_filename	(gchar *filename);
 
 G_END_DECLS
 

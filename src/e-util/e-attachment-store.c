@@ -914,7 +914,7 @@ e_attachment_store_run_save_dialog (EAttachmentStore *store,
 			name = _("attachment.dat");
 
 		allocated = g_strdup (name);
-		e_filename_make_safe (allocated);
+		e_util_make_safe_filename (allocated);
 
 		gtk_file_chooser_set_current_name (file_chooser, allocated);
 

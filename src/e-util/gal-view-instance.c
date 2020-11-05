@@ -38,6 +38,7 @@
 #include <libedataserver/libedataserver.h>
 
 #include "e-unicode.h"
+#include "e-misc-utils.h"
 #include "e-xml-utils.h"
 #include "gal-view-instance-save-as-dialog.h"
 
@@ -363,7 +364,7 @@ gal_view_instance_construct (GalViewInstance *instance,
 		instance->instance_id = g_strdup ("");
 
 	safe_id = g_strdup (instance->instance_id);
-	e_filename_make_safe (safe_id);
+	e_util_make_safe_filename (safe_id);
 
 	user_directory =
 		gal_view_collection_get_user_directory (instance->collection);

@@ -135,6 +135,11 @@
       <_summary>Minimum font size to be used by WebKitGTK</_summary>
       <_description>The minimum font size in pixels used to display text in WebKitGTK. This setting controls the absolute smallest size. Values other than 0 can potentially break page layouts. Negative values are treated as 0.</_description>
     </key>
+    <key name="filename-illegal-chars" type="s">
+      <default>'\'&quot;&amp;`();|&lt;&gt;$%{}!'</default>
+      <_summary>Set of additional illegal characters in the filename</_summary>
+      <_description>When generating file names from custom strings some non-printable or reserved characters are replaced with an underscore. Here's a set of additional characters to be replaced.</_description>
+    </key>
     <child name="window" schema="org.gnome.evolution.window"/>
   </schema>
 </schemalist>

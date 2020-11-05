@@ -147,9 +147,9 @@ shell_xdg_migrate_rename_files (const gchar *src_directory,
 
 	home_dir = g_get_home_dir ();
 	old_base_dir = g_build_filename (home_dir, ".evolution", NULL);
-	e_filename_make_safe (old_base_dir);
+	e_util_make_safe_filename (old_base_dir);
 	new_base_dir = g_strdup (e_get_user_data_dir ());
-	e_filename_make_safe (new_base_dir);
+	e_util_make_safe_filename (new_base_dir);
 
 	while ((basename = g_dir_read_name (dir)) != NULL) {
 		GString *buffer;

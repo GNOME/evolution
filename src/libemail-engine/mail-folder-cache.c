@@ -1392,9 +1392,9 @@ rename_folders (MailFolderCache *cache,
 	/* rename the meta-data we maintain ourselves */
 	config_dir = mail_session_get_config_dir ();
 	olduri = e_mail_folder_uri_build (store_info->store, old);
-	e_filename_make_safe (olduri);
+	e_util_make_safe_filename (olduri);
 	newuri = e_mail_folder_uri_build (store_info->store, fi->full_name);
-	e_filename_make_safe (newuri);
+	e_util_make_safe_filename (newuri);
 	oldfile = g_strdup_printf ("%s/custom_view-%s.xml", config_dir, olduri);
 	newfile = g_strdup_printf ("%s/custom_view-%s.xml", config_dir, newuri);
 	if (g_rename (oldfile, newfile) == -1 && errno != ENOENT) {

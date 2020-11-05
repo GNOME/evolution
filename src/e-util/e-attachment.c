@@ -2974,7 +2974,7 @@ attachment_save_new_candidate (SaveContext *save_context)
 		display_name = _("attachment.dat");
 
 	allocated = g_strdup (display_name);
-	e_filename_make_safe (allocated);
+	e_util_make_safe_filename (allocated);
 
 	basename = get_new_name_with_count (allocated, save_context->count);
 

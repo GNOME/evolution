@@ -4655,3 +4655,35 @@ e_util_ensure_scrolled_window_height (GtkScrolledWindow *scrolled_window)
 
 	gtk_scrolled_window_set_min_content_height (scrolled_window, require_scw_height);
 }
+
+void
+e_util_make_safe_filename (gchar *filename)
+{
+	const gchar *unsafe_chars = "/\\";
+	GSettings *settings;
+	gchar *pp, *ts, *illegal_chars;
+	gunichar cc;
+
+	g_return_if_fail (filename != NULL);
+
+	settings = e_util_ref_settings ("org.gnome.evolution.shell");
+	illegal_chars = g_settings_get_string (settings, "filename-illegal-chars");
+	g_clear_object (&settings);
+
+	pp = filename;
+
+	while (pp && *pp) {
+		cc = g_utf8_get_char (pp);
+		ts = pp;
+		pp = g_utf8_next_char (pp);
+
+		if (!g_unichar_isprint (cc) ||
+		    (cc < 0xff && (strchr (unsafe_chars, cc & 0xff) ||
+		     (illegal_chars && *illegal_chars && strchr (illegal_chars, cc & 0xff))))) {
+			while (ts < pp)
+				*ts++ = '_';
+		}
+	}
+
+	g_free (illegal_chars);
+}

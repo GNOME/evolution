@@ -642,7 +642,7 @@ ece_save_component_attachments_sync (ECalClient *cal_client,
 	g_return_val_if_fail (I_CAL_IS_COMPONENT (component), FALSE);
 
 	tmp = g_strdup (i_cal_component_get_uid (component));
-	e_filename_make_safe (tmp);
+	e_util_make_safe_filename (tmp);
 	filename_prefix = g_strconcat (tmp, "-", NULL);
 	g_free (tmp);
 

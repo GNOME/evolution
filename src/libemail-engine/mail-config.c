@@ -207,7 +207,7 @@ mail_config_folder_to_cachename (CamelFolder *folder,
 	g_free (basename);
 
 	folder_uri = e_mail_folder_uri_from_folder (folder);
-	e_filename_make_safe (folder_uri);
+	e_util_make_safe_filename (folder_uri);
 	basename = g_strdup_printf ("%s%s", prefix, folder_uri);
 	filename = g_build_filename (config_dir, "folders", basename, NULL);
 	g_free (basename);

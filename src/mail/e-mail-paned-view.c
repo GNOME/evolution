@@ -979,7 +979,7 @@ empv_create_view_id (CamelFolder *folder)
 	g_return_val_if_fail (folder_uri != NULL, NULL);
 
 	/* to be able to migrate previously saved views */
-	e_filename_make_safe (folder_uri);
+	e_util_make_safe_filename (folder_uri);
 
 	/* use MD5 checksum of the folder URI, to not depend on its length */
 	checksum = g_checksum_new (G_CHECKSUM_MD5);
@@ -1083,7 +1083,7 @@ mail_paned_view_update_view_instance (EMailView *view)
 	g_clear_object (&priv->view_instance);
 
 	view_id = empv_create_view_id (folder);
-	e_filename_make_safe (view_id);
+	e_util_make_safe_filename (view_id);
 
 	folder_cache = e_mail_session_get_folder_cache (e_mail_backend_get_session (e_mail_reader_get_backend (reader)));
 

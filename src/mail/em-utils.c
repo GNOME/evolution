@@ -1017,7 +1017,7 @@ em_utils_selection_set_urilist (GtkSelectionData *data,
 			basename = em_utils_build_export_basename (
 				folder, uids->pdata[0], NULL);
 		}
-		e_filename_make_safe (basename);
+		e_util_make_safe_filename (basename);
 		filename = g_build_filename (tmpdir, basename, NULL);
 		g_free (basename);
 
@@ -1066,7 +1066,7 @@ em_utils_selection_set_urilist (GtkSelectionData *data,
 
 			basename = em_utils_build_export_basename (
 				folder, uids->pdata[ii], ".pdf");
-			e_filename_make_safe (basename);
+			e_util_make_safe_filename (basename);
 			filename = g_build_filename (tmpdir, basename, NULL);
 			g_free (basename);
 

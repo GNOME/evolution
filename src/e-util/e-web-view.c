@@ -2637,7 +2637,7 @@ e_web_view_suggest_filename (EWebView *web_view,
 	filename = class->suggest_filename (web_view, uri);
 
 	if (filename != NULL)
-		e_filename_make_safe (filename);
+		e_util_make_safe_filename (filename);
 
 	return filename;
 }

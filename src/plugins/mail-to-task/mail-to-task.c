@@ -433,7 +433,7 @@ set_attachments (ECalClient *client,
 	g_return_if_fail (comp_uid != NULL);
 
 	tmp = g_strdup (comp_uid);
-	e_filename_make_safe (tmp);
+	e_util_make_safe_filename (tmp);
 	filename_prefix = g_strconcat (tmp, "-", NULL);
 	g_free (tmp);
 

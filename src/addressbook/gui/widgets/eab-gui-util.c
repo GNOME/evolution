@@ -268,7 +268,7 @@ make_safe_filename (gchar *name)
 	else
 		safe = g_strdup (name);
 
-	e_filename_make_safe (safe);
+	e_util_make_safe_filename (safe);
 
 	return safe;
 }

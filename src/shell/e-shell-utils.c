@@ -141,7 +141,7 @@ e_shell_run_save_dialog (EShell *shell,
 		gchar *current_name;
 
 		current_name = g_strdup (suggestion);
-		e_filename_make_safe (current_name);
+		e_util_make_safe_filename (current_name);
 		gtk_file_chooser_set_current_name (file_chooser, current_name);
 		g_free (current_name);
 	}
