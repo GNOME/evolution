@@ -60,6 +60,9 @@ struct _EUrlEntryClass {
 
 GType		e_url_entry_get_type		(void) G_GNUC_CONST;
 GtkWidget *	e_url_entry_new			(void);
+void		e_url_entry_set_icon_visible	(EUrlEntry *url_entry,
+						 gboolean visible);
+gboolean	e_url_entry_get_icon_visible	(EUrlEntry *url_entry);
 
 G_END_DECLS
 

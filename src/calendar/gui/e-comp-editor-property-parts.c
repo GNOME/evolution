@@ -305,6 +305,45 @@ ecepp_location_save_list (GtkEntry *entry)
 	g_free (filename);
 }
 
+static gboolean
+ecepp_location_text_to_icon_visible (GBinding *binding,
+				     const GValue *source_value,
+				     GValue *target_value,
+				     gpointer user_data)
+{
+	const gchar *text;
+	gboolean icon_visible = FALSE;
+
+	text = g_value_get_string (source_value);
+
+	if (text && *text) {
+		struct _schemas {
+			const gchar *schema;
+			gint len;
+		} schemas[] = {
+			{ "http:", 5 },
+			{ "https:", 6 },
+			{ "www.", 4 },
+			{ "ftp:", 4 },
+			{ "sip:", 4 },
+			{ "tel:", 4 },
+			{ "xmpp:", 5 }
+		};
+		gint ii;
+
+		for (ii = 0; ii < G_N_ELEMENTS (schemas); ii++) {
+			if (g_ascii_strncasecmp (text, schemas[ii].schema, schemas[ii].len) == 0) {
+				icon_visible = TRUE;
+				break;
+			}
+		}
+	}
+
+	g_value_set_boolean (target_value, icon_visible);
+
+	return TRUE;
+}
+
 static void
 ecepp_location_create_widgets (ECompEditorPropertyPart *property_part,
 			       GtkWidget **out_label_widget,
@@ -337,6 +376,13 @@ ecepp_location_create_widgets (ECompEditorPropertyPart *property_part,
 
 	gtk_entry_set_completion (GTK_ENTRY (*out_edit_widget), completion);
 	g_object_unref (completion);
+
+	e_binding_bind_property_full (
+		*out_edit_widget, "text",
+		*out_edit_widget, "icon-visible",
+		G_BINDING_SYNC_CREATE,
+		ecepp_location_text_to_icon_visible,
+		NULL, NULL, NULL);
 
 	*out_label_widget = gtk_label_new_with_mnemonic (C_("ECompEditor", "_Location:"));
 	gtk_label_set_mnemonic_widget (GTK_LABEL (*out_label_widget), *out_edit_widget);
@@ -386,6 +432,7 @@ e_comp_editor_property_part_location_class_init (ECompEditorPropertyPartLocation
 	ECompEditorPropertyPartClass *part_class;
 
 	part_string_class = E_COMP_EDITOR_PROPERTY_PART_STRING_CLASS (klass);
+	part_string_class->entry_type = E_TYPE_URL_ENTRY;
 	part_string_class->prop_kind = I_CAL_LOCATION_PROPERTY;
 	part_string_class->i_cal_new_func = i_cal_property_new_location;
 	part_string_class->i_cal_set_func = i_cal_property_set_location;
