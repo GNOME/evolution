@@ -547,6 +547,8 @@ create_children (EDateEdit *dedit)
 	GtkStyleContext *style_context;
 	const gchar *css;
 	GError *error = NULL;
+	PangoAttrList *tnum;
+	PangoAttribute *attr;
 
 	priv = dedit->priv;
 
@@ -623,6 +625,11 @@ create_children (EDateEdit *dedit)
 	cells = gtk_cell_layout_get_cells (GTK_CELL_LAYOUT (priv->time_combo));
 	if (cells) {
 		g_object_set (GTK_CELL_RENDERER (cells->data), "xalign", 1.0, NULL);
+		tnum = pango_attr_list_new ();
+		attr = pango_attr_font_features_new ("tnum=1");
+		pango_attr_list_insert_before (tnum, attr);
+		g_object_set (GTK_CELL_RENDERER (cells->data), "attributes", tnum, NULL);
+		pango_attr_list_unref (tnum);
 		g_list_free (cells);
 	}
 

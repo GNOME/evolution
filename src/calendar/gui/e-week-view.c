@@ -967,6 +967,8 @@ week_view_update_style_settings (EWeekView *week_view)
 	PangoContext *pango_context;
 	PangoFontMetrics *font_metrics;
 	PangoLayout *layout;
+	PangoAttrList *tnum;
+	PangoAttribute *attr;
 	EWeekViewEventSpan *span;
 
 	e_week_view_set_colors (week_view);
@@ -1003,6 +1005,11 @@ week_view_update_style_settings (EWeekView *week_view)
 		pango_context, font_desc,
 		pango_context_get_language (pango_context));
 	layout = pango_layout_new (pango_context);
+	tnum = pango_attr_list_new ();
+	attr = pango_attr_font_features_new ("tnum=1");
+	pango_attr_list_insert_before (tnum, attr);
+	pango_layout_set_attributes (layout, tnum);
+	pango_attr_list_unref (tnum);
 
 	/* Recalculate the height of each row based on the font size. */
 	week_view->row_height = PANGO_PIXELS (pango_font_metrics_get_ascent (font_metrics)) +

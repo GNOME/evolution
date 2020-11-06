@@ -1577,6 +1577,8 @@ e_calendar_item_draw_day_numbers (ECalendarItem *calitem,
 	PangoContext *pango_context;
 	PangoFontMetrics *font_metrics;
 	PangoLayout *layout;
+	PangoAttrList *tnum;
+	PangoAttribute *attr;
 
 	item = GNOME_CANVAS_ITEM (calitem);
 	widget = GTK_WIDGET (item->canvas);
@@ -1659,6 +1661,10 @@ e_calendar_item_draw_day_numbers (ECalendarItem *calitem,
 	/* We usually skip the last days of the previous month (mon = 0),
 	 * except for the top-left month displayed. */
 	draw_day = (mon == 1 || (row == 0 && col == 0));
+
+	tnum = pango_attr_list_new ();
+	attr = pango_attr_font_features_new ("tnum=1");
+	pango_attr_list_insert_before (tnum, attr);
 
 	for (drow = 0; drow < 6; drow++) {
 		/* Draw the week number. */
@@ -1843,6 +1849,7 @@ e_calendar_item_draw_day_numbers (ECalendarItem *calitem,
 				}
 
 				pango_layout_set_font_description (layout, font_desc);
+				pango_layout_set_attributes (layout, tnum);
 				pango_layout_set_text (layout, buffer, num_chars);
 				cairo_move_to (cr, day_x, day_y);
 				pango_cairo_update_layout (cr, layout);
@@ -1880,6 +1887,7 @@ e_calendar_item_draw_day_numbers (ECalendarItem *calitem,
 
 	g_object_unref (layout);
 
+	pango_attr_list_unref (tnum);
 	pango_font_metrics_unref (font_metrics);
 	pango_font_description_free (font_desc);
 }
@@ -2142,6 +2150,8 @@ e_calendar_item_recalc_sizes (ECalendarItem *calitem)
 	PangoContext *pango_context;
 	PangoFontMetrics *font_metrics;
 	PangoLayout *layout;
+	PangoAttrList *tnum;
+	PangoAttribute *attr;
 	GDateWeekday weekday;
 	GtkWidget *widget;
 	GtkStyleContext *style_context;
@@ -2179,6 +2189,12 @@ e_calendar_item_recalc_sizes (ECalendarItem *calitem)
 		max_day_width = MAX (max_day_width, width);
 	}
 	calitem->max_day_width = max_day_width;
+
+	tnum = pango_attr_list_new ();
+	attr = pango_attr_font_features_new ("tnum=1");
+	pango_attr_list_insert_before (tnum, attr);
+	pango_layout_set_attributes (layout, tnum);
+	pango_attr_list_unref (tnum);
 
 	max_digit_width = 0;
 	max_week_number_digit_width = 0;

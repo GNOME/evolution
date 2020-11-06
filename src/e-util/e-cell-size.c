@@ -71,6 +71,7 @@ e_cell_size_class_init (ECellSizeClass *class)
 static void
 e_cell_size_init (ECellSize *e_cell_size)
 {
+	g_object_set (e_cell_size, "use-tabular-numbers", TRUE, NULL);
 }
 
 /**

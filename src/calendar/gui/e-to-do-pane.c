@@ -1590,7 +1590,7 @@ etdp_check_time_changed (EToDoPane *to_do_pane,
 					gchar *date;
 
 					date = e_datetime_format_format_tm ("calendar", "table", DTFormatKindDate, &tm);
-					markup = g_markup_printf_escaped ("<b>%s</b>", date);
+					markup = g_markup_printf_escaped ("<span font_features='tnum=1'><b>%s</b></span>", date);
 					g_free (date);
 				}
 

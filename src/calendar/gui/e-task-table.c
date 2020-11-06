@@ -483,6 +483,7 @@ task_table_constructed (GObject *object)
 		NULL);
 
 	popup_cell = e_cell_combo_new ();
+	e_cell_combo_use_tabular_numbers (E_CELL_COMBO (popup_cell));
 	e_cell_popup_set_child (E_CELL_POPUP (popup_cell), cell);
 	g_object_unref (cell);
 

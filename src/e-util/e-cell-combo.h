@@ -66,6 +66,7 @@ struct _ECellCombo {
 	GtkWidget *popup_window;
 	GtkWidget *popup_scrolled_window;
 	GtkWidget *popup_tree_view;
+	GtkCellRenderer *popup_renderer;
 
 	GdkDevice *grabbed_keyboard;
 	GdkDevice *grabbed_pointer;
@@ -82,6 +83,9 @@ ECell *		e_cell_combo_new		(void);
 void		e_cell_combo_set_popdown_strings
 						(ECellCombo *ecc,
 						 GList *strings);
+
+void		e_cell_combo_use_tabular_numbers
+						(ECellCombo *ecc);
 
 G_END_DECLS
 

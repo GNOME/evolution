@@ -218,6 +218,9 @@ e_cell_date_edit_init (ECellDateEdit *ecde)
 	GtkWidget *scrolled_window, *bbox, *tree_view;
 	GtkWidget *now_button, *today_button, *none_button, *ok_button;
 	GtkListStore *store;
+	GtkCellRenderer *renderer;
+	PangoAttrList *tnum;
+	PangoAttribute *attr;
 
 	ecde->lower_hour = 0;
 	ecde->upper_hour = 24;
@@ -286,10 +289,17 @@ e_cell_date_edit_init (ECellDateEdit *ecde)
 	tree_view = gtk_tree_view_new_with_model (GTK_TREE_MODEL (store));
 	g_object_unref (store);
 
+	renderer = gtk_cell_renderer_text_new ();
+	tnum = pango_attr_list_new ();
+	attr = pango_attr_font_features_new ("tnum=1");
+	pango_attr_list_insert_before (tnum, attr);
+	g_object_set (renderer, "attributes", tnum, NULL);
+	pango_attr_list_unref (tnum);
+
 	gtk_tree_view_append_column (
 		GTK_TREE_VIEW (tree_view),
 		gtk_tree_view_column_new_with_attributes (
-		"Text", gtk_cell_renderer_text_new (), "text", 0, NULL));
+		"Text", renderer, "text", 0, NULL));
 
 	gtk_tree_view_set_headers_visible (GTK_TREE_VIEW (tree_view), FALSE);
 

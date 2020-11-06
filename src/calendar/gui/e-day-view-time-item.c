@@ -276,6 +276,8 @@ edvti_draw_zone (GnomeCanvasItem *canvas_item,
 	gint hour_width, minute_width, suffix_width;
 	gint max_suffix_width, max_minute_or_suffix_width;
 	PangoLayout *layout;
+	PangoAttrList *tnum;
+	PangoAttribute *attr;
 	PangoContext *context;
 	PangoFontMetrics *large_font_metrics, *small_font_metrics;
 	GtkWidget *widget;
@@ -301,6 +303,10 @@ edvti_draw_zone (GnomeCanvasItem *canvas_item,
 
 	e_utils_get_theme_color (widget, "theme_fg_color,theme_text_color", E_UTILS_DEFAULT_THEME_FG_COLOR, &fg);
 	e_utils_get_theme_color (widget, "theme_base_color", E_UTILS_DEFAULT_THEME_BASE_COLOR, &dark);
+
+	tnum = pango_attr_list_new ();
+	attr = pango_attr_font_features_new ("tnum=1");
+	pango_attr_list_insert_before (tnum, attr);
 
 	/* The start and end of the long horizontal line between hours. */
 	long_line_x1 =
@@ -520,6 +526,7 @@ edvti_draw_zone (GnomeCanvasItem *canvas_item,
 			else
 				gdk_cairo_set_source_rgba (cr, &fg);
 			layout = gtk_widget_create_pango_layout (GTK_WIDGET (day_view), NULL);
+			pango_layout_set_attributes (layout, tnum);
 			pango_layout_set_text (layout, buffer, -1);
 			pango_layout_get_pixel_size (layout, &minute_width, NULL);
 			cairo_translate (
@@ -561,6 +568,7 @@ edvti_draw_zone (GnomeCanvasItem *canvas_item,
 				else
 					gdk_cairo_set_source_rgba (cr, &fg);
 				layout = gtk_widget_create_pango_layout (GTK_WIDGET (day_view), NULL);
+				pango_layout_set_attributes (layout, tnum);
 				pango_layout_set_text (layout, buffer, -1);
 				pango_layout_set_font_description (
 					layout, day_view->large_font_desc);
@@ -609,6 +617,7 @@ edvti_draw_zone (GnomeCanvasItem *canvas_item,
 				else
 					gdk_cairo_set_source_rgba (cr, &fg);
 				layout = gtk_widget_create_pango_layout (GTK_WIDGET (day_view), NULL);
+				pango_layout_set_attributes (layout, tnum);
 				pango_layout_set_text (layout, buffer, -1);
 				pango_layout_set_font_description (
 					layout, day_view->small_font_desc);
@@ -630,6 +639,7 @@ edvti_draw_zone (GnomeCanvasItem *canvas_item,
 			time_divisions);
 	}
 
+	pango_attr_list_unref (tnum);
 	pango_font_metrics_unref (large_font_metrics);
 	pango_font_metrics_unref (small_font_metrics);
 
@@ -1069,12 +1079,18 @@ gint
 e_day_view_time_item_get_column_width (EDayViewTimeItem *time_item)
 {
 	EDayView *day_view;
+	PangoAttrList *tnum;
+	PangoAttribute *attr;
 	gint digit, large_digit_width, max_large_digit_width = 0;
 	gint max_suffix_width, max_minute_or_suffix_width;
 	gint column_width_default, column_width_60_min_rows;
 
 	day_view = e_day_view_time_item_get_day_view (time_item);
 	g_return_val_if_fail (day_view != NULL, 0);
+
+	tnum = pango_attr_list_new ();
+	attr = pango_attr_font_features_new ("tnum=1");
+	pango_attr_list_insert_before (tnum, attr);
 
 	/* Find the maximum width a digit can have. FIXME: We could use pango's
 	 * approximation function, but I worry it won't be precise enough. Also
@@ -1087,6 +1103,7 @@ e_day_view_time_item_get_column_width (EDayViewTimeItem *time_item)
 		digit_str[1] = '\0';
 
 		layout = gtk_widget_create_pango_layout (GTK_WIDGET (day_view), digit_str);
+		pango_layout_set_attributes (layout, tnum);
 		pango_layout_set_font_description (layout, day_view->large_font_desc);
 		pango_layout_get_pixel_size (layout, &large_digit_width, NULL);
 
@@ -1096,6 +1113,8 @@ e_day_view_time_item_get_column_width (EDayViewTimeItem *time_item)
 			max_large_digit_width,
 			large_digit_width);
 	}
+
+	pango_attr_list_unref (tnum);
 
 	/* Calculate the width of each time column, using the maximum of the
 	 * default format with large hour numbers, and the 60-min divisions

@@ -123,6 +123,7 @@ e_cell_combo_init (ECellCombo *ecc)
 	GtkListStore *store;
 	GtkTreeSelection *selection;
 	GtkScrolledWindow *scrolled_window;
+	GtkCellRenderer *renderer;
 
 	/* We create one popup window for the ECell, since there will only
 	 * ever be one popup in use at a time. */
@@ -154,11 +155,13 @@ e_cell_combo_init (ECellCombo *ecc)
 		gtk_tree_view_new_with_model (GTK_TREE_MODEL (store));
 	g_object_unref (store);
 
+	renderer = gtk_cell_renderer_text_new ();
+	ecc->popup_renderer = renderer;
+
 	gtk_tree_view_append_column (
 		GTK_TREE_VIEW (ecc->popup_tree_view),
 		gtk_tree_view_column_new_with_attributes (
-			"Text", gtk_cell_renderer_text_new (),
-			"text", 0, NULL));
+			"Text", renderer, "text", 0, NULL));
 
 	gtk_tree_view_set_headers_visible (
 		GTK_TREE_VIEW (ecc->popup_tree_view), FALSE);
@@ -256,6 +259,16 @@ e_cell_combo_set_popdown_strings (ECellCombo *ecc,
 		gtk_list_store_append (store, &iter);
 		gtk_list_store_set (store, &iter, 0, utf8_text, -1);
 	}
+}
+
+void
+e_cell_combo_use_tabular_numbers (ECellCombo *ecc)
+{
+	PangoAttrList *tnum = pango_attr_list_new ();
+	PangoAttribute *attr = pango_attr_font_features_new ("tnum=1");
+	pango_attr_list_insert_before (tnum, attr);
+	g_object_set (ecc->popup_renderer, "attributes", tnum, NULL);
+	pango_attr_list_unref (tnum);
 }
 
 static gint

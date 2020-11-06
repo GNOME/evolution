@@ -69,6 +69,8 @@ week_view_main_item_draw_day (EWeekViewMainItem *main_item,
 	PangoContext *pango_context;
 	PangoFontMetrics *font_metrics;
 	PangoLayout *layout;
+	PangoAttrList *tnum;
+	PangoAttribute *attr;
 	gboolean today = FALSE;
 	gboolean multi_week_view;
 
@@ -245,18 +247,23 @@ week_view_main_item_draw_day (EWeekViewMainItem *main_item,
 			cr, &week_view->colors[E_WEEK_VIEW_COLOR_DATES]);
 	}
 
+	layout = gtk_widget_create_pango_layout (GTK_WIDGET (week_view), NULL);
+	tnum = pango_attr_list_new ();
+	attr = pango_attr_font_features_new ("tnum=1");
+	pango_attr_list_insert_before (tnum, attr);
+	pango_layout_set_attributes (layout, tnum);
+	pango_attr_list_unref (tnum);
+
 	if (today) {
 		g_date_strftime (
 			buffer, sizeof (buffer),
 			format_string ? format_string : "<b>%d</b>", date);
-		layout = gtk_widget_create_pango_layout (GTK_WIDGET (week_view), NULL);
 		pango_layout_set_text (layout, buffer, -1);
 		pango_layout_set_markup (layout, buffer, strlen (buffer));
 	} else {
 		g_date_strftime (
 			buffer, sizeof (buffer),
 			format_string ? format_string : "%d", date);
-		layout = gtk_widget_create_pango_layout (GTK_WIDGET (week_view), NULL);
 		pango_layout_set_text (layout, buffer, -1);
 	}
 

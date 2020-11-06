@@ -132,6 +132,7 @@ e_cell_percent_class_init (ECellPercentClass *ecpc)
 static void
 e_cell_percent_init (ECellPercent *ecp)
 {
+	g_object_set (ecp, "use-tabular-numbers", TRUE, NULL);
 }
 
 /**
