@@ -108,6 +108,10 @@ void		e_web_view_preview_add_empty_line
 void		e_web_view_preview_add_section	(EWebViewPreview *preview,
 						 const gchar *section,
 						 const gchar *value);
+void		e_web_view_preview_add_section_html
+						(EWebViewPreview *preview,
+						 const gchar *section,
+						 const gchar *html);
 
 G_END_DECLS
 

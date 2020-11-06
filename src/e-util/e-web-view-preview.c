@@ -462,11 +462,32 @@ e_web_view_preview_add_section (EWebViewPreview *preview,
                                 const gchar *section,
                                 const gchar *value)
 {
-	gchar *escaped_section = NULL, *escaped_value;
+	gchar *escaped_value;
 
 	g_return_if_fail (E_IS_WEB_VIEW_PREVIEW (preview));
 	g_return_if_fail (preview->priv->updating_content != NULL);
 	g_return_if_fail (value != NULL);
+
+	escaped_value = web_view_preview_escape_text (preview, value);
+	if (escaped_value)
+		value = escaped_value;
+
+	e_web_view_preview_add_section_html (preview, section, value);
+
+	g_free (escaped_value);
+}
+
+/* section can be NULL, but html cannot */
+void
+e_web_view_preview_add_section_html (EWebViewPreview *preview,
+				     const gchar *section,
+				     const gchar *html)
+{
+	gchar *escaped_section = NULL;
+
+	g_return_if_fail (E_IS_WEB_VIEW_PREVIEW (preview));
+	g_return_if_fail (preview->priv->updating_content != NULL);
+	g_return_if_fail (html != NULL);
 
 	if (section) {
 		escaped_section = web_view_preview_escape_text (preview, section);
@@ -474,12 +495,11 @@ e_web_view_preview_add_section (EWebViewPreview *preview,
 			section = escaped_section;
 	}
 
-	escaped_value = web_view_preview_escape_text (preview, value);
-	if (escaped_value)
-		value = escaped_value;
-
-	g_string_append_printf (preview->priv->updating_content, "<TR><TD width=\"10%%\" valign=\"top\" nowrap><FONT size=\"3\"><B>%s</B></FONT></TD><TD width=\"90%%\"><FONT size=\"3\">%s</FONT></TD></TR>", section ? section : "", value);
+	g_string_append_printf (preview->priv->updating_content,
+		"<TR>"
+			"<TD width=\"10%%\" valign=\"top\" nowrap><FONT size=\"3\"><B>%s</B></FONT></TD>"
+			"<TD width=\"90%%\"><FONT size=\"3\">%s</FONT></TD>"
+		"</TR>", section ? section : "", html);
 
 	g_free (escaped_section);
-	g_free (escaped_value);
 }

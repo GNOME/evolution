@@ -1228,6 +1228,25 @@ strip_mailto (const gchar *str)
 }
 
 static void
+add_url_section (EWebViewPreview *preview,
+		 const gchar *section,
+		 const gchar *raw_value)
+{
+	gchar *html;
+
+	g_return_if_fail (raw_value != NULL);
+
+	html = camel_text_to_html (raw_value, CAMEL_MIME_FILTER_TOHTML_CONVERT_URLS | CAMEL_MIME_FILTER_TOHTML_CONVERT_ADDRESSES, 0);
+
+	if (html) {
+		e_web_view_preview_add_section_html (preview, section, html);
+		g_free (html);
+	} else {
+		e_web_view_preview_add_section (preview, section, raw_value);
+	}
+}
+
+static void
 preview_comp (EWebViewPreview *preview,
               ECalComponent *comp)
 {
@@ -1315,7 +1334,7 @@ preview_comp (EWebViewPreview *preview,
 	tmp = e_cal_component_get_location (comp);
 	if (tmp && *tmp)
 		/* Translators: Appointment's location */
-		e_web_view_preview_add_section (preview, C_("iCalImp", "Location"), tmp);
+		add_url_section (preview, C_("iCalImp", "Location"), tmp);
 	g_free (tmp);
 
 	dt = e_cal_component_get_dtstart (comp);
@@ -1385,7 +1404,7 @@ preview_comp (EWebViewPreview *preview,
 	tmp = e_cal_component_get_url (comp);
 	if (tmp && *tmp)
 		/* Translators: Appointment's URL */
-		e_web_view_preview_add_section (preview, C_("iCalImp", "URL"), tmp);
+		add_url_section (preview, C_("iCalImp", "URL"), tmp);
 	g_free (tmp);
 
 	if (e_cal_component_has_organizer (comp)) {
