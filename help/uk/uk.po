@@ -6,8 +6,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: evolution master\n"
-"POT-Creation-Date: 2020-09-03 09:27+0000\n"
-"PO-Revision-Date: 2020-09-03 14:54+0300\n"
+"POT-Creation-Date: 2020-11-01 13:52+0000\n"
+"PO-Revision-Date: 2020-11-07 21:00+0200\n"
 "Last-Translator: Yuri Chornoivan <yurchor@ukr.net>\n"
 "Language-Team: Ukrainian <trans-uk@lists.fedoraproject.org>\n"
 "Language: uk\n"
@@ -97,7 +97,7 @@ msgstr ""
 "<file>~/.spamassassin/</file>."
 
 #. (itstool) path: section/title
-#: C/backup-restore.page:58 C/intro-first-run.page:43
+#: C/backup-restore.page:58 C/intro-first-run.page:45
 msgid "Restoring"
 msgstr "Відновлення"
 
@@ -3992,8 +3992,7 @@ msgid "<_:media-1/> <app>Evolution</app> Mail and Calendar"
 msgstr "<_:media-1/> Електронна пошта та календар <app>Evolution</app>"
 
 #. (itstool) path: section/title
-#. (itstool) path: page/title
-#: C/index.page:31 C/intro-application.page:24
+#: C/index.page:31
 msgid "Getting Started"
 msgstr "Початкові зауваження"
 
@@ -4063,55 +4062,6 @@ msgid "Further reading"
 msgstr "Інформація для подальшого ознайомлення"
 
 #. (itstool) path: info/desc
-#: C/intro-application.page:5
-msgid "An introduction to <app>Evolution</app>."
-msgstr "Вступ до <app>Evolution</app>."
-
-#. (itstool) path: page/p
-#: C/intro-application.page:25
-msgid ""
-"<app>Evolution</app> allows you to access your personal information like "
-"your calendars, mail, address books and tasks in one place."
-msgstr ""
-"<app>Evolution</app> надає вам доступу до вашої особистої інформації, "
-"зокрема ваших календарів, пошти, адресних книг та записів завдань за "
-"допомогою єдиного інтерфейсу."
-
-#. (itstool) path: page/p
-#: C/intro-application.page:27
-msgid ""
-"By default <app>Evolution</app> opens the mail view. This is where you can "
-"view all your mail. You can change to other views of the application by "
-"going to the bottom of the left pane in the window (the so-called \"switcher"
-"\") and selecting the desired view. <link xref=\"intro-main-window\">Learn "
-"more about the elements of the main window</link>."
-msgstr ""
-"Після запуску <app>Evolution</app>, типово, буде відкрито панель перегляду "
-"електронної пошти. За допомогою цієї панелі можна переглядати усю вашу "
-"поштову кореспонденцію. Ви можете перемикатися на інші панелі перегляду "
-"програми за допомогою нижньої частини лівої панелі вікна (так званого "
-"«перемикача») — просто виберіть потрібну вам панель перегляду. <link xref="
-"\"intro-main-window\">Докладніше про елементи головного вікна програми</"
-"link>."
-
-#. (itstool) path: note/p
-#: C/intro-application.page:29
-msgid ""
-"When <app>Evolution</app> starts, it remembers the last view that you used. "
-"However you can also explicitly start <app>Evolution</app> in a specific "
-"view. For the calendar view, use the command <cmd>evolution --"
-"component=calendar</cmd> in the <app>Terminal</app> application. Other "
-"available options are \"mail\", \"contacts\", \"tasks\", and \"memos\"."
-msgstr ""
-"Після запуску <app>Evolution</app> відновлює останню використану панель "
-"перегляду. Втім, ви також можете явним чином запустити <app>Evolution</app> "
-"із використанням вказаної панелі перегляду. Щоб відкрити панель перегляду "
-"календаря, скористайтеся командою <cmd>evolution --component=calendar</cmd> "
-"у програмі <app>Термінал</app>. Серед інших доступних варіантів "
-"«mail» («пошта»), «contacts» («контакти»), «tasks» («завдання») і "
-"«memos» («примітки»)."
-
-#. (itstool) path: info/desc
 #: C/intro-first-run.page:8
 msgid "Set up email accounts, import data, or restore from a backup."
 msgstr ""
@@ -4126,6 +4076,16 @@ msgstr "Перший запуск <app>Evolution</app>"
 #. (itstool) path: page/p
 #: C/intro-first-run.page:25
 msgid ""
+"<app>Evolution</app> allows you to access your personal information like "
+"your calendars, mail, address books and tasks in one place."
+msgstr ""
+"<app>Evolution</app> надає вам доступу до вашої особистої інформації, "
+"зокрема ваших календарів, пошти, адресних книг та записів завдань за "
+"допомогою єдиного інтерфейсу."
+
+#. (itstool) path: page/p
+#: C/intro-first-run.page:27
+msgid ""
 "The first time you run <app>Evolution</app>, it opens the First-Run "
 "Assistant. It helps you set up email accounts and <link xref=\"import-data"
 "\">import data from other applications.</link>"
@@ -4136,7 +4096,7 @@ msgstr ""
 "інших програм</link>."
 
 #. (itstool) path: page/p
-#: C/intro-first-run.page:27
+#: C/intro-first-run.page:29
 msgid ""
 "This assistant is not shown if there is an already configured e-mail account "
 "in <link xref=\"help:gnome-help/accounts\"><app>Online accounts</app></link> "
@@ -4153,7 +4113,7 @@ msgstr ""
 "облікові записи</app>."
 
 #. (itstool) path: section/title
-#: C/intro-first-run.page:30 C/mail-account-manage-imap-plus.page:29
+#: C/intro-first-run.page:32 C/mail-account-manage-imap-plus.page:29
 #: C/mail-account-manage-local-delivery.page:29
 #: C/mail-account-manage-maildir-format-directories.page:30
 #: C/mail-account-manage-mh-format-directories.page:29
@@ -4167,7 +4127,7 @@ msgid "Identity"
 msgstr "Особисті дані"
 
 #. (itstool) path: section/p
-#: C/intro-first-run.page:31 C/mail-account-manage-imap-plus.page:30
+#: C/intro-first-run.page:33 C/mail-account-manage-imap-plus.page:30
 #: C/mail-account-manage-local-delivery.page:30
 #: C/mail-account-manage-maildir-format-directories.page:31
 #: C/mail-account-manage-mh-format-directories.page:30
@@ -4181,7 +4141,7 @@ msgid "Here you define your name and your email address."
 msgstr "Тут ви визначаєте ваше ім'я та вашу адресу електронної пошти."
 
 #. (itstool) path: section/p
-#: C/intro-first-run.page:32 C/mail-account-manage-imap-plus.page:31
+#: C/intro-first-run.page:34 C/mail-account-manage-imap-plus.page:31
 #: C/mail-account-manage-local-delivery.page:31
 #: C/mail-account-manage-maildir-format-directories.page:32
 #: C/mail-account-manage-mh-format-directories.page:31
@@ -4208,12 +4168,12 @@ msgstr ""
 "link>."
 
 #. (itstool) path: section/title
-#: C/intro-first-run.page:36
+#: C/intro-first-run.page:38
 msgid "Restore from backup"
 msgstr "Відновлення з резервної копії"
 
 #. (itstool) path: section/p
-#: C/intro-first-run.page:37
+#: C/intro-first-run.page:39
 msgid ""
 "You will be asked whether to restore from a backup of a previous version. If "
 "you do not have a backup, go to the next page."
@@ -4223,13 +4183,13 @@ msgstr ""
 "наступної сторінки."
 
 #. (itstool) path: info/title
-#: C/intro-first-run.page:41
+#: C/intro-first-run.page:43
 msgctxt "ui:collapsed"
 msgid "Show how to restore from a backup"
 msgstr "Показати, як відновити дані з резервної копії"
 
 #. (itstool) path: section/title
-#: C/intro-first-run.page:51 C/mail-receiving-options-exchange-ews.page:23
+#: C/intro-first-run.page:53 C/mail-receiving-options-exchange-ews.page:23
 #: C/mail-receiving-options-exchange-mapi.page:23
 #: C/mail-receiving-options-imap-plus.page:26
 #: C/mail-receiving-options-local-delivery.page:23
@@ -4243,14 +4203,14 @@ msgid "Receiving Email"
 msgstr "Отримання пошти"
 
 #. (itstool) path: section/p
-#: C/intro-first-run.page:52
+#: C/intro-first-run.page:54
 msgid ""
 "First, choose the server type from the <gui>Server Type</gui> drop-down list."
 msgstr ""
 "Спочатку, виберіть тип сервера зі спадного списку <gui>Тип сервера</gui>."
 
 #. (itstool) path: section/p
-#: C/intro-first-run.page:53
+#: C/intro-first-run.page:55
 msgid ""
 "If you are unsure about the type of server to choose, ask your system "
 "administrator or Internet Service Provider."
@@ -4260,7 +4220,7 @@ msgstr ""
 "інтернету."
 
 #. (itstool) path: note/p
-#: C/intro-first-run.page:55
+#: C/intro-first-run.page:57
 msgid ""
 "Later on, if you want to change an account, or if you want to create another "
 "one, go to <guiseq><gui>Edit</gui><gui>Preferences</gui><gui>Mail Accounts</"
@@ -4276,12 +4236,12 @@ msgstr ""
 "запис натисканням кнопки <gui style=\"button\">Додати</gui>."
 
 #. (itstool) path: section/title
-#: C/intro-first-run.page:58
+#: C/intro-first-run.page:60
 msgid "IMAP+"
 msgstr "IMAP+"
 
 #. (itstool) path: section/p
-#: C/intro-first-run.page:59
+#: C/intro-first-run.page:61
 msgid ""
 "Keeps the mail on the server so you can access your mail from multiple "
 "systems."
@@ -4290,62 +4250,62 @@ msgstr ""
 "декількох систем."
 
 #. (itstool) path: info/title
-#: C/intro-first-run.page:63 C/intro-first-run.page:79
-#: C/intro-first-run.page:95 C/intro-first-run.page:119
-#: C/intro-first-run.page:143 C/intro-first-run.page:159
-#: C/intro-first-run.page:175 C/intro-first-run.page:191
-#: C/intro-first-run.page:207 C/intro-first-run.page:223
-#: C/intro-first-run.page:250
+#: C/intro-first-run.page:65 C/intro-first-run.page:81
+#: C/intro-first-run.page:97 C/intro-first-run.page:121
+#: C/intro-first-run.page:145 C/intro-first-run.page:161
+#: C/intro-first-run.page:177 C/intro-first-run.page:193
+#: C/intro-first-run.page:209 C/intro-first-run.page:225
+#: C/intro-first-run.page:252
 msgctxt "ui:collapsed"
 msgid "Show how to configure this account type"
 msgstr "Показати, як налаштувати цей тип облікового запису"
 
 #. (itstool) path: section/title
 #. (itstool) path: page/title
-#: C/intro-first-run.page:65 C/mail-receiving-options-imap-plus.page:23
+#: C/intro-first-run.page:67 C/mail-receiving-options-imap-plus.page:23
 msgid "IMAP+ receiving options"
 msgstr "Параметри отримання пошти IMAP+"
 
 #. (itstool) path: section/title
-#: C/intro-first-run.page:74
+#: C/intro-first-run.page:76
 msgid "POP"
 msgstr "POP"
 
 #. (itstool) path: section/p
-#: C/intro-first-run.page:75
+#: C/intro-first-run.page:77
 msgid "Downloads your email to your hard disk."
 msgstr "Отримує вашу електронну пошту на ваш жорсткий диск."
 
 #. (itstool) path: section/title
 #. (itstool) path: page/title
-#: C/intro-first-run.page:81 C/mail-receiving-options-pop.page:27
+#: C/intro-first-run.page:83 C/mail-receiving-options-pop.page:27
 msgid "POP receiving options"
 msgstr "Параметри отримання POP"
 
 #. (itstool) path: section/title
-#: C/intro-first-run.page:90
+#: C/intro-first-run.page:92
 msgid "USENET News"
 msgstr "Новини USENET"
 
 #. (itstool) path: section/p
-#: C/intro-first-run.page:91
+#: C/intro-first-run.page:93
 msgid ""
 "Connects to a news server and downloads a list of available news digests."
 msgstr "З'єднується із сервером новин і отримує список доступних збірок новин."
 
 #. (itstool) path: section/title
 #. (itstool) path: page/title
-#: C/intro-first-run.page:97 C/mail-receiving-options-usenet-news.page:23
+#: C/intro-first-run.page:99 C/mail-receiving-options-usenet-news.page:23
 msgid "Usenet news receiving options"
 msgstr "Параметри отримання новин Usenet"
 
 #. (itstool) path: section/title
-#: C/intro-first-run.page:106
+#: C/intro-first-run.page:108
 msgid "Exchange EWS"
 msgstr "EWS Exchange"
 
 #. (itstool) path: section/p
-#: C/intro-first-run.page:107
+#: C/intro-first-run.page:109
 msgid ""
 "For connecting to a Microsoft Exchange 2007/2010 or OpenChange server. Note "
 "that this is currently under development and will replace the <gui>Exchange "
@@ -4358,13 +4318,13 @@ msgstr ""
 "ще немає у вашому дистрибутиві."
 
 #. (itstool) path: note/p
-#: C/intro-first-run.page:109
+#: C/intro-first-run.page:111
 msgid "This requires having the <sys>evolution-ews</sys> package installed."
 msgstr "Це потребує встановлення пакунка <sys>evolution-ews</sys>."
 
 #. (itstool) path: when/p
 #. (itstool) path: note/p
-#: C/intro-first-run.page:112 C/mail-account-manage-microsoft-exchange.page:30
+#: C/intro-first-run.page:114 C/mail-account-manage-microsoft-exchange.page:30
 msgid ""
 "<link action=\"install:evolution-ews\" href=\"https://wiki.gnome.org/Apps/"
 "Evolution#Get_the_Source_Code\" style=\"button\">Install evolution-ews</link>"
@@ -4375,28 +4335,28 @@ msgstr ""
 
 #. (itstool) path: section/title
 #. (itstool) path: page/title
-#: C/intro-first-run.page:121 C/mail-receiving-options-exchange-ews.page:20
+#: C/intro-first-run.page:123 C/mail-receiving-options-exchange-ews.page:20
 msgid "Exchange Web Services receiving options"
 msgstr "Параметри отримання пошти Exchange Web Services"
 
 #. (itstool) path: section/title
-#: C/intro-first-run.page:130
+#: C/intro-first-run.page:132
 msgid "Exchange MAPI"
 msgstr "Exchange MAPI"
 
 #. (itstool) path: section/p
-#: C/intro-first-run.page:131
+#: C/intro-first-run.page:133
 msgid "For connecting to a Microsoft Exchange 2007/2010 or OpenChange server."
 msgstr "Для з'єднання із сервером Microsoft Exchange 2007/2010 або OpenChange."
 
 #. (itstool) path: note/p
-#: C/intro-first-run.page:133
+#: C/intro-first-run.page:135
 msgid "This requires having the <sys>evolution-mapi</sys> package installed."
 msgstr "Це потребує встановлення пакунка <sys>evolution-mapi</sys>."
 
 #. (itstool) path: when/p
 #. (itstool) path: note/p
-#: C/intro-first-run.page:136 C/mail-account-manage-microsoft-exchange.page:41
+#: C/intro-first-run.page:138 C/mail-account-manage-microsoft-exchange.page:41
 msgid ""
 "<link action=\"install:evolution-mapi\" href=\"https://wiki.gnome.org/Apps/"
 "Evolution#Get_the_Source_Code\" style=\"button\">Install evolution-mapi</"
@@ -4408,17 +4368,17 @@ msgstr ""
 
 #. (itstool) path: section/title
 #. (itstool) path: page/title
-#: C/intro-first-run.page:145 C/mail-receiving-options-exchange-mapi.page:20
+#: C/intro-first-run.page:147 C/mail-receiving-options-exchange-mapi.page:20
 msgid "Exchange MAPI receiving options"
 msgstr "Параметри отримання пошти MAPI Exchange"
 
 #. (itstool) path: section/title
-#: C/intro-first-run.page:154
+#: C/intro-first-run.page:156
 msgid "Local delivery"
 msgstr "Локальне доставлення"
 
 #. (itstool) path: section/p
-#: C/intro-first-run.page:155
+#: C/intro-first-run.page:157
 msgid ""
 "Local delivery: If you want to move email from the spool (the location where "
 "mail waits for delivery) and store it in your home directory. You need to "
@@ -4434,17 +4394,17 @@ msgstr ""
 
 #. (itstool) path: section/title
 #. (itstool) path: page/title
-#: C/intro-first-run.page:161 C/mail-receiving-options-local-delivery.page:20
+#: C/intro-first-run.page:163 C/mail-receiving-options-local-delivery.page:20
 msgid "Local delivery receiving options"
 msgstr "Параметри отримання локального доставлення"
 
 #. (itstool) path: section/title
-#: C/intro-first-run.page:170
+#: C/intro-first-run.page:172
 msgid "MH-Format Mail Directories"
 msgstr "Поштові каталоги у форматі MH"
 
 #. (itstool) path: section/p
-#: C/intro-first-run.page:171
+#: C/intro-first-run.page:173
 msgid "For downloading email using MH or another MH-style application."
 msgstr ""
 "Для отримання електронної пошти за допомогою MH або іншої програми у стилі "
@@ -4452,18 +4412,18 @@ msgstr ""
 
 #. (itstool) path: section/title
 #. (itstool) path: page/title
-#: C/intro-first-run.page:177
+#: C/intro-first-run.page:179
 #: C/mail-receiving-options-mh-format-directories.page:20
 msgid "MH-format mail directories receiving options"
 msgstr "Параметри отримання для поштових каталогів у форматі MH"
 
 #. (itstool) path: section/title
-#: C/intro-first-run.page:186
+#: C/intro-first-run.page:188
 msgid "Maildir-Format Mail Directories"
 msgstr "Поштові каталоги у форматі Maildir"
 
 #. (itstool) path: section/p
-#: C/intro-first-run.page:187
+#: C/intro-first-run.page:189
 msgid ""
 "Maildir-Format Mail Directories: For downloading your email using Qmail or "
 "another Maildir-style application."
@@ -4473,18 +4433,18 @@ msgstr ""
 
 #. (itstool) path: section/title
 #. (itstool) path: page/title
-#: C/intro-first-run.page:193
+#: C/intro-first-run.page:195
 #: C/mail-receiving-options-maildir-format-directories.page:20
 msgid "Maildir-format mail directories receiving options"
 msgstr "Параметри отримання для поштових каталогів у форматі Maildir"
 
 #. (itstool) path: section/title
-#: C/intro-first-run.page:202
+#: C/intro-first-run.page:204
 msgid "Standard Unix mbox spool file"
 msgstr "Стандартна для Unix скринька mbox"
 
 #. (itstool) path: section/p
-#: C/intro-first-run.page:203
+#: C/intro-first-run.page:205
 msgid ""
 "Standard Unix mbox spool file: For reading and storing email in the mail "
 "spool file on your local system."
@@ -4494,18 +4454,18 @@ msgstr ""
 
 #. (itstool) path: section/title
 #. (itstool) path: page/title
-#: C/intro-first-run.page:209
+#: C/intro-first-run.page:211
 #: C/mail-receiving-options-unix-mbox-spool-file.page:20
 msgid "Standard Unix mbox spool file receiving options"
 msgstr "Параметри отримання пошти для стандартної для Unix скриньки mbox"
 
 #. (itstool) path: section/title
-#: C/intro-first-run.page:218
+#: C/intro-first-run.page:220
 msgid "Standard Unix mbox spool directory"
 msgstr "Стандартний для Unix каталог пошти"
 
 #. (itstool) path: section/p
-#: C/intro-first-run.page:219
+#: C/intro-first-run.page:221
 msgid ""
 "Standard Unix mbox spool directory: For reading and storing email in the "
 "mail spool directory on your local system."
@@ -4515,40 +4475,40 @@ msgstr ""
 
 #. (itstool) path: section/title
 #. (itstool) path: page/title
-#: C/intro-first-run.page:225
+#: C/intro-first-run.page:227
 #: C/mail-receiving-options-unix-mbox-spool-directory.page:20
 msgid "Standard Unix mbox spool directory receiving options"
 msgstr "Параметри отримання пошти для стандартного для Unix каталогу mbox"
 
 #. (itstool) path: section/title
-#: C/intro-first-run.page:234
+#: C/intro-first-run.page:236
 msgid "None"
 msgstr "Немає"
 
 #. (itstool) path: section/p
-#: C/intro-first-run.page:235
+#: C/intro-first-run.page:237
 msgid "If you do not plan to use <app>Evolution</app> for receiving email."
 msgstr ""
 "Якщо ви не плануєте користуватися <app>Evolution</app> для отримання "
 "електронної пошти."
 
 #. (itstool) path: section/title
-#: C/intro-first-run.page:241 C/mail-displaying-character-encodings.page:32
+#: C/intro-first-run.page:243 C/mail-displaying-character-encodings.page:32
 msgid "Sending mail"
 msgstr "Надсилаємо пошту"
 
 #. (itstool) path: section/p
-#: C/intro-first-run.page:242
+#: C/intro-first-run.page:244
 msgid "Available server types are:"
 msgstr "Доступними типами серверів є такі:"
 
 #. (itstool) path: section/title
-#: C/intro-first-run.page:245
+#: C/intro-first-run.page:247
 msgid "SMTP"
 msgstr "SMTP"
 
 #. (itstool) path: section/p
-#: C/intro-first-run.page:246
+#: C/intro-first-run.page:248
 msgid ""
 "Sends mail using an outbound mail server. This is the most common choice for "
 "sending mail."
@@ -4558,17 +4518,17 @@ msgstr ""
 
 #. (itstool) path: section/title
 #. (itstool) path: page/title
-#: C/intro-first-run.page:252 C/mail-sending-options-smtp.page:26
+#: C/intro-first-run.page:254 C/mail-sending-options-smtp.page:26
 msgid "SMTP sending options"
 msgstr "Параметри надсилання SMTP"
 
 #. (itstool) path: section/title
-#: C/intro-first-run.page:261
+#: C/intro-first-run.page:263
 msgid "Sendmail"
 msgstr "Sendmail"
 
 #. (itstool) path: section/p
-#: C/intro-first-run.page:262
+#: C/intro-first-run.page:264
 msgid ""
 "Uses the <app>Sendmail</app> application to send mail from your system. It "
 "is not easy to configure, so you should select this option only if you know "
@@ -4579,22 +4539,22 @@ msgstr ""
 "лише якщо ви знаєте, як налаштувати службу Sendmail."
 
 #. (itstool) path: section/title
-#: C/intro-first-run.page:268
+#: C/intro-first-run.page:270
 msgid "Account Information"
 msgstr "Інформація про обліковий запис"
 
 #. (itstool) path: section/p
-#: C/intro-first-run.page:269
+#: C/intro-first-run.page:271
 msgid "Give the account any name you prefer."
 msgstr "Надайте обліковому запису будь-яку бажану назву."
 
 #. (itstool) path: section/title
-#: C/intro-first-run.page:273
+#: C/intro-first-run.page:275
 msgid "Importing Mail (Optional)"
 msgstr "Імпортування пошти (необов'язкове)"
 
 #. (itstool) path: section/p
-#: C/intro-first-run.page:274
+#: C/intro-first-run.page:276
 msgid ""
 "Continue with <link xref=\"import-data\">Importing data from another "
 "application</link>."
@@ -11020,12 +10980,6 @@ msgstr "Обробка локалізованих записів «Re:» у те
 
 #. (itstool) path: page/p
 #: C/mail-localized-re-subjects.page:21
-#| msgid ""
-#| "Traditionally a \"Re:\" prefix is added to a subject line when replying "
-#| "to an email. Some email applications use localized terms for this (like "
-#| "\"SV:\" in Danish or \"AW: in German). <app>Evolution</app> can recognize "
-#| "these terms to avoid subject lines getting longer as the conversation "
-#| "continues."
 msgid ""
 "Traditionally a \"Re:\" prefix is added to a subject line when replying to "
 "an email. Some email applications use localized terms for this (like \"SV:\" "
@@ -13949,6 +13903,94 @@ msgid "Searching items"
 msgstr "Пошук записів"
 
 #. (itstool) path: info/desc
+#: C/start-command-line-parameters.page:16
+msgid ""
+"How to make Evolution show a specific window or folder when starting the "
+"application."
+msgstr ""
+"Як наказати Evolution показувати певне вікно або теку після запуску програми."
+
+#. (itstool) path: page/title
+#: C/start-command-line-parameters.page:21
+#| msgid "Searching content and data within <app>Evolution</app>."
+msgid "Define what to display when starting <app>Evolution</app>"
+msgstr "Визначення того, що буде показано після запуску <app>Evolution</app>"
+
+#. (itstool) path: page/p
+#: C/start-command-line-parameters.page:23
+msgid ""
+"When <app>Evolution</app> starts, it remembers the last view that you used."
+msgstr ""
+"Після запуску <app>Evolution</app> відкриває записану програмою останню"
+" панель перегляду, якою ви користувалися."
+
+#. (itstool) path: page/p
+#: C/start-command-line-parameters.page:25
+msgid ""
+"To make <app>Evolution</app> display something else after starting the "
+"application, you will have to run the application from the <app>Terminal</"
+"app> application and pass corresponding parameters."
+msgstr ""
+"Щоб наказати <app>Evolution</app> показати щось інше після запуску програми,"
+" вам слід запустити програму з програми <app>Термінал</app> і передати їй"
+" вказані параметри."
+
+#. (itstool) path: section/title
+#: C/start-command-line-parameters.page:30
+#| msgid "Windows XP"
+msgid "Windows"
+msgstr "Вікна"
+
+#. (itstool) path: section/p
+#. TO TRANSLATORS: Do NOT translate 'component' here!
+#: C/start-command-line-parameters.page:32
+msgid ""
+"To start <app>Evolution</app> in a specific view, pass the \"component\" "
+"parameter."
+msgstr ""
+"Щоб запустити <app>Evolution</app> із відкритою певною панеллю перегляду,"
+" передайте програмі параметр «component»."
+
+#. (itstool) path: section/p
+#: C/start-command-line-parameters.page:35
+#: C/start-command-line-parameters.page:52
+#: C/start-command-line-parameters.page:66
+msgid "Examples:"
+msgstr "Приклади:"
+
+#. (itstool) path: section/title
+#: C/start-command-line-parameters.page:46
+#| msgid "Mail folder locations"
+msgid "Mail folders"
+msgstr "Теки електронної пошти"
+
+#. (itstool) path: section/p
+#. TO TRANSLATORS: Do NOT translate 'folder' here!
+#: C/start-command-line-parameters.page:49
+msgid ""
+"To make <app>Evolution</app> open a specific mail folder, pass the \"folder"
+"\" parameter."
+msgstr ""
+"Що наказати <app>Evolution</app> відкрити певну теку із поштою, передайте"
+" програмі параметр «folder»."
+
+#. (itstool) path: section/title
+#: C/start-command-line-parameters.page:61
+#| msgid "Mail Composing"
+msgid "Mail composer"
+msgstr "Редактор повідомлень"
+
+#. (itstool) path: section/p
+#. TO TRANSLATORS: Do NOT translate 'folder' here!
+#: C/start-command-line-parameters.page:63
+msgid ""
+"To make <app>Evolution</app> open a mail composer window with some "
+"predefined values and content:"
+msgstr ""
+"Щоб наказати <app>Evolution</app> відкрити вікно редактора поштових"
+" повідомлень із деякими наперед визначеними значеннями і даними:"
+
+#. (itstool) path: info/desc
 #: C/sync-with-other-devices.page:5
 msgid ""
 "Synchronize <app>Evolution</app> data with handheld devices and mobile "
@@ -15044,6 +15086,39 @@ msgstr ""
 #: C/xinclude-searching.xml:30
 msgid "Click <_:gui-1/>."
 msgstr "Натисніть <_:gui-1/>."
+
+#~ msgid "An introduction to <app>Evolution</app>."
+#~ msgstr "Вступ до <app>Evolution</app>."
+
+#~ msgid ""
+#~ "By default <app>Evolution</app> opens the mail view. This is where you "
+#~ "can view all your mail. You can change to other views of the application "
+#~ "by going to the bottom of the left pane in the window (the so-called "
+#~ "\"switcher\") and selecting the desired view. <link xref=\"intro-main-"
+#~ "window\">Learn more about the elements of the main window</link>."
+#~ msgstr ""
+#~ "Після запуску <app>Evolution</app>, типово, буде відкрито панель "
+#~ "перегляду електронної пошти. За допомогою цієї панелі можна переглядати "
+#~ "усю вашу поштову кореспонденцію. Ви можете перемикатися на інші панелі "
+#~ "перегляду програми за допомогою нижньої частини лівої панелі вікна (так "
+#~ "званого «перемикача») — просто виберіть потрібну вам панель перегляду. "
+#~ "<link xref=\"intro-main-window\">Докладніше про елементи головного вікна "
+#~ "програми</link>."
+
+#~ msgid ""
+#~ "When <app>Evolution</app> starts, it remembers the last view that you "
+#~ "used. However you can also explicitly start <app>Evolution</app> in a "
+#~ "specific view. For the calendar view, use the command <cmd>evolution --"
+#~ "component=calendar</cmd> in the <app>Terminal</app> application. Other "
+#~ "available options are \"mail\", \"contacts\", \"tasks\", and \"memos\"."
+#~ msgstr ""
+#~ "Після запуску <app>Evolution</app> відновлює останню використану панель "
+#~ "перегляду. Втім, ви також можете явним чином запустити <app>Evolution</"
+#~ "app> із використанням вказаної панелі перегляду. Щоб відкрити панель "
+#~ "перегляду календаря, скористайтеся командою <cmd>evolution --"
+#~ "component=calendar</cmd> у програмі <app>Термінал</app>. Серед інших "
+#~ "доступних варіантів «mail» («пошта»), «contacts» («контакти»), "
+#~ "«tasks» («завдання») і «memos» («примітки»)."
 
 #~ msgid ""
 #~ "Filters based on the mailing list the message came from. This filter "
