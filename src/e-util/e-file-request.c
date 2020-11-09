@@ -59,7 +59,7 @@ e_file_request_process_sync (EContentRequest *request,
 	GFileInputStream *file_input_stream;
 	GFileInfo *info;
 	goffset total_size;
-	gchar *filename = NULL;
+	gchar *filename = NULL, *path;
 	SoupURI *suri;
 
 	g_return_val_if_fail (E_IS_FILE_REQUEST (request), FALSE);
@@ -71,13 +71,15 @@ e_file_request_process_sync (EContentRequest *request,
 	suri = soup_uri_new (uri);
 	g_return_val_if_fail (suri != NULL, FALSE);
 
+	path = soup_uri_decode (suri->path ? suri->path : "");
+
 	if (g_strcmp0 (suri->host, "$EVOLUTION_WEBKITDATADIR") == 0) {
-		filename = g_build_filename (EVOLUTION_WEBKITDATADIR, suri->path, NULL);
+		filename = g_build_filename (EVOLUTION_WEBKITDATADIR, path, NULL);
 	} else if (g_strcmp0 (suri->host, "$EVOLUTION_IMAGESDIR") == 0) {
-		filename = g_build_filename (EVOLUTION_IMAGESDIR, suri->path, NULL);
+		filename = g_build_filename (EVOLUTION_IMAGESDIR, path, NULL);
 	}
 
-	file = g_file_new_for_path (filename ? filename : suri->path);
+	file = g_file_new_for_path (filename ? filename : path);
 	file_input_stream = g_file_read (file, cancellable, error);
 
 	if (file_input_stream) {
@@ -104,7 +106,7 @@ e_file_request_process_sync (EContentRequest *request,
 	if (file_input_stream) {
 		*out_stream = G_INPUT_STREAM (file_input_stream);
 		*out_stream_length = (gint64) total_size;
-		*out_mime_type = g_content_type_guess (filename ? filename : suri->path, NULL, 0, NULL);
+		*out_mime_type = g_content_type_guess (filename ? filename : path, NULL, 0, NULL);
 	} else {
 		*out_stream = NULL;
 		*out_stream_length = (gint64) total_size;
@@ -114,6 +116,7 @@ e_file_request_process_sync (EContentRequest *request,
 	g_object_unref (file);
 	soup_uri_free (suri);
 	g_free (filename);
+	g_free (path);
 
 	return file_input_stream != NULL;
 }
