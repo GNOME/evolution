@@ -21993,7 +21993,7 @@ msgstr "Bogofilter"
 
 #: ../src/modules/bogofilter/org.gnome.Evolution-bogofilter.metainfo.xml.in.h:2
 msgid "Junk filter using Bogofilter"
-msgstr "Filtr nevyžádané pošty používá Bogofilter"
+msgstr "Filtrování nevyžádané pošty pomocí Bogofilter"
 
 #: ../src/modules/book-config-carddav/evolution-book-config-carddav.c:93
 msgid "Choose an Address Book"
@@ -25419,7 +25419,7 @@ msgstr "SpamAssassin"
 
 #: ../src/modules/spamassassin/org.gnome.Evolution-spamassassin.metainfo.xml.in.h:2
 msgid "Junk filter using SpamAssassin"
-msgstr "Filtr nevyžádané pošty používá SpamAssassin"
+msgstr "Filtrování nevyžádané pošty pomocí SpamAssassin"
 
 #. Keep the title identical to EMailConfigImportPage
 #. * so it's only shown once in the assistant sidebar.
