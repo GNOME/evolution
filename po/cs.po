@@ -26478,7 +26478,7 @@ msgstr "Import pro Outlook PST"
 #: ../src/plugins/pst-import/org.gnome.Evolution-pst.metainfo.xml.in.h:2
 #: ../src/plugins/pst-import/org-gnome-pst-import.eplug.xml.h:3
 msgid "Import Outlook messages from PST file"
-msgstr "Importuje zprávy aplikace Outlook ze souboru PST"
+msgstr "Import zpráv aplikace Outlook ze souboru PST"
 
 #: ../src/plugins/pst-import/org-gnome-pst-import.eplug.xml.h:2
 msgid "Outlook personal folders (.pst)"
