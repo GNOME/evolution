@@ -2043,6 +2043,69 @@ test_issue_913 (TestFixture *fixture)
 	}
 }
 
+static void
+test_issue_1214 (TestFixture *fixture)
+{
+	if (!test_utils_run_simple_test (fixture,
+		"mode:html\n"
+		"type:a\\nb\\nc\\nd\\n\n"
+		"seq:ChcSddds\n"
+		"action:style-list-bullet\n"
+		"seq:Chcden\n"
+		"type:ee\n"
+		"seq:Sdds\n"
+		"action:style-normal\n",
+		HTML_PREFIX
+		"<ul>"
+		"<li>a</li>"
+		"<li>b</li>"
+		"</ul>"
+		"<div>ee</div>"
+		"<div>c</div>"
+		"<div>d</div>"
+		"<div><br></div>"
+		HTML_SUFFIX,
+		" * a\n"
+		" * b\n"
+		"ee\n"
+		"c\n"
+		"d\n"
+		"\n")) {
+		g_test_fail ();
+		return;
+	}
+
+	if (!test_utils_run_simple_test (fixture,
+		"action:select-all\n"
+		"seq:Db\n"
+		"type:a\\nb\\nc\\nd\\n\n"
+		"seq:ChcSddds\n"
+		"action:style-list-bullet\n"
+		"seq:Chcden\n"
+		"type:ee\n"
+		"seq:ddeSuus\n"
+		"action:style-normal\n",
+		HTML_PREFIX
+		"<ul>"
+		"<li>a</li>"
+		"<li>b</li>"
+		"</ul>"
+		"<div>ee</div>"
+		"<div>c</div>"
+		"<div>d</div>"
+		"<div><br></div>"
+		HTML_SUFFIX,
+		" * a\n"
+		" * b\n"
+		"ee\n"
+		"c\n"
+		"d\n"
+		"\n")) {
+		g_test_fail ();
+		return;
+	}
+}
+
 void
 test_add_html_editor_bug_tests (void)
 {
@@ -2079,4 +2142,5 @@ test_add_html_editor_bug_tests (void)
 	test_utils_add_test ("/issue/783", test_issue_783);
 	test_utils_add_test ("/issue/1197", test_issue_1197);
 	test_utils_add_test ("/issue/913", test_issue_913);
+	test_utils_add_test ("/issue/1214", test_issue_1214);
 }
