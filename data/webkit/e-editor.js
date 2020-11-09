@@ -1225,7 +1225,10 @@ EvoEditor.splitList = function(element, nParents, onlyAffected)
 		nParents--;
 		nextFrom = null;
 
-		if (from) {
+		if (from && from.parentElement && from.parentElement.tagName == "BODY") {
+			nextFrom = from;
+			break;
+		} else if (from) {
 			clone = from.parentElement.cloneNode(false);
 			from.parentElement.parentElement.insertBefore(clone, from.parentElement.nextElementSibling);
 
