@@ -237,6 +237,8 @@ else(WIN32)
 	set(GIO_UNIX_REQUIREMENT "gio-unix-2.0")
 endif(WIN32)
 
+add_printable_option(ENABLE_ALARM_NOTIFY_MODULE "Enable the 'alarm-notify' module" ON)
+
 add_printable_option(ENABLE_GNOME_DESKTOP "Enable GNOME desktop dependency for thumbnails" ON)
 
 if(ENABLE_GNOME_DESKTOP)
