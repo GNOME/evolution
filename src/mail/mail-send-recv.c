@@ -827,7 +827,7 @@ build_dialog (GtkWindow *parent,
 
 			info = g_malloc0 (sizeof (*info));
 			info->type = type;
-			info->session = g_object_ref (session);
+			info->session = CAMEL_SESSION (g_object_ref (session));
 			info->service = g_object_ref (service);
 			info->cancellable = camel_operation_new ();
 			info->state = allow_send ? SEND_ACTIVE : SEND_COMPLETE;
@@ -915,7 +915,7 @@ build_dialog (GtkWindow *parent,
 		if (info == NULL) {
 			info = g_malloc0 (sizeof (*info));
 			info->type = SEND_SEND;
-			info->session = g_object_ref (session);
+			info->session = CAMEL_SESSION (g_object_ref (session));
 			info->service = g_object_ref (transport);
 			info->cancellable = camel_operation_new ();
 			info->state = SEND_ACTIVE;
@@ -1600,7 +1600,7 @@ receive_update_got_folderinfo (GObject *source_object,
 		struct _refresh_folders_msg *m;
 
 		m = mail_msg_new (&refresh_folders_info);
-		m->store = g_object_ref (send_info->service);
+		m->store = CAMEL_STORE (g_object_ref (send_info->service));
 		m->folders = folders;
 		m->info = send_info;
 		m->finfo = info;  /* takes ownership */
@@ -1980,7 +1980,7 @@ do_mail_send (EMailSession *session,
 	info = g_malloc0 (sizeof (*info));
 	info->type = SEND_SEND;
 	info->progress_bar = NULL;
-	info->session = g_object_ref (session);
+	info->session = CAMEL_SESSION (g_object_ref (session));
 	info->service = g_object_ref (service);
 	info->cancellable = NULL;
 	info->cancel_button = NULL;

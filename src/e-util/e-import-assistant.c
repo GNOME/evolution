@@ -889,7 +889,7 @@ prepare_progress_page (GtkAssistant *assistant,
 	}
 
 	pd = g_slice_new0 (ProgressData);
-	pd->assistant = g_object_ref (assistant);
+	pd->assistant = E_IMPORT_ASSISTANT (g_object_ref (assistant));
 	pd->done = done;
 
 	g_idle_add_full (G_PRIORITY_HIGH_IDLE, run_import_progress_page_idle, pd, NULL);

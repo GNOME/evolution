@@ -562,9 +562,9 @@ e_mail_shell_view_private_constructed (EMailShellView *mail_shell_view)
 	e_shell_window_add_action_group_full (shell_window, "search-folders", "mail");
 
 	/* Cache these to avoid lots of awkward casting. */
-	priv->mail_shell_backend = g_object_ref (shell_backend);
-	priv->mail_shell_content = g_object_ref (shell_content);
-	priv->mail_shell_sidebar = g_object_ref (shell_sidebar);
+	priv->mail_shell_backend = E_MAIL_SHELL_BACKEND (g_object_ref (shell_backend));
+	priv->mail_shell_content = E_MAIL_SHELL_CONTENT (g_object_ref (shell_content));
+	priv->mail_shell_sidebar = E_MAIL_SHELL_SIDEBAR (g_object_ref (shell_sidebar));
 
 	mail_shell_sidebar = E_MAIL_SHELL_SIDEBAR (shell_sidebar);
 	folder_tree = e_mail_shell_sidebar_get_folder_tree (mail_shell_sidebar);
@@ -1180,7 +1180,7 @@ update_menu_item_sensitivity_cb (gpointer user_data)
 static void
 service_online_state_changed_cb (GObject *service,
 				 GParamSpec *param,
-				 GObject *menu_item)
+				 GtkWidget *menu_item)
 {
 	EMenuItemSensitivityData *data;
 
@@ -1339,7 +1339,7 @@ send_receive_data_new (EMailShellView *mail_shell_view,
 
 	data = g_slice_new0 (SendReceiveData);
 	data->menu = GTK_MENU_SHELL (menu);  /* do not reference */
-	data->session = g_object_ref (session);
+	data->session = CAMEL_SESSION (g_object_ref (session));
 	data->account_store = g_object_ref (account_store);
 
 	data->menu_items = g_hash_table_new_full (

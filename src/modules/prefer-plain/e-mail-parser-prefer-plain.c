@@ -277,7 +277,7 @@ mail_parser_prefer_plain_convert_text (gpointer user_data)
 
 	g_return_val_if_fail (async_context != NULL, FALSE);
 
-	async_context->web_view = g_object_ref_sink (e_web_view_new ());
+	async_context->web_view = WEBKIT_WEB_VIEW (g_object_ref_sink (e_web_view_new ()));
 
 	e_web_view_load_uri (E_WEB_VIEW (async_context->web_view), "evo://disable-remote-content");
 

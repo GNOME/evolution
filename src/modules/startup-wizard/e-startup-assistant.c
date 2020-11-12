@@ -141,7 +141,7 @@ startup_assistant_constructed (GObject *object)
 	} else {
 		e_mail_config_assistant_add_page (
 			E_MAIL_CONFIG_ASSISTANT (assistant), page);
-		assistant->priv->import_page = g_object_ref (page);
+		assistant->priv->import_page = E_MAIL_CONFIG_IMPORT_PAGE (g_object_ref (page));
 
 		/* Obviously we only need an import progress page if
 		 * there's a chance we may be importing something. */

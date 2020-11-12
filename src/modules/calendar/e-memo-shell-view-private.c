@@ -117,9 +117,9 @@ e_memo_shell_view_private_constructed (EMemoShellView *memo_shell_view)
 	e_shell_window_add_action_group_full (shell_window, "memos-filter", "memos");
 
 	/* Cache these to avoid lots of awkward casting. */
-	priv->memo_shell_backend = g_object_ref (shell_backend);
-	priv->memo_shell_content = g_object_ref (shell_content);
-	priv->memo_shell_sidebar = g_object_ref (shell_sidebar);
+	priv->memo_shell_backend = E_MEMO_SHELL_BACKEND (g_object_ref (shell_backend));
+	priv->memo_shell_content = E_MEMO_SHELL_CONTENT (g_object_ref (shell_content));
+	priv->memo_shell_sidebar = E_CAL_BASE_SHELL_SIDEBAR (g_object_ref (shell_sidebar));
 
 	/* Keep our own reference to this so we can
 	 * disconnect our signal handlers in dispose(). */

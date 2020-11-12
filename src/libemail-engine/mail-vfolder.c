@@ -233,7 +233,7 @@ vfolder_setup (CamelSession *session,
 	gint id;
 
 	m = mail_msg_new (&vfolder_setup_info);
-	m->session = g_object_ref (session);
+	m->session = E_MAIL_SESSION (g_object_ref (session));
 	m->folder = g_object_ref (folder);
 	/* Make sure the query is enclosed in "(match-all ...)", to traverse the folders' content */
 	m->query = (!query || g_str_has_prefix (query, "(match-all ") || strstr (query, "(match-threads ")) ? g_strdup (query) : g_strconcat ("(match-all ", query, ")", NULL);

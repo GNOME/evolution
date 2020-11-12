@@ -251,7 +251,7 @@ select_names_renderer_start_editing (GtkCellRenderer *cell,
 		editable, "editing_done",
 		G_CALLBACK (e_select_names_renderer_editing_done), sn_cell);
 
-	sn_cell->priv->editable = g_object_ref (editable);
+	sn_cell->priv->editable = E_SELECT_NAMES_EDITABLE (g_object_ref (editable));
 	sn_cell->priv->path = g_strdup (path);
 
 	g_object_unref (client_cache);

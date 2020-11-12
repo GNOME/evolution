@@ -2026,7 +2026,7 @@ transfer_components_thread (EAlertSinkThreadJobData *job_data,
 	}
 
 	if (success && ii > 0)
-		tcd->destination_client = g_object_ref (to_client);
+		tcd->destination_client = E_CAL_CLIENT (g_object_ref (to_client));
 
  out:
 	g_clear_object (&from_client);

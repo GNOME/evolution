@@ -161,7 +161,7 @@ attachment_bar_set_store (EAttachmentBar *bar,
 {
 	g_return_if_fail (E_IS_ATTACHMENT_STORE (store));
 
-	bar->priv->model = g_object_ref (store);
+	bar->priv->model = GTK_TREE_MODEL (g_object_ref (store));
 
 	gtk_icon_view_set_model (
 		GTK_ICON_VIEW (bar->priv->icon_view),

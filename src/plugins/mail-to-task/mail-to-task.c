@@ -1001,7 +1001,7 @@ do_mail_to_event (AsyncData *data)
 			i_cal_component_take_property (icomp, prop);
 
 			mc = g_slice_new0 (struct _manage_comp);
-			mc->client = g_object_ref (client);
+			mc->client = E_CAL_CLIENT (g_object_ref (client));
 			mc->comp = g_object_ref (comp);
 			g_mutex_init (&mc->mutex);
 			g_cond_init (&mc->cond);

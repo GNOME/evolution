@@ -544,7 +544,7 @@ mail_ui_session_add_service (CamelSession *session,
 		SourceContext *context;
 
 		context = g_slice_new0 (SourceContext);
-		context->session = g_object_ref (session);
+		context->session = E_MAIL_UI_SESSION (g_object_ref (session));
 		context->service = g_object_ref (service);
 
 		/* Prioritize ahead of GTK+ redraws. */

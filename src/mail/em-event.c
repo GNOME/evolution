@@ -197,7 +197,7 @@ em_event_target_new_message (EMEvent *eme,
 		g_object_ref (message);
 	t->target.mask = ~flags;
 	if (composer)
-		t->composer = g_object_ref (G_OBJECT (composer));
+		t->composer = g_object_ref (composer);
 
 	return t;
 }

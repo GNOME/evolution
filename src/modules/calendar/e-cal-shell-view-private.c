@@ -388,9 +388,9 @@ e_cal_shell_view_private_constructed (ECalShellView *cal_shell_view)
 	e_shell_window_add_action_group_full (shell_window, "calendar-filter", "calendar");
 
 	/* Cache these to avoid lots of awkward casting. */
-	priv->cal_shell_backend = g_object_ref (shell_backend);
-	priv->cal_shell_content = g_object_ref (shell_content);
-	priv->cal_shell_sidebar = g_object_ref (shell_sidebar);
+	priv->cal_shell_backend = E_CAL_SHELL_BACKEND (g_object_ref (shell_backend));
+	priv->cal_shell_content = E_CAL_SHELL_CONTENT (g_object_ref (shell_content));
+	priv->cal_shell_sidebar = E_CAL_BASE_SHELL_SIDEBAR (g_object_ref (shell_sidebar));
 
 	calendar = e_cal_base_shell_sidebar_get_date_navigator (priv->cal_shell_sidebar);
 

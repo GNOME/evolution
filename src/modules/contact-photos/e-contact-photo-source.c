@@ -179,7 +179,7 @@ contact_photo_source_get_client_cb (GObject *source_object,
 		((client == NULL) && (error != NULL)));
 
 	if (client != NULL) {
-		async_context->client = g_object_ref (client);
+		async_context->client = E_BOOK_CLIENT (g_object_ref (client));
 
 		/* The rest of the operation we can run from a
 		 * worker thread to keep the logic flow simple. */

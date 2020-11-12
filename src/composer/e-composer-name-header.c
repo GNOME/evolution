@@ -219,7 +219,7 @@ composer_name_header_constructed (GObject *object)
 		entry, "query-tooltip",
 		G_CALLBACK (composer_name_header_entry_query_tooltip_cb),
 		NULL);
-	E_COMPOSER_HEADER (object)->input_widget = g_object_ref_sink (entry);
+	E_COMPOSER_HEADER (object)->input_widget = GTK_WIDGET (g_object_ref_sink (entry));
 
 	e_signal_connect_notify_swapped (
 		object, "notify::visible",

@@ -501,7 +501,7 @@ mail_fetch_mail (CamelStore *store,
 
 	m = mail_msg_new (&fetch_mail_info);
 	fm = (struct _filter_mail_msg *) m;
-	fm->session = g_object_ref (session);
+	fm->session = E_MAIL_SESSION (g_object_ref (session));
 	m->store = g_object_ref (store);
 	fm->cache = NULL;
 	if (cancellable)

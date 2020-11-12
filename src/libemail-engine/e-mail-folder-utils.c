@@ -1948,7 +1948,7 @@ e_mail_folder_uri_parse (CamelSession *session,
 
 	if (CAMEL_IS_STORE (service) && folder_name != NULL) {
 		if (out_store != NULL)
-			*out_store = g_object_ref (service);
+			*out_store = CAMEL_STORE (g_object_ref (service));
 
 		if (out_folder_name != NULL) {
 			*out_folder_name = folder_name;

@@ -232,9 +232,9 @@ e_task_shell_view_private_constructed (ETaskShellView *task_shell_view)
 	e_shell_window_add_action_group_full (shell_window, "tasks-filter", "tasks");
 
 	/* Cache these to avoid lots of awkward casting. */
-	priv->task_shell_backend = g_object_ref (shell_backend);
-	priv->task_shell_content = g_object_ref (shell_content);
-	priv->task_shell_sidebar = g_object_ref (shell_sidebar);
+	priv->task_shell_backend = E_TASK_SHELL_BACKEND (g_object_ref (shell_backend));
+	priv->task_shell_content = E_TASK_SHELL_CONTENT (g_object_ref (shell_content));
+	priv->task_shell_sidebar = E_CAL_BASE_SHELL_SIDEBAR (g_object_ref (shell_sidebar));
 
 	priv->settings = e_util_ref_settings ("org.gnome.evolution.calendar");
 

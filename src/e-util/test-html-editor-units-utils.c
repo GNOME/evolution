@@ -341,7 +341,7 @@ test_utils_html_editor_created_cb (GObject *source_object,
 			WebKitWebContext *web_context;
 
 			web_context = webkit_web_view_get_context (WEBKIT_WEB_VIEW (cnt_editor));
-			global_web_context = g_object_ref (web_context);
+			global_web_context = G_OBJECT (g_object_ref (web_context));
 		}
 	}
 

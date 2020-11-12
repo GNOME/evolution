@@ -287,7 +287,7 @@ mail_shell_content_constructed (GObject *object)
 	widget = e_mail_paned_view_new (shell_view);
 	gtk_box_pack_start (vbox, widget, TRUE, TRUE, 0);
 
-	priv->mail_view = g_object_ref (widget);
+	priv->mail_view = E_MAIL_VIEW (g_object_ref (widget));
 	gtk_widget_show (widget);
 
 	g_signal_connect (

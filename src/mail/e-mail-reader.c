@@ -2204,7 +2204,7 @@ action_mail_show_source_cb (GtkAction *action,
 	g_free (string);
 
 	closure = g_slice_new0 (EMailReaderClosure);
-	closure->reader = g_object_ref (browser);
+	closure->reader = E_MAIL_READER (g_object_ref (browser));
 	closure->activity = g_object_ref (activity);
 	closure->message_uid = g_strdup (message_uid);
 

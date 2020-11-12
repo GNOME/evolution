@@ -852,7 +852,7 @@ send_account_override_setup (GtkBuilder *builder,
 	widget = e_mail_identity_combo_box_new (registry);
 	e_mail_identity_combo_box_set_allow_aliases (E_MAIL_IDENTITY_COMBO_BOX (widget), TRUE);
 
-	identity_combo_box = g_object_ref_sink (widget);
+	identity_combo_box = E_MAIL_IDENTITY_COMBO_BOX (g_object_ref_sink (widget));
 
 	widget = e_builder_get_widget (builder, "sao-account-treeview");
 	g_return_if_fail (GTK_IS_TREE_VIEW (widget));

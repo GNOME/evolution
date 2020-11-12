@@ -592,9 +592,9 @@ e_book_shell_view_private_constructed (EBookShellView *book_shell_view)
 	e_shell_window_add_action_group_full (shell_window, "contacts-filter", "addressbook");
 
 	/* Cache these to avoid lots of awkward casting. */
-	priv->book_shell_backend = g_object_ref (shell_backend);
-	priv->book_shell_content = g_object_ref (shell_content);
-	priv->book_shell_sidebar = g_object_ref (shell_sidebar);
+	priv->book_shell_backend = E_BOOK_SHELL_BACKEND (g_object_ref (shell_backend));
+	priv->book_shell_content = E_BOOK_SHELL_CONTENT (g_object_ref (shell_content));
+	priv->book_shell_sidebar = E_BOOK_SHELL_SIDEBAR (g_object_ref (shell_sidebar));
 
 	/* Keep our own reference to this so we can
 	 * disconnect our signal handler in dispose(). */

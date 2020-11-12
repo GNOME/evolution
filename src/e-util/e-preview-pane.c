@@ -93,7 +93,7 @@ preview_pane_alert_bar_visible_notify_cb (GtkWidget *alert_bar,
 
 static void
 preview_pane_set_web_view (EPreviewPane *preview_pane,
-                           EWebView *web_view)
+			   GtkWidget *web_view)
 {
 	gulong handler_id;
 

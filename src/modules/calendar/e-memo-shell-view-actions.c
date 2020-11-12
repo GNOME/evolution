@@ -365,7 +365,7 @@ action_memo_new_cb (GtkAction *action,
 		ECalModelComponent *comp_data;
 
 		comp_data = list->data;
-		client = g_object_ref (comp_data->client);
+		client = E_CLIENT (g_object_ref (comp_data->client));
 		g_slist_free (list);
 	}
 

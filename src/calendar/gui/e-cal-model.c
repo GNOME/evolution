@@ -1383,7 +1383,7 @@ cal_model_create_component_from_values_thread (EAlertSinkThreadJobData *job_data
 	}
 
 	comp_data = g_object_new (E_TYPE_CAL_MODEL_COMPONENT, NULL);
-	comp_data->client = g_object_ref (client);
+	comp_data->client = E_CAL_CLIENT (g_object_ref (client));
 	comp_data->icalcomp = e_cal_model_create_component_with_defaults_sync (ccd->model, comp_data->client, FALSE, cancellable, error);
 
 	if (comp_data->icalcomp) {

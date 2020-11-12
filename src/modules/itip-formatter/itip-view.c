@@ -3616,7 +3616,7 @@ itip_view_cal_opened_cb (GObject *source_object,
 		itip_view_set_mode (view, ITIP_VIEW_MODE_PUBLISH);
 	}
 
-	view->priv->current_client = g_object_ref (client);
+	view->priv->current_client = E_CAL_CLIENT (g_object_ref (client));
 
 	set_buttons_sensitive (view);
 

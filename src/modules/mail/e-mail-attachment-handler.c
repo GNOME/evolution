@@ -157,7 +157,7 @@ mail_attachment_handler_get_selected_message (EAttachmentHandler *handler)
 
 exit:
 	if (message == NULL)
-		message = g_object_ref (outer_wrapper);
+		message = CAMEL_MIME_MESSAGE (g_object_ref (outer_wrapper));
 
 	g_clear_object (&mime_part);
 
@@ -758,7 +758,7 @@ mail_attachment_handler_constructed (GObject *object)
 
 	shell = e_shell_get_default ();
 	shell_backend = e_shell_get_backend_by_name (shell, "mail");
-	priv->backend = g_object_ref (shell_backend);
+	priv->backend = E_MAIL_BACKEND (g_object_ref (shell_backend));
 
 	view = e_attachment_handler_get_view (handler);
 

@@ -1636,7 +1636,7 @@ mail_display_constructed (GObject *object)
 	e_web_view_register_content_request_for_scheme (web_view, "cid", content_request);
 	g_object_unref (content_request);
 
-	display->priv->attachment_view = g_object_ref_sink (e_attachment_bar_new (display->priv->attachment_store));
+	display->priv->attachment_view = E_ATTACHMENT_VIEW (g_object_ref_sink (e_attachment_bar_new (display->priv->attachment_store)));
 
 	ui_manager = e_attachment_view_get_ui_manager (display->priv->attachment_view);
 	if (ui_manager) {

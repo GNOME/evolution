@@ -589,7 +589,7 @@ e_cal_base_shell_sidebar_selector_data_dropped (ESourceSelector *selector,
 	titd->destination = g_object_ref (destination);
 	titd->do_copy = do_copy;
 	titd->icomp = icomp;
-	titd->selector = g_object_ref (selector);
+	titd->selector = E_CLIENT_SELECTOR (g_object_ref (selector));
 
 	icomp = NULL;
 

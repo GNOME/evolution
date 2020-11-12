@@ -1433,7 +1433,7 @@ subscription_editor_add_store (EMSubscriptionEditor *editor,
 
 	data = g_slice_new0 (StoreData);
 	data->store = g_object_ref (store);
-	data->tree_view = g_object_ref (widget);
+	data->tree_view = GTK_TREE_VIEW (g_object_ref (widget));
 	data->list_store = GTK_TREE_MODEL (list_store);
 	data->tree_store = GTK_TREE_MODEL (tree_store);
 	data->needs_refresh = TRUE;
@@ -1598,7 +1598,7 @@ subscription_editor_constructed (GObject *object)
 			e_source_get_uid (source));
 
 		if (CAMEL_IS_SUBSCRIBABLE (service))
-			editor->priv->initial_store = g_object_ref (service);
+			editor->priv->initial_store = CAMEL_STORE (g_object_ref (service));
 
 		if (service != NULL)
 			g_object_unref (service);

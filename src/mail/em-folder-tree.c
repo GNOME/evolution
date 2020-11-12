@@ -3813,7 +3813,7 @@ em_folder_tree_restore_state (EMFolderTree *folder_tree,
 			service = camel_session_ref_service (
 				CAMEL_SESSION (session), uid);
 			if (CAMEL_IS_STORE (service)) {
-				store = g_object_ref (service);
+				store = CAMEL_STORE (g_object_ref (service));
 				success = TRUE;
 			}
 			if (service != NULL)

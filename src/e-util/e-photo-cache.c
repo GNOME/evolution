@@ -312,7 +312,7 @@ async_context_new (EDataCapture *data_capture,
 		(GDestroyNotify) async_subtask_unref,
 		(GDestroyNotify) NULL);
 
-	async_context->data_capture = g_object_ref (data_capture);
+	async_context->data_capture = G_CONVERTER (g_object_ref (data_capture));
 
 	if (G_IS_CANCELLABLE (cancellable)) {
 		gulong handler_id;

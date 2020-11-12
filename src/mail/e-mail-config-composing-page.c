@@ -331,7 +331,7 @@ mail_config_composing_page_setup_three_state_value (ESourceMailComposition *comp
 	g_return_if_fail (GTK_IS_TOGGLE_BUTTON (check_button));
 
 	tsd = g_slice_new0 (ThreeStateData);
-	tsd->composition_ext = g_object_ref (composition_ext);
+	tsd->composition_ext = G_OBJECT (g_object_ref (composition_ext));
 	tsd->property_name = g_strdup (property_name);
 
 	g_object_get (tsd->composition_ext, tsd->property_name, &value, NULL);

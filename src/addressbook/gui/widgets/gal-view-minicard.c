@@ -171,7 +171,7 @@ gal_view_minicard_attach (GalViewMinicard *view,
 	g_return_if_fail (E_IS_MINICARD_VIEW_WIDGET (object));
 
 	gal_view_minicard_detach (view);
-	view->emvw = g_object_ref (object);
+	view->emvw = E_MINICARD_VIEW_WIDGET (g_object_ref (object));
 
 	g_object_set (view->emvw, "column-width", view->column_width, NULL);
 

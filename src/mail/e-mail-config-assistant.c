@@ -785,7 +785,7 @@ mail_config_assistant_constructed (GObject *object)
 
 	page = e_mail_config_receiving_page_new (registry);
 	e_mail_config_assistant_add_page (assistant, page);
-	assistant->priv->receiving_page = g_object_ref (page);
+	assistant->priv->receiving_page = E_MAIL_CONFIG_SERVICE_PAGE (g_object_ref (page));
 
 	e_binding_bind_object_text_property (
 		mail_identity_extension, "address",
@@ -868,7 +868,7 @@ mail_config_assistant_constructed (GObject *object)
 
 	page = e_mail_config_sending_page_new (registry);
 	e_mail_config_assistant_add_page (assistant, page);
-	assistant->priv->sending_page = g_object_ref (page);
+	assistant->priv->sending_page = E_MAIL_CONFIG_SERVICE_PAGE (g_object_ref (page));
 
 	e_binding_bind_object_text_property (
 		mail_identity_extension, "address",
@@ -923,7 +923,7 @@ mail_config_assistant_constructed (GObject *object)
 
 	page = e_mail_config_summary_page_new ();
 	e_mail_config_assistant_add_page (assistant, page);
-	assistant->priv->summary_page = g_object_ref (page);
+	assistant->priv->summary_page = E_MAIL_CONFIG_SUMMARY_PAGE (g_object_ref (page));
 
 	e_binding_bind_property (
 		assistant, "account-backend",

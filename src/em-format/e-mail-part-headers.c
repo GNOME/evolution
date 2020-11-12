@@ -124,7 +124,7 @@ mail_part_headers_build_print_model (EMailPartHeaders *part)
 	g_mutex_lock (&part->priv->property_lock);
 
 	g_clear_object (&part->priv->print_model);
-	part->priv->print_model = g_object_ref (list_store);
+	part->priv->print_model = GTK_TREE_MODEL (g_object_ref (list_store));
 
 	g_mutex_unlock (&part->priv->property_lock);
 
