@@ -617,19 +617,6 @@ main (gint argc,
 	g_object_unref (settings);
 #endif
 
-	if (!quit) {
-		/* Until there will be a proper WebKitGTK+ API for disabling the
-		 * accelerated compositing mode, we need to use the environment
-		 * variable. See https://bugzilla.gnome.org/show_bug.cgi?id=774067
-		 * Also do not overwrite the variable in case the user has
-		 * it already set, thus he/she can override the Evolution's default. */
-		g_setenv ("WEBKIT_DISABLE_COMPOSITING_MODE", "1", FALSE);
-
-		/* FIXME WK2 - Look if we still need this it looks like it's not. */
-		/* Workaround https://bugzilla.gnome.org/show_bug.cgi?id=683548 */
-		g_type_ensure (WEBKIT_TYPE_WEB_VIEW);
-	}
-
 	shell = create_default_shell ();
 	if (!shell)
 		return 1;
