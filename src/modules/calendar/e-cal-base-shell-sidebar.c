@@ -302,6 +302,8 @@ typedef struct _OpenClientData {
 	ESource *source;
 	EClient *client;
 	gboolean was_cancelled;
+	ECalBaseShellSidebarOpenFunc cb;
+	gpointer cb_user_data;
 } OpenClientData;
 
 static void
@@ -310,12 +312,19 @@ open_client_data_free (gpointer pdata)
 	OpenClientData *data = pdata;
 
 	if (data) {
-		/* To free the cancellable in the 'value' pair, which is useless now */
-		g_hash_table_insert (data->sidebar->priv->selected_uids,
-			g_strdup (e_source_get_uid (data->source)),
-			NULL);
+		if (data->cb || !data->client) {
+			g_hash_table_remove (data->sidebar->priv->selected_uids, e_source_get_uid (data->source));
+		} else {
+			/* To free the cancellable in the 'value' pair, which is useless now */
+			g_hash_table_insert (data->sidebar->priv->selected_uids,
+				g_strdup (e_source_get_uid (data->source)),
+				NULL);
+		}
 
-		if (data->client) {
+		if (data->cb) {
+			if (data->client)
+				data->cb (data->sidebar, data->client, data->cb_user_data);
+		} else if (data->client) {
 			g_signal_emit (data->sidebar, signals[CLIENT_OPENED], 0, data->client);
 		} else if (!data->was_cancelled) {
 			ESourceSelector *selector = e_cal_base_shell_sidebar_get_selector (data->sidebar);
@@ -351,7 +360,9 @@ e_cal_base_shell_sidebar_open_client_thread (EAlertSinkThreadJobData *job_data,
 
 static void
 e_cal_base_shell_sidebar_ensure_source_opened (ECalBaseShellSidebar *sidebar,
-					       ESource *source)
+					       ESource *source,
+					       ECalBaseShellSidebarOpenFunc cb,
+					       gpointer cb_user_data)
 {
 	OpenClientData *data;
 	EShellView *shell_view;
@@ -362,8 +373,8 @@ e_cal_base_shell_sidebar_ensure_source_opened (ECalBaseShellSidebar *sidebar,
 	g_return_if_fail (E_IS_CAL_BASE_SHELL_SIDEBAR (sidebar));
 	g_return_if_fail (E_IS_SOURCE (source));
 
-	/* Skip it when it's already opening or opened */
-	if (g_hash_table_contains (sidebar->priv->selected_uids, e_source_get_uid (source)))
+	/* Skip it when it's already opening or opened and the callback is not set */
+	if (!cb && g_hash_table_contains (sidebar->priv->selected_uids, e_source_get_uid (source)))
 		return;
 
 	shell_view = e_shell_sidebar_get_shell_view (E_SHELL_SIDEBAR (sidebar));
@@ -398,6 +409,8 @@ e_cal_base_shell_sidebar_ensure_source_opened (ECalBaseShellSidebar *sidebar,
 	data->extension_name = extension_name; /* no need to copy, it's a static string */
 	data->sidebar = g_object_ref (sidebar);
 	data->source = g_object_ref (source);
+	data->cb = cb;
+	data->cb_user_data = cb_user_data;
 
 	activity = e_shell_view_submit_thread_job (
 		shell_view, description, alert_ident, alert_arg_0,
@@ -440,7 +453,7 @@ e_cal_base_shell_sidebar_source_selected (ESourceSelector *selector,
 	g_return_if_fail (E_IS_CAL_BASE_SHELL_SIDEBAR (sidebar));
 
 	if (!g_hash_table_contains (sidebar->priv->selected_uids, e_source_get_uid (source))) {
-		e_cal_base_shell_sidebar_ensure_source_opened (sidebar, source);
+		e_cal_base_shell_sidebar_ensure_source_opened (sidebar, source, NULL, NULL);
 	}
 }
 
@@ -961,8 +974,22 @@ e_cal_base_shell_sidebar_ensure_sources_open (ECalBaseShellSidebar *cal_base_she
 	for (link = selected; link; link = g_list_next (link)) {
 		ESource *source = link->data;
 
-		e_cal_base_shell_sidebar_ensure_source_opened (cal_base_shell_sidebar, source);
+		e_cal_base_shell_sidebar_ensure_source_opened (cal_base_shell_sidebar, source, NULL, NULL);
 	}
 
 	g_list_free_full (selected, g_object_unref);
+}
+
+/* Opens the client with given uid. Calls the cb only if it succeeded */
+void
+e_cal_base_shell_sidebar_open_source (ECalBaseShellSidebar *cal_base_shell_sidebar,
+				      ESource *source,
+				      ECalBaseShellSidebarOpenFunc cb,
+				      gpointer cb_user_data)
+{
+	g_return_if_fail (E_IS_CAL_BASE_SHELL_SIDEBAR (cal_base_shell_sidebar));
+	g_return_if_fail (E_IS_SOURCE (source));
+	g_return_if_fail (cb != NULL);
+
+	e_cal_base_shell_sidebar_ensure_source_opened (cal_base_shell_sidebar, source, cb, cb_user_data);
 }

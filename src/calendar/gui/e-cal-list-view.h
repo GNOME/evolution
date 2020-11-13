@@ -72,9 +72,6 @@ struct _ECalListViewClass {
 GType		e_cal_list_view_get_type	(void);
 ECalendarView *	e_cal_list_view_new		(ECalModel *cal_model);
 ETable *	e_cal_list_view_get_table	(ECalListView *cal_list_view);
-gboolean	e_cal_list_view_get_range_shown	(ECalListView *cal_list_view,
-						 GDate *start_date,
-						 gint *days_shown);
 gboolean	e_cal_list_view_is_editing	(ECalListView *eclv);
 
 G_END_DECLS

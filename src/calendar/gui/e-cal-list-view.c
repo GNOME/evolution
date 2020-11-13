@@ -55,7 +55,8 @@ enum {
 /* The icons to represent the event. */
 static const gchar *icon_names[] = {
 	"x-office-calendar",
-	"stock_people"
+	"stock_people",
+	"view-refresh"
 };
 
 static void      e_cal_list_view_dispose                (GObject *object);
@@ -96,6 +97,34 @@ e_cal_list_view_get_property (GObject *object,
 	}
 }
 
+static gchar *
+e_cal_list_view_get_description_text (ECalendarView *cal_view)
+{
+	ECalModel *model;
+	GString *string;
+	const gchar *format;
+	gint n_rows;
+	gint n_selected;
+
+	g_return_val_if_fail (E_IS_CAL_LIST_VIEW (cal_view), NULL);
+
+	model = e_calendar_view_get_model (cal_view);
+	n_rows = e_table_model_row_count (E_TABLE_MODEL (model));
+	n_selected = e_table_selected_count (e_cal_list_view_get_table (E_CAL_LIST_VIEW (cal_view)));
+	string = g_string_sized_new (64);
+
+	format = ngettext ("%d appointment", "%d appointments", n_rows);
+	g_string_append_printf (string, format, n_rows);
+
+	if (n_selected > 0) {
+		format = _("%d selected");
+		g_string_append_len (string, ", ", 2);
+		g_string_append_printf (string, format, n_selected);
+	}
+
+	return g_string_free (string, FALSE);
+}
+
 static void
 e_cal_list_view_class_init (ECalListViewClass *class)
 {
@@ -118,6 +147,7 @@ e_cal_list_view_class_init (ECalListViewClass *class)
 	view_class->get_selected_events = e_cal_list_view_get_selected_events;
 	view_class->get_selected_time_range = e_cal_list_view_get_selected_time_range;
 	view_class->get_visible_time_range = e_cal_list_view_get_visible_time_range;
+	view_class->get_description_text = e_cal_list_view_get_description_text;
 
 	g_object_class_override_property (
 		object_class,
@@ -313,7 +343,7 @@ setup_e_table (ECalListView *cal_list_view)
 	gtk_scrolled_window_set_policy (
 		GTK_SCROLLED_WINDOW (widget),
 		GTK_POLICY_AUTOMATIC, GTK_POLICY_AUTOMATIC);
-	gtk_grid_attach (GTK_GRID (container), widget, 0, 0, 2, 2);
+	gtk_grid_attach (GTK_GRID (container), widget, 0, 1, 2, 2);
 	g_object_set (G_OBJECT (widget),
 		"hexpand", TRUE,
 		"vexpand", TRUE,
@@ -611,74 +641,12 @@ e_cal_list_view_get_selected_events (ECalendarView *cal_view)
 	return event_list;
 }
 
-/* It also frees 'itt' */
-static void
-adjust_range (ICalTime *itt,
-              time_t *earliest,
-              time_t *latest,
-              gboolean *set)
-{
-	time_t t;
-
-	if (!itt || !i_cal_time_is_valid_time (itt)) {
-		g_clear_object (&itt);
-		return;
-	}
-
-	t = i_cal_time_as_timet (itt);
-
-	*earliest = MIN (*earliest, t);
-	*latest   = MAX (*latest, t);
-	*set = TRUE;
-
-	g_clear_object (&itt);
-}
-
-/* NOTE: Time use for this function increases linearly with number of events.
- * This is not ideal, since it's used in a couple of places. We could probably
- * be smarter about it, and use do it less frequently... */
 static gboolean
 e_cal_list_view_get_visible_time_range (ECalendarView *cal_view,
                                         time_t *start_time,
                                         time_t *end_time)
 {
-	time_t   earliest = G_MAXINT, latest = 0;
-	gboolean set = FALSE;
-	gint     n_rows, i;
-
-	n_rows = e_table_model_row_count (E_TABLE_MODEL (e_calendar_view_get_model (cal_view)));
-
-	for (i = 0; i < n_rows; i++) {
-		ECalModelComponent *comp;
-		ICalComponent *icomp;
-
-		comp = e_cal_model_get_component_at (e_calendar_view_get_model (cal_view), i);
-		if (!comp)
-			continue;
-
-		icomp = comp->icalcomp;
-		if (!icomp)
-			continue;
-
-		adjust_range (i_cal_component_get_dtstart (icomp), &earliest, &latest, &set);
-		adjust_range (i_cal_component_get_dtend (icomp), &earliest, &latest, &set);
-	}
-
-	if (set) {
-		*start_time = earliest;
-		*end_time   = latest;
-		return TRUE;
-	}
-
-	if (!n_rows) {
-		ECalModel *model = e_calendar_view_get_model (cal_view);
-
-		/* Use time range set in the model when nothing shown in the list view */
-		e_cal_model_get_time_range (model, start_time, end_time);
-
-		return TRUE;
-	}
-
+	/* No time range */
 	return FALSE;
 }
 
@@ -688,26 +656,6 @@ e_cal_list_view_get_table (ECalListView *cal_list_view)
 	g_return_val_if_fail (E_IS_CAL_LIST_VIEW (cal_list_view), NULL);
 
 	return cal_list_view->priv->table;
-}
-
-gboolean
-e_cal_list_view_get_range_shown (ECalListView *cal_list_view,
-                                 GDate *start_date,
-                                 gint *days_shown)
-{
-	time_t  first, last;
-	GDate   end_date;
-
-	g_return_val_if_fail (E_IS_CAL_LIST_VIEW (cal_list_view), FALSE);
-
-	if (!e_cal_list_view_get_visible_time_range (E_CALENDAR_VIEW (cal_list_view), &first, &last))
-		return FALSE;
-
-	time_to_gdate_with_zone (start_date, first, e_calendar_view_get_timezone (E_CALENDAR_VIEW (cal_list_view)));
-	time_to_gdate_with_zone (&end_date, last, e_calendar_view_get_timezone (E_CALENDAR_VIEW (cal_list_view)));
-
-	*days_shown = g_date_days_between (start_date, &end_date);
-	return TRUE;
 }
 
 gboolean

@@ -117,6 +117,8 @@ void		e_cal_data_model_add_client	(ECalDataModel *data_model,
 						 ECalClient *client);
 void		e_cal_data_model_remove_client	(ECalDataModel *data_model,
 						 const gchar *uid);
+void		e_cal_data_model_remove_all_clients
+						(ECalDataModel *data_model);
 ECalClient *	e_cal_data_model_ref_client	(ECalDataModel *data_model,
 						 const gchar *uid);
 GList *		e_cal_data_model_get_clients	(ECalDataModel *data_model);

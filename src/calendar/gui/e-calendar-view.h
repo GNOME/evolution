@@ -183,6 +183,7 @@ struct _ECalendarViewClass {
 	void		(*update_query)		(ECalendarView *cal_view);
 	void		(*open_event)		(ECalendarView *cal_view);
 	void		(*paste_text)		(ECalendarView *cal_view);
+	gchar *		(*get_description_text)	(ECalendarView *cal_view);
 };
 
 GType		e_calendar_view_get_type	(void);

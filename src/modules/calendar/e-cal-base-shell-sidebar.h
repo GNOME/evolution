@@ -49,6 +49,10 @@ typedef struct _ECalBaseShellSidebar ECalBaseShellSidebar;
 typedef struct _ECalBaseShellSidebarClass ECalBaseShellSidebarClass;
 typedef struct _ECalBaseShellSidebarPrivate ECalBaseShellSidebarPrivate;
 
+typedef void (* ECalBaseShellSidebarOpenFunc)	(ECalBaseShellSidebar *cal_base_shell_sidebar,
+						 EClient *client,
+						 gpointer user_data);
+
 enum {
 	E_CAL_BASE_SHELL_SIDEBAR_HAS_PRIMARY_SOURCE = 1 << 0,
 	E_CAL_BASE_SHELL_SIDEBAR_PRIMARY_SOURCE_IS_WRITABLE = 1 << 1,
@@ -87,6 +91,10 @@ ESourceSelector *
 		e_cal_base_shell_sidebar_get_selector	(ECalBaseShellSidebar *cal_base_shell_sidebar);
 void		e_cal_base_shell_sidebar_ensure_sources_open
 							(ECalBaseShellSidebar *cal_base_shell_sidebar);
+void		e_cal_base_shell_sidebar_open_source	(ECalBaseShellSidebar *cal_base_shell_sidebar,
+							 ESource *source,
+							 ECalBaseShellSidebarOpenFunc cb,
+							 gpointer cb_user_data);
 
 G_END_DECLS
 

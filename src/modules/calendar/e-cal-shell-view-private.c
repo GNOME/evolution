@@ -428,6 +428,28 @@ e_cal_shell_view_private_constructed (ECalShellView *cal_shell_view)
 			G_CALLBACK (e_shell_view_update_actions),
 			cal_shell_view);
 		priv->views[ii].selection_changed_handler_id = handler_id;
+
+		if (ii == E_CAL_VIEW_KIND_LIST) {
+			ECalModel *model;
+
+			model = e_calendar_view_get_model (calendar_view);
+
+			g_signal_connect_object (calendar_view, "selection-changed",
+				G_CALLBACK (e_cal_shell_view_update_sidebar), cal_shell_view,
+				G_CONNECT_SWAPPED);
+
+			g_signal_connect_object (model, "model-changed",
+				G_CALLBACK (e_cal_shell_view_update_sidebar), cal_shell_view,
+				G_CONNECT_SWAPPED);
+
+			g_signal_connect_object (model, "model-rows-inserted",
+				G_CALLBACK (e_cal_shell_view_update_sidebar), cal_shell_view,
+				G_CONNECT_SWAPPED);
+
+			g_signal_connect_object (model, "model-rows-deleted",
+				G_CALLBACK (e_cal_shell_view_update_sidebar), cal_shell_view,
+				G_CONNECT_SWAPPED);
+		}
 	}
 
 	/* Keep our own reference to this so we can

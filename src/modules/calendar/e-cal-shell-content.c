@@ -56,6 +56,9 @@ struct _ECalShellContentPrivate {
 	ECalModel *memo_model;
 	ECalDataModel *memo_data_model;
 
+	ECalModel *list_view_model;
+	ECalDataModel *list_view_data_model;
+
 	ETagCalendar *tag_calendar;
 	gulong datepicker_selection_changed_id;
 	gulong datepicker_range_moved_id;
@@ -1269,6 +1272,87 @@ cal_shell_content_move_view_range_cb (ECalendarView *cal_view,
 }
 
 static void
+cal_shell_content_clear_all_in_list_view (ECalShellContent *cal_shell_content)
+{
+	ECalDataModelSubscriber *subscriber;
+
+	subscriber = E_CAL_DATA_MODEL_SUBSCRIBER (cal_shell_content->priv->list_view_model);
+
+	e_cal_data_model_unsubscribe (cal_shell_content->priv->list_view_data_model, subscriber);
+	e_cal_model_remove_all_objects (cal_shell_content->priv->list_view_model);
+	e_cal_data_model_remove_all_clients (cal_shell_content->priv->list_view_data_model);
+	e_cal_data_model_subscribe (cal_shell_content->priv->list_view_data_model, subscriber, 0, 0);
+}
+
+static void
+cal_shell_content_client_opened_cb (ECalBaseShellSidebar *cal_base_shell_sidebar,
+				    EClient *client,
+				    gpointer user_data)
+{
+	ECalShellContent *cal_shell_content = user_data;
+	ESourceSelector *source_selector;
+	ESource *source;
+
+	g_return_if_fail (E_IS_CAL_SHELL_CONTENT (cal_shell_content));
+
+	if (cal_shell_content->priv->current_view != E_CAL_VIEW_KIND_LIST || !E_IS_CAL_CLIENT (client))
+		return;
+
+	source_selector = e_cal_base_shell_sidebar_get_selector (cal_base_shell_sidebar);
+	source = e_source_selector_ref_primary_selection (source_selector);
+
+	/* It can happen that the previously opening calendar finished its open
+	   after the current calendar, in which case this would replace the data,
+	   thus ensure the opened calendar is the correct calendar. */
+	if (source == e_client_get_source (client)) {
+		cal_shell_content_clear_all_in_list_view (cal_shell_content);
+		e_cal_data_model_add_client (cal_shell_content->priv->list_view_data_model, E_CAL_CLIENT (client));
+	}
+
+	g_clear_object (&source);
+}
+
+static void
+cal_shell_content_update_list_view (ECalShellContent *cal_shell_content)
+{
+	ECalBaseShellSidebar *cal_base_shell_sidebar;
+	ESourceSelector *source_selector;
+	ECalClient *client;
+	ESource *source;
+
+	cal_base_shell_sidebar = E_CAL_BASE_SHELL_SIDEBAR (e_shell_view_get_shell_sidebar (
+		e_shell_content_get_shell_view (E_SHELL_CONTENT (cal_shell_content))));
+
+	source_selector = e_cal_base_shell_sidebar_get_selector (cal_base_shell_sidebar);
+
+	source = e_source_selector_ref_primary_selection (source_selector);
+	if (!source)
+		return;
+
+	e_cal_model_set_default_source_uid (cal_shell_content->priv->list_view_model, e_source_get_uid (source));
+
+	client = e_cal_data_model_ref_client (cal_shell_content->priv->list_view_data_model, e_source_get_uid (source));
+
+	if (!client)
+		e_cal_base_shell_sidebar_open_source (cal_base_shell_sidebar, source, cal_shell_content_client_opened_cb, cal_shell_content);
+
+	g_clear_object (&client);
+	g_clear_object (&source);
+}
+
+static void
+cal_shell_content_primary_selection_changed_cb (ESourceSelector *selector,
+						gpointer user_data)
+{
+	ECalShellContent *cal_shell_content = user_data;
+
+	g_return_if_fail (E_IS_CAL_SHELL_CONTENT (cal_shell_content));
+
+	if (cal_shell_content->priv->current_view == E_CAL_VIEW_KIND_LIST)
+		cal_shell_content_update_list_view (cal_shell_content);
+}
+
+static void
 cal_shell_content_foreign_client_opened_cb (ECalBaseShellSidebar *cal_base_shell_sidebar,
 					    ECalClient *client,
 					    ECalModel *model)
@@ -1388,6 +1472,10 @@ cal_shell_content_view_created (ECalBaseShellContent *cal_base_shell_content)
 	/* Show everything known by default in the task and memo pads */
 	e_cal_model_set_time_range (cal_shell_content->priv->memo_model, 0, 0);
 	e_cal_model_set_time_range (cal_shell_content->priv->task_model, 0, 0);
+	e_cal_model_set_time_range (cal_shell_content->priv->list_view_model, 0, 0);
+
+	g_signal_connect (e_cal_base_shell_sidebar_get_selector (E_CAL_BASE_SHELL_SIDEBAR (shell_sidebar)), "primary-selection-changed",
+		G_CALLBACK (cal_shell_content_primary_selection_changed_cb), cal_shell_content);
 
 	cal_shell_content->priv->datepicker_selection_changed_id =
 		g_signal_connect (e_calendar_get_item (calendar), "selection-changed",
@@ -1516,7 +1604,7 @@ e_cal_shell_content_create_calendar_views (ECalShellContent *cal_shell_content)
 		G_CALLBACK (month_view_adjustment_changed_cb), cal_shell_content);
 
 	/* List View */
-	calendar_view = e_cal_list_view_new (model);
+	calendar_view = e_cal_list_view_new (cal_shell_content->priv->list_view_model);
 	cal_shell_content->priv->views[E_CAL_VIEW_KIND_LIST] = calendar_view;
 	g_object_ref_sink (calendar_view);
 
@@ -1618,6 +1706,12 @@ cal_shell_content_dispose (GObject *object)
 			E_CAL_DATA_MODEL_SUBSCRIBER (cal_shell_content->priv->memo_model));
 	}
 
+	if (cal_shell_content->priv->list_view_data_model) {
+		e_cal_data_model_set_disposing (cal_shell_content->priv->list_view_data_model, TRUE);
+		e_cal_data_model_unsubscribe (cal_shell_content->priv->list_view_data_model,
+			E_CAL_DATA_MODEL_SUBSCRIBER (cal_shell_content->priv->list_view_model));
+	}
+
 	if (cal_shell_content->priv->tag_calendar) {
 		ECalDataModel *data_model;
 
@@ -1640,6 +1734,8 @@ cal_shell_content_dispose (GObject *object)
 	g_clear_object (&cal_shell_content->priv->memo_table);
 	g_clear_object (&cal_shell_content->priv->memo_model);
 	g_clear_object (&cal_shell_content->priv->memo_data_model);
+	g_clear_object (&cal_shell_content->priv->list_view_model);
+	g_clear_object (&cal_shell_content->priv->list_view_data_model);
 
 	/* Chain up to parent's dispose() method. */
 	G_OBJECT_CLASS (e_cal_shell_content_parent_class)->dispose (object);
@@ -1678,6 +1774,11 @@ cal_shell_content_constructed (GObject *object)
 	cal_shell_content->priv->task_model =
 		e_cal_model_tasks_new (cal_shell_content->priv->task_data_model, e_shell_get_registry (shell), shell);
 
+	cal_shell_content->priv->list_view_data_model =
+		e_cal_base_shell_content_create_new_data_model (E_CAL_BASE_SHELL_CONTENT (cal_shell_content));
+	cal_shell_content->priv->list_view_model =
+		e_cal_model_calendar_new (cal_shell_content->priv->list_view_data_model, e_shell_get_registry (shell), shell);
+
 	e_binding_bind_property (
 		cal_shell_content->priv->memo_model, "timezone",
 		cal_shell_content->priv->memo_data_model, "timezone",
@@ -1686,6 +1787,11 @@ cal_shell_content_constructed (GObject *object)
 	e_binding_bind_property (
 		cal_shell_content->priv->task_model, "timezone",
 		cal_shell_content->priv->task_data_model, "timezone",
+		G_BINDING_SYNC_CREATE);
+
+	e_binding_bind_property (
+		cal_shell_content->priv->list_view_model, "timezone",
+		cal_shell_content->priv->list_view_data_model, "timezone",
 		G_BINDING_SYNC_CREATE);
 
 	/* Build content widgets. */
@@ -2027,10 +2133,58 @@ cal_shell_content_resubscribe (ECalendarView *cal_view,
 	}
 }
 
+/* Only helper function */
+static void
+cal_shell_content_switch_list_view (ECalShellContent *cal_shell_content,
+				    ECalViewKind from_view_kind,
+				    ECalViewKind to_view_kind)
+{
+	EShellView *shell_view;
+	EShellSidebar *shell_sidebar;
+	ECalBaseShellSidebar *cal_base_shell_sidebar;
+	ECalendar *date_navigator;
+	ESourceSelector *source_selector;
+	ECalModel *model;
+	gchar *cal_filter;
+
+	g_return_if_fail (from_view_kind != to_view_kind);
+
+	if (to_view_kind != E_CAL_VIEW_KIND_LIST &&
+	    from_view_kind != E_CAL_VIEW_KIND_LIST)
+		return;
+
+	shell_view = e_shell_content_get_shell_view (E_SHELL_CONTENT (cal_shell_content));
+	shell_sidebar = e_shell_view_get_shell_sidebar (shell_view);
+	cal_base_shell_sidebar = E_CAL_BASE_SHELL_SIDEBAR (shell_sidebar);
+	date_navigator = e_cal_base_shell_sidebar_get_date_navigator (cal_base_shell_sidebar);
+	source_selector = e_cal_base_shell_sidebar_get_selector (cal_base_shell_sidebar);
+
+	gtk_widget_set_visible (GTK_WIDGET (date_navigator), to_view_kind != E_CAL_VIEW_KIND_LIST);
+	e_source_selector_set_show_toggles (source_selector, to_view_kind != E_CAL_VIEW_KIND_LIST);
+
+	model = e_calendar_view_get_model (cal_shell_content->priv->views[from_view_kind]);
+	cal_filter = e_cal_data_model_dup_filter (e_cal_model_get_data_model (model));
+	if (cal_filter) {
+		model = e_calendar_view_get_model (cal_shell_content->priv->views[to_view_kind]);
+		e_cal_data_model_set_filter (e_cal_model_get_data_model (model), cal_filter);
+		g_free (cal_filter);
+	}
+
+	/* The list view is activated */
+	if (to_view_kind == E_CAL_VIEW_KIND_LIST) {
+		cal_shell_content_update_list_view (cal_shell_content);
+	/* The list view is deactivated */
+	} else if (from_view_kind == E_CAL_VIEW_KIND_LIST) {
+		cal_shell_content_clear_all_in_list_view (cal_shell_content);
+		e_cal_base_shell_sidebar_ensure_sources_open (cal_base_shell_sidebar);
+	}
+}
+
 void
 e_cal_shell_content_set_current_view_id (ECalShellContent *cal_shell_content,
 					 ECalViewKind view_kind)
 {
+	EShellView *shell_view;
 	time_t start_time = -1, end_time = -1;
 	gint ii;
 
@@ -2069,6 +2223,9 @@ e_cal_shell_content_set_current_view_id (ECalShellContent *cal_shell_content,
 
 		cal_view->in_focus = in_focus;
 
+		if (ii == E_CAL_VIEW_KIND_LIST)
+			continue;
+
 		if (focus_changed && in_focus) {
 			/* Currently focused view changed. Any events within the common time
 			   range are not shown in the newly focused view, thus make sure it'll
@@ -2098,11 +2255,17 @@ e_cal_shell_content_set_current_view_id (ECalShellContent *cal_shell_content,
 		}
 	}
 
+	cal_shell_content_switch_list_view (cal_shell_content, cal_shell_content->priv->current_view, view_kind);
+
 	cal_shell_content->priv->current_view = view_kind;
 
 	g_object_notify (G_OBJECT (cal_shell_content), "current-view-id");
 
 	gtk_widget_queue_draw (GTK_WIDGET (cal_shell_content->priv->views[cal_shell_content->priv->current_view]));
+
+	shell_view = e_shell_content_get_shell_view (E_SHELL_CONTENT (cal_shell_content));
+	e_shell_view_update_actions (shell_view);
+	e_cal_shell_view_update_sidebar (E_CAL_SHELL_VIEW (shell_view));
 }
 
 ECalViewKind
@@ -2382,8 +2545,15 @@ e_cal_shell_content_update_filters (ECalShellContent *cal_shell_content,
 	if (!cal_filter)
 		return;
 
-	data_model = e_cal_base_shell_content_get_data_model (E_CAL_BASE_SHELL_CONTENT (cal_shell_content));
-	model = e_cal_base_shell_content_get_model (E_CAL_BASE_SHELL_CONTENT (cal_shell_content));
+	if (e_cal_shell_content_get_current_view_id (cal_shell_content) == E_CAL_VIEW_KIND_LIST) {
+		data_model = cal_shell_content->priv->list_view_data_model;
+		model = cal_shell_content->priv->list_view_model;
+		start_range = 0;
+		end_range = 0;
+	} else {
+		data_model = e_cal_base_shell_content_get_data_model (E_CAL_BASE_SHELL_CONTENT (cal_shell_content));
+		model = e_cal_base_shell_content_get_model (E_CAL_BASE_SHELL_CONTENT (cal_shell_content));
+	}
 
 	cal_shell_content_update_model_filter (data_model, model, cal_filter, start_range, end_range);
 	e_cal_shell_content_update_tasks_filter (cal_shell_content, cal_filter);
@@ -2433,4 +2603,12 @@ e_cal_shell_content_update_filters (ECalShellContent *cal_shell_content,
 			cal_shell_content_update_model_filter (data_model, model, *cal_filter ? cal_filter : "#t", 0, 0);
 		}
 	}
+}
+
+ECalDataModel *
+e_cal_shell_content_get_list_view_data_model (ECalShellContent *cal_shell_content)
+{
+	g_return_val_if_fail (E_IS_CAL_SHELL_CONTENT (cal_shell_content), NULL);
+
+	return cal_shell_content->priv->list_view_data_model;
 }

@@ -259,6 +259,7 @@ cal_shell_view_update_actions (EShellView *shell_view)
 	GtkAction *action;
 	gchar *data_filter;
 	gboolean is_searching;
+	gboolean is_list_view;
 	gboolean sensitive;
 	guint32 state;
 
@@ -303,7 +304,11 @@ cal_shell_view_update_actions (EShellView *shell_view)
 	cal_view = e_cal_shell_content_get_current_calendar_view (cal_shell_content);
 	memo_table = e_cal_shell_content_get_memo_table (cal_shell_content);
 	task_table = e_cal_shell_content_get_task_table (cal_shell_content);
-	data_model = e_cal_base_shell_content_get_data_model (E_CAL_BASE_SHELL_CONTENT (cal_shell_content));
+	is_list_view = E_IS_CAL_LIST_VIEW (cal_view);
+	if (is_list_view)
+		data_model = e_cal_shell_content_get_list_view_data_model (cal_shell_content);
+	else
+		data_model = e_cal_base_shell_content_get_data_model (E_CAL_BASE_SHELL_CONTENT (cal_shell_content));
 	data_filter = e_cal_data_model_dup_filter (data_model);
 	is_searching = data_filter && *data_filter &&
 		g_strcmp0 (data_filter, "#t") != 0 &&
@@ -397,10 +402,10 @@ cal_shell_view_update_actions (EShellView *shell_view)
 	gtk_action_set_sensitive (action, sensitive);
 
 	action = ACTION (CALENDAR_SEARCH_PREV);
-	gtk_action_set_sensitive (action, is_searching);
+	gtk_action_set_sensitive (action, is_searching && !is_list_view);
 
 	action = ACTION (CALENDAR_SEARCH_NEXT);
-	gtk_action_set_sensitive (action, is_searching);
+	gtk_action_set_sensitive (action, is_searching && !is_list_view);
 
 	action = ACTION (CALENDAR_SEARCH_STOP);
 	sensitive = is_searching && priv->searching_activity != NULL;
@@ -488,6 +493,11 @@ cal_shell_view_update_actions (EShellView *shell_view)
 
 	action = ACTION (EVENT_MEETING_NEW);
 	gtk_action_set_visible (action, has_mail_identity);
+
+	gtk_action_set_sensitive (ACTION (CALENDAR_GO_BACK), !is_list_view);
+	gtk_action_set_sensitive (ACTION (CALENDAR_GO_FORWARD), !is_list_view);
+	gtk_action_set_sensitive (ACTION (CALENDAR_GO_TODAY), !is_list_view);
+	gtk_action_set_sensitive (ACTION (CALENDAR_JUMP_TO), !is_list_view);
 
 	if ((cal_view && e_calendar_view_is_editing (cal_view)) ||
 	    e_table_is_editing (E_TABLE (memo_table)) ||

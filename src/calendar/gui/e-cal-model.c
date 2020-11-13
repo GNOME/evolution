@@ -1573,8 +1573,13 @@ cal_model_value_at (ETableModel *etm,
 
 		retval = 0;
 
-		if (i_cal_component_isa (comp_data->icalcomp) == I_CAL_VEVENT_COMPONENT ||
-		    i_cal_component_isa (comp_data->icalcomp) == I_CAL_VJOURNAL_COMPONENT) {
+		if (i_cal_component_isa (comp_data->icalcomp) == I_CAL_VEVENT_COMPONENT) {
+			if (e_cal_util_component_has_attendee (comp_data->icalcomp))
+				retval = 1;
+			if (e_cal_util_component_has_recurrences (comp_data->icalcomp) ||
+			    e_cal_util_component_is_instance (comp_data->icalcomp))
+				retval = 2;
+		} else if (i_cal_component_isa (comp_data->icalcomp) == I_CAL_VJOURNAL_COMPONENT) {
 			if (e_cal_util_component_has_attendee (comp_data->icalcomp))
 				retval = 1;
 		} else {
@@ -3630,27 +3635,29 @@ e_cal_model_remove_all_objects (ECalModel *model)
 {
 	ECalModelComponent *comp_data;
 	ETableModel *table_model;
-	GSList *link;
-	gint index;
+	GSList *comps = NULL;
+	guint ii;
 
 	table_model = E_TABLE_MODEL (model);
-	for (index = model->priv->objects->len - 1; index >= 0; index--) {
-		e_table_model_pre_change (table_model);
 
-		comp_data = g_ptr_array_remove_index (model->priv->objects, index);
-		if (!comp_data) {
-			e_table_model_no_change (table_model);
-			continue;
-		}
+	for (ii = 0; ii < model->priv->objects->len; ii++) {
+		comp_data = g_ptr_array_index (model->priv->objects, ii);
 
-		link = g_slist_append (NULL, comp_data);
-		g_signal_emit (model, signals[COMPS_DELETED], 0, link);
-
-		g_slist_free (link);
-		g_object_unref (comp_data);
-
-		e_table_model_row_deleted (table_model, index);
+		if (comp_data)
+			comps = g_slist_prepend (comps, comp_data);
 	}
+
+	ii = model->priv->objects->len;
+
+	e_table_model_pre_change (table_model);
+	e_table_model_rows_deleted (table_model, 0, ii);
+
+	g_ptr_array_set_size (model->priv->objects, 0);
+
+	if (comps)
+		g_signal_emit (model, signals[COMPS_DELETED], 0, comps);
+
+	g_slist_free_full (comps, g_object_unref);
 }
 
 void

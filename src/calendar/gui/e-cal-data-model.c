@@ -2557,6 +2557,39 @@ e_cal_data_model_remove_client (ECalDataModel *data_model,
 	UNLOCK_PROPS ();
 }
 
+static gboolean
+cal_data_model_remove_client_cb (gpointer key,
+				 gpointer value,
+				 gpointer user_data)
+{
+	ECalDataModel *data_model = user_data;
+
+	cal_data_model_remove_client_view (data_model, value);
+
+	return TRUE;
+}
+
+/**
+ * e_cal_data_model_remove_all_clients:
+ * @data_model: an #ECalDataModel
+ *
+ * Removes all clients from the @data_model.
+ *
+ * Since: 3.40
+ **/
+void
+e_cal_data_model_remove_all_clients (ECalDataModel *data_model)
+{
+	g_return_if_fail (E_IS_CAL_DATA_MODEL (data_model));
+
+	LOCK_PROPS ();
+
+	g_hash_table_foreach_remove (data_model->priv->clients,
+		cal_data_model_remove_client_cb, data_model);
+
+	UNLOCK_PROPS ();
+}
+
 /**
  * e_cal_data_model_ref_client:
  * @data_model: an #EDataModel instance

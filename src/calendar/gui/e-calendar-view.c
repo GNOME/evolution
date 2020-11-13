@@ -1110,6 +1110,66 @@ calendar_view_delete_selection (ESelectable *selectable)
 	g_list_free (selected);
 }
 
+static gchar *
+calendar_view_get_description_text (ECalendarView *cal_view)
+{
+	time_t start_time, end_time;
+	struct tm start_tm, end_tm;
+	ICalTime *tt;
+	ICalTimezone *zone;
+	gchar start_buffer[512] = { 0 };
+	gchar end_buffer[512] = { 0 };
+
+	g_return_val_if_fail (E_IS_CALENDAR_VIEW (cal_view), NULL);
+
+
+	if (!e_calendar_view_get_visible_time_range (cal_view, &start_time, &end_time))
+		return NULL;
+
+	zone = e_cal_model_get_timezone (cal_view->priv->model);
+
+	tt = i_cal_time_new_from_timet_with_zone (start_time, FALSE, zone);
+	start_tm = e_cal_util_icaltime_to_tm (tt);
+	g_clear_object (&tt);
+
+	/* Subtract one from end_time so we don't get an extra day. */
+	tt = i_cal_time_new_from_timet_with_zone (end_time - 1, FALSE, zone);
+	end_tm = e_cal_util_icaltime_to_tm (tt);
+	g_clear_object (&tt);
+
+	if (E_IS_MONTH_VIEW (cal_view) || E_IS_CAL_LIST_VIEW (cal_view)) {
+		if (start_tm.tm_year == end_tm.tm_year) {
+			if (start_tm.tm_mon == end_tm.tm_mon) {
+				e_utf8_strftime (start_buffer, sizeof (start_buffer), "%d", &start_tm);
+				e_utf8_strftime (end_buffer, sizeof (end_buffer), _("%d %b %Y"), &end_tm);
+			} else {
+				e_utf8_strftime (start_buffer, sizeof (start_buffer), _("%d %b"), &start_tm);
+				e_utf8_strftime (end_buffer, sizeof (end_buffer), _("%d %b %Y"), &end_tm);
+			}
+		} else {
+			e_utf8_strftime (start_buffer, sizeof (start_buffer), _("%d %b %Y"), &start_tm);
+			e_utf8_strftime (end_buffer, sizeof (end_buffer), _("%d %b %Y"), &end_tm);
+		}
+	} else {
+		if (start_tm.tm_year == end_tm.tm_year &&
+			start_tm.tm_mon == end_tm.tm_mon &&
+			start_tm.tm_mday == end_tm.tm_mday) {
+			e_utf8_strftime (start_buffer, sizeof (start_buffer), _("%A %d %b %Y"), &start_tm);
+		} else if (start_tm.tm_year == end_tm.tm_year) {
+			e_utf8_strftime (start_buffer, sizeof (start_buffer), _("%a %d %b"), &start_tm);
+			e_utf8_strftime (end_buffer, sizeof (end_buffer), _("%a %d %b %Y"), &end_tm);
+		} else {
+			e_utf8_strftime (start_buffer, sizeof (start_buffer), _("%a %d %b %Y"), &start_tm);
+			e_utf8_strftime (end_buffer, sizeof (end_buffer), _("%a %d %b %Y"), &end_tm);
+		}
+	}
+
+	if (*start_buffer && *end_buffer)
+		return g_strdup_printf ("%s - %s", start_buffer, end_buffer);
+
+	return g_strdup_printf ("%s%s", start_buffer, end_buffer);
+}
+
 static void
 e_calendar_view_class_init (ECalendarViewClass *class)
 {
@@ -1138,6 +1198,7 @@ e_calendar_view_class_init (ECalendarViewClass *class)
 	class->update_query = NULL;
 	class->open_event = e_calendar_view_open_event;
 	class->paste_text = NULL;
+	class->get_description_text = calendar_view_get_description_text;
 
 	/* Inherited from ESelectableInterface */
 	g_object_class_override_property (
@@ -2324,60 +2385,17 @@ e_calendar_view_is_editing (ECalendarView *cal_view)
 gchar *
 e_calendar_view_get_description_text (ECalendarView *cal_view)
 {
-	time_t start_time, end_time;
-	struct tm start_tm, end_tm;
-	ICalTime *tt;
-	ICalTimezone *zone;
-	gchar start_buffer[512] = { 0 };
-	gchar end_buffer[512] = { 0 };
+	ECalendarViewClass *klass;
 
 	g_return_val_if_fail (E_IS_CALENDAR_VIEW (cal_view), NULL);
 
-	if (!e_calendar_view_get_visible_time_range (cal_view, &start_time, &end_time))
-		return NULL;
+	klass = E_CALENDAR_VIEW_GET_CLASS (cal_view);
+	g_return_val_if_fail (klass != NULL, NULL);
 
-	zone = e_cal_model_get_timezone (cal_view->priv->model);
+	if (klass->get_description_text)
+		return klass->get_description_text (cal_view);
 
-	tt = i_cal_time_new_from_timet_with_zone (start_time, FALSE, zone);
-	start_tm = e_cal_util_icaltime_to_tm (tt);
-	g_clear_object (&tt);
-
-	/* Subtract one from end_time so we don't get an extra day. */
-	tt = i_cal_time_new_from_timet_with_zone (end_time - 1, FALSE, zone);
-	end_tm = e_cal_util_icaltime_to_tm (tt);
-	g_clear_object (&tt);
-
-	if (E_IS_MONTH_VIEW (cal_view) || E_IS_CAL_LIST_VIEW (cal_view)) {
-		if (start_tm.tm_year == end_tm.tm_year) {
-			if (start_tm.tm_mon == end_tm.tm_mon) {
-				e_utf8_strftime (start_buffer, sizeof (start_buffer), "%d", &start_tm);
-				e_utf8_strftime (end_buffer, sizeof (end_buffer), _("%d %b %Y"), &end_tm);
-			} else {
-				e_utf8_strftime (start_buffer, sizeof (start_buffer), _("%d %b"), &start_tm);
-				e_utf8_strftime (end_buffer, sizeof (end_buffer), _("%d %b %Y"), &end_tm);
-			}
-		} else {
-			e_utf8_strftime (start_buffer, sizeof (start_buffer), _("%d %b %Y"), &start_tm);
-			e_utf8_strftime (end_buffer, sizeof (end_buffer), _("%d %b %Y"), &end_tm);
-		}
-	} else {
-		if (start_tm.tm_year == end_tm.tm_year &&
-			start_tm.tm_mon == end_tm.tm_mon &&
-			start_tm.tm_mday == end_tm.tm_mday) {
-			e_utf8_strftime (start_buffer, sizeof (start_buffer), _("%A %d %b %Y"), &start_tm);
-		} else if (start_tm.tm_year == end_tm.tm_year) {
-			e_utf8_strftime (start_buffer, sizeof (start_buffer), _("%a %d %b"), &start_tm);
-			e_utf8_strftime (end_buffer, sizeof (end_buffer), _("%a %d %b %Y"), &end_tm);
-		} else {
-			e_utf8_strftime (start_buffer, sizeof (start_buffer), _("%a %d %b %Y"), &start_tm);
-			e_utf8_strftime (end_buffer, sizeof (end_buffer), _("%a %d %b %Y"), &end_tm);
-		}
-	}
-
-	if (*start_buffer && *end_buffer)
-		return g_strdup_printf ("%s - %s", start_buffer, end_buffer);
-
-	return g_strdup_printf ("%s%s", start_buffer, end_buffer);
+	return NULL;
 }
 
 void
