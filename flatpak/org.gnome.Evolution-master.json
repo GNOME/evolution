@@ -346,7 +346,13 @@
 						"cp config.h.in config.h.in.orig",
 						"cat config.h.in.orig | sed -e \"s|\\@VERSION_SUBSTRING\\@| \\(flatpak git$(git log --pretty=format:%h --max-count=1)\\)|\" >config.h.in"
 					]
-				},
+				}
+			]
+		},
+		{
+			"name": "flatpak-evolution-wrapper",
+			"buildsystem": "simple",
+			"sources": [
 				{
 					"type": "script",
 					"commands": [
@@ -399,14 +405,13 @@
 					"dest-filename": "flatpak-evolution-fix-service-names.sh"
 				}
 			],
-			"post-install": [
+			"build-commands": [
 				"./flatpak-evolution-fix-service-names.sh <flatpak-evolution-wrapper.sh.in >flatpak-evolution-wrapper.sh",
 				"chmod a+x flatpak-evolution-wrapper.sh",
 				"mv /app/bin/evolution /app/bin/evolution.bin",
 				"cp flatpak-evolution-wrapper.sh /app/bin/evolution"
 			]
 		},
-
 		{
 			"name": "evolution-ews",
 			"buildsystem": "cmake-ninja",
