@@ -496,8 +496,8 @@ mail_autoconfig_lookup (EMailAutoconfig *autoconfig,
 	proxy_source = e_source_registry_ref_builtin_proxy (registry);
 
 	soup_session = soup_session_new_with_options (
-		SOUP_SESSION_PROXY_RESOLVER,
-		G_PROXY_RESOLVER (proxy_source),
+		SOUP_SESSION_PROXY_RESOLVER, G_PROXY_RESOLVER (proxy_source),
+		SOUP_SESSION_TIMEOUT, 15,
 		NULL);
 
 	g_object_unref (proxy_source);
