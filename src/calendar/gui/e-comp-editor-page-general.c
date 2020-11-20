@@ -589,7 +589,7 @@ ecep_general_pick_organizer_for_email_address (ECompEditorPageGeneral *page_gene
 	GtkTreeModel *model;
 	GtkTreeIter iter;
 	GtkComboBox *combo_box;
-	gint ii, entry_text_column;
+	gint ii = 0, entry_text_column;
 
 	g_return_val_if_fail (E_IS_COMP_EDITOR_PAGE_GENERAL (page_general), FALSE);
 
@@ -612,8 +612,6 @@ ecep_general_pick_organizer_for_email_address (ECompEditorPageGeneral *page_gene
 	entry_text_column = gtk_combo_box_get_entry_text_column (combo_box);
 
 	if (gtk_tree_model_get_iter_first (model, &iter)) {
-		ii = 0;
-
 		do {
 			gchar *value = NULL;
 
