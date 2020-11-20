@@ -1,3 +1,50 @@
+Evolution 3.38.2 2020-11-20
+---------------------------
+
+Bug Fixes:
+	I#913 - Switching to plain-text keeps signature's HTML formatting (Milan Crha)
+	I#1122 - ENameSelectorEntry: Missing contacts in the lookup (Milan Crha)
+	I#1133 - Calendar: Preserver timezone on recurrence instances (Milan Crha)
+	I#1139 - backup-restore: Fails to find source registry's D-Bus service name (Milan Crha)
+	I#1140 - Calendar: Offer calendar mail address as organizer (Milan Crha)
+	I#1148 - Send account override does not work with post to a mailing list (Milan Crha)
+	I#1156 - Composer: HTML email signature not stripped (Milan Crha)
+	I#1158 - Composer: Disable spellcheck of quoted text (Milan Crha)
+	I#1160 - itip-view: Default 'Inherit reminder' option to be checked (Milan Crha)
+	I#1170 - EWebDAVBrowser: The home sets not always expanded (Milan Crha)
+	I#1171 - Cannot copy text/click links in read-only events (Milan Crha)
+	I#1175 - composer-attribution-language doesn't take effect for C locale (Milan Crha)
+	I#1197 - Composer: BACKSPACE key on empty line simulates DEL key (Milan Crha)
+	I#1204 - Composer: Remove signature hints on message send (Milan Crha)
+	I#1206 - Mail: Preserve TABs in plain text body preview (Milan Crha)
+	I#1207 - Composer: Magic-links can reposition caret to incorrect place (Milan Crha)
+	I#1213 - EFileRequest: URL-decode path of the file before using it (Milan Crha)
+	I#1214 - Composer: Block format change from UL/OL can split BODY (Milan Crha)
+	I#1230 - mail-autoconfig: Set 15s timeout for autoconfig lookup (Milan Crha)
+	M!68 - mail-notification: Select new message when notification is clicked (Ryan Hendrickson)
+	M!71 - flatpak: Allow to build a flatpak with a different build directory (Corentin Noël)
+
+Miscellaneous:
+	Reuse existing mail session when generating import preview (Milan Crha)
+	Fix two memory leaks related to data import (Milan Crha)
+	e-convert.js: Missing line breaks with nested paragraphs (Milan Crha)
+	ECompEditor: Extract plain email address from backend property (Milan Crha)
+	Mail: Disable 'Export to PDF' on drag & drop (Milan Crha)
+	ECompEditor: Add easy way to open URLs in the Location field (Milan Crha)
+	Calendar: Linkify URL and Location in import component preview (Milan Crha)
+	Adapt html editor tests after "I#1158 - Composer: Disable spellcheck of quoted text" (Milan Crha)
+	html-editor: Update unit tests after change for I#1204 (Milan Crha)
+	help: Fix broken xpointer namespaces (Andre Klapper)
+	help: Fix broken xinclude for license in footer (Andre Klapper)
+
+Translations:
+	Charles Monzat (fr)
+	Dušan Kazik (sk)
+	Carmen Bianca BAKKER (eo)
+	Christian Kirbach (de)
+	Selyan Slimane AMIRI (kab)
+	Andika Triwidada (id)
+
 Evolution 3.38.1 2020-10-02
 ---------------------------
 
