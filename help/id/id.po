@@ -7,14 +7,14 @@ msgid ""
 msgstr ""
 "Project-Id-Version: evolution gnome-3-38\n"
 "POT-Creation-Date: 2020-11-08 05:30+0000\n"
-"PO-Revision-Date: 2020-11-15 11:14+0700\n"
+"PO-Revision-Date: 2020-11-21 18:24+0700\n"
 "Last-Translator: \n"
 "Language-Team: Indonesian <gnome-l10n-id@googlegroups.com>\n"
 "Language: id\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Generator: Poedit 2.4.1\n"
+"X-Generator: Poedit 2.4.2\n"
 
 #. Put one translator per line, in the form NAME <EMAIL>, YEAR1, YEAR2
 msgctxt "_"
@@ -3245,15 +3245,14 @@ msgstr "Surel"
 
 #. (itstool) path: section/p
 #: C/deleting-emails.page:30
-#, fuzzy
 msgid ""
 "<app>Evolution</app> deletes emails on IMAP servers by <em>marking</em> the "
 "messages for deletion; space is not freed until you <em>expunge</em> the "
 "marked emails."
 msgstr ""
-"<app>Evolution</app> menghapus surel di server IMAP <em>dengan menandai</em> "
-"pesan untuk dihapus; ruang tidak dibebaskan sampai Anda <em>menghapus surel</"
-"em> yang ditandai."
+"<app>Evolution</app> menghapus surel di server IMAP dengan <em>menandai</em> "
+"pesan untuk dihapus; ruang tidak dibebaskan sampai Anda <em>menghapus</em> "
+"surel yang ditandai."
 
 #. (itstool) path: section/p
 #: C/deleting-emails.page:32
@@ -3276,35 +3275,31 @@ msgstr "Lampiran"
 
 #. (itstool) path: section/p
 #: C/deleting-emails.page:37
-#, fuzzy
 msgid ""
 "To delete the attachments of an email, select the message and click "
 "<guiseq><gui>Message</gui><gui>Remove Attachments</gui></guiseq>."
 msgstr ""
-"Untuk menghapus lampiran surel, pilih pesan dan klik <guiseq> <gui>Hapus "
-"Lampiran</gui><gui>Pesan.</gui></guiseq>"
+"Untuk menghapus lampiran surel, pilih pesan dan klik <guiseq><gui>Pesan</"
+"gui><gui>Hapus Lampiran</gui></guiseq>."
 
 #. (itstool) path: info/desc
 #: C/deleting-to-free-disk-space.page:5
-#, fuzzy
 msgid ""
 "Deleting emails and calendar entries to reduce the size of the files used by "
 "<app>Evolution</app>."
 msgstr ""
-"Menghapus surel dan entri kalender untuk mengurangi ukuran file yang "
+"Menghapus surel dan entri kalender untuk mengurangi ukuran berkas yang "
 "digunakan oleh <app>Evolution</app>."
 
 #. (itstool) path: page/title
 #: C/deleting-to-free-disk-space.page:20
-#, fuzzy
 msgid "Freeing disk space by deleting items"
 msgstr "Membebaskan ruang cakram dengan menghapus butir"
 
 #. (itstool) path: info/desc
 #: C/exporting-data-calendar.page:5
-#, fuzzy
 msgid "How to export calendar data from <app>Evolution</app>."
-msgstr "Cara mengekspor data kalender dari <app>Evolution</app>."
+msgstr "Bagaimana mengekspor data kalender dari <app>Evolution</app>."
 
 #. (itstool) path: page/title
 #: C/exporting-data-calendar.page:20
@@ -3313,20 +3308,18 @@ msgstr "Mengekspor data kalender"
 
 #. (itstool) path: page/p
 #: C/exporting-data-calendar.page:22
-#, fuzzy
 msgid ""
 "To export a complete calendar, right-click on the calendar in the list of "
 "calendars and click <gui>Save as</gui>. Available formats are iCalendar "
 "format (ICS, recommended), comma separated values (CSV), and RDF format."
 msgstr ""
 "Untuk mengekspor kalender lengkap, klik kanan pada kalender dalam daftar "
-"kalender dan klik Simpan <gui>sebagai</gui>. Format yang tersedia adalah "
+"kalender dan klik <gui>Simpan  sebagai</gui>. Format yang tersedia adalah "
 "format iCalendar (ICS, direkomendasikan), nilai yang dipisahkan koma (CSV), "
 "dan format RDF."
 
 #. (itstool) path: page/p
 #: C/exporting-data-calendar.page:23
-#, fuzzy
 msgid ""
 "If you want to export only one appointment (or task or memo), either select "
 "the appointment and select <guiseq><gui>File</gui><gui>Save as iCalendar…</"
@@ -3334,15 +3327,14 @@ msgid ""
 "iCalendar…</gui>."
 msgstr ""
 "Jika Anda hanya ingin mengekspor satu janji (atau tugas atau memo), pilih "
-"janji temu dan pilih <guiseq> <gui>Simpan File</gui><gui>sebagai iCalendar..."
-"</gui></guiseq>, atau klik kanan pada janji temu dan klik <gui>Simpan "
-"sebagai iCalendar...</gui>."
+"janji temu dan pilih <guiseq><gui>Berkas</gui><gui>Simpan sebagai "
+"iCalendar...</gui></guiseq>, atau klik kanan pada janji temu dan klik "
+"<gui>Simpan sebagai iCalendar...</gui>."
 
 #. (itstool) path: info/desc
 #: C/exporting-data-contacts.page:5
-#, fuzzy
 msgid "How to export contacts data from <app>Evolution</app>."
-msgstr "Cara mengekspor data kontak dari <app>Evolution</app>."
+msgstr "Bagaimana mengekspor data kontak dari <app>Evolution</app>."
 
 #. (itstool) path: page/title
 #: C/exporting-data-contacts.page:23
@@ -3351,40 +3343,36 @@ msgstr "Mengekspor data kontak"
 
 #. (itstool) path: page/p
 #: C/exporting-data-contacts.page:25
-#, fuzzy
 msgid ""
 "Contacts files are stored in a database, but can be saved as a vCard file."
 msgstr ""
-"File kontak disimpan dalam database, tetapi dapat disimpan sebagai file "
-"vCard."
+"Berkas kontak disimpan dalam basis data, tetapi dapat disimpan sebagai "
+"berkas vCard."
 
 #. (itstool) path: page/p
 #: C/exporting-data-contacts.page:26
-#, fuzzy
 msgid ""
 "To export a complete address book, click <guiseq><gui>File</gui><gui>Save "
 "Address Book As vCard</gui></guiseq>."
 msgstr ""
-"Untuk mengekspor buku alamat lengkap, klik <guiseq> <gui>Buku</"
-"gui>Alamat<gui>Simpan File Sebagai vCard.</gui></guiseq>"
+"Untuk mengekspor buku alamat lengkap, klik <guiseq><gui>Berkas</"
+"gui><gui>Simpan Buku Alamat Sebagai vCard</gui></guiseq>."
 
 #. (itstool) path: page/p
 #: C/exporting-data-contacts.page:27
-#, fuzzy
 msgid ""
 "If you want to export only one contact, click <guiseq><gui>File</"
 "gui><gui>Save as vCard</gui></guiseq> or right-click on the contact and "
 "click <gui>Save as vCard</gui>."
 msgstr ""
-"Jika Anda hanya ingin mengekspor satu kontak, klik <guiseq> <gui>Simpan "
-"File</gui><gui>sebagai vCard</gui> </guiseq> atau klik kanan pada kontak dan "
-"klik <gui>Simpan sebagai vCard.</gui>"
+"Jika Anda hanya ingin mengekspor satu kontak, klik <guiseq><gui>Berkas</"
+"gui><gui>Simpan sebagai vCard</gui></guiseq> atau klik kanan pada kontak dan "
+"klik <gui>Simpan sebagai vCard</gui>."
 
 #. (itstool) path: info/desc
 #: C/exporting-data-mail.page:5
-#, fuzzy
 msgid "How to export mail data from <app>Evolution</app>."
-msgstr "Cara mengekspor data surel dari <app>Evolution</app>."
+msgstr "Bagaimana mengekspor data surel dari <app>Evolution</app>."
 
 #. (itstool) path: page/title
 #: C/exporting-data-mail.page:20
@@ -3393,21 +3381,19 @@ msgstr "Mengekspor data surel"
 
 #. (itstool) path: page/p
 #: C/exporting-data-mail.page:22
-#, fuzzy
 msgid ""
 "To save an email to a file in <link href=\"https://en.wikipedia.org/wiki/Mbox"
 "\">mbox</link> format, select an email and click <guiseq><gui>File</"
 "gui><gui>Save as mbox…</gui></guiseq> or right-click on the message and "
 "click <gui>Save as mbox…</gui>."
 msgstr ""
-"Untuk menyimpan surel ke file dalam <link href=\"https://en.wikipedia.org/"
-"wiki/Mbox\"> format mbox, pilih surel dan klik <guiseq> <gui>Simpan File</"
-"gui>sebagai<gui>mbox...</gui> </guiseq> atau klik kanan pada pesan dan klik "
-"<gui>Simpan sebagai mbox...</gui>."
+"Untuk menyimpan surel ke berkas dalam format <link href=\"https://en."
+"wikipedia.org/wiki/Mbox\">mbox</link>, pilih surel dan klik "
+"<guiseq><gui>Berkas</gui><gui>Simpan sebagai mbox...</gui></guiseq> atau "
+"klik kanan pada pesan dan klik <gui>Simpan sebagai mbox...</gui>."
 
 #. (itstool) path: page/p
 #: C/exporting-data-mail.page:24
-#, fuzzy
 msgid ""
 "The same steps apply to save a complete mail folder, but you have to mark "
 "all messages in it first."
@@ -3417,21 +3403,19 @@ msgstr ""
 
 #. (itstool) path: page/p
 #: C/exporting-data-mail.page:25 C/mail-filters.page:30
-#, fuzzy
 msgid ""
 "You can select all messages in a folder by clicking <guiseq><gui>Edit</"
 "gui><gui>Select All</gui></guiseq> or pressing <keyseq><key>Ctrl</"
 "key><key>A</key></keyseq>."
 msgstr ""
-"Anda bisa memilih semua pesan dalam folder dengan mengklik <guiseq> "
-"<gui>Edit Pilih</gui><gui>Semua</gui> </guiseq> atau menekan <keyseq> "
-"<key>Ctrl</key><key>A.</key></keyseq>"
+"Anda bisa memilih semua pesan dalam folder dengan mengklik "
+"<guiseq><gui>Sunting</gui><gui>Pilih Semua</gui></guiseq> atau menekan "
+"<keyseq><key>Ctrl</key><key>A</key></keyseq>."
 
 #. (itstool) path: info/desc
 #: C/exporting-data.page:5
-#, fuzzy
 msgid "How to export data from <app>Evolution</app>."
-msgstr "Cara mengekspor data dari <app>Evolution</app>."
+msgstr "Bagaimana mengekspor data dari <app>Evolution</app>."
 
 #. (itstool) path: page/title
 #: C/exporting-data.page:20
@@ -3440,13 +3424,11 @@ msgstr "Mengekspor data dari <app>Evolution</app>"
 
 #. (itstool) path: info/desc
 #: C/flatpak-limitations.page:5
-#, fuzzy
 msgid "Limitations when using a Flatpak package of <app>Evolution</app>."
 msgstr "Keterbatasan saat menggunakan paket Flatpak <app>Evolution</app>."
 
 #. (itstool) path: page/title
 #: C/flatpak-limitations.page:20
-#, fuzzy
 msgid "Cannot print mail, add or save attachments, or open the help"
 msgstr ""
 "Tidak bisa mencetak surel, menambahkan atau menyimpan lampiran, atau membuka "
@@ -3454,49 +3436,45 @@ msgstr ""
 
 #. (itstool) path: page/p
 #: C/flatpak-limitations.page:22
-#, fuzzy
 msgid ""
 "If you run a <link href=\"https://flathub.org/\">Flatpak</link> version of "
 "<app>Evolution</app>, then there are several limitations. Examples are:"
 msgstr ""
-"Jika Anda menjalankan <link href=\"https://flathub.org/\"> Versi Flatpak "
-"<app>dari Evolution</app>, maka ada beberapa keterbatasan. Contohnya adalah:"
+"Jika Anda menjalankan Versi <link href=\"https://flathub.org/\">Flatpak</"
+"link> dari <app>Evolution</app>, maka ada beberapa keterbatasan. Contohnya "
+"adalah:"
 
 #. (itstool) path: item/p
 #: C/flatpak-limitations.page:26
-#, fuzzy
 msgid ""
 "Adding attachments to an email or saving attachments from an email might not "
 "be possible."
 msgstr ""
 "Menambahkan lampiran ke surel atau menyimpan lampiran dari surel mungkin "
-"tidak dimungkinkan."
+"tidak bisa."
 
 #. (itstool) path: item/p
 #: C/flatpak-limitations.page:28
-#, fuzzy
 msgid ""
 "You cannot print an email to a printer. This is a <link href=\"https://bugs."
 "webkit.org/show_bug.cgi?id=192748\">limitation of the underlying WebKitGTK "
 "library</link>."
 msgstr ""
-"Anda tak bisa mencetak surel ke pencetak. Ini adalah batasan <link href="
-"\"https://bugs.webkit.org/show_bug.cgi?id=192748\"> dari pustaka WebKitGTK "
-"yang mendasarinya."
+"Anda tak bisa mencetak surel ke pencetak. Ini adalah <link href=\"https://"
+"bugs.webkit.org/show_bug.cgi?id=192748\">batasan dari pustaka WebKitGTK yang "
+"mendasarinya</link>."
 
 #. (itstool) path: item/p
 #: C/flatpak-limitations.page:31
-#, fuzzy
 msgid ""
 "To print an email to a file, you can run <cmd>flatpak run --filesystem=home "
 "org.gnome.Evolution</cmd> as a workaround."
 msgstr ""
-"Untuk mencetak surel ke file, Anda dapat menjalankan <cmd>flatpak run --"
+"Untuk mencetak surel ke berkas, Anda dapat menjalankan <cmd>flatpak run --"
 "filesystem=home org.gnome.Evolution</cmd> sebagai solusinya."
 
 #. (itstool) path: item/p
 #: C/flatpak-limitations.page:33
-#, fuzzy
 msgid ""
 "The local user documentation might not included, to make the package smaller."
 msgstr ""
@@ -3515,7 +3493,6 @@ msgstr "Menggunakan layanan Google"
 
 #. (itstool) path: info/desc
 #: C/import-apps-mozilla.page:5
-#, fuzzy
 msgid "Importing data from Mozilla <app>Thunderbird</app>."
 msgstr "Mengimpor data dari Mozilla <app>Thunderbird</app>."
 
@@ -3526,7 +3503,6 @@ msgstr "Mozilla"
 
 #. (itstool) path: note/p
 #: C/import-apps-mozilla.page:26
-#, fuzzy
 msgid "The instructions below might be outdated and not work anymore."
 msgstr ""
 "Instruksi di bawah ini mungkin sudah ketinggalan zaman dan tidak berfungsi "
@@ -3534,32 +3510,29 @@ msgstr ""
 
 #. (itstool) path: note/p
 #: C/import-apps-mozilla.page:26
-#, fuzzy
 msgid ""
 "Follow <link href=\"https://mail.gnome.org/archives/evolution-list/2019-"
 "February/msg00055.html\">this mailing list posting</link> for an alternative "
 "method that you could try."
 msgstr ""
 "Ikuti <link href=\"https://mail.gnome.org/archives/evolution-list/2019-"
-"February/msg00055.html\"> posting milis ini untuk metode alternatif yang "
-"dapat Anda coba."
+"February/msg00055.html\">posting milis ini</link> untuk metode alternatif "
+"yang dapat Anda coba."
 
 #. (itstool) path: item/p
 #: C/import-apps-mozilla.page:29
-#, fuzzy
 msgid ""
 "<link href=\"https://support.mozilla.org/en-US/kb/profiles-where-thunderbird-"
 "stores-user-data\">Find your <app>Thunderbird</app> profile folder.</link>"
 msgstr ""
 "<link href=\"https://support.mozilla.org/en-US/kb/profiles-where-thunderbird-"
-"stores-user-data\">Temukan folder <app>profil Thunderbird</app> Anda."
+"stores-user-data\">Temukan folder profil <app>Thunderbird</app> Anda.</link>"
 
 #. (itstool) path: item/p
 #: C/import-apps-mozilla.page:30 C/import-apps-outlook.page:62
 #: C/import-single-files.page:24
-#, fuzzy
 msgid "Click <guiseq><gui>File</gui><gui>Import</gui></guiseq>."
-msgstr "Klik <guiseq> <gui>Impor File.</gui><gui>Import</gui></guiseq>"
+msgstr "Klik <guiseq> <gui>Berkas</gui><gui>Impor</gui></guiseq>."
 
 #. (itstool) path: item/p
 #: C/import-apps-mozilla.page:31 C/import-apps-outlook.page:63
@@ -3618,35 +3591,31 @@ msgstr ""
 #. (itstool) path: item/p
 #: C/import-apps-mozilla.page:38 C/import-apps-outlook.page:64
 #: C/import-single-files.page:26
-#, fuzzy
 msgid "The file type will be automatically determined."
 msgstr "Tipe berkas akan ditentukan secara otomatis."
 
 #. (itstool) path: item/p
 #: C/import-apps-mozilla.page:39
-#, fuzzy
 msgid ""
 "Choose the destination (e.g. the folder or calendar in <app>Evolution</app>) "
 "for the imported data."
 msgstr ""
-"Pilih tujuan (misalnya folder atau kalender di <app>Evolution)</app>untuk "
+"Pilih tujuan (misalnya folder atau kalender di <app>Evolution</app>) untuk "
 "data yang diimpor."
 
 #. (itstool) path: item/p
 #: C/import-apps-mozilla.page:40 C/import-apps-outlook.page:68
-#, fuzzy
 msgid "Repeat the import steps until you have imported all your data."
 msgstr "Ulangi langkah-langkah impor hingga Anda mengimpor semua data Anda."
 
 #. (itstool) path: info/desc
 #: C/import-apps-kmail.page:5
-#, fuzzy
 msgid ""
 "If <app>KMail</app> data cannot be found by the <app>Evolution</app> "
 "importer."
 msgstr ""
-"Jika data <app>KMail</app> tidak dapat ditemukan oleh <app>importir "
-"Evolution.</app>"
+"Jika data <app>KMail</app> tidak dapat ditemukan oleh importir "
+"<app>Evolution</app>."
 
 #. (itstool) path: page/title
 #: C/import-apps-kmail.page:19
@@ -3655,7 +3624,6 @@ msgstr "KMail"
 
 #. (itstool) path: page/p
 #: C/import-apps-kmail.page:21
-#, fuzzy
 msgid "Note that <app>Evolution</app> only recognized KDE 4 directories:"
 msgstr "Perhatikan bahwa <app>Evolution</app> hanya mengenali direktori KDE 4:"
 
@@ -3684,7 +3652,6 @@ msgstr ""
 
 #. (itstool) path: info/desc
 #: C/import-apps-outlook.page:5
-#, fuzzy
 msgid "Importing data from Microsoft Outlook."
 msgstr "Mengimpor data dari Microsoft Outlook."
 
@@ -3710,7 +3677,6 @@ msgstr ""
 
 #. (itstool) path: section/title
 #: C/import-apps-outlook.page:31
-#, fuzzy
 msgid "Prerequisites under Windows"
 msgstr "Prasyarat di bawah Windows"
 
@@ -3763,7 +3729,6 @@ msgstr ""
 
 #. (itstool) path: td/p
 #: C/import-apps-outlook.page:43
-#, fuzzy
 msgid "Outlook 2007 and earlier"
 msgstr "Outlook 2007 dan yang lebih lama"
 
@@ -3836,9 +3801,8 @@ msgstr ""
 
 #. (itstool) path: item/p
 #: C/import-apps-outlook.page:59 C/mail-filters-not-working.page:48
-#, fuzzy
 msgid "Start <app>Evolution</app>."
-msgstr "Mulai <app>Evolusi.</app>"
+msgstr "Mulailah <app>Evolution</app>."
 
 #. (itstool) path: item/p
 #: C/import-apps-outlook.page:60
@@ -4167,7 +4131,7 @@ msgstr "Kelola surel, kontak, dan jadwal Anda"
 #, fuzzy
 msgctxt "text"
 msgid "<app>Evolution</app> Mail and Calendar"
-msgstr "<app>Evolusi</app> Email dan Kalender"
+msgstr "<app>Evolution</app> Email dan Kalender"
 
 #. (itstool) path: media/span
 #: C/index.page:25
@@ -4178,7 +4142,7 @@ msgstr "Logo Evolution"
 #: C/index.page:23
 #, fuzzy
 msgid "<_:media-1/> <app>Evolution</app> Mail and Calendar"
-msgstr "<_:media-1/><app>Evolusi</app> Email dan Kalender"
+msgstr "<_:media-1/><app>Evolution</app> Email dan Kalender"
 
 #. (itstool) path: section/title
 #. (itstool) path: page/title
@@ -6179,7 +6143,6 @@ msgstr "Membuat Pesan (akun IMAP+)"
 #: C/mail-account-manage-unix-mbox-spool-directory.page:59
 #: C/mail-account-manage-unix-mbox-spool-file.page:59
 #: C/mail-account-manage-usenet-news.page:59
-#, fuzzy
 msgid "Composing Messages"
 msgstr "Menyusun Pesan"
 
@@ -6201,7 +6164,6 @@ msgstr "Keamanan (akun IMAP+)"
 #: C/mail-account-manage-unix-mbox-spool-directory.page:66
 #: C/mail-account-manage-unix-mbox-spool-file.page:66
 #: C/mail-account-manage-usenet-news.page:66
-#, fuzzy
 msgid "Security"
 msgstr "Keamanan"
 
@@ -6358,25 +6320,21 @@ msgstr "Menambahkan, mengedit, dan mengelola akun surel."
 
 #. (itstool) path: page/title
 #: C/mail-account-management.page:20
-#, fuzzy
 msgid "Account Management"
 msgstr "Manajemen Akun"
 
 #. (itstool) path: section/title
 #: C/mail-account-management.page:23
-#, fuzzy
 msgid "Common Account Types"
 msgstr "Tipe Akun Umum"
 
 #. (itstool) path: section/title
 #: C/mail-account-management.page:27
-#, fuzzy
 msgid "Local Account Types"
 msgstr "Tipe Akun Lokal"
 
 #. (itstool) path: section/title
 #: C/mail-account-management.page:31
-#, fuzzy
 msgid "Corporate Account Types"
 msgstr "Tipe Akun Perusahaan"
 
@@ -6476,7 +6434,6 @@ msgstr "Keamanan (akun Exchange Web Services)"
 
 #. (itstool) path: section/title
 #: C/mail-account-manage-microsoft-exchange-evo-ews.page:63
-#, fuzzy
 msgid "Out of Office"
 msgstr "Di Luar Kantor"
 
@@ -6514,7 +6471,6 @@ msgstr ""
 
 #. (itstool) path: page/title
 #: C/mail-account-manage-microsoft-exchange-evo-mapi.page:20
-#, fuzzy
 msgid "Exchange MAPI account settings"
 msgstr "Pengaturan akun Exchange MAPI"
 
@@ -6541,7 +6497,6 @@ msgstr "Membuat Pesan (akun Exchange MAPI)"
 
 #. (itstool) path: section/title
 #: C/mail-account-manage-microsoft-exchange-evo-mapi.page:57
-#, fuzzy
 msgid "Exchange Settings"
 msgstr "Pengaturan Exchange"
 
@@ -6566,7 +6521,6 @@ msgstr "Tambahkan dan edit akun Microsoft Exchange di <app>Evolution</app>."
 
 #. (itstool) path: page/title
 #: C/mail-account-manage-microsoft-exchange.page:22
-#, fuzzy
 msgid "Microsoft Exchange account settings"
 msgstr "Pengaturan akun Microsoft Exchange"
 
@@ -11928,11 +11882,11 @@ msgid ""
 "guiseq>. You should now be able to use the <gui style=\"button\">Send / "
 "Receive</gui> button."
 msgstr ""
-"Status luring. <app>Evolusi</app> mungkin offline. Periksa tombol <gui style="
-"\"button\">Kirim / Terima;</gui> jika berwarna abu-abu, maka Anda offline. "
-"Untuk online, buka <guiseq> <gui>File Pekerjaan</gui><gui>online.</gui></"
-"guiseq> Anda sekarang dapat menggunakan tombol <gui style=\"button\">Kirim / "
-"Terima.</gui>"
+"Status luring. <app>Evolution</app> mungkin offline. Periksa tombol <gui "
+"style=\"button\">Kirim / Terima;</gui> jika berwarna abu-abu, maka Anda "
+"offline. Untuk online, buka <guiseq> <gui>File Pekerjaan</gui><gui>online.</"
+"gui></guiseq> Anda sekarang dapat menggunakan tombol <gui style=\"button"
+"\">Kirim / Terima.</gui>"
 
 #. (itstool) path: info/desc
 #: C/mail-organizing.page:5
@@ -12472,33 +12426,28 @@ msgstr "Opsi penerimaan surel yang tersedia untuk beberapa tipe server."
 
 #. (itstool) path: page/title
 #: C/mail-receiving-options.page:18
-#, fuzzy
 msgid "Mail Receiving Options"
-msgstr "Opsi Penerimaan Email"
+msgstr "Opsi Penerimaan Surel"
 
 #. (itstool) path: section/title
 #: C/mail-receiving-options.page:21
-#, fuzzy
 msgid "Mail receiving options for common server types"
 msgstr "Opsi penerimaan surel untuk tipe server umum"
 
 #. (itstool) path: section/title
 #: C/mail-receiving-options.page:24
-#, fuzzy
 msgid "Mail receiving options for corporate server types"
 msgstr "Opsi penerimaan surel untuk tipe server perusahaan"
 
 #. (itstool) path: section/title
 #: C/mail-receiving-options.page:27
-#, fuzzy
 msgid "Mail receiving options for local account server types"
 msgstr "Opsi penerimaan surel untuk tipe server akun lokal"
 
 #. (itstool) path: info/desc
 #: C/mail-receiving-options-pop.page:5
-#, fuzzy
 msgid "Receiving options for POP accounts."
-msgstr "Menerima opsi untuk akun POP."
+msgstr "Opsi penerimaan untuk akun POP."
 
 #. (itstool) path: item/p
 #: C/mail-receiving-options-pop.page:51
@@ -12587,14 +12536,13 @@ msgstr ""
 
 #. (itstool) path: item/p
 #: C/mail-receiving-options-usenet-news.page:50
-#, fuzzy
 msgid ""
 "If you select to show relative folder names, only the name of the folder is "
 "displayed. For example the folder evolution.mail would appear as evolution."
 msgstr ""
 "Jika Anda memilih untuk memperlihatkan nama folder relatif, hanya nama "
 "folder yang ditampilkan. Misalnya folder evolution.mail akan muncul sebagai "
-"evolusi."
+"evolution."
 
 #. (itstool) path: info/desc
 #: C/mail-refresh-folders.page:5
@@ -12604,7 +12552,6 @@ msgstr "Cara memperbarui folder <app>Evolution</app> Anda."
 
 #. (itstool) path: page/title
 #: C/mail-refresh-folders.page:20
-#, fuzzy
 msgid "Updating/refreshing the folders on the mail server"
 msgstr "Memperbarui/menyegarkan folder di server surel"
 
@@ -12636,13 +12583,11 @@ msgstr ""
 
 #. (itstool) path: info/desc
 #: C/mail-save-as-pdf.page:5
-#, fuzzy
 msgid "Converting emails into PDF files."
-msgstr "Mengonversi surel menjadi file PDF."
+msgstr "Mengonversi surel menjadi berkas PDF."
 
 #. (itstool) path: page/title
 #: C/mail-save-as-pdf.page:20
-#, fuzzy
 msgid "Save messages as PDF"
 msgstr "Menyimpan pesan sebagai PDF"
 
@@ -12685,15 +12630,13 @@ msgstr ""
 
 #. (itstool) path: info/desc
 #: C/mail-search-folders-add.page:5
-#, fuzzy
 msgid "Setting up a search folder."
 msgstr "Menyiapkan folder pencarian."
 
 #. (itstool) path: page/title
 #: C/mail-search-folders-add.page:23
-#, fuzzy
 msgid "Creating A Search Folder"
-msgstr "Membuat folder pencarian"
+msgstr "Membuat Folder Pencarian"
 
 #. (itstool) path: item/p
 #. (itstool) path: note/p
@@ -12746,7 +12689,6 @@ msgstr ""
 
 #. (itstool) path: item/p
 #: C/mail-search-folders-add.page:34
-#, fuzzy
 msgid "All local folders:"
 msgstr "Semua folder lokal:"
 
@@ -12762,7 +12704,6 @@ msgstr ""
 
 #. (itstool) path: item/p
 #: C/mail-search-folders-add.page:37
-#, fuzzy
 msgid "All active remote folders:"
 msgstr "Semua folder jarak jauh aktif:"
 
@@ -12781,7 +12722,6 @@ msgstr ""
 
 #. (itstool) path: item/p
 #: C/mail-search-folders-add.page:40
-#, fuzzy
 msgid "All local and active remote folders:"
 msgstr "Semua folder jarak jauh lokal dan aktif:"
 
@@ -12797,7 +12737,6 @@ msgstr ""
 
 #. (itstool) path: item/p
 #: C/mail-search-folders-add.page:43
-#, fuzzy
 msgid "Specific folders only:"
 msgstr "Folder tertentu saja:"
 
@@ -12825,7 +12764,6 @@ msgstr "Kondisi <gui>folder</gui> Pencarian yang tersedia"
 
 #. (itstool) path: item/p
 #: C/mail-search-folders-conditions.page:33
-#, fuzzy
 msgid "Message Location:"
 msgstr "Lokasi Pesan:"
 
@@ -12873,7 +12811,6 @@ msgstr ""
 
 #. (itstool) path: page/title
 #: C/mail-search-folders.page:22
-#, fuzzy
 msgid "Using Search folders"
 msgstr "Menggunakan folder Pencarian"
 
@@ -12976,7 +12913,6 @@ msgstr ""
 
 #. (itstool) path: info/desc
 #: C/mail-searching-attachment-type.page:5
-#, fuzzy
 msgid "Unfortunately this is not possible."
 msgstr "Sayangnya ini tidak mungkin."
 
@@ -12998,7 +12934,6 @@ msgstr ""
 
 #. (itstool) path: info/desc
 #: C/mail-searching.page:5
-#, fuzzy
 msgid "Searching messages."
 msgstr "Mencari pesan."
 
@@ -13257,7 +13192,6 @@ msgstr ""
 
 #. (itstool) path: item/p
 #: C/mail-sending-options-smtp.page:32
-#, fuzzy
 msgid ""
 "If the server requires authentication, you need to provide the following "
 "information:"
@@ -13288,7 +13222,6 @@ msgstr ""
 
 #. (itstool) path: page/title
 #: C/mail-several-pop-accounts.page:22
-#, fuzzy
 msgid "Separating POP mail for more than one account"
 msgstr "Memisahkan surel POP untuk lebih dari satu akun"
 
@@ -13367,7 +13300,6 @@ msgstr ""
 
 #. (itstool) path: item/p
 #: C/mail-sorting-folder-list.page:28
-#, fuzzy
 msgid "One or more remote email account types (if configured)"
 msgstr "Satu atau beberapa tipe akun surel jarak jauh (jika dikonfigurasi)"
 
@@ -13545,7 +13477,6 @@ msgstr "Menyeret dan meletakkan bilah header kolom"
 
 #. (itstool) path: item/p
 #: C/mail-sorting-message-list.page:51
-#, fuzzy
 msgid "Right-click on the header."
 msgstr "Klik kanan pada header."
 
@@ -13712,7 +13643,6 @@ msgstr "Lampiran"
 
 #. (itstool) path: item/p
 #: C/mail-sorting-message-list.page:86
-#, fuzzy
 msgid "Flagged"
 msgstr "Ditandai"
 
@@ -13888,7 +13818,6 @@ msgstr "Setelan Surat Sampah"
 
 #. (itstool) path: section/title
 #: C/mail-spam-settings.page:39
-#, fuzzy
 msgid "Tools"
 msgstr "Perkakas"
 
@@ -14009,9 +13938,8 @@ msgstr ""
 
 #. (itstool) path: item/p
 #: C/mail-spam-settings.page:66
-#, fuzzy
 msgid "Select <gui>Mail Preferences</gui>."
-msgstr "Pilih <gui>Preferensi Email</gui>."
+msgstr "Pilih <gui>Preferensi Surel</gui>."
 
 #. (itstool) path: item/p
 #: C/mail-spam-settings.page:67
@@ -14205,7 +14133,6 @@ msgstr "Mengubah tampilan surel untuk tampilan layar lebar."
 
 #. (itstool) path: page/title
 #: C/mail-vertical-view.page:22
-#, fuzzy
 msgid "Vertical view"
 msgstr "Tampilan vertikal"
 
@@ -14301,7 +14228,6 @@ msgstr "Bekerja dengan surat Anda ketika tidak tersambung ke jaringan."
 
 #. (itstool) path: page/title
 #: C/mail-working-offline.page:23
-#, fuzzy
 msgid "Working Offline"
 msgstr "Bekerja Luring"
 
@@ -14555,7 +14481,6 @@ msgstr ""
 
 #. (itstool) path: section/title
 #: C/memos-usage-add-memo.page:37
-#, fuzzy
 msgid "Shared Memos"
 msgstr "Memo Bersama"
 
@@ -14578,7 +14503,6 @@ msgstr ""
 
 #. (itstool) path: section/p
 #: C/memos-usage-add-memo.page:41
-#, fuzzy
 msgid "To send a Shared Memo,"
 msgstr "Untuk mengirim Memo Bersama,"
 
@@ -14635,13 +14559,11 @@ msgstr ""
 
 #. (itstool) path: info/desc
 #: C/memos-usage-delete-memo.page:5
-#, fuzzy
 msgid "Deleting a memo from your memo list."
 msgstr "Menghapus memo dari daftar memo Anda."
 
 #. (itstool) path: page/title
 #: C/memos-usage-delete-memo.page:20
-#, fuzzy
 msgid "Deleting a Memo"
 msgstr "Menghapus Memo"
 
@@ -14807,7 +14729,6 @@ msgstr "Cara memberikan informasi yang baik saat melacak masalah."
 
 #. (itstool) path: page/title
 #: C/problems-debug-how-to.page:21
-#, fuzzy
 msgid "How to track down a problem"
 msgstr "Cara melacak masalah"
 
@@ -14845,13 +14766,11 @@ msgstr ""
 
 #. (itstool) path: info/desc
 #: C/problems-getting-help.page:5
-#, fuzzy
 msgid "How to get help for problems."
 msgstr "Cara mendapatkan bantuan untuk masalah."
 
 #. (itstool) path: page/title
 #: C/problems-getting-help.page:22
-#, fuzzy
 msgid "How to get help"
 msgstr "Cara mendapatkan bantuan"
 
@@ -14882,7 +14801,6 @@ msgstr "Cara melaporkan kesalahan dalam aplikasi."
 
 #. (itstool) path: page/title
 #: C/problems-reporting-bugs.page:21
-#, fuzzy
 msgid "How to report bugs"
 msgstr "Cara melaporkan bug"
 
@@ -15024,13 +14942,11 @@ msgstr ""
 
 #. (itstool) path: info/desc
 #: C/tasks-caldav.page:5
-#, fuzzy
 msgid "Using an online CalDAV task list or memo list."
-msgstr "Menggunakan daftar tugas atau daftar memo CalDAV online."
+msgstr "Menggunakan daftar tugas atau daftar memo CalDAV daring."
 
 #. (itstool) path: page/title
 #: C/tasks-caldav.page:20
-#, fuzzy
 msgid "Using a CalDAV task or memo list"
 msgstr "Menggunakan daftar tugas atau memo CalDAV"
 
@@ -15078,7 +14994,6 @@ msgstr "Opsi untuk menampilkan penyelesaian tugas dan tanggal jatuh tempo."
 
 #. (itstool) path: page/title
 #: C/tasks-display-settings.page:23
-#, fuzzy
 msgid "Displaying of tasks"
 msgstr "Menampilkan tugas"
 
@@ -15096,31 +15011,26 @@ msgstr ""
 
 #. (itstool) path: item/p
 #: C/tasks-display-settings.page:31
-#, fuzzy
 msgid "Tasks due today:"
 msgstr "Tugas yang jatuh tempo hari ini:"
 
 #. (itstool) path: item/p
 #: C/tasks-display-settings.page:32
-#, fuzzy
 msgid "Select the color for tasks due today."
 msgstr "Pilih warna untuk tugas yang jatuh tempo hari ini."
 
 #. (itstool) path: item/p
 #: C/tasks-display-settings.page:33
-#, fuzzy
 msgid "Overdue tasks:"
-msgstr "Tugas yang tertunda:"
+msgstr "Tugas yang lewat batas waktu:"
 
 #. (itstool) path: item/p
 #: C/tasks-display-settings.page:34
-#, fuzzy
 msgid "Select the color for overdue tasks."
-msgstr "Pilih warna untuk tugas yang tertunda."
+msgstr "Pilih warna untuk tugas yang lewat batas waktu."
 
 #. (itstool) path: item/p
 #: C/tasks-display-settings.page:35
-#, fuzzy
 msgid "Hide completed tasks after:"
 msgstr "Sembunyikan tugas yang sudah selesai setelah:"
 
@@ -15139,19 +15049,16 @@ msgstr ""
 
 #. (itstool) path: info/desc
 #: C/tasks-local.page:5
-#, fuzzy
 msgid "Adding another local task or memo list."
 msgstr "Menambahkan daftar tugas atau memo lokal lainnya."
 
 #. (itstool) path: page/title
 #: C/tasks-local.page:20
-#, fuzzy
 msgid "Adding another local task or memo list"
 msgstr "Menambahkan tugas lokal atau daftar memo lain"
 
 #. (itstool) path: page/p
 #: C/tasks-local.page:22
-#, fuzzy
 msgid ""
 "To add another local task list to <app>Evolution</app>, perform the "
 "following steps:"
@@ -15173,13 +15080,11 @@ msgstr "Mengurutkan dan menata tugas dan memo"
 
 #. (itstool) path: info/desc
 #: C/tasks-searching.page:5
-#, fuzzy
 msgid "Searching tasks."
 msgstr "Mencari tugas."
 
 #. (itstool) path: page/title
 #: C/tasks-searching.page:28
-#, fuzzy
 msgid "Searching Tasks"
 msgstr "Mencari Tugas"
 
@@ -15330,7 +15235,6 @@ msgstr "Menghapus tugas dari daftar tugas Anda."
 
 #. (itstool) path: page/title
 #: C/tasks-usage-delete-task.page:20
-#, fuzzy
 msgid "Deleting a Task"
 msgstr "Menghapus Tugas"
 
@@ -15476,7 +15380,6 @@ msgstr ""
 
 #. (itstool) path: page/title
 #: C/using-categories.page:25
-#, fuzzy
 msgid "Using Categories"
 msgstr "Menggunakan Kategori"
 
@@ -15620,7 +15523,6 @@ msgstr "Penerima:"
 
 #. (itstool) path: item/p
 #: C/xinclude-filter-vfolder-conditions.xml:7
-#, fuzzy
 msgid "The recipients of the message."
 msgstr "Penerima pesan."
 
@@ -15651,7 +15553,6 @@ msgstr ""
 
 #. (itstool) path: item/p
 #: C/xinclude-filter-vfolder-conditions.xml:15
-#, fuzzy
 msgid "Sender or Recipients:"
 msgstr "Pengirim atau Penerima:"
 
