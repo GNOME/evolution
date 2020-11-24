@@ -6876,7 +6876,7 @@ msgid ""
 msgstr ""
 "Si teniu una pantalla petita, podeu reemplaçar la columna "
 "<gui>Assumpte</gui> per <gui>Assumpte - retallat</gui> que eliminarà els "
-"prefixos com ara \"Re:\", o podeu reemplaçar la columna <gui>De</gui> que "
+"prefixos com ara «Re:», o podeu reemplaçar la columna <gui>De</gui> que "
 "mostra el nom del remitent i l'adreça de correu electrònic per la columna "
 "<gui>Remitent</gui> que només en mostrarà el nom."
 
@@ -8225,7 +8225,7 @@ msgstr ""
 #. (itstool) path: section/title
 #: C/mail-composer-message-templates-variables.page:54
 msgid "Using Elements From a Message in a Template When Replying"
-msgstr "Ús d'elements d'un Missatge en una Plantilla quan es respon"
+msgstr "Ús d'elements d'un missatge en una plantilla quan es respon"
 
 #. (itstool) path: section/p
 #: C/mail-composer-message-templates-variables.page:55
@@ -8412,7 +8412,7 @@ msgstr "Respondre un missatge"
 #. (itstool) path: section/title
 #: C/mail-composer-reply.page:26
 msgid "Replying to Email Messages"
-msgstr "Respondre un Missatge de Correu Electrònic"
+msgstr "Respondre un missatge de correu electrònic"
 
 #. (itstool) path: section/p
 #: C/mail-composer-reply.page:27
@@ -8825,7 +8825,7 @@ msgstr ""
 #. (itstool) path: section/title
 #: C/mail-composer-spellcheck.page:42
 msgid "Global Preferences"
-msgstr "Preferències Globals"
+msgstr "Preferències globals"
 
 #. (itstool) path: section/p
 #: C/mail-composer-spellcheck.page:44
@@ -11014,7 +11014,7 @@ msgid ""
 msgstr ""
 "Per a assignar una etiqueta a un missatge, escolliu "
 "<guiseq><gui>Missatges</gui><gui>Marca com "
-"a</gui><gui>Etiqueta</gui></guiseq> i escolliu l'etiqueta a aplicar, o feu "
+"a </gui><gui>Etiqueta</gui></guiseq> i escolliu l'etiqueta a aplicar, o feu "
 "clic dret al missatge, feu clic a <gui>Etiqueta</gui> i escolliu l'etiqueta "
 "a aplicar."
 
@@ -11061,13 +11061,13 @@ msgstr "Canviar el disseny de la finestra de correu"
 #: C/mail-localized-re-subjects.page:5
 msgid "Avoid long subject lines due to translated \"Re:\" prefixes."
 msgstr ""
-"Eviteu les línies d'assumpte massa llargues a causa dels prefixos \"Re:\" "
+"Eviteu les línies d'assumpte massa llargues a causa dels prefixos «Re:» "
 "traduïts."
 
 #. (itstool) path: page/title
 #: C/mail-localized-re-subjects.page:19
 msgid "Handling localized \"Re:\" in subjects"
-msgstr "Gestionar \"Re:\" traduït als assumptes"
+msgstr "Gestionar «Re:» traduït als assumptes"
 
 #. (itstool) path: page/p
 #: C/mail-localized-re-subjects.page:21
@@ -12076,8 +12076,8 @@ msgid ""
 "searching\">search</link> again and again, consider a search folder."
 msgstr ""
 "Si els <link xref=\"mail-filters\">filtres</link> no són prou flexibles, o "
-"esteu fent la mateixa <link xref=\"mail-searching\">cerca</link> una i altra"
-" vegada, considereu utilitzar una carpeta de cerca."
+"esteu fent la mateixa <link xref=\"mail-searching\">cerca</link> una vegada i "
+"una altra, considereu utilitzar una carpeta de cerca."
 
 #. (itstool) path: page/p
 #: C/mail-search-folders.page:26
@@ -14927,7 +14927,7 @@ msgid ""
 msgstr ""
 "(Només per als programadors) Si sabeu sobre <_:link-1/>, expressions "
 "regulars, aquesta opció us permet cercar patrons complexos, de manera que "
-"podeu trobar, per exemple, totes les paraules que comencen per \"a\" i "
+"podeu trobar, per exemple, totes les paraules que comencen per «a» i "
 "acaben amb \"m\" i tenen entre sis i quinze lletres de llarg, o tots els "
 "missatges que es declaren un encapçalament particular dues vegades. Per "
 "obtenir informació sobre com utilitzar expressions regulars, consulteu "
