@@ -72,6 +72,7 @@ static ESupportedLocales e_supported_locales[] = {
 	{ "it", "it_IT" },
 	{ "ja", "ja_JP" },
 	{ "ka", "ka_GE" },
+	{ "kab", "kab_DZ" },
 	{ "kk", "kk_KZ" },
 	{ "kn", "kn_IN" },
 	{ "ko", "ko_KR" },
