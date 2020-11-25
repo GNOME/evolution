@@ -137,7 +137,7 @@ task_shell_view_execute_search (EShellView *shell_view)
 
 		case TASK_FILTER_UNCOMPLETED_TASKS:
 			temp = g_strdup_printf (
-				"(not (is-completed?) %s)", query);
+				"(and (not (is-completed?)) %s)", query);
 			g_free (query);
 			query = temp;
 			break;
