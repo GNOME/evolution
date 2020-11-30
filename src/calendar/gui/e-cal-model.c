@@ -3707,8 +3707,6 @@ e_cal_model_set_time_range (ECalModel *model,
 
 	g_signal_emit (model, signals[TIME_RANGE_CHANGED], 0, (gint64) start, (gint64) end);
 
-	e_cal_data_model_unsubscribe (model->priv->data_model, subscriber);
-	e_cal_model_remove_all_objects (model);
 	e_cal_data_model_subscribe (model->priv->data_model, subscriber, start, end);
 }
 
