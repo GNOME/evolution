@@ -106,6 +106,7 @@ struct _MessageListPrivate {
 	gboolean show_junk;
 	gboolean thread_latest;
 	gboolean thread_subject;
+	gboolean thread_compress;
 	gboolean any_row_changed; /* save state before regen list when this is set to true */
 	gboolean show_subject_above_sender;
 	gboolean regen_selects_unread;
@@ -194,7 +195,8 @@ enum {
 	PROP_SHOW_JUNK,
 	PROP_SHOW_SUBJECT_ABOVE_SENDER,
 	PROP_THREAD_LATEST,
-	PROP_THREAD_SUBJECT
+	PROP_THREAD_SUBJECT,
+	PROP_THREAD_COMPRESS
 };
 
 /* Forward Declarations */
@@ -3132,6 +3134,12 @@ message_list_set_property (GObject *object,
 				MESSAGE_LIST (object),
 				g_value_get_boolean (value));
 			return;
+
+		case PROP_THREAD_COMPRESS:
+			message_list_set_thread_compress (
+				MESSAGE_LIST (object),
+				g_value_get_boolean (value));
+			return;
 	}
 
 	G_OBJECT_WARN_INVALID_PROPERTY_ID (object, property_id, pspec);
@@ -3211,6 +3219,13 @@ message_list_get_property (GObject *object,
 			g_value_set_boolean (
 				value,
 				message_list_get_thread_subject (
+				MESSAGE_LIST (object)));
+			return;
+
+		case PROP_THREAD_COMPRESS:
+			g_value_set_boolean (
+				value,
+				message_list_get_thread_compress (
 				MESSAGE_LIST (object)));
 			return;
 	}
@@ -3426,7 +3441,25 @@ static guint
 message_list_depth (ETreeModel *tree_model,
                     ETreePath path)
 {
-	return g_node_depth ((GNode *) path);
+	guint depth;
+
+	depth = g_node_depth ((GNode *) path);
+
+	if (depth > 1 && message_list_get_thread_compress (MESSAGE_LIST (tree_model))) {
+		GNode *node = ((GNode *) path)->parent;
+
+		while (node && !G_NODE_IS_ROOT (node)) {
+			if (G_NODE_IS_ROOT (node->parent))
+				break;
+
+			if (!node->prev && !node->next)
+				depth--;
+
+			node = node->parent;
+		}
+	}
+
+	return depth;
 }
 
 static gboolean
@@ -3924,6 +3957,18 @@ message_list_class_init (MessageListClass *class)
 			"Thread Subject",
 			"Thread messages by Subject headers",
 			FALSE,
+			G_PARAM_READWRITE |
+			G_PARAM_CONSTRUCT |
+			G_PARAM_STATIC_STRINGS));
+
+	g_object_class_install_property (
+		object_class,
+		PROP_THREAD_COMPRESS,
+		g_param_spec_boolean (
+			"thread-compress",
+			"Thread Compress",
+			"Compress flat threads",
+			TRUE,
 			G_PARAM_READWRITE |
 			G_PARAM_CONSTRUCT |
 			G_PARAM_STATIC_STRINGS));
@@ -5515,6 +5560,30 @@ message_list_set_thread_subject (MessageList *message_list,
 	message_list->priv->thread_subject = thread_subject;
 
 	g_object_notify (G_OBJECT (message_list), "thread-subject");
+}
+
+gboolean
+message_list_get_thread_compress (MessageList *message_list)
+{
+	g_return_val_if_fail (IS_MESSAGE_LIST (message_list), FALSE);
+
+	return message_list->priv->thread_compress;
+}
+
+void
+message_list_set_thread_compress (MessageList *message_list,
+				  gboolean thread_compress)
+{
+	g_return_if_fail (IS_MESSAGE_LIST (message_list));
+
+	if ((thread_compress ? 1 : 0) == (message_list->priv->thread_compress ? 1 : 0))
+		return;
+
+	message_list->priv->thread_compress = thread_compress;
+
+	g_object_notify (G_OBJECT (message_list), "thread-compress");
+
+	gtk_widget_queue_draw (GTK_WIDGET (message_list));
 }
 
 gboolean
