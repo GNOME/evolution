@@ -121,7 +121,7 @@ test_bug_767903 (TestFixture *fixture)
 		"type:First item\\n\n"
 		"type:Second item\n",
 		HTML_PREFIX "<div style=\"width: 71ch;\">This is the first line:</div>"
-		"<ul>"
+		"<ul style=\"width: 68ch;\">"
 		"<li>First item</li><li>Second item</li></ul>" HTML_SUFFIX,
 		"This is the first line:\n"
 		" * First item\n"
@@ -134,7 +134,7 @@ test_bug_767903 (TestFixture *fixture)
 		"seq:uhb\n"
 		"undo:undo\n",
 		HTML_PREFIX "<div style=\"width: 71ch;\">This is the first line:</div>"
-		"<ul>"
+		"<ul style=\"width: 68ch;\">"
 		"<li>First item</li><li>Second item</li></ul>" HTML_SUFFIX,
 		"This is the first line:\n"
 		" * First item\n"

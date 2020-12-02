@@ -1081,18 +1081,29 @@ EvoEditor.SetBlockFormat = function(format)
 
 			newElement = EvoEditor.renameElement(element, this.toSet.tagName, this.toSet.attributes, this.targetElement, this.selectionUpdater);
 
-			if (EvoEditor.mode == EvoEditor.MODE_PLAIN_TEXT && (this.toSet.tagName == "DIV" || this.toSet.tagName == "PRE")) {
-				var blockquoteLevel = EvoEditor.getBlockquoteLevel(newElement);
+			if (EvoEditor.mode == EvoEditor.MODE_PLAIN_TEXT) {
+				if (this.toSet.tagName == "DIV" || this.toSet.tagName == "PRE") {
+					var blockquoteLevel = EvoEditor.getBlockquoteLevel(newElement);
 
-				if (blockquoteLevel > 0) {
-					var width = -1;
+					if (blockquoteLevel > 0) {
+						var width = -1;
 
-					if (this.toSet.tagName == "DIV" && blockquoteLevel * 2 < EvoEditor.NORMAL_PARAGRAPH_WIDTH)
-						width = EvoEditor.NORMAL_PARAGRAPH_WIDTH - blockquoteLevel * 2;
+						if (this.toSet.tagName == "DIV" && blockquoteLevel * 2 < EvoEditor.NORMAL_PARAGRAPH_WIDTH)
+							width = EvoEditor.NORMAL_PARAGRAPH_WIDTH - blockquoteLevel * 2;
 
-					EvoEditor.quoteParagraph(newElement, blockquoteLevel, width);
-				} else if (this.toSet.tagName == "DIV") {
-					newElement.setAttribute("style", "width: " + EvoEditor.NORMAL_PARAGRAPH_WIDTH + "ch;");
+						EvoEditor.quoteParagraph(newElement, blockquoteLevel, width);
+					} else if (this.toSet.tagName == "DIV") {
+						newElement.setAttribute("style", "width: " + EvoEditor.NORMAL_PARAGRAPH_WIDTH + "ch;");
+					}
+				} else if (this.toSet.tagName == "LI") {
+					var wrapWidth, blockquoteLevel = EvoEditor.getBlockquoteLevel(newElement);
+
+					wrapWidth = EvoEditor.NORMAL_PARAGRAPH_WIDTH - blockquoteLevel * 2;
+
+					if (wrapWidth <= 0)
+						wrapWidth = EvoEditor.NORMAL_PARAGRAPH_WIDTH;
+
+					EvoEditor.setULOLWidth(newElement.parentElement, wrapWidth);
 				}
 			}
 
@@ -1957,6 +1968,49 @@ EvoEditor.reBlockquotePlainText = function(plainText, usePreTag)
 	return html;
 }
 
+EvoEditor.setULOLWidth = function(child, wrapWidth)
+{
+	if (!child)
+		return;
+
+	if (child.tagName == "UL") {
+		if (wrapWidth == -1) {
+			child.style.width = "";
+			EvoEditor.removeEmptyStyleAttribute(child);
+		} else {
+			var innerWrapWidth = wrapWidth;
+
+			innerWrapWidth -= 3; // length of " * " prefix
+
+			if (innerWrapWidth < EvoConvert.MIN_PARAGRAPH_WIDTH)
+				innerWrapWidth = EvoConvert.MIN_PARAGRAPH_WIDTH;
+
+			child.style.width = innerWrapWidth + "ch";
+		}
+	} else if (child.tagName == "OL") {
+		if (wrapWidth == -1) {
+			child.style.width = "";
+			child.style.paddingInlineStart = "";
+			EvoEditor.removeEmptyStyleAttribute(child);
+		} else {
+			var innerWrapWidth = wrapWidth, olNeedWidth;
+
+			olNeedWidth = EvoConvert.GetOLMaxLetters(child.getAttribute("type"), child.children.length) + 2; // length of ". " suffix
+
+			if (olNeedWidth < EvoConvert.MIN_OL_WIDTH)
+				olNeedWidth = EvoConvert.MIN_OL_WIDTH;
+
+			innerWrapWidth -= olNeedWidth;
+
+			if (innerWrapWidth < EvoConvert.MIN_PARAGRAPH_WIDTH)
+				innerWrapWidth = EvoConvert.MIN_PARAGRAPH_WIDTH;
+
+			child.style.width = innerWrapWidth + "ch";
+			child.style.paddingInlineStart = olNeedWidth + "ch";
+		}
+	}
+}
+
 EvoEditor.convertParagraphs = function(parent, blockquoteLevel, wrapWidth, canChangeQuoteParagraphs)
 {
 	if (!parent)
@@ -2028,41 +2082,8 @@ EvoEditor.convertParagraphs = function(parent, blockquoteLevel, wrapWidth, canCh
 			}
 
 			EvoEditor.convertParagraphs(child, blockquoteLevel + 1, innerWrapWidth, canChangeQuoteParagraphs);
-		} else if (child.tagName == "UL") {
-			if (wrapWidth == -1) {
-				child.style.width = "";
-				EvoEditor.removeEmptyStyleAttribute(child);
-			} else {
-				var innerWrapWidth = wrapWidth;
-
-				innerWrapWidth -= 3; // length of " * " prefix
-
-				if (innerWrapWidth < EvoConvert.MIN_PARAGRAPH_WIDTH)
-					innerWrapWidth = EvoConvert.MIN_PARAGRAPH_WIDTH;
-
-				child.style.width = innerWrapWidth + "ch";
-			}
-		} else if (child.tagName == "OL") {
-			if (wrapWidth == -1) {
-				child.style.width = "";
-				child.style.paddingInlineStart = "";
-				EvoEditor.removeEmptyStyleAttribute(child);
-			} else {
-				var innerWrapWidth = wrapWidth, olNeedWidth;
-
-				olNeedWidth = EvoConvert.GetOLMaxLetters(child.getAttribute("type"), child.children.length) + 2; // length of ". " suffix
-
-				if (olNeedWidth < EvoConvert.MIN_OL_WIDTH)
-					olNeedWidth = EvoConvert.MIN_OL_WIDTH;
-
-				innerWrapWidth -= olNeedWidth;
-
-				if (innerWrapWidth < EvoConvert.MIN_PARAGRAPH_WIDTH)
-					innerWrapWidth = EvoConvert.MIN_PARAGRAPH_WIDTH;
-
-				child.style.width = innerWrapWidth + "ch";
-				child.style.paddingInlineStart = olNeedWidth + "ch";
-			}
+		} else {
+			EvoEditor.setULOLWidth(child, wrapWidth);
 		}
 	}
 }

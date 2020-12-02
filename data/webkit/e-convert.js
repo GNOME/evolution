@@ -148,7 +148,7 @@ EvoConvert.getComputedOrNodeStyle = function(node)
 	return node.style;
 }
 
-EvoConvert.replaceList = function(element, tagName)
+EvoConvert.replaceList = function(element, tagName, normalDivWidth)
 {
 	var ll, lists, type = null;
 
@@ -269,6 +269,24 @@ EvoConvert.replaceList = function(element, tagName)
 
 					if (Number.isInteger(width))
 						node.style.width = "" + width + "ch";
+				} else if (normalDivWidth > 0) {
+					var width, needs;
+
+					if (tagName == "UL") {
+						needs = 3;
+					} else {
+						needs = EvoConvert.GetOLMaxLetters(list.getAttribute("type"), list.children.length) + 2; // length of ". " suffix
+
+						if (needs < EvoConvert.MIN_OL_WIDTH)
+							needs = EvoConvert.MIN_OL_WIDTH;
+					}
+
+					width = normalDivWidth - needs;
+
+					if (width < EvoConvert.MIN_PARAGRAPH_WIDTH)
+						width = EvoConvert.MIN_PARAGRAPH_WIDTH;
+
+					node.style.width = "" + width + "ch";
 				}
 				node.style.textAlign = list.style.testAlign;
 				node.style.direction = list.style.direction;
@@ -992,10 +1010,10 @@ EvoConvert.ToPlainText = function(element, normalDivWidth)
 			element = element.cloneNode(true);
 
 			if (uls.length)
-				EvoConvert.replaceList(element, "UL");
+				EvoConvert.replaceList(element, "UL", normalDivWidth);
 
 			if (ols.length)
-				EvoConvert.replaceList(element, "OL");
+				EvoConvert.replaceList(element, "OL", normalDivWidth);
 		}
 
 		for (ii = 0; ii < element.childNodes.length; ii++) {
