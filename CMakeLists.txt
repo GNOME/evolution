@@ -636,6 +636,7 @@ set(plugins_standard
 	mailing-list-actions
 	mail-notification
 	save-calendar
+	sender-validation
 	templates
 )
 

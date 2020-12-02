@@ -48,6 +48,7 @@ set(SCHEMAS
 	org.gnome.evolution.plugin.mail-notification.gschema.xml
 	org.gnome.evolution.plugin.prefer-plain.gschema.xml
 	org.gnome.evolution.plugin.publish-calendar.gschema.xml
+	org.gnome.evolution.plugin.sender-validator.gschema.xml
 	org.gnome.evolution.plugin.templates.gschema.xml
 )
 

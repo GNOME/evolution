@@ -165,8 +165,9 @@ eppm_show_plugin (Manager *m,
 			}
 			gtk_label_set_label (m->items[LABEL_AUTHOR], out->str);
 			g_string_free (out, TRUE);
+			gtk_widget_show (gtk_widget_get_parent (GTK_WIDGET (m->labels[LABEL_AUTHOR])));
 		} else {
-			eppm_set_label (m->items[LABEL_AUTHOR], NULL);
+			gtk_widget_hide (gtk_widget_get_parent (GTK_WIDGET (m->labels[LABEL_AUTHOR])));
 		}
 
 		eppm_set_label (m->items[LABEL_DESCRIPTION], ep->description);
