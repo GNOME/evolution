@@ -12,8 +12,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: evolution\n"
 "Report-Msgid-Bugs-To: https://gitlab.gnome.org/GNOME/evolution/issues\n"
-"POT-Creation-Date: 2020-11-19 17:54+0000\n"
-"PO-Revision-Date: 2020-11-23 10:51+0200\n"
+"POT-Creation-Date: 2020-12-01 10:40+0000\n"
+"PO-Revision-Date: 2020-12-02 09:40+0200\n"
 "Last-Translator: Yuri Chornoivan <yurchor@ukr.net>\n"
 "Language-Team: Ukrainian <trans-uk@lists.fedoraproject.org>\n"
 "Language: uk\n"
@@ -1942,10 +1942,23 @@ msgstr ""
 "замість впорядкування на рівні кореня."
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:162
+#| msgid "Whether to hide completed tasks in the tasks view"
+msgid "Whether to compress thread level"
+msgstr "Чи слід стискати рівні гілок"
+
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:163
+msgid ""
+"Set to true to compress thread levels for flat conversations, to make the "
+"level not so deep."
+msgstr ""
+"Встановіть значення «true», щоб програма стискала рівні гілок для спрощення"
+" перегляду спілкувань і зменшення надмірного розподілу за рівнями."
+
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:164
 msgid "Sort accounts alphabetically in a folder tree"
 msgstr "Впорядкувати облікові записи в алфавітному порядку в дереві тек"
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:163
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:165
 msgid ""
 "Tells how to sort accounts in a folder tree used in a Mail view. When set to "
 "true accounts are sorted alphabetically, with an exception of On This "
@@ -1957,19 +1970,19 @@ msgstr ""
 "порядку, за винятком «На цьому комп'ютері» і тек пошуку, інакше облікові "
 "записи буде впорядковано ґрунтуючись на порядку заданому користувачем. "
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:164
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:166
 msgid "Log filter actions"
 msgstr "Реєструвати дій фільтра"
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:165
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:167
 msgid "Log filter actions to the specified log file."
 msgstr "Реєструвати дії фільтра у вказаний журнальний файл."
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:166
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:168
 msgid "Logfile to log filter actions"
 msgstr "Журнальний файл для реєстрації дій фільтра"
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:167
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:169
 msgid ""
 "If not set, or being “stdout”, then the logging is done to stdout, instead "
 "to a file."
@@ -1977,11 +1990,11 @@ msgstr ""
 "Якщо не вказано, або вказано «stdout», тоді журнал записуватиметься до "
 "стандартного виведення, а не до файла."
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:168
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:170
 msgid "Flush Outbox after filtering"
 msgstr "Очистити вихідні після фільтрації"
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:169
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:171
 msgid ""
 "Whether to flush Outbox after filtering is done. Outbox flush will happen "
 "only when there was used any “Forward to” filter action and approximately "
@@ -1991,15 +2004,15 @@ msgstr ""
 "відбудеться лише, коли буде використано дію фільтра «Переслано до» і "
 "приблизно через хвилину після останнього виклику."
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:170
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:172
 msgid "Default forward style"
 msgstr "Типовий стиль пересилання"
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:171
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:173
 msgid "Default reply style"
 msgstr "Типовий стиль відповіді"
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:172
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:174
 msgid ""
 "Forward and reply attribution language tag, like en_US. Empty string means "
 "to use the same language as the user interface."
@@ -2007,12 +2020,12 @@ msgstr ""
 "Мітка мови переспрямованих повідомлень та відповідей, наприклад en_US. "
 "Порожній рядок — використовувати мову перекладу інтерфейсу користувача."
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:173
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:175
 msgid "Prompt on send when using key accelerator (Ctrl+Enter)"
 msgstr ""
 "Запитувати про надсилання при використання клавішного скорочення (Ctrl+Enter)"
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:174
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:176
 msgid ""
 "Prompt the user when he or she tries to send a message with a key "
 "accelerator."
@@ -2020,46 +2033,46 @@ msgstr ""
 "Запитувати підтвердження у користувача коли він чи вона намагається "
 "надіслати повідомлення із клавішним скороченням."
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:175
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:177
 msgid "Prompt on empty subject"
 msgstr "Попереджати при порожній темі"
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:176
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:178
 msgid ""
 "Prompt the user when he or she tries to send a message without a Subject."
 msgstr ""
 "Запитувати підтвердження у користувача коли він намагається надіслати "
 "повідомлення без теми."
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:177
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:179
 msgid "Prompt when emptying the trash"
 msgstr "Спонукати під час очищення смітника"
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:178
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:180
 msgid "Prompt the user when he or she tries to empty the trash."
 msgstr "Спонукати користувача, коли він або вона намагається очистити смітник."
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:179
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:181
 msgid "Prompt when user expunges"
 msgstr "Попереджати при очищенні смітника"
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:180
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:182
 msgid "Prompt the user when he or she tries to expunge a folder."
 msgstr "Запитувати підтвердження у користувача при очищенні теки."
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:181
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:183
 msgid "Prompt when user calls Empty Junk"
 msgstr "Запитувати, якщо користувач хоче спорожнити теку спаму"
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:182
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:184
 msgid "Prompt the user when he or she tries to Empty a Junk folder."
 msgstr "Запитувати підтвердження у користувача при очищенні теки спаму."
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:183
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:185
 msgid "Prompt before sending to recipients not entered as mail addresses"
 msgstr "Запитувати перед надсиланням до одержувачів, адреси до яких не введено"
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:184
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:186
 msgid ""
 "It disables/enables the repeated prompts to warn that you are trying to send "
 "a message to recipients not entered as mail addresses"
@@ -2067,21 +2080,21 @@ msgstr ""
 "Вмикає/вимикає повторні запити, щоб попередити, що ви намагаєтесь надіслати "
 "повідомлення до одержувачів, адреси до яких не введено "
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:185
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:187
 msgid "Prompt when user only fills Bcc"
 msgstr "Попереджати, якщо користувач вказав лише отримувачів прихованої копії"
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:186
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:188
 msgid "Prompt when user tries to send a message with no To or Cc recipients."
 msgstr ""
 "Попереджати, коли користувач намагається надіслати повідомлення без "
 "вказування отримувача у полях «Кому:» та «Копія:»"
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:187
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:189
 msgid "Prompt when user tries to send unwanted HTML"
 msgstr "Попереджувати, коли користувач намагається надіслати небажаний HTML "
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:188
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:190
 msgid ""
 "Prompt when user tries to send HTML mail to recipients that may not want to "
 "receive HTML mail."
@@ -2089,11 +2102,11 @@ msgstr ""
 "Попереджати, якщо користувач намагається надіслати HTML повідомлення "
 "отримувачам, які цього не бажають"
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:189
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:191
 msgid "Prompt when user tries to open 10 or more messages at once"
 msgstr "Попереджати при спробі відкрити 10 чи більше повідомлень одночасно"
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:190
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:192
 msgid ""
 "If a user tries to open 10 or more messages at one time, ask the user if "
 "they really want to do it."
@@ -2101,20 +2114,20 @@ msgstr ""
 "Якщо користувач спробує відкрити 10 чи більше повідомлень одночасно, "
 "виводити діалог запиту, чи дійсно користувач бажає це зробити."
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:191
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:193
 msgid "Prompt while marking multiple messages"
 msgstr "Попереджати при позначенні кількох повідомлень"
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:192
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:194
 msgid "Enable or disable the prompt whilst marking multiple messages."
 msgstr ""
 "Вимкнути/увімкнути попередній перегляд при позначенні кількох повідомлень."
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:193
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:195
 msgid "Prompt when deleting messages in search folder"
 msgstr "Попереджати при надсиланні повідомлень з порожньою темою"
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:194
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:196
 msgid ""
 "It disables/enables the repeated prompts to warn that deleting messages from "
 "a search folder permanently deletes the message, not simply removing it from "
@@ -2124,11 +2137,11 @@ msgstr ""
 "пошуку призведе до остаточного вилучення повідомлення, а не просто до "
 "вилучення його з результатів пошуку."
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:195
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:197
 msgid "Asks whether to copy a folder by drag &amp; drop in the folder tree"
 msgstr "Запитує, чи копіювати теку через перетягування у дереві тек"
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:196
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:198
 msgid ""
 "Possible values are: “never” — do not allow copy with drag &amp; drop of "
 "folders in folder tree, “always” — allow copy with drag &amp; drop of "
@@ -2139,11 +2152,11 @@ msgstr ""
 "«always» — завжди закривати вікно переглядача,  «ask» — (або будь-яке інше "
 "значення) запитувати користувача."
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:197
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:199
 msgid "Asks whether to move a folder by drag &amp; drop in the folder tree"
 msgstr "Запитує, чи перемістити теку через перетягування у дереві тек"
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:198
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:200
 msgid ""
 "Possible values are: “never” — do not allow move with drag &amp; drop of "
 "folders in folder tree, “always” — allow move with drag &amp; drop of "
@@ -2154,11 +2167,11 @@ msgstr ""
 "«always» — завжди закривати вікно переглядача,  «ask» — (або будь-яке інше "
 "значення) запитувати користувача."
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:199
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:201
 msgid "Prompt when replying privately to list messages"
 msgstr "Запитувати, коли відповідається особисто на список повідомлень"
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:200
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:202
 msgid ""
 "It disables/enables the repeated prompts to warn that you are sending a "
 "private reply to a message which arrived via a mailing list."
@@ -2166,11 +2179,11 @@ msgstr ""
 "Вмикає/вимикає повторні запити, щоб попередити, що ви надсилаєте особисту "
 "відповідь на повідомлення, яке отримано через список листування."
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:201
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:203
 msgid "Prompt when mailing list hijacks private replies"
 msgstr "Запитувати, коли список листування захоплює особисті відповіді"
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:202
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:204
 msgid ""
 "It disables/enables the repeated prompts to warn that you are trying sending "
 "a private reply to a message which arrived via a mailing list, but the list "
@@ -2181,11 +2194,11 @@ msgstr ""
 "однак список налаштовано відповідь на: заголовок, який перенаправляє "
 "відповідь назад до списку"
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:203
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:205
 msgid "Prompt when replying to many recipients"
 msgstr "Запитувати, коли відповідь надсилається кільком одержувачам"
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:204
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:206
 msgid ""
 "It disables/enables the repeated prompts to warn that you are sending a "
 "reply to many people."
@@ -2193,7 +2206,7 @@ msgstr ""
 "Вмикає/вимикає повторні запити, щоб попередити, що ви надсилаєте відповіді "
 "кільком людям."
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:205
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:207
 msgid ""
 "Prompt when switching composer format and the content needs to lose its "
 "formatting"
@@ -2201,7 +2214,7 @@ msgstr ""
 "Запитувати, коли перемикання формату редактора призводитиме до втрати "
 "форматування вмістом"
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:206
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:208
 msgid ""
 "It disables/enables the repeated prompts to warn that you are switching "
 "composer format and the content needs to lose its formatting."
@@ -2209,11 +2222,11 @@ msgstr ""
 "Вмикає/вимикає повторні запити, щоб попередити, що ви перемикаєте формат "
 "редактора, і вміст втратить форматування."
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:207
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:209
 msgid "Prompt when sending to many To and CC recipients"
 msgstr "Запитуватись, коли надсилаєте лист з багатьма одержувачами"
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:208
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:210
 msgid ""
 "Enable or disable the prompt when sending to many To and CC recipients. The "
 "“composer-many-to-cc-recips-num” defines the threshold."
@@ -2221,7 +2234,7 @@ msgstr ""
 "Увімкнути або вимкнути запит перед надсиланнями листа багатьом одержувачам. "
 "Значення «composer-many-to-cc-recips-num» визначає поріг."
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:209
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:211
 msgid ""
 "Policy for automatically closing the message browser window when forwarding "
 "or replying to the displayed message."
@@ -2229,44 +2242,44 @@ msgstr ""
 "Політика для автоматичного закривання вікна огляду листів, коли пересилають "
 "або відповідають на показаний лист."
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:210
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:212
 msgid "Empty Trash folders on exit"
 msgstr "Очищати теку смітника при виході"
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:211
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:213
 msgid "Empty all Trash folders when exiting Evolution."
 msgstr "Очищати теку смітника при виході з Evolution."
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:212
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:214
 msgid "Minimum days between emptying the trash on exit"
 msgstr "Мінімальна кількість днів між очищенням смітника при виході"
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:213
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:215
 msgid "Minimum time between emptying the trash on exit, in days."
 msgstr ""
 "Мінімальний проміжок часу між очищенням смітника при завершенні програми, у "
 "днях."
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:214
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:216
 msgid "Last time Empty Trash was run"
 msgstr "Час останнього очищення смітника"
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:215
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:217
 msgid ""
 "The last time Empty Trash was run, in days since January 1st, 1970 (Epoch)."
 msgstr ""
 "Останній раз, коли очищувався смітник, у днях з початку епохи, починаючи з "
 "першого січня 1970 року."
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:216
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:218
 msgid "Amount of time in seconds the error should be shown on the status bar."
 msgstr "Інтервал часу, протягом якого у панелі стану відображається помилка."
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:217
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:219
 msgid "Level beyond which the message should be logged."
 msgstr "Рівень, вище якого повідомлення мають заноситися у журнал."
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:218
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:220
 msgid ""
 "This can have three possible values. “0” for errors. “1” for warnings. “2” "
 "for debug messages."
@@ -2274,11 +2287,11 @@ msgstr ""
 "Може приймати три різні значення. 0 – помилки. 1 – попередження. 2 – "
 "діагностичні повідомлення."
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:219
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:221
 msgid "Show original “Date” header value."
 msgstr "Показати початкове значення заголовку «Дата»"
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:220
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:222
 msgid ""
 "Show the original “Date” header (with a local time only if the time zone "
 "differs). Otherwise always show “Date” header value in a user preferred "
@@ -2288,11 +2301,11 @@ msgstr ""
 "відрізняється часовий пояс). У іншому разі, завжди показувати значення "
 "заголовку «Дата» у форматі і з часовим поясом, обраним користувачем."
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:221
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:223
 msgid "List of Labels and their associated colors"
 msgstr "Список етикеток та пов'язаних з ними кольорів"
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:222
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:224
 msgid ""
 "List of labels known to the mail component of Evolution. The list contains "
 "strings containing name:color where color uses the HTML hex encoding."
@@ -2301,46 +2314,46 @@ msgstr ""
 "що містять пари назва:колір, де колір вказано у шістнадцятковому вигляді як "
 "у HTML."
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:223
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:225
 msgid "Check incoming mail being junk"
 msgstr "Перевіряти чи є вхідні повідомлення спамом"
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:224
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:226
 msgid "Run junk test on incoming mail."
 msgstr "Перевіряти на спам вхідну пошту."
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:225
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:227
 msgid "Empty Junk folders on exit"
 msgstr "Очищати теку спаму при виході"
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:226
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:228
 msgid "Empty all Junk folders when exiting Evolution."
 msgstr "Очищати всі теки зі спамом при виході з Evolution."
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:227
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:229
 msgid "Minimum days between emptying the junk on exit"
 msgstr "Мінімальна кількість днів між очищенням спаму при виході"
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:228
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:230
 msgid "Minimum time between emptying the junk on exit, in days."
 msgstr ""
 "Мінімальний проміжок часу між очищенням спаму при завершенні програми, у "
 "днях."
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:229
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:231
 msgid "Last time Empty Junk was run"
 msgstr "Час останнього очищення спаму"
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:230
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:232
 msgid ""
 "The last time Empty Junk was run, in days since January 1st, 1970 (Epoch)."
 msgstr "Час останньої чистки спаму, в днях з початку епохи (1 січня 1970). "
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:231
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:233
 msgid "The default plugin for Junk hook"
 msgstr "Типовий додаток для виловлювання спаму"
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:232
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:234
 msgid ""
 "This is the default junk plugin, even though there are multiple plugins "
 "enabled. If the default listed plugin is disabled, then it won’t fall back "
@@ -2350,11 +2363,11 @@ msgstr ""
 "виловлювання спаму увімкнено одночасно. Якщо типовий додаток вимкнено, "
 "доступні додатки виловлювання спаму не будуть використовуватись."
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:233
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:235
 msgid "Determines whether to lookup in address book for sender email"
 msgstr "Визначає, чи шукати адресу відправника у адресній книзі"
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:234
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:236
 msgid ""
 "Determines whether to lookup the sender email in address book. If found, it "
 "shouldn’t be a spam. It looks up in the books marked for autocompletion. It "
@@ -2367,7 +2380,7 @@ msgstr ""
 "повільним, якщо для автоматичного доповнення позначено віддалену адресну "
 "книгу (наприклад, LDAP)."
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:235
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:237
 msgid ""
 "Determines whether to look up addresses for junk filtering in local address "
 "book only"
@@ -2375,7 +2388,7 @@ msgstr ""
 "Визначає, чи шукати адресу для фільтрування спаму лише у локальній адресній "
 "книзі"
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:236
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:238
 msgid ""
 "This option is related to the key lookup_addressbook and is used to "
 "determine whether to look up addresses in local address book only to exclude "
@@ -2385,11 +2398,11 @@ msgstr ""
 "лише локальні адресні книги під час відкидання відомих контактів у "
 "фільтруванні спаму."
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:237
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:239
 msgid "Determines whether to use custom headers to check for junk"
 msgstr "Визначає, чи використовувати власні заголовки для перевіряння на спам"
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:238
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:240
 msgid ""
 "Determines whether to use custom headers to check for junk. If this option "
 "is enabled and the headers are mentioned, it will be improve the junk "
@@ -2399,11 +2412,11 @@ msgstr ""
 "увімкнено, та відповідні заголовки вказано, це призведе до пришвидшення "
 "перевіряння на спам."
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:239
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:241
 msgid "Custom headers to use while checking for junk."
 msgstr "Власні заголовки для виявлення спаму."
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:240
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:242
 msgid ""
 "Custom headers to use while checking for junk. The list elements are string "
 "in the format “headername=value”."
@@ -2411,31 +2424,31 @@ msgstr ""
 "Вказані користувачем заголовки для перевіряння спаму. Перелік елементів — "
 "рядки у форматі «назва_заголовка=значення»."
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:241
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:243
 msgid "UID string of the default account."
 msgstr "Рядок унікального ідентифікатора типового облікового запису."
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:242
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:244
 msgid "Save directory"
 msgstr "Каталог зберігання"
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:243
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:245
 msgid "Directory for saving mail component files."
 msgstr "Каталог для збереження файлів компонентів пошти."
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:244
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:246
 msgid "Composer load/attach directory"
 msgstr "Редактор каталогу для завантаження/долучення"
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:245
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:247
 msgid "Directory for loading/attaching files to composer."
 msgstr "Каталог редактора для файлів завантаження/ долучення."
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:246
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:248
 msgid "Check for new messages on start"
 msgstr "Перевіряти на нові листи під час запуску"
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:247
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:249
 msgid ""
 "Whether to check for new messages when Evolution is started. This includes "
 "also sending messages from Outbox."
@@ -2443,11 +2456,11 @@ msgstr ""
 "Чи перевіряти на нові листи, коли Evolution щойно запущено. Це також "
 "ураховує надсилання вихідних листів. "
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:248
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:250
 msgid "Check for new messages in all active accounts"
 msgstr "Перевіряти на нові листи в усіх активних облікових записах"
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:249
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:251
 msgid ""
 "Whether to check for new messages in all active accounts regardless of the "
 "account “Check for new messages every X minutes” option when Evolution is "
@@ -2457,11 +2470,11 @@ msgstr ""
 "параметра «Перевіряти на нові листи кожних X хвилин», коли програму "
 "запущено. Цей параметр використовується лише разом з «send_recv_on_start»."
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:250
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:252
 msgid "Server synchronization interval"
 msgstr "Проміжок синхронізування із сервером"
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:251
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:253
 msgid ""
 "Controls how frequently local changes are synchronized with the remote mail "
 "server. The interval must be at least 30 seconds."
@@ -2469,11 +2482,11 @@ msgstr ""
 "Визначає, як часто локальні зміни синхронізуються з віддаленим поштовим "
 "сервером. Проміжок має бути принаймні 30 секунд."
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:252
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:254
 msgid "Allow expunge in virtual folders"
 msgstr "_Дозволити викреслення у віртуальних теках"
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:253
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:255
 msgid ""
 "Enables Expunge in virtual folders, which means that the Folder→Expunge will "
 "be callable in virtual folders, while the expunge itself will be done in all "
@@ -2485,12 +2498,12 @@ msgstr ""
 "для всіх вилучених листів у межах віртуальної теки, а не лише для вилучених "
 "листів, які належать до віртуальної теки."
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:254
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:256
 #: ../src/mail/mail-config.ui.h:9
 msgid "Inherit theme colors in HTML format"
 msgstr "Успадкувати кольори теми у форматі HTML"
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:255
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:257
 msgid ""
 "When enabled the theme colors for background, text and links are sent in "
 "resulting HTML formatted message."
@@ -2498,11 +2511,11 @@ msgstr ""
 "Коли ввімкнено, колір теми для тла, тексту і посилань надсилається листом у "
 "відформатованому HTML."
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:256
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:258
 msgid "An Archive folder for On This Computer folders."
 msgstr "Архівна тека для теки цього комп'ютера."
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:257
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:259
 msgid ""
 "An Archive folder to use for Messages|Archive... feature when in an On This "
 "Computer folder."
@@ -2510,75 +2523,75 @@ msgstr ""
 "Використовувати можливості Листи|Архів для архівної тек у теці на цьому "
 "комп'ютері."
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:258
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:260
 msgid "Whether the To Do bar is visible in the main window"
 msgstr "Чи буде показано смужку «Зробити» у основному вікні програми"
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:259
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:261
 msgid "Stores whether the To Do bar is visible in the main window."
 msgstr ""
 "Зберігає значення, яке визначає, чи буде показано смужку «Зробити» у "
 "основному вікні програми."
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:260
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:262
 msgid "Width of the To Do bar in the main window"
 msgstr "Ширина смужки «Зробити» у основному вікні"
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:261
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:263
 msgid "Holds the width of the To Do bar for the main window."
 msgstr "Містить ширину смужки «Зробити» для основного вікна програми."
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:262
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:264
 msgid "Whether the To Do bar is visible in a sub-window"
 msgstr "Чи буде показано смужку «Зробити» у підлеглих вікнах"
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:263
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:265
 msgid "Stores whether the To Do bar is visible in a sub-window."
 msgstr ""
 "Зберігає значення, яке визначає чи слід показувати смужку «Зробити» у "
 "підлеглих вікнах."
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:264
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:266
 msgid "Width of the To Do bar in a sub-window"
 msgstr "Ширина панелі «Зробити» у підлеглому вікні"
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:265
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:267
 msgid "Holds the width of the To Do bar for a sub-window."
 msgstr "Зберігає ширину смужки «Зробити» у підлеглому вікні."
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:266
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:268
 msgid "Whether the To Do bar should show also completed tasks"
 msgstr "Чи має бути показано на смужці «Зробити» завершені завдання"
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:267
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:269
 msgid "Stores whether the To Do bar should show also completed tasks."
 msgstr "Зберігає стан показу завершених завдань в панелі «Зробити»."
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:268
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:270
 msgid "Whether the To Do bar should show also tasks without Due date"
 msgstr ""
 "Чи має панель «Зробити» показувати також завдання без терміну виконання"
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:269
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:271
 msgid "Stores whether the To Do bar should show also tasks without Due date."
 msgstr ""
 "Зберігає значення того, чи має панель «Зробити» показувати також завдання "
 "без терміну виконання"
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:270
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:272
 msgid "Show start up wizard"
 msgstr "Показувати майстер запуску"
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:271
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:273
 msgid "Whether show start up wizard when there is no mail account configured."
 msgstr ""
 "Чи показувати майстер запуску, коли не налаштовано обліковий запис пошти."
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:272
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:274
 msgid "Whether go to the previous message after message deletion"
 msgstr "Чи переходити до попереднього повідомлення після вилучення поточного"
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:273
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:275
 msgid ""
 "If set to true, goes to the previous message when the selected is deleted; "
 "or to the next message, when it’s set to false."
@@ -2587,11 +2600,11 @@ msgstr ""
 "відбуватиметься перехід до попереднього повідомлення. Якщо встановлено "
 "«false», перехід відбуватиметься до наступного повідомлення."
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:274
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:276
 msgid "Show Subject above Sender in Messages column"
 msgstr "Показувати тему вище відправника у стовпчику повідомлень"
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:275
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:277
 msgid ""
 "Whether to show Subject above Sender (From/To) in the Messages column, "
 "usually shown in the Vertical/Wide view of the message list"
@@ -2600,11 +2613,11 @@ msgstr ""
 "який, зазвичай, буде показано у вертикальному/широкому перегляді списку "
 "повідомлень"
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:276
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:278
 msgid "Visually wrap long lines in composer"
 msgstr "Візуально переносити довгі рядки у редакторі"
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:277
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:279
 #: ../src/composer/e-composer-actions.c:556
 msgid ""
 "Whether to visually wrap long lines of text to avoid horizontal scrolling"
@@ -2612,19 +2625,19 @@ msgstr ""
 "Чи переносити візуально довгі рядки тексту, щоб уникнути потреби у "
 "горизонтальному гортанні"
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:278
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:280
 msgid "Alternative reply style"
 msgstr "Альтернативний стиль відповідей"
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:279
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:281
 msgid "Format message in HTML"
 msgstr "Форматувати повідомлення у HTML"
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:280
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:282
 msgid "Put the cursor at the bottom of alternative replies"
 msgstr "Розташовувати курсор під альтернативними відповідями"
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:281
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:283
 msgid ""
 "This determines whether the cursor is placed at the top of the message or "
 "the bottom when using Alternative Reply."
@@ -2633,11 +2646,11 @@ msgstr ""
 "його нижній частині під час використання можливості «Альтернативна "
 "відповідь»."
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:282
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:284
 msgid "Put the signature at the top of the message"
 msgstr "Розташовувати підпис у верхній частині повідомлення"
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:283
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:285
 msgid ""
 "This determines whether the signature is placed at the top of the message or "
 "the bottom when using Alternative Reply."
@@ -2645,21 +2658,21 @@ msgstr ""
 "Це визначає, слід розташовувати підпис у верхній частині повідомлення чи у "
 "його нижній частині при використанні можливості «Альтернативна відповідь»."
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:284
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:286
 msgid "Apply chosen template when using Alternative Reply"
 msgstr "Застосувати обраний шаблон при використанні Альтернативної відповіді"
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:285
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:287
 msgid "Last chosen template’s folder URI for Alternative Reply"
 msgstr "Адреса останньої вибраної теки шаблонів для Альтернативної відповіді"
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:286
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:288
 msgid "Last chosen template’s message UID for Alternative Reply"
 msgstr ""
 "Останній вибраний ідентифікатор шаблона повідомлення для Альтернативної "
 "відповіді"
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:287
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:289
 msgid ""
 "Whether preserve original message subject when applying template for "
 "Alternative Reply"
@@ -2667,7 +2680,7 @@ msgstr ""
 "Чи зберігати тему останнього повідомлення при застосуванні Альтернативної "
 "відповіді"
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:288
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:290
 msgid ""
 "Whether set “body” in mailto: URI as Preformatted paragraph style. If set to "
 "“false”, then Normal paragraph style will be used."
@@ -2676,7 +2689,7 @@ msgstr ""
 "«body» у адресі mailto:. Якщо встановлено «false», буде використано стиль "
 "звичайного абзацу."
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:289
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:291
 msgid ""
 "Close the message browser window when the selected message is deleted or "
 "marked as Junk."
@@ -2684,7 +2697,7 @@ msgstr ""
 "Закривати вікно переглядача повідомлення, якщо позначене повідомлення "
 "вилучено або позначено як спам."
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:290
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:292
 msgid ""
 "Collapse archive folders in Move/Copy message to Folder and Go to Folder "
 "selectors."
@@ -2692,7 +2705,7 @@ msgstr ""
 "Згортати архівовані теки при переміщенні або копіюванні до теки і переході "
 "до теки."
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:291
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:293
 msgid ""
 "Where to lookup recipient S/MIME certificates or PGP keys when encrypting "
 "messages."
@@ -2700,7 +2713,7 @@ msgstr ""
 "Де шукати сертифікати отримувача S/MIME або ключі PGP, якщо повідомлення "
 "зашифровані."
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:292
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:294
 msgid ""
 "The “off” value completely disables certificate lookup; the “autocompleted” "
 "value provides certificates only for auto-completed contacts; the “books” "
@@ -2712,13 +2725,13 @@ msgstr ""
 "значення «books» призводить до використання сертифікатів з автозаповнених "
 "контактів і здійснення пошуку у книгах, позначених для автозаповнення."
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:293
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:295
 msgid "Whether Send/Receive should also download of messages for offline."
 msgstr ""
 "Чи має натискання кнопки «Надіслати/Отримати» призводити до отримання "
 "повідомлень для автономного переглядання."
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:294
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:296
 msgid ""
 "If enabled, whenever Send/Receive is run it also runs synchronization of "
 "messages for offline use. The option is disabled by default."
@@ -2727,13 +2740,13 @@ msgstr ""
 "запуску синхронізації повідомлень для автономного перегляду. Типово, цю "
 "можливість вимкнено."
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:295
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:297
 msgid "Whether display delivery notification parts inline."
 msgstr ""
 "Чи слід показувати частини сповіщення щодо отримання вбудованими до "
 "повідомлення."
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:296
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:298
 msgid ""
 "If enabled, the message/delivery-status and message/disposition-notification "
 "parts are shown automatically inline."
@@ -2741,11 +2754,11 @@ msgstr ""
 "Якщо увімкнено, частини message/delivery-status і message/disposition-"
 "notification буде автоматично показано вбудованими."
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:297
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:299
 msgid "Whether unset colors provided in HTML mails."
 msgstr "Чи слід знімати кольори, які вказано у коді HTML повідомлень"
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:298
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:300
 msgid ""
 "If enabled, unset colors in HTML messages, forcing use of desktop theme "
 "colors instead."
@@ -2753,11 +2766,11 @@ msgstr ""
 "Якщо увімкнено, кольори у повідомленнях HTML буде вимкнено. Замість них буде "
 "використано визначені темою стільничного середовища кольори."
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:299
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:301
 msgid "(Deprecated) Default forward style"
 msgstr "(Застаріло) Типовий стиль пересилання"
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:300
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:302
 msgid ""
 "This key was deprecated in version 3.10 and should no longer be used. Use "
 "“forward-style-name” instead."
@@ -2765,11 +2778,11 @@ msgstr ""
 "Цей ключ застарілий для версії 3.10 і більше не використовуватиметься. "
 "Використовуйте «forward-style-name» натомість."
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:301
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:303
 msgid "(Deprecated) Default reply style"
 msgstr "(Застаріло) Типовий стиль відповіді"
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:302
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:304
 msgid ""
 "This key was deprecated in version 3.10 and should no longer be used. Use "
 "“reply-style-name” instead."
@@ -2777,11 +2790,11 @@ msgstr ""
 "Цей ключ застарілий для версії 3.10 і більше не використовуватиметься. "
 "Використовуйте «reply-style-name» натомість."
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:303
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:305
 msgid "(Deprecated) List of custom headers and whether they are enabled."
 msgstr "(Застаріло) Список власних заголовків та їхній стан."
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:304
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:306
 msgid ""
 "This key was deprecated in version 3.10 and should no longer be used. Use "
 "“show-headers” instead."
@@ -2789,12 +2802,12 @@ msgstr ""
 "Цей ключ застарілий для версії 3.10 і більше не використовуватиметься. "
 "Використовуйте «show-headers» натомість."
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:305
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:307
 msgid "(Deprecated) Load images for HTML messages over HTTP"
 msgstr ""
 "(Застаріло) Автоматично завантажувати зображення у листах HTML через HTTP"
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:306
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:308
 msgid ""
 "This key was deprecated in version 3.10 and should no longer be used. Use "
 "“image-loading-policy” instead."
@@ -2802,7 +2815,7 @@ msgstr ""
 "Цей ключ застарілий для версії 3.10 і більше не використовуватиметься. "
 "Використовуйте «image-loading-policy» натомість."
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:307
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:309
 msgid ""
 "(Deprecated) Asks whether to close the message window when the user forwards "
 "or replies to the message shown in the window"
@@ -2810,7 +2823,7 @@ msgstr ""
 "(Застаріло) Запитує, чи закривати вікно листа, коли користувач пересилає або "
 "відповідає на показане лист у вікні"
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:308
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:310
 msgid ""
 "This key was deprecated in version 3.10 and should no longer be used. Use "
 "“browser-close-on-reply-policy” instead."
@@ -3968,7 +3981,7 @@ msgstr ""
 #: ../src/addressbook/addressbook.error.xml.h:32
 #: ../src/addressbook/gui/contact-list-editor/contact-list-editor.ui.h:9
 #: ../src/addressbook/gui/widgets/eab-contact-merging.c:757
-#: ../src/calendar/gui/e-comp-editor-page-general.c:1493
+#: ../src/calendar/gui/e-comp-editor-page-general.c:1491
 #: ../src/e-util/e-accounts-window.c:1563
 #: ../src/e-util/e-mail-signature-manager.c:324
 #: ../src/e-util/e-name-selector-dialog.c:1026 ../src/e-util/filter.ui.h:25
@@ -4453,7 +4466,7 @@ msgstr "Робота"
 #: ../src/addressbook/gui/widgets/eab-contact-formatter.c:84
 #: ../src/addressbook/gui/widgets/eab-contact-formatter.c:526
 #: ../src/addressbook/gui/widgets/eab-contact-formatter.c:1089
-#: ../src/calendar/gui/e-cal-model.c:3795
+#: ../src/calendar/gui/e-cal-model.c:3793
 msgid "Other"
 msgstr "Інша"
 
@@ -4477,7 +4490,7 @@ msgstr "Add _X.509"
 
 #: ../src/addressbook/gui/contact-editor/contact-editor.ui.h:69
 #: ../src/addressbook/gui/contact-list-editor/contact-list-editor.ui.h:11
-#: ../src/calendar/gui/e-comp-editor-page-general.c:1509
+#: ../src/calendar/gui/e-comp-editor-page-general.c:1507
 #: ../src/e-util/e-attachment-view.c:355 ../src/e-util/e-filter-rule.c:409
 #: ../src/e-util/e-mail-signature-manager.c:364
 #: ../src/e-util/e-name-selector-dialog.c:1030
@@ -6940,7 +6953,7 @@ msgstr "Стан:"
 #: ../src/calendar/gui/e-cal-component-preview.c:348
 #: ../src/calendar/gui/e-task-table.c:464
 #: ../src/calendar/gui/tasktypes.xml.in.h:19
-#: ../src/e-util/e-send-options.ui.h:2 ../src/mail/message-list.c:336
+#: ../src/e-util/e-send-options.ui.h:2 ../src/mail/message-list.c:338
 msgid "High"
 msgstr "Високий"
 
@@ -6948,14 +6961,14 @@ msgstr "Високий"
 #: ../src/calendar/gui/e-cal-model.c:1873
 #: ../src/calendar/gui/e-task-table.c:465
 #: ../src/calendar/gui/tasktypes.xml.in.h:20
-#: ../src/e-util/e-send-options.ui.h:5 ../src/mail/message-list.c:335
+#: ../src/e-util/e-send-options.ui.h:5 ../src/mail/message-list.c:337
 msgid "Normal"
 msgstr "Звичайний"
 
 #: ../src/calendar/gui/e-cal-component-preview.c:352
 #: ../src/calendar/gui/e-task-table.c:466
 #: ../src/calendar/gui/tasktypes.xml.in.h:21
-#: ../src/e-util/e-send-options.ui.h:4 ../src/mail/message-list.c:334
+#: ../src/e-util/e-send-options.ui.h:4 ../src/mail/message-list.c:336
 msgid "Low"
 msgstr "Низький"
 
@@ -7262,7 +7275,6 @@ msgstr "%s (%d)"
 
 #: ../src/calendar/gui/e-cal-list-view.c:116
 #, c-format
-#| msgid "Appointment"
 msgid "%d appointment"
 msgid_plural "%d appointments"
 msgstr[0] "%d зустріч"
@@ -7309,7 +7321,7 @@ msgstr "Джерело"
 #. To Translators: 'Status' here means the state of the attendees, the resulting string will be in a form:
 #. * Status: Accepted: X   Declined: Y   ...
 #: ../src/calendar/gui/e-cal-list-view.etspec.h:10
-#: ../src/calendar/gui/e-cal-model.c:3849
+#: ../src/calendar/gui/e-cal-model.c:3847
 #: ../src/calendar/gui/e-meeting-list-view.c:689
 #: ../src/calendar/gui/e-meeting-time-sel.etspec.h:9
 #: ../src/calendar/gui/e-memo-table.etspec.h:9
@@ -7386,7 +7398,7 @@ msgstr "Так"
 msgid "No"
 msgstr "Ні"
 
-#: ../src/calendar/gui/e-cal-model.c:3790
+#: ../src/calendar/gui/e-cal-model.c:3788
 #: ../src/calendar/gui/e-meeting-list-view.c:205
 #: ../src/calendar/gui/e-meeting-store.c:179
 #: ../src/calendar/gui/e-meeting-store.c:202
@@ -7394,7 +7406,7 @@ msgstr "Ні"
 msgid "Accepted"
 msgstr "Прийнято"
 
-#: ../src/calendar/gui/e-cal-model.c:3791
+#: ../src/calendar/gui/e-cal-model.c:3789
 #: ../src/calendar/gui/e-meeting-list-view.c:206
 #: ../src/calendar/gui/e-meeting-store.c:181
 #: ../src/calendar/gui/e-meeting-store.c:204
@@ -7402,7 +7414,7 @@ msgstr "Прийнято"
 msgid "Declined"
 msgstr "Відхилено"
 
-#: ../src/calendar/gui/e-cal-model.c:3792
+#: ../src/calendar/gui/e-cal-model.c:3790
 #: ../src/calendar/gui/e-meeting-list-view.c:207
 #: ../src/calendar/gui/e-meeting-store.c:183
 #: ../src/calendar/gui/e-meeting-store.c:206
@@ -7410,7 +7422,7 @@ msgstr "Відхилено"
 msgid "Tentative"
 msgstr "Експериментальний"
 
-#: ../src/calendar/gui/e-cal-model.c:3793
+#: ../src/calendar/gui/e-cal-model.c:3791
 #: ../src/calendar/gui/e-meeting-list-view.c:208
 #: ../src/calendar/gui/e-meeting-store.c:185
 #: ../src/calendar/gui/e-meeting-store.c:208
@@ -7418,7 +7430,7 @@ msgstr "Експериментальний"
 msgid "Delegated"
 msgstr "Доручено"
 
-#: ../src/calendar/gui/e-cal-model.c:3794
+#: ../src/calendar/gui/e-cal-model.c:3792
 msgid "Needs action"
 msgstr "Необхідна дія"
 
@@ -7964,67 +7976,67 @@ msgstr[3] "Не вдалося вилучити вибраного учасни�
 msgid "Organizer address is not a valid user mail address"
 msgstr "Адреса організатора не є коректною поштовою адресою користувача"
 
-#: ../src/calendar/gui/e-comp-editor-page-general.c:688
+#: ../src/calendar/gui/e-comp-editor-page-general.c:686
 msgid "A_ttendees"
 msgstr "_Учасники"
 
-#: ../src/calendar/gui/e-comp-editor-page-general.c:690
+#: ../src/calendar/gui/e-comp-editor-page-general.c:688
 msgid "Toggles whether the Attendees are displayed"
 msgstr "Перемикнути, чи показувати учасників"
 
-#: ../src/calendar/gui/e-comp-editor-page-general.c:699
+#: ../src/calendar/gui/e-comp-editor-page-general.c:697
 msgid "R_ole Field"
 msgstr "Поле «_Посада»"
 
-#: ../src/calendar/gui/e-comp-editor-page-general.c:701
+#: ../src/calendar/gui/e-comp-editor-page-general.c:699
 msgid "Toggles whether the Role field is displayed"
 msgstr "Перемикнути показ поля «Посада»"
 
-#: ../src/calendar/gui/e-comp-editor-page-general.c:707
+#: ../src/calendar/gui/e-comp-editor-page-general.c:705
 msgid "_RSVP"
 msgstr "Про_хання відповісти"
 
-#: ../src/calendar/gui/e-comp-editor-page-general.c:709
+#: ../src/calendar/gui/e-comp-editor-page-general.c:707
 msgid "Toggles whether the RSVP field is displayed"
 msgstr "Перемикнути показ поля «Прохання відповісти»"
 
-#: ../src/calendar/gui/e-comp-editor-page-general.c:715
+#: ../src/calendar/gui/e-comp-editor-page-general.c:713
 msgid "_Status Field"
 msgstr "поле _стану"
 
-#: ../src/calendar/gui/e-comp-editor-page-general.c:717
+#: ../src/calendar/gui/e-comp-editor-page-general.c:715
 msgid "Toggles whether the Status field is displayed"
 msgstr "Перемикнути показ поля «Стан»"
 
-#: ../src/calendar/gui/e-comp-editor-page-general.c:723
+#: ../src/calendar/gui/e-comp-editor-page-general.c:721
 msgid "_Type Field"
 msgstr "Поле _типу"
 
-#: ../src/calendar/gui/e-comp-editor-page-general.c:725
+#: ../src/calendar/gui/e-comp-editor-page-general.c:723
 msgid "Toggles whether the Attendee Type is displayed"
 msgstr "Перемикнути показ поля типу учасників"
 
-#: ../src/calendar/gui/e-comp-editor-page-general.c:1032
+#: ../src/calendar/gui/e-comp-editor-page-general.c:1030
 msgid "An organizer is required."
 msgstr "Потрібно вказати організатора."
 
-#: ../src/calendar/gui/e-comp-editor-page-general.c:1042
-#: ../src/calendar/gui/e-comp-editor-page-general.c:1184
+#: ../src/calendar/gui/e-comp-editor-page-general.c:1040
+#: ../src/calendar/gui/e-comp-editor-page-general.c:1182
 msgid "At least one attendee is required."
 msgstr "Потрібен хоча б один учасник."
 
-#: ../src/calendar/gui/e-comp-editor-page-general.c:1308
+#: ../src/calendar/gui/e-comp-editor-page-general.c:1306
 msgid "Or_ganizer:"
 msgstr "Ор_ганізатор:"
 
-#: ../src/calendar/gui/e-comp-editor-page-general.c:1403
+#: ../src/calendar/gui/e-comp-editor-page-general.c:1401
 msgid ""
 "Override color of the event. If not set, then color of the calendar is used."
 msgstr ""
 "Перевизначити колір події. Якщо не встановлено, то використовується колір "
 "календаря."
 
-#: ../src/calendar/gui/e-comp-editor-page-general.c:1405
+#: ../src/calendar/gui/e-comp-editor-page-general.c:1403
 msgid ""
 "Override color of the memo. If not set, then color of the memo list is used."
 msgstr ""
@@ -8032,19 +8044,19 @@ msgstr ""
 "списку нотаток."
 
 #. E_SOURCE_EXTENSION_TASK_LIST
-#: ../src/calendar/gui/e-comp-editor-page-general.c:1407
+#: ../src/calendar/gui/e-comp-editor-page-general.c:1405
 msgid ""
 "Override color of the task. If not set, then color of the task list is used."
 msgstr ""
 "Перевизначити колір завдання. Якщо не встановлено, то використовується колір "
 "списку завдань."
 
-#: ../src/calendar/gui/e-comp-editor-page-general.c:1418
+#: ../src/calendar/gui/e-comp-editor-page-general.c:1416
 msgctxt "ECompEditor"
 msgid "Atte_ndees…"
 msgstr "_Учасники…"
 
-#: ../src/calendar/gui/e-comp-editor-page-general.c:1501
+#: ../src/calendar/gui/e-comp-editor-page-general.c:1499
 #: ../src/calendar/gui/e-comp-editor-page-recurrence.c:2324
 #: ../src/calendar/gui/e-comp-editor.c:2179
 #: ../src/e-util/e-accounts-window.c:1745
@@ -12043,12 +12055,10 @@ msgid "An error occurred while creating message composer."
 msgstr "Виникла помилка при відкриванні редактора повідомлень."
 
 #: ../src/em-format/e-mail-formatter-attachment.c:272
-#| msgid "_View Inline"
 msgid "Toggle View Inline"
 msgstr "Перемкнути вбудований перегляд"
 
 #: ../src/em-format/e-mail-formatter-attachment.c:272
-#| msgid "Open With Default Application"
 msgid "Open in default application"
 msgstr "Відкрити у типовій програмі"
 
@@ -12977,7 +12987,7 @@ msgid "popup list"
 msgstr "контекстний список"
 
 #: ../src/e-util/e-cell-date.c:49 ../src/e-util/e-cell-date.c:138
-#: ../src/e-util/e-cell-date.c:158 ../src/mail/message-list.c:2144
+#: ../src/e-util/e-cell-date.c:158 ../src/mail/message-list.c:2146
 msgid "?"
 msgstr "?"
 
@@ -19157,12 +19167,12 @@ msgstr "Переміщення теки %s"
 msgid "Copying folder %s"
 msgstr "Відкривання теки %s"
 
-#: ../src/mail/em-folder-tree.c:2381 ../src/mail/message-list.c:2630
+#: ../src/mail/em-folder-tree.c:2381 ../src/mail/message-list.c:2632
 #, c-format
 msgid "Moving messages into folder %s"
 msgstr "Переміщення повідомлень у теку %s"
 
-#: ../src/mail/em-folder-tree.c:2385 ../src/mail/message-list.c:2632
+#: ../src/mail/em-folder-tree.c:2385 ../src/mail/message-list.c:2634
 #, c-format
 msgid "Copying messages into folder %s"
 msgstr "Копіювання повідомлень у теку %s"
@@ -21358,91 +21368,91 @@ msgstr "Редагування віртуальної теки"
 msgid "New Search Folder"
 msgstr "Нова віртуальна тека"
 
-#: ../src/mail/message-list.c:314
+#: ../src/mail/message-list.c:316
 msgid "Unseen"
 msgstr "Не прочитано"
 
-#: ../src/mail/message-list.c:315
+#: ../src/mail/message-list.c:317
 msgid "Seen"
 msgstr "Прочитано"
 
-#: ../src/mail/message-list.c:316
+#: ../src/mail/message-list.c:318
 msgid "Answered"
 msgstr "Дана відповідь"
 
-#: ../src/mail/message-list.c:317
+#: ../src/mail/message-list.c:319
 msgid "Forwarded"
 msgstr "Переслано"
 
-#: ../src/mail/message-list.c:318
+#: ../src/mail/message-list.c:320
 msgid "Multiple Unseen Messages"
 msgstr "Декілька непрочитаних повідомлень"
 
-#: ../src/mail/message-list.c:319
+#: ../src/mail/message-list.c:321
 msgid "Multiple Messages"
 msgstr "Декілька повідомлень"
 
-#: ../src/mail/message-list.c:332
+#: ../src/mail/message-list.c:334
 msgid "Lowest"
 msgstr "Найнижчий"
 
-#: ../src/mail/message-list.c:333
+#: ../src/mail/message-list.c:335
 msgid "Lower"
 msgstr "Низький"
 
-#: ../src/mail/message-list.c:337
+#: ../src/mail/message-list.c:339
 msgid "Higher"
 msgstr "Високий"
 
-#: ../src/mail/message-list.c:338
+#: ../src/mail/message-list.c:340
 msgid "Highest"
 msgstr "Найвищий"
 
-#: ../src/mail/message-list.c:487
+#: ../src/mail/message-list.c:489
 msgid "Generating message list"
 msgstr "Створення списку повідомлень"
 
 #. strftime format of a time,
 #. * in 12-hour format, without seconds.
-#: ../src/mail/message-list.c:2152
+#: ../src/mail/message-list.c:2154
 #: ../src/modules/itip-formatter/itip-view.c:274
 msgid "Today %l:%M %p"
 msgstr "Сьогодні %I:%M %p"
 
-#: ../src/mail/message-list.c:2161
+#: ../src/mail/message-list.c:2163
 msgid "Yesterday %l:%M %p"
 msgstr "Вчора %l:%M %p"
 
-#: ../src/mail/message-list.c:2173
+#: ../src/mail/message-list.c:2175
 msgid "%a %l:%M %p"
 msgstr "%a, %I:%M %p"
 
-#: ../src/mail/message-list.c:2181
+#: ../src/mail/message-list.c:2183
 msgid "%b %d %l:%M %p"
 msgstr "%b %d %l:%M %p"
 
-#: ../src/mail/message-list.c:2183
+#: ../src/mail/message-list.c:2185
 msgid "%b %d %Y"
 msgstr "%d %b %Y"
 
-#: ../src/mail/message-list.c:3349
+#: ../src/mail/message-list.c:3364
 msgid "Select all visible messages"
 msgstr "Вибрати всі видимі повідомлення"
 
-#: ../src/mail/message-list.c:4123 ../src/mail/message-list.etspec.h:17
+#: ../src/mail/message-list.c:4168 ../src/mail/message-list.etspec.h:17
 msgid "Messages"
 msgstr "Повідомлення"
 
 #. default follow-up flag name to use when clicked in the message list column
-#: ../src/mail/message-list.c:5692
+#: ../src/mail/message-list.c:5761
 msgid "Follow-up"
 msgstr "Відповісти"
 
-#: ../src/mail/message-list.c:6441 ../src/mail/message-list.c:6878
+#: ../src/mail/message-list.c:6510 ../src/mail/message-list.c:6947
 msgid "Generating message list…"
 msgstr "Створення списку повідомлень…"
 
-#: ../src/mail/message-list.c:6444
+#: ../src/mail/message-list.c:6513
 msgid ""
 "No message satisfies your search criteria. Change search criteria by "
 "selecting a new Show message filter from the drop down list above or by "
@@ -21454,7 +21464,7 @@ msgstr ""
 "запустивши новий пошук через очищення його за допомогою пункту меню «Пошук → "
 "Очистити пункт меню» або зміну запиту вище."
 
-#: ../src/mail/message-list.c:6451
+#: ../src/mail/message-list.c:6520
 msgid "There are no messages in this folder."
 msgstr "У теці немає повідомлень."
 
