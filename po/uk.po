@@ -12,8 +12,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: evolution\n"
 "Report-Msgid-Bugs-To: https://gitlab.gnome.org/GNOME/evolution/issues\n"
-"POT-Creation-Date: 2020-12-01 10:40+0000\n"
-"PO-Revision-Date: 2020-12-02 09:40+0200\n"
+"POT-Creation-Date: 2020-12-02 22:09+0000\n"
+"PO-Revision-Date: 2020-12-03 09:58+0200\n"
 "Last-Translator: Yuri Chornoivan <yurchor@ukr.net>\n"
 "Language-Team: Ukrainian <trans-uk@lists.fedoraproject.org>\n"
 "Language: uk\n"
@@ -1942,7 +1942,6 @@ msgstr ""
 "замість впорядкування на рівні кореня."
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:162
-#| msgid "Whether to hide completed tasks in the tasks view"
 msgid "Whether to compress thread level"
 msgstr "Чи слід стискати рівні гілок"
 
@@ -1951,8 +1950,8 @@ msgid ""
 "Set to true to compress thread levels for flat conversations, to make the "
 "level not so deep."
 msgstr ""
-"Встановіть значення «true», щоб програма стискала рівні гілок для спрощення"
-" перегляду спілкувань і зменшення надмірного розподілу за рівнями."
+"Встановіть значення «true», щоб програма стискала рівні гілок для спрощення "
+"перегляду спілкувань і зменшення надмірного розподілу за рівнями."
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:164
 msgid "Sort accounts alphabetically in a folder tree"
@@ -3115,6 +3114,26 @@ msgstr ""
 "Ключ вказує перелік призначень, куди оприлюднювати календарі. Кожне значення "
 "вказує XML з параметрами для оприлюднення до одного призначення."
 
+#: ../data/org.gnome.evolution.plugin.sender-validator.gschema.xml.in.h:1
+msgid "[]"
+msgstr "[]"
+
+#: ../data/org.gnome.evolution.plugin.sender-validator.gschema.xml.in.h:2
+msgid "List of assignments for recipient and the address to be used with it"
+msgstr ""
+"Список прив'язок для отримувача та адреса, яку слід використовувати з ним"
+
+#: ../data/org.gnome.evolution.plugin.sender-validator.gschema.xml.in.h:3
+msgid ""
+"The list is of format 'recipient&lt;tab&gt;sender', where the recipient can "
+"be part of the address only and the sender is a full email address, which "
+"should match the From address precisely."
+msgstr ""
+"Список має бути записано у форматі «отримувач&lt;tab&gt;відправник», де запис"
+" отримувача може бути лише частиною адреси, а запис відправника має бути"
+" повною адресою електронної пошти, яка має точно відповідати адресі у полі"
+" «Від»."
+
 #: ../data/org.gnome.evolution.plugin.templates.gschema.xml.in.h:1
 msgid ""
 "List of keyword/value pairs for the Templates plugin to substitute in a "
@@ -3994,6 +4013,7 @@ msgstr ""
 #: ../src/plugins/attachment-reminder/attachment-reminder.c:544
 #: ../src/plugins/email-custom-header/email-custom-header.c:826
 #: ../src/plugins/publish-calendar/publish-calendar.ui.h:33
+#: ../src/plugins/sender-validation/sender-validation.c:498
 #: ../src/plugins/templates/templates.c:464
 msgid "_Add"
 msgstr "_Додати"
@@ -4503,6 +4523,7 @@ msgstr "Add _X.509"
 #: ../src/plugins/email-custom-header/email-custom-header.c:836
 #: ../src/plugins/publish-calendar/publish-calendar.c:789
 #: ../src/plugins/publish-calendar/publish-calendar.ui.h:35
+#: ../src/plugins/sender-validation/sender-validation.c:508
 #: ../src/plugins/templates/templates.c:474
 msgid "_Remove"
 msgstr "В_илучити"
@@ -8069,6 +8090,7 @@ msgstr "_Учасники…"
 #: ../src/plugins/attachment-reminder/attachment-reminder.c:549
 #: ../src/plugins/email-custom-header/email-custom-header.c:831
 #: ../src/plugins/publish-calendar/publish-calendar.ui.h:34
+#: ../src/plugins/sender-validation/sender-validation.c:503
 #: ../src/plugins/templates/templates.c:469
 #: ../src/shell/e-shell-window-actions.c:1052 ../src/smime/gui/smime-ui.ui.h:11
 msgid "_Edit"
@@ -8745,7 +8767,7 @@ msgstr "Немає зведення"
 #: ../src/mail/e-mail-notes.c:1015 ../src/mail/em-filter-editor.c:45
 #: ../src/mail/em-folder-properties.c:1487
 #: ../src/mail/em-subscription-editor.c:1734
-#: ../src/modules/plugin-manager/evolution-plugin-manager.c:306
+#: ../src/modules/plugin-manager/evolution-plugin-manager.c:307
 #: ../src/shell/e-shell-window-actions.c:354
 #: ../src/shell/e-shell-window-actions.c:882
 #: ../src/smime/gui/certificate-manager.c:2173
@@ -12541,7 +12563,7 @@ msgstr "Списки завдань"
 #: ../src/e-util/e-accounts-window.c:1399 ../src/e-util/filter.ui.h:23
 #: ../src/mail/e-mail-account-tree-view.c:84
 #: ../src/modules/mail/em-composer-prefs.c:1303
-#: ../src/modules/plugin-manager/evolution-plugin-manager.c:407
+#: ../src/modules/plugin-manager/evolution-plugin-manager.c:408
 #: ../src/plugins/mail-notification/mail-notification.c:1182
 #: ../src/plugins/publish-calendar/publish-calendar.c:853
 msgid "Enabled"
@@ -24772,7 +24794,7 @@ msgstr "Поштовий каталог Mbox не може бути порожн
 #: ../src/modules/mail-config/e-mail-config-remote-accounts.c:199
 #: ../src/modules/mail-config/e-mail-config-sendmail-backend.c:59
 #: ../src/modules/mail-config/e-mail-config-smtp-backend.c:155
-#: ../src/modules/plugin-manager/evolution-plugin-manager.c:193
+#: ../src/modules/plugin-manager/evolution-plugin-manager.c:194
 #: ../src/plugins/mail-notification/mail-notification.c:1278
 msgid "Configuration"
 msgstr "Налаштовування"
@@ -25548,28 +25570,28 @@ msgstr "Evolution повернеться до мережі, коли буде в
 msgid "Author(s)"
 msgstr "Автор(и)"
 
-#: ../src/modules/plugin-manager/evolution-plugin-manager.c:303
+#: ../src/modules/plugin-manager/evolution-plugin-manager.c:304
 msgid "Plugin Manager"
 msgstr "Менеджер модулів"
 
-#: ../src/modules/plugin-manager/evolution-plugin-manager.c:318
+#: ../src/modules/plugin-manager/evolution-plugin-manager.c:319
 msgid "Note: Some changes will not take effect until restart"
 msgstr "Примітка: Деякі зміни не наберуть сили до перезапуску"
 
-#: ../src/modules/plugin-manager/evolution-plugin-manager.c:346
+#: ../src/modules/plugin-manager/evolution-plugin-manager.c:347
 msgid "Overview"
 msgstr "Огляд"
 
-#: ../src/modules/plugin-manager/evolution-plugin-manager.c:415
-#: ../src/modules/plugin-manager/evolution-plugin-manager.c:498
+#: ../src/modules/plugin-manager/evolution-plugin-manager.c:416
+#: ../src/modules/plugin-manager/evolution-plugin-manager.c:499
 msgid "Plugin"
 msgstr "Модуль"
 
-#: ../src/modules/plugin-manager/evolution-plugin-manager.c:536
+#: ../src/modules/plugin-manager/evolution-plugin-manager.c:537
 msgid "_Plugins"
 msgstr "_Модулі"
 
-#: ../src/modules/plugin-manager/evolution-plugin-manager.c:537
+#: ../src/modules/plugin-manager/evolution-plugin-manager.c:538
 msgid "Enable and disable plugins"
 msgstr "Вмикає та вимикає модулі"
 
@@ -26038,6 +26060,7 @@ msgid "_Add Attachment..."
 msgstr "_Додати долучення…"
 
 #: ../src/plugins/attachment-reminder/org-gnome-attachment-reminder.error.xml.h:4
+#: ../src/plugins/sender-validation/org-gnome-sender-validation.error.xml.h:3
 msgid "_Edit Message"
 msgstr "_Редагування повідомлення"
 
@@ -27056,6 +27079,48 @@ msgstr "Зберегти виділений список приміток на �
 #: ../src/plugins/save-calendar/save-calendar.c:421
 msgid "Save the selected task list to disk"
 msgstr "Зберегти виділений список завдань на диск"
+
+#: ../src/plugins/sender-validation/org-gnome-evolution-sender-validation.eplug.xml.h:1
+#| msgid "Sender Mail"
+msgid "Sender Validation"
+msgstr "Перевірка відправника"
+
+#: ../src/plugins/sender-validation/org-gnome-evolution-sender-validation.eplug.xml.h:2
+msgid ""
+"Validates sender before sending an e-mail against a list of recipients and "
+"for them assigned expected send account."
+msgstr ""
+"Виконує перевірку запису відправника до надсилання електронної пошти за"
+" списком відправників і призначає очікуваний обліковий запис відправника."
+
+#: ../src/plugins/sender-validation/org-gnome-sender-validation.error.xml.h:1
+#| msgid "Add sender to address book"
+msgid "Confirm sender address"
+msgstr "Підтвердження адреси відправника"
+
+#: ../src/plugins/sender-validation/org-gnome-sender-validation.error.xml.h:2
+msgid ""
+"The message contains recipient “{0}” for which it is set up to use sender "
+"account “{1}”, but the account “{2}” is used instead."
+msgstr ""
+"У повідомленні міститься запис отримувача «{0}», для якого налаштовано"
+" використання облікового запису відправника «{1}», але замість нього"
+" використано обліковий запис «{2}»."
+
+#: ../src/plugins/sender-validation/org-gnome-sender-validation.error.xml.h:4
+#| msgid "_Send All"
+msgid "_Send Anyway"
+msgstr "_Надіслати попри це"
+
+#: ../src/plugins/sender-validation/sender-validation.c:520
+#| msgid "Recipients contain"
+msgid "Recipient Contains"
+msgstr "Отримувач містить"
+
+#: ../src/plugins/sender-validation/sender-validation.c:530
+#| msgid "Accounts"
+msgid "Account to Use"
+msgstr "Використаний обліковий запис"
 
 #: ../src/plugins/templates/org-gnome-templates.eplug.xml.h:2
 msgid ""
