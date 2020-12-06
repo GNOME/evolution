@@ -32,8 +32,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: evolution master\n"
 "Report-Msgid-Bugs-To: https://gitlab.gnome.org/GNOME/evolution/issues\n"
-"POT-Creation-Date: 2020-09-09 17:02+0000\n"
-"PO-Revision-Date: 2020-10-26 22:29+0100\n"
+"POT-Creation-Date: 2020-11-01 13:44+0000\n"
+"PO-Revision-Date: 2020-12-06 22:35+0100\n"
 "Last-Translator: Christian Kirbach <christian.kirbach@gmail.com>\n"
 "Language-Team: Deutsch <gnome-de@gnome.org>\n"
 "Language: de\n"
@@ -11795,7 +11795,7 @@ msgstr "In eine _Besprechung umwandeln"
 
 #: ../src/composer/mail-composer.error.xml.h:49
 msgid "Are you sure you want to convert the event into a message?"
-msgstr "Sind Sie sicher, dass Sie den Termin in eine Besprechung umwandeln wollen?"
+msgstr "Sind Sie sicher, dass Sie den Termin in eine Nachricht umwandeln wollen?"
 
 #: ../src/composer/mail-composer.error.xml.h:50
 msgid ""
