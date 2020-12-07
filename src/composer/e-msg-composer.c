@@ -4196,15 +4196,17 @@ e_msg_composer_setup_redirect (EMsgComposer *composer,
 	g_return_if_fail (E_IS_MSG_COMPOSER (composer));
 	g_return_if_fail (CAMEL_IS_MIME_MESSAGE (message));
 
+	composer->priv->redirect = g_object_ref (message);
+
 	e_msg_composer_setup_with_message (composer, message, TRUE, identity_uid, alias_name, alias_address, cancellable);
 
 	table = e_msg_composer_get_header_table (composer);
 	subject = camel_mime_message_get_subject (message);
 
-	composer->priv->redirect = message;
-	g_object_ref (message);
-
 	e_composer_header_table_set_subject (table, subject);
+
+	gtk_widget_hide (GTK_WIDGET (e_composer_header_table_get_signature_combo_box (table)));
+	gtk_table_set_col_spacings (GTK_TABLE (table), 0);
 
 	editor = e_msg_composer_get_editor (composer);
 	cnt_editor = e_html_editor_get_content_editor (editor);

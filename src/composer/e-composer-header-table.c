@@ -907,12 +907,12 @@ composer_header_table_constructed (GObject *object)
 
 	e_binding_bind_property (
 		table->priv->headers[ii]->input_widget, "visible",
-		table->priv->signature_label, "visible",
+		table->priv->signature_combo_box, "visible",
 		G_BINDING_SYNC_CREATE);
 
 	e_binding_bind_property (
-		table->priv->headers[ii]->input_widget, "visible",
 		table->priv->signature_combo_box, "visible",
+		table->priv->signature_label, "visible",
 		G_BINDING_SYNC_CREATE);
 
 	/* Now add the signature stuff. */
