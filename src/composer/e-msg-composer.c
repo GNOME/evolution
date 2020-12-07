@@ -5241,7 +5241,7 @@ handle_mailto (EMsgComposer *composer,
 		if (g_settings_get_boolean (settings, "composer-mailto-body-in-pre"))
 			flags |= CAMEL_MIME_FILTER_TOHTML_PRE;
 		else
-			flags |= CAMEL_MIME_FILTER_TOHTML_CONVERT_NL | CAMEL_MIME_FILTER_TOHTML_CONVERT_SPACES;
+			flags |= CAMEL_MIME_FILTER_TOHTML_CONVERT_NL | CAMEL_MIME_FILTER_TOHTML_CONVERT_SPACES | CAMEL_MIME_FILTER_TOHTML_DIV;
 
 		g_clear_object (&settings);
 
