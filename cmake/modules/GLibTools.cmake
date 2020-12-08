@@ -65,7 +65,7 @@ function(glib_mkenums _output_filename_noext _enums_header _define_name)
 
 G_BEGIN_DECLS
 
-/* Enumerations from \"@filename@\" */
+/* Enumerations from \"@basename@\" */
 
 /*** END file-production ***/
 
@@ -95,8 +95,8 @@ set(SOURCE_TMPL "
 /*** END file-header ***/
 
 /*** BEGIN file-production ***/
-/* enumerations from \"@filename@\" */
-#include \"@filename@\"
+/* enumerations from \"@basename@\" */
+#include \"@basename@\"
 
 /*** END file-production ***/
 

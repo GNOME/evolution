@@ -127,6 +127,7 @@ target_include_directories(evolution-mail-formatter PUBLIC
 	${CMAKE_CURRENT_BINARY_DIR}
 	${CMAKE_SOURCE_DIR}/src/smime/lib
 	${CMAKE_SOURCE_DIR}/src/smime/gui
+	${CMAKE_CURRENT_SOURCE_DIR}
 	${EVOLUTION_DATA_SERVER_INCLUDE_DIRS}
 	${GNOME_PLATFORM_INCLUDE_DIRS}
 )

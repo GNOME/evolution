@@ -250,6 +250,7 @@ target_include_directories(evolution-mail PUBLIC
 	${CMAKE_SOURCE_DIR}/src/shell
 	${CMAKE_SOURCE_DIR}/src/smime/lib
 	${CMAKE_SOURCE_DIR}/src/smime/gui
+	${CMAKE_CURRENT_SOURCE_DIR}
 	${CERT_UI_INCLUDES}
 	${CANBERRA_INCLUDE_DIRS}
 	${EVOLUTION_DATA_SERVER_INCLUDE_DIRS}
