@@ -3947,7 +3947,7 @@ emcu_create_templates_combo (EShell *shell,
 	renderer = gtk_cell_renderer_text_new ();
 	g_object_set (G_OBJECT (renderer),
 		"ellipsize", PANGO_ELLIPSIZE_END,
-		"max-width-chars", 60,
+		"single-paragraph-mode", TRUE,
 		NULL);
 
 	gtk_cell_layout_pack_start (GTK_CELL_LAYOUT (combo), renderer, TRUE);
