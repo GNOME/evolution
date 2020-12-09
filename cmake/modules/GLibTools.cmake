@@ -146,7 +146,7 @@ endif(NOT GLIB_GENMARSHAL)
 function(glib_genmarshal _output_filename_noext _prefix _marshallist_filename)
 	add_custom_command(
 		OUTPUT ${CMAKE_CURRENT_BINARY_DIR}/${_output_filename_noext}.h
-		COMMAND ${GLIB_GENMARSHAL} --header --prefix=${_prefix} "${CMAKE_CURRENT_SOURCE_DIR}/${_marshallist_filename}" >${CMAKE_CURRENT_BINARY_DIR}/${_output_filename_noext}.h.tmp
+		COMMAND ${GLIB_GENMARSHAL} --header --skip-source --prefix=${_prefix} "${CMAKE_CURRENT_SOURCE_DIR}/${_marshallist_filename}" >${CMAKE_CURRENT_BINARY_DIR}/${_output_filename_noext}.h.tmp
 		COMMAND ${CMAKE_COMMAND} -E rename ${CMAKE_CURRENT_BINARY_DIR}/${_output_filename_noext}.h.tmp ${CMAKE_CURRENT_BINARY_DIR}/${_output_filename_noext}.h
 		DEPENDS ${_marshallist_filename}
 	)
@@ -154,7 +154,7 @@ function(glib_genmarshal _output_filename_noext _prefix _marshallist_filename)
 	add_custom_command(
 		OUTPUT ${CMAKE_CURRENT_BINARY_DIR}/${_output_filename_noext}.c
 		COMMAND ${CMAKE_COMMAND} -E echo " #include \\\"${_output_filename_noext}.h\\\"" >${CMAKE_CURRENT_BINARY_DIR}/${_output_filename_noext}.c.tmp
-		COMMAND ${GLIB_GENMARSHAL} --body --prefix=${_prefix} "${CMAKE_CURRENT_SOURCE_DIR}/${_marshallist_filename}" >>${CMAKE_CURRENT_BINARY_DIR}/${_output_filename_noext}.c.tmp
+		COMMAND ${GLIB_GENMARSHAL} --body --skip-source --prefix=${_prefix} "${CMAKE_CURRENT_SOURCE_DIR}/${_marshallist_filename}" >>${CMAKE_CURRENT_BINARY_DIR}/${_output_filename_noext}.c.tmp
 		COMMAND ${CMAKE_COMMAND} -E rename ${CMAKE_CURRENT_BINARY_DIR}/${_output_filename_noext}.c.tmp ${CMAKE_CURRENT_BINARY_DIR}/${_output_filename_noext}.c
 		DEPENDS ${_marshallist_filename}
 	)
