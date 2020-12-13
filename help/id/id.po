@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: evolution master\n"
 "POT-Creation-Date: 2020-12-08 09:05+0000\n"
-"PO-Revision-Date: 2020-12-09 11:43+0700\n"
+"PO-Revision-Date: 2020-12-13 09:36+0700\n"
 "Last-Translator: \n"
 "Language-Team: Indonesian <gnome-l10n-id@googlegroups.com>\n"
 "Language: id\n"
@@ -1136,7 +1136,6 @@ msgstr ""
 
 #. (itstool) path: page/p
 #: C/calendar-meetings-sending-invitation.page:33
-#, fuzzy
 msgid ""
 "If you do not need to collect attendance information when you're scheduling "
 "an event, and would rather just announce the event, right-click the meeting "
@@ -1160,58 +1159,52 @@ msgstr "Untuk menjadwalkan rapat:"
 
 #. (itstool) path: item/p
 #: C/calendar-meetings-sending-invitation.page:48
-#, fuzzy
 msgid ""
 "If you have multiple email accounts, select the one to use by selecting an "
 "item in the <gui>Organizer</gui> field."
 msgstr ""
 "Jika Anda memiliki beberapa akun surel, pilih akun yang akan digunakan "
-"dengan memilih item di <gui>bidang</gui> Penyelenggara."
+"dengan memilih butir di bidang <gui>Penyelenggara</gui>."
 
 #. (itstool) path: item/p
 #: C/calendar-meetings-sending-invitation.page:52
 #: C/calendar-usage-add-appointment.page:36
-#, fuzzy
 msgid "Select a calendar in the <gui>Calendar</gui> drop-down list."
-msgstr "Pilih kalender di <gui>daftar</gui> turun bawah Kalender."
+msgstr "Pilih kalender di daftar tarik-turun <gui>Kalender</gui>."
 
 #. (itstool) path: item/p
 #: C/calendar-meetings-sending-invitation.page:59
-#, fuzzy
 msgid ""
 "Click <gui>View</gui> in the menu bar to show or hide the <gui>Type</gui>, "
 "<gui>Role</gui>, <gui>Status</gui>, and <gui>RSVP</gui> fields."
 msgstr ""
 "Klik <gui>Tampilkan</gui> di bilah menu untuk memperlihatkan atau "
-"menyembunyikan bidang <gui>Tipe,</gui> <gui>Peran,</gui> <gui>Status,</gui> "
-"<gui>dan RSVP.</gui>"
+"menyembunyikan bidang <gui>Tipe</gui>, <gui>Peran</gui>, <gui>Status</gui>, "
+"dan <gui>RSVP</gui>."
 
 #. (itstool) path: item/p
 #: C/calendar-meetings-sending-invitation.page:64
 #: C/calendar-usage-add-appointment.page:39 C/memos-usage-add-memo.page:47
-#, fuzzy
 msgid "Enter a brief summary in the <gui>Summary</gui> field."
-msgstr "Masukkan ringkasan singkat di <gui>bidang Ringkasan.</gui>"
+msgstr "Masukkan ringkasan singkat di bidang <gui>Ringkasan</gui>."
 
 #. (itstool) path: item/p
 #: C/calendar-meetings-sending-invitation.page:67
 #: C/calendar-usage-add-appointment.page:42
-#, fuzzy
 msgid "(Optional) Type a location in the <gui>Location</gui> field."
-msgstr "(Opsional) Ketik lokasi di <gui>bidang</gui> Lokasi."
+msgstr "(Opsional) Ketik lokasi di bidang <gui>Lokasi</gui>."
 
 #. (itstool) path: item/p
 #: C/calendar-meetings-sending-invitation.page:70
 #: C/calendar-usage-add-appointment.page:45
-#, fuzzy
 msgid ""
 "To select this event as an all day event, click <guiseq><gui>Options</"
 "gui><gui>All Day Event</gui></guiseq>, or click the <gui>All Day Event</gui> "
 "button on the toolbar."
 msgstr ""
-"Untuk memilih acara ini sebagai acara sepanjang hari, <guiseq> <gui>klik "
-"Opsi</gui><gui>Acara Sepanjang Hari,</gui></guiseq>atau klik <gui>tombol "
-"Acara Sepanjang</gui> Hari pada toolbar."
+"Untuk memilih acara ini sebagai acara sepanjang hari, klik "
+"<guiseq><gui>Opsi</gui><gui>Acara Sepanjang Hari</gui></guiseq>, atau klik "
+"tombol <gui>Acara Sepanjang Hari</gui> pada bilah alat."
 
 #. (itstool) path: item/p
 #: C/calendar-meetings-sending-invitation.page:75
@@ -1221,34 +1214,30 @@ msgstr "Pilih tanggal dan waktu."
 
 #. (itstool) path: item/p
 #: C/calendar-meetings-sending-invitation.page:78
-#, fuzzy
 msgid ""
 "If the event is not an all day event, select either <gui>For</gui> to "
 "specify the duration, or select <gui>Until</gui> to specify the ending time "
 "of the event."
 msgstr ""
-"Jika acara bukan acara sepanjang hari, pilih <gui>Bagi untuk</gui> "
-"menentukan durasi, atau <gui>pilih Sampai</gui> untuk menentukan waktu akhir "
-"acara."
+"Jika acara bukan acara sepanjang hari, pilih <gui>Selama</gui> menentukan "
+"durasi, atau pilih <gui>Sampai</gui> untuk menentukan waktu akhir acara."
 
 #. (itstool) path: item/p
 #: C/calendar-meetings-sending-invitation.page:83
 #: C/calendar-usage-add-appointment.page:53
-#, fuzzy
 msgid "(Optional) Enter a description in the <gui>Description</gui> field."
-msgstr "(Opsional) Masukkan deskripsi di <gui>bidang</gui> Deskripsi."
+msgstr "(Opsional) Masukkan deskripsi di bidang <gui>Deskripsi</gui>."
 
 #. (itstool) path: item/p
 #: C/calendar-meetings-sending-invitation.page:87
-#, fuzzy
 msgid ""
 "To query <link xref=\"calendar-free-busy\">free/busy</link> information for "
 "the attendees, click the <gui style=\"button\">Free/Busy</gui> button on the "
 "toolbar, or the <gui>Schedule</gui> tab."
 msgstr ""
-"Untuk <link xref=\"calendar-free-busy\"> mengkueri informasi bebas/sibuk "
-"untuk peserta, <gui style=\"button\">klik tombol Bebas/Sibuk</gui> pada "
-"toolbar, atau <gui>tab</gui> Jadwal."
+"Untuk mengkueri informasi <link xref=\"calendar-free-busy\">bebas/sibuk</"
+"link> bagi peserta, klik tombol <gui style=\"button\">Bebas/Sibuk</gui> pada "
+"bilah alat, atau tab <gui>Jadwal</gui>."
 
 #. (itstool) path: item/p
 #: C/calendar-meetings-sending-invitation.page:92
@@ -1257,15 +1246,13 @@ msgstr "Klik <gui>Simpan</gui> untuk menyimpan rapat."
 
 #. (itstool) path: page/p
 #: C/calendar-meetings-sending-invitation.page:96
-#, fuzzy
 msgid ""
 "An email is sent out to all the recipients, inviting them to your event."
-msgstr "Email dikirim ke semua penerima, mengundang mereka ke acara Anda."
+msgstr "Surel dikirim ke semua penerima, mengundang mereka ke acara Anda."
 
 #. (itstool) path: page/p
 #: C/calendar-meetings-sending-invitation.page:99
 #: C/calendar-usage-add-appointment.page:62
-#, fuzzy
 msgid ""
 "You can also define a <link xref=\"calendar-timezones\">time zone</link>, a "
 "<link xref=\"using-categories\">category</link>, a <link xref=\"calendar-"
@@ -1273,15 +1260,14 @@ msgid ""
 "\">recurrence</link>, or a <link xref=\"calendar-classifications"
 "\">classification</link> for the event, or add an attachment."
 msgstr ""
-"Anda juga dapat menentukan <link xref=\"calendar-timezones\"> zona waktu, "
-"<link xref=\"using-categories\"> kategori, <link xref=\"calendar-alarms-and-"
-"reminders\"> pengingat, <link xref=\"calendar-recurrence\"> pengulangan, "
-"atau <link xref=\"calendar-classifications\"> klasifikasi untuk acara "
-"tersebut, atau menambahkan lampiran."
+"Anda juga dapat menentukan <link xref=\"calendar-timezones\">zona waktu</"
+"link>, <link xref=\"using-categories\">kategori</link>, <link xref="
+"\"calendar-alarms-and-reminders\">pengingat</link>, <link xref=\"calendar-"
+"recurrence\">pengulangan</link>, atau <link xref=\"calendar-classifications"
+"\">klasifikasi</link> untuk acara tersebut, atau menambahkan lampiran."
 
 #. (itstool) path: note/p
 #: C/calendar-meetings-sending-invitation.page:107
-#, fuzzy
 msgid ""
 "In <app>Evolution</app>, a meeting can have only one organizer, and only the "
 "organizer can add participants to that meeting. Though it is possible to "
@@ -1301,7 +1287,6 @@ msgstr ""
 
 #. (itstool) path: info/desc
 #: C/calendar-organizing.page:18
-#, fuzzy
 msgid "On using several calendars, searching, and categories."
 msgstr "Pada penggunaan beberapa kalender, pencarian, dan kategori."
 
@@ -1339,23 +1324,21 @@ msgstr ""
 
 #. (itstool) path: page/p
 #: C/calendar-publishing.page:40
-#, fuzzy
 msgid ""
 "You can specify the online location, the frequency of publishing, which "
 "calendar(s) to publish, and authentication information for uploading."
 msgstr ""
-"Anda dapat menentukan lokasi online, frekuensi penerbitan, kalender mana "
-"yang akan diterbitkan, dan informasi autentikasi untuk diunggah."
+"Anda dapat menentukan lokasi daring, frekuensi penerbitan, kalender mana "
+"yang akan diterbitkan, dan informasi autentikasi untuk mengunggah."
 
 #. (itstool) path: page/p
 #: C/calendar-publishing.page:47
-#, fuzzy
 msgid ""
 "To immediately publish calendar information, click <guiseq><gui>Actions</"
 "gui><gui>Publish Calendar Information</gui></guiseq> in the calendar."
 msgstr ""
-"Untuk segera menerbitkan informasi kalender, klik <guiseq> <gui>Tindakan</"
-"gui><gui>Menerbitkan Informasi</gui> </guiseq> Kalender di kalender."
+"Untuk seketika menerbitkan informasi kalender, klik <guiseq><gui>Tindakan</"
+"gui><gui>Terbitkan Informasi Kalender</gui></guiseq> di kalender."
 
 #. (itstool) path: info/desc
 #: C/calendar-recurrence.page:23
@@ -1426,9 +1409,8 @@ msgstr "Mencari berdasarkan ringkasan:"
 #. (itstool) path: item/p
 #: C/calendar-searching.page:42 C/contacts-searching.page:50
 #: C/memos-searching.page:43 C/tasks-searching.page:43
-#, fuzzy
 msgid "Click the search icon <_:media-1/> to expand the drop-down list."
-msgstr "Klik ikon pencarian <_:media-1/> untuk memperluas daftar turun bawah."
+msgstr "Klik ikon pencarian <_:media-1/> untuk memperluas daftar tarik-turun."
 
 #. (itstool) path: item/p
 #: C/calendar-searching.page:47 C/contacts-searching.page:55
@@ -1655,62 +1637,54 @@ msgstr ""
 
 #. (itstool) path: info/desc
 #: C/calendar-usage-edit-appointment.page:17
-#, fuzzy
 msgid "Editing in appointment in your calendar."
-msgstr "Pengeditan dalam janji di kalender Anda."
+msgstr "Penyuntingan dalam janji di kalender Anda."
 
 #. (itstool) path: page/title
 #: C/calendar-usage-edit-appointment.page:20
-#, fuzzy
 msgid "Editing an Appointment"
-msgstr "Mengedit Janji"
+msgstr "Menyunting Janji"
 
 #. (itstool) path: page/p
 #: C/calendar-usage-edit-appointment.page:22
-#, fuzzy
 msgid ""
 "If you want to change an appointment that already exists in your calendars:"
 msgstr "Jika Anda ingin mengubah janji yang sudah ada di kalender Anda:"
 
 #. (itstool) path: item/p
 #: C/calendar-usage-edit-appointment.page:27
-#, fuzzy
 msgid "Double-click on the appointment that you want to edit in the calendar."
-msgstr "Klik ganda pada janji yang ingin Anda edit di kalender."
+msgstr "Klik ganda pada janji yang ingin Anda sunting di kalender."
 
 #. (itstool) path: item/p
 #: C/calendar-usage-edit-appointment.page:31
-#, fuzzy
 msgid ""
 "Edit the appointment (see <link xref=\"calendar-usage-add-appointment"
 "\">Adding an Appointment</link> for the list of available options)."
 msgstr ""
-"Mengedit janji (lihat <link xref=\"calendar-usage-add-appointment\"> "
-"Menambahkan Janji untuk daftar opsi yang tersedia)."
+"Menyunting janji (lihat <link xref=\"calendar-usage-add-appointment"
+"\">Menambahkan Janji</link> untuk daftar opsi yang tersedia)."
 
 #. (itstool) path: item/p
 #: C/calendar-usage-edit-appointment.page:36 C/memos-usage-add-memo.page:29
 #: C/memos-usage-add-memo.page:49 C/memos-usage-edit-memo.page:27
 #: C/tasks-usage-add-task.page:29 C/tasks-usage-edit-task.page:27
-#, fuzzy
 msgid ""
 "Click the <gui style=\"button\">Save</gui> button, or <guiseq><gui>File</"
 "gui><gui>Save</gui></guiseq>."
 msgstr ""
-"Klik tombol <gui style=\"button\">Simpan,</gui> atau <guiseq> <gui>Simpan "
-"File.</gui><gui>Save</gui></guiseq>"
+"Klik tombol <gui style=\"button\">Simpan</gui>, atau <guiseq><gui>Berkas</"
+"gui><gui>Simpan</gui></guiseq>."
 
 #. (itstool) path: info/desc
 #: C/calendar-usage.page:18
-#, fuzzy
 msgid "On adding, editing, and deleting appointments."
-msgstr "Pada menambahkan, mengedit, dan menghapus janji temu."
+msgstr "Tentang menambahkan, menyunting, dan menghapus janji temu."
 
 #. (itstool) path: page/title
 #: C/calendar-usage.page:21
-#, fuzzy
 msgid "Add, Edit, and Delete Appointments"
-msgstr "Menambahkan, Mengedit, dan Menghapus Janji Temu"
+msgstr "Menambah, Menyunting, dan Menghapus Janji Temu"
 
 #. (itstool) path: info/desc
 #: C/calendar-using-several-calendars.page:25
@@ -1762,15 +1736,14 @@ msgstr ""
 
 #. (itstool) path: page/p
 #: C/calendar-using-several-calendars.page:43
-#, fuzzy
 msgid ""
 "For example, the <link href=\"http://icalshare.com\">icalshare.com website</"
 "link> has an extensive list of shared online calendars, including national "
 "and religious holidays, phases of the moon, sports, and local and regional "
 "events."
 msgstr ""
-"Misalnya, <link href=\"http://icalshare.com\"> situs web icalshare.com "
-"memiliki daftar kalender online bersama yang luas, termasuk hari libur "
+"Misalnya, <link href=\"http://icalshare.com\">situs web icalshare.com</link> "
+"memiliki daftar kalender daring bersama yang luas, termasuk hari libur "
 "nasional dan keagamaan, fase bulan, olahraga, dan acara lokal dan regional."
 
 #. (itstool) path: info/desc
@@ -1853,9 +1826,8 @@ msgstr ""
 #: C/mail-composer-message-templates.page:27
 #: C/mail-composer-message-templates-variables.page:28
 #: C/mail-received-notification.page:30
-#, fuzzy
 msgid "Select <guiseq><gui>Edit</gui><gui>Plugins</gui></guiseq>."
-msgstr "Pilih <guiseq> <gui>Edit</gui><gui>Plugin</gui></guiseq>."
+msgstr "Pilih <guiseq><gui>Sunting</gui><gui>Plugin</gui></guiseq>."
 
 #. (itstool) path: item/p
 #: C/contacts-add-automatically.page:32
@@ -1870,27 +1842,25 @@ msgstr "Aktifkan <gui>Kontak Otomatis</gui>."
 #: C/mail-composer-message-templates-variables.page:30
 #: C/mail-displaying-sender-photograph.page:37
 #: C/mail-received-notification.page:32
-#, fuzzy
 msgid ""
 "If a plugin is not available under <guiseq><gui>Edit</gui><gui>Plugins</"
 "gui></guiseq>, then please ask in a support forum of your distribution. Your "
 "distribution might have decided to disable some plugins or to ship plugins "
 "in a separate package."
 msgstr ""
-"Jika plugin tidak tersedia di bawah <guiseq> <gui>Edit</gui><gui>Plugins</"
+"Jika plugin tidak tersedia di bawah <guiseq><gui>Sunting</gui><gui>Plugins</"
 "gui></guiseq>, maka silakan tanyakan di forum dukungan distribusi Anda. "
 "Distribusi Anda mungkin telah memutuskan untuk menonaktifkan beberapa plugin "
 "atau mengirim plugin dalam paket terpisah."
 
 #. (itstool) path: item/p
 #: C/contacts-add-automatically.page:35
-#, fuzzy
 msgid ""
 "Go to <guiseq><gui>Edit</gui><gui>Preferences</gui><gui>Contacts</gui> "
 "<gui>Automatic Contacts</gui></guiseq>."
 msgstr ""
-"Buka <guiseq> <gui>Mengedit</gui><gui>Preferensi</gui><gui>Kontak</gui> "
-"<gui>Otomatis Kontak.</gui></guiseq>"
+"Buka <guiseq><gui>Sunting</gui><gui>Preferensi</gui><gui>Kontak</gui> "
+"<gui>Kontak Otomatis</gui></guiseq>."
 
 #. (itstool) path: item/p
 #: C/contacts-add-automatically.page:37
@@ -1906,7 +1876,6 @@ msgstr ""
 
 #. (itstool) path: page/p
 #: C/contacts-add-automatically.page:42
-#, fuzzy
 msgid ""
 "From now on, contacts will be automatically created for senders of received "
 "mail when you reply to that mail."
@@ -2252,7 +2221,6 @@ msgstr ""
 
 #. (itstool) path: info/desc
 #: C/contacts-libreoffice.page:17
-#, fuzzy
 msgid ""
 "Using data from <app>Evolution</app> address books in LibreOffice documents."
 msgstr ""
@@ -2266,56 +2234,52 @@ msgstr "Kontak di LibreOffice"
 
 #. (itstool) path: page/p
 #: C/contacts-libreoffice.page:23
-#, fuzzy
 msgid ""
 "You can use your <app>Evolution</app> address books in <app>LibreOffice "
 "Writer</app> as a data source. The following steps refer to LibreOffice "
 "version 5.4."
 msgstr ""
-"Anda dapat menggunakan buku <app>alamat Evolution</app> Anda <app>di "
-"LibreOffice Writer</app> sebagai sumber data. Langkah-langkah berikut "
+"Anda dapat menggunakan buku alamat <app>Evolution</app> Anda di "
+"<app>LibreOffice Writer</app> sebagai sumber data. Langkah-langkah berikut "
 "mengacu pada LibreOffice versi 5.4."
 
 #. (itstool) path: item/p
 #: C/contacts-libreoffice.page:28
-#, fuzzy
 msgid ""
 "Click <guiseq><gui>Edit</gui><gui>Exchange Database…</gui></guiseq> in the "
 "menu bar. This will bring up the <gui>Exchange Databases</gui> dialog box."
 msgstr ""
-"Klik <guiseq> <gui>Edit</gui><gui>Database Exchange...</gui> </guiseq> di "
-"bilah menu. Ini akan memunculkan kotak <gui>dialog Database Exchange.</gui>"
+"Klik <guiseq><gui>Sunting</gui><gui>Pertukaran Basis Data...</gui> </guiseq> "
+"di bilah menu. Ini akan memunculkan kotak dialog <gui>Pertukaran Basis Data</"
+"gui>."
 
 #. (itstool) path: item/p
 #: C/contacts-libreoffice.page:33
-#, fuzzy
 msgid ""
 "In the right pane under <gui>Available Databases</gui>, <gui>EvolutionLocal</"
 "gui> is available as a source. Click on the small triangle to get the list "
 "of your <app>Evolution</app> address books."
 msgstr ""
-"Di panel kanan di <gui>bawah Database yang</gui>Tersedia, "
+"Di panel kanan di bawah <gui>Basis Database yang Tersedia</gui>, "
 "<gui>EvolutionLocal</gui> tersedia sebagai sumber. Klik segitiga kecil untuk "
 "mendapatkan daftar buku alamat <app>Evolution</app> Anda."
 
 #. (itstool) path: item/p
 #: C/contacts-libreoffice.page:38
-#, fuzzy
 msgid "Choose an addressbook and click <gui style=\"button\">Define</gui>."
-msgstr "Pilih buku alamat dan klik <gui style=\"button\">Tetapkan.</gui>"
+msgstr "Pilih buku alamat dan klik <gui style=\"button\">Tetapkan</gui>."
 
 #. (itstool) path: page/p
 #: C/contacts-libreoffice.page:42
-#, fuzzy
 msgid ""
 "This makes the <app>Evolution</app> address book the default data source for "
 "LibreOffice. You can now select a field to insert into a LibreOffice "
 "document via <guiseq><gui>Insert</gui><gui>Field</gui></guiseq>."
 msgstr ""
-"Ini membuat <app>alamat Evolution</app> memesan sumber data default untuk "
+"Ini membuat alamat <app>Evolution</app> sebagai sumber data baku untuk "
 "LibreOffice. Sekarang Anda bisa memilih bidang untuk disisipkan ke dalam "
-"dokumen LibreOffice melalui <guiseq> <gui>Sisipkan</gui><gui>Bidang.</gui></"
-"guiseq>"
+"dokumen LibreOffice melalui <guiseq><gui>Sisipkan</gui><gui>Bidang</gui></"
+"guiseq>."
 
 #. (itstool) path: info/desc
 #: C/contacts-local.page:17
@@ -2348,7 +2312,6 @@ msgstr "Mengurutkan, menata, dan mengelompokkan kontak"
 
 #. (itstool) path: page/p
 #: C/contacts-organizing.page:23
-#, fuzzy
 msgid ""
 "There are several ways how to organize your contacts. You can use several "
 "addressbooks and categories, and for conveniently sending messages to a "
@@ -2370,7 +2333,6 @@ msgstr "Mencari Kontak"
 
 #. (itstool) path: section/title
 #: C/contacts-searching.page:31
-#, fuzzy
 msgid "Searching in a Single Contact"
 msgstr "Mencari dalam Satu Kontak"
 
@@ -5343,9 +5305,8 @@ msgstr "<_:media-1/> Bilah Harus Dilakukan"
 
 #. (itstool) path: td/p
 #: C/intro-main-window.page:58
-#, fuzzy
 msgid "<_:media-1/> Preview pane"
-msgstr "<_:media-1/> Panel Pratinjau"
+msgstr "<_:media-1/> Panel pratinjau"
 
 #. (itstool) path: td/p
 #: C/intro-main-window.page:61 C/intro-main-window.page:120
@@ -5357,13 +5318,11 @@ msgstr "<_:media-1/> Switcher"
 #. (itstool) path: td/p
 #: C/intro-main-window.page:64 C/intro-main-window.page:123
 #: C/intro-main-window.page:165
-#, fuzzy
 msgid "<_:media-1/> Status bar"
 msgstr "<_:media-1/> Bilah status"
 
 #. (itstool) path: item/title
 #: C/intro-main-window.page:70
-#, fuzzy
 msgid "Folder list"
 msgstr "Daftar folder"
 
@@ -5395,7 +5354,6 @@ msgstr "Daftar Pesan"
 
 #. (itstool) path: item/p
 #: C/intro-main-window.page:76
-#, fuzzy
 msgid ""
 "The message list displays all the read and unread messages that you have in "
 "the chosen folder. To view an email in the preview pane, click the message "
@@ -5440,7 +5398,6 @@ msgstr "Panel Pratinjau"
 
 #. (itstool) path: item/p
 #: C/intro-main-window.page:85
-#, fuzzy
 msgid ""
 "The preview pane displays the message that is currently chosen in the "
 "message list."
@@ -5487,19 +5444,17 @@ msgstr ""
 
 #. (itstool) path: note/p
 #: C/intro-main-window.page:94
-#, fuzzy
 msgid ""
 "If you ever accidentally hide the menu bar, press <key>Alt</key> and re-"
 "enable it by toggling <guiseq><gui>View</gui><gui>Layout</gui><gui>Show Menu "
 "Bar</gui></guiseq>."
 msgstr ""
 "Jika Anda tidak sengaja menyembunyikan bilah menu, tekan <key>Alt</key> dan "
-"aktifkan kembali dengan beralih Ke Bilah Menu <guiseq> <gui>Tampilkan Tata</"
-"gui><gui>Letak</gui><gui>Tampilan.</gui></guiseq>"
+"aktifkan kembali dengan menjungkitkan <guiseq><gui>Tampilan</gui><gui>Tata "
+"Letak</gui><gui>Tampilkan Bilah Menu</gui></guiseq>."
 
 #. (itstool) path: section/p
 #: C/intro-main-window.page:99
-#, fuzzy
 msgid "Elements in the calendar main window:"
 msgstr "Elemen di jendela utama kalender:"
 
@@ -5535,7 +5490,6 @@ msgstr "Daftar Janji Temu"
 
 #. (itstool) path: item/p
 #: C/intro-main-window.page:129
-#, fuzzy
 msgid ""
 "The appointment list displays all your scheduled appointments in the time "
 "frame selected."
@@ -5550,7 +5504,6 @@ msgstr "Panel Bulan"
 
 #. (itstool) path: item/p
 #: C/intro-main-window.page:133
-#, fuzzy
 msgid ""
 "The month pane is a small view of a calendar month. To display additional "
 "months, drag the column border to the right. You can also select a range of "
@@ -5559,47 +5512,41 @@ msgid ""
 msgstr ""
 "Panel bulan adalah tampilan kecil bulan kalender. Untuk menampilkan bulan "
 "tambahan, seret batas kolom ke kanan. Anda juga bisa memilih rentang hari di "
-"panel bulan untuk menampilkan rentang hari kustom dalam daftar janji."
+"panel bulan untuk menampilkan rentang hari ubahan dalam daftar janji."
 
 #. (itstool) path: item/title
 #: C/intro-main-window.page:136
-#, fuzzy
 msgid "Task list and Memo list"
-msgstr "Daftar tugas dan daftar Memo"
+msgstr "Daftar Tugas dan daftar Memo"
 
 #. (itstool) path: item/p
 #: C/intro-main-window.page:137
-#, fuzzy
 msgid ""
 "Tasks and memos are just displayed for your convenience and are not "
 "associated to any appointments. Use the <gui>switcher</gui> to go to their "
 "main windows."
 msgstr ""
 "Tugas dan memo hanya ditampilkan untuk kenyamanan Anda dan tidak terkait "
-"dengan janji temu apa pun. Gunakan <gui>pengalih untuk</gui> pergi ke "
+"dengan janji temu apa pun. Gunakan <gui>pengalih</gui> untuk pergi ke "
 "jendela utama mereka."
 
 #. (itstool) path: section/p
 #: C/intro-main-window.page:145
-#, fuzzy
 msgid "Elements in the contacts main window:"
 msgstr "Elemen di jendela utama kontak:"
 
 #. (itstool) path: td/p
 #: C/intro-main-window.page:154
-#, fuzzy
 msgid "<_:media-1/> Address book list"
-msgstr "<_:media-1/> Daftar buku Alamat"
+msgstr "<_:media-1/> Daftar buku alamat"
 
 #. (itstool) path: td/p
 #: C/intro-main-window.page:158
-#, fuzzy
 msgid "<_:media-1/> Contacts list"
-msgstr "<_:media-1/> Daftar Kontak"
+msgstr "<_:media-1/> Daftar kontak"
 
 #. (itstool) path: td/p
 #: C/intro-main-window.page:162
-#, fuzzy
 msgid "<_:media-1/> Contact preview"
 msgstr "<_:media-1/> Pratinjau kontak"
 
@@ -6637,7 +6584,6 @@ msgstr "Penanganan lampiran file untuk menulis dan membaca surel"
 
 #. (itstool) path: page/title
 #: C/mail-attachments.page:18
-#, fuzzy
 msgid "Managing attachments"
 msgstr "Mengelola lampiran"
 
@@ -6649,7 +6595,6 @@ msgstr "Menyimpan dan membuka file yang dilampirkan ke surel yang diterima."
 
 #. (itstool) path: page/title
 #: C/mail-attachments-received.page:24
-#, fuzzy
 msgid "Handling attachments in received mail"
 msgstr "Menangani lampiran dalam surel yang diterima"
 
@@ -10502,7 +10447,6 @@ msgstr ""
 
 #. (itstool) path: item/p
 #: C/mail-filters-actions.page:56
-#, fuzzy
 msgid "Beep:"
 msgstr "Bip:"
 
@@ -10514,7 +10458,6 @@ msgstr "Membuat sistem berbunyi bip."
 
 #. (itstool) path: item/p
 #: C/mail-filters-actions.page:59
-#, fuzzy
 msgid "Play Sound:"
 msgstr "Putar Suara:"
 
@@ -10590,7 +10533,6 @@ msgstr "Kondisi Filter yang tersedia"
 
 #. (itstool) path: item/p
 #: C/mail-filters-conditions.page:33
-#, fuzzy
 msgid "Source Account:"
 msgstr "Akun Sumber:"
 
@@ -10632,9 +10574,8 @@ msgstr "Filter berdasarkan hasil tes <link xref=\"mail-spam\"> surel sampah."
 
 #. (itstool) path: item/p
 #: C/mail-filters-conditions.page:42 C/mail-search-folders-conditions.page:36
-#, fuzzy
 msgid "Match All:"
-msgstr "Cocokkan Semua:"
+msgstr "Cocok Semua:"
 
 #. (itstool) path: item/p
 #: C/mail-filters-conditions.page:43
@@ -10667,7 +10608,6 @@ msgstr "Filter surel tidak berfungsi"
 
 #. (itstool) path: section/title
 #: C/mail-filters-not-working.page:28
-#, fuzzy
 msgid "Order of Filters"
 msgstr "Urutan Filter"
 
@@ -10846,7 +10786,6 @@ msgstr ""
 
 #. (itstool) path: page/title
 #: C/mail-filters.page:23
-#, fuzzy
 msgid "Using Filters"
 msgstr "Menggunakan Filter"
 
@@ -11021,7 +10960,6 @@ msgstr "Klik <guiseq> <gui>Edit</gui><gui>Filter Pesan.</gui></guiseq>"
 
 #. (itstool) path: item/p
 #: C/mail-filters.page:59 C/mail-filters.page:69
-#, fuzzy
 msgid "Select the filter."
 msgstr "Pilih filter."
 
@@ -11054,7 +10992,6 @@ msgstr "Gunakan folder untuk menata surel Anda."
 
 #. (itstool) path: page/title
 #: C/mail-folders.page:29
-#, fuzzy
 msgid "Using Folders"
 msgstr "Menggunakan Folder"
 
@@ -11079,7 +11016,6 @@ msgstr "Membuat folder"
 
 #. (itstool) path: section/p
 #: C/mail-folders.page:35
-#, fuzzy
 msgid "To create a folder:"
 msgstr "Untuk membuat folder:"
 
