@@ -167,7 +167,7 @@ msgid ""
 "\"help:gnome-help/shell-notifications\" href=\"https://help.gnome.org/users/"
 "gnome-help/stable/shell-notifications\"> the GNOME Desktop Help</link>."
 msgstr ""
-"Per obtenir informació general sobre la visualització de recordatoris, "
+"Per a obtenir informació general sobre la visualització de recordatoris, "
 "consulteu <link xref=\"help:gnome-help/shell-notifications\" href=\"https://"
 "help.gnome.org/users/gnome-help/stable/shell-notifications\">Ajuda de "
 "l'escriptori del GNOME</link>."
@@ -823,9 +823,9 @@ msgid ""
 "complete list of available strftime formats, run <cmd>date --help</cmd> in "
 "the <app>Terminal</app> application."
 msgstr ""
-"Els marcadors de posició en l'expressió de format són strftime. Per obtenir "
-"una llista completa dels formats de temps disponibles, executeu <cmd>date --"
-"help</cmd> a l'aplicatiu <app>Terminal</app>."
+"Els marcadors de posició en l'expressió de format són strftime. Per a "
+"obtenir una llista completa dels formats de temps disponibles, executeu "
+"<cmd>date --help</cmd> a l'aplicatiu <app>Terminal</app>."
 
 #. (itstool) path: info/desc
 #: C/calendar-layout.page:17
@@ -1120,7 +1120,7 @@ msgid ""
 msgstr ""
 "A <guiseq><gui>Edita</gui><gui>Preferències</gui><gui>Calendari i tasques</"
 "gui><gui>Invitacions a reunions</gui><gui>Cerca de conflictes</gui></guiseq> "
-"podeu definir quins calendaris s'utilitzaran per avisar-vos de conflictes."
+"podeu definir quins calendaris s'utilitzaran per a avisar-vos de conflictes."
 
 #. (itstool) path: info/desc
 #: C/calendar-meetings-sending-invitation.page:23
@@ -1213,7 +1213,7 @@ msgid ""
 "gui><gui>All Day Event</gui></guiseq>, or click the <gui>All Day Event</gui> "
 "button on the toolbar."
 msgstr ""
-"Per marcar aquest esdeveniment com a un esdeveniment per tot el dia, feu "
+"Per a marcar aquest esdeveniment com a un esdeveniment per tot el dia, feu "
 "clic a <guiseq><gui>Opcions</gui><gui>Esdeveniment per tot el dia</gui></"
 "guiseq>, o feu clic al botó <gui>Esdeveniment per tot el dia</gui> a la "
 "barra d'eines."
@@ -1231,7 +1231,7 @@ msgid ""
 "specify the duration, or select <gui>Until</gui> to specify the ending time "
 "of the event."
 msgstr ""
-"Si l'esdeveniment no és per tot un dia, seleccioneu <gui>Per</gui> per "
+"Si l'esdeveniment no és per tot un dia, seleccioneu <gui>Per</gui> per a "
 "indicar la durada, o seleccioneu <gui>Fins a</gui> per a especificar el "
 "temps de finalització de l'esdeveniment."
 
@@ -1256,7 +1256,7 @@ msgstr ""
 #. (itstool) path: item/p
 #: C/calendar-meetings-sending-invitation.page:92
 msgid "Click <gui>Save</gui> to save the meeting."
-msgstr "Feu clic a <gui>Desa</gui> per desar la reunió."
+msgstr "Feu clic a <gui>Desa</gui> per a desar la reunió."
 
 #. (itstool) path: page/p
 #: C/calendar-meetings-sending-invitation.page:96
@@ -1296,7 +1296,7 @@ msgid ""
 msgstr ""
 "A <app>Evolution</app>, una reunió només pot tenir un organitzador, i només "
 "l'organitzador pot afegir-hi participant. Tot i que és possible canviar "
-"l'organitzador d'una reunió, no és recomanable com a mitjà per convidar "
+"l'organitzador d'una reunió, no és recomanable com a mitjà per a convidar "
 "participants addicionals. Si voleu convidar altres persones a una reunió i "
 "no sou l'organitzador d'aquesta reunió, es recomana que reenvieu el missatge "
 "d'invitació que vàreu rebre de l'organitzador de la reunió original als nous "
@@ -1344,7 +1344,7 @@ msgid ""
 "calendar(s) to publish, and authentication information for uploading."
 msgstr ""
 "Podeu especificar la ubicació en línia, la freqüència de publicació, el "
-"calendari(s) a publicar, i la informació d'autenticació per carregar."
+"calendari(s) a publicar, i la informació d'autenticació per a carregar."
 
 #. (itstool) path: page/p
 #: C/calendar-publishing.page:47
@@ -1382,7 +1382,7 @@ msgstr ""
 "Si teniu una cita que es fa amb regularitat, podeu definir la seva "
 "recurrència fent clic al botó <gui>Periodicitat</gui> a l'<gui>editor de "
 "cites</gui> o fent clic a <guiseq><gui>Opcions</gui><gui>Periodicitat</gui></"
-"guiseq>. A continuació, podeu triar una hora i una data per deixar-la de "
+"guiseq>. A continuació, podeu triar una hora i una data per a deixar-la de "
 "repetir i, a <gui>Excepcions</gui>, triar dies individuals per als quals no "
 "repetir la cita. Feu la vostra selecció d'esquerra a dreta i formeu una "
 "frase: \"Cada dues setmanes de dilluns i divendres fins al 3 de gener de "
@@ -1424,7 +1424,8 @@ msgstr "Cercant per sumari:"
 #: C/memos-searching.page:43 C/tasks-searching.page:43
 msgid "Click the search icon <_:media-1/> to expand the drop-down list."
 msgstr ""
-"Feu clic a la icona de cerca<_:media-1/> per expandir la llista desplegable."
+"Feu clic a la icona de cerca<_:media-1/> per a expandir la llista "
+"desplegable."
 
 #. (itstool) path: item/p
 #: C/calendar-searching.page:47 C/contacts-searching.page:55
@@ -1472,10 +1473,10 @@ msgid ""
 "the currently selected day in the given direction, in a range of 10 years by "
 "default."
 msgstr ""
-"Per recórrer els resultats, podeu utilitzar els dos botons amb una fletxa al "
-"costat del camp de cerca. Així es cerca als calendaris habilitats. Cerqueu "
-"des del dia seleccionat en la direcció indicada, en un interval de 10 anys "
-"de manera predeterminada."
+"Per a recórrer els resultats, podeu utilitzar els dos botons amb una fletxa "
+"al costat del camp de cerca. Així es cerca als calendaris habilitats. "
+"Cerqueu des del dia seleccionat en la direcció indicada, en un interval de "
+"10 anys de manera predeterminada."
 
 #. (itstool) path: section/p
 #: C/calendar-searching.page:76 C/contacts-searching.page:80
@@ -1930,7 +1931,8 @@ msgid ""
 msgstr ""
 "Seleccioneu <gui>Mostra sempre l'adreça del contacte complet automàticament</"
 "gui> per a mostrar també l'adreça de correu electrònic juntament amb el nom. "
-"Això pot ser útil per distingir si un contacte té diverses adreces de correu."
+"Això pot ser útil per a distingir si un contacte té diverses adreces de "
+"correu."
 
 #. (itstool) path: page/p
 #: C/contacts-autocompletion.page:46
@@ -1941,7 +1943,7 @@ msgid ""
 "address columns."
 msgstr ""
 "Alternativament, podeu fer clic als botons <gui>A:</gui>, <gui>Cc:</gui>, o "
-"<gui>Bcc:</gui> per obtenir una llista de les adreces electròniques dels "
+"<gui>Bcc:</gui> per a obtenir una llista de les adreces electròniques dels "
 "vostres contactes. Seleccioneu les adreces i feu clic als botons de fletxa "
 "per a moure'ls a les columnes d'adreça adequades."
 
@@ -1999,9 +2001,9 @@ msgid ""
 "maintain a shared set of contact information. Many companies keep a common "
 "LDAP address book for all their employees or for client contacts."
 msgstr ""
-"El protocol LDAP es va crear per permetre als usuaris d'una xarxa compartir "
-"informació de contacte mitjançant l'accés a un directori central. LDAP "
-"permet a una empresa mantenir un conjunt d'informació de contacte "
+"El protocol LDAP es va crear per a permetre als usuaris d'una xarxa "
+"compartir informació de contacte mitjançant l'accés a un directori central. "
+"LDAP permet a una empresa mantenir un conjunt d'informació de contacte "
 "compartida. Moltes empreses mantenen una llibreta d'adreces LDAP comuna per "
 "a tots els seus empleats o contactes dels clients."
 
@@ -2044,7 +2046,7 @@ msgid ""
 "Contact your system administrator for information about the correct settings."
 msgstr ""
 "Base de cerca: la base de cerca és el punt de partida d'una cerca a "
-"directoris. Poseu-vos en contacte amb l'administrador del sistema per "
+"directoris. Poseu-vos en contacte amb l'administrador del sistema per a "
 "obtenir informació sobre la configuració correcta."
 
 #. (itstool) path: item/p
@@ -2167,8 +2169,8 @@ msgid ""
 "right-click the folder, click <gui>Properties</gui> and select <gui>Copy "
 "folder content locally for offline operation</gui>."
 msgstr ""
-"També podeu marcar una carpeta en xarxa per a l'ús fora de línia. Per marcar "
-"la carpeta, feu clic amb el botó dret a la carpeta, feu clic a "
+"També podeu marcar una carpeta en xarxa per a l'ús fora de línia. Per a "
+"marcar la carpeta, feu clic amb el botó dret a la carpeta, feu clic a "
 "<gui>Propietats</gui> i seleccioneu <gui>Copia el contingut de la carpeta "
 "localment per al seu ús fora de línia</gui>."
 
@@ -2238,8 +2240,8 @@ msgid ""
 "of your <app>Evolution</app> address books."
 msgstr ""
 "En el panell dret a sota <gui>Bases de dades disponibles</gui>, "
-"<gui>EvolutionLocal</gui> està disponible. Feu clic al triangle per obtenir "
-"la llista d'adreces d'<app>Evolution</app>."
+"<gui>EvolutionLocal</gui> està disponible. Feu clic al triangle per a "
+"obtenir la llista d'adreces d'<app>Evolution</app>."
 
 #. (itstool) path: item/p
 #: C/contacts-libreoffice.page:38
@@ -3237,8 +3239,8 @@ msgid ""
 "gui><gui>Save as mbox…</gui></guiseq> or right-click on the message and "
 "click <gui>Save as mbox…</gui>."
 msgstr ""
-"Per desar un correu electrònic a un fitxer en format <link href=\"https://en."
-"wikipedia.org/wiki/Mbox\">mbox</link>, seleccioneu un correu i feu clic a "
+"Per a desar un correu electrònic a un fitxer en format <link href=\"https://"
+"en.wikipedia.org/wiki/Mbox\">mbox</link>, seleccioneu un correu i feu clic a "
 "<guiseq><gui>Fitxer</gui><gui>Desa com mbox…</gui></guiseq> o feu clic amb "
 "el botó dret sobre el missatge i feu clic a <gui>Desa com mbox…</gui>."
 
@@ -6190,7 +6192,7 @@ msgid ""
 "want to contact your system administrator for more information."
 msgstr ""
 "Si no esteu segur de la versió del servidor Microsoft Exchange, podeu "
-"contactar amb l'administrador del sistema per obtenir més informació."
+"contactar amb l'administrador del sistema per a obtenir més informació."
 
 #. (itstool) path: page/p
 #: C/mail-account-manage-microsoft-exchange.page:48
@@ -6458,8 +6460,8 @@ msgid ""
 "To save an attachment to disk, click the down-arrow next to the attachment "
 "icon and click <gui>Save As</gui>."
 msgstr ""
-"Per desar un fitxer adjunt al disc, feu clic a la fletxa avall que hi ha al "
-"costat de la icona de l'adjunt i feu clic a <gui>Desa com</gui>."
+"Per a desar un fitxer adjunt al disc, feu clic a la fletxa avall que hi ha "
+"al costat de la icona de l'adjunt i feu clic a <gui>Desa com</gui>."
 
 #. (itstool) path: page/p
 #: C/mail-attachments-received.page:31
@@ -8236,7 +8238,7 @@ msgid ""
 "<app>Evolution</app> uses different bullet styles, and handles word wrap and "
 "multiple levels of indentation."
 msgstr ""
-"Per exemple, en comptes d'utilitzar asteriscs per marcar els pics d'una "
+"Per exemple, en comptes d'utilitzar asteriscs per a marcar els pics d'una "
 "llista, podeu utilitzar l'estil <gui>Llista de pics</gui> de la llista "
 "desplegable. <app>Evolution</app> utilitza diferents estils de pic, i "
 "controla la compaginació i diversos nivells de sagnat."
@@ -8345,7 +8347,7 @@ msgstr ""
 "podeu modificar-los. A més, el text complet del missatge antic s'insereix al "
 "nou missatge, ja sigui en gris amb una línia blava a un costat (a la "
 "visualització HTML) o amb el caràcter &gt; abans de cada línia (en mode text "
-"pla), per indicar que forma part del missatge anterior."
+"pla), per a indicar que forma part del missatge anterior."
 
 #. (itstool) path: section/p
 #: C/mail-composer-reply.page:28
@@ -8661,9 +8663,9 @@ msgid ""
 msgstr ""
 "En lloc d'escriure els noms dels destinataris, també podeu fer clic als "
 "botons <gui style=\"button\">Per a:</gui>, <gui style=\"button\">Cc:</gui>, "
-"o <gui style=\"button\">Cco:</gui> per obtenir una llista de les adreces de "
-"correu electrònic a la vostra llibreta d'adreces. Seleccioneu les adreces i "
-"feu clic als botons de fletxa per a moure's a les columnes d'adreça "
+"o <gui style=\"button\">Cco:</gui> per a obtenir una llista de les adreces "
+"de correu electrònic a la vostra llibreta d'adreces. Seleccioneu les adreces "
+"i feu clic als botons de fletxa per a moure's a les columnes d'adreça "
 "adequades (Per a:, Cc:, Cco:)."
 
 #. (itstool) path: info/desc
@@ -8805,7 +8807,7 @@ msgid ""
 msgstr ""
 "Introduïu l'adreça de correu electrònic al camp <gui>Per a:</gui>.Si voleu "
 "introduir diverses adreces, separeu-les per comes. consulteu <link xref="
-"\"mail-composer-several-recipients\"/>. Per obtenir més informació sobre "
+"\"mail-composer-several-recipients\"/>. Per a obtenir més informació sobre "
 "l'enviament de missatges a més d'una persona."
 
 #. (itstool) path: page/p
@@ -8927,10 +8929,10 @@ msgid ""
 "<keyseq><key>Ctrl</key><key>D</key></keyseq>, or right-click the message and "
 "click <gui>Delete</gui>."
 msgstr ""
-"Per esborrar un missatge, seleccioneu-lo i premeu la tecla <key>Supr</key>, "
-"o feu clic al botó <gui style=\"button\">Suprimeix</gui> a la barra d'eines, "
-"o premeu <keyseq><key>Ctrl</key><key>D</key></keyseq>, o feu clic amb el "
-"botó dret del ratolí al missatge i feu clic a <gui>Suprimeix</gui>."
+"Per a esborrar un missatge, seleccioneu-lo i premeu la tecla <key>Supr</"
+"key>, o feu clic al botó <gui style=\"button\">Suprimeix</gui> a la barra "
+"d'eines, o premeu <keyseq><key>Ctrl</key><key>D</key></keyseq>, o feu clic "
+"amb el botó dret del ratolí al missatge i feu clic a <gui>Suprimeix</gui>."
 
 #. (itstool) path: section/p
 #: C/mail-delete-and-undelete.page:32
@@ -8955,7 +8957,7 @@ msgid ""
 "<guiseq><gui>Folder</gui><gui>Expunge</gui></guiseq> or press "
 "<keyseq><key>Ctrl</key><key>E</key></keyseq>."
 msgstr ""
-"Per esborrar permanentment tots els missatges esborrats d'una carpeta, feu "
+"Per a esborrar permanentment tots els missatges esborrats d'una carpeta, feu "
 "clic a la <guiseq><gui>Carpeta</gui><gui>Suprimeix definitivament</gui></"
 "guiseq> o premeu <keyseq><key>Ctrl</key><key>E</key></keyseq>."
 
@@ -9162,7 +9164,7 @@ msgid ""
 "To load the images for one message, click <guiseq><gui>View</gui><gui>Load "
 "Images</gui></guiseq> or press <keyseq><key>Ctrl</key><key>I</key></keyseq>."
 msgstr ""
-"Per carregar les imatges d'un missatge, feu clic a <guiseq><gui>Vista</"
+"Per a carregar les imatges d'un missatge, feu clic a <guiseq><gui>Vista</"
 "gui><gui>Carrega imatges</gui></guiseq> o premeu <keyseq><key>Ctrl</"
 "key><key>I</key></keyseq>."
 
@@ -9222,7 +9224,7 @@ msgid ""
 "To save an image that is embedded in an HTML email, right-click on the image "
 "and click <gui>Save Image…</gui>."
 msgstr ""
-"Per desar una imatge que estigui incrustada en un correu electrònic en "
+"Per a desar una imatge que estigui incrustada en un correu electrònic en "
 "format HTML, feu clic amb el botó dret sobre la imatge i feu clic a "
 "<gui>Desa imatge…</gui>."
 
@@ -9446,7 +9448,7 @@ msgstr ""
 "\">activar <app>Evolution</app> per a utilitzar la clau</link>, heu de "
 "compartir <link xref=\"help:seahorse/pgp-publish\" href=\"https://help.gnome."
 "org/users/seahorse/stable/pgp-publish\">la clau pública amb els vostres "
-"amics per permetre'ls enviar missatges xifrats</link>."
+"amics per a permetre'ls enviar missatges xifrats</link>."
 
 #. (itstool) path: info/desc
 #: C/mail-encryption-gpg-decrypting.page:5
@@ -10350,8 +10352,9 @@ msgid ""
 "For more information on the available conditions see <link xref=\"mail-"
 "filters-conditions\">Available Filter conditions</link>."
 msgstr ""
-"Per obtenir més informació sobre les condicions disponibles, consulteu <link "
-"xref=\"mail-filters-conditions\">Condicions de filtre disponibles</link>."
+"Per a obtenir més informació sobre les condicions disponibles, consulteu "
+"<link xref=\"mail-filters-conditions\">Condicions de filtre disponibles</"
+"link>."
 
 #. (itstool) path: item/p
 #: C/mail-filters.page:40 C/mail-search-folders-add.page:31
@@ -10375,7 +10378,7 @@ msgid ""
 "For more information on the available actions see <link xref=\"mail-filters-"
 "actions\">Available Filter actions</link>."
 msgstr ""
-"Per obtenir més informació sobre les accions disponibles, consulteu <link "
+"Per a obtenir més informació sobre les accions disponibles, consulteu <link "
 "xref=\"mail-filters-actions\">Accions de filtre disponibles</link>."
 
 #. (itstool) path: note/p
@@ -11001,9 +11004,9 @@ msgid ""
 "applies to other types of accounts as well."
 msgstr ""
 "Consulteu el tema <link xref=\"mail-delete-and-undelete\">esborrar correus "
-"electrònics</link> per obtenir instruccions sobre com eliminar missatges de "
-"correu electrònic. Tingueu en compte que això també s'aplica a altres tipus "
-"de comptes."
+"electrònics</link> per a obtenir instruccions sobre com eliminar missatges "
+"de correu electrònic. Tingueu en compte que això també s'aplica a altres "
+"tipus de comptes."
 
 #. (itstool) path: info/desc
 #: C/mail-not-sent.page:5
@@ -11264,7 +11267,7 @@ msgid ""
 "system administrator for more information."
 msgstr ""
 "Si esteu en un entorn d'organització, podeu contactar amb l'administrador "
-"del sistema per obtenir més informació."
+"del sistema per a obtenir més informació."
 
 #. (itstool) path: item/p
 #: C/mail-receiving-options-exchange-ews.page:31
@@ -11445,7 +11448,7 @@ msgid ""
 msgstr ""
 "Els proveïdors de webmail gratuïts solen proporcionar informació sobre quina "
 "d'aquestes opcions es pot utilitzar. Si us trobeu en l'entorn d'una "
-"organització, podeu contactar amb l'administrador del sistema per obtenir "
+"organització, podeu contactar amb l'administrador del sistema per a obtenir "
 "més informació."
 
 #. (itstool) path: item/p
@@ -11732,11 +11735,11 @@ msgid ""
 "gnome-help/stable/printing\">the desktop help</link> for general information "
 "on printing."
 msgstr ""
-"Per desar els correus en format PDF, seleccioneu <guiseq><gui>Fitxer</"
+"Per a desar els correus en format PDF, seleccioneu <guiseq><gui>Fitxer</"
 "gui><gui>Imprimeix</gui></guiseq> i seleccioneu <gui>Imprimeix en un fitxer</"
 "gui>. Veure <link xref=\"help:gnome-help/printing\" href=\"https://help."
 "gnome.org/users/gnome-help/stable/printing\">l'ajuda d'escriptori</link> per "
-"obtenir informació general sobre la impressió."
+"a obtenir informació general sobre la impressió."
 
 #. (itstool) path: note/p
 #: C/mail-save-as-pdf.page:25
@@ -13044,7 +13047,7 @@ msgid ""
 "resp. <link href=\"https://wiki.apache.org/spamassassin/"
 "FrequentlyAskedQuestions\">SpamAssassin</link>."
 msgstr ""
-"Per obtenir més informació i preguntes relacionades amb la configuració de "
+"Per a obtenir més informació i preguntes relacionades amb la configuració de "
 "Bogofilter o SpamAssassin, es recomana consultar les Preguntes freqüents de "
 "<link href=\"http://bogofilter.sourceforge.net/faq.shtml\">Bogofilter</link> "
 "i de <link href=\"https://wiki.apache.org/spamassassin/"
@@ -13252,7 +13255,7 @@ msgid ""
 "systems like IMAP or Exchange, to allow you to read messages."
 msgstr ""
 "<app>Evolution</app> pot mantenir una còpia local de carpetes ubicades en "
-"sistemes de correu remot com IMAP o Exchange, per permetre-vos llegir "
+"sistemes de correu remot com IMAP o Exchange, per a permetre-vos llegir "
 "missatges."
 
 #. (itstool) path: note/p
@@ -13317,7 +13320,7 @@ msgstr ""
 #. (itstool) path: section/p
 #: C/mail-working-offline.page:40
 msgid "To mark a mail folder for offline use,"
-msgstr "Per marcar una carpeta de correu per a utilitzar fora de línia,"
+msgstr "Per a marcar una carpeta de correu per a utilitzar fora de línia,"
 
 #. (itstool) path: item/p
 #: C/mail-working-offline.page:42
@@ -13671,7 +13674,7 @@ msgstr ""
 "Si el problema persisteix i esteu segur de no haver fet clic a la icona, "
 "però encara podeu accedir a la xarxa des d'altres aplicacions del vostre "
 "sistema (navegadors, FTP, SSH, ping, etc.) pot ser que la vostra connexió de "
-"xarxa no estigui ben configurada. Per obtenir més informació, consulteu "
+"xarxa no estigui ben configurada. Per a obtenir més informació, consulteu "
 "l'<link xref=\"help:gnome-help/net-problem\" href=\"https://help.gnome.org/"
 "users/gnome-help/stable/net-problem\">Ajuda d'escriptori</link> o busqueu "
 "ajuda als fòrums de suport a la distribució, llistes de correu, etc."
@@ -13733,7 +13736,7 @@ msgid ""
 "To contact the <app>Evolution</app> community for help, please see <link "
 "xref=\"problems-getting-help\">How to get help</link>."
 msgstr ""
-"Per contactar amb la comunitat <app>Evolution</app> per obtenir ajuda, "
+"Per contactar amb la comunitat <app>Evolution</app> per a obtenir ajuda, "
 "consulteu <link xref=\"problems-getting-help\">Com obtenir ajuda</link>."
 
 #. (itstool) path: info/desc
@@ -14340,7 +14343,7 @@ msgstr "Configuració de categories per a un objecte"
 #. (itstool) path: section/p
 #: C/using-categories.page:34
 msgid "To mark an object as belonging to a category,"
-msgstr "Per marcar un objecte com a pertanyent a una categoria,"
+msgstr "Per a marcar un objecte com a pertanyent a una categoria,"
 
 #. (itstool) path: item/p
 #: C/using-categories.page:36
@@ -14753,7 +14756,7 @@ msgstr ""
 "regulars, aquesta opció us permet cercar patrons complexos, de manera que "
 "podeu trobar, per exemple, totes les paraules que comencen per «a» i acaben "
 "amb \"m\" i tenen entre sis i quinze lletres de llarg, o tots els missatges "
-"que es declaren un encapçalament particular dues vegades. Per obtenir "
+"que es declaren un encapçalament particular dues vegades. Per a obtenir "
 "informació sobre com utilitzar expressions regulars, consulteu <_:link-2/>."
 
 #. (itstool) path: section/title
@@ -14837,7 +14840,7 @@ msgid ""
 "gui-1/> icon in the search string field, or choose <_:guiseq-2/> from the "
 "menubar. You can also press <_:keyseq-3/> to clear the search."
 msgstr ""
-"Per esborrar la vista de cerca i tornar a la vista per defecte, feu clic a "
+"Per a esborrar la vista de cerca i tornar a la vista per defecte, feu clic a "
 "la <_:gui-1/> icona en el camp de la cadena de cerca, o trieu <_:guiseq-2/"
 ">des de la barra d'eines. També podeu prémer <_:keyseq-3/> per a netejar la "
 "cerca."
@@ -14874,9 +14877,9 @@ msgid ""
 "select <_:guiseq-3/>. From now on this search will be directly available "
 "from the <_:gui-4/> menu."
 msgstr ""
-"Per desar els resultats de la cerca, feu clic a <_:gui-1/> en comptes de <_:"
-"gui-2/> al quadre de diàleg Cerca o, en cas que els resultats de la cerca ja "
-"es mostrin, seleccioneu <_:guiseq-3/>. Des d'ara aquesta cerca estarà "
+"Per a desar els resultats de la cerca, feu clic a <_:gui-1/> en comptes de "
+"<_:gui-2/> al quadre de diàleg Cerca o, en cas que els resultats de la cerca "
+"ja es mostrin, seleccioneu <_:guiseq-3/>. Des d'ara aquesta cerca estarà "
 "directament disponible des del <_:gui-4/> menú."
 
 #. (itstool) path: section/title
