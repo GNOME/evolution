@@ -240,7 +240,7 @@ msgstr "Utilitzar un calendari CalDAV"
 msgid ""
 "To add such a calendar to <app>Evolution</app>, perform the following steps:"
 msgstr ""
-"Per afegir aquest calendari a <app>Evolution</app>, realitzeu els següents "
+"Per a afegir aquest calendari a <app>Evolution</app>, realitzeu els següents "
 "passos:"
 
 #. (itstool) path: item/p
@@ -352,7 +352,7 @@ msgid ""
 "denotes one level of security, and <gui>Confidential</gui> an even higher "
 "level."
 msgstr ""
-"Per classificar una cita, feu clic a <guiseq><gui>Opcions</"
+"Per a classificar una cita, feu clic a <guiseq><gui>Opcions</"
 "gui><gui>Classificació</gui></guiseq> i seleccioneu una classificació a "
 "l'editor. <gui>Pública</gui> és la categoria per defecte, i una cita pública "
 "la pot veure qualsevol persona a la xarxa d'intercanvi de calendaris. "
@@ -421,7 +421,7 @@ msgstr ""
 "Tanmateix, també podeu publicar informació en línia i accedir a informació "
 "publicada en altres llocs. Si tots els col·laboradors no publiquen les dades "
 "sobre si estan lliures/ocupats, encara podeu utilitzar les <link xref="
-"\"calendar-meetings-sending-invitation\">invitacions a reunions</link> per "
+"\"calendar-meetings-sending-invitation\">invitacions a reunions</link> per a "
 "coordinar les agendes amb altra gent."
 
 #. (itstool) path: page/p
@@ -441,7 +441,7 @@ msgid ""
 "Click <gui style=\"button\">Add</gui> to add the email addresses of people "
 "you want to invite."
 msgstr ""
-"Feu clic a <gui style=\"button\">Afegeix</gui> per afegir les adreces de "
+"Feu clic a <gui style=\"button\">Afegeix</gui> per a afegir les adreces de "
 "correu electrònic de les persones que voleu convidar."
 
 #. (itstool) path: item/p
@@ -503,10 +503,10 @@ msgid ""
 "Busy</gui></guiseq>."
 msgstr ""
 "La Graella d'horaris mostra la informació Lliure/Ocupat publicada per les "
-"persones que heu convidat. Aquí és on es comparen els horaris per trobar "
-"temps lliure per programar una cita. Les persones només tenen la informació "
-"de la programació visible si utilitzen el mateix servidor de Novell "
-"GroupWise o Microsoft Exchange (és a dir, si es troben en la mateixa "
+"persones que heu convidat. Aquí és on es comparen els horaris per a trobar "
+"temps lliure per a programar una cita. Les persones només tenen la "
+"informació de la programació visible si utilitzen el mateix servidor de "
+"Novell GroupWise o Microsoft Exchange (és a dir, si es troben en la mateixa "
 "organització que la seva) o si publiquen informació de lliure/ocupat en una "
 "adreça web (URL) a la que podeu accedir i heu introduït aquesta adreça per "
 "al contacte específic a <link xref=\"contacts-usage-edit-contact\">Editor de "
@@ -902,8 +902,8 @@ msgid ""
 "side bar. To do this, select the days that you want to view in your calendar."
 msgstr ""
 "També podeu seleccionar un interval arbitrari de dies al calendari petit de "
-"la barra lateral. Per fer-ho, seleccioneu els dies que voleu veure al vostre "
-"calendari."
+"la barra lateral. Per a fer-ho, seleccioneu els dies que voleu veure al "
+"vostre calendari."
 
 #. (itstool) path: page/p
 #: C/calendar-layout-views.page:56
@@ -915,7 +915,7 @@ msgid ""
 msgstr ""
 "Els botons Anterior i Següent us desplacen endavant i enrere a les pàgines "
 "del calendari. Si feu servir una vista setmanal o mensual, podeu moure-us "
-"per setmanes o per mesos. Per tornar a la fitxa d'avui, feu clic al botó "
+"per setmanes o per mesos. Per a tornar a la fitxa d'avui, feu clic al botó "
 "<gui>Selecciona avui</gui> entre els dos botons fletxa de la barra d'eines."
 
 #. (itstool) path: page/p
@@ -924,7 +924,7 @@ msgid ""
 "To visit calendar entries for a specific date, click the <gui>Select a "
 "specific date</gui> button in the toolbar."
 msgstr ""
-"Per visitar les entrades del calendari per a una data específica, feu clic "
+"Per a visitar les entrades del calendari per a una data específica, feu clic "
 "al botó <gui>Selecciona una data concreta</gui> a la barra d'eines."
 
 #. (itstool) path: info/desc
@@ -1166,7 +1166,7 @@ msgstr ""
 #. (itstool) path: page/p
 #: C/calendar-meetings-sending-invitation.page:40
 msgid "To schedule a meeting:"
-msgstr "Per programar una reunió:"
+msgstr "Per a programar una reunió:"
 
 #. (itstool) path: item/p
 #: C/calendar-meetings-sending-invitation.page:48
@@ -1331,7 +1331,7 @@ msgid ""
 "Information</gui> <gui>Locations</gui><gui style=\"button\">Add</gui></"
 "guiseq>."
 msgstr ""
-"Per fer que un dels vostres calendaris estigui disponible per al públic, "
+"Per a fer que un dels vostres calendaris estigui disponible per al públic, "
 "podeu definir els calendaris que es carregaran a un servidor web a "
 "<guiseq><gui>Edita</gui><gui>Preferències</gui> <gui>Calendari i tasques</"
 "gui> <gui>Publicació d'informació</gui> <gui>Localització</gui><gui style="
@@ -1352,7 +1352,7 @@ msgid ""
 "To immediately publish calendar information, click <guiseq><gui>Actions</"
 "gui><gui>Publish Calendar Information</gui></guiseq> in the calendar."
 msgstr ""
-"Per publicar immediatament la informació d'un calendari, feu clic a "
+"Per a publicar immediatament la informació d'un calendari, feu clic a "
 "<guiseq><gui>Accions</gui><gui>Publica informació del calendari</gui></"
 "guiseq> al calendari."
 
@@ -1566,9 +1566,9 @@ msgid ""
 "per-appointment basis helps avoid that potential confusion."
 msgstr ""
 "També podeu configurar la informació de zona horària específica de cada "
-"cita. Per fer-ho, <link xref=\"calendar-usage\">afegiu o editeu una cita "
+"cita. Per a fer-ho, <link xref=\"calendar-usage\">afegiu o editeu una cita "
 "existent</link>. A <gui>Zona horària</gui>, feu clic a <gui style=\"button"
-"\">Selecciona…</gui> per personalitzar la zona horària. Per exemple, si "
+"\">Selecciona…</gui> per a personalitzar la zona horària. Per exemple, si "
 "visquéssiu a Nova York però teniu una reunió telefònica amb algú a "
 "Califòrnia, hauríeu d'assegurar-vos que els horaris estiguin coordinats. "
 "L'establiment de zones horàries específiques per cita ajuda a evitar "
@@ -1963,8 +1963,8 @@ msgid ""
 "To add such an address book to <app>Evolution</app>, perform the following "
 "steps:"
 msgstr ""
-"Per afegir aquesta llibreta d'adreces a <app>Evolution</app>, realitzeu els "
-"passos següents:"
+"Per a afegir aquesta llibreta d'adreces a <app>Evolution</app>, realitzeu "
+"els passos següents:"
 
 #. (itstool) path: item/p
 #: C/contacts-google.page:28 C/contacts-ldap.page:40 C/contacts-local.page:27
@@ -2180,7 +2180,7 @@ msgid ""
 "To prevent excess network traffic, <app>Evolution</app> does not normally "
 "load data from the LDAP server upon opening."
 msgstr ""
-"Per prevenir l'excés de tràfic a la xarxa, <app>Evolution</app> normalment "
+"Per a prevenir l'excés de tràfic a la xarxa, <app>Evolution</app> normalment "
 "no carrega dades del servidor LDAP quan s'obre."
 
 #. (itstool) path: item/p
@@ -2278,7 +2278,7 @@ msgid ""
 "To add another local address book to <app>Evolution</app>, perform the "
 "following steps:"
 msgstr ""
-"Per afegir una altra llibreta d'adreces local a <app>Evolution</app>, "
+"Per a afegir una altra llibreta d'adreces local a <app>Evolution</app>, "
 "realitzeu els passos següents:"
 
 #. (itstool) path: info/desc
@@ -2422,7 +2422,7 @@ msgid ""
 "directly add the contact to the chosen address book."
 msgstr ""
 "Premeu <gui style=\"button\">Edita sencer</gui> per a mostrar l'<gui>Editor "
-"de contactes</gui>, o feu clic a <gui style=\"button\">D'acord</gui> per "
+"de contactes</gui>, o feu clic a <gui style=\"button\">D'acord</gui> per a "
 "afegir directament el contacte a la llibreta d'adreces seleccionada."
 
 #. (itstool) path: info/desc
@@ -2494,7 +2494,7 @@ msgstr "Afegir, editar i suprimir contactes"
 #. (itstool) path: info/desc
 #: C/contacts-using-contact-lists.page:23
 msgid "Using contact lists for grouping contacts."
-msgstr "Ús de llistes de contactes per agrupar contactes."
+msgstr "Ús de llistes de contactes per a agrupar contactes."
 
 #. (itstool) path: page/title
 #: C/contacts-using-contact-lists.page:26
@@ -2750,8 +2750,8 @@ msgid ""
 "<app>Evolution</app> offers no graphical interface to customize its tool "
 "bars or items in menus."
 msgstr ""
-"<app>Evolution</app> no ofereix cap interfície gràfica per personalitzar les "
-"barres d'eines o elements de menú."
+"<app>Evolution</app> no ofereix cap interfície gràfica per a personalitzar "
+"les barres d'eines o elements de menú."
 
 #. (itstool) path: page/p
 #: C/customize-ui-items.page:29
@@ -3022,7 +3022,8 @@ msgstr ""
 #: C/default-browser.page:81
 msgid "Change which mail application is used to write emails"
 msgstr ""
-"Canviar quina aplicació de correu s'utilitza per escriure correus electrònics"
+"Canviar quina aplicació de correu s'utilitza per a escriure correus "
+"electrònics"
 
 #. (itstool) path: section/p
 #: C/default-browser.page:83
@@ -3070,7 +3071,7 @@ msgid ""
 "will be applied to the currently opened calendar (selected in the list of "
 "calendars on the left); other calendars remain unchanged."
 msgstr ""
-"Per purgar les entrades antigues d'un calendari, aneu a "
+"Per a purgar les entrades antigues d'un calendari, aneu a "
 "<guiseq><gui>Accions</gui><gui>Purga</gui></guiseq> a la vista de calendari. "
 "Se us demanarà de quants dies endarrere cal eliminar els esdeveniments del "
 "calendari. L'acció s'aplicarà al calendari obert actualment (seleccionat a "
@@ -3129,7 +3130,7 @@ msgid ""
 "To delete the attachments of an email, select the message and click "
 "<guiseq><gui>Message</gui><gui>Remove Attachments</gui></guiseq>."
 msgstr ""
-"Per eliminar els fitxers adjunts d'un correu electrònic, seleccioneu el "
+"Per a eliminar els fitxers adjunts d'un correu electrònic, seleccioneu el "
 "missatge i feu clic a <guiseq><gui>Missatge</gui><gui>Suprimeix les "
 "adjuncions</gui></guiseq>."
 
@@ -3164,8 +3165,8 @@ msgid ""
 "calendars and click <gui>Save as</gui>. Available formats are iCalendar "
 "format (ICS, recommended), comma separated values (CSV), and RDF format."
 msgstr ""
-"Per exportar un calendari complet, feu clic amb el botó dret al calendari a "
-"la llista de calendaris i feu clic a <gui>Desa com</gui>. Els formats "
+"Per a exportar un calendari complet, feu clic amb el botó dret al calendari "
+"a la llista de calendaris i feu clic a <gui>Desa com</gui>. Els formats "
 "disponibles són: iCalendar (ICS, recomanat), valors separats per comes (CSV) "
 "i format RDF."
 
@@ -3206,8 +3207,9 @@ msgid ""
 "To export a complete address book, click <guiseq><gui>File</gui><gui>Save "
 "Address Book As vCard</gui></guiseq>."
 msgstr ""
-"Per exportar la llibreta d'adreces completa, feu clic a <guiseq><gui>Fitxer</"
-"gui><gui>Desa la llibreta d'adreces com a vCard</gui></guiseq>."
+"Per a exportar la llibreta d'adreces completa, feu clic a "
+"<guiseq><gui>Fitxer</gui><gui>Desa la llibreta d'adreces com a vCard</gui></"
+"guiseq>."
 
 #. (itstool) path: page/p
 #: C/exporting-data-contacts.page:27
@@ -6408,7 +6410,7 @@ msgstr "Altres configuracions (comptes Usenet News)"
 #. (itstool) path: info/desc
 #: C/mail-attachments.page:5
 msgid "Handling of file attachments for writing and reading mail"
-msgstr "Gestió dels fitxers adjunts per escriure i rebre correu electrònic"
+msgstr "Gestió dels fitxers adjunts per a escriure i rebre correu electrònic"
 
 #. (itstool) path: page/title
 #: C/mail-attachments.page:18
@@ -6746,9 +6748,9 @@ msgid ""
 msgstr ""
 "Si no podeu veure cap correu electrònic en una carpeta, comproveu que no "
 "hàgiu maximitzat la vista prèvia del missatge (de manera que el tauler de la "
-"llista de missatges està amagat). Per fer-ho, feu clic a <guiseq><gui>Vista</"
-"gui><gui>Previsualització</gui><gui>Mostra la vista prèvia de missatges</"
-"gui></guiseq>."
+"llista de missatges està amagat). Per a fer-ho, feu clic a "
+"<guiseq><gui>Vista</gui><gui>Previsualització</gui><gui>Mostra la vista "
+"prèvia de missatges</gui></guiseq>."
 
 #. (itstool) path: item/p
 #: C/mail-cannot-see.page:33
@@ -8163,11 +8165,11 @@ msgid ""
 "you reply to, use <code>$ORIG[subject]</code>. To insert the complete body, "
 "use <code>$ORIG[body]</code>."
 msgstr ""
-"Per fer-ho, utilitzeu el format <code>$ORIG[header_name]</code> i reemplaceu "
-"la variable <code>header_name</code> per l'encapçalament actual. Per "
-"exemple, si voleu inserir la línia d'assumpte del missatge al qual responeu, "
-"utilitzeu <code>$ORIG[subject]</code>. Per a inserir el cos complet, "
-"utilitzeu <code>$ORIG[body]</code>."
+"Per a fer-ho, utilitzeu el format <code>$ORIG[header_name]</code> i "
+"reemplaceu la variable <code>header_name</code> per l'encapçalament actual. "
+"Per exemple, si voleu inserir la línia d'assumpte del missatge al qual "
+"responeu, utilitzeu <code>$ORIG[subject]</code>. Per a inserir el cos "
+"complet, utilitzeu <code>$ORIG[body]</code>."
 
 #. (itstool) path: section/p
 #. TO TRANSLATORS: Do NOT translate $ORIG[body] and $ORIG[reply-to] in
@@ -8691,7 +8693,7 @@ msgid ""
 "<sys>enchant</sys> package are installed via the software management tool of "
 "your distribution."
 msgstr ""
-"Per fer servir la correcció ortogràfica dels correus electrònics que "
+"Per a fer servir la correcció ortogràfica dels correus electrònics que "
 "escriviu, primer heu d'assegurar-vos que els paquets <sys>hunspell</sys> i "
 "<sys>enchant</sys> estan instal·lats pel vostre llenguatge a través de "
 "l'eina de gestió de programari de la vostra distribució."
@@ -9045,7 +9047,7 @@ msgid ""
 "gui><gui>Preferences</gui><gui>Mail Preferences</gui><gui>General</"
 "gui><gui>Message Display</gui><gui>Default character encoding</gui></guiseq>."
 msgstr ""
-"Per fer que aquesta sigui la configuració predeterminada, aneu a "
+"Per a fer que aquesta sigui la configuració predeterminada, aneu a "
 "<guiseq><gui>Edita</gui><gui>Preferències</gui><gui>Preferències de correu</"
 "gui><gui>General</gui><gui>Visualització de missatges</gui><gui>Codificació "
 "de caràcters per defecte</gui></guiseq>."
@@ -9154,8 +9156,8 @@ msgstr ""
 "missatge. <app>Evolution</app> pot descarregar aquestes imatges d'Internet, "
 "però no ho fa a menys que ho sol·liciti. Això és degut al fet que les "
 "imatges allotjades de manera remota poden ser lentes de carregar i mostrar, "
-"i fins i tot poden ser utilitzades pels spammers per fer un seguiment de qui "
-"llegeix el correu electrònic. No carregar automàticament imatges ajuda a "
+"i fins i tot poden ser utilitzades pels spammers per a fer un seguiment de "
+"qui llegeix el correu electrònic. No carregar automàticament imatges ajuda a "
 "protegir la seva privadesa."
 
 #. (itstool) path: section/p
@@ -9196,7 +9198,7 @@ msgid ""
 "<gui>Load images only in messages from contacts</gui> option."
 msgstr ""
 "Podeu descarregar-vos imatges dels correus electrònics enviats pels vostres "
-"contactes. Per fer-ho, aneu a <guiseq><gui>Edita</gui><gui>Preferències</"
+"contactes. Per a fer-ho, aneu a <guiseq><gui>Edita</gui><gui>Preferències</"
 "gui><gui>Preferències del correu</gui><gui>Missatges HTML</gui><gui>Carrega "
 "imatges</gui></guiseq>. Activeu l'opció <gui>Carrega imatges només en els "
 "missatges dels contactes</gui>."
@@ -9379,7 +9381,7 @@ msgid ""
 "click <guiseq><gui>Message</gui><gui>Remove Duplicate Messages</gui></"
 "guiseq>."
 msgstr ""
-"Per eliminar correus electrònics duplicats en una carpeta, seleccioneu "
+"Per a eliminar correus electrònics duplicats en una carpeta, seleccioneu "
 "diversos missatges (o seleccioneu tots els missatges d'una carpeta fent clic "
 "<guiseq><gui>Edita</gui><gui>Selecciona-ho tot</gui></guiseq> o prement "
 "<keyseq><key>Ctrl</key><key>A</key></keyseq>) i fent clic a "
@@ -9769,7 +9771,7 @@ msgid ""
 "enter a password."
 msgstr ""
 "<gui>Els vostres certificats</gui> mostra la llista dels certificats que "
-"teniu. Per afegir un certificat, feu clic a <gui style=\"button\">Importa</"
+"teniu. Per a afegir un certificat, feu clic a <gui style=\"button\">Importa</"
 "gui>, seleccioneu el fitxer que voleu importar i, a continuació, feu clic a "
 "<gui style=\"button\">Obre</gui> i escriviu una contrasenya."
 
@@ -10054,7 +10056,7 @@ msgstr ""
 "<app>Evolution</app> pot utilitzar una ordre externa per a processar un "
 "missatge, i després processar-lo en funció del valor retornat. Les comandes "
 "utilitzades d'aquesta manera han de retornar un valor enter. Això s'utilitza "
-"habitualment per afegir un filtre de correu no desitjat extern."
+"habitualment per a afegir un filtre de correu no desitjat extern."
 
 #. (itstool) path: item/p
 #: C/mail-filters-conditions.page:39
@@ -10837,8 +10839,8 @@ msgstr ""
 #: C/mail-imap-subscriptions.page:34
 msgid "Click a folder's checkbox to add a folder to your subscriptions."
 msgstr ""
-"Feu clic a la casella de selecció d'una carpeta per afegir-la a les vostres "
-"subscripcions."
+"Feu clic a la casella de selecció d'una carpeta per a afegir-la a les "
+"vostres subscripcions."
 
 #. (itstool) path: info/desc
 #: C/mail-labels.page:5
@@ -10859,7 +10861,7 @@ msgid ""
 "similar to <link xref=\"using-categories\">Categories</link> in the other "
 "<app>Evolution</app> windows."
 msgstr ""
-"Podeu afegir etiquetes de colors als correus electrònics per classificar-"
+"Podeu afegir etiquetes de colors als correus electrònics per a classificar-"
 "los. Seria similar a <link xref=\"using-categories\">Categories</link> en "
 "l'altra finestra d'<app>Evolution</app>."
 
@@ -11602,7 +11604,7 @@ msgstr ""
 "temps, feu clic a l'opció <gui>Deixa els missatges al servidor</gui> i "
 "l'opció <gui>Suprimeix després de ... dies</gui> i seleccioneu el nombre de "
 "dies que es permet que els missatges es mantinguin al servidor. Establiu 0 "
-"dies per mantenir els missatges al servidor per sempre."
+"dies per a mantenir els missatges al servidor per sempre."
 
 #. (itstool) path: item/p
 #: C/mail-receiving-options-pop.page:52
@@ -12068,7 +12070,7 @@ msgid ""
 "To find text in the displayed message, select <guiseq><gui>Edit</"
 "gui><gui>Find in Message…</gui></guiseq> from the main menu."
 msgstr ""
-"Per trobar text en el missatge que es mostra, seleccioneu "
+"Per a trobar text en el missatge que es mostra, seleccioneu "
 "<guiseq><gui>Edita</gui><gui>Cerca en el missatge…</gui></guiseq> des del "
 "menú principal."
 
@@ -12269,7 +12271,7 @@ msgid ""
 "\">Composing mail</link> section."
 msgstr ""
 "Aquesta secció fa referència a rebre correu i enviar correus electrònics. "
-"Per escriure un missatge nou, consulteu la secció <link xref=\"index#mail-"
+"Per a escriure un missatge nou, consulteu la secció <link xref=\"index#mail-"
 "composing\">Editor de correu</link>."
 
 #. (itstool) path: info/desc
@@ -12923,8 +12925,8 @@ msgstr ""
 "tant, pot determinar el correu brossa immediatament. Bogofilter no ve amb un "
 "conjunt predeterminat de criteris per detectar el correu brossa, de manera "
 "que no es filtrarà automàticament després d'instal·lar-lo. Heu d'<link xref="
-"\"mail-spam-marking\">entrenar-lo</link> primer per fer-lo funcionar. També "
-"podeu modificar les accions de SpamAssassin."
+"\"mail-spam-marking\">entrenar-lo</link> primer per a fer-lo funcionar. "
+"També podeu modificar les accions de SpamAssassin."
 
 #. (itstool) path: section/title
 #: C/mail-spam-settings.page:56
@@ -13148,7 +13150,7 @@ msgstr ""
 #: C/mail-usenet-subscriptions.page:31
 msgid "Click a group's checkbox to add a folder to your subscriptions."
 msgstr ""
-"Feu clic a la casella de selecció d'un grup per afegir una carpeta a les "
+"Feu clic a la casella de selecció d'un grup per a afegir una carpeta a les "
 "vostres subscripcions."
 
 #. (itstool) path: info/desc
@@ -13205,7 +13207,7 @@ msgid ""
 "To switch back to classical view, click <guiseq><gui>View</gui><gui>Preview</"
 "gui><gui>Classical View</gui></guiseq>."
 msgstr ""
-"Per tornar a la vista clàssica, feu clic a <guiseq><gui>Vista</"
+"Per a tornar a la vista clàssica, feu clic a <guiseq><gui>Vista</"
 "gui><gui>Vista prèvia</gui><gui>Vista clàssica</gui></guiseq>."
 
 #. (itstool) path: info/desc
@@ -13726,9 +13728,9 @@ msgid ""
 "href=\"https://wiki.gnome.org/Apps/Evolution/Debugging\"><app>Evolution</"
 "app> project website</link>."
 msgstr ""
-"Per fer el seguiment d'un problema, algunes opcions de depuració s'enumeren "
-"a la web del projecte <link href=\"https://wiki.gnome.org/Apps/Evolution/"
-"Debugging\"><app>Evolution</app> </link>."
+"Per a fer el seguiment d'un problema, algunes opcions de depuració "
+"s'enumeren a la web del projecte <link href=\"https://wiki.gnome.org/Apps/"
+"Evolution/Debugging\"><app>Evolution</app> </link>."
 
 #. (itstool) path: page/p
 #: C/problems-debug-how-to.page:27
@@ -13920,7 +13922,7 @@ msgid ""
 "To add such a task list or memo list to <app>Evolution</app>, perform the "
 "following steps:"
 msgstr ""
-"Per afegir una llista de tasques o llista de notes com a <app>Evolution</"
+"Per a afegir una llista de tasques o llista de notes com a <app>Evolution</"
 "app>, seguiu els següents passos:"
 
 #. (itstool) path: item/p
@@ -14023,7 +14025,7 @@ msgid ""
 "To add another local task list to <app>Evolution</app>, perform the "
 "following steps:"
 msgstr ""
-"Per afegir una altra llista de tasques local a <app>Evolution</app>, "
+"Per a afegir una altra llista de tasques local a <app>Evolution</app>, "
 "realitzeu els passos següents:"
 
 #. (itstool) path: info/desc
@@ -14057,7 +14059,7 @@ msgid ""
 "To find text in the displayed task, select <guiseq><gui>Edit</gui><gui>Find "
 "in Task…</gui></guiseq> from the main menu."
 msgstr ""
-"Per trobar text a la tasca que es mostra, seleccioneu <guiseq><gui>Edita</"
+"Per a trobar text a la tasca que es mostra, seleccioneu <guiseq><gui>Edita</"
 "gui><gui>Cerca a la tasca…</gui></guiseq> des del menú principal."
 
 #. (itstool) path: section/title
@@ -14138,7 +14140,7 @@ msgstr "Tasques assignades"
 #: C/tasks-usage-add-task.page:39
 msgid "<app>Evolution</app> can be used to assign a task to multiple people."
 msgstr ""
-"<app>Evolution</app> es pot utilitzar per assignar una tasca a diverses "
+"<app>Evolution</app> es pot utilitzar per a assignar una tasca a diverses "
 "persones."
 
 #. (itstool) path: section/p
@@ -14417,7 +14419,7 @@ msgstr ""
 "A l'<gui>Editor de categories</gui> podeu editar o configurar el color i la "
 "icona per a cada categoria disponible fent clic a <gui style=\"button"
 "\">Edita</gui> a la part inferior de la finestra de <gui>Categories</gui>. "
-"Premeu <gui style=\"button\">Suprimeix</gui> per eliminar categories de la "
+"Premeu <gui style=\"button\">Suprimeix</gui> per a eliminar categories de la "
 "llista."
 
 #. (itstool) path: item/p
@@ -14523,7 +14525,7 @@ msgstr ""
 "capçalera de forma diferent la segona vegada. Per exemple, si un missatge "
 "declara a l'encapçalament Reenviar-De: \"engineering@example.com\" i després "
 "es passa com \"marketing@example.com\", <_:app-2/> es filtra com si la "
-"segona declaració no es produís. Per filtrar els missatges que utilitzen "
+"segona declaració no es produís. Per a filtrar els missatges que utilitzen "
 "encapçalaments diverses vegades, utilitzeu una expressió regular."
 
 #. (itstool) path: item/p
@@ -14629,7 +14631,7 @@ msgid ""
 "You can set labels with other filters or manually."
 msgstr ""
 "Els missatges poden etiquetar-se com <_:link-1/> importants, treball, "
-"personal, per fer, o més endavant. Podeu establir etiquetes amb altres "
+"personal, per a fer, o més endavant. Podeu establir etiquetes amb altres "
 "filtres o manualment."
 
 #. (itstool) path: item/p
@@ -14785,7 +14787,7 @@ msgstr "Afegir una condició"
 #. (itstool) path: item/p
 #: C/xinclude-searching.xml:7
 msgid "Click <_:gui-1/> to add any number of rules."
-msgstr "Feu clic a <_:gui-1/> per afegir qualsevol quantitat de regles."
+msgstr "Feu clic a <_:gui-1/> per a afegir qualsevol quantitat de regles."
 
 #. (itstool) path: item/p
 #: C/xinclude-searching.xml:8
