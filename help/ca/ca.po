@@ -710,12 +710,12 @@ msgstr ""
 #. (itstool) path: info/desc
 #: C/calendar-layout-general-formatting.page:27
 msgid "General formatting options for the calendar."
-msgstr "Opcions generals per formatar el calendari."
+msgstr "Opcions generals per a formatar el calendari."
 
 #. (itstool) path: page/title
 #: C/calendar-layout-general-formatting.page:30
 msgid "General formatting options"
-msgstr "Opcions generals per formatar"
+msgstr "Opcions generals per a formatar"
 
 #. (itstool) path: page/p
 #: C/calendar-layout-general-formatting.page:32
@@ -2601,7 +2601,7 @@ msgid ""
 "the contact list in your address book and select <gui>Send Message to List</"
 "gui>."
 msgstr ""
-"Per enviar un missatge a la llista de contactes, introduïu el nom que heu "
+"Per a enviar un missatge a la llista de contactes, introduïu el nom que heu "
 "triat per a la llista de contactes com a destinatari quan escriviu el "
 "correu. També podeu fer clic amb el botó dret a la llista de contactes de la "
 "vostra llibreta d'adreces i selecciona <gui>Envia un missatge a la llista</"
@@ -3452,7 +3452,7 @@ msgid ""
 "for the imported data."
 msgstr ""
 "Seleccioneu el destí (p. ex. la carpeta o calendari a <app>Evolution</app>) "
-"per importar les dades."
+"per a importar les dades."
 
 #. (itstool) path: item/p
 #: C/import-apps-mozilla.page:40 C/import-apps-outlook.page:68
@@ -3540,7 +3540,7 @@ msgstr "Requisits previs a Windows"
 msgid "First, while using Microsoft Windows, prepare your messages for import:"
 msgstr ""
 "En primer lloc, mentre feu servir Microsoft Windows, prepareu els vostres "
-"missatges per importar:"
+"missatges per a importar:"
 
 #. (itstool) path: item/p
 #: C/import-apps-outlook.page:34
@@ -3725,7 +3725,7 @@ msgstr "Importació de fitxers individuals"
 #: C/import-single-files.page:22
 msgid "To import single files (mail, calendar data or contacts):"
 msgstr ""
-"Per importar fitxers individuals (correu electrònic, dades de calendari o "
+"Per a importar fitxers individuals (correu electrònic, dades de calendari o "
 "contactes):"
 
 #. (itstool) path: item/p
@@ -3773,7 +3773,7 @@ msgstr ""
 #. (itstool) path: info/desc
 #: C/import-supported-file-formats.page:5
 msgid "Supported file formats for importing data."
-msgstr "Formats de fitxers admesos per importar dades."
+msgstr "Formats de fitxers admesos per a importar dades."
 
 #. (itstool) path: page/title
 #: C/import-supported-file-formats.page:23
@@ -4421,7 +4421,7 @@ msgstr "Directoris de correu en format MH"
 #: C/intro-first-run.page:171
 msgid "For downloading email using MH or another MH-style application."
 msgstr ""
-"Per descarregar el correu electrònic utilitzant MH o una altra aplicació "
+"Per a descarregar el correu electrònic utilitzant MH o una altra aplicació "
 "d'estil MH."
 
 #. (itstool) path: section/title
@@ -4442,7 +4442,7 @@ msgid ""
 "Maildir-Format Mail Directories: For downloading your email using Qmail or "
 "another Maildir-style application."
 msgstr ""
-"Directoris de correu Maildir-Format: Per descarregar el correu electrònic "
+"Directoris de correu Maildir-Format: Per a descarregar el correu electrònic "
 "utilitzant Qmail o una altra aplicació de l'estil de Maildir."
 
 #. (itstool) path: section/title
@@ -4503,7 +4503,7 @@ msgstr "Cap"
 #: C/intro-first-run.page:235
 msgid "If you do not plan to use <app>Evolution</app> for receiving email."
 msgstr ""
-"Si no voleu utilitzar <app>Evolution</app> per rebre correu electrònic."
+"Si no voleu utilitzar <app>Evolution</app> per a rebre correu electrònic."
 
 #. (itstool) path: section/title
 #: C/intro-first-run.page:241 C/mail-displaying-character-encodings.page:32
@@ -5424,7 +5424,7 @@ msgid ""
 "main windows."
 msgstr ""
 "Les tasques i les notes només es mostren per a la vostra comoditat i no "
-"estan associades a cap cita. Utilitzeu el <gui>commutador</gui> per anar a "
+"estan associades a cap cita. Utilitzeu el <gui>commutador</gui> per a anar a "
 "les seves finestres principals."
 
 #. (itstool) path: section/p
@@ -6633,7 +6633,7 @@ msgid ""
 "To send an invitation, right-click on the entry in the calendar and choose "
 "<gui>Forward as iCalendar</gui>."
 msgstr ""
-"Per enviar una invitació, feu clic amb el botó dret a l'entrada del "
+"Per a enviar una invitació, feu clic amb el botó dret a l'entrada del "
 "calendari i trieu <gui>Reenvia com a iCalendar</gui>."
 
 #. (itstool) path: page/p
@@ -6997,7 +6997,7 @@ msgstr "Habilitació i gestió de capçaleres personalitzades"
 #. (itstool) path: section/p
 #: C/mail-composer-custom-header-lines.page:29
 msgid "To set up the Custom Header plugin:"
-msgstr "Per configurar el connector de capçalera personalitzat:"
+msgstr "Per a configurar el connector de capçalera personalitzat:"
 
 #. (itstool) path: item/p
 #: C/mail-composer-custom-header-lines.page:32
@@ -7102,7 +7102,7 @@ msgid ""
 "gui><gui>Preferences</gui><gui>Composer Preferences</gui><gui>Default "
 "Behavior</gui><gui>Format messages in HTML</gui></guiseq>."
 msgstr ""
-"Per enviar tot el correu com a HTML per defecte, activeu-ho a "
+"Per a enviar tot el correu com a HTML per defecte, activeu-ho a "
 "<guiseq><gui>Edita</gui><gui>Preferències</gui><gui>Preferències del "
 "redactor</gui><gui>Comportament predeterminat</gui><gui>Format dels "
 "missatges en HTML</gui></guiseq>."
@@ -7266,7 +7266,7 @@ msgid ""
 "gui><gui>General</gui><gui>Replies and Forwards</gui><gui>Forward style</"
 "gui></guiseq>."
 msgstr ""
-"Podeu canviar la configuració per defecte per respondre i reenviar a "
+"Podeu canviar la configuració per defecte per a respondre i reenviar a "
 "<guiseq><gui>Edita</gui><gui>Preferències</gui><gui>Preferències del "
 "redactor</gui><gui>General</gui><gui>Respostes i reenviaments</"
 "gui><gui>Estil de reenviament</gui></guiseq>."
@@ -7529,7 +7529,7 @@ msgstr ""
 #. (itstool) path: section/title
 #: C/mail-composer-html.page:33
 msgid "Plain Text Formatting Options"
-msgstr "Opcions per formatar el text pla"
+msgstr "Opcions per a formatar el text pla"
 
 #. (itstool) path: section/title
 #: C/mail-composer-html.page:37
@@ -7908,7 +7908,7 @@ msgstr "Activeu <gui>Plantilles</gui>."
 #. (itstool) path: info/desc
 #: C/mail-composer-message-templates-reply.page:5
 msgid "Use one of your templates for replying to a message"
-msgstr "Utilitzeu una de les vostres plantilles per respondre a un missatge"
+msgstr "Utilitzeu una de les vostres plantilles per a respondre a un missatge"
 
 #. (itstool) path: page/title
 #: C/mail-composer-message-templates-reply.page:23
@@ -7952,7 +7952,7 @@ msgid ""
 "When you select a message template for replying, the subject of the reply is "
 "preserved."
 msgstr ""
-"Quan seleccioneu una plantilla per respondre, l'Assumpte de la resposta es "
+"Quan seleccioneu una plantilla per a respondre, l'Assumpte de la resposta es "
 "conserva."
 
 #. (itstool) path: info/desc
@@ -8341,9 +8341,9 @@ msgid ""
 "before each line (in plain text mode), to indicate that it is part of the "
 "previous message."
 msgstr ""
-"Per respondre un missatge, seleccioneu el missatge que voleu respondre a la "
-"llista de missatges i feu clic al botó <gui>Respon</gui> a la barra d'eines, "
-"o feu clic amb el botó dret del ratolí en el missatge i seleccioneu "
+"Per a respondre un missatge, seleccioneu el missatge que voleu respondre a "
+"la llista de missatges i feu clic al botó <gui>Respon</gui> a la barra "
+"d'eines, o feu clic amb el botó dret del ratolí en el missatge i seleccioneu "
 "<gui>Respondre al remitent</gui>. Així s'obre l'editor de missatges. Els "
 "camps <gui>Per a::</gui> i <gui>Assumpte:</gui> ja s'han omplert, tot i que "
 "podeu modificar-los. A més, el text complet del missatge antic s'insereix al "
@@ -8430,7 +8430,7 @@ msgid ""
 "gui><gui>General</gui><gui>Replies and Forwards</gui><gui>Reply style</gui></"
 "guiseq>."
 msgstr ""
-"Podeu canviar la configuració predeterminada per respondre i reenviar a "
+"Podeu canviar la configuració predeterminada per a respondre i reenviar a "
 "<guiseq><gui>Edita</gui><gui>Preferències</gui><gui>Preferències del "
 "redactor</gui><gui>General</gui><gui>Respostes i reenviaments</"
 "gui><gui>Estil de la resposta</gui></guiseq>."
@@ -8585,8 +8585,8 @@ msgid ""
 "To send a message to more than one person, enter the addresses in the "
 "composer by separating them with commas or semicolons."
 msgstr ""
-"Per enviar un missatge a més d'una persona, introduïu les adreces a l'editor "
-"separant-les amb comes o punts i coma."
+"Per a enviar un missatge a més d'una persona, introduïu les adreces a "
+"l'editor separant-les amb comes o punts i coma."
 
 #. (itstool) path: note/p
 #: C/mail-composer-several-recipients.page:30
@@ -8991,7 +8991,7 @@ msgid ""
 "work."
 msgstr ""
 "Podeu recuperar un missatge eliminat que encara no s'hagin suprimit "
-"definitivament. Per recuperar-lo, seleccioneu el missatge, feu clic a "
+"definitivament. Per a recuperar-lo, seleccioneu el missatge, feu clic a "
 "<guiseq><gui>Edita</gui><gui>Recupera el missatge</gui></guiseq>. Nota: Per "
 "a que això funcioni, l'opció <guiseq><gui>Vista</gui><gui>Mostra missatges "
 "esborrats</gui></guiseq> ha d'estar activa."
@@ -9528,7 +9528,7 @@ msgid ""
 "\"https://help.gnome.org/users/seahorse/stable/pgp-import\">get the public "
 "key and add it to your keyring</link>."
 msgstr ""
-"Per enviar un missatge xifrat, heu d'utilitzar la clau pública del "
+"Per a enviar un missatge xifrat, heu d'utilitzar la clau pública del "
 "destinatari en combinació amb la vostra clau privada. <app>Evolution</app> "
 "gestiona el xifratge, però cal <link xref=\"help:seahorse/pgp-import\" href="
 "\"https://help.gnome.org/users/seahorse/stable/pgp-import\">obtenir la clau "
@@ -9759,7 +9759,7 @@ msgstr ""
 "Si obteniu l'error \"L'emissor del certificat de parells l'ha marcat com de "
 "no confiança per l'usuari. (-8172) - No es pot afegir l'atribut "
 "SMIMEEncKeyPrefs\" després d'afegir el vostre certificat de correu, aneu a "
-"<gui>Autoritats</gui> i activeu <gui>Confia en aquesta CA per identificar "
+"<gui>Autoritats</gui> i activeu <gui>Confia en aquesta CA per a identificar "
 "usuaris de correu electrònic</gui> per al certificat."
 
 #. (itstool) path: page/p
@@ -10453,7 +10453,7 @@ msgstr "Feu clic a <gui style=\"button\">Suprimeix</gui>."
 #. (itstool) path: info/desc
 #: C/mail-folders.page:5
 msgid "Use folders to organize your mail."
-msgstr "Utilitzeu carpetes per organitzar el vostre correu."
+msgstr "Utilitzeu carpetes per a organitzar el vostre correu."
 
 #. (itstool) path: page/title
 #: C/mail-folders.page:29
@@ -10575,7 +10575,7 @@ msgstr ""
 #. (itstool) path: section/p
 #: C/mail-folders.page:59
 msgid "The steps for copying are similar."
-msgstr "Els passos per copiar són similars."
+msgstr "Els passos per a copiar són similars."
 
 #. (itstool) path: note/p
 #: C/mail-folders.page:61
@@ -11080,7 +11080,7 @@ msgid ""
 "<app>Evolution</app> provides several options to organize your mail "
 "according to your needs."
 msgstr ""
-"<app>Evolution</app> ofereix diverses opcions per organitzar el correu "
+"<app>Evolution</app> ofereix diverses opcions per a organitzar el correu "
 "segons les vostres necessitats."
 
 #. (itstool) path: section/title
@@ -11715,8 +11715,8 @@ msgid ""
 "You can also double-click on the folder name to refresh it, or press "
 "<key>F5</key>."
 msgstr ""
-"També podeu fer doble clic al nom de la carpeta per actualitzar-la o prémer "
-"<key>F5</key>."
+"També podeu fer doble clic al nom de la carpeta per a actualitzar-la o "
+"prémer <key>F5</key>."
 
 #. (itstool) path: info/desc
 #: C/mail-save-as-pdf.page:5
@@ -12225,7 +12225,7 @@ msgid ""
 "Receive</gui> button in the toolbar, or press <key>F12</key>, or choose "
 "<guiseq><gui>File</gui><gui>Send / Receive</gui></guiseq> from the main menu."
 msgstr ""
-"Per rebre nous missatges del servidor de correu i enviar els missatges que "
+"Per a rebre nous missatges del servidor de correu i enviar els missatges que "
 "heu escrit i que es trobin a la safata de sortida, feu clic al botó <gui "
 "style=\"button\">Envia / rep</gui> a la barra d'eines, o premeu <key>F12</"
 "key>, o trieu <guiseq><gui>Fitxer</gui><gui>Envia / rep</gui></guiseq> des "
@@ -12238,9 +12238,9 @@ msgid ""
 "only receive, click the small down-arrow next to the <gui style=\"button"
 "\">Send / Receive</gui> button and choose the corresponding option."
 msgstr ""
-"Per enviar i rebre per només un dels vostres comptes de correu, o només per "
-"enviar o rebre, feu clic a la petita fletxa cap avall que hi ha al costat "
-"del botó <gui style=\"button\">Envia / rep</gui> i trieu l'opció "
+"Per a enviar i rebre per només un dels vostres comptes de correu, o només "
+"per a enviar o rebre, feu clic a la petita fletxa cap avall que hi ha al "
+"costat del botó <gui style=\"button\">Envia / rep</gui> i trieu l'opció "
 "corresponent."
 
 #. (itstool) path: page/p
@@ -13502,7 +13502,7 @@ msgstr ""
 #. (itstool) path: section/p
 #: C/memos-usage-add-memo.page:41
 msgid "To send a Shared Memo,"
-msgstr "Per enviar una nota compartida"
+msgstr "Per a enviar una nota compartida"
 
 #. (itstool) path: item/p
 #: C/memos-usage-add-memo.page:43
@@ -13761,7 +13761,7 @@ msgid ""
 "you can for example <link xref=\"help:polari/\" href=\"https://help.gnome."
 "org/users/polari/stable/\">use the application <app>Polari</app></link>."
 msgstr ""
-"Per rebre ajuda sobre un problema, podeu enviar un correu electrònic a la "
+"Per a rebre ajuda sobre un problema, podeu enviar un correu electrònic a la "
 "llista de correus d'<link href=\"http://mail.gnome.org/mailman/listinfo/"
 "evolution-list\"><app>Evolution</app></link> o parleu amb desenvolupadors i "
 "altres usuaris al canal de xat d'IRC #evolution al servidor irc.gimp.net. "
@@ -14004,7 +14004,7 @@ msgid ""
 "measured in days, hours, or minutes. If you do not select this option, "
 "completed tasks remain in your task list, marked as complete."
 msgstr ""
-"Seleccioneu aquesta opció per ocultar les tasques completades després d'un "
+"Seleccioneu aquesta opció per a ocultar les tasques completades després d'un "
 "període de temps mesurat en dies, hores o minuts. Si no seleccioneu aquesta "
 "opció, les tasques acabades es mantenen a la vostra llista de tasques, "
 "marcades com a completes."
