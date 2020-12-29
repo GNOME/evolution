@@ -1143,7 +1143,7 @@ msgstr ""
 "Quan creeu una reunió (cita grupal), podeu classificar els assistents en "
 "diverses categories, com ara «cadira» o «obligat». Quan deseu la llista de "
 "reunions s'envia a cada assistent un correu electrònic amb la informació de "
-"la reunió, que també els dóna l'opció de respondre."
+"la reunió, que també els dona l'opció de respondre."
 
 #. (itstool) path: page/p
 #: C/calendar-meetings-sending-invitation.page:33
@@ -1596,7 +1596,7 @@ msgid ""
 msgstr ""
 "Feu clic a <guiseq><gui>Fitxer</gui><gui>Nou</gui><gui>Cita</gui></guiseq>, "
 "o feu doble clic en un espai en blanc del calendari per a obrir el diàleg de "
-"cites. L'hora concreta sobre la qual hàgiu fet doble clic es suggerirà com a "
+"cites. L'hora concreta sobre la qual hàgiu fet doble clic se suggerirà com a "
 "hora per a la nova cita. També podeu escriure directament al calendari i "
 "ajustar la durada arrossegant el ratolí."
 
@@ -3055,7 +3055,7 @@ msgstr ""
 #. (itstool) path: info/desc
 #: C/deleting-appointments.page:5
 msgid "Deleting calendar entries to reduce the size of the mailbox."
-msgstr "Suprimir les entrades del calendari per reduir la mida de la bústia."
+msgstr "Suprimir les entrades del calendari per a reduir la mida de la bústia."
 
 #. (itstool) path: page/title
 #: C/deleting-appointments.page:20
@@ -3081,7 +3081,7 @@ msgstr ""
 #. (itstool) path: info/desc
 #: C/deleting-emails.page:5
 msgid "Deleting emails or attachments to reduce the size of the mailbox."
-msgstr "Suprimir correus o fitxers adjunts per reduir la mida de la bústia."
+msgstr "Suprimir correus o fitxers adjunts per a reduir la mida de la bústia."
 
 #. (itstool) path: page/title
 #: C/deleting-emails.page:26
@@ -3140,8 +3140,8 @@ msgid ""
 "Deleting emails and calendar entries to reduce the size of the files used by "
 "<app>Evolution</app>."
 msgstr ""
-"Eliminant els correus electrònics i les entrades del calendari per reduir la "
-"mida dels fitxers utilitzats <app>Evolution</app>."
+"Eliminant els correus electrònics i les entrades del calendari per a reduir "
+"la mida dels fitxers utilitzats <app>Evolution</app>."
 
 #. (itstool) path: page/title
 #: C/deleting-to-free-disk-space.page:20
@@ -3252,7 +3252,7 @@ msgid ""
 "The same steps apply to save a complete mail folder, but you have to mark "
 "all messages in it first."
 msgstr ""
-"Els mateixos passos s'apliquen per guardar tota una carpeta de correu, però "
+"Els mateixos passos s'apliquen per a desar tota una carpeta de correu, però "
 "primer heu de marcar tots els missatges."
 
 #. (itstool) path: page/p
@@ -5609,7 +5609,7 @@ msgid ""
 "instructions</gui>. Choose <gui>I want to enable POP</gui> and select "
 "<gui>Other</gui> from the list of clients."
 msgstr ""
-"Per conèixer la configuració del compte de Gmail, feu clic a "
+"Per a conèixer la configuració del compte de Gmail, feu clic a "
 "<gui>Instruccions de configuració</gui>. Trieu <gui>Vull activar POP</gui> i "
 "seleccioneu <gui>Altres</gui> a la llista de clients."
 
@@ -6895,7 +6895,7 @@ msgid ""
 "You might need to install the <sys>dconf-editor</sys> package to perform "
 "these steps."
 msgstr ""
-"Pot ser necessari instal·lar el paquet <sys>dconf-editor</sys> per dur a "
+"Pot ser necessari instal·lar el paquet <sys>dconf-editor</sys> per a dur a "
 "terme aquests passos."
 
 #. (itstool) path: when/p
@@ -7015,8 +7015,8 @@ msgstr ""
 "Podeu afegir, editar o eliminar els camps de l'encapçalament. Per cada camp "
 "de capçalera que afegiu, podeu especificar les claus i els valors. La clau "
 "s'utilitza com a títol de l'encapçalament personalitzat. Podeu introduir "
-"diversos valors per a les claus. Heu d'utilitzar un punt i coma per separar "
-"tots els valors que introduïu."
+"diversos valors per a les claus. Heu d'utilitzar un punt i coma per a "
+"separar tots els valors que introduïu."
 
 #. (itstool) path: section/title
 #: C/mail-composer-custom-header-lines.page:41
@@ -7324,7 +7324,7 @@ msgid ""
 "and change the default sender name and email address in the corresponding "
 "fields."
 msgstr ""
-"Per establir una adreça de correu electrònic personalitzada i el nom del "
+"Per a establir una adreça de correu electrònic personalitzada i el nom del "
 "remitent al missatge que voleu enviar, activeu <guiseq><gui>Vista</"
 "gui><gui>Ometre el camp De</gui></guiseq> i canvieu el nom predeterminat del "
 "remitent i l'adreça de correu electrònic als camps corresponents."
@@ -8705,7 +8705,7 @@ msgid ""
 "perform these steps."
 msgstr ""
 "Pot ser que hàgiu d'instal·lar <sys>hunspell</sys> i/o <sys>enchant</sys> "
-"per dur a terme aquests passos."
+"per a dur a terme aquests passos."
 
 #. (itstool) path: when/p
 #: C/mail-composer-spellcheck.page:34
@@ -10846,7 +10846,7 @@ msgstr ""
 #: C/mail-labels.page:5
 msgid "Use labels to categorize your mail while keeping it in their folders."
 msgstr ""
-"Utilitzeu etiquetes per categoritzar el correu mentre es mantingui a les "
+"Utilitzeu etiquetes per a categoritzar el correu mentre es mantingui a les "
 "seves carpetes."
 
 #. (itstool) path: page/title
@@ -12091,7 +12091,8 @@ msgstr ""
 #: C/mail-searching.page:42
 msgid "Click on the search icon <_:media-1/> to expand the drop-down list."
 msgstr ""
-"Feu clic a la icona de cerca <_:media-1/> per ampliar la llista desplegable."
+"Feu clic a la icona de cerca <_:media-1/> per a ampliar la llista "
+"desplegable."
 
 #. (itstool) path: note/p
 #: C/mail-searching.page:44
@@ -12152,7 +12153,7 @@ msgid ""
 "If you start directly from the fourth step, text will be searched in mail's "
 "subjects and addresses and scope will be \"Current folder\"."
 msgstr ""
-"Si comenceu directament des del quart pas, el text es cercarà a assumptes i "
+"Si comenceu directament des del quart pas, el text se cercarà a assumptes i "
 "adreces de correu, i l'abast serà la \"Carpeta actual\"."
 
 #. (itstool) path: note/p
@@ -12892,7 +12893,7 @@ msgid ""
 "to perform these steps."
 msgstr ""
 "Pot ser necessari que instal·leu <app>Bogofilter</app> o <app>SpamAssassin</"
-"app> per dur a terme aquests passos."
+"app> per a dur a terme aquests passos."
 
 #. (itstool) path: when/p
 #: C/mail-spam-settings.page:46
@@ -13357,7 +13358,7 @@ msgstr ""
 "d'estat de la <link xref=\"intro-main-window\">finestra principal</link>. "
 "Quan esteu connectat, es mostren dos cables connectats. Quan forceu el mode "
 "fora de línia fent clic a la icona o a través de <guiseq><gui>Fitxer</"
-"gui><gui>Treballa fora de línia</gui></guiseq>, els cables es separen. Us "
+"gui><gui>Treballa fora de línia</gui></guiseq>, els cables se separen. Us "
 "podeu desconnectar immediatament o sincronitzar les carpetes remotes amb la "
 "vostra còpia local abans de desconnectar-vos."
 
@@ -13641,7 +13642,7 @@ msgid ""
 "commandline option to enforce offline mode."
 msgstr ""
 "Podeu haver iniciat <app>Evolution</app> amb l'opció de la línia d'ordres "
-"<cmd>--offline</cmd> per forçar el mode fora de línia."
+"<cmd>--offline</cmd> per a forçar el mode fora de línia."
 
 #. (itstool) path: page/p
 #: C/offline.page:30
@@ -14154,7 +14155,7 @@ msgstr ""
 "Quan assigneu una tasca, podeu especificar els assistents en diverses "
 "categories, com ara «organitzador» o «obligatori». Quan deseu la tasca, cada "
 "assistent rep un correu electrònic amb la informació de la tasca, que també "
-"els dóna l'opció respondre-la."
+"els dona l'opció respondre-la."
 
 #. (itstool) path: section/p
 #: C/tasks-usage-add-task.page:41
