@@ -8,7 +8,7 @@ Further information:
 
 1.1 Subject Lines
 
-If the patch addresses a specific bug in bugzilla.gnome.org, then the
+If the patch addresses a specific bug in gitlab.gnome.org, then the
 bug number must be included in the subject line, preferably near the
 beginning of the subject line.  A concise summary of the bug(s) being
 addressed, should be the remainder of the subject.
@@ -54,6 +54,6 @@ any stable branch without further approval.
 2.3 Stable branches
 
 Generally, any patch to the stable branch from non-core developers
-must address a specific bug in bugzilla.gnome.org.  The patch should
+must address a specific bug in gitlab.gnome.org.  The patch should
 also be attached to the bug in question.  The patch must not be
 applied until reviewed.
