@@ -1474,7 +1474,7 @@ msgid ""
 "default."
 msgstr ""
 "Per a recórrer els resultats, podeu utilitzar els dos botons amb una fletxa "
-"al costat del camp de cerca. Així es cerca als calendaris habilitats. "
+"al costat del camp de cerca. Així se cerca als calendaris habilitats. "
 "Cerqueu des del dia seleccionat en la direcció indicada, en un interval de "
 "10 anys de manera predeterminada."
 
@@ -1917,7 +1917,7 @@ msgid ""
 "address books from the list that <app>Evolution</app> should look in for "
 "matches."
 msgstr ""
-"Per activar la compleció automàtica, anar a <guiseq><gui>Edita</"
+"Per a activar la compleció automàtica, anar a <guiseq><gui>Edita</"
 "gui><gui>Preferències</gui><gui>Contactes</gui> <gui>Compleció automàtica</"
 "gui></guiseq> i trieu les llibretes d'adreces de la llista que "
 "<app>Evolution</app> ha de mirar per a cercar coincidències."
@@ -2774,7 +2774,7 @@ msgstr ""
 "Copieu els fitxers de configuració amb extensió <file>.ui</file> que voleu "
 "modificar a la vostra carpeta personal <file>$HOME/.config/evolution/ui/</"
 "file>. Modifiqueu els fitxers de configuració de la carpeta personal perquè "
-"a la propera actualització del programari <app>Evolution</app> no es "
+"a la propera actualització del programari <app>Evolution</app> no se "
 "sobreescriguin els canvis."
 
 #. (itstool) path: page/p
@@ -6563,14 +6563,14 @@ msgid ""
 "attached the file, it displays a reminder window before the email is sent."
 msgstr ""
 "<app>Evolution</app> té un connector pel Recordatori d'adjuncions que podeu "
-"utilitzar per recordar-vos que adjunteu un fitxer a un correu electrònic. Si "
-"es determina que no heu adjuntat el fitxer, es mostrarà una finestra de "
+"utilitzar per a recordar-vos que adjunteu un fitxer a un correu electrònic. "
+"Si es determina que no heu adjuntat el fitxer, es mostrarà una finestra de "
 "recordatori abans de l'enviament."
 
 #. (itstool) path: section/p
 #: C/mail-attachments-sending.page:44
 msgid "To enable the Attachment Reminder:"
-msgstr "Per activar el recordatori d'adjuncions:"
+msgstr "Per a activar el recordatori d'adjuncions:"
 
 #. (itstool) path: item/p
 #: C/mail-attachments-sending.page:47
@@ -7093,7 +7093,7 @@ msgid ""
 "<gui>Subject</gui> line with HTML-only options."
 msgstr ""
 "Si trieu el format HTML, es mostrarà una segona barra d'eines a sota de la "
-"línia de l'<gui>Assumpte</gui> amb les opcions només vàlides pel HTML."
+"línia de l'<gui>Assumpte</gui> amb les opcions només vàlides per l'HTML."
 
 #. (itstool) path: page/p
 #: C/mail-composer-enable-html-format.page:26
@@ -7199,7 +7199,7 @@ msgstr ""
 #. (itstool) path: page/p
 #: C/mail-composer-forward.page:29
 msgid "To forward a message that you are reading:"
-msgstr "Per reenviar un missatge que s'està llegint:"
+msgstr "Per a reenviar un missatge que s'està llegint:"
 
 #. (itstool) path: item/p
 #: C/mail-composer-forward.page:31
@@ -7553,7 +7553,7 @@ msgid ""
 "the cursor) to help divide two sections:"
 msgstr ""
 "Podeu inserir una línia horitzontal al correu electrònic (a la posició "
-"actual del cursor) per ajudar a dividir dues seccions:"
+"actual del cursor) per a ajudar a dividir dues seccions:"
 
 #. (itstool) path: item/p
 #: C/mail-composer-html-rule.page:25
@@ -9297,7 +9297,7 @@ msgid ""
 "gui><gui>Preferences</gui><gui>Mail Preferences</gui><gui>Headers</"
 "gui><gui>Show the photograph of sender in the message preview</gui></guiseq>."
 msgstr ""
-"Per activar aquesta funcionalitat, seleccioneu <guiseq><gui>Edita</"
+"Per a activar aquesta funcionalitat, seleccioneu <guiseq><gui>Edita</"
 "gui><gui>Preferències</gui><gui>Preferències del correu</"
 "gui><gui>Capçaleres</gui><gui>Mostra la fotografia del remitent a la vista "
 "prèvia del missatge</gui></guiseq>."
@@ -9662,7 +9662,7 @@ msgstr ""
 #: C/mail-encryption-gpg-signing-encrypting.page:33
 #: C/mail-encryption-s-mime-signing-encrypting.page:28
 msgid "To have every message signed or encrypted:"
-msgstr "Per tenir tots els missatges signats o xifrats:"
+msgstr "Per a tenir tots els missatges signats o xifrats:"
 
 #. (itstool) path: item/p
 #: C/mail-encryption-gpg-signing-encrypting.page:36
@@ -10086,7 +10086,7 @@ msgid ""
 "list."
 msgstr ""
 "Aplica sempre una acció a qualsevol missatge, sense més condicions. Això "
-"podria ser útil al final de la llista de filtres de missatges per cobrir "
+"podria ser útil al final de la llista de filtres de missatges per a cobrir "
 "aquells correus electrònics que no coincideixin amb cap condició dels "
 "filtres anteriors de la llista."
 
@@ -10229,7 +10229,7 @@ msgstr ""
 #. (itstool) path: item/p
 #: C/mail-filters-not-working.page:49
 msgid "Fetch mail to apply filters."
-msgstr "Recuperar el correu per aplicar-hi filtres."
+msgstr "Recuperar el correu per a aplicar-hi filtres."
 
 #. (itstool) path: item/p
 #: C/mail-filters-not-working.page:50
@@ -10308,9 +10308,9 @@ msgid ""
 "click <guiseq><gui>Message</gui><gui>Apply Filters</gui></guiseq> or press "
 "<keyseq><key>Ctrl</key><key>Y</key></keyseq>."
 msgstr ""
-"Per aplicar manualment filtres als missatges d'una carpeta, seleccioneu els "
-"missatges i feu clic a <guiseq><gui>Missatges</gui><gui>Aplica els filtres</"
-"gui></guiseq> o premeu <keyseq><key>Ctrl</key><key>Y</key></keyseq>."
+"Per a aplicar manualment filtres als missatges d'una carpeta, seleccioneu "
+"els missatges i feu clic a <guiseq><gui>Missatges</gui><gui>Aplica els "
+"filtres</gui></guiseq> o premeu <keyseq><key>Ctrl</key><key>Y</key></keyseq>."
 
 #. (itstool) path: section/title
 #: C/mail-filters.page:33
@@ -10589,7 +10589,7 @@ msgstr ""
 #. (itstool) path: info/desc
 #: C/mail-follow-up-flag.page:5
 msgid "Using flags to remind you of actions."
-msgstr "Ús de banderes per recordar-vos accions."
+msgstr "Ús de banderes per a recordar-vos accions."
 
 #. (itstool) path: page/title
 #: C/mail-follow-up-flag.page:22
@@ -10697,7 +10697,7 @@ msgid ""
 "Important</gui>, or by selecting <guiseq><gui>Message</gui><gui>Mark as</"
 "gui><gui>Important</gui></guiseq> from the menubar."
 msgstr ""
-"Si preferiu una manera més senzilla per recordar-vos dels missatges, podeu "
+"Si preferiu una manera més senzilla per a recordar-vos dels missatges, podeu "
 "marcar-los com a importants fent clic amb el botó dret al missatge i, a "
 "continuació, fent clic a <gui>Marca com a important</gui>, o seleccionant "
 "<guiseq><gui>Missatge</gui><gui>Marca com</gui><gui>Important</gui></guiseq> "
@@ -11382,7 +11382,7 @@ msgstr ""
 "s'apliquin automàticament al correu que rebeu, si <link xref=\"mail-spam-"
 "marking\">el correu brossa</link> s'ha de filtrar automàticament, i si <link "
 "xref=\"mail-working-offline\"> el correu electrònic al servidor s'ha de "
-"sincronitzar amb la vostra còpia local per tenir-hi accés fora de línia</"
+"sincronitzar amb la vostra còpia local per a tenir-hi accés fora de línia</"
 "link>."
 
 #. (itstool) path: info/desc
@@ -11846,7 +11846,7 @@ msgid ""
 "selected."
 msgstr ""
 "Les carpetes remotes es consideren actives si esteu connectat al servidor; "
-"heu d'estar connectat al servidor de correu per a la carpeta de cerca per "
+"heu d'estar connectat al servidor de correu per a la carpeta de cerca per a "
 "incloure qualsevol missatge des d'aquesta font, a més de les carpetes "
 "individuals seleccionades."
 
@@ -11862,7 +11862,7 @@ msgid ""
 "addition to individual folders that are selected."
 msgstr ""
 "Utilitza totes les carpetes remotes locals i actives per a l'origen de la "
-"carpeta de cerca a més de les carpetes individuals que es seleccionen."
+"carpeta de cerca a més de les carpetes individuals que se seleccionen."
 
 #. (itstool) path: item/p
 #: C/mail-search-folders-add.page:43
@@ -12473,7 +12473,7 @@ msgid ""
 "press <keyseq><key>Ctrl</key><key>T</key></keyseq>."
 msgstr ""
 "Podeu utilitzar la vista per a fils de missatges per a ordenar els correus. "
-"Per activar aquesta funcionalitat, feu clic a <guiseq><gui>Vista</"
+"Per a activar aquesta funcionalitat, feu clic a <guiseq><gui>Vista</"
 "gui><gui>Agrupa per fils</gui></guiseq> o premeu <keyseq><key>Ctrl</"
 "key><key>T</key></keyseq>."
 
@@ -12924,7 +12924,7 @@ msgid ""
 msgstr ""
 "SpamAssassin funciona a través d'un conjunt de regles predefinides, per "
 "tant, pot determinar el correu brossa immediatament. Bogofilter no ve amb un "
-"conjunt predeterminat de criteris per detectar el correu brossa, de manera "
+"conjunt predeterminat de criteris per a detectar el correu brossa, de manera "
 "que no es filtrarà automàticament després d'instal·lar-lo. Heu d'<link xref="
 "\"mail-spam-marking\">entrenar-lo</link> primer per a fer-lo funcionar. "
 "També podeu modificar les accions de SpamAssassin."
@@ -13023,7 +13023,7 @@ msgstr ""
 msgid "Checking custom mail headers (added by your mail server) for junk."
 msgstr ""
 "Comprovació de les capçaleres de correu personalitzades (afegides pel vostre "
-"servidor de correu) per detectar correu escombraries."
+"servidor de correu) per a detectar correu escombraries."
 
 #. (itstool) path: item/p
 #: C/mail-spam-settings.page:75
@@ -13739,7 +13739,7 @@ msgid ""
 "To contact the <app>Evolution</app> community for help, please see <link "
 "xref=\"problems-getting-help\">How to get help</link>."
 msgstr ""
-"Per contactar amb la comunitat <app>Evolution</app> per a obtenir ajuda, "
+"Per a contactar amb la comunitat <app>Evolution</app> per a obtenir ajuda, "
 "consulteu <link xref=\"problems-getting-help\">Com obtenir ajuda</link>."
 
 #. (itstool) path: info/desc
