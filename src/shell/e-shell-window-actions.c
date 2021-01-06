@@ -657,6 +657,45 @@ action_submit_bug_cb (GtkAction *action,
 	}
 }
 
+static WebKitWebView *
+shell_window_actions_find_webview (GtkContainer *container)
+{
+	GList *children, *link;
+	WebKitWebView *webview = NULL;
+
+	if (!container)
+		return NULL;
+
+	children = gtk_container_get_children (container);
+
+	for (link = children; link && !webview; link = g_list_next (link)) {
+		GtkWidget *child = link->data;
+
+		if (WEBKIT_IS_WEB_VIEW (child))
+			webview = WEBKIT_WEB_VIEW (child);
+		else if (GTK_IS_CONTAINER (child))
+			webview = shell_window_actions_find_webview (GTK_CONTAINER (child));
+	}
+
+	g_list_free (children);
+
+	return webview;
+}
+
+static void
+action_show_webkit_gpu_cb (GtkAction *action,
+			   EShellWindow *shell_window)
+{
+	WebKitWebView *webview;
+
+	webview = shell_window_actions_find_webview (GTK_CONTAINER (shell_window));
+
+	if (webview)
+		webkit_web_view_load_uri (webview, "webkit://gpu");
+	else
+		g_message ("%s: No WebKitWebView found", G_STRFUNC);
+}
+
 static void
 action_switcher_cb (GtkRadioAction *action,
                     GtkRadioAction *current,
@@ -1024,6 +1063,13 @@ static GtkActionEntry shell_entries[] = {
 	  N_("Show keyboard shortcuts"),
 	  G_CALLBACK (action_shortcuts_cb) },
 
+	{ "show-webkit-gpu",
+	  NULL,
+	  N_("Show _WebKit GPU information"),
+	  NULL,
+	  N_("Show WebKit GPU information page in the preview panel"),
+	  G_CALLBACK (action_show_webkit_gpu_cb) },
+
 	{ "submit-bug",
 	  NULL,
 	  N_("Submit _Bug Report…"),
@@ -1329,6 +1375,7 @@ e_shell_window_actions_init (EShellWindow *shell_window)
 {
 	GtkActionGroup *action_group;
 	EFocusTracker *focus_tracker;
+	GSettings *settings;
 	GtkUIManager *ui_manager;
 	gchar *path;
 
@@ -1463,6 +1510,10 @@ e_shell_window_actions_init (EShellWindow *shell_window)
 	if (path == NULL)
 		gtk_action_set_visible (ACTION (SUBMIT_BUG), FALSE);
 	g_free (path);
+
+	settings = e_util_ref_settings ("org.gnome.evolution.shell");
+	gtk_action_set_visible (ACTION (SHOW_WEBKIT_GPU), g_settings_get_boolean (settings, "webkit-developer-mode"));
+	g_object_unref (settings);
 }
 
 GtkWidget *

@@ -90,6 +90,8 @@
 	E_SHELL_WINDOW_ACTION ((window), "show-taskbar")
 #define E_SHELL_WINDOW_ACTION_SHOW_TOOLBAR(window) \
 	E_SHELL_WINDOW_ACTION ((window), "show-toolbar")
+#define E_SHELL_WINDOW_ACTION_SHOW_WEBKIT_GPU(window) \
+	E_SHELL_WINDOW_ACTION ((window), "show-webkit-gpu")
 #define E_SHELL_WINDOW_ACTION_SUBMIT_BUG(window) \
 	E_SHELL_WINDOW_ACTION ((window), "submit-bug")
 #define E_SHELL_WINDOW_ACTION_SWITCHER_INITIAL(window) \
