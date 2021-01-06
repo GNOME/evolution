@@ -6958,7 +6958,7 @@ msgstr "una taula per a visualitzar i seleccionar l'interval de temps actual"
 
 #: ../src/calendar/gui/ea-jump-button.c:148
 msgid "Jump button"
-msgstr "Botó per saltar"
+msgstr "Botó per a saltar"
 
 #: ../src/calendar/gui/ea-jump-button.c:157
 msgid "Click here, you can find more events."
@@ -12133,7 +12133,7 @@ msgstr "_Torna-ho a intentar"
 #: ../src/composer/mail-composer.error.xml.h:35
 msgid "Your message was sent, but an error occurred during post-processing."
 msgstr ""
-"S'ha enviat el missatge però s'ha produït un error durant el processament."
+"S'ha enviat el missatge però, s'ha produït un error durant el processament."
 
 #: ../src/composer/mail-composer.error.xml.h:36
 msgid "Saving message to Outbox."
@@ -12427,7 +12427,7 @@ msgstr ""
 
 #: ../src/em-format/e-mail-formatter-secure-button.c:62
 msgid "Valid signature, but cannot verify sender"
-msgstr "La signatura és vàlida però no es pot verificar el remitent"
+msgstr "La signatura és vàlida, però no es pot verificar el remitent"
 
 #: ../src/em-format/e-mail-formatter-secure-button.c:64
 msgid ""
@@ -15561,7 +15561,7 @@ msgstr "%s (%s)"
 #: ../src/e-util/e-misc-utils.c:4541
 #, c-format
 msgid "Click to call %s"
-msgstr "Feu clic per trucar en/na %s"
+msgstr "Feu clic per a trucar en/na %s"
 
 #: ../src/e-util/e-misc-utils.c:4543
 msgid "Click to hide/unhide addresses"
@@ -17338,7 +17338,7 @@ msgstr "_Reinicialitza l'ordre"
 
 #: ../src/mail/e-mail-account-manager.c:705
 msgid "You can drag and drop account names to reorder them."
-msgstr "Podeu arrossegar i deixar anar els noms de compte per reordenar-los."
+msgstr "Podeu arrossegar i deixar anar els noms de compte per a reordenar-los."
 
 #: ../src/mail/e-mail-account-manager.c:748
 msgid "De_fault"
@@ -18542,7 +18542,7 @@ msgstr "Redacta u_n missatge nou"
 
 #: ../src/mail/e-mail-reader.c:2674
 msgid "Open a window for composing a mail message"
-msgstr "Obre una finestra per redactar un missatge de correu"
+msgstr "Obre una finestra per a redactar un missatge de correu"
 
 #: ../src/mail/e-mail-reader.c:2679
 msgid "_Open in New Window"
@@ -18772,7 +18772,7 @@ msgstr "_Respon al grup"
 
 #: ../src/mail/e-mail-reader.c:2912
 msgid "_Go To"
-msgstr "_Vés a"
+msgstr "_Ves a"
 
 #: ../src/mail/e-mail-reader.c:2919
 msgid "Mar_k As"
@@ -21195,7 +21195,7 @@ msgstr ""
 "que migreu el correu local al format nou abans de continuar. Voleu fer la "
 "migració ara?\n"
 "\n"
-"Es crearà un compte mbox per preservar les carpetes mbox antigues. Un cop "
+"Es crearà un compte mbox per a preservar les carpetes mbox antigues. Un cop "
 "hàgiu comprovat que les dades s'han migrat de manera satisfactòria podeu "
 "suprimir aquest compte. Assegureu-vos que hi ha prou espai al disc per a fer "
 "la migració ara."
@@ -25845,7 +25845,7 @@ msgid ""
 "Your message to %s about “%s” on %s has been displayed. This is no guarantee "
 "that the message has been read or understood."
 msgstr ""
-"S'ha mostrat el seu missatge %s sobre %s a %s, la qual cosa no garanteix que "
+"S'ha mostrat el seu missatge %s sobre «%s» a %s, la qual cosa no garanteix que "
 "el missatge hagi estat llegit o entès."
 
 #. Translators: %s is the subject of the email message This text is used as
@@ -27000,10 +27000,10 @@ msgid_plural ""
 "You have selected %d mails to be converted to events. Do you really want to "
 "add them all?"
 msgstr[0] ""
-"Heu seleccionat %d correu per convertir-lo a un esdeveniment. Segur que el "
+"Heu seleccionat %d correu per a convertir-lo a un esdeveniment. Segur que el "
 "voleu afegir?"
 msgstr[1] ""
-"Heu seleccionat %d correus per convertir-los a esdeveniments. Segur que els "
+"Heu seleccionat %d correus per a convertir-los a esdeveniments. Segur que els "
 "voleu afegir tots?"
 
 #. Translators: Note there are always more than 10 mails selected
@@ -27016,10 +27016,10 @@ msgid_plural ""
 "You have selected %d mails to be converted to tasks. Do you really want to "
 "add them all?"
 msgstr[0] ""
-"Heu seleccionat %d correu per convertir-lo a una tasca. Segur que el voleu "
+"Heu seleccionat %d correu per a convertir-lo a una tasca. Segur que el voleu "
 "afegir?"
 msgstr[1] ""
-"Heu seleccionat %d correus per convertir-los a tasques. Segur que els voleu "
+"Heu seleccionat %d correus per a convertir-los a tasques. Segur que els voleu "
 "afegir tots?"
 
 #. Translators: Note there are always more than 10 mails selected
@@ -27032,10 +27032,10 @@ msgid_plural ""
 "You have selected %d mails to be converted to memos. Do you really want to "
 "add them all?"
 msgstr[0] ""
-"Heu seleccionat %d correu per convertir-lo en una anotació. Segur que el "
+"Heu seleccionat %d correu per a convertir-lo en una anotació. Segur que el "
 "voleu afegir?"
 msgstr[1] ""
-"Heu seleccionat %d correus per convertir-los en anotacions. Segur que els "
+"Heu seleccionat %d correus per a convertir-los en anotacions. Segur que els "
 "voleu afegir tots?"
 
 #: ../src/plugins/mail-to-task/mail-to-task.c:681
