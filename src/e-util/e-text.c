@@ -563,7 +563,7 @@ calc_ellipsis (EText *text)
 	gint width;
 	PangoLayout *layout = gtk_widget_create_pango_layout (
 		GTK_WIDGET (GNOME_CANVAS_ITEM (text)->canvas),
-		text->ellipsis ? text->ellipsis : "…");
+		text->ellipsis ? text->ellipsis : _("…"));
 	pango_layout_get_size (layout, &width, NULL);
 
 	text->ellipsis_width = width;

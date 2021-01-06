@@ -4105,7 +4105,7 @@ e_web_view_request (EWebView *web_view,
 
 			shorten_uri = g_string_sized_new (ptr - uri + 16);
 			g_string_append_len (shorten_uri, uri, ptr - uri);
-			g_string_append (shorten_uri, "…");
+			g_string_append (shorten_uri, _("…"));
 		}
 
 		g_task_return_new_error (task, G_IO_ERROR, G_IO_ERROR_FAILED,

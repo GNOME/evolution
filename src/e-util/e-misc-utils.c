@@ -4597,7 +4597,7 @@ e_util_get_uri_tooltip (const gchar *uri)
 
 		pos = g_utf8_offset_to_pointer (message->str, 150);
 		g_string_truncate (message, pos - message->str);
-		g_string_append (message , "…");
+		g_string_append (message , _("…"));
 	}
 
 	return g_string_free (message, FALSE);

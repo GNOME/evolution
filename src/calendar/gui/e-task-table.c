@@ -879,7 +879,7 @@ task_table_query_tooltip (GtkWidget *widget,
 			g_string_append (tmp2, e_cal_component_text_get_value (text));
 			if (len > 1024) {
 				g_string_set_size (tmp2, 1023);
-				g_string_append (tmp2, "…");
+				g_string_append (tmp2, _("…"));
 				break;
 			}
 		}

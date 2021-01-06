@@ -2093,7 +2093,7 @@ e_calendar_view_get_tooltips (const ECalendarViewEventData *data)
 
 			end = g_utf8_offset_to_pointer (description, MAX_TOOLTIP_DESCRIPTION_LEN);
 			str = g_string_new_len (description, end - description);
-			g_string_append (str, "…");
+			g_string_append (str, _("…"));
 
 			tmp = g_string_free (str, FALSE);
 		}

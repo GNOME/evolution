@@ -657,7 +657,7 @@ memo_table_query_tooltip (GtkWidget *widget,
 			g_string_append (tmp2, value);
 			if (len > 1024) {
 				g_string_set_size (tmp2, 1020);
-				g_string_append (tmp2, "…");
+				g_string_append (tmp2, _("…"));
 				break;
 			}
 		}
