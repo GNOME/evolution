@@ -7,13 +7,13 @@
 # wanderlust <wanderlust@ukr.net>, 2009.
 # Daniel Korostil <ted.korostiled@gmail.com>, 2013, 2014, 2016.
 # Andriy Bandura <andriykopanytsia@gmail.com>, 2014.
-# Yuri Chornoivan <yurchor@ukr.net>, 2020.
+# Yuri Chornoivan <yurchor@ukr.net>, 2020, 2021.
 msgid ""
 msgstr ""
 "Project-Id-Version: evolution\n"
 "Report-Msgid-Bugs-To: https://gitlab.gnome.org/GNOME/evolution/issues\n"
-"POT-Creation-Date: 2020-12-02 22:09+0000\n"
-"PO-Revision-Date: 2020-12-03 09:58+0200\n"
+"POT-Creation-Date: 2021-01-06 09:34+0000\n"
+"PO-Revision-Date: 2021-01-06 12:17+0200\n"
 "Last-Translator: Yuri Chornoivan <yurchor@ukr.net>\n"
 "Language-Team: Ukrainian <trans-uk@lists.fedoraproject.org>\n"
 "Language: uk\n"
@@ -3129,10 +3129,10 @@ msgid ""
 "be part of the address only and the sender is a full email address, which "
 "should match the From address precisely."
 msgstr ""
-"Список має бути записано у форматі «отримувач&lt;tab&gt;відправник», де запис"
-" отримувача може бути лише частиною адреси, а запис відправника має бути"
-" повною адресою електронної пошти, яка має точно відповідати адресі у полі"
-" «Від»."
+"Список має бути записано у форматі «отримувач&lt;tab&gt;відправник», де "
+"запис отримувача може бути лише частиною адреси, а запис відправника має "
+"бути повною адресою електронної пошти, яка має точно відповідати адресі у "
+"полі «Від»."
 
 #: ../data/org.gnome.evolution.plugin.templates.gschema.xml.in.h:1
 msgid ""
@@ -4267,7 +4267,7 @@ msgstr "З_берегти"
 #: ../src/e-util/e-preferences-window.c:387
 #: ../src/e-util/e-send-options.ui.h:15
 #: ../src/plugins/email-custom-header/org-gnome-email-custom-header.ui.h:2
-#: ../src/shell/e-shell-window-actions.c:1066
+#: ../src/shell/e-shell-window-actions.c:1112
 msgid "_Help"
 msgstr "_Довідка"
 
@@ -5341,7 +5341,7 @@ msgstr "Вилучити цей контакт (%s)?"
 #: ../src/modules/calendar/e-memo-shell-view-actions.c:697
 #: ../src/modules/calendar/e-task-shell-view-actions.c:851
 #: ../src/modules/mail/e-mail-shell-view-actions.c:1622
-#: ../src/shell/e-shell-window-actions.c:917
+#: ../src/shell/e-shell-window-actions.c:956
 #: ../src/smime/gui/certificate-manager.c:1651 ../src/smime/gui/smime-ui.ui.h:8
 msgid "_Delete"
 msgstr "В_илучити"
@@ -5560,7 +5560,7 @@ msgstr "З_меншити"
 #: ../src/addressbook/gui/widgets/e-contact-map-window.c:447
 #: ../src/e-util/e-html-editor-actions.c:2204
 #: ../src/e-util/e-html-editor-find-dialog.c:244
-#: ../src/shell/e-shell-window-actions.c:994
+#: ../src/shell/e-shell-window-actions.c:1033
 msgid "_Find"
 msgstr "З_найти"
 
@@ -7284,6 +7284,15 @@ msgstr "Адреса: %s"
 msgid "Time: %s %s"
 msgstr "Час: %s %s"
 
+#: ../src/calendar/gui/e-calendar-view.c:2096
+#: ../src/calendar/gui/e-memo-table.c:660
+#: ../src/calendar/gui/e-task-table.c:882
+#: ../src/calendar/gui/e-to-do-pane.c:590 ../src/e-util/e-misc-utils.c:4600
+#: ../src/e-util/e-text.c:566 ../src/e-util/e-web-view.c:4108
+#| msgid "Cell…"
+msgid "…"
+msgstr "…"
+
 #. Translators: the '%s' stands for a component summary, the '%d' for the years.
 #. The string is used for Birthday & Anniversary events where the first year is
 #. know, constructing a summary which also shows how many years the birthday or
@@ -8092,7 +8101,7 @@ msgstr "_Учасники…"
 #: ../src/plugins/publish-calendar/publish-calendar.ui.h:34
 #: ../src/plugins/sender-validation/sender-validation.c:503
 #: ../src/plugins/templates/templates.c:469
-#: ../src/shell/e-shell-window-actions.c:1052 ../src/smime/gui/smime-ui.ui.h:11
+#: ../src/shell/e-shell-window-actions.c:1098 ../src/smime/gui/smime-ui.ui.h:11
 msgid "_Edit"
 msgstr "З_міни"
 
@@ -8769,7 +8778,7 @@ msgstr "Немає зведення"
 #: ../src/mail/em-subscription-editor.c:1734
 #: ../src/modules/plugin-manager/evolution-plugin-manager.c:307
 #: ../src/shell/e-shell-window-actions.c:354
-#: ../src/shell/e-shell-window-actions.c:882
+#: ../src/shell/e-shell-window-actions.c:921
 #: ../src/smime/gui/certificate-manager.c:2173
 msgid "_Close"
 msgstr "_Закрити"
@@ -8782,7 +8791,7 @@ msgstr "Закрити поточне вікно"
 #: ../src/calendar/gui/e-comp-editor.c:2100 ../src/e-util/e-focus-tracker.c:806
 #: ../src/e-util/e-html-editor-actions.c:1072 ../src/e-util/e-text.c:2065
 #: ../src/e-util/e-web-view.c:468 ../src/mail/e-mail-browser.c:173
-#: ../src/mail/mail.error.xml.h:147 ../src/shell/e-shell-window-actions.c:903
+#: ../src/mail/mail.error.xml.h:147 ../src/shell/e-shell-window-actions.c:942
 msgid "_Copy"
 msgstr "_Скопіювати"
 
@@ -8790,27 +8799,27 @@ msgstr "_Скопіювати"
 #: ../src/e-util/e-focus-tracker.c:259 ../src/e-util/e-focus-tracker.c:312
 #: ../src/e-util/e-focus-tracker.c:807 ../src/e-util/e-web-view.c:470
 #: ../src/e-util/e-web-view.c:1992 ../src/mail/e-mail-browser.c:175
-#: ../src/shell/e-shell-window-actions.c:905
+#: ../src/shell/e-shell-window-actions.c:944
 msgid "Copy the selection"
 msgstr "Копіювати виділене"
 
 #. cut menu item
 #: ../src/calendar/gui/e-comp-editor.c:2107 ../src/e-util/e-focus-tracker.c:801
 #: ../src/e-util/e-html-editor-actions.c:1079 ../src/e-util/e-text.c:2051
-#: ../src/mail/e-mail-browser.c:180 ../src/shell/e-shell-window-actions.c:910
+#: ../src/mail/e-mail-browser.c:180 ../src/shell/e-shell-window-actions.c:949
 msgid "Cu_t"
 msgstr "_Вирізати"
 
 #: ../src/calendar/gui/e-comp-editor.c:2109 ../src/e-util/e-focus-tracker.c:196
 #: ../src/e-util/e-focus-tracker.c:252 ../src/e-util/e-focus-tracker.c:306
 #: ../src/e-util/e-focus-tracker.c:802 ../src/e-util/e-web-view.c:2001
-#: ../src/mail/e-mail-browser.c:182 ../src/shell/e-shell-window-actions.c:912
+#: ../src/mail/e-mail-browser.c:182 ../src/shell/e-shell-window-actions.c:951
 msgid "Cut the selection"
 msgstr "Вирізати виділене"
 
 #: ../src/calendar/gui/e-comp-editor.c:2116 ../src/e-util/e-focus-tracker.c:217
 #: ../src/e-util/e-focus-tracker.c:273 ../src/e-util/e-focus-tracker.c:817
-#: ../src/shell/e-shell-window-actions.c:919
+#: ../src/shell/e-shell-window-actions.c:958
 msgid "Delete the selection"
 msgstr "Вилучити виділене"
 
@@ -8821,14 +8830,14 @@ msgstr "Переглянути довідку"
 #. paste menu item
 #: ../src/calendar/gui/e-comp-editor.c:2128 ../src/e-util/e-focus-tracker.c:811
 #: ../src/e-util/e-html-editor-actions.c:1086 ../src/e-util/e-text.c:2077
-#: ../src/mail/e-mail-browser.c:187 ../src/shell/e-shell-window-actions.c:938
+#: ../src/mail/e-mail-browser.c:187 ../src/shell/e-shell-window-actions.c:977
 msgid "_Paste"
 msgstr "Вст_авити"
 
 #: ../src/calendar/gui/e-comp-editor.c:2130 ../src/e-util/e-focus-tracker.c:210
 #: ../src/e-util/e-focus-tracker.c:266 ../src/e-util/e-focus-tracker.c:318
 #: ../src/e-util/e-focus-tracker.c:812 ../src/e-util/e-web-view.c:2010
-#: ../src/mail/e-mail-browser.c:189 ../src/shell/e-shell-window-actions.c:940
+#: ../src/mail/e-mail-browser.c:189 ../src/shell/e-shell-window-actions.c:979
 msgid "Paste the clipboard"
 msgstr "Вставити з буфера обміну"
 
@@ -8849,13 +8858,13 @@ msgstr "_Перегляд…"
 
 #: ../src/calendar/gui/e-comp-editor.c:2149 ../src/e-util/e-focus-tracker.c:821
 #: ../src/e-util/e-html-editor-actions.c:1100 ../src/e-util/e-web-view.c:485
-#: ../src/mail/e-mail-browser.c:194 ../src/shell/e-shell-window-actions.c:1015
+#: ../src/mail/e-mail-browser.c:194 ../src/shell/e-shell-window-actions.c:1054
 msgid "Select _All"
 msgstr "Вибрати _все"
 
 #: ../src/calendar/gui/e-comp-editor.c:2151 ../src/e-util/e-focus-tracker.c:224
 #: ../src/e-util/e-focus-tracker.c:280 ../src/e-util/e-focus-tracker.c:822
-#: ../src/mail/e-mail-browser.c:196 ../src/shell/e-shell-window-actions.c:1017
+#: ../src/mail/e-mail-browser.c:196 ../src/shell/e-shell-window-actions.c:1056
 msgid "Select all text"
 msgstr "Виділити весь текст"
 
@@ -8866,7 +8875,7 @@ msgstr "Класи_фікація"
 #: ../src/calendar/gui/e-comp-editor.c:2186
 #: ../src/e-util/e-html-editor-actions.c:1123
 #: ../src/e-util/e-mail-signature-editor.c:333 ../src/mail/e-mail-browser.c:210
-#: ../src/mail/e-mail-notes.c:1029 ../src/shell/e-shell-window-actions.c:1059
+#: ../src/mail/e-mail-notes.c:1029 ../src/shell/e-shell-window-actions.c:1105
 msgid "_File"
 msgstr "_Файл"
 
@@ -8882,7 +8891,7 @@ msgstr "_Параметри"
 
 #: ../src/calendar/gui/e-comp-editor.c:2214
 #: ../src/e-util/e-html-editor-actions.c:1165 ../src/mail/e-mail-browser.c:224
-#: ../src/shell/e-shell-window-actions.c:1102
+#: ../src/shell/e-shell-window-actions.c:1148
 #: ../src/smime/gui/certificate-manager.c:1641 ../src/smime/gui/smime-ui.ui.h:3
 msgid "_View"
 msgstr "П_ерегляд"
@@ -11518,12 +11527,12 @@ msgid "Open New Message window"
 msgstr "Відкрити вікно створення нового повідомлення"
 
 #: ../src/composer/e-composer-actions.c:347
-#: ../src/shell/e-shell-window-actions.c:952
+#: ../src/shell/e-shell-window-actions.c:991
 msgid "_Preferences"
 msgstr "_Параметри"
 
 #: ../src/composer/e-composer-actions.c:349
-#: ../src/shell/e-shell-window-actions.c:954
+#: ../src/shell/e-shell-window-actions.c:993
 msgid "Configure Evolution"
 msgstr "Налаштувати Evolution"
 
@@ -11755,12 +11764,12 @@ msgstr ""
 msgid "Compose Message"
 msgstr "Нове повідомлення"
 
-#: ../src/composer/e-msg-composer.c:4379
+#: ../src/composer/e-msg-composer.c:4381
 #: ../src/modules/composer-to-meeting/e-composer-to-meeting.c:352
 msgid "Reading text content…"
 msgstr "Читаємо текстові дані…"
 
-#: ../src/composer/e-msg-composer.c:5189
+#: ../src/composer/e-msg-composer.c:5191
 msgid "Review attachment before sending."
 msgid_plural "Review attachments before sending."
 msgstr[0] "Переглянути долучення перед надсиланням."
@@ -11768,7 +11777,7 @@ msgstr[1] "Переглянути долучення перед надсилан
 msgstr[2] "Переглянути долучення перед надсиланням."
 msgstr[3] "Переглянути долучення перед надсиланням."
 
-#: ../src/composer/e-msg-composer.c:5194
+#: ../src/composer/e-msg-composer.c:5196
 #, c-format
 msgid ""
 "There had been added %d attachment. Make sure it does not contain any "
@@ -11789,7 +11798,7 @@ msgstr[3] ""
 "Додано одне долучення. Перш ніж надсилати повідомлення, переконайтеся, що у "
 "долученні не міститься ніяких конфіденційних даних."
 
-#: ../src/composer/e-msg-composer.c:5327
+#: ../src/composer/e-msg-composer.c:5329
 msgid "The composer contains a non-text message body, which cannot be edited."
 msgstr "Редактор містить не текстовий вміст, який неможливо редагувати."
 
@@ -16193,7 +16202,7 @@ msgid "Format Column_s…"
 msgstr "Формат стовп_чиків…"
 
 #: ../src/e-util/e-table-header-item.c:1661
-#: ../src/shell/e-shell-window-actions.c:1239
+#: ../src/shell/e-shell-window-actions.c:1285
 msgid "Custo_mize Current View…"
 msgstr "З_мінити поточний вигляд…"
 
@@ -17169,9 +17178,9 @@ msgstr "Сервер POP3"
 msgid "SMTP server"
 msgstr "Сервер SMTP"
 
-#: ../src/mail/e-mail-browser.c:168 ../src/shell/e-shell-window-actions.c:877
-#: ../src/shell/e-shell-window-actions.c:884
-#: ../src/shell/e-shell-window-actions.c:891
+#: ../src/mail/e-mail-browser.c:168 ../src/shell/e-shell-window-actions.c:916
+#: ../src/shell/e-shell-window-actions.c:923
+#: ../src/shell/e-shell-window-actions.c:930
 msgid "Close this window"
 msgstr "Закрити це вікно"
 
@@ -17588,7 +17597,7 @@ msgstr "Вибрати"
 
 #: ../src/mail/e-mail-config-security-page.c:682
 #: ../src/mail/e-mail-config-security-page.c:780
-#: ../src/shell/e-shell-window-actions.c:980
+#: ../src/shell/e-shell-window-actions.c:1019
 msgid "_Clear"
 msgstr "О_чистити"
 
@@ -27081,7 +27090,6 @@ msgid "Save the selected task list to disk"
 msgstr "Зберегти виділений список завдань на диск"
 
 #: ../src/plugins/sender-validation/org-gnome-evolution-sender-validation.eplug.xml.h:1
-#| msgid "Sender Mail"
 msgid "Sender Validation"
 msgstr "Перевірка відправника"
 
@@ -27090,11 +27098,10 @@ msgid ""
 "Validates sender before sending an e-mail against a list of recipients and "
 "for them assigned expected send account."
 msgstr ""
-"Виконує перевірку запису відправника до надсилання електронної пошти за"
-" списком відправників і призначає очікуваний обліковий запис відправника."
+"Виконує перевірку запису відправника до надсилання електронної пошти за "
+"списком відправників і призначає очікуваний обліковий запис відправника."
 
 #: ../src/plugins/sender-validation/org-gnome-sender-validation.error.xml.h:1
-#| msgid "Add sender to address book"
 msgid "Confirm sender address"
 msgstr "Підтвердження адреси відправника"
 
@@ -27103,22 +27110,19 @@ msgid ""
 "The message contains recipient “{0}” for which it is set up to use sender "
 "account “{1}”, but the account “{2}” is used instead."
 msgstr ""
-"У повідомленні міститься запис отримувача «{0}», для якого налаштовано"
-" використання облікового запису відправника «{1}», але замість нього"
-" використано обліковий запис «{2}»."
+"У повідомленні міститься запис отримувача «{0}», для якого налаштовано "
+"використання облікового запису відправника «{1}», але замість нього "
+"використано обліковий запис «{2}»."
 
 #: ../src/plugins/sender-validation/org-gnome-sender-validation.error.xml.h:4
-#| msgid "_Send All"
 msgid "_Send Anyway"
 msgstr "_Надіслати попри це"
 
 #: ../src/plugins/sender-validation/sender-validation.c:520
-#| msgid "Recipients contain"
 msgid "Recipient Contains"
 msgstr "Отримувач містить"
 
 #: ../src/plugins/sender-validation/sender-validation.c:530
-#| msgid "Accounts"
 msgid "Account to Use"
 msgstr "Використаний обліковий запис"
 
@@ -27238,292 +27242,302 @@ msgstr "Bug Buddy не встановлено."
 msgid "Bug Buddy could not be run."
 msgstr "Не вдалося запустити Bug Buddy."
 
-#: ../src/shell/e-shell-window-actions.c:851
+#: ../src/shell/e-shell-window-actions.c:890
 msgid "Collect_ion Account"
 msgstr "Обліковий запис-з_бірка"
 
-#: ../src/shell/e-shell-window-actions.c:853
+#: ../src/shell/e-shell-window-actions.c:892
 msgid "Create a new collection account"
 msgstr "Створити обліковий запис-збірку"
 
-#: ../src/shell/e-shell-window-actions.c:861
+#: ../src/shell/e-shell-window-actions.c:900
 msgid "_About"
 msgstr "_Про програму"
 
-#: ../src/shell/e-shell-window-actions.c:863
+#: ../src/shell/e-shell-window-actions.c:902
 msgid "Show information about Evolution"
 msgstr "Показати інформацію про Evolution"
 
-#: ../src/shell/e-shell-window-actions.c:868
+#: ../src/shell/e-shell-window-actions.c:907
 msgid "_Accounts"
 msgstr "_Облікові записи"
 
-#: ../src/shell/e-shell-window-actions.c:870
+#: ../src/shell/e-shell-window-actions.c:909
 msgid "Configure Evolution Accounts"
 msgstr "Налаштувати облікові записи Evolution"
 
-#: ../src/shell/e-shell-window-actions.c:875
-#: ../src/shell/e-shell-window-actions.c:889
+#: ../src/shell/e-shell-window-actions.c:914
+#: ../src/shell/e-shell-window-actions.c:928
 msgid "_Close Window"
 msgstr "_Закрити вікно"
 
-#: ../src/shell/e-shell-window-actions.c:896
+#: ../src/shell/e-shell-window-actions.c:935
 msgid "_Contents"
 msgstr "_Зміст"
 
-#: ../src/shell/e-shell-window-actions.c:898
+#: ../src/shell/e-shell-window-actions.c:937
 msgid "Open the Evolution User Guide"
 msgstr "Відкрити посібник користувача Evolution"
 
-#: ../src/shell/e-shell-window-actions.c:924
+#: ../src/shell/e-shell-window-actions.c:963
 msgid "I_mport…"
 msgstr "_Імпортувати…"
 
-#: ../src/shell/e-shell-window-actions.c:926
+#: ../src/shell/e-shell-window-actions.c:965
 msgid "Import data from other programs"
 msgstr "Імпорт даних з інших програм"
 
-#: ../src/shell/e-shell-window-actions.c:931
+#: ../src/shell/e-shell-window-actions.c:970
 msgid "New _Window"
 msgstr "Створити _вікно"
 
-#: ../src/shell/e-shell-window-actions.c:933
+#: ../src/shell/e-shell-window-actions.c:972
 msgid "Create a new window displaying this view"
 msgstr "Створити нове вікно з цим оглядом"
 
-#: ../src/shell/e-shell-window-actions.c:945
+#: ../src/shell/e-shell-window-actions.c:984
 msgid "Available Cate_gories"
 msgstr "Доступні _категорії"
 
-#: ../src/shell/e-shell-window-actions.c:947
+#: ../src/shell/e-shell-window-actions.c:986
 msgid "Manage available categories"
 msgstr "Керувати доступними категоріями"
 
-#: ../src/shell/e-shell-window-actions.c:959
+#: ../src/shell/e-shell-window-actions.c:998
 msgid "_Quit"
 msgstr "Ви_йти"
 
-#: ../src/shell/e-shell-window-actions.c:961
+#: ../src/shell/e-shell-window-actions.c:1000
 msgid "Exit the program"
 msgstr "Вийти з програми"
 
-#: ../src/shell/e-shell-window-actions.c:966
+#: ../src/shell/e-shell-window-actions.c:1005
 msgid "_Saved Searches"
 msgstr "З_бережені пошуки"
 
-#: ../src/shell/e-shell-window-actions.c:973
+#: ../src/shell/e-shell-window-actions.c:1012
 msgid "_Advanced Search…"
 msgstr "_Розширений пошук…"
 
-#: ../src/shell/e-shell-window-actions.c:975
+#: ../src/shell/e-shell-window-actions.c:1014
 msgid "Construct a more advanced search"
 msgstr "Створити більш розширені параметри пошуку"
 
-#: ../src/shell/e-shell-window-actions.c:982
+#: ../src/shell/e-shell-window-actions.c:1021
 msgid "Clear the current search parameters"
 msgstr "Очистити поточні параметри пошуку"
 
-#: ../src/shell/e-shell-window-actions.c:987
+#: ../src/shell/e-shell-window-actions.c:1026
 msgid "_Edit Saved Searches…"
 msgstr "_Редагувати збережені результати пошуку…"
 
-#: ../src/shell/e-shell-window-actions.c:989
+#: ../src/shell/e-shell-window-actions.c:1028
 msgid "Manage your saved searches"
 msgstr "Керування збереженими параметрами пошуку"
 
-#: ../src/shell/e-shell-window-actions.c:996
+#: ../src/shell/e-shell-window-actions.c:1035
 msgid "Click here to change the search type"
 msgstr "Натисніть, щоб змінити тип пошуку"
 
-#: ../src/shell/e-shell-window-actions.c:1001
+#: ../src/shell/e-shell-window-actions.c:1040
 msgid "_Find Now"
 msgstr "З_найти зараз"
 
-#: ../src/shell/e-shell-window-actions.c:1003
+#: ../src/shell/e-shell-window-actions.c:1042
 msgid "Execute the current search parameters"
 msgstr "Виконати пошук з поточними параметрами"
 
-#: ../src/shell/e-shell-window-actions.c:1008
+#: ../src/shell/e-shell-window-actions.c:1047
 msgid "_Save Search…"
 msgstr "З_берегти результати пошуку…"
 
-#: ../src/shell/e-shell-window-actions.c:1010
+#: ../src/shell/e-shell-window-actions.c:1049
 msgid "Save the current search parameters"
 msgstr "Зберегти поточні параметри пошуку"
 
-#: ../src/shell/e-shell-window-actions.c:1022
+#: ../src/shell/e-shell-window-actions.c:1061
 msgid "_Keyboard Shortcuts"
 msgstr "_Клавіатурні скорочення"
 
-#: ../src/shell/e-shell-window-actions.c:1024
+#: ../src/shell/e-shell-window-actions.c:1063
 msgid "Show keyboard shortcuts"
 msgstr "Показати клавіатурні скорочення"
 
-#: ../src/shell/e-shell-window-actions.c:1029
+#: ../src/shell/e-shell-window-actions.c:1068
+msgid "Show _WebKit GPU information"
+msgstr "Показати дані WebKit щодо _граф. процесора"
+
+#: ../src/shell/e-shell-window-actions.c:1070
+msgid "Show WebKit GPU information page in the preview panel"
+msgstr ""
+"Показувати сторінку відомостей щодо графічного процесора WebKit на панелі "
+"попереднього перегляду"
+
+#: ../src/shell/e-shell-window-actions.c:1075
 msgid "Submit _Bug Report…"
 msgstr "_Надіслати повідомлення про помилку…"
 
-#: ../src/shell/e-shell-window-actions.c:1031
+#: ../src/shell/e-shell-window-actions.c:1077
 msgid "Submit a bug report using Bug Buddy"
 msgstr "Відіслати звіт про помилку за допомогою Bug Buddy"
 
-#: ../src/shell/e-shell-window-actions.c:1036
+#: ../src/shell/e-shell-window-actions.c:1082
 msgid "_Work Offline"
 msgstr "Пра_цювати автономно"
 
-#: ../src/shell/e-shell-window-actions.c:1038
+#: ../src/shell/e-shell-window-actions.c:1084
 msgid "Put Evolution into offline mode"
 msgstr "Перевести Evolution у автономний режим"
 
-#: ../src/shell/e-shell-window-actions.c:1043
+#: ../src/shell/e-shell-window-actions.c:1089
 msgid "_Work Online"
 msgstr "Пра_цювати у мережі"
 
-#: ../src/shell/e-shell-window-actions.c:1045
+#: ../src/shell/e-shell-window-actions.c:1091
 msgid "Put Evolution into online mode"
 msgstr "Перевести Evolution у режим з'єднання з мережею"
 
-#: ../src/shell/e-shell-window-actions.c:1073
+#: ../src/shell/e-shell-window-actions.c:1119
 msgid "Lay_out"
 msgstr "_Розташування"
 
 #. Translators: This is a New menu item caption, under File->New
-#: ../src/shell/e-shell-window-actions.c:1081
+#: ../src/shell/e-shell-window-actions.c:1127
 msgid "_New"
 msgstr "_Створити"
 
-#: ../src/shell/e-shell-window-actions.c:1088
+#: ../src/shell/e-shell-window-actions.c:1134
 msgid "_Search"
 msgstr "П_ошук"
 
-#: ../src/shell/e-shell-window-actions.c:1095
+#: ../src/shell/e-shell-window-actions.c:1141
 msgid "_Switcher Appearance"
 msgstr "_Вигляд перемикача"
 
-#: ../src/shell/e-shell-window-actions.c:1109
+#: ../src/shell/e-shell-window-actions.c:1155
 msgid "_Window"
 msgstr "_Вікно"
 
-#: ../src/shell/e-shell-window-actions.c:1138
+#: ../src/shell/e-shell-window-actions.c:1184
 msgid "Show _Menu Bar"
 msgstr "Показати панель _меню"
 
-#: ../src/shell/e-shell-window-actions.c:1140
+#: ../src/shell/e-shell-window-actions.c:1186
 msgid "Show the menu bar"
 msgstr "Показати панель меню"
 
-#: ../src/shell/e-shell-window-actions.c:1146
+#: ../src/shell/e-shell-window-actions.c:1192
 msgid "Show Side _Bar"
 msgstr "Показати _бічну панель"
 
-#: ../src/shell/e-shell-window-actions.c:1148
+#: ../src/shell/e-shell-window-actions.c:1194
 msgid "Show the side bar"
 msgstr "Показати бічну панель"
 
-#: ../src/shell/e-shell-window-actions.c:1154
+#: ../src/shell/e-shell-window-actions.c:1200
 msgid "Show _Buttons"
 msgstr "Показувати _кнопки"
 
-#: ../src/shell/e-shell-window-actions.c:1156
+#: ../src/shell/e-shell-window-actions.c:1202
 msgid "Show the switcher buttons"
 msgstr "Показувати кнопки перемикача"
 
-#: ../src/shell/e-shell-window-actions.c:1162
+#: ../src/shell/e-shell-window-actions.c:1208
 msgid "Show _Status Bar"
 msgstr "Показати панель _стану"
 
-#: ../src/shell/e-shell-window-actions.c:1164
+#: ../src/shell/e-shell-window-actions.c:1210
 msgid "Show the status bar"
 msgstr "Показати панель стану"
 
-#: ../src/shell/e-shell-window-actions.c:1170
+#: ../src/shell/e-shell-window-actions.c:1216
 msgid "Show _Tool Bar"
 msgstr "Показати панель _інструментів"
 
-#: ../src/shell/e-shell-window-actions.c:1172
+#: ../src/shell/e-shell-window-actions.c:1218
 msgid "Show the tool bar"
 msgstr "Показати панель інструментів"
 
-#: ../src/shell/e-shell-window-actions.c:1194
+#: ../src/shell/e-shell-window-actions.c:1240
 msgid "_Icons Only"
 msgstr "Лише _значки"
 
-#: ../src/shell/e-shell-window-actions.c:1196
+#: ../src/shell/e-shell-window-actions.c:1242
 msgid "Display window buttons with icons only"
 msgstr "Показувати кнопки вікна лише зі значками"
 
-#: ../src/shell/e-shell-window-actions.c:1201
+#: ../src/shell/e-shell-window-actions.c:1247
 msgid "_Text Only"
 msgstr "Лише _текст"
 
-#: ../src/shell/e-shell-window-actions.c:1203
+#: ../src/shell/e-shell-window-actions.c:1249
 msgid "Display window buttons with text only"
 msgstr "Відображати кнопки вікна лише з текстом"
 
-#: ../src/shell/e-shell-window-actions.c:1208
+#: ../src/shell/e-shell-window-actions.c:1254
 msgid "Icons _and Text"
 msgstr "Значки т_а текст"
 
-#: ../src/shell/e-shell-window-actions.c:1210
+#: ../src/shell/e-shell-window-actions.c:1256
 msgid "Display window buttons with icons and text"
 msgstr "Відображати кнопки вікна зі значками та текстом"
 
-#: ../src/shell/e-shell-window-actions.c:1215
+#: ../src/shell/e-shell-window-actions.c:1261
 msgid "Tool_bar Style"
 msgstr "Стиль па_нелі інструментів"
 
-#: ../src/shell/e-shell-window-actions.c:1217
+#: ../src/shell/e-shell-window-actions.c:1263
 msgid "Display window buttons using the desktop toolbar setting"
 msgstr "Відображати кнопки вікна, використовуючи системні параметри"
 
-#: ../src/shell/e-shell-window-actions.c:1225
+#: ../src/shell/e-shell-window-actions.c:1271
 msgid "Delete Current View"
 msgstr "Вилучити поточний перегляд"
 
-#: ../src/shell/e-shell-window-actions.c:1232
+#: ../src/shell/e-shell-window-actions.c:1278
 msgid "Save Custom View…"
 msgstr "Зберегти нетиповий перегляд…"
 
-#: ../src/shell/e-shell-window-actions.c:1234
+#: ../src/shell/e-shell-window-actions.c:1280
 msgid "Save current custom view"
 msgstr "Зберегти поточний огляд"
 
-#: ../src/shell/e-shell-window-actions.c:1248
+#: ../src/shell/e-shell-window-actions.c:1294
 msgid "C_urrent View"
 msgstr "_Поточний вигляд"
 
-#: ../src/shell/e-shell-window-actions.c:1258
+#: ../src/shell/e-shell-window-actions.c:1304
 msgid "Custom View"
 msgstr "Спеціальний вигляд"
 
-#: ../src/shell/e-shell-window-actions.c:1260
+#: ../src/shell/e-shell-window-actions.c:1306
 msgid "Current view is a customized view"
 msgstr "Поточний огляд налаштований користувачем"
 
-#: ../src/shell/e-shell-window-actions.c:1268
+#: ../src/shell/e-shell-window-actions.c:1314
 msgid "Page Set_up…"
 msgstr "Пара_метри сторінки…"
 
-#: ../src/shell/e-shell-window-actions.c:1270
+#: ../src/shell/e-shell-window-actions.c:1316
 msgid "Change the page settings for your current printer"
 msgstr "Змінити орієнтацію сторінки для вашого поточного принтера"
 
-#: ../src/shell/e-shell-window-actions.c:1640
+#: ../src/shell/e-shell-window-actions.c:1691
 #, c-format
 msgid "Switch to %s"
 msgstr "Перемикнутись на %s"
 
-#: ../src/shell/e-shell-window-actions.c:1764
+#: ../src/shell/e-shell-window-actions.c:1815
 #, c-format
 msgid "Select view: %s"
 msgstr "Виберіть перегляд: %s"
 
-#: ../src/shell/e-shell-window-actions.c:1781
+#: ../src/shell/e-shell-window-actions.c:1832
 #, c-format
 msgid "Delete view: %s"
 msgstr "Вилучити перегляд: %s"
 
-#: ../src/shell/e-shell-window-actions.c:1896
+#: ../src/shell/e-shell-window-actions.c:1947
 msgid "Execute these search parameters"
 msgstr "Виконати ці параметри пошуку"
 
