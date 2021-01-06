@@ -849,7 +849,7 @@
     </key>
     <key name="copy-move-to-folder-preserve-expand" type="b">
       <default>false</default>
-      <_summary>Whether to preserver expand state of the folders when calling Copy/Move to Folder.</_summary>
+      <_summary>Whether to preserve expand state of the folders when calling Copy/Move to Folder.</_summary>
       <_description>If enabled, the Copy/Move to Folder dialog will preserve the expand state of the folders in the dialog, otherwise all the folders will be expanded.</_description>
     </key>
 
