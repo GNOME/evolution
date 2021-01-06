@@ -25,6 +25,7 @@
 #include <string.h>
 
 #include "e-util/e-util.h"
+#include "em-format/e-mail-stripsig-filter.h"
 
 #include "em-composer-utils.h"
 #include "em-utils.h"
@@ -283,7 +284,7 @@ fill_template (CamelMimeMessage *message,
 
 	/* Now extract body of the original message and replace the $ORIG[body] modifier in template */
 	if (message_part && (has_quoted_body || e_util_strstrcase (template_body->str, "$ORIG[body]"))) {
-		GString *message_body;
+		GString *message_body, *message_body_nosig = NULL;
 		CamelStream *mem_stream;
 
 		stream = camel_stream_mem_new ();
@@ -313,6 +314,51 @@ fill_template (CamelMimeMessage *message,
 		byte_array = camel_stream_mem_get_byte_array (CAMEL_STREAM_MEM (mem_stream));
 		message_body = g_string_new_len ((gchar *) byte_array->data, byte_array->len);
 		g_object_unref (stream);
+
+		if (has_quoted_body) {
+			CamelMimeFilter *filter;
+
+			stream = camel_stream_mem_new ();
+			mem_stream = stream;
+
+			ct = camel_mime_part_get_content_type (message_part);
+			if (ct) {
+				const gchar *charset = camel_content_type_param (ct, "charset");
+				if (charset && *charset) {
+					CamelMimeFilter *filter = camel_mime_filter_charset_new (charset, "UTF-8");
+					if (filter) {
+						CamelStream *filtered = camel_stream_filter_new (stream);
+
+						if (filtered) {
+							camel_stream_filter_add (CAMEL_STREAM_FILTER (filtered), filter);
+							g_object_unref (stream);
+							stream = filtered;
+						}
+
+						g_object_unref (filter);
+					}
+				}
+			}
+
+			filter = e_mail_stripsig_filter_new (!message_html);
+			if (filter) {
+				CamelStream *filtered = camel_stream_filter_new (stream);
+
+				if (filtered) {
+					camel_stream_filter_add (CAMEL_STREAM_FILTER (filtered), filter);
+					g_object_unref (stream);
+					stream = filtered;
+				}
+
+				g_object_unref (filter);
+			}
+
+			camel_data_wrapper_decode_to_stream_sync (camel_medium_get_content (CAMEL_MEDIUM (message_part)), stream, NULL, NULL);
+			camel_stream_flush (stream, NULL, NULL);
+			byte_array = camel_stream_mem_get_byte_array (CAMEL_STREAM_MEM (mem_stream));
+			message_body_nosig = g_string_new_len ((gchar *) byte_array->data, byte_array->len);
+			g_object_unref (stream);
+		}
 
 		if (template_html && !message_html) {
 			gchar *html = camel_text_to_html (
@@ -350,21 +396,24 @@ fill_template (CamelMimeMessage *message,
 		if (has_quoted_body) {
 			if (!message_html) {
 				gchar *html = camel_text_to_html (
-					message_body->str,
+					message_body_nosig->str,
 					CAMEL_MIME_FILTER_TOHTML_CONVERT_NL |
 					CAMEL_MIME_FILTER_TOHTML_CONVERT_SPACES |
 					CAMEL_MIME_FILTER_TOHTML_CONVERT_URLS |
 					CAMEL_MIME_FILTER_TOHTML_QUOTE_CITATION |
 					CAMEL_MIME_FILTER_TOHTML_CONVERT_ADDRESSES, 0);
-				g_string_assign (message_body, html);
+				g_string_assign (message_body_nosig, html);
 				g_free (html);
 			}
 
-			g_string_prepend (message_body, "<blockquote type=\"cite\">");
-			g_string_append (message_body, "</blockquote>");
+			g_string_prepend (message_body_nosig, "<blockquote type=\"cite\">");
+			g_string_append (message_body_nosig, "</blockquote>");
 
-			replace_template_variable (template_body, "quoted-body", message_body->str);
+			replace_template_variable (template_body, "quoted-body", message_body_nosig->str);
 		}
+
+		if (message_body_nosig)
+			g_string_free (message_body_nosig, TRUE);
 
 		g_string_free (message_body, TRUE);
 	} else {
