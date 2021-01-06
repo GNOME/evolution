@@ -338,6 +338,7 @@ mail_reader_copy_or_move_selected_messages (EMailReader *reader,
 	EMFolderSelector *selector;
 	EMFolderTree *folder_tree;
 	EMFolderTreeModel *model;
+	GSettings *settings;
 	GtkWidget *dialog;
 	GtkWindow *window;
 	GPtrArray *uids;
@@ -367,7 +368,14 @@ mail_reader_copy_or_move_selected_messages (EMailReader *reader,
 		EMFT_EXCLUDE_NOSELECT |
 		EMFT_EXCLUDE_VIRTUAL |
 		EMFT_EXCLUDE_VTRASH);
-	gtk_tree_view_expand_all (GTK_TREE_VIEW (folder_tree));
+
+	settings = e_util_ref_settings ("org.gnome.evolution.mail");
+
+	if (!g_settings_get_boolean (settings, "copy-move-to-folder-preserve-expand"))
+		gtk_tree_view_expand_all (GTK_TREE_VIEW (folder_tree));
+
+	g_clear_object (&settings);
+
 	em_folder_selector_maybe_collapse_archive_folders (selector);
 
 	if (default_xfer_messages_uri != NULL) {
