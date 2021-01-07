@@ -612,12 +612,15 @@ e_mail_templates_apply_sync (CamelMimeMessage *source_message,
 		camel_mime_message_get_reply_to (source_message) ? camel_mime_message_get_reply_to (source_message) :
 		camel_mime_message_get_from (source_message));
 
-	/* Copy the CC and BCC from the template.*/
+	/* Copy the recipients from the template. */
 	camel_mime_message_set_recipients (result_message, CAMEL_RECIPIENT_TYPE_CC,
 		camel_mime_message_get_recipients (template_message, CAMEL_RECIPIENT_TYPE_CC));
 
 	camel_mime_message_set_recipients (result_message, CAMEL_RECIPIENT_TYPE_BCC,
 		camel_mime_message_get_recipients (template_message, CAMEL_RECIPIENT_TYPE_BCC));
+
+	if (camel_mime_message_get_reply_to (template_message))
+		camel_mime_message_set_reply_to (result_message, camel_mime_message_get_reply_to (template_message));
 
 	g_clear_object (&template_message);
 	g_clear_object (&new_multipart);
