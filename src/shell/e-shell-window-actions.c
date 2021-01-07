@@ -687,8 +687,13 @@ action_show_webkit_gpu_cb (GtkAction *action,
 			   EShellWindow *shell_window)
 {
 	WebKitWebView *webview;
+	EShellView *shell_view;
+	EShellContent *shell_content;
 
-	webview = shell_window_actions_find_webview (GTK_CONTAINER (shell_window));
+	shell_view = e_shell_window_get_shell_view (shell_window, e_shell_window_get_active_view (shell_window));
+	shell_content = e_shell_view_get_shell_content (shell_view);
+
+	webview = shell_window_actions_find_webview (GTK_CONTAINER (shell_content));
 
 	if (webview)
 		webkit_web_view_load_uri (webview, "webkit://gpu");
