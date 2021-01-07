@@ -75,6 +75,7 @@ struct _EWebViewPrivate {
 	gulong font_name_changed_handler_id;
 	gulong monospace_font_name_changed_handler_id;
 
+	GHashTable *scheme_handlers; /* gchar *scheme ~> EContentRequest */
 	GHashTable *old_settings;
 
 	WebKitFindController *find_controller;
@@ -82,8 +83,6 @@ struct _EWebViewPrivate {
 	gulong failed_to_find_text_handler_id;
 
 	gboolean has_hover_link;
-
-	GSList *content_requests; /* EContentRequest * */
 
 	GHashTable *element_clicked_cbs; /* gchar *element_class ~> GPtrArray {ElementClickedData} */
 
@@ -876,6 +875,146 @@ find_property (guint n_properties,
 	return NULL;
 }
 
+static void
+web_view_uri_request_done_cb (GObject *source_object,
+			      GAsyncResult *result,
+			      gpointer user_data)
+{
+	WebKitURISchemeRequest *request = user_data;
+	GInputStream *stream = NULL;
+	gint64 stream_length = -1;
+	gchar *mime_type = NULL;
+	GError *error = NULL;
+
+	g_return_if_fail (E_IS_CONTENT_REQUEST (source_object));
+	g_return_if_fail (WEBKIT_IS_URI_SCHEME_REQUEST (request));
+
+	if (!e_content_request_process_finish (E_CONTENT_REQUEST (source_object),
+		result, &stream, &stream_length, &mime_type, &error)) {
+		webkit_uri_scheme_request_finish_error (request, error);
+		g_clear_error (&error);
+	} else {
+		webkit_uri_scheme_request_finish (request, stream, stream_length, mime_type);
+
+		g_clear_object (&stream);
+		g_free (mime_type);
+	}
+
+	g_object_unref (request);
+}
+
+static void
+e_web_view_process_uri_request (EWebView *web_view,
+				WebKitURISchemeRequest *request)
+{
+	EContentRequest *content_request;
+	const gchar *scheme;
+	const gchar *uri;
+	gchar *redirect_to_uri = NULL;
+
+	g_return_if_fail (E_IS_WEB_VIEW (web_view));
+	g_return_if_fail (WEBKIT_IS_URI_SCHEME_REQUEST (request));
+
+	scheme = webkit_uri_scheme_request_get_scheme (request);
+	g_return_if_fail (scheme != NULL);
+
+	content_request = g_hash_table_lookup (web_view->priv->scheme_handlers, scheme);
+
+	if (!content_request) {
+		g_warning ("%s: Cannot find handler for scheme '%s'", G_STRFUNC, scheme);
+		return;
+	}
+
+	uri = webkit_uri_scheme_request_get_uri (request);
+
+	g_return_if_fail (e_content_request_can_process_uri (content_request, uri));
+
+	/* Expects an empty string to abandon the request,
+	   or NULL to keep the passed-in uri,
+	   or a new uri to load instead. */
+	g_signal_emit (web_view, signals[URI_REQUESTED], 0, uri, &redirect_to_uri);
+
+	if (redirect_to_uri && *redirect_to_uri) {
+		uri = redirect_to_uri;
+	} else if (redirect_to_uri) {
+		GError *error;
+
+		g_free (redirect_to_uri);
+
+		error = g_error_new_literal (G_IO_ERROR, G_IO_ERROR_CANCELLED, "Cancelled");
+
+		webkit_uri_scheme_request_finish_error (request, error);
+		g_clear_error (&error);
+
+		return;
+	}
+
+	e_content_request_process (content_request, uri, G_OBJECT (web_view), web_view->priv->cancellable,
+		web_view_uri_request_done_cb, g_object_ref (request));
+
+	g_free (redirect_to_uri);
+}
+
+static void
+web_view_process_uri_request_cb (WebKitURISchemeRequest *request,
+				 gpointer user_data)
+{
+	WebKitWebView *web_view;
+
+	web_view = webkit_uri_scheme_request_get_web_view (request);
+
+	if (E_IS_WEB_VIEW (web_view)) {
+		e_web_view_process_uri_request (E_WEB_VIEW (web_view), request);
+	} else {
+		GError *error;
+
+		error = g_error_new_literal (G_IO_ERROR, G_IO_ERROR_FAILED, "Unexpected WebView type");
+		webkit_uri_scheme_request_finish_error (request, error);
+		g_clear_error (&error);
+
+		g_warning ("%s: Unexpected WebView type '%s' received", G_STRFUNC, web_view ? G_OBJECT_TYPE_NAME (web_view) : "null");
+
+		return;
+	}
+}
+
+static GSList *known_schemes = NULL;
+
+static void
+web_view_web_context_gone (gpointer user_data,
+			   GObject *obj)
+{
+	gpointer *pweb_context = user_data;
+
+	g_return_if_fail (pweb_context != NULL);
+
+	*pweb_context = NULL;
+
+	g_slist_free_full (known_schemes, g_free);
+	known_schemes = NULL;
+}
+
+static void
+web_view_ensure_scheme_known (WebKitWebContext *web_context,
+			      const gchar *scheme)
+{
+	GSList *link;
+
+	g_return_if_fail (WEBKIT_IS_WEB_CONTEXT (web_context));
+	g_return_if_fail (scheme != NULL);
+
+	for (link = known_schemes; link; link = g_slist_next (link)) {
+		if (g_strcmp0 (scheme, link->data) == 0)
+			break;
+	}
+
+	if (!link) {
+		known_schemes = g_slist_prepend (known_schemes, g_strdup (scheme));
+
+		webkit_web_context_register_uri_scheme (web_context, scheme, web_view_process_uri_request_cb, NULL, NULL);
+	}
+}
+
 static GObject*
 web_view_constructor (GType type,
                       guint n_construct_properties,
@@ -897,11 +1036,12 @@ web_view_constructor (GType type,
 			g_value_take_object (param->value, webkit_user_content_manager_new ());
 		param_spec = g_object_class_find_property (object_class, "web-context");
 		if ((param = find_property (n_construct_properties, construct_properties, param_spec))) {
-			/* Share one web_context between all editors, thus there is one WebProcess
-			   for all the editors (and one for the preview). */
+			/* Share one web_context between all previews. */
 			static gpointer web_context = NULL;
 
 			if (!web_context) {
+				GSList *link;
+
 				web_context = webkit_web_context_new ();
 
 				webkit_web_context_set_cache_model (web_context, WEBKIT_CACHE_MODEL_DOCUMENT_VIEWER);
@@ -912,7 +1052,13 @@ web_view_constructor (GType type,
 				webkit_web_context_add_path_to_sandbox (web_context, EVOLUTION_SOURCE_WEBKITDATADIR, TRUE);
 				#endif
 
-				g_object_add_weak_pointer (G_OBJECT (web_context), &web_context);
+				g_object_weak_ref (G_OBJECT (web_context), web_view_web_context_gone, &web_context);
+
+				for (link = known_schemes; link; link = g_slist_next (link)) {
+					const gchar *scheme = link->data;
+
+					webkit_web_context_register_uri_scheme (web_context, scheme, web_view_process_uri_request_cb, NULL, NULL);
+				}
 			} else {
 				g_object_ref (web_context);
 			}
@@ -1128,10 +1274,8 @@ web_view_dispose (GObject *object)
 		priv->failed_to_find_text_handler_id = 0;
 	}
 
+	g_hash_table_remove_all (priv->scheme_handlers);
 	g_hash_table_remove_all (priv->element_clicked_cbs);
-
-	g_slist_free_full (priv->content_requests, g_object_unref);
-	priv->content_requests = NULL;
 
 	g_clear_object (&priv->ui_manager);
 	g_clear_object (&priv->open_proxy);
@@ -1165,96 +1309,11 @@ web_view_finalize (GObject *object)
 		priv->old_settings = NULL;
 	}
 
+	g_hash_table_destroy (priv->scheme_handlers);
 	g_hash_table_destroy (priv->element_clicked_cbs);
 
 	/* Chain up to parent's finalize() method. */
 	G_OBJECT_CLASS (e_web_view_parent_class)->finalize (object);
-}
-
-static void
-web_view_uri_request_done_cb (GObject *source_object,
-			      GAsyncResult *result,
-			      gpointer user_data)
-{
-	WebKitURISchemeRequest *request = user_data;
-	GInputStream *stream = NULL;
-	gint64 stream_length = -1;
-	gchar *mime_type = NULL;
-	GError *error = NULL;
-
-	g_return_if_fail (E_IS_CONTENT_REQUEST (source_object));
-	g_return_if_fail (WEBKIT_IS_URI_SCHEME_REQUEST (request));
-
-	if (!e_content_request_process_finish (E_CONTENT_REQUEST (source_object),
-		result, &stream, &stream_length, &mime_type, &error)) {
-		webkit_uri_scheme_request_finish_error (request, error);
-		g_clear_error (&error);
-	} else {
-		webkit_uri_scheme_request_finish (request, stream, stream_length, mime_type);
-
-		g_clear_object (&stream);
-		g_free (mime_type);
-	}
-
-	g_object_unref (request);
-}
-
-static void
-web_view_process_uri_request_cb (WebKitURISchemeRequest *request,
-				 gpointer user_data)
-{
-	EWebView *web_view = NULL;
-	EContentRequest *content_request = user_data;
-	const gchar *uri;
-	gchar *redirect_to_uri = NULL;
-	GObject *requester;
-
-	g_return_if_fail (WEBKIT_IS_URI_SCHEME_REQUEST (request));
-	g_return_if_fail (E_IS_CONTENT_REQUEST (content_request));
-
-	uri = webkit_uri_scheme_request_get_uri (request);
-	requester = G_OBJECT (webkit_uri_scheme_request_get_web_view (request));
-
-	if (!requester) {
-		GError *error;
-
-		error = g_error_new_literal (G_IO_ERROR, G_IO_ERROR_CANCELLED, "Cancelled");
-		webkit_uri_scheme_request_finish_error (request, error);
-		g_clear_error (&error);
-
-		return;
-	}
-
-	g_return_if_fail (e_content_request_can_process_uri (content_request, uri));
-
-	if (E_IS_WEB_VIEW (requester)) {
-		/* Expects an empty string to abandon the request,
-		   or NULL to keep the passed-in uri,
-		   or a new uri to load instead. */
-		g_signal_emit (requester, signals[URI_REQUESTED], 0, uri, &redirect_to_uri);
-
-		if (redirect_to_uri && *redirect_to_uri) {
-			uri = redirect_to_uri;
-		} else if (redirect_to_uri) {
-			GError *error;
-
-			g_free (redirect_to_uri);
-
-			error = g_error_new_literal (G_IO_ERROR, G_IO_ERROR_CANCELLED, "Cancelled");
-
-			webkit_uri_scheme_request_finish_error (request, error);
-			g_clear_error (&error);
-
-			return;
-		}
-
-		web_view = E_WEB_VIEW (requester);
-	}
-
-	e_content_request_process (content_request, uri, requester, web_view ? web_view->priv->cancellable : NULL,
-		web_view_uri_request_done_cb, g_object_ref (request));
-
-	g_free (redirect_to_uri);
 }
 
 /* 'scheme' is like "file", not "file:" */
@@ -1263,22 +1322,13 @@ e_web_view_register_content_request_for_scheme (EWebView *web_view,
 						const gchar *scheme,
 						EContentRequest *content_request)
 {
-	WebKitWebContext *web_context;
-
 	g_return_if_fail (E_IS_WEB_VIEW (web_view));
 	g_return_if_fail (E_IS_CONTENT_REQUEST (content_request));
 	g_return_if_fail (scheme != NULL);
 
-	web_context = webkit_web_view_get_context (WEBKIT_WEB_VIEW (web_view));
+	g_hash_table_insert (web_view->priv->scheme_handlers, g_strdup (scheme), g_object_ref (content_request));
 
-	webkit_web_context_register_uri_scheme (web_context, scheme, web_view_process_uri_request_cb,
-		g_object_ref (content_request), g_object_unref);
-
-	if (!g_slist_find (web_view->priv->content_requests, content_request)) {
-		web_view->priv->content_requests = g_slist_prepend (
-			web_view->priv->content_requests,
-			g_object_ref (content_request));
-	}
+	web_view_ensure_scheme_known (webkit_web_view_get_context (WEBKIT_WEB_VIEW (web_view)), scheme);
 }
 
 static void
@@ -2390,6 +2440,7 @@ e_web_view_init (EWebView *web_view)
 
 	web_view->priv->highlights_enabled = TRUE;
 	web_view->priv->old_settings = g_hash_table_new_full (g_str_hash, g_str_equal, g_free, (GDestroyNotify) g_variant_unref);
+	web_view->priv->scheme_handlers = g_hash_table_new_full (g_str_hash, g_str_equal, g_free, g_object_unref);
 
 	g_signal_connect (
 		web_view, "context-menu",
@@ -4031,15 +4082,18 @@ e_web_view_request (EWebView *web_view,
 {
 	EContentRequest *content_request = NULL;
 	AsyncContext *async_context;
-	GSList *link;
+	GHashTableIter iter;
 	GTask *task;
 	gboolean is_processed = FALSE;
+	gpointer value;
 
 	g_return_if_fail (E_IS_WEB_VIEW (web_view));
 	g_return_if_fail (uri != NULL);
 
-	for (link = web_view->priv->content_requests; link; link = g_slist_next (link)) {
-		EContentRequest *adept = link->data;
+	g_hash_table_iter_init (&iter, web_view->priv->scheme_handlers);
+
+	while (g_hash_table_iter_next (&iter, NULL, &value)) {
+		EContentRequest *adept = value;
 
 		if (!E_IS_CONTENT_REQUEST (adept) ||
 		    !e_content_request_can_process_uri (adept, uri))
