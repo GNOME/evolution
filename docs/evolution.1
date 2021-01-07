@@ -3,7 +3,7 @@
 evolution \- The Evolution PIM and Email Client
 .SH SYNOPSIS
 .sp
-\fBevolution\fR [ \fB-c|--component \fIcomponent\fB\fR ] [ \fB-g|--geometry \fIgeometry\fB\fR ] [ \fB--offline\fR ] [ \fB--online\fR ] [ \fB--force-online\fR ] [ \fB--disable-eplugin\fR ] [ \fB--disable-preview\fR ] [ \fB-i|--import \fIfilenames\fB\fR ] [ \fB-q|--quit\fR ]
+\fBevolution\fR [ \fB-c|--component \fIcomponent\fB\fR ] [ \fB-g|--geometry \fIgeometry\fB\fR ] [ \fB--offline\fR ] [ \fB--online\fR ] [ \fB--force-online\fR ]  [ \fB--force-shutdown\fR ] [ \fB--disable-eplugin\fR ] [ \fB--disable-preview\fR ] [ \fB-i|--import \fIfilenames\fB\fR ] [ \fB-q|--quit\fR ]
 .SH "DESCRIPTION"
 .PP
 \fBEvolution\fR is the GNOME mailer, calendar, contact manager and
@@ -31,6 +31,9 @@ Start in online mode.
 .TP
 \fB--force-online\fR
 Ignore network availability.
+.TP
+\fB--force-shutdown\fR
+Forcibly shut down Evolution and background Evolution-Data-Server processes.
 .TP
 \fB--disable-eplugin\fR
 Disable loading of any plugins.
