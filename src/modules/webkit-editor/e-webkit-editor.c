@@ -78,6 +78,7 @@ struct _EWebKitEditorPrivate {
 	EContentEditorInitializedCallback initialized_callback;
 	gpointer initialized_user_data;
 
+	GHashTable *scheme_handlers; /* const gchar *scheme ~> EContentRequest */
 	GCancellable *cancellable;
 
 	gboolean html_mode;
@@ -3863,18 +3864,16 @@ static void
 webkit_editor_process_uri_request_cb (WebKitURISchemeRequest *request,
 				      gpointer user_data)
 {
+	WebKitWebView *web_view;
 	EWebKitEditor *wk_editor;
-	EContentRequest *content_request = user_data;
-	const gchar *uri;
-	GObject *requester;
+	EContentRequest *content_request;
+	const gchar *uri, *scheme;
 
 	g_return_if_fail (WEBKIT_IS_URI_SCHEME_REQUEST (request));
-	g_return_if_fail (E_IS_CONTENT_REQUEST (content_request));
 
-	uri = webkit_uri_scheme_request_get_uri (request);
-	requester = G_OBJECT (webkit_uri_scheme_request_get_web_view (request));
+	web_view = webkit_uri_scheme_request_get_web_view (request);
 
-	if (!requester) {
+	if (!web_view) {
 		GError *error;
 
 		error = g_error_new_literal (G_IO_ERROR, G_IO_ERROR_CANCELLED, "Cancelled");
@@ -3884,11 +3883,35 @@ webkit_editor_process_uri_request_cb (WebKitURISchemeRequest *request,
 		return;
 	}
 
+	wk_editor = E_IS_WEBKIT_EDITOR (web_view) ? E_WEBKIT_EDITOR (web_view) : NULL;
+
+	if (!wk_editor) {
+		GError *error;
+
+		error = g_error_new_literal (G_IO_ERROR, G_IO_ERROR_FAILED, "Unexpected WebView type");
+		webkit_uri_scheme_request_finish_error (request, error);
+		g_clear_error (&error);
+
+		g_warning ("%s: Unexpected WebView type '%s' received", G_STRFUNC, web_view ? G_OBJECT_TYPE_NAME (web_view) : "null");
+
+		return;
+	}
+
+	scheme = webkit_uri_scheme_request_get_scheme (request);
+	g_return_if_fail (scheme != NULL);
+
+	content_request = g_hash_table_lookup (wk_editor->priv->scheme_handlers, scheme);
+
+	if (!content_request) {
+		g_warning ("%s: Cannot find handler for scheme '%s'", G_STRFUNC, scheme);
+		return;
+	}
+
+	uri = webkit_uri_scheme_request_get_uri (request);
+
 	g_return_if_fail (e_content_request_can_process_uri (content_request, uri));
 
-	wk_editor = E_IS_WEBKIT_EDITOR (requester) ? E_WEBKIT_EDITOR (requester) : NULL;
-
-	e_content_request_process (content_request, uri, requester, wk_editor ? wk_editor->priv->cancellable : NULL,
+	e_content_request_process (content_request, uri, G_OBJECT (web_view), wk_editor ? wk_editor->priv->cancellable : NULL,
 		webkit_editor_uri_request_done_cb, g_object_ref (request));
 }
 
@@ -4104,21 +4127,13 @@ webkit_editor_constructed (GObject *object)
 	webkit_web_context_set_spell_checking_languages (web_context, (const gchar * const *) languages);
 	g_strfreev (languages);
 
-	content_request = e_cid_request_new ();
-	webkit_web_context_register_uri_scheme (web_context, "cid", webkit_editor_process_uri_request_cb,
-		g_object_ref (content_request), g_object_unref);
-	g_object_unref (content_request);
-
-	content_request = e_file_request_new ();
-	webkit_web_context_register_uri_scheme (web_context, "evo-file", webkit_editor_process_uri_request_cb,
-		g_object_ref (content_request), g_object_unref);
-	g_object_unref (content_request);
+	/* When adding new scheme handlers add them also into webkit_editor_constructor() */
+	g_hash_table_insert (wk_editor->priv->scheme_handlers, (gpointer) "cid", e_cid_request_new ());
+	g_hash_table_insert (wk_editor->priv->scheme_handlers, (gpointer) "evo-file", e_file_request_new ());
 
 	content_request = e_http_request_new ();
-	webkit_web_context_register_uri_scheme (web_context, "evo-http", webkit_editor_process_uri_request_cb,
-		g_object_ref (content_request), g_object_unref);
-	webkit_web_context_register_uri_scheme (web_context, "evo-https", webkit_editor_process_uri_request_cb,
-		g_object_ref (content_request), g_object_unref);
+	g_hash_table_insert (wk_editor->priv->scheme_handlers, (gpointer) "evo-http", g_object_ref (content_request));
+	g_hash_table_insert (wk_editor->priv->scheme_handlers, (gpointer) "evo-https", g_object_ref (content_request));
 	g_object_unref (content_request);
 
 	webkit_web_view_set_editable (web_view, TRUE);
@@ -4211,6 +4226,14 @@ webkit_editor_constructor (GType type,
 			static gpointer web_context = NULL;
 
 			if (!web_context) {
+				const gchar *schemes[] = {
+					"cid",
+					"evo-file",
+					"evo-http",
+					"evo-https"
+				};
+				gint ii;
+
 				web_context = webkit_web_context_new ();
 
 				webkit_web_context_set_cache_model (web_context, WEBKIT_CACHE_MODEL_DOCUMENT_VIEWER);
@@ -4222,6 +4245,10 @@ webkit_editor_constructor (GType type,
 				#endif
 
 				g_object_add_weak_pointer (G_OBJECT (web_context), &web_context);
+
+				for (ii = 0; ii < G_N_ELEMENTS (schemes); ii++) {
+					webkit_web_context_register_uri_scheme (web_context, schemes[ii], webkit_editor_process_uri_request_cb, NULL, NULL);
+				}
 			} else {
 				g_object_ref (web_context);
 			}
@@ -4275,6 +4302,8 @@ webkit_editor_dispose (GObject *object)
 
 	webkit_editor_finish_search (E_WEBKIT_EDITOR (object));
 
+	g_hash_table_remove_all (priv->scheme_handlers);
+
 	/* Chain up to parent's dispose() method. */
 	G_OBJECT_CLASS (e_webkit_editor_parent_class)->dispose (object);
 }
@@ -4312,6 +4341,8 @@ webkit_editor_finalize (GObject *object)
 	g_free (priv->body_font_name);
 	g_free (priv->font_name);
 	g_free (priv->context_menu_caret_word);
+
+	g_hash_table_destroy (priv->scheme_handlers);
 
 	/* Chain up to parent's finalize() method. */
 	G_OBJECT_CLASS (e_webkit_editor_parent_class)->finalize (object);
@@ -5551,6 +5582,7 @@ e_webkit_editor_init (EWebKitEditor *wk_editor)
 
 	/* To be able to cancel any pending calls when 'dispose' is called. */
 	wk_editor->priv->cancellable = g_cancellable_new ();
+	wk_editor->priv->scheme_handlers = g_hash_table_new_full (g_str_hash, g_str_equal, NULL, g_object_unref);
 	wk_editor->priv->is_malfunction = FALSE;
 	wk_editor->priv->spell_check_enabled = TRUE;
 	wk_editor->priv->spell_checker = e_spell_checker_new ();
