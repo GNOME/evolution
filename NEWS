@@ -1,3 +1,28 @@
+Evolution 3.38.3 2021-01-08
+---------------------------
+
+Bug Fixes:
+	I#1242 - Tasks: "Uncompleted Tasks" filter does not work as expected (Milan Crha)
+	I#1243 - tnef-attachment: Fails to decode some TNEF event attachments (Milan Crha)
+	I#1259 - Composer: Body from mailto: URI not enclosed in paragraphs (Milan Crha)
+	I#1262 - Composer: Forward -> Redirect includes account signature (Milan Crha)
+	I#1266 - Alternative Reply: Do not ellipsize template names (Milan Crha)
+	I#1286 - WebView: Change how scheme handlers are registered (Milan Crha)
+	I#1309 - templates: Remove signature in $ORIG[quoted-body] (Milan Crha)
+	I#1312 - templates: Reply-To field is not copied to the new message (Milan Crha)
+
+Miscellaneous:
+	Add Kabyle translation into the e_supported_locales array (Milan Crha)
+	Composer: UL/OL not wrapped properly in Plain Text mode (Milan Crha)
+	EABContactFormatter: Remove obsolete WebKitGTK code (Milan Crha)
+
+Translations:
+	Carmen Bianca BAKKER (eo)
+	Kjartan Maraas (nb)
+	Onno Giesmann (de)
+	Andika Triwidada (id)
+	Jordi Mas (ca)
+
 Evolution 3.38.2 2020-11-20
 ---------------------------
 
