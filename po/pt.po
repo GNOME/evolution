@@ -13,16 +13,16 @@ msgid ""
 msgstr ""
 "Project-Id-Version: 3.12\n"
 "Report-Msgid-Bugs-To: https://gitlab.gnome.org/GNOME/evolution/issues\n"
-"POT-Creation-Date: 2021-01-06 17:23+0000\n"
-"PO-Revision-Date: 2021-01-09 16:39+0000\n"
+"POT-Creation-Date: 2021-01-09 16:43+0000\n"
+"PO-Revision-Date: 2021-01-09 21:28+0000\n"
 "Last-Translator: Hugo Carvalho <hugokarvalho@hotmail.com>\n"
-"Language-Team: Portuguese <>\n"
+"Language-Team: Portuguese <https://l10n.gnome.org/teams/pt/>\n"
 "Language: pt\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
-"X-Generator: Poedit 2.0.6\n"
+"X-Generator: Poedit 2.4.2\n"
 "X-Language: pt_PT\n"
 "X-Source-Language: C\n"
 "X-Project-Style: gnome\n"
@@ -3577,7 +3577,7 @@ msgid "Contacts"
 msgstr "Contactos"
 
 #: ../data/org.gnome.Evolution.desktop.in.in.h:9
-#: ../src/addressbook/gui/widgets/eab-contact-formatter.c:1009
+#: ../src/addressbook/gui/widgets/eab-contact-formatter.c:1002
 #: ../src/e-util/e-collection-account-wizard.c:855
 #: ../src/e-util/e-send-options.c:544 ../src/e-util/e-webdav-browser.c:529
 #: ../src/modules/calendar/e-cal-shell-view-actions.c:199
@@ -4303,7 +4303,7 @@ msgstr "Opções"
 #: ../src/e-util/e-source-selector-dialog.c:325
 #: ../src/e-util/e-table-config.c:540 ../src/e-util/e-table-config.ui.h:3
 #: ../src/e-util/e-timezone-dialog.ui.h:2
-#: ../src/e-util/evolution-source-viewer.c:829 ../src/e-util/e-web-view.c:3930
+#: ../src/e-util/evolution-source-viewer.c:829 ../src/e-util/e-web-view.c:3981
 #: ../src/e-util/gal-view-instance-save-as-dialog.c:265
 #: ../src/mail/e-mail-config-window.c:310 ../src/mail/e-mail-label-dialog.c:186
 #: ../src/mail/e-mail-tag-editor.c:160 ../src/mail/em-composer-utils.c:4023
@@ -4341,7 +4341,7 @@ msgstr "_Cancelar"
 #: ../src/e-util/e-attachment-store.c:848
 #: ../src/e-util/e-attachment-store.c:855
 #: ../src/e-util/e-mail-signature-script-dialog.c:362
-#: ../src/e-util/e-webdav-browser.c:2561 ../src/e-util/e-web-view.c:3930
+#: ../src/e-util/e-webdav-browser.c:2561 ../src/e-util/e-web-view.c:3981
 #: ../src/e-util/gal-view-instance-save-as-dialog.c:266
 #: ../src/shell/e-shell-content.c:642 ../src/shell/e-shell-utils.c:133
 #: ../src/smime/gui/certificate-manager.c:650
@@ -4355,7 +4355,7 @@ msgstr "_Guardar"
 #: ../src/e-util/e-preferences-window.c:387
 #: ../src/e-util/e-send-options.ui.h:15
 #: ../src/plugins/email-custom-header/org-gnome-email-custom-header.ui.h:2
-#: ../src/shell/e-shell-window-actions.c:1112
+#: ../src/shell/e-shell-window-actions.c:1117
 msgid "_Help"
 msgstr "A_juda"
 
@@ -4386,8 +4386,8 @@ msgid "Full _Name..."
 msgstr "_Nome completo..."
 
 #: ../src/addressbook/gui/contact-editor/contact-editor.ui.h:23
-#: ../src/addressbook/gui/widgets/eab-contact-formatter.c:925
-#: ../src/addressbook/gui/widgets/eab-contact-formatter.c:1345
+#: ../src/addressbook/gui/widgets/eab-contact-formatter.c:918
+#: ../src/addressbook/gui/widgets/eab-contact-formatter.c:1331
 #: ../src/addressbook/gui/widgets/e-addressbook-view.etspec.h:6
 msgid "Email"
 msgstr "Correio eletrónico"
@@ -4507,14 +4507,14 @@ msgid "_Anniversary:"
 msgstr "_Aniversário:"
 
 #: ../src/addressbook/gui/contact-editor/contact-editor.ui.h:52
-#: ../src/addressbook/gui/widgets/eab-contact-formatter.c:1055
+#: ../src/addressbook/gui/widgets/eab-contact-formatter.c:1048
 #: ../src/addressbook/gui/widgets/e-addressbook-view.etspec.h:47
 #: ../src/calendar/gui/e-calendar-view.c:2195
 msgid "Anniversary"
 msgstr "Aniversário"
 
 #: ../src/addressbook/gui/contact-editor/contact-editor.ui.h:53
-#: ../src/addressbook/gui/widgets/eab-contact-formatter.c:1054
+#: ../src/addressbook/gui/widgets/eab-contact-formatter.c:1047
 #: ../src/addressbook/gui/widgets/e-addressbook-view.etspec.h:46
 #: ../src/calendar/gui/e-calendar-view.c:2194
 msgid "Birthday"
@@ -4565,7 +4565,7 @@ msgstr "Casa"
 
 #: ../src/addressbook/gui/contact-editor/contact-editor.ui.h:63
 #: ../src/addressbook/gui/widgets/eab-contact-formatter.c:82
-#: ../src/addressbook/gui/widgets/eab-contact-formatter.c:1023
+#: ../src/addressbook/gui/widgets/eab-contact-formatter.c:1016
 #: ../src/addressbook/gui/widgets/e-contact-map.c:380
 msgid "Work"
 msgstr "Emprego"
@@ -4573,7 +4573,7 @@ msgstr "Emprego"
 #: ../src/addressbook/gui/contact-editor/contact-editor.ui.h:64
 #: ../src/addressbook/gui/widgets/eab-contact-formatter.c:84
 #: ../src/addressbook/gui/widgets/eab-contact-formatter.c:526
-#: ../src/addressbook/gui/widgets/eab-contact-formatter.c:1089
+#: ../src/addressbook/gui/widgets/eab-contact-formatter.c:1082
 #: ../src/calendar/gui/e-cal-model.c:3793
 msgid "Other"
 msgstr "Outro"
@@ -5013,17 +5013,17 @@ msgid "Copy _Email Address"
 msgstr "Copiar endereço eletrónico"
 
 #: ../src/addressbook/gui/widgets/eab-contact-display.c:187
-#: ../src/e-util/e-web-view.c:429
+#: ../src/e-util/e-web-view.c:428
 msgid "Copy the email address to the clipboard"
 msgstr "Copiar o endereço eletrónico para a área de transferência"
 
 #: ../src/addressbook/gui/widgets/eab-contact-display.c:192
-#: ../src/e-util/e-web-view.c:441
+#: ../src/e-util/e-web-view.c:440
 msgid "_Send New Message To…"
 msgstr "_Enviar nova mensagem para…"
 
 #: ../src/addressbook/gui/widgets/eab-contact-display.c:194
-#: ../src/e-util/e-web-view.c:443
+#: ../src/e-util/e-web-view.c:442
 msgid "Send a mail message to this address"
 msgstr "Enviar uma mensagem para este endereço"
 
@@ -5046,141 +5046,141 @@ msgstr "Abrir mapa"
 msgid "SIP"
 msgstr "SIP"
 
-#: ../src/addressbook/gui/widgets/eab-contact-formatter.c:690
+#: ../src/addressbook/gui/widgets/eab-contact-formatter.c:683
 msgid "List Members:"
 msgstr "Membros da lista:"
 
-#: ../src/addressbook/gui/widgets/eab-contact-formatter.c:784
+#: ../src/addressbook/gui/widgets/eab-contact-formatter.c:777
 msgid "Fax"
 msgstr "Fax"
 
-#: ../src/addressbook/gui/widgets/eab-contact-formatter.c:786
+#: ../src/addressbook/gui/widgets/eab-contact-formatter.c:779
 msgid "Phone"
 msgstr "Telefone"
 
-#: ../src/addressbook/gui/widgets/eab-contact-formatter.c:930
+#: ../src/addressbook/gui/widgets/eab-contact-formatter.c:923
 #: ../src/addressbook/gui/widgets/e-addressbook-view.etspec.h:5
 msgid "Nickname"
 msgstr "Alcunha"
 
-#: ../src/addressbook/gui/widgets/eab-contact-formatter.c:931
+#: ../src/addressbook/gui/widgets/eab-contact-formatter.c:924
 msgid "AIM"
 msgstr "AIM"
 
-#: ../src/addressbook/gui/widgets/eab-contact-formatter.c:932
+#: ../src/addressbook/gui/widgets/eab-contact-formatter.c:925
 msgid "GroupWise"
 msgstr "GroupWise"
 
-#: ../src/addressbook/gui/widgets/eab-contact-formatter.c:933
+#: ../src/addressbook/gui/widgets/eab-contact-formatter.c:926
 msgid "ICQ"
 msgstr "ICQ"
 
-#: ../src/addressbook/gui/widgets/eab-contact-formatter.c:934
+#: ../src/addressbook/gui/widgets/eab-contact-formatter.c:927
 msgid "Jabber"
 msgstr "Jabber"
 
-#: ../src/addressbook/gui/widgets/eab-contact-formatter.c:935
+#: ../src/addressbook/gui/widgets/eab-contact-formatter.c:928
 msgid "MSN"
 msgstr "MSN"
 
-#: ../src/addressbook/gui/widgets/eab-contact-formatter.c:936
+#: ../src/addressbook/gui/widgets/eab-contact-formatter.c:929
 msgid "Yahoo"
 msgstr "Yahoo"
 
-#: ../src/addressbook/gui/widgets/eab-contact-formatter.c:937
+#: ../src/addressbook/gui/widgets/eab-contact-formatter.c:930
 msgid "Gadu-Gadu"
 msgstr "Gadu-Gadu"
 
-#: ../src/addressbook/gui/widgets/eab-contact-formatter.c:938
+#: ../src/addressbook/gui/widgets/eab-contact-formatter.c:931
 msgid "Skype"
 msgstr "Skype"
 
-#: ../src/addressbook/gui/widgets/eab-contact-formatter.c:939
+#: ../src/addressbook/gui/widgets/eab-contact-formatter.c:932
 msgid "Twitter"
 msgstr "Twitter"
 
-#: ../src/addressbook/gui/widgets/eab-contact-formatter.c:1001
+#: ../src/addressbook/gui/widgets/eab-contact-formatter.c:994
 #: ../src/addressbook/gui/widgets/e-addressbook-view.etspec.h:34
 msgid "Company"
 msgstr "Empresa"
 
-#: ../src/addressbook/gui/widgets/eab-contact-formatter.c:1002
+#: ../src/addressbook/gui/widgets/eab-contact-formatter.c:995
 msgid "Department"
 msgstr "Departamento"
 
-#: ../src/addressbook/gui/widgets/eab-contact-formatter.c:1003
+#: ../src/addressbook/gui/widgets/eab-contact-formatter.c:996
 #: ../src/addressbook/gui/widgets/e-addressbook-view.etspec.h:36
 msgid "Office"
 msgstr "Escritório"
 
-#: ../src/addressbook/gui/widgets/eab-contact-formatter.c:1004
+#: ../src/addressbook/gui/widgets/eab-contact-formatter.c:997
 msgid "Profession"
 msgstr "Profissão"
 
-#: ../src/addressbook/gui/widgets/eab-contact-formatter.c:1005
+#: ../src/addressbook/gui/widgets/eab-contact-formatter.c:998
 msgid "Position"
 msgstr "Cargo"
 
-#: ../src/addressbook/gui/widgets/eab-contact-formatter.c:1006
+#: ../src/addressbook/gui/widgets/eab-contact-formatter.c:999
 #: ../src/addressbook/gui/widgets/e-addressbook-view.etspec.h:39
 msgid "Manager"
 msgstr "Gestor"
 
-#: ../src/addressbook/gui/widgets/eab-contact-formatter.c:1007
+#: ../src/addressbook/gui/widgets/eab-contact-formatter.c:1000
 #: ../src/addressbook/gui/widgets/e-addressbook-view.etspec.h:40
 msgid "Assistant"
 msgstr "Assistente"
 
-#: ../src/addressbook/gui/widgets/eab-contact-formatter.c:1008
+#: ../src/addressbook/gui/widgets/eab-contact-formatter.c:1001
 msgid "Video Chat"
 msgstr "Chat de vídeo"
 
-#: ../src/addressbook/gui/widgets/eab-contact-formatter.c:1010
+#: ../src/addressbook/gui/widgets/eab-contact-formatter.c:1003
 #: ../src/plugins/publish-calendar/publish-calendar.ui.h:2
 msgid "Free/Busy"
 msgstr "Livre/Ocupado"
 
-#: ../src/addressbook/gui/widgets/eab-contact-formatter.c:1013
-#: ../src/addressbook/gui/widgets/eab-contact-formatter.c:1053
-#: ../src/addressbook/gui/widgets/eab-contact-formatter.c:1079
+#: ../src/addressbook/gui/widgets/eab-contact-formatter.c:1006
+#: ../src/addressbook/gui/widgets/eab-contact-formatter.c:1046
+#: ../src/addressbook/gui/widgets/eab-contact-formatter.c:1072
 msgid "Address"
 msgstr "Endereço"
 
-#: ../src/addressbook/gui/widgets/eab-contact-formatter.c:1049
+#: ../src/addressbook/gui/widgets/eab-contact-formatter.c:1042
 msgid "Home Page"
 msgstr "Página pessoal"
 
-#: ../src/addressbook/gui/widgets/eab-contact-formatter.c:1050
+#: ../src/addressbook/gui/widgets/eab-contact-formatter.c:1043
 msgid "Web Log"
 msgstr "Diário na Web"
 
-#: ../src/addressbook/gui/widgets/eab-contact-formatter.c:1056
+#: ../src/addressbook/gui/widgets/eab-contact-formatter.c:1049
 #: ../src/addressbook/gui/widgets/e-addressbook-view.etspec.h:44
 msgid "Spouse"
 msgstr "Cônjuge"
 
-#: ../src/addressbook/gui/widgets/eab-contact-formatter.c:1066
+#: ../src/addressbook/gui/widgets/eab-contact-formatter.c:1059
 msgid "Personal"
 msgstr "Pessoal"
 
-#: ../src/addressbook/gui/widgets/eab-contact-formatter.c:1111
+#: ../src/addressbook/gui/widgets/eab-contact-formatter.c:1104
 #: ../src/addressbook/gui/widgets/e-addressbook-view.etspec.h:45
 msgid "Note"
 msgstr "Nota"
 
-#: ../src/addressbook/gui/widgets/eab-contact-formatter.c:1307
+#: ../src/addressbook/gui/widgets/eab-contact-formatter.c:1293
 msgid "List Members"
 msgstr "Membros da lista"
 
-#: ../src/addressbook/gui/widgets/eab-contact-formatter.c:1330
+#: ../src/addressbook/gui/widgets/eab-contact-formatter.c:1316
 msgid "Job Title"
 msgstr "Título do cargo"
 
-#: ../src/addressbook/gui/widgets/eab-contact-formatter.c:1371
+#: ../src/addressbook/gui/widgets/eab-contact-formatter.c:1357
 msgid "Home page"
 msgstr "Página pessoal"
 
-#: ../src/addressbook/gui/widgets/eab-contact-formatter.c:1381
+#: ../src/addressbook/gui/widgets/eab-contact-formatter.c:1367
 msgid "Blog"
 msgstr "Blogue"
 
@@ -5431,7 +5431,7 @@ msgstr "Tem a certeza que deseja eliminar este contacto (%s)?"
 #: ../src/modules/calendar/e-memo-shell-view-actions.c:697
 #: ../src/modules/calendar/e-task-shell-view-actions.c:851
 #: ../src/modules/mail/e-mail-shell-view-actions.c:1622
-#: ../src/shell/e-shell-window-actions.c:956
+#: ../src/shell/e-shell-window-actions.c:961
 #: ../src/smime/gui/certificate-manager.c:1651 ../src/smime/gui/smime-ui.ui.h:8
 msgid "_Delete"
 msgstr "_Eliminar"
@@ -5642,7 +5642,7 @@ msgstr "Red_uzir"
 #: ../src/addressbook/gui/widgets/e-contact-map-window.c:447
 #: ../src/e-util/e-html-editor-actions.c:2204
 #: ../src/e-util/e-html-editor-find-dialog.c:244
-#: ../src/shell/e-shell-window-actions.c:1033
+#: ../src/shell/e-shell-window-actions.c:1038
 msgid "_Find"
 msgstr "_Localizar"
 
@@ -7380,8 +7380,7 @@ msgstr "Hora: %s %s"
 #: ../src/calendar/gui/e-memo-table.c:660
 #: ../src/calendar/gui/e-task-table.c:882
 #: ../src/calendar/gui/e-to-do-pane.c:590 ../src/e-util/e-misc-utils.c:4600
-#: ../src/e-util/e-text.c:566 ../src/e-util/e-web-view.c:4108
-#| msgid "Cell…"
+#: ../src/e-util/e-text.c:566 ../src/e-util/e-web-view.c:4162
 msgid "…"
 msgstr "…"
 
@@ -8165,7 +8164,7 @@ msgstr "Participa_ntes…"
 #: ../src/plugins/publish-calendar/publish-calendar.ui.h:34
 #: ../src/plugins/sender-validation/sender-validation.c:503
 #: ../src/plugins/templates/templates.c:469
-#: ../src/shell/e-shell-window-actions.c:1098 ../src/smime/gui/smime-ui.ui.h:11
+#: ../src/shell/e-shell-window-actions.c:1103 ../src/smime/gui/smime-ui.ui.h:11
 msgid "_Edit"
 msgstr "_Editar"
 
@@ -8841,7 +8840,7 @@ msgstr "Sem resumo"
 #: ../src/mail/em-subscription-editor.c:1734
 #: ../src/modules/plugin-manager/evolution-plugin-manager.c:307
 #: ../src/shell/e-shell-window-actions.c:354
-#: ../src/shell/e-shell-window-actions.c:921
+#: ../src/shell/e-shell-window-actions.c:926
 #: ../src/smime/gui/certificate-manager.c:2173
 msgid "_Close"
 msgstr "_Fechar"
@@ -8853,36 +8852,36 @@ msgstr "Fechar a janela atual"
 #. copy menu item
 #: ../src/calendar/gui/e-comp-editor.c:2100 ../src/e-util/e-focus-tracker.c:806
 #: ../src/e-util/e-html-editor-actions.c:1072 ../src/e-util/e-text.c:2065
-#: ../src/e-util/e-web-view.c:468 ../src/mail/e-mail-browser.c:173
-#: ../src/mail/mail.error.xml.h:147 ../src/shell/e-shell-window-actions.c:942
+#: ../src/e-util/e-web-view.c:467 ../src/mail/e-mail-browser.c:173
+#: ../src/mail/mail.error.xml.h:147 ../src/shell/e-shell-window-actions.c:947
 msgid "_Copy"
 msgstr "_Copiar"
 
 #: ../src/calendar/gui/e-comp-editor.c:2102 ../src/e-util/e-focus-tracker.c:203
 #: ../src/e-util/e-focus-tracker.c:259 ../src/e-util/e-focus-tracker.c:312
-#: ../src/e-util/e-focus-tracker.c:807 ../src/e-util/e-web-view.c:470
-#: ../src/e-util/e-web-view.c:1992 ../src/mail/e-mail-browser.c:175
-#: ../src/shell/e-shell-window-actions.c:944
+#: ../src/e-util/e-focus-tracker.c:807 ../src/e-util/e-web-view.c:469
+#: ../src/e-util/e-web-view.c:2042 ../src/mail/e-mail-browser.c:175
+#: ../src/shell/e-shell-window-actions.c:949
 msgid "Copy the selection"
 msgstr "Copiar a seleção"
 
 #. cut menu item
 #: ../src/calendar/gui/e-comp-editor.c:2107 ../src/e-util/e-focus-tracker.c:801
 #: ../src/e-util/e-html-editor-actions.c:1079 ../src/e-util/e-text.c:2051
-#: ../src/mail/e-mail-browser.c:180 ../src/shell/e-shell-window-actions.c:949
+#: ../src/mail/e-mail-browser.c:180 ../src/shell/e-shell-window-actions.c:954
 msgid "Cu_t"
 msgstr "Cor_tar"
 
 #: ../src/calendar/gui/e-comp-editor.c:2109 ../src/e-util/e-focus-tracker.c:196
 #: ../src/e-util/e-focus-tracker.c:252 ../src/e-util/e-focus-tracker.c:306
-#: ../src/e-util/e-focus-tracker.c:802 ../src/e-util/e-web-view.c:2001
-#: ../src/mail/e-mail-browser.c:182 ../src/shell/e-shell-window-actions.c:951
+#: ../src/e-util/e-focus-tracker.c:802 ../src/e-util/e-web-view.c:2051
+#: ../src/mail/e-mail-browser.c:182 ../src/shell/e-shell-window-actions.c:956
 msgid "Cut the selection"
 msgstr "Cortar a seleção"
 
 #: ../src/calendar/gui/e-comp-editor.c:2116 ../src/e-util/e-focus-tracker.c:217
 #: ../src/e-util/e-focus-tracker.c:273 ../src/e-util/e-focus-tracker.c:817
-#: ../src/shell/e-shell-window-actions.c:958
+#: ../src/shell/e-shell-window-actions.c:963
 msgid "Delete the selection"
 msgstr "Eliminar a seleção"
 
@@ -8893,14 +8892,14 @@ msgstr "Ver a ajuda"
 #. paste menu item
 #: ../src/calendar/gui/e-comp-editor.c:2128 ../src/e-util/e-focus-tracker.c:811
 #: ../src/e-util/e-html-editor-actions.c:1086 ../src/e-util/e-text.c:2077
-#: ../src/mail/e-mail-browser.c:187 ../src/shell/e-shell-window-actions.c:977
+#: ../src/mail/e-mail-browser.c:187 ../src/shell/e-shell-window-actions.c:982
 msgid "_Paste"
 msgstr "_Colar"
 
 #: ../src/calendar/gui/e-comp-editor.c:2130 ../src/e-util/e-focus-tracker.c:210
 #: ../src/e-util/e-focus-tracker.c:266 ../src/e-util/e-focus-tracker.c:318
-#: ../src/e-util/e-focus-tracker.c:812 ../src/e-util/e-web-view.c:2010
-#: ../src/mail/e-mail-browser.c:189 ../src/shell/e-shell-window-actions.c:979
+#: ../src/e-util/e-focus-tracker.c:812 ../src/e-util/e-web-view.c:2060
+#: ../src/mail/e-mail-browser.c:189 ../src/shell/e-shell-window-actions.c:984
 msgid "Paste the clipboard"
 msgstr "Colar da área de transferência"
 
@@ -8920,14 +8919,14 @@ msgid "Pre_view…"
 msgstr "_Antever…"
 
 #: ../src/calendar/gui/e-comp-editor.c:2149 ../src/e-util/e-focus-tracker.c:821
-#: ../src/e-util/e-html-editor-actions.c:1100 ../src/e-util/e-web-view.c:485
-#: ../src/mail/e-mail-browser.c:194 ../src/shell/e-shell-window-actions.c:1054
+#: ../src/e-util/e-html-editor-actions.c:1100 ../src/e-util/e-web-view.c:484
+#: ../src/mail/e-mail-browser.c:194 ../src/shell/e-shell-window-actions.c:1059
 msgid "Select _All"
 msgstr "Selecion_ar tudo"
 
 #: ../src/calendar/gui/e-comp-editor.c:2151 ../src/e-util/e-focus-tracker.c:224
 #: ../src/e-util/e-focus-tracker.c:280 ../src/e-util/e-focus-tracker.c:822
-#: ../src/mail/e-mail-browser.c:196 ../src/shell/e-shell-window-actions.c:1056
+#: ../src/mail/e-mail-browser.c:196 ../src/shell/e-shell-window-actions.c:1061
 msgid "Select all text"
 msgstr "Selecionar todo o texto"
 
@@ -8938,7 +8937,7 @@ msgstr "_Classificação"
 #: ../src/calendar/gui/e-comp-editor.c:2186
 #: ../src/e-util/e-html-editor-actions.c:1123
 #: ../src/e-util/e-mail-signature-editor.c:333 ../src/mail/e-mail-browser.c:210
-#: ../src/mail/e-mail-notes.c:1029 ../src/shell/e-shell-window-actions.c:1105
+#: ../src/mail/e-mail-notes.c:1029 ../src/shell/e-shell-window-actions.c:1110
 msgid "_File"
 msgstr "_Ficheiro"
 
@@ -8954,7 +8953,7 @@ msgstr "_Opções"
 
 #: ../src/calendar/gui/e-comp-editor.c:2214
 #: ../src/e-util/e-html-editor-actions.c:1165 ../src/mail/e-mail-browser.c:224
-#: ../src/shell/e-shell-window-actions.c:1148
+#: ../src/shell/e-shell-window-actions.c:1153
 #: ../src/smime/gui/certificate-manager.c:1641 ../src/smime/gui/smime-ui.ui.h:3
 msgid "_View"
 msgstr "_Ver"
@@ -11583,12 +11582,12 @@ msgid "Open New Message window"
 msgstr "Abrir a janela da nova mensagem"
 
 #: ../src/composer/e-composer-actions.c:347
-#: ../src/shell/e-shell-window-actions.c:991
+#: ../src/shell/e-shell-window-actions.c:996
 msgid "_Preferences"
 msgstr "_Preferências"
 
 #: ../src/composer/e-composer-actions.c:349
-#: ../src/shell/e-shell-window-actions.c:993
+#: ../src/shell/e-shell-window-actions.c:998
 msgid "Configure Evolution"
 msgstr "Configurar o Evolution"
 
@@ -13204,8 +13203,6 @@ msgid "Offline"
 msgstr "Offline"
 
 #: ../src/e-util/e-client-selector.c:193 ../src/mail/em-folder-tree.c:1038
-#| msgctxt "ReplyForward"
-#| msgid "Inline"
 msgctxt "Status"
 msgid "Online"
 msgstr "Online"
@@ -16238,7 +16235,7 @@ msgid "Format Column_s…"
 msgstr "Formatar as coluna_s…"
 
 #: ../src/e-util/e-table-header-item.c:1661
-#: ../src/shell/e-shell-window-actions.c:1285
+#: ../src/shell/e-shell-window-actions.c:1290
 msgid "Custo_mize Current View…"
 msgstr "Personalizar a visualização atual…"
 
@@ -16442,78 +16439,78 @@ msgstr "Criar um calendá_rio"
 msgid "Create Collectio_n"
 msgstr "Criar uma coleçã_o"
 
-#: ../src/e-util/e-web-view.c:407
+#: ../src/e-util/e-web-view.c:406
 msgid "_Copy Link Location"
 msgstr "_Copiar a localização da ligação"
 
-#: ../src/e-util/e-web-view.c:409
+#: ../src/e-util/e-web-view.c:408
 msgid "Copy the link to the clipboard"
 msgstr "Copiar a ligação para a área de transferência"
 
-#: ../src/e-util/e-web-view.c:417
+#: ../src/e-util/e-web-view.c:416
 msgid "_Open Link in Browser"
 msgstr "Abrir a ligação no _navegador"
 
-#: ../src/e-util/e-web-view.c:419
+#: ../src/e-util/e-web-view.c:418
 msgid "Open the link in a web browser"
 msgstr "Abrir a ligação num navegador web"
 
-#: ../src/e-util/e-web-view.c:427
+#: ../src/e-util/e-web-view.c:426
 msgid "_Copy Email Address"
 msgstr "_Copiar o endereço eletrónico"
 
-#: ../src/e-util/e-web-view.c:434
+#: ../src/e-util/e-web-view.c:433
 msgid "Copy _Raw Email Address"
 msgstr "Copiar endereço eletrónico _bruto"
 
-#: ../src/e-util/e-web-view.c:436
+#: ../src/e-util/e-web-view.c:435
 msgid "Copy the raw email address to the clipboard"
 msgstr "Copiar o endereço eletrónico bruto para a área de transferência"
 
-#: ../src/e-util/e-web-view.c:451
+#: ../src/e-util/e-web-view.c:450
 msgid "_Copy Image"
 msgstr "_Copiar imagem"
 
-#: ../src/e-util/e-web-view.c:453
+#: ../src/e-util/e-web-view.c:452
 msgid "Copy the image to the clipboard"
 msgstr "Copiar a imagem para a área de transferência"
 
-#: ../src/e-util/e-web-view.c:458
+#: ../src/e-util/e-web-view.c:457
 msgid "Save _Image…"
 msgstr "Guardar _imagem…"
 
-#: ../src/e-util/e-web-view.c:460
+#: ../src/e-util/e-web-view.c:459
 msgid "Save the image to a file"
 msgstr "Guardar a imagem num ficheiro"
 
-#: ../src/e-util/e-web-view.c:475 ../src/mail/e-mail-browser.c:201
+#: ../src/e-util/e-web-view.c:474 ../src/mail/e-mail-browser.c:201
 #: ../src/mail/e-mail-reader.c:2834
 msgid "Search _Web…"
 msgstr "Pesquisar _Web…"
 
-#: ../src/e-util/e-web-view.c:477 ../src/mail/e-mail-browser.c:203
+#: ../src/e-util/e-web-view.c:476 ../src/mail/e-mail-browser.c:203
 #: ../src/mail/e-mail-reader.c:2836
 msgid "Search the Web with the selected text"
 msgstr "Procurar na Web o texto selecionado"
 
-#: ../src/e-util/e-web-view.c:487 ../src/e-util/e-web-view.c:2014
+#: ../src/e-util/e-web-view.c:486 ../src/e-util/e-web-view.c:2064
 msgid "Select all text and images"
 msgstr "Selecionar todo o texto e imagens"
 
-#: ../src/e-util/e-web-view.c:3740
+#: ../src/e-util/e-web-view.c:3791
 msgid "Copying image to clipboard"
 msgstr "A copiar a imagem para a área de transferência"
 
-#: ../src/e-util/e-web-view.c:3928
+#: ../src/e-util/e-web-view.c:3979
 msgid "Save Image"
 msgstr "Guardar imagem"
 
-#: ../src/e-util/e-web-view.c:3965
+#: ../src/e-util/e-web-view.c:4016
 #, c-format
 msgid "Saving image to “%s”"
 msgstr "A gravar a imagem para “%s”"
 
-#: ../src/e-util/e-web-view.c:4112
+#: ../src/e-util/e-web-view.c:4166
 #, c-format
 msgid "Cannot get URI “%s”, do not know how to download it."
 msgstr "Impossível obter o URI “%s”, não se sabe como transferi-lo."
@@ -17206,9 +17203,9 @@ msgstr "Servidor POP3"
 msgid "SMTP server"
 msgstr "Servidor SMTP"
 
-#: ../src/mail/e-mail-browser.c:168 ../src/shell/e-shell-window-actions.c:916
-#: ../src/shell/e-shell-window-actions.c:923
-#: ../src/shell/e-shell-window-actions.c:930
+#: ../src/mail/e-mail-browser.c:168 ../src/shell/e-shell-window-actions.c:921
+#: ../src/shell/e-shell-window-actions.c:928
+#: ../src/shell/e-shell-window-actions.c:935
 msgid "Close this window"
 msgstr "Fechar esta janela"
 
@@ -17623,7 +17620,7 @@ msgstr "Selecionar"
 
 #: ../src/mail/e-mail-config-security-page.c:682
 #: ../src/mail/e-mail-config-security-page.c:780
-#: ../src/shell/e-shell-window-actions.c:1019
+#: ../src/shell/e-shell-window-actions.c:1024
 msgid "_Clear"
 msgstr "_Limpar"
 
@@ -19615,7 +19612,7 @@ msgstr "Lista de correio"
 #: ../src/mail/filtertypes.xml.in.h:52 ../src/mail/searchtypes.xml.in.h:54
 #: ../src/mail/vfoldertypes.xml.in.h:55
 msgid "Regex Match"
-msgstr "Comparar Expr. Reg."
+msgstr "Comparar Expressão regular"
 
 #: ../src/mail/filtertypes.xml.in.h:53 ../src/mail/searchtypes.xml.in.h:55
 #: ../src/mail/vfoldertypes.xml.in.h:56
@@ -27261,302 +27258,302 @@ msgstr "Bug Buddy não está instalado."
 msgid "Bug Buddy could not be run."
 msgstr "Impossível executar o Bug Buddy."
 
-#: ../src/shell/e-shell-window-actions.c:890
+#: ../src/shell/e-shell-window-actions.c:895
 msgid "Collect_ion Account"
 msgstr "Conta co_leção"
 
-#: ../src/shell/e-shell-window-actions.c:892
+#: ../src/shell/e-shell-window-actions.c:897
 msgid "Create a new collection account"
 msgstr "Criar uma nova conta coleção"
 
-#: ../src/shell/e-shell-window-actions.c:900
+#: ../src/shell/e-shell-window-actions.c:905
 msgid "_About"
 msgstr "_Acerca"
 
-#: ../src/shell/e-shell-window-actions.c:902
+#: ../src/shell/e-shell-window-actions.c:907
 msgid "Show information about Evolution"
 msgstr "Mostrar informação sobre o Evolution"
 
-#: ../src/shell/e-shell-window-actions.c:907
+#: ../src/shell/e-shell-window-actions.c:912
 msgid "_Accounts"
 msgstr "Cont_as"
 
-#: ../src/shell/e-shell-window-actions.c:909
+#: ../src/shell/e-shell-window-actions.c:914
 msgid "Configure Evolution Accounts"
 msgstr "Configurar as contas do Evolution"
 
-#: ../src/shell/e-shell-window-actions.c:914
-#: ../src/shell/e-shell-window-actions.c:928
+#: ../src/shell/e-shell-window-actions.c:919
+#: ../src/shell/e-shell-window-actions.c:933
 msgid "_Close Window"
 msgstr "_Fechar a janela"
 
-#: ../src/shell/e-shell-window-actions.c:935
+#: ../src/shell/e-shell-window-actions.c:940
 msgid "_Contents"
 msgstr "_Conteúdo"
 
-#: ../src/shell/e-shell-window-actions.c:937
+#: ../src/shell/e-shell-window-actions.c:942
 msgid "Open the Evolution User Guide"
 msgstr "Abrir o guia de utilizador do Evolution"
 
-#: ../src/shell/e-shell-window-actions.c:963
+#: ../src/shell/e-shell-window-actions.c:968
 msgid "I_mport…"
 msgstr "I_mportar…"
 
-#: ../src/shell/e-shell-window-actions.c:965
+#: ../src/shell/e-shell-window-actions.c:970
 msgid "Import data from other programs"
 msgstr "Importar dados de outras aplicações"
 
-#: ../src/shell/e-shell-window-actions.c:970
+#: ../src/shell/e-shell-window-actions.c:975
 msgid "New _Window"
 msgstr "Nova _janela"
 
-#: ../src/shell/e-shell-window-actions.c:972
+#: ../src/shell/e-shell-window-actions.c:977
 msgid "Create a new window displaying this view"
 msgstr "Criar uma nova janela mostrando esta vista"
 
-#: ../src/shell/e-shell-window-actions.c:984
+#: ../src/shell/e-shell-window-actions.c:989
 msgid "Available Cate_gories"
 msgstr "Cate_gorias disponíveis"
 
-#: ../src/shell/e-shell-window-actions.c:986
+#: ../src/shell/e-shell-window-actions.c:991
 msgid "Manage available categories"
 msgstr "Gerir as categorias disponíveis"
 
-#: ../src/shell/e-shell-window-actions.c:998
+#: ../src/shell/e-shell-window-actions.c:1003
 msgid "_Quit"
 msgstr "_Sair"
 
-#: ../src/shell/e-shell-window-actions.c:1000
+#: ../src/shell/e-shell-window-actions.c:1005
 msgid "Exit the program"
 msgstr "Sair da aplicação"
 
-#: ../src/shell/e-shell-window-actions.c:1005
+#: ../src/shell/e-shell-window-actions.c:1010
 msgid "_Saved Searches"
 msgstr "_Procuras gravadas"
 
-#: ../src/shell/e-shell-window-actions.c:1012
+#: ../src/shell/e-shell-window-actions.c:1017
 msgid "_Advanced Search…"
 msgstr "Procura _avançada…"
 
-#: ../src/shell/e-shell-window-actions.c:1014
+#: ../src/shell/e-shell-window-actions.c:1019
 msgid "Construct a more advanced search"
 msgstr "Construir uma procura mais avançada"
 
-#: ../src/shell/e-shell-window-actions.c:1021
+#: ../src/shell/e-shell-window-actions.c:1026
 msgid "Clear the current search parameters"
 msgstr "Limpar os parâmetros de procura atuais"
 
-#: ../src/shell/e-shell-window-actions.c:1026
+#: ../src/shell/e-shell-window-actions.c:1031
 msgid "_Edit Saved Searches…"
 msgstr "_Editar as procuras gravadas…"
 
-#: ../src/shell/e-shell-window-actions.c:1028
+#: ../src/shell/e-shell-window-actions.c:1033
 msgid "Manage your saved searches"
 msgstr "Gerir as suas procuras gravadas"
 
-#: ../src/shell/e-shell-window-actions.c:1035
+#: ../src/shell/e-shell-window-actions.c:1040
 msgid "Click here to change the search type"
 msgstr "Clique aqui para alterar o tipo de procura"
 
-#: ../src/shell/e-shell-window-actions.c:1040
+#: ../src/shell/e-shell-window-actions.c:1045
 msgid "_Find Now"
 msgstr "_Localizar agora"
 
-#: ../src/shell/e-shell-window-actions.c:1042
+#: ../src/shell/e-shell-window-actions.c:1047
 msgid "Execute the current search parameters"
 msgstr "Executar os parâmetros de procura atuais"
 
-#: ../src/shell/e-shell-window-actions.c:1047
+#: ../src/shell/e-shell-window-actions.c:1052
 msgid "_Save Search…"
 msgstr "_Guardar procura…"
 
-#: ../src/shell/e-shell-window-actions.c:1049
+#: ../src/shell/e-shell-window-actions.c:1054
 msgid "Save the current search parameters"
 msgstr "Guardar os parâmetros de procura atuais"
 
-#: ../src/shell/e-shell-window-actions.c:1061
+#: ../src/shell/e-shell-window-actions.c:1066
 msgid "_Keyboard Shortcuts"
 msgstr "A_talhos de teclado"
 
-#: ../src/shell/e-shell-window-actions.c:1063
+#: ../src/shell/e-shell-window-actions.c:1068
 msgid "Show keyboard shortcuts"
 msgstr "Mostrar atalhos de teclado"
 
-#: ../src/shell/e-shell-window-actions.c:1068
+#: ../src/shell/e-shell-window-actions.c:1073
 msgid "Show _WebKit GPU information"
 msgstr "Mostrar informação sobre GPU do _WebKit"
 
-#: ../src/shell/e-shell-window-actions.c:1070
+#: ../src/shell/e-shell-window-actions.c:1075
 msgid "Show WebKit GPU information page in the preview panel"
 msgstr "Mostrar página de informação do WebKit GPU no painel de antevisão"
 
-#: ../src/shell/e-shell-window-actions.c:1075
+#: ../src/shell/e-shell-window-actions.c:1080
 msgid "Submit _Bug Report…"
 msgstr "_Submeter relatório de erro…"
 
-#: ../src/shell/e-shell-window-actions.c:1077
+#: ../src/shell/e-shell-window-actions.c:1082
 msgid "Submit a bug report using Bug Buddy"
 msgstr "Enviar um relatório de erro utilizando o Bug Buddy"
 
-#: ../src/shell/e-shell-window-actions.c:1082
+#: ../src/shell/e-shell-window-actions.c:1087
 msgid "_Work Offline"
 msgstr "_Trabalhar offline"
 
-#: ../src/shell/e-shell-window-actions.c:1084
+#: ../src/shell/e-shell-window-actions.c:1089
 msgid "Put Evolution into offline mode"
 msgstr "Colocar o Evolution em modo offline"
 
-#: ../src/shell/e-shell-window-actions.c:1089
+#: ../src/shell/e-shell-window-actions.c:1094
 msgid "_Work Online"
 msgstr "Trabalhar _online"
 
-#: ../src/shell/e-shell-window-actions.c:1091
+#: ../src/shell/e-shell-window-actions.c:1096
 msgid "Put Evolution into online mode"
 msgstr "Colocar o Evolution em modo online"
 
-#: ../src/shell/e-shell-window-actions.c:1119
+#: ../src/shell/e-shell-window-actions.c:1124
 msgid "Lay_out"
 msgstr "Disp_osição"
 
 #. Translators: This is a New menu item caption, under File->New
-#: ../src/shell/e-shell-window-actions.c:1127
+#: ../src/shell/e-shell-window-actions.c:1132
 msgid "_New"
 msgstr "_Novo"
 
-#: ../src/shell/e-shell-window-actions.c:1134
+#: ../src/shell/e-shell-window-actions.c:1139
 msgid "_Search"
 msgstr "_Procurar"
 
-#: ../src/shell/e-shell-window-actions.c:1141
+#: ../src/shell/e-shell-window-actions.c:1146
 msgid "_Switcher Appearance"
 msgstr "_Aparência do alternador"
 
-#: ../src/shell/e-shell-window-actions.c:1155
+#: ../src/shell/e-shell-window-actions.c:1160
 msgid "_Window"
 msgstr "_Janela"
 
-#: ../src/shell/e-shell-window-actions.c:1184
+#: ../src/shell/e-shell-window-actions.c:1189
 msgid "Show _Menu Bar"
 msgstr "Mostrar a barra de _menu"
 
-#: ../src/shell/e-shell-window-actions.c:1186
+#: ../src/shell/e-shell-window-actions.c:1191
 msgid "Show the menu bar"
 msgstr "Mostrar a barra de menu"
 
-#: ../src/shell/e-shell-window-actions.c:1192
+#: ../src/shell/e-shell-window-actions.c:1197
 msgid "Show Side _Bar"
 msgstr "Mostrar a _barra lateral"
 
-#: ../src/shell/e-shell-window-actions.c:1194
+#: ../src/shell/e-shell-window-actions.c:1199
 msgid "Show the side bar"
 msgstr "Mostrar a barra lateral"
 
-#: ../src/shell/e-shell-window-actions.c:1200
+#: ../src/shell/e-shell-window-actions.c:1205
 msgid "Show _Buttons"
 msgstr "Mostrar os _botões"
 
-#: ../src/shell/e-shell-window-actions.c:1202
+#: ../src/shell/e-shell-window-actions.c:1207
 msgid "Show the switcher buttons"
 msgstr "Mostrar os botões de alternar"
 
-#: ../src/shell/e-shell-window-actions.c:1208
+#: ../src/shell/e-shell-window-actions.c:1213
 msgid "Show _Status Bar"
 msgstr "Mostrar a barra de _estado"
 
-#: ../src/shell/e-shell-window-actions.c:1210
+#: ../src/shell/e-shell-window-actions.c:1215
 msgid "Show the status bar"
 msgstr "Mostrar a barra de estado"
 
-#: ../src/shell/e-shell-window-actions.c:1216
+#: ../src/shell/e-shell-window-actions.c:1221
 msgid "Show _Tool Bar"
 msgstr "Mostrar a barra de ferramen_tas"
 
-#: ../src/shell/e-shell-window-actions.c:1218
+#: ../src/shell/e-shell-window-actions.c:1223
 msgid "Show the tool bar"
 msgstr "Mostrar a barra de ferramentas"
 
-#: ../src/shell/e-shell-window-actions.c:1240
+#: ../src/shell/e-shell-window-actions.c:1245
 msgid "_Icons Only"
 msgstr "Só í_cones"
 
-#: ../src/shell/e-shell-window-actions.c:1242
+#: ../src/shell/e-shell-window-actions.c:1247
 msgid "Display window buttons with icons only"
 msgstr "Mostrar os botões das janelas apenas com ícones"
 
-#: ../src/shell/e-shell-window-actions.c:1247
+#: ../src/shell/e-shell-window-actions.c:1252
 msgid "_Text Only"
 msgstr "Só _texto"
 
-#: ../src/shell/e-shell-window-actions.c:1249
+#: ../src/shell/e-shell-window-actions.c:1254
 msgid "Display window buttons with text only"
 msgstr "Mostrar os botões das janelas apenas com texto"
 
-#: ../src/shell/e-shell-window-actions.c:1254
+#: ../src/shell/e-shell-window-actions.c:1259
 msgid "Icons _and Text"
 msgstr "Ícones _e texto"
 
-#: ../src/shell/e-shell-window-actions.c:1256
+#: ../src/shell/e-shell-window-actions.c:1261
 msgid "Display window buttons with icons and text"
 msgstr "Mostrar os botões das janelas com ícones e texto"
 
-#: ../src/shell/e-shell-window-actions.c:1261
+#: ../src/shell/e-shell-window-actions.c:1266
 msgid "Tool_bar Style"
 msgstr "Estilo da _barra de ferramentas"
 
-#: ../src/shell/e-shell-window-actions.c:1263
+#: ../src/shell/e-shell-window-actions.c:1268
 msgid "Display window buttons using the desktop toolbar setting"
 msgstr ""
 "Mostrar os botões das janelas utilizando as definições da barra de "
 "ferramentas do ambiente de trabalho"
 
-#: ../src/shell/e-shell-window-actions.c:1271
+#: ../src/shell/e-shell-window-actions.c:1276
 msgid "Delete Current View"
 msgstr "Eliminar a vista atual"
 
-#: ../src/shell/e-shell-window-actions.c:1278
+#: ../src/shell/e-shell-window-actions.c:1283
 msgid "Save Custom View…"
 msgstr "Guardar visualização personalizada…"
 
-#: ../src/shell/e-shell-window-actions.c:1280
+#: ../src/shell/e-shell-window-actions.c:1285
 msgid "Save current custom view"
 msgstr "Guardar a vista personalizada atual"
 
-#: ../src/shell/e-shell-window-actions.c:1294
+#: ../src/shell/e-shell-window-actions.c:1299
 msgid "C_urrent View"
 msgstr "Vista at_ual"
 
-#: ../src/shell/e-shell-window-actions.c:1304
+#: ../src/shell/e-shell-window-actions.c:1309
 msgid "Custom View"
 msgstr "Vista personalizada"
 
-#: ../src/shell/e-shell-window-actions.c:1306
+#: ../src/shell/e-shell-window-actions.c:1311
 msgid "Current view is a customized view"
 msgstr "A vista atual é uma vista personalizada"
 
-#: ../src/shell/e-shell-window-actions.c:1314
+#: ../src/shell/e-shell-window-actions.c:1319
 msgid "Page Set_up…"
 msgstr "Config_urar página…"
 
-#: ../src/shell/e-shell-window-actions.c:1316
+#: ../src/shell/e-shell-window-actions.c:1321
 msgid "Change the page settings for your current printer"
 msgstr "Alterar as configurações de página para a sua impressora atual"
 
-#: ../src/shell/e-shell-window-actions.c:1691
+#: ../src/shell/e-shell-window-actions.c:1696
 #, c-format
 msgid "Switch to %s"
 msgstr "Alternar para %s"
 
-#: ../src/shell/e-shell-window-actions.c:1815
+#: ../src/shell/e-shell-window-actions.c:1820
 #, c-format
 msgid "Select view: %s"
 msgstr "Selecionar vista: %s"
 
-#: ../src/shell/e-shell-window-actions.c:1832
+#: ../src/shell/e-shell-window-actions.c:1837
 #, c-format
 msgid "Delete view: %s"
 msgstr "Eliminar vista: %s"
 
-#: ../src/shell/e-shell-window-actions.c:1947
+#: ../src/shell/e-shell-window-actions.c:1952
 msgid "Execute these search parameters"
 msgstr "Executar estes parâmetros de procura"
 
