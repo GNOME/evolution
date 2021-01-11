@@ -4,6 +4,11 @@
 #
 # Functions:
 #
+# glib_mkenums_multiple(_output_filename_noext _define_name _enums_header ...)
+#    runs glib-mkenums to generate enumtypes .h and .c files from multiple
+#    _enums_header. It searches for files in the current source directory and
+#    exports to the current binary directory.
+#
 # glib_mkenums(_output_filename_noext _enums_header _define_name)
 #    runs glib-mkenums to generate enumtypes .h and .c files from _enums_header.
 #    It searches for files in the current source directory and exports to the current
@@ -52,18 +57,18 @@ if(NOT GLIB_MKENUMS)
 	message(FATAL_ERROR "Cannot find glib-mkenums, which is required to build ${PROJECT_NAME}")
 endif(NOT GLIB_MKENUMS)
 
-function(glib_mkenums _output_filename_noext _enums_header _define_name)
+function(glib_mkenums_multiple _output_filename_noext _define_name _enums_header0)
 	set(HEADER_TMPL "
 /*** BEGIN file-header ***/
 #ifndef ${_define_name}
 #define ${_define_name}
-/*** END file-header ***/
-
-/*** BEGIN file-production ***/
 
 #include <glib-object.h>
 
 G_BEGIN_DECLS
+/*** END file-header ***/
+
+/*** BEGIN file-production ***/
 
 /* Enumerations from \"@basename@\" */
 
@@ -76,6 +81,7 @@ GType @enum_name@_get_type	(void) G_GNUC_CONST;
 /*** END enumeration-production ***/
 
 /*** BEGIN file-tail ***/
+
 G_END_DECLS
 
 #endif /* ${_define_name} */
@@ -83,10 +89,14 @@ G_END_DECLS
 
 	file(WRITE "${CMAKE_BINARY_DIR}${CMAKE_FILES_DIRECTORY}/CMakeTmp/enumtypes-${_output_filename_noext}.h.tmpl" "${HEADER_TMPL}\n")
 
+	foreach(_enums_header ${_enums_header0} ${ARGN})
+		list(APPEND _enums_headers "${CMAKE_CURRENT_SOURCE_DIR}/${_enums_header}")
+	endforeach(_enums_header)
+
 	add_custom_command(
 		OUTPUT ${CMAKE_CURRENT_BINARY_DIR}/${_output_filename_noext}.h
-		COMMAND ${GLIB_MKENUMS} --template "${CMAKE_BINARY_DIR}${CMAKE_FILES_DIRECTORY}/CMakeTmp/enumtypes-${_output_filename_noext}.h.tmpl" "${CMAKE_CURRENT_SOURCE_DIR}/${_enums_header}" >${CMAKE_CURRENT_BINARY_DIR}/${_output_filename_noext}.h
-		DEPENDS ${CMAKE_CURRENT_SOURCE_DIR}/${_enums_header}
+		COMMAND ${GLIB_MKENUMS} --template "${CMAKE_BINARY_DIR}${CMAKE_FILES_DIRECTORY}/CMakeTmp/enumtypes-${_output_filename_noext}.h.tmpl" ${_enums_headers} >${CMAKE_CURRENT_BINARY_DIR}/${_output_filename_noext}.h
+		DEPENDS ${_enums_headers}
 	)
 
 set(SOURCE_TMPL "
@@ -104,7 +114,7 @@ set(SOURCE_TMPL "
 GType
 @enum_name@_get_type (void)
 {
-	static volatile gsize the_type__volatile = 0;
+	static gsize the_type__volatile = 0;
 
 	if (g_once_init_enter (&the_type__volatile)) {
 		static const G\@Type\@Value values[] = {
@@ -133,9 +143,13 @@ GType
 
 	add_custom_command(
 		OUTPUT ${CMAKE_CURRENT_BINARY_DIR}/${_output_filename_noext}.c
-		COMMAND ${GLIB_MKENUMS} --template "${CMAKE_BINARY_DIR}${CMAKE_FILES_DIRECTORY}/CMakeTmp/enumtypes-${_output_filename_noext}.c.tmpl" "${CMAKE_CURRENT_SOURCE_DIR}/${_enums_header}" >${CMAKE_CURRENT_BINARY_DIR}/${_output_filename_noext}.c
-		DEPENDS ${CMAKE_CURRENT_SOURCE_DIR}/${_enums_header}
+		COMMAND ${GLIB_MKENUMS} --template "${CMAKE_BINARY_DIR}${CMAKE_FILES_DIRECTORY}/CMakeTmp/enumtypes-${_output_filename_noext}.c.tmpl" ${_enums_headers} >${CMAKE_CURRENT_BINARY_DIR}/${_output_filename_noext}.c
+		DEPENDS ${_enums_headers}
 	)
+endfunction(glib_mkenums_multiple)
+
+function(glib_mkenums _output_filename_noext _enums_header _define_name)
+	glib_mkenums_multiple (${_output_filename_noext} ${_define_name} ${_enums_header})
 endfunction(glib_mkenums)
 
 find_program(GLIB_GENMARSHAL glib-genmarshal)
