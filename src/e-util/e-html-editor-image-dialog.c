@@ -32,14 +32,18 @@
 	(G_TYPE_INSTANCE_GET_PRIVATE \
 	((obj), E_TYPE_HTML_EDITOR_IMAGE_DIALOG, EHTMLEditorImageDialogPrivate))
 
+typedef enum {
+	E_SYNC_ASPECT_RATIO_BY_WIDTH,
+	E_SYNC_ASPECT_RATIO_BY_HEIGHT
+} ESyncAspectRatio;
+
 struct _EHTMLEditorImageDialogPrivate {
 	GtkWidget *file_chooser;
 	GtkWidget *description_edit;
 
 	GtkWidget *width_edit;
-	GtkWidget *width_units;
 	GtkWidget *height_edit;
-	GtkWidget *height_units;
+	GtkWidget *size_units;
 	GtkWidget *alignment;
 
 	GtkWidget *x_padding_edit;
@@ -48,6 +52,8 @@ struct _EHTMLEditorImageDialogPrivate {
 
 	GtkWidget *url_edit;
 	GtkWidget *test_url_button;
+
+	gboolean preserve_aspect_ratio;
 };
 
 G_DEFINE_TYPE (
@@ -61,6 +67,9 @@ html_editor_image_dialog_set_src (EHTMLEditorImageDialog *dialog)
 	EHTMLEditor *editor;
 	EContentEditor *cnt_editor;
 	gchar *uri;
+
+	if (!gtk_widget_get_visible (GTK_WIDGET (dialog)))
+		return;
 
 	editor = e_html_editor_dialog_get_editor (E_HTML_EDITOR_DIALOG (dialog));
 	cnt_editor = e_html_editor_get_content_editor (editor);
@@ -80,12 +89,84 @@ html_editor_image_dialog_set_alt (EHTMLEditorImageDialog *dialog)
 	EContentEditor *cnt_editor;
 	const gchar *value;
 
+	if (!gtk_widget_get_visible (GTK_WIDGET (dialog)))
+		return;
+
 	editor = e_html_editor_dialog_get_editor (E_HTML_EDITOR_DIALOG (dialog));
 	cnt_editor = e_html_editor_get_content_editor (editor);
 
 	value = gtk_entry_get_text (GTK_ENTRY (dialog->priv->description_edit));
 
 	e_content_editor_image_set_alt (cnt_editor, value);
+}
+
+static void
+maybe_sync_aspect_ration (EHTMLEditorImageDialog *dialog,
+			  ESyncAspectRatio kind)
+{
+	EHTMLEditor *editor;
+	EContentEditor *cnt_editor;
+	gint32 natural_width, natural_height;
+	gint width = -1, height = -1, requested;
+
+	if (!dialog->priv->preserve_aspect_ratio)
+		return;
+
+	editor = e_html_editor_dialog_get_editor (E_HTML_EDITOR_DIALOG (dialog));
+	cnt_editor = e_html_editor_get_content_editor (editor);
+
+	natural_width = e_content_editor_image_get_natural_width (cnt_editor);
+	natural_height = e_content_editor_image_get_natural_height (cnt_editor);
+
+	requested = kind == E_SYNC_ASPECT_RATIO_BY_WIDTH ?
+		gtk_spin_button_get_value_as_int (GTK_SPIN_BUTTON (dialog->priv->width_edit)) :
+		gtk_spin_button_get_value_as_int (GTK_SPIN_BUTTON (dialog->priv->height_edit));
+
+	switch (gtk_combo_box_get_active (GTK_COMBO_BOX (dialog->priv->size_units))) {
+		case 0:	/* px */
+			if (kind == E_SYNC_ASPECT_RATIO_BY_WIDTH) {
+				if (!natural_width)
+					height = 0;
+				else
+					height = ((gdouble) natural_height) * requested / natural_width;
+			} else { /* E_SYNC_ASPECT_RATIO_BY_HEIGHT */
+				if (!natural_height)
+					width = 0;
+				else
+					width = ((gdouble) natural_width) * requested / natural_height;
+			}
+			break;
+
+		case 1: /* percent */
+			if (kind == E_SYNC_ASPECT_RATIO_BY_WIDTH)
+				height = requested;
+			else /* E_SYNC_ASPECT_RATIO_BY_HEIGHT */
+				width = requested;
+			break;
+
+		case 2: /* follow */
+			/* ignore */
+			break;
+	}
+
+	/* To avoid recursion on set */
+	dialog->priv->preserve_aspect_ratio = FALSE;
+
+	if (width != -1) {
+		if (gtk_spin_button_get_value_as_int (GTK_SPIN_BUTTON (dialog->priv->width_edit)) == width)
+			g_signal_emit_by_name (dialog->priv->width_edit, "value-changed", NULL);
+		else
+			gtk_spin_button_set_value (GTK_SPIN_BUTTON (dialog->priv->width_edit), width);
+	}
+
+	if (height != -1) {
+		if (gtk_spin_button_get_value_as_int (GTK_SPIN_BUTTON (dialog->priv->height_edit)) == height)
+			g_signal_emit_by_name (dialog->priv->height_edit, "value-changed", NULL);
+		else
+			gtk_spin_button_set_value (GTK_SPIN_BUTTON (dialog->priv->height_edit), height);
+	}
+
+	dialog->priv->preserve_aspect_ratio = TRUE;
 }
 
 static void
@@ -97,21 +178,26 @@ html_editor_image_dialog_set_width (EHTMLEditorImageDialog *dialog)
 	gint32 natural = 0;
 	gint width;
 
+	if (!gtk_widget_get_visible (GTK_WIDGET (dialog)))
+		return;
+
 	editor = e_html_editor_dialog_get_editor (E_HTML_EDITOR_DIALOG (dialog));
 	cnt_editor = e_html_editor_get_content_editor (editor);
 
 	natural = e_content_editor_image_get_natural_width (cnt_editor);
 
-	requested = gtk_spin_button_get_value_as_int (
-		GTK_SPIN_BUTTON (dialog->priv->width_edit));
+	requested = gtk_spin_button_get_value_as_int (GTK_SPIN_BUTTON (dialog->priv->width_edit));
 
-	switch (gtk_combo_box_get_active (GTK_COMBO_BOX (dialog->priv->width_units))) {
+	switch (gtk_combo_box_get_active (GTK_COMBO_BOX (dialog->priv->size_units))) {
 		case 0:	/* px */
 			width = requested;
 			break;
 
 		case 1: /* percent */
-			width = natural * requested * 0.01;
+			if (requested)
+				width = natural * requested / 100.0;
+			else
+				width = natural;
 			break;
 
 		case 2: /* follow */
@@ -123,57 +209,8 @@ html_editor_image_dialog_set_width (EHTMLEditorImageDialog *dialog)
 	}
 
 	e_content_editor_image_set_width (cnt_editor, width);
-}
 
-static void
-html_editor_image_dialog_set_width_units (EHTMLEditorImageDialog *dialog)
-{
-	EHTMLEditor *editor;
-	EContentEditor *cnt_editor;
-	gint requested;
-	gint32 natural;
-	gint width = 0;
-
-	editor = e_html_editor_dialog_get_editor (E_HTML_EDITOR_DIALOG (dialog));
-	cnt_editor = e_html_editor_get_content_editor (editor);
-
-	natural = e_content_editor_image_get_natural_width (cnt_editor);
-
-	requested = gtk_spin_button_get_value_as_int (
-			GTK_SPIN_BUTTON (dialog->priv->width_edit));
-
-	switch (gtk_combo_box_get_active (
-		GTK_COMBO_BOX (dialog->priv->width_units))) {
-
-		case 0:	/* px */
-			if (gtk_widget_is_sensitive (dialog->priv->width_edit)) {
-				width = requested * natural * 0.01;
-			} else {
-				width = natural;
-			}
-			gtk_widget_set_sensitive (dialog->priv->width_edit, TRUE);
-			break;
-
-		case 1: /* percent */
-			if (natural && gtk_widget_is_sensitive (dialog->priv->width_edit)) {
-				width = (((gdouble) requested) / natural) * 100;
-			} else {
-				width = 100;
-			}
-			gtk_widget_set_sensitive (dialog->priv->width_edit, TRUE);
-			break;
-
-		case 2: /* follow */
-			gtk_widget_set_sensitive (dialog->priv->width_edit, FALSE);
-			break;
-	}
-
-	e_content_editor_image_set_width_follow (
-		cnt_editor, !gtk_widget_get_sensitive (dialog->priv->width_edit));
-
-	if (width != 0)
-		gtk_spin_button_set_value (
-			GTK_SPIN_BUTTON (dialog->priv->width_edit), width);
+	maybe_sync_aspect_ration (dialog, E_SYNC_ASPECT_RATIO_BY_WIDTH);
 }
 
 static void
@@ -185,6 +222,9 @@ html_editor_image_dialog_set_height (EHTMLEditorImageDialog *dialog)
 	gint32 natural = 0;
 	gint height;
 
+	if (!gtk_widget_get_visible (GTK_WIDGET (dialog)))
+		return;
+
 	editor = e_html_editor_dialog_get_editor (E_HTML_EDITOR_DIALOG (dialog));
 	cnt_editor = e_html_editor_get_content_editor (editor);
 
@@ -193,13 +233,16 @@ html_editor_image_dialog_set_height (EHTMLEditorImageDialog *dialog)
 	requested = gtk_spin_button_get_value_as_int (
 		GTK_SPIN_BUTTON (dialog->priv->height_edit));
 
-	switch (gtk_combo_box_get_active (GTK_COMBO_BOX (dialog->priv->height_units))) {
+	switch (gtk_combo_box_get_active (GTK_COMBO_BOX (dialog->priv->size_units))) {
 		case 0:	/* px */
 			height = requested;
 			break;
 
 		case 1: /* percent */
-			height = natural * requested * 0.01;
+			if (requested)
+				height = natural * requested / 100.0;
+			else
+				height = natural;
 			break;
 
 		case 2: /* follow */
@@ -211,57 +254,72 @@ html_editor_image_dialog_set_height (EHTMLEditorImageDialog *dialog)
 	}
 
 	e_content_editor_image_set_height (cnt_editor, height);
+
+	maybe_sync_aspect_ration (dialog, E_SYNC_ASPECT_RATIO_BY_HEIGHT);
 }
 
 static void
-html_editor_image_dialog_set_height_units (EHTMLEditorImageDialog *dialog)
+html_editor_image_dialog_set_size_units (EHTMLEditorImageDialog *dialog)
 {
 	EHTMLEditor *editor;
 	EContentEditor *cnt_editor;
-	gint requested;
-	gulong natural;
-	gint height = -1;
+	gint requested_width, requested_height;
+	gint32 natural_width, natural_height;
+	gint width = -1, height = -1;
+
+	if (!gtk_widget_get_visible (GTK_WIDGET (dialog)))
+		return;
 
 	editor = e_html_editor_dialog_get_editor (E_HTML_EDITOR_DIALOG (dialog));
 	cnt_editor = e_html_editor_get_content_editor (editor);
 
-	natural = e_content_editor_image_get_natural_height (cnt_editor);
+	natural_width = e_content_editor_image_get_natural_width (cnt_editor);
+	natural_height = e_content_editor_image_get_natural_height (cnt_editor);
 
-	requested = gtk_spin_button_get_value_as_int (
-		GTK_SPIN_BUTTON (dialog->priv->height_edit));
+	requested_width = gtk_spin_button_get_value_as_int (GTK_SPIN_BUTTON (dialog->priv->width_edit));
+	requested_height = gtk_spin_button_get_value_as_int (GTK_SPIN_BUTTON (dialog->priv->height_edit));
 
-	switch (gtk_combo_box_get_active (
-		GTK_COMBO_BOX (dialog->priv->height_units))) {
-
+	switch (gtk_combo_box_get_active (GTK_COMBO_BOX (dialog->priv->size_units))) {
 		case 0:	/* px */
-			if (gtk_widget_is_sensitive (dialog->priv->height_edit)) {
-				height = requested * natural * 0.01;
+			if (gtk_widget_is_sensitive (dialog->priv->width_edit)) {
+				width = requested_width * natural_width * 0.01;
+				height = requested_height * natural_height * 0.01;
 			} else {
-				height = natural;
+				width = natural_width;
+				height = natural_height;
 			}
+			gtk_widget_set_sensitive (dialog->priv->width_edit, TRUE);
 			gtk_widget_set_sensitive (dialog->priv->height_edit, TRUE);
 			break;
 
 		case 1: /* percent */
-			if (natural && gtk_widget_is_sensitive (dialog->priv->height_edit)) {
-				height = (((gdouble) requested) / natural) * 100;
+			if (natural_width && gtk_widget_is_sensitive (dialog->priv->width_edit)) {
+				width = (((gdouble) requested_width) / natural_width) * 100;
+			} else {
+				width = 100;
+			}
+			if (natural_height && gtk_widget_is_sensitive (dialog->priv->height_edit)) {
+				height = (((gdouble) requested_height) / natural_height) * 100;
 			} else {
 				height = 100;
 			}
+			gtk_widget_set_sensitive (dialog->priv->width_edit, TRUE);
 			gtk_widget_set_sensitive (dialog->priv->height_edit, TRUE);
 			break;
 
 		case 2: /* follow */
+			gtk_widget_set_sensitive (dialog->priv->width_edit, FALSE);
 			gtk_widget_set_sensitive (dialog->priv->height_edit, FALSE);
 			break;
 	}
 
-	e_content_editor_image_set_height_follow (
-		cnt_editor, !gtk_widget_get_sensitive (dialog->priv->height_edit));
+	e_content_editor_image_set_width_follow (cnt_editor, !gtk_widget_get_sensitive (dialog->priv->width_edit));
+	e_content_editor_image_set_height_follow (cnt_editor, !gtk_widget_get_sensitive (dialog->priv->height_edit));
 
+	if (width != -1)
+		gtk_spin_button_set_value (GTK_SPIN_BUTTON (dialog->priv->width_edit), width);
 	if (height != -1)
-		gtk_spin_button_set_value (
-			GTK_SPIN_BUTTON (dialog->priv->height_edit), height);
+		gtk_spin_button_set_value (GTK_SPIN_BUTTON (dialog->priv->height_edit), height);
 }
 
 static void
@@ -270,6 +328,9 @@ html_editor_image_dialog_set_alignment (EHTMLEditorImageDialog *dialog)
 	EHTMLEditor *editor;
 	EContentEditor *cnt_editor;
 	const gchar *value;
+
+	if (!gtk_widget_get_visible (GTK_WIDGET (dialog)))
+		return;
 
 	editor = e_html_editor_dialog_get_editor (E_HTML_EDITOR_DIALOG (dialog));
 	cnt_editor = e_html_editor_get_content_editor (editor);
@@ -284,6 +345,9 @@ html_editor_image_dialog_set_x_padding (EHTMLEditorImageDialog *dialog)
 	EHTMLEditor *editor;
 	EContentEditor *cnt_editor;
 	gint value;
+
+	if (!gtk_widget_get_visible (GTK_WIDGET (dialog)))
+		return;
 
 	editor = e_html_editor_dialog_get_editor (E_HTML_EDITOR_DIALOG (dialog));
 	cnt_editor = e_html_editor_get_content_editor (editor);
@@ -300,6 +364,9 @@ html_editor_image_dialog_set_y_padding (EHTMLEditorImageDialog *dialog)
 	EContentEditor *cnt_editor;
 	gint value;
 
+	if (!gtk_widget_get_visible (GTK_WIDGET (dialog)))
+		return;
+
 	editor = e_html_editor_dialog_get_editor (E_HTML_EDITOR_DIALOG (dialog));
 	cnt_editor = e_html_editor_get_content_editor (editor);
 
@@ -314,6 +381,9 @@ html_editor_image_dialog_set_border (EHTMLEditorImageDialog *dialog)
 	EHTMLEditor *editor;
 	EContentEditor *cnt_editor;
 	gint value;
+
+	if (!gtk_widget_get_visible (GTK_WIDGET (dialog)))
+		return;
 
 	editor = e_html_editor_dialog_get_editor (E_HTML_EDITOR_DIALOG (dialog));
 	cnt_editor = e_html_editor_get_content_editor (editor);
@@ -330,6 +400,9 @@ html_editor_image_dialog_set_url (EHTMLEditorImageDialog *dialog)
 	EHTMLEditor *editor;
 	EContentEditor *cnt_editor;
 	const gchar *value;
+
+	if (!gtk_widget_get_visible (GTK_WIDGET (dialog)))
+		return;
 
 	editor = e_html_editor_dialog_get_editor (E_HTML_EDITOR_DIALOG (dialog));
 	cnt_editor = e_html_editor_get_content_editor (editor);
@@ -384,15 +457,12 @@ html_editor_image_dialog_show (GtkWidget *widget)
 		GTK_SPIN_BUTTON (dialog->priv->width_edit),
 		e_content_editor_image_get_width (cnt_editor));
 
-	gtk_combo_box_set_active_id (
-		GTK_COMBO_BOX (dialog->priv->width_units), "units-px");
-
 	gtk_spin_button_set_value (
 		GTK_SPIN_BUTTON (dialog->priv->height_edit),
 		e_content_editor_image_get_height (cnt_editor));
 
 	gtk_combo_box_set_active_id (
-		GTK_COMBO_BOX (dialog->priv->height_units), "units-px");
+		GTK_COMBO_BOX (dialog->priv->size_units), "units-px");
 
 	gtk_spin_button_set_value (
 		GTK_SPIN_BUTTON (dialog->priv->border_edit),
@@ -419,6 +489,25 @@ html_editor_image_dialog_show (GtkWidget *widget)
 
 	/* Chain up to parent implementation */
 	GTK_WIDGET_CLASS (e_html_editor_image_dialog_parent_class)->show (widget);
+}
+
+static void
+aspect_ration_clicked_cb (GtkButton *button,
+			  gpointer user_data)
+{
+	EHTMLEditorImageDialog *dialog = user_data;
+	const gchar *icon_name;
+
+	dialog->priv->preserve_aspect_ratio = !dialog->priv->preserve_aspect_ratio;
+
+	if (dialog->priv->preserve_aspect_ratio)
+		icon_name = "aspect-ratio-lock";
+	else
+		icon_name = "aspect-ratio-unlock";
+
+	gtk_button_set_image (button, gtk_image_new_from_icon_name (icon_name, GTK_ICON_SIZE_BUTTON));
+
+	maybe_sync_aspect_ration (dialog, E_SYNC_ASPECT_RATIO_BY_WIDTH);
 }
 
 static void
@@ -540,17 +629,6 @@ e_html_editor_image_dialog_init (EHTMLEditorImageDialog *dialog)
 	gtk_label_set_mnemonic_widget (GTK_LABEL (widget), dialog->priv->width_edit);
 	gtk_grid_attach (grid, widget, 0, 0, 1, 1);
 
-	widget = gtk_combo_box_text_new ();
-	gtk_combo_box_text_append (GTK_COMBO_BOX_TEXT (widget), "units-px", "px");
-	gtk_combo_box_text_append (GTK_COMBO_BOX_TEXT (widget), "units-percent", "%");
-	gtk_combo_box_text_append (GTK_COMBO_BOX_TEXT (widget), "units-follow", "follow");
-	gtk_combo_box_set_active_id (GTK_COMBO_BOX (widget), "units-px");
-	gtk_grid_attach (grid, widget, 2, 0, 1, 1);
-	g_signal_connect_swapped (
-		widget, "changed",
-		G_CALLBACK (html_editor_image_dialog_set_width_units), dialog);
-	dialog->priv->width_units = widget;
-
 	/* Height */
 	widget = gtk_spin_button_new_with_range (1, G_MAXUINT, 1);
 	gtk_grid_attach (grid, widget, 1, 1, 1, 1);
@@ -572,8 +650,18 @@ e_html_editor_image_dialog_init (EHTMLEditorImageDialog *dialog)
 	gtk_grid_attach (grid, widget, 2, 1, 1, 1);
 	g_signal_connect_swapped (
 		widget, "changed",
-		G_CALLBACK (html_editor_image_dialog_set_height_units), dialog);
-	dialog->priv->height_units = widget;
+		G_CALLBACK (html_editor_image_dialog_set_size_units), dialog);
+	dialog->priv->size_units = widget;
+
+	widget = gtk_button_new ();
+	gtk_button_set_always_show_image (GTK_BUTTON (widget), TRUE);
+	gtk_button_set_image (GTK_BUTTON (widget), gtk_image_new_from_icon_name ("aspect-ratio-lock", GTK_ICON_SIZE_BUTTON));
+	gtk_widget_set_tooltip_text (widget, _("Preserve aspect ratio"));
+	gtk_grid_attach (grid, widget, 3, 0, 1, 2);
+	dialog->priv->preserve_aspect_ratio = TRUE;
+
+	g_signal_connect_object (widget, "clicked",
+		G_CALLBACK (aspect_ration_clicked_cb), dialog, 0);
 
 	/* Alignment */
 	widget = gtk_combo_box_text_new ();
@@ -594,7 +682,7 @@ e_html_editor_image_dialog_init (EHTMLEditorImageDialog *dialog)
 
 	/* X Padding */
 	widget = gtk_spin_button_new_with_range (0, G_MAXUINT, 1);
-	gtk_grid_attach (grid, widget, 5, 0, 1, 1);
+	gtk_grid_attach (grid, widget, 6, 0, 1, 1);
 	g_signal_connect_swapped (
 		widget, "value-changed",
 		G_CALLBACK (html_editor_image_dialog_set_x_padding), dialog);
@@ -603,14 +691,14 @@ e_html_editor_image_dialog_init (EHTMLEditorImageDialog *dialog)
 	widget = gtk_label_new_with_mnemonic (_("_X-Padding:"));
 	gtk_label_set_justify (GTK_LABEL (widget), GTK_JUSTIFY_RIGHT);
 	gtk_label_set_mnemonic_widget (GTK_LABEL (widget), dialog->priv->x_padding_edit);
-	gtk_grid_attach (grid, widget, 4, 0, 1, 1);
+	gtk_grid_attach (grid, widget, 5, 0, 1, 1);
 
 	widget = gtk_label_new ("px");
-	gtk_grid_attach (grid, widget, 6, 0, 1, 1);
+	gtk_grid_attach (grid, widget, 7, 0, 1, 1);
 
 	/* Y Padding */
 	widget = gtk_spin_button_new_with_range (0, G_MAXUINT, 1);
-	gtk_grid_attach (grid, widget, 5, 1, 1, 1);
+	gtk_grid_attach (grid, widget, 6, 1, 1, 1);
 	g_signal_connect_swapped (
 		widget, "value-changed",
 		G_CALLBACK (html_editor_image_dialog_set_y_padding), dialog);
@@ -619,14 +707,14 @@ e_html_editor_image_dialog_init (EHTMLEditorImageDialog *dialog)
 	widget = gtk_label_new_with_mnemonic (_("_Y-Padding:"));
 	gtk_label_set_justify (GTK_LABEL (widget), GTK_JUSTIFY_RIGHT);
 	gtk_label_set_mnemonic_widget (GTK_LABEL (widget), dialog->priv->y_padding_edit);
-	gtk_grid_attach (grid, widget, 4, 1, 1, 1);
+	gtk_grid_attach (grid, widget, 5, 1, 1, 1);
 
 	widget = gtk_label_new ("px");
-	gtk_grid_attach (grid, widget, 6, 1, 1, 1);
+	gtk_grid_attach (grid, widget, 7, 1, 1, 1);
 
 	/* Border */
 	widget = gtk_spin_button_new_with_range (0, G_MAXUINT, 1);
-	gtk_grid_attach (grid, widget, 5, 2, 1, 1);
+	gtk_grid_attach (grid, widget, 6, 2, 1, 1);
 	g_signal_connect_swapped (
 		widget, "value-changed",
 		G_CALLBACK (html_editor_image_dialog_set_border), dialog);
@@ -635,10 +723,10 @@ e_html_editor_image_dialog_init (EHTMLEditorImageDialog *dialog)
 	widget = gtk_label_new_with_mnemonic (_("_Border:"));
 	gtk_label_set_justify (GTK_LABEL (widget), GTK_JUSTIFY_RIGHT);
 	gtk_label_set_mnemonic_widget (GTK_LABEL (widget), dialog->priv->border_edit);
-	gtk_grid_attach (grid, widget, 4, 2, 1, 1);
+	gtk_grid_attach (grid, widget, 5, 2, 1, 1);
 
 	widget = gtk_label_new ("px");
-	gtk_grid_attach (grid, widget, 6, 2, 1, 1);
+	gtk_grid_attach (grid, widget, 7, 2, 1, 1);
 
 	/* == Layout == */
 	widget = gtk_label_new ("");
@@ -649,7 +737,7 @@ e_html_editor_image_dialog_init (EHTMLEditorImageDialog *dialog)
 	grid = GTK_GRID (gtk_grid_new ());
 	gtk_grid_set_row_spacing (grid, 5);
 	gtk_grid_set_column_spacing (grid, 5);
-	gtk_grid_attach (main_layout, GTK_WIDGET (grid), 0, 5, 1, 1);
+	gtk_grid_attach (main_layout, GTK_WIDGET (grid), 0, 6, 1, 1);
 	gtk_widget_set_margin_left (GTK_WIDGET (grid), 10);
 
 	widget = gtk_entry_new ();

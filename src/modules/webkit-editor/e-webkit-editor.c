@@ -3229,14 +3229,14 @@ static void
 webkit_editor_image_set_height (EContentEditor *editor,
                                 gint value)
 {
-	webkit_editor_dialog_utils_set_attribute_int (E_WEBKIT_EDITOR (editor), NULL, "height", value);
+	webkit_editor_dialog_utils_set_attribute_with_unit (E_WEBKIT_EDITOR (editor), NULL, "height", value, E_CONTENT_EDITOR_UNIT_PIXEL);
 }
 
 static void
 webkit_editor_image_set_width (EContentEditor *editor,
                                gint value)
 {
-	webkit_editor_dialog_utils_set_attribute_int (E_WEBKIT_EDITOR (editor), NULL, "width", value);
+	webkit_editor_dialog_utils_set_attribute_with_unit (E_WEBKIT_EDITOR (editor), NULL, "width", value, E_CONTENT_EDITOR_UNIT_PIXEL);
 }
 
 static void

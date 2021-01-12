@@ -112,6 +112,8 @@ set(private_icons
 	hicolor_status_16x16_wrapped.png
 	hicolor_status_32x32_offline.png
 	hicolor_status_32x32_online.png
+	hicolor_status_32x32_aspect-ratio-lock.png
+	hicolor_status_32x32_aspect-ratio-unlock.png
 )
 
 # These icons were in gnome-icon-theme prior to GNOME 2.30.
@@ -223,6 +225,8 @@ set(noinst_icons
 	hicolor_places_22x22_mail-sent.svg
 	hicolor_status_32x32_offline.svg
 	hicolor_status_32x32_online.svg
+	hicolor_status_scalable_aspect-ratio-lock.svg
+	hicolor_status_scalable_aspect-ratio-unlock.svg
 )
 
 add_icon_cache_files("${SHARE_INSTALL_PREFIX}" public_icons)
