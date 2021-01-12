@@ -66,6 +66,7 @@
 G_BEGIN_DECLS
 
 typedef struct _ETable ETable;
+typedef struct _ETablePrivate ETablePrivate;
 typedef struct _ETableClass ETableClass;
 
 typedef struct _ETableDragSourceSite ETableDragSourceSite;
@@ -78,6 +79,8 @@ typedef enum {
 
 struct _ETable {
 	GtkTable parent;
+
+	ETablePrivate *priv;
 
 	ETableModel *model;
 
@@ -379,6 +382,8 @@ void		e_table_freeze_state_change	(ETable *table);
 void		e_table_thaw_state_change	(ETable *table);
 gboolean	e_table_is_editing		(ETable *table);
 void		e_table_customize_view		(ETable *table);
+void		e_table_set_info_message	(ETable *table,
+						 const gchar *info_message);
 
 G_END_DECLS
 

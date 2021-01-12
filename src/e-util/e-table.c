@@ -38,6 +38,7 @@
 #include <libgnomecanvas/libgnomecanvas.h>
 
 #include "e-canvas-background.h"
+#include "e-canvas-utils.h"
 #include "e-canvas-vbox.h"
 #include "e-canvas.h"
 #include "e-table-click-to-add.h"
@@ -47,6 +48,7 @@
 #include "e-table-header-utils.h"
 #include "e-table-subset.h"
 #include "e-table-utils.h"
+#include "e-text.h"
 #include "e-unicode.h"
 #include "e-misc-utils.h"
 #include "gal-a11y-e-table.h"
@@ -62,6 +64,11 @@
 #else
 #define e_table_item_leave_edit_(x) (e_table_item_leave_edit((x)))
 #endif
+
+struct _ETablePrivate {
+	GnomeCanvasItem *info_text;
+	guint info_text_resize_id;
+};
 
 enum {
 	CURSOR_CHANGE,
@@ -170,6 +177,7 @@ static void scroll_on (ETable *et, guint scroll_direction);
 static void e_table_scrollable_init (GtkScrollableInterface *iface);
 
 G_DEFINE_TYPE_WITH_CODE (ETable, e_table, GTK_TYPE_TABLE,
+			 G_ADD_PRIVATE (ETable)
 			 G_IMPLEMENT_INTERFACE (GTK_TYPE_SCROLLABLE, e_table_scrollable_init))
 
 static void
@@ -342,6 +350,12 @@ et_dispose (GObject *object)
 	ETable *et = E_TABLE (object);
 
 	et_disconnect_model (et);
+
+	if (et->priv->info_text != NULL) {
+		g_object_run_dispose (G_OBJECT (et->priv->info_text));
+		et->priv->info_text = NULL;
+	}
+	et->priv->info_text_resize_id = 0;
 
 	if (et->search) {
 		if (et->search_search_id)
@@ -542,6 +556,8 @@ et_finalize (GObject *object)
 static void
 e_table_init (ETable *e_table)
 {
+	e_table->priv = e_table_get_instance_private (e_table);
+
 	gtk_widget_set_can_focus (GTK_WIDGET (e_table), TRUE);
 
 	gtk_table_set_homogeneous (GTK_TABLE (e_table), FALSE);
@@ -3590,4 +3606,78 @@ e_table_customize_view (ETable *table)
 
 	if (table->header_item)
 		e_table_header_item_customize_view (E_TABLE_HEADER_ITEM (table->header_item));
+}
+
+static void
+table_size_allocate (GtkWidget *widget,
+		     GtkAllocation *alloc,
+		     ETable *table)
+{
+	gdouble width;
+
+	g_return_if_fail (E_IS_TABLE (table));
+	g_return_if_fail (table->priv->info_text != NULL);
+
+	gnome_canvas_get_scroll_region (
+		GNOME_CANVAS (table->table_canvas),
+		NULL, NULL, &width, NULL);
+
+	width -= 60.0;
+
+	g_object_set (table->priv->info_text,
+		"width", width,
+		"clip_width", width,
+		NULL);
+}
+
+/**
+ * e_table_set_info_message:
+ * @table: #ETable instance
+ * @info_message: Message to set. Can be NULL.
+ *
+ * Creates an info message in table area, or removes old.
+ **/
+void
+e_table_set_info_message (ETable *table,
+			  const gchar *info_message)
+{
+	GtkAllocation allocation;
+	GtkWidget *widget;
+
+	g_return_if_fail (E_IS_TABLE (table));
+
+	if (!table->priv->info_text && (!info_message || !*info_message))
+		return;
+
+	if (!info_message || !*info_message) {
+		g_signal_handler_disconnect (table, table->priv->info_text_resize_id);
+		g_object_run_dispose (G_OBJECT (table->priv->info_text));
+		table->priv->info_text = NULL;
+		return;
+	}
+
+	widget = GTK_WIDGET (table->table_canvas);
+	gtk_widget_get_allocation (widget, &allocation);
+
+	if (!table->priv->info_text) {
+		if (allocation.width > 60) {
+			table->priv->info_text = gnome_canvas_item_new (
+				GNOME_CANVAS_GROUP (gnome_canvas_root (table->table_canvas)),
+				e_text_get_type (),
+				"line_wrap", TRUE,
+				"clip", TRUE,
+				"justification", GTK_JUSTIFY_LEFT,
+				"text", info_message,
+				"width", (gdouble) allocation.width - 60.0,
+				"clip_width", (gdouble) allocation.width - 60.0,
+				NULL);
+
+			e_canvas_item_move_absolute (table->priv->info_text, 30, 30);
+
+			table->priv->info_text_resize_id = g_signal_connect_object (
+				table, "size_allocate",
+				G_CALLBACK (table_size_allocate), table, 0);
+		}
+	} else
+		gnome_canvas_item_set (table->priv->info_text, "text", info_message, NULL);
 }

@@ -908,6 +908,23 @@ e_addressbook_view_selectable_init (ESelectableInterface *iface)
 	iface->select_all = addressbook_view_select_all;
 }
 
+static void
+update_empty_message (EAddressbookView *view)
+{
+	EAddressbookModel *model;
+	GtkWidget *widget;
+	const gchar *msg = NULL;
+
+	model = e_addressbook_view_get_model (view);
+
+	if (model && e_addressbook_model_can_stop (model) &&
+	    !e_addressbook_model_contact_count (model))
+		msg = _("Searching for the Contacts…");
+
+	widget = gtk_bin_get_child (GTK_BIN (view));
+	e_table_set_info_message (E_TABLE (widget), msg);
+}
+
 GtkWidget *
 e_addressbook_view_new (EShellView *shell_view,
                         ESource *source)
@@ -935,6 +952,12 @@ e_addressbook_view_new (EShellView *shell_view,
 	g_signal_connect_swapped (
 		view->priv->model, "writable-status",
 		G_CALLBACK (command_state_change), view);
+	g_signal_connect_object (
+		view->priv->model, "contact-added",
+		G_CALLBACK (update_empty_message), view, G_CONNECT_SWAPPED | G_CONNECT_AFTER);
+	g_signal_connect_object (
+		view->priv->model, "contacts-removed",
+		G_CALLBACK (update_empty_message), view, G_CONNECT_SWAPPED | G_CONNECT_AFTER);
 
 	return widget;
 }
@@ -1095,6 +1118,8 @@ static void
 command_state_change (EAddressbookView *view)
 {
 	g_signal_emit (view, signals[COMMAND_STATE_CHANGE], 0);
+
+	update_empty_message (view);
 }
 
 static void
