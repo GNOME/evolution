@@ -12,8 +12,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: evolution\n"
 "Report-Msgid-Bugs-To: https://gitlab.gnome.org/GNOME/evolution/issues\n"
-"POT-Creation-Date: 2021-01-12 10:09+0000\n"
-"PO-Revision-Date: 2021-01-12 15:27+0200\n"
+"POT-Creation-Date: 2021-01-12 15:58+0000\n"
+"PO-Revision-Date: 2021-01-12 19:29+0200\n"
 "Last-Translator: Yuri Chornoivan <yurchor@ukr.net>\n"
 "Language-Team: Ukrainian <trans-uk@lists.fedoraproject.org>\n"
 "Language: uk\n"
@@ -5322,10 +5322,6 @@ msgid "Select all visible contacts"
 msgstr "Вибрати всі видимі контакти"
 
 #: ../src/addressbook/gui/widgets/e-addressbook-view.c:922
-#| msgid ""
-#| "\n"
-#| "\n"
-#| "Searching for the Contacts…"
 msgid "Searching for the Contacts…"
 msgstr "Пошук контактів…"
 
@@ -12768,7 +12764,7 @@ msgid "F_ilename:"
 msgstr "_Назва файлу:"
 
 #: ../src/e-util/e-attachment-dialog.c:334
-#: ../src/e-util/e-html-editor-image-dialog.c:513
+#: ../src/e-util/e-html-editor-image-dialog.c:602
 #: ../src/e-util/e-html-editor-link-dialog.c:226
 #: ../src/e-util/e-webdav-browser.c:2541
 msgid "_Description:"
@@ -14140,7 +14136,7 @@ msgid "_Paragraph Style"
 msgstr "_Стиль параграфа"
 
 #: ../src/e-util/e-html-editor-actions.c:1151
-#: ../src/e-util/e-html-editor-image-dialog.c:590
+#: ../src/e-util/e-html-editor-image-dialog.c:678
 msgid "_Alignment"
 msgstr "_Вирівнювання"
 
@@ -14685,17 +14681,17 @@ msgid "_Horizontal:"
 msgstr "_Горизонталь:"
 
 #: ../src/e-util/e-html-editor-cell-dialog.c:502
-#: ../src/e-util/e-html-editor-image-dialog.c:580
+#: ../src/e-util/e-html-editor-image-dialog.c:668
 msgid "Top"
 msgstr "Вгорі"
 
 #: ../src/e-util/e-html-editor-cell-dialog.c:503
-#: ../src/e-util/e-html-editor-image-dialog.c:581
+#: ../src/e-util/e-html-editor-image-dialog.c:669
 msgid "Middle"
 msgstr "Посередині"
 
 #: ../src/e-util/e-html-editor-cell-dialog.c:504
-#: ../src/e-util/e-html-editor-image-dialog.c:582
+#: ../src/e-util/e-html-editor-image-dialog.c:670
 msgid "Bottom"
 msgstr "Внизу"
 
@@ -14714,7 +14710,7 @@ msgid "_Header Style"
 msgstr "_Стиль заголовка"
 
 #: ../src/e-util/e-html-editor-cell-dialog.c:540
-#: ../src/e-util/e-html-editor-image-dialog.c:520
+#: ../src/e-util/e-html-editor-image-dialog.c:609
 #: ../src/e-util/e-html-editor-table-dialog.c:551
 msgid "<b>Layout</b>"
 msgstr "<b>Компонування</b>"
@@ -14747,15 +14743,15 @@ msgid "C_olor:"
 msgstr "_Колір:"
 
 #: ../src/e-util/e-html-editor-cell-dialog.c:640
-#: ../src/e-util/e-html-editor-image-dialog.c:476
+#: ../src/e-util/e-html-editor-image-dialog.c:565
 #: ../src/e-util/e-html-editor-table-dialog.c:683
 msgid "Images"
 msgstr "Зображення"
 
 #: ../src/e-util/e-html-editor-cell-dialog.c:645
 #: ../src/e-util/e-html-editor-cell-dialog.c:648
-#: ../src/e-util/e-html-editor-image-dialog.c:481
-#: ../src/e-util/e-html-editor-image-dialog.c:484
+#: ../src/e-util/e-html-editor-image-dialog.c:570
+#: ../src/e-util/e-html-editor-image-dialog.c:573
 #: ../src/e-util/e-html-editor-table-dialog.c:688
 #: ../src/e-util/e-html-editor-table-dialog.c:693
 msgid "Choose Background Image"
@@ -14803,7 +14799,7 @@ msgstr "<b>Розмір</b>"
 
 #. Width
 #: ../src/e-util/e-html-editor-hrule-dialog.c:261
-#: ../src/e-util/e-html-editor-image-dialog.c:538
+#: ../src/e-util/e-html-editor-image-dialog.c:627
 #: ../src/e-util/e-html-editor-table-dialog.c:562
 msgid "_Width:"
 msgstr "_Ширина:"
@@ -14830,47 +14826,51 @@ msgstr "Від_тінено"
 msgid "Rule properties"
 msgstr "Властивості правила"
 
-#: ../src/e-util/e-html-editor-image-dialog.c:465
+#: ../src/e-util/e-html-editor-image-dialog.c:554
 #: ../src/e-util/e-html-editor-paragraph-dialog.c:65
 #: ../src/e-util/e-html-editor-table-dialog.c:505
 msgid "<b>General</b>"
 msgstr "<b>Загальне</b>"
 
-#: ../src/e-util/e-html-editor-image-dialog.c:499
+#: ../src/e-util/e-html-editor-image-dialog.c:588
 msgid "_Source:"
 msgstr "_Джерело:"
 
-#: ../src/e-util/e-html-editor-image-dialog.c:562
+#: ../src/e-util/e-html-editor-image-dialog.c:640
 msgid "_Height:"
 msgstr "_Висота:"
 
-#: ../src/e-util/e-html-editor-image-dialog.c:603
+#: ../src/e-util/e-html-editor-image-dialog.c:659
+msgid "Preserve aspect ratio"
+msgstr "Зберігати співвідношення розмірів"
+
+#: ../src/e-util/e-html-editor-image-dialog.c:691
 msgid "_X-Padding:"
 msgstr "_X-заповнення:"
 
-#: ../src/e-util/e-html-editor-image-dialog.c:619
+#: ../src/e-util/e-html-editor-image-dialog.c:707
 msgid "_Y-Padding:"
 msgstr "_Y-заповнення:"
 
-#: ../src/e-util/e-html-editor-image-dialog.c:635
+#: ../src/e-util/e-html-editor-image-dialog.c:723
 #: ../src/e-util/e-html-editor-table-dialog.c:629
 msgid "_Border:"
 msgstr "_Рамка:"
 
-#: ../src/e-util/e-html-editor-image-dialog.c:645
+#: ../src/e-util/e-html-editor-image-dialog.c:733
 msgid "<b>Link</b>"
 msgstr "<b>Посилання</b>"
 
-#: ../src/e-util/e-html-editor-image-dialog.c:663
+#: ../src/e-util/e-html-editor-image-dialog.c:751
 #: ../src/e-util/e-html-editor-link-dialog.c:210
 msgid "_URL:"
 msgstr "_URL:"
 
-#: ../src/e-util/e-html-editor-image-dialog.c:668
+#: ../src/e-util/e-html-editor-image-dialog.c:756
 msgid "_Test URL…"
 msgstr "П_еревірити адресу…"
 
-#: ../src/e-util/e-html-editor-image-dialog.c:685
+#: ../src/e-util/e-html-editor-image-dialog.c:773
 msgid "Image Properties"
 msgstr "Властивості зображення"
 
