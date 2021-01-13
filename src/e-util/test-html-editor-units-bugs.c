@@ -761,12 +761,12 @@ test_bug_773164 (TestFixture *fixture)
 		"undo:undo:3\n"
 		"undo:test\n"
 		"undo:redo:3\n",
-		HTML_PREFIX "<div style=\"width: 71ch;\">This is paragraph 1</div>"
-		"<div style=\"width: 71ch;\"><br></div>"
-		"<div style=\"width: 71ch;\">This is a longer paragraph 3</div>"
-		"<div style=\"width: 71ch;\"><br></div>"
-		"<div style=\"width: 71ch;\">This is paragraph 2</div>"
-		"<div style=\"width: 71ch;\"><br></div>"
+		HTML_PREFIX "<pre>This is paragraph 1</pre>"
+		"<pre><br></pre>"
+		"<pre>This is a longer paragraph 3</pre>"
+		"<pre><br></pre>"
+		"<pre>This is paragraph 2</pre>"
+		"<pre><br></pre>"
 		HTML_SUFFIX,
 		"This is paragraph 1\n"
 		"\n"
@@ -982,8 +982,8 @@ test_bug_780275_html (TestFixture *fixture)
 		"undo:redo\n",
 		HTML_PREFIX "<div>line 0</div>"
 		"<blockquote type=\"cite\" " BLOCKQUOTE_STYLE ">"
-		"<div>Xline 1</div>"
-		"<div>line 2</div>"
+		"<pre>Xline 1</pre>"
+		"<pre>line 2</pre>"
 		"</blockquote>"
 		"<div>line 4</div>"
 		HTML_SUFFIX,
@@ -1020,8 +1020,8 @@ test_bug_780275_plain (TestFixture *fixture)
 		"undo:redo\n",
 		HTML_PREFIX "<div style=\"width: 71ch;\">line 0</div>"
 		"<blockquote type=\"cite\">"
-		"<div>" QUOTE_SPAN (QUOTE_CHR) "Xline 1</div>"
-		"<div>" QUOTE_SPAN (QUOTE_CHR) "line 2</div>"
+		"<pre>" QUOTE_SPAN (QUOTE_CHR) "Xline 1</pre>"
+		"<pre>" QUOTE_SPAN (QUOTE_CHR) "line 2</pre>"
 		"</blockquote>"
 		"<div style=\"width: 71ch;\">line 4</div>"
 		HTML_SUFFIX,
