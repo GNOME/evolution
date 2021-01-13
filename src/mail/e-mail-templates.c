@@ -216,8 +216,14 @@ fill_template (CamelMimeMessage *message,
 				message_part = camel_multipart_get_part (multipart, i);
 			}
 		}
-	} else
+	} else {
+		CamelContentType *mpct;
+
 		message_part = CAMEL_MIME_PART (message);
+
+		mpct = camel_mime_part_get_content_type (message_part);
+		message_html = mpct && camel_content_type_is (mpct, "text", "html");
+	}
 
 	/* Get content of the template */
 	stream = camel_stream_mem_new ();
@@ -271,7 +277,7 @@ fill_template (CamelMimeMessage *message,
 
 		html = camel_text_to_html (
 			template_body->str,
-			CAMEL_MIME_FILTER_TOHTML_CONVERT_NL |
+			CAMEL_MIME_FILTER_TOHTML_DIV |
 			CAMEL_MIME_FILTER_TOHTML_CONVERT_SPACES |
 			CAMEL_MIME_FILTER_TOHTML_CONVERT_URLS |
 			CAMEL_MIME_FILTER_TOHTML_MARK_CITATION |
@@ -281,6 +287,8 @@ fill_template (CamelMimeMessage *message,
 
 		g_string_append (template_body, "<!-- disable-format-prompt -->");
 	}
+
+	g_string_append (template_body, "<span id=\"x-evo-template-fix-paragraphs\"></span>");
 
 	/* Now extract body of the original message and replace the $ORIG[body] modifier in template */
 	if (message_part && (has_quoted_body || e_util_strstrcase (template_body->str, "$ORIG[body]"))) {
@@ -363,10 +371,9 @@ fill_template (CamelMimeMessage *message,
 		if (template_html && !message_html) {
 			gchar *html = camel_text_to_html (
 				message_body->str,
-				CAMEL_MIME_FILTER_TOHTML_CONVERT_NL |
+				CAMEL_MIME_FILTER_TOHTML_PRE |
 				CAMEL_MIME_FILTER_TOHTML_CONVERT_SPACES |
 				CAMEL_MIME_FILTER_TOHTML_CONVERT_URLS |
-				CAMEL_MIME_FILTER_TOHTML_MARK_CITATION |
 				CAMEL_MIME_FILTER_TOHTML_CONVERT_ADDRESSES, 0);
 			replace_template_variable (template_body, "body", html);
 			g_free (html);
@@ -380,10 +387,9 @@ fill_template (CamelMimeMessage *message,
 
 			html = camel_text_to_html (
 				template_body->str,
-				CAMEL_MIME_FILTER_TOHTML_CONVERT_NL |
+				CAMEL_MIME_FILTER_TOHTML_DIV |
 				CAMEL_MIME_FILTER_TOHTML_CONVERT_SPACES |
 				CAMEL_MIME_FILTER_TOHTML_CONVERT_URLS |
-				CAMEL_MIME_FILTER_TOHTML_MARK_CITATION |
 				CAMEL_MIME_FILTER_TOHTML_CONVERT_ADDRESSES, 0);
 			g_string_assign (template_body, html);
 			g_free (html);
@@ -397,7 +403,7 @@ fill_template (CamelMimeMessage *message,
 			if (!message_html) {
 				gchar *html = camel_text_to_html (
 					message_body_nosig->str,
-					CAMEL_MIME_FILTER_TOHTML_CONVERT_NL |
+					CAMEL_MIME_FILTER_TOHTML_PRE |
 					CAMEL_MIME_FILTER_TOHTML_CONVERT_SPACES |
 					CAMEL_MIME_FILTER_TOHTML_CONVERT_URLS |
 					CAMEL_MIME_FILTER_TOHTML_QUOTE_CITATION |
