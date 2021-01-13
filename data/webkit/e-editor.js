@@ -4914,7 +4914,7 @@ EvoEditor.InsertSignature = function(content, isHTML, canRepositionCaret, uid, f
 			signature = wrapper.firstElementChild;
 
 			/* When we are editing a message with signature, we need to unset the
-			 * active signature id as if the signature in the message was edited
+			 * active signature uid as if the signature in the message was edited
 			 * by the user we would discard these changes. */
 			if (fromMessage && content && signature) {
 				if (checkChanged) {
@@ -4924,7 +4924,7 @@ EvoEditor.InsertSignature = function(content, isHTML, canRepositionCaret, uid, f
 
 					if (signature.firstElementChild && !signature.firstElementChild.isEqualNode(sigSpan)) {
 						/* Signature in the body is different than the one with the
-						 * same id, so set the active signature to None and leave
+						 * same uid, so set the active signature to None and leave
 						 * the signature that is in the body. */
 						uid = "none";
 						ignoreNextChange = true;
@@ -4933,13 +4933,13 @@ EvoEditor.InsertSignature = function(content, isHTML, canRepositionCaret, uid, f
 					checkChanged = false;
 					fromMessage = false;
 				} else {
-					/* Old messages will have the signature id in the name attribute, correct it. */
+					/* Old messages will have the signature uid in the name attribute, correct it. */
 					if (signature.hasAttribute("name")) {
-						id = signature.getAttribute("name");
-						signature.id = id;
+						uid = signature.getAttribute("name");
+						signature.id = uid;
 						signature.removeAttribute("name");
 					} else {
-						id = signature.id;
+						uid = signature.id;
 					}
 
 					/* Keep the signature and check if is it the same
