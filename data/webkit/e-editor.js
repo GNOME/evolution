@@ -5504,11 +5504,13 @@ EvoEditor.processLoadedContent = function()
 
 				EvoEditor.splitPreTexts(node, false, list);
 
-				for (ii = 0; ii < list.length; ii++) {
-					node.parentElement.insertBefore(list[ii], node);
-				}
+				if (node.tagName == "PRE") {
+					for (ii = 0; ii < list.length; ii++) {
+						node.parentElement.insertBefore(list[ii], node);
+					}
 
-				node.remove();
+					node.remove();
+				}
 			}
 		}
 	}
@@ -5838,6 +5840,30 @@ EvoEditor.LoadHTML = function(html)
 		var themeCss = EvoEditor.UpdateThemeStyleSheet(null);
 
 		document.documentElement.innerHTML = html;
+
+		var node = document.body.querySelector("#x-evo-template-fix-paragraphs");
+		if (node) {
+			node.remove();
+
+			var list, ii;
+
+			list = document.body.querySelectorAll("BLOCKQUOTE,DIV,PRE");
+
+			for (ii = 0; ii < list.length; ii++) {
+				node = list[ii];
+
+				if (node.parentElement && node.parentElement.parentElement &&
+				    (node.parentElement.tagName == "DIV" || node.parentElement.tagName == "PRE") &&
+				    (node.parentElement.parentElement === document.body || node.parentElement.parentElement.tagName == "BODY")) {
+					var parent = node.parentElement;
+
+					parent.parentElement.insertBefore(node, parent);
+
+					if (!parent.childElementCount)
+						parent.remove();
+				}
+			}
+		}
 
 		EvoEditor.processLoadedContent();
 		EvoEditor.initializeContent();
