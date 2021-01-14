@@ -408,6 +408,47 @@ e_mail_part_list_is_empty (EMailPartList *part_list)
 	return is_empty;
 }
 
+void
+e_mail_part_list_sum_validity (EMailPartList *part_list,
+			       EMailPartValidityFlags *out_validity_pgp_sum,
+			       EMailPartValidityFlags *out_validity_smime_sum)
+{
+	EMailPartValidityFlags validity_pgp_sum = 0;
+	EMailPartValidityFlags validity_smime_sum = 0;
+	GQueue queue = G_QUEUE_INIT;
+
+	g_return_if_fail (E_IS_MAIL_PART_LIST (part_list));
+
+	e_mail_part_list_queue_parts (part_list, NULL, &queue);
+
+	while (!g_queue_is_empty (&queue)) {
+		EMailPart *part = g_queue_pop_head (&queue);
+		GList *head, *link;
+
+		head = g_queue_peek_head_link (&part->validities);
+
+		for (link = head; link != NULL; link = g_list_next (link)) {
+			EMailPartValidityPair *vpair = link->data;
+
+			if (vpair == NULL)
+				continue;
+
+			if ((vpair->validity_type & E_MAIL_PART_VALIDITY_PGP) != 0)
+				validity_pgp_sum |= vpair->validity_type;
+			if ((vpair->validity_type & E_MAIL_PART_VALIDITY_SMIME) != 0)
+				validity_smime_sum |= vpair->validity_type;
+		}
+
+		g_object_unref (part);
+	}
+
+	if (out_validity_pgp_sum)
+		*out_validity_pgp_sum = validity_pgp_sum;
+
+	if (out_validity_smime_sum)
+		*out_validity_smime_sum = validity_smime_sum;
+}
+
 /**
  * e_mail_part_list_get_registry:
  *

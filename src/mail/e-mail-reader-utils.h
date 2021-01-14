@@ -115,6 +115,23 @@ EMailPartList *	e_mail_reader_parse_message_finish
 gboolean	e_mail_reader_utils_get_mark_seen_setting
 						(EMailReader *reader,
 						 gint *out_timeout_interval);
+void		e_mail_reader_utils_get_selection_or_message
+						(EMailReader *reader,
+						 CamelMimeMessage *preloaded_message,
+						 GCancellable *cancellable,
+						 GAsyncReadyCallback callback,
+						 gpointer user_data);
+CamelMimeMessage *
+		e_mail_reader_utils_get_selection_or_message_finish
+						(EMailReader *reader,
+						 GAsyncResult *result,
+						 gboolean *out_is_selection,
+						 CamelFolder **out_folder,
+						 const gchar **out_message_uid, /* free with camel_pstring_free() */
+						 EMailPartList **out_part_list,
+						 EMailPartValidityFlags *out_orig_validity_pgp_sum,
+						 EMailPartValidityFlags *out_orig_validity_smime_sum,
+						 GError **error);
 
 G_END_DECLS
 

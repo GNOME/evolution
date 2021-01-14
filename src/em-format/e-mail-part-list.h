@@ -72,6 +72,9 @@ guint		e_mail_part_list_queue_parts	(EMailPartList *part_list,
 						 const gchar *part_id,
 						 GQueue *result_queue);
 gboolean	e_mail_part_list_is_empty	(EMailPartList *part_list);
+void		e_mail_part_list_sum_validity	(EMailPartList *part_list,
+						 EMailPartValidityFlags *out_validity_pgp_sum,
+						 EMailPartValidityFlags *out_validity_smime_sum);
 
 CamelObjectBag *
 		e_mail_part_list_get_registry	(void);

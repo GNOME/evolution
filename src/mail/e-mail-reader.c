@@ -69,7 +69,10 @@ typedef struct _EMailReaderPrivate EMailReaderPrivate;
 struct _EMailReaderClosure {
 	EMailReader *reader;
 	EActivity *activity;
+	CamelMimeMessage *message;
+	CamelFolder *folder;
 	gchar *message_uid;
+	gboolean selection_is_html;
 };
 
 struct _EMailReaderPrivate {
@@ -137,12 +140,10 @@ mail_reader_set_display_formatter_for_message (EMailReader *reader,
 static void
 mail_reader_closure_free (EMailReaderClosure *closure)
 {
-	if (closure->reader != NULL)
-		g_object_unref (closure->reader);
-
-	if (closure->activity != NULL)
-		g_object_unref (closure->activity);
-
+	g_clear_object (&closure->reader);
+	g_clear_object (&closure->activity);
+	g_clear_object (&closure->folder);
+	g_clear_object (&closure->message);
 	g_free (closure->message_uid);
 
 	g_slice_free (EMailReaderClosure, closure);
@@ -1708,18 +1709,25 @@ action_mail_reply_all_cb (GtkAction *action,
 }
 
 static void
-action_mail_reply_alternative_got_message (CamelFolder *folder,
+action_mail_reply_alternative_got_message (GObject *source_object,
 					   GAsyncResult *result,
-					   EMailReaderClosure *closure)
+					   gpointer user_data)
 {
+	EMailReaderClosure *closure = user_data;
 	EAlertSink *alert_sink;
-	EMailDisplay *mail_display;
 	CamelMimeMessage *message;
+	gboolean is_selection;
+	CamelFolder *folder = NULL;
+	const gchar *message_uid = NULL;
+	EMailPartList *part_list = NULL;
+	EMailPartValidityFlags validity_pgp_sum = 0;
+	EMailPartValidityFlags validity_smime_sum = 0;
 	GError *error = NULL;
 
 	alert_sink = e_activity_get_alert_sink (closure->activity);
 
-	message = camel_folder_get_message_finish (folder, result, &error);
+	message = e_mail_reader_utils_get_selection_or_message_finish (E_MAIL_READER (source_object), result,
+			&is_selection, &folder, &message_uid, &part_list, &validity_pgp_sum, &validity_smime_sum, &error);
 
 	if (e_activity_handle_cancellation (closure->activity, error)) {
 		g_warn_if_fail (message == NULL);
@@ -1741,16 +1749,18 @@ action_mail_reply_alternative_got_message (CamelFolder *folder,
 
 	g_clear_object (&closure->activity);
 
-	mail_display = e_mail_reader_get_mail_display (closure->reader);
-
 	em_utils_reply_alternative (e_mail_reader_get_window (closure->reader),
 		e_shell_backend_get_shell (E_SHELL_BACKEND (e_mail_reader_get_backend (closure->reader))),
-		alert_sink, message, folder, closure->message_uid,
+		alert_sink, message, folder, message_uid,
 		e_mail_reader_get_reply_style (closure->reader),
-		mail_display ? e_mail_display_get_part_list (mail_display) : NULL);
+		is_selection ? NULL : part_list, validity_pgp_sum, validity_smime_sum);
 
-	g_object_unref (message);
 	mail_reader_closure_free (closure);
+	camel_pstring_free (message_uid);
+	g_clear_object (&message);
+	g_clear_object (&folder);
+	g_clear_object (&part_list);
+	g_clear_error (&error);
 }
 
 static void
@@ -1760,7 +1770,6 @@ action_mail_reply_alternative_cb (GtkAction *action,
 	EActivity *activity;
 	GCancellable *cancellable;
 	EMailReaderClosure *closure;
-	CamelFolder *folder;
 	GtkWidget *message_list;
 	const gchar *message_uid;
 
@@ -1774,16 +1783,9 @@ action_mail_reply_alternative_cb (GtkAction *action,
 	closure = g_slice_new0 (EMailReaderClosure);
 	closure->activity = activity;
 	closure->reader = g_object_ref (reader);
-	closure->message_uid = g_strdup (message_uid);
 
-	folder = e_mail_reader_ref_folder (reader);
-
-	camel_folder_get_message (
-		folder, message_uid, G_PRIORITY_DEFAULT,
-		cancellable, (GAsyncReadyCallback)
+	e_mail_reader_utils_get_selection_or_message (reader, NULL, cancellable,
 		action_mail_reply_alternative_got_message, closure);
-
-	g_clear_object (&folder);
 }
 
 static void

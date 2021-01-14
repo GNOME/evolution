@@ -31,6 +31,7 @@
 #include "shell/e-shell-view.h"
 
 #include "mail/e-mail-reader.h"
+#include "mail/e-mail-reader-utils.h"
 #include "mail/e-mail-ui-session.h"
 #include "mail/e-mail-templates.h"
 #include "mail/e-mail-templates-store.h"
@@ -50,10 +51,14 @@ struct _AsyncContext {
 	CamelMimeMessage *source_message;
 	CamelMimeMessage *new_message;
 	CamelFolder *template_folder;
+	CamelFolder *source_folder;
 	gchar *source_folder_uri;
 	gchar *source_message_uid;
 	gchar *orig_source_message_uid;
 	gchar *template_message_uid;
+	gboolean selection_is_html;
+	EMailPartValidityFlags validity_pgp_sum;
+	EMailPartValidityFlags validity_smime_sum;
 };
 
 typedef struct {
@@ -126,6 +131,7 @@ async_context_free (AsyncContext *context)
 	g_clear_object (&context->reader);
 	g_clear_object (&context->source_message);
 	g_clear_object (&context->new_message);
+	g_clear_object (&context->source_folder);
 	g_clear_object (&context->template_folder);
 
 	g_free (context->source_folder_uri);
@@ -589,7 +595,10 @@ create_new_message_composer_created_cb (GObject *source_object,
 
 	/* Create the composer */
 	em_utils_edit_message (composer, context->template_folder, context->new_message, context->source_message_uid, TRUE);
-	if (composer && context->source_folder_uri && context->source_message_uid)
+
+	em_composer_utils_update_security (composer, context->validity_pgp_sum, context->validity_smime_sum);
+
+	if (context->source_folder_uri && context->source_message_uid)
 		e_msg_composer_set_source_headers (
 			composer, context->source_folder_uri,
 			context->source_message_uid, CAMEL_MESSAGE_ANSWERED | CAMEL_MESSAGE_SEEN);
@@ -639,17 +648,20 @@ templates_template_applied_cb (GObject *source_object,
 }
 
 static void
-template_got_source_message (CamelFolder *folder,
-                             GAsyncResult *result,
-                             AsyncContext *context)
+template_got_message_cb (GObject *source_object,
+			 GAsyncResult *result,
+			 gpointer user_data)
 {
+	AsyncContext *context = user_data;
 	EAlertSink *alert_sink;
+	CamelFolder *folder = NULL;
 	CamelMimeMessage *message;
 	GError *error = NULL;
 
 	alert_sink = e_activity_get_alert_sink (context->activity);
 
-	message = camel_folder_get_message_finish (folder, result, &error);
+	message = e_mail_reader_utils_get_selection_or_message_finish (E_MAIL_READER (source_object), result,
+			NULL, &folder, NULL, NULL, &context->validity_pgp_sum, &context->validity_smime_sum, &error);
 
 	if (e_activity_handle_cancellation (context->activity, error)) {
 		g_warn_if_fail (message == NULL);
@@ -719,13 +731,10 @@ action_reply_with_template_cb (EMailTemplatesStore *templates_store,
 	if (context->source_message_uid == NULL)
 		context->source_message_uid = g_strdup (message_uid);
 
-	camel_folder_get_message (
-		folder, message_uid, G_PRIORITY_DEFAULT,
-		cancellable, (GAsyncReadyCallback)
-		template_got_source_message, context);
+	e_mail_reader_utils_get_selection_or_message (reader, NULL, cancellable,
+		template_got_message_cb, context);
 
 	g_clear_object (&folder);
-
 	g_ptr_array_unref (uids);
 }
 

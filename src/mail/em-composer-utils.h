@@ -90,7 +90,9 @@ void		em_utils_reply_alternative	(GtkWindow *parent,
 						 CamelFolder *folder,
 						 const gchar *message_uid,
 						 EMailReplyStyle default_style,
-						 EMailPartList *source);
+						 EMailPartList *source,
+						 EMailPartValidityFlags validity_pgp_sum,
+						 EMailPartValidityFlags validity_smime_sum);
 EDestination **	em_utils_camel_address_to_destination
 						(CamelInternetAddress *iaddr);
 void		em_configure_new_composer	(EMsgComposer *composer,
@@ -124,6 +126,13 @@ ESource *	em_composer_utils_guess_identity_source
 						 const gchar *message_uid,
 						 gchar **out_identity_name,
 						 gchar **out_identity_address);
+void		em_composer_utils_update_security
+						(EMsgComposer *composer,
+						 EMailPartValidityFlags validity_pgp_sum,
+						 EMailPartValidityFlags validity_smime_sum);
+void		em_composer_utils_update_security_from_part_list
+						(EMsgComposer *composer,
+						 EMailPartList *part_list);
 
 G_END_DECLS
 

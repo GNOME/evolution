@@ -3701,6 +3701,8 @@ typedef struct _AltReplyContext {
 	EMailReplyStyle style;
 	guint32 flags;
 	gboolean template_preserve_subject;
+	EMailPartValidityFlags validity_pgp_sum;
+	EMailPartValidityFlags validity_smime_sum;
 } AltReplyContext;
 
 static void
@@ -3811,6 +3813,8 @@ alt_reply_composer_created_cb (GObject *source_object,
 				context->folder, context->message_uid, context->type, context->style,
 				context->source, NULL, context->flags | E_MAIL_REPLY_FLAG_FORCE_SENDER_REPLY);
 		}
+
+		em_composer_utils_update_security (composer, context->validity_pgp_sum, context->validity_smime_sum);
 	} else {
 		e_alert_submit (context->alert_sink, "mail-composer:failed-create-composer",
 			error ? error->message : _("Unknown error"), NULL);
@@ -3977,6 +3981,8 @@ emcu_create_templates_combo (EShell *shell,
  * @message_uid: (nullable): the UID of @message, or %NULL
  * @style: the reply style to use
  * @source: (nullable): source to inherit view settings from
+ * @validity_pgp_sum: a bit-or of #EMailPartValidityFlags for PGP from original message part list
+ * @validity_smime_sum: a bit-or of #EMailPartValidityFlags for S/MIME from original message part list
  *
  * This is similar to em_utils_reply_to_message(), except it asks user to
  * change some settings before sending. It calls em_utils_reply_to_message()
@@ -3992,7 +3998,9 @@ em_utils_reply_alternative (GtkWindow *parent,
 			    CamelFolder *folder,
 			    const gchar *message_uid,
 			    EMailReplyStyle default_style,
-			    EMailPartList *source)
+			    EMailPartList *source,
+			    EMailPartValidityFlags validity_pgp_sum,
+			    EMailPartValidityFlags validity_smime_sum)
 {
 	GtkWidget *dialog, *widget, *style_label;
 	GtkBox *hbox, *vbox;
@@ -4336,6 +4344,8 @@ em_utils_reply_alternative (GtkWindow *parent,
 		context->message_uid = g_strdup (message_uid);
 		context->style = E_MAIL_REPLY_STYLE_UNKNOWN;
 		context->flags = E_MAIL_REPLY_FLAG_FORCE_STYLE;
+		context->validity_pgp_sum = validity_pgp_sum;
+		context->validity_smime_sum = validity_smime_sum;
 
 		if (gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (style_quote)))
 			context->style = E_MAIL_REPLY_STYLE_QUOTED;
@@ -4920,4 +4930,62 @@ em_utils_add_installed_languages (GtkComboBoxText *combo)
 
 	if (n_langs > 10)
 		gtk_combo_box_set_wrap_width (GTK_COMBO_BOX (combo), 5);
+}
+
+void
+em_composer_utils_update_security (EMsgComposer *composer,
+				   EMailPartValidityFlags validity_pgp_sum,
+				   EMailPartValidityFlags validity_smime_sum)
+{
+	g_return_if_fail (E_IS_MSG_COMPOSER (composer));
+
+	if (validity_pgp_sum != 0 || validity_smime_sum != 0) {
+		GtkToggleAction *action;
+		GSettings *settings;
+		gboolean sign_reply;
+
+		settings = e_util_ref_settings ("org.gnome.evolution.mail");
+		sign_reply = g_settings_get_boolean (settings, "composer-sign-reply-if-signed");
+		g_object_unref (settings);
+
+		if ((validity_pgp_sum & E_MAIL_PART_VALIDITY_PGP) != 0) {
+			if (sign_reply && (validity_pgp_sum & E_MAIL_PART_VALIDITY_SIGNED) != 0) {
+				action = GTK_TOGGLE_ACTION (E_COMPOSER_ACTION_PGP_SIGN (composer));
+				gtk_toggle_action_set_active (action, TRUE);
+			}
+
+			if ((validity_pgp_sum & E_MAIL_PART_VALIDITY_ENCRYPTED) != 0) {
+				action = GTK_TOGGLE_ACTION (E_COMPOSER_ACTION_PGP_ENCRYPT (composer));
+				gtk_toggle_action_set_active (action, TRUE);
+			}
+		}
+
+		if ((validity_smime_sum & E_MAIL_PART_VALIDITY_SMIME) != 0) {
+			if (sign_reply && (validity_smime_sum & E_MAIL_PART_VALIDITY_SIGNED) != 0) {
+				action = GTK_TOGGLE_ACTION (E_COMPOSER_ACTION_SMIME_SIGN (composer));
+				gtk_toggle_action_set_active (action, TRUE);
+			}
+
+			if ((validity_smime_sum & E_MAIL_PART_VALIDITY_ENCRYPTED) != 0) {
+				action = GTK_TOGGLE_ACTION (E_COMPOSER_ACTION_SMIME_ENCRYPT (composer));
+				gtk_toggle_action_set_active (action, TRUE);
+			}
+		}
+	}
+}
+
+void
+em_composer_utils_update_security_from_part_list (EMsgComposer *composer,
+						  EMailPartList *part_list)
+{
+	EMailPartValidityFlags validity_pgp_sum = 0;
+	EMailPartValidityFlags validity_smime_sum = 0;
+
+	g_return_if_fail (E_IS_MSG_COMPOSER (composer));
+
+	if (!part_list)
+		return;
+
+	e_mail_part_list_sum_validity (part_list, &validity_pgp_sum, &validity_smime_sum);
+	em_composer_utils_update_security (composer, validity_pgp_sum, validity_smime_sum);
 }
