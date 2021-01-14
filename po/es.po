@@ -18,8 +18,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: evolution.master\n"
 "Report-Msgid-Bugs-To: https://gitlab.gnome.org/GNOME/evolution/issues\n"
-"POT-Creation-Date: 2020-12-01 10:40+0000\n"
-"PO-Revision-Date: 2020-12-02 10:34+0100\n"
+"POT-Creation-Date: 2020-12-08 18:09+0000\n"
+"PO-Revision-Date: 2020-12-15 11:39+0100\n"
 "Last-Translator: Daniel Mustieles <daniel.mustieles@gmail.com>\n"
 "Language-Team: Spanish - Spain <gnome-es-list@gnome.org>\n"
 "Language: es_ES\n"
@@ -2044,7 +2044,6 @@ msgstr ""
 "raíz de las conversaciones."
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:162
-#| msgid "Whether to hide completed tasks in the tasks view"
 msgid "Whether to compress thread level"
 msgstr "Indica si debe comprimir el nivel del hilo"
 
@@ -3247,6 +3246,21 @@ msgstr ""
 "La clave especifica la lista de destinos donde publicar calendarios. Cada "
 "valor especifica un archivo XML con configuración para publicar en un destino"
 
+#: ../data/org.gnome.evolution.plugin.sender-validator.gschema.xml.in.h:1
+msgid "[]"
+msgstr "[]"
+
+#: ../data/org.gnome.evolution.plugin.sender-validator.gschema.xml.in.h:2
+msgid "List of assignments for recipient and the address to be used with it"
+msgstr ""
+
+#: ../data/org.gnome.evolution.plugin.sender-validator.gschema.xml.in.h:3
+msgid ""
+"The list is of format 'recipient&lt;tab&gt;sender', where the recipient can "
+"be part of the address only and the sender is a full email address, which "
+"should match the From address precisely."
+msgstr ""
+
 #: ../data/org.gnome.evolution.plugin.templates.gschema.xml.in.h:1
 msgid ""
 "List of keyword/value pairs for the Templates plugin to substitute in a "
@@ -4119,6 +4133,7 @@ msgstr ""
 #: ../src/plugins/attachment-reminder/attachment-reminder.c:544
 #: ../src/plugins/email-custom-header/email-custom-header.c:826
 #: ../src/plugins/publish-calendar/publish-calendar.ui.h:33
+#: ../src/plugins/sender-validation/sender-validation.c:498
 #: ../src/plugins/templates/templates.c:464
 msgid "_Add"
 msgstr "_Añadir"
@@ -4632,6 +4647,7 @@ msgstr "Añadir _X.509"
 #: ../src/plugins/email-custom-header/email-custom-header.c:836
 #: ../src/plugins/publish-calendar/publish-calendar.c:789
 #: ../src/plugins/publish-calendar/publish-calendar.ui.h:35
+#: ../src/plugins/sender-validation/sender-validation.c:508
 #: ../src/plugins/templates/templates.c:474
 msgid "_Remove"
 msgstr "_Quitar"
@@ -7405,7 +7421,6 @@ msgstr "%s (%d)"
 
 #: ../src/calendar/gui/e-cal-list-view.c:116
 #, c-format
-#| msgid "Appointment"
 msgid "%d appointment"
 msgid_plural "%d appointments"
 msgstr[0] "%d cita"
@@ -8174,6 +8189,7 @@ msgstr "Participa_ntes…"
 #: ../src/plugins/attachment-reminder/attachment-reminder.c:549
 #: ../src/plugins/email-custom-header/email-custom-header.c:831
 #: ../src/plugins/publish-calendar/publish-calendar.ui.h:34
+#: ../src/plugins/sender-validation/sender-validation.c:503
 #: ../src/plugins/templates/templates.c:469
 #: ../src/shell/e-shell-window-actions.c:1052 ../src/smime/gui/smime-ui.ui.h:11
 msgid "_Edit"
@@ -8660,7 +8676,6 @@ msgid "Edit as text"
 msgstr "Editar como texto"
 
 #: ../src/calendar/gui/e-comp-editor-property-parts.c:624
-#| msgid "Edit as text"
 msgid "View as text"
 msgstr "Ver como texto"
 
@@ -8847,7 +8862,7 @@ msgstr "Sin resumen"
 #: ../src/mail/e-mail-notes.c:1015 ../src/mail/em-filter-editor.c:45
 #: ../src/mail/em-folder-properties.c:1487
 #: ../src/mail/em-subscription-editor.c:1734
-#: ../src/modules/plugin-manager/evolution-plugin-manager.c:306
+#: ../src/modules/plugin-manager/evolution-plugin-manager.c:307
 #: ../src/shell/e-shell-window-actions.c:354
 #: ../src/shell/e-shell-window-actions.c:882
 #: ../src/smime/gui/certificate-manager.c:2173
@@ -9792,39 +9807,30 @@ msgid "is less than"
 msgstr "es menor que"
 
 #: ../src/calendar/gui/tasktypes.xml.in.h:28
-#| msgid "C_urrent View"
 msgid "Current State"
 msgstr "Estado actual"
 
 #: ../src/calendar/gui/tasktypes.xml.in.h:29
-#| msgid "Overdue Tasks"
 msgid "is Overdue"
 msgstr "Está fuera de plazo"
 
 #: ../src/calendar/gui/tasktypes.xml.in.h:30
-#| msgctxt "ECompEditorPage"
-#| msgid "Schedule"
 msgid "is Scheduled"
 msgstr "Está programada"
 
 #: ../src/calendar/gui/tasktypes.xml.in.h:31
-#| msgid "is not Flagged"
 msgid "is not Scheduled"
 msgstr "no está programada"
 
 #: ../src/calendar/gui/tasktypes.xml.in.h:32
-#| msgid "Due "
 msgid "Due In"
 msgstr "Vence en"
 
 #: ../src/calendar/gui/tasktypes.xml.in.h:33
-#| msgctxt "DateFmt"
-#| msgid "Next Sat"
 msgid "Next Days"
 msgstr "Días siguientes"
 
 #: ../src/calendar/gui/tasktypes.xml.in.h:34
-#| msgid "Previous year"
 msgid "Previous Days"
 msgstr "Días anteriores"
 
@@ -11839,18 +11845,18 @@ msgid "Compose Message"
 msgstr "Redactar un mensaje"
 
 # Título de preferencias
-#: ../src/composer/e-msg-composer.c:4379
+#: ../src/composer/e-msg-composer.c:4381
 #: ../src/modules/composer-to-meeting/e-composer-to-meeting.c:352
 msgid "Reading text content…"
 msgstr "Leyendo contenido del texto…"
 
-#: ../src/composer/e-msg-composer.c:5189
+#: ../src/composer/e-msg-composer.c:5191
 msgid "Review attachment before sending."
 msgid_plural "Review attachments before sending."
 msgstr[0] "Revisar adjunto antes de enviar."
 msgstr[1] "Revisar adjuntos antes de enviar."
 
-#: ../src/composer/e-msg-composer.c:5194
+#: ../src/composer/e-msg-composer.c:5196
 #, c-format
 msgid ""
 "There had been added %d attachment. Make sure it does not contain any "
@@ -11865,7 +11871,7 @@ msgstr[1] ""
 "Se han añadido %d adjuntos. Asegúrese de que no contienen información "
 "sensible antes de enviar el mensaje."
 
-#: ../src/composer/e-msg-composer.c:5327
+#: ../src/composer/e-msg-composer.c:5329
 msgid "The composer contains a non-text message body, which cannot be edited."
 msgstr ""
 "El editor contiene un mensaje cuyo cuerpo no tiene texto, el cual no puede "
@@ -12149,13 +12155,11 @@ msgid "An error occurred while creating message composer."
 msgstr "Ocurrió un error al crear el editor de mensajes."
 
 #: ../src/em-format/e-mail-formatter-attachment.c:272
-#, fuzzy
 #| msgid "_View Inline"
 msgid "Toggle View Inline"
-msgstr "_Ver incluido"
+msgstr "Conmutar la vista en línea"
 
 #: ../src/em-format/e-mail-formatter-attachment.c:272
-#| msgid "Open With Default Application"
 msgid "Open in default application"
 msgstr "Abrir con la aplicación predeterminada"
 
@@ -12641,7 +12645,7 @@ msgstr "Lista de tareas"
 #: ../src/e-util/e-accounts-window.c:1399 ../src/e-util/filter.ui.h:23
 #: ../src/mail/e-mail-account-tree-view.c:84
 #: ../src/modules/mail/em-composer-prefs.c:1303
-#: ../src/modules/plugin-manager/evolution-plugin-manager.c:407
+#: ../src/modules/plugin-manager/evolution-plugin-manager.c:408
 #: ../src/plugins/mail-notification/mail-notification.c:1182
 #: ../src/plugins/publish-calendar/publish-calendar.c:853
 msgid "Enabled"
@@ -13217,14 +13221,11 @@ msgstr ""
 "No se puede crear un objeto cliente a partir de un nombre de extensión «%s»"
 
 #: ../src/e-util/e-client-selector.c:190 ../src/mail/em-folder-tree.c:1035
-#| msgid "_Work Offline"
 msgctxt "Status"
 msgid "Offline"
 msgstr "Desconectado"
 
 #: ../src/e-util/e-client-selector.c:193 ../src/mail/em-folder-tree.c:1038
-#| msgctxt "ReplyForward"
-#| msgid "Inline"
 msgctxt "Status"
 msgid "Online"
 msgstr "En línea"
@@ -13235,7 +13236,6 @@ msgid "Unreachable"
 msgstr "No alcanzable"
 
 #: ../src/e-util/e-client-selector.c:199 ../src/mail/em-folder-tree.c:1044
-#| msgid "Failed to connect “{0}”"
 msgctxt "Status"
 msgid "Failed to connect"
 msgstr "Falló al conectar"
@@ -15149,7 +15149,6 @@ msgid "File _type:"
 msgstr "_Tipo de archivo:"
 
 #: ../src/e-util/e-import-assistant.c:355
-#| msgid "Preview"
 msgid "Pre_view:"
 msgstr "_Vista previa"
 
@@ -17891,8 +17890,6 @@ msgid "no"
 msgstr "no"
 
 #: ../src/mail/e-mail-free-form-exp.c:489
-#| msgctxt "ffe"
-#| msgid "no"
 msgctxt "ffe"
 msgid "not"
 msgstr "no"
@@ -18529,7 +18526,6 @@ msgid "Compose a reply to the sender of the selected message"
 msgstr "Responde al remitente del mensaje seleccionado"
 
 #: ../src/mail/e-mail-reader.c:2812
-#| msgid "Apply t_emplate"
 msgid "Repl_y with Template"
 msgstr "Resp_onder con plantilla"
 
@@ -23813,15 +23809,14 @@ msgid "Uncompleted Tasks"
 msgstr "Tareas no completadas"
 
 #: ../src/modules/calendar/e-task-shell-view-actions.c:984
-#| msgid "Cancelled Tasks"
 msgid "Scheduled Tasks"
 msgstr "Tareas programadas"
 
 #: ../src/modules/calendar/e-task-shell-view-actions.c:986
-#, fuzzy
 #| msgid "_Show Tasks without Due date"
 msgid "Show scheduled tasks, aka those with a Due date"
-msgstr "_Mostrar tareas sin fecha de vencimiento"
+msgstr ""
+"Mostrar tareas programadas, es decir, las que tienen fecha de vencimiento"
 
 #: ../src/modules/calendar/e-task-shell-view-actions.c:991
 msgid "Next 7 Days’ Tasks"
@@ -23836,7 +23831,6 @@ msgid "Tasks with Attachments"
 msgstr "Tareas con adjuntos"
 
 #: ../src/modules/calendar/e-task-shell-view-actions.c:1019
-#| msgid "Print Tasks"
 msgid "Started Tasks"
 msgstr "Tareas iniciadas"
 
@@ -23955,7 +23949,6 @@ msgid "CalDAV and CardDAV server"
 msgstr "Servidor CalDAV y CardDAV"
 
 #: ../src/modules/config-lookup/e-webdav-config-lookup.c:162
-#| msgid "Requires password to continue. %s."
 msgid "Requires password to continue."
 msgstr "Se necesita una contraseña para continuar."
 
@@ -24878,7 +24871,7 @@ msgstr "La carpeta de cola de correo mbox no puede estar vacía"
 #: ../src/modules/mail-config/e-mail-config-remote-accounts.c:199
 #: ../src/modules/mail-config/e-mail-config-sendmail-backend.c:59
 #: ../src/modules/mail-config/e-mail-config-smtp-backend.c:155
-#: ../src/modules/plugin-manager/evolution-plugin-manager.c:193
+#: ../src/modules/plugin-manager/evolution-plugin-manager.c:194
 #: ../src/plugins/mail-notification/mail-notification.c:1278
 msgid "Configuration"
 msgstr "Configuración"
@@ -25644,28 +25637,28 @@ msgstr ""
 msgid "Author(s)"
 msgstr "Autores(s)"
 
-#: ../src/modules/plugin-manager/evolution-plugin-manager.c:303
+#: ../src/modules/plugin-manager/evolution-plugin-manager.c:304
 msgid "Plugin Manager"
 msgstr "Administrador de complementos"
 
-#: ../src/modules/plugin-manager/evolution-plugin-manager.c:318
+#: ../src/modules/plugin-manager/evolution-plugin-manager.c:319
 msgid "Note: Some changes will not take effect until restart"
 msgstr "Nota: Algunos cambios no tendrán efecto hasta que reinicie"
 
-#: ../src/modules/plugin-manager/evolution-plugin-manager.c:346
+#: ../src/modules/plugin-manager/evolution-plugin-manager.c:347
 msgid "Overview"
 msgstr "Vista general"
 
-#: ../src/modules/plugin-manager/evolution-plugin-manager.c:415
-#: ../src/modules/plugin-manager/evolution-plugin-manager.c:498
+#: ../src/modules/plugin-manager/evolution-plugin-manager.c:416
+#: ../src/modules/plugin-manager/evolution-plugin-manager.c:499
 msgid "Plugin"
 msgstr "Complemento"
 
-#: ../src/modules/plugin-manager/evolution-plugin-manager.c:536
+#: ../src/modules/plugin-manager/evolution-plugin-manager.c:537
 msgid "_Plugins"
 msgstr "Com_plementos"
 
-#: ../src/modules/plugin-manager/evolution-plugin-manager.c:537
+#: ../src/modules/plugin-manager/evolution-plugin-manager.c:538
 msgid "Enable and disable plugins"
 msgstr "Activar y desactivar complementos"
 
@@ -26132,6 +26125,7 @@ msgid "_Add Attachment..."
 msgstr "_Añadir adjunto…"
 
 #: ../src/plugins/attachment-reminder/org-gnome-attachment-reminder.error.xml.h:4
+#: ../src/plugins/sender-validation/org-gnome-sender-validation.error.xml.h:3
 msgid "_Edit Message"
 msgstr "_Editar mensaje"
 
@@ -27159,6 +27153,43 @@ msgstr "Guardar la lista de notas seleccionada al disco"
 #: ../src/plugins/save-calendar/save-calendar.c:421
 msgid "Save the selected task list to disk"
 msgstr "Guardar la lista de tareas seleccionada al disco"
+
+#: ../src/plugins/sender-validation/org-gnome-evolution-sender-validation.eplug.xml.h:1
+#| msgid "Sender Mail"
+msgid "Sender Validation"
+msgstr "Validación del remitente"
+
+#: ../src/plugins/sender-validation/org-gnome-evolution-sender-validation.eplug.xml.h:2
+msgid ""
+"Validates sender before sending an e-mail against a list of recipients and "
+"for them assigned expected send account."
+msgstr ""
+
+#: ../src/plugins/sender-validation/org-gnome-sender-validation.error.xml.h:1
+#| msgid "Add sender to address book"
+msgid "Confirm sender address"
+msgstr "Confirmar dirección del remitente"
+
+#: ../src/plugins/sender-validation/org-gnome-sender-validation.error.xml.h:2
+msgid ""
+"The message contains recipient “{0}” for which it is set up to use sender "
+"account “{1}”, but the account “{2}” is used instead."
+msgstr ""
+
+#: ../src/plugins/sender-validation/org-gnome-sender-validation.error.xml.h:4
+#| msgid "_Send All"
+msgid "_Send Anyway"
+msgstr "_Enviar de todos modos"
+
+#: ../src/plugins/sender-validation/sender-validation.c:520
+#| msgid "Recipients contain"
+msgid "Recipient Contains"
+msgstr "El destinatario contiene"
+
+#: ../src/plugins/sender-validation/sender-validation.c:530
+#| msgid "Accounts"
+msgid "Account to Use"
+msgstr "Cuenta que usar"
 
 #: ../src/plugins/templates/org-gnome-templates.eplug.xml.h:2
 msgid ""
