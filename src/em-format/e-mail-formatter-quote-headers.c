@@ -147,8 +147,10 @@ emfqe_format_header (EMailFormatter *formatter,
 
 		medium = CAMEL_MEDIUM (mime_part);
 		txt = camel_medium_get_header (medium, canon_name);
-		if (txt == NULL)
+		if (txt == NULL) {
+			g_object_unref (mime_part);
 			return;
+		}
 
 		fmt_charset = e_mail_formatter_dup_charset (formatter);
 		if (!fmt_charset)
@@ -160,6 +162,7 @@ emfqe_format_header (EMailFormatter *formatter,
 
 		if (addrs == NULL) {
 			g_free (buf);
+			g_object_unref (mime_part);
 			return;
 		}
 
@@ -192,8 +195,10 @@ emfqe_format_header (EMailFormatter *formatter,
 			txt = camel_medium_get_header (medium, "x-newsreader");
 		if (txt == NULL)
 			txt = camel_medium_get_header (medium, "x-mimeole");
-		if (txt == NULL)
+		if (txt == NULL) {
+			g_object_unref (mime_part);
 			return;
+		}
 
 		txt = value = camel_header_format_ctext (txt, charset);
 
@@ -207,8 +212,10 @@ emfqe_format_header (EMailFormatter *formatter,
 
 		medium = CAMEL_MEDIUM (mime_part);
 		txt = camel_medium_get_header (medium, canon_name);
-		if (txt == NULL)
+		if (txt == NULL) {
+			g_object_unref (mime_part);
 			return;
+		}
 
 		flags |= E_MAIL_FORMATTER_HEADER_FLAG_BOLD;
 
