@@ -670,6 +670,19 @@ mail_config_assistant_finalize (GObject *object)
 }
 
 static void
+mail_config_assistant_prefill_user (ESource *on_source)
+{
+	if (e_source_has_extension (on_source, E_SOURCE_EXTENSION_AUTHENTICATION)) {
+		ESourceAuthentication *auth_extension;
+
+		auth_extension = e_source_get_extension (on_source, E_SOURCE_EXTENSION_AUTHENTICATION);
+
+		if (!e_source_authentication_get_user (auth_extension))
+			e_source_authentication_set_user (auth_extension, g_get_user_name ());
+	}
+}
+
+static void
 mail_config_assistant_constructed (GObject *object)
 {
 	EMailConfigAssistant *assistant;
@@ -837,6 +850,8 @@ mail_config_assistant_constructed (GObject *object)
 		backend = e_mail_config_service_page_add_scratch_source (
 			assistant->priv->receiving_page, scratch_source, NULL);
 
+		mail_config_assistant_prefill_user (scratch_source);
+
 		g_object_unref (scratch_source);
 
 		page = e_mail_config_provider_page_new (backend);
@@ -913,6 +928,8 @@ mail_config_assistant_constructed (GObject *object)
 		 * source if implements the new_collection() method. */
 		e_mail_config_service_page_add_scratch_source (
 			assistant->priv->sending_page, scratch_source, NULL);
+
+		mail_config_assistant_prefill_user (scratch_source);
 
 		g_object_unref (scratch_source);
 	}
