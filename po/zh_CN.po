@@ -25,8 +25,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: evolution master\n"
 "Report-Msgid-Bugs-To: https://gitlab.gnome.org/GNOME/evolution/issues\n"
-"POT-Creation-Date: 2021-01-07 12:03+0000\n"
-"PO-Revision-Date: 2021-01-10 16:57-0500\n"
+"POT-Creation-Date: 2021-01-14 16:13+0000\n"
+"PO-Revision-Date: 2021-01-18 11:36-0500\n"
 "Last-Translator: Merrick Zhang <anphorea@gmail.com>\n"
 "Language-Team: Chinese (China) <i18n-zh@googlegroups.com>\n"
 "Language: zh_CN\n"
@@ -1818,6 +1818,12 @@ msgstr ""
 msgid "Whether to compress thread level"
 msgstr "是否压缩线程级别"
 
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:163
+msgid ""
+"Set to true to compress thread levels for flat conversations, to make the "
+"level not so deep."
+msgstr ""
+
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:164
 msgid "Sort accounts alphabetically in a folder tree"
 msgstr "在文件夹树中按字母顺序排列帐号"
@@ -2528,6 +2534,18 @@ msgid ""
 "colors instead."
 msgstr "如果启用，取消设置 HTML 消息中的颜色，强制使用桌面主题颜色。"
 
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:301
+msgid ""
+"Whether to preserve expand state of the folders when calling Copy/Move to "
+"Folder."
+msgstr ""
+
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:302
+msgid ""
+"If enabled, the Copy/Move to Folder dialog will preserve the expand state of "
+"the folders in the dialog, otherwise all the folders will be expanded."
+msgstr ""
+
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:303
 msgid "(Deprecated) Default forward style"
 msgstr "(已弃用) 默认转发方式"
@@ -2848,6 +2866,21 @@ msgstr ""
 "此键指定发布日历的目标位置的列表。每个值指定一个带有发布到某个目标位置的相应"
 "设置的 XML 文件。"
 
+#: ../data/org.gnome.evolution.plugin.sender-validator.gschema.xml.in.h:1
+msgid "[]"
+msgstr ""
+
+#: ../data/org.gnome.evolution.plugin.sender-validator.gschema.xml.in.h:2
+msgid "List of assignments for recipient and the address to be used with it"
+msgstr ""
+
+#: ../data/org.gnome.evolution.plugin.sender-validator.gschema.xml.in.h:3
+msgid ""
+"The list is of format 'recipient&lt;tab&gt;sender', where the recipient can "
+"be part of the address only and the sender is a full email address, which "
+"should match the From address precisely."
+msgstr ""
+
 #: ../data/org.gnome.evolution.plugin.templates.gschema.xml.in.h:1
 msgid ""
 "List of keyword/value pairs for the Templates plugin to substitute in a "
@@ -3044,6 +3077,17 @@ msgid ""
 msgstr ""
 "在 WebKitGTK 中用于显示文本的最小字体大小（以像素为单位）。此设置控制绝对最小"
 "大小。非 0 的值可能会破坏页面布局。负值被视为 0。"
+
+#: ../data/org.gnome.evolution.shell.gschema.xml.in.h:42
+msgid "Set of additional illegal characters in the filename"
+msgstr ""
+
+#: ../data/org.gnome.evolution.shell.gschema.xml.in.h:43
+msgid ""
+"When generating file names from custom strings some non-printable or "
+"reserved characters are replaced with an underscore. Here's a set of "
+"additional characters to be replaced."
+msgstr ""
 
 #: ../data/org.gnome.evolution.spamassassin.gschema.xml.in.h:1
 msgid "Use only local spam tests."
@@ -3673,7 +3717,7 @@ msgstr "已经存在此地址的联系人了。您仍然想要以相同地址添
 #: ../src/plugins/email-custom-header/email-custom-header.c:826
 #: ../src/plugins/publish-calendar/publish-calendar.ui.h:33
 #: ../src/plugins/sender-validation/sender-validation.c:498
-#: ../src/plugins/templates/templates.c:464
+#: ../src/plugins/templates/templates.c:470
 msgid "_Add"
 msgstr "添加(_A)"
 
@@ -3706,7 +3750,7 @@ msgid ""
 msgstr "一条名为“{0}”的联系人记录已经在此联系人列表中了。您仍要添加它吗？"
 
 #: ../src/addressbook/addressbook.error.xml.h:39
-#: ../src/addressbook/gui/widgets/e-addressbook-view.c:1220
+#: ../src/addressbook/gui/widgets/e-addressbook-view.c:1245
 msgid "Failed to delete contact"
 msgstr "删除联系人失败"
 
@@ -3840,7 +3884,7 @@ msgstr "选项"
 #: ../src/addressbook/gui/widgets/eab-contact-merging.c:516
 #: ../src/addressbook/gui/widgets/eab-contact-merging.c:752
 #: ../src/addressbook/gui/widgets/eab-gui-util.c:316
-#: ../src/addressbook/gui/widgets/e-addressbook-view.c:1300
+#: ../src/addressbook/gui/widgets/e-addressbook-view.c:1325
 #: ../src/calendar/gui/e-cal-dialogs.c:690
 #: ../src/calendar/gui/e-comp-editor-page-recurrence.c:304
 #: ../src/composer/e-composer-actions.c:242 ../src/e-util/e-activity-bar.c:370
@@ -3871,7 +3915,7 @@ msgstr "选项"
 #: ../src/e-util/evolution-source-viewer.c:829 ../src/e-util/e-web-view.c:3981
 #: ../src/e-util/gal-view-instance-save-as-dialog.c:265
 #: ../src/mail/e-mail-config-window.c:310 ../src/mail/e-mail-label-dialog.c:186
-#: ../src/mail/e-mail-tag-editor.c:160 ../src/mail/em-composer-utils.c:4023
+#: ../src/mail/e-mail-tag-editor.c:160 ../src/mail/em-composer-utils.c:4031
 #: ../src/mail/em-folder-selector.c:333 ../src/mail/mail-config.ui.h:2
 #: ../src/mail/mail.error.xml.h:16 ../src/mail/mail-send-recv.c:874
 #: ../src/mail/mail-send-recv.c:955 ../src/mail/mail-vfolder-ui.c:149
@@ -4177,7 +4221,7 @@ msgstr "添加 _X.509"
 #: ../src/plugins/publish-calendar/publish-calendar.c:789
 #: ../src/plugins/publish-calendar/publish-calendar.ui.h:35
 #: ../src/plugins/sender-validation/sender-validation.c:508
-#: ../src/plugins/templates/templates.c:474
+#: ../src/plugins/templates/templates.c:480
 msgid "_Remove"
 msgstr "删除(_R)"
 
@@ -4947,33 +4991,37 @@ msgstr "删除选中的联系人"
 msgid "Select all visible contacts"
 msgstr "选中全部可见联系人"
 
-#: ../src/addressbook/gui/widgets/e-addressbook-view.c:1268
+#: ../src/addressbook/gui/widgets/e-addressbook-view.c:922
+msgid "Searching for the Contacts…"
+msgstr "正在搜索联系人……"
+
+#: ../src/addressbook/gui/widgets/e-addressbook-view.c:1293
 msgid "Are you sure you want to delete these contact lists?"
 msgstr "您确定要删除这些联系人列表吗？"
 
-#: ../src/addressbook/gui/widgets/e-addressbook-view.c:1272
+#: ../src/addressbook/gui/widgets/e-addressbook-view.c:1297
 msgid "Are you sure you want to delete this contact list?"
 msgstr "您确定要删除这些联系人列表吗？"
 
-#: ../src/addressbook/gui/widgets/e-addressbook-view.c:1276
+#: ../src/addressbook/gui/widgets/e-addressbook-view.c:1301
 #, c-format
 msgid "Are you sure you want to delete this contact list (%s)?"
 msgstr "您确定要删除联系人列表(%s)吗？"
 
-#: ../src/addressbook/gui/widgets/e-addressbook-view.c:1282
+#: ../src/addressbook/gui/widgets/e-addressbook-view.c:1307
 msgid "Are you sure you want to delete these contacts?"
 msgstr "您确定要删除这些联系人吗？"
 
-#: ../src/addressbook/gui/widgets/e-addressbook-view.c:1286
+#: ../src/addressbook/gui/widgets/e-addressbook-view.c:1311
 msgid "Are you sure you want to delete this contact?"
 msgstr "您确定要删除这些联系人吗？"
 
-#: ../src/addressbook/gui/widgets/e-addressbook-view.c:1290
+#: ../src/addressbook/gui/widgets/e-addressbook-view.c:1315
 #, c-format
 msgid "Are you sure you want to delete this contact (%s)?"
 msgstr "您确定要删除联系人(%s)吗？"
 
-#: ../src/addressbook/gui/widgets/e-addressbook-view.c:1301
+#: ../src/addressbook/gui/widgets/e-addressbook-view.c:1326
 #: ../src/calendar/gui/e-comp-editor.c:2114
 #: ../src/e-util/e-accounts-window.c:1753 ../src/e-util/e-focus-tracker.c:816
 #: ../src/e-util/evolution-source-viewer.c:800
@@ -4990,7 +5038,7 @@ msgid "_Delete"
 msgstr "删除(_D)"
 
 #. Translators: This is shown for > 5 contacts.
-#: ../src/addressbook/gui/widgets/e-addressbook-view.c:1449
+#: ../src/addressbook/gui/widgets/e-addressbook-view.c:1474
 #, c-format
 msgid ""
 "Opening %d contacts will open %d new windows as well.\n"
@@ -5002,11 +5050,11 @@ msgstr[0] ""
 "打开 %d 个联系人将同时打开 %d 个新窗口。\n"
 "您真的想要显示所有联系人吗？"
 
-#: ../src/addressbook/gui/widgets/e-addressbook-view.c:1457
+#: ../src/addressbook/gui/widgets/e-addressbook-view.c:1482
 msgid "_Don’t Display"
 msgstr "不显示(_D)"
 
-#: ../src/addressbook/gui/widgets/e-addressbook-view.c:1458
+#: ../src/addressbook/gui/widgets/e-addressbook-view.c:1483
 msgid "Display _All Contacts"
 msgstr "显示全部联系人(_A)"
 
@@ -5183,7 +5231,7 @@ msgstr "放大(_I)"
 
 #. Zoom-out button
 #: ../src/addressbook/gui/widgets/e-contact-map-window.c:417
-#: ../src/mail/e-mail-reader.c:2876
+#: ../src/mail/e-mail-reader.c:2878
 msgid "Zoom _Out"
 msgstr "缩小(_O)"
 
@@ -6527,7 +6575,7 @@ msgid "Categories:"
 msgstr "类别："
 
 #: ../src/calendar/gui/e-cal-component-preview.c:288
-#: ../src/modules/cal-config-weather/evolution-cal-config-weather.c:246
+#: ../src/modules/cal-config-weather/evolution-cal-config-weather.c:280
 #: ../src/modules/itip-formatter/itip-view.c:1702
 #: ../src/modules/itip-formatter/itip-view.c:1814
 msgid "Location:"
@@ -7278,8 +7326,8 @@ msgstr "起始时间无效"
 #: ../src/e-util/e-misc-utils.c:3989 ../src/e-util/e-misc-utils.c:4001
 #: ../src/e-util/e-misc-utils.c:4015 ../src/mail/e-mail-autoconfig.c:1041
 #: ../src/mail/e-mail-display.c:2449 ../src/mail/e-mail-notes.c:875
-#: ../src/mail/e-mail-reader-utils.c:805 ../src/mail/em-composer-utils.c:3816
-#: ../src/mail/em-composer-utils.c:3847 ../src/mail/mail-send-recv.c:598
+#: ../src/mail/e-mail-reader-utils.c:805 ../src/mail/em-composer-utils.c:3820
+#: ../src/mail/em-composer-utils.c:3851 ../src/mail/mail-send-recv.c:598
 #: ../src/mail/mail-send-recv.c:1493
 #: ../src/modules/accounts-window/e-accounts-window-editors.c:172
 #: ../src/plugins/face/face.c:175 ../src/shell/e-shell.c:1235
@@ -7627,7 +7675,7 @@ msgstr "出席者(_N)…"
 #: ../src/plugins/email-custom-header/email-custom-header.c:831
 #: ../src/plugins/publish-calendar/publish-calendar.ui.h:34
 #: ../src/plugins/sender-validation/sender-validation.c:503
-#: ../src/plugins/templates/templates.c:469
+#: ../src/plugins/templates/templates.c:475
 #: ../src/shell/e-shell-window-actions.c:1103 ../src/smime/gui/smime-ui.ui.h:11
 msgid "_Edit"
 msgstr "编辑(_E)"
@@ -8365,13 +8413,13 @@ msgid "Paste the clipboard"
 msgstr "粘贴剪贴板"
 
 #: ../src/calendar/gui/e-comp-editor.c:2135
-#: ../src/composer/e-composer-actions.c:387 ../src/mail/e-mail-reader.c:2757
+#: ../src/composer/e-composer-actions.c:387 ../src/mail/e-mail-reader.c:2759
 #: ../src/modules/addressbook/e-book-shell-view-actions.c:1319
 #: ../src/modules/addressbook/e-book-shell-view-actions.c:1333
 msgid "_Print…"
 msgstr "打印(_P)…"
 
-#: ../src/calendar/gui/e-comp-editor.c:2142 ../src/mail/e-mail-reader.c:2764
+#: ../src/calendar/gui/e-comp-editor.c:2142 ../src/mail/e-mail-reader.c:2766
 #: ../src/modules/addressbook/e-book-shell-view-actions.c:1326
 #: ../src/modules/calendar/e-cal-shell-view-actions.c:1723
 #: ../src/modules/calendar/e-memo-shell-view-actions.c:838
@@ -11623,7 +11671,7 @@ msgstr "姓名"
 msgid "Size"
 msgstr "大小"
 
-#: ../src/em-format/e-mail-formatter-quote-headers.c:181
+#: ../src/em-format/e-mail-formatter-quote-headers.c:184
 #: ../src/em-format/e-mail-part-headers.c:51
 #: ../src/mail/e-mail-tag-editor.c:201 ../src/mail/filtertypes.xml.in.h:16
 #: ../src/mail/message-list.etspec.h:6 ../src/mail/searchtypes.xml.in.h:17
@@ -11634,7 +11682,7 @@ msgid "Subject"
 msgstr "主题"
 
 #. pseudo-header
-#: ../src/em-format/e-mail-formatter-quote-headers.c:200
+#: ../src/em-format/e-mail-formatter-quote-headers.c:205
 #: ../src/em-format/e-mail-formatter-utils.c:360
 #: ../src/modules/mail/em-mailer-prefs.c:686
 #: ../src/modules/mail/em-mailer-prefs.c:1620
@@ -12189,7 +12237,7 @@ msgid "F_ilename:"
 msgstr "文件名(_I)："
 
 #: ../src/e-util/e-attachment-dialog.c:334
-#: ../src/e-util/e-html-editor-image-dialog.c:513
+#: ../src/e-util/e-html-editor-image-dialog.c:602
 #: ../src/e-util/e-html-editor-link-dialog.c:226
 #: ../src/e-util/e-webdav-browser.c:2541
 msgid "_Description:"
@@ -12762,7 +12810,7 @@ msgstr "选择自定义颜色"
 #: ../src/mail/e-mail-account-tree-view.c:135
 #: ../src/mail/e-mail-config-security-page.c:540
 #: ../src/mail/e-mail-config-security-page.c:704
-#: ../src/mail/e-mail-reader.c:4889 ../src/mail/mail-config.ui.h:78
+#: ../src/mail/e-mail-reader.c:4891 ../src/mail/mail-config.ui.h:78
 msgid "Default"
 msgstr "默认"
 
@@ -13510,7 +13558,7 @@ msgid "_Paragraph Style"
 msgstr "段落样式(_P)"
 
 #: ../src/e-util/e-html-editor-actions.c:1151
-#: ../src/e-util/e-html-editor-image-dialog.c:590
+#: ../src/e-util/e-html-editor-image-dialog.c:678
 msgid "_Alignment"
 msgstr "对齐(_A)"
 
@@ -13647,7 +13695,7 @@ msgstr "纯文字编辑模式"
 
 #: ../src/e-util/e-html-editor-actions.c:1310
 msgid "_Normal"
-msgstr "中(_N)"
+msgstr "正常(_N)"
 
 #: ../src/e-util/e-html-editor-actions.c:1317
 msgid "Heading _1"
@@ -14055,17 +14103,17 @@ msgid "_Horizontal:"
 msgstr "水平(_H)"
 
 #: ../src/e-util/e-html-editor-cell-dialog.c:502
-#: ../src/e-util/e-html-editor-image-dialog.c:580
+#: ../src/e-util/e-html-editor-image-dialog.c:668
 msgid "Top"
 msgstr "顶部"
 
 #: ../src/e-util/e-html-editor-cell-dialog.c:503
-#: ../src/e-util/e-html-editor-image-dialog.c:581
+#: ../src/e-util/e-html-editor-image-dialog.c:669
 msgid "Middle"
 msgstr "中间"
 
 #: ../src/e-util/e-html-editor-cell-dialog.c:504
-#: ../src/e-util/e-html-editor-image-dialog.c:582
+#: ../src/e-util/e-html-editor-image-dialog.c:670
 msgid "Bottom"
 msgstr "底部"
 
@@ -14084,7 +14132,7 @@ msgid "_Header Style"
 msgstr "报头样式(_H)"
 
 #: ../src/e-util/e-html-editor-cell-dialog.c:540
-#: ../src/e-util/e-html-editor-image-dialog.c:520
+#: ../src/e-util/e-html-editor-image-dialog.c:609
 #: ../src/e-util/e-html-editor-table-dialog.c:551
 msgid "<b>Layout</b>"
 msgstr "<b>版面</b>"
@@ -14117,15 +14165,15 @@ msgid "C_olor:"
 msgstr "颜色(_O)："
 
 #: ../src/e-util/e-html-editor-cell-dialog.c:640
-#: ../src/e-util/e-html-editor-image-dialog.c:476
+#: ../src/e-util/e-html-editor-image-dialog.c:565
 #: ../src/e-util/e-html-editor-table-dialog.c:683
 msgid "Images"
 msgstr "图像"
 
 #: ../src/e-util/e-html-editor-cell-dialog.c:645
 #: ../src/e-util/e-html-editor-cell-dialog.c:648
-#: ../src/e-util/e-html-editor-image-dialog.c:481
-#: ../src/e-util/e-html-editor-image-dialog.c:484
+#: ../src/e-util/e-html-editor-image-dialog.c:570
+#: ../src/e-util/e-html-editor-image-dialog.c:573
 #: ../src/e-util/e-html-editor-table-dialog.c:688
 #: ../src/e-util/e-html-editor-table-dialog.c:693
 msgid "Choose Background Image"
@@ -14173,7 +14221,7 @@ msgstr "<b>大小</b>"
 
 #. Width
 #: ../src/e-util/e-html-editor-hrule-dialog.c:261
-#: ../src/e-util/e-html-editor-image-dialog.c:538
+#: ../src/e-util/e-html-editor-image-dialog.c:627
 #: ../src/e-util/e-html-editor-table-dialog.c:562
 msgid "_Width:"
 msgstr "宽度(_W)"
@@ -14200,47 +14248,51 @@ msgstr "阴影(_H)"
 msgid "Rule properties"
 msgstr "横线属性"
 
-#: ../src/e-util/e-html-editor-image-dialog.c:465
+#: ../src/e-util/e-html-editor-image-dialog.c:554
 #: ../src/e-util/e-html-editor-paragraph-dialog.c:65
 #: ../src/e-util/e-html-editor-table-dialog.c:505
 msgid "<b>General</b>"
 msgstr "<b>常规</b>"
 
-#: ../src/e-util/e-html-editor-image-dialog.c:499
+#: ../src/e-util/e-html-editor-image-dialog.c:588
 msgid "_Source:"
 msgstr "来源(_S)："
 
-#: ../src/e-util/e-html-editor-image-dialog.c:562
+#: ../src/e-util/e-html-editor-image-dialog.c:640
 msgid "_Height:"
 msgstr "高度(_H)："
 
-#: ../src/e-util/e-html-editor-image-dialog.c:603
+#: ../src/e-util/e-html-editor-image-dialog.c:659
+msgid "Preserve aspect ratio"
+msgstr "保持长宽比"
+
+#: ../src/e-util/e-html-editor-image-dialog.c:691
 msgid "_X-Padding:"
 msgstr "X-边距(_X)："
 
-#: ../src/e-util/e-html-editor-image-dialog.c:619
+#: ../src/e-util/e-html-editor-image-dialog.c:707
 msgid "_Y-Padding:"
 msgstr "Y-边距(_Y)："
 
-#: ../src/e-util/e-html-editor-image-dialog.c:635
+#: ../src/e-util/e-html-editor-image-dialog.c:723
 #: ../src/e-util/e-html-editor-table-dialog.c:629
 msgid "_Border:"
 msgstr "边框(_B)："
 
-#: ../src/e-util/e-html-editor-image-dialog.c:645
+#: ../src/e-util/e-html-editor-image-dialog.c:733
 msgid "<b>Link</b>"
 msgstr "<b>链接</b>"
 
-#: ../src/e-util/e-html-editor-image-dialog.c:663
+#: ../src/e-util/e-html-editor-image-dialog.c:751
 #: ../src/e-util/e-html-editor-link-dialog.c:210
 msgid "_URL:"
 msgstr "_URL："
 
-#: ../src/e-util/e-html-editor-image-dialog.c:668
+#: ../src/e-util/e-html-editor-image-dialog.c:756
 msgid "_Test URL…"
 msgstr "测试 URL(_T)…"
 
-#: ../src/e-util/e-html-editor-image-dialog.c:685
+#: ../src/e-util/e-html-editor-image-dialog.c:773
 msgid "Image Properties"
 msgstr "图像属性"
 
@@ -15803,12 +15855,12 @@ msgid "Save the image to a file"
 msgstr "保存该图像为文件"
 
 #: ../src/e-util/e-web-view.c:474 ../src/mail/e-mail-browser.c:201
-#: ../src/mail/e-mail-reader.c:2834
+#: ../src/mail/e-mail-reader.c:2836
 msgid "Search _Web…"
 msgstr "搜索互联网(_W)…"
 
 #: ../src/e-util/e-web-view.c:476 ../src/mail/e-mail-browser.c:203
-#: ../src/mail/e-mail-reader.c:2836
+#: ../src/mail/e-mail-reader.c:2838
 msgid "Search the Web with the selected text"
 msgstr "在网上搜索选中的文本"
 
@@ -16607,12 +16659,12 @@ msgid "Language for Reply and Forward attribution text"
 msgstr "回复和转发属性文本的语言"
 
 #: ../src/mail/e-mail-config-composing-page.c:524
-#: ../src/mail/em-composer-utils.c:4121 ../src/mail/mail-config.ui.h:22
+#: ../src/mail/em-composer-utils.c:4129 ../src/mail/mail-config.ui.h:22
 msgid "Start _typing at the bottom"
 msgstr "在底部开始打字(_T)"
 
 #: ../src/mail/e-mail-config-composing-page.c:531
-#: ../src/mail/em-composer-utils.c:4124 ../src/mail/mail-config.ui.h:23
+#: ../src/mail/em-composer-utils.c:4132 ../src/mail/mail-config.ui.h:23
 msgid "_Keep signature above the original message"
 msgstr "保留原始信息的签名(_K)"
 
@@ -17191,7 +17243,7 @@ msgstr "待办(_T)"
 msgid "_Later"
 msgstr "稍候(_L)"
 
-#: ../src/mail/e-mail-label-manager.c:153 ../src/mail/e-mail-reader.c:913
+#: ../src/mail/e-mail-label-manager.c:153 ../src/mail/e-mail-reader.c:914
 #: ../src/mail/em-folder-properties.c:1170
 msgid "Add Label"
 msgstr "添加标签"
@@ -17272,681 +17324,681 @@ msgstr "信头"
 msgid "Page %d of %d"
 msgstr "第 %d 页，共 %d 页"
 
-#: ../src/mail/e-mail-reader.c:358 ../src/mail/filtertypes.xml.in.h:65
+#: ../src/mail/e-mail-reader.c:359 ../src/mail/filtertypes.xml.in.h:65
 msgid "Move to Folder"
 msgstr "移至文件夹"
 
-#: ../src/mail/e-mail-reader.c:358 ../src/mail/filtertypes.xml.in.h:66
+#: ../src/mail/e-mail-reader.c:359 ../src/mail/filtertypes.xml.in.h:66
 msgid "Copy to Folder"
 msgstr "复制到文件夹"
 
-#: ../src/mail/e-mail-reader.c:362 ../src/mail/em-folder-utils.c:568
+#: ../src/mail/e-mail-reader.c:363 ../src/mail/em-folder-utils.c:568
 #: ../src/mail/mail.error.xml.h:153
 msgid "_Move"
 msgstr "移动(_M)"
 
-#: ../src/mail/e-mail-reader.c:362 ../src/mail/em-folder-utils.c:568
+#: ../src/mail/e-mail-reader.c:363 ../src/mail/em-folder-utils.c:568
 msgid "C_opy"
 msgstr "复制(_O)"
 
-#: ../src/mail/e-mail-reader.c:617
+#: ../src/mail/e-mail-reader.c:618
 msgid "Deleting message note…"
 msgstr "删除消息附带的便笺…"
 
-#: ../src/mail/e-mail-reader.c:1617 ../src/mail/e-mail-reader.c:1908
-#: ../src/mail/e-mail-reader.c:1948
+#: ../src/mail/e-mail-reader.c:1618 ../src/mail/e-mail-reader.c:1910
+#: ../src/mail/e-mail-reader.c:1950
 msgid "_Do not ask me again."
 msgstr "不再询问(_D)。"
 
-#: ../src/mail/e-mail-reader.c:1954
+#: ../src/mail/e-mail-reader.c:1956
 msgid "_Always ignore Reply-To: for mailing lists."
 msgstr "总是忽略对于邮件列表的“回复至”域(_A)。"
 
-#: ../src/mail/e-mail-reader.c:2158
+#: ../src/mail/e-mail-reader.c:2160
 msgid "Failed to retrieve message:"
 msgstr "获取信息失败："
 
-#: ../src/mail/e-mail-reader.c:2204 ../src/mail/e-mail-reader.c:3705
+#: ../src/mail/e-mail-reader.c:2206 ../src/mail/e-mail-reader.c:3707
 #, c-format
 msgid "Retrieving message “%s”"
 msgstr "正在获取信息“%s”"
 
-#: ../src/mail/e-mail-reader.c:2405
+#: ../src/mail/e-mail-reader.c:2407
 msgid "A_dd Sender to Address Book"
 msgstr "将发件人添加到地址簿(_D)"
 
-#: ../src/mail/e-mail-reader.c:2407
+#: ../src/mail/e-mail-reader.c:2409
 msgid "Add sender to address book"
 msgstr "将发件人添加到地址簿"
 
-#: ../src/mail/e-mail-reader.c:2412
+#: ../src/mail/e-mail-reader.c:2414
 msgid "_Archive…"
 msgstr "归档(_A)…"
 
-#: ../src/mail/e-mail-reader.c:2414
+#: ../src/mail/e-mail-reader.c:2416
 msgid "Move selected messages to the Archive folder for the account"
 msgstr "把选中的信息移至账户的归档文件夹"
 
-#: ../src/mail/e-mail-reader.c:2419
+#: ../src/mail/e-mail-reader.c:2421
 msgid "Check for _Junk"
 msgstr "检查垃圾信息(_J)"
 
-#: ../src/mail/e-mail-reader.c:2421
+#: ../src/mail/e-mail-reader.c:2423
 msgid "Filter the selected messages for junk status"
 msgstr "把选中的信息标记为垃圾信息"
 
-#: ../src/mail/e-mail-reader.c:2426
+#: ../src/mail/e-mail-reader.c:2428
 msgid "Assign C_olor…"
 msgstr "分配颜色(_O)…"
 
-#: ../src/mail/e-mail-reader.c:2428
+#: ../src/mail/e-mail-reader.c:2430
 msgid "Assign color for the selected messages"
 msgstr "为所选信息指定颜色"
 
-#: ../src/mail/e-mail-reader.c:2433
+#: ../src/mail/e-mail-reader.c:2435
 msgid "Unse_t Color"
 msgstr "重置颜色(_T)"
 
-#: ../src/mail/e-mail-reader.c:2435
+#: ../src/mail/e-mail-reader.c:2437
 msgid "Unset color for the selected messages"
 msgstr "取消设置所选消息的颜色"
 
-#: ../src/mail/e-mail-reader.c:2440
+#: ../src/mail/e-mail-reader.c:2442
 msgid "_Copy to Folder…"
 msgstr "复制到文件夹(_C)…"
 
-#: ../src/mail/e-mail-reader.c:2442
+#: ../src/mail/e-mail-reader.c:2444
 msgid "Copy selected messages to another folder"
 msgstr "把选中的信息复制到其它文件夹"
 
-#: ../src/mail/e-mail-reader.c:2447
+#: ../src/mail/e-mail-reader.c:2449
 msgid "_Delete Message"
 msgstr "删除信息(_D)"
 
-#: ../src/mail/e-mail-reader.c:2449
+#: ../src/mail/e-mail-reader.c:2451
 msgid "Mark the selected messages for deletion"
 msgstr "为选中信息做删除标记"
 
-#: ../src/mail/e-mail-reader.c:2454
+#: ../src/mail/e-mail-reader.c:2456
 msgid "_Add note…"
 msgstr "添加便笺(_A)…"
 
-#: ../src/mail/e-mail-reader.c:2456
+#: ../src/mail/e-mail-reader.c:2458
 msgid "Add a note for the selected message"
 msgstr "为选中消息添加便笺"
 
-#: ../src/mail/e-mail-reader.c:2461
+#: ../src/mail/e-mail-reader.c:2463
 msgid "Delete no_te"
 msgstr "删除便笺(_T)"
 
-#: ../src/mail/e-mail-reader.c:2463
+#: ../src/mail/e-mail-reader.c:2465
 msgid "Delete the note for the selected message"
 msgstr "为选中消息删除便笺"
 
-#: ../src/mail/e-mail-reader.c:2468
+#: ../src/mail/e-mail-reader.c:2470
 msgid "_Edit note…"
 msgstr "编辑便笺(_E)…"
 
-#: ../src/mail/e-mail-reader.c:2470
+#: ../src/mail/e-mail-reader.c:2472
 msgid "Edit a note for the selected message"
 msgstr "编辑选中消息的便笺"
 
-#: ../src/mail/e-mail-reader.c:2475
+#: ../src/mail/e-mail-reader.c:2477
 msgid "Create a Filter Rule for Mailing _List…"
 msgstr "为邮件列表创建一条过滤规则(_L)…"
 
-#: ../src/mail/e-mail-reader.c:2477
+#: ../src/mail/e-mail-reader.c:2479
 msgid "Create a rule to filter messages to this mailing list"
 msgstr "创建可过滤寄往此邮件列表的信息的规则"
 
-#: ../src/mail/e-mail-reader.c:2482
+#: ../src/mail/e-mail-reader.c:2484
 msgid "Create a Filter Rule for _Recipients…"
 msgstr "为收件人创建一条过滤规则(_R)…"
 
-#: ../src/mail/e-mail-reader.c:2484
+#: ../src/mail/e-mail-reader.c:2486
 msgid "Create a rule to filter messages to these recipients"
 msgstr "创建可过滤寄往这些收件人的信息的规则"
 
-#: ../src/mail/e-mail-reader.c:2489
+#: ../src/mail/e-mail-reader.c:2491
 msgid "Create a Filter Rule for Se_nder…"
 msgstr "为发件人创建一条过滤规则(_N)…"
 
-#: ../src/mail/e-mail-reader.c:2491
+#: ../src/mail/e-mail-reader.c:2493
 msgid "Create a rule to filter messages from this sender"
 msgstr "创建可过滤此人寄来的信息的规则"
 
-#: ../src/mail/e-mail-reader.c:2496
+#: ../src/mail/e-mail-reader.c:2498
 msgid "Create a Filter Rule for _Subject…"
 msgstr "为主题创建一条过滤规则(_S)…"
 
-#: ../src/mail/e-mail-reader.c:2498
+#: ../src/mail/e-mail-reader.c:2500
 msgid "Create a rule to filter messages with this subject"
 msgstr "创建可过滤此主题信息的规则"
 
-#: ../src/mail/e-mail-reader.c:2503
+#: ../src/mail/e-mail-reader.c:2505
 msgid "A_pply Filters"
 msgstr "应用过滤规则(_P)"
 
-#: ../src/mail/e-mail-reader.c:2505
+#: ../src/mail/e-mail-reader.c:2507
 msgid "Apply filter rules to the selected messages"
 msgstr "应用过滤规则到选中的信息"
 
-#: ../src/mail/e-mail-reader.c:2510
+#: ../src/mail/e-mail-reader.c:2512
 msgid "_Find in Message…"
 msgstr "在信息中查找(_F)…"
 
-#: ../src/mail/e-mail-reader.c:2512
+#: ../src/mail/e-mail-reader.c:2514
 msgid "Search for text in the body of the displayed message"
 msgstr "在显示信息的主体中搜索文本"
 
-#: ../src/mail/e-mail-reader.c:2517
+#: ../src/mail/e-mail-reader.c:2519
 msgid "_Clear Flag"
 msgstr "清除标志(_C)"
 
-#: ../src/mail/e-mail-reader.c:2519
+#: ../src/mail/e-mail-reader.c:2521
 msgid "Remove the follow-up flag from the selected messages"
 msgstr "删除选中信息的跟随标志"
 
-#: ../src/mail/e-mail-reader.c:2524
+#: ../src/mail/e-mail-reader.c:2526
 msgid "_Flag Completed"
 msgstr "标志为已完成(_F)"
 
-#: ../src/mail/e-mail-reader.c:2526
+#: ../src/mail/e-mail-reader.c:2528
 msgid "Set the follow-up flag to completed on the selected messages"
 msgstr "设置选中信息的跟随标志为已完成"
 
-#: ../src/mail/e-mail-reader.c:2531
+#: ../src/mail/e-mail-reader.c:2533
 msgid "Follow _Up…"
 msgstr "跟随(_U)…"
 
-#: ../src/mail/e-mail-reader.c:2533
+#: ../src/mail/e-mail-reader.c:2535
 msgid "Flag the selected messages for follow-up"
 msgstr "为选中信息添加跟随标志"
 
-#: ../src/mail/e-mail-reader.c:2538
+#: ../src/mail/e-mail-reader.c:2540
 #: ../src/modules/mail/e-mail-attachment-handler.c:431
 msgid "_Attached"
 msgstr "附件(_A)"
 
-#: ../src/mail/e-mail-reader.c:2540 ../src/mail/e-mail-reader.c:2547
+#: ../src/mail/e-mail-reader.c:2542 ../src/mail/e-mail-reader.c:2549
 #: ../src/modules/mail/e-mail-attachment-handler.c:433
 msgid "Forward the selected message to someone as an attachment"
 msgstr "把选中信息作为附件转发给某人"
 
-#: ../src/mail/e-mail-reader.c:2545
+#: ../src/mail/e-mail-reader.c:2547
 msgid "Forward As _Attached"
 msgstr "作为附件转发(_A)"
 
-#: ../src/mail/e-mail-reader.c:2552
+#: ../src/mail/e-mail-reader.c:2554
 #: ../src/modules/mail/e-mail-attachment-handler.c:438
 msgid "_Inline"
 msgstr "嵌入(_I)"
 
-#: ../src/mail/e-mail-reader.c:2554 ../src/mail/e-mail-reader.c:2561
+#: ../src/mail/e-mail-reader.c:2556 ../src/mail/e-mail-reader.c:2563
 #: ../src/modules/mail/e-mail-attachment-handler.c:440
 msgid "Forward the selected message in the body of a new message"
 msgstr "在新信体中转发选中信息"
 
-#: ../src/mail/e-mail-reader.c:2559
+#: ../src/mail/e-mail-reader.c:2561
 msgid "Forward As _Inline"
 msgstr "嵌入正文转发(_I)"
 
-#: ../src/mail/e-mail-reader.c:2566
+#: ../src/mail/e-mail-reader.c:2568
 #: ../src/modules/mail/e-mail-attachment-handler.c:445
 msgid "_Quoted"
 msgstr "引用(_Q)"
 
-#: ../src/mail/e-mail-reader.c:2568 ../src/mail/e-mail-reader.c:2575
+#: ../src/mail/e-mail-reader.c:2570 ../src/mail/e-mail-reader.c:2577
 #: ../src/modules/mail/e-mail-attachment-handler.c:447
 msgid "Forward the selected message quoted like a reply"
 msgstr "以类似于回复的引用方式转发选中的信息"
 
-#: ../src/mail/e-mail-reader.c:2573
+#: ../src/mail/e-mail-reader.c:2575
 msgid "Forward As _Quoted"
 msgstr "作文引用转发(_Q)"
 
-#: ../src/mail/e-mail-reader.c:2580
+#: ../src/mail/e-mail-reader.c:2582
 msgid "_New Label"
 msgstr "新建标签(_N)"
 
 #. Translators: "None" is used in the message label context menu.
 #. *              It removes all labels from the selected messages.
-#: ../src/mail/e-mail-reader.c:2589
+#: ../src/mail/e-mail-reader.c:2591
 msgid "N_one"
 msgstr "无(_O)"
 
-#: ../src/mail/e-mail-reader.c:2596
+#: ../src/mail/e-mail-reader.c:2598
 msgid "_Load Images"
 msgstr "载入图像(_L)"
 
-#: ../src/mail/e-mail-reader.c:2598
+#: ../src/mail/e-mail-reader.c:2600
 msgid "Force images in HTML mail to be loaded"
 msgstr "强制载入 HTML 邮件中的图像"
 
-#: ../src/mail/e-mail-reader.c:2603 ../src/mail/e-mail-reader.c:3029
+#: ../src/mail/e-mail-reader.c:2605 ../src/mail/e-mail-reader.c:3031
 msgid "_Ignore Subthread"
 msgstr "忽略子会话(_I)"
 
-#: ../src/mail/e-mail-reader.c:2605
+#: ../src/mail/e-mail-reader.c:2607
 msgid "Mark new mails in a subthread as read automatically"
 msgstr "标记此子会话的新邮件为自动阅读"
 
-#: ../src/mail/e-mail-reader.c:2610 ../src/mail/e-mail-reader.c:3033
+#: ../src/mail/e-mail-reader.c:2612 ../src/mail/e-mail-reader.c:3035
 msgid "_Ignore Thread"
 msgstr "忽略会话(_I)"
 
-#: ../src/mail/e-mail-reader.c:2612
+#: ../src/mail/e-mail-reader.c:2614
 msgid "Mark new mails in this thread as read automatically"
 msgstr "标记此会话的新邮件为自动阅读"
 
-#: ../src/mail/e-mail-reader.c:2617
+#: ../src/mail/e-mail-reader.c:2619
 msgid "_Important"
 msgstr "重要(_I)"
 
-#: ../src/mail/e-mail-reader.c:2619
+#: ../src/mail/e-mail-reader.c:2621
 msgid "Mark the selected messages as important"
 msgstr "把选中信息标记为重要邮件"
 
-#: ../src/mail/e-mail-reader.c:2624
+#: ../src/mail/e-mail-reader.c:2626
 msgid "_Junk"
 msgstr "垃圾(_J)"
 
-#: ../src/mail/e-mail-reader.c:2626
+#: ../src/mail/e-mail-reader.c:2628
 msgid "Mark the selected messages as junk"
 msgstr "把选中信息标记为垃圾信息"
 
-#: ../src/mail/e-mail-reader.c:2631
+#: ../src/mail/e-mail-reader.c:2633
 msgid "_Not Junk"
 msgstr "非垃圾(_N)"
 
-#: ../src/mail/e-mail-reader.c:2633
+#: ../src/mail/e-mail-reader.c:2635
 msgid "Mark the selected messages as not being junk"
 msgstr "把选中信息标记为非垃圾信息"
 
-#: ../src/mail/e-mail-reader.c:2638
+#: ../src/mail/e-mail-reader.c:2640
 msgid "_Read"
 msgstr "已读(_R)"
 
-#: ../src/mail/e-mail-reader.c:2640
+#: ../src/mail/e-mail-reader.c:2642
 msgid "Mark the selected messages as having been read"
 msgstr "把选中信息标记为已读"
 
-#: ../src/mail/e-mail-reader.c:2645 ../src/mail/e-mail-reader.c:3053
+#: ../src/mail/e-mail-reader.c:2647 ../src/mail/e-mail-reader.c:3055
 msgid "Do not _Ignore Subthread"
 msgstr "不要忽略子会话(_I)"
 
-#: ../src/mail/e-mail-reader.c:2647
+#: ../src/mail/e-mail-reader.c:2649
 msgid "Do not mark new mails in a subthread as read automatically"
 msgstr "不要标记此子会话的新邮件为自动阅读"
 
-#: ../src/mail/e-mail-reader.c:2652 ../src/mail/e-mail-reader.c:3057
+#: ../src/mail/e-mail-reader.c:2654 ../src/mail/e-mail-reader.c:3059
 msgid "Do not _Ignore Thread"
 msgstr "不要忽略会话(_I)"
 
-#: ../src/mail/e-mail-reader.c:2654
+#: ../src/mail/e-mail-reader.c:2656
 msgid "Do not mark new mails in this thread as read automatically"
 msgstr "不要标记此会话中的新邮件为自动阅读"
 
-#: ../src/mail/e-mail-reader.c:2659
+#: ../src/mail/e-mail-reader.c:2661
 msgid "Uni_mportant"
 msgstr "不重要(_M)"
 
-#: ../src/mail/e-mail-reader.c:2661
+#: ../src/mail/e-mail-reader.c:2663
 msgid "Mark the selected messages as unimportant"
 msgstr "把选中信息标记为不重要"
 
-#: ../src/mail/e-mail-reader.c:2666
+#: ../src/mail/e-mail-reader.c:2668
 msgid "_Unread"
 msgstr "未读(_U)"
 
-#: ../src/mail/e-mail-reader.c:2668
+#: ../src/mail/e-mail-reader.c:2670
 msgid "Mark the selected messages as not having been read"
 msgstr "把选中信息标记为未读"
 
-#: ../src/mail/e-mail-reader.c:2673
+#: ../src/mail/e-mail-reader.c:2675
 #: ../src/modules/mail/e-mail-attachment-handler.c:417
 msgid "_Edit as New Message…"
 msgstr "作为新信息进行编辑(_E)…"
 
-#: ../src/mail/e-mail-reader.c:2675
+#: ../src/mail/e-mail-reader.c:2677
 #: ../src/modules/mail/e-mail-attachment-handler.c:419
 msgid "Open the selected messages in the composer for editing"
 msgstr "在编辑器中打开选中的信息以便编辑"
 
-#: ../src/mail/e-mail-reader.c:2680
+#: ../src/mail/e-mail-reader.c:2682
 msgid "Compose _New Message"
 msgstr "撰写新信息(_N)"
 
-#: ../src/mail/e-mail-reader.c:2682
+#: ../src/mail/e-mail-reader.c:2684
 msgid "Open a window for composing a mail message"
 msgstr "打开窗口以撰写信息"
 
-#: ../src/mail/e-mail-reader.c:2687
+#: ../src/mail/e-mail-reader.c:2689
 msgid "_Open in New Window"
 msgstr "在新窗口中打开(_O)"
 
-#: ../src/mail/e-mail-reader.c:2689
+#: ../src/mail/e-mail-reader.c:2691
 msgid "Open the selected messages in a new window"
 msgstr "在新窗口中打开选中的信息"
 
-#: ../src/mail/e-mail-reader.c:2694
+#: ../src/mail/e-mail-reader.c:2696
 msgid "_Move to Folder…"
 msgstr "移至文件夹(_M)…"
 
-#: ../src/mail/e-mail-reader.c:2696
+#: ../src/mail/e-mail-reader.c:2698
 msgid "Move selected messages to another folder"
 msgstr "把选中的信息移至其它文件夹"
 
-#: ../src/mail/e-mail-reader.c:2701
+#: ../src/mail/e-mail-reader.c:2703
 msgid "_Next Message"
 msgstr "下一封信(_N)"
 
-#: ../src/mail/e-mail-reader.c:2703
+#: ../src/mail/e-mail-reader.c:2705
 msgid "Display the next message"
 msgstr "显示下一封信息"
 
-#: ../src/mail/e-mail-reader.c:2708
+#: ../src/mail/e-mail-reader.c:2710
 msgid "Next _Important Message"
 msgstr "下一封重要信息(_I)"
 
-#: ../src/mail/e-mail-reader.c:2710
+#: ../src/mail/e-mail-reader.c:2712
 msgid "Display the next important message"
 msgstr "显示下一封重要信息"
 
-#: ../src/mail/e-mail-reader.c:2715
+#: ../src/mail/e-mail-reader.c:2717
 msgid "Next _Thread"
 msgstr "下一条线索(_T)"
 
-#: ../src/mail/e-mail-reader.c:2717
+#: ../src/mail/e-mail-reader.c:2719
 msgid "Display the next thread"
 msgstr "显示下一条线索"
 
-#: ../src/mail/e-mail-reader.c:2722
+#: ../src/mail/e-mail-reader.c:2724
 msgid "Next _Unread Message"
 msgstr "下一封未读信息(_U)"
 
-#: ../src/mail/e-mail-reader.c:2724
+#: ../src/mail/e-mail-reader.c:2726
 msgid "Display the next unread message"
 msgstr "显示下一封未读信息"
 
-#: ../src/mail/e-mail-reader.c:2729
+#: ../src/mail/e-mail-reader.c:2731
 msgid "_Previous Message"
 msgstr "上一封信(_P)"
 
-#: ../src/mail/e-mail-reader.c:2731
+#: ../src/mail/e-mail-reader.c:2733
 msgid "Display the previous message"
 msgstr "显示上一封信息"
 
-#: ../src/mail/e-mail-reader.c:2736
+#: ../src/mail/e-mail-reader.c:2738
 msgid "Pr_evious Important Message"
 msgstr "上一封重要信息(_E)"
 
-#: ../src/mail/e-mail-reader.c:2738
+#: ../src/mail/e-mail-reader.c:2740
 msgid "Display the previous important message"
 msgstr "显示上一封重要信息"
 
-#: ../src/mail/e-mail-reader.c:2743
+#: ../src/mail/e-mail-reader.c:2745
 msgid "Previous T_hread"
 msgstr "上一条线索(_H)"
 
-#: ../src/mail/e-mail-reader.c:2745
+#: ../src/mail/e-mail-reader.c:2747
 msgid "Display the previous thread"
 msgstr "显示上一条线索"
 
-#: ../src/mail/e-mail-reader.c:2750
+#: ../src/mail/e-mail-reader.c:2752
 msgid "P_revious Unread Message"
 msgstr "上一封未读信息(_R)"
 
-#: ../src/mail/e-mail-reader.c:2752
+#: ../src/mail/e-mail-reader.c:2754
 msgid "Display the previous unread message"
 msgstr "显示上一封未读信息"
 
-#: ../src/mail/e-mail-reader.c:2759
+#: ../src/mail/e-mail-reader.c:2761
 msgid "Print this message"
 msgstr "打印该信息"
 
-#: ../src/mail/e-mail-reader.c:2766
+#: ../src/mail/e-mail-reader.c:2768
 msgid "Preview the message to be printed"
 msgstr "预览要打印的信息"
 
-#: ../src/mail/e-mail-reader.c:2771
+#: ../src/mail/e-mail-reader.c:2773
 #: ../src/modules/mail/e-mail-attachment-handler.c:452
 msgid "Re_direct"
 msgstr "重发(_D)"
 
-#: ../src/mail/e-mail-reader.c:2773
+#: ../src/mail/e-mail-reader.c:2775
 #: ../src/modules/mail/e-mail-attachment-handler.c:454
 msgid "Redirect (bounce) the selected message to someone"
 msgstr "将选中信息重发(退回)给某人"
 
-#: ../src/mail/e-mail-reader.c:2778
+#: ../src/mail/e-mail-reader.c:2780
 msgid "Remo_ve Attachments"
 msgstr "移除附件(_V)"
 
-#: ../src/mail/e-mail-reader.c:2780
+#: ../src/mail/e-mail-reader.c:2782
 msgid "Remove attachments"
 msgstr "移除附件"
 
-#: ../src/mail/e-mail-reader.c:2785
+#: ../src/mail/e-mail-reader.c:2787
 msgid "Remove Du_plicate Messages"
 msgstr "移除重复的信息(_P)"
 
-#: ../src/mail/e-mail-reader.c:2787
+#: ../src/mail/e-mail-reader.c:2789
 msgid "Checks selected messages for duplicates"
 msgstr "检查所选信息中的重复信息"
 
-#: ../src/mail/e-mail-reader.c:2792 ../src/mail/em-composer-utils.c:4075
+#: ../src/mail/e-mail-reader.c:2794 ../src/mail/em-composer-utils.c:4083
 #: ../src/mail/mail.error.xml.h:28
 #: ../src/modules/calendar/e-cal-shell-view-actions.c:1452
 #: ../src/modules/mail/e-mail-attachment-handler.c:396
 msgid "Reply to _All"
 msgstr "回复所有人(_A)"
 
-#: ../src/mail/e-mail-reader.c:2794
+#: ../src/mail/e-mail-reader.c:2796
 #: ../src/modules/mail/e-mail-attachment-handler.c:398
 msgid "Compose a reply to all the recipients of the selected message"
 msgstr "为选中信息的所有收件人撰写回复"
 
-#: ../src/mail/e-mail-reader.c:2799
+#: ../src/mail/e-mail-reader.c:2801
 msgid "Al_ternative Reply…"
 msgstr "备用回复(_T)…"
 
-#: ../src/mail/e-mail-reader.c:2801
+#: ../src/mail/e-mail-reader.c:2803
 msgid "Choose reply options for the selected message"
 msgstr "为所选邮件选择答复选项"
 
-#: ../src/mail/e-mail-reader.c:2806 ../src/mail/em-composer-utils.c:4070
+#: ../src/mail/e-mail-reader.c:2808 ../src/mail/em-composer-utils.c:4078
 #: ../src/mail/mail.error.xml.h:26
 #: ../src/modules/mail/e-mail-attachment-handler.c:403
 msgid "Reply to _List"
 msgstr "回复邮件列表(_L)"
 
-#: ../src/mail/e-mail-reader.c:2808
+#: ../src/mail/e-mail-reader.c:2810
 #: ../src/modules/mail/e-mail-attachment-handler.c:405
 msgid "Compose a reply to the mailing list of the selected message"
 msgstr "为选中信息的邮件列表撰写回复"
 
-#: ../src/mail/e-mail-reader.c:2813
+#: ../src/mail/e-mail-reader.c:2815
 #: ../src/modules/mail/e-mail-attachment-handler.c:410
 msgid "_Reply to Sender"
 msgstr "回复发件人(_R)"
 
-#: ../src/mail/e-mail-reader.c:2815
+#: ../src/mail/e-mail-reader.c:2817
 #: ../src/modules/mail/e-mail-attachment-handler.c:412
 msgid "Compose a reply to the sender of the selected message"
 msgstr "为选中信息的发件人撰写回复"
 
-#: ../src/mail/e-mail-reader.c:2820
+#: ../src/mail/e-mail-reader.c:2822
 msgid "Repl_y with Template"
 msgstr "应用模板回复(_Y)"
 
-#: ../src/mail/e-mail-reader.c:2827
+#: ../src/mail/e-mail-reader.c:2829
 msgid "_Save as mbox…"
 msgstr "另存为 mbox 格式(_S)…"
 
-#: ../src/mail/e-mail-reader.c:2829
+#: ../src/mail/e-mail-reader.c:2831
 msgid "Save selected messages as an mbox file"
 msgstr "把选中信息另存为 mbox 格式文件"
 
-#: ../src/mail/e-mail-reader.c:2841
+#: ../src/mail/e-mail-reader.c:2843
 msgid "_Message Source"
 msgstr "信息源代码(_M)"
 
-#: ../src/mail/e-mail-reader.c:2843
+#: ../src/mail/e-mail-reader.c:2845
 msgid "Show the raw email source of the message"
 msgstr "显示信息的原始邮件源代码"
 
-#: ../src/mail/e-mail-reader.c:2855
+#: ../src/mail/e-mail-reader.c:2857
 msgid "_Undelete Message"
 msgstr "取消删除信息(_U)"
 
-#: ../src/mail/e-mail-reader.c:2857
+#: ../src/mail/e-mail-reader.c:2859
 msgid "Undelete the selected messages"
 msgstr "取消选中信息的删除"
 
-#: ../src/mail/e-mail-reader.c:2862
+#: ../src/mail/e-mail-reader.c:2864
 msgid "_Normal Size"
 msgstr "普通大小(_N)"
 
-#: ../src/mail/e-mail-reader.c:2864
+#: ../src/mail/e-mail-reader.c:2866
 msgid "Reset the text to its original size"
 msgstr "把文本重新设置为原来的大小"
 
-#: ../src/mail/e-mail-reader.c:2869
+#: ../src/mail/e-mail-reader.c:2871
 msgid "_Zoom In"
 msgstr "放大(_Z)"
 
-#: ../src/mail/e-mail-reader.c:2871
+#: ../src/mail/e-mail-reader.c:2873
 msgid "Increase the text size"
 msgstr "增加文本大小"
 
-#: ../src/mail/e-mail-reader.c:2878
+#: ../src/mail/e-mail-reader.c:2880
 msgid "Decrease the text size"
 msgstr "减少文本大小"
 
-#: ../src/mail/e-mail-reader.c:2885
+#: ../src/mail/e-mail-reader.c:2887
 msgid "Cre_ate"
 msgstr "创建(_A)"
 
-#: ../src/mail/e-mail-reader.c:2892
+#: ../src/mail/e-mail-reader.c:2894
 msgid "Ch_aracter Encoding"
 msgstr "字符编码(_A)"
 
-#: ../src/mail/e-mail-reader.c:2899
+#: ../src/mail/e-mail-reader.c:2901
 #: ../src/modules/mail/e-mail-attachment-handler.c:424
 msgid "F_orward As"
 msgstr "转发为(_O)"
 
-#: ../src/mail/e-mail-reader.c:2906
+#: ../src/mail/e-mail-reader.c:2908
 msgid "_Label"
 msgstr "标签(_L)"
 
-#: ../src/mail/e-mail-reader.c:2913
+#: ../src/mail/e-mail-reader.c:2915
 msgid "_Group Reply"
 msgstr "回复全部(_G)"
 
-#: ../src/mail/e-mail-reader.c:2920
+#: ../src/mail/e-mail-reader.c:2922
 msgid "_Go To"
 msgstr "转到(_G)"
 
-#: ../src/mail/e-mail-reader.c:2927
+#: ../src/mail/e-mail-reader.c:2929
 msgid "Mar_k As"
 msgstr "标记为(_K)"
 
-#: ../src/mail/e-mail-reader.c:2934
+#: ../src/mail/e-mail-reader.c:2936
 msgid "_Message"
 msgstr "信息(_M)"
 
-#: ../src/mail/e-mail-reader.c:2941
+#: ../src/mail/e-mail-reader.c:2943
 msgid "_Zoom"
 msgstr "缩放(_Z)"
 
-#: ../src/mail/e-mail-reader.c:2951
+#: ../src/mail/e-mail-reader.c:2953
 msgid "Create a Search Folder from Mailing _List…"
 msgstr "从邮件列表创建搜索文件夹(_L)…"
 
-#: ../src/mail/e-mail-reader.c:2953
+#: ../src/mail/e-mail-reader.c:2955
 msgid "Create a search folder for this mailing list"
 msgstr "为此邮件列表创建搜索文件夹"
 
-#: ../src/mail/e-mail-reader.c:2958
+#: ../src/mail/e-mail-reader.c:2960
 msgid "Create a Search Folder from Recipien_ts…"
 msgstr "从收件人创建搜索文件夹(_T)…"
 
-#: ../src/mail/e-mail-reader.c:2960
+#: ../src/mail/e-mail-reader.c:2962
 msgid "Create a search folder for these recipients"
 msgstr "为这些收件人创建搜索文件夹"
 
-#: ../src/mail/e-mail-reader.c:2965
+#: ../src/mail/e-mail-reader.c:2967
 msgid "Create a Search Folder from Sen_der…"
 msgstr "从发件人创建搜索文件夹(_D)…"
 
-#: ../src/mail/e-mail-reader.c:2967
+#: ../src/mail/e-mail-reader.c:2969
 msgid "Create a search folder for this sender"
 msgstr "为该发件人创建搜索文件夹"
 
-#: ../src/mail/e-mail-reader.c:2972
+#: ../src/mail/e-mail-reader.c:2974
 msgid "Create a Search Folder from S_ubject…"
 msgstr "从主题创建搜索文件夹(_U)…"
 
-#: ../src/mail/e-mail-reader.c:2974
+#: ../src/mail/e-mail-reader.c:2976
 msgid "Create a search folder for this subject"
 msgstr "为该主题创建搜索文件夹"
 
-#: ../src/mail/e-mail-reader.c:3021
+#: ../src/mail/e-mail-reader.c:3023
 msgid "Mark for Follo_w Up…"
 msgstr "标记为跟随(_W)…"
 
-#: ../src/mail/e-mail-reader.c:3037
+#: ../src/mail/e-mail-reader.c:3039
 msgid "Mark as _Important"
 msgstr "标记为重要(_I)"
 
-#: ../src/mail/e-mail-reader.c:3041
+#: ../src/mail/e-mail-reader.c:3043
 msgid "Mark as _Junk"
 msgstr "标记为垃圾(_J)"
 
-#: ../src/mail/e-mail-reader.c:3045
+#: ../src/mail/e-mail-reader.c:3047
 msgid "Mark as _Not Junk"
 msgstr "标记为非垃圾(_N)"
 
-#: ../src/mail/e-mail-reader.c:3049
+#: ../src/mail/e-mail-reader.c:3051
 msgid "Mar_k as Read"
 msgstr "标记为已读(_K)"
 
-#: ../src/mail/e-mail-reader.c:3061
+#: ../src/mail/e-mail-reader.c:3063
 msgid "Mark as Uni_mportant"
 msgstr "标记为不重要(_M)"
 
-#: ../src/mail/e-mail-reader.c:3065
+#: ../src/mail/e-mail-reader.c:3067
 msgid "Mark as _Unread"
 msgstr "标记为未读(_U)"
 
-#: ../src/mail/e-mail-reader.c:3117
+#: ../src/mail/e-mail-reader.c:3119
 msgid "_Caret Mode"
 msgstr "光标模式(_C)"
 
-#: ../src/mail/e-mail-reader.c:3119
+#: ../src/mail/e-mail-reader.c:3121
 msgid "Show a blinking cursor in the body of displayed messages"
 msgstr "在显示信息的信体中显示闪烁光标"
 
-#: ../src/mail/e-mail-reader.c:3125
+#: ../src/mail/e-mail-reader.c:3127
 msgid "All Message _Headers"
 msgstr "全部信头(_H)"
 
-#: ../src/mail/e-mail-reader.c:3127
+#: ../src/mail/e-mail-reader.c:3129
 msgid "Show messages with all email headers"
 msgstr "显示信息时显示所有信头"
 
-#: ../src/mail/e-mail-reader.c:3711
+#: ../src/mail/e-mail-reader.c:3713
 msgid "Retrieving message"
 msgstr "正在获取信息"
 
-#: ../src/mail/e-mail-reader.c:5081
+#: ../src/mail/e-mail-reader.c:5083
 #: ../src/modules/mail/e-mail-attachment-handler.c:389
 msgid "_Forward"
 msgstr "转发(_F)"
 
-#: ../src/mail/e-mail-reader.c:5082
+#: ../src/mail/e-mail-reader.c:5084
 #: ../src/modules/mail/e-mail-attachment-handler.c:391
 msgid "Forward the selected message to someone"
 msgstr "把选中信息转发给某人"
@@ -17955,29 +18007,29 @@ msgstr "把选中信息转发给某人"
 #. * (if possible and if that configuration option is enabled), or else
 #. * it will reply to all. The word "Group" was chosen because it covers
 #. * either of those, without too strongly implying one or the other.
-#: ../src/mail/e-mail-reader.c:5101
+#: ../src/mail/e-mail-reader.c:5103
 msgid "Group Reply"
 msgstr "回复全部"
 
-#: ../src/mail/e-mail-reader.c:5102
+#: ../src/mail/e-mail-reader.c:5104
 msgid "Reply to the mailing list, or to all recipients"
 msgstr "为选中信息的邮件列表或全部收件人撰写回复"
 
-#: ../src/mail/e-mail-reader.c:5168 ../src/mail/filtertypes.xml.in.h:67
+#: ../src/mail/e-mail-reader.c:5170 ../src/mail/filtertypes.xml.in.h:67
 msgid "Delete"
 msgstr "删除"
 
-#: ../src/mail/e-mail-reader.c:5180
+#: ../src/mail/e-mail-reader.c:5182
 #: ../src/modules/calendar/e-cal-shell-view-actions.c:1249
 msgid "Next"
 msgstr "下一项"
 
-#: ../src/mail/e-mail-reader.c:5184
+#: ../src/mail/e-mail-reader.c:5186
 #: ../src/modules/calendar/e-cal-shell-view-actions.c:1242
 msgid "Previous"
 msgstr "上一项"
 
-#: ../src/mail/e-mail-reader.c:5193 ../src/mail/mail-dialogs.ui.h:9
+#: ../src/mail/e-mail-reader.c:5195 ../src/mail/mail-dialogs.ui.h:9
 msgid "Reply"
 msgstr "回复"
 
@@ -18027,7 +18079,7 @@ msgid_plural ""
 "them?"
 msgstr[0] "“%s”文件夹中包含 %u 条重复信息。您确定想删除吗？"
 
-#: ../src/mail/e-mail-reader-utils.c:3023
+#: ../src/mail/e-mail-reader-utils.c:2989
 msgid "Save Message"
 msgid_plural "Save Messages"
 msgstr[0] "保存信息"
@@ -18037,12 +18089,12 @@ msgstr[0] "保存信息"
 #. * mbox format, when the first message doesn't have a
 #. * subject.  The extension ".mbox" is appended to the
 #. * string; for example "Message.mbox".
-#: ../src/mail/e-mail-reader-utils.c:3044
+#: ../src/mail/e-mail-reader-utils.c:3010
 msgid "Message"
 msgid_plural "Messages"
 msgstr[0] "信息"
 
-#: ../src/mail/e-mail-reader-utils.c:3458
+#: ../src/mail/e-mail-reader-utils.c:3424
 msgid "Parsing message"
 msgstr "正在解析信息"
 
@@ -18167,71 +18219,71 @@ msgstr "Re: %s"
 msgid "an unknown sender"
 msgstr "未知发件人"
 
-#: ../src/mail/em-composer-utils.c:4021
+#: ../src/mail/em-composer-utils.c:4029
 msgid "Alternative Reply"
 msgstr "备选回复"
 
-#: ../src/mail/em-composer-utils.c:4024
+#: ../src/mail/em-composer-utils.c:4032
 #: ../src/modules/calendar/e-cal-shell-view-actions.c:1445
 msgid "_Reply"
 msgstr "回复(_R)"
 
-#: ../src/mail/em-composer-utils.c:4037
+#: ../src/mail/em-composer-utils.c:4045
 msgid "Recipients:"
 msgstr "收件人："
 
-#: ../src/mail/em-composer-utils.c:4065
+#: ../src/mail/em-composer-utils.c:4073
 msgid "Reply to _Sender"
 msgstr "回复发件人(_S)"
 
-#: ../src/mail/em-composer-utils.c:4087
+#: ../src/mail/em-composer-utils.c:4095
 msgid "Reply style:"
 msgstr "回复风格："
 
-#: ../src/mail/em-composer-utils.c:4095
+#: ../src/mail/em-composer-utils.c:4103
 msgid "_Default"
 msgstr "默认(_D)"
 
-#: ../src/mail/em-composer-utils.c:4099
+#: ../src/mail/em-composer-utils.c:4107
 msgid "Attach_ment"
 msgstr "附件(_M)"
 
-#: ../src/mail/em-composer-utils.c:4103
+#: ../src/mail/em-composer-utils.c:4111
 msgid "Inline (_Outlook style)"
 msgstr "内嵌（_Outlook 风格）"
 
-#: ../src/mail/em-composer-utils.c:4107
+#: ../src/mail/em-composer-utils.c:4115
 msgid "_Quote"
 msgstr "引用(_Q)"
 
-#: ../src/mail/em-composer-utils.c:4111
+#: ../src/mail/em-composer-utils.c:4119
 msgid "Do _Not Quote"
 msgstr "不引用(_N)"
 
-#: ../src/mail/em-composer-utils.c:4118
+#: ../src/mail/em-composer-utils.c:4126
 msgid "_Format message in HTML"
 msgstr "以 HTML 方式格式化信息(_F)"
 
-#: ../src/mail/em-composer-utils.c:4131
+#: ../src/mail/em-composer-utils.c:4139
 msgid "Apply t_emplate"
 msgstr "应用模板(_E)"
 
-#: ../src/mail/em-composer-utils.c:4143
+#: ../src/mail/em-composer-utils.c:4151
 msgid "Preserve original message S_ubject"
 msgstr "保留原始邮件主题(_U)"
 
-#: ../src/mail/em-composer-utils.c:4209
+#: ../src/mail/em-composer-utils.c:4217
 #, c-format
 msgid "one recipient"
 msgid_plural "%d recipients"
 msgstr[0] "%d 个接收者"
 
 #. FIXME GTK_WINDOW (composer)
-#: ../src/mail/em-composer-utils.c:4648
+#: ../src/mail/em-composer-utils.c:4658
 msgid "Posting destination"
 msgstr "投递目的"
 
-#: ../src/mail/em-composer-utils.c:4653
+#: ../src/mail/em-composer-utils.c:4663
 msgid "Choose folders to post the message to."
 msgstr "选择要将信息投递到哪个文件夹。"
 
@@ -21689,7 +21741,7 @@ msgstr "启用日历以同步"
 
 #: ../src/modules/cal-config-google/e-google-chooser-button.c:145
 msgid "Default User Calendar"
-msgstr "删除用户日历"
+msgstr "默认用户日历"
 
 #: ../src/modules/cal-config-local/evolution-cal-config-local.c:177
 msgid "Use an existing iCalendar (ics) file"
@@ -21717,33 +21769,33 @@ msgstr "允许 Evolution 更新该文件"
 #. *
 #. * This string is just a fallback mechanism for systems on
 #. * which _NL_MEASUREMENT_MEASUREMENT is not available.
-#: ../src/modules/cal-config-weather/evolution-cal-config-weather.c:187
+#: ../src/modules/cal-config-weather/evolution-cal-config-weather.c:221
 msgctxt "locale-metric"
 msgid "default:mm"
-msgstr "默认：毫米"
+msgstr "default:mm"
 
 #. Translators: This is the temperature in degrees
 #. * Fahrenheit. (\302\260 is U+00B0 DEGREE SIGN)
-#: ../src/modules/cal-config-weather/evolution-cal-config-weather.c:256
+#: ../src/modules/cal-config-weather/evolution-cal-config-weather.c:290
 msgid "Fahrenheit (°F)"
 msgstr "华氏(°F)"
 
 #. Translators: This is the temperature in degrees
 #. * Celsius. (\302\260 is U+00B0 DEGREE SIGN)
-#: ../src/modules/cal-config-weather/evolution-cal-config-weather.c:261
+#: ../src/modules/cal-config-weather/evolution-cal-config-weather.c:295
 msgid "Centigrade (°C)"
 msgstr "摄氏(°C)"
 
 #. Translators: This is the temperature in kelvin.
-#: ../src/modules/cal-config-weather/evolution-cal-config-weather.c:265
+#: ../src/modules/cal-config-weather/evolution-cal-config-weather.c:299
 msgid "Kelvin (K)"
 msgstr "开氏(K)"
 
-#: ../src/modules/cal-config-weather/evolution-cal-config-weather.c:267
+#: ../src/modules/cal-config-weather/evolution-cal-config-weather.c:301
 msgid "Units:"
 msgstr "单位："
 
-#: ../src/modules/cal-config-weather/evolution-cal-config-weather.c:319
+#: ../src/modules/cal-config-weather/evolution-cal-config-weather.c:357
 msgid "Location cannot be empty"
 msgstr "位置不能为空"
 
@@ -25140,7 +25192,7 @@ msgid "_Do not show this message again."
 msgstr "不再显示此信息(_D)。"
 
 #: ../src/plugins/attachment-reminder/attachment-reminder.c:571
-#: ../src/plugins/templates/templates.c:489
+#: ../src/plugins/templates/templates.c:495
 msgid "Keywords"
 msgstr "关键字"
 
@@ -25301,7 +25353,7 @@ msgid "Key"
 msgstr "键"
 
 #: ../src/plugins/email-custom-header/email-custom-header.c:866
-#: ../src/plugins/templates/templates.c:498
+#: ../src/plugins/templates/templates.c:504
 msgid "Values"
 msgstr "值"
 
@@ -26173,15 +26225,15 @@ msgstr ""
 "基于草稿的模板插件。您可以使用 $ORIG[subject]、$ORIG[from]、$ORIG[to] 或 "
 "$ORIG[body] 这样的变量，它们将替换为您所回复邮件中对应的值。"
 
-#: ../src/plugins/templates/templates.c:878
+#: ../src/plugins/templates/templates.c:887
 msgid "Saving message template"
 msgstr "正在保存消息模板"
 
-#: ../src/plugins/templates/templates.c:899
+#: ../src/plugins/templates/templates.c:908
 msgid "Save as _Template"
 msgstr "另存为模板(_T)"
 
-#: ../src/plugins/templates/templates.c:901
+#: ../src/plugins/templates/templates.c:910
 msgid "Save as Template"
 msgstr "另存为模板"
 
