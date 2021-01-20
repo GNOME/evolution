@@ -491,7 +491,7 @@ cal_shell_view_update_actions (EShellView *shell_view)
 	sensitive = single_event_selected && selection_is_meeting;
 	gtk_action_set_sensitive (action, sensitive);
 
-	action = ACTION (EVENT_MEETING_NEW);
+	action = ACTION (EVENT_POPUP_MEETING_NEW);
 	gtk_action_set_visible (action, has_mail_identity);
 
 	gtk_action_set_sensitive (ACTION (CALENDAR_GO_BACK), !is_list_view);
