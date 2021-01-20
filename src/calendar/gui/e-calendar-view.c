@@ -1785,7 +1785,6 @@ e_calendar_view_move_tip (GtkWidget *widget,
                           gint y)
 {
 	GtkAllocation allocation;
-	GtkRequisition requisition;
 	GdkDisplay *display;
 	GdkScreen *screen;
 	GdkScreen *pointer_screen;
@@ -1795,9 +1794,9 @@ e_calendar_view_move_tip (GtkWidget *widget,
 	gint monitor_num, px, py;
 	gint w, h;
 
-	gtk_widget_get_preferred_size (widget, &requisition, NULL);
-	w = requisition.width;
-	h = requisition.height;
+	gtk_widget_get_allocation (widget, &allocation);
+	w = allocation.width;
+	h = allocation.height;
 
 	screen = gtk_widget_get_screen (widget);
 	display = gdk_screen_get_display (screen);
@@ -1812,15 +1811,25 @@ e_calendar_view_move_tip (GtkWidget *widget,
 	monitor_num = gdk_screen_get_monitor_at_point (screen, px, py);
 	gdk_screen_get_monitor_geometry (screen, monitor_num, &monitor);
 
+	x += E_CALENDAR_VIEW_TOOLTIP_OFFSET;
+
 	if ((x + w) > monitor.x + monitor.width)
 		x -= (x + w) - (monitor.x + monitor.width);
 	else if (x < monitor.x)
 		x = monitor.x;
 
-	gtk_widget_get_allocation (widget, &allocation);
+	if (x < monitor.x)
+		x = monitor.x;
 
-	if ((y + h + allocation.height + 4) > monitor.y + monitor.height)
-		y = y - h - 36;
+	y += E_CALENDAR_VIEW_TOOLTIP_OFFSET;
+
+	/* Place above the cursor only if it cannot fit below it and there's enough space above */
+
+	if (y + h > monitor.y + monitor.height && y - 2 * E_CALENDAR_VIEW_TOOLTIP_OFFSET - monitor.y > h)
+		y = y - h - 2 * E_CALENDAR_VIEW_TOOLTIP_OFFSET;
+
+	if (y < monitor.y)
+		y = monitor.y;
 
 	gtk_window_move (GTK_WINDOW (widget), x, y);
 	gtk_widget_show (widget);
@@ -2128,13 +2137,13 @@ e_calendar_view_get_tooltips (const ECalendarViewEventData *data)
 	gtk_frame_set_shadow_type ((GtkFrame *) frame, GTK_SHADOW_IN);
 
 	gtk_window_set_type_hint (GTK_WINDOW (pevent->tooltip), GDK_WINDOW_TYPE_HINT_TOOLTIP);
-	gtk_window_move ((GtkWindow *) pevent->tooltip, pevent->x +16, pevent->y + 16);
+	gtk_window_move ((GtkWindow *) pevent->tooltip, pevent->x + E_CALENDAR_VIEW_TOOLTIP_OFFSET, pevent->y + E_CALENDAR_VIEW_TOOLTIP_OFFSET);
 	gtk_container_add ((GtkContainer *) frame, box);
 	gtk_container_add ((GtkContainer *) pevent->tooltip, frame);
 
 	gtk_widget_show_all (pevent->tooltip);
 
-	e_calendar_view_move_tip (pevent->tooltip, pevent->x +16, pevent->y + 16);
+	e_calendar_view_move_tip (pevent->tooltip, pevent->x, pevent->y);
 
 	window = gtk_widget_get_window (pevent->tooltip);
 	display = gdk_window_get_display (window);
