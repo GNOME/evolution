@@ -2131,9 +2131,9 @@ test_issue_1330 (TestFixture *fixture)
 		"",
 		HTML_PREFIX "<div style=\"width: 12ch;\">Credits:</div>"
 		"<blockquote type=\"cite\">"
-		"<div>" QUOTE_SPAN (QUOTE_CHR) "123 567 90" WRAP_BR "</div>"
-		"<div>" QUOTE_SPAN (QUOTE_CHR) "2345678901" WRAP_BR "</div>"
-		"<div>" QUOTE_SPAN (QUOTE_CHR) "34 67 9012" WRAP_BR "</div>"
+		"<div>" QUOTE_SPAN (QUOTE_CHR) "123 567 90</div>"
+		"<div>" QUOTE_SPAN (QUOTE_CHR) "2345678901</div>"
+		"<div>" QUOTE_SPAN (QUOTE_CHR) "34 67 9012</div>"
 		"<div>" QUOTE_SPAN (QUOTE_CHR) "45678 0 2" WRAP_BR
 		QUOTE_SPAN (QUOTE_CHR) "4 6 8 0</div>"
 		"</blockquote>"
@@ -2144,6 +2144,44 @@ test_issue_1330 (TestFixture *fixture)
 		"> 34 67 9012\n"
 		"> 45678 0 2\n"
 		"> 4 6 8 0\n"))
+		g_test_fail ();
+}
+
+static void
+test_issue_1157 (TestFixture *fixture)
+{
+	test_utils_fixture_change_setting_boolean (fixture, "org.gnome.evolution.mail", "composer-wrap-quoted-text-in-replies", TRUE);
+	test_utils_fixture_change_setting_int32 (fixture, "org.gnome.evolution.mail", "composer-word-wrap-length", 12);
+
+	if (!test_utils_process_commands (fixture,
+		"mode:plain\n")) {
+		g_test_fail ();
+		return;
+	}
+
+	test_utils_insert_content (fixture,
+		"<body><div>123 567 90 <br></div>"
+		"<div>2345678901 <br></div>"
+		"<span class=\"-x-evo-to-body\" data-credits=\"Credits:\"></span>"
+		"<span class=\"-x-evo-cite-body\"></span></body>",
+		E_CONTENT_EDITOR_INSERT_REPLACE_ALL | E_CONTENT_EDITOR_INSERT_TEXT_HTML);
+
+	test_utils_set_clipboard_text ("http://e.c/", FALSE);
+
+	if (!test_utils_run_simple_test (fixture,
+		"seq:Cecn\n"
+		"action:paste\n",
+		HTML_PREFIX "<div style=\"width: 12ch;\">Credits:</div>"
+		"<blockquote type=\"cite\">"
+		"<div style=\"width: 12ch;\">" QUOTE_SPAN (QUOTE_CHR) "123 567 90</div>"
+		"<div style=\"width: 12ch;\">" QUOTE_SPAN (QUOTE_CHR) "2345678901</div>"
+		"</blockquote>"
+		"<div style=\"width: 12ch;\"><a href=\"http://e.c/\">http://e.c/</a></div>"
+		HTML_SUFFIX,
+		"Credits:\n"
+		"> 123 567 90\n"
+		"> 2345678901\n"
+		"http://e.c/\n"))
 		g_test_fail ();
 }
 
@@ -2185,4 +2223,5 @@ test_add_html_editor_bug_tests (void)
 	test_utils_add_test ("/issue/913", test_issue_913);
 	test_utils_add_test ("/issue/1214", test_issue_1214);
 	test_utils_add_test ("/issue/1330", test_issue_1330);
+	test_utils_add_test ("/issue/1157", test_issue_1157);
 }

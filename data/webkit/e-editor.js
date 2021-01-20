@@ -1088,6 +1088,8 @@ EvoEditor.SetBlockFormat = function(format)
 					if (blockquoteLevel > 0) {
 						var width = -1;
 
+						blockquoteLevel--;
+
 						if (this.toSet.tagName == "DIV" && blockquoteLevel * 2 < EvoEditor.NORMAL_PARAGRAPH_WIDTH)
 							width = EvoEditor.NORMAL_PARAGRAPH_WIDTH - blockquoteLevel * 2;
 
@@ -1836,14 +1838,15 @@ EvoEditor.quoteParagraphWrap = function(node, lineLength, wrapWidth, prefixHtml)
 				node.remove();
 				node = next;
 
-				var br = document.createElement("BR");
-				br.className = "-x-evo-wrap-br";
+				// add the prefix and <br> only if there's still anything to be quoted
+				if (node.nodeValue.length) {
+					var br = document.createElement("BR");
+					br.className = "-x-evo-wrap-br";
 
-				node.parentElement.insertBefore(br, node);
+					node.parentElement.insertBefore(br, node);
 
-				// add the prefix only if there's still anything to be quoted
-				if (node.nodeValue.length)
 					br.insertAdjacentHTML("afterend", prefixHtml);
+				}
 			}
 
 			offset = 0;
@@ -2975,6 +2978,10 @@ EvoEditor.maybeUpdateParagraphWidth = function(topNode)
 		}
 
 		if (citeLevel * 2 < EvoEditor.NORMAL_PARAGRAPH_WIDTH) {
+			// to include the '> ' into the line length
+			if (citeLevel >= 1)
+				citeLevel--;
+
 			topNode.style.width = (EvoEditor.NORMAL_PARAGRAPH_WIDTH - citeLevel * 2) + "ch";
 		}
 	}
