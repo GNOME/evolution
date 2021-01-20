@@ -1840,7 +1840,10 @@ EvoEditor.quoteParagraphWrap = function(node, lineLength, wrapWidth, prefixHtml)
 				br.className = "-x-evo-wrap-br";
 
 				node.parentElement.insertBefore(br, node);
-				br.insertAdjacentHTML("afterend", prefixHtml);
+
+				// add the prefix only if there's still anything to be quoted
+				if (node.nodeValue.length)
+					br.insertAdjacentHTML("afterend", prefixHtml);
 			}
 
 			offset = 0;
