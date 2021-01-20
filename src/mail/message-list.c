@@ -4569,14 +4569,10 @@ ml_uid_nodemap_insert (MessageList *message_list,
                        GNode *parent,
                        gint row)
 {
-	CamelFolder *folder;
 	GNode *node;
 	const gchar *uid;
 	time_t date;
 	guint flags;
-
-	folder = message_list_ref_folder (message_list);
-	g_return_val_if_fail (folder != NULL, NULL);
 
 	if (parent == NULL)
 		parent = message_list->priv->tree_model_root;
@@ -4608,8 +4604,6 @@ ml_uid_nodemap_insert (MessageList *message_list,
 		}
 	}
 
-	g_object_unref (folder);
-
 	return node;
 }
 
@@ -4617,11 +4611,7 @@ static void
 ml_uid_nodemap_remove (MessageList *message_list,
                        CamelMessageInfo *info)
 {
-	CamelFolder *folder;
 	const gchar *uid;
-
-	folder = message_list_ref_folder (message_list);
-	g_return_if_fail (folder != NULL);
 
 	uid = camel_message_info_get_uid (info);
 
@@ -4637,8 +4627,6 @@ ml_uid_nodemap_remove (MessageList *message_list,
 
 	g_hash_table_remove (message_list->uid_nodemap, uid);
 	g_clear_object (&info);
-
-	g_object_unref (folder);
 }
 
 /* only call if we have a tree model */
