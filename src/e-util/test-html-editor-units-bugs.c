@@ -1219,39 +1219,39 @@ test_bug_788829 (TestFixture *fixture)
 	if (!test_utils_run_simple_test (fixture,
 		"",
 		HTML_PREFIX "<div style=\"width: 71ch;\">On Today, User wrote:</div><blockquote type=\"cite\">"
-		"<div>" QUOTE_SPAN (QUOTE_CHR) "Xxxxx xx xxxxxxxxx xx xxxxxxx xx xxxxx xxxx xxxx xx xxx xxx xxxx xxx<br class=\"-x-evo-wrap-br\">"
-		QUOTE_SPAN (QUOTE_CHR) "xxxçx xôxé \"xxxxx xxxx xxxxxxx xxx\" xx xxxx xxxxé xxx xxx xxxéx xxx<br class=\"-x-evo-wrap-br\">"
-		QUOTE_SPAN (QUOTE_CHR) "x'x xéxxxxé x'xxxxxxxxx xx xxx \"Xxxx XXX Xxxxxx Xxx\". Xx xxxx<br class=\"-x-evo-wrap-br\">"
-		QUOTE_SPAN (QUOTE_CHR) "xxxxxxxx xxx xxxxxxxxxxxxxxxx.xx (xxxxxxx xxxxxxxxxx xx .xxx). Xxxx<br class=\"-x-evo-wrap-br\">"
-		QUOTE_SPAN (QUOTE_CHR) "êxxx xxx xxxxxxxxxxx xxxéxxxxxxxx, xxxx xxxxx xx XXX xx xéxxx à xx<br class=\"-x-evo-wrap-br\">"
-		QUOTE_SPAN (QUOTE_CHR) "xxx \"xxx xxxxxx xxxx xx xxxxxxx\" xx xxxx xx xxxxx xxxxxxxx xxxxxxxx<br class=\"-x-evo-wrap-br\">"
+		"<div>" QUOTE_SPAN (QUOTE_CHR) "Xxxxx xx xxxxxxxxx xx xxxxxxx xx xxxxx xxxx xxxx xx xxx xxx xxxx xxx" WRAP_BR
+		QUOTE_SPAN (QUOTE_CHR) "xxxçx xôxé \"xxxxx xxxx xxxxxxx xxx\" xx xxxx xxxxé xxx xxx xxxéx xxx" WRAP_BR
+		QUOTE_SPAN (QUOTE_CHR) "x'x xéxxxxé x'xxxxxxxxx xx xxx \"Xxxx XXX Xxxxxx Xxx\". Xx xxxx" WRAP_BR
+		QUOTE_SPAN (QUOTE_CHR) "xxxxxxxx xxx xxxxxxxxxxxxxxxx.xx (xxxxxxx xxxxxxxxxx xx .xxx). Xxxx" WRAP_BR
+		QUOTE_SPAN (QUOTE_CHR) "êxxx xxx xxxxxxxxxxx xxxéxxxxxxxx, xxxx xxxxx xx XXX xx xéxxx à xx" WRAP_BR
+		QUOTE_SPAN (QUOTE_CHR) "xxx \"xxx xxxxxx xxxx xx xxxxxxx\" xx xxxx xx xxxxx xxxxxxxx xxxxxxxx" WRAP_BR
 		QUOTE_SPAN (QUOTE_CHR) "xx $ xx xxxx x'xxxxxx.</div>"
 		"<div>" QUOTE_SPAN (QUOTE_CHR) "<br></div>"
-		"<div>" QUOTE_SPAN (QUOTE_CHR) "Xxxx xx xéxxxxxxx, xxxxxxxx xxxxxxx (!), xxxxxxx à xxx, xxxx ooo$ XXX<br class=\"-x-evo-wrap-br\">"
-		QUOTE_SPAN (QUOTE_CHR) "xxxxé:<br class=\"-x-evo-wrap-br\">"
+		"<div>" QUOTE_SPAN (QUOTE_CHR) "Xxxx xx xéxxxxxxx, xxxxxxxx xxxxxxx (!), xxxxxxx à xxx, xxxx ooo$ XXX" WRAP_BR
+		QUOTE_SPAN (QUOTE_CHR) "xxxxé:" WRAP_BR
 		QUOTE_SPAN (QUOTE_CHR) "<a href=\"https://xxxxxxxxxxxxxxxx.xx/xxxxxxx/xxxxx-xxxx-xxxxxxxx-xxxxx-xxxx-xxx-xxxxxxxx-xxx/\">https://"
-		"xxxxxxxxxxxxxxxx.xx/xxxxxxx/xxxxx-xxxx-xxxxxxxx-xxxxx-xxxx-xxx-xxxxxxxx-xxx/</a><br class=\"-x-evo-wrap-br\">"
-		QUOTE_SPAN (QUOTE_CHR) "xx xx xxxx xéxéxxxxxxx x'xxxxxx xxxx xx xxxxxx xx xxxxxxxxxxxx xx xxx<br class=\"-x-evo-wrap-br\">"
-		QUOTE_SPAN (QUOTE_CHR) "(xxxxx Xxxxxx) xxxx xxxx x'xxxxxxx xx xxxxxx:<br class=\"-x-evo-wrap-br\">"
+		"xxxxxxxxxxxxxxxx.xx/xxxxxxx/xxxxx-xxxx-xxxxxxxx-xxxxx-xxxx-xxx-xxxxxxxx-xxx/</a>" WRAP_BR
+		QUOTE_SPAN (QUOTE_CHR) "xx xx xxxx xéxéxxxxxxx x'xxxxxx xxxx xx xxxxxx xx xxxxxxxxxxxx xx xxx" WRAP_BR
+		QUOTE_SPAN (QUOTE_CHR) "(xxxxx Xxxxxx) xxxx xxxx x'xxxxxxx xx xxxxxx:" WRAP_BR
 		QUOTE_SPAN (QUOTE_CHR) "<a href=\"https://xxxxxxxxxxxxxxxx.xxx/xx-xxxxxxx/xxxxxxx/Xxxxxxxxxxxx-Xxxxx-Xxxx-XXX-Xxxxxx-Xxx.xxx\">https://xxxxxx"
 		"xxxxxxxxxx.xxx/xx-xxxxxxx/xxxxxxx/Xxxxxxxxxxxx-Xxxxx-Xxxx-XXX-Xxxxxx-Xxx.xxx</a></div>"
 		"<div>" QUOTE_SPAN (QUOTE_CHR) "<br></div>"
-		"<div>" QUOTE_SPAN (QUOTE_CHR) "Xxxx xxx xxx xxxxxxx xxxxxxxéxx x'xxxêxxxx à xxxxx, xxx xx xxxxé xx<br class=\"-x-evo-wrap-br\">"
-		QUOTE_SPAN (QUOTE_CHR) "oooxooo xxxxx xxxxx xxxx... xxxx x'xxx xxxxxxxxxxxx xxxxx xxx<br class=\"-x-evo-wrap-br\">"
-		QUOTE_SPAN (QUOTE_CHR) "xxxxxxxx xx \"xx xxxxx xxx xxx xxxxxxx xxxxxxx xxxxxxxxxxxxxx xxxx<br class=\"-x-evo-wrap-br\">"
-		QUOTE_SPAN (QUOTE_CHR) "xxxxx xxxxxx xx xx xxxx xx x'xxxxxx\". Xx xxxx-êxxx xxx xx xxxxxxxx xx<br class=\"-x-evo-wrap-br\">"
+		"<div>" QUOTE_SPAN (QUOTE_CHR) "Xxxx xxx xxx xxxxxxx xxxxxxxéxx x'xxxêxxxx à xxxxx, xxx xx xxxxé xx" WRAP_BR
+		QUOTE_SPAN (QUOTE_CHR) "oooxooo xxxxx xxxxx xxxx... xxxx x'xxx xxxxxxxxxxxx xxxxx xxx" WRAP_BR
+		QUOTE_SPAN (QUOTE_CHR) "xxxxxxxx xx \"xx xxxxx xxx xxx xxxxxxx xxxxxxx xxxxxxxxxxxxxx xxxx" WRAP_BR
+		QUOTE_SPAN (QUOTE_CHR) "xxxxx xxxxxx xx xx xxxx xx x'xxxxxx\". Xx xxxx-êxxx xxx xx xxxxxxxx xx" WRAP_BR
 		QUOTE_SPAN (QUOTE_CHR) "xxxx \"x'xxxêxx à xxxxx xx oooxooo xxxx xxx xéxxxxxxxx, xxxx\"...</div>"
 		"<div>" QUOTE_SPAN (QUOTE_CHR) "<br></div>"
-		"<div>" QUOTE_SPAN (QUOTE_CHR) "Xxxxx xxxxxx'xx xxx x xxxx xxxxxxx xxxxx xx xxèx xxxxxxxxx<br class=\"-x-evo-wrap-br\">"
-		QUOTE_SPAN (QUOTE_CHR) "xxxxxxxxxxxxxxxx à xx xxx x'xx xx xêxx (éxxxxxxxxx xxxx-xx-xxxxxxxx):<br class=\"-x-evo-wrap-br\">"
+		"<div>" QUOTE_SPAN (QUOTE_CHR) "Xxxxx xxxxxx'xx xxx x xxxx xxxxxxx xxxxx xx xxèx xxxxxxxxx" WRAP_BR
+		QUOTE_SPAN (QUOTE_CHR) "xxxxxxxxxxxxxxxx à xx xxx x'xx xx xêxx (éxxxxxxxxx xxxx-xx-xxxxxxxx):" WRAP_BR
 		QUOTE_SPAN (QUOTE_CHR) "<a href=\"https://xxxxxxxxxxxxxxxx.xxx/xx-xxxxxxx/xxxxxxx/Xxxxx-xxxx-xxx-xxxxxxxxxx-xxxxx.xxx\">https://xxxxxx"
-		"xxxxxxxxxx.xxx/xx-xxxxxxx/xxxxxxx/Xxxxx-xxxx-xxx-xxxxxxxxxx-xxxxx.xxx</a><br class=\"-x-evo-wrap-br\">"
+		"xxxxxxxxxx.xxx/xx-xxxxxxx/xxxxxxx/Xxxxx-xxxx-xxx-xxxxxxxxxx-xxxxx.xxx</a>" WRAP_BR
 		QUOTE_SPAN (QUOTE_CHR) ";&nbsp;</div>"
 		"<div>" QUOTE_SPAN (QUOTE_CHR) "<br></div>"
-		"<div>" QUOTE_SPAN (QUOTE_CHR) "...x'x xxxxx xx xxxxxx x'xxxxxx xéxxxxxxx, xx xxx xxxx xxxxxx<br class=\"-x-evo-wrap-br\">"
-		QUOTE_SPAN (QUOTE_CHR) "x'xxxxxxxxxxx xxxxxx, xxxx<br class=\"-x-evo-wrap-br\">"
+		"<div>" QUOTE_SPAN (QUOTE_CHR) "...x'x xxxxx xx xxxxxx x'xxxxxx xéxxxxxxx, xx xxx xxxx xxxxxx" WRAP_BR
+		QUOTE_SPAN (QUOTE_CHR) "x'xxxxxxxxxxx xxxxxx, xxxx" WRAP_BR
 		QUOTE_SPAN (QUOTE_CHR) "<a href=\"https://xxxxxxxxxxxxxxxx.xxx/xxxxxxxx-xxxxxxx-xxxx-xxx-o/\">"
-		"https://xxxxxxxxxxxxxxxx.xxx/xxxxxxxx-xxxxxxx-xxxx-xxx-o/</a> xxxxx xxx<br class=\"-x-evo-wrap-br\">"
+		"https://xxxxxxxxxxxxxxxx.xxx/xxxxxxxx-xxxxxxx-xxxx-xxx-o/</a> xxxxx xxx" WRAP_BR
 		QUOTE_SPAN (QUOTE_CHR) "<a href=\"https://xxxxxxxxxxxxxxxx.xxx/xxxxxxxx-xxxxxxx-xxxx-xxx-o/\">https://xxxxxxxxx"
 		"xxxxxxx.xxx/xxxxxxxx-xxxxxxx-xxxx-xxx-o/</a> ...</div></blockquote>" HTML_SUFFIX,
 		"On Today, User wrote:\n"
@@ -2106,6 +2106,47 @@ test_issue_1214 (TestFixture *fixture)
 	}
 }
 
+static void
+test_issue_1330 (TestFixture *fixture)
+{
+	test_utils_fixture_change_setting_boolean (fixture, "org.gnome.evolution.mail", "composer-wrap-quoted-text-in-replies", TRUE);
+	test_utils_fixture_change_setting_int32 (fixture, "org.gnome.evolution.mail", "composer-word-wrap-length", 12);
+
+	if (!test_utils_process_commands (fixture,
+		"mode:plain\n")) {
+		g_test_fail ();
+		return;
+	}
+
+	test_utils_insert_content (fixture,
+		"<body><div>123 567 90 <br></div>"
+		"<div>2345678901 <br></div>"
+		"<div>34 67 9012 <br></div>"
+		"<div>45678 0 2 4 6 8 0</div>"
+		"<span class=\"-x-evo-to-body\" data-credits=\"Credits:\"></span>"
+		"<span class=\"-x-evo-cite-body\"></span></body>",
+		E_CONTENT_EDITOR_INSERT_REPLACE_ALL | E_CONTENT_EDITOR_INSERT_TEXT_HTML);
+
+	if (!test_utils_run_simple_test (fixture,
+		"",
+		HTML_PREFIX "<div style=\"width: 12ch;\">Credits:</div>"
+		"<blockquote type=\"cite\">"
+		"<div>" QUOTE_SPAN (QUOTE_CHR) "123 567 90" WRAP_BR "</div>"
+		"<div>" QUOTE_SPAN (QUOTE_CHR) "2345678901" WRAP_BR "</div>"
+		"<div>" QUOTE_SPAN (QUOTE_CHR) "34 67 9012" WRAP_BR "</div>"
+		"<div>" QUOTE_SPAN (QUOTE_CHR) "45678 0 2" WRAP_BR
+		QUOTE_SPAN (QUOTE_CHR) "4 6 8 0</div>"
+		"</blockquote>"
+		HTML_SUFFIX,
+		"Credits:\n"
+		"> 123 567 90\n"
+		"> 2345678901\n"
+		"> 34 67 9012\n"
+		"> 45678 0 2\n"
+		"> 4 6 8 0\n"))
+		g_test_fail ();
+}
+
 void
 test_add_html_editor_bug_tests (void)
 {
@@ -2143,4 +2184,5 @@ test_add_html_editor_bug_tests (void)
 	test_utils_add_test ("/issue/1197", test_issue_1197);
 	test_utils_add_test ("/issue/913", test_issue_913);
 	test_utils_add_test ("/issue/1214", test_issue_1214);
+	test_utils_add_test ("/issue/1330", test_issue_1330);
 }
