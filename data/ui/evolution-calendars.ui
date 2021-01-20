@@ -77,9 +77,9 @@
     <menuitem action='calendar-popup-properties'/>
   </popup>
   <popup name='calendar-empty-popup'>
-    <menuitem action='event-new'/>
-    <menuitem action='event-all-day-new'/>
-    <menuitem action='event-meeting-new'/>
+    <menuitem action='event-popup-new'/>
+    <menuitem action='event-popup-all-day-new'/>
+    <menuitem action='event-popup-meeting-new'/>
     <menuitem action='task-new'/>
     <separator/>
     <menuitem action='event-popup-print'/>

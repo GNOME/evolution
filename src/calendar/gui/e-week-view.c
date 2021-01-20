@@ -2980,7 +2980,7 @@ e_week_view_on_button_press (GtkWidget *widget,
 				week_view->before_click_dtstart,
 				week_view->before_click_dtend);
 		}
-		e_calendar_view_new_appointment (E_CALENDAR_VIEW (week_view), E_NEW_APPOINTMENT_FLAG_NO_PAST_DATE |
+		e_calendar_view_new_appointment (E_CALENDAR_VIEW (week_view),
 			(calendar_config_get_prefer_meeting () ? E_NEW_APPOINTMENT_FLAG_MEETING : 0));
 		return TRUE;
 	}

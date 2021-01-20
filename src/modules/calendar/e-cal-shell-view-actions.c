@@ -510,20 +510,6 @@ action_calendar_view_cb (GtkRadioAction *action,
 }
 
 static void
-action_event_all_day_new_cb (GtkAction *action,
-                             ECalShellView *cal_shell_view)
-{
-	ECalShellContent *cal_shell_content;
-	ECalendarView *calendar_view;
-
-	cal_shell_content = cal_shell_view->priv->cal_shell_content;
-	calendar_view = e_cal_shell_content_get_current_calendar_view (cal_shell_content);
-
-	e_calendar_view_new_appointment (calendar_view, E_NEW_APPOINTMENT_FLAG_ALL_DAY | E_NEW_APPOINTMENT_FLAG_NO_PAST_DATE |
-		(e_shell_view_is_active (E_SHELL_VIEW (cal_shell_view)) ? 0 : E_NEW_APPOINTMENT_FLAG_FORCE_CURRENT_TIME));
-}
-
-static void
 cal_shell_view_transfer_selected (ECalShellView *cal_shell_view,
 				  gboolean is_move)
 {
@@ -777,30 +763,24 @@ action_event_forward_cb (GtkAction *action,
 }
 
 static void
-action_event_meeting_new_cb (GtkAction *action,
-                             ECalShellView *cal_shell_view)
+action_event_popup_new_cb (GtkAction *action,
+			   ECalShellView *cal_shell_view)
 {
 	ECalShellContent *cal_shell_content;
 	ECalendarView *calendar_view;
+	const gchar *action_name;
+	gboolean is_all_day, is_meeting;
 
 	cal_shell_content = cal_shell_view->priv->cal_shell_content;
 	calendar_view = e_cal_shell_content_get_current_calendar_view (cal_shell_content);
 
-	e_calendar_view_new_appointment (calendar_view, E_NEW_APPOINTMENT_FLAG_MEETING | E_NEW_APPOINTMENT_FLAG_NO_PAST_DATE |
-		(e_shell_view_is_active (E_SHELL_VIEW (cal_shell_view)) ? 0 : E_NEW_APPOINTMENT_FLAG_FORCE_CURRENT_TIME));
-}
+	action_name = gtk_action_get_name (action);
+	is_all_day = g_strcmp0 (action_name, "event-popup-all-day-new") == 0;
+	is_meeting = g_strcmp0 (action_name, "event-popup-meeting-new") == 0;
 
-static void
-action_event_new_cb (GtkAction *action,
-                     ECalShellView *cal_shell_view)
-{
-	ECalShellContent *cal_shell_content;
-	ECalendarView *calendar_view;
-
-	cal_shell_content = cal_shell_view->priv->cal_shell_content;
-	calendar_view = e_cal_shell_content_get_current_calendar_view (cal_shell_content);
-
-	e_calendar_view_new_appointment (calendar_view, E_NEW_APPOINTMENT_FLAG_NO_PAST_DATE |
+	e_calendar_view_new_appointment (calendar_view,
+		(is_all_day ? E_NEW_APPOINTMENT_FLAG_ALL_DAY : 0) |
+		(is_meeting ? E_NEW_APPOINTMENT_FLAG_MEETING : 0) |
 		(e_shell_view_is_active (E_SHELL_VIEW (cal_shell_view)) ? 0 : E_NEW_APPOINTMENT_FLAG_FORCE_CURRENT_TIME));
 }
 
@@ -1391,12 +1371,12 @@ static GtkActionEntry calendar_entries[] = {
 	  N_("Edit the current appointment as new"),
 	  G_CALLBACK (action_event_edit_as_new_cb) },
 
-	{ "event-all-day-new",
+	{ "event-popup-all-day-new",
 	  "stock_new-24h-appointment",
 	  N_("New All Day _Event…"),
 	  NULL,
 	  N_("Create a new all day event"),
-	  G_CALLBACK (action_event_all_day_new_cb) },
+	  G_CALLBACK (action_event_popup_new_cb) },
 
 	{ "event-forward",
 	  "mail-forward",
@@ -1405,12 +1385,12 @@ static GtkActionEntry calendar_entries[] = {
 	  NULL,  /* XXX Add a tooltip! */
 	  G_CALLBACK (action_event_forward_cb) },
 
-	{ "event-meeting-new",
+	{ "event-popup-meeting-new",
 	  "stock_people",
 	  N_("New _Meeting…"),
 	  NULL,
 	  N_("Create a new meeting"),
-	  G_CALLBACK (action_event_meeting_new_cb) },
+	  G_CALLBACK (action_event_popup_new_cb) },
 
 	{ "event-move",
 	  NULL,
@@ -1419,12 +1399,12 @@ static GtkActionEntry calendar_entries[] = {
 	  NULL,  /* XXX Add a tooltip! */
 	  G_CALLBACK (action_event_move_cb) },
 
-	{ "event-new",
+	{ "event-popup-new",
 	  "appointment-new",
 	  N_("New _Appointment…"),
 	  NULL,
 	  N_("Create a new appointment"),
-	  G_CALLBACK (action_event_new_cb) },
+	  G_CALLBACK (action_event_popup_new_cb) },
 
 	{ "event-occurrence-movable",
 	  NULL,
