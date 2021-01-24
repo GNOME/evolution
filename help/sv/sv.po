@@ -1,15 +1,15 @@
 # Swedish messages for Evolution manual.
-# Copyright © 2007-2020 Free Software Foundation, Inc.
+# Copyright © 2007-2021 Free Software Foundation, Inc.
 # Daniel Nylander <po@danielnylander.se>, 2007.
 # Sebastian Rasmussen <sebras@gmail.com>, 2016, 2018.
-# Anders Jonsson <anders.jonsson@norsjovallen.se>, 2017, 2018, 2019, 2020.
+# Anders Jonsson <anders.jonsson@norsjovallen.se>, 2017, 2018, 2019, 2020, 2021.
 msgid ""
 msgstr ""
 "Project-Id-Version: evolution.help.HEAD\n"
 "Report-Msgid-Bugs-To: http://bugzilla.gnome.org/enter_bug.cgi?"
 "product=evolution&keywords=I18N+L10N&component=User%20Documentation\n"
-"POT-Creation-Date: 2020-11-01 13:52+0000\n"
-"PO-Revision-Date: 2020-12-05 11:37+0100\n"
+"POT-Creation-Date: 2021-01-24 08:50+0000\n"
+"PO-Revision-Date: 2021-01-24 22:09+0100\n"
 "Last-Translator: Anders Jonsson <anders.jonsson@norsjovallen.se>\n"
 "Language-Team: Swedish <tp-sv@listor.tp-sv.se>\n"
 "Language: sv\n"
@@ -14349,6 +14349,7 @@ msgstr "Vilken rubrik som helst inklusive <_:link-1/>."
 #. (itstool) path: p/app
 #: C/xinclude-filter-vfolder-conditions.xml:23
 #: C/xinclude-filter-vfolder-conditions.xml:29
+#: C/xinclude-filter-vfolder-conditions.xml:62
 msgid "Evolution"
 msgstr "Evolution"
 
@@ -14575,32 +14576,22 @@ msgstr "Regex-matchning:"
 msgid "regex"
 msgstr "regex"
 
-#. (itstool) path: link/cmd
-#: C/xinclude-filter-vfolder-conditions.xml:62
-msgid "grep"
-msgstr "grep"
-
-#. (itstool) path: p/link
-#: C/xinclude-filter-vfolder-conditions.xml:62
-msgid "the man page for the <_:cmd-1/>"
-msgstr "manualsidan för <_:cmd-1/>"
-
 #. (itstool) path: item/p
 #: C/xinclude-filter-vfolder-conditions.xml:62
 msgid ""
-"(For programmers only) If you know your way around a <_:link-1/>, or regular "
+"(For advanced users) If you know your way around a <_:link-1/>, or regular "
 "expression, this option allows you to search for complex patterns of "
 "letters, so that you can find, for example, all words that start with \"a\" "
 "and end with \"m\", and are between six and fifteen letters long, or all "
-"messages that declare a particular header twice. For information about how "
-"to use regular expressions, check <_:link-2/> command."
+"messages that declare a particular header twice. <_:app-2/> supports the "
+"Extended Regular Expression syntax (ERE)."
 msgstr ""
-"(Endast för programmerare) Om du vet hur <_:link-1/>, eller reguljära "
+"(För avancerade användare) Om du vet hur <_:link-1/>, eller reguljära "
 "uttryck, fungerar då låter denna inställning dig söka efter komplexa mönster "
 "av bokstäver så att du kan till exempel kan hitta alla ord som börja med ”a” "
 "och slutar med ”m” och är mellan sex och femton bokstäver långa, eller alla "
-"meddelanden som deklarerar en särskilt rubrik två gånger. För information om "
-"hur man använder reguljära uttryck, se <_:link-2/>-kommandot."
+"meddelanden som deklarerar en särskilt rubrik två gånger. <_:app-2/> har "
+"stöd för syntaxen för utökade reguljära uttryck (ERE)."
 
 #. (itstool) path: section/title
 #. (itstool) path: guiseq/gui
@@ -14762,6 +14753,12 @@ msgstr "Redigera titeln eller sökvillkoren från dialogrutan."
 #: C/xinclude-searching.xml:30
 msgid "Click <_:gui-1/>."
 msgstr "Klicka på <_:gui-1/>."
+
+#~ msgid "grep"
+#~ msgstr "grep"
+
+#~ msgid "the man page for the <_:cmd-1/>"
+#~ msgstr "manualsidan för <_:cmd-1/>"
 
 #~ msgid "An introduction to <app>Evolution</app>."
 #~ msgstr "En introduktion till <app>Evolution</app>."
@@ -15240,11 +15237,3 @@ msgstr "Klicka på <_:gui-1/>."
 
 #~ msgid "Evolution displays the search results."
 #~ msgstr "Evolution visar sökresultaten."
-
-#, fuzzy
-#~ msgid "On minimizing Evolution to the notification area."
-#~ msgstr "Blinka med ikonen i notifieringsytan."
-
-#, fuzzy
-#~ msgid "Minimizing Evolution to the system tray"
-#~ msgstr "Konfigurera Evolution till att använda LDAP"
