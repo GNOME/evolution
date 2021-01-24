@@ -59,6 +59,6 @@
 <p>Filters based on the mailing list the message came from. This filter checks for a variety of common mailing list related headers but might miss messages from some list servers if they use uncommon headers.</p></item>
 
 <item><p>Regex Match:</p>
-<p>(For programmers only) If you know your way around a <link href="https://en.wikipedia.org/wiki/Regular_expression">regex</link>, or regular expression, this option allows you to search for complex patterns of letters, so that you can find, for example, all words that start with "a" and end with "m", and are between six and fifteen letters long, or all messages that declare a particular header twice. For information about how to use regular expressions, check <link href="man:grep">the man page for the <cmd>grep</cmd></link> command.</p></item>
+<p>(For advanced users) If you know your way around a <link href="https://en.wikipedia.org/wiki/Regular_expression">regex</link>, or regular expression, this option allows you to search for complex patterns of letters, so that you can find, for example, all words that start with "a" and end with "m", and are between six and fifteen letters long, or all messages that declare a particular header twice. <app>Evolution</app> supports the Extended Regular Expression syntax (ERE).</p></item>
 
 </info>
