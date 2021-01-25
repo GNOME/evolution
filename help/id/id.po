@@ -6,8 +6,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: evolution master\n"
-"POT-Creation-Date: 2020-12-10 21:14+0000\n"
-"PO-Revision-Date: 2021-01-02 12:26+0700\n"
+"POT-Creation-Date: 2021-01-24 21:13+0000\n"
+"PO-Revision-Date: 2021-01-25 22:52+0700\n"
 "Last-Translator: \n"
 "Language-Team: Indonesian <gnome-l10n-id@googlegroups.com>\n"
 "Language: id\n"
@@ -4371,7 +4371,6 @@ msgstr "Direktori Surat MH-Format"
 
 #. (itstool) path: section/p
 #: C/intro-first-run.page:173
-#, fuzzy
 msgid "For downloading email using MH or another MH-style application."
 msgstr "Untuk mengunduh surel menggunakan MH atau aplikasi gaya MH lainnya."
 
@@ -4433,7 +4432,6 @@ msgstr "Direktori spool mbox Unix standar"
 
 #. (itstool) path: section/p
 #: C/intro-first-run.page:221
-#, fuzzy
 msgid ""
 "Standard Unix mbox spool directory: For reading and storing email in the "
 "mail spool directory on your local system."
@@ -4455,7 +4453,6 @@ msgstr "Nihil"
 
 #. (itstool) path: section/p
 #: C/intro-first-run.page:237
-#, fuzzy
 msgid "If you do not plan to use <app>Evolution</app> for receiving email."
 msgstr ""
 "Jika Anda tidak berencana menggunakan <app>Evolution</app> untuk menerima "
@@ -4478,7 +4475,6 @@ msgstr "SMTP"
 
 #. (itstool) path: section/p
 #: C/intro-first-run.page:248
-#, fuzzy
 msgid ""
 "Sends mail using an outbound mail server. This is the most common choice for "
 "sending mail."
@@ -4499,7 +4495,6 @@ msgstr "Sendmail"
 
 #. (itstool) path: section/p
 #: C/intro-first-run.page:264
-#, fuzzy
 msgid ""
 "Uses the <app>Sendmail</app> application to send mail from your system. It "
 "is not easy to configure, so you should select this option only if you know "
@@ -4526,13 +4521,12 @@ msgstr "Mengimpor Surat (Opsional)"
 
 #. (itstool) path: section/p
 #: C/intro-first-run.page:276
-#, fuzzy
 msgid ""
 "Continue with <link xref=\"import-data\">Importing data from another "
 "application</link>."
 msgstr ""
-"Lanjutkan dengan <link xref=\"import-data\"> Mengimpor data dari aplikasi "
-"lain."
+"Lanjutkan dengan <link xref=\"import-data\">Mengimpor data dari aplikasi "
+"lain</link>."
 
 #. (itstool) path: info/desc
 #: C/intro-keyboard-shortcuts.page:5
@@ -5080,7 +5074,6 @@ msgstr ""
 
 #. (itstool) path: note/p
 #: C/intro-keyboard-shortcuts.page:345
-#, fuzzy
 msgid ""
 "See <link href=\"https://major.io/2015/11/27/custom-keyboard-shortcuts-for-"
 "evolution-in-gnome/\">this blog post</link> for more information."
@@ -6075,25 +6068,23 @@ msgstr ""
 
 #. (itstool) path: section/title
 #: C/mail-account-manage-microsoft-exchange-evo-ews.page:68
-#, fuzzy
 msgid "Delegates"
-msgstr "Delegasi"
+msgstr "Mendelegasikan"
 
 #. (itstool) path: section/p
 #: C/mail-account-manage-microsoft-exchange-evo-ews.page:69
-#, fuzzy
 msgid ""
 "Define who can send emails and reply to meeting requests on your behalf."
 msgstr ""
-"Tentukan siapa yang bisa mengirim surel dan membalas permintaan rapat atas "
+"Menentukan siapa yang bisa mengirim surel dan membalas permintaan rapat atas "
 "nama Anda."
 
 #. (itstool) path: info/desc
 #: C/mail-account-manage-microsoft-exchange-evo-mapi.page:5
-#, fuzzy
 msgid "Add and edit a Microsoft Exchange MAPI account in <app>Evolution</app>."
 msgstr ""
-"Tambahkan dan edit akun Microsoft Exchange MAPI di <app>Evolution</app>."
+"Menambahkan dan menyunting akun Microsoft Exchange MAPI di <app>Evolution</"
+"app>."
 
 #. (itstool) path: page/title
 #: C/mail-account-manage-microsoft-exchange-evo-mapi.page:20
@@ -6116,7 +6107,6 @@ msgstr "Default (akun Exchange MAPI)"
 
 #. (itstool) path: info/title
 #: C/mail-account-manage-microsoft-exchange-evo-mapi.page:50
-#, fuzzy
 msgctxt "link"
 msgid "Composing Messages (Exchange MAPI accounts)"
 msgstr "Membuat Pesan (akun Exchange MAPI)"
@@ -6128,22 +6118,20 @@ msgstr "Pengaturan Exchange"
 
 #. (itstool) path: section/p
 #: C/mail-account-manage-microsoft-exchange-evo-mapi.page:58
-#, fuzzy
 msgid "In this section you can view the size of all Exchange folders."
-msgstr "Di bagian ini Anda bisa menampilkan ukuran semua folder Exchange."
+msgstr "Di bagian ini Anda bisa melihat ukuran semua folder Exchange."
 
 #. (itstool) path: info/title
 #: C/mail-account-manage-microsoft-exchange-evo-mapi.page:63
-#, fuzzy
 msgctxt "link"
 msgid "Security (Exchange MAPI accounts)"
 msgstr "Keamanan (akun Exchange MAPI)"
 
 #. (itstool) path: info/desc
 #: C/mail-account-manage-microsoft-exchange.page:7
-#, fuzzy
 msgid "Add and edit a Microsoft Exchange account in <app>Evolution</app>."
-msgstr "Tambahkan dan edit akun Microsoft Exchange di <app>Evolution</app>."
+msgstr ""
+"Menambahkan dan menyunting akun Microsoft Exchange di <app>Evolution</app>."
 
 #. (itstool) path: page/title
 #: C/mail-account-manage-microsoft-exchange.page:22
@@ -8011,7 +7999,6 @@ msgstr "Templat pesan untuk digunakan kembali di komposer."
 #. (itstool) path: section/title
 #: C/mail-composer-message-templates.page:23
 #: C/mail-composer-message-templates.page:35
-#, fuzzy
 msgid "Message Templates"
 msgstr "Templat Pesan"
 
@@ -8033,9 +8020,8 @@ msgstr "Untuk mengaktifkan Plugin Template Pesan:"
 
 #. (itstool) path: item/p
 #: C/mail-composer-message-templates.page:28
-#, fuzzy
 msgid "Enable <gui>Templates</gui>."
-msgstr "Aktifkan <gui>Templat</gui>."
+msgstr "Memfungsikan <gui>Templat</gui>."
 
 #. (itstool) path: info/desc
 #: C/mail-composer-message-templates-reply.page:5
@@ -8077,9 +8063,8 @@ msgstr ""
 
 #. (itstool) path: item/p
 #: C/mail-composer-message-templates-reply.page:34
-#, fuzzy
 msgid "Click <gui>Send</gui>."
-msgstr "Klik <gui>Kirim.</gui>"
+msgstr "Klik <gui>Kirim</gui>."
 
 #. (itstool) path: item/p
 #: C/mail-composer-message-templates-reply.page:35
@@ -8098,13 +8083,11 @@ msgstr "Menyimpan pesan yang sudah ada atau baru sebagai templat"
 
 #. (itstool) path: page/title
 #: C/mail-composer-message-templates-save.page:23
-#, fuzzy
 msgid "Saving Messages as Templates"
 msgstr "Menyimpan Pesan sebagai Templat"
 
 #. (itstool) path: section/title
 #: C/mail-composer-message-templates-save.page:26
-#, fuzzy
 msgid "Saving an Existing Message as a Template"
 msgstr "Menyimpan Pesan yang Sudah Ada sebagai Templat"
 
@@ -8186,7 +8169,6 @@ msgstr ""
 
 #. (itstool) path: page/title
 #: C/mail-composer-message-templates-variables.page:23
-#, fuzzy
 msgid "Using Variables in Templates"
 msgstr "Menggunakan Variabel dalam Templat"
 
@@ -8481,21 +8463,18 @@ msgstr ""
 
 #. (itstool) path: info/desc
 #: C/mail-composer-reply.page:5
-#, fuzzy
 msgid "Answering a received email."
 msgstr "Menjawab surel yang diterima."
 
 #. (itstool) path: page/title
 #: C/mail-composer-reply.page:23
-#, fuzzy
 msgid "Replying to a message"
 msgstr "Membalas pesan"
 
 #. (itstool) path: section/title
 #: C/mail-composer-reply.page:26
-#, fuzzy
 msgid "Replying to Email Messages"
-msgstr "Membalas Pesan Email"
+msgstr "Membalas Pesan Surel"
 
 #. (itstool) path: section/p
 #: C/mail-composer-reply.page:27
@@ -8635,9 +8614,8 @@ msgstr ""
 
 #. (itstool) path: item/p
 #: C/mail-composer-search.page:26
-#, fuzzy
 msgid "<gui>Find</gui>:"
-msgstr "<gui>Temukan</gui>:"
+msgstr "<gui>Cari</gui>:"
 
 #. (itstool) path: item/p
 #: C/mail-composer-search.page:27
@@ -8793,7 +8771,6 @@ msgstr ""
 
 #. (itstool) path: section/title
 #: C/mail-composer-several-recipients.page:33
-#, fuzzy
 msgid "Recipient types"
 msgstr "Tipe penerima"
 
@@ -9486,9 +9463,8 @@ msgstr ""
 
 #. (itstool) path: section/title
 #: C/mail-displaying-message.page:26
-#, fuzzy
 msgid "Advanced"
-msgstr "Lanjutan"
+msgstr "Tingkat Lanjut"
 
 #. (itstool) path: info/desc
 #: C/mail-displaying-sender-photograph.page:5
@@ -9595,13 +9571,11 @@ msgstr ""
 
 #. (itstool) path: info/desc
 #: C/mail-duplicates.page:5
-#, fuzzy
 msgid "How to handle duplicated email messages"
 msgstr "Cara menangani pesan surel duplikat"
 
 #. (itstool) path: page/title
 #: C/mail-duplicates.page:24
-#, fuzzy
 msgid "Duplicate emails get downloaded"
 msgstr "Email duplikat diunduh"
 
@@ -9708,7 +9682,6 @@ msgstr "Menerima pesan yang dienkripsi atau ditandatangani melalui GPG"
 
 #. (itstool) path: section/title
 #: C/mail-encryption-gpg-decrypting.page:26
-#, fuzzy
 msgid "Decrypting a received message"
 msgstr "Mendekripsi pesan yang diterima"
 
@@ -9762,13 +9735,11 @@ msgstr ""
 
 #. (itstool) path: info/desc
 #: C/mail-encryption-gpg-getting-keys.page:5
-#, fuzzy
 msgid "Getting and Using GPG Public Keys."
 msgstr "Mendapatkan dan Menggunakan Kunci Publik GPG."
 
 #. (itstool) path: page/title
 #: C/mail-encryption-gpg-getting-keys.page:23
-#, fuzzy
 msgid "Getting and using GPG public keys"
 msgstr "Mendapatkan dan menggunakan kunci publik GPG"
 
@@ -9800,7 +9771,6 @@ msgstr ""
 
 #. (itstool) path: page/title
 #: C/mail-encryption-gpg-set-up.page:23
-#, fuzzy
 msgid "Setting up GPG for your mail account"
 msgstr "Menyiapkan GPG untuk akun surel Anda"
 
@@ -9954,7 +9924,6 @@ msgstr ""
 
 #. (itstool) path: info/desc
 #: C/mail-encryption.page:5
-#, fuzzy
 msgid "Sending and receiving encrypted mail."
 msgstr "Mengirim dan menerima surat terenkripsi."
 
@@ -10129,9 +10098,8 @@ msgstr "Tindakan Filter yang Tersedia"
 
 #. (itstool) path: item/p
 #: C/mail-filters-actions.page:26
-#, fuzzy
 msgid "Move to Folder:"
-msgstr "Pindah ke Map:"
+msgstr "Pindah ke Folder:"
 
 #. (itstool) path: item/p
 #: C/mail-filters-actions.page:27
@@ -10141,9 +10109,8 @@ msgstr "Memindahkan pesan ke dalam folder yang Anda tentukan."
 
 #. (itstool) path: item/p
 #: C/mail-filters-actions.page:29
-#, fuzzy
 msgid "Copy to Folder:"
-msgstr "Salin ke Map:"
+msgstr "Salin ke Folder:"
 
 #. (itstool) path: item/p
 #: C/mail-filters-actions.page:30
@@ -10185,31 +10152,26 @@ msgstr ""
 
 #. (itstool) path: item/p
 #: C/mail-filters-actions.page:38
-#, fuzzy
 msgid "Set Label:"
 msgstr "Atur Label:"
 
 #. (itstool) path: item/p
 #: C/mail-filters-actions.page:39
-#, fuzzy
 msgid "Adds a label to a message."
 msgstr "Menambahkan label ke pesan."
 
 #. (itstool) path: item/p
 #: C/mail-filters-actions.page:41
-#, fuzzy
 msgid "Assign Color:"
 msgstr "Tetapkan Warna:"
 
 #. (itstool) path: item/p
 #: C/mail-filters-actions.page:42
-#, fuzzy
 msgid "Marks the message with a color of your choice."
 msgstr "Menandai pesan dengan warna pilihan Anda."
 
 #. (itstool) path: item/p
 #: C/mail-filters-actions.page:44
-#, fuzzy
 msgid "Assign Score:"
 msgstr "Tetapkan Skor:"
 
@@ -10221,7 +10183,6 @@ msgstr "Menetapkan pesan skor numerik."
 
 #. (itstool) path: item/p
 #: C/mail-filters-actions.page:47
-#, fuzzy
 msgid "Adjust Score:"
 msgstr "Sesuaikan Skor:"
 
@@ -10233,7 +10194,6 @@ msgstr "Mengubah skor numerik dengan jumlah yang Anda tetapkan."
 
 #. (itstool) path: item/p
 #: C/mail-filters-actions.page:50
-#, fuzzy
 msgid "Set Status:"
 msgstr "Atur Status:"
 
@@ -10287,17 +10247,8 @@ msgstr "Pilih berkas suara untuk <app>dimainkan Evolution.</app>"
 
 #. (itstool) path: item/p
 #: C/mail-filters-actions.page:62
-#, fuzzy
 msgid "Run Program:"
-msgstr ""
-"Kejadian pertama yang terdeteksi adalah eksekusi program lain. Dalam hal "
-"ini, Anda memiliki beberapa pilihan: Anda dapat menjalankan program dengan "
-"profil proses induk (pilihan \"Mewarisi\"), Anda dapat menjalankannya "
-"sendiri dengan profil khusus (pilihan \"Profile\" dan \"Named\", hanya "
-"berbeda pada kemungkinan untuk menggunakan nama profil sebarang), Anda dapat "
-"menjalankannya dengan profil sub proses induk (pilihan \"Child\"), Anda "
-"dapat menjalankannya tanpa profil (pilihan \"Unconfined\"), atau Anda dapat "
-"memutuskan untuk tidak menjalankannya sama sekali (pilihan \"Deny\")."
+msgstr "Jalankan Program:"
 
 #. (itstool) path: item/p
 #: C/mail-filters-actions.page:63
@@ -10327,7 +10278,6 @@ msgstr ""
 
 #. (itstool) path: item/p
 #: C/mail-filters-actions.page:68
-#, fuzzy
 msgid "Forward to:"
 msgstr "Teruskan ke:"
 
@@ -10653,7 +10603,6 @@ msgstr ""
 
 #. (itstool) path: section/title
 #: C/mail-filters.page:33
-#, fuzzy
 msgid "Creating a Filter"
 msgstr "Membuat Filter"
 
@@ -10766,9 +10715,8 @@ msgstr ""
 
 #. (itstool) path: section/title
 #: C/mail-filters.page:56
-#, fuzzy
 msgid "Editing Filters"
-msgstr "Mengedit Filter"
+msgstr "Menyunting Filter"
 
 #. (itstool) path: item/p
 #: C/mail-filters.page:58 C/mail-filters.page:68
@@ -11242,7 +11190,6 @@ msgstr ""
 
 #. (itstool) path: page/title
 #: C/mail-labels.page:21
-#, fuzzy
 msgid "Using Labels"
 msgstr "Menggunakan Label"
 
@@ -11301,7 +11248,6 @@ msgstr ""
 
 #. (itstool) path: section/title
 #: C/mail-labels.page:34
-#, fuzzy
 msgid "Managing labels"
 msgstr "Mengelola label"
 
@@ -11419,7 +11365,6 @@ msgstr "Kemungkinan alasan mengapa surel tidak dikirim."
 
 #. (itstool) path: page/title
 #: C/mail-not-sent.page:21
-#, fuzzy
 msgid "Mail is not sent"
 msgstr "Surat tidak terkirim"
 
@@ -11492,9 +11437,8 @@ msgstr ""
 
 #. (itstool) path: section/title
 #: C/mail-organizing.page:26
-#, fuzzy
 msgid "Advanced Options"
-msgstr "Opsi Lanjutan"
+msgstr "Opsi Tingkat Lanjut"
 
 #. (itstool) path: info/desc
 #: C/mail-read-receipts.page:5
@@ -11723,7 +11667,6 @@ msgstr ""
 #: C/mail-receiving-options-unix-mbox-spool-directory.page:34
 #: C/mail-receiving-options-unix-mbox-spool-file.page:34
 #: C/mail-receiving-options-usenet-news.page:41
-#, fuzzy
 msgid "Receiving Options"
 msgstr "Opsi Penerimaan"
 
@@ -12935,7 +12878,6 @@ msgstr "Mengurutkan daftar pesan folder surel."
 
 #. (itstool) path: page/title
 #: C/mail-sorting-message-list.page:28
-#, fuzzy
 msgid "Sorting the message list"
 msgstr "Mengurutkan daftar pesan"
 
@@ -13953,19 +13895,16 @@ msgstr ""
 
 #. (itstool) path: info/desc
 #: C/memos-searching.page:5
-#, fuzzy
 msgid "Searching memos."
 msgstr "Mencari memo."
 
 #. (itstool) path: page/title
 #: C/memos-searching.page:28
-#, fuzzy
 msgid "Searching Memos"
 msgstr "Mencari Memo"
 
 #. (itstool) path: section/title
 #: C/memos-searching.page:31
-#, fuzzy
 msgid "Searching in a Single Memo"
 msgstr "Mencari dalam Memo Tunggal"
 
@@ -14024,7 +13963,6 @@ msgstr "Pilih daftar memo di <gui>daftar turun</gui> bawah Daftar."
 
 #. (itstool) path: item/p
 #: C/memos-usage-add-memo.page:28
-#, fuzzy
 msgid "Enter the memo information."
 msgstr "Masukkan informasi memo."
 
@@ -14153,19 +14091,16 @@ msgstr ""
 
 #. (itstool) path: info/desc
 #: C/memos-usage-edit-memo.page:5
-#, fuzzy
 msgid "Editing a memo in your memo list."
-msgstr "Mengedit memo di daftar memo Anda."
+msgstr "Menyunting memo di daftar memo Anda."
 
 #. (itstool) path: page/title
 #: C/memos-usage-edit-memo.page:20
-#, fuzzy
 msgid "Editing a Memo"
-msgstr "Mengedit Memo"
+msgstr "Menyunting Memo"
 
 #. (itstool) path: page/p
 #: C/memos-usage-edit-memo.page:22
-#, fuzzy
 msgid "If you want to change a memo that already exists in your memo lists,"
 msgstr "Jika Anda ingin mengubah memo yang sudah ada di daftar memo Anda,"
 
@@ -14181,21 +14116,18 @@ msgstr ""
 
 #. (itstool) path: item/p
 #: C/memos-usage-edit-memo.page:26
-#, fuzzy
 msgid "Edit the memo information."
-msgstr "Edit informasi memo."
+msgstr "Sunting informasi memo."
 
 #. (itstool) path: info/desc
 #: C/memos-usage.page:5
-#, fuzzy
 msgid "On adding, editing, and deleting memos."
-msgstr "Pada menambahkan, mengedit, dan menghapus memo."
+msgstr "Tentang menambahkan, menyunting, dan menghapus memo."
 
 #. (itstool) path: page/title
 #: C/memos-usage.page:20
-#, fuzzy
 msgid "Add, Edit and Delete Memos"
-msgstr "Menambahkan, Mengedit, dan Menghapus Memo"
+msgstr "Menambah, Menyunting, dan Menghapus Memo"
 
 #. (itstool) path: note/p
 #: C/memos-usage.page:22
@@ -14486,21 +14418,19 @@ msgstr ""
 
 #. (itstool) path: section/title
 #: C/start-command-line-parameters.page:30
-#, fuzzy
 #| msgid "Windows XP"
 msgid "Windows"
-msgstr "Windows XP"
+msgstr "Windows"
 
 #. (itstool) path: section/p
 #. TO TRANSLATORS: Do NOT translate 'component' here!
 #: C/start-command-line-parameters.page:32
-#, fuzzy
 msgid ""
 "To start <app>Evolution</app> in a specific view, pass the \"component\" "
 "parameter."
 msgstr ""
-"Untuk memulai <app>Evolution</app> dalam tampilan tertentu, lewati parameter "
-"\"component\"."
+"Untuk memulai <app>Evolution</app> dalam tampilan tertentu, berikan "
+"parameter \"component\"."
 
 #. (itstool) path: section/p
 #: C/start-command-line-parameters.page:35
@@ -15257,6 +15187,7 @@ msgstr "Header apa pun termasuk <_:link-1/>."
 #. (itstool) path: p/app
 #: C/xinclude-filter-vfolder-conditions.xml:23
 #: C/xinclude-filter-vfolder-conditions.xml:29
+#: C/xinclude-filter-vfolder-conditions.xml:62
 msgid "Evolution"
 msgstr "Evolution"
 
@@ -15501,25 +15432,23 @@ msgstr "Regex Cocok:"
 msgid "regex"
 msgstr "regex"
 
-#. (itstool) path: link/cmd
-#: C/xinclude-filter-vfolder-conditions.xml:62
-msgid "grep"
-msgstr "grep"
-
-#. (itstool) path: p/link
-#: C/xinclude-filter-vfolder-conditions.xml:62
-msgid "the man page for the <_:cmd-1/>"
-msgstr "halaman man untuk <_:cmd-1/>"
-
 #. (itstool) path: item/p
 #: C/xinclude-filter-vfolder-conditions.xml:62
+#, fuzzy
+#| msgid ""
+#| "(For programmers only) If you know your way around a <_:link-1/>, or "
+#| "regular expression, this option allows you to search for complex patterns "
+#| "of letters, so that you can find, for example, all words that start with "
+#| "\"a\" and end with \"m\", and are between six and fifteen letters long, "
+#| "or all messages that declare a particular header twice. For information "
+#| "about how to use regular expressions, check <_:link-2/> command."
 msgid ""
-"(For programmers only) If you know your way around a <_:link-1/>, or regular "
+"(For advanced users) If you know your way around a <_:link-1/>, or regular "
 "expression, this option allows you to search for complex patterns of "
 "letters, so that you can find, for example, all words that start with \"a\" "
 "and end with \"m\", and are between six and fifteen letters long, or all "
-"messages that declare a particular header twice. For information about how "
-"to use regular expressions, check <_:link-2/> command."
+"messages that declare a particular header twice. <_:app-2/> supports the "
+"Extended Regular Expression syntax (ERE)."
 msgstr ""
 "(Hanya untuk programmer) Jika Anda mengetahui cara menggunakan <_:link-1/>, "
 "atau ekspresi reguler, opsi ini memungkinkan Anda mencari pola huruf yang "
@@ -15690,3 +15619,9 @@ msgstr "Sunting kondisi judul atau pencarian dari kotak dialog."
 #: C/xinclude-searching.xml:30
 msgid "Click <_:gui-1/>."
 msgstr "Klik <_:gui-1/>."
+
+#~ msgid "grep"
+#~ msgstr "grep"
+
+#~ msgid "the man page for the <_:cmd-1/>"
+#~ msgstr "halaman man untuk <_:cmd-1/>"
