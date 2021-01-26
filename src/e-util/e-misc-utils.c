@@ -3455,7 +3455,21 @@ e_util_is_running_gnome (void)
 	static gint runs_gnome = -1;
 
 	if (runs_gnome == -1) {
-		runs_gnome = g_strcmp0 (g_getenv ("XDG_CURRENT_DESKTOP"), "GNOME") == 0 ? 1 : 0;
+		const gchar *desktop;
+		desktop = g_getenv ("XDG_CURRENT_DESKTOP");
+		runs_gnome = 0;
+		if (desktop != NULL) {
+			gint ii;
+			gchar **desktops = g_strsplit (desktop, ":", -1);
+			for (ii = 0; desktops[ii]; ii++) {
+				if (!g_ascii_strcasecmp (desktops[ii], "gnome")) {
+					runs_gnome = 1;
+					break;
+				}
+			}
+			g_strfreev (desktops);
+		}
+
 		if (runs_gnome) {
 			GDesktopAppInfo *app_info;
 
