@@ -97,6 +97,8 @@ struct _EHTMLEditorPrivate {
 	guint recent_spell_languages_merge_id;
 
 	gint editor_layout_row;
+
+	gboolean paste_plain_prefer_pre;
 };
 
 void		editor_actions_init		(EHTMLEditor *editor);

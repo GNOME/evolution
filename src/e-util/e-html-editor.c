@@ -70,7 +70,8 @@
 
 enum {
 	PROP_0,
-	PROP_FILENAME
+	PROP_FILENAME,
+	PROP_PASTE_PLAIN_PREFER_PRE
 };
 
 enum {
@@ -737,6 +738,27 @@ html_editor_realize (GtkWidget *widget)
 }
 
 static void
+html_editor_set_paste_plain_prefer_pre (EHTMLEditor *editor,
+					gboolean value)
+{
+	g_return_if_fail (E_IS_HTML_EDITOR (editor));
+
+	if ((editor->priv->paste_plain_prefer_pre ? 1 : 0) != (value ? 1 : 0)) {
+		editor->priv->paste_plain_prefer_pre = value;
+
+		g_object_notify (G_OBJECT (editor), "paste-plain-prefer-pre");
+	}
+}
+
+static gboolean
+html_editor_get_paste_plain_prefer_pre (EHTMLEditor *editor)
+{
+	g_return_val_if_fail (E_IS_HTML_EDITOR (editor), FALSE);
+
+	return editor->priv->paste_plain_prefer_pre;
+}
+
+static void
 html_editor_set_property (GObject *object,
                           guint property_id,
                           const GValue *value,
@@ -749,6 +771,11 @@ html_editor_set_property (GObject *object,
 				g_value_get_string (value));
 			return;
 
+		case PROP_PASTE_PLAIN_PREFER_PRE:
+			html_editor_set_paste_plain_prefer_pre (
+				E_HTML_EDITOR (object),
+				g_value_get_boolean (value));
+			return;
 	}
 
 	G_OBJECT_WARN_INVALID_PROPERTY_ID (object, property_id, pspec);
@@ -766,6 +793,12 @@ html_editor_get_property (GObject *object,
 				value, e_html_editor_get_filename (
 				E_HTML_EDITOR (object)));
 			return;
+
+		case PROP_PASTE_PLAIN_PREFER_PRE:
+			g_value_set_boolean (
+				value, html_editor_get_paste_plain_prefer_pre (
+				E_HTML_EDITOR (object)));
+			return;
 	}
 
 	G_OBJECT_WARN_INVALID_PROPERTY_ID (object, property_id, pspec);
@@ -776,6 +809,7 @@ html_editor_constructed (GObject *object)
 {
 	EHTMLEditor *editor = E_HTML_EDITOR (object);
 	EHTMLEditorPrivate *priv = editor->priv;
+	GSettings *settings;
 	GdkRGBA transparent = { 0, 0, 0, 0 };
 	GtkWidget *widget;
 	GtkToolbar *toolbar;
@@ -922,6 +956,15 @@ html_editor_constructed (GObject *object)
 	gtk_widget_show_all (GTK_WIDGET (tool_item));
 
 	g_signal_connect_after (object, "realize", G_CALLBACK (html_editor_realize), NULL);
+
+	settings = e_util_ref_settings ("org.gnome.evolution.mail");
+
+	g_settings_bind (
+		settings, "composer-paste-plain-prefer-pre",
+		editor, "paste-plain-prefer-pre",
+		G_SETTINGS_BIND_GET);
+
+	g_object_unref (settings);
 }
 
 static void
@@ -1012,6 +1055,17 @@ e_html_editor_class_init (EHTMLEditorClass *class)
 			NULL,
 			NULL,
 			NULL,
+			G_PARAM_READWRITE |
+			G_PARAM_STATIC_STRINGS));
+
+	g_object_class_install_property (
+		object_class,
+		PROP_PASTE_PLAIN_PREFER_PRE,
+		g_param_spec_boolean (
+			"paste-plain-prefer-pre",
+			NULL,
+			NULL,
+			FALSE,
 			G_PARAM_READWRITE |
 			G_PARAM_STATIC_STRINGS));
 

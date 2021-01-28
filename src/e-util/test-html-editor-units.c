@@ -4348,8 +4348,25 @@ test_paste_multiline_plain2html (TestFixture *fixture)
 {
 	test_utils_set_clipboard_text ("line 1\nline 2\nline 3\n", FALSE);
 
+	test_utils_fixture_change_setting_boolean (fixture, "org.gnome.evolution.mail", "composer-paste-plain-prefer-pre", FALSE);
+
 	if (!test_utils_run_simple_test (fixture,
 		"mode:html\n"
+		"type:text before \n"
+		"action:paste\n"
+		"type:text after\n",
+		HTML_PREFIX "<div>text before line 1</div><div>line 2</div><div>line 3</div><div>text after</div>" HTML_SUFFIX,
+		"text before line 1\nline 2\nline 3\ntext after\n")) {
+		g_test_fail ();
+		return;
+	}
+
+	test_utils_fixture_change_setting_boolean (fixture, "org.gnome.evolution.mail", "composer-paste-plain-prefer-pre", TRUE);
+
+	if (!test_utils_run_simple_test (fixture,
+		"seq:C\n"
+		"type:a\n"
+		"seq:cD\n"
 		"type:text before \n"
 		"action:paste\n"
 		"type:text after\n",
@@ -4363,8 +4380,28 @@ test_paste_multiline_plain2plain (TestFixture *fixture)
 {
 	test_utils_set_clipboard_text ("line 1\nline 2\nline 3", FALSE);
 
+	test_utils_fixture_change_setting_boolean (fixture, "org.gnome.evolution.mail", "composer-paste-plain-prefer-pre", FALSE);
+
 	if (!test_utils_run_simple_test (fixture,
 		"mode:plain\n"
+		"type:text before \n"
+		"action:paste\n"
+		"type:\\ntext after\n",
+		HTML_PREFIX "<div style=\"width: 71ch;\">text before line 1</div>"
+		"<div style=\"width: 71ch;\">line 2</div>"
+		"<div style=\"width: 71ch;\">line 3</div>"
+		"<div style=\"width: 71ch;\">text after</div>" HTML_SUFFIX,
+		"text before line 1\nline 2\nline 3\ntext after\n")) {
+		g_test_fail ();
+		return;
+	}
+
+	test_utils_fixture_change_setting_boolean (fixture, "org.gnome.evolution.mail", "composer-paste-plain-prefer-pre", TRUE);
+
+	if (!test_utils_run_simple_test (fixture,
+		"seq:C\n"
+		"type:a\n"
+		"seq:cD\n"
 		"type:text before \n"
 		"action:paste\n"
 		"type:\\ntext after\n",
@@ -4511,8 +4548,36 @@ test_paste_quoted_multiline_plain2html (TestFixture *fixture)
 {
 	test_utils_set_clipboard_text ("line 1\nline 2\nline 3\n", FALSE);
 
+	test_utils_fixture_change_setting_boolean (fixture, "org.gnome.evolution.mail", "composer-paste-plain-prefer-pre", FALSE);
+
 	if (!test_utils_run_simple_test (fixture,
 		"mode:html\n"
+		"type:text before \n"
+		"action:paste-quote\n"
+		"type:\\n\n" /* stop quotting */
+		"type:text after\n",
+		HTML_PREFIX "<div>text before </div>"
+		"<blockquote type=\"cite\" " BLOCKQUOTE_STYLE "><div>line 1</div>"
+		"<div>line 2</div>"
+		"<div>line 3</div>"
+		"<div><br></div></blockquote>"
+		"<div>text after</div>" HTML_SUFFIX,
+		"text before \n"
+		"> line 1\n"
+		"> line 2\n"
+		"> line 3\n"
+		"> \n"
+		"text after\n")) {
+		g_test_fail ();
+		return;
+	}
+
+	test_utils_fixture_change_setting_boolean (fixture, "org.gnome.evolution.mail", "composer-paste-plain-prefer-pre", TRUE);
+
+	if (!test_utils_run_simple_test (fixture,
+		"seq:C\n"
+		"type:a\n"
+		"seq:cD\n"
 		"type:text before \n"
 		"action:paste-quote\n"
 		"type:\\n\n" /* stop quotting */
@@ -4537,8 +4602,34 @@ test_paste_quoted_multiline_plain2plain (TestFixture *fixture)
 {
 	test_utils_set_clipboard_text ("line 1\nline 2\nline 3", FALSE);
 
+	test_utils_fixture_change_setting_boolean (fixture, "org.gnome.evolution.mail", "composer-paste-plain-prefer-pre", FALSE);
+
 	if (!test_utils_run_simple_test (fixture,
 		"mode:plain\n"
+		"type:text before \n"
+		"action:paste-quote\n"
+		"type:\\n\n" /* stop quotting */
+		"type:text after\n",
+		HTML_PREFIX "<div style=\"width: 71ch;\">text before </div>"
+		"<blockquote type=\"cite\"><div>" QUOTE_SPAN (QUOTE_CHR) "line 1</div>"
+		"<div>" QUOTE_SPAN (QUOTE_CHR) "line 2</div>"
+		"<div>" QUOTE_SPAN (QUOTE_CHR) "line 3</div></blockquote>"
+		"<div style=\"width: 71ch;\">text after</div>" HTML_SUFFIX,
+		"text before \n"
+		"> line 1\n"
+		"> line 2\n"
+		"> line 3\n"
+		"text after\n")) {
+		g_test_fail ();
+		return;
+	}
+
+	test_utils_fixture_change_setting_boolean (fixture, "org.gnome.evolution.mail", "composer-paste-plain-prefer-pre", TRUE);
+
+	if (!test_utils_run_simple_test (fixture,
+		"seq:C\n"
+		"type:a\n"
+		"seq:cD\n"
 		"type:text before \n"
 		"action:paste-quote\n"
 		"type:\\n\n" /* stop quotting */
@@ -6827,8 +6918,44 @@ test_delete_quoted_selection (TestFixture *fixture)
 {
 	test_utils_set_clipboard_text ("line 1\n\nline 2\n", FALSE);
 
+	test_utils_fixture_change_setting_boolean (fixture, "org.gnome.evolution.mail", "composer-paste-plain-prefer-pre", FALSE);
+
 	if (!test_utils_run_simple_test (fixture,
 		"mode:plain\n"
+		"type:line 0\n"
+		"seq:n\n"
+		"action:paste-quote\n"
+		"undo:save\n" /* 1 */
+		"seq:SuusD\n"
+		"undo:undo\n"
+		"undo:test\n"
+		"undo:redo\n"
+		"undo:undo\n"
+		"seq:r\n"
+		"type:X\n",
+		HTML_PREFIX "<div style=\"width: 71ch;\">line 0</div>"
+		"<blockquote type=\"cite\">"
+		"<div>" QUOTE_SPAN (QUOTE_CHR) "line 1</div>"
+		"<div>" QUOTE_SPAN (QUOTE_CHR) "<br></div>"
+		"<div>" QUOTE_SPAN (QUOTE_CHR) "line 2</div>"
+		"<div>" QUOTE_SPAN (QUOTE_CHR) "X</div>"
+		"</blockquote>"
+		HTML_SUFFIX,
+		"line 0\n"
+		"> line 1\n"
+		"> \n"
+		"> line 2\n"
+		"> X\n")) {
+		g_test_fail ();
+		return;
+	}
+
+	test_utils_fixture_change_setting_boolean (fixture, "org.gnome.evolution.mail", "composer-paste-plain-prefer-pre", TRUE);
+
+	if (!test_utils_run_simple_test (fixture,
+		"seq:C\n"
+		"type:a\n"
+		"seq:cD\n"
 		"type:line 0\n"
 		"seq:n\n"
 		"action:paste-quote\n"
@@ -6857,9 +6984,11 @@ test_delete_quoted_selection (TestFixture *fixture)
 }
 
 static void
-test_delete_quoted_multiselect (TestFixture *fixture)
+test_delete_quoted_multiselect_pre (TestFixture *fixture)
 {
 	test_utils_set_clipboard_text ("line 1\nline 2\nline 3", FALSE);
+
+	test_utils_fixture_change_setting_boolean (fixture, "org.gnome.evolution.mail", "composer-paste-plain-prefer-pre", TRUE);
 
 	if (!test_utils_run_simple_test (fixture,
 		"mode:html\n"
@@ -6926,6 +7055,87 @@ test_delete_quoted_multiselect (TestFixture *fixture)
 		HTML_PREFIX "<blockquote type=\"cite\">"
 		"<pre>" QUOTE_SPAN (QUOTE_CHR) "line 2</pre>"
 		"<pre>" QUOTE_SPAN (QUOTE_CHR) "line 3X</pre>"
+		"</blockquote>"
+		"<div style=\"width: 71ch;\">Y</div>"
+		HTML_SUFFIX,
+		"> line 2\n"
+		"> line 3X\n"
+		"Y\n"))
+		g_test_fail ();
+}
+
+static void
+test_delete_quoted_multiselect_div (TestFixture *fixture)
+{
+	test_utils_set_clipboard_text ("line 1\nline 2\nline 3", FALSE);
+
+	test_utils_fixture_change_setting_boolean (fixture, "org.gnome.evolution.mail", "composer-paste-plain-prefer-pre", FALSE);
+
+	if (!test_utils_run_simple_test (fixture,
+		"mode:html\n"
+		"action:paste-quote\n"
+		"type:X\n"
+		"undo:save\n" /* 1 */
+		"seq:ChcrrSdsD\n",
+		HTML_PREFIX "<blockquote type=\"cite\" " BLOCKQUOTE_STYLE ">"
+		"<div>line 2</div>"
+		"<div>line 3X</div>"
+		"</blockquote>"
+		HTML_SUFFIX,
+		"> line 2\n"
+		"> line 3X\n")) {
+		g_test_fail ();
+		return;
+	}
+
+	if (!test_utils_run_simple_test (fixture,
+		"undo:undo\n"
+		"undo:test\n"
+		"undo:redo\n"
+		"undo:drop:1\n"
+		"seq:Cec\n" /* Go to the end of the document (Ctrl+End) */
+		"type:\\nY\n",
+		HTML_PREFIX "<blockquote type=\"cite\" " BLOCKQUOTE_STYLE ">"
+		"<div>line 2</div>"
+		"<div>line 3X</div>"
+		"</blockquote>"
+		"<div>Y</div>"
+		HTML_SUFFIX,
+		"> line 2\n"
+		"> line 3X\n"
+		"Y\n")) {
+		g_test_fail ();
+		return;
+	}
+
+	test_utils_insert_content (fixture, "<body></body>", E_CONTENT_EDITOR_INSERT_REPLACE_ALL | E_CONTENT_EDITOR_INSERT_TEXT_HTML);
+
+	if (!test_utils_run_simple_test (fixture,
+		"mode:plain\n"
+		"action:paste-quote\n"
+		"type:X\n"
+		"undo:save\n" /* 1 */
+		"seq:ChcrrSdsD\n",
+		HTML_PREFIX "<blockquote type=\"cite\">"
+		"<div>" QUOTE_SPAN (QUOTE_CHR) "line 2</div>"
+		"<div>" QUOTE_SPAN (QUOTE_CHR) "line 3X</div>"
+		"</blockquote>"
+		HTML_SUFFIX,
+		"> line 2\n"
+		"> line 3X\n")) {
+		g_test_fail ();
+		return;
+	}
+
+	if (!test_utils_run_simple_test (fixture,
+		"undo:undo\n"
+		"undo:test\n"
+		"undo:redo\n"
+		"seq:Cec\n" /* Go to the end of the document (Ctrl+End) */
+		"type:\\nY\n",
+		HTML_PREFIX "<blockquote type=\"cite\">"
+		"<div>" QUOTE_SPAN (QUOTE_CHR) "line 2</div>"
+		"<div>" QUOTE_SPAN (QUOTE_CHR) "line 3X</div>"
 		"</blockquote>"
 		"<div style=\"width: 71ch;\">Y</div>"
 		HTML_SUFFIX,
@@ -7538,7 +7748,8 @@ main (gint argc,
 	test_utils_add_test ("/delete/quoted", test_delete_quoted);
 	test_utils_add_test ("/delete/after-quoted", test_delete_after_quoted);
 	test_utils_add_test ("/delete/quoted-selection", test_delete_quoted_selection);
-	test_utils_add_test ("/delete/quoted-multiselect", test_delete_quoted_multiselect);
+	test_utils_add_test ("/delete/quoted-multiselect-pre", test_delete_quoted_multiselect_pre);
+	test_utils_add_test ("/delete/quoted-multiselect-div", test_delete_quoted_multiselect_div);
 	test_utils_add_test ("/replace/dialog", test_replace_dialog);
 	test_utils_add_test ("/replace/dialog-all", test_replace_dialog_all);
 	test_utils_add_test ("/wrap/basic", test_wrap_basic);

@@ -746,6 +746,8 @@ test_bug_773164 (TestFixture *fixture)
 {
 	test_utils_set_clipboard_text ("This is paragraph 1\n\nThis is paragraph 2\n\nThis is a longer paragraph 3", FALSE);
 
+	test_utils_fixture_change_setting_boolean (fixture, "org.gnome.evolution.mail", "composer-paste-plain-prefer-pre", TRUE);
+
 	if (!test_utils_run_simple_test (fixture,
 		"mode:plain\n"
 		"undo:save\n"
@@ -961,6 +963,8 @@ test_bug_780275_html (TestFixture *fixture)
 {
 	test_utils_set_clipboard_text ("line 1\nline 2\nline 3", FALSE);
 
+	test_utils_fixture_change_setting_boolean (fixture, "org.gnome.evolution.mail", "composer-paste-plain-prefer-pre", TRUE);
+
 	if (!test_utils_run_simple_test (fixture,
 		"mode:html\n"
 		"type:line 0\n"
@@ -998,6 +1002,8 @@ static void
 test_bug_780275_plain (TestFixture *fixture)
 {
 	test_utils_set_clipboard_text ("line 1\nline 2\nline 3", FALSE);
+
+	test_utils_fixture_change_setting_boolean (fixture, "org.gnome.evolution.mail", "composer-paste-plain-prefer-pre", TRUE);
 
 	if (!test_utils_run_simple_test (fixture,
 		"mode:plain\n"

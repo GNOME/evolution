@@ -5082,7 +5082,7 @@ EvoEditor.isEmptyParagraph = function(node)
 }
 
 // replaces current selection with the plain text or HTML, quoted or normal DIV
-EvoEditor.InsertContent = function(text, isHTML, quote)
+EvoEditor.InsertContent = function(text, isHTML, quote, preferPre)
 {
 	EvoUndoRedo.StartRecord(EvoUndoRedo.RECORD_KIND_GROUP, "InsertContent");
 	try {
@@ -5097,7 +5097,7 @@ EvoEditor.InsertContent = function(text, isHTML, quote)
 		}
 
 		var wasPlain = !isHTML;
-		var content = document.createElement(quote ? "BLOCKQUOTE" : wasPlain ? "PRE" : "DIV");
+		var content = document.createElement(quote ? "BLOCKQUOTE" : preferPre ? "PRE" : "DIV");
 
 		if (quote) {
 			content.setAttribute("type", "cite");
@@ -5155,7 +5155,7 @@ EvoEditor.InsertContent = function(text, isHTML, quote)
 
 				for (ii = 0; ii < lines.length; ii++) {
 					line = lines[ii];
-					divNode = document.createElement(wasPlain ? "PRE" : "DIV");
+					divNode = document.createElement(preferPre ? "PRE" : "DIV");
 
 					content.appendChild(divNode);
 
@@ -5195,7 +5195,7 @@ EvoEditor.InsertContent = function(text, isHTML, quote)
 			if (!content.firstElementChild || (content.firstElementChild.tagName != "DIV" && content.firstElementChild.tagName != "P" &&
 			    content.firstElementChild.tagName != "PRE")) {
 				// enclose quoted text into DIV
-				var node = document.createElement("DIV");
+				var node = document.createElement(preferPre ? "PRE" : "DIV");
 
 				while (content.firstChild) {
 					node.appendChild(content.firstChild);

@@ -684,7 +684,8 @@ clipboard_text_received_for_paste_as_text (GtkClipboard *clipboard,
 		cnt_editor,
 		text,
 		E_CONTENT_EDITOR_INSERT_CONVERT |
-		E_CONTENT_EDITOR_INSERT_TEXT_PLAIN);
+		E_CONTENT_EDITOR_INSERT_TEXT_PLAIN |
+		(editor->priv->paste_plain_prefer_pre ? E_CONTENT_EDITOR_INSERT_CONVERT_PREFER_PRE : 0));
 }
 
 static void
@@ -723,7 +724,8 @@ paste_quote_text (EHTMLEditor *editor,
 		cnt_editor,
 		text,
 		E_CONTENT_EDITOR_INSERT_QUOTE_CONTENT |
-		(is_html ? E_CONTENT_EDITOR_INSERT_TEXT_HTML : E_CONTENT_EDITOR_INSERT_TEXT_PLAIN));
+		(is_html ? E_CONTENT_EDITOR_INSERT_TEXT_HTML : E_CONTENT_EDITOR_INSERT_TEXT_PLAIN) |
+		((!is_html && editor->priv->paste_plain_prefer_pre) ? E_CONTENT_EDITOR_INSERT_CONVERT_PREFER_PRE : 0));
 }
 
 static void

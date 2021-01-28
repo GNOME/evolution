@@ -71,7 +71,8 @@ enum {
 	PROP_MAGIC_SMILEYS,
 	PROP_UNICODE_SMILEYS,
 	PROP_WRAP_QUOTED_TEXT_IN_REPLIES,
-	PROP_MINIMUM_FONT_SIZE
+	PROP_MINIMUM_FONT_SIZE,
+	PROP_PASTE_PLAIN_PREFER_PRE
 };
 
 struct _EWebKitEditorPrivate {
@@ -88,6 +89,7 @@ struct _EWebKitEditorPrivate {
 	gboolean can_paste;
 	gboolean can_undo;
 	gboolean can_redo;
+	gboolean paste_plain_prefer_pre;
 
 	guint32 style_flags;
 	guint32 temporary_style_flags; /* that's for collapsed selection, format changes only after something is typed */
@@ -1970,6 +1972,7 @@ webkit_editor_insert_content (EContentEditor *editor,
                               EContentEditorInsertContentFlags flags)
 {
 	EWebKitEditor *wk_editor;
+	gboolean prefer_pre;
 
 	wk_editor = E_WEBKIT_EDITOR (editor);
 
@@ -1987,11 +1990,13 @@ webkit_editor_insert_content (EContentEditor *editor,
 		return;
 	}
 
+	prefer_pre = (flags & E_CONTENT_EDITOR_INSERT_CONVERT_PREFER_PRE) != 0;
+
 	if ((flags & E_CONTENT_EDITOR_INSERT_CONVERT) &&
 	    !(flags & E_CONTENT_EDITOR_INSERT_REPLACE_ALL)) {
 		e_web_view_jsc_run_script (WEBKIT_WEB_VIEW (wk_editor), wk_editor->priv->cancellable,
-			"EvoEditor.InsertContent(%s, %x, %x);",
-			content, (flags & E_CONTENT_EDITOR_INSERT_TEXT_HTML) != 0, FALSE);
+			"EvoEditor.InsertContent(%s, %x, %x, %x);",
+			content, (flags & E_CONTENT_EDITOR_INSERT_TEXT_HTML) != 0, FALSE, prefer_pre);
 	} else if ((flags & E_CONTENT_EDITOR_INSERT_REPLACE_ALL) &&
 		   (flags & E_CONTENT_EDITOR_INSERT_TEXT_HTML)) {
 		if ((strstr (content, "data-evo-draft") ||
@@ -2050,13 +2055,13 @@ webkit_editor_insert_content (EContentEditor *editor,
 	} else if ((flags & E_CONTENT_EDITOR_INSERT_QUOTE_CONTENT) &&
 		   !(flags & E_CONTENT_EDITOR_INSERT_REPLACE_ALL)) {
 		e_web_view_jsc_run_script (WEBKIT_WEB_VIEW (wk_editor), wk_editor->priv->cancellable,
-			"EvoEditor.InsertContent(%s, %x, %x);",
-			content, (flags & E_CONTENT_EDITOR_INSERT_TEXT_HTML) != 0, TRUE);
+			"EvoEditor.InsertContent(%s, %x, %x, %x);",
+			content, (flags & E_CONTENT_EDITOR_INSERT_TEXT_HTML) != 0, TRUE, prefer_pre);
 	} else if (!(flags & E_CONTENT_EDITOR_INSERT_CONVERT) &&
 		   !(flags & E_CONTENT_EDITOR_INSERT_REPLACE_ALL)) {
 		e_web_view_jsc_run_script (WEBKIT_WEB_VIEW (wk_editor), wk_editor->priv->cancellable,
-			"EvoEditor.InsertContent(%s, %x, %x);",
-			content, (flags & E_CONTENT_EDITOR_INSERT_TEXT_HTML) != 0, FALSE);
+			"EvoEditor.InsertContent(%s, %x, %x, %x);",
+			content, (flags & E_CONTENT_EDITOR_INSERT_TEXT_HTML) != 0, FALSE, prefer_pre);
 	} else {
 		g_warning ("%s: Unsupported flags combination (0x%x)", G_STRFUNC, flags);
 	}
@@ -4061,6 +4066,27 @@ webkit_editor_set_minimum_font_size (EWebKitEditor *wk_editor,
 }
 
 static void
+webkit_editor_set_paste_plain_prefer_pre (EWebKitEditor *wk_editor,
+					  gboolean value)
+{
+	g_return_if_fail (E_IS_WEBKIT_EDITOR (wk_editor));
+
+	if ((wk_editor->priv->paste_plain_prefer_pre ? 1 : 0) != (value ? 1 : 0)) {
+		wk_editor->priv->paste_plain_prefer_pre = value;
+
+		g_object_notify (G_OBJECT (wk_editor), "paste-plain-prefer-pre");
+	}
+}
+
+static gboolean
+webkit_editor_get_paste_plain_prefer_pre (EWebKitEditor *wk_editor)
+{
+	g_return_val_if_fail (E_IS_WEBKIT_EDITOR (wk_editor), FALSE);
+
+	return wk_editor->priv->paste_plain_prefer_pre;
+}
+
+static void
 e_webkit_editor_initialize_web_extensions_cb (WebKitWebContext *web_context,
 					      gpointer user_data)
 {
@@ -4164,6 +4190,11 @@ webkit_editor_constructed (GObject *object)
 	g_settings_bind (
 		settings, "composer-wrap-quoted-text-in-replies",
 		wk_editor, "wrap-quoted-text-in-replies",
+		G_SETTINGS_BIND_GET);
+
+	g_settings_bind (
+		settings, "composer-paste-plain-prefer-pre",
+		wk_editor, "paste-plain-prefer-pre",
 		G_SETTINGS_BIND_GET);
 
 	g_object_unref (settings);
@@ -4510,6 +4541,12 @@ webkit_editor_set_property (GObject *object,
 				E_WEBKIT_EDITOR (object),
 				g_value_get_int (value));
 			return;
+
+		case PROP_PASTE_PLAIN_PREFER_PRE:
+			webkit_editor_set_paste_plain_prefer_pre (
+				E_WEBKIT_EDITOR (object),
+				g_value_get_boolean (value));
+			return;
 	}
 
 	G_OBJECT_WARN_INVALID_PROPERTY_ID (object, property_id, pspec);
@@ -4744,6 +4781,11 @@ webkit_editor_get_property (GObject *object,
 			g_value_set_int (value,
 				webkit_editor_get_minimum_font_size (E_WEBKIT_EDITOR (object)));
 			return;
+
+		case PROP_PASTE_PLAIN_PREFER_PRE:
+			g_value_set_boolean (value,
+				webkit_editor_get_paste_plain_prefer_pre (E_WEBKIT_EDITOR (object)));
+			return;
 	}
 
 	G_OBJECT_WARN_INVALID_PROPERTY_ID (object, property_id, pspec);
@@ -4955,10 +4997,6 @@ webkit_editor_paste_clipboard_targets_cb (GtkClipboard *clipboard,
 	}
 
  fallback:
-	/* Order is important here to ensure common use cases are
-	 * handled correctly.  See GNOME bug #603715 for details. */
-	/* Prefer plain text over HTML when in the plain text mode, but only
-	 * when pasting content from outside the editor view. */
 
 	if (!content || !*content) {
 		g_free (content);
@@ -4975,7 +5013,8 @@ webkit_editor_paste_clipboard_targets_cb (GtkClipboard *clipboard,
 			E_CONTENT_EDITOR (wk_editor),
 			content,
 			E_CONTENT_EDITOR_INSERT_TEXT_PLAIN |
-			E_CONTENT_EDITOR_INSERT_CONVERT);
+			E_CONTENT_EDITOR_INSERT_CONVERT |
+			(wk_editor->priv->paste_plain_prefer_pre ? E_CONTENT_EDITOR_INSERT_CONVERT_PREFER_PRE : 0));
 
 	g_free (content);
 }
@@ -5543,7 +5582,6 @@ e_webkit_editor_class_init (EWebKitEditorClass *class)
 			G_PARAM_CONSTRUCT |
 			G_PARAM_STATIC_STRINGS));
 
-
 	g_object_class_install_property (
 		object_class,
 		PROP_WRAP_QUOTED_TEXT_IN_REPLIES,
@@ -5565,6 +5603,18 @@ e_webkit_editor_class_init (EWebKitEditorClass *class)
 			NULL,
 			G_MININT, G_MAXINT, 0,
 			G_PARAM_READWRITE));
+
+	g_object_class_install_property (
+		object_class,
+		PROP_PASTE_PLAIN_PREFER_PRE,
+		g_param_spec_boolean (
+			"paste-plain-prefer-pre",
+			NULL,
+			NULL,
+			FALSE,
+			G_PARAM_READWRITE |
+			G_PARAM_CONSTRUCT |
+			G_PARAM_STATIC_STRINGS));
 }
 
 static void
