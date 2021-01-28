@@ -5097,7 +5097,7 @@ EvoEditor.InsertContent = function(text, isHTML, quote)
 		}
 
 		var wasPlain = !isHTML;
-		var content = document.createElement(quote ? "BLOCKQUOTE" : wasPlain ? "PRE" : "DIV");
+		var content = document.createElement(quote ? "BLOCKQUOTE" : "DIV");
 
 		if (quote) {
 			content.setAttribute("type", "cite");
@@ -5155,7 +5155,7 @@ EvoEditor.InsertContent = function(text, isHTML, quote)
 
 				for (ii = 0; ii < lines.length; ii++) {
 					line = lines[ii];
-					divNode = document.createElement(wasPlain ? "PRE" : "DIV");
+					divNode = document.createElement("DIV");
 
 					content.appendChild(divNode);
 

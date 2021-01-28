@@ -4353,7 +4353,7 @@ test_paste_multiline_plain2html (TestFixture *fixture)
 		"type:text before \n"
 		"action:paste\n"
 		"type:text after\n",
-		HTML_PREFIX "<div>text before line 1</div><pre>line 2</pre><pre>line 3</pre><pre>text after</pre>" HTML_SUFFIX,
+		HTML_PREFIX "<div>text before line 1</div><div>line 2</div><div>line 3</div><div>text after</div>" HTML_SUFFIX,
 		"text before line 1\nline 2\nline 3\ntext after\n"))
 		g_test_fail ();
 }
@@ -4369,9 +4369,9 @@ test_paste_multiline_plain2plain (TestFixture *fixture)
 		"action:paste\n"
 		"type:\\ntext after\n",
 		HTML_PREFIX "<div style=\"width: 71ch;\">text before line 1</div>"
-		"<pre>line 2</pre>"
-		"<pre>line 3</pre>"
-		"<pre>text after</pre>" HTML_SUFFIX,
+		"<div style=\"width: 71ch;\">line 2</div>"
+		"<div style=\"width: 71ch;\">line 3</div>"
+		"<div style=\"width: 71ch;\">text after</div>" HTML_SUFFIX,
 		"text before line 1\nline 2\nline 3\ntext after\n"))
 		g_test_fail ();
 }
@@ -4518,10 +4518,10 @@ test_paste_quoted_multiline_plain2html (TestFixture *fixture)
 		"type:\\n\n" /* stop quotting */
 		"type:text after\n",
 		HTML_PREFIX "<div>text before </div>"
-		"<blockquote type=\"cite\" " BLOCKQUOTE_STYLE "><pre>line 1</pre>"
-		"<pre>line 2</pre>"
-		"<pre>line 3</pre>"
-		"<pre><br></pre></blockquote>"
+		"<blockquote type=\"cite\" " BLOCKQUOTE_STYLE "><div>line 1</div>"
+		"<div>line 2</div>"
+		"<div>line 3</div>"
+		"<div><br></div></blockquote>"
 		"<div>text after</div>" HTML_SUFFIX,
 		"text before \n"
 		"> line 1\n"
@@ -4544,9 +4544,9 @@ test_paste_quoted_multiline_plain2plain (TestFixture *fixture)
 		"type:\\n\n" /* stop quotting */
 		"type:text after\n",
 		HTML_PREFIX "<div style=\"width: 71ch;\">text before </div>"
-		"<blockquote type=\"cite\"><pre>" QUOTE_SPAN (QUOTE_CHR) "line 1</pre>"
-		"<pre>" QUOTE_SPAN (QUOTE_CHR) "line 2</pre>"
-		"<pre>" QUOTE_SPAN (QUOTE_CHR) "line 3</pre></blockquote>"
+		"<blockquote type=\"cite\"><div>" QUOTE_SPAN (QUOTE_CHR) "line 1</div>"
+		"<div>" QUOTE_SPAN (QUOTE_CHR) "line 2</div>"
+		"<div>" QUOTE_SPAN (QUOTE_CHR) "line 3</div></blockquote>"
 		"<div style=\"width: 71ch;\">text after</div>" HTML_SUFFIX,
 		"text before \n"
 		"> line 1\n"
@@ -6842,10 +6842,10 @@ test_delete_quoted_selection (TestFixture *fixture)
 		"type:X\n",
 		HTML_PREFIX "<div style=\"width: 71ch;\">line 0</div>"
 		"<blockquote type=\"cite\">"
-		"<pre>" QUOTE_SPAN (QUOTE_CHR) "line 1</pre>"
-		"<pre>" QUOTE_SPAN (QUOTE_CHR) "<br></pre>"
-		"<pre>" QUOTE_SPAN (QUOTE_CHR) "line 2</pre>"
-		"<pre>" QUOTE_SPAN (QUOTE_CHR) "X</pre>"
+		"<div>" QUOTE_SPAN (QUOTE_CHR) "line 1</div>"
+		"<div>" QUOTE_SPAN (QUOTE_CHR) "<br></div>"
+		"<div>" QUOTE_SPAN (QUOTE_CHR) "line 2</div>"
+		"<div>" QUOTE_SPAN (QUOTE_CHR) "X</div>"
 		"</blockquote>"
 		HTML_SUFFIX,
 		"line 0\n"
@@ -6868,8 +6868,8 @@ test_delete_quoted_multiselect (TestFixture *fixture)
 		"undo:save\n" /* 1 */
 		"seq:ChcrrSdsD\n",
 		HTML_PREFIX "<blockquote type=\"cite\" " BLOCKQUOTE_STYLE ">"
-		"<pre>line 2</pre>"
-		"<pre>line 3X</pre>"
+		"<div>line 2</div>"
+		"<div>line 3X</div>"
 		"</blockquote>"
 		HTML_SUFFIX,
 		"> line 2\n"
@@ -6886,8 +6886,8 @@ test_delete_quoted_multiselect (TestFixture *fixture)
 		"seq:Cec\n" /* Go to the end of the document (Ctrl+End) */
 		"type:\\nY\n",
 		HTML_PREFIX "<blockquote type=\"cite\" " BLOCKQUOTE_STYLE ">"
-		"<pre>line 2</pre>"
-		"<pre>line 3X</pre>"
+		"<div>line 2</div>"
+		"<div>line 3X</div>"
 		"</blockquote>"
 		"<div>Y</div>"
 		HTML_SUFFIX,
@@ -6907,8 +6907,8 @@ test_delete_quoted_multiselect (TestFixture *fixture)
 		"undo:save\n" /* 1 */
 		"seq:ChcrrSdsD\n",
 		HTML_PREFIX "<blockquote type=\"cite\">"
-		"<pre>" QUOTE_SPAN (QUOTE_CHR) "line 2</pre>"
-		"<pre>" QUOTE_SPAN (QUOTE_CHR) "line 3X</pre>"
+		"<div>" QUOTE_SPAN (QUOTE_CHR) "line 2</div>"
+		"<div>" QUOTE_SPAN (QUOTE_CHR) "line 3X</div>"
 		"</blockquote>"
 		HTML_SUFFIX,
 		"> line 2\n"
@@ -6924,8 +6924,8 @@ test_delete_quoted_multiselect (TestFixture *fixture)
 		"seq:Cec\n" /* Go to the end of the document (Ctrl+End) */
 		"type:\\nY\n",
 		HTML_PREFIX "<blockquote type=\"cite\">"
-		"<pre>" QUOTE_SPAN (QUOTE_CHR) "line 2</pre>"
-		"<pre>" QUOTE_SPAN (QUOTE_CHR) "line 3X</pre>"
+		"<div>" QUOTE_SPAN (QUOTE_CHR) "line 2</div>"
+		"<div>" QUOTE_SPAN (QUOTE_CHR) "line 3X</div>"
 		"</blockquote>"
 		"<div style=\"width: 71ch;\">Y</div>"
 		HTML_SUFFIX,

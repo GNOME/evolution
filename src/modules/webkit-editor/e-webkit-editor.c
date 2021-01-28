@@ -2047,6 +2047,12 @@ webkit_editor_insert_content (EContentEditor *editor,
 
 		g_strfreev (lines);
 		g_free (html);
+	} else if ((flags & E_CONTENT_EDITOR_INSERT_CONVERT) &&
+		  !(flags & E_CONTENT_EDITOR_INSERT_REPLACE_ALL) &&
+		  !(flags & E_CONTENT_EDITOR_INSERT_QUOTE_CONTENT)) {
+		e_web_view_jsc_run_script (WEBKIT_WEB_VIEW (wk_editor), wk_editor->priv->cancellable,
+			"EvoEditor.InsertContent(%s, %x, %x);",
+			content, TRUE, FALSE);
 	} else if ((flags & E_CONTENT_EDITOR_INSERT_QUOTE_CONTENT) &&
 		   !(flags & E_CONTENT_EDITOR_INSERT_REPLACE_ALL)) {
 		e_web_view_jsc_run_script (WEBKIT_WEB_VIEW (wk_editor), wk_editor->priv->cancellable,
