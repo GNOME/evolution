@@ -13,8 +13,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: evolution.HEAD.ro\n"
 "Report-Msgid-Bugs-To: https://gitlab.gnome.org/GNOME/evolution/issues\n"
-"POT-Creation-Date: 2021-01-13 13:49+0000\n"
-"PO-Revision-Date: 2021-01-13 16:41+0100\n"
+"POT-Creation-Date: 2021-01-28 17:27+0000\n"
+"PO-Revision-Date: 2021-01-29 11:38+0100\n"
 "Last-Translator: Florentina Mușat <florentina.musat.28@gmail.com>\n"
 "Language-Team: Gnome Romanian Translation Team <gnomero-list@lists.sourceforge.net>\n"
 "Language: ro\n"
@@ -1320,26 +1320,37 @@ msgid "If set to “true” quoted text in replies will be wrapped."
 msgstr "Dacă este stabilit la „true” textul citat în răspunsuri va fi încadrat."
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:78
+msgid "Paste plain text as preformatted"
+msgstr "Lipește textul simplu ca preformatat"
+
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:79
+msgid ""
+"When set, paste a plain text into the composer body as Preformatted paragraph. When not set, paste it as Normal paragraph."
+msgstr ""
+"Când este stabilit, va lipi text simplu în corpul compunătorului ca paragraf preformatat. Când nu este stabilit, lipește "
+"ca paragraf normal."
+
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:80
 msgid "Convert UTC time in reply credits to local time"
 msgstr "Convertește timpul UTC din creditele răspunsului în timpul local"
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:79
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:81
 msgid "Whether the time in reply credits should be converted to local time when it’s in UTC in the message."
 msgstr "Dacă timpul din creditele răspunsului ar trebui convertit în timpul local când este în UTC în mesaj."
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:80
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:82
 msgid "Mark replied to messages as read"
 msgstr "Marchează mesajele la care s-a răspuns ca citite"
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:81
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:83
 msgid "When replying to a message and marking it as being replied to, then whether also mark it as read."
 msgstr "Când se răspunde la un mesaj și se marchează ca fiind răspuns, atunci dacă să se marcheze ca citit de asemenea."
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:82
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:84
 msgid "Whether start Plain Text composer with Preformatted paragraph mode"
 msgstr "Dacă să se pornească compunătorul de Text simplu în modul de paragraf preformatat"
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:83
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:85
 msgid ""
 "When set to true, new Plain Text messages will have preselected Preformatted paragraph mode. The Normal paragraph mode "
 "will be used when set to false."
@@ -1347,98 +1358,98 @@ msgstr ""
 "Când este stabilit la adevărat, noile mesaje în text simplu vor avea preselectat modul de paragraf preformatat. Modul de "
 "paragraf normal va fi folosit când este stabilit la fals."
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:84
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:86
 msgid "Whether to obey Content-Disposition:inline message header hint"
 msgstr "Dacă să se țină cont de sugestia antetului de mesaj Content-Disposition:inline"
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:85
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:87
 msgid "Set to “false” to block automatic display of attachments with Content-Disposition: inline."
 msgstr "Stabiliți la „false” pentru a bloca afișarea automată a fișierelor atașate cu Content-Disposition: inline."
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:86
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:88
 msgid "Save file format for drag-and-drop operation"
 msgstr "Formatul de fișier de salvat pentru operația trage-și-plasează"
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:87
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:89
 msgid "Can be either “mbox” or “pdf”."
 msgstr "Pote fi fie „mbox” sau „pdf”."
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:88
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:90
 msgid "Show image animations"
 msgstr "Arată animațiile imaginilor"
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:89
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:91
 msgid ""
 "Enable animated images in HTML mail. Many users find animated images annoying and prefer to see a static image instead."
 msgstr ""
 "Activează imaginile animate în mesajele HTML. Mulți utilizatori sunt deranjați de imaginile animate și preferă să vadă o "
 "imagine statică în locul lor."
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:90
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:92
 msgid "Enable or disable type ahead search feature"
 msgstr "Activează sau dezactivează căutarea bazată pe autocompletare"
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:91
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:93
 msgid "Enable the side bar search feature to allow interactive searching of folder names."
 msgstr "Activează funcționalitatea barei de căutare laterale pentru a permite căutarea interactivă în numele dosarelor."
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:92
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:94
 msgid "Enable or disable magic space bar"
 msgstr "Activează sau dezactivează bara magică de spațiu"
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:93
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:95
 msgid "Enable this to use Space bar key to scroll in message preview, message list and folders."
 msgstr "Activează tasta Spațiu pentru derularea previzualizării mesajului, a listei de mesaje și dosare."
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:94
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:96
 msgid "Enable to use a similar message list view settings for all folders"
 msgstr "Permite folosirea unor vizualizări similare pentru toate dosarele"
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:95
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:97
 msgid "Enable to use a similar message list view settings for all folders."
 msgstr "Permite folosirea unor vizualizări similare pentru toate dosarele."
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:96
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:98
 msgid "Mark citations in the message “Preview”"
 msgstr "Marchează citatele în „Previzualizarea” mesajului"
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:97
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:99
 msgid "Mark citations in the message “Preview”."
 msgstr "Marchează citatele în „Previzualizarea” mesajului."
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:98
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:100
 msgid "Citation highlight color"
 msgstr "Culoarea de evidențiere pentru citare"
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:99
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:101
 msgid "Citation highlight color."
 msgstr "Culoarea de evidențiere pentru citare."
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:100
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:102
 msgid "Enable/disable caret mode"
 msgstr "Activează/dezactivează modul cu cursor"
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:101
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:103
 msgid "Enable caret mode, so that you can see a cursor when reading mail."
 msgstr "Activează modul cu cursor, în așa fel încât să puteți vedea un cursor în timp ce citiți emailul."
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:102
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:104
 msgid "Default charset in which to display messages"
 msgstr "Setul implicit de caractere pentru afișarea mesajelor"
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:103
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:105
 msgid "Default charset in which to display messages."
 msgstr "Setul implicit de caractere pentru afișarea mesajelor."
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:104
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:106
 msgid "Automatically load images for HTML messages over HTTP"
 msgstr "Încarcă imaginile automat pentru mesajele HTML via HTTP"
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:105
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:107
 msgid "Show notification about missing remote content"
 msgstr "Arată notificări despre lipsa conținutului de la distanță"
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:106
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:108
 msgid ""
 "When the message preview shows a message which requires to download remote content, while the download is not allowed for "
 "the user or the site, then show a notification about it on top of the preview panel."
@@ -1447,27 +1458,27 @@ msgstr ""
 "este permisă pentru utilizator sau sit, atunci arată o notificare despre asta în partea superioară a panoului de "
 "previzualizare."
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:107
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:109
 msgid "Show Animations"
 msgstr "Arată animațiile"
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:108
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:110
 msgid "Show animated images as animations."
 msgstr "Arată imaginile animate ca animații."
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:109
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:111
 msgid "Show all message headers"
 msgstr "Arată toate anteturile mesajului"
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:110
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:112
 msgid "Show all the headers when viewing a messages."
 msgstr "Arată toate anteturile la vizualizarea unui mesaj."
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:111
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:113
 msgid "List of headers to show when viewing a message."
 msgstr "Listă de anteturi de arătat la vizualizarea unui mesaj."
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:112
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:114
 msgid ""
 "Each header is represented as a pair: the header name, and a boolean indicating whether the header is enabled. Disabled "
 "headers are not shown when viewing a message, but are still listed in Preferences."
@@ -1475,94 +1486,94 @@ msgstr ""
 "Fiecare antet reprezentat ca pereche: numele antetului, și un boolean ce indică dacă antetul este activat. Anteturile "
 "dezactivate nu sunt arătate la vizualizarea unui mesaj, dar sunt încă listate în Preferințe."
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:113
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:115
 msgid "Show photo of the sender"
 msgstr "Arată fotografia expeditorului"
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:114
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:116
 msgid "Show the photo of the sender in the message reading pane."
 msgstr "Arată fotografia expeditorului în panoul de citire a mesajului."
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:115
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:117
 msgid "Search libravatar.org for photo of the sender"
 msgstr "Caută pe libravatar.org pentru poza expeditorului"
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:116
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:118
 msgid "Allow searching also at libravatar.org for photo of the sender."
 msgstr "Permite căutarea de asemenea pe libravatar.org după o fotografie a expeditorului."
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:117
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:119
 msgid "Mark as Seen after specified timeout"
 msgstr "Marchează ca citit după durata de timp specificată"
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:118
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:120
 msgid "Mark as Seen after specified timeout."
 msgstr "Marchează ca citit după durata de timp specificată."
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:119
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:121
 msgid "Mark as Seen always after specified timeout"
 msgstr "Marchează ca citit întotdeauna după durata de timp specificată"
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:120
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:122
 msgid "If set to true, the selected message will be set as unread after the timeout also after the folder change."
 msgstr ""
 "Dacă este stabilit la „true”, mesajul selectat va fi stabilit ca necitit după durata de timp specificată chiar și după "
 "schimbarea dosarului."
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:121
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:123
 msgid "Timeout for marking messages as seen"
 msgstr "Limită de timp pentru a marca mesajele ca fiind citite (văzute)"
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:122
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:124
 msgid "Timeout in milliseconds for marking messages as seen."
 msgstr "Limită de timp în milisecunde pentru a marca mesajele ca fiind citite (văzute)."
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:123
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:125
 msgid "Show Attachment Bar"
 msgstr "Arată bara de atașamente"
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:124
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:126
 msgid "Show Attachment Bar below the message preview pane when the message has attachments."
 msgstr "Arată bara de atașamente sub panoul de previzualizare a mesajului când mesajul are atașamente."
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:125
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:127
 msgid "Sender email-address column in the message list"
 msgstr "Câmpul adresă expeditor în lista de mesaje"
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:126
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:128
 msgid "Show the email-address of the sender in a separate column in the message list."
 msgstr "Arată adresa de email a expeditorului întro coloană separată în lista de mesaje."
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:127
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:129
 msgid "Show deleted messages in the message-list"
 msgstr "Arată mesajele șterse în lista de mesaje"
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:128
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:130
 msgid "Show deleted messages (with a strike-through) in the message-list."
 msgstr "Arată mesajele șterse (cu o tăietură) în lista de mesaje."
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:129
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:131
 msgid "Show junk messages in the message-list"
 msgstr "Arată mesajele spam în lista de mesaje"
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:130
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:132
 msgid "Show junk messages (with a red strike-through) in the message-list."
 msgstr "Arată mesajele spam (cu o tăietură roșie) în lista de mesaje."
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:131
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:133
 msgid "Enable Unmatched search folder"
 msgstr "Activează dosarul de căutare nepotrivit"
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:132
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:134
 msgid "Enable Unmatched search folder within Search Folders. It does nothing if Search Folders are disabled."
 msgstr ""
 "Activează dosarul de căutare nepotrivit în Dosarele de căutare. Nu face nimic dacă Dosarele de căutare sunt dezactivate."
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:133
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:135
 msgid "Hides the per-folder preview and removes the selection"
 msgstr "Ascunde previzualizarea per-dosar și elimină selecția"
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:134
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:136
 msgid ""
 "This key is read only once and reset to “false” after read. This unselects the mail in the list and removes the preview "
 "for that folder."
@@ -1570,31 +1581,31 @@ msgstr ""
 "Această cheie este citită o singură dată și este restabilită la „fals” după citire. Aceasta deselectează mesajul din listă "
 "și elimină previzualizarea pentru acel dosar."
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:135
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:137
 msgid "Height of the message-list pane"
 msgstr "Înălțimea panoului cu lista de mesaje"
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:136
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:138
 msgid "Height of the message-list pane."
 msgstr "Înălțimea panoului cu lista de mesaje."
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:137
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:139
 msgid "Whether message headers are collapsed in the user interface"
 msgstr "Dacă anteturile mesajului sunt restrânse în interfața pentru utilizator"
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:138
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:140
 msgid "Width of the message-list pane"
 msgstr "Lățimea panoului cu lista de mesaje"
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:139
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:141
 msgid "Width of the message-list pane."
 msgstr "Lățimea panoului cu lista de mesaje."
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:140
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:142
 msgid "Layout style"
 msgstr "Stil aspect"
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:141
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:143
 msgid ""
 "The layout style determines where to place the preview pane in relation to the message list. “0” (Classic View) places the "
 "preview pane below the message list. “1” (Vertical View) places the preview pane next to the message list."
@@ -1603,52 +1614,52 @@ msgstr ""
 "„0” (vizualizare clasică) plasează panoul de previzualizare sub lista de mesaje. „1” (vizualizare verticală) plasează "
 "panoul de previzualizare lângă lista de mesaje."
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:142
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:144
 msgid "Variable width font"
 msgstr "Font cu lățime variabilă"
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:143
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:145
 msgid "The variable width font for mail display."
 msgstr "Fontul variabil pentru afișare email."
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:144
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:146
 msgid "Terminal font"
 msgstr "Fontul pentru terminal"
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:145
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:147
 msgid "The terminal font for mail display."
 msgstr "Fontul de terminal pentru afișare email."
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:146
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:148
 msgid "Use custom fonts"
 msgstr "Folosește fonturi personalizate"
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:147
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:149
 msgid "Use custom fonts for displaying mail."
 msgstr "Folosește fonturi personalizate pentru afișarea poștei."
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:148
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:150
 msgid "Compress display of addresses in TO/CC/BCC"
 msgstr "Comprimă afișarea adreselor în TO/CC/BCC"
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:149
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:151
 msgid "Compress display of addresses in TO/CC/BCC to the number specified in address_count."
 msgstr "Comprimă afișarea adreselor în TO/CC/BCC la numărul specificat în address_count."
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:150
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:152
 msgid "Number of addresses to display in TO/CC/BCC"
 msgstr "Numărul de adrese pentru afișare în TO/CC/BCC"
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:151
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:153
 msgid "This sets the number of addresses to show in default message list view, beyond which a “...” is shown."
 msgstr ""
 "Aceasta definește numărul adreselor arătate în vizualizarea implicită a listei de mesaje, după care se va arăta un „...”."
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:152
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:154
 msgid "Show mails in headers part of the message preview when name is available"
 msgstr "Arată emailuri în partea antetelor a previzualizării mesajului când numele este disponibil"
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:153
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:155
 msgid ""
 "When set to false, the mail addresses which contain both the name and the email parts in headers like To/Cc/Bcc will be "
 "shown only with the name part, without the actual email, with the name made clickable."
@@ -1656,22 +1667,22 @@ msgstr ""
 "Când este stabilit la fals, adresele de email care conțin și partea de nume și partea de email în antete ca Către/Cc/Bcc "
 "vor fi afișate numai cu partea de nume, fără adresa de email, cu numele clicabil."
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:154
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:156
 msgid "Thread the message-list based on Subject"
 msgstr "Grupează discuțiile în lista de mesaje după subiect"
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:155
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:157
 msgid ""
 "Whether or not to fall back on threading by subjects when the messages do not contain In-Reply-To or References headers."
 msgstr ""
 "Dacă să se revină la gruparea discuțiilor după subiecte atunci când mesajul nu conține anteturile In-Reply-To sau "
 "References."
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:156
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:158
 msgid "Default value for thread expand state"
 msgstr "Valoare implicită pentru starea de extindere a discuțiilor"
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:157
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:159
 msgid ""
 "This setting specifies whether the threads should be in expanded or collapsed state by default. Evolution requires a "
 "restart."
@@ -1679,11 +1690,11 @@ msgstr ""
 "Această opțiune specifică dacă firele de discuție să fie implicit în stare extinsă sau pliată. Necesită repornirea "
 "Evolution."
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:158
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:160
 msgid "Whether sort threads based on latest message in that thread"
 msgstr "Dacă firele de discuții să fie sortate după ultimul mesaj din acel fir"
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:159
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:161
 msgid ""
 "This setting specifies whether the threads should be sorted based on latest message in each thread, rather than by "
 "message’s date. Evolution requires a restart."
@@ -1691,11 +1702,11 @@ msgstr ""
 "Această opțiune specifică dacă firele de discuții să fie sortate pe baza ultimului mesaj din acel fir și nu după data "
 "mesajului. Necesită repornirea lui Evolution."
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:160
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:162
 msgid "Whether sort thread children always ascending"
 msgstr "Dacă să se sorteze sau nu copii firului de discuție întotdeauna ascendent"
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:161
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:163
 msgid ""
 "This setting specifies whether the thread children should be sorted always ascending, rather than using the same sort "
 "order as in the thread root level."
@@ -1703,21 +1714,21 @@ msgstr ""
 "Această opțiune specifică dacă copii firelor de discuții să fie sortați întotdeauna ascendent, în loc de a utiliza același "
 "tip de ordine de sortare ca la nivelul rădăcină al firului de discuții."
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:162
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:164
 msgid "Whether to compress thread level"
 msgstr "Dacă să se comprime nivelul firelor de discuție"
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:163
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:165
 msgid "Set to true to compress thread levels for flat conversations, to make the level not so deep."
 msgstr ""
 "Stabiliți la adevărat pentru a comprima nivelurile firelor de discuție pentru conversații plate, pentru a nu face nivelul "
 "atât de adânc."
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:164
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:166
 msgid "Sort accounts alphabetically in a folder tree"
 msgstr "Sortează conturile alfabetic într-un arbore de dosare"
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:165
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:167
 msgid ""
 "Tells how to sort accounts in a folder tree used in a Mail view. When set to true accounts are sorted alphabetically, with "
 "an exception of On This Computer and Search folders, otherwise accounts are sorted based on an order given by a user"
@@ -1726,27 +1737,27 @@ msgstr ""
 "adevărat, conturile sunt sortate alfabetic, cu excepția „Pe Acest Calculator” și „Dosare de căutare”, în caz contrar "
 "conturile sunt sortate în funcție de ordinea dată de utilizator"
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:166
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:168
 msgid "Log filter actions"
 msgstr "Înregistrează acțiunile de filtrare"
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:167
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:169
 msgid "Log filter actions to the specified log file."
 msgstr "Înregistrează acțiunile de filtrare către fișierul de jurnal specificat."
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:168
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:170
 msgid "Logfile to log filter actions"
 msgstr "Fișierul în care se vor loga acțiunile de filtrare"
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:169
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:171
 msgid "If not set, or being “stdout”, then the logging is done to stdout, instead to a file."
 msgstr "Dacă nu este stabilit, sau este „stdout”, atunci înregistrarea este făcută în stdout, în loc de un fișier."
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:170
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:172
 msgid "Flush Outbox after filtering"
 msgstr "Golește mesajele netrimise după filtrare"
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:171
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:173
 msgid ""
 "Whether to flush Outbox after filtering is done. Outbox flush will happen only when there was used any “Forward to” filter "
 "action and approximately one minute after the last action invocation."
@@ -1754,66 +1765,66 @@ msgstr ""
 "Dacă să se golească dosarul Netrimise după ce se efectuează filtrarea. Golirea dosarului Netrimise se va întâmpla, numai "
 "atunci când a fost folosit orice filtru „Înaintează la” și la aproximativ un minut după ultima invocare a acțiunii."
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:172
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:174
 msgid "Default forward style"
 msgstr "Stilul implicit pentru înaintare"
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:173
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:175
 msgid "Default reply style"
 msgstr "Stilul implicit pentru răspuns"
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:174
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:176
 msgid ""
 "Forward and reply attribution language tag, like en_US. Empty string means to use the same language as the user interface."
 msgstr ""
 "Tag lingvistic de atribuire pentru înaintare și răspuns, cum ar fi ro_RO. Șir de caractere gol înseamnă să se folosească "
 "aceeași limbă ca interfața pentru utilizator."
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:175
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:177
 msgid "Prompt on send when using key accelerator (Ctrl+Enter)"
 msgstr "Atenționează la trimitere când se folosesc tastele de accelerare (Ctrl+Enter)"
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:176
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:178
 msgid "Prompt the user when he or she tries to send a message with a key accelerator."
 msgstr "Atenționează utilizatorul la încercarea de a trimite cu tastele de accelerare."
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:177
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:179
 msgid "Prompt on empty subject"
 msgstr "Atenționează la subiect gol"
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:178
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:180
 msgid "Prompt the user when he or she tries to send a message without a Subject."
 msgstr "Atenționează utilizatorul la încercarea de a trimite un mesaj fără subiect."
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:179
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:181
 msgid "Prompt when emptying the trash"
 msgstr "Atenționează când se golește coșul de gunoi"
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:180
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:182
 msgid "Prompt the user when he or she tries to empty the trash."
 msgstr "Atenționează utilizatorul când încearcă să golească coșul de gunoi."
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:181
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:183
 msgid "Prompt when user expunges"
 msgstr "Atenționează când utilizatorul încearcă să șteargă fizic emailuri"
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:182
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:184
 msgid "Prompt the user when he or she tries to expunge a folder."
 msgstr "Atenționează utilizatorul când acesta încearcă să șteargă definitiv mesajele dintr-un dosar."
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:183
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:185
 msgid "Prompt when user calls Empty Junk"
 msgstr "Atenționează când utilizatorul cere golirea gunoiului"
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:184
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:186
 msgid "Prompt the user when he or she tries to Empty a Junk folder."
 msgstr "Atenționează utilizatorul când acesta încearcă să golească un dosar cu gunoi."
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:185
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:187
 msgid "Prompt before sending to recipients not entered as mail addresses"
 msgstr "Întreabă înainte de a trimite destinatarilor ce nu sunt introduși ca adrese de email"
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:186
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:188
 msgid ""
 "It disables/enables the repeated prompts to warn that you are trying to send a message to recipients not entered as mail "
 "addresses"
@@ -1821,47 +1832,47 @@ msgstr ""
 "Activează/dezactivează solicitările repetate pentru a vă avertiza că încercați să trimiteți un mesaj către destinatari ce "
 "nu au fost introduși ca adrese de email"
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:187
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:189
 msgid "Prompt when user only fills Bcc"
 msgstr "Atenționează când utilizatorul completează doar Bcc"
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:188
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:190
 msgid "Prompt when user tries to send a message with no To or Cc recipients."
 msgstr "Atenționează când utilizatorul încearcă să trimită un mesaj fără destinatari în câmpurile Către sau CC."
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:189
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:191
 msgid "Prompt when user tries to send unwanted HTML"
 msgstr "Atenționează când utilizatorul încearcă să trimită HTML fără intenție"
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:190
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:192
 msgid "Prompt when user tries to send HTML mail to recipients that may not want to receive HTML mail."
 msgstr ""
 "Atenționează când utilizatorul încearcă să trimită emailuri în format HTML către destinatari ce s-ar putea să nu dorească "
 "să primească emailuri HTML."
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:191
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:193
 msgid "Prompt when user tries to open 10 or more messages at once"
 msgstr "Atenționează când utilizatorul încearcă să deschidă 10 sau mai multe mesaje în același timp"
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:192
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:194
 msgid "If a user tries to open 10 or more messages at one time, ask the user if they really want to do it."
 msgstr ""
 "Dacă un utilizator încearcă să deschidă 10 sau mai multe mesaje în același timp, întreabă utilizatorul dacă dorește într-"
 "adevăr acest lucru."
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:193
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:195
 msgid "Prompt while marking multiple messages"
 msgstr "Atenționează la marcarea mai multor mesaje"
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:194
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:196
 msgid "Enable or disable the prompt whilst marking multiple messages."
 msgstr "Activează sau dezactivează atenționarea la marcarea mai multor mesaje."
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:195
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:197
 msgid "Prompt when deleting messages in search folder"
 msgstr "Intrebă atunci când urmează să se șteargă mesaje din dosarul de cautare"
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:196
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:198
 msgid ""
 "It disables/enables the repeated prompts to warn that deleting messages from a search folder permanently deletes the "
 "message, not simply removing it from the search results."
@@ -1869,11 +1880,11 @@ msgstr ""
 "Activează sau dezactivează notificările repetate prin care se atenționează că ștergerea mesajelor din dosarele de căutare "
 "determină ștergerea permanentă a mesajelor, nu doar înlăturarea lor din rezultatele căutării."
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:197
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:199
 msgid "Asks whether to copy a folder by drag &amp; drop in the folder tree"
 msgstr "Întreabă dacă să se copieze un dosar prin tragere și plasare în arborele cu dosare"
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:198
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:200
 msgid ""
 "Possible values are: “never” — do not allow copy with drag &amp; drop of folders in folder tree, “always” — allow copy "
 "with drag &amp; drop of folders in folder tree without asking, or “ask” — (or any other value) will ask user."
@@ -1882,11 +1893,11 @@ msgstr ""
 "permite copierea prin tragere și plasare a dosarelor în arborele cu dosare fără a întreba, sau „ask” — (sau orice altă "
 "valuare) va întreba utilizatorul."
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:199
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:201
 msgid "Asks whether to move a folder by drag &amp; drop in the folder tree"
 msgstr "Întreabă dacă să se mute un dosar prin tragere și plasare în arborele cu dosare"
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:200
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:202
 msgid ""
 "Possible values are: “never” — do not allow move with drag &amp; drop of folders in folder tree, “always” — allow move "
 "with drag &amp; drop of folders in folder tree without asking, or “ask” — (or any other value) will ask user."
@@ -1895,11 +1906,11 @@ msgstr ""
 "permite mutarea prin tragere și plasare a dosarelor în arborele cu dosare fără a întreba, sau „ask” — (sau orice altă "
 "valuare) va întreba utilizatorul."
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:201
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:203
 msgid "Prompt when replying privately to list messages"
 msgstr "Atenționează când se răspunde în privat unor mesaje de pe listă"
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:202
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:204
 msgid ""
 "It disables/enables the repeated prompts to warn that you are sending a private reply to a message which arrived via a "
 "mailing list."
@@ -1907,11 +1918,11 @@ msgstr ""
 "Activează/dezactivează notificările repetate pentru a vă avertiza că trimiteți un răspuns privat unui mesaj care a sosit "
 "de la o listă de discuții."
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:203
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:205
 msgid "Prompt when mailing list hijacks private replies"
 msgstr "Atenționează când lista de discuții pe email capturează răspunsurile private"
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:204
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:206
 msgid ""
 "It disables/enables the repeated prompts to warn that you are trying sending a private reply to a message which arrived "
 "via a mailing list, but the list sets a Reply-To: header which redirects your reply back to the list"
@@ -1920,19 +1931,19 @@ msgstr ""
 "care a sosit prin intermediul unei liste de discuții, dar lista stabilește un antet „Reply-To:” care vă redirecționează "
 "răspunsul înapoi către listă"
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:205
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:207
 msgid "Prompt when replying to many recipients"
 msgstr "Avertizează la trimiterea mesajelor cu mai mulți destinatari"
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:206
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:208
 msgid "It disables/enables the repeated prompts to warn that you are sending a reply to many people."
 msgstr "Activează/dezactivează notificările repetate pentru a vă avertiza că trimiteți un răspuns prea multor destinatari."
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:207
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:209
 msgid "Prompt when switching composer format and the content needs to lose its formatting"
 msgstr "Anunță când se schimbă formatul compunătorului și conținutul trebuie să-și piardă formatarea"
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:208
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:210
 msgid ""
 "It disables/enables the repeated prompts to warn that you are switching composer format and the content needs to lose its "
 "formatting."
@@ -1940,11 +1951,11 @@ msgstr ""
 "Activează/dezactivează notificările repetate pentru a vă avertiza că schimbați formatul compunătorului și conținutul "
 "trebuie să-și piardă formatarea."
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:209
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:211
 msgid "Prompt when sending to many To and CC recipients"
 msgstr "Anunță când se trimite la mulți destinatari în câmpurile „Către” și „CC”"
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:210
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:212
 msgid ""
 "Enable or disable the prompt when sending to many To and CC recipients. The “composer-many-to-cc-recips-num” defines the "
 "threshold."
@@ -1952,52 +1963,52 @@ msgstr ""
 "Activează sau dezactivează promptul când se trimite la mulți destinatari în câmpurile „Către” și „CC”. Cheia „composer-"
 "many-to-cc-recips-num” definește pragul."
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:211
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:213
 msgid "Policy for automatically closing the message browser window when forwarding or replying to the displayed message."
 msgstr ""
 "Politica pentru închiderea automată a ferestrei navigatorului de mesaje când se înaintează sau răspunde la mesajul afișat."
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:212
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:214
 msgid "Empty Trash folders on exit"
 msgstr "Golește dosarele de gunoi la ieșire"
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:213
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:215
 msgid "Empty all Trash folders when exiting Evolution."
 msgstr "Golește toate dosarele coșuri de gunoi la ieșirea din Evolution."
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:214
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:216
 msgid "Minimum days between emptying the trash on exit"
 msgstr "Numărul minim de zile pentru golirea coșului de gunoi la ieșire"
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:215
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:217
 msgid "Minimum time between emptying the trash on exit, in days."
 msgstr "Durata de timp minimă pentru golirea coșului de gunoi la ieșire, în zile."
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:216
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:218
 msgid "Last time Empty Trash was run"
 msgstr "Ultima dată la care a fost golit Coșul de gunoi"
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:217
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:219
 msgid "The last time Empty Trash was run, in days since January 1st, 1970 (Epoch)."
 msgstr "Ultima dată la care a fost golit Coșul de gunoi a fost la 1 Ianuarie 1970 (când a început epoca Unix)"
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:218
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:220
 msgid "Amount of time in seconds the error should be shown on the status bar."
 msgstr "Numărul de secunde pentru care eroare va fi arătată în bara de stare."
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:219
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:221
 msgid "Level beyond which the message should be logged."
 msgstr "Nivelul la care mesajul trebuie înregistrat."
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:220
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:222
 msgid "This can have three possible values. “0” for errors. “1” for warnings. “2” for debug messages."
 msgstr "Aceasta poate avea trei valori. „0” pentru erori. „1” pentru avertizări. „2” pentru mesaje de depanare."
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:221
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:223
 msgid "Show original “Date” header value."
 msgstr "Arată valoarea originală a antetului „Dată”."
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:222
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:224
 msgid ""
 "Show the original “Date” header (with a local time only if the time zone differs). Otherwise always show “Date” header "
 "value in a user preferred format and local time zone."
@@ -2005,11 +2016,11 @@ msgstr ""
 "Arată antetul „Dată” original (cu ora locală, doar dacă fusurile orare diferă). Altfel arată tot timpul valoarea antetului "
 "„Dată” într-un format și fus orar definit de utilizator."
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:223
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:225
 msgid "List of Labels and their associated colors"
 msgstr "Lista etichetelor și culorile lor asociate"
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:224
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:226
 msgid ""
 "List of labels known to the mail component of Evolution. The list contains strings containing name:color where color uses "
 "the HTML hex encoding."
@@ -2017,43 +2028,43 @@ msgstr ""
 "Lista etichetelor cunoscute de componenta de email a Evolution. Lista conține șiruri de forma nume:culoare, unde culoarea "
 "folosește codarea hexazecimală HTML."
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:225
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:227
 msgid "Check incoming mail being junk"
 msgstr "Verificați pentru spam în mesajele noi venite"
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:226
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:228
 msgid "Run junk test on incoming mail."
 msgstr "Testează toate mesajele care sosesc pentru a vedea care sunt spam."
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:227
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:229
 msgid "Empty Junk folders on exit"
 msgstr "La ieșire golește dosarele Spam"
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:228
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:230
 msgid "Empty all Junk folders when exiting Evolution."
 msgstr "La ieșire din Evolution golește toate dosarele Spam."
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:229
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:231
 msgid "Minimum days between emptying the junk on exit"
 msgstr "Minimum de zile între golirea la ieșire a dosarelor Spam"
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:230
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:232
 msgid "Minimum time between emptying the junk on exit, in days."
 msgstr "Intervalul minimum între golirea la ieșire a dosarelor Spam, în zile."
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:231
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:233
 msgid "Last time Empty Junk was run"
 msgstr "Ultima dată la care a fost golit dosarul Spam"
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:232
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:234
 msgid "The last time Empty Junk was run, in days since January 1st, 1970 (Epoch)."
 msgstr "Ultima dată la care a fost golit dosarul Spam a fost la 1 Ianuarie 1970 (când a început epoca Unix)"
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:233
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:235
 msgid "The default plugin for Junk hook"
 msgstr "Modulul implicit pentru prinderea Spamului"
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:234
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:236
 msgid ""
 "This is the default junk plugin, even though there are multiple plugins enabled. If the default listed plugin is disabled, "
 "then it won’t fall back to the other available plugins."
@@ -2061,11 +2072,11 @@ msgstr ""
 "Acesta este modulul implicit pentru spam, chiar dacă sunt mai multe module activate. Dacă modulul implicit este "
 "dezactivat, nu se vor folosi restul de module disponibile."
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:235
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:237
 msgid "Determines whether to lookup in address book for sender email"
 msgstr "Determină dacă să se verifice în agendă pentru adresa email a expeditorului"
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:236
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:238
 msgid ""
 "Determines whether to lookup the sender email in address book. If found, it shouldn’t be a spam. It looks up in the books "
 "marked for autocompletion. It can be slow, if remote address books (like LDAP) are marked for autocompletion."
@@ -2074,11 +2085,11 @@ msgstr ""
 "Va căuta în agendele marcate pentru autocompletare. Poate fi încet, dacă agendele (cum ar fi LDAP) sunt marcate pentru "
 "autocompletare."
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:237
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:239
 msgid "Determines whether to look up addresses for junk filtering in local address book only"
 msgstr "Determină dacă să se verifice adresele pentru filtrarea spam doar în agenda personală"
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:238
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:240
 msgid ""
 "This option is related to the key lookup_addressbook and is used to determine whether to look up addresses in local "
 "address book only to exclude mail sent by known contacts from junk filtering."
@@ -2086,11 +2097,11 @@ msgstr ""
 "Această opțiune este legată de cheia lookup_addressbook și este folosită pentru a determina dacă să se caute adrese în "
 "agenda locală de adrese doar pentru a exclude mesajele trimise de contacte cunoscute de la filtrul de spam."
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:239
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:241
 msgid "Determines whether to use custom headers to check for junk"
 msgstr "Determină pentru verificarea spamului să fie folosite anteturi personalizate"
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:240
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:242
 msgid ""
 "Determines whether to use custom headers to check for junk. If this option is enabled and the headers are mentioned, it "
 "will be improve the junk checking speed."
@@ -2098,51 +2109,51 @@ msgstr ""
 "Determină dacă să fie folosite anteturi specifice pentru a cauta mesajele spam.Dacă această opțiune este activată și se "
 "specifică anteturile, viteza de verificare a mesajelor spam va fi îmbunătățită."
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:241
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:243
 msgid "Custom headers to use while checking for junk."
 msgstr "Anteturile personalizate de folosit la verificarea pentru spam."
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:242
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:244
 msgid "Custom headers to use while checking for junk. The list elements are string in the format “headername=value”."
 msgstr ""
 "Anteturi personalizate de folosit la verificarea pentru spam. Elementele listei sunt șiruri de caractere de forma "
 "„numeantet=valoare”."
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:243
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:245
 msgid "UID string of the default account."
 msgstr "Stringul UID pentru contul implicit."
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:244
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:246
 msgid "Save directory"
 msgstr "Director salvare"
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:245
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:247
 msgid "Directory for saving mail component files."
 msgstr "Director în care să fie salvate fișierele componente ale unui email."
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:246
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:248
 msgid "Composer load/attach directory"
 msgstr "Director pentru atașare fișiere la compunere"
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:247
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:249
 msgid "Directory for loading/attaching files to composer."
 msgstr "Director de unde să fie încărcate/atașate fișiere la compunere."
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:248
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:250
 msgid "Check for new messages on start"
 msgstr "Verifică mesajele noi la pornire"
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:249
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:251
 msgid "Whether to check for new messages when Evolution is started. This includes also sending messages from Outbox."
 msgstr ""
 "Dacă să se verifice pentru mesaje noi, la pornirea Evolution. Aceasta include, de asemenea, trimiterea de mesaje din "
 "Netrimise."
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:250
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:252
 msgid "Check for new messages in all active accounts"
 msgstr "Verifică mesajele noi în toate conturile active"
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:251
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:253
 msgid ""
 "Whether to check for new messages in all active accounts regardless of the account “Check for new messages every X "
 "minutes” option when Evolution is started. This option is used only together with “send_recv_on_start” option."
@@ -2151,11 +2162,11 @@ msgstr ""
 "fiecare X minute” când se pornește Evolution. Această opțiune este utilizată numai împreună cu opțiunea "
 "„send_recv_on_start”."
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:252
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:254
 msgid "Server synchronization interval"
 msgstr "Interval sincronizare server"
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:253
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:255
 msgid ""
 "Controls how frequently local changes are synchronized with the remote mail server. The interval must be at least 30 "
 "seconds."
@@ -2163,11 +2174,11 @@ msgstr ""
 "Controlează cât de frecvent, schimbările locale sunt sincronizate cu serverul de email. Acest interval trebuie să fie de "
 "cel puțin 30 de secunde."
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:254
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:256
 msgid "Allow expunge in virtual folders"
 msgstr "Permite ștergerea definitivă în dosarele virtuale"
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:255
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:257
 msgid ""
 "Enables Expunge in virtual folders, which means that the Folder→Expunge will be callable in virtual folders, while the "
 "expunge itself will be done in all folders for all deleted messages within the virtual folder, not only for deleted "
@@ -2177,95 +2188,95 @@ msgstr ""
 "dosarele virtuale, în timp ce ștergerea definitivă va putea fi efectuată pentru toate mesajele șterse din dosarul virtual, "
 "nu numai pentru mesajele ce aparțin dosarului virtual."
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:256 ../src/mail/mail-config.ui.h:9
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:258 ../src/mail/mail-config.ui.h:9
 msgid "Inherit theme colors in HTML format"
 msgstr "Moștenește culorile temei în format HTML"
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:257
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:259
 msgid "When enabled the theme colors for background, text and links are sent in resulting HTML formatted message."
 msgstr "Când este activ, culorile temei pentru fundal, text și legături sunt trimise în mesajul formatat HTML."
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:258
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:260
 msgid "An Archive folder for On This Computer folders."
 msgstr "Un dosar Arhivă pentru dosarele din „Pe acest calculator”."
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:259
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:261
 msgid "An Archive folder to use for Messages|Archive... feature when in an On This Computer folder."
 msgstr ""
 "Un dosar de Arhivă de folosit pentru funcționalitatea Mesaje|Arhivă... când sunteți în dosarul „Pe acest calculator”."
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:260
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:262
 msgid "Whether the To Do bar is visible in the main window"
 msgstr "Dacă bara „De făcut” este vizibilă în fereastra principală"
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:261
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:263
 msgid "Stores whether the To Do bar is visible in the main window."
 msgstr "Stochează dacă sau nu bara „De făcut” este vizibilă în fereastra principală."
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:262
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:264
 msgid "Width of the To Do bar in the main window"
 msgstr "Lățimea barei „De făcut” în fereastra principală"
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:263
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:265
 msgid "Holds the width of the To Do bar for the main window."
 msgstr "Ține lățimea barei „De făcut” pentru fereastra principală."
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:264
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:266
 msgid "Whether the To Do bar is visible in a sub-window"
 msgstr "Dacă bara „De făcut” este vizibilă într-o sub-fereastră"
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:265
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:267
 msgid "Stores whether the To Do bar is visible in a sub-window."
 msgstr "Stochează dacă sau nu bara „De făcut” este vizibilă într-o subfereastră."
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:266
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:268
 msgid "Width of the To Do bar in a sub-window"
 msgstr "Lățimea barei „De făcut” între-o subfereastră"
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:267
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:269
 msgid "Holds the width of the To Do bar for a sub-window."
 msgstr "Tîne lățimea barei „De făcut” pentru o sub-fereastră."
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:268
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:270
 msgid "Whether the To Do bar should show also completed tasks"
 msgstr "Dacă bara „De făcut” ar trebui să arate sarcini completate"
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:269
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:271
 msgid "Stores whether the To Do bar should show also completed tasks."
 msgstr "Stochează dacă bara „De făcut” ar trebui să arate și sarcini completate."
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:270
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:272
 msgid "Whether the To Do bar should show also tasks without Due date"
 msgstr "Dacă bara „De făcut” ar trebui să arate sarcini fără dată scadentă"
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:271
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:273
 msgid "Stores whether the To Do bar should show also tasks without Due date."
 msgstr "Stochează dacă bara „De făcut” ar trebui să arate și sarcini fără o dată scadentă."
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:272
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:274
 msgid "Show start up wizard"
 msgstr "Arată asistentul la pornire"
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:273
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:275
 msgid "Whether show start up wizard when there is no mail account configured."
 msgstr "Dacă să se arate asistentul de pornire când nu există vreun cont de email configurat."
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:274
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:276
 msgid "Whether go to the previous message after message deletion"
 msgstr "Dacă să se navigheze la mesajul anterior după ștergerea mesajului"
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:275
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:277
 msgid ""
 "If set to true, goes to the previous message when the selected is deleted; or to the next message, when it’s set to false."
 msgstr ""
 "Dacă este stabilită la adevărat, navighează la mesajul anterior când cel selectat este șters; sau la următorul mesaj, când "
 "este stabilită la fals."
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:276
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:278
 msgid "Show Subject above Sender in Messages column"
 msgstr "Arată subiectul deasupra expeditorului în coloana cu mesaje"
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:277
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:279
 msgid ""
 "Whether to show Subject above Sender (From/To) in the Messages column, usually shown in the Vertical/Wide view of the "
 "message list"
@@ -2273,57 +2284,57 @@ msgstr ""
 "Dacă să se arate Subiectul deasupra Expeditorului (De la/Către) în coloana cu mesaje, de obicei afișată în vizualizarea "
 "verticală/lată a listei de mesaje"
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:278
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:280
 msgid "Visually wrap long lines in composer"
 msgstr "Încadrează vizual linii lungi în compunător"
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:279 ../src/composer/e-composer-actions.c:556
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:281 ../src/composer/e-composer-actions.c:556
 msgid "Whether to visually wrap long lines of text to avoid horizontal scrolling"
 msgstr "Dacă să se încadreze vizual liniile lungi de text pentru a evita derulare orizontală"
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:280
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:282
 msgid "Alternative reply style"
 msgstr "Stilul pentru răspuns alternativ"
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:281
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:283
 msgid "Format message in HTML"
 msgstr "Formatează mesajele în HTML"
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:282
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:284
 msgid "Put the cursor at the bottom of alternative replies"
 msgstr "Plasează cursorul la sfârșitul răspunsurilor alternative"
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:283
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:285
 msgid "This determines whether the cursor is placed at the top of the message or the bottom when using Alternative Reply."
 msgstr ""
 "Aceasta determină dacă cursorul este plasat la vârful mesajului sau la baza lui când se folosește Răspuns alternativ."
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:284
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:286
 msgid "Put the signature at the top of the message"
 msgstr "Pune semnătura la începutul mesajului"
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:285
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:287
 msgid "This determines whether the signature is placed at the top of the message or the bottom when using Alternative Reply."
 msgstr ""
 "Aceasta determină dacă semnătura este plasată la vârful mesajului sau la baza lui când se folosește Răspuns alternativ."
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:286
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:288
 msgid "Apply chosen template when using Alternative Reply"
 msgstr "Aplică șablonul ales când se folosește Răspuns alternativ"
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:287
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:289
 msgid "Last chosen template’s folder URI for Alternative Reply"
 msgstr "URI-ul dosarului pentru șablonul ales ultima dată pentru Răspuns alternativ"
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:288
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:290
 msgid "Last chosen template’s message UID for Alternative Reply"
 msgstr "UID-ul mesajului pentru șablonul ales ultima dată pentru Răspuns alternativ"
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:289
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:291
 msgid "Whether preserve original message subject when applying template for Alternative Reply"
 msgstr "Dacă să se păstreze subiectul mesajului original când se aplică șablonul pentru Răspuns alternativ"
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:290
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:292
 msgid ""
 "Whether set “body” in mailto: URI as Preformatted paragraph style. If set to “false”, then Normal paragraph style will be "
 "used."
@@ -2331,19 +2342,19 @@ msgstr ""
 "Dacă este stabilit la „body” în mailto: URI ca stil de paragraf neformatat. Dacă este stabilit la „fals”, atunci stilul de "
 "paragraf normal va fi folosit."
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:291
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:293
 msgid "Close the message browser window when the selected message is deleted or marked as Junk."
 msgstr "Închide fereastra navigatorului de mesaje când mesajul selectat este șters sau marcat ca Spam."
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:292
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:294
 msgid "Collapse archive folders in Move/Copy message to Folder and Go to Folder selectors."
 msgstr "Pliază dosarele arhivă în selectorii „Mută/Copiază mesajul în dosar” și „Navighează la dosar”."
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:293
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:295
 msgid "Where to lookup recipient S/MIME certificates or PGP keys when encrypting messages."
 msgstr "Dacă să se verifice certificatele S/MIME ale destinatarului sau cheile PGP când se criptează mesajele."
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:294
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:296
 msgid ""
 "The “off” value completely disables certificate lookup; the “autocompleted” value provides certificates only for auto-"
 "completed contacts; the “books” value uses certificates from auto-completed contacts and searches in books marked for auto-"
@@ -2353,11 +2364,11 @@ msgstr ""
 "contactele autocompletate; valoarea „books” folosește certificate de la contactele autocompletate și căutări în cărți "
 "marcate pentru autocompletare."
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:295
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:297
 msgid "Whether Send/Receive should also download of messages for offline."
 msgstr "Dacă Trimite/Primește ar trebui să descărce mesaje pentru vizualizarea în modul deconectat."
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:296
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:298
 msgid ""
 "If enabled, whenever Send/Receive is run it also runs synchronization of messages for offline use. The option is disabled "
 "by default."
@@ -2365,28 +2376,28 @@ msgstr ""
 "Dacă este activat, de oricâte ori Trimite/Primește este rulat va rula de asemenea o sincronizare a mesajelor pentru "
 "utilizare în modul deconectat. Această opțiune este dezactivată în mod implicit."
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:297
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:299
 msgid "Whether display delivery notification parts inline."
 msgstr "Dacă să se afișeze părțile de notificare ale livrării intercalat."
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:298
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:300
 msgid "If enabled, the message/delivery-status and message/disposition-notification parts are shown automatically inline."
 msgstr ""
 "Dacă este activat, părțile message/delivery-status și message/disposition-notification sunt afișate automat intercalate."
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:299
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:301
 msgid "Whether unset colors provided in HTML mails."
 msgstr "Dacă să se destabilească culorile oferite de emailurile HTML."
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:300
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:302
 msgid "If enabled, unset colors in HTML messages, forcing use of desktop theme colors instead."
 msgstr "Dacă este activat, culorile din mesajele HTLM vor fi destabilite, forțând culorile temei desktopului în loc."
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:301
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:303
 msgid "Whether to preserve expand state of the folders when calling Copy/Move to Folder."
 msgstr "Dacă se păstrează starea extinsă a dosarelor când se apelează Copiază/Mută în dosar."
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:302
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:304
 msgid ""
 "If enabled, the Copy/Move to Folder dialog will preserve the expand state of the folders in the dialog, otherwise all the "
 "folders will be expanded."
@@ -2394,54 +2405,54 @@ msgstr ""
 "Dacă este activată, dialogul Copiază/Mută în dosar va păstra starea extinsă a dosarelor din dialog, altfel toate dosarele "
 "vor fi extinse."
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:303
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:305
 msgid "(Deprecated) Default forward style"
 msgstr "(Învechită) Stilul implicit pentru înaintare"
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:304
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:306
 msgid "This key was deprecated in version 3.10 and should no longer be used. Use “forward-style-name” instead."
 msgstr ""
 "Această cheie a fost marcată ca învechită în versiunea 3.10 și nu ar trebui să mai fie folosită. Utilizați „forward-style-"
 "name” în locul acesteia."
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:305
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:307
 msgid "(Deprecated) Default reply style"
 msgstr "(Învechită) Stilul implicit pentru răspuns"
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:306
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:308
 msgid "This key was deprecated in version 3.10 and should no longer be used. Use “reply-style-name” instead."
 msgstr ""
 "Această cheie a fost marcată ca învechită în versiunea 3.10 și nu ar trebui să mai fie folosită. Utilizați „reply-style-"
 "name” în locul acesteia."
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:307
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:309
 msgid "(Deprecated) List of custom headers and whether they are enabled."
 msgstr "(Învechită) Lista anteturilor personalizate și afișarea lor."
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:308
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:310
 msgid "This key was deprecated in version 3.10 and should no longer be used. Use “show-headers” instead."
 msgstr ""
 "Această cheie a fost marcată ca învechită în versiunea 3.10 și nu ar trebui să mai fie folosită. Utilizați „show-headers” "
 "în locul acesteia."
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:309
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:311
 msgid "(Deprecated) Load images for HTML messages over HTTP"
 msgstr "(Învechită) Încarcă imaginile pentru mesajele HTML prin HTTP"
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:310
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:312
 msgid "This key was deprecated in version 3.10 and should no longer be used. Use “image-loading-policy” instead."
 msgstr ""
 "Această cheie a fost marcată ca învechită în versiunea 3.10 și nu ar trebui să mai fie folosită. Utilizați „image-loading-"
 "policy” în locul acesteia."
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:311
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:313
 msgid ""
 "(Deprecated) Asks whether to close the message window when the user forwards or replies to the message shown in the window"
 msgstr ""
 "(Învechită) Întreabă dacă să închidă fereastra de mesaje când utilizatorul înaintează sau răspunde la mesajul arătat în "
 "fereastră"
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:312
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:314
 msgid "This key was deprecated in version 3.10 and should no longer be used. Use “browser-close-on-reply-policy” instead."
 msgstr ""
 "Această cheie a fost marcată ca învechită în versiunea 3.10 și nu ar trebui să mai fie folosită. Utilizați „browser-close-"
@@ -3501,7 +3512,7 @@ msgstr "Un contact cu această adresă există deja. Doriți să adăugați totu
 #: ../src/mail/em-vfolder-editor-rule.c:634 ../src/mail/mail-config.ui.h:63 ../src/modules/mail/em-composer-prefs.c:420
 #: ../src/plugins/attachment-reminder/attachment-reminder.c:544 ../src/plugins/email-custom-header/email-custom-header.c:826
 #: ../src/plugins/publish-calendar/publish-calendar.ui.h:33 ../src/plugins/sender-validation/sender-validation.c:498
-#: ../src/plugins/templates/templates.c:464
+#: ../src/plugins/templates/templates.c:470
 msgid "_Add"
 msgstr "_Adaugă"
 
@@ -3671,7 +3682,7 @@ msgstr "Opțiuni"
 #: ../src/e-util/e-source-selector-dialog.c:325 ../src/e-util/e-table-config.c:540 ../src/e-util/e-table-config.ui.h:3
 #: ../src/e-util/e-timezone-dialog.ui.h:2 ../src/e-util/evolution-source-viewer.c:829 ../src/e-util/e-web-view.c:3981
 #: ../src/e-util/gal-view-instance-save-as-dialog.c:265 ../src/mail/e-mail-config-window.c:310
-#: ../src/mail/e-mail-label-dialog.c:186 ../src/mail/e-mail-tag-editor.c:160 ../src/mail/em-composer-utils.c:4023
+#: ../src/mail/e-mail-label-dialog.c:186 ../src/mail/e-mail-tag-editor.c:160 ../src/mail/em-composer-utils.c:4031
 #: ../src/mail/em-folder-selector.c:333 ../src/mail/mail-config.ui.h:2 ../src/mail/mail.error.xml.h:16
 #: ../src/mail/mail-send-recv.c:874 ../src/mail/mail-send-recv.c:955 ../src/mail/mail-vfolder-ui.c:149
 #: ../src/mail/mail-vfolder-ui.c:271 ../src/modules/accounts-window/e-accounts-window-editors.c:277
@@ -3703,7 +3714,7 @@ msgstr "_Salvează"
 msgid "_Help"
 msgstr "_Ajutor"
 
-#: ../src/addressbook/gui/contact-editor/contact-editor.ui.h:17 ../src/e-util/e-misc-utils.c:3571
+#: ../src/addressbook/gui/contact-editor/contact-editor.ui.h:17 ../src/e-util/e-misc-utils.c:3585
 msgid "Image"
 msgstr "Imagine"
 
@@ -3845,12 +3856,12 @@ msgid "_Anniversary:"
 msgstr "A_niversare:"
 
 #: ../src/addressbook/gui/contact-editor/contact-editor.ui.h:52 ../src/addressbook/gui/widgets/eab-contact-formatter.c:1048
-#: ../src/addressbook/gui/widgets/e-addressbook-view.etspec.h:47 ../src/calendar/gui/e-calendar-view.c:2195
+#: ../src/addressbook/gui/widgets/e-addressbook-view.etspec.h:47 ../src/calendar/gui/e-calendar-view.c:2204
 msgid "Anniversary"
 msgstr "Aniversare"
 
 #: ../src/addressbook/gui/contact-editor/contact-editor.ui.h:53 ../src/addressbook/gui/widgets/eab-contact-formatter.c:1047
-#: ../src/addressbook/gui/widgets/e-addressbook-view.etspec.h:46 ../src/calendar/gui/e-calendar-view.c:2194
+#: ../src/addressbook/gui/widgets/e-addressbook-view.etspec.h:46 ../src/calendar/gui/e-calendar-view.c:2203
 msgid "Birthday"
 msgstr "Ziua de naștere"
 
@@ -3930,7 +3941,7 @@ msgstr "Adaugă _X.509"
 #: ../src/mail/em-vfolder-editor-rule.c:639 ../src/mail/mail-config.ui.h:64
 #: ../src/plugins/attachment-reminder/attachment-reminder.c:554 ../src/plugins/email-custom-header/email-custom-header.c:836
 #: ../src/plugins/publish-calendar/publish-calendar.c:789 ../src/plugins/publish-calendar/publish-calendar.ui.h:35
-#: ../src/plugins/sender-validation/sender-validation.c:508 ../src/plugins/templates/templates.c:474
+#: ../src/plugins/sender-validation/sender-validation.c:508 ../src/plugins/templates/templates.c:480
 msgid "_Remove"
 msgstr "E_limină"
 
@@ -3947,7 +3958,7 @@ msgid "Certificates"
 msgstr "Certificate"
 
 #: ../src/addressbook/gui/contact-editor/e-contact-editor.c:261 ../src/calendar/gui/e-comp-editor.c:2156
-#: ../src/e-util/e-html-editor-actions.c:1107
+#: ../src/e-util/e-html-editor-actions.c:1109
 msgid "_Undo"
 msgstr "An_ulează"
 
@@ -3957,7 +3968,7 @@ msgid "Undo"
 msgstr "Anulează"
 
 #: ../src/addressbook/gui/contact-editor/e-contact-editor.c:268 ../src/calendar/gui/e-comp-editor.c:2163
-#: ../src/e-util/e-html-editor-actions.c:1093
+#: ../src/e-util/e-html-editor-actions.c:1095
 msgid "_Redo"
 msgstr "_Refă"
 
@@ -4282,7 +4293,7 @@ msgstr "Email-ul începe cu"
 
 #: ../src/addressbook/gui/widgets/addresstypes.xml.h:3 ../src/calendar/gui/caltypes.xml.in.h:27
 #: ../src/calendar/gui/memotypes.xml.in.h:20 ../src/calendar/gui/tasktypes.xml.in.h:38
-#: ../src/modules/addressbook/e-book-shell-view-actions.c:1295 ../src/modules/calendar/e-cal-shell-view-actions.c:1692
+#: ../src/modules/addressbook/e-book-shell-view-actions.c:1295 ../src/modules/calendar/e-cal-shell-view-actions.c:1672
 #: ../src/modules/calendar/e-memo-shell-view-actions.c:807 ../src/modules/calendar/e-task-shell-view-actions.c:1036
 msgid "Any field contains"
 msgstr "Orice câmp conține"
@@ -4308,7 +4319,7 @@ msgstr "Trimite me_saj nou către…"
 msgid "Send a mail message to this address"
 msgstr "Trimite un mesaj email către această adresă"
 
-#: ../src/addressbook/gui/widgets/eab-contact-display.c:317 ../src/e-util/e-misc-utils.c:4536
+#: ../src/addressbook/gui/widgets/eab-contact-display.c:317 ../src/e-util/e-misc-utils.c:4550
 #, c-format
 msgid "Click to mail %s"
 msgstr "Clic pentru a trimite email către %s"
@@ -4681,7 +4692,7 @@ msgstr "Sigur doriți să ștergeți acest contact (%s)?"
 #: ../src/addressbook/gui/widgets/e-addressbook-view.c:1326 ../src/calendar/gui/e-comp-editor.c:2114
 #: ../src/e-util/e-accounts-window.c:1753 ../src/e-util/e-focus-tracker.c:816 ../src/e-util/evolution-source-viewer.c:800
 #: ../src/e-util/e-webdav-browser.c:2785 ../src/mail/e-mail-account-manager.c:739
-#: ../src/modules/addressbook/e-book-shell-view-actions.c:1173 ../src/modules/calendar/e-cal-shell-view-actions.c:1499
+#: ../src/modules/addressbook/e-book-shell-view-actions.c:1173 ../src/modules/calendar/e-cal-shell-view-actions.c:1479
 #: ../src/modules/calendar/e-memo-shell-view-actions.c:697 ../src/modules/calendar/e-task-shell-view-actions.c:851
 #: ../src/modules/mail/e-mail-shell-view-actions.c:1622 ../src/shell/e-shell-window-actions.c:961
 #: ../src/smime/gui/certificate-manager.c:1651 ../src/smime/gui/smime-ui.ui.h:8
@@ -4886,12 +4897,12 @@ msgid "Zoom _In"
 msgstr "_Mărește"
 
 #. Zoom-out button
-#: ../src/addressbook/gui/widgets/e-contact-map-window.c:417 ../src/mail/e-mail-reader.c:2876
+#: ../src/addressbook/gui/widgets/e-contact-map-window.c:417 ../src/mail/e-mail-reader.c:2878
 msgid "Zoom _Out"
 msgstr "Mi_cșorează"
 
 #. Search button
-#: ../src/addressbook/gui/widgets/e-contact-map-window.c:447 ../src/e-util/e-html-editor-actions.c:2204
+#: ../src/addressbook/gui/widgets/e-contact-map-window.c:447 ../src/e-util/e-html-editor-actions.c:2206
 #: ../src/e-util/e-html-editor-find-dialog.c:244 ../src/shell/e-shell-window-actions.c:1038
 msgid "_Find"
 msgstr "_Caută"
@@ -6131,7 +6142,7 @@ msgstr "Fără titlu"
 msgid "Categories:"
 msgstr "Categorii:"
 
-#: ../src/calendar/gui/e-cal-component-preview.c:288 ../src/modules/cal-config-weather/evolution-cal-config-weather.c:246
+#: ../src/calendar/gui/e-cal-component-preview.c:288 ../src/modules/cal-config-weather/evolution-cal-config-weather.c:280
 #: ../src/modules/itip-formatter/itip-view.c:1702 ../src/modules/itip-formatter/itip-view.c:1814
 msgid "Location:"
 msgstr "Locație:"
@@ -6239,7 +6250,7 @@ msgstr "_Retrage comentariu"
 msgid "Select Date"
 msgstr "Selectați data"
 
-#: ../src/calendar/gui/e-cal-dialogs.c:689 ../src/modules/calendar/e-cal-shell-view-actions.c:1256
+#: ../src/calendar/gui/e-cal-dialogs.c:689 ../src/modules/calendar/e-cal-shell-view-actions.c:1236
 msgid "Select _Today"
 msgstr "Selectează _azi"
 
@@ -6415,7 +6426,7 @@ msgstr "%a %d %b %Y"
 #. * "Organizer: NameOfTheUser <email@ofuser.com>"
 #. To Translators: It will display
 #. * "Organizer: NameOfTheUser <email@ofuser.com>"
-#: ../src/calendar/gui/e-calendar-view.c:1946 ../src/calendar/gui/e-memo-table.c:561 ../src/calendar/gui/e-task-table.c:730
+#: ../src/calendar/gui/e-calendar-view.c:1955 ../src/calendar/gui/e-memo-table.c:561 ../src/calendar/gui/e-task-table.c:730
 #, c-format
 msgid "Organizer: %s <%s>"
 msgstr "Organizator: %s <%s>"
@@ -6423,14 +6434,14 @@ msgstr "Organizator: %s <%s>"
 #. With SunOne accounts, there may be no ':' in organiser.value
 #. With SunOne accounts, there may be no ':' in
 #. * organizer.value.
-#: ../src/calendar/gui/e-calendar-view.c:1949 ../src/calendar/gui/e-memo-table.c:566 ../src/calendar/gui/e-task-table.c:734
+#: ../src/calendar/gui/e-calendar-view.c:1958 ../src/calendar/gui/e-memo-table.c:566 ../src/calendar/gui/e-task-table.c:734
 #, c-format
 msgid "Organizer: %s"
 msgstr "Organizator: %s"
 
 #. Translators: It will display "Location: PlaceOfTheMeeting"
 #. Translators: It will display "Location: LocationOfTheAppointment"
-#: ../src/calendar/gui/e-calendar-view.c:1968 ../src/calendar/gui/e-meeting-time-sel.c:2580
+#: ../src/calendar/gui/e-calendar-view.c:1977 ../src/calendar/gui/e-meeting-time-sel.c:2580
 #: ../src/calendar/gui/e-task-table.c:752 ../src/calendar/gui/e-to-do-pane.c:377 ../src/calendar/gui/print.c:3627
 #, c-format
 msgid "Location: %s"
@@ -6438,13 +6449,13 @@ msgstr "Locație: %s"
 
 #. To Translators: It will display "Time: ActualStartDateAndTime (DurationOfTheMeeting)"
 #. Translators: It will display "Time: StartDateAndTime (Duration)"
-#: ../src/calendar/gui/e-calendar-view.c:2027 ../src/calendar/gui/e-to-do-pane.c:480
+#: ../src/calendar/gui/e-calendar-view.c:2036 ../src/calendar/gui/e-to-do-pane.c:480
 #, c-format
 msgid "Time: %s %s"
 msgstr "Data: %s %s"
 
-#: ../src/calendar/gui/e-calendar-view.c:2096 ../src/calendar/gui/e-memo-table.c:660 ../src/calendar/gui/e-task-table.c:882
-#: ../src/calendar/gui/e-to-do-pane.c:590 ../src/e-util/e-misc-utils.c:4600 ../src/e-util/e-text.c:566
+#: ../src/calendar/gui/e-calendar-view.c:2105 ../src/calendar/gui/e-memo-table.c:660 ../src/calendar/gui/e-task-table.c:882
+#: ../src/calendar/gui/e-to-do-pane.c:590 ../src/e-util/e-misc-utils.c:4614 ../src/e-util/e-text.c:566
 #: ../src/e-util/e-web-view.c:4162
 msgid "…"
 msgstr "…"
@@ -6453,7 +6464,7 @@ msgstr "…"
 #. The string is used for Birthday & Anniversary events where the first year is
 #. know, constructing a summary which also shows how many years the birthday or
 #. anniversary is for. Example: "Birthday: John Doe (13)"
-#: ../src/calendar/gui/e-calendar-view.c:2214
+#: ../src/calendar/gui/e-calendar-view.c:2223
 #, c-format
 msgctxt "BirthdaySummary"
 msgid "%s (%d)"
@@ -6830,10 +6841,10 @@ msgstr "Ora începerii nu este validă"
 
 #: ../src/calendar/gui/e-comp-editor-event.c:506 ../src/calendar/gui/e-comp-editor-event.c:522
 #: ../src/calendar/gui/e-comp-editor-page-attachments.c:206 ../src/calendar/gui/e-comp-editor.c:340
-#: ../src/composer/e-composer-actions.c:180 ../src/em-format/e-mail-part-secure-button.c:97 ../src/e-util/e-misc-utils.c:3989
-#: ../src/e-util/e-misc-utils.c:4001 ../src/e-util/e-misc-utils.c:4015 ../src/mail/e-mail-autoconfig.c:1041
+#: ../src/composer/e-composer-actions.c:180 ../src/em-format/e-mail-part-secure-button.c:97 ../src/e-util/e-misc-utils.c:4003
+#: ../src/e-util/e-misc-utils.c:4015 ../src/e-util/e-misc-utils.c:4029 ../src/mail/e-mail-autoconfig.c:1041
 #: ../src/mail/e-mail-display.c:2449 ../src/mail/e-mail-notes.c:875 ../src/mail/e-mail-reader-utils.c:805
-#: ../src/mail/em-composer-utils.c:3816 ../src/mail/em-composer-utils.c:3847 ../src/mail/mail-send-recv.c:598
+#: ../src/mail/em-composer-utils.c:3820 ../src/mail/em-composer-utils.c:3851 ../src/mail/mail-send-recv.c:598
 #: ../src/mail/mail-send-recv.c:1493 ../src/modules/accounts-window/e-accounts-window-editors.c:172
 #: ../src/plugins/face/face.c:175 ../src/shell/e-shell.c:1235 ../src/shell/e-shell.c:1260
 #: ../src/smime/gui/certificate-manager.c:357
@@ -7147,13 +7158,13 @@ msgid "Atte_ndees…"
 msgstr "Participa_nți…"
 
 #: ../src/calendar/gui/e-comp-editor-page-general.c:1499 ../src/calendar/gui/e-comp-editor-page-recurrence.c:2324
-#: ../src/calendar/gui/e-comp-editor.c:2179 ../src/e-util/e-accounts-window.c:1745 ../src/e-util/e-html-editor-actions.c:1116
+#: ../src/calendar/gui/e-comp-editor.c:2179 ../src/e-util/e-accounts-window.c:1745 ../src/e-util/e-html-editor-actions.c:1118
 #: ../src/e-util/e-mail-signature-manager.c:354 ../src/e-util/e-webdav-browser.c:2778 ../src/e-util/filter.ui.h:26
 #: ../src/mail/e-mail-account-manager.c:730 ../src/mail/e-mail-browser.c:217 ../src/mail/e-mail-label-manager.c:364
 #: ../src/mail/em-folder-properties.c:1362 ../src/mail/mail-config.ui.h:68
 #: ../src/plugins/attachment-reminder/attachment-reminder.c:549 ../src/plugins/email-custom-header/email-custom-header.c:831
 #: ../src/plugins/publish-calendar/publish-calendar.ui.h:34 ../src/plugins/sender-validation/sender-validation.c:503
-#: ../src/plugins/templates/templates.c:469 ../src/shell/e-shell-window-actions.c:1103 ../src/smime/gui/smime-ui.ui.h:11
+#: ../src/plugins/templates/templates.c:475 ../src/shell/e-shell-window-actions.c:1103 ../src/smime/gui/smime-ui.ui.h:11
 msgid "_Edit"
 msgstr "_Editare"
 
@@ -7817,7 +7828,7 @@ msgid "Close the current window"
 msgstr "Închide fereastra curentă"
 
 #. copy menu item
-#: ../src/calendar/gui/e-comp-editor.c:2100 ../src/e-util/e-focus-tracker.c:806 ../src/e-util/e-html-editor-actions.c:1072
+#: ../src/calendar/gui/e-comp-editor.c:2100 ../src/e-util/e-focus-tracker.c:806 ../src/e-util/e-html-editor-actions.c:1074
 #: ../src/e-util/e-text.c:2065 ../src/e-util/e-web-view.c:467 ../src/mail/e-mail-browser.c:173
 #: ../src/mail/mail.error.xml.h:147 ../src/shell/e-shell-window-actions.c:947
 msgid "_Copy"
@@ -7830,7 +7841,7 @@ msgid "Copy the selection"
 msgstr "Copiază selecția"
 
 #. cut menu item
-#: ../src/calendar/gui/e-comp-editor.c:2107 ../src/e-util/e-focus-tracker.c:801 ../src/e-util/e-html-editor-actions.c:1079
+#: ../src/calendar/gui/e-comp-editor.c:2107 ../src/e-util/e-focus-tracker.c:801 ../src/e-util/e-html-editor-actions.c:1081
 #: ../src/e-util/e-text.c:2051 ../src/mail/e-mail-browser.c:180 ../src/shell/e-shell-window-actions.c:954
 msgid "Cu_t"
 msgstr "_Taie"
@@ -7851,7 +7862,7 @@ msgid "View help"
 msgstr "Consultați ajutorul"
 
 #. paste menu item
-#: ../src/calendar/gui/e-comp-editor.c:2128 ../src/e-util/e-focus-tracker.c:811 ../src/e-util/e-html-editor-actions.c:1086
+#: ../src/calendar/gui/e-comp-editor.c:2128 ../src/e-util/e-focus-tracker.c:811 ../src/e-util/e-html-editor-actions.c:1088
 #: ../src/e-util/e-text.c:2077 ../src/mail/e-mail-browser.c:187 ../src/shell/e-shell-window-actions.c:982
 msgid "_Paste"
 msgstr "Li_pește"
@@ -7862,18 +7873,18 @@ msgstr "Li_pește"
 msgid "Paste the clipboard"
 msgstr "Lipește clipboard-ul"
 
-#: ../src/calendar/gui/e-comp-editor.c:2135 ../src/composer/e-composer-actions.c:387 ../src/mail/e-mail-reader.c:2757
+#: ../src/calendar/gui/e-comp-editor.c:2135 ../src/composer/e-composer-actions.c:387 ../src/mail/e-mail-reader.c:2759
 #: ../src/modules/addressbook/e-book-shell-view-actions.c:1319 ../src/modules/addressbook/e-book-shell-view-actions.c:1333
 msgid "_Print…"
 msgstr "Ti_părește…"
 
-#: ../src/calendar/gui/e-comp-editor.c:2142 ../src/mail/e-mail-reader.c:2764
-#: ../src/modules/addressbook/e-book-shell-view-actions.c:1326 ../src/modules/calendar/e-cal-shell-view-actions.c:1723
+#: ../src/calendar/gui/e-comp-editor.c:2142 ../src/mail/e-mail-reader.c:2766
+#: ../src/modules/addressbook/e-book-shell-view-actions.c:1326 ../src/modules/calendar/e-cal-shell-view-actions.c:1703
 #: ../src/modules/calendar/e-memo-shell-view-actions.c:838 ../src/modules/calendar/e-task-shell-view-actions.c:1067
 msgid "Pre_view…"
 msgstr "Pre_vizualizare…"
 
-#: ../src/calendar/gui/e-comp-editor.c:2149 ../src/e-util/e-focus-tracker.c:821 ../src/e-util/e-html-editor-actions.c:1100
+#: ../src/calendar/gui/e-comp-editor.c:2149 ../src/e-util/e-focus-tracker.c:821 ../src/e-util/e-html-editor-actions.c:1102
 #: ../src/e-util/e-web-view.c:484 ../src/mail/e-mail-browser.c:194 ../src/shell/e-shell-window-actions.c:1059
 msgid "Select _All"
 msgstr "Selectează to_ate"
@@ -7887,13 +7898,13 @@ msgstr "Selectează tot textul"
 msgid "_Classification"
 msgstr "_Clasificare"
 
-#: ../src/calendar/gui/e-comp-editor.c:2186 ../src/e-util/e-html-editor-actions.c:1123
+#: ../src/calendar/gui/e-comp-editor.c:2186 ../src/e-util/e-html-editor-actions.c:1125
 #: ../src/e-util/e-mail-signature-editor.c:333 ../src/mail/e-mail-browser.c:210 ../src/mail/e-mail-notes.c:1029
 #: ../src/shell/e-shell-window-actions.c:1110
 msgid "_File"
 msgstr "_Fișier"
 
-#: ../src/calendar/gui/e-comp-editor.c:2200 ../src/e-util/e-html-editor-actions.c:1144
+#: ../src/calendar/gui/e-comp-editor.c:2200 ../src/e-util/e-html-editor-actions.c:1146
 msgid "_Insert"
 msgstr "_Inserează"
 
@@ -7901,7 +7912,7 @@ msgstr "_Inserează"
 msgid "_Options"
 msgstr "_Opțiuni"
 
-#: ../src/calendar/gui/e-comp-editor.c:2214 ../src/e-util/e-html-editor-actions.c:1165 ../src/mail/e-mail-browser.c:224
+#: ../src/calendar/gui/e-comp-editor.c:2214 ../src/e-util/e-html-editor-actions.c:1167 ../src/mail/e-mail-browser.c:224
 #: ../src/shell/e-shell-window-actions.c:1153 ../src/smime/gui/certificate-manager.c:1641 ../src/smime/gui/smime-ui.ui.h:3
 msgid "_View"
 msgstr "_Vizualizare"
@@ -8303,7 +8314,7 @@ msgstr "Terminat: %s"
 
 #. strftime format of a weekday and a date.
 #: ../src/calendar/gui/e-to-do-pane.c:1576 ../src/e-util/e-cell-date-edit.c:338 ../src/e-util/e-datetime-format.c:207
-#: ../src/modules/calendar/e-cal-shell-view-actions.c:1821 ../src/modules/itip-formatter/itip-view.c:260
+#: ../src/modules/calendar/e-cal-shell-view-actions.c:1801 ../src/modules/itip-formatter/itip-view.c:260
 msgid "Today"
 msgstr "Astăzi"
 
@@ -8317,11 +8328,11 @@ msgstr "Mâine"
 msgid "Tasks without Due date"
 msgstr "Sarcini fără dată scadentă"
 
-#: ../src/calendar/gui/e-to-do-pane.c:2165 ../src/modules/calendar/e-cal-shell-view-actions.c:1424
+#: ../src/calendar/gui/e-to-do-pane.c:2165 ../src/modules/calendar/e-cal-shell-view-actions.c:1404
 msgid "New _Appointment…"
 msgstr "Progr_amare nouă…"
 
-#: ../src/calendar/gui/e-to-do-pane.c:2173 ../src/modules/calendar/e-cal-shell-view-actions.c:1410
+#: ../src/calendar/gui/e-to-do-pane.c:2173 ../src/modules/calendar/e-cal-shell-view-actions.c:1390
 msgid "New _Meeting…"
 msgstr "Întâlnire _nouă…"
 
@@ -11023,7 +11034,7 @@ msgstr "Nume"
 msgid "Size"
 msgstr "Dimensiune"
 
-#: ../src/em-format/e-mail-formatter-quote-headers.c:181 ../src/em-format/e-mail-part-headers.c:51
+#: ../src/em-format/e-mail-formatter-quote-headers.c:184 ../src/em-format/e-mail-part-headers.c:51
 #: ../src/mail/e-mail-tag-editor.c:201 ../src/mail/filtertypes.xml.in.h:16 ../src/mail/message-list.etspec.h:6
 #: ../src/mail/searchtypes.xml.in.h:17 ../src/mail/vfoldertypes.xml.in.h:17 ../src/modules/mail/em-mailer-prefs.c:65
 #: ../src/smime/gui/certificate-manager.c:1622
@@ -11031,7 +11042,7 @@ msgid "Subject"
 msgstr "Subiect"
 
 #. pseudo-header
-#: ../src/em-format/e-mail-formatter-quote-headers.c:200 ../src/em-format/e-mail-formatter-utils.c:360
+#: ../src/em-format/e-mail-formatter-quote-headers.c:205 ../src/em-format/e-mail-formatter-utils.c:360
 #: ../src/modules/mail/em-mailer-prefs.c:686 ../src/modules/mail/em-mailer-prefs.c:1620
 #: ../src/modules/mail/em-mailer-prefs.c:1669
 msgid "Mailer"
@@ -11626,7 +11637,7 @@ msgid "A_dd Attachment…"
 msgstr "A_daugă fișier atașat…"
 
 #: ../src/e-util/e-attachment-view.c:348 ../src/modules/addressbook/e-book-shell-view-actions.c:1181
-#: ../src/modules/calendar/e-cal-shell-view-actions.c:1284 ../src/modules/calendar/e-memo-shell-view-actions.c:619
+#: ../src/modules/calendar/e-cal-shell-view-actions.c:1264 ../src/modules/calendar/e-memo-shell-view-actions.c:619
 #: ../src/modules/calendar/e-task-shell-view-actions.c:745 ../src/modules/mail/e-mail-shell-view-actions.c:1587
 #: ../src/modules/mail/e-mail-shell-view-actions.c:1665
 msgid "_Properties"
@@ -12079,9 +12090,9 @@ msgstr "Informații cont"
 msgid "Choose custom color"
 msgstr "Alegeți o culoare personalizată"
 
-#: ../src/e-util/e-color-combo.c:476 ../src/e-util/e-html-editor.c:127 ../src/mail/e-mail-account-tree-view.c:135
+#: ../src/e-util/e-color-combo.c:476 ../src/e-util/e-html-editor.c:128 ../src/mail/e-mail-account-tree-view.c:135
 #: ../src/mail/e-mail-config-security-page.c:540 ../src/mail/e-mail-config-security-page.c:704
-#: ../src/mail/e-mail-reader.c:4889 ../src/mail/mail-config.ui.h:78
+#: ../src/mail/e-mail-reader.c:4891 ../src/mail/mail-config.ui.h:78
 msgid "Default"
 msgstr "Implicit"
 
@@ -12817,517 +12828,517 @@ msgstr "Introdu fișier text"
 msgid "Text file"
 msgstr "Fișier text"
 
-#: ../src/e-util/e-html-editor-actions.c:1074
+#: ../src/e-util/e-html-editor-actions.c:1076
 msgid "Copy selected text to the clipboard"
 msgstr "Copiază textul selectat în clipboard"
 
-#: ../src/e-util/e-html-editor-actions.c:1081
+#: ../src/e-util/e-html-editor-actions.c:1083
 msgid "Cut selected text to the clipboard"
 msgstr "Taie textul selectat în clipboard"
 
-#: ../src/e-util/e-html-editor-actions.c:1088
+#: ../src/e-util/e-html-editor-actions.c:1090
 msgid "Paste text from the clipboard"
 msgstr "Lipește textul din clipboard"
 
-#: ../src/e-util/e-html-editor-actions.c:1095
+#: ../src/e-util/e-html-editor-actions.c:1097
 msgid "Redo the last undone action"
 msgstr "Refă ultima acțiune anulată"
 
-#: ../src/e-util/e-html-editor-actions.c:1109
+#: ../src/e-util/e-html-editor-actions.c:1111
 msgid "Undo the last action"
 msgstr "Anulează ultima acțiune"
 
-#: ../src/e-util/e-html-editor-actions.c:1130
+#: ../src/e-util/e-html-editor-actions.c:1132
 msgid "For_mat"
 msgstr "For_matează"
 
-#: ../src/e-util/e-html-editor-actions.c:1137
+#: ../src/e-util/e-html-editor-actions.c:1139
 msgid "_Paragraph Style"
 msgstr "Stil _paragraf"
 
-#: ../src/e-util/e-html-editor-actions.c:1151 ../src/e-util/e-html-editor-image-dialog.c:678
+#: ../src/e-util/e-html-editor-actions.c:1153 ../src/e-util/e-html-editor-image-dialog.c:678
 msgid "_Alignment"
 msgstr "_Aliniere"
 
-#: ../src/e-util/e-html-editor-actions.c:1158
+#: ../src/e-util/e-html-editor-actions.c:1160
 msgid "Current _Languages"
 msgstr "_Limbi curente"
 
-#: ../src/e-util/e-html-editor-actions.c:1175
+#: ../src/e-util/e-html-editor-actions.c:1177
 msgid "_Increase Indent"
 msgstr "Mărește _identarea"
 
-#: ../src/e-util/e-html-editor-actions.c:1177
+#: ../src/e-util/e-html-editor-actions.c:1179
 msgid "Increase Indent"
 msgstr "Mărește identarea"
 
-#: ../src/e-util/e-html-editor-actions.c:1182 ../src/e-util/e-html-editor-actions.c:2210
+#: ../src/e-util/e-html-editor-actions.c:1184 ../src/e-util/e-html-editor-actions.c:2212
 msgid "E_moji"
 msgstr "E_moji"
 
-#: ../src/e-util/e-html-editor-actions.c:1184 ../src/e-util/e-html-editor-actions.c:1191
+#: ../src/e-util/e-html-editor-actions.c:1186 ../src/e-util/e-html-editor-actions.c:1193
 msgid "Insert Emoji"
 msgstr "Introdu emoji"
 
-#: ../src/e-util/e-html-editor-actions.c:1189
+#: ../src/e-util/e-html-editor-actions.c:1191
 msgid "Insert E_moji"
 msgstr "Inserează e_moji"
 
-#: ../src/e-util/e-html-editor-actions.c:1196
+#: ../src/e-util/e-html-editor-actions.c:1198
 msgid "_HTML File…"
 msgstr "Fișier _HTML…"
 
-#: ../src/e-util/e-html-editor-actions.c:1203
+#: ../src/e-util/e-html-editor-actions.c:1205
 msgid "Te_xt File…"
 msgstr "Fișier te_xt…"
 
-#: ../src/e-util/e-html-editor-actions.c:1210
+#: ../src/e-util/e-html-editor-actions.c:1212
 msgid "Paste _Quotation"
 msgstr "Lipește _citatul"
 
-#: ../src/e-util/e-html-editor-actions.c:1217
+#: ../src/e-util/e-html-editor-actions.c:1219
 msgid "_Find…"
 msgstr "_Caută…"
 
-#: ../src/e-util/e-html-editor-actions.c:1219
+#: ../src/e-util/e-html-editor-actions.c:1221
 msgid "Search for text"
 msgstr "Caută text"
 
-#: ../src/e-util/e-html-editor-actions.c:1224
+#: ../src/e-util/e-html-editor-actions.c:1226
 msgid "Find A_gain"
 msgstr "Caută din _nou"
 
-#: ../src/e-util/e-html-editor-actions.c:1231
+#: ../src/e-util/e-html-editor-actions.c:1233
 msgid "Re_place…"
 msgstr "În_locuiește…"
 
-#: ../src/e-util/e-html-editor-actions.c:1233
+#: ../src/e-util/e-html-editor-actions.c:1235
 msgid "Search for and replace text"
 msgstr "Caută și înlocuiește text"
 
-#: ../src/e-util/e-html-editor-actions.c:1238
+#: ../src/e-util/e-html-editor-actions.c:1240
 msgid "Check _Spelling…"
 msgstr "_Verifică ortografia…"
 
-#: ../src/e-util/e-html-editor-actions.c:1245
+#: ../src/e-util/e-html-editor-actions.c:1247
 msgid "_Decrease Indent"
 msgstr "_Micșorează identarea"
 
-#: ../src/e-util/e-html-editor-actions.c:1247
+#: ../src/e-util/e-html-editor-actions.c:1249
 msgid "Decrease Indent"
 msgstr "Micșorează identarea"
 
-#: ../src/e-util/e-html-editor-actions.c:1252
+#: ../src/e-util/e-html-editor-actions.c:1254
 msgid "_Wrap Lines"
 msgstr "Încadrea_ză liniile"
 
 #. Center
-#: ../src/e-util/e-html-editor-actions.c:1262 ../src/e-util/e-html-editor-paragraph-dialog.c:109
+#: ../src/e-util/e-html-editor-actions.c:1264 ../src/e-util/e-html-editor-paragraph-dialog.c:109
 msgid "_Center"
 msgstr "_Centrat"
 
-#: ../src/e-util/e-html-editor-actions.c:1264
+#: ../src/e-util/e-html-editor-actions.c:1266
 msgid "Center Alignment"
 msgstr "Centrează alinierea"
 
 #. Justified
-#: ../src/e-util/e-html-editor-actions.c:1269 ../src/e-util/e-html-editor-paragraph-dialog.c:127
+#: ../src/e-util/e-html-editor-actions.c:1271 ../src/e-util/e-html-editor-paragraph-dialog.c:127
 msgid "_Justified"
 msgstr "La ambele margini"
 
-#: ../src/e-util/e-html-editor-actions.c:1271
+#: ../src/e-util/e-html-editor-actions.c:1273
 msgid "Align Justified"
 msgstr "Aliniază la ambele margini"
 
 #. Left
-#: ../src/e-util/e-html-editor-actions.c:1276 ../src/e-util/e-html-editor-paragraph-dialog.c:100
+#: ../src/e-util/e-html-editor-actions.c:1278 ../src/e-util/e-html-editor-paragraph-dialog.c:100
 msgid "_Left"
 msgstr "_La stânga"
 
-#: ../src/e-util/e-html-editor-actions.c:1278
+#: ../src/e-util/e-html-editor-actions.c:1280
 msgid "Left Alignment"
 msgstr "Aliniere la stânga"
 
 #. Right
-#: ../src/e-util/e-html-editor-actions.c:1283 ../src/e-util/e-html-editor-paragraph-dialog.c:118
+#: ../src/e-util/e-html-editor-actions.c:1285 ../src/e-util/e-html-editor-paragraph-dialog.c:118
 msgid "_Right"
 msgstr "La d_reapta"
 
-#: ../src/e-util/e-html-editor-actions.c:1285
+#: ../src/e-util/e-html-editor-actions.c:1287
 msgid "Right Alignment"
 msgstr "Aliniere la dreapta"
 
-#: ../src/e-util/e-html-editor-actions.c:1293 ../src/modules/text-highlight/languages.c:70
+#: ../src/e-util/e-html-editor-actions.c:1295 ../src/modules/text-highlight/languages.c:70
 msgid "_HTML"
 msgstr "_HTML"
 
-#: ../src/e-util/e-html-editor-actions.c:1295
+#: ../src/e-util/e-html-editor-actions.c:1297
 msgid "HTML editing mode"
 msgstr "Modul de editare HTML"
 
-#: ../src/e-util/e-html-editor-actions.c:1300
+#: ../src/e-util/e-html-editor-actions.c:1302
 msgid "Plain _Text"
 msgstr "_Text simplu"
 
-#: ../src/e-util/e-html-editor-actions.c:1302
+#: ../src/e-util/e-html-editor-actions.c:1304
 msgid "Plain text editing mode"
 msgstr "Mod de editare text simplu"
 
-#: ../src/e-util/e-html-editor-actions.c:1310
+#: ../src/e-util/e-html-editor-actions.c:1312
 msgid "_Normal"
 msgstr "_Normal"
 
-#: ../src/e-util/e-html-editor-actions.c:1317
+#: ../src/e-util/e-html-editor-actions.c:1319
 msgid "Heading _1"
 msgstr "Titlu de rubrică _1"
 
-#: ../src/e-util/e-html-editor-actions.c:1324
+#: ../src/e-util/e-html-editor-actions.c:1326
 msgid "Heading _2"
 msgstr "Titlu de rubrică _2"
 
-#: ../src/e-util/e-html-editor-actions.c:1331
+#: ../src/e-util/e-html-editor-actions.c:1333
 msgid "Heading _3"
 msgstr "Titlu de rubrică _3"
 
-#: ../src/e-util/e-html-editor-actions.c:1338
+#: ../src/e-util/e-html-editor-actions.c:1340
 msgid "Heading _4"
 msgstr "Titlu de rubrică _4"
 
-#: ../src/e-util/e-html-editor-actions.c:1345
+#: ../src/e-util/e-html-editor-actions.c:1347
 msgid "Heading _5"
 msgstr "Titlu de rubrică _4"
 
-#: ../src/e-util/e-html-editor-actions.c:1352
+#: ../src/e-util/e-html-editor-actions.c:1354
 msgid "Heading _6"
 msgstr "Titlu de rubrică _6"
 
-#: ../src/e-util/e-html-editor-actions.c:1359
+#: ../src/e-util/e-html-editor-actions.c:1361
 msgid "_Preformatted"
 msgstr "_Preformatat"
 
-#: ../src/e-util/e-html-editor-actions.c:1366
+#: ../src/e-util/e-html-editor-actions.c:1368
 msgid "A_ddress"
 msgstr "A_dresă"
 
-#: ../src/e-util/e-html-editor-actions.c:1373
+#: ../src/e-util/e-html-editor-actions.c:1375
 msgid "_Bulleted List"
 msgstr "Listă _punctată"
 
-#: ../src/e-util/e-html-editor-actions.c:1380
+#: ../src/e-util/e-html-editor-actions.c:1382
 msgid "_Roman Numeral List"
 msgstr "Listă de numerale _romane"
 
-#: ../src/e-util/e-html-editor-actions.c:1387
+#: ../src/e-util/e-html-editor-actions.c:1389
 msgid "Numbered _List"
 msgstr "_Listă numerotată"
 
-#: ../src/e-util/e-html-editor-actions.c:1394
+#: ../src/e-util/e-html-editor-actions.c:1396
 msgid "_Alphabetical List"
 msgstr "Listă _alfabetică"
 
-#: ../src/e-util/e-html-editor-actions.c:1410 ../src/e-util/e-html-editor-actions.c:1448
+#: ../src/e-util/e-html-editor-actions.c:1412 ../src/e-util/e-html-editor-actions.c:1450
 msgid "_Image…"
 msgstr "_Imagine…"
 
 #. Translators: This is an action tooltip
-#: ../src/e-util/e-html-editor-actions.c:1413
+#: ../src/e-util/e-html-editor-actions.c:1415
 msgid "Insert Image"
 msgstr "Introdu imagine"
 
-#: ../src/e-util/e-html-editor-actions.c:1418 ../src/e-util/e-html-editor-actions.c:1455
+#: ../src/e-util/e-html-editor-actions.c:1420 ../src/e-util/e-html-editor-actions.c:1457
 msgid "_Link…"
 msgstr "_Legătură…"
 
-#: ../src/e-util/e-html-editor-actions.c:1420
+#: ../src/e-util/e-html-editor-actions.c:1422
 msgid "Insert Link"
 msgstr "_Introdu legătura"
 
 #. Translators: 'Rule' here means a horizontal line in an HTML text
-#: ../src/e-util/e-html-editor-actions.c:1426 ../src/e-util/e-html-editor-actions.c:1470
+#: ../src/e-util/e-html-editor-actions.c:1428 ../src/e-util/e-html-editor-actions.c:1472
 msgid "_Rule…"
 msgstr "_Regulă…"
 
 #. Translators: 'Rule' here means a horizontal line in an HTML text
-#: ../src/e-util/e-html-editor-actions.c:1429
+#: ../src/e-util/e-html-editor-actions.c:1431
 msgid "Insert Rule"
 msgstr "_Introdu regulă"
 
-#: ../src/e-util/e-html-editor-actions.c:1434 ../src/e-util/e-html-editor-actions.c:1477
+#: ../src/e-util/e-html-editor-actions.c:1436 ../src/e-util/e-html-editor-actions.c:1479
 msgid "_Table…"
 msgstr "_Tabel…"
 
-#: ../src/e-util/e-html-editor-actions.c:1436
+#: ../src/e-util/e-html-editor-actions.c:1438
 msgid "Insert Table"
 msgstr "_Introdu tabel"
 
-#: ../src/e-util/e-html-editor-actions.c:1441
+#: ../src/e-util/e-html-editor-actions.c:1443
 msgid "_Cell…"
 msgstr "_Celulă…"
 
-#: ../src/e-util/e-html-editor-actions.c:1462
+#: ../src/e-util/e-html-editor-actions.c:1464
 msgid "Pa_ge…"
 msgstr "Pa_gină…"
 
-#: ../src/e-util/e-html-editor-actions.c:1486
+#: ../src/e-util/e-html-editor-actions.c:1488
 msgid "Font _Size"
 msgstr "Dimen_siune font"
 
-#: ../src/e-util/e-html-editor-actions.c:1493
+#: ../src/e-util/e-html-editor-actions.c:1495
 msgid "_Font Style"
 msgstr "Stilul _fonturi"
 
-#: ../src/e-util/e-html-editor-actions.c:1500
+#: ../src/e-util/e-html-editor-actions.c:1502
 msgid "Paste As _Text"
 msgstr "Lipește ca _text"
 
-#: ../src/e-util/e-html-editor-actions.c:1511 ../src/e-util/e-html-editor-text-dialog.c:201
+#: ../src/e-util/e-html-editor-actions.c:1513 ../src/e-util/e-html-editor-text-dialog.c:201
 msgid "_Bold"
 msgstr "_Aldin"
 
-#: ../src/e-util/e-html-editor-actions.c:1513
+#: ../src/e-util/e-html-editor-actions.c:1515
 msgid "Bold"
 msgstr "Aldin"
 
-#: ../src/e-util/e-html-editor-actions.c:1519 ../src/e-util/e-html-editor-text-dialog.c:212
+#: ../src/e-util/e-html-editor-actions.c:1521 ../src/e-util/e-html-editor-text-dialog.c:212
 msgid "_Italic"
 msgstr "Curs_iv"
 
-#: ../src/e-util/e-html-editor-actions.c:1521
+#: ../src/e-util/e-html-editor-actions.c:1523
 msgid "Italic"
 msgstr "Cursiv"
 
-#: ../src/e-util/e-html-editor-actions.c:1527 ../src/e-util/e-html-editor-text-dialog.c:233
+#: ../src/e-util/e-html-editor-actions.c:1529 ../src/e-util/e-html-editor-text-dialog.c:233
 msgid "_Strikethrough"
 msgstr "_Tăiat"
 
-#: ../src/e-util/e-html-editor-actions.c:1529
+#: ../src/e-util/e-html-editor-actions.c:1531
 msgid "Strikethrough"
 msgstr "Tăiat"
 
-#: ../src/e-util/e-html-editor-actions.c:1535
+#: ../src/e-util/e-html-editor-actions.c:1537
 msgid "Subs_cript"
 msgstr "Subs_cript"
 
-#: ../src/e-util/e-html-editor-actions.c:1537
+#: ../src/e-util/e-html-editor-actions.c:1539
 msgid "Subscript"
 msgstr "Subsscript"
 
-#: ../src/e-util/e-html-editor-actions.c:1543
+#: ../src/e-util/e-html-editor-actions.c:1545
 msgid "Su_perscript"
 msgstr "Su_perscript"
 
-#: ../src/e-util/e-html-editor-actions.c:1545
+#: ../src/e-util/e-html-editor-actions.c:1547
 msgid "Superscript"
 msgstr "Superscript"
 
-#: ../src/e-util/e-html-editor-actions.c:1551 ../src/e-util/e-html-editor-text-dialog.c:223
+#: ../src/e-util/e-html-editor-actions.c:1553 ../src/e-util/e-html-editor-text-dialog.c:223
 msgid "_Underline"
 msgstr "S_ubliniat"
 
-#: ../src/e-util/e-html-editor-actions.c:1553
+#: ../src/e-util/e-html-editor-actions.c:1555
 msgid "Underline"
 msgstr "Subliniat"
 
 #. Translators: This is a font size level. It is shown on a tool bar. Please keep it as short as possible.
-#: ../src/e-util/e-html-editor-actions.c:1563
+#: ../src/e-util/e-html-editor-actions.c:1565
 msgid "-2"
 msgstr "-2"
 
 #. Translators: This is a font size level. It is shown on a tool bar. Please keep it as short as possible.
-#: ../src/e-util/e-html-editor-actions.c:1571
+#: ../src/e-util/e-html-editor-actions.c:1573
 msgid "-1"
 msgstr "-1"
 
 #. Translators: This is a font size level. It is shown on a tool bar. Please keep it as short as possible.
-#: ../src/e-util/e-html-editor-actions.c:1579
+#: ../src/e-util/e-html-editor-actions.c:1581
 msgid "+0"
 msgstr "+0"
 
 #. Translators: This is a font size level. It is shown on a tool bar. Please keep it as short as possible.
-#: ../src/e-util/e-html-editor-actions.c:1587
+#: ../src/e-util/e-html-editor-actions.c:1589
 msgid "+1"
 msgstr "+1"
 
 #. Translators: This is a font size level. It is shown on a tool bar. Please keep it as short as possible.
-#: ../src/e-util/e-html-editor-actions.c:1595
+#: ../src/e-util/e-html-editor-actions.c:1597
 msgid "+2"
 msgstr "+2"
 
 #. Translators: This is a font size level. It is shown on a tool bar. Please keep it as short as possible.
-#: ../src/e-util/e-html-editor-actions.c:1603
+#: ../src/e-util/e-html-editor-actions.c:1605
 msgid "+3"
 msgstr "+3"
 
 #. Translators: This is a font size level. It is shown on a tool bar. Please keep it as short as possible.
-#: ../src/e-util/e-html-editor-actions.c:1611
+#: ../src/e-util/e-html-editor-actions.c:1613
 msgid "+4"
 msgstr "+4"
 
-#: ../src/e-util/e-html-editor-actions.c:1630
+#: ../src/e-util/e-html-editor-actions.c:1632
 msgid "Cell Contents"
 msgstr "Conținutul celulelor"
 
-#: ../src/e-util/e-html-editor-actions.c:1637
+#: ../src/e-util/e-html-editor-actions.c:1639
 msgid "Column"
 msgstr "Coloană"
 
-#: ../src/e-util/e-html-editor-actions.c:1644
+#: ../src/e-util/e-html-editor-actions.c:1646
 msgid "Row"
 msgstr "Rând"
 
-#: ../src/e-util/e-html-editor-actions.c:1651
+#: ../src/e-util/e-html-editor-actions.c:1653
 msgid "Table"
 msgstr "Tabel"
 
 #. Translators: Popup menu item caption, containing all the Delete options for a table
-#: ../src/e-util/e-html-editor-actions.c:1661
+#: ../src/e-util/e-html-editor-actions.c:1663
 msgid "Table Delete"
 msgstr "Ștergere tabel"
 
 #. Translators: Popup menu item caption, containing all the Insert options for a table
-#: ../src/e-util/e-html-editor-actions.c:1669
+#: ../src/e-util/e-html-editor-actions.c:1671
 msgid "Table Insert"
 msgstr "Introducere tabel"
 
-#: ../src/e-util/e-html-editor-actions.c:1676
+#: ../src/e-util/e-html-editor-actions.c:1678
 msgid "Properties"
 msgstr "Proprietăți"
 
-#: ../src/e-util/e-html-editor-actions.c:1694
+#: ../src/e-util/e-html-editor-actions.c:1696
 msgid "Column After"
 msgstr "Coloană după"
 
-#: ../src/e-util/e-html-editor-actions.c:1701
+#: ../src/e-util/e-html-editor-actions.c:1703
 msgid "Column Before"
 msgstr "Coloană înainte"
 
-#: ../src/e-util/e-html-editor-actions.c:1708
+#: ../src/e-util/e-html-editor-actions.c:1710
 msgid "Insert _Link"
 msgstr "Introdu _legătură"
 
-#: ../src/e-util/e-html-editor-actions.c:1715
+#: ../src/e-util/e-html-editor-actions.c:1717
 msgid "Row Above"
 msgstr "Rând deasupra"
 
-#: ../src/e-util/e-html-editor-actions.c:1722
+#: ../src/e-util/e-html-editor-actions.c:1724
 msgid "Row Below"
 msgstr "Rând dedesupt"
 
-#: ../src/e-util/e-html-editor-actions.c:1729
+#: ../src/e-util/e-html-editor-actions.c:1731
 msgid "Cell…"
 msgstr "Celulă…"
 
-#: ../src/e-util/e-html-editor-actions.c:1736
+#: ../src/e-util/e-html-editor-actions.c:1738
 msgid "Image…"
 msgstr "Imagine…"
 
-#: ../src/e-util/e-html-editor-actions.c:1743
+#: ../src/e-util/e-html-editor-actions.c:1745
 msgid "Link…"
 msgstr "_Legătură…"
 
-#: ../src/e-util/e-html-editor-actions.c:1750
+#: ../src/e-util/e-html-editor-actions.c:1752
 msgid "Page…"
 msgstr "Pagină…"
 
-#: ../src/e-util/e-html-editor-actions.c:1757
+#: ../src/e-util/e-html-editor-actions.c:1759
 msgid "Paragraph…"
 msgstr "Paragraf…"
 
 #. Translators: 'Rule' here means a horizontal line in an HTML text
-#: ../src/e-util/e-html-editor-actions.c:1765
+#: ../src/e-util/e-html-editor-actions.c:1767
 msgid "Rule…"
 msgstr "Regulă…"
 
-#: ../src/e-util/e-html-editor-actions.c:1772
+#: ../src/e-util/e-html-editor-actions.c:1774
 msgid "Table…"
 msgstr "Tabel…"
 
-#: ../src/e-util/e-html-editor-actions.c:1779
+#: ../src/e-util/e-html-editor-actions.c:1781
 msgid "Text…"
 msgstr "Text…"
 
-#: ../src/e-util/e-html-editor-actions.c:1786
+#: ../src/e-util/e-html-editor-actions.c:1788
 msgid "Remove Link"
 msgstr "Elimină legătura"
 
-#: ../src/e-util/e-html-editor-actions.c:1803
+#: ../src/e-util/e-html-editor-actions.c:1805
 msgid "Add Word to Dictionary"
 msgstr "Adaugă cuvântul la dicționar"
 
-#: ../src/e-util/e-html-editor-actions.c:1810
+#: ../src/e-util/e-html-editor-actions.c:1812
 msgid "Ignore Misspelled Word"
 msgstr "Ignoră cuvântul ortografiat greșit"
 
-#: ../src/e-util/e-html-editor-actions.c:1817
+#: ../src/e-util/e-html-editor-actions.c:1819
 msgid "Add Word To"
 msgstr "Adaugă cuvântul la"
 
-#: ../src/e-util/e-html-editor-actions.c:1826
+#: ../src/e-util/e-html-editor-actions.c:1828
 msgid "More Suggestions"
 msgstr "Mai multe sugestii"
 
 #. Translators: %s will be replaced with the actual dictionary
 #. * name, where a user can add a word to. This is part of an
 #. * "Add Word To" submenu.
-#: ../src/e-util/e-html-editor-actions.c:2061
+#: ../src/e-util/e-html-editor-actions.c:2063
 #, c-format
 msgid "%s Dictionary"
 msgstr "%s dicționar"
 
-#: ../src/e-util/e-html-editor-actions.c:2138
+#: ../src/e-util/e-html-editor-actions.c:2140
 msgid "_Emoticon"
 msgstr "_Emoticon"
 
-#: ../src/e-util/e-html-editor-actions.c:2139
+#: ../src/e-util/e-html-editor-actions.c:2141
 msgid "Insert Emoticon"
 msgstr "Introdu emoticon"
 
-#: ../src/e-util/e-html-editor-actions.c:2207
+#: ../src/e-util/e-html-editor-actions.c:2209
 msgid "Re_place"
 msgstr "În_locuiește"
 
-#: ../src/e-util/e-html-editor-actions.c:2213
+#: ../src/e-util/e-html-editor-actions.c:2215
 msgid "_Image"
 msgstr "_Imagine"
 
-#: ../src/e-util/e-html-editor-actions.c:2216
+#: ../src/e-util/e-html-editor-actions.c:2218
 msgid "_Link"
 msgstr "_Legătură"
 
 #. Translators: 'Rule' here means a horizontal line in an HTML text
-#: ../src/e-util/e-html-editor-actions.c:2220
+#: ../src/e-util/e-html-editor-actions.c:2222
 msgid "_Rule"
 msgstr "_Regulă"
 
-#: ../src/e-util/e-html-editor-actions.c:2223 ../src/e-util/e-html-editor-cell-dialog.c:448
+#: ../src/e-util/e-html-editor-actions.c:2225 ../src/e-util/e-html-editor-cell-dialog.c:448
 msgid "_Table"
 msgstr "_Tabel"
 
-#: ../src/e-util/e-html-editor.c:863
+#: ../src/e-util/e-html-editor.c:897
 msgid "Paragraph Style"
 msgstr "Stil paragraf"
 
-#: ../src/e-util/e-html-editor.c:877
+#: ../src/e-util/e-html-editor.c:911
 msgid "Editing Mode"
 msgstr "Mod de editare"
 
-#: ../src/e-util/e-html-editor.c:889
+#: ../src/e-util/e-html-editor.c:923
 msgid "Font Color"
 msgstr "Culoare font"
 
-#: ../src/e-util/e-html-editor.c:900
+#: ../src/e-util/e-html-editor.c:934
 msgid "Background Color"
 msgstr "Culoare fundal"
 
-#: ../src/e-util/e-html-editor.c:910
+#: ../src/e-util/e-html-editor.c:944
 msgid "Font Size"
 msgstr "Dimensiune font"
 
-#: ../src/e-util/e-html-editor.c:919
+#: ../src/e-util/e-html-editor.c:953
 msgid "Font Name"
 msgstr "Nume font"
 
-#: ../src/e-util/e-html-editor.c:1523
+#: ../src/e-util/e-html-editor.c:1577
 msgid "Failed to obtain content of editor"
 msgstr "Nu s-a putut obține conținutul editorului"
 
@@ -13980,24 +13991,24 @@ msgstr "Se deschide agenda „%s”"
 msgid "_Do not show this message again"
 msgstr "_Nu mai arăta acest mesaj din nou"
 
-#: ../src/e-util/e-misc-utils.c:3976
+#: ../src/e-util/e-misc-utils.c:3990
 msgid ""
 "This address book server might be unreachable or the server name may be misspelled or your network connection could be "
 "down."
 msgstr ""
 "Acest server de agende să nu poată fi contactat, numele serverului este ortografiat greșit sau conexiunea la rețea a căzut."
 
-#: ../src/e-util/e-misc-utils.c:3988
+#: ../src/e-util/e-misc-utils.c:4002
 #, c-format
 msgid "Failed to set protocol version to LDAPv3 (%d): %s"
 msgstr "Eșec la stabilirea versiunii protocolului la LDAPv3 (%d): %s"
 
-#: ../src/e-util/e-misc-utils.c:4000
+#: ../src/e-util/e-misc-utils.c:4014
 #, c-format
 msgid "Failed to authenticate with LDAP server (%d): %s"
 msgstr "Autentificare la serverul LDAP a eșuat (%d): %s"
 
-#: ../src/e-util/e-misc-utils.c:4014
+#: ../src/e-util/e-misc-utils.c:4028
 #, c-format
 msgid ""
 "This LDAP server may use an older version of LDAP, which does not support this functionality or it may be misconfigured. "
@@ -14010,7 +14021,7 @@ msgstr ""
 "\n"
 "Eroare detaliată (%d): %s"
 
-#: ../src/e-util/e-misc-utils.c:4025
+#: ../src/e-util/e-misc-utils.c:4039
 msgid ""
 "This LDAP server may use an older version of LDAP, which does not support this functionality or it may be misconfigured. "
 "Ask your administrator for supported search bases."
@@ -14018,12 +14029,12 @@ msgstr ""
 "Acest server poate folosi o versiune mai veche de LDAP, ce nu suportă această funcționalitate, sau a fost configurat "
 "greșit. Consultați administratorul de sistem pentru căutările de bază suportate."
 
-#: ../src/e-util/e-misc-utils.c:4058
+#: ../src/e-util/e-misc-utils.c:4072
 msgid "Evolution had not been compiled with LDAP support"
 msgstr "Evolution nu a fost compilat cu suport LDAP"
 
 #. Translators: %s is the language ISO code.
-#: ../src/e-util/e-misc-utils.c:4381
+#: ../src/e-util/e-misc-utils.c:4395
 #, c-format
 msgctxt "language"
 msgid "Unknown (%s)"
@@ -14031,31 +14042,31 @@ msgstr "Necunoscută (%s)"
 
 #. Translators: The first %s is the language name, and the
 #. * second is the country name. Example: "French (France)"
-#: ../src/e-util/e-misc-utils.c:4390
+#: ../src/e-util/e-misc-utils.c:4404
 #, c-format
 msgctxt "language"
 msgid "%s (%s)"
 msgstr "%s (%s)"
 
-#: ../src/e-util/e-misc-utils.c:4541
+#: ../src/e-util/e-misc-utils.c:4555
 #, c-format
 msgid "Click to call %s"
 msgstr "Clic pentru a apela %s"
 
-#: ../src/e-util/e-misc-utils.c:4543
+#: ../src/e-util/e-misc-utils.c:4557
 msgid "Click to hide/unhide addresses"
 msgstr "Clic pentru a ascunde/afișa adresele"
 
-#: ../src/e-util/e-misc-utils.c:4556
+#: ../src/e-util/e-misc-utils.c:4570
 #, c-format
 msgid "Go to the section %s of the message"
 msgstr "Navighează la secția %s a mesajului"
 
-#: ../src/e-util/e-misc-utils.c:4558
+#: ../src/e-util/e-misc-utils.c:4572
 msgid "Go to the beginning of the message"
 msgstr "Navighează la începutul mesajului"
 
-#: ../src/e-util/e-misc-utils.c:4564
+#: ../src/e-util/e-misc-utils.c:4578
 #, c-format
 msgid "Click to open %s"
 msgstr "Clic pentru a deschide %s"
@@ -14077,7 +14088,7 @@ msgid "_Search:"
 msgstr "_Caută:"
 
 #: ../src/e-util/e-name-selector-dialog.c:363 ../src/e-util/e-name-selector-dialog.c:1322
-#: ../src/modules/addressbook/e-book-shell-view-actions.c:1271 ../src/modules/calendar/e-cal-shell-view-actions.c:1654
+#: ../src/modules/addressbook/e-book-shell-view-actions.c:1271 ../src/modules/calendar/e-cal-shell-view-actions.c:1634
 #: ../src/modules/calendar/e-memo-shell-view-actions.c:783 ../src/modules/calendar/e-task-shell-view-actions.c:956
 msgid "Any Category"
 msgstr "Orice categorie"
@@ -15071,11 +15082,11 @@ msgstr "Salvează _imaginea…"
 msgid "Save the image to a file"
 msgstr "Salvează imaginea într-un fișier"
 
-#: ../src/e-util/e-web-view.c:474 ../src/mail/e-mail-browser.c:201 ../src/mail/e-mail-reader.c:2834
+#: ../src/e-util/e-web-view.c:474 ../src/mail/e-mail-browser.c:201 ../src/mail/e-mail-reader.c:2836
 msgid "Search _Web…"
 msgstr "Caută pe _web…"
 
-#: ../src/e-util/e-web-view.c:476 ../src/mail/e-mail-browser.c:203 ../src/mail/e-mail-reader.c:2836
+#: ../src/e-util/e-web-view.c:476 ../src/mail/e-mail-browser.c:203 ../src/mail/e-mail-reader.c:2838
 msgid "Search the Web with the selected text"
 msgstr "Caută pe Web după textul selectat"
 
@@ -15775,11 +15786,11 @@ msgstr "Navighează Îna_poi"
 msgid "_Skip Lookup"
 msgstr "_Omite verificarea"
 
-#: ../src/mail/e-mail-config-assistant.c:697
+#: ../src/mail/e-mail-config-assistant.c:710
 msgid "Evolution Account Assistant"
 msgstr "Asistentul de conturi Evolution"
 
-#: ../src/mail/e-mail-config-assistant.c:1004
+#: ../src/mail/e-mail-config-assistant.c:1021
 msgid "_Revise Details"
 msgstr "_Revizuiește detaliile"
 
@@ -15845,11 +15856,11 @@ msgstr "Limbă:"
 msgid "Language for Reply and Forward attribution text"
 msgstr "Limba pentru textul de atribuire la Răspuns și Înaintare"
 
-#: ../src/mail/e-mail-config-composing-page.c:524 ../src/mail/em-composer-utils.c:4121 ../src/mail/mail-config.ui.h:22
+#: ../src/mail/e-mail-config-composing-page.c:524 ../src/mail/em-composer-utils.c:4129 ../src/mail/mail-config.ui.h:22
 msgid "Start _typing at the bottom"
 msgstr "Începe _tastarea la sfârșitul mesajului"
 
-#: ../src/mail/e-mail-config-composing-page.c:531 ../src/mail/em-composer-utils.c:4124 ../src/mail/mail-config.ui.h:23
+#: ../src/mail/e-mail-config-composing-page.c:531 ../src/mail/em-composer-utils.c:4132 ../src/mail/mail-config.ui.h:23
 msgid "_Keep signature above the original message"
 msgstr "_Menține semnătura deasupra mesajului original"
 
@@ -16410,7 +16421,7 @@ msgstr "De făcu_t"
 msgid "_Later"
 msgstr "Mai _târziu"
 
-#: ../src/mail/e-mail-label-manager.c:153 ../src/mail/e-mail-reader.c:913 ../src/mail/em-folder-properties.c:1170
+#: ../src/mail/e-mail-label-manager.c:153 ../src/mail/e-mail-reader.c:914 ../src/mail/em-folder-properties.c:1170
 msgid "Add Label"
 msgstr "Adaugă etichetă"
 
@@ -16491,660 +16502,660 @@ msgstr "Anteturi"
 msgid "Page %d of %d"
 msgstr "Pagina %d din %d"
 
-#: ../src/mail/e-mail-reader.c:358 ../src/mail/filtertypes.xml.in.h:65
+#: ../src/mail/e-mail-reader.c:359 ../src/mail/filtertypes.xml.in.h:65
 msgid "Move to Folder"
 msgstr "Mută in dosar"
 
-#: ../src/mail/e-mail-reader.c:358 ../src/mail/filtertypes.xml.in.h:66
+#: ../src/mail/e-mail-reader.c:359 ../src/mail/filtertypes.xml.in.h:66
 msgid "Copy to Folder"
 msgstr "Copiază în dosar"
 
-#: ../src/mail/e-mail-reader.c:362 ../src/mail/em-folder-utils.c:568 ../src/mail/mail.error.xml.h:153
+#: ../src/mail/e-mail-reader.c:363 ../src/mail/em-folder-utils.c:568 ../src/mail/mail.error.xml.h:153
 msgid "_Move"
 msgstr "_Mută"
 
-#: ../src/mail/e-mail-reader.c:362 ../src/mail/em-folder-utils.c:568
+#: ../src/mail/e-mail-reader.c:363 ../src/mail/em-folder-utils.c:568
 msgid "C_opy"
 msgstr "C_opiază"
 
-#: ../src/mail/e-mail-reader.c:617
+#: ../src/mail/e-mail-reader.c:618
 msgid "Deleting message note…"
 msgstr "Se șterge nota mesajului…"
 
-#: ../src/mail/e-mail-reader.c:1617 ../src/mail/e-mail-reader.c:1908 ../src/mail/e-mail-reader.c:1948
+#: ../src/mail/e-mail-reader.c:1618 ../src/mail/e-mail-reader.c:1910 ../src/mail/e-mail-reader.c:1950
 msgid "_Do not ask me again."
 msgstr "Nu mă întreba _din nou."
 
-#: ../src/mail/e-mail-reader.c:1954
+#: ../src/mail/e-mail-reader.c:1956
 msgid "_Always ignore Reply-To: for mailing lists."
 msgstr "Ignoră întotdeaun_a dialogul „Răspunde-la”: pentru listele de discuții."
 
-#: ../src/mail/e-mail-reader.c:2158
+#: ../src/mail/e-mail-reader.c:2160
 msgid "Failed to retrieve message:"
 msgstr "Nu s-a putut prelua mesajul:"
 
-#: ../src/mail/e-mail-reader.c:2204 ../src/mail/e-mail-reader.c:3705
+#: ../src/mail/e-mail-reader.c:2206 ../src/mail/e-mail-reader.c:3707
 #, c-format
 msgid "Retrieving message “%s”"
 msgstr "Se obține mesajul „%s”"
 
-#: ../src/mail/e-mail-reader.c:2405
+#: ../src/mail/e-mail-reader.c:2407
 msgid "A_dd Sender to Address Book"
 msgstr "A_daugă expeditorul în agendă"
 
-#: ../src/mail/e-mail-reader.c:2407
+#: ../src/mail/e-mail-reader.c:2409
 msgid "Add sender to address book"
 msgstr "Adaugă expeditorul în agendă"
 
-#: ../src/mail/e-mail-reader.c:2412
+#: ../src/mail/e-mail-reader.c:2414
 msgid "_Archive…"
 msgstr "_Arhivează…"
 
-#: ../src/mail/e-mail-reader.c:2414
+#: ../src/mail/e-mail-reader.c:2416
 msgid "Move selected messages to the Archive folder for the account"
 msgstr "Mută mesajele selectate în dosarul „Arhivă” al contului"
 
-#: ../src/mail/e-mail-reader.c:2419
+#: ../src/mail/e-mail-reader.c:2421
 msgid "Check for _Junk"
 msgstr "Verifică de _spam"
 
-#: ../src/mail/e-mail-reader.c:2421
+#: ../src/mail/e-mail-reader.c:2423
 msgid "Filter the selected messages for junk status"
 msgstr "Filtrează mesajele selectate după starea de spam"
 
-#: ../src/mail/e-mail-reader.c:2426
+#: ../src/mail/e-mail-reader.c:2428
 msgid "Assign C_olor…"
 msgstr "Atribuie cul_oare…"
 
-#: ../src/mail/e-mail-reader.c:2428
+#: ../src/mail/e-mail-reader.c:2430
 msgid "Assign color for the selected messages"
 msgstr "Atribuie o culoare pentru mesajele selectate"
 
-#: ../src/mail/e-mail-reader.c:2433
+#: ../src/mail/e-mail-reader.c:2435
 msgid "Unse_t Color"
 msgstr "Des_tabilește culoarea"
 
-#: ../src/mail/e-mail-reader.c:2435
+#: ../src/mail/e-mail-reader.c:2437
 msgid "Unset color for the selected messages"
 msgstr "Destabilește culoarea pentru mesajele selectate"
 
-#: ../src/mail/e-mail-reader.c:2440
+#: ../src/mail/e-mail-reader.c:2442
 msgid "_Copy to Folder…"
 msgstr "_Copiază în dosar…"
 
-#: ../src/mail/e-mail-reader.c:2442
+#: ../src/mail/e-mail-reader.c:2444
 msgid "Copy selected messages to another folder"
 msgstr "Copiază mesajele selectate în alt dosar"
 
-#: ../src/mail/e-mail-reader.c:2447
+#: ../src/mail/e-mail-reader.c:2449
 msgid "_Delete Message"
 msgstr "Ș_terge mesaj"
 
-#: ../src/mail/e-mail-reader.c:2449
+#: ../src/mail/e-mail-reader.c:2451
 msgid "Mark the selected messages for deletion"
 msgstr "Marchează mesajele selectate pentru ștergere"
 
-#: ../src/mail/e-mail-reader.c:2454
+#: ../src/mail/e-mail-reader.c:2456
 msgid "_Add note…"
 msgstr "_Adaugă notă…"
 
-#: ../src/mail/e-mail-reader.c:2456
+#: ../src/mail/e-mail-reader.c:2458
 msgid "Add a note for the selected message"
 msgstr "Adaugă notă pentru mesajul selectat"
 
-#: ../src/mail/e-mail-reader.c:2461
+#: ../src/mail/e-mail-reader.c:2463
 msgid "Delete no_te"
 msgstr "Șterge no_tă"
 
-#: ../src/mail/e-mail-reader.c:2463
+#: ../src/mail/e-mail-reader.c:2465
 msgid "Delete the note for the selected message"
 msgstr "Șterge nota pentru mesajul selectat"
 
-#: ../src/mail/e-mail-reader.c:2468
+#: ../src/mail/e-mail-reader.c:2470
 msgid "_Edit note…"
 msgstr "_Editează nota…"
 
-#: ../src/mail/e-mail-reader.c:2470
+#: ../src/mail/e-mail-reader.c:2472
 msgid "Edit a note for the selected message"
 msgstr "Editează o notă pentru mesajul selectat"
 
-#: ../src/mail/e-mail-reader.c:2475
+#: ../src/mail/e-mail-reader.c:2477
 msgid "Create a Filter Rule for Mailing _List…"
 msgstr "Creează o regulă de filtrare pentru _lista de discuții…"
 
-#: ../src/mail/e-mail-reader.c:2477
+#: ../src/mail/e-mail-reader.c:2479
 msgid "Create a rule to filter messages to this mailing list"
 msgstr "Creează o regulă pentru a filtra mesajele pentru această listă de discuții"
 
-#: ../src/mail/e-mail-reader.c:2482
+#: ../src/mail/e-mail-reader.c:2484
 msgid "Create a Filter Rule for _Recipients…"
 msgstr "Creează o regulă de filtrare pentru _destinatari…"
 
-#: ../src/mail/e-mail-reader.c:2484
+#: ../src/mail/e-mail-reader.c:2486
 msgid "Create a rule to filter messages to these recipients"
 msgstr "Creează o regulă pentru a filtra mesajele pentru acești destinatari"
 
-#: ../src/mail/e-mail-reader.c:2489
+#: ../src/mail/e-mail-reader.c:2491
 msgid "Create a Filter Rule for Se_nder…"
 msgstr "Creează o regulă de filtrare pentru e_xpeditor…"
 
-#: ../src/mail/e-mail-reader.c:2491
+#: ../src/mail/e-mail-reader.c:2493
 msgid "Create a rule to filter messages from this sender"
 msgstr "Creează o regulă pentru a filtra mesajele de la acest expeditor"
 
-#: ../src/mail/e-mail-reader.c:2496
+#: ../src/mail/e-mail-reader.c:2498
 msgid "Create a Filter Rule for _Subject…"
 msgstr "Creează o regulă de filtrare pentru _subiect…"
 
-#: ../src/mail/e-mail-reader.c:2498
+#: ../src/mail/e-mail-reader.c:2500
 msgid "Create a rule to filter messages with this subject"
 msgstr "Creează o regulă pentru a filtra mesajele cu acest subiect"
 
-#: ../src/mail/e-mail-reader.c:2503
+#: ../src/mail/e-mail-reader.c:2505
 msgid "A_pply Filters"
 msgstr "A_plică filtrele"
 
-#: ../src/mail/e-mail-reader.c:2505
+#: ../src/mail/e-mail-reader.c:2507
 msgid "Apply filter rules to the selected messages"
 msgstr "Aplică regulile de filtrare pe mesajele selectate"
 
-#: ../src/mail/e-mail-reader.c:2510
+#: ../src/mail/e-mail-reader.c:2512
 msgid "_Find in Message…"
 msgstr "_Caută în mesaj…"
 
-#: ../src/mail/e-mail-reader.c:2512
+#: ../src/mail/e-mail-reader.c:2514
 msgid "Search for text in the body of the displayed message"
 msgstr "Caută textul în corpul mesajului afișat"
 
-#: ../src/mail/e-mail-reader.c:2517
+#: ../src/mail/e-mail-reader.c:2519
 msgid "_Clear Flag"
 msgstr "Ș_terge fanion"
 
-#: ../src/mail/e-mail-reader.c:2519
+#: ../src/mail/e-mail-reader.c:2521
 msgid "Remove the follow-up flag from the selected messages"
 msgstr "Elimină marcajul de urmărire pentru mesajele selectate"
 
-#: ../src/mail/e-mail-reader.c:2524
+#: ../src/mail/e-mail-reader.c:2526
 msgid "_Flag Completed"
 msgstr "_Fanion completat"
 
-#: ../src/mail/e-mail-reader.c:2526
+#: ../src/mail/e-mail-reader.c:2528
 msgid "Set the follow-up flag to completed on the selected messages"
 msgstr "Definește marcajul de urmărire pentru mesajele selectate"
 
-#: ../src/mail/e-mail-reader.c:2531
+#: ../src/mail/e-mail-reader.c:2533
 msgid "Follow _Up…"
 msgstr "_Urmărește…"
 
-#: ../src/mail/e-mail-reader.c:2533
+#: ../src/mail/e-mail-reader.c:2535
 msgid "Flag the selected messages for follow-up"
 msgstr "Marchează mesajele selectate pentru urmărire"
 
-#: ../src/mail/e-mail-reader.c:2538 ../src/modules/mail/e-mail-attachment-handler.c:431
+#: ../src/mail/e-mail-reader.c:2540 ../src/modules/mail/e-mail-attachment-handler.c:431
 msgid "_Attached"
 msgstr "_Atașate"
 
-#: ../src/mail/e-mail-reader.c:2540 ../src/mail/e-mail-reader.c:2547 ../src/modules/mail/e-mail-attachment-handler.c:433
+#: ../src/mail/e-mail-reader.c:2542 ../src/mail/e-mail-reader.c:2549 ../src/modules/mail/e-mail-attachment-handler.c:433
 msgid "Forward the selected message to someone as an attachment"
 msgstr "Înaintează mesajul selectat ca fișier atașat"
 
-#: ../src/mail/e-mail-reader.c:2545
+#: ../src/mail/e-mail-reader.c:2547
 msgid "Forward As _Attached"
 msgstr "Înaintează ca fișier _atașat"
 
-#: ../src/mail/e-mail-reader.c:2552 ../src/modules/mail/e-mail-attachment-handler.c:438
+#: ../src/mail/e-mail-reader.c:2554 ../src/modules/mail/e-mail-attachment-handler.c:438
 msgid "_Inline"
 msgstr "_Inclus"
 
-#: ../src/mail/e-mail-reader.c:2554 ../src/mail/e-mail-reader.c:2561 ../src/modules/mail/e-mail-attachment-handler.c:440
+#: ../src/mail/e-mail-reader.c:2556 ../src/mail/e-mail-reader.c:2563 ../src/modules/mail/e-mail-attachment-handler.c:440
 msgid "Forward the selected message in the body of a new message"
 msgstr "Înaintează mesajul selectat în corpul unui nou mesaj"
 
-#: ../src/mail/e-mail-reader.c:2559
+#: ../src/mail/e-mail-reader.c:2561
 msgid "Forward As _Inline"
 msgstr "Înaintează ca _inclus"
 
-#: ../src/mail/e-mail-reader.c:2566 ../src/modules/mail/e-mail-attachment-handler.c:445
+#: ../src/mail/e-mail-reader.c:2568 ../src/modules/mail/e-mail-attachment-handler.c:445
 msgid "_Quoted"
 msgstr "_Cotat"
 
-#: ../src/mail/e-mail-reader.c:2568 ../src/mail/e-mail-reader.c:2575 ../src/modules/mail/e-mail-attachment-handler.c:447
+#: ../src/mail/e-mail-reader.c:2570 ../src/mail/e-mail-reader.c:2577 ../src/modules/mail/e-mail-attachment-handler.c:447
 msgid "Forward the selected message quoted like a reply"
 msgstr "Înaintează mesajul selectat cotat ca răspuns"
 
-#: ../src/mail/e-mail-reader.c:2573
+#: ../src/mail/e-mail-reader.c:2575
 msgid "Forward As _Quoted"
 msgstr "Înaintează ca _citat"
 
-#: ../src/mail/e-mail-reader.c:2580
+#: ../src/mail/e-mail-reader.c:2582
 msgid "_New Label"
 msgstr "Etichetă _nouă"
 
 #. Translators: "None" is used in the message label context menu.
 #. *              It removes all labels from the selected messages.
-#: ../src/mail/e-mail-reader.c:2589
+#: ../src/mail/e-mail-reader.c:2591
 msgid "N_one"
 msgstr "_Fără"
 
-#: ../src/mail/e-mail-reader.c:2596
+#: ../src/mail/e-mail-reader.c:2598
 msgid "_Load Images"
 msgstr "Încarcă _imaginile"
 
-#: ../src/mail/e-mail-reader.c:2598
+#: ../src/mail/e-mail-reader.c:2600
 msgid "Force images in HTML mail to be loaded"
 msgstr "Forțează încărcarea imaginilor în HTML"
 
-#: ../src/mail/e-mail-reader.c:2603 ../src/mail/e-mail-reader.c:3029
+#: ../src/mail/e-mail-reader.c:2605 ../src/mail/e-mail-reader.c:3031
 msgid "_Ignore Subthread"
 msgstr "_Ignoră subdiscuția"
 
-#: ../src/mail/e-mail-reader.c:2605
+#: ../src/mail/e-mail-reader.c:2607
 msgid "Mark new mails in a subthread as read automatically"
 msgstr "Marchează automat emailurile noi dintr-un subgrup ca citite"
 
-#: ../src/mail/e-mail-reader.c:2610 ../src/mail/e-mail-reader.c:3033
+#: ../src/mail/e-mail-reader.c:2612 ../src/mail/e-mail-reader.c:3035
 msgid "_Ignore Thread"
 msgstr "_Ignoră discuția"
 
-#: ../src/mail/e-mail-reader.c:2612
+#: ../src/mail/e-mail-reader.c:2614
 msgid "Mark new mails in this thread as read automatically"
 msgstr "Marchează automat emailurile noi din acest grup ca citite"
 
-#: ../src/mail/e-mail-reader.c:2617
+#: ../src/mail/e-mail-reader.c:2619
 msgid "_Important"
 msgstr "_Important"
 
-#: ../src/mail/e-mail-reader.c:2619
+#: ../src/mail/e-mail-reader.c:2621
 msgid "Mark the selected messages as important"
 msgstr "Marchează mesajele selectate ca importante"
 
-#: ../src/mail/e-mail-reader.c:2624
+#: ../src/mail/e-mail-reader.c:2626
 msgid "_Junk"
 msgstr "_Spam"
 
-#: ../src/mail/e-mail-reader.c:2626
+#: ../src/mail/e-mail-reader.c:2628
 msgid "Mark the selected messages as junk"
 msgstr "Marchează mesajele selectate ca spam"
 
-#: ../src/mail/e-mail-reader.c:2631
+#: ../src/mail/e-mail-reader.c:2633
 msgid "_Not Junk"
 msgstr "_Non-spam"
 
-#: ../src/mail/e-mail-reader.c:2633
+#: ../src/mail/e-mail-reader.c:2635
 msgid "Mark the selected messages as not being junk"
 msgstr "Marchează mesajele selectate ca non-spam"
 
-#: ../src/mail/e-mail-reader.c:2638
+#: ../src/mail/e-mail-reader.c:2640
 msgid "_Read"
 msgstr "_Citește"
 
-#: ../src/mail/e-mail-reader.c:2640
+#: ../src/mail/e-mail-reader.c:2642
 msgid "Mark the selected messages as having been read"
 msgstr "Marchează mesajele selectate ca citite"
 
-#: ../src/mail/e-mail-reader.c:2645 ../src/mail/e-mail-reader.c:3053
+#: ../src/mail/e-mail-reader.c:2647 ../src/mail/e-mail-reader.c:3055
 msgid "Do not _Ignore Subthread"
 msgstr "Nu _ignora subdiscuția"
 
-#: ../src/mail/e-mail-reader.c:2647
+#: ../src/mail/e-mail-reader.c:2649
 msgid "Do not mark new mails in a subthread as read automatically"
 msgstr "Nu marca automat emailurile noi dintr-un subgrup ca citite"
 
-#: ../src/mail/e-mail-reader.c:2652 ../src/mail/e-mail-reader.c:3057
+#: ../src/mail/e-mail-reader.c:2654 ../src/mail/e-mail-reader.c:3059
 msgid "Do not _Ignore Thread"
 msgstr "Nu _ignora discuția"
 
-#: ../src/mail/e-mail-reader.c:2654
+#: ../src/mail/e-mail-reader.c:2656
 msgid "Do not mark new mails in this thread as read automatically"
 msgstr "Nu marca automat emailurile noi din acest grup ca citite"
 
-#: ../src/mail/e-mail-reader.c:2659
+#: ../src/mail/e-mail-reader.c:2661
 msgid "Uni_mportant"
 msgstr "Nei_mportant"
 
-#: ../src/mail/e-mail-reader.c:2661
+#: ../src/mail/e-mail-reader.c:2663
 msgid "Mark the selected messages as unimportant"
 msgstr "Marchează mesajele selectate ca neimportante"
 
-#: ../src/mail/e-mail-reader.c:2666
+#: ../src/mail/e-mail-reader.c:2668
 msgid "_Unread"
 msgstr "N_ecitit"
 
-#: ../src/mail/e-mail-reader.c:2668
+#: ../src/mail/e-mail-reader.c:2670
 msgid "Mark the selected messages as not having been read"
 msgstr "Marchează mesajele selectate ca necitite"
 
-#: ../src/mail/e-mail-reader.c:2673 ../src/modules/mail/e-mail-attachment-handler.c:417
+#: ../src/mail/e-mail-reader.c:2675 ../src/modules/mail/e-mail-attachment-handler.c:417
 msgid "_Edit as New Message…"
 msgstr "_Editare ca mesaj nou…"
 
-#: ../src/mail/e-mail-reader.c:2675 ../src/modules/mail/e-mail-attachment-handler.c:419
+#: ../src/mail/e-mail-reader.c:2677 ../src/modules/mail/e-mail-attachment-handler.c:419
 msgid "Open the selected messages in the composer for editing"
 msgstr "Deschide mesajele selectate în compositor pentru editare"
 
-#: ../src/mail/e-mail-reader.c:2680
+#: ../src/mail/e-mail-reader.c:2682
 msgid "Compose _New Message"
 msgstr "Compune mesaj _nou"
 
-#: ../src/mail/e-mail-reader.c:2682
+#: ../src/mail/e-mail-reader.c:2684
 msgid "Open a window for composing a mail message"
 msgstr "Deschide o fereastră pentru a compune un mesaj nou"
 
-#: ../src/mail/e-mail-reader.c:2687
+#: ../src/mail/e-mail-reader.c:2689
 msgid "_Open in New Window"
 msgstr "_Deschide în fereastră nouă"
 
-#: ../src/mail/e-mail-reader.c:2689
+#: ../src/mail/e-mail-reader.c:2691
 msgid "Open the selected messages in a new window"
 msgstr "Deschide mesajele selectate într-o fereastră nouă"
 
-#: ../src/mail/e-mail-reader.c:2694
+#: ../src/mail/e-mail-reader.c:2696
 msgid "_Move to Folder…"
 msgstr "Mută în dosar…"
 
-#: ../src/mail/e-mail-reader.c:2696
+#: ../src/mail/e-mail-reader.c:2698
 msgid "Move selected messages to another folder"
 msgstr "Mută mesajele selectate în alt dosar"
 
-#: ../src/mail/e-mail-reader.c:2701
+#: ../src/mail/e-mail-reader.c:2703
 msgid "_Next Message"
 msgstr "Următorul me_saj"
 
-#: ../src/mail/e-mail-reader.c:2703
+#: ../src/mail/e-mail-reader.c:2705
 msgid "Display the next message"
 msgstr "Afișează următorul mesaj"
 
-#: ../src/mail/e-mail-reader.c:2708
+#: ../src/mail/e-mail-reader.c:2710
 msgid "Next _Important Message"
 msgstr "Următorul mesaj _important"
 
-#: ../src/mail/e-mail-reader.c:2710
+#: ../src/mail/e-mail-reader.c:2712
 msgid "Display the next important message"
 msgstr "Afișează următorul mesaj important"
 
-#: ../src/mail/e-mail-reader.c:2715
+#: ../src/mail/e-mail-reader.c:2717
 msgid "Next _Thread"
 msgstr "Următoarea _discuție"
 
-#: ../src/mail/e-mail-reader.c:2717
+#: ../src/mail/e-mail-reader.c:2719
 msgid "Display the next thread"
 msgstr "Afișează următoarea discuție"
 
-#: ../src/mail/e-mail-reader.c:2722
+#: ../src/mail/e-mail-reader.c:2724
 msgid "Next _Unread Message"
 msgstr "_Următorul mesaj necitit"
 
-#: ../src/mail/e-mail-reader.c:2724
+#: ../src/mail/e-mail-reader.c:2726
 msgid "Display the next unread message"
 msgstr "Afișează următorul mesaj necitit"
 
-#: ../src/mail/e-mail-reader.c:2729
+#: ../src/mail/e-mail-reader.c:2731
 msgid "_Previous Message"
 msgstr "Mesajul _precedent"
 
-#: ../src/mail/e-mail-reader.c:2731
+#: ../src/mail/e-mail-reader.c:2733
 msgid "Display the previous message"
 msgstr "Afișează mesajul precedent"
 
-#: ../src/mail/e-mail-reader.c:2736
+#: ../src/mail/e-mail-reader.c:2738
 msgid "Pr_evious Important Message"
 msgstr "Pr_ecedentul mesaj important"
 
-#: ../src/mail/e-mail-reader.c:2738
+#: ../src/mail/e-mail-reader.c:2740
 msgid "Display the previous important message"
 msgstr "Afișează mesajul precedent important"
 
-#: ../src/mail/e-mail-reader.c:2743
+#: ../src/mail/e-mail-reader.c:2745
 msgid "Previous T_hread"
 msgstr "_Firul de discuție anterior"
 
-#: ../src/mail/e-mail-reader.c:2745
+#: ../src/mail/e-mail-reader.c:2747
 msgid "Display the previous thread"
 msgstr "Afișează firul de discuție anterior"
 
-#: ../src/mail/e-mail-reader.c:2750
+#: ../src/mail/e-mail-reader.c:2752
 msgid "P_revious Unread Message"
 msgstr "P_recedentul mesaj necitit"
 
-#: ../src/mail/e-mail-reader.c:2752
+#: ../src/mail/e-mail-reader.c:2754
 msgid "Display the previous unread message"
 msgstr "Afișează mesajul necitit precedent"
 
-#: ../src/mail/e-mail-reader.c:2759
+#: ../src/mail/e-mail-reader.c:2761
 msgid "Print this message"
 msgstr "Tipărește acest mesaj"
 
-#: ../src/mail/e-mail-reader.c:2766
+#: ../src/mail/e-mail-reader.c:2768
 msgid "Preview the message to be printed"
 msgstr "Previzualizează mesajul ce va fi tipărit"
 
-#: ../src/mail/e-mail-reader.c:2771 ../src/modules/mail/e-mail-attachment-handler.c:452
+#: ../src/mail/e-mail-reader.c:2773 ../src/modules/mail/e-mail-attachment-handler.c:452
 msgid "Re_direct"
 msgstr "Re_directează"
 
-#: ../src/mail/e-mail-reader.c:2773 ../src/modules/mail/e-mail-attachment-handler.c:454
+#: ../src/mail/e-mail-reader.c:2775 ../src/modules/mail/e-mail-attachment-handler.c:454
 msgid "Redirect (bounce) the selected message to someone"
 msgstr "Redirectează (bounce) mesajul selectat la altcineva"
 
-#: ../src/mail/e-mail-reader.c:2778
+#: ../src/mail/e-mail-reader.c:2780
 msgid "Remo_ve Attachments"
 msgstr "Eli_mină fișierele atașate"
 
-#: ../src/mail/e-mail-reader.c:2780
+#: ../src/mail/e-mail-reader.c:2782
 msgid "Remove attachments"
 msgstr "Elimină fișierele atașate"
 
-#: ../src/mail/e-mail-reader.c:2785
+#: ../src/mail/e-mail-reader.c:2787
 msgid "Remove Du_plicate Messages"
 msgstr "Elimină mesajele du_plicate"
 
-#: ../src/mail/e-mail-reader.c:2787
+#: ../src/mail/e-mail-reader.c:2789
 msgid "Checks selected messages for duplicates"
 msgstr "Verifică mesajele selectate pentru duplicate"
 
-#: ../src/mail/e-mail-reader.c:2792 ../src/mail/em-composer-utils.c:4075 ../src/mail/mail.error.xml.h:28
-#: ../src/modules/calendar/e-cal-shell-view-actions.c:1452 ../src/modules/mail/e-mail-attachment-handler.c:396
+#: ../src/mail/e-mail-reader.c:2794 ../src/mail/em-composer-utils.c:4083 ../src/mail/mail.error.xml.h:28
+#: ../src/modules/calendar/e-cal-shell-view-actions.c:1432 ../src/modules/mail/e-mail-attachment-handler.c:396
 msgid "Reply to _All"
 msgstr "Răspunde _tuturor"
 
-#: ../src/mail/e-mail-reader.c:2794 ../src/modules/mail/e-mail-attachment-handler.c:398
+#: ../src/mail/e-mail-reader.c:2796 ../src/modules/mail/e-mail-attachment-handler.c:398
 msgid "Compose a reply to all the recipients of the selected message"
 msgstr "Compune un răspuns pentru toți destinatarii mesajelor selectate"
 
-#: ../src/mail/e-mail-reader.c:2799
+#: ../src/mail/e-mail-reader.c:2801
 msgid "Al_ternative Reply…"
 msgstr "Răspuns al_ternativ…"
 
-#: ../src/mail/e-mail-reader.c:2801
+#: ../src/mail/e-mail-reader.c:2803
 msgid "Choose reply options for the selected message"
 msgstr "Alege opțiuni de răspuns pentru mesajul selectat"
 
-#: ../src/mail/e-mail-reader.c:2806 ../src/mail/em-composer-utils.c:4070 ../src/mail/mail.error.xml.h:26
+#: ../src/mail/e-mail-reader.c:2808 ../src/mail/em-composer-utils.c:4078 ../src/mail/mail.error.xml.h:26
 #: ../src/modules/mail/e-mail-attachment-handler.c:403
 msgid "Reply to _List"
 msgstr "Răspunde _listei"
 
-#: ../src/mail/e-mail-reader.c:2808 ../src/modules/mail/e-mail-attachment-handler.c:405
+#: ../src/mail/e-mail-reader.c:2810 ../src/modules/mail/e-mail-attachment-handler.c:405
 msgid "Compose a reply to the mailing list of the selected message"
 msgstr "Compune un mesaj pentru lista de email a mesajului selectat"
 
-#: ../src/mail/e-mail-reader.c:2813 ../src/modules/mail/e-mail-attachment-handler.c:410
+#: ../src/mail/e-mail-reader.c:2815 ../src/modules/mail/e-mail-attachment-handler.c:410
 msgid "_Reply to Sender"
 msgstr "_Răspunde expeditorului"
 
-#: ../src/mail/e-mail-reader.c:2815 ../src/modules/mail/e-mail-attachment-handler.c:412
+#: ../src/mail/e-mail-reader.c:2817 ../src/modules/mail/e-mail-attachment-handler.c:412
 msgid "Compose a reply to the sender of the selected message"
 msgstr "Compune un răspuns pentru expeditorul acestui mesaj"
 
-#: ../src/mail/e-mail-reader.c:2820
+#: ../src/mail/e-mail-reader.c:2822
 msgid "Repl_y with Template"
 msgstr "Răspund_e cu șablon"
 
-#: ../src/mail/e-mail-reader.c:2827
+#: ../src/mail/e-mail-reader.c:2829
 msgid "_Save as mbox…"
 msgstr "_Salvează ca mbox…"
 
-#: ../src/mail/e-mail-reader.c:2829
+#: ../src/mail/e-mail-reader.c:2831
 msgid "Save selected messages as an mbox file"
 msgstr "Salvează mesajele selectate ca fișier mbox"
 
-#: ../src/mail/e-mail-reader.c:2841
+#: ../src/mail/e-mail-reader.c:2843
 msgid "_Message Source"
 msgstr "Sursă _mesaj"
 
-#: ../src/mail/e-mail-reader.c:2843
+#: ../src/mail/e-mail-reader.c:2845
 msgid "Show the raw email source of the message"
 msgstr "Arată sursa primară a mesajului"
 
-#: ../src/mail/e-mail-reader.c:2855
+#: ../src/mail/e-mail-reader.c:2857
 msgid "_Undelete Message"
 msgstr "_Recuperează mesaj"
 
-#: ../src/mail/e-mail-reader.c:2857
+#: ../src/mail/e-mail-reader.c:2859
 msgid "Undelete the selected messages"
 msgstr "Recuperează mesajele selectate"
 
-#: ../src/mail/e-mail-reader.c:2862
+#: ../src/mail/e-mail-reader.c:2864
 msgid "_Normal Size"
 msgstr "Dimensiune _normală"
 
-#: ../src/mail/e-mail-reader.c:2864
+#: ../src/mail/e-mail-reader.c:2866
 msgid "Reset the text to its original size"
 msgstr "Definește textul la dimensiunea originală"
 
-#: ../src/mail/e-mail-reader.c:2869
+#: ../src/mail/e-mail-reader.c:2871
 msgid "_Zoom In"
 msgstr "_Mărește"
 
-#: ../src/mail/e-mail-reader.c:2871
+#: ../src/mail/e-mail-reader.c:2873
 msgid "Increase the text size"
 msgstr "Mărește dimensiunea textului"
 
-#: ../src/mail/e-mail-reader.c:2878
+#: ../src/mail/e-mail-reader.c:2880
 msgid "Decrease the text size"
 msgstr "Micșorează dimensiunea textului"
 
-#: ../src/mail/e-mail-reader.c:2885
+#: ../src/mail/e-mail-reader.c:2887
 msgid "Cre_ate"
 msgstr "Cree_ază"
 
-#: ../src/mail/e-mail-reader.c:2892
+#: ../src/mail/e-mail-reader.c:2894
 msgid "Ch_aracter Encoding"
 msgstr "Codare c_aractere"
 
-#: ../src/mail/e-mail-reader.c:2899 ../src/modules/mail/e-mail-attachment-handler.c:424
+#: ../src/mail/e-mail-reader.c:2901 ../src/modules/mail/e-mail-attachment-handler.c:424
 msgid "F_orward As"
 msgstr "Î_naintează ca"
 
-#: ../src/mail/e-mail-reader.c:2906
+#: ../src/mail/e-mail-reader.c:2908
 msgid "_Label"
 msgstr "_Etichetă"
 
-#: ../src/mail/e-mail-reader.c:2913
+#: ../src/mail/e-mail-reader.c:2915
 msgid "_Group Reply"
 msgstr "Răspunde _grupului"
 
-#: ../src/mail/e-mail-reader.c:2920
+#: ../src/mail/e-mail-reader.c:2922
 msgid "_Go To"
 msgstr "_Du-te la"
 
-#: ../src/mail/e-mail-reader.c:2927
+#: ../src/mail/e-mail-reader.c:2929
 msgid "Mar_k As"
 msgstr "Mar_chează ca"
 
-#: ../src/mail/e-mail-reader.c:2934
+#: ../src/mail/e-mail-reader.c:2936
 msgid "_Message"
 msgstr "_Mesaj"
 
-#: ../src/mail/e-mail-reader.c:2941
+#: ../src/mail/e-mail-reader.c:2943
 msgid "_Zoom"
 msgstr "_Mărește"
 
-#: ../src/mail/e-mail-reader.c:2951
+#: ../src/mail/e-mail-reader.c:2953
 msgid "Create a Search Folder from Mailing _List…"
 msgstr "Creează un dosar de căutare din _lista de discuții…"
 
-#: ../src/mail/e-mail-reader.c:2953
+#: ../src/mail/e-mail-reader.c:2955
 msgid "Create a search folder for this mailing list"
 msgstr "Creează un dosar de căutare pentru această listă de discuții"
 
-#: ../src/mail/e-mail-reader.c:2958
+#: ../src/mail/e-mail-reader.c:2960
 msgid "Create a Search Folder from Recipien_ts…"
 msgstr "Creează un dosar de căutare din Des_tinatari…"
 
-#: ../src/mail/e-mail-reader.c:2960
+#: ../src/mail/e-mail-reader.c:2962
 msgid "Create a search folder for these recipients"
 msgstr "Creează un dosar de căutare pentru acești destinatari"
 
-#: ../src/mail/e-mail-reader.c:2965
+#: ../src/mail/e-mail-reader.c:2967
 msgid "Create a Search Folder from Sen_der…"
 msgstr "Creează un dosar de căutare din expe_ditor…"
 
-#: ../src/mail/e-mail-reader.c:2967
+#: ../src/mail/e-mail-reader.c:2969
 msgid "Create a search folder for this sender"
 msgstr "Creează un dosar de căutare pentru acest expeditor"
 
-#: ../src/mail/e-mail-reader.c:2972
+#: ../src/mail/e-mail-reader.c:2974
 msgid "Create a Search Folder from S_ubject…"
 msgstr "Creează un dosar de căutare din s_ubiect…"
 
-#: ../src/mail/e-mail-reader.c:2974
+#: ../src/mail/e-mail-reader.c:2976
 msgid "Create a search folder for this subject"
 msgstr "Creează un dosar de căutare pentru acest subiect"
 
-#: ../src/mail/e-mail-reader.c:3021
+#: ../src/mail/e-mail-reader.c:3023
 msgid "Mark for Follo_w Up…"
 msgstr "Marchează pentru _urmare…"
 
-#: ../src/mail/e-mail-reader.c:3037
+#: ../src/mail/e-mail-reader.c:3039
 msgid "Mark as _Important"
 msgstr "Marchează ca _important"
 
-#: ../src/mail/e-mail-reader.c:3041
+#: ../src/mail/e-mail-reader.c:3043
 msgid "Mark as _Junk"
 msgstr "Marchează ca _spam"
 
-#: ../src/mail/e-mail-reader.c:3045
+#: ../src/mail/e-mail-reader.c:3047
 msgid "Mark as _Not Junk"
 msgstr "Marchează ca _non-spam"
 
-#: ../src/mail/e-mail-reader.c:3049
+#: ../src/mail/e-mail-reader.c:3051
 msgid "Mar_k as Read"
 msgstr "Marchează ca _citit"
 
-#: ../src/mail/e-mail-reader.c:3061
+#: ../src/mail/e-mail-reader.c:3063
 msgid "Mark as Uni_mportant"
 msgstr "Marchează ca nei_mportant"
 
-#: ../src/mail/e-mail-reader.c:3065
+#: ../src/mail/e-mail-reader.c:3067
 msgid "Mark as _Unread"
 msgstr "Marchează ca _necitit"
 
-#: ../src/mail/e-mail-reader.c:3117
+#: ../src/mail/e-mail-reader.c:3119
 msgid "_Caret Mode"
 msgstr "Mod cu _cursor"
 
-#: ../src/mail/e-mail-reader.c:3119
+#: ../src/mail/e-mail-reader.c:3121
 msgid "Show a blinking cursor in the body of displayed messages"
 msgstr "Arată un cursor clipitor în corpul mesajelor afișate"
 
-#: ../src/mail/e-mail-reader.c:3125
+#: ../src/mail/e-mail-reader.c:3127
 msgid "All Message _Headers"
 msgstr "Toate a_ntetele mesajului"
 
-#: ../src/mail/e-mail-reader.c:3127
+#: ../src/mail/e-mail-reader.c:3129
 msgid "Show messages with all email headers"
 msgstr "Arată mesajele cu toate anteturile de email"
 
-#: ../src/mail/e-mail-reader.c:3711
+#: ../src/mail/e-mail-reader.c:3713
 msgid "Retrieving message"
 msgstr "Se obține mesajul"
 
-#: ../src/mail/e-mail-reader.c:5081 ../src/modules/mail/e-mail-attachment-handler.c:389
+#: ../src/mail/e-mail-reader.c:5083 ../src/modules/mail/e-mail-attachment-handler.c:389
 msgid "_Forward"
 msgstr "Îna_intează"
 
-#: ../src/mail/e-mail-reader.c:5082 ../src/modules/mail/e-mail-attachment-handler.c:391
+#: ../src/mail/e-mail-reader.c:5084 ../src/modules/mail/e-mail-attachment-handler.c:391
 msgid "Forward the selected message to someone"
 msgstr "Înainteaza mesajul selectat către cineva"
 
@@ -17152,27 +17163,27 @@ msgstr "Înainteaza mesajul selectat către cineva"
 #. * (if possible and if that configuration option is enabled), or else
 #. * it will reply to all. The word "Group" was chosen because it covers
 #. * either of those, without too strongly implying one or the other.
-#: ../src/mail/e-mail-reader.c:5101
+#: ../src/mail/e-mail-reader.c:5103
 msgid "Group Reply"
 msgstr "Răspunde grupului"
 
-#: ../src/mail/e-mail-reader.c:5102
+#: ../src/mail/e-mail-reader.c:5104
 msgid "Reply to the mailing list, or to all recipients"
 msgstr "Răspunde către lista de discuții sau către toți desinatarii"
 
-#: ../src/mail/e-mail-reader.c:5168 ../src/mail/filtertypes.xml.in.h:67
+#: ../src/mail/e-mail-reader.c:5170 ../src/mail/filtertypes.xml.in.h:67
 msgid "Delete"
 msgstr "Șterge"
 
-#: ../src/mail/e-mail-reader.c:5180 ../src/modules/calendar/e-cal-shell-view-actions.c:1249
+#: ../src/mail/e-mail-reader.c:5182 ../src/modules/calendar/e-cal-shell-view-actions.c:1229
 msgid "Next"
 msgstr "Înainte"
 
-#: ../src/mail/e-mail-reader.c:5184 ../src/modules/calendar/e-cal-shell-view-actions.c:1242
+#: ../src/mail/e-mail-reader.c:5186 ../src/modules/calendar/e-cal-shell-view-actions.c:1222
 msgid "Previous"
 msgstr "Înapoi"
 
-#: ../src/mail/e-mail-reader.c:5193 ../src/mail/mail-dialogs.ui.h:9
+#: ../src/mail/e-mail-reader.c:5195 ../src/mail/mail-dialogs.ui.h:9
 msgid "Reply"
 msgstr "Răspunde"
 
@@ -17220,7 +17231,7 @@ msgstr[0] "Dosarul „%s” conține un mesaj duplicat. Sigur doriți să îl ș
 msgstr[1] "Dosarul „%s” conține %u mesaje duplicate. Sigur doriți să le ștergeți?"
 msgstr[2] "Dosarul „%s” conține %u de mesaje duplicate. Sigur doriți să le ștergeți?"
 
-#: ../src/mail/e-mail-reader-utils.c:3023
+#: ../src/mail/e-mail-reader-utils.c:2989
 msgid "Save Message"
 msgid_plural "Save Messages"
 msgstr[0] "Mesaj salvat"
@@ -17232,14 +17243,14 @@ msgstr[2] "Mesaje salvate"
 #. * mbox format, when the first message doesn't have a
 #. * subject.  The extension ".mbox" is appended to the
 #. * string; for example "Message.mbox".
-#: ../src/mail/e-mail-reader-utils.c:3044
+#: ../src/mail/e-mail-reader-utils.c:3010
 msgid "Message"
 msgid_plural "Messages"
 msgstr[0] "Mesaj"
 msgstr[1] "Mesaje"
 msgstr[2] "Mesaje"
 
-#: ../src/mail/e-mail-reader-utils.c:3458
+#: ../src/mail/e-mail-reader-utils.c:3424
 msgid "Parsing message"
 msgstr "Se parsează mesajul"
 
@@ -17365,59 +17376,59 @@ msgstr "Rs: %s"
 msgid "an unknown sender"
 msgstr "un expeditor necunoscut"
 
-#: ../src/mail/em-composer-utils.c:4021
+#: ../src/mail/em-composer-utils.c:4029
 msgid "Alternative Reply"
 msgstr "Răspuns alternativ"
 
-#: ../src/mail/em-composer-utils.c:4024 ../src/modules/calendar/e-cal-shell-view-actions.c:1445
+#: ../src/mail/em-composer-utils.c:4032 ../src/modules/calendar/e-cal-shell-view-actions.c:1425
 msgid "_Reply"
 msgstr "_Răspunde"
 
-#: ../src/mail/em-composer-utils.c:4037
+#: ../src/mail/em-composer-utils.c:4045
 msgid "Recipients:"
 msgstr "Destinatari:"
 
-#: ../src/mail/em-composer-utils.c:4065
+#: ../src/mail/em-composer-utils.c:4073
 msgid "Reply to _Sender"
 msgstr "Ră_spunde expeditorului"
 
-#: ../src/mail/em-composer-utils.c:4087
+#: ../src/mail/em-composer-utils.c:4095
 msgid "Reply style:"
 msgstr "Stil de răspuns:"
 
-#: ../src/mail/em-composer-utils.c:4095
+#: ../src/mail/em-composer-utils.c:4103
 msgid "_Default"
 msgstr "_Implicit"
 
-#: ../src/mail/em-composer-utils.c:4099
+#: ../src/mail/em-composer-utils.c:4107
 msgid "Attach_ment"
 msgstr "Fișier _atașat"
 
-#: ../src/mail/em-composer-utils.c:4103
+#: ../src/mail/em-composer-utils.c:4111
 msgid "Inline (_Outlook style)"
 msgstr "Inclus (ca în _Outlook)"
 
-#: ../src/mail/em-composer-utils.c:4107
+#: ../src/mail/em-composer-utils.c:4115
 msgid "_Quote"
 msgstr "_Citat"
 
-#: ../src/mail/em-composer-utils.c:4111
+#: ../src/mail/em-composer-utils.c:4119
 msgid "Do _Not Quote"
 msgstr "_Nu cita"
 
-#: ../src/mail/em-composer-utils.c:4118
+#: ../src/mail/em-composer-utils.c:4126
 msgid "_Format message in HTML"
 msgstr "Formatează mesajul în _HTML"
 
-#: ../src/mail/em-composer-utils.c:4131
+#: ../src/mail/em-composer-utils.c:4139
 msgid "Apply t_emplate"
 msgstr "Aplică ș_ablon"
 
-#: ../src/mail/em-composer-utils.c:4143
+#: ../src/mail/em-composer-utils.c:4151
 msgid "Preserve original message S_ubject"
 msgstr "Păstrează s_ubiectul mesajului original"
 
-#: ../src/mail/em-composer-utils.c:4209
+#: ../src/mail/em-composer-utils.c:4217
 #, c-format
 msgid "one recipient"
 msgid_plural "%d recipients"
@@ -17426,11 +17437,11 @@ msgstr[1] "%d destinatari"
 msgstr[2] "%d de destinatari"
 
 #. FIXME GTK_WINDOW (composer)
-#: ../src/mail/em-composer-utils.c:4648
+#: ../src/mail/em-composer-utils.c:4658
 msgid "Posting destination"
 msgstr "Postare destinație"
 
-#: ../src/mail/em-composer-utils.c:4653
+#: ../src/mail/em-composer-utils.c:4663
 msgid "Choose folders to post the message to."
 msgstr "Alegeți dosarele pentru postarea mesajului."
 
@@ -19780,15 +19791,15 @@ msgid "Messages"
 msgstr "Mesaje"
 
 #. default follow-up flag name to use when clicked in the message list column
-#: ../src/mail/message-list.c:5761
+#: ../src/mail/message-list.c:5749
 msgid "Follow-up"
 msgstr "Urmărește"
 
-#: ../src/mail/message-list.c:6510 ../src/mail/message-list.c:6947
+#: ../src/mail/message-list.c:6498 ../src/mail/message-list.c:6935
 msgid "Generating message list…"
 msgstr "Se generează lista de mesaje…"
 
-#: ../src/mail/message-list.c:6513
+#: ../src/mail/message-list.c:6501
 msgid ""
 "No message satisfies your search criteria. Change search criteria by selecting a new Show message filter from the drop "
 "down list above or by running a new search either by clearing it with Search→Clear menu item or by changing the query "
@@ -19798,7 +19809,7 @@ msgstr ""
 "din lista derulantă de deasupra sau efectuând o nouă căutare fie curățând-o pe cea existentă prin elementul de meniu "
 "Căutare→Curăță sau modificând expresia de căutare de deasupra."
 
-#: ../src/mail/message-list.c:6520
+#: ../src/mail/message-list.c:6508
 msgid "There are no messages in this folder."
 msgstr "Nu există mesaje în acest dosar."
 
@@ -20063,7 +20074,7 @@ msgstr "Proprietăți _agendă"
 msgid "Show properties of the selected address book"
 msgstr "Arată proprietățile agendei selectate"
 
-#: ../src/modules/addressbook/e-book-shell-view-actions.c:1057 ../src/modules/calendar/e-cal-shell-view-actions.c:1298
+#: ../src/modules/addressbook/e-book-shell-view-actions.c:1057 ../src/modules/calendar/e-cal-shell-view-actions.c:1278
 #: ../src/modules/calendar/e-memo-shell-view-actions.c:626 ../src/modules/calendar/e-task-shell-view-actions.c:752
 msgid "Re_fresh"
 msgstr "Ac_tualizează"
@@ -20084,7 +20095,7 @@ msgstr "_Harta agendei"
 msgid "Show map with all contacts from selected address book"
 msgstr "Arată harta cu toate contactele din agenda selectată"
 
-#: ../src/modules/addressbook/e-book-shell-view-actions.c:1078 ../src/modules/calendar/e-cal-shell-view-actions.c:1312
+#: ../src/modules/addressbook/e-book-shell-view-actions.c:1078 ../src/modules/calendar/e-cal-shell-view-actions.c:1292
 #: ../src/modules/calendar/e-memo-shell-view-actions.c:640 ../src/modules/calendar/e-task-shell-view-actions.c:766
 #: ../src/modules/mail/e-mail-shell-view-actions.c:1679
 msgid "_Rename…"
@@ -20158,7 +20169,7 @@ msgstr "Trimite me_saj la contact…"
 msgid "Send a message to the selected contacts"
 msgstr "Trimite un mesaj contactelor selectate"
 
-#: ../src/modules/addressbook/e-book-shell-view-actions.c:1157 ../src/modules/calendar/e-cal-shell-view-actions.c:1482
+#: ../src/modules/addressbook/e-book-shell-view-actions.c:1157 ../src/modules/calendar/e-cal-shell-view-actions.c:1462
 #: ../src/modules/calendar/e-task-shell-view-actions.c:831
 msgid "_Actions"
 msgstr "_Acțiuni"
@@ -20168,7 +20179,7 @@ msgstr "_Acțiuni"
 msgid "_Preview"
 msgstr "_Previzualizare"
 
-#: ../src/modules/addressbook/e-book-shell-view-actions.c:1177 ../src/modules/calendar/e-cal-shell-view-actions.c:1511
+#: ../src/modules/addressbook/e-book-shell-view-actions.c:1177 ../src/modules/calendar/e-cal-shell-view-actions.c:1491
 #: ../src/modules/calendar/e-memo-shell-view-actions.c:701 ../src/modules/calendar/e-task-shell-view-actions.c:855
 msgid "_Manage groups…"
 msgstr "Ad_ministrează grupuri…"
@@ -20211,12 +20222,12 @@ msgstr "Vizualizare _verticală"
 msgid "Show contact preview alongside the contact list"
 msgstr "Arată previzualizarea contactului lângă lista de contacte"
 
-#: ../src/modules/addressbook/e-book-shell-view-actions.c:1278 ../src/modules/calendar/e-cal-shell-view-actions.c:1675
+#: ../src/modules/addressbook/e-book-shell-view-actions.c:1278 ../src/modules/calendar/e-cal-shell-view-actions.c:1655
 #: ../src/modules/calendar/e-memo-shell-view-actions.c:790 ../src/modules/calendar/e-task-shell-view-actions.c:1012
 msgid "Unmatched"
 msgstr "Nicio potrivire"
 
-#: ../src/modules/addressbook/e-book-shell-view-actions.c:1288 ../src/modules/calendar/e-cal-shell-view-actions.c:1685
+#: ../src/modules/addressbook/e-book-shell-view-actions.c:1288 ../src/modules/calendar/e-cal-shell-view-actions.c:1665
 #: ../src/modules/calendar/e-memo-shell-view-actions.c:800 ../src/modules/calendar/e-task-shell-view-actions.c:1029
 #: ../src/modules/mail/e-mail-shell-view-actions.c:2077 ../src/shell/e-shell-content.c:639
 msgid "Advanced Search"
@@ -20781,33 +20792,33 @@ msgstr "Permite lui Evolution să actualizeze fișierul"
 #. *
 #. * This string is just a fallback mechanism for systems on
 #. * which _NL_MEASUREMENT_MEASUREMENT is not available.
-#: ../src/modules/cal-config-weather/evolution-cal-config-weather.c:187
+#: ../src/modules/cal-config-weather/evolution-cal-config-weather.c:221
 msgctxt "locale-metric"
 msgid "default:mm"
 msgstr "implicit:mm"
 
 #. Translators: This is the temperature in degrees
 #. * Fahrenheit. (\302\260 is U+00B0 DEGREE SIGN)
-#: ../src/modules/cal-config-weather/evolution-cal-config-weather.c:256
+#: ../src/modules/cal-config-weather/evolution-cal-config-weather.c:290
 msgid "Fahrenheit (°F)"
 msgstr "Fahrenheit (°F)"
 
 #. Translators: This is the temperature in degrees
 #. * Celsius. (\302\260 is U+00B0 DEGREE SIGN)
-#: ../src/modules/cal-config-weather/evolution-cal-config-weather.c:261
+#: ../src/modules/cal-config-weather/evolution-cal-config-weather.c:295
 msgid "Centigrade (°C)"
 msgstr "Celsius (°C)"
 
 #. Translators: This is the temperature in kelvin.
-#: ../src/modules/cal-config-weather/evolution-cal-config-weather.c:265
+#: ../src/modules/cal-config-weather/evolution-cal-config-weather.c:299
 msgid "Kelvin (K)"
 msgstr "Kelvin (K)"
 
-#: ../src/modules/cal-config-weather/evolution-cal-config-weather.c:267
+#: ../src/modules/cal-config-weather/evolution-cal-config-weather.c:301
 msgid "Units:"
 msgstr "Unități:"
 
-#: ../src/modules/cal-config-weather/evolution-cal-config-weather.c:319
+#: ../src/modules/cal-config-weather/evolution-cal-config-weather.c:357
 msgid "Location cannot be empty"
 msgstr "Locația nu poate fi goală"
 
@@ -20998,7 +21009,7 @@ msgstr "_12 ore (AM/PM)"
 msgid "_24 hour"
 msgstr "_24 de ore"
 
-#: ../src/modules/calendar/e-calendar-preferences.ui.h:18 ../src/modules/calendar/e-cal-shell-view-actions.c:1637
+#: ../src/modules/calendar/e-calendar-preferences.ui.h:18 ../src/modules/calendar/e-cal-shell-view-actions.c:1617
 msgid "Work Week"
 msgstr "Săptămână de lucru"
 
@@ -21235,7 +21246,7 @@ msgctxt "New"
 msgid "_Appointment"
 msgstr "Progr_amare"
 
-#: ../src/modules/calendar/e-cal-shell-backend.c:120 ../src/modules/calendar/e-cal-shell-view-actions.c:1426
+#: ../src/modules/calendar/e-cal-shell-backend.c:120 ../src/modules/calendar/e-cal-shell-view-actions.c:1406
 msgid "Create a new appointment"
 msgstr "Creează o programare nouă"
 
@@ -21262,7 +21273,7 @@ msgctxt "New"
 msgid "Cale_ndar"
 msgstr "Cale_ndar"
 
-#: ../src/modules/calendar/e-cal-shell-backend.c:144 ../src/modules/calendar/e-cal-shell-view-actions.c:1279
+#: ../src/modules/calendar/e-cal-shell-backend.c:144 ../src/modules/calendar/e-cal-shell-view-actions.c:1259
 msgid "Create a new calendar"
 msgstr "Creează un calendar nou"
 
@@ -21288,293 +21299,293 @@ msgstr ""
 msgid "Purge events older than"
 msgstr "Șterge evenimentele mai vechi de"
 
-#: ../src/modules/calendar/e-cal-shell-view-actions.c:919
+#: ../src/modules/calendar/e-cal-shell-view-actions.c:899
 msgid "Making an occurrence movable"
 msgstr "Se face o apariție mutabilă"
 
 #. Translators: Default filename part saving an event to a file when
 #. * no summary is filed, the '.ics' extension is concatenated to it.
-#: ../src/modules/calendar/e-cal-shell-view-actions.c:1112
+#: ../src/modules/calendar/e-cal-shell-view-actions.c:1092
 msgid "event"
 msgstr "eveniment"
 
-#: ../src/modules/calendar/e-cal-shell-view-actions.c:1114 ../src/modules/calendar/e-cal-shell-view-memopad.c:204
+#: ../src/modules/calendar/e-cal-shell-view-actions.c:1094 ../src/modules/calendar/e-cal-shell-view-memopad.c:204
 #: ../src/modules/calendar/e-cal-shell-view-taskpad.c:278 ../src/modules/calendar/e-memo-shell-view-actions.c:510
 #: ../src/modules/calendar/e-task-shell-view-actions.c:629
 msgid "Save as iCalendar"
 msgstr "Salveză ca iCalendar"
 
-#: ../src/modules/calendar/e-cal-shell-view-actions.c:1228 ../src/modules/calendar/e-memo-shell-view-actions.c:591
+#: ../src/modules/calendar/e-cal-shell-view-actions.c:1208 ../src/modules/calendar/e-memo-shell-view-actions.c:591
 #: ../src/modules/calendar/e-task-shell-view-actions.c:717
 msgid "_Copy…"
 msgstr "_Copiază…"
 
-#: ../src/modules/calendar/e-cal-shell-view-actions.c:1235
+#: ../src/modules/calendar/e-cal-shell-view-actions.c:1215
 msgid "D_elete Calendar"
 msgstr "Șt_erge calendar"
 
-#: ../src/modules/calendar/e-cal-shell-view-actions.c:1237
+#: ../src/modules/calendar/e-cal-shell-view-actions.c:1217
 msgid "Delete the selected calendar"
 msgstr "Șterge calendarul selectat"
 
-#: ../src/modules/calendar/e-cal-shell-view-actions.c:1244
+#: ../src/modules/calendar/e-cal-shell-view-actions.c:1224
 msgid "Go Back"
 msgstr "Mergi înapoi"
 
-#: ../src/modules/calendar/e-cal-shell-view-actions.c:1251
+#: ../src/modules/calendar/e-cal-shell-view-actions.c:1231
 msgid "Go Forward"
 msgstr "Mergi înainte"
 
-#: ../src/modules/calendar/e-cal-shell-view-actions.c:1258
+#: ../src/modules/calendar/e-cal-shell-view-actions.c:1238
 msgid "Select today"
 msgstr "Selectează astăzi"
 
-#: ../src/modules/calendar/e-cal-shell-view-actions.c:1263
+#: ../src/modules/calendar/e-cal-shell-view-actions.c:1243
 msgid "Select _Date"
 msgstr "Selectează _dată"
 
-#: ../src/modules/calendar/e-cal-shell-view-actions.c:1265
+#: ../src/modules/calendar/e-cal-shell-view-actions.c:1245
 msgid "Select a specific date"
 msgstr "Selectează o dată specifică"
 
-#: ../src/modules/calendar/e-cal-shell-view-actions.c:1270
+#: ../src/modules/calendar/e-cal-shell-view-actions.c:1250
 msgid "_Manage Calendar groups…"
 msgstr "Ad_ministrează grupuri pentru calendare…"
 
-#: ../src/modules/calendar/e-cal-shell-view-actions.c:1272
+#: ../src/modules/calendar/e-cal-shell-view-actions.c:1252
 msgid "Manage Calendar groups order and visibility"
 msgstr "Administrează ordinea grupurilor de calendar și vizibilitatea lor"
 
-#: ../src/modules/calendar/e-cal-shell-view-actions.c:1277
+#: ../src/modules/calendar/e-cal-shell-view-actions.c:1257
 msgid "_New Calendar"
 msgstr "Calendar _nou"
 
-#: ../src/modules/calendar/e-cal-shell-view-actions.c:1291 ../src/modules/calendar/e-task-shell-view-actions.c:822
+#: ../src/modules/calendar/e-cal-shell-view-actions.c:1271 ../src/modules/calendar/e-task-shell-view-actions.c:822
 msgid "Purg_e"
 msgstr "Șterge _definitiv"
 
-#: ../src/modules/calendar/e-cal-shell-view-actions.c:1293
+#: ../src/modules/calendar/e-cal-shell-view-actions.c:1273
 msgid "Purge old appointments and meetings"
 msgstr "Șterge definitiv programările și întâlnirile vechi"
 
-#: ../src/modules/calendar/e-cal-shell-view-actions.c:1300
+#: ../src/modules/calendar/e-cal-shell-view-actions.c:1280
 msgid "Refresh the selected calendar"
 msgstr "Reîncarcă calendarul selectat"
 
-#: ../src/modules/calendar/e-cal-shell-view-actions.c:1305
+#: ../src/modules/calendar/e-cal-shell-view-actions.c:1285
 msgid "Re_fresh list of account calendars"
 msgstr "Reî_ncarcă lista de conturi calendar"
 
-#: ../src/modules/calendar/e-cal-shell-view-actions.c:1314
+#: ../src/modules/calendar/e-cal-shell-view-actions.c:1294
 msgid "Rename the selected calendar"
 msgstr "Redenumește calendarul selectat"
 
-#: ../src/modules/calendar/e-cal-shell-view-actions.c:1319
+#: ../src/modules/calendar/e-cal-shell-view-actions.c:1299
 msgid "Find _Next"
 msgstr "Găsește ur_mătoarea"
 
-#: ../src/modules/calendar/e-cal-shell-view-actions.c:1321
+#: ../src/modules/calendar/e-cal-shell-view-actions.c:1301
 msgid "Find next occurrence of the current search string"
 msgstr "Găsește potrivirea următoare a căutării curente"
 
-#: ../src/modules/calendar/e-cal-shell-view-actions.c:1326
+#: ../src/modules/calendar/e-cal-shell-view-actions.c:1306
 msgid "Find _Previous"
 msgstr "Găsește _precedenta"
 
-#: ../src/modules/calendar/e-cal-shell-view-actions.c:1328
+#: ../src/modules/calendar/e-cal-shell-view-actions.c:1308
 msgid "Find previous occurrence of the current search string"
 msgstr "Găsește potrivirea precedentă a căutării curente"
 
-#: ../src/modules/calendar/e-cal-shell-view-actions.c:1333
+#: ../src/modules/calendar/e-cal-shell-view-actions.c:1313
 msgid "Stop _Running Search"
 msgstr "Op_rește Căutarea în execuție"
 
-#: ../src/modules/calendar/e-cal-shell-view-actions.c:1335
+#: ../src/modules/calendar/e-cal-shell-view-actions.c:1315
 msgid "Stop currently running search"
 msgstr "Oprește căutarea ce rulează curent"
 
-#: ../src/modules/calendar/e-cal-shell-view-actions.c:1340
+#: ../src/modules/calendar/e-cal-shell-view-actions.c:1320
 msgid "Sho_w All Calendars"
 msgstr "Afișea_ză toate calendarele"
 
-#: ../src/modules/calendar/e-cal-shell-view-actions.c:1347
+#: ../src/modules/calendar/e-cal-shell-view-actions.c:1327
 msgid "Show _Only This Calendar"
 msgstr "Arată d_oar acest calendar"
 
-#: ../src/modules/calendar/e-cal-shell-view-actions.c:1354
+#: ../src/modules/calendar/e-cal-shell-view-actions.c:1334
 msgid "Cop_y to Calendar…"
 msgstr "Cop_iază în calendar…"
 
-#: ../src/modules/calendar/e-cal-shell-view-actions.c:1361
+#: ../src/modules/calendar/e-cal-shell-view-actions.c:1341
 msgid "_Delegate Meeting…"
 msgstr "_Delegă întâlnirea…"
 
-#: ../src/modules/calendar/e-cal-shell-view-actions.c:1368
+#: ../src/modules/calendar/e-cal-shell-view-actions.c:1348
 msgid "_Delete Appointment"
 msgstr "Ș_terge programarea"
 
-#: ../src/modules/calendar/e-cal-shell-view-actions.c:1370
+#: ../src/modules/calendar/e-cal-shell-view-actions.c:1350
 msgid "Delete selected appointments"
 msgstr "Șterge programarea selectată"
 
-#: ../src/modules/calendar/e-cal-shell-view-actions.c:1375
+#: ../src/modules/calendar/e-cal-shell-view-actions.c:1355
 msgid "Delete This _Occurrence"
 msgstr "Șterge această _apariție"
 
-#: ../src/modules/calendar/e-cal-shell-view-actions.c:1377
+#: ../src/modules/calendar/e-cal-shell-view-actions.c:1357
 msgid "Delete this occurrence"
 msgstr "Șterge această apariție"
 
-#: ../src/modules/calendar/e-cal-shell-view-actions.c:1382
+#: ../src/modules/calendar/e-cal-shell-view-actions.c:1362
 msgid "Delete All Occ_urrences"
 msgstr "Șterge _toate aparițiile"
 
-#: ../src/modules/calendar/e-cal-shell-view-actions.c:1384
+#: ../src/modules/calendar/e-cal-shell-view-actions.c:1364
 msgid "Delete all occurrences"
 msgstr "Șterge toate aparițiile"
 
-#: ../src/modules/calendar/e-cal-shell-view-actions.c:1389
+#: ../src/modules/calendar/e-cal-shell-view-actions.c:1369
 msgid "Edit as Ne_w…"
 msgstr "Editare ca no_u…"
 
-#: ../src/modules/calendar/e-cal-shell-view-actions.c:1391
+#: ../src/modules/calendar/e-cal-shell-view-actions.c:1371
 msgid "Edit the current appointment as new"
 msgstr "Editează programarea curentă ca una nouă"
 
-#: ../src/modules/calendar/e-cal-shell-view-actions.c:1396
+#: ../src/modules/calendar/e-cal-shell-view-actions.c:1376
 msgid "New All Day _Event…"
 msgstr "_Eveniment nou pentru toată ziua…"
 
-#: ../src/modules/calendar/e-cal-shell-view-actions.c:1398
+#: ../src/modules/calendar/e-cal-shell-view-actions.c:1378
 msgid "Create a new all day event"
 msgstr "Creează un eveniment nouă pentru toată ziua"
 
-#: ../src/modules/calendar/e-cal-shell-view-actions.c:1403 ../src/modules/calendar/e-cal-shell-view-memopad.c:238
+#: ../src/modules/calendar/e-cal-shell-view-actions.c:1383 ../src/modules/calendar/e-cal-shell-view-memopad.c:238
 #: ../src/modules/calendar/e-cal-shell-view-taskpad.c:318 ../src/modules/calendar/e-memo-shell-view-actions.c:584
 #: ../src/modules/calendar/e-task-shell-view-actions.c:710
 msgid "_Forward as iCalendar…"
 msgstr "Î_naintează ca iCalendar…"
 
-#: ../src/modules/calendar/e-cal-shell-view-actions.c:1412
+#: ../src/modules/calendar/e-cal-shell-view-actions.c:1392
 msgid "Create a new meeting"
 msgstr "Creează o nouă întâlnire"
 
-#: ../src/modules/calendar/e-cal-shell-view-actions.c:1417
+#: ../src/modules/calendar/e-cal-shell-view-actions.c:1397
 msgid "Mo_ve to Calendar…"
 msgstr "M_ută în calendar…"
 
-#: ../src/modules/calendar/e-cal-shell-view-actions.c:1431
+#: ../src/modules/calendar/e-cal-shell-view-actions.c:1411
 msgid "Make this Occurrence _Movable"
 msgstr "Fă această apariție _mutabilă"
 
-#: ../src/modules/calendar/e-cal-shell-view-actions.c:1438
+#: ../src/modules/calendar/e-cal-shell-view-actions.c:1418
 msgid "_Open Appointment"
 msgstr "_Deschide programarea"
 
-#: ../src/modules/calendar/e-cal-shell-view-actions.c:1440
+#: ../src/modules/calendar/e-cal-shell-view-actions.c:1420
 msgid "View the current appointment"
 msgstr "Afișează programarea curentă"
 
-#: ../src/modules/calendar/e-cal-shell-view-actions.c:1459
+#: ../src/modules/calendar/e-cal-shell-view-actions.c:1439
 msgid "_Schedule Meeting…"
 msgstr "Progra_mează întâlnirea…"
 
-#: ../src/modules/calendar/e-cal-shell-view-actions.c:1461
+#: ../src/modules/calendar/e-cal-shell-view-actions.c:1441
 msgid "Converts an appointment to a meeting"
 msgstr "Convertește o programare într-o întâlnire"
 
-#: ../src/modules/calendar/e-cal-shell-view-actions.c:1466
+#: ../src/modules/calendar/e-cal-shell-view-actions.c:1446
 msgid "Conv_ert to Appointment…"
 msgstr "Conv_ertește în programare…"
 
-#: ../src/modules/calendar/e-cal-shell-view-actions.c:1468
+#: ../src/modules/calendar/e-cal-shell-view-actions.c:1448
 msgid "Converts a meeting to an appointment"
 msgstr "Convertește o întâlnire într-o programare"
 
-#: ../src/modules/calendar/e-cal-shell-view-actions.c:1473
+#: ../src/modules/calendar/e-cal-shell-view-actions.c:1453
 msgid "Quit"
 msgstr "Ieși"
 
-#: ../src/modules/calendar/e-cal-shell-view-actions.c:1609
+#: ../src/modules/calendar/e-cal-shell-view-actions.c:1589
 msgid "Day"
 msgstr "Zi"
 
-#: ../src/modules/calendar/e-cal-shell-view-actions.c:1611
+#: ../src/modules/calendar/e-cal-shell-view-actions.c:1591
 msgid "Show one day"
 msgstr "Arată o zi"
 
-#: ../src/modules/calendar/e-cal-shell-view-actions.c:1616
+#: ../src/modules/calendar/e-cal-shell-view-actions.c:1596
 msgid "List"
 msgstr "Listă"
 
-#: ../src/modules/calendar/e-cal-shell-view-actions.c:1618
+#: ../src/modules/calendar/e-cal-shell-view-actions.c:1598
 msgid "Show as list"
 msgstr "Arată ca listă"
 
-#: ../src/modules/calendar/e-cal-shell-view-actions.c:1623
+#: ../src/modules/calendar/e-cal-shell-view-actions.c:1603
 msgid "Month"
 msgstr "Lună"
 
-#: ../src/modules/calendar/e-cal-shell-view-actions.c:1625
+#: ../src/modules/calendar/e-cal-shell-view-actions.c:1605
 msgid "Show one month"
 msgstr "Arată o lună"
 
-#: ../src/modules/calendar/e-cal-shell-view-actions.c:1630
+#: ../src/modules/calendar/e-cal-shell-view-actions.c:1610
 msgid "Week"
 msgstr "Săptămână"
 
-#: ../src/modules/calendar/e-cal-shell-view-actions.c:1632
+#: ../src/modules/calendar/e-cal-shell-view-actions.c:1612
 msgid "Show one week"
 msgstr "Arată o săptămână"
 
-#: ../src/modules/calendar/e-cal-shell-view-actions.c:1639
+#: ../src/modules/calendar/e-cal-shell-view-actions.c:1619
 msgid "Show one work week"
 msgstr "Arată o săptămână de lucru"
 
-#: ../src/modules/calendar/e-cal-shell-view-actions.c:1647
+#: ../src/modules/calendar/e-cal-shell-view-actions.c:1627
 msgid "Active Appointments"
 msgstr "Programări active"
 
-#: ../src/modules/calendar/e-cal-shell-view-actions.c:1661
+#: ../src/modules/calendar/e-cal-shell-view-actions.c:1641
 msgid "Next 7 Days’ Appointments"
 msgstr "Programările pentru următoarele 7 zile"
 
-#: ../src/modules/calendar/e-cal-shell-view-actions.c:1668
+#: ../src/modules/calendar/e-cal-shell-view-actions.c:1648
 msgid "Occurs Less Than 5 Times"
 msgstr "Apare mai puțin de 5 ori"
 
-#: ../src/modules/calendar/e-cal-shell-view-actions.c:1699 ../src/modules/calendar/e-memo-shell-view-actions.c:814
+#: ../src/modules/calendar/e-cal-shell-view-actions.c:1679 ../src/modules/calendar/e-memo-shell-view-actions.c:814
 #: ../src/modules/calendar/e-task-shell-view-actions.c:1043
 msgid "Description contains"
 msgstr "Descrierea conține"
 
-#: ../src/modules/calendar/e-cal-shell-view-actions.c:1706 ../src/modules/calendar/e-memo-shell-view-actions.c:821
+#: ../src/modules/calendar/e-cal-shell-view-actions.c:1686 ../src/modules/calendar/e-memo-shell-view-actions.c:821
 #: ../src/modules/calendar/e-task-shell-view-actions.c:1050
 msgid "Summary contains"
 msgstr "Rezumatul conține"
 
-#: ../src/modules/calendar/e-cal-shell-view-actions.c:1716 ../src/modules/calendar/e-cal-shell-view-actions.c:1730
+#: ../src/modules/calendar/e-cal-shell-view-actions.c:1696 ../src/modules/calendar/e-cal-shell-view-actions.c:1710
 #: ../src/modules/calendar/e-cal-shell-view-memopad.c:269 ../src/modules/calendar/e-cal-shell-view-taskpad.c:363
 #: ../src/modules/calendar/e-memo-shell-view-actions.c:831 ../src/modules/calendar/e-memo-shell-view-actions.c:845
 #: ../src/modules/calendar/e-task-shell-view-actions.c:1060 ../src/modules/calendar/e-task-shell-view-actions.c:1074
 msgid "Print…"
 msgstr "Tipărește…"
 
-#: ../src/modules/calendar/e-cal-shell-view-actions.c:1718
+#: ../src/modules/calendar/e-cal-shell-view-actions.c:1698
 msgid "Print this calendar"
 msgstr "Tipărește acest calendar"
 
-#: ../src/modules/calendar/e-cal-shell-view-actions.c:1725
+#: ../src/modules/calendar/e-cal-shell-view-actions.c:1705
 msgid "Preview the calendar to be printed"
 msgstr "Previzualizează calendar pentru tipărire"
 
-#: ../src/modules/calendar/e-cal-shell-view-actions.c:1747 ../src/modules/calendar/e-cal-shell-view-memopad.c:279
+#: ../src/modules/calendar/e-cal-shell-view-actions.c:1727 ../src/modules/calendar/e-cal-shell-view-memopad.c:279
 #: ../src/modules/calendar/e-cal-shell-view-taskpad.c:373 ../src/modules/calendar/e-memo-shell-view-actions.c:862
 #: ../src/modules/calendar/e-task-shell-view-actions.c:1091
 msgid "_Save as iCalendar…"
 msgstr "_Salvează ca iCalendar…"
 
-#: ../src/modules/calendar/e-cal-shell-view-actions.c:1824
+#: ../src/modules/calendar/e-cal-shell-view-actions.c:1804
 msgid "Go To"
 msgstr "Salt la"
 
@@ -24123,7 +24134,7 @@ msgstr "Afișează partea ca un contact de agendă"
 msgid "_Do not show this message again."
 msgstr "_Nu mai arăta acest mesaj din nou."
 
-#: ../src/plugins/attachment-reminder/attachment-reminder.c:571 ../src/plugins/templates/templates.c:489
+#: ../src/plugins/attachment-reminder/attachment-reminder.c:571 ../src/plugins/templates/templates.c:495
 msgid "Keywords"
 msgstr "Cuvinte cheie"
 
@@ -24281,7 +24292,7 @@ msgstr ""
 msgid "Key"
 msgstr "Cheie"
 
-#: ../src/plugins/email-custom-header/email-custom-header.c:866 ../src/plugins/templates/templates.c:498
+#: ../src/plugins/email-custom-header/email-custom-header.c:866 ../src/plugins/templates/templates.c:504
 msgid "Values"
 msgstr "Valori"
 
@@ -25125,15 +25136,15 @@ msgstr ""
 "$ORIG[corp], $ORIG[corp-citat] or $ORIG[credite-răspuns], care vor fi înlocuite de valori dintr-un email la care "
 "răspundeți."
 
-#: ../src/plugins/templates/templates.c:878
+#: ../src/plugins/templates/templates.c:887
 msgid "Saving message template"
 msgstr "Se salvează șablonul de mesaj"
 
-#: ../src/plugins/templates/templates.c:899
+#: ../src/plugins/templates/templates.c:908
 msgid "Save as _Template"
 msgstr "Salvează ca ș_ablon"
 
-#: ../src/plugins/templates/templates.c:901
+#: ../src/plugins/templates/templates.c:910
 msgid "Save as Template"
 msgstr "Salvează ca șablon"
 
