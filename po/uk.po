@@ -12,8 +12,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: evolution\n"
 "Report-Msgid-Bugs-To: https://gitlab.gnome.org/GNOME/evolution/issues\n"
-"POT-Creation-Date: 2021-01-28 17:00+0000\n"
-"PO-Revision-Date: 2021-01-28 19:25+0200\n"
+"POT-Creation-Date: 2021-02-02 11:46+0000\n"
+"PO-Revision-Date: 2021-02-02 17:52+0200\n"
 "Last-Translator: Yuri Chornoivan <yurchor@ukr.net>\n"
 "Language-Team: Ukrainian <trans-uk@lists.fedoraproject.org>\n"
 "Language: uk\n"
@@ -1496,15 +1496,16 @@ msgstr "Якщо позначено, цитований текст у відпо
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:78
 msgid "Paste plain text as preformatted"
-msgstr ""
-"Вставляти простий текст як попередньо форматований"
+msgstr "Вставляти простий текст як попередньо форматований"
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:79
 msgid ""
 "When set, paste a plain text into the composer body as Preformatted "
 "paragraph. When not set, paste it as Normal paragraph."
 msgstr ""
-"Якщо встановлено, вставляти простий текст до поля вмісту повідомлення редактора як попередньо форматовані абзаци. Якщо не встановлено, вставляти такий текст як звичайні абзаци."
+"Якщо встановлено, вставляти простий текст до поля вмісту повідомлення "
+"редактора як попередньо форматовані абзаци. Якщо не встановлено, вставляти "
+"такий текст як звичайні абзаци."
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:80
 msgid "Convert UTC time in reply credits to local time"
@@ -16740,7 +16741,8 @@ msgid "Blank Signature"
 msgstr "Породній підпис"
 
 #: ../src/e-util/widgets.error.xml.h:5
-msgid "Please provide an unique name to identify this signature."
+#| msgid "Please provide an unique name to identify this signature."
+msgid "Please provide a unique name to identify this signature."
 msgstr "Введіть унікальну назву для ідентифікації цього підпису."
 
 #: ../src/e-util/widgets.error.xml.h:6
