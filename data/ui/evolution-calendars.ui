@@ -102,6 +102,16 @@
     <menuitem action='event-popup-save-as'/>
     <menuitem action='event-popup-print'/>
     <separator/>
+    <menu action='event-popup-rsvp-submenu'>
+      <menuitem action='event-popup-rsvp-accept'/>
+      <menuitem action='event-popup-rsvp-tentative'/>
+      <menuitem action='event-popup-rsvp-decline'/>
+      <separator/>
+      <menuitem action='event-popup-rsvp-accept-1'/>
+      <menuitem action='event-popup-rsvp-tentative-1'/>
+      <menuitem action='event-popup-rsvp-decline-1'/>
+    </menu>
+    <separator/>
     <menuitem action='popup-cut-clipboard'/>
     <menuitem action='popup-copy-clipboard'/>
     <menuitem action='popup-paste-clipboard'/>

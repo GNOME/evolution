@@ -276,6 +276,7 @@ cal_shell_view_update_actions (EShellView *shell_view)
 	gboolean selection_is_instance;
 	gboolean selection_is_meeting;
 	gboolean selection_is_recurring;
+	gboolean selection_is_attendee;
 	gboolean selection_can_delegate;
 	gboolean single_event_selected;
 	gboolean refresh_supported;
@@ -328,6 +329,8 @@ cal_shell_view_update_actions (EShellView *shell_view)
 		(state & E_CAL_BASE_SHELL_CONTENT_SELECTION_IS_INSTANCE);
 	selection_is_meeting =
 		(state & E_CAL_BASE_SHELL_CONTENT_SELECTION_IS_MEETING);
+	selection_is_attendee =
+		(state & E_CAL_BASE_SHELL_CONTENT_SELECTION_IS_ATTENDEE);
 	selection_is_recurring =
 		(state & E_CAL_BASE_SHELL_CONTENT_SELECTION_IS_RECURRING);
 	selection_can_delegate =
@@ -493,6 +496,14 @@ cal_shell_view_update_actions (EShellView *shell_view)
 
 	action = ACTION (EVENT_POPUP_MEETING_NEW);
 	gtk_action_set_visible (action, has_mail_identity);
+
+	action = ACTION (EVENT_POPUP_RSVP_SUBMENU);
+	gtk_action_set_visible (action, selection_is_attendee);
+
+	sensitive = selection_is_instance || selection_is_recurring;
+	gtk_action_set_visible (ACTION (EVENT_POPUP_RSVP_ACCEPT_1), sensitive);
+	gtk_action_set_visible (ACTION (EVENT_POPUP_RSVP_DECLINE_1), sensitive);
+	gtk_action_set_visible (ACTION (EVENT_POPUP_RSVP_TENTATIVE_1), sensitive);
 
 	gtk_action_set_sensitive (ACTION (CALENDAR_GO_BACK), !is_list_view);
 	gtk_action_set_sensitive (ACTION (CALENDAR_GO_FORWARD), !is_list_view);

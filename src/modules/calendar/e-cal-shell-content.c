@@ -965,6 +965,7 @@ cal_shell_content_check_state (EShellContent *shell_content)
 	gboolean selection_is_instance = FALSE;
 	gboolean selection_is_meeting = FALSE;
 	gboolean selection_is_organizer = FALSE;
+	gboolean selection_is_attendee = FALSE;
 	gboolean selection_is_recurring = FALSE;
 	gboolean selection_can_delegate = FALSE;
 	guint32 state = 0;
@@ -1056,6 +1057,11 @@ cal_shell_content_check_state (EShellContent *shell_content)
 			(!selection_is_organizer &&
 			 !icomp_is_delegated));
 
+		selection_is_attendee = !selection_is_organizer &&
+			selection_is_meeting &&
+			!icomp_is_delegated &&
+			itip_attendee_is_user (registry, comp, client);
+
 		g_free (user_email);
 		g_object_unref (comp);
 	}
@@ -1074,6 +1080,8 @@ cal_shell_content_check_state (EShellContent *shell_content)
 		state |= E_CAL_BASE_SHELL_CONTENT_SELECTION_IS_MEETING;
 	if (selection_is_organizer)
 		state |= E_CAL_BASE_SHELL_CONTENT_SELECTION_IS_ORGANIZER;
+	if (selection_is_attendee)
+		state |= E_CAL_BASE_SHELL_CONTENT_SELECTION_IS_ATTENDEE;
 	if (selection_is_recurring)
 		state |= E_CAL_BASE_SHELL_CONTENT_SELECTION_IS_RECURRING;
 	if (selection_can_delegate)

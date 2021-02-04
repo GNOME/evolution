@@ -221,9 +221,9 @@ calendar_view_delete_event (ECalendarView *cal_view,
 				e_cal_component_range_free (range);
 			}
 
-			itip_send_component_with_model (model, E_CAL_COMPONENT_METHOD_CANCEL,
+			itip_send_component_with_model (model, I_CAL_METHOD_CANCEL,
 				comp, event->comp_data->client, NULL, NULL,
-				NULL, TRUE, FALSE, FALSE);
+				NULL, E_ITIP_SEND_COMPONENT_FLAG_STRIP_ALARMS);
 		}
 
 		uid = e_cal_component_get_uid (comp);
@@ -667,8 +667,8 @@ calendar_view_component_created_cb (ECalModel *model,
 	    (itip_organizer_is_user (registry, comp, client) ||
 	     itip_sentby_is_user (registry, comp, client)) &&
 	     e_cal_dialogs_send_component ((GtkWindow *) toplevel, client, comp, TRUE, &strip_alarms, NULL)) {
-		itip_send_component_with_model (model, E_CAL_COMPONENT_METHOD_REQUEST,
-			comp, client, NULL, NULL, NULL, strip_alarms, FALSE, FALSE);
+		itip_send_component_with_model (model, I_CAL_METHOD_REQUEST,
+			comp, client, NULL, NULL, NULL, (strip_alarms ? E_ITIP_SEND_COMPONENT_FLAG_STRIP_ALARMS : 0));
 	}
 
 	g_object_unref (comp);
@@ -833,8 +833,9 @@ paste_clipboard_data_free (gpointer ptr)
 				    (itip_organizer_is_user (registry, comp, comp_data->client) ||
 				    itip_sentby_is_user (registry, comp, comp_data->client))
 				    && e_cal_dialogs_cancel_component ((GtkWindow *) pcd->top_level, comp_data->client, comp, TRUE))
-					itip_send_component_with_model (model, E_CAL_COMPONENT_METHOD_CANCEL,
-						comp, comp_data->client, NULL, NULL, NULL, TRUE, FALSE, TRUE);
+					itip_send_component_with_model (model, I_CAL_METHOD_CANCEL,
+						comp, comp_data->client, NULL, NULL, NULL,
+						E_ITIP_SEND_COMPONENT_FLAG_STRIP_ALARMS | E_ITIP_SEND_COMPONENT_FLAG_ENSURE_MASTER_OBJECT);
 
 				uid = e_cal_component_get_uid (comp);
 				if (e_cal_component_is_instance (comp)) {

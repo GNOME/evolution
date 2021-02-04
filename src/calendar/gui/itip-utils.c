@@ -42,28 +42,6 @@
 
 #define d(x)
 
-static const gchar *itip_methods[] = {
-	"PUBLISH",
-	"REQUEST",
-	"REPLY",
-	"ADD",
-	"CANCEL",
-	"RERESH",
-	"COUNTER",
-	"DECLINECOUNTER"
-};
-
-static ICalPropertyMethod itip_methods_enum[] = {
-    I_CAL_METHOD_PUBLISH,
-    I_CAL_METHOD_REQUEST,
-    I_CAL_METHOD_REPLY,
-    I_CAL_METHOD_ADD,
-    I_CAL_METHOD_CANCEL,
-    I_CAL_METHOD_REFRESH,
-    I_CAL_METHOD_COUNTER,
-    I_CAL_METHOD_DECLINECOUNTER
-};
-
 /**
  * itip_get_default_name_and_address:
  * @registry: an #ESourceRegistry
@@ -488,6 +466,104 @@ html_new_lines_for (const gchar *string)
 	return joined;
 }
 
+gboolean
+itip_attendee_is_user (ESourceRegistry *registry,
+		       ECalComponent *comp,
+		       ECalClient *cal_client)
+{
+	ESource *source;
+	GSList *attendees;
+	ECalComponentAttendee *attendee = NULL;
+	GList *list, *link;
+	const gchar *extension_name;
+	gchar *address = NULL;
+
+	attendees = e_cal_component_get_attendees (comp);
+
+	if (cal_client)
+		e_client_get_backend_property_sync (
+			E_CLIENT (cal_client),
+			E_CAL_BACKEND_PROPERTY_CAL_EMAIL_ADDRESS,
+			&address, NULL, NULL);
+
+	if (address && *address) {
+		attendee = get_attendee (attendees, address, NULL);
+
+		if (attendee) {
+			g_slist_free_full (attendees, e_cal_component_attendee_free);
+			g_free (address);
+
+			return TRUE;
+		}
+
+		attendee = get_attendee_if_attendee_sentby_is_user (attendees, address, NULL);
+
+		if (attendee) {
+			g_slist_free_full (attendees, e_cal_component_attendee_free);
+			g_free (address);
+
+			return TRUE;
+		}
+	}
+
+	g_free (address);
+	address = NULL;
+
+	extension_name = E_SOURCE_EXTENSION_MAIL_IDENTITY;
+	list = e_source_registry_list_enabled (registry, extension_name);
+
+	for (link = list; link != NULL; link = g_list_next (link)) {
+		ESourceMailIdentity *extension;
+		GHashTable *aliases;
+
+		source = E_SOURCE (link->data);
+
+		extension_name = E_SOURCE_EXTENSION_MAIL_IDENTITY;
+		extension = e_source_get_extension (source, extension_name);
+
+		address = e_source_mail_identity_dup_address (extension);
+
+		aliases = e_source_mail_identity_get_aliases_as_hash_table (extension);
+
+		attendee = get_attendee (attendees, address, aliases);
+		if (attendee != NULL) {
+			g_slist_free_full (attendees, e_cal_component_attendee_free);
+
+			if (aliases)
+				g_hash_table_destroy (aliases);
+			g_free (address);
+
+			g_list_free_full (list, g_object_unref);
+
+			return TRUE;
+		}
+
+		/* If the account was not found in the attendees list, then
+		 * let's check the 'sentby' fields of the attendees if we can
+		 * find the account. */
+		attendee = get_attendee_if_attendee_sentby_is_user (attendees, address, aliases);
+		if (attendee) {
+			g_slist_free_full (attendees, e_cal_component_attendee_free);
+
+			if (aliases)
+				g_hash_table_destroy (aliases);
+			g_free (address);
+
+			g_list_free_full (list, g_object_unref);
+
+			return TRUE;
+		}
+
+		if (aliases)
+			g_hash_table_destroy (aliases);
+		g_free (address);
+	}
+
+	g_list_free_full (list, g_object_unref);
+
+	return FALSE;
+}
+
 gchar *
 itip_get_comp_attendee (ESourceRegistry *registry,
                         ECalComponent *comp,
@@ -680,7 +756,7 @@ foreach_tzid_callback (ICalParameter *param,
 }
 
 static ICalComponent *
-comp_toplevel_with_zones (ECalComponentItipMethod method,
+comp_toplevel_with_zones (ICalPropertyMethod method,
 			  const GSList *ecomps,
 			  ECalClient *cal_client,
 			  ICalComponent *zones)
@@ -692,7 +768,7 @@ comp_toplevel_with_zones (ECalComponentItipMethod method,
 
 	top_level = e_cal_util_new_top_level ();
 
-	prop = i_cal_property_new_method (itip_methods_enum[method]);
+	prop = i_cal_property_new_method (method);
 	i_cal_component_take_property (top_level, prop);
 
 	tz_data.tzids = g_hash_table_new_full (g_str_hash, g_str_equal, g_free, NULL);
@@ -729,7 +805,7 @@ users_has_attendee (const GSList *users,
 }
 
 static gchar *
-comp_from (ECalComponentItipMethod method,
+comp_from (ICalPropertyMethod method,
            ECalComponent *comp,
            ESourceRegistry *registry,
 	   gchar **from_name)
@@ -741,11 +817,11 @@ comp_from (ECalComponentItipMethod method,
 	gchar *sender = NULL;
 
 	switch (method) {
-	case E_CAL_COMPONENT_METHOD_PUBLISH:
-	case E_CAL_COMPONENT_METHOD_REQUEST:
+	case I_CAL_METHOD_PUBLISH:
+	case I_CAL_METHOD_REQUEST:
 		return itip_get_comp_attendee (registry, comp, NULL);
 
-	case E_CAL_COMPONENT_METHOD_REPLY:
+	case I_CAL_METHOD_REPLY:
 		sender = itip_get_comp_attendee (registry, comp, NULL);
 		if (sender != NULL)
 			return sender;
@@ -754,9 +830,9 @@ comp_from (ECalComponentItipMethod method,
 		/* coverity[fallthrough] */
 		/* falls through */
 
-	case E_CAL_COMPONENT_METHOD_CANCEL:
+	case I_CAL_METHOD_CANCEL:
 
-	case E_CAL_COMPONENT_METHOD_ADD:
+	case I_CAL_METHOD_ADD:
 
 		organizer = e_cal_component_get_organizer (comp);
 		if (!organizer || !e_cal_component_organizer_get_value (organizer)) {
@@ -792,7 +868,7 @@ comp_from (ECalComponentItipMethod method,
 
 static EDestination **
 comp_to_list (ESourceRegistry *registry,
-              ECalComponentItipMethod method,
+              ICalPropertyMethod method,
               ECalComponent *comp,
               const GSList *users,
               gboolean reply_all,
@@ -811,8 +887,8 @@ comp_to_list (ESourceRegistry *registry,
 	} convert;
 
 	switch (method) {
-	case E_CAL_COMPONENT_METHOD_REQUEST:
-	case E_CAL_COMPONENT_METHOD_CANCEL:
+	case I_CAL_METHOD_REQUEST:
+	case I_CAL_METHOD_CANCEL:
 		attendees = e_cal_component_get_attendees (comp);
 		len = g_slist_length (attendees);
 		if (len <= 0) {
@@ -872,7 +948,7 @@ comp_to_list (ESourceRegistry *registry,
 				continue;
 			else if (e_cal_component_attendee_get_partstat (att) == I_CAL_PARTSTAT_DELEGATED &&
 				 !e_cal_component_attendee_get_rsvp (att) &&
-				 method == E_CAL_COMPONENT_METHOD_REQUEST) {
+				 method == I_CAL_METHOD_REQUEST) {
 					const gchar *delegatedto;
 
 					delegatedto = e_cal_component_attendee_get_delegatedto (att);
@@ -893,7 +969,7 @@ comp_to_list (ESourceRegistry *registry,
 		e_cal_component_organizer_free (organizer);
 		break;
 
-	case E_CAL_COMPONENT_METHOD_REPLY:
+	case I_CAL_METHOD_REPLY:
 
 		if (reply_all) {
 			attendees = e_cal_component_get_attendees (comp);
@@ -969,10 +1045,10 @@ comp_to_list (ESourceRegistry *registry,
 		}
 		break;
 
-	case E_CAL_COMPONENT_METHOD_ADD:
-	case E_CAL_COMPONENT_METHOD_REFRESH:
-	case E_CAL_COMPONENT_METHOD_COUNTER:
-	case E_CAL_COMPONENT_METHOD_DECLINECOUNTER:
+	case I_CAL_METHOD_ADD:
+	case I_CAL_METHOD_REFRESH:
+	case I_CAL_METHOD_COUNTER:
+	case I_CAL_METHOD_DECLINECOUNTER:
 		organizer = e_cal_component_get_organizer (comp);
 		if (!organizer || !e_cal_component_organizer_get_value (organizer)) {
 			e_cal_component_organizer_free (organizer);
@@ -1031,7 +1107,7 @@ comp_to_list (ESourceRegistry *registry,
 		e_cal_component_organizer_free (organizer);
 
 		break;
-	case E_CAL_COMPONENT_METHOD_PUBLISH:
+	case I_CAL_METHOD_PUBLISH:
 		if (users) {
 			const GSList *list;
 
@@ -1060,7 +1136,7 @@ comp_to_list (ESourceRegistry *registry,
 
 static gchar *
 comp_subject (ESourceRegistry *registry,
-              ECalComponentItipMethod method,
+              ICalPropertyMethod method,
               ECalComponent *comp)
 {
 	ECalComponentText *caltext;
@@ -1093,15 +1169,15 @@ comp_subject (ESourceRegistry *registry,
 	}
 
 	switch (method) {
-	case E_CAL_COMPONENT_METHOD_PUBLISH:
-	case E_CAL_COMPONENT_METHOD_REQUEST:
+	case I_CAL_METHOD_PUBLISH:
+	case I_CAL_METHOD_REQUEST:
 		/* FIXME: If this is an update to a previous
 		 * PUBLISH or REQUEST, then
 			prefix = U_("Updated");
 		 */
 		break;
 
-	case E_CAL_COMPONENT_METHOD_REPLY:
+	case I_CAL_METHOD_REPLY:
 		alist = e_cal_component_get_attendees (comp);
 		sender = itip_get_comp_attendee (registry, comp, NULL);
 		if (sender) {
@@ -1113,8 +1189,8 @@ comp_subject (ESourceRegistry *registry,
 				sentby = e_cal_component_attendee_get_sentby (a);
 
 				if ((sender && *sender) && (
-				    (value && g_ascii_strcasecmp (itip_strip_mailto (value), sender)) ||
-				    (sentby && g_ascii_strcasecmp (itip_strip_mailto (sentby), sender))))
+				    (value && !g_ascii_strcasecmp (itip_strip_mailto (value), sender)) ||
+				    (sentby && !g_ascii_strcasecmp (itip_strip_mailto (sentby), sender))))
 					break;
 			}
 			g_free (sender);
@@ -1158,35 +1234,35 @@ comp_subject (ESourceRegistry *registry,
 		}
 		break;
 
-	case E_CAL_COMPONENT_METHOD_ADD:
+	case I_CAL_METHOD_ADD:
 		/* Translators: This is part of the subject line of a
 		 * meeting request or update email.  The full subject
 		 * line would be: "Updated: Meeting Name". */
 		prefix = C_("Meeting", "Updated");
 		break;
 
-	case E_CAL_COMPONENT_METHOD_CANCEL:
+	case I_CAL_METHOD_CANCEL:
 		/* Translators: This is part of the subject line of a
 		 * meeting request or update email.  The full subject
 		 * line would be: "Cancel: Meeting Name". */
 		prefix = C_("Meeting", "Cancel");
 		break;
 
-	case E_CAL_COMPONENT_METHOD_REFRESH:
+	case I_CAL_METHOD_REFRESH:
 		/* Translators: This is part of the subject line of a
 		 * meeting request or update email.  The full subject
 		 * line would be: "Refresh: Meeting Name". */
 		prefix = C_("Meeting", "Refresh");
 		break;
 
-	case E_CAL_COMPONENT_METHOD_COUNTER:
+	case I_CAL_METHOD_COUNTER:
 		/* Translators: This is part of the subject line of a
 		 * meeting request or update email.  The full subject
 		 * line would be: "Counter-proposal: Meeting Name". */
 		prefix = C_("Meeting", "Counter-proposal");
 		break;
 
-	case E_CAL_COMPONENT_METHOD_DECLINECOUNTER:
+	case I_CAL_METHOD_DECLINECOUNTER:
 		/* Translators: This is part of the subject line of a
 		 * meeting request or update email.  The full subject
 		 * line would be: "Declined: Meeting Name". */
@@ -1209,7 +1285,7 @@ comp_subject (ESourceRegistry *registry,
 
 static gchar *
 comp_content_type (ECalComponent *comp,
-                   ECalComponentItipMethod method)
+                   ICalPropertyMethod method)
 {
 	const gchar *name;
 
@@ -1220,7 +1296,7 @@ comp_content_type (ECalComponent *comp,
 
 	return g_strdup_printf (
 		"text/calendar; name=\"%s\"; charset=utf-8; METHOD=%s",
-		name, itip_methods[method]);
+		name, i_cal_property_method_to_string (method));
 }
 
 static const gchar *
@@ -1279,7 +1355,7 @@ comp_description (ECalComponent *comp,
 }
 
 static gboolean
-comp_server_send_sync (ECalComponentItipMethod method,
+comp_server_send_sync (ICalPropertyMethod method,
 		       const GSList *ecomps,
 		       ECalClient *cal_client,
 		       ICalComponent *zones,
@@ -1613,7 +1689,7 @@ remove_schedule_status_parameters (ECalComponent *comp)
 
 static ECalComponent *
 comp_compliant_one (ESourceRegistry *registry,
-		    ECalComponentItipMethod method,
+		    ICalPropertyMethod method,
 		    ECalComponent *comp,
 		    ECalClient *client,
 		    ICalComponent *zones,
@@ -1717,29 +1793,29 @@ comp_compliant_one (ESourceRegistry *registry,
 
 	/* Comply with itip spec */
 	switch (method) {
-	case E_CAL_COMPONENT_METHOD_PUBLISH:
+	case I_CAL_METHOD_PUBLISH:
 		comp_sentby (clone, client, registry);
 		e_cal_component_set_attendees (clone, NULL);
 		break;
-	case E_CAL_COMPONENT_METHOD_REQUEST:
+	case I_CAL_METHOD_REQUEST:
 		comp_sentby (clone, client, registry);
 		break;
-	case E_CAL_COMPONENT_METHOD_CANCEL:
+	case I_CAL_METHOD_CANCEL:
 		comp_sentby (clone, client, registry);
 		break;
-	case E_CAL_COMPONENT_METHOD_REPLY:
+	case I_CAL_METHOD_REPLY:
 		break;
-	case E_CAL_COMPONENT_METHOD_ADD:
+	case I_CAL_METHOD_ADD:
 		break;
-	case E_CAL_COMPONENT_METHOD_REFRESH:
+	case I_CAL_METHOD_REFRESH:
 		/* Need to remove almost everything */
 		temp_clone = comp_minimal (registry, clone, TRUE);
 		g_object_unref (clone);
 		clone = temp_clone;
 		break;
-	case E_CAL_COMPONENT_METHOD_COUNTER:
+	case I_CAL_METHOD_COUNTER:
 		break;
-	case E_CAL_COMPONENT_METHOD_DECLINECOUNTER:
+	case I_CAL_METHOD_DECLINECOUNTER:
 		/* Need to remove almost everything */
 		temp_clone = comp_minimal (registry, clone, FALSE);
 		g_object_unref (clone);
@@ -1756,7 +1832,7 @@ comp_compliant_one (ESourceRegistry *registry,
 
 static gboolean
 comp_compliant (ESourceRegistry *registry,
-		ECalComponentItipMethod method,
+		ICalPropertyMethod method,
 		GSList *ecomps,
 		gboolean unref_orig_ecomp,
 		ECalClient *client,
@@ -1887,7 +1963,7 @@ find_enabled_identity (ESourceRegistry *registry,
 
 static gchar *
 get_identity_uid_for_from (EShell *shell,
-			   ECalComponentItipMethod method,
+			   ICalPropertyMethod method,
 			   ECalComponent *comp,
 			   ECalClient *cal_client,
 			   gchar **identity_name,
@@ -1972,15 +2048,13 @@ master_first_cmp (gconstpointer ptr1,
 
 typedef struct {
 	ESourceRegistry *registry;
-	ECalComponentItipMethod method;
+	ICalPropertyMethod method;
 	GSList *send_comps; /* ECalComponent * */
 	ECalClient *cal_client;
 	ICalComponent *zones;
 	GSList *attachments_list;
 	GSList *users;
-	gboolean strip_alarms;
-	gboolean only_new_attendees;
-	gboolean ensure_master_object;
+	EItipSendComponentFlags flags;
 
 	gboolean completed;
 	gboolean success;
@@ -2016,13 +2090,93 @@ itip_send_component_begin (ItipSendComponentData *isc,
 
 	isc->completed = FALSE;
 
-	if (isc->method != E_CAL_COMPONENT_METHOD_PUBLISH && e_cal_client_check_save_schedules (isc->cal_client)) {
+	if ((isc->flags & (E_ITIP_SEND_COMPONENT_FLAG_SAVE_RESPONSE_ACCEPTED |
+			   E_ITIP_SEND_COMPONENT_FLAG_SAVE_RESPONSE_DECLINED |
+			   E_ITIP_SEND_COMPONENT_FLAG_SAVE_RESPONSE_TENTATIVE)) != 0 &&
+	    isc->send_comps && !isc->send_comps->next) {
+		ICalComponent *toplevel, *icomp;
+		ICalParameterPartstat partstat;
+		GSList *link;
+		gchar *attendee;
+
+		if ((isc->flags & E_ITIP_SEND_COMPONENT_FLAG_SAVE_RESPONSE_ACCEPTED) != 0)
+			partstat = I_CAL_PARTSTAT_ACCEPTED;
+		else if ((isc->flags & E_ITIP_SEND_COMPONENT_FLAG_SAVE_RESPONSE_DECLINED) != 0)
+			partstat = I_CAL_PARTSTAT_DECLINED;
+		else
+			partstat = I_CAL_PARTSTAT_TENTATIVE;
+
+		if ((isc->flags & E_ITIP_SEND_COMPONENT_FLAG_ENSURE_MASTER_OBJECT) != 0 && isc->send_comps) {
+			/* Ensure we send the master object with its detached instances, not the instance only */
+			GSList *ecalcomps = NULL;
+			const gchar *uid;
+
+			uid = e_cal_component_get_uid (isc->send_comps->data);
+
+			if (e_cal_client_get_objects_for_uid_sync (isc->cal_client, uid, &ecalcomps, cancellable, NULL) && ecalcomps) {
+				GSList *old_send_comps = isc->send_comps;
+
+				isc->send_comps = g_slist_sort (ecalcomps, master_first_cmp);
+
+				cal_comp_util_copy_new_attendees (isc->send_comps->data, old_send_comps->data);
+
+				g_slist_free_full (old_send_comps, g_object_unref);
+			}
+
+			isc->flags &= ~E_ITIP_SEND_COMPONENT_FLAG_ENSURE_MASTER_OBJECT;
+		}
+
+		attendee = itip_get_comp_attendee (isc->registry, isc->send_comps->data, isc->cal_client);
+
+		icomp = e_cal_component_get_icalcomponent (isc->send_comps->data);
+		itip_utils_prepare_attendee_response (isc->registry, icomp, attendee, partstat);
+		itip_utils_update_cdo_replytime (icomp);
+
+		toplevel = i_cal_component_new_vcalendar ();
+		i_cal_component_set_method (toplevel, isc->method);
+
+		for (link = isc->send_comps; link; link = g_slist_next (link)) {
+			ECalComponent *comp = link->data;
+
+			icomp = e_cal_component_get_icalcomponent (comp);
+
+			if (icomp)
+				i_cal_component_take_component (toplevel, i_cal_component_clone (icomp));
+		}
+
+		isc->success = e_cal_client_receive_objects_sync (isc->cal_client, toplevel, E_CAL_OPERATION_FLAG_NONE, cancellable, error);
+
+		g_object_unref (toplevel);
+
+		if (!isc->success) {
+			isc->completed = TRUE;
+			g_free (attendee);
+			return;
+		}
+
+		/* Include only the 'attendee' and use the first component as well in the reply */
+		if (isc->method == I_CAL_METHOD_REPLY) {
+			while (g_slist_next (isc->send_comps)) {
+				ECalComponent *comp = isc->send_comps->next->data;
+
+				isc->send_comps = g_slist_remove (isc->send_comps, comp);
+
+				g_clear_object (&comp);
+			}
+
+			itip_utils_remove_all_but_attendee (e_cal_component_get_icalcomponent (isc->send_comps->data), attendee);
+		}
+
+		g_free (attendee);
+	}
+
+	if (isc->method != I_CAL_METHOD_PUBLISH && e_cal_client_check_save_schedules (isc->cal_client)) {
 		isc->success = TRUE;
 		isc->completed = TRUE;
 		return;
 	}
 
-	if (isc->ensure_master_object && isc->send_comps) {
+	if ((isc->flags & E_ITIP_SEND_COMPONENT_FLAG_ENSURE_MASTER_OBJECT) != 0 && isc->send_comps) {
 		/* Ensure we send the master object with its detached instances, not the instance only */
 		GSList *ecalcomps = NULL;
 		const gchar *uid;
@@ -2059,7 +2213,7 @@ itip_send_component_begin (ItipSendComponentData *isc,
 	}
 
 	/* Give the server a chance to manipulate the comp */
-	if (isc->method != E_CAL_COMPONENT_METHOD_PUBLISH) {
+	if (isc->method != I_CAL_METHOD_PUBLISH) {
 		d (printf ("itip-utils.c: itip_send_component_begin: calling comp_server_send_sync... \n"));
 		if (!comp_server_send_sync (isc->method, isc->send_comps, isc->cal_client, isc->zones, &isc->users, cancellable, error)) {
 			isc->success = FALSE;
@@ -2069,7 +2223,7 @@ itip_send_component_begin (ItipSendComponentData *isc,
 	}
 
 	/* check whether backend could handle sending requests/updates */
-	if (isc->method != E_CAL_COMPONENT_METHOD_PUBLISH &&
+	if (isc->method != I_CAL_METHOD_PUBLISH &&
 	    e_client_check_capability (E_CLIENT (isc->cal_client), E_CAL_STATIC_CAPABILITY_CREATE_MESSAGES)) {
 		isc->success = TRUE;
 		isc->completed = TRUE;
@@ -2201,7 +2355,8 @@ itip_send_component_complete (ItipSendComponentData *isc)
 	identity_uid = get_identity_uid_for_from (shell, isc->method, isc->send_comps->data, isc->cal_client, &identity_name, &identity_address);
 
 	/* Tidy up the comp */
-	if (!comp_compliant (isc->registry, isc->method, isc->send_comps, TRUE, isc->cal_client, isc->zones, default_zone, isc->strip_alarms)) {
+	if (!comp_compliant (isc->registry, isc->method, isc->send_comps, TRUE, isc->cal_client, isc->zones, default_zone,
+			     (isc->flags & E_ITIP_SEND_COMPONENT_FLAG_STRIP_ALARMS) != 0)) {
 		g_free (identity_uid);
 		g_free (identity_name);
 		g_free (identity_address);
@@ -2211,9 +2366,9 @@ itip_send_component_complete (ItipSendComponentData *isc)
 	/* Recipients */
 	destinations = comp_to_list (
 		isc->registry, isc->method, isc->send_comps->data, isc->users, FALSE,
-		isc->only_new_attendees ? g_object_get_data (
+		(isc->flags & E_ITIP_SEND_COMPONENT_FLAG_ONLY_NEW_ATTENDEES) != 0 ? g_object_get_data (
 		G_OBJECT (isc->send_comps->data), "new-attendees") : NULL);
-	if (isc->method != E_CAL_COMPONENT_METHOD_PUBLISH) {
+	if (isc->method != I_CAL_METHOD_PUBLISH) {
 		if (destinations == NULL) {
 			/* We sent them all via the server */
 			isc->success = TRUE;
@@ -2237,7 +2392,7 @@ itip_send_component_complete (ItipSendComponentData *isc)
 	ccd->event_body_text = NULL;
 	ccd->attachments_list = isc->attachments_list;
 	ccd->send_comps = isc->send_comps;
-	ccd->show_only = isc->method == E_CAL_COMPONENT_METHOD_PUBLISH && !isc->users;
+	ccd->show_only = isc->method == I_CAL_METHOD_PUBLISH && !isc->users;
 
 	isc->attachments_list = NULL;
 	isc->send_comps = NULL;
@@ -2276,15 +2431,13 @@ itip_send_component_thread (EAlertSinkThreadJobData *job_data,
 
 void
 itip_send_component_with_model (ECalModel *model,
-				ECalComponentItipMethod method,
+				ICalPropertyMethod method,
 				ECalComponent *send_comp,
 				ECalClient *cal_client,
 				ICalComponent *zones,
 				GSList *attachments_list,
 				GSList *users,
-				gboolean strip_alarms,
-				gboolean only_new_attendees,
-				gboolean ensure_master_object)
+				EItipSendComponentFlags flags)
 {
 	ESourceRegistry *registry;
 	ECalDataModel *data_model;
@@ -2337,9 +2490,7 @@ itip_send_component_with_model (ECalModel *model,
 			link->data = g_strdup (link->data);
 		}
 	}
-	isc->strip_alarms = strip_alarms;
-	isc->only_new_attendees = only_new_attendees;
-	isc->ensure_master_object = ensure_master_object;
+	isc->flags = flags;
 	isc->success = FALSE;
 	isc->completed = FALSE;
 
@@ -2354,7 +2505,7 @@ itip_send_component_with_model (ECalModel *model,
 
 gboolean
 itip_send_comp_sync (ESourceRegistry *registry,
-		     ECalComponentItipMethod method,
+		     ICalPropertyMethod method,
 		     ECalComponent *send_comp,
 		     ECalClient *cal_client,
 		     ICalComponent *zones,
@@ -2376,8 +2527,8 @@ itip_send_comp_sync (ESourceRegistry *registry,
 	isc.zones = zones;
 	isc.attachments_list = attachments_list;
 	isc.users = users;
-	isc.strip_alarms = strip_alarms;
-	isc.only_new_attendees = only_new_attendees;
+	isc.flags = (strip_alarms ? E_ITIP_SEND_COMPONENT_FLAG_STRIP_ALARMS : 0) |
+		    (only_new_attendees ? E_ITIP_SEND_COMPONENT_FLAG_ONLY_NEW_ATTENDEES : 0);
 
 	isc.completed = FALSE;
 	isc.success = FALSE;
@@ -2406,15 +2557,13 @@ itip_send_component_task_thread (GTask *task,
 
 void
 itip_send_component (ESourceRegistry *registry,
-		     ECalComponentItipMethod method,
+		     ICalPropertyMethod method,
 		     ECalComponent *send_comp,
 		     ECalClient *cal_client,
 		     ICalComponent *zones,
 		     GSList *attachments_list,
 		     GSList *users,
-		     gboolean strip_alarms,
-		     gboolean only_new_attendees,
-		     gboolean ensure_master_object,
+		     EItipSendComponentFlags flags,
 		     GCancellable *cancellable,
 		     GAsyncReadyCallback callback,
 		     gpointer user_data)
@@ -2438,10 +2587,7 @@ itip_send_component (ESourceRegistry *registry,
 			link->data = g_strdup (link->data);
 		}
 	}
-	isc->strip_alarms = strip_alarms;
-	isc->only_new_attendees = only_new_attendees;
-	isc->ensure_master_object = ensure_master_object;
-
+	isc->flags = flags;
 	isc->completed = FALSE;
 	isc->success = FALSE;
 
@@ -2475,7 +2621,7 @@ itip_send_component_finish (GAsyncResult *result,
 
 gboolean
 reply_to_calendar_comp (ESourceRegistry *registry,
-                        ECalComponentItipMethod method,
+                        ICalPropertyMethod method,
                         ECalComponent *send_comp,
                         ECalClient *cal_client,
                         gboolean reply_all,
@@ -2791,4 +2937,169 @@ itip_component_has_recipients (ECalComponent *comp)
 	e_cal_component_organizer_free (organizer);
 
 	return res;
+}
+
+void
+itip_utils_update_cdo_replytime (ICalComponent *icomp)
+{
+	ICalTime *stamp;
+	gchar *str;
+
+	g_return_if_fail (I_CAL_IS_COMPONENT (icomp));
+
+	while (e_cal_util_component_remove_x_property (icomp, "X-MICROSOFT-CDO-REPLYTIME")) {
+		/* Delete all existing X-MICROSOFT-CDO-REPLYTIME properties first */
+	}
+
+	/* Set X-MICROSOFT-CDO-REPLYTIME to record the time at which
+	 * the user accepted/declined the request. (Outlook ignores
+	 * SEQUENCE in REPLY reponses and instead requires that each
+	 * updated response have a later REPLYTIME than the previous
+	 * one.) This also ends up getting saved in our own copy of
+	 * the meeting, though there's currently no way to see that
+	 * information (unless it's being saved to an Exchange folder
+	 * and you then look at it in Outlook).
+	 */
+	stamp = i_cal_time_new_current_with_zone (i_cal_timezone_get_utc_timezone ());
+	str = i_cal_time_as_ical_string (stamp);
+	e_cal_util_component_set_x_property (icomp, "X-MICROSOFT-CDO-REPLYTIME", str);
+	g_clear_object (&stamp);
+	g_free (str);
+}
+
+ICalProperty *
+itip_utils_find_attendee_property (ICalComponent *icomp,
+				   const gchar *address)
+{
+	ICalProperty *prop;
+
+	if (!address || !*address)
+		return NULL;
+
+	for (prop = i_cal_component_get_first_property (icomp, I_CAL_ATTENDEE_PROPERTY);
+	     prop;
+	     g_object_unref (prop), prop = i_cal_component_get_next_property (icomp, I_CAL_ATTENDEE_PROPERTY)) {
+		gchar *attendee;
+		gchar *text;
+
+		attendee = i_cal_property_get_value_as_string (prop);
+
+		 if (!attendee)
+			continue;
+
+		text = g_strdup (itip_strip_mailto (attendee));
+		text = g_strstrip (text);
+		if (text && !g_ascii_strcasecmp (address, text)) {
+			g_free (text);
+			g_free (attendee);
+			break;
+		}
+		g_free (text);
+		g_free (attendee);
+	}
+
+	return prop;
+}
+
+void
+itip_utils_prepare_attendee_response (ESourceRegistry *registry,
+				      ICalComponent *icomp,
+				      const gchar *address,
+				      ICalParameterPartstat partstat)
+{
+	ICalProperty *prop;
+
+	prop = itip_utils_find_attendee_property (icomp, address);
+	if (prop) {
+		ICalParameter *param;
+
+		i_cal_property_remove_parameter_by_kind (prop, I_CAL_PARTSTAT_PARAMETER);
+		param = i_cal_parameter_new_partstat (partstat);
+		if (param)
+			i_cal_property_take_parameter (prop, param);
+
+		g_object_unref (prop);
+	} else {
+		ICalParameter *param;
+
+		if (address && *address) {
+			gchar *mailto_uri;
+
+			mailto_uri = g_strconcat ("mailto:", itip_strip_mailto (address), NULL);
+			prop = i_cal_property_new_attendee (mailto_uri);
+			g_free (mailto_uri);
+
+			param = i_cal_parameter_new_role (I_CAL_ROLE_OPTPARTICIPANT);
+			i_cal_property_take_parameter (prop, param);
+
+			param = i_cal_parameter_new_partstat (partstat);
+			if (param)
+				i_cal_property_take_parameter (prop, param);
+
+			i_cal_component_take_property (icomp, prop);
+		} else {
+			gchar *default_name = NULL;
+			gchar *default_address = NULL;
+			gchar *mailto_uri;
+
+			itip_get_default_name_and_address (
+				registry, &default_name, &default_address);
+
+			mailto_uri = g_strconcat ("mailto:", itip_strip_mailto (default_address), NULL);
+			prop = i_cal_property_new_attendee (mailto_uri);
+			g_free (mailto_uri);
+
+			if (default_name && *default_name && g_strcmp0 (default_name, default_address) != 0) {
+				param = i_cal_parameter_new_cn (default_name);
+				i_cal_property_take_parameter (prop, param);
+			}
+
+			param = i_cal_parameter_new_role (I_CAL_ROLE_REQPARTICIPANT);
+			i_cal_property_take_parameter (prop, param);
+
+			param = i_cal_parameter_new_partstat (partstat);
+			if (param)
+				i_cal_property_take_parameter (prop, param);
+
+			i_cal_component_take_property (icomp, prop);
+
+			g_free (default_name);
+			g_free (default_address);
+		}
+	}
+}
+
+gboolean
+itip_utils_remove_all_but_attendee (ICalComponent *icomp,
+				    const gchar *attendee)
+{
+	ICalProperty *prop;
+	GSList *remove = NULL, *link;
+	gboolean found = FALSE;
+
+	g_return_val_if_fail (I_CAL_IS_COMPONENT (icomp), FALSE);
+	g_return_val_if_fail (attendee != NULL, FALSE);
+
+	for (prop = i_cal_component_get_first_property (icomp, I_CAL_ATTENDEE_PROPERTY);
+	     prop;
+	     prop = i_cal_component_get_next_property (icomp, I_CAL_ATTENDEE_PROPERTY)) {
+		const gchar *address = i_cal_property_get_attendee (prop);
+
+		if (found || g_ascii_strcasecmp (itip_strip_mailto (address), attendee) != 0) {
+			remove = g_slist_prepend (remove, prop);
+		} else {
+			found = TRUE;
+			g_object_unref (prop);
+		}
+	}
+
+	for (link = remove; link; link = g_slist_next (link)) {
+		prop = link->data;
+
+		i_cal_component_remove_property (icomp, prop);
+	}
+
+	g_slist_free_full (remove, g_object_unref);
+
+	return found;
 }

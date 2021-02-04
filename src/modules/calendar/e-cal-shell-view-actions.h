@@ -104,6 +104,20 @@
 	E_SHELL_WINDOW_ACTION ((window), "event-occurrence-movable")
 #define E_SHELL_WINDOW_ACTION_EVENT_POPUP_MEETING_NEW(window) \
 	E_SHELL_WINDOW_ACTION ((window), "event-popup-meeting-new")
+#define E_SHELL_WINDOW_ACTION_EVENT_POPUP_RSVP_SUBMENU(window) \
+	E_SHELL_WINDOW_ACTION ((window), "event-popup-rsvp-submenu")
+#define E_SHELL_WINDOW_ACTION_EVENT_POPUP_RSVP_ACCEPT(window) \
+	E_SHELL_WINDOW_ACTION ((window), "event-popup-rsvp-accept")
+#define E_SHELL_WINDOW_ACTION_EVENT_POPUP_RSVP_ACCEPT_1(window) \
+	E_SHELL_WINDOW_ACTION ((window), "event-popup-rsvp-accept-1")
+#define E_SHELL_WINDOW_ACTION_EVENT_POPUP_RSVP_DECLINE(window) \
+	E_SHELL_WINDOW_ACTION ((window), "event-popup-rsvp-decline")
+#define E_SHELL_WINDOW_ACTION_EVENT_POPUP_RSVP_DECLINE_1(window) \
+	E_SHELL_WINDOW_ACTION ((window), "event-popup-rsvp-decline-1")
+#define E_SHELL_WINDOW_ACTION_EVENT_POPUP_RSVP_TENTATIVE(window) \
+	E_SHELL_WINDOW_ACTION ((window), "event-popup-rsvp-tentative")
+#define E_SHELL_WINDOW_ACTION_EVENT_POPUP_RSVP_TENTATIVE_1(window) \
+	E_SHELL_WINDOW_ACTION ((window), "event-popup-rsvp-tentative-1")
 
 /* Memo Pad Actions */
 #define E_SHELL_WINDOW_ACTION_CALENDAR_MEMOPAD_FORWARD(window) \

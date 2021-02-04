@@ -71,8 +71,11 @@ cal_ops_manage_send_component (ECalModel *model,
 				&strip_alarms, &only_new_attendees);
 
 		if (can_send)
-			itip_send_component_with_model (model, E_CAL_COMPONENT_METHOD_REQUEST, comp, client,
-				NULL, NULL, NULL, strip_alarms, only_new_attendees, mod == E_CAL_OBJ_MOD_ALL);
+			itip_send_component_with_model (model, I_CAL_METHOD_REQUEST, comp, client,
+				NULL, NULL, NULL,
+				(strip_alarms ? E_ITIP_SEND_COMPONENT_FLAG_STRIP_ALARMS : 0) |
+				(only_new_attendees ? E_ITIP_SEND_COMPONENT_FLAG_ONLY_NEW_ATTENDEES : 0) |
+				(mod == E_CAL_OBJ_MOD_ALL ? E_ITIP_SEND_COMPONENT_FLAG_ENSURE_MASTER_OBJECT : 0));
 	}
 
 	g_clear_object (&comp);

@@ -755,8 +755,8 @@ action_event_forward_cb (GtkAction *action,
 	g_return_if_fail (component != NULL);
 
 	itip_send_component_with_model (e_calendar_view_get_model (calendar_view),
-		E_CAL_COMPONENT_METHOD_PUBLISH, component, client,
-		NULL, NULL, NULL, TRUE, FALSE, TRUE);
+		I_CAL_METHOD_PUBLISH, component, client,
+		NULL, NULL, NULL, E_ITIP_SEND_COMPONENT_FLAG_STRIP_ALARMS | E_ITIP_SEND_COMPONENT_FLAG_ENSURE_MASTER_OBJECT);
 
 	g_object_unref (component);
 	g_list_free (selected);
@@ -782,6 +782,75 @@ action_event_popup_new_cb (GtkAction *action,
 		(is_all_day ? E_NEW_APPOINTMENT_FLAG_ALL_DAY : 0) |
 		(is_meeting ? E_NEW_APPOINTMENT_FLAG_MEETING : 0) |
 		(e_shell_view_is_active (E_SHELL_VIEW (cal_shell_view)) ? 0 : E_NEW_APPOINTMENT_FLAG_FORCE_CURRENT_TIME));
+}
+
+static void
+action_event_popup_rsvp_response_cb (GtkAction *action,
+				     ECalShellView *cal_shell_view)
+{
+	ECalShellContent *cal_shell_content;
+	ECalendarView *calendar_view;
+	ECalendarViewEvent *event;
+	ECalClient *client;
+	ECalComponent *comp;
+	ECalModel *model;
+	ICalParameterPartstat partstat;
+	ICalComponent *clone;
+	GList *selected;
+	const gchar *action_name;
+	gboolean ensure_master_object;
+
+	cal_shell_content = cal_shell_view->priv->cal_shell_content;
+	calendar_view = e_cal_shell_content_get_current_calendar_view (cal_shell_content);
+	action_name = gtk_action_get_name (action);
+
+	if (g_strcmp0 (action_name, "event-popup-rsvp-accept") == 0 ||
+	    g_strcmp0 (action_name, "event-popup-rsvp-accept-1") == 0)
+		partstat = I_CAL_PARTSTAT_ACCEPTED;
+	else if (g_strcmp0 (action_name, "event-popup-rsvp-decline") == 0 ||
+		 g_strcmp0 (action_name, "event-popup-rsvp-decline-1") == 0)
+		partstat = I_CAL_PARTSTAT_DECLINED;
+	else if (g_strcmp0 (action_name, "event-popup-rsvp-tentative") == 0 ||
+		 g_strcmp0 (action_name, "event-popup-rsvp-tentative-1") == 0)
+		partstat = I_CAL_PARTSTAT_TENTATIVE;
+	else {
+		g_warning ("%s: Do not know what to do with '%s'", G_STRFUNC, action_name);
+	}
+
+	selected = e_calendar_view_get_selected_events (calendar_view);
+	g_return_if_fail (g_list_length (selected) == 1);
+
+	event = selected->data;
+
+	g_list_free (selected);
+
+	if (!is_comp_data_valid (event))
+		return;
+
+	client = event->comp_data->client;
+	model = e_calendar_view_get_model (calendar_view);
+
+	clone = i_cal_component_clone (event->comp_data->icalcomp);
+	comp = e_cal_component_new_from_icalcomponent (clone);
+
+	if (!comp) {
+		g_warn_if_reached ();
+		return;
+	}
+
+	ensure_master_object = (e_cal_util_component_is_instance (clone) ||
+				e_cal_util_component_has_recurrences (clone)) &&
+				!g_str_has_suffix (action_name, "-1");
+
+	itip_send_component_with_model (model, I_CAL_METHOD_REPLY,
+		comp, client, NULL, NULL, NULL,
+		E_ITIP_SEND_COMPONENT_FLAG_STRIP_ALARMS |
+		(ensure_master_object ? E_ITIP_SEND_COMPONENT_FLAG_ENSURE_MASTER_OBJECT : 0) |
+		(partstat == I_CAL_PARTSTAT_ACCEPTED ? E_ITIP_SEND_COMPONENT_FLAG_SAVE_RESPONSE_ACCEPTED : 0) |
+		(partstat == I_CAL_PARTSTAT_DECLINED ? E_ITIP_SEND_COMPONENT_FLAG_SAVE_RESPONSE_DECLINED : 0) |
+		(partstat == I_CAL_PARTSTAT_TENTATIVE ? E_ITIP_SEND_COMPONENT_FLAG_SAVE_RESPONSE_TENTATIVE : 0));
+
+	g_clear_object (&comp);
 }
 
 typedef struct {
@@ -1029,7 +1098,7 @@ cal_shell_view_actions_reply (ECalShellView *cal_shell_view,
 	component = e_cal_component_new_from_icalcomponent (i_cal_component_clone (icomp));
 
 	reply_to_calendar_comp (
-		registry, E_CAL_COMPONENT_METHOD_REPLY,
+		registry, I_CAL_METHOD_REPLY,
 		component, client, reply_all, NULL, NULL);
 
 	g_object_unref (component);
@@ -1391,6 +1460,55 @@ static GtkActionEntry calendar_entries[] = {
 	  NULL,
 	  N_("Create a new meeting"),
 	  G_CALLBACK (action_event_popup_new_cb) },
+
+	{ "event-popup-rsvp-submenu",
+	  NULL,
+	  N_("Send _RSVP"),
+	  NULL,
+	  N_("Send a meeting response"),
+	  NULL },
+
+	{ "event-popup-rsvp-accept",
+	  NULL,
+	  N_("_Accept"),
+	  NULL,
+	  N_("Accept meeting request"),
+	  G_CALLBACK (action_event_popup_rsvp_response_cb) },
+
+	{ "event-popup-rsvp-accept-1",
+	  NULL,
+	  N_("A_ccept this instance"),
+	  NULL,
+	  N_("Accept meeting request for selected instance only"),
+	  G_CALLBACK (action_event_popup_rsvp_response_cb) },
+
+	{ "event-popup-rsvp-decline",
+	  NULL,
+	  N_("_Decline"),
+	  NULL,
+	  N_("Decline meeting request"),
+	  G_CALLBACK (action_event_popup_rsvp_response_cb) },
+
+	{ "event-popup-rsvp-decline-1",
+	  NULL,
+	  N_("D_ecline this instance"),
+	  NULL,
+	  N_("Decline meeting request for selected instance only"),
+	  G_CALLBACK (action_event_popup_rsvp_response_cb) },
+
+	{ "event-popup-rsvp-tentative",
+	  NULL,
+	  N_("_Tentatively accept"),
+	  NULL,
+	  N_("Tentatively accept meeting request"),
+	  G_CALLBACK (action_event_popup_rsvp_response_cb) },
+
+	{ "event-popup-rsvp-tentative-1",
+	  NULL,
+	  N_("Te_ntatively accept this instance"),
+	  NULL,
+	  N_("Tentatively accept meeting request for selected instance only"),
+	  G_CALLBACK (action_event_popup_rsvp_response_cb) },
 
 	{ "event-move",
 	  NULL,

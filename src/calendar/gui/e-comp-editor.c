@@ -302,8 +302,8 @@ typedef struct _SaveData {
 	gchar *alert_arg_0;
 
 	gboolean object_created;
-	ECalComponentItipMethod first_send;
-	ECalComponentItipMethod second_send;
+	ICalPropertyMethod first_send;
+	ICalPropertyMethod second_send;
 	ECalComponent *send_comp;
 	EActivity *send_activity;
 	gboolean strip_alarms;
@@ -359,7 +359,7 @@ save_data_free (SaveData *sd)
 
 static gboolean
 ece_send_process_method (SaveData *sd,
-			 ECalComponentItipMethod send_method,
+			 ICalPropertyMethod send_method,
 			 ECalComponent *send_comp,
 			 ESourceRegistry *registry,
 			 GCancellable *cancellable,
@@ -370,7 +370,7 @@ ece_send_process_method (SaveData *sd,
 
 	g_return_val_if_fail (sd != NULL, FALSE);
 	g_return_val_if_fail (E_IS_CAL_COMPONENT (send_comp), FALSE);
-	g_return_val_if_fail (send_method != E_CAL_COMPONENT_METHOD_NONE, FALSE);
+	g_return_val_if_fail (send_method != I_CAL_METHOD_NONE, FALSE);
 
 	if (e_cal_component_has_attachments (send_comp) &&
 	    e_client_check_capability (E_CLIENT (sd->target_client), E_CAL_STATIC_CAPABILITY_CREATE_MESSAGES)) {
@@ -402,8 +402,9 @@ ece_send_process_method (SaveData *sd,
 
 	itip_send_component (
 		registry, send_method, send_comp, sd->target_client,
-		NULL, mime_attach_list, NULL, sd->strip_alarms,
-		sd->only_new_attendees, FALSE,
+		NULL, mime_attach_list, NULL,
+		(sd->strip_alarms ? E_ITIP_SEND_COMPONENT_FLAG_STRIP_ALARMS : 0) |
+		(sd->only_new_attendees ? E_ITIP_SEND_COMPONENT_FLAG_ONLY_NEW_ATTENDEES : 0),
 		cancellable, callback, user_data);
 
 	return TRUE;
@@ -433,7 +434,7 @@ ecep_first_send_processed_cb (GObject *source_object,
 	g_return_if_fail (sd != NULL);
 
 	sd->success = itip_send_component_finish (result, &sd->error);
-	if (!sd->success || sd->second_send == E_CAL_COMPONENT_METHOD_NONE) {
+	if (!sd->success || sd->second_send == I_CAL_METHOD_NONE) {
 		save_data_free (sd);
 	} else {
 		sd->success = ece_send_process_method (sd, sd->second_send, sd->send_comp,
@@ -590,14 +591,14 @@ ece_save_component_done (gpointer ptr)
 			if ((itip_organizer_is_user (registry, comp, sd->target_client) ||
 			     itip_sentby_is_user (registry, comp, sd->target_client))) {
 				if (e_cal_component_get_vtype (comp) == E_CAL_COMPONENT_JOURNAL)
-					sd->first_send = E_CAL_COMPONENT_METHOD_PUBLISH;
+					sd->first_send = I_CAL_METHOD_PUBLISH;
 				else
-					sd->first_send = E_CAL_COMPONENT_METHOD_REQUEST;
+					sd->first_send = I_CAL_METHOD_REQUEST;
 			} else {
-				sd->first_send = E_CAL_COMPONENT_METHOD_REQUEST;
+				sd->first_send = I_CAL_METHOD_REQUEST;
 
 				if ((flags & E_COMP_EDITOR_FLAG_DELEGATE) != 0)
-					sd->second_send = E_CAL_COMPONENT_METHOD_REPLY;
+					sd->second_send = I_CAL_METHOD_REPLY;
 			}
 
 			sd->mime_attach_list = ece_get_mime_attach_list (sd->comp_editor);
@@ -1013,8 +1014,8 @@ ece_save_component (ECompEditor *comp_editor,
 		     itip_sentby_is_user (registry, comp, sd->target_client)));
 	sd->close_after_save = close_after_save;
 	sd->recur_mod = recur_mod;
-	sd->first_send = E_CAL_COMPONENT_METHOD_NONE;
-	sd->second_send = E_CAL_COMPONENT_METHOD_NONE;
+	sd->first_send = I_CAL_METHOD_NONE;
+	sd->second_send = I_CAL_METHOD_NONE;
 	sd->success = FALSE;
 
 	source_display_name = e_util_get_source_full_name (e_shell_get_registry (comp_editor->priv->shell),

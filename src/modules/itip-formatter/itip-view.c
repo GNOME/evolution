@@ -3029,40 +3029,6 @@ typedef struct {
 static gboolean check_is_instance (ICalComponent *icomp);
 
 static ICalProperty *
-find_attendee (ICalComponent *icomp,
-               const gchar *address)
-{
-	ICalProperty *prop;
-
-	if (!address)
-		return NULL;
-
-	for (prop = i_cal_component_get_first_property (icomp, I_CAL_ATTENDEE_PROPERTY);
-	     prop;
-	     g_object_unref (prop), prop = i_cal_component_get_next_property (icomp, I_CAL_ATTENDEE_PROPERTY)) {
-		gchar *attendee;
-		gchar *text;
-
-		attendee = i_cal_property_get_value_as_string (prop);
-
-		 if (!attendee)
-			continue;
-
-		text = g_strdup (itip_strip_mailto (attendee));
-		text = g_strstrip (text);
-		if (text && !g_ascii_strcasecmp (address, text)) {
-			g_free (text);
-			g_free (attendee);
-			break;
-		}
-		g_free (text);
-		g_free (attendee);
-	}
-
-	return prop;
-}
-
-static ICalProperty *
 find_attendee_if_sentby (ICalComponent *icomp,
                          const gchar *address)
 {
@@ -3150,7 +3116,7 @@ find_to_address (ItipView *view,
 		extension = e_source_get_extension (source, extension_name);
 		address = e_source_mail_identity_dup_address (extension);
 
-		prop = find_attendee (icomp, address);
+		prop = itip_utils_find_attendee_property (icomp, address);
 		if (!prop) {
 			GHashTable *aliases;
 
@@ -3164,7 +3130,7 @@ find_to_address (ItipView *view,
 					const gchar *alias_address = key;
 
 					if (alias_address && *alias_address) {
-						prop = find_attendee (icomp, alias_address);
+						prop = itip_utils_find_attendee_property (icomp, alias_address);
 						if (prop) {
 							g_free (address);
 							address = g_strdup (alias_address);
@@ -4457,76 +4423,6 @@ find_server (ItipView *view,
 	g_free (rid);
 }
 
-static gboolean
-change_status (ESourceRegistry *registry,
-	       ICalComponent *icomp,
-	       const gchar *address,
-	       ICalParameterPartstat partstat)
-{
-	ICalProperty *prop;
-
-	prop = find_attendee (icomp, address);
-	if (prop) {
-		ICalParameter *param;
-
-		i_cal_property_remove_parameter_by_kind (prop, I_CAL_PARTSTAT_PARAMETER);
-		param = i_cal_parameter_new_partstat (partstat);
-		if (param)
-			i_cal_property_take_parameter (prop, param);
-
-		g_object_unref (prop);
-	} else {
-		ICalParameter *param;
-
-		if (address && *address) {
-			gchar *mailto_uri;
-
-			mailto_uri = g_strconcat ("mailto:", itip_strip_mailto (address), NULL);
-			prop = i_cal_property_new_attendee (mailto_uri);
-			g_free (mailto_uri);
-
-			param = i_cal_parameter_new_role (I_CAL_ROLE_OPTPARTICIPANT);
-			i_cal_property_take_parameter (prop, param);
-
-			param = i_cal_parameter_new_partstat (partstat);
-			if (param)
-				i_cal_property_take_parameter (prop, param);
-
-			i_cal_component_take_property (icomp, prop);
-		} else {
-			gchar *default_name = NULL;
-			gchar *default_address = NULL;
-			gchar *mailto_uri;
-
-			itip_get_default_name_and_address (
-				registry, &default_name, &default_address);
-
-			mailto_uri = g_strconcat ("mailto:", itip_strip_mailto (default_address), NULL);
-			prop = i_cal_property_new_attendee (mailto_uri);
-			g_free (mailto_uri);
-
-			if (default_name && *default_name && g_strcmp0 (default_name, default_address) != 0) {
-				param = i_cal_parameter_new_cn (default_name);
-				i_cal_property_take_parameter (prop, param);
-			}
-
-			param = i_cal_parameter_new_role (I_CAL_ROLE_REQPARTICIPANT);
-			i_cal_property_take_parameter (prop, param);
-
-			param = i_cal_parameter_new_partstat (partstat);
-			if (param)
-				i_cal_property_take_parameter (prop, param);
-
-			i_cal_component_take_property (icomp, prop);
-
-			g_free (default_name);
-			g_free (default_address);
-		}
-	}
-
-	return TRUE;
-}
-
 static void
 message_foreach_part (CamelMimePart *part,
                       GSList **part_list)
@@ -4776,7 +4672,7 @@ finish_message_delete_with_rsvp (ItipView *view,
 
 		if (itip_send_comp_sync (
 				view->priv->registry,
-				E_CAL_COMPONENT_METHOD_REPLY,
+				I_CAL_METHOD_REPLY,
 				comp, view->priv->current_client,
 				view->priv->top_level, NULL, NULL, TRUE, FALSE, NULL, NULL) &&
 				view->priv->folder) {
@@ -4976,32 +4872,12 @@ static void
 update_item (ItipView *view,
              ItipViewResponse response)
 {
-	ICalTime *stamp;
 	ICalComponent *toplevel_clone, *clone;
 	gboolean remove_alarms;
 	ECalComponent *clone_comp;
-	gchar *str;
 
 	claim_progress_saving_changes (view);
-
-	while (e_cal_util_component_remove_x_property (view->priv->ical_comp, "X-MICROSOFT-CDO-REPLYTIME")) {
-		/* Delete all existing X-MICROSOFT-CDO-REPLYTIME properties first */
-	}
-
-	/* Set X-MICROSOFT-CDO-REPLYTIME to record the time at which
-	 * the user accepted/declined the request. (Outlook ignores
-	 * SEQUENCE in REPLY reponses and instead requires that each
-	 * updated response have a later REPLYTIME than the previous
-	 * one.) This also ends up getting saved in our own copy of
-	 * the meeting, though there's currently no way to see that
-	 * information (unless it's being saved to an Exchange folder
-	 * and you then look at it in Outlook).
-	 */
-	stamp = i_cal_time_new_current_with_zone (i_cal_timezone_get_utc_timezone ());
-	str = i_cal_time_as_ical_string (stamp);
-	e_cal_util_component_set_x_property (view->priv->ical_comp, "X-MICROSOFT-CDO-REPLYTIME", str);
-	g_clear_object (&stamp);
-	g_free (str);
+	itip_utils_update_cdo_replytime	(view->priv->ical_comp);
 
 	toplevel_clone = i_cal_component_clone (view->priv->top_level);
 	clone = i_cal_component_clone (view->priv->ical_comp);
@@ -5157,24 +5033,14 @@ static void
 set_attendee (ECalComponent *comp,
               const gchar *address)
 {
-	ICalProperty *prop;
 	ICalComponent *icomp;
 	gboolean found = FALSE;
 
 	icomp = e_cal_component_get_icalcomponent (comp);
-
-	for (prop = i_cal_component_get_first_property (icomp, I_CAL_ATTENDEE_PROPERTY);
-	     prop;
-	     g_object_unref (prop), prop = i_cal_component_get_next_property (icomp, I_CAL_ATTENDEE_PROPERTY)) {
-		const gchar *attendee = i_cal_property_get_attendee (prop);
-
-		if (!(g_str_equal (itip_strip_mailto (attendee), address)))
-			i_cal_component_remove_property (icomp, prop);
-		else
-			found = TRUE;
-	}
+	found = itip_utils_remove_all_but_attendee (icomp, address);
 
 	if (!found) {
+		ICalProperty *prop;
 		ICalParameter *param;
 		gchar *temp = g_strdup_printf ("mailto:%s", address);
 
@@ -5201,7 +5067,7 @@ set_attendee (ECalComponent *comp,
 
 static gboolean
 send_comp_to_attendee (ESourceRegistry *registry,
-                       ECalComponentItipMethod method,
+                       ICalPropertyMethod method,
                        ECalComponent *comp,
                        const gchar *user,
                        ECalClient *client,
@@ -5251,12 +5117,12 @@ remove_delegate (ItipView *view,
 	/* send cancellation notice to delegate */
 	status = send_comp_to_attendee (
 		view->priv->registry,
-		E_CAL_COMPONENT_METHOD_CANCEL, view->priv->comp,
+		I_CAL_METHOD_CANCEL, view->priv->comp,
 		delegate, view->priv->current_client, comment);
 	if (status != 0) {
 		send_comp_to_attendee (
 			view->priv->registry,
-			E_CAL_COMPONENT_METHOD_REQUEST, view->priv->comp,
+			I_CAL_METHOD_REQUEST, view->priv->comp,
 			delegator, view->priv->current_client, comment);
 	}
 	if (status != 0) {
@@ -5358,10 +5224,10 @@ update_attendee_status_icomp (ItipView *view,
 			ICalProperty *prop, *del_prop = NULL, *delto = NULL;
 			EShell *shell = e_shell_get_default ();
 
-			prop = find_attendee (icomp, itip_strip_mailto (e_cal_component_attendee_get_value (a)));
+			prop = itip_utils_find_attendee_property (icomp, itip_strip_mailto (e_cal_component_attendee_get_value (a)));
 			if ((e_cal_component_attendee_get_partstat (a) == I_CAL_PARTSTAT_DELEGATED) &&
-			    (del_prop = find_attendee (org_icomp, itip_strip_mailto (e_cal_component_attendee_get_delegatedto (a)))) &&
-			    !(delto = find_attendee (icomp, itip_strip_mailto (e_cal_component_attendee_get_delegatedto (a))))) {
+			    (del_prop = itip_utils_find_attendee_property (org_icomp, itip_strip_mailto (e_cal_component_attendee_get_delegatedto (a)))) &&
+			    !(delto = itip_utils_find_attendee_property (icomp, itip_strip_mailto (e_cal_component_attendee_get_delegatedto (a))))) {
 				gint response;
 				delegate = i_cal_property_get_attendee (del_prop);
 				response = e_alert_run_dialog_for_args (
@@ -5400,7 +5266,7 @@ update_attendee_status_icomp (ItipView *view,
 						itip_strip_mailto (e_cal_component_attendee_get_value (a)), NULL);
 					if (response == GTK_RESPONSE_YES) {
 						/* Already declared in this function */
-						ICalProperty *prop = find_attendee (icomp, itip_strip_mailto (e_cal_component_attendee_get_value (a)));
+						ICalProperty *prop = itip_utils_find_attendee_property (icomp, itip_strip_mailto (e_cal_component_attendee_get_value (a)));
 						i_cal_component_take_property (icomp, i_cal_property_clone (prop));
 					} else if (response == GTK_RESPONSE_NO) {
 						remove_delegate (
@@ -5419,7 +5285,7 @@ update_attendee_status_icomp (ItipView *view,
 					"org.gnome.itip-formatter:add-unknown-attendee", NULL);
 
 				if (response == GTK_RESPONSE_YES) {
-					change_status (
+					itip_utils_prepare_attendee_response (
 						view->priv->registry, icomp,
 						itip_strip_mailto (e_cal_component_attendee_get_value (a)),
 						e_cal_component_attendee_get_partstat (a));
@@ -5438,15 +5304,15 @@ update_attendee_status_icomp (ItipView *view,
 					/* *prop already declared in this function */
 					ICalProperty *subprop, *new_prop;
 
-					subprop = find_attendee (icomp, itip_strip_mailto (e_cal_component_attendee_get_value (a)));
+					subprop = itip_utils_find_attendee_property (icomp, itip_strip_mailto (e_cal_component_attendee_get_value (a)));
 					i_cal_component_remove_property (icomp, subprop);
 					g_clear_object (&subprop);
 
-					new_prop = find_attendee (org_icomp, itip_strip_mailto (e_cal_component_attendee_get_value (a)));
+					new_prop = itip_utils_find_attendee_property (org_icomp, itip_strip_mailto (e_cal_component_attendee_get_value (a)));
 					i_cal_component_take_property (icomp, i_cal_property_clone (new_prop));
 					g_clear_object (&new_prop);
 				} else {
-					change_status (
+					itip_utils_prepare_attendee_response (
 						view->priv->registry, icomp,
 						itip_strip_mailto (e_cal_component_attendee_get_value (a)),
 						e_cal_component_attendee_get_partstat (a));
@@ -5463,7 +5329,7 @@ update_attendee_status_icomp (ItipView *view,
 		e_cal_component_commit_sequence (comp);
 		itip_send_comp_sync (
 			view->priv->registry,
-			E_CAL_COMPONENT_METHOD_REQUEST,
+			I_CAL_METHOD_REQUEST,
 			comp, view->priv->current_client,
 			NULL, NULL, NULL, TRUE, FALSE, NULL, NULL);
 	}
@@ -5595,7 +5461,7 @@ send_item (ItipView *view)
 	if (comp != NULL) {
 		itip_send_comp_sync (
 			view->priv->registry,
-			E_CAL_COMPONENT_METHOD_REQUEST,
+			I_CAL_METHOD_REQUEST,
 			comp, view->priv->current_client,
 			NULL, NULL, NULL, TRUE, FALSE, NULL, NULL);
 		g_object_unref (comp);
@@ -5943,7 +5809,7 @@ extract_itip_data (ItipView *view,
 			view->priv->registry, comp, NULL);
 		g_clear_object (&comp);
 
-		prop = find_attendee (view->priv->ical_comp, my_address);
+		prop = itip_utils_find_attendee_property (view->priv->ical_comp, my_address);
 		if (!prop)
 			prop = find_attendee_if_sentby (view->priv->ical_comp, my_address);
 		if (prop) {
@@ -6112,7 +5978,6 @@ view_response_cb (ItipView *view,
                   ItipViewResponse response,
                   gpointer user_data)
 {
-	gboolean status = FALSE;
 	ICalProperty *prop;
 	ECalComponentTransparency trans;
 
@@ -6153,44 +6018,35 @@ view_response_cb (ItipView *view,
 	switch (response) {
 		case ITIP_VIEW_RESPONSE_ACCEPT:
 			if (view->priv->type != E_CAL_CLIENT_SOURCE_TYPE_MEMOS)
-				status = change_status (
+				itip_utils_prepare_attendee_response (
 					view->priv->registry,
 					view->priv->ical_comp,
 					view->priv->to_address,
 					I_CAL_PARTSTAT_ACCEPTED);
-			else
-				status = TRUE;
-			if (status) {
-				update_item (view, response);
-			}
+			update_item (view, response);
 			break;
 		case ITIP_VIEW_RESPONSE_TENTATIVE:
-			status = change_status (
+			itip_utils_prepare_attendee_response (
 					view->priv->registry,
 					view->priv->ical_comp,
 					view->priv->to_address,
 					I_CAL_PARTSTAT_TENTATIVE);
-			if (status) {
-				update_item (view, response);
-			}
+			update_item (view, response);
 			break;
 		case ITIP_VIEW_RESPONSE_DECLINE:
-			if (view->priv->type != E_CAL_CLIENT_SOURCE_TYPE_MEMOS)
-				status = change_status (
+			if (view->priv->type != E_CAL_CLIENT_SOURCE_TYPE_MEMOS) {
+				itip_utils_prepare_attendee_response (
 					view->priv->registry,
 					view->priv->ical_comp,
 					view->priv->to_address,
 					I_CAL_PARTSTAT_DECLINED);
-			else {
+			} else {
 				prop = i_cal_property_new_x ("1");
 				i_cal_property_set_x_name (prop, "X-GW-DECLINED");
 				i_cal_component_take_property (view->priv->ical_comp, prop);
-				status = TRUE;
 			}
 
-			if (status) {
-				update_item (view, response);
-			}
+			update_item (view, response);
 			break;
 		case ITIP_VIEW_RESPONSE_UPDATE:
 			update_attendee_status (view);

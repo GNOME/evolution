@@ -26,16 +26,14 @@
 G_BEGIN_DECLS
 
 typedef enum {
-	E_CAL_COMPONENT_METHOD_NONE = -1,
-	E_CAL_COMPONENT_METHOD_PUBLISH,
-	E_CAL_COMPONENT_METHOD_REQUEST,
-	E_CAL_COMPONENT_METHOD_REPLY,
-	E_CAL_COMPONENT_METHOD_ADD,
-	E_CAL_COMPONENT_METHOD_CANCEL,
-	E_CAL_COMPONENT_METHOD_REFRESH,
-	E_CAL_COMPONENT_METHOD_COUNTER,
-	E_CAL_COMPONENT_METHOD_DECLINECOUNTER
-} ECalComponentItipMethod;
+	E_ITIP_SEND_COMPONENT_FLAG_NONE				= 0,
+	E_ITIP_SEND_COMPONENT_FLAG_STRIP_ALARMS			= 1 << 0,
+	E_ITIP_SEND_COMPONENT_FLAG_ONLY_NEW_ATTENDEES		= 1 << 1,
+	E_ITIP_SEND_COMPONENT_FLAG_ENSURE_MASTER_OBJECT		= 1 << 2,
+	E_ITIP_SEND_COMPONENT_FLAG_SAVE_RESPONSE_ACCEPTED	= 1 << 3,
+	E_ITIP_SEND_COMPONENT_FLAG_SAVE_RESPONSE_DECLINED	= 1 << 4,
+	E_ITIP_SEND_COMPONENT_FLAG_SAVE_RESPONSE_TENTATIVE	= 1 << 5
+} EItipSendComponentFlags;
 
 struct CalMimeAttach {
 	gchar *filename;
@@ -69,11 +67,14 @@ gboolean	itip_sentby_is_user		(ESourceRegistry *registry,
 						 ECalClient *cal_client);
 gboolean	itip_has_any_attendees		(ECalComponent *comp);
 const gchar *	itip_strip_mailto		(const gchar *address);
+gboolean	itip_attendee_is_user		(ESourceRegistry *registry,
+						 ECalComponent *comp,
+						 ECalClient *cal_client);
 gchar *		itip_get_comp_attendee		(ESourceRegistry *registry,
 						 ECalComponent *comp,
 						 ECalClient *cal_client);
 gboolean	itip_send_comp_sync		(ESourceRegistry *registry,
-						 ECalComponentItipMethod method,
+						 ICalPropertyMethod method,
 						 ECalComponent *send_comp,
 						 ECalClient *cal_client,
 						 ICalComponent *zones,
@@ -84,25 +85,21 @@ gboolean	itip_send_comp_sync		(ESourceRegistry *registry,
 						 GCancellable *cancellable,
 						 GError **error);
 void		itip_send_component_with_model	(ECalModel *model,
-						 ECalComponentItipMethod method,
+						 ICalPropertyMethod method,
 						 ECalComponent *send_comp,
 						 ECalClient *cal_client,
 						 ICalComponent *zones,
 						 GSList *attachments_list,
 						 GSList *users,
-						 gboolean strip_alarms,
-						 gboolean only_new_attendees,
-						 gboolean ensure_master_object);
+						 EItipSendComponentFlags flags);
 void		itip_send_component		(ESourceRegistry *registry,
-						 ECalComponentItipMethod method,
+						 ICalPropertyMethod method,
 						 ECalComponent *send_comp,
 						 ECalClient *cal_client,
 						 ICalComponent *zones,
 						 GSList *attachments_list,
 						 GSList *users,
-						 gboolean strip_alarms,
-						 gboolean only_new_attendees,
-						 gboolean ensure_master_object,
+						 EItipSendComponentFlags flags,
 						 GCancellable *cancellable,
 						 GAsyncReadyCallback callback,
 						 gpointer user_data);
@@ -113,7 +110,7 @@ gboolean	itip_publish_begin		(ECalComponent *pub_comp,
 						 gboolean cloned,
 						 ECalComponent **clone);
 gboolean	reply_to_calendar_comp		(ESourceRegistry *registry,
-						 ECalComponentItipMethod method,
+						 ICalPropertyMethod method,
 						 ECalComponent *send_comp,
 						 ECalClient *cal_client,
 						 gboolean reply_all,
@@ -121,6 +118,18 @@ gboolean	reply_to_calendar_comp		(ESourceRegistry *registry,
 						 GSList *attachments_list);
 gboolean	itip_is_component_valid		(ICalComponent *icomp);
 gboolean	itip_component_has_recipients	(ECalComponent *comp);
+void		itip_utils_update_cdo_replytime	(ICalComponent *icomp);
+gboolean	itip_utils_remove_all_but_attendee
+						(ICalComponent *icomp,
+						 const gchar *attendee);
+ICalProperty *	itip_utils_find_attendee_property
+						(ICalComponent *icomp,
+						 const gchar *address);
+void		itip_utils_prepare_attendee_response
+						(ESourceRegistry *registry,
+						 ICalComponent *icomp,
+						 const gchar *address,
+						 ICalParameterPartstat partstat);
 
 G_END_DECLS
 

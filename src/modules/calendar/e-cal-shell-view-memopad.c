@@ -50,8 +50,8 @@ action_calendar_memopad_forward_cb (GtkAction *action,
 	g_return_if_fail (comp != NULL);
 
 	itip_send_component_with_model (e_memo_table_get_model (memo_table),
-		E_CAL_COMPONENT_METHOD_PUBLISH, comp, comp_data->client,
-		NULL, NULL, NULL, TRUE, FALSE, TRUE);
+		I_CAL_METHOD_PUBLISH, comp, comp_data->client,
+		NULL, NULL, NULL, E_ITIP_SEND_COMPONENT_FLAG_STRIP_ALARMS | E_ITIP_SEND_COMPONENT_FLAG_ENSURE_MASTER_OBJECT);
 
 	g_object_unref (comp);
 }
