@@ -212,7 +212,7 @@ ece_memo_sensitize_widgets (ECompEditor *comp_editor,
 		else if (e_client_is_readonly (E_CLIENT (client)))
 			message = _("Memo cannot be edited, because the selected memo list is read only");
 		else if (!is_organizer)
-			message = _("Memo cannot be fully edited, because you are not the organizer");
+			message = _("Changes made to the memo will not be sent to the attendees, because you are not the organizer");
 
 		if (message) {
 			EAlert *alert;

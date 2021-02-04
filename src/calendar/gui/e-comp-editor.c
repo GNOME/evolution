@@ -970,6 +970,9 @@ ece_save_component (ECompEditor *comp_editor,
 		    gboolean close_after_save)
 {
 	EActivity *activity;
+	ECalComponent *comp;
+	EShell *shell;
+	ESourceRegistry *registry;
 	const gchar *summary;
 	ECalObjModType recur_mod = E_CAL_OBJ_MOD_THIS;
 	SaveData *sd;
@@ -996,12 +999,18 @@ ece_save_component (ECompEditor *comp_editor,
 
 	e_comp_editor_enable (comp_editor, FALSE);
 
+	shell = e_comp_editor_get_shell (comp_editor);
+	registry = e_shell_get_registry (shell);
+	comp = e_cal_component_new_from_icalcomponent (i_cal_component_clone (component));
+
 	sd = g_slice_new0 (SaveData);
 	sd->comp_editor = g_object_ref (comp_editor);
 	sd->source_client = comp_editor->priv->source_client ? g_object_ref (comp_editor->priv->source_client) : NULL;
 	sd->target_client = g_object_ref (comp_editor->priv->target_client);
 	sd->component = i_cal_component_clone (component);
-	sd->with_send = with_send;
+	sd->with_send = with_send && (!itip_has_any_attendees (comp) ||
+		    (itip_organizer_is_user (registry, comp, sd->target_client) ||
+		     itip_sentby_is_user (registry, comp, sd->target_client)));
 	sd->close_after_save = close_after_save;
 	sd->recur_mod = recur_mod;
 	sd->first_send = E_CAL_COMPONENT_METHOD_NONE;
@@ -1018,6 +1027,7 @@ ece_save_component (ECompEditor *comp_editor,
 	if (activity)
 		e_activity_bar_set_activity (comp_editor->priv->activity_bar, activity);
 
+	g_clear_object (&comp);
 	g_clear_object (&activity);
 	g_free (source_display_name);
 }

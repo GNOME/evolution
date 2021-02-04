@@ -221,20 +221,15 @@ ecep_attachments_sensitize_widgets (ECompEditorPage *page,
 {
 	ECompEditor *comp_editor;
 	GtkAction *action;
-	guint32 flags;
-	gboolean is_organizer;
 
 	g_return_if_fail (E_IS_COMP_EDITOR_PAGE_ATTACHMENTS (page));
 
 	E_COMP_EDITOR_PAGE_CLASS (e_comp_editor_page_attachments_parent_class)->sensitize_widgets (page, force_insensitive);
 
 	comp_editor = e_comp_editor_page_ref_editor (page);
-	flags = e_comp_editor_get_flags (comp_editor);
-
-	is_organizer = (flags & (E_COMP_EDITOR_FLAG_IS_NEW | E_COMP_EDITOR_FLAG_ORGANIZER_IS_USER)) != 0;
 
 	action = e_comp_editor_get_action (comp_editor, "attachments-attach");
-	gtk_action_set_sensitive (action, !force_insensitive && is_organizer);
+	gtk_action_set_sensitive (action, !force_insensitive);
 
 	g_clear_object (&comp_editor);
 }

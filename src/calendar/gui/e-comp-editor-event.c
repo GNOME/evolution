@@ -168,16 +168,16 @@ ece_event_sensitize_widgets (ECompEditor *comp_editor,
 	is_organizer = (flags & (E_COMP_EDITOR_FLAG_IS_NEW | E_COMP_EDITOR_FLAG_ORGANIZER_IS_USER)) != 0;
 	event_editor = E_COMP_EDITOR_EVENT (comp_editor);
 
-	gtk_widget_set_sensitive (event_editor->priv->all_day_check, !force_insensitive && is_organizer);
+	gtk_widget_set_sensitive (event_editor->priv->all_day_check, !force_insensitive);
 
 	#define sensitize_part(x) G_STMT_START { \
 		widget = e_comp_editor_property_part_get_label_widget (x); \
 		if (widget) \
-			gtk_widget_set_sensitive (widget, !force_insensitive && is_organizer); \
+			gtk_widget_set_sensitive (widget, !force_insensitive); \
 		\
 		widget = e_comp_editor_property_part_get_edit_widget (x); \
 		if (widget) \
-			gtk_widget_set_sensitive (widget, !force_insensitive && is_organizer); \
+			gtk_widget_set_sensitive (widget, !force_insensitive); \
 	} G_STMT_END
 
 	sensitize_part (event_editor->priv->dtstart);
@@ -187,10 +187,10 @@ ece_event_sensitize_widgets (ECompEditor *comp_editor,
 	#undef sensitize_part
 
 	action = e_comp_editor_get_action (comp_editor, "all-day-event");
-	gtk_action_set_sensitive (action, !force_insensitive && is_organizer);
+	gtk_action_set_sensitive (action, !force_insensitive);
 
 	action = e_comp_editor_get_action (comp_editor, "classification-menu");
-	gtk_action_set_sensitive (action, !force_insensitive && is_organizer);
+	gtk_action_set_sensitive (action, !force_insensitive);
 
 	if (event_editor->priv->insensitive_info_alert)
 		e_alert_response (event_editor->priv->insensitive_info_alert, GTK_RESPONSE_OK);
@@ -205,7 +205,7 @@ ece_event_sensitize_widgets (ECompEditor *comp_editor,
 		else if (e_client_is_readonly (E_CLIENT (client)))
 			message = _("Event cannot be edited, because the selected calendar is read only");
 		else if (!is_organizer)
-			message = _("Event cannot be fully edited, because you are not the organizer");
+			message = _("Changes made to the event will not be sent to the attendees, because you are not the organizer");
 
 		if (message) {
 			EAlert *alert;

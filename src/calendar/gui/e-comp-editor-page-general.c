@@ -849,7 +849,7 @@ ecep_general_sensitize_widgets (ECompEditorPage *page,
 	gtk_widget_set_sensitive (page_general->priv->attendees_list_view, !read_only && !force_insensitive);
 
 	action = e_comp_editor_get_action (comp_editor, "option-attendees");
-	gtk_action_set_sensitive (action, !force_insensitive && !read_only && organizer_is_user);
+	gtk_action_set_sensitive (action, !force_insensitive && !read_only);
 
 	if (page_general->priv->comp_color &&
 	    !e_comp_editor_property_part_get_sensitize_handled (page_general->priv->comp_color)) {

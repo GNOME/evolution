@@ -509,7 +509,7 @@ ece_task_sensitize_widgets (ECompEditor *comp_editor,
 	task_editor = E_COMP_EDITOR_TASK (comp_editor);
 
 	action = e_comp_editor_get_action (comp_editor, "all-day-task");
-	gtk_action_set_sensitive (action, !force_insensitive && is_organizer);
+	gtk_action_set_sensitive (action, !force_insensitive);
 
 	if (task_editor->priv->insensitive_info_alert)
 		e_alert_response (task_editor->priv->insensitive_info_alert, GTK_RESPONSE_OK);
@@ -524,7 +524,7 @@ ece_task_sensitize_widgets (ECompEditor *comp_editor,
 		else if (e_client_is_readonly (E_CLIENT (client)))
 			message = _("Task cannot be edited, because the selected task list is read only");
 		else if (!is_organizer)
-			message = _("Task cannot be fully edited, because you are not the organizer");
+			message = _("Changes made to the task will not be sent to the attendees, because you are not the organizer");
 
 		if (message) {
 			EAlert *alert;
