@@ -12,8 +12,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: evolution\n"
 "Report-Msgid-Bugs-To: https://gitlab.gnome.org/GNOME/evolution/issues\n"
-"POT-Creation-Date: 2021-02-02 11:46+0000\n"
-"PO-Revision-Date: 2021-02-02 17:52+0200\n"
+"POT-Creation-Date: 2021-02-04 10:49+0000\n"
+"PO-Revision-Date: 2021-02-04 13:15+0200\n"
 "Last-Translator: Yuri Chornoivan <yurchor@ukr.net>\n"
 "Language-Team: Ukrainian <trans-uk@lists.fedoraproject.org>\n"
 "Language: uk\n"
@@ -4274,7 +4274,7 @@ msgstr "_Скасувати"
 #: ../src/addressbook/gui/contact-list-editor/contact-list-editor.ui.h:3
 #: ../src/addressbook/gui/widgets/eab-contact-merging.c:755
 #: ../src/calendar/calendar.error.xml.h:47
-#: ../src/calendar/gui/e-comp-editor.c:2224
+#: ../src/calendar/gui/e-comp-editor.c:2234
 #: ../src/composer/e-composer-actions.c:242
 #: ../src/composer/e-composer-actions.c:354
 #: ../src/e-util/e-attachment-store.c:848
@@ -4289,8 +4289,8 @@ msgid "_Save"
 msgstr "З_берегти"
 
 #: ../src/addressbook/gui/contact-editor/contact-editor.ui.h:16
-#: ../src/calendar/gui/e-comp-editor.c:2121
-#: ../src/calendar/gui/e-comp-editor.c:2193
+#: ../src/calendar/gui/e-comp-editor.c:2131
+#: ../src/calendar/gui/e-comp-editor.c:2203
 #: ../src/e-util/e-preferences-window.c:387
 #: ../src/e-util/e-send-options.ui.h:15
 #: ../src/plugins/email-custom-header/org-gnome-email-custom-header.ui.h:2
@@ -4569,25 +4569,25 @@ msgid "Certificates"
 msgstr "Сертифікати"
 
 #: ../src/addressbook/gui/contact-editor/e-contact-editor.c:261
-#: ../src/calendar/gui/e-comp-editor.c:2156
+#: ../src/calendar/gui/e-comp-editor.c:2166
 #: ../src/e-util/e-html-editor-actions.c:1109
 msgid "_Undo"
 msgstr "В_ернути"
 
 #: ../src/addressbook/gui/contact-editor/e-contact-editor.c:263
-#: ../src/calendar/gui/e-comp-editor.c:2158 ../src/e-util/e-focus-tracker.c:147
+#: ../src/calendar/gui/e-comp-editor.c:2168 ../src/e-util/e-focus-tracker.c:147
 #: ../src/e-util/e-focus-tracker.c:150
 msgid "Undo"
 msgstr "Повернути"
 
 #: ../src/addressbook/gui/contact-editor/e-contact-editor.c:268
-#: ../src/calendar/gui/e-comp-editor.c:2163
+#: ../src/calendar/gui/e-comp-editor.c:2173
 #: ../src/e-util/e-html-editor-actions.c:1095
 msgid "_Redo"
 msgstr "Повт_орити"
 
 #: ../src/addressbook/gui/contact-editor/e-contact-editor.c:270
-#: ../src/calendar/gui/e-comp-editor.c:2165 ../src/e-util/e-focus-tracker.c:163
+#: ../src/calendar/gui/e-comp-editor.c:2175 ../src/e-util/e-focus-tracker.c:163
 #: ../src/e-util/e-focus-tracker.c:166
 msgid "Redo"
 msgstr "Повторити"
@@ -5362,7 +5362,7 @@ msgid "Are you sure you want to delete this contact (%s)?"
 msgstr "Вилучити цей контакт (%s)?"
 
 #: ../src/addressbook/gui/widgets/e-addressbook-view.c:1326
-#: ../src/calendar/gui/e-comp-editor.c:2114
+#: ../src/calendar/gui/e-comp-editor.c:2124
 #: ../src/e-util/e-accounts-window.c:1753 ../src/e-util/e-focus-tracker.c:816
 #: ../src/e-util/evolution-source-viewer.c:800
 #: ../src/e-util/e-webdav-browser.c:2785
@@ -6641,7 +6641,7 @@ msgid "Do Not Exist"
 msgstr "не існує"
 
 #: ../src/calendar/gui/caltypes.xml.in.h:19
-#: ../src/calendar/gui/e-comp-editor-page-recurrence.c:2104
+#: ../src/calendar/gui/e-comp-editor-page-recurrence.c:2096
 msgid "Recurrence"
 msgstr "Повторення"
 
@@ -7744,8 +7744,11 @@ msgstr ""
 "Подію неможливо змінити, оскільки обраний календар доступний лише для читання"
 
 #: ../src/calendar/gui/e-comp-editor-event.c:208
-msgid "Event cannot be fully edited, because you are not the organizer"
-msgstr "Подію неможливо повністю змінити, оскільки ви не є організатором"
+#| msgid "Memo cannot be fully edited, because you are not the organizer"
+msgid ""
+"Changes made to the event will not be sent to the attendees, because you are "
+"not the organizer"
+msgstr "Зміни, які внесено до запису події, не буде надіслано учасникам, оскільки ви не є організатором"
 
 #: ../src/calendar/gui/e-comp-editor-event.c:500
 #: ../src/calendar/gui/e-comp-editor-task.c:584
@@ -7920,8 +7923,11 @@ msgstr ""
 "для читання"
 
 #: ../src/calendar/gui/e-comp-editor-memo.c:215
-msgid "Memo cannot be fully edited, because you are not the organizer"
-msgstr "Позначку неможливо повністю змінити, оскільки ви не є організатором"
+#| msgid "Memo cannot be fully edited, because you are not the organizer"
+msgid ""
+"Changes made to the memo will not be sent to the attendees, because you are "
+"not the organizer"
+msgstr "Зміни, які внесено до запису примітки, не буде надіслано учасникам, оскільки ви не є організатором"
 
 #: ../src/calendar/gui/e-comp-editor-memo.c:311
 #: ../src/calendar/gui/e-comp-editor-task.c:806
@@ -7969,47 +7975,47 @@ msgstr "Не вдалося завантажити «%s»"
 msgid "Could not load the attachment"
 msgstr "Не вдалося завантажити долучення"
 
-#: ../src/calendar/gui/e-comp-editor-page-attachments.c:416
+#: ../src/calendar/gui/e-comp-editor-page-attachments.c:411
 msgid ""
 "Some attachments are still being downloaded. Please wait until the download "
 "is finished."
 msgstr "Деякі долучення ще звантажуються. Заждіть поки воно завершиться."
 
-#: ../src/calendar/gui/e-comp-editor-page-attachments.c:443
+#: ../src/calendar/gui/e-comp-editor-page-attachments.c:438
 #, c-format
 msgid "Attachment “%s” cannot be found, remove it from the list, please"
 msgstr "Не вдалося знайти долучення «%s», вилучіть його зі списку"
 
-#: ../src/calendar/gui/e-comp-editor-page-attachments.c:460
+#: ../src/calendar/gui/e-comp-editor-page-attachments.c:455
 #, c-format
 msgid "Attachment “%s” doesn’t have valid URI, remove it from the list, please"
 msgstr "Долучення «%s» має недійсний URI, вилучіть його зі списку"
 
-#: ../src/calendar/gui/e-comp-editor-page-attachments.c:633
+#: ../src/calendar/gui/e-comp-editor-page-attachments.c:628
 #: ../src/composer/e-composer-actions.c:326
 msgid "_Attachment…"
 msgstr "_Долучення…"
 
-#: ../src/calendar/gui/e-comp-editor-page-attachments.c:635
+#: ../src/calendar/gui/e-comp-editor-page-attachments.c:630
 #: ../src/composer/e-composer-actions.c:328
 #: ../src/e-util/e-attachment-view.c:343
 msgid "Attach a file"
 msgstr "Вкласти файл"
 
-#: ../src/calendar/gui/e-comp-editor-page-attachments.c:642
+#: ../src/calendar/gui/e-comp-editor-page-attachments.c:637
 msgid "_Attachments"
 msgstr "_Долучення"
 
-#: ../src/calendar/gui/e-comp-editor-page-attachments.c:644
+#: ../src/calendar/gui/e-comp-editor-page-attachments.c:639
 msgid "Show attachments"
 msgstr "Показати долучення"
 
-#: ../src/calendar/gui/e-comp-editor-page-attachments.c:812
+#: ../src/calendar/gui/e-comp-editor-page-attachments.c:807
 #: ../src/e-util/e-attachment-bar.c:716 ../src/e-util/e-attachment-paned.c:690
 msgid "Icon View"
 msgstr "Перегляд піктограм"
 
-#: ../src/calendar/gui/e-comp-editor-page-attachments.c:814
+#: ../src/calendar/gui/e-comp-editor-page-attachments.c:809
 #: ../src/e-util/e-attachment-bar.c:718 ../src/e-util/e-attachment-paned.c:692
 msgid "List View"
 msgstr "Перегляд списків"
@@ -8117,8 +8123,8 @@ msgid "Atte_ndees…"
 msgstr "_Учасники…"
 
 #: ../src/calendar/gui/e-comp-editor-page-general.c:1499
-#: ../src/calendar/gui/e-comp-editor-page-recurrence.c:2324
-#: ../src/calendar/gui/e-comp-editor.c:2179
+#: ../src/calendar/gui/e-comp-editor-page-recurrence.c:2316
+#: ../src/calendar/gui/e-comp-editor.c:2189
 #: ../src/e-util/e-accounts-window.c:1745
 #: ../src/e-util/e-html-editor-actions.c:1118
 #: ../src/e-util/e-mail-signature-manager.c:354
@@ -8295,117 +8301,117 @@ msgid "occurrences"
 msgstr "випадки"
 
 #. Translators: Entire string is for example:     'This appointment recurs/Every[x][day(s)][for][1]occurrences' (combobox options are in [square brackets])
-#: ../src/calendar/gui/e-comp-editor-page-recurrence.c:1559
-#: ../src/calendar/gui/e-comp-editor-page-recurrence.c:2116
+#: ../src/calendar/gui/e-comp-editor-page-recurrence.c:1551
+#: ../src/calendar/gui/e-comp-editor-page-recurrence.c:2108
 msgctxt "ECompEditorPageRecur"
 msgid "This appointment rec_urs"
 msgstr "Ця зустріч _повторюється"
 
 #. Translators: Entire string is for example:     'This task recurs/Every[x][day(s)][for][1]occurrences' (combobox options are in [square brackets])
-#: ../src/calendar/gui/e-comp-editor-page-recurrence.c:1564
+#: ../src/calendar/gui/e-comp-editor-page-recurrence.c:1556
 msgctxt "ECompEditorPageRecur"
 msgid "This task rec_urs"
 msgstr "Це завдання _повторюється"
 
 #. Translators: Entire string is for example:     'This memo recurs/Every[x][day(s)][for][1]occurrences' (combobox options are in [square brackets])
-#: ../src/calendar/gui/e-comp-editor-page-recurrence.c:1569
+#: ../src/calendar/gui/e-comp-editor-page-recurrence.c:1561
 msgctxt "ECompEditorPageRecur"
 msgid "This memo rec_urs"
 msgstr "Ця примітка _повторюється"
 
 #. Translators: Entire string is for example:     'This component recurs/Every[x][day(s)][for][1]occurrences' (combobox options are in [square brackets])
-#: ../src/calendar/gui/e-comp-editor-page-recurrence.c:1574
+#: ../src/calendar/gui/e-comp-editor-page-recurrence.c:1566
 msgctxt "ECompEditorPageRecur"
 msgid "This component rec_urs"
 msgstr "Ця компонента _повторюється"
 
-#: ../src/calendar/gui/e-comp-editor-page-recurrence.c:1945
+#: ../src/calendar/gui/e-comp-editor-page-recurrence.c:1937
 msgid "Recurrence exception date is invalid"
 msgstr "Неправильна дата винятків повторення"
 
-#: ../src/calendar/gui/e-comp-editor-page-recurrence.c:2001
+#: ../src/calendar/gui/e-comp-editor-page-recurrence.c:1993
 msgid "End time of the recurrence is before the start"
 msgstr "Кінцевий час повторювання вказано до початку"
 
-#: ../src/calendar/gui/e-comp-editor-page-recurrence.c:2044
+#: ../src/calendar/gui/e-comp-editor-page-recurrence.c:2036
 msgid "R_ecurrence"
 msgstr "_Повторність"
 
-#: ../src/calendar/gui/e-comp-editor-page-recurrence.c:2046
+#: ../src/calendar/gui/e-comp-editor-page-recurrence.c:2038
 msgid "Set or unset recurrence"
 msgstr "Вказати або забрати повторність"
 
 #. Translators: Entire string is for example:     'This appointment recurs/Every[x][day(s)][for][1]occurrences' (combobox options are in [square brackets])
-#: ../src/calendar/gui/e-comp-editor-page-recurrence.c:2148
+#: ../src/calendar/gui/e-comp-editor-page-recurrence.c:2140
 msgctxt "ECompEditorPageRecur"
 msgid "Every"
 msgstr "Кожен"
 
 #. Translators: Entire string is for example:     'This appointment recurs/Every[x][day(s)][for][1]occurrences' (combobox options are in [square brackets])
-#: ../src/calendar/gui/e-comp-editor-page-recurrence.c:2183
+#: ../src/calendar/gui/e-comp-editor-page-recurrence.c:2175
 msgctxt "ECompEditorPageRecur"
 msgid "day(s)"
 msgstr "добу"
 
 #. Translators: Entire string is for example:     'This appointment recurs/Every[x][day(s)][for][1]occurrences' (combobox options are in [square brackets])
-#: ../src/calendar/gui/e-comp-editor-page-recurrence.c:2185
+#: ../src/calendar/gui/e-comp-editor-page-recurrence.c:2177
 msgctxt "ECompEditorPageRecur"
 msgid "week(s)"
 msgstr "тиждень"
 
 #. Translators: Entire string is for example:     'This appointment recurs/Every[x][day(s)][for][1]occurrences' (combobox options are in [square brackets])
-#: ../src/calendar/gui/e-comp-editor-page-recurrence.c:2187
+#: ../src/calendar/gui/e-comp-editor-page-recurrence.c:2179
 msgctxt "ECompEditorPageRecur"
 msgid "month(s)"
 msgstr "місяць"
 
 #. Translators: Entire string is for example:     'This appointment recurs/Every[x][day(s)][for][1]occurrences' (combobox options are in [square brackets])
-#: ../src/calendar/gui/e-comp-editor-page-recurrence.c:2189
+#: ../src/calendar/gui/e-comp-editor-page-recurrence.c:2181
 msgctxt "ECompEditorPageRecur"
 msgid "year(s)"
 msgstr "рік"
 
 #. Translators: Entire string is for example:     'This appointment recurs/Every[x][day(s)][for][1]occurrences' (combobox options are in [square brackets])
-#: ../src/calendar/gui/e-comp-editor-page-recurrence.c:2218
+#: ../src/calendar/gui/e-comp-editor-page-recurrence.c:2210
 msgctxt "ECompEditorPageRecur"
 msgid "for"
 msgstr "протягом"
 
 #. Translators: Entire string is for example:     'This appointment recurs/Every[x][day(s)][for][1]occurrences' (combobox options are in [square brackets])
-#: ../src/calendar/gui/e-comp-editor-page-recurrence.c:2220
+#: ../src/calendar/gui/e-comp-editor-page-recurrence.c:2212
 msgctxt "ECompEditorPageRecur"
 msgid "until"
 msgstr "до"
 
 #. Translators: Entire string is for example:     'This appointment recurs/Every[x][day(s)][for][1]occurrences' (combobox options are in [square brackets])
-#: ../src/calendar/gui/e-comp-editor-page-recurrence.c:2222
+#: ../src/calendar/gui/e-comp-editor-page-recurrence.c:2214
 msgctxt "ECompEditorPageRecur"
 msgid "forever"
 msgstr "завжди"
 
-#: ../src/calendar/gui/e-comp-editor-page-recurrence.c:2238
+#: ../src/calendar/gui/e-comp-editor-page-recurrence.c:2230
 msgid "This appointment contains recurrences that Evolution cannot edit."
 msgstr ""
 "Ця зустріч містить правила повторення, які Evolution не може редагувати."
 
-#: ../src/calendar/gui/e-comp-editor-page-recurrence.c:2251
+#: ../src/calendar/gui/e-comp-editor-page-recurrence.c:2243
 msgid "Exceptions"
 msgstr "Винятки<"
 
-#: ../src/calendar/gui/e-comp-editor-page-recurrence.c:2316
+#: ../src/calendar/gui/e-comp-editor-page-recurrence.c:2308
 #: ../src/calendar/gui/e-comp-editor-page-reminders.c:2168
 #: ../src/mail/e-mail-config-identity-page.c:854
 #: ../src/mail/mail-config.ui.h:67
 msgid "A_dd"
 msgstr "_Додати"
 
-#: ../src/calendar/gui/e-comp-editor-page-recurrence.c:2332
+#: ../src/calendar/gui/e-comp-editor-page-recurrence.c:2324
 #: ../src/calendar/gui/e-comp-editor-page-reminders.c:2176
 #: ../src/mail/mail-config.ui.h:69
 msgid "Re_move"
 msgstr "В_илучити"
 
-#: ../src/calendar/gui/e-comp-editor-page-recurrence.c:2340
+#: ../src/calendar/gui/e-comp-editor-page-recurrence.c:2332
 msgid "Preview"
 msgstr "Попередній перегляд"
 
@@ -8737,8 +8743,11 @@ msgstr ""
 "читання"
 
 #: ../src/calendar/gui/e-comp-editor-task.c:527
-msgid "Task cannot be fully edited, because you are not the organizer"
-msgstr "Задачу неможливо змінити, оскільки ви не є організатором"
+#| msgid "Memo cannot be fully edited, because you are not the organizer"
+msgid ""
+"Changes made to the task will not be sent to the attendees, because you are "
+"not the organizer"
+msgstr "Зміни, які внесено до запису завдання, не буде надіслано учасникам, оскільки ви не є організатором"
 
 #: ../src/calendar/gui/e-comp-editor-task.c:598
 msgid "Start date is required for recurring tasks"
@@ -8783,17 +8792,17 @@ msgstr "долучення"
 msgid "Sending notifications to attendees…"
 msgstr "Надсилання сповіщення учасникам…"
 
-#: ../src/calendar/gui/e-comp-editor.c:1015
+#: ../src/calendar/gui/e-comp-editor.c:1024
 #: ../src/e-util/e-webdav-browser.c:1888
 msgid "Saving changes…"
 msgstr "Збереження змін…"
 
-#: ../src/calendar/gui/e-comp-editor.c:1285
+#: ../src/calendar/gui/e-comp-editor.c:1295
 msgid "No Summary"
 msgstr "Немає зведення"
 
 #. == Button box ==
-#: ../src/calendar/gui/e-comp-editor.c:2093
+#: ../src/calendar/gui/e-comp-editor.c:2103
 #: ../src/composer/e-composer-actions.c:333
 #: ../src/e-util/e-accounts-window.c:1778
 #: ../src/e-util/e-html-editor-dialog.c:194
@@ -8813,19 +8822,19 @@ msgstr "Немає зведення"
 msgid "_Close"
 msgstr "_Закрити"
 
-#: ../src/calendar/gui/e-comp-editor.c:2095
+#: ../src/calendar/gui/e-comp-editor.c:2105
 msgid "Close the current window"
 msgstr "Закрити поточне вікно"
 
 #. copy menu item
-#: ../src/calendar/gui/e-comp-editor.c:2100 ../src/e-util/e-focus-tracker.c:806
+#: ../src/calendar/gui/e-comp-editor.c:2110 ../src/e-util/e-focus-tracker.c:806
 #: ../src/e-util/e-html-editor-actions.c:1074 ../src/e-util/e-text.c:2065
 #: ../src/e-util/e-web-view.c:467 ../src/mail/e-mail-browser.c:173
 #: ../src/mail/mail.error.xml.h:147 ../src/shell/e-shell-window-actions.c:947
 msgid "_Copy"
 msgstr "_Скопіювати"
 
-#: ../src/calendar/gui/e-comp-editor.c:2102 ../src/e-util/e-focus-tracker.c:203
+#: ../src/calendar/gui/e-comp-editor.c:2112 ../src/e-util/e-focus-tracker.c:203
 #: ../src/e-util/e-focus-tracker.c:259 ../src/e-util/e-focus-tracker.c:312
 #: ../src/e-util/e-focus-tracker.c:807 ../src/e-util/e-web-view.c:469
 #: ../src/e-util/e-web-view.c:2042 ../src/mail/e-mail-browser.c:175
@@ -8834,51 +8843,51 @@ msgid "Copy the selection"
 msgstr "Копіювати виділене"
 
 #. cut menu item
-#: ../src/calendar/gui/e-comp-editor.c:2107 ../src/e-util/e-focus-tracker.c:801
+#: ../src/calendar/gui/e-comp-editor.c:2117 ../src/e-util/e-focus-tracker.c:801
 #: ../src/e-util/e-html-editor-actions.c:1081 ../src/e-util/e-text.c:2051
 #: ../src/mail/e-mail-browser.c:180 ../src/shell/e-shell-window-actions.c:954
 msgid "Cu_t"
 msgstr "_Вирізати"
 
-#: ../src/calendar/gui/e-comp-editor.c:2109 ../src/e-util/e-focus-tracker.c:196
+#: ../src/calendar/gui/e-comp-editor.c:2119 ../src/e-util/e-focus-tracker.c:196
 #: ../src/e-util/e-focus-tracker.c:252 ../src/e-util/e-focus-tracker.c:306
 #: ../src/e-util/e-focus-tracker.c:802 ../src/e-util/e-web-view.c:2051
 #: ../src/mail/e-mail-browser.c:182 ../src/shell/e-shell-window-actions.c:956
 msgid "Cut the selection"
 msgstr "Вирізати виділене"
 
-#: ../src/calendar/gui/e-comp-editor.c:2116 ../src/e-util/e-focus-tracker.c:217
+#: ../src/calendar/gui/e-comp-editor.c:2126 ../src/e-util/e-focus-tracker.c:217
 #: ../src/e-util/e-focus-tracker.c:273 ../src/e-util/e-focus-tracker.c:817
 #: ../src/shell/e-shell-window-actions.c:963
 msgid "Delete the selection"
 msgstr "Вилучити виділене"
 
-#: ../src/calendar/gui/e-comp-editor.c:2123
+#: ../src/calendar/gui/e-comp-editor.c:2133
 msgid "View help"
 msgstr "Переглянути довідку"
 
 #. paste menu item
-#: ../src/calendar/gui/e-comp-editor.c:2128 ../src/e-util/e-focus-tracker.c:811
+#: ../src/calendar/gui/e-comp-editor.c:2138 ../src/e-util/e-focus-tracker.c:811
 #: ../src/e-util/e-html-editor-actions.c:1088 ../src/e-util/e-text.c:2077
 #: ../src/mail/e-mail-browser.c:187 ../src/shell/e-shell-window-actions.c:982
 msgid "_Paste"
 msgstr "Вст_авити"
 
-#: ../src/calendar/gui/e-comp-editor.c:2130 ../src/e-util/e-focus-tracker.c:210
+#: ../src/calendar/gui/e-comp-editor.c:2140 ../src/e-util/e-focus-tracker.c:210
 #: ../src/e-util/e-focus-tracker.c:266 ../src/e-util/e-focus-tracker.c:318
 #: ../src/e-util/e-focus-tracker.c:812 ../src/e-util/e-web-view.c:2060
 #: ../src/mail/e-mail-browser.c:189 ../src/shell/e-shell-window-actions.c:984
 msgid "Paste the clipboard"
 msgstr "Вставити з буфера обміну"
 
-#: ../src/calendar/gui/e-comp-editor.c:2135
+#: ../src/calendar/gui/e-comp-editor.c:2145
 #: ../src/composer/e-composer-actions.c:387 ../src/mail/e-mail-reader.c:2759
 #: ../src/modules/addressbook/e-book-shell-view-actions.c:1319
 #: ../src/modules/addressbook/e-book-shell-view-actions.c:1333
 msgid "_Print…"
 msgstr "Над_рукувати…"
 
-#: ../src/calendar/gui/e-comp-editor.c:2142 ../src/mail/e-mail-reader.c:2766
+#: ../src/calendar/gui/e-comp-editor.c:2152 ../src/mail/e-mail-reader.c:2766
 #: ../src/modules/addressbook/e-book-shell-view-actions.c:1326
 #: ../src/modules/calendar/e-cal-shell-view-actions.c:1703
 #: ../src/modules/calendar/e-memo-shell-view-actions.c:838
@@ -8886,56 +8895,56 @@ msgstr "Над_рукувати…"
 msgid "Pre_view…"
 msgstr "_Перегляд…"
 
-#: ../src/calendar/gui/e-comp-editor.c:2149 ../src/e-util/e-focus-tracker.c:821
+#: ../src/calendar/gui/e-comp-editor.c:2159 ../src/e-util/e-focus-tracker.c:821
 #: ../src/e-util/e-html-editor-actions.c:1102 ../src/e-util/e-web-view.c:484
 #: ../src/mail/e-mail-browser.c:194 ../src/shell/e-shell-window-actions.c:1059
 msgid "Select _All"
 msgstr "Вибрати _все"
 
-#: ../src/calendar/gui/e-comp-editor.c:2151 ../src/e-util/e-focus-tracker.c:224
+#: ../src/calendar/gui/e-comp-editor.c:2161 ../src/e-util/e-focus-tracker.c:224
 #: ../src/e-util/e-focus-tracker.c:280 ../src/e-util/e-focus-tracker.c:822
 #: ../src/mail/e-mail-browser.c:196 ../src/shell/e-shell-window-actions.c:1061
 msgid "Select all text"
 msgstr "Виділити весь текст"
 
-#: ../src/calendar/gui/e-comp-editor.c:2172
+#: ../src/calendar/gui/e-comp-editor.c:2182
 msgid "_Classification"
 msgstr "Класи_фікація"
 
-#: ../src/calendar/gui/e-comp-editor.c:2186
+#: ../src/calendar/gui/e-comp-editor.c:2196
 #: ../src/e-util/e-html-editor-actions.c:1125
 #: ../src/e-util/e-mail-signature-editor.c:333 ../src/mail/e-mail-browser.c:210
 #: ../src/mail/e-mail-notes.c:1029 ../src/shell/e-shell-window-actions.c:1110
 msgid "_File"
 msgstr "_Файл"
 
-#: ../src/calendar/gui/e-comp-editor.c:2200
+#: ../src/calendar/gui/e-comp-editor.c:2210
 #: ../src/e-util/e-html-editor-actions.c:1146
 msgid "_Insert"
 msgstr "Вс_тавка"
 
-#: ../src/calendar/gui/e-comp-editor.c:2207
+#: ../src/calendar/gui/e-comp-editor.c:2217
 #: ../src/composer/e-composer-actions.c:377
 msgid "_Options"
 msgstr "_Параметри"
 
-#: ../src/calendar/gui/e-comp-editor.c:2214
+#: ../src/calendar/gui/e-comp-editor.c:2224
 #: ../src/e-util/e-html-editor-actions.c:1167 ../src/mail/e-mail-browser.c:224
 #: ../src/shell/e-shell-window-actions.c:1153
 #: ../src/smime/gui/certificate-manager.c:1641 ../src/smime/gui/smime-ui.ui.h:3
 msgid "_View"
 msgstr "П_ерегляд"
 
-#: ../src/calendar/gui/e-comp-editor.c:2226
+#: ../src/calendar/gui/e-comp-editor.c:2236
 msgid "Save current changes"
 msgstr "Зберегти поточні зміни"
 
-#: ../src/calendar/gui/e-comp-editor.c:2231
+#: ../src/calendar/gui/e-comp-editor.c:2241
 #: ../src/e-util/e-mail-signature-editor.c:328 ../src/mail/e-mail-notes.c:1024
 msgid "Save and Close"
 msgstr "Зберегти і закрити"
 
-#: ../src/calendar/gui/e-comp-editor.c:2233
+#: ../src/calendar/gui/e-comp-editor.c:2243
 msgid "Save current changes and close editor"
 msgstr "Зберегти поточні зміни і закрити редактор"
 
@@ -16741,7 +16750,6 @@ msgid "Blank Signature"
 msgstr "Породній підпис"
 
 #: ../src/e-util/widgets.error.xml.h:5
-#| msgid "Please provide an unique name to identify this signature."
 msgid "Please provide a unique name to identify this signature."
 msgstr "Введіть унікальну назву для ідентифікації цього підпису."
 
@@ -28315,6 +28323,12 @@ msgstr "Неможливо записати сховище на диск, код
 #: ../src/smime/lib/e-pkcs12.c:407
 msgid "Imported Certificate"
 msgstr "Імпортований сертифікат"
+
+#~ msgid "Event cannot be fully edited, because you are not the organizer"
+#~ msgstr "Подію неможливо повністю змінити, оскільки ви не є організатором"
+
+#~ msgid "Task cannot be fully edited, because you are not the organizer"
+#~ msgstr "Задачу неможливо змінити, оскільки ви не є організатором"
 
 #~ msgid "_Destination"
 #~ msgstr "_Призначення"
