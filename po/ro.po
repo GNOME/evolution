@@ -13,8 +13,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: evolution.HEAD.ro\n"
 "Report-Msgid-Bugs-To: https://gitlab.gnome.org/GNOME/evolution/issues\n"
-"POT-Creation-Date: 2021-02-02 11:46+0000\n"
-"PO-Revision-Date: 2021-02-03 16:35+0200\n"
+"POT-Creation-Date: 2021-02-04 10:49+0000\n"
+"PO-Revision-Date: 2021-02-04 13:42+0200\n"
 "Last-Translator: Florentina Mușat <florentina.musat.28@gmail.com>\n"
 "Language-Team: Gnome Romanian Translation Team <gnomero-list@lists.sourceforge.net>\n"
 "Language: ro\n"
@@ -3700,7 +3700,7 @@ msgstr "_Anulează"
 #: ../src/addressbook/gui/contact-editor/contact-editor.ui.h:15 ../src/addressbook/gui/contact-editor/e-contact-editor.c:3504
 #: ../src/addressbook/gui/contact-list-editor/contact-list-editor.ui.h:3
 #: ../src/addressbook/gui/widgets/eab-contact-merging.c:755 ../src/calendar/calendar.error.xml.h:47
-#: ../src/calendar/gui/e-comp-editor.c:2224 ../src/composer/e-composer-actions.c:242 ../src/composer/e-composer-actions.c:354
+#: ../src/calendar/gui/e-comp-editor.c:2234 ../src/composer/e-composer-actions.c:242 ../src/composer/e-composer-actions.c:354
 #: ../src/e-util/e-attachment-store.c:848 ../src/e-util/e-attachment-store.c:855
 #: ../src/e-util/e-mail-signature-script-dialog.c:362 ../src/e-util/e-webdav-browser.c:2561 ../src/e-util/e-web-view.c:3981
 #: ../src/e-util/gal-view-instance-save-as-dialog.c:266 ../src/shell/e-shell-content.c:642 ../src/shell/e-shell-utils.c:133
@@ -3708,8 +3708,8 @@ msgstr "_Anulează"
 msgid "_Save"
 msgstr "_Salvează"
 
-#: ../src/addressbook/gui/contact-editor/contact-editor.ui.h:16 ../src/calendar/gui/e-comp-editor.c:2121
-#: ../src/calendar/gui/e-comp-editor.c:2193 ../src/e-util/e-preferences-window.c:387 ../src/e-util/e-send-options.ui.h:15
+#: ../src/addressbook/gui/contact-editor/contact-editor.ui.h:16 ../src/calendar/gui/e-comp-editor.c:2131
+#: ../src/calendar/gui/e-comp-editor.c:2203 ../src/e-util/e-preferences-window.c:387 ../src/e-util/e-send-options.ui.h:15
 #: ../src/plugins/email-custom-header/org-gnome-email-custom-header.ui.h:2 ../src/shell/e-shell-window-actions.c:1117
 msgid "_Help"
 msgstr "_Ajutor"
@@ -3957,22 +3957,22 @@ msgstr "Î_ncarcă X.509"
 msgid "Certificates"
 msgstr "Certificate"
 
-#: ../src/addressbook/gui/contact-editor/e-contact-editor.c:261 ../src/calendar/gui/e-comp-editor.c:2156
+#: ../src/addressbook/gui/contact-editor/e-contact-editor.c:261 ../src/calendar/gui/e-comp-editor.c:2166
 #: ../src/e-util/e-html-editor-actions.c:1109
 msgid "_Undo"
 msgstr "An_ulează"
 
-#: ../src/addressbook/gui/contact-editor/e-contact-editor.c:263 ../src/calendar/gui/e-comp-editor.c:2158
+#: ../src/addressbook/gui/contact-editor/e-contact-editor.c:263 ../src/calendar/gui/e-comp-editor.c:2168
 #: ../src/e-util/e-focus-tracker.c:147 ../src/e-util/e-focus-tracker.c:150
 msgid "Undo"
 msgstr "Anulează"
 
-#: ../src/addressbook/gui/contact-editor/e-contact-editor.c:268 ../src/calendar/gui/e-comp-editor.c:2163
+#: ../src/addressbook/gui/contact-editor/e-contact-editor.c:268 ../src/calendar/gui/e-comp-editor.c:2173
 #: ../src/e-util/e-html-editor-actions.c:1095
 msgid "_Redo"
 msgstr "_Refă"
 
-#: ../src/addressbook/gui/contact-editor/e-contact-editor.c:270 ../src/calendar/gui/e-comp-editor.c:2165
+#: ../src/addressbook/gui/contact-editor/e-contact-editor.c:270 ../src/calendar/gui/e-comp-editor.c:2175
 #: ../src/e-util/e-focus-tracker.c:163 ../src/e-util/e-focus-tracker.c:166
 msgid "Redo"
 msgstr "Refă"
@@ -4689,7 +4689,7 @@ msgstr "Sigur doriți să ștergeți acest contact?"
 msgid "Are you sure you want to delete this contact (%s)?"
 msgstr "Sigur doriți să ștergeți acest contact (%s)?"
 
-#: ../src/addressbook/gui/widgets/e-addressbook-view.c:1326 ../src/calendar/gui/e-comp-editor.c:2114
+#: ../src/addressbook/gui/widgets/e-addressbook-view.c:1326 ../src/calendar/gui/e-comp-editor.c:2124
 #: ../src/e-util/e-accounts-window.c:1753 ../src/e-util/e-focus-tracker.c:816 ../src/e-util/evolution-source-viewer.c:800
 #: ../src/e-util/e-webdav-browser.c:2785 ../src/mail/e-mail-account-manager.c:739
 #: ../src/modules/addressbook/e-book-shell-view-actions.c:1173 ../src/modules/calendar/e-cal-shell-view-actions.c:1479
@@ -5823,7 +5823,7 @@ msgstr "Există"
 msgid "Do Not Exist"
 msgstr "Nu există"
 
-#: ../src/calendar/gui/caltypes.xml.in.h:19 ../src/calendar/gui/e-comp-editor-page-recurrence.c:2104
+#: ../src/calendar/gui/caltypes.xml.in.h:19 ../src/calendar/gui/e-comp-editor-page-recurrence.c:2096
 msgid "Recurrence"
 msgstr "Recurență"
 
@@ -6828,8 +6828,8 @@ msgid "Event cannot be edited, because the selected calendar is read only"
 msgstr "Evenimentul nu a putut fi modificat, deoarece calendarul ales este protejat la scriere"
 
 #: ../src/calendar/gui/e-comp-editor-event.c:208
-msgid "Event cannot be fully edited, because you are not the organizer"
-msgstr "Evenimentul nu a putut fi modificat în totalitate, deoarece nu sunteți organizatorul"
+msgid "Changes made to the event will not be sent to the attendees, because you are not the organizer"
+msgstr "Modificările aduse evenimentului nu vor fi trimise participanților, întrucât nu sunteți organizatorul"
 
 #: ../src/calendar/gui/e-comp-editor-event.c:500 ../src/calendar/gui/e-comp-editor-task.c:584
 msgid "Start date is not a valid date"
@@ -6983,8 +6983,8 @@ msgid "Memo cannot be edited, because the selected memo list is read only"
 msgstr "Memo-ul nu a putut fi editat, deoarece lista de memo-uri aleasă este protejată la scriere"
 
 #: ../src/calendar/gui/e-comp-editor-memo.c:215
-msgid "Memo cannot be fully edited, because you are not the organizer"
-msgstr "Memo-ul nu a putut fi editat în totalitate, deoarece nu sunteți organizatorul"
+msgid "Changes made to the memo will not be sent to the attendees, because you are not the organizer"
+msgstr "Modificările aduse memo-ului nu vor fi trimise participanților, întrucât nu sunteți organizatorul"
 
 #: ../src/calendar/gui/e-comp-editor-memo.c:311 ../src/calendar/gui/e-comp-editor-task.c:806
 msgid "_List:"
@@ -7025,43 +7025,43 @@ msgstr "Nu s-a putut încărca „%s”"
 msgid "Could not load the attachment"
 msgstr "Nu s-a putut încărca fișierul atașat"
 
-#: ../src/calendar/gui/e-comp-editor-page-attachments.c:416
+#: ../src/calendar/gui/e-comp-editor-page-attachments.c:411
 msgid "Some attachments are still being downloaded. Please wait until the download is finished."
 msgstr "Câteva fișiere atașate încă se descarcă. Așteptați până când descărcarea este completă."
 
-#: ../src/calendar/gui/e-comp-editor-page-attachments.c:443
+#: ../src/calendar/gui/e-comp-editor-page-attachments.c:438
 #, c-format
 msgid "Attachment “%s” cannot be found, remove it from the list, please"
 msgstr "Fișierul atașat „%s” nu a putut fi găsit, eliminați-l din listă"
 
-#: ../src/calendar/gui/e-comp-editor-page-attachments.c:460
+#: ../src/calendar/gui/e-comp-editor-page-attachments.c:455
 #, c-format
 msgid "Attachment “%s” doesn’t have valid URI, remove it from the list, please"
 msgstr "Fișierul atașat „%s” nu are un URI valid, eliminați-l din listă"
 
-#: ../src/calendar/gui/e-comp-editor-page-attachments.c:633 ../src/composer/e-composer-actions.c:326
+#: ../src/calendar/gui/e-comp-editor-page-attachments.c:628 ../src/composer/e-composer-actions.c:326
 msgid "_Attachment…"
 msgstr "Fișiere _atașate…"
 
-#: ../src/calendar/gui/e-comp-editor-page-attachments.c:635 ../src/composer/e-composer-actions.c:328
+#: ../src/calendar/gui/e-comp-editor-page-attachments.c:630 ../src/composer/e-composer-actions.c:328
 #: ../src/e-util/e-attachment-view.c:343
 msgid "Attach a file"
 msgstr "Atașează un fișier"
 
-#: ../src/calendar/gui/e-comp-editor-page-attachments.c:642
+#: ../src/calendar/gui/e-comp-editor-page-attachments.c:637
 msgid "_Attachments"
 msgstr "Fișiere _atașate"
 
-#: ../src/calendar/gui/e-comp-editor-page-attachments.c:644
+#: ../src/calendar/gui/e-comp-editor-page-attachments.c:639
 msgid "Show attachments"
 msgstr "Arată fișierele atașate"
 
-#: ../src/calendar/gui/e-comp-editor-page-attachments.c:812 ../src/e-util/e-attachment-bar.c:716
+#: ../src/calendar/gui/e-comp-editor-page-attachments.c:807 ../src/e-util/e-attachment-bar.c:716
 #: ../src/e-util/e-attachment-paned.c:690
 msgid "Icon View"
 msgstr "Vizualizare iconițe"
 
-#: ../src/calendar/gui/e-comp-editor-page-attachments.c:814 ../src/e-util/e-attachment-bar.c:718
+#: ../src/calendar/gui/e-comp-editor-page-attachments.c:809 ../src/e-util/e-attachment-bar.c:718
 #: ../src/e-util/e-attachment-paned.c:692
 msgid "List View"
 msgstr "Vizualizare listă"
@@ -7157,8 +7157,8 @@ msgctxt "ECompEditor"
 msgid "Atte_ndees…"
 msgstr "Participa_nți…"
 
-#: ../src/calendar/gui/e-comp-editor-page-general.c:1499 ../src/calendar/gui/e-comp-editor-page-recurrence.c:2324
-#: ../src/calendar/gui/e-comp-editor.c:2179 ../src/e-util/e-accounts-window.c:1745 ../src/e-util/e-html-editor-actions.c:1118
+#: ../src/calendar/gui/e-comp-editor-page-general.c:1499 ../src/calendar/gui/e-comp-editor-page-recurrence.c:2316
+#: ../src/calendar/gui/e-comp-editor.c:2189 ../src/e-util/e-accounts-window.c:1745 ../src/e-util/e-html-editor-actions.c:1118
 #: ../src/e-util/e-mail-signature-manager.c:354 ../src/e-util/e-webdav-browser.c:2778 ../src/e-util/filter.ui.h:26
 #: ../src/mail/e-mail-account-manager.c:730 ../src/mail/e-mail-browser.c:217 ../src/mail/e-mail-label-manager.c:364
 #: ../src/mail/em-folder-properties.c:1362 ../src/mail/mail-config.ui.h:68
@@ -7328,112 +7328,112 @@ msgid "occurrences"
 msgstr "apariții"
 
 #. Translators: Entire string is for example:     'This appointment recurs/Every[x][day(s)][for][1]occurrences' (combobox options are in [square brackets])
-#: ../src/calendar/gui/e-comp-editor-page-recurrence.c:1559 ../src/calendar/gui/e-comp-editor-page-recurrence.c:2116
+#: ../src/calendar/gui/e-comp-editor-page-recurrence.c:1551 ../src/calendar/gui/e-comp-editor-page-recurrence.c:2108
 msgctxt "ECompEditorPageRecur"
 msgid "This appointment rec_urs"
 msgstr "Programarea este rec_urentă"
 
 #. Translators: Entire string is for example:     'This task recurs/Every[x][day(s)][for][1]occurrences' (combobox options are in [square brackets])
-#: ../src/calendar/gui/e-comp-editor-page-recurrence.c:1564
+#: ../src/calendar/gui/e-comp-editor-page-recurrence.c:1556
 msgctxt "ECompEditorPageRecur"
 msgid "This task rec_urs"
 msgstr "Această sarcină este rec_urentă"
 
 #. Translators: Entire string is for example:     'This memo recurs/Every[x][day(s)][for][1]occurrences' (combobox options are in [square brackets])
-#: ../src/calendar/gui/e-comp-editor-page-recurrence.c:1569
+#: ../src/calendar/gui/e-comp-editor-page-recurrence.c:1561
 msgctxt "ECompEditorPageRecur"
 msgid "This memo rec_urs"
 msgstr "Acest memo este rec_urent"
 
 #. Translators: Entire string is for example:     'This component recurs/Every[x][day(s)][for][1]occurrences' (combobox options are in [square brackets])
-#: ../src/calendar/gui/e-comp-editor-page-recurrence.c:1574
+#: ../src/calendar/gui/e-comp-editor-page-recurrence.c:1566
 msgctxt "ECompEditorPageRecur"
 msgid "This component rec_urs"
 msgstr "Componentul este _recurent"
 
-#: ../src/calendar/gui/e-comp-editor-page-recurrence.c:1945
+#: ../src/calendar/gui/e-comp-editor-page-recurrence.c:1937
 msgid "Recurrence exception date is invalid"
 msgstr "Data recurentă pentru excepție este nevalidă"
 
-#: ../src/calendar/gui/e-comp-editor-page-recurrence.c:2001
+#: ../src/calendar/gui/e-comp-editor-page-recurrence.c:1993
 msgid "End time of the recurrence is before the start"
 msgstr "Ora de sfârșit a recurenței este înaintea celei de început"
 
-#: ../src/calendar/gui/e-comp-editor-page-recurrence.c:2044
+#: ../src/calendar/gui/e-comp-editor-page-recurrence.c:2036
 msgid "R_ecurrence"
 msgstr "R_ecurență"
 
-#: ../src/calendar/gui/e-comp-editor-page-recurrence.c:2046
+#: ../src/calendar/gui/e-comp-editor-page-recurrence.c:2038
 msgid "Set or unset recurrence"
 msgstr "Stabilește sau destabilește recurența"
 
 #. Translators: Entire string is for example:     'This appointment recurs/Every[x][day(s)][for][1]occurrences' (combobox options are in [square brackets])
-#: ../src/calendar/gui/e-comp-editor-page-recurrence.c:2148
+#: ../src/calendar/gui/e-comp-editor-page-recurrence.c:2140
 msgctxt "ECompEditorPageRecur"
 msgid "Every"
 msgstr "La fiecare"
 
 #. Translators: Entire string is for example:     'This appointment recurs/Every[x][day(s)][for][1]occurrences' (combobox options are in [square brackets])
-#: ../src/calendar/gui/e-comp-editor-page-recurrence.c:2183
+#: ../src/calendar/gui/e-comp-editor-page-recurrence.c:2175
 msgctxt "ECompEditorPageRecur"
 msgid "day(s)"
 msgstr "zi(le)"
 
 #. Translators: Entire string is for example:     'This appointment recurs/Every[x][day(s)][for][1]occurrences' (combobox options are in [square brackets])
-#: ../src/calendar/gui/e-comp-editor-page-recurrence.c:2185
+#: ../src/calendar/gui/e-comp-editor-page-recurrence.c:2177
 msgctxt "ECompEditorPageRecur"
 msgid "week(s)"
 msgstr "săptămână(i)"
 
 #. Translators: Entire string is for example:     'This appointment recurs/Every[x][day(s)][for][1]occurrences' (combobox options are in [square brackets])
-#: ../src/calendar/gui/e-comp-editor-page-recurrence.c:2187
+#: ../src/calendar/gui/e-comp-editor-page-recurrence.c:2179
 msgctxt "ECompEditorPageRecur"
 msgid "month(s)"
 msgstr "lună(i)"
 
 #. Translators: Entire string is for example:     'This appointment recurs/Every[x][day(s)][for][1]occurrences' (combobox options are in [square brackets])
-#: ../src/calendar/gui/e-comp-editor-page-recurrence.c:2189
+#: ../src/calendar/gui/e-comp-editor-page-recurrence.c:2181
 msgctxt "ECompEditorPageRecur"
 msgid "year(s)"
 msgstr "an(i)"
 
 #. Translators: Entire string is for example:     'This appointment recurs/Every[x][day(s)][for][1]occurrences' (combobox options are in [square brackets])
-#: ../src/calendar/gui/e-comp-editor-page-recurrence.c:2218
+#: ../src/calendar/gui/e-comp-editor-page-recurrence.c:2210
 msgctxt "ECompEditorPageRecur"
 msgid "for"
 msgstr "pentru"
 
 #. Translators: Entire string is for example:     'This appointment recurs/Every[x][day(s)][for][1]occurrences' (combobox options are in [square brackets])
-#: ../src/calendar/gui/e-comp-editor-page-recurrence.c:2220
+#: ../src/calendar/gui/e-comp-editor-page-recurrence.c:2212
 msgctxt "ECompEditorPageRecur"
 msgid "until"
 msgstr "până la"
 
 #. Translators: Entire string is for example:     'This appointment recurs/Every[x][day(s)][for][1]occurrences' (combobox options are in [square brackets])
-#: ../src/calendar/gui/e-comp-editor-page-recurrence.c:2222
+#: ../src/calendar/gui/e-comp-editor-page-recurrence.c:2214
 msgctxt "ECompEditorPageRecur"
 msgid "forever"
 msgstr "pentru totdeauna"
 
-#: ../src/calendar/gui/e-comp-editor-page-recurrence.c:2238
+#: ../src/calendar/gui/e-comp-editor-page-recurrence.c:2230
 msgid "This appointment contains recurrences that Evolution cannot edit."
 msgstr "Această programare conține recurențe pe care Evolution nu le poate edita."
 
-#: ../src/calendar/gui/e-comp-editor-page-recurrence.c:2251
+#: ../src/calendar/gui/e-comp-editor-page-recurrence.c:2243
 msgid "Exceptions"
 msgstr "Excepții"
 
-#: ../src/calendar/gui/e-comp-editor-page-recurrence.c:2316 ../src/calendar/gui/e-comp-editor-page-reminders.c:2168
+#: ../src/calendar/gui/e-comp-editor-page-recurrence.c:2308 ../src/calendar/gui/e-comp-editor-page-reminders.c:2168
 #: ../src/mail/e-mail-config-identity-page.c:854 ../src/mail/mail-config.ui.h:67
 msgid "A_dd"
 msgstr "A_daugă"
 
-#: ../src/calendar/gui/e-comp-editor-page-recurrence.c:2332 ../src/calendar/gui/e-comp-editor-page-reminders.c:2176
+#: ../src/calendar/gui/e-comp-editor-page-recurrence.c:2324 ../src/calendar/gui/e-comp-editor-page-reminders.c:2176
 #: ../src/mail/mail-config.ui.h:69
 msgid "Re_move"
 msgstr "Eli_mină"
 
-#: ../src/calendar/gui/e-comp-editor-page-recurrence.c:2340
+#: ../src/calendar/gui/e-comp-editor-page-recurrence.c:2332
 msgid "Preview"
 msgstr "Previzualizare"
 
@@ -7758,8 +7758,8 @@ msgid "Task cannot be edited, because the selected task list is read only"
 msgstr "Sarcina nu poate fi modificată, deoarece lista de sarcini selectată este protejată la scriere"
 
 #: ../src/calendar/gui/e-comp-editor-task.c:527
-msgid "Task cannot be fully edited, because you are not the organizer"
-msgstr "Sarcina nu poate fi modificată în totalitate, deoarece nu sunt cel care o organizează"
+msgid "Changes made to the task will not be sent to the attendees, because you are not the organizer"
+msgstr "Modificările aduse sarcinii nu vor fi trimise participanților, întrucât nu sunteți organizatorul"
 
 #: ../src/calendar/gui/e-comp-editor-task.c:598
 msgid "Start date is required for recurring tasks"
@@ -7803,16 +7803,16 @@ msgstr "fișier atașat"
 msgid "Sending notifications to attendees…"
 msgstr "Se trimit notificări participanților…"
 
-#: ../src/calendar/gui/e-comp-editor.c:1015 ../src/e-util/e-webdav-browser.c:1888
+#: ../src/calendar/gui/e-comp-editor.c:1024 ../src/e-util/e-webdav-browser.c:1888
 msgid "Saving changes…"
 msgstr "_Se salvează modificările…"
 
-#: ../src/calendar/gui/e-comp-editor.c:1285
+#: ../src/calendar/gui/e-comp-editor.c:1295
 msgid "No Summary"
 msgstr "Fără rezumat"
 
 #. == Button box ==
-#: ../src/calendar/gui/e-comp-editor.c:2093 ../src/composer/e-composer-actions.c:333 ../src/e-util/e-accounts-window.c:1778
+#: ../src/calendar/gui/e-comp-editor.c:2103 ../src/composer/e-composer-actions.c:333 ../src/e-util/e-accounts-window.c:1778
 #: ../src/e-util/e-html-editor-dialog.c:194 ../src/e-util/e-mail-signature-editor.c:319
 #: ../src/e-util/e-name-selector-dialog.c:548 ../src/e-util/e-preferences-window.c:396
 #: ../src/e-util/e-table-field-chooser-dialog.c:197 ../src/mail/e-mail-browser.c:166
@@ -7823,109 +7823,109 @@ msgstr "Fără rezumat"
 msgid "_Close"
 msgstr "În_chide"
 
-#: ../src/calendar/gui/e-comp-editor.c:2095
+#: ../src/calendar/gui/e-comp-editor.c:2105
 msgid "Close the current window"
 msgstr "Închide fereastra curentă"
 
 #. copy menu item
-#: ../src/calendar/gui/e-comp-editor.c:2100 ../src/e-util/e-focus-tracker.c:806 ../src/e-util/e-html-editor-actions.c:1074
+#: ../src/calendar/gui/e-comp-editor.c:2110 ../src/e-util/e-focus-tracker.c:806 ../src/e-util/e-html-editor-actions.c:1074
 #: ../src/e-util/e-text.c:2065 ../src/e-util/e-web-view.c:467 ../src/mail/e-mail-browser.c:173
 #: ../src/mail/mail.error.xml.h:147 ../src/shell/e-shell-window-actions.c:947
 msgid "_Copy"
 msgstr "_Copiază"
 
-#: ../src/calendar/gui/e-comp-editor.c:2102 ../src/e-util/e-focus-tracker.c:203 ../src/e-util/e-focus-tracker.c:259
+#: ../src/calendar/gui/e-comp-editor.c:2112 ../src/e-util/e-focus-tracker.c:203 ../src/e-util/e-focus-tracker.c:259
 #: ../src/e-util/e-focus-tracker.c:312 ../src/e-util/e-focus-tracker.c:807 ../src/e-util/e-web-view.c:469
 #: ../src/e-util/e-web-view.c:2042 ../src/mail/e-mail-browser.c:175 ../src/shell/e-shell-window-actions.c:949
 msgid "Copy the selection"
 msgstr "Copiază selecția"
 
 #. cut menu item
-#: ../src/calendar/gui/e-comp-editor.c:2107 ../src/e-util/e-focus-tracker.c:801 ../src/e-util/e-html-editor-actions.c:1081
+#: ../src/calendar/gui/e-comp-editor.c:2117 ../src/e-util/e-focus-tracker.c:801 ../src/e-util/e-html-editor-actions.c:1081
 #: ../src/e-util/e-text.c:2051 ../src/mail/e-mail-browser.c:180 ../src/shell/e-shell-window-actions.c:954
 msgid "Cu_t"
 msgstr "_Taie"
 
-#: ../src/calendar/gui/e-comp-editor.c:2109 ../src/e-util/e-focus-tracker.c:196 ../src/e-util/e-focus-tracker.c:252
+#: ../src/calendar/gui/e-comp-editor.c:2119 ../src/e-util/e-focus-tracker.c:196 ../src/e-util/e-focus-tracker.c:252
 #: ../src/e-util/e-focus-tracker.c:306 ../src/e-util/e-focus-tracker.c:802 ../src/e-util/e-web-view.c:2051
 #: ../src/mail/e-mail-browser.c:182 ../src/shell/e-shell-window-actions.c:956
 msgid "Cut the selection"
 msgstr "Decupează selecția"
 
-#: ../src/calendar/gui/e-comp-editor.c:2116 ../src/e-util/e-focus-tracker.c:217 ../src/e-util/e-focus-tracker.c:273
+#: ../src/calendar/gui/e-comp-editor.c:2126 ../src/e-util/e-focus-tracker.c:217 ../src/e-util/e-focus-tracker.c:273
 #: ../src/e-util/e-focus-tracker.c:817 ../src/shell/e-shell-window-actions.c:963
 msgid "Delete the selection"
 msgstr "Șterge această selecție"
 
-#: ../src/calendar/gui/e-comp-editor.c:2123
+#: ../src/calendar/gui/e-comp-editor.c:2133
 msgid "View help"
 msgstr "Consultați ajutorul"
 
 #. paste menu item
-#: ../src/calendar/gui/e-comp-editor.c:2128 ../src/e-util/e-focus-tracker.c:811 ../src/e-util/e-html-editor-actions.c:1088
+#: ../src/calendar/gui/e-comp-editor.c:2138 ../src/e-util/e-focus-tracker.c:811 ../src/e-util/e-html-editor-actions.c:1088
 #: ../src/e-util/e-text.c:2077 ../src/mail/e-mail-browser.c:187 ../src/shell/e-shell-window-actions.c:982
 msgid "_Paste"
 msgstr "Li_pește"
 
-#: ../src/calendar/gui/e-comp-editor.c:2130 ../src/e-util/e-focus-tracker.c:210 ../src/e-util/e-focus-tracker.c:266
+#: ../src/calendar/gui/e-comp-editor.c:2140 ../src/e-util/e-focus-tracker.c:210 ../src/e-util/e-focus-tracker.c:266
 #: ../src/e-util/e-focus-tracker.c:318 ../src/e-util/e-focus-tracker.c:812 ../src/e-util/e-web-view.c:2060
 #: ../src/mail/e-mail-browser.c:189 ../src/shell/e-shell-window-actions.c:984
 msgid "Paste the clipboard"
 msgstr "Lipește clipboard-ul"
 
-#: ../src/calendar/gui/e-comp-editor.c:2135 ../src/composer/e-composer-actions.c:387 ../src/mail/e-mail-reader.c:2759
+#: ../src/calendar/gui/e-comp-editor.c:2145 ../src/composer/e-composer-actions.c:387 ../src/mail/e-mail-reader.c:2759
 #: ../src/modules/addressbook/e-book-shell-view-actions.c:1319 ../src/modules/addressbook/e-book-shell-view-actions.c:1333
 msgid "_Print…"
 msgstr "Ti_părește…"
 
-#: ../src/calendar/gui/e-comp-editor.c:2142 ../src/mail/e-mail-reader.c:2766
+#: ../src/calendar/gui/e-comp-editor.c:2152 ../src/mail/e-mail-reader.c:2766
 #: ../src/modules/addressbook/e-book-shell-view-actions.c:1326 ../src/modules/calendar/e-cal-shell-view-actions.c:1703
 #: ../src/modules/calendar/e-memo-shell-view-actions.c:838 ../src/modules/calendar/e-task-shell-view-actions.c:1067
 msgid "Pre_view…"
 msgstr "Pre_vizualizare…"
 
-#: ../src/calendar/gui/e-comp-editor.c:2149 ../src/e-util/e-focus-tracker.c:821 ../src/e-util/e-html-editor-actions.c:1102
+#: ../src/calendar/gui/e-comp-editor.c:2159 ../src/e-util/e-focus-tracker.c:821 ../src/e-util/e-html-editor-actions.c:1102
 #: ../src/e-util/e-web-view.c:484 ../src/mail/e-mail-browser.c:194 ../src/shell/e-shell-window-actions.c:1059
 msgid "Select _All"
 msgstr "Selectează to_ate"
 
-#: ../src/calendar/gui/e-comp-editor.c:2151 ../src/e-util/e-focus-tracker.c:224 ../src/e-util/e-focus-tracker.c:280
+#: ../src/calendar/gui/e-comp-editor.c:2161 ../src/e-util/e-focus-tracker.c:224 ../src/e-util/e-focus-tracker.c:280
 #: ../src/e-util/e-focus-tracker.c:822 ../src/mail/e-mail-browser.c:196 ../src/shell/e-shell-window-actions.c:1061
 msgid "Select all text"
 msgstr "Selectează tot textul"
 
-#: ../src/calendar/gui/e-comp-editor.c:2172
+#: ../src/calendar/gui/e-comp-editor.c:2182
 msgid "_Classification"
 msgstr "_Clasificare"
 
-#: ../src/calendar/gui/e-comp-editor.c:2186 ../src/e-util/e-html-editor-actions.c:1125
+#: ../src/calendar/gui/e-comp-editor.c:2196 ../src/e-util/e-html-editor-actions.c:1125
 #: ../src/e-util/e-mail-signature-editor.c:333 ../src/mail/e-mail-browser.c:210 ../src/mail/e-mail-notes.c:1029
 #: ../src/shell/e-shell-window-actions.c:1110
 msgid "_File"
 msgstr "_Fișier"
 
-#: ../src/calendar/gui/e-comp-editor.c:2200 ../src/e-util/e-html-editor-actions.c:1146
+#: ../src/calendar/gui/e-comp-editor.c:2210 ../src/e-util/e-html-editor-actions.c:1146
 msgid "_Insert"
 msgstr "_Inserează"
 
-#: ../src/calendar/gui/e-comp-editor.c:2207 ../src/composer/e-composer-actions.c:377
+#: ../src/calendar/gui/e-comp-editor.c:2217 ../src/composer/e-composer-actions.c:377
 msgid "_Options"
 msgstr "_Opțiuni"
 
-#: ../src/calendar/gui/e-comp-editor.c:2214 ../src/e-util/e-html-editor-actions.c:1167 ../src/mail/e-mail-browser.c:224
+#: ../src/calendar/gui/e-comp-editor.c:2224 ../src/e-util/e-html-editor-actions.c:1167 ../src/mail/e-mail-browser.c:224
 #: ../src/shell/e-shell-window-actions.c:1153 ../src/smime/gui/certificate-manager.c:1641 ../src/smime/gui/smime-ui.ui.h:3
 msgid "_View"
 msgstr "_Vizualizare"
 
-#: ../src/calendar/gui/e-comp-editor.c:2226
+#: ../src/calendar/gui/e-comp-editor.c:2236
 msgid "Save current changes"
 msgstr "Salvează modicările curente"
 
-#: ../src/calendar/gui/e-comp-editor.c:2231 ../src/e-util/e-mail-signature-editor.c:328 ../src/mail/e-mail-notes.c:1024
+#: ../src/calendar/gui/e-comp-editor.c:2241 ../src/e-util/e-mail-signature-editor.c:328 ../src/mail/e-mail-notes.c:1024
 msgid "Save and Close"
 msgstr "Salvează și închide"
 
-#: ../src/calendar/gui/e-comp-editor.c:2233
+#: ../src/calendar/gui/e-comp-editor.c:2243
 msgid "Save current changes and close editor"
 msgstr "Salvează modificările curente și închide editorul"
 
@@ -26246,6 +26246,12 @@ msgstr "Nu se poate scrie stocarea la disc, err_code: %i"
 #: ../src/smime/lib/e-pkcs12.c:407
 msgid "Imported Certificate"
 msgstr "Certificatul importat"
+
+#~ msgid "Event cannot be fully edited, because you are not the organizer"
+#~ msgstr "Evenimentul nu a putut fi modificat în totalitate, deoarece nu sunteți organizatorul"
+
+#~ msgid "Task cannot be fully edited, because you are not the organizer"
+#~ msgstr "Sarcina nu poate fi modificată în totalitate, deoarece nu sunt cel care o organizează"
 
 #~ msgid "_Destination"
 #~ msgstr "_Destinație"
