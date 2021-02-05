@@ -922,7 +922,9 @@ update_empty_message (EAddressbookView *view)
 		msg = _("Searching for the Contacts…");
 
 	widget = gtk_bin_get_child (GTK_BIN (view));
-	e_table_set_info_message (E_TABLE (widget), msg);
+
+	if (E_IS_TABLE (widget))
+		e_table_set_info_message (E_TABLE (widget), msg);
 }
 
 GtkWidget *
