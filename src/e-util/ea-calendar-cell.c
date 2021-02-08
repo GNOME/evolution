@@ -235,11 +235,10 @@ ea_calendar_cell_get_name (AtkObject *accessible)
 		gchar buffer[128];
 
 		cell = E_CALENDAR_CELL (g_obj);
-		e_calendar_item_get_date_for_cell (cell->calitem, cell->row,
-						     cell->column,
-						     &year, &month, &day);
-
-		g_snprintf (buffer, 128, "%d-%d-%d", year, month + 1, day);
+		if (e_calendar_item_get_date_for_cell (cell->calitem, cell->row, cell->column, &year, &month, &day))
+			g_snprintf (buffer, 128, "%d-%d-%d", year, month + 1, day);
+		else
+			buffer[0] = '\0';
 		ATK_OBJECT_CLASS (parent_class)->set_name (accessible, buffer);
 	}
 	return accessible->name;
@@ -342,8 +341,8 @@ component_interface_get_extents (AtkComponent *component,
 	calitem = cell->calitem;
 	atk_obj = atk_gobject_accessible_for_object (G_OBJECT (calitem));
 	ea_calitem = EA_CALENDAR_ITEM (atk_obj);
-	e_calendar_item_get_date_for_cell (calitem, cell->row, cell->column,
-					     &year, &month, &day);
+	if (!e_calendar_item_get_date_for_cell (calitem, cell->row, cell->column, &year, &month, &day))
+		return;
 
 	if (!e_calendar_item_get_day_extents (calitem,
 					      year, month, day,

@@ -1269,6 +1269,9 @@ e_calendar_item_get_date_for_offset (ECalendarItem *calitem,
 
 	g_return_val_if_fail (E_IS_CALENDAR_ITEM (calitem), FALSE);
 
+	if (day_offset < 0)
+		return FALSE;
+
 	if (!e_calendar_item_get_date_range (calitem, &start_year,
 					     &start_month, &start_day,
 					     &end_year, &end_month,
@@ -1294,7 +1297,9 @@ e_calendar_item_get_date_for_cell (ECalendarItem *calitem,
                                      gint *month,
                                      gint *day)
 {
-	gint index = table_interface_get_index_at (ATK_TABLE (calitem), row, column);
+	gint index;
+
+	index = row * EA_CALENDAR_COLUMN_NUM + column;
 
 	return e_calendar_item_get_date_for_offset (calitem, index, year, month, day);
 }
