@@ -3038,6 +3038,7 @@ e_source_selector_set_source_tooltip (ESourceSelector *selector,
 {
 	GtkTreeModel *model = NULL;
 	GtkTreeIter iter;
+	gchar *current_tooltip = NULL;
 
 	g_return_if_fail (E_IS_SOURCE_SELECTOR (selector));
 	g_return_if_fail (E_IS_SOURCE (source));
@@ -3045,10 +3046,18 @@ e_source_selector_set_source_tooltip (ESourceSelector *selector,
 	if (!e_source_selector_get_source_iter (selector, source, &iter, &model))
 		return;
 
-	gtk_tree_store_set (
-		GTK_TREE_STORE (model), &iter,
-		COLUMN_TOOLTIP, tooltip && *tooltip ? tooltip : NULL,
+	gtk_tree_model_get (model, &iter,
+		COLUMN_TOOLTIP, &current_tooltip,
 		-1);
+
+	/* This avoids possible recursion with ATK enabled */
+	if (e_util_strcmp0 (current_tooltip, tooltip) != 0) {
+		gtk_tree_store_set (GTK_TREE_STORE (model), &iter,
+			COLUMN_TOOLTIP, tooltip && *tooltip ? tooltip : NULL,
+			-1);
+	}
+
+	g_free (current_tooltip);
 }
 
 /**
@@ -3174,6 +3183,7 @@ e_source_selector_set_source_connection_status (ESourceSelector *selector,
 {
 	GtkTreeModel *model = NULL;
 	GtkTreeIter iter;
+	guint current_value = 0;
 
 	g_return_if_fail (E_IS_SOURCE_SELECTOR (selector));
 	g_return_if_fail (E_IS_SOURCE (source));
@@ -3181,10 +3191,18 @@ e_source_selector_set_source_connection_status (ESourceSelector *selector,
 	if (!e_source_selector_get_source_iter (selector, source, &iter, &model))
 		return;
 
-	gtk_tree_store_set (
-		GTK_TREE_STORE (model), &iter,
-		COLUMN_CONNECTION_STATUS, value,
+	gtk_tree_model_get (
+		model, &iter,
+		COLUMN_CONNECTION_STATUS, &current_value,
 		-1);
+
+	/* This avoids possible recursion with ATK enabled */
+	if (current_value != value) {
+		gtk_tree_store_set (
+			GTK_TREE_STORE (model), &iter,
+			COLUMN_CONNECTION_STATUS, value,
+			-1);
+	}
 }
 
 /**
