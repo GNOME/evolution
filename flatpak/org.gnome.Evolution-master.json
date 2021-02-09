@@ -27,7 +27,7 @@
 		"--socket=x11",
 		"--socket=wayland",
 		"--socket=pulseaudio",
-		"--device=dri",
+		"--socket=pcsc",
 		"--filesystem=~/.gnupg:rw",
 		"--filesystem=xdg-config/gnupg:rw",
 		"--filesystem=/run/.heim_org.h5l.kcm-socket",
