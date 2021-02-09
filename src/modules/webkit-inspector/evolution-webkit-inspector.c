@@ -31,13 +31,14 @@
 	(G_TYPE_CHECK_INSTANCE_CAST \
 	((obj), E_TYPE_WEBKIT_INSPECTOR, EWebKitInspector))
 
-/* <Control>+<Shift>+I */
+/* <Control>+<Shift>+I or <Control>+<Shift>+D */
 #define WEBKIT_INSPECTOR_MOD  (GDK_CONTROL_MASK | GDK_SHIFT_MASK)
-#define WEBKIT_INSPECTOR_KEY  (GDK_KEY_I)
+#define WEBKIT_INSPECTOR_KEY1  (GDK_KEY_I)
+#define WEBKIT_INSPECTOR_KEY2  (GDK_KEY_D)
 
 #define WEBKIT_INSPECTOR_SHORTCUT_SHOW(event) \
 	((((event)->state & WEBKIT_INSPECTOR_MOD) == WEBKIT_INSPECTOR_MOD) && \
-	((event)->keyval == WEBKIT_INSPECTOR_KEY))
+	 (((event)->keyval == WEBKIT_INSPECTOR_KEY1) || ((event)->keyval == WEBKIT_INSPECTOR_KEY2)))
 
 typedef struct _EWebKitInspector EWebKitInspector;
 typedef struct _EWebKitInspectorClass EWebKitInspectorClass;
