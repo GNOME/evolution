@@ -794,7 +794,7 @@ action_event_popup_rsvp_response_cb (GtkAction *action,
 	ECalClient *client;
 	ECalComponent *comp;
 	ECalModel *model;
-	ICalParameterPartstat partstat;
+	ICalParameterPartstat partstat = I_CAL_PARTSTAT_NONE;
 	ICalComponent *clone;
 	GList *selected;
 	const gchar *action_name;
