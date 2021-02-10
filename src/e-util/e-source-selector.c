@@ -102,6 +102,7 @@ enum {
 	COLUMN_TOOLTIP,
 	COLUMN_IS_BUSY,
 	COLUMN_CONNECTION_STATUS,
+	COLUMN_SORT_ORDER,
 	NUM_COLUMNS
 };
 
@@ -1922,7 +1923,8 @@ e_source_selector_init (ESourceSelector *selector)
 		E_TYPE_SOURCE,		/* COLUMN_SOURCE */
 		G_TYPE_STRING,		/* COLUMN_TOOLTIP */
 		G_TYPE_BOOLEAN,		/* COLUMN_IS_BUSY */
-		G_TYPE_UINT);		/* COLUMN_CONNECTION_STATUS */
+		G_TYPE_UINT,		/* COLUMN_CONNECTION_STATUS */
+		G_TYPE_UINT);		/* COLUMN_SORT_ORDER */
 
 	gtk_tree_view_set_model (tree_view, GTK_TREE_MODEL (tree_store));
 
@@ -2851,6 +2853,96 @@ e_source_selector_queue_write (ESourceSelector *selector,
 	g_source_unref (idle_source);
 }
 
+static void
+source_selector_sort_sibling (ESourceSelector *selector,
+			      GtkTreeModel *model,
+			      GtkTreeIter *changed_child)
+{
+	GtkTreeIter iter, dest_iter;
+	ESource *child_source = NULL;
+	gboolean changed = FALSE, insert_before;
+
+	gtk_tree_model_get (model, changed_child, COLUMN_SOURCE, &child_source, -1);
+
+	if (!child_source)
+		return;
+
+	insert_before = TRUE;
+	iter = *changed_child;
+
+	while (gtk_tree_model_iter_previous (model, &iter)) {
+		ESource *source = NULL;
+		gint cmp_value;
+
+		gtk_tree_model_get (model, &iter, COLUMN_SOURCE, &source, -1);
+
+		cmp_value = e_util_source_compare_for_sort (source, child_source);
+
+		g_clear_object (&source);
+
+		if (cmp_value <= 0)
+			break;
+
+		dest_iter = iter;
+		changed = TRUE;
+	}
+
+	if (!changed) {
+		insert_before = FALSE;
+		iter = *changed_child;
+
+		while (gtk_tree_model_iter_next (model, &iter)) {
+			ESource *source = NULL;
+			gint cmp_value;
+
+			gtk_tree_model_get (model, &iter, COLUMN_SOURCE, &source, -1);
+
+			cmp_value = e_util_source_compare_for_sort (child_source, source);
+
+			g_clear_object (&source);
+
+			if (cmp_value <= 0)
+				break;
+
+			dest_iter = iter;
+			changed = TRUE;
+		}
+	}
+
+	if (changed) {
+		GtkTreeStore *tree_store = GTK_TREE_STORE (model);
+		GtkTreeSelection *selection;
+		GtkTreeRowReference *reference;
+		GtkTreeIter new_child;
+		GtkTreePath *path;
+		gboolean been_selected;
+
+		selection = gtk_tree_view_get_selection (GTK_TREE_VIEW (selector));
+		been_selected = gtk_tree_selection_iter_is_selected (selection, changed_child);
+
+		gtk_tree_store_remove (tree_store, changed_child);
+
+		if (insert_before)
+			gtk_tree_store_insert_before (tree_store, &new_child, NULL, &dest_iter);
+		else
+			gtk_tree_store_insert_after (tree_store, &new_child, NULL, &dest_iter);
+
+		g_hash_table_remove (selector->priv->source_index, child_source);
+
+		path = gtk_tree_model_get_path (model, &new_child);
+		reference = gtk_tree_row_reference_new (model, path);
+		g_hash_table_insert (selector->priv->source_index, g_object_ref (child_source), reference);
+		gtk_tree_path_free (path);
+
+		e_source_selector_update_row (selector, child_source);
+
+		if (been_selected)
+			gtk_tree_selection_select_iter (selection, &new_child);
+	}
+
+	g_object_unref (child_source);
+}
+
 /**
  * e_source_selector_update_row:
  * @selector: an #ESourceSelector
@@ -2905,12 +2997,14 @@ e_source_selector_update_row (ESourceSelector *selector,
 		extension = e_source_get_extension (source, extension_name);
 
 	if (extension != NULL) {
+		ESource *current_source = NULL;
 		GdkRGBA rgba;
 		const gchar *color_spec = NULL;
 		const gchar *icon_name;
 		gboolean show_color;
 		gboolean show_icons;
 		gboolean show_toggle;
+		guint old_sort_order = 0, new_sort_order = 0;
 
 		show_color =
 			E_IS_SOURCE_SELECTABLE (extension) &&
@@ -2928,6 +3022,18 @@ e_source_selector_update_row (ESourceSelector *selector,
 
 		show_toggle = e_source_selector_get_show_toggles (selector);
 
+		gtk_tree_model_get (model, &iter,
+			COLUMN_SORT_ORDER, &old_sort_order,
+			COLUMN_SOURCE, &current_source,
+			-1);
+
+		if (E_IS_SOURCE_SELECTABLE (extension))
+			new_sort_order = e_source_selectable_get_order (E_SOURCE_SELECTABLE (extension));
+		else if (E_IS_SOURCE_ADDRESS_BOOK (extension))
+			new_sort_order = e_source_address_book_get_order (E_SOURCE_ADDRESS_BOOK (extension));
+		else
+			new_sort_order = old_sort_order;
+
 		gtk_tree_store_set (
 			GTK_TREE_STORE (model), &iter,
 			COLUMN_NAME, display_name,
@@ -2939,7 +3045,14 @@ e_source_selector_update_row (ESourceSelector *selector,
 			COLUMN_SHOW_TOGGLE, show_toggle,
 			COLUMN_WEIGHT, PANGO_WEIGHT_NORMAL,
 			COLUMN_SOURCE, source,
+			COLUMN_SORT_ORDER, new_sort_order,
 			-1);
+
+		/* The 'current_source' is NULL on newly added rows and non-NULL when refreshing existing row */
+		if (new_sort_order != old_sort_order && current_source != NULL)
+			source_selector_sort_sibling (selector, model, &iter);
+
+		g_clear_object (&current_source);
 	} else {
 		gtk_tree_store_set (
 			GTK_TREE_STORE (model), &iter,

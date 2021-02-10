@@ -132,37 +132,39 @@ cal_config_webdav_notes_run_dialog (GtkButton *button,
 
 	if (gtk_dialog_run (dialog) == GTK_RESPONSE_ACCEPT) {
 		gchar *href = NULL, *display_name = NULL, *color = NULL, *email;
-		guint supports = 0;
+		guint supports = 0, order = 0;
 		GtkWidget *content;
 
 		content = e_webdav_discover_dialog_get_content (dialog);
 
-		if (e_webdav_discover_content_get_selected (content, 0, &href, &supports, &display_name, &color)) {
+		if (e_webdav_discover_content_get_selected (content, 0, &href, &supports, &display_name, &color, &order)) {
 			soup_uri_free (uri);
 			uri = soup_uri_new (href);
 
 			if (uri) {
+				ESourceSelectable *selectable_extension;
+				const gchar *extension_name;
+
+				switch (source_type) {
+					case E_CAL_CLIENT_SOURCE_TYPE_MEMOS:
+						extension_name = E_SOURCE_EXTENSION_MEMO_LIST;
+						break;
+					default:
+						g_return_if_reached ();
+				}
+
+				selectable_extension = e_source_get_extension (context->scratch_source, extension_name);
+
 				e_source_set_display_name (context->scratch_source, display_name);
 
 				e_source_webdav_set_display_name (webdav_extension, display_name);
 				e_source_webdav_set_soup_uri (webdav_extension, uri);
+				e_source_webdav_set_order (webdav_extension, order);
 
-				if (color && *color) {
-					ESourceSelectable *selectable_extension;
-					const gchar *extension_name;
-
-					switch (source_type) {
-						case E_CAL_CLIENT_SOURCE_TYPE_MEMOS:
-							extension_name = E_SOURCE_EXTENSION_MEMO_LIST;
-							break;
-						default:
-							g_return_if_reached ();
-					}
-
-					selectable_extension = e_source_get_extension (context->scratch_source, extension_name);
-
+				if (color && *color)
 					e_source_selectable_set_color (selectable_extension, color);
-				}
+
+				e_source_selectable_set_order (selectable_extension, order);
 			}
 
 			g_free (href);

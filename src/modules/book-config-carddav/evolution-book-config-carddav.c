@@ -115,20 +115,27 @@ book_config_carddav_run_dialog (GtkButton *button,
 
 	if (gtk_dialog_run (dialog) == GTK_RESPONSE_ACCEPT) {
 		gchar *href = NULL, *display_name = NULL, *color = NULL, *email;
-		guint supports = 0;
+		guint supports = 0, order = 0;
 		GtkWidget *content;
 
 		content = e_webdav_discover_dialog_get_content (dialog);
 
-		if (e_webdav_discover_content_get_selected (content, 0, &href, &supports, &display_name, &color)) {
+		if (e_webdav_discover_content_get_selected (content, 0, &href, &supports, &display_name, &color, &order)) {
 			soup_uri_free (uri);
 			uri = soup_uri_new (href);
 
 			if (uri) {
+				ESourceAddressBook *addressbook_extension;
+
+				addressbook_extension = e_source_get_extension (context->scratch_source, E_SOURCE_EXTENSION_ADDRESS_BOOK);
+
 				e_source_set_display_name (context->scratch_source, display_name);
 
 				e_source_webdav_set_display_name (webdav_extension, display_name);
 				e_source_webdav_set_soup_uri (webdav_extension, uri);
+				e_source_webdav_set_order (webdav_extension, order);
+
+				e_source_address_book_set_order (addressbook_extension, order);
 			}
 
 			g_free (href);
