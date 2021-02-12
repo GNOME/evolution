@@ -72,6 +72,8 @@ struct _EWebDAVBrowserPrivate {
 	GtkWidget *create_edit_name_entry;
 	GtkWidget *create_edit_color_label;
 	GtkWidget *create_edit_color_chooser;
+	GtkWidget *create_edit_order_label;
+	GtkWidget *create_edit_order_spin;
 	GtkWidget *create_edit_support_label;
 	GtkWidget *create_edit_event_check;
 	GtkWidget *create_edit_memo_check;
@@ -125,6 +127,7 @@ enum {
 	COLUMN_UINT_EDITING_FLAGS,
 	COLUMN_UINT_SUPPORTS,
 	COLUMN_STRING_TOOLTIP,
+	COLUMN_INT_ORDER,
 	N_COLUMNS
 };
 
@@ -565,6 +568,7 @@ webdav_browser_update_ui (EWebDAVBrowser *webdav_browser)
 			COLUMN_UINT_EDITING_FLAGS, rd->editing_flags,
 			COLUMN_UINT_SUPPORTS, rd->resource->supports,
 			COLUMN_STRING_TOOLTIP, tooltip,
+			COLUMN_INT_ORDER, rd->resource->order,
 			-1);
 
 		g_string_free (type_info, TRUE);
@@ -1625,6 +1629,7 @@ typedef struct _SaveChangesData {
 	gboolean load_first;
 	gchar *name;
 	GdkRGBA rgba;
+	gint order;
 	guint32 supports; /* bit-or of EWebDAVResourceSupports */
 	gchar *description;
 	gboolean success;
@@ -1705,6 +1710,14 @@ webdav_browser_save_changes_thread (EAlertSinkThreadJobData *job_data,
 
 			changes = g_slist_append (changes, e_webdav_property_change_new_set (E_WEBDAV_NS_ICAL, "calendar-color", color));
 
+			if (scd->order >= 0) {
+				gchar order_str[64];
+
+				g_snprintf (order_str, sizeof (order_str), "%u", (guint) scd->order);
+
+				changes = g_slist_append (changes, e_webdav_property_change_new_set (E_WEBDAV_NS_ICAL, "calendar-order", order_str));
+			}
+
 			if (scd->description && *scd->description)
 				changes = g_slist_append (changes, e_webdav_property_change_new_set (E_WEBDAV_NS_CALDAV, "calendar-description", scd->description));
 			else
@@ -1751,6 +1764,27 @@ webdav_browser_save_changes_thread (EAlertSinkThreadJobData *job_data,
 				scd->supports, cancellable, error);
 
 			g_free (color);
+
+			if (success && scd->order >= 0) {
+				GSList *changes = NULL;
+				GError *local_error = NULL;
+				gchar order_str[64];
+
+				g_snprintf (order_str, sizeof (order_str), "%u", (guint) scd->order);
+
+				changes = g_slist_append (changes, e_webdav_property_change_new_set (E_WEBDAV_NS_ICAL, "calendar-order", order_str));
+
+				/* Treat the failure to save calendar-order as non-fatal. */
+				if (!e_webdav_session_update_properties_sync (session, new_href, changes, cancellable, &local_error)) {
+					if (g_strcmp0 (g_getenv ("WEBDAV_DEBUG"), "1") == 0) {
+						e_util_debug_print ("WEBDAV", "Failed to set calendar-order: %s", local_error ? local_error->message : "Unknown error");
+					}
+
+					g_clear_error (&local_error);
+				}
+
+				g_slist_free_full (changes, e_webdav_property_change_free);
+			}
 		} else {
 			success = e_webdav_session_mkcol_sync (session, new_href, cancellable, error);
 		}
@@ -1881,6 +1915,7 @@ webdav_browser_save_clicked (EWebDAVBrowser *webdav_browser,
 	scd->load_first = !webdav_browser_get_selected_loaded (webdav_browser);
 	scd->name = text;
 	gtk_color_chooser_get_rgba (GTK_COLOR_CHOOSER (webdav_browser->priv->create_edit_color_chooser), &scd->rgba);
+	scd->order = gtk_spin_button_get_value (GTK_SPIN_BUTTON (webdav_browser->priv->create_edit_order_spin));
 	scd->supports = supports;
 	scd->description = gtk_text_buffer_get_text (buffer, &start, &end, FALSE);
 
@@ -1999,6 +2034,8 @@ webdav_browser_prepare_popover (EWebDAVBrowser *webdav_browser,
 
 	gtk_widget_set_visible (webdav_browser->priv->create_edit_color_label, for_calendar);
 	gtk_widget_set_visible (webdav_browser->priv->create_edit_color_chooser, for_calendar);
+	gtk_widget_set_visible (webdav_browser->priv->create_edit_order_label, for_calendar);
+	gtk_widget_set_visible (webdav_browser->priv->create_edit_order_spin, for_calendar);
 	gtk_widget_set_visible (webdav_browser->priv->create_edit_support_label, for_calendar);
 	gtk_widget_set_visible (webdav_browser->priv->create_edit_event_check, for_calendar);
 	gtk_widget_set_visible (webdav_browser->priv->create_edit_memo_check, for_calendar);
@@ -2082,6 +2119,7 @@ webdav_browser_edit_clicked_cb (GtkWidget *button,
 	gchar *href;
 	gchar *display_name = NULL, *description = NULL;
 	guint editing_flags = E_EDITING_FLAG_NONE, supports = E_WEBDAV_RESOURCE_SUPPORTS_NONE;
+	gint order = -1;
 	GdkRGBA *rgba = NULL;
 	gboolean color_is_set = FALSE;
 	GCallback callback;
@@ -2100,6 +2138,7 @@ webdav_browser_edit_clicked_cb (GtkWidget *button,
 		COLUMN_STRING_DESCRIPTION, &description,
 		COLUMN_RGBA_COLOR, &rgba,
 		COLUMN_BOOL_COLOR_VISIBLE, &color_is_set,
+		COLUMN_INT_ORDER, &order,
 		COLUMN_UINT_EDITING_FLAGS, &editing_flags,
 		COLUMN_UINT_SUPPORTS, &supports,
 		-1);
@@ -2111,6 +2150,8 @@ webdav_browser_edit_clicked_cb (GtkWidget *button,
 	if ((editing_flags & E_EDITING_FLAG_IS_CALENDAR) != 0) {
 		if (color_is_set && rgba)
 			gtk_color_chooser_set_rgba (GTK_COLOR_CHOOSER (webdav_browser->priv->create_edit_color_chooser), rgba);
+
+		gtk_spin_button_set_value (GTK_SPIN_BUTTON (webdav_browser->priv->create_edit_order_spin), order);
 
 		gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (webdav_browser->priv->create_edit_event_check),
 			(supports & E_WEBDAV_RESOURCE_SUPPORTS_EVENTS) != 0);
@@ -2423,7 +2464,8 @@ webdav_browser_tree_view_new (EWebDAVBrowser *webdav_browser)
 		G_TYPE_BOOLEAN,	/* COLUMN_BOOL_CHILDREN_LOADED */
 		G_TYPE_UINT,	/* COLUMN_UINT_EDITING_FLAGS */
 		G_TYPE_UINT,	/* COLUMN_UINT_SUPPORTS */
-		G_TYPE_STRING	/* COLUMN_STRING_TOOLTIP */
+		G_TYPE_STRING,	/* COLUMN_STRING_TOOLTIP */
+		G_TYPE_INT	/* COLUMN_INT_ORDER */
 	);
 
 	sort_model = gtk_tree_model_sort_new_with_model (GTK_TREE_MODEL (tree_store));
@@ -2520,35 +2562,52 @@ webdav_browser_create_popover (EWebDAVBrowser *webdav_browser)
 	gtk_grid_attach (grid, widget, 1, 1, 1, 1);
 	webdav_browser->priv->create_edit_color_chooser = widget;
 
+	/* Translators: It's 'order' as 'sorting order' */
+	widget = gtk_label_new_with_mnemonic (_("_Order:"));
+	gtk_widget_set_halign (widget, GTK_ALIGN_END);
+	gtk_grid_attach (grid, widget, 0, 2, 1, 1);
+	webdav_browser->priv->create_edit_order_label = widget;
+	label = widget;
+
+	widget = gtk_spin_button_new_with_range (-1, G_MAXINT, 1);
+	g_object_set (G_OBJECT (widget),
+		"numeric", TRUE,
+		"digits", 0,
+		"tooltip-text", _("Use -1 to not set the sort order"),
+		NULL);
+	gtk_label_set_mnemonic_widget (GTK_LABEL (label), widget);
+	gtk_grid_attach (grid, widget, 1, 2, 1, 1);
+	webdav_browser->priv->create_edit_order_spin = widget;
+
 	widget = gtk_label_new (_("For Components:"));
 	gtk_widget_set_halign (widget, GTK_ALIGN_END);
 	gtk_widget_set_valign (widget, GTK_ALIGN_START);
-	gtk_grid_attach (grid, widget, 0, 2, 1, 1);
+	gtk_grid_attach (grid, widget, 0, 3, 1, 1);
 	webdav_browser->priv->create_edit_support_label = widget;
 
 	widget = gtk_check_button_new_with_mnemonic (_("_Events"));
-	gtk_grid_attach (grid, widget, 1, 2, 1, 1);
+	gtk_grid_attach (grid, widget, 1, 3, 1, 1);
 	webdav_browser->priv->create_edit_event_check = widget;
 
 	widget = gtk_check_button_new_with_mnemonic (_("_Memos"));
-	gtk_grid_attach (grid, widget, 1, 3, 1, 1);
+	gtk_grid_attach (grid, widget, 1, 4, 1, 1);
 	webdav_browser->priv->create_edit_memo_check = widget;
 
 	widget = gtk_check_button_new_with_mnemonic (_("_Tasks"));
-	gtk_grid_attach (grid, widget, 1, 4, 1, 1);
+	gtk_grid_attach (grid, widget, 1, 5, 1, 1);
 	webdav_browser->priv->create_edit_task_check = widget;
 
 	widget = gtk_label_new_with_mnemonic (_("_Description:"));
 	gtk_widget_set_halign (widget, GTK_ALIGN_END);
 	gtk_widget_set_valign (widget, GTK_ALIGN_START);
-	gtk_grid_attach (grid, widget, 0, 5, 1, 1);
+	gtk_grid_attach (grid, widget, 0, 6, 1, 1);
 	webdav_browser->priv->create_edit_description_label = widget;
 	label = widget;
 
 	widget = gtk_scrolled_window_new (NULL, NULL);
 	gtk_scrolled_window_set_policy (GTK_SCROLLED_WINDOW (widget), GTK_POLICY_AUTOMATIC, GTK_POLICY_AUTOMATIC);
 	gtk_scrolled_window_set_shadow_type (GTK_SCROLLED_WINDOW (widget), GTK_SHADOW_IN);
-	gtk_grid_attach (grid, widget, 1, 5, 1, 1);
+	gtk_grid_attach (grid, widget, 1, 6, 1, 1);
 	webdav_browser->priv->create_edit_description_scrolled_window = widget;
 
 	widget = gtk_text_view_new ();
@@ -2560,7 +2619,7 @@ webdav_browser_create_popover (EWebDAVBrowser *webdav_browser)
 
 	widget = gtk_button_new_with_mnemonic (_("_Save"));
 	gtk_widget_set_halign (widget, GTK_ALIGN_END);
-	gtk_grid_attach (grid, widget, 0, 6, 2, 1);
+	gtk_grid_attach (grid, widget, 0, 7, 2, 1);
 	webdav_browser->priv->create_edit_save_button = widget;
 
 	gtk_widget_show_all (GTK_WIDGET (grid));
