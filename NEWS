@@ -1,3 +1,56 @@
+Evolution 3.39.2 2021-02-12
+---------------------------
+
+Bug Fixes:
+	I#262 - Calendar: Ability to change RSVP response (Milan Crha)
+	I#992 - CompEditor: Allow editing meetings if not owner (Milan Crha)
+	I#1157 - Composer: Quoted text visually changes linewrap after paste (Milan Crha)
+	I#1269 - Composer: Paste plain text as Preformatted (Milan Crha)
+	I#1311 - templates: Prefer message body selection as Reply does (Milan Crha)
+	I#1314 - templates: Quoted body shown incorrectly in Plain Text mode (Milan Crha)
+	I#1317 - HTMLEditor: Add "Preserve ratio" into image properties dialog (Milan Crha)
+	I#1319 - Address book: Provide feedback when searching in the List View (Milan Crha)
+	I#1320 - Adapt to libgweather 40.alpha API changes (Milan Crha)
+	I#1328 - Calendar: Event tooltip can be misplaced (Milan Crha)
+	I#1330 - Composer: Invalid wrapping with a space at the end of the line (Milan Crha)
+	I#1336 - Calendar: Preserve time when creating events with double-click (Milan Crha)
+	eds-I#297 - CalDAV: Support calendar-order property (Milan Crha)
+	eds-I#298 - Flatpak: Share NSS database with the system (Milan Crha)
+	M!75 - The XDG_CURRENT_DESKTOP env is a list (Sebastien Bacher)
+	M!76 - Correct typos in a/an (Дилян Палаузов)
+
+Miscellaneous:
+	Sync GLibTools.cmake with Evolution-Data-Server (Milan Crha)
+	e-editor.js: Correct variable name in EvoEditor.InsertSignature() (Milan Crha)
+	Fix a memory leak when quoting headers for message replies (Milan Crha)
+	EMailConfigAssistant: Prefill user name for the new accounts (Milan Crha)
+	message-list: Remove unneeded code (Milan Crha)
+	Composer: Add an option to prefer PRE on paste of a plain text (Milan Crha)
+	EAddressbookView: Call e_table_set_info_message() only on ETable (Milan Crha)
+	ESourceSelector: Update GtkTreeStore values only if changed (Milan Crha)
+	Fix invalid cast in e_calendar_item_get_date_for_cell() (Milan Crha)
+	Flatpak: Enable smart card support in the Flatpak manifests (Milan Crha)
+	Add an alternative shortcut to show the WebKit inspector (Milan Crha)
+	action_event_popup_rsvp_response_cb: Always initialize local variable (Milan Crha)
+	EWebDAVBrowser: Support calendar-order property (Milan Crha)
+	help: Describe the regex type supported in vfolder search (Andre Klapper)
+
+Translations:
+	Hugo Carvalho (pt)
+	Boyuan Yang (zh_CN)
+	Yuri Chornoivan (uk)
+	Kjartan Maraas (nb)
+	Daniel Șerbănescu (ro)
+	Matej Urbančič (sl)
+	Daniel Mustieles (es)
+	Fabio Tomat (fur)
+	Philipp Kiemle (de)
+	Fran Dieguez (gl)
+	Rafael Fontenelle (pt_BR)
+	Florentina Mușat (ro)
+	Anders Jonsson (sv)
+	Andika Triwidada (id)
+
 Evolution 3.39.1 2021-01-08
 ---------------------------
 
