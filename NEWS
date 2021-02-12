@@ -1,3 +1,19 @@
+Evolution 3.38.4 2021-02-12
+---------------------------
+
+Bug Fixes:
+	I#1157 - Composer: Quoted text visually changes linewrap after paste (Milan Crha)
+	I#1314 - templates: Quoted body shown incorrectly in Plain Text mode (Milan Crha)
+	I#1330 - Composer: Invalid wrapping with a space at the end of the line (Milan Crha)
+
+Miscellaneous:
+	e-editor.js: Correct variable name in EvoEditor.InsertSignature() (Milan Crha)
+	Fix a memory leak when quoting headers for message replies (Milan Crha)
+
+Translations:
+	Kjartan Maraas (nb)
+	Boyuan Yang (zh_CN)
+
 Evolution 3.38.3 2021-01-08
 ---------------------------
 
