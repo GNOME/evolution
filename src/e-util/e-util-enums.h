@@ -150,7 +150,7 @@ typedef enum {
  * @E_CONTENT_EDITOR_INSERT_REPLACE_ALL:
  * @E_CONTENT_EDITOR_INSERT_TEXT_HTML:
  * @E_CONTENT_EDITOR_INSERT_TEXT_PLAIN:
- * @E_CONTENT_EDITOR_INSERT_CONVERT_PREFER_PRE: Set when should convert plain text into <pre> instead of <div>. Since 3.40
+ * @E_CONTENT_EDITOR_INSERT_CONVERT_PREFER_PRE: Set when should convert plain text into &lt;pre&gt; instead of &lt;div&gt;. Since 3.40
  *
  * Since: 3.22
  **/
