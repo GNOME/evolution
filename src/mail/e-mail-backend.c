@@ -844,6 +844,7 @@ mail_backend_folder_changed_cb (MailFolderCache *folder_cache,
 	EMEvent *event = em_event_peek ();
 	EMEventTargetFolder *target;
 	EMFolderTreeModel *model;
+	CamelFolder *folder;
 	gchar *folder_uri;
 	gint folder_type;
 	CamelFolderInfoFlags flags = 0;
@@ -865,6 +866,12 @@ mail_backend_folder_changed_cb (MailFolderCache *folder_cache,
 	model = em_folder_tree_model_get_default ();
 	target->display_name = em_folder_tree_model_get_folder_name (
 		model, store, folder_name);
+
+	folder = mail_folder_cache_ref_folder (folder_cache, store, folder_name);
+	if (folder) {
+		target->full_display_name = e_mail_folder_to_full_display_name (folder, NULL);
+		g_clear_object (&folder);
+	}
 
 	if (target->new > 0) {
 		EShell *shell;

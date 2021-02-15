@@ -42,6 +42,7 @@ eme_target_free (EEvent *ep,
 			g_object_unref (s->store);
 		g_free (s->folder_name);
 		g_free (s->display_name);
+		g_free (s->full_display_name);
 		g_free (s->msg_uid);
 		g_free (s->msg_sender);
 		g_free (s->msg_subject);

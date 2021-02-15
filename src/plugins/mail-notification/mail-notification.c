@@ -487,67 +487,60 @@ static void
 new_notify_status (EMEventTargetFolder *t)
 {
 	gchar *escaped_text;
-	gchar *text;
+	GString *text;
 	const gchar *summary;
 	const gchar *icon_name;
 
 	status_count += t->new;
 
-	text = g_strdup_printf (ngettext (
+	text = g_string_sized_new (256);
+
+	g_string_append_printf (text, ngettext (
 		/* Translators: '%d' is the count of mails received. */
 		"You have received %d new message.",
 		"You have received %d new messages.",
 		status_count), status_count);
 
+	if (t->full_display_name) {
+		g_string_append_c (text, '\n');
+
+		/* Translators: The '%s' is replaced by the folder name, where a new
+		 * mail message arrived. Example: "Folder: On This Computer : Inbox" */
+		g_string_append_printf (text, _("Folder: %s"), t->full_display_name);
+	}
+
 	if (t->msg_sender) {
-		gchar *tmp, *str;
+		g_string_append_c (text, '\n');
 
 		/* Translators: "From:" is preceding a new mail
 		 * sender address, like "From: user@example.com" */
-		str = g_strdup_printf (_("From: %s"), t->msg_sender);
-		tmp = g_strconcat (text, "\n", str, NULL);
-
-		g_free (text);
-		g_free (str);
-
-		text = tmp;
+		g_string_append_printf (text, _("From: %s"), t->msg_sender);
 	}
 
 	if (t->msg_subject) {
-		gchar *tmp, *str;
+		g_string_append_c (text, '\n');
 
 		/* Translators: "Subject:" is preceding a new mail
 		 * subject, like "Subject: It happened again" */
-		str = g_strdup_printf (_("Subject: %s"), t->msg_subject);
-		tmp = g_strconcat (text, "\n", str, NULL);
-
-		g_free (text);
-		g_free (str);
-
-		text = tmp;
+		g_string_append_printf (text, _("Subject: %s"), t->msg_subject);
 	}
 
 	if (status_count > 1 && (t->msg_sender || t->msg_subject)) {
-		gchar *tmp, *str;
 		guint additional_messages = status_count - 1;
 
-		str = g_strdup_printf (ngettext (
+		g_string_append_c (text, '\n');
+
+		g_string_append_printf (text, ngettext (
 			/* Translators: %d is the count of mails received in addition
 			 * to the one displayed in this notification. */
 			"(and %d more)",
 			"(and %d more)",
 			additional_messages), additional_messages);
-		tmp = g_strconcat (text, "\n", str, NULL);
-
-		g_free (text);
-		g_free (str);
-
-		text = tmp;
 	}
 
 	icon_name = "evolution";
 	summary = _("New email in Evolution");
-	escaped_text = g_markup_escape_text (text, strlen (text));
+	escaped_text = g_markup_escape_text (text->str, -1);
 
 	if (notify) {
 		notify_notification_update (
@@ -606,7 +599,7 @@ new_notify_status (EMEventTargetFolder *t)
 		(GDestroyNotify) g_object_unref);
 
 	g_free (escaped_text);
-	g_free (text);
+	g_string_free (text, TRUE);
 }
 
 static void

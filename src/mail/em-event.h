@@ -95,6 +95,7 @@ struct _EMEventTargetFolder {
 	guint new;
 	gboolean is_inbox;
 	gchar *display_name;
+	gchar *full_display_name;
 
 	/* valid (non-NULL) when only one new message reported */
 	gchar *msg_uid;
