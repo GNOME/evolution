@@ -12,8 +12,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: evolution\n"
 "Report-Msgid-Bugs-To: https://gitlab.gnome.org/GNOME/evolution/issues\n"
-"POT-Creation-Date: 2021-02-12 10:18+0000\n"
-"PO-Revision-Date: 2021-02-12 14:27+0200\n"
+"POT-Creation-Date: 2021-02-15 10:22+0000\n"
+"PO-Revision-Date: 2021-02-15 12:43+0200\n"
 "Last-Translator: Yuri Chornoivan <yurchor@ukr.net>\n"
 "Language-Team: Ukrainian <trans-uk@lists.fedoraproject.org>\n"
 "Language: uk\n"
@@ -12615,14 +12615,14 @@ msgstr "Списки завдань"
 #: ../src/mail/e-mail-account-tree-view.c:84
 #: ../src/modules/mail/em-composer-prefs.c:1303
 #: ../src/modules/plugin-manager/evolution-plugin-manager.c:408
-#: ../src/plugins/mail-notification/mail-notification.c:1182
+#: ../src/plugins/mail-notification/mail-notification.c:1175
 #: ../src/plugins/publish-calendar/publish-calendar.c:853
 msgid "Enabled"
 msgstr "Активно"
 
 #: ../src/e-util/e-accounts-window.c:1415
 #: ../src/mail/e-mail-account-tree-view.c:108
-#: ../src/plugins/mail-notification/mail-notification.c:1198
+#: ../src/plugins/mail-notification/mail-notification.c:1191
 msgid "Account Name"
 msgstr "Назва облікового запису"
 
@@ -16427,14 +16427,12 @@ msgstr "Не вдалося вилучити збірку"
 
 #. Translators: It's 'order' as 'sorting order'
 #: ../src/e-util/e-webdav-browser.c:2566
-#| msgid "_Border:"
 msgid "_Order:"
 msgstr "П_орядок:"
 
 #: ../src/e-util/e-webdav-browser.c:2576
 msgid "Use -1 to not set the sort order"
-msgstr ""
-"Скористайтеся значенням -1, якщо не хочете встановлювати впорядкування"
+msgstr "Скористайтеся значенням -1, якщо не хочете встановлювати впорядкування"
 
 #: ../src/e-util/e-webdav-browser.c:2582
 msgid "For Components:"
@@ -16975,7 +16973,7 @@ msgid "Disconnecting from “%s”"
 msgstr "Від'єднання від «%s»"
 
 #: ../src/libemail-engine/e-mail-store-utils.c:264
-#: ../src/mail/e-mail-backend.c:1048
+#: ../src/mail/e-mail-backend.c:1055
 #, c-format
 msgid "Reconnecting to “%s”"
 msgstr "Повторне з'єднання з «%s»"
@@ -24910,7 +24908,7 @@ msgstr "Поштовий каталог Mbox не може бути порожн
 #: ../src/modules/mail-config/e-mail-config-sendmail-backend.c:59
 #: ../src/modules/mail-config/e-mail-config-smtp-backend.c:155
 #: ../src/modules/plugin-manager/evolution-plugin-manager.c:194
-#: ../src/plugins/mail-notification/mail-notification.c:1278
+#: ../src/plugins/mail-notification/mail-notification.c:1271
 msgid "Configuration"
 msgstr "Налаштовування"
 
@@ -26623,7 +26621,7 @@ msgstr ""
 "Заголовок: {0}"
 
 #. Translators: '%d' is the count of mails received.
-#: ../src/plugins/mail-notification/mail-notification.c:498
+#: ../src/plugins/mail-notification/mail-notification.c:500
 #, c-format
 msgid "You have received %d new message."
 msgid_plural "You have received %d new messages."
@@ -26632,23 +26630,31 @@ msgstr[1] "Отримано %d нових повідомлення."
 msgstr[2] "Отримано %d нових повідомлень."
 msgstr[3] "Отримано %d нове повідомлення."
 
+#. Translators: The '%s' is replaced by the folder name, where a new
+#. * mail message arrived. Example: "Folder: On This Computer : Inbox"
+#: ../src/plugins/mail-notification/mail-notification.c:509
+#, c-format
+#| msgid "Folder"
+msgid "Folder: %s"
+msgstr "Тека: %s"
+
 #. Translators: "From:" is preceding a new mail
 #. * sender address, like "From: user@example.com"
-#: ../src/plugins/mail-notification/mail-notification.c:507
+#: ../src/plugins/mail-notification/mail-notification.c:517
 #, c-format
 msgid "From: %s"
 msgstr "Від: %s"
 
 #. Translators: "Subject:" is preceding a new mail
 #. * subject, like "Subject: It happened again"
-#: ../src/plugins/mail-notification/mail-notification.c:521
+#: ../src/plugins/mail-notification/mail-notification.c:525
 #, c-format
 msgid "Subject: %s"
 msgstr "Тема: %s"
 
 #. Translators: %d is the count of mails received in addition
 #. * to the one displayed in this notification.
-#: ../src/plugins/mail-notification/mail-notification.c:537
+#: ../src/plugins/mail-notification/mail-notification.c:536
 #, c-format
 msgid "(and %d more)"
 msgid_plural "(and %d more)"
@@ -26657,55 +26663,55 @@ msgstr[1] "(і ще %d)"
 msgstr[2] "(і ще %d)"
 msgstr[3] "(і ще %d)"
 
-#: ../src/plugins/mail-notification/mail-notification.c:549
+#: ../src/plugins/mail-notification/mail-notification.c:542
 msgid "New email in Evolution"
 msgstr "Створити пошту в Evolution"
 
 #. Translators: The '%s' is a mail
 #. * folder name.  (e.g. "Show Inbox")
-#: ../src/plugins/mail-notification/mail-notification.c:590
+#: ../src/plugins/mail-notification/mail-notification.c:583
 #, c-format
 msgid "Show %s"
 msgstr "Показати %s"
 
-#: ../src/plugins/mail-notification/mail-notification.c:850
+#: ../src/plugins/mail-notification/mail-notification.c:843
 msgid "_Play sound when a new message arrives"
 msgstr "П_рогравати звук, коли приходить новий лист"
 
-#: ../src/plugins/mail-notification/mail-notification.c:882
+#: ../src/plugins/mail-notification/mail-notification.c:875
 msgid "_Beep"
 msgstr "_Звуковий сигнал"
 
-#: ../src/plugins/mail-notification/mail-notification.c:895
+#: ../src/plugins/mail-notification/mail-notification.c:888
 msgid "Use sound _theme"
 msgstr "Використовувати звукову _тему"
 
-#: ../src/plugins/mail-notification/mail-notification.c:914
+#: ../src/plugins/mail-notification/mail-notification.c:907
 msgid "Play _file:"
 msgstr "Відтворювати _файл:"
 
-#: ../src/plugins/mail-notification/mail-notification.c:923
+#: ../src/plugins/mail-notification/mail-notification.c:916
 msgid "Select sound file"
 msgstr "Вибрати звуковий файл"
 
-#: ../src/plugins/mail-notification/mail-notification.c:1072
+#: ../src/plugins/mail-notification/mail-notification.c:1065
 msgid "Select _accounts for which enable notifications:"
 msgstr "Виберіть _облікові записи для увімкнення сповіщень:"
 
-#: ../src/plugins/mail-notification/mail-notification.c:1234
+#: ../src/plugins/mail-notification/mail-notification.c:1227
 #: ../src/plugins/mail-notification/org-gnome-mail-notification.eplug.xml.h:1
 msgid "Mail Notification"
 msgstr "Сповіщення про нову пошту"
 
-#: ../src/plugins/mail-notification/mail-notification.c:1248
+#: ../src/plugins/mail-notification/mail-notification.c:1241
 msgid "Notify new messages for _Inbox only"
 msgstr "Сповідати про нові повідомлення лише у теці _Inbox"
 
-#: ../src/plugins/mail-notification/mail-notification.c:1264
+#: ../src/plugins/mail-notification/mail-notification.c:1257
 msgid "Show _notification when a new message arrives"
 msgstr "Показує _сповіщення, коли приходить новий лист"
 
-#: ../src/plugins/mail-notification/mail-notification.c:1282
+#: ../src/plugins/mail-notification/mail-notification.c:1275
 msgid "Accounts"
 msgstr "Облікові записи"
 
