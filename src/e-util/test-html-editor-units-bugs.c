@@ -2191,6 +2191,119 @@ test_issue_1157 (TestFixture *fixture)
 		g_test_fail ();
 }
 
+static void
+test_issue_1365 (TestFixture *fixture)
+{
+	test_utils_fixture_change_setting_boolean (fixture, "org.gnome.evolution.mail", "composer-wrap-quoted-text-in-replies", TRUE);
+	test_utils_fixture_change_setting_int32 (fixture, "org.gnome.evolution.mail", "composer-word-wrap-length", 25);
+
+	if (!test_utils_process_commands (fixture,
+		"mode:plain\n")) {
+		g_test_fail ();
+		return;
+	}
+
+	test_utils_insert_content (fixture,
+		"<body><div>aa bb,</div>"
+		"<div><br></div>"
+		"<div>cc dd. &nbsp;ee ff.</div>"
+		"<div><br></div>"
+		"<div>xxxx:</div>"
+		"<div>123456789 1234 6789 123 56 89.<br><br></div>"
+		"<div class=\"gmail_quote\">yyy:</div>"
+		"<blockquote type=\"cite\" style=\"margin:0 0 0 .8ex; border-left:2px #729fcf solid;padding-left:1ex\">"
+		"<pre class=\"k9mail\">zz yy,<br>"
+		"<br>"
+		"xxx,<br>"
+		"www 123456789 12 456 89 123 567 9 12 456 89.<br>"
+		"<br>"
+		"vv,<br>"
+		" uu<br></pre>"
+		"<blockquote type=\"cite\" style=\"margin:0 0 0 .8ex; border-left:2px #729fcf solid;padding-left:1ex\">"
+		"<pre class=\"k9mail\">ZZ YY,<br>"
+		"<br>"
+		"XXX,<br>"
+		"WWW 987654321 98 654 21 987 543 1 98 654 21.<br>"
+		"<br>"
+		"VV,<br>"
+		" UU<br></pre>"
+		"</blockquote>"
+		"</blockquote>"
+		"<div><br></div>"
+		"<span class=\"-x-evo-to-body\" data-credits=\"Credits:\"></span>"
+		"<span class=\"-x-evo-cite-body\"></span></body>",
+		E_CONTENT_EDITOR_INSERT_REPLACE_ALL | E_CONTENT_EDITOR_INSERT_TEXT_HTML);
+
+	if (!test_utils_run_simple_test (fixture,
+		"",
+		HTML_PREFIX "<div style=\"width: 25ch;\">Credits:</div>"
+		"<blockquote type=\"cite\">"
+		"<div>" QUOTE_SPAN (QUOTE_CHR) "aa bb,</div>"
+		"<div>" QUOTE_SPAN (QUOTE_CHR) "<br></div>"
+		"<div>" QUOTE_SPAN (QUOTE_CHR) "cc dd. &nbsp;ee ff.</div>"
+		"<div>" QUOTE_SPAN (QUOTE_CHR) "<br></div>"
+		"<div>" QUOTE_SPAN (QUOTE_CHR) "xxxx:</div>"
+		"<div>" QUOTE_SPAN (QUOTE_CHR) "123456789 1234 6789 123<br class=\"-x-evo-wrap-br\">"
+			QUOTE_SPAN (QUOTE_CHR) "56 89.</div>"
+		"<div>" QUOTE_SPAN (QUOTE_CHR) "<br></div>"
+		"<div>" QUOTE_SPAN (QUOTE_CHR) "yyy:</div>"
+			"<blockquote type=\"cite\">"
+			"<div>" QUOTE_SPAN (QUOTE_CHR QUOTE_CHR) "zz yy,</div>"
+			"<div>" QUOTE_SPAN (QUOTE_CHR QUOTE_CHR) "<br></div>"
+			"<div>" QUOTE_SPAN (QUOTE_CHR QUOTE_CHR) "xxx,</div>"
+			"<div>" QUOTE_SPAN (QUOTE_CHR QUOTE_CHR) "www 123456789 12 456<br class=\"-x-evo-wrap-br\">"
+				QUOTE_SPAN (QUOTE_CHR QUOTE_CHR) "89 123 567 9 12 456<br class=\"-x-evo-wrap-br\">"
+				QUOTE_SPAN (QUOTE_CHR QUOTE_CHR) "89.</div>"
+			"<div>" QUOTE_SPAN (QUOTE_CHR QUOTE_CHR) "<br></div>"
+			"<div>" QUOTE_SPAN (QUOTE_CHR QUOTE_CHR) "vv,</div>"
+			"<div>" QUOTE_SPAN (QUOTE_CHR QUOTE_CHR) "&nbsp;uu</div>"
+			"<blockquote type=\"cite\">"
+			"<div>" QUOTE_SPAN (QUOTE_CHR QUOTE_CHR QUOTE_CHR) "ZZ YY,</div>"
+			"<div>" QUOTE_SPAN (QUOTE_CHR QUOTE_CHR QUOTE_CHR) "<br></div>"
+			"<div>" QUOTE_SPAN (QUOTE_CHR QUOTE_CHR QUOTE_CHR) "XXX,</div>"
+			"<div>" QUOTE_SPAN (QUOTE_CHR QUOTE_CHR QUOTE_CHR) "WWW 987654321 98<br class=\"-x-evo-wrap-br\">"
+				QUOTE_SPAN (QUOTE_CHR QUOTE_CHR QUOTE_CHR) "654 21 987 543 1 98<br class=\"-x-evo-wrap-br\">"
+				QUOTE_SPAN (QUOTE_CHR QUOTE_CHR QUOTE_CHR) "654 21.</div>"
+			"<div>" QUOTE_SPAN (QUOTE_CHR QUOTE_CHR QUOTE_CHR) "<br></div>"
+			"<div>" QUOTE_SPAN (QUOTE_CHR QUOTE_CHR QUOTE_CHR) "VV,</div>"
+			"<div>" QUOTE_SPAN (QUOTE_CHR QUOTE_CHR QUOTE_CHR) "&nbsp;UU</div>"
+			"</blockquote>"
+			"</blockquote>"
+		"<div>" QUOTE_SPAN (QUOTE_CHR) "<br></div>"
+		"</blockquote>"
+		HTML_SUFFIX,
+		"Credits:\n"
+		"> aa bb,\n"
+		"> \n"
+		"> cc dd. " UNICODE_NBSP "ee ff.\n"
+		"> \n"
+		"> xxxx:\n"
+		"> 123456789 1234 6789 123\n"
+		"> 56 89.\n"
+		"> \n"
+		"> yyy:\n"
+		"> > zz yy,\n"
+		"> > \n"
+		"> > xxx,\n"
+		"> > www 123456789 12 456\n"
+		"> > 89 123 567 9 12 456\n"
+		"> > 89.\n"
+		"> > \n"
+		"> > vv,\n"
+		"> > " UNICODE_NBSP "uu\n"
+		"> > > ZZ YY,\n"
+		"> > > \n"
+		"> > > XXX,\n"
+		"> > > WWW 987654321 98\n"
+		"> > > 654 21 987 543 1 98\n"
+		"> > > 654 21.\n"
+		"> > > \n"
+		"> > > VV,\n"
+		"> > > " UNICODE_NBSP "UU\n"
+		"> \n"))
+		g_test_fail ();
+}
+
 void
 test_add_html_editor_bug_tests (void)
 {
@@ -2230,4 +2343,5 @@ test_add_html_editor_bug_tests (void)
 	test_utils_add_test ("/issue/1214", test_issue_1214);
 	test_utils_add_test ("/issue/1330", test_issue_1330);
 	test_utils_add_test ("/issue/1157", test_issue_1157);
+	test_utils_add_test ("/issue/1365", test_issue_1365);
 }

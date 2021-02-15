@@ -5514,9 +5514,19 @@ EvoEditor.processLoadedContent = function()
 
 				EvoEditor.splitPreTexts(node, false, list);
 
-				if (node.tagName == "PRE") {
+				if (node.tagName == "PRE" || list.length > 0) {
+					var putInto = null;
+
+					if (node.tagName == "BLOCKQUOTE") {
+						putInto = node.cloneNode(false);
+						node.parentElement.insertBefore(putInto, node);
+					}
+
 					for (ii = 0; ii < list.length; ii++) {
-						node.parentElement.insertBefore(list[ii], node);
+						if (putInto === null)
+							node.parentElement.insertBefore(list[ii], node);
+						else
+							putInto.append(list[ii]);
 					}
 
 					node.remove();
