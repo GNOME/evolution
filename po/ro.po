@@ -13,8 +13,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: evolution.HEAD.ro\n"
 "Report-Msgid-Bugs-To: https://gitlab.gnome.org/GNOME/evolution/issues\n"
-"POT-Creation-Date: 2021-02-12 08:07+0000\n"
-"PO-Revision-Date: 2021-02-12 11:16+0100\n"
+"POT-Creation-Date: 2021-02-15 10:22+0000\n"
+"PO-Revision-Date: 2021-02-16 14:04+0100\n"
 "Last-Translator: Florentina Mușat <florentina.musat.28@gmail.com>\n"
 "Language-Team: Gnome Romanian Translation Team <gnomero-list@lists.sourceforge.net>\n"
 "Language: ro\n"
@@ -11384,12 +11384,12 @@ msgstr "Liste de sarcini"
 
 #: ../src/e-util/e-accounts-window.c:1399 ../src/e-util/filter.ui.h:23 ../src/mail/e-mail-account-tree-view.c:84
 #: ../src/modules/mail/em-composer-prefs.c:1303 ../src/modules/plugin-manager/evolution-plugin-manager.c:408
-#: ../src/plugins/mail-notification/mail-notification.c:1182 ../src/plugins/publish-calendar/publish-calendar.c:853
+#: ../src/plugins/mail-notification/mail-notification.c:1175 ../src/plugins/publish-calendar/publish-calendar.c:853
 msgid "Enabled"
 msgstr "Activat"
 
 #: ../src/e-util/e-accounts-window.c:1415 ../src/mail/e-mail-account-tree-view.c:108
-#: ../src/plugins/mail-notification/mail-notification.c:1198
+#: ../src/plugins/mail-notification/mail-notification.c:1191
 msgid "Account Name"
 msgstr "Nume cont"
 
@@ -15532,7 +15532,7 @@ msgstr "Trimitere mesaj"
 msgid "Disconnecting from “%s”"
 msgstr "Se deconectează de la „%s”"
 
-#: ../src/libemail-engine/e-mail-store-utils.c:264 ../src/mail/e-mail-backend.c:1048
+#: ../src/libemail-engine/e-mail-store-utils.c:264 ../src/mail/e-mail-backend.c:1055
 #, c-format
 msgid "Reconnecting to “%s”"
 msgstr "Se reconectează la „%s”"
@@ -23008,7 +23008,7 @@ msgstr "Directorul coadă de așteptare mbox nu poate fi gol"
 
 #: ../src/modules/mail-config/e-mail-config-remote-accounts.c:199
 #: ../src/modules/mail-config/e-mail-config-sendmail-backend.c:59 ../src/modules/mail-config/e-mail-config-smtp-backend.c:155
-#: ../src/modules/plugin-manager/evolution-plugin-manager.c:194 ../src/plugins/mail-notification/mail-notification.c:1278
+#: ../src/modules/plugin-manager/evolution-plugin-manager.c:194 ../src/plugins/mail-notification/mail-notification.c:1271
 msgid "Configuration"
 msgstr "Configurație"
 
@@ -24624,7 +24624,7 @@ msgstr ""
 "Antet: {0}"
 
 #. Translators: '%d' is the count of mails received.
-#: ../src/plugins/mail-notification/mail-notification.c:498
+#: ../src/plugins/mail-notification/mail-notification.c:500
 #, c-format
 msgid "You have received %d new message."
 msgid_plural "You have received %d new messages."
@@ -24632,23 +24632,30 @@ msgstr[0] "Ați primit %d mesaj nou."
 msgstr[1] "Ați primit %d mesaje noi."
 msgstr[2] "Ați primit %d de mesaje noi."
 
+#. Translators: The '%s' is replaced by the folder name, where a new
+#. * mail message arrived. Example: "Folder: On This Computer : Inbox"
+#: ../src/plugins/mail-notification/mail-notification.c:509
+#, c-format
+msgid "Folder: %s"
+msgstr "Dosar: %s"
+
 #. Translators: "From:" is preceding a new mail
 #. * sender address, like "From: user@example.com"
-#: ../src/plugins/mail-notification/mail-notification.c:507
+#: ../src/plugins/mail-notification/mail-notification.c:517
 #, c-format
 msgid "From: %s"
 msgstr "De la: %s"
 
 #. Translators: "Subject:" is preceding a new mail
 #. * subject, like "Subject: It happened again"
-#: ../src/plugins/mail-notification/mail-notification.c:521
+#: ../src/plugins/mail-notification/mail-notification.c:525
 #, c-format
 msgid "Subject: %s"
 msgstr "Subiect: %s"
 
 #. Translators: %d is the count of mails received in addition
 #. * to the one displayed in this notification.
-#: ../src/plugins/mail-notification/mail-notification.c:537
+#: ../src/plugins/mail-notification/mail-notification.c:536
 #, c-format
 msgid "(and %d more)"
 msgid_plural "(and %d more)"
@@ -24656,55 +24663,55 @@ msgstr[0] "(și %d mai mult)"
 msgstr[1] "(și %d mai multe)"
 msgstr[2] "(și %d mai multe)"
 
-#: ../src/plugins/mail-notification/mail-notification.c:549
+#: ../src/plugins/mail-notification/mail-notification.c:542
 msgid "New email in Evolution"
 msgstr "Email nou în Evolution"
 
 #. Translators: The '%s' is a mail
 #. * folder name.  (e.g. "Show Inbox")
-#: ../src/plugins/mail-notification/mail-notification.c:590
+#: ../src/plugins/mail-notification/mail-notification.c:583
 #, c-format
 msgid "Show %s"
 msgstr "Arată %s"
 
-#: ../src/plugins/mail-notification/mail-notification.c:850
+#: ../src/plugins/mail-notification/mail-notification.c:843
 msgid "_Play sound when a new message arrives"
 msgstr "_Redă un sunet când ajunge un mesaj nou"
 
-#: ../src/plugins/mail-notification/mail-notification.c:882
+#: ../src/plugins/mail-notification/mail-notification.c:875
 msgid "_Beep"
 msgstr "_Bip"
 
-#: ../src/plugins/mail-notification/mail-notification.c:895
+#: ../src/plugins/mail-notification/mail-notification.c:888
 msgid "Use sound _theme"
 msgstr "Utilizează _tema audio"
 
-#: ../src/plugins/mail-notification/mail-notification.c:914
+#: ../src/plugins/mail-notification/mail-notification.c:907
 msgid "Play _file:"
 msgstr "Redă _fișierul:"
 
-#: ../src/plugins/mail-notification/mail-notification.c:923
+#: ../src/plugins/mail-notification/mail-notification.c:916
 msgid "Select sound file"
 msgstr "Selectați un fișier sunet"
 
-#: ../src/plugins/mail-notification/mail-notification.c:1072
+#: ../src/plugins/mail-notification/mail-notification.c:1065
 msgid "Select _accounts for which enable notifications:"
 msgstr "Selectați _conturile pentru care să se activeze înștiințările:"
 
-#: ../src/plugins/mail-notification/mail-notification.c:1234
+#: ../src/plugins/mail-notification/mail-notification.c:1227
 #: ../src/plugins/mail-notification/org-gnome-mail-notification.eplug.xml.h:1
 msgid "Mail Notification"
 msgstr "Înștiințare mail"
 
-#: ../src/plugins/mail-notification/mail-notification.c:1248
+#: ../src/plugins/mail-notification/mail-notification.c:1241
 msgid "Notify new messages for _Inbox only"
 msgstr "Înștiințează mesaje noi doar pentru cutia de _intrare"
 
-#: ../src/plugins/mail-notification/mail-notification.c:1264
+#: ../src/plugins/mail-notification/mail-notification.c:1257
 msgid "Show _notification when a new message arrives"
 msgstr "Arată o î_nștiințare când ajunge un mesaj nou"
 
-#: ../src/plugins/mail-notification/mail-notification.c:1282
+#: ../src/plugins/mail-notification/mail-notification.c:1275
 msgid "Accounts"
 msgstr "Conturi"
 
