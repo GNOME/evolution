@@ -727,14 +727,22 @@ foreach_tzid_callback (ICalParameter *param,
                        gpointer data)
 {
 	ItipUtilTZData *tz_data = data;
-	const gchar *tzid;
 	ICalTimezone *zone = NULL;
-	ICalComponent *vtimezone_comp;
+	ICalComponent *vtimezone_comp, *tzcomp = NULL;
+	const gchar *tzid, *location;
+	gchar *tzid_dup = NULL;
 
 	/* Get the TZID string from the parameter. */
 	tzid = i_cal_parameter_get_tzid (param);
-	if (!tzid || g_hash_table_contains (tz_data->tzids, tzid))
+	if (!tzid)
 		return;
+
+	if (g_hash_table_contains (tz_data->tzids, tzid)) {
+		location = g_hash_table_lookup (tz_data->tzids, tzid);
+		if (location)
+			i_cal_parameter_set_tzid (param, location);
+		return;
+	}
 
 	/* Look for the timezone */
 	if (tz_data->zones != NULL)
@@ -752,9 +760,38 @@ foreach_tzid_callback (ICalParameter *param,
 	if (!vtimezone_comp)
 		return;
 
-	i_cal_component_take_component (
-		tz_data->icomp, i_cal_component_clone (vtimezone_comp));
-	g_hash_table_insert (tz_data->tzids, g_strdup (tzid), GINT_TO_POINTER (1));
+	location = i_cal_timezone_get_location (zone);
+	if (location && *location) {
+		ICalProperty *prop;
+
+		tzid_dup = g_strdup (tzid);
+		tzid = tzid_dup;
+
+		/* This frees the original 'tzid' */
+		i_cal_parameter_set_tzid (param, location);
+
+		if (g_hash_table_contains (tz_data->tzids, location)) {
+			g_object_unref (vtimezone_comp);
+			return;
+		}
+
+		tzcomp = i_cal_component_clone (vtimezone_comp);
+		prop = i_cal_component_get_first_property (tzcomp, I_CAL_TZID_PROPERTY);
+		if (prop) {
+			i_cal_property_set_tzid (prop, location);
+			g_object_unref (prop);
+		}
+
+		g_hash_table_insert (tz_data->tzids, g_strdup (location), NULL);
+	} else {
+		location = NULL;
+	}
+
+	if (!tzcomp)
+		tzcomp = i_cal_component_clone (vtimezone_comp);
+
+	i_cal_component_take_component (tz_data->icomp, tzcomp);
+	g_hash_table_insert (tz_data->tzids, tzid_dup ? tzid_dup : g_strdup (tzid), g_strdup (location));
 	g_object_unref (vtimezone_comp);
 }
 
