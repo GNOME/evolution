@@ -1460,20 +1460,20 @@ ecep_general_constructed (GObject *object)
 
 	page_general->priv->attendees_list_view = widget;
 
-	g_signal_connect (page_general->priv->attendees_list_view, "attendee-added",
-		G_CALLBACK (ecep_general_attendee_added_cb), page_general);
+	g_signal_connect_object (page_general->priv->attendees_list_view, "attendee-added",
+		G_CALLBACK (ecep_general_attendee_added_cb), page_general, 0);
 
-	g_signal_connect (page_general->priv->meeting_store, "row-changed",
-		G_CALLBACK (ecep_general_attendee_row_changed_cb), page_general);
+	g_signal_connect_object (page_general->priv->meeting_store, "row-changed",
+		G_CALLBACK (ecep_general_attendee_row_changed_cb), page_general, 0);
 
-	e_signal_connect_notify (page_general->priv->meeting_store, "notify::show-address",
-		G_CALLBACK (ecep_general_attendee_show_address_notify_cb), page_general);
+	e_signal_connect_notify_object (page_general->priv->meeting_store, "notify::show-address",
+		G_CALLBACK (ecep_general_attendee_show_address_notify_cb), page_general, 0);
 
-	g_signal_connect (page_general->priv->attendees_list_view, "event",
-		G_CALLBACK (ecep_general_list_view_event_cb), page_general);
+	g_signal_connect_object (page_general->priv->attendees_list_view, "event",
+		G_CALLBACK (ecep_general_list_view_event_cb), page_general, 0);
 
-	g_signal_connect (page_general->priv->attendees_list_view, "key_press_event",
-		G_CALLBACK (ecep_general_list_view_key_press_cb), page_general);
+	g_signal_connect_object (page_general->priv->attendees_list_view, "key_press_event",
+		G_CALLBACK (ecep_general_list_view_key_press_cb), page_general, 0);
 
 	widget = gtk_button_box_new (GTK_ORIENTATION_VERTICAL);
 	g_object_set (G_OBJECT (widget),
