@@ -811,7 +811,7 @@ comp_toplevel_with_zones (ICalPropertyMethod method,
 	prop = i_cal_property_new_method (method);
 	i_cal_component_take_property (top_level, prop);
 
-	tz_data.tzids = g_hash_table_new_full (g_str_hash, g_str_equal, g_free, NULL);
+	tz_data.tzids = g_hash_table_new_full (g_str_hash, g_str_equal, g_free, g_free);
 	tz_data.icomp = top_level;
 	tz_data.client = cal_client;
 	tz_data.zones = zones;
