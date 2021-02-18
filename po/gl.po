@@ -19,8 +19,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: evolution-master-po-gl-53747.merged\n"
 "Report-Msgid-Bugs-To: https://gitlab.gnome.org/GNOME/evolution/issues\n"
-"POT-Creation-Date: 2021-02-12 10:18+0000\n"
-"PO-Revision-Date: 2021-02-12 19:37+0100\n"
+"POT-Creation-Date: 2021-02-15 10:22+0000\n"
+"PO-Revision-Date: 2021-02-18 18:23+0100\n"
 "Last-Translator: Fran Dieguez <frandieguez@gnome.org>\n"
 "Language-Team: Galician <proxecto@trasno.gal>\n"
 "Language: gl\n"
@@ -12692,14 +12692,14 @@ msgstr "Lista de tarefas"
 #: ../src/mail/e-mail-account-tree-view.c:84
 #: ../src/modules/mail/em-composer-prefs.c:1303
 #: ../src/modules/plugin-manager/evolution-plugin-manager.c:408
-#: ../src/plugins/mail-notification/mail-notification.c:1182
+#: ../src/plugins/mail-notification/mail-notification.c:1175
 #: ../src/plugins/publish-calendar/publish-calendar.c:853
 msgid "Enabled"
 msgstr "Activado"
 
 #: ../src/e-util/e-accounts-window.c:1415
 #: ../src/mail/e-mail-account-tree-view.c:108
-#: ../src/plugins/mail-notification/mail-notification.c:1198
+#: ../src/plugins/mail-notification/mail-notification.c:1191
 msgid "Account Name"
 msgstr "Nome da conta"
 
@@ -16501,7 +16501,6 @@ msgstr "Produciuse un fallo eliminando a colección"
 
 #. Translators: It's 'order' as 'sorting order'
 #: ../src/e-util/e-webdav-browser.c:2566
-#| msgid "_Border:"
 msgid "_Order:"
 msgstr "_Orde:"
 
@@ -17043,7 +17042,7 @@ msgid "Disconnecting from “%s”"
 msgstr "Desconectándose de «%s»"
 
 #: ../src/libemail-engine/e-mail-store-utils.c:264
-#: ../src/mail/e-mail-backend.c:1048
+#: ../src/mail/e-mail-backend.c:1055
 #, c-format
 msgid "Reconnecting to “%s”"
 msgstr "Reconectándose a %s"
@@ -24979,7 +24978,7 @@ msgstr "O cartafol de correo Mbox non pode estar baleiro"
 #: ../src/modules/mail-config/e-mail-config-sendmail-backend.c:59
 #: ../src/modules/mail-config/e-mail-config-smtp-backend.c:155
 #: ../src/modules/plugin-manager/evolution-plugin-manager.c:194
-#: ../src/plugins/mail-notification/mail-notification.c:1278
+#: ../src/plugins/mail-notification/mail-notification.c:1271
 msgid "Configuration"
 msgstr "Configuración"
 
@@ -26683,85 +26682,93 @@ msgstr ""
 "Cabeceira: {0}"
 
 #. Translators: '%d' is the count of mails received.
-#: ../src/plugins/mail-notification/mail-notification.c:498
+#: ../src/plugins/mail-notification/mail-notification.c:500
 #, c-format
 msgid "You have received %d new message."
 msgid_plural "You have received %d new messages."
 msgstr[0] "Recibiu %d mensaxe nova."
 msgstr[1] "Recibiu %d mensaxes novas."
 
+#. Translators: The '%s' is replaced by the folder name, where a new
+#. * mail message arrived. Example: "Folder: On This Computer : Inbox"
+#: ../src/plugins/mail-notification/mail-notification.c:509
+#, c-format
+#| msgid "Folder"
+msgid "Folder: %s"
+msgstr "Cartafol: %s"
+
 #. Translators: "From:" is preceding a new mail
 #. * sender address, like "From: user@example.com"
-#: ../src/plugins/mail-notification/mail-notification.c:507
+#: ../src/plugins/mail-notification/mail-notification.c:517
 #, c-format
 msgid "From: %s"
 msgstr "De: %s"
 
 #. Translators: "Subject:" is preceding a new mail
 #. * subject, like "Subject: It happened again"
-#: ../src/plugins/mail-notification/mail-notification.c:521
+#: ../src/plugins/mail-notification/mail-notification.c:525
 #, c-format
 msgid "Subject: %s"
 msgstr "Asunto: %s"
 
 #. Translators: %d is the count of mails received in addition
 #. * to the one displayed in this notification.
-#: ../src/plugins/mail-notification/mail-notification.c:537
+#: ../src/plugins/mail-notification/mail-notification.c:536
 #, c-format
 msgid "(and %d more)"
 msgid_plural "(and %d more)"
 msgstr[0] "(e %d máis)"
 msgstr[1] "(e %d máis)"
 
-#: ../src/plugins/mail-notification/mail-notification.c:549
+#: ../src/plugins/mail-notification/mail-notification.c:542
 msgid "New email in Evolution"
 msgstr "Novo correo en Evolution"
 
 #. Translators: The '%s' is a mail
 #. * folder name.  (e.g. "Show Inbox")
-#: ../src/plugins/mail-notification/mail-notification.c:590
+#: ../src/plugins/mail-notification/mail-notification.c:583
 #, c-format
 msgid "Show %s"
 msgstr "Mostrar %s"
 
-#: ../src/plugins/mail-notification/mail-notification.c:850
+#: ../src/plugins/mail-notification/mail-notification.c:843
 msgid "_Play sound when a new message arrives"
 msgstr "Re_producir un son cando chegue correo novo"
 
-#: ../src/plugins/mail-notification/mail-notification.c:882
+#: ../src/plugins/mail-notification/mail-notification.c:875
 msgid "_Beep"
 msgstr "_Ton de aviso"
 
-#: ../src/plugins/mail-notification/mail-notification.c:895
+#: ../src/plugins/mail-notification/mail-notification.c:888
 msgid "Use sound _theme"
 msgstr "Usar un _tema sonoro"
 
-#: ../src/plugins/mail-notification/mail-notification.c:914
+#: ../src/plugins/mail-notification/mail-notification.c:907
 msgid "Play _file:"
 msgstr "Reproducir o _ficheiro:"
 
-#: ../src/plugins/mail-notification/mail-notification.c:923
+#: ../src/plugins/mail-notification/mail-notification.c:916
 msgid "Select sound file"
 msgstr "Seleccionar un ficheiro de son"
 
-#: ../src/plugins/mail-notification/mail-notification.c:1072
+#: ../src/plugins/mail-notification/mail-notification.c:1065
 msgid "Select _accounts for which enable notifications:"
 msgstr "Seleccione as _contas para as que activar as notificacións:"
 
-#: ../src/plugins/mail-notification/mail-notification.c:1234
+#: ../src/plugins/mail-notification/mail-notification.c:1227
 #: ../src/plugins/mail-notification/org-gnome-mail-notification.eplug.xml.h:1
 msgid "Mail Notification"
 msgstr "Notificación de correo"
 
-#: ../src/plugins/mail-notification/mail-notification.c:1248
+#: ../src/plugins/mail-notification/mail-notification.c:1241
 msgid "Notify new messages for _Inbox only"
 msgstr "Notificar as mensaxes novas só na caixa de _entrada"
 
-#: ../src/plugins/mail-notification/mail-notification.c:1264
+#: ../src/plugins/mail-notification/mail-notification.c:1257
 msgid "Show _notification when a new message arrives"
 msgstr "Mostrar _notificacións cando chegue correo novo"
 
-#: ../src/plugins/mail-notification/mail-notification.c:1282
+#: ../src/plugins/mail-notification/mail-notification.c:1275
 msgid "Accounts"
 msgstr "Contas"
 
