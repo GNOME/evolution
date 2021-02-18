@@ -617,6 +617,7 @@ refresh_queue_remove (EMeetingStore *store,
 		g_mutex_unlock (&priv->mutex);
 		g_ptr_array_free (qdata->call_backs, TRUE);
 		g_ptr_array_free (qdata->data, TRUE);
+		g_string_free (qdata->string, TRUE);
 		g_free (qdata);
 	}
 
@@ -1636,11 +1637,21 @@ typedef struct {
 	EMeetingStore *store;
 } FreeBusyAsyncData;
 
+static void
+free_busy_data_free (FreeBusyAsyncData *fbd)
+{
+	if (fbd) {
+		g_slist_free_full (fbd->users, g_free);
+		g_free (fbd->email);
+		g_slice_free (FreeBusyAsyncData, fbd);
+	}
+}
+
 #define USER_SUB   "%u"
 #define DOMAIN_SUB "%d"
 
-static gboolean
-freebusy_async (gpointer data)
+static gpointer
+freebusy_async_thread (gpointer data)
 {
 	FreeBusyAsyncData *fbd = data;
 	EMeetingAttendee *attendee = fbd->attendee;
@@ -1661,9 +1672,6 @@ freebusy_async (gpointer data)
 		priv->num_queries--;
 		g_mutex_unlock (&mutex);
 
-		g_slist_foreach (fbd->users, (GFunc) g_free, NULL);
-		g_slist_free (fbd->users);
-
 		if (fbd->fb_data != NULL) {
 			ECalComponent *comp = fbd->fb_data->data;
 			gchar *comp_str;
@@ -1672,14 +1680,16 @@ freebusy_async (gpointer data)
 			process_free_busy (fbd->qdata, comp_str);
 			g_free (comp_str);
 
-			return TRUE;
+			free_busy_data_free (fbd);
+			return NULL;
 		}
 	}
 
 	/* Look for fburl's of attendee with no free busy info on server */
 	if (!e_meeting_attendee_is_set_address (attendee)) {
 		process_callbacks (fbd->qdata);
-		return TRUE;
+		free_busy_data_free (fbd);
+		return NULL;
 	}
 
 	/* Check for free busy info on the default server */
@@ -1714,7 +1724,9 @@ freebusy_async (gpointer data)
 		process_callbacks (fbd->qdata);
 	}
 
-	return TRUE;
+	free_busy_data_free (fbd);
+
+	return NULL;
 }
 
 #undef USER_SUB
@@ -1761,7 +1773,7 @@ refresh_busy_periods (gpointer data)
 	/* We take a ref in case we get destroyed in the gui during a callback */
 	g_object_ref (qdata->store);
 
-	fbd = g_new0 (FreeBusyAsyncData, 1);
+	fbd = g_slice_new0 (FreeBusyAsyncData);
 	fbd->client = priv->client;
 	fbd->attendee = attendee;
 	fbd->users = NULL;
@@ -1809,17 +1821,17 @@ refresh_busy_periods (gpointer data)
 	store->priv->num_threads++;
 	g_mutex_unlock (&store->priv->mutex);
 
-	thread = g_thread_try_new (NULL, (GThreadFunc) freebusy_async, fbd, &error);
+	thread = g_thread_try_new (NULL, freebusy_async_thread, fbd, &error);
 	if (!thread) {
-		/* do clean up stuff here */
-		g_slist_foreach (fbd->users, (GFunc) g_free, NULL);
-		g_slist_free (fbd->users);
-		g_free (fbd->email);
+		free_busy_data_free (fbd);
+
 		priv->refresh_idle_id = 0;
 
 		g_mutex_lock (&store->priv->mutex);
 		store->priv->num_threads--;
 		g_mutex_unlock (&store->priv->mutex);
+
+		g_object_unref (store);
 
 		return FALSE;
 	}

@@ -866,6 +866,7 @@ ecepp_datetime_fill_widget (ECompEditorPropertyPart *property_part,
 		}
 
 		g_clear_object (&timezone_entry);
+		g_clear_object (&prop);
 	}
 
 	if (!value)

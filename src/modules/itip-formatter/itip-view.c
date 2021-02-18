@@ -5200,7 +5200,7 @@ update_attendee_status_icomp (ItipView *view,
 			      ICalComponent *icomp)
 {
 	ECalComponent *comp;
-	GSList *attendees;
+	GSList *attendees = NULL;
 	gboolean is_instance;
 
 	is_instance = e_cal_component_is_instance (view->priv->comp);
@@ -5345,6 +5345,7 @@ update_attendee_status_icomp (ItipView *view,
 		view);
 
  cleanup:
+	g_slist_free_full (attendees, e_cal_component_attendee_free);
 	g_object_unref (comp);
 }
 

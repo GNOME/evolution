@@ -200,6 +200,7 @@ ecep_recurrence_update_preview (ECompEditorPageRecurrence *page_recurrence)
 
 			dt = i_cal_component_get_dtstart (icomp);
 			zone = i_cal_time_get_timezone (dt);
+			g_object_unref (dt);
 		}
 
 		if (!zone)

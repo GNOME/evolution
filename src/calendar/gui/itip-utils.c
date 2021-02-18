@@ -191,6 +191,8 @@ itip_get_user_identities (ESourceRegistry *registry)
 					g_ptr_array_add (identities, camel_internet_address_format_address (alias_name, alias_address));
 				}
 			}
+
+			g_object_unref (inet_address);
 		}
 
 		g_free (aliases);
@@ -398,6 +400,7 @@ itip_has_any_attendees (ECalComponent *comp)
 				  itip_strip_mailto (e_cal_component_organizer_get_value (organizer))) != 0);
 
 	g_slist_free_full (attendees, e_cal_component_attendee_free);
+	e_cal_component_organizer_free (organizer);
 
 	return res;
 }

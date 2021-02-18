@@ -959,6 +959,8 @@ ecep_general_fill_widgets (ECompEditorPage *page,
 			g_clear_object (&comp_editor);
 			g_free (value);
 		}
+
+		g_object_unref (prop);
 	}
 
 	attendees_list_view = E_MEETING_LIST_VIEW (page_general->priv->attendees_list_view);

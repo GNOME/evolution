@@ -1397,6 +1397,8 @@ e_comp_editor_prompt_and_save_changes (ECompEditor *comp_editor,
 
 		ece_save_component (comp_editor, component, with_send, TRUE);
 
+		g_clear_object (&component);
+
 		return FALSE;
 	case GTK_RESPONSE_NO: /* Discard */
 		return TRUE;
