@@ -1315,20 +1315,21 @@ itip_view_rebuild_source_list (ItipView *view)
 	for (link = list; link != NULL; link = g_list_next (link)) {
 		ESource *source = E_SOURCE (link->data);
 		ESource *parent;
+		const gchar *uid;
 
-		parent = e_source_registry_ref_source (
-			registry, e_source_get_parent (source));
+		uid = e_source_get_parent (source);
+		parent = uid ? e_source_registry_ref_source (registry, uid) : NULL;
 
 		e_web_view_jsc_printf_script_gstring (script,
 			"EvoItip.AddToSourceList(%s, %s, %s, %s, %s, %x);",
 			view->priv->part_id,
-			e_source_get_uid (parent),
-			e_source_get_display_name (parent),
+			parent ? e_source_get_uid (parent) : "",
+			parent ? e_source_get_display_name (parent) : "",
 			e_source_get_uid (source),
 			e_source_get_display_name (source),
 			e_source_get_writable (source));
 
-		g_object_unref (parent);
+		g_clear_object (&parent);
 	}
 
 	e_web_view_jsc_run_script_take (WEBKIT_WEB_VIEW (web_view), g_string_free (script, FALSE),
