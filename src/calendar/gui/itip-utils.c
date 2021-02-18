@@ -720,6 +720,8 @@ typedef struct {
 	ICalComponent *icomp;
 	ECalClient *client;
 	ICalComponent *zones;
+	ICalTime *clamp_vtimezone_from;
+	ICalTime *clamp_vtimezone_to;
 } ItipUtilTZData;
 
 static void
@@ -790,6 +792,9 @@ foreach_tzid_callback (ICalParameter *param,
 	if (!tzcomp)
 		tzcomp = i_cal_component_clone (vtimezone_comp);
 
+	if (tz_data->clamp_vtimezone_from)
+		e_cal_util_clamp_vtimezone (tzcomp, tz_data->clamp_vtimezone_from, tz_data->clamp_vtimezone_to);
+
 	i_cal_component_take_component (tz_data->icomp, tzcomp);
 	g_hash_table_insert (tz_data->tzids, tzid_dup ? tzid_dup : g_strdup (tzid), g_strdup (location));
 	g_object_unref (vtimezone_comp);
@@ -804,7 +809,10 @@ comp_toplevel_with_zones (ICalPropertyMethod method,
 	ICalComponent *top_level, *icomp;
 	ICalProperty *prop;
 	ItipUtilTZData tz_data;
+	ECalComponentDateTime *dt;
 	GSList *link;
+
+	g_return_val_if_fail (ecomps != NULL, NULL);
 
 	top_level = e_cal_util_new_top_level ();
 
@@ -815,6 +823,26 @@ comp_toplevel_with_zones (ICalPropertyMethod method,
 	tz_data.icomp = top_level;
 	tz_data.client = cal_client;
 	tz_data.zones = zones;
+	tz_data.clamp_vtimezone_from = NULL;
+	tz_data.clamp_vtimezone_to = NULL;
+
+	dt = e_cal_component_get_dtstart (ecomps->data);
+	if (dt && e_cal_component_datetime_get_value (dt))
+		tz_data.clamp_vtimezone_from = i_cal_time_clone (e_cal_component_datetime_get_value (dt));
+	e_cal_component_datetime_free (dt);
+
+	if (tz_data.clamp_vtimezone_from && !ecomps->next &&
+	    !e_cal_component_has_rrules (ecomps->data)) {
+		dt = e_cal_component_get_dtend (ecomps->data);
+
+		if (dt && e_cal_component_datetime_get_value (dt))
+			tz_data.clamp_vtimezone_to = i_cal_time_clone (e_cal_component_datetime_get_value (dt));
+
+		if (!tz_data.clamp_vtimezone_to)
+			tz_data.clamp_vtimezone_to = g_object_ref (tz_data.clamp_vtimezone_from);
+
+		e_cal_component_datetime_free (dt);
+	}
 
 	for (link = (GSList *) ecomps; link; link = g_slist_next (link)) {
 		icomp = e_cal_component_get_icalcomponent (link->data);
@@ -826,6 +854,8 @@ comp_toplevel_with_zones (ICalPropertyMethod method,
 	}
 
 	g_hash_table_destroy (tz_data.tzids);
+	g_clear_object (&tz_data.clamp_vtimezone_from);
+	g_clear_object (&tz_data.clamp_vtimezone_to);
 
 	return top_level;
 }
