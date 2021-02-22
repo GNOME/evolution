@@ -832,8 +832,46 @@ mail_ui_session_authenticate_sync (CamelSession *session,
 	/* If the SASL mechanism does not involve a user
 	 * password, then it gets one shot to authenticate. */
 	if (authtype != NULL && !authtype->need_password) {
-		result = camel_service_authenticate_sync (
-			service, mechanism, cancellable, error);
+		result = camel_service_authenticate_sync (service, mechanism, cancellable, &local_error);
+
+		if ((result == CAMEL_AUTHENTICATION_REJECTED ||
+		    g_error_matches (local_error, CAMEL_SERVICE_ERROR, CAMEL_SERVICE_ERROR_CANT_AUTHENTICATE)) &&
+		    e_oauth2_services_is_oauth2_alias (e_source_registry_get_oauth2_services (registry), mechanism)) {
+			EShell *shell;
+			ECredentialsPrompter *credentials_prompter;
+			TryCredentialsData data;
+
+			g_clear_error (&local_error);
+
+			shell = e_shell_get_default ();
+			credentials_prompter = e_shell_get_credentials_prompter (shell);
+
+			/* Find a matching ESource for this CamelService. */
+			uid = camel_service_get_uid (service);
+			source = e_source_registry_ref_source (registry, uid);
+
+			if (!source) {
+				g_set_error (
+					error, CAMEL_SERVICE_ERROR,
+					CAMEL_SERVICE_ERROR_CANT_AUTHENTICATE,
+					_("No data source found for UID “%s”"), uid);
+				return FALSE;
+			}
+
+			data.service = service;
+			data.mechanism = mechanism;
+
+			if (e_credentials_prompter_loop_prompt_sync (credentials_prompter,
+				source, E_CREDENTIALS_PROMPTER_PROMPT_FLAG_ALLOW_SOURCE_SAVE,
+				mail_ui_session_try_credentials_sync, &data, cancellable, &local_error))
+				result = CAMEL_AUTHENTICATION_ACCEPTED;
+			else
+				result = CAMEL_AUTHENTICATION_ERROR;
+		}
+
+		if (local_error)
+			g_propagate_error (error, local_error);
+
 		if (result == CAMEL_AUTHENTICATION_REJECTED)
 			g_set_error (
 				error, CAMEL_SERVICE_ERROR,
