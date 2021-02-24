@@ -13,8 +13,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: 3.12\n"
 "Report-Msgid-Bugs-To: https://gitlab.gnome.org/GNOME/evolution/issues\n"
-"POT-Creation-Date: 2021-02-12 10:18+0000\n"
-"PO-Revision-Date: 2021-02-12 16:38+0000\n"
+"POT-Creation-Date: 2021-02-15 10:22+0000\n"
+"PO-Revision-Date: 2021-02-24 18:26+0000\n"
 "Last-Translator: Hugo Carvalho <hugokarvalho@hotmail.com>\n"
 "Language-Team: Portuguese <https://l10n.gnome.org/teams/pt/>\n"
 "Language: pt\n"
@@ -22,7 +22,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
-"X-Generator: Poedit 2.4.2\n"
+"X-Generator: Poedit 2.4.1\n"
 "X-Language: pt_PT\n"
 "X-Source-Language: C\n"
 "X-Project-Style: gnome\n"
@@ -9606,7 +9606,7 @@ msgstr "Informação de livre/ocupado (%s para %s)"
 
 #: ../src/calendar/gui/itip-utils.c:1350
 msgid "iCalendar information"
-msgstr "Informação de iCalendar"
+msgstr "Informação do iCalendar"
 
 #: ../src/calendar/gui/itip-utils.c:1379
 #, c-format
@@ -12651,14 +12651,14 @@ msgstr "Lista de tarefas"
 #: ../src/mail/e-mail-account-tree-view.c:84
 #: ../src/modules/mail/em-composer-prefs.c:1303
 #: ../src/modules/plugin-manager/evolution-plugin-manager.c:408
-#: ../src/plugins/mail-notification/mail-notification.c:1182
+#: ../src/plugins/mail-notification/mail-notification.c:1175
 #: ../src/plugins/publish-calendar/publish-calendar.c:853
 msgid "Enabled"
 msgstr "Ativo"
 
 #: ../src/e-util/e-accounts-window.c:1415
 #: ../src/mail/e-mail-account-tree-view.c:108
-#: ../src/plugins/mail-notification/mail-notification.c:1198
+#: ../src/plugins/mail-notification/mail-notification.c:1191
 msgid "Account Name"
 msgstr "Nome de conta"
 
@@ -16994,7 +16994,7 @@ msgid "Disconnecting from “%s”"
 msgstr "A desligar de “%s”"
 
 #: ../src/libemail-engine/e-mail-store-utils.c:264
-#: ../src/mail/e-mail-backend.c:1048
+#: ../src/mail/e-mail-backend.c:1055
 #, c-format
 msgid "Reconnecting to “%s”"
 msgstr "A estabelecer nova ligação a “%s”"
@@ -24922,7 +24922,7 @@ msgstr "A pasta de spool Mbox não pode estar vazia"
 #: ../src/modules/mail-config/e-mail-config-sendmail-backend.c:59
 #: ../src/modules/mail-config/e-mail-config-smtp-backend.c:155
 #: ../src/modules/plugin-manager/evolution-plugin-manager.c:194
-#: ../src/plugins/mail-notification/mail-notification.c:1278
+#: ../src/plugins/mail-notification/mail-notification.c:1271
 msgid "Configuration"
 msgstr "Configuração"
 
@@ -26627,85 +26627,92 @@ msgstr ""
 "Cabeçalho: {0}"
 
 #. Translators: '%d' is the count of mails received.
-#: ../src/plugins/mail-notification/mail-notification.c:498
+#: ../src/plugins/mail-notification/mail-notification.c:500
 #, c-format
 msgid "You have received %d new message."
 msgid_plural "You have received %d new messages."
 msgstr[0] "Recebeu %d mensagem nova."
 msgstr[1] "Recebeu %d mensagens novas."
 
+#. Translators: The '%s' is replaced by the folder name, where a new
+#. * mail message arrived. Example: "Folder: On This Computer : Inbox"
+#: ../src/plugins/mail-notification/mail-notification.c:509
+#, c-format
+msgid "Folder: %s"
+msgstr "Pasta: %s"
+
 #. Translators: "From:" is preceding a new mail
 #. * sender address, like "From: user@example.com"
-#: ../src/plugins/mail-notification/mail-notification.c:507
+#: ../src/plugins/mail-notification/mail-notification.c:517
 #, c-format
 msgid "From: %s"
 msgstr "De: %s"
 
 #. Translators: "Subject:" is preceding a new mail
 #. * subject, like "Subject: It happened again"
-#: ../src/plugins/mail-notification/mail-notification.c:521
+#: ../src/plugins/mail-notification/mail-notification.c:525
 #, c-format
 msgid "Subject: %s"
 msgstr "Assunto: %s"
 
 #. Translators: %d is the count of mails received in addition
 #. * to the one displayed in this notification.
-#: ../src/plugins/mail-notification/mail-notification.c:537
+#: ../src/plugins/mail-notification/mail-notification.c:536
 #, c-format
 msgid "(and %d more)"
 msgid_plural "(and %d more)"
 msgstr[0] "(e %d a mais)"
 msgstr[1] "(e mais %d)"
 
-#: ../src/plugins/mail-notification/mail-notification.c:549
+#: ../src/plugins/mail-notification/mail-notification.c:542
 msgid "New email in Evolution"
 msgstr "Nova mensagem no Evolution"
 
 #. Translators: The '%s' is a mail
 #. * folder name.  (e.g. "Show Inbox")
-#: ../src/plugins/mail-notification/mail-notification.c:590
+#: ../src/plugins/mail-notification/mail-notification.c:583
 #, c-format
 msgid "Show %s"
 msgstr "Mostrar %s"
 
-#: ../src/plugins/mail-notification/mail-notification.c:850
+#: ../src/plugins/mail-notification/mail-notification.c:843
 msgid "_Play sound when a new message arrives"
 msgstr "_Reproduzir um som ao chegar uma nova mensagem"
 
-#: ../src/plugins/mail-notification/mail-notification.c:882
+#: ../src/plugins/mail-notification/mail-notification.c:875
 msgid "_Beep"
 msgstr "_Beep"
 
-#: ../src/plugins/mail-notification/mail-notification.c:895
+#: ../src/plugins/mail-notification/mail-notification.c:888
 msgid "Use sound _theme"
 msgstr "_Utilizar tema de som"
 
-#: ../src/plugins/mail-notification/mail-notification.c:914
+#: ../src/plugins/mail-notification/mail-notification.c:907
 msgid "Play _file:"
 msgstr "Reproduzir _ficheiro:"
 
-#: ../src/plugins/mail-notification/mail-notification.c:923
+#: ../src/plugins/mail-notification/mail-notification.c:916
 msgid "Select sound file"
 msgstr "Selecione um ficheiro de som"
 
-#: ../src/plugins/mail-notification/mail-notification.c:1072
+#: ../src/plugins/mail-notification/mail-notification.c:1065
 msgid "Select _accounts for which enable notifications:"
 msgstr "Selecione as contas para as quais ativar as notificações:"
 
-#: ../src/plugins/mail-notification/mail-notification.c:1234
+#: ../src/plugins/mail-notification/mail-notification.c:1227
 #: ../src/plugins/mail-notification/org-gnome-mail-notification.eplug.xml.h:1
 msgid "Mail Notification"
 msgstr "Notificação de nova mensagem"
 
-#: ../src/plugins/mail-notification/mail-notification.c:1248
+#: ../src/plugins/mail-notification/mail-notification.c:1241
 msgid "Notify new messages for _Inbox only"
 msgstr "Só notificar sobre mensagens novas na caixa de _Entrada"
 
-#: ../src/plugins/mail-notification/mail-notification.c:1264
+#: ../src/plugins/mail-notification/mail-notification.c:1257
 msgid "Show _notification when a new message arrives"
 msgstr "Mostrar uma _notificação ao chegar uma nova mensagem"
 
-#: ../src/plugins/mail-notification/mail-notification.c:1282
+#: ../src/plugins/mail-notification/mail-notification.c:1275
 msgid "Accounts"
 msgstr "Contas"
 
@@ -29653,9 +29660,6 @@ msgstr "Certificado importado"
 
 #~ msgid "Close current tab"
 #~ msgstr "Fechar o separador atual"
-
-#~ msgid "Folder '%s'"
-#~ msgstr "Pasta \"%s\""
 
 #~ msgid "Failed to load part '%s'"
 #~ msgstr "Falha ao ler a parte \"%s\""
