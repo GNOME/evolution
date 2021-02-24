@@ -3443,20 +3443,20 @@ message_list_depth (ETreeModel *tree_model,
 {
 	guint depth;
 
-	depth = g_node_depth ((GNode *) path);
+	if (message_list_get_thread_compress (MESSAGE_LIST (tree_model))) {
+		GNode *node = ((GNode *) path);
 
-	if (depth > 1 && message_list_get_thread_compress (MESSAGE_LIST (tree_model))) {
-		GNode *node = ((GNode *) path)->parent;
+		depth = 1;
 
 		while (node && !G_NODE_IS_ROOT (node)) {
-			if (G_NODE_IS_ROOT (node->parent))
-				break;
-
-			if (!node->prev && !node->next)
-				depth--;
+			if (!node->children || node->prev || node->next || G_NODE_IS_ROOT (node->parent) ||
+			    (node->parent && (node->parent->prev || node->parent->next || G_NODE_IS_ROOT (node->parent->parent))))
+				depth++;
 
 			node = node->parent;
 		}
+	} else {
+		depth = g_node_depth ((GNode *) path);
 	}
 
 	return depth;
