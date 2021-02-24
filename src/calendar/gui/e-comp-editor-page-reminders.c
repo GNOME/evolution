@@ -184,15 +184,36 @@ ecep_reminders_sanitize_option_widgets (ECompEditorPageReminders *page_reminders
 	gboolean any_selected;
 	gboolean is_custom;
 	gboolean sensitive;
+	gboolean can_only_one = FALSE;
+	gint n_defined;
 
 	g_return_if_fail (E_IS_COMP_EDITOR_PAGE_REMINDERS (page_reminders));
 
 	any_selected = gtk_tree_selection_count_selected_rows (gtk_tree_view_get_selection (
 		GTK_TREE_VIEW (page_reminders->priv->alarms_tree_view))) > 0;
 	is_custom = ecep_reminders_get_alarm_index (GTK_COMBO_BOX (page_reminders->priv->alarms_combo)) == -2;
+	n_defined = gtk_tree_model_iter_n_children (gtk_tree_view_get_model (
+		GTK_TREE_VIEW (page_reminders->priv->alarms_tree_view)), NULL);
+
+	if (n_defined >= 1) {
+		ECompEditor *comp_editor;
+
+		comp_editor = e_comp_editor_page_ref_editor (E_COMP_EDITOR_PAGE (page_reminders));
+
+		if (comp_editor) {
+			ECalClient *target_client;
+
+			target_client = e_comp_editor_get_target_client (comp_editor);
+
+			if (target_client)
+				can_only_one = e_cal_client_check_one_alarm_only (target_client);
+
+			g_object_unref (comp_editor);
+		}
+	}
 
 	gtk_widget_set_sensitive (page_reminders->priv->alarms_tree_view, is_custom);
-	gtk_widget_set_sensitive (page_reminders->priv->alarms_add_button, is_custom);
+	gtk_widget_set_sensitive (page_reminders->priv->alarms_add_button, is_custom && (n_defined < 1 || !can_only_one));
 	gtk_widget_set_sensitive (page_reminders->priv->alarms_remove_button, any_selected && is_custom);
 
 	gtk_widget_set_visible (page_reminders->priv->alarm_setup_hbox, any_selected && is_custom);
