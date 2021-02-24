@@ -2304,6 +2304,30 @@ test_issue_1365 (TestFixture *fixture)
 		g_test_fail ();
 }
 
+static void
+test_issue_1344 (TestFixture *fixture)
+{
+	if (!test_utils_run_simple_test (fixture,
+		"mode:plain\n"
+		"type:\\n\\na\\nb\\n\n"
+		"seq:Chcd\n"
+		"action:style-list-bullet\n"
+		"type:c\n",
+		HTML_PREFIX
+		"<div style=\"width: 71ch;\"><br></div>"
+		"<ul style=\"width: 68ch;\"><li>c</li></ul>"
+		"<div style=\"width: 71ch;\">a</div>"
+		"<div style=\"width: 71ch;\">b</div>"
+		"<div style=\"width: 71ch;\"><br></div>"
+		HTML_SUFFIX,
+		"\n"
+		" * c\n"
+		"a\n"
+		"b\n"
+		"\n"))
+		g_test_fail ();
+}
+
 void
 test_add_html_editor_bug_tests (void)
 {
@@ -2344,4 +2368,5 @@ test_add_html_editor_bug_tests (void)
 	test_utils_add_test ("/issue/1330", test_issue_1330);
 	test_utils_add_test ("/issue/1157", test_issue_1157);
 	test_utils_add_test ("/issue/1365", test_issue_1365);
+	test_utils_add_test ("/issue/1344", test_issue_1344);
 }

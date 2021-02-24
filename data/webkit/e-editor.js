@@ -595,7 +595,7 @@ EvoEditor.ClaimAffectedContent = function(startNode, endNode, flags)
 	var commonParent, startChild, endChild;
 	var firstChildIndex = -1, html = "", ii;
 	var withHtml = (flags & EvoEditor.CLAIM_CONTENT_FLAG_SAVE_HTML) != 0;
-	var currentElemsArray = null;
+	var currentElemsArray = null, fromSelection = false;
 
 	if (!startNode) {
 		startNode = document.getSelection().anchorNode;
@@ -604,6 +604,8 @@ EvoEditor.ClaimAffectedContent = function(startNode, endNode, flags)
 		if (!startNode) {
 			startNode = document.body;
 		}
+
+		fromSelection = true;
 	}
 
 	if (!endNode) {
@@ -613,7 +615,8 @@ EvoEditor.ClaimAffectedContent = function(startNode, endNode, flags)
 			endNode = startNode;
 	}
 
-	if ((flags & EvoEditor.CLAIM_CONTENT_FLAG_USE_PARENT_BLOCK_NODE) != 0) {
+	if ((flags & EvoEditor.CLAIM_CONTENT_FLAG_USE_PARENT_BLOCK_NODE) != 0 && (
+	    !fromSelection || !EvoEditor.IsBlockNode(startNode))) {
 		if (startNode && !(startNode === document.body)) {
 			startNode = startNode.parentElement;
 		}
