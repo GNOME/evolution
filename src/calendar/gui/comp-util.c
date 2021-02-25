@@ -299,6 +299,34 @@ cal_comp_is_icalcomp_on_server_sync (ICalComponent *icomp,
 	return on_server;
 }
 
+static ECalComponent *
+cal_comp_util_ref_default_object (ECalClient *client,
+				  ICalComponentKind icomp_kind,
+				  ECalComponentVType ecomp_vtype,
+				  GCancellable *cancellable,
+				  GError **error)
+{
+	ICalComponent *icomp = NULL;
+	ECalComponent *comp;
+
+	/* Simply ignore errors here */
+	if (client && !e_cal_client_get_default_object_sync (client, &icomp, cancellable, NULL))
+		icomp = NULL;
+
+	if (!icomp)
+		icomp = i_cal_component_new (icomp_kind);
+
+	comp = e_cal_component_new ();
+
+	if (!e_cal_component_set_icalcomponent (comp, icomp)) {
+		g_clear_object (&icomp);
+
+		e_cal_component_set_new_vtype (comp, ecomp_vtype);
+	}
+
+	return comp;
+}
+
 /**
  * cal_comp_event_new_with_defaults_sync:
  *
@@ -316,25 +344,16 @@ cal_comp_event_new_with_defaults_sync (ECalClient *client,
 				       GCancellable *cancellable,
 				       GError **error)
 {
-	ICalComponent *icomp = NULL;
 	ECalComponent *comp;
 	ECalComponentAlarm *alarm;
 	ICalProperty *prop;
 	ICalDuration *duration;
 	ECalComponentAlarmTrigger *trigger;
 
-	if (client && !e_cal_client_get_default_object_sync (client, &icomp, cancellable, error))
+	comp = cal_comp_util_ref_default_object (client, I_CAL_VEVENT_COMPONENT, E_CAL_COMPONENT_EVENT, cancellable, error);
+
+	if (!comp)
 		return NULL;
-
-	if (!icomp)
-		icomp = i_cal_component_new (I_CAL_VEVENT_COMPONENT);
-
-	comp = e_cal_component_new ();
-	if (!e_cal_component_set_icalcomponent (comp, icomp)) {
-		g_clear_object (&icomp);
-
-		e_cal_component_set_new_vtype (comp, E_CAL_COMPONENT_EVENT);
-	}
 
 	if (all_day || !use_default_reminder)
 		return comp;
@@ -435,20 +454,8 @@ cal_comp_task_new_with_defaults_sync (ECalClient *client,
 				      GError **error)
 {
 	ECalComponent *comp;
-	ICalComponent *icomp = NULL;
 
-	if (client && !e_cal_client_get_default_object_sync (client, &icomp, cancellable, error))
-		return NULL;
-
-	if (!icomp)
-		icomp = i_cal_component_new (I_CAL_VTODO_COMPONENT);
-
-	comp = e_cal_component_new ();
-	if (!e_cal_component_set_icalcomponent (comp, icomp)) {
-		g_object_unref (icomp);
-
-		e_cal_component_set_new_vtype (comp, E_CAL_COMPONENT_TODO);
-	}
+	comp = cal_comp_util_ref_default_object (client, I_CAL_VTODO_COMPONENT, E_CAL_COMPONENT_TODO, cancellable, error);
 
 	return comp;
 }
@@ -459,20 +466,8 @@ cal_comp_memo_new_with_defaults_sync (ECalClient *client,
 				      GError **error)
 {
 	ECalComponent *comp;
-	ICalComponent *icomp = NULL;
 
-	if (client && !e_cal_client_get_default_object_sync (client, &icomp, cancellable, error))
-		return NULL;
-
-	if (!icomp)
-		icomp = i_cal_component_new (I_CAL_VJOURNAL_COMPONENT);
-
-	comp = e_cal_component_new ();
-	if (!e_cal_component_set_icalcomponent (comp, icomp)) {
-		g_object_unref (icomp);
-
-		e_cal_component_set_new_vtype (comp, E_CAL_COMPONENT_JOURNAL);
-	}
+	comp = cal_comp_util_ref_default_object (client, I_CAL_VJOURNAL_COMPONENT, E_CAL_COMPONENT_JOURNAL, cancellable, error);
 
 	return comp;
 }
