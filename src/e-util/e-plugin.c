@@ -472,6 +472,33 @@ plugin_hook_load_subclass (GType type,
 	g_hash_table_insert (hash_table, key, hook_class);
 }
 
+static void
+e_plugin_traverse_directory (const gchar *dirname,
+			     gint index)
+{
+	GDir *dir;
+	const gchar *d;
+
+	pd (printf ("scanning plugin dir '%s'\n", dirname));
+
+	dir = g_dir_open (dirname, 0, NULL);
+
+	if (!dir)
+		return;
+
+	while ((d = g_dir_read_name (dir))) {
+		if (g_str_has_suffix  (d, ".eplug")) {
+			gchar *name;
+
+			name = g_build_filename (dirname, d, NULL);
+			ep_load (name, index);
+			g_free (name);
+		}
+	}
+
+	g_dir_close (dir);
+}
+
 /**
  * e_plugin_load_plugins:
  *
@@ -484,6 +511,7 @@ gint
 e_plugin_load_plugins (void)
 {
 	GSettings *settings;
+	GPtrArray *variants;
 	gchar **strv;
 	gint i;
 
@@ -511,31 +539,25 @@ e_plugin_load_plugins (void)
 	g_strfreev (strv);
 	g_object_unref (settings);
 
+	variants = e_util_get_directory_variants (EVOLUTION_PLUGINDIR, EVOLUTION_PREFIX, TRUE);
+
 	for (i = 0; i < 3; i++) {
-		GDir *dir;
-		const gchar *d;
-		const gchar *path = EVOLUTION_PLUGINDIR;
+		if (variants) {
+			guint jj;
 
-		pd (printf ("scanning plugin dir '%s'\n", path));
+			for (jj = 0; jj < variants->len; jj++) {
+				const gchar *dirname = g_ptr_array_index (variants, jj);
 
-		dir = g_dir_open (path, 0, NULL);
-		if (dir == NULL) {
-			/*g_warning("Could not find plugin path: %s", path);*/
-			continue;
-		}
-
-		while ((d = g_dir_read_name (dir))) {
-			if (g_str_has_suffix  (d, ".eplug")) {
-				gchar *name;
-
-				name = g_build_filename (path, d, NULL);
-				ep_load (name, i);
-				g_free (name);
+				if (dirname && *dirname)
+					e_plugin_traverse_directory (dirname, i);
 			}
+		} else {
+			e_plugin_traverse_directory (EVOLUTION_PLUGINDIR, i);
 		}
-
-		g_dir_close (dir);
 	}
+
+	if (variants)
+		g_ptr_array_unref (variants);
 
 	return 0;
 }

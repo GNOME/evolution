@@ -133,6 +133,7 @@ target_compile_definitions(evolution PRIVATE
 	-DEVOLUTION_ICONDIR=\"${icondir}\"
 	-DEVOLUTION_ICONDIR_IN_PREFIX=\"${SHARE_INSTALL_PREFIX}/icons\"
 	-DEVOLUTION_MODULEDIR=\"${moduledir}\"
+	-DEVOLUTION_PREFIX=\"${CMAKE_INSTALL_PREFIX}\"
 	-DEVOLUTION_RULEDIR=\"${privdatadir}\"
 	-DEVOLUTION_TOOLSDIR=\"${privlibexecdir}\"
 )

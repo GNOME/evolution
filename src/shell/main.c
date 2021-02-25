@@ -407,7 +407,7 @@ create_default_shell (void)
 	}
 
 	/* Load all shared library modules. */
-	module_types = e_module_load_all_in_directory (EVOLUTION_MODULEDIR);
+	module_types = e_module_load_all_in_directory_and_prefixes (EVOLUTION_MODULEDIR, EVOLUTION_PREFIX);
 	g_list_free_full (module_types, (GDestroyNotify) g_type_module_unuse);
 
 	flags = G_APPLICATION_HANDLES_OPEN |

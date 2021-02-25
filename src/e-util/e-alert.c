@@ -308,13 +308,37 @@ e_alert_load (const gchar *path)
 }
 
 static void
-e_alert_load_tables (void)
+e_alert_load_directory (const gchar *dirname)
 {
 	GDir *dir;
 	const gchar *d;
+
+	dir = g_dir_open (dirname, 0, NULL);
+	if (dir == NULL) {
+		return;
+	}
+
+	while ((d = g_dir_read_name (dir))) {
+		gchar *path;
+
+		if (d[0] == '.')
+			continue;
+
+		path = g_build_filename (dirname, d, NULL);
+		e_alert_load (path);
+		g_free (path);
+	}
+
+	g_dir_close (dir);
+}
+
+static void
+e_alert_load_tables (void)
+{
+	GPtrArray *variants;
 	gchar *base;
 	struct _e_alert_table *table;
-	gint i;
+	guint ii;
 
 	if (alert_table != NULL)
 		return;
@@ -325,32 +349,26 @@ e_alert_load_tables (void)
 	table = g_malloc0 (sizeof (*table));
 	table->domain = "builtin";
 	table->alerts = g_hash_table_new (g_str_hash, g_str_equal);
-	for (i = 0; i < G_N_ELEMENTS (default_alerts); i++)
+	for (ii = 0; ii < G_N_ELEMENTS (default_alerts); ii++)
 		g_hash_table_insert (
 			table->alerts, (gpointer)
-			default_alerts[i].id, &default_alerts[i]);
+			default_alerts[ii].id, &default_alerts[ii]);
 	g_hash_table_insert (alert_table, (gpointer) table->domain, table);
 
 	/* look for installed alert tables */
 	base = g_build_filename (EVOLUTION_PRIVDATADIR, "errors", NULL);
-	dir = g_dir_open (base, 0, NULL);
-	if (dir == NULL) {
-		g_free (base);
-		return;
+	variants = e_util_get_directory_variants (base, EVOLUTION_PREFIX, TRUE);
+	if (variants) {
+		for (ii = 0; ii < variants->len; ii++) {
+			const gchar *dirname = g_ptr_array_index (variants, ii);
+
+			if (dirname && *dirname)
+				e_alert_load_directory (dirname);
+		}
+		g_ptr_array_unref (variants);
+	} else {
+		e_alert_load_directory (base);
 	}
-
-	while ((d = g_dir_read_name (dir))) {
-		gchar *path;
-
-		if (d[0] == '.')
-			continue;
-
-		path = g_build_filename (base, d, NULL);
-		e_alert_load (path);
-		g_free (path);
-	}
-
-	g_dir_close (dir);
 	g_free (base);
 }
 
