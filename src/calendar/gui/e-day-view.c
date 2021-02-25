@@ -501,6 +501,20 @@ enum {
 G_DEFINE_TYPE (EDayView, e_day_view, E_TYPE_CALENDAR_VIEW)
 
 static void
+e_day_view_set_popup_event (EDayView *day_view,
+			    gint day,
+			    gint event_num)
+{
+	if (day_view->popup_event_day != day ||
+	    day_view->popup_event_num != event_num) {
+		day_view->popup_event_day = day;
+		day_view->popup_event_num = event_num;
+
+		g_signal_emit_by_name (day_view, "selection-changed");
+	}
+}
+
+static void
 day_view_notify_time_divisions_cb (EDayView *day_view)
 {
 	gint day;
@@ -3190,8 +3204,7 @@ e_day_view_remove_event_cb (EDayView *day_view,
 	}
 
 	if (day_view->popup_event_num == event_num && day_view->popup_event_day == day) {
-		day_view->popup_event_num = -1;
-		day_view->popup_event_day = -1;
+		e_day_view_set_popup_event (day_view, -1, -1);
 	} else if (day_view->popup_event_num > event_num && day_view->popup_event_day == day) {
 		day_view->popup_event_num--;
 	}
@@ -4620,6 +4633,8 @@ e_day_view_on_long_event_click (EDayView *day_view,
 		return;
 	}
 
+	e_day_view_set_popup_event (day_view, E_DAY_VIEW_LONG_EVENT, event_num);
+
 	if ((e_cal_util_component_is_instance (event->comp_data->icalcomp) ||
 	     !e_cal_util_component_has_recurrences (event->comp_data->icalcomp))
 	    && (pos == E_CALENDAR_VIEW_POS_LEFT_EDGE
@@ -4726,6 +4741,8 @@ e_day_view_on_event_click (EDayView *day_view,
 			event->canvas_item, button_event);
 		return;
 	}
+
+	e_day_view_set_popup_event (day_view, day, event_num);
 
 	if ((e_cal_util_component_is_instance (event->comp_data->icalcomp) ||
 	     !e_cal_util_component_has_recurrences (event->comp_data->icalcomp))
@@ -4844,8 +4861,7 @@ e_day_view_show_popup_menu (EDayView *day_view,
 	if (pevent && pevent->canvas_item)
 		tooltip_destroy (day_view, pevent->canvas_item);
 
-	day_view->popup_event_day = day;
-	day_view->popup_event_num = event_num;
+	e_day_view_set_popup_event (day_view, day, event_num);
 
 	e_calendar_view_popup_event (E_CALENDAR_VIEW (day_view), button_event);
 }

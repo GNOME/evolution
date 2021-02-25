@@ -209,6 +209,17 @@ static gint map_left[] = {0, 1, 2, 0, 1, 2, 2};
 static gint map_right[] = {3, 4, 5, 3, 4, 5, 6};
 
 static void
+e_week_view_set_popup_event (EWeekView *week_view,
+			     gint event_num)
+{
+	if (week_view->popup_event_num != event_num) {
+		week_view->popup_event_num = event_num;
+
+		g_signal_emit_by_name (week_view, "selection-changed");
+	}
+}
+
+static void
 week_view_process_component (EWeekView *week_view,
                              ECalModelComponent *comp_data)
 {
@@ -2754,7 +2765,7 @@ e_week_view_remove_event_cb (EWeekView *week_view,
 	}
 
 	if (week_view->popup_event_num == event_num)
-		week_view->popup_event_num = -1;
+		e_week_view_set_popup_event (week_view, -1);
 
 	if (is_comp_data_valid (event))
 		g_object_unref (event->comp_data);
@@ -2946,6 +2957,8 @@ e_week_view_on_button_press (GtkWidget *widget,
                              GdkEvent *button_event,
                              EWeekView *week_view)
 {
+	GnomeCanvasItem *item;
+	gint event_num = -1, span_num = -1;
 	guint event_button = 0;
 	gdouble event_x_win = 0;
 	gdouble event_y_win = 0;
@@ -2965,10 +2978,18 @@ e_week_view_on_button_press (GtkWidget *widget,
 		return TRUE;
 
 	/* If an event is pressed just return. */
-	if (week_view->pressed_event_num != -1)
+	if (week_view->pressed_event_num != -1) {
+		e_week_view_set_popup_event (week_view, week_view->pressed_event_num);
 		return FALSE;
+	}
 
 	e_week_view_stop_editing_event (week_view);
+
+	item = gnome_canvas_get_item_at (GNOME_CANVAS (widget), x, y);
+	if (!item || !e_week_view_find_event_from_item (week_view, item, &event_num, &span_num))
+		event_num = -1;
+
+	e_week_view_set_popup_event (week_view, event_num);
 
 	if (event_button == 1 && button_event->type == GDK_2BUTTON_PRESS) {
 		time_t dtstart, dtend;
@@ -3026,9 +3047,6 @@ e_week_view_on_button_press (GtkWidget *widget,
 			gtk_widget_queue_draw (week_view->main_canvas);
 		}
 	} else if (event_button == 3) {
-		GnomeCanvasItem *item;
-		gint event_num = -1, span_num = -1;
-
 		if (!gtk_widget_has_focus (GTK_WIDGET (week_view)))
 			gtk_widget_grab_focus (GTK_WIDGET (week_view));
 
@@ -3040,10 +3058,6 @@ e_week_view_on_button_press (GtkWidget *widget,
 			/* FIXME: Optimise? */
 			gtk_widget_queue_draw (week_view->main_canvas);
 		}
-
-		item = gnome_canvas_get_item_at (GNOME_CANVAS (widget), x, y);
-		if (!item || !e_week_view_find_event_from_item (week_view, item, &event_num, &span_num))
-			event_num = -1;
 
 		e_week_view_show_popup_menu (week_view, button_event, event_num);
 	}
@@ -3622,6 +3636,7 @@ tooltip_event_cb (GnomeCanvasItem *item,
                   EWeekView *view)
 {
 	gint event_num;
+	guint event_button = 0;
 	EWeekViewEvent *pevent;
 
 	e_week_view_check_layout (view);
@@ -3671,6 +3686,9 @@ tooltip_event_cb (GnomeCanvasItem *item,
 		case GDK_KEY_PRESS:
 		case GDK_BUTTON_PRESS:
 			tooltip_destroy (view, item);
+			if (gdk_event_get_button (event, &event_button) && event_button == 1)
+				e_week_view_set_popup_event (view, event_num);
+
 			return FALSE;
 		default:
 			return FALSE;
@@ -4293,6 +4311,7 @@ e_week_view_on_text_item_event (GnomeCanvasItem *item,
 		if (event_button != 3) {
 			week_view->pressed_event_num = event_num;
 			week_view->pressed_span_num = span_num;
+			e_week_view_set_popup_event (week_view, week_view->pressed_event_num);
 		}
 
 		/* Only let the EText handle the event while editing. */
@@ -5160,7 +5179,7 @@ e_week_view_show_popup_menu (EWeekView *week_view,
 		g_object_set_data (G_OBJECT (week_view), "tooltip-timeout", NULL);
 	}
 
-	week_view->popup_event_num = event_num;
+	e_week_view_set_popup_event (week_view, event_num);
 
 	e_calendar_view_popup_event (E_CALENDAR_VIEW (week_view), button_event);
 }
