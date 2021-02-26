@@ -27471,7 +27471,7 @@ msgid ""
 "credits], which will be replaced by values from an email you are replying to."
 msgstr ""
 "Connector de plantilles basat en esborranys. Podeu utilitzar variables com "
-"$ORIG[subject], $ORIG[from], $ORIG[to], $ORIG[body], $ORIG[quoted-body] or "
+"$ORIG[subject], $ORIG[from], $ORIG[to], $ORIG[body], $ORIG[quoted-body] o "
 "$ORIG[reply-credits], que es reemplaçaran pels valors del correu que "
 "estigueu responent."
 
