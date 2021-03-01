@@ -3747,6 +3747,22 @@ EvoEditor.setCurrentElement = function(element)
 		element.setAttribute(EvoEditor.CURRENT_ELEMENT_ATTR, "1");
 }
 
+// selects element of tag name 'tagName'; being it "TABLE*", then nearest TABLE-related element
+EvoEditor.DialogUtilsCurrentElementFromFocus = function(tagName)
+{
+	var node = document.getSelection().focusNode;
+	var anyInTable = tagName == "TABLE*";
+
+	while (node && node.tagName != "BODY") {
+		if (node.tagName == tagName || (anyInTable && (node.tagName == "TH" || node.tagName == "TR" || node.tagName == "TD"))) {
+			EvoEditor.setCurrentElement(node);
+			break;
+		}
+
+		node = node.parentElement;
+	}
+}
+
 EvoEditor.OnDialogOpen = function(name)
 {
 	EvoEditor.propertiesSelection = null;
@@ -4538,7 +4554,13 @@ EvoEditor.DialogUtilsTableDelete = function()
 	EvoUndoRedo.StartRecord(EvoUndoRedo.RECORD_KIND_CUSTOM, "TableDelete", element, element,
 		EvoEditor.CLAIM_CONTENT_FLAG_USE_PARENT_BLOCK_NODE | EvoEditor.CLAIM_CONTENT_FLAG_SAVE_HTML);
 	try {
+		var parent = element.parentElement;
+
 		element.remove();
+
+		if (EvoEditor.isEmptyParagraph(parent) && !parent.firstChild) {
+			parent.appendChild(document.createElement("BR"));
+		}
 	} finally {
 		EvoUndoRedo.StopRecord(EvoUndoRedo.RECORD_KIND_CUSTOM, "TableDelete");
 		EvoEditor.maybeUpdateFormattingState(EvoEditor.FORCE_MAYBE);

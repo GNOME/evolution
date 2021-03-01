@@ -2926,7 +2926,11 @@ webkit_editor_delete_cell_contents (EContentEditor *editor)
 	EWebKitEditor *wk_editor = E_WEBKIT_EDITOR (editor);
 
 	e_web_view_jsc_run_script (WEBKIT_WEB_VIEW (wk_editor), wk_editor->priv->cancellable,
-		"EvoEditor.DialogUtilsTableDeleteCellContent();");
+		"var arr = EvoEditor.RemoveCurrentElementAttr();"
+		"EvoEditor.DialogUtilsCurrentElementFromFocus(\"TABLE*\");"
+		"EvoEditor.DialogUtilsTableDeleteCellContent();"
+		"EvoEditor.RemoveCurrentElementAttr();"
+		"EvoEditor.RestoreCurrentElementAttr(arr);");
 }
 
 static void
@@ -2935,7 +2939,11 @@ webkit_editor_delete_column (EContentEditor *editor)
 	EWebKitEditor *wk_editor = E_WEBKIT_EDITOR (editor);
 
 	e_web_view_jsc_run_script (WEBKIT_WEB_VIEW (wk_editor), wk_editor->priv->cancellable,
-		"EvoEditor.DialogUtilsTableDeleteColumn();");
+		"var arr = EvoEditor.RemoveCurrentElementAttr();"
+		"EvoEditor.DialogUtilsCurrentElementFromFocus(\"TABLE*\");"
+		"EvoEditor.DialogUtilsTableDeleteColumn();"
+		"EvoEditor.RemoveCurrentElementAttr();"
+		"EvoEditor.RestoreCurrentElementAttr(arr);");
 }
 
 static void
@@ -2944,7 +2952,11 @@ webkit_editor_delete_row (EContentEditor *editor)
 	EWebKitEditor *wk_editor = E_WEBKIT_EDITOR (editor);
 
 	e_web_view_jsc_run_script (WEBKIT_WEB_VIEW (wk_editor), wk_editor->priv->cancellable,
-		"EvoEditor.DialogUtilsTableDeleteRow();");
+		"var arr = EvoEditor.RemoveCurrentElementAttr();"
+		"EvoEditor.DialogUtilsCurrentElementFromFocus(\"TABLE*\");"
+		"EvoEditor.DialogUtilsTableDeleteRow();"
+		"EvoEditor.RemoveCurrentElementAttr();"
+		"EvoEditor.RestoreCurrentElementAttr(arr);");
 }
 
 static void
@@ -2953,43 +2965,51 @@ webkit_editor_delete_table (EContentEditor *editor)
 	EWebKitEditor *wk_editor = E_WEBKIT_EDITOR (editor);
 
 	e_web_view_jsc_run_script (WEBKIT_WEB_VIEW (wk_editor), wk_editor->priv->cancellable,
-		"EvoEditor.DialogUtilsTableDelete();");
+		"var arr = EvoEditor.RemoveCurrentElementAttr();"
+		"EvoEditor.DialogUtilsCurrentElementFromFocus(\"TABLE*\");"
+		"EvoEditor.DialogUtilsTableDelete();"
+		"EvoEditor.RemoveCurrentElementAttr();"
+		"EvoEditor.RestoreCurrentElementAttr(arr);");
+}
+
+static void
+webikt_editor_call_table_insert (EContentEditor *editor,
+				 const gchar *what,
+				 gint where)
+{
+	EWebKitEditor *wk_editor = E_WEBKIT_EDITOR (editor);
+
+	e_web_view_jsc_run_script (WEBKIT_WEB_VIEW (wk_editor), wk_editor->priv->cancellable,
+		"var arr = EvoEditor.RemoveCurrentElementAttr();"
+		"EvoEditor.DialogUtilsCurrentElementFromFocus(\"TABLE*\");"
+		"EvoEditor.DialogUtilsTableInsert(%s, %d);"
+		"EvoEditor.RemoveCurrentElementAttr();"
+		"EvoEditor.RestoreCurrentElementAttr(arr);",
+		what, where);
 }
 
 static void
 webkit_editor_insert_column_after (EContentEditor *editor)
 {
-	EWebKitEditor *wk_editor = E_WEBKIT_EDITOR (editor);
-
-	e_web_view_jsc_run_script (WEBKIT_WEB_VIEW (wk_editor), wk_editor->priv->cancellable,
-		"EvoEditor.DialogUtilsTableInsert(%s, %d);", "column", +1);
+	webikt_editor_call_table_insert (editor, "column", +1);
 }
 
 static void
 webkit_editor_insert_column_before (EContentEditor *editor)
 {
-	EWebKitEditor *wk_editor = E_WEBKIT_EDITOR (editor);
-
-	e_web_view_jsc_run_script (WEBKIT_WEB_VIEW (wk_editor), wk_editor->priv->cancellable,
-		"EvoEditor.DialogUtilsTableInsert(%s, %d);", "column", -1);
+	webikt_editor_call_table_insert (editor, "column", -1);
 }
 
 static void
 webkit_editor_insert_row_above (EContentEditor *editor)
 {
-	EWebKitEditor *wk_editor = E_WEBKIT_EDITOR (editor);
-
-	e_web_view_jsc_run_script (WEBKIT_WEB_VIEW (wk_editor), wk_editor->priv->cancellable,
-		"EvoEditor.DialogUtilsTableInsert(%s, %d);", "row", -1);
+	webikt_editor_call_table_insert (editor, "row", -1);
 }
 
 static void
 webkit_editor_insert_row_below (EContentEditor *editor)
 {
-	EWebKitEditor *wk_editor = E_WEBKIT_EDITOR (editor);
-
-	e_web_view_jsc_run_script (WEBKIT_WEB_VIEW (wk_editor), wk_editor->priv->cancellable,
-		"EvoEditor.DialogUtilsTableInsert(%s, %d);", "row", +1);
+	webikt_editor_call_table_insert (editor, "row", +1);
 }
 
 static void
