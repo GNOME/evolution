@@ -829,6 +829,13 @@ e_web_view_update_styles (EWebView *web_view,
 
 	g_free (color_value);
 	g_free (style);
+
+	e_web_view_jsc_add_rule_into_style_sheet (webkit_web_view,
+		iframe_id,
+		"-e-web-view-style-sheet",
+		"body, div, p, td",
+		"unicode-bidi: plaintext;",
+		web_view->priv->cancellable);
 }
 
 static void

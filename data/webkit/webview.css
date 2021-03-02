@@ -12,6 +12,10 @@ body {
   margin: 5px 10px 5px 10px;
 }
 
+body, div, p, td {
+  unicode-bidi: plaintext;
+}
+
 th {
   text-align: left;
   vertical-align: top;

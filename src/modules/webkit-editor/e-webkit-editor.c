@@ -1216,19 +1216,21 @@ webkit_editor_update_styles (EContentEditor *editor)
 		"  font-size: %spt;\n"
 		"  font-weight: %d;\n"
 		"  font-style: %s;\n"
-		" -webkit-line-break: after-white-space;\n",
+		" -webkit-line-break: after-white-space;\n"
+		"}\n",
 		pango_font_description_get_family (vw),
 		fsbuff,
 		pango_font_description_get_weight (vw),
 		styles[pango_font_description_get_style (vw)]);
-
-	g_string_append (stylesheet, "}\n");
 
 	g_ascii_dtostr (fsbuff, G_ASCII_DTOSTR_BUF_SIZE,
 		((gdouble) pango_font_description_get_size (ms)) / PANGO_SCALE);
 
 	g_string_append_printf (
 		stylesheet,
+		"body, div, p, td {\n"
+		"  unicode-bidi: plaintext;\n"
+		"}\n"
 		"pre,code,.pre {\n"
 		"  font-family: '%s';\n"
 		"  font-size: %spt;\n"

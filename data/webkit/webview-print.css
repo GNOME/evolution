@@ -9,6 +9,10 @@ body {
         margin: 10px;
 }
 
+body, div, p, td {
+  unicode-bidi: plaintext;
+}
+
 h1,h2,h3 {
         color: #7f7f7f;
 }
