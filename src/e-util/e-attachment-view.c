@@ -733,7 +733,7 @@ attachment_view_update_actions (EAttachmentView *view)
 	gtk_action_set_visible (action, !busy && n_selected > 0);
 
 	action = e_attachment_view_get_action (view, "save-as");
-	gtk_action_set_visible (action, !busy && (n_selected == 1 || (n_selected > 0 && !e_util_is_running_flatpak ())));
+	gtk_action_set_visible (action, !busy && n_selected > 0);
 
 	/* Clear out the "openwith" action group. */
 	gtk_ui_manager_remove_ui (priv->ui_manager, priv->merge_id);
