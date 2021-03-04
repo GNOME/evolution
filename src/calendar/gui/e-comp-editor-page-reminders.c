@@ -213,7 +213,7 @@ ecep_reminders_sanitize_option_widgets (ECompEditorPageReminders *page_reminders
 	}
 
 	gtk_widget_set_sensitive (page_reminders->priv->alarms_tree_view, is_custom);
-	gtk_widget_set_sensitive (page_reminders->priv->alarms_add_button, is_custom && (n_defined < 1 || !can_only_one));
+	gtk_widget_set_sensitive (page_reminders->priv->alarms_add_button, n_defined < 1 || !can_only_one);
 	gtk_widget_set_sensitive (page_reminders->priv->alarms_remove_button, any_selected && is_custom);
 
 	gtk_widget_set_visible (page_reminders->priv->alarm_setup_hbox, any_selected && is_custom);
@@ -853,10 +853,10 @@ ecep_reminders_alarms_selection_changed_cb (GtkTreeSelection *selection,
 	g_return_if_fail (GTK_IS_TREE_SELECTION (selection));
 	g_return_if_fail (E_IS_COMP_EDITOR_PAGE_REMINDERS (page_reminders));
 
-	ecep_reminders_sanitize_option_widgets (page_reminders);
-
 	if (gtk_tree_selection_get_selected (selection, NULL, NULL))
 		ecep_reminders_selected_to_widgets (page_reminders);
+
+	ecep_reminders_sanitize_option_widgets (page_reminders);
 }
 
 static gint
@@ -888,14 +888,14 @@ ecep_reminders_alarms_combo_changed_cb (GtkComboBox *combo_box,
 
 	g_return_if_fail (E_IS_COMP_EDITOR_PAGE_REMINDERS (page_reminders));
 
-	ecep_reminders_sanitize_option_widgets (page_reminders);
-
 	if (!e_comp_editor_page_get_updating (E_COMP_EDITOR_PAGE (page_reminders)))
 		e_comp_editor_page_emit_changed (E_COMP_EDITOR_PAGE (page_reminders));
 
 	alarm_index = ecep_reminders_get_alarm_index (GTK_COMBO_BOX (page_reminders->priv->alarms_combo));
 	if (alarm_index == -1 || alarm_index == 0) {
 		e_alarm_list_clear (page_reminders->priv->alarm_list);
+
+		ecep_reminders_sanitize_option_widgets (page_reminders);
 		return;
 	}
 
@@ -911,6 +911,7 @@ ecep_reminders_alarms_combo_changed_cb (GtkComboBox *combo_box,
 				gtk_tree_selection_select_iter (selection, &iter);
 		}
 
+		ecep_reminders_sanitize_option_widgets (page_reminders);
 		return;
 	}
 
@@ -949,18 +950,33 @@ ecep_reminders_alarms_combo_changed_cb (GtkComboBox *combo_box,
 	e_alarm_list_append (page_reminders->priv->alarm_list, NULL, alarm);
 	e_cal_component_alarm_free (alarm);
 	g_object_unref (duration);
+
+	ecep_reminders_sanitize_option_widgets (page_reminders);
 }
 
 static void
 ecep_reminders_alarms_add_clicked_cb (GtkButton *button,
 				      ECompEditorPageReminders *page_reminders)
 {
+	GtkComboBox *combo_box;
 	GtkTreeSelection *selection;
 	GtkTreeIter iter;
 	ECalComponentAlarm *alarm;
 	ICalDuration *duration;
 
 	g_return_if_fail (E_IS_COMP_EDITOR_PAGE_REMINDERS (page_reminders));
+
+	combo_box = GTK_COMBO_BOX (page_reminders->priv->alarms_combo);
+
+	/* Ensure the reminder is always set to Custom */
+	if (ecep_reminders_get_alarm_index (combo_box) != -2) {
+		GtkTreeModel *model;
+
+		model = gtk_combo_box_get_model (combo_box);
+
+		if (model)
+			gtk_combo_box_set_active (combo_box, gtk_tree_model_iter_n_children (model, NULL) - 1);
+	}
 
 	alarm = e_cal_component_alarm_new ();
 
