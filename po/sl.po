@@ -11,7 +11,7 @@ msgstr ""
 "Project-Id-Version: evolution master\n"
 "Report-Msgid-Bugs-To: https://gitlab.gnome.org/GNOME/evolution/issues\n"
 "POT-Creation-Date: 2021-03-03 08:06+0000\n"
-"PO-Revision-Date: 2021-03-03 21:23+0100\n"
+"PO-Revision-Date: 2021-03-05 17:10+0100\n"
 "Last-Translator: Matej Urbančič <mateju@src.gnome.org>\n"
 "Language-Team: Slovenščina <gnome-si@googlegroups.com>\n"
 "Language: sl\n"
@@ -1403,6 +1403,8 @@ msgid ""
 "When set, paste a plain text into the composer body as Preformatted paragraph. When not set, "
 "paste it as Normal paragraph."
 msgstr ""
+"Izbrana možnost omogoči lepljene besedila v okno sestavljalnika kot oblikovan odstavek, "
+"neizbrana pa kot običajni odstavek."
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:80
 msgid "Convert UTC time in reply credits to local time"
@@ -1819,7 +1821,7 @@ msgstr "Ali naj bo raven niti stisnjena"
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:165
 msgid ""
 "Set to true to compress thread levels for flat conversations, to make the level not so deep."
-msgstr ""
+msgstr "Izbrana možnost stisne ravni niti za prikaz ploskega pogovora, s čimer zmanjša ravni."
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:166
 msgid "Sort accounts alphabetically in a folder tree"
@@ -2543,13 +2545,15 @@ msgstr "Izbrana možnost omogoča zamenjavo barv v sporočilih HTML z barvami na
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:303
 msgid "Whether to preserve expand state of the folders when calling Copy/Move to Folder."
-msgstr ""
+msgstr "Ali naj se ohrani razširjeno stanje map pri uporabi Kopiraj/Premakni v mapo."
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:304
 msgid ""
 "If enabled, the Copy/Move to Folder dialog will preserve the expand state of the folders in "
 "the dialog, otherwise all the folders will be expanded."
 msgstr ""
+"Izbrana možnost omogoča ohranjanje razširjenega stanja pri uporabi možnosti Kopiraj/Premakni v "
+"mapo, sicer so mape do konca razširjene."
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:305
 msgid "(Deprecated) Default forward style"
@@ -2880,7 +2884,7 @@ msgstr "[]"
 
 #: ../data/org.gnome.evolution.plugin.sender-validator.gschema.xml.in.h:2
 msgid "List of assignments for recipient and the address to be used with it"
-msgstr ""
+msgstr "Seznam nalog prejemnika in naslov, ki sodi zraven."
 
 #: ../data/org.gnome.evolution.plugin.sender-validator.gschema.xml.in.h:3
 msgid ""
@@ -2888,6 +2892,8 @@ msgid ""
 "address only and the sender is a full email address, which should match the From address "
 "precisely."
 msgstr ""
+"Seznam v zapisu »recipient&lt;tab&gt;sender«, v katerem je prejemnik lahko del naslova, "
+"pošiljatelj pa celoten elektronski naslov, ki se sklada z naslovom v polju pošiljatelja."
 
 #: ../data/org.gnome.evolution.plugin.templates.gschema.xml.in.h:1
 msgid "List of keyword/value pairs for the Templates plugin to substitute in a message body."
@@ -3091,6 +3097,8 @@ msgid ""
 "When generating file names from custom strings some non-printable or reserved characters are "
 "replaced with an underscore. Here's a set of additional characters to be replaced."
 msgstr ""
+"Ob ustvarjanju imen datotek za nize po meri so nekateri nenatisljivi znaki zadržani in "
+"zamenjani s podčrtajem. Podan je seznam dodatnih znakov za zamenjavo."
 
 #: ../data/org.gnome.evolution.spamassassin.gschema.xml.in.h:1
 msgid "Use only local spam tests."
@@ -8223,7 +8231,7 @@ msgstr "Poteka pošiljanje obvestil udeležencem …"
 
 #: ../src/calendar/gui/e-comp-editor.c:1025 ../src/e-util/e-webdav-browser.c:1923
 msgid "Saving changes…"
-msgstr "Poteka shranjevanje sprememb ..."
+msgstr "Poteka shranjevanje sprememb …"
 
 #: ../src/calendar/gui/e-comp-editor.c:1296
 msgid "No Summary"
@@ -22863,6 +22871,8 @@ msgid ""
 "Filters for tasks that either do not have a start date or the start date is earlier than the "
 "time the filter is selected at"
 msgstr ""
+"Filtri za naloge, ki imajo, ali pa tudi ne, datum začetka ali pa je ta datum pred časom, ki ga "
+"določa filter."
 
 #: ../src/modules/calendar/e-task-shell-view-actions.c:1062
 msgid "Print the list of tasks"
@@ -26107,6 +26117,8 @@ msgid ""
 "The message contains recipient “{0}” for which it is set up to use sender account “{1}”, but "
 "the account “{2}” is used instead."
 msgstr ""
+"V sporočilu je naveden prejemnik »{0}«, za katerega je določen pošiljateljski račun »{1}«, a "
+"je uporabljen račun »{2}«."
 
 #: ../src/plugins/sender-validation/org-gnome-sender-validation.error.xml.h:4
 msgid "_Send Anyway"
