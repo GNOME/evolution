@@ -1716,6 +1716,8 @@ webdav_browser_save_changes_thread (EAlertSinkThreadJobData *job_data,
 				g_snprintf (order_str, sizeof (order_str), "%u", (guint) scd->order);
 
 				changes = g_slist_append (changes, e_webdav_property_change_new_set (E_WEBDAV_NS_ICAL, "calendar-order", order_str));
+			} else {
+				changes = g_slist_append (changes, e_webdav_property_change_new_remove (E_WEBDAV_NS_ICAL, "calendar-order"));
 			}
 
 			if (scd->description && *scd->description)
