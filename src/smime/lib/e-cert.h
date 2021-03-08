@@ -87,6 +87,8 @@ const gchar *          e_cert_get_expires_on      (ECert *cert);
 const gchar *	     e_cert_get_usage (ECert *cert);
 
 const gchar *          e_cert_get_serial_number    (ECert *cert);
+const gchar *          e_cert_get_sha256_fingerprint
+						   (ECert *cert);
 const gchar *          e_cert_get_sha1_fingerprint (ECert *cert);
 const gchar *          e_cert_get_md5_fingerprint  (ECert *cert);
 

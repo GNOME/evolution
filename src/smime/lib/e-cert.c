@@ -91,6 +91,7 @@ struct _ECertPrivate {
 
 	gchar *usage_string;
 
+	gchar *sha256_fingerprint;
 	gchar *sha1_fingerprint;
 	gchar *md5_fingerprint;
 
@@ -140,6 +141,8 @@ e_cert_finalize (GObject *object)
 
 	g_free (priv->usage_string);
 
+	if (priv->sha256_fingerprint)
+		PORT_Free (priv->sha256_fingerprint);
 	if (priv->sha1_fingerprint)
 		PORT_Free (priv->sha1_fingerprint);
 	if (priv->md5_fingerprint)
@@ -205,7 +208,7 @@ static void
 e_cert_populate (ECert *cert)
 {
 	CERTCertificate *c = cert->priv->cert;
-	guchar fingerprint[20];
+	guchar fingerprint[MAX (SHA256_LENGTH, MAX (SHA1_LENGTH, MD5_LENGTH)) + 1];
 	SECItem fpItem;
 
 	cert->priv->org_name = CERT_GetOrgName (&c->subject);
@@ -248,6 +251,15 @@ e_cert_populate (ECert *cert)
 	}
 
 	cert->priv->serial_number = CERT_Hexify (&cert->priv->cert->serialNumber, TRUE);
+
+	memset (fingerprint, 0, sizeof fingerprint);
+	PK11_HashBuf (
+		SEC_OID_SHA256, fingerprint,
+		cert->priv->cert->derCert.data,
+		cert->priv->cert->derCert.len);
+	fpItem.data = fingerprint;
+	fpItem.len = SHA256_LENGTH;
+	cert->priv->sha256_fingerprint = CERT_Hexify (&fpItem, TRUE);
 
 	memset (fingerprint, 0, sizeof fingerprint);
 	PK11_HashBuf (
@@ -429,6 +441,12 @@ const gchar *
 e_cert_get_serial_number (ECert *cert)
 {
 	return cert->priv->serial_number;
+}
+
+const gchar *
+e_cert_get_sha256_fingerprint (ECert *cert)
+{
+	return cert->priv->sha256_fingerprint;
 }
 
 const gchar *

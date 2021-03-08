@@ -216,7 +216,7 @@ secure_button_smime_cert_exists (const gchar *email,
 	#define compare_nonnull(_func) (!_func (ec) || g_strcmp0 (_func (ec), _func (found_ec)) == 0)
 
 	if (compare_nonnull (e_cert_get_serial_number) &&
-	    compare_nonnull (e_cert_get_sha1_fingerprint) &&
+	    compare_nonnull (e_cert_get_sha256_fingerprint) &&
 	    compare_nonnull (e_cert_get_md5_fingerprint)) {
 		found = TRUE;
 	}
