@@ -1,25 +1,25 @@
 # Hungarian translation for evolution_help.
-# Copyright (C) 2011, 2012, 2013, 2017, 2018, 2019. Free Software Foundation, Inc.
+# Copyright (C) 2011, 2012, 2013, 2017, 2018, 2019, 2021. Free Software Foundation, Inc.
 # This file is distributed under the same license as the evolution help.
 #
 # Bence Lukács <lukacs.bence1 at gmail dot com>, 2011.
 # Gabor Kelemen <kelemeng at gnome dot hu>, 2011, 2012, 2013, 2014, 2015, 2016, 2017, 2018, 2019.
 # Nagy Zoltán <dzodzie at gmail dot com>, 2011.
 # Balázs Meskó <mesko.balazs at fsf dot hu>, 2018.
-# Balázs Úr <ur.balazs at fsf dot hu>, 2014, 2019.
+# Balázs Úr <ur.balazs at fsf dot hu>, 2014, 2019, 2021.
 msgid ""
 msgstr ""
 "Project-Id-Version: evolution-help.master\n"
 "Report-Msgid-Bugs-To: https://gitlab.gnome.org/GNOME/evolution/issues\n"
-"POT-Creation-Date: 2019-09-03 11:49+0000\n"
-"PO-Revision-Date: 2019-09-03 18:07+0100\n"
-"Last-Translator: Gabor Kelemen <kelemeng at ubuntu dot com>\n"
+"POT-Creation-Date: 2021-01-24 08:50+0000\n"
+"PO-Revision-Date: 2021-03-09 01:56+0100\n"
+"Last-Translator: Balázs Úr <ur.balazs at fsf dot hu>\n"
 "Language-Team: Hungarian <gnome-hu-list at gnome dot org>\n"
 "Language: hu\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Generator: Lokalize 2.0\n"
+"X-Generator: Lokalize 19.12.3\n"
 "Plural-Forms:  nplurals=2; plural=(n != 1);\n"
 
 #. Put one translator per line, in the form NAME <EMAIL>, YEAR1, YEAR2
@@ -30,7 +30,7 @@ msgstr ""
 "Kelemen Gábor <kelemeng at gnome dot hu>, 2011, 2012, 2013, 2015, 2017, "
 "2018.\n"
 "Nagy Zoltán <dzodzie at gmail dot com>, 2011.\n"
-"Úr Balázs <ur.balazs at fsf dot hu>, 2014, 2019."
+"Úr Balázs <ur.balazs at fsf dot hu>, 2014, 2019, 2021."
 
 #. (itstool) path: info/desc
 #: C/backup-restore.page:18
@@ -105,7 +105,7 @@ msgstr ""
 "akkor a <file>~/.spamassassin/</file> rejtett könyvtárról."
 
 #. (itstool) path: section/title
-#: C/backup-restore.page:58 C/intro-first-run.page:43
+#: C/backup-restore.page:58 C/intro-first-run.page:45
 msgid "Restoring"
 msgstr "Visszaállítás"
 
@@ -563,12 +563,12 @@ msgid ""
 "<app>Evolution</app> looks up the schedule and displays it in the Free/Busy "
 "data."
 msgstr ""
-"Ha valaki megadja Önnek az időbeosztás-adataira vagy a webnaptárára mutató "
-"URL-címet, akkor felveheti azt a <link xref=\"contacts-usage-edit-contact"
-"\">Kapcsolatszerkesztőben</link> a <guiseq><gui>Személyes adatok</"
-"gui><gui>Webcímek</gui></guiseq> menüpont alatt. Ha Ön ezután egy találkozót "
-"akar vele beütemezni, akkor az <gui>Evolution</gui> letölti az időbeosztást, "
-"és megjeleníti az időbeosztás-adatok alatt."
+"Ha valaki megadja Önnek az időbeosztás-adataira vagy a webnaptárára mutató"
+" URL-címet, akkor felveheti azt a <guiseq><gui>Személyes adatok</gui><gui"
+">Webcímek</gui></guiseq> menüpont alatt a <link"
+" xref=\"contacts-usage-edit-contact\">Kapcsolatszerkesztőben</link>. Ha Ön"
+" ezután egy találkozót akar vele beütemezni, akkor az <app>Evolution</app>"
+" letölti az időbeosztást, és megjeleníti az időbeosztás-adatok alatt."
 
 #. (itstool) path: info/desc
 #: C/calendar-google.page:24
@@ -949,10 +949,10 @@ msgid ""
 "app> should only read from the file or if <app>Evolution</app> can also add "
 "and alter items in that file."
 msgstr ""
-"Ha egy meglévő naptárfájl használatát választja, amely már létezik a "
-"számítógépen, akkor meg kell adnia a helyét, és hogy az <app>Evolution</app> "
-"csak olvasson-e a fájlból, vagy hozzáadhat és megváltoztathat elemeket abban "
-"a fájlban."
+"Ha egy meglévő naptárfájl használatát választja, amely már létezik a"
+" számítógépen, akkor meg kell adnia a helyét, és hogy az <app>Evolution</app>"
+" csak olvasson-e a fájlból, vagy hogy az <app>Evolution</app> hozzáadhat és"
+" megváltoztathat elemeket abban a fájlban."
 
 #. (itstool) path: info/desc
 #: C/calendar-marcus-bains-line.page:17
@@ -1010,11 +1010,11 @@ msgstr "Válassza ki a résztvevőket, akikre át szeretné ruházni a találkoz
 #: C/calendar-meetings-delegating.page:41 C/contacts-usage-add-contact.page:43
 #: C/contacts-usage-edit-contact.page:34 C/contacts-using-contact-lists.page:69
 #: C/mail-attachments-sending.page:32
-#: C/mail-composer-custom-header-lines.page:45
+#: C/mail-composer-custom-header-lines.page:47
 #: C/mail-encryption-gpg-set-up.page:35
 #: C/mail-encryption-gpg-signing-encrypting.page:40
 #: C/mail-encryption-s-mime-signing-encrypting.page:36 C/mail-filters.page:50
-#: C/mail-filters.page:71 C/mail-search-folders-add.page:46
+#: C/mail-filters.page:71 C/mail-search-folders-add.page:47
 #: C/using-categories.page:51 C/using-categories.page:53
 msgid "Click <gui style=\"button\">OK</gui>."
 msgstr "Nyomja meg az <gui style=\"button\">OK</gui> gombot."
@@ -1417,7 +1417,7 @@ msgstr "Válassza ki a keresési feltételt a listából."
 
 #. (itstool) path: item/p
 #: C/calendar-searching.page:50 C/contacts-searching.page:58
-#: C/mail-searching.page:49 C/memos-searching.page:45 C/tasks-searching.page:45
+#: C/mail-searching.page:50 C/memos-searching.page:45 C/tasks-searching.page:45
 msgid "Enter the text you want to search for and press <key>Enter</key>."
 msgstr ""
 "Adja meg a keresendő szöveget, és nyomja meg az <key>Enter</key> billentyűt."
@@ -1425,7 +1425,7 @@ msgstr ""
 #. (itstool) path: item/p
 #: C/calendar-searching.page:53 C/calendar-searching.page:67
 #: C/contacts-searching.page:62 C/contacts-searching.page:76
-#: C/mail-searching.page:50 C/memos-searching.page:46 C/memos-searching.page:52
+#: C/mail-searching.page:51 C/memos-searching.page:46 C/memos-searching.page:52
 #: C/tasks-searching.page:46 C/tasks-searching.page:52
 msgid "<app>Evolution</app> displays the search results."
 msgstr "Az <app>Evolution</app> megjeleníti a találatokat."
@@ -1463,7 +1463,7 @@ msgstr ""
 
 #. (itstool) path: section/p
 #: C/calendar-searching.page:76 C/contacts-searching.page:80
-#: C/mail-searching.page:54 C/memos-searching.page:54 C/tasks-searching.page:54
+#: C/mail-searching.page:55 C/memos-searching.page:54 C/tasks-searching.page:54
 msgid ""
 "If you want to set several search conditions, you should use an Advanced "
 "search, which is described below."
@@ -1786,40 +1786,87 @@ msgid "Enter your username."
 msgstr "Adja meg felhasználónevét."
 
 #. (itstool) path: info/desc
-#: C/contacts-add-automatically.page:21
+#: C/contacts-add-automatically.page:22
 msgid ""
 "Automatically add senders of mail that you have received to your contacts."
 msgstr "Fogadott levelek minden feladójának felvétele a névjegyek közé."
 
 #. (itstool) path: page/title
-#: C/contacts-add-automatically.page:25
+#: C/contacts-add-automatically.page:26
 msgid "Adding people automatically to my contacts"
 msgstr "Partnerek automatikus felvétele a címjegyzékbe"
 
 #. (itstool) path: page/p
-#: C/contacts-add-automatically.page:27
+#: C/contacts-add-automatically.page:28
 msgid ""
 "You can add people automatically to your contacts when you reply to received "
-"email. Enable the plugin <gui>Automatic Contacts</gui> by going to "
-"<guiseq><gui>Edit</gui><gui>Plugins</gui></guiseq>; click on <gui>Automatic "
-"Contacts</gui> so that it shows a check mark. Then go to <guiseq><gui>Edit</"
-"gui><gui>Preferences</gui><gui>Contacts</gui> <gui>Automatic Contacts</gui></"
-"guiseq> and enable the <gui>Create address book entries when sending emails</"
-"gui> option and select an address book in the drop-down field below that "
-"will receive the new contacts."
+"email."
 msgstr ""
-"Automatikusan felveheti partnereit a címjegyzékébe amikor a fogadott "
-"levelekre válaszol. Engedélyezze az <gui>Automatikus névjegyek</gui> "
-"bővítményt a <guiseq><gui>Szerkesztés</gui><gui>Bővítmények</gui></guiseq> "
-"alatt az <gui>Automatikus névjegyek</gui> jelölőnégyzet bejelölésével. "
-"Ezután a <guiseq><gui>Szerkesztés</gui><gui>Beállítások</gui><gui>Névjegyek</"
-"gui> <gui>Automatikus névjegyek</gui></guiseq> lapon jelölje be a "
-"<gui>Levelek küldésekor címjegyzék-bejegyzések létrehozása</gui> "
-"jelölőnégyzetet, és válassza ki a legördülő mezőben azt a címjegyzéket, "
-"amelybe az új névjegyek kerülnek."
+"Automatikusan hozzáadhatja az embereket a névjegyeihez, ha a fogadott"
+" e-mailre válaszol."
+
+#. (itstool) path: item/p
+#: C/contacts-add-automatically.page:31 C/mail-attachments-sending.page:46
+#: C/mail-composer-custom-header-lines.page:31
+#: C/mail-composer-external-editor.page:25
+#: C/mail-composer-message-templates.page:27
+#: C/mail-composer-message-templates-variables.page:28
+#: C/mail-received-notification.page:30
+msgid "Select <guiseq><gui>Edit</gui><gui>Plugins</gui></guiseq>."
+msgstr ""
+"Válassza a <guiseq><gui>Szerkesztés</gui><gui>Bővítmények</gui></guiseq> "
+"menüpontot."
+
+#. (itstool) path: item/p
+#: C/contacts-add-automatically.page:32
+#| msgid "Enable <gui>Custom Header</gui>."
+msgid "Enable <gui>Automatic Contacts</gui>."
+msgstr "Engedélyezze az <gui>Automatikus névjegyek</gui> bővítményt."
+
+#. (itstool) path: note/p
+#: C/contacts-add-automatically.page:33 C/mail-attachments-sending.page:48
+#: C/mail-composer-custom-header-lines.page:33
+#: C/mail-composer-external-editor.page:28
+#: C/mail-composer-message-templates.page:29
+#: C/mail-composer-message-templates-variables.page:30
+#: C/mail-displaying-sender-photograph.page:37
+#: C/mail-received-notification.page:32
+msgid ""
+"If a plugin is not available under <guiseq><gui>Edit</gui><gui>Plugins</"
+"gui></guiseq>, then please ask in a support forum of your distribution. Your "
+"distribution might have decided to disable some plugins or to ship plugins "
+"in a separate package."
+msgstr ""
+"Ha egy bővítmény nem érhető el a <guiseq><gui>Szerkesztés</gui><gui"
+">Bővítmények</gui></guiseq> alatt, akkor kérdezzen rá a disztribúciója"
+" támogatási fórumán. A disztribúciója dönthetett úgy, hogy letilt néhány"
+" bővítményt, vagy a bővítményeket külön csomagban szállítja."
+
+#. (itstool) path: item/p
+#: C/contacts-add-automatically.page:35
+#| msgid ""
+#| "Select <guiseq><gui>Edit</gui><gui>Preferences</gui><gui>Mail Accounts</"
+#| "gui></guiseq>."
+msgid ""
+"Go to <guiseq><gui>Edit</gui><gui>Preferences</gui><gui>Contacts</gui> "
+"<gui>Automatic Contacts</gui></guiseq>."
+msgstr ""
+"Menjen a <guiseq><gui>Szerkesztés</gui><gui>Beállítások</gui><gui>Névjegyek<"
+"/gui><gui>Automatikus névjegyek</gui></guiseq> lapra."
+
+#. (itstool) path: item/p
+#: C/contacts-add-automatically.page:37
+msgid ""
+"Enable <gui>Create address book entries when sending emails</gui> and select "
+"an address book in the drop-down field below that will receive the new "
+"contacts."
+msgstr ""
+"Engedélyezze a <gui>Levelek küldésekor címjegyzék-bejegyzések létrehozása<"
+"/gui> jelölőnégyzetet, és válasszon egy olyan címjegyzéket a lenti legördülő"
+" listából, amely az új névjegyeket fogadni fogja."
 
 #. (itstool) path: page/p
-#: C/contacts-add-automatically.page:37
+#: C/contacts-add-automatically.page:42
 msgid ""
 "From now on, contacts will be automatically created for senders of received "
 "mail when you reply to that mail."
@@ -1828,19 +1875,19 @@ msgstr ""
 "azok feladóihoz tartozó névjegyek."
 
 #. (itstool) path: info/desc
-#: C/contacts-autocompletion.page:27
+#: C/contacts-autocompletion.page:28
 msgid ""
 "Autocompletion of names and email addresses entered in the mail composer."
 msgstr ""
 "A levélszerkesztőben megadott nevek és e-mail címek automatikus kiegészítése."
 
 #. (itstool) path: page/title
-#: C/contacts-autocompletion.page:30
+#: C/contacts-autocompletion.page:31
 msgid "Autocompletion of mail recipients"
 msgstr "Levélcímzettek automatikus kiegészítése"
 
 #. (itstool) path: page/p
-#: C/contacts-autocompletion.page:32
+#: C/contacts-autocompletion.page:33
 msgid ""
 "You can enter the first three letters of names and email addresses in the "
 "recipients text field and <app>Evolution</app> will present you with a list "
@@ -1851,7 +1898,7 @@ msgstr ""
 "címjegyzékéből."
 
 #. (itstool) path: page/p
-#: C/contacts-autocompletion.page:36
+#: C/contacts-autocompletion.page:37
 msgid ""
 "To enable autocompletion, go to <guiseq><gui>Edit</gui><gui>Preferences</"
 "gui><gui>Contacts</gui> <gui>Autocompletion</gui></guiseq> and choose the "
@@ -1864,7 +1911,7 @@ msgstr ""
 "<app>Evolution</app> találatokat kereshet."
 
 #. (itstool) path: page/p
-#: C/contacts-autocompletion.page:41
+#: C/contacts-autocompletion.page:42
 msgid ""
 "Select <gui>Always show address of the autocompleted contact</gui> to also "
 "show the email address along with the name. This can be helpful to "
@@ -1875,7 +1922,7 @@ msgstr ""
 "akkor hasznos, ha egy névjegyhez több e-mail cím is tartozik."
 
 #. (itstool) path: page/p
-#: C/contacts-autocompletion.page:45
+#: C/contacts-autocompletion.page:46
 msgid ""
 "Alternately, you can click the <gui>To:</gui>, <gui>Cc:</gui>, or <gui>Bcc:</"
 "gui> buttons to get a list of the email addresses in your contacts. Select "
@@ -2727,15 +2774,21 @@ msgstr ""
 
 #. (itstool) path: page/p
 #: C/customize-ui-items.page:36
+#| msgid ""
+#| "To change keyboard shortcuts, edit <file>~/.config/evolution/accels</"
+#| "file> while <app>Evolution</app> is not running. Commented lines start "
+#| "with a comma character. Not all shortcuts can be changed though."
 msgid ""
 "To change keyboard shortcuts, edit <file>~/.config/evolution/accels</file> "
 "while <app>Evolution</app> is not running. Commented lines start with a "
-"comma character. Not all shortcuts can be changed though."
+"<code>;</code> character and will be ignored. Not all shortcuts can be "
+"changed though."
 msgstr ""
-"A gyorsbillentyűk megváltoztatásához szerkessze a <file>~/.config/evolution/"
-"accels</file> fájlt, miközben az <app>Evolution</app> nem fut. A "
-"megjegyzésre állított sorok vessző karakterrel kezdődnek. Habár nem minden "
-"gyorsbillentyűt lehet megváltoztatni."
+"A gyorsbillentyűk megváltoztatásához szerkessze a <file"
+">~/.config/evolution/accels</file> fájlt, miközben az <app>Evolution</app>"
+" nem fut. A megjegyzésre állított sorok <code>;</code> karakterrel kezdődnek,"
+" és figyelmen kívül lesznek hagyva. Habár nem minden gyorsbillentyűt lehet"
+" megváltoztatni."
 
 #. (itstool) path: info/desc
 #: C/data-storage.page:5
@@ -3211,6 +3264,66 @@ msgid "Exporting data from <app>Evolution</app>"
 msgstr "Adatok exportálása az <app>Evolutionből</app>"
 
 #. (itstool) path: info/desc
+#: C/flatpak-limitations.page:5
+#| msgid "Importing into <app>Evolution</app>"
+msgid "Limitations when using a Flatpak package of <app>Evolution</app>."
+msgstr ""
+"Korlátozások az <app>Evolution</app> Flatpak csomagjának használatakor."
+
+#. (itstool) path: page/title
+#: C/flatpak-limitations.page:20
+msgid "Cannot print mail, add or save attachments, or open the help"
+msgstr ""
+"Nem lehet levelet nyomtatni, mellékleteket hozzáadni vagy elmenteni, valamint"
+" a súgót megnyitni"
+
+#. (itstool) path: page/p
+#: C/flatpak-limitations.page:22
+msgid ""
+"If you run a <link href=\"https://flathub.org/\">Flatpak</link> version of "
+"<app>Evolution</app>, then there are several limitations. Examples are:"
+msgstr ""
+"Ha az <app>Evolution</app> <link href=\"https://flathub.org/\">Flatpak</link>"
+" verzióját futtatja, akkor számos korlátozás van. Például ezek:"
+
+#. (itstool) path: item/p
+#: C/flatpak-limitations.page:26
+msgid ""
+"Adding attachments to an email or saving attachments from an email might not "
+"be possible."
+msgstr ""
+"A mellékletek hozzáadása egy levélhez vagy a mellékletek mentése egy levélből"
+" nem biztos, hogy lehetséges."
+
+#. (itstool) path: item/p
+#: C/flatpak-limitations.page:28
+msgid ""
+"You cannot print an email to a printer. This is a <link href=\"https://bugs."
+"webkit.org/show_bug.cgi?id=192748\">limitation of the underlying WebKitGTK "
+"library</link>."
+msgstr ""
+"Nem tudja kinyomtatni a levelet egy nyomtatón. Ez az <link"
+" href=\"https://bugs.webkit.org/show_bug.cgi?id=192748\">alapjául szolgáló"
+" WebKitGTK programkönyvtár korlátozása</link>."
+
+#. (itstool) path: item/p
+#: C/flatpak-limitations.page:31
+msgid ""
+"To print an email to a file, you can run <cmd>flatpak run --filesystem=home "
+"org.gnome.Evolution</cmd> as a workaround."
+msgstr ""
+"Egy levél fájlba történő nyomtatásához kerülőmegoldásként futtathatja a <cmd"
+">flatpak run --filesystem=home org.gnome.Evolution</cmd> parancsot."
+
+#. (itstool) path: item/p
+#: C/flatpak-limitations.page:33
+msgid ""
+"The local user documentation might not included, to make the package smaller."
+msgstr ""
+"A helyi felhasználói dokumentáció esetleg nincs mellékelve, hogy kisebbé"
+" tegyék a csomagot."
+
+#. (itstool) path: info/desc
 #: C/google-services.page:5
 msgid "Using Google services."
 msgstr "Google szolgáltatások használata."
@@ -3230,8 +3343,25 @@ msgstr "Adatok importálása Mozilla <app>Thunderbirdből</app>."
 msgid "Mozilla"
 msgstr "Mozilla"
 
+#. (itstool) path: note/p
+#: C/import-apps-mozilla.page:26
+msgid "The instructions below might be outdated and not work anymore."
+msgstr ""
+"Az alábbi utasítások elavultak lehetnek, és esetleg nem működnek többé."
+
+#. (itstool) path: note/p
+#: C/import-apps-mozilla.page:26
+msgid ""
+"Follow <link href=\"https://mail.gnome.org/archives/evolution-list/2019-"
+"February/msg00055.html\">this mailing list posting</link> for an alternative "
+"method that you could try."
+msgstr ""
+"Egy alternatív módszerért kövesse <link href=\"https://mail.gnome.org/archives"
+"/evolution-list/2019-February/msg00055.html\">ezt a levelezőlista-bejegyzést<"
+"/link>, amelyet kipróbálhat."
+
 #. (itstool) path: item/p
-#: C/import-apps-mozilla.page:25
+#: C/import-apps-mozilla.page:29
 msgid ""
 "<link href=\"https://support.mozilla.org/en-US/kb/profiles-where-thunderbird-"
 "stores-user-data\">Find your <app>Thunderbird</app> profile folder.</link>"
@@ -3241,14 +3371,14 @@ msgstr ""
 "link>"
 
 #. (itstool) path: item/p
-#: C/import-apps-mozilla.page:26 C/import-apps-outlook.page:62
+#: C/import-apps-mozilla.page:30 C/import-apps-outlook.page:62
 #: C/import-single-files.page:24
 msgid "Click <guiseq><gui>File</gui><gui>Import</gui></guiseq>."
 msgstr ""
 "Válassza a <guiseq><gui>Fájl</gui><gui>Importálás</gui></guiseq> menüpontot."
 
 #. (itstool) path: item/p
-#: C/import-apps-mozilla.page:27 C/import-apps-outlook.page:63
+#: C/import-apps-mozilla.page:31 C/import-apps-outlook.page:63
 #: C/import-single-files.page:25
 msgid ""
 "In the <gui>Importer Type</gui> tab, click <gui>Import a single file</gui>."
@@ -3257,7 +3387,7 @@ msgstr ""
 "importálása</gui> menüpontot."
 
 #. (itstool) path: item/p
-#: C/import-apps-mozilla.page:28
+#: C/import-apps-mozilla.page:32
 msgid ""
 "Go to the folder in which <app>Thunderbird</app> stores its data. You will "
 "have to make sure to <link xref=\"help:gnome-help/files-hidden#show-hidden\" "
@@ -3271,7 +3401,7 @@ msgstr ""
 "ablakban."
 
 #. (itstool) path: item/p
-#: C/import-apps-mozilla.page:31
+#: C/import-apps-mozilla.page:35
 msgid ""
 "If you would like to import <app>Thunderbird</app> mail, go to <file>Mail/"
 "Local Folders</file> (for local mail accounts) or <file>ImapMail/servername</"
@@ -3287,7 +3417,7 @@ msgstr ""
 "file> fájlok)."
 
 #. (itstool) path: item/p
-#: C/import-apps-mozilla.page:32
+#: C/import-apps-mozilla.page:36
 msgid ""
 "If you would like to import <app>Thunderbird/Lightning</app> calendar data, "
 "you may be able to export your <app>Thunderbird</app> events as an <file>."
@@ -3302,13 +3432,13 @@ msgstr ""
 "naptáradatokat nem szabványos formátumú adatbázisban tárolja."
 
 #. (itstool) path: item/p
-#: C/import-apps-mozilla.page:34 C/import-apps-outlook.page:64
+#: C/import-apps-mozilla.page:38 C/import-apps-outlook.page:64
 #: C/import-single-files.page:26
 msgid "The file type will be automatically determined."
 msgstr "A fájl típusa automatikusan meghatározásra kerül."
 
 #. (itstool) path: item/p
-#: C/import-apps-mozilla.page:35
+#: C/import-apps-mozilla.page:39
 msgid ""
 "Choose the destination (e.g. the folder or calendar in <app>Evolution</app>) "
 "for the imported data."
@@ -3317,10 +3447,56 @@ msgstr ""
 "<app>Evolutionben</app>)."
 
 #. (itstool) path: item/p
-#: C/import-apps-mozilla.page:36 C/import-apps-outlook.page:68
+#: C/import-apps-mozilla.page:40 C/import-apps-outlook.page:68
 msgid "Repeat the import steps until you have imported all your data."
 msgstr ""
 "Ismételje az importálási lépéseket, amíg nem importálta az összes adatát."
+
+#. (itstool) path: info/desc
+#: C/import-apps-kmail.page:5
+msgid ""
+"If <app>KMail</app> data cannot be found by the <app>Evolution</app> "
+"importer."
+msgstr ""
+"Ha a <app>KMail</app> adatokat nem találja az <app>Evolution</app> importáló."
+
+#. (itstool) path: page/title
+#: C/import-apps-kmail.page:19
+#| msgid "Mail"
+msgid "KMail"
+msgstr "KMail"
+
+#. (itstool) path: page/p
+#: C/import-apps-kmail.page:21
+#| msgid "Starting <app>Evolution</app> for the first time"
+msgid "Note that <app>Evolution</app> only recognized KDE 4 directories:"
+msgstr ""
+"Ne feledje, hogy az <app>Evolution</app> csak a KDE 4 könyvtárakat ismerte"
+" fel:"
+
+#. (itstool) path: item/p
+#: C/import-apps-kmail.page:23
+#| msgid "<file>$HOME/.local/share/evolution</file>"
+msgid "<file>$HOME/.kde4/share/apps/kmail/mail</file> for mail"
+msgstr "<file>$HOME/.kde4/share/apps/kmail/mail</file> a levélhez"
+
+#. (itstool) path: item/p
+#: C/import-apps-kmail.page:24
+msgid "<file>$HOME/.kde4/share/apps/kabc</file> for contacts"
+msgstr "<file>$HOME/.kde4/share/apps/kabc</file> a névjegyekhez"
+
+#. (itstool) path: page/p
+#: C/import-apps-kmail.page:27
+msgid ""
+"For more recent versions, follow <link href=\"https://mail.gnome.org/"
+"archives/evolution-list/2020-March/msg00168.html\">the instructions in this "
+"post</link>. If you run into problems, follow <link xref=\"problems-getting-"
+"help\"/>."
+msgstr ""
+"Az újabb verziókért kövesse az <link href=\"https://mail.gnome.org/archives/ev"
+"olution-list/2020-March/msg00168.html\">ebben a bejegyzésben lévő"
+" utasításokat</link>. Ha problémába ütközik, akkor nézze meg a <link"
+" xref=\"problems-getting-help\"/> fejezetet."
 
 #. (itstool) path: info/desc
 #: C/import-apps-outlook.page:5
@@ -3491,16 +3667,23 @@ msgstr "Válassza ki az importálni kívánt Outlook (.pst) fájlt."
 
 #. (itstool) path: note/p
 #: C/import-apps-outlook.page:65
+#| msgid ""
+#| "If the option to import Outlook personal folders (.pst files) is not "
+#| "available under <guiseq><gui>File</gui><gui>Import</gui><gui>Import "
+#| "single file</gui><gui>File type</gui></guiseq>, your distribution might "
+#| "have not enabled this functionality."
 msgid ""
 "If the option to import Outlook personal folders (.pst files) is not "
 "available under <guiseq><gui>File</gui><gui>Import</gui><gui>Import single "
 "file</gui><gui>File type</gui></guiseq>, your distribution might have not "
-"enabled this functionality."
+"enabled this functionality in Evolution. Please ask in a support forum of "
+"your distribution."
 msgstr ""
-"Ha az Outlook személyes mappák (.pst fájlok) importálására szolgáló "
-"lehetőség nem érhető el a <guiseq><gui>Fájl</gui><gui>Importálás</"
-"gui><gui>Egyetlen fájl importálása</gui><gui>Fájltípus</gui></guiseq> alatt, "
-"akkor a disztribúciója nem kapcsolta be ezt a funkciót."
+"Ha az Outlook személyes mappák (.pst fájlok) importálására szolgáló lehetőség"
+" nem érhető el a <guiseq><gui>Fájl</gui><gui>Importálás</gui><gui>Egyetlen"
+" fájl importálása</gui><gui>Fájltípus</gui></guiseq> alatt, akkor a"
+" disztribúciója esetleg nem engedélyezte ezt a funkciót az Evolutionben."
+" Kérdezzen rá a disztribúciója támogatási fórumán."
 
 #. (itstool) path: item/p
 #: C/import-apps-outlook.page:67 C/import-single-files.page:27
@@ -3754,6 +3937,13 @@ msgstr ""
 "Messaging</app> és <app>Microsoft Outlook</app>) való tárolására használt "
 "fájlformátum. „Personal Storage Table néven is ismert."
 
+#. (itstool) path: item/p
+#: C/import-supported-file-formats.page:83
+msgid "See <link xref=\"import-apps-outlook\"/> for more information."
+msgstr ""
+"További információkért nézze meg az <link xref=\"import-apps-outlook\"/>"
+" fejezetet."
+
 #. (itstool) path: info/desc
 #: C/index.page:5
 msgid "Manage your email, contacts and schedule"
@@ -3776,8 +3966,7 @@ msgid "<_:media-1/> <app>Evolution</app> Mail and Calendar"
 msgstr "<_:media-1/> <app>Evolution</app> levelező és naptár"
 
 #. (itstool) path: section/title
-#. (itstool) path: page/title
-#: C/index.page:31 C/intro-application.page:24
+#: C/index.page:31
 msgid "Getting Started"
 msgstr "Kezdeti lépések"
 
@@ -3847,51 +4036,6 @@ msgid "Further reading"
 msgstr "További olvasnivaló"
 
 #. (itstool) path: info/desc
-#: C/intro-application.page:5
-msgid "An introduction to <app>Evolution</app>."
-msgstr "Az <app>Evolution</app> bemutatása."
-
-#. (itstool) path: page/p
-#: C/intro-application.page:25
-msgid ""
-"<app>Evolution</app> allows you to access your personal information like "
-"your calendars, mail, address books and tasks in one place."
-msgstr ""
-"Az <app>Evolution</app> lehetővé teszi személyes információinak, mint "
-"például a naptárainak, leveleinek, címjegyzékeinek és feladatainak egy "
-"helyről történő kezelését."
-
-#. (itstool) path: page/p
-#: C/intro-application.page:27
-msgid ""
-"By default <app>Evolution</app> opens the mail view. This is where you can "
-"view all your mail. You can change to other views of the application by "
-"going to the bottom of the left pane in the window (the so-called \"switcher"
-"\") and selecting the desired view. <link xref=\"intro-main-window\">Learn "
-"more about the elements of the main window</link>."
-msgstr ""
-"Alapértelmezésben az <app>Evolution</app> a levelező nézetben nyílik meg, "
-"itt jelennek meg a levelei. Az alkalmazás további nézeteit a bal alsó "
-"sarokban lévő gombokkal érheti el (ez a terület a „váltó”). <link xref="
-"\"intro-main-window\">Tudjon meg többet a főablak elemeiről</link>."
-
-#. (itstool) path: note/p
-#: C/intro-application.page:29
-msgid ""
-"When <app>Evolution</app> starts, it remembers the last view that you used. "
-"However you can also explicitly start <app>Evolution</app> in a specific "
-"view. For the calendar view, use the command <cmd>evolution --"
-"component=calendar</cmd> in the <app>Terminal</app> application. Other "
-"available options are \"mail\", \"contacts\", \"tasks\", and \"memos\"."
-msgstr ""
-"Az <app>Evolution</app> induláskor az utoljára használt nézetet jeleníti "
-"meg. Azonban az <app>Evolutiont</app> egy adott nézetben is elindíthatja.  A "
-"naptár nézethez használja az <cmd>evolution --component=calendar</cmd> "
-"parancsot a <app>Terminál</app> alkalmazásban. A további lehetőségek a "
-"„mail” (levelező), „contacts” (névjegyek), „tasks” (feladatok) és "
-"„memos” (feljegyzések)."
-
-#. (itstool) path: info/desc
 #: C/intro-first-run.page:8
 msgid "Set up email accounts, import data, or restore from a backup."
 msgstr ""
@@ -3906,6 +4050,16 @@ msgstr "Az <app>Evolution</app> első indítása"
 #. (itstool) path: page/p
 #: C/intro-first-run.page:25
 msgid ""
+"<app>Evolution</app> allows you to access your personal information like "
+"your calendars, mail, address books and tasks in one place."
+msgstr ""
+"Az <app>Evolution</app> lehetővé teszi személyes információinak, mint "
+"például a naptárainak, leveleinek, címjegyzékeinek és feladatainak egy "
+"helyről történő kezelését."
+
+#. (itstool) path: page/p
+#: C/intro-first-run.page:27
+msgid ""
 "The first time you run <app>Evolution</app>, it opens the First-Run "
 "Assistant. It helps you set up email accounts and <link xref=\"import-data"
 "\">import data from other applications.</link>"
@@ -3915,7 +4069,7 @@ msgstr ""
 "\">adatok importálásában más alkalmazásokból</link>."
 
 #. (itstool) path: page/p
-#: C/intro-first-run.page:27
+#: C/intro-first-run.page:29
 msgid ""
 "This assistant is not shown if there is an already configured e-mail account "
 "in <link xref=\"help:gnome-help/accounts\"><app>Online accounts</app></link> "
@@ -3930,7 +4084,7 @@ msgstr ""
 "fiókok csak magában az <app>Online fiókokban</app> távolíthatóak el."
 
 #. (itstool) path: section/title
-#: C/intro-first-run.page:30 C/mail-account-manage-imap-plus.page:29
+#: C/intro-first-run.page:32 C/mail-account-manage-imap-plus.page:29
 #: C/mail-account-manage-local-delivery.page:29
 #: C/mail-account-manage-maildir-format-directories.page:30
 #: C/mail-account-manage-mh-format-directories.page:29
@@ -3944,7 +4098,7 @@ msgid "Identity"
 msgstr "Személyazonosság"
 
 #. (itstool) path: section/p
-#: C/intro-first-run.page:31 C/mail-account-manage-imap-plus.page:30
+#: C/intro-first-run.page:33 C/mail-account-manage-imap-plus.page:30
 #: C/mail-account-manage-local-delivery.page:30
 #: C/mail-account-manage-maildir-format-directories.page:31
 #: C/mail-account-manage-mh-format-directories.page:30
@@ -3958,7 +4112,7 @@ msgid "Here you define your name and your email address."
 msgstr "Itt megadhatja nevét és e-mail címét."
 
 #. (itstool) path: section/p
-#: C/intro-first-run.page:32 C/mail-account-manage-imap-plus.page:31
+#: C/intro-first-run.page:34 C/mail-account-manage-imap-plus.page:31
 #: C/mail-account-manage-local-delivery.page:31
 #: C/mail-account-manage-maildir-format-directories.page:32
 #: C/mail-account-manage-mh-format-directories.page:31
@@ -3968,11 +4122,6 @@ msgstr "Itt megadhatja nevét és e-mail címét."
 #: C/mail-account-manage-unix-mbox-spool-directory.page:31
 #: C/mail-account-manage-unix-mbox-spool-file.page:31
 #: C/mail-account-manage-usenet-news.page:31
-#| msgid ""
-#| "Optionally you can set a Reply-To email address (if you want replies to "
-#| "messages sent to a different address), set an organization (a company or "
-#| "organization you represent when you send email from this account), your "
-#| "default <_:link-1/> for this account, and <_:link-2/>."
 msgid ""
 "Optionally you can set a Reply-To email address (if you want replies to "
 "messages sent to a different address), set an organization (a company or "
@@ -3983,18 +4132,17 @@ msgid ""
 msgstr ""
 "Beállíthat válaszcímet (ha a válaszokat másik címre szeretné megkapni) és "
 "beállíthat szervezetet (a munkahelye, vagy az a szervezet, amelyet a "
-"postafiókból való levélküldéskor képvisel), az alapértelmezett <link"
-" xref=\"mail-composer-mail-signatures\">aláírást</link>"
-"ehhez a fiókhoz, és <link href=\"https://en.wikipedia.org/wiki/Email_alias\""
-">e-mail álneveket</link>."
+"postafiókból való levélküldéskor képvisel), az alapértelmezett <link xref="
+"\"mail-composer-mail-signatures\">aláírást</link>ehhez a fiókhoz, és <link "
+"href=\"https://en.wikipedia.org/wiki/Email_alias\">e-mail álneveket</link>."
 
 #. (itstool) path: section/title
-#: C/intro-first-run.page:36
+#: C/intro-first-run.page:38
 msgid "Restore from backup"
 msgstr "Visszaállítás mentésből"
 
 #. (itstool) path: section/p
-#: C/intro-first-run.page:37
+#: C/intro-first-run.page:39
 msgid ""
 "You will be asked whether to restore from a backup of a previous version. If "
 "you do not have a backup, go to the next page."
@@ -4004,13 +4152,13 @@ msgstr ""
 "lépjen a következő oldalra."
 
 #. (itstool) path: info/title
-#: C/intro-first-run.page:41
+#: C/intro-first-run.page:43
 msgctxt "ui:collapsed"
 msgid "Show how to restore from a backup"
 msgstr "Visszaállítás biztonsági mentésből"
 
 #. (itstool) path: section/title
-#: C/intro-first-run.page:51 C/mail-receiving-options-exchange-ews.page:23
+#: C/intro-first-run.page:53 C/mail-receiving-options-exchange-ews.page:23
 #: C/mail-receiving-options-exchange-mapi.page:23
 #: C/mail-receiving-options-imap-plus.page:26
 #: C/mail-receiving-options-local-delivery.page:23
@@ -4024,7 +4172,7 @@ msgid "Receiving Email"
 msgstr "Levelek fogadása"
 
 #. (itstool) path: section/p
-#: C/intro-first-run.page:52
+#: C/intro-first-run.page:54
 msgid ""
 "First, choose the server type from the <gui>Server Type</gui> drop-down list."
 msgstr ""
@@ -4032,7 +4180,7 @@ msgstr ""
 "gui> legördülő listából."
 
 #. (itstool) path: section/p
-#: C/intro-first-run.page:53
+#: C/intro-first-run.page:55
 msgid ""
 "If you are unsure about the type of server to choose, ask your system "
 "administrator or Internet Service Provider."
@@ -4041,7 +4189,7 @@ msgstr ""
 "rendszergazdáját vagy internetszolgáltatóját."
 
 #. (itstool) path: note/p
-#: C/intro-first-run.page:55
+#: C/intro-first-run.page:57
 msgid ""
 "Later on, if you want to change an account, or if you want to create another "
 "one, go to <guiseq><gui>Edit</gui><gui>Preferences</gui><gui>Mail Accounts</"
@@ -4057,12 +4205,12 @@ msgstr ""
 "gui> gombot."
 
 #. (itstool) path: section/title
-#: C/intro-first-run.page:58
+#: C/intro-first-run.page:60
 msgid "IMAP+"
 msgstr "IMAP+"
 
 #. (itstool) path: section/p
-#: C/intro-first-run.page:59
+#: C/intro-first-run.page:61
 msgid ""
 "Keeps the mail on the server so you can access your mail from multiple "
 "systems."
@@ -4070,45 +4218,45 @@ msgstr ""
 "A leveleket a kiszolgálón tárolja, így azokat több rendszerről is elérheti."
 
 #. (itstool) path: info/title
-#: C/intro-first-run.page:63 C/intro-first-run.page:79
-#: C/intro-first-run.page:95 C/intro-first-run.page:119
-#: C/intro-first-run.page:143 C/intro-first-run.page:159
-#: C/intro-first-run.page:175 C/intro-first-run.page:191
-#: C/intro-first-run.page:207 C/intro-first-run.page:223
-#: C/intro-first-run.page:250
+#: C/intro-first-run.page:65 C/intro-first-run.page:81
+#: C/intro-first-run.page:97 C/intro-first-run.page:121
+#: C/intro-first-run.page:145 C/intro-first-run.page:161
+#: C/intro-first-run.page:177 C/intro-first-run.page:193
+#: C/intro-first-run.page:209 C/intro-first-run.page:225
+#: C/intro-first-run.page:252
 msgctxt "ui:collapsed"
 msgid "Show how to configure this account type"
 msgstr "Ezen fióktípus beállításának módja"
 
 #. (itstool) path: section/title
 #. (itstool) path: page/title
-#: C/intro-first-run.page:65 C/mail-receiving-options-imap-plus.page:23
+#: C/intro-first-run.page:67 C/mail-receiving-options-imap-plus.page:23
 msgid "IMAP+ receiving options"
 msgstr "IMAP+ fogadási beállításai"
 
 #. (itstool) path: section/title
-#: C/intro-first-run.page:74
+#: C/intro-first-run.page:76
 msgid "POP"
 msgstr "POP"
 
 #. (itstool) path: section/p
-#: C/intro-first-run.page:75
+#: C/intro-first-run.page:77
 msgid "Downloads your email to your hard disk."
 msgstr "E-mailjeit letölti a merevlemezére."
 
 #. (itstool) path: section/title
 #. (itstool) path: page/title
-#: C/intro-first-run.page:81 C/mail-receiving-options-pop.page:27
+#: C/intro-first-run.page:83 C/mail-receiving-options-pop.page:27
 msgid "POP receiving options"
 msgstr "POP fogadási beállításai"
 
 #. (itstool) path: section/title
-#: C/intro-first-run.page:90
+#: C/intro-first-run.page:92
 msgid "USENET News"
 msgstr "USENET hírek"
 
 #. (itstool) path: section/p
-#: C/intro-first-run.page:91
+#: C/intro-first-run.page:93
 msgid ""
 "Connects to a news server and downloads a list of available news digests."
 msgstr ""
@@ -4116,17 +4264,17 @@ msgstr ""
 
 #. (itstool) path: section/title
 #. (itstool) path: page/title
-#: C/intro-first-run.page:97 C/mail-receiving-options-usenet-news.page:23
+#: C/intro-first-run.page:99 C/mail-receiving-options-usenet-news.page:23
 msgid "Usenet news receiving options"
 msgstr "Usenet hírfogadási beállítások"
 
 #. (itstool) path: section/title
-#: C/intro-first-run.page:106
+#: C/intro-first-run.page:108
 msgid "Exchange EWS"
 msgstr "Exchange EWS"
 
 #. (itstool) path: section/p
-#: C/intro-first-run.page:107
+#: C/intro-first-run.page:109
 msgid ""
 "For connecting to a Microsoft Exchange 2007/2010 or OpenChange server. Note "
 "that this is currently under development and will replace the <gui>Exchange "
@@ -4139,13 +4287,13 @@ msgstr ""
 "Ön által használt disztribúcióhoz."
 
 #. (itstool) path: note/p
-#: C/intro-first-run.page:109
+#: C/intro-first-run.page:111
 msgid "This requires having the <sys>evolution-ews</sys> package installed."
 msgstr "Ehhez telepítve kell lennie az <sys>evolution-ews</sys> csomagnak."
 
 #. (itstool) path: when/p
 #. (itstool) path: note/p
-#: C/intro-first-run.page:112 C/mail-account-manage-microsoft-exchange.page:30
+#: C/intro-first-run.page:114 C/mail-account-manage-microsoft-exchange.page:30
 msgid ""
 "<link action=\"install:evolution-ews\" href=\"https://wiki.gnome.org/Apps/"
 "Evolution#Get_the_Source_Code\" style=\"button\">Install evolution-ews</link>"
@@ -4156,29 +4304,29 @@ msgstr ""
 
 #. (itstool) path: section/title
 #. (itstool) path: page/title
-#: C/intro-first-run.page:121 C/mail-receiving-options-exchange-ews.page:20
+#: C/intro-first-run.page:123 C/mail-receiving-options-exchange-ews.page:20
 msgid "Exchange Web Services receiving options"
 msgstr "Webes Exchange-szolgáltatások fogadási beállításai"
 
 #. (itstool) path: section/title
-#: C/intro-first-run.page:130
+#: C/intro-first-run.page:132
 msgid "Exchange MAPI"
 msgstr "Exchange MAPI"
 
 #. (itstool) path: section/p
-#: C/intro-first-run.page:131
+#: C/intro-first-run.page:133
 msgid "For connecting to a Microsoft Exchange 2007/2010 or OpenChange server."
 msgstr ""
 "Csatlakozás Microsoft Exchange 2007/2010 vagy OpenChange kiszolgálóhoz."
 
 #. (itstool) path: note/p
-#: C/intro-first-run.page:133
+#: C/intro-first-run.page:135
 msgid "This requires having the <sys>evolution-mapi</sys> package installed."
 msgstr "Ehhez telepítve kell lennie az <sys>evolution-mapi</sys> csomagnak."
 
 #. (itstool) path: when/p
 #. (itstool) path: note/p
-#: C/intro-first-run.page:136 C/mail-account-manage-microsoft-exchange.page:41
+#: C/intro-first-run.page:138 C/mail-account-manage-microsoft-exchange.page:41
 msgid ""
 "<link action=\"install:evolution-mapi\" href=\"https://wiki.gnome.org/Apps/"
 "Evolution#Get_the_Source_Code\" style=\"button\">Install evolution-mapi</"
@@ -4190,17 +4338,17 @@ msgstr ""
 
 #. (itstool) path: section/title
 #. (itstool) path: page/title
-#: C/intro-first-run.page:145 C/mail-receiving-options-exchange-mapi.page:20
+#: C/intro-first-run.page:147 C/mail-receiving-options-exchange-mapi.page:20
 msgid "Exchange MAPI receiving options"
 msgstr "Exchange MAPI fogadási beállításai"
 
 #. (itstool) path: section/title
-#: C/intro-first-run.page:154
+#: C/intro-first-run.page:156
 msgid "Local delivery"
 msgstr "Helyi kézbesítés"
 
 #. (itstool) path: section/p
-#: C/intro-first-run.page:155
+#: C/intro-first-run.page:157
 msgid ""
 "Local delivery: If you want to move email from the spool (the location where "
 "mail waits for delivery) and store it in your home directory. You need to "
@@ -4216,34 +4364,34 @@ msgstr ""
 
 #. (itstool) path: section/title
 #. (itstool) path: page/title
-#: C/intro-first-run.page:161 C/mail-receiving-options-local-delivery.page:20
+#: C/intro-first-run.page:163 C/mail-receiving-options-local-delivery.page:20
 msgid "Local delivery receiving options"
 msgstr "Helyi kézbesítés fogadási beállításai"
 
 #. (itstool) path: section/title
-#: C/intro-first-run.page:170
+#: C/intro-first-run.page:172
 msgid "MH-Format Mail Directories"
 msgstr "MH formátumú levélkönyvtárak"
 
 #. (itstool) path: section/p
-#: C/intro-first-run.page:171
+#: C/intro-first-run.page:173
 msgid "For downloading email using MH or another MH-style application."
 msgstr "E-mailek letöltéséhez MH vagy más MH-stílusú alkalmazással."
 
 #. (itstool) path: section/title
 #. (itstool) path: page/title
-#: C/intro-first-run.page:177
+#: C/intro-first-run.page:179
 #: C/mail-receiving-options-mh-format-directories.page:20
 msgid "MH-format mail directories receiving options"
 msgstr "MH formátumú levélkönyvtárak fogadási beállításai"
 
 #. (itstool) path: section/title
-#: C/intro-first-run.page:186
+#: C/intro-first-run.page:188
 msgid "Maildir-Format Mail Directories"
 msgstr "Maildir formátumú levélkönyvtárak"
 
 #. (itstool) path: section/p
-#: C/intro-first-run.page:187
+#: C/intro-first-run.page:189
 msgid ""
 "Maildir-Format Mail Directories: For downloading your email using Qmail or "
 "another Maildir-style application."
@@ -4253,18 +4401,18 @@ msgstr ""
 
 #. (itstool) path: section/title
 #. (itstool) path: page/title
-#: C/intro-first-run.page:193
+#: C/intro-first-run.page:195
 #: C/mail-receiving-options-maildir-format-directories.page:20
 msgid "Maildir-format mail directories receiving options"
 msgstr "Maildir formátumú levélkönyvtárak fogadási beállításai"
 
 #. (itstool) path: section/title
-#: C/intro-first-run.page:202
+#: C/intro-first-run.page:204
 msgid "Standard Unix mbox spool file"
 msgstr "Szabványos Unix mbox tárolófájl"
 
 #. (itstool) path: section/p
-#: C/intro-first-run.page:203
+#: C/intro-first-run.page:205
 msgid ""
 "Standard Unix mbox spool file: For reading and storing email in the mail "
 "spool file on your local system."
@@ -4274,18 +4422,18 @@ msgstr ""
 
 #. (itstool) path: section/title
 #. (itstool) path: page/title
-#: C/intro-first-run.page:209
+#: C/intro-first-run.page:211
 #: C/mail-receiving-options-unix-mbox-spool-file.page:20
 msgid "Standard Unix mbox spool file receiving options"
 msgstr "Szabványos Unix mbox tárolófájl fogadási beállításai"
 
 #. (itstool) path: section/title
-#: C/intro-first-run.page:218
+#: C/intro-first-run.page:220
 msgid "Standard Unix mbox spool directory"
 msgstr "Szabványos Unix mbox tárolókönyvtár"
 
 #. (itstool) path: section/p
-#: C/intro-first-run.page:219
+#: C/intro-first-run.page:221
 msgid ""
 "Standard Unix mbox spool directory: For reading and storing email in the "
 "mail spool directory on your local system."
@@ -4295,38 +4443,38 @@ msgstr ""
 
 #. (itstool) path: section/title
 #. (itstool) path: page/title
-#: C/intro-first-run.page:225
+#: C/intro-first-run.page:227
 #: C/mail-receiving-options-unix-mbox-spool-directory.page:20
 msgid "Standard Unix mbox spool directory receiving options"
 msgstr "Szabványos Unix mbox tárolófiók fogadási beállításai"
 
 #. (itstool) path: section/title
-#: C/intro-first-run.page:234
+#: C/intro-first-run.page:236
 msgid "None"
 msgstr "Nincs"
 
 #. (itstool) path: section/p
-#: C/intro-first-run.page:235
+#: C/intro-first-run.page:237
 msgid "If you do not plan to use <app>Evolution</app> for receiving email."
 msgstr "Ha nem szeretné az <app>Evolutiont</app> levelek fogadására használni."
 
 #. (itstool) path: section/title
-#: C/intro-first-run.page:241 C/mail-displaying-character-encodings.page:32
+#: C/intro-first-run.page:243 C/mail-displaying-character-encodings.page:32
 msgid "Sending mail"
 msgstr "Levél küldése"
 
 #. (itstool) path: section/p
-#: C/intro-first-run.page:242
+#: C/intro-first-run.page:244
 msgid "Available server types are:"
 msgstr "Az elérhető kiszolgálótípusok:"
 
 #. (itstool) path: section/title
-#: C/intro-first-run.page:245
+#: C/intro-first-run.page:247
 msgid "SMTP"
 msgstr "SMTP"
 
 #. (itstool) path: section/p
-#: C/intro-first-run.page:246
+#: C/intro-first-run.page:248
 msgid ""
 "Sends mail using an outbound mail server. This is the most common choice for "
 "sending mail."
@@ -4336,17 +4484,17 @@ msgstr ""
 
 #. (itstool) path: section/title
 #. (itstool) path: page/title
-#: C/intro-first-run.page:252 C/mail-sending-options-smtp.page:26
+#: C/intro-first-run.page:254 C/mail-sending-options-smtp.page:26
 msgid "SMTP sending options"
 msgstr "SMTP küldési beállítások"
 
 #. (itstool) path: section/title
-#: C/intro-first-run.page:261
+#: C/intro-first-run.page:263
 msgid "Sendmail"
 msgstr "Sendmail"
 
 #. (itstool) path: section/p
-#: C/intro-first-run.page:262
+#: C/intro-first-run.page:264
 msgid ""
 "Uses the <app>Sendmail</app> application to send mail from your system. It "
 "is not easy to configure, so you should select this option only if you know "
@@ -4357,22 +4505,22 @@ msgstr ""
 "hogyan állítsa be a Sendmail szolgáltatást."
 
 #. (itstool) path: section/title
-#: C/intro-first-run.page:268
+#: C/intro-first-run.page:270
 msgid "Account Information"
 msgstr "Fiókinformációk"
 
 #. (itstool) path: section/p
-#: C/intro-first-run.page:269
+#: C/intro-first-run.page:271
 msgid "Give the account any name you prefer."
 msgstr "Írjon be a fióknak egy tetszőleges nevet."
 
 #. (itstool) path: section/title
-#: C/intro-first-run.page:273
+#: C/intro-first-run.page:275
 msgid "Importing Mail (Optional)"
 msgstr "Levelek importálása (elhagyható)"
 
 #. (itstool) path: section/p
-#: C/intro-first-run.page:274
+#: C/intro-first-run.page:276
 msgid ""
 "Continue with <link xref=\"import-data\">Importing data from another "
 "application</link>."
@@ -5136,13 +5284,17 @@ msgstr ""
 
 #. (itstool) path: note/p
 #: C/intro-main-window.page:94
+#| msgid ""
+#| "If you ever accidentially hide the menu bar, press <key>Alt</key> and re-"
+#| "enable it by toggling <guiseq><gui>View</gui><gui>Layout</gui><gui>Show "
+#| "Menu Bar</gui></guiseq>."
 msgid ""
-"If you ever accidentially hide the menu bar, press <key>Alt</key> and re-"
+"If you ever accidentally hide the menu bar, press <key>Alt</key> and re-"
 "enable it by toggling <guiseq><gui>View</gui><gui>Layout</gui><gui>Show Menu "
 "Bar</gui></guiseq>."
 msgstr ""
-"Ha véletlenül elrejti a menüsávot, akkor nyomja meg az <key>Alt</key> "
-"gombot, és kapcsolja vissza a <guiseq><gui>Nézet</gui><gui>Elrendezés</"
+"Ha véletlenül elrejtette a menüsávot, akkor nyomja meg az <key>Alt</key> "
+"billentyűt, és kapcsolja vissza a <guiseq><gui>Nézet</gui><gui>Elrendezés</"
 "gui><gui>Menüsáv megjelenítése</gui></guiseq> menüpont kiválasztásával."
 
 #. (itstool) path: section/p
@@ -6245,7 +6397,7 @@ msgstr ""
 "A melléklet másik alkalmazásban való megnyitásához kattintson a melléklet "
 "melletti lefelé mutató nyílra, és válassza ki az egyik elérhető alkalmazást."
 
-#. (itstool) path: page/p
+#. (itstool) path: note/p
 #: C/mail-attachments-received.page:33
 msgid ""
 "The options available for an attachment vary depending on the type of "
@@ -6257,6 +6409,16 @@ msgstr ""
 "telepített alkalmazásoktól függően változnak. Az asztali környezet MIME "
 "adatbázisa megadja, hogy mely alkalmazások használhatók egy adott "
 "fájlformátum megnyitására."
+
+#. (itstool) path: note/p
+#: C/mail-attachments-received.page:33
+msgid ""
+"To see the list of registered applications for a MIME type, use <cmd>gio "
+"mime</cmd>. Example: <cmd>gio mime \"application/pdf\"</cmd>"
+msgstr ""
+"Egy MIME-típushoz regisztrált alkalmazások listájának megtekintéséhez"
+" használja a <cmd>gio mime</cmd> parancsot. Például: <cmd>gio mime"
+" \"application/pdf\"</cmd>"
 
 #. (itstool) path: info/desc
 #: C/mail-attachments-sending.page:5
@@ -6332,28 +6494,20 @@ msgid "To enable the Attachment Reminder:"
 msgstr "A Mellékletemlékeztető engedélyezéséhez:"
 
 #. (itstool) path: item/p
-#: C/mail-attachments-sending.page:46
-#: C/mail-composer-custom-header-lines.page:31
-#: C/mail-composer-message-templates-variables.page:28
-msgid "Select <guiseq><gui>Edit</gui><gui>Plugins</gui></guiseq>."
-msgstr ""
-"Válassza a <guiseq><gui>Szerkesztés</gui><gui>Bővítmények</gui></guiseq> "
-"menüpontot."
-
-#. (itstool) path: item/p
 #: C/mail-attachments-sending.page:47
 msgid "Enable <gui>Attachment Reminder</gui>."
 msgstr "Engedélyezze a <gui>Mellékletemlékeztető</gui> bővítményt."
 
 #. (itstool) path: item/p
-#: C/mail-attachments-sending.page:48
-#: C/mail-composer-custom-header-lines.page:33
-#: C/mail-composer-message-templates-variables.page:30
+#: C/mail-attachments-sending.page:50
+#: C/mail-composer-custom-header-lines.page:35
+#: C/mail-composer-external-editor.page:27
+#: C/mail-composer-message-templates-variables.page:32
 msgid "Click the <gui>Configuration</gui> tab."
 msgstr "Lépjen a <gui>Beállítás</gui> lapra."
 
 #. (itstool) path: item/p
-#: C/mail-attachments-sending.page:49
+#: C/mail-attachments-sending.page:51
 msgid ""
 "Click <gui style=\"button\">Add</gui>, then enter keywords in your language "
 "such as \"Attach\" or \"enclosed\"."
@@ -6362,7 +6516,7 @@ msgstr ""
 "nyelvnek megfelelő kulcsszavakat, például „Mellékelve” vagy „Csatolom”."
 
 #. (itstool) path: section/p
-#: C/mail-attachments-sending.page:51
+#: C/mail-attachments-sending.page:53
 msgid ""
 "Based on the keywords you have added, <app>Evolution</app> searches the text "
 "of every mail you are going to send. If it finds any of the keywords in your "
@@ -6632,10 +6786,10 @@ msgid ""
 "gui><gui>Mail Preferences</gui><gui>Headers</gui><gui>Date/Time format</"
 "gui></guiseq>."
 msgstr ""
-"Az előnyben részesített formátum a <guiseq><gui>Szerkesztés</"
-"gui><gui>Beállítások</gui><gui>Levelezés beállításai</gui><gui>Fejlécek</"
-"gui><gui>Dátum/időformátum</gui></guiseq> szakaszban történő kiválasztásával "
-"megváltoztathatja a <gui>Dátum</gui> oszlop formátumát."
+"Megváltoztathatja a <gui>Dátum</gui> oszlop formátumát az előnyben"
+" részesített formátumnak a <guiseq><gui>Szerkesztés</gui><gui>Beállítások<"
+"/gui><gui>Levelezés beállításai</gui><gui>Fejlécek</gui><gui"
+">Dátum/időformátum</gui></guiseq> szakaszban történő kiválasztásával."
 
 #. (itstool) path: info/desc
 #: C/mail-composer-change-quotation-string.page:7
@@ -6766,7 +6920,7 @@ msgid "Enable <gui>Custom Header</gui>."
 msgstr "Engedélyezze az <gui>Egyéni fejlécek</gui> bővítményt."
 
 #. (itstool) path: item/p
-#: C/mail-composer-custom-header-lines.page:34
+#: C/mail-composer-custom-header-lines.page:36
 msgid ""
 "You can add, edit, or remove the header fields. For every header field you "
 "add, you can specify the keys and values. The key is used as the title of "
@@ -6779,12 +6933,12 @@ msgstr ""
 "megadott értékeket pontosvesszővel válassza el."
 
 #. (itstool) path: section/title
-#: C/mail-composer-custom-header-lines.page:39
+#: C/mail-composer-custom-header-lines.page:41
 msgid "Inserting custom headers in a message"
 msgstr "Egyéni fejlécek beszúrása üzenetbe"
 
 #. (itstool) path: item/p
-#: C/mail-composer-custom-header-lines.page:41
+#: C/mail-composer-custom-header-lines.page:43
 msgid ""
 "Click <guiseq><gui>New</gui><gui>Mail Message</gui></guiseq> or press "
 "<keyseq><key>Shift</key><key>Ctrl</key><key>M</key></keyseq> to open the "
@@ -6795,14 +6949,14 @@ msgstr ""
 "kombinációt az üzenetszerkesztő ablak megnyitásához."
 
 #. (itstool) path: item/p
-#: C/mail-composer-custom-header-lines.page:42
+#: C/mail-composer-custom-header-lines.page:44
 msgid "Select <guiseq><gui>Insert</gui><gui>Custom Header</gui></guiseq>."
 msgstr ""
 "Válassza a <guiseq><gui>Beszúrás</gui><gui>Egyéni fejléc</gui></guiseq> "
 "menüpontot."
 
 #. (itstool) path: item/p
-#: C/mail-composer-custom-header-lines.page:43
+#: C/mail-composer-custom-header-lines.page:45
 msgid ""
 "In the <gui>Email Custom Header</gui> window, you can view all the defined "
 "header fields and values."
@@ -6811,7 +6965,7 @@ msgstr ""
 "és -érték."
 
 #. (itstool) path: item/p
-#: C/mail-composer-custom-header-lines.page:44
+#: C/mail-composer-custom-header-lines.page:46
 msgid "Set the values for the header fields by using the dropdown list."
 msgstr "Állítsa be a fejlécmezők értékeit a legördülő lista használatával."
 
@@ -6883,19 +7037,24 @@ msgstr "Külső szerkesztő használata"
 #: C/mail-composer-external-editor.page:22
 msgid ""
 "You can compose the body of your message externally in your favorite text "
-"editor application so you can use its specific functionality. Enable "
-"<guiseq><gui>Edit</gui><gui>Plugins</gui><gui>External Editor</gui></guiseq> "
-"and set the corresponding <gui>Command</gui> to start the application under "
-"<gui>Configuration</gui>."
+"editor application so you can use its specific functionality."
 msgstr ""
-"Levelei törzsét kedvenc külső szövegszerkesztőjében is megírhatja, ha annak "
-"bizonyos funkcióit szeretné használni. Engedélyezze a "
-"<guiseq><gui>Szerkesztés</gui><gui>Bővítmények</gui><gui>Külső szerkesztő</"
-"gui></guiseq> bővítményt, és állítsa be a megfelelő <gui>Parancsot</gui> az "
-"alkalmazás elindításához a <gui>Beállítások</gui> alatt."
+"Megírhatja az üzenet törzsét a kedvenc szövegszerkesztő alkalmazásában"
+" külsőleg is, így használhatja annak egyedi funkcióit."
 
-#. (itstool) path: page/p
-#: C/mail-composer-external-editor.page:23
+#. (itstool) path: item/p
+#: C/mail-composer-external-editor.page:26
+#| msgid "Enable <gui>Custom Header</gui>."
+msgid "Enable <gui>External Editor</gui>."
+msgstr "Engedélyezze a <gui>Külső szerkesztő</gui> bővítményt."
+
+#. (itstool) path: item/p
+#: C/mail-composer-external-editor.page:30
+msgid "Set the corresponding <gui>Command</gui> to start the application."
+msgstr "Állítsa be a megfelelő <gui>Parancsot</gui> az alkalmazás indításához."
+
+#. (itstool) path: item/p
+#: C/mail-composer-external-editor.page:31
 msgid ""
 "If <gui>Automatically launch when a new mail is edited</gui> is not set, you "
 "need to select <guiseq><gui>File</gui><gui>Compose in External Editor</gui></"
@@ -7622,7 +7781,7 @@ msgstr "A szerkesztőben újrafelhasználható üzenetsablonok."
 #. (itstool) path: page/title
 #. (itstool) path: section/title
 #: C/mail-composer-message-templates.page:23
-#: C/mail-composer-message-templates.page:28
+#: C/mail-composer-message-templates.page:35
 msgid "Message Templates"
 msgstr "Üzenetsablonok"
 
@@ -7637,13 +7796,15 @@ msgstr ""
 
 #. (itstool) path: page/p
 #: C/mail-composer-message-templates.page:25
-msgid ""
-"To enable the Message Template Plugin, click <guiseq><gui>Edit</"
-"gui><gui>Plugins</gui></guiseq> and enable <gui>Templates</gui>."
-msgstr ""
-"Az üzenetsablon bővítmény engedélyezéséhez válassza a "
-"<guiseq><gui>Szerkesztés</gui><gui>Bővítmények</gui></guiseq> menüpontot, és "
-"engedélyezze a <gui>Sablonok</gui> bővítményt."
+#| msgid "To enable the Attachment Reminder:"
+msgid "To enable the Message Template Plugin:"
+msgstr "Az üzenetsablon bővítmény engedélyezéséhez:"
+
+#. (itstool) path: item/p
+#: C/mail-composer-message-templates.page:28
+#| msgid "Click <gui>Templates</gui>."
+msgid "Enable <gui>Templates</gui>."
+msgstr "Engedélyezze a <gui>Sablonok</gui> bővítményt."
 
 #. (itstool) path: info/desc
 #: C/mail-composer-message-templates-reply.page:5
@@ -7793,7 +7954,7 @@ msgid "Click <gui>Templates</gui>."
 msgstr "Válassza a <gui>Sablonok</gui> bővítményt."
 
 #. (itstool) path: item/p
-#: C/mail-composer-message-templates-variables.page:31
+#: C/mail-composer-message-templates-variables.page:33
 msgid ""
 "You can add, edit or remove the key-value pairs. You can specify any number "
 "of key-value pairs."
@@ -7802,7 +7963,7 @@ msgstr ""
 "számú kulcs-érték párt adhat meg."
 
 #. (itstool) path: section/p
-#: C/mail-composer-message-templates-variables.page:33
+#: C/mail-composer-message-templates-variables.page:35
 msgid ""
 "In any template, the occurrence of every $key is replaced by the value it "
 "has in the configuration. For example, if you set the key to Manager and the "
@@ -7814,7 +7975,7 @@ msgstr ""
 "akkor a $Főnök minden előfordulását az üzenetben a Gábor váltja."
 
 #. (itstool) path: section/p
-#: C/mail-composer-message-templates-variables.page:34
+#: C/mail-composer-message-templates-variables.page:36
 msgid ""
 "Assume that you have 1000 message templates with your current manager's name "
 "in them. When the current manager is replaced by a new one, it is not easy "
@@ -7829,7 +7990,7 @@ msgstr ""
 "értéket adhat ennek."
 
 #. (itstool) path: section/p
-#: C/mail-composer-message-templates-variables.page:35
+#: C/mail-composer-message-templates-variables.page:37
 msgid ""
 "By default, the entire environment variables are used as a key-value pair. "
 "An occurrence of $env_variable is replaced by the value it carries. For "
@@ -7842,12 +8003,12 @@ msgstr ""
 "kerül a sablon használatakor."
 
 #. (itstool) path: section/p
-#: C/mail-composer-message-templates-variables.page:36
+#: C/mail-composer-message-templates-variables.page:38
 msgid "The replacement process uses the following order of precedence:"
 msgstr "A helyettesítési folyamat a következő precedencia-sorrendet használja:"
 
 #. (itstool) path: item/p
-#: C/mail-composer-message-templates-variables.page:39
+#: C/mail-composer-message-templates-variables.page:41
 msgid ""
 "$key is replaced by the value set for it in the Configuration tab of the "
 "Templates plugin."
@@ -7856,7 +8017,7 @@ msgstr ""
 "megadott értékkel."
 
 #. (itstool) path: item/p
-#: C/mail-composer-message-templates-variables.page:42
+#: C/mail-composer-message-templates-variables.page:44
 msgid ""
 "If the key is not found, it is then replaced with the value of its "
 "environment variable."
@@ -7865,7 +8026,7 @@ msgstr ""
 "értékével kerül helyettesítésre."
 
 #. (itstool) path: item/p
-#: C/mail-composer-message-templates-variables.page:45
+#: C/mail-composer-message-templates-variables.page:47
 msgid ""
 "If key is neither a configuration option nor an environment variable, no "
 "changes are made."
@@ -7874,12 +8035,12 @@ msgstr ""
 "történik csere."
 
 #. (itstool) path: section/title
-#: C/mail-composer-message-templates-variables.page:52
+#: C/mail-composer-message-templates-variables.page:54
 msgid "Using Elements From a Message in a Template When Replying"
 msgstr "Üzenet elemeinek használata sablonban válaszoláskor"
 
 #. (itstool) path: section/p
-#: C/mail-composer-message-templates-variables.page:53
+#: C/mail-composer-message-templates-variables.page:55
 msgid ""
 "Templates can contain more than just the predefined set of <link xref="
 "\"#configure\">key-value pairs</link>. You can also get any message header "
@@ -7894,7 +8055,7 @@ msgstr ""
 #. (itstool) path: section/p
 #. TO TRANSLATORS: Do NOT translate $ORIG[subject] and $ORIG[body] in this
 #. sentence!
-#: C/mail-composer-message-templates-variables.page:55
+#: C/mail-composer-message-templates-variables.page:57
 msgid ""
 "In order to do this, use the format <code>$ORIG[header_name]</code> and "
 "replace the variable <code>header_name</code> by the actual header. For "
@@ -7911,7 +8072,7 @@ msgstr ""
 #. (itstool) path: section/p
 #. TO TRANSLATORS: Do NOT translate $ORIG[body] and $ORIG[reply-to] in
 #. this sentence!
-#: C/mail-composer-message-templates-variables.page:57
+#: C/mail-composer-message-templates-variables.page:59
 msgid ""
 "If no replacement for a variable is found, the variable is not removed "
 "(except for <code>$ORIG[body]</code>) but left in place so that you see that "
@@ -8249,12 +8410,12 @@ msgid "Assign your mail accounts to certain folders or recipients."
 msgstr "Postafiókok hozzárendelése bizonyos mappákhoz vagy címzettekhez."
 
 #. (itstool) path: page/title
-#: C/mail-composer-send-account-overrides.page:21
+#: C/mail-composer-send-account-overrides.page:22
 msgid "Send Account Overrides"
 msgstr "Küldési postafiók felülbírálásai"
 
 #. (itstool) path: page/p
-#: C/mail-composer-send-account-overrides.page:23
+#: C/mail-composer-send-account-overrides.page:24
 msgid ""
 "If you use more than one email account, you can define which account should "
 "always be used as your sender address:"
@@ -8263,7 +8424,7 @@ msgstr ""
 "mindig használni feladói címként:"
 
 #. (itstool) path: item/p
-#: C/mail-composer-send-account-overrides.page:25
+#: C/mail-composer-send-account-overrides.page:26
 msgid ""
 "When replying to mail in specific <link xref=\"mail-folders\">folders</link>."
 msgstr ""
@@ -8271,7 +8432,7 @@ msgstr ""
 "levelekre."
 
 #. (itstool) path: item/p
-#: C/mail-composer-send-account-overrides.page:26
+#: C/mail-composer-send-account-overrides.page:27
 msgid ""
 "When replying to certain email addresses, names, or parts of email addresses "
 "or names."
@@ -8280,7 +8441,19 @@ msgstr ""
 "részeinek válaszol."
 
 #. (itstool) path: page/p
-#: C/mail-composer-send-account-overrides.page:28
+#: C/mail-composer-send-account-overrides.page:30
+msgid ""
+"The checkbox <gui>Folder override has precedence over Recipient override</"
+"gui> defines how Evolution should behave when you reply to a message which "
+"matches both a folder and an email address or name which you have defined."
+msgstr ""
+"Az <gui>A mappa-felülbírálás előnyben van a címzett-felülbírálással szemben<"
+"/gui> jelölőnégyzet határozza meg, hogy az Evolutionnek hogyan kell"
+" viselkednie, ha egy olyan üzenetre válaszol, amely egy olyan mappára és egy"
+" olyan e-mail-címre vagy névre is illeszkedik, amelyet meghatározott."
+
+#. (itstool) path: page/p
+#: C/mail-composer-send-account-overrides.page:34
 msgid ""
 "These settings are available under <guiseq><gui>Edit</gui><gui>Preferences</"
 "gui><gui>Composer Preferences</gui><gui>Send Account</gui></guiseq>."
@@ -8491,11 +8664,11 @@ msgid ""
 "spell check in the email composer by clicking <guiseq><gui>Edit</"
 "gui><gui>Check Spelling…</gui></guiseq> or by pressing <key>F7</key>."
 msgstr ""
-"Ha a <link xref=\"#global-preferences\">szerkesztő beállításaiban</link> "
-"nincs engedélyezve a <gui>Helyesírás-ellenőrzés beírás közben</gui>, akkor "
-"az e-mail szerkesztőben a <guiseq><gui>Szerkesztés</gui><gui>Helyesírás-"
-"ellenőrzés</gui></guiseq> menüpont kiválasztásával, vagy az <key>F7</key> "
-"megnyomásával futtathatja a helyesírás-ellenőrzést."
+"Ha a <gui>Helyesírás-ellenőrzés beírás közben</gui> nincs engedélyezve a <"
+"link xref=\"#global-preferences\">szerkesztő beállításaiban</link>, akkor az"
+" e-mail szerkesztőben a <guiseq><gui>Szerkesztés</gui><gui"
+">Helyesírás-ellenőrzés…</gui></guiseq> menüpont kiválasztásával, vagy az <key"
+">F7</key> megnyomásával futtathatja a helyesírás-ellenőrzést."
 
 #. (itstool) path: info/desc
 #: C/mail-composer-write-new-message.page:5
@@ -8684,13 +8857,27 @@ msgstr ""
 "<guiseq><gui>Mappák</gui><gui>Tisztítás</gui></guiseq> menüpontot, vagy "
 "nyomja meg a <keyseq><key>Ctrl</key><key>E</key></keyseq> kombinációt."
 
+#. (itstool) path: note/p
+#: C/mail-delete-and-undelete.page:36
+msgid ""
+"When reading messages in a separate window, the next message will be "
+"displayed after you have deleted a message. If you want the window to close "
+"instead, run the command <cmd>gsettings set org.gnome.evolution.mail browser-"
+"close-on-delete-or-junk true</cmd>"
+msgstr ""
+"Ha különálló ablakban olvassa az üzeneteket, akkor a következő üzenet lesz"
+" megjelenítve, miután törölt egy üzenetet. Ha azt szeretné, hogy inkább"
+" záródjon be az ablak, akkor futtassa le a <cmd>gsettings set"
+" org.gnome.evolution.mail browser-close-on-delete-or-junk true</cmd>"
+" parancsot."
+
 #. (itstool) path: section/title
-#: C/mail-delete-and-undelete.page:38
+#: C/mail-delete-and-undelete.page:41
 msgid "Undeleting Messages"
 msgstr "Levelek visszaállítása"
 
 #. (itstool) path: section/p
-#: C/mail-delete-and-undelete.page:40
+#: C/mail-delete-and-undelete.page:43
 msgid ""
 "You can undelete a message that has been deleted but not expunged yet. To "
 "undelete a message, select the message, click <guiseq><gui>Edit</"
@@ -8705,7 +8892,7 @@ msgstr ""
 "gui><gui>Törölt üzenetek megjelenítése</gui></guiseq> menüpontot."
 
 #. (itstool) path: section/p
-#: C/mail-delete-and-undelete.page:42
+#: C/mail-delete-and-undelete.page:45
 msgid ""
 "If you have marked a message for deletion, undeleting it unmarks it, and the "
 "message is not shown anymore in the <gui>Trash</gui> folder."
@@ -9889,7 +10076,7 @@ msgstr ""
 "akkor bekapcsolhatja a szűrő műveletek naplózását."
 
 #. (itstool) path: item/p
-#: C/mail-filters-not-working.page:44
+#: C/mail-filters-not-working.page:44 C/mail-imap-change-send-method.page:28
 msgid "Close <app>Evolution</app>."
 msgstr "Zárja be az <app>Evolutiont</app>."
 
@@ -10028,17 +10215,17 @@ msgstr ""
 "és adja meg a szűrő alapjául szolgáló feltételeket."
 
 #. (itstool) path: item/p
-#: C/mail-filters.page:37 C/mail-search-folders-add.page:27
+#: C/mail-filters.page:37 C/mail-search-folders-add.page:28
 msgid "Click <gui style=\"button\">Add</gui>."
 msgstr "Nyomja meg a <gui style=\"button\">Hozzáadás</gui> gombot."
 
 #. (itstool) path: item/p
-#: C/mail-filters.page:38 C/mail-search-folders-add.page:28
+#: C/mail-filters.page:38 C/mail-search-folders-add.page:29
 msgid "Enter a name in the <gui>Rule name</gui> field."
 msgstr "Írjon be egy nevet a <gui>Szabály neve</gui> mezőbe."
 
 #. (itstool) path: item/p
-#: C/mail-filters.page:39 C/mail-search-folders-add.page:29
+#: C/mail-filters.page:39 C/mail-search-folders-add.page:30
 msgid ""
 "Define the conditions for the rule. For each condition, you first select "
 "which part of the message will be checked and then define the comparison."
@@ -10056,7 +10243,7 @@ msgstr ""
 "xref=\"mail-filters-conditions\">Használható szűrőfeltételek</link> szakaszt."
 
 #. (itstool) path: item/p
-#: C/mail-filters.page:40 C/mail-search-folders-add.page:30
+#: C/mail-filters.page:40 C/mail-search-folders-add.page:31
 msgid ""
 "If you want to define multiple conditions, define under <gui>Find items</"
 "gui> if any or if all conditions have to apply, and click <gui style=\"button"
@@ -10404,6 +10591,76 @@ msgstr ""
 "guiseq> menüpont kiválasztásával."
 
 #. (itstool) path: info/desc
+#: C/mail-imap-change-send-method.page:5
+msgid "Switch from sending mail via SMTP to Sendmail or vice versa."
+msgstr ""
+"Váltás a levelek SMTP-n keresztül történő levélküldésről Sendmailen"
+" keresztüli küldésre vagy fordítva."
+
+#. (itstool) path: page/title
+#: C/mail-imap-change-send-method.page:21
+#| msgid "Receiving options for IMAP+ accounts."
+msgid "Change the outgoing method for an IMAP+ account"
+msgstr "A kimenő módszer megváltoztatása egy IMAP+ fiókoknál"
+
+#. (itstool) path: page/p
+#: C/mail-imap-change-send-method.page:23
+msgid ""
+"There is no user interface to change the outgoing method of an IMAP account."
+msgstr ""
+"Nincs felhasználói felület egy IMAP-fiók kimenő módszerének"
+" megváltoztatásához."
+
+#. (itstool) path: page/p
+#: C/mail-imap-change-send-method.page:25
+msgid ""
+"If you used Sendmail so far but now want to use an SMTP connection instead:"
+msgstr ""
+"Ha eddig Sendmailt használt, de mostantól SMTP-kapcsolatot szeretne használni"
+" helyette:"
+
+#. (itstool) path: item/p
+#: C/mail-imap-change-send-method.page:29
+msgid ""
+"Find and open the corresponding account file in <file>$HOME/.config/"
+"evolution/sources/</file> with a text editor."
+msgstr ""
+"Keresse meg és nyissa meg a <file>$HOME/.config/evolution/sources/</file>"
+" mappában lévő megfelelő fiókfájlt egy szövegszerkesztővel."
+
+#. (itstool) path: item/p
+#: C/mail-imap-change-send-method.page:31
+msgid ""
+"In the <code>[Mail Transport]</code> section, replace "
+"<code>BackendName=sendmail</code> with <code>BackendName=smtp</code> or vice "
+"versa."
+msgstr ""
+"A <code>[Mail Transport]</code> szakaszban cserélje ki a <code"
+">BackendName=sendmail</code> beállítást a <code>BackendName=smtp</code>"
+" beállítással vagy fordítva."
+
+#. (itstool) path: item/p
+#: C/mail-imap-change-send-method.page:33
+msgid ""
+"Restart the <code>evolution-source-registry</code> background process, for "
+"example by rebooting your system."
+msgstr ""
+"Indítsa újra az <code>evolution-source-registry</code> háttérfolyamatot,"
+" például a rendszere újraindításával."
+
+#. (itstool) path: item/p
+#: C/mail-imap-change-send-method.page:35
+#| msgid ""
+#| "<app>Evolution</app> may need to be restarted for the settings to take "
+#| "effect."
+msgid ""
+"Start <app>Evolution</app> and edit the account SMTP settings for the "
+"account as needed."
+msgstr ""
+"Indítsa el az <app>Evolution</app> alkalmazást, és szerkessze a fiók"
+" SMTP-beállításait, ahogy szükséges."
+
+#. (itstool) path: info/desc
 #: C/mail-imap-subscriptions.page:5
 msgid "IMAP folder subscriptions."
 msgstr "IMAP mappafeliratkozások."
@@ -10577,10 +10834,16 @@ msgstr "Lokalizált „Re:” kezelése a tárgyban"
 
 #. (itstool) path: page/p
 #: C/mail-localized-re-subjects.page:21
+#| msgid ""
+#| "Traditionally a \"Re:\" prefix is added to a subject line when replying "
+#| "to an email. Some email applications use localized terms for this (like "
+#| "\"SV:\" in Danish or \"AW: in German). <app>Evolution</app> can recognize "
+#| "these terms to avoid subject lines getting longer as the conversation "
+#| "continues."
 msgid ""
 "Traditionally a \"Re:\" prefix is added to a subject line when replying to "
 "an email. Some email applications use localized terms for this (like \"SV:\" "
-"in Danish or \"AW: in German). <app>Evolution</app> can recognize these "
+"in Danish or \"AW:\" in German). <app>Evolution</app> can recognize these "
 "terms to avoid subject lines getting longer as the conversation continues."
 msgstr ""
 "Hagyományosan az e-mailekre válaszoláskor egy „Re:” előtag kerül hozzáadásra "
@@ -10644,17 +10907,17 @@ msgid "Possible reasons why emails are not sent."
 msgstr "A levelek el nem küldésének lehetséges okai."
 
 #. (itstool) path: page/title
-#: C/mail-not-sent.page:20
+#: C/mail-not-sent.page:21
 msgid "Mail is not sent"
 msgstr "A levelek nem mennek el"
 
 #. (itstool) path: page/p
-#: C/mail-not-sent.page:22
+#: C/mail-not-sent.page:23
 msgid "There can be several reasons why emails are not sent:"
 msgstr "Számos oka lehet annak, hogy a levelek nem kerülnek elküldésre:"
 
 #. (itstool) path: item/p
-#: C/mail-not-sent.page:25
+#: C/mail-not-sent.page:26
 msgid ""
 "Invalid email address. Check if all the addresses listed as mail recipients "
 "are correct. If the message contains a wrong or invalid email address, the "
@@ -10665,7 +10928,7 @@ msgstr ""
 "kerül elküldésre."
 
 #. (itstool) path: item/p
-#: C/mail-not-sent.page:26
+#: C/mail-not-sent.page:27
 msgid ""
 "Incorrect SMTP settings. Verify if the settings used for outgoing messages "
 "are correct. Using the incorrect server address or authentication method may "
@@ -10676,12 +10939,18 @@ msgstr ""
 "használata megakadályozhatja a levelek elküldését."
 
 #. (itstool) path: item/p
-#: C/mail-not-sent.page:27
+#: C/mail-not-sent.page:28
+#| msgid ""
+#| "Offline status. <app>Evolution</app> may be offline. Check on the <gui "
+#| "style=\"button\">Send and Receive</gui> button; if it is greyed out, then "
+#| "you are offline. To go online, go to <guiseq><gui>File</gui><gui>Work "
+#| "online</gui></guiseq>. You should now be able to use the <gui style="
+#| "\"button\">Send and Receive</gui> button."
 msgid ""
 "Offline status. <app>Evolution</app> may be offline. Check on the <gui style="
-"\"button\">Send and Receive</gui> button; if it is greyed out, then you are "
+"\"button\">Send / Receive</gui> button; if it is greyed out, then you are "
 "offline. To go online, go to <guiseq><gui>File</gui><gui>Work online</gui></"
-"guiseq>. You should now be able to use the <gui style=\"button\">Send and "
+"guiseq>. You should now be able to use the <gui style=\"button\">Send / "
 "Receive</gui> button."
 msgstr ""
 "Kapcsolat nélküli állapot. Lehet, hogy az <app>Evolution</app> kapcsolat "
@@ -10806,35 +11075,49 @@ msgstr "Az ablakváltó elrendezése új üzenet érkezésekor"
 #. (itstool) path: page/p
 #: C/mail-received-notification.page:28
 msgid ""
-"In order to also be notified of new messages in the GNOME Notification area "
-"at the bottom of the screen, make sure that <guiseq><gui>Edit</"
-"gui><gui>Plugins</gui><gui>Mail Notification</gui></guiseq> is enabled and "
-"that you have set your preferred options in the <gui>Configuration</gui> tab."
+"In order to also be notified of new messages in GNOME desktop notifications:"
 msgstr ""
-"Ahhoz, hogy a GNOME értesítési területén, a képernyő alján is értesítéseket "
-"kapjon az új levelekről, győződjön meg róla, hogy a "
-"<guiseq><gui>Szerkesztés</gui><gui>Bővítmények</gui><gui>Levélértesítés</"
-"gui></guiseq> engedélyezve van, és megadta a kívánt beállításokat a "
-"<gui>Beállítások</gui> lapon."
+"Ahhoz, hogy értesüljön az új üzenetekről is a GNOME asztali értesítésekben:"
 
-#. (itstool) path: page/media
-#. This is a reference to an external file such as an image or video. When
-#. the file changes, the md5 hash will change to let you know you need to
-#. update your localized copy. The msgstr is not used at all. Set it to
-#. whatever you like once you have updated your copy of the file.
-#: C/mail-received-notification.page:30
-msgctxt "_"
-msgid ""
-"external ref='./figures/new-mail-notification.png' "
-"md5='0cffd6d89388aefb8c8bca904bcc1c9e'"
-msgstr ""
-"external ref='./figures/new-mail-notification.png' "
-"md5='0cffd6d89388aefb8c8bca904bcc1c9e'"
-
-#. (itstool) path: media/p
+#. (itstool) path: item/p
 #: C/mail-received-notification.page:31
-msgid "GNOME notification area when a new message has arrived"
-msgstr "A GNOME értesítési területe új üzenet érkezésekor"
+#| msgid "Enable <gui>Attachment Reminder</gui>."
+msgid "Enable <gui>Mail Notification</gui>."
+msgstr "Engedélyezze a <gui>Levélértesítés</gui> bővítményt."
+
+#. (itstool) path: item/p
+#: C/mail-received-notification.page:34
+msgid ""
+"Open the <gui style=\"tab\">Configuration</gui> tab and set your preferred "
+"options."
+msgstr ""
+"Nyissa meg a <gui style=\"tab\">Beállítás</gui> lapot, és állítsa be az"
+" előnyben részesített beállításokat."
+
+#. (itstool) path: item/p
+#: C/mail-received-notification.page:35
+msgid ""
+"Open the <gui style=\"tab\">Accounts</gui> tab to select the mail accounts "
+"for which you would like to see notifications."
+msgstr ""
+"Nyissa meg a <gui style=\"tab\">Fiókok</gui> lapot azoknak a levelezési"
+" fiókoknak a kiválasztásához, amelyeknél látni szeretné az értesítéseket."
+
+#. (itstool) path: page/p
+#: C/mail-received-notification.page:38
+#| msgid ""
+#| "For general information on displaying reminders, please see <link xref="
+#| "\"help:gnome-help/shell-notifications\" href=\"https://help.gnome.org/"
+#| "users/gnome-help/stable/shell-notifications\"> the GNOME Desktop Help</"
+#| "link>."
+msgid ""
+"See <link xref=\"help:gnome-help/shell-notifications\" href=\"https://help."
+"gnome.org/users/gnome-help/stable/shell-notifications\">the GNOME Desktop "
+"Help</link> for more information."
+msgstr ""
+"További információkért nézze meg <link xref=\"help:gnome-help/shell-notificati"
+"ons\" href=\"https://help.gnome.org/users/gnome-help/stable/shell-notification"
+"s\">a GNOME asztali környezet súgóját</link>."
 
 #. (itstool) path: info/desc
 #: C/mail-receiving-options-exchange-ews.page:5
@@ -11374,7 +11657,22 @@ msgid "Creating A Search Folder"
 msgstr "Keresőmappa létrehozása"
 
 #. (itstool) path: item/p
-#: C/mail-search-folders-add.page:26
+#. (itstool) path: note/p
+#: C/mail-search-folders-add.page:26 C/mail-search-folders.page:30
+#| msgid ""
+#| "Mail accounts can be edited via <guiseq><gui>Edit</gui><gui>Preferences</"
+#| "gui><gui>Mail Accounts</gui><gui style=\"button\">Edit</gui></guiseq>."
+msgid ""
+"If you have not utilized search folders before, enable <guiseq><gui>Edit</"
+"gui><gui>Preferences</gui><gui>Mail Accounts</gui><gui>Search Folders</gui></"
+"guiseq>."
+msgstr ""
+"Ha korábban nem használt keresőmappákat, akkor engedélyezze a <guiseq><gui"
+">Szerkesztés</gui><gui>Beállítások</gui><gui>Postafiókok</gui><gui"
+">Keresőmappák</gui></guiseq> menüpontot."
+
+#. (itstool) path: item/p
+#: C/mail-search-folders-add.page:27
 msgid ""
 "Click <guiseq><gui>Edit</gui><gui>Search Folders</gui></guiseq>, or click "
 "<guiseq><gui>Message</gui><gui>Create Rule</gui></guiseq> and select the "
@@ -11390,7 +11688,7 @@ msgstr ""
 "gui><gui>Keresőmappa létrehozása a keresésből…</gui></guiseq> menüpontot."
 
 #. (itstool) path: item/p
-#: C/mail-search-folders-add.page:29
+#: C/mail-search-folders-add.page:30
 msgid ""
 "For more information on the available conditions see <link xref=\"mail-"
 "search-folders-conditions\">Available Search Folder conditions</link>."
@@ -11400,7 +11698,7 @@ msgstr ""
 "link> szakaszt."
 
 #. (itstool) path: item/p
-#: C/mail-search-folders-add.page:31
+#: C/mail-search-folders-add.page:32
 msgid ""
 "Select which folders will be used for the search folder in the section "
 "<gui>Search Folder Sources</gui>. Options are:"
@@ -11409,12 +11707,12 @@ msgstr ""
 "források</gui> szakaszban. A lehetőségek:"
 
 #. (itstool) path: item/p
-#: C/mail-search-folders-add.page:33
+#: C/mail-search-folders-add.page:34
 msgid "All local folders:"
 msgstr "Az összes helyi mappa:"
 
 #. (itstool) path: item/p
-#: C/mail-search-folders-add.page:34
+#: C/mail-search-folders-add.page:35
 msgid ""
 "Uses all local folders for the search folder source in addition to "
 "individual folders that are selected."
@@ -11423,12 +11721,12 @@ msgstr ""
 "mappákon túl."
 
 #. (itstool) path: item/p
-#: C/mail-search-folders-add.page:36
+#: C/mail-search-folders-add.page:37
 msgid "All active remote folders:"
 msgstr "Az összes aktív távoli mappa:"
 
 #. (itstool) path: item/p
-#: C/mail-search-folders-add.page:37
+#: C/mail-search-folders-add.page:38
 msgid ""
 "Remote folders are considered active if you are connected to the server; you "
 "must be connected to your mail server for the search folder to include any "
@@ -11440,12 +11738,12 @@ msgstr ""
 "leveleit is figyelembe vegye a kiválasztott mappákon túl."
 
 #. (itstool) path: item/p
-#: C/mail-search-folders-add.page:39
+#: C/mail-search-folders-add.page:40
 msgid "All local and active remote folders:"
 msgstr "Az összes helyi és aktív távoli mappa:"
 
 #. (itstool) path: item/p
-#: C/mail-search-folders-add.page:40
+#: C/mail-search-folders-add.page:41
 msgid ""
 "Uses all local and active remote folders for the search folder source in "
 "addition to individual folders that are selected."
@@ -11454,12 +11752,12 @@ msgstr ""
 "kiválasztott mappákon túl."
 
 #. (itstool) path: item/p
-#: C/mail-search-folders-add.page:42
+#: C/mail-search-folders-add.page:43
 msgid "Specific folders only:"
 msgstr "Megadott mappák:"
 
 #. (itstool) path: item/p
-#: C/mail-search-folders-add.page:43
+#: C/mail-search-folders-add.page:44
 msgid ""
 "Uses individual folders for the search folder source. In this case, click "
 "the <gui style=\"button\">Add</gui> to select folders."
@@ -11555,23 +11853,21 @@ msgstr ""
 "halmaza a keresőmappa beállításakor megadott feltételek alapján, "
 "folyamatosan kerül meghatározásra."
 
-#. (itstool) path: note/p
+#. (itstool) path: page/p
 #: C/mail-search-folders.page:28
+#| msgid ""
+#| "<app>Evolution</app> lets you organize your emails by letting you sort "
+#| "messages in the <link xref=\"intro-main-window#e-mail\">message list</"
+#| "link>."
 msgid ""
-"In the unlikely case that there is no <gui>Search folders</gui> top-level "
-"node displayed at the bottom of the <link xref=\"intro-main-window#e-mail"
-"\">mail folder list</link> you have to enable <guiseq><gui>Edit</"
-"gui><gui>Preferences</gui><gui>Mail Accounts</gui><gui>Search Folders</gui></"
-"guiseq>."
+"<gui>Search folders</gui> are displayed at the bottom of the <link xref="
+"\"intro-main-window#e-mail\">mail folder list</link>."
 msgstr ""
-"Abban a valószínűtlen esetben, ha nem jelenik meg a <gui>Keresőmappák</gui> "
-"felsőszintű elem a <link xref=\"intro-main-window#e-mail\">levélmappák "
-"listájának</link> alján, akkor be kell kapcsolnia a "
-"<guiseq><gui>Szerkesztés</gui><gui>Beállítások</gui><gui>Postafiókok</"
-"gui><gui>Keresőmappák</gui></guiseq> lehetőség használatával. "
+"A <gui>Keresőmappák</gui> a <link xref=\"intro-main-window#e-mail\""
+">levélmappalista</link> alján kerülnek megjelenítésre."
 
 #. (itstool) path: page/p
-#: C/mail-search-folders.page:30
+#: C/mail-search-folders.page:32
 msgid ""
 "<app>Evolution</app> automatically updates the search folder contents when "
 "new messages are received or messages are deleted. You can also manually "
@@ -11586,7 +11882,7 @@ msgstr ""
 "pontjának kiválasztásával."
 
 #. (itstool) path: page/p
-#: C/mail-search-folders.page:32
+#: C/mail-search-folders.page:34
 msgid ""
 "The <gui>Unmatched</gui> search folder is the opposite of other search "
 "folders: it displays all messages that do not appear in other search folders."
@@ -11595,7 +11891,7 @@ msgstr ""
 "minden olyan levelet megjelenít, amely nem jelenik meg más keresőmappákban."
 
 #. (itstool) path: page/p
-#: C/mail-search-folders.page:34
+#: C/mail-search-folders.page:36
 msgid ""
 "If you use remote email storage like IMAP, and have created search folders "
 "to search through them, the <gui>Unmatched</gui> search folder also searches "
@@ -11610,7 +11906,7 @@ msgstr ""
 "keresőmappa sem keres azokban."
 
 #. (itstool) path: note/p
-#: C/mail-search-folders.page:36
+#: C/mail-search-folders.page:38
 msgid ""
 "If you need to find out which physical folder a message displayed in a "
 "Search Folder is located in, <link xref=\"mail-change-columns-in-message-list"
@@ -11686,6 +11982,31 @@ msgstr ""
 #. (itstool) path: note/p
 #: C/mail-searching.page:44
 msgid ""
+"Some searches might be slow on remote mail accounts (e.g. IMAP+). If you "
+"select a search condition like <gui>Body contains</gui> or <gui>Message "
+"contains</gui> and <app>Evolution</app> is in online mode and the folder(s) "
+"you are about to search in are not <link xref=\"mail-working-offline"
+"\">already copied locally for offline usage</link>, Evolution automatically "
+"runs the search on the mail server side if the server advertises support for "
+"server-side searches. When doing a search on search criteria already locally "
+"available (e.g. recipients or subject of messages), the search will be run "
+"locally."
+msgstr ""
+"Bizonyos keresések lassúak lehetnek a távoli postafiókokon (például IMAP+)."
+" Ha olyan keresési feltételt választ, mint például a <gui>Szövegtörzs"
+" tartalmazza</gui> vagy az <gui>Üzenet tartalmazza</gui>, és az <app"
+">Evolution</app> online módban van, valamint azok a mappák <link"
+" xref=\"mail-working-offline\">még nincsenek helyileg lemásolva a kapcsolat"
+" nélküli használathoz</link>, amelyekben keresésre készül, akkor az Evolution"
+" automatikusan lefuttatja a keresést a levelezési kiszolgáló oldalán, ha a"
+" kiszolgáló meghirdeti a kiszolgáló oldali keresések támogatását. Ha olyan"
+" keresési feltételek mentén végez keresést, amelyek már elérhetők helyileg"
+" (például az üzenetek címzettjei vagy tárgya), akkor a keresés helyileg lesz"
+" lefuttatva."
+
+#. (itstool) path: note/p
+#: C/mail-searching.page:45
+msgid ""
 "Advanced users can <link href=\"https://bugzilla.gnome.org/show_bug.cgi?"
 "id=550796#c10\">combine numerous conditions by using the <gui>Free form "
 "expression</gui> syntax</link>."
@@ -11695,12 +12016,12 @@ msgstr ""
 "kifejezés</gui> szintaxis használatával</link>."
 
 #. (itstool) path: item/p
-#: C/mail-searching.page:46
+#: C/mail-searching.page:47
 msgid "Select the scope from the drop-down list right to the text box."
 msgstr "Válassza ki a hatókört a szövegmező melletti legördülő listából."
 
 #. (itstool) path: note/p
-#: C/mail-searching.page:47
+#: C/mail-searching.page:48
 msgid ""
 "For the <gui>Current Account</gui> scope, the term \"account\" refers to top-"
 "level nodes in the <link xref=\"intro-main-window#e-mail\"> mail folder "
@@ -11712,7 +12033,7 @@ msgstr ""
 "postafiókok."
 
 #. (itstool) path: note/p
-#: C/mail-searching.page:52
+#: C/mail-searching.page:53
 msgid ""
 "If you start directly from the fourth step, text will be searched in mail's "
 "subjects and addresses and scope will be \"Current folder\"."
@@ -11721,7 +12042,7 @@ msgstr ""
 "címeiben kerül végrehajtásra, és a hatókör a „Jelenlegi mappa” lesz."
 
 #. (itstool) path: note/p
-#: C/mail-searching.page:53
+#: C/mail-searching.page:54
 msgid ""
 "If you search for messages that are not in the same folder rather often you "
 "might want to create a search folder instead; see <link xref=\"mail-search-"
@@ -11919,6 +12240,99 @@ msgstr ""
 "gomb kiválasztásával a bejövő levelek címzett szerinti szűréséhez. Állítson "
 "be egy kimenő szűrőt is a kimenő levelek áthelyezéséhez az Elküldött mappába "
 "a feladó címe alapján."
+
+#. (itstool) path: info/desc
+#: C/mail-sorting-folder-list.page:5
+#| msgid "Sorting the message list of a mail folder."
+msgid "Sorting the mail folder list in the left pane."
+msgstr "A levélmappalista rendezése a bal oldalsávban."
+
+#. (itstool) path: page/title
+#: C/mail-sorting-folder-list.page:21
+#| msgid "Sorting the message list"
+msgid "Sorting the mail folder list"
+msgstr "A levélmappalista rendezése"
+
+#. (itstool) path: section/title
+#: C/mail-sorting-folder-list.page:24
+#| msgid "Defaults"
+msgid "Default sort order"
+msgstr "Alapértelmezett rendezési sorrend"
+
+#. (itstool) path: section/p
+#: C/mail-sorting-folder-list.page:25
+msgid ""
+"By default the <link xref=\"intro-main-window#e-mail\">mail folder list</"
+"link> in the left pane contains top-level nodes in the following order:"
+msgstr ""
+"Alapértelmezetten a bal oldalsávban lévő <link"
+" xref=\"intro-main-window#e-mail\">levélmappalista</link> a felső szintű"
+" csomópontokat a következő sorrendben tartalmazza:"
+
+#. (itstool) path: item/p
+#: C/mail-sorting-folder-list.page:27
+msgid ""
+"<gui>On This Computer</gui> - contains all mail for local account types (if "
+"configured)"
+msgstr ""
+"<gui>Ezen a számítógépen</gui> – a helyi fióktípusok összes levelét"
+" tartalmazza (ha be van állítva)"
+
+#. (itstool) path: item/p
+#: C/mail-sorting-folder-list.page:28
+msgid "One or more remote email account types (if configured)"
+msgstr "Egy vagy több távoli e-mail-fióktípus (ha be van állítva)"
+
+#. (itstool) path: item/p
+#: C/mail-sorting-folder-list.page:29
+msgid ""
+"<gui><link xref=\"mail-search-folders\">Search Folders</link></gui> (if "
+"enabled)"
+msgstr ""
+"<gui><link xref=\"mail-search-folders\">Keresőmappák</link></gui> (ha"
+" engedélyezve van)"
+
+#. (itstool) path: section/p
+#: C/mail-sorting-folder-list.page:31
+msgid "The folders under each top-level node are sorted in alphabetical order."
+msgstr ""
+"Az egyes felső szintű csomópontok alatti mappák betűrendbe vannak rendezve."
+
+#. (itstool) path: section/title
+#: C/mail-sorting-folder-list.page:35
+#| msgid "Changing the calendar layout"
+msgid "Changing the sort order"
+msgstr "A rendezési sorrend megváltoztatása"
+
+#. (itstool) path: section/p
+#: C/mail-sorting-folder-list.page:37
+#| msgid ""
+#| "You can add, edit and delete all labels under <guiseq><gui>Edit</"
+#| "gui><gui>Preferences</gui><gui>Mail Preferences</gui><gui>Labels</gui></"
+#| "guiseq>. Note that you cannot remove the default labels."
+msgid ""
+"You can change the default sort order of the top-level nodes under "
+"<guiseq><gui>Edit</gui><gui>Preferences</gui><gui>Mail Accounts</gui></"
+"guiseq> by dragging an account in the list up or down."
+msgstr ""
+"A <guiseq><gui>Szerkesztés</gui><gui>Beállítások</gui><gui>Postafiókok</gui><"
+"/guiseq> alatt megváltoztathatja a felső szintű csomópontok alapértelmezett"
+" rendezési sorrendjét egy fiók felhúzásával vagy lehúzásával a listában."
+
+#. (itstool) path: section/p
+#: C/mail-sorting-folder-list.page:39
+#| msgid ""
+#| "Mail accounts can be edited via <guiseq><gui>Edit</gui><gui>Preferences</"
+#| "gui><gui>Mail Accounts</gui><gui style=\"button\">Edit</gui></guiseq>."
+msgid ""
+"You can revert your custom sort order by choosing <guiseq><gui>Edit</"
+"gui><gui>Preferences</gui><gui>Mail Accounts</gui><gui style=\"button"
+"\">Restore Default</gui></guiseq>."
+msgstr ""
+"Az egyéni rendezési sorrendet a <guiseq><gui>Szerkesztés</gui><gui"
+">Beállítások</gui><gui>Postafiókok</gui><gui style=\"button\""
+">Alapértelmezések visszaállítása</gui></guiseq> gomb megnyomásával állíthatja"
+" vissza."
 
 #. (itstool) path: info/desc
 #: C/mail-sorting-message-list.page:5
@@ -12743,11 +13157,12 @@ msgid ""
 "you force <app>Evolution</app> to be offline, <app>Evolution</app> downloads "
 "the unread messages from the folders you have chosen to store."
 msgstr ""
-"A POP levelezés minden levelet letölt a helyi rendszerre, de távoli fiókok "
-"esetén általában csak a fejléceket tölti le. A levelek többi részét, mint a "
-"törzsét, csak akkor, amikor megkísérli elolvasni a levelet. Mielőtt "
-"kapcsolat nélküli módba kényszeríti, az <app>Evolution</app> letölti az "
-"olvasatlan leveleket a helyi tárolásra kiválasztott mappákban."
+"A POP levelezés minden levelet letölt a helyi rendszerre, de távoli fiókok"
+" esetén általában csak a fejléceket tölti le. A levelek többi részét, mint a"
+" törzsét, csak akkor, amikor megkísérli elolvasni a levelet. Mielőtt"
+" kapcsolat nélküli módba kényszeríti az <app>Evolution</app> alkalmazást, az"
+" <app>Evolution</app> letölti az olvasatlan leveleket a helyi tárolásra"
+" kiválasztott mappákban."
 
 #. (itstool) path: section/p
 #: C/mail-working-offline.page:33
@@ -13249,23 +13664,33 @@ msgstr "Hibák jelentése"
 
 #. (itstool) path: page/p
 #: C/problems-reporting-bugs.page:23
+#| msgid ""
+#| "If you do not need help for configuration but you are sure that you have "
+#| "found a mistake or wrong behavior in the <app>Evolution</app> software, "
+#| "or if you want to request a feature, you can file a report in the <link "
+#| "href=\"https://gitlab.gnome.org/GNOME/evolution/issues/\">GNOME bug "
+#| "tracking system</link>. Note that this requires registration first. "
+#| "Please try to avoid filing duplicates and check the <link href=\"https://"
+#| "bugzilla.gnome.org/page.cgi?id=bug-writing.html\">bug writing guidelines</"
+#| "link> first."
 msgid ""
 "If you do not need help for configuration but you are sure that you have "
 "found a mistake or wrong behavior in the <app>Evolution</app> software, or "
 "if you want to request a feature, you can file a report in the <link href="
 "\"https://gitlab.gnome.org/GNOME/evolution/issues/\">GNOME bug tracking "
 "system</link>. Note that this requires registration first. Please try to "
-"avoid filing duplicates and check the <link href=\"https://bugzilla.gnome."
-"org/page.cgi?id=bug-writing.html\">bug writing guidelines</link> first."
+"avoid filing duplicates and check the <link href=\"https://wiki.gnome.org/"
+"Community/GettingInTouch/BugReportingGuidelines\">bug writing guidelines</"
+"link> first."
 msgstr ""
-"Ha nincs szüksége a beállításokkal kapcsolatos segítségre, de biztos benne, "
-"hogy hibát vagy hibás viselkedést észlelt az <app>Evolution</app> "
-"szoftverben, vagy ha új funkciót szeretne kérni, akkor beküldhet egy "
-"jelentést a <link href=\"https://gitlab.gnome.org/GNOME/evolution/issues/"
-"\">GNOME hibakövető rendszerébe</link>. Ne feledje, hogy ehhez először "
-"regisztrálnia kell. Kerülje a már meglévő hibák ismételt bejelentését, és "
-"először olvassa el a <link href=\"https://bugzilla.gnome.org/page.cgi?id=bug-"
-"writing.html\">hibajelentés-írási irányelveket</link>."
+"Ha nincs szüksége a beállításokkal kapcsolatos segítségre, de biztos benne,"
+" hogy hibát vagy hibás viselkedést észlelt az <app>Evolution</app>"
+" szoftverben, vagy ha új funkciót szeretne kérni, akkor beküldhet egy"
+" jelentést a <link href=\"https://gitlab.gnome.org/GNOME/evolution/issues/\""
+">GNOME hibakövető rendszerébe</link>. Ne feledje, hogy ehhez először"
+" regisztrálnia kell. Kerülje a már meglévő hibák ismételt bejelentését, és"
+" először olvassa el a <link href=\"https://wiki.gnome.org/Community/GettingInT"
+"ouch/BugReportingGuidelines\">hibajelentés-írási irányelveket</link>."
 
 #. (itstool) path: page/p
 #: C/problems-reporting-bugs.page:23
@@ -13287,23 +13712,30 @@ msgstr ""
 
 #. (itstool) path: page/p
 #: C/problems-reporting-bugs.page:25
+#| msgid ""
+#| "When reporting bugs exact information is welcome as it makes it easier "
+#| "for others to reproduce and fix the issue. If possible please include "
+#| "information such as the <app>Evolution</app> version (under "
+#| "<guiseq><gui>Help</gui><gui>About</gui></guiseq>), your distribution, and "
+#| "exact steps to reproduce the problem, click by click. See the <link href="
+#| "\"https://bugzilla.gnome.org/page.cgi?id=bug-writing.html\">Bug Writing "
+#| "Guidelines</link> for more information."
 msgid ""
 "When reporting bugs exact information is welcome as it makes it easier for "
 "others to reproduce and fix the issue. If possible please include "
 "information such as the <app>Evolution</app> version (under "
 "<guiseq><gui>Help</gui><gui>About</gui></guiseq>), your distribution, and "
 "exact steps to reproduce the problem, click by click. See the <link href="
-"\"https://bugzilla.gnome.org/page.cgi?id=bug-writing.html\">Bug Writing "
-"Guidelines</link> for more information."
+"\"https://wiki.gnome.org/Community/GettingInTouch/BugReportingGuidelines"
+"\">Bug Writing Guidelines</link> for more information."
 msgstr ""
-"Hibák jelentésekor próbálja pontosan megfogalmazni a problémát, mivel ez "
-"segít másoknak reprodukálni és javítani a hibát. Ha lehet, akkor adja meg az "
-"<app>Evolution</app> verzióját (lásd: <guiseq><gui>Súgó</gui><gui>Névjegy</"
-"gui></guiseq>, a disztribúciója nevét (Például: Debian, Fedora, OpenSUSE, "
-"Ubuntu), és a probléma reprodukálásának pontos lépéseit, kattintásról "
-"kattintásra. További információkért lásd a <link href=\"https://bugzilla."
-"gnome.org/page.cgi?id=bug-writing.html\">hibajelentés-írási irányelveket</"
-"link>."
+"Hibák jelentésekor próbálja pontosan megfogalmazni a problémát, mivel ez"
+" segít másoknak reprodukálni és javítani a hibát. Ha lehet, akkor adja meg az"
+" <app>Evolution</app> verzióját (lásd: <guiseq><gui>Súgó</gui><gui>Névjegy<"
+"/gui></guiseq>, a disztribúciója nevét, és a probléma reprodukálásának pontos"
+" lépéseit, kattintásról kattintásra. További információkért nézze meg a <link"
+" href=\"https://wiki.gnome.org/Community/GettingInTouch/BugReportingGuidelines"
+"\">hibajelentés-írási irányelveket</link>."
 
 #. (itstool) path: info/desc
 #: C/searching-items.page:5
@@ -13314,6 +13746,95 @@ msgstr "Tartalom és adatok keresése az <app>Evolutionben</app>."
 #: C/searching-items.page:18
 msgid "Searching items"
 msgstr "Elemek keresése"
+
+#. (itstool) path: info/desc
+#: C/start-command-line-parameters.page:16
+msgid ""
+"How to make Evolution show a specific window or folder when starting the "
+"application."
+msgstr ""
+"Hogyan lehet megjeleníttetni az Evolutionnel egy bizonyos ablakot vagy mappát"
+" az alkalmazás indításakor."
+
+#. (itstool) path: page/title
+#: C/start-command-line-parameters.page:21
+#| msgid "Searching content and data within <app>Evolution</app>."
+msgid "Define what to display when starting <app>Evolution</app>"
+msgstr ""
+"Annak meghatározása, hogy mi jelenjen meg az <app>Evolution</app> indításakor"
+
+#. (itstool) path: page/p
+#: C/start-command-line-parameters.page:23
+msgid ""
+"When <app>Evolution</app> starts, it remembers the last view that you used."
+msgstr ""
+"Az <app>Evolution</app> az indításakor emlékszik az utoljára használt nézetre."
+
+#. (itstool) path: page/p
+#: C/start-command-line-parameters.page:25
+msgid ""
+"To make <app>Evolution</app> display something else after starting the "
+"application, you will have to run the application from the <app>Terminal</"
+"app> application and pass corresponding parameters."
+msgstr ""
+"Ahhoz, hogy valami mást jeleníttessen meg az <app>Evolutionnel</app> az"
+" alkalmazás indítása után, a <app>Terminál</app> alkalmazásból kell futtatnia"
+" az alkalmazást, és át kell adnia a megfelelő paramétereket."
+
+#. (itstool) path: section/title
+#: C/start-command-line-parameters.page:30
+#| msgid "Windows XP"
+msgid "Windows"
+msgstr "Ablakok"
+
+#. (itstool) path: section/p
+#. TO TRANSLATORS: Do NOT translate 'component' here!
+#: C/start-command-line-parameters.page:32
+msgid ""
+"To start <app>Evolution</app> in a specific view, pass the \"component\" "
+"parameter."
+msgstr ""
+"Az <app>Evolution</app> egy bizonyos nézetben való indításához adja át a"
+" „component” paramétert."
+
+#. (itstool) path: section/p
+#: C/start-command-line-parameters.page:35
+#: C/start-command-line-parameters.page:52
+#: C/start-command-line-parameters.page:66
+msgid "Examples:"
+msgstr "Példák:"
+
+#. (itstool) path: section/title
+#: C/start-command-line-parameters.page:46
+#| msgid "Mail folder locations"
+msgid "Mail folders"
+msgstr "Levélmappák"
+
+#. (itstool) path: section/p
+#. TO TRANSLATORS: Do NOT translate 'folder' here!
+#: C/start-command-line-parameters.page:49
+msgid ""
+"To make <app>Evolution</app> open a specific mail folder, pass the \"folder"
+"\" parameter."
+msgstr ""
+"Ahhoz, hogy az <app>Evolution</app> alkalmazással egy bizonyos levélmappát"
+" nyittasson meg, adja át a „folder” paramétert."
+
+#. (itstool) path: section/title
+#: C/start-command-line-parameters.page:61
+#| msgid "Mail Composing"
+msgid "Mail composer"
+msgstr "Levélszerkesztő"
+
+#. (itstool) path: section/p
+#. TO TRANSLATORS: Do NOT translate 'folder' here!
+#: C/start-command-line-parameters.page:63
+msgid ""
+"To make <app>Evolution</app> open a mail composer window with some "
+"predefined values and content:"
+msgstr ""
+"Ahhoz, hogy az <app>Evolution</app> alkalmazással egy levélszerkesztő ablakot"
+" nyittasson meg néhány előre meghatározott értékkel és tartalommal:"
 
 #. (itstool) path: info/desc
 #: C/sync-with-other-devices.page:5
@@ -13974,6 +14495,7 @@ msgstr "Bármely fejléc, beleértve az <_:link-1/> is."
 #. (itstool) path: p/app
 #: C/xinclude-filter-vfolder-conditions.xml:23
 #: C/xinclude-filter-vfolder-conditions.xml:29
+#: C/xinclude-filter-vfolder-conditions.xml:62
 msgid "Evolution"
 msgstr "Evolution"
 
@@ -14181,17 +14703,14 @@ msgstr "Levelezőlista:"
 #. (itstool) path: item/p
 #: C/xinclude-filter-vfolder-conditions.xml:59
 msgid ""
-"Filters based on the mailing list the message came from. This filter might "
-"miss messages from some list servers, because it checks for the X-BeenThere "
-"header, which is used to identify mailing lists or other redistributors of "
-"mail. Mail from list servers that do not set X-BeenThere properly are not be "
-"caught by these filters."
+"Filters based on the mailing list the message came from. This filter checks "
+"for a variety of common mailing list related headers but might miss messages "
+"from some list servers if they use uncommon headers."
 msgstr ""
-"Szűrés a levelezőlista alapján, amelyre a levél érkezett. Ez a szűrő "
-"kihagyhat egyes listakiszolgálókról érkező leveleket, mert az X-BeenThere "
-"fejlécet vizsgálja, amely levelezőlisták vagy más levélterjesztők "
-"azonosítására használatos. Az X-BeenThere fejlécet nem megfelelően beállító "
-"listakiszolgálókról érkező leveleket ezek a szűrők nem szűrik ki."
+"Azon a levelezőlistán alapuló szűrők, ahonnan az üzenet jött. Ez a szűrő a"
+" levelezőlistákhoz kapcsolódó gyakori fejlécek változatait ellenőrzi, de"
+" kihagyhat néhány listakiszolgálóról érkező üzenetet, ha azok nem gyakori"
+" fejléceket használnak."
 
 #. (itstool) path: item/p
 #: C/xinclude-filter-vfolder-conditions.xml:61
@@ -14203,33 +14722,30 @@ msgstr "Regex illeszkedés:"
 msgid "regex"
 msgstr "regexek"
 
-#. (itstool) path: link/cmd
-#: C/xinclude-filter-vfolder-conditions.xml:62
-msgid "grep"
-msgstr "grep"
-
-#. (itstool) path: p/link
-#: C/xinclude-filter-vfolder-conditions.xml:62
-msgid "the man page for the <_:cmd-1/>"
-msgstr "<_:cmd-1/> parancs kézikönyvoldalát"
-
 #. (itstool) path: item/p
 #: C/xinclude-filter-vfolder-conditions.xml:62
+#| msgid ""
+#| "(For programmers only) If you know your way around a <_:link-1/>, or "
+#| "regular expression, this option allows you to search for complex patterns "
+#| "of letters, so that you can find, for example, all words that start with "
+#| "\"a\" and end with \"m\", and are between six and fifteen letters long, "
+#| "or all messages that declare a particular header twice. For information "
+#| "about how to use regular expressions, check <_:link-2/> command."
 msgid ""
-"(For programmers only) If you know your way around a <_:link-1/>, or regular "
+"(For advanced users) If you know your way around a <_:link-1/>, or regular "
 "expression, this option allows you to search for complex patterns of "
 "letters, so that you can find, for example, all words that start with \"a\" "
 "and end with \"m\", and are between six and fifteen letters long, or all "
-"messages that declare a particular header twice. For information about how "
-"to use regular expressions, check <_:link-2/> command."
+"messages that declare a particular header twice. <_:app-2/> supports the "
+"Extended Regular Expression syntax (ERE)."
 msgstr ""
-"(Csak programozóknak) Ha eligazodik a <_:link-1/> vagy reguláris kifejezések "
-"világában, akkor ez a beállítás lehetővé teszi összetett karakterminták "
-"keresését, így például megtalálhatja az összes „a” betűvel kezdődő és „m”-"
-"mel végződő, vagy hat és tizenöt karakter közti hosszúságú szót, vagy egy "
-"bizonyos fejlécet kétszer adnak meg. A reguláris kifejezések használatával "
-"kapcsolatban nézze meg a <_:link-2/>, vagy a fenti Wikipédia-oldal magyar "
-"változatát."
+"(Haladó felhasználóknak) Ha eligazodik a <_:link-1/> vagy reguláris"
+" kifejezések világában, akkor ez a beállítás lehetővé teszi összetett"
+" karakterminták keresését, így például megtalálhatja az összes „a” betűvel"
+" kezdődő és „m”-mel végződő, vagy hat és tizenöt karakter közti hosszúságú"
+" szót, vagy az összes olyan üzenetet, amelyek egy bizonyos fejlécet kétszer"
+" adnak meg. A <_:link-2/> támogatja a kiterjesztett reguláris kifejezés"
+" szintaxist (ERE)."
 
 #. (itstool) path: section/title
 #. (itstool) path: guiseq/gui
@@ -14394,9 +14910,3 @@ msgstr "Szerkessze a címet vagy a keresési feltételeket az ablakban."
 #: C/xinclude-searching.xml:30
 msgid "Click <_:gui-1/>."
 msgstr "Kattintson az <_:gui-1/> gombra."
-
-#~ msgid "signature"
-#~ msgstr "aláírást"
-
-#~ msgid "email aliases"
-#~ msgstr "e-mail álneveket"
