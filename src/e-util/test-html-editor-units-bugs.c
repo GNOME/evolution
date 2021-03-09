@@ -2328,6 +2328,79 @@ test_issue_1344 (TestFixture *fixture)
 		g_test_fail ();
 }
 
+static void
+test_issue_1391 (TestFixture *fixture)
+{
+	if (!test_utils_process_commands (fixture,
+		"mode:plain\n")) {
+		g_test_fail ();
+		return;
+	}
+
+	test_utils_insert_content (fixture,
+		"<body><div>a</div>"
+		"<div>b</div>"
+		"<div>c</div>"
+		"<blockquote type=\"cite\" style=\"margin:0 0 0 .8ex; border-left:2px #729fcf solid;padding-left:1ex\">"
+		"<div>d</div>"
+		"<div>ee</div>"
+		"<div>f</div>"
+		"<blockquote type=\"cite\" style=\"margin:0 0 0 .8ex; border-left:2px #729fcf solid;padding-left:1ex\">"
+		"<div>g</div>"
+		"<div>h</div>"
+		"<pre>i</pre>"
+		"</blockquote>"
+		"</blockquote>"
+		"<div><br></div>"
+		"<span class=\"-x-evo-to-body\" data-credits=\"Credits:\"></span>"
+		"<span class=\"-x-evo-cite-body\"></span></body>",
+		E_CONTENT_EDITOR_INSERT_REPLACE_ALL | E_CONTENT_EDITOR_INSERT_TEXT_HTML);
+
+	if (!test_utils_run_simple_test (fixture,
+		"seq:Chcdde\n"
+		"type:1\n"
+		"action:style-preformat\n"
+		"seq:dddhr\n"
+		"type:2\n"
+		"action:style-preformat\n"
+		"seq:dddh\n"
+		"type:3\n"
+		"action:style-preformat\n"
+		"seq:de\n"
+		"type:4\n"
+		"action:style-normal\n",
+		HTML_PREFIX "<div style=\"width: 71ch;\">Credits:</div>"
+		"<blockquote type=\"cite\">"
+		"<div>" QUOTE_SPAN (QUOTE_CHR) "a</div>"
+		"<pre>" QUOTE_SPAN (QUOTE_CHR) "b1</pre>"
+		"<div>" QUOTE_SPAN (QUOTE_CHR) "c</div>"
+			"<blockquote type=\"cite\">"
+			"<div>" QUOTE_SPAN (QUOTE_CHR QUOTE_CHR) "d</div>"
+			"<pre>" QUOTE_SPAN (QUOTE_CHR QUOTE_CHR) "e2e</pre>"
+			"<div>" QUOTE_SPAN (QUOTE_CHR QUOTE_CHR) "f</div>"
+			"<blockquote type=\"cite\">"
+			"<div>" QUOTE_SPAN (QUOTE_CHR QUOTE_CHR QUOTE_CHR) "g</div>"
+			"<pre>" QUOTE_SPAN (QUOTE_CHR QUOTE_CHR QUOTE_CHR) "3h</pre>"
+			"<div>" QUOTE_SPAN (QUOTE_CHR QUOTE_CHR QUOTE_CHR) "i4</div>"
+			"</blockquote>"
+			"</blockquote>"
+		"<div>" QUOTE_SPAN (QUOTE_CHR) "<br></div>"
+		"</blockquote>"
+		HTML_SUFFIX,
+		"Credits:\n"
+		"> a\n"
+		"> b1\n"
+		"> c\n"
+		"> > d\n"
+		"> > e2e\n"
+		"> > f\n"
+		"> > > g\n"
+		"> > > 3h\n"
+		"> > > i4\n"
+		"> \n"))
+		g_test_fail ();
+}
+
 void
 test_add_html_editor_bug_tests (void)
 {
@@ -2369,4 +2442,5 @@ test_add_html_editor_bug_tests (void)
 	test_utils_add_test ("/issue/1157", test_issue_1157);
 	test_utils_add_test ("/issue/1365", test_issue_1365);
 	test_utils_add_test ("/issue/1344", test_issue_1344);
+	test_utils_add_test ("/issue/1391", test_issue_1391);
 }

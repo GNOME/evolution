@@ -1091,8 +1091,6 @@ EvoEditor.SetBlockFormat = function(format)
 					if (blockquoteLevel > 0) {
 						var width = -1;
 
-						blockquoteLevel--;
-
 						if (this.toSet.tagName == "DIV" && blockquoteLevel * 2 < EvoEditor.NORMAL_PARAGRAPH_WIDTH)
 							width = EvoEditor.NORMAL_PARAGRAPH_WIDTH - blockquoteLevel * 2;
 
