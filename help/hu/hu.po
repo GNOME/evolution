@@ -1,25 +1,25 @@
 # Hungarian translation for evolution_help.
-# Copyright (C) 2011, 2012, 2013, 2017, 2018, 2019. Free Software Foundation, Inc.
+# Copyright (C) 2011, 2012, 2013, 2017, 2018, 2019, 2021. Free Software Foundation, Inc.
 # This file is distributed under the same license as the evolution help.
 #
 # Bence Lukács <lukacs.bence1 at gmail dot com>, 2011.
 # Gabor Kelemen <kelemeng at gnome dot hu>, 2011, 2012, 2013, 2014, 2015, 2016, 2017, 2018, 2019.
 # Nagy Zoltán <dzodzie at gmail dot com>, 2011.
 # Balázs Meskó <mesko.balazs at fsf dot hu>, 2018.
-# Balázs Úr <ur.balazs at fsf dot hu>, 2014, 2019.
+# Balázs Úr <ur.balazs at fsf dot hu>, 2014, 2019, 2021.
 msgid ""
 msgstr ""
 "Project-Id-Version: evolution-help.master\n"
 "Report-Msgid-Bugs-To: https://gitlab.gnome.org/GNOME/evolution/issues\n"
-"POT-Creation-Date: 2019-09-03 11:49+0000\n"
-"PO-Revision-Date: 2019-09-03 18:07+0100\n"
-"Last-Translator: Gabor Kelemen <kelemeng at ubuntu dot com>\n"
+"POT-Creation-Date: 2020-09-09 17:11+0000\n"
+"PO-Revision-Date: 2021-03-09 02:06+0100\n"
+"Last-Translator: Balázs Úr <ur.balazs at fsf dot hu>\n"
 "Language-Team: Hungarian <gnome-hu-list at gnome dot org>\n"
 "Language: hu\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Generator: Lokalize 2.0\n"
+"X-Generator: Lokalize 19.12.3\n"
 "Plural-Forms:  nplurals=2; plural=(n != 1);\n"
 
 #. Put one translator per line, in the form NAME <EMAIL>, YEAR1, YEAR2
@@ -30,7 +30,7 @@ msgstr ""
 "Kelemen Gábor <kelemeng at gnome dot hu>, 2011, 2012, 2013, 2015, 2017, "
 "2018.\n"
 "Nagy Zoltán <dzodzie at gmail dot com>, 2011.\n"
-"Úr Balázs <ur.balazs at fsf dot hu>, 2014, 2019."
+"Úr Balázs <ur.balazs at fsf dot hu>, 2014, 2019, 2021."
 
 #. (itstool) path: info/desc
 #: C/backup-restore.page:18
@@ -563,12 +563,12 @@ msgid ""
 "<app>Evolution</app> looks up the schedule and displays it in the Free/Busy "
 "data."
 msgstr ""
-"Ha valaki megadja Önnek az időbeosztás-adataira vagy a webnaptárára mutató "
-"URL-címet, akkor felveheti azt a <link xref=\"contacts-usage-edit-contact"
-"\">Kapcsolatszerkesztőben</link> a <guiseq><gui>Személyes adatok</"
-"gui><gui>Webcímek</gui></guiseq> menüpont alatt. Ha Ön ezután egy találkozót "
-"akar vele beütemezni, akkor az <gui>Evolution</gui> letölti az időbeosztást, "
-"és megjeleníti az időbeosztás-adatok alatt."
+"Ha valaki megadja Önnek az időbeosztás-adataira vagy a webnaptárára mutató"
+" URL-címet, akkor felveheti azt a <guiseq><gui>Személyes adatok</gui><gui"
+">Webcímek</gui></guiseq> menüpont alatt a <link"
+" xref=\"contacts-usage-edit-contact\">Kapcsolatszerkesztőben</link>. Ha Ön"
+" ezután egy találkozót akar vele beütemezni, akkor az <app>Evolution</app>"
+" letölti az időbeosztást, és megjeleníti az időbeosztás-adatok alatt."
 
 #. (itstool) path: info/desc
 #: C/calendar-google.page:24
@@ -949,10 +949,10 @@ msgid ""
 "app> should only read from the file or if <app>Evolution</app> can also add "
 "and alter items in that file."
 msgstr ""
-"Ha egy meglévő naptárfájl használatát választja, amely már létezik a "
-"számítógépen, akkor meg kell adnia a helyét, és hogy az <app>Evolution</app> "
-"csak olvasson-e a fájlból, vagy hozzáadhat és megváltoztathat elemeket abban "
-"a fájlban."
+"Ha egy meglévő naptárfájl használatát választja, amely már létezik a"
+" számítógépen, akkor meg kell adnia a helyét, és hogy az <app>Evolution</app>"
+" csak olvasson-e a fájlból, vagy hogy az <app>Evolution</app> hozzáadhat és"
+" megváltoztathat elemeket abban a fájlban."
 
 #. (itstool) path: info/desc
 #: C/calendar-marcus-bains-line.page:17
@@ -1417,7 +1417,7 @@ msgstr "Válassza ki a keresési feltételt a listából."
 
 #. (itstool) path: item/p
 #: C/calendar-searching.page:50 C/contacts-searching.page:58
-#: C/mail-searching.page:49 C/memos-searching.page:45 C/tasks-searching.page:45
+#: C/mail-searching.page:50 C/memos-searching.page:45 C/tasks-searching.page:45
 msgid "Enter the text you want to search for and press <key>Enter</key>."
 msgstr ""
 "Adja meg a keresendő szöveget, és nyomja meg az <key>Enter</key> billentyűt."
@@ -1425,7 +1425,7 @@ msgstr ""
 #. (itstool) path: item/p
 #: C/calendar-searching.page:53 C/calendar-searching.page:67
 #: C/contacts-searching.page:62 C/contacts-searching.page:76
-#: C/mail-searching.page:50 C/memos-searching.page:46 C/memos-searching.page:52
+#: C/mail-searching.page:51 C/memos-searching.page:46 C/memos-searching.page:52
 #: C/tasks-searching.page:46 C/tasks-searching.page:52
 msgid "<app>Evolution</app> displays the search results."
 msgstr "Az <app>Evolution</app> megjeleníti a találatokat."
@@ -1463,7 +1463,7 @@ msgstr ""
 
 #. (itstool) path: section/p
 #: C/calendar-searching.page:76 C/contacts-searching.page:80
-#: C/mail-searching.page:54 C/memos-searching.page:54 C/tasks-searching.page:54
+#: C/mail-searching.page:55 C/memos-searching.page:54 C/tasks-searching.page:54
 msgid ""
 "If you want to set several search conditions, you should use an Advanced "
 "search, which is described below."
@@ -2727,15 +2727,21 @@ msgstr ""
 
 #. (itstool) path: page/p
 #: C/customize-ui-items.page:36
+#| msgid ""
+#| "To change keyboard shortcuts, edit <file>~/.config/evolution/accels</"
+#| "file> while <app>Evolution</app> is not running. Commented lines start "
+#| "with a comma character. Not all shortcuts can be changed though."
 msgid ""
 "To change keyboard shortcuts, edit <file>~/.config/evolution/accels</file> "
 "while <app>Evolution</app> is not running. Commented lines start with a "
-"comma character. Not all shortcuts can be changed though."
+"<code>;</code> character and will be ignored. Not all shortcuts can be "
+"changed though."
 msgstr ""
-"A gyorsbillentyűk megváltoztatásához szerkessze a <file>~/.config/evolution/"
-"accels</file> fájlt, miközben az <app>Evolution</app> nem fut. A "
-"megjegyzésre állított sorok vessző karakterrel kezdődnek. Habár nem minden "
-"gyorsbillentyűt lehet megváltoztatni."
+"A gyorsbillentyűk megváltoztatásához szerkessze a <file"
+">~/.config/evolution/accels</file> fájlt, miközben az <app>Evolution</app>"
+" nem fut. A megjegyzésre állított sorok <code>;</code> karakterrel kezdődnek,"
+" és figyelmen kívül lesznek hagyva. Habár nem minden gyorsbillentyűt lehet"
+" megváltoztatni."
 
 #. (itstool) path: info/desc
 #: C/data-storage.page:5
@@ -3968,11 +3974,6 @@ msgstr "Itt megadhatja nevét és e-mail címét."
 #: C/mail-account-manage-unix-mbox-spool-directory.page:31
 #: C/mail-account-manage-unix-mbox-spool-file.page:31
 #: C/mail-account-manage-usenet-news.page:31
-#| msgid ""
-#| "Optionally you can set a Reply-To email address (if you want replies to "
-#| "messages sent to a different address), set an organization (a company or "
-#| "organization you represent when you send email from this account), your "
-#| "default <_:link-1/> for this account, and <_:link-2/>."
 msgid ""
 "Optionally you can set a Reply-To email address (if you want replies to "
 "messages sent to a different address), set an organization (a company or "
@@ -3983,10 +3984,9 @@ msgid ""
 msgstr ""
 "Beállíthat válaszcímet (ha a válaszokat másik címre szeretné megkapni) és "
 "beállíthat szervezetet (a munkahelye, vagy az a szervezet, amelyet a "
-"postafiókból való levélküldéskor képvisel), az alapértelmezett <link"
-" xref=\"mail-composer-mail-signatures\">aláírást</link>"
-"ehhez a fiókhoz, és <link href=\"https://en.wikipedia.org/wiki/Email_alias\""
-">e-mail álneveket</link>."
+"postafiókból való levélküldéskor képvisel), az alapértelmezett <link xref="
+"\"mail-composer-mail-signatures\">aláírást</link>ehhez a fiókhoz, és <link "
+"href=\"https://en.wikipedia.org/wiki/Email_alias\">e-mail álneveket</link>."
 
 #. (itstool) path: section/title
 #: C/intro-first-run.page:36
@@ -6632,10 +6632,10 @@ msgid ""
 "gui><gui>Mail Preferences</gui><gui>Headers</gui><gui>Date/Time format</"
 "gui></guiseq>."
 msgstr ""
-"Az előnyben részesített formátum a <guiseq><gui>Szerkesztés</"
-"gui><gui>Beállítások</gui><gui>Levelezés beállításai</gui><gui>Fejlécek</"
-"gui><gui>Dátum/időformátum</gui></guiseq> szakaszban történő kiválasztásával "
-"megváltoztathatja a <gui>Dátum</gui> oszlop formátumát."
+"Megváltoztathatja a <gui>Dátum</gui> oszlop formátumát az előnyben"
+" részesített formátumnak a <guiseq><gui>Szerkesztés</gui><gui>Beállítások<"
+"/gui><gui>Levelezés beállításai</gui><gui>Fejlécek</gui><gui"
+">Dátum/időformátum</gui></guiseq> szakaszban történő kiválasztásával."
 
 #. (itstool) path: info/desc
 #: C/mail-composer-change-quotation-string.page:7
@@ -8491,11 +8491,11 @@ msgid ""
 "spell check in the email composer by clicking <guiseq><gui>Edit</"
 "gui><gui>Check Spelling…</gui></guiseq> or by pressing <key>F7</key>."
 msgstr ""
-"Ha a <link xref=\"#global-preferences\">szerkesztő beállításaiban</link> "
-"nincs engedélyezve a <gui>Helyesírás-ellenőrzés beírás közben</gui>, akkor "
-"az e-mail szerkesztőben a <guiseq><gui>Szerkesztés</gui><gui>Helyesírás-"
-"ellenőrzés</gui></guiseq> menüpont kiválasztásával, vagy az <key>F7</key> "
-"megnyomásával futtathatja a helyesírás-ellenőrzést."
+"Ha a <gui>Helyesírás-ellenőrzés beírás közben</gui> nincs engedélyezve a <"
+"link xref=\"#global-preferences\">szerkesztő beállításaiban</link>, akkor az"
+" e-mail szerkesztőben a <guiseq><gui>Szerkesztés</gui><gui"
+">Helyesírás-ellenőrzés…</gui></guiseq> menüpont kiválasztásával, vagy az <key"
+">F7</key> megnyomásával futtathatja a helyesírás-ellenőrzést."
 
 #. (itstool) path: info/desc
 #: C/mail-composer-write-new-message.page:5
@@ -11686,6 +11686,31 @@ msgstr ""
 #. (itstool) path: note/p
 #: C/mail-searching.page:44
 msgid ""
+"Some searches might be slow on remote mail accounts (e.g. IMAP+). If you "
+"select a search condition like <gui>Body contains</gui> or <gui>Message "
+"contains</gui> and <app>Evolution</app> is in online mode and the folder(s) "
+"you are about to search in are not <link xref=\"mail-working-offline"
+"\">already copied locally for offline usage</link>, Evolution automatically "
+"runs the search on the mail server side if the server advertises support for "
+"server-side searches. When doing a search on search criteria already locally "
+"available (e.g. recipients or subject of messages), the search will be run "
+"locally."
+msgstr ""
+"Bizonyos keresések lassúak lehetnek a távoli postafiókokon (például IMAP+)."
+" Ha olyan keresési feltételt választ, mint például a <gui>Szövegtörzs"
+" tartalmazza</gui> vagy az <gui>Üzenet tartalmazza</gui>, és az <app"
+">Evolution</app> online módban van, valamint azok a mappák <link"
+" xref=\"mail-working-offline\">még nincsenek helyileg lemásolva a kapcsolat"
+" nélküli használathoz</link>, amelyekben keresésre készül, akkor az Evolution"
+" automatikusan lefuttatja a keresést a levelezési kiszolgáló oldalán, ha a"
+" kiszolgáló meghirdeti a kiszolgáló oldali keresések támogatását. Ha olyan"
+" keresési feltételek mentén végez keresést, amelyek már elérhetők helyileg"
+" (például az üzenetek címzettjei vagy tárgya), akkor a keresés helyileg lesz"
+" lefuttatva."
+
+#. (itstool) path: note/p
+#: C/mail-searching.page:45
+msgid ""
 "Advanced users can <link href=\"https://bugzilla.gnome.org/show_bug.cgi?"
 "id=550796#c10\">combine numerous conditions by using the <gui>Free form "
 "expression</gui> syntax</link>."
@@ -11695,12 +11720,12 @@ msgstr ""
 "kifejezés</gui> szintaxis használatával</link>."
 
 #. (itstool) path: item/p
-#: C/mail-searching.page:46
+#: C/mail-searching.page:47
 msgid "Select the scope from the drop-down list right to the text box."
 msgstr "Válassza ki a hatókört a szövegmező melletti legördülő listából."
 
 #. (itstool) path: note/p
-#: C/mail-searching.page:47
+#: C/mail-searching.page:48
 msgid ""
 "For the <gui>Current Account</gui> scope, the term \"account\" refers to top-"
 "level nodes in the <link xref=\"intro-main-window#e-mail\"> mail folder "
@@ -11712,7 +11737,7 @@ msgstr ""
 "postafiókok."
 
 #. (itstool) path: note/p
-#: C/mail-searching.page:52
+#: C/mail-searching.page:53
 msgid ""
 "If you start directly from the fourth step, text will be searched in mail's "
 "subjects and addresses and scope will be \"Current folder\"."
@@ -11721,7 +11746,7 @@ msgstr ""
 "címeiben kerül végrehajtásra, és a hatókör a „Jelenlegi mappa” lesz."
 
 #. (itstool) path: note/p
-#: C/mail-searching.page:53
+#: C/mail-searching.page:54
 msgid ""
 "If you search for messages that are not in the same folder rather often you "
 "might want to create a search folder instead; see <link xref=\"mail-search-"
@@ -12743,11 +12768,12 @@ msgid ""
 "you force <app>Evolution</app> to be offline, <app>Evolution</app> downloads "
 "the unread messages from the folders you have chosen to store."
 msgstr ""
-"A POP levelezés minden levelet letölt a helyi rendszerre, de távoli fiókok "
-"esetén általában csak a fejléceket tölti le. A levelek többi részét, mint a "
-"törzsét, csak akkor, amikor megkísérli elolvasni a levelet. Mielőtt "
-"kapcsolat nélküli módba kényszeríti, az <app>Evolution</app> letölti az "
-"olvasatlan leveleket a helyi tárolásra kiválasztott mappákban."
+"A POP levelezés minden levelet letölt a helyi rendszerre, de távoli fiókok"
+" esetén általában csak a fejléceket tölti le. A levelek többi részét, mint a"
+" törzsét, csak akkor, amikor megkísérli elolvasni a levelet. Mielőtt"
+" kapcsolat nélküli módba kényszeríti az <app>Evolution</app> alkalmazást, az"
+" <app>Evolution</app> letölti az olvasatlan leveleket a helyi tárolásra"
+" kiválasztott mappákban."
 
 #. (itstool) path: section/p
 #: C/mail-working-offline.page:33
@@ -14394,9 +14420,3 @@ msgstr "Szerkessze a címet vagy a keresési feltételeket az ablakban."
 #: C/xinclude-searching.xml:30
 msgid "Click <_:gui-1/>."
 msgstr "Kattintson az <_:gui-1/> gombra."
-
-#~ msgid "signature"
-#~ msgstr "aláírást"
-
-#~ msgid "email aliases"
-#~ msgstr "e-mail álneveket"
