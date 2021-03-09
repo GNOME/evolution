@@ -1814,11 +1814,13 @@ EvoEditor.getNextNodeInHierarchy = function(node, upToNode)
 EvoEditor.quoteParagraphWrap = function(node, lineLength, wrapWidth, prefixHtml)
 {
 	if (node.nodeType == node.ELEMENT_NODE) {
-		var br = document.createElement("BR");
-		br.className = "-x-evo-wrap-br";
+		if (lineLength > 0) {
+			var br = document.createElement("BR");
+			br.className = "-x-evo-wrap-br";
 
-		node.insertAdjacentElement("beforebegin", br);
-		node.insertAdjacentHTML("beforebegin", prefixHtml);
+			node.insertAdjacentElement("beforebegin", br);
+			node.insertAdjacentHTML("beforebegin", prefixHtml);
+		}
 
 		return node.innerText.length;
 	}

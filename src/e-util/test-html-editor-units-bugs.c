@@ -2401,6 +2401,109 @@ test_issue_1391 (TestFixture *fixture)
 		g_test_fail ();
 }
 
+static gboolean
+test_issue_1394_with_wrap_length (TestFixture *fixture,
+				  gint wrap_length)
+{
+	gchar *html;
+
+	test_utils_fixture_change_setting_int32 (fixture, "org.gnome.evolution.mail", "composer-word-wrap-length", wrap_length);
+
+	if (!test_utils_process_commands (fixture,
+		"mode:plain\n"))
+		return FALSE;
+
+	test_utils_insert_content (fixture,
+		"<body><div>a</div>"
+		"<blockquote type=\"cite\">"
+		"<div>b</div>"
+		"<div><a href=\"https://www.example.com/\">https://www.example.com/</a></div>"
+		"<div>c</div>"
+		"</blockquote>"
+		"<div><br></div>"
+		"<span class=\"-x-evo-to-body\" data-credits=\"Credits:\"></span>"
+		"<span class=\"-x-evo-cite-body\"></span></body>",
+		E_CONTENT_EDITOR_INSERT_REPLACE_ALL | E_CONTENT_EDITOR_INSERT_TEXT_HTML);
+
+	html = g_strdup_printf (
+		HTML_PREFIX "<div style=\"width: %dch;\">Credits:</div>"
+		"<blockquote type=\"cite\">"
+			"<blockquote type=\"cite\">"
+			"<div>" QUOTE_SPAN (QUOTE_CHR QUOTE_CHR) "<a href=\"https://www.example.com/\">https://www.example.com/</a></div>"
+			"<div>" QUOTE_SPAN (QUOTE_CHR QUOTE_CHR) "c</div>"
+			"</blockquote>"
+		"<div>" QUOTE_SPAN (QUOTE_CHR) "<br></div>"
+		"</blockquote>"
+		HTML_SUFFIX,
+		wrap_length);
+
+	if (!test_utils_run_simple_test (fixture,
+		"undo:save\n"
+		"seq:dddSllllsb\n",
+		html,
+		"Credits:\n"
+		"> > https://www.example.com/\n"
+		"> > c\n"
+		"> \n")) {
+		g_free (html);
+		return FALSE;
+	}
+
+	g_free (html);
+
+	if (!test_utils_process_commands (fixture,
+		"undo:save\n"
+		"undo:undo\n"
+		"undo:test:2\n"
+		"undo:redo\n"
+		"undo:test\n"
+		"undo:drop:2"))
+		return FALSE;
+
+	html = g_strdup_printf (
+		HTML_PREFIX "<div style=\"width: %dch;\">Credits:<a href=\"https://www.example.com/\">https://www.example.com/</a></div>"
+		"<blockquote type=\"cite\">"
+			"<blockquote type=\"cite\">"
+			"<div>" QUOTE_SPAN (QUOTE_CHR QUOTE_CHR) "c</div>"
+			"</blockquote>"
+		"<div>" QUOTE_SPAN (QUOTE_CHR) "<br></div>"
+		"</blockquote>"
+		HTML_SUFFIX,
+		wrap_length);
+
+	if (!test_utils_run_simple_test (fixture,
+		"undo:save\n"
+		"seq:b\n",
+		html,
+		"Credits:https://www.example.com/\n"
+		"> > c\n"
+		"> \n")) {
+		g_free (html);
+		return FALSE;
+	}
+
+	g_free (html);
+
+	if (!test_utils_process_commands (fixture,
+		"undo:save\n"
+		"undo:undo\n"
+		"undo:test:2\n"
+		"undo:redo\n"
+		"undo:test\n"
+		"undo:drop:2"))
+		return FALSE;
+
+	return TRUE;
+}
+
+static void
+test_issue_1394 (TestFixture *fixture)
+{
+	if (!test_issue_1394_with_wrap_length (fixture, 50) ||
+	    !test_issue_1394_with_wrap_length (fixture, 10))
+		g_test_fail ();
+}
+
 void
 test_add_html_editor_bug_tests (void)
 {
@@ -2443,4 +2546,5 @@ test_add_html_editor_bug_tests (void)
 	test_utils_add_test ("/issue/1365", test_issue_1365);
 	test_utils_add_test ("/issue/1344", test_issue_1344);
 	test_utils_add_test ("/issue/1391", test_issue_1391);
+	test_utils_add_test ("/issue/1394", test_issue_1394);
 }
