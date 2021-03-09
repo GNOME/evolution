@@ -707,6 +707,7 @@ main (gint argc,
 	application = g_application_new ("org.gnome.Evolution.test-html-editor", G_APPLICATION_FLAGS_NONE);
 
 	g_setenv ("E_HTML_EDITOR_TEST_SOURCES", "1", FALSE);
+	g_setenv ("EVOLUTION_SOURCE_WEBKITDATADIR", EVOLUTION_SOURCE_WEBKITDATADIR, FALSE);
 
 	gtk_icon_theme_append_search_path (gtk_icon_theme_get_default (), EVOLUTION_ICONDIR);
 

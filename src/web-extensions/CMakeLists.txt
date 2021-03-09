@@ -19,7 +19,6 @@ add_dependencies(ewebextension
 target_compile_definitions(ewebextension PRIVATE
 	-DG_LOG_DOMAIN=\"ewebextension\"
 	-DEVOLUTION_WEBKITDATADIR=\"${webkitdatadir}\"
-	-DEVOLUTION_SOURCE_WEBKITDATADIR=\"${CMAKE_SOURCE_DIR}/data/webkit\"
 )
 
 target_compile_options(ewebextension PUBLIC

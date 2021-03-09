@@ -3067,6 +3067,7 @@ main (gint argc,
 	g_test_bug_base ("https://gitlab.gnome.org/GNOME/evolution/issues/");
 
 	g_setenv ("E_WEB_VIEW_TEST_SOURCES", "1", FALSE);
+	g_setenv ("EVOLUTION_SOURCE_WEBKITDATADIR", EVOLUTION_SOURCE_WEBKITDATADIR, FALSE);
 
 	gtk_init (&argc, &argv);
 

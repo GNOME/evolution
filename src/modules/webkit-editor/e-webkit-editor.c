@@ -4273,6 +4273,9 @@ webkit_editor_constructor (GType type,
 			static gpointer web_context = NULL;
 
 			if (!web_context) {
+				#ifdef ENABLE_MAINTAINER_MODE
+				const gchar *source_webkitdatadir;
+				#endif
 				const gchar *schemes[] = {
 					"cid",
 					"evo-file",
@@ -4288,7 +4291,9 @@ webkit_editor_constructor (GType type,
 				webkit_web_context_set_sandbox_enabled (web_context, TRUE);
 				webkit_web_context_add_path_to_sandbox (web_context, EVOLUTION_WEBKITDATADIR, TRUE);
 				#ifdef ENABLE_MAINTAINER_MODE
-				webkit_web_context_add_path_to_sandbox (web_context, EVOLUTION_SOURCE_WEBKITDATADIR, TRUE);
+				source_webkitdatadir = g_getenv ("EVOLUTION_SOURCE_WEBKITDATADIR");
+				if (source_webkitdatadir && *source_webkitdatadir)
+					webkit_web_context_add_path_to_sandbox (web_context, source_webkitdatadir, TRUE);
 				#endif
 
 				g_object_add_weak_pointer (G_OBJECT (web_context), &web_context);

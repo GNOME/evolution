@@ -172,12 +172,20 @@ load_javascript_file (JSCContext *jsc_context,
 	g_return_if_fail (jsc_context != NULL);
 
 	if (use_sources_js_file ()) {
-		filename = g_build_filename (EVOLUTION_SOURCE_WEBKITDATADIR, js_filename, NULL);
+		const gchar *source_webkitdatadir;
 
-		if (!g_file_test (filename, G_FILE_TEST_EXISTS)) {
-			g_warning ("Cannot find '%s', using installed file '%s/%s' instead", filename, EVOLUTION_WEBKITDATADIR, js_filename);
+		source_webkitdatadir = g_getenv ("EVOLUTION_SOURCE_WEBKITDATADIR");
 
-			g_clear_pointer (&filename, g_free);
+		if (source_webkitdatadir && *source_webkitdatadir) {
+			filename = g_build_filename (source_webkitdatadir, js_filename, NULL);
+
+			if (!g_file_test (filename, G_FILE_TEST_EXISTS)) {
+				g_warning ("Cannot find '%s', using installed file '%s/%s' instead", filename, EVOLUTION_WEBKITDATADIR, js_filename);
+
+				g_clear_pointer (&filename, g_free);
+			}
+		} else {
+			g_warning ("Environment variable 'EVOLUTION_SOURCE_WEBKITDATADIR' not set or invalid value, using installed file '%s/%s' instead", EVOLUTION_WEBKITDATADIR, js_filename);
 		}
 	}
 
