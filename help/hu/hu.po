@@ -1,25 +1,25 @@
 # Hungarian translation for evolution_help.
-# Copyright (C) 2011, 2012, 2013, 2017, 2018, 2019. Free Software Foundation, Inc.
+# Copyright (C) 2011, 2012, 2013, 2017, 2018, 2019, 2021. Free Software Foundation, Inc.
 # This file is distributed under the same license as the evolution help.
 #
 # Bence Lukács <lukacs.bence1 at gmail dot com>, 2011.
 # Gabor Kelemen <kelemeng at gnome dot hu>, 2011, 2012, 2013, 2014, 2015, 2016, 2017, 2018, 2019.
 # Nagy Zoltán <dzodzie at gmail dot com>, 2011.
 # Balázs Meskó <mesko.balazs at fsf dot hu>, 2018.
-# Balázs Úr <ur.balazs at fsf dot hu>, 2014, 2019.
+# Balázs Úr <ur.balazs at fsf dot hu>, 2014, 2019, 2021.
 msgid ""
 msgstr ""
 "Project-Id-Version: evolution-help.master\n"
 "Report-Msgid-Bugs-To: https://gitlab.gnome.org/GNOME/evolution/issues\n"
-"POT-Creation-Date: 2019-03-15 17:01+0000\n"
-"PO-Revision-Date: 2019-03-29 22:24+0100\n"
+"POT-Creation-Date: 2020-04-28 15:44+0000\n"
+"PO-Revision-Date: 2021-03-09 02:08+0100\n"
 "Last-Translator: Balázs Úr <ur.balazs at fsf dot hu>\n"
 "Language-Team: Hungarian <gnome-hu-list at gnome dot org>\n"
 "Language: hu\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Generator: Lokalize 2.0\n"
+"X-Generator: Lokalize 19.12.3\n"
 "Plural-Forms:  nplurals=2; plural=(n != 1);\n"
 
 #. Put one translator per line, in the form NAME <EMAIL>, YEAR1, YEAR2
@@ -30,7 +30,7 @@ msgstr ""
 "Kelemen Gábor <kelemeng at gnome dot hu>, 2011, 2012, 2013, 2015, 2017, "
 "2018.\n"
 "Nagy Zoltán <dzodzie at gmail dot com>, 2011.\n"
-"Úr Balázs <ur.balazs at fsf dot hu>, 2014, 2019."
+"Úr Balázs <ur.balazs at fsf dot hu>, 2014, 2019, 2021."
 
 #. (itstool) path: info/desc
 #: C/backup-restore.page:18
@@ -563,12 +563,12 @@ msgid ""
 "<app>Evolution</app> looks up the schedule and displays it in the Free/Busy "
 "data."
 msgstr ""
-"Ha valaki megadja Önnek az időbeosztás-adataira vagy a webnaptárára mutató "
-"URL-címet, akkor felveheti azt a <link xref=\"contacts-usage-edit-contact"
-"\">Kapcsolatszerkesztőben</link> a <guiseq><gui>Személyes adatok</"
-"gui><gui>Webcímek</gui></guiseq> menüpont alatt. Ha Ön ezután egy találkozót "
-"akar vele beütemezni, akkor az <gui>Evolution</gui> letölti az időbeosztást, "
-"és megjeleníti az időbeosztás-adatok alatt."
+"Ha valaki megadja Önnek az időbeosztás-adataira vagy a webnaptárára mutató"
+" URL-címet, akkor felveheti azt a <guiseq><gui>Személyes adatok</gui><gui"
+">Webcímek</gui></guiseq> menüpont alatt a <link"
+" xref=\"contacts-usage-edit-contact\">Kapcsolatszerkesztőben</link>. Ha Ön"
+" ezután egy találkozót akar vele beütemezni, akkor az <app>Evolution</app>"
+" letölti az időbeosztást, és megjeleníti az időbeosztás-adatok alatt."
 
 #. (itstool) path: info/desc
 #: C/calendar-google.page:24
@@ -949,10 +949,10 @@ msgid ""
 "app> should only read from the file or if <app>Evolution</app> can also add "
 "and alter items in that file."
 msgstr ""
-"Ha egy meglévő naptárfájl használatát választja, amely már létezik a "
-"számítógépen, akkor meg kell adnia a helyét, és hogy az <app>Evolution</app> "
-"csak olvasson-e a fájlból, vagy hozzáadhat és megváltoztathat elemeket abban "
-"a fájlban."
+"Ha egy meglévő naptárfájl használatát választja, amely már létezik a"
+" számítógépen, akkor meg kell adnia a helyét, és hogy az <app>Evolution</app>"
+" csak olvasson-e a fájlból, vagy hogy az <app>Evolution</app> hozzáadhat és"
+" megváltoztathat elemeket abban a fájlban."
 
 #. (itstool) path: info/desc
 #: C/calendar-marcus-bains-line.page:17
@@ -2732,10 +2732,10 @@ msgid ""
 "while <app>Evolution</app> is not running. Commented lines start with a "
 "comma character. Not all shortcuts can be changed though."
 msgstr ""
-"A gyorsbillentyűk megváltoztatásához szerkessze a <file"
-">~/.config/evolution/accels</file> fájlt, miközben az <app>Evolution</app> "
-"nem fut. A megjegyzésre állított sorok vessző karakterrel kezdődnek. Habár "
-"nem minden gyorsbillentyűt lehet megváltoztatni."
+"A gyorsbillentyűk megváltoztatásához szerkessze a <file>~/.config/evolution/"
+"accels</file> fájlt, miközben az <app>Evolution</app> nem fut. A "
+"megjegyzésre állított sorok vessző karakterrel kezdődnek. Habár nem minden "
+"gyorsbillentyűt lehet megváltoztatni."
 
 #. (itstool) path: info/desc
 #: C/data-storage.page:5
@@ -5582,8 +5582,8 @@ msgstr ""
 #: C/mail-account-manage-local-delivery.page:5
 msgid "Add and edit a Local Delivery account in <app>Evolution</app>."
 msgstr ""
-"Helyi kézbesítésű levelezőfiók hozzáadása és szerkesztése az <app"
-">Evolutionben</app>."
+"Helyi kézbesítésű levelezőfiók hozzáadása és szerkesztése az "
+"<app>Evolutionben</app>."
 
 #. (itstool) path: page/title
 #: C/mail-account-manage-local-delivery.page:20
@@ -5641,8 +5641,8 @@ msgid ""
 "Add and edit a Maildir Format Mail Directories account in <app>Evolution</"
 "app>."
 msgstr ""
-"Maildir formátumú levélkönyvtárak hozzáadása és szerkesztése az <app"
-">Evolutionben</app>."
+"Maildir formátumú levélkönyvtárak hozzáadása és szerkesztése az "
+"<app>Evolutionben</app>."
 
 #. (itstool) path: page/title
 #: C/mail-account-manage-maildir-format-directories.page:20
@@ -5718,8 +5718,8 @@ msgstr "Vállalati fióktípusok"
 msgid ""
 "Add and edit a MH Format Mail Directories account in <app>Evolution</app>."
 msgstr ""
-"MH formátumú levélkönyvtárak hozzáadása és szerkesztése az <app>Evolutionben<"
-"/app>."
+"MH formátumú levélkönyvtárak hozzáadása és szerkesztése az "
+"<app>Evolutionben</app>."
 
 #. (itstool) path: page/title
 #: C/mail-account-manage-mh-format-directories.page:20
@@ -5764,8 +5764,8 @@ msgid ""
 "Add and edit a Microsoft Exchange 2007 or 2010 account in <app>Evolution</"
 "app>."
 msgstr ""
-"Microsoft Exchange 2007 vagy 2010 fiók hozzáadása és szerkesztése az <app"
-">Evolutionben</app>."
+"Microsoft Exchange 2007 vagy 2010 fiók hozzáadása és szerkesztése az "
+"<app>Evolutionben</app>."
 
 #. (itstool) path: page/title
 #: C/mail-account-manage-microsoft-exchange-evo-ews.page:20
@@ -5829,8 +5829,8 @@ msgstr ""
 #: C/mail-account-manage-microsoft-exchange-evo-mapi.page:5
 msgid "Add and edit a Microsoft Exchange MAPI account in <app>Evolution</app>."
 msgstr ""
-"Microsoft Exchange MAPI fiók hozzáadása és szerkesztése az <app>Evolutionben<"
-"/app>."
+"Microsoft Exchange MAPI fiók hozzáadása és szerkesztése az "
+"<app>Evolutionben</app>."
 
 #. (itstool) path: page/title
 #: C/mail-account-manage-microsoft-exchange-evo-mapi.page:20
@@ -5875,7 +5875,8 @@ msgstr "Biztonság (Exchange MAPI fiókok)"
 #: C/mail-account-manage-microsoft-exchange.page:7
 msgid "Add and edit a Microsoft Exchange account in <app>Evolution</app>."
 msgstr ""
-"Microsoft Exchange fiók hozzáadása és szerkesztése az <app>Evolutionben</app>."
+"Microsoft Exchange fiók hozzáadása és szerkesztése az <app>Evolutionben</"
+"app>."
 
 #. (itstool) path: page/title
 #: C/mail-account-manage-microsoft-exchange.page:22
@@ -5984,8 +5985,8 @@ msgid ""
 "Add and edit a Standard Unix mbox Spool Directory account in <app>Evolution</"
 "app>."
 msgstr ""
-"Szabványos Unix mbox tárolókönyvtár fiók hozzáadása és szerkesztése az <app"
-">Evolutionben</app>."
+"Szabványos Unix mbox tárolókönyvtár fiók hozzáadása és szerkesztése az "
+"<app>Evolutionben</app>."
 
 #. (itstool) path: page/title
 #: C/mail-account-manage-unix-mbox-spool-directory.page:20
@@ -6031,8 +6032,8 @@ msgstr "Biztonság (szabványos Unix mbox tárolókönyvtár fiókok)"
 msgid ""
 "Add and edit a Standard Unix mbox Spool File account in <app>Evolution</app>."
 msgstr ""
-"Szabványos Unix mbox tárolófájl fiók hozzáadása és szerkesztése az <app"
-">Evolutionben</app>."
+"Szabványos Unix mbox tárolófájl fiók hozzáadása és szerkesztése az "
+"<app>Evolutionben</app>."
 
 #. (itstool) path: page/title
 #: C/mail-account-manage-unix-mbox-spool-file.page:20
@@ -6571,10 +6572,10 @@ msgid ""
 "gui><gui>Mail Preferences</gui><gui>Headers</gui><gui>Date/Time format</"
 "gui></guiseq>."
 msgstr ""
-"Az előnyben részesített formátum a <guiseq><gui>Szerkesztés</"
-"gui><gui>Beállítások</gui><gui>Levelezés beállításai</gui><gui>Fejlécek</"
-"gui><gui>Dátum/időformátum</gui></guiseq> szakaszban történő kiválasztásával "
-"megváltoztathatja a <gui>Dátum</gui> oszlop formátumát."
+"Megváltoztathatja a <gui>Dátum</gui> oszlop formátumát az előnyben"
+" részesített formátumnak a <guiseq><gui>Szerkesztés</gui><gui>Beállítások<"
+"/gui><gui>Levelezés beállításai</gui><gui>Fejlécek</gui><gui"
+">Dátum/időformátum</gui></guiseq> szakaszban történő kiválasztásával."
 
 #. (itstool) path: info/desc
 #: C/mail-composer-change-quotation-string.page:7
@@ -8430,11 +8431,11 @@ msgid ""
 "spell check in the email composer by clicking <guiseq><gui>Edit</"
 "gui><gui>Check Spelling…</gui></guiseq> or by pressing <key>F7</key>."
 msgstr ""
-"Ha a <link xref=\"#global-preferences\">szerkesztő beállításaiban</link> "
-"nincs engedélyezve a <gui>Helyesírás-ellenőrzés beírás közben</gui>, akkor "
-"az e-mail szerkesztőben a <guiseq><gui>Szerkesztés</gui><gui>Helyesírás-"
-"ellenőrzés</gui></guiseq> menüpont kiválasztásával, vagy az <key>F7</key> "
-"megnyomásával futtathatja a helyesírás-ellenőrzést."
+"Ha a <gui>Helyesírás-ellenőrzés beírás közben</gui> nincs engedélyezve a <"
+"link xref=\"#global-preferences\">szerkesztő beállításaiban</link>, akkor az"
+" e-mail szerkesztőben a <guiseq><gui>Szerkesztés</gui><gui"
+">Helyesírás-ellenőrzés…</gui></guiseq> menüpont kiválasztásával, vagy az <key"
+">F7</key> megnyomásával futtathatja a helyesírás-ellenőrzést."
 
 #. (itstool) path: info/desc
 #: C/mail-composer-write-new-message.page:5
@@ -8550,8 +8551,8 @@ msgstr ""
 "áthelyezéséhez. Ehhez az szükséges, hogy először beállítson egy tartalék "
 "mappát a <guiseq><gui>Szerkesztés</gui><gui>Beállítások</gui><gui>Levelezés "
 "beállításai</gui><gui>Általános</gui><gui>Levél archiválása</gui></guiseq> "
-"alatt. A főablakban az <guiseq><gui>Üzenet</gui><gui>Archiválás</gui><"
-"/guiseq> menüpont kiválasztásakor a kijelölt üzenet áthelyezésre kerül a "
+"alatt. A főablakban az <guiseq><gui>Üzenet</gui><gui>Archiválás</gui></"
+"guiseq> menüpont kiválasztásakor a kijelölt üzenet áthelyezésre kerül a "
 "megadott mappába."
 
 #. (itstool) path: page/p
@@ -8877,12 +8878,29 @@ msgid "Rendering an email and handling its attachments."
 msgstr "E-mail megjelenítése és mellékleteinek kezelése."
 
 #. (itstool) path: page/title
-#: C/mail-displaying-message.page:20
+#: C/mail-displaying-message.page:21
 msgid "Display of a message"
 msgstr "Üzenet megjelenítése"
 
-#. (itstool) path: section/title
+#. (itstool) path: page/p
 #: C/mail-displaying-message.page:23
+#| msgid ""
+#| "You can add, edit and delete all labels under <guiseq><gui>Edit</"
+#| "gui><gui>Preferences</gui><gui>Mail Preferences</gui><gui>Labels</gui></"
+#| "guiseq>. Note that you cannot remove the default labels."
+msgid ""
+"You can define how received HTML messages are displayed via "
+"<guiseq><gui>Edit</gui><gui>Preferences</gui><gui>Mail Preferences</"
+"gui><gui>HTML Messages</gui></guiseq>. For example, you can display them as "
+"plain text or block loading remote content."
+msgstr ""
+"A kapott HTML levelek megjelenítésének módja a <guiseq><gui>Szerkesztés</"
+"gui><gui>Beállítások</gui><gui>Levelezés beállításai</gui><gui>HTML "
+"üzenetek</gui></guiseq> alatt adható meg. Például megjeleníthetők egyszerű "
+"szövegként vagy blokkonként betöltött távoli tartalomként."
+
+#. (itstool) path: section/title
+#: C/mail-displaying-message.page:26
 msgid "Advanced"
 msgstr "Speciális"
 
@@ -12669,11 +12687,12 @@ msgid ""
 "you force <app>Evolution</app> to be offline, <app>Evolution</app> downloads "
 "the unread messages from the folders you have chosen to store."
 msgstr ""
-"A POP levelezés minden levelet letölt a helyi rendszerre, de távoli fiókok "
-"esetén általában csak a fejléceket tölti le. A levelek többi részét, mint a "
-"törzsét, csak akkor, amikor megkísérli elolvasni a levelet. Mielőtt "
-"kapcsolat nélküli módba kényszeríti, az <app>Evolution</app> letölti az "
-"olvasatlan leveleket a helyi tárolásra kiválasztott mappákban."
+"A POP levelezés minden levelet letölt a helyi rendszerre, de távoli fiókok"
+" esetén általában csak a fejléceket tölti le. A levelek többi részét, mint a"
+" törzsét, csak akkor, amikor megkísérli elolvasni a levelet. Mielőtt"
+" kapcsolat nélküli módba kényszeríti az <app>Evolution</app> alkalmazást, az"
+" <app>Evolution</app> letölti az olvasatlan leveleket a helyi tárolásra"
+" kiválasztott mappákban."
 
 #. (itstool) path: section/p
 #: C/mail-working-offline.page:33
