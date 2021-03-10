@@ -3572,6 +3572,38 @@ EvoEditor.AfterInputEvent = function(inputEvent, isWordDelim)
 					EvoEditor.EmitContentChanged();
 				}
 			}
+		} else if (isInsertParagraph && EvoEditor.mode == EvoEditor.MODE_PLAIN_TEXT) {
+			var node = selection.anchorNode, childNode;
+
+			node = node ? node.previousElementSibling : null;
+			if (node && node.tagName != "BLOCKQUOTE") {
+				node = node.previousElementSibling;
+				if (node && node.tagName != "BLOCKQUOTE")
+					node = null;
+			}
+
+			if (node) {
+				EvoUndoRedo.StartRecord(EvoUndoRedo.RECORD_KIND_CUSTOM, "blockquoteFixup", node, node,
+					EvoEditor.CLAIM_CONTENT_FLAG_SAVE_HTML);
+				try {
+					var blockquoteLevel = 1;
+
+					EvoEditor.removeQuoteMarks(node);
+					EvoEditor.convertParagraphs(node, blockquoteLevel,
+						EvoEditor.NORMAL_PARAGRAPH_WIDTH - (blockquoteLevel * 2), false);
+				} finally {
+					EvoUndoRedo.StopRecord(EvoUndoRedo.RECORD_KIND_CUSTOM, "blockquoteFixup");
+
+					var didRemove = 0;
+
+					didRemove += EvoEditor.removeEmptyElements("DIV");
+					didRemove += EvoEditor.removeEmptyElements("PRE");
+
+					EvoUndoRedo.GroupTopRecords(2 + didRemove, "insertParagraph::blockquoteFixup");
+					EvoEditor.maybeUpdateFormattingState(EvoEditor.FORCE_MAYBE);
+					EvoEditor.EmitContentChanged();
+				}
+			}
 		}
 	}
 

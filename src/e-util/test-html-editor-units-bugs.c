@@ -2504,6 +2504,41 @@ test_issue_1394 (TestFixture *fixture)
 		g_test_fail ();
 }
 
+static void
+test_issue_1159 (TestFixture *fixture)
+{
+	if (!test_utils_process_commands (fixture,
+		"mode:plain\n")) {
+		g_test_fail ();
+		return;
+	}
+
+	test_utils_insert_content (fixture,
+		"<body><div>a</div>"
+		"<div>b</div>"
+		"<div>c</div>"
+		"<span class=\"-x-evo-to-body\" data-credits=\"Credits:\"></span>"
+		"<span class=\"-x-evo-cite-body\"></span></body>",
+		E_CONTENT_EDITOR_INSERT_REPLACE_ALL | E_CONTENT_EDITOR_INSERT_TEXT_HTML);
+
+	if (!test_utils_run_simple_test (fixture,
+		"seq:Cecn\n"
+		"seq:ChcddSdds\n"
+		"seq:n\n",
+		HTML_PREFIX "<div style=\"width: 71ch;\">Credits:</div>"
+		"<blockquote type=\"cite\">"
+		"<div>" QUOTE_SPAN (QUOTE_CHR) "a</div>"
+		"</blockquote>"
+		"<div style=\"width: 71ch;\"><br></div>"
+		"<div style=\"width: 71ch;\"><br></div>"
+		HTML_SUFFIX,
+		"Credits:\n"
+		"> a\n"
+		"\n"
+		"\n"))
+		g_test_fail ();
+}
+
 void
 test_add_html_editor_bug_tests (void)
 {
@@ -2547,4 +2582,5 @@ test_add_html_editor_bug_tests (void)
 	test_utils_add_test ("/issue/1344", test_issue_1344);
 	test_utils_add_test ("/issue/1391", test_issue_1391);
 	test_utils_add_test ("/issue/1394", test_issue_1394);
+	test_utils_add_test ("/issue/1159", test_issue_1159);
 }
