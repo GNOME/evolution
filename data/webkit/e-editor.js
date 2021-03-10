@@ -3558,10 +3558,10 @@ EvoEditor.AfterInputEvent = function(inputEvent, isWordDelim)
 					node = EvoEditor.requoteNodeParagraph(node);
 
 					if (node && inputEvent.inputType.startsWith("delete")) {
-						if (node.nextSiblingElement)
-							EvoEditor.requoteNodeParagraph(node.nextSiblingElement);
-						if (node.previousSiblingElement)
-							EvoEditor.requoteNodeParagraph(node.previousSiblingElement);
+						if (node.nextElementSibling)
+							EvoEditor.requoteNodeParagraph(node.nextElementSibling);
+						if (node.previousElementSibling)
+							EvoEditor.requoteNodeParagraph(node.previousElementSibling);
 					}
 
 					EvoSelection.Restore(document, selection);
