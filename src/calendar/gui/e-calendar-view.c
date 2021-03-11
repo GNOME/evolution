@@ -160,6 +160,9 @@ calendar_view_delete_event (ECalendarView *cal_view,
 	ECalComponent *comp;
 	ECalComponentVType vtype;
 	ESourceRegistry *registry;
+	ECalClient *client;
+	ICalComponent *icalcomp;
+	time_t instance_start;
 	gboolean delete = TRUE;
 
 	if (!is_comp_data_valid (event))
@@ -172,12 +175,17 @@ calendar_view_delete_event (ECalendarView *cal_view,
 	e_cal_component_set_icalcomponent (comp, i_cal_component_clone (event->comp_data->icalcomp));
 	vtype = e_cal_component_get_vtype (comp);
 
+	/* Remember structure values, because the 'event' can be freed while the question dialog is opened */
+	instance_start = event->comp_data->instance_start;
+	client = g_object_ref (event->comp_data->client);
+	icalcomp = e_cal_component_get_icalcomponent (comp);
+
 	/*FIXME remove it once the we dont set the recurrence id for all the generated instances */
-	if (!only_occurrence && !e_cal_client_check_recurrences_no_master (event->comp_data->client))
+	if (!only_occurrence && !e_cal_client_check_recurrences_no_master (client))
 		e_cal_component_set_recurid (comp, NULL);
 
 	/*FIXME Retract should be moved to Groupwise features plugin */
-	if (calendar_view_check_for_retract (comp, event->comp_data->client)) {
+	if (calendar_view_check_for_retract (comp, client)) {
 		gchar *retract_comment = NULL;
 		gboolean retract = FALSE;
 
@@ -189,7 +197,7 @@ calendar_view_delete_event (ECalendarView *cal_view,
 			icomp = e_cal_component_get_icalcomponent (comp);
 			i_cal_component_set_method (icomp, I_CAL_METHOD_CANCEL);
 
-			e_cal_ops_send_component (model, event->comp_data->client, icomp);
+			e_cal_ops_send_component (model, client, icomp);
 		}
 	} else if (e_cal_model_get_confirm_delete (model))
 		delete = e_cal_dialogs_delete_component (
@@ -202,10 +210,10 @@ calendar_view_delete_event (ECalendarView *cal_view,
 		rid = e_cal_component_get_recurid_as_string (comp);
 
 		if (itip_has_any_attendees (comp) &&
-		    (itip_organizer_is_user (registry, comp, event->comp_data->client) ||
-		     itip_sentby_is_user (registry, comp, event->comp_data->client))
+		    (itip_organizer_is_user (registry, comp, client) ||
+		     itip_sentby_is_user (registry, comp, client))
 		    && e_cal_dialogs_cancel_component ((GtkWindow *) gtk_widget_get_toplevel (GTK_WIDGET (cal_view)),
-						event->comp_data->client,
+						client,
 						comp, TRUE)) {
 			if (only_occurrence && !e_cal_component_is_instance (comp)) {
 				ECalComponentRange *range;
@@ -222,7 +230,7 @@ calendar_view_delete_event (ECalendarView *cal_view,
 			}
 
 			itip_send_component_with_model (model, I_CAL_METHOD_CANCEL,
-				comp, event->comp_data->client, NULL, NULL,
+				comp, client, NULL, NULL,
 				NULL, E_ITIP_SEND_COMPONENT_FLAG_STRIP_ALARMS);
 		}
 
@@ -235,7 +243,7 @@ calendar_view_delete_event (ECalendarView *cal_view,
 
 		if (only_occurrence) {
 			if (e_cal_component_is_instance (comp)) {
-				e_cal_ops_remove_component (model, event->comp_data->client, uid, rid, E_CAL_OBJ_MOD_THIS, FALSE);
+				e_cal_ops_remove_component (model, client, uid, rid, E_CAL_OBJ_MOD_THIS, FALSE);
 			} else {
 				ICalTime *instance_rid;
 				ICalTimezone *zone = NULL;
@@ -246,7 +254,7 @@ calendar_view_delete_event (ECalendarView *cal_view,
 				if (dt && e_cal_component_datetime_get_tzid (dt)) {
 					GError *local_error = NULL;
 
-					if (!e_cal_client_get_timezone_sync (event->comp_data->client,
+					if (!e_cal_client_get_timezone_sync (client,
 						e_cal_component_datetime_get_tzid (dt), &zone, NULL, &local_error))
 						zone = NULL;
 
@@ -261,24 +269,25 @@ calendar_view_delete_event (ECalendarView *cal_view,
 				e_cal_component_datetime_free (dt);
 
 				instance_rid = i_cal_time_new_from_timet_with_zone (
-					event->comp_data->instance_start,
+					instance_start,
 					TRUE, zone ? zone : i_cal_timezone_get_utc_timezone ());
-				e_cal_util_remove_instances_ex (event->comp_data->icalcomp, instance_rid, E_CAL_OBJ_MOD_THIS,
-					e_cal_client_tzlookup_cb, event->comp_data->client);
-				e_cal_ops_modify_component (model, event->comp_data->client, event->comp_data->icalcomp,
+				e_cal_util_remove_instances_ex (icalcomp, instance_rid, E_CAL_OBJ_MOD_THIS,
+					e_cal_client_tzlookup_cb, client);
+				e_cal_ops_modify_component (model, client, icalcomp,
 					E_CAL_OBJ_MOD_THIS, E_CAL_OPS_SEND_FLAG_DONT_SEND);
 
 				g_clear_object (&instance_rid);
 			}
-		} else if (e_cal_util_component_is_instance (event->comp_data->icalcomp) ||
-			   e_cal_util_component_has_recurrences (event->comp_data->icalcomp))
-			e_cal_ops_remove_component (model, event->comp_data->client, uid, rid, E_CAL_OBJ_MOD_ALL, FALSE);
+		} else if (e_cal_util_component_is_instance (icalcomp) ||
+			   e_cal_util_component_has_recurrences (icalcomp))
+			e_cal_ops_remove_component (model, client, uid, rid, E_CAL_OBJ_MOD_ALL, FALSE);
 		else
-			e_cal_ops_remove_component (model, event->comp_data->client, uid, NULL, E_CAL_OBJ_MOD_THIS, FALSE);
+			e_cal_ops_remove_component (model, client, uid, NULL, E_CAL_OBJ_MOD_THIS, FALSE);
 
 		g_free (rid);
 	}
 
+	g_clear_object (&client);
 	g_object_unref (comp);
 }
 
