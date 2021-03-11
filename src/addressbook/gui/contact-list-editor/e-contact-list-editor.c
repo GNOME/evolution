@@ -535,6 +535,9 @@ contact_list_editor_add_from_email_entry (EContactListEditor *editor,
 	store = e_name_selector_entry_peek_destination_store (entry);
 	dests = e_destination_store_list_destinations (store);
 
+	/* Add a reference, to not have it freed in e-name-selector-entry.c::user_focus_out() */
+	g_list_foreach (dests, (GFunc) g_object_ref, NULL);
+
 	for (diter = dests; diter; diter = g_list_next (diter)) {
 		EDestination *dest = diter->data;
 
@@ -545,7 +548,7 @@ contact_list_editor_add_from_email_entry (EContactListEditor *editor,
 		}
 	}
 
-	g_list_free (dests);
+	g_list_free_full (dests, g_object_unref);
 
 	if (!added)
 		contact_list_editor_add_email (editor, gtk_entry_get_text (GTK_ENTRY (entry)));
