@@ -562,6 +562,7 @@ itip_attendee_is_user (ESourceRegistry *registry,
 		g_free (address);
 	}
 
+	g_slist_free_full (attendees, e_cal_component_attendee_free);
 	g_list_free_full (list, g_object_unref);
 
 	return FALSE;

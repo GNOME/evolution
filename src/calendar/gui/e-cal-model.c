@@ -4077,6 +4077,7 @@ e_cal_model_set_instance_times (ECalModelComponent *comp_data,
 			 * just make start_time = end_time so that end_time
 			 * will be a valid date
 			 */
+			g_clear_object (&end_time);
 			end_time = i_cal_time_clone (start_time);
 			i_cal_time_adjust (end_time, 1, 0, 0, 0);
 			i_cal_component_set_dtend (comp_data->icalcomp, end_time);
