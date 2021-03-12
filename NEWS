@@ -1,3 +1,65 @@
+Evolution 3.39.3 2021-03-12
+---------------------------
+
+Bug Fixes:
+	I#898 - Calendar: Crash on deleting event (Milan Crha)
+	I#1159 - Composer: Removing highlighted quoted section creates empty quoted lines (Milan Crha)
+	I#1240 - Mail: Shows OAuth2 errors right after account is created (Milan Crha)
+	I#1344 - Composer: Paragraph format change misbehaves on empty paragraph (Milan Crha)
+	I#1349 - Do not expose source WebKit data dir in installed binaries (Milan Crha)
+	I#1353 - mail-notification: Show folder name in the notification (Milan Crha)
+	I#1365 - Composer: Nested quoted text can get lost in Reply on HTML mail (Milan Crha)
+	I#1368 - itip-utils: Use Location as TZID instead of libical's TZID (Milan Crha)
+	I#1382 - Calendar: Fails to create new even with read-only source selected (Milan Crha)
+	I#1387 - Calendar: Cannot select events by mouse (Milan Crha)
+	I#1389 - Contacts: Crash when adding contacts into Contact List (Milan Crha)
+	I#1391 - Composer: Changing quoted line from Normal to Preformatted changes its quotation level (Milan Crha)
+	I#1394 - Composer: Incorrect wrap in citation with a long link (Milan Crha)
+	I#1398 - Composer: Fails to delete column/row of a table (Milan Crha)
+	I#1403 - WebView: Automatically switch text direction according to the text (Milan Crha)
+
+Miscellaneous:
+	Calendar: Fix several memory leaks (Milan Crha)
+	ECompEditorPageGeneral: Change signal connect function on meeting store (Milan Crha)
+	itip-utils: Clamp the VTIMEZONE component of the sent component (Milan Crha)
+	itip_view_rebuild_source_list: Count with parent ESource being NULL (Milan Crha)
+	Mail: Correct compress thread level indentation (Milan Crha)
+	CompEditor: Check for "one-alarm-only" calendar capability (Milan Crha)
+	Allow to load modules from custom prefixes (Milan Crha)
+	Flatpak: Show Save All button in attachment bar (Milan Crha)
+	CompEditor: Make it easier to add a reminder (Milan Crha)
+	ECert: Provide and use SHA256 for certificate comparison (Milan Crha)
+	EWebDAVBrowser: Remove 'calendar-order' property when unset on save (Milan Crha)
+	Composer: Disable visual wrapping of anchors in Plain Text mode (Milan Crha)
+	Composer: Correct typo in node property names (Milan Crha)
+	Calendar: Fix couple memory leaks (Milan Crha)
+
+Translations:
+	Daniel Șerbănescu (ro)
+	Yuri Chornoivan (uk)
+	Hugo Carvalho (pt)
+	Fran Dieguez (gl)
+	Balázs Meskó (hu)
+	Daniel Mustieles (es)
+	Fabio Tomat (fur)
+	Rafael Fontenelle (pt_BR)
+	Emin Tufan Çetin (tr)
+	Tim Sabsch (de)
+	Matej Urbančič (sl)
+	Kukuh Syafaat (id)
+	Aurimas Černius (lt)
+	Anders Jonsson (sv)
+	Asier Sarasua Garmendia (eu)
+	Мирослав Николић (sr)
+	Jordi Mas (ca)
+	Goran Vidović (hr)
+	Jiri Grönroos (fi)
+	Baurzhan Muftakhidinov (kk)
+	Marek Černocký (cs)
+	Changwoo Ryu (ko)
+	Mario Blättermann (de)
+	Balázs Úr (hu)
+
 Evolution 3.39.2 2021-02-12
 ---------------------------
 
