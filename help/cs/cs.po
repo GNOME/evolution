@@ -13528,7 +13528,7 @@ msgstr "Zobrazení při spuštění aplikace <app>Evolution</app>"
 msgid ""
 "When <app>Evolution</app> starts, it remembers the last view that you used."
 msgstr ""
-"<epp>Evolution</app> si pamatuje, co zobrazoval, když běžel naposledy, a "
+"<app>Evolution</app> si pamatuje, co zobrazoval, když běžel naposledy, a "
 "použije to při spuštění."
 
 #. (itstool) path: page/p
