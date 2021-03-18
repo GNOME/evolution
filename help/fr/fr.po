@@ -14,24 +14,24 @@
 # Julien Hardelin <jhardlin@orange.fr>, 2012, 2015.
 # Alain Lojewski <allomervan@gmail.com>, 2013-2016.
 # Yvan Masson <yvan@masson-informatique.fr>, 2020.
-# Guillaume Bernard <associations@guillaume-bernard.fr>, 2020.
-# Charles Monzat <charles.monzat@free.fr>, 2016-2020.
 # vanadiae <vanadiae35@gmail.com>, 2020.
+# Charles Monzat <charles.monzat@free.fr>, 2016-2020.
+# Guillaume Bernard <associations@guillaume-bernard.fr>, 2020-2021.
 #
 msgid ""
 msgstr ""
 "Project-Id-Version: Evolution doc fr\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2020-05-15 14:20+0000\n"
-"PO-Revision-Date: 2020-06-17 14:13+0200\n"
-"Last-Translator: vanadiae <vanadiae35@gmail.com>\n"
+"POT-Creation-Date: 2021-03-13 15:49+0000\n"
+"PO-Revision-Date: 2021-03-14 14:57+0100\n"
+"Last-Translator: Guillaume Bernard <associations@guillaume-bernard.fr>\n"
 "Language-Team: GNOME French Team <gnomefr@traduc.org>\n"
 "Language: fr\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n > 1);\n"
-"X-Generator: Gtranslator 3.36.0\n"
+"X-Generator: Gtranslator 3.38.0\n"
 
 #. Put one translator per line, in the form NAME <EMAIL>, YEAR1, YEAR2
 msgctxt "_"
@@ -46,7 +46,8 @@ msgstr ""
 "Alain Lojewski <allomervan@gmail.com>, 2013-2016\n"
 "Yvan Masson <yvan@masson-informatique.fr>, 2017\n"
 "Charles Monzat <charles.monzat@free.fr>, 2020\n"
-"vanadiae <vanadiae35@gmail.com>, 2020"
+"vanadiae <vanadiae35@gmail.com>, 2020\n"
+"Guillaume Bernard <associations@guillaume-bernard.fr>, 2021"
 
 #. (itstool) path: info/desc
 #: C/backup-restore.page:18
@@ -122,7 +123,7 @@ msgstr ""
 "<file>~/.spamassassin/</file>."
 
 #. (itstool) path: section/title
-#: C/backup-restore.page:58 C/intro-first-run.page:43
+#: C/backup-restore.page:58 C/intro-first-run.page:45
 msgid "Restoring"
 msgstr "Restauration"
 
@@ -533,7 +534,7 @@ msgstr ""
 "individus ne sont disponibles que si elles se trouvent sur un même serveur "
 "Novell GroupWise ou Microsoft Exchange que vous (c’est-à-dire, si les "
 "personnes font partie de la même organisation que vous), ou si ces données "
-"sont publiées à un URL accessible et que vous avez saisi cette adresse Web "
+"sont publiées à une URL accessible et que vous avez saisi cette adresse Web "
 "pour le contact particulier dans <link xref=\"contacts-usage-edit-contact"
 "\">l’éditeur de contacts</link> sous <guiseq><gui>Informations personnelles</"
 "gui><gui>Sites Web</gui><gui>Libre/Occupé</gui></guiseq>."
@@ -589,7 +590,7 @@ msgid ""
 "<app>Evolution</app> looks up the schedule and displays it in the Free/Busy "
 "data."
 msgstr ""
-"Si une personne vous donne un URL vers ses données de disponibilité ou vers "
+"Si une personne vous donne une URL vers ses données de disponibilité ou vers "
 "son agenda Web, vous pouvez ajouter l’URL sous <guiseq><gui>Informations "
 "personnelles</gui><gui>Sites Web</gui></guiseq> dans <link xref=\"contacts-"
 "usage-edit-contact\">l’éditeur de contacts</link>. Dès lors, lorsque vous "
@@ -1054,7 +1055,7 @@ msgstr "Sélectionnez les contacts auxquels vous souhaitez déléguer la réunio
 #: C/mail-encryption-gpg-set-up.page:35
 #: C/mail-encryption-gpg-signing-encrypting.page:40
 #: C/mail-encryption-s-mime-signing-encrypting.page:36 C/mail-filters.page:50
-#: C/mail-filters.page:71 C/mail-search-folders-add.page:46
+#: C/mail-filters.page:71 C/mail-search-folders-add.page:47
 #: C/using-categories.page:51 C/using-categories.page:53
 msgid "Click <gui style=\"button\">OK</gui>."
 msgstr "Cliquez sur <gui style=\"button\">Valider</gui>."
@@ -1847,7 +1848,7 @@ msgid "Enter your username."
 msgstr "Saisissez votre nom d’utilisateur."
 
 #. (itstool) path: info/desc
-#: C/contacts-add-automatically.page:21
+#: C/contacts-add-automatically.page:22
 msgid ""
 "Automatically add senders of mail that you have received to your contacts."
 msgstr ""
@@ -1855,12 +1856,12 @@ msgstr ""
 "vos contacts."
 
 #. (itstool) path: page/title
-#: C/contacts-add-automatically.page:25
+#: C/contacts-add-automatically.page:26
 msgid "Adding people automatically to my contacts"
 msgstr "Ajout automatique de personnes à mes contacts"
 
 #. (itstool) path: page/p
-#: C/contacts-add-automatically.page:27
+#: C/contacts-add-automatically.page:28
 msgid ""
 "You can add people automatically to your contacts when you reply to received "
 "email."
@@ -1869,7 +1870,7 @@ msgstr ""
 "vous répondez à un courriel reçu."
 
 #. (itstool) path: item/p
-#: C/contacts-add-automatically.page:30 C/mail-attachments-sending.page:46
+#: C/contacts-add-automatically.page:31 C/mail-attachments-sending.page:46
 #: C/mail-composer-custom-header-lines.page:31
 #: C/mail-composer-external-editor.page:25
 #: C/mail-composer-message-templates.page:27
@@ -1879,12 +1880,12 @@ msgid "Select <guiseq><gui>Edit</gui><gui>Plugins</gui></guiseq>."
 msgstr "Sélectionnez <guiseq><gui>Édition</gui><gui>Greffons</gui></guiseq>."
 
 #. (itstool) path: item/p
-#: C/contacts-add-automatically.page:31
+#: C/contacts-add-automatically.page:32
 msgid "Enable <gui>Automatic Contacts</gui>."
 msgstr "Cochez <gui>Contacts automatiques</gui>."
 
 #. (itstool) path: note/p
-#: C/contacts-add-automatically.page:32 C/mail-attachments-sending.page:48
+#: C/contacts-add-automatically.page:33 C/mail-attachments-sending.page:48
 #: C/mail-composer-custom-header-lines.page:33
 #: C/mail-composer-external-editor.page:28
 #: C/mail-composer-message-templates.page:29
@@ -1903,7 +1904,7 @@ msgstr ""
 "certains greffons ou de les proposer dans un paquet séparé."
 
 #. (itstool) path: item/p
-#: C/contacts-add-automatically.page:34
+#: C/contacts-add-automatically.page:35
 msgid ""
 "Go to <guiseq><gui>Edit</gui><gui>Preferences</gui><gui>Contacts</gui> "
 "<gui>Automatic Contacts</gui></guiseq>."
@@ -1912,7 +1913,7 @@ msgstr ""
 "gui><gui>Contacts automatiques</gui></guiseq>."
 
 #. (itstool) path: item/p
-#: C/contacts-add-automatically.page:36
+#: C/contacts-add-automatically.page:37
 msgid ""
 "Enable <gui>Create address book entries when sending emails</gui> and select "
 "an address book in the drop-down field below that will receive the new "
@@ -1924,7 +1925,7 @@ msgstr ""
 "ajoutés."
 
 #. (itstool) path: page/p
-#: C/contacts-add-automatically.page:41
+#: C/contacts-add-automatically.page:42
 msgid ""
 "From now on, contacts will be automatically created for senders of received "
 "mail when you reply to that mail."
@@ -1933,7 +1934,7 @@ msgstr ""
 "expéditeurs de courriel reçu lorsque vous répondez au courriel."
 
 #. (itstool) path: info/desc
-#: C/contacts-autocompletion.page:27
+#: C/contacts-autocompletion.page:28
 msgid ""
 "Autocompletion of names and email addresses entered in the mail composer."
 msgstr ""
@@ -1941,12 +1942,12 @@ msgstr ""
 "l’éditeur de courriels."
 
 #. (itstool) path: page/title
-#: C/contacts-autocompletion.page:30
+#: C/contacts-autocompletion.page:31
 msgid "Autocompletion of mail recipients"
 msgstr "Complétion automatique des destinataires de courriel"
 
 #. (itstool) path: page/p
-#: C/contacts-autocompletion.page:32
+#: C/contacts-autocompletion.page:33
 msgid ""
 "You can enter the first three letters of names and email addresses in the "
 "recipients text field and <app>Evolution</app> will present you with a list "
@@ -1957,7 +1958,7 @@ msgstr ""
 "affiche une liste de correspondances à partir de vos carnets d’adresses."
 
 #. (itstool) path: page/p
-#: C/contacts-autocompletion.page:36
+#: C/contacts-autocompletion.page:37
 msgid ""
 "To enable autocompletion, go to <guiseq><gui>Edit</gui><gui>Preferences</"
 "gui><gui>Contacts</gui> <gui>Autocompletion</gui></guiseq> and choose the "
@@ -1970,7 +1971,7 @@ msgstr ""
 "qu’<app>Evolution</app> doit parcourir pour trouver des correspondances."
 
 #. (itstool) path: page/p
-#: C/contacts-autocompletion.page:41
+#: C/contacts-autocompletion.page:42
 msgid ""
 "Select <gui>Always show address of the autocompleted contact</gui> to also "
 "show the email address along with the name. This can be helpful to "
@@ -1982,7 +1983,7 @@ msgstr ""
 "électroniques."
 
 #. (itstool) path: page/p
-#: C/contacts-autocompletion.page:45
+#: C/contacts-autocompletion.page:46
 msgid ""
 "Alternately, you can click the <gui>To:</gui>, <gui>Cc:</gui>, or <gui>Bcc:</"
 "gui> buttons to get a list of the email addresses in your contacts. Select "
@@ -3452,8 +3453,26 @@ msgstr "Importer des données à partir de Mozilla <app>Thunderbird</app>."
 msgid "Mozilla"
 msgstr "Mozilla"
 
+#. (itstool) path: note/p
+#: C/import-apps-mozilla.page:26
+msgid "The instructions below might be outdated and not work anymore."
+msgstr ""
+"Les instructions ci-dessous sont peut-être obsolètes et peuvent ne plus "
+"fonctionner."
+
+#. (itstool) path: note/p
+#: C/import-apps-mozilla.page:26
+msgid ""
+"Follow <link href=\"https://mail.gnome.org/archives/evolution-list/2019-"
+"February/msg00055.html\">this mailing list posting</link> for an alternative "
+"method that you could try."
+msgstr ""
+"Suivez cette <link href=\"https://mail.gnome.org/archives/evolution-"
+"list/2019-February/msg00055.html\">publication de liste de discussion (en "
+"anglais)</link> pour une méthode alternative que vous pourriez essayer."
+
 #. (itstool) path: item/p
-#: C/import-apps-mozilla.page:25
+#: C/import-apps-mozilla.page:29
 msgid ""
 "<link href=\"https://support.mozilla.org/en-US/kb/profiles-where-thunderbird-"
 "stores-user-data\">Find your <app>Thunderbird</app> profile folder.</link>"
@@ -3463,13 +3482,13 @@ msgstr ""
 "<app>Thunderbird</app>.</link>"
 
 #. (itstool) path: item/p
-#: C/import-apps-mozilla.page:26 C/import-apps-outlook.page:62
+#: C/import-apps-mozilla.page:30 C/import-apps-outlook.page:62
 #: C/import-single-files.page:24
 msgid "Click <guiseq><gui>File</gui><gui>Import</gui></guiseq>."
 msgstr "Cliquez sur <guiseq><gui>Fichier</gui><gui>Importer</gui></guiseq>."
 
 #. (itstool) path: item/p
-#: C/import-apps-mozilla.page:27 C/import-apps-outlook.page:63
+#: C/import-apps-mozilla.page:31 C/import-apps-outlook.page:63
 #: C/import-single-files.page:25
 msgid ""
 "In the <gui>Importer Type</gui> tab, click <gui>Import a single file</gui>."
@@ -3478,7 +3497,7 @@ msgstr ""
 "seul fichier</gui>."
 
 #. (itstool) path: item/p
-#: C/import-apps-mozilla.page:28
+#: C/import-apps-mozilla.page:32
 msgid ""
 "Go to the folder in which <app>Thunderbird</app> stores its data. You will "
 "have to make sure to <link xref=\"help:gnome-help/files-hidden#show-hidden\" "
@@ -3492,7 +3511,7 @@ msgstr ""
 "dialogue du navigateur de fichiers."
 
 #. (itstool) path: item/p
-#: C/import-apps-mozilla.page:31
+#: C/import-apps-mozilla.page:35
 msgid ""
 "If you would like to import <app>Thunderbird</app> mail, go to <file>Mail/"
 "Local Folders</file> (for local mail accounts) or <file>ImapMail/servername</"
@@ -3508,7 +3527,7 @@ msgstr ""
 "messages (pas les fichiers <file>.msf</file>)."
 
 #. (itstool) path: item/p
-#: C/import-apps-mozilla.page:32
+#: C/import-apps-mozilla.page:36
 msgid ""
 "If you would like to import <app>Thunderbird/Lightning</app> calendar data, "
 "you may be able to export your <app>Thunderbird</app> events as an <file>."
@@ -3524,13 +3543,13 @@ msgstr ""
 "sous forme de base de données standard."
 
 #. (itstool) path: item/p
-#: C/import-apps-mozilla.page:34 C/import-apps-outlook.page:64
+#: C/import-apps-mozilla.page:38 C/import-apps-outlook.page:64
 #: C/import-single-files.page:26
 msgid "The file type will be automatically determined."
 msgstr "Le type de fichier est déterminé automatiquement."
 
 #. (itstool) path: item/p
-#: C/import-apps-mozilla.page:35
+#: C/import-apps-mozilla.page:39
 msgid ""
 "Choose the destination (e.g. the folder or calendar in <app>Evolution</app>) "
 "for the imported data."
@@ -3539,7 +3558,7 @@ msgstr ""
 "<app>Evolution</app>) pour les données importées."
 
 #. (itstool) path: item/p
-#: C/import-apps-mozilla.page:36 C/import-apps-outlook.page:68
+#: C/import-apps-mozilla.page:40 C/import-apps-outlook.page:68
 msgid "Repeat the import steps until you have imported all your data."
 msgstr ""
 "Effectuez de nouveau les étapes d’importation jusqu’à l’obtention complète "
@@ -3575,6 +3594,19 @@ msgstr "<file>$HOME/.kde4/share/apps/kmail/mail</file> pour le courriel"
 #: C/import-apps-kmail.page:24
 msgid "<file>$HOME/.kde4/share/apps/kabc</file> for contacts"
 msgstr "<file>$HOME/.kde4/share/apps/kabc</file> pour les contacts"
+
+#. (itstool) path: page/p
+#: C/import-apps-kmail.page:27
+msgid ""
+"For more recent versions, follow <link href=\"https://mail.gnome.org/"
+"archives/evolution-list/2020-March/msg00168.html\">the instructions in this "
+"post</link>. If you run into problems, follow <link xref=\"problems-getting-"
+"help\"/>."
+msgstr ""
+"Pour les versions plus récentes, suivez <link href=\"https://mail.gnome.org/"
+"archives/evolution-list/2020-March/msg00168.html\">les instructions de cette "
+"publication (en anglais)</link>. Si vous rencontrez des problèmes, suivez "
+"<link xref=\"problems-getting-help\"/>."
 
 #. (itstool) path: info/desc
 #: C/import-apps-outlook.page:5
@@ -3751,12 +3783,14 @@ msgid ""
 "If the option to import Outlook personal folders (.pst files) is not "
 "available under <guiseq><gui>File</gui><gui>Import</gui><gui>Import single "
 "file</gui><gui>File type</gui></guiseq>, your distribution might have not "
-"enabled this functionality."
+"enabled this functionality in Evolution. Please ask in a support forum of "
+"your distribution."
 msgstr ""
 "Si l’option pour importer des dossiers personnels Outlook (fichiers .pst) "
 "n’est pas disponible sous <guiseq><gui>Fichier</gui><gui>Importer</"
 "gui><gui>Importer un seul fichier</gui><gui>Type de fichier</gui></guiseq>, "
-"il se peut que votre distribution n’ait pas activé cette fonctionnalité."
+"il se peut que votre distribution n’ait pas activé cette fonctionnalité. "
+"Veuillez poser la question sur un forum dédié à votre distribution."
 
 #. (itstool) path: item/p
 #: C/import-apps-outlook.page:67 C/import-single-files.page:27
@@ -4015,6 +4049,12 @@ msgstr ""
 "Messaging</app> et <app>Microsoft Outlook</app>. Il est aussi appelé "
 "« Personal Storage Table » (table d’enregistrement personnel)."
 
+#. (itstool) path: item/p
+#: C/import-supported-file-formats.page:83
+msgid "See <link xref=\"import-apps-outlook\"/> for more information."
+msgstr ""
+"Consultez <link xref=\"import-apps-outlook\"/> pour plus d’informations."
+
 #. (itstool) path: info/desc
 #: C/index.page:5
 msgid "Manage your email, contacts and schedule"
@@ -4037,8 +4077,7 @@ msgid "<_:media-1/> <app>Evolution</app> Mail and Calendar"
 msgstr "<_:media-1/> Messagerie et agenda d’<app>Evolution</app>"
 
 #. (itstool) path: section/title
-#. (itstool) path: page/title
-#: C/index.page:31 C/intro-application.page:24
+#: C/index.page:31
 msgid "Getting Started"
 msgstr "Premiers pas"
 
@@ -4108,52 +4147,6 @@ msgid "Further reading"
 msgstr "Lecture complémentaire"
 
 #. (itstool) path: info/desc
-#: C/intro-application.page:5
-msgid "An introduction to <app>Evolution</app>."
-msgstr "Une introduction à <app>Evolution</app>."
-
-#. (itstool) path: page/p
-#: C/intro-application.page:25
-msgid ""
-"<app>Evolution</app> allows you to access your personal information like "
-"your calendars, mail, address books and tasks in one place."
-msgstr ""
-"<app>Evolution</app> vous permet de conserver vos agendas, courriels, carnet "
-"d’adresses et tâches au même endroit."
-
-#. (itstool) path: page/p
-#: C/intro-application.page:27
-msgid ""
-"By default <app>Evolution</app> opens the mail view. This is where you can "
-"view all your mail. You can change to other views of the application by "
-"going to the bottom of the left pane in the window (the so-called \"switcher"
-"\") and selecting the desired view. <link xref=\"intro-main-window\">Learn "
-"more about the elements of the main window</link>."
-msgstr ""
-"Par défaut, <app>Evolution</app> ouvre la vue des courriels. C’est ici que "
-"vous pouvez consulter tous vos courriels. Vous pouvez basculer vers d’autres "
-"vues de l’application en allant en bas du panneau gauche de la fenêtre "
-"(appelé le sélecteur) et en choisissant la vue désirée. <link xref=\"intro-"
-"main-window\">En savoir plus sur les éléments de la fenêtre principale</"
-"link>."
-
-#. (itstool) path: note/p
-#: C/intro-application.page:29
-msgid ""
-"When <app>Evolution</app> starts, it remembers the last view that you used. "
-"However you can also explicitly start <app>Evolution</app> in a specific "
-"view. For the calendar view, use the command <cmd>evolution --"
-"component=calendar</cmd> in the <app>Terminal</app> application. Other "
-"available options are \"mail\", \"contacts\", \"tasks\", and \"memos\"."
-msgstr ""
-"Quand <app>Evolution</app> démarre, il se souvient de la dernière vue "
-"utilisée. Cependant, vous pouvez démarrer explicitement <app>Evolution</app> "
-"dans une vue précise. Pour la vue de l’agenda, utilisez la commande "
-"<cmd>evolution --component=calendar</cmd> dans l’application <app>Terminal</"
-"app>. Les autres options disponibles sont « mail », « contacts », « tasks » "
-"et « memos »."
-
-#. (itstool) path: info/desc
 #: C/intro-first-run.page:8
 msgid "Set up email accounts, import data, or restore from a backup."
 msgstr ""
@@ -4168,6 +4161,15 @@ msgstr "Lancement d’<app>Evolution</app> pour la première fois"
 #. (itstool) path: page/p
 #: C/intro-first-run.page:25
 msgid ""
+"<app>Evolution</app> allows you to access your personal information like "
+"your calendars, mail, address books and tasks in one place."
+msgstr ""
+"<app>Evolution</app> vous permet de conserver vos agendas, courriels, carnet "
+"d’adresses et tâches au même endroit."
+
+#. (itstool) path: page/p
+#: C/intro-first-run.page:27
+msgid ""
 "The first time you run <app>Evolution</app>, it opens the First-Run "
 "Assistant. It helps you set up email accounts and <link xref=\"import-data"
 "\">import data from other applications.</link>"
@@ -4178,7 +4180,7 @@ msgstr ""
 "applications.</link>"
 
 #. (itstool) path: page/p
-#: C/intro-first-run.page:27
+#: C/intro-first-run.page:29
 msgid ""
 "This assistant is not shown if there is an already configured e-mail account "
 "in <link xref=\"help:gnome-help/accounts\"><app>Online accounts</app></link> "
@@ -4194,7 +4196,7 @@ msgstr ""
 "que dans <app>Comptes en ligne</app>."
 
 #. (itstool) path: section/title
-#: C/intro-first-run.page:30 C/mail-account-manage-imap-plus.page:29
+#: C/intro-first-run.page:32 C/mail-account-manage-imap-plus.page:29
 #: C/mail-account-manage-local-delivery.page:29
 #: C/mail-account-manage-maildir-format-directories.page:30
 #: C/mail-account-manage-mh-format-directories.page:29
@@ -4208,7 +4210,7 @@ msgid "Identity"
 msgstr "Identité"
 
 #. (itstool) path: section/p
-#: C/intro-first-run.page:31 C/mail-account-manage-imap-plus.page:30
+#: C/intro-first-run.page:33 C/mail-account-manage-imap-plus.page:30
 #: C/mail-account-manage-local-delivery.page:30
 #: C/mail-account-manage-maildir-format-directories.page:31
 #: C/mail-account-manage-mh-format-directories.page:30
@@ -4222,7 +4224,7 @@ msgid "Here you define your name and your email address."
 msgstr "Définissez ici votre nom et votre adresse électronique."
 
 #. (itstool) path: section/p
-#: C/intro-first-run.page:32 C/mail-account-manage-imap-plus.page:31
+#: C/intro-first-run.page:34 C/mail-account-manage-imap-plus.page:31
 #: C/mail-account-manage-local-delivery.page:31
 #: C/mail-account-manage-maildir-format-directories.page:32
 #: C/mail-account-manage-mh-format-directories.page:31
@@ -4250,12 +4252,12 @@ msgstr ""
 "messagerie</link>."
 
 #. (itstool) path: section/title
-#: C/intro-first-run.page:36
+#: C/intro-first-run.page:38
 msgid "Restore from backup"
 msgstr "Restauration à partir d’une archive"
 
 #. (itstool) path: section/p
-#: C/intro-first-run.page:37
+#: C/intro-first-run.page:39
 msgid ""
 "You will be asked whether to restore from a backup of a previous version. If "
 "you do not have a backup, go to the next page."
@@ -4264,13 +4266,13 @@ msgstr ""
 "précédente. Si vous ne possédez pas de sauvegarde, passez à la page suivante."
 
 #. (itstool) path: info/title
-#: C/intro-first-run.page:41
+#: C/intro-first-run.page:43
 msgctxt "ui:collapsed"
 msgid "Show how to restore from a backup"
 msgstr "Affichage de la procédure de restauration à partir d’une archive"
 
 #. (itstool) path: section/title
-#: C/intro-first-run.page:51 C/mail-receiving-options-exchange-ews.page:23
+#: C/intro-first-run.page:53 C/mail-receiving-options-exchange-ews.page:23
 #: C/mail-receiving-options-exchange-mapi.page:23
 #: C/mail-receiving-options-imap-plus.page:26
 #: C/mail-receiving-options-local-delivery.page:23
@@ -4284,7 +4286,7 @@ msgid "Receiving Email"
 msgstr "Réception du courriel"
 
 #. (itstool) path: section/p
-#: C/intro-first-run.page:52
+#: C/intro-first-run.page:54
 msgid ""
 "First, choose the server type from the <gui>Server Type</gui> drop-down list."
 msgstr ""
@@ -4292,7 +4294,7 @@ msgstr ""
 "<gui>types de serveurs</gui>."
 
 #. (itstool) path: section/p
-#: C/intro-first-run.page:53
+#: C/intro-first-run.page:55
 msgid ""
 "If you are unsure about the type of server to choose, ask your system "
 "administrator or Internet Service Provider."
@@ -4301,7 +4303,7 @@ msgstr ""
 "fournisseur d’accès Internet."
 
 #. (itstool) path: note/p
-#: C/intro-first-run.page:55
+#: C/intro-first-run.page:57
 msgid ""
 "Later on, if you want to change an account, or if you want to create another "
 "one, go to <guiseq><gui>Edit</gui><gui>Preferences</gui><gui>Mail Accounts</"
@@ -4316,12 +4318,12 @@ msgstr ""
 "nouveau compte en cliquant sur <gui style=\"button\">Ajouter</gui>."
 
 #. (itstool) path: section/title
-#: C/intro-first-run.page:58
+#: C/intro-first-run.page:60
 msgid "IMAP+"
 msgstr "IMAP+"
 
 #. (itstool) path: section/p
-#: C/intro-first-run.page:59
+#: C/intro-first-run.page:61
 msgid ""
 "Keeps the mail on the server so you can access your mail from multiple "
 "systems."
@@ -4330,45 +4332,45 @@ msgstr ""
 "plusieurs endroits."
 
 #. (itstool) path: info/title
-#: C/intro-first-run.page:63 C/intro-first-run.page:79
-#: C/intro-first-run.page:95 C/intro-first-run.page:119
-#: C/intro-first-run.page:143 C/intro-first-run.page:159
-#: C/intro-first-run.page:175 C/intro-first-run.page:191
-#: C/intro-first-run.page:207 C/intro-first-run.page:223
-#: C/intro-first-run.page:250
+#: C/intro-first-run.page:65 C/intro-first-run.page:81
+#: C/intro-first-run.page:97 C/intro-first-run.page:121
+#: C/intro-first-run.page:145 C/intro-first-run.page:161
+#: C/intro-first-run.page:177 C/intro-first-run.page:193
+#: C/intro-first-run.page:209 C/intro-first-run.page:225
+#: C/intro-first-run.page:252
 msgctxt "ui:collapsed"
 msgid "Show how to configure this account type"
 msgstr "Affichage de la procédure pour configurer ce type de compte"
 
 #. (itstool) path: section/title
 #. (itstool) path: page/title
-#: C/intro-first-run.page:65 C/mail-receiving-options-imap-plus.page:23
+#: C/intro-first-run.page:67 C/mail-receiving-options-imap-plus.page:23
 msgid "IMAP+ receiving options"
 msgstr "Options de réception IMAP+"
 
 #. (itstool) path: section/title
-#: C/intro-first-run.page:74
+#: C/intro-first-run.page:76
 msgid "POP"
 msgstr "POP"
 
 #. (itstool) path: section/p
-#: C/intro-first-run.page:75
+#: C/intro-first-run.page:77
 msgid "Downloads your email to your hard disk."
 msgstr "Télécharge vos courriels sur votre disque dur."
 
 #. (itstool) path: section/title
 #. (itstool) path: page/title
-#: C/intro-first-run.page:81 C/mail-receiving-options-pop.page:27
+#: C/intro-first-run.page:83 C/mail-receiving-options-pop.page:27
 msgid "POP receiving options"
 msgstr "Options de réception POP"
 
 #. (itstool) path: section/title
-#: C/intro-first-run.page:90
+#: C/intro-first-run.page:92
 msgid "USENET News"
 msgstr "Nouvelles sur USENET"
 
 #. (itstool) path: section/p
-#: C/intro-first-run.page:91
+#: C/intro-first-run.page:93
 msgid ""
 "Connects to a news server and downloads a list of available news digests."
 msgstr ""
@@ -4377,17 +4379,17 @@ msgstr ""
 
 #. (itstool) path: section/title
 #. (itstool) path: page/title
-#: C/intro-first-run.page:97 C/mail-receiving-options-usenet-news.page:23
+#: C/intro-first-run.page:99 C/mail-receiving-options-usenet-news.page:23
 msgid "Usenet news receiving options"
 msgstr "Options de réception des nouvelles Usenet"
 
 #. (itstool) path: section/title
-#: C/intro-first-run.page:106
+#: C/intro-first-run.page:108
 msgid "Exchange EWS"
 msgstr "Exchange EWS"
 
 #. (itstool) path: section/p
-#: C/intro-first-run.page:107
+#: C/intro-first-run.page:109
 msgid ""
 "For connecting to a Microsoft Exchange 2007/2010 or OpenChange server. Note "
 "that this is currently under development and will replace the <gui>Exchange "
@@ -4400,13 +4402,13 @@ msgstr ""
 "soit pas encore disponible dans votre distribution."
 
 #. (itstool) path: note/p
-#: C/intro-first-run.page:109
+#: C/intro-first-run.page:111
 msgid "This requires having the <sys>evolution-ews</sys> package installed."
 msgstr "Pour cela, le paquet <sys>evolution-ews</sys> doit être installé."
 
 #. (itstool) path: when/p
 #. (itstool) path: note/p
-#: C/intro-first-run.page:112 C/mail-account-manage-microsoft-exchange.page:30
+#: C/intro-first-run.page:114 C/mail-account-manage-microsoft-exchange.page:30
 msgid ""
 "<link action=\"install:evolution-ews\" href=\"https://wiki.gnome.org/Apps/"
 "Evolution#Get_the_Source_Code\" style=\"button\">Install evolution-ews</link>"
@@ -4417,29 +4419,29 @@ msgstr ""
 
 #. (itstool) path: section/title
 #. (itstool) path: page/title
-#: C/intro-first-run.page:121 C/mail-receiving-options-exchange-ews.page:20
+#: C/intro-first-run.page:123 C/mail-receiving-options-exchange-ews.page:20
 msgid "Exchange Web Services receiving options"
 msgstr "Options de réception Exchange Web Services"
 
 #. (itstool) path: section/title
-#: C/intro-first-run.page:130
+#: C/intro-first-run.page:132
 msgid "Exchange MAPI"
 msgstr "Exchange MAPI"
 
 #. (itstool) path: section/p
-#: C/intro-first-run.page:131
+#: C/intro-first-run.page:133
 msgid "For connecting to a Microsoft Exchange 2007/2010 or OpenChange server."
 msgstr ""
 "Pour se connecter à un serveur Microsoft Exchange 2007/2010 ou OpenChange."
 
 #. (itstool) path: note/p
-#: C/intro-first-run.page:133
+#: C/intro-first-run.page:135
 msgid "This requires having the <sys>evolution-mapi</sys> package installed."
 msgstr "Pour cela, le paquet <sys>evolution-mapi</sys> doit être installé."
 
 #. (itstool) path: when/p
 #. (itstool) path: note/p
-#: C/intro-first-run.page:136 C/mail-account-manage-microsoft-exchange.page:41
+#: C/intro-first-run.page:138 C/mail-account-manage-microsoft-exchange.page:41
 msgid ""
 "<link action=\"install:evolution-mapi\" href=\"https://wiki.gnome.org/Apps/"
 "Evolution#Get_the_Source_Code\" style=\"button\">Install evolution-mapi</"
@@ -4451,17 +4453,17 @@ msgstr ""
 
 #. (itstool) path: section/title
 #. (itstool) path: page/title
-#: C/intro-first-run.page:145 C/mail-receiving-options-exchange-mapi.page:20
+#: C/intro-first-run.page:147 C/mail-receiving-options-exchange-mapi.page:20
 msgid "Exchange MAPI receiving options"
 msgstr "Options de réception Exchange MAPI"
 
 #. (itstool) path: section/title
-#: C/intro-first-run.page:154
+#: C/intro-first-run.page:156
 msgid "Local delivery"
 msgstr "Distribution locale"
 
 #. (itstool) path: section/p
-#: C/intro-first-run.page:155
+#: C/intro-first-run.page:157
 msgid ""
 "Local delivery: If you want to move email from the spool (the location where "
 "mail waits for delivery) and store it in your home directory. You need to "
@@ -4479,17 +4481,17 @@ msgstr ""
 
 #. (itstool) path: section/title
 #. (itstool) path: page/title
-#: C/intro-first-run.page:161 C/mail-receiving-options-local-delivery.page:20
+#: C/intro-first-run.page:163 C/mail-receiving-options-local-delivery.page:20
 msgid "Local delivery receiving options"
 msgstr "Options de réception de la distribution locale des messages"
 
 #. (itstool) path: section/title
-#: C/intro-first-run.page:170
+#: C/intro-first-run.page:172
 msgid "MH-Format Mail Directories"
 msgstr "Répertoires de courriel au format MH"
 
 #. (itstool) path: section/p
-#: C/intro-first-run.page:171
+#: C/intro-first-run.page:173
 msgid "For downloading email using MH or another MH-style application."
 msgstr ""
 "Pour télécharger votre courriel avec MH ou une autre application dans le "
@@ -4497,18 +4499,18 @@ msgstr ""
 
 #. (itstool) path: section/title
 #. (itstool) path: page/title
-#: C/intro-first-run.page:177
+#: C/intro-first-run.page:179
 #: C/mail-receiving-options-mh-format-directories.page:20
 msgid "MH-format mail directories receiving options"
 msgstr "Options de réception pour les répertoires de courriel au format MH"
 
 #. (itstool) path: section/title
-#: C/intro-first-run.page:186
+#: C/intro-first-run.page:188
 msgid "Maildir-Format Mail Directories"
 msgstr "Répertoires de courriel au format Maildir"
 
 #. (itstool) path: section/p
-#: C/intro-first-run.page:187
+#: C/intro-first-run.page:189
 msgid ""
 "Maildir-Format Mail Directories: For downloading your email using Qmail or "
 "another Maildir-style application."
@@ -4518,19 +4520,19 @@ msgstr ""
 
 #. (itstool) path: section/title
 #. (itstool) path: page/title
-#: C/intro-first-run.page:193
+#: C/intro-first-run.page:195
 #: C/mail-receiving-options-maildir-format-directories.page:20
 msgid "Maildir-format mail directories receiving options"
 msgstr ""
 "Options de réception pour les répertoires de courriel au format Maildir"
 
 #. (itstool) path: section/title
-#: C/intro-first-run.page:202
+#: C/intro-first-run.page:204
 msgid "Standard Unix mbox spool file"
 msgstr "Fichier Unix standard de spool mbox"
 
 #. (itstool) path: section/p
-#: C/intro-first-run.page:203
+#: C/intro-first-run.page:205
 msgid ""
 "Standard Unix mbox spool file: For reading and storing email in the mail "
 "spool file on your local system."
@@ -4540,18 +4542,18 @@ msgstr ""
 
 #. (itstool) path: section/title
 #. (itstool) path: page/title
-#: C/intro-first-run.page:209
+#: C/intro-first-run.page:211
 #: C/mail-receiving-options-unix-mbox-spool-file.page:20
 msgid "Standard Unix mbox spool file receiving options"
 msgstr "Options de réception utilisant le fichier Unix standard de spool mbox"
 
 #. (itstool) path: section/title
-#: C/intro-first-run.page:218
+#: C/intro-first-run.page:220
 msgid "Standard Unix mbox spool directory"
 msgstr "Répertoire Unix standard de spool mbox"
 
 #. (itstool) path: section/p
-#: C/intro-first-run.page:219
+#: C/intro-first-run.page:221
 msgid ""
 "Standard Unix mbox spool directory: For reading and storing email in the "
 "mail spool directory on your local system."
@@ -4561,41 +4563,41 @@ msgstr ""
 
 #. (itstool) path: section/title
 #. (itstool) path: page/title
-#: C/intro-first-run.page:225
+#: C/intro-first-run.page:227
 #: C/mail-receiving-options-unix-mbox-spool-directory.page:20
 msgid "Standard Unix mbox spool directory receiving options"
 msgstr ""
 "Options de réception utilisant le répertoire Unix standard de spool mbox"
 
 #. (itstool) path: section/title
-#: C/intro-first-run.page:234
+#: C/intro-first-run.page:236
 msgid "None"
 msgstr "Aucun"
 
 #. (itstool) path: section/p
-#: C/intro-first-run.page:235
+#: C/intro-first-run.page:237
 msgid "If you do not plan to use <app>Evolution</app> for receiving email."
 msgstr ""
 "Si vous n’avez pas l’intention d’utiliser <app>Evolution</app> pour recevoir "
 "du courriel."
 
 #. (itstool) path: section/title
-#: C/intro-first-run.page:241 C/mail-displaying-character-encodings.page:32
+#: C/intro-first-run.page:243 C/mail-displaying-character-encodings.page:32
 msgid "Sending mail"
 msgstr "Envoi du courriel"
 
 #. (itstool) path: section/p
-#: C/intro-first-run.page:242
+#: C/intro-first-run.page:244
 msgid "Available server types are:"
 msgstr "Les types de serveur disponibles sont :"
 
 #. (itstool) path: section/title
-#: C/intro-first-run.page:245
+#: C/intro-first-run.page:247
 msgid "SMTP"
 msgstr "SMTP"
 
 #. (itstool) path: section/p
-#: C/intro-first-run.page:246
+#: C/intro-first-run.page:248
 msgid ""
 "Sends mail using an outbound mail server. This is the most common choice for "
 "sending mail."
@@ -4605,17 +4607,17 @@ msgstr ""
 
 #. (itstool) path: section/title
 #. (itstool) path: page/title
-#: C/intro-first-run.page:252 C/mail-sending-options-smtp.page:26
+#: C/intro-first-run.page:254 C/mail-sending-options-smtp.page:26
 msgid "SMTP sending options"
 msgstr "Options d’envoi SMTP"
 
 #. (itstool) path: section/title
-#: C/intro-first-run.page:261
+#: C/intro-first-run.page:263
 msgid "Sendmail"
 msgstr "Sendmail"
 
 #. (itstool) path: section/p
-#: C/intro-first-run.page:262
+#: C/intro-first-run.page:264
 msgid ""
 "Uses the <app>Sendmail</app> application to send mail from your system. It "
 "is not easy to configure, so you should select this option only if you know "
@@ -4627,22 +4629,22 @@ msgstr ""
 "Sendmail."
 
 #. (itstool) path: section/title
-#: C/intro-first-run.page:268
+#: C/intro-first-run.page:270
 msgid "Account Information"
 msgstr "Informations sur le compte"
 
 #. (itstool) path: section/p
-#: C/intro-first-run.page:269
+#: C/intro-first-run.page:271
 msgid "Give the account any name you prefer."
 msgstr "Donnez au compte le nom que vous préférez."
 
 #. (itstool) path: section/title
-#: C/intro-first-run.page:273
+#: C/intro-first-run.page:275
 msgid "Importing Mail (Optional)"
 msgstr "Importation de courriels (facultatif)"
 
 #. (itstool) path: section/p
-#: C/intro-first-run.page:274
+#: C/intro-first-run.page:276
 msgid ""
 "Continue with <link xref=\"import-data\">Importing data from another "
 "application</link>."
@@ -5418,7 +5420,7 @@ msgstr ""
 #. (itstool) path: note/p
 #: C/intro-main-window.page:94
 msgid ""
-"If you ever accidentially hide the menu bar, press <key>Alt</key> and re-"
+"If you ever accidentally hide the menu bar, press <key>Alt</key> and re-"
 "enable it by toggling <guiseq><gui>View</gui><gui>Layout</gui><gui>Show Menu "
 "Bar</gui></guiseq>."
 msgstr ""
@@ -10298,7 +10300,7 @@ msgstr ""
 "prévu, vous pouvez activer les actions de journalisation des filtres."
 
 #. (itstool) path: item/p
-#: C/mail-filters-not-working.page:44
+#: C/mail-filters-not-working.page:44 C/mail-imap-change-send-method.page:28
 msgid "Close <app>Evolution</app>."
 msgstr "Fermez <app>Evolution</app>."
 
@@ -10444,17 +10446,17 @@ msgstr ""
 "sélectionnez le critère sur lequel se basera le filtre."
 
 #. (itstool) path: item/p
-#: C/mail-filters.page:37 C/mail-search-folders-add.page:27
+#: C/mail-filters.page:37 C/mail-search-folders-add.page:28
 msgid "Click <gui style=\"button\">Add</gui>."
 msgstr "Cliquez sur <gui style=\"button\">Ajouter</gui>."
 
 #. (itstool) path: item/p
-#: C/mail-filters.page:38 C/mail-search-folders-add.page:28
+#: C/mail-filters.page:38 C/mail-search-folders-add.page:29
 msgid "Enter a name in the <gui>Rule name</gui> field."
 msgstr "Saisissez un nom dans le champ <gui>Nom de la règle</gui>."
 
 #. (itstool) path: item/p
-#: C/mail-filters.page:39 C/mail-search-folders-add.page:29
+#: C/mail-filters.page:39 C/mail-search-folders-add.page:30
 msgid ""
 "Define the conditions for the rule. For each condition, you first select "
 "which part of the message will be checked and then define the comparison."
@@ -10473,7 +10475,7 @@ msgstr ""
 "xref=\"mail-filters-conditions\">Conditions de filtre disponibles</link>."
 
 #. (itstool) path: item/p
-#: C/mail-filters.page:40 C/mail-search-folders-add.page:30
+#: C/mail-filters.page:40 C/mail-search-folders-add.page:31
 msgid ""
 "If you want to define multiple conditions, define under <gui>Find items</"
 "gui> if any or if all conditions have to apply, and click <gui style=\"button"
@@ -10824,6 +10826,70 @@ msgstr ""
 "gui><gui>Important</gui></guiseq> dans la barre de menus."
 
 #. (itstool) path: info/desc
+#: C/mail-imap-change-send-method.page:5
+msgid "Switch from sending mail via SMTP to Sendmail or vice versa."
+msgstr "Passer de l’envoi de courrier via SMTP à Sendmail ou inversement."
+
+#. (itstool) path: page/title
+#: C/mail-imap-change-send-method.page:21
+msgid "Change the outgoing method for an IMAP+ account"
+msgstr "Changement de la méthode d’envoi pour un compte IMAP+"
+
+#. (itstool) path: page/p
+#: C/mail-imap-change-send-method.page:23
+msgid ""
+"There is no user interface to change the outgoing method of an IMAP account."
+msgstr ""
+"Il n’existe pas d’interface utilisateur pour changer la méthode d’envoi d’un "
+"compte IMAP."
+
+#. (itstool) path: page/p
+#: C/mail-imap-change-send-method.page:25
+msgid ""
+"If you used Sendmail so far but now want to use an SMTP connection instead:"
+msgstr ""
+"Si vous utilisez Sendmail, mais que vous souhaitez désormais utiliser une "
+"connexion SMTP à la place :"
+
+#. (itstool) path: item/p
+#: C/mail-imap-change-send-method.page:29
+msgid ""
+"Find and open the corresponding account file in <file>$HOME/.config/"
+"evolution/sources/</file> with a text editor."
+msgstr ""
+"Trouvez et ouvrez le fichier de compte correspondant dans <file>$HOME/."
+"config/evolution/sources/</file> avec un éditeur de texte."
+
+#. (itstool) path: item/p
+#: C/mail-imap-change-send-method.page:31
+msgid ""
+"In the <code>[Mail Transport]</code> section, replace "
+"<code>BackendName=sendmail</code> with <code>BackendName=smtp</code> or vice "
+"versa."
+msgstr ""
+"Dans la section <code>[Mail Transport]</code>, remplacez "
+"<code>BackendName=sendmail</code> par <code>BackendName=smtp</code> ou "
+"inversement."
+
+#. (itstool) path: item/p
+#: C/mail-imap-change-send-method.page:33
+msgid ""
+"Restart the <code>evolution-source-registry</code> background process, for "
+"example by rebooting your system."
+msgstr ""
+"Redémarrez le processus en tâche de fond <code>evolution-source-registry</"
+"code>, en redémarrant votre système, par exemple."
+
+#. (itstool) path: item/p
+#: C/mail-imap-change-send-method.page:35
+msgid ""
+"Start <app>Evolution</app> and edit the account SMTP settings for the "
+"account as needed."
+msgstr ""
+"Démarrez <app>Evolution</app> et modifiez les paramètres SMTP du compte si "
+"nécessaire."
+
+#. (itstool) path: info/desc
 #: C/mail-imap-subscriptions.page:5
 msgid "IMAP folder subscriptions."
 msgstr "Abonnements à des dossiers IMAP."
@@ -11005,13 +11071,13 @@ msgstr "Gestion des « Re : » traduits dans les objets"
 msgid ""
 "Traditionally a \"Re:\" prefix is added to a subject line when replying to "
 "an email. Some email applications use localized terms for this (like \"SV:\" "
-"in Danish or \"AW: in German). <app>Evolution</app> can recognize these "
+"in Danish or \"AW:\" in German). <app>Evolution</app> can recognize these "
 "terms to avoid subject lines getting longer as the conversation continues."
 msgstr ""
 "Un préfixe « Re : » est habituellement ajouté à la ligne objet lors de la "
 "réponse à un courriel. Certains programmes de courriel utilisent des termes "
 "traduits (comme « SV: » en danois ou « AW: » en allemand). <app>Evolution</"
-"app> peut reconnaître ces termes pour éviter que les lignes « objet » ne "
+"app> peut reconnaître ces termes pour éviter que les lignes objet ne "
 "deviennent trop longues au fur et à mesure que la conversation se poursuit."
 
 #. (itstool) path: item/p
@@ -11069,17 +11135,17 @@ msgid "Possible reasons why emails are not sent."
 msgstr "Raisons possibles de non envoi des courriels."
 
 #. (itstool) path: page/title
-#: C/mail-not-sent.page:20
+#: C/mail-not-sent.page:21
 msgid "Mail is not sent"
 msgstr "Le courriel n’est pas envoyé"
 
 #. (itstool) path: page/p
-#: C/mail-not-sent.page:22
+#: C/mail-not-sent.page:23
 msgid "There can be several reasons why emails are not sent:"
 msgstr "Il existe plusieurs raisons de non envoi de courriels :"
 
 #. (itstool) path: item/p
-#: C/mail-not-sent.page:25
+#: C/mail-not-sent.page:26
 msgid ""
 "Invalid email address. Check if all the addresses listed as mail recipients "
 "are correct. If the message contains a wrong or invalid email address, the "
@@ -11090,7 +11156,7 @@ msgstr ""
 "électronique erronée ou non valide, le message n’est pas envoyé."
 
 #. (itstool) path: item/p
-#: C/mail-not-sent.page:26
+#: C/mail-not-sent.page:27
 msgid ""
 "Incorrect SMTP settings. Verify if the settings used for outgoing messages "
 "are correct. Using the incorrect server address or authentication method may "
@@ -11102,12 +11168,12 @@ msgstr ""
 "courriels."
 
 #. (itstool) path: item/p
-#: C/mail-not-sent.page:27
+#: C/mail-not-sent.page:28
 msgid ""
 "Offline status. <app>Evolution</app> may be offline. Check on the <gui style="
-"\"button\">Send and Receive</gui> button; if it is greyed out, then you are "
+"\"button\">Send / Receive</gui> button; if it is greyed out, then you are "
 "offline. To go online, go to <guiseq><gui>File</gui><gui>Work online</gui></"
-"guiseq>. You should now be able to use the <gui style=\"button\">Send and "
+"guiseq>. You should now be able to use the <gui style=\"button\">Send / "
 "Receive</gui> button."
 msgstr ""
 "Statut hors ligne. Il se peut qu’<app>Evolution</app> soit hors ligne. "
@@ -11834,7 +11900,19 @@ msgid "Creating A Search Folder"
 msgstr "Création d’un dossier de recherche"
 
 #. (itstool) path: item/p
-#: C/mail-search-folders-add.page:26
+#. (itstool) path: note/p
+#: C/mail-search-folders-add.page:26 C/mail-search-folders.page:30
+msgid ""
+"If you have not utilized search folders before, enable <guiseq><gui>Edit</"
+"gui><gui>Preferences</gui><gui>Mail Accounts</gui><gui>Search Folders</gui></"
+"guiseq>."
+msgstr ""
+"Si vous n’avez jamais utilisé de dossiers de recherche auparavant, activez "
+"<guiseq><gui>Édition</gui><gui>Préférences</gui><gui>Comptes de messagerie</"
+"gui><gui>Dossiers de recherche</gui></guiseq>."
+
+#. (itstool) path: item/p
+#: C/mail-search-folders-add.page:27
 msgid ""
 "Click <guiseq><gui>Edit</gui><gui>Search Folders</gui></guiseq>, or click "
 "<guiseq><gui>Message</gui><gui>Create Rule</gui></guiseq> and select the "
@@ -11850,7 +11928,7 @@ msgstr ""
 "d’une recherche</gui></guiseq>."
 
 #. (itstool) path: item/p
-#: C/mail-search-folders-add.page:29
+#: C/mail-search-folders-add.page:30
 msgid ""
 "For more information on the available conditions see <link xref=\"mail-"
 "search-folders-conditions\">Available Search Folder conditions</link>."
@@ -11860,7 +11938,7 @@ msgstr ""
 "dossiers de recherche</link>."
 
 #. (itstool) path: item/p
-#: C/mail-search-folders-add.page:31
+#: C/mail-search-folders-add.page:32
 msgid ""
 "Select which folders will be used for the search folder in the section "
 "<gui>Search Folder Sources</gui>. Options are:"
@@ -11870,12 +11948,12 @@ msgstr ""
 "sont :"
 
 #. (itstool) path: item/p
-#: C/mail-search-folders-add.page:33
+#: C/mail-search-folders-add.page:34
 msgid "All local folders:"
 msgstr "Tous les dossiers locaux :"
 
 #. (itstool) path: item/p
-#: C/mail-search-folders-add.page:34
+#: C/mail-search-folders-add.page:35
 msgid ""
 "Uses all local folders for the search folder source in addition to "
 "individual folders that are selected."
@@ -11884,12 +11962,12 @@ msgstr ""
 "en plus des dossiers individuels sélectionnés."
 
 #. (itstool) path: item/p
-#: C/mail-search-folders-add.page:36
+#: C/mail-search-folders-add.page:37
 msgid "All active remote folders:"
 msgstr "Tous les dossiers actifs distants :"
 
 #. (itstool) path: item/p
-#: C/mail-search-folders-add.page:37
+#: C/mail-search-folders-add.page:38
 msgid ""
 "Remote folders are considered active if you are connected to the server; you "
 "must be connected to your mail server for the search folder to include any "
@@ -11902,12 +11980,12 @@ msgstr ""
 "dossiers individuels sélectionnés."
 
 #. (itstool) path: item/p
-#: C/mail-search-folders-add.page:39
+#: C/mail-search-folders-add.page:40
 msgid "All local and active remote folders:"
 msgstr "Tous les dossiers locaux et actifs distants :"
 
 #. (itstool) path: item/p
-#: C/mail-search-folders-add.page:40
+#: C/mail-search-folders-add.page:41
 msgid ""
 "Uses all local and active remote folders for the search folder source in "
 "addition to individual folders that are selected."
@@ -11916,12 +11994,12 @@ msgstr ""
 "de recherche, en plus des dossiers individuels sélectionnés."
 
 #. (itstool) path: item/p
-#: C/mail-search-folders-add.page:42
+#: C/mail-search-folders-add.page:43
 msgid "Specific folders only:"
 msgstr "Uniquement les dossiers spécifiques :"
 
 #. (itstool) path: item/p
-#: C/mail-search-folders-add.page:43
+#: C/mail-search-folders-add.page:44
 msgid ""
 "Uses individual folders for the search folder source. In this case, click "
 "the <gui style=\"button\">Add</gui> to select folders."
@@ -12020,23 +12098,17 @@ msgstr ""
 "par un ensemble de critères choisis lors de la création du dossier de "
 "recherche."
 
-#. (itstool) path: note/p
+#. (itstool) path: page/p
 #: C/mail-search-folders.page:28
 msgid ""
-"In the unlikely case that there is no <gui>Search folders</gui> top-level "
-"node displayed at the bottom of the <link xref=\"intro-main-window#e-mail"
-"\">mail folder list</link> you have to enable <guiseq><gui>Edit</"
-"gui><gui>Preferences</gui><gui>Mail Accounts</gui><gui>Search Folders</gui></"
-"guiseq>."
+"<gui>Search folders</gui> are displayed at the bottom of the <link xref="
+"\"intro-main-window#e-mail\">mail folder list</link>."
 msgstr ""
-"Dans le cas peu probable où il n’y a pas de nœud de niveau supérieur de "
-"<gui>Dossiers de recherche</gui> affiché en bas de la <link xref=\"intro-"
-"main-window#e-mail\">liste de dossiers de courriels</link>, vous devez "
-"activer <guiseq><gui>Édition</gui><gui>Préférences</gui><gui>Comptes de "
-"messagerie</gui><gui>Dossiers de recherche</gui></guiseq>."
+"Les <gui>dossiers de recherche</gui> sont affichés en bas de la <link xref="
+"\"intro-main-window#e-mail\">liste des dossiers de courriels</link>."
 
 #. (itstool) path: page/p
-#: C/mail-search-folders.page:30
+#: C/mail-search-folders.page:32
 msgid ""
 "<app>Evolution</app> automatically updates the search folder contents when "
 "new messages are received or messages are deleted. You can also manually "
@@ -12052,7 +12124,7 @@ msgstr ""
 "<gui>Actualiser</gui>."
 
 #. (itstool) path: page/p
-#: C/mail-search-folders.page:32
+#: C/mail-search-folders.page:34
 msgid ""
 "The <gui>Unmatched</gui> search folder is the opposite of other search "
 "folders: it displays all messages that do not appear in other search folders."
@@ -12062,7 +12134,7 @@ msgstr ""
 "aucun autre dossier de recherche."
 
 #. (itstool) path: page/p
-#: C/mail-search-folders.page:34
+#: C/mail-search-folders.page:36
 msgid ""
 "If you use remote email storage like IMAP, and have created search folders "
 "to search through them, the <gui>Unmatched</gui> search folder also searches "
@@ -12078,7 +12150,7 @@ msgstr ""
 "parcourt pas non plus."
 
 #. (itstool) path: note/p
-#: C/mail-search-folders.page:36
+#: C/mail-search-folders.page:38
 msgid ""
 "If you need to find out which physical folder a message displayed in a "
 "Search Folder is located in, <link xref=\"mail-change-columns-in-message-list"
@@ -12205,8 +12277,8 @@ msgid ""
 msgstr ""
 "Pour la portée du <gui>Compte actuel</gui>, le terme « compte » se réfère "
 "aux nœuds de niveau supérieur dans la <link xref=\"intro-main-window#e-mail"
-"\">liste des dossiers de courriel</link>, tels que « Sur cet ordinateur » ou "
-"les comptes de messagerie distants."
+"\">liste des dossiers de courriels</link>, tels que « Sur cet ordinateur » "
+"ou les comptes de messagerie distants."
 
 #. (itstool) path: note/p
 #: C/mail-searching.page:53
@@ -13940,6 +14012,90 @@ msgid "Searching items"
 msgstr "Recherche d’éléments"
 
 #. (itstool) path: info/desc
+#: C/start-command-line-parameters.page:16
+msgid ""
+"How to make Evolution show a specific window or folder when starting the "
+"application."
+msgstr ""
+"Afficher une fenêtre ou un dossier spécifique au démarrage de l’application."
+
+#. (itstool) path: page/title
+#: C/start-command-line-parameters.page:21
+msgid "Define what to display when starting <app>Evolution</app>"
+msgstr "Définition de l’affichage au démarrage d’<app>Evolution</app>"
+
+#. (itstool) path: page/p
+#: C/start-command-line-parameters.page:23
+msgid ""
+"When <app>Evolution</app> starts, it remembers the last view that you used."
+msgstr ""
+"Lorsqu’<app>Evolution</app> démarre, l’application restaure la dernière vue "
+"utilisée."
+
+#. (itstool) path: page/p
+#: C/start-command-line-parameters.page:25
+msgid ""
+"To make <app>Evolution</app> display something else after starting the "
+"application, you will have to run the application from the <app>Terminal</"
+"app> application and pass corresponding parameters."
+msgstr ""
+"Pour qu’<app>Evolution</app> affiche autre chose après avoir démarré, vous "
+"devez lancer l’application depuis le <app>Terminal</app> et définir les "
+"paramètres correspondants."
+
+#. (itstool) path: section/title
+#: C/start-command-line-parameters.page:30
+msgid "Windows"
+msgstr "Fenêtres"
+
+#. (itstool) path: section/p
+#. TO TRANSLATORS: Do NOT translate 'component' here!
+#: C/start-command-line-parameters.page:32
+msgid ""
+"To start <app>Evolution</app> in a specific view, pass the \"component\" "
+"parameter."
+msgstr ""
+"Pour démarrer <app>Evolution</app> dans une vue spécifique, définissez le "
+"paramètre « component »."
+
+#. (itstool) path: section/p
+#: C/start-command-line-parameters.page:35
+#: C/start-command-line-parameters.page:52
+#: C/start-command-line-parameters.page:66
+msgid "Examples:"
+msgstr "Exemples :"
+
+#. (itstool) path: section/title
+#: C/start-command-line-parameters.page:46
+msgid "Mail folders"
+msgstr "Dossiers de courriels"
+
+#. (itstool) path: section/p
+#. TO TRANSLATORS: Do NOT translate 'folder' here!
+#: C/start-command-line-parameters.page:49
+msgid ""
+"To make <app>Evolution</app> open a specific mail folder, pass the \"folder"
+"\" parameter."
+msgstr ""
+"Pour qu’<app>Evolution</app> ouvre un dossier de courriels spécifique, "
+"définissez le paramètre « folder »."
+
+#. (itstool) path: section/title
+#: C/start-command-line-parameters.page:61
+msgid "Mail composer"
+msgstr "Éditeur de courriel"
+
+#. (itstool) path: section/p
+#. TO TRANSLATORS: Do NOT translate 'folder' here!
+#: C/start-command-line-parameters.page:63
+msgid ""
+"To make <app>Evolution</app> open a mail composer window with some "
+"predefined values and content:"
+msgstr ""
+"Pour qu’<app>Evolution</app> ouvre une fenêtre de composition de messages "
+"avec des valeurs et du contenu prédéfinis :"
+
+#. (itstool) path: info/desc
 #: C/sync-with-other-devices.page:5
 msgid ""
 "Synchronize <app>Evolution</app> data with handheld devices and mobile "
@@ -14621,6 +14777,7 @@ msgstr "tout en-tête incluant <_:link-1/>."
 #. (itstool) path: p/app
 #: C/xinclude-filter-vfolder-conditions.xml:23
 #: C/xinclude-filter-vfolder-conditions.xml:29
+#: C/xinclude-filter-vfolder-conditions.xml:62
 msgid "Evolution"
 msgstr "Evolution"
 
@@ -14830,18 +14987,14 @@ msgstr "Liste de diffusion :"
 #. (itstool) path: item/p
 #: C/xinclude-filter-vfolder-conditions.xml:59
 msgid ""
-"Filters based on the mailing list the message came from. This filter might "
-"miss messages from some list servers, because it checks for the X-BeenThere "
-"header, which is used to identify mailing lists or other redistributors of "
-"mail. Mail from list servers that do not set X-BeenThere properly are not be "
-"caught by these filters."
+"Filters based on the mailing list the message came from. This filter checks "
+"for a variety of common mailing list related headers but might miss messages "
+"from some list servers if they use uncommon headers."
 msgstr ""
-"filtre selon la liste de diffusion de provenance du message. Ce filtre peut "
-"manquer des messages de certains serveurs de listes, car il vérifie l’en-"
-"tête X-BeenThere qui est utilisé pour identifier les listes de diffusion ou "
-"d’autres redistributeurs de courriels. Les messages provenant de serveurs de "
-"listes qui ne définissent pas correctement X-BeenThere ne seront pas "
-"interceptés par ces filtres."
+"filtre selon la liste de diffusion d’où provient le message. Ce filtre "
+"recherche une variété d’en-têtes communs liés aux listes de diffusion, mais "
+"peut manquer des messages de certains serveurs de listes s’ils utilisent des "
+"en-têtes inhabituels."
 
 #. (itstool) path: item/p
 #: C/xinclude-filter-vfolder-conditions.xml:61
@@ -14853,33 +15006,23 @@ msgstr "Correspondance Regex :"
 msgid "regex"
 msgstr "regex"
 
-#. (itstool) path: link/cmd
-#: C/xinclude-filter-vfolder-conditions.xml:62
-msgid "grep"
-msgstr "grep"
-
-#. (itstool) path: p/link
-#: C/xinclude-filter-vfolder-conditions.xml:62
-msgid "the man page for the <_:cmd-1/>"
-msgstr "la page de manuel pour la commande <_:cmd-1/>"
-
 #. (itstool) path: item/p
 #: C/xinclude-filter-vfolder-conditions.xml:62
 msgid ""
-"(For programmers only) If you know your way around a <_:link-1/>, or regular "
+"(For advanced users) If you know your way around a <_:link-1/>, or regular "
 "expression, this option allows you to search for complex patterns of "
 "letters, so that you can find, for example, all words that start with \"a\" "
 "and end with \"m\", and are between six and fifteen letters long, or all "
-"messages that declare a particular header twice. For information about how "
-"to use regular expressions, check <_:link-2/> command."
+"messages that declare a particular header twice. <_:app-2/> supports the "
+"Extended Regular Expression syntax (ERE)."
 msgstr ""
-"(uniquement pour les programmeurs) Si vous maîtrisez une <_:link-1/>, ou "
+"(pour les utilisateurs avancés) Si vous maîtrisez une <_:link-1/>, ou "
 "expression régulière, cette option vous permet de rechercher des motifs "
 "complexes de caractères afin de pouvoir trouver, par exemple, tous les mots "
 "commençant par « a » et qui finissent par « m », et qui contiennent entre "
 "six et quinze caractères, ou tous les messages qui déclarent deux fois un en-"
-"tête particulier. Pour des informations sur l’utilisation des expressions "
-"régulières, consultez la page de manuel de la commande <_:link-2/>."
+"tête particulier. <_:app-2/> prend en charge la syntaxe d’expressions "
+"régulières étendue (ERE)."
 
 #. (itstool) path: section/title
 #. (itstool) path: guiseq/gui
