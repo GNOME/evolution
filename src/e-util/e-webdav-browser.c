@@ -2030,6 +2030,8 @@ webdav_browser_prepare_popover (EWebDAVBrowser *webdav_browser,
 				gboolean for_book,
 				gboolean for_calendar)
 {
+	GdkRGBA rgba;
+
 	g_return_if_fail (E_IS_WEBDAV_BROWSER (webdav_browser));
 
 	gtk_widget_hide (webdav_browser->priv->create_edit_popover);
@@ -2052,7 +2054,14 @@ webdav_browser_prepare_popover (EWebDAVBrowser *webdav_browser,
 
 	gtk_widget_hide (webdav_browser->priv->create_edit_hint_popover);
 
+	rgba.red = 0;
+	rgba.green = 0;
+	rgba.blue = 0;
+	rgba.alpha = 1;
+
 	gtk_entry_set_text (GTK_ENTRY (webdav_browser->priv->create_edit_name_entry), "");
+	gtk_color_chooser_set_rgba (GTK_COLOR_CHOOSER (webdav_browser->priv->create_edit_color_chooser), &rgba);
+	gtk_spin_button_set_value (GTK_SPIN_BUTTON (webdav_browser->priv->create_edit_order_spin), -1);
 	gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (webdav_browser->priv->create_edit_event_check), FALSE);
 	gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (webdav_browser->priv->create_edit_memo_check), FALSE);
 	gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (webdav_browser->priv->create_edit_task_check), FALSE);
