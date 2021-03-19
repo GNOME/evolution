@@ -3696,12 +3696,32 @@ itip_comp_older_than_stored (ItipView *view,
 	return is_older;
 }
 
+static gchar *
+itip_view_dup_source_full_display_name (ItipView *view,
+					ESource *source)
+{
+	ESourceRegistry *registry;
+	gchar *display_name;
+
+	g_return_val_if_fail (ITIP_IS_VIEW (view), NULL);
+
+	if (!source)
+		return NULL;
+
+	registry = e_client_cache_ref_registry (view->priv->client_cache);
+	display_name = e_util_get_source_full_name (registry, source);
+	g_clear_object (&registry);
+
+	return display_name;
+}
+
 static void
 find_cal_update_ui (FormatItipFindData *fd,
                     ECalClient *cal_client)
 {
 	ItipView *view;
 	ESource *source;
+	gchar *source_display_name;
 
 	g_return_if_fail (fd != NULL);
 
@@ -3712,6 +3732,7 @@ find_cal_update_ui (FormatItipFindData *fd,
 		return;
 
 	source = cal_client ? e_client_get_source (E_CLIENT (cal_client)) : NULL;
+	source_display_name = itip_view_dup_source_full_display_name (view, source);
 
 	if (cal_client && g_hash_table_lookup (fd->conflicts, cal_client)) {
 		GSList *icomps = g_hash_table_lookup (fd->conflicts, cal_client);
@@ -3728,21 +3749,21 @@ find_cal_update_ui (FormatItipFindData *fd,
 					view, ITIP_VIEW_INFO_ITEM_TYPE_WARNING,
 					_("An appointment “%s” in the calendar “%s” conflicts with this meeting"),
 					i_cal_component_get_summary (icomp),
-					e_source_get_display_name (source));
+					source_display_name);
 				break;
 			case E_CAL_CLIENT_SOURCE_TYPE_TASKS:
 				itip_view_add_upper_info_item_printf (
 					view, ITIP_VIEW_INFO_ITEM_TYPE_WARNING,
 					_("A task “%s” in the task list “%s” conflicts with this task"),
 					i_cal_component_get_summary (icomp),
-					e_source_get_display_name (source));
+					source_display_name);
 				break;
 			case E_CAL_CLIENT_SOURCE_TYPE_MEMOS:
 				itip_view_add_upper_info_item_printf (
 					view, ITIP_VIEW_INFO_ITEM_TYPE_WARNING,
 					_("A memo “%s” in the memo list “%s” conflicts with this memo"),
 					i_cal_component_get_summary (icomp),
-					e_source_get_display_name (source));
+					source_display_name);
 				break;
 			}
 		} else {
@@ -3754,7 +3775,7 @@ find_cal_update_ui (FormatItipFindData *fd,
 					ngettext ("The calendar “%s” contains an appointment which conflicts with this meeting",
 						  "The calendar “%s” contains %d appointments which conflict with this meeting",
 						  ncomps),
-					e_source_get_display_name (source),
+					source_display_name,
 					ncomps);
 				break;
 			case E_CAL_CLIENT_SOURCE_TYPE_TASKS:
@@ -3763,7 +3784,7 @@ find_cal_update_ui (FormatItipFindData *fd,
 					ngettext ("The task list “%s” contains a task which conflicts with this task",
 						  "The task list “%s” contains %d tasks which conflict with this task",
 						  ncomps),
-					e_source_get_display_name (source),
+					source_display_name,
 					ncomps);
 				break;
 			case E_CAL_CLIENT_SOURCE_TYPE_MEMOS:
@@ -3772,7 +3793,7 @@ find_cal_update_ui (FormatItipFindData *fd,
 					ngettext ("The memo list “%s” contains a memo which conflicts with this memo",
 						  "The memo list “%s” contains %d memos which conflict with this memo",
 						  ncomps),
-					e_source_get_display_name (source),
+					source_display_name,
 					ncomps);
 				break;
 			}
@@ -3807,17 +3828,17 @@ find_cal_update_ui (FormatItipFindData *fd,
 		default:
 			itip_view_add_lower_info_item_printf (
 				view, ITIP_VIEW_INFO_ITEM_TYPE_INFO,
-				_("Found the appointment in the calendar “%s”"), e_source_get_display_name (source));
+				_("Found the appointment in the calendar “%s”"), source_display_name);
 			break;
 		case E_CAL_CLIENT_SOURCE_TYPE_TASKS:
 			itip_view_add_lower_info_item_printf (
 				view, ITIP_VIEW_INFO_ITEM_TYPE_INFO,
-				_("Found the task in the task list “%s”"), e_source_get_display_name (source));
+				_("Found the task in the task list “%s”"), source_display_name);
 			break;
 		case E_CAL_CLIENT_SOURCE_TYPE_MEMOS:
 			itip_view_add_lower_info_item_printf (
 				view, ITIP_VIEW_INFO_ITEM_TYPE_INFO,
-				_("Found the memo in the memo list “%s”"), e_source_get_display_name (source));
+				_("Found the memo in the memo list “%s”"), source_display_name);
 			break;
 		}
 
@@ -3867,6 +3888,7 @@ find_cal_update_ui (FormatItipFindData *fd,
 					extension_name = E_SOURCE_EXTENSION_MEMO_LIST;
 					break;
 				default:
+					g_clear_pointer (&source_display_name, g_free);
 					g_return_if_reached ();
 			}
 
@@ -3902,6 +3924,8 @@ find_cal_update_ui (FormatItipFindData *fd,
 			itip_view_set_mode (view, ITIP_VIEW_MODE_PUBLISH);
 		}
 	}
+
+	g_free (source_display_name);
 }
 
 static void
@@ -4697,6 +4721,7 @@ receive_objects_ready_cb (GObject *ecalclient,
 	ECalClient *client = E_CAL_CLIENT (ecalclient);
 	ESource *source = e_client_get_source (E_CLIENT (client));
 	ItipView *view = user_data;
+	gchar *source_display_name;
 	GError *error = NULL;
 
 	e_cal_client_receive_objects_finish (client, result, &error);
@@ -4704,8 +4729,11 @@ receive_objects_ready_cb (GObject *ecalclient,
 	if (g_error_matches (error, G_IO_ERROR, G_IO_ERROR_CANCELLED)) {
 		g_error_free (error);
 		return;
+	}
 
-	} else if (error != NULL) {
+	source_display_name = itip_view_dup_source_full_display_name (view, source);
+
+	if (error != NULL) {
 		update_item_progress_info (view, NULL);
 		switch (e_cal_client_get_source_type (client)) {
 		case E_CAL_CLIENT_SOURCE_TYPE_EVENTS:
@@ -4714,7 +4742,7 @@ receive_objects_ready_cb (GObject *ecalclient,
 				itip_view_add_lower_info_item_printf (
 					view, ITIP_VIEW_INFO_ITEM_TYPE_INFO,
 					_("Unable to send item to calendar “%s”. %s"),
-					e_source_get_display_name (source),
+					source_display_name,
 					error->message);
 			break;
 		case E_CAL_CLIENT_SOURCE_TYPE_TASKS:
@@ -4722,7 +4750,7 @@ receive_objects_ready_cb (GObject *ecalclient,
 				itip_view_add_lower_info_item_printf (
 					view, ITIP_VIEW_INFO_ITEM_TYPE_INFO,
 					_("Unable to send item to task list “%s”. %s"),
-					e_source_get_display_name (source),
+					source_display_name,
 					error->message);
 			break;
 		case E_CAL_CLIENT_SOURCE_TYPE_MEMOS:
@@ -4730,11 +4758,12 @@ receive_objects_ready_cb (GObject *ecalclient,
 				itip_view_add_lower_info_item_printf (
 					view, ITIP_VIEW_INFO_ITEM_TYPE_INFO,
 					_("Unable to send item to memo list “%s”. %s"),
-					e_source_get_display_name (source),
+					source_display_name,
 					error->message);
 			break;
 		}
 		g_error_free (error);
+		g_free (source_display_name);
 		return;
 	}
 
@@ -4749,17 +4778,17 @@ receive_objects_ready_cb (GObject *ecalclient,
 		default:
 			itip_view_add_lower_info_item_printf (
 				view, ITIP_VIEW_INFO_ITEM_TYPE_INFO,
-				_("Sent to calendar “%s” as accepted"), e_source_get_display_name (source));
+				_("Sent to calendar “%s” as accepted"), source_display_name);
 			break;
 		case E_CAL_CLIENT_SOURCE_TYPE_TASKS:
 			itip_view_add_lower_info_item_printf (
 				view, ITIP_VIEW_INFO_ITEM_TYPE_INFO,
-				_("Sent to task list “%s” as accepted"), e_source_get_display_name (source));
+				_("Sent to task list “%s” as accepted"), source_display_name);
 			break;
 		case E_CAL_CLIENT_SOURCE_TYPE_MEMOS:
 			itip_view_add_lower_info_item_printf (
 				view, ITIP_VIEW_INFO_ITEM_TYPE_INFO,
-				_("Sent to memo list “%s” as accepted"), e_source_get_display_name (source));
+				_("Sent to memo list “%s” as accepted"), source_display_name);
 			break;
 		}
 		break;
@@ -4769,17 +4798,17 @@ receive_objects_ready_cb (GObject *ecalclient,
 		default:
 			itip_view_add_lower_info_item_printf (
 				view, ITIP_VIEW_INFO_ITEM_TYPE_INFO,
-				_("Sent to calendar “%s” as tentative"), e_source_get_display_name (source));
+				_("Sent to calendar “%s” as tentative"), source_display_name);
 			break;
 		case E_CAL_CLIENT_SOURCE_TYPE_TASKS:
 			itip_view_add_lower_info_item_printf (
 				view, ITIP_VIEW_INFO_ITEM_TYPE_INFO,
-				_("Sent to task list “%s” as tentative"), e_source_get_display_name (source));
+				_("Sent to task list “%s” as tentative"), source_display_name);
 			break;
 		case E_CAL_CLIENT_SOURCE_TYPE_MEMOS:
 			itip_view_add_lower_info_item_printf (
 				view, ITIP_VIEW_INFO_ITEM_TYPE_INFO,
-				_("Sent to memo list “%s” as tentative"), e_source_get_display_name (source));
+				_("Sent to memo list “%s” as tentative"), source_display_name);
 			break;
 		}
 		break;
@@ -4789,17 +4818,17 @@ receive_objects_ready_cb (GObject *ecalclient,
 		default:
 			itip_view_add_lower_info_item_printf (
 				view, ITIP_VIEW_INFO_ITEM_TYPE_INFO,
-				_("Sent to calendar “%s” as declined"), e_source_get_display_name (source));
+				_("Sent to calendar “%s” as declined"), source_display_name);
 			break;
 		case E_CAL_CLIENT_SOURCE_TYPE_TASKS:
 			itip_view_add_lower_info_item_printf (
 				view, ITIP_VIEW_INFO_ITEM_TYPE_INFO,
-				_("Sent to task list “%s” as declined"), e_source_get_display_name (source));
+				_("Sent to task list “%s” as declined"), source_display_name);
 			break;
 		case E_CAL_CLIENT_SOURCE_TYPE_MEMOS:
 			itip_view_add_lower_info_item_printf (
 				view, ITIP_VIEW_INFO_ITEM_TYPE_INFO,
-				_("Sent to memo list “%s” as declined"), e_source_get_display_name (source));
+				_("Sent to memo list “%s” as declined"), source_display_name);
 			break;
 		}
 		break;
@@ -4809,17 +4838,17 @@ receive_objects_ready_cb (GObject *ecalclient,
 		default:
 			itip_view_add_lower_info_item_printf (
 				view, ITIP_VIEW_INFO_ITEM_TYPE_INFO,
-				_("Sent to calendar “%s” as cancelled"), e_source_get_display_name (source));
+				_("Sent to calendar “%s” as cancelled"), source_display_name);
 			break;
 		case E_CAL_CLIENT_SOURCE_TYPE_TASKS:
 			itip_view_add_lower_info_item_printf (
 				view, ITIP_VIEW_INFO_ITEM_TYPE_INFO,
-				_("Sent to task list “%s” as cancelled"), e_source_get_display_name (source));
+				_("Sent to task list “%s” as cancelled"), source_display_name);
 			break;
 		case E_CAL_CLIENT_SOURCE_TYPE_MEMOS:
 			itip_view_add_lower_info_item_printf (
 				view, ITIP_VIEW_INFO_ITEM_TYPE_INFO,
-				_("Sent to memo list “%s” as cancelled"), e_source_get_display_name (source));
+				_("Sent to memo list “%s” as cancelled"), source_display_name);
 			break;
 		}
 		break;
@@ -4829,6 +4858,7 @@ receive_objects_ready_cb (GObject *ecalclient,
 	}
 
 	finish_message_delete_with_rsvp (view, client);
+	g_free (source_display_name);
 }
 
 static void
