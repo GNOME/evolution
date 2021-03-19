@@ -303,12 +303,14 @@ srv_config_lookup_worker_run (EConfigLookupWorker *lookup_worker,
 
 	email_address = e_named_parameters_get (params, E_CONFIG_LOOKUP_PARAM_EMAIL_ADDRESS);
 
-	if (!email_address || !*email_address)
-		return;
+	if (email_address && *email_address) {
+		domain = strchr (email_address, '@');
+		if (domain && *domain)
+			srv_config_lookup_domain_sync (config_lookup, email_address, domain + 1, cancellable);
+	}
 
-	domain = strchr (email_address, '@');
-	if (domain && *domain)
-		srv_config_lookup_domain_sync (config_lookup, email_address, domain + 1, cancellable);
+	if (!email_address)
+		email_address = "";
 
 	servers = e_named_parameters_get (params, E_CONFIG_LOOKUP_PARAM_SERVERS);
 	if (servers && *servers) {
