@@ -82,6 +82,7 @@ struct _ItipViewPrivate {
 	gchar *location;
         gchar *status;
 	gchar *comment;
+	gchar *attendees;
 	gchar *url;
 
 	struct tm *start_tm;
@@ -1090,7 +1091,7 @@ append_text_table_row (GString *buffer,
 			buffer,
 			"<tr id=\"%s\" %s><th%s>%s</th><td>%s</td></tr>\n",
 			id, (value && *value) ? "" : "hidden=\"\"",
-			g_strcmp0 (id, TABLE_ROW_COMMENT) == 0 ? " style=\"vertical-align: top;\"" : "",
+			(g_strcmp0 (id, TABLE_ROW_COMMENT) == 0 || g_strcmp0 (id, TABLE_ROW_ATTENDEES) == 0) ? " style=\"vertical-align: top;\"" : "",
 			label, value ? value : "");
 
 	} else {
@@ -1487,6 +1488,7 @@ itip_view_finalize (GObject *object)
 	g_free (priv->location);
 	g_free (priv->status);
 	g_free (priv->comment);
+	g_free (priv->attendees);
 	g_free (priv->url);
 	g_free (priv->start_tm);
 	g_free (priv->start_label);
@@ -1706,6 +1708,7 @@ itip_view_write (gpointer itip_part_ptr,
 	append_text_table_row (buffer, TABLE_ROW_END_DATE, _("End time:"), NULL);
 	append_text_table_row (buffer, TABLE_ROW_STATUS, _("Status:"), NULL);
 	append_text_table_row (buffer, TABLE_ROW_COMMENT, _("Comment:"), NULL);
+	append_text_table_row (buffer, TABLE_ROW_ATTENDEES, _("Attendees:"), NULL);
 
 	g_string_append (buffer, "</table>\n");
 
@@ -1828,6 +1831,9 @@ itip_view_write_for_printing (ItipView *view,
 	append_text_table_row_nonempty (
 		buffer, TABLE_ROW_COMMENT,
 		_("Comment:"), view->priv->comment);
+	append_text_table_row_nonempty (
+		buffer, TABLE_ROW_ATTENDEES,
+		_("Attendees:"), view->priv->attendees);
 
 	g_string_append (buffer, "</table><br>\n");
 
@@ -2254,6 +2260,27 @@ itip_view_get_comment (ItipView *view)
 	return view->priv->comment;
 }
 
+void
+itip_view_set_attendees (ItipView *view,
+			 const gchar *attendees)
+{
+	g_return_if_fail (ITIP_IS_VIEW (view));
+
+	g_free (view->priv->attendees);
+
+	view->priv->attendees = attendees ? g_strstrip (e_utf8_ensure_valid (attendees)) : NULL;
+
+	set_area_text (view, TABLE_ROW_ATTENDEES, view->priv->attendees, TRUE);
+}
+
+const gchar *
+itip_view_get_attendees (ItipView *view)
+{
+	g_return_val_if_fail (ITIP_IS_VIEW (view), NULL);
+
+	return view->priv->attendees;
+}
+
 static gchar *
 itip_plain_text_to_html (const gchar *plain)
 {
@@ -2265,6 +2292,50 @@ itip_plain_text_to_html (const gchar *plain)
 		0);
 }
 
+static gchar *
+itip_view_format_attendee_plaintext (ICalProperty *prop)
+{
+	const gchar *email;
+	const gchar *cn = NULL;
+	ICalParameter *cnparam;
+	GString *str = NULL;
+
+	if (!prop)
+		return NULL;
+
+	email = i_cal_property_get_attendee (prop);
+	cnparam = i_cal_property_get_first_parameter (prop, I_CAL_CN_PARAMETER);
+	if (cnparam) {
+		cn = i_cal_parameter_get_cn (cnparam);
+		if (!cn || !*cn)
+			cn = NULL;
+	}
+
+	email = itip_strip_mailto (email);
+
+	if ((email && *email) || (cn && *cn)) {
+		str = g_string_new ("");
+
+		if (cn && *cn) {
+			g_string_append (str, cn);
+
+			if (g_strcmp0 (email, cn) == 0)
+				email = NULL;
+		}
+
+		if (email && *email) {
+			if (cn && *cn)
+				g_string_append_printf (str, " <%s>", email);
+			else
+				g_string_append (str, email);
+		}
+	}
+
+	g_clear_object (&cnparam);
+
+	return str ? g_string_free (str, FALSE) : NULL;
+}
+
 static void
 itip_view_extract_attendee_info (ItipView *view)
 {
@@ -2273,6 +2344,7 @@ itip_view_extract_attendee_info (ItipView *view)
 	gint num_attendees;
 	const gchar *top_comment;
 	GString *new_comment = NULL;
+	GString *attendees = NULL;
 
 	g_return_if_fail (ITIP_IS_VIEW (view));
 
@@ -2296,6 +2368,19 @@ itip_view_extract_attendee_info (ItipView *view)
 		guint32 num_guests = 0;
 		const gchar *value;
 		gchar *prop_value;
+		gchar *attendee_str;
+
+		attendee_str = itip_view_format_attendee_plaintext (prop);
+
+		if (!attendee_str)
+			continue;
+
+		if (!attendees) {
+			attendees = g_string_new (attendee_str);
+		} else {
+			g_string_append (attendees, ", ");
+			g_string_append (attendees, attendee_str);
+		}
 
 		prop_value = cal_comp_util_dup_parameter_xvalue (prop, "X-NUM-GUESTS");
 		if (prop_value && *prop_value)
@@ -2340,55 +2425,26 @@ itip_view_extract_attendee_info (ItipView *view)
 				g_free (html);
 			}
 		} else if (guests_str || (value && *value)) {
-			const gchar *email = i_cal_property_get_attendee (prop);
-			const gchar *cn = NULL;
-			ICalParameter *cnparam;
+			if (!new_comment)
+				new_comment = g_string_new ("");
+			else
+				g_string_append_c (new_comment, '\n');
 
-			cnparam = i_cal_property_get_first_parameter (prop, I_CAL_CN_PARAMETER);
-			if (cnparam) {
-				cn = i_cal_parameter_get_cn (cnparam);
-				if (!cn || !*cn)
-					cn = NULL;
-			}
+			g_string_append (new_comment, attendee_str);
+			g_string_append (new_comment, ": ");
 
-			email = itip_strip_mailto (email);
-
-			if ((email && *email) || (cn && *cn)) {
-				if (!new_comment)
-					new_comment = g_string_new ("");
-				else
-					g_string_append_c (new_comment, '\n');
-
-				if (cn && *cn) {
-					g_string_append (new_comment, cn);
-
-					if (g_strcmp0 (email, cn) == 0)
-						email = NULL;
-				}
-
-				if (email && *email) {
-					if (cn && *cn)
-						g_string_append_printf (new_comment, " <%s>", email);
-					else
-						g_string_append (new_comment, email);
-				}
-
-				g_string_append (new_comment, ": ");
-
-				if (guests_str) {
-					g_string_append (new_comment, guests_str);
-
-					if (value && *value)
-						g_string_append (new_comment, "; ");
-				}
+			if (guests_str) {
+				g_string_append (new_comment, guests_str);
 
 				if (value && *value)
-					g_string_append (new_comment, value);
+					g_string_append (new_comment, "; ");
 			}
 
-			g_clear_object (&cnparam);
+			if (value && *value)
+				g_string_append (new_comment, value);
 		}
 
+		g_free (attendee_str);
 		g_free (prop_value);
 		g_free (guests_str);
 	}
@@ -2401,6 +2457,16 @@ itip_view_extract_attendee_info (ItipView *view)
 		g_free (html);
 
 		g_string_free (new_comment, TRUE);
+	}
+
+	if (attendees) {
+		gchar *html;
+
+		html = itip_plain_text_to_html (attendees->str);
+		itip_view_set_attendees (view, html);
+		g_free (html);
+
+		g_string_free (attendees, TRUE);
 	}
 }
 

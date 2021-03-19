@@ -167,6 +167,9 @@ void		itip_view_set_status		(ItipView *view,
 const gchar *	itip_view_get_comment		(ItipView *view);
 void		itip_view_set_comment		(ItipView *view,
 						 const gchar *comment);
+const gchar *	itip_view_get_attendees		(ItipView *view);
+void		itip_view_set_attendees		(ItipView *view,
+						 const gchar *attendees);
 const gchar *	itip_view_get_description	(ItipView *view);
 void		itip_view_set_description	(ItipView *view,
 						 const gchar *description);

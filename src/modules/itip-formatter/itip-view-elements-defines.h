@@ -32,6 +32,7 @@
 #define TABLE_ROW_ESCB "table_row_escb"
 #define TABLE_ROW_BUTTONS "table_row_buttons"
 #define TABLE_ROW_ESCB_LABEL "table_row_escb_label"
+#define TABLE_ROW_ATTENDEES "table_row_attendees"
 
 #define TABLE_BUTTONS "table_buttons"
 
