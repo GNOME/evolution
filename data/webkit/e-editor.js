@@ -1040,10 +1040,14 @@ EvoEditor.SetBlockFormat = function(format)
 		targetElement : null,
 		selectionUpdater : null,
 
-		flat : true,
+		flat : false,
 		onlyBlockElements : true,
 
 		exec : function(parent, element) {
+			// do not change blockquote elements
+			if (element.tagName == "BLOCKQUOTE")
+				return true;
+
 			var newElement;
 
 			if (this.toSet.tagName != "LI" && (element.tagName == "UL" || element.tagName == "OL")) {

@@ -2539,6 +2539,127 @@ test_issue_1159 (TestFixture *fixture)
 		g_test_fail ();
 }
 
+static void
+test_issue_1424_level1 (TestFixture *fixture)
+{
+	if (!test_utils_process_commands (fixture,
+		"mode:plain\n")) {
+		g_test_fail ();
+		return;
+	}
+
+	test_utils_insert_content (fixture,
+		"<body><div>a</div>"
+		"<div>b</div>"
+		"<div>c</div>"
+		"<span class=\"-x-evo-to-body\" data-credits=\"Credits:\"></span>"
+		"<span class=\"-x-evo-cite-body\"></span></body>",
+		E_CONTENT_EDITOR_INSERT_REPLACE_ALL | E_CONTENT_EDITOR_INSERT_TEXT_HTML);
+
+	if (!test_utils_run_simple_test (fixture,
+		"seq:C\n"
+		"type:a\n"
+		"seq:c\n"
+		"action:style-preformat\n",
+		HTML_PREFIX "<pre>Credits:</pre>"
+		"<blockquote type=\"cite\">"
+		"<pre>" QUOTE_SPAN (QUOTE_CHR) "a</pre>"
+		"<pre>" QUOTE_SPAN (QUOTE_CHR) "b</pre>"
+		"<pre>" QUOTE_SPAN (QUOTE_CHR) "c</pre>"
+		"</blockquote>"
+		HTML_SUFFIX,
+		"Credits:\n"
+		"> a\n"
+		"> b\n"
+		"> c\n")) {
+		g_test_fail ();
+		return;
+	}
+
+	if (!test_utils_run_simple_test (fixture,
+		"action:style-normal\n",
+		HTML_PREFIX "<div style=\"width: 71ch;\">Credits:</div>"
+		"<blockquote type=\"cite\">"
+		"<div>" QUOTE_SPAN (QUOTE_CHR) "a</div>"
+		"<div>" QUOTE_SPAN (QUOTE_CHR) "b</div>"
+		"<div>" QUOTE_SPAN (QUOTE_CHR) "c</div>"
+		"</blockquote>"
+		HTML_SUFFIX,
+		"Credits:\n"
+		"> a\n"
+		"> b\n"
+		"> c\n")) {
+		g_test_fail ();
+		return;
+	}
+}
+
+static void
+test_issue_1424_level2 (TestFixture *fixture)
+{
+	if (!test_utils_process_commands (fixture,
+		"mode:plain\n")) {
+		g_test_fail ();
+		return;
+	}
+
+	test_utils_insert_content (fixture,
+		"<body><div>a</div>"
+		"<blockquote type=\"cite\">"
+		"<div>b</div>"
+		"<div>c</div>"
+		"</blockquote>"
+		"<div>d</div>"
+		"<span class=\"-x-evo-to-body\" data-credits=\"Credits:\"></span>"
+		"<span class=\"-x-evo-cite-body\"></span></body>",
+		E_CONTENT_EDITOR_INSERT_REPLACE_ALL | E_CONTENT_EDITOR_INSERT_TEXT_HTML);
+
+	if (!test_utils_run_simple_test (fixture,
+		"seq:C\n"
+		"type:a\n"
+		"seq:c\n"
+		"action:style-preformat\n",
+		HTML_PREFIX "<pre>Credits:</pre>"
+		"<blockquote type=\"cite\">"
+		"<pre>" QUOTE_SPAN (QUOTE_CHR) "a</pre>"
+		"<blockquote type=\"cite\">"
+		"<pre>" QUOTE_SPAN (QUOTE_CHR QUOTE_CHR) "b</pre>"
+		"<pre>" QUOTE_SPAN (QUOTE_CHR QUOTE_CHR) "c</pre>"
+		"</blockquote>"
+		"<pre>" QUOTE_SPAN (QUOTE_CHR) "d</pre>"
+		"</blockquote>"
+		HTML_SUFFIX,
+		"Credits:\n"
+		"> a\n"
+		"> > b\n"
+		"> > c\n"
+		"> d\n")) {
+		g_test_fail ();
+		return;
+	}
+
+	if (!test_utils_run_simple_test (fixture,
+		"action:style-normal\n",
+		HTML_PREFIX "<div style=\"width: 71ch;\">Credits:</div>"
+		"<blockquote type=\"cite\">"
+		"<div>" QUOTE_SPAN (QUOTE_CHR) "a</div>"
+		"<blockquote type=\"cite\">"
+		"<div>" QUOTE_SPAN (QUOTE_CHR QUOTE_CHR) "b</div>"
+		"<div>" QUOTE_SPAN (QUOTE_CHR QUOTE_CHR) "c</div>"
+		"</blockquote>"
+		"<div>" QUOTE_SPAN (QUOTE_CHR) "d</div>"
+		"</blockquote>"
+		HTML_SUFFIX,
+		"Credits:\n"
+		"> a\n"
+		"> > b\n"
+		"> > c\n"
+		"> d\n")) {
+		g_test_fail ();
+		return;
+	}
+}
+
 void
 test_add_html_editor_bug_tests (void)
 {
@@ -2583,4 +2704,6 @@ test_add_html_editor_bug_tests (void)
 	test_utils_add_test ("/issue/1391", test_issue_1391);
 	test_utils_add_test ("/issue/1394", test_issue_1394);
 	test_utils_add_test ("/issue/1159", test_issue_1159);
+	test_utils_add_test ("/issue/1424-level1", test_issue_1424_level1);
+	test_utils_add_test ("/issue/1424-level2", test_issue_1424_level2);
 }
