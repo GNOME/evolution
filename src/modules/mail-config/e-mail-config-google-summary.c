@@ -303,7 +303,7 @@ mail_config_google_summary_constructed (GObject *object)
 	gtk_widget_show (widget);
 	g_free (markup);
 
-	text = _("Add Google Ca_lendar to this account");
+	text = _("Add Ca_lendar to this account");
 	widget = gtk_check_button_new_with_mnemonic (text);
 	gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (widget), TRUE);
 	gtk_widget_set_margin_left (widget, 12);
@@ -312,7 +312,7 @@ mail_config_google_summary_constructed (GObject *object)
 	gtk_widget_show (widget);
 
 	if (mail_config_google_summary_is_oauth2_supported ()) {
-		text = _("Add Google Con_tacts to this account");
+		text = _("Add Con_tacts to this account");
 		widget = gtk_check_button_new_with_mnemonic (text);
 		gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (widget), TRUE);
 		gtk_widget_set_margin_left (widget, 12);

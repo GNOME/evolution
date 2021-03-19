@@ -32,6 +32,7 @@ struct _EMailConfigYahooSummaryPrivate {
 
 	/* Widgets (not referenced) */
 	GtkWidget *calendar_toggle;
+	GtkWidget *contacts_toggle;
 
 	gboolean applicable;
 };
@@ -122,6 +123,7 @@ mail_config_yahoo_summary_commit_changes_cb (EMailConfigSummaryPage *page,
 	const gchar *display_name;
 	const gchar *extension_name;
 	gboolean calendar_active;
+	gboolean contacts_active;
 
 	/* If this is not a Yahoo! account, do nothing (obviously). */
 	if (!e_mail_config_yahoo_summary_get_applicable (extension))
@@ -130,8 +132,11 @@ mail_config_yahoo_summary_commit_changes_cb (EMailConfigSummaryPage *page,
 	toggle_button = GTK_TOGGLE_BUTTON (extension->priv->calendar_toggle);
 	calendar_active = gtk_toggle_button_get_active (toggle_button);
 
+	toggle_button = GTK_TOGGLE_BUTTON (extension->priv->contacts_toggle);
+	contacts_active = gtk_toggle_button_get_active (toggle_button);
+
 	/* If the user declined to add a Calendar, do nothing. */
-	if (!calendar_active)
+	if (!calendar_active && !contacts_active)
 		return;
 
 	source = e_mail_config_summary_page_get_identity_source (page);
@@ -153,12 +158,27 @@ mail_config_yahoo_summary_commit_changes_cb (EMailConfigSummaryPage *page,
 	   can be used for the credentials prompt. */
 	auth_extension = e_source_get_extension (source, E_SOURCE_EXTENSION_AUTHENTICATION);
 	e_source_authentication_set_host (auth_extension, "");
+	e_source_authentication_set_user (auth_extension, address);
 
 	/* All queued sources become children of the collection source. */
 	parent_uid = e_source_get_uid (source);
 	head = g_queue_peek_head_link (source_queue);
-	for (link = head; link != NULL; link = g_list_next (link))
-		e_source_set_parent (E_SOURCE (link->data), parent_uid);
+	for (link = head; link != NULL; link = g_list_next (link)) {
+		ESource *child = E_SOURCE (link->data);
+
+		e_source_set_parent (child, parent_uid);
+
+		/* Derive authentication method from the Mail Account */
+		if (e_source_has_extension (child, E_SOURCE_EXTENSION_AUTHENTICATION) &&
+		    e_source_has_extension (child, E_SOURCE_EXTENSION_MAIL_ACCOUNT)) {
+			ESourceAuthentication *child_auth_extension;
+			const gchar *auth_method;
+
+			child_auth_extension = e_source_get_extension (child, E_SOURCE_EXTENSION_AUTHENTICATION);
+			auth_method = e_source_authentication_get_method (child_auth_extension);
+			e_source_authentication_set_method (auth_extension, auth_method);
+		}
+	}
 
 	/* Push this AFTER iterating over the source queue. */
 	g_queue_push_head (source_queue, g_object_ref (source));
@@ -254,12 +274,19 @@ mail_config_yahoo_summary_constructed (GObject *object)
 	gtk_widget_show (widget);
 	g_free (markup);
 
-	text = _("Add Yahoo! Ca_lendar and Tasks to this account");
+	text = _("Add Ca_lendar and Tasks to this account");
 	widget = gtk_check_button_new_with_mnemonic (text);
 	gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (widget), TRUE);
 	gtk_widget_set_margin_left (widget, 12);
 	gtk_grid_attach (GTK_GRID (container), widget, 0, 1, 2, 1);
 	extension->priv->calendar_toggle = widget;  /* not referenced */
+	gtk_widget_show (widget);
+
+	widget = gtk_check_button_new_with_mnemonic (_("Add Con_tacts to this account"));
+	gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (widget), TRUE);
+	gtk_widget_set_margin_left (widget, 12);
+	gtk_grid_attach (GTK_GRID (container), widget, 0, 2, 2, 1);
+	extension->priv->contacts_toggle = widget;  /* not referenced */
 	gtk_widget_show (widget);
 
 	source = extension->priv->collection_source;
@@ -273,6 +300,11 @@ mail_config_yahoo_summary_constructed (GObject *object)
 	e_binding_bind_property (
 		extension->priv->calendar_toggle, "active",
 		collection_extension, "calendar-enabled",
+		G_BINDING_SYNC_CREATE);
+
+	e_binding_bind_property (
+		extension->priv->contacts_toggle, "active",
+		collection_extension, "contacts-enabled",
 		G_BINDING_SYNC_CREATE);
 }
 
@@ -324,10 +356,6 @@ e_mail_config_yahoo_summary_init (EMailConfigYahooSummary *extension)
 	backend_extension = e_source_get_extension (source, extension_name);
 	e_source_backend_set_backend_name (backend_extension, "yahoo");
 	extension->priv->collection_source = source;
-
-	/* XXX No CardDAV support yet, sadly. */
-	e_source_collection_set_contacts_enabled (
-		E_SOURCE_COLLECTION (backend_extension), FALSE);
 }
 
 void
