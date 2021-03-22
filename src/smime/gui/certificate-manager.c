@@ -89,7 +89,7 @@ static CertTreeColumn yourcerts_columns[] = {
 	{ G_TYPE_STRING, N_("Issued By Organizational Unit"),	e_cert_get_issuer_org_unit,	FALSE },
 	{ G_TYPE_STRING, N_("Issued"),				e_cert_get_issued_on,		FALSE },
 	{ G_TYPE_STRING, N_("Expires"),				e_cert_get_expires_on,		TRUE },
-	/*{ G_TYPE_STRING, N_("SHA256 Fingerprint"),		e_cert_get_sha256_fingerprint,	FALSE },*/
+	{ G_TYPE_STRING, N_("SHA256 Fingerprint"),		e_cert_get_sha256_fingerprint,	FALSE },
 	{ G_TYPE_STRING, N_("SHA1 Fingerprint"),		e_cert_get_sha1_fingerprint,	FALSE },
 	{ G_TYPE_STRING, N_("MD5 Fingerprint"),			e_cert_get_md5_fingerprint,	FALSE },
 	{ G_TYPE_OBJECT, NULL,					NULL,				FALSE } /* Hidden column for ECert * object */
@@ -110,7 +110,7 @@ static CertTreeColumn contactcerts_columns[] = {
 	{ G_TYPE_STRING, N_("Issued By Organizational Unit"),	e_cert_get_issuer_org_unit,	FALSE },
 	{ G_TYPE_STRING, N_("Issued"),				e_cert_get_issued_on,		FALSE },
 	{ G_TYPE_STRING, N_("Expires"),				e_cert_get_expires_on,		TRUE },
-	/*{ G_TYPE_STRING, N_("SHA256 Fingerprint"),		e_cert_get_sha256_fingerprint,	FALSE },*/
+	{ G_TYPE_STRING, N_("SHA256 Fingerprint"),		e_cert_get_sha256_fingerprint,	FALSE },
 	{ G_TYPE_STRING, N_("SHA1 Fingerprint"),		e_cert_get_sha1_fingerprint,	FALSE },
 	{ G_TYPE_STRING, N_("MD5 Fingerprint"),			e_cert_get_md5_fingerprint,	FALSE },
 	{ G_TYPE_OBJECT, NULL,					NULL,				FALSE }
@@ -129,7 +129,7 @@ static CertTreeColumn authoritycerts_columns[] = {
 	{ G_TYPE_STRING, N_("Issued By Organizational Unit"),	e_cert_get_issuer_org_unit,	FALSE },
 	{ G_TYPE_STRING, N_("Issued"),				e_cert_get_issued_on,		FALSE },
 	{ G_TYPE_STRING, N_("Expires"),				e_cert_get_expires_on,		TRUE },
-	/*{ G_TYPE_STRING, N_("SHA256 Fingerprint"),		e_cert_get_sha256_fingerprint,	FALSE },*/
+	{ G_TYPE_STRING, N_("SHA256 Fingerprint"),		e_cert_get_sha256_fingerprint,	FALSE },
 	{ G_TYPE_STRING, N_("SHA1 Fingerprint"),		e_cert_get_sha1_fingerprint,	FALSE },
 	{ G_TYPE_STRING, N_("MD5 Fingerprint"),			e_cert_get_md5_fingerprint,	FALSE },
 	{ G_TYPE_OBJECT, NULL,					NULL,				FALSE }
