@@ -1931,12 +1931,12 @@ EvoEditor.quoteParagraph = function(paragraph, blockquoteLevel, wrapWidth)
 	paragraph.insertAdjacentHTML("afterbegin", prefixHtml);
 }
 
-EvoEditor.reBlockquotePlainText = function(plainText, usePreTag)
+EvoEditor.reBlockquotePlainText = function(plainText, usePreTag, isPreTag)
 {
 	var lines = plainText.replace(/\&/g, "&amp;").split("\n"), ii, html = "", level = 0;
 
 	for (ii = 0; ii < lines.length; ii++) {
-		var line = lines[ii], newLevel = 0, skip = 0;
+		var line = lines[ii], newLevel = 0, skip = 0, addedSpaces = false;
 
 		// Conversion to Plain Text adds empty line at the end
 		if (ii + 1 >= lines.length && !line[0])
@@ -1963,13 +1963,14 @@ EvoEditor.reBlockquotePlainText = function(plainText, usePreTag)
 
 		while (line[skip] == ' ') {
 			skip++;
-			html += "&nbsp;";
+			html += (usePreTag ? " " : "&nbsp;");
+			addedSpaces = true;
 		}
 
 		if (skip)
 			line = line.substr(skip);
 
-		html += (line[0] ? line.replace(/</g, "&lt;").replace(/>/g, "&gt;") : "<br>");
+		html += (line[0] ? line.replace(/</g, "&lt;").replace(/>/g, "&gt;") : ((addedSpaces && (usePreTag || isPreTag)) ? "" : "<br>"));
 		html += usePreTag ? "</pre>" : "</div>";
 	}
 
@@ -2091,7 +2092,8 @@ EvoEditor.convertParagraphs = function(parent, blockquoteLevel, wrapWidth, canCh
 			if (EvoEditor.mode == EvoEditor.MODE_PLAIN_TEXT && !blockquoteLevel) {
 				child.innerHTML = EvoEditor.reBlockquotePlainText(EvoConvert.ToPlainText(child, -1),
 					(child.firstElementChild && child.firstElementChild.tagName == "PRE" && (
-					!canChangeQuoteParagraphs || !EvoEditor.WRAP_QUOTED_TEXT_IN_REPLIES)));
+					!canChangeQuoteParagraphs || !EvoEditor.WRAP_QUOTED_TEXT_IN_REPLIES)),
+					child.firstElementChild && child.firstElementChild.tagName == "PRE");
 			}
 
 			EvoEditor.convertParagraphs(child, blockquoteLevel + 1, innerWrapWidth, canChangeQuoteParagraphs);
