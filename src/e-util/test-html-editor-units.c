@@ -4982,6 +4982,8 @@ test_cite_reply_html_to_plain (TestFixture *fixture)
 static void
 test_cite_reply_plain (TestFixture *fixture)
 {
+	test_utils_fixture_change_setting_boolean (fixture, "org.gnome.evolution.mail", "composer-wrap-quoted-text-in-replies", TRUE);
+
 	if (!test_utils_process_commands (fixture,
 		"mode:plain\n")) {
 		g_test_fail ();
@@ -4990,7 +4992,11 @@ test_cite_reply_plain (TestFixture *fixture)
 
 	test_utils_insert_content (fixture,
 		"<pre>line 1\n"
+		"\n"
 		"line 2\n"
+		"   \n"
+		"line 3\n"
+		" \n"
 		"</pre><span class=\"-x-evo-to-body\" data-credits=\"On Today, User wrote:\"></span>"
 		"<span class=\"-x-evo-cite-body\"></span>",
 		E_CONTENT_EDITOR_INSERT_REPLACE_ALL | E_CONTENT_EDITOR_INSERT_TEXT_HTML);
@@ -5000,10 +5006,64 @@ test_cite_reply_plain (TestFixture *fixture)
 		HTML_PREFIX "<div style=\"width: 71ch;\">On Today, User wrote:</div>"
 		"<blockquote type=\"cite\">"
 		"<div>" QUOTE_SPAN (QUOTE_CHR) "line 1</div>"
-		"<div>" QUOTE_SPAN (QUOTE_CHR) "line 2</div></blockquote>" HTML_SUFFIX,
+		"<div>" QUOTE_SPAN (QUOTE_CHR) "<br></div>"
+		"<div>" QUOTE_SPAN (QUOTE_CHR) "line 2</div>"
+		"<div>" QUOTE_SPAN (QUOTE_CHR) "&nbsp;&nbsp;&nbsp;</div>"
+		"<div>" QUOTE_SPAN (QUOTE_CHR) "line 3</div>"
+		"<div>" QUOTE_SPAN (QUOTE_CHR) "&nbsp;</div>"
+		"</blockquote>" HTML_SUFFIX,
 		"On Today, User wrote:\n"
 		"> line 1\n"
-		"> line 2\n"))
+		"> \n"
+		"> line 2\n"
+		">    \n"
+		"> line 3\n"
+		">  \n")) {
+		g_test_fail ();
+		return;
+	}
+
+	test_utils_insert_content (fixture,
+		"<html><head></head><body><div><br></div></body></html>",
+		E_CONTENT_EDITOR_INSERT_REPLACE_ALL | E_CONTENT_EDITOR_INSERT_TEXT_HTML);
+
+	test_utils_fixture_change_setting_boolean (fixture, "org.gnome.evolution.mail", "composer-wrap-quoted-text-in-replies", FALSE);
+
+	if (!test_utils_process_commands (fixture,
+		"mode:plain\n")) {
+		g_test_fail ();
+		return;
+	}
+
+	test_utils_insert_content (fixture,
+		"<pre>line 1\n"
+		"\n"
+		"line 2\n"
+		"   \n"
+		"line 3\n"
+		" \n"
+		"</pre><span class=\"-x-evo-to-body\" data-credits=\"On Today, User wrote:\"></span>"
+		"<span class=\"-x-evo-cite-body\"></span>",
+		E_CONTENT_EDITOR_INSERT_REPLACE_ALL | E_CONTENT_EDITOR_INSERT_TEXT_HTML);
+
+	if (!test_utils_run_simple_test (fixture,
+		"",
+		HTML_PREFIX "<div style=\"width: 71ch;\">On Today, User wrote:</div>"
+		"<blockquote type=\"cite\">"
+		"<pre>" QUOTE_SPAN (QUOTE_CHR) "line 1</pre>"
+		"<pre>" QUOTE_SPAN (QUOTE_CHR) "<br></pre>"
+		"<pre>" QUOTE_SPAN (QUOTE_CHR) "line 2</pre>"
+		"<pre>" QUOTE_SPAN (QUOTE_CHR) "   </pre>"
+		"<pre>" QUOTE_SPAN (QUOTE_CHR) "line 3</pre>"
+		"<pre>" QUOTE_SPAN (QUOTE_CHR) " </pre>"
+		"</blockquote>" HTML_SUFFIX,
+		"On Today, User wrote:\n"
+		"> line 1\n"
+		"> \n"
+		"> line 2\n"
+		">    \n"
+		"> line 3\n"
+		">  \n"))
 		g_test_fail ();
 }
 
