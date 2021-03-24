@@ -2660,6 +2660,36 @@ test_issue_1424_level2 (TestFixture *fixture)
 	}
 }
 
+static void
+test_issue_1439 (TestFixture *fixture)
+{
+	if (!test_utils_process_commands (fixture,
+		"mode:html\n")) {
+		g_test_fail ();
+		return;
+	}
+
+	test_utils_set_clipboard_text ("The <a href='http://www.example.com/'>example com</a> site", TRUE);
+
+	if (!test_utils_run_simple_test (fixture,
+		"action:style-list-bullet\n"
+		"type:l1\\nl2\\n\n"
+		"action:paste\n"
+		"type:\\nl4\n",
+		HTML_PREFIX "<ul>"
+		"<li>l1</li>"
+		"<li>l2</li>"
+		"<li>The <a href='http://www.example.com/'>example com</a> site</li>"
+		"<li>l4</li>"
+		"</ul>"
+		HTML_SUFFIX,
+		" * l1\n"
+		" * l2\n"
+		" * The example com site\n"
+		" * l4\n"))
+		g_test_fail ();
+}
+
 void
 test_add_html_editor_bug_tests (void)
 {
@@ -2706,4 +2736,5 @@ test_add_html_editor_bug_tests (void)
 	test_utils_add_test ("/issue/1159", test_issue_1159);
 	test_utils_add_test ("/issue/1424-level1", test_issue_1424_level1);
 	test_utils_add_test ("/issue/1424-level2", test_issue_1424_level2);
+	test_utils_add_test ("/issue/1439", test_issue_1439);
 }
