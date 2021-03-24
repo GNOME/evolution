@@ -5407,6 +5407,11 @@ EvoEditor.InsertContent = function(text, isHTML, quote, preferPre)
 				!content.getElementsByTagName("DIV").length &&
 				!content.getElementsByTagName("PRE").length;
 
+			/* Insert inside LI should not keep the top-most DIV/PRE */
+			if (useOuterHTML && selection.focusNode && (selection.focusNode.tagName == "LI" ||
+			    EvoEditor.hasElementWithTagNameAsParent(selection.focusNode, "LI")))
+				useOuterHTML = false;
+
 			if (!useOuterHTML && selection.isCollapsed && selection.focusNode && EvoEditor.isEmptyParagraph(selection.focusNode)) {
 				var node = selection.focusNode, lastNode = null;
 
