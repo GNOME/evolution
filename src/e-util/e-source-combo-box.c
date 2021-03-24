@@ -85,9 +85,13 @@ source_combo_box_traverse (GNode *node,
 		extension = e_source_get_extension (source, ext_name);
 		sensitive = TRUE;
 
-		if (g_hash_table_size (combo_box->priv->hide_sources) && E_IS_SOURCE_BACKEND (extension) &&
-		    g_hash_table_contains (combo_box->priv->hide_sources, e_source_backend_get_backend_name (E_SOURCE_BACKEND (extension)))) {
-			return FALSE;
+		if (g_hash_table_size (combo_box->priv->hide_sources) && E_IS_SOURCE_BACKEND (extension)) {
+			ESourceBackend *backend = E_SOURCE_BACKEND (extension);
+
+			if (e_source_backend_get_backend_name (backend) &&
+			    g_hash_table_contains (combo_box->priv->hide_sources, e_source_backend_get_backend_name (backend))) {
+				return FALSE;
+			}
 		}
 	}
 
