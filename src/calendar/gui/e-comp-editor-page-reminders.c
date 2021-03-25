@@ -1171,6 +1171,24 @@ ecep_reminders_send_to_clicked_cb (GtkWidget *button,
 }
 
 static gboolean
+ecep_reminders_alarm_description_differs (ECalComponentAlarm *ca,
+					  const gchar *old_summary)
+{
+	if (!ecep_reminders_has_needs_description_property (ca)) {
+		ECalComponentText *desc;
+
+		desc = e_cal_component_alarm_get_description (ca);
+		if (!desc || !e_cal_component_text_get_value (desc) ||
+		    !old_summary || strcmp (e_cal_component_text_get_value (desc), old_summary))
+			return TRUE;
+
+		ecep_reminders_add_needs_description_property (ca);
+	}
+
+	return FALSE;
+}
+
+static gboolean
 ecep_reminders_is_custom_alarm (ECompEditorPageReminders *page_reminders,
 				ECalComponentAlarm *ca,
 				const gchar *old_summary,
@@ -1179,7 +1197,6 @@ ecep_reminders_is_custom_alarm (ECompEditorPageReminders *page_reminders,
 	ECalComponentAlarmTrigger *trigger;
 	ECalComponentAlarmRepeat *repeat;
 	ECalComponentAlarmAction action;
-	ECalComponentText *desc;
 	ICalDuration *duration;
 	GSList *attachments;
 	gint ii, value;
@@ -1192,12 +1209,8 @@ ecep_reminders_is_custom_alarm (ECompEditorPageReminders *page_reminders,
 	if (attachments)
 		return TRUE;
 
-	if (!ecep_reminders_has_needs_description_property (ca)) {
-		desc = e_cal_component_alarm_get_description (ca);
-		if (!desc || !e_cal_component_text_get_value (desc) ||
-		    !old_summary || strcmp (e_cal_component_text_get_value (desc), old_summary))
-			return TRUE;
-	}
+	if (ecep_reminders_alarm_description_differs (ca, old_summary))
+		return TRUE;
 
 	repeat = e_cal_component_alarm_get_repeat (ca);
 	if (repeat && e_cal_component_alarm_repeat_get_repetitions (repeat) != 0)
@@ -1444,11 +1457,13 @@ ecep_reminders_fill_widgets (ECompEditorPage *page,
 	comp = e_cal_component_new_from_icalcomponent (i_cal_component_clone (component));
 	if (comp && e_cal_component_has_alarms (comp)) {
 		GSList *alarms, *link;
+		const gchar *summary;
 		gint alarm_index = 0;
 
+		summary = i_cal_component_get_summary (component);
 		alarms = e_cal_component_get_alarm_uids (comp);
 
-		if (ecep_reminders_is_custom_alarm_uid_list (page_reminders, comp, alarms, i_cal_component_get_summary (component), &alarm_index)) {
+		if (ecep_reminders_is_custom_alarm_uid_list (page_reminders, comp, alarms, summary, &alarm_index)) {
 			GtkTreeModel *model;
 
 			model = gtk_combo_box_get_model (GTK_COMBO_BOX (page_reminders->priv->alarms_combo));
@@ -1467,6 +1482,7 @@ ecep_reminders_fill_widgets (ECompEditorPage *page,
 			const gchar *uid = link->data;
 
 			ca = e_cal_component_get_alarm (comp, uid);
+			ecep_reminders_alarm_description_differs (ca, summary);
 			e_alarm_list_append (page_reminders->priv->alarm_list, NULL, ca);
 			e_cal_component_alarm_free (ca);
 		}
@@ -1526,29 +1542,35 @@ ecep_reminders_fill_component (ECompEditorPage *page,
 			continue;
 		}
 
+		/* We clone the alarm to maintain the invariant that the alarm
+		 * structures in the list did *not* come from the component.
+		 */
+
+		alarm_copy = e_cal_component_alarm_copy (alarm);
+
 		/* We set the description of the alarm if it's got
 		 * the X-EVOLUTION-NEEDS-DESCRIPTION property.
 		 */
-		if (ecep_reminders_remove_needs_description_property (alarm)) {
+		if (ecep_reminders_remove_needs_description_property (alarm_copy)) {
 			ECalComponentText *summary;
 
 			summary = e_cal_component_get_summary (comp);
-			e_cal_component_alarm_take_description (alarm, summary);
+			e_cal_component_alarm_take_description (alarm_copy, summary);
 		}
 
-		action = e_cal_component_alarm_get_action (alarm);
+		action = e_cal_component_alarm_get_action (alarm_copy);
 
 		if (action == E_CAL_COMPONENT_ALARM_EMAIL) {
 			ECalComponentText *summary;
 
 			summary = e_cal_component_get_summary (comp);
-			e_cal_component_alarm_take_summary (alarm, summary);
+			e_cal_component_alarm_take_summary (alarm_copy, summary);
 		} else {
-			e_cal_component_alarm_set_summary (alarm, NULL);
+			e_cal_component_alarm_set_summary (alarm_copy, NULL);
 		}
 
 		if (action == E_CAL_COMPONENT_ALARM_EMAIL || action == E_CAL_COMPONENT_ALARM_DISPLAY) {
-			if (!e_cal_component_alarm_get_description (alarm)) {
+			if (!e_cal_component_alarm_get_description (alarm_copy)) {
 				const gchar *description;
 
 				description = i_cal_component_get_description (e_cal_component_get_icalcomponent (comp));
@@ -1556,19 +1578,14 @@ ecep_reminders_fill_component (ECompEditorPage *page,
 					description = i_cal_component_get_summary (e_cal_component_get_icalcomponent (comp));
 
 				if (description && *description)
-					e_cal_component_alarm_take_description (alarm, e_cal_component_text_new (description, NULL));
+					e_cal_component_alarm_take_description (alarm_copy, e_cal_component_text_new (description, NULL));
 				else
-					e_cal_component_alarm_set_description (alarm, NULL);
+					e_cal_component_alarm_set_description (alarm_copy, NULL);
 			}
 		} else {
-			e_cal_component_alarm_set_description (alarm, NULL);
+			e_cal_component_alarm_set_description (alarm_copy, NULL);
 		}
 
-		/* We clone the alarm to maintain the invariant that the alarm
-		 * structures in the list did *not* come from the component.
-		 */
-
-		alarm_copy = e_cal_component_alarm_copy (alarm);
 		e_cal_component_add_alarm (comp, alarm_copy);
 		e_cal_component_alarm_free (alarm_copy);
 	}
