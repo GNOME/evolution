@@ -8,8 +8,8 @@ msgstr ""
 "Project-Id-Version: evolution.help.HEAD\n"
 "Report-Msgid-Bugs-To: http://bugzilla.gnome.org/enter_bug.cgi?"
 "product=evolution&keywords=I18N+L10N&component=User%20Documentation\n"
-"POT-Creation-Date: 2021-03-09 09:06+0000\n"
-"PO-Revision-Date: 2021-03-09 22:28+0100\n"
+"POT-Creation-Date: 2021-03-19 18:02+0000\n"
+"PO-Revision-Date: 2021-03-28 01:33+0100\n"
 "Last-Translator: Anders Jonsson <anders.jonsson@norsjovallen.se>\n"
 "Language-Team: Swedish <tp-sv@listor.tp-sv.se>\n"
 "Language: sv\n"
@@ -3637,7 +3637,6 @@ msgstr ""
 "aktiverat denna funktionalitet i Evolution. Fråga i ett supportforum för din "
 "distribution."
 
-# sebras: <app>?
 #. (itstool) path: item/p
 #: C/import-apps-outlook.page:67 C/import-single-files.page:27
 msgid ""
@@ -5529,8 +5528,7 @@ msgid ""
 "\">access for less secure apps in your Gmail account settings</link>."
 msgstr ""
 "Tillåt <link href=\"https://www.google.com/settings/security/lesssecureapps"
-"\">åtkomst för mindre tillförlitliga appar i dina kontoinställningar för "
-"Gmail</link>."
+"\">åtkomst för mindre säkra appar i dina kontoinställningar för Gmail</link>."
 
 #. (itstool) path: info/desc
 #: C/mail-account-manage-imap-plus.page:5
@@ -7354,8 +7352,8 @@ msgid ""
 "The icons in the tool bar are explained in tooltips which appear when you "
 "hold your mouse pointer over the buttons."
 msgstr ""
-"Ikonerna i verktygsfältet är förklarade i verktygstips som visas när du "
-"håller din musmarkör över knapparna."
+"Ikonerna i verktygsfältet är förklarade i inforutor som visas när du håller "
+"din musmarkör över knapparna."
 
 #. (itstool) path: page/p
 #: C/mail-composer-html.page:28
