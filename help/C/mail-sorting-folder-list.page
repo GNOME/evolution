@@ -8,6 +8,7 @@
     <link type="guide" xref="mail-layout-changing"/>
 
     <revision pkgversion="3.3.91" version="0.2" date="2013-06-22" status="draft"/>
+    <revision pkgversion="3.38.4" version="0.3" date="2021-03-28" status="draft"/>
     <credit type="author">
       <name its:translate="no">Andre Klapper</name>
       <email its:translate="no">ak-47@gmx.net</email>
@@ -33,10 +34,16 @@
 
 <section id="change-folder-sort-order">
 <title>Changing the sort order</title>
-
+<list>
+<item>
 <p>You can change the default sort order of the top-level nodes under <guiseq><gui>Edit</gui><gui>Preferences</gui><gui>Mail Accounts</gui></guiseq> by dragging an account in the list up or down.</p>
 
 <p>You can revert your custom sort order by choosing <guiseq><gui>Edit</gui><gui>Preferences</gui><gui>Mail Accounts</gui><gui style="button">Restore Default</gui></guiseq>.</p>
+</item>
+<item>
+<p>You can change the sort order of folders under <guiseq><gui>Folder</gui><gui>Edit Sort Order…</gui></guiseq>.</p>
+</item>
+</list>
 </section>
 </page>
 
