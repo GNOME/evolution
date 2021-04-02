@@ -64,8 +64,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: evolution\n"
 "Report-Msgid-Bugs-To: https://gitlab.gnome.org/GNOME/evolution/issues\n"
-"POT-Creation-Date: 2021-03-28 00:35+0000\n"
-"PO-Revision-Date: 2021-04-02 16:09+0200\n"
+"POT-Creation-Date: 2021-04-02 14:12+0000\n"
+"PO-Revision-Date: 2021-04-02 16:23+0200\n"
 "Last-Translator: Nathan Follens <nthn@unseen.is>\n"
 "Language-Team: Dutch <gnome-nl-list@gnome.org>\n"
 "Language: nl\n"
@@ -1587,6 +1587,19 @@ msgstr "Geciteerde tekst met tekstomloop in antwoorden"
 msgid "If set to “true” quoted text in replies will be wrapped."
 msgstr "Indien ingeschakeld zal aangehaalde tekst met oploop zijn."
 
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:78
+msgid "Paste plain text as preformatted"
+msgstr "Platte tekst plakken als voorgeformatteerd"
+
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:79
+msgid ""
+"When set, paste a plain text into the composer body as Preformatted "
+"paragraph. When not set, paste it as Normal paragraph."
+msgstr ""
+"Indien ingeschakeld wordt platte tekst in de verwerker geplakt als "
+"voorgeformatteerde alinea. Indien uitgeschakeld wordt de tekst geplakt als "
+"normale alinea."
+
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:80
 msgid "Convert UTC time in reply credits to local time"
 msgstr "UTC-tijd in antwoorden omzetten naar lokale tijd"
@@ -2055,6 +2068,14 @@ msgstr ""
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:164
 msgid "Whether to compress thread level"
 msgstr "Of het conversatiestructuurniveau gecomprimeerd moet worden"
+
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:165
+msgid ""
+"Set to true to compress thread levels for flat conversations, to make the "
+"level not so deep."
+msgstr ""
+"Schakel dit in om conversatiestructuurniveaus te comprimeren voor platte "
+"gesprekken om het niveau niet zo diep te maken."
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:166
 msgid "Sort accounts alphabetically in a folder tree"
@@ -2876,6 +2897,23 @@ msgstr ""
 "Indien ingeschakeld worden kleuren in HTML-berichten genegeerd en de "
 "bureaubladthemakleuren gebruikt."
 
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:303
+msgid ""
+"Whether to preserve expand state of the folders when calling Copy/Move to "
+"Folder."
+msgstr ""
+"Bepaalt of de opengeklapte staat van mappen behouden moet worden bij het "
+"uitvoeren van ‘Kopiëren/verplaatsen naar map’."
+
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:304
+msgid ""
+"If enabled, the Copy/Move to Folder dialog will preserve the expand state of "
+"the folders in the dialog, otherwise all the folders will be expanded."
+msgstr ""
+"Indien ingeschakeld behoudt het dialoogvenster ‘Kopiëren/verplaatsen naar "
+"map’ de opengeklapte staat van de mappen in het dialoogvenster, anders "
+"worden alle mappen opengeklapt."
+
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:305
 msgid "(Deprecated) Default forward style"
 msgstr "(Wordt niet meer gebruikt) Standaard manier van doorsturen"
@@ -3248,6 +3286,26 @@ msgstr ""
 "gepubliceerd. Elke waarde specificeert een XML met instellingen voor het "
 "publiceren naar een doelmap."
 
+#: ../data/org.gnome.evolution.plugin.sender-validator.gschema.xml.in.h:1
+msgid "[]"
+msgstr "[]"
+
+#: ../data/org.gnome.evolution.plugin.sender-validator.gschema.xml.in.h:2
+msgid "List of assignments for recipient and the address to be used with it"
+msgstr ""
+"Lijst van opdrachten voor de geadresseerde en het adres dat ermee gebruikt "
+"dient te worden"
+
+#: ../data/org.gnome.evolution.plugin.sender-validator.gschema.xml.in.h:3
+msgid ""
+"The list is of format 'recipient&lt;tab&gt;sender', where the recipient can "
+"be part of the address only and the sender is a full email address, which "
+"should match the From address precisely."
+msgstr ""
+"De lijst is van het formaat ‘geadresseerde&lt;tab&gt;afzender’, waarbij de "
+"geadresseerde ook een deel van een adres kan zijn, en de afzender een "
+"volledig e-mailadres is, dat exact dient overeen te komen met het Van-adres."
+
 #: ../data/org.gnome.evolution.plugin.templates.gschema.xml.in.h:1
 msgid ""
 "List of keyword/value pairs for the Templates plugin to substitute in a "
@@ -3454,6 +3512,36 @@ msgstr ""
 "Het voorvoegsel van een URI die voor webzoekopdrachten gebruikt moet worden. "
 "De eigenlijke tekstselectie wordt aan deze tekenreeks toegevoegd. De URI zou "
 "moeten beginnen met https://."
+
+#: ../data/org.gnome.evolution.shell.gschema.xml.in.h:40
+msgid "Minimum font size to be used by WebKitGTK"
+msgstr "Minimale lettergrootte te gebruiken door WebKitGTK"
+
+#: ../data/org.gnome.evolution.shell.gschema.xml.in.h:41
+msgid ""
+"The minimum font size in pixels used to display text in WebKitGTK. This "
+"setting controls the absolute smallest size. Values other than 0 can "
+"potentially break page layouts. Negative values are treated as 0."
+msgstr ""
+"De minimale lettergrootte in pixels te gebruiken om tekst in WebKitGTK mee "
+"weer te geven. Deze instelling bepaalt de absoluut kleinste grootte. Waarden "
+"verschillend van 0 kunnen mogelijk leiden tot onjuiste paginaindelingen. "
+"Negatieve waarden worden behandeld als 0."
+
+#: ../data/org.gnome.evolution.shell.gschema.xml.in.h:42
+msgid "Set of additional illegal characters in the filename"
+msgstr "Set van extra illegale tekens in de bestandsnaam"
+
+#: ../data/org.gnome.evolution.shell.gschema.xml.in.h:43
+msgid ""
+"When generating file names from custom strings some non-printable or "
+"reserved characters are replaced with an underscore. Here's a set of "
+"additional characters to be replaced."
+msgstr ""
+"Bij het genereren van bestandsnamen uit aangepaste tekenreeksen worden "
+"sommige niet-afdrukbare of voorbehouden tekens vervangen door een "
+"underscore. Dit is een set van extra tekens die op die manier vervangen "
+"dienen te worden."
 
 #: ../data/org.gnome.evolution.spamassassin.gschema.xml.in.h:1
 msgid "Use only local spam tests."
@@ -7474,7 +7562,6 @@ msgstr "Tijd: %s %s"
 #: ../src/calendar/gui/e-task-table.c:882
 #: ../src/calendar/gui/e-to-do-pane.c:590 ../src/e-util/e-misc-utils.c:4614
 #: ../src/e-util/e-text.c:566 ../src/e-util/e-web-view.c:4175
-#| msgid "Cell…"
 msgid "…"
 msgstr "…"
 
