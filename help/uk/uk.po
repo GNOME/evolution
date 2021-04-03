@@ -6,8 +6,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: evolution master\n"
-"POT-Creation-Date: 2021-01-24 08:50+0000\n"
-"PO-Revision-Date: 2021-01-24 18:30+0200\n"
+"POT-Creation-Date: 2021-03-28 18:28+0000\n"
+"PO-Revision-Date: 2021-04-03 22:33+0300\n"
 "Last-Translator: Yuri Chornoivan <yurchor@ukr.net>\n"
 "Language-Team: Ukrainian <trans-uk@lists.fedoraproject.org>\n"
 "Language: uk\n"
@@ -12399,17 +12399,17 @@ msgid "Sorting the mail folder list in the left pane."
 msgstr "Упорядковування списку поштових тек на лівій панелі."
 
 #. (itstool) path: page/title
-#: C/mail-sorting-folder-list.page:21
+#: C/mail-sorting-folder-list.page:22
 msgid "Sorting the mail folder list"
 msgstr "Упорядковування списку поштових тек"
 
 #. (itstool) path: section/title
-#: C/mail-sorting-folder-list.page:24
+#: C/mail-sorting-folder-list.page:25
 msgid "Default sort order"
 msgstr "Типове впорядкування"
 
 #. (itstool) path: section/p
-#: C/mail-sorting-folder-list.page:25
+#: C/mail-sorting-folder-list.page:26
 msgid ""
 "By default the <link xref=\"intro-main-window#e-mail\">mail folder list</"
 "link> in the left pane contains top-level nodes in the following order:"
@@ -12418,7 +12418,7 @@ msgstr ""
 "на лівій панелі вузли верхнього рівня буде показано у такому порядку:"
 
 #. (itstool) path: item/p
-#: C/mail-sorting-folder-list.page:27
+#: C/mail-sorting-folder-list.page:28
 msgid ""
 "<gui>On This Computer</gui> - contains all mail for local account types (if "
 "configured)"
@@ -12427,14 +12427,14 @@ msgstr ""
 "записів (якщо такі налаштовано)"
 
 #. (itstool) path: item/p
-#: C/mail-sorting-folder-list.page:28
+#: C/mail-sorting-folder-list.page:29
 msgid "One or more remote email account types (if configured)"
 msgstr ""
 "Один або декілька облікових записів із віддаленим зберіганням поштових даних "
 "(якщо такі налаштовано)"
 
 #. (itstool) path: item/p
-#: C/mail-sorting-folder-list.page:29
+#: C/mail-sorting-folder-list.page:30
 msgid ""
 "<gui><link xref=\"mail-search-folders\">Search Folders</link></gui> (if "
 "enabled)"
@@ -12443,17 +12443,17 @@ msgstr ""
 "link></gui> (якщо такі увімкнено)"
 
 #. (itstool) path: section/p
-#: C/mail-sorting-folder-list.page:31
+#: C/mail-sorting-folder-list.page:32
 msgid "The folders under each top-level node are sorted in alphabetical order."
 msgstr "Теки під кожним вузлом верхнього рівня упорядковано за абеткою."
 
 #. (itstool) path: section/title
-#: C/mail-sorting-folder-list.page:35
+#: C/mail-sorting-folder-list.page:36
 msgid "Changing the sort order"
 msgstr "Зміна упорядкування"
 
-#. (itstool) path: section/p
-#: C/mail-sorting-folder-list.page:37
+#. (itstool) path: item/p
+#: C/mail-sorting-folder-list.page:39
 msgid ""
 "You can change the default sort order of the top-level nodes under "
 "<guiseq><gui>Edit</gui><gui>Preferences</gui><gui>Mail Accounts</gui></"
@@ -12464,8 +12464,8 @@ msgstr ""
 "gui></guiseq> перетягуванням пунктів у списку вище або нижче за поточну "
 "позицію."
 
-#. (itstool) path: section/p
-#: C/mail-sorting-folder-list.page:39
+#. (itstool) path: item/p
+#: C/mail-sorting-folder-list.page:41
 msgid ""
 "You can revert your custom sort order by choosing <guiseq><gui>Edit</"
 "gui><gui>Preferences</gui><gui>Mail Accounts</gui><gui style=\"button"
@@ -12474,6 +12474,18 @@ msgstr ""
 "Повернутися до типового упорядкування можна за допомогою пункту "
 "<guiseq><gui>Зміни</gui><gui>Параметри</gui><gui>Облікові записи</gui><gui "
 "style=\"button\">Типові значення</gui></guiseq>."
+
+#. (itstool) path: item/p
+#: C/mail-sorting-folder-list.page:44
+#| msgid ""
+#| "You can disable the to do bar by toggling <guiseq><gui>View</"
+#| "gui><gui>Layout</gui><gui>Show To Do Bar</gui></guiseq>."
+msgid ""
+"You can change the sort order of folders under <guiseq><gui>Folder</"
+"gui><gui>Edit Sort Order…</gui></guiseq>."
+msgstr ""
+"Ви можете змінити спосіб упорядкування тек за допомогою пункту меню <guiseq><gui>Тека</"
+"gui><gui>Змінити порядок сортування…</gui></guiseq>."
 
 #. (itstool) path: info/desc
 #: C/mail-sorting-message-list.page:5
@@ -14891,13 +14903,6 @@ msgstr "формальний вираз"
 
 #. (itstool) path: item/p
 #: C/xinclude-filter-vfolder-conditions.xml:62
-#| msgid ""
-#| "(For programmers only) If you know your way around a <_:link-1/>, or "
-#| "regular expression, this option allows you to search for complex patterns "
-#| "of letters, so that you can find, for example, all words that start with "
-#| "\"a\" and end with \"m\", and are between six and fifteen letters long, "
-#| "or all messages that declare a particular header twice. For information "
-#| "about how to use regular expressions, check <_:link-2/> command."
 msgid ""
 "(For advanced users) If you know your way around a <_:link-1/>, or regular "
 "expression, this option allows you to search for complex patterns of "
@@ -14906,12 +14911,13 @@ msgid ""
 "messages that declare a particular header twice. <_:app-2/> supports the "
 "Extended Regular Expression syntax (ERE)."
 msgstr ""
-"(Лише для досвідчених користувачів) Якщо ви знаєте, як працювати із <_:link-1/> або "
-"формальними виразами, за допомогою цього варіанта ви зможете виконувати "
-"пошук складних взірців, складених із літер. Отже ви можете, наприклад, "
-"виконати пошук усіх слів, які починаються з «а» і закінчуються на «м», мають "
-"від 6 до 15 літер у довжину, або усіх повідомлень, у яких певний заголовок "
-"оголошено двічі. У <_:app-2/> передбачено підтримку синтаксису розширених формальних виразів (ERE)."
+"(Лише для досвідчених користувачів) Якщо ви знаєте, як працювати із <_:"
+"link-1/> або формальними виразами, за допомогою цього варіанта ви зможете "
+"виконувати пошук складних взірців, складених із літер. Отже ви можете, "
+"наприклад, виконати пошук усіх слів, які починаються з «а» і закінчуються на "
+"«м», мають від 6 до 15 літер у довжину, або усіх повідомлень, у яких певний "
+"заголовок оголошено двічі. У <_:app-2/> передбачено підтримку синтаксису "
+"розширених формальних виразів (ERE)."
 
 #. (itstool) path: section/title
 #. (itstool) path: guiseq/gui
