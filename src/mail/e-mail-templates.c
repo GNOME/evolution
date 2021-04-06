@@ -515,6 +515,7 @@ e_mail_templates_apply_sync (CamelMimeMessage *source_message,
 	CamelDataWrapper *dw;
 	const CamelNameValueArray *headers;
 	CamelMimePart *template_part = NULL;
+	gchar *references, *message_id;
 	guint ii, len;
 
 	g_return_val_if_fail (CAMEL_IS_MIME_MESSAGE (source_message), NULL);
@@ -577,7 +578,10 @@ e_mail_templates_apply_sync (CamelMimeMessage *source_message,
 			continue;
 
 		if (g_ascii_strncasecmp (header_name, "content-", 8) != 0 &&
-		    g_ascii_strcasecmp (header_name, "from") != 0) {
+		    g_ascii_strcasecmp (header_name, "from") != 0 &&
+		    g_ascii_strcasecmp (header_name, "Message-ID") != 0 &&
+		    g_ascii_strcasecmp (header_name, "In-Reply-To") != 0 &&
+		    g_ascii_strcasecmp (header_name, "References") != 0) {
 			gchar *new_header_value = NULL;
 
 			/* Some special handling of the 'subject' header */
@@ -627,6 +631,32 @@ e_mail_templates_apply_sync (CamelMimeMessage *source_message,
 
 	if (camel_mime_message_get_reply_to (template_message))
 		camel_mime_message_set_reply_to (result_message, camel_mime_message_get_reply_to (template_message));
+
+	/* Add In-Reply-To and References. */
+
+	message_id = camel_header_unfold (camel_medium_get_header (CAMEL_MEDIUM (source_message), "Message-ID"));
+	references = camel_header_unfold (camel_medium_get_header (CAMEL_MEDIUM (source_message), "References"));
+
+	if (message_id && *message_id) {
+		gchar *reply_refs;
+
+		camel_medium_add_header (CAMEL_MEDIUM (result_message), "In-Reply-To", message_id);
+
+		if (references)
+			reply_refs = g_strdup_printf ("%s %s", references, message_id);
+		else
+			reply_refs = NULL;
+
+		camel_medium_add_header (CAMEL_MEDIUM (result_message), "References", reply_refs ? reply_refs : message_id);
+
+		g_free (reply_refs);
+
+	} else if (references && *references) {
+		camel_medium_add_header (CAMEL_MEDIUM (result_message), "References", references);
+	}
+
+	g_free (message_id);
+	g_free (references);
 
 	g_clear_object (&template_message);
 	g_clear_object (&new_multipart);
