@@ -399,9 +399,9 @@ ECellDateEditValue *
 e_cell_date_edit_value_new (const ICalTime *tt,
 			    const ICalTimezone *zone)
 {
-	g_return_val_if_fail (I_CAL_IS_TIME (tt), NULL);
+	g_return_val_if_fail (I_CAL_IS_TIME ((ICalTime *) tt), NULL);
 	if (zone)
-		g_return_val_if_fail (I_CAL_IS_TIMEZONE (zone), NULL);
+		g_return_val_if_fail (I_CAL_IS_TIMEZONE ((ICalTimezone *) zone), NULL);
 
 	return e_cell_date_edit_value_new_take (i_cal_time_clone (tt),
 		zone ? e_cal_util_copy_timezone (zone) : NULL);
@@ -456,7 +456,7 @@ e_cell_date_edit_value_set_time (ECellDateEditValue *value,
 				 const ICalTime *tt)
 {
 	g_return_if_fail (value != NULL);
-	g_return_if_fail (I_CAL_IS_TIME (tt));
+	g_return_if_fail (I_CAL_IS_TIME ((ICalTime *) tt));
 
 	e_cell_date_edit_value_take_time (value, i_cal_time_clone (tt));
 }
@@ -490,7 +490,7 @@ e_cell_date_edit_value_set_zone (ECellDateEditValue *value,
 {
 	g_return_if_fail (value != NULL);
 	if (zone)
-		g_return_if_fail (I_CAL_IS_TIMEZONE (zone));
+		g_return_if_fail (I_CAL_IS_TIMEZONE ((ICalTimezone *) zone));
 
 	e_cell_date_edit_value_take_zone (value, zone ? e_cal_util_copy_timezone (zone) : NULL);
 }

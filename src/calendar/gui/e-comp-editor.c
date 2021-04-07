@@ -278,7 +278,7 @@ e_comp_editor_set_component (ECompEditor *comp_editor,
 			     const ICalComponent *component)
 {
 	g_return_if_fail (E_IS_COMP_EDITOR (comp_editor));
-	g_return_if_fail (I_CAL_IS_COMPONENT (component));
+	g_return_if_fail (I_CAL_IS_COMPONENT ((ICalComponent *) component));
 
 	if (comp_editor->priv->component != component) {
 		g_clear_object (&comp_editor->priv->component);
@@ -3552,7 +3552,7 @@ e_comp_editor_holds_component (ECompEditor *comp_editor,
 	gboolean equal;
 
 	g_return_val_if_fail (E_IS_COMP_EDITOR (comp_editor), FALSE);
-	g_return_val_if_fail (I_CAL_IS_COMPONENT (component), FALSE);
+	g_return_val_if_fail (I_CAL_IS_COMPONENT ((ICalComponent *) component), FALSE);
 
 	if (!origin_source || !comp_editor->priv->origin_source ||
 	    !e_source_equal (origin_source, comp_editor->priv->origin_source))
@@ -3597,7 +3597,7 @@ e_comp_editor_open_for_component (GtkWindow *parent,
 	g_return_val_if_fail (E_IS_SHELL (shell), NULL);
 	if (origin_source)
 		g_return_val_if_fail (E_IS_SOURCE (origin_source), NULL);
-	g_return_val_if_fail (I_CAL_IS_COMPONENT (component), NULL);
+	g_return_val_if_fail (I_CAL_IS_COMPONENT ((ICalComponent *) component), NULL);
 
 	comp_editor = e_comp_editor_find_existing_for (origin_source, component);
 	if (comp_editor) {
@@ -3643,7 +3643,7 @@ e_comp_editor_find_existing_for (ESource *origin_source,
 
 	if (origin_source)
 		g_return_val_if_fail (E_IS_SOURCE (origin_source), NULL);
-	g_return_val_if_fail (I_CAL_IS_COMPONENT (component), NULL);
+	g_return_val_if_fail (I_CAL_IS_COMPONENT ((ICalComponent *) component), NULL);
 
 	for (link = opened_editors; link; link = g_slist_next (link)) {
 		comp_editor = link->data;
