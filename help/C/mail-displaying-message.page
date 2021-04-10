@@ -7,7 +7,7 @@
     <link type="guide" xref="index#mail-basic" />
     <link type="seealso" xref="mail-composer-html" />
 
-    <revision pkgversion="3.32.2" version="0.3" date="2019-07-25" status="draft"/>
+    <revision pkgversion="3.38.4" version="0.4" date="2021-04-10" status="draft"/>
     <credit type="author">
       <name its:translate="no">Andre Klapper</name>
       <email its:translate="no">ak-47@gmx.net</email>
@@ -20,7 +20,11 @@
 
 <title>Display of a message</title>
 
+<p>Emails can be in two formats: <link xref="https://en.wikipedia.org/wiki/Email#Plain_text_and_HTML">Plain text or HTML</link>. Each format has its pros and cons.</p>
+
 <p>You can define how received HTML messages are displayed via <guiseq><gui>Edit</gui><gui>Preferences</gui><gui>Mail Preferences</gui><gui>HTML Messages</gui></guiseq>. For example, you can display them as plain text or block loading remote content.</p>
+
+<note style="tip"><p>For formatting emails in the composer, see <link xref="mail-composer-html"/>.</p></note>
 
   <section id="advanced">
     <title>Advanced</title>
