@@ -6,8 +6,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: evolution master\n"
-"POT-Creation-Date: 2021-01-24 08:50+0000\n"
-"PO-Revision-Date: 2021-01-24 18:30+0200\n"
+"POT-Creation-Date: 2021-04-10 09:39+0000\n"
+"PO-Revision-Date: 2021-04-10 13:57+0300\n"
 "Last-Translator: Yuri Chornoivan <yurchor@ukr.net>\n"
 "Language-Team: Ukrainian <trans-uk@lists.fedoraproject.org>\n"
 "Language: uk\n"
@@ -15,7 +15,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=4; plural=n==1 ? 3 : n%10==1 && n%100!=11 ? 0 : n%10>=2 && n%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2;\n"
-"X-Generator: Lokalize 20.11.70\n"
+"X-Generator: Lokalize 20.12.0\n"
 
 #. Put one translator per line, in the form NAME <EMAIL>, YEAR1, YEAR2
 msgctxt "_"
@@ -7671,85 +7671,96 @@ msgstr "Опис"
 
 #. (itstool) path: td/p
 #: C/mail-composer-html-text.page:36
+#| msgid "Defaults"
+msgid "Default"
+msgstr "Типовий"
+
+#. (itstool) path: td/p
+#: C/mail-composer-html-text.page:37
+#| msgid "Font size."
+msgid "Font name."
+msgstr "Назва шрифту."
+
+#. (itstool) path: td/p
+#: C/mail-composer-html-text.page:40
 msgid "+0"
 msgstr "+0"
 
 #. (itstool) path: td/p
-#: C/mail-composer-html-text.page:37
+#: C/mail-composer-html-text.page:41
 msgid "Font size."
 msgstr "Розмір шрифту."
 
 #. (itstool) path: td/p
-#: C/mail-composer-html-text.page:41
-msgid ""
-"Color chooser for text. The box displays the current text color. To choose a "
-"new color, click the arrow button to the right. If you have text selected, "
-"the color applies to the selected text. If you do not have text selected, "
-"the color applies to whatever you type next. You can select a background "
-"color or image by right-clicking the message background, then selecting "
-"<guiseq><gui>Style</gui><gui>Page Style</gui></guiseq>."
-msgstr ""
-"Засіб вибору кольору тексту. Показує смужку поточного кольору тексту. Щоб "
-"вибрати інший колір, клацніть на кнопці зі стрілкою, яку розташовано "
-"праворуч. Якщо було позначено якийсь фрагмент тексту, колір буде застосовано "
-"до позначеного тексту. Якщо фрагмент тексту не було позначено, колір буде "
-"застосовано до введеного вами тексту. Ви можете вибрати колір тла або "
-"зображення тла клацнувши правою кнопкою на тлі повідомлення із наступним "
-"вибором у контекстному меню пункту <guiseq><gui>Стиль</gui><gui>Стиль "
-"сторінки</gui></guiseq>."
-
-#. (itstool) path: td/p
-#: C/mail-composer-html-text.page:44
-msgid "TT"
-msgstr "TT"
-
-#. (itstool) path: td/p
 #: C/mail-composer-html-text.page:45
-msgid "Typewriter text, which is similar to a monospace font."
-msgstr "Шрифт друкарської машинки — подібний до моноширинного шрифту."
+msgid "Text color."
+msgstr ""
+"Колір тексту."
 
 #. (itstool) path: td/p
-#: C/mail-composer-html-text.page:48
+#: C/mail-composer-html-text.page:45 C/mail-composer-html-text.page:49
+#| msgid ""
+#| "Use these buttons in the lower tool bar to determine the way your email "
+#| "looks. If you have text selected, the style applies to the selected text. "
+#| "If you do not have text selected, the style applies to whatever you type "
+#| "next."
+msgid ""
+"The box displays the current text color. If you have text selected, the "
+"color applies to the selected text. If you do not have text selected, the "
+"color applies to whatever you type next."
+msgstr ""
+"У полі буде показано поточний колір тексту. Якщо вами було позначено "
+"фрагмент тексту, колір буде застосовано до позначеного фрагмента. Якщо текст "
+"не було позначено, колір буде застосовано до введеного вами тексту."
+
+#. (itstool) path: td/p
+#: C/mail-composer-html-text.page:49
+msgid "Background color of the text."
+msgstr ""
+"Колір тла тексту."
+
+#. (itstool) path: td/p
+#: C/mail-composer-html-text.page:52
 msgid "Bold A"
 msgstr "Жирне A"
 
 #. (itstool) path: td/p
-#: C/mail-composer-html-text.page:49
+#: C/mail-composer-html-text.page:53
 msgid "Bolds the text."
 msgstr "Робить текст напівжирним."
 
 #. (itstool) path: td/p
-#: C/mail-composer-html-text.page:52
+#: C/mail-composer-html-text.page:56
 msgid "Italic A"
 msgstr "Курсивне A"
 
 #. (itstool) path: td/p
-#: C/mail-composer-html-text.page:53
+#: C/mail-composer-html-text.page:57
 msgid "Italicizes the text."
 msgstr "Перетворює текст на курсивний."
 
 #. (itstool) path: td/p
-#: C/mail-composer-html-text.page:56
+#: C/mail-composer-html-text.page:60
 msgid "Underlined A"
 msgstr "Підкреслене A"
 
 #. (itstool) path: td/p
-#: C/mail-composer-html-text.page:57
+#: C/mail-composer-html-text.page:61
 msgid "Underlines the text."
 msgstr "Підкреслює текст."
 
 #. (itstool) path: td/p
-#: C/mail-composer-html-text.page:60
+#: C/mail-composer-html-text.page:64
 msgid "Strike through A"
 msgstr "Перекреслене A"
 
 #. (itstool) path: td/p
-#: C/mail-composer-html-text.page:61
+#: C/mail-composer-html-text.page:65
 msgid "Marks a line through the text."
 msgstr "Закреслює текст лінією."
 
 #. (itstool) path: section/p
-#: C/mail-composer-html-text.page:65
+#: C/mail-composer-html-text.page:69
 msgid ""
 "The other buttons are explained under <link xref=\"mail-composer-"
 "html#formatting-options-html\"/>."
@@ -14891,13 +14902,6 @@ msgstr "формальний вираз"
 
 #. (itstool) path: item/p
 #: C/xinclude-filter-vfolder-conditions.xml:62
-#| msgid ""
-#| "(For programmers only) If you know your way around a <_:link-1/>, or "
-#| "regular expression, this option allows you to search for complex patterns "
-#| "of letters, so that you can find, for example, all words that start with "
-#| "\"a\" and end with \"m\", and are between six and fifteen letters long, "
-#| "or all messages that declare a particular header twice. For information "
-#| "about how to use regular expressions, check <_:link-2/> command."
 msgid ""
 "(For advanced users) If you know your way around a <_:link-1/>, or regular "
 "expression, this option allows you to search for complex patterns of "
@@ -14906,12 +14910,13 @@ msgid ""
 "messages that declare a particular header twice. <_:app-2/> supports the "
 "Extended Regular Expression syntax (ERE)."
 msgstr ""
-"(Лише для досвідчених користувачів) Якщо ви знаєте, як працювати із <_:link-1/> або "
-"формальними виразами, за допомогою цього варіанта ви зможете виконувати "
-"пошук складних взірців, складених із літер. Отже ви можете, наприклад, "
-"виконати пошук усіх слів, які починаються з «а» і закінчуються на «м», мають "
-"від 6 до 15 літер у довжину, або усіх повідомлень, у яких певний заголовок "
-"оголошено двічі. У <_:app-2/> передбачено підтримку синтаксису розширених формальних виразів (ERE)."
+"(Лише для досвідчених користувачів) Якщо ви знаєте, як працювати із <_:"
+"link-1/> або формальними виразами, за допомогою цього варіанта ви зможете "
+"виконувати пошук складних взірців, складених із літер. Отже ви можете, "
+"наприклад, виконати пошук усіх слів, які починаються з «а» і закінчуються на "
+"«м», мають від 6 до 15 літер у довжину, або усіх повідомлень, у яких певний "
+"заголовок оголошено двічі. У <_:app-2/> передбачено підтримку синтаксису "
+"розширених формальних виразів (ERE)."
 
 #. (itstool) path: section/title
 #. (itstool) path: guiseq/gui
@@ -15078,6 +15083,29 @@ msgstr ""
 #: C/xinclude-searching.xml:30
 msgid "Click <_:gui-1/>."
 msgstr "Натисніть <_:gui-1/>."
+
+#~ msgid ""
+#~ "Color chooser for text. The box displays the current text color. To "
+#~ "choose a new color, click the arrow button to the right. If you have text "
+#~ "selected, the color applies to the selected text. If you do not have text "
+#~ "selected, the color applies to whatever you type next. You can select a "
+#~ "background color or image by right-clicking the message background, then "
+#~ "selecting <guiseq><gui>Style</gui><gui>Page Style</gui></guiseq>."
+#~ msgstr ""
+#~ "Засіб вибору кольору тексту. Показує смужку поточного кольору тексту. Щоб "
+#~ "вибрати інший колір, клацніть на кнопці зі стрілкою, яку розташовано "
+#~ "праворуч. Якщо було позначено якийсь фрагмент тексту, колір буде "
+#~ "застосовано до позначеного тексту. Якщо фрагмент тексту не було "
+#~ "позначено, колір буде застосовано до введеного вами тексту. Ви можете "
+#~ "вибрати колір тла або зображення тла клацнувши правою кнопкою на тлі "
+#~ "повідомлення із наступним вибором у контекстному меню пункту "
+#~ "<guiseq><gui>Стиль</gui><gui>Стиль сторінки</gui></guiseq>."
+
+#~ msgid "TT"
+#~ msgstr "TT"
+
+#~ msgid "Typewriter text, which is similar to a monospace font."
+#~ msgstr "Шрифт друкарської машинки — подібний до моноширинного шрифту."
 
 #~ msgid "grep"
 #~ msgstr "grep"
