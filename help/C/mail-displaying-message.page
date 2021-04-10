@@ -20,7 +20,7 @@
 
 <title>Display of a message</title>
 
-<p>Emails can be in two formats: <link xref="https://en.wikipedia.org/wiki/Email#Plain_text_and_HTML">Plain text or HTML</link>. Each format has its pros and cons.</p>
+<p>Emails can be in two formats: <link href="https://en.wikipedia.org/wiki/Email#Plain_text_and_HTML">Plain text or HTML</link>. Each format has its pros and cons.</p>
 
 <p>You can define how received HTML messages are displayed via <guiseq><gui>Edit</gui><gui>Preferences</gui><gui>Mail Preferences</gui><gui>HTML Messages</gui></guiseq>. For example, you can display them as plain text or block loading remote content.</p>
 
