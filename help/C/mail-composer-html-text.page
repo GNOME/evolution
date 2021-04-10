@@ -33,16 +33,20 @@
     <td><p>Description</p></td>
   </tr>
   <tr>
+    <td><p>Default</p></td>
+    <td><p>Font name.</p></td>
+  </tr>
+  <tr>
     <td><p>+0</p></td>
     <td><p>Font size.</p></td>
   </tr>
   <tr>
     <td><p><media type="image" its:translate="no" src="./figures/color-000000.png" /></p></td>
-    <td><p>Color chooser for text. The box displays the current text color. To choose a new color, click the arrow button to the right. If you have text selected, the color applies to the selected text. If you do not have text selected, the color applies to whatever you type next. You can select a background color or image by right-clicking the message background, then selecting <guiseq><gui>Style</gui><gui>Page Style</gui></guiseq>.</p></td>
+    <td><p>Text color.</p><p>The box displays the current text color. If you have text selected, the color applies to the selected text. If you do not have text selected, the color applies to whatever you type next.</p></td>
   </tr>
   <tr>
-    <td><p>TT</p></td>
-    <td><p>Typewriter text, which is similar to a monospace font.</p></td>
+    <td><p><media type="image" its:translate="no" src="./figures/color-ccccccffffff.png" width="26" height="26" /></p></td>
+    <td><p>Background color of the text.</p><p>The box displays the current text color. If you have text selected, the color applies to the selected text. If you do not have text selected, the color applies to whatever you type next.</p></td>
   </tr>
   <tr>
     <td><p>Bold A</p></td>

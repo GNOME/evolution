@@ -11,6 +11,7 @@ set(HELP_MEDIA
 	${HELP_FIGURES_DIR}/color-8f5902.png
 	${HELP_FIGURES_DIR}/color-a40000.png
 	${HELP_FIGURES_DIR}/color-c4a000.png
+	${HELP_FIGURES_DIR}/color-ccccccffffff.png
 	${HELP_FIGURES_DIR}/color-ce5c00.png
 	${HELP_FIGURES_DIR}/evolutionlogo.png
 	${HELP_FIGURES_DIR}/html-composer-insert-image.png
