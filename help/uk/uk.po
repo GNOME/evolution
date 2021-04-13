@@ -6,8 +6,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: evolution master\n"
-"POT-Creation-Date: 2021-03-28 18:28+0000\n"
-"PO-Revision-Date: 2021-04-03 22:33+0300\n"
+"POT-Creation-Date: 2021-04-13 09:23+0000\n"
+"PO-Revision-Date: 2021-04-13 17:37+0300\n"
 "Last-Translator: Yuri Chornoivan <yurchor@ukr.net>\n"
 "Language-Team: Ukrainian <trans-uk@lists.fedoraproject.org>\n"
 "Language: uk\n"
@@ -15,7 +15,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=4; plural=n==1 ? 3 : n%10==1 && n%100!=11 ? 0 : n%10>=2 && n%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2;\n"
-"X-Generator: Lokalize 20.11.70\n"
+"X-Generator: Lokalize 20.12.0\n"
 
 #. Put one translator per line, in the form NAME <EMAIL>, YEAR1, YEAR2
 msgctxt "_"
@@ -1425,7 +1425,7 @@ msgstr "Виберіть умову пошуку зі списку."
 
 #. (itstool) path: item/p
 #: C/calendar-searching.page:50 C/contacts-searching.page:58
-#: C/mail-searching.page:50 C/memos-searching.page:45 C/tasks-searching.page:45
+#: C/mail-searching.page:49 C/memos-searching.page:45 C/tasks-searching.page:45
 msgid "Enter the text you want to search for and press <key>Enter</key>."
 msgstr ""
 "Введіть текст, який ви хочете знайти, і натисніть клавішу <key>Enter</key>."
@@ -1433,7 +1433,7 @@ msgstr ""
 #. (itstool) path: item/p
 #: C/calendar-searching.page:53 C/calendar-searching.page:67
 #: C/contacts-searching.page:62 C/contacts-searching.page:76
-#: C/mail-searching.page:51 C/memos-searching.page:46 C/memos-searching.page:52
+#: C/mail-searching.page:50 C/memos-searching.page:46 C/memos-searching.page:52
 #: C/tasks-searching.page:46 C/tasks-searching.page:52
 msgid "<app>Evolution</app> displays the search results."
 msgstr "<app>Evolution</app> показує результати пошуку."
@@ -1471,7 +1471,7 @@ msgstr ""
 
 #. (itstool) path: section/p
 #: C/calendar-searching.page:76 C/contacts-searching.page:80
-#: C/mail-searching.page:55 C/memos-searching.page:54 C/tasks-searching.page:54
+#: C/mail-searching.page:54 C/memos-searching.page:54 C/tasks-searching.page:54
 msgid ""
 "If you want to set several search conditions, you should use an Advanced "
 "search, which is described below."
@@ -7671,85 +7671,96 @@ msgstr "Опис"
 
 #. (itstool) path: td/p
 #: C/mail-composer-html-text.page:36
+#| msgid "Defaults"
+msgid "Default"
+msgstr "Типовий"
+
+#. (itstool) path: td/p
+#: C/mail-composer-html-text.page:37
+#| msgid "Font size."
+msgid "Font name."
+msgstr "Назва шрифту."
+
+#. (itstool) path: td/p
+#: C/mail-composer-html-text.page:40
 msgid "+0"
 msgstr "+0"
 
 #. (itstool) path: td/p
-#: C/mail-composer-html-text.page:37
+#: C/mail-composer-html-text.page:41
 msgid "Font size."
 msgstr "Розмір шрифту."
 
 #. (itstool) path: td/p
-#: C/mail-composer-html-text.page:41
-msgid ""
-"Color chooser for text. The box displays the current text color. To choose a "
-"new color, click the arrow button to the right. If you have text selected, "
-"the color applies to the selected text. If you do not have text selected, "
-"the color applies to whatever you type next. You can select a background "
-"color or image by right-clicking the message background, then selecting "
-"<guiseq><gui>Style</gui><gui>Page Style</gui></guiseq>."
-msgstr ""
-"Засіб вибору кольору тексту. Показує смужку поточного кольору тексту. Щоб "
-"вибрати інший колір, клацніть на кнопці зі стрілкою, яку розташовано "
-"праворуч. Якщо було позначено якийсь фрагмент тексту, колір буде застосовано "
-"до позначеного тексту. Якщо фрагмент тексту не було позначено, колір буде "
-"застосовано до введеного вами тексту. Ви можете вибрати колір тла або "
-"зображення тла клацнувши правою кнопкою на тлі повідомлення із наступним "
-"вибором у контекстному меню пункту <guiseq><gui>Стиль</gui><gui>Стиль "
-"сторінки</gui></guiseq>."
-
-#. (itstool) path: td/p
-#: C/mail-composer-html-text.page:44
-msgid "TT"
-msgstr "TT"
-
-#. (itstool) path: td/p
 #: C/mail-composer-html-text.page:45
-msgid "Typewriter text, which is similar to a monospace font."
-msgstr "Шрифт друкарської машинки — подібний до моноширинного шрифту."
+msgid "Text color."
+msgstr ""
+"Колір тексту."
 
 #. (itstool) path: td/p
-#: C/mail-composer-html-text.page:48
+#: C/mail-composer-html-text.page:45 C/mail-composer-html-text.page:49
+#| msgid ""
+#| "Use these buttons in the lower tool bar to determine the way your email "
+#| "looks. If you have text selected, the style applies to the selected text. "
+#| "If you do not have text selected, the style applies to whatever you type "
+#| "next."
+msgid ""
+"The box displays the current text color. If you have text selected, the "
+"color applies to the selected text. If you do not have text selected, the "
+"color applies to whatever you type next."
+msgstr ""
+"У полі буде показано поточний колір тексту. Якщо вами було позначено "
+"фрагмент тексту, колір буде застосовано до позначеного фрагмента. Якщо текст "
+"не було позначено, колір буде застосовано до введеного вами тексту."
+
+#. (itstool) path: td/p
+#: C/mail-composer-html-text.page:49
+msgid "Background color of the text."
+msgstr ""
+"Колір тла тексту."
+
+#. (itstool) path: td/p
+#: C/mail-composer-html-text.page:52
 msgid "Bold A"
 msgstr "Жирне A"
 
 #. (itstool) path: td/p
-#: C/mail-composer-html-text.page:49
+#: C/mail-composer-html-text.page:53
 msgid "Bolds the text."
 msgstr "Робить текст напівжирним."
 
 #. (itstool) path: td/p
-#: C/mail-composer-html-text.page:52
+#: C/mail-composer-html-text.page:56
 msgid "Italic A"
 msgstr "Курсивне A"
 
 #. (itstool) path: td/p
-#: C/mail-composer-html-text.page:53
+#: C/mail-composer-html-text.page:57
 msgid "Italicizes the text."
 msgstr "Перетворює текст на курсивний."
 
 #. (itstool) path: td/p
-#: C/mail-composer-html-text.page:56
+#: C/mail-composer-html-text.page:60
 msgid "Underlined A"
 msgstr "Підкреслене A"
 
 #. (itstool) path: td/p
-#: C/mail-composer-html-text.page:57
+#: C/mail-composer-html-text.page:61
 msgid "Underlines the text."
 msgstr "Підкреслює текст."
 
 #. (itstool) path: td/p
-#: C/mail-composer-html-text.page:60
+#: C/mail-composer-html-text.page:64
 msgid "Strike through A"
 msgstr "Перекреслене A"
 
 #. (itstool) path: td/p
-#: C/mail-composer-html-text.page:61
+#: C/mail-composer-html-text.page:65
 msgid "Marks a line through the text."
 msgstr "Закреслює текст лінією."
 
 #. (itstool) path: section/p
-#: C/mail-composer-html-text.page:65
+#: C/mail-composer-html-text.page:69
 msgid ""
 "The other buttons are explained under <link xref=\"mail-composer-"
 "html#formatting-options-html\"/>."
@@ -9260,6 +9271,15 @@ msgstr "Показ повідомлення"
 #. (itstool) path: page/p
 #: C/mail-displaying-message.page:23
 msgid ""
+"Emails can be in two formats: <link href=\"https://en.wikipedia.org/wiki/"
+"Email#Plain_text_and_HTML\">Plain text or HTML</link>. Each format has its "
+"pros and cons."
+msgstr ""
+"Існує два формати повідомлень електронної пошти: <link href=\"https://en.wikipedia.org/wiki/Email#Plain_text_and_HTML\">звичайний текст і HTML</link>. У кожного з форматів є свої переваги і недоліки."
+
+#. (itstool) path: page/p
+#: C/mail-displaying-message.page:25
+msgid ""
 "You can define how received HTML messages are displayed via "
 "<guiseq><gui>Edit</gui><gui>Preferences</gui><gui>Mail Preferences</"
 "gui><gui>HTML Messages</gui></guiseq>. For example, you can display them as "
@@ -9271,8 +9291,17 @@ msgstr ""
 "наказати програмі показувати їх як простий текст або заборонити "
 "завантажувати дані з інтернету."
 
+#. (itstool) path: note/p
+#: C/mail-displaying-message.page:27
+msgid ""
+"For formatting emails in the composer, see <link xref=\"mail-composer-html\"/"
+">."
+msgstr ""
+"Опис форматування повідомлень у редакторі наведено у розділі <link xref=\"mail-composer-html\"/"
+">."
+
 #. (itstool) path: section/title
-#: C/mail-displaying-message.page:26
+#: C/mail-displaying-message.page:30
 msgid "Advanced"
 msgstr "Додатково"
 
@@ -12149,26 +12178,15 @@ msgstr ""
 "локально (пошуків отримувачів або теми повідомлення), пошук виконуватиметься "
 "локально."
 
-#. (itstool) path: note/p
-#: C/mail-searching.page:45
-msgid ""
-"Advanced users can <link href=\"https://bugzilla.gnome.org/show_bug.cgi?"
-"id=550796#c10\">combine numerous conditions by using the <gui>Free form "
-"expression</gui> syntax</link>."
-msgstr ""
-"Досвідчені користувачі можуть <link href=\"https://bugzilla.gnome.org/"
-"show_bug.cgi?id=550796#c10\">поєднувати декілька умов за допомогою "
-"синтаксичних конструкцій <gui>Довільного виразу</gui></link>."
-
 #. (itstool) path: item/p
-#: C/mail-searching.page:47
+#: C/mail-searching.page:46
 msgid "Select the scope from the drop-down list right to the text box."
 msgstr ""
 "Виберіть область зі спадного списку, розташованого праворуч від поля для "
 "введення тексту."
 
 #. (itstool) path: note/p
-#: C/mail-searching.page:48
+#: C/mail-searching.page:47
 msgid ""
 "For the <gui>Current Account</gui> scope, the term \"account\" refers to top-"
 "level nodes in the <link xref=\"intro-main-window#e-mail\"> mail folder "
@@ -12180,7 +12198,7 @@ msgstr ""
 "записів із віддаленим зберіганням даних."
 
 #. (itstool) path: note/p
-#: C/mail-searching.page:53
+#: C/mail-searching.page:52
 msgid ""
 "If you start directly from the fourth step, text will be searched in mail's "
 "subjects and addresses and scope will be \"Current folder\"."
@@ -12190,7 +12208,7 @@ msgstr ""
 "тека»."
 
 #. (itstool) path: note/p
-#: C/mail-searching.page:54
+#: C/mail-searching.page:53
 msgid ""
 "If you search for messages that are not in the same folder rather often you "
 "might want to create a search folder instead; see <link xref=\"mail-search-"
@@ -12199,6 +12217,628 @@ msgstr ""
 "Якщо ви шукаєте повідомлення, які зберігаються у різних теках, досить часто "
 "вартим уваги рішенням є створення теки пошуку. Докладніший опис наведено у "
 "розділі <link xref=\"mail-search-folders\">Користування теками пошуку</link>."
+
+#. (itstool) path: section/title
+#: C/mail-searching.page:64
+#| msgid "Free Form Expression:"
+msgid "Free Form Expression"
+msgstr "Вираз у довільній формі"
+
+#. (itstool) path: section/p
+#: C/mail-searching.page:65
+msgid ""
+"One of the search conditions is a <gui>Free Form Expression</gui>, which "
+"allows defining complex conditions. As the first step, the given Free Form "
+"Expression is divided into words. If the word doesn't have any (known) tag "
+"prefix, then the value is checked whether it is in headers To, CC or "
+"Subject. In case of a white-space or any other special character is needed, "
+"then enclose the word into double quotes. To get a double quote double it "
+"inside quoted text; example: <code>cite \"\"here\"\"</code> is parsed as one "
+"word <code>cite \"here\"</code>. For example, <code>f:John Smith</code> "
+"filters messages for the From containing <code>John</code> and the To, CC or "
+"Subject containing <code>Smith</code>, while <code>f:\"John Smith\"</code> "
+"filters messages for a sender <code>John Smith</code>."
+msgstr ""
+"Одним із варіантів умов пошуку є <gui>Вираз у довільній формі</gui>, за допомогою якого можна визначати складні умови. На першому етапі заданий вираз у довільній формі буде поділено на слова. Якщо у слова немає будь-якого (відомого) префікса-теґу, буде виконано перевірку наявності значення у заголовках «Кому», «Копія» та «Тема». Якщо у критерії пошуку має бути пробіл або будь-який інший спеціальний символ, його слід взяти у подвійні лапки. Щоб використати сам символ подвійних лапок, подвойте його у тексті. Приклад: <code>цитата \"\"тут\"\"</code> буде оброблено як одне слово <code>цитата \"тут\"</code>. Наприклад, після фільтрування <code>f:John Smith</code> залишаються повідомлення, у яких поле «Від» містить слово <code>John</code>, а поля «Кому», «Копія» або «Тема» містять слово <code>Smith</code>, а після фільтрування <code>f:\"John Smith\"</code> у списку лишаються повідомлення з відправником <code>John Smith</code>."
+
+#. (itstool) path: section/p
+#: C/mail-searching.page:66
+msgid ""
+"The syntax of the tags is <code>&lt;tag&gt;[-&lt;options&gt;]:value</code>. "
+"The tags are:"
+msgstr ""
+"Синтаксична конструкція теґу є такою: <code>&lt;теґ&gt;[-&lt;параметри&gt;]:значення</code>. Передбачено такі теґи:"
+
+#. (itstool) path: td/p
+#: C/mail-searching.page:68
+msgid "Tag"
+msgstr ""
+"Теґ"
+
+#. (itstool) path: td/p
+#: C/mail-searching.page:68 C/mail-searching.page:100
+msgid "Abbreviation"
+msgstr ""
+"Скорочення"
+
+#. (itstool) path: td/p
+#: C/mail-searching.page:68 C/mail-searching.page:100 C/mail-searching.page:124
+msgid "Meaning"
+msgstr ""
+"Значення"
+
+#. (itstool) path: td/p
+#. Translators: 'From' is a header name, do not translate it
+#: C/mail-searching.page:69
+msgid "From header should match (*)"
+msgstr ""
+"Заголовок «Від» має відповідати (*)"
+
+#. (itstool) path: td/p
+#. Translators: 'To' is a header name, do not translate it
+#: C/mail-searching.page:70
+msgid "To header should match (*)"
+msgstr ""
+"Заголовок «Кому» має відповідати (*)"
+
+#. (itstool) path: td/p
+#. Translators: 'CC' is a header name, do not translate it
+#: C/mail-searching.page:71
+msgid "CC header should match (*)"
+msgstr ""
+"Заголовок «Копія» має відповідати (*)"
+
+#. (itstool) path: td/p
+#. Translators: 'To' and 'CC' are the header names, do not translate it
+#: C/mail-searching.page:72
+msgid "To or CC headers should match (*)"
+msgstr ""
+"Заголовки «Кому» і «Копія» має відповідати (*)"
+
+#. (itstool) path: td/p
+#. Translators: 'Subject' is a header name, do not translate it
+#: C/mail-searching.page:73
+msgid "Subject header should match (*)"
+msgstr ""
+"Заголовок «Тема» має відповідати (*)"
+
+#. (itstool) path: td/p
+#: C/mail-searching.page:74
+msgid "Mailing list header should match (*)"
+msgstr ""
+"Заголовок «Список листування» має відповідати (*)"
+
+#. (itstool) path: td/p
+#: C/mail-searching.page:75
+msgid "given header should match (*)"
+msgstr ""
+"Вказаний заголовок має відповідати (*)"
+
+#. (itstool) path: td/p
+#: C/mail-searching.page:76
+msgid ""
+"the syntax is: <code>h:headerName=value</code> while the equal sign is used "
+"only as a delimiter, not as a match rule"
+msgstr ""
+"синтаксис: <code>h:НазваЗаголовка=значення</code>, а знак рівності використовується як роздільник, а не правило відповідності"
+
+#. (itstool) path: td/p
+#: C/mail-searching.page:77
+msgid "whether given header exists"
+msgstr ""
+"чи існує вказаний заголовок"
+
+#. (itstool) path: td/p
+#: C/mail-searching.page:78
+#| msgid "Inserting custom headers in a message"
+msgid "given user tag is set on a message"
+msgstr "для повідомлення встановлено вказану мітку користувача"
+
+#. (itstool) path: td/p
+#: C/mail-searching.page:79
+msgid "whether certain flag is set; known special values are:"
+msgstr ""
+"чи встановлено певний прапорець; відомі спеціальні значення:"
+
+#. (itstool) path: td/p
+#. (itstool) comment: ./code
+#. Translators: This is translated in a 'ffe' context
+#: C/mail-searching.page:80
+msgid ""
+"<code its:locNote=\"Translators: This is translated in a 'ffe' context"
+"\">Answered</code> - the message is marked as replied"
+msgstr ""
+"<code its:locNote=\"Translators: This is translated in a 'ffe' context"
+"\">Answered</code> — повідомлення позначене як таке, на яке надіслано відповідь"
+
+#. (itstool) path: td/p
+#. (itstool) comment: ./code
+#. Translators: This is translated in a 'ffe' context
+#: C/mail-searching.page:81
+msgid ""
+"<code its:locNote=\"Translators: This is translated in a 'ffe' context"
+"\">Deleted</code> - the message is marked as deleted"
+msgstr ""
+"<code its:locNote=\"Translators: This is translated in a 'ffe' context"
+"\">Deleted</code> — повідомлення позначено як вилучене"
+
+#. (itstool) path: td/p
+#. (itstool) comment: ./code
+#. Translators: This is translated in a 'ffe' context
+#: C/mail-searching.page:82
+msgid ""
+"<code its:locNote=\"Translators: This is translated in a 'ffe' context"
+"\">Draft</code> - the message is marked as draft"
+msgstr ""
+"<code its:locNote=\"Translators: This is translated in a 'ffe' context"
+"\">Draft</code> — повідомлення позначено як чернетку"
+
+#. (itstool) path: td/p
+#. (itstool) comment: ./code
+#. Translators: This is translated in a 'ffe' context
+#: C/mail-searching.page:83
+msgid ""
+"<code its:locNote=\"Translators: This is translated in a 'ffe' context"
+"\">Flagged</code> - the message is marked as important"
+msgstr ""
+"<code its:locNote=\"Translators: This is translated in a 'ffe' context"
+"\">Flagged</code> — повідомлення позначено як важливе"
+
+#. (itstool) path: td/p
+#. (itstool) comment: ./code
+#. Translators: This is translated in a 'ffe' context
+#: C/mail-searching.page:84
+msgid ""
+"<code its:locNote=\"Translators: This is translated in a 'ffe' context"
+"\">Seen</code> - the message is marked as seen (not unread)"
+msgstr ""
+"<code its:locNote=\"Translators: This is translated in a 'ffe' context"
+"\">Seen</code> — повідомлення позначено як переглянуте (не непрочитане)"
+
+#. (itstool) path: td/p
+#. (itstool) comment: ./code
+#. Translators: This is translated in a 'ffe' context
+#: C/mail-searching.page:85
+msgid ""
+"<code its:locNote=\"Translators: This is translated in a 'ffe' context"
+"\">Attachment</code> - the message has an attachment"
+msgstr ""
+"<code its:locNote=\"Translators: This is translated in a 'ffe' context"
+"\">Attachment</code> — у повідомлення є долучення"
+
+#. (itstool) path: td/p
+#: C/mail-searching.page:86
+msgid "Any other value is checked for its non-emptiness."
+msgstr ""
+"Буде перевірено на заповненість будь-яке інше значення."
+
+#. (itstool) path: td/p
+#: C/mail-searching.page:87
+msgid ""
+"whether certain <link xref=\"mail-labels\">label</link> is set on the message"
+msgstr ""
+"чи встановлено певну <link xref=\"mail-labels\">мітку</link> для повідомлення"
+
+#. (itstool) path: td/p
+#: C/mail-searching.page:88
+msgid "whether message size, in KB, is equal to the given value"
+msgstr ""
+"чи розмір повідомлення у кБ рівний заданому значенню"
+
+#. (itstool) path: td/p
+#: C/mail-searching.page:89
+msgid ""
+"Two options are recognized, <code>&lt;</code> to get messages with smaller "
+"size, and <code>&gt;</code> to get messages with bigger size than the given. "
+"Example: <code>size-&gt;:1024</code> filters messages which are more than "
+"1MB large."
+msgstr ""
+"Передбачено розпізнавання двох варіантів: <code>&lt;</code> для отримання повідомлень із меншим розміром і <code>&gt;</code> для отримання повідомлень із більшим розміром за вказаний. Приклад: <code>size-&gt;:1024</code> фільтрує повідомлення, розмір яких перевищує 1 МБ."
+
+#. (itstool) path: td/p
+#: C/mail-searching.page:90
+msgid ""
+"compares <code>score</code> tag on the message against given value; default "
+"compare is equal, but, similar to <code>size</code> a <code>&lt;</code> and "
+"<code>&gt;</code> options can be used"
+msgstr ""
+"порівнює теґ <code>score</code> повідомлення зі вказаним значенням; типовим режимом порівняння є рівність, але, подібно до <code>size</code>, можна скористатися режимами <code>&lt;</code> і "
+"<code>&gt;</code>"
+
+#. (itstool) path: td/p
+#: C/mail-searching.page:91
+msgid ""
+"checks message body for an existence of the given word; default compare "
+"options is for <code>contains</code>, but a regular expression can be used "
+"if the option is one of the <code>regex</code>, <code>re</code> or <code>r</"
+"code>."
+msgstr ""
+"перевіряє, чи міститься вказане слово у тексті повідомлення; типовим варіантом порівняння є <code>містить</code>, але може бути використано формальний вираз, якщо варіантом вказано <code>regex</code>, <code>re</code> або <code>r</code>."
+
+#. (itstool) path: td/p
+#: C/mail-searching.page:92
+msgid "message's Sent date should match (**)"
+msgstr ""
+"має бути відповідною дата повідомлення у полі «Надіслано» (**)"
+
+#. (itstool) path: td/p
+#: C/mail-searching.page:93
+msgid "message's Received date should match (**)"
+msgstr ""
+"має бути відповідною дата повідомлення у полі «Отримано» (**)"
+
+#. (itstool) path: td/p
+#: C/mail-searching.page:94
+msgid ""
+"message has (if the value is not any of <code>no</code>, <code>false</code>, "
+"<code>0</code>) an attachment. Similar to <code>flag:attachment</code> tag."
+msgstr ""
+"повідомлення містить долучення (якщо значення не дорівнює <code>no</code>, <code>false</code>, <code>0</code>). Подібний до теґу <code>flag:attachment</code>."
+
+#. (itstool) path: td/p
+#: C/mail-searching.page:95
+msgid ""
+"Checks message location. The location value (URL) can be found in the folder "
+"<gui>Properties</gui>. Example: <code>location:\"On This Computer/Inbox\"</"
+"code>"
+msgstr ""
+"Перевіряє розташування повідомлення. Значення розташування (адресу) можна знайти у теці <gui>Властивості</gui>. Приклад: <code>location:\"On This Computer/Inbox\"</"
+"code>"
+
+#. (itstool) path: td/p
+#: C/mail-searching.page:96
+#| msgid "Composing a new message"
+msgid "Compares message ID."
+msgstr "Порівнює ідентифікатор повідомлення."
+
+#. (itstool) path: section/p
+#: C/mail-searching.page:98
+msgid ""
+"(*) Header comparisons can have a matching type option. The default is to "
+"check for a <code>contains</code>. The available options are:"
+msgstr ""
+"(*) Порівняння заголовків може містити варіант типу встановлення відповідності. Типовим режимом порівняння є <code>містить</code>. Доступні варіанти:"
+
+#. (itstool) path: td/p
+#: C/mail-searching.page:100
+#| msgid "Action"
+msgid "Option"
+msgstr "Параметр"
+
+#. (itstool) path: td/p
+#: C/mail-searching.page:101
+msgid "matches with contains"
+msgstr ""
+"порівнює у режимі «містить»"
+
+#. (itstool) path: td/p
+#: C/mail-searching.page:102
+msgid "matches if contains whole word"
+msgstr ""
+"визначає, чи містить ціле слово"
+
+#. (itstool) path: td/p
+#: C/mail-searching.page:103
+msgid "value's exact match"
+msgstr ""
+"точна відповідність значенню"
+
+#. (itstool) path: td/p
+#: C/mail-searching.page:104
+msgid "header value starts with the given value"
+msgstr ""
+"значення заголовка починається із вказаного значення"
+
+#. (itstool) path: td/p
+#: C/mail-searching.page:105
+msgid "header value ends with the given value"
+msgstr ""
+"значення заголовка завершується вказаним значенням"
+
+#. (itstool) path: td/p
+#: C/mail-searching.page:106
+msgid "header value sounds similar to given value"
+msgstr ""
+"значення заголовка є подібним до вказаного значення"
+
+#. (itstool) path: td/p
+#: C/mail-searching.page:107
+msgid "the given value is a regular expression"
+msgstr ""
+"вказане значення є формальним виразом"
+
+#. (itstool) path: td/p
+#: C/mail-searching.page:108
+msgid "another type of a regular expression"
+msgstr ""
+"інший тип формального виразу"
+
+#. (itstool) path: section/p
+#: C/mail-searching.page:110
+msgid ""
+"(**) Dates can be written relatively (positive number means <code>in the "
+"last X days</code>), while negative goes into the future. For example, to "
+"get messages received in the last 10 days use: <code>recv:10</code>. An "
+"exact date can be used as well, the format can be either <code>YYYY-MM-DD</"
+"code> (the preferred one), then ISO 8601 format or a date/date-time locale "
+"specific format. If the date/time parse fails, then the condition is "
+"skipped. The date compares can have extra options too, it's <code>&lt;</"
+"code>, <code>=</code> or <code>&gt;</code>, where the <code>&gt;</code> is "
+"the default compare option."
+msgstr ""
+"(**) Дати можна записувати відносно (додатне число означає <code>протягом останніх X днів</code>), а від'ємне дає дати у майбутньому. Наприклад, щоб отримати повідомлення, які було отримано протягом останніх 10 днів, скористайтеся таким виразом: <code>recv:10</code>. Можна також скористатися точною датою у форматі <code>РРРР-ММ-ДД</code> (рекомендований формат), форматі ISO 8601 або специфічному для локалі форматі дати або дати і часу. Якщо засобу обробки не вдасться розібрати запис дати і часу, умову буде пропущено. У порівняннях дат також можна скористатися різними варіантами, а саме, <code>&lt;</code>, <code>=</code> або <code>&gt;</code>. Типовим є варіант порівняння <code>&gt;</code>."
+
+#. (itstool) path: section/p
+#: C/mail-searching.page:111
+msgid "There are three special tags, which require special notation. They are:"
+msgstr ""
+"Передбачено три спеціальних теґи, які потребують особливого позначення. Ось вони:"
+
+#. (itstool) path: section/p
+#: C/mail-searching.page:117
+msgid ""
+"which allows to create specialized expressions. The default (the most outer) "
+"conjunction is <code>and</code>. To change it to <code>or</code> enclose the "
+"whole filter into <code>or:(....)</code>. For example: <code>f:Bugzilla t:"
+"John</code> filters all messages which contains <code>Bugzilla</code> in the "
+"From and <code>John</code> in the To, while <code>or:(f:Bugzilla t:John)</"
+"code> filters messages from Bugzilla or addressed to John."
+msgstr ""
+"який уможливлює створення спеціалізованих виразів. Типовим (найбільш зовнішнім) поєднанням є <code>and</code>. Щоб змінити його на <code>or</code>, скористайтеся такою конструкцією <code>or:(....)</code>. Приклад: <code>f:Bugzilla t:John</code> фільтрує усі повідомлення, які містять <code>Bugzilla</code> у полі «Від» і <code>John</code> у полі «Кому», а <code>or:(f:Bugzilla t:John)</code> фільтрує повідомлення від «Bugzilla» або надіслані користувачу «John»."
+
+#. (itstool) path: section/title
+#: C/mail-searching.page:121
+#| msgid "Free Form Expression:"
+msgid "Free Form Expression examples"
+msgstr "Приклади виразу у довільній формі"
+
+#. (itstool) path: section/p
+#: C/mail-searching.page:122
+msgid "A list of some free form expressions follows:"
+msgstr ""
+"Нижче наведено список декількох виразів у довільній формі:"
+
+#. (itstool) path: td/p
+#: C/mail-searching.page:124
+#| msgid "Expression:"
+msgid "Expression"
+msgstr "Вираз"
+
+#. (itstool) path: td/p
+#: C/mail-searching.page:125
+msgid "<code>f:John</code>"
+msgstr ""
+"<code>f:John</code>"
+
+#. (itstool) path: td/p
+#: C/mail-searching.page:125
+msgid "Messages from <code>John</code>"
+msgstr ""
+"Повідомлення від користувача <code>John</code>"
+
+#. (itstool) path: td/p
+#: C/mail-searching.page:126
+msgid "<code>s-has-words:\"green blue\"</code>"
+msgstr ""
+"<code>s-has-words:\"green blue\"</code>"
+
+#. (itstool) path: td/p
+#: C/mail-searching.page:126
+msgid ""
+"Messages, which contain both <code>green</code> and <code>blue</code> words "
+"in the Subject"
+msgstr ""
+"Повідомлення, у полі теми яких містяться одразу слова <code>green</code> і <code>blue</code>"
+
+#. (itstool) path: td/p
+#: C/mail-searching.page:127
+msgid "<code>r-ew:example.com</code>"
+msgstr ""
+"<code>r-ew:example.com</code>"
+
+#. (itstool) path: td/p
+#: C/mail-searching.page:127
+msgid "Recipients' address (To/Cc headers) ends with <code>example.com</code>"
+msgstr ""
+"Адреса отримувачів (заголовки «Кому/Копія») завершується на <code>example.com</code>"
+
+#. (itstool) path: td/p
+#: C/mail-searching.page:128
+msgid "<code>h-starts-with:Cc=Alice</code>"
+msgstr ""
+"<code>h-starts-with:Cc=Alice</code>"
+
+#. (itstool) path: td/p
+#: C/mail-searching.page:128
+msgid "The <code>Cc</code> starts with word <code>Alice</code>"
+msgstr ""
+"Поле <code>Копія</code> починається зі слова <code>Alice</code>"
+
+#. (itstool) path: td/p
+#: C/mail-searching.page:129
+msgid "<code>e:X-Secret-Header</code>"
+msgstr ""
+"<code>e:X-Secret-Header</code>"
+
+#. (itstool) path: td/p
+#: C/mail-searching.page:129
+#| msgid "<code>ObjectClass=User</code>: Lists only the users."
+msgid "An <code>X-Secret-Header</code> exists in the message"
+msgstr "У повідомленні є <code>X-Secret-Header</code>"
+
+#. (itstool) path: td/p
+#: C/mail-searching.page:130
+msgid "<code>l:work</code>"
+msgstr ""
+"<code>l:work</code>"
+
+#. (itstool) path: td/p
+#: C/mail-searching.page:130
+msgid "Label <code>work</code> is set on the message"
+msgstr ""
+"Для повідомлення встановлено мітку <code>work</code>"
+
+#. (itstool) path: td/p
+#: C/mail-searching.page:131
+msgid "<code>sz-&lt;:10</code>"
+msgstr ""
+"<code>sz-&lt;:10</code>"
+
+#. (itstool) path: td/p
+#: C/mail-searching.page:131
+msgid "Message size is less than 10KB"
+msgstr ""
+"Розмір повідомлення є меншим за 10 кБ"
+
+#. (itstool) path: td/p
+#: C/mail-searching.page:132
+msgid "<code>sz-&gt;:100</code>"
+msgstr ""
+"<code>sz-&gt;:100</code>"
+
+#. (itstool) path: td/p
+#: C/mail-searching.page:132
+msgid "Message size is more than 100KB"
+msgstr ""
+"Розмір повідомлення перевищує 100 кБ"
+
+#. (itstool) path: td/p
+#: C/mail-searching.page:133
+msgid "<code>b:important</code>"
+msgstr ""
+"<code>b:important</code>"
+
+#. (itstool) path: td/p
+#: C/mail-searching.page:133
+msgid "The body contains a word <code>important</code>"
+msgstr ""
+"У тексті повідомлення міститься слово <code>important</code>"
+
+#. (itstool) path: td/p
+#: C/mail-searching.page:134
+msgid "<code>sent:7</code>"
+msgstr ""
+"<code>sent:7</code>"
+
+#. (itstool) path: td/p
+#: C/mail-searching.page:134
+msgid "Messages sent in the last 7 days"
+msgstr ""
+"Повідомлення надіслано протягом останніх 7 днів"
+
+#. (itstool) path: td/p
+#: C/mail-searching.page:135
+msgid "<code>rcv-=:2020-02-02</code>"
+msgstr ""
+"<code>rcv-=:2020-02-02</code>"
+
+#. (itstool) path: td/p
+#: C/mail-searching.page:135
+msgid "Messages received on the February 2nd, 2020"
+msgstr ""
+"Повідомлення отримано 2 лютого 2020 року"
+
+#. (itstool) path: td/p
+#: C/mail-searching.page:136
+msgid "<code>a:1</code>"
+msgstr ""
+"<code>a:1</code>"
+
+#. (itstool) path: td/p
+#: C/mail-searching.page:136
+#| msgid "Managing attachments"
+msgid "Messages with attachment"
+msgstr "Повідомлення із долученням"
+
+#. (itstool) path: td/p
+#: C/mail-searching.page:137
+msgid "<code>a:0</code>"
+msgstr ""
+"<code>a:0</code>"
+
+#. (itstool) path: td/p
+#: C/mail-searching.page:137
+#| msgid "Forwarding a message with its attachments"
+msgid "Messages without attachments"
+msgstr "Повідомлення без долучень"
+
+#. (itstool) path: td/p
+#: C/mail-searching.page:138
+msgid "<code>and:(or:(r:Alice r:Bob) not:(r:Smith))</code>"
+msgstr ""
+"<code>and:(or:(r:Alice r:Bob) not:(r:Smith))</code>"
+
+#. (itstool) path: td/p
+#: C/mail-searching.page:138
+msgid ""
+"Messages whose recipient is <code>Alice</code> or <code>Bob</code>, but not "
+"<code>Smith</code>"
+msgstr ""
+"Повідомлення, отримувачем яких є <code>Alice</code> або <code>Bob</code>, але не <code>Smith</code>"
+
+#. (itstool) path: td/p
+#: C/mail-searching.page:139
+msgid "<code>f:Bob rcv-&gt;:2020-01-01 rcv-&lt;:2020-12-31</code>"
+msgstr ""
+"<code>f:Bob rcv-&gt;:2020-01-01 rcv-&lt;:2020-12-31</code>"
+
+#. (itstool) path: td/p
+#: C/mail-searching.page:139
+msgid "Messages from <code>Bob</code>, received during the year 2020"
+msgstr ""
+"Повідомлення від <code>Bob</code>, отримані протягом 2020 року"
+
+#. (itstool) path: td/p
+#: C/mail-searching.page:140
+msgid ""
+"<code>not:(flag:Seen) f:Bob rcv-&gt;:2020-01-01 rcv-&lt;:2020-12-31</code>"
+msgstr ""
+"<code>not:(flag:Seen) f:Bob rcv-&gt;:2020-01-01 rcv-&lt;:2020-12-31</code>"
+
+#. (itstool) path: td/p
+#: C/mail-searching.page:140
+msgid "Unread messages from <code>Bob</code>, received during the year 2020"
+msgstr ""
+"Непрочитані повідомлення від <code>Bob</code>, отримані протягом 2020 року"
+
+#. (itstool) path: td/p
+#: C/mail-searching.page:141
+msgid "<code>flag:Seen a:1 sz-&gt;:1024 f:Bob rcv:31</code>"
+msgstr ""
+"<code>flag:Seen a:1 sz-&gt;:1024 f:Bob rcv:31</code>"
+
+#. (itstool) path: td/p
+#: C/mail-searching.page:141
+msgid ""
+"Read messages with attachment larger than 1MB from <code>Bob</code>, "
+"received during the past 31 days"
+msgstr ""
+"Прочитані повідомлення із долученням, розмір якого перевищує 1 МБ від <code>Bob</code>, отримані протягом останнього 31 дня"
+
+#. (itstool) path: td/p
+#: C/mail-searching.page:142
+msgid "<code>m:\"On This Computer/Inbox\"</code>"
+msgstr ""
+"<code>m:\"On This Computer/Inbox\"</code>"
+
+#. (itstool) path: td/p
+#: C/mail-searching.page:142
+msgid "Messages stored in the <code>On This Computer/Inbox</code> folder"
+msgstr ""
+"Повідомлення, які зберігаються у теці <code>On This Computer/Inbox</code>"
+
+#. (itstool) path: td/p
+#: C/mail-searching.page:143
+msgid "<code>location-no:\"On This Computer/Inbox\"</code>"
+msgstr ""
+"<code>location-no:\"On This Computer/Inbox\"</code>"
+
+#. (itstool) path: td/p
+#: C/mail-searching.page:143
+msgid ""
+"Messages stored in all but the <code>On This Computer/Inbox</code> folder"
+msgstr ""
+"Повідомлення, які зберігаються будь-де, окрім теки <code>On This Computer/Inbox</code>"
 
 #. (itstool) path: info/desc
 #: C/mail-send-and-receive-automatically.page:5
@@ -12477,15 +13117,12 @@ msgstr ""
 
 #. (itstool) path: item/p
 #: C/mail-sorting-folder-list.page:44
-#| msgid ""
-#| "You can disable the to do bar by toggling <guiseq><gui>View</"
-#| "gui><gui>Layout</gui><gui>Show To Do Bar</gui></guiseq>."
 msgid ""
 "You can change the sort order of folders under <guiseq><gui>Folder</"
 "gui><gui>Edit Sort Order…</gui></guiseq>."
 msgstr ""
-"Ви можете змінити спосіб упорядкування тек за допомогою пункту меню <guiseq><gui>Тека</"
-"gui><gui>Змінити порядок сортування…</gui></guiseq>."
+"Ви можете змінити спосіб упорядкування тек за допомогою пункту меню "
+"<guiseq><gui>Тека</gui><gui>Змінити порядок сортування…</gui></guiseq>."
 
 #. (itstool) path: info/desc
 #: C/mail-sorting-message-list.page:5
@@ -15084,6 +15721,38 @@ msgstr ""
 #: C/xinclude-searching.xml:30
 msgid "Click <_:gui-1/>."
 msgstr "Натисніть <_:gui-1/>."
+
+#~ msgid ""
+#~ "Color chooser for text. The box displays the current text color. To "
+#~ "choose a new color, click the arrow button to the right. If you have text "
+#~ "selected, the color applies to the selected text. If you do not have text "
+#~ "selected, the color applies to whatever you type next. You can select a "
+#~ "background color or image by right-clicking the message background, then "
+#~ "selecting <guiseq><gui>Style</gui><gui>Page Style</gui></guiseq>."
+#~ msgstr ""
+#~ "Засіб вибору кольору тексту. Показує смужку поточного кольору тексту. Щоб "
+#~ "вибрати інший колір, клацніть на кнопці зі стрілкою, яку розташовано "
+#~ "праворуч. Якщо було позначено якийсь фрагмент тексту, колір буде "
+#~ "застосовано до позначеного тексту. Якщо фрагмент тексту не було "
+#~ "позначено, колір буде застосовано до введеного вами тексту. Ви можете "
+#~ "вибрати колір тла або зображення тла клацнувши правою кнопкою на тлі "
+#~ "повідомлення із наступним вибором у контекстному меню пункту "
+#~ "<guiseq><gui>Стиль</gui><gui>Стиль сторінки</gui></guiseq>."
+
+#~ msgid "TT"
+#~ msgstr "TT"
+
+#~ msgid "Typewriter text, which is similar to a monospace font."
+#~ msgstr "Шрифт друкарської машинки — подібний до моноширинного шрифту."
+
+#~ msgid ""
+#~ "Advanced users can <link href=\"https://bugzilla.gnome.org/show_bug.cgi?"
+#~ "id=550796#c10\">combine numerous conditions by using the <gui>Free form "
+#~ "expression</gui> syntax</link>."
+#~ msgstr ""
+#~ "Досвідчені користувачі можуть <link href=\"https://bugzilla.gnome.org/"
+#~ "show_bug.cgi?id=550796#c10\">поєднувати декілька умов за допомогою "
+#~ "синтаксичних конструкцій <gui>Довільного виразу</gui></link>."
 
 #~ msgid "grep"
 #~ msgstr "grep"
