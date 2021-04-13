@@ -1385,8 +1385,8 @@ msgstr ""
 "guiseq>. A continuació, podeu triar una hora i una data per a deixar-la de "
 "repetir i, a <gui>Excepcions</gui>, triar dies individuals per als quals no "
 "repetir la cita. Feu la vostra selecció d'esquerra a dreta i formeu una "
-"frase: \"Cada dues setmanes de dilluns i divendres fins al 3 de gener de "
-"2015\" o \"Tots els mesos el primer divendres per a 12 ocurrències\"."
+"frase: «Cada dues setmanes de dilluns i divendres fins al 3 de gener de "
+"2015» o «Tots els mesos el primer divendres per a 12 ocurrències»."
 
 #. (itstool) path: info/desc
 #: C/calendar-searching.page:27
@@ -3418,7 +3418,7 @@ msgid ""
 msgstr ""
 "si voleu importar el correu <app>Thunderbird</app>, aneu a les "
 "<file>carpetes Mail/Local</file> (per a comptes locals) o <file>ImapMail/"
-"servername</file> (per comptes de correu electrònic remots). "
+"servername</file> (per a comptes de correu electrònic remots). "
 "<file>servername</file> és l'adreça del vostre servidor de correu remot. Els "
 "fitxers sense final de fitxer inclouen els missatges (no els fitxers <file>."
 "msf</file>)."
@@ -10899,7 +10899,7 @@ msgstr ""
 #: C/mail-labels.page:30
 msgid "You can also quickly add a new label by choosing <gui>New Label</gui>."
 msgstr ""
-"També podeu afegir ràpidament una etiqueta nova triant <gui>Nova etiqueta</"
+"També podeu afegir ràpidament una etiqueta nova triant <gui>Etiqueta nova</"
 "gui>."
 
 #. (itstool) path: section/title
@@ -11223,7 +11223,7 @@ msgstr ""
 #. (itstool) path: info/desc
 #: C/mail-receiving-options-exchange-ews.page:5
 msgid "Receiving options for Exchange Web Services accounts."
-msgstr "Opcions de recepció per comptes de serveis web d'Exchange."
+msgstr "Opcions de recepció per a comptes de serveis web d'Exchange."
 
 #. (itstool) path: section/p
 #: C/mail-receiving-options-exchange-ews.page:25
@@ -13139,7 +13139,7 @@ msgid ""
 "To subscribe to a newsgroup:"
 msgstr ""
 "Quan creeu un compte de grup de notícies, no estareu subscrit a cap grup. "
-"Per subscriure's a un grup de notícies:"
+"Per a subscriure's a un grup de notícies:"
 
 #. (itstool) path: item/p
 #: C/mail-usenet-subscriptions.page:29
