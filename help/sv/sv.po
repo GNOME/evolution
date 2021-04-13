@@ -8,8 +8,8 @@ msgstr ""
 "Project-Id-Version: evolution.help.HEAD\n"
 "Report-Msgid-Bugs-To: http://bugzilla.gnome.org/enter_bug.cgi?"
 "product=evolution&keywords=I18N+L10N&component=User%20Documentation\n"
-"POT-Creation-Date: 2021-03-19 18:02+0000\n"
-"PO-Revision-Date: 2021-03-28 01:33+0100\n"
+"POT-Creation-Date: 2021-04-10 09:39+0000\n"
+"PO-Revision-Date: 2021-04-13 20:12+0200\n"
 "Last-Translator: Anders Jonsson <anders.jonsson@norsjovallen.se>\n"
 "Language-Team: Swedish <tp-sv@listor.tp-sv.se>\n"
 "Language: sv\n"
@@ -7517,84 +7517,87 @@ msgstr "Beskrivning"
 
 #. (itstool) path: td/p
 #: C/mail-composer-html-text.page:36
+msgid "Default"
+msgstr "Standard"
+
+#. (itstool) path: td/p
+#: C/mail-composer-html-text.page:37
+msgid "Font name."
+msgstr "Typsnittsnamn."
+
+#. (itstool) path: td/p
+#: C/mail-composer-html-text.page:40
 msgid "+0"
 msgstr "+0"
 
 #. (itstool) path: td/p
-#: C/mail-composer-html-text.page:37
+#: C/mail-composer-html-text.page:41
 msgid "Font size."
 msgstr "Typsnittsstorlek."
 
 #. (itstool) path: td/p
-#: C/mail-composer-html-text.page:41
-msgid ""
-"Color chooser for text. The box displays the current text color. To choose a "
-"new color, click the arrow button to the right. If you have text selected, "
-"the color applies to the selected text. If you do not have text selected, "
-"the color applies to whatever you type next. You can select a background "
-"color or image by right-clicking the message background, then selecting "
-"<guiseq><gui>Style</gui><gui>Page Style</gui></guiseq>."
-msgstr ""
-"Färgväljare för text. Boxen visar den aktuella textfärgen. För att välja en "
-"ny färg, klicka på pilknappen till höger. Om du har text markerad kommer "
-"färgen att tillämpas för den valda texten. Om du inte har någon text "
-"markerad kommer färgen att tillämpas för det du skriver härnäst. Du kan "
-"välja en bakgrundsfärg eller bild genom att högerklicka på "
-"meddelandebakgrunden och sedan välja <guiseq><gui>Stil</gui><gui>Sidstil</"
-"gui></guiseq>."
-
-#. (itstool) path: td/p
-#: C/mail-composer-html-text.page:44
-msgid "TT"
-msgstr "TT"
-
-#. (itstool) path: td/p
 #: C/mail-composer-html-text.page:45
-msgid "Typewriter text, which is similar to a monospace font."
-msgstr "Skrivmaskinstext som liknar ett fastbreddstypsnitt."
+msgid "Text color."
+msgstr "Textfärg."
 
 #. (itstool) path: td/p
-#: C/mail-composer-html-text.page:48
+#: C/mail-composer-html-text.page:45 C/mail-composer-html-text.page:49
+msgid ""
+"The box displays the current text color. If you have text selected, the "
+"color applies to the selected text. If you do not have text selected, the "
+"color applies to whatever you type next."
+msgstr ""
+"Rutan visar aktuell textfärg. Om du har markerat text kommer färgen att "
+"tillämpas för den valda texten. Om du inte har någon text markerad kommer "
+"färgen att tillämpas för det du skriver härnäst."
+
+#. (itstool) path: td/p
+#: C/mail-composer-html-text.page:49
+msgid "Background color of the text."
+msgstr "Bakgrundsfärg för texten."
+
+#. (itstool) path: td/p
+#: C/mail-composer-html-text.page:52
 msgid "Bold A"
 msgstr "Fet A"
 
 #. (itstool) path: td/p
-#: C/mail-composer-html-text.page:49
+#: C/mail-composer-html-text.page:53
 msgid "Bolds the text."
 msgstr "Gör texten fetare."
 
 #. (itstool) path: td/p
-#: C/mail-composer-html-text.page:52
+#: C/mail-composer-html-text.page:56
 msgid "Italic A"
 msgstr "Kursiv A"
 
 #. (itstool) path: td/p
-#: C/mail-composer-html-text.page:53
+#: C/mail-composer-html-text.page:57
 msgid "Italicizes the text."
 msgstr "Gör texten kursiv."
 
 #. (itstool) path: td/p
-#: C/mail-composer-html-text.page:56
+#: C/mail-composer-html-text.page:60
 msgid "Underlined A"
 msgstr "Understruken A"
 
 #. (itstool) path: td/p
-#: C/mail-composer-html-text.page:57
+#: C/mail-composer-html-text.page:61
 msgid "Underlines the text."
 msgstr "Gör texten understruken."
 
 #. (itstool) path: td/p
-#: C/mail-composer-html-text.page:60
+#: C/mail-composer-html-text.page:64
 msgid "Strike through A"
 msgstr "Genomstruken A"
 
 #. (itstool) path: td/p
-#: C/mail-composer-html-text.page:61
+#: C/mail-composer-html-text.page:65
 msgid "Marks a line through the text."
 msgstr "Drar en linje genom texten."
 
 #. (itstool) path: section/p
-#: C/mail-composer-html-text.page:65
+#: C/mail-composer-html-text.page:69
 msgid ""
 "The other buttons are explained under <link xref=\"mail-composer-"
 "html#formatting-options-html\"/>."
@@ -14752,6 +14755,28 @@ msgstr "Redigera titeln eller sökvillkoren från dialogrutan."
 msgid "Click <_:gui-1/>."
 msgstr "Klicka på <_:gui-1/>."
 
+#~ msgid ""
+#~ "Color chooser for text. The box displays the current text color. To "
+#~ "choose a new color, click the arrow button to the right. If you have text "
+#~ "selected, the color applies to the selected text. If you do not have text "
+#~ "selected, the color applies to whatever you type next. You can select a "
+#~ "background color or image by right-clicking the message background, then "
+#~ "selecting <guiseq><gui>Style</gui><gui>Page Style</gui></guiseq>."
+#~ msgstr ""
+#~ "Färgväljare för text. Boxen visar den aktuella textfärgen. För att välja "
+#~ "en ny färg, klicka på pilknappen till höger. Om du har text markerad "
+#~ "kommer färgen att tillämpas för den valda texten. Om du inte har någon "
+#~ "text markerad kommer färgen att tillämpas för det du skriver härnäst. Du "
+#~ "kan välja en bakgrundsfärg eller bild genom att högerklicka på "
+#~ "meddelandebakgrunden och sedan välja <guiseq><gui>Stil</gui><gui>Sidstil</"
+#~ "gui></guiseq>."
+
+#~ msgid "TT"
+#~ msgstr "TT"
+
+#~ msgid "Typewriter text, which is similar to a monospace font."
+#~ msgstr "Skrivmaskinstext som liknar ett fastbreddstypsnitt."
+
 #~ msgid "grep"
 #~ msgstr "grep"
 
@@ -15118,9 +15143,6 @@ msgstr "Klicka på <_:gui-1/>."
 
 #~ msgid "Icons Only"
 #~ msgstr "Endast ikoner"
-
-#~ msgid "Text Only"
-#~ msgstr "Endast text"
 
 #~ msgid "Toolbar Style"
 #~ msgstr "Stil på verktygsfält"
