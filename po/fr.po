@@ -1,5 +1,5 @@
 # French translation of evolution.
-# Copyright (C) 2000-2018 Free Software Foundation, Inc.
+# Copyright (C) 2000-2021 Free Software Foundation, Inc.
 # This file is distributed under the same license as the evolution package.
 #
 # Vincent Renardias <vincent@debian.org>, 2000.
@@ -31,14 +31,15 @@
 # Thibault Martin <mail@thibaultmart.in>, 2020.
 # Julien Humbert <julroy67@gmail.com>, 2020.
 # Alexandre Franke <afranke@gnome.org>, 2021.
+# Cedric L’homme <public@l-homme.com>, 2021.
 #
 msgid ""
 msgstr ""
 "Project-Id-Version: evolution.HEAD\n"
 "Report-Msgid-Bugs-To: https://gitlab.gnome.org/GNOME/evolution/issues\n"
-"POT-Creation-Date: 2021-04-04 14:19+0000\n"
-"PO-Revision-Date: 2021-04-04 16:24+0200\n"
-"Last-Translator: Alexandre Franke <afranke@gnome.org>\n"
+"POT-Creation-Date: 2021-04-13 18:44+0000\n"
+"PO-Revision-Date: 2021-04-13 09:29-0500\n"
+"Last-Translator: Cedric L’homme <public@l-homme.com>\n"
 "Language-Team: GNOME French Team <gnomefr@traduc.org>\n"
 "Language: fr\n"
 "MIME-Version: 1.0\n"
@@ -25878,7 +25879,7 @@ msgstr "Ne p_as modifier les paramètres"
 
 #: ../src/modules/mailto-handler/evolution-mailto-handler.c:113
 msgid "_Set as default email client"
-msgstr "Définir comm client de _messagerie par défaut"
+msgstr "Définir comme client de _messagerie par défaut"
 
 #: ../src/modules/mailto-handler/evolution-mailto-handler.c:138
 msgid "Do you want to make Evolution your default email client?"
