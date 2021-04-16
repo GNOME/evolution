@@ -585,12 +585,14 @@ action_language_cb (GtkToggleAction *toggle_action,
 static gboolean
 update_mode_combobox (gpointer data)
 {
-	EHTMLEditor *editor = data;
+	GWeakRef *weak_ref = data;
+	EHTMLEditor *editor;
 	EContentEditor *cnt_editor;
 	GtkAction *action;
 	gboolean is_html;
 
-	if (!E_IS_HTML_EDITOR (editor))
+	editor = g_weak_ref_get (weak_ref);
+	if (!editor)
 		return FALSE;
 
 	cnt_editor = e_html_editor_get_content_editor (editor);
@@ -600,6 +602,8 @@ update_mode_combobox (gpointer data)
 		editor->priv->core_editor_actions, "mode-html");
 	gtk_radio_action_set_current_value (
 		GTK_RADIO_ACTION (action), (is_html ? 1 : 0));
+
+	g_object_unref (editor);
 
 	return FALSE;
 }
@@ -622,7 +626,7 @@ html_editor_actions_notify_html_mode_cb (EContentEditor *cnt_editor,
 
 	/* This must be done from idle callback, because apparently we can change
 	 * current value in callback of current value change */
-	g_idle_add (update_mode_combobox, editor);
+	g_idle_add_full (G_PRIORITY_HIGH_IDLE, update_mode_combobox, e_weak_ref_new (editor), (GDestroyNotify) e_weak_ref_free);
 
 	action_group = editor->priv->html_actions;
 	gtk_action_group_set_visible (action_group, is_html);
