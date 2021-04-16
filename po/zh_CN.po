@@ -2,6 +2,7 @@
 # Evolution 的简体中文翻译
 # Copyright (C) 2003 Ximian Inc.
 # Copyright (C) 2009, 2010 Free Software Foundation, Inc.
+# Copyright (C) 2003-2021 evolution's COPYRIGHT HOLDER
 # This file is distributed under the same license as the evolution package.
 # Wang Li <charles@linux.net.cn>, 2002, 2003.
 # Partly comes from Sun_l10n group, 2003
@@ -19,22 +20,22 @@
 # Tong Hui <tonghuix@gmail.com>, 2013, 2014, 2015, 2016.
 # Mingye Wang (Arthur2e5) <arthur200126@gmail.com>, 2015.
 # Jeff bai <jeffbai@aosc.xyz>, 2016.
-# Dingzhong Chen <wsxy162@gmail.com>, 2015, 2016.
+# Dingzhong Chen <wsxy162@gmail.com>, 2015-2021.
 #
 msgid ""
 msgstr ""
-"Project-Id-Version: evolution master\n"
+"Project-Id-Version: evolution 40\n"
 "Report-Msgid-Bugs-To: https://gitlab.gnome.org/GNOME/evolution/issues\n"
-"POT-Creation-Date: 2021-03-09 09:02+0000\n"
-"PO-Revision-Date: 2021-03-18 21:51-0400\n"
-"Last-Translator: Merrick Zhang <anphorea@gmail.com>\n"
-"Language-Team: Chinese (China) <i18n-zh@googlegroups.com>\n"
+"POT-Creation-Date: 2021-03-28 00:35+0000\n"
+"PO-Revision-Date: 2021-03-29 05:44+0800\n"
+"Last-Translator: Dingzhong Chen <wsxy162@gmail.com>\n"
+"Language-Team: Chinese - China <i18n-zh@googlegroups.com>\n"
 "Language: zh_CN\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Plural-Forms: nplurals=1; plural=0;\n"
-"X-Generator: Poedit 2.4.2\n"
+"Plural-Forms: nplurals=1; plural=0\n"
+"X-Generator: Gtranslator 3.38.0\n"
 "X-DamnedLies-Scope: partial\n"
 
 #: ../data/org.gnome.evolution.addressbook.gschema.xml.in.h:1
@@ -1834,7 +1835,7 @@ msgstr "是否压缩线程级别"
 msgid ""
 "Set to true to compress thread levels for flat conversations, to make the "
 "level not so deep."
-msgstr ""
+msgstr "设为 true 则压缩线程级别以平铺显示会话，使其级别不会太深。"
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:166
 msgid "Sort accounts alphabetically in a folder tree"
@@ -2550,17 +2551,19 @@ msgstr "如果启用，取消设置 HTML 消息中的颜色，强制使用桌面
 msgid ""
 "Whether to preserve expand state of the folders when calling Copy/Move to "
 "Folder."
-msgstr ""
+msgstr "调用复制/移动到文件夹时是否保持文件夹的展开状态。"
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:304
 msgid ""
 "If enabled, the Copy/Move to Folder dialog will preserve the expand state of "
 "the folders in the dialog, otherwise all the folders will be expanded."
 msgstr ""
+"如果启用，复制/移动到文件夹对话框将保持对话框中文件夹的展开状态，否则将展开所"
+"有的文件夹。"
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:305
 msgid "(Deprecated) Default forward style"
-msgstr "(已弃用) 默认转发方式"
+msgstr "（已弃用）默认转发方式"
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:306
 msgid ""
@@ -2570,7 +2573,7 @@ msgstr "该键已在 3.10 版本中弃用，不应再使用。请转用 \"forwar
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:307
 msgid "(Deprecated) Default reply style"
-msgstr "(已弃用) 默认回复样式"
+msgstr "（已弃用）默认回复样式"
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:308
 msgid ""
@@ -2580,7 +2583,7 @@ msgstr "该键已在 3.10 版本中弃用，不应再使用。请转用 \"reply-
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:309
 msgid "(Deprecated) List of custom headers and whether they are enabled."
-msgstr "(已弃用)自定义信头及是否启用。"
+msgstr "（已弃用）自定义信头及是否启用。"
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:310
 msgid ""
@@ -2590,7 +2593,7 @@ msgstr "该键已在 3.10 版本中弃用，不应再使用。请转用 \"show-h
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:311
 msgid "(Deprecated) Load images for HTML messages over HTTP"
-msgstr "(已弃用) 在 HTML 信息中载入 HTTP 图像"
+msgstr "（已弃用）在 HTML 信息中载入 HTTP 图像"
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:312
 msgid ""
@@ -2603,7 +2606,7 @@ msgstr ""
 msgid ""
 "(Deprecated) Asks whether to close the message window when the user forwards "
 "or replies to the message shown in the window"
-msgstr "(已弃用) 在用户转发或回复显示在窗口中的信息时，询问是否关闭信息窗口"
+msgstr "（已弃用）在用户转发或回复显示在窗口中的信息时，询问是否关闭信息窗口"
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:314
 msgid ""
@@ -2880,11 +2883,11 @@ msgstr ""
 
 #: ../data/org.gnome.evolution.plugin.sender-validator.gschema.xml.in.h:1
 msgid "[]"
-msgstr ""
+msgstr "[]"
 
 #: ../data/org.gnome.evolution.plugin.sender-validator.gschema.xml.in.h:2
 msgid "List of assignments for recipient and the address to be used with it"
-msgstr ""
+msgstr "分配的收件人列表及其用于的地址"
 
 #: ../data/org.gnome.evolution.plugin.sender-validator.gschema.xml.in.h:3
 msgid ""
@@ -2892,6 +2895,8 @@ msgid ""
 "be part of the address only and the sender is a full email address, which "
 "should match the From address precisely."
 msgstr ""
+"列表格式为 '收件人&lt;Tab 键&gt;发件人'，其中收件人可以为邮件地址的其中一部"
+"分，而发件人必须是完整的地址，与邮件的发件人地址完全匹配。"
 
 #: ../data/org.gnome.evolution.plugin.templates.gschema.xml.in.h:1
 msgid ""
@@ -3092,7 +3097,7 @@ msgstr ""
 
 #: ../data/org.gnome.evolution.shell.gschema.xml.in.h:42
 msgid "Set of additional illegal characters in the filename"
-msgstr ""
+msgstr "额外的文件名非法字符集"
 
 #: ../data/org.gnome.evolution.shell.gschema.xml.in.h:43
 msgid ""
@@ -3100,6 +3105,8 @@ msgid ""
 "reserved characters are replaced with an underscore. Here's a set of "
 "additional characters to be replaced."
 msgstr ""
+"当从自定义字符串生成文件名时，一些不可打印显示或保留的字符会被替换为下划线。"
+"这里可以设置要被替换的额外字符集合。"
 
 #: ../data/org.gnome.evolution.spamassassin.gschema.xml.in.h:1
 msgid "Use only local spam tests."
@@ -3107,7 +3114,7 @@ msgstr "只使用本地垃圾信息测试。"
 
 #: ../data/org.gnome.evolution.spamassassin.gschema.xml.in.h:2
 msgid "Use only the local spam tests (no DNS)."
-msgstr "之使用本地垃圾信息测试(无 DNS)。"
+msgstr "之使用本地垃圾信息测试（无 DNS）。"
 
 #: ../data/org.gnome.evolution.spamassassin.gschema.xml.in.h:3
 msgid "Full path command to run spamassassin"
@@ -3258,7 +3265,7 @@ msgstr "任务"
 #: ../data/ui/evolution-shortcuts.ui.h:1
 msgctxt "shortcut window"
 msgid "Keyboard Shortcuts"
-msgstr "键盘快捷键"
+msgstr "快捷键"
 
 #: ../data/ui/evolution-shortcuts.ui.h:2
 msgctxt "shortcut window"
@@ -3556,11 +3563,11 @@ msgstr "对宽屏视图(_W)"
 msgid "As Sent Folder for Wi_de View"
 msgstr "对宽屏视图显示已发文件夹(_D)"
 
-#: ../data/views/memos/galview.xml.h:1 ../src/e-util/e-webdav-browser.c:2594
+#: ../data/views/memos/galview.xml.h:1 ../src/e-util/e-webdav-browser.c:2603
 msgid "_Memos"
 msgstr "备忘(_M)"
 
-#: ../data/views/tasks/galview.xml.h:1 ../src/e-util/e-webdav-browser.c:2598
+#: ../data/views/tasks/galview.xml.h:1 ../src/e-util/e-webdav-browser.c:2607
 #: ../src/plugins/pst-import/pst-importer.c:571
 msgid "_Tasks"
 msgstr "任务(_T)"
@@ -3876,7 +3883,7 @@ msgid "Contact Editor"
 msgstr "联系人编辑器"
 
 #: ../src/addressbook/gui/contact-editor/contact-editor.ui.h:13
-#: ../src/calendar/gui/e-comp-editor-page-reminders.c:2416
+#: ../src/calendar/gui/e-comp-editor-page-reminders.c:2433
 #: ../src/em-format/e-mail-formatter-attachment.c:277
 #: ../src/mail/mail-config.ui.h:40
 msgid "Options"
@@ -3924,7 +3931,7 @@ msgstr "选项"
 #: ../src/e-util/e-source-selector-dialog.c:325
 #: ../src/e-util/e-table-config.c:540 ../src/e-util/e-table-config.ui.h:3
 #: ../src/e-util/e-timezone-dialog.ui.h:2
-#: ../src/e-util/evolution-source-viewer.c:829 ../src/e-util/e-web-view.c:3988
+#: ../src/e-util/evolution-source-viewer.c:829 ../src/e-util/e-web-view.c:3994
 #: ../src/e-util/gal-view-instance-save-as-dialog.c:265
 #: ../src/mail/e-mail-config-window.c:310 ../src/mail/e-mail-label-dialog.c:186
 #: ../src/mail/e-mail-tag-editor.c:160 ../src/mail/em-composer-utils.c:4031
@@ -3962,7 +3969,7 @@ msgstr "取消(_C)"
 #: ../src/e-util/e-attachment-store.c:848
 #: ../src/e-util/e-attachment-store.c:855
 #: ../src/e-util/e-mail-signature-script-dialog.c:362
-#: ../src/e-util/e-webdav-browser.c:2622 ../src/e-util/e-web-view.c:3988
+#: ../src/e-util/e-webdav-browser.c:2631 ../src/e-util/e-web-view.c:3994
 #: ../src/e-util/gal-view-instance-save-as-dialog.c:266
 #: ../src/shell/e-shell-content.c:642 ../src/shell/e-shell-utils.c:133
 #: ../src/smime/gui/certificate-manager.c:653
@@ -4130,14 +4137,14 @@ msgstr "周年(_A)："
 #: ../src/addressbook/gui/contact-editor/contact-editor.ui.h:52
 #: ../src/addressbook/gui/widgets/eab-contact-formatter.c:1048
 #: ../src/addressbook/gui/widgets/e-addressbook-view.etspec.h:47
-#: ../src/calendar/gui/e-calendar-view.c:2205
+#: ../src/calendar/gui/e-calendar-view.c:2214
 msgid "Anniversary"
 msgstr "纪念日"
 
 #: ../src/addressbook/gui/contact-editor/contact-editor.ui.h:53
 #: ../src/addressbook/gui/widgets/eab-contact-formatter.c:1047
 #: ../src/addressbook/gui/widgets/e-addressbook-view.etspec.h:46
-#: ../src/calendar/gui/e-calendar-view.c:2204
+#: ../src/calendar/gui/e-calendar-view.c:2213
 msgid "Birthday"
 msgstr "生日"
 
@@ -4525,7 +4532,7 @@ msgid "_Suffix:"
 msgstr "后缀(_S)："
 
 #: ../src/addressbook/gui/contact-list-editor/contact-list-editor.ui.h:1
-#: ../src/addressbook/gui/contact-list-editor/e-contact-list-editor.c:822
+#: ../src/addressbook/gui/contact-list-editor/e-contact-list-editor.c:825
 msgid "Contact List Editor"
 msgstr "联系人列表编辑器"
 
@@ -4581,23 +4588,23 @@ msgstr "下(_D)"
 msgid "_Bottom"
 msgstr "底部(_B)"
 
-#: ../src/addressbook/gui/contact-list-editor/e-contact-list-editor.c:947
+#: ../src/addressbook/gui/contact-list-editor/e-contact-list-editor.c:950
 msgid "Contact List Members"
 msgstr "联系人列表成员"
 
-#: ../src/addressbook/gui/contact-list-editor/e-contact-list-editor.c:1499
+#: ../src/addressbook/gui/contact-list-editor/e-contact-list-editor.c:1502
 msgid "_Members"
 msgstr "成员(_M)"
 
-#: ../src/addressbook/gui/contact-list-editor/e-contact-list-editor.c:1639
+#: ../src/addressbook/gui/contact-list-editor/e-contact-list-editor.c:1642
 msgid "Error adding list"
 msgstr "添加列表出错"
 
-#: ../src/addressbook/gui/contact-list-editor/e-contact-list-editor.c:1659
+#: ../src/addressbook/gui/contact-list-editor/e-contact-list-editor.c:1662
 msgid "Error modifying list"
 msgstr "修改列表出错"
 
-#: ../src/addressbook/gui/contact-list-editor/e-contact-list-editor.c:1679
+#: ../src/addressbook/gui/contact-list-editor/e-contact-list-editor.c:1682
 msgid "Error removing list"
 msgstr "删除列表出错"
 
@@ -5037,7 +5044,7 @@ msgstr "您确定要删除联系人(%s)吗？"
 #: ../src/calendar/gui/e-comp-editor.c:2127
 #: ../src/e-util/e-accounts-window.c:1753 ../src/e-util/e-focus-tracker.c:816
 #: ../src/e-util/evolution-source-viewer.c:800
-#: ../src/e-util/e-webdav-browser.c:2846
+#: ../src/e-util/e-webdav-browser.c:2855
 #: ../src/mail/e-mail-account-manager.c:739
 #: ../src/modules/addressbook/e-book-shell-view-actions.c:1173
 #: ../src/modules/calendar/e-cal-shell-view-actions.c:1597
@@ -6464,28 +6471,28 @@ msgstr "单击此处可查找更多事件。"
 
 #. Translators: Part of: [ Play a sound ] [ x ] [ minute(s) ] [ before ] [ start ]
 #: ../src/calendar/gui/e-alarm-list.c:387
-#: ../src/calendar/gui/e-comp-editor-page-reminders.c:2251
+#: ../src/calendar/gui/e-comp-editor-page-reminders.c:2268
 msgctxt "cal-reminders"
 msgid "Play a sound"
 msgstr "播放声音"
 
 #. Translators: Part of: [ Pop up an alert ] [ x ] [ minute(s) ] [ before ] [ start ]
 #: ../src/calendar/gui/e-alarm-list.c:391
-#: ../src/calendar/gui/e-comp-editor-page-reminders.c:2249
+#: ../src/calendar/gui/e-comp-editor-page-reminders.c:2266
 msgctxt "cal-reminders"
 msgid "Pop up an alert"
 msgstr "弹出警报"
 
 #. Translators: Part of: [ Send an email ] [ x ] [ minute(s) ] [ before ] [ start ]
 #: ../src/calendar/gui/e-alarm-list.c:395
-#: ../src/calendar/gui/e-comp-editor-page-reminders.c:2255
+#: ../src/calendar/gui/e-comp-editor-page-reminders.c:2272
 msgctxt "cal-reminders"
 msgid "Send an email"
 msgstr "发送邮件"
 
 #. Translators: Part of: [ Run a program ] [ x ] [ minute(s) ] [ before ] [ start ]
 #: ../src/calendar/gui/e-alarm-list.c:399
-#: ../src/calendar/gui/e-comp-editor-page-reminders.c:2253
+#: ../src/calendar/gui/e-comp-editor-page-reminders.c:2270
 msgctxt "cal-reminders"
 msgid "Run a program"
 msgstr "运行程序"
@@ -6804,53 +6811,53 @@ msgstr "发送我有关此事件的提醒"
 msgid "Notify new attendees _only"
 msgstr "只通知新的出席者(_O)"
 
-#: ../src/calendar/gui/e-calendar-view.c:472
+#: ../src/calendar/gui/e-calendar-view.c:481
 msgid "Cut selected events to the clipboard"
 msgstr "将选中事件剪切到剪贴板"
 
-#: ../src/calendar/gui/e-calendar-view.c:478
+#: ../src/calendar/gui/e-calendar-view.c:487
 msgid "Copy selected events to the clipboard"
 msgstr "将选中事件复制到剪贴板"
 
-#: ../src/calendar/gui/e-calendar-view.c:484
+#: ../src/calendar/gui/e-calendar-view.c:493
 msgid "Paste events from the clipboard"
 msgstr "从剪贴板中粘贴事件"
 
-#: ../src/calendar/gui/e-calendar-view.c:490
+#: ../src/calendar/gui/e-calendar-view.c:499
 msgid "Delete selected events"
 msgstr "删除选中的事件"
 
-#: ../src/calendar/gui/e-calendar-view.c:901
+#: ../src/calendar/gui/e-calendar-view.c:910
 msgid "Pasted text doesn’t contain valid iCalendar data"
 msgstr "粘贴文本中没有有效的 iCalendar 数据"
 
-#: ../src/calendar/gui/e-calendar-view.c:912
+#: ../src/calendar/gui/e-calendar-view.c:921
 #: ../src/calendar/gui/e-cal-ops.c:1585
 msgid "Default calendar not found"
 msgstr "默认日历未找到"
 
-#: ../src/calendar/gui/e-calendar-view.c:917
+#: ../src/calendar/gui/e-calendar-view.c:926
 #: ../src/calendar/gui/e-cal-ops.c:1588
 msgid "Default memo list not found"
 msgstr "默认备忘录未找到"
 
-#: ../src/calendar/gui/e-calendar-view.c:922
+#: ../src/calendar/gui/e-calendar-view.c:931
 #: ../src/calendar/gui/e-cal-ops.c:1591
 msgid "Default task list not found"
 msgstr "默认任务列表未找到"
 
-#: ../src/calendar/gui/e-calendar-view.c:1014
+#: ../src/calendar/gui/e-calendar-view.c:1023
 msgid "No suitable component found"
 msgstr "找不到合适的组件"
 
-#: ../src/calendar/gui/e-calendar-view.c:1084
+#: ../src/calendar/gui/e-calendar-view.c:1093
 msgid "Pasting iCalendar data"
 msgstr "粘贴 iCalendar 数据"
 
-#: ../src/calendar/gui/e-calendar-view.c:1145
-#: ../src/calendar/gui/e-calendar-view.c:1148
-#: ../src/calendar/gui/e-calendar-view.c:1151
-#: ../src/calendar/gui/e-calendar-view.c:1152
+#: ../src/calendar/gui/e-calendar-view.c:1154
+#: ../src/calendar/gui/e-calendar-view.c:1157
+#: ../src/calendar/gui/e-calendar-view.c:1160
+#: ../src/calendar/gui/e-calendar-view.c:1161
 msgid "%d %b %Y"
 msgstr "%Y年%-m月%-d日"
 
@@ -6859,14 +6866,14 @@ msgstr "%Y年%-m月%-d日"
 #. strftime format %d = day of month, %b = abbreviated
 #. * month name. You can change the order but don't
 #. * change the specifiers or add anything.
-#: ../src/calendar/gui/e-calendar-view.c:1147
+#: ../src/calendar/gui/e-calendar-view.c:1156
 #: ../src/calendar/gui/e-day-view.c:3073
 #: ../src/calendar/gui/e-day-view-top-item.c:854
 #: ../src/calendar/gui/e-week-view-main-item.c:230
 msgid "%d %b"
 msgstr "%B%-d日"
 
-#: ../src/calendar/gui/e-calendar-view.c:1158
+#: ../src/calendar/gui/e-calendar-view.c:1167
 msgid "%A %d %b %Y"
 msgstr "%Y年%-m月%-d日%A"
 
@@ -6876,16 +6883,16 @@ msgstr "%Y年%-m月%-d日%A"
 #. * %d = day of month, %b = abbreviated month name.
 #. * You can change the order but don't change the
 #. * specifiers or add anything.
-#: ../src/calendar/gui/e-calendar-view.c:1160
+#: ../src/calendar/gui/e-calendar-view.c:1169
 #: ../src/calendar/gui/e-day-view.c:3057
 #: ../src/calendar/gui/e-day-view-top-item.c:850
 #: ../src/calendar/gui/e-week-view-main-item.c:216
 msgid "%a %d %b"
 msgstr "%-m月%-d日%A"
 
-#: ../src/calendar/gui/e-calendar-view.c:1161
-#: ../src/calendar/gui/e-calendar-view.c:1163
-#: ../src/calendar/gui/e-calendar-view.c:1164
+#: ../src/calendar/gui/e-calendar-view.c:1170
+#: ../src/calendar/gui/e-calendar-view.c:1172
+#: ../src/calendar/gui/e-calendar-view.c:1173
 msgid "%a %d %b %Y"
 msgstr "%Y年%-m月%-d日%A"
 
@@ -6894,7 +6901,7 @@ msgstr "%Y年%-m月%-d日%A"
 #. * "Organizer: NameOfTheUser <email@ofuser.com>"
 #. To Translators: It will display
 #. * "Organizer: NameOfTheUser <email@ofuser.com>"
-#: ../src/calendar/gui/e-calendar-view.c:1956
+#: ../src/calendar/gui/e-calendar-view.c:1965
 #: ../src/calendar/gui/e-memo-table.c:561
 #: ../src/calendar/gui/e-task-table.c:730
 #, c-format
@@ -6904,7 +6911,7 @@ msgstr "组织者：%s <%s>"
 #. With SunOne accounts, there may be no ':' in organiser.value
 #. With SunOne accounts, there may be no ':' in
 #. * organizer.value.
-#: ../src/calendar/gui/e-calendar-view.c:1959
+#: ../src/calendar/gui/e-calendar-view.c:1968
 #: ../src/calendar/gui/e-memo-table.c:566
 #: ../src/calendar/gui/e-task-table.c:734
 #, c-format
@@ -6913,7 +6920,7 @@ msgstr "组织者：%s"
 
 #. Translators: It will display "Location: PlaceOfTheMeeting"
 #. Translators: It will display "Location: LocationOfTheAppointment"
-#: ../src/calendar/gui/e-calendar-view.c:1978
+#: ../src/calendar/gui/e-calendar-view.c:1987
 #: ../src/calendar/gui/e-meeting-time-sel.c:2580
 #: ../src/calendar/gui/e-task-table.c:752
 #: ../src/calendar/gui/e-to-do-pane.c:377 ../src/calendar/gui/print.c:3627
@@ -6923,17 +6930,17 @@ msgstr "位置：%s"
 
 #. To Translators: It will display "Time: ActualStartDateAndTime (DurationOfTheMeeting)"
 #. Translators: It will display "Time: StartDateAndTime (Duration)"
-#: ../src/calendar/gui/e-calendar-view.c:2037
+#: ../src/calendar/gui/e-calendar-view.c:2046
 #: ../src/calendar/gui/e-to-do-pane.c:480
 #, c-format
 msgid "Time: %s %s"
 msgstr "时间：%s %s"
 
-#: ../src/calendar/gui/e-calendar-view.c:2106
+#: ../src/calendar/gui/e-calendar-view.c:2115
 #: ../src/calendar/gui/e-memo-table.c:660
 #: ../src/calendar/gui/e-task-table.c:882
 #: ../src/calendar/gui/e-to-do-pane.c:590 ../src/e-util/e-misc-utils.c:4614
-#: ../src/e-util/e-text.c:566 ../src/e-util/e-web-view.c:4169
+#: ../src/e-util/e-text.c:566 ../src/e-util/e-web-view.c:4175
 msgid "…"
 msgstr "…"
 
@@ -6941,7 +6948,7 @@ msgstr "…"
 #. The string is used for Birthday & Anniversary events where the first year is
 #. know, constructing a summary which also shows how many years the birthday or
 #. anniversary is for. Example: "Birthday: John Doe (13)"
-#: ../src/calendar/gui/e-calendar-view.c:2224
+#: ../src/calendar/gui/e-calendar-view.c:2233
 #, c-format
 msgctxt "BirthdaySummary"
 msgid "%s (%d)"
@@ -7011,7 +7018,7 @@ msgstr "状态"
 #: ../src/e-util/e-accounts-window.c:1443
 #: ../src/e-util/e-attachment-tree-view.c:205
 #: ../src/e-util/e-collection-account-wizard.c:2026
-#: ../src/e-util/e-webdav-browser.c:2519
+#: ../src/e-util/e-webdav-browser.c:2528
 #: ../src/mail/e-mail-account-tree-view.c:158
 msgid "Type"
 msgstr "类型"
@@ -7024,7 +7031,7 @@ msgstr "类型"
 #: ../src/calendar/gui/e-meeting-store.c:215 ../src/calendar/gui/print.c:1265
 #: ../src/calendar/gui/print.c:1282 ../src/e-util/e-charset.c:49
 #: ../src/modules/itip-formatter/itip-view.c:3444
-#: ../src/modules/itip-formatter/itip-view.c:6406
+#: ../src/modules/itip-formatter/itip-view.c:6436
 #: ../src/modules/plugin-manager/evolution-plugin-manager.c:97
 msgid "Unknown"
 msgstr "未知"
@@ -7073,7 +7080,7 @@ msgstr "否"
 #: ../src/calendar/gui/e-meeting-list-view.c:205
 #: ../src/calendar/gui/e-meeting-store.c:179
 #: ../src/calendar/gui/e-meeting-store.c:202
-#: ../src/modules/itip-formatter/itip-view.c:6394
+#: ../src/modules/itip-formatter/itip-view.c:6424
 msgid "Accepted"
 msgstr "接受"
 
@@ -7081,7 +7088,7 @@ msgstr "接受"
 #: ../src/calendar/gui/e-meeting-list-view.c:206
 #: ../src/calendar/gui/e-meeting-store.c:181
 #: ../src/calendar/gui/e-meeting-store.c:204
-#: ../src/modules/itip-formatter/itip-view.c:6400
+#: ../src/modules/itip-formatter/itip-view.c:6430
 msgid "Declined"
 msgstr "拒绝"
 
@@ -7097,7 +7104,7 @@ msgstr "暂时的"
 #: ../src/calendar/gui/e-meeting-list-view.c:208
 #: ../src/calendar/gui/e-meeting-store.c:185
 #: ../src/calendar/gui/e-meeting-store.c:208
-#: ../src/modules/itip-formatter/itip-view.c:6403
+#: ../src/modules/itip-formatter/itip-view.c:6433
 msgid "Delegated"
 msgstr "被委任的"
 
@@ -7317,21 +7324,19 @@ msgid "Event cannot be edited, because the selected calendar is read only"
 msgstr "因所选的日程为只读，您无法编辑该事件"
 
 #: ../src/calendar/gui/e-comp-editor-event.c:208
-#, fuzzy
-#| msgid "Memo cannot be fully edited, because you are not the organizer"
 msgid ""
 "Changes made to the event will not be sent to the attendees, because you are "
 "not the organizer"
-msgstr "您并非组织者，因此无法编辑全部备忘"
+msgstr "您并非组织者，因此对事件所作的更改不会发送给出席者"
 
 #: ../src/calendar/gui/e-comp-editor-event.c:500
 #: ../src/calendar/gui/e-comp-editor-task.c:584
 msgid "Start date is not a valid date"
-msgstr "起始日期无效"
+msgstr "开始日期无效"
 
 #: ../src/calendar/gui/e-comp-editor-event.c:502
 msgid "Start time is not a valid time"
-msgstr "起始时间无效"
+msgstr "开始时间无效"
 
 #: ../src/calendar/gui/e-comp-editor-event.c:506
 #: ../src/calendar/gui/e-comp-editor-event.c:522
@@ -7493,12 +7498,10 @@ msgid "Memo cannot be edited, because the selected memo list is read only"
 msgstr "因所选的备忘列表为只读，您无法编辑该备忘"
 
 #: ../src/calendar/gui/e-comp-editor-memo.c:215
-#, fuzzy
-#| msgid "Memo cannot be fully edited, because you are not the organizer"
 msgid ""
 "Changes made to the memo will not be sent to the attendees, because you are "
 "not the organizer"
-msgstr "您并非组织者，因此无法编辑全部备忘"
+msgstr "您并非组织者，因此对备忘录所作的更改不会发送给出席者"
 
 #: ../src/calendar/gui/e-comp-editor-memo.c:311
 #: ../src/calendar/gui/e-comp-editor-task.c:806
@@ -7509,7 +7512,7 @@ msgstr "列表(_L)："
 #: ../src/calendar/gui/e-comp-editor-task.c:816
 msgctxt "ECompEditor"
 msgid "Sta_rt date:"
-msgstr "起始日期："
+msgstr "开始日期："
 
 #: ../src/calendar/gui/e-comp-editor-memo.c:385
 #, c-format
@@ -7687,7 +7690,7 @@ msgstr "出席者(_N)…"
 #: ../src/e-util/e-accounts-window.c:1745
 #: ../src/e-util/e-html-editor-actions.c:1118
 #: ../src/e-util/e-mail-signature-manager.c:354
-#: ../src/e-util/e-webdav-browser.c:2839 ../src/e-util/filter.ui.h:26
+#: ../src/e-util/e-webdav-browser.c:2848 ../src/e-util/filter.ui.h:26
 #: ../src/mail/e-mail-account-manager.c:730 ../src/mail/e-mail-browser.c:217
 #: ../src/mail/e-mail-label-manager.c:364
 #: ../src/mail/em-folder-properties.c:1362 ../src/mail/mail-config.ui.h:68
@@ -7958,14 +7961,14 @@ msgid "Exceptions"
 msgstr "例外"
 
 #: ../src/calendar/gui/e-comp-editor-page-recurrence.c:2309
-#: ../src/calendar/gui/e-comp-editor-page-reminders.c:2205
+#: ../src/calendar/gui/e-comp-editor-page-reminders.c:2222
 #: ../src/mail/e-mail-config-identity-page.c:854
 #: ../src/mail/mail-config.ui.h:67
 msgid "A_dd"
 msgstr "添加(_D)"
 
 #: ../src/calendar/gui/e-comp-editor-page-recurrence.c:2325
-#: ../src/calendar/gui/e-comp-editor-page-reminders.c:2213
+#: ../src/calendar/gui/e-comp-editor-page-reminders.c:2230
 #: ../src/mail/mail-config.ui.h:69
 msgid "Re_move"
 msgstr "删除(_M)"
@@ -7978,16 +7981,16 @@ msgstr "预览"
 msgid "Send To"
 msgstr "发送到"
 
-#: ../src/calendar/gui/e-comp-editor-page-reminders.c:1629
+#: ../src/calendar/gui/e-comp-editor-page-reminders.c:1646
 msgid "_Reminders"
 msgstr "提醒(_R)"
 
-#: ../src/calendar/gui/e-comp-editor-page-reminders.c:1631
+#: ../src/calendar/gui/e-comp-editor-page-reminders.c:1648
 msgid "Set or unset reminders"
 msgstr "设置或取消提醒"
 
 #. Translators: "None" for "No reminder set"
-#: ../src/calendar/gui/e-comp-editor-page-reminders.c:1743
+#: ../src/calendar/gui/e-comp-editor-page-reminders.c:1760
 msgctxt "cal-reminders"
 msgid "None"
 msgstr "无"
@@ -7995,162 +7998,162 @@ msgstr "无"
 #. Translators: This constructs predefined reminder's description, for example "15 minutes before",
 #. "1 hour before", "1 day before", but, if user has set, also more complicated strings like
 #. "2 days 13 hours 1 minute before".
-#: ../src/calendar/gui/e-comp-editor-page-reminders.c:1753
+#: ../src/calendar/gui/e-comp-editor-page-reminders.c:1770
 #, c-format
 msgctxt "cal-reminders"
 msgid "%s before"
 msgstr "%s 之前"
 
-#: ../src/calendar/gui/e-comp-editor-page-reminders.c:1758
+#: ../src/calendar/gui/e-comp-editor-page-reminders.c:1775
 msgctxt "cal-reminders"
 msgid "at the start"
 msgstr "开始时"
 
 #. Translators: "Custom" for "Custom reminder set"
-#: ../src/calendar/gui/e-comp-editor-page-reminders.c:1766
+#: ../src/calendar/gui/e-comp-editor-page-reminders.c:1783
 msgctxt "cal-reminders"
 msgid "Custom"
 msgstr "自定义"
 
-#: ../src/calendar/gui/e-comp-editor-page-reminders.c:1912
+#: ../src/calendar/gui/e-comp-editor-page-reminders.c:1929
 msgid "Set a custom predefined time to"
 msgstr "将自定义预定义时间设置为"
 
 #. Translators: this is part of: "Set a custom predefined time to [nnn] days [nnn] hours [nnn] minutes", where the text in "[]" means a separate widget
-#: ../src/calendar/gui/e-comp-editor-page-reminders.c:1925
+#: ../src/calendar/gui/e-comp-editor-page-reminders.c:1942
 msgctxt "cal-reminders"
 msgid "da_ys"
 msgstr "天(_Y)"
 
 #. Translators: this is part of: "Set a custom predefined time to [nnn] days [nnn] hours [nnn] minutes", where the text in "[]" means a separate widget
-#: ../src/calendar/gui/e-comp-editor-page-reminders.c:1941
+#: ../src/calendar/gui/e-comp-editor-page-reminders.c:1958
 msgctxt "cal-reminders"
 msgid "_hours"
 msgstr "小时(_H)"
 
 #. Translators: this is part of: "Set a custom predefined time to [nnn] days [nnn] hours [nnn] minutes", where the text in "[]" means a separate widget
-#: ../src/calendar/gui/e-comp-editor-page-reminders.c:1957
+#: ../src/calendar/gui/e-comp-editor-page-reminders.c:1974
 msgctxt "cal-reminders"
 msgid "_minutes"
 msgstr "分钟(_M)"
 
-#: ../src/calendar/gui/e-comp-editor-page-reminders.c:1963
+#: ../src/calendar/gui/e-comp-editor-page-reminders.c:1980
 msgid "_Add time"
 msgstr "添加时间(_A)"
 
-#: ../src/calendar/gui/e-comp-editor-page-reminders.c:2043
+#: ../src/calendar/gui/e-comp-editor-page-reminders.c:2060
 #: ../src/modules/calendar/e-calendar-preferences.ui.h:73
 msgid "Reminders"
 msgstr "提醒"
 
-#: ../src/calendar/gui/e-comp-editor-page-reminders.c:2068
+#: ../src/calendar/gui/e-comp-editor-page-reminders.c:2085
 msgid "_Reminder"
 msgstr "提醒(_R)"
 
-#: ../src/calendar/gui/e-comp-editor-page-reminders.c:2093
+#: ../src/calendar/gui/e-comp-editor-page-reminders.c:2110
 msgid "Add custom predefined time"
 msgstr "添加自定义预定义时间"
 
-#: ../src/calendar/gui/e-comp-editor-page-reminders.c:2101
+#: ../src/calendar/gui/e-comp-editor-page-reminders.c:2118
 msgid "Remove custom predefined times"
 msgstr "删除自定义预定义时间"
 
 #. Translators: Part of: [ Pop up an alert ] [ x ] [ minute(s) ] [ before ] [ start ]
-#: ../src/calendar/gui/e-comp-editor-page-reminders.c:2286
+#: ../src/calendar/gui/e-comp-editor-page-reminders.c:2303
 msgctxt "cal-reminders"
 msgid "minute(s)"
 msgstr "分"
 
 #. Translators: Part of: [ Pop up an alert ] [ x ] [ hour(s) ] [ before ] [ start ]
-#: ../src/calendar/gui/e-comp-editor-page-reminders.c:2288
+#: ../src/calendar/gui/e-comp-editor-page-reminders.c:2305
 msgctxt "cal-reminders"
 msgid "hour(s)"
 msgstr "时"
 
 #. Translators: Part of: [ Pop up an alert ] [ x ] [ day(s) ] [ before ] [ start ]
-#: ../src/calendar/gui/e-comp-editor-page-reminders.c:2290
+#: ../src/calendar/gui/e-comp-editor-page-reminders.c:2307
 msgctxt "cal-reminders"
 msgid "day(s)"
 msgstr "日"
 
 #. Translators: Part of: [ Pop up an alert ] [ x ] [ minute(s) ] [ before ] [ start ]
-#: ../src/calendar/gui/e-comp-editor-page-reminders.c:2307
+#: ../src/calendar/gui/e-comp-editor-page-reminders.c:2324
 msgctxt "cal-reminders"
 msgid "before"
 msgstr "之前"
 
 #. Translators: Part of: [ Pop up an alert ] [ x ] [ minute(s) ] [ after ] [ start ]
-#: ../src/calendar/gui/e-comp-editor-page-reminders.c:2309
+#: ../src/calendar/gui/e-comp-editor-page-reminders.c:2326
 msgctxt "cal-reminders"
 msgid "after"
 msgstr "后"
 
 #. Translators: Part of: [ Pop up an alert ] [ x ] [ minute(s) ] [ before ] [ start ]
-#: ../src/calendar/gui/e-comp-editor-page-reminders.c:2325
+#: ../src/calendar/gui/e-comp-editor-page-reminders.c:2342
 msgctxt "cal-reminders"
 msgid "start"
 msgstr "开始"
 
 #. Translators: Part of: [ Pop up an alert ] [ x ] [ minute(s) ] [ before ] [ end ]
-#: ../src/calendar/gui/e-comp-editor-page-reminders.c:2327
+#: ../src/calendar/gui/e-comp-editor-page-reminders.c:2344
 msgctxt "cal-reminders"
 msgid "end"
 msgstr "结束"
 
 #. Translators: Part of: Repeat the reminder [ x ] extra times every [ y ] [ minutes ]
-#: ../src/calendar/gui/e-comp-editor-page-reminders.c:2346
+#: ../src/calendar/gui/e-comp-editor-page-reminders.c:2363
 msgid "Re_peat the reminder"
 msgstr "重复提醒"
 
 #. Translators: Part of: Repeat the reminder [ x ] extra times every [ y ] [ minutes ]
-#: ../src/calendar/gui/e-comp-editor-page-reminders.c:2371
+#: ../src/calendar/gui/e-comp-editor-page-reminders.c:2388
 msgctxt "cal-reminders"
 msgid "extra times every"
 msgstr "重复一次，每隔"
 
 #. Translators: Part of: Repeat the reminder [ x ] extra times every [ y ] [ minutes ]
-#: ../src/calendar/gui/e-comp-editor-page-reminders.c:2408
+#: ../src/calendar/gui/e-comp-editor-page-reminders.c:2425
 msgctxt "cal-reminders"
 msgid "minutes"
 msgstr "分"
 
 #. Translators: Part of: Repeat the reminder [ x ] extra times every [ y ] [ hours ]
-#: ../src/calendar/gui/e-comp-editor-page-reminders.c:2410
+#: ../src/calendar/gui/e-comp-editor-page-reminders.c:2427
 msgctxt "cal-reminders"
 msgid "hours"
 msgstr "时"
 
 #. Translators: Part of: Repeat the reminder [ x ] extra times every [ y ] [ days ]
-#: ../src/calendar/gui/e-comp-editor-page-reminders.c:2412
+#: ../src/calendar/gui/e-comp-editor-page-reminders.c:2429
 msgctxt "cal-reminders"
 msgid "days"
 msgstr "天"
 
 #. page_reminders->priv->custom_email_entry is initialized on demand
-#: ../src/calendar/gui/e-comp-editor-page-reminders.c:2449
-#: ../src/calendar/gui/e-comp-editor-page-reminders.c:2606
+#: ../src/calendar/gui/e-comp-editor-page-reminders.c:2466
+#: ../src/calendar/gui/e-comp-editor-page-reminders.c:2623
 msgctxt "cal-reminders"
 msgid "Custom _message"
 msgstr "自定义消息"
 
-#: ../src/calendar/gui/e-comp-editor-page-reminders.c:2493
+#: ../src/calendar/gui/e-comp-editor-page-reminders.c:2510
 msgctxt "cal-reminders"
 msgid "Custom reminder _sound"
 msgstr "自定义提醒声音"
 
-#: ../src/calendar/gui/e-comp-editor-page-reminders.c:2504
+#: ../src/calendar/gui/e-comp-editor-page-reminders.c:2521
 msgid "Select a sound file"
 msgstr "选择一个音频文件"
 
-#: ../src/calendar/gui/e-comp-editor-page-reminders.c:2532
+#: ../src/calendar/gui/e-comp-editor-page-reminders.c:2549
 msgid "_Program:"
 msgstr "程序(_P)："
 
-#: ../src/calendar/gui/e-comp-editor-page-reminders.c:2557
+#: ../src/calendar/gui/e-comp-editor-page-reminders.c:2574
 msgid "_Arguments:"
 msgstr "参数(_A)："
 
-#: ../src/calendar/gui/e-comp-editor-page-reminders.c:2589
+#: ../src/calendar/gui/e-comp-editor-page-reminders.c:2606
 msgid "_Send To:"
 msgstr "发送到：(_S)"
 
@@ -8298,16 +8301,14 @@ msgid "Task cannot be edited, because the selected task list is read only"
 msgstr "任务不能被编辑，因为选择的任务列表是只读的"
 
 #: ../src/calendar/gui/e-comp-editor-task.c:527
-#, fuzzy
-#| msgid "Memo cannot be fully edited, because you are not the organizer"
 msgid ""
 "Changes made to the task will not be sent to the attendees, because you are "
 "not the organizer"
-msgstr "您并非组织者，因此无法编辑全部备忘"
+msgstr "您并非组织者，因此对任务所作的更改不会发送给出席者"
 
 #: ../src/calendar/gui/e-comp-editor-task.c:598
 msgid "Start date is required for recurring tasks"
-msgstr "周期性任务需要指定起始日期"
+msgstr "周期性任务需要指定开始日期"
 
 #: ../src/calendar/gui/e-comp-editor-task.c:614
 msgid "Due date is not a valid date"
@@ -8393,7 +8394,7 @@ msgstr "复制(_C)"
 #: ../src/calendar/gui/e-comp-editor.c:2115 ../src/e-util/e-focus-tracker.c:203
 #: ../src/e-util/e-focus-tracker.c:259 ../src/e-util/e-focus-tracker.c:312
 #: ../src/e-util/e-focus-tracker.c:807 ../src/e-util/e-web-view.c:469
-#: ../src/e-util/e-web-view.c:2049 ../src/mail/e-mail-browser.c:175
+#: ../src/e-util/e-web-view.c:2055 ../src/mail/e-mail-browser.c:175
 #: ../src/shell/e-shell-window-actions.c:949
 msgid "Copy the selection"
 msgstr "复制选中内容"
@@ -8407,7 +8408,7 @@ msgstr "剪切(_T)"
 
 #: ../src/calendar/gui/e-comp-editor.c:2122 ../src/e-util/e-focus-tracker.c:196
 #: ../src/e-util/e-focus-tracker.c:252 ../src/e-util/e-focus-tracker.c:306
-#: ../src/e-util/e-focus-tracker.c:802 ../src/e-util/e-web-view.c:2058
+#: ../src/e-util/e-focus-tracker.c:802 ../src/e-util/e-web-view.c:2064
 #: ../src/mail/e-mail-browser.c:182 ../src/shell/e-shell-window-actions.c:956
 msgid "Cut the selection"
 msgstr "剪切选中内容"
@@ -8431,7 +8432,7 @@ msgstr "粘贴(_P)"
 
 #: ../src/calendar/gui/e-comp-editor.c:2143 ../src/e-util/e-focus-tracker.c:210
 #: ../src/e-util/e-focus-tracker.c:266 ../src/e-util/e-focus-tracker.c:318
-#: ../src/e-util/e-focus-tracker.c:812 ../src/e-util/e-web-view.c:2067
+#: ../src/e-util/e-focus-tracker.c:812 ../src/e-util/e-web-view.c:2073
 #: ../src/mail/e-mail-browser.c:189 ../src/shell/e-shell-window-actions.c:984
 msgid "Paste the clipboard"
 msgstr "粘贴剪贴板"
@@ -9002,32 +9003,32 @@ msgstr "%s（%s）"
 msgid "%d %B"
 msgstr "%-m月%-d日"
 
-#: ../src/calendar/gui/itip-utils.c:912 ../src/calendar/gui/itip-utils.c:978
-#: ../src/calendar/gui/itip-utils.c:1127
+#: ../src/calendar/gui/itip-utils.c:913 ../src/calendar/gui/itip-utils.c:979
+#: ../src/calendar/gui/itip-utils.c:1128
 msgid "An organizer must be set."
 msgstr "必须设定组织者。"
 
-#: ../src/calendar/gui/itip-utils.c:968
+#: ../src/calendar/gui/itip-utils.c:969
 msgid "At least one attendee is necessary"
 msgstr "至少需要一个参加者"
 
-#: ../src/calendar/gui/itip-utils.c:1225 ../src/calendar/gui/itip-utils.c:1391
+#: ../src/calendar/gui/itip-utils.c:1226 ../src/calendar/gui/itip-utils.c:1392
 msgid "Event information"
 msgstr "事件信息"
 
-#: ../src/calendar/gui/itip-utils.c:1228 ../src/calendar/gui/itip-utils.c:1394
+#: ../src/calendar/gui/itip-utils.c:1229 ../src/calendar/gui/itip-utils.c:1395
 msgid "Task information"
 msgstr "任务信息"
 
-#: ../src/calendar/gui/itip-utils.c:1231 ../src/calendar/gui/itip-utils.c:1397
+#: ../src/calendar/gui/itip-utils.c:1232 ../src/calendar/gui/itip-utils.c:1398
 msgid "Memo information"
 msgstr "备忘信息"
 
-#: ../src/calendar/gui/itip-utils.c:1234 ../src/calendar/gui/itip-utils.c:1415
+#: ../src/calendar/gui/itip-utils.c:1235 ../src/calendar/gui/itip-utils.c:1416
 msgid "Free/Busy information"
 msgstr "忙闲信息"
 
-#: ../src/calendar/gui/itip-utils.c:1237
+#: ../src/calendar/gui/itip-utils.c:1238
 msgid "Calendar information"
 msgstr "日历信息"
 
@@ -9035,7 +9036,7 @@ msgstr "日历信息"
 #. * line of a meeting request or update email.
 #. * The full subject line would be:
 #. * "Accepted: Meeting Name".
-#: ../src/calendar/gui/itip-utils.c:1277
+#: ../src/calendar/gui/itip-utils.c:1278
 msgctxt "Meeting"
 msgid "Accepted"
 msgstr "接受"
@@ -9044,7 +9045,7 @@ msgstr "接受"
 #. * line of a meeting request or update email.
 #. * The full subject line would be:
 #. * "Tentatively Accepted: Meeting Name".
-#: ../src/calendar/gui/itip-utils.c:1284
+#: ../src/calendar/gui/itip-utils.c:1285
 msgctxt "Meeting"
 msgid "Tentatively Accepted"
 msgstr "暂时接受"
@@ -9056,7 +9057,7 @@ msgstr "暂时接受"
 #. Translators: This is part of the subject line of a
 #. * meeting request or update email.  The full subject
 #. * line would be: "Declined: Meeting Name".
-#: ../src/calendar/gui/itip-utils.c:1291 ../src/calendar/gui/itip-utils.c:1339
+#: ../src/calendar/gui/itip-utils.c:1292 ../src/calendar/gui/itip-utils.c:1340
 msgctxt "Meeting"
 msgid "Declined"
 msgstr "拒绝"
@@ -9065,7 +9066,7 @@ msgstr "拒绝"
 #. * line of a meeting request or update email.
 #. * The full subject line would be:
 #. * "Delegated: Meeting Name".
-#: ../src/calendar/gui/itip-utils.c:1298
+#: ../src/calendar/gui/itip-utils.c:1299
 msgctxt "Meeting"
 msgid "Delegated"
 msgstr "被委任的"
@@ -9073,7 +9074,7 @@ msgstr "被委任的"
 #. Translators: This is part of the subject line of a
 #. * meeting request or update email.  The full subject
 #. * line would be: "Updated: Meeting Name".
-#: ../src/calendar/gui/itip-utils.c:1311
+#: ../src/calendar/gui/itip-utils.c:1312
 msgctxt "Meeting"
 msgid "Updated"
 msgstr "更新"
@@ -9081,7 +9082,7 @@ msgstr "更新"
 #. Translators: This is part of the subject line of a
 #. * meeting request or update email.  The full subject
 #. * line would be: "Cancel: Meeting Name".
-#: ../src/calendar/gui/itip-utils.c:1318
+#: ../src/calendar/gui/itip-utils.c:1319
 msgctxt "Meeting"
 msgid "Cancel"
 msgstr "取消"
@@ -9089,7 +9090,7 @@ msgstr "取消"
 #. Translators: This is part of the subject line of a
 #. * meeting request or update email.  The full subject
 #. * line would be: "Refresh: Meeting Name".
-#: ../src/calendar/gui/itip-utils.c:1325
+#: ../src/calendar/gui/itip-utils.c:1326
 msgctxt "Meeting"
 msgid "Refresh"
 msgstr "刷新"
@@ -9097,47 +9098,47 @@ msgstr "刷新"
 #. Translators: This is part of the subject line of a
 #. * meeting request or update email.  The full subject
 #. * line would be: "Counter-proposal: Meeting Name".
-#: ../src/calendar/gui/itip-utils.c:1332
+#: ../src/calendar/gui/itip-utils.c:1333
 msgctxt "Meeting"
 msgid "Counter-proposal"
 msgstr "投票表决"
 
-#: ../src/calendar/gui/itip-utils.c:1412
+#: ../src/calendar/gui/itip-utils.c:1413
 #, c-format
 msgid "Free/Busy information (%s to %s)"
 msgstr "忙闲信息 (%s 到 %s)"
 
-#: ../src/calendar/gui/itip-utils.c:1420
+#: ../src/calendar/gui/itip-utils.c:1421
 msgid "iCalendar information"
 msgstr "iCalendar 信息"
 
-#: ../src/calendar/gui/itip-utils.c:1449
+#: ../src/calendar/gui/itip-utils.c:1450
 #, c-format
 msgid "Unable to book a resource, the new event collides with some other."
 msgstr "无法预约资源，新事件与其它事件冲突。"
 
-#: ../src/calendar/gui/itip-utils.c:1454
+#: ../src/calendar/gui/itip-utils.c:1455
 msgid "Unable to book a resource, error: "
 msgstr "无法预约资源，错误："
 
-#: ../src/calendar/gui/itip-utils.c:1647
+#: ../src/calendar/gui/itip-utils.c:1648
 msgid "You must be an attendee of the event."
 msgstr "您必须是事件的出席者。"
 
-#: ../src/calendar/gui/itip-utils.c:2526
+#: ../src/calendar/gui/itip-utils.c:2527
 msgid "Sending an event"
 msgstr "正在发送事件"
 
-#: ../src/calendar/gui/itip-utils.c:2530
+#: ../src/calendar/gui/itip-utils.c:2531
 msgid "Sending a memo"
 msgstr "正在发送备忘"
 
-#: ../src/calendar/gui/itip-utils.c:2534
+#: ../src/calendar/gui/itip-utils.c:2535
 msgid "Sending a task"
 msgstr "正在发送任务"
 
 #. Translator: This is used as a placeholder when an event doesn't have set a location
-#: ../src/calendar/gui/itip-utils.c:2779
+#: ../src/calendar/gui/itip-utils.c:2780
 msgctxt "Location"
 msgid "Unspecified"
 msgstr "未指定"
@@ -11259,7 +11260,7 @@ msgstr "保存草稿"
 #: ../src/composer/e-composer-from-header.c:108
 #: ../src/e-util/e-collection-account-wizard.c:2058
 #: ../src/e-util/e-mail-signature-script-dialog.c:408
-#: ../src/e-util/e-webdav-browser.c:2546
+#: ../src/e-util/e-webdav-browser.c:2555
 #: ../src/e-util/gal-view-instance-save-as-dialog.ui.h:2
 #: ../src/mail/e-mail-config-identity-page.c:551
 #: ../src/mail/e-mail-config-summary-page.c:327
@@ -11682,7 +11683,7 @@ msgid "Format part as an RFC822 message"
 msgstr "将部分格式化为 RFC822 信息"
 
 #: ../src/em-format/e-mail-formatter-print.c:50
-#: ../src/e-util/e-webdav-browser.c:2490
+#: ../src/e-util/e-webdav-browser.c:2499
 #: ../src/e-util/gal-view-instance-save-as-dialog.c:92
 #: ../src/mail/e-mail-label-tree-view.c:96
 #: ../src/modules/plugin-manager/evolution-plugin-manager.c:64
@@ -12132,7 +12133,7 @@ msgstr "Evolution 帐号"
 #. widget = gtk_button_new_with_mnemonic (_("_Permissions"));
 #. gtk_box_pack_start (GTK_BOX (container), widget, FALSE, FALSE, 0);
 #. webdav_browser->priv->permissions_button = widget;
-#: ../src/e-util/e-accounts-window.c:1761 ../src/e-util/e-webdav-browser.c:2857
+#: ../src/e-util/e-accounts-window.c:1761 ../src/e-util/e-webdav-browser.c:2866
 #: ../src/mail/em-subscription-editor.c:1945
 #: ../src/modules/mail/e-mail-shell-view-actions.c:1594
 #: ../src/modules/mail/e-mail-shell-view-actions.c:1672
@@ -12263,7 +12264,7 @@ msgstr "文件名(_I)："
 #: ../src/e-util/e-attachment-dialog.c:334
 #: ../src/e-util/e-html-editor-image-dialog.c:602
 #: ../src/e-util/e-html-editor-link-dialog.c:226
-#: ../src/e-util/e-webdav-browser.c:2602
+#: ../src/e-util/e-webdav-browser.c:2611
 msgid "_Description:"
 msgstr "描述(_D)："
 
@@ -14530,7 +14531,7 @@ msgstr "边距(_P)："
 
 #: ../src/e-util/e-html-editor-table-dialog.c:676
 #: ../src/e-util/e-html-editor-text-dialog.c:248
-#: ../src/e-util/e-webdav-browser.c:2556
+#: ../src/e-util/e-webdav-browser.c:2565
 msgid "_Color:"
 msgstr "颜色(_C)："
 
@@ -15777,71 +15778,69 @@ msgstr "创建一个新集合…"
 msgid "Failed to create new collection"
 msgstr "创建新集合失败"
 
-#: ../src/e-util/e-webdav-browser.c:2076
+#: ../src/e-util/e-webdav-browser.c:2085
 msgid "It is not allowed to create book under another book or calendar"
 msgstr "不允许在其他地址簿或日历下创建地址簿"
 
 #. if (button == webdav_browser->priv->create_calendar_button)
-#: ../src/e-util/e-webdav-browser.c:2078
+#: ../src/e-util/e-webdav-browser.c:2087
 msgid "It is not allowed to create calendar under another book or calendar"
 msgstr "不允许在另一地址簿或日历下创建日历"
 
-#: ../src/e-util/e-webdav-browser.c:2325
+#: ../src/e-util/e-webdav-browser.c:2334
 msgid "Deleting book…"
 msgstr "正在删除地址簿…"
 
-#: ../src/e-util/e-webdav-browser.c:2326
+#: ../src/e-util/e-webdav-browser.c:2335
 msgid "Failed to delete book"
 msgstr "删除地址簿失败"
 
-#: ../src/e-util/e-webdav-browser.c:2329
+#: ../src/e-util/e-webdav-browser.c:2338
 msgid "Deleting calendar…"
 msgstr "正在删除日历……"
 
-#: ../src/e-util/e-webdav-browser.c:2330
+#: ../src/e-util/e-webdav-browser.c:2339
 msgid "Failed to delete calendar"
 msgstr "删除日历失败"
 
-#: ../src/e-util/e-webdav-browser.c:2333
+#: ../src/e-util/e-webdav-browser.c:2342
 msgid "Deleting collection…"
 msgstr "删除集合…"
 
-#: ../src/e-util/e-webdav-browser.c:2334
+#: ../src/e-util/e-webdav-browser.c:2343
 msgid "Failed to delete collection"
 msgstr "删除集合失败"
 
 #. Translators: It's 'order' as 'sorting order'
-#: ../src/e-util/e-webdav-browser.c:2568
-#, fuzzy
-#| msgid "_Border:"
+#: ../src/e-util/e-webdav-browser.c:2577
 msgid "_Order:"
-msgstr "边框(_B)："
+msgstr "顺序(_O)："
 
-#: ../src/e-util/e-webdav-browser.c:2578
+#: ../src/e-util/e-webdav-browser.c:2587
 msgid "Use -1 to not set the sort order"
-msgstr ""
+msgstr "使用 -1 则不设置排列顺序"
 
-#: ../src/e-util/e-webdav-browser.c:2584
+#: ../src/e-util/e-webdav-browser.c:2593
 msgid "For Components:"
 msgstr "对于组件："
 
-#: ../src/e-util/e-webdav-browser.c:2590
+#: ../src/e-util/e-webdav-browser.c:2599
 msgid "_Events"
 msgstr "事件(_E)"
 
-#: ../src/e-util/e-webdav-browser.c:2783
+#: ../src/e-util/e-webdav-browser.c:2792
 msgid "WebDAV server:"
 msgstr "WebDAV 服务器："
 
-#: ../src/e-util/e-webdav-browser.c:2818
+#: ../src/e-util/e-webdav-browser.c:2827
 msgid "Create _Book"
 msgstr "创建地址簿(_B)"
 
-#: ../src/e-util/e-webdav-browser.c:2825
+#: ../src/e-util/e-webdav-browser.c:2834
 msgid "Create _Calendar"
 msgstr "创建日历(_C)"
 
-#: ../src/e-util/e-webdav-browser.c:2832
+#: ../src/e-util/e-webdav-browser.c:2841
 msgid "Create Collectio_n"
 msgstr "创建集合(_N)"
 
@@ -15899,24 +15898,24 @@ msgstr "搜索互联网(_W)…"
 msgid "Search the Web with the selected text"
 msgstr "在网上搜索选中的文本"
 
-#: ../src/e-util/e-web-view.c:486 ../src/e-util/e-web-view.c:2071
+#: ../src/e-util/e-web-view.c:486 ../src/e-util/e-web-view.c:2077
 msgid "Select all text and images"
 msgstr "选中全部文本和图像"
 
-#: ../src/e-util/e-web-view.c:3798
+#: ../src/e-util/e-web-view.c:3804
 msgid "Copying image to clipboard"
 msgstr "正在将图像复制到剪贴板"
 
-#: ../src/e-util/e-web-view.c:3986
+#: ../src/e-util/e-web-view.c:3992
 msgid "Save Image"
 msgstr "保存图像"
 
-#: ../src/e-util/e-web-view.c:4023
+#: ../src/e-util/e-web-view.c:4029
 #, c-format
 msgid "Saving image to “%s”"
 msgstr "正在保存图像至”%s“"
 
-#: ../src/e-util/e-web-view.c:4173
+#: ../src/e-util/e-web-view.c:4179
 #, c-format
 msgid "Cannot get URI “%s”, do not know how to download it."
 msgstr "不能获取 URI “%s”，不知道如何下载。"
@@ -18954,12 +18953,12 @@ msgstr "未标志"
 #: ../src/mail/filtertypes.xml.in.h:45 ../src/mail/searchtypes.xml.in.h:47
 #: ../src/mail/vfoldertypes.xml.in.h:48
 msgid "is Completed"
-msgstr "已完成 "
+msgstr "已完成"
 
 #: ../src/mail/filtertypes.xml.in.h:46 ../src/mail/searchtypes.xml.in.h:48
 #: ../src/mail/vfoldertypes.xml.in.h:49
 msgid "is not Completed"
-msgstr "未完成 "
+msgstr "未完成"
 
 #: ../src/mail/filtertypes.xml.in.h:51 ../src/mail/searchtypes.xml.in.h:53
 #: ../src/mail/vfoldertypes.xml.in.h:54
@@ -22495,16 +22494,12 @@ msgid "Create a new meeting"
 msgstr "创建一个新的会议"
 
 #: ../src/modules/calendar/e-cal-shell-view-actions.c:1466
-#, fuzzy
-#| msgid "_RSVP"
 msgid "Send _RSVP"
-msgstr "请回复(_R)"
+msgstr "发送请回复(_R)"
 
 #: ../src/modules/calendar/e-cal-shell-view-actions.c:1468
-#, fuzzy
-#| msgid "Sending message"
 msgid "Send a meeting response"
-msgstr "发送信息"
+msgstr "发送会议回复"
 
 #: ../src/modules/calendar/e-cal-shell-view-actions.c:1473
 msgid "_Accept"
@@ -22520,7 +22515,7 @@ msgstr "接受此实例(_C)"
 
 #: ../src/modules/calendar/e-cal-shell-view-actions.c:1482
 msgid "Accept meeting request for selected instance only"
-msgstr ""
+msgstr "仅接受选定实例的会议请求"
 
 #: ../src/modules/calendar/e-cal-shell-view-actions.c:1487
 #: ../src/modules/itip-formatter/itip-view.c:1255
@@ -22537,29 +22532,23 @@ msgstr "拒绝此实例(_E)"
 
 #: ../src/modules/calendar/e-cal-shell-view-actions.c:1496
 msgid "Decline meeting request for selected instance only"
-msgstr ""
+msgstr "仅拒绝选定实例的会议请求"
 
 #: ../src/modules/calendar/e-cal-shell-view-actions.c:1501
-#, fuzzy
-#| msgid "Tentatively accept"
 msgid "_Tentatively accept"
-msgstr "暂时接受"
+msgstr "暂时接受(_T)"
 
 #: ../src/modules/calendar/e-cal-shell-view-actions.c:1503
-#, fuzzy
-#| msgid "Create a new meeting request"
 msgid "Tentatively accept meeting request"
-msgstr "创建一条新会议请求"
+msgstr "暂时接受会议请求"
 
 #: ../src/modules/calendar/e-cal-shell-view-actions.c:1508
-#, fuzzy
-#| msgid "Tentatively accept"
 msgid "Te_ntatively accept this instance"
-msgstr "暂时接受"
+msgstr "暂时接受此实例(_N)"
 
 #: ../src/modules/calendar/e-cal-shell-view-actions.c:1510
 msgid "Tentatively accept meeting request for selected instance only"
-msgstr ""
+msgstr "仅暂时接受选定实例的会议请求"
 
 #: ../src/modules/calendar/e-cal-shell-view-actions.c:1515
 msgid "Mo_ve to Calendar…"
@@ -23090,7 +23079,7 @@ msgstr "已启动的任务"
 msgid ""
 "Filters for tasks that either do not have a start date or the start date is "
 "earlier than the time the filter is selected at"
-msgstr ""
+msgstr "过滤没有设置开始日期的任务，或是其开始日期早于过滤器选定时间的任务"
 
 #: ../src/modules/calendar/e-task-shell-view-actions.c:1062
 msgid "Print the list of tasks"
@@ -23688,26 +23677,26 @@ msgid "Sa_ve"
 msgstr "保存(_V)"
 
 #: ../src/modules/itip-formatter/itip-view.c:3519
-#: ../src/modules/itip-formatter/itip-view.c:5190
+#: ../src/modules/itip-formatter/itip-view.c:5220
 msgid "Attendee status updated"
 msgstr "出席者状态已更新"
 
-#: ../src/modules/itip-formatter/itip-view.c:3729
+#: ../src/modules/itip-formatter/itip-view.c:3750
 #, c-format
 msgid "An appointment “%s” in the calendar “%s” conflicts with this meeting"
 msgstr "日历“%2$s”中的一个约会“%1$s”与此会议冲突"
 
-#: ../src/modules/itip-formatter/itip-view.c:3736
+#: ../src/modules/itip-formatter/itip-view.c:3757
 #, c-format
 msgid "A task “%s” in the task list “%s” conflicts with this task"
 msgstr "任务列表“%2$s”中的一个任务“%1$s”与此任务冲突"
 
-#: ../src/modules/itip-formatter/itip-view.c:3743
+#: ../src/modules/itip-formatter/itip-view.c:3764
 #, c-format
 msgid "A memo “%s” in the memo list “%s” conflicts with this memo"
 msgstr "备忘列表“%2$s”中的一个备忘“%1$s”与此备忘冲突"
 
-#: ../src/modules/itip-formatter/itip-view.c:3754
+#: ../src/modules/itip-formatter/itip-view.c:3775
 #, c-format
 msgid ""
 "The calendar “%s” contains an appointment which conflicts with this meeting"
@@ -23715,268 +23704,268 @@ msgid_plural ""
 "The calendar “%s” contains %d appointments which conflict with this meeting"
 msgstr[0] "日历“%s”中的 %d 个约会与此会议冲突"
 
-#: ../src/modules/itip-formatter/itip-view.c:3763
+#: ../src/modules/itip-formatter/itip-view.c:3784
 #, c-format
 msgid "The task list “%s” contains a task which conflicts with this task"
 msgid_plural ""
 "The task list “%s” contains %d tasks which conflict with this task"
 msgstr[0] "任务列表“%s”中的 %d 个任务与此任务冲突"
 
-#: ../src/modules/itip-formatter/itip-view.c:3772
+#: ../src/modules/itip-formatter/itip-view.c:3793
 #, c-format
 msgid "The memo list “%s” contains a memo which conflicts with this memo"
 msgid_plural ""
 "The memo list “%s” contains %d memos which conflict with this memo"
 msgstr[0] "备忘列表“%s”中的 %d 个备忘与此备忘冲突"
 
-#: ../src/modules/itip-formatter/itip-view.c:3810
+#: ../src/modules/itip-formatter/itip-view.c:3831
 #, c-format
 msgid "Found the appointment in the calendar “%s”"
 msgstr "在日历“%s”中找到了约会"
 
-#: ../src/modules/itip-formatter/itip-view.c:3815
+#: ../src/modules/itip-formatter/itip-view.c:3836
 #, c-format
 msgid "Found the task in the task list “%s”"
 msgstr "正在将任务移至任务列表“%s”"
 
-#: ../src/modules/itip-formatter/itip-view.c:3820
+#: ../src/modules/itip-formatter/itip-view.c:3841
 #, c-format
 msgid "Found the memo in the memo list “%s”"
 msgstr "在备忘录列表“%s”中找到了备忘录"
 
-#: ../src/modules/itip-formatter/itip-view.c:3831
+#: ../src/modules/itip-formatter/itip-view.c:3852
 msgid "This meeting invitation is obsolete. It had been updated."
 msgstr "此会议邀请已过时。它已被更新。"
 
-#: ../src/modules/itip-formatter/itip-view.c:3973
+#: ../src/modules/itip-formatter/itip-view.c:3997
 msgid "Unable to find any calendars"
 msgstr "无法找到任何日历"
 
-#: ../src/modules/itip-formatter/itip-view.c:3981
+#: ../src/modules/itip-formatter/itip-view.c:4005
 msgid "Unable to find this meeting in any calendar"
 msgstr "无法在任何日历中找到此会议"
 
-#: ../src/modules/itip-formatter/itip-view.c:3986
+#: ../src/modules/itip-formatter/itip-view.c:4010
 msgid "Unable to find this task in any task list"
 msgstr "无法在任何任务列表中找到此任务"
 
-#: ../src/modules/itip-formatter/itip-view.c:3991
+#: ../src/modules/itip-formatter/itip-view.c:4015
 msgid "Unable to find this memo in any memo list"
 msgstr "无法在任何备忘录中找到此备忘"
 
-#: ../src/modules/itip-formatter/itip-view.c:4304
+#: ../src/modules/itip-formatter/itip-view.c:4328
 msgid "Searching for an existing version of this appointment"
 msgstr "搜索此约会的已有版本"
 
-#: ../src/modules/itip-formatter/itip-view.c:4308
+#: ../src/modules/itip-formatter/itip-view.c:4332
 msgid "Searching for an existing version of this task"
 msgstr "搜索此任务的已有版本"
 
-#: ../src/modules/itip-formatter/itip-view.c:4312
+#: ../src/modules/itip-formatter/itip-view.c:4336
 msgid "Searching for an existing version of this memo"
 msgstr "正在搜索此备忘录的现有版本"
 
-#: ../src/modules/itip-formatter/itip-view.c:4370
+#: ../src/modules/itip-formatter/itip-view.c:4394
 msgid "Opening the calendar. Please wait…"
 msgstr "正在打开日历，请稍候…"
 
-#: ../src/modules/itip-formatter/itip-view.c:4716
+#: ../src/modules/itip-formatter/itip-view.c:4744
 #, c-format
 msgid "Unable to send item to calendar “%s”. %s"
 msgstr "无法将项目发送到日历“%s”。%s"
 
-#: ../src/modules/itip-formatter/itip-view.c:4724
+#: ../src/modules/itip-formatter/itip-view.c:4752
 #, c-format
 msgid "Unable to send item to task list “%s”. %s"
 msgstr "无法将项目发送到任务列表“%s”。%s"
 
-#: ../src/modules/itip-formatter/itip-view.c:4732
+#: ../src/modules/itip-formatter/itip-view.c:4760
 #, c-format
 msgid "Unable to send item to memo list “%s”. %s"
 msgstr "无法将项目发送到备忘录列表“%s”。%s"
 
-#: ../src/modules/itip-formatter/itip-view.c:4752
+#: ../src/modules/itip-formatter/itip-view.c:4781
 #, c-format
 msgid "Sent to calendar “%s” as accepted"
 msgstr "将日历“%s”发送为已接受"
 
-#: ../src/modules/itip-formatter/itip-view.c:4757
+#: ../src/modules/itip-formatter/itip-view.c:4786
 #, c-format
 msgid "Sent to task list “%s” as accepted"
 msgstr "将任务列表“%s”发送为已接受"
 
-#: ../src/modules/itip-formatter/itip-view.c:4762
+#: ../src/modules/itip-formatter/itip-view.c:4791
 #, c-format
 msgid "Sent to memo list “%s” as accepted"
 msgstr "将备忘录列表“%s”发送为已接受"
 
-#: ../src/modules/itip-formatter/itip-view.c:4772
+#: ../src/modules/itip-formatter/itip-view.c:4801
 #, c-format
 msgid "Sent to calendar “%s” as tentative"
 msgstr "将日历“%s”发送为待定"
 
-#: ../src/modules/itip-formatter/itip-view.c:4777
+#: ../src/modules/itip-formatter/itip-view.c:4806
 #, c-format
 msgid "Sent to task list “%s” as tentative"
 msgstr "将任务列表“%s”发送为待定"
 
-#: ../src/modules/itip-formatter/itip-view.c:4782
+#: ../src/modules/itip-formatter/itip-view.c:4811
 #, c-format
 msgid "Sent to memo list “%s” as tentative"
 msgstr "将备忘录列表“%s”发送为暂定"
 
-#: ../src/modules/itip-formatter/itip-view.c:4792
+#: ../src/modules/itip-formatter/itip-view.c:4821
 #, c-format
 msgid "Sent to calendar “%s” as declined"
 msgstr "将日历“%s”发送为已拒绝"
 
-#: ../src/modules/itip-formatter/itip-view.c:4797
+#: ../src/modules/itip-formatter/itip-view.c:4826
 #, c-format
 msgid "Sent to task list “%s” as declined"
 msgstr "将任务列表“%s”发送为已拒绝"
 
-#: ../src/modules/itip-formatter/itip-view.c:4802
+#: ../src/modules/itip-formatter/itip-view.c:4831
 #, c-format
 msgid "Sent to memo list “%s” as declined"
 msgstr "将备忘录列表“%s”发送为已拒绝"
 
-#: ../src/modules/itip-formatter/itip-view.c:4812
+#: ../src/modules/itip-formatter/itip-view.c:4841
 #, c-format
 msgid "Sent to calendar “%s” as cancelled"
 msgstr "将“%s”作为已取消日历发送"
 
-#: ../src/modules/itip-formatter/itip-view.c:4817
+#: ../src/modules/itip-formatter/itip-view.c:4846
 #, c-format
 msgid "Sent to task list “%s” as cancelled"
 msgstr "将“%s”作为已取消任务列表发送"
 
-#: ../src/modules/itip-formatter/itip-view.c:4822
+#: ../src/modules/itip-formatter/itip-view.c:4851
 #, c-format
 msgid "Sent to memo list “%s” as cancelled"
 msgstr "将备忘录列表“%s”发送为已取消"
 
-#: ../src/modules/itip-formatter/itip-view.c:4840
+#: ../src/modules/itip-formatter/itip-view.c:4870
 msgid "Saving changes to the calendar. Please wait…"
 msgstr "正在保存日历更改，请稍候……"
 
-#: ../src/modules/itip-formatter/itip-view.c:4843
+#: ../src/modules/itip-formatter/itip-view.c:4873
 msgid "Saving changes to the task list. Please wait…"
 msgstr "正在保存任务列表更改，请稍候……"
 
-#: ../src/modules/itip-formatter/itip-view.c:4846
+#: ../src/modules/itip-formatter/itip-view.c:4876
 msgid "Saving changes to the memo list. Please wait…"
 msgstr "正在保存日历更改，请稍候…"
 
-#: ../src/modules/itip-formatter/itip-view.c:4917
+#: ../src/modules/itip-formatter/itip-view.c:4947
 msgid "Unable to parse item"
 msgstr "无法分析项目"
 
-#: ../src/modules/itip-formatter/itip-view.c:5115
+#: ../src/modules/itip-formatter/itip-view.c:5145
 #, c-format
 msgid "Organizer has removed the delegate %s "
 msgstr "组织者已经删除了代理人 %s "
 
-#: ../src/modules/itip-formatter/itip-view.c:5132
+#: ../src/modules/itip-formatter/itip-view.c:5162
 msgid "Sent a cancellation notice to the delegate"
 msgstr "已给代理人发送了取消通知"
 
-#: ../src/modules/itip-formatter/itip-view.c:5136
+#: ../src/modules/itip-formatter/itip-view.c:5166
 msgid "Could not send the cancellation notice to the delegate"
 msgstr "无法给代理人发送取消通知"
 
-#: ../src/modules/itip-formatter/itip-view.c:5182
+#: ../src/modules/itip-formatter/itip-view.c:5212
 #, c-format
 msgid "Unable to update attendee. %s"
 msgstr "无法更新出席者。%s"
 
-#: ../src/modules/itip-formatter/itip-view.c:5215
+#: ../src/modules/itip-formatter/itip-view.c:5245
 msgid "The meeting is invalid and cannot be updated"
 msgstr "会议无效，无法更新"
 
-#: ../src/modules/itip-formatter/itip-view.c:5300
+#: ../src/modules/itip-formatter/itip-view.c:5330
 msgid "Attendee status could not be updated because the status is invalid"
 msgstr "出席者状态无法更新，原因是状态无效"
 
-#: ../src/modules/itip-formatter/itip-view.c:5376
-#: ../src/modules/itip-formatter/itip-view.c:5414
+#: ../src/modules/itip-formatter/itip-view.c:5406
+#: ../src/modules/itip-formatter/itip-view.c:5444
 msgid "Attendee status can not be updated because the item no longer exists"
 msgstr "由于条目不再存在而无法更新出席者状态"
 
-#: ../src/modules/itip-formatter/itip-view.c:5475
+#: ../src/modules/itip-formatter/itip-view.c:5505
 msgid "Meeting information sent"
 msgstr "会议信息已发送"
 
-#: ../src/modules/itip-formatter/itip-view.c:5480
+#: ../src/modules/itip-formatter/itip-view.c:5510
 msgid "Task information sent"
 msgstr "任务信息已发送"
 
-#: ../src/modules/itip-formatter/itip-view.c:5485
+#: ../src/modules/itip-formatter/itip-view.c:5515
 msgid "Memo information sent"
 msgstr "备忘信息已发送"
 
-#: ../src/modules/itip-formatter/itip-view.c:5496
+#: ../src/modules/itip-formatter/itip-view.c:5526
 msgid "Unable to send meeting information, the meeting does not exist"
 msgstr "无法发送会议信息，会议不存在"
 
-#: ../src/modules/itip-formatter/itip-view.c:5501
+#: ../src/modules/itip-formatter/itip-view.c:5531
 msgid "Unable to send task information, the task does not exist"
 msgstr "无法发送任务信息，任务不存在"
 
-#: ../src/modules/itip-formatter/itip-view.c:5506
+#: ../src/modules/itip-formatter/itip-view.c:5536
 msgid "Unable to send memo information, the memo does not exist"
 msgstr "无法发送备忘信息，备忘不存在"
 
 #. Translators: This is a default filename for a calendar.
-#: ../src/modules/itip-formatter/itip-view.c:5551
+#: ../src/modules/itip-formatter/itip-view.c:5581
 msgid "calendar.ics"
 msgstr "calendar.ics"
 
-#: ../src/modules/itip-formatter/itip-view.c:5556
+#: ../src/modules/itip-formatter/itip-view.c:5586
 msgid "Save Calendar"
 msgstr "保存日历"
 
-#: ../src/modules/itip-formatter/itip-view.c:5604
-#: ../src/modules/itip-formatter/itip-view.c:5617
+#: ../src/modules/itip-formatter/itip-view.c:5634
+#: ../src/modules/itip-formatter/itip-view.c:5647
 msgid "The calendar attached is not valid"
 msgstr "附加的日历无效"
 
-#: ../src/modules/itip-formatter/itip-view.c:5605
-#: ../src/modules/itip-formatter/itip-view.c:5618
+#: ../src/modules/itip-formatter/itip-view.c:5635
+#: ../src/modules/itip-formatter/itip-view.c:5648
 msgid ""
 "The message claims to contain a calendar, but the calendar is not a valid "
 "iCalendar."
 msgstr "信息声明其包含日历，但日历不是有效的 iCalendar。"
 
-#: ../src/modules/itip-formatter/itip-view.c:5700
-#: ../src/modules/itip-formatter/itip-view.c:5784
-#: ../src/modules/itip-formatter/itip-view.c:5888
+#: ../src/modules/itip-formatter/itip-view.c:5730
+#: ../src/modules/itip-formatter/itip-view.c:5814
+#: ../src/modules/itip-formatter/itip-view.c:5918
 msgid "The item in the calendar is not valid"
 msgstr "日历项无效"
 
-#: ../src/modules/itip-formatter/itip-view.c:5701
-#: ../src/modules/itip-formatter/itip-view.c:5785
-#: ../src/modules/itip-formatter/itip-view.c:5889
+#: ../src/modules/itip-formatter/itip-view.c:5731
+#: ../src/modules/itip-formatter/itip-view.c:5815
+#: ../src/modules/itip-formatter/itip-view.c:5919
 msgid ""
 "The message does contain a calendar, but the calendar contains no events, "
 "tasks or free/busy information"
 msgstr "信息的确包含日历，但是日历不包含事件、任务或忙/闲信息"
 
-#: ../src/modules/itip-formatter/itip-view.c:5794
+#: ../src/modules/itip-formatter/itip-view.c:5824
 msgid "The calendar attached contains multiple items"
 msgstr "附加的日历包含多个项目"
 
-#: ../src/modules/itip-formatter/itip-view.c:5795
+#: ../src/modules/itip-formatter/itip-view.c:5825
 msgid ""
 "To process all of these items, the file should be saved and the calendar "
 "imported"
 msgstr "要处理这些全部项目，应该保存文件并导入日历"
 
-#: ../src/modules/itip-formatter/itip-view.c:6375
+#: ../src/modules/itip-formatter/itip-view.c:6405
 msgctxt "cal-itip"
 msgid "None"
 msgstr "无"
 
-#: ../src/modules/itip-formatter/itip-view.c:6397
+#: ../src/modules/itip-formatter/itip-view.c:6427
 msgid "Tentatively Accepted"
 msgstr "暂时接受"
 
@@ -23998,12 +23987,14 @@ msgid "Google Features"
 msgstr "Google 特性"
 
 #: ../src/modules/mail-config/e-mail-config-google-summary.c:306
+#| msgid "Add Ca_lendar to this account"
 msgid "Add Google Ca_lendar to this account"
-msgstr "添加 Google Ca_lendar 到此帐号"
+msgstr "添加 Google 日历到此帐号(_L)"
 
 #: ../src/modules/mail-config/e-mail-config-google-summary.c:315
+#| msgid "Add Con_tacts to this account"
 msgid "Add Google Con_tacts to this account"
-msgstr "添加 Google Con_tacts 到此帐号"
+msgstr "添加 Google 联系人到此帐号(_T)"
 
 #. Translators: This is part of a sentence "You may need to enable IMAP access and Calendars to synchronize",
 #. where the 'IMAP access' and 'Calendars to synchronize' are clickable.
@@ -24171,6 +24162,7 @@ msgid "Yahoo! Features"
 msgstr "Yahoo! 特性"
 
 #: ../src/modules/mail-config/e-mail-config-yahoo-summary.c:257
+#| msgid "Add Ca_lendar and Tasks to this account"
 msgid "Add Yahoo! Ca_lendar and Tasks to this account"
 msgstr "添加 Yahoo! 日历和任务到此帐号(_L)"
 
@@ -27466,6 +27458,10 @@ msgstr "无法写存储到磁盘，错误码：%i"
 #: ../src/smime/lib/e-pkcs12.c:407
 msgid "Imported Certificate"
 msgstr "导入的证书"
+
+#~| msgid "SHA1 Fingerprint"
+#~ msgid "SHA256 Fingerprint"
+#~ msgstr "SHA256 指纹"
 
 #~ msgid "Event cannot be fully edited, because you are not the organizer"
 #~ msgstr "您并非组织者，因此无法编辑全部事件"
