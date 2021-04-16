@@ -117,7 +117,7 @@ e_select_names_editable_get_emails (ESelectNamesEditable *esne)
 		E_NAME_SELECTOR_ENTRY (esne));
 	list = e_destination_store_list_destinations (destination_store);
 
-	for (link = list; link != NULL; link = g_list_next (link->next)) {
+	for (link = list; link != NULL; link = g_list_next (link)) {
 		EDestination *destination;
 
 		destination = E_DESTINATION (link->data);
