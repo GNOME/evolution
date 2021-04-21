@@ -2048,6 +2048,7 @@ mail_reader_edit_messages_cb (GObject *source_object,
 		ccd->reader = g_object_ref (async_context->reader);
 		ccd->folder = g_object_ref (folder);
 		ccd->message = g_object_ref (CAMEL_MIME_MESSAGE (value));
+		ccd->keep_signature = async_context->keep_signature;
 
 		if (async_context->replace)
 			ccd->message_uid = camel_pstring_strdup ((const gchar *) key);
