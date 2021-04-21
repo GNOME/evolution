@@ -618,7 +618,6 @@ mail_config_defaults_page_constructed (GObject *object)
 	GtkWidget *hbox, *main_box;
 	GtkSizeGroup *size_group;
 	CamelProvider *provider = NULL;
-	CamelStore *store;
 	const gchar *extension_name;
 	const gchar *text;
 	gchar *markup;
@@ -809,10 +808,6 @@ mail_config_defaults_page_constructed (GObject *object)
 
 	text = _("Choose a folder to use for template messages.");
 	widget = em_folder_selection_button_new (session, "", text);
-	store = mail_config_defaults_page_ref_store (page);
-	if (store)
-		em_folder_selection_button_set_store (EM_FOLDER_SELECTION_BUTTON (widget), store);
-	g_clear_object (&store);
 	gtk_widget_set_hexpand (widget, TRUE);
 	gtk_label_set_mnemonic_widget (label, widget);
 	gtk_grid_attach (GTK_GRID (container), widget, 1, 5, 1, 1);
