@@ -1850,7 +1850,9 @@ msg_composer_mail_identity_changed_cb (EMsgComposer *composer)
 	/* Silently return if no identity is selected. */
 	if (!uid) {
 		e_content_editor_set_start_bottom (cnt_editor, E_THREE_STATE_INCONSISTENT);
-		e_content_editor_set_top_signature (cnt_editor, E_THREE_STATE_INCONSISTENT);
+		e_content_editor_set_top_signature (cnt_editor,
+			e_msg_composer_get_is_reply_or_forward (composer) ? E_THREE_STATE_INCONSISTENT :
+			E_THREE_STATE_OFF);
 
 		g_free (alias_name);
 		g_free (alias_address);
@@ -1866,7 +1868,8 @@ msg_composer_mail_identity_changed_cb (EMsgComposer *composer)
 	e_content_editor_set_start_bottom (cnt_editor,
 		e_source_mail_composition_get_start_bottom (mc));
 	e_content_editor_set_top_signature (cnt_editor,
-		e_source_mail_composition_get_top_signature (mc));
+		e_msg_composer_get_is_reply_or_forward (composer) ? e_source_mail_composition_get_top_signature (mc) :
+		E_THREE_STATE_OFF);
 
 	extension_name = E_SOURCE_EXTENSION_OPENPGP;
 	pgp = e_source_get_extension (source, extension_name);
@@ -3770,6 +3773,10 @@ e_msg_composer_setup_with_message (EMsgComposer *composer,
 	table = e_msg_composer_get_header_table (composer);
 	editor = e_msg_composer_get_editor (composer);
 	cnt_editor = e_html_editor_get_content_editor (editor);
+
+	/* Editing message as new, then keep the signature always below the original message */
+	if (keep_signature && !e_msg_composer_get_is_reply_or_forward (composer))
+		e_content_editor_set_top_signature (cnt_editor, E_THREE_STATE_OFF);
 
 	if (postto) {
 		e_composer_header_table_set_post_to_list (table, postto);
