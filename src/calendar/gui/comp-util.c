@@ -781,6 +781,7 @@ comp_util_sanitize_recurrence_master_sync (ECalComponent *comp,
 	    i_cal_time_compare_date_only (e_cal_component_datetime_get_value (rdt), e_cal_component_datetime_get_value (sdt)) == 0) {
 		ECalComponentDateTime *msdt, *medt, *edt;
 		gint yy = 0, mm = 0, dd = 0;
+		gint64 diff;
 
 		msdt = e_cal_component_get_dtstart (master);
 		medt = e_cal_component_get_dtend (master);
@@ -798,11 +799,16 @@ comp_util_sanitize_recurrence_master_sync (ECalComponent *comp,
 			return FALSE;
 		}
 
+		/* Consider the day difference only, because the time is preserved */
+		diff = (i_cal_time_as_timet (e_cal_component_datetime_get_value (edt)) -
+			i_cal_time_as_timet (e_cal_component_datetime_get_value (sdt))) / (24 * 60 * 60);
+
 		i_cal_time_get_date (e_cal_component_datetime_get_value (msdt), &yy, &mm, &dd);
 		i_cal_time_set_date (e_cal_component_datetime_get_value (sdt), yy, mm, dd);
-
-		i_cal_time_get_date (e_cal_component_datetime_get_value (medt), &yy, &mm, &dd);
 		i_cal_time_set_date (e_cal_component_datetime_get_value (edt), yy, mm, dd);
+
+		if (diff)
+			i_cal_time_adjust (e_cal_component_datetime_get_value (edt), diff, 0, 0, 0);
 
 		/* Make sure the DATE value of the DTSTART and DTEND do not match */
 		if (i_cal_time_is_date (e_cal_component_datetime_get_value (sdt)) &&
