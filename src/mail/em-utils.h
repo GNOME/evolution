@@ -76,10 +76,19 @@ gchar *		em_utils_message_to_html	(CamelSession *session,
 						 CamelMimeMessage *msg,
 						 const gchar *credits,
 						 guint32 flags,
-						 struct _EMailPartList *parts_list,
+						 struct _EMailPartList *part_list,
 						 const gchar *prepend,
 						 const gchar *append,
 						 EMailPartValidityFlags *validity_found);
+gchar *		em_utils_message_to_html_ex	(CamelSession *session,
+						 CamelMimeMessage *message,
+						 const gchar *credits,
+						 guint32 flags,
+						 EMailPartList *part_list,
+						 const gchar *prepend,
+						 const gchar *append,
+						 EMailPartValidityFlags *validity_found,
+						 EMailPartList **out_part_list);
 
 void		em_utils_empty_trash		(GtkWidget *parent,
 						 EMailSession *session);

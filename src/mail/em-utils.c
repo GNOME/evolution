@@ -1223,12 +1223,13 @@ is_only_text_part_in_this_level (GList *parts,
 /**
  * em_utils_message_to_html:
  * @session: a #CamelSession
- * @message:
- * @credits:
- * @flags: EMFormatQuote flags
- * @source:
- * @append: Text to append, can be NULL.
- * @validity_found: if not NULL, then here will be set what validities
+ * @message: a #CamelMimeMessage
+ * @credits: (nullable): credits attribution string when quoting, or %NULL
+ * @flags: the %EMFormatQuote flags
+ * @part_list: (nullable): an #EMailPartList
+ * @prepend: (nulalble): text to prepend, or %NULL
+ * @append: (nullable): text to append, or %NULL
+ * @validity_found: (nullable): if not %NULL, then here will be set what validities
  *         had been found during message conversion. Value is a bit OR
  *         of EM_FORMAT_VALIDITY_FOUND_* constants.
  *
@@ -1236,16 +1237,55 @@ is_only_text_part_in_this_level (GList *parts,
  * string is given.
  *
  * Return value: The html version as a NULL terminated string.
+ *
+ * See: em_utils_message_to_html_ex
  **/
 gchar *
 em_utils_message_to_html (CamelSession *session,
                           CamelMimeMessage *message,
                           const gchar *credits,
                           guint32 flags,
-                          EMailPartList *parts_list,
+                          EMailPartList *part_list,
                           const gchar *prepend,
                           const gchar *append,
                           EMailPartValidityFlags *validity_found)
+{
+	return em_utils_message_to_html_ex (session, message, credits, flags, part_list, prepend, append, validity_found, NULL);
+}
+
+/**
+ * em_utils_message_to_html_ex:
+ * @session: a #CamelSession
+ * @message: a #CamelMimeMessage
+ * @credits: (nullable): credits attribution string when quoting, or %NULL
+ * @flags: the %EMFormatQuote flags
+ * @part_list: (nullable): an #EMailPartList
+ * @prepend: (nulalble): text to prepend, or %NULL
+ * @append: (nullable): text to append, or %NULL
+ * @validity_found: (nullable): if not %NULL, then here will be set what validities
+ *         had been found during message conversion. Value is a bit OR
+ *         of EM_FORMAT_VALIDITY_FOUND_* constants.
+ * @out_part_list: (nullable): if not %NULL, sets it to the part list being
+ *         used to generate the body. Unref it with g_object_unref(),
+ *         when no longer needed.
+ *
+ * Convert a message to html, quoting if the @credits attribution
+ * string is given.
+ *
+ * Return value: The html version as a NULL terminated string.
+ *
+ * Since: 3.42
+ **/
+gchar *
+em_utils_message_to_html_ex (CamelSession *session,
+                             CamelMimeMessage *message,
+                             const gchar *credits,
+                             guint32 flags,
+                             EMailPartList *part_list,
+                             const gchar *prepend,
+                             const gchar *append,
+                             EMailPartValidityFlags *validity_found,
+			     EMailPartList **out_part_list)
 {
 	EMailFormatter *formatter;
 	EMailParser *parser = NULL;
@@ -1271,7 +1311,7 @@ em_utils_message_to_html (CamelSession *session,
 	e_mail_formatter_update_style (formatter,
 		gtk_widget_get_state_flags (GTK_WIDGET (window)));
 
-	if (parts_list == NULL) {
+	if (part_list == NULL) {
 		GSettings *settings;
 		gchar *charset;
 
@@ -1285,13 +1325,13 @@ em_utils_message_to_html (CamelSession *session,
 		g_free (charset);
 
 		parser = e_mail_parser_new (session);
-		parts_list = e_mail_parser_parse_sync (parser, NULL, NULL, message, NULL);
+		part_list = e_mail_parser_parse_sync (parser, NULL, NULL, message, NULL);
 	} else {
-		g_object_ref (parts_list);
+		g_object_ref (part_list);
 	}
 
 	/* Return all found validities and possibly show hidden prefer-plain part */
-	e_mail_part_list_queue_parts (parts_list, NULL, &queue);
+	e_mail_part_list_queue_parts (part_list, NULL, &queue);
 	head = g_queue_peek_head_link (&queue);
 
 	for (link = head; link != NULL; link = g_list_next (link)) {
@@ -1332,16 +1372,19 @@ em_utils_message_to_html (CamelSession *session,
 			stream, prepend, strlen (prepend), NULL, NULL, NULL);
 
 	e_mail_formatter_format_sync (
-		formatter, parts_list, stream, 0,
+		formatter, part_list, stream, 0,
 		E_MAIL_FORMATTER_MODE_PRINTING, NULL);
 	g_object_unref (formatter);
 
 	if (hidden_text_html_part != NULL)
 		hidden_text_html_part->is_hidden = TRUE;
 
-	g_object_unref (parts_list);
-	if (parser != NULL)
-		g_object_unref (parser);
+	if (out_part_list)
+		*out_part_list = part_list;
+	else
+		g_object_unref (part_list);
+
+	g_clear_object (&parser);
 
 	if (append != NULL && *append != '\0')
 		g_output_stream_write_all (
