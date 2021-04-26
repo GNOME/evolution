@@ -3255,6 +3255,70 @@ e_msg_composer_add_message_attachments (EMsgComposer *composer,
 		composer, (CamelMultipart *) wrapper, just_inlines, 0);
 }
 
+/**
+ * e_msg_composer_add_attachments_from_part_list:
+ * @composer: the composer to add the attachments to
+ * @part_list: an #EMailPartList with parts used to format the message
+ * @just_inlines: whether to attach all attachments or just add inline images
+ *
+ * Walk through all the parts in @part_list and add them to the @composer.
+ *
+ * Since: 3.40.1
+ */
+void
+e_msg_composer_add_attachments_from_part_list (EMsgComposer *composer,
+					       EMailPartList *part_list,
+					       gboolean just_inlines)
+{
+	EHTMLEditor *editor;
+	GQueue queue = G_QUEUE_INIT;
+	GList *link;
+
+	g_return_if_fail (E_IS_MSG_COMPOSER (composer));
+
+	if (!part_list)
+		return;
+
+	editor = e_msg_composer_get_editor (composer);
+
+	e_mail_part_list_queue_parts (part_list, NULL, &queue);
+
+	for (link = g_queue_peek_head_link (&queue); link; link = g_list_next (link)) {
+		EMailPart *part = link->data;
+		CamelMimePart *mime_part;
+		CamelContentType *content_type;
+
+		if (!e_mail_part_get_is_attachment (part))
+			continue;
+
+		mime_part = e_mail_part_ref_mime_part (part);
+		if (!mime_part)
+			continue;
+
+		content_type = camel_mime_part_get_content_type (mime_part);
+		if (!content_type)
+			continue;
+
+		if (!just_inlines &&
+		    camel_content_type_is (content_type, "text", "*") &&
+		    camel_mime_part_get_filename (mime_part) == NULL) {
+			/* Do nothing if this is a text/anything without a
+			 * filename, otherwise attach it too. */
+		} else if (camel_content_type_is (content_type, "image", "*") && (
+			   camel_mime_part_get_content_id (mime_part) ||
+			   camel_mime_part_get_content_location (mime_part))) {
+				e_html_editor_add_cid_part (editor, mime_part);
+		} else if (!just_inlines) {
+			e_msg_composer_attach (composer, mime_part);
+		}
+
+		g_object_unref (mime_part);
+	}
+
+	while (!g_queue_is_empty (&queue))
+		g_object_unref (g_queue_pop_head (&queue));
+}
+
 static void
 handle_multipart_signed (EMsgComposer *composer,
                          CamelMultipart *multipart,

@@ -2486,6 +2486,7 @@ forward_non_attached (EMsgComposer *composer,
                       EMailForwardStyle style)
 {
 	CamelSession *session;
+	EMailPartList *part_list = NULL;
 	gchar *text, *forward, *subject;
 	guint32 validity_found = 0;
 	guint32 flags;
@@ -2508,17 +2509,11 @@ forward_non_attached (EMsgComposer *composer,
 	g_free (subject);
 
 	forward = quoting_text (QUOTING_FORWARD, composer);
-	text = em_utils_message_to_html (session, message, forward, flags, NULL, NULL, NULL, &validity_found);
+	text = em_utils_message_to_html_ex (session, message, forward, flags, NULL, NULL, NULL, &validity_found, &part_list);
+
+	e_msg_composer_add_attachments_from_part_list (composer, part_list, FALSE);
 
 	if (text != NULL) {
-		CamelDataWrapper *content;
-
-		content = camel_medium_get_content (CAMEL_MEDIUM (message));
-
-		if (CAMEL_IS_MULTIPART (content))
-			e_msg_composer_add_message_attachments (
-				composer, message, FALSE);
-
 		e_msg_composer_set_body_text (composer, text, TRUE);
 
 		emu_add_composer_references_from_message (composer, message);
@@ -2533,6 +2528,7 @@ forward_non_attached (EMsgComposer *composer,
 	}
 
 	g_clear_object (&session);
+	g_clear_object (&part_list);
 	g_free (forward);
 }
 
@@ -3597,7 +3593,8 @@ static void
 composer_set_body (EMsgComposer *composer,
                    CamelMimeMessage *message,
                    EMailReplyStyle style,
-                   EMailPartList *parts_list)
+                   EMailPartList *parts_list,
+		   EMailPartList **out_used_part_list)
 {
 	gchar *text, *credits, *original;
 	ESource *identity_source;
@@ -3625,9 +3622,9 @@ composer_set_body (EMsgComposer *composer,
 		break;
 	case E_MAIL_REPLY_STYLE_OUTLOOK:
 		original = quoting_text (QUOTING_ORIGINAL, composer);
-		text = em_utils_message_to_html (
+		text = em_utils_message_to_html_ex (
 			session, message, original, E_MAIL_FORMATTER_QUOTE_FLAG_HEADERS | keep_sig_flag,
-			parts_list, NULL, NULL, &validity_found);
+			parts_list, NULL, NULL, &validity_found, out_used_part_list);
 		e_msg_composer_set_body_text (composer, text, TRUE);
 		g_free (text);
 		g_free (original);
@@ -3643,9 +3640,9 @@ composer_set_body (EMsgComposer *composer,
 
 		g_clear_object (&identity_source);
 
-		text = em_utils_message_to_html (
+		text = em_utils_message_to_html_ex (
 			session, message, credits, E_MAIL_FORMATTER_QUOTE_FLAG_CITE | keep_sig_flag,
-			parts_list, NULL, NULL, &validity_found);
+			parts_list, NULL, NULL, &validity_found, out_used_part_list);
 		g_free (credits);
 		e_msg_composer_set_body_text (composer, text, TRUE);
 		g_free (text);
@@ -4484,6 +4481,7 @@ em_utils_reply_to_message (EMsgComposer *composer,
 	EShell *shell;
 	ESourceMailCompositionReplyStyle prefer_reply_style = E_SOURCE_MAIL_COMPOSITION_REPLY_STYLE_DEFAULT;
 	ESource *source;
+	EMailPartList *used_part_list = NULL;
 	EContentEditor *cnt_editor;
 	gchar *identity_uid = NULL, *identity_name = NULL, *identity_address = NULL;
 	guint32 flags;
@@ -4566,7 +4564,6 @@ em_utils_reply_to_message (EMsgComposer *composer,
 	}
 
 	reply_setup_composer (composer, message, identity_uid, identity_name, identity_address, to, cc, folder, message_uid, postto);
-	e_msg_composer_add_message_attachments (composer, message, TRUE);
 
 	if (postto)
 		g_object_unref (postto);
@@ -4617,7 +4614,10 @@ em_utils_reply_to_message (EMsgComposer *composer,
 			break;
 	}
 
-	composer_set_body (composer, message, style, parts_list);
+	composer_set_body (composer, message, style, parts_list, &used_part_list);
+
+	e_msg_composer_add_attachments_from_part_list (composer, used_part_list, TRUE);
+	g_clear_object (&used_part_list);
 
 	if (folder)
 		emu_set_source_headers (composer, folder, message_uid, flags);

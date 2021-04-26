@@ -29,6 +29,7 @@
 #include <shell/e-shell.h>
 
 #include <composer/e-composer-header-table.h>
+#include <em-format/e-mail-part-list.h>
 
 /* Standard GObject macros */
 #define E_TYPE_MSG_COMPOSER \
@@ -186,6 +187,11 @@ void		e_msg_composer_add_message_attachments
 						(EMsgComposer *composer,
 						 CamelMimeMessage *message,
 						 gboolean just_inlines);
+void		e_msg_composer_add_attachments_from_part_list
+						(EMsgComposer *composer,
+						 EMailPartList *part_list,
+						 gboolean just_inlines);
+
 
 void		e_msg_composer_request_close	(EMsgComposer *composer);
 gboolean	e_msg_composer_can_close	(EMsgComposer *composer,
