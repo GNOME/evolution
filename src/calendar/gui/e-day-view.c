@@ -6142,12 +6142,13 @@ e_day_view_reshape_long_event (EDayView *day_view,
 	text_w = MAX (text_w, 0);
 	gnome_canvas_item_set (
 		event->canvas_item,
-		"clip_width", (gdouble) text_w,
+		"x_offset", (gdouble) MAX (0, text_x - item_x),
+		"clip_width", (gdouble) MAX (0, item_w - (E_DAY_VIEW_LONG_EVENT_TIME_X_PAD * 2)),
 		"clip_height", (gdouble) item_h,
 		NULL);
 	e_canvas_item_move_absolute (
 		event->canvas_item,
-		text_x, item_y);
+		item_x, item_y);
 
 	g_object_unref (layout);
 	g_object_unref (comp);
