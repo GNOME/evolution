@@ -150,7 +150,7 @@ day_view_top_item_draw_long_event (EDayViewTopItem *top_item,
 	PangoLayout *layout;
 	GdkRGBA bg_rgba, rgba;
 	cairo_pattern_t *pat;
-	gdouble x0, y0, rect_height, rect_width, radius;
+	gdouble x0, y0, rect_height, rect_width, radius, x_offset = 0.0;
 	gboolean draw_flat_events;
 
 	day_view = e_day_view_top_item_get_day_view (top_item);
@@ -301,10 +301,12 @@ day_view_top_item_draw_long_event (EDayViewTopItem *top_item,
 		return;
 	}
 
+	g_object_get (G_OBJECT (event->canvas_item), "x_offset", &x_offset, NULL);
+
 	/* Determine the position of the label, so we know where to place the
 	 * icons. Note that since the top canvas never scrolls we don't need
 	 * to take the scroll offset into account. It will always be 0. */
-	text_x = event->canvas_item->x1;
+	text_x = event->canvas_item->x1 + x_offset;
 
 	/* Draw the start & end times, if necessary. */
 	min_end_time_x = item_x + E_DAY_VIEW_LONG_EVENT_X_PAD - x;
