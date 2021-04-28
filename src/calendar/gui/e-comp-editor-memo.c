@@ -127,6 +127,7 @@ ece_memo_notify_target_client_cb (GObject *object,
 	GtkWidget *description_widget;
 	GtkTextBuffer *text_buffer;
 	gboolean supports_date;
+	gboolean simple_memo, simple_memo_with_summary;
 
 	g_return_if_fail (E_IS_COMP_EDITOR_MEMO (object));
 
@@ -136,15 +137,23 @@ ece_memo_notify_target_client_cb (GObject *object,
 	description_widget = e_comp_editor_property_part_string_get_real_edit_widget (E_COMP_EDITOR_PROPERTY_PART_STRING (memo_editor->priv->description));
 	text_buffer = gtk_text_view_get_buffer (GTK_TEXT_VIEW (description_widget));
 
-	if (cal_client && e_client_check_capability (E_CLIENT (cal_client), E_CAL_STATIC_CAPABILITY_SIMPLE_MEMO)) {
-		if (e_comp_editor_property_part_get_visible (memo_editor->priv->summary)) {
+	simple_memo_with_summary = cal_client && e_client_check_capability (E_CLIENT (cal_client), E_CAL_STATIC_CAPABILITY_SIMPLE_MEMO_WITH_SUMMARY);
+	simple_memo = simple_memo_with_summary || (cal_client && e_client_check_capability (E_CLIENT (cal_client), E_CAL_STATIC_CAPABILITY_SIMPLE_MEMO));
+
+	if (simple_memo) {
+		if (!simple_memo_with_summary &&
+		    e_comp_editor_property_part_get_visible (memo_editor->priv->summary)) {
 			g_signal_connect (text_buffer, "changed",
 				G_CALLBACK (ece_memo_description_changed_cb), memo_editor);
 
 			gtk_widget_grab_focus (description_widget);
+		} else if (simple_memo_with_summary &&
+			   !e_comp_editor_property_part_get_visible (memo_editor->priv->summary)) {
+			g_signal_handlers_disconnect_by_func (text_buffer,
+				G_CALLBACK (ece_memo_description_changed_cb), memo_editor);
 		}
 
-		e_comp_editor_property_part_set_visible (memo_editor->priv->summary, FALSE);
+		e_comp_editor_property_part_set_visible (memo_editor->priv->summary, simple_memo_with_summary);
 		e_comp_editor_property_part_set_visible (memo_editor->priv->dtstart, FALSE);
 		e_comp_editor_property_part_set_visible (memo_editor->priv->classification, FALSE);
 		e_comp_editor_property_part_set_visible (memo_editor->priv->status, FALSE);
