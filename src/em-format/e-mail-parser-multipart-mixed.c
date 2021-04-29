@@ -178,22 +178,21 @@ empe_mp_mixed_parse (EMailParserExtension *extension,
 		}
 
 		if (i == 0 && g_str_has_suffix (part_id->str, ".encrypted-pgp")) {
+			ct = camel_mime_part_get_content_type (part);
+			if (ct && camel_content_type_param (ct, "protected-headers")) {
+				const gchar *subject;
+
+				/* The multipart/mixed contains some of the original headers */
+				subject = camel_medium_get_header (CAMEL_MEDIUM (part), "Subject");
+				if (subject)
+					empe_mp_mixed_maybe_update_message_info_headers (parser, part_id->str, subject, cancellable);
+			}
+
 			ct = camel_mime_part_get_content_type (subpart);
 			if (ct && camel_content_type_is (ct, "text", "rfc822-headers") &&
 			    camel_content_type_param (ct, "protected-headers")) {
-				ct = camel_mime_part_get_content_type (part);
-				if (ct && camel_content_type_param (ct, "protected-headers")) {
-					const gchar *subject;
-
-					/* The multipart/mixed contains some of the original headers */
-					subject = camel_medium_get_header (CAMEL_MEDIUM (part), "Subject");
-					if (subject) {
-						empe_mp_mixed_maybe_update_message_info_headers (parser, part_id->str, subject, cancellable);
-
-						/* Skip the text/rfc822-headers part, it's not needed to be shown */
-						continue;
-					}
-				}
+				/* Skip the text/rfc822-headers part, it's not needed to be shown */
+				continue;
 			}
 		}
 
