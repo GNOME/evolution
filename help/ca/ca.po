@@ -13835,7 +13835,7 @@ msgstr ""
 "possible, incloeu informació com ara la versió de l'<app>Evolution</app> (a "
 "<guiseq><gui>Ajuda</gui><gui>Quant a</gui></guiseq>), la vostra distribució "
 "i els passos exactes per a reproduir el problema, clic per clic. Vegeu la "
-"<link href=\"https://bugzilla.gnome.org/page.cgi?id=bug-writing.html\">guia "
+"<link href=\"https://wiki.gnome.org/Community/GettingInTouch/BugReportingGuidelines\">guia "
 "d'escriptura d'errors</link> per a més informació."
 
 #. (itstool) path: info/desc
