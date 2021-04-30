@@ -1,3 +1,55 @@
+Evolution 3.40.1 2021-04-30
+---------------------------
+
+Bug Fixes:
+	I#1410 - SRV Config Lookup: Lookup without email address too (Milan Crha)
+	I#1417 - ItipView: Show full calendar name in info messages (Milan Crha)
+	I#1424 - Composer: Paragraph format change should preserve BLOCKQUOTE (Milan Crha)
+	I#1434 - ECompEditorPageReminders: Summary change doesn't change reminder description (Milan Crha)
+	I#1439 - Composer: Paste single-line HTML without DIV into LI (Milan Crha)
+	I#1447 - templates: Include In-Reply-To/References headers (Milan Crha)
+	I#1459 - ESelectNamesEditable: Skips every second address in the list (Milan Crha)
+	I#1460 - Don't put signature above original message when editing sent mail as new (Milan Crha)
+	I#1462 - Mail: Let choose a Templates folder from any account (Milan Crha)
+	I#1467 - Calendar: Ignores change of repeating event's end date only (Milan Crha)
+	I#1471 - Composer: Lost attachments in reply/forward of an encrypted message (Milan Crha)
+	I#1474 - Calendar: All day event tooltip shown only above Summary text (Milan Crha)
+	I#1475 - Mail: Read Subject from PGP encrypted mail even without text/rfc822-headers part (Milan Crha)
+	eds-I#317 - Add OAuth2 for Yahoo! accounts (Milan Crha)
+	eds-I#329 - Calendar: Add SIMPLE_MEMO_WITH_SUMMARY capability (Milan Crha)
+	eds-M!68 - SetupBuildFlags.cmake: Correct testing of two compiler/linker build flags (Matt Turner)
+
+Miscellaneous:
+	EWebDAVBrowser: Preset default calendar color and order (Milan Crha)
+	Composer: Incorrect <BR> in quoted line with spaces only (Milan Crha)
+	ESourceComboBox: Check ESource's BackendName is filled before using it (Milan Crha)
+	Ensure non-const pointers passed to I_CAL_IS_... functions (Milan Crha)
+	EToDoPane: Do not pass recurrence ID when deleting all instances (Milan Crha)
+	PrintableOptions.cmake: Correct variable name comparison (Milan Crha)
+	Use GWeakRef in html_editor_actions_notify_html_mode_cb() (Milan Crha)
+	help: Cover selecting composer fonts; update composer toolbar items (Andre Klapper)
+
+Translations:
+	Piotr Drąg (pl)
+	Nathan Follens (nl)
+	Chao-Hsiung Liao (zh_TW)
+	Guillaume Bernard (fr)
+	Pawan Chitrakar (ne)
+	Yuri Chornoivan (uk)
+	Matej Urbančič (sl)
+	Hugo Carvalho (pt)
+	Enrico Nicoletto (pt_BR)
+	Daniel Șerbănescu (ro)
+	Asier Sarasua Garmendia (eu)
+	Dz Chen (zh_CN)
+	Tim Sabsch (de)
+	Aurimas Černius (lt)
+	Daniel Mustieles (es)
+	Kukuh Syafaat (id)
+	Luna Jernberg (sv)
+	Emin Tufan Çetin (tr)
+	Anders Jonsson (sv)
+
 Evolution 3.40.0 2021-03-19
 ---------------------------
 
