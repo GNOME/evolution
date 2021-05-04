@@ -775,6 +775,7 @@ foreach_tzid_callback (ICalParameter *param,
 
 		if (g_hash_table_contains (tz_data->tzids, location)) {
 			g_object_unref (vtimezone_comp);
+			g_free (tzid_dup);
 			return;
 		}
 
