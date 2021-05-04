@@ -57,7 +57,8 @@ empe_mp_mixed_maybe_update_message_info_headers (EMailParser *parser,
 
 	/* The Subject can be changed only if this is the top message, thus when
 	   the encrypted message/part is not an attachment. */
-	if (g_strcmp0 (part_id, ".message.encrypted-pgp") != 0)
+	if (g_strcmp0 (part_id, ".message.encrypted-pgp") != 0 &&
+	    g_strcmp0 (part_id, ".message.encrypted-pgp.signed.0") != 0)
 		return;
 
 	part_list = e_mail_parser_ref_part_list_for_operation (parser, cancellable);
@@ -177,7 +178,7 @@ empe_mp_mixed_parse (EMailParserExtension *extension,
 			continue;
 		}
 
-		if (i == 0 && g_str_has_suffix (part_id->str, ".encrypted-pgp")) {
+		if (i == 0 && (g_str_has_suffix (part_id->str, ".encrypted-pgp") || g_str_has_suffix (part_id->str, ".encrypted-pgp.signed.0"))) {
 			ct = camel_mime_part_get_content_type (part);
 			if (ct && camel_content_type_param (ct, "protected-headers")) {
 				const gchar *subject;
