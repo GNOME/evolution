@@ -898,7 +898,6 @@ action_mail_label_new_cb (GtkAction *action,
 	EMailLabelListStore *label_store;
 	EMailBackend *backend;
 	EMailSession *session;
-	CamelFolder *folder;
 	GtkTreeModel *model;
 	GtkTreeIter iter;
 	GtkWidget *dialog;
@@ -938,15 +937,20 @@ action_mail_label_new_cb (GtkAction *action,
 	g_warn_if_fail (gtk_tree_model_iter_nth_child (model, &iter, NULL, n_children - 1));
 	label_tag = e_mail_label_list_store_get_tag (label_store, &iter);
 
-	folder = e_mail_reader_ref_folder (reader);
 	uids = e_mail_reader_get_selected_uids (reader);
+	if (uids) {
+		CamelFolder *folder;
 
-	for (ii = 0; ii < uids->len; ii++)
-		camel_folder_set_message_user_flag (
-			folder, uids->pdata[ii], label_tag, TRUE);
+		folder = e_mail_reader_ref_folder (reader);
 
-	g_clear_object (&folder);
-	g_ptr_array_unref (uids);
+		for (ii = 0; ii < uids->len; ii++) {
+			camel_folder_set_message_user_flag (
+				folder, uids->pdata[ii], label_tag, TRUE);
+		}
+
+		g_clear_object (&folder);
+		g_ptr_array_unref (uids);
+	}
 
 	g_free (label_tag);
 
@@ -967,13 +971,16 @@ action_mail_label_none_cb (GtkAction *action,
 	gboolean valid;
 	guint ii;
 
+	uids = e_mail_reader_get_selected_uids (reader);
+	if (!uids)
+		return;
+
 	backend = e_mail_reader_get_backend (reader);
 	session = e_mail_backend_get_session (backend);
 	label_store = e_mail_ui_session_get_label_store (
 		E_MAIL_UI_SESSION (session));
 
 	folder = e_mail_reader_ref_folder (reader);
-	uids = e_mail_reader_get_selected_uids (reader);
 
 	valid = gtk_tree_model_get_iter_first (
 		GTK_TREE_MODEL (label_store), &iter);
@@ -2237,8 +2244,11 @@ action_mail_toggle_important_cb (GtkAction *action,
 	GPtrArray *uids;
 	guint ii;
 
-	folder = e_mail_reader_ref_folder (reader);
 	uids = e_mail_reader_get_selected_uids_with_collapsed_threads (reader);
+	if (!uids)
+		return;
+
+	folder = e_mail_reader_ref_folder (reader);
 
 	camel_folder_freeze (folder);
 
@@ -4161,8 +4171,11 @@ action_mail_label_cb (GtkToggleAction *action,
 	tag = g_object_get_data (G_OBJECT (action), "tag");
 	g_return_if_fail (tag != NULL);
 
-	folder = e_mail_reader_ref_folder (reader);
 	uids = e_mail_reader_get_selected_uids (reader);
+	if (!uids)
+		return;
+
+	folder = e_mail_reader_ref_folder (reader);
 
 	camel_folder_freeze (folder);
 	for (ii = 0; ii < uids->len; ii++) {
