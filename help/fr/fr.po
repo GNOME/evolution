@@ -22,8 +22,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Evolution doc fr\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2021-03-13 15:49+0000\n"
-"PO-Revision-Date: 2021-03-14 14:57+0100\n"
+"POT-Creation-Date: 2021-04-10 10:59+0000\n"
+"PO-Revision-Date: 2021-04-23 14:26+0200\n"
 "Last-Translator: Guillaume Bernard <associations@guillaume-bernard.fr>\n"
 "Language-Team: GNOME French Team <gnomefr@traduc.org>\n"
 "Language: fr\n"
@@ -31,7 +31,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n > 1);\n"
-"X-Generator: Gtranslator 3.38.0\n"
+"X-Generator: Gtranslator 40.0\n"
 
 #. Put one translator per line, in the form NAME <EMAIL>, YEAR1, YEAR2
 msgctxt "_"
@@ -7763,85 +7763,87 @@ msgstr "Description"
 
 #. (itstool) path: td/p
 #: C/mail-composer-html-text.page:36
+msgid "Default"
+msgstr "Valeur par défaut"
+
+#. (itstool) path: td/p
+#: C/mail-composer-html-text.page:37
+msgid "Font name."
+msgstr "Nom de la police."
+
+#. (itstool) path: td/p
+#: C/mail-composer-html-text.page:40
 msgid "+0"
 msgstr "+0"
 
 #. (itstool) path: td/p
-#: C/mail-composer-html-text.page:37
+#: C/mail-composer-html-text.page:41
 msgid "Font size."
 msgstr "Taille de police."
 
-# Bruno : c'est le menu que j'ai dans ma version
-#. (itstool) path: td/p
-#: C/mail-composer-html-text.page:41
-msgid ""
-"Color chooser for text. The box displays the current text color. To choose a "
-"new color, click the arrow button to the right. If you have text selected, "
-"the color applies to the selected text. If you do not have text selected, "
-"the color applies to whatever you type next. You can select a background "
-"color or image by right-clicking the message background, then selecting "
-"<guiseq><gui>Style</gui><gui>Page Style</gui></guiseq>."
-msgstr ""
-"Sélecteur de couleur pour le texte. La boîte affiche la couleur de texte "
-"actuelle. Pour choisir une nouvelle couleur, cliquez sur le bouton flèche "
-"sur la droite. Si du texte est sélectionné, la couleur s’applique à ce "
-"texte. Dans le cas contraire, la couleur s’applique à tout le texte que vous "
-"allez saisir ensuite. Vous pouvez choisir une couleur ou une image d’arrière-"
-"plan en cliquant avec le bouton droit sur l’arrière-plan du message, puis en "
-"choisissant <guiseq><gui>Style</gui><gui>Style de page</gui></guiseq>."
-
-#. (itstool) path: td/p
-#: C/mail-composer-html-text.page:44
-msgid "TT"
-msgstr "TT"
-
 #. (itstool) path: td/p
 #: C/mail-composer-html-text.page:45
-msgid "Typewriter text, which is similar to a monospace font."
-msgstr "Texte de machine à écrire, qui correspond à une police à largeur fixe."
+msgid "Text color."
+msgstr "Couleur du texte."
 
 #. (itstool) path: td/p
-#: C/mail-composer-html-text.page:48
+#: C/mail-composer-html-text.page:45 C/mail-composer-html-text.page:49
+msgid ""
+"The box displays the current text color. If you have text selected, the "
+"color applies to the selected text. If you do not have text selected, the "
+"color applies to whatever you type next."
+msgstr ""
+"La boîte indique la couleur actuelle du texte. Si du texte est sélectionné, "
+"la couleur s’applique à ce texte. Dans le cas contraire, la couleur "
+"s’applique à tout le texte que vous allez saisir."
+
+#. (itstool) path: td/p
+#: C/mail-composer-html-text.page:49
+msgid "Background color of the text."
+msgstr "Couleur de l’arrière-plan du texte."
+
+#. (itstool) path: td/p
+#: C/mail-composer-html-text.page:52
 msgid "Bold A"
 msgstr "A gras"
 
 #. (itstool) path: td/p
-#: C/mail-composer-html-text.page:49
+#: C/mail-composer-html-text.page:53
 msgid "Bolds the text."
 msgstr "Met le texte en gras."
 
 #. (itstool) path: td/p
-#: C/mail-composer-html-text.page:52
+#: C/mail-composer-html-text.page:56
 msgid "Italic A"
 msgstr "A italique"
 
 #. (itstool) path: td/p
-#: C/mail-composer-html-text.page:53
+#: C/mail-composer-html-text.page:57
 msgid "Italicizes the text."
 msgstr "Met le texte en italique."
 
 #. (itstool) path: td/p
-#: C/mail-composer-html-text.page:56
+#: C/mail-composer-html-text.page:60
 msgid "Underlined A"
 msgstr "A souligné"
 
 #. (itstool) path: td/p
-#: C/mail-composer-html-text.page:57
+#: C/mail-composer-html-text.page:61
 msgid "Underlines the text."
 msgstr "Souligne le texte."
 
 #. (itstool) path: td/p
-#: C/mail-composer-html-text.page:60
+#: C/mail-composer-html-text.page:64
 msgid "Strike through A"
 msgstr "A barré"
 
 #. (itstool) path: td/p
-#: C/mail-composer-html-text.page:61
+#: C/mail-composer-html-text.page:65
 msgid "Marks a line through the text."
 msgstr "Trace une ligne par-dessus le texte."
 
 #. (itstool) path: section/p
-#: C/mail-composer-html-text.page:65
+#: C/mail-composer-html-text.page:69
 msgid ""
 "The other buttons are explained under <link xref=\"mail-composer-"
 "html#formatting-options-html\"/>."
@@ -15192,3 +15194,28 @@ msgstr ""
 #: C/xinclude-searching.xml:30
 msgid "Click <_:gui-1/>."
 msgstr "Cliquez sur <_:gui-1/>."
+
+# Bruno : c'est le menu que j'ai dans ma version
+#~ msgid ""
+#~ "Color chooser for text. The box displays the current text color. To "
+#~ "choose a new color, click the arrow button to the right. If you have text "
+#~ "selected, the color applies to the selected text. If you do not have text "
+#~ "selected, the color applies to whatever you type next. You can select a "
+#~ "background color or image by right-clicking the message background, then "
+#~ "selecting <guiseq><gui>Style</gui><gui>Page Style</gui></guiseq>."
+#~ msgstr ""
+#~ "Sélecteur de couleur pour le texte. La boîte affiche la couleur de texte "
+#~ "actuelle. Pour choisir une nouvelle couleur, cliquez sur le bouton flèche "
+#~ "sur la droite. Si du texte est sélectionné, la couleur s’applique à ce "
+#~ "texte. Dans le cas contraire, la couleur s’applique à tout le texte que "
+#~ "vous allez saisir ensuite. Vous pouvez choisir une couleur ou une image "
+#~ "d’arrière-plan en cliquant avec le bouton droit sur l’arrière-plan du "
+#~ "message, puis en choisissant <guiseq><gui>Style</gui><gui>Style de page</"
+#~ "gui></guiseq>."
+
+#~ msgid "TT"
+#~ msgstr "TT"
+
+#~ msgid "Typewriter text, which is similar to a monospace font."
+#~ msgstr ""
+#~ "Texte de machine à écrire, qui correspond à une police à largeur fixe."
