@@ -545,7 +545,7 @@
 
   <error id="failed-make-movable" type="error">
     <_primary>Failed to make an occurrence movable</_primary>
-    <secondary>{1}</secondary>
+    <secondary>{0}</secondary>
   </error>
 
   <error id="comp-editor-failed-validate" type="error">
