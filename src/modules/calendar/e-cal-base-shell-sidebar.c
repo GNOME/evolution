@@ -74,7 +74,7 @@ cal_base_shell_sidebar_map_uid_to_source (GValue *value,
 		source = e_source_registry_ref_default_calendar (registry);
 	g_value_take_object (value, source);
 
-	return (source != NULL);
+	return TRUE;
 }
 
 static GVariant *
