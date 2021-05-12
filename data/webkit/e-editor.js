@@ -1846,9 +1846,10 @@ EvoEditor.quoteParagraphWrap = function(node, lineLength, wrapWidth, prefixHtml)
 				node = next;
 
 				// add the prefix and <br> only if there's still anything to be quoted
-				if (node.nodeValue.length) {
+				if (node.nodeValue.length > 0 || ii + 1 < words.length) {
 					var br = document.createElement("BR");
 					br.className = "-x-evo-wrap-br";
+					br.setAttribute("x-evo-is-space", "1");
 
 					node.parentElement.insertBefore(br, node);
 
@@ -1904,6 +1905,8 @@ EvoEditor.quoteParagraph = function(paragraph, blockquoteLevel, wrapWidth)
 		} else if (node.nodeType == node.ELEMENT_NODE) {
 			if (node.tagName == "BR") {
 				if (node.classList.contains("-x-evo-wrap-br")) {
+					if (node.hasAttribute("x-evo-is-space"))
+						node.insertAdjacentText("beforebegin", " ");
 					node.remove();
 				} else {
 					if (node.parentElement.childNodes.length != 1)
@@ -2231,7 +2234,9 @@ EvoEditor.removeQuoteMarks = function(element)
 	for (ii = list.length - 1; ii >= 0; ii--) {
 		var node = list[ii];
 
-		node.insertAdjacentText("beforebegin", " ");
+		if (node.hasAttribute("x-evo-is-space"))
+			node.insertAdjacentText("beforebegin", " ");
+
 		node.remove();
 	}
 

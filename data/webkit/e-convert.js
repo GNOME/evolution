@@ -584,6 +584,9 @@ EvoConvert.formatParagraph = function(str, ltr, align, indent, whiteSpace, wrapW
 
 				if (chr == "-" && worker.line.length && !worker.inAnchor)
 					worker.lastWrapableChar = worker.line.length;
+				else if (chr == EvoConvert.NOWRAP_CHAR_START && quoteLevel > 0 && worker.lastWrapableChar < 0 && worker.inAnchor <= 1 && worker.line.length > 1) {
+					worker.lastWrapableChar = worker.line.length;
+				}
 			}
 		}
 
@@ -928,10 +931,12 @@ EvoConvert.processNode = function(node, normalDivWidth, quoteLevel)
 			str = EvoConvert.formatParagraph(EvoConvert.extractElemText(node, normalDivWidth, quoteLevel), ltr, align, indent, "pre", -1, 0, "", quoteLevel);
 		} else if (node.tagName == "BR") {
 			// ignore new-lines added by wrapping, treat them as spaces
-			if (node.classList.contains("-x-evo-wrap-br"))
-				str += " ";
-			else
+			if (node.classList.contains("-x-evo-wrap-br")) {
+				if (node.hasAttribute("x-evo-is-space"))
+					str += " ";
+			} else {
 				str = "\n";
+			}
 		} else if (node.tagName == "IMG") {
 			str = EvoConvert.ImgToText(node);
 		} else if (node.tagName == "A" && !node.innerText.includes(" ") && !node.innerText.includes("\n")) {

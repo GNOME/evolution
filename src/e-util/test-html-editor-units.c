@@ -5093,9 +5093,9 @@ test_cite_reply_link (TestFixture *fixture)
 		"",
 		HTML_PREFIX "<div style=\"width: 71ch;\">On Today, User wrote:</div>"
 		"<blockquote type=\"cite\">"
-		"<div>" QUOTE_SPAN (QUOTE_CHR) "123 (here<br class=\"-x-evo-wrap-br\">"
+		"<div>" QUOTE_SPAN (QUOTE_CHR) "123 (here" WRAP_BR_SPC
 		QUOTE_SPAN (QUOTE_CHR) "<a href=\"https://www.example.com/1234567890/1234567890/1234567890/1234567890/1234567890/\">"
-			"https://www.example.com/1234567890/1234567890/1234567890/1234567890/1234567890/</a>)<br class=\"-x-evo-wrap-br\">"
+			"https://www.example.com/1234567890/1234567890/1234567890/1234567890/1234567890/</a>)" WRAP_BR_SPC
 		QUOTE_SPAN (QUOTE_CHR) "and here ěščřžýáíé <a href=\"https://www.example.com\">www.example.com</a> with closing text after.</div>"
 		"<div>" QUOTE_SPAN (QUOTE_CHR) "<a href=\"https://www.example1.com\">www.example1.com</a></div>"
 		"<div>" QUOTE_SPAN (QUOTE_CHR) "before <a href=\"https://www.example2.com\">www.example2.com</a></div>"

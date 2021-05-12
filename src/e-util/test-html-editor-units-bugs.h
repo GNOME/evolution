@@ -23,6 +23,7 @@
 #define QUOTE_SPAN(x) "<span class='-x-evo-quoted'>" x "</span>"
 #define QUOTE_CHR "<span class='-x-evo-quote-character'>&gt; </span>"
 #define WRAP_BR "<br class=\"-x-evo-wrap-br\">"
+#define WRAP_BR_SPC "<br class=\"-x-evo-wrap-br\" x-evo-is-space=\"1\">"
 
 G_BEGIN_DECLS
 
