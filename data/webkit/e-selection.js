@@ -23,6 +23,12 @@
 var EvoSelection = {
 };
 
+EvoSelection.isQuotationElement = function(node)
+{
+	return (node.tagName == "SPAN" && node.classList.contains("-x-evo-quoted")) ||
+	       (node.tagName == "BR" && node.classList.contains("-x-evo-wrap-br"));
+}
+
 /* The node path is described as an array of child indexes between parent
    and the childNode (in this order). */
 EvoSelection.GetChildPath = function(parent, childNode)
@@ -41,7 +47,9 @@ EvoSelection.GetChildPath = function(parent, childNode)
 		var child, index = 0;
 
 		for (child = node.previousElementSibling; child; child = child.previousElementSibling) {
-			index++;
+			// Skip quotation elements, because they can be added/removed after quotation edit
+			if (!EvoSelection.isQuotationElement(child))
+				index++;
 		}
 
 		array[array.length] = index;
@@ -59,16 +67,35 @@ EvoSelection.FindElementByPath = function(parent, path)
 		return null;
 	}
 
-	var ii, child = parent;
+	var ii, child = parent, node;
 
 	for (ii = 0; ii < path.length; ii++) {
-		var idx = path[ii];
+		var idx = path[ii], adept = child;
 
-		if (idx < 0 || idx >= child.children.length) {
-			throw "EvoSelection.FindElementByPath:: Index '" + idx + "' out of range '" + child.children.length + "'";
+		for (node = child.firstElementChild; node && idx >= 0; node = node.nextElementSibling) {
+			if (!EvoSelection.isQuotationElement(node)) {
+				idx--;
+				adept = node;
+			}
 		}
 
-		child = child.children.item(idx);
+		if (idx > 0) {
+			throw "EvoSelection.FindElementByPath:: Index '" + path[ii] + "' out of range '" + child.children.length + "'";
+		}
+
+		child = adept;
+	}
+
+	if (child && child.tagName == "SPAN" && child.classList.contains("-x-evo-quote-character")) {
+		child = child.parentElement;
+	}
+
+	if (child && child.tagName == "SPAN" && child.classList.contains("-x-evo-quoted")) {
+		if (child.nextSibling) {
+			child = child.nextSibling;
+		} else if (child.previousSibling) {
+			child = child.previousSibling;
+		}
 	}
 
 	return child;
@@ -87,6 +114,8 @@ EvoSelection.GetOverallTextOffset = function(node)
 	for (sibling = node.previousSibling; sibling; sibling = sibling.previousSibling) {
 		if (sibling.nodeType == sibling.TEXT_NODE) {
 			text_offset += sibling.textContent.length;
+		} else if (sibling.tagName == "BR" && sibling.classList.contains("-x-evo-wrap-br") && sibling.hasAttribute("x-evo-is-space")) {
+			text_offset++;
 		}
 	}
 
@@ -113,10 +142,44 @@ EvoSelection.GetTextOffsetNode = function(element, textOffset)
 			} else {
 				break;
 			}
+		} else if (node.tagName == "BR" && node.classList.contains("-x-evo-wrap-br") && node.hasAttribute("x-evo-is-space")) {
+			textOffset--;
 		}
 	}
 
 	return node ? node : (adept ? adept : element);
+}
+
+EvoSelection.correctSelectedNode = function(fromNode, fromOffset)
+{
+	var node, nodeData = {};
+
+	nodeData.node = fromNode;
+	nodeData.offset = fromOffset;
+
+	if (!fromNode)
+		return nodeData;
+
+	node = fromNode;
+
+	if (node.nodeType == node.TEXT_NODE)
+		node = node.parentElement;
+
+	while (node && node.tagName == "SPAN" && node.classList.contains("-x-evo-quote-character")) {
+		node = node.parentElement;
+	}
+
+	if (node && node.tagName == "SPAN" && node.classList.contains("-x-evo-quoted")) {
+		if (node.nextSibling) {
+			nodeData.node = node.nextSibling;
+			nodeData.offset = 0;
+		} else if (node.previousSibling) {
+			nodeData.node = node.previousSibling;
+			nodeData.offset = nodeData.node.nodeValue.length;
+		}
+	}
+
+	return nodeData;
 }
 
 /* Returns an object, where the current selection in the doc is stored */
@@ -127,19 +190,30 @@ EvoSelection.Store = function(doc)
 	}
 
 	var selection = {}, sel = doc.getSelection();
+	var anchorNode, anchorOffset, nodeData;
 
-	selection.anchorElem = sel.anchorNode ? EvoSelection.GetChildPath(doc.body, sel.anchorNode) : [];
-	selection.anchorOffset = sel.anchorOffset + EvoSelection.GetOverallTextOffset(sel.anchorNode);
+	nodeData = EvoSelection.correctSelectedNode(sel.anchorNode, sel.anchorOffset);
+	anchorNode = nodeData.node;
+	anchorOffset = nodeData.offset;
 
-	if (sel.anchorNode && sel.anchorNode.nodeType == sel.anchorNode.ELEMENT_NODE) {
+	selection.anchorElem = anchorNode ? EvoSelection.GetChildPath(doc.body, anchorNode) : [];
+	selection.anchorOffset = anchorOffset + EvoSelection.GetOverallTextOffset(anchorNode);
+
+	if (anchorNode && anchorNode.nodeType == anchorNode.ELEMENT_NODE) {
 		selection.anchorIsElement = true;
 	}
 
 	if (!sel.isCollapsed) {
-		selection.focusElem = EvoSelection.GetChildPath(doc.body, sel.focusNode);
-		selection.focusOffset = sel.focusOffset + EvoSelection.GetOverallTextOffset(sel.focusNode);
+		var focusNode, focusOffset;
 
-		if (sel.focusNode && sel.focusNode.nodeType == sel.focusNode.ELEMENT_NODE) {
+		nodeData = EvoSelection.correctSelectedNode(sel.focusNode, sel.focusOffset);
+		focusNode = nodeData.node;
+		focusOffset = nodeData.offset;
+
+		selection.focusElem = EvoSelection.GetChildPath(doc.body, focusNode);
+		selection.focusOffset = focusOffset + EvoSelection.GetOverallTextOffset(focusNode);
+
+		if (focusNode && focusNode.nodeType == focusNode.ELEMENT_NODE) {
 			selection.focusIsElement = true;
 		}
 	}
