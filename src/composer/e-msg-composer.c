@@ -3271,6 +3271,7 @@ e_msg_composer_add_attachments_from_part_list (EMsgComposer *composer,
 					       gboolean just_inlines)
 {
 	EHTMLEditor *editor;
+	GHashTable *added_mime_parts;
 	GQueue queue = G_QUEUE_INIT;
 	GList *link;
 
@@ -3279,6 +3280,8 @@ e_msg_composer_add_attachments_from_part_list (EMsgComposer *composer,
 	if (!part_list)
 		return;
 
+	/* One mime part can be in the part list multiple times */
+	added_mime_parts = g_hash_table_new (g_direct_hash, g_direct_equal);
 	editor = e_msg_composer_get_editor (composer);
 
 	e_mail_part_list_queue_parts (part_list, NULL, &queue);
@@ -3295,9 +3298,16 @@ e_msg_composer_add_attachments_from_part_list (EMsgComposer *composer,
 		if (!mime_part)
 			continue;
 
-		content_type = camel_mime_part_get_content_type (mime_part);
-		if (!content_type)
+		if (g_hash_table_contains (added_mime_parts, mime_part)) {
+			g_object_unref (mime_part);
 			continue;
+		}
+
+		content_type = camel_mime_part_get_content_type (mime_part);
+		if (!content_type) {
+			g_object_unref (mime_part);
+			continue;
+		}
 
 		if (!just_inlines &&
 		    camel_content_type_is (content_type, "text", "*") &&
@@ -3308,8 +3318,10 @@ e_msg_composer_add_attachments_from_part_list (EMsgComposer *composer,
 			   camel_mime_part_get_content_id (mime_part) ||
 			   camel_mime_part_get_content_location (mime_part))) {
 				e_html_editor_add_cid_part (editor, mime_part);
+				g_hash_table_add (added_mime_parts, mime_part);
 		} else if (!just_inlines) {
 			e_msg_composer_attach (composer, mime_part);
+			g_hash_table_add (added_mime_parts, mime_part);
 		}
 
 		g_object_unref (mime_part);
@@ -3317,6 +3329,8 @@ e_msg_composer_add_attachments_from_part_list (EMsgComposer *composer,
 
 	while (!g_queue_is_empty (&queue))
 		g_object_unref (g_queue_pop_head (&queue));
+
+	g_hash_table_destroy (added_mime_parts);
 }
 
 static void
