@@ -1995,7 +1995,9 @@ ethi_event (GnomeCanvasItem *item,
 		break;
 
 	case GDK_BUTTON_PRESS:
-		if (event_button > 3)
+		/* Skip also when the Shift is down without Control, which can be a misclick when doing multiselect */
+		if (event_button > 3 || ((event_state & GDK_SHIFT_MASK) != 0 &&
+		    (event_state & GDK_CONTROL_MASK) == 0))
 			return FALSE;
 
 		convert (canvas, event_x_win, event_y_win, &x, &y);
