@@ -475,6 +475,10 @@ main (gint argc,
 		return 0;
 	}
 
+	/* Disable sandboxing to enable printing, until WebKitGTK is fixed:
+	   https://bugs.webkit.org/show_bug.cgi?id=202363 */
+	g_setenv ("WEBKIT_FORCE_SANDBOX", "0", FALSE);
+
 	/* Pre-cache list of supported locales */
 	e_util_enum_supported_locales ();
 
