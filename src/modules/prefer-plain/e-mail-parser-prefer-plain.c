@@ -386,6 +386,12 @@ empe_prefer_plain_parse (EMailParserExtension *extension,
 		if (emp_pp->mode != ONLY_PLAIN)
 			return FALSE;
 
+		/* The convert schedules a timeout GSource on the main thread and waits for an EFlag,
+		   which causes a deadlock of the main thread. This can happen when opening a message
+		   in the composer. Skip the plugin in this case. */
+		if (e_util_is_main_thread (NULL))
+			return FALSE;
+
 		if (!e_mail_part_is_attachment (part)) {
 			gchar *content;
 
