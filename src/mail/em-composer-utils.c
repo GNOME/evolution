@@ -73,6 +73,7 @@ struct _AsyncContext {
 	CamelMimeMessage *message;
 	EMailSession *session;
 	EMsgComposer *composer;
+	ESource *transport_source;
 	EActivity *activity;
 	gchar *folder_uri;
 	gchar *message_uid;
@@ -113,6 +114,7 @@ async_context_free (AsyncContext *async_context)
 	g_clear_object (&async_context->message);
 	g_clear_object (&async_context->session);
 	g_clear_object (&async_context->composer);
+	g_clear_object (&async_context->transport_source);
 	g_clear_object (&async_context->activity);
 
 	g_free (async_context->folder_uri);
@@ -612,6 +614,14 @@ composer_send_completed (GObject *source_object,
 
 	async_context = (AsyncContext *) user_data;
 
+	if (async_context->transport_source) {
+		EShell *shell;
+
+		shell = e_msg_composer_get_shell (async_context->composer);
+
+		e_shell_set_auth_prompt_parent (shell, async_context->transport_source, NULL);
+	}
+
 	activity = async_context->activity;
 
 	e_mail_session_send_to_finish (
@@ -729,6 +739,7 @@ em_utils_composer_real_send (EMsgComposer *composer,
 			     EMailSession *session)
 {
 	AsyncContext *async_context;
+	CamelService *transport;
 	GCancellable *cancellable;
 	GSettings *settings;
 
@@ -764,6 +775,21 @@ em_utils_composer_real_send (EMsgComposer *composer,
 	async_context->message = g_object_ref (message);
 	async_context->composer = g_object_ref (composer);
 	async_context->activity = g_object_ref (activity);
+
+	transport = e_mail_session_ref_transport_for_message (session, message);
+
+	if (transport) {
+		EShell *shell;
+
+		shell = e_msg_composer_get_shell (composer);
+
+		async_context->transport_source = e_source_registry_ref_source (e_shell_get_registry (shell), camel_service_get_uid (transport));
+
+		if (async_context->transport_source)
+			e_shell_set_auth_prompt_parent (shell, async_context->transport_source, GTK_WINDOW (composer));
+
+		g_object_unref (transport);
+	}
 
 	cancellable = e_activity_get_cancellable (activity);
 

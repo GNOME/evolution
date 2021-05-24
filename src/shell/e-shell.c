@@ -60,6 +60,8 @@ struct _EShellPrivate {
 	GHashTable *backends_by_name;
 	GHashTable *backends_by_scheme;
 
+	GHashTable *auth_prompt_parents;     /* gchar *ESource::uid ~> gpointer ( only remembered, not referenced, GtkWindow * )*/
+
 	gboolean preparing_for_online;
 	gpointer preparing_for_line_change;  /* weak pointer */
 	gpointer preparing_for_quit;         /* weak pointer */
@@ -74,6 +76,7 @@ struct _EShellPrivate {
 	gulong backend_died_handler_id;
 	gulong allow_auth_prompt_handler_id;
 	gulong get_dialog_parent_handler_id;
+	gulong get_dialog_parent_full_handler_id;
 	gulong credentials_required_handler_id;
 
 	guint auto_reconnect : 1;
@@ -1400,22 +1403,37 @@ shell_credentials_required_cb (ESourceRegistry *registry,
 }
 
 static GtkWindow *
-shell_get_dialog_parent_cb (ECredentialsPrompter *prompter,
-			    EShell *shell)
+shell_get_dialog_parent_full_cb (ECredentialsPrompter *prompter,
+				 ESource *auth_source,
+				 EShell *shell)
 {
 	GList *windows, *link;
+	GtkWindow *override = NULL, *adept = NULL;
 
 	g_return_val_if_fail (E_IS_SHELL (shell), NULL);
+
+	if (auth_source)
+		override = g_hash_table_lookup (shell->priv->auth_prompt_parents, e_source_get_uid (auth_source));
 
 	windows = gtk_application_get_windows (GTK_APPLICATION (shell));
 	for (link = windows; link; link = g_list_next (link)) {
 		GtkWindow *window = link->data;
 
-		if (E_IS_SHELL_WINDOW (window))
+		if (!adept && E_IS_SHELL_WINDOW (window))
+			adept = window;
+
+		if (override == window || (!override && adept))
 			return window;
 	}
 
-	return NULL;
+	return adept;
+}
+
+static GtkWindow *
+shell_get_dialog_parent_cb (ECredentialsPrompter *prompter,
+			    EShell *shell)
+{
+	return shell_get_dialog_parent_full_cb (prompter, NULL, shell);
 }
 
 static void
@@ -1608,6 +1626,13 @@ shell_dispose (GObject *object)
 		priv->get_dialog_parent_handler_id = 0;
 	}
 
+	if (priv->get_dialog_parent_full_handler_id > 0) {
+		g_signal_handler_disconnect (
+			priv->credentials_prompter,
+			priv->get_dialog_parent_full_handler_id);
+		priv->get_dialog_parent_full_handler_id = 0;
+	}
+
 	g_clear_object (&priv->registry);
 	g_clear_object (&priv->credentials_prompter);
 	g_clear_object (&priv->client_cache);
@@ -1633,6 +1658,7 @@ shell_finalize (GObject *object)
 
 	g_hash_table_destroy (priv->backends_by_name);
 	g_hash_table_destroy (priv->backends_by_scheme);
+	g_hash_table_destroy (priv->auth_prompt_parents);
 
 	g_list_foreach (priv->loaded_backends, (GFunc) g_object_unref, NULL);
 	g_list_free (priv->loaded_backends);
@@ -1793,6 +1819,10 @@ shell_initable_init (GInitable *initable,
 	shell->priv->get_dialog_parent_handler_id = g_signal_connect (
 		shell->priv->credentials_prompter, "get-dialog-parent",
 		G_CALLBACK (shell_get_dialog_parent_cb), shell);
+
+	shell->priv->get_dialog_parent_full_handler_id = g_signal_connect (
+		shell->priv->credentials_prompter, "get-dialog-parent-full",
+		G_CALLBACK (shell_get_dialog_parent_full_cb), shell);
 
 	handler_id = g_signal_connect (
 		shell->priv->client_cache, "backend-died",
@@ -2153,6 +2183,7 @@ e_shell_init (EShell *shell)
 	shell->priv->preferences_window = e_preferences_window_new (shell);
 	shell->priv->backends_by_name = backends_by_name;
 	shell->priv->backends_by_scheme = backends_by_scheme;
+	shell->priv->auth_prompt_parents = g_hash_table_new_full (g_str_hash, g_str_equal, g_free, NULL);
 	shell->priv->safe_mode = e_file_lock_exists ();
 	shell->priv->requires_shutdown = FALSE;
 
@@ -2934,4 +2965,30 @@ e_shell_requires_shutdown (EShell *shell)
 	g_return_val_if_fail (E_IS_SHELL (shell), FALSE);
 
 	return shell->priv->requires_shutdown;
+}
+
+/**
+ * e_shell_set_auth_prompt_parent:
+ * @shell: an #EShell
+ * @source: an #ESource
+ * @parent: (nullable): a #GtkWindow
+ *
+ * Sets an override for a credential prompt parent window.
+ *
+ * Since: 3.42
+ **/
+void
+e_shell_set_auth_prompt_parent (EShell *shell,
+				ESource *source,
+				GtkWindow *parent)
+{
+	g_return_if_fail (E_IS_SHELL (shell));
+	g_return_if_fail (E_IS_SOURCE (source));
+	g_return_if_fail (e_source_get_uid (source));
+
+	if (parent) {
+		g_hash_table_insert (shell->priv->auth_prompt_parents, g_strdup (e_source_get_uid (source)), parent);
+	} else {
+		g_hash_table_remove (shell->priv->auth_prompt_parents, e_source_get_uid (source));
+	}
 }
