@@ -28,6 +28,7 @@
 
 #include <libemail-engine/libemail-engine.h>
 
+#include <mail/e-mail-browser.h>
 #include <mail/e-mail-reader.h>
 #include <mail/em-folder-tree.h>
 
@@ -122,6 +123,9 @@ gchar *		em_utils_build_export_basename	(CamelFolder *folder,
 gchar *		em_utils_account_path_to_folder_uri
 						(CamelSession *session,
 						 const gchar *account_path); /* On This Computer/Inbox/Subfolder... */
+EMailBrowser *	em_utils_find_message_window	(EMailFormatterMode display_mode,
+						 CamelFolder *folder,
+						 const gchar *message_uid);
 
 G_END_DECLS
 

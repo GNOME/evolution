@@ -2020,3 +2020,70 @@ em_utils_account_path_to_folder_uri (CamelSession *session,
 
 	return folder_uri;
 }
+
+EMailBrowser *
+em_utils_find_message_window (EMailFormatterMode display_mode,
+			      CamelFolder *folder,
+			      const gchar *message_uid)
+{
+	EShell *shell;
+	GList *windows, *link;
+
+	g_return_val_if_fail (CAMEL_IS_FOLDER (folder), NULL);
+	g_return_val_if_fail (message_uid != NULL, NULL);
+
+	shell = e_shell_get_default ();
+	windows = gtk_application_get_windows (GTK_APPLICATION (shell));
+
+	for (link = windows; link; link = g_list_next (link)) {
+		GtkWindow *window = link->data;
+
+		if (E_IS_MAIL_BROWSER (window)) {
+			EMailBrowser *browser = E_MAIL_BROWSER (window);
+			gboolean matched = FALSE;
+
+			if (e_mail_browser_get_display_mode (browser) == display_mode) {
+				CamelFolder *tmp_folder;
+				GPtrArray *uids;
+
+				tmp_folder = e_mail_reader_ref_folder (E_MAIL_READER (browser));
+				uids = e_mail_reader_get_selected_uids (E_MAIL_READER (browser));
+
+				if (uids->len == 1) {
+					const gchar *uid = g_ptr_array_index (uids, 0);
+
+					matched = g_strcmp0 (message_uid, uid) == 0 &&
+						  folder == tmp_folder;
+
+					if (!matched) {
+						CamelFolder *real_folder = NULL, *tmp_real_folder = NULL;
+						gchar *real_uid = NULL, *tmp_real_uid = NULL;
+
+						if (CAMEL_IS_VEE_FOLDER (folder))
+							em_utils_get_real_folder_and_message_uid (folder, message_uid, &real_folder, NULL, &real_uid);
+
+						if (CAMEL_IS_VEE_FOLDER (tmp_folder))
+							em_utils_get_real_folder_and_message_uid (tmp_folder, uid, &tmp_real_folder, NULL, &tmp_real_uid);
+
+						matched = (real_folder || tmp_real_folder) &&
+							(real_folder ? real_folder : folder) == (tmp_real_folder ? tmp_real_folder : tmp_folder) &&
+							g_strcmp0 (real_uid ? real_uid : message_uid, tmp_real_uid ? tmp_real_uid : uid) == 0;
+
+						g_clear_object (&tmp_real_folder);
+						g_clear_object (&real_folder);
+						g_free (tmp_real_uid);
+						g_free (real_uid);
+					}
+				}
+
+				g_ptr_array_unref (uids);
+				g_clear_object (&tmp_folder);
+			}
+
+			if (matched)
+				return browser;
+		}
+	}
+
+	return NULL;
+}

@@ -2200,6 +2200,19 @@ action_mail_show_source_cb (GtkAction *action,
 	g_return_if_fail (uids != NULL && uids->len == 1);
 	message_uid = g_ptr_array_index (uids, 0);
 
+	if (!E_IS_MAIL_BROWSER (e_mail_reader_get_window (reader))) {
+		EMailBrowser *mail_browser;
+
+		mail_browser = em_utils_find_message_window (E_MAIL_FORMATTER_MODE_SOURCE, folder, message_uid);
+
+		if (mail_browser) {
+			gtk_window_present (GTK_WINDOW (mail_browser));
+			g_ptr_array_unref (uids);
+			g_clear_object (&folder);
+			return;
+		}
+	}
+
 	browser = e_mail_browser_new (backend, E_MAIL_FORMATTER_MODE_SOURCE);
 	ml = MESSAGE_LIST (e_mail_reader_get_message_list (E_MAIL_READER (browser)));
 

@@ -1410,6 +1410,7 @@ e_mail_reader_open_selected (EMailReader *reader)
 	GPtrArray *views;
 	GPtrArray *uids;
 	guint ii = 0;
+	gboolean prefer_existing;
 
 	g_return_val_if_fail (E_IS_MAIL_READER (reader), 0);
 
@@ -1434,6 +1435,8 @@ e_mail_reader_open_selected (EMailReader *reader)
 
 		goto exit;
 	}
+
+	prefer_existing = !E_IS_MAIL_BROWSER (window);
 
 	views = g_ptr_array_new ();
 
@@ -1478,6 +1481,17 @@ e_mail_reader_open_selected (EMailReader *reader)
 		const gchar *uid = views->pdata[ii];
 		GtkWidget *browser;
 		MessageList *ml;
+
+		if (prefer_existing) {
+			EMailBrowser *mail_browser;
+
+			mail_browser = em_utils_find_message_window (E_MAIL_FORMATTER_MODE_NORMAL, folder, uid);
+
+			if (mail_browser) {
+				gtk_window_present (GTK_WINDOW (mail_browser));
+				continue;
+			}
+		}
 
 		browser = e_mail_browser_new (backend, E_MAIL_FORMATTER_MODE_NORMAL);
 
