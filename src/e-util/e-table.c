@@ -769,10 +769,24 @@ table_canvas_reflow_idle (ETable *e_table)
 
 	if (oldwidth != width - 1 ||
 	    oldheight != height - 1) {
+		ESelectionModel *selection_model;
+
 		gnome_canvas_set_scroll_region (
 			GNOME_CANVAS (e_table->table_canvas),
 			0, 0, width - 1, height - 1);
 		set_header_canvas_width (e_table);
+
+		selection_model = e_table_get_selection_model (e_table);
+		if (selection_model) {
+			gint cursor_row, cursor_col;
+
+			cursor_row = e_selection_model_cursor_row (selection_model);
+			cursor_col = e_selection_model_cursor_col (selection_model);
+
+			if (cursor_row >= 0 && cursor_col >= 0)
+				e_selection_model_cursor_changed (selection_model, cursor_row, cursor_col);
+
+		}
 	}
 	e_table->reflow_idle_id = 0;
 	return FALSE;
