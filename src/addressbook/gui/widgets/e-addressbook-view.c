@@ -78,6 +78,11 @@ struct _EAddressbookViewPrivate {
 
 	GtkTargetList *copy_target_list;
 	GtkTargetList *paste_target_list;
+
+	GSList *previous_selection; /* EContact * */
+	EContact *cursor_contact;
+	gint cursor_col;
+	gboolean awaiting_search_start;
 };
 
 enum {
@@ -145,6 +150,14 @@ addressbook_view_emit_popup_event (EAddressbookView *view,
 static void
 addressbook_view_emit_selection_change (EAddressbookView *view)
 {
+	if (!view->priv->awaiting_search_start &&
+	    e_selection_model_selected_count (e_addressbook_view_get_selection_model (view)) > 0) {
+		g_slist_free_full (view->priv->previous_selection, g_object_unref);
+		view->priv->previous_selection = NULL;
+
+		g_clear_object (&view->priv->cursor_contact);
+	}
+
 	g_signal_emit (view, signals[SELECTION_CHANGE], 0);
 }
 
@@ -429,6 +442,89 @@ addressbook_view_display_view_cb (GalViewInstance *view_instance,
 	command_state_change (view);
 }
 
+static void
+addressbook_view_model_before_search_cb (EAddressbookModel *model,
+					 gpointer user_data)
+{
+	EAddressbookView *view = user_data;
+	ESelectionModel *selection_model;
+	gint cursor_row;
+
+	selection_model = e_addressbook_view_get_selection_model (view);
+
+	g_slist_free_full (view->priv->previous_selection, g_object_unref);
+	view->priv->previous_selection = e_addressbook_view_get_selected (view);
+
+	g_clear_object (&view->priv->cursor_contact);
+
+	cursor_row = e_selection_model_cursor_row (selection_model);
+
+	if (cursor_row >= 0 && cursor_row < e_addressbook_model_contact_count (model))
+		view->priv->cursor_contact = g_object_ref (e_addressbook_model_contact_at (model, cursor_row));
+
+	view->priv->cursor_col = e_selection_model_cursor_col (selection_model);
+	view->priv->awaiting_search_start = TRUE;
+}
+
+static void
+addressbook_view_model_search_started_cb (EAddressbookModel *model,
+					  gpointer user_data)
+{
+	EAddressbookView *view = user_data;
+
+	view->priv->awaiting_search_start = FALSE;
+}
+
+static void
+addressbook_view_model_search_result_cb (EAddressbookModel *model,
+					 const GError *error,
+					 gpointer user_data)
+{
+	EAddressbookView *view = user_data;
+	ESelectionModel *selection_model;
+	EContact *cursor_contact;
+	GSList *previous_selection, *link;
+	gint row;
+
+	view->priv->awaiting_search_start = FALSE;
+
+	if (!view->priv->previous_selection && !view->priv->cursor_contact)
+		return;
+
+	/* This can change selection, which frees the 'previous_selection', thus take
+	   ownership of it. */
+	previous_selection = view->priv->previous_selection;
+	view->priv->previous_selection = NULL;
+
+	cursor_contact = view->priv->cursor_contact;
+	view->priv->cursor_contact = NULL;
+
+	selection_model = e_addressbook_view_get_selection_model (view);
+
+	if (cursor_contact) {
+		row = e_addressbook_model_find (model, cursor_contact);
+
+		if (row >= 0) {
+			e_selection_model_change_cursor (selection_model, row, view->priv->cursor_col);
+			e_selection_model_cursor_changed (selection_model, row, view->priv->cursor_col);
+		}
+	}
+
+	for (link = previous_selection; link; link = g_slist_next (link)) {
+		EContact *contact = link->data;
+
+		row = e_addressbook_model_find (model, contact);
+
+		if (row >= 0)
+			e_selection_model_change_one_row (selection_model, row, TRUE);
+	}
+
+	g_slist_free_full (previous_selection, g_object_unref);
+	g_clear_object (&cursor_contact);
+
+	e_selection_model_selection_changed (selection_model);
+}
+
 static gboolean
 address_book_view_focus_in_cb (EAddressbookView *view,
 			       GdkEvent *event)
@@ -575,6 +671,11 @@ addressbook_view_dispose (GObject *object)
 	g_clear_pointer (&priv->copy_target_list, gtk_target_list_unref);
 	g_clear_pointer (&priv->paste_target_list, gtk_target_list_unref);
 
+	g_slist_free_full (priv->previous_selection, g_object_unref);
+	priv->previous_selection = NULL;
+
+	g_clear_object (&priv->cursor_contact);
+
 	/* Chain up to parent's dispose() method. */
 	G_OBJECT_CLASS (e_addressbook_view_parent_class)->dispose (object);
 }
@@ -600,6 +701,15 @@ addressbook_view_constructed (GObject *object)
 	uid = e_source_get_uid (source);
 
 	view->priv->model = e_addressbook_model_new (client_cache);
+
+	g_signal_connect_object (view->priv->model, "before-search",
+		G_CALLBACK (addressbook_view_model_before_search_cb), view, 0);
+
+	g_signal_connect_object (view->priv->model, "search-started",
+		G_CALLBACK (addressbook_view_model_search_started_cb), view, 0);
+
+	g_signal_connect_object (view->priv->model, "search-result",
+		G_CALLBACK (addressbook_view_model_search_result_cb), view, 0);
 
 	view_instance = e_shell_view_new_view_instance (shell_view, uid);
 	g_signal_connect (
