@@ -68,6 +68,7 @@ enum {
 enum {
 	WRITABLE_STATUS,
 	STATUS_MESSAGE,
+	BEFORE_SEARCH,
 	SEARCH_STARTED,
 	SEARCH_RESULT,
 	FOLDER_BAR_MESSAGE,
@@ -371,6 +372,8 @@ client_view_ready_cb (GObject *source_object,
 		g_error_free (error);
 		return;
 	}
+
+	g_signal_emit (model, signals[BEFORE_SEARCH], 0);
 
 	remove_book_view (model);
 	free_data (model);
@@ -681,6 +684,15 @@ e_addressbook_model_class_init (EAddressbookModelClass *class)
 		G_TYPE_STRING,
 		G_TYPE_INT);
 
+	signals[BEFORE_SEARCH] = g_signal_new (
+		"before-search",
+		G_OBJECT_CLASS_TYPE (object_class),
+		G_SIGNAL_RUN_LAST,
+		/* G_STRUCT_OFFSET (EAddressbookModelClass, before_search) */ 0,
+		NULL, NULL,
+		g_cclosure_marshal_VOID__VOID,
+		G_TYPE_NONE, 0);
+
 	signals[SEARCH_STARTED] = g_signal_new (
 		"search_started",
 		G_OBJECT_CLASS_TYPE (object_class),
@@ -851,6 +863,7 @@ e_addressbook_model_contact_at (EAddressbookModel *model,
                                 gint index)
 {
 	g_return_val_if_fail (E_IS_ADDRESSBOOK_MODEL (model), NULL);
+	g_return_val_if_fail (index >= 0 && (guint) index < model->priv->contacts->len, NULL);
 
 	return model->priv->contacts->pdata[index];
 }
@@ -862,11 +875,6 @@ e_addressbook_model_find (EAddressbookModel *model,
 	GPtrArray *array;
 	gint ii;
 
-	/* XXX This searches for a particular EContact instance,
-	 *     as opposed to an equivalent but possibly different
-	 *     EContact instance.  Might have to revise this in
-	 *     the future. */
-
 	g_return_val_if_fail (E_IS_ADDRESSBOOK_MODEL (model), -1);
 	g_return_val_if_fail (E_IS_CONTACT (contact), -1);
 
@@ -874,7 +882,8 @@ e_addressbook_model_find (EAddressbookModel *model,
 	for (ii = 0; ii < array->len; ii++) {
 		EContact *candidate = array->pdata[ii];
 
-		if (contact == candidate)
+		if (contact == candidate ||
+		    g_strcmp0 (e_contact_get_const (contact, E_CONTACT_UID), e_contact_get_const (candidate, E_CONTACT_UID)) == 0)
 			return ii;
 	}
 
