@@ -294,6 +294,11 @@
       <_summary>Enable to use a similar message list view settings for all folders</_summary>
       <_description>Enable to use a similar message list view settings for all folders.</_description>
     </key>
+    <key name="global-view-search" type="b">
+      <default>true</default>
+      <_summary>Enable to use the same search settings for all folders</_summary>
+      <_description>This is considered only in combination with the 'global-view-setting'.</_description>
+    </key>
     <key name="mark-citations" type="b">
       <default>true</default>
       <_summary>Mark citations in the message “Preview”</_summary>

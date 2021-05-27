@@ -777,9 +777,10 @@ e_mail_shell_view_restore_state (EMailShellView *mail_shell_view)
 	EMailView *mail_view;
 	CamelFolder *folder;
 	CamelVeeFolder *vee_folder;
-	const gchar *old_state_group;
+	const gchar *old_state_group, *new_state_group;
 	gchar *folder_uri;
-	gchar *new_state_group;
+	gchar *tmp = NULL;
+	GSettings *settings;
 
 	/* XXX Move this to EMailShellContent. */
 
@@ -816,18 +817,26 @@ e_mail_shell_view_restore_state (EMailShellView *mail_shell_view)
 	if (vee_folder != NULL && folder == CAMEL_FOLDER (vee_folder))
 		goto exit;
 
-	folder_uri = e_mail_folder_uri_from_folder (folder);
-	new_state_group = g_strdup_printf ("Folder %s", folder_uri);
-	old_state_group = e_shell_searchbar_get_state_group (searchbar);
-	g_free (folder_uri);
+	settings = e_util_ref_settings ("org.gnome.evolution.mail");
+	if (g_settings_get_boolean (settings, "global-view-setting") &&
+	    g_settings_get_boolean (settings, "global-view-search")) {
+		    new_state_group = "GlobalSearch";
+	} else {
+		folder_uri = e_mail_folder_uri_from_folder (folder);
+		tmp = g_strdup_printf ("Folder %s", folder_uri);
+		new_state_group = tmp;
+		g_free (folder_uri);
+	}
 
-	/* Avoid loading search state unnecessarily. */
-	if (g_strcmp0 (new_state_group, old_state_group) != 0) {
+	old_state_group = e_shell_searchbar_get_state_group (searchbar);
+
+	/* Avoid loading search state unnecessarily, unless it's the global search. */
+	if (!tmp || g_strcmp0 (new_state_group, old_state_group) != 0) {
 		e_shell_searchbar_set_state_group (searchbar, new_state_group);
 		e_shell_searchbar_load_state (searchbar);
 	}
 
-	g_free (new_state_group);
+	g_free (tmp);
 
 exit:
 	g_clear_object (&folder);
