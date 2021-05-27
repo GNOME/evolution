@@ -467,6 +467,103 @@ e_import_target_new_home (EImport *import)
 		import, E_IMPORT_TARGET_HOME, sizeof (EImportTargetHome));
 }
 
+/**
+ * e_import_util_get_file_contents:
+ * @filename: a local file name to read the contents from
+ * @error: (nullable): a return location for a #GError, or %NULL
+ *
+ * Reads the @filename content and returns it in a single-byte encoding.
+ *
+ * Returns: (transfer full) (nullable): the file content, or %NULL on error,
+ *    in which case the @error is set.
+ *
+ * Since: 3.42
+ **/
+gchar *
+e_import_util_get_file_contents (const gchar *filename,
+				 GError **error)
+{
+	gchar *raw_content = NULL;
+	gsize length = 0;
+	gunichar2 *utf16;
+	gboolean is_utf16, is_utf16_swapped;
+	gchar *res = NULL;
+
+	g_return_val_if_fail (filename != NULL, NULL);
+
+	if (!g_file_get_contents (filename, &raw_content, &length, error))
+		return NULL;
+
+	if (length < 2)
+		return raw_content;
+
+	utf16 = (gunichar2 *) raw_content;
+
+	/* check the UTF-16 BOM */
+	is_utf16 = *utf16 == ((gunichar2) 0xFEFF);
+	is_utf16_swapped = *utf16 == ((gunichar2) 0xFFFE);
+
+	if (length > 4 && !is_utf16 && !is_utf16_swapped) {
+		/* Only guess it can be UTF-16 without the leading BOM, which can fail
+		   when the first two characters are encoded into multiple bytes... */
+		is_utf16 = utf16[0] && !(utf16[0] & 0xFF00) && utf16[1] && !(utf16[1] & 0xFF00);
+		is_utf16_swapped = utf16[0] && !(utf16[0] & 0xFF) && utf16[1] && !(utf16[1] & 0xFF);
+	}
+
+	if (is_utf16 || is_utf16_swapped) {
+		glong len = length / 2;
+
+		/* Swap the bytes, to match the local endianness */
+		if (is_utf16_swapped) {
+			gunichar2 *pos_str;
+			gsize npos;
+
+			for (npos = 0, pos_str = utf16; npos < len; npos++, pos_str++) {
+				*pos_str = GUINT16_SWAP_LE_BE (*pos_str);
+			}
+		}
+
+		if (*utf16 == ((gunichar2) 0xFEFF)) {
+			utf16++;
+			len--;
+		}
+
+		res = g_utf16_to_utf8 (utf16, len, NULL, NULL, NULL);
+
+		if (res) {
+			g_free (raw_content);
+			return res;
+		}
+
+		/* Return back any changes */
+		if (len != length / 2) {
+			utf16--;
+			len++;
+		}
+
+		if (is_utf16_swapped) {
+			gunichar2 *pos_str;
+			gsize npos;
+
+			for (npos = 0, pos_str = utf16; npos < len; npos++, pos_str++) {
+				*pos_str = GUINT16_SWAP_LE_BE (*pos_str);
+			}
+		}
+	}
+
+	if (g_utf8_validate (raw_content, -1, NULL))
+		return raw_content;
+
+	res = g_locale_to_utf8 (raw_content, length, NULL, NULL, NULL);
+
+	if (res)
+		g_free (raw_content);
+	else
+		res = raw_content;
+
+	return res;
+}
+
 /* ********************************************************************** */
 
 /* Import menu plugin handler */

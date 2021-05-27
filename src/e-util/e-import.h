@@ -245,6 +245,9 @@ EImportTargetURI *
 EImportTargetHome *
 		e_import_target_new_home	(EImport *import);
 
+gchar *		e_import_util_get_file_contents	(const gchar *filename,
+						 GError **error);
+
 /* ********************************************************************** */
 
 /* import plugin target, they are closely integrated */
