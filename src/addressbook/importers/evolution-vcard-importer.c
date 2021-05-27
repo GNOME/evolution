@@ -40,15 +40,6 @@
 
 #include "evolution-addressbook-importers.h"
 
-enum _VCardEncoding {
-	VCARD_ENCODING_NONE,
-	VCARD_ENCODING_UTF8,
-	VCARD_ENCODING_UTF16,
-	VCARD_ENCODING_LOCALE
-};
-
-typedef enum _VCardEncoding VCardEncoding;
-
 typedef struct {
 	EImport *import;
 	EImportTarget *target;
@@ -67,7 +58,6 @@ typedef struct {
 
 	/* when opening book */
 	gchar *contents;
-	VCardEncoding encoding;
 } VCardImporter;
 
 static void vcard_import_done (VCardImporter *gci);
@@ -250,108 +240,6 @@ vcard_import_contacts (gpointer data)
 	}
 }
 
-#define BOM (gunichar2)0xFEFF
-#define ANTIBOM (gunichar2)0xFFFE
-
-static gboolean
-has_bom (const gunichar2 *utf16)
-{
-
-	if ((utf16 == NULL) || (*utf16 == '\0')) {
-		return FALSE;
-	}
-
-	return ((*utf16 == BOM) || (*utf16 == ANTIBOM));
-}
-
-static void
-fix_utf16_endianness (gunichar2 *utf16)
-{
-	gunichar2 *it;
-
-	if ((utf16 == NULL) || (*utf16 == '\0')) {
-		return;
-	}
-
-	if (*utf16 != ANTIBOM) {
-		return;
-	}
-
-	for (it = utf16; *it != '\0'; it++) {
-		*it = GUINT16_SWAP_LE_BE (*it);
-	}
-}
-
-/* Converts an UTF-16 string to an UTF-8 string removing the BOM character
- * WARNING: this may modify the utf16 argument if the function detects the
- * string isn't using the local endianness
- */
-static gchar *
-utf16_to_utf8 (gunichar2 *utf16)
-{
-
-	if (utf16 == NULL) {
-		return NULL;
-	}
-
-	fix_utf16_endianness (utf16);
-
-	if (*utf16 == BOM) {
-		utf16++;
-	}
-
-	return g_utf16_to_utf8 (utf16, -1, NULL, NULL, NULL);
-}
-
-/* Actually check the contents of this file */
-static VCardEncoding
-guess_vcard_encoding (const gchar *filename)
-{
-	FILE *handle;
-	gchar line[4096];
-	gchar *line_utf8;
-	VCardEncoding encoding = VCARD_ENCODING_NONE;
-
-	handle = g_fopen (filename, "r");
-	if (handle == NULL) {
-		return VCARD_ENCODING_NONE;
-	}
-
-	if (fgets (line, 4096, handle) == NULL) {
-		fclose (handle);
-		return VCARD_ENCODING_NONE;
-	}
-	fclose (handle);
-
-	if (has_bom ((gunichar2 *) line)) {
-		gunichar2 *utf16 = (gunichar2 *) line;
-		/* Check for a BOM to try to detect UTF-16 encoded vcards
-		 * (MacOSX address book creates such vcards for example)
-		 */
-		line_utf8 = utf16_to_utf8 (utf16);
-		if (line_utf8 == NULL) {
-			return VCARD_ENCODING_NONE;
-		}
-		encoding = VCARD_ENCODING_UTF16;
-	} else if (g_utf8_validate (line, -1, NULL)) {
-		line_utf8 = g_strdup (line);
-		encoding = VCARD_ENCODING_UTF8;
-	} else {
-		line_utf8 = g_locale_to_utf8 (line, -1, NULL, NULL, NULL);
-		if (line_utf8 == NULL) {
-			return VCARD_ENCODING_NONE;
-		}
-		encoding = VCARD_ENCODING_LOCALE;
-	}
-
-	if (g_ascii_strncasecmp (line_utf8, "BEGIN:VCARD", 11) != 0) {
-		encoding = VCARD_ENCODING_NONE;
-	}
-
-	g_free (line_utf8);
-	return encoding;
-}
-
 static void
 primary_selection_changed_cb (ESourceSelector *selector,
                               EImportTarget *target)
@@ -427,7 +315,7 @@ vcard_supported (EImport *ei,
                  EImportImporter *im)
 {
 	EImportTargetURI *s;
-	gchar *filename;
+	gchar *filename, *contents;
 	gboolean retval;
 
 	if (target->type != E_IMPORT_TARGET_URI)
@@ -443,7 +331,9 @@ vcard_supported (EImport *ei,
 	filename = g_filename_from_uri (s->uri_src, NULL, NULL);
 	if (filename == NULL)
 		return FALSE;
-	retval = (guess_vcard_encoding (filename) != VCARD_ENCODING_NONE);
+	contents = e_import_util_get_file_contents (filename, NULL);
+	retval = contents && g_ascii_strncasecmp (contents, "BEGIN:VCARD", 11) == 0;
+	g_free (contents);
 	g_free (filename);
 
 	return retval;
@@ -480,22 +370,6 @@ book_client_connect_cb (GObject *source_object,
 	}
 
 	gci->book_client = E_BOOK_CLIENT (client);
-
-	if (gci->encoding == VCARD_ENCODING_UTF16) {
-		gchar *tmp;
-
-		gunichar2 *contents_utf16 = (gunichar2 *) gci->contents;
-		tmp = utf16_to_utf8 (contents_utf16);
-		g_free (gci->contents);
-		gci->contents = tmp;
-
-	} else if (gci->encoding == VCARD_ENCODING_LOCALE) {
-		gchar *tmp;
-		tmp = g_locale_to_utf8 (gci->contents, -1, NULL, NULL, NULL);
-		g_free (gci->contents);
-		gci->contents = tmp;
-	}
-
 	gci->contactlist = eab_contact_list_from_string (gci->contents);
 	g_free (gci->contents);
 	gci->contents = NULL;
@@ -518,7 +392,6 @@ vcard_import (EImport *ei,
 	EImportTargetURI *s = (EImportTargetURI *) target;
 	gchar *filename;
 	gchar *contents;
-	VCardEncoding encoding;
 	GError *error = NULL;
 
 	filename = g_filename_from_uri (s->uri_src, NULL, &error);
@@ -528,17 +401,9 @@ vcard_import (EImport *ei,
 
 		return;
 	}
-	encoding = guess_vcard_encoding (filename);
-	if (encoding == VCARD_ENCODING_NONE) {
-		g_free (filename);
-		/* This check is superfluous, we've already
-		 * checked otherwise we can't get here ... */
-		e_import_complete (ei, target, NULL);
 
-		return;
-	}
-
-	if (!g_file_get_contents (filename, &contents, NULL, &error)) {
+	contents = e_import_util_get_file_contents (filename, &error);
+	if (!contents) {
 		g_free (filename);
 		e_import_complete (ei, target, error);
 		g_clear_error (&error);
@@ -551,7 +416,6 @@ vcard_import (EImport *ei,
 	g_datalist_set_data (&target->data, "vcard-data", gci);
 	gci->import = g_object_ref (ei);
 	gci->target = target;
-	gci->encoding = encoding;
 	gci->contents = contents;
 
 	source = g_datalist_get_data (&target->data, "vcard-source");
@@ -578,43 +442,26 @@ vcard_get_preview (EImport *ei,
 	GtkWidget *preview;
 	GSList *contacts;
 	gchar *contents;
-	VCardEncoding encoding;
 	EImportTargetURI *s = (EImportTargetURI *) target;
 	gchar *filename;
+	GError *error = NULL;
 
-	filename = g_filename_from_uri (s->uri_src, NULL, NULL);
+	filename = g_filename_from_uri (s->uri_src, NULL, &error);
 	if (filename == NULL) {
-		g_message (G_STRLOC ": Couldn't get filename from URI '%s'", s->uri_src);
+		g_message (G_STRLOC ": Couldn't get filename from URI '%s': %s", s->uri_src, error ? error->message : "Unknown error");
+		g_clear_error (&error);
 		return NULL;
 	}
 
-	encoding = guess_vcard_encoding (filename);
-	if (encoding == VCARD_ENCODING_NONE) {
-		g_free (filename);
-		return NULL;
-	}
-
-	if (!g_file_get_contents (filename, &contents, NULL, NULL)) {
-		g_message (G_STRLOC ": Couldn't read file.");
+	contents = e_import_util_get_file_contents (filename, &error);
+	if (!contents) {
+		g_message (G_STRLOC ": Couldn't read file '%s': %s", filename, error ? error->message : "Unknown error");
+		g_clear_error (&error);
 		g_free (filename);
 		return NULL;
 	}
 
 	g_free (filename);
-
-	if (encoding == VCARD_ENCODING_UTF16) {
-		gchar *tmp;
-
-		gunichar2 *contents_utf16 = (gunichar2 *) contents;
-		tmp = utf16_to_utf8 (contents_utf16);
-		g_free (contents);
-		contents = tmp;
-	} else if (encoding == VCARD_ENCODING_LOCALE) {
-		gchar *tmp;
-		tmp = g_locale_to_utf8 (contents, -1, NULL, NULL, NULL);
-		g_free (contents);
-		contents = tmp;
-	}
 
 	contacts = eab_contact_list_from_string (contents);
 	g_free (contents);

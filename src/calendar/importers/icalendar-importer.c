@@ -572,7 +572,8 @@ ical_supported (EImport *ei,
 	if (!filename)
 		return FALSE;
 
-	if (g_file_get_contents (filename, &contents, NULL, NULL)) {
+	contents = e_import_util_get_file_contents (filename, NULL);
+	if (contents) {
 		ICalComponent *icomp;
 
 		icomp = e_cal_util_parse_ics_string (contents);
@@ -606,7 +607,8 @@ ical_import (EImport *ei,
 		return;
 	}
 
-	if (!g_file_get_contents (filename, &contents, NULL, &error)) {
+	contents = e_import_util_get_file_contents (filename, &error);
+	if (!contents) {
 		g_free (filename);
 		e_import_complete (ei, target, error);
 		g_clear_error (&error);
@@ -640,7 +642,8 @@ ivcal_get_preview (EImport *ei,
 		return NULL;
 	}
 
-	if (!g_file_get_contents (filename, &contents, NULL, NULL)) {
+	contents = e_import_util_get_file_contents (filename, NULL);
+	if (!contents) {
 		g_free (filename);
 		return NULL;
 	}
@@ -707,9 +710,8 @@ vcal_supported (EImport *ei,
 	if (!filename)
 		return FALSE;
 
-	/* Z: Wow, this is *efficient* */
-
-	if (g_file_get_contents (filename, &contents, NULL, NULL)) {
+	contents = e_import_util_get_file_contents (filename, NULL);
+	if (contents) {
 		VObject *vcal;
 		ICalComponent *icomp;
 
@@ -770,7 +772,8 @@ load_vcalendar_file (const gchar *filename)
 	defaults.alarm_audio_fmttype = (gchar *) "audio/x-wav";
 	defaults.alarm_description = (gchar *) _("Reminder!");
 
-	if (g_file_get_contents (filename, &contents, NULL, NULL)) {
+	contents = e_import_util_get_file_contents (filename, NULL);
+	if (contents) {
 		VObject *vcal;
 
 		/* parse the file */
