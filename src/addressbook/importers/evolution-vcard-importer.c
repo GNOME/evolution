@@ -314,13 +314,11 @@ guess_vcard_encoding (const gchar *filename)
 
 	handle = g_fopen (filename, "r");
 	if (handle == NULL) {
-		g_print ("\n");
 		return VCARD_ENCODING_NONE;
 	}
 
 	if (fgets (line, 4096, handle) == NULL) {
 		fclose (handle);
-		g_print ("\n");
 		return VCARD_ENCODING_NONE;
 	}
 	fclose (handle);
