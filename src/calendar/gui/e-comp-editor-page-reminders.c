@@ -1633,11 +1633,6 @@ ecep_reminders_setup_ui (ECompEditorPageReminders *page_reminders)
 		"      </placeholder>"
 		"    </menu>"
 		"  </menubar>"
-		"  <toolbar name='main-toolbar'>"
-		"    <placeholder name='content'>\n"
-		"      <toolitem action='page-reminders'/>\n"
-		"    </placeholder>"
-		"  </toolbar>"
 		"</ui>";
 
 	const GtkActionEntry options_actions[] = {

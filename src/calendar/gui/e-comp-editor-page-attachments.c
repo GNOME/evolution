@@ -615,11 +615,6 @@ ecep_attachments_setup_ui (ECompEditorPageAttachments *page_attachments)
 		"      </placeholder>"
 		"    </menu>"
 		"  </menubar>"
-		"  <toolbar name='main-toolbar'>"
-		"    <placeholder name='content'>\n"
-		"      <toolitem action='page-attachments'/>\n"
-		"    </placeholder>"
-		"  </toolbar>"
 		"</ui>";
 
 	GtkActionEntry editable_entries[] = {

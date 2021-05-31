@@ -2024,11 +2024,6 @@ ecep_recurrence_setup_ui (ECompEditorPageRecurrence *page_recurrence)
 		"      </placeholder>"
 		"    </menu>"
 		"  </menubar>"
-		"  <toolbar name='main-toolbar'>"
-		"    <placeholder name='content'>\n"
-		"      <toolitem action='page-recurrence'/>\n"
-		"    </placeholder>"
-		"  </toolbar>"
 		"</ui>";
 
 	const GtkActionEntry options_actions[] = {

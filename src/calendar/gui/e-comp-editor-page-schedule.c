@@ -471,11 +471,6 @@ ecep_schedule_setup_ui (ECompEditorPageSchedule *page_schedule)
 		"      </placeholder>"
 		"    </menu>"
 		"  </menubar>"
-		"  <toolbar name='main-toolbar'>"
-		"    <placeholder name='after-content'>\n"
-		"      <toolitem action='page-schedule'/>\n"
-		"    </placeholder>"
-		"  </toolbar>"
 		"</ui>";
 
 	const GtkActionEntry options_actions[] = {
