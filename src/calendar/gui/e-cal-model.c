@@ -1898,26 +1898,28 @@ e_cal_model_get_component_index (ECalModel *model,
 
 		if (comp_data) {
 			const gchar *uid;
-			gchar *rid;
 			gboolean has_rid = e_cal_component_id_get_rid (id) != NULL;
 
 			uid = i_cal_component_get_uid (comp_data->icalcomp);
-			rid = e_cal_util_component_get_recurid_as_string (comp_data->icalcomp);
 
 			if (uid && *uid) {
 				if ((!client || comp_data->client == client) && strcmp (uid, e_cal_component_id_get_uid (id)) == 0) {
 					if (has_rid) {
+						gchar *rid;
+
+						rid = e_cal_util_component_get_recurid_as_string (comp_data->icalcomp);
+
 						if (!(rid && *rid && strcmp (rid, e_cal_component_id_get_rid (id)) == 0)) {
 							g_free (rid);
 							continue;
 						}
+
+						g_free (rid);
 					}
-					g_free (rid);
+
 					return ii;
 				}
 			}
-
-			g_free (rid);
 		}
 	}
 
@@ -1938,17 +1940,49 @@ cal_model_data_subscriber_component_added_or_modified (ECalDataModelSubscriber *
 	gint index;
 
 	model = E_CAL_MODEL (subscriber);
+	table_model = E_TABLE_MODEL (model);
 
 	id = e_cal_component_get_id (comp);
 
-	index = e_cal_model_get_component_index (model, client, id);
+	/* The component should not exist, when it's claimed being added, thus, when it's the main
+	   component, remove any existing instances and add it from scratch. */
+	if (is_added && !e_cal_component_id_get_rid (id)) {
+		GSList *removed_comps = NULL;
+
+		for (index = 0; index < model->priv->objects->len; index++) {
+			comp_data = g_ptr_array_index (model->priv->objects, index);
+
+			if (comp_data && comp_data->client == client) {
+				const gchar *uid;
+
+				uid = i_cal_component_get_uid (comp_data->icalcomp);
+
+				if (uid && *uid && g_strcmp0 (uid, e_cal_component_id_get_uid (id)) == 0) {
+					e_table_model_pre_change (table_model);
+
+					g_ptr_array_remove_index (model->priv->objects, index);
+					removed_comps = g_slist_prepend (removed_comps, comp_data);
+					e_table_model_row_deleted (table_model, index);
+
+					index--;
+				}
+			}
+		}
+
+		g_signal_emit (model, signals[COMPS_DELETED], 0, removed_comps);
+
+		g_slist_free_full (removed_comps, g_object_unref);
+
+		index = -1;
+	} else {
+		index = e_cal_model_get_component_index (model, client, id);
+	}
 
 	e_cal_component_id_free (id);
 
 	if (index < 0 && !is_added)
 		return;
 
-	table_model = E_TABLE_MODEL (model);
 	icomp = i_cal_component_clone (e_cal_component_get_icalcomponent (comp));
 
 	if (index < 0) {
