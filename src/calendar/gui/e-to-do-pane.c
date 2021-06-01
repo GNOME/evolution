@@ -33,7 +33,6 @@
 
 #include "e-to-do-pane.h"
 
-#define N_ROOTS 9
 #define MAX_TOOLTIP_DESCRIPTION_LEN 128
 
 struct _EToDoPanePrivate {
@@ -61,7 +60,7 @@ struct _EToDoPanePrivate {
 
 	gulong source_changed_id;
 
-	GtkTreeRowReference *roots[N_ROOTS];
+	GPtrArray *roots; /* GtkTreeRowReference * */
 };
 
 enum {
@@ -71,7 +70,8 @@ enum {
 	PROP_SHELL_VIEW,
 	PROP_SHOW_COMPLETED_TASKS,
 	PROP_SHOW_NO_DUEDATE_TASKS,
-	PROP_USE_24HOUR_FORMAT
+	PROP_USE_24HOUR_FORMAT,
+	PROP_SHOW_N_DAYS
 };
 
 static void e_to_do_pane_cal_data_model_subscriber_init (ECalDataModelSubscriberInterface *iface);
@@ -695,14 +695,18 @@ etdp_get_component_root_paths (EToDoPane *to_do_pane,
 	model = GTK_TREE_MODEL (to_do_pane->priv->tree_store);
 
 	if (start_date_mark == 0 && e_cal_component_get_vtype (comp) == E_CAL_COMPONENT_TODO) {
+		GtkTreeRowReference *rowref;
+
 		if (!to_do_pane->priv->show_no_duedate_tasks)
 			return NULL;
 
-		if (gtk_tree_row_reference_valid (to_do_pane->priv->roots[N_ROOTS - 1])) {
+		rowref = g_ptr_array_index (to_do_pane->priv->roots, to_do_pane->priv->roots->len - 1);
+
+		if (gtk_tree_row_reference_valid (rowref)) {
 			GtkTreePath *root_path;
 			GtkTreeIter root_iter;
 
-			root_path = gtk_tree_row_reference_get_path (to_do_pane->priv->roots[N_ROOTS - 1]);
+			root_path = gtk_tree_row_reference_get_path (rowref);
 			if (root_path && gtk_tree_model_get_iter (model, &root_iter, root_path)) {
 				roots = g_slist_prepend (roots, root_path);
 				root_path = NULL;
@@ -714,13 +718,17 @@ etdp_get_component_root_paths (EToDoPane *to_do_pane,
 		return roots;
 	}
 
-	for (ii = 0; ii < N_ROOTS - 1; ii++) {
-		if (gtk_tree_row_reference_valid (to_do_pane->priv->roots[ii])) {
+	for (ii = 0; ii < to_do_pane->priv->roots->len - 1; ii++) {
+		GtkTreeRowReference *rowref;
+
+		rowref = g_ptr_array_index (to_do_pane->priv->roots, ii);
+
+		if (gtk_tree_row_reference_valid (rowref)) {
 			GtkTreePath *root_path;
 			GtkTreeIter root_iter;
 			guint root_date_mark = 0;
 
-			root_path = gtk_tree_row_reference_get_path (to_do_pane->priv->roots[ii]);
+			root_path = gtk_tree_row_reference_get_path (rowref);
 			if (root_path && gtk_tree_model_get_iter (model, &root_iter, root_path)) {
 				gtk_tree_model_get (model, &root_iter, COLUMN_DATE_MARK, &root_date_mark, -1);
 
@@ -1479,13 +1487,13 @@ etdp_check_time_changed (EToDoPane *to_do_pane,
 		gchar *tasks_filter;
 		time_t tt_begin, tt_end;
 		gchar *iso_begin_all, *iso_begin, *iso_end;
-		gint ii;
+		guint ii;
 
 		to_do_pane->priv->last_today = new_today;
 
 		tt_begin = i_cal_time_as_timet_with_zone (itt, zone);
 		tt_begin = time_day_begin_with_zone (tt_begin, zone);
-		tt_end = time_add_week_with_zone (tt_begin, 1, zone) + (3600 * 24) - 1;
+		tt_end = time_add_day_with_zone (tt_begin, to_do_pane->priv->roots->len ? to_do_pane->priv->roots->len - 1 : 1, zone) - 1;
 
 		iso_begin_all = isodate_from_time_t (0);
 		iso_begin = isodate_from_time_t (tt_begin);
@@ -1524,19 +1532,22 @@ etdp_check_time_changed (EToDoPane *to_do_pane,
 		}
 
 		/* Re-label the roots */
-		for (ii = 0; ii < N_ROOTS; ii++) {
+		for (ii = 0; ii < to_do_pane->priv->roots->len; ii++) {
+			GtkTreeRowReference *rowref;
 			GtkTreePath *path;
 			GtkTreeIter iter;
 
-			if (!gtk_tree_row_reference_valid (to_do_pane->priv->roots[ii])) {
-				if (ii == N_ROOTS - 1) {
+			rowref = g_ptr_array_index (to_do_pane->priv->roots, ii);
+
+			if (!gtk_tree_row_reference_valid (rowref)) {
+				if (ii == to_do_pane->priv->roots->len - 1) {
 					GtkTreeModel *model;
 					gchar *sort_key;
 
 					if (!to_do_pane->priv->show_no_duedate_tasks)
 						continue;
 
-					sort_key = g_strdup_printf ("%c", 'A' + ii);
+					sort_key = g_strdup_printf ("A%05u", ii);
 
 					gtk_tree_store_append (to_do_pane->priv->tree_store, &iter, NULL);
 					gtk_tree_store_set (to_do_pane->priv->tree_store, &iter,
@@ -1549,9 +1560,10 @@ etdp_check_time_changed (EToDoPane *to_do_pane,
 					model = GTK_TREE_MODEL (to_do_pane->priv->tree_store);
 					path = gtk_tree_model_get_path (model, &iter);
 
-					gtk_tree_row_reference_free (to_do_pane->priv->roots[ii]);
-					to_do_pane->priv->roots[ii] = gtk_tree_row_reference_new (model, path);
-					g_warn_if_fail (to_do_pane->priv->roots[ii] != NULL);
+					gtk_tree_row_reference_free (rowref);
+					rowref = gtk_tree_row_reference_new (model, path);
+					to_do_pane->priv->roots->pdata[ii] = rowref;
+					g_warn_if_fail (rowref != NULL);
 
 					gtk_tree_path_free (path);
 				} else {
@@ -1559,9 +1571,9 @@ etdp_check_time_changed (EToDoPane *to_do_pane,
 				}
 			}
 
-			path = gtk_tree_row_reference_get_path (to_do_pane->priv->roots[ii]);
+			path = gtk_tree_row_reference_get_path (rowref);
 
-			if (gtk_tree_model_get_iter (gtk_tree_row_reference_get_model (to_do_pane->priv->roots[ii]), &iter, path)) {
+			if (gtk_tree_model_get_iter (gtk_tree_row_reference_get_model (rowref), &iter, path)) {
 				struct tm tm;
 				gchar *markup;
 				guint date_mark;
@@ -1576,11 +1588,11 @@ etdp_check_time_changed (EToDoPane *to_do_pane,
 					markup = g_markup_printf_escaped ("<b>%s</b>", _("Today"));
 				} else if (ii == 1) {
 					markup = g_markup_printf_escaped ("<b>%s</b>", _("Tomorrow"));
-				} else if (ii == N_ROOTS - 1) {
+				} else if (ii == to_do_pane->priv->roots->len - 1) {
 					if (!to_do_pane->priv->show_no_duedate_tasks) {
 						gtk_tree_store_remove (to_do_pane->priv->tree_store, &iter);
-						gtk_tree_row_reference_free (to_do_pane->priv->roots[ii]);
-						to_do_pane->priv->roots[ii] = NULL;
+						gtk_tree_row_reference_free (rowref);
+						to_do_pane->priv->roots->pdata[ii] = NULL;
 						gtk_tree_path_free (path);
 						break;
 					}
@@ -2399,6 +2411,12 @@ e_to_do_pane_set_property (GObject *object,
 				E_TO_DO_PANE (object),
 				g_value_get_boolean (value));
 			return;
+
+		case PROP_SHOW_N_DAYS:
+			e_to_do_pane_set_show_n_days (
+				E_TO_DO_PANE (object),
+				g_value_get_uint (value));
+			return;
 	}
 
 	G_OBJECT_WARN_INVALID_PROPERTY_ID (object, property_id, pspec);
@@ -2452,6 +2470,13 @@ e_to_do_pane_get_property (GObject *object,
 				e_to_do_pane_get_use_24hour_format (
 				E_TO_DO_PANE (object)));
 			return;
+
+		case PROP_SHOW_N_DAYS:
+			g_value_set_uint (
+				value,
+				e_to_do_pane_get_show_n_days (
+				E_TO_DO_PANE (object)));
+			return;
 	}
 
 	G_OBJECT_WARN_INVALID_PROPERTY_ID (object, property_id, pspec);
@@ -2472,7 +2497,7 @@ e_to_do_pane_constructed (GObject *object)
 	GtkTreeIter iter;
 	GSettings *settings;
 	PangoAttrList *bold;
-	gint ii;
+	guint ii;
 
 	/* Chain up to parent's method. */
 	G_OBJECT_CLASS (e_to_do_pane_parent_class)->constructed (object);
@@ -2581,11 +2606,11 @@ e_to_do_pane_constructed (GObject *object)
 	gtk_tree_view_append_column (tree_view, column);
 	gtk_tree_view_set_expander_column (tree_view, column);
 
-	for (ii = 0; ii < N_ROOTS - 1; ii++) {
+	for (ii = 0; ii < to_do_pane->priv->roots->len - 1; ii++) {
 		GtkTreePath *path;
 		gchar *sort_key;
 
-		sort_key = g_strdup_printf ("%c", 'A' + ii);
+		sort_key = g_strdup_printf ("A%05u", ii);
 
 		gtk_tree_store_append (to_do_pane->priv->tree_store, &iter, NULL);
 		gtk_tree_store_set (to_do_pane->priv->tree_store, &iter,
@@ -2597,8 +2622,8 @@ e_to_do_pane_constructed (GObject *object)
 
 		path = gtk_tree_model_get_path (model, &iter);
 
-		to_do_pane->priv->roots[ii] = gtk_tree_row_reference_new (model, path);
-		g_warn_if_fail (to_do_pane->priv->roots[ii] != NULL);
+		to_do_pane->priv->roots->pdata[ii] = gtk_tree_row_reference_new (model, path);
+		g_warn_if_fail (to_do_pane->priv->roots->pdata[ii] != NULL);
 
 		gtk_tree_path_free (path);
 	}
@@ -2688,7 +2713,7 @@ static void
 e_to_do_pane_dispose (GObject *object)
 {
 	EToDoPane *to_do_pane = E_TO_DO_PANE (object);
-	gint ii;
+	guint ii;
 
 	if (to_do_pane->priv->cancellable) {
 		g_cancellable_cancel (to_do_pane->priv->cancellable);
@@ -2706,9 +2731,9 @@ e_to_do_pane_dispose (GObject *object)
 		to_do_pane->priv->source_changed_id = 0;
 	}
 
-	for (ii = 0; ii < N_ROOTS; ii++) {
-		gtk_tree_row_reference_free (to_do_pane->priv->roots[ii]);
-		to_do_pane->priv->roots[ii] = NULL;
+	for (ii = 0; ii < to_do_pane->priv->roots->len; ii++) {
+		gtk_tree_row_reference_free (to_do_pane->priv->roots->pdata[ii]);
+		to_do_pane->priv->roots->pdata[ii] = NULL;
 	}
 
 	g_hash_table_remove_all (to_do_pane->priv->component_refs);
@@ -2735,6 +2760,7 @@ e_to_do_pane_finalize (GObject *object)
 
 	g_hash_table_destroy (to_do_pane->priv->component_refs);
 	g_hash_table_destroy (to_do_pane->priv->client_colors);
+	g_ptr_array_unref (to_do_pane->priv->roots);
 
 	if (to_do_pane->priv->overdue_color)
 		gdk_rgba_free (to_do_pane->priv->overdue_color);
@@ -2748,6 +2774,7 @@ e_to_do_pane_init (EToDoPane *to_do_pane)
 {
 	to_do_pane->priv = G_TYPE_INSTANCE_GET_PRIVATE (to_do_pane, E_TYPE_TO_DO_PANE, EToDoPanePrivate);
 	to_do_pane->priv->cancellable = g_cancellable_new ();
+	to_do_pane->priv->roots = g_ptr_array_new ();
 
 	to_do_pane->priv->component_refs = g_hash_table_new_full (component_ident_hash, component_ident_equal,
 		component_ident_free, etdp_free_component_refs);
@@ -2841,6 +2868,18 @@ e_to_do_pane_class_init (EToDoPaneClass *klass)
 			"Use 24hour Format",
 			NULL,
 			FALSE,
+			G_PARAM_READWRITE |
+			G_PARAM_CONSTRUCT |
+			G_PARAM_STATIC_STRINGS));
+
+	g_object_class_install_property (
+		object_class,
+		PROP_SHOW_N_DAYS,
+		g_param_spec_uint (
+			"show-n-days",
+			"show-n-days",
+			NULL,
+			0, G_MAXUINT, 8,
 			G_PARAM_READWRITE |
 			G_PARAM_CONSTRUCT |
 			G_PARAM_STATIC_STRINGS));
@@ -3104,4 +3143,143 @@ e_to_do_pane_set_use_24hour_format (EToDoPane *to_do_pane,
 	etdp_update_all (to_do_pane);
 
 	g_object_notify (G_OBJECT (to_do_pane), "use-24hour-format");
+}
+
+/**
+ * e_to_do_pane_get_show_n_days:
+ * @to_do_pane: an #EToDoPane
+ *
+ * Returns: How many days are shown in the @to_do_pane.
+ *
+ * Since: 3.42
+ **/
+guint
+e_to_do_pane_get_show_n_days (EToDoPane *to_do_pane)
+{
+	g_return_val_if_fail (E_IS_TO_DO_PANE (to_do_pane), 0);
+
+	/* The 1 is for the no-due-day-tasks */
+	return to_do_pane->priv->roots->len ? to_do_pane->priv->roots->len - 1 : 0;
+}
+
+/**
+ * e_to_do_pane_set_show_n_days:
+ * @to_do_pane: an #EToDoPane
+ * @show_n_days: a value to set
+ *
+ * Sets how many days to show in the @to_do_pane. The value out range is clamped.
+ *
+ * Since: 3.42
+ **/
+void
+e_to_do_pane_set_show_n_days (EToDoPane *to_do_pane,
+			      guint show_n_days)
+{
+	GtkTreeModel *model;
+	GtkTreeRowReference *last_rowref = NULL;
+	guint old_len, ii;
+
+	g_return_if_fail (E_IS_TO_DO_PANE (to_do_pane));
+
+	if (show_n_days < E_TO_DO_PANE_MIN_SHOW_N_DAYS)
+		show_n_days = E_TO_DO_PANE_MIN_SHOW_N_DAYS;
+	else if (show_n_days > E_TO_DO_PANE_MAX_SHOW_N_DAYS)
+		show_n_days = E_TO_DO_PANE_MAX_SHOW_N_DAYS;
+
+	/* One more, for the no-due-day-tasks */
+	show_n_days++;
+
+	if (to_do_pane->priv->roots->len == show_n_days)
+		return;
+
+	model = to_do_pane->priv->tree_store ? GTK_TREE_MODEL (to_do_pane->priv->tree_store) : NULL;
+
+	/* Remember the rowref for the no-due-day-tasks, to move it to the end later */
+	if (to_do_pane->priv->roots->len) {
+		last_rowref = g_ptr_array_index (to_do_pane->priv->roots, to_do_pane->priv->roots->len - 1);
+		g_ptr_array_remove_index (to_do_pane->priv->roots, to_do_pane->priv->roots->len - 1);
+	}
+
+	if (to_do_pane->priv->roots->len >= show_n_days) {
+		for (ii = show_n_days - 1; ii < to_do_pane->priv->roots->len; ii++) {
+			GtkTreeRowReference *rowref;
+
+			rowref = g_ptr_array_index (to_do_pane->priv->roots, ii);
+
+			if (rowref) {
+				if (gtk_tree_row_reference_valid (rowref)) {
+					GtkTreePath *ref_path;
+					GtkTreeIter iter;
+
+					ref_path = gtk_tree_row_reference_get_path (rowref);
+
+					if (ref_path && gtk_tree_model_get_iter (model, &iter, ref_path))
+						gtk_tree_store_remove (to_do_pane->priv->tree_store, &iter);
+
+					gtk_tree_path_free (ref_path);
+				}
+
+				gtk_tree_row_reference_free (rowref);
+				to_do_pane->priv->roots->pdata[ii] = NULL;
+			}
+		}
+	}
+
+	old_len = to_do_pane->priv->roots->len;
+	g_ptr_array_set_size (to_do_pane->priv->roots, show_n_days);
+	to_do_pane->priv->roots->pdata[to_do_pane->priv->roots->len - 1] = last_rowref;
+
+	if (to_do_pane->priv->tree_store) {
+		for (ii = old_len; ii < show_n_days - 1; ii++) {
+			GtkTreeRowReference *rowref;
+			GtkTreePath *path;
+			GtkTreeIter iter;
+			gchar *sort_key;
+
+			sort_key = g_strdup_printf ("A%05u", ii);
+
+			gtk_tree_store_append (to_do_pane->priv->tree_store, &iter, NULL);
+			gtk_tree_store_set (to_do_pane->priv->tree_store, &iter,
+				COLUMN_SORTKEY, sort_key,
+				COLUMN_HAS_ICON_NAME, FALSE,
+				-1);
+
+			g_free (sort_key);
+
+			path = gtk_tree_model_get_path (model, &iter);
+			rowref = gtk_tree_row_reference_new (model, path);
+
+			to_do_pane->priv->roots->pdata[ii] = rowref;
+			g_warn_if_fail (rowref != NULL);
+
+			gtk_tree_path_free (path);
+		}
+
+		if (last_rowref) {
+			GtkTreePath *ref_path;
+			GtkTreeIter iter;
+
+			ref_path = gtk_tree_row_reference_get_path (last_rowref);
+
+			if (ref_path && gtk_tree_model_get_iter (model, &iter, ref_path)) {
+				gchar *sort_key;
+
+				sort_key = g_strdup_printf ("A%05u", to_do_pane->priv->roots->len - 1);
+
+				gtk_tree_store_set (to_do_pane->priv->tree_store, &iter,
+					COLUMN_SORTKEY, sort_key,
+					-1);
+
+				g_free (sort_key);
+
+				gtk_tree_store_move_before (to_do_pane->priv->tree_store, &iter, NULL);
+			}
+
+			gtk_tree_path_free (ref_path);
+		}
+
+		etdp_update_queries (to_do_pane);
+	}
+
+	g_object_notify (G_OBJECT (to_do_pane), "show-n-days");
 }

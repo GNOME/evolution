@@ -344,6 +344,11 @@ mail_shell_content_constructed (GObject *object)
 		priv->to_do_pane, "show-no-duedate-tasks",
 		G_SETTINGS_BIND_DEFAULT);
 
+	g_settings_bind (
+		settings, "to-do-bar-show-n-days",
+		priv->to_do_pane, "show-n-days",
+		G_SETTINGS_BIND_DEFAULT);
+
 	g_object_unref (settings);
 }
 

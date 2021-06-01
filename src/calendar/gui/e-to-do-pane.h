@@ -44,6 +44,9 @@
 	(G_TYPE_INSTANCE_GET_CLASS \
 	((obj), E_TYPE_TO_DO_PANE, EToDoPaneClass))
 
+#define E_TO_DO_PANE_MIN_SHOW_N_DAYS 7
+#define E_TO_DO_PANE_MAX_SHOW_N_DAYS 367
+
 G_BEGIN_DECLS
 
 typedef struct _EToDoPane EToDoPane;
@@ -86,6 +89,9 @@ gboolean	e_to_do_pane_get_use_24hour_format
 void		e_to_do_pane_set_use_24hour_format
 						(EToDoPane *to_do_pane,
 						 gboolean use_24hour_format);
+guint		e_to_do_pane_get_show_n_days	(EToDoPane *to_do_pane);
+void		e_to_do_pane_set_show_n_days	(EToDoPane *to_do_pane,
+						 guint show_n_days);
 
 G_END_DECLS
 

@@ -30,6 +30,7 @@
 
 #include "calendar/gui/e-cal-config.h"
 #include "calendar/gui/e-timezone-entry.h"
+#include "calendar/gui/e-to-do-pane.h"
 #include "calendar/gui/calendar-config.h"
 #include "shell/e-shell-utils.h"
 
@@ -705,6 +706,7 @@ calendar_preferences_construct (ECalendarPreferences *prefs,
 	GSettings *eds_calendar_settings;
 	gboolean locale_supports_12_hour_format;
 	gint i;
+	GObject *object;
 	GtkWidget *toplevel;
 	GtkWidget *widget;
 	GtkWidget *table;
@@ -1074,6 +1076,16 @@ calendar_preferences_construct (ECalendarPreferences *prefs,
 	g_settings_bind (
 		mail_settings, "to-do-bar-show-no-duedate-tasks",
 		widget, "active",
+		G_SETTINGS_BIND_DEFAULT);
+
+	object = gtk_builder_get_object (prefs->priv->builder, "tdbndaysadjustment");
+	gtk_adjustment_set_lower (GTK_ADJUSTMENT (object), E_TO_DO_PANE_MIN_SHOW_N_DAYS);
+	gtk_adjustment_set_upper (GTK_ADJUSTMENT (object), E_TO_DO_PANE_MAX_SHOW_N_DAYS);
+
+	widget = e_builder_get_widget (prefs->priv->builder, "to_do_bar_show_n_days");
+	g_settings_bind (
+		mail_settings, "to-do-bar-show-n-days",
+		widget, "value",
 		G_SETTINGS_BIND_DEFAULT);
 
 	/* Alarms tab */
