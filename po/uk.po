@@ -12,8 +12,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: evolution\n"
 "Report-Msgid-Bugs-To: https://gitlab.gnome.org/GNOME/evolution/issues\n"
-"POT-Creation-Date: 2021-05-27 12:07+0000\n"
-"PO-Revision-Date: 2021-05-28 12:58+0300\n"
+"POT-Creation-Date: 2021-06-01 18:43+0000\n"
+"PO-Revision-Date: 2021-06-02 18:57+0300\n"
 "Last-Translator: Yuri Chornoivan <yurchor@ukr.net>\n"
 "Language-Team: Ukrainian <trans-uk@lists.fedoraproject.org>\n"
 "Language: uk\n"
@@ -1616,15 +1616,12 @@ msgstr ""
 "для всіх тек."
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:98
-#| msgid "Enable to use a similar message list view settings for all folders"
 msgid "Enable to use the same search settings for all folders"
-msgstr ""
-"Увімкнути використання одних параметрів пошуку для усіх тек"
+msgstr "Увімкнути використання одних параметрів пошуку для усіх тек"
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:99
 msgid "This is considered only in combination with the 'global-view-setting'."
-msgstr ""
-"Береться до уваги лише у поєднанні із «global-view-setting»."
+msgstr "Береться до уваги лише у поєднанні із «global-view-setting»."
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:100
 msgid "Mark citations in the message “Preview”"
@@ -2601,19 +2598,29 @@ msgstr ""
 "без терміну виконання"
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:276
+msgid "How many days to show in the To Do bar"
+msgstr ""
+"Кількість днів, події для яких слід показувати на панелі «Зробити»"
+
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:277
+msgid "Values out of range are clamped to the boundary."
+msgstr ""
+"Значення поза припустимим діапазоном обрізано до граничного значення."
+
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:278
 msgid "Show start up wizard"
 msgstr "Показувати майстер запуску"
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:277
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:279
 msgid "Whether show start up wizard when there is no mail account configured."
 msgstr ""
 "Чи показувати майстер запуску, коли не налаштовано обліковий запис пошти."
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:278
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:280
 msgid "Whether go to the previous message after message deletion"
 msgstr "Чи переходити до попереднього повідомлення після вилучення поточного"
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:279
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:281
 msgid ""
 "If set to true, goes to the previous message when the selected is deleted; "
 "or to the next message, when it’s set to false."
@@ -2622,11 +2629,11 @@ msgstr ""
 "відбуватиметься перехід до попереднього повідомлення. Якщо встановлено "
 "«false», перехід відбуватиметься до наступного повідомлення."
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:280
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:282
 msgid "Show Subject above Sender in Messages column"
 msgstr "Показувати тему вище відправника у стовпчику повідомлень"
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:281
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:283
 msgid ""
 "Whether to show Subject above Sender (From/To) in the Messages column, "
 "usually shown in the Vertical/Wide view of the message list"
@@ -2635,11 +2642,11 @@ msgstr ""
 "який, зазвичай, буде показано у вертикальному/широкому перегляді списку "
 "повідомлень"
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:282
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:284
 msgid "Visually wrap long lines in composer"
 msgstr "Візуально переносити довгі рядки у редакторі"
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:283
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:285
 #: ../src/composer/e-composer-actions.c:556
 msgid ""
 "Whether to visually wrap long lines of text to avoid horizontal scrolling"
@@ -2647,19 +2654,19 @@ msgstr ""
 "Чи переносити візуально довгі рядки тексту, щоб уникнути потреби у "
 "горизонтальному гортанні"
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:284
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:286
 msgid "Alternative reply style"
 msgstr "Альтернативний стиль відповідей"
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:285
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:287
 msgid "Format message in HTML"
 msgstr "Форматувати повідомлення у HTML"
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:286
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:288
 msgid "Put the cursor at the bottom of alternative replies"
 msgstr "Розташовувати курсор під альтернативними відповідями"
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:287
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:289
 msgid ""
 "This determines whether the cursor is placed at the top of the message or "
 "the bottom when using Alternative Reply."
@@ -2668,11 +2675,11 @@ msgstr ""
 "його нижній частині під час використання можливості «Альтернативна "
 "відповідь»."
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:288
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:290
 msgid "Put the signature at the top of the message"
 msgstr "Розташовувати підпис у верхній частині повідомлення"
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:289
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:291
 msgid ""
 "This determines whether the signature is placed at the top of the message or "
 "the bottom when using Alternative Reply."
@@ -2680,21 +2687,21 @@ msgstr ""
 "Це визначає, слід розташовувати підпис у верхній частині повідомлення чи у "
 "його нижній частині при використанні можливості «Альтернативна відповідь»."
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:290
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:292
 msgid "Apply chosen template when using Alternative Reply"
 msgstr "Застосувати обраний шаблон при використанні Альтернативної відповіді"
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:291
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:293
 msgid "Last chosen template’s folder URI for Alternative Reply"
 msgstr "Адреса останньої вибраної теки шаблонів для Альтернативної відповіді"
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:292
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:294
 msgid "Last chosen template’s message UID for Alternative Reply"
 msgstr ""
 "Останній вибраний ідентифікатор шаблона повідомлення для Альтернативної "
 "відповіді"
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:293
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:295
 msgid ""
 "Whether preserve original message subject when applying template for "
 "Alternative Reply"
@@ -2702,7 +2709,7 @@ msgstr ""
 "Чи зберігати тему останнього повідомлення при застосуванні Альтернативної "
 "відповіді"
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:294
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:296
 msgid ""
 "Whether set “body” in mailto: URI as Preformatted paragraph style. If set to "
 "“false”, then Normal paragraph style will be used."
@@ -2711,7 +2718,7 @@ msgstr ""
 "«body» у адресі mailto:. Якщо встановлено «false», буде використано стиль "
 "звичайного абзацу."
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:295
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:297
 msgid ""
 "Close the message browser window when the selected message is deleted or "
 "marked as Junk."
@@ -2719,7 +2726,7 @@ msgstr ""
 "Закривати вікно переглядача повідомлення, якщо позначене повідомлення "
 "вилучено або позначено як спам."
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:296
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:298
 msgid ""
 "Collapse archive folders in Move/Copy message to Folder and Go to Folder "
 "selectors."
@@ -2727,7 +2734,7 @@ msgstr ""
 "Згортати архівовані теки при переміщенні або копіюванні до теки і переході "
 "до теки."
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:297
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:299
 msgid ""
 "Where to lookup recipient S/MIME certificates or PGP keys when encrypting "
 "messages."
@@ -2735,7 +2742,7 @@ msgstr ""
 "Де шукати сертифікати отримувача S/MIME або ключі PGP, якщо повідомлення "
 "зашифровані."
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:298
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:300
 msgid ""
 "The “off” value completely disables certificate lookup; the “autocompleted” "
 "value provides certificates only for auto-completed contacts; the “books” "
@@ -2747,13 +2754,13 @@ msgstr ""
 "значення «books» призводить до використання сертифікатів з автозаповнених "
 "контактів і здійснення пошуку у книгах, позначених для автозаповнення."
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:299
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:301
 msgid "Whether Send/Receive should also download of messages for offline."
 msgstr ""
 "Чи має натискання кнопки «Надіслати/Отримати» призводити до отримання "
 "повідомлень для автономного переглядання."
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:300
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:302
 msgid ""
 "If enabled, whenever Send/Receive is run it also runs synchronization of "
 "messages for offline use. The option is disabled by default."
@@ -2762,13 +2769,13 @@ msgstr ""
 "запуску синхронізації повідомлень для автономного перегляду. Типово, цю "
 "можливість вимкнено."
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:301
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:303
 msgid "Whether display delivery notification parts inline."
 msgstr ""
 "Чи слід показувати частини сповіщення щодо отримання вбудованими до "
 "повідомлення."
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:302
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:304
 msgid ""
 "If enabled, the message/delivery-status and message/disposition-notification "
 "parts are shown automatically inline."
@@ -2776,11 +2783,11 @@ msgstr ""
 "Якщо увімкнено, частини message/delivery-status і message/disposition-"
 "notification буде автоматично показано вбудованими."
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:303
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:305
 msgid "Whether unset colors provided in HTML mails."
 msgstr "Чи слід знімати кольори, які вказано у коді HTML повідомлень"
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:304
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:306
 msgid ""
 "If enabled, unset colors in HTML messages, forcing use of desktop theme "
 "colors instead."
@@ -2788,7 +2795,7 @@ msgstr ""
 "Якщо увімкнено, кольори у повідомленнях HTML буде вимкнено. Замість них буде "
 "використано визначені темою стільничного середовища кольори."
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:305
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:307
 msgid ""
 "Whether to preserve expand state of the folders when calling Copy/Move to "
 "Folder."
@@ -2796,7 +2803,7 @@ msgstr ""
 "Чи слід зберігати розгорнутий стан тек під час виклику діалогового вікна "
 "копіювання або пересування до теки."
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:306
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:308
 msgid ""
 "If enabled, the Copy/Move to Folder dialog will preserve the expand state of "
 "the folders in the dialog, otherwise all the folders will be expanded."
@@ -2805,11 +2812,11 @@ msgstr ""
 "зберігатиме розгорнутий стан тек у вікні. Якщо вимкнено, усі пункти тек буде "
 "розгорнуто."
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:307
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:309
 msgid "(Deprecated) Default forward style"
 msgstr "(Застаріло) Типовий стиль пересилання"
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:308
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:310
 msgid ""
 "This key was deprecated in version 3.10 and should no longer be used. Use "
 "“forward-style-name” instead."
@@ -2817,11 +2824,11 @@ msgstr ""
 "Цей ключ застарілий для версії 3.10 і більше не використовуватиметься. "
 "Використовуйте «forward-style-name» натомість."
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:309
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:311
 msgid "(Deprecated) Default reply style"
 msgstr "(Застаріло) Типовий стиль відповіді"
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:310
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:312
 msgid ""
 "This key was deprecated in version 3.10 and should no longer be used. Use "
 "“reply-style-name” instead."
@@ -2829,11 +2836,11 @@ msgstr ""
 "Цей ключ застарілий для версії 3.10 і більше не використовуватиметься. "
 "Використовуйте «reply-style-name» натомість."
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:311
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:313
 msgid "(Deprecated) List of custom headers and whether they are enabled."
 msgstr "(Застаріло) Список власних заголовків та їхній стан."
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:312
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:314
 msgid ""
 "This key was deprecated in version 3.10 and should no longer be used. Use "
 "“show-headers” instead."
@@ -2841,12 +2848,12 @@ msgstr ""
 "Цей ключ застарілий для версії 3.10 і більше не використовуватиметься. "
 "Використовуйте «show-headers» натомість."
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:313
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:315
 msgid "(Deprecated) Load images for HTML messages over HTTP"
 msgstr ""
 "(Застаріло) Автоматично завантажувати зображення у листах HTML через HTTP"
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:314
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:316
 msgid ""
 "This key was deprecated in version 3.10 and should no longer be used. Use "
 "“image-loading-policy” instead."
@@ -2854,7 +2861,7 @@ msgstr ""
 "Цей ключ застарілий для версії 3.10 і більше не використовуватиметься. "
 "Використовуйте «image-loading-policy» натомість."
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:315
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:317
 msgid ""
 "(Deprecated) Asks whether to close the message window when the user forwards "
 "or replies to the message shown in the window"
@@ -2862,7 +2869,7 @@ msgstr ""
 "(Застаріло) Запитує, чи закривати вікно листа, коли користувач пересилає або "
 "відповідає на показане лист у вікні"
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:316
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:318
 msgid ""
 "This key was deprecated in version 3.10 and should no longer be used. Use "
 "“browser-close-on-reply-policy” instead."
@@ -3565,7 +3572,7 @@ msgstr "Примітки"
 #: ../src/calendar/importers/icalendar-importer.c:77
 #: ../src/calendar/importers/icalendar-importer.c:1151
 #: ../src/e-util/e-webdav-browser.c:523
-#: ../src/modules/calendar/e-calendar-preferences.ui.h:72
+#: ../src/modules/calendar/e-calendar-preferences.ui.h:76
 #: ../src/modules/calendar/e-cal-shell-content.c:1847
 #: ../src/modules/calendar/e-task-shell-view-actions.c:220
 #: ../src/modules/calendar/e-task-shell-view-actions.c:235
@@ -4205,7 +4212,7 @@ msgid "Contact Editor"
 msgstr "Редактор контактів"
 
 #: ../src/addressbook/gui/contact-editor/contact-editor.ui.h:13
-#: ../src/calendar/gui/e-comp-editor-page-reminders.c:2433
+#: ../src/calendar/gui/e-comp-editor-page-reminders.c:2486
 #: ../src/em-format/e-mail-formatter-attachment.c:277
 #: ../src/mail/mail-config.ui.h:40
 msgid "Options"
@@ -4524,7 +4531,7 @@ msgstr "Робота"
 #: ../src/addressbook/gui/widgets/eab-contact-formatter.c:84
 #: ../src/addressbook/gui/widgets/eab-contact-formatter.c:526
 #: ../src/addressbook/gui/widgets/eab-contact-formatter.c:1082
-#: ../src/calendar/gui/e-cal-model.c:3793
+#: ../src/calendar/gui/e-cal-model.c:3827
 msgid "Other"
 msgstr "Інша"
 
@@ -6652,7 +6659,7 @@ msgid "Do Not Exist"
 msgstr "не існує"
 
 #: ../src/calendar/gui/caltypes.xml.in.h:19
-#: ../src/calendar/gui/e-comp-editor-page-recurrence.c:2097
+#: ../src/calendar/gui/e-comp-editor-page-recurrence.c:2092
 msgid "Recurrence"
 msgstr "Повторення"
 
@@ -6862,28 +6869,28 @@ msgstr "Натисніть тут, щоб знайти більше подій."
 
 #. Translators: Part of: [ Play a sound ] [ x ] [ minute(s) ] [ before ] [ start ]
 #: ../src/calendar/gui/e-alarm-list.c:387
-#: ../src/calendar/gui/e-comp-editor-page-reminders.c:2268
+#: ../src/calendar/gui/e-comp-editor-page-reminders.c:2321
 msgctxt "cal-reminders"
 msgid "Play a sound"
 msgstr "Програти звук"
 
 #. Translators: Part of: [ Pop up an alert ] [ x ] [ minute(s) ] [ before ] [ start ]
 #: ../src/calendar/gui/e-alarm-list.c:391
-#: ../src/calendar/gui/e-comp-editor-page-reminders.c:2266
+#: ../src/calendar/gui/e-comp-editor-page-reminders.c:2319
 msgctxt "cal-reminders"
 msgid "Pop up an alert"
 msgstr "Виводити попередження"
 
 #. Translators: Part of: [ Send an email ] [ x ] [ minute(s) ] [ before ] [ start ]
 #: ../src/calendar/gui/e-alarm-list.c:395
-#: ../src/calendar/gui/e-comp-editor-page-reminders.c:2272
+#: ../src/calendar/gui/e-comp-editor-page-reminders.c:2325
 msgctxt "cal-reminders"
 msgid "Send an email"
 msgstr "Надіслати пошту"
 
 #. Translators: Part of: [ Run a program ] [ x ] [ minute(s) ] [ before ] [ start ]
 #: ../src/calendar/gui/e-alarm-list.c:399
-#: ../src/calendar/gui/e-comp-editor-page-reminders.c:2270
+#: ../src/calendar/gui/e-comp-editor-page-reminders.c:2323
 msgctxt "cal-reminders"
 msgid "Run a program"
 msgstr "Запустити програму"
@@ -7394,7 +7401,7 @@ msgstr "Джерело"
 #. To Translators: 'Status' here means the state of the attendees, the resulting string will be in a form:
 #. * Status: Accepted: X   Declined: Y   ...
 #: ../src/calendar/gui/e-cal-list-view.etspec.h:10
-#: ../src/calendar/gui/e-cal-model.c:3847
+#: ../src/calendar/gui/e-cal-model.c:3881
 #: ../src/calendar/gui/e-meeting-list-view.c:689
 #: ../src/calendar/gui/e-meeting-time-sel.etspec.h:9
 #: ../src/calendar/gui/e-memo-table.etspec.h:9
@@ -7471,7 +7478,7 @@ msgstr "Так"
 msgid "No"
 msgstr "Ні"
 
-#: ../src/calendar/gui/e-cal-model.c:3788
+#: ../src/calendar/gui/e-cal-model.c:3822
 #: ../src/calendar/gui/e-meeting-list-view.c:205
 #: ../src/calendar/gui/e-meeting-store.c:179
 #: ../src/calendar/gui/e-meeting-store.c:202
@@ -7479,7 +7486,7 @@ msgstr "Ні"
 msgid "Accepted"
 msgstr "Прийнято"
 
-#: ../src/calendar/gui/e-cal-model.c:3789
+#: ../src/calendar/gui/e-cal-model.c:3823
 #: ../src/calendar/gui/e-meeting-list-view.c:206
 #: ../src/calendar/gui/e-meeting-store.c:181
 #: ../src/calendar/gui/e-meeting-store.c:204
@@ -7487,7 +7494,7 @@ msgstr "Прийнято"
 msgid "Declined"
 msgstr "Відхилено"
 
-#: ../src/calendar/gui/e-cal-model.c:3790
+#: ../src/calendar/gui/e-cal-model.c:3824
 #: ../src/calendar/gui/e-meeting-list-view.c:207
 #: ../src/calendar/gui/e-meeting-store.c:183
 #: ../src/calendar/gui/e-meeting-store.c:206
@@ -7495,7 +7502,7 @@ msgstr "Відхилено"
 msgid "Tentative"
 msgstr "Експериментальний"
 
-#: ../src/calendar/gui/e-cal-model.c:3791
+#: ../src/calendar/gui/e-cal-model.c:3825
 #: ../src/calendar/gui/e-meeting-list-view.c:208
 #: ../src/calendar/gui/e-meeting-store.c:185
 #: ../src/calendar/gui/e-meeting-store.c:208
@@ -7503,7 +7510,7 @@ msgstr "Експериментальний"
 msgid "Delegated"
 msgstr "Доручено"
 
-#: ../src/calendar/gui/e-cal-model.c:3792
+#: ../src/calendar/gui/e-cal-model.c:3826
 msgid "Needs action"
 msgstr "Необхідна дія"
 
@@ -7544,15 +7551,15 @@ msgstr "Зміна примітки"
 msgid "Modifying a task"
 msgstr "Зміна завдання"
 
-#: ../src/calendar/gui/e-cal-ops.c:426 ../src/calendar/gui/e-to-do-pane.c:2074
+#: ../src/calendar/gui/e-cal-ops.c:426 ../src/calendar/gui/e-to-do-pane.c:2086
 msgid "Removing an event"
 msgstr "Вилучення події"
 
-#: ../src/calendar/gui/e-cal-ops.c:430 ../src/calendar/gui/e-to-do-pane.c:2078
+#: ../src/calendar/gui/e-cal-ops.c:430 ../src/calendar/gui/e-to-do-pane.c:2090
 msgid "Removing a memo"
 msgstr "Вилучення примітки"
 
-#: ../src/calendar/gui/e-cal-ops.c:434 ../src/calendar/gui/e-to-do-pane.c:2082
+#: ../src/calendar/gui/e-cal-ops.c:434 ../src/calendar/gui/e-to-do-pane.c:2094
 msgid "Removing a task"
 msgstr "Вилучення завдання"
 
@@ -8006,31 +8013,31 @@ msgstr "Не вдалося знайти долучення «%s», вилучі
 msgid "Attachment “%s” doesn’t have valid URI, remove it from the list, please"
 msgstr "Долучення «%s» має недійсний URI, вилучіть його зі списку"
 
-#: ../src/calendar/gui/e-comp-editor-page-attachments.c:628
+#: ../src/calendar/gui/e-comp-editor-page-attachments.c:623
 #: ../src/composer/e-composer-actions.c:326
 msgid "_Attachment…"
 msgstr "_Долучення…"
 
-#: ../src/calendar/gui/e-comp-editor-page-attachments.c:630
+#: ../src/calendar/gui/e-comp-editor-page-attachments.c:625
 #: ../src/composer/e-composer-actions.c:328
 #: ../src/e-util/e-attachment-view.c:343
 msgid "Attach a file"
 msgstr "Вкласти файл"
 
-#: ../src/calendar/gui/e-comp-editor-page-attachments.c:637
+#: ../src/calendar/gui/e-comp-editor-page-attachments.c:632
 msgid "_Attachments"
 msgstr "_Долучення"
 
-#: ../src/calendar/gui/e-comp-editor-page-attachments.c:639
+#: ../src/calendar/gui/e-comp-editor-page-attachments.c:634
 msgid "Show attachments"
 msgstr "Показати долучення"
 
-#: ../src/calendar/gui/e-comp-editor-page-attachments.c:807
+#: ../src/calendar/gui/e-comp-editor-page-attachments.c:802
 #: ../src/e-util/e-attachment-bar.c:716 ../src/e-util/e-attachment-paned.c:690
 msgid "Icon View"
 msgstr "Перегляд піктограм"
 
-#: ../src/calendar/gui/e-comp-editor-page-attachments.c:809
+#: ../src/calendar/gui/e-comp-editor-page-attachments.c:804
 #: ../src/e-util/e-attachment-bar.c:718 ../src/e-util/e-attachment-paned.c:692
 msgid "List View"
 msgstr "Перегляд списків"
@@ -8138,7 +8145,7 @@ msgid "Atte_ndees…"
 msgstr "_Учасники…"
 
 #: ../src/calendar/gui/e-comp-editor-page-general.c:1501
-#: ../src/calendar/gui/e-comp-editor-page-recurrence.c:2317
+#: ../src/calendar/gui/e-comp-editor-page-recurrence.c:2312
 #: ../src/calendar/gui/e-comp-editor.c:2192
 #: ../src/e-util/e-accounts-window.c:1745
 #: ../src/e-util/e-html-editor-actions.c:1122
@@ -8317,7 +8324,7 @@ msgstr "випадки"
 
 #. Translators: Entire string is for example:     'This appointment recurs/Every[x][day(s)][for][1]occurrences' (combobox options are in [square brackets])
 #: ../src/calendar/gui/e-comp-editor-page-recurrence.c:1552
-#: ../src/calendar/gui/e-comp-editor-page-recurrence.c:2109
+#: ../src/calendar/gui/e-comp-editor-page-recurrence.c:2104
 msgctxt "ECompEditorPageRecur"
 msgid "This appointment rec_urs"
 msgstr "Ця зустріч _повторюється"
@@ -8348,85 +8355,85 @@ msgstr "Неправильна дата винятків повторення"
 msgid "End time of the recurrence is before the start"
 msgstr "Кінцевий час повторювання вказано до початку"
 
-#: ../src/calendar/gui/e-comp-editor-page-recurrence.c:2037
+#: ../src/calendar/gui/e-comp-editor-page-recurrence.c:2032
 msgid "R_ecurrence"
 msgstr "_Повторність"
 
-#: ../src/calendar/gui/e-comp-editor-page-recurrence.c:2039
+#: ../src/calendar/gui/e-comp-editor-page-recurrence.c:2034
 msgid "Set or unset recurrence"
 msgstr "Вказати або забрати повторність"
 
 #. Translators: Entire string is for example:     'This appointment recurs/Every[x][day(s)][for][1]occurrences' (combobox options are in [square brackets])
-#: ../src/calendar/gui/e-comp-editor-page-recurrence.c:2141
+#: ../src/calendar/gui/e-comp-editor-page-recurrence.c:2136
 msgctxt "ECompEditorPageRecur"
 msgid "Every"
 msgstr "Кожен"
 
 #. Translators: Entire string is for example:     'This appointment recurs/Every[x][day(s)][for][1]occurrences' (combobox options are in [square brackets])
-#: ../src/calendar/gui/e-comp-editor-page-recurrence.c:2176
+#: ../src/calendar/gui/e-comp-editor-page-recurrence.c:2171
 msgctxt "ECompEditorPageRecur"
 msgid "day(s)"
 msgstr "добу"
 
 #. Translators: Entire string is for example:     'This appointment recurs/Every[x][day(s)][for][1]occurrences' (combobox options are in [square brackets])
-#: ../src/calendar/gui/e-comp-editor-page-recurrence.c:2178
+#: ../src/calendar/gui/e-comp-editor-page-recurrence.c:2173
 msgctxt "ECompEditorPageRecur"
 msgid "week(s)"
 msgstr "тиждень"
 
 #. Translators: Entire string is for example:     'This appointment recurs/Every[x][day(s)][for][1]occurrences' (combobox options are in [square brackets])
-#: ../src/calendar/gui/e-comp-editor-page-recurrence.c:2180
+#: ../src/calendar/gui/e-comp-editor-page-recurrence.c:2175
 msgctxt "ECompEditorPageRecur"
 msgid "month(s)"
 msgstr "місяць"
 
 #. Translators: Entire string is for example:     'This appointment recurs/Every[x][day(s)][for][1]occurrences' (combobox options are in [square brackets])
-#: ../src/calendar/gui/e-comp-editor-page-recurrence.c:2182
+#: ../src/calendar/gui/e-comp-editor-page-recurrence.c:2177
 msgctxt "ECompEditorPageRecur"
 msgid "year(s)"
 msgstr "рік"
 
 #. Translators: Entire string is for example:     'This appointment recurs/Every[x][day(s)][for][1]occurrences' (combobox options are in [square brackets])
-#: ../src/calendar/gui/e-comp-editor-page-recurrence.c:2211
+#: ../src/calendar/gui/e-comp-editor-page-recurrence.c:2206
 msgctxt "ECompEditorPageRecur"
 msgid "for"
 msgstr "протягом"
 
 #. Translators: Entire string is for example:     'This appointment recurs/Every[x][day(s)][for][1]occurrences' (combobox options are in [square brackets])
-#: ../src/calendar/gui/e-comp-editor-page-recurrence.c:2213
+#: ../src/calendar/gui/e-comp-editor-page-recurrence.c:2208
 msgctxt "ECompEditorPageRecur"
 msgid "until"
 msgstr "до"
 
 #. Translators: Entire string is for example:     'This appointment recurs/Every[x][day(s)][for][1]occurrences' (combobox options are in [square brackets])
-#: ../src/calendar/gui/e-comp-editor-page-recurrence.c:2215
+#: ../src/calendar/gui/e-comp-editor-page-recurrence.c:2210
 msgctxt "ECompEditorPageRecur"
 msgid "forever"
 msgstr "завжди"
 
-#: ../src/calendar/gui/e-comp-editor-page-recurrence.c:2231
+#: ../src/calendar/gui/e-comp-editor-page-recurrence.c:2226
 msgid "This appointment contains recurrences that Evolution cannot edit."
 msgstr ""
 "Ця зустріч містить правила повторення, які Evolution не може редагувати."
 
-#: ../src/calendar/gui/e-comp-editor-page-recurrence.c:2244
+#: ../src/calendar/gui/e-comp-editor-page-recurrence.c:2239
 msgid "Exceptions"
 msgstr "Винятки<"
 
-#: ../src/calendar/gui/e-comp-editor-page-recurrence.c:2309
-#: ../src/calendar/gui/e-comp-editor-page-reminders.c:2222
+#: ../src/calendar/gui/e-comp-editor-page-recurrence.c:2304
+#: ../src/calendar/gui/e-comp-editor-page-reminders.c:2275
 #: ../src/mail/e-mail-config-identity-page.c:854
 #: ../src/mail/mail-config.ui.h:67
 msgid "A_dd"
 msgstr "_Додати"
 
-#: ../src/calendar/gui/e-comp-editor-page-recurrence.c:2325
-#: ../src/calendar/gui/e-comp-editor-page-reminders.c:2230
+#: ../src/calendar/gui/e-comp-editor-page-recurrence.c:2320
+#: ../src/calendar/gui/e-comp-editor-page-reminders.c:2283
 #: ../src/mail/mail-config.ui.h:69
 msgid "Re_move"
 msgstr "В_илучити"
 
-#: ../src/calendar/gui/e-comp-editor-page-recurrence.c:2333
+#: ../src/calendar/gui/e-comp-editor-page-recurrence.c:2328
 msgid "Preview"
 msgstr "Попередній перегляд"
 
@@ -8434,16 +8441,16 @@ msgstr "Попередній перегляд"
 msgid "Send To"
 msgstr "Надіслати"
 
-#: ../src/calendar/gui/e-comp-editor-page-reminders.c:1646
+#: ../src/calendar/gui/e-comp-editor-page-reminders.c:1694
 msgid "_Reminders"
 msgstr "На_гадування"
 
-#: ../src/calendar/gui/e-comp-editor-page-reminders.c:1648
+#: ../src/calendar/gui/e-comp-editor-page-reminders.c:1696
 msgid "Set or unset reminders"
 msgstr "Вказати або забрати нагадування"
 
 #. Translators: "None" for "No reminder set"
-#: ../src/calendar/gui/e-comp-editor-page-reminders.c:1760
+#: ../src/calendar/gui/e-comp-editor-page-reminders.c:1808
 msgctxt "cal-reminders"
 msgid "None"
 msgstr "Немає"
@@ -8451,170 +8458,172 @@ msgstr "Немає"
 #. Translators: This constructs predefined reminder's description, for example "15 minutes before",
 #. "1 hour before", "1 day before", but, if user has set, also more complicated strings like
 #. "2 days 13 hours 1 minute before".
-#: ../src/calendar/gui/e-comp-editor-page-reminders.c:1770
+#: ../src/calendar/gui/e-comp-editor-page-reminders.c:1818
 #, c-format
 msgctxt "cal-reminders"
 msgid "%s before"
 msgstr "за %s до"
 
-#: ../src/calendar/gui/e-comp-editor-page-reminders.c:1775
+#: ../src/calendar/gui/e-comp-editor-page-reminders.c:1823
 msgctxt "cal-reminders"
 msgid "at the start"
 msgstr "на початку"
 
 #. Translators: "Custom" for "Custom reminder set"
-#: ../src/calendar/gui/e-comp-editor-page-reminders.c:1783
+#: ../src/calendar/gui/e-comp-editor-page-reminders.c:1831
 msgctxt "cal-reminders"
 msgid "Custom"
 msgstr "Інше"
 
-#: ../src/calendar/gui/e-comp-editor-page-reminders.c:1929
+#: ../src/calendar/gui/e-comp-editor-page-reminders.c:1833
+#| msgid "Add custom predefined time"
+msgid "Add predefined time…"
+msgstr "Додати попередньо визначений час…"
+
+#: ../src/calendar/gui/e-comp-editor-page-reminders.c:1836
+#| msgid "Remove custom predefined times"
+msgid "Remove predefined times"
+msgstr "Вилучити попередньо визначені записи часу"
+
+#: ../src/calendar/gui/e-comp-editor-page-reminders.c:1979
 msgid "Set a custom predefined time to"
 msgstr "Встановити нетиповий попередньо визначений час"
 
 #. Translators: this is part of: "Set a custom predefined time to [nnn] days [nnn] hours [nnn] minutes", where the text in "[]" means a separate widget
-#: ../src/calendar/gui/e-comp-editor-page-reminders.c:1942
+#: ../src/calendar/gui/e-comp-editor-page-reminders.c:1992
 msgctxt "cal-reminders"
 msgid "da_ys"
 msgstr "д_нів"
 
 #. Translators: this is part of: "Set a custom predefined time to [nnn] days [nnn] hours [nnn] minutes", where the text in "[]" means a separate widget
-#: ../src/calendar/gui/e-comp-editor-page-reminders.c:1958
+#: ../src/calendar/gui/e-comp-editor-page-reminders.c:2008
 msgctxt "cal-reminders"
 msgid "_hours"
 msgstr "_годин"
 
 #. Translators: this is part of: "Set a custom predefined time to [nnn] days [nnn] hours [nnn] minutes", where the text in "[]" means a separate widget
-#: ../src/calendar/gui/e-comp-editor-page-reminders.c:1974
+#: ../src/calendar/gui/e-comp-editor-page-reminders.c:2024
 msgctxt "cal-reminders"
 msgid "_minutes"
 msgstr "_хвилин"
 
-#: ../src/calendar/gui/e-comp-editor-page-reminders.c:1980
+#: ../src/calendar/gui/e-comp-editor-page-reminders.c:2030
 msgid "_Add time"
 msgstr "_Додати час"
 
-#: ../src/calendar/gui/e-comp-editor-page-reminders.c:2060
-#: ../src/modules/calendar/e-calendar-preferences.ui.h:73
+#: ../src/calendar/gui/e-comp-editor-page-reminders.c:2128
+#: ../src/modules/calendar/e-calendar-preferences.ui.h:77
 msgid "Reminders"
 msgstr "Нагадування"
 
-#: ../src/calendar/gui/e-comp-editor-page-reminders.c:2085
+#: ../src/calendar/gui/e-comp-editor-page-reminders.c:2153
 msgid "_Reminder"
 msgstr "На_гадування"
 
-#: ../src/calendar/gui/e-comp-editor-page-reminders.c:2110
-msgid "Add custom predefined time"
-msgstr "Додати нетиповий попередньо визначений час"
-
-#: ../src/calendar/gui/e-comp-editor-page-reminders.c:2118
-msgid "Remove custom predefined times"
-msgstr "Вилучити нетипові попередньо визначені записи часу"
-
 #. Translators: Part of: [ Pop up an alert ] [ x ] [ minute(s) ] [ before ] [ start ]
-#: ../src/calendar/gui/e-comp-editor-page-reminders.c:2303
+#: ../src/calendar/gui/e-comp-editor-page-reminders.c:2356
 msgctxt "cal-reminders"
 msgid "minute(s)"
 msgstr "хвилин"
 
 #. Translators: Part of: [ Pop up an alert ] [ x ] [ hour(s) ] [ before ] [ start ]
-#: ../src/calendar/gui/e-comp-editor-page-reminders.c:2305
+#: ../src/calendar/gui/e-comp-editor-page-reminders.c:2358
 msgctxt "cal-reminders"
 msgid "hour(s)"
 msgstr "годин"
 
 #. Translators: Part of: [ Pop up an alert ] [ x ] [ day(s) ] [ before ] [ start ]
-#: ../src/calendar/gui/e-comp-editor-page-reminders.c:2307
+#: ../src/calendar/gui/e-comp-editor-page-reminders.c:2360
 msgctxt "cal-reminders"
 msgid "day(s)"
 msgstr "діб"
 
 #. Translators: Part of: [ Pop up an alert ] [ x ] [ minute(s) ] [ before ] [ start ]
-#: ../src/calendar/gui/e-comp-editor-page-reminders.c:2324
+#: ../src/calendar/gui/e-comp-editor-page-reminders.c:2377
 msgctxt "cal-reminders"
 msgid "before"
 msgstr "перед"
 
 #. Translators: Part of: [ Pop up an alert ] [ x ] [ minute(s) ] [ after ] [ start ]
-#: ../src/calendar/gui/e-comp-editor-page-reminders.c:2326
+#: ../src/calendar/gui/e-comp-editor-page-reminders.c:2379
 msgctxt "cal-reminders"
 msgid "after"
 msgstr "після"
 
 #. Translators: Part of: [ Pop up an alert ] [ x ] [ minute(s) ] [ before ] [ start ]
-#: ../src/calendar/gui/e-comp-editor-page-reminders.c:2342
+#: ../src/calendar/gui/e-comp-editor-page-reminders.c:2395
 msgctxt "cal-reminders"
 msgid "start"
 msgstr "починається"
 
 #. Translators: Part of: [ Pop up an alert ] [ x ] [ minute(s) ] [ before ] [ end ]
-#: ../src/calendar/gui/e-comp-editor-page-reminders.c:2344
+#: ../src/calendar/gui/e-comp-editor-page-reminders.c:2397
 msgctxt "cal-reminders"
 msgid "end"
 msgstr "закінчується"
 
 #. Translators: Part of: Repeat the reminder [ x ] extra times every [ y ] [ minutes ]
-#: ../src/calendar/gui/e-comp-editor-page-reminders.c:2363
+#: ../src/calendar/gui/e-comp-editor-page-reminders.c:2416
 msgid "Re_peat the reminder"
 msgstr "_Повторити нагадування"
 
 #. Translators: Part of: Repeat the reminder [ x ] extra times every [ y ] [ minutes ]
-#: ../src/calendar/gui/e-comp-editor-page-reminders.c:2388
+#: ../src/calendar/gui/e-comp-editor-page-reminders.c:2441
 msgctxt "cal-reminders"
 msgid "extra times every"
 msgstr "раз додатково кожні"
 
 #. Translators: Part of: Repeat the reminder [ x ] extra times every [ y ] [ minutes ]
-#: ../src/calendar/gui/e-comp-editor-page-reminders.c:2425
+#: ../src/calendar/gui/e-comp-editor-page-reminders.c:2478
 msgctxt "cal-reminders"
 msgid "minutes"
 msgstr "хвилини"
 
 #. Translators: Part of: Repeat the reminder [ x ] extra times every [ y ] [ hours ]
-#: ../src/calendar/gui/e-comp-editor-page-reminders.c:2427
+#: ../src/calendar/gui/e-comp-editor-page-reminders.c:2480
 msgctxt "cal-reminders"
 msgid "hours"
 msgstr "годин"
 
 #. Translators: Part of: Repeat the reminder [ x ] extra times every [ y ] [ days ]
-#: ../src/calendar/gui/e-comp-editor-page-reminders.c:2429
+#: ../src/calendar/gui/e-comp-editor-page-reminders.c:2482
 msgctxt "cal-reminders"
 msgid "days"
 msgstr "діб"
 
 #. page_reminders->priv->custom_email_entry is initialized on demand
-#: ../src/calendar/gui/e-comp-editor-page-reminders.c:2466
-#: ../src/calendar/gui/e-comp-editor-page-reminders.c:2623
+#: ../src/calendar/gui/e-comp-editor-page-reminders.c:2519
+#: ../src/calendar/gui/e-comp-editor-page-reminders.c:2676
 msgctxt "cal-reminders"
 msgid "Custom _message"
 msgstr "Інше _повідомлення"
 
-#: ../src/calendar/gui/e-comp-editor-page-reminders.c:2510
+#: ../src/calendar/gui/e-comp-editor-page-reminders.c:2563
 msgctxt "cal-reminders"
 msgid "Custom reminder _sound"
 msgstr "Інший _звук нагадування"
 
-#: ../src/calendar/gui/e-comp-editor-page-reminders.c:2521
+#: ../src/calendar/gui/e-comp-editor-page-reminders.c:2574
 msgid "Select a sound file"
 msgstr "Вибрати звуковий файл"
 
-#: ../src/calendar/gui/e-comp-editor-page-reminders.c:2549
+#: ../src/calendar/gui/e-comp-editor-page-reminders.c:2602
 msgid "_Program:"
 msgstr "_Програма:"
 
-#: ../src/calendar/gui/e-comp-editor-page-reminders.c:2574
+#: ../src/calendar/gui/e-comp-editor-page-reminders.c:2627
 msgid "_Arguments:"
 msgstr "_Аргументи:"
 
-#: ../src/calendar/gui/e-comp-editor-page-reminders.c:2606
+#: ../src/calendar/gui/e-comp-editor-page-reminders.c:2659
 msgid "_Send To:"
 msgstr "_Надіслати:"
 
-#: ../src/calendar/gui/e-comp-editor-page-schedule.c:484
+#: ../src/calendar/gui/e-comp-editor-page-schedule.c:479
 msgid "_Schedule"
 msgstr "_Розклад"
 
-#: ../src/calendar/gui/e-comp-editor-page-schedule.c:486
+#: ../src/calendar/gui/e-comp-editor-page-schedule.c:481
 msgid "Query free / busy information for the attendees"
 msgstr "Запитати інформацію про зайнятість для учасників"
 
@@ -9016,8 +9025,8 @@ msgstr "Показувати додатковий часовий пояс"
 
 #. Translators: "None" indicates no second time zone set for a day view
 #: ../src/calendar/gui/e-day-view-time-item.c:859
-#: ../src/modules/calendar/e-calendar-preferences.c:310
-#: ../src/modules/calendar/e-calendar-preferences.c:362
+#: ../src/modules/calendar/e-calendar-preferences.c:311
+#: ../src/modules/calendar/e-calendar-preferences.c:363
 #: ../src/modules/calendar/e-calendar-preferences.ui.h:11
 msgctxt "cal-second-zone"
 msgid "None"
@@ -9025,7 +9034,7 @@ msgstr "Немає"
 
 #: ../src/calendar/gui/e-day-view-time-item.c:893
 #: ../src/calendar/gui/e-timezone-entry.c:346
-#: ../src/modules/calendar/e-calendar-preferences.c:393
+#: ../src/modules/calendar/e-calendar-preferences.c:394
 msgid "Select…"
 msgstr "Вибрати…"
 
@@ -9386,7 +9395,7 @@ msgid "Completed: %s"
 msgstr "Завершено: %s"
 
 #. strftime format of a weekday and a date.
-#: ../src/calendar/gui/e-to-do-pane.c:1576 ../src/e-util/e-cell-date-edit.c:338
+#: ../src/calendar/gui/e-to-do-pane.c:1588 ../src/e-util/e-cell-date-edit.c:338
 #: ../src/e-util/e-datetime-format.c:207
 #: ../src/modules/calendar/e-cal-shell-view-actions.c:1919
 #: ../src/modules/itip-formatter/itip-view.c:261
@@ -9394,55 +9403,55 @@ msgid "Today"
 msgstr "Сьогодні"
 
 #. strftime format of a weekday and a date.
-#: ../src/calendar/gui/e-to-do-pane.c:1578
+#: ../src/calendar/gui/e-to-do-pane.c:1590
 #: ../src/e-util/e-datetime-format.c:218
 #: ../src/modules/itip-formatter/itip-view.c:289
 msgid "Tomorrow"
 msgstr "Завтра"
 
-#: ../src/calendar/gui/e-to-do-pane.c:1588
+#: ../src/calendar/gui/e-to-do-pane.c:1600
 msgid "Tasks without Due date"
 msgstr "Завдання без терміну виконання"
 
-#: ../src/calendar/gui/e-to-do-pane.c:2165
+#: ../src/calendar/gui/e-to-do-pane.c:2177
 #: ../src/modules/calendar/e-cal-shell-view-actions.c:1522
 msgid "New _Appointment…"
 msgstr "Створити з_устріч…"
 
-#: ../src/calendar/gui/e-to-do-pane.c:2173
+#: ../src/calendar/gui/e-to-do-pane.c:2185
 #: ../src/modules/calendar/e-cal-shell-view-actions.c:1459
 msgid "New _Meeting…"
 msgstr "С_творити зібрання…"
 
-#: ../src/calendar/gui/e-to-do-pane.c:2181
+#: ../src/calendar/gui/e-to-do-pane.c:2193
 msgid "New _Task…"
 msgstr "Створити за_вдання…"
 
-#: ../src/calendar/gui/e-to-do-pane.c:2189
+#: ../src/calendar/gui/e-to-do-pane.c:2201
 msgid "_New Assigned Task…"
 msgstr "С_творити пов'язане завдання…"
 
-#: ../src/calendar/gui/e-to-do-pane.c:2202
+#: ../src/calendar/gui/e-to-do-pane.c:2214
 msgid "_Open…"
 msgstr "_Відкрити…"
 
-#: ../src/calendar/gui/e-to-do-pane.c:2216
+#: ../src/calendar/gui/e-to-do-pane.c:2228
 msgid "_Delete This Instance…"
 msgstr "Ви_лучити цей екземпляр…"
 
-#: ../src/calendar/gui/e-to-do-pane.c:2224
+#: ../src/calendar/gui/e-to-do-pane.c:2236
 msgid "D_elete All Instances…"
 msgstr "Ви_лучити усі екземпляри…"
 
-#: ../src/calendar/gui/e-to-do-pane.c:2232
+#: ../src/calendar/gui/e-to-do-pane.c:2244
 msgid "_Delete…"
 msgstr "В_илучити…"
 
-#: ../src/calendar/gui/e-to-do-pane.c:2249
+#: ../src/calendar/gui/e-to-do-pane.c:2261
 msgid "_Show Tasks without Due date"
 msgstr "_Показувати завдання без терміну виконання"
 
-#: ../src/calendar/gui/e-to-do-pane.c:2515
+#: ../src/calendar/gui/e-to-do-pane.c:2540
 msgid "To Do"
 msgstr "Зробити"
 
@@ -12609,7 +12618,7 @@ msgstr "Адресні книги"
 
 #: ../src/e-util/e-accounts-window.c:570 ../src/e-util/e-accounts-window.c:704
 #: ../src/e-util/e-accounts-window.c:909
-#: ../src/modules/calendar/e-calendar-preferences.ui.h:87
+#: ../src/modules/calendar/e-calendar-preferences.ui.h:91
 msgid "Calendars"
 msgstr "Календарі"
 
@@ -12620,7 +12629,7 @@ msgstr "Списки приміток"
 
 #: ../src/e-util/e-accounts-window.c:582 ../src/e-util/e-accounts-window.c:706
 #: ../src/e-util/e-accounts-window.c:911
-#: ../src/modules/calendar/e-calendar-preferences.ui.h:88
+#: ../src/modules/calendar/e-calendar-preferences.ui.h:92
 msgid "Task Lists"
 msgstr "Списки завдань"
 
@@ -14983,7 +14992,7 @@ msgid "Background Image"
 msgstr "Зображення тла"
 
 #: ../src/e-util/e-html-editor-page-dialog.c:523
-#: ../src/modules/calendar/e-calendar-preferences.ui.h:90
+#: ../src/modules/calendar/e-calendar-preferences.ui.h:94
 msgid "_Template:"
 msgstr "_Шаблон:"
 
@@ -17581,7 +17590,7 @@ msgstr "%s — %s"
 #: ../src/mail/e-mail-config-security-page.c:456
 #: ../src/mail/em-folder-properties.c:1396 ../src/mail/mail-config.ui.h:34
 #: ../src/modules/addressbook/autocompletion-config.c:115
-#: ../src/modules/calendar/e-calendar-preferences.c:621
+#: ../src/modules/calendar/e-calendar-preferences.c:622
 #: ../src/modules/calendar/e-calendar-preferences.ui.h:48
 #: ../src/modules/mail/e-mail-shell-backend.c:1001
 #: ../src/plugins/publish-calendar/publish-calendar.ui.h:17
@@ -22725,41 +22734,41 @@ msgstr "Вибір списку приміток"
 msgid "Task List Selector"
 msgstr "Вибір списку задач"
 
-#: ../src/modules/calendar/e-calendar-preferences.c:521
+#: ../src/modules/calendar/e-calendar-preferences.c:522
 msgid "Selected Calendars for Notifications of Reminders"
 msgstr "Вибрані календарі для сповіщень про нагадування"
 
-#: ../src/modules/calendar/e-calendar-preferences.c:528
+#: ../src/modules/calendar/e-calendar-preferences.c:529
 msgid "Selected Task Lists for Notifications of Reminders"
 msgstr "Вибрані списки завдань для сповіщень про нагадування"
 
-#: ../src/modules/calendar/e-calendar-preferences.c:612
+#: ../src/modules/calendar/e-calendar-preferences.c:613
 msgid "Meeting Invitations"
 msgstr "Запрошення на зібрання"
 
-#: ../src/modules/calendar/e-calendar-preferences.c:638
+#: ../src/modules/calendar/e-calendar-preferences.c:639
 msgid "_Delete message after acting"
 msgstr "В_илучити повідомлення після дії"
 
-#: ../src/modules/calendar/e-calendar-preferences.c:645
+#: ../src/modules/calendar/e-calendar-preferences.c:646
 msgid "_Preserve existing reminder by default"
 msgstr "Типово з_берігати наявне нагадування"
 
-#: ../src/modules/calendar/e-calendar-preferences.c:659
-#: ../src/modules/calendar/e-calendar-preferences.c:690
+#: ../src/modules/calendar/e-calendar-preferences.c:660
+#: ../src/modules/calendar/e-calendar-preferences.c:691
 msgid "Conflict Search"
 msgstr "Пошук конфліктів"
 
 #. Source selector
-#: ../src/modules/calendar/e-calendar-preferences.c:674
+#: ../src/modules/calendar/e-calendar-preferences.c:675
 msgid "Select the calendars to search for meeting conflicts"
 msgstr "Виберіть календарі для пошуку конфліктуючих зібрань"
 
-#: ../src/modules/calendar/e-calendar-preferences.c:1116
+#: ../src/modules/calendar/e-calendar-preferences.c:1128
 msgid "Ti_me and date:"
 msgstr "Дата й _час:"
 
-#: ../src/modules/calendar/e-calendar-preferences.c:1117
+#: ../src/modules/calendar/e-calendar-preferences.c:1129
 msgid "_Date only:"
 msgstr "Лише _дата:"
 
@@ -22996,57 +23005,72 @@ msgstr "Панель «Зробити»"
 msgid "Show Tasks without _Due date"
 msgstr "Показувати завдання без _терміну виконання"
 
-#: ../src/modules/calendar/e-calendar-preferences.ui.h:74
+#. Translators: This constructs: Show [spinner] days
+#: ../src/modules/calendar/e-calendar-preferences.ui.h:73
+#| msgid "Show"
+msgctxt "to-do-bar-n-days"
+msgid "Show"
+msgstr "Показати"
+
+#. Translators: This constructs: Show [spinner] days
+#: ../src/modules/calendar/e-calendar-preferences.ui.h:75
+#| msgctxt "cal-reminders"
+#| msgid "da_ys"
+msgctxt "to-do-bar-n-days"
+msgid "da_ys"
+msgstr "д_нів"
+
+#: ../src/modules/calendar/e-calendar-preferences.ui.h:78
 msgid "Display Reminders window with _notifications"
 msgstr "Показувати вікно нагадувань за допомогою с_повіщень"
 
-#: ../src/modules/calendar/e-calendar-preferences.ui.h:75
+#: ../src/modules/calendar/e-calendar-preferences.ui.h:79
 msgid "Keep reminder notification _window always on top"
 msgstr "Тримати _вікно сповіщення про нагадування завжди зверху"
 
-#: ../src/modules/calendar/e-calendar-preferences.ui.h:76
+#: ../src/modules/calendar/e-calendar-preferences.ui.h:80
 msgid "Display reminders for completed _tasks"
 msgstr "Показувати нагадування виконаних _завдань"
 
-#: ../src/modules/calendar/e-calendar-preferences.ui.h:77
+#: ../src/modules/calendar/e-calendar-preferences.ui.h:81
 msgid "Display reminders for _past events"
 msgstr "Показувати нагадування _минулих завдань"
 
 #. This is the first half of a user preference. "Set default reminder [time-period] before every new appointment"
-#: ../src/modules/calendar/e-calendar-preferences.ui.h:79
+#: ../src/modules/calendar/e-calendar-preferences.ui.h:83
 msgid "Set _default reminder"
 msgstr "Встановити _типове нагадування"
 
 #. This is the last half of a user preference. "Set default reminder [time-period] before every new appointment"
-#: ../src/modules/calendar/e-calendar-preferences.ui.h:81
+#: ../src/modules/calendar/e-calendar-preferences.ui.h:85
 msgid "before every new appointment"
 msgstr "перед кожною новою зустріччю"
 
 #. This is the first half of a user preference. "Show a reminder [time-period] before every anniversary/birthday"
-#: ../src/modules/calendar/e-calendar-preferences.ui.h:83
+#: ../src/modules/calendar/e-calendar-preferences.ui.h:87
 msgid "Show a _reminder"
 msgstr "Показати _нагадування"
 
 #. This is the last half of a user preference. "Show a reminder [time-period] before every anniversary/birthday"
-#: ../src/modules/calendar/e-calendar-preferences.ui.h:85
+#: ../src/modules/calendar/e-calendar-preferences.ui.h:89
 msgid "before every anniversary/birthday"
 msgstr "до кожної річниці/дня народження"
 
-#: ../src/modules/calendar/e-calendar-preferences.ui.h:86
+#: ../src/modules/calendar/e-calendar-preferences.ui.h:90
 msgid "Select the sources for reminder notification:"
 msgstr "Виберіть джерела для сповіщення про нагадування:"
 
-#: ../src/modules/calendar/e-calendar-preferences.ui.h:89
+#: ../src/modules/calendar/e-calendar-preferences.ui.h:93
 msgid "Default Free/Busy Server"
 msgstr "<span weight=\"bold\">Типовий сервер «Вільний/зайнятий»</span>"
 
-#: ../src/modules/calendar/e-calendar-preferences.ui.h:92
+#: ../src/modules/calendar/e-calendar-preferences.ui.h:96
 #, no-c-format
 msgid "%u and %d will be replaced by user and domain from the email address."
 msgstr ""
 "%u и %d будуть замінені на користувача та домен з адреси електронної пошти."
 
-#: ../src/modules/calendar/e-calendar-preferences.ui.h:93
+#: ../src/modules/calendar/e-calendar-preferences.ui.h:97
 msgid ""
 "Specify login user name as part of the URL in case the server requires "
 "authentication, like: https://USER@example.com/"
@@ -23054,7 +23078,7 @@ msgstr ""
 "Вкажіть ім'я користувача для входу як частину адреси, якщо для доступу до "
 "сервера слід пройти розпізнавання. Приклад: https://USER@example.com/"
 
-#: ../src/modules/calendar/e-calendar-preferences.ui.h:94
+#: ../src/modules/calendar/e-calendar-preferences.ui.h:98
 msgid "Publishing Information"
 msgstr "Оприлюднення інформації"
 
