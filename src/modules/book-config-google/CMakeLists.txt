@@ -1,5 +1,7 @@
 set(extra_deps)
 set(sources
+	e-google-book-chooser-button.c
+	e-google-book-chooser-button.h
 	evolution-book-config-google.c
 )
 set(extra_defines)

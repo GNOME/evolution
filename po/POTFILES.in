@@ -406,6 +406,7 @@ src/modules/backup-restore/org-gnome-backup-restore.error.xml
 src/modules/bogofilter/evolution-bogofilter.c
 src/modules/bogofilter/org.gnome.Evolution-bogofilter.metainfo.xml.in
 src/modules/book-config-carddav/evolution-book-config-carddav.c
+src/modules/book-config-google/e-google-book-chooser-button.c
 src/modules/book-config-google/evolution-book-config-google.c
 src/modules/book-config-ldap/evolution-book-config-ldap.c
 src/modules/cal-config-caldav/evolution-cal-config-caldav.c
