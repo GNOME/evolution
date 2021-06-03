@@ -11,9 +11,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: https://gitlab.gnome.org/GNOME/evolution/issues\n"
-"POT-Creation-Date: 2021-03-19 17:52+0000\n"
-"PO-Revision-Date: 2021-04-02 23:54+0800\n"
-"Last-Translator: Chao-Hsiung Liao <j_h_liau@yahoo.com.tw>\n"
+"POT-Creation-Date: 2021-04-14 15:05+0000\n"
+"PO-Revision-Date: 2021-06-03 09:19+0800\n"
+"Last-Translator: Cheng-Chia Tseng <pswo10680@gmail.com>\n"
 "Language-Team: Chinese <zh-l10n@linux.org.tw>\n"
 "Language: zh_TW\n"
 "MIME-Version: 1.0\n"
@@ -3338,7 +3338,7 @@ msgstr "關閉視窗"
 #: ../data/ui/evolution-shortcuts.ui.h:17
 msgctxt "shortcut window"
 msgid "Quit Evolution"
-msgstr "結束 Evolution "
+msgstr "結束 Evolution"
 
 #: ../data/ui/evolution-shortcuts.ui.h:18
 msgctxt "shortcut window"
@@ -3807,7 +3807,7 @@ msgid ""
 "report in GNOME Gitlab."
 msgstr ""
 "顯示此連絡人時 WebKitWebProcess 當掉了。您可以試著移動到另一個連絡人再移回"
-"來。如果這個問題持續發生，請在 GNOME GitLab 發出一份程式錯誤報告。"
+"來。如果這個問題持續發生，請在 GNOME GitLab 提出一份程式臭蟲回報。"
 
 #: ../src/addressbook/addressbook.error.xml.h:49
 msgid "Failed to refresh list of account address books"
@@ -3877,7 +3877,7 @@ msgid "Contact Editor"
 msgstr "連絡人編輯器"
 
 #: ../src/addressbook/gui/contact-editor/contact-editor.ui.h:13
-#: ../src/calendar/gui/e-comp-editor-page-reminders.c:2416
+#: ../src/calendar/gui/e-comp-editor-page-reminders.c:2433
 #: ../src/em-format/e-mail-formatter-attachment.c:277
 #: ../src/mail/mail-config.ui.h:40
 msgid "Options"
@@ -5007,7 +5007,7 @@ msgstr "選擇全部可見的連絡人"
 
 #: ../src/addressbook/gui/widgets/e-addressbook-view.c:922
 msgid "Searching for the Contacts…"
-msgstr "搜尋連絡人..."
+msgstr "搜尋連絡人…"
 
 #: ../src/addressbook/gui/widgets/e-addressbook-view.c:1295
 msgid "Are you sure you want to delete these contact lists?"
@@ -6093,7 +6093,7 @@ msgid ""
 "report in GNOME Gitlab."
 msgstr ""
 "顯示此事件時 WebKitWebProcess 當掉了。您可以試著移動到另一個事件再移回來。如"
-"果這個問題持續發生，請在 GNOME GitLab 發出一份程式錯誤報告。"
+"果這個問題持續發生，請在 GNOME GitLab 提出一份程式臭蟲回報。"
 
 #: ../src/calendar/calendar.error.xml.h:175
 msgid "Something has gone wrong when displaying the memo"
@@ -6106,7 +6106,7 @@ msgid ""
 "report in GNOME Gitlab."
 msgstr ""
 "顯示此備忘錄時 WebKitWebProcess 當掉了。您可以試著移動到另一個備忘錄再移回"
-"來。如果這個問題持續發生，請在 GNOME GitLab 發出一份程式錯誤報告。"
+"來。如果這個問題持續發生，請在 GNOME GitLab 提出一份程式臭蟲回報。"
 
 #: ../src/calendar/calendar.error.xml.h:177
 msgid "Something has gone wrong when displaying the task"
@@ -6119,7 +6119,7 @@ msgid ""
 "report in GNOME Gitlab."
 msgstr ""
 "顯示此工作時 WebKitWebProcess 當掉了。您可以試著移動到另一個工作再移回來。如"
-"果這個問題持續發生，請在 GNOME GitLab 發出一份程式錯誤報告。"
+"果這個問題持續發生，請在 GNOME GitLab 提出一份程式臭蟲回報。"
 
 #: ../src/calendar/gui/caltypes.xml.in.h:1
 #: ../src/calendar/gui/e-cal-list-view.etspec.h:3
@@ -6466,28 +6466,28 @@ msgstr "按這裡，您可以找到更多事件。"
 
 #. Translators: Part of: [ Play a sound ] [ x ] [ minute(s) ] [ before ] [ start ]
 #: ../src/calendar/gui/e-alarm-list.c:387
-#: ../src/calendar/gui/e-comp-editor-page-reminders.c:2251
+#: ../src/calendar/gui/e-comp-editor-page-reminders.c:2268
 msgctxt "cal-reminders"
 msgid "Play a sound"
 msgstr "播放音效"
 
 #. Translators: Part of: [ Pop up an alert ] [ x ] [ minute(s) ] [ before ] [ start ]
 #: ../src/calendar/gui/e-alarm-list.c:391
-#: ../src/calendar/gui/e-comp-editor-page-reminders.c:2249
+#: ../src/calendar/gui/e-comp-editor-page-reminders.c:2266
 msgctxt "cal-reminders"
 msgid "Pop up an alert"
 msgstr "彈出警告視窗"
 
 #. Translators: Part of: [ Send an email ] [ x ] [ minute(s) ] [ before ] [ start ]
 #: ../src/calendar/gui/e-alarm-list.c:395
-#: ../src/calendar/gui/e-comp-editor-page-reminders.c:2255
+#: ../src/calendar/gui/e-comp-editor-page-reminders.c:2272
 msgctxt "cal-reminders"
 msgid "Send an email"
 msgstr "傳送郵件"
 
 #. Translators: Part of: [ Run a program ] [ x ] [ minute(s) ] [ before ] [ start ]
 #: ../src/calendar/gui/e-alarm-list.c:399
-#: ../src/calendar/gui/e-comp-editor-page-reminders.c:2253
+#: ../src/calendar/gui/e-comp-editor-page-reminders.c:2270
 msgctxt "cal-reminders"
 msgid "Run a program"
 msgstr "執行程式"
@@ -6935,7 +6935,6 @@ msgstr "時刻： %s %s"
 #: ../src/calendar/gui/e-task-table.c:882
 #: ../src/calendar/gui/e-to-do-pane.c:590 ../src/e-util/e-misc-utils.c:4614
 #: ../src/e-util/e-text.c:566 ../src/e-util/e-web-view.c:4175
-#| msgid "Cell…"
 msgid "…"
 msgstr "…"
 
@@ -7955,14 +7954,14 @@ msgid "Exceptions"
 msgstr "例外"
 
 #: ../src/calendar/gui/e-comp-editor-page-recurrence.c:2309
-#: ../src/calendar/gui/e-comp-editor-page-reminders.c:2205
+#: ../src/calendar/gui/e-comp-editor-page-reminders.c:2222
 #: ../src/mail/e-mail-config-identity-page.c:854
 #: ../src/mail/mail-config.ui.h:67
 msgid "A_dd"
 msgstr "加入(_A)"
 
 #: ../src/calendar/gui/e-comp-editor-page-recurrence.c:2325
-#: ../src/calendar/gui/e-comp-editor-page-reminders.c:2213
+#: ../src/calendar/gui/e-comp-editor-page-reminders.c:2230
 #: ../src/mail/mail-config.ui.h:69
 msgid "Re_move"
 msgstr "移除(_M)"
@@ -7975,16 +7974,16 @@ msgstr "預覽"
 msgid "Send To"
 msgstr "傳送到"
 
-#: ../src/calendar/gui/e-comp-editor-page-reminders.c:1629
+#: ../src/calendar/gui/e-comp-editor-page-reminders.c:1646
 msgid "_Reminders"
 msgstr "提醒(_R)"
 
-#: ../src/calendar/gui/e-comp-editor-page-reminders.c:1631
+#: ../src/calendar/gui/e-comp-editor-page-reminders.c:1648
 msgid "Set or unset reminders"
 msgstr "設定或取消設定提醒"
 
 #. Translators: "None" for "No reminder set"
-#: ../src/calendar/gui/e-comp-editor-page-reminders.c:1743
+#: ../src/calendar/gui/e-comp-editor-page-reminders.c:1760
 msgctxt "cal-reminders"
 msgid "None"
 msgstr "沒有"
@@ -7992,162 +7991,162 @@ msgstr "沒有"
 #. Translators: This constructs predefined reminder's description, for example "15 minutes before",
 #. "1 hour before", "1 day before", but, if user has set, also more complicated strings like
 #. "2 days 13 hours 1 minute before".
-#: ../src/calendar/gui/e-comp-editor-page-reminders.c:1753
+#: ../src/calendar/gui/e-comp-editor-page-reminders.c:1770
 #, c-format
 msgctxt "cal-reminders"
 msgid "%s before"
 msgstr "%s 之前"
 
-#: ../src/calendar/gui/e-comp-editor-page-reminders.c:1758
+#: ../src/calendar/gui/e-comp-editor-page-reminders.c:1775
 msgctxt "cal-reminders"
 msgid "at the start"
 msgstr "於開始"
 
 #. Translators: "Custom" for "Custom reminder set"
-#: ../src/calendar/gui/e-comp-editor-page-reminders.c:1766
+#: ../src/calendar/gui/e-comp-editor-page-reminders.c:1783
 msgctxt "cal-reminders"
 msgid "Custom"
 msgstr "自訂"
 
-#: ../src/calendar/gui/e-comp-editor-page-reminders.c:1912
+#: ../src/calendar/gui/e-comp-editor-page-reminders.c:1929
 msgid "Set a custom predefined time to"
 msgstr "設定自訂預先定義時間為"
 
 #. Translators: this is part of: "Set a custom predefined time to [nnn] days [nnn] hours [nnn] minutes", where the text in "[]" means a separate widget
-#: ../src/calendar/gui/e-comp-editor-page-reminders.c:1925
+#: ../src/calendar/gui/e-comp-editor-page-reminders.c:1942
 msgctxt "cal-reminders"
 msgid "da_ys"
 msgstr "日(_Y)"
 
 #. Translators: this is part of: "Set a custom predefined time to [nnn] days [nnn] hours [nnn] minutes", where the text in "[]" means a separate widget
-#: ../src/calendar/gui/e-comp-editor-page-reminders.c:1941
+#: ../src/calendar/gui/e-comp-editor-page-reminders.c:1958
 msgctxt "cal-reminders"
 msgid "_hours"
 msgstr "小時(_H)"
 
 #. Translators: this is part of: "Set a custom predefined time to [nnn] days [nnn] hours [nnn] minutes", where the text in "[]" means a separate widget
-#: ../src/calendar/gui/e-comp-editor-page-reminders.c:1957
+#: ../src/calendar/gui/e-comp-editor-page-reminders.c:1974
 msgctxt "cal-reminders"
 msgid "_minutes"
 msgstr "分鐘(_M)"
 
-#: ../src/calendar/gui/e-comp-editor-page-reminders.c:1963
+#: ../src/calendar/gui/e-comp-editor-page-reminders.c:1980
 msgid "_Add time"
 msgstr "加入時間(_A)"
 
-#: ../src/calendar/gui/e-comp-editor-page-reminders.c:2043
+#: ../src/calendar/gui/e-comp-editor-page-reminders.c:2060
 #: ../src/modules/calendar/e-calendar-preferences.ui.h:73
 msgid "Reminders"
 msgstr "提醒"
 
-#: ../src/calendar/gui/e-comp-editor-page-reminders.c:2068
+#: ../src/calendar/gui/e-comp-editor-page-reminders.c:2085
 msgid "_Reminder"
 msgstr "提醒(_R)"
 
-#: ../src/calendar/gui/e-comp-editor-page-reminders.c:2093
+#: ../src/calendar/gui/e-comp-editor-page-reminders.c:2110
 msgid "Add custom predefined time"
 msgstr "加入自訂的預先定義時間"
 
-#: ../src/calendar/gui/e-comp-editor-page-reminders.c:2101
+#: ../src/calendar/gui/e-comp-editor-page-reminders.c:2118
 msgid "Remove custom predefined times"
 msgstr "移除自訂的預先定義時間"
 
 #. Translators: Part of: [ Pop up an alert ] [ x ] [ minute(s) ] [ before ] [ start ]
-#: ../src/calendar/gui/e-comp-editor-page-reminders.c:2286
+#: ../src/calendar/gui/e-comp-editor-page-reminders.c:2303
 msgctxt "cal-reminders"
 msgid "minute(s)"
 msgstr "分鐘"
 
 #. Translators: Part of: [ Pop up an alert ] [ x ] [ hour(s) ] [ before ] [ start ]
-#: ../src/calendar/gui/e-comp-editor-page-reminders.c:2288
+#: ../src/calendar/gui/e-comp-editor-page-reminders.c:2305
 msgctxt "cal-reminders"
 msgid "hour(s)"
 msgstr "小时"
 
 #. Translators: Part of: [ Pop up an alert ] [ x ] [ day(s) ] [ before ] [ start ]
-#: ../src/calendar/gui/e-comp-editor-page-reminders.c:2290
+#: ../src/calendar/gui/e-comp-editor-page-reminders.c:2307
 msgctxt "cal-reminders"
 msgid "day(s)"
 msgstr "天"
 
 #. Translators: Part of: [ Pop up an alert ] [ x ] [ minute(s) ] [ before ] [ start ]
-#: ../src/calendar/gui/e-comp-editor-page-reminders.c:2307
+#: ../src/calendar/gui/e-comp-editor-page-reminders.c:2324
 msgctxt "cal-reminders"
 msgid "before"
 msgstr "早於"
 
 #. Translators: Part of: [ Pop up an alert ] [ x ] [ minute(s) ] [ after ] [ start ]
-#: ../src/calendar/gui/e-comp-editor-page-reminders.c:2309
+#: ../src/calendar/gui/e-comp-editor-page-reminders.c:2326
 msgctxt "cal-reminders"
 msgid "after"
 msgstr "晚於"
 
 #. Translators: Part of: [ Pop up an alert ] [ x ] [ minute(s) ] [ before ] [ start ]
-#: ../src/calendar/gui/e-comp-editor-page-reminders.c:2325
+#: ../src/calendar/gui/e-comp-editor-page-reminders.c:2342
 msgctxt "cal-reminders"
 msgid "start"
 msgstr "開始"
 
 #. Translators: Part of: [ Pop up an alert ] [ x ] [ minute(s) ] [ before ] [ end ]
-#: ../src/calendar/gui/e-comp-editor-page-reminders.c:2327
+#: ../src/calendar/gui/e-comp-editor-page-reminders.c:2344
 msgctxt "cal-reminders"
 msgid "end"
 msgstr "結束"
 
 #. Translators: Part of: Repeat the reminder [ x ] extra times every [ y ] [ minutes ]
-#: ../src/calendar/gui/e-comp-editor-page-reminders.c:2346
+#: ../src/calendar/gui/e-comp-editor-page-reminders.c:2363
 msgid "Re_peat the reminder"
 msgstr "重複提醒(_P)"
 
 #. Translators: Part of: Repeat the reminder [ x ] extra times every [ y ] [ minutes ]
-#: ../src/calendar/gui/e-comp-editor-page-reminders.c:2371
+#: ../src/calendar/gui/e-comp-editor-page-reminders.c:2388
 msgctxt "cal-reminders"
 msgid "extra times every"
 msgstr "一次於每"
 
 #. Translators: Part of: Repeat the reminder [ x ] extra times every [ y ] [ minutes ]
-#: ../src/calendar/gui/e-comp-editor-page-reminders.c:2408
+#: ../src/calendar/gui/e-comp-editor-page-reminders.c:2425
 msgctxt "cal-reminders"
 msgid "minutes"
 msgstr "分鐘"
 
 #. Translators: Part of: Repeat the reminder [ x ] extra times every [ y ] [ hours ]
-#: ../src/calendar/gui/e-comp-editor-page-reminders.c:2410
+#: ../src/calendar/gui/e-comp-editor-page-reminders.c:2427
 msgctxt "cal-reminders"
 msgid "hours"
 msgstr "小時"
 
 #. Translators: Part of: Repeat the reminder [ x ] extra times every [ y ] [ days ]
-#: ../src/calendar/gui/e-comp-editor-page-reminders.c:2412
+#: ../src/calendar/gui/e-comp-editor-page-reminders.c:2429
 msgctxt "cal-reminders"
 msgid "days"
 msgstr "天"
 
 #. page_reminders->priv->custom_email_entry is initialized on demand
-#: ../src/calendar/gui/e-comp-editor-page-reminders.c:2449
-#: ../src/calendar/gui/e-comp-editor-page-reminders.c:2606
+#: ../src/calendar/gui/e-comp-editor-page-reminders.c:2466
+#: ../src/calendar/gui/e-comp-editor-page-reminders.c:2623
 msgctxt "cal-reminders"
 msgid "Custom _message"
 msgstr "自訂訊息(_M)"
 
-#: ../src/calendar/gui/e-comp-editor-page-reminders.c:2493
+#: ../src/calendar/gui/e-comp-editor-page-reminders.c:2510
 msgctxt "cal-reminders"
 msgid "Custom reminder _sound"
 msgstr "自訂提醒音效(_S)"
 
-#: ../src/calendar/gui/e-comp-editor-page-reminders.c:2504
+#: ../src/calendar/gui/e-comp-editor-page-reminders.c:2521
 msgid "Select a sound file"
 msgstr "選擇聲音檔案"
 
-#: ../src/calendar/gui/e-comp-editor-page-reminders.c:2532
+#: ../src/calendar/gui/e-comp-editor-page-reminders.c:2549
 msgid "_Program:"
 msgstr "執行程式(_P)："
 
-#: ../src/calendar/gui/e-comp-editor-page-reminders.c:2557
+#: ../src/calendar/gui/e-comp-editor-page-reminders.c:2574
 msgid "_Arguments:"
 msgstr "引數(_A)："
 
-#: ../src/calendar/gui/e-comp-editor-page-reminders.c:2589
+#: ../src/calendar/gui/e-comp-editor-page-reminders.c:2606
 msgid "_Send To:"
 msgstr "傳送到(_T)："
 
@@ -8663,7 +8662,7 @@ msgstr "進行中"
 #: ../src/calendar/gui/e-meeting-store.c:2015
 #, c-format
 msgid "Enter password to access free/busy information on server %s as user %s"
-msgstr "輸入使用者 %2$s 在伺服器 %1$s 上存取空閒/忙碌資訊的密碼 "
+msgstr "輸入使用者 %2$s 在伺服器 %1$s 上存取空閒/忙碌資訊的密碼"
 
 #: ../src/calendar/gui/e-meeting-store.c:2025
 #, c-format
@@ -11612,7 +11611,7 @@ msgid ""
 "please file a bug report in GNOME Gitlab."
 msgstr ""
 "編輯此郵件時 WebKitWebProcess 當掉了。您可以試著關閉編輯器視窗後再開一個新"
-"的。如果這個問題持續發生，請在 GNOME GitLab 發出一份程式錯誤報告。"
+"的。如果這個問題持續發生，請在 GNOME GitLab 提出一份程式臭蟲回報。"
 
 #: ../src/composer/mail-composer.error.xml.h:58
 msgid "An error occurred while creating message composer."
@@ -11788,7 +11787,7 @@ msgstr "此郵件有一個有效的簽名，但是郵件的寄件者無法檢驗
 
 #: ../src/em-format/e-mail-formatter-secure-button.c:66
 msgid "This message is signed, but the public key is not in your keyring"
-msgstr "此郵件已加簽，但是您的鑰匙圈中沒有對應的公開金鑰。"
+msgstr "此郵件已加簽，但是您的鑰匙圈中沒有對應的公開金鑰"
 
 #: ../src/em-format/e-mail-formatter-secure-button.c:68
 msgid ""
@@ -15416,7 +15415,7 @@ msgstr "工作列表後端服務「{0}」 遇到錯誤。"
 
 #: ../src/e-util/e-system.error.xml.h:23
 msgid "Something has gone wrong"
-msgstr "有些地方出問題了。"
+msgstr "有地方出錯了。"
 
 #: ../src/e-util/e-system.error.xml.h:24
 msgid ""
@@ -15425,7 +15424,7 @@ msgid ""
 "GNOME Gitlab."
 msgstr ""
 "顯示此內容時 WebKitWebProcess 當掉了。您可以試著重新開啟一個視窗。如果這個問"
-"題持續發生，請在 GNOME GitLab 發出一份程式錯誤報告。"
+"題持續發生，請在 GNOME GitLab 提出一份程式臭蟲回報。"
 
 #: ../src/e-util/e-system.error.xml.h:25
 msgid "Are you sure you want to delete remote collection “{0}”?"
@@ -15684,7 +15683,7 @@ msgstr "時區"
 
 #: ../src/e-util/e-timezone-dialog.ui.h:7
 msgid "_Selection"
-msgstr "選擇範圍(_S) "
+msgstr "選擇範圍(_S)"
 
 #: ../src/e-util/e-timezone-dialog.ui.h:8
 msgid "Timezone drop-down combination box"
@@ -15727,7 +15726,7 @@ msgstr "事件"
 #: ../src/e-util/e-webdav-browser.c:594 ../src/mail/em-folder-tree-model.c:1587
 #: ../src/mail/em-folder-tree-model.c:1975
 msgid "Loading…"
-msgstr "正在載入..."
+msgstr "正在載入…"
 
 #: ../src/e-util/e-webdav-browser.c:1447
 msgid "Searching collection children…"
@@ -18958,12 +18957,12 @@ msgstr "沒有標幟"
 #: ../src/mail/filtertypes.xml.in.h:45 ../src/mail/searchtypes.xml.in.h:47
 #: ../src/mail/vfoldertypes.xml.in.h:48
 msgid "is Completed"
-msgstr "已完成 "
+msgstr "已完成"
 
 #: ../src/mail/filtertypes.xml.in.h:46 ../src/mail/searchtypes.xml.in.h:48
 #: ../src/mail/vfoldertypes.xml.in.h:49
 msgid "is not Completed"
-msgstr "未完成 "
+msgstr "未完成"
 
 #: ../src/mail/filtertypes.xml.in.h:51 ../src/mail/searchtypes.xml.in.h:53
 #: ../src/mail/vfoldertypes.xml.in.h:54
@@ -19187,7 +19186,7 @@ msgstr "郵件送到 %s"
 #: ../src/mail/mail-autofilter.c:220 ../src/mail/mail-autofilter.c:268
 #, c-format
 msgid "Mail from %s"
-msgstr "郵件來自 %s "
+msgstr "郵件來自 %s"
 
 #: ../src/mail/mail-autofilter.c:251
 #, c-format
@@ -19294,7 +19293,7 @@ msgstr "轉寄方式(_F)："
 
 #: ../src/mail/mail-config.ui.h:20
 msgid "_Language:"
-msgstr "語言(_L)…"
+msgstr "語言(_L)："
 
 #: ../src/mail/mail-config.ui.h:24
 msgid "Include si_gnature in new messages only"
@@ -20253,7 +20252,7 @@ msgstr ""
 
 #: ../src/mail/mail.error.xml.h:123
 msgid "_Exit Evolution"
-msgstr "結束 _Evolution "
+msgstr "結束 _Evolution"
 
 #: ../src/mail/mail.error.xml.h:124
 msgid "_Migrate Now"
@@ -20324,7 +20323,7 @@ msgid ""
 "current folder as well as all subfolders?"
 msgstr ""
 "您要將目前的資料夾中的郵件已閱讀，或是包含目前的資料夾及其子資料夾中所有郵"
-"件。"
+"件？"
 
 #: ../src/mail/mail.error.xml.h:139
 msgid "In Current Folder and _Subfolders"
@@ -20394,7 +20393,7 @@ msgstr "永不移動(_E)"
 msgid ""
 "This message cannot be sent because the account you chose to send with is "
 "not enabled"
-msgstr "因為您沒有啟用選擇用來寄送的帳號，所以無法傳送此郵件。"
+msgstr "因為您沒有啟用選擇用來寄送的帳號，所以無法傳送此郵件"
 
 #: ../src/mail/mail.error.xml.h:158
 msgid "Please enable the account or send using another account."
@@ -20556,7 +20555,7 @@ msgstr "無法將資料夾「{0}」中的郵件子群組取消已忽略標記"
 #. Translators: This constructs a string like "Follow-up, Completed on Tuesday, January 13, 2009"
 #: ../src/mail/mail.error.xml.h:197
 msgid "{0}, Completed on {1}"
-msgstr "{0} ，完成於 {1} "
+msgstr "{0} ，完成於 {1}"
 
 #. Translators: This constructs a string like "Follow-up by Tuesday, January 13, 2009"
 #: ../src/mail/mail.error.xml.h:199
@@ -20593,7 +20592,7 @@ msgid ""
 "report in GNOME Gitlab."
 msgstr ""
 "顯示此郵件時 WebKitWebProcess 當掉了。您可以試著移動到另一封郵件再移回來。如"
-"果這個問題持續發生，請在 GNOME GitLab 發出一份程式錯誤報告。"
+"果這個問題持續發生，請在 GNOME GitLab 提出一份程式臭蟲回報。"
 
 #: ../src/mail/mail.error.xml.h:211
 msgid "Something has gone wrong when displaying the signature"
@@ -20606,7 +20605,7 @@ msgid ""
 "a bug report in GNOME Gitlab."
 msgstr ""
 "顯示此簽名時 WebKitWebProcess 當掉了。您可以試著移動到另一個簽名再移回來。如"
-"果這個問題持續發生，請在 GNOME GitLab 發出一份程式錯誤報告。"
+"果這個問題持續發生，請在 GNOME GitLab 提出一份程式臭蟲回報。"
 
 #: ../src/mail/mail.error.xml.h:213
 msgid "Are you sure you want to delete all the messages in the Junk folder?"
@@ -20900,7 +20899,7 @@ msgstr "通訊錄內容"
 #: ../src/modules/accounts-window/e-accounts-window-editors.c:536
 #: ../src/modules/calendar/e-cal-shell-view-actions.c:285
 msgid "Calendar Properties"
-msgstr "iCalendar 錯誤"
+msgstr "行事曆屬性"
 
 #: ../src/modules/accounts-window/e-accounts-window-editors.c:540
 #: ../src/modules/calendar/e-memo-shell-view-actions.c:252
@@ -21132,7 +21131,7 @@ msgstr "轉寄連絡人(_F)…"
 
 #: ../src/modules/addressbook/e-book-shell-view-actions.c:1115
 msgid "Send selected contacts to another person"
-msgstr "傳送選取連絡人給其他使用者。"
+msgstr "傳送選取連絡人給其他使用者"
 
 #: ../src/modules/addressbook/e-book-shell-view-actions.c:1120
 msgid "_Move Contact To…"
@@ -23060,7 +23059,7 @@ msgstr "已取消的工作"
 
 #: ../src/modules/calendar/e-task-shell-view-actions.c:970
 msgid "Completed Tasks"
-msgstr "已完成的工作 "
+msgstr "已完成的工作"
 
 #: ../src/modules/calendar/e-task-shell-view-actions.c:977
 msgid "Uncompleted Tasks"
@@ -23356,8 +23355,6 @@ msgstr "%Y年%b%e日%A %p %l:%M:%S"
 #. Example: 'Tomorrow 10:30 (20.2.2020)'
 #: ../src/modules/itip-formatter/itip-view.c:426
 #, c-format
-#| msgctxt "SummaryWithLocation"
-#| msgid "%s (%s)"
 msgctxt "cal-itip"
 msgid "%s (%s)"
 msgstr "%s (%s)"
@@ -23880,7 +23877,7 @@ msgstr "無法分析項目"
 #: ../src/modules/itip-formatter/itip-view.c:5145
 #, c-format
 msgid "Organizer has removed the delegate %s "
-msgstr "會議召集人已移除代理人 %s"
+msgstr "會議召集人已移除代理人 %s "
 
 #: ../src/modules/itip-formatter/itip-view.c:5162
 msgid "Sent a cancellation notice to the delegate"
@@ -23901,7 +23898,7 @@ msgstr "這個會議無效並且不能更新"
 
 #: ../src/modules/itip-formatter/itip-view.c:5330
 msgid "Attendee status could not be updated because the status is invalid"
-msgstr "由於不合法的狀態使得出席者狀態無法更新！"
+msgstr "由於無效的狀態使得出席者狀態無法更新！"
 
 #: ../src/modules/itip-formatter/itip-view.c:5406
 #: ../src/modules/itip-formatter/itip-view.c:5444
@@ -24173,13 +24170,17 @@ msgstr "伺服器要求核對(_V)"
 msgid "T_ype:"
 msgstr "類型(_Y)："
 
-#: ../src/modules/mail-config/e-mail-config-yahoo-summary.c:248
+#: ../src/modules/mail-config/e-mail-config-yahoo-summary.c:268
 msgid "Yahoo! Features"
 msgstr "Yahoo! 功能"
 
-#: ../src/modules/mail-config/e-mail-config-yahoo-summary.c:257
+#: ../src/modules/mail-config/e-mail-config-yahoo-summary.c:277
 msgid "Add Yahoo! Ca_lendar and Tasks to this account"
 msgstr "將 Yahoo! 行事曆與工作加入這個帳號(_L)"
+
+#: ../src/modules/mail-config/e-mail-config-yahoo-summary.c:285
+msgid "Add Con_tacts to this account"
+msgstr "將連絡人通訊錄加入這個帳號(_T)"
 
 #: ../src/modules/mail/e-mail-attachment-handler.c:644
 #, c-format
@@ -25672,7 +25673,7 @@ msgstr "無法使用動作"
 msgid ""
 "This message does not contain the header information required for this "
 "action."
-msgstr "這封郵件沒有包含此動作所需的檔頭資訊"
+msgstr "這封郵件沒有包含此動作所需的檔頭資訊。"
 
 #: ../src/plugins/mailing-list-actions/org-gnome-mailing-list-actions.error.xml.h:3
 msgid "Posting not allowed"
@@ -25745,7 +25746,7 @@ msgstr ""
 #, c-format
 msgid "You have received %d new message."
 msgid_plural "You have received %d new messages."
-msgstr[0] "您已經接收 %d 封郵件 。 "
+msgstr[0] "您已經接收 %d 封郵件 。"
 
 #. Translators: The '%s' is replaced by the folder name, where a new
 #. * mail message arrived. Example: "Folder: On This Computer : Inbox"
@@ -26302,7 +26303,7 @@ msgstr "寄件者驗證"
 msgid ""
 "Validates sender before sending an e-mail against a list of recipients and "
 "for them assigned expected send account."
-msgstr "在寄送電子郵件給列表中收件者前驗證寄件者，並指派他們，寄件者帳號除外"
+msgstr "在寄送電子郵件給列表中收件者前驗證寄件者，並指派他們，寄件者帳號除外。"
 
 #: ../src/plugins/sender-validation/org-gnome-sender-validation.error.xml.h:1
 msgid "Confirm sender address"
@@ -26573,11 +26574,11 @@ msgstr "在預覽窗格中顯示 WebKit GPU 資訊頁"
 
 #: ../src/shell/e-shell-window-actions.c:1080
 msgid "Submit _Bug Report…"
-msgstr "傳送錯誤報告(_B)…"
+msgstr "傳送臭蟲回報(_B)…"
 
 #: ../src/shell/e-shell-window-actions.c:1082
 msgid "Submit a bug report using Bug Buddy"
-msgstr "使用 Bug Buddy 送出錯誤報告。"
+msgstr "使用 Bug Buddy 送出臭蟲回報。"
 
 #: ../src/shell/e-shell-window-actions.c:1087
 msgid "_Work Offline"
@@ -27323,12 +27324,12 @@ msgstr ""
 #: ../src/smime/gui/component.c:53
 #, c-format
 msgid "Enter the password for “%s”, token “%s”"
-msgstr "輸入「%s」的密碼，記號「%s」 "
+msgstr "輸入「%s」的密碼，記號「%s」"
 
 #: ../src/smime/gui/component.c:55
 #, c-format
 msgid "Enter the password for “%s”"
-msgstr "輸入「%s」的密碼 "
+msgstr "輸入「%s」的密碼"
 
 #. we're setting the password initially
 #: ../src/smime/gui/component.c:83
