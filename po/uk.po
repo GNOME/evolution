@@ -12,8 +12,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: evolution\n"
 "Report-Msgid-Bugs-To: https://gitlab.gnome.org/GNOME/evolution/issues\n"
-"POT-Creation-Date: 2021-06-01 18:43+0000\n"
-"PO-Revision-Date: 2021-06-02 18:57+0300\n"
+"POT-Creation-Date: 2021-06-03 15:49+0000\n"
+"PO-Revision-Date: 2021-06-03 19:31+0300\n"
 "Last-Translator: Yuri Chornoivan <yurchor@ukr.net>\n"
 "Language-Team: Ukrainian <trans-uk@lists.fedoraproject.org>\n"
 "Language: uk\n"
@@ -2599,13 +2599,11 @@ msgstr ""
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:276
 msgid "How many days to show in the To Do bar"
-msgstr ""
-"Кількість днів, події для яких слід показувати на панелі «Зробити»"
+msgstr "Кількість днів, події для яких слід показувати на панелі «Зробити»"
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:277
 msgid "Values out of range are clamped to the boundary."
-msgstr ""
-"Значення поза припустимим діапазоном обрізано до граничного значення."
+msgstr "Значення поза припустимим діапазоном обрізано до граничного значення."
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:278
 msgid "Show start up wizard"
@@ -8476,12 +8474,10 @@ msgid "Custom"
 msgstr "Інше"
 
 #: ../src/calendar/gui/e-comp-editor-page-reminders.c:1833
-#| msgid "Add custom predefined time"
 msgid "Add predefined time…"
 msgstr "Додати попередньо визначений час…"
 
 #: ../src/calendar/gui/e-comp-editor-page-reminders.c:1836
-#| msgid "Remove custom predefined times"
 msgid "Remove predefined times"
 msgstr "Вилучити попередньо визначені записи часу"
 
@@ -12658,7 +12654,7 @@ msgstr "Обліковий запис _пошти"
 
 #: ../src/e-util/e-accounts-window.c:1484
 msgid "Address _Book"
-msgstr "Адреса _книга"
+msgstr "Адресна _книга"
 
 #: ../src/e-util/e-accounts-window.c:1485
 msgid "_Calendar"
@@ -15471,7 +15467,7 @@ msgstr "Показати контакти"
 
 #: ../src/e-util/e-name-selector-dialog.c:306
 msgid "Address B_ook:"
-msgstr "Адреса _книга:"
+msgstr "Адресна _книга:"
 
 #: ../src/e-util/e-name-selector-dialog.c:313
 msgid "Cat_egory:"
@@ -15866,33 +15862,33 @@ msgstr "Сповіщення про повернення"
 msgid "Sta_tus Tracking"
 msgstr "Відстеження с_татусу"
 
-#: ../src/e-util/e-source-config.c:689 ../src/e-util/e-source-config.c:693
+#: ../src/e-util/e-source-config.c:690 ../src/e-util/e-source-config.c:694
 msgid "Type:"
 msgstr "Тип:"
 
-#: ../src/e-util/e-source-config.c:703 ../src/e-util/e-source-config.c:707
+#: ../src/e-util/e-source-config.c:704 ../src/e-util/e-source-config.c:708
 msgid "Name:"
 msgstr "Назва:"
 
-#: ../src/e-util/e-source-config.c:814 ../src/e-util/e-webdav-browser.c:1858
+#: ../src/e-util/e-source-config.c:815 ../src/e-util/e-webdav-browser.c:1858
 msgid "Name cannot be empty"
 msgstr "Назва не може бути порожня"
 
 #. Translators: This is the first of a sequence of widgets:
 #. * "Refresh every [NUMERIC_ENTRY] [TIME_UNITS_COMBO]"
-#: ../src/e-util/e-source-config.c:1381
+#: ../src/e-util/e-source-config.c:1382
 msgid "Refresh every"
 msgstr "Оновлювати кожні"
 
-#: ../src/e-util/e-source-config.c:1411 ../src/e-util/e-source-config.c:1485
+#: ../src/e-util/e-source-config.c:1412 ../src/e-util/e-source-config.c:1486
 msgid "Use a secure connection"
 msgstr "Використовувати безпечне з'єднання"
 
-#: ../src/e-util/e-source-config.c:1512
+#: ../src/e-util/e-source-config.c:1513
 msgid "Unset _trust for SSL/TLS certificate"
 msgstr "Скасувати _довіру з цього сертифіката SSL/TLS"
 
-#: ../src/e-util/e-source-config.c:1548
+#: ../src/e-util/e-source-config.c:1549
 msgid "User:"
 msgstr "Користувач:"
 
@@ -21800,7 +21796,7 @@ msgstr "Створити новий список контактів"
 #: ../src/modules/addressbook/e-book-shell-backend.c:295
 msgctxt "New"
 msgid "Address _Book"
-msgstr "Адреса _книга"
+msgstr "Адресна _книга"
 
 #: ../src/modules/addressbook/e-book-shell-backend.c:297
 #: ../src/modules/addressbook/e-book-shell-view-actions.c:1045
@@ -22339,6 +22335,7 @@ msgid "Junk filter using Bogofilter"
 msgstr "Фільтрувати спам через Bogofilter"
 
 #: ../src/modules/book-config-carddav/evolution-book-config-carddav.c:93
+#: ../src/modules/book-config-google/e-google-book-chooser-button.c:207
 msgid "Choose an Address Book"
 msgstr "Виберіть адресну книгу"
 
@@ -22371,7 +22368,17 @@ msgid "URL is not a valid http:// nor https:// URL"
 msgstr ""
 "Неправильне посилання, воно не починається ні на http://, ні на https://"
 
-#: ../src/modules/book-config-google/evolution-book-config-google.c:93
+#: ../src/modules/book-config-google/e-google-book-chooser-button.c:134
+#| msgid "D_elete Address Book"
+msgid "Default User Address Book"
+msgstr "Типова адресна книга користувача"
+
+#: ../src/modules/book-config-google/evolution-book-config-google.c:75
+#| msgid "Address B_ook:"
+msgid "Address Book:"
+msgstr "Адресна книга:"
+
+#: ../src/modules/book-config-google/evolution-book-config-google.c:100
 #: ../src/modules/book-config-ldap/evolution-book-config-ldap.c:1066
 #: ../src/modules/cal-config-google/e-cal-config-google.c:187
 #: ../src/modules/cal-config-google/e-cal-config-gtasks.c:115
@@ -23007,15 +23014,12 @@ msgstr "Показувати завдання без _терміну викон�
 
 #. Translators: This constructs: Show [spinner] days
 #: ../src/modules/calendar/e-calendar-preferences.ui.h:73
-#| msgid "Show"
 msgctxt "to-do-bar-n-days"
 msgid "Show"
 msgstr "Показати"
 
 #. Translators: This constructs: Show [spinner] days
 #: ../src/modules/calendar/e-calendar-preferences.ui.h:75
-#| msgctxt "cal-reminders"
-#| msgid "da_ys"
 msgctxt "to-do-bar-n-days"
 msgid "da_ys"
 msgstr "д_нів"
