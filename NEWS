@@ -1,3 +1,36 @@
+Evolution 3.40.2 2021-06-04
+---------------------------
+
+Bug Fixes:
+	I#1392 - Pressing backspace in front of quoted line with link does not delete anything (Milan Crha)
+	I#1428 - Can't import UTF-16 encoded .ics files (Milan Crha)
+	I#1475 - Mail: Read Subject from PGP encrypted mail even without text/rfc822-headers part ][ (Milan Crha)
+	I#1491 - Mail: Forwarding e-mail Inline or Quoted duplicates some attachments (Milan Crha)
+	I#1495 - ETable: Ignore Shift+Click in the table header area (Milan Crha)
+	I#1503 - PreferPlain: Deadlock when opening a message in composer (Milan Crha)
+	I#1507 - Contacts: Preserve selection after search change (Milan Crha)
+	I#1521 - Calendar: Removing recurrences not reflected in the UI (Milan Crha)
+	M!80 - help: Change instances of "Apply" to "OK" (Sibo Dong)
+
+Miscellaneous:
+	itip-utils: Fix a possible memory leak (Milan Crha)
+	e-mail-reader: Add safety checks on return value from e_mail_reader_get_selected_uids() (Milan Crha)
+	Calendar: Let a GSettings binding mapping function return always TRUE (Milan Crha)
+	Calendar: Fix error detail reference for 'failed-make-movable' (Milan Crha)
+	Disable sandboxing to enable printing, until WebKitGTK is fixed (Milan Crha)
+
+Translations:
+	Мирослав Николић (sr)
+	Kjartan Maraas (nb)
+	Fabio Tomat (fur)
+	Quentin PAGÈS (oc)
+	Zander Brown (en_GB)
+	Cheng-Chia Tseng (zh_TW)
+	Gianvito Cavasoli (it)
+	Yuri Chornoivan (uk)
+	Guillaume Bernard (fr)
+	Daniel Mustieles (es)
+
 Evolution 3.40.1 2021-04-30
 ---------------------------
 
