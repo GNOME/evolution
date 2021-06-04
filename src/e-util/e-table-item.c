@@ -1008,8 +1008,6 @@ eti_request_region_show (ETableItem *eti,
 		end_col, end_row,
 		&x1, &y1, &x2, &y2);
 
-	eti->cursor_on_screen = TRUE;
-
 	if (delay)
 		priv->show_cursor_delay_source = e_canvas_item_show_area_delayed_ex (
 			GNOME_CANVAS_ITEM (eti), x1, y1, x2, y2, delay);
