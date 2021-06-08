@@ -283,6 +283,7 @@ cal_shell_view_update_actions (EShellView *shell_view)
 	gboolean all_sources_selected;
 	gboolean clicked_source_is_primary;
 	gboolean clicked_source_is_collection;
+	gboolean this_and_future_supported;
 
 	/* Chain up to parent's update_actions() method. */
 	E_SHELL_VIEW_CLASS (e_cal_shell_view_parent_class)->
@@ -335,6 +336,8 @@ cal_shell_view_update_actions (EShellView *shell_view)
 		(state & E_CAL_BASE_SHELL_CONTENT_SELECTION_IS_RECURRING);
 	selection_can_delegate =
 		(state & E_CAL_BASE_SHELL_CONTENT_SELECTION_CAN_DELEGATE);
+	this_and_future_supported =
+		(state & E_CAL_BASE_SHELL_CONTENT_SELECTION_THIS_AND_FUTURE_SUPPORTED);
 
 	shell_sidebar = e_shell_view_get_shell_sidebar (shell_view);
 	state = e_shell_sidebar_check_state (shell_sidebar);
@@ -434,6 +437,14 @@ cal_shell_view_update_actions (EShellView *shell_view)
 		any_events_selected &&
 		selection_is_editable &&
 		selection_is_recurring;
+	gtk_action_set_sensitive (action, sensitive);
+
+	action = ACTION (EVENT_DELETE_OCCURRENCE_THIS_AND_FUTURE);
+	sensitive =
+		single_event_selected &&
+		selection_is_editable &&
+		selection_is_recurring &&
+		this_and_future_supported;
 	gtk_action_set_sensitive (action, sensitive);
 
 	action = ACTION (EVENT_DELETE_OCCURRENCE_ALL);

@@ -226,7 +226,8 @@ void		e_calendar_view_precalc_visible_time_range
 void		e_calendar_view_update_query	(ECalendarView *cal_view);
 
 void		e_calendar_view_delete_selected_occurrence
-						(ECalendarView *cal_view);
+						(ECalendarView *cal_view,
+						 ECalObjModType mod);
 ECompEditor *	e_calendar_view_open_event_with_flags
 						(ECalendarView *cal_view,
 						 ECalClient *client,

@@ -113,6 +113,8 @@ calendar_view_add_retract_data (ECalComponent *comp,
 
 	if (mod == E_CAL_OBJ_MOD_ALL)
 		prop = i_cal_property_new_x ("All");
+	else if (mod == E_CAL_OBJ_MOD_THIS_AND_FUTURE)
+		prop = i_cal_property_new_x ("ThisAndFuture");
 	else
 		prop = i_cal_property_new_x ("This");
 	i_cal_property_set_x_name (prop, "X-EVOLUTION-RECUR-MOD");
@@ -154,7 +156,8 @@ calendar_view_check_for_retract (ECalComponent *comp,
 static void
 calendar_view_delete_event (ECalendarView *cal_view,
                             ECalendarViewEvent *event,
-			    gboolean only_occurrence)
+			    gboolean only_occurrence,
+			    ECalObjModType mod)
 {
 	ECalModel *model;
 	ECalComponent *comp;
@@ -193,7 +196,7 @@ calendar_view_delete_event (ECalendarView *cal_view,
 		if (retract) {
 			ICalComponent *icomp;
 
-			calendar_view_add_retract_data (comp, retract_comment, E_CAL_OBJ_MOD_ALL);
+			calendar_view_add_retract_data (comp, retract_comment, mod);
 			icomp = e_cal_component_get_icalcomponent (comp);
 			i_cal_component_set_method (icomp, I_CAL_METHOD_CANCEL);
 
@@ -223,9 +226,17 @@ calendar_view_delete_event (ECalendarView *cal_view,
 				i_cal_time_set_is_date (e_cal_component_datetime_get_value (dtstart), 1);
 
 				/* set the recurrence ID of the object we send */
-				range = e_cal_component_range_new_take (E_CAL_COMPONENT_RANGE_SINGLE, dtstart);
+				range = e_cal_component_range_new_take (mod == E_CAL_OBJ_MOD_THIS_AND_FUTURE ?
+					E_CAL_COMPONENT_RANGE_THISFUTURE : E_CAL_COMPONENT_RANGE_SINGLE, dtstart);
 				e_cal_component_set_recurid (comp, range);
 
+				e_cal_component_range_free (range);
+			} else if (only_occurrence && mod == E_CAL_OBJ_MOD_THIS_AND_FUTURE) {
+				ECalComponentRange *range;
+
+				range = e_cal_component_get_recurid (comp);
+				e_cal_component_range_set_kind (range, E_CAL_COMPONENT_RANGE_THISFUTURE);
+				e_cal_component_set_recurid (comp, range);
 				e_cal_component_range_free (range);
 			}
 
@@ -243,7 +254,7 @@ calendar_view_delete_event (ECalendarView *cal_view,
 
 		if (only_occurrence) {
 			if (e_cal_component_is_instance (comp)) {
-				e_cal_ops_remove_component (model, client, uid, rid, E_CAL_OBJ_MOD_THIS, FALSE);
+				e_cal_ops_remove_component (model, client, uid, rid, mod, FALSE);
 			} else {
 				ICalTime *instance_rid;
 				ICalTimezone *zone = NULL;
@@ -271,7 +282,7 @@ calendar_view_delete_event (ECalendarView *cal_view,
 				instance_rid = i_cal_time_new_from_timet_with_zone (
 					instance_start,
 					TRUE, zone ? zone : i_cal_timezone_get_utc_timezone ());
-				e_cal_util_remove_instances_ex (icalcomp, instance_rid, E_CAL_OBJ_MOD_THIS,
+				e_cal_util_remove_instances_ex (icalcomp, instance_rid, mod,
 					e_cal_client_tzlookup_cb, client);
 				e_cal_ops_modify_component (model, client, icalcomp,
 					E_CAL_OBJ_MOD_THIS, E_CAL_OPS_SEND_FLAG_DONT_SEND);
@@ -1114,7 +1125,7 @@ calendar_view_delete_selection (ESelectable *selectable)
 		if (event == NULL)
 			continue;
 
-		calendar_view_delete_event (cal_view, event, FALSE);
+		calendar_view_delete_event (cal_view, event, FALSE, E_CAL_OBJ_MOD_ALL);
 	}
 
 	g_list_free (selected);
@@ -1567,10 +1578,13 @@ e_calendar_view_update_query (ECalendarView *cal_view)
 }
 
 void
-e_calendar_view_delete_selected_occurrence (ECalendarView *cal_view)
+e_calendar_view_delete_selected_occurrence (ECalendarView *cal_view,
+					    ECalObjModType mod)
 {
 	ECalendarViewEvent *event;
 	GList *selected;
+
+	g_return_if_fail (mod == E_CAL_OBJ_MOD_THIS || mod == E_CAL_OBJ_MOD_THIS_AND_FUTURE);
 
 	selected = e_calendar_view_get_selected_events (cal_view);
 	if (!selected)
@@ -1578,7 +1592,7 @@ e_calendar_view_delete_selected_occurrence (ECalendarView *cal_view)
 
 	event = (ECalendarViewEvent *) selected->data;
 	if (is_comp_data_valid (event)) {
-		calendar_view_delete_event (cal_view, event, TRUE);
+		calendar_view_delete_event (cal_view, event, TRUE, mod);
 	}
 
 	g_list_free (selected);

@@ -722,7 +722,20 @@ action_event_delete_occurrence_cb (GtkAction *action,
 	cal_shell_content = cal_shell_view->priv->cal_shell_content;
 	calendar_view = e_cal_shell_content_get_current_calendar_view (cal_shell_content);
 
-	e_calendar_view_delete_selected_occurrence (calendar_view);
+	e_calendar_view_delete_selected_occurrence (calendar_view, E_CAL_OBJ_MOD_THIS);
+}
+
+static void
+action_event_delete_occurrence_this_and_future_cb (GtkAction *action,
+						   ECalShellView *cal_shell_view)
+{
+	ECalShellContent *cal_shell_content;
+	ECalendarView *calendar_view;
+
+	cal_shell_content = cal_shell_view->priv->cal_shell_content;
+	calendar_view = e_cal_shell_content_get_current_calendar_view (cal_shell_content);
+
+	e_calendar_view_delete_selected_occurrence (calendar_view, E_CAL_OBJ_MOD_THIS_AND_FUTURE);
 }
 
 static void
@@ -1426,6 +1439,13 @@ static GtkActionEntry calendar_entries[] = {
 	  N_("Delete this occurrence"),
 	  G_CALLBACK (action_event_delete_occurrence_cb) },
 
+	{ "event-delete-occurrence-this-and-future",
+	  "edit-delete",
+	  N_("Delete This and F_uture Occurrences"),
+	  NULL,
+	  N_("Delete this and any future occurrences"),
+	  G_CALLBACK (action_event_delete_occurrence_this_and_future_cb) },
+
 	{ "event-delete-occurrence-all",
 	  "edit-delete",
 	  N_("Delete All Occ_urrences"),
@@ -1648,6 +1668,10 @@ static EPopupActionEntry calendar_popup_entries[] = {
 	{ "event-popup-delete-occurrence",
 	  NULL,
 	  "event-delete-occurrence" },
+
+	{ "event-popup-delete-occurrence-this-and-future",
+	  NULL,
+	  "event-delete-occurrence-this-and-future" },
 
 	{ "event-popup-delete-occurrence-all",
 	  NULL,

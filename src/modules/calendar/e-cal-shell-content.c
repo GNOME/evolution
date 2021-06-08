@@ -968,6 +968,7 @@ cal_shell_content_check_state (EShellContent *shell_content)
 	gboolean selection_is_attendee = FALSE;
 	gboolean selection_is_recurring = FALSE;
 	gboolean selection_can_delegate = FALSE;
+	gboolean this_and_future_supported = FALSE;
 	guint32 state = 0;
 	GList *selected;
 	GList *link;
@@ -1048,6 +1049,9 @@ cal_shell_content_check_state (EShellContent *shell_content)
 			e_client_check_capability (
 			E_CLIENT (client), capability);
 
+		this_and_future_supported = !e_client_check_capability (
+			E_CLIENT (client), E_CAL_STATIC_CAPABILITY_NO_THISANDFUTURE);
+
 		icomp_is_delegated = user_email != NULL &&
 			cal_shell_content_icomp_is_delegated (icomp, user_email);
 
@@ -1086,6 +1090,8 @@ cal_shell_content_check_state (EShellContent *shell_content)
 		state |= E_CAL_BASE_SHELL_CONTENT_SELECTION_IS_RECURRING;
 	if (selection_can_delegate)
 		state |= E_CAL_BASE_SHELL_CONTENT_SELECTION_CAN_DELEGATE;
+	if (this_and_future_supported)
+		state |= E_CAL_BASE_SHELL_CONTENT_SELECTION_THIS_AND_FUTURE_SUPPORTED;
 
 	return state;
 }
