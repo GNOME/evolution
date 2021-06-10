@@ -1973,6 +1973,7 @@ webkit_editor_insert_content (EContentEditor *editor,
 {
 	EWebKitEditor *wk_editor;
 	gboolean prefer_pre;
+	gboolean cleanup_sig_id;
 
 	wk_editor = E_WEBKIT_EDITOR (editor);
 
@@ -1991,6 +1992,7 @@ webkit_editor_insert_content (EContentEditor *editor,
 	}
 
 	prefer_pre = (flags & E_CONTENT_EDITOR_INSERT_CONVERT_PREFER_PRE) != 0;
+	cleanup_sig_id = (flags & E_CONTENT_EDITOR_INSERT_CLEANUP_SIGNATURE_ID) != 0;
 
 	if ((flags & E_CONTENT_EDITOR_INSERT_CONVERT) &&
 	    !(flags & E_CONTENT_EDITOR_INSERT_REPLACE_ALL)) {
@@ -2003,6 +2005,8 @@ webkit_editor_insert_content (EContentEditor *editor,
 		     strstr (content, "data-evo-signature-plain-text-mode"))) {
 			e_web_view_jsc_run_script (WEBKIT_WEB_VIEW (wk_editor), wk_editor->priv->cancellable,
 				"EvoEditor.LoadHTML(%s);", content);
+			if (cleanup_sig_id)
+				e_web_view_jsc_run_script (WEBKIT_WEB_VIEW (wk_editor), wk_editor->priv->cancellable, "EvoEditor.CleanupSignatureID();");
 			return;
 		}
 
@@ -2014,6 +2018,8 @@ webkit_editor_insert_content (EContentEditor *editor,
 					webkit_editor_set_html_mode (wk_editor, TRUE);
 					e_web_view_jsc_run_script (WEBKIT_WEB_VIEW (wk_editor), wk_editor->priv->cancellable,
 						"EvoEditor.LoadHTML(%s);", content);
+					if (cleanup_sig_id)
+						e_web_view_jsc_run_script (WEBKIT_WEB_VIEW (wk_editor), wk_editor->priv->cancellable, "EvoEditor.CleanupSignatureID();");
 					return;
 				}
 			}
@@ -2065,6 +2071,9 @@ webkit_editor_insert_content (EContentEditor *editor,
 	} else {
 		g_warning ("%s: Unsupported flags combination (0x%x)", G_STRFUNC, flags);
 	}
+
+	if (cleanup_sig_id)
+		e_web_view_jsc_run_script (WEBKIT_WEB_VIEW (wk_editor), wk_editor->priv->cancellable, "EvoEditor.CleanupSignatureID();");
 
 	if (flags & E_CONTENT_EDITOR_INSERT_REPLACE_ALL)
 		webkit_editor_style_updated (wk_editor, TRUE);

@@ -6222,6 +6222,27 @@ EvoEditor.WrapSelection = function()
 	}
 }
 
+EvoEditor.CleanupSignatureID = function()
+{
+	var elements, ii;
+
+	elements = document.querySelectorAll(".-x-evo-top-signature-spacer");
+	for (ii = elements.length - 1; ii >= 0; ii--) {
+		elements[ii].removeAttribute("class");
+	}
+
+	elements = document.querySelectorAll(".-x-evo-signature-wrapper");
+	for (ii = elements.length - 1; ii >= 0; ii--) {
+		elements[ii].removeAttribute("class");
+	}
+
+	elements = document.querySelectorAll(".-x-evo-signature");
+	for (ii = elements.length - 1; ii >= 0; ii--) {
+		elements[ii].removeAttribute("class");
+		elements[ii].removeAttribute("id");
+	}
+}
+
 EvoEditor.onContextMenu = function(event)
 {
 	var node = event.target;
