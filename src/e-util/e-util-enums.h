@@ -151,6 +151,7 @@ typedef enum {
  * @E_CONTENT_EDITOR_INSERT_TEXT_HTML:
  * @E_CONTENT_EDITOR_INSERT_TEXT_PLAIN:
  * @E_CONTENT_EDITOR_INSERT_CONVERT_PREFER_PRE: Set when should convert plain text into &lt;pre&gt; instead of &lt;div&gt;. Since 3.40
+ * @E_CONTENT_EDITOR_INSERT_CLEANUP_SIGNATURE_ID: Set when should cleanup signature ID in the body. Since 3.40.3
  *
  * Since: 3.22
  **/
@@ -161,7 +162,8 @@ typedef enum {
 	E_CONTENT_EDITOR_INSERT_REPLACE_ALL		= 1 << 2,
 	E_CONTENT_EDITOR_INSERT_TEXT_HTML		= 1 << 3,
 	E_CONTENT_EDITOR_INSERT_TEXT_PLAIN		= 1 << 4,
-	E_CONTENT_EDITOR_INSERT_CONVERT_PREFER_PRE	= 1 << 5
+	E_CONTENT_EDITOR_INSERT_CONVERT_PREFER_PRE	= 1 << 5,
+	E_CONTENT_EDITOR_INSERT_CLEANUP_SIGNATURE_ID	= 1 << 6
 } EContentEditorInsertContentFlags;
 
 /**

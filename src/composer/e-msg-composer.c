@@ -1775,7 +1775,8 @@ set_editor_text (EMsgComposer *composer,
 			cnt_editor,
 			text,
 			E_CONTENT_EDITOR_INSERT_TEXT_HTML |
-			E_CONTENT_EDITOR_INSERT_REPLACE_ALL);
+			E_CONTENT_EDITOR_INSERT_REPLACE_ALL |
+			(e_msg_composer_get_is_reply_or_forward (composer) ? E_CONTENT_EDITOR_INSERT_CLEANUP_SIGNATURE_ID : 0));
 	else
 		e_content_editor_insert_content (
 			cnt_editor,
