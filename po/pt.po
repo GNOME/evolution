@@ -13,8 +13,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: 3.12\n"
 "Report-Msgid-Bugs-To: https://gitlab.gnome.org/GNOME/evolution/issues\n"
-"POT-Creation-Date: 2021-06-11 09:47+0000\n"
-"PO-Revision-Date: 2021-06-11 11:17+0100\n"
+"POT-Creation-Date: 2021-06-11 10:23+0000\n"
+"PO-Revision-Date: 2021-06-11 11:39+0100\n"
 "Last-Translator: Hugo Carvalho <hugokarvalho@hotmail.com>\n"
 "Language-Team: Portuguese <https://l10n.gnome.org/teams/pt/>\n"
 "Language: pt\n"
@@ -1680,6 +1680,11 @@ msgid "Enable to use the same search settings for all folders"
 msgstr ""
 "Permitir a utilização das mesmas definições de pesquisa para todas as pastas"
 
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:99
+msgid "This is considered only in combination with the 'global-view-setting'."
+msgstr ""
+"Isto é considerado apenas em combinação com a \"definição de visão global\"."
+
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:100
 msgid "Mark citations in the message “Preview”"
 msgstr "Marcar as citações na “Antevisão” de mensagem"
@@ -2666,6 +2671,14 @@ msgstr "Se a barra das Tarefas devia mostrar as tarefas sem data limite"
 msgid "Stores whether the To Do bar should show also tasks without Due date."
 msgstr ""
 "Guarda se a barra das Tarefas devia mostrar as tarefas sem data limite."
+
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:276
+msgid "How many days to show in the To Do bar"
+msgstr "Quantos dias para mostrar na barra A fazer"
+
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:277
+msgid "Values out of range are clamped to the boundary."
+msgstr "Valores fora do alcance são fixados ao limite."
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:278
 msgid "Show start up wizard"
