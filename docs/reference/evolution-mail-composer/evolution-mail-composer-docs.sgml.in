@@ -29,6 +29,14 @@
     <title>API Index</title>
     <xi:include href="xml/api-index-full.xml"><xi:fallback /></xi:include>
   </index>
+  <index id="api-index-3-42" role="3.42">
+    <title>Index of new symbols in 3.42</title>
+    <xi:include href="xml/api-index-3.42.xml"><xi:fallback /></xi:include>
+  </index>
+  <index id="api-index-3-38" role="3.38">
+    <title>Index of new symbols in 3.38</title>
+    <xi:include href="xml/api-index-3.38.xml"><xi:fallback /></xi:include>
+  </index>
   <index id="api-index-3-30" role="3.30">
     <title>Index of new symbols in 3.30</title>
     <xi:include href="xml/api-index-3.30.xml"><xi:fallback /></xi:include>

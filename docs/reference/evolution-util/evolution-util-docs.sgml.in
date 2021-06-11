@@ -94,6 +94,7 @@
   <chapter>
     <title>HTML Rendering</title>
     <xi:include href="xml/e-web-view.xml"/>
+    <xi:include href="xml/e-web-view-jsc-utils.xml"/>
     <xi:include href="xml/e-web-view-preview.xml"/>
     <xi:include href="xml/e-content-request.xml"/>
     <xi:include href="xml/e-file-request.xml"/>
@@ -271,6 +272,7 @@
     <xi:include href="xml/e-dateedit.xml"/>
     <xi:include href="xml/e-destination-store.xml"/>
     <xi:include href="xml/e-dialog-widgets.xml"/>
+    <xi:include href="xml/e-ellipsized-combo-box-text.xml"/>
     <xi:include href="xml/e-file-utils.xml"/>
     <xi:include href="xml/e-focus-tracker.xml"/>
     <xi:include href="xml/e-image-chooser.xml"/>
@@ -331,6 +333,10 @@
   <index id="api-index-3-40" role="3.40">
     <title>Index of new symbols in 3.40</title>
     <xi:include href="xml/api-index-3.40.xml"><xi:fallback /></xi:include>
+  </index>
+  <index id="api-index-3-38" role="3.38">
+    <title>Index of new symbols in 3.38</title>
+    <xi:include href="xml/api-index-3.38.xml"><xi:fallback /></xi:include>
   </index>
   <index id="api-index-3-36" role="3.36">
     <title>Index of new symbols in 3.36</title>
