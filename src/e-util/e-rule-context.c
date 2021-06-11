@@ -45,6 +45,7 @@
 #include "e-filter-file.h"
 #include "e-filter-input.h"
 #include "e-filter-int.h"
+#include "e-filter-label.h"
 #include "e-filter-option.h"
 #include "e-filter-rule.h"
 #include "e-rule-context.h"
@@ -460,7 +461,9 @@ static EFilterElement *
 rule_context_new_element (ERuleContext *context,
                           const gchar *type)
 {
-	if (!strcmp (type, "string")) {
+	if (!strcmp (type, "label")) {
+		return (EFilterElement *) e_filter_label_new ();
+	} else if (!strcmp (type, "string")) {
 		return (EFilterElement *) e_filter_input_new ();
 	} else if (!strcmp (type, "address")) {
 		/* FIXME: temporary ... need real address type */

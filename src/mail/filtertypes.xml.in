@@ -806,8 +806,12 @@
 
  <part name="forward">
   <_title>Forward to</_title>
-  <code>(forward-to ${address})</code>
+  <code>(forward-to ${address} ${from})</code>
   <input type="address" name="address" allow-empty="false"/>
+  <input type="label" name="with">
+    <_title>with</_title>
+  </input>
+  <input type="mail-identity" name="from"/>
  </part>
 </actionset>
 </filterdescription>

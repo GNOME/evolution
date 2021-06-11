@@ -114,6 +114,7 @@
 #include <e-util/e-filter-file.h>
 #include <e-util/e-filter-input.h>
 #include <e-util/e-filter-int.h>
+#include <e-util/e-filter-label.h>
 #include <e-util/e-filter-option.h>
 #include <e-util/e-filter-part.h>
 #include <e-util/e-filter-rule.h>

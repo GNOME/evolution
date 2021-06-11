@@ -87,6 +87,7 @@
     <xi:include href="xml/e-filter-file.xml"/>
     <xi:include href="xml/e-filter-input.xml"/>
     <xi:include href="xml/e-filter-int.xml"/>
+    <xi:include href="xml/e-filter-label.xml"/>
     <xi:include href="xml/e-filter-option.xml"/>
   </chapter>
 
@@ -322,6 +323,10 @@
   <index id="api-index-full">
     <title>Index</title>
     <xi:include href="xml/api-index-full.xml"><xi:fallback /></xi:include>
+  </index>
+  <index id="api-index-3-42" role="3.42">
+    <title>Index of new symbols in 3.42</title>
+    <xi:include href="xml/api-index-3.42.xml"><xi:fallback /></xi:include>
   </index>
   <index id="api-index-3-40" role="3.40">
     <title>Index of new symbols in 3.40</title>

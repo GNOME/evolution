@@ -357,6 +357,7 @@ src/mail/e-mail-ui-session.c
 src/mail/em-composer-utils.c
 src/mail/em-filter-editor.c
 src/mail/em-filter-editor-folder-element.c
+src/mail/em-filter-mail-identity-element.c
 src/mail/em-filter-rule.c
 src/mail/em-folder-properties.c
 src/mail/em-folder-selection-button.c

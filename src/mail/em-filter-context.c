@@ -26,10 +26,9 @@
 
 #include "em-filter-context.h"
 #include "em-filter-rule.h"
-#include "em-filter-source-element.h"
-
-/* For poking into filter-folder guts */
 #include "em-filter-editor-folder-element.h"
+#include "em-filter-mail-identity-element.h"
+#include "em-filter-source-element.h"
 
 #define EM_FILTER_CONTEXT_GET_PRIVATE(obj) \
 	(G_TYPE_INSTANCE_GET_PRIVATE \
@@ -237,6 +236,9 @@ filter_context_new_element (ERuleContext *context,
 
 	if (strcmp (type, "source") == 0)
 		return em_filter_source_element_new (priv->session);
+
+	if (strcmp (type, "mail-identity") == 0)
+		return em_filter_mail_identity_element_new (e_mail_session_get_registry (priv->session));
 
 	return E_RULE_CONTEXT_CLASS (em_filter_context_parent_class)->
 		new_element (context, type);

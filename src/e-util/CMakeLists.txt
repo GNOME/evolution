@@ -129,6 +129,7 @@ set(SOURCES
 	e-filter-file.c
 	e-filter-input.c
 	e-filter-int.c
+	e-filter-label.c
 	e-filter-option.c
 	e-filter-part.c
 	e-filter-rule.c
@@ -404,6 +405,7 @@ set(HEADERS
 	e-filter-file.h
 	e-filter-input.h
 	e-filter-int.h
+	e-filter-label.h
 	e-filter-option.h
 	e-filter-part.h
 	e-filter-rule.h

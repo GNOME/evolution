@@ -45,6 +45,8 @@ struct _EMailIdentityComboBoxPrivate {
 	gulong source_changed_handler_id;
 	gulong source_removed_handler_id;
 
+	gchar *none_title;
+
 	gboolean allow_none;
 	gboolean allow_aliases;
 
@@ -256,6 +258,7 @@ mail_identity_combo_box_dispose (GObject *object)
 		priv->refresh_idle_id = 0;
 	}
 
+	g_clear_pointer (&priv->none_title, g_free);
 	g_clear_object (&priv->registry);
 
 	/* Chain up to parent's dispose() method. */
@@ -691,7 +694,7 @@ e_mail_identity_combo_box_refresh (EMailIdentityComboBox *combo_box)
 
 		gtk_list_store_set (
 			GTK_LIST_STORE (tree_model), &iter,
-			E_MAIL_IDENTITY_COMBO_BOX_COLUMN_DISPLAY_NAME, _("None"),
+			E_MAIL_IDENTITY_COMBO_BOX_COLUMN_DISPLAY_NAME, e_mail_identity_combo_box_get_none_title (combo_box),
 			E_MAIL_IDENTITY_COMBO_BOX_COLUMN_UID, "",
 			E_MAIL_IDENTITY_COMBO_BOX_COLUMN_COMBO_ID, "",
 			-1);
@@ -774,6 +777,47 @@ e_mail_identity_combo_box_set_allow_none (EMailIdentityComboBox *combo_box,
 	g_object_notify (G_OBJECT (combo_box), "allow-none");
 
 	e_mail_identity_combo_box_refresh (combo_box);
+}
+
+/**
+ * e_mail_identity_combo_box_get_none_title:
+ * @combo_box: an #EMailIdentityComboBox
+ *
+ * Returns: what title the none item should have
+ *
+ * Since: 3.42
+ **/
+const gchar *
+e_mail_identity_combo_box_get_none_title (EMailIdentityComboBox *combo_box)
+{
+	g_return_val_if_fail (E_IS_MAIL_IDENTITY_COMBO_BOX (combo_box), NULL);
+
+	if (combo_box->priv->none_title)
+		return combo_box->priv->none_title;
+
+	return _("None");
+}
+
+/**
+ * e_mail_identity_combo_box_set_none_title:
+ * @combo_box: an #EMailIdentityComboBox
+ * @none_title: (nullable): a title to use, or %NULL
+ *
+ * Set what title the none item should have. This is a user visible string, thus
+ * it should be localized. Use %NULL to reset to the default "None" title.
+ *
+ * Since: 3.42
+ **/
+void
+e_mail_identity_combo_box_set_none_title (EMailIdentityComboBox *combo_box,
+					  const gchar *none_title)
+{
+	g_return_if_fail (E_IS_MAIL_IDENTITY_COMBO_BOX (combo_box));
+
+	if (combo_box->priv->none_title != none_title) {
+		g_free (combo_box->priv->none_title);
+		combo_box->priv->none_title = g_strdup (none_title);
+	}
 }
 
 /**

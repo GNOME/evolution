@@ -87,6 +87,11 @@ gboolean	e_mail_identity_combo_box_get_allow_none
 void		e_mail_identity_combo_box_set_allow_none
 					(EMailIdentityComboBox *combo_box,
 					 gboolean allow_none);
+const gchar *	e_mail_identity_combo_box_get_none_title
+					(EMailIdentityComboBox *combo_box);
+void		e_mail_identity_combo_box_set_none_title
+					(EMailIdentityComboBox *combo_box,
+					 const gchar *none_title);
 gboolean	e_mail_identity_combo_box_get_allow_aliases
 					(EMailIdentityComboBox *combo_box);
 void		e_mail_identity_combo_box_set_allow_aliases

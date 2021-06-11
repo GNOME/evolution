@@ -100,6 +100,7 @@ set(SOURCES
 	em-filter-context.c
 	em-filter-editor.c
 	em-filter-editor-folder-element.c
+	em-filter-mail-identity-element.c
 	em-filter-rule.c
 	em-filter-source-element.c
 	em-folder-properties.c
@@ -191,6 +192,7 @@ set(HEADERS
 	em-filter-context.h
 	em-filter-editor.h
 	em-filter-editor-folder-element.h
+	em-filter-mail-identity-element.h
 	em-filter-rule.h
 	em-filter-source-element.h
 	em-folder-properties.h

@@ -1523,6 +1523,67 @@ mail_session_forget_password (CamelSession *session,
 	return TRUE;
 }
 
+/* Expects 'forward_with' encoded as: "identity_uid|alias_name|alias_address" with '\\' and '|' being backslash-escaped */
+static ESource *
+mail_session_decode_forward_with (ESourceRegistry *registry,
+				  const gchar *forward_with,
+				  gchar **out_alias_name,
+				  gchar **out_alias_address)
+{
+	ESource *source = NULL;
+	GString *str;
+	gint step;
+	const gchar *ptr;
+
+	if (!forward_with || !*forward_with)
+		return NULL;
+
+	str = g_string_sized_new (strlen (forward_with));
+
+	for (step = 0, ptr = forward_with; *ptr; ptr++) {
+		if (*ptr == '\\' && ptr[1]) {
+			g_string_append_c (str, ptr[1]);
+			ptr++;
+			g_string_append_c (str, *ptr);
+		} else if (*ptr == '|') {
+			if (step == 0) { /* identity_uid */
+				source = e_source_registry_ref_source (registry, str->str);
+				if (!source)
+					break;
+			} else if (step == 1) { /* alias_name */
+				if (str->len)
+					*out_alias_name = g_strdup (str->str);
+			} else if (step == 2) { /* alias_address */
+				if (str->len)
+					*out_alias_address = g_strdup (str->str);
+			}
+
+			g_string_truncate (str, 0);
+			step++;
+
+			if (step == 3)
+				break;
+		} else {
+			g_string_append_c (str, *ptr);
+		}
+	}
+
+	/* When the string doesn't end with the '|' */
+	if (step < 3 && str->len) {
+		if (step == 0) { /* identity_uid */
+			source = e_source_registry_ref_source (registry, str->str);
+		} else if (step == 1) { /* alias_name */
+			*out_alias_name = g_strdup (str->str);
+		} else if (step == 2) { /* alias_address */
+			*out_alias_address = g_strdup (str->str);
+		}
+	}
+
+	g_string_free (str, TRUE);
+
+	return source;
+}
+
 static gboolean
 mail_session_forward_to_sync (CamelSession *session,
                               CamelFolder *folder,
@@ -1569,9 +1630,16 @@ mail_session_forward_to_sync (CamelSession *session,
 
 	registry = e_mail_session_get_registry (E_MAIL_SESSION (session));
 
-	/* This returns a new ESource reference. */
-	source = em_utils_guess_mail_identity_with_recipients (
-		registry, message, folder, NULL, &alias_name, &alias_address);
+	source = mail_session_decode_forward_with (registry,
+		camel_medium_get_header (CAMEL_MEDIUM (message), "X-Evolution-Forward-With"),
+		&alias_name, &alias_address);
+
+	if (!source) {
+		/* This returns a new ESource reference. */
+		source = em_utils_guess_mail_identity_with_recipients (
+			registry, message, folder, NULL, &alias_name, &alias_address);
+	}
+
 	if (source == NULL) {
 		g_set_error (
 			error, CAMEL_ERROR, CAMEL_ERROR_GENERIC,
