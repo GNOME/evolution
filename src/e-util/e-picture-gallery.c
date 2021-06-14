@@ -358,6 +358,7 @@ picture_gallery_constructed (GObject *object)
 	icon_view = GTK_ICON_VIEW (object);
 
 	list_store = gtk_list_store_new (3, GDK_TYPE_PIXBUF, G_TYPE_STRING, G_TYPE_STRING);
+	gtk_tree_sortable_set_sort_column_id (GTK_TREE_SORTABLE (list_store), COL_FILENAME_TEXT, GTK_SORT_ASCENDING);
 	gtk_icon_view_set_model (icon_view, GTK_TREE_MODEL (list_store));
 	g_object_unref (list_store);
 
