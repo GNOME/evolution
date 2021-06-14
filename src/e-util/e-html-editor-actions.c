@@ -181,6 +181,26 @@ action_context_delete_table_cb (GtkAction *action,
 }
 
 static void
+action_context_delete_hrule_cb (GtkAction *action,
+				EHTMLEditor *editor)
+{
+	EContentEditor *cnt_editor;
+
+	cnt_editor = e_html_editor_get_content_editor (editor);
+	e_content_editor_delete_h_rule (cnt_editor);
+}
+
+static void
+action_context_delete_image_cb (GtkAction *action,
+				EHTMLEditor *editor)
+{
+	EContentEditor *cnt_editor;
+
+	cnt_editor = e_html_editor_get_content_editor (editor);
+	e_content_editor_delete_image (cnt_editor);
+}
+
+static void
 action_context_insert_column_after_cb (GtkAction *action,
                                        EHTMLEditor *editor)
 {
@@ -1694,6 +1714,20 @@ static GtkActionEntry context_entries[] = {
  *****************************************************************************/
 
 static GtkActionEntry html_context_entries[] = {
+
+	{ "context-delete-hrule",
+	  NULL,
+	  N_("Delete Rule"),
+	  NULL,
+	  NULL,
+	  G_CALLBACK (action_context_delete_hrule_cb) },
+
+	{ "context-delete-image",
+	  NULL,
+	  N_("Delete Image"),
+	  NULL,
+	  NULL,
+	  G_CALLBACK (action_context_delete_image_cb) },
 
 	{ "context-insert-column-after",
 	  NULL,

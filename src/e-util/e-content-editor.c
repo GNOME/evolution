@@ -3887,3 +3887,31 @@ e_content_editor_emit_ref_mime_part (EContentEditor *editor,
 
 	return mime_part;
 }
+
+void
+e_content_editor_delete_h_rule (EContentEditor *editor)
+{
+	EContentEditorInterface *iface;
+
+	g_return_if_fail (E_IS_CONTENT_EDITOR (editor));
+
+	iface = E_CONTENT_EDITOR_GET_IFACE (editor);
+	g_return_if_fail (iface != NULL);
+	g_return_if_fail (iface->delete_h_rule != NULL);
+
+	iface->delete_h_rule (editor);
+}
+
+void
+e_content_editor_delete_image (EContentEditor *editor)
+{
+	EContentEditorInterface *iface;
+
+	g_return_if_fail (E_IS_CONTENT_EDITOR (editor));
+
+	iface = E_CONTENT_EDITOR_GET_IFACE (editor);
+	g_return_if_fail (iface != NULL);
+	g_return_if_fail (iface->delete_image != NULL);
+
+	iface->delete_image (editor);
+}

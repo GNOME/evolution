@@ -158,6 +158,9 @@
     <menuitem action='context-insert-link'/>
     <menuitem action='context-remove-link'/>
     <separator/>
+    <menuitem action='context-delete-hrule'/>
+    <menuitem action='context-delete-image'/>
+    <separator/>
     <menu action='context-properties-menu'>
       <menuitem action='context-properties-text'/>
       <menuitem action='context-properties-link'/>

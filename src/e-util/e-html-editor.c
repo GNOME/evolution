@@ -471,6 +471,7 @@ html_editor_update_actions (EHTMLEditor *editor,
 
 	visible = (flags & E_CONTENT_EDITOR_NODE_IS_IMAGE);
 	action_set_visible_and_sensitive (ACTION (CONTEXT_PROPERTIES_IMAGE), visible);
+	action_set_visible_and_sensitive (ACTION (CONTEXT_DELETE_IMAGE), visible);
 
 	visible = (flags & E_CONTENT_EDITOR_NODE_IS_ANCHOR);
 	if (visible)
@@ -479,6 +480,7 @@ html_editor_update_actions (EHTMLEditor *editor,
 
 	visible = (flags & E_CONTENT_EDITOR_NODE_IS_H_RULE);
 	action_set_visible_and_sensitive (ACTION (CONTEXT_PROPERTIES_RULE), visible);
+	action_set_visible_and_sensitive (ACTION (CONTEXT_DELETE_HRULE), visible);
 
 	visible = (flags & E_CONTENT_EDITOR_NODE_IS_TEXT);
 	/* Only display the text properties dialog when some text is selected. */

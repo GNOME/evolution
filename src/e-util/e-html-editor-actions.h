@@ -33,6 +33,10 @@
 	E_HTML_EDITOR_ACTION ((editor), "context-delete-cell")
 #define E_HTML_EDITOR_ACTION_CONTEXT_DELETE_COLUMN(editor) \
 	E_HTML_EDITOR_ACTION ((editor), "context-delete-column")
+#define E_HTML_EDITOR_ACTION_CONTEXT_DELETE_HRULE(editor) \
+	E_HTML_EDITOR_ACTION ((editor), "context-delete-hrule")
+#define E_HTML_EDITOR_ACTION_CONTEXT_DELETE_IMAGE(editor) \
+	E_HTML_EDITOR_ACTION ((editor), "context-delete-image")
 #define E_HTML_EDITOR_ACTION_CONTEXT_DELETE_ROW(editor) \
 	E_HTML_EDITOR_ACTION ((editor), "context-delete-row")
 #define E_HTML_EDITOR_ACTION_CONTEXT_DELETE_TABLE(editor) \

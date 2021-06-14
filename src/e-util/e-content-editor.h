@@ -422,6 +422,12 @@ struct _EContentEditorInterface {
 	void		(*content_changed)		(EContentEditor *editor);
 	CamelMimePart *	(*ref_mime_part)		(EContentEditor *editor,
 							 const gchar *uri);
+
+	void		(*delete_h_rule)		(EContentEditor *editor);
+	void		(*delete_image)			(EContentEditor *editor);
+
+	/* padding for future expansion */
+	gpointer reserved[20];
 };
 
 /* Properties */
@@ -567,7 +573,6 @@ CamelMimePart *	e_content_editor_util_create_data_mimepart
 
 void		e_content_editor_insert_image	(EContentEditor *editor,
 						 const gchar *uri);
-
 void		e_content_editor_insert_emoticon
 						(EContentEditor *editor,
 						 EEmoticon *emoticon);
@@ -977,6 +982,8 @@ void		e_content_editor_spell_check_replace_all
 						(EContentEditor *editor,
 						 const gchar *word,
 						 const gchar *replacement);
+void		e_content_editor_delete_h_rule	(EContentEditor *editor);
+void		e_content_editor_delete_image	(EContentEditor *editor);
 
 /* Signal helpers */
 

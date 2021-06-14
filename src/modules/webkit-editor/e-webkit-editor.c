@@ -2998,6 +2998,24 @@ webikt_editor_call_table_insert (EContentEditor *editor,
 }
 
 static void
+webkit_editor_delete_h_rule (EContentEditor *editor)
+{
+	EWebKitEditor *wk_editor = E_WEBKIT_EDITOR (editor);
+
+	e_web_view_jsc_run_script (WEBKIT_WEB_VIEW (wk_editor), wk_editor->priv->cancellable,
+		"EvoEditor.DialogUtilsContextElementDelete();");
+}
+
+static void
+webkit_editor_delete_image (EContentEditor *editor)
+{
+	EWebKitEditor *wk_editor = E_WEBKIT_EDITOR (editor);
+
+	e_web_view_jsc_run_script (WEBKIT_WEB_VIEW (wk_editor), wk_editor->priv->cancellable,
+		"EvoEditor.DialogUtilsContextElementDelete();");
+}
+
+static void
 webkit_editor_insert_column_after (EContentEditor *editor)
 {
 	webikt_editor_call_table_insert (editor, "column", +1);
@@ -5884,6 +5902,8 @@ e_webkit_editor_content_editor_init (EContentEditorInterface *iface)
 	iface->table_set_background_color = webkit_editor_table_set_background_color;
 	iface->spell_check_next_word = webkit_editor_spell_check_next_word;
 	iface->spell_check_prev_word = webkit_editor_spell_check_prev_word;
+	iface->delete_h_rule = webkit_editor_delete_h_rule;
+	iface->delete_image = webkit_editor_delete_image;
 }
 
 static void

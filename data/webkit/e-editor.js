@@ -4582,19 +4582,14 @@ EvoEditor.DialogUtilsTableDeleteRow = function()
 	EvoEditor.dialogUtilsForeachTableScope(EvoEditor.E_CONTENT_EDITOR_SCOPE_ROW, traversar, "TableDeleteColumn");
 }
 
-EvoEditor.DialogUtilsTableDelete = function()
+EvoEditor.elementDelete = function(element)
 {
-	var element = EvoEditor.getCurrentElement();
-
 	if (!element)
 		return;
 
-	element = EvoEditor.getParentElement("TABLE", element, true);
+	var undoName = element.tagName + "Delete";
 
-	if (!element)
-		return;
-
-	EvoUndoRedo.StartRecord(EvoUndoRedo.RECORD_KIND_CUSTOM, "TableDelete", element, element,
+	EvoUndoRedo.StartRecord(EvoUndoRedo.RECORD_KIND_CUSTOM, undoName, element, element,
 		EvoEditor.CLAIM_CONTENT_FLAG_USE_PARENT_BLOCK_NODE | EvoEditor.CLAIM_CONTENT_FLAG_SAVE_HTML);
 	try {
 		var parent = element.parentElement;
@@ -4605,10 +4600,25 @@ EvoEditor.DialogUtilsTableDelete = function()
 			parent.appendChild(document.createElement("BR"));
 		}
 	} finally {
-		EvoUndoRedo.StopRecord(EvoUndoRedo.RECORD_KIND_CUSTOM, "TableDelete");
+		EvoUndoRedo.StopRecord(EvoUndoRedo.RECORD_KIND_CUSTOM, undoName);
 		EvoEditor.maybeUpdateFormattingState(EvoEditor.FORCE_MAYBE);
 		EvoEditor.EmitContentChanged();
 	}
+}
+
+EvoEditor.DialogUtilsTableDelete = function()
+{
+	var element = EvoEditor.getCurrentElement();
+
+	if (!element)
+		return;
+
+	EvoEditor.elementDelete(EvoEditor.getParentElement("TABLE", element, true));
+}
+
+EvoEditor.DialogUtilsContextElementDelete = function()
+{
+	EvoEditor.elementDelete(EvoEditor.contextMenuNode);
 }
 
 // 'what' can be "column" or "row",
