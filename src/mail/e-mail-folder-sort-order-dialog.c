@@ -725,7 +725,7 @@ e_mail_folder_sort_order_dialog_constructed (GObject *object)
 	gtk_action_set_visible (action, FALSE);
 
 	action = gtk_action_new ("FolderSortOrder-reset-current",
-		_("Reset c_urrent level"),
+		_("Reset current level"),
 		_("Reset sort order in the current level to the defaults"),
 		NULL);
 	dialog->priv->reset_current_level_action = action;
@@ -736,7 +736,7 @@ e_mail_folder_sort_order_dialog_constructed (GObject *object)
 	e_tree_view_frame_insert_toolbar_action (tree_view_frame, action, 0);
 
 	action = gtk_action_new ("FolderSortOrder-reset-all",
-		_("Reset _all levels"),
+		_("Reset all levels"),
 		_("Reset sort order in all levels to their defaults"),
 		NULL);
 
