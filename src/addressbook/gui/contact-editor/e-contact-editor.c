@@ -176,7 +176,8 @@ im_service_fetch_set[] =
 	E_CONTACT_IM_GROUPWISE,
 	E_CONTACT_IM_SKYPE,
 	E_CONTACT_IM_TWITTER,
-	E_CONTACT_IM_GOOGLE_TALK
+	E_CONTACT_IM_GOOGLE_TALK,
+	E_CONTACT_IM_MATRIX
 };
 
 /* Defaults selected from eab_get_im_type_labels */
@@ -4675,6 +4676,7 @@ static const EContactField  non_string_fields[] = {
 	E_CONTACT_IM_ICQ,
 	E_CONTACT_IM_SKYPE,
 	E_CONTACT_IM_TWITTER,
+	E_CONTACT_IM_MATRIX,
 	E_CONTACT_PHOTO,
 	E_CONTACT_LOGO,
 	E_CONTACT_X509_CERT,

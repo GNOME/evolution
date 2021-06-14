@@ -78,7 +78,8 @@ eab_im_service[] =
 	{ E_CONTACT_IM_GROUPWISE,   NULL, NULL, NC_ ("addressbook-label", "GroupWise") },
 	{ E_CONTACT_IM_SKYPE,       NULL, NULL, NC_ ("addressbook-label", "Skype")     },
 	{ E_CONTACT_IM_TWITTER,     NULL, NULL, NC_ ("addressbook-label", "Twitter")   },
-	{ E_CONTACT_IM_GOOGLE_TALK, NULL, NULL, NC_ ("addressbook-label", "Google Talk")}
+	{ E_CONTACT_IM_GOOGLE_TALK, NULL, NULL, NC_ ("addressbook-label", "Google Talk")},
+	{ E_CONTACT_IM_MATRIX,      NULL, NULL, NC_ ("addressbook-label", "Matrix")    }
 };
 
 const EABTypeLabel*

@@ -576,6 +576,7 @@ preview_contact (EWebViewPreview *preview,
 		E_CONTACT_IM_GADUGADU,
 		E_CONTACT_IM_SKYPE,
 		E_CONTACT_IM_TWITTER,
+		E_CONTACT_IM_MATRIX,
 
 		-1,
 
@@ -666,6 +667,7 @@ preview_contact (EWebViewPreview *preview,
 			   field == E_CONTACT_IM_GADUGADU ||
 			   field == E_CONTACT_IM_SKYPE ||
 			   field == E_CONTACT_IM_TWITTER ||
+			   field == E_CONTACT_IM_MATRIX ||
 			   field == E_CONTACT_EMAIL) {
 			GList *attrs, *a;
 			gboolean have = FALSE;

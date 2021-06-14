@@ -49,7 +49,8 @@ im_fetch_set[] =
 	E_CONTACT_IM_GROUPWISE,
 	E_CONTACT_IM_SKYPE,
 	E_CONTACT_IM_TWITTER,
-	E_CONTACT_IM_GOOGLE_TALK
+	E_CONTACT_IM_GOOGLE_TALK,
+	E_CONTACT_IM_MATRIX
 };
 
 typedef enum {
@@ -527,7 +528,11 @@ merge_dialog_data_create (EContactMergingLookup *lookup,
 		if (string && *string) {
 			if ((field >= E_CONTACT_FIRST_EMAIL_ID && field <= E_CONTACT_LAST_EMAIL_ID) ||
 			    (field >= E_CONTACT_FIRST_PHONE_ID && field <= E_CONTACT_LAST_PHONE_ID) ||
-			    (field >= E_CONTACT_IM_AIM_HOME_1 && field <= E_CONTACT_IM_ICQ_WORK_3) ) {
+			    (field >= E_CONTACT_IM_AIM_HOME_1 && field <= E_CONTACT_IM_ICQ_WORK_3) ||
+			    (field >= E_CONTACT_IM_GADUGADU_HOME_1 && field <= E_CONTACT_IM_GADUGADU_WORK_3) ||
+			    (field >= E_CONTACT_IM_SKYPE_HOME_1 && field <= E_CONTACT_IM_SKYPE_WORK_3) ||
+			    (field >= E_CONTACT_IM_GOOGLE_TALK_HOME_1 && field <= E_CONTACT_IM_GOOGLE_TALK_WORK_3) ||
+			    (field >= E_CONTACT_IM_MATRIX_HOME_1 && field <= E_CONTACT_IM_MATRIX_WORK_3)) {
 				/* ignore multival attributes, they are compared after this for-loop */
 				continue;
 			}

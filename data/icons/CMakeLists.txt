@@ -32,6 +32,7 @@ set(private_icons
 	hicolor_apps_16x16_im-aim.png
 	hicolor_apps_16x16_im-icq.png
 	hicolor_apps_16x16_im-jabber.png
+	hicolor_apps_16x16_im-matrix.png
 	hicolor_apps_16x16_im-msn.png
 	hicolor_apps_16x16_im-nov.png
 	hicolor_apps_16x16_im-yahoo.png
@@ -39,6 +40,7 @@ set(private_icons
 	hicolor_apps_22x22_im-aim.png
 	hicolor_apps_22x22_im-icq.png
 	hicolor_apps_22x22_im-jabber.png
+	hicolor_apps_22x22_im-matrix.png
 	hicolor_apps_22x22_im-msn.png
 	hicolor_apps_22x22_im-nov.png
 	hicolor_apps_22x22_im-yahoo.png
@@ -46,6 +48,7 @@ set(private_icons
 	hicolor_apps_24x24_im-aim.png
 	hicolor_apps_24x24_im-icq.png
 	hicolor_apps_24x24_im-jabber.png
+	hicolor_apps_24x24_im-matrix.png
 	hicolor_apps_24x24_im-msn.png
 	hicolor_apps_24x24_im-nov.png
 	hicolor_apps_24x24_im-yahoo.png
@@ -55,6 +58,7 @@ set(private_icons
 	hicolor_apps_scalable_im-aim.svg
 	hicolor_apps_scalable_im-icq.svg
 	hicolor_apps_scalable_im-jabber.svg
+	hicolor_apps_scalable_im-matrix.svg
 	hicolor_apps_scalable_im-msn.svg
 	hicolor_apps_scalable_im-nov.svg
 	hicolor_apps_scalable_im-yahoo.svg

@@ -438,6 +438,8 @@ proto_to_contact_field (const gchar *proto)
 		return E_CONTACT_IM_JABBER;
 	if (!strcmp (proto, "prpl-gg"))
 		return E_CONTACT_IM_GADUGADU;
+	if (!strcmp (proto, "prpl-matrix"))
+		return E_CONTACT_IM_MATRIX;
 
 	return E_CONTACT_IM_AIM;
 }

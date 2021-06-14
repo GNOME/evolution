@@ -46,6 +46,7 @@
 #define SKYPE_ICON	  "stock_people"
 #define TWITTER_ICON	  "im-twitter"
 #define VIDEOCONF_ICON    "stock_video-conferencing"
+#define MATRIX_ICON	  "im-matrix"
 
 #define MAX_COMPACT_IMAGE_DIMENSION 48
 
@@ -930,6 +931,7 @@ render_contact_column (EABContactFormatter *formatter,
 	accum_attribute_multival (accum, contact, _("Gadu-Gadu"), E_CONTACT_IM_GADUGADU, GADUGADU_ICON, 0);
 	accum_attribute_multival (accum, contact, _("Skype"), E_CONTACT_IM_SKYPE, SKYPE_ICON, 0);
 	accum_attribute_multival (accum, contact, _("Twitter"), E_CONTACT_IM_TWITTER, TWITTER_ICON, 0);
+	accum_attribute_multival (accum, contact, _("Matrix"), E_CONTACT_IM_MATRIX, MATRIX_ICON, 0);
 
 	if (accum->len)
 		g_string_append_printf (
