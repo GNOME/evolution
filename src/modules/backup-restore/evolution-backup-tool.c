@@ -45,11 +45,13 @@
 
 #define ANCIENT_GCONF_DUMP_FILE "backup-restore-gconf.xml"
 
-#define DCONF_DUMP_FILE_EDS "backup-restore-dconf-eds.ini"
-#define DCONF_DUMP_FILE_EVO "backup-restore-dconf-evo.ini"
+#define ANCIENT_DCONF_DUMP_FILE_EDS "backup-restore-dconf-eds.ini"
+#define ANCIENT_DCONF_DUMP_FILE_EVO "backup-restore-dconf-evo.ini"
 
-#define DCONF_PATH_EDS "/org/gnome/evolution-data-server/"
-#define DCONF_PATH_EVO "/org/gnome/evolution/"
+#define ANCIENT_DCONF_PATH_EDS "/org/gnome/evolution-data-server/"
+#define ANCIENT_DCONF_PATH_EVO "/org/gnome/evolution/"
+
+#define GSETTINGS_DUMP_FILE "backup-restore-gsettings.ini"
 
 #define KEY_FILE_GROUP "Evolution Backup"
 
@@ -277,6 +279,226 @@ get_filename_is_xz (const gchar *filename)
 	return g_ascii_strcasecmp (filename + len - 3, ".xz") == 0;
 }
 
+typedef gboolean (* SettingsFunc) (GSettings *settings,
+				   GSettingsSchema *schema,
+				   const gchar *group,
+				   const gchar *key,
+				   GKeyFile *keyfile);
+
+static gboolean
+settings_foreach_schema_traverse (GSettings *settings,
+				  SettingsFunc func,
+				  GKeyFile *keyfile)
+{
+	GSettingsSchema *schema = NULL;
+	const gchar *group;
+	gchar *schema_id = NULL, *path = NULL, *group_tmp = NULL;
+	gchar **strv;
+	gint ii;
+	gboolean need_sync = FALSE;
+
+	g_object_get (G_OBJECT (settings),
+		"settings-schema", &schema,
+		"schema-id", &schema_id,
+		"path", &path,
+		NULL);
+
+	if (!g_settings_schema_get_path (schema)) {
+		group_tmp = g_strconcat (schema_id, ":", path, NULL);
+		group = group_tmp;
+	} else {
+		group = schema_id;
+	}
+
+	strv = g_settings_schema_list_keys (schema);
+
+	for (ii = 0; strv && strv[ii]; ii++) {
+		need_sync = func (settings, schema, group, strv[ii], keyfile) || need_sync;
+	}
+
+	g_strfreev (strv);
+
+	strv = g_settings_schema_list_children (schema);
+	for (ii = 0; strv && strv[ii]; ii++) {
+		GSettings *child;
+
+		child = g_settings_get_child (settings, strv[ii]);
+		if (child) {
+			if (settings_foreach_schema_traverse (child, func, keyfile))
+				g_settings_sync ();
+			g_object_unref (child);
+		}
+	}
+
+	g_strfreev (strv);
+
+	g_settings_schema_unref (schema);
+	g_free (group_tmp);
+	g_free (schema_id);
+	g_free (path);
+
+	return need_sync;
+}
+
+static gboolean
+settings_foreach_schema (SettingsFunc func,
+			 GKeyFile *keyfile,
+			 GError **error)
+{
+	GSettingsSchemaSource *schema_source;
+	gchar **non_relocatable = NULL, **relocatable = NULL;
+	gint ii;
+
+	schema_source = g_settings_schema_source_get_default ();
+	if (!schema_source) {
+		g_set_error (error, G_IO_ERROR, G_IO_ERROR_FAILED, "No GSettings schema found");
+		return FALSE;
+	}
+
+	g_settings_schema_source_list_schemas (schema_source, TRUE, &non_relocatable, &relocatable);
+
+	for (ii = 0; non_relocatable && non_relocatable[ii]; ii++) {
+		if (g_str_has_prefix (non_relocatable[ii], "org.gnome.evolution")) {
+			GSettings *settings;
+
+			settings = g_settings_new (non_relocatable[ii]);
+			if (settings_foreach_schema_traverse (settings, func, keyfile))
+				g_settings_sync ();
+			g_object_unref (settings);
+		}
+	}
+
+	g_strfreev (non_relocatable);
+	g_strfreev (relocatable);
+
+	return TRUE;
+}
+
+static gboolean
+backup_settings_foreach_cb (GSettings *settings,
+			    GSettingsSchema *schema,
+			    const gchar *group,
+			    const gchar *key,
+			    GKeyFile *keyfile)
+{
+	GVariant *variant;
+
+	variant = g_settings_get_user_value (settings, key);
+
+	if (variant) {
+		gchar *tmp;
+
+		tmp = g_variant_print (variant, TRUE);
+		g_key_file_set_string (keyfile, group, key, tmp);
+		g_free (tmp);
+
+		g_variant_unref (variant);
+	}
+
+	return FALSE;
+}
+
+static gboolean
+backup_settings (const gchar *to_filename,
+		 GError **error)
+{
+	GKeyFile *keyfile;
+	GString *filename;
+	gboolean success;
+
+	filename = replace_variables (to_filename, TRUE);
+
+	if (!filename) {
+		g_set_error (error, G_IO_ERROR, G_IO_ERROR_FAILED, "Failed to construct file name");
+		return FALSE;
+	}
+
+	keyfile = g_key_file_new ();
+
+	if (!settings_foreach_schema (backup_settings_foreach_cb, keyfile, error)) {
+		g_string_free (filename, TRUE);
+		g_key_file_free (keyfile);
+		return FALSE;
+	}
+
+	success = g_key_file_save_to_file (keyfile, filename->str, error);
+
+	g_string_free (filename, TRUE);
+	g_key_file_free (keyfile);
+
+	return success;
+}
+
+static gboolean
+restore_settings_foreach_cb (GSettings *settings,
+			     GSettingsSchema *schema,
+			     const gchar *group,
+			     const gchar *key,
+			     GKeyFile *keyfile)
+{
+	gchar *value;
+
+	if (!g_settings_is_writable (settings, key))
+		return FALSE;
+
+	value = g_key_file_get_string (keyfile, group, key, NULL);
+
+	if (value) {
+		GVariant *variant;
+
+		variant = g_variant_parse (NULL, value, NULL, NULL, NULL);
+
+		if (variant) {
+			GSettingsSchemaKey *schema_key;
+
+			schema_key = g_settings_schema_get_key (schema, key);
+
+			if (g_settings_schema_key_range_check (schema_key, variant))
+				g_settings_set_value (settings, key, variant);
+
+			g_settings_schema_key_unref (schema_key);
+			g_variant_unref (variant);
+		}
+
+		g_free (value);
+	} else {
+		g_settings_reset (settings, key);
+	}
+
+	return TRUE;
+}
+
+static gboolean
+restore_settings (const gchar *from_filename,
+		  GError **error)
+{
+	GKeyFile *keyfile;
+	GString *filename;
+	gboolean success;
+
+	filename = replace_variables (from_filename, TRUE);
+
+	if (!filename) {
+		g_set_error (error, G_IO_ERROR, G_IO_ERROR_FAILED, "Failed to construct file name");
+		return FALSE;
+	}
+
+	keyfile = g_key_file_new ();
+
+	if (!g_key_file_load_from_file (keyfile, filename->str, G_KEY_FILE_NONE, error)) {
+		g_string_free (filename, TRUE);
+		g_key_file_free (keyfile);
+		return FALSE;
+	}
+
+	success = settings_foreach_schema (restore_settings_foreach_cb, keyfile, error);
+
+	g_string_free (filename, TRUE);
+	g_key_file_free (keyfile);
+
+	return success;
+}
+
 static void
 backup (const gchar *filename,
         GCancellable *cancellable)
@@ -284,6 +506,7 @@ backup (const gchar *filename,
 	gchar *command;
 	gchar *quotedfname;
 	gboolean use_xz;
+	GError *error = NULL;
 
 	g_return_if_fail (filename && *filename);
 
@@ -300,15 +523,13 @@ backup (const gchar *filename,
 		return;
 
 	txt = _("Backing Evolution accounts and settings");
-	run_cmd ("dconf dump " DCONF_PATH_EDS " >" EVOLUTION_DIR DCONF_DUMP_FILE_EDS);
-	run_cmd ("dconf dump " DCONF_PATH_EVO " >" EVOLUTION_DIR DCONF_DUMP_FILE_EVO);
+	if (!backup_settings (EVOLUTION_DIR GSETTINGS_DUMP_FILE, &error)) {
+		g_warning ("Failed to backup settings: %s", error ? error->message : "Unknown error");
+		g_clear_error (&error);
+	}
 
 	replace_in_file (
-		EVOLUTION_DIR DCONF_DUMP_FILE_EDS,
-		e_get_user_data_dir (), EVOUSERDATADIR_MAGIC);
-
-	replace_in_file (
-		EVOLUTION_DIR DCONF_DUMP_FILE_EVO,
+		EVOLUTION_DIR GSETTINGS_DUMP_FILE,
 		e_get_user_data_dir (), EVOUSERDATADIR_MAGIC);
 
 	write_dir_file ();
@@ -677,20 +898,36 @@ restore (const gchar *filename,
 			run_cmd ("gsettings-data-convert");
 			run_cmd ("rm " EVOLUTION_DIR ANCIENT_GCONF_DUMP_FILE);
 		} else {
-			replace_in_file (
-				EVOLUTION_DIR DCONF_DUMP_FILE_EDS,
-				EVOUSERDATADIR_MAGIC, e_get_user_data_dir ());
-			run_cmd ("cat " EVOLUTION_DIR DCONF_DUMP_FILE_EDS " | dconf load " DCONF_PATH_EDS);
-			run_cmd ("rm " EVOLUTION_DIR DCONF_DUMP_FILE_EDS);
+			if (file)
+				g_string_free (file, TRUE);
 
-			replace_in_file (
-				EVOLUTION_DIR DCONF_DUMP_FILE_EVO,
-				EVOUSERDATADIR_MAGIC, e_get_user_data_dir ());
-			run_cmd ("cat " EVOLUTION_DIR DCONF_DUMP_FILE_EVO " | dconf load " DCONF_PATH_EVO);
-			run_cmd ("rm " EVOLUTION_DIR DCONF_DUMP_FILE_EVO);
+			file = replace_variables (EVOLUTION_DIR ANCIENT_DCONF_DUMP_FILE_EDS, TRUE);
+
+			if (file && g_file_test (file->str, G_FILE_TEST_EXISTS)) {
+				replace_in_file (
+					EVOLUTION_DIR ANCIENT_DCONF_DUMP_FILE_EDS,
+					EVOUSERDATADIR_MAGIC, e_get_user_data_dir ());
+				run_cmd ("cat " EVOLUTION_DIR ANCIENT_DCONF_DUMP_FILE_EDS " | dconf load " ANCIENT_DCONF_PATH_EDS);
+				run_cmd ("rm " EVOLUTION_DIR ANCIENT_DCONF_DUMP_FILE_EDS);
+
+				replace_in_file (
+					EVOLUTION_DIR ANCIENT_DCONF_DUMP_FILE_EVO,
+					EVOUSERDATADIR_MAGIC, e_get_user_data_dir ());
+				run_cmd ("cat " EVOLUTION_DIR ANCIENT_DCONF_DUMP_FILE_EVO " | dconf load " ANCIENT_DCONF_PATH_EVO);
+				run_cmd ("rm " EVOLUTION_DIR ANCIENT_DCONF_DUMP_FILE_EVO);
+			} else {
+				GError *error = NULL;
+
+				if (!restore_settings (EVOLUTION_DIR GSETTINGS_DUMP_FILE, &error)) {
+					g_warning ("Failed to restore settings: %s", error ? error->message : "Unknown error");
+					g_clear_error (&error);
+				}
+				run_cmd ("rm " EVOLUTION_DIR GSETTINGS_DUMP_FILE);
+			}
 		}
 
-		g_string_free (file, TRUE);
+		if (file)
+			g_string_free (file, TRUE);
 	} else {
 		gchar *gconf_dump_file;
 
