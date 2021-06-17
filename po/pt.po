@@ -13,8 +13,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: 3.12\n"
 "Report-Msgid-Bugs-To: https://gitlab.gnome.org/GNOME/evolution/issues\n"
-"POT-Creation-Date: 2021-06-11 10:23+0000\n"
-"PO-Revision-Date: 2021-06-11 11:39+0100\n"
+"POT-Creation-Date: 2021-06-15 11:02+0000\n"
+"PO-Revision-Date: 2021-06-17 15:23+0100\n"
 "Last-Translator: Hugo Carvalho <hugokarvalho@hotmail.com>\n"
 "Language-Team: Portuguese <https://l10n.gnome.org/teams/pt/>\n"
 "Language: pt\n"
@@ -3609,7 +3609,7 @@ msgid "Contacts"
 msgstr "Contactos"
 
 #: ../data/org.gnome.Evolution.desktop.in.in.h:9
-#: ../src/addressbook/gui/widgets/eab-contact-formatter.c:1002
+#: ../src/addressbook/gui/widgets/eab-contact-formatter.c:1004
 #: ../src/e-util/e-collection-account-wizard.c:855
 #: ../src/e-util/e-send-options.c:544 ../src/e-util/e-webdav-browser.c:532
 #: ../src/modules/calendar/e-cal-shell-view-actions.c:199
@@ -4116,7 +4116,7 @@ msgstr ""
 
 #: ../src/addressbook/addressbook.error.xml.h:32
 #: ../src/addressbook/gui/contact-list-editor/contact-list-editor.ui.h:9
-#: ../src/addressbook/gui/widgets/eab-contact-merging.c:757
+#: ../src/addressbook/gui/widgets/eab-contact-merging.c:762
 #: ../src/calendar/gui/e-comp-editor-page-general.c:1493
 #: ../src/e-util/e-accounts-window.c:1563
 #: ../src/e-util/e-mail-signature-manager.c:324
@@ -4280,9 +4280,9 @@ msgid "Show Certificates"
 msgstr "Mostrar certificados"
 
 #: ../src/addressbook/gui/contact-editor/contact-editor.ui.h:12
-#: ../src/addressbook/gui/contact-editor/e-contact-editor.c:724
-#: ../src/addressbook/gui/contact-editor/e-contact-editor.c:746
-#: ../src/addressbook/gui/contact-editor/e-contact-editor.c:3111
+#: ../src/addressbook/gui/contact-editor/e-contact-editor.c:725
+#: ../src/addressbook/gui/contact-editor/e-contact-editor.c:747
+#: ../src/addressbook/gui/contact-editor/e-contact-editor.c:3112
 msgid "Contact Editor"
 msgstr "Editor de contactos"
 
@@ -4296,16 +4296,16 @@ msgstr "Opções"
 #. This is only shown if the EActivity has a GCancellable.
 #. no flags
 #: ../src/addressbook/gui/contact-editor/contact-editor.ui.h:14
-#: ../src/addressbook/gui/contact-editor/e-contact-editor.c:3274
-#: ../src/addressbook/gui/contact-editor/e-contact-editor.c:3504
-#: ../src/addressbook/gui/contact-editor/e-contact-editor.c:4336
-#: ../src/addressbook/gui/contact-editor/e-contact-editor.c:4342
+#: ../src/addressbook/gui/contact-editor/e-contact-editor.c:3275
+#: ../src/addressbook/gui/contact-editor/e-contact-editor.c:3505
+#: ../src/addressbook/gui/contact-editor/e-contact-editor.c:4337
+#: ../src/addressbook/gui/contact-editor/e-contact-editor.c:4343
 #: ../src/addressbook/gui/contact-editor/e-contact-editor-fullname.c:212
 #: ../src/addressbook/gui/contact-editor/e-contact-quick-add.c:453
 #: ../src/addressbook/gui/contact-editor/fullname.ui.h:14
 #: ../src/addressbook/gui/contact-list-editor/contact-list-editor.ui.h:2
-#: ../src/addressbook/gui/widgets/eab-contact-merging.c:516
-#: ../src/addressbook/gui/widgets/eab-contact-merging.c:752
+#: ../src/addressbook/gui/widgets/eab-contact-merging.c:517
+#: ../src/addressbook/gui/widgets/eab-contact-merging.c:757
 #: ../src/addressbook/gui/widgets/eab-gui-util.c:316
 #: ../src/addressbook/gui/widgets/e-addressbook-view.c:1437
 #: ../src/calendar/gui/e-cal-dialogs.c:690
@@ -4323,9 +4323,9 @@ msgstr "Opções"
 #: ../src/e-util/e-collection-account-wizard.c:2134
 #: ../src/e-util/e-color-chooser-widget.c:125
 #: ../src/e-util/e-filter-datespec.c:300
-#: ../src/e-util/e-html-editor-actions.c:342
-#: ../src/e-util/e-html-editor-actions.c:386
-#: ../src/e-util/e-html-editor-actions.c:489
+#: ../src/e-util/e-html-editor-actions.c:362
+#: ../src/e-util/e-html-editor-actions.c:406
+#: ../src/e-util/e-html-editor-actions.c:509
 #: ../src/e-util/e-image-chooser-dialog.c:179
 #: ../src/e-util/e-mail-signature-script-dialog.c:358
 #: ../src/e-util/e-passwords.c:468 ../src/e-util/e-rule-context.c:819
@@ -4344,7 +4344,7 @@ msgstr "Opções"
 #: ../src/mail/mail-send-recv.c:955 ../src/mail/mail-vfolder-ui.c:149
 #: ../src/mail/mail-vfolder-ui.c:271
 #: ../src/modules/accounts-window/e-accounts-window-editors.c:277
-#: ../src/modules/backup-restore/evolution-backup-tool.c:989
+#: ../src/modules/backup-restore/evolution-backup-tool.c:1226
 #: ../src/modules/book-config-ldap/evolution-book-config-ldap.c:406
 #: ../src/modules/calendar/e-cal-attachment-handler.c:281
 #: ../src/plugins/email-custom-header/org-gnome-email-custom-header.ui.h:3
@@ -4363,9 +4363,9 @@ msgid "_Cancel"
 msgstr "_Cancelar"
 
 #: ../src/addressbook/gui/contact-editor/contact-editor.ui.h:15
-#: ../src/addressbook/gui/contact-editor/e-contact-editor.c:3504
+#: ../src/addressbook/gui/contact-editor/e-contact-editor.c:3505
 #: ../src/addressbook/gui/contact-list-editor/contact-list-editor.ui.h:3
-#: ../src/addressbook/gui/widgets/eab-contact-merging.c:755
+#: ../src/addressbook/gui/widgets/eab-contact-merging.c:760
 #: ../src/calendar/calendar.error.xml.h:47
 #: ../src/calendar/gui/e-comp-editor.c:2237
 #: ../src/composer/e-composer-actions.c:242
@@ -4418,8 +4418,8 @@ msgid "Full _Name..."
 msgstr "_Nome completo..."
 
 #: ../src/addressbook/gui/contact-editor/contact-editor.ui.h:23
-#: ../src/addressbook/gui/widgets/eab-contact-formatter.c:918
-#: ../src/addressbook/gui/widgets/eab-contact-formatter.c:1331
+#: ../src/addressbook/gui/widgets/eab-contact-formatter.c:919
+#: ../src/addressbook/gui/widgets/eab-contact-formatter.c:1333
 #: ../src/addressbook/gui/widgets/e-addressbook-view.etspec.h:6
 msgid "Email"
 msgstr "Correio eletrónico"
@@ -4441,7 +4441,7 @@ msgid "Instant Messaging"
 msgstr "Mensagens instantâneas"
 
 #: ../src/addressbook/gui/contact-editor/contact-editor.ui.h:28
-#: ../src/addressbook/importers/evolution-vcard-importer.c:826
+#: ../src/addressbook/importers/evolution-vcard-importer.c:828
 msgid "Contact"
 msgstr "Contacto"
 
@@ -4539,14 +4539,14 @@ msgid "_Anniversary:"
 msgstr "_Aniversário:"
 
 #: ../src/addressbook/gui/contact-editor/contact-editor.ui.h:52
-#: ../src/addressbook/gui/widgets/eab-contact-formatter.c:1048
+#: ../src/addressbook/gui/widgets/eab-contact-formatter.c:1050
 #: ../src/addressbook/gui/widgets/e-addressbook-view.etspec.h:47
 #: ../src/calendar/gui/e-calendar-view.c:2228
 msgid "Anniversary"
 msgstr "Aniversário"
 
 #: ../src/addressbook/gui/contact-editor/contact-editor.ui.h:53
-#: ../src/addressbook/gui/widgets/eab-contact-formatter.c:1047
+#: ../src/addressbook/gui/widgets/eab-contact-formatter.c:1049
 #: ../src/addressbook/gui/widgets/e-addressbook-view.etspec.h:46
 #: ../src/calendar/gui/e-calendar-view.c:2227
 msgid "Birthday"
@@ -4590,22 +4590,22 @@ msgid "_Address:"
 msgstr "_Endereço:"
 
 #: ../src/addressbook/gui/contact-editor/contact-editor.ui.h:62
-#: ../src/addressbook/gui/widgets/eab-contact-formatter.c:83
+#: ../src/addressbook/gui/widgets/eab-contact-formatter.c:84
 #: ../src/addressbook/gui/widgets/e-contact-map.c:367
 msgid "Home"
 msgstr "Casa"
 
 #: ../src/addressbook/gui/contact-editor/contact-editor.ui.h:63
-#: ../src/addressbook/gui/widgets/eab-contact-formatter.c:82
-#: ../src/addressbook/gui/widgets/eab-contact-formatter.c:1016
+#: ../src/addressbook/gui/widgets/eab-contact-formatter.c:83
+#: ../src/addressbook/gui/widgets/eab-contact-formatter.c:1018
 #: ../src/addressbook/gui/widgets/e-contact-map.c:380
 msgid "Work"
 msgstr "Emprego"
 
 #: ../src/addressbook/gui/contact-editor/contact-editor.ui.h:64
-#: ../src/addressbook/gui/widgets/eab-contact-formatter.c:84
-#: ../src/addressbook/gui/widgets/eab-contact-formatter.c:526
-#: ../src/addressbook/gui/widgets/eab-contact-formatter.c:1082
+#: ../src/addressbook/gui/widgets/eab-contact-formatter.c:85
+#: ../src/addressbook/gui/widgets/eab-contact-formatter.c:527
+#: ../src/addressbook/gui/widgets/eab-contact-formatter.c:1084
 #: ../src/calendar/gui/e-cal-model.c:3827
 msgid "Other"
 msgstr "Outro"
@@ -4661,128 +4661,128 @@ msgstr "_Carregar X.509"
 msgid "Certificates"
 msgstr "Certificados"
 
-#: ../src/addressbook/gui/contact-editor/e-contact-editor.c:261
+#: ../src/addressbook/gui/contact-editor/e-contact-editor.c:262
 #: ../src/calendar/gui/e-comp-editor.c:2169
-#: ../src/e-util/e-html-editor-actions.c:1113
+#: ../src/e-util/e-html-editor-actions.c:1133
 msgid "_Undo"
 msgstr "_Desfazer"
 
-#: ../src/addressbook/gui/contact-editor/e-contact-editor.c:263
+#: ../src/addressbook/gui/contact-editor/e-contact-editor.c:264
 #: ../src/calendar/gui/e-comp-editor.c:2171 ../src/e-util/e-focus-tracker.c:147
 #: ../src/e-util/e-focus-tracker.c:150
 msgid "Undo"
 msgstr "Desfazer"
 
-#: ../src/addressbook/gui/contact-editor/e-contact-editor.c:268
+#: ../src/addressbook/gui/contact-editor/e-contact-editor.c:269
 #: ../src/calendar/gui/e-comp-editor.c:2176
-#: ../src/e-util/e-html-editor-actions.c:1099
+#: ../src/e-util/e-html-editor-actions.c:1119
 msgid "_Redo"
 msgstr "_Refazer"
 
-#: ../src/addressbook/gui/contact-editor/e-contact-editor.c:270
+#: ../src/addressbook/gui/contact-editor/e-contact-editor.c:271
 #: ../src/calendar/gui/e-comp-editor.c:2178 ../src/e-util/e-focus-tracker.c:163
 #: ../src/e-util/e-focus-tracker.c:166
 msgid "Redo"
 msgstr "Refazer"
 
-#: ../src/addressbook/gui/contact-editor/e-contact-editor.c:302
+#: ../src/addressbook/gui/contact-editor/e-contact-editor.c:303
 #: ../src/addressbook/gui/widgets/eab-gui-util.c:501
 msgid "Error adding contact"
 msgstr "Erro ao adicionar contacto"
 
-#: ../src/addressbook/gui/contact-editor/e-contact-editor.c:322
+#: ../src/addressbook/gui/contact-editor/e-contact-editor.c:323
 msgid "Error modifying contact"
 msgstr "Erro ao modificar contacto"
 
-#: ../src/addressbook/gui/contact-editor/e-contact-editor.c:342
+#: ../src/addressbook/gui/contact-editor/e-contact-editor.c:343
 msgid "Error removing contact"
 msgstr "Erro ao remover contacto"
 
-#: ../src/addressbook/gui/contact-editor/e-contact-editor.c:740
-#: ../src/addressbook/gui/contact-editor/e-contact-editor.c:3105
+#: ../src/addressbook/gui/contact-editor/e-contact-editor.c:741
+#: ../src/addressbook/gui/contact-editor/e-contact-editor.c:3106
 #, c-format
 msgid "Contact Editor — %s"
 msgstr "Editor de contactos — %s"
 
-#: ../src/addressbook/gui/contact-editor/e-contact-editor.c:3241
+#: ../src/addressbook/gui/contact-editor/e-contact-editor.c:3242
 msgid "X.509 certificates"
 msgstr "Certificados X.509"
 
-#: ../src/addressbook/gui/contact-editor/e-contact-editor.c:3246
+#: ../src/addressbook/gui/contact-editor/e-contact-editor.c:3247
 msgid "PGP keys"
 msgstr "Chaves PGP"
 
-#: ../src/addressbook/gui/contact-editor/e-contact-editor.c:3252
-#: ../src/e-util/e-html-editor-actions.c:395
+#: ../src/addressbook/gui/contact-editor/e-contact-editor.c:3253
+#: ../src/e-util/e-html-editor-actions.c:415
 #: ../src/e-util/e-image-chooser-dialog.c:193
 #: ../src/smime/gui/certificate-manager.c:674
 #: ../src/smime/gui/certificate-manager.c:959
 msgid "All files"
 msgstr "Todos os ficheiros"
 
-#: ../src/addressbook/gui/contact-editor/e-contact-editor.c:3272
+#: ../src/addressbook/gui/contact-editor/e-contact-editor.c:3273
 msgid "Open PGP key"
 msgstr "Abrir chave PGP"
 
-#: ../src/addressbook/gui/contact-editor/e-contact-editor.c:3272
+#: ../src/addressbook/gui/contact-editor/e-contact-editor.c:3273
 msgid "Open X.509 certificate"
 msgstr "Abrir certificado X.509"
 
-#: ../src/addressbook/gui/contact-editor/e-contact-editor.c:3274
-#: ../src/addressbook/gui/contact-editor/e-contact-editor.c:4336
-#: ../src/addressbook/gui/contact-editor/e-contact-editor.c:4343
+#: ../src/addressbook/gui/contact-editor/e-contact-editor.c:3275
+#: ../src/addressbook/gui/contact-editor/e-contact-editor.c:4337
+#: ../src/addressbook/gui/contact-editor/e-contact-editor.c:4344
 #: ../src/e-util/e-attachment-store.c:666 ../src/e-util/e-category-editor.c:177
-#: ../src/e-util/e-html-editor-actions.c:342
-#: ../src/e-util/e-html-editor-actions.c:386
-#: ../src/e-util/e-html-editor-actions.c:489
+#: ../src/e-util/e-html-editor-actions.c:362
+#: ../src/e-util/e-html-editor-actions.c:406
+#: ../src/e-util/e-html-editor-actions.c:509
 #: ../src/e-util/e-image-chooser-dialog.c:182 ../src/plugins/face/face.c:298
 #: ../src/shell/e-shell-utils.c:69 ../src/smime/gui/certificate-manager.c:949
 msgid "_Open"
 msgstr "_Abrir"
 
-#: ../src/addressbook/gui/contact-editor/e-contact-editor.c:3289
-#: ../src/addressbook/gui/contact-editor/e-contact-editor.c:3517
+#: ../src/addressbook/gui/contact-editor/e-contact-editor.c:3290
+#: ../src/addressbook/gui/contact-editor/e-contact-editor.c:3518
 msgid "Chosen file is not a local file."
 msgstr "O ficheiro escolhido não é um ficheiro local."
 
-#: ../src/addressbook/gui/contact-editor/e-contact-editor.c:3302
+#: ../src/addressbook/gui/contact-editor/e-contact-editor.c:3303
 #, c-format
 msgid "Failed to load certificate: %s"
 msgstr "Falha ao carregar certificado: %s"
 
-#: ../src/addressbook/gui/contact-editor/e-contact-editor.c:3331
+#: ../src/addressbook/gui/contact-editor/e-contact-editor.c:3332
 msgctxt "cert-kind"
 msgid "X.509"
 msgstr "X.509"
 
-#: ../src/addressbook/gui/contact-editor/e-contact-editor.c:3331
+#: ../src/addressbook/gui/contact-editor/e-contact-editor.c:3332
 msgctxt "cert-kind"
 msgid "PGP"
 msgstr "PGP"
 
-#: ../src/addressbook/gui/contact-editor/e-contact-editor.c:3502
+#: ../src/addressbook/gui/contact-editor/e-contact-editor.c:3503
 msgid "Save PGP key"
 msgstr "Guardar chave PGP"
 
-#: ../src/addressbook/gui/contact-editor/e-contact-editor.c:3502
+#: ../src/addressbook/gui/contact-editor/e-contact-editor.c:3503
 msgid "Save X.509 certificate"
 msgstr "Guardar certificado X.509"
 
-#: ../src/addressbook/gui/contact-editor/e-contact-editor.c:3529
+#: ../src/addressbook/gui/contact-editor/e-contact-editor.c:3530
 #, c-format
 msgid "Failed to save certificate: %s"
 msgstr "Falha ao gravar certificado: %s"
 
-#: ../src/addressbook/gui/contact-editor/e-contact-editor.c:4333
-#: ../src/addressbook/gui/contact-editor/e-contact-editor.c:4339
+#: ../src/addressbook/gui/contact-editor/e-contact-editor.c:4334
+#: ../src/addressbook/gui/contact-editor/e-contact-editor.c:4340
 msgid "Please select an image for this contact"
 msgstr "Selecione uma imagem para este contacto"
 
-#: ../src/addressbook/gui/contact-editor/e-contact-editor.c:4344
+#: ../src/addressbook/gui/contact-editor/e-contact-editor.c:4345
 msgid "_No image"
 msgstr "_Nenhuma imagem"
 
-#: ../src/addressbook/gui/contact-editor/e-contact-editor.c:4707
+#: ../src/addressbook/gui/contact-editor/e-contact-editor.c:4709
 msgid ""
 "The contact data is invalid:\n"
 "\n"
@@ -4790,28 +4790,28 @@ msgstr ""
 "Os dados do contacto são inválidos:\n"
 "\n"
 
-#: ../src/addressbook/gui/contact-editor/e-contact-editor.c:4713
+#: ../src/addressbook/gui/contact-editor/e-contact-editor.c:4715
 #, c-format
 msgid "“%s” has an invalid format"
 msgstr "“%s” tem um formato inválido"
 
-#: ../src/addressbook/gui/contact-editor/e-contact-editor.c:4721
+#: ../src/addressbook/gui/contact-editor/e-contact-editor.c:4723
 #, c-format
 msgid "“%s” cannot be a future date"
 msgstr "“%s” não pode ser uma data futura"
 
-#: ../src/addressbook/gui/contact-editor/e-contact-editor.c:4729
+#: ../src/addressbook/gui/contact-editor/e-contact-editor.c:4731
 #, c-format
 msgid "%s“%s” has an invalid format"
 msgstr "%s“%s” tem um formato inválido"
 
-#: ../src/addressbook/gui/contact-editor/e-contact-editor.c:4742
-#: ../src/addressbook/gui/contact-editor/e-contact-editor.c:4756
+#: ../src/addressbook/gui/contact-editor/e-contact-editor.c:4744
+#: ../src/addressbook/gui/contact-editor/e-contact-editor.c:4758
 #, c-format
 msgid "%s“%s” is empty"
 msgstr "%s“%s” está vazio"
 
-#: ../src/addressbook/gui/contact-editor/e-contact-editor.c:4771
+#: ../src/addressbook/gui/contact-editor/e-contact-editor.c:4773
 msgid "Invalid contact."
 msgstr "Contacto inválido."
 
@@ -5070,171 +5070,175 @@ msgstr "Clicar para enviar mensagem a %s"
 msgid "Click to open map for %s"
 msgstr "Clique para abrir o mapa para %s"
 
-#: ../src/addressbook/gui/widgets/eab-contact-formatter.c:154
+#: ../src/addressbook/gui/widgets/eab-contact-formatter.c:155
 msgid "Open map"
 msgstr "Abrir mapa"
 
-#: ../src/addressbook/gui/widgets/eab-contact-formatter.c:451
+#: ../src/addressbook/gui/widgets/eab-contact-formatter.c:452
 msgid "SIP"
 msgstr "SIP"
 
-#: ../src/addressbook/gui/widgets/eab-contact-formatter.c:683
+#: ../src/addressbook/gui/widgets/eab-contact-formatter.c:684
 msgid "List Members:"
 msgstr "Membros da lista:"
 
-#: ../src/addressbook/gui/widgets/eab-contact-formatter.c:777
+#: ../src/addressbook/gui/widgets/eab-contact-formatter.c:778
 msgid "Fax"
 msgstr "Fax"
 
-#: ../src/addressbook/gui/widgets/eab-contact-formatter.c:779
+#: ../src/addressbook/gui/widgets/eab-contact-formatter.c:780
 msgid "Phone"
 msgstr "Telefone"
 
-#: ../src/addressbook/gui/widgets/eab-contact-formatter.c:923
+#: ../src/addressbook/gui/widgets/eab-contact-formatter.c:924
 #: ../src/addressbook/gui/widgets/e-addressbook-view.etspec.h:5
 msgid "Nickname"
 msgstr "Alcunha"
 
-#: ../src/addressbook/gui/widgets/eab-contact-formatter.c:924
+#: ../src/addressbook/gui/widgets/eab-contact-formatter.c:925
 msgid "AIM"
 msgstr "AIM"
 
-#: ../src/addressbook/gui/widgets/eab-contact-formatter.c:925
+#: ../src/addressbook/gui/widgets/eab-contact-formatter.c:926
 msgid "GroupWise"
 msgstr "GroupWise"
 
-#: ../src/addressbook/gui/widgets/eab-contact-formatter.c:926
+#: ../src/addressbook/gui/widgets/eab-contact-formatter.c:927
 msgid "ICQ"
 msgstr "ICQ"
 
-#: ../src/addressbook/gui/widgets/eab-contact-formatter.c:927
+#: ../src/addressbook/gui/widgets/eab-contact-formatter.c:928
 msgid "Jabber"
 msgstr "Jabber"
 
-#: ../src/addressbook/gui/widgets/eab-contact-formatter.c:928
+#: ../src/addressbook/gui/widgets/eab-contact-formatter.c:929
 msgid "MSN"
 msgstr "MSN"
 
-#: ../src/addressbook/gui/widgets/eab-contact-formatter.c:929
+#: ../src/addressbook/gui/widgets/eab-contact-formatter.c:930
 msgid "Yahoo"
 msgstr "Yahoo"
 
-#: ../src/addressbook/gui/widgets/eab-contact-formatter.c:930
+#: ../src/addressbook/gui/widgets/eab-contact-formatter.c:931
 msgid "Gadu-Gadu"
 msgstr "Gadu-Gadu"
 
-#: ../src/addressbook/gui/widgets/eab-contact-formatter.c:931
+#: ../src/addressbook/gui/widgets/eab-contact-formatter.c:932
 msgid "Skype"
 msgstr "Skype"
 
-#: ../src/addressbook/gui/widgets/eab-contact-formatter.c:932
+#: ../src/addressbook/gui/widgets/eab-contact-formatter.c:933
 msgid "Twitter"
 msgstr "Twitter"
 
-#: ../src/addressbook/gui/widgets/eab-contact-formatter.c:994
+#: ../src/addressbook/gui/widgets/eab-contact-formatter.c:934
+msgid "Matrix"
+msgstr "Matriz"
+
+#: ../src/addressbook/gui/widgets/eab-contact-formatter.c:996
 #: ../src/addressbook/gui/widgets/e-addressbook-view.etspec.h:34
 msgid "Company"
 msgstr "Empresa"
 
-#: ../src/addressbook/gui/widgets/eab-contact-formatter.c:995
+#: ../src/addressbook/gui/widgets/eab-contact-formatter.c:997
 msgid "Department"
 msgstr "Departamento"
 
-#: ../src/addressbook/gui/widgets/eab-contact-formatter.c:996
+#: ../src/addressbook/gui/widgets/eab-contact-formatter.c:998
 #: ../src/addressbook/gui/widgets/e-addressbook-view.etspec.h:36
 msgid "Office"
 msgstr "Escritório"
 
-#: ../src/addressbook/gui/widgets/eab-contact-formatter.c:997
+#: ../src/addressbook/gui/widgets/eab-contact-formatter.c:999
 msgid "Profession"
 msgstr "Profissão"
 
-#: ../src/addressbook/gui/widgets/eab-contact-formatter.c:998
+#: ../src/addressbook/gui/widgets/eab-contact-formatter.c:1000
 msgid "Position"
 msgstr "Cargo"
 
-#: ../src/addressbook/gui/widgets/eab-contact-formatter.c:999
+#: ../src/addressbook/gui/widgets/eab-contact-formatter.c:1001
 #: ../src/addressbook/gui/widgets/e-addressbook-view.etspec.h:39
 msgid "Manager"
 msgstr "Gestor"
 
-#: ../src/addressbook/gui/widgets/eab-contact-formatter.c:1000
+#: ../src/addressbook/gui/widgets/eab-contact-formatter.c:1002
 #: ../src/addressbook/gui/widgets/e-addressbook-view.etspec.h:40
 msgid "Assistant"
 msgstr "Assistente"
 
-#: ../src/addressbook/gui/widgets/eab-contact-formatter.c:1001
+#: ../src/addressbook/gui/widgets/eab-contact-formatter.c:1003
 msgid "Video Chat"
 msgstr "Chat de vídeo"
 
-#: ../src/addressbook/gui/widgets/eab-contact-formatter.c:1003
+#: ../src/addressbook/gui/widgets/eab-contact-formatter.c:1005
 #: ../src/plugins/publish-calendar/publish-calendar.ui.h:2
 msgid "Free/Busy"
 msgstr "Livre/Ocupado"
 
-#: ../src/addressbook/gui/widgets/eab-contact-formatter.c:1006
-#: ../src/addressbook/gui/widgets/eab-contact-formatter.c:1046
-#: ../src/addressbook/gui/widgets/eab-contact-formatter.c:1072
+#: ../src/addressbook/gui/widgets/eab-contact-formatter.c:1008
+#: ../src/addressbook/gui/widgets/eab-contact-formatter.c:1048
+#: ../src/addressbook/gui/widgets/eab-contact-formatter.c:1074
 msgid "Address"
 msgstr "Endereço"
 
-#: ../src/addressbook/gui/widgets/eab-contact-formatter.c:1042
+#: ../src/addressbook/gui/widgets/eab-contact-formatter.c:1044
 msgid "Home Page"
 msgstr "Página pessoal"
 
-#: ../src/addressbook/gui/widgets/eab-contact-formatter.c:1043
+#: ../src/addressbook/gui/widgets/eab-contact-formatter.c:1045
 msgid "Web Log"
 msgstr "Diário na Web"
 
-#: ../src/addressbook/gui/widgets/eab-contact-formatter.c:1049
+#: ../src/addressbook/gui/widgets/eab-contact-formatter.c:1051
 #: ../src/addressbook/gui/widgets/e-addressbook-view.etspec.h:44
 msgid "Spouse"
 msgstr "Cônjuge"
 
-#: ../src/addressbook/gui/widgets/eab-contact-formatter.c:1059
+#: ../src/addressbook/gui/widgets/eab-contact-formatter.c:1061
 msgid "Personal"
 msgstr "Pessoal"
 
-#: ../src/addressbook/gui/widgets/eab-contact-formatter.c:1104
+#: ../src/addressbook/gui/widgets/eab-contact-formatter.c:1106
 #: ../src/addressbook/gui/widgets/e-addressbook-view.etspec.h:45
 msgid "Note"
 msgstr "Nota"
 
-#: ../src/addressbook/gui/widgets/eab-contact-formatter.c:1293
+#: ../src/addressbook/gui/widgets/eab-contact-formatter.c:1295
 msgid "List Members"
 msgstr "Membros da lista"
 
-#: ../src/addressbook/gui/widgets/eab-contact-formatter.c:1316
+#: ../src/addressbook/gui/widgets/eab-contact-formatter.c:1318
 msgid "Job Title"
 msgstr "Título do cargo"
 
-#: ../src/addressbook/gui/widgets/eab-contact-formatter.c:1357
+#: ../src/addressbook/gui/widgets/eab-contact-formatter.c:1359
 msgid "Home page"
 msgstr "Página pessoal"
 
-#: ../src/addressbook/gui/widgets/eab-contact-formatter.c:1367
+#: ../src/addressbook/gui/widgets/eab-contact-formatter.c:1369
 msgid "Blog"
 msgstr "Blogue"
 
-#: ../src/addressbook/gui/widgets/eab-contact-merging.c:305
+#: ../src/addressbook/gui/widgets/eab-contact-merging.c:306
 #: ../src/calendar/gui/tasktypes.xml.in.h:14 ../src/mail/mail-send-recv.c:1143
 msgid "Cancelled"
 msgstr "Cancelada"
 
-#: ../src/addressbook/gui/widgets/eab-contact-merging.c:495
+#: ../src/addressbook/gui/widgets/eab-contact-merging.c:496
 msgid "Merge Contact"
 msgstr "Unir contacto"
 
-#: ../src/addressbook/gui/widgets/eab-contact-merging.c:517
-#: ../src/addressbook/gui/widgets/eab-contact-merging.c:758
+#: ../src/addressbook/gui/widgets/eab-contact-merging.c:518
+#: ../src/addressbook/gui/widgets/eab-contact-merging.c:763
 msgid "_Merge"
 msgstr "_Unir"
 
-#: ../src/addressbook/gui/widgets/eab-contact-merging.c:747
+#: ../src/addressbook/gui/widgets/eab-contact-merging.c:752
 msgid "Duplicate Contact Detected"
 msgstr "Detetado um contacto duplicado"
 
-#: ../src/addressbook/gui/widgets/eab-contact-merging.c:805
+#: ../src/addressbook/gui/widgets/eab-contact-merging.c:810
 msgid ""
 "The name or email address of this contact already exists\n"
 "in this folder. Would you like to save the changes anyway?"
@@ -5242,7 +5246,7 @@ msgstr ""
 "O nome ou endereço eletrónico deste contacto já existe nesta\n"
 "pasta. Ainda assim deseja gravar as alterações?"
 
-#: ../src/addressbook/gui/widgets/eab-contact-merging.c:808
+#: ../src/addressbook/gui/widgets/eab-contact-merging.c:813
 msgid ""
 "The name or email address of this contact already exists\n"
 "in this folder. Would you like to add it anyway?"
@@ -5250,19 +5254,19 @@ msgstr ""
 "O nome ou endereço eletrónico deste contacto já existe nesta\n"
 "pasta. Ainda assim deseja adicioná-lo?"
 
-#: ../src/addressbook/gui/widgets/eab-contact-merging.c:823
+#: ../src/addressbook/gui/widgets/eab-contact-merging.c:828
 msgid "Changed Contact:"
 msgstr "Contacto alterado:"
 
-#: ../src/addressbook/gui/widgets/eab-contact-merging.c:825
+#: ../src/addressbook/gui/widgets/eab-contact-merging.c:830
 msgid "New Contact:"
 msgstr "Novo contacto:"
 
-#: ../src/addressbook/gui/widgets/eab-contact-merging.c:864
+#: ../src/addressbook/gui/widgets/eab-contact-merging.c:869
 msgid "Conflicting Contact:"
 msgstr "Contacto em conflito:"
 
-#: ../src/addressbook/gui/widgets/eab-contact-merging.c:866
+#: ../src/addressbook/gui/widgets/eab-contact-merging.c:871
 msgid "Old Contact:"
 msgstr "Contacto antigo:"
 
@@ -5676,7 +5680,7 @@ msgstr "Red_uzir"
 
 #. Search button
 #: ../src/addressbook/gui/widgets/e-contact-map-window.c:447
-#: ../src/e-util/e-html-editor-actions.c:2210
+#: ../src/e-util/e-html-editor-actions.c:2244
 #: ../src/e-util/e-html-editor-find-dialog.c:244
 #: ../src/shell/e-shell-window-actions.c:1038
 msgid "_Find"
@@ -5884,11 +5888,16 @@ msgctxt "addressbook-label"
 msgid "Google Talk"
 msgstr "Google Talk"
 
+#: ../src/addressbook/util/eab-book-util.c:82
+msgctxt "addressbook-label"
+msgid "Matrix"
+msgstr "Matriz"
+
 #. To Translators:
 #. * if an email address type is not one of the predefined types,
 #. * this generic label is used instead of one of the predefined labels.
 #.
-#: ../src/addressbook/util/eab-book-util.c:124
+#: ../src/addressbook/util/eab-book-util.c:125
 msgctxt "addressbook-label"
 msgid "Email"
 msgstr "Correio eletrónico"
@@ -5898,7 +5907,7 @@ msgstr "Correio eletrónico"
 #. * this generic label is used instead of one of the predefined labels.
 #. * SIP=Session Initiation Protocol, used for voice over IP
 #.
-#: ../src/addressbook/util/eab-book-util.c:171
+#: ../src/addressbook/util/eab-book-util.c:172
 msgctxt "addressbook-label"
 msgid "SIP"
 msgstr "SIP"
@@ -5908,7 +5917,7 @@ msgstr "SIP"
 #. * this generic label is used instead of one of the predefined labels.
 #. * IM=Instant Messaging
 #.
-#: ../src/addressbook/util/eab-book-util.c:214
+#: ../src/addressbook/util/eab-book-util.c:215
 msgctxt "addressbook-label"
 msgid "IM"
 msgstr "IM"
@@ -5917,7 +5926,7 @@ msgstr "IM"
 #. * if a phone number type is not one of the predefined types,
 #. * this generic label is used instead of one of the predefined labels.
 #.
-#: ../src/addressbook/util/eab-book-util.c:269
+#: ../src/addressbook/util/eab-book-util.c:270
 msgctxt "addressbook-label"
 msgid "Phone"
 msgstr "Telefone"
@@ -8198,7 +8207,7 @@ msgstr "Participa_ntes…"
 #: ../src/calendar/gui/e-comp-editor-page-recurrence.c:2312
 #: ../src/calendar/gui/e-comp-editor.c:2192
 #: ../src/e-util/e-accounts-window.c:1745
-#: ../src/e-util/e-html-editor-actions.c:1122
+#: ../src/e-util/e-html-editor-actions.c:1142
 #: ../src/e-util/e-mail-signature-manager.c:354
 #: ../src/e-util/e-webdav-browser.c:2848 ../src/e-util/filter.ui.h:26
 #: ../src/mail/e-mail-account-manager.c:730 ../src/mail/e-mail-browser.c:217
@@ -8526,7 +8535,7 @@ msgstr "Personalizado"
 
 #: ../src/calendar/gui/e-comp-editor-page-reminders.c:1833
 msgid "Add predefined time…"
-msgstr "Adicionar compasso de espera..."
+msgstr "Adicionar compasso de espera…"
 
 #: ../src/calendar/gui/e-comp-editor-page-reminders.c:1836
 msgid "Remove predefined times"
@@ -8900,7 +8909,7 @@ msgstr "Fechar a janela atual"
 
 #. copy menu item
 #: ../src/calendar/gui/e-comp-editor.c:2113 ../src/e-util/e-focus-tracker.c:806
-#: ../src/e-util/e-html-editor-actions.c:1078 ../src/e-util/e-text.c:2065
+#: ../src/e-util/e-html-editor-actions.c:1098 ../src/e-util/e-text.c:2065
 #: ../src/e-util/e-web-view.c:467 ../src/mail/e-mail-browser.c:173
 #: ../src/mail/mail.error.xml.h:147 ../src/shell/e-shell-window-actions.c:947
 msgid "_Copy"
@@ -8916,7 +8925,7 @@ msgstr "Copiar a seleção"
 
 #. cut menu item
 #: ../src/calendar/gui/e-comp-editor.c:2120 ../src/e-util/e-focus-tracker.c:801
-#: ../src/e-util/e-html-editor-actions.c:1085 ../src/e-util/e-text.c:2051
+#: ../src/e-util/e-html-editor-actions.c:1105 ../src/e-util/e-text.c:2051
 #: ../src/mail/e-mail-browser.c:180 ../src/shell/e-shell-window-actions.c:954
 msgid "Cu_t"
 msgstr "Cor_tar"
@@ -8940,7 +8949,7 @@ msgstr "Ver a ajuda"
 
 #. paste menu item
 #: ../src/calendar/gui/e-comp-editor.c:2141 ../src/e-util/e-focus-tracker.c:811
-#: ../src/e-util/e-html-editor-actions.c:1092 ../src/e-util/e-text.c:2077
+#: ../src/e-util/e-html-editor-actions.c:1112 ../src/e-util/e-text.c:2077
 #: ../src/mail/e-mail-browser.c:187 ../src/shell/e-shell-window-actions.c:982
 msgid "_Paste"
 msgstr "_Colar"
@@ -8968,7 +8977,7 @@ msgid "Pre_view…"
 msgstr "_Antever…"
 
 #: ../src/calendar/gui/e-comp-editor.c:2162 ../src/e-util/e-focus-tracker.c:821
-#: ../src/e-util/e-html-editor-actions.c:1106 ../src/e-util/e-web-view.c:484
+#: ../src/e-util/e-html-editor-actions.c:1126 ../src/e-util/e-web-view.c:484
 #: ../src/mail/e-mail-browser.c:194 ../src/shell/e-shell-window-actions.c:1059
 msgid "Select _All"
 msgstr "Selecion_ar tudo"
@@ -8984,14 +8993,14 @@ msgid "_Classification"
 msgstr "_Classificação"
 
 #: ../src/calendar/gui/e-comp-editor.c:2199
-#: ../src/e-util/e-html-editor-actions.c:1129
+#: ../src/e-util/e-html-editor-actions.c:1149
 #: ../src/e-util/e-mail-signature-editor.c:333 ../src/mail/e-mail-browser.c:210
 #: ../src/mail/e-mail-notes.c:1029 ../src/shell/e-shell-window-actions.c:1110
 msgid "_File"
 msgstr "_Ficheiro"
 
 #: ../src/calendar/gui/e-comp-editor.c:2213
-#: ../src/e-util/e-html-editor-actions.c:1150
+#: ../src/e-util/e-html-editor-actions.c:1170
 msgid "_Insert"
 msgstr "_Inserir"
 
@@ -9001,7 +9010,7 @@ msgid "_Options"
 msgstr "_Opções"
 
 #: ../src/calendar/gui/e-comp-editor.c:2227
-#: ../src/e-util/e-html-editor-actions.c:1171 ../src/mail/e-mail-browser.c:224
+#: ../src/e-util/e-html-editor-actions.c:1191 ../src/mail/e-mail-browser.c:224
 #: ../src/shell/e-shell-window-actions.c:1153
 #: ../src/smime/gui/certificate-manager.c:1644 ../src/smime/gui/smime-ui.ui.h:3
 msgid "_View"
@@ -14135,562 +14144,570 @@ msgstr "Falha ao inserir ficheiro HTML."
 msgid "Failed to insert text file."
 msgstr "Falha ao inserir ficheiro de texto."
 
-#: ../src/e-util/e-html-editor-actions.c:340
+#: ../src/e-util/e-html-editor-actions.c:360
 msgid "Insert HTML File"
 msgstr "Inserir ficheiro HTML"
 
-#: ../src/e-util/e-html-editor-actions.c:345
+#: ../src/e-util/e-html-editor-actions.c:365
 msgid "HTML file"
 msgstr "Ficheiro HTML"
 
-#: ../src/e-util/e-html-editor-actions.c:383
-#: ../src/e-util/e-html-editor-actions.c:401
+#: ../src/e-util/e-html-editor-actions.c:403
+#: ../src/e-util/e-html-editor-actions.c:421
 msgctxt "dialog-title"
 msgid "Insert Image"
 msgstr "Inserir imagem"
 
-#: ../src/e-util/e-html-editor-actions.c:390
-#: ../src/e-util/e-html-editor-actions.c:408
+#: ../src/e-util/e-html-editor-actions.c:410
+#: ../src/e-util/e-html-editor-actions.c:428
 #: ../src/e-util/e-image-chooser-dialog.c:188 ../src/plugins/face/face.c:301
 msgid "Image files"
 msgstr "Ficheiros de imagens"
 
-#: ../src/e-util/e-html-editor-actions.c:487
+#: ../src/e-util/e-html-editor-actions.c:507
 msgid "Insert text file"
 msgstr "Inserir ficheiro de texto"
 
-#: ../src/e-util/e-html-editor-actions.c:492
+#: ../src/e-util/e-html-editor-actions.c:512
 msgid "Text file"
 msgstr "Ficheiro de texto"
 
-#: ../src/e-util/e-html-editor-actions.c:1080
+#: ../src/e-util/e-html-editor-actions.c:1100
 msgid "Copy selected text to the clipboard"
 msgstr "Copiar texto selecionado para a área de transferência"
 
-#: ../src/e-util/e-html-editor-actions.c:1087
+#: ../src/e-util/e-html-editor-actions.c:1107
 msgid "Cut selected text to the clipboard"
 msgstr "Cortar texto selecionado para a área de transferência"
 
-#: ../src/e-util/e-html-editor-actions.c:1094
+#: ../src/e-util/e-html-editor-actions.c:1114
 msgid "Paste text from the clipboard"
 msgstr "Colar texto da área de transferência"
 
-#: ../src/e-util/e-html-editor-actions.c:1101
+#: ../src/e-util/e-html-editor-actions.c:1121
 msgid "Redo the last undone action"
 msgstr "Refazer a última ação desfeita"
 
-#: ../src/e-util/e-html-editor-actions.c:1115
+#: ../src/e-util/e-html-editor-actions.c:1135
 msgid "Undo the last action"
 msgstr "Desfazer a última ação"
 
-#: ../src/e-util/e-html-editor-actions.c:1136
+#: ../src/e-util/e-html-editor-actions.c:1156
 msgid "For_mat"
 msgstr "For_matar"
 
-#: ../src/e-util/e-html-editor-actions.c:1143
+#: ../src/e-util/e-html-editor-actions.c:1163
 msgid "_Paragraph Style"
 msgstr "Estilo do _parágrafo"
 
-#: ../src/e-util/e-html-editor-actions.c:1157
+#: ../src/e-util/e-html-editor-actions.c:1177
 #: ../src/e-util/e-html-editor-image-dialog.c:678
 msgid "_Alignment"
 msgstr "_Alinhamento"
 
-#: ../src/e-util/e-html-editor-actions.c:1164
+#: ../src/e-util/e-html-editor-actions.c:1184
 msgid "Current _Languages"
 msgstr "_Idiomas atuais"
 
-#: ../src/e-util/e-html-editor-actions.c:1181
+#: ../src/e-util/e-html-editor-actions.c:1201
 msgid "_Increase Indent"
 msgstr "Aumentar _indentação"
 
-#: ../src/e-util/e-html-editor-actions.c:1183
+#: ../src/e-util/e-html-editor-actions.c:1203
 msgid "Increase Indent"
 msgstr "Aumentar indentação"
 
-#: ../src/e-util/e-html-editor-actions.c:1188
-#: ../src/e-util/e-html-editor-actions.c:2216
+#: ../src/e-util/e-html-editor-actions.c:1208
+#: ../src/e-util/e-html-editor-actions.c:2250
 msgid "E_moji"
 msgstr "E_moji"
 
-#: ../src/e-util/e-html-editor-actions.c:1190
-#: ../src/e-util/e-html-editor-actions.c:1197
+#: ../src/e-util/e-html-editor-actions.c:1210
+#: ../src/e-util/e-html-editor-actions.c:1217
 msgid "Insert Emoji"
 msgstr "Inserir Emoji"
 
-#: ../src/e-util/e-html-editor-actions.c:1195
+#: ../src/e-util/e-html-editor-actions.c:1215
 msgid "Insert E_moji"
 msgstr "Inserir E_moji"
 
-#: ../src/e-util/e-html-editor-actions.c:1202
+#: ../src/e-util/e-html-editor-actions.c:1222
 msgid "_HTML File…"
 msgstr "Ficheiro _HTML…"
 
-#: ../src/e-util/e-html-editor-actions.c:1209
+#: ../src/e-util/e-html-editor-actions.c:1229
 msgid "Te_xt File…"
 msgstr "Ficheiro de te_xto…"
 
-#: ../src/e-util/e-html-editor-actions.c:1216
+#: ../src/e-util/e-html-editor-actions.c:1236
 msgid "Paste _Quotation"
 msgstr "Colar _citação"
 
-#: ../src/e-util/e-html-editor-actions.c:1223
+#: ../src/e-util/e-html-editor-actions.c:1243
 msgid "_Find…"
 msgstr "_Localizar…"
 
-#: ../src/e-util/e-html-editor-actions.c:1225
+#: ../src/e-util/e-html-editor-actions.c:1245
 msgid "Search for text"
 msgstr "Procurar por texto"
 
-#: ../src/e-util/e-html-editor-actions.c:1230
+#: ../src/e-util/e-html-editor-actions.c:1250
 msgid "Find A_gain"
 msgstr "Locali_zar novamente"
 
-#: ../src/e-util/e-html-editor-actions.c:1237
+#: ../src/e-util/e-html-editor-actions.c:1257
 msgid "Re_place…"
 msgstr "_Substituir…"
 
-#: ../src/e-util/e-html-editor-actions.c:1239
+#: ../src/e-util/e-html-editor-actions.c:1259
 msgid "Search for and replace text"
 msgstr "Procurar e substituir texto"
 
-#: ../src/e-util/e-html-editor-actions.c:1244
+#: ../src/e-util/e-html-editor-actions.c:1264
 msgid "Check _Spelling…"
 msgstr "Verificar _Ortografia…"
 
-#: ../src/e-util/e-html-editor-actions.c:1251
+#: ../src/e-util/e-html-editor-actions.c:1271
 msgid "_Decrease Indent"
 msgstr "_Diminuir indentação"
 
-#: ../src/e-util/e-html-editor-actions.c:1253
+#: ../src/e-util/e-html-editor-actions.c:1273
 msgid "Decrease Indent"
 msgstr "Diminuir indentação"
 
-#: ../src/e-util/e-html-editor-actions.c:1258
+#: ../src/e-util/e-html-editor-actions.c:1278
 msgid "_Wrap Lines"
 msgstr "_Qebrar linhas"
 
 #. Center
-#: ../src/e-util/e-html-editor-actions.c:1268
+#: ../src/e-util/e-html-editor-actions.c:1288
 #: ../src/e-util/e-html-editor-paragraph-dialog.c:109
 msgid "_Center"
 msgstr "_Centrar"
 
-#: ../src/e-util/e-html-editor-actions.c:1270
+#: ../src/e-util/e-html-editor-actions.c:1290
 msgid "Center Alignment"
 msgstr "Alinhamento central"
 
 #. Justified
-#: ../src/e-util/e-html-editor-actions.c:1275
+#: ../src/e-util/e-html-editor-actions.c:1295
 #: ../src/e-util/e-html-editor-paragraph-dialog.c:127
 msgid "_Justified"
 msgstr "_Justificado"
 
-#: ../src/e-util/e-html-editor-actions.c:1277
+#: ../src/e-util/e-html-editor-actions.c:1297
 msgid "Align Justified"
 msgstr "Justificar"
 
 #. Left
-#: ../src/e-util/e-html-editor-actions.c:1282
+#: ../src/e-util/e-html-editor-actions.c:1302
 #: ../src/e-util/e-html-editor-paragraph-dialog.c:100
 msgid "_Left"
 msgstr "_Esquerdo"
 
-#: ../src/e-util/e-html-editor-actions.c:1284
+#: ../src/e-util/e-html-editor-actions.c:1304
 msgid "Left Alignment"
 msgstr "Alinhamento esquerdo"
 
 #. Right
-#: ../src/e-util/e-html-editor-actions.c:1289
+#: ../src/e-util/e-html-editor-actions.c:1309
 #: ../src/e-util/e-html-editor-paragraph-dialog.c:118
 msgid "_Right"
 msgstr "_Direita"
 
-#: ../src/e-util/e-html-editor-actions.c:1291
+#: ../src/e-util/e-html-editor-actions.c:1311
 msgid "Right Alignment"
 msgstr "Alinhamento direito"
 
-#: ../src/e-util/e-html-editor-actions.c:1299
+#: ../src/e-util/e-html-editor-actions.c:1319
 #: ../src/modules/text-highlight/languages.c:70
 msgid "_HTML"
 msgstr "_HTML"
 
-#: ../src/e-util/e-html-editor-actions.c:1301
+#: ../src/e-util/e-html-editor-actions.c:1321
 msgid "HTML editing mode"
 msgstr "Modo de edição HTML"
 
-#: ../src/e-util/e-html-editor-actions.c:1306
+#: ../src/e-util/e-html-editor-actions.c:1326
 msgid "Plain _Text"
 msgstr "_Texto simples"
 
-#: ../src/e-util/e-html-editor-actions.c:1308
+#: ../src/e-util/e-html-editor-actions.c:1328
 msgid "Plain text editing mode"
 msgstr "Modo de edição de texto simples"
 
-#: ../src/e-util/e-html-editor-actions.c:1316
+#: ../src/e-util/e-html-editor-actions.c:1336
 msgid "_Normal"
 msgstr "_Normal"
 
-#: ../src/e-util/e-html-editor-actions.c:1323
+#: ../src/e-util/e-html-editor-actions.c:1343
 msgid "Heading _1"
 msgstr "Cabeçalho _1"
 
-#: ../src/e-util/e-html-editor-actions.c:1330
+#: ../src/e-util/e-html-editor-actions.c:1350
 msgid "Heading _2"
 msgstr "Cabeçalho _2"
 
-#: ../src/e-util/e-html-editor-actions.c:1337
+#: ../src/e-util/e-html-editor-actions.c:1357
 msgid "Heading _3"
 msgstr "Cabeçalho _3"
 
-#: ../src/e-util/e-html-editor-actions.c:1344
+#: ../src/e-util/e-html-editor-actions.c:1364
 msgid "Heading _4"
 msgstr "Cabeçalho _4"
 
-#: ../src/e-util/e-html-editor-actions.c:1351
+#: ../src/e-util/e-html-editor-actions.c:1371
 msgid "Heading _5"
 msgstr "Cabeçalho _5"
 
-#: ../src/e-util/e-html-editor-actions.c:1358
+#: ../src/e-util/e-html-editor-actions.c:1378
 msgid "Heading _6"
 msgstr "Cabeçalho _6"
 
-#: ../src/e-util/e-html-editor-actions.c:1365
+#: ../src/e-util/e-html-editor-actions.c:1385
 msgid "_Preformatted"
 msgstr "_Preformatado"
 
-#: ../src/e-util/e-html-editor-actions.c:1372
+#: ../src/e-util/e-html-editor-actions.c:1392
 msgid "A_ddress"
 msgstr "En_dereço"
 
-#: ../src/e-util/e-html-editor-actions.c:1379
+#: ../src/e-util/e-html-editor-actions.c:1399
 msgid "_Bulleted List"
 msgstr "Lista com _marcas"
 
-#: ../src/e-util/e-html-editor-actions.c:1386
+#: ../src/e-util/e-html-editor-actions.c:1406
 msgid "_Roman Numeral List"
 msgstr "Lista _numerada em romanos"
 
-#: ../src/e-util/e-html-editor-actions.c:1393
+#: ../src/e-util/e-html-editor-actions.c:1413
 msgid "Numbered _List"
 msgstr "_Lista numerada"
 
-#: ../src/e-util/e-html-editor-actions.c:1400
+#: ../src/e-util/e-html-editor-actions.c:1420
 msgid "_Alphabetical List"
 msgstr "Lista _alfabética"
 
-#: ../src/e-util/e-html-editor-actions.c:1416
-#: ../src/e-util/e-html-editor-actions.c:1454
+#: ../src/e-util/e-html-editor-actions.c:1436
+#: ../src/e-util/e-html-editor-actions.c:1474
 msgid "_Image…"
 msgstr "_…Imagem…"
 
 #. Translators: This is an action tooltip
-#: ../src/e-util/e-html-editor-actions.c:1419
+#: ../src/e-util/e-html-editor-actions.c:1439
 msgid "Insert Image"
 msgstr "Inserir imagem"
 
-#: ../src/e-util/e-html-editor-actions.c:1424
-#: ../src/e-util/e-html-editor-actions.c:1461
+#: ../src/e-util/e-html-editor-actions.c:1444
+#: ../src/e-util/e-html-editor-actions.c:1481
 msgid "_Link…"
 msgstr "_Hiperligação…"
 
-#: ../src/e-util/e-html-editor-actions.c:1426
+#: ../src/e-util/e-html-editor-actions.c:1446
 msgid "Insert Link"
 msgstr "Inserir ligação"
 
 #. Translators: 'Rule' here means a horizontal line in an HTML text
-#: ../src/e-util/e-html-editor-actions.c:1432
-#: ../src/e-util/e-html-editor-actions.c:1476
+#: ../src/e-util/e-html-editor-actions.c:1452
+#: ../src/e-util/e-html-editor-actions.c:1496
 msgid "_Rule…"
 msgstr "_Régua…"
 
 #. Translators: 'Rule' here means a horizontal line in an HTML text
-#: ../src/e-util/e-html-editor-actions.c:1435
+#: ../src/e-util/e-html-editor-actions.c:1455
 msgid "Insert Rule"
 msgstr "Inserir régua"
 
-#: ../src/e-util/e-html-editor-actions.c:1440
-#: ../src/e-util/e-html-editor-actions.c:1483
+#: ../src/e-util/e-html-editor-actions.c:1460
+#: ../src/e-util/e-html-editor-actions.c:1503
 msgid "_Table…"
 msgstr "_Tabela…"
 
-#: ../src/e-util/e-html-editor-actions.c:1442
+#: ../src/e-util/e-html-editor-actions.c:1462
 msgid "Insert Table"
 msgstr "Inserir tabela"
 
-#: ../src/e-util/e-html-editor-actions.c:1447
+#: ../src/e-util/e-html-editor-actions.c:1467
 msgid "_Cell…"
 msgstr "_Célula…"
 
-#: ../src/e-util/e-html-editor-actions.c:1468
+#: ../src/e-util/e-html-editor-actions.c:1488
 msgid "Pa_ge…"
 msgstr "Pá_gina…"
 
-#: ../src/e-util/e-html-editor-actions.c:1492
+#: ../src/e-util/e-html-editor-actions.c:1512
 msgid "Font _Size"
 msgstr "Tamanho da _letra"
 
-#: ../src/e-util/e-html-editor-actions.c:1499
+#: ../src/e-util/e-html-editor-actions.c:1519
 msgid "_Font Style"
 msgstr "_Estilo da letra"
 
-#: ../src/e-util/e-html-editor-actions.c:1506
+#: ../src/e-util/e-html-editor-actions.c:1526
 msgid "Paste As _Text"
 msgstr "Colar como _texto"
 
-#: ../src/e-util/e-html-editor-actions.c:1517
+#: ../src/e-util/e-html-editor-actions.c:1537
 #: ../src/e-util/e-html-editor-text-dialog.c:201
 msgid "_Bold"
 msgstr "_Negrito"
 
-#: ../src/e-util/e-html-editor-actions.c:1519
+#: ../src/e-util/e-html-editor-actions.c:1539
 msgid "Bold"
 msgstr "Negrito"
 
-#: ../src/e-util/e-html-editor-actions.c:1525
+#: ../src/e-util/e-html-editor-actions.c:1545
 #: ../src/e-util/e-html-editor-text-dialog.c:212
 msgid "_Italic"
 msgstr "_Itálico"
 
-#: ../src/e-util/e-html-editor-actions.c:1527
+#: ../src/e-util/e-html-editor-actions.c:1547
 msgid "Italic"
 msgstr "Itálico"
 
-#: ../src/e-util/e-html-editor-actions.c:1533
+#: ../src/e-util/e-html-editor-actions.c:1553
 #: ../src/e-util/e-html-editor-text-dialog.c:233
 msgid "_Strikethrough"
 msgstr "_Rasurar"
 
-#: ../src/e-util/e-html-editor-actions.c:1535
+#: ../src/e-util/e-html-editor-actions.c:1555
 msgid "Strikethrough"
 msgstr "Rasurado"
 
-#: ../src/e-util/e-html-editor-actions.c:1541
+#: ../src/e-util/e-html-editor-actions.c:1561
 msgid "Subs_cript"
 msgstr "_Subscrever"
 
-#: ../src/e-util/e-html-editor-actions.c:1543
+#: ../src/e-util/e-html-editor-actions.c:1563
 msgid "Subscript"
 msgstr "Subscrito"
 
-#: ../src/e-util/e-html-editor-actions.c:1549
+#: ../src/e-util/e-html-editor-actions.c:1569
 msgid "Su_perscript"
 msgstr "S_obrescrever"
 
-#: ../src/e-util/e-html-editor-actions.c:1551
+#: ../src/e-util/e-html-editor-actions.c:1571
 msgid "Superscript"
 msgstr "Sobrescrito"
 
-#: ../src/e-util/e-html-editor-actions.c:1557
+#: ../src/e-util/e-html-editor-actions.c:1577
 #: ../src/e-util/e-html-editor-text-dialog.c:223
 msgid "_Underline"
 msgstr "S_ublinhar"
 
-#: ../src/e-util/e-html-editor-actions.c:1559
+#: ../src/e-util/e-html-editor-actions.c:1579
 msgid "Underline"
 msgstr "Sublinhado"
 
 #. Translators: This is a font size level. It is shown on a tool bar. Please keep it as short as possible.
-#: ../src/e-util/e-html-editor-actions.c:1569
+#: ../src/e-util/e-html-editor-actions.c:1589
 msgid "-2"
 msgstr "-2"
 
 #. Translators: This is a font size level. It is shown on a tool bar. Please keep it as short as possible.
-#: ../src/e-util/e-html-editor-actions.c:1577
+#: ../src/e-util/e-html-editor-actions.c:1597
 msgid "-1"
 msgstr "-1"
 
 #. Translators: This is a font size level. It is shown on a tool bar. Please keep it as short as possible.
-#: ../src/e-util/e-html-editor-actions.c:1585
+#: ../src/e-util/e-html-editor-actions.c:1605
 msgid "+0"
 msgstr "+0"
 
 #. Translators: This is a font size level. It is shown on a tool bar. Please keep it as short as possible.
-#: ../src/e-util/e-html-editor-actions.c:1593
+#: ../src/e-util/e-html-editor-actions.c:1613
 msgid "+1"
 msgstr "+1"
 
 #. Translators: This is a font size level. It is shown on a tool bar. Please keep it as short as possible.
-#: ../src/e-util/e-html-editor-actions.c:1601
+#: ../src/e-util/e-html-editor-actions.c:1621
 msgid "+2"
 msgstr "+2"
 
 #. Translators: This is a font size level. It is shown on a tool bar. Please keep it as short as possible.
-#: ../src/e-util/e-html-editor-actions.c:1609
+#: ../src/e-util/e-html-editor-actions.c:1629
 msgid "+3"
 msgstr "+3"
 
 #. Translators: This is a font size level. It is shown on a tool bar. Please keep it as short as possible.
-#: ../src/e-util/e-html-editor-actions.c:1617
+#: ../src/e-util/e-html-editor-actions.c:1637
 msgid "+4"
 msgstr "+4"
 
-#: ../src/e-util/e-html-editor-actions.c:1636
+#: ../src/e-util/e-html-editor-actions.c:1656
 msgid "Cell Contents"
 msgstr "Conteúdo da célula"
 
-#: ../src/e-util/e-html-editor-actions.c:1643
+#: ../src/e-util/e-html-editor-actions.c:1663
 msgid "Column"
 msgstr "Coluna"
 
-#: ../src/e-util/e-html-editor-actions.c:1650
+#: ../src/e-util/e-html-editor-actions.c:1670
 msgid "Row"
 msgstr "Linha"
 
-#: ../src/e-util/e-html-editor-actions.c:1657
+#: ../src/e-util/e-html-editor-actions.c:1677
 msgid "Table"
 msgstr "Tabela"
 
 #. Translators: Popup menu item caption, containing all the Delete options for a table
-#: ../src/e-util/e-html-editor-actions.c:1667
+#: ../src/e-util/e-html-editor-actions.c:1687
 msgid "Table Delete"
 msgstr "Eliminações da tabela"
 
 #. Translators: Popup menu item caption, containing all the Insert options for a table
-#: ../src/e-util/e-html-editor-actions.c:1675
+#: ../src/e-util/e-html-editor-actions.c:1695
 msgid "Table Insert"
 msgstr "Inserções da tabela"
 
-#: ../src/e-util/e-html-editor-actions.c:1682
+#: ../src/e-util/e-html-editor-actions.c:1702
 msgid "Properties"
 msgstr "Propriedades"
 
-#: ../src/e-util/e-html-editor-actions.c:1700
+#: ../src/e-util/e-html-editor-actions.c:1720
+msgid "Delete Rule"
+msgstr "Eliminar regra"
+
+#: ../src/e-util/e-html-editor-actions.c:1727
+msgid "Delete Image"
+msgstr "Eliminar imagem"
+
+#: ../src/e-util/e-html-editor-actions.c:1734
 msgid "Column After"
 msgstr "Coluna após"
 
-#: ../src/e-util/e-html-editor-actions.c:1707
+#: ../src/e-util/e-html-editor-actions.c:1741
 msgid "Column Before"
 msgstr "Coluna antes"
 
-#: ../src/e-util/e-html-editor-actions.c:1714
+#: ../src/e-util/e-html-editor-actions.c:1748
 msgid "Insert _Link"
 msgstr "Inserir _ligação"
 
-#: ../src/e-util/e-html-editor-actions.c:1721
+#: ../src/e-util/e-html-editor-actions.c:1755
 msgid "Row Above"
 msgstr "Linha acima"
 
-#: ../src/e-util/e-html-editor-actions.c:1728
+#: ../src/e-util/e-html-editor-actions.c:1762
 msgid "Row Below"
 msgstr "Linha abaixo"
 
-#: ../src/e-util/e-html-editor-actions.c:1735
+#: ../src/e-util/e-html-editor-actions.c:1769
 msgid "Cell…"
 msgstr "Célula…"
 
-#: ../src/e-util/e-html-editor-actions.c:1742
+#: ../src/e-util/e-html-editor-actions.c:1776
 msgid "Image…"
 msgstr "Imagem…"
 
-#: ../src/e-util/e-html-editor-actions.c:1749
+#: ../src/e-util/e-html-editor-actions.c:1783
 msgid "Link…"
 msgstr "Hiperligação…"
 
-#: ../src/e-util/e-html-editor-actions.c:1756
+#: ../src/e-util/e-html-editor-actions.c:1790
 msgid "Page…"
 msgstr "Página…"
 
-#: ../src/e-util/e-html-editor-actions.c:1763
+#: ../src/e-util/e-html-editor-actions.c:1797
 msgid "Paragraph…"
 msgstr "Parágrafo…"
 
 #. Translators: 'Rule' here means a horizontal line in an HTML text
-#: ../src/e-util/e-html-editor-actions.c:1771
+#: ../src/e-util/e-html-editor-actions.c:1805
 msgid "Rule…"
 msgstr "Régua…"
 
-#: ../src/e-util/e-html-editor-actions.c:1778
+#: ../src/e-util/e-html-editor-actions.c:1812
 msgid "Table…"
 msgstr "Tabela…"
 
-#: ../src/e-util/e-html-editor-actions.c:1785
+#: ../src/e-util/e-html-editor-actions.c:1819
 msgid "Text…"
 msgstr "Texto…"
 
-#: ../src/e-util/e-html-editor-actions.c:1792
+#: ../src/e-util/e-html-editor-actions.c:1826
 msgid "Remove Link"
 msgstr "Remover ligação"
 
-#: ../src/e-util/e-html-editor-actions.c:1809
+#: ../src/e-util/e-html-editor-actions.c:1843
 msgid "Add Word to Dictionary"
 msgstr "Adicionar palavra ao dicionário"
 
-#: ../src/e-util/e-html-editor-actions.c:1816
+#: ../src/e-util/e-html-editor-actions.c:1850
 msgid "Ignore Misspelled Word"
 msgstr "Ignorar palavra mal escrita"
 
-#: ../src/e-util/e-html-editor-actions.c:1823
+#: ../src/e-util/e-html-editor-actions.c:1857
 msgid "Add Word To"
 msgstr "Adicionar palavra a"
 
-#: ../src/e-util/e-html-editor-actions.c:1832
+#: ../src/e-util/e-html-editor-actions.c:1866
 msgid "More Suggestions"
 msgstr "Mais sugestões"
 
 #. Translators: %s will be replaced with the actual dictionary
 #. * name, where a user can add a word to. This is part of an
 #. * "Add Word To" submenu.
-#: ../src/e-util/e-html-editor-actions.c:2067
+#: ../src/e-util/e-html-editor-actions.c:2101
 #, c-format
 msgid "%s Dictionary"
 msgstr "Dicionário %s"
 
-#: ../src/e-util/e-html-editor-actions.c:2144
+#: ../src/e-util/e-html-editor-actions.c:2178
 msgid "_Emoticon"
 msgstr "_Risonho"
 
-#: ../src/e-util/e-html-editor-actions.c:2145
+#: ../src/e-util/e-html-editor-actions.c:2179
 msgid "Insert Emoticon"
 msgstr "Inserir risonho"
 
-#: ../src/e-util/e-html-editor-actions.c:2213
+#: ../src/e-util/e-html-editor-actions.c:2247
 msgid "Re_place"
 msgstr "_Substituir"
 
-#: ../src/e-util/e-html-editor-actions.c:2219
+#: ../src/e-util/e-html-editor-actions.c:2253
 msgid "_Image"
 msgstr "_Imagem"
 
-#: ../src/e-util/e-html-editor-actions.c:2222
+#: ../src/e-util/e-html-editor-actions.c:2256
 msgid "_Link"
 msgstr "_Ligação"
 
 #. Translators: 'Rule' here means a horizontal line in an HTML text
-#: ../src/e-util/e-html-editor-actions.c:2226
+#: ../src/e-util/e-html-editor-actions.c:2260
 msgid "_Rule"
 msgstr "_Régua"
 
-#: ../src/e-util/e-html-editor-actions.c:2229
+#: ../src/e-util/e-html-editor-actions.c:2263
 #: ../src/e-util/e-html-editor-cell-dialog.c:448
 msgid "_Table"
 msgstr "_Tabela"
 
-#: ../src/e-util/e-html-editor.c:897
+#: ../src/e-util/e-html-editor.c:899
 msgid "Paragraph Style"
 msgstr "Estilo do parágrafo"
 
-#: ../src/e-util/e-html-editor.c:911
+#: ../src/e-util/e-html-editor.c:913
 msgid "Editing Mode"
 msgstr "Modo de edição"
 
-#: ../src/e-util/e-html-editor.c:923
+#: ../src/e-util/e-html-editor.c:925
 msgid "Font Color"
 msgstr "Cor da fonte"
 
-#: ../src/e-util/e-html-editor.c:934
+#: ../src/e-util/e-html-editor.c:936
 msgid "Background Color"
 msgstr "Cor de fundo"
 
-#: ../src/e-util/e-html-editor.c:944
+#: ../src/e-util/e-html-editor.c:946
 msgid "Font Size"
 msgstr "Tamanho da fonte"
 
-#: ../src/e-util/e-html-editor.c:953
+#: ../src/e-util/e-html-editor.c:955
 msgid "Font Name"
 msgstr "Nome da fonte"
 
-#: ../src/e-util/e-html-editor.c:1577
+#: ../src/e-util/e-html-editor.c:1579
 msgid "Failed to obtain content of editor"
 msgstr "Falha ao obter detalhes do editor"
 
@@ -17860,16 +17877,16 @@ msgid "Folder Sort Order"
 msgstr "Critério de ordenação da pasta"
 
 #: ../src/mail/e-mail-folder-sort-order-dialog.c:728
-msgid "Reset c_urrent level"
-msgstr "Redefinir o nível _atual"
+msgid "Reset current level"
+msgstr "Repor o nível atual"
 
 #: ../src/mail/e-mail-folder-sort-order-dialog.c:729
 msgid "Reset sort order in the current level to the defaults"
 msgstr "Redefine o critério de ordenação no nível corrente para a predefinição"
 
 #: ../src/mail/e-mail-folder-sort-order-dialog.c:739
-msgid "Reset _all levels"
-msgstr "Redefinir _todos os níveis"
+msgid "Reset all levels"
+msgstr "Repor todos os níveis"
 
 #: ../src/mail/e-mail-folder-sort-order-dialog.c:740
 msgid "Reset sort order in all levels to their defaults"
@@ -22160,107 +22177,107 @@ msgstr ""
 "Restaurar os dados e definições do Evolution a partir de um ficheiro de "
 "arquivo"
 
-#: ../src/modules/backup-restore/evolution-backup-tool.c:72
+#: ../src/modules/backup-restore/evolution-backup-tool.c:74
 msgid "Back up Evolution directory"
 msgstr "Realizar cópia de segurança da pasta do Evolution"
 
-#: ../src/modules/backup-restore/evolution-backup-tool.c:74
+#: ../src/modules/backup-restore/evolution-backup-tool.c:76
 msgid "Restore Evolution directory"
 msgstr "Restaurar a pasta do Evolution"
 
-#: ../src/modules/backup-restore/evolution-backup-tool.c:76
+#: ../src/modules/backup-restore/evolution-backup-tool.c:78
 msgid "Check Evolution Back up"
 msgstr "Verificar a cópia de segurança do Evolution"
 
-#: ../src/modules/backup-restore/evolution-backup-tool.c:78
+#: ../src/modules/backup-restore/evolution-backup-tool.c:80
 msgid "Restart Evolution"
 msgstr "Reiniciar o Evolution"
 
-#: ../src/modules/backup-restore/evolution-backup-tool.c:80
+#: ../src/modules/backup-restore/evolution-backup-tool.c:82
 msgid "With Graphical User Interface"
 msgstr "Com o ambiente gráfico de utilizador"
 
 #. FIXME Will the versioned setting always work?
-#: ../src/modules/backup-restore/evolution-backup-tool.c:293
-#: ../src/modules/backup-restore/evolution-backup-tool.c:551
+#: ../src/modules/backup-restore/evolution-backup-tool.c:516
+#: ../src/modules/backup-restore/evolution-backup-tool.c:772
 msgid "Shutting down Evolution"
 msgstr "A desligar o Evolution"
 
-#: ../src/modules/backup-restore/evolution-backup-tool.c:302
+#: ../src/modules/backup-restore/evolution-backup-tool.c:525
 msgid "Backing Evolution accounts and settings"
 msgstr "A realizar a cópia de segurança das contas e definições do Evolution"
 
-#: ../src/modules/backup-restore/evolution-backup-tool.c:319
+#: ../src/modules/backup-restore/evolution-backup-tool.c:540
 msgid "Backing Evolution data (Mails, Contacts, Calendar, Tasks, Memos)"
 msgstr ""
 "A realizar a cópia de segurança dos dados do Evolution (correio, contactos, "
 "calendários, tarefas, memorandos)"
 
-#: ../src/modules/backup-restore/evolution-backup-tool.c:335
+#: ../src/modules/backup-restore/evolution-backup-tool.c:556
 msgid "Back up complete"
 msgstr "Cópia de segurança terminada"
 
-#: ../src/modules/backup-restore/evolution-backup-tool.c:342
-#: ../src/modules/backup-restore/evolution-backup-tool.c:758
+#: ../src/modules/backup-restore/evolution-backup-tool.c:563
+#: ../src/modules/backup-restore/evolution-backup-tool.c:995
 msgid "Restarting Evolution"
 msgstr "A reiniciar o Evolution"
 
-#: ../src/modules/backup-restore/evolution-backup-tool.c:557
+#: ../src/modules/backup-restore/evolution-backup-tool.c:778
 msgid "Back up current Evolution data"
 msgstr "Realizar cópia de segurança dos dados atuais do Evolution"
 
-#: ../src/modules/backup-restore/evolution-backup-tool.c:564
+#: ../src/modules/backup-restore/evolution-backup-tool.c:785
 msgid "Extracting files from back up"
 msgstr "A extrair ficheiros da cópia de segurança"
 
-#: ../src/modules/backup-restore/evolution-backup-tool.c:659
+#: ../src/modules/backup-restore/evolution-backup-tool.c:880
 msgid "Loading Evolution settings"
 msgstr "A carregar as definições do Evolution"
 
-#: ../src/modules/backup-restore/evolution-backup-tool.c:729
+#: ../src/modules/backup-restore/evolution-backup-tool.c:966
 msgid "Removing temporary back up files"
 msgstr "A remover os ficheiros temporários de cópia de segurança"
 
-#: ../src/modules/backup-restore/evolution-backup-tool.c:743
+#: ../src/modules/backup-restore/evolution-backup-tool.c:980
 msgid "Reloading registry service"
 msgstr "A recarregar o serviço de registo"
 
-#: ../src/modules/backup-restore/evolution-backup-tool.c:956
+#: ../src/modules/backup-restore/evolution-backup-tool.c:1193
 msgid "Evolution Back Up"
 msgstr "Cópia de segurança do Evolution"
 
-#: ../src/modules/backup-restore/evolution-backup-tool.c:957
+#: ../src/modules/backup-restore/evolution-backup-tool.c:1194
 #, c-format
 msgid "Backing up to the file %s"
 msgstr "A criar cópia de segurança no ficheiro %s"
 
-#: ../src/modules/backup-restore/evolution-backup-tool.c:961
+#: ../src/modules/backup-restore/evolution-backup-tool.c:1198
 msgid "Evolution Restore"
 msgstr "Restauro do Evolution"
 
-#: ../src/modules/backup-restore/evolution-backup-tool.c:962
+#: ../src/modules/backup-restore/evolution-backup-tool.c:1199
 #, c-format
 msgid "Restoring from the file %s"
 msgstr "A restaurar do ficheiro %s"
 
-#: ../src/modules/backup-restore/evolution-backup-tool.c:1031
+#: ../src/modules/backup-restore/evolution-backup-tool.c:1268
 msgid "Backing up Evolution Data"
 msgstr "A realizar cópia de segurança dos dados do Evolution"
 
-#: ../src/modules/backup-restore/evolution-backup-tool.c:1032
+#: ../src/modules/backup-restore/evolution-backup-tool.c:1269
 msgid "Please wait while Evolution is backing up your data."
 msgstr ""
 "Aguarde enquanto o Evolution realiza uma cópia de segurança dos seus dados."
 
-#: ../src/modules/backup-restore/evolution-backup-tool.c:1034
+#: ../src/modules/backup-restore/evolution-backup-tool.c:1271
 msgid "Restoring Evolution Data"
 msgstr "Restaurar dados do Evolution"
 
-#: ../src/modules/backup-restore/evolution-backup-tool.c:1035
+#: ../src/modules/backup-restore/evolution-backup-tool.c:1272
 msgid "Please wait while Evolution is restoring your data."
 msgstr "Aguarde enquanto o Evolution restaura os seus dados."
 
-#: ../src/modules/backup-restore/evolution-backup-tool.c:1057
+#: ../src/modules/backup-restore/evolution-backup-tool.c:1294
 msgid "This may take a while depending on the amount of data in your account."
 msgstr ""
 "Esta operação poderá demorar dependendo da quantidade de dados na sua conta."
