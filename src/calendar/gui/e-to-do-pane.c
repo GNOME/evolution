@@ -2137,6 +2137,17 @@ etdp_delete_selected_cb (GtkMenuItem *item,
 }
 
 static void
+etdp_delete_this_and_future_cb (GtkMenuItem *item,
+				gpointer user_data)
+{
+	EToDoPane *to_do_pane = user_data;
+
+	g_return_if_fail (E_IS_TO_DO_PANE (to_do_pane));
+
+	etdp_delete_common (to_do_pane, E_CAL_OBJ_MOD_THIS_AND_FUTURE);
+}
+
+static void
 etdp_delete_series_cb (GtkMenuItem *item,
 		       gpointer user_data)
 {
@@ -2232,6 +2243,16 @@ etdp_fill_popup_menu (EToDoPane *to_do_pane,
 				G_CALLBACK (etdp_delete_selected_cb), to_do_pane);
 			gtk_widget_show (item);
 			gtk_menu_shell_append (menu_shell, item);
+
+			if (!e_client_check_capability (E_CLIENT (client), E_CAL_STATIC_CAPABILITY_NO_THISANDFUTURE)) {
+				item = gtk_image_menu_item_new_with_mnemonic (_("Delete This and F_uture Occurrences…"));
+				gtk_image_menu_item_set_image (GTK_IMAGE_MENU_ITEM (item),
+					gtk_image_new_from_icon_name ("edit-delete", GTK_ICON_SIZE_MENU));
+				g_signal_connect (item, "activate",
+					G_CALLBACK (etdp_delete_this_and_future_cb), to_do_pane);
+				gtk_widget_show (item);
+				gtk_menu_shell_append (menu_shell, item);
+			}
 
 			item = gtk_image_menu_item_new_with_mnemonic (_("D_elete All Instances…"));
 			gtk_image_menu_item_set_image (GTK_IMAGE_MENU_ITEM (item),
