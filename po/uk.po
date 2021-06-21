@@ -12,8 +12,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: evolution\n"
 "Report-Msgid-Bugs-To: https://gitlab.gnome.org/GNOME/evolution/issues\n"
-"POT-Creation-Date: 2021-06-15 11:02+0000\n"
-"PO-Revision-Date: 2021-06-15 22:25+0300\n"
+"POT-Creation-Date: 2021-06-21 12:55+0000\n"
+"PO-Revision-Date: 2021-06-21 19:04+0300\n"
 "Last-Translator: Yuri Chornoivan <yurchor@ukr.net>\n"
 "Language-Team: Ukrainian <trans-uk@lists.fedoraproject.org>\n"
 "Language: uk\n"
@@ -5055,8 +5055,7 @@ msgstr "Twitter"
 
 #: ../src/addressbook/gui/widgets/eab-contact-formatter.c:934
 msgid "Matrix"
-msgstr ""
-"Matrix"
+msgstr "Matrix"
 
 #: ../src/addressbook/gui/widgets/eab-contact-formatter.c:996
 #: ../src/addressbook/gui/widgets/e-addressbook-view.etspec.h:34
@@ -5821,8 +5820,7 @@ msgstr "Google Talk"
 #: ../src/addressbook/util/eab-book-util.c:82
 msgctxt "addressbook-label"
 msgid "Matrix"
-msgstr ""
-"Matrix"
+msgstr "Matrix"
 
 #. To Translators:
 #. * if an email address type is not one of the predefined types,
@@ -9420,45 +9418,50 @@ msgstr "Завтра"
 msgid "Tasks without Due date"
 msgstr "Завдання без терміну виконання"
 
-#: ../src/calendar/gui/e-to-do-pane.c:2177
+#: ../src/calendar/gui/e-to-do-pane.c:2188
 #: ../src/modules/calendar/e-cal-shell-view-actions.c:1542
 msgid "New _Appointment…"
 msgstr "Створити з_устріч…"
 
-#: ../src/calendar/gui/e-to-do-pane.c:2185
+#: ../src/calendar/gui/e-to-do-pane.c:2196
 #: ../src/modules/calendar/e-cal-shell-view-actions.c:1479
 msgid "New _Meeting…"
 msgstr "С_творити зібрання…"
 
-#: ../src/calendar/gui/e-to-do-pane.c:2193
+#: ../src/calendar/gui/e-to-do-pane.c:2204
 msgid "New _Task…"
 msgstr "Створити за_вдання…"
 
-#: ../src/calendar/gui/e-to-do-pane.c:2201
+#: ../src/calendar/gui/e-to-do-pane.c:2212
 msgid "_New Assigned Task…"
 msgstr "С_творити пов'язане завдання…"
 
-#: ../src/calendar/gui/e-to-do-pane.c:2214
+#: ../src/calendar/gui/e-to-do-pane.c:2225
 msgid "_Open…"
 msgstr "_Відкрити…"
 
-#: ../src/calendar/gui/e-to-do-pane.c:2228
+#: ../src/calendar/gui/e-to-do-pane.c:2239
 msgid "_Delete This Instance…"
 msgstr "Ви_лучити цей екземпляр…"
 
-#: ../src/calendar/gui/e-to-do-pane.c:2236
+#: ../src/calendar/gui/e-to-do-pane.c:2248
+#| msgid "Delete This and F_uture Occurrences"
+msgid "Delete This and F_uture Occurrences…"
+msgstr "Вилучити цей і _майбутні екземпляри…"
+
+#: ../src/calendar/gui/e-to-do-pane.c:2257
 msgid "D_elete All Instances…"
 msgstr "Ви_лучити усі екземпляри…"
 
-#: ../src/calendar/gui/e-to-do-pane.c:2244
+#: ../src/calendar/gui/e-to-do-pane.c:2265
 msgid "_Delete…"
 msgstr "В_илучити…"
 
-#: ../src/calendar/gui/e-to-do-pane.c:2261
+#: ../src/calendar/gui/e-to-do-pane.c:2282
 msgid "_Show Tasks without Due date"
 msgstr "_Показувати завдання без терміну виконання"
 
-#: ../src/calendar/gui/e-to-do-pane.c:2540
+#: ../src/calendar/gui/e-to-do-pane.c:2561
 msgid "To Do"
 msgstr "Зробити"
 
@@ -14551,12 +14554,10 @@ msgid "Properties"
 msgstr "Властивості"
 
 #: ../src/e-util/e-html-editor-actions.c:1720
-#| msgid "Delete Mail"
 msgid "Delete Rule"
 msgstr "Вилучити правило"
 
 #: ../src/e-util/e-html-editor-actions.c:1727
-#| msgid "_Delete messages"
 msgid "Delete Image"
 msgstr "Вилучити зображення"
 
@@ -17867,7 +17868,6 @@ msgid "Folder Sort Order"
 msgstr "Порядок сортування у теці"
 
 #: ../src/mail/e-mail-folder-sort-order-dialog.c:728
-#| msgid "Reset c_urrent level"
 msgid "Reset current level"
 msgstr "Скинути поточний рівень"
 
@@ -17876,7 +17876,6 @@ msgid "Reset sort order in the current level to the defaults"
 msgstr "Скинути порядок сортування на поточному рівні до типового"
 
 #: ../src/mail/e-mail-folder-sort-order-dialog.c:739
-#| msgid "Reset _all levels"
 msgid "Reset all levels"
 msgstr "Скинути усі рівні"
 
@@ -27375,19 +27374,19 @@ msgstr "Зберегти результати пошуку"
 #. * allows the user to filter the current view.  Examples of
 #. * items that appear in the combo box are "Unread Messages",
 #. * "Important Messages", or "Active Appointments".
-#: ../src/shell/e-shell-searchbar.c:924
+#: ../src/shell/e-shell-searchbar.c:923
 msgid "Sho_w:"
 msgstr "_Показати:"
 
 #. Translators: This is part of the quick search interface.
 #. * example: Search: [_______________] in [ Current Folder ]
-#: ../src/shell/e-shell-searchbar.c:950
+#: ../src/shell/e-shell-searchbar.c:949
 msgid "Sear_ch:"
 msgstr "З_найти:"
 
 #. Translators: This is part of the quick search interface.
 #. * example: Search: [_______________] in [ Current Folder ]
-#: ../src/shell/e-shell-searchbar.c:1018
+#: ../src/shell/e-shell-searchbar.c:1017
 msgid "i_n"
 msgstr " _у "
 
