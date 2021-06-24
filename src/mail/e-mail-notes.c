@@ -708,6 +708,8 @@ e_mail_notes_replace_note (CamelMimeMessage *message,
 
 	g_object_ref (orig_content);
 
+	camel_medium_remove_header (CAMEL_MEDIUM (message), "Content-Transfer-Encoding");
+
 	if (note) {
 		multipart = camel_multipart_new ();
 		camel_data_wrapper_set_mime_type (CAMEL_DATA_WRAPPER (multipart), "multipart/mixed");
