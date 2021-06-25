@@ -7,14 +7,14 @@
 # Pedro Albuquerque <palbuquerque73@gmail.com>, 2015.
 # Sérgio Cardeira <cardeira.sergio@gmail.com>, 2016.
 # Juliano de Souza Camargo <julianosc@pm.me>, 2020.
-# Hugo Carvalho <hugokarvalho@hotmail.com, 2020.
+# Hugo Carvalho <hugokarvalho@hotmail.com, 2020-2021.
 #
 msgid ""
 msgstr ""
 "Project-Id-Version: 3.12\n"
 "Report-Msgid-Bugs-To: https://gitlab.gnome.org/GNOME/evolution/issues\n"
-"POT-Creation-Date: 2021-06-15 11:02+0000\n"
-"PO-Revision-Date: 2021-06-17 15:23+0100\n"
+"POT-Creation-Date: 2021-06-21 12:55+0000\n"
+"PO-Revision-Date: 2021-06-25 19:02+0100\n"
 "Last-Translator: Hugo Carvalho <hugokarvalho@hotmail.com>\n"
 "Language-Team: Portuguese <https://l10n.gnome.org/teams/pt/>\n"
 "Language: pt\n"
@@ -9470,45 +9470,49 @@ msgstr "Amanhã"
 msgid "Tasks without Due date"
 msgstr "Tarefas sem data limite"
 
-#: ../src/calendar/gui/e-to-do-pane.c:2177
+#: ../src/calendar/gui/e-to-do-pane.c:2188
 #: ../src/modules/calendar/e-cal-shell-view-actions.c:1542
 msgid "New _Appointment…"
 msgstr "Novo _compromisso…"
 
-#: ../src/calendar/gui/e-to-do-pane.c:2185
+#: ../src/calendar/gui/e-to-do-pane.c:2196
 #: ../src/modules/calendar/e-cal-shell-view-actions.c:1479
 msgid "New _Meeting…"
 msgstr "Nova _reunião…"
 
-#: ../src/calendar/gui/e-to-do-pane.c:2193
+#: ../src/calendar/gui/e-to-do-pane.c:2204
 msgid "New _Task…"
 msgstr "Nova _tarefa…"
 
-#: ../src/calendar/gui/e-to-do-pane.c:2201
+#: ../src/calendar/gui/e-to-do-pane.c:2212
 msgid "_New Assigned Task…"
 msgstr "_Nova tarefa atribuída…"
 
-#: ../src/calendar/gui/e-to-do-pane.c:2214
+#: ../src/calendar/gui/e-to-do-pane.c:2225
 msgid "_Open…"
 msgstr "_Abrir…"
 
-#: ../src/calendar/gui/e-to-do-pane.c:2228
+#: ../src/calendar/gui/e-to-do-pane.c:2239
 msgid "_Delete This Instance…"
 msgstr "Eliminar esta _instância…"
 
-#: ../src/calendar/gui/e-to-do-pane.c:2236
+#: ../src/calendar/gui/e-to-do-pane.c:2248
+msgid "Delete This and F_uture Occurrences…"
+msgstr "Eliminar esta e futuras _ocorrências…"
+
+#: ../src/calendar/gui/e-to-do-pane.c:2257
 msgid "D_elete All Instances…"
 msgstr "Eliminar _todas as instâncias…"
 
-#: ../src/calendar/gui/e-to-do-pane.c:2244
+#: ../src/calendar/gui/e-to-do-pane.c:2265
 msgid "_Delete…"
 msgstr "_Eliminar…"
 
-#: ../src/calendar/gui/e-to-do-pane.c:2261
+#: ../src/calendar/gui/e-to-do-pane.c:2282
 msgid "_Show Tasks without Due date"
 msgstr "_Ver tarefas sem data limite"
 
-#: ../src/calendar/gui/e-to-do-pane.c:2540
+#: ../src/calendar/gui/e-to-do-pane.c:2561
 msgid "To Do"
 msgstr "A fazer"
 
@@ -27380,19 +27384,19 @@ msgstr "Guardar a procura"
 #. * allows the user to filter the current view.  Examples of
 #. * items that appear in the combo box are "Unread Messages",
 #. * "Important Messages", or "Active Appointments".
-#: ../src/shell/e-shell-searchbar.c:924
+#: ../src/shell/e-shell-searchbar.c:923
 msgid "Sho_w:"
 msgstr "_Mostrar:"
 
 #. Translators: This is part of the quick search interface.
 #. * example: Search: [_______________] in [ Current Folder ]
-#: ../src/shell/e-shell-searchbar.c:950
+#: ../src/shell/e-shell-searchbar.c:949
 msgid "Sear_ch:"
 msgstr "Pro_curar:"
 
 #. Translators: This is part of the quick search interface.
 #. * example: Search: [_______________] in [ Current Folder ]
-#: ../src/shell/e-shell-searchbar.c:1018
+#: ../src/shell/e-shell-searchbar.c:1017
 msgid "i_n"
 msgstr "_Em"
 
