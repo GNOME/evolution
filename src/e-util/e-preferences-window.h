@@ -59,6 +59,8 @@ struct _EPreferencesWindow {
 
 struct _EPreferencesWindowClass {
 	GtkWindowClass parent_class;
+
+	void (*close) (EPreferencesWindow *window);
 };
 
 typedef GtkWidget *

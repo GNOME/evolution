@@ -997,6 +997,7 @@ mail_shell_backend_create_network_page (EPreferencesWindow *window)
 	pango_attr_list_insert (bold, pango_attr_weight_new (PANGO_WEIGHT_BOLD));
 
 	vbox = GTK_BOX (gtk_box_new (GTK_ORIENTATION_VERTICAL, 4));
+	gtk_container_set_border_width (GTK_CONTAINER (vbox), 12);
 
 	widget = gtk_label_new (_("General"));
 	g_object_set (G_OBJECT (widget),

@@ -97,6 +97,13 @@ set(private_icons
 	hicolor_actions_scalable_view-calendar-month.svg
 	hicolor_actions_scalable_view-calendar-week.svg
 	hicolor_actions_scalable_view-calendar-workweek.svg
+	hicolor_categories_24x24_preferences-calendar-and-tasks.svg
+	hicolor_categories_24x24_preferences-certificates.svg
+	hicolor_categories_24x24_preferences-composer.svg
+	hicolor_categories_24x24_preferences-contact.svg
+	hicolor_categories_24x24_preferences-mail.svg
+	hicolor_categories_24x24_preferences-mail-accounts.svg
+	hicolor_categories_24x24_preferences-system-network-proxy.svg
 	hicolor_categories_48x48_preferences-autocompletion.png
 	hicolor_categories_48x48_preferences-calendar-and-tasks.png
 	hicolor_categories_48x48_preferences-certificates.png

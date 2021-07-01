@@ -310,7 +310,7 @@ book_shell_backend_init_preferences (EShell *shell)
 	e_preferences_window_add_page (
 		E_PREFERENCES_WINDOW (preferences_window),
 		"contacts",
-		"preferences-autocompletion",
+		"preferences-contact",
 		_("Contacts"),
 		"index#contacts",
 		autocompletion_config_new,

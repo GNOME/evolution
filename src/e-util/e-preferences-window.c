@@ -29,7 +29,12 @@
 
 #include "e-preferences-window.h"
 
-#define SWITCH_PAGE_INTERVAL 250
+enum {
+	CLOSE,
+	LAST_SIGNAL
+};
+
+static guint dialog_signals[LAST_SIGNAL];
 
 #define E_PREFERENCES_WINDOW_GET_PRIVATE(obj) \
 	(G_TYPE_INSTANCE_GET_PRIVATE \
@@ -39,23 +44,8 @@ struct _EPreferencesWindowPrivate {
 	gboolean   setup;
 	gpointer   shell;
 
-	GtkWidget *icon_view;
-	GtkWidget *scroll;
-	GtkWidget *notebook;
-	GHashTable *index;
-
-	GtkListStore *store;
-	GtkTreeModelFilter *filter;
-	const gchar *filter_view;
-};
-
-enum {
-	COLUMN_ID,	/* G_TYPE_STRING */
-	COLUMN_TEXT,	/* G_TYPE_STRING */
-	COLUMN_HELP,	/* G_TYPE_STRING */
-	COLUMN_PIXBUF,	/* GDK_TYPE_PIXBUF */
-	COLUMN_PAGE,	/* G_TYPE_INT */
-	COLUMN_SORT	/* G_TYPE_INT */
+	GtkWidget *stack;
+	GtkWidget *listbox;
 };
 
 G_DEFINE_TYPE (
@@ -63,149 +53,149 @@ G_DEFINE_TYPE (
 	e_preferences_window,
 	GTK_TYPE_WINDOW)
 
-static gboolean
-preferences_window_filter_view (GtkTreeModel *model,
-                                GtkTreeIter *iter,
-                                EPreferencesWindow *window)
+#define E_TYPE_PREFERENCES_WINDOW_ROW e_preferences_window_row_get_type ()
+G_DECLARE_FINAL_TYPE (EPreferencesWindowRow, e_preferences_window_row, E, PREFERENCES_WINDOW_ROW, GtkListBoxRow)
+
+struct _EPreferencesWindowRow {
+	GtkListBoxRow parent_instance;
+
+	gchar *page_name;
+	gchar *caption;
+	gchar *help_target;
+	EPreferencesWindowCreatePageFn create_fn;
+	gint sort_order;
+	GtkWidget *page;
+};
+
+G_DEFINE_TYPE (EPreferencesWindowRow, e_preferences_window_row, GTK_TYPE_LIST_BOX_ROW)
+
+static void
+e_preferences_window_row_finalize (GObject *gobject)
 {
-	gchar *str;
-	gboolean visible = FALSE;
+	EPreferencesWindowRow *row = E_PREFERENCES_WINDOW_ROW (gobject);
 
-	if (!window->priv->filter_view)
-		return TRUE;
+	g_clear_pointer (&row->page_name, g_free);
+	g_clear_pointer (&row->caption, g_free);
+	g_clear_pointer (&row->help_target, g_free);
 
-	gtk_tree_model_get (model, iter, COLUMN_ID, &str, -1);
-	if (strncmp (window->priv->filter_view, "mail", 4) == 0) {
-		/* Show everything except calendar */
-		if (str && (strncmp (str, "cal", 3) == 0))
-			visible = FALSE;
-		else
-			visible = TRUE;
-	} else if (strncmp (window->priv->filter_view, "cal", 3) == 0) {
-		/* Show only calendar and nothing else */
-		if (str && (strncmp (str, "cal", 3) != 0))
-			visible = FALSE;
-		else
-			visible = TRUE;
-
-	} else  /* In any other case, show everything */
-		visible = TRUE;
-
-	g_free (str);
-
-	return visible;
+	G_OBJECT_CLASS (e_preferences_window_row_parent_class)->finalize (gobject);
 }
 
-static GdkPixbuf *
-preferences_window_load_pixbuf (const gchar *icon_name)
+static void
+e_preferences_window_row_class_init (EPreferencesWindowRowClass *class)
 {
-	GtkIconTheme *icon_theme;
-	GtkIconInfo *icon_info;
-	GdkPixbuf *pixbuf;
-	const gchar *filename;
-	gint size;
-	GError *error = NULL;
+	GObjectClass *object_class = G_OBJECT_CLASS (class);
 
-	icon_theme = gtk_icon_theme_get_default ();
+	object_class->finalize = e_preferences_window_row_finalize;
+}
 
-	if (!gtk_icon_size_lookup (GTK_ICON_SIZE_DIALOG, &size, 0))
-		return NULL;
+static void
+e_preferences_window_row_init (EPreferencesWindowRow *row)
+{
+}
 
-	icon_info = gtk_icon_theme_lookup_icon (
-		icon_theme, icon_name, size, 0);
+static GtkWidget *
+e_preferences_window_row_new (const gchar *page_name,
+                              const gchar *icon_name,
+                              const gchar *caption,
+                              const gchar *help_target,
+                              EPreferencesWindowCreatePageFn create_fn,
+                              gint sort_order)
+{
+	GtkWidget *hbox, *image, *label;
+	EPreferencesWindowRow *row;
 
-	if (icon_info == NULL)
-		return NULL;
+	row = g_object_new (E_TYPE_PREFERENCES_WINDOW_ROW, NULL);
+	row->page_name = g_strdup (page_name);
+	row->caption = g_strdup (caption);
+	row->help_target = g_strdup (help_target);
+	row->create_fn = create_fn;
+	row->sort_order = sort_order;
 
-	filename = gtk_icon_info_get_filename (icon_info);
+	hbox = gtk_box_new (GTK_ORIENTATION_HORIZONTAL, 12);
+	gtk_container_set_border_width (GTK_CONTAINER (hbox), 12);
+	image = gtk_image_new_from_icon_name (icon_name, GTK_ICON_SIZE_BUTTON);
+	g_object_set (G_OBJECT (image),
+		"pixel-size", 24,
+		"use-fallback", TRUE,
+		NULL);
+	gtk_style_context_add_class (gtk_widget_get_style_context (image), "sidebar-icon");
+	label = gtk_label_new (caption);
+	gtk_container_add (GTK_CONTAINER (hbox), image);
+	gtk_container_add (GTK_CONTAINER (hbox), label);
+	gtk_container_add (GTK_CONTAINER (row), hbox);
+	return GTK_WIDGET (row);
+}
 
-	pixbuf = gdk_pixbuf_new_from_file (filename, &error);
+static GtkWidget *
+e_preferences_window_row_create_page (EPreferencesWindowRow *self,
+                                      EPreferencesWindow *window)
+{
+	g_return_val_if_fail (E_IS_PREFERENCES_WINDOW_ROW (self), NULL);
+	g_return_val_if_fail (E_IS_PREFERENCES_WINDOW (window), NULL);
+	g_return_val_if_fail (self->create_fn != NULL, NULL);
+	g_return_val_if_fail (self->page == NULL, NULL);
 
-	gtk_icon_info_free (icon_info);
-
-	if (error != NULL) {
-		g_warning ("%s", error->message);
-		g_error_free (error);
-	}
-
-	if (pixbuf && (gdk_pixbuf_get_width (pixbuf) != size || gdk_pixbuf_get_height (pixbuf) != size)) {
-		GdkPixbuf *scaled;
-
-		scaled = e_icon_factory_pixbuf_scale (pixbuf, size, size);
-		g_object_unref (pixbuf);
-
-		pixbuf = scaled;
-	}
-
-	return pixbuf;
+	self->page = self->create_fn (window);
+	return self->page;
 }
 
 static void
 preferences_window_help_clicked_cb (EPreferencesWindow *window)
 {
-	GtkTreeModel *model;
-	GtkTreeIter iter;
-	GList *list;
 	gchar *help = NULL;
+	GtkListBoxRow *child;
 
 	g_return_if_fail (window != NULL);
 
-	model = GTK_TREE_MODEL (window->priv->filter);
-	list = gtk_icon_view_get_selected_items (
-		GTK_ICON_VIEW (window->priv->icon_view));
-
-	if (list != NULL) {
-		gtk_tree_model_get_iter (model, &iter, list->data);
-		gtk_tree_model_get (model, &iter, COLUMN_HELP, &help, -1);
-
-	} else if (gtk_tree_model_get_iter_first (model, &iter)) {
-		gint page_index, current_index;
-
-		current_index = gtk_notebook_get_current_page (
-			GTK_NOTEBOOK (window->priv->notebook));
-		do {
-			gtk_tree_model_get (
-				model, &iter, COLUMN_PAGE, &page_index, -1);
-
-			if (page_index == current_index) {
-				gtk_tree_model_get (
-					model, &iter, COLUMN_HELP, &help, -1);
-				break;
-			}
-		} while (gtk_tree_model_iter_next (model, &iter));
+	child = gtk_list_box_get_selected_row (GTK_LIST_BOX (window->priv->listbox));
+	if (child && E_IS_PREFERENCES_WINDOW_ROW (child)) {
+		EPreferencesWindowRow *row = E_PREFERENCES_WINDOW_ROW (child);
+		help = row->help_target;
 	}
 
 	e_display_help (GTK_WINDOW (window), help ? help : "index");
-
-	g_free (help);
 }
 
 static void
-preferences_window_selection_changed_cb (EPreferencesWindow *window)
+preferences_window_row_selected (EPreferencesWindow *window,
+                                 GtkListBoxRow *row,
+                                 GtkListBox *box)
 {
-	GtkIconView *icon_view;
-	GtkNotebook *notebook;
-	GtkTreeModel *model;
-	GtkTreeIter iter;
-	GList *list;
-	gint page;
+	g_signal_emit_by_name (row, "activate", NULL);
+}
 
-	icon_view = GTK_ICON_VIEW (window->priv->icon_view);
-	list = gtk_icon_view_get_selected_items (icon_view);
-	if (list == NULL)
-		return;
+static void
+preferences_window_row_activated (EPreferencesWindow *window,
+                                  GtkListBoxRow *row,
+                                  GtkListBox *box)
+{
+	EPreferencesWindowRow *pref_row = E_PREFERENCES_WINDOW_ROW (row);
 
-	model = GTK_TREE_MODEL (window->priv->filter);
-	gtk_tree_model_get_iter (model, &iter, list->data);
-	gtk_tree_model_get (model, &iter, COLUMN_PAGE, &page, -1);
+	g_return_if_fail (window != NULL);
+	g_return_if_fail (E_IS_PREFERENCES_WINDOW_ROW (row));
 
-	notebook = GTK_NOTEBOOK (window->priv->notebook);
-	gtk_notebook_set_current_page (notebook, page);
+	gtk_stack_set_visible_child_name (GTK_STACK (window->priv->stack), pref_row->page_name);
+}
 
-	g_list_foreach (list, (GFunc) gtk_tree_path_free, NULL);
-	g_list_free (list);
+static gint
+on_list_box_sort (GtkListBoxRow *row1,
+                  GtkListBoxRow *row2,
+                  gpointer user_data)
+{
+	EPreferencesWindowRow *pref_row1 = E_PREFERENCES_WINDOW_ROW (row1);
+	EPreferencesWindowRow *pref_row2 = E_PREFERENCES_WINDOW_ROW (row2);
 
-	gtk_widget_grab_focus (GTK_WIDGET (icon_view));
+	if (pref_row1->sort_order != pref_row2->sort_order)
+		return pref_row1->sort_order - pref_row2->sort_order;
+
+	return g_utf8_collate (pref_row1->caption, pref_row2->caption);
+}
+
+static void
+e_preferences_window_close (EPreferencesWindow *window)
+{
+	gtk_window_close (GTK_WINDOW (window));
 }
 
 static void
@@ -215,198 +205,111 @@ preferences_window_dispose (GObject *object)
 
 	priv = E_PREFERENCES_WINDOW_GET_PRIVATE (object);
 
-	if (priv->icon_view != NULL) {
-		g_signal_handlers_disconnect_by_func (priv->icon_view,
-			G_CALLBACK (preferences_window_selection_changed_cb), object);
-
-		g_object_unref (priv->icon_view);
-		priv->icon_view = NULL;
-	}
-
-	g_clear_object (&priv->notebook);
-
 	if (priv->shell) {
 		g_object_remove_weak_pointer (priv->shell, &priv->shell);
 		priv->shell = NULL;
 	}
-
-	g_hash_table_remove_all (priv->index);
 
 	/* Chain up to parent's dispose() method. */
 	G_OBJECT_CLASS (e_preferences_window_parent_class)->dispose (object);
 }
 
 static void
-preferences_window_finalize (GObject *object)
-{
-	EPreferencesWindowPrivate *priv;
-
-	priv = E_PREFERENCES_WINDOW_GET_PRIVATE (object);
-
-	g_hash_table_destroy (priv->index);
-
-	/* Chain up to parent's finalize() method. */
-	G_OBJECT_CLASS (e_preferences_window_parent_class)->finalize (object);
-}
-
-static void
-preferences_window_show (GtkWidget *widget)
-{
-	EPreferencesWindowPrivate *priv;
-	GtkIconView *icon_view;
-	GtkTreePath *path;
-
-	priv = E_PREFERENCES_WINDOW_GET_PRIVATE (widget);
-	if (!priv->setup)
-		g_warning ("Preferences window has not been setup correctly");
-
-	icon_view = GTK_ICON_VIEW (priv->icon_view);
-
-	path = gtk_tree_path_new_first ();
-	gtk_icon_view_select_path (icon_view, path);
-	gtk_icon_view_scroll_to_path (icon_view, path, FALSE, 0.0, 0.0);
-	gtk_tree_path_free (path);
-
-	gtk_widget_grab_focus (priv->icon_view);
-
-	/* Chain up to parent's show() method. */
-	GTK_WIDGET_CLASS (e_preferences_window_parent_class)->show (widget);
-}
-
-static void
 e_preferences_window_class_init (EPreferencesWindowClass *class)
 {
 	GObjectClass *object_class;
-	GtkWidgetClass *widget_class;
+	GtkBindingSet *binding_set;
 
 	g_type_class_add_private (class, sizeof (EPreferencesWindowPrivate));
 
 	object_class = G_OBJECT_CLASS (class);
 	object_class->dispose = preferences_window_dispose;
-	object_class->finalize = preferences_window_finalize;
 
-	widget_class = GTK_WIDGET_CLASS (class);
-	widget_class->show = preferences_window_show;
+	class->close = e_preferences_window_close;
+
+	/**
+	 * EPreferencesWindow::close:
+	 *
+	 * GtkBindingSignal which gets emitted when the user uses a
+	 * keybinding to close the dialog.
+	 *
+	 * The default binding for this signal is the Escape key.
+	 */
+	dialog_signals[CLOSE] =
+		g_signal_new ("close",
+			G_OBJECT_CLASS_TYPE (class),
+			G_SIGNAL_RUN_LAST | G_SIGNAL_ACTION,
+			G_STRUCT_OFFSET (EPreferencesWindowClass, close),
+			NULL, NULL, NULL,
+			G_TYPE_NONE, 0);
+
+	binding_set = gtk_binding_set_by_class (class);
+	gtk_binding_entry_add_signal (binding_set, GDK_KEY_Escape, 0, "close", 0);
 }
 
 static void
 e_preferences_window_init (EPreferencesWindow *window)
 {
-	GtkListStore *store;
-	GtkWidget *container;
-	GtkWidget *hbox;
-	GtkWidget *vbox;
+	GtkWidget *header;
 	GtkWidget *widget;
-	GHashTable *index;
-	const gchar *title;
-	GtkAccelGroup *accel_group;
-
-	index = g_hash_table_new_full (
-		g_str_hash, g_str_equal,
-		(GDestroyNotify) g_free,
-		(GDestroyNotify) gtk_tree_row_reference_free);
+	GtkWidget *hbox;
 
 	window->priv = E_PREFERENCES_WINDOW_GET_PRIVATE (window);
-	window->priv->index = index;
-	window->priv->filter_view = NULL;
 
-	store = gtk_list_store_new (
-		6, G_TYPE_STRING, G_TYPE_STRING, G_TYPE_STRING,
-		GDK_TYPE_PIXBUF, G_TYPE_INT, G_TYPE_INT);
-	gtk_tree_sortable_set_sort_column_id (
-		GTK_TREE_SORTABLE (store), COLUMN_SORT, GTK_SORT_ASCENDING);
-	window->priv->store = store;
+	widget = gtk_header_bar_new ();
+	g_object_set (G_OBJECT (widget),
+		"show-close-button", TRUE,
+		"visible", TRUE,
+		NULL);
+	gtk_window_set_titlebar (GTK_WINDOW (window), widget);
+	header = widget;
 
-	window->priv->filter = (GtkTreeModelFilter *)
-		gtk_tree_model_filter_new (GTK_TREE_MODEL (store), NULL);
-	gtk_tree_model_filter_set_visible_func (
-		window->priv->filter, (GtkTreeModelFilterVisibleFunc)
-		preferences_window_filter_view, window, NULL);
+	widget = gtk_stack_new ();
+	gtk_widget_show (widget);
+	window->priv->stack = widget;
 
-	title = _("Evolution Preferences");
-	gtk_window_set_title (GTK_WINDOW (window), title);
+	widget = g_object_new (GTK_TYPE_LIST_BOX,
+		"selection-mode", GTK_SELECTION_BROWSE,
+		"visible", TRUE,
+		NULL);
+	g_signal_connect_swapped (
+		widget, "row-selected",
+		G_CALLBACK (preferences_window_row_selected), window);
+	g_signal_connect_swapped (
+		widget, "row-activated",
+		G_CALLBACK (preferences_window_row_activated), window);
+	gtk_list_box_set_sort_func (GTK_LIST_BOX (widget),
+		on_list_box_sort,
+		NULL, NULL);
+	window->priv->listbox = widget;
+	widget = g_object_new (GTK_TYPE_SCROLLED_WINDOW,
+		"hscrollbar-policy", GTK_POLICY_NEVER,
+		"visible", TRUE,
+		NULL);
+	gtk_container_add (GTK_CONTAINER (widget), window->priv->listbox);
+
+	hbox = g_object_new (GTK_TYPE_BOX,
+		"orientation", GTK_ORIENTATION_HORIZONTAL,
+		"visible", TRUE,
+		NULL);
+	gtk_container_add (GTK_CONTAINER (window), hbox);
+	gtk_container_add (GTK_CONTAINER (hbox), widget);
+	gtk_container_add (GTK_CONTAINER (hbox), window->priv->stack);
+
+	widget = gtk_button_new_from_icon_name ("help-browser", GTK_ICON_SIZE_LARGE_TOOLBAR);
+	gtk_widget_set_tooltip_text (widget, _("Help"));
+	gtk_widget_show (widget);
+	g_signal_connect_swapped (
+		widget, "clicked",
+		G_CALLBACK (preferences_window_help_clicked_cb), window);
+	gtk_header_bar_pack_end (GTK_HEADER_BAR (header), widget);
+
+	gtk_window_set_title (GTK_WINDOW (window), _("Evolution Preferences"));
 	gtk_window_set_resizable (GTK_WINDOW (window), TRUE);
-	gtk_container_set_border_width (GTK_CONTAINER (window), 12);
 
 	g_signal_connect (
 		window, "delete-event",
 		G_CALLBACK (gtk_widget_hide_on_delete), NULL);
-
-	widget = gtk_box_new (GTK_ORIENTATION_VERTICAL, 12);
-	gtk_container_add (GTK_CONTAINER (window), widget);
-	gtk_widget_show (widget);
-
-	vbox = widget;
-
-	widget = gtk_box_new (GTK_ORIENTATION_HORIZONTAL, 12);
-	gtk_box_pack_start (GTK_BOX (vbox), widget, TRUE, TRUE, 0);
-	gtk_widget_show (widget);
-
-	hbox = widget;
-
-	widget = gtk_scrolled_window_new (NULL, NULL);
-	gtk_scrolled_window_set_policy (
-		GTK_SCROLLED_WINDOW (widget),
-		GTK_POLICY_NEVER, GTK_POLICY_AUTOMATIC);
-	gtk_scrolled_window_set_shadow_type (
-		GTK_SCROLLED_WINDOW (widget), GTK_SHADOW_IN);
-	gtk_box_pack_start (GTK_BOX (hbox), widget, FALSE, TRUE, 0);
-	window->priv->scroll = widget;
-	gtk_widget_show (widget);
-
-	container = widget;
-
-	widget = gtk_icon_view_new_with_model (
-		GTK_TREE_MODEL (window->priv->filter));
-	gtk_icon_view_set_columns (GTK_ICON_VIEW (widget), 1);
-	gtk_icon_view_set_text_column (GTK_ICON_VIEW (widget), COLUMN_TEXT);
-	gtk_icon_view_set_pixbuf_column (GTK_ICON_VIEW (widget), COLUMN_PIXBUF);
-	g_signal_connect_swapped (
-		widget, "selection-changed",
-		G_CALLBACK (preferences_window_selection_changed_cb), window);
-	gtk_container_add (GTK_CONTAINER (container), widget);
-	window->priv->icon_view = g_object_ref (widget);
-	gtk_widget_show (widget);
-	g_object_unref (store);
-
-	widget = gtk_notebook_new ();
-	gtk_notebook_set_show_tabs (GTK_NOTEBOOK (widget), FALSE);
-	gtk_notebook_set_show_border (GTK_NOTEBOOK (widget), FALSE);
-	gtk_box_pack_start (GTK_BOX (hbox), widget, TRUE, TRUE, 0);
-	window->priv->notebook = g_object_ref (widget);
-	gtk_widget_show (widget);
-
-	widget = gtk_button_box_new (GTK_ORIENTATION_HORIZONTAL);
-	gtk_button_box_set_layout (
-		GTK_BUTTON_BOX (widget), GTK_BUTTONBOX_END);
-	gtk_box_pack_start (GTK_BOX (vbox), widget, FALSE, FALSE, 0);
-	gtk_widget_show (widget);
-
-	container = widget;
-
-	widget = e_dialog_button_new_with_icon ("help-browser", _("_Help"));
-	g_signal_connect_swapped (
-		widget, "clicked",
-		G_CALLBACK (preferences_window_help_clicked_cb), window);
-	gtk_box_pack_start (GTK_BOX (container), widget, FALSE, FALSE, 0);
-	gtk_button_box_set_child_secondary (
-		GTK_BUTTON_BOX (container), widget, TRUE);
-	gtk_widget_show (widget);
-
-	widget = e_dialog_button_new_with_icon ("window-close", _("_Close"));
-	g_signal_connect_swapped (
-		widget, "clicked",
-		G_CALLBACK (gtk_widget_hide), window);
-	gtk_widget_set_can_default (widget, TRUE);
-	gtk_box_pack_start (GTK_BOX (container), widget, FALSE, FALSE, 0);
-	accel_group = gtk_accel_group_new ();
-	gtk_widget_add_accelerator (
-		widget, "activate", accel_group,
-		GDK_KEY_Escape, (GdkModifierType) 0,
-		GTK_ACCEL_VISIBLE);
-	gtk_window_add_accel_group (GTK_WINDOW (window), accel_group);
-	gtk_widget_grab_default (widget);
-	gtk_widget_show (widget);
 }
 
 GtkWidget *
@@ -441,16 +344,7 @@ e_preferences_window_add_page (EPreferencesWindow *window,
                                EPreferencesWindowCreatePageFn create_fn,
                                gint sort_order)
 {
-	GtkTreeRowReference *reference;
-	GtkIconView *icon_view;
-	GtkNotebook *notebook;
-	GtkTreeModel *model;
-	GtkTreePath *path;
-	GHashTable *index;
-	GdkPixbuf *pixbuf;
-	GtkTreeIter iter;
-	GtkWidget *align;
-	gint page;
+	GtkWidget *row;
 
 	g_return_if_fail (E_IS_PREFERENCES_WINDOW (window));
 	g_return_if_fail (create_fn != NULL);
@@ -458,66 +352,29 @@ e_preferences_window_add_page (EPreferencesWindow *window,
 	g_return_if_fail (icon_name != NULL);
 	g_return_if_fail (caption != NULL);
 
-	icon_view = GTK_ICON_VIEW (window->priv->icon_view);
-	notebook = GTK_NOTEBOOK (window->priv->notebook);
-
-	page = gtk_notebook_get_n_pages (notebook);
-	model = GTK_TREE_MODEL (window->priv->store);
-	pixbuf = preferences_window_load_pixbuf (icon_name);
-
-	gtk_list_store_append (GTK_LIST_STORE (model), &iter);
-
-	gtk_list_store_set (
-		GTK_LIST_STORE (model), &iter,
-		COLUMN_ID, page_name,
-		COLUMN_TEXT, caption,
-		COLUMN_HELP, help_target,
-		COLUMN_PIXBUF, pixbuf,
-		COLUMN_PAGE, page,
-		COLUMN_SORT, sort_order,
-		-1);
-
-	index = window->priv->index;
-	path = gtk_tree_model_get_path (model, &iter);
-	reference = gtk_tree_row_reference_new (model, path);
-	g_hash_table_insert (index, g_strdup (page_name), reference);
-	gtk_tree_path_free (path);
-
-	align = g_object_new (GTK_TYPE_ALIGNMENT, NULL);
-	gtk_widget_show (GTK_WIDGET (align));
-	g_object_set_data (G_OBJECT (align), "create_fn", create_fn);
-	gtk_notebook_append_page (notebook, align, NULL);
-	gtk_container_child_set (
-		GTK_CONTAINER (notebook), align,
-		"tab-fill", FALSE, "tab-expand", FALSE, NULL);
-
-	/* Force GtkIconView to recalculate the text wrap width,
-	 * otherwise we get a really narrow icon list on the left
-	 * side of the preferences window. */
-	gtk_icon_view_set_item_width (icon_view, -1);
-	gtk_widget_queue_resize (GTK_WIDGET (window));
+	row = e_preferences_window_row_new (page_name, icon_name, caption, help_target, create_fn, sort_order);
+	gtk_widget_show_all (row);
+	gtk_container_add (GTK_CONTAINER (window->priv->listbox), row);
 }
 
 void
 e_preferences_window_show_page (EPreferencesWindow *window,
                                 const gchar *page_name)
 {
-	GtkTreeRowReference *reference;
-	GtkIconView *icon_view;
-	GtkTreePath *path;
+	GList *children, *list;
 
 	g_return_if_fail (E_IS_PREFERENCES_WINDOW (window));
 	g_return_if_fail (page_name != NULL);
-	g_return_if_fail (window->priv->setup);
+	g_return_if_fail (window->priv->listbox);
 
-	icon_view = GTK_ICON_VIEW (window->priv->icon_view);
-	reference = g_hash_table_lookup (window->priv->index, page_name);
-	g_return_if_fail (reference != NULL);
-
-	path = gtk_tree_row_reference_get_path (reference);
-	gtk_icon_view_select_path (icon_view, path);
-	gtk_icon_view_scroll_to_path (icon_view, path, FALSE, 0.0, 0.0);
-	gtk_tree_path_free (path);
+	children = gtk_container_get_children (GTK_CONTAINER (window->priv->listbox));
+	for (list = children; list != NULL; list = list->next) {
+		EPreferencesWindowRow *child = list->data;
+		if (!g_strcmp0 (page_name, child->page_name)) {
+			gtk_list_box_select_row (GTK_LIST_BOX (window->priv->listbox), GTK_LIST_BOX_ROW (child));
+			break;
+		}
+	}
 }
 
 /*
@@ -526,10 +383,9 @@ e_preferences_window_show_page (EPreferencesWindow *window,
 void
 e_preferences_window_setup (EPreferencesWindow *window)
 {
-	gint i, num;
-	GtkNotebook *notebook;
 	EPreferencesWindowPrivate *priv;
-	GSList *children = NULL;
+	GList *children, *list;
+	GSList *slist_children = NULL;
 
 	g_return_if_fail (E_IS_PREFERENCES_WINDOW (window));
 
@@ -538,47 +394,28 @@ e_preferences_window_setup (EPreferencesWindow *window)
 	if (priv->setup)
 		return;
 
-	notebook = GTK_NOTEBOOK (priv->notebook);
-	num = gtk_notebook_get_n_pages (notebook);
+	children = gtk_container_get_children (GTK_CONTAINER (window->priv->listbox));
+	for (list = children; list != NULL; list = list->next) {
+		EPreferencesWindowRow *child = list->data;
+		GtkWidget *content, *scrolled;
 
-	for (i = 0; i < num; i++) {
-		GtkBin *align;
-		GtkWidget *content;
-		EPreferencesWindowCreatePageFn create_fn;
-
-		align = GTK_BIN (gtk_notebook_get_nth_page (notebook, i));
-		create_fn = g_object_get_data (G_OBJECT (align), "create_fn");
-
-		if (!create_fn || gtk_bin_get_child (align))
-			continue;
-
-		content = create_fn (window);
+		content = e_preferences_window_row_create_page (child, window);
 		if (content) {
-			GtkScrolledWindow *scrolled;
-
-			children = g_slist_prepend (children, content);
-
-			scrolled = GTK_SCROLLED_WINDOW (gtk_scrolled_window_new (NULL, NULL));
-			gtk_scrolled_window_add_with_viewport (scrolled, content);
-			gtk_scrolled_window_set_min_content_width (scrolled, 320);
-			gtk_scrolled_window_set_min_content_height (scrolled, 240);
-			gtk_scrolled_window_set_policy (scrolled, GTK_POLICY_AUTOMATIC, GTK_POLICY_AUTOMATIC);
-			gtk_scrolled_window_set_shadow_type (scrolled, GTK_SHADOW_NONE);
-
-			gtk_viewport_set_shadow_type (
-				GTK_VIEWPORT (gtk_bin_get_child (GTK_BIN (scrolled))),
-				GTK_SHADOW_NONE);
-
+			scrolled = gtk_scrolled_window_new (NULL, NULL);
+			g_object_set (G_OBJECT (scrolled),
+				"min-content-width", 320,
+				"min-content-height", 240,
+				"hscrollbar-policy", GTK_POLICY_NEVER,
+				"visible", TRUE,
+				NULL);
+			gtk_container_add (GTK_CONTAINER (scrolled), content);
 			gtk_widget_show (content);
-			gtk_widget_show (GTK_WIDGET (scrolled));
-
-			gtk_container_add (GTK_CONTAINER (align), GTK_WIDGET (scrolled));
+			gtk_stack_add_named (GTK_STACK (priv->stack), scrolled, child->page_name);
+			slist_children = g_slist_prepend (slist_children, scrolled);
 		}
 	}
 
-	e_util_resize_window_for_screen (GTK_WINDOW (window), -1, -1, children);
-
-	g_slist_free (children);
-
+	e_util_resize_window_for_screen (GTK_WINDOW (window), -1, -1, slist_children);
+	g_slist_free (slist_children);
 	priv->setup = TRUE;
 }
