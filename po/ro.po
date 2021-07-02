@@ -13,8 +13,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: evolution.HEAD.ro\n"
 "Report-Msgid-Bugs-To: https://gitlab.gnome.org/GNOME/evolution/issues\n"
-"POT-Creation-Date: 2021-06-08 16:12+0000\n"
-"PO-Revision-Date: 2021-06-09 13:22+0200\n"
+"POT-Creation-Date: 2021-06-25 18:04+0000\n"
+"PO-Revision-Date: 2021-07-02 19:29+0300\n"
 "Last-Translator: Florentina Mușat <florentina.musat.28@gmail.com>\n"
 "Language-Team: Gnome Romanian Translation Team <gnomero-list@lists.sourceforge.net>\n"
 "Language: ro\n"
@@ -23,7 +23,7 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=3; plural=(n==1 ? 0 : n==0 || (n!=1 && n%100>=1 && n%100<=19) ? 1 : 2);\n"
 "n%100<=19) ? 1: 2);\n"
-"X-Generator: Poedit 2.4.3\n"
+"X-Generator: Poedit 3.0\n"
 "20)) ? 1: 2);\n"
 "X-Poedit-Bookmarks: 175,-1,-1,-1,-1,-1,-1,-1,-1,-1\n"
 "X-Project-Style: gnome\n"
@@ -3048,7 +3048,7 @@ msgstr "Compune un mesaj"
 msgid "Contacts"
 msgstr "Contacte"
 
-#: ../data/org.gnome.Evolution.desktop.in.in.h:9 ../src/addressbook/gui/widgets/eab-contact-formatter.c:1002
+#: ../data/org.gnome.Evolution.desktop.in.in.h:9 ../src/addressbook/gui/widgets/eab-contact-formatter.c:1004
 #: ../src/e-util/e-collection-account-wizard.c:855 ../src/e-util/e-send-options.c:544 ../src/e-util/e-webdav-browser.c:532
 #: ../src/modules/calendar/e-cal-shell-view-actions.c:199 ../src/modules/calendar/e-cal-shell-view.c:631
 #: ../src/plugins/publish-calendar/publish-calendar.ui.h:22
@@ -3521,7 +3521,7 @@ msgid "A contact already exists with this address. Would you like to add a new c
 msgstr "Un contact cu această adresă există deja. Doriți să adăugați totuși un nou card cu aceeași adresă?"
 
 #: ../src/addressbook/addressbook.error.xml.h:32 ../src/addressbook/gui/contact-list-editor/contact-list-editor.ui.h:9
-#: ../src/addressbook/gui/widgets/eab-contact-merging.c:757 ../src/calendar/gui/e-comp-editor-page-general.c:1493
+#: ../src/addressbook/gui/widgets/eab-contact-merging.c:762 ../src/calendar/gui/e-comp-editor-page-general.c:1493
 #: ../src/e-util/e-accounts-window.c:1563 ../src/e-util/e-mail-signature-manager.c:324
 #: ../src/e-util/e-name-selector-dialog.c:1026 ../src/e-util/filter.ui.h:25 ../src/mail/e-mail-account-manager.c:721
 #: ../src/mail/e-mail-label-manager.c:355 ../src/mail/em-folder-properties.c:1359 ../src/mail/em-vfolder-editor-rule.c:405
@@ -3662,8 +3662,8 @@ msgstr "Arată note"
 msgid "Show Certificates"
 msgstr "Arată certificate"
 
-#: ../src/addressbook/gui/contact-editor/contact-editor.ui.h:12 ../src/addressbook/gui/contact-editor/e-contact-editor.c:724
-#: ../src/addressbook/gui/contact-editor/e-contact-editor.c:746 ../src/addressbook/gui/contact-editor/e-contact-editor.c:3111
+#: ../src/addressbook/gui/contact-editor/contact-editor.ui.h:12 ../src/addressbook/gui/contact-editor/e-contact-editor.c:725
+#: ../src/addressbook/gui/contact-editor/e-contact-editor.c:747 ../src/addressbook/gui/contact-editor/e-contact-editor.c:3112
 msgid "Contact Editor"
 msgstr "Editor de contacte"
 
@@ -3674,14 +3674,14 @@ msgstr "Opțiuni"
 
 #. This is only shown if the EActivity has a GCancellable.
 #. no flags
-#: ../src/addressbook/gui/contact-editor/contact-editor.ui.h:14 ../src/addressbook/gui/contact-editor/e-contact-editor.c:3274
-#: ../src/addressbook/gui/contact-editor/e-contact-editor.c:3504
-#: ../src/addressbook/gui/contact-editor/e-contact-editor.c:4336
-#: ../src/addressbook/gui/contact-editor/e-contact-editor.c:4342
+#: ../src/addressbook/gui/contact-editor/contact-editor.ui.h:14 ../src/addressbook/gui/contact-editor/e-contact-editor.c:3275
+#: ../src/addressbook/gui/contact-editor/e-contact-editor.c:3505
+#: ../src/addressbook/gui/contact-editor/e-contact-editor.c:4337
+#: ../src/addressbook/gui/contact-editor/e-contact-editor.c:4343
 #: ../src/addressbook/gui/contact-editor/e-contact-editor-fullname.c:212
 #: ../src/addressbook/gui/contact-editor/e-contact-quick-add.c:453 ../src/addressbook/gui/contact-editor/fullname.ui.h:14
 #: ../src/addressbook/gui/contact-list-editor/contact-list-editor.ui.h:2
-#: ../src/addressbook/gui/widgets/eab-contact-merging.c:516 ../src/addressbook/gui/widgets/eab-contact-merging.c:752
+#: ../src/addressbook/gui/widgets/eab-contact-merging.c:517 ../src/addressbook/gui/widgets/eab-contact-merging.c:757
 #: ../src/addressbook/gui/widgets/eab-gui-util.c:316 ../src/addressbook/gui/widgets/e-addressbook-view.c:1437
 #: ../src/calendar/gui/e-cal-dialogs.c:690 ../src/calendar/gui/e-comp-editor-page-recurrence.c:305
 #: ../src/composer/e-composer-actions.c:242 ../src/e-util/e-activity-bar.c:370 ../src/e-util/e-attachment-dialog.c:289
@@ -3690,9 +3690,9 @@ msgstr "Opțiuni"
 #: ../src/e-util/e-category-editor.c:169 ../src/e-util/e-category-editor.c:257 ../src/e-util/e-charset-combo-box.c:99
 #: ../src/e-util/e-collection-account-wizard.c:240 ../src/e-util/e-collection-account-wizard.c:1887
 #: ../src/e-util/e-collection-account-wizard.c:2134 ../src/e-util/e-color-chooser-widget.c:125
-#: ../src/e-util/e-filter-datespec.c:300 ../src/e-util/e-html-editor-actions.c:342 ../src/e-util/e-html-editor-actions.c:386
-#: ../src/e-util/e-html-editor-actions.c:489 ../src/e-util/e-image-chooser-dialog.c:179
-#: ../src/e-util/e-mail-signature-script-dialog.c:358 ../src/e-util/e-passwords.c:468 ../src/e-util/e-rule-context.c:816
+#: ../src/e-util/e-filter-datespec.c:300 ../src/e-util/e-html-editor-actions.c:362 ../src/e-util/e-html-editor-actions.c:406
+#: ../src/e-util/e-html-editor-actions.c:509 ../src/e-util/e-image-chooser-dialog.c:179
+#: ../src/e-util/e-mail-signature-script-dialog.c:358 ../src/e-util/e-passwords.c:468 ../src/e-util/e-rule-context.c:819
 #: ../src/e-util/e-rule-editor.c:184 ../src/e-util/e-rule-editor.c:295 ../src/e-util/e-rule-editor.c:930
 #: ../src/e-util/e-send-options.ui.h:16 ../src/e-util/e-source-config-dialog.c:356
 #: ../src/e-util/e-source-selector-dialog.c:325 ../src/e-util/e-table-config.c:540 ../src/e-util/e-table-config.ui.h:3
@@ -3702,8 +3702,8 @@ msgstr "Opțiuni"
 #: ../src/mail/em-folder-selector.c:333 ../src/mail/mail-config.ui.h:2 ../src/mail/mail.error.xml.h:16
 #: ../src/mail/mail-send-recv.c:874 ../src/mail/mail-send-recv.c:955 ../src/mail/mail-vfolder-ui.c:149
 #: ../src/mail/mail-vfolder-ui.c:271 ../src/modules/accounts-window/e-accounts-window-editors.c:277
-#: ../src/modules/backup-restore/evolution-backup-tool.c:989 ../src/modules/book-config-ldap/evolution-book-config-ldap.c:406
-#: ../src/modules/calendar/e-cal-attachment-handler.c:281
+#: ../src/modules/backup-restore/evolution-backup-tool.c:1226
+#: ../src/modules/book-config-ldap/evolution-book-config-ldap.c:406 ../src/modules/calendar/e-cal-attachment-handler.c:281
 #: ../src/plugins/email-custom-header/org-gnome-email-custom-header.ui.h:3 ../src/plugins/face/face.c:298
 #: ../src/plugins/publish-calendar/publish-calendar.c:788 ../src/plugins/publish-calendar/url-editor-dialog.c:417
 #: ../src/plugins/save-calendar/save-calendar.c:184 ../src/shell/e-shell-content.c:641 ../src/shell/e-shell-content.c:748
@@ -3713,9 +3713,9 @@ msgstr "Opțiuni"
 msgid "_Cancel"
 msgstr "_Anulează"
 
-#: ../src/addressbook/gui/contact-editor/contact-editor.ui.h:15 ../src/addressbook/gui/contact-editor/e-contact-editor.c:3504
+#: ../src/addressbook/gui/contact-editor/contact-editor.ui.h:15 ../src/addressbook/gui/contact-editor/e-contact-editor.c:3505
 #: ../src/addressbook/gui/contact-list-editor/contact-list-editor.ui.h:3
-#: ../src/addressbook/gui/widgets/eab-contact-merging.c:755 ../src/calendar/calendar.error.xml.h:47
+#: ../src/addressbook/gui/widgets/eab-contact-merging.c:760 ../src/calendar/calendar.error.xml.h:47
 #: ../src/calendar/gui/e-comp-editor.c:2237 ../src/composer/e-composer-actions.c:242 ../src/composer/e-composer-actions.c:354
 #: ../src/e-util/e-attachment-store.c:848 ../src/e-util/e-attachment-store.c:855
 #: ../src/e-util/e-mail-signature-script-dialog.c:362 ../src/e-util/e-webdav-browser.c:2631 ../src/e-util/e-web-view.c:3994
@@ -3755,8 +3755,8 @@ msgstr "Ca_tegorii..."
 msgid "Full _Name..."
 msgstr "_Nume complet..."
 
-#: ../src/addressbook/gui/contact-editor/contact-editor.ui.h:23 ../src/addressbook/gui/widgets/eab-contact-formatter.c:918
-#: ../src/addressbook/gui/widgets/eab-contact-formatter.c:1331 ../src/addressbook/gui/widgets/e-addressbook-view.etspec.h:6
+#: ../src/addressbook/gui/contact-editor/contact-editor.ui.h:23 ../src/addressbook/gui/widgets/eab-contact-formatter.c:919
+#: ../src/addressbook/gui/widgets/eab-contact-formatter.c:1333 ../src/addressbook/gui/widgets/e-addressbook-view.etspec.h:6
 msgid "Email"
 msgstr "Email"
 
@@ -3776,7 +3776,7 @@ msgstr "Adresă SIP"
 msgid "Instant Messaging"
 msgstr "Mesagerie instant"
 
-#: ../src/addressbook/gui/contact-editor/contact-editor.ui.h:28 ../src/addressbook/importers/evolution-vcard-importer.c:826
+#: ../src/addressbook/gui/contact-editor/contact-editor.ui.h:28 ../src/addressbook/importers/evolution-vcard-importer.c:828
 msgid "Contact"
 msgstr "Contact"
 
@@ -3871,12 +3871,12 @@ msgstr "_Zi de naștere:"
 msgid "_Anniversary:"
 msgstr "A_niversare:"
 
-#: ../src/addressbook/gui/contact-editor/contact-editor.ui.h:52 ../src/addressbook/gui/widgets/eab-contact-formatter.c:1048
+#: ../src/addressbook/gui/contact-editor/contact-editor.ui.h:52 ../src/addressbook/gui/widgets/eab-contact-formatter.c:1050
 #: ../src/addressbook/gui/widgets/e-addressbook-view.etspec.h:47 ../src/calendar/gui/e-calendar-view.c:2228
 msgid "Anniversary"
 msgstr "Aniversare"
 
-#: ../src/addressbook/gui/contact-editor/contact-editor.ui.h:53 ../src/addressbook/gui/widgets/eab-contact-formatter.c:1047
+#: ../src/addressbook/gui/contact-editor/contact-editor.ui.h:53 ../src/addressbook/gui/widgets/eab-contact-formatter.c:1049
 #: ../src/addressbook/gui/widgets/e-addressbook-view.etspec.h:46 ../src/calendar/gui/e-calendar-view.c:2227
 msgid "Birthday"
 msgstr "Ziua de naștere"
@@ -3915,18 +3915,18 @@ msgstr "Căsuță _poștală:"
 msgid "_Address:"
 msgstr "_Adresă:"
 
-#: ../src/addressbook/gui/contact-editor/contact-editor.ui.h:62 ../src/addressbook/gui/widgets/eab-contact-formatter.c:83
+#: ../src/addressbook/gui/contact-editor/contact-editor.ui.h:62 ../src/addressbook/gui/widgets/eab-contact-formatter.c:84
 #: ../src/addressbook/gui/widgets/e-contact-map.c:367
 msgid "Home"
 msgstr "Acasă"
 
-#: ../src/addressbook/gui/contact-editor/contact-editor.ui.h:63 ../src/addressbook/gui/widgets/eab-contact-formatter.c:82
-#: ../src/addressbook/gui/widgets/eab-contact-formatter.c:1016 ../src/addressbook/gui/widgets/e-contact-map.c:380
+#: ../src/addressbook/gui/contact-editor/contact-editor.ui.h:63 ../src/addressbook/gui/widgets/eab-contact-formatter.c:83
+#: ../src/addressbook/gui/widgets/eab-contact-formatter.c:1018 ../src/addressbook/gui/widgets/e-contact-map.c:380
 msgid "Work"
 msgstr "Loc de muncă"
 
-#: ../src/addressbook/gui/contact-editor/contact-editor.ui.h:64 ../src/addressbook/gui/widgets/eab-contact-formatter.c:84
-#: ../src/addressbook/gui/widgets/eab-contact-formatter.c:526 ../src/addressbook/gui/widgets/eab-contact-formatter.c:1082
+#: ../src/addressbook/gui/contact-editor/contact-editor.ui.h:64 ../src/addressbook/gui/widgets/eab-contact-formatter.c:85
+#: ../src/addressbook/gui/widgets/eab-contact-formatter.c:527 ../src/addressbook/gui/widgets/eab-contact-formatter.c:1084
 #: ../src/calendar/gui/e-cal-model.c:3827
 msgid "Other"
 msgstr "Alte"
@@ -3973,117 +3973,117 @@ msgstr "Î_ncarcă X.509"
 msgid "Certificates"
 msgstr "Certificate"
 
-#: ../src/addressbook/gui/contact-editor/e-contact-editor.c:261 ../src/calendar/gui/e-comp-editor.c:2169
-#: ../src/e-util/e-html-editor-actions.c:1113
+#: ../src/addressbook/gui/contact-editor/e-contact-editor.c:262 ../src/calendar/gui/e-comp-editor.c:2169
+#: ../src/e-util/e-html-editor-actions.c:1133
 msgid "_Undo"
 msgstr "An_ulează"
 
-#: ../src/addressbook/gui/contact-editor/e-contact-editor.c:263 ../src/calendar/gui/e-comp-editor.c:2171
+#: ../src/addressbook/gui/contact-editor/e-contact-editor.c:264 ../src/calendar/gui/e-comp-editor.c:2171
 #: ../src/e-util/e-focus-tracker.c:147 ../src/e-util/e-focus-tracker.c:150
 msgid "Undo"
 msgstr "Anulează"
 
-#: ../src/addressbook/gui/contact-editor/e-contact-editor.c:268 ../src/calendar/gui/e-comp-editor.c:2176
-#: ../src/e-util/e-html-editor-actions.c:1099
+#: ../src/addressbook/gui/contact-editor/e-contact-editor.c:269 ../src/calendar/gui/e-comp-editor.c:2176
+#: ../src/e-util/e-html-editor-actions.c:1119
 msgid "_Redo"
 msgstr "_Refă"
 
-#: ../src/addressbook/gui/contact-editor/e-contact-editor.c:270 ../src/calendar/gui/e-comp-editor.c:2178
+#: ../src/addressbook/gui/contact-editor/e-contact-editor.c:271 ../src/calendar/gui/e-comp-editor.c:2178
 #: ../src/e-util/e-focus-tracker.c:163 ../src/e-util/e-focus-tracker.c:166
 msgid "Redo"
 msgstr "Refă"
 
-#: ../src/addressbook/gui/contact-editor/e-contact-editor.c:302 ../src/addressbook/gui/widgets/eab-gui-util.c:501
+#: ../src/addressbook/gui/contact-editor/e-contact-editor.c:303 ../src/addressbook/gui/widgets/eab-gui-util.c:501
 msgid "Error adding contact"
 msgstr "Eroare la adăugarea contactului"
 
-#: ../src/addressbook/gui/contact-editor/e-contact-editor.c:322
+#: ../src/addressbook/gui/contact-editor/e-contact-editor.c:323
 msgid "Error modifying contact"
 msgstr "Eroare la modificare contactului"
 
-#: ../src/addressbook/gui/contact-editor/e-contact-editor.c:342
+#: ../src/addressbook/gui/contact-editor/e-contact-editor.c:343
 msgid "Error removing contact"
 msgstr "Eroare la ștergerea contactului"
 
-#: ../src/addressbook/gui/contact-editor/e-contact-editor.c:740 ../src/addressbook/gui/contact-editor/e-contact-editor.c:3105
+#: ../src/addressbook/gui/contact-editor/e-contact-editor.c:741 ../src/addressbook/gui/contact-editor/e-contact-editor.c:3106
 #, c-format
 msgid "Contact Editor — %s"
 msgstr "Editor de contacte — %s"
 
-#: ../src/addressbook/gui/contact-editor/e-contact-editor.c:3241
+#: ../src/addressbook/gui/contact-editor/e-contact-editor.c:3242
 msgid "X.509 certificates"
 msgstr "Certificate X.509"
 
-#: ../src/addressbook/gui/contact-editor/e-contact-editor.c:3246
+#: ../src/addressbook/gui/contact-editor/e-contact-editor.c:3247
 msgid "PGP keys"
 msgstr "Chei PGP"
 
-#: ../src/addressbook/gui/contact-editor/e-contact-editor.c:3252 ../src/e-util/e-html-editor-actions.c:395
+#: ../src/addressbook/gui/contact-editor/e-contact-editor.c:3253 ../src/e-util/e-html-editor-actions.c:415
 #: ../src/e-util/e-image-chooser-dialog.c:193 ../src/smime/gui/certificate-manager.c:674
 #: ../src/smime/gui/certificate-manager.c:959
 msgid "All files"
 msgstr "Toate fișierele"
 
-#: ../src/addressbook/gui/contact-editor/e-contact-editor.c:3272
+#: ../src/addressbook/gui/contact-editor/e-contact-editor.c:3273
 msgid "Open PGP key"
 msgstr "Deschide cheia PGP"
 
-#: ../src/addressbook/gui/contact-editor/e-contact-editor.c:3272
+#: ../src/addressbook/gui/contact-editor/e-contact-editor.c:3273
 msgid "Open X.509 certificate"
 msgstr "Deschide certificatul X.509"
 
-#: ../src/addressbook/gui/contact-editor/e-contact-editor.c:3274
-#: ../src/addressbook/gui/contact-editor/e-contact-editor.c:4336
-#: ../src/addressbook/gui/contact-editor/e-contact-editor.c:4343 ../src/e-util/e-attachment-store.c:666
-#: ../src/e-util/e-category-editor.c:177 ../src/e-util/e-html-editor-actions.c:342 ../src/e-util/e-html-editor-actions.c:386
-#: ../src/e-util/e-html-editor-actions.c:489 ../src/e-util/e-image-chooser-dialog.c:182 ../src/plugins/face/face.c:298
+#: ../src/addressbook/gui/contact-editor/e-contact-editor.c:3275
+#: ../src/addressbook/gui/contact-editor/e-contact-editor.c:4337
+#: ../src/addressbook/gui/contact-editor/e-contact-editor.c:4344 ../src/e-util/e-attachment-store.c:666
+#: ../src/e-util/e-category-editor.c:177 ../src/e-util/e-html-editor-actions.c:362 ../src/e-util/e-html-editor-actions.c:406
+#: ../src/e-util/e-html-editor-actions.c:509 ../src/e-util/e-image-chooser-dialog.c:182 ../src/plugins/face/face.c:298
 #: ../src/shell/e-shell-utils.c:69 ../src/smime/gui/certificate-manager.c:949
 msgid "_Open"
 msgstr "_Deschide"
 
-#: ../src/addressbook/gui/contact-editor/e-contact-editor.c:3289
-#: ../src/addressbook/gui/contact-editor/e-contact-editor.c:3517
+#: ../src/addressbook/gui/contact-editor/e-contact-editor.c:3290
+#: ../src/addressbook/gui/contact-editor/e-contact-editor.c:3518
 msgid "Chosen file is not a local file."
 msgstr "Fișierul ales nu este unul local."
 
-#: ../src/addressbook/gui/contact-editor/e-contact-editor.c:3302
+#: ../src/addressbook/gui/contact-editor/e-contact-editor.c:3303
 #, c-format
 msgid "Failed to load certificate: %s"
 msgstr "Eșec la încărcarea certificatului: %s"
 
-#: ../src/addressbook/gui/contact-editor/e-contact-editor.c:3331
+#: ../src/addressbook/gui/contact-editor/e-contact-editor.c:3332
 msgctxt "cert-kind"
 msgid "X.509"
 msgstr "X.509"
 
-#: ../src/addressbook/gui/contact-editor/e-contact-editor.c:3331
+#: ../src/addressbook/gui/contact-editor/e-contact-editor.c:3332
 msgctxt "cert-kind"
 msgid "PGP"
 msgstr "PGP"
 
-#: ../src/addressbook/gui/contact-editor/e-contact-editor.c:3502
+#: ../src/addressbook/gui/contact-editor/e-contact-editor.c:3503
 msgid "Save PGP key"
 msgstr "Salvează cheia PGP"
 
-#: ../src/addressbook/gui/contact-editor/e-contact-editor.c:3502
+#: ../src/addressbook/gui/contact-editor/e-contact-editor.c:3503
 msgid "Save X.509 certificate"
 msgstr "Salvează certificatul X.509"
 
-#: ../src/addressbook/gui/contact-editor/e-contact-editor.c:3529
+#: ../src/addressbook/gui/contact-editor/e-contact-editor.c:3530
 #, c-format
 msgid "Failed to save certificate: %s"
 msgstr "Eșec la salvarea certificatului: %s"
 
-#: ../src/addressbook/gui/contact-editor/e-contact-editor.c:4333
-#: ../src/addressbook/gui/contact-editor/e-contact-editor.c:4339
+#: ../src/addressbook/gui/contact-editor/e-contact-editor.c:4334
+#: ../src/addressbook/gui/contact-editor/e-contact-editor.c:4340
 msgid "Please select an image for this contact"
 msgstr "Algeți o imagine pentru acest contact"
 
-#: ../src/addressbook/gui/contact-editor/e-contact-editor.c:4344
+#: ../src/addressbook/gui/contact-editor/e-contact-editor.c:4345
 msgid "_No image"
 msgstr "Fără imagi_ne"
 
-#: ../src/addressbook/gui/contact-editor/e-contact-editor.c:4707
+#: ../src/addressbook/gui/contact-editor/e-contact-editor.c:4709
 msgid ""
 "The contact data is invalid:\n"
 "\n"
@@ -4091,28 +4091,28 @@ msgstr ""
 "Datele de contact nu sunt valide:\n"
 "\n"
 
-#: ../src/addressbook/gui/contact-editor/e-contact-editor.c:4713
+#: ../src/addressbook/gui/contact-editor/e-contact-editor.c:4715
 #, c-format
 msgid "“%s” has an invalid format"
 msgstr "„%s” nu are un format valid"
 
-#: ../src/addressbook/gui/contact-editor/e-contact-editor.c:4721
+#: ../src/addressbook/gui/contact-editor/e-contact-editor.c:4723
 #, c-format
 msgid "“%s” cannot be a future date"
 msgstr "„%s” nu poate fi o dată din viitor"
 
-#: ../src/addressbook/gui/contact-editor/e-contact-editor.c:4729
+#: ../src/addressbook/gui/contact-editor/e-contact-editor.c:4731
 #, c-format
 msgid "%s“%s” has an invalid format"
 msgstr "%s„%s” nu are un format valid"
 
-#: ../src/addressbook/gui/contact-editor/e-contact-editor.c:4742
-#: ../src/addressbook/gui/contact-editor/e-contact-editor.c:4756
+#: ../src/addressbook/gui/contact-editor/e-contact-editor.c:4744
+#: ../src/addressbook/gui/contact-editor/e-contact-editor.c:4758
 #, c-format
 msgid "%s“%s” is empty"
 msgstr "%s„%s” este necompletat"
 
-#: ../src/addressbook/gui/contact-editor/e-contact-editor.c:4771
+#: ../src/addressbook/gui/contact-editor/e-contact-editor.c:4773
 msgid "Invalid contact."
 msgstr "Contact nevalid."
 
@@ -4121,7 +4121,7 @@ msgstr "Contact nevalid."
 #: ../src/addressbook/gui/widgets/eab-gui-util.c:317 ../src/calendar/gui/e-comp-editor-page-recurrence.c:306
 #: ../src/e-util/e-attachment-dialog.c:291 ../src/e-util/e-categories-dialog.c:81 ../src/e-util/e-category-editor.c:258
 #: ../src/e-util/e-charset-combo-box.c:100 ../src/e-util/e-color-chooser-widget.c:126 ../src/e-util/e-filter-datespec.c:301
-#: ../src/e-util/e-html-editor-link-dialog.c:240 ../src/e-util/e-passwords.c:469 ../src/e-util/e-rule-context.c:817
+#: ../src/e-util/e-html-editor-link-dialog.c:240 ../src/e-util/e-passwords.c:469 ../src/e-util/e-rule-context.c:820
 #: ../src/e-util/e-rule-editor.c:185 ../src/e-util/e-rule-editor.c:296 ../src/e-util/e-rule-editor.c:931
 #: ../src/e-util/e-send-options.ui.h:17 ../src/e-util/e-source-config-dialog.c:357
 #: ../src/e-util/e-source-selector-dialog.c:326 ../src/e-util/e-table-config.c:541 ../src/e-util/e-table-config.ui.h:4
@@ -4345,161 +4345,165 @@ msgstr "Clic pentru a trimite email către %s"
 msgid "Click to open map for %s"
 msgstr "Clic pentru a deschide harta pentru %s"
 
-#: ../src/addressbook/gui/widgets/eab-contact-formatter.c:154
+#: ../src/addressbook/gui/widgets/eab-contact-formatter.c:155
 msgid "Open map"
 msgstr "Deschide harta"
 
-#: ../src/addressbook/gui/widgets/eab-contact-formatter.c:451
+#: ../src/addressbook/gui/widgets/eab-contact-formatter.c:452
 msgid "SIP"
 msgstr "SIP"
 
-#: ../src/addressbook/gui/widgets/eab-contact-formatter.c:683
+#: ../src/addressbook/gui/widgets/eab-contact-formatter.c:684
 msgid "List Members:"
 msgstr "Afișează membrii:"
 
-#: ../src/addressbook/gui/widgets/eab-contact-formatter.c:777
+#: ../src/addressbook/gui/widgets/eab-contact-formatter.c:778
 msgid "Fax"
 msgstr "Fax"
 
-#: ../src/addressbook/gui/widgets/eab-contact-formatter.c:779
+#: ../src/addressbook/gui/widgets/eab-contact-formatter.c:780
 msgid "Phone"
 msgstr "Telefon"
 
-#: ../src/addressbook/gui/widgets/eab-contact-formatter.c:923 ../src/addressbook/gui/widgets/e-addressbook-view.etspec.h:5
+#: ../src/addressbook/gui/widgets/eab-contact-formatter.c:924 ../src/addressbook/gui/widgets/e-addressbook-view.etspec.h:5
 msgid "Nickname"
 msgstr "Poreclă"
 
-#: ../src/addressbook/gui/widgets/eab-contact-formatter.c:924
+#: ../src/addressbook/gui/widgets/eab-contact-formatter.c:925
 msgid "AIM"
 msgstr "AIM"
 
-#: ../src/addressbook/gui/widgets/eab-contact-formatter.c:925
+#: ../src/addressbook/gui/widgets/eab-contact-formatter.c:926
 msgid "GroupWise"
 msgstr "GroupWise"
 
-#: ../src/addressbook/gui/widgets/eab-contact-formatter.c:926
+#: ../src/addressbook/gui/widgets/eab-contact-formatter.c:927
 msgid "ICQ"
 msgstr "ICQ"
 
-#: ../src/addressbook/gui/widgets/eab-contact-formatter.c:927
+#: ../src/addressbook/gui/widgets/eab-contact-formatter.c:928
 msgid "Jabber"
 msgstr "Jabber"
 
-#: ../src/addressbook/gui/widgets/eab-contact-formatter.c:928
+#: ../src/addressbook/gui/widgets/eab-contact-formatter.c:929
 msgid "MSN"
 msgstr "MSN"
 
-#: ../src/addressbook/gui/widgets/eab-contact-formatter.c:929
+#: ../src/addressbook/gui/widgets/eab-contact-formatter.c:930
 msgid "Yahoo"
 msgstr "Yahoo"
 
-#: ../src/addressbook/gui/widgets/eab-contact-formatter.c:930
+#: ../src/addressbook/gui/widgets/eab-contact-formatter.c:931
 msgid "Gadu-Gadu"
 msgstr "Gadu-Gadu"
 
-#: ../src/addressbook/gui/widgets/eab-contact-formatter.c:931
+#: ../src/addressbook/gui/widgets/eab-contact-formatter.c:932
 msgid "Skype"
 msgstr "Skype"
 
-#: ../src/addressbook/gui/widgets/eab-contact-formatter.c:932
+#: ../src/addressbook/gui/widgets/eab-contact-formatter.c:933
 msgid "Twitter"
 msgstr "Twitter"
 
-#: ../src/addressbook/gui/widgets/eab-contact-formatter.c:994 ../src/addressbook/gui/widgets/e-addressbook-view.etspec.h:34
+#: ../src/addressbook/gui/widgets/eab-contact-formatter.c:934
+msgid "Matrix"
+msgstr "Matrice"
+
+#: ../src/addressbook/gui/widgets/eab-contact-formatter.c:996 ../src/addressbook/gui/widgets/e-addressbook-view.etspec.h:34
 msgid "Company"
 msgstr "Firmă"
 
-#: ../src/addressbook/gui/widgets/eab-contact-formatter.c:995
+#: ../src/addressbook/gui/widgets/eab-contact-formatter.c:997
 msgid "Department"
 msgstr "Departament"
 
-#: ../src/addressbook/gui/widgets/eab-contact-formatter.c:996 ../src/addressbook/gui/widgets/e-addressbook-view.etspec.h:36
+#: ../src/addressbook/gui/widgets/eab-contact-formatter.c:998 ../src/addressbook/gui/widgets/e-addressbook-view.etspec.h:36
 msgid "Office"
 msgstr "Birou"
 
-#: ../src/addressbook/gui/widgets/eab-contact-formatter.c:997
+#: ../src/addressbook/gui/widgets/eab-contact-formatter.c:999
 msgid "Profession"
 msgstr "Profesie"
 
-#: ../src/addressbook/gui/widgets/eab-contact-formatter.c:998
+#: ../src/addressbook/gui/widgets/eab-contact-formatter.c:1000
 msgid "Position"
 msgstr "Poziție"
 
-#: ../src/addressbook/gui/widgets/eab-contact-formatter.c:999 ../src/addressbook/gui/widgets/e-addressbook-view.etspec.h:39
+#: ../src/addressbook/gui/widgets/eab-contact-formatter.c:1001 ../src/addressbook/gui/widgets/e-addressbook-view.etspec.h:39
 msgid "Manager"
 msgstr "Manager"
 
-#: ../src/addressbook/gui/widgets/eab-contact-formatter.c:1000 ../src/addressbook/gui/widgets/e-addressbook-view.etspec.h:40
+#: ../src/addressbook/gui/widgets/eab-contact-formatter.c:1002 ../src/addressbook/gui/widgets/e-addressbook-view.etspec.h:40
 msgid "Assistant"
 msgstr "Asistent"
 
-#: ../src/addressbook/gui/widgets/eab-contact-formatter.c:1001
+#: ../src/addressbook/gui/widgets/eab-contact-formatter.c:1003
 msgid "Video Chat"
 msgstr "Chat video"
 
-#: ../src/addressbook/gui/widgets/eab-contact-formatter.c:1003 ../src/plugins/publish-calendar/publish-calendar.ui.h:2
+#: ../src/addressbook/gui/widgets/eab-contact-formatter.c:1005 ../src/plugins/publish-calendar/publish-calendar.ui.h:2
 msgid "Free/Busy"
 msgstr "Disponibil/ocupat"
 
-#: ../src/addressbook/gui/widgets/eab-contact-formatter.c:1006 ../src/addressbook/gui/widgets/eab-contact-formatter.c:1046
-#: ../src/addressbook/gui/widgets/eab-contact-formatter.c:1072
+#: ../src/addressbook/gui/widgets/eab-contact-formatter.c:1008 ../src/addressbook/gui/widgets/eab-contact-formatter.c:1048
+#: ../src/addressbook/gui/widgets/eab-contact-formatter.c:1074
 msgid "Address"
 msgstr "Adresă"
 
-#: ../src/addressbook/gui/widgets/eab-contact-formatter.c:1042
+#: ../src/addressbook/gui/widgets/eab-contact-formatter.c:1044
 msgid "Home Page"
 msgstr "Pagină proprie"
 
-#: ../src/addressbook/gui/widgets/eab-contact-formatter.c:1043
+#: ../src/addressbook/gui/widgets/eab-contact-formatter.c:1045
 msgid "Web Log"
 msgstr "Blog"
 
-#: ../src/addressbook/gui/widgets/eab-contact-formatter.c:1049 ../src/addressbook/gui/widgets/e-addressbook-view.etspec.h:44
+#: ../src/addressbook/gui/widgets/eab-contact-formatter.c:1051 ../src/addressbook/gui/widgets/e-addressbook-view.etspec.h:44
 msgid "Spouse"
 msgstr "Soț/soție"
 
-#: ../src/addressbook/gui/widgets/eab-contact-formatter.c:1059
+#: ../src/addressbook/gui/widgets/eab-contact-formatter.c:1061
 msgid "Personal"
 msgstr "Personal"
 
-#: ../src/addressbook/gui/widgets/eab-contact-formatter.c:1104 ../src/addressbook/gui/widgets/e-addressbook-view.etspec.h:45
+#: ../src/addressbook/gui/widgets/eab-contact-formatter.c:1106 ../src/addressbook/gui/widgets/e-addressbook-view.etspec.h:45
 msgid "Note"
 msgstr "Notă"
 
-#: ../src/addressbook/gui/widgets/eab-contact-formatter.c:1293
+#: ../src/addressbook/gui/widgets/eab-contact-formatter.c:1295
 msgid "List Members"
 msgstr "Listă membri"
 
-#: ../src/addressbook/gui/widgets/eab-contact-formatter.c:1316
+#: ../src/addressbook/gui/widgets/eab-contact-formatter.c:1318
 msgid "Job Title"
 msgstr "Funcția"
 
-#: ../src/addressbook/gui/widgets/eab-contact-formatter.c:1357
+#: ../src/addressbook/gui/widgets/eab-contact-formatter.c:1359
 msgid "Home page"
 msgstr "Pagina proprie"
 
-#: ../src/addressbook/gui/widgets/eab-contact-formatter.c:1367
+#: ../src/addressbook/gui/widgets/eab-contact-formatter.c:1369
 msgid "Blog"
 msgstr "Blog"
 
-#: ../src/addressbook/gui/widgets/eab-contact-merging.c:305 ../src/calendar/gui/tasktypes.xml.in.h:14
+#: ../src/addressbook/gui/widgets/eab-contact-merging.c:306 ../src/calendar/gui/tasktypes.xml.in.h:14
 #: ../src/mail/mail-send-recv.c:1143
 msgid "Cancelled"
 msgstr "Anulată"
 
-#: ../src/addressbook/gui/widgets/eab-contact-merging.c:495
+#: ../src/addressbook/gui/widgets/eab-contact-merging.c:496
 msgid "Merge Contact"
 msgstr "Combină Contact"
 
-#: ../src/addressbook/gui/widgets/eab-contact-merging.c:517 ../src/addressbook/gui/widgets/eab-contact-merging.c:758
+#: ../src/addressbook/gui/widgets/eab-contact-merging.c:518 ../src/addressbook/gui/widgets/eab-contact-merging.c:763
 msgid "_Merge"
 msgstr "_Combină"
 
-#: ../src/addressbook/gui/widgets/eab-contact-merging.c:747
+#: ../src/addressbook/gui/widgets/eab-contact-merging.c:752
 msgid "Duplicate Contact Detected"
 msgstr "Contact duplicat detectat"
 
-#: ../src/addressbook/gui/widgets/eab-contact-merging.c:805
+#: ../src/addressbook/gui/widgets/eab-contact-merging.c:810
 msgid ""
 "The name or email address of this contact already exists\n"
 "in this folder. Would you like to save the changes anyway?"
@@ -4507,7 +4511,7 @@ msgstr ""
 "Numele sau adresa de email a acestui contact există deja\n"
 "în acest dosar. Doriți să salvați modificările oricum?"
 
-#: ../src/addressbook/gui/widgets/eab-contact-merging.c:808
+#: ../src/addressbook/gui/widgets/eab-contact-merging.c:813
 msgid ""
 "The name or email address of this contact already exists\n"
 "in this folder. Would you like to add it anyway?"
@@ -4515,19 +4519,19 @@ msgstr ""
 "Numele sau adresa de email a acestui contact există deja\n"
 "în acest dosar. Doriți să îl adăugați oricum?"
 
-#: ../src/addressbook/gui/widgets/eab-contact-merging.c:823
+#: ../src/addressbook/gui/widgets/eab-contact-merging.c:828
 msgid "Changed Contact:"
 msgstr "Contact schimbat:"
 
-#: ../src/addressbook/gui/widgets/eab-contact-merging.c:825
+#: ../src/addressbook/gui/widgets/eab-contact-merging.c:830
 msgid "New Contact:"
 msgstr "Contact nou:"
 
-#: ../src/addressbook/gui/widgets/eab-contact-merging.c:864
+#: ../src/addressbook/gui/widgets/eab-contact-merging.c:869
 msgid "Conflicting Contact:"
 msgstr "Contact în conflict:"
 
-#: ../src/addressbook/gui/widgets/eab-contact-merging.c:866
+#: ../src/addressbook/gui/widgets/eab-contact-merging.c:871
 msgid "Old Contact:"
 msgstr "Contact vechi:"
 
@@ -4918,7 +4922,7 @@ msgid "Zoom _Out"
 msgstr "Mi_cșorează"
 
 #. Search button
-#: ../src/addressbook/gui/widgets/e-contact-map-window.c:447 ../src/e-util/e-html-editor-actions.c:2210
+#: ../src/addressbook/gui/widgets/e-contact-map-window.c:447 ../src/e-util/e-html-editor-actions.c:2244
 #: ../src/e-util/e-html-editor-find-dialog.c:244 ../src/shell/e-shell-window-actions.c:1038
 msgid "_Find"
 msgstr "_Caută"
@@ -5122,11 +5126,16 @@ msgctxt "addressbook-label"
 msgid "Google Talk"
 msgstr "Google"
 
+#: ../src/addressbook/util/eab-book-util.c:82
+msgctxt "addressbook-label"
+msgid "Matrix"
+msgstr "Matrice"
+
 #. To Translators:
 #. * if an email address type is not one of the predefined types,
 #. * this generic label is used instead of one of the predefined labels.
 #.
-#: ../src/addressbook/util/eab-book-util.c:124
+#: ../src/addressbook/util/eab-book-util.c:125
 msgctxt "addressbook-label"
 msgid "Email"
 msgstr "Email"
@@ -5136,7 +5145,7 @@ msgstr "Email"
 #. * this generic label is used instead of one of the predefined labels.
 #. * SIP=Session Initiation Protocol, used for voice over IP
 #.
-#: ../src/addressbook/util/eab-book-util.c:171
+#: ../src/addressbook/util/eab-book-util.c:172
 msgctxt "addressbook-label"
 msgid "SIP"
 msgstr "SIP"
@@ -5146,7 +5155,7 @@ msgstr "SIP"
 #. * this generic label is used instead of one of the predefined labels.
 #. * IM=Instant Messaging
 #.
-#: ../src/addressbook/util/eab-book-util.c:214
+#: ../src/addressbook/util/eab-book-util.c:215
 msgctxt "addressbook-label"
 msgid "IM"
 msgstr "IM - Mesagerie instantă"
@@ -5155,7 +5164,7 @@ msgstr "IM - Mesagerie instantă"
 #. * if a phone number type is not one of the predefined types,
 #. * this generic label is used instead of one of the predefined labels.
 #.
-#: ../src/addressbook/util/eab-book-util.c:269
+#: ../src/addressbook/util/eab-book-util.c:270
 msgctxt "addressbook-label"
 msgid "Phone"
 msgstr "Telefon"
@@ -6860,7 +6869,7 @@ msgstr "Ora începerii nu este validă"
 #: ../src/calendar/gui/e-comp-editor-page-attachments.c:206 ../src/calendar/gui/e-comp-editor.c:340
 #: ../src/composer/e-composer-actions.c:180 ../src/em-format/e-mail-part-secure-button.c:97 ../src/e-util/e-misc-utils.c:4003
 #: ../src/e-util/e-misc-utils.c:4015 ../src/e-util/e-misc-utils.c:4029 ../src/mail/e-mail-autoconfig.c:1041
-#: ../src/mail/e-mail-display.c:2449 ../src/mail/e-mail-notes.c:875 ../src/mail/e-mail-reader-utils.c:805
+#: ../src/mail/e-mail-display.c:2449 ../src/mail/e-mail-notes.c:877 ../src/mail/e-mail-reader-utils.c:805
 #: ../src/mail/em-composer-utils.c:3843 ../src/mail/em-composer-utils.c:3874 ../src/mail/mail-send-recv.c:598
 #: ../src/mail/mail-send-recv.c:1493 ../src/modules/accounts-window/e-accounts-window-editors.c:172
 #: ../src/plugins/face/face.c:175 ../src/shell/e-shell.c:1238 ../src/shell/e-shell.c:1263
@@ -7175,7 +7184,7 @@ msgid "Atte_ndees…"
 msgstr "Participa_nți…"
 
 #: ../src/calendar/gui/e-comp-editor-page-general.c:1501 ../src/calendar/gui/e-comp-editor-page-recurrence.c:2312
-#: ../src/calendar/gui/e-comp-editor.c:2192 ../src/e-util/e-accounts-window.c:1745 ../src/e-util/e-html-editor-actions.c:1122
+#: ../src/calendar/gui/e-comp-editor.c:2192 ../src/e-util/e-accounts-window.c:1745 ../src/e-util/e-html-editor-actions.c:1142
 #: ../src/e-util/e-mail-signature-manager.c:354 ../src/e-util/e-webdav-browser.c:2848 ../src/e-util/filter.ui.h:26
 #: ../src/mail/e-mail-account-manager.c:730 ../src/mail/e-mail-browser.c:217 ../src/mail/e-mail-label-manager.c:364
 #: ../src/mail/em-folder-properties.c:1362 ../src/mail/mail-config.ui.h:68
@@ -7833,7 +7842,7 @@ msgstr "Fără rezumat"
 #: ../src/e-util/e-html-editor-dialog.c:194 ../src/e-util/e-mail-signature-editor.c:319
 #: ../src/e-util/e-name-selector-dialog.c:548 ../src/e-util/e-preferences-window.c:396
 #: ../src/e-util/e-table-field-chooser-dialog.c:197 ../src/mail/e-mail-browser.c:166
-#: ../src/mail/e-mail-folder-sort-order-dialog.c:751 ../src/mail/e-mail-notes.c:1015 ../src/mail/em-filter-editor.c:45
+#: ../src/mail/e-mail-folder-sort-order-dialog.c:751 ../src/mail/e-mail-notes.c:1017 ../src/mail/em-filter-editor.c:45
 #: ../src/mail/em-folder-properties.c:1487 ../src/mail/em-subscription-editor.c:1734
 #: ../src/modules/plugin-manager/evolution-plugin-manager.c:307 ../src/shell/e-shell-window-actions.c:354
 #: ../src/shell/e-shell-window-actions.c:926 ../src/smime/gui/certificate-manager.c:2176
@@ -7845,7 +7854,7 @@ msgid "Close the current window"
 msgstr "Închide fereastra curentă"
 
 #. copy menu item
-#: ../src/calendar/gui/e-comp-editor.c:2113 ../src/e-util/e-focus-tracker.c:806 ../src/e-util/e-html-editor-actions.c:1078
+#: ../src/calendar/gui/e-comp-editor.c:2113 ../src/e-util/e-focus-tracker.c:806 ../src/e-util/e-html-editor-actions.c:1098
 #: ../src/e-util/e-text.c:2065 ../src/e-util/e-web-view.c:467 ../src/mail/e-mail-browser.c:173
 #: ../src/mail/mail.error.xml.h:147 ../src/shell/e-shell-window-actions.c:947
 msgid "_Copy"
@@ -7858,7 +7867,7 @@ msgid "Copy the selection"
 msgstr "Copiază selecția"
 
 #. cut menu item
-#: ../src/calendar/gui/e-comp-editor.c:2120 ../src/e-util/e-focus-tracker.c:801 ../src/e-util/e-html-editor-actions.c:1085
+#: ../src/calendar/gui/e-comp-editor.c:2120 ../src/e-util/e-focus-tracker.c:801 ../src/e-util/e-html-editor-actions.c:1105
 #: ../src/e-util/e-text.c:2051 ../src/mail/e-mail-browser.c:180 ../src/shell/e-shell-window-actions.c:954
 msgid "Cu_t"
 msgstr "_Taie"
@@ -7879,7 +7888,7 @@ msgid "View help"
 msgstr "Consultați ajutorul"
 
 #. paste menu item
-#: ../src/calendar/gui/e-comp-editor.c:2141 ../src/e-util/e-focus-tracker.c:811 ../src/e-util/e-html-editor-actions.c:1092
+#: ../src/calendar/gui/e-comp-editor.c:2141 ../src/e-util/e-focus-tracker.c:811 ../src/e-util/e-html-editor-actions.c:1112
 #: ../src/e-util/e-text.c:2077 ../src/mail/e-mail-browser.c:187 ../src/shell/e-shell-window-actions.c:982
 msgid "_Paste"
 msgstr "Li_pește"
@@ -7901,7 +7910,7 @@ msgstr "Ti_părește…"
 msgid "Pre_view…"
 msgstr "Pre_vizualizare…"
 
-#: ../src/calendar/gui/e-comp-editor.c:2162 ../src/e-util/e-focus-tracker.c:821 ../src/e-util/e-html-editor-actions.c:1106
+#: ../src/calendar/gui/e-comp-editor.c:2162 ../src/e-util/e-focus-tracker.c:821 ../src/e-util/e-html-editor-actions.c:1126
 #: ../src/e-util/e-web-view.c:484 ../src/mail/e-mail-browser.c:194 ../src/shell/e-shell-window-actions.c:1059
 msgid "Select _All"
 msgstr "Selectează to_ate"
@@ -7915,13 +7924,13 @@ msgstr "Selectează tot textul"
 msgid "_Classification"
 msgstr "_Clasificare"
 
-#: ../src/calendar/gui/e-comp-editor.c:2199 ../src/e-util/e-html-editor-actions.c:1129
-#: ../src/e-util/e-mail-signature-editor.c:333 ../src/mail/e-mail-browser.c:210 ../src/mail/e-mail-notes.c:1029
+#: ../src/calendar/gui/e-comp-editor.c:2199 ../src/e-util/e-html-editor-actions.c:1149
+#: ../src/e-util/e-mail-signature-editor.c:333 ../src/mail/e-mail-browser.c:210 ../src/mail/e-mail-notes.c:1031
 #: ../src/shell/e-shell-window-actions.c:1110
 msgid "_File"
 msgstr "_Fișier"
 
-#: ../src/calendar/gui/e-comp-editor.c:2213 ../src/e-util/e-html-editor-actions.c:1150
+#: ../src/calendar/gui/e-comp-editor.c:2213 ../src/e-util/e-html-editor-actions.c:1170
 msgid "_Insert"
 msgstr "_Inserează"
 
@@ -7929,7 +7938,7 @@ msgstr "_Inserează"
 msgid "_Options"
 msgstr "_Opțiuni"
 
-#: ../src/calendar/gui/e-comp-editor.c:2227 ../src/e-util/e-html-editor-actions.c:1171 ../src/mail/e-mail-browser.c:224
+#: ../src/calendar/gui/e-comp-editor.c:2227 ../src/e-util/e-html-editor-actions.c:1191 ../src/mail/e-mail-browser.c:224
 #: ../src/shell/e-shell-window-actions.c:1153 ../src/smime/gui/certificate-manager.c:1644 ../src/smime/gui/smime-ui.ui.h:3
 msgid "_View"
 msgstr "_Vizualizare"
@@ -7938,7 +7947,7 @@ msgstr "_Vizualizare"
 msgid "Save current changes"
 msgstr "Salvează modicările curente"
 
-#: ../src/calendar/gui/e-comp-editor.c:2244 ../src/e-util/e-mail-signature-editor.c:328 ../src/mail/e-mail-notes.c:1024
+#: ../src/calendar/gui/e-comp-editor.c:2244 ../src/e-util/e-mail-signature-editor.c:328 ../src/mail/e-mail-notes.c:1026
 msgid "Save and Close"
 msgstr "Salvează și închide"
 
@@ -8345,43 +8354,47 @@ msgstr "Mâine"
 msgid "Tasks without Due date"
 msgstr "Sarcini fără dată scadentă"
 
-#: ../src/calendar/gui/e-to-do-pane.c:2177 ../src/modules/calendar/e-cal-shell-view-actions.c:1542
+#: ../src/calendar/gui/e-to-do-pane.c:2188 ../src/modules/calendar/e-cal-shell-view-actions.c:1542
 msgid "New _Appointment…"
 msgstr "Progr_amare nouă…"
 
-#: ../src/calendar/gui/e-to-do-pane.c:2185 ../src/modules/calendar/e-cal-shell-view-actions.c:1479
+#: ../src/calendar/gui/e-to-do-pane.c:2196 ../src/modules/calendar/e-cal-shell-view-actions.c:1479
 msgid "New _Meeting…"
 msgstr "Întâlnire _nouă…"
 
-#: ../src/calendar/gui/e-to-do-pane.c:2193
+#: ../src/calendar/gui/e-to-do-pane.c:2204
 msgid "New _Task…"
 msgstr "_Sarcină nouă…"
 
-#: ../src/calendar/gui/e-to-do-pane.c:2201
+#: ../src/calendar/gui/e-to-do-pane.c:2212
 msgid "_New Assigned Task…"
 msgstr "Sarcină repartizată _nouă…"
 
-#: ../src/calendar/gui/e-to-do-pane.c:2214
+#: ../src/calendar/gui/e-to-do-pane.c:2225
 msgid "_Open…"
 msgstr "_Deschide…"
 
-#: ../src/calendar/gui/e-to-do-pane.c:2228
+#: ../src/calendar/gui/e-to-do-pane.c:2239
 msgid "_Delete This Instance…"
 msgstr "Șterge această _instanță…"
 
-#: ../src/calendar/gui/e-to-do-pane.c:2236
+#: ../src/calendar/gui/e-to-do-pane.c:2248
+msgid "Delete This and F_uture Occurrences…"
+msgstr "Șterge aceasta și aparițiile _viitoare…"
+
+#: ../src/calendar/gui/e-to-do-pane.c:2257
 msgid "D_elete All Instances…"
 msgstr "Șt_erge toate instanțele…"
 
-#: ../src/calendar/gui/e-to-do-pane.c:2244
+#: ../src/calendar/gui/e-to-do-pane.c:2265
 msgid "_Delete…"
 msgstr "Șt_erge…"
 
-#: ../src/calendar/gui/e-to-do-pane.c:2261
+#: ../src/calendar/gui/e-to-do-pane.c:2282
 msgid "_Show Tasks without Due date"
 msgstr "_Arată sarcini fără o dată scadentă"
 
-#: ../src/calendar/gui/e-to-do-pane.c:2540
+#: ../src/calendar/gui/e-to-do-pane.c:2561
 msgid "To Do"
 msgstr "De făcut"
 
@@ -10713,23 +10726,23 @@ msgstr "Nu s-a putut semna mesajul de trimis: niciun certificat pentru semnare n
 msgid "Cannot encrypt outgoing message: No encryption certificate set for this account"
 msgstr "Nu s-a putut cripta mesajul de trimis: niciun certificat pentru criptare nu a fost definit pentru acest cont"
 
-#: ../src/composer/e-msg-composer.c:1818 ../src/composer/e-msg-composer.c:2495
+#: ../src/composer/e-msg-composer.c:1819 ../src/composer/e-msg-composer.c:2496
 msgid "Compose Message"
 msgstr "Compune un mesaj"
 
 # Daniel Șerbănescu: This is a heading in the preference menu (Email preferences → HTML messages)
-#: ../src/composer/e-msg-composer.c:4466 ../src/modules/composer-to-meeting/e-composer-to-meeting.c:352
+#: ../src/composer/e-msg-composer.c:4467 ../src/modules/composer-to-meeting/e-composer-to-meeting.c:352
 msgid "Reading text content…"
 msgstr "Se citește conținutul textului…"
 
-#: ../src/composer/e-msg-composer.c:5276
+#: ../src/composer/e-msg-composer.c:5277
 msgid "Review attachment before sending."
 msgid_plural "Review attachments before sending."
 msgstr[0] "Revizuiți atașamentul înainte de trimitere."
 msgstr[1] "Revizuiți atașamentele înainte de trimitere."
 msgstr[2] "Revizuiți atașamentele înainte de trimitere."
 
-#: ../src/composer/e-msg-composer.c:5281
+#: ../src/composer/e-msg-composer.c:5282
 #, c-format
 msgid ""
 "There had been added %d attachment. Make sure it does not contain any sensitive information before sending the message."
@@ -10739,7 +10752,7 @@ msgstr[0] "A fost adăugat %d atașament. Asigurați-vă că nu conține informa
 msgstr[1] "Au fost adăugate %d atașamente. Asigurați-vă că nu conțin informații senzitive înainte de a trimite mesajul."
 msgstr[2] "Au fost adăugate %d de atașamente. Asigurați-vă că nu conțin informații senzitive înainte de a trimite mesajul."
 
-#: ../src/composer/e-msg-composer.c:5414
+#: ../src/composer/e-msg-composer.c:5415
 msgid "The composer contains a non-text message body, which cannot be edited."
 msgstr "Fereastra de compunere conține un corp de mesaj non-text, ce nu poate fi editat."
 
@@ -12713,7 +12726,7 @@ msgstr "Caută elemente ce întrunesc următoarele condiții"
 #. protocol:
 #. name:
 #: ../src/e-util/e-filter-rule.c:1109 ../src/e-util/e-html-editor-page-dialog.c:62
-#: ../src/e-util/e-mail-identity-combo-box.c:694 ../src/e-util/e-mail-signature-combo-box.c:422
+#: ../src/e-util/e-mail-identity-combo-box.c:798 ../src/e-util/e-mail-signature-combo-box.c:422
 #: ../src/libemail-engine/camel-null-store.c:29 ../src/mail/e-mail-autoconfig.c:778
 #: ../src/mail/e-mail-config-summary-page.c:143 ../src/modules/book-config-ldap/evolution-book-config-ldap.c:681
 msgid "None"
@@ -12819,543 +12832,551 @@ msgstr "Nu s-a putut introduce fișierul HTML."
 msgid "Failed to insert text file."
 msgstr "Nu s-a putut introduce fișierul text."
 
-#: ../src/e-util/e-html-editor-actions.c:340
+#: ../src/e-util/e-html-editor-actions.c:360
 msgid "Insert HTML File"
 msgstr "Introdu fișier HTML"
 
-#: ../src/e-util/e-html-editor-actions.c:345
+#: ../src/e-util/e-html-editor-actions.c:365
 msgid "HTML file"
 msgstr "Fișier HTML"
 
-#: ../src/e-util/e-html-editor-actions.c:383 ../src/e-util/e-html-editor-actions.c:401
+#: ../src/e-util/e-html-editor-actions.c:403 ../src/e-util/e-html-editor-actions.c:421
 msgctxt "dialog-title"
 msgid "Insert Image"
 msgstr "Introducere imagine"
 
-#: ../src/e-util/e-html-editor-actions.c:390 ../src/e-util/e-html-editor-actions.c:408
+#: ../src/e-util/e-html-editor-actions.c:410 ../src/e-util/e-html-editor-actions.c:428
 #: ../src/e-util/e-image-chooser-dialog.c:188 ../src/plugins/face/face.c:301
 msgid "Image files"
 msgstr "Fișiere imagine"
 
-#: ../src/e-util/e-html-editor-actions.c:487
+#: ../src/e-util/e-html-editor-actions.c:507
 msgid "Insert text file"
 msgstr "Introdu fișier text"
 
-#: ../src/e-util/e-html-editor-actions.c:492
+#: ../src/e-util/e-html-editor-actions.c:512
 msgid "Text file"
 msgstr "Fișier text"
 
-#: ../src/e-util/e-html-editor-actions.c:1080
+#: ../src/e-util/e-html-editor-actions.c:1100
 msgid "Copy selected text to the clipboard"
 msgstr "Copiază textul selectat în clipboard"
 
-#: ../src/e-util/e-html-editor-actions.c:1087
+#: ../src/e-util/e-html-editor-actions.c:1107
 msgid "Cut selected text to the clipboard"
 msgstr "Taie textul selectat în clipboard"
 
-#: ../src/e-util/e-html-editor-actions.c:1094
+#: ../src/e-util/e-html-editor-actions.c:1114
 msgid "Paste text from the clipboard"
 msgstr "Lipește textul din clipboard"
 
-#: ../src/e-util/e-html-editor-actions.c:1101
+#: ../src/e-util/e-html-editor-actions.c:1121
 msgid "Redo the last undone action"
 msgstr "Refă ultima acțiune anulată"
 
-#: ../src/e-util/e-html-editor-actions.c:1115
+#: ../src/e-util/e-html-editor-actions.c:1135
 msgid "Undo the last action"
 msgstr "Anulează ultima acțiune"
 
-#: ../src/e-util/e-html-editor-actions.c:1136
+#: ../src/e-util/e-html-editor-actions.c:1156
 msgid "For_mat"
 msgstr "For_matează"
 
-#: ../src/e-util/e-html-editor-actions.c:1143
+#: ../src/e-util/e-html-editor-actions.c:1163
 msgid "_Paragraph Style"
 msgstr "Stil _paragraf"
 
-#: ../src/e-util/e-html-editor-actions.c:1157 ../src/e-util/e-html-editor-image-dialog.c:678
+#: ../src/e-util/e-html-editor-actions.c:1177 ../src/e-util/e-html-editor-image-dialog.c:678
 msgid "_Alignment"
 msgstr "_Aliniere"
 
-#: ../src/e-util/e-html-editor-actions.c:1164
+#: ../src/e-util/e-html-editor-actions.c:1184
 msgid "Current _Languages"
 msgstr "_Limbi curente"
 
-#: ../src/e-util/e-html-editor-actions.c:1181
+#: ../src/e-util/e-html-editor-actions.c:1201
 msgid "_Increase Indent"
 msgstr "Mărește _identarea"
 
-#: ../src/e-util/e-html-editor-actions.c:1183
+#: ../src/e-util/e-html-editor-actions.c:1203
 msgid "Increase Indent"
 msgstr "Mărește identarea"
 
-#: ../src/e-util/e-html-editor-actions.c:1188 ../src/e-util/e-html-editor-actions.c:2216
+#: ../src/e-util/e-html-editor-actions.c:1208 ../src/e-util/e-html-editor-actions.c:2250
 msgid "E_moji"
 msgstr "E_moji"
 
-#: ../src/e-util/e-html-editor-actions.c:1190 ../src/e-util/e-html-editor-actions.c:1197
+#: ../src/e-util/e-html-editor-actions.c:1210 ../src/e-util/e-html-editor-actions.c:1217
 msgid "Insert Emoji"
 msgstr "Introdu emoji"
 
-#: ../src/e-util/e-html-editor-actions.c:1195
+#: ../src/e-util/e-html-editor-actions.c:1215
 msgid "Insert E_moji"
 msgstr "Inserează e_moji"
 
-#: ../src/e-util/e-html-editor-actions.c:1202
+#: ../src/e-util/e-html-editor-actions.c:1222
 msgid "_HTML File…"
 msgstr "Fișier _HTML…"
 
-#: ../src/e-util/e-html-editor-actions.c:1209
+#: ../src/e-util/e-html-editor-actions.c:1229
 msgid "Te_xt File…"
 msgstr "Fișier te_xt…"
 
-#: ../src/e-util/e-html-editor-actions.c:1216
+#: ../src/e-util/e-html-editor-actions.c:1236
 msgid "Paste _Quotation"
 msgstr "Lipește _citatul"
 
-#: ../src/e-util/e-html-editor-actions.c:1223
+#: ../src/e-util/e-html-editor-actions.c:1243
 msgid "_Find…"
 msgstr "_Caută…"
 
-#: ../src/e-util/e-html-editor-actions.c:1225
+#: ../src/e-util/e-html-editor-actions.c:1245
 msgid "Search for text"
 msgstr "Caută text"
 
-#: ../src/e-util/e-html-editor-actions.c:1230
+#: ../src/e-util/e-html-editor-actions.c:1250
 msgid "Find A_gain"
 msgstr "Caută din _nou"
 
-#: ../src/e-util/e-html-editor-actions.c:1237
+#: ../src/e-util/e-html-editor-actions.c:1257
 msgid "Re_place…"
 msgstr "În_locuiește…"
 
-#: ../src/e-util/e-html-editor-actions.c:1239
+#: ../src/e-util/e-html-editor-actions.c:1259
 msgid "Search for and replace text"
 msgstr "Caută și înlocuiește text"
 
-#: ../src/e-util/e-html-editor-actions.c:1244
+#: ../src/e-util/e-html-editor-actions.c:1264
 msgid "Check _Spelling…"
 msgstr "_Verifică ortografia…"
 
-#: ../src/e-util/e-html-editor-actions.c:1251
+#: ../src/e-util/e-html-editor-actions.c:1271
 msgid "_Decrease Indent"
 msgstr "_Micșorează identarea"
 
-#: ../src/e-util/e-html-editor-actions.c:1253
+#: ../src/e-util/e-html-editor-actions.c:1273
 msgid "Decrease Indent"
 msgstr "Micșorează identarea"
 
-#: ../src/e-util/e-html-editor-actions.c:1258
+#: ../src/e-util/e-html-editor-actions.c:1278
 msgid "_Wrap Lines"
 msgstr "Încadrea_ză liniile"
 
 #. Center
-#: ../src/e-util/e-html-editor-actions.c:1268 ../src/e-util/e-html-editor-paragraph-dialog.c:109
+#: ../src/e-util/e-html-editor-actions.c:1288 ../src/e-util/e-html-editor-paragraph-dialog.c:109
 msgid "_Center"
 msgstr "_Centrat"
 
-#: ../src/e-util/e-html-editor-actions.c:1270
+#: ../src/e-util/e-html-editor-actions.c:1290
 msgid "Center Alignment"
 msgstr "Centrează alinierea"
 
 #. Justified
-#: ../src/e-util/e-html-editor-actions.c:1275 ../src/e-util/e-html-editor-paragraph-dialog.c:127
+#: ../src/e-util/e-html-editor-actions.c:1295 ../src/e-util/e-html-editor-paragraph-dialog.c:127
 msgid "_Justified"
 msgstr "La ambele margini"
 
-#: ../src/e-util/e-html-editor-actions.c:1277
+#: ../src/e-util/e-html-editor-actions.c:1297
 msgid "Align Justified"
 msgstr "Aliniază la ambele margini"
 
 #. Left
-#: ../src/e-util/e-html-editor-actions.c:1282 ../src/e-util/e-html-editor-paragraph-dialog.c:100
+#: ../src/e-util/e-html-editor-actions.c:1302 ../src/e-util/e-html-editor-paragraph-dialog.c:100
 msgid "_Left"
 msgstr "_La stânga"
 
-#: ../src/e-util/e-html-editor-actions.c:1284
+#: ../src/e-util/e-html-editor-actions.c:1304
 msgid "Left Alignment"
 msgstr "Aliniere la stânga"
 
 #. Right
-#: ../src/e-util/e-html-editor-actions.c:1289 ../src/e-util/e-html-editor-paragraph-dialog.c:118
+#: ../src/e-util/e-html-editor-actions.c:1309 ../src/e-util/e-html-editor-paragraph-dialog.c:118
 msgid "_Right"
 msgstr "La d_reapta"
 
-#: ../src/e-util/e-html-editor-actions.c:1291
+#: ../src/e-util/e-html-editor-actions.c:1311
 msgid "Right Alignment"
 msgstr "Aliniere la dreapta"
 
-#: ../src/e-util/e-html-editor-actions.c:1299 ../src/modules/text-highlight/languages.c:70
+#: ../src/e-util/e-html-editor-actions.c:1319 ../src/modules/text-highlight/languages.c:70
 msgid "_HTML"
 msgstr "_HTML"
 
-#: ../src/e-util/e-html-editor-actions.c:1301
+#: ../src/e-util/e-html-editor-actions.c:1321
 msgid "HTML editing mode"
 msgstr "Modul de editare HTML"
 
-#: ../src/e-util/e-html-editor-actions.c:1306
+#: ../src/e-util/e-html-editor-actions.c:1326
 msgid "Plain _Text"
 msgstr "_Text simplu"
 
-#: ../src/e-util/e-html-editor-actions.c:1308
+#: ../src/e-util/e-html-editor-actions.c:1328
 msgid "Plain text editing mode"
 msgstr "Mod de editare text simplu"
 
-#: ../src/e-util/e-html-editor-actions.c:1316
+#: ../src/e-util/e-html-editor-actions.c:1336
 msgid "_Normal"
 msgstr "_Normal"
 
-#: ../src/e-util/e-html-editor-actions.c:1323
+#: ../src/e-util/e-html-editor-actions.c:1343
 msgid "Heading _1"
 msgstr "Titlu de rubrică _1"
 
-#: ../src/e-util/e-html-editor-actions.c:1330
+#: ../src/e-util/e-html-editor-actions.c:1350
 msgid "Heading _2"
 msgstr "Titlu de rubrică _2"
 
-#: ../src/e-util/e-html-editor-actions.c:1337
+#: ../src/e-util/e-html-editor-actions.c:1357
 msgid "Heading _3"
 msgstr "Titlu de rubrică _3"
 
-#: ../src/e-util/e-html-editor-actions.c:1344
+#: ../src/e-util/e-html-editor-actions.c:1364
 msgid "Heading _4"
 msgstr "Titlu de rubrică _4"
 
-#: ../src/e-util/e-html-editor-actions.c:1351
+#: ../src/e-util/e-html-editor-actions.c:1371
 msgid "Heading _5"
 msgstr "Titlu de rubrică _4"
 
-#: ../src/e-util/e-html-editor-actions.c:1358
+#: ../src/e-util/e-html-editor-actions.c:1378
 msgid "Heading _6"
 msgstr "Titlu de rubrică _6"
 
-#: ../src/e-util/e-html-editor-actions.c:1365
+#: ../src/e-util/e-html-editor-actions.c:1385
 msgid "_Preformatted"
 msgstr "_Preformatat"
 
-#: ../src/e-util/e-html-editor-actions.c:1372
+#: ../src/e-util/e-html-editor-actions.c:1392
 msgid "A_ddress"
 msgstr "A_dresă"
 
-#: ../src/e-util/e-html-editor-actions.c:1379
+#: ../src/e-util/e-html-editor-actions.c:1399
 msgid "_Bulleted List"
 msgstr "Listă _punctată"
 
-#: ../src/e-util/e-html-editor-actions.c:1386
+#: ../src/e-util/e-html-editor-actions.c:1406
 msgid "_Roman Numeral List"
 msgstr "Listă de numerale _romane"
 
-#: ../src/e-util/e-html-editor-actions.c:1393
+#: ../src/e-util/e-html-editor-actions.c:1413
 msgid "Numbered _List"
 msgstr "_Listă numerotată"
 
-#: ../src/e-util/e-html-editor-actions.c:1400
+#: ../src/e-util/e-html-editor-actions.c:1420
 msgid "_Alphabetical List"
 msgstr "Listă _alfabetică"
 
-#: ../src/e-util/e-html-editor-actions.c:1416 ../src/e-util/e-html-editor-actions.c:1454
+#: ../src/e-util/e-html-editor-actions.c:1436 ../src/e-util/e-html-editor-actions.c:1474
 msgid "_Image…"
 msgstr "_Imagine…"
 
 #. Translators: This is an action tooltip
-#: ../src/e-util/e-html-editor-actions.c:1419
+#: ../src/e-util/e-html-editor-actions.c:1439
 msgid "Insert Image"
 msgstr "Introdu imagine"
 
-#: ../src/e-util/e-html-editor-actions.c:1424 ../src/e-util/e-html-editor-actions.c:1461
+#: ../src/e-util/e-html-editor-actions.c:1444 ../src/e-util/e-html-editor-actions.c:1481
 msgid "_Link…"
 msgstr "_Legătură…"
 
-#: ../src/e-util/e-html-editor-actions.c:1426
+#: ../src/e-util/e-html-editor-actions.c:1446
 msgid "Insert Link"
 msgstr "_Introdu legătura"
 
 #. Translators: 'Rule' here means a horizontal line in an HTML text
-#: ../src/e-util/e-html-editor-actions.c:1432 ../src/e-util/e-html-editor-actions.c:1476
+#: ../src/e-util/e-html-editor-actions.c:1452 ../src/e-util/e-html-editor-actions.c:1496
 msgid "_Rule…"
 msgstr "_Regulă…"
 
 #. Translators: 'Rule' here means a horizontal line in an HTML text
-#: ../src/e-util/e-html-editor-actions.c:1435
+#: ../src/e-util/e-html-editor-actions.c:1455
 msgid "Insert Rule"
 msgstr "_Introdu regulă"
 
-#: ../src/e-util/e-html-editor-actions.c:1440 ../src/e-util/e-html-editor-actions.c:1483
+#: ../src/e-util/e-html-editor-actions.c:1460 ../src/e-util/e-html-editor-actions.c:1503
 msgid "_Table…"
 msgstr "_Tabel…"
 
-#: ../src/e-util/e-html-editor-actions.c:1442
+#: ../src/e-util/e-html-editor-actions.c:1462
 msgid "Insert Table"
 msgstr "_Introdu tabel"
 
-#: ../src/e-util/e-html-editor-actions.c:1447
+#: ../src/e-util/e-html-editor-actions.c:1467
 msgid "_Cell…"
 msgstr "_Celulă…"
 
-#: ../src/e-util/e-html-editor-actions.c:1468
+#: ../src/e-util/e-html-editor-actions.c:1488
 msgid "Pa_ge…"
 msgstr "Pa_gină…"
 
-#: ../src/e-util/e-html-editor-actions.c:1492
+#: ../src/e-util/e-html-editor-actions.c:1512
 msgid "Font _Size"
 msgstr "Dimen_siune font"
 
-#: ../src/e-util/e-html-editor-actions.c:1499
+#: ../src/e-util/e-html-editor-actions.c:1519
 msgid "_Font Style"
 msgstr "Stilul _fonturi"
 
-#: ../src/e-util/e-html-editor-actions.c:1506
+#: ../src/e-util/e-html-editor-actions.c:1526
 msgid "Paste As _Text"
 msgstr "Lipește ca _text"
 
-#: ../src/e-util/e-html-editor-actions.c:1517 ../src/e-util/e-html-editor-text-dialog.c:201
+#: ../src/e-util/e-html-editor-actions.c:1537 ../src/e-util/e-html-editor-text-dialog.c:201
 msgid "_Bold"
 msgstr "_Aldin"
 
-#: ../src/e-util/e-html-editor-actions.c:1519
+#: ../src/e-util/e-html-editor-actions.c:1539
 msgid "Bold"
 msgstr "Aldin"
 
-#: ../src/e-util/e-html-editor-actions.c:1525 ../src/e-util/e-html-editor-text-dialog.c:212
+#: ../src/e-util/e-html-editor-actions.c:1545 ../src/e-util/e-html-editor-text-dialog.c:212
 msgid "_Italic"
 msgstr "Curs_iv"
 
-#: ../src/e-util/e-html-editor-actions.c:1527
+#: ../src/e-util/e-html-editor-actions.c:1547
 msgid "Italic"
 msgstr "Cursiv"
 
-#: ../src/e-util/e-html-editor-actions.c:1533 ../src/e-util/e-html-editor-text-dialog.c:233
+#: ../src/e-util/e-html-editor-actions.c:1553 ../src/e-util/e-html-editor-text-dialog.c:233
 msgid "_Strikethrough"
 msgstr "_Tăiat"
 
-#: ../src/e-util/e-html-editor-actions.c:1535
+#: ../src/e-util/e-html-editor-actions.c:1555
 msgid "Strikethrough"
 msgstr "Tăiat"
 
-#: ../src/e-util/e-html-editor-actions.c:1541
+#: ../src/e-util/e-html-editor-actions.c:1561
 msgid "Subs_cript"
 msgstr "Subs_cript"
 
-#: ../src/e-util/e-html-editor-actions.c:1543
+#: ../src/e-util/e-html-editor-actions.c:1563
 msgid "Subscript"
 msgstr "Subsscript"
 
-#: ../src/e-util/e-html-editor-actions.c:1549
+#: ../src/e-util/e-html-editor-actions.c:1569
 msgid "Su_perscript"
 msgstr "Su_perscript"
 
-#: ../src/e-util/e-html-editor-actions.c:1551
+#: ../src/e-util/e-html-editor-actions.c:1571
 msgid "Superscript"
 msgstr "Superscript"
 
-#: ../src/e-util/e-html-editor-actions.c:1557 ../src/e-util/e-html-editor-text-dialog.c:223
+#: ../src/e-util/e-html-editor-actions.c:1577 ../src/e-util/e-html-editor-text-dialog.c:223
 msgid "_Underline"
 msgstr "S_ubliniat"
 
-#: ../src/e-util/e-html-editor-actions.c:1559
+#: ../src/e-util/e-html-editor-actions.c:1579
 msgid "Underline"
 msgstr "Subliniat"
 
 #. Translators: This is a font size level. It is shown on a tool bar. Please keep it as short as possible.
-#: ../src/e-util/e-html-editor-actions.c:1569
+#: ../src/e-util/e-html-editor-actions.c:1589
 msgid "-2"
 msgstr "-2"
 
 #. Translators: This is a font size level. It is shown on a tool bar. Please keep it as short as possible.
-#: ../src/e-util/e-html-editor-actions.c:1577
+#: ../src/e-util/e-html-editor-actions.c:1597
 msgid "-1"
 msgstr "-1"
 
 #. Translators: This is a font size level. It is shown on a tool bar. Please keep it as short as possible.
-#: ../src/e-util/e-html-editor-actions.c:1585
+#: ../src/e-util/e-html-editor-actions.c:1605
 msgid "+0"
 msgstr "+0"
 
 #. Translators: This is a font size level. It is shown on a tool bar. Please keep it as short as possible.
-#: ../src/e-util/e-html-editor-actions.c:1593
+#: ../src/e-util/e-html-editor-actions.c:1613
 msgid "+1"
 msgstr "+1"
 
 #. Translators: This is a font size level. It is shown on a tool bar. Please keep it as short as possible.
-#: ../src/e-util/e-html-editor-actions.c:1601
+#: ../src/e-util/e-html-editor-actions.c:1621
 msgid "+2"
 msgstr "+2"
 
 #. Translators: This is a font size level. It is shown on a tool bar. Please keep it as short as possible.
-#: ../src/e-util/e-html-editor-actions.c:1609
+#: ../src/e-util/e-html-editor-actions.c:1629
 msgid "+3"
 msgstr "+3"
 
 #. Translators: This is a font size level. It is shown on a tool bar. Please keep it as short as possible.
-#: ../src/e-util/e-html-editor-actions.c:1617
+#: ../src/e-util/e-html-editor-actions.c:1637
 msgid "+4"
 msgstr "+4"
 
-#: ../src/e-util/e-html-editor-actions.c:1636
+#: ../src/e-util/e-html-editor-actions.c:1656
 msgid "Cell Contents"
 msgstr "Conținutul celulelor"
 
-#: ../src/e-util/e-html-editor-actions.c:1643
+#: ../src/e-util/e-html-editor-actions.c:1663
 msgid "Column"
 msgstr "Coloană"
 
-#: ../src/e-util/e-html-editor-actions.c:1650
+#: ../src/e-util/e-html-editor-actions.c:1670
 msgid "Row"
 msgstr "Rând"
 
-#: ../src/e-util/e-html-editor-actions.c:1657
+#: ../src/e-util/e-html-editor-actions.c:1677
 msgid "Table"
 msgstr "Tabel"
 
 #. Translators: Popup menu item caption, containing all the Delete options for a table
-#: ../src/e-util/e-html-editor-actions.c:1667
+#: ../src/e-util/e-html-editor-actions.c:1687
 msgid "Table Delete"
 msgstr "Ștergere tabel"
 
 #. Translators: Popup menu item caption, containing all the Insert options for a table
-#: ../src/e-util/e-html-editor-actions.c:1675
+#: ../src/e-util/e-html-editor-actions.c:1695
 msgid "Table Insert"
 msgstr "Introducere tabel"
 
-#: ../src/e-util/e-html-editor-actions.c:1682
+#: ../src/e-util/e-html-editor-actions.c:1702
 msgid "Properties"
 msgstr "Proprietăți"
 
-#: ../src/e-util/e-html-editor-actions.c:1700
+#: ../src/e-util/e-html-editor-actions.c:1720
+msgid "Delete Rule"
+msgstr "Șterge regula"
+
+#: ../src/e-util/e-html-editor-actions.c:1727
+msgid "Delete Image"
+msgstr "Șterge imaginea"
+
+#: ../src/e-util/e-html-editor-actions.c:1734
 msgid "Column After"
 msgstr "Coloană după"
 
-#: ../src/e-util/e-html-editor-actions.c:1707
+#: ../src/e-util/e-html-editor-actions.c:1741
 msgid "Column Before"
 msgstr "Coloană înainte"
 
-#: ../src/e-util/e-html-editor-actions.c:1714
+#: ../src/e-util/e-html-editor-actions.c:1748
 msgid "Insert _Link"
 msgstr "Introdu _legătură"
 
-#: ../src/e-util/e-html-editor-actions.c:1721
+#: ../src/e-util/e-html-editor-actions.c:1755
 msgid "Row Above"
 msgstr "Rând deasupra"
 
-#: ../src/e-util/e-html-editor-actions.c:1728
+#: ../src/e-util/e-html-editor-actions.c:1762
 msgid "Row Below"
 msgstr "Rând dedesupt"
 
-#: ../src/e-util/e-html-editor-actions.c:1735
+#: ../src/e-util/e-html-editor-actions.c:1769
 msgid "Cell…"
 msgstr "Celulă…"
 
-#: ../src/e-util/e-html-editor-actions.c:1742
+#: ../src/e-util/e-html-editor-actions.c:1776
 msgid "Image…"
 msgstr "Imagine…"
 
-#: ../src/e-util/e-html-editor-actions.c:1749
+#: ../src/e-util/e-html-editor-actions.c:1783
 msgid "Link…"
 msgstr "_Legătură…"
 
-#: ../src/e-util/e-html-editor-actions.c:1756
+#: ../src/e-util/e-html-editor-actions.c:1790
 msgid "Page…"
 msgstr "Pagină…"
 
-#: ../src/e-util/e-html-editor-actions.c:1763
+#: ../src/e-util/e-html-editor-actions.c:1797
 msgid "Paragraph…"
 msgstr "Paragraf…"
 
 #. Translators: 'Rule' here means a horizontal line in an HTML text
-#: ../src/e-util/e-html-editor-actions.c:1771
+#: ../src/e-util/e-html-editor-actions.c:1805
 msgid "Rule…"
 msgstr "Regulă…"
 
-#: ../src/e-util/e-html-editor-actions.c:1778
+#: ../src/e-util/e-html-editor-actions.c:1812
 msgid "Table…"
 msgstr "Tabel…"
 
-#: ../src/e-util/e-html-editor-actions.c:1785
+#: ../src/e-util/e-html-editor-actions.c:1819
 msgid "Text…"
 msgstr "Text…"
 
-#: ../src/e-util/e-html-editor-actions.c:1792
+#: ../src/e-util/e-html-editor-actions.c:1826
 msgid "Remove Link"
 msgstr "Elimină legătura"
 
-#: ../src/e-util/e-html-editor-actions.c:1809
+#: ../src/e-util/e-html-editor-actions.c:1843
 msgid "Add Word to Dictionary"
 msgstr "Adaugă cuvântul la dicționar"
 
-#: ../src/e-util/e-html-editor-actions.c:1816
+#: ../src/e-util/e-html-editor-actions.c:1850
 msgid "Ignore Misspelled Word"
 msgstr "Ignoră cuvântul ortografiat greșit"
 
-#: ../src/e-util/e-html-editor-actions.c:1823
+#: ../src/e-util/e-html-editor-actions.c:1857
 msgid "Add Word To"
 msgstr "Adaugă cuvântul la"
 
-#: ../src/e-util/e-html-editor-actions.c:1832
+#: ../src/e-util/e-html-editor-actions.c:1866
 msgid "More Suggestions"
 msgstr "Mai multe sugestii"
 
 #. Translators: %s will be replaced with the actual dictionary
 #. * name, where a user can add a word to. This is part of an
 #. * "Add Word To" submenu.
-#: ../src/e-util/e-html-editor-actions.c:2067
+#: ../src/e-util/e-html-editor-actions.c:2101
 #, c-format
 msgid "%s Dictionary"
 msgstr "%s dicționar"
 
-#: ../src/e-util/e-html-editor-actions.c:2144
+#: ../src/e-util/e-html-editor-actions.c:2178
 msgid "_Emoticon"
 msgstr "_Emoticon"
 
-#: ../src/e-util/e-html-editor-actions.c:2145
+#: ../src/e-util/e-html-editor-actions.c:2179
 msgid "Insert Emoticon"
 msgstr "Introdu emoticon"
 
-#: ../src/e-util/e-html-editor-actions.c:2213
+#: ../src/e-util/e-html-editor-actions.c:2247
 msgid "Re_place"
 msgstr "În_locuiește"
 
-#: ../src/e-util/e-html-editor-actions.c:2219
+#: ../src/e-util/e-html-editor-actions.c:2253
 msgid "_Image"
 msgstr "_Imagine"
 
-#: ../src/e-util/e-html-editor-actions.c:2222
+#: ../src/e-util/e-html-editor-actions.c:2256
 msgid "_Link"
 msgstr "_Legătură"
 
 #. Translators: 'Rule' here means a horizontal line in an HTML text
-#: ../src/e-util/e-html-editor-actions.c:2226
+#: ../src/e-util/e-html-editor-actions.c:2260
 msgid "_Rule"
 msgstr "_Regulă"
 
-#: ../src/e-util/e-html-editor-actions.c:2229 ../src/e-util/e-html-editor-cell-dialog.c:448
+#: ../src/e-util/e-html-editor-actions.c:2263 ../src/e-util/e-html-editor-cell-dialog.c:448
 msgid "_Table"
 msgstr "_Tabel"
 
-#: ../src/e-util/e-html-editor.c:897
+#: ../src/e-util/e-html-editor.c:899
 msgid "Paragraph Style"
 msgstr "Stil paragraf"
 
-#: ../src/e-util/e-html-editor.c:911
+#: ../src/e-util/e-html-editor.c:913
 msgid "Editing Mode"
 msgstr "Mod de editare"
 
-#: ../src/e-util/e-html-editor.c:923
+#: ../src/e-util/e-html-editor.c:925
 msgid "Font Color"
 msgstr "Culoare font"
 
-#: ../src/e-util/e-html-editor.c:934
+#: ../src/e-util/e-html-editor.c:936
 msgid "Background Color"
 msgstr "Culoare fundal"
 
-#: ../src/e-util/e-html-editor.c:944
+#: ../src/e-util/e-html-editor.c:946
 msgid "Font Size"
 msgstr "Dimensiune font"
 
-#: ../src/e-util/e-html-editor.c:953
+#: ../src/e-util/e-html-editor.c:955
 msgid "Font Name"
 msgstr "Nume font"
 
-#: ../src/e-util/e-html-editor.c:1577
+#: ../src/e-util/e-html-editor.c:1579
 msgid "Failed to obtain content of editor"
 msgstr "Nu s-a putut obține conținutul editorului"
 
@@ -13914,11 +13935,11 @@ msgstr "zile"
 msgid "Autogenerated"
 msgstr "Autogenerată"
 
-#: ../src/e-util/e-mail-signature-editor.c:321 ../src/mail/e-mail-notes.c:1017
+#: ../src/e-util/e-mail-signature-editor.c:321 ../src/mail/e-mail-notes.c:1019
 msgid "Close"
 msgstr "Închide"
 
-#: ../src/e-util/e-mail-signature-editor.c:326 ../src/mail/e-mail-notes.c:1022
+#: ../src/e-util/e-mail-signature-editor.c:326 ../src/mail/e-mail-notes.c:1024
 msgid "_Save and Close"
 msgstr "_Salvează și închide"
 
@@ -15477,30 +15498,30 @@ msgstr "Șabloane"
 msgid "User cancelled operation"
 msgstr "Operație anulată de utilizator"
 
-#: ../src/libemail-engine/e-mail-session.c:1565
+#: ../src/libemail-engine/e-mail-session.c:1626
 #, c-format
 msgid "No destination address provided, forwarding of the message has been cancelled."
 msgstr "Nu s-a specificat o adresă de destinație, înaintarea mesajului a fost anulată."
 
-#: ../src/libemail-engine/e-mail-session.c:1578
+#: ../src/libemail-engine/e-mail-session.c:1646
 #, c-format
 msgid "No identity found to use, forwarding of the message has been cancelled."
 msgstr "Nu s-a găsit o identitate de folosit, înaintarea mesajului a fost anulată."
 
-#: ../src/libemail-engine/e-mail-session.c:1779
+#: ../src/libemail-engine/e-mail-session.c:1847
 #, c-format
 msgid "Corresponding source for service with UID “%s” not found"
 msgstr "Sursa corespunzătoare serviciului cu UID-ul „%s” nu a fost găsită"
 
-#: ../src/libemail-engine/e-mail-session.c:1899
+#: ../src/libemail-engine/e-mail-session.c:1967
 msgid "Looking up recipient S/MIME certificates in address books…"
 msgstr "Se caută certificatele S/MIME ale expeditorului în agende…"
 
-#: ../src/libemail-engine/e-mail-session.c:1901
+#: ../src/libemail-engine/e-mail-session.c:1969
 msgid "Looking up recipient PGP keys in address books…"
 msgstr "Se caută cheile PGP ale expeditorului în agende…"
 
-#: ../src/libemail-engine/e-mail-session.c:2948
+#: ../src/libemail-engine/e-mail-session.c:3016
 #, c-format
 msgid "Waiting for “%s”"
 msgstr "Se așteaptă după „%s”"
@@ -16353,16 +16374,16 @@ msgid "Folder Sort Order"
 msgstr "Ordinea sortării dosarului"
 
 #: ../src/mail/e-mail-folder-sort-order-dialog.c:728
-msgid "Reset c_urrent level"
-msgstr "Închide fișierul c_urent"
+msgid "Reset current level"
+msgstr "Restabilește nivelul curent"
 
 #: ../src/mail/e-mail-folder-sort-order-dialog.c:729
 msgid "Reset sort order in the current level to the defaults"
 msgstr "Restabilește ordinea sortării nivelului curent la cea implicită"
 
 #: ../src/mail/e-mail-folder-sort-order-dialog.c:739
-msgid "Reset _all levels"
-msgstr "Restabilește to_ate nivelele"
+msgid "Reset all levels"
+msgstr "Restabilește toate nivelurile"
 
 #: ../src/mail/e-mail-folder-sort-order-dialog.c:740
 msgid "Reset sort order in all levels to their defaults"
@@ -16467,7 +16488,7 @@ msgstr ""
 msgid "Color"
 msgstr "Culoare"
 
-#: ../src/mail/e-mail-notes.c:322 ../src/mail/e-mail-notes.c:725
+#: ../src/mail/e-mail-notes.c:322 ../src/mail/e-mail-notes.c:727
 msgid "Message Note"
 msgstr "Notă mesaj"
 
@@ -16475,19 +16496,19 @@ msgstr "Notă mesaj"
 msgid "Cannot find message in its folder summary"
 msgstr "Nu s-a putut găsi mesajul în sumarul dosarului"
 
-#: ../src/mail/e-mail-notes.c:870
+#: ../src/mail/e-mail-notes.c:872
 msgid "Failed to convert text to message"
 msgstr "Nu s-a putut converti textul la mesaj"
 
-#: ../src/mail/e-mail-notes.c:884 ../src/mail/e-mail-notes.c:909
+#: ../src/mail/e-mail-notes.c:886 ../src/mail/e-mail-notes.c:911
 msgid "Storing changes…"
 msgstr "Se stochează modificările…"
 
-#: ../src/mail/e-mail-notes.c:1052
+#: ../src/mail/e-mail-notes.c:1054
 msgid "Edit Message Note"
 msgstr "Editează nota mesajului"
 
-#: ../src/mail/e-mail-notes.c:1207
+#: ../src/mail/e-mail-notes.c:1209
 msgid "Retrieving message…"
 msgstr "Se obține mesajul…"
 
@@ -17519,6 +17540,10 @@ msgstr "De_scrie filtre…"
 msgid "Select Folder"
 msgstr "Alege dosar"
 
+#: ../src/mail/em-filter-mail-identity-element.c:236
+msgid "Default Account"
+msgstr "Cont implicit"
+
 #. Translators: This is in a Mail filter rule editor, part of "For account: [ Any   ]" section
 #: ../src/mail/em-filter-rule.c:879
 msgctxt "mail-filter-rule"
@@ -18188,6 +18213,10 @@ msgstr "Rulează program"
 #: ../src/mail/filtertypes.xml.in.h:80
 msgid "Forward to"
 msgstr "Înaintează la"
+
+#: ../src/mail/filtertypes.xml.in.h:81
+msgid "with"
+msgstr "cu"
 
 #: ../src/mail/importers/elm-importer.c:174
 msgid "Importing Elm data"
@@ -20375,102 +20404,102 @@ msgstr "R_estaurează datele Evolution…"
 msgid "Restore Evolution data and settings from an archive file"
 msgstr "Recuperează cópii de siguranță pentru datele și configurările Evolution dintr-un fișier arhivă"
 
-#: ../src/modules/backup-restore/evolution-backup-tool.c:72
+#: ../src/modules/backup-restore/evolution-backup-tool.c:74
 msgid "Back up Evolution directory"
 msgstr "Creează o cópie de siguranță pentru directorul Evolution"
 
-#: ../src/modules/backup-restore/evolution-backup-tool.c:74
+#: ../src/modules/backup-restore/evolution-backup-tool.c:76
 msgid "Restore Evolution directory"
 msgstr "Restaurați directorul Evolution"
 
-#: ../src/modules/backup-restore/evolution-backup-tool.c:76
+#: ../src/modules/backup-restore/evolution-backup-tool.c:78
 msgid "Check Evolution Back up"
 msgstr "Verifică cópia de siguranță Evolution"
 
-#: ../src/modules/backup-restore/evolution-backup-tool.c:78
+#: ../src/modules/backup-restore/evolution-backup-tool.c:80
 msgid "Restart Evolution"
 msgstr "Restartați Evolution"
 
-#: ../src/modules/backup-restore/evolution-backup-tool.c:80
+#: ../src/modules/backup-restore/evolution-backup-tool.c:82
 msgid "With Graphical User Interface"
 msgstr "Cu interfață grafică utilizator"
 
 #. FIXME Will the versioned setting always work?
-#: ../src/modules/backup-restore/evolution-backup-tool.c:293 ../src/modules/backup-restore/evolution-backup-tool.c:551
+#: ../src/modules/backup-restore/evolution-backup-tool.c:516 ../src/modules/backup-restore/evolution-backup-tool.c:772
 msgid "Shutting down Evolution"
 msgstr "Se închide Evolution"
 
-#: ../src/modules/backup-restore/evolution-backup-tool.c:302
+#: ../src/modules/backup-restore/evolution-backup-tool.c:525
 msgid "Backing Evolution accounts and settings"
 msgstr "Se efectuează o copie de siguranță a conturilor și configurărilor Evolution"
 
-#: ../src/modules/backup-restore/evolution-backup-tool.c:319
+#: ../src/modules/backup-restore/evolution-backup-tool.c:540
 msgid "Backing Evolution data (Mails, Contacts, Calendar, Tasks, Memos)"
 msgstr "Se creează cópia de siguranță a datelor Evolution (mesaje, contacte, calendare, sarcini, memo-uri)"
 
-#: ../src/modules/backup-restore/evolution-backup-tool.c:335
+#: ../src/modules/backup-restore/evolution-backup-tool.c:556
 msgid "Back up complete"
 msgstr "Cópiere de siguranță finalizată"
 
-#: ../src/modules/backup-restore/evolution-backup-tool.c:342 ../src/modules/backup-restore/evolution-backup-tool.c:758
+#: ../src/modules/backup-restore/evolution-backup-tool.c:563 ../src/modules/backup-restore/evolution-backup-tool.c:995
 msgid "Restarting Evolution"
 msgstr "Se repornește Evolution"
 
-#: ../src/modules/backup-restore/evolution-backup-tool.c:557
+#: ../src/modules/backup-restore/evolution-backup-tool.c:778
 msgid "Back up current Evolution data"
 msgstr "Creează cópii de siguranță datelor curente Evolution"
 
-#: ../src/modules/backup-restore/evolution-backup-tool.c:564
+#: ../src/modules/backup-restore/evolution-backup-tool.c:785
 msgid "Extracting files from back up"
 msgstr "Se extrag fișierele din cópia de siguranță"
 
-#: ../src/modules/backup-restore/evolution-backup-tool.c:659
+#: ../src/modules/backup-restore/evolution-backup-tool.c:880
 msgid "Loading Evolution settings"
 msgstr "Se încarcă configurările Evolution"
 
-#: ../src/modules/backup-restore/evolution-backup-tool.c:729
+#: ../src/modules/backup-restore/evolution-backup-tool.c:966
 msgid "Removing temporary back up files"
 msgstr "Se șterg fișierele-cópii de siguranță temporare"
 
-#: ../src/modules/backup-restore/evolution-backup-tool.c:743
+#: ../src/modules/backup-restore/evolution-backup-tool.c:980
 msgid "Reloading registry service"
 msgstr "Se reîncarcă serviciul de regiștri"
 
-#: ../src/modules/backup-restore/evolution-backup-tool.c:956
+#: ../src/modules/backup-restore/evolution-backup-tool.c:1193
 msgid "Evolution Back Up"
 msgstr "Còpii de siguranță Evolution"
 
-#: ../src/modules/backup-restore/evolution-backup-tool.c:957
+#: ../src/modules/backup-restore/evolution-backup-tool.c:1194
 #, c-format
 msgid "Backing up to the file %s"
 msgstr "Se creează cópia de siguranță în fișierul %s"
 
-#: ../src/modules/backup-restore/evolution-backup-tool.c:961
+#: ../src/modules/backup-restore/evolution-backup-tool.c:1198
 msgid "Evolution Restore"
 msgstr "Restaurare Evolution"
 
-#: ../src/modules/backup-restore/evolution-backup-tool.c:962
+#: ../src/modules/backup-restore/evolution-backup-tool.c:1199
 #, c-format
 msgid "Restoring from the file %s"
 msgstr "Se restaurează din fișierul %s"
 
-#: ../src/modules/backup-restore/evolution-backup-tool.c:1031
+#: ../src/modules/backup-restore/evolution-backup-tool.c:1268
 msgid "Backing up Evolution Data"
 msgstr "Se salvează datele evolution"
 
-#: ../src/modules/backup-restore/evolution-backup-tool.c:1032
+#: ../src/modules/backup-restore/evolution-backup-tool.c:1269
 msgid "Please wait while Evolution is backing up your data."
 msgstr "Așteptați în timp ce Evolution creează cópia de siguranță a datelor dumneavoastră."
 
-#: ../src/modules/backup-restore/evolution-backup-tool.c:1034
+#: ../src/modules/backup-restore/evolution-backup-tool.c:1271
 msgid "Restoring Evolution Data"
 msgstr "Se restaurează datele Evolution"
 
-#: ../src/modules/backup-restore/evolution-backup-tool.c:1035
+#: ../src/modules/backup-restore/evolution-backup-tool.c:1272
 msgid "Please wait while Evolution is restoring your data."
 msgstr "Așteptați în timp ce Evolution restaurează datele dumneavoastră."
 
-#: ../src/modules/backup-restore/evolution-backup-tool.c:1057
+#: ../src/modules/backup-restore/evolution-backup-tool.c:1294
 msgid "This may take a while depending on the amount of data in your account."
 msgstr "Această operație poate dura, în funcție de datele din contul dumneavoastră."
 
@@ -25298,19 +25327,19 @@ msgstr "Salvează căutarea"
 #. * allows the user to filter the current view.  Examples of
 #. * items that appear in the combo box are "Unread Messages",
 #. * "Important Messages", or "Active Appointments".
-#: ../src/shell/e-shell-searchbar.c:924
+#: ../src/shell/e-shell-searchbar.c:923
 msgid "Sho_w:"
 msgstr "_Arată:"
 
 #. Translators: This is part of the quick search interface.
 #. * example: Search: [_______________] in [ Current Folder ]
-#: ../src/shell/e-shell-searchbar.c:950
+#: ../src/shell/e-shell-searchbar.c:949
 msgid "Sear_ch:"
 msgstr "_Caută:"
 
 #. Translators: This is part of the quick search interface.
 #. * example: Search: [_______________] in [ Current Folder ]
-#: ../src/shell/e-shell-searchbar.c:1018
+#: ../src/shell/e-shell-searchbar.c:1017
 msgid "i_n"
 msgstr "î_n"
 
