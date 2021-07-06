@@ -275,45 +275,27 @@ eppm_enable_toggled (GtkCellRendererToggle *renderer,
 	gtk_tree_path_free (path);
 }
 
-static void
-action_plugin_manager_cb (GtkAction *action,
-                          EExtension *extension)
+static GtkWidget *
+plugins_page_new (EPreferencesWindow *window)
 {
 	Manager *m;
 	gint i;
-	GtkWidget *dialog;
-	GtkWidget *hbox, *w;
+	GtkWidget *vbox, *hbox, *w;
 	GtkWidget *overview_page;
-	GtkWidget *content_area;
 	GtkListStore *store;
 	GtkTreeView *tree_view;
 	GtkTreeSelection *selection;
+	GtkTreePath *path;
 	GtkCellRenderer *renderer;
 	GSList *plugins, *link;
 	gchar *string;
 	GtkWidget *subvbox;
-	EExtensible *extensible;
 
 	m = g_malloc0 (sizeof (*m));
 
-	/* Retrieve the parent EShellWindow. */
-	extensible = e_extension_get_extensible (extension);
-
 	/* Setup the ui */
-	dialog = gtk_dialog_new_with_buttons (
-		_("Plugin Manager"),
-		GTK_WINDOW (extensible),
-		GTK_DIALOG_DESTROY_WITH_PARENT,
-		_("_Close"), GTK_RESPONSE_CLOSE, NULL);
-
-	content_area = gtk_dialog_get_content_area (GTK_DIALOG (dialog));
-
-	gtk_window_set_default_size (GTK_WINDOW (dialog), 640, 400);
-	gtk_container_set_border_width (GTK_CONTAINER (dialog), 6);
-
 	hbox = gtk_box_new (GTK_ORIENTATION_HORIZONTAL, 12);
 	gtk_container_set_border_width (GTK_CONTAINER (hbox), 6);
-	gtk_box_pack_start (GTK_BOX (content_area), hbox, TRUE, TRUE, 0);
 
 	string = g_markup_printf_escaped (
 		"<i>%s</i>", _("Note: Some changes "
@@ -327,7 +309,9 @@ action_plugin_manager_cb (GtkAction *action,
 	gtk_widget_show (w);
 	g_free (string);
 
-	gtk_box_pack_start (GTK_BOX (content_area), w, FALSE, TRUE, 12);
+	vbox = gtk_box_new (GTK_ORIENTATION_VERTICAL, 12);
+	gtk_box_pack_start (GTK_BOX (vbox), hbox, TRUE, TRUE, 0);
+	gtk_box_pack_start (GTK_BOX (vbox), w, FALSE, TRUE, 0);
 
 	notebook = gtk_notebook_new ();
 	gtk_notebook_set_show_tabs (GTK_NOTEBOOK (notebook), TRUE);
@@ -395,6 +379,8 @@ action_plugin_manager_cb (GtkAction *action,
 			COL_PLUGIN_DATA, ep,
 			COL_PLUGIN_CFG_WIDGET, cfg_widget, -1);
 	}
+
+	g_slist_free_full (plugins, g_object_unref);
 
 	/* setup the treeview */
 	tree_view = GTK_TREE_VIEW (gtk_tree_view_new ());
@@ -489,25 +475,22 @@ action_plugin_manager_cb (GtkAction *action,
 	gtk_widget_show_all (overview_page);
 
 	selection = gtk_tree_view_get_selection (tree_view);
-	gtk_tree_selection_set_mode (selection, GTK_SELECTION_SINGLE);
-	g_signal_connect (
+	g_signal_connect_data (
 		selection, "changed",
-		G_CALLBACK (eppm_selection_changed), m);
+		G_CALLBACK (eppm_selection_changed),
+		m, (GClosureNotify) g_free, 0);
+	gtk_tree_selection_set_mode (selection, GTK_SELECTION_BROWSE);
+
+	path = gtk_tree_path_new_first ();
+	gtk_tree_selection_select_path (selection, path);
+	gtk_tree_path_free (path);
 
 	atk_object_set_name (
 		gtk_widget_get_accessible (
 		GTK_WIDGET (tree_view)), _("Plugin"));
 
-	gtk_dialog_run (GTK_DIALOG (dialog));
-
-	gtk_widget_destroy (dialog);
-
-	g_slist_foreach (plugins, (GFunc) g_object_unref, NULL);
-	g_slist_free (plugins);
-
 	g_object_unref (store);
-
-	g_free (m);
+	return vbox;
 }
 
 static void
@@ -516,42 +499,24 @@ plugin_manager_constructed (GObject *object)
 	EExtensible *extensible;
 	EPluginManager *extension;
 	EShellWindow *shell_window;
-	GtkActionGroup *action_group;
-	GtkUIManager *ui_manager;
-	GtkAction *action;
-	const gchar *action_name;
-	const gchar *action_label;
-	const gchar *action_tooltip;
-	const gchar *widget_path;
-	guint merge_id;
+	EShell *shell;
+	GtkWidget *preferences_window;
 
 	extension = E_PLUGIN_MANAGER (object);
 	extensible = e_extension_get_extensible (E_EXTENSION (extension));
 
 	shell_window = E_SHELL_WINDOW (extensible);
-	action_group = E_SHELL_WINDOW_ACTION_GROUP_SHELL (shell_window);
-	ui_manager = e_shell_window_get_ui_manager (shell_window);
-	merge_id = gtk_ui_manager_new_merge_id (ui_manager);
+	shell = e_shell_window_get_shell (shell_window);
+	preferences_window = e_shell_get_preferences_window (shell);
 
-	action_name = "plugin-manager";
-	action_label = _("_Plugins");
-	action_tooltip = _("Enable and disable plugins");
-	widget_path = "/main-menu/edit-menu/administrative-actions";
-
-	action = gtk_action_new (
-		action_name, action_label, action_tooltip, NULL);
-
-	g_signal_connect (
-		action, "activate",
-		G_CALLBACK (action_plugin_manager_cb), extension);
-
-	gtk_action_group_add_action (action_group, action);
-
-	gtk_ui_manager_add_ui (
-		ui_manager, merge_id, widget_path, action_name,
-		action_name, GTK_UI_MANAGER_AUTO, FALSE);
-
-	g_object_unref (action);
+	e_preferences_window_add_page (
+		E_PREFERENCES_WINDOW (preferences_window),
+		"page-plugins",
+		"preferences-plugins",
+		_("Plugins"),
+		NULL,
+		(EPreferencesWindowCreatePageFn) plugins_page_new,
+		900);
 
 	/* Chain up to parent's constructed() method. */
 	G_OBJECT_CLASS (e_plugin_manager_parent_class)->constructed (object);

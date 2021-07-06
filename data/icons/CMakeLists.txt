@@ -110,6 +110,7 @@ set(private_icons
 	hicolor_categories_48x48_preferences-composer.png
 	hicolor_categories_48x48_preferences-mail.png
 	hicolor_categories_48x48_preferences-mail-accounts.png
+	hicolor_categories_48x48_preferences-plugins.svg
 	hicolor_categories_48x48_preferences-system-network-proxy.png
 	hicolor_places_16x16_mail-inbox.png
 	hicolor_places_16x16_mail-outbox.png
