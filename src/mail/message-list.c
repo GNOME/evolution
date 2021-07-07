@@ -317,8 +317,8 @@ static const gchar *status_map[] = {
 	N_("Seen"),
 	N_("Answered"),
 	N_("Forwarded"),
-	N_("Multiple Unseen Messages"),
-	N_("Multiple Messages")
+	N_("Answered"), /* and unread */
+	N_("Forwarded") /* and unread */
 };
 
 static const gchar *status_icons[] = {
@@ -326,8 +326,8 @@ static const gchar *status_icons[] = {
 	"mail-read",
 	"mail-replied",
 	"mail-forward",
-	"stock_mail-unread-multiple",
-	"stock_mail-open-multiple"
+	"mail-replied", /* and unread */
+	"mail-forward" /* and unread */
 };
 
 static const gchar *score_map[] = {
@@ -711,6 +711,22 @@ address_compare (gconstpointer address1,
 	retval = g_ascii_strcasecmp ((gchar *) address1, (gchar *) address2);
 
 	return retval;
+}
+
+static gint
+mail_status_compare (gconstpointer pstatus1,
+		     gconstpointer pstatus2,
+		     gpointer cmp_cache)
+{
+	gint status1 = GPOINTER_TO_INT (pstatus1);
+	gint status2 = GPOINTER_TO_INT (pstatus2);
+	gboolean is_unread1 = status1 == 0 || status1 == 4 || status1 == 5;
+	gboolean is_unread2 = status2 == 0 || status2 == 4 || status2 == 5;
+
+	if ((is_unread1 ? 1 : 0) == (is_unread2 ? 1 : 0))
+		return e_int_compare (pstatus1, pstatus2);
+
+	return is_unread1 ? -1 : 1;
 }
 
 static gchar *
@@ -1823,7 +1839,11 @@ ml_tree_value_at_ex (ETreeModel *etm,
 	switch (col) {
 	case COL_MESSAGE_STATUS:
 		flags = camel_message_info_get_flags (msg_info);
-		if (flags & CAMEL_MESSAGE_ANSWERED)
+		if (!(flags & CAMEL_MESSAGE_SEEN) && (flags & CAMEL_MESSAGE_ANSWERED) != 0)
+			return GINT_TO_POINTER (4);
+		else if (!(flags & CAMEL_MESSAGE_SEEN) && (flags & CAMEL_MESSAGE_FORWARDED) != 0)
+			return GINT_TO_POINTER (5);
+		else if (flags & CAMEL_MESSAGE_ANSWERED)
 			return GINT_TO_POINTER (2);
 		else if (flags & CAMEL_MESSAGE_FORWARDED)
 			return GINT_TO_POINTER (3);
@@ -2324,6 +2344,7 @@ message_list_create_extras (GSettings *mail_settings)
 	e_table_extras_add_icon_name (extras, "followup", "stock_mail-flag-for-followup");
 
 	e_table_extras_add_compare (extras, "address_compare", address_compare);
+	e_table_extras_add_compare (extras, "mail-status", mail_status_compare);
 
 	cell = e_cell_toggle_new (status_icons, G_N_ELEMENTS (status_icons));
 	e_cell_toggle_set_icon_descriptions (E_CELL_TOGGLE (cell), status_map, G_N_ELEMENTS (status_map));
