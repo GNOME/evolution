@@ -349,6 +349,11 @@
       <_summary>Vertical position for the tag pane</_summary>
       <_description>Vertical position for the tag pane</_description>
     </key>
+    <key name="show-tag-vpane" type="b">
+      <default>true</default>
+      <_summary>Show Tasks and Memos pane in the Calendar view</_summary>
+      <_description>Whether to show Tasks and Memos pane in the Calendar view</_description>
+    </key>
     <key name="task-due-today-highlight" type="b">
       <default>true</default>
       <_summary>Highlight tasks due today</_summary>

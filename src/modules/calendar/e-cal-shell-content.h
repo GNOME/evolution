@@ -108,6 +108,9 @@ void		e_cal_shell_content_update_tasks_filter	(ECalShellContent *cal_shell_conte
 							 const gchar *cal_filter);
 ECalDataModel *	e_cal_shell_content_get_list_view_data_model
 							(ECalShellContent *cal_shell_content);
+void		e_cal_shell_content_set_show_tag_vpane	(ECalShellContent *cal_shell_content,
+							 gboolean show);
+gboolean	e_cal_shell_content_get_show_tag_vpane	(ECalShellContent *cal_shell_content);
 
 G_END_DECLS
 

@@ -1283,6 +1283,15 @@ action_event_schedule_appointment_cb (GtkAction *action,
 	edit_event_as (cal_shell_view, FALSE);
 }
 
+static void
+action_calendar_show_tag_vpane_cb (GtkAction *action,
+				   ECalShellView *cal_shell_view)
+{
+	g_return_if_fail (E_IS_CAL_SHELL_VIEW (cal_shell_view));
+
+	e_cal_shell_content_set_show_tag_vpane (cal_shell_view->priv->cal_shell_content, gtk_toggle_action_get_active (GTK_TOGGLE_ACTION (action)));
+}
+
 static GtkActionEntry calendar_entries[] = {
 
 	{ "calendar-copy",
@@ -1714,6 +1723,17 @@ static EPopupActionEntry calendar_popup_entries[] = {
 	  "event-schedule-appointment" }
 };
 
+static GtkToggleActionEntry calendar_toggle_entries[] = {
+
+	{ "calendar-show-tag-vpane",
+	  NULL,
+	  N_("Show T_asks and Memos pane"),
+	  NULL,
+	  N_("Show Tasks and Memos pane"),
+	  G_CALLBACK (action_calendar_show_tag_vpane_cb),
+	  TRUE }
+};
+
 static GtkRadioActionEntry calendar_view_entries[] = {
 
 	/* This action represents the initial calendar view.
@@ -1903,6 +1923,9 @@ e_cal_shell_view_actions_init (ECalShellView *cal_shell_view)
 	e_action_group_add_popup_actions (
 		action_group, calendar_popup_entries,
 		G_N_ELEMENTS (calendar_popup_entries));
+	gtk_action_group_add_toggle_actions (
+		action_group, calendar_toggle_entries,
+		G_N_ELEMENTS (calendar_toggle_entries), cal_shell_view);
 	gtk_action_group_add_radio_actions (
 		action_group, calendar_view_entries,
 		G_N_ELEMENTS (calendar_view_entries), BOGUS_INITIAL_VALUE,
@@ -1959,6 +1982,12 @@ e_cal_shell_view_actions_init (ECalShellView *cal_shell_view)
 
 	action = ACTION (CALENDAR_VIEW_WORKWEEK);
 	gtk_action_set_is_important (action, TRUE);
+
+	action = ACTION (CALENDAR_SHOW_TAG_VPANE);
+	g_settings_bind (
+		cal_shell_view->priv->settings, "show-tag-vpane",
+		action, "active",
+		G_SETTINGS_BIND_GET);
 
 	/* Initialize the memo and task pad actions. */
 	e_cal_shell_view_memopad_actions_init (cal_shell_view);

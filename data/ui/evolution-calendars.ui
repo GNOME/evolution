@@ -26,6 +26,11 @@
       <menuitem action='calendar-go-today'/>
       <menuitem action='calendar-jump-to'/>
       <menuitem action='calendar-manage-groups'/>
+      <menu action='layout-menu'>
+        <placeholder name='view-layout-custom-menus'>
+          <menuitem action='calendar-show-tag-vpane'/>
+        </placeholder>
+      </menu>
     </menu>
     <placeholder name='custom-menus'>
       <menu action='calendar-actions-menu'>

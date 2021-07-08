@@ -62,6 +62,8 @@
 	E_SHELL_WINDOW_ACTION ((window), "calendar-select-all")
 #define E_SHELL_WINDOW_ACTION_CALENDAR_SELECT_ONE(window) \
 	E_SHELL_WINDOW_ACTION ((window), "calendar-select-one")
+#define E_SHELL_WINDOW_ACTION_CALENDAR_SHOW_TAG_VPANE(window) \
+	E_SHELL_WINDOW_ACTION ((window), "calendar-show-tag-vpane")
 #define E_SHELL_WINDOW_ACTION_CALENDAR_VIEW_DAY(window) \
 	E_SHELL_WINDOW_ACTION ((window), "calendar-view-day")
 #define E_SHELL_WINDOW_ACTION_CALENDAR_VIEW_LIST(window) \

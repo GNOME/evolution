@@ -83,7 +83,8 @@ enum {
 	PROP_MEMO_TABLE,
 	PROP_TASK_TABLE,
 	PROP_CURRENT_VIEW_ID,
-	PROP_CURRENT_VIEW
+	PROP_CURRENT_VIEW,
+	PROP_SHOW_TAG_VPANE
 };
 
 /* Used to indicate who has the focus within the calendar view. */
@@ -1658,6 +1659,10 @@ cal_shell_content_set_property (GObject *object,
 			e_cal_shell_content_set_current_view_id (E_CAL_SHELL_CONTENT (object),
 				g_value_get_int (value));
 			return;
+		case PROP_SHOW_TAG_VPANE:
+			e_cal_shell_content_set_show_tag_vpane (E_CAL_SHELL_CONTENT (object),
+				g_value_get_boolean (value));
+			return;
 	}
 
 	G_OBJECT_WARN_INVALID_PROPERTY_ID (object, property_id, pspec);
@@ -1696,6 +1701,11 @@ cal_shell_content_get_property (GObject *object,
 		case PROP_CURRENT_VIEW:
 			g_value_set_object (value,
 				e_cal_shell_content_get_current_calendar_view (E_CAL_SHELL_CONTENT (object)));
+			return;
+
+		case PROP_SHOW_TAG_VPANE:
+			g_value_set_boolean (value,
+				e_cal_shell_content_get_show_tag_vpane (E_CAL_SHELL_CONTENT (object)));
 			return;
 	}
 
@@ -1946,6 +1956,11 @@ cal_shell_content_constructed (GObject *object)
 		cal_shell_content->priv->vpaned, "proportion",
 		G_SETTINGS_BIND_DEFAULT);
 
+	g_settings_bind (
+		settings, "show-tag-vpane",
+		cal_shell_content, "show-tag-vpane",
+		G_SETTINGS_BIND_DEFAULT);
+
 	g_object_unref (settings);
 
 	/* Cannot access shell sidebar here, thus rely on cal_shell_content_view_created()
@@ -2026,6 +2041,16 @@ e_cal_shell_content_class_init (ECalShellContentClass *class)
 			NULL,
 			E_TYPE_CALENDAR_VIEW,
 			G_PARAM_READABLE));
+
+	g_object_class_install_property (
+		object_class,
+		PROP_SHOW_TAG_VPANE,
+		g_param_spec_boolean (
+			"show-tag-vpane",
+			NULL,
+			NULL,
+			TRUE,
+			G_PARAM_READWRITE));
 }
 
 static void
@@ -2625,4 +2650,40 @@ e_cal_shell_content_get_list_view_data_model (ECalShellContent *cal_shell_conten
 	g_return_val_if_fail (E_IS_CAL_SHELL_CONTENT (cal_shell_content), NULL);
 
 	return cal_shell_content->priv->list_view_data_model;
+}
+
+void
+e_cal_shell_content_set_show_tag_vpane (ECalShellContent *cal_shell_content,
+					gboolean show)
+{
+	g_return_if_fail (E_IS_CAL_SHELL_CONTENT (cal_shell_content));
+
+	if ((gtk_widget_get_visible (cal_shell_content->priv->vpaned) ? 1 : 0) == (show ? 1 : 0))
+		return;
+
+	gtk_widget_set_visible (cal_shell_content->priv->vpaned, show);
+
+	if (show) {
+		if (cal_shell_content->priv->task_data_model)
+			e_cal_data_model_thaw_views_update (cal_shell_content->priv->task_data_model);
+
+		if (cal_shell_content->priv->memo_data_model)
+			e_cal_data_model_thaw_views_update (cal_shell_content->priv->memo_data_model);
+	} else {
+		if (cal_shell_content->priv->task_data_model)
+			e_cal_data_model_freeze_views_update (cal_shell_content->priv->task_data_model);
+
+		if (cal_shell_content->priv->memo_data_model)
+			e_cal_data_model_freeze_views_update (cal_shell_content->priv->memo_data_model);
+	}
+
+	g_object_notify (G_OBJECT (cal_shell_content), "show-tag-vpane");
+}
+
+gboolean
+e_cal_shell_content_get_show_tag_vpane (ECalShellContent *cal_shell_content)
+{
+	g_return_val_if_fail (E_IS_CAL_SHELL_CONTENT (cal_shell_content), FALSE);
+
+	return gtk_widget_get_visible (cal_shell_content->priv->vpaned);
 }
