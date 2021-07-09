@@ -13,8 +13,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: evolution.HEAD.ro\n"
 "Report-Msgid-Bugs-To: https://gitlab.gnome.org/GNOME/evolution/issues\n"
-"POT-Creation-Date: 2021-06-25 18:04+0000\n"
-"PO-Revision-Date: 2021-07-02 19:29+0300\n"
+"POT-Creation-Date: 2021-07-09 10:11+0000\n"
+"PO-Revision-Date: 2021-07-09 12:59+0200\n"
 "Last-Translator: Florentina Mușat <florentina.musat.28@gmail.com>\n"
 "Language-Team: Gnome Romanian Translation Team <gnomero-list@lists.sourceforge.net>\n"
 "Language: ro\n"
@@ -23,7 +23,7 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=3; plural=(n==1 ? 0 : n==0 || (n!=1 && n%100>=1 && n%100<=19) ? 1 : 2);\n"
 "n%100<=19) ? 1: 2);\n"
-"X-Generator: Poedit 3.0\n"
+"X-Generator: Poedit 2.4.3\n"
 "20)) ? 1: 2);\n"
 "X-Poedit-Bookmarks: 175,-1,-1,-1,-1,-1,-1,-1,-1,-1\n"
 "X-Project-Style: gnome\n"
@@ -697,31 +697,39 @@ msgid "Vertical position for the tag pane"
 msgstr "Poziție verticală pentru panoul etichetă"
 
 #: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:120
+msgid "Show Tasks and Memos pane in the Calendar view"
+msgstr "Arată panoul cu sarcini și memouri în Vizualizarea calendar"
+
+#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:121
+msgid "Whether to show Tasks and Memos pane in the Calendar view"
+msgstr "Dacă să se arate panoul cu sarcini și memouri în vizualizarea calendar"
+
+#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:122
 msgid "Highlight tasks due today"
 msgstr "Evidențiază sarcini ce au scadența astăzi"
 
-#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:121
+#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:123
 msgid "Whether highlight tasks due today with a special color (task-due-today-color)"
 msgstr "Dacă să se evidențieze sarcinile cu scadența astăzi cu o culoare specială (task-due-today-color)"
 
-#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:122
+#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:124
 msgid "Tasks due today color"
 msgstr "Culoarea pentru sarcinile scadente astăzi"
 
-#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:123
+#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:125
 msgid "Background color of tasks that are due today, in “#rrggbb” format. Used together with task-due-today-highlight"
 msgstr ""
 "Culoare de fundal pentru sarcinile scadente astăzi, în format „#rrggbb”. Utilizat împreună cu task-due-today-highlight"
 
-#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:124
+#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:126
 msgid "Task preview pane position (horizontal)"
 msgstr "Poziția panoului de previzualizare a sarcinilor (orizontal)"
 
-#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:125
+#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:127
 msgid "Task layout style"
 msgstr "Stil aranjamet sarcină"
 
-#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:126
+#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:128
 msgid ""
 "The layout style determines where to place the preview pane in relation to the task list. “0” (Classic View) places the "
 "preview pane below the task list. “1” (Vertical View) places the preview pane next to the task list"
@@ -730,43 +738,43 @@ msgstr ""
 "„0” (vizualizare clasică) plasează panoul de previzualizare sub lista de sarcini. „1” (vizualizare verticală) plasează "
 "panoul de previzualizare lângă lista de sarcini"
 
-#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:127
+#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:129
 msgid "Task preview pane position (vertical)"
 msgstr "Poziția panoului de previzualizare a sarcinilor (vertical)"
 
-#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:128
+#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:130
 msgid "Position of the task preview pane when oriented vertically"
 msgstr "Poziția panoului de previzualizare a sarcinilor, atunci când este orientat vertical"
 
-#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:129
+#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:131
 msgid "Highlight overdue tasks"
 msgstr "Evidențiază sarcinile restante"
 
-#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:130
+#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:132
 msgid "Whether highlight overdue tasks with a special color (task-overdue-color)"
 msgstr "Dacă să se evidențieze sarcinile restante cu o culoare specială (task-overdue-color)"
 
-#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:131
+#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:133
 msgid "Overdue tasks color"
 msgstr "Culoarea pentru sarcini restante"
 
-#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:132
+#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:134
 msgid "Background color of tasks that are overdue, in “#rrggbb” format. Used together with task-overdue-highlight."
 msgstr "Culoarea de fundal a sarcinilor restante, în format „#rrggbb”. Utilizat împreună cu task-overdue-highlight."
 
-#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:133
+#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:135
 msgid "Time divisions"
 msgstr "Diviziuni de timp"
 
-#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:134
+#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:136
 msgid "Intervals shown in Day and Work Week views, in minutes"
 msgstr "Intervale arătate în vizualizările zi și săptămână de lucru, în minute"
 
-#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:135
+#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:137
 msgid "Timezone"
 msgstr "Fus orar"
 
-#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:136
+#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:138
 msgid ""
 "The default timezone to use for dates and times in the calendar, as an untranslated Olson timezone database location like "
 "“America/New York”"
@@ -774,107 +782,107 @@ msgstr ""
 "Fusul orar implicit folosit pentru dată și oră în calendar, ca o locație netradusă din baza de date Olsen cum ar fi "
 "„America/New York”"
 
-#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:137
+#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:139
 msgid "Twenty four hour time format"
 msgstr "Formatul de timp de 24 de ore"
 
-#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:138
+#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:140
 msgid "Whether to show times in twenty four hour format instead of using am/pm"
 msgstr "Dacă să se arate timpul în formatul de 24 de ore în loc să foloseasca am/pm"
 
-#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:139
+#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:141
 msgid "Birthday and anniversary reminder"
 msgstr "Memento zi de naștere și aniversare"
 
-#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:140
+#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:142
 msgid "Whether to set a reminder for birthdays and anniversaries"
 msgstr "Dacă să se definească un memento implicit pentru zile de naștere și aniversări"
 
-#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:141
+#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:143
 msgid "Default appointment reminder"
 msgstr "Mementoul implicit pentru programare"
 
-#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:142
+#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:144
 msgid "Whether to set a default reminder for appointments"
 msgstr "Dacă să se definească un memento implicit pentru programări"
 
-#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:143
+#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:145
 msgid "Use system timezone"
 msgstr "Folosește fusul orar al sistemului"
 
-#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:144
+#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:146
 msgid "Use the system timezone instead of the timezone selected in Evolution"
 msgstr "Folosește fusul orar al sistemului în locul fusului orar selectat în Evolution"
 
-#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:145
+#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:147
 msgid "First day of the week"
 msgstr "Prima zi a săptămânii"
 
-#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:146
+#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:148
 msgid "Monday is a work day"
 msgstr "Luni este o zi lucrătoare"
 
-#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:147
+#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:149
 msgid "Tuesday is a work day"
 msgstr "Marți este o zi lucrătoare"
 
-#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:148
+#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:150
 msgid "Wednesday is a work day"
 msgstr "Miercuri este o zi lucrătoare"
 
-#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:149
+#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:151
 msgid "Thursday is a work day"
 msgstr "Joi este o zi lucrătoare"
 
-#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:150
+#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:152
 msgid "Friday is a work day"
 msgstr "Vineri este o zi lucrătoare"
 
-#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:151
+#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:153
 msgid "Saturday is a work day"
 msgstr "Sâmbătă este o zi lucrătoare"
 
-#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:152
+#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:154
 msgid "Sunday is a work day"
 msgstr "Duminică este o zi lucrătoare"
 
-#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:153
+#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:155
 msgid "Create events, memos and tasks as Private by default"
 msgstr "Creează evenimente, memo-uri și sarcini ca Private în mod implicit"
 
-#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:154
+#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:156
 msgid "Draw events as flat, not shaded."
 msgstr "Desenează evenimentele plate, nu umbrite."
 
-#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:155
+#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:157
 msgid "Whether to order days in the Week View from left to right, rather than from top to bottom."
 msgstr "Dacă să se ordoneze zilele din Vizualizarea săptămână de la stânga la dreapta, în loc de sus în jos."
 
-#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:156
+#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:158
 msgid "Allow direct edit of event Summary when clicking on it in the Day, Work Week, Week or Month view."
 msgstr ""
 "Permite editarea directă a rezumatului evenimentului când se apasă clic pe el în vizualizările Zi, Săptămână lucrătoare, "
 "Săptămână sau Lună."
 
-#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:157
+#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:159
 msgid "User-defined reminder times, in minutes"
 msgstr "Timpi de memento definiți de utilizator, în minute"
 
-#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:158
+#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:160
 msgid "(Deprecated) First day of the week, from Sunday (0) to Saturday (6)"
 msgstr "(Învechită) Ziua cu care începe săptămâna, de Duminică (0) până Sâmbătă (6)"
 
-#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:159
+#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:161
 msgid "This key was deprecated in version 3.10 and should no longer be used. Use “week-start-day-name” instead."
 msgstr ""
 "Această cheie a fost marcată ca învechită în versiunea 3.10 și nu ar trebui să mai fie folosită. Utilizați „week-start-day-"
 "name” în locul acesteia."
 
-#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:160
+#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:162
 msgid "(Deprecated) Work days"
 msgstr "(Învechită) Zile lucrătoare"
 
-#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:161
+#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:163
 msgid ""
 "Days on which the start and end of work hours should be indicated. (This key was deprecated in version 3.10 and should no "
 "longer be used. Use the “work-day-monday”, “work-day-tuesday”, etc. keys instead.)"
@@ -3062,7 +3070,7 @@ msgid "Mail"
 msgstr "Email"
 
 #: ../data/org.gnome.Evolution.desktop.in.in.h:11 ../src/calendar/gui/e-memo-table.c:446 ../src/e-util/e-webdav-browser.c:522
-#: ../src/modules/calendar/e-cal-shell-content.c:1893 ../src/modules/calendar/e-memo-shell-view-actions.c:196
+#: ../src/modules/calendar/e-cal-shell-content.c:1903 ../src/modules/calendar/e-memo-shell-view-actions.c:196
 #: ../src/modules/calendar/e-memo-shell-view-actions.c:211 ../src/modules/calendar/e-memo-shell-view.c:335
 msgid "Memos"
 msgstr "Memo-uri"
@@ -3070,7 +3078,7 @@ msgstr "Memo-uri"
 #: ../data/org.gnome.Evolution.desktop.in.in.h:12 ../src/calendar/gui/e-task-table.c:618 ../src/calendar/gui/print.c:2442
 #: ../src/calendar/importers/icalendar-importer.c:77 ../src/calendar/importers/icalendar-importer.c:1151
 #: ../src/e-util/e-webdav-browser.c:523 ../src/modules/calendar/e-calendar-preferences.ui.h:76
-#: ../src/modules/calendar/e-cal-shell-content.c:1853 ../src/modules/calendar/e-task-shell-view-actions.c:220
+#: ../src/modules/calendar/e-cal-shell-content.c:1863 ../src/modules/calendar/e-task-shell-view-actions.c:220
 #: ../src/modules/calendar/e-task-shell-view-actions.c:235 ../src/modules/calendar/e-task-shell-view.c:530
 msgid "Tasks"
 msgstr "Sarcini"
@@ -3725,7 +3733,7 @@ msgid "_Save"
 msgstr "_Salvează"
 
 #: ../src/addressbook/gui/contact-editor/contact-editor.ui.h:16 ../src/calendar/gui/e-comp-editor.c:2134
-#: ../src/calendar/gui/e-comp-editor.c:2206 ../src/e-util/e-preferences-window.c:387 ../src/e-util/e-send-options.ui.h:15
+#: ../src/calendar/gui/e-comp-editor.c:2206 ../src/e-util/e-send-options.ui.h:15
 #: ../src/plugins/email-custom-header/org-gnome-email-custom-header.ui.h:2 ../src/shell/e-shell-window-actions.c:1117
 msgid "_Help"
 msgstr "_Ajutor"
@@ -4309,7 +4317,7 @@ msgstr "Email-ul începe cu"
 
 #: ../src/addressbook/gui/widgets/addresstypes.xml.h:3 ../src/calendar/gui/caltypes.xml.in.h:27
 #: ../src/calendar/gui/memotypes.xml.in.h:20 ../src/calendar/gui/tasktypes.xml.in.h:38
-#: ../src/modules/addressbook/e-book-shell-view-actions.c:1295 ../src/modules/calendar/e-cal-shell-view-actions.c:1814
+#: ../src/modules/addressbook/e-book-shell-view-actions.c:1295 ../src/modules/calendar/e-cal-shell-view-actions.c:1834
 #: ../src/modules/calendar/e-memo-shell-view-actions.c:807 ../src/modules/calendar/e-task-shell-view-actions.c:1036
 msgid "Any field contains"
 msgstr "Orice câmp conține"
@@ -4712,7 +4720,7 @@ msgstr "Sigur doriți să ștergeți acest contact (%s)?"
 #: ../src/addressbook/gui/widgets/e-addressbook-view.c:1438 ../src/calendar/gui/e-comp-editor.c:2127
 #: ../src/e-util/e-accounts-window.c:1753 ../src/e-util/e-focus-tracker.c:816 ../src/e-util/evolution-source-viewer.c:800
 #: ../src/e-util/e-webdav-browser.c:2855 ../src/mail/e-mail-account-manager.c:739
-#: ../src/modules/addressbook/e-book-shell-view-actions.c:1173 ../src/modules/calendar/e-cal-shell-view-actions.c:1617
+#: ../src/modules/addressbook/e-book-shell-view-actions.c:1173 ../src/modules/calendar/e-cal-shell-view-actions.c:1626
 #: ../src/modules/calendar/e-memo-shell-view-actions.c:697 ../src/modules/calendar/e-task-shell-view-actions.c:851
 #: ../src/modules/mail/e-mail-shell-view-actions.c:1622 ../src/shell/e-shell-window-actions.c:961
 #: ../src/smime/gui/certificate-manager.c:1654 ../src/smime/gui/smime-ui.ui.h:8
@@ -6276,7 +6284,7 @@ msgstr "_Retrage comentariu"
 msgid "Select Date"
 msgstr "Selectați data"
 
-#: ../src/calendar/gui/e-cal-dialogs.c:689 ../src/modules/calendar/e-cal-shell-view-actions.c:1318
+#: ../src/calendar/gui/e-cal-dialogs.c:689 ../src/modules/calendar/e-cal-shell-view-actions.c:1327
 msgid "Select _Today"
 msgstr "Selectează _azi"
 
@@ -7840,12 +7848,11 @@ msgstr "Fără rezumat"
 #. == Button box ==
 #: ../src/calendar/gui/e-comp-editor.c:2106 ../src/composer/e-composer-actions.c:333 ../src/e-util/e-accounts-window.c:1778
 #: ../src/e-util/e-html-editor-dialog.c:194 ../src/e-util/e-mail-signature-editor.c:319
-#: ../src/e-util/e-name-selector-dialog.c:548 ../src/e-util/e-preferences-window.c:396
-#: ../src/e-util/e-table-field-chooser-dialog.c:197 ../src/mail/e-mail-browser.c:166
-#: ../src/mail/e-mail-folder-sort-order-dialog.c:751 ../src/mail/e-mail-notes.c:1017 ../src/mail/em-filter-editor.c:45
-#: ../src/mail/em-folder-properties.c:1487 ../src/mail/em-subscription-editor.c:1734
-#: ../src/modules/plugin-manager/evolution-plugin-manager.c:307 ../src/shell/e-shell-window-actions.c:354
-#: ../src/shell/e-shell-window-actions.c:926 ../src/smime/gui/certificate-manager.c:2176
+#: ../src/e-util/e-name-selector-dialog.c:548 ../src/e-util/e-table-field-chooser-dialog.c:197
+#: ../src/mail/e-mail-browser.c:166 ../src/mail/e-mail-folder-sort-order-dialog.c:751 ../src/mail/e-mail-notes.c:1017
+#: ../src/mail/em-filter-editor.c:45 ../src/mail/em-folder-properties.c:1487 ../src/mail/em-subscription-editor.c:1734
+#: ../src/shell/e-shell-window-actions.c:354 ../src/shell/e-shell-window-actions.c:926
+#: ../src/smime/gui/certificate-manager.c:2176
 msgid "_Close"
 msgstr "În_chide"
 
@@ -7905,7 +7912,7 @@ msgid "_Print…"
 msgstr "Ti_părește…"
 
 #: ../src/calendar/gui/e-comp-editor.c:2155 ../src/mail/e-mail-reader.c:2789
-#: ../src/modules/addressbook/e-book-shell-view-actions.c:1326 ../src/modules/calendar/e-cal-shell-view-actions.c:1845
+#: ../src/modules/addressbook/e-book-shell-view-actions.c:1326 ../src/modules/calendar/e-cal-shell-view-actions.c:1865
 #: ../src/modules/calendar/e-memo-shell-view-actions.c:838 ../src/modules/calendar/e-task-shell-view-actions.c:1067
 msgid "Pre_view…"
 msgstr "Pre_vizualizare…"
@@ -8340,7 +8347,7 @@ msgstr "Terminat: %s"
 
 #. strftime format of a weekday and a date.
 #: ../src/calendar/gui/e-to-do-pane.c:1588 ../src/e-util/e-cell-date-edit.c:338 ../src/e-util/e-datetime-format.c:207
-#: ../src/modules/calendar/e-cal-shell-view-actions.c:1943 ../src/modules/itip-formatter/itip-view.c:261
+#: ../src/modules/calendar/e-cal-shell-view-actions.c:1966 ../src/modules/itip-formatter/itip-view.c:261
 msgid "Today"
 msgstr "Astăzi"
 
@@ -8354,11 +8361,11 @@ msgstr "Mâine"
 msgid "Tasks without Due date"
 msgstr "Sarcini fără dată scadentă"
 
-#: ../src/calendar/gui/e-to-do-pane.c:2188 ../src/modules/calendar/e-cal-shell-view-actions.c:1542
+#: ../src/calendar/gui/e-to-do-pane.c:2188 ../src/modules/calendar/e-cal-shell-view-actions.c:1551
 msgid "New _Appointment…"
 msgstr "Progr_amare nouă…"
 
-#: ../src/calendar/gui/e-to-do-pane.c:2196 ../src/modules/calendar/e-cal-shell-view-actions.c:1479
+#: ../src/calendar/gui/e-to-do-pane.c:2196 ../src/modules/calendar/e-cal-shell-view-actions.c:1488
 msgid "New _Meeting…"
 msgstr "Întâlnire _nouă…"
 
@@ -11390,7 +11397,7 @@ msgid "evolution calendar item"
 msgstr "element calendar evolution"
 
 #: ../src/e-util/e-accounts-window.c:557 ../src/e-util/e-accounts-window.c:674 ../src/e-util/e-accounts-window.c:894
-#: ../src/modules/mail/e-mail-shell-backend.c:1109
+#: ../src/modules/mail/e-mail-shell-backend.c:1110
 msgid "Mail Accounts"
 msgstr "Conturi de email"
 
@@ -11413,7 +11420,7 @@ msgid "Task Lists"
 msgstr "Liste de sarcini"
 
 #: ../src/e-util/e-accounts-window.c:1399 ../src/e-util/filter.ui.h:23 ../src/mail/e-mail-account-tree-view.c:84
-#: ../src/modules/mail/em-composer-prefs.c:1303 ../src/modules/plugin-manager/evolution-plugin-manager.c:408
+#: ../src/modules/mail/em-composer-prefs.c:1303 ../src/modules/plugin-manager/evolution-plugin-manager.c:394
 #: ../src/plugins/mail-notification/mail-notification.c:1175 ../src/plugins/publish-calendar/publish-calendar.c:853
 msgid "Enabled"
 msgstr "Activat"
@@ -11667,7 +11674,7 @@ msgid "A_dd Attachment…"
 msgstr "A_daugă fișier atașat…"
 
 #: ../src/e-util/e-attachment-view.c:348 ../src/modules/addressbook/e-book-shell-view-actions.c:1181
-#: ../src/modules/calendar/e-cal-shell-view-actions.c:1346 ../src/modules/calendar/e-memo-shell-view-actions.c:619
+#: ../src/modules/calendar/e-cal-shell-view-actions.c:1355 ../src/modules/calendar/e-memo-shell-view-actions.c:619
 #: ../src/modules/calendar/e-task-shell-view-actions.c:745 ../src/modules/mail/e-mail-shell-view-actions.c:1587
 #: ../src/modules/mail/e-mail-shell-view-actions.c:1665
 msgid "_Properties"
@@ -11835,7 +11842,7 @@ msgid "popup list"
 msgstr "listă popup"
 
 #: ../src/e-util/e-cell-date.c:49 ../src/e-util/e-cell-date.c:138 ../src/e-util/e-cell-date.c:158
-#: ../src/mail/message-list.c:2146
+#: ../src/mail/message-list.c:2166
 msgid "?"
 msgstr "?"
 
@@ -14126,7 +14133,7 @@ msgid "_Search:"
 msgstr "_Caută:"
 
 #: ../src/e-util/e-name-selector-dialog.c:363 ../src/e-util/e-name-selector-dialog.c:1322
-#: ../src/modules/addressbook/e-book-shell-view-actions.c:1271 ../src/modules/calendar/e-cal-shell-view-actions.c:1776
+#: ../src/modules/addressbook/e-book-shell-view-actions.c:1271 ../src/modules/calendar/e-cal-shell-view-actions.c:1796
 #: ../src/modules/calendar/e-memo-shell-view-actions.c:783 ../src/modules/calendar/e-task-shell-view-actions.c:956
 msgid "Any Category"
 msgstr "Orice categorie"
@@ -14208,7 +14215,11 @@ msgstr "Memo_rează parola"
 msgid "_Remember this password for the remainder of this session"
 msgstr "Ține _minte această parolă pentru restul acestei sesiuni"
 
-#: ../src/e-util/e-preferences-window.c:326
+#: ../src/e-util/e-preferences-window.c:300
+msgid "Help"
+msgstr "Ajutor"
+
+#: ../src/e-util/e-preferences-window.c:307
 msgid "Evolution Preferences"
 msgstr "Preferințe Evolution"
 
@@ -16129,7 +16140,7 @@ msgstr "%s — %s"
 
 #: ../src/mail/e-mail-config-security-page.c:456 ../src/mail/em-folder-properties.c:1396 ../src/mail/mail-config.ui.h:34
 #: ../src/modules/addressbook/autocompletion-config.c:115 ../src/modules/calendar/e-calendar-preferences.c:622
-#: ../src/modules/calendar/e-calendar-preferences.ui.h:48 ../src/modules/mail/e-mail-shell-backend.c:1001
+#: ../src/modules/calendar/e-calendar-preferences.ui.h:48 ../src/modules/mail/e-mail-shell-backend.c:1002
 #: ../src/plugins/publish-calendar/publish-calendar.ui.h:17
 msgid "General"
 msgstr "Generale"
@@ -17001,7 +17012,7 @@ msgid "Checks selected messages for duplicates"
 msgstr "Verifică mesajele selectate pentru duplicate"
 
 #: ../src/mail/e-mail-reader.c:2817 ../src/mail/em-composer-utils.c:4106 ../src/mail/mail.error.xml.h:28
-#: ../src/modules/calendar/e-cal-shell-view-actions.c:1570 ../src/modules/mail/e-mail-attachment-handler.c:396
+#: ../src/modules/calendar/e-cal-shell-view-actions.c:1579 ../src/modules/mail/e-mail-attachment-handler.c:396
 msgid "Reply to _All"
 msgstr "Răspunde _tuturor"
 
@@ -17222,11 +17233,11 @@ msgstr "Răspunde către lista de discuții sau către toți desinatarii"
 msgid "Delete"
 msgstr "Șterge"
 
-#: ../src/mail/e-mail-reader.c:5208 ../src/modules/calendar/e-cal-shell-view-actions.c:1311
+#: ../src/mail/e-mail-reader.c:5208 ../src/modules/calendar/e-cal-shell-view-actions.c:1320
 msgid "Next"
 msgstr "Înainte"
 
-#: ../src/mail/e-mail-reader.c:5212 ../src/modules/calendar/e-cal-shell-view-actions.c:1304
+#: ../src/mail/e-mail-reader.c:5212 ../src/modules/calendar/e-cal-shell-view-actions.c:1313
 msgid "Previous"
 msgstr "Înapoi"
 
@@ -17427,7 +17438,7 @@ msgstr "un expeditor necunoscut"
 msgid "Alternative Reply"
 msgstr "Răspuns alternativ"
 
-#: ../src/mail/em-composer-utils.c:4055 ../src/modules/calendar/e-cal-shell-view-actions.c:1563
+#: ../src/mail/em-composer-utils.c:4055 ../src/modules/calendar/e-cal-shell-view-actions.c:1572
 msgid "_Reply"
 msgstr "_Răspunde"
 
@@ -17736,12 +17747,12 @@ msgstr "Se mută dosarul %s"
 msgid "Copying folder %s"
 msgstr "Se copiază dosarul %s"
 
-#: ../src/mail/em-folder-tree.c:2381 ../src/mail/message-list.c:2632
+#: ../src/mail/em-folder-tree.c:2381 ../src/mail/message-list.c:2653
 #, c-format
 msgid "Moving messages into folder %s"
 msgstr "Se mută mesajele în dosarul %s"
 
-#: ../src/mail/em-folder-tree.c:2385 ../src/mail/message-list.c:2634
+#: ../src/mail/em-folder-tree.c:2385 ../src/mail/message-list.c:2655
 #, c-format
 msgid "Copying messages into folder %s"
 msgstr "Se copiază mesajele în dosarul %s"
@@ -19779,21 +19790,14 @@ msgstr "Nevăzut"
 msgid "Seen"
 msgstr "Văzut"
 
-#: ../src/mail/message-list.c:318
+#: ../src/mail/message-list.c:318 ../src/mail/message-list.c:320
 msgid "Answered"
 msgstr "Răspuns"
 
-#: ../src/mail/message-list.c:319
+#. and unread
+#: ../src/mail/message-list.c:319 ../src/mail/message-list.c:321
 msgid "Forwarded"
 msgstr "Înaintat"
-
-#: ../src/mail/message-list.c:320
-msgid "Multiple Unseen Messages"
-msgstr "Mesaje nevăzute multiple"
-
-#: ../src/mail/message-list.c:321
-msgid "Multiple Messages"
-msgstr "Mesaje multiple"
 
 #: ../src/mail/message-list.c:334
 msgid "Lowest"
@@ -19817,44 +19821,44 @@ msgstr "Se generează lista de mesaje"
 
 #. strftime format of a time,
 #. * in 12-hour format, without seconds.
-#: ../src/mail/message-list.c:2154 ../src/modules/itip-formatter/itip-view.c:275
+#: ../src/mail/message-list.c:2174 ../src/modules/itip-formatter/itip-view.c:275
 msgid "Today %l:%M %p"
 msgstr "Astăzi %l:%M %p"
 
-#: ../src/mail/message-list.c:2163
+#: ../src/mail/message-list.c:2183
 msgid "Yesterday %l:%M %p"
 msgstr "Ieri %l:%M %p"
 
-#: ../src/mail/message-list.c:2175
+#: ../src/mail/message-list.c:2195
 msgid "%a %l:%M %p"
 msgstr "%a %l:%M %p"
 
-#: ../src/mail/message-list.c:2183
+#: ../src/mail/message-list.c:2203
 msgid "%b %d %l:%M %p"
 msgstr "%b %d %l:%M %p"
 
-#: ../src/mail/message-list.c:2185
+#: ../src/mail/message-list.c:2205
 msgid "%b %d %Y"
 msgstr "%d %b %Y"
 
-#: ../src/mail/message-list.c:3364
+#: ../src/mail/message-list.c:3385
 msgid "Select all visible messages"
 msgstr "Selectează toate mesajele vizibile"
 
-#: ../src/mail/message-list.c:4168 ../src/mail/message-list.etspec.h:17
+#: ../src/mail/message-list.c:4189 ../src/mail/message-list.etspec.h:17
 msgid "Messages"
 msgstr "Mesaje"
 
 #. default follow-up flag name to use when clicked in the message list column
-#: ../src/mail/message-list.c:5749
+#: ../src/mail/message-list.c:5770
 msgid "Follow-up"
 msgstr "Urmărește"
 
-#: ../src/mail/message-list.c:6498 ../src/mail/message-list.c:6935
+#: ../src/mail/message-list.c:6519 ../src/mail/message-list.c:6956
 msgid "Generating message list…"
 msgstr "Se generează lista de mesaje…"
 
-#: ../src/mail/message-list.c:6501
+#: ../src/mail/message-list.c:6522
 msgid ""
 "No message satisfies your search criteria. Change search criteria by selecting a new Show message filter from the drop "
 "down list above or by running a new search either by clearing it with Search→Clear menu item or by changing the query "
@@ -19864,7 +19868,7 @@ msgstr ""
 "din lista derulantă de deasupra sau efectuând o nouă căutare fie curățând-o pe cea existentă prin elementul de meniu "
 "Căutare→Curăță sau modificând expresia de căutare de deasupra."
 
-#: ../src/mail/message-list.c:6508
+#: ../src/mail/message-list.c:6529
 msgid "There are no messages in this folder."
 msgstr "Nu există mesaje în acest dosar."
 
@@ -20129,7 +20133,7 @@ msgstr "Proprietăți _agendă"
 msgid "Show properties of the selected address book"
 msgstr "Arată proprietățile agendei selectate"
 
-#: ../src/modules/addressbook/e-book-shell-view-actions.c:1057 ../src/modules/calendar/e-cal-shell-view-actions.c:1360
+#: ../src/modules/addressbook/e-book-shell-view-actions.c:1057 ../src/modules/calendar/e-cal-shell-view-actions.c:1369
 #: ../src/modules/calendar/e-memo-shell-view-actions.c:626 ../src/modules/calendar/e-task-shell-view-actions.c:752
 msgid "Re_fresh"
 msgstr "Ac_tualizează"
@@ -20150,7 +20154,7 @@ msgstr "_Harta agendei"
 msgid "Show map with all contacts from selected address book"
 msgstr "Arată harta cu toate contactele din agenda selectată"
 
-#: ../src/modules/addressbook/e-book-shell-view-actions.c:1078 ../src/modules/calendar/e-cal-shell-view-actions.c:1374
+#: ../src/modules/addressbook/e-book-shell-view-actions.c:1078 ../src/modules/calendar/e-cal-shell-view-actions.c:1383
 #: ../src/modules/calendar/e-memo-shell-view-actions.c:640 ../src/modules/calendar/e-task-shell-view-actions.c:766
 #: ../src/modules/mail/e-mail-shell-view-actions.c:1679
 msgid "_Rename…"
@@ -20224,7 +20228,7 @@ msgstr "Trimite me_saj la contact…"
 msgid "Send a message to the selected contacts"
 msgstr "Trimite un mesaj contactelor selectate"
 
-#: ../src/modules/addressbook/e-book-shell-view-actions.c:1157 ../src/modules/calendar/e-cal-shell-view-actions.c:1600
+#: ../src/modules/addressbook/e-book-shell-view-actions.c:1157 ../src/modules/calendar/e-cal-shell-view-actions.c:1609
 #: ../src/modules/calendar/e-task-shell-view-actions.c:831
 msgid "_Actions"
 msgstr "_Acțiuni"
@@ -20234,7 +20238,7 @@ msgstr "_Acțiuni"
 msgid "_Preview"
 msgstr "_Previzualizare"
 
-#: ../src/modules/addressbook/e-book-shell-view-actions.c:1177 ../src/modules/calendar/e-cal-shell-view-actions.c:1629
+#: ../src/modules/addressbook/e-book-shell-view-actions.c:1177 ../src/modules/calendar/e-cal-shell-view-actions.c:1638
 #: ../src/modules/calendar/e-memo-shell-view-actions.c:701 ../src/modules/calendar/e-task-shell-view-actions.c:855
 msgid "_Manage groups…"
 msgstr "Ad_ministrează grupuri…"
@@ -20277,12 +20281,12 @@ msgstr "Vizualizare _verticală"
 msgid "Show contact preview alongside the contact list"
 msgstr "Arată previzualizarea contactului lângă lista de contacte"
 
-#: ../src/modules/addressbook/e-book-shell-view-actions.c:1278 ../src/modules/calendar/e-cal-shell-view-actions.c:1797
+#: ../src/modules/addressbook/e-book-shell-view-actions.c:1278 ../src/modules/calendar/e-cal-shell-view-actions.c:1817
 #: ../src/modules/calendar/e-memo-shell-view-actions.c:790 ../src/modules/calendar/e-task-shell-view-actions.c:1012
 msgid "Unmatched"
 msgstr "Nicio potrivire"
 
-#: ../src/modules/addressbook/e-book-shell-view-actions.c:1288 ../src/modules/calendar/e-cal-shell-view-actions.c:1807
+#: ../src/modules/addressbook/e-book-shell-view-actions.c:1288 ../src/modules/calendar/e-cal-shell-view-actions.c:1827
 #: ../src/modules/calendar/e-memo-shell-view-actions.c:800 ../src/modules/calendar/e-task-shell-view-actions.c:1029
 #: ../src/modules/mail/e-mail-shell-view-actions.c:2077 ../src/shell/e-shell-content.c:639
 msgid "Advanced Search"
@@ -21073,7 +21077,7 @@ msgstr "_12 ore (AM/PM)"
 msgid "_24 hour"
 msgstr "_24 de ore"
 
-#: ../src/modules/calendar/e-calendar-preferences.ui.h:18 ../src/modules/calendar/e-cal-shell-view-actions.c:1759
+#: ../src/modules/calendar/e-calendar-preferences.ui.h:18 ../src/modules/calendar/e-cal-shell-view-actions.c:1779
 msgid "Work Week"
 msgstr "Săptămână de lucru"
 
@@ -21322,7 +21326,7 @@ msgctxt "New"
 msgid "_Appointment"
 msgstr "Progr_amare"
 
-#: ../src/modules/calendar/e-cal-shell-backend.c:120 ../src/modules/calendar/e-cal-shell-view-actions.c:1544
+#: ../src/modules/calendar/e-cal-shell-backend.c:120 ../src/modules/calendar/e-cal-shell-view-actions.c:1553
 msgid "Create a new appointment"
 msgstr "Creează o programare nouă"
 
@@ -21349,7 +21353,7 @@ msgctxt "New"
 msgid "Cale_ndar"
 msgstr "Cale_ndar"
 
-#: ../src/modules/calendar/e-cal-shell-backend.c:144 ../src/modules/calendar/e-cal-shell-view-actions.c:1341
+#: ../src/modules/calendar/e-cal-shell-backend.c:144 ../src/modules/calendar/e-cal-shell-view-actions.c:1350
 msgid "Create a new calendar"
 msgstr "Creează un calendar nou"
 
@@ -21391,341 +21395,349 @@ msgstr "eveniment"
 msgid "Save as iCalendar"
 msgstr "Salveză ca iCalendar"
 
-#: ../src/modules/calendar/e-cal-shell-view-actions.c:1290 ../src/modules/calendar/e-memo-shell-view-actions.c:591
+#: ../src/modules/calendar/e-cal-shell-view-actions.c:1299 ../src/modules/calendar/e-memo-shell-view-actions.c:591
 #: ../src/modules/calendar/e-task-shell-view-actions.c:717
 msgid "_Copy…"
 msgstr "_Copiază…"
 
-#: ../src/modules/calendar/e-cal-shell-view-actions.c:1297
+#: ../src/modules/calendar/e-cal-shell-view-actions.c:1306
 msgid "D_elete Calendar"
 msgstr "Șt_erge calendar"
 
-#: ../src/modules/calendar/e-cal-shell-view-actions.c:1299
+#: ../src/modules/calendar/e-cal-shell-view-actions.c:1308
 msgid "Delete the selected calendar"
 msgstr "Șterge calendarul selectat"
 
-#: ../src/modules/calendar/e-cal-shell-view-actions.c:1306
+#: ../src/modules/calendar/e-cal-shell-view-actions.c:1315
 msgid "Go Back"
 msgstr "Mergi înapoi"
 
-#: ../src/modules/calendar/e-cal-shell-view-actions.c:1313
+#: ../src/modules/calendar/e-cal-shell-view-actions.c:1322
 msgid "Go Forward"
 msgstr "Mergi înainte"
 
-#: ../src/modules/calendar/e-cal-shell-view-actions.c:1320
+#: ../src/modules/calendar/e-cal-shell-view-actions.c:1329
 msgid "Select today"
 msgstr "Selectează astăzi"
 
-#: ../src/modules/calendar/e-cal-shell-view-actions.c:1325
+#: ../src/modules/calendar/e-cal-shell-view-actions.c:1334
 msgid "Select _Date"
 msgstr "Selectează _dată"
 
-#: ../src/modules/calendar/e-cal-shell-view-actions.c:1327
+#: ../src/modules/calendar/e-cal-shell-view-actions.c:1336
 msgid "Select a specific date"
 msgstr "Selectează o dată specifică"
 
-#: ../src/modules/calendar/e-cal-shell-view-actions.c:1332
+#: ../src/modules/calendar/e-cal-shell-view-actions.c:1341
 msgid "_Manage Calendar groups…"
 msgstr "Ad_ministrează grupuri pentru calendare…"
 
-#: ../src/modules/calendar/e-cal-shell-view-actions.c:1334
+#: ../src/modules/calendar/e-cal-shell-view-actions.c:1343
 msgid "Manage Calendar groups order and visibility"
 msgstr "Administrează ordinea grupurilor de calendar și vizibilitatea lor"
 
-#: ../src/modules/calendar/e-cal-shell-view-actions.c:1339
+#: ../src/modules/calendar/e-cal-shell-view-actions.c:1348
 msgid "_New Calendar"
 msgstr "Calendar _nou"
 
-#: ../src/modules/calendar/e-cal-shell-view-actions.c:1353 ../src/modules/calendar/e-task-shell-view-actions.c:822
+#: ../src/modules/calendar/e-cal-shell-view-actions.c:1362 ../src/modules/calendar/e-task-shell-view-actions.c:822
 msgid "Purg_e"
 msgstr "Șterge _definitiv"
 
-#: ../src/modules/calendar/e-cal-shell-view-actions.c:1355
+#: ../src/modules/calendar/e-cal-shell-view-actions.c:1364
 msgid "Purge old appointments and meetings"
 msgstr "Șterge definitiv programările și întâlnirile vechi"
 
-#: ../src/modules/calendar/e-cal-shell-view-actions.c:1362
+#: ../src/modules/calendar/e-cal-shell-view-actions.c:1371
 msgid "Refresh the selected calendar"
 msgstr "Reîncarcă calendarul selectat"
 
-#: ../src/modules/calendar/e-cal-shell-view-actions.c:1367
+#: ../src/modules/calendar/e-cal-shell-view-actions.c:1376
 msgid "Re_fresh list of account calendars"
 msgstr "Reî_ncarcă lista de conturi calendar"
 
-#: ../src/modules/calendar/e-cal-shell-view-actions.c:1376
+#: ../src/modules/calendar/e-cal-shell-view-actions.c:1385
 msgid "Rename the selected calendar"
 msgstr "Redenumește calendarul selectat"
 
-#: ../src/modules/calendar/e-cal-shell-view-actions.c:1381
+#: ../src/modules/calendar/e-cal-shell-view-actions.c:1390
 msgid "Find _Next"
 msgstr "Găsește ur_mătoarea"
 
-#: ../src/modules/calendar/e-cal-shell-view-actions.c:1383
+#: ../src/modules/calendar/e-cal-shell-view-actions.c:1392
 msgid "Find next occurrence of the current search string"
 msgstr "Găsește potrivirea următoare a căutării curente"
 
-#: ../src/modules/calendar/e-cal-shell-view-actions.c:1388
+#: ../src/modules/calendar/e-cal-shell-view-actions.c:1397
 msgid "Find _Previous"
 msgstr "Găsește _precedenta"
 
-#: ../src/modules/calendar/e-cal-shell-view-actions.c:1390
+#: ../src/modules/calendar/e-cal-shell-view-actions.c:1399
 msgid "Find previous occurrence of the current search string"
 msgstr "Găsește potrivirea precedentă a căutării curente"
 
-#: ../src/modules/calendar/e-cal-shell-view-actions.c:1395
+#: ../src/modules/calendar/e-cal-shell-view-actions.c:1404
 msgid "Stop _Running Search"
 msgstr "Op_rește Căutarea în execuție"
 
-#: ../src/modules/calendar/e-cal-shell-view-actions.c:1397
+#: ../src/modules/calendar/e-cal-shell-view-actions.c:1406
 msgid "Stop currently running search"
 msgstr "Oprește căutarea ce rulează curent"
 
-#: ../src/modules/calendar/e-cal-shell-view-actions.c:1402
+#: ../src/modules/calendar/e-cal-shell-view-actions.c:1411
 msgid "Sho_w All Calendars"
 msgstr "Afișea_ză toate calendarele"
 
-#: ../src/modules/calendar/e-cal-shell-view-actions.c:1409
+#: ../src/modules/calendar/e-cal-shell-view-actions.c:1418
 msgid "Show _Only This Calendar"
 msgstr "Arată d_oar acest calendar"
 
-#: ../src/modules/calendar/e-cal-shell-view-actions.c:1416
+#: ../src/modules/calendar/e-cal-shell-view-actions.c:1425
 msgid "Cop_y to Calendar…"
 msgstr "Cop_iază în calendar…"
 
-#: ../src/modules/calendar/e-cal-shell-view-actions.c:1423
+#: ../src/modules/calendar/e-cal-shell-view-actions.c:1432
 msgid "_Delegate Meeting…"
 msgstr "_Delegă întâlnirea…"
 
-#: ../src/modules/calendar/e-cal-shell-view-actions.c:1430
+#: ../src/modules/calendar/e-cal-shell-view-actions.c:1439
 msgid "_Delete Appointment"
 msgstr "Ș_terge programarea"
 
-#: ../src/modules/calendar/e-cal-shell-view-actions.c:1432
+#: ../src/modules/calendar/e-cal-shell-view-actions.c:1441
 msgid "Delete selected appointments"
 msgstr "Șterge programarea selectată"
 
-#: ../src/modules/calendar/e-cal-shell-view-actions.c:1437
+#: ../src/modules/calendar/e-cal-shell-view-actions.c:1446
 msgid "Delete This _Occurrence"
 msgstr "Șterge această _apariție"
 
-#: ../src/modules/calendar/e-cal-shell-view-actions.c:1439
+#: ../src/modules/calendar/e-cal-shell-view-actions.c:1448
 msgid "Delete this occurrence"
 msgstr "Șterge această apariție"
 
-#: ../src/modules/calendar/e-cal-shell-view-actions.c:1444
+#: ../src/modules/calendar/e-cal-shell-view-actions.c:1453
 msgid "Delete This and F_uture Occurrences"
 msgstr "Șterge această apariție și cele _viitoare"
 
-#: ../src/modules/calendar/e-cal-shell-view-actions.c:1446
+#: ../src/modules/calendar/e-cal-shell-view-actions.c:1455
 msgid "Delete this and any future occurrences"
 msgstr "Șterge această apariție și cele viitoare"
 
-#: ../src/modules/calendar/e-cal-shell-view-actions.c:1451
+#: ../src/modules/calendar/e-cal-shell-view-actions.c:1460
 msgid "Delete All Occ_urrences"
 msgstr "Șterge _toate aparițiile"
 
-#: ../src/modules/calendar/e-cal-shell-view-actions.c:1453
+#: ../src/modules/calendar/e-cal-shell-view-actions.c:1462
 msgid "Delete all occurrences"
 msgstr "Șterge toate aparițiile"
 
-#: ../src/modules/calendar/e-cal-shell-view-actions.c:1458
+#: ../src/modules/calendar/e-cal-shell-view-actions.c:1467
 msgid "Edit as Ne_w…"
 msgstr "Editare ca no_u…"
 
-#: ../src/modules/calendar/e-cal-shell-view-actions.c:1460
+#: ../src/modules/calendar/e-cal-shell-view-actions.c:1469
 msgid "Edit the current appointment as new"
 msgstr "Editează programarea curentă ca una nouă"
 
-#: ../src/modules/calendar/e-cal-shell-view-actions.c:1465
+#: ../src/modules/calendar/e-cal-shell-view-actions.c:1474
 msgid "New All Day _Event…"
 msgstr "_Eveniment nou pentru toată ziua…"
 
-#: ../src/modules/calendar/e-cal-shell-view-actions.c:1467
+#: ../src/modules/calendar/e-cal-shell-view-actions.c:1476
 msgid "Create a new all day event"
 msgstr "Creează un eveniment nouă pentru toată ziua"
 
-#: ../src/modules/calendar/e-cal-shell-view-actions.c:1472 ../src/modules/calendar/e-cal-shell-view-memopad.c:238
+#: ../src/modules/calendar/e-cal-shell-view-actions.c:1481 ../src/modules/calendar/e-cal-shell-view-memopad.c:238
 #: ../src/modules/calendar/e-cal-shell-view-taskpad.c:318 ../src/modules/calendar/e-memo-shell-view-actions.c:584
 #: ../src/modules/calendar/e-task-shell-view-actions.c:710
 msgid "_Forward as iCalendar…"
 msgstr "Î_naintează ca iCalendar…"
 
-#: ../src/modules/calendar/e-cal-shell-view-actions.c:1481
+#: ../src/modules/calendar/e-cal-shell-view-actions.c:1490
 msgid "Create a new meeting"
 msgstr "Creează o nouă întâlnire"
 
-#: ../src/modules/calendar/e-cal-shell-view-actions.c:1486
+#: ../src/modules/calendar/e-cal-shell-view-actions.c:1495
 msgid "Send _RSVP"
 msgstr "Trimite _RSVP"
 
-#: ../src/modules/calendar/e-cal-shell-view-actions.c:1488
+#: ../src/modules/calendar/e-cal-shell-view-actions.c:1497
 msgid "Send a meeting response"
 msgstr "Trimitere un răspuns la întâlnire"
 
-#: ../src/modules/calendar/e-cal-shell-view-actions.c:1493
+#: ../src/modules/calendar/e-cal-shell-view-actions.c:1502
 msgid "_Accept"
 msgstr "_Acceptă"
 
-#: ../src/modules/calendar/e-cal-shell-view-actions.c:1495
+#: ../src/modules/calendar/e-cal-shell-view-actions.c:1504
 msgid "Accept meeting request"
 msgstr "Acceptă cererea de întâlnire"
 
-#: ../src/modules/calendar/e-cal-shell-view-actions.c:1500
+#: ../src/modules/calendar/e-cal-shell-view-actions.c:1509
 msgid "A_ccept this instance"
 msgstr "A_cceptă această instanță"
 
-#: ../src/modules/calendar/e-cal-shell-view-actions.c:1502
+#: ../src/modules/calendar/e-cal-shell-view-actions.c:1511
 msgid "Accept meeting request for selected instance only"
 msgstr "Acceptă cererea de întâlnire numai pentru instanța selectată"
 
-#: ../src/modules/calendar/e-cal-shell-view-actions.c:1507 ../src/modules/itip-formatter/itip-view.c:1256
+#: ../src/modules/calendar/e-cal-shell-view-actions.c:1516 ../src/modules/itip-formatter/itip-view.c:1256
 msgid "_Decline"
 msgstr "_Refuză"
 
-#: ../src/modules/calendar/e-cal-shell-view-actions.c:1509
+#: ../src/modules/calendar/e-cal-shell-view-actions.c:1518
 msgid "Decline meeting request"
 msgstr "Refuză cererea de întâlnire"
 
-#: ../src/modules/calendar/e-cal-shell-view-actions.c:1514
+#: ../src/modules/calendar/e-cal-shell-view-actions.c:1523
 msgid "D_ecline this instance"
 msgstr "R_efuză această instanță"
 
-#: ../src/modules/calendar/e-cal-shell-view-actions.c:1516
+#: ../src/modules/calendar/e-cal-shell-view-actions.c:1525
 msgid "Decline meeting request for selected instance only"
 msgstr "Refuză cererea de întâlnire numai pentru instanța selectată"
 
-#: ../src/modules/calendar/e-cal-shell-view-actions.c:1521
+#: ../src/modules/calendar/e-cal-shell-view-actions.c:1530
 msgid "_Tentatively accept"
 msgstr "Acceptă de _probă"
 
-#: ../src/modules/calendar/e-cal-shell-view-actions.c:1523
+#: ../src/modules/calendar/e-cal-shell-view-actions.c:1532
 msgid "Tentatively accept meeting request"
 msgstr "Acceptă de probă cererea de întâlnire"
 
-#: ../src/modules/calendar/e-cal-shell-view-actions.c:1528
+#: ../src/modules/calendar/e-cal-shell-view-actions.c:1537
 msgid "Te_ntatively accept this instance"
 msgstr "Acceptată de _probă această instanță"
 
-#: ../src/modules/calendar/e-cal-shell-view-actions.c:1530
+#: ../src/modules/calendar/e-cal-shell-view-actions.c:1539
 msgid "Tentatively accept meeting request for selected instance only"
 msgstr "Acceptă de probă cererea de întâlnire numai pentru instanța selectată"
 
-#: ../src/modules/calendar/e-cal-shell-view-actions.c:1535
+#: ../src/modules/calendar/e-cal-shell-view-actions.c:1544
 msgid "Mo_ve to Calendar…"
 msgstr "M_ută în calendar…"
 
-#: ../src/modules/calendar/e-cal-shell-view-actions.c:1549
+#: ../src/modules/calendar/e-cal-shell-view-actions.c:1558
 msgid "Make this Occurrence _Movable"
 msgstr "Fă această apariție _mutabilă"
 
-#: ../src/modules/calendar/e-cal-shell-view-actions.c:1556
+#: ../src/modules/calendar/e-cal-shell-view-actions.c:1565
 msgid "_Open Appointment"
 msgstr "_Deschide programarea"
 
-#: ../src/modules/calendar/e-cal-shell-view-actions.c:1558
+#: ../src/modules/calendar/e-cal-shell-view-actions.c:1567
 msgid "View the current appointment"
 msgstr "Afișează programarea curentă"
 
-#: ../src/modules/calendar/e-cal-shell-view-actions.c:1577
+#: ../src/modules/calendar/e-cal-shell-view-actions.c:1586
 msgid "_Schedule Meeting…"
 msgstr "Progra_mează întâlnirea…"
 
-#: ../src/modules/calendar/e-cal-shell-view-actions.c:1579
+#: ../src/modules/calendar/e-cal-shell-view-actions.c:1588
 msgid "Converts an appointment to a meeting"
 msgstr "Convertește o programare într-o întâlnire"
 
-#: ../src/modules/calendar/e-cal-shell-view-actions.c:1584
+#: ../src/modules/calendar/e-cal-shell-view-actions.c:1593
 msgid "Conv_ert to Appointment…"
 msgstr "Conv_ertește în programare…"
 
-#: ../src/modules/calendar/e-cal-shell-view-actions.c:1586
+#: ../src/modules/calendar/e-cal-shell-view-actions.c:1595
 msgid "Converts a meeting to an appointment"
 msgstr "Convertește o întâlnire într-o programare"
 
-#: ../src/modules/calendar/e-cal-shell-view-actions.c:1591
+#: ../src/modules/calendar/e-cal-shell-view-actions.c:1600
 msgid "Quit"
 msgstr "Ieși"
 
-#: ../src/modules/calendar/e-cal-shell-view-actions.c:1731
+#: ../src/modules/calendar/e-cal-shell-view-actions.c:1730
+msgid "Show T_asks and Memos pane"
+msgstr "_Arată panoul cu sarcini și memouri"
+
+#: ../src/modules/calendar/e-cal-shell-view-actions.c:1732
+msgid "Show Tasks and Memos pane"
+msgstr "Arată panoul cu sarcini și memouri"
+
+#: ../src/modules/calendar/e-cal-shell-view-actions.c:1751
 msgid "Day"
 msgstr "Zi"
 
-#: ../src/modules/calendar/e-cal-shell-view-actions.c:1733
+#: ../src/modules/calendar/e-cal-shell-view-actions.c:1753
 msgid "Show one day"
 msgstr "Arată o zi"
 
-#: ../src/modules/calendar/e-cal-shell-view-actions.c:1738
+#: ../src/modules/calendar/e-cal-shell-view-actions.c:1758
 msgid "List"
 msgstr "Listă"
 
-#: ../src/modules/calendar/e-cal-shell-view-actions.c:1740
+#: ../src/modules/calendar/e-cal-shell-view-actions.c:1760
 msgid "Show as list"
 msgstr "Arată ca listă"
 
-#: ../src/modules/calendar/e-cal-shell-view-actions.c:1745
+#: ../src/modules/calendar/e-cal-shell-view-actions.c:1765
 msgid "Month"
 msgstr "Lună"
 
-#: ../src/modules/calendar/e-cal-shell-view-actions.c:1747
+#: ../src/modules/calendar/e-cal-shell-view-actions.c:1767
 msgid "Show one month"
 msgstr "Arată o lună"
 
-#: ../src/modules/calendar/e-cal-shell-view-actions.c:1752
+#: ../src/modules/calendar/e-cal-shell-view-actions.c:1772
 msgid "Week"
 msgstr "Săptămână"
 
-#: ../src/modules/calendar/e-cal-shell-view-actions.c:1754
+#: ../src/modules/calendar/e-cal-shell-view-actions.c:1774
 msgid "Show one week"
 msgstr "Arată o săptămână"
 
-#: ../src/modules/calendar/e-cal-shell-view-actions.c:1761
+#: ../src/modules/calendar/e-cal-shell-view-actions.c:1781
 msgid "Show one work week"
 msgstr "Arată o săptămână de lucru"
 
-#: ../src/modules/calendar/e-cal-shell-view-actions.c:1769
+#: ../src/modules/calendar/e-cal-shell-view-actions.c:1789
 msgid "Active Appointments"
 msgstr "Programări active"
 
-#: ../src/modules/calendar/e-cal-shell-view-actions.c:1783
+#: ../src/modules/calendar/e-cal-shell-view-actions.c:1803
 msgid "Next 7 Days’ Appointments"
 msgstr "Programările pentru următoarele 7 zile"
 
-#: ../src/modules/calendar/e-cal-shell-view-actions.c:1790
+#: ../src/modules/calendar/e-cal-shell-view-actions.c:1810
 msgid "Occurs Less Than 5 Times"
 msgstr "Apare mai puțin de 5 ori"
 
-#: ../src/modules/calendar/e-cal-shell-view-actions.c:1821 ../src/modules/calendar/e-memo-shell-view-actions.c:814
+#: ../src/modules/calendar/e-cal-shell-view-actions.c:1841 ../src/modules/calendar/e-memo-shell-view-actions.c:814
 #: ../src/modules/calendar/e-task-shell-view-actions.c:1043
 msgid "Description contains"
 msgstr "Descrierea conține"
 
-#: ../src/modules/calendar/e-cal-shell-view-actions.c:1828 ../src/modules/calendar/e-memo-shell-view-actions.c:821
+#: ../src/modules/calendar/e-cal-shell-view-actions.c:1848 ../src/modules/calendar/e-memo-shell-view-actions.c:821
 #: ../src/modules/calendar/e-task-shell-view-actions.c:1050
 msgid "Summary contains"
 msgstr "Rezumatul conține"
 
-#: ../src/modules/calendar/e-cal-shell-view-actions.c:1838 ../src/modules/calendar/e-cal-shell-view-actions.c:1852
+#: ../src/modules/calendar/e-cal-shell-view-actions.c:1858 ../src/modules/calendar/e-cal-shell-view-actions.c:1872
 #: ../src/modules/calendar/e-cal-shell-view-memopad.c:269 ../src/modules/calendar/e-cal-shell-view-taskpad.c:363
 #: ../src/modules/calendar/e-memo-shell-view-actions.c:831 ../src/modules/calendar/e-memo-shell-view-actions.c:845
 #: ../src/modules/calendar/e-task-shell-view-actions.c:1060 ../src/modules/calendar/e-task-shell-view-actions.c:1074
 msgid "Print…"
 msgstr "Tipărește…"
 
-#: ../src/modules/calendar/e-cal-shell-view-actions.c:1840
+#: ../src/modules/calendar/e-cal-shell-view-actions.c:1860
 msgid "Print this calendar"
 msgstr "Tipărește acest calendar"
 
-#: ../src/modules/calendar/e-cal-shell-view-actions.c:1847
+#: ../src/modules/calendar/e-cal-shell-view-actions.c:1867
 msgid "Preview the calendar to be printed"
 msgstr "Previzualizează calendar pentru tipărire"
 
-#: ../src/modules/calendar/e-cal-shell-view-actions.c:1869 ../src/modules/calendar/e-cal-shell-view-memopad.c:279
+#: ../src/modules/calendar/e-cal-shell-view-actions.c:1889 ../src/modules/calendar/e-cal-shell-view-memopad.c:279
 #: ../src/modules/calendar/e-cal-shell-view-taskpad.c:373 ../src/modules/calendar/e-memo-shell-view-actions.c:862
 #: ../src/modules/calendar/e-task-shell-view-actions.c:1091
 msgid "_Save as iCalendar…"
 msgstr "_Salvează ca iCalendar…"
 
-#: ../src/modules/calendar/e-cal-shell-view-actions.c:1946
+#: ../src/modules/calendar/e-cal-shell-view-actions.c:1969
 msgid "Go To"
 msgstr "Salt la"
 
@@ -23219,45 +23231,45 @@ msgctxt "NetworkMonitor"
 msgid "networkmanager"
 msgstr "networkmanager"
 
-#: ../src/modules/mail/e-mail-shell-backend.c:1017
+#: ../src/modules/mail/e-mail-shell-backend.c:1018
 msgctxt "NetworkMonitor"
 msgid "Method to detect _online state:"
 msgstr "Metoda de detectat starea _online:"
 
 #. Translators: The '%s' is replaced with the actual name of the GNetworkMonitor implementation
-#: ../src/modules/mail/e-mail-shell-backend.c:1028
+#: ../src/modules/mail/e-mail-shell-backend.c:1029
 #, c-format
 msgctxt "NetworkMonitor"
 msgid "Default (%s)"
 msgstr "Implicite (%s)"
 
 #. Always as the first
-#: ../src/modules/mail/e-mail-shell-backend.c:1032
+#: ../src/modules/mail/e-mail-shell-backend.c:1033
 msgctxt "NetworkMonitor"
 msgid "Default"
 msgstr "Implicite"
 
 #. Always as the last
-#: ../src/modules/mail/e-mail-shell-backend.c:1049
+#: ../src/modules/mail/e-mail-shell-backend.c:1050
 msgctxt "NetworkMonitor"
 msgid "Always Online"
 msgstr "Tot timpul conectat"
 
-#: ../src/modules/mail/e-mail-shell-backend.c:1118
+#: ../src/modules/mail/e-mail-shell-backend.c:1119
 msgid "Mail Preferences"
 msgstr "Preferințe mail"
 
-#: ../src/modules/mail/e-mail-shell-backend.c:1127
+#: ../src/modules/mail/e-mail-shell-backend.c:1128
 msgid "Composer Preferences"
 msgstr "Preferințe compunător"
 
-#: ../src/modules/mail/e-mail-shell-backend.c:1136
+#: ../src/modules/mail/e-mail-shell-backend.c:1137
 msgid "Network Preferences"
 msgstr "Preferințe rețea"
 
 #. Translators: The first item in the list, to be
 #. * able to set rule: [Label] [is/is-not] [None]
-#: ../src/modules/mail/e-mail-shell-backend.c:1497
+#: ../src/modules/mail/e-mail-shell-backend.c:1498
 msgctxt "label"
 msgid "None"
 msgstr "Nimic"
@@ -23827,29 +23839,21 @@ msgstr "Evolution se va întoarce la modul conectat odată stabilită o conexiun
 msgid "Author(s)"
 msgstr "Autor(i)"
 
-#: ../src/modules/plugin-manager/evolution-plugin-manager.c:304
-msgid "Plugin Manager"
-msgstr "Gestionar de module"
-
-#: ../src/modules/plugin-manager/evolution-plugin-manager.c:319
+#: ../src/modules/plugin-manager/evolution-plugin-manager.c:301
 msgid "Note: Some changes will not take effect until restart"
 msgstr "Notă: Unele modificări nu vor avea efect până la repornire"
 
-#: ../src/modules/plugin-manager/evolution-plugin-manager.c:347
+#: ../src/modules/plugin-manager/evolution-plugin-manager.c:331
 msgid "Overview"
 msgstr "Prezentare generală"
 
-#: ../src/modules/plugin-manager/evolution-plugin-manager.c:416 ../src/modules/plugin-manager/evolution-plugin-manager.c:499
+#: ../src/modules/plugin-manager/evolution-plugin-manager.c:402 ../src/modules/plugin-manager/evolution-plugin-manager.c:490
 msgid "Plugin"
 msgstr "Modul"
 
-#: ../src/modules/plugin-manager/evolution-plugin-manager.c:537
-msgid "_Plugins"
-msgstr "_Module"
-
-#: ../src/modules/plugin-manager/evolution-plugin-manager.c:538
-msgid "Enable and disable plugins"
-msgstr "Activează și dezactivează module"
+#: ../src/modules/plugin-manager/evolution-plugin-manager.c:516
+msgid "Plugins"
+msgstr "Module"
 
 #: ../src/modules/prefer-plain/e-mail-display-popup-prefer-plain.c:138
 msgid "Display plain text version"
@@ -26394,6 +26398,18 @@ msgstr "Nu se poate scrie stocarea la disc, err_code: %i"
 #: ../src/smime/lib/e-pkcs12.c:407
 msgid "Imported Certificate"
 msgstr "Certificatul importat"
+
+#~ msgid "Multiple Unseen Messages"
+#~ msgstr "Mesaje nevăzute multiple"
+
+#~ msgid "Multiple Messages"
+#~ msgstr "Mesaje multiple"
+
+#~ msgid "Plugin Manager"
+#~ msgstr "Gestionar de module"
+
+#~ msgid "Enable and disable plugins"
+#~ msgstr "Activează și dezactivează module"
 
 #~ msgid "Add Google Con_tacts to this account"
 #~ msgstr "Adaugă Con_tacte Google acestui cont"
