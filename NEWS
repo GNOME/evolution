@@ -1,3 +1,13 @@
+Evolution 3.40.3 2021-07-09
+---------------------------
+
+Bug Fixes:
+	I#1307 - backup-restore: Handle user settings through GSettings, not DConf (Milan Crha)
+	I#1469 - Composer: Signatures in HTML inserted into the quote on reply (Milan Crha)
+	I#1537 - EShellSearchbar: Search option not saved on change (Milan Crha)
+	I#1547 - EMailNotes: Unset Content-Transfer-Encoding on message on save (Milan Crha)
+	I#1554 - Mail: Sort Status column by unread state first (Milan Crha)
+
 Evolution 3.40.2 2021-06-04
 ---------------------------
 
