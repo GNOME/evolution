@@ -501,14 +501,6 @@ new_notify_status (EMEventTargetFolder *t)
 		"You have received %d new messages.",
 		status_count), status_count);
 
-	if (t->full_display_name) {
-		g_string_append_c (text, '\n');
-
-		/* Translators: The '%s' is replaced by the folder name, where a new
-		 * mail message arrived. Example: "Folder: On This Computer : Inbox" */
-		g_string_append_printf (text, _("Folder: %s"), t->full_display_name);
-	}
-
 	if (t->msg_sender) {
 		g_string_append_c (text, '\n');
 
@@ -523,6 +515,14 @@ new_notify_status (EMEventTargetFolder *t)
 		/* Translators: "Subject:" is preceding a new mail
 		 * subject, like "Subject: It happened again" */
 		g_string_append_printf (text, _("Subject: %s"), t->msg_subject);
+	}
+
+	if (t->full_display_name) {
+		g_string_append_c (text, '\n');
+
+		/* Translators: The '%s' is replaced by the folder name, where a new
+		 * mail message arrived. Example: "Folder: On This Computer : Inbox" */
+		g_string_append_printf (text, _("Folder: %s"), t->full_display_name);
 	}
 
 	if (status_count > 1 && (t->msg_sender || t->msg_subject)) {
