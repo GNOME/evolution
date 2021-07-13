@@ -1088,13 +1088,13 @@ e_client_cache_ref_registry (EClientCache *client_cache)
  *
  * #E_SOURCE_EXTENSION_ADDRESS_BOOK will obtain an #EBookClient.
  *
- * #E_SOURCE_EXTENSION_CALENDAR will obtain an #ECalClient with a
+ * #E_SOURCE_EXTENSION_CALENDAR will obtain an #ECalClient with an
  * #ECalClient:source-type of #E_CAL_CLIENT_SOURCE_TYPE_EVENTS.
  *
- * #E_SOURCE_EXTENSION_MEMO_LIST will obtain an #ECalClient with a
+ * #E_SOURCE_EXTENSION_MEMO_LIST will obtain an #ECalClient with an
  * #ECalClient:source-type of #E_CAL_CLIENT_SOURCE_TYPE_MEMOS.
  *
- * #E_SOURCE_EXTENSION_TASK_LIST will obtain an #ECalClient with a
+ * #E_SOURCE_EXTENSION_TASK_LIST will obtain an #ECalClient with an
  * #ECalClient:source-type of #E_CAL_CLIENT_SOURCE_TYPE_TASKS.
  *
  * The @source must already have an #ESourceExtension by that name

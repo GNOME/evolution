@@ -391,7 +391,7 @@
 		object to represent and manage it.</simpara></listitem>
 	    <listitem><simpara>Load the base structure of the XML plugin
 		definition files.</simpara></listitem>
-	    <listitem><simpara>Resolve plugin hook types and instantiate a
+	    <listitem><simpara>Resolve plugin hook types and instantiate an
 		EPluginHook to represent and manage it.</simpara></listitem>
 	    <listitem><simpara>Provide a simple, language-independent api for
 		invoking plugin callbacks</simpara></listitem>

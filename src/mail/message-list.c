@@ -4714,7 +4714,7 @@ find_next_selectable (MessageList *message_list,
 	adapter = e_tree_get_table_adapter (E_TREE (message_list));
 	row_count = e_table_model_row_count (E_TABLE_MODEL (adapter));
 
-	/* model_to_view_row etc simply dont work for sorted views.  Sigh. */
+	/* model_to_view_row etc simply don't work for sorted views.  Sigh. */
 	vrow_orig = e_tree_table_adapter_row_of_node (adapter, node);
 
 	/* We already checked this node. */

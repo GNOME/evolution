@@ -43,7 +43,7 @@
 
 /* how old things need to be to expire */
 #define TEMP_EXPIRE (60*60*2)
-/* dont scan more often than this */
+/* don't scan more often than this */
 #define TEMP_SCAN (60)
 
 static gint

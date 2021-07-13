@@ -6323,7 +6323,7 @@ itip_view_init_view (ItipView *view)
 			case I_CAL_METHOD_REQUEST:
                                 /*
                                  * Treat meeting request (sent by organizer directly) and
-                                 * published evend (forwarded by organizer or attendee) alike:
+                                 * published events (forwarded by organizer or attendee) alike:
                                  * if the event has an organizer, then it can be replied to and
                                  * we show the "accept/tentative/decline" choice.
                                  * Otherwise only show "accept".

@@ -1161,7 +1161,7 @@ vfolder_load_storage (EMailSession *session)
 
 	/* load our rules */
 	user = g_build_filename (config_dir, "vfolders.xml", NULL);
-	/* This needs editor context which is only in the mail/. But really to run here we dont need editor context.
+	/* This needs editor context which is only in the mail/. But really to run here we don't need editor context.
 	 * So till we split this to EDS, we would let mail/ create this and later one it is any ways two separate
 	 * contexts. */
 	context = e_mail_session_create_vfolder_context (session);

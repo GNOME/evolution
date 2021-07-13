@@ -1307,7 +1307,7 @@ store_folder_created_cb (CamelStore *store,
                          MailFolderCache *cache)
 {
 	/* We only want created events to do more work
-	 * if we dont support subscriptions. */
+	 * if we don't support subscriptions. */
 	if (!CAMEL_IS_SUBSCRIBABLE (store))
 		store_folder_subscribed_cb (store, info, cache);
 }
@@ -1341,7 +1341,7 @@ store_folder_deleted_cb (CamelStore *store,
                          MailFolderCache *cache)
 {
 	/* We only want deleted events to do more work
-	 * if we dont support subscriptions. */
+	 * if we don't support subscriptions. */
 	if (!CAMEL_IS_SUBSCRIBABLE (store))
 		store_folder_unsubscribed_cb (store, info, cache);
 }

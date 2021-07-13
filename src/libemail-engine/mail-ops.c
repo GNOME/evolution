@@ -133,7 +133,7 @@ em_filter_folder_element_exec (struct _filter_mail_msg *m,
 	if (m->destination)
 		camel_folder_thaw (m->destination);
 
-	/* this may thaw/unref source folders, do it here so we dont do
+	/* this may thaw/unref source folders, do it here so we don't do
 	 * it in the main thread see also fetch_mail_fetch () below */
 	g_object_unref (m->driver);
 	m->driver = NULL;

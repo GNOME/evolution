@@ -104,7 +104,7 @@ rule_add_subject (ERuleContext *context,
 	EFilterPart *part;
 	EFilterElement *element;
 
-	/* dont match on empty strings ever */
+	/* don't match on empty strings ever */
 	if (*text == 0)
 		return;
 	part = e_rule_context_create_part (context, "subject");
@@ -123,7 +123,7 @@ rule_add_sender (ERuleContext *context,
 	EFilterPart *part;
 	EFilterElement *element;
 
-	/* dont match on empty strings ever */
+	/* don't match on empty strings ever */
 	if (*text == 0)
 		return;
 	part = e_rule_context_create_part (context, "sender");
@@ -146,7 +146,7 @@ rule_match_subject (ERuleContext *context,
 	gchar *tmp;
 
 	s = strip_re (subject);
-	/* dont match on empty subject */
+	/* don't match on empty subject */
 	if (*s == 0)
 		return;
 

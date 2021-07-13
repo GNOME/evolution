@@ -1361,7 +1361,7 @@ report_and_free_error_if_any (GError *error)
 }
 
 /* callback function to handle removal of contacts for
- * which a user doesnt have write permission
+ * which a user doesn't have write permission
  */
 static void
 remove_contacts_cb (GObject *source_object,

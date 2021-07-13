@@ -1093,7 +1093,7 @@ add_checkbox (GtkBox *where,
 /**
  * e_cal_dialogs_send_component:
  *
- * Pops up a dialog box asking the user whether he wants to send a
+ * Pops up a dialog box asking the user whether he wants to send an
  * iTip/iMip message
  *
  * Return value: TRUE if the user clicked Yes, FALSE otherwise.
@@ -1187,7 +1187,7 @@ e_cal_dialogs_send_component (GtkWindow *parent,
 /**
  * e_cal_dialogs_send_dragged_or_resized_component:
  *
- * Pops up a dialog box asking the user whether he wants to send a
+ * Pops up a dialog box asking the user whether he wants to send an
  * iTip/iMip message or cancel the drag/resize operations
  *
  * Return value: GTK_RESPONSE_YES if the user clicked Yes,

@@ -365,7 +365,7 @@ rule_context_revert (ERuleContext *context,
 
 	userdoc = e_xml_parse_file (user);
 	if (userdoc == NULL)
-		/* clear out anythign we have? */
+		/* clear out anything we have? */
 		return 0;
 
 	source_hash = g_hash_table_new (
@@ -374,7 +374,7 @@ rule_context_revert (ERuleContext *context,
 
 	/* setup stuff we have now */
 	/* Note that we assume there is only 1 set of rules in a given rule context,
-	 * although other parts of the code dont assume this */
+	 * although other parts of the code don't assume this */
 	frule = NULL;
 	while ((frule = e_rule_context_next_rule (context, frule, NULL))) {
 		rest_data = g_hash_table_lookup (source_hash, frule->source);

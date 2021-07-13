@@ -183,7 +183,7 @@ calendar_view_delete_event (ECalendarView *cal_view,
 	client = g_object_ref (event->comp_data->client);
 	icalcomp = e_cal_component_get_icalcomponent (comp);
 
-	/*FIXME remove it once the we dont set the recurrence id for all the generated instances */
+	/*FIXME remove it once the we don't set the recurrence id for all the generated instances */
 	if (!only_occurrence && !e_cal_client_check_recurrences_no_master (client))
 		e_cal_component_set_recurid (comp, NULL);
 

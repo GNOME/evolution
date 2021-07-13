@@ -370,7 +370,7 @@ part_combobox_changed (GtkComboBox *combobox,
 	}
 	g_return_if_fail (i == index);
 
-	/* dont update if we haven't changed */
+	/* don't update if we haven't changed */
 	if (!strcmp (part->title, data->part->title))
 		return;
 

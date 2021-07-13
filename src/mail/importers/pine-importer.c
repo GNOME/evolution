@@ -88,7 +88,7 @@ pine_supported (EImport *ei,
  * <address> is rfc822 address, or alias address.
  * if rfc822 address includes a phrase, then that overrides <fullname>
  * 
- * FIXME: we dont handle aliases in lists.
+ * FIXME: we don't handle aliases in lists.
  */
 
 static void

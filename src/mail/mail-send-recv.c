@@ -1214,7 +1214,7 @@ send_done (gpointer data,
 
 	return res;
 }
-/* although we dont do anythign smart here yet, there is no need for this interface to
+/* although we don't do anything smart here yet, there is no need for this interface to
  * be available to anyone else.
  * This can also be used to hook into which folders are being updated, and occasionally
  * let them refresh */
