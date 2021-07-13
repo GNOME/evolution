@@ -20,9 +20,11 @@
 
 #include "evolution-config.h"
 
+#include "e-mail-shell-content.h"
 #include "e-mail-shell-sidebar.h"
 
 #include "mail/e-mail-backend.h"
+#include "mail/e-mail-reader.h"
 #include "mail/e-mail-sidebar.h"
 #include "mail/em-folder-utils.h"
 
@@ -123,6 +125,34 @@ mail_shell_sidebar_model_row_changed_cb (GtkTreeModel *model,
 
 	if (gtk_tree_selection_iter_is_selected (selection, iter))
 		mail_shell_sidebar_selection_changed_cb (E_SHELL_SIDEBAR (mail_shell_sidebar), selection);
+}
+
+static gboolean
+mail_shell_sidebar_tree_view_key_press_cb (GtkWidget *widget,
+					   GdkEventKey *key_event,
+					   gpointer user_data)
+{
+	EMailShellSidebar *mail_shell_sidebar = user_data;
+
+	g_return_val_if_fail (E_IS_MAIL_SHELL_SIDEBAR (mail_shell_sidebar), FALSE);
+
+	if ((key_event->state & (GDK_SHIFT_MASK | GDK_CONTROL_MASK | GDK_MOD1_MASK)) == 0 &&
+	    (key_event->keyval == GDK_KEY_Return || key_event->keyval == GDK_KEY_KP_Enter) &&
+	    gtk_widget_has_focus (widget)) {
+		EShellView *shell_view;
+		EShellContent *shell_content;
+		EMailView *mail_view;
+		GtkWidget *message_list;
+
+		shell_view = e_shell_sidebar_get_shell_view (E_SHELL_SIDEBAR (mail_shell_sidebar));
+		shell_content = e_shell_view_get_shell_content (shell_view);
+		mail_view = e_mail_shell_content_get_mail_view (E_MAIL_SHELL_CONTENT (shell_content));
+		message_list = e_mail_reader_get_message_list (E_MAIL_READER (mail_view));
+
+		gtk_widget_grab_focus (message_list);
+	}
+
+	return FALSE;
 }
 
 static void
@@ -243,6 +273,9 @@ mail_shell_sidebar_constructed (GObject *object)
 
 	g_signal_connect (gtk_tree_view_get_model (tree_view), "row-changed",
 		G_CALLBACK (mail_shell_sidebar_model_row_changed_cb), shell_sidebar);
+
+	g_signal_connect (tree_view, "key-press-event",
+		G_CALLBACK (mail_shell_sidebar_tree_view_key_press_cb), shell_sidebar);
 }
 
 static gint
