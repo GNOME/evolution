@@ -216,7 +216,6 @@ shell_searchbar_update_search_widgets (EShellSearchbar *searchbar)
 {
 	EShellView *shell_view;
 	EShellWindow *shell_window;
-	GtkAction *action;
 	GtkWidget *widget;
 	const gchar *search_text;
 	gboolean sensitive;
@@ -257,11 +256,15 @@ shell_searchbar_update_search_widgets (EShellSearchbar *searchbar)
 		gtk_widget_set_name (widget, "searchbar_searchentry");
 	}
 
-	action = E_SHELL_WINDOW_ACTION_SEARCH_CLEAR (shell_window);
-	gtk_action_set_sensitive (action, sensitive);
+	if (e_shell_view_is_active (shell_view)) {
+		GtkAction *action;
 
-	action = E_SHELL_WINDOW_ACTION_SEARCH_SAVE (shell_window);
-	gtk_action_set_visible (action, sensitive && e_shell_view_get_search_rule (shell_view) != NULL);
+		action = E_SHELL_WINDOW_ACTION_SEARCH_CLEAR (shell_window);
+		gtk_action_set_sensitive (action, sensitive);
+
+		action = E_SHELL_WINDOW_ACTION_SEARCH_SAVE (shell_window);
+		gtk_action_set_visible (action, sensitive && e_shell_view_get_search_rule (shell_view) != NULL);
+	}
 }
 
 static void
@@ -356,7 +359,6 @@ shell_searchbar_entry_changed_cb (EShellSearchbar *searchbar)
 {
 	EShellView *shell_view;
 	EShellWindow *shell_window;
-	GtkAction *action;
 	const gchar *search_text;
 	gboolean sensitive;
 
@@ -366,8 +368,12 @@ shell_searchbar_entry_changed_cb (EShellSearchbar *searchbar)
 	search_text = e_shell_searchbar_get_search_text (searchbar);
 	sensitive = (search_text != NULL && *search_text != '\0');
 
-	action = E_SHELL_WINDOW_ACTION_SEARCH_QUICK (shell_window);
-	gtk_action_set_sensitive (action, sensitive);
+	if (e_shell_view_is_active (shell_view)) {
+		GtkAction *action;
+
+		action = E_SHELL_WINDOW_ACTION_SEARCH_QUICK (shell_window);
+		gtk_action_set_sensitive (action, sensitive);
+	}
 }
 
 static void
