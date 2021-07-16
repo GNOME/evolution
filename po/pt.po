@@ -13,8 +13,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: 3.12\n"
 "Report-Msgid-Bugs-To: https://gitlab.gnome.org/GNOME/evolution/issues\n"
-"POT-Creation-Date: 2021-07-08 17:19+0000\n"
-"PO-Revision-Date: 2021-07-09 11:09+0100\n"
+"POT-Creation-Date: 2021-07-16 10:54+0000\n"
+"PO-Revision-Date: 2021-07-16 22:08+0100\n"
 "Last-Translator: Hugo Carvalho <hugokarvalho@hotmail.com>\n"
 "Language-Team: Portuguese <https://l10n.gnome.org/teams/pt/>\n"
 "Language: pt\n"
@@ -2889,10 +2889,23 @@ msgstr ""
 "pastas serão expandidas."
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:309
+msgid "Size limit for text attachments to show"
+msgstr "Limite de tamanho para anexos de texto a mostrar"
+
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:310
+msgid ""
+"Defines the size in KB, the limit to show text attachments in the message "
+"preview. Anything above this limit will not be possible to show inline."
+msgstr ""
+"Define o tamanho em KB, o limite para mostrar anexos de texto na "
+"visualização da mensagem. Qualquer coisa acima deste limite não será "
+"possível mostrar inline."
+
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:311
 msgid "(Deprecated) Default forward style"
 msgstr "(Obsoleta) Estilo de reencaminhamento predefinido"
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:310
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:312
 msgid ""
 "This key was deprecated in version 3.10 and should no longer be used. Use "
 "“forward-style-name” instead."
@@ -2900,11 +2913,11 @@ msgstr ""
 "Esta chave foi tornada obsoleta na versão 3.10 e não mais deverá ser "
 "utilizada. Utilize antes a “forward-style-name”."
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:311
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:313
 msgid "(Deprecated) Default reply style"
 msgstr "(Obsoleta) Estilo predefinido de resposta"
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:312
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:314
 msgid ""
 "This key was deprecated in version 3.10 and should no longer be used. Use "
 "“reply-style-name” instead."
@@ -2912,11 +2925,11 @@ msgstr ""
 "Esta chave foi tornada obsoleta na versão 3.10 e não mais deverá ser "
 "utilizada. Utilize antes a “reply-style-name”."
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:313
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:315
 msgid "(Deprecated) List of custom headers and whether they are enabled."
 msgstr "(Obsoleta) Lista de cabeçalhos personalizados e se estes estão ativos."
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:314
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:316
 msgid ""
 "This key was deprecated in version 3.10 and should no longer be used. Use "
 "“show-headers” instead."
@@ -2924,11 +2937,11 @@ msgstr ""
 "Esta chave foi tornada obsoleta na versão 3.10 e não mais deverá ser "
 "utilizada. Utilize antes a “show-headers”."
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:315
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:317
 msgid "(Deprecated) Load images for HTML messages over HTTP"
 msgstr "(Obsoleta) Carregar imagens de mensagens HTML através de HTTP"
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:316
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:318
 msgid ""
 "This key was deprecated in version 3.10 and should no longer be used. Use "
 "“image-loading-policy” instead."
@@ -2936,7 +2949,7 @@ msgstr ""
 "Esta chave foi tornada obsoleta na versão 3.10 e não mais deverá ser "
 "utilizada. Utilize antes a “image-loading-policy”."
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:317
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:319
 msgid ""
 "(Deprecated) Asks whether to close the message window when the user forwards "
 "or replies to the message shown in the window"
@@ -2944,7 +2957,7 @@ msgstr ""
 "(Obsoleta) Pergunta sobre se fechar ou não a janela de mensagem quando o "
 "utilizador reencaminha ou responde à mensagem mostrada na janela"
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:318
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:320
 msgid ""
 "This key was deprecated in version 3.10 and should no longer be used. Use "
 "“browser-close-on-reply-policy” instead."
@@ -4297,7 +4310,7 @@ msgstr "Editor de contactos"
 
 #: ../src/addressbook/gui/contact-editor/contact-editor.ui.h:13
 #: ../src/calendar/gui/e-comp-editor-page-reminders.c:2486
-#: ../src/em-format/e-mail-formatter-attachment.c:277
+#: ../src/em-format/e-mail-formatter-attachment.c:314
 #: ../src/mail/mail-config.ui.h:40
 msgid "Options"
 msgstr "Opções"
@@ -8044,7 +8057,7 @@ msgstr "Memorando — %s"
 
 #: ../src/calendar/gui/e-comp-editor-page-attachments.c:123
 #: ../src/calendar/gui/e-comp-editor-page-attachments.c:128
-#: ../src/em-format/e-mail-formatter-attachment.c:336
+#: ../src/em-format/e-mail-formatter-attachment.c:373
 #: ../src/e-util/e-attachment-bar.c:101 ../src/e-util/e-attachment-bar.c:106
 #: ../src/e-util/e-attachment-paned.c:175
 #: ../src/e-util/e-attachment-paned.c:180 ../src/mail/message-list.etspec.h:4
@@ -12200,15 +12213,15 @@ msgstr ""
 msgid "An error occurred while creating message composer."
 msgstr "Ocorreu um erro durante a criação da composição da mensagem."
 
-#: ../src/em-format/e-mail-formatter-attachment.c:272
+#: ../src/em-format/e-mail-formatter-attachment.c:309
 msgid "Toggle View Inline"
 msgstr "Alternar Ver em linha"
 
-#: ../src/em-format/e-mail-formatter-attachment.c:272
+#: ../src/em-format/e-mail-formatter-attachment.c:309
 msgid "Open in default application"
 msgstr "Abrir com a aplicação predefinida"
 
-#: ../src/em-format/e-mail-formatter-attachment.c:337
+#: ../src/em-format/e-mail-formatter-attachment.c:374
 msgid "Display as attachment"
 msgstr "Mostrar como anexo"
 
@@ -26717,26 +26730,26 @@ msgid_plural "You have received %d new messages."
 msgstr[0] "Recebeu %d mensagem nova."
 msgstr[1] "Recebeu %d mensagens novas."
 
-#. Translators: The '%s' is replaced by the folder name, where a new
-#. * mail message arrived. Example: "Folder: On This Computer : Inbox"
-#: ../src/plugins/mail-notification/mail-notification.c:509
-#, c-format
-msgid "Folder: %s"
-msgstr "Pasta: %s"
-
 #. Translators: "From:" is preceding a new mail
 #. * sender address, like "From: user@example.com"
-#: ../src/plugins/mail-notification/mail-notification.c:517
+#: ../src/plugins/mail-notification/mail-notification.c:509
 #, c-format
 msgid "From: %s"
 msgstr "De: %s"
 
 #. Translators: "Subject:" is preceding a new mail
 #. * subject, like "Subject: It happened again"
-#: ../src/plugins/mail-notification/mail-notification.c:525
+#: ../src/plugins/mail-notification/mail-notification.c:517
 #, c-format
 msgid "Subject: %s"
 msgstr "Assunto: %s"
+
+#. Translators: The '%s' is replaced by the folder name, where a new
+#. * mail message arrived. Example: "Folder: On This Computer : Inbox"
+#: ../src/plugins/mail-notification/mail-notification.c:525
+#, c-format
+msgid "Folder: %s"
+msgstr "Pasta: %s"
 
 #. Translators: %d is the count of mails received in addition
 #. * to the one displayed in this notification.
@@ -27387,19 +27400,19 @@ msgstr "Guardar a procura"
 #. * allows the user to filter the current view.  Examples of
 #. * items that appear in the combo box are "Unread Messages",
 #. * "Important Messages", or "Active Appointments".
-#: ../src/shell/e-shell-searchbar.c:923
+#: ../src/shell/e-shell-searchbar.c:929
 msgid "Sho_w:"
 msgstr "_Mostrar:"
 
 #. Translators: This is part of the quick search interface.
 #. * example: Search: [_______________] in [ Current Folder ]
-#: ../src/shell/e-shell-searchbar.c:949
+#: ../src/shell/e-shell-searchbar.c:955
 msgid "Sear_ch:"
 msgstr "Pro_curar:"
 
 #. Translators: This is part of the quick search interface.
 #. * example: Search: [_______________] in [ Current Folder ]
-#: ../src/shell/e-shell-searchbar.c:1017
+#: ../src/shell/e-shell-searchbar.c:1023
 msgid "i_n"
 msgstr "_Em"
 
