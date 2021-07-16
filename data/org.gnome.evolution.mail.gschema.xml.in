@@ -867,6 +867,11 @@
       <_summary>Whether to preserve expand state of the folders when calling Copy/Move to Folder.</_summary>
       <_description>If enabled, the Copy/Move to Folder dialog will preserve the expand state of the folders in the dialog, otherwise all the folders will be expanded.</_description>
     </key>
+    <key name="preview-text-size-limit" type="i">
+      <default>512</default>
+      <_summary>Size limit for text attachments to show</_summary>
+      <_description>Defines the size in KB, the limit to show text attachments in the message preview. Anything above this limit will not be possible to show inline.</_description>
+    </key>
 
     <!-- The following keys are deprecated. -->
 

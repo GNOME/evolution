@@ -64,6 +64,8 @@ emfe_attachment_format (EMailFormatterExtension *extension,
 	GString *buffer;
 	gint icon_width, icon_height;
 	gchar *icon_uri;
+	CamelContentType *content_type;
+	gboolean part_too_large = FALSE;
 	gpointer attachment_ptr = NULL;
 	const gchar *attachment_part_id;
 	const gchar *part_id;
@@ -185,6 +187,40 @@ emfe_attachment_format (EMailFormatterExtension *extension,
 	html = camel_text_to_html (
 		text, flags & CAMEL_MIME_FILTER_TOHTML_CONVERT_URLS, 0);
 	g_free (text);
+
+	content_type = camel_mime_part_get_content_type (mime_part);
+
+	if (camel_content_type_is (content_type, "text", "*") ||
+	    camel_content_type_is (content_type, "application", "xml") ||
+	    (empa->snoop_mime_type && (
+	     g_ascii_strncasecmp (empa->snoop_mime_type, "text/", 5) == 0 ||
+	     g_ascii_strcasecmp (empa->snoop_mime_type, "application/xml") == 0))) {
+		GSettings *settings;
+		gsize size_limit;
+
+		settings = e_util_ref_settings ("org.gnome.evolution.mail");
+		size_limit = g_settings_get_int (settings, "preview-text-size-limit");
+		g_object_unref (settings);
+
+		if (size_limit > 0) {
+			gsize part_size;
+
+			part_size = camel_data_wrapper_calculate_decoded_size_sync (CAMEL_DATA_WRAPPER (mime_part), cancellable, NULL);
+			part_too_large = part_size > 1024 * size_limit;
+
+			if (part_too_large) {
+				EAttachment *attachment;
+
+				e_mail_part_attachment_set_expandable (empa, FALSE);
+
+				attachment = e_mail_part_attachment_ref_attachment (E_MAIL_PART_ATTACHMENT (part));
+				e_attachment_set_can_show (attachment, FALSE);
+				e_attachment_set_initially_shown (attachment, FALSE);
+				g_object_unref (attachment);
+			}
+		}
+	}
+
 	g_object_unref (mime_part);
 
 	if (empa->part_id_with_attachment)
@@ -269,9 +305,10 @@ emfe_attachment_format (EMailFormatterExtension *extension,
 		"</button>"
 		"</td><td align=\"left\">%s</td></tr>",
 		part_id, attachment_ptr,
-		e_mail_part_should_show_inline (part) || e_mail_part_attachment_get_expandable (empa) ? _("Toggle View Inline") : _("Open in default application"),
+		!part_too_large && (e_mail_part_should_show_inline (part) || e_mail_part_attachment_get_expandable (empa)) ?
+		_("Toggle View Inline") : _("Open in default application"),
 		attachment_ptr,
-		e_mail_part_should_show_inline (part) ? "go-down" : e_mail_part_attachment_get_expandable (empa) ? "go-next" : "go-top",
+		part_too_large ? "go-top" : e_mail_part_should_show_inline (part) ? "go-down" : e_mail_part_attachment_get_expandable (empa) ? "go-next" : "go-top",
 		GTK_ICON_SIZE_BUTTON, icon_width, icon_height,
 		icon_uri, icon_width, icon_height,
 		part_id, attachment_ptr, _("Options"), GTK_ICON_SIZE_BUTTON, icon_width, icon_height,
@@ -281,7 +318,7 @@ emfe_attachment_format (EMailFormatterExtension *extension,
 	g_free (button_id);
 	g_free (html);
 
-	if (content_stream && e_mail_part_attachment_get_expandable (empa)) {
+	if (!part_too_large && content_stream && e_mail_part_attachment_get_expandable (empa)) {
 		gchar *wrapper_element_id;
 		gconstpointer data;
 		gsize size;
