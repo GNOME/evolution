@@ -12,8 +12,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: evolution\n"
 "Report-Msgid-Bugs-To: https://gitlab.gnome.org/GNOME/evolution/issues\n"
-"POT-Creation-Date: 2021-07-09 10:11+0000\n"
-"PO-Revision-Date: 2021-07-11 16:03+0300\n"
+"POT-Creation-Date: 2021-07-19 16:42+0000\n"
+"PO-Revision-Date: 2021-07-19 21:33+0300\n"
 "Last-Translator: Yuri Chornoivan <yurchor@ukr.net>\n"
 "Language-Team: Ukrainian <trans-uk@lists.fedoraproject.org>\n"
 "Language: uk\n"
@@ -772,14 +772,13 @@ msgid "Vertical position for the tag pane"
 msgstr "Вертикальна позиція для панелі міток"
 
 #: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:120
-#| msgid "Whether to hide cancelled events in the calendar view"
 msgid "Show Tasks and Memos pane in the Calendar view"
 msgstr "Показати панель завдань та приміток у режимі перегляду календаря"
 
 #: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:121
-#| msgid "Whether to show week numbers in various places in the Calendar"
 msgid "Whether to show Tasks and Memos pane in the Calendar view"
-msgstr "Чи слід показувати панель завдань та приміток у режимі перегляду календаря"
+msgstr ""
+"Чи слід показувати панель завдань та приміток у режимі перегляду календаря"
 
 #: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:122
 msgid "Highlight tasks due today"
@@ -2821,10 +2820,22 @@ msgstr ""
 "розгорнуто."
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:309
+#| msgid "Waiting for attachments to load…"
+msgid "Size limit for text attachments to show"
+msgstr "Обмеження на розмір показаних текстових долучень"
+
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:310
+msgid ""
+"Defines the size in KB, the limit to show text attachments in the message "
+"preview. Anything above this limit will not be possible to show inline."
+msgstr ""
+"Визначає обмеження у кілобайтах для розміру показаних текстових долучень у режимі попереднього перегляду повідомлень. Усі долучення, розмір яких перевищуватиме вказаний, не буде показано вбудованими у повідомлення."
+
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:311
 msgid "(Deprecated) Default forward style"
 msgstr "(Застаріло) Типовий стиль пересилання"
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:310
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:312
 msgid ""
 "This key was deprecated in version 3.10 and should no longer be used. Use "
 "“forward-style-name” instead."
@@ -2832,11 +2843,11 @@ msgstr ""
 "Цей ключ застарілий для версії 3.10 і більше не використовуватиметься. "
 "Використовуйте «forward-style-name» натомість."
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:311
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:313
 msgid "(Deprecated) Default reply style"
 msgstr "(Застаріло) Типовий стиль відповіді"
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:312
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:314
 msgid ""
 "This key was deprecated in version 3.10 and should no longer be used. Use "
 "“reply-style-name” instead."
@@ -2844,11 +2855,11 @@ msgstr ""
 "Цей ключ застарілий для версії 3.10 і більше не використовуватиметься. "
 "Використовуйте «reply-style-name» натомість."
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:313
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:315
 msgid "(Deprecated) List of custom headers and whether they are enabled."
 msgstr "(Застаріло) Список власних заголовків та їхній стан."
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:314
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:316
 msgid ""
 "This key was deprecated in version 3.10 and should no longer be used. Use "
 "“show-headers” instead."
@@ -2856,12 +2867,12 @@ msgstr ""
 "Цей ключ застарілий для версії 3.10 і більше не використовуватиметься. "
 "Використовуйте «show-headers» натомість."
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:315
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:317
 msgid "(Deprecated) Load images for HTML messages over HTTP"
 msgstr ""
 "(Застаріло) Автоматично завантажувати зображення у листах HTML через HTTP"
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:316
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:318
 msgid ""
 "This key was deprecated in version 3.10 and should no longer be used. Use "
 "“image-loading-policy” instead."
@@ -2869,7 +2880,7 @@ msgstr ""
 "Цей ключ застарілий для версії 3.10 і більше не використовуватиметься. "
 "Використовуйте «image-loading-policy» натомість."
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:317
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:319
 msgid ""
 "(Deprecated) Asks whether to close the message window when the user forwards "
 "or replies to the message shown in the window"
@@ -2877,7 +2888,7 @@ msgstr ""
 "(Застаріло) Запитує, чи закривати вікно листа, коли користувач пересилає або "
 "відповідає на показане лист у вікні"
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:318
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:320
 msgid ""
 "This key was deprecated in version 3.10 and should no longer be used. Use "
 "“browser-close-on-reply-policy” instead."
@@ -4221,7 +4232,7 @@ msgstr "Редактор контактів"
 
 #: ../src/addressbook/gui/contact-editor/contact-editor.ui.h:13
 #: ../src/calendar/gui/e-comp-editor-page-reminders.c:2486
-#: ../src/em-format/e-mail-formatter-attachment.c:277
+#: ../src/em-format/e-mail-formatter-attachment.c:314
 #: ../src/mail/mail-config.ui.h:40
 msgid "Options"
 msgstr "Параметри"
@@ -7990,7 +8001,7 @@ msgstr "Примітка — %s"
 
 #: ../src/calendar/gui/e-comp-editor-page-attachments.c:123
 #: ../src/calendar/gui/e-comp-editor-page-attachments.c:128
-#: ../src/em-format/e-mail-formatter-attachment.c:336
+#: ../src/em-format/e-mail-formatter-attachment.c:373
 #: ../src/e-util/e-attachment-bar.c:101 ../src/e-util/e-attachment-bar.c:106
 #: ../src/e-util/e-attachment-paned.c:175
 #: ../src/e-util/e-attachment-paned.c:180 ../src/mail/message-list.etspec.h:4
@@ -12165,15 +12176,15 @@ msgstr ""
 msgid "An error occurred while creating message composer."
 msgstr "Виникла помилка при відкриванні редактора повідомлень."
 
-#: ../src/em-format/e-mail-formatter-attachment.c:272
+#: ../src/em-format/e-mail-formatter-attachment.c:309
 msgid "Toggle View Inline"
 msgstr "Перемкнути вбудований перегляд"
 
-#: ../src/em-format/e-mail-formatter-attachment.c:272
+#: ../src/em-format/e-mail-formatter-attachment.c:309
 msgid "Open in default application"
 msgstr "Відкрити у типовій програмі"
 
-#: ../src/em-format/e-mail-formatter-attachment.c:337
+#: ../src/em-format/e-mail-formatter-attachment.c:374
 msgid "Display as attachment"
 msgstr "Показати як долучення"
 
@@ -15600,7 +15611,6 @@ msgid "_Remember this password for the remainder of this session"
 msgstr "_Пам'ятати цей пароль до закінчення цього сеансу"
 
 #: ../src/e-util/e-preferences-window.c:300
-#| msgid "_Help"
 msgid "Help"
 msgstr "Довідка"
 
@@ -23458,12 +23468,10 @@ msgid "Quit"
 msgstr "Вийти"
 
 #: ../src/modules/calendar/e-cal-shell-view-actions.c:1730
-#| msgid "Show task preview pane"
 msgid "Show T_asks and Memos pane"
 msgstr "Показувати панель з_авдань і приміток"
 
 #: ../src/modules/calendar/e-cal-shell-view-actions.c:1732
-#| msgid "Show task preview pane"
 msgid "Show Tasks and Memos pane"
 msgstr "Показати панель завдань та приміток"
 
@@ -25789,7 +25797,6 @@ msgid "Plugin"
 msgstr "Модуль"
 
 #: ../src/modules/plugin-manager/evolution-plugin-manager.c:516
-#| msgid "_Plugins"
 msgid "Plugins"
 msgstr "Модулі"
 
@@ -26715,26 +26722,26 @@ msgstr[1] "Отримано %d нових повідомлення."
 msgstr[2] "Отримано %d нових повідомлень."
 msgstr[3] "Отримано %d нове повідомлення."
 
-#. Translators: The '%s' is replaced by the folder name, where a new
-#. * mail message arrived. Example: "Folder: On This Computer : Inbox"
-#: ../src/plugins/mail-notification/mail-notification.c:509
-#, c-format
-msgid "Folder: %s"
-msgstr "Тека: %s"
-
 #. Translators: "From:" is preceding a new mail
 #. * sender address, like "From: user@example.com"
-#: ../src/plugins/mail-notification/mail-notification.c:517
+#: ../src/plugins/mail-notification/mail-notification.c:509
 #, c-format
 msgid "From: %s"
 msgstr "Від: %s"
 
 #. Translators: "Subject:" is preceding a new mail
 #. * subject, like "Subject: It happened again"
-#: ../src/plugins/mail-notification/mail-notification.c:525
+#: ../src/plugins/mail-notification/mail-notification.c:517
 #, c-format
 msgid "Subject: %s"
 msgstr "Тема: %s"
+
+#. Translators: The '%s' is replaced by the folder name, where a new
+#. * mail message arrived. Example: "Folder: On This Computer : Inbox"
+#: ../src/plugins/mail-notification/mail-notification.c:525
+#, c-format
+msgid "Folder: %s"
+msgstr "Тека: %s"
 
 #. Translators: %d is the count of mails received in addition
 #. * to the one displayed in this notification.
@@ -27381,19 +27388,19 @@ msgstr "Зберегти результати пошуку"
 #. * allows the user to filter the current view.  Examples of
 #. * items that appear in the combo box are "Unread Messages",
 #. * "Important Messages", or "Active Appointments".
-#: ../src/shell/e-shell-searchbar.c:923
+#: ../src/shell/e-shell-searchbar.c:929
 msgid "Sho_w:"
 msgstr "_Показати:"
 
 #. Translators: This is part of the quick search interface.
 #. * example: Search: [_______________] in [ Current Folder ]
-#: ../src/shell/e-shell-searchbar.c:949
+#: ../src/shell/e-shell-searchbar.c:955
 msgid "Sear_ch:"
 msgstr "З_найти:"
 
 #. Translators: This is part of the quick search interface.
 #. * example: Search: [_______________] in [ Current Folder ]
-#: ../src/shell/e-shell-searchbar.c:1017
+#: ../src/shell/e-shell-searchbar.c:1023
 msgid "i_n"
 msgstr " _у "
 
