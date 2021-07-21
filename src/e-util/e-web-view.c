@@ -1976,8 +1976,8 @@ web_view_submit_alert (EAlertSink *alert_sink,
 		buffer,
 		"<html>"
 		"<head>"
-		"<meta http-equiv=\"content-type\""
-		" content=\"text/html; charset=utf-8\">"
+		"<meta http-equiv=\"content-type\" content=\"text/html; charset=utf-8\">"
+		"<meta name=\"color-scheme\" content=\"light dark\">"
 		"</head>"
 		"<body>");
 
@@ -2625,7 +2625,9 @@ e_web_view_clear (EWebView *web_view)
 
 	e_web_view_load_string (web_view,
 		"<html>"
-		"<head></head>"
+		"<head>"
+		"<meta name=\"color-scheme\" content=\"light dark\">"
+		"</head>"
 		"<body class=\"-e-web-view-background-color -e-web-view-text-color\"></body>"
 		"</html>");
 }
