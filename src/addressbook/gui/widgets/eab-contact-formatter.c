@@ -52,6 +52,7 @@
 
 #define HTML_HEADER "<!doctype html public \"-//W3C//DTD HTML 4.0 TRANSITIONAL//EN\">\n<html>\n" \
 "<head>\n<meta name=\"generator\" content=\"Evolution Addressbook Component\">\n" \
+"<meta name=\"color-scheme\" content=\"light dark\">\n" \
 "<link type=\"text/css\" rel=\"stylesheet\" href=\"evo-file://$EVOLUTION_WEBKITDATADIR/webview.css\">" \
 "<style type=\"text/css\">\n" \
 "  div#header { width:100%; clear: both; }\n" \

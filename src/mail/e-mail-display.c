@@ -2874,6 +2874,7 @@ e_mail_display_set_status (EMailDisplay *display,
 		"<html>\n"
 		"<head>\n"
 		"<meta name=\"generator\" content=\"Evolution Mail\"/>\n"
+		"<meta name=\"color-scheme\" content=\"light dark\">\n"
 		"<title>Evolution Mail Display</title>\n"
 		"</head>\n"
 		"<body class=\"-e-web-view-background-color e-web-view-text-color\">"

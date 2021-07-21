@@ -117,6 +117,7 @@ mail_formatter_print_run (EMailFormatter *formatter,
 		"<html>\n"
 		"<head>\n"
 		"<meta name=\"generator\" content=\"Evolution Mail\" />\n"
+		"<meta name=\"color-scheme\" content=\"light dark\">\n"
 		"<title>Evolution Mail Display</title>\n"
 		"<link type=\"text/css\" rel=\"stylesheet\" media=\"print\" href=\"" STYLESHEET_URI "\"/>\n"
 		"</head>\n"
