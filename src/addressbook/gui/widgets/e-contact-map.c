@@ -49,6 +49,8 @@ struct _EContactMapPrivate {
 struct _AsyncContext {
 	EContactMap *map;
 	ClutterActor *marker;
+	GHashTable *params;
+	gint stage;
 };
 
 enum {
@@ -67,6 +69,7 @@ static void
 async_context_free (AsyncContext *async_context)
 {
 	g_clear_object (&async_context->map);
+	g_hash_table_unref (async_context->params);
 
 	g_slice_free (AsyncContext, async_context);
 }
@@ -170,6 +173,41 @@ contact_map_address_resolved_cb (GObject *source_object,
 	/* Keep quiet if the search just came up empty. */
 	if (g_error_matches (local_error, GEOCODE_ERROR, GEOCODE_ERROR_NO_MATCHES)) {
 		g_clear_error (&local_error);
+		while (async_context->stage < 4) {
+			gboolean limited = FALSE;
+
+			async_context->stage++;
+
+			switch (async_context->stage) {
+			case 1:
+				limited = g_hash_table_remove (async_context->params, "region");
+				break;
+			case 2:
+				limited = g_hash_table_remove (async_context->params, "street");
+				break;
+			case 3:
+				limited = g_hash_table_remove (async_context->params, "postalcode");
+				break;
+			case 4:
+				limited = g_hash_table_remove (async_context->params, "locality");
+				break;
+			}
+
+			if (limited && g_hash_table_size (async_context->params) > 0) {
+				GeocodeForward *geocoder;
+
+				geocoder = geocode_forward_new_for_params (async_context->params);
+
+				geocode_forward_search_async (
+					geocoder, NULL,
+					contact_map_address_resolved_cb,
+					async_context);
+
+				g_object_unref (geocoder);
+
+				return;
+			}
+		}
 
 	/* Leave a breadcrumb on the console for any other errors. */
 	} else if (local_error != NULL) {
@@ -227,11 +265,25 @@ add_attr (GHashTable *hash_table,
 {
 	GValue *value;
 
+	if (!string || !*string)
+		return;
+
 	value = g_new0 (GValue, 1);
 	g_value_init (value, G_TYPE_STRING);
-	g_value_set_static_string (value, string);
+	g_value_set_string (value, string);
 
 	g_hash_table_insert (hash_table, g_strdup (key), value);
+}
+
+static void
+free_gvalue (gpointer ptr)
+{
+	GValue *value = ptr;
+
+	if (value) {
+		g_value_unset (value);
+		g_free (value);
+	}
 }
 
 static GHashTable *
@@ -244,7 +296,7 @@ address_to_xep (EContactAddress *address)
 		(GHashFunc) g_str_hash,
 		(GEqualFunc) g_str_equal,
 		(GDestroyNotify) g_free,
-		(GDestroyNotify) g_free);
+		(GDestroyNotify) free_gvalue);
 
 	add_attr (hash_table, "postalcode", address->code);
 	add_attr (hash_table, "country", address->country);
@@ -406,6 +458,13 @@ e_contact_map_add_marker (EContactMap *map,
 	g_return_if_fail (contact_uid != NULL);
 	g_return_if_fail (address != NULL);
 
+	hash_table = address_to_xep (address);
+
+	if (!g_hash_table_size (hash_table)) {
+		g_hash_table_unref (hash_table);
+		return;
+	}
+
 	marker = champlain_label_new ();
 	champlain_label_set_text (CHAMPLAIN_LABEL (marker), name);
 
@@ -421,13 +480,13 @@ e_contact_map_add_marker (EContactMap *map,
 		g_strdup (contact_uid),
 		(GDestroyNotify) g_free);
 
-	hash_table = address_to_xep (address);
 	geocoder = geocode_forward_new_for_params (hash_table);
-	g_hash_table_destroy (hash_table);
 
 	async_context = g_slice_new0 (AsyncContext);
 	async_context->map = g_object_ref (map);
 	async_context->marker = marker;
+	async_context->params = hash_table;
+	async_context->stage = 0;
 
 	geocode_forward_search_async (
 		geocoder, NULL,
