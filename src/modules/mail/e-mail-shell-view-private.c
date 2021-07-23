@@ -781,6 +781,7 @@ e_mail_shell_view_restore_state (EMailShellView *mail_shell_view)
 	gchar *folder_uri;
 	gchar *tmp = NULL;
 	GSettings *settings;
+	GtkWidget *message_list;
 
 	/* XXX Move this to EMailShellContent. */
 
@@ -829,9 +830,11 @@ e_mail_shell_view_restore_state (EMailShellView *mail_shell_view)
 	}
 
 	old_state_group = e_shell_searchbar_get_state_group (searchbar);
+	message_list = e_mail_reader_get_message_list (reader);
 
-	/* Avoid loading search state unnecessarily, unless it's the global search. */
-	if (!tmp || g_strcmp0 (new_state_group, old_state_group) != 0) {
+	/* Avoid loading search state unnecessarily. */
+	if ((!tmp && IS_MESSAGE_LIST (message_list) && MESSAGE_LIST (message_list)->just_set_folder) ||
+	    g_strcmp0 (new_state_group, old_state_group) != 0) {
 		e_shell_searchbar_set_state_group (searchbar, new_state_group);
 		e_shell_searchbar_load_state (searchbar);
 	}
