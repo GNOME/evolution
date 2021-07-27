@@ -10035,11 +10035,11 @@ msgstr "no està planificada"
 
 #: ../src/calendar/gui/tasktypes.xml.in.h:32
 msgid "Due In"
-msgstr "Vencenç en"
+msgstr "Venciment en"
 
 #: ../src/calendar/gui/tasktypes.xml.in.h:33
 msgid "Next Days"
-msgstr "Següent dies"
+msgstr "Següents dies"
 
 #: ../src/calendar/gui/tasktypes.xml.in.h:34
 msgid "Previous Days"
@@ -16058,7 +16058,7 @@ msgstr "Opcions gene_rals"
 
 #: ../src/e-util/e-send-options.ui.h:38
 msgid "Creat_e a sent item to track information"
-msgstr "Cr_ea un element enviat per seguir la informació"
+msgstr "Cr_ea un element enviat per a seguir la informació"
 
 #: ../src/e-util/e-send-options.ui.h:39
 msgid "_Delivered"
@@ -23173,7 +23173,7 @@ msgstr "dilluns"
 #. Tuesday
 #: ../src/modules/calendar/e-calendar-preferences.ui.h:27
 msgid "_Tue"
-msgstr "d_m"
+msgstr "d_t"
 
 #: ../src/modules/calendar/e-calendar-preferences.ui.h:28
 msgid "Tuesday"
@@ -28534,7 +28534,7 @@ msgstr "_Pregunta quan s'utilitzi"
 #: ../src/smime/gui/certificate-manager.c:1362
 msgctxt "CamelTrust"
 msgid "_Never trust this certificate"
-msgstr "_No confiïs mai amb aquest certificat"
+msgstr "_No confiïs mai en aquest certificat"
 
 #: ../src/smime/gui/certificate-manager.c:1363
 msgctxt "CamelTrust"
