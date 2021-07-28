@@ -558,7 +558,12 @@ merge_dialog_data_create (EContactMergingLookup *lookup,
 					G_CALLBACK (dropdown_changed), data);
 				g_object_set_data_full (G_OBJECT (dropdown), "eab-contact-merging::dropdown-data", data, g_free);
 
-				if (field == E_CONTACT_NICKNAME || field == E_CONTACT_GIVEN_NAME || field == E_CONTACT_FAMILY_NAME || field == E_CONTACT_FULL_NAME)
+				/* Only prefer the original value when it's filled */
+				if (string1 && *string1 && (
+				    field == E_CONTACT_NICKNAME ||
+				    field == E_CONTACT_GIVEN_NAME ||
+				    field == E_CONTACT_FAMILY_NAME ||
+				    field == E_CONTACT_FULL_NAME))
 					gtk_combo_box_set_active (GTK_COMBO_BOX (dropdown), 1);
 				else
 					gtk_combo_box_set_active (GTK_COMBO_BOX (dropdown), 0);
