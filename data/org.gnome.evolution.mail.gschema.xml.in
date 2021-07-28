@@ -498,7 +498,7 @@
       <_description>If not set, or being “stdout”, then the logging is done to stdout, instead to a file.</_description>
     </key>
     <key name="flush-outbox" type="b">
-      <default>false</default>
+      <default>true</default>
       <_summary>Flush Outbox after filtering</_summary>
       <_description>Whether to flush Outbox after filtering is done. Outbox flush will happen only when there was used any “Forward to” filter action and approximately one minute after the last action invocation.</_description>
     </key>
