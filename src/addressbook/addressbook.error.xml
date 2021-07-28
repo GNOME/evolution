@@ -36,14 +36,14 @@
     <_primary>Are you sure you want to delete address book “{0}”?</_primary>
     <_secondary>This address book will be removed permanently.</_secondary>
     <button _label="Do _Not Delete" response="GTK_RESPONSE_CANCEL"/>
-    <button stock="gtk-delete" response="GTK_RESPONSE_YES"/>
+    <button stock="gtk-delete" response="GTK_RESPONSE_YES" destructive="true"/>
   </error>
 
  <error id="ask-delete-remote-addressbook" type="question" default="GTK_RESPONSE_CANCEL">
    <_primary>Delete remote address book “{0}”?</_primary>
    <_secondary>This will permanently remove the address book “{0}” from the server.  Are you sure you want to proceed?</_secondary>
    <button _label="Do _Not Delete" response="GTK_RESPONSE_CANCEL"/>
-   <button _label="_Delete From Server" response="GTK_RESPONSE_YES"/>
+   <button _label="_Delete From Server" response="GTK_RESPONSE_YES" destructive="true"/>
  </error>
 
   <error id="edit-categories" type="error">
@@ -73,7 +73,7 @@
   <error id="prompt-save" type="question" default="GTK_RESPONSE_YES">
     <_primary>Would you like to save your changes?</_primary>
     <_secondary>You have made modifications to this contact. Do you want to save these changes?</_secondary>
-    <button _label="_Discard" response="GTK_RESPONSE_NO"/>
+    <button _label="_Discard" response="GTK_RESPONSE_NO" destructive="true"/>
     <button stock="gtk-cancel" response="GTK_RESPONSE_CANCEL"/>
     <button stock="gtk-save" response="GTK_RESPONSE_YES"/>
   </error>

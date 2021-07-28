@@ -108,14 +108,14 @@ The reported error was “{0}”.</_secondary>
     <_primary>Are you sure you want to permanently remove all the deleted messages in folder “{0}”?</_primary>
     <_secondary xml:space="preserve">If you continue, you will not be able to recover these messages.</_secondary>
     <button stock="gtk-cancel" response="GTK_RESPONSE_CANCEL"/>
-    <button _label="_Expunge" response="GTK_RESPONSE_YES"/>
+    <button _label="_Expunge" response="GTK_RESPONSE_YES" destructive="true"/>
   </error>
 
   <error id="ask-empty-trash" type="warning" default="GTK_RESPONSE_CANCEL">
     <_primary>Are you sure you want to permanently remove all the deleted messages in all folders?</_primary>
     <_secondary xml:space="preserve">If you continue, you will not be able to recover these messages.</_secondary>
     <button stock="gtk-cancel" response="GTK_RESPONSE_CANCEL"/>
-    <button _label="_Empty Trash" response="GTK_RESPONSE_YES"/>
+    <button _label="_Empty Trash" response="GTK_RESPONSE_YES" destructive="true"/>
   </error>
 
   <error id="ask-open-many" type="warning" default="GTK_RESPONSE_CANCEL">
@@ -211,7 +211,7 @@ The reported error was “{0}”.</_secondary>
     <_primary>Really delete folder “{0}” and all of its subfolders?</_primary>
     <_secondary xml:space="preserve">If you delete the folder, all of its contents and its subfolders’ contents will be deleted permanently.</_secondary>
     <button _label="Do _Not Delete" response="GTK_RESPONSE_CANCEL"/>
-    <button stock="gtk-delete" response="GTK_RESPONSE_OK"/>
+    <button stock="gtk-delete" response="GTK_RESPONSE_OK" destructive="true"/>
   </error>
 
   <error id="ask-unsubscribe-folder" type="question" default="GTK_RESPONSE_NO">
@@ -224,27 +224,27 @@ The reported error was “{0}”.</_secondary>
   <error id="ask-delete-vfolder" type="question" default="GTK_RESPONSE_CANCEL">
     <_primary>Really delete folder “{0}” and all of its subfolders?</_primary>
     <button _label="Do _Not Delete" response="GTK_RESPONSE_CANCEL"/>
-    <button stock="gtk-delete" response="GTK_RESPONSE_OK"/>
+    <button stock="gtk-delete" response="GTK_RESPONSE_OK" destructive="true"/>
   </error>
 
   <error id="ask-delete-folder-nochild" type="question" default="GTK_RESPONSE_CANCEL">
     <_primary>Really delete folder “{0}”?</_primary>
     <_secondary xml:space="preserve">If you delete the folder, all of its contents will be deleted permanently.</_secondary>
     <button _label="Do _Not Delete" response="GTK_RESPONSE_CANCEL"/>
-    <button stock="gtk-delete" response="GTK_RESPONSE_OK"/>
+    <button stock="gtk-delete" response="GTK_RESPONSE_OK" destructive="true"/>
   </error>
 
   <error id="ask-delete-vfolder-nochild" type="question" default="GTK_RESPONSE_CANCEL">
     <_primary>Really delete folder “{0}”?</_primary>
     <button _label="Do _Not Delete" response="GTK_RESPONSE_CANCEL"/>
-    <button stock="gtk-delete" response="GTK_RESPONSE_OK"/>
+    <button stock="gtk-delete" response="GTK_RESPONSE_OK" destructive="true"/>
   </error>
 
   <error id="ask-delete-vfolder-msg" type="warning" default="GTK_RESPONSE_CANCEL">
     <_primary>These messages are not copies.</_primary>
     <_secondary xml:space="preserve">Messages shown in Search Folders are not copies. Deleting them from a Search Folder will delete the actual messages from the folder or folders in which they physically reside. Do you really want to delete these messages?</_secondary>
     <button _label="Do _Not Delete" response="GTK_RESPONSE_CANCEL"/>
-    <button stock="gtk-delete" response="GTK_RESPONSE_OK"/>
+    <button stock="gtk-delete" response="GTK_RESPONSE_OK" destructive="true"/>
   </error>
 
   <error id="no-rename-folder-exists" type="error">
@@ -296,7 +296,7 @@ The reported error was “{0}”.</_secondary>
     <_primary>Are you sure you want to delete account “{0}”?</_primary>
     <_secondary xml:space="preserve">If you proceed, the account information will be deleted permanently.</_secondary>
     <button _label="Do _Not Delete" response="GTK_RESPONSE_NO"/>
-    <button stock="gtk-delete" response="GTK_RESPONSE_YES"/>
+    <button stock="gtk-delete" response="GTK_RESPONSE_YES" destructive="true"/>
   </error>
 
   <error id="ask-delete-account-with-proxies" type="question" default="GTK_RESPONSE_NO">
@@ -304,7 +304,7 @@ The reported error was “{0}”.</_secondary>
     <_secondary xml:space="preserve">If you proceed, the account information and
 all proxy information will be deleted permanently.</_secondary>
     <button _label="Do _Not Delete" response="GTK_RESPONSE_NO"/>
-    <button stock="gtk-delete" response="GTK_RESPONSE_YES"/>
+    <button stock="gtk-delete" response="GTK_RESPONSE_YES" destructive="true"/>
   </error>
 
   <error id="ask-delete-proxy-accounts" type="question" default="GTK_RESPONSE_NO">
@@ -473,7 +473,7 @@ An mbox account will be created to preserve the old mbox folders. You can delete
     <_primary>Remove duplicate messages?</_primary>
     <secondary>{0}</secondary>
     <button stock="gtk-cancel" response="GTK_RESPONSE_CANCEL"/>
-    <button stock="gtk-delete" response="GTK_RESPONSE_YES"/>
+    <button stock="gtk-delete" response="GTK_RESPONSE_YES" destructive="true"/>
   </error>
 
   <error id="info-no-remove-duplicates" type="info" default="GTK_RESPONSE_OK">
@@ -618,7 +618,7 @@ in the folder will be available in offline mode.</_secondary>
   <error id="ask-mail-note-changed" type="question" default="GTK_RESPONSE_YES">
     <_primary>Do you wish to save your changes?</_primary>
     <_secondary xml:space="preserve">This message note has been changed, but has not been saved.</_secondary>
-    <button _label="_Discard changes" response="GTK_RESPONSE_NO"/>
+    <button _label="_Discard changes" response="GTK_RESPONSE_NO" destructive="true"/>
     <button stock="gtk-cancel" response="GTK_RESPONSE_CANCEL"/>
     <button stock="gtk-save" response="GTK_RESPONSE_YES"/>
   </error>

@@ -4,7 +4,7 @@
   <error id="ask-signature-changed" type="question" default="GTK_RESPONSE_YES">
     <_primary>Do you wish to save your changes?</_primary>
     <_secondary xml:space="preserve">This signature has been changed, but has not been saved.</_secondary>
-    <button _label="_Discard changes" response="GTK_RESPONSE_NO"/>
+    <button _label="_Discard changes" response="GTK_RESPONSE_NO" destructive="true"/>
     <button stock="gtk-cancel" response="GTK_RESPONSE_CANCEL"/>
     <button stock="gtk-save" response="GTK_RESPONSE_YES"/>
   </error>

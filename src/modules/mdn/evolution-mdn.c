@@ -555,7 +555,7 @@ mdn_message_loaded_cb (EMailReader *reader,
 			(GConnectFlags) 0);
 
 		alert = e_alert_new ("mdn:notify-sender", NULL);
-		e_alert_add_action (alert, action, GTK_RESPONSE_APPLY);
+		e_alert_add_action (alert, action, GTK_RESPONSE_APPLY, FALSE);
 		mdn_submit_alert (mdn, reader, alert);
 		g_object_unref (alert);
 

@@ -44,6 +44,6 @@
  <error id="remove-rule-question" type="question" default="GTK_RESPONSE_YES">
   <_primary>Are you sure you want to remove rule “{0}”?</_primary>
   <button _label="_Keep" response="GTK_RESPONSE_CANCEL"/>
-  <button _label="_Remove" response="GTK_RESPONSE_YES"/>
+  <button _label="_Remove" response="GTK_RESPONSE_YES" destructive="true"/>
  </error>
 </error-list>

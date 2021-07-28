@@ -160,7 +160,7 @@ alert_dialog_constructed (GObject *object)
 		 * thus the dialog can be closed. */
 		action = gtk_action_new (
 			"alert-response-0", _("_Dismiss"), NULL, NULL);
-		e_alert_add_action (alert, action, GTK_RESPONSE_CLOSE);
+		e_alert_add_action (alert, action, GTK_RESPONSE_CLOSE, FALSE);
 		g_object_unref (action);
 
 		link = e_alert_peek_actions (alert);
@@ -183,6 +183,8 @@ alert_dialog_constructed (GObject *object)
 		gtk_widget_set_can_default (button, TRUE);
 		gtk_activatable_set_related_action (GTK_ACTIVATABLE (button), action);
 		gtk_box_pack_end (GTK_BOX (action_area), button, FALSE, FALSE, 0);
+
+		e_alert_update_destructive_action_style (action, button);
 
 		/* This is set in e_alert_add_action(). */
 		data = g_object_get_data (G_OBJECT (action), "e-alert-response-id");

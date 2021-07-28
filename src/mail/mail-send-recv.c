@@ -608,12 +608,12 @@ report_error_to_ui_cb (gpointer user_data)
 
 			if (data->send_failed_uids->len == 1) {
 				action = gtk_action_new ("send-failed-edit-action", _("Edit Message"), NULL, NULL);
-				e_alert_add_action (alert, action, GTK_RESPONSE_APPLY);
+				e_alert_add_action (alert, action, GTK_RESPONSE_APPLY, FALSE);
 				g_object_unref (action);
 			}
 
 			action = gtk_action_new ("send-failed-outbox-action", _("Open Outbox Folder"), NULL, NULL);
-			e_alert_add_action (alert, action, GTK_RESPONSE_REJECT);
+			e_alert_add_action (alert, action, GTK_RESPONSE_REJECT, FALSE);
 			g_object_unref (action);
 
 			g_signal_connect (alert, "response",

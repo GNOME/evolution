@@ -140,7 +140,7 @@ offline_alert_window_added_cb (GtkApplication *application,
 	else
 		alert_id = "offline-alert:no-network";
 	extension->alert = e_alert_new (alert_id, NULL);
-	e_alert_add_action (extension->alert, action, GTK_RESPONSE_NONE);
+	e_alert_add_action (extension->alert, action, GTK_RESPONSE_NONE, FALSE);
 
 	g_object_add_weak_pointer (
 		G_OBJECT (extension->alert), &extension->alert);

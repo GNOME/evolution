@@ -65,6 +65,7 @@ struct _EAlertButton {
 	const gchar *stock_id;
 	const gchar *label;
 	gint response_id;
+	gboolean destructive;
 };
 
 static GHashTable *alert_table;
@@ -283,6 +284,11 @@ e_alert_load (const gchar *path)
 							map_response (tmp);
 						xmlFree (tmp);
 					}
+					tmp = (gchar *) xmlGetProp (scan, (xmlChar *) "destructive");
+					if (g_strcmp0 (tmp, "1") == 0 || g_strcmp0 (tmp, "true") == 0)
+						button->destructive = TRUE;
+					if (tmp)
+						xmlFree (tmp);
 
 					if (stock_id == NULL && label == NULL) {
 						g_warning (
@@ -616,14 +622,14 @@ alert_constructed (GObject *object)
 			action = gtk_action_new (
 				action_name, NULL, NULL, button->stock_id);
 			e_alert_add_action (
-				alert, action, button->response_id);
+				alert, action, button->response_id, button->destructive);
 			g_object_unref (action);
 
 		} else if (button->label != NULL) {
 			action = gtk_action_new (
 				action_name, button->label, NULL, NULL);
 			e_alert_add_action (
-				alert, action, button->response_id);
+				alert, action, button->response_id, button->destructive);
 			g_object_unref (action);
 		}
 
@@ -935,7 +941,8 @@ e_alert_get_icon_name (EAlert *alert)
 void
 e_alert_add_action (EAlert *alert,
                     GtkAction *action,
-                    gint response_id)
+                    gint response_id,
+		    gboolean is_destructive)
 {
 	g_return_if_fail (E_IS_ALERT (alert));
 	g_return_if_fail (GTK_IS_ACTION (action));
@@ -943,6 +950,9 @@ e_alert_add_action (EAlert *alert,
 	g_object_set_data (
 		G_OBJECT (action), "e-alert-response-id",
 		GINT_TO_POINTER (response_id));
+	g_object_set_data (
+		G_OBJECT (action), "e-alert-is-destructive",
+		GINT_TO_POINTER (is_destructive ? 1 : 0));
 
 	g_signal_connect_swapped (
 		action, "activate",
@@ -1054,4 +1064,21 @@ e_alert_submit_valist (EAlertSink *alert_sink,
 	alert = e_alert_new_valist (tag, va);
 	e_alert_sink_submit_alert (alert_sink, alert);
 	g_object_unref (alert);
+}
+
+void
+e_alert_update_destructive_action_style (GtkAction *for_action,
+					 GtkWidget *button)
+{
+	GtkStyleContext *style_context;
+
+	g_return_if_fail (GTK_IS_ACTION (for_action));
+	g_return_if_fail (GTK_IS_WIDGET (button));
+
+	style_context = gtk_widget_get_style_context (button);
+
+	if (GPOINTER_TO_INT (g_object_get_data (G_OBJECT (for_action), "e-alert-is-destructive")) != 0)
+		gtk_style_context_add_class (style_context, "destructive-action");
+	else
+		gtk_style_context_remove_class (style_context, "destructive-action");
 }

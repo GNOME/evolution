@@ -184,6 +184,8 @@ alert_bar_show_alert (EAlertBar *alert_bar)
 		gtk_activatable_set_related_action (GTK_ACTIVATABLE (widget), action);
 		gtk_box_pack_end (GTK_BOX (action_area), widget, FALSE, FALSE, 0);
 
+		e_alert_update_destructive_action_style (action, widget);
+
 		link = g_list_next (link);
 	}
 

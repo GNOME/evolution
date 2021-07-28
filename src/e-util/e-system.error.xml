@@ -103,7 +103,7 @@
    <_primary>Are you sure you want to delete remote collection “{0}”?</_primary>
    <_secondary>This will permanently remove the collection “{0}” from the server. Are you sure you want to proceed?</_secondary>
    <button _label="Do _Not Delete" response="GTK_RESPONSE_CANCEL"/>
-   <button _label="_Delete From Server" response="GTK_RESPONSE_YES"/>
+   <button _label="_Delete From Server" response="GTK_RESPONSE_YES" destructive="true"/>
  </error>
 
   <error id="refresh-backend-failed" type="error">
