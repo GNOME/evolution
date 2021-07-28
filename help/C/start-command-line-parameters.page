@@ -16,7 +16,7 @@
     <desc>How to make Evolution show a specific window or folder when starting the application.</desc>
   </info>
 
-<!-- TODO: Update page once https://bugzilla.gnome.org/show_bug.cgi?id=626635 has more info -->
+<!-- TODO: Update page with https://gitlab.gnome.org/GNOME/evolution/-/issues/1176#note_946174 -->
 
   <title>Define what to display when starting <app>Evolution</app></title>
 

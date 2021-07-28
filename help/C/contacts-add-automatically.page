@@ -41,7 +41,5 @@
 
   <p>From now on, contacts will be automatically created for senders of
   received mail when you reply to that mail.</p>
-  <!-- Location in Preferences is correct only since 3.1.5, as
-     https://bugzilla.gnome.org/show_bug.cgi?id=655492 was fixed -->
 
 </page>

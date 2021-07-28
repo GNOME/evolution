@@ -101,9 +101,6 @@
   <gui>Publishing Information</gui>
   <gui>Default Free/Busy Server</gui></guiseq>.</p>
 
-  <!-- This is the location since 3.1.5, see bug
-       https://bugzilla.gnome.org/show_bug.cgi?id=655666 -->
-
 <section id="no-groupware">
   <title>Accessing Free/Busy Data Without a Groupware Server</title>
 

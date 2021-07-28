@@ -49,7 +49,6 @@
  </steps>
 </section>
 
-<!-- as per https://bugzilla.gnome.org/show_bug.cgi?id=641845 - available since 3.2-->
 <section id="reply-variables">
 <title>Using Elements From a Message in a Template When Replying</title>
 <p>Templates can contain more than just the predefined set of <link xref="#configure">key-value pairs</link>. You can also get any message header values from the email that you are applying the template on, plus the complete message body.</p>

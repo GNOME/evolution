@@ -19,8 +19,6 @@
 
   <title>Mozilla</title>
 <!-- <guiseq><gui>File</gui><gui>Import</gui><gui>Import data and settings from older programs</gui></guiseq> does NOT recognize Outlook and Thunderbird automatically in 3.8." -->
-<!-- TODO: Check https://bugzilla.gnome.org/show_bug.cgi?id=214858 occasionally (Thunderbird automatic mail import) -->
-<!-- TODO: Check https://bugzilla.gnome.org/show_bug.cgi?id=559266 occasionally (Thunderbird mailfilter importer) -->
 
 <!-- TODO: Fix this page properly and find time to try: -->
 <note style="warning"><p>The instructions below might be outdated and not work anymore.</p><p>Follow <link href="https://mail.gnome.org/archives/evolution-list/2019-February/msg00055.html">this mailing list posting</link> for an alternative method that you could try.</p></note>

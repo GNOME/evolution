@@ -32,7 +32,6 @@
 
 <p>If there are multiple matches for a contact, the first one is always used.</p>
 
-<!-- From https://bugzilla.gnome.org/show_bug.cgi?id=698435 : -->
 <note style="tip"><p>You can also embed your own image in messages that you send under <guiseq><gui>Edit</gui><gui>Plugins</gui><gui>Face</gui></guiseq>. The image has to have a size of 48 x 48 pixels and be in PNG file format.</p>
 <p>If a plugin is not available under <guiseq><gui>Edit</gui><gui>Plugins</gui></guiseq>, then please ask in a support forum of your distribution. Your distribution might have decided to disable some plugins or to ship plugins in a separate package.</p></note>
  

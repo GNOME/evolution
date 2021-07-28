@@ -34,9 +34,6 @@
   <gui>Publishing Information</gui>
   <gui>Locations</gui><gui style="button">Add</gui></guiseq>.</p>
 
-  <!-- This is the location since 3.1.5, see bug
-     https://bugzilla.gnome.org/show_bug.cgi?id=655666 -->
-
   <p>You can specify the online location, the frequency of publishing, which
   calendar(s) to publish, and authentication information for uploading.</p>
 
