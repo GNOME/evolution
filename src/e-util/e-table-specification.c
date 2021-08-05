@@ -683,3 +683,40 @@ e_table_specification_get_column_index (ETableSpecification *specification,
 	return column_index;
 }
 
+/**
+ * e_table_specification_get_column_by_model_col:
+ * @specification: an #ETableSpecification
+ * @model_col: a model column index to get
+ *
+ * Get an #ETableColumnSpecification for the given @model_col.
+ *
+ * Returns: (transfer none) (nullable): an #ETableColumnSpecification for the given @model_col
+ *    or %NULL, when not found.
+ *
+ * Since: 3.42
+ **/
+ETableColumnSpecification *
+e_table_specification_get_column_by_model_col (ETableSpecification *specification,
+					       gint model_col)
+{
+	GPtrArray *columns;
+	ETableColumnSpecification *col_spec = NULL;
+	guint ii;
+
+	g_return_val_if_fail (E_IS_TABLE_SPECIFICATION (specification), NULL);
+
+	columns = e_table_specification_ref_columns (specification);
+
+	for (ii = 0; ii < columns->len; ii++) {
+		ETableColumnSpecification *adept = columns->pdata[ii];
+
+		if (adept && adept->model_col == model_col) {
+			col_spec = adept;
+			break;
+		}
+	}
+
+	g_ptr_array_unref (columns);
+
+	return col_spec;
+}

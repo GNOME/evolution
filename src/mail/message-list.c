@@ -137,6 +137,10 @@ struct _MessageListPrivate {
 	guint update_actions_idle_id;
 
 	volatile gint setting_up_search_folder;
+
+	GSettings *eds_settings; /* references org.gnome.evolution-data-server schema */
+	gchar *user_headers[CAMEL_UTILS_MAX_USER_HEADERS + 1];
+	guint user_headers_count; /* how many are set */
 };
 
 /* XXX Plain GNode suffers from O(N) tail insertions, and that won't
@@ -2147,6 +2151,17 @@ ml_tree_value_at_ex (ETreeModel *etm,
 	case COL_UID: {
 		return (gpointer) camel_pstring_strdup (camel_message_info_get_uid (msg_info));
 	}
+	case COL_USER_HEADER_1:
+	case COL_USER_HEADER_2:
+	case COL_USER_HEADER_3: {
+		const gchar *name = NULL;
+		guint index = col - COL_USER_HEADER_1;
+		if (message_list->priv->user_headers && index < message_list->priv->user_headers_count)
+			name = message_list->priv->user_headers[index];
+		if (name && *name)
+			return (gpointer) camel_message_info_dup_user_header (msg_info, name);
+		return NULL;
+	}
 	default:
 		g_warning ("%s: This shouldn't be reached (col:%d)", G_STRFUNC, col);
 		return NULL;
@@ -3092,6 +3107,117 @@ message_list_localized_re_separators_changed_cb (GSettings *settings,
 }
 
 static void
+message_list_user_headers_changed_cb (GSettings *settings,
+				      const gchar *key,
+				      gpointer user_data)
+{
+	/* Do it this way, to reuse the localized strings from the message-list.etspec */
+	const gchar *default_titles[] = {
+		N_("User Header 1"),
+		N_("User Header 2"),
+		N_("User Header 3")
+	};
+	MessageList *message_list = user_data;
+	ETableSpecification *spec;
+	GnomeCanvasItem *header_item;
+	ETableHeader *header;
+	gchar **user_headers;
+	gboolean changed = FALSE;
+	guint ii, jj;
+
+	g_return_if_fail (IS_MESSAGE_LIST (message_list));
+	#ifdef ENABLE_MAINTAINER_MODE
+	g_warn_if_fail (G_N_ELEMENTS (default_titles) == CAMEL_UTILS_MAX_USER_HEADERS);
+	#endif
+
+	spec = e_tree_get_spec (E_TREE (message_list));
+	header_item = e_tree_get_header_item (E_TREE (message_list));
+	if (header_item)
+		g_object_get (header_item, "full-header", &header, NULL);
+	else
+		header = NULL;
+
+	user_headers = g_settings_get_strv (settings, "camel-message-info-user-headers");
+
+	for (ii = 0, jj = 0; user_headers && user_headers[ii] && jj < CAMEL_UTILS_MAX_USER_HEADERS; ii++) {
+		const gchar *header_name = NULL;
+		gchar *display_name = NULL;
+
+		camel_util_decode_user_header_setting (user_headers[ii], &display_name, &header_name);
+
+		if (header_name && *header_name) {
+			ETableColumnSpecification *col_spec;
+
+			if (g_strcmp0 (message_list->priv->user_headers[jj], header_name) != 0) {
+				g_free (message_list->priv->user_headers[jj]);
+				message_list->priv->user_headers[jj] = g_strdup (header_name);
+				changed = TRUE;
+			}
+
+			col_spec = spec ? e_table_specification_get_column_by_model_col (spec, COL_USER_HEADER_1 + jj) : NULL;
+			if (col_spec && g_strcmp0 (col_spec->title, display_name && *display_name ? display_name : header_name) != 0) {
+				ETableCol *col;
+
+				changed = TRUE;
+				g_free (col_spec->title);
+				if (display_name && *display_name) {
+					col_spec->title = display_name;
+					display_name = NULL;
+				} else {
+					col_spec->title = g_strdup (header_name);
+				}
+
+				col = header ? e_table_header_get_column_by_col_idx (header, COL_USER_HEADER_1 + jj) : NULL;
+				if (col && g_strcmp0 (col->text, col_spec->title) != 0) {
+					g_free (col->text);
+					col->text = g_strdup (col_spec->title);
+				}
+			}
+
+			jj++;
+		}
+
+		g_free (display_name);
+	}
+
+	message_list->priv->user_headers_count = jj;
+
+	for (ii = jj; ii < CAMEL_UTILS_MAX_USER_HEADERS; ii++) {
+		if (message_list->priv->user_headers[ii]) {
+			ETableColumnSpecification *col_spec;
+			ETableCol *col;
+			const gchar *title;
+
+			title = _(default_titles[ii]);
+
+			col_spec = spec ? e_table_specification_get_column_by_model_col (spec, COL_USER_HEADER_1 + jj) : NULL;
+			if (col_spec && g_strcmp0 (col_spec->title, title) != 0) {
+				g_free (col_spec->title);
+				col_spec->title = g_strdup (title);
+			}
+
+			col = header ? e_table_header_get_column_by_col_idx (header, COL_USER_HEADER_1 + ii) : NULL;
+			if (col && g_strcmp0 (col->text, title) != 0) {
+				g_free (col->text);
+				col->text = g_strdup (title);
+			}
+
+			changed = TRUE;
+		}
+
+		g_free (message_list->priv->user_headers[ii]);
+		message_list->priv->user_headers[ii] = NULL;
+	}
+
+	message_list->priv->user_headers[jj] = NULL;
+
+	g_strfreev (user_headers);
+
+	if (changed)
+		gtk_widget_queue_draw (GTK_WIDGET (message_list));
+}
+
+static void
 message_list_set_session (MessageList *message_list,
                           EMailSession *session)
 {
@@ -3300,10 +3426,16 @@ message_list_dispose (GObject *object)
 			G_CALLBACK (message_list_localized_re_separators_changed_cb), message_list);
 	}
 
+	if (priv->eds_settings) {
+		g_signal_handlers_disconnect_by_func (priv->eds_settings,
+			G_CALLBACK (message_list_user_headers_changed_cb), message_list);
+	}
+
 	g_clear_object (&priv->session);
 	g_clear_object (&priv->folder);
 	g_clear_object (&priv->invisible);
 	g_clear_object (&priv->mail_settings);
+	g_clear_object (&priv->eds_settings);
 
 	g_clear_object (&message_list->extras);
 
@@ -3330,6 +3462,7 @@ static void
 message_list_finalize (GObject *object)
 {
 	MessageList *message_list = MESSAGE_LIST (object);
+	guint ii;
 
 	g_hash_table_destroy (message_list->normalised_hash);
 
@@ -3354,6 +3487,11 @@ message_list_finalize (GObject *object)
 
 	g_clear_pointer (&message_list->priv->new_mail_bg_color, gdk_rgba_free);
 	g_clear_pointer (&message_list->priv->new_mail_fg_color, g_free);
+
+	for (ii = 0; ii < CAMEL_UTILS_MAX_USER_HEADERS; ii++) {
+		g_free (message_list->priv->user_headers[ii]);
+		message_list->priv->user_headers[ii] = NULL;
+	}
 
 	/* Chain up to parent's finalize() method. */
 	G_OBJECT_CLASS (message_list_parent_class)->finalize (object);
@@ -3623,6 +3761,9 @@ message_list_duplicate_value (ETreeModel *tree_model,
 		case COL_MIXED_RECIPIENTS:
 		case COL_LOCATION:
 		case COL_LABELS:
+		case COL_USER_HEADER_1:
+		case COL_USER_HEADER_2:
+		case COL_USER_HEADER_3:
 			return g_strdup (value);
 
 		case COL_SENT:
@@ -3688,6 +3829,9 @@ message_list_free_value (ETreeModel *tree_model,
 		case COL_SENT:
 		case COL_RECEIVED:
 		case COL_FOLLOWUP_DUE_BY:
+		case COL_USER_HEADER_1:
+		case COL_USER_HEADER_2:
+		case COL_USER_HEADER_3:
 			g_free (value);
 			break;
 
@@ -3720,6 +3864,9 @@ message_list_initialize_value (ETreeModel *tree_model,
 		case COL_FOLLOWUP_FLAG_STATUS:
 		case COL_FOLLOWUP_DUE_BY:
 		case COL_UID:
+		case COL_USER_HEADER_1:
+		case COL_USER_HEADER_2:
+		case COL_USER_HEADER_3:
 			return NULL;
 
 		case COL_LOCATION:
@@ -3772,6 +3919,9 @@ message_list_value_is_empty (ETreeModel *tree_model,
 		case COL_MIXED_RECIPIENTS:
 		case COL_LABELS:
 		case COL_UID:
+		case COL_USER_HEADER_1:
+		case COL_USER_HEADER_2:
+		case COL_USER_HEADER_3:
 			return !(value && *(gchar *) value);
 
 		default:
@@ -3831,6 +3981,9 @@ message_list_value_to_string (ETreeModel *tree_model,
 		case COL_MIXED_RECIPIENTS:
 		case COL_LABELS:
 		case COL_UID:
+		case COL_USER_HEADER_1:
+		case COL_USER_HEADER_2:
+		case COL_USER_HEADER_3:
 			return g_strdup (value);
 
 		default:
@@ -4129,6 +4282,7 @@ message_list_init (MessageList *message_list)
 	message_list->priv->paste_target_list = target_list;
 
 	message_list->priv->mail_settings = e_util_ref_settings ("org.gnome.evolution.mail");
+	message_list->priv->eds_settings = e_util_ref_settings ("org.gnome.evolution-data-server");
 	message_list->priv->re_prefixes = NULL;
 	message_list->priv->re_separators = NULL;
 	message_list->priv->group_by_threads = TRUE;
@@ -4143,6 +4297,9 @@ message_list_init (MessageList *message_list)
 
 	message_list_localized_re_changed_cb (message_list->priv->mail_settings, NULL, message_list);
 	message_list_localized_re_separators_changed_cb (message_list->priv->mail_settings, NULL, message_list);
+
+	g_signal_connect (message_list->priv->eds_settings, "changed::camel-message-info-user-headers",
+		G_CALLBACK (message_list_user_headers_changed_cb), message_list);
 }
 
 static void
@@ -4243,6 +4400,8 @@ message_list_construct (MessageList *message_list)
 
 	g_signal_connect (message_list, "style-updated",
 		G_CALLBACK (ml_style_updated_cb), NULL);
+
+	message_list_user_headers_changed_cb (message_list->priv->eds_settings, NULL, message_list);
 }
 
 /**

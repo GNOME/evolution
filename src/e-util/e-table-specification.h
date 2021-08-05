@@ -90,7 +90,10 @@ GPtrArray *	e_table_specification_ref_columns
 gint		e_table_specification_get_column_index
 						(ETableSpecification *specification,
 						 ETableColumnSpecification *column_spec);
-
+ETableColumnSpecification *
+		e_table_specification_get_column_by_model_col
+						(ETableSpecification *specification,
+						 gint model_col);
 G_END_DECLS
 
 #endif /* E_TABLE_SPECIFICATION_H */

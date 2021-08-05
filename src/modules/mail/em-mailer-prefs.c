@@ -45,10 +45,21 @@ enum {
 	HEADER_LIST_N_COLUMNS
 };
 
-static GType col_types[] = {
+static GType header_list_col_types[] = {
 	G_TYPE_STRING,
 	G_TYPE_BOOLEAN,
 	G_TYPE_BOOLEAN,
+	G_TYPE_STRING
+};
+
+enum {
+	USER_HEADERS_LIST_HEADER_COLUMN,
+	USER_HEADERS_LIST_TITLE_COLUMN,
+	USER_HEADERS_LIST_N_COLUMNS
+};
+
+static GType user_headers_list_col_types[] = {
+	G_TYPE_STRING,
 	G_TYPE_STRING
 };
 
@@ -93,6 +104,7 @@ enum {
 struct _EMMailerPrefsPrivate {
 	GtkBuilder *builder;
 	GSettings *settings;
+	GSettings *eds_settings;
 	EMailBackend *mail_backend;
 
 	/* General tab */
@@ -123,6 +135,15 @@ struct _EMMailerPrefsPrivate {
 	GtkListStore *header_list_store;
 	gulong header_list_store_row_changed_id;
 	guint save_headers_id;
+
+	GtkButton *user_headers_add;
+	GtkButton *user_headers_edit;
+	GtkButton *user_headers_remove;
+	GtkTreeView *user_headers_list;
+	GtkListStore *user_headers_list_store;
+	gulong user_headers_list_store_row_changed_id;
+	gulong user_headers_settings_changed_id;
+	guint user_headers_save_id;
 
 	GtkToggleButton *junk_header_check;
 	GtkTreeView *junk_header_tree;
@@ -158,6 +179,13 @@ em_mailer_prefs_dispose (GObject *object)
 		prefs->priv->save_headers_id = 0;
 	}
 
+	if (prefs->priv->user_headers_save_id) {
+		g_source_remove (prefs->priv->user_headers_save_id);
+		prefs->priv->user_headers_save_id = 0;
+	}
+
+	g_signal_handlers_disconnect_by_data (prefs->priv->eds_settings, prefs);
+
 	/* Chain up to parent's method. */
 	G_OBJECT_CLASS (em_mailer_prefs_parent_class)->dispose (object);
 }
@@ -169,6 +197,7 @@ em_mailer_prefs_finalize (GObject *object)
 
 	g_object_unref (prefs->priv->builder);
 	g_object_unref (prefs->priv->settings);
+	g_object_unref (prefs->priv->eds_settings);
 
 	/* Chain up to parent's finalize() method. */
 	G_OBJECT_CLASS (em_mailer_prefs_parent_class)->finalize (object);
@@ -191,6 +220,7 @@ em_mailer_prefs_init (EMMailerPrefs *preferences)
 {
 	preferences->priv = G_TYPE_INSTANCE_GET_PRIVATE (preferences, EM_TYPE_MAILER_PREFS, EMMailerPrefsPrivate);
 	preferences->priv->settings = e_util_ref_settings ("org.gnome.evolution.mail");
+	preferences->priv->eds_settings = e_util_ref_settings ("org.gnome.evolution-data-server");
 
 	gtk_orientable_set_orientation (GTK_ORIENTABLE (preferences), GTK_ORIENTATION_VERTICAL);
 }
@@ -1229,6 +1259,290 @@ em_mailer_prefs_window_notify_visible_cb (EPreferencesWindow *preferences,
 }
 
 static void
+emmp_user_headers_update_buttons (EMMailerPrefs *prefs)
+{
+	GtkTreeSelection *selection;
+	GtkTreeModel *model;
+	GtkTreeIter iter;
+	gboolean has_selection;
+
+	model = GTK_TREE_MODEL (prefs->priv->user_headers_list_store);
+	selection = gtk_tree_view_get_selection (prefs->priv->user_headers_list);
+	has_selection = gtk_tree_selection_get_selected (selection, NULL, &iter);
+
+	gtk_widget_set_sensitive (GTK_WIDGET (prefs->priv->user_headers_add), gtk_tree_model_iter_n_children (model, NULL) < CAMEL_UTILS_MAX_USER_HEADERS);
+	gtk_widget_set_sensitive (GTK_WIDGET (prefs->priv->user_headers_edit), has_selection);
+	gtk_widget_set_sensitive (GTK_WIDGET (prefs->priv->user_headers_remove), has_selection);
+}
+
+static void
+emmp_user_headers_save (EMMailerPrefs *prefs)
+{
+	GtkTreeModel *model;
+	GtkTreeIter iter;
+	GPtrArray *value;
+	gboolean valid;
+
+	value = g_ptr_array_new_with_free_func (g_free);
+
+	model = GTK_TREE_MODEL (prefs->priv->user_headers_list_store);
+	valid = gtk_tree_model_get_iter_first (model, &iter);
+
+	while (valid) {
+		gchar *header = NULL, *title = NULL;
+
+		gtk_tree_model_get (model, &iter,
+			USER_HEADERS_LIST_HEADER_COLUMN, &header,
+			USER_HEADERS_LIST_TITLE_COLUMN, &title,
+			-1);
+
+		if (header && *header)
+			g_ptr_array_add (value, camel_util_encode_user_header_setting (title, header));
+
+		g_free (header);
+		g_free (title);
+
+		valid = gtk_tree_model_iter_next (model, &iter);
+	}
+
+	/* NULL-terminated */
+	g_ptr_array_add (value, NULL);
+
+	g_signal_handler_block (prefs->priv->eds_settings, prefs->priv->user_headers_settings_changed_id);
+	g_settings_set_strv (prefs->priv->eds_settings, "camel-message-info-user-headers", (const gchar * const *) value->pdata);
+	g_signal_handler_unblock (prefs->priv->eds_settings, prefs->priv->user_headers_settings_changed_id);
+
+	g_ptr_array_unref (value);
+}
+
+static gboolean
+emmp_user_headers_save_idle_cb (gpointer user_data)
+{
+	EMMailerPrefs *prefs = user_data;
+
+	g_return_val_if_fail (prefs != NULL, FALSE);
+
+	if (!g_source_is_destroyed (g_main_current_source ())) {
+		prefs->priv->user_headers_save_id = 0;
+		emmp_user_headers_save (prefs);
+	}
+
+	return FALSE;
+}
+
+static void
+emmp_user_headers_schedule_save (EMMailerPrefs *prefs)
+{
+	if (!prefs->priv->user_headers_save_id)
+		prefs->priv->user_headers_save_id = g_idle_add (emmp_user_headers_save_idle_cb, prefs);
+}
+
+static void
+emmp_user_headers_add_clicked_cb (GtkWidget *button,
+				  gpointer user_data)
+{
+	EMMailerPrefs *prefs = user_data;
+	GtkTreeModel *model;
+
+	model = GTK_TREE_MODEL (prefs->priv->user_headers_list_store);
+
+	if (gtk_tree_model_iter_n_children (model, NULL) < CAMEL_UTILS_MAX_USER_HEADERS) {
+		GtkTreeViewColumn *column;
+		GtkTreePath *path;
+		GtkTreeIter iter;
+
+		g_signal_handler_block (prefs->priv->user_headers_list_store, prefs->priv->user_headers_list_store_row_changed_id);
+
+		gtk_list_store_append (prefs->priv->user_headers_list_store, &iter);
+
+		path = gtk_tree_model_get_path (model, &iter);
+		column = gtk_tree_view_get_column (prefs->priv->user_headers_list, USER_HEADERS_LIST_HEADER_COLUMN);
+		gtk_tree_view_set_cursor (prefs->priv->user_headers_list, path, column, TRUE);
+		gtk_tree_view_row_activated (prefs->priv->user_headers_list, path, column);
+		gtk_tree_path_free (path);
+
+		g_signal_handler_unblock (prefs->priv->user_headers_list_store, prefs->priv->user_headers_list_store_row_changed_id);
+	}
+
+	emmp_user_headers_update_buttons (prefs);
+}
+
+static void
+emmp_user_headers_edit_clicked_cb (GtkWidget *button,
+				   gpointer user_data)
+{
+	EMMailerPrefs *prefs = user_data;
+	GtkTreeSelection *selection;
+	GtkTreeModel *model;
+	GtkTreePath *path;
+	GtkTreeIter iter;
+	GtkTreeViewColumn *focus_col;
+
+	selection = gtk_tree_view_get_selection (prefs->priv->user_headers_list);
+	if (!gtk_tree_selection_get_selected (selection, &model, &iter))
+		return;
+
+	focus_col = gtk_tree_view_get_column (prefs->priv->user_headers_list, USER_HEADERS_LIST_HEADER_COLUMN);
+	path = gtk_tree_model_get_path (model, &iter);
+
+	if (path) {
+		gtk_tree_view_set_cursor (prefs->priv->user_headers_list, path, focus_col, TRUE);
+		gtk_tree_path_free (path);
+	}
+
+	emmp_user_headers_update_buttons (prefs);
+}
+static void
+emmp_user_headers_remove_clicked_cb (GtkWidget *button,
+				     gpointer user_data)
+{
+	EMMailerPrefs *prefs = user_data;
+	GtkTreeSelection *selection;
+	GtkTreeModel *model;
+	GtkTreeIter iter, next_iter;
+	GtkTreePath *path;
+
+	selection = gtk_tree_view_get_selection (prefs->priv->user_headers_list);
+	if (!gtk_tree_selection_get_selected (selection, &model, &iter)) {
+		emmp_user_headers_update_buttons (prefs);
+		return;
+	}
+
+	next_iter = iter;
+	path = gtk_tree_model_get_path (model, &iter);
+	if (!gtk_tree_model_iter_next (model, &next_iter) &&
+	    !gtk_tree_path_prev (path)) {
+		gtk_tree_path_free (path);
+		path = NULL;
+	}
+
+	gtk_list_store_remove (prefs->priv->user_headers_list_store, &iter);
+
+	if (path) {
+		gtk_tree_selection_select_path (selection, path);
+		gtk_tree_path_free (path);
+	}
+
+	emmp_user_headers_update_buttons (prefs);
+	emmp_user_headers_schedule_save (prefs);
+}
+
+static void
+emmp_use_headers_cell_edited (EMMailerPrefs *prefs,
+			      gint cell,
+			      const gchar *path_string,
+			      gchar *new_text)
+{
+	GtkTreeIter iter;
+
+	if (!gtk_tree_model_get_iter_from_string (GTK_TREE_MODEL (prefs->priv->user_headers_list_store), &iter, path_string)) {
+		g_warn_if_reached ();
+		return;
+	}
+
+	if (new_text)
+		g_strstrip (new_text);
+
+	if (cell == USER_HEADERS_LIST_HEADER_COLUMN && (!new_text || !*new_text)) {
+		gtk_button_clicked (GTK_BUTTON (prefs->priv->user_headers_remove));
+	} else {
+		gtk_list_store_set (prefs->priv->user_headers_list_store, &iter,
+			cell, new_text,
+			-1);
+	}
+
+	emmp_user_headers_update_buttons (prefs);
+}
+
+static void
+emmp_use_headers_cell_header_edited_cb (GtkCellRendererText *cell,
+					const gchar *path_string,
+					gchar *new_text,
+					gpointer user_data)
+{
+	EMMailerPrefs *prefs = user_data;
+
+	emmp_use_headers_cell_edited (prefs, USER_HEADERS_LIST_HEADER_COLUMN, path_string, new_text);
+}
+
+static void
+emmp_use_headers_cell_title_edited_cb (GtkCellRendererText *cell,
+				       const gchar *path_string,
+				       gchar *new_text,
+				       gpointer user_data)
+{
+	EMMailerPrefs *prefs = user_data;
+
+	emmp_use_headers_cell_edited (prefs, USER_HEADERS_LIST_TITLE_COLUMN, path_string, new_text);
+}
+
+static void
+emmp_use_headers_cell_editing_canceled_cb (GtkCellRenderer *cell,
+					   gpointer user_data)
+{
+	EMMailerPrefs *prefs = user_data;
+	GtkTreeSelection *selection;
+	GtkTreeModel *model;
+	GtkTreeIter iter;
+	gchar *header = NULL;
+
+	selection = gtk_tree_view_get_selection (prefs->priv->user_headers_list);
+	if (!gtk_tree_selection_get_selected (selection, &model, &iter))
+		return;
+
+	gtk_tree_model_get (model, &iter,
+		USER_HEADERS_LIST_HEADER_COLUMN, &header,
+		-1);
+
+	if (!header || !*header)
+		emmp_user_headers_remove_clicked_cb (NULL, prefs);
+
+	g_free (header);
+}
+
+static void
+emmp_user_headers_changed_cb (GSettings *settings,
+			      const gchar *key,
+			      gpointer user_data)
+{
+	EMMailerPrefs *prefs = user_data;
+	gchar **strv;
+	guint ii, added;
+
+	g_signal_handler_block (prefs->priv->user_headers_list_store, prefs->priv->user_headers_list_store_row_changed_id);
+
+	gtk_list_store_clear (prefs->priv->user_headers_list_store);
+	strv = g_settings_get_strv (prefs->priv->eds_settings, "camel-message-info-user-headers");
+
+	for (ii = 0, added = 0; strv && strv[ii] && added < CAMEL_UTILS_MAX_USER_HEADERS; ii++) {
+		gchar *title = NULL;
+		const gchar *header = NULL;
+
+		camel_util_decode_user_header_setting (strv[ii], &title, &header);
+
+		if (header && *header) {
+			GtkTreeIter iter;
+
+			added++;
+
+			gtk_list_store_append (prefs->priv->user_headers_list_store, &iter);
+			gtk_list_store_set (prefs->priv->user_headers_list_store, &iter,
+				USER_HEADERS_LIST_HEADER_COLUMN, header,
+				USER_HEADERS_LIST_TITLE_COLUMN, title,
+				-1);
+		}
+
+		g_free (title);
+	}
+
+	g_strfreev (strv);
+
+	g_signal_handler_unblock (prefs->priv->user_headers_list_store, prefs->priv->user_headers_list_store_row_changed_id);
+
+	emmp_user_headers_update_buttons (prefs);
+}
+
+static void
 em_mailer_prefs_construct (EMMailerPrefs *prefs,
                            EMailSession *session,
                            EShell *shell,
@@ -1554,7 +1868,7 @@ em_mailer_prefs_construct (EMMailerPrefs *prefs,
 		prefs->priv->entry_header,
 		"activate", G_CALLBACK (emmp_header_add_header), prefs);
 	/* initialise the tree with appropriate headings */
-	prefs->priv->header_list_store = gtk_list_store_newv (HEADER_LIST_N_COLUMNS, col_types);
+	prefs->priv->header_list_store = gtk_list_store_newv (HEADER_LIST_N_COLUMNS, header_list_col_types);
 	prefs->priv->header_list_store_row_changed_id = g_signal_connect_swapped (
 		prefs->priv->header_list_store, "row-changed",
 		G_CALLBACK (emmp_shedule_save_headers), prefs);
@@ -1690,6 +2004,66 @@ em_mailer_prefs_construct (EMMailerPrefs *prefs,
 
 	g_hash_table_destroy (default_header_hash);
 	g_signal_handler_unblock (tree_model, prefs->priv->header_list_store_row_changed_id);
+
+	/* user headers */
+	prefs->priv->user_headers_add = GTK_BUTTON (e_builder_get_widget (prefs->priv->builder, "cmdUserHeadersAdd"));
+	prefs->priv->user_headers_edit = GTK_BUTTON (e_builder_get_widget (prefs->priv->builder, "cmdUserHeadersEdit"));
+	prefs->priv->user_headers_remove = GTK_BUTTON (e_builder_get_widget (prefs->priv->builder, "cmdUserHeadersRemove"));
+	prefs->priv->user_headers_list = GTK_TREE_VIEW (e_builder_get_widget (prefs->priv->builder, "treeUserHeaders"));
+
+	if (!g_settings_is_writable (prefs->priv->eds_settings, "camel-message-info-user-headers")) {
+		widget = e_builder_get_widget (prefs->priv->builder, "user-headers-alignment");
+		gtk_widget_set_sensitive (widget, FALSE);
+	}
+
+	gtk_tree_view_set_reorderable (prefs->priv->user_headers_list, TRUE);
+
+	selection = gtk_tree_view_get_selection (prefs->priv->user_headers_list);
+	g_signal_connect_swapped (
+		selection, "changed",
+		G_CALLBACK (emmp_user_headers_update_buttons), prefs);
+	prefs->priv->user_headers_list_store = gtk_list_store_newv (USER_HEADERS_LIST_N_COLUMNS, user_headers_list_col_types);
+	prefs->priv->user_headers_list_store_row_changed_id = g_signal_connect_swapped (
+		prefs->priv->user_headers_list_store, "row-changed",
+		G_CALLBACK (emmp_user_headers_schedule_save), prefs);
+	g_signal_connect (
+		prefs->priv->user_headers_add, "clicked",
+		G_CALLBACK (emmp_user_headers_add_clicked_cb), prefs);
+	g_signal_connect (
+		prefs->priv->user_headers_edit, "clicked",
+		G_CALLBACK (emmp_user_headers_edit_clicked_cb), prefs);
+	g_signal_connect (
+		prefs->priv->user_headers_remove, "clicked",
+		G_CALLBACK (emmp_user_headers_remove_clicked_cb), prefs);
+	gtk_tree_view_set_model (prefs->priv->user_headers_list, GTK_TREE_MODEL (prefs->priv->user_headers_list_store));
+
+	renderer = gtk_cell_renderer_text_new ();
+	g_object_set (renderer, "editable", TRUE, NULL);
+	gtk_tree_view_insert_column_with_attributes (
+		GTK_TREE_VIEW (prefs->priv->user_headers_list), -1,
+		_("Header"), renderer,
+		"text", USER_HEADERS_LIST_HEADER_COLUMN,
+		NULL);
+	g_signal_connect (renderer, "edited",
+		G_CALLBACK (emmp_use_headers_cell_header_edited_cb), prefs);
+	g_signal_connect (renderer, "editing-canceled",
+		G_CALLBACK (emmp_use_headers_cell_editing_canceled_cb), prefs);
+	renderer = gtk_cell_renderer_text_new ();
+	g_object_set (renderer, "editable", TRUE, NULL);
+	gtk_tree_view_insert_column_with_attributes (
+		GTK_TREE_VIEW (prefs->priv->user_headers_list), -1,
+		_("Title"), renderer,
+		"text", USER_HEADERS_LIST_TITLE_COLUMN,
+		NULL);
+	g_signal_connect (renderer, "edited",
+		G_CALLBACK (emmp_use_headers_cell_title_edited_cb), prefs);
+	g_signal_connect (renderer, "editing-canceled",
+		G_CALLBACK (emmp_use_headers_cell_editing_canceled_cb), prefs);
+
+	prefs->priv->user_headers_settings_changed_id = g_signal_connect (prefs->priv->eds_settings, "changed::camel-message-info-user-headers",
+		G_CALLBACK (emmp_user_headers_changed_cb), prefs);
+
+	emmp_user_headers_changed_cb (prefs->priv->eds_settings, NULL, prefs);
 
 	/* date/time format */
 	table = e_builder_get_widget (prefs->priv->builder, "datetime-format-table");

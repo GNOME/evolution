@@ -3648,7 +3648,17 @@ mail_reader_message_loaded_cb (CamelFolder *folder,
 	}
 
 	if (message != NULL) {
+		CamelMessageInfo *mi;
+
 		mail_reader_manage_followup_flag (reader, folder, message_uid);
+
+		mi = camel_folder_get_message_info (folder, message_uid);
+		if (mi) {
+			if (camel_util_fill_message_info_user_headers (mi, camel_medium_get_headers (CAMEL_MEDIUM (message))))
+				gtk_widget_queue_draw (message_list);
+
+			g_object_unref (mi);
+		}
 
 		g_signal_emit (
 			reader, signals[MESSAGE_LOADED], 0,
