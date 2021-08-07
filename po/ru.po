@@ -17,8 +17,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ru\n"
 "Report-Msgid-Bugs-To: https://gitlab.gnome.org/GNOME/evolution/issues\n"
-"POT-Creation-Date: 2021-07-16 10:54+0000\n"
-"PO-Revision-Date: 2021-07-19 17:24+0300\n"
+"POT-Creation-Date: 2021-08-05 08:54+0000\n"
+"PO-Revision-Date: 2021-08-05 12:30+0300\n"
 "Last-Translator: Alexey Rubtsov <rushills@gmail.com>\n"
 "Language-Team: русский <>\n"
 "Language: ru\n"
@@ -3576,7 +3576,7 @@ msgid "Contacts"
 msgstr "Контакты"
 
 #: ../data/org.gnome.Evolution.desktop.in.in.h:9
-#: ../src/addressbook/gui/widgets/eab-contact-formatter.c:1004
+#: ../src/addressbook/gui/widgets/eab-contact-formatter.c:1005
 #: ../src/e-util/e-collection-account-wizard.c:855
 #: ../src/e-util/e-send-options.c:544 ../src/e-util/e-webdav-browser.c:532
 #: ../src/modules/calendar/e-cal-shell-view-actions.c:199
@@ -4079,7 +4079,7 @@ msgstr ""
 
 #: ../src/addressbook/addressbook.error.xml.h:32
 #: ../src/addressbook/gui/contact-list-editor/contact-list-editor.ui.h:9
-#: ../src/addressbook/gui/widgets/eab-contact-merging.c:762
+#: ../src/addressbook/gui/widgets/eab-contact-merging.c:767
 #: ../src/calendar/gui/e-comp-editor-page-general.c:1493
 #: ../src/e-util/e-accounts-window.c:1563
 #: ../src/e-util/e-mail-signature-manager.c:324
@@ -4265,7 +4265,7 @@ msgstr "Параметры"
 #: ../src/addressbook/gui/contact-editor/fullname.ui.h:14
 #: ../src/addressbook/gui/contact-list-editor/contact-list-editor.ui.h:2
 #: ../src/addressbook/gui/widgets/eab-contact-merging.c:517
-#: ../src/addressbook/gui/widgets/eab-contact-merging.c:757
+#: ../src/addressbook/gui/widgets/eab-contact-merging.c:762
 #: ../src/addressbook/gui/widgets/eab-gui-util.c:316
 #: ../src/addressbook/gui/widgets/e-addressbook-view.c:1437
 #: ../src/calendar/gui/e-cal-dialogs.c:690
@@ -4295,7 +4295,7 @@ msgstr "Параметры"
 #: ../src/e-util/e-source-selector-dialog.c:325
 #: ../src/e-util/e-table-config.c:540 ../src/e-util/e-table-config.ui.h:3
 #: ../src/e-util/e-timezone-dialog.ui.h:2
-#: ../src/e-util/evolution-source-viewer.c:829 ../src/e-util/e-web-view.c:3994
+#: ../src/e-util/evolution-source-viewer.c:829 ../src/e-util/e-web-view.c:3996
 #: ../src/e-util/gal-view-instance-save-as-dialog.c:265
 #: ../src/mail/e-mail-config-window.c:310 ../src/mail/e-mail-label-dialog.c:186
 #: ../src/mail/e-mail-tag-editor.c:160 ../src/mail/em-composer-utils.c:4054
@@ -4325,7 +4325,7 @@ msgstr "_Отменить"
 #: ../src/addressbook/gui/contact-editor/contact-editor.ui.h:15
 #: ../src/addressbook/gui/contact-editor/e-contact-editor.c:3505
 #: ../src/addressbook/gui/contact-list-editor/contact-list-editor.ui.h:3
-#: ../src/addressbook/gui/widgets/eab-contact-merging.c:760
+#: ../src/addressbook/gui/widgets/eab-contact-merging.c:765
 #: ../src/calendar/calendar.error.xml.h:47
 #: ../src/calendar/gui/e-comp-editor.c:2237
 #: ../src/composer/e-composer-actions.c:242
@@ -4333,7 +4333,7 @@ msgstr "_Отменить"
 #: ../src/e-util/e-attachment-store.c:848
 #: ../src/e-util/e-attachment-store.c:855
 #: ../src/e-util/e-mail-signature-script-dialog.c:362
-#: ../src/e-util/e-webdav-browser.c:2631 ../src/e-util/e-web-view.c:3994
+#: ../src/e-util/e-webdav-browser.c:2631 ../src/e-util/e-web-view.c:3996
 #: ../src/e-util/gal-view-instance-save-as-dialog.c:266
 #: ../src/shell/e-shell-content.c:642 ../src/shell/e-shell-utils.c:133
 #: ../src/smime/gui/certificate-manager.c:653
@@ -4377,8 +4377,8 @@ msgid "Full _Name..."
 msgstr "По_лное имя…"
 
 #: ../src/addressbook/gui/contact-editor/contact-editor.ui.h:23
-#: ../src/addressbook/gui/widgets/eab-contact-formatter.c:919
-#: ../src/addressbook/gui/widgets/eab-contact-formatter.c:1333
+#: ../src/addressbook/gui/widgets/eab-contact-formatter.c:920
+#: ../src/addressbook/gui/widgets/eab-contact-formatter.c:1334
 #: ../src/addressbook/gui/widgets/e-addressbook-view.etspec.h:6
 msgid "Email"
 msgstr "Эл. почта"
@@ -4498,14 +4498,14 @@ msgid "_Anniversary:"
 msgstr "_Годовщина:"
 
 #: ../src/addressbook/gui/contact-editor/contact-editor.ui.h:52
-#: ../src/addressbook/gui/widgets/eab-contact-formatter.c:1050
+#: ../src/addressbook/gui/widgets/eab-contact-formatter.c:1051
 #: ../src/addressbook/gui/widgets/e-addressbook-view.etspec.h:47
 #: ../src/calendar/gui/e-calendar-view.c:2228
 msgid "Anniversary"
 msgstr "Годовщина"
 
 #: ../src/addressbook/gui/contact-editor/contact-editor.ui.h:53
-#: ../src/addressbook/gui/widgets/eab-contact-formatter.c:1049
+#: ../src/addressbook/gui/widgets/eab-contact-formatter.c:1050
 #: ../src/addressbook/gui/widgets/e-addressbook-view.etspec.h:46
 #: ../src/calendar/gui/e-calendar-view.c:2227
 msgid "Birthday"
@@ -4549,22 +4549,22 @@ msgid "_Address:"
 msgstr "_Адрес:"
 
 #: ../src/addressbook/gui/contact-editor/contact-editor.ui.h:62
-#: ../src/addressbook/gui/widgets/eab-contact-formatter.c:84
-#: ../src/addressbook/gui/widgets/e-contact-map.c:367
+#: ../src/addressbook/gui/widgets/eab-contact-formatter.c:85
+#: ../src/addressbook/gui/widgets/e-contact-map.c:419
 msgid "Home"
 msgstr "Домашний"
 
 #: ../src/addressbook/gui/contact-editor/contact-editor.ui.h:63
-#: ../src/addressbook/gui/widgets/eab-contact-formatter.c:83
-#: ../src/addressbook/gui/widgets/eab-contact-formatter.c:1018
-#: ../src/addressbook/gui/widgets/e-contact-map.c:380
+#: ../src/addressbook/gui/widgets/eab-contact-formatter.c:84
+#: ../src/addressbook/gui/widgets/eab-contact-formatter.c:1019
+#: ../src/addressbook/gui/widgets/e-contact-map.c:432
 msgid "Work"
 msgstr "Рабочий"
 
 #: ../src/addressbook/gui/contact-editor/contact-editor.ui.h:64
-#: ../src/addressbook/gui/widgets/eab-contact-formatter.c:85
-#: ../src/addressbook/gui/widgets/eab-contact-formatter.c:527
-#: ../src/addressbook/gui/widgets/eab-contact-formatter.c:1084
+#: ../src/addressbook/gui/widgets/eab-contact-formatter.c:86
+#: ../src/addressbook/gui/widgets/eab-contact-formatter.c:528
+#: ../src/addressbook/gui/widgets/eab-contact-formatter.c:1085
 #: ../src/calendar/gui/e-cal-model.c:3827
 msgid "Other"
 msgstr "Другой"
@@ -5029,153 +5029,153 @@ msgstr "Нажмите, чтобы написать письмо %s"
 msgid "Click to open map for %s"
 msgstr "Нажмите, чтобы открыть карту для %s"
 
-#: ../src/addressbook/gui/widgets/eab-contact-formatter.c:155
+#: ../src/addressbook/gui/widgets/eab-contact-formatter.c:156
 msgid "Open map"
 msgstr "Открыть карту"
 
-#: ../src/addressbook/gui/widgets/eab-contact-formatter.c:452
+#: ../src/addressbook/gui/widgets/eab-contact-formatter.c:453
 msgid "SIP"
 msgstr "SIP"
 
-#: ../src/addressbook/gui/widgets/eab-contact-formatter.c:684
+#: ../src/addressbook/gui/widgets/eab-contact-formatter.c:685
 msgid "List Members:"
 msgstr "Список участников:"
 
-#: ../src/addressbook/gui/widgets/eab-contact-formatter.c:778
+#: ../src/addressbook/gui/widgets/eab-contact-formatter.c:779
 msgid "Fax"
 msgstr "Факс"
 
-#: ../src/addressbook/gui/widgets/eab-contact-formatter.c:780
+#: ../src/addressbook/gui/widgets/eab-contact-formatter.c:781
 msgid "Phone"
 msgstr "Телефон"
 
-#: ../src/addressbook/gui/widgets/eab-contact-formatter.c:924
+#: ../src/addressbook/gui/widgets/eab-contact-formatter.c:925
 #: ../src/addressbook/gui/widgets/e-addressbook-view.etspec.h:5
 msgid "Nickname"
 msgstr "Псевдоним"
 
-#: ../src/addressbook/gui/widgets/eab-contact-formatter.c:925
+#: ../src/addressbook/gui/widgets/eab-contact-formatter.c:926
 msgid "AIM"
 msgstr "AIM"
 
-#: ../src/addressbook/gui/widgets/eab-contact-formatter.c:926
+#: ../src/addressbook/gui/widgets/eab-contact-formatter.c:927
 msgid "GroupWise"
 msgstr "GroupWise"
 
-#: ../src/addressbook/gui/widgets/eab-contact-formatter.c:927
+#: ../src/addressbook/gui/widgets/eab-contact-formatter.c:928
 msgid "ICQ"
 msgstr "ICQ"
 
-#: ../src/addressbook/gui/widgets/eab-contact-formatter.c:928
+#: ../src/addressbook/gui/widgets/eab-contact-formatter.c:929
 msgid "Jabber"
 msgstr "Jabber"
 
-#: ../src/addressbook/gui/widgets/eab-contact-formatter.c:929
+#: ../src/addressbook/gui/widgets/eab-contact-formatter.c:930
 msgid "MSN"
 msgstr "MSN"
 
-#: ../src/addressbook/gui/widgets/eab-contact-formatter.c:930
+#: ../src/addressbook/gui/widgets/eab-contact-formatter.c:931
 msgid "Yahoo"
 msgstr "Yahoo"
 
-#: ../src/addressbook/gui/widgets/eab-contact-formatter.c:931
+#: ../src/addressbook/gui/widgets/eab-contact-formatter.c:932
 msgid "Gadu-Gadu"
 msgstr "Gadu-Gadu"
 
-#: ../src/addressbook/gui/widgets/eab-contact-formatter.c:932
+#: ../src/addressbook/gui/widgets/eab-contact-formatter.c:933
 msgid "Skype"
 msgstr "Skype"
 
-#: ../src/addressbook/gui/widgets/eab-contact-formatter.c:933
+#: ../src/addressbook/gui/widgets/eab-contact-formatter.c:934
 msgid "Twitter"
 msgstr "Twitter"
 
-#: ../src/addressbook/gui/widgets/eab-contact-formatter.c:934
+#: ../src/addressbook/gui/widgets/eab-contact-formatter.c:935
 msgid "Matrix"
 msgstr "Матрица"
 
-#: ../src/addressbook/gui/widgets/eab-contact-formatter.c:996
+#: ../src/addressbook/gui/widgets/eab-contact-formatter.c:997
 #: ../src/addressbook/gui/widgets/e-addressbook-view.etspec.h:34
 msgid "Company"
 msgstr "Компания"
 
-#: ../src/addressbook/gui/widgets/eab-contact-formatter.c:997
+#: ../src/addressbook/gui/widgets/eab-contact-formatter.c:998
 msgid "Department"
 msgstr "Отдел"
 
-#: ../src/addressbook/gui/widgets/eab-contact-formatter.c:998
+#: ../src/addressbook/gui/widgets/eab-contact-formatter.c:999
 #: ../src/addressbook/gui/widgets/e-addressbook-view.etspec.h:36
 msgid "Office"
 msgstr "Офис"
 
-#: ../src/addressbook/gui/widgets/eab-contact-formatter.c:999
+#: ../src/addressbook/gui/widgets/eab-contact-formatter.c:1000
 msgid "Profession"
 msgstr "Профессия"
 
-#: ../src/addressbook/gui/widgets/eab-contact-formatter.c:1000
+#: ../src/addressbook/gui/widgets/eab-contact-formatter.c:1001
 msgid "Position"
 msgstr "Должность"
 
-#: ../src/addressbook/gui/widgets/eab-contact-formatter.c:1001
+#: ../src/addressbook/gui/widgets/eab-contact-formatter.c:1002
 #: ../src/addressbook/gui/widgets/e-addressbook-view.etspec.h:39
 msgid "Manager"
 msgstr "Менеджер"
 
-#: ../src/addressbook/gui/widgets/eab-contact-formatter.c:1002
+#: ../src/addressbook/gui/widgets/eab-contact-formatter.c:1003
 #: ../src/addressbook/gui/widgets/e-addressbook-view.etspec.h:40
 msgid "Assistant"
 msgstr "Помощник"
 
-#: ../src/addressbook/gui/widgets/eab-contact-formatter.c:1003
+#: ../src/addressbook/gui/widgets/eab-contact-formatter.c:1004
 msgid "Video Chat"
 msgstr "Видеочат"
 
-#: ../src/addressbook/gui/widgets/eab-contact-formatter.c:1005
+#: ../src/addressbook/gui/widgets/eab-contact-formatter.c:1006
 #: ../src/plugins/publish-calendar/publish-calendar.ui.h:2
 msgid "Free/Busy"
 msgstr "Свободен/занят"
 
-#: ../src/addressbook/gui/widgets/eab-contact-formatter.c:1008
-#: ../src/addressbook/gui/widgets/eab-contact-formatter.c:1048
-#: ../src/addressbook/gui/widgets/eab-contact-formatter.c:1074
+#: ../src/addressbook/gui/widgets/eab-contact-formatter.c:1009
+#: ../src/addressbook/gui/widgets/eab-contact-formatter.c:1049
+#: ../src/addressbook/gui/widgets/eab-contact-formatter.c:1075
 msgid "Address"
 msgstr "Адрес"
 
-#: ../src/addressbook/gui/widgets/eab-contact-formatter.c:1044
+#: ../src/addressbook/gui/widgets/eab-contact-formatter.c:1045
 msgid "Home Page"
 msgstr "Домашняя страница"
 
-#: ../src/addressbook/gui/widgets/eab-contact-formatter.c:1045
+#: ../src/addressbook/gui/widgets/eab-contact-formatter.c:1046
 msgid "Web Log"
 msgstr "Веб-журнал"
 
-#: ../src/addressbook/gui/widgets/eab-contact-formatter.c:1051
+#: ../src/addressbook/gui/widgets/eab-contact-formatter.c:1052
 #: ../src/addressbook/gui/widgets/e-addressbook-view.etspec.h:44
 msgid "Spouse"
 msgstr "Супруг(а)"
 
-#: ../src/addressbook/gui/widgets/eab-contact-formatter.c:1061
+#: ../src/addressbook/gui/widgets/eab-contact-formatter.c:1062
 msgid "Personal"
 msgstr "Личное"
 
-#: ../src/addressbook/gui/widgets/eab-contact-formatter.c:1106
+#: ../src/addressbook/gui/widgets/eab-contact-formatter.c:1107
 #: ../src/addressbook/gui/widgets/e-addressbook-view.etspec.h:45
 msgid "Note"
 msgstr "Примечание"
 
-#: ../src/addressbook/gui/widgets/eab-contact-formatter.c:1295
+#: ../src/addressbook/gui/widgets/eab-contact-formatter.c:1296
 msgid "List Members"
 msgstr "Участники списка"
 
-#: ../src/addressbook/gui/widgets/eab-contact-formatter.c:1318
+#: ../src/addressbook/gui/widgets/eab-contact-formatter.c:1319
 msgid "Job Title"
 msgstr "Должность"
 
-#: ../src/addressbook/gui/widgets/eab-contact-formatter.c:1359
+#: ../src/addressbook/gui/widgets/eab-contact-formatter.c:1360
 msgid "Home page"
 msgstr "Домашняя страничка"
 
-#: ../src/addressbook/gui/widgets/eab-contact-formatter.c:1369
+#: ../src/addressbook/gui/widgets/eab-contact-formatter.c:1370
 msgid "Blog"
 msgstr "Блог"
 
@@ -5189,15 +5189,15 @@ msgid "Merge Contact"
 msgstr "Объединить контакты"
 
 #: ../src/addressbook/gui/widgets/eab-contact-merging.c:518
-#: ../src/addressbook/gui/widgets/eab-contact-merging.c:763
+#: ../src/addressbook/gui/widgets/eab-contact-merging.c:768
 msgid "_Merge"
 msgstr "_Объединить"
 
-#: ../src/addressbook/gui/widgets/eab-contact-merging.c:752
+#: ../src/addressbook/gui/widgets/eab-contact-merging.c:757
 msgid "Duplicate Contact Detected"
 msgstr "Обнаружено дублирование контактов"
 
-#: ../src/addressbook/gui/widgets/eab-contact-merging.c:810
+#: ../src/addressbook/gui/widgets/eab-contact-merging.c:815
 msgid ""
 "The name or email address of this contact already exists\n"
 "in this folder. Would you like to save the changes anyway?"
@@ -5205,7 +5205,7 @@ msgstr ""
 "Имя или электронный адрес этого контактного лица уже\n"
 "существует в этой папке. Всё равно сохранить изменения?"
 
-#: ../src/addressbook/gui/widgets/eab-contact-merging.c:813
+#: ../src/addressbook/gui/widgets/eab-contact-merging.c:818
 msgid ""
 "The name or email address of this contact already exists\n"
 "in this folder. Would you like to add it anyway?"
@@ -5213,19 +5213,19 @@ msgstr ""
 "Имя или электронный адрес этого контактного лица уже\n"
 "существует в этой папке. Всё равно добавить?"
 
-#: ../src/addressbook/gui/widgets/eab-contact-merging.c:828
+#: ../src/addressbook/gui/widgets/eab-contact-merging.c:833
 msgid "Changed Contact:"
 msgstr "Изменённый контакт:"
 
-#: ../src/addressbook/gui/widgets/eab-contact-merging.c:830
+#: ../src/addressbook/gui/widgets/eab-contact-merging.c:835
 msgid "New Contact:"
 msgstr "Новый контакт:"
 
-#: ../src/addressbook/gui/widgets/eab-contact-merging.c:869
+#: ../src/addressbook/gui/widgets/eab-contact-merging.c:874
 msgid "Conflicting Contact:"
 msgstr "Конфликтующий контакт:"
 
-#: ../src/addressbook/gui/widgets/eab-contact-merging.c:871
+#: ../src/addressbook/gui/widgets/eab-contact-merging.c:876
 msgid "Old Contact:"
 msgstr "Старый контакт:"
 
@@ -5571,6 +5571,7 @@ msgid "Unit"
 msgstr "Подразделение"
 
 #: ../src/addressbook/gui/widgets/e-addressbook-view.etspec.h:37
+#: ../src/modules/mail/em-mailer-prefs.c:2055
 msgid "Title"
 msgstr "Заголовок"
 
@@ -7020,86 +7021,86 @@ msgstr "окно календаря для обзора месяца"
 msgid "calendar view for one or more weeks"
 msgstr "окно календаря для просмотра одной или более недель"
 
-#: ../src/calendar/gui/e-cal-component-preview.c:237
+#: ../src/calendar/gui/e-cal-component-preview.c:238
 #: ../src/e-util/e-filter-rule.c:1015 ../src/mail/e-mail-config-page.c:124
 msgid "Untitled"
 msgstr "Неозаглавленное"
 
-#: ../src/calendar/gui/e-cal-component-preview.c:251
+#: ../src/calendar/gui/e-cal-component-preview.c:252
 msgid "Categories:"
 msgstr "Категории:"
 
-#: ../src/calendar/gui/e-cal-component-preview.c:288
+#: ../src/calendar/gui/e-cal-component-preview.c:289
 #: ../src/modules/cal-config-weather/evolution-cal-config-weather.c:280
 #: ../src/modules/itip-formatter/itip-view.c:1705
 #: ../src/modules/itip-formatter/itip-view.c:1818
 msgid "Location:"
 msgstr "Адрес:"
 
-#: ../src/calendar/gui/e-cal-component-preview.c:295
+#: ../src/calendar/gui/e-cal-component-preview.c:296
 msgid "Start Date:"
 msgstr "Дата начала:"
 
-#: ../src/calendar/gui/e-cal-component-preview.c:304
+#: ../src/calendar/gui/e-cal-component-preview.c:305
 msgid "End Date:"
 msgstr "Дата завершения:"
 
-#: ../src/calendar/gui/e-cal-component-preview.c:313
+#: ../src/calendar/gui/e-cal-component-preview.c:314
 msgid "Due Date:"
 msgstr "Дата выполнения:"
 
-#: ../src/calendar/gui/e-cal-component-preview.c:327
+#: ../src/calendar/gui/e-cal-component-preview.c:328
 msgid "Recurs:"
 msgstr "Повторяется:"
 
-#: ../src/calendar/gui/e-cal-component-preview.c:339
+#: ../src/calendar/gui/e-cal-component-preview.c:340
 #: ../src/modules/itip-formatter/itip-view.c:1709
 #: ../src/modules/itip-formatter/itip-view.c:1830
 msgid "Status:"
 msgstr "Состояние:"
 
-#: ../src/calendar/gui/e-cal-component-preview.c:348
+#: ../src/calendar/gui/e-cal-component-preview.c:349
 #: ../src/calendar/gui/e-task-table.c:464
 #: ../src/calendar/gui/tasktypes.xml.in.h:19
-#: ../src/e-util/e-send-options.ui.h:2 ../src/mail/message-list.c:338
+#: ../src/e-util/e-send-options.ui.h:2 ../src/mail/message-list.c:342
 msgid "High"
 msgstr "Высокий"
 
-#: ../src/calendar/gui/e-cal-component-preview.c:350
+#: ../src/calendar/gui/e-cal-component-preview.c:351
 #: ../src/calendar/gui/e-cal-model.c:1873
 #: ../src/calendar/gui/e-task-table.c:465
 #: ../src/calendar/gui/tasktypes.xml.in.h:20
-#: ../src/e-util/e-send-options.ui.h:5 ../src/mail/message-list.c:337
+#: ../src/e-util/e-send-options.ui.h:5 ../src/mail/message-list.c:341
 msgid "Normal"
 msgstr "Нормальный"
 
-#: ../src/calendar/gui/e-cal-component-preview.c:352
+#: ../src/calendar/gui/e-cal-component-preview.c:353
 #: ../src/calendar/gui/e-task-table.c:466
 #: ../src/calendar/gui/tasktypes.xml.in.h:21
-#: ../src/e-util/e-send-options.ui.h:4 ../src/mail/message-list.c:336
+#: ../src/e-util/e-send-options.ui.h:4 ../src/mail/message-list.c:340
 msgid "Low"
 msgstr "Низкий"
 
-#: ../src/calendar/gui/e-cal-component-preview.c:354
+#: ../src/calendar/gui/e-cal-component-preview.c:355
 msgid "Priority:"
 msgstr "Приоритет:"
 
-#: ../src/calendar/gui/e-cal-component-preview.c:366
+#: ../src/calendar/gui/e-cal-component-preview.c:367
 msgid "Organizer:"
 msgstr "Организатор:"
 
-#: ../src/calendar/gui/e-cal-component-preview.c:407
+#: ../src/calendar/gui/e-cal-component-preview.c:408
 #: ../src/modules/itip-formatter/itip-view.c:1711
 #: ../src/modules/itip-formatter/itip-view.c:1836
 msgid "Attendees:"
 msgstr "Участники:"
 
-#: ../src/calendar/gui/e-cal-component-preview.c:454
+#: ../src/calendar/gui/e-cal-component-preview.c:455
 #: ../src/mail/e-mail-config-service-page.c:522
 msgid "Description:"
 msgstr "Описание:"
 
-#: ../src/calendar/gui/e-cal-component-preview.c:508
+#: ../src/calendar/gui/e-cal-component-preview.c:509
 msgid "Web Page:"
 msgstr "Веб-страница:"
 
@@ -7377,7 +7378,7 @@ msgstr "Время: %s %s"
 #: ../src/calendar/gui/e-memo-table.c:660
 #: ../src/calendar/gui/e-task-table.c:882
 #: ../src/calendar/gui/e-to-do-pane.c:590 ../src/e-util/e-misc-utils.c:4614
-#: ../src/e-util/e-text.c:566 ../src/e-util/e-web-view.c:4175
+#: ../src/e-util/e-text.c:566 ../src/e-util/e-web-view.c:4177
 msgid "…"
 msgstr "…"
 
@@ -12190,7 +12191,7 @@ msgstr "Воспроизвести вложение во встроенном а
 #: ../src/em-format/e-mail-formatter-headers.c:109
 #: ../src/em-format/e-mail-part-headers.c:46
 #: ../src/mail/e-mail-tag-editor.c:196 ../src/mail/message-list.etspec.h:5
-#: ../src/modules/mail/em-mailer-prefs.c:60
+#: ../src/modules/mail/em-mailer-prefs.c:71
 msgid "From"
 msgstr "От"
 
@@ -12247,7 +12248,7 @@ msgstr "Размер"
 #: ../src/mail/e-mail-tag-editor.c:201 ../src/mail/filtertypes.xml.in.h:16
 #: ../src/mail/message-list.etspec.h:6 ../src/mail/searchtypes.xml.in.h:17
 #: ../src/mail/vfoldertypes.xml.in.h:17
-#: ../src/modules/mail/em-mailer-prefs.c:65
+#: ../src/modules/mail/em-mailer-prefs.c:76
 #: ../src/smime/gui/certificate-manager.c:1625
 msgid "Subject"
 msgstr "Тема"
@@ -12255,9 +12256,9 @@ msgstr "Тема"
 #. pseudo-header
 #: ../src/em-format/e-mail-formatter-quote-headers.c:205
 #: ../src/em-format/e-mail-formatter-utils.c:360
-#: ../src/modules/mail/em-mailer-prefs.c:686
-#: ../src/modules/mail/em-mailer-prefs.c:1620
-#: ../src/modules/mail/em-mailer-prefs.c:1669
+#: ../src/modules/mail/em-mailer-prefs.c:716
+#: ../src/modules/mail/em-mailer-prefs.c:1934
+#: ../src/modules/mail/em-mailer-prefs.c:1983
 msgid "Mailer"
 msgstr "Почтовый клиент"
 
@@ -12452,21 +12453,21 @@ msgstr "Показать код части MIME"
 #: ../src/em-format/e-mail-part-headers.c:48
 #: ../src/mail/message-list.etspec.h:9 ../src/mail/searchtypes.xml.in.h:11
 #: ../src/mail/vfoldertypes.xml.in.h:11
-#: ../src/modules/mail/em-mailer-prefs.c:62
+#: ../src/modules/mail/em-mailer-prefs.c:73
 msgid "To"
 msgstr "Кому"
 
 #: ../src/em-format/e-mail-formatter-utils.c:213
 #: ../src/em-format/e-mail-formatter-utils.c:238
 #: ../src/em-format/e-mail-part-headers.c:49
-#: ../src/modules/mail/em-mailer-prefs.c:63
+#: ../src/modules/mail/em-mailer-prefs.c:74
 msgid "Cc"
 msgstr "Копия"
 
 #: ../src/em-format/e-mail-formatter-utils.c:214
 #: ../src/em-format/e-mail-formatter-utils.c:239
 #: ../src/em-format/e-mail-part-headers.c:50
-#: ../src/modules/mail/em-mailer-prefs.c:64
+#: ../src/modules/mail/em-mailer-prefs.c:75
 msgid "Bcc"
 msgstr "Скрытая копия"
 
@@ -12578,23 +12579,23 @@ msgid "Unsupported signature format"
 msgstr "Неподдерживаемый формат подписи"
 
 #: ../src/em-format/e-mail-part-headers.c:47
-#: ../src/modules/mail/em-mailer-prefs.c:61
+#: ../src/modules/mail/em-mailer-prefs.c:72
 msgid "Reply-To"
 msgstr "Обратный адрес"
 
 #: ../src/em-format/e-mail-part-headers.c:52 ../src/e-util/e-dateedit.c:558
 #: ../src/e-util/e-dateedit.c:581 ../src/mail/message-list.etspec.h:7
-#: ../src/modules/mail/em-mailer-prefs.c:66
+#: ../src/modules/mail/em-mailer-prefs.c:77
 msgid "Date"
 msgstr "Дата"
 
 #: ../src/em-format/e-mail-part-headers.c:53
-#: ../src/modules/mail/em-mailer-prefs.c:67
+#: ../src/modules/mail/em-mailer-prefs.c:78
 msgid "Newsgroups"
 msgstr "Группы новостей"
 
 #: ../src/em-format/e-mail-part-headers.c:54
-#: ../src/modules/mail/em-mailer-prefs.c:68
+#: ../src/modules/mail/em-mailer-prefs.c:79
 #: ../src/plugins/face/org-gnome-face.eplug.xml.h:1
 msgid "Face"
 msgstr "Фото"
@@ -12753,7 +12754,7 @@ msgid "Cancel"
 msgstr "Отменить"
 
 #. Translators: Escape is a keyboard binding.
-#: ../src/e-util/e-alert-bar.c:204
+#: ../src/e-util/e-alert-bar.c:206
 msgid "Close this message (Escape)"
 msgstr "Закрыть это сообщение (Escape)"
 
@@ -13098,7 +13099,7 @@ msgid "popup list"
 msgstr "выпадающий список"
 
 #: ../src/e-util/e-cell-date.c:49 ../src/e-util/e-cell-date.c:138
-#: ../src/e-util/e-cell-date.c:158 ../src/mail/message-list.c:2166
+#: ../src/e-util/e-cell-date.c:158 ../src/mail/message-list.c:2181
 msgid "?"
 msgstr "?"
 
@@ -13405,7 +13406,7 @@ msgstr "Выберите собственный цвет"
 #: ../src/mail/e-mail-account-tree-view.c:135
 #: ../src/mail/e-mail-config-security-page.c:540
 #: ../src/mail/e-mail-config-security-page.c:704
-#: ../src/mail/e-mail-reader.c:4917 ../src/mail/mail-config.ui.h:78
+#: ../src/mail/e-mail-reader.c:4927 ../src/mail/mail-config.ui.h:78
 msgid "Default"
 msgstr "По умолчанию"
 
@@ -16551,20 +16552,20 @@ msgstr "Поиск в интернете по выбранному тексту"
 msgid "Select all text and images"
 msgstr "Выделить весь текст и изображения"
 
-#: ../src/e-util/e-web-view.c:3804
+#: ../src/e-util/e-web-view.c:3806
 msgid "Copying image to clipboard"
 msgstr "Копирование изображения в буфер обмена"
 
-#: ../src/e-util/e-web-view.c:3992
+#: ../src/e-util/e-web-view.c:3994
 msgid "Save Image"
 msgstr "Сохранить изображение"
 
-#: ../src/e-util/e-web-view.c:4029
+#: ../src/e-util/e-web-view.c:4031
 #, c-format
 msgid "Saving image to “%s”"
 msgstr "Сохранение изображения в «%s»"
 
-#: ../src/e-util/e-web-view.c:4179
+#: ../src/e-util/e-web-view.c:4181
 #, c-format
 msgid "Cannot get URI “%s”, do not know how to download it."
 msgstr "Не удалось получить URI «%s», загрузка приостановлена."
@@ -16879,8 +16880,8 @@ msgstr "Недопустимый URI папки «%s»"
 #: ../src/mail/em-folder-tree-model.c:1509
 #: ../src/mail/em-folder-tree-model.c:1533
 #: ../src/mail/importers/kmail-libs.c:138
-#: ../src/modules/mail/e-mail-shell-view-private.c:1033
-#: ../src/modules/mail/e-mail-shell-view-private.c:1044
+#: ../src/modules/mail/e-mail-shell-view-private.c:1036
+#: ../src/modules/mail/e-mail-shell-view-private.c:1047
 msgid "Inbox"
 msgstr "Входящие"
 
@@ -16889,7 +16890,7 @@ msgstr "Входящие"
 #: ../src/mail/em-folder-tree-model.c:1503
 #: ../src/mail/em-folder-tree-model.c:1537
 #: ../src/mail/importers/kmail-libs.c:144
-#: ../src/modules/mail/e-mail-shell-view-private.c:1031
+#: ../src/modules/mail/e-mail-shell-view-private.c:1034
 msgid "Drafts"
 msgstr "Черновики"
 
@@ -16897,7 +16898,7 @@ msgstr "Черновики"
 #: ../src/libemail-engine/e-mail-session.c:122
 #: ../src/mail/em-folder-tree-model.c:1513
 #: ../src/mail/importers/kmail-libs.c:140
-#: ../src/modules/mail/e-mail-shell-view-private.c:1035
+#: ../src/modules/mail/e-mail-shell-view-private.c:1038
 msgid "Outbox"
 msgstr "Исходящие"
 
@@ -16906,7 +16907,7 @@ msgstr "Исходящие"
 #: ../src/mail/em-folder-tree-model.c:1516
 #: ../src/mail/em-folder-tree-model.c:1536
 #: ../src/mail/importers/kmail-libs.c:142
-#: ../src/modules/mail/e-mail-shell-view-private.c:1037
+#: ../src/modules/mail/e-mail-shell-view-private.c:1040
 msgid "Sent"
 msgstr "Отправленные"
 
@@ -16914,7 +16915,7 @@ msgstr "Отправленные"
 #: ../src/libemail-engine/e-mail-session.c:124
 #: ../src/mail/em-folder-tree-model.c:1505
 #: ../src/mail/importers/kmail-libs.c:146
-#: ../src/modules/mail/e-mail-shell-view-private.c:1039
+#: ../src/modules/mail/e-mail-shell-view-private.c:1042
 #: ../src/plugins/templates/org-gnome-templates.eplug.xml.h:1
 msgid "Templates"
 msgstr "Шаблоны"
@@ -17444,7 +17445,7 @@ msgid "Archi_ve Folder:"
 msgstr "Архивна_я папка:"
 
 #: ../src/mail/e-mail-config-defaults-page.c:784
-#: ../src/modules/mail/em-mailer-prefs.c:1517
+#: ../src/modules/mail/em-mailer-prefs.c:1831
 msgid "Choose a folder to archive messages to."
 msgstr "Выберите папку для архивации сообщений."
 
@@ -18030,7 +18031,7 @@ msgstr "Название заголовка"
 msgid "Header Value"
 msgstr "Значение заголовка"
 
-#: ../src/mail/e-mail-printer.c:103 ../src/mail/mail-config.ui.h:135
+#: ../src/mail/e-mail-printer.c:103 ../src/mail/mail-config.ui.h:137
 msgid "Headers"
 msgstr "Заголовки"
 
@@ -18073,7 +18074,7 @@ msgstr "_Всегда игнорировать обратный адрес дл�
 msgid "Failed to retrieve message:"
 msgstr "Не удалось получить сообщения:"
 
-#: ../src/mail/e-mail-reader.c:2226 ../src/mail/e-mail-reader.c:3730
+#: ../src/mail/e-mail-reader.c:2226 ../src/mail/e-mail-reader.c:3740
 #, c-format
 msgid "Retrieving message “%s”"
 msgstr "Получение сообщения «%s»"
@@ -18708,16 +18709,16 @@ msgstr "Все _заголовки сообщения"
 msgid "Show messages with all email headers"
 msgstr "Отображать сообщения со всеми заголовками"
 
-#: ../src/mail/e-mail-reader.c:3736
+#: ../src/mail/e-mail-reader.c:3746
 msgid "Retrieving message"
 msgstr "Загрузка сообщения"
 
-#: ../src/mail/e-mail-reader.c:5109
+#: ../src/mail/e-mail-reader.c:5119
 #: ../src/modules/mail/e-mail-attachment-handler.c:389
 msgid "_Forward"
 msgstr "Пе_реслать"
 
-#: ../src/mail/e-mail-reader.c:5110
+#: ../src/mail/e-mail-reader.c:5120
 #: ../src/modules/mail/e-mail-attachment-handler.c:391
 msgid "Forward the selected message to someone"
 msgstr "Перенаправить выбранное сообщение кому-либо"
@@ -18726,29 +18727,29 @@ msgstr "Перенаправить выбранное сообщение ком�
 #. * (if possible and if that configuration option is enabled), or else
 #. * it will reply to all. The word "Group" was chosen because it covers
 #. * either of those, without too strongly implying one or the other.
-#: ../src/mail/e-mail-reader.c:5129
+#: ../src/mail/e-mail-reader.c:5139
 msgid "Group Reply"
 msgstr "Ответить всем"
 
-#: ../src/mail/e-mail-reader.c:5130
+#: ../src/mail/e-mail-reader.c:5140
 msgid "Reply to the mailing list, or to all recipients"
 msgstr "Ответить в список рассылки или всем получателям"
 
-#: ../src/mail/e-mail-reader.c:5196 ../src/mail/filtertypes.xml.in.h:67
+#: ../src/mail/e-mail-reader.c:5206 ../src/mail/filtertypes.xml.in.h:67
 msgid "Delete"
 msgstr "Удалить"
 
-#: ../src/mail/e-mail-reader.c:5208
+#: ../src/mail/e-mail-reader.c:5218
 #: ../src/modules/calendar/e-cal-shell-view-actions.c:1320
 msgid "Next"
 msgstr "Следующее"
 
-#: ../src/mail/e-mail-reader.c:5212
+#: ../src/mail/e-mail-reader.c:5222
 #: ../src/modules/calendar/e-cal-shell-view-actions.c:1313
 msgid "Previous"
 msgstr "Предыдущее"
 
-#: ../src/mail/e-mail-reader.c:5221 ../src/mail/mail-dialogs.ui.h:9
+#: ../src/mail/e-mail-reader.c:5231 ../src/mail/mail-dialogs.ui.h:9
 msgid "Reply"
 msgstr "Ответить"
 
@@ -19282,12 +19283,12 @@ msgstr "Перемещение папки %s"
 msgid "Copying folder %s"
 msgstr "Копирование папки %s"
 
-#: ../src/mail/em-folder-tree.c:2381 ../src/mail/message-list.c:2653
+#: ../src/mail/em-folder-tree.c:2381 ../src/mail/message-list.c:2668
 #, c-format
 msgid "Moving messages into folder %s"
 msgstr "Перемещение сообщений в папку %s"
 
-#: ../src/mail/em-folder-tree.c:2385 ../src/mail/message-list.c:2655
+#: ../src/mail/em-folder-tree.c:2385 ../src/mail/message-list.c:2670
 #, c-format
 msgid "Copying messages into folder %s"
 msgstr "Копирование сообщений в папку %s"
@@ -19305,12 +19306,12 @@ msgstr "UNMATCHED"
 
 #: ../src/mail/em-folder-tree-model.c:1534
 #: ../src/mail/importers/kmail-libs.c:149
-#: ../src/modules/mail/e-mail-shell-view-private.c:1041
+#: ../src/modules/mail/e-mail-shell-view-private.c:1044
 msgid "Trash"
 msgstr "Корзина"
 
 #: ../src/mail/em-folder-tree-model.c:1535 ../src/mail/filtertypes.xml.in.h:41
-#: ../src/mail/mail-config.ui.h:142 ../src/mail/vfoldertypes.xml.in.h:44
+#: ../src/mail/mail-config.ui.h:144 ../src/mail/vfoldertypes.xml.in.h:44
 msgid "Junk"
 msgstr "Спам"
 
@@ -19369,9 +19370,9 @@ msgid "Unsubscribe From _All"
 msgstr "Отписаться ото _всех"
 
 #: ../src/mail/em-subscription-editor.c:1315
-#: ../src/modules/mail/e-mail-shell-view-private.c:934
-#: ../src/modules/mail/e-mail-shell-view-private.c:966
-#: ../src/modules/mail/e-mail-shell-view-private.c:1010
+#: ../src/modules/mail/e-mail-shell-view-private.c:937
+#: ../src/modules/mail/e-mail-shell-view-private.c:969
+#: ../src/modules/mail/e-mail-shell-view-private.c:1013
 #, c-format
 msgid "%d unread, "
 msgid_plural "%d unread, "
@@ -19380,7 +19381,7 @@ msgstr[1] "%d непрочитанных, "
 msgstr[2] "%d непрочитанных, "
 
 #: ../src/mail/em-subscription-editor.c:1319
-#: ../src/modules/mail/e-mail-shell-view-private.c:1020
+#: ../src/modules/mail/e-mail-shell-view-private.c:1023
 #, c-format
 msgid "%d total"
 msgid_plural "%d total"
@@ -20389,47 +20390,55 @@ msgid "Re_set"
 msgstr "С_бросить"
 
 #: ../src/mail/mail-config.ui.h:134
+msgid "Message List User Headers"
+msgstr "Пользовательские заголовки списка сообщений"
+
+#: ../src/mail/mail-config.ui.h:135
+msgid "Message List User Headers Table"
+msgstr "Таблица пользовательских заголовков списка сообщений"
+
+#: ../src/mail/mail-config.ui.h:136
 #: ../src/modules/addressbook/autocompletion-config.c:118
 #: ../src/modules/calendar/e-calendar-preferences.ui.h:45
 msgid "Date/Time Format"
 msgstr "Формат даты и времени"
 
-#: ../src/mail/mail-config.ui.h:136
+#: ../src/mail/mail-config.ui.h:138
 msgid "Check incoming _messages for junk"
 msgstr "Проверять в_ходящие сообщения на спам"
 
-#: ../src/mail/mail-config.ui.h:137
+#: ../src/mail/mail-config.ui.h:139
 msgid "_Delete junk messages"
 msgstr "_Удалить спам"
 
-#: ../src/mail/mail-config.ui.h:138
+#: ../src/mail/mail-config.ui.h:140
 msgid "Junk Test Options"
 msgstr "Тест на спам"
 
-#: ../src/mail/mail-config.ui.h:139
+#: ../src/mail/mail-config.ui.h:141
 msgid "Do not mar_k messages as junk if sender is in my address book"
 msgstr ""
 "Не поме_чать сообщения как спам, если отправитель есть в моей адресной книге"
 
-#: ../src/mail/mail-config.ui.h:140
+#: ../src/mail/mail-config.ui.h:142
 msgid "_Lookup in local address book only"
 msgstr "Просматривать только _локальную адресную книгу"
 
-#: ../src/mail/mail-config.ui.h:141
+#: ../src/mail/mail-config.ui.h:143
 msgid "Check cu_stom headers for junk"
 msgstr "Про_верять дополнительные заголовки для определения спама"
 
-#: ../src/mail/mail-config.ui.h:143
+#: ../src/mail/mail-config.ui.h:145
 #: ../src/modules/mail-config/e-mail-config-remote-accounts.c:303
 #: ../src/modules/mail-config/e-mail-config-smtp-backend.c:246
 msgid "No encryption"
 msgstr "Без шифрования"
 
-#: ../src/mail/mail-config.ui.h:144
+#: ../src/mail/mail-config.ui.h:146
 msgid "TLS encryption"
 msgstr "Шифрование TLS"
 
-#: ../src/mail/mail-config.ui.h:145
+#: ../src/mail/mail-config.ui.h:147
 msgid "SSL encryption"
 msgstr "Шифрование SSL"
 
@@ -21499,84 +21508,96 @@ msgstr "Изменить папку поиска"
 msgid "New Search Folder"
 msgstr "Новая папка поиска"
 
-#: ../src/mail/message-list.c:316
+#: ../src/mail/message-list.c:320
 msgid "Unseen"
 msgstr "Непрочитано"
 
-#: ../src/mail/message-list.c:317
+#: ../src/mail/message-list.c:321
 msgid "Seen"
 msgstr "Прочитано"
 
-#: ../src/mail/message-list.c:318 ../src/mail/message-list.c:320
+#: ../src/mail/message-list.c:322 ../src/mail/message-list.c:324
 msgid "Answered"
 msgstr "Отвечено"
 
 #. and unread
-#: ../src/mail/message-list.c:319 ../src/mail/message-list.c:321
+#: ../src/mail/message-list.c:323 ../src/mail/message-list.c:325
 msgid "Forwarded"
 msgstr "Переслано"
 
-#: ../src/mail/message-list.c:334
+#: ../src/mail/message-list.c:338
 msgid "Lowest"
 msgstr "Самый низкий"
 
-#: ../src/mail/message-list.c:335
+#: ../src/mail/message-list.c:339
 msgid "Lower"
 msgstr "Низкий"
 
-#: ../src/mail/message-list.c:339
+#: ../src/mail/message-list.c:343
 msgid "Higher"
 msgstr "Высокий"
 
-#: ../src/mail/message-list.c:340
+#: ../src/mail/message-list.c:344
 msgid "Highest"
 msgstr "Самый высокий"
 
-#: ../src/mail/message-list.c:489
+#: ../src/mail/message-list.c:493
 msgid "Generating message list"
 msgstr "Создание списка сообщений"
 
 #. strftime format of a time,
 #. * in 12-hour format, without seconds.
-#: ../src/mail/message-list.c:2174
+#: ../src/mail/message-list.c:2189
 #: ../src/modules/itip-formatter/itip-view.c:275
 msgid "Today %l:%M %p"
 msgstr "Сегодня %I:%M %p"
 
-#: ../src/mail/message-list.c:2183
+#: ../src/mail/message-list.c:2198
 msgid "Yesterday %l:%M %p"
 msgstr "Вчера %l:%M %p"
 
-#: ../src/mail/message-list.c:2195
+#: ../src/mail/message-list.c:2210
 msgid "%a %l:%M %p"
 msgstr "%a %l:%M %p"
 
-#: ../src/mail/message-list.c:2203
+#: ../src/mail/message-list.c:2218
 msgid "%b %d %l:%M %p"
 msgstr "%b. %d %l:%M %p"
 
-#: ../src/mail/message-list.c:2205
+#: ../src/mail/message-list.c:2220
 msgid "%b %d %Y"
 msgstr "%d %b. %Y"
 
-#: ../src/mail/message-list.c:3385
+#: ../src/mail/message-list.c:3116 ../src/mail/message-list.etspec.h:24
+msgid "User Header 1"
+msgstr "Пользовательский заголовок 1"
+
+#: ../src/mail/message-list.c:3117 ../src/mail/message-list.etspec.h:25
+msgid "User Header 2"
+msgstr "Пользовательский заголовок 2"
+
+#: ../src/mail/message-list.c:3118 ../src/mail/message-list.etspec.h:26
+msgid "User Header 3"
+msgstr "Пользовательский заголовок 3"
+
+#: ../src/mail/message-list.c:3523
 msgid "Select all visible messages"
 msgstr "Выделить все видимые сообщения"
 
-#: ../src/mail/message-list.c:4189 ../src/mail/message-list.etspec.h:17
+#: ../src/mail/message-list.c:4346 ../src/mail/message-list.etspec.h:17
 msgid "Messages"
 msgstr "Сообщения"
 
 #. default follow-up flag name to use when clicked in the message list column
-#: ../src/mail/message-list.c:5770
+#: ../src/mail/message-list.c:5929
 msgid "Follow-up"
 msgstr "К исполнению"
 
-#: ../src/mail/message-list.c:6519 ../src/mail/message-list.c:6956
+#: ../src/mail/message-list.c:6678 ../src/mail/message-list.c:7115
 msgid "Generating message list…"
 msgstr "Формирование списка сообщений…"
 
-#: ../src/mail/message-list.c:6522
+#: ../src/mail/message-list.c:6681
 msgid ""
 "No message satisfies your search criteria. Change search criteria by "
 "selecting a new Show message filter from the drop down list above or by "
@@ -21588,7 +21609,7 @@ msgstr ""
 "поиск, изменив запрос или очистив поиск с помощью пункта меню "
 "«Найти»→«Очистить»."
 
-#: ../src/mail/message-list.c:6529
+#: ../src/mail/message-list.c:6688
 msgid "There are no messages in this folder."
 msgstr "В папке нет сообщений."
 
@@ -21740,7 +21761,7 @@ msgstr ""
 
 #. To Translators: 'Table column' is a label for configurable date/time format for table columns showing a date in message list
 #: ../src/modules/addressbook/autocompletion-config.c:124
-#: ../src/modules/mail/em-mailer-prefs.c:1697
+#: ../src/modules/mail/em-mailer-prefs.c:2071
 msgid "_Table column:"
 msgstr "С_толбец таблицы:"
 
@@ -25565,7 +25586,7 @@ msgstr "Поиск по всем учётным записям"
 msgid "Account Search"
 msgstr "Поиск по учётной записи"
 
-#: ../src/modules/mail/e-mail-shell-view-private.c:927
+#: ../src/modules/mail/e-mail-shell-view-private.c:930
 #, c-format
 msgid "%d selected, "
 msgid_plural "%d selected, "
@@ -25573,8 +25594,8 @@ msgstr[0] "выделено %d, "
 msgstr[1] "выделено %d, "
 msgstr[2] "выделено %d, "
 
-#: ../src/modules/mail/e-mail-shell-view-private.c:942
-#: ../src/modules/mail/e-mail-shell-view-private.c:959
+#: ../src/modules/mail/e-mail-shell-view-private.c:945
+#: ../src/modules/mail/e-mail-shell-view-private.c:962
 #, c-format
 msgid "%d deleted"
 msgid_plural "%d deleted"
@@ -25582,8 +25603,8 @@ msgstr[0] "%d удалённое"
 msgstr[1] "%d удалённых"
 msgstr[2] "%d удалённых"
 
-#: ../src/modules/mail/e-mail-shell-view-private.c:973
-#: ../src/modules/mail/e-mail-shell-view-private.c:979
+#: ../src/modules/mail/e-mail-shell-view-private.c:976
+#: ../src/modules/mail/e-mail-shell-view-private.c:982
 #, c-format
 msgid "%d junk"
 msgid_plural "%d junk"
@@ -25591,7 +25612,7 @@ msgstr[0] "%d спам"
 msgstr[1] "%d спам"
 msgstr[2] "%d спам"
 
-#: ../src/modules/mail/e-mail-shell-view-private.c:986
+#: ../src/modules/mail/e-mail-shell-view-private.c:989
 #, c-format
 msgid "%d draft"
 msgid_plural "%d drafts"
@@ -25599,7 +25620,7 @@ msgstr[0] "%d черновик"
 msgstr[1] "%d черновика"
 msgstr[2] "%d черновиков"
 
-#: ../src/modules/mail/e-mail-shell-view-private.c:992
+#: ../src/modules/mail/e-mail-shell-view-private.c:995
 #, c-format
 msgid "%d unsent"
 msgid_plural "%d unsent"
@@ -25607,7 +25628,7 @@ msgstr[0] "%d неотправленное"
 msgstr[1] "%d неотправленных"
 msgstr[2] "%d неотправленных"
 
-#: ../src/modules/mail/e-mail-shell-view-private.c:998
+#: ../src/modules/mail/e-mail-shell-view-private.c:1001
 #, c-format
 msgid "%d sent"
 msgid_plural "%d sent"
@@ -25615,7 +25636,7 @@ msgstr[0] "%d отправленное"
 msgstr[1] "%d отправленных"
 msgstr[2] "%d отправленных"
 
-#: ../src/modules/mail/e-mail-shell-view-private.c:1015
+#: ../src/modules/mail/e-mail-shell-view-private.c:1018
 #, c-format
 msgid "%d unread"
 msgid_plural "%d unread"
@@ -25623,7 +25644,7 @@ msgstr[0] "%d непрочитанное"
 msgstr[1] "%d непрочитанных"
 msgstr[2] "%d непрочитанных"
 
-#: ../src/modules/mail/e-mail-shell-view-private.c:1533
+#: ../src/modules/mail/e-mail-shell-view-private.c:1536
 msgid "Send / Receive"
 msgstr "Отправить / Получить"
 
@@ -25659,40 +25680,41 @@ msgstr "Язык(и)"
 msgid "Same as user interface"
 msgstr "Такой же как пользовательский интерфейс"
 
-#: ../src/modules/mail/em-mailer-prefs.c:77
+#: ../src/modules/mail/em-mailer-prefs.c:88
 msgid "On exit, every time"
 msgstr "Каждый раз при выходе"
 
-#: ../src/modules/mail/em-mailer-prefs.c:78
+#: ../src/modules/mail/em-mailer-prefs.c:89
 msgid "Once per day"
 msgstr "Один раз в день"
 
-#: ../src/modules/mail/em-mailer-prefs.c:79
+#: ../src/modules/mail/em-mailer-prefs.c:90
 msgid "Once per week"
 msgstr "Один раз в неделю"
 
-#: ../src/modules/mail/em-mailer-prefs.c:80
+#: ../src/modules/mail/em-mailer-prefs.c:91
 msgid "Once per month"
 msgstr "Один раз в месяц"
 
-#: ../src/modules/mail/em-mailer-prefs.c:81
+#: ../src/modules/mail/em-mailer-prefs.c:92
 msgid "Immediately, on folder leave"
 msgstr "После закрытия папки"
 
-#: ../src/modules/mail/em-mailer-prefs.c:436
+#: ../src/modules/mail/em-mailer-prefs.c:466
+#: ../src/modules/mail/em-mailer-prefs.c:2044
 msgid "Header"
 msgstr "Заголовок"
 
-#: ../src/modules/mail/em-mailer-prefs.c:440
+#: ../src/modules/mail/em-mailer-prefs.c:470
 msgid "Contains Value"
 msgstr "Содержит значение"
 
 #. To Translators: 'Date header' is a label for configurable date/time format for 'Date' header in mail message window/preview
-#: ../src/modules/mail/em-mailer-prefs.c:1699
+#: ../src/modules/mail/em-mailer-prefs.c:2073
 msgid "_Date header:"
 msgstr "З_аголовок даты:"
 
-#: ../src/modules/mail/em-mailer-prefs.c:1700
+#: ../src/modules/mail/em-mailer-prefs.c:2074
 msgid "Show _original header value"
 msgstr "Показывать _исходное значение заголовка"
 
@@ -27413,7 +27435,7 @@ msgstr ""
 "Stas Solovey <whats_up@tut.by>, 2014-2019.\n"
 "Stepan Kashuba <ihaterabbids@gmail.com>, 2017.\n"
 "Igor Afanasenko <garrmad@gmail.com>, 2019.\n"
-"Alexey Rubtsov <rushills@gmail.com>"
+"Alexey Rubtsov <rushills@gmail.com>, 2020-2021"
 
 #: ../src/shell/e-shell-utils.c:354
 msgid "Website"
