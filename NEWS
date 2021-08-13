@@ -1,3 +1,19 @@
+Evolution 3.40.4 2021-08-13
+---------------------------
+
+Bug Fixes:
+	I#1522 - WebView: Enable light/dark color scheme for the preview panels (Milan Crha)
+	I#1564 - Contacts: Prefer original value only when filled on contact merge (Milan Crha)
+
+Miscellaneous:
+	mail-notification: Show mail folder name as the last in the notification (Milan Crha)
+	EShellSearchbar: Update actions only if the shell view is active (Milan Crha)
+
+Translations:
+	Matej Urbančič (sl)
+	Jordi Mas (ca)
+	Quentin PAGÈS (oc)
+
 Evolution 3.40.3 2021-07-09
 ---------------------------
 
