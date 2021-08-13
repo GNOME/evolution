@@ -1,3 +1,39 @@
+Evolution 3.41.2 2021-08-13
+---------------------------
+
+Bug Fixes:
+	I#329 - Mail: Limit by size a text attachment inline view (Milan Crha)
+	I#1433 - Message List columns for custom headers (Milan Crha)
+	I#1522 - WebView: Enable light/dark color scheme for the preview panels (Milan Crha)
+	I#1561 - ContactMap: Retry with shorter address when not found (Milan Crha)
+	I#1562 - Mail: Global search prevents execution of the saved searches (Milan Crha)
+	I#1564 - Contacts: Prefer original value only when filled on contact merge (Milan Crha)
+	I#1565 - Flush Outbox by default on rule firing with Forward action (Milan Crha)
+
+Miscellaneous:
+	mail-notification: Show mail folder name as the last in the notification (Milan Crha)
+	Mail: Let the Enter key press in folder tree focus the message list (Milan Crha)
+	EShellSearchbar: Update actions only if the shell view is active (Milan Crha)
+	EAlert: Make it possible to mark actions as destructive in the .error files (Milan Crha)
+	help: Remove some obsolete comments; link to free form syntax (Andre Klapper)
+
+Translations:
+	Hugo Carvalho (pt)
+	Daniel Șerbănescu (ro)
+	Rafael Fontenelle (pt_BR)
+	Boyuan Yang (zh_CN)
+	Yuri Chornoivan (uk)
+	Daniel Mustieles (es)
+	Philipp Kiemle (de)
+	Alexey Rubtsov (ru)
+	Fabio Tomat (fur)
+	Jordi Mas (ca)
+	Quentin PAGÈS (oc)
+	Enrico Nicoletto (pt_BR)
+	Aurimas Černius (lt)
+	Emin Tufan Çetin (tr)
+	Matej Urbančič (sl)
+
 Evolution 3.41.1 2021-07-09
 ---------------------------
 
