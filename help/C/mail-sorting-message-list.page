@@ -7,7 +7,7 @@
     <link type="guide" xref="mail-organizing"/>
     <link type="guide" xref="mail-layout-changing"/>
 
-    <revision pkgversion="3.30.0" version="0.10" date="2019-02-26" status="final"/>
+    <revision pkgversion="3.40.4" version="0.11" date="2021-08-20" status="final"/>
     <credit type="author">
       <name its:translate="no">Andre Klapper</name>
       <email its:translate="no">ak-47@gmx.net</email>
@@ -35,10 +35,20 @@
 <p>This feature, when enabled, groups replies with the original email and allows you to follow the flow of the conversation from one message to the next.</p>
 <note style="tip"><p><app>Evolution</app> recognizes <code its:translate="no" its:locNote="Translators: Do NOT translate 'References'">References</code> and <code its:translate="no" its:locNote="Translators: Do NOT translate 'In-Reply-To'">In-Reply-To</code> mail headers. In addition, you can enable <guiseq><gui>Edit</gui><gui>Preferences</gui><gui>Mail Preferences</gui><gui>General</gui><gui>Message Display</gui><gui>Fall back to threading messages by subject</gui></guiseq>.</p></note>
 <p>When a new message arrives, it will be added below the parent message. Threads are sorted and displayed based on the date of the most recent message received.</p>
-<note style="tip"><p>For Advanced Users: By default, all email threads are expanded. If you want all threads to be collapsed by default:</p>
+<note style="tip"><p>Advanced users can change further thread settings by running commands in the <app>Terminal</app> application.</p>
 <list>
-<item><p>Open the <app>Terminal</app> application.</p></item>
-<item><p>Run the command <cmd>gsettings set org.gnome.evolution.mail thread-expand false</cmd></p></item>
+<item>
+<p>To sort each thread by latest message rather than by message date:</p>
+<p its:translate="no"><cmd>gsettings set org.gnome.evolution.mail thread-latest true</cmd></p>
+</item>
+<item>
+<p>To use ascending sort order of child messages in a thread rather than the sort order as in the thread root level:</p>
+<p its:translate="no"><cmd>gsettings set org.gnome.evolution.mail thread-children-ascending true</cmd></p>
+</item>
+<item>
+<p>To collapse all threads by default rather than expanding them:</p>
+<p its:translate="no"><cmd>gsettings set org.gnome.evolution.mail thread-expand false</cmd></p>
+</item>
 </list>
 </note>
 </section>
