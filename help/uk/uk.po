@@ -6,8 +6,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: evolution master\n"
-"POT-Creation-Date: 2021-04-13 09:23+0000\n"
-"PO-Revision-Date: 2021-04-13 17:37+0300\n"
+"POT-Creation-Date: 2021-08-20 12:56+0000\n"
+"PO-Revision-Date: 2021-08-22 09:48+0300\n"
 "Last-Translator: Yuri Chornoivan <yurchor@ukr.net>\n"
 "Language-Team: Ukrainian <trans-uk@lists.fedoraproject.org>\n"
 "Language: uk\n"
@@ -300,11 +300,20 @@ msgstr "Введіть ваше ім'я користувача і вашу ад�
 
 #. (itstool) path: item/p
 #: C/calendar-caldav.page:59 C/calendar-google.page:55 C/calendar-local.page:46
-#: C/calendar-weather.page:56 C/calendar-webdav.page:55
-#: C/contacts-google.page:49 C/contacts-ldap.page:58 C/contacts-local.page:37
+#: C/calendar-meetings-delegating.page:41 C/calendar-weather.page:56
+#: C/calendar-webdav.page:55 C/contacts-google.page:49 C/contacts-ldap.page:58
+#: C/contacts-local.page:37 C/contacts-usage-add-contact.page:43
+#: C/contacts-usage-edit-contact.page:34 C/contacts-using-contact-lists.page:69
+#: C/mail-attachments-sending.page:32
+#: C/mail-composer-custom-header-lines.page:47
+#: C/mail-encryption-gpg-set-up.page:35
+#: C/mail-encryption-gpg-signing-encrypting.page:40
+#: C/mail-encryption-s-mime-signing-encrypting.page:36 C/mail-filters.page:50
+#: C/mail-filters.page:71 C/mail-search-folders-add.page:47
 #: C/tasks-caldav.page:32 C/tasks-local.page:28 C/tasks-webdav.page:34
-msgid "Click <gui style=\"button\">Apply</gui>."
-msgstr "Натисніть кнопку <gui style=\"button\">Застосувати</gui>."
+#: C/using-categories.page:51 C/using-categories.page:53
+msgid "Click <gui style=\"button\">OK</gui>."
+msgstr "Натисніть кнопку <gui style=\"button\">Гаразд</gui>."
 
 #. (itstool) path: page/p
 #: C/calendar-caldav.page:63 C/calendar-google.page:59 C/calendar-local.page:50
@@ -506,7 +515,7 @@ msgstr ""
 "<gui>Адреси</gui><gui>Вільний/зайнятий</gui></guiseq>."
 
 #. (itstool) path: page/p
-#: C/calendar-free-busy.page:90 C/calendar-publishing.page:43
+#: C/calendar-free-busy.page:90 C/calendar-publishing.page:40
 msgid ""
 "You can publish Calendar and Free/Busy information to a WebDAV server, FTP "
 "server, a remote machine through SSH or to any other web server with HTTP "
@@ -541,12 +550,12 @@ msgstr ""
 "інформації</gui><gui>Типовий сервер «Вільний/зайнятий»</gui></guiseq>."
 
 #. (itstool) path: section/title
-#: C/calendar-free-busy.page:108
+#: C/calendar-free-busy.page:105
 msgid "Accessing Free/Busy Data Without a Groupware Server"
 msgstr "Доступ до даних щодо зайнятості без сервера групової роботи"
 
 #. (itstool) path: section/p
-#: C/calendar-free-busy.page:110
+#: C/calendar-free-busy.page:107
 msgid ""
 "If individuals give you a URL for Free/Busy data or for their web calendar, "
 "you can add the URL under <guiseq><gui>Personal Information</gui><gui>Web "
@@ -1010,19 +1019,6 @@ msgstr "Виберіть пункт <gui>Доручити зібрання</gui>
 msgid "Select the contacts you want to delegate the meeting to."
 msgstr "Виберіть контакти, яким ви хочете доручити зібрання."
 
-#. (itstool) path: item/p
-#: C/calendar-meetings-delegating.page:41 C/contacts-usage-add-contact.page:43
-#: C/contacts-usage-edit-contact.page:34 C/contacts-using-contact-lists.page:69
-#: C/mail-attachments-sending.page:32
-#: C/mail-composer-custom-header-lines.page:47
-#: C/mail-encryption-gpg-set-up.page:35
-#: C/mail-encryption-gpg-signing-encrypting.page:40
-#: C/mail-encryption-s-mime-signing-encrypting.page:36 C/mail-filters.page:50
-#: C/mail-filters.page:71 C/mail-search-folders-add.page:47
-#: C/using-categories.page:51 C/using-categories.page:53
-msgid "Click <gui style=\"button\">OK</gui>."
-msgstr "Натисніть кнопку <gui style=\"button\">Гаразд</gui>."
-
 #. (itstool) path: page/p
 #: C/calendar-meetings-delegating.page:45
 msgid "Each contact receives a copy of the meeting invitation."
@@ -1330,7 +1326,7 @@ msgstr ""
 "\">Додати</gui></guiseq>."
 
 #. (itstool) path: page/p
-#: C/calendar-publishing.page:40
+#: C/calendar-publishing.page:37
 msgid ""
 "You can specify the online location, the frequency of publishing, which "
 "calendar(s) to publish, and authentication information for uploading."
@@ -1339,7 +1335,7 @@ msgstr ""
 "оприлюднення та дані для розпізнавання при оприлюдненні."
 
 #. (itstool) path: page/p
-#: C/calendar-publishing.page:47
+#: C/calendar-publishing.page:44
 msgid ""
 "To immediately publish calendar information, click <guiseq><gui>Actions</"
 "gui><gui>Publish Calendar Information</gui></guiseq> in the calendar."
@@ -1845,7 +1841,7 @@ msgstr "Позначте пункт <gui>Автоматичні контакти
 #: C/mail-composer-external-editor.page:28
 #: C/mail-composer-message-templates.page:29
 #: C/mail-composer-message-templates-variables.page:30
-#: C/mail-displaying-sender-photograph.page:37
+#: C/mail-displaying-sender-photograph.page:36
 #: C/mail-received-notification.page:32
 msgid ""
 "If a plugin is not available under <guiseq><gui>Edit</gui><gui>Plugins</"
@@ -3103,7 +3099,7 @@ msgstr "Остаточне вилучення повідомлень або до
 
 #. (itstool) path: section/title
 #: C/deleting-emails.page:29 C/import-supported-file-formats.page:28
-#: C/intro-keyboard-shortcuts.page:142 C/intro-main-window.page:35
+#: C/intro-keyboard-shortcuts.page:142 C/intro-main-window.page:34
 msgid "Mail"
 msgstr "Пошта"
 
@@ -3369,14 +3365,14 @@ msgid "Mozilla"
 msgstr "Mozilla"
 
 #. (itstool) path: note/p
-#: C/import-apps-mozilla.page:26
+#: C/import-apps-mozilla.page:24
 msgid "The instructions below might be outdated and not work anymore."
 msgstr ""
 "Наведені нижче настанови є застарілими — вони не працюватимуть у сучасних "
 "версіях."
 
 #. (itstool) path: note/p
-#: C/import-apps-mozilla.page:26
+#: C/import-apps-mozilla.page:24
 msgid ""
 "Follow <link href=\"https://mail.gnome.org/archives/evolution-list/2019-"
 "February/msg00055.html\">this mailing list posting</link> for an alternative "
@@ -3387,7 +3383,7 @@ msgstr ""
 "листування</link>, де наведено альтернативний спосіб вирішення проблеми."
 
 #. (itstool) path: item/p
-#: C/import-apps-mozilla.page:29
+#: C/import-apps-mozilla.page:27
 msgid ""
 "<link href=\"https://support.mozilla.org/en-US/kb/profiles-where-thunderbird-"
 "stores-user-data\">Find your <app>Thunderbird</app> profile folder.</link>"
@@ -3396,14 +3392,14 @@ msgstr ""
 "stores-user-data\">Знайдіть вашу теку профілів <app>Thunderbird</app>.</link>"
 
 #. (itstool) path: item/p
-#: C/import-apps-mozilla.page:30 C/import-apps-outlook.page:62
+#: C/import-apps-mozilla.page:28 C/import-apps-outlook.page:62
 #: C/import-single-files.page:24
 msgid "Click <guiseq><gui>File</gui><gui>Import</gui></guiseq>."
 msgstr ""
 "Виберіть пункт меню <guiseq><gui>Файл</gui><gui>Імпортувати</gui></guiseq>."
 
 #. (itstool) path: item/p
-#: C/import-apps-mozilla.page:31 C/import-apps-outlook.page:63
+#: C/import-apps-mozilla.page:29 C/import-apps-outlook.page:63
 #: C/import-single-files.page:25
 msgid ""
 "In the <gui>Importer Type</gui> tab, click <gui>Import a single file</gui>."
@@ -3412,7 +3408,7 @@ msgstr ""
 "файл</gui>."
 
 #. (itstool) path: item/p
-#: C/import-apps-mozilla.page:32
+#: C/import-apps-mozilla.page:30
 msgid ""
 "Go to the folder in which <app>Thunderbird</app> stores its data. You will "
 "have to make sure to <link xref=\"help:gnome-help/files-hidden#show-hidden\" "
@@ -3425,7 +3421,7 @@ msgstr ""
 "\">показ прихованих файлів</link> у діалоговому вікні вибору файлів."
 
 #. (itstool) path: item/p
-#: C/import-apps-mozilla.page:35
+#: C/import-apps-mozilla.page:33
 msgid ""
 "If you would like to import <app>Thunderbird</app> mail, go to <file>Mail/"
 "Local Folders</file> (for local mail accounts) or <file>ImapMail/servername</"
@@ -3441,7 +3437,7 @@ msgstr ""
 "повідомлення (а не у файлах <file>.msf</file>)."
 
 #. (itstool) path: item/p
-#: C/import-apps-mozilla.page:36
+#: C/import-apps-mozilla.page:34
 msgid ""
 "If you would like to import <app>Thunderbird/Lightning</app> calendar data, "
 "you may be able to export your <app>Thunderbird</app> events as an <file>."
@@ -3457,13 +3453,13 @@ msgstr ""
 "даних."
 
 #. (itstool) path: item/p
-#: C/import-apps-mozilla.page:38 C/import-apps-outlook.page:64
+#: C/import-apps-mozilla.page:36 C/import-apps-outlook.page:64
 #: C/import-single-files.page:26
 msgid "The file type will be automatically determined."
 msgstr "Тип файла буде визначено автоматично."
 
 #. (itstool) path: item/p
-#: C/import-apps-mozilla.page:39
+#: C/import-apps-mozilla.page:37
 msgid ""
 "Choose the destination (e.g. the folder or calendar in <app>Evolution</app>) "
 "for the imported data."
@@ -3472,7 +3468,7 @@ msgstr ""
 "для імпортованих даних."
 
 #. (itstool) path: item/p
-#: C/import-apps-mozilla.page:40 C/import-apps-outlook.page:68
+#: C/import-apps-mozilla.page:38 C/import-apps-outlook.page:68
 msgid "Repeat the import steps until you have imported all your data."
 msgstr ""
 "Повторюйте кроки імпортування, аж доки не буде імпортовано усі ваші дані."
@@ -3857,7 +3853,7 @@ msgstr ""
 
 #. (itstool) path: section/title
 #: C/import-supported-file-formats.page:46 C/intro-keyboard-shortcuts.page:254
-#: C/intro-main-window.page:98
+#: C/intro-main-window.page:97
 msgid "Calendar"
 msgstr "Календар"
 
@@ -3894,7 +3890,7 @@ msgstr ""
 
 #. (itstool) path: section/title
 #: C/import-supported-file-formats.page:60 C/intro-keyboard-shortcuts.page:326
-#: C/intro-main-window.page:144
+#: C/intro-main-window.page:143
 msgid "Contacts"
 msgstr "Контакти"
 
@@ -5125,7 +5121,7 @@ msgid "The <app>Evolution</app> main window"
 msgstr "Головне вікно <app>Evolution</app>"
 
 #. (itstool) path: page/p
-#: C/intro-main-window.page:32
+#: C/intro-main-window.page:31
 msgid ""
 "<app>Evolution</app> provides functionality for Email, Calendar, Contacts, "
 "Tasks, and Memos. You can switch to another functionality by using the "
@@ -5143,7 +5139,7 @@ msgstr ""
 #. the file changes, the md5 hash will change to let you know you need to
 #. update your localized copy. The msgstr is not used at all. Set it to
 #. whatever you like once you have updated your copy of the file.
-#: C/intro-main-window.page:37
+#: C/intro-main-window.page:36
 msgctxt "_"
 msgid ""
 "external ref='./figures/window-overview-layers.png' "
@@ -5153,72 +5149,72 @@ msgstr ""
 "md5='e8970a16606fd7c6665afbc404a8c220'"
 
 #. (itstool) path: media/p
-#: C/intro-main-window.page:38
+#: C/intro-main-window.page:37
 msgid "The <app>Evolution</app> mail main window"
 msgstr "Головне вікно роботи поштою в <app>Evolution</app>"
 
 #. (itstool) path: section/p
-#: C/intro-main-window.page:41
+#: C/intro-main-window.page:40
 msgid "Corresponding elements in the mail main window:"
 msgstr "Елементи головного вікна роботи з поштою:"
 
 #. (itstool) path: td/p
-#: C/intro-main-window.page:44 C/intro-main-window.page:102
-#: C/intro-main-window.page:148
+#: C/intro-main-window.page:43 C/intro-main-window.page:101
+#: C/intro-main-window.page:147
 msgid "<_:media-1/> Menu bar"
 msgstr "<_:media-1/> Рядок меню"
 
 #. (itstool) path: td/p
-#: C/intro-main-window.page:47 C/intro-main-window.page:105
-#: C/intro-main-window.page:151
+#: C/intro-main-window.page:46 C/intro-main-window.page:104
+#: C/intro-main-window.page:150
 msgid "<_:media-1/> Tool bar"
 msgstr "<_:media-1/> Панель інструментів"
 
 #. (itstool) path: td/p
-#: C/intro-main-window.page:50
+#: C/intro-main-window.page:49
 msgid "<_:media-1/> Folder list"
 msgstr "<_:media-1/> Список тек"
 
 #. (itstool) path: td/p
-#: C/intro-main-window.page:51 C/intro-main-window.page:109
-#: C/intro-main-window.page:155
+#: C/intro-main-window.page:50 C/intro-main-window.page:108
+#: C/intro-main-window.page:154
 msgid "<_:media-1/> Search bar"
 msgstr "<_:media-1/> Панель пошуку"
 
 #. (itstool) path: td/p
-#: C/intro-main-window.page:54
+#: C/intro-main-window.page:53
 msgid "<_:media-1/> Message list"
 msgstr "<_:media-1/> Список повідомлень"
 
 #. (itstool) path: td/p
-#: C/intro-main-window.page:55
+#: C/intro-main-window.page:54
 msgid "<_:media-1/> To Do bar"
 msgstr "<_:media-1/> Панель «Зробити»"
 
 #. (itstool) path: td/p
-#: C/intro-main-window.page:58
+#: C/intro-main-window.page:57
 msgid "<_:media-1/> Preview pane"
 msgstr "<_:media-1/> Панель попереднього перегляду"
 
 #. (itstool) path: td/p
-#: C/intro-main-window.page:61 C/intro-main-window.page:120
-#: C/intro-main-window.page:161
+#: C/intro-main-window.page:60 C/intro-main-window.page:119
+#: C/intro-main-window.page:160
 msgid "<_:media-1/> Switcher"
 msgstr "<_:media-1/> Перемикач"
 
 #. (itstool) path: td/p
-#: C/intro-main-window.page:64 C/intro-main-window.page:123
-#: C/intro-main-window.page:165
+#: C/intro-main-window.page:63 C/intro-main-window.page:122
+#: C/intro-main-window.page:164
 msgid "<_:media-1/> Status bar"
 msgstr "<_:media-1/> Смужка стану"
 
 #. (itstool) path: item/title
-#: C/intro-main-window.page:70
+#: C/intro-main-window.page:69
 msgid "Folder list"
 msgstr "Список тек"
 
 #. (itstool) path: item/p
-#: C/intro-main-window.page:71
+#: C/intro-main-window.page:70
 msgid ""
 "The folder list gives you a list of the available folders for each account. "
 "To see the contents of a folder, click the folder name and its contents are "
@@ -5229,7 +5225,7 @@ msgstr ""
 "теки — вміст теки буде показано на панелі списку повідомлень."
 
 #. (itstool) path: note/p
-#: C/intro-main-window.page:72
+#: C/intro-main-window.page:71
 msgid ""
 "For more information see <link xref=\"mail-folders\">Using Folders</link>."
 msgstr ""
@@ -5237,12 +5233,12 @@ msgstr ""
 "\">Користування теками</link>."
 
 #. (itstool) path: item/title
-#: C/intro-main-window.page:75
+#: C/intro-main-window.page:74
 msgid "Message List"
 msgstr "Список повідомлень"
 
 #. (itstool) path: item/p
-#: C/intro-main-window.page:76
+#: C/intro-main-window.page:75
 msgid ""
 "The message list displays all the read and unread messages that you have in "
 "the chosen folder. To view an email in the preview pane, click the message "
@@ -5253,12 +5249,12 @@ msgstr ""
 "перегляду, клацніть на пункті повідомлення у списку повідомлень."
 
 #. (itstool) path: item/title
-#: C/intro-main-window.page:79
+#: C/intro-main-window.page:78
 msgid "Switcher"
 msgstr "Перемикач"
 
 #. (itstool) path: item/p
-#: C/intro-main-window.page:80
+#: C/intro-main-window.page:79
 msgid ""
 "The switcher at the bottom of the side bar lets you switch between the "
 "<app>Evolution</app> tools: Mail, Contacts, Calendars, Memos and Tasks."
@@ -5268,7 +5264,7 @@ msgstr ""
 "календарі, примітки і завдання."
 
 #. (itstool) path: note/p
-#: C/intro-main-window.page:81
+#: C/intro-main-window.page:80
 msgid ""
 "You can disable the folder list and the switcher side bar by toggling "
 "<guiseq><gui>View</gui><gui>Layout</gui><gui>Show Side Bar</gui></guiseq> or "
@@ -5279,12 +5275,12 @@ msgstr ""
 "панель</gui></guiseq> або натискання клавіші <key>F9</key>."
 
 #. (itstool) path: item/title
-#: C/intro-main-window.page:84
+#: C/intro-main-window.page:83
 msgid "Preview Pane"
 msgstr "Панель попереднього перегляду"
 
 #. (itstool) path: item/p
-#: C/intro-main-window.page:85
+#: C/intro-main-window.page:84
 msgid ""
 "The preview pane displays the message that is currently chosen in the "
 "message list."
@@ -5293,7 +5289,7 @@ msgstr ""
 "позначено у списку повідомлень."
 
 #. (itstool) path: note/p
-#: C/intro-main-window.page:86
+#: C/intro-main-window.page:85
 msgid ""
 "You can disable the preview pane by toggling <guiseq><gui>View</"
 "gui><gui>Preview</gui><gui>Show Message Preview</gui></guiseq>."
@@ -5303,12 +5299,12 @@ msgstr ""
 "перегляд повідомлення</gui></guiseq>."
 
 #. (itstool) path: item/title
-#: C/intro-main-window.page:89
+#: C/intro-main-window.page:88
 msgid "To Do bar"
 msgstr "Панель «Зробити»"
 
 #. (itstool) path: item/p
-#: C/intro-main-window.page:90
+#: C/intro-main-window.page:89
 msgid ""
 "The to do bar displays calendar appointments and tasks with due dates within "
 "the next seven days."
@@ -5317,7 +5313,7 @@ msgstr ""
 "виконання яких визначено у наступні сім днів."
 
 #. (itstool) path: note/p
-#: C/intro-main-window.page:91
+#: C/intro-main-window.page:90
 msgid ""
 "You can disable the to do bar by toggling <guiseq><gui>View</"
 "gui><gui>Layout</gui><gui>Show To Do Bar</gui></guiseq>."
@@ -5327,7 +5323,7 @@ msgstr ""
 "«Зробити»</gui></guiseq>."
 
 #. (itstool) path: note/p
-#: C/intro-main-window.page:94
+#: C/intro-main-window.page:93
 msgid ""
 "If you ever accidentally hide the menu bar, press <key>Alt</key> and re-"
 "enable it by toggling <guiseq><gui>View</gui><gui>Layout</gui><gui>Show Menu "
@@ -5338,42 +5334,42 @@ msgstr ""
 "gui><gui>Розташування</gui><gui>Показати панель меню</gui></guiseq>."
 
 #. (itstool) path: section/p
-#: C/intro-main-window.page:99
+#: C/intro-main-window.page:98
 msgid "Elements in the calendar main window:"
 msgstr "Елементи головного вікна календаря:"
 
 #. (itstool) path: td/p
-#: C/intro-main-window.page:108
+#: C/intro-main-window.page:107
 msgid "<_:media-1/> Calendar list"
 msgstr "<_:media-1/> Список календарів"
 
 #. (itstool) path: td/p
-#: C/intro-main-window.page:112
+#: C/intro-main-window.page:111
 msgid "<_:media-1/> Appointment list"
 msgstr "<_:media-1/> Список зустрічей"
 
 #. (itstool) path: td/p
-#: C/intro-main-window.page:113
+#: C/intro-main-window.page:112
 msgid "Task list"
 msgstr "Список завдань"
 
 #. (itstool) path: td/p
-#: C/intro-main-window.page:116
+#: C/intro-main-window.page:115
 msgid "Month pane"
 msgstr "Панель місяця"
 
 #. (itstool) path: td/p
-#: C/intro-main-window.page:117
+#: C/intro-main-window.page:116
 msgid "Memo list"
 msgstr "Список приміток"
 
 #. (itstool) path: item/title
-#: C/intro-main-window.page:128
+#: C/intro-main-window.page:127
 msgid "Appointment List"
 msgstr "Список зустрічей"
 
 #. (itstool) path: item/p
-#: C/intro-main-window.page:129
+#: C/intro-main-window.page:128
 msgid ""
 "The appointment list displays all your scheduled appointments in the time "
 "frame selected."
@@ -5382,12 +5378,12 @@ msgstr ""
 "визначеного вами діапазону часу."
 
 #. (itstool) path: item/title
-#: C/intro-main-window.page:132
+#: C/intro-main-window.page:131
 msgid "Month Pane"
 msgstr "Панель місяця"
 
 #. (itstool) path: item/p
-#: C/intro-main-window.page:133
+#: C/intro-main-window.page:132
 msgid ""
 "The month pane is a small view of a calendar month. To display additional "
 "months, drag the column border to the right. You can also select a range of "
@@ -5400,12 +5396,12 @@ msgstr ""
 "переглянути нетиповий діапазон днів у списку зустрічей."
 
 #. (itstool) path: item/title
-#: C/intro-main-window.page:136
+#: C/intro-main-window.page:135
 msgid "Task list and Memo list"
 msgstr "Список завдань і список приміток"
 
 #. (itstool) path: item/p
-#: C/intro-main-window.page:137
+#: C/intro-main-window.page:136
 msgid ""
 "Tasks and memos are just displayed for your convenience and are not "
 "associated to any appointments. Use the <gui>switcher</gui> to go to their "
@@ -5416,27 +5412,27 @@ msgstr ""
 "відповідних панелей перегляду."
 
 #. (itstool) path: section/p
-#: C/intro-main-window.page:145
+#: C/intro-main-window.page:144
 msgid "Elements in the contacts main window:"
 msgstr "Елементи у головному вікні списку контактів:"
 
 #. (itstool) path: td/p
-#: C/intro-main-window.page:154
+#: C/intro-main-window.page:153
 msgid "<_:media-1/> Address book list"
 msgstr "<_:media-1/> Список адресних книг"
 
 #. (itstool) path: td/p
-#: C/intro-main-window.page:158
+#: C/intro-main-window.page:157
 msgid "<_:media-1/> Contacts list"
 msgstr "<_:media-1/> Список контактів"
 
 #. (itstool) path: td/p
-#: C/intro-main-window.page:162
+#: C/intro-main-window.page:161
 msgid "<_:media-1/> Contact preview"
 msgstr "<_:media-1/> Панель перегляду контактів"
 
 #. (itstool) path: note/p
-#: C/intro-main-window.page:168
+#: C/intro-main-window.page:167
 msgid ""
 "You can disable the contact preview by toggling <guiseq><gui>View</"
 "gui><gui>Preview</gui><gui>Contact Preview</gui></guiseq>."
@@ -6834,7 +6830,7 @@ msgstr ""
 
 #. (itstool) path: note/p
 #: C/mail-change-columns-in-message-list.page:27
-#: C/mail-sorting-message-list.page:57
+#: C/mail-sorting-message-list.page:67
 msgid ""
 "If you would like to have a different sort order and/or columns for specific "
 "mail folders, make sure that <guiseq><gui>Edit</gui><gui>Preferences</"
@@ -7671,13 +7667,11 @@ msgstr "Опис"
 
 #. (itstool) path: td/p
 #: C/mail-composer-html-text.page:36
-#| msgid "Defaults"
 msgid "Default"
 msgstr "Типовий"
 
 #. (itstool) path: td/p
 #: C/mail-composer-html-text.page:37
-#| msgid "Font size."
 msgid "Font name."
 msgstr "Назва шрифту."
 
@@ -7694,16 +7688,10 @@ msgstr "Розмір шрифту."
 #. (itstool) path: td/p
 #: C/mail-composer-html-text.page:45
 msgid "Text color."
-msgstr ""
-"Колір тексту."
+msgstr "Колір тексту."
 
 #. (itstool) path: td/p
 #: C/mail-composer-html-text.page:45 C/mail-composer-html-text.page:49
-#| msgid ""
-#| "Use these buttons in the lower tool bar to determine the way your email "
-#| "looks. If you have text selected, the style applies to the selected text. "
-#| "If you do not have text selected, the style applies to whatever you type "
-#| "next."
 msgid ""
 "The box displays the current text color. If you have text selected, the "
 "color applies to the selected text. If you do not have text selected, the "
@@ -7716,8 +7704,7 @@ msgstr ""
 #. (itstool) path: td/p
 #: C/mail-composer-html-text.page:49
 msgid "Background color of the text."
-msgstr ""
-"Колір тла тексту."
+msgstr "Колір тла тексту."
 
 #. (itstool) path: td/p
 #: C/mail-composer-html-text.page:52
@@ -8149,12 +8136,12 @@ msgstr ""
 "середовища, заміна не виконуватиметься."
 
 #. (itstool) path: section/title
-#: C/mail-composer-message-templates-variables.page:54
+#: C/mail-composer-message-templates-variables.page:53
 msgid "Using Elements From a Message in a Template When Replying"
 msgstr "Використання елементів з повідомлення у шаблоні при відповіді"
 
 #. (itstool) path: section/p
-#: C/mail-composer-message-templates-variables.page:55
+#: C/mail-composer-message-templates-variables.page:54
 msgid ""
 "Templates can contain more than just the predefined set of <link xref="
 "\"#configure\">key-value pairs</link>. You can also get any message header "
@@ -8169,7 +8156,7 @@ msgstr ""
 #. (itstool) path: section/p
 #. TO TRANSLATORS: Do NOT translate $ORIG[subject] and $ORIG[body] in this
 #. sentence!
-#: C/mail-composer-message-templates-variables.page:57
+#: C/mail-composer-message-templates-variables.page:56
 msgid ""
 "In order to do this, use the format <code>$ORIG[header_name]</code> and "
 "replace the variable <code>header_name</code> by the actual header. For "
@@ -8187,7 +8174,7 @@ msgstr ""
 #. (itstool) path: section/p
 #. TO TRANSLATORS: Do NOT translate $ORIG[body] and $ORIG[reply-to] in
 #. this sentence!
-#: C/mail-composer-message-templates-variables.page:59
+#: C/mail-composer-message-templates-variables.page:58
 msgid ""
 "If no replacement for a variable is found, the variable is not removed "
 "(except for <code>$ORIG[body]</code>) but left in place so that you see that "
@@ -9275,7 +9262,9 @@ msgid ""
 "Email#Plain_text_and_HTML\">Plain text or HTML</link>. Each format has its "
 "pros and cons."
 msgstr ""
-"Існує два формати повідомлень електронної пошти: <link href=\"https://en.wikipedia.org/wiki/Email#Plain_text_and_HTML\">звичайний текст і HTML</link>. У кожного з форматів є свої переваги і недоліки."
+"Існує два формати повідомлень електронної пошти: <link href=\"https://en."
+"wikipedia.org/wiki/Email#Plain_text_and_HTML\">звичайний текст і HTML</"
+"link>. У кожного з форматів є свої переваги і недоліки."
 
 #. (itstool) path: page/p
 #: C/mail-displaying-message.page:25
@@ -9297,8 +9286,8 @@ msgid ""
 "For formatting emails in the composer, see <link xref=\"mail-composer-html\"/"
 ">."
 msgstr ""
-"Опис форматування повідомлень у редакторі наведено у розділі <link xref=\"mail-composer-html\"/"
-">."
+"Опис форматування повідомлень у редакторі наведено у розділі <link xref="
+"\"mail-composer-html\"/>."
 
 #. (itstool) path: section/title
 #: C/mail-displaying-message.page:30
@@ -9358,7 +9347,7 @@ msgstr ""
 "відповідників."
 
 #. (itstool) path: note/p
-#: C/mail-displaying-sender-photograph.page:36
+#: C/mail-displaying-sender-photograph.page:35
 msgid ""
 "You can also embed your own image in messages that you send under "
 "<guiseq><gui>Edit</gui><gui>Plugins</gui><gui>Face</gui></guiseq>. The image "
@@ -10251,7 +10240,7 @@ msgstr "Закрийте <app>Evolution</app>."
 
 #. (itstool) path: item/p
 #: C/mail-filters-not-working.page:45 C/mail-localized-re-subjects.page:24
-#: C/mail-save-as-pdf.page:27 C/mail-sorting-message-list.page:40
+#: C/mail-save-as-pdf.page:27
 msgid "Open the <app>Terminal</app> application."
 msgstr "Відкрийте вікно програми <app>Термінал</app>."
 
@@ -11432,7 +11421,7 @@ msgstr ""
 
 #. (itstool) path: item/p
 #: C/mail-receiving-options-exchange-ews.page:45
-#: C/mail-receiving-options-imap-plus.page:52
+#: C/mail-receiving-options-imap-plus.page:51
 msgid ""
 "Select if you want <link xref=\"mail-filters\">filters</link> to be "
 "automatically applied on mail that you receive, if <link xref=\"mail-spam-"
@@ -11536,7 +11525,7 @@ msgstr ""
 "швидкої повторної синхронізації поштової скриньки</link>."
 
 #. (itstool) path: item/p
-#: C/mail-receiving-options-imap-plus.page:49
+#: C/mail-receiving-options-imap-plus.page:48
 msgid ""
 "If the mail server does not allow multiple connections from <app>Evolution</"
 "app> to the server at the same time (for example when you have more than one "
@@ -11549,7 +11538,7 @@ msgstr ""
 "значення 1."
 
 #. (itstool) path: item/p
-#: C/mail-receiving-options-imap-plus.page:50
+#: C/mail-receiving-options-imap-plus.page:49
 msgid ""
 "You can also define if <app>Evolution</app> checks for new messages in all "
 "folders, or only in subscribed folders."
@@ -11558,7 +11547,7 @@ msgstr ""
 "повідомлення у всіх теках чи лише у теках із оформленою підпискою."
 
 #. (itstool) path: item/p
-#: C/mail-receiving-options-imap-plus.page:51
+#: C/mail-receiving-options-imap-plus.page:50
 msgid ""
 "Select if you want <app>Evolution</app> to show only <link xref=\"mail-imap-"
 "subscriptions\">subscribed folders</link>."
@@ -12220,7 +12209,6 @@ msgstr ""
 
 #. (itstool) path: section/title
 #: C/mail-searching.page:64
-#| msgid "Free Form Expression:"
 msgid "Free Form Expression"
 msgstr "Вираз у довільній формі"
 
@@ -12239,7 +12227,19 @@ msgid ""
 "Subject containing <code>Smith</code>, while <code>f:\"John Smith\"</code> "
 "filters messages for a sender <code>John Smith</code>."
 msgstr ""
-"Одним із варіантів умов пошуку є <gui>Вираз у довільній формі</gui>, за допомогою якого можна визначати складні умови. На першому етапі заданий вираз у довільній формі буде поділено на слова. Якщо у слова немає будь-якого (відомого) префікса-теґу, буде виконано перевірку наявності значення у заголовках «Кому», «Копія» та «Тема». Якщо у критерії пошуку має бути пробіл або будь-який інший спеціальний символ, його слід взяти у подвійні лапки. Щоб використати сам символ подвійних лапок, подвойте його у тексті. Приклад: <code>цитата \"\"тут\"\"</code> буде оброблено як одне слово <code>цитата \"тут\"</code>. Наприклад, після фільтрування <code>f:John Smith</code> залишаються повідомлення, у яких поле «Від» містить слово <code>John</code>, а поля «Кому», «Копія» або «Тема» містять слово <code>Smith</code>, а після фільтрування <code>f:\"John Smith\"</code> у списку лишаються повідомлення з відправником <code>John Smith</code>."
+"Одним із варіантів умов пошуку є <gui>Вираз у довільній формі</gui>, за "
+"допомогою якого можна визначати складні умови. На першому етапі заданий "
+"вираз у довільній формі буде поділено на слова. Якщо у слова немає будь-"
+"якого (відомого) префікса-теґу, буде виконано перевірку наявності значення у "
+"заголовках «Кому», «Копія» та «Тема». Якщо у критерії пошуку має бути пробіл "
+"або будь-який інший спеціальний символ, його слід взяти у подвійні лапки. "
+"Щоб використати сам символ подвійних лапок, подвойте його у тексті. Приклад: "
+"<code>цитата \"\"тут\"\"</code> буде оброблено як одне слово <code>цитата "
+"\"тут\"</code>. Наприклад, після фільтрування <code>f:John Smith</code> "
+"залишаються повідомлення, у яких поле «Від» містить слово <code>John</code>, "
+"а поля «Кому», «Копія» або «Тема» містять слово <code>Smith</code>, а після "
+"фільтрування <code>f:\"John Smith\"</code> у списку лишаються повідомлення з "
+"відправником <code>John Smith</code>."
 
 #. (itstool) path: section/p
 #: C/mail-searching.page:66
@@ -12247,72 +12247,63 @@ msgid ""
 "The syntax of the tags is <code>&lt;tag&gt;[-&lt;options&gt;]:value</code>. "
 "The tags are:"
 msgstr ""
-"Синтаксична конструкція теґу є такою: <code>&lt;теґ&gt;[-&lt;параметри&gt;]:значення</code>. Передбачено такі теґи:"
+"Синтаксична конструкція теґу є такою: <code>&lt;теґ&gt;[-&lt;параметри&gt;]:"
+"значення</code>. Передбачено такі теґи:"
 
 #. (itstool) path: td/p
 #: C/mail-searching.page:68
 msgid "Tag"
-msgstr ""
-"Теґ"
+msgstr "Теґ"
 
 #. (itstool) path: td/p
 #: C/mail-searching.page:68 C/mail-searching.page:100
 msgid "Abbreviation"
-msgstr ""
-"Скорочення"
+msgstr "Скорочення"
 
 #. (itstool) path: td/p
 #: C/mail-searching.page:68 C/mail-searching.page:100 C/mail-searching.page:124
 msgid "Meaning"
-msgstr ""
-"Значення"
+msgstr "Значення"
 
 #. (itstool) path: td/p
 #. Translators: 'From' is a header name, do not translate it
 #: C/mail-searching.page:69
 msgid "From header should match (*)"
-msgstr ""
-"Заголовок «Від» має відповідати (*)"
+msgstr "Заголовок «Від» має відповідати (*)"
 
 #. (itstool) path: td/p
 #. Translators: 'To' is a header name, do not translate it
 #: C/mail-searching.page:70
 msgid "To header should match (*)"
-msgstr ""
-"Заголовок «Кому» має відповідати (*)"
+msgstr "Заголовок «Кому» має відповідати (*)"
 
 #. (itstool) path: td/p
 #. Translators: 'CC' is a header name, do not translate it
 #: C/mail-searching.page:71
 msgid "CC header should match (*)"
-msgstr ""
-"Заголовок «Копія» має відповідати (*)"
+msgstr "Заголовок «Копія» має відповідати (*)"
 
 #. (itstool) path: td/p
 #. Translators: 'To' and 'CC' are the header names, do not translate it
 #: C/mail-searching.page:72
 msgid "To or CC headers should match (*)"
-msgstr ""
-"Заголовки «Кому» і «Копія» має відповідати (*)"
+msgstr "Заголовки «Кому» і «Копія» має відповідати (*)"
 
 #. (itstool) path: td/p
 #. Translators: 'Subject' is a header name, do not translate it
 #: C/mail-searching.page:73
 msgid "Subject header should match (*)"
-msgstr ""
-"Заголовок «Тема» має відповідати (*)"
+msgstr "Заголовок «Тема» має відповідати (*)"
 
 #. (itstool) path: td/p
 #: C/mail-searching.page:74
 msgid "Mailing list header should match (*)"
-msgstr ""
-"Заголовок «Список листування» має відповідати (*)"
+msgstr "Заголовок «Список листування» має відповідати (*)"
 
 #. (itstool) path: td/p
 #: C/mail-searching.page:75
 msgid "given header should match (*)"
-msgstr ""
-"Вказаний заголовок має відповідати (*)"
+msgstr "Вказаний заголовок має відповідати (*)"
 
 #. (itstool) path: td/p
 #: C/mail-searching.page:76
@@ -12320,25 +12311,23 @@ msgid ""
 "the syntax is: <code>h:headerName=value</code> while the equal sign is used "
 "only as a delimiter, not as a match rule"
 msgstr ""
-"синтаксис: <code>h:НазваЗаголовка=значення</code>, а знак рівності використовується як роздільник, а не правило відповідності"
+"синтаксис: <code>h:НазваЗаголовка=значення</code>, а знак рівності "
+"використовується як роздільник, а не правило відповідності"
 
 #. (itstool) path: td/p
 #: C/mail-searching.page:77
 msgid "whether given header exists"
-msgstr ""
-"чи існує вказаний заголовок"
+msgstr "чи існує вказаний заголовок"
 
 #. (itstool) path: td/p
 #: C/mail-searching.page:78
-#| msgid "Inserting custom headers in a message"
 msgid "given user tag is set on a message"
 msgstr "для повідомлення встановлено вказану мітку користувача"
 
 #. (itstool) path: td/p
 #: C/mail-searching.page:79
 msgid "whether certain flag is set; known special values are:"
-msgstr ""
-"чи встановлено певний прапорець; відомі спеціальні значення:"
+msgstr "чи встановлено певний прапорець; відомі спеціальні значення:"
 
 #. (itstool) path: td/p
 #. (itstool) comment: ./code
@@ -12349,7 +12338,8 @@ msgid ""
 "\">Answered</code> - the message is marked as replied"
 msgstr ""
 "<code its:locNote=\"Translators: This is translated in a 'ffe' context"
-"\">Answered</code> — повідомлення позначене як таке, на яке надіслано відповідь"
+"\">Answered</code> — повідомлення позначене як таке, на яке надіслано "
+"відповідь"
 
 #. (itstool) path: td/p
 #. (itstool) comment: ./code
@@ -12409,8 +12399,7 @@ msgstr ""
 #. (itstool) path: td/p
 #: C/mail-searching.page:86
 msgid "Any other value is checked for its non-emptiness."
-msgstr ""
-"Буде перевірено на заповненість будь-яке інше значення."
+msgstr "Буде перевірено на заповненість будь-яке інше значення."
 
 #. (itstool) path: td/p
 #: C/mail-searching.page:87
@@ -12422,8 +12411,7 @@ msgstr ""
 #. (itstool) path: td/p
 #: C/mail-searching.page:88
 msgid "whether message size, in KB, is equal to the given value"
-msgstr ""
-"чи розмір повідомлення у кБ рівний заданому значенню"
+msgstr "чи розмір повідомлення у кБ рівний заданому значенню"
 
 #. (itstool) path: td/p
 #: C/mail-searching.page:89
@@ -12433,7 +12421,10 @@ msgid ""
 "Example: <code>size-&gt;:1024</code> filters messages which are more than "
 "1MB large."
 msgstr ""
-"Передбачено розпізнавання двох варіантів: <code>&lt;</code> для отримання повідомлень із меншим розміром і <code>&gt;</code> для отримання повідомлень із більшим розміром за вказаний. Приклад: <code>size-&gt;:1024</code> фільтрує повідомлення, розмір яких перевищує 1 МБ."
+"Передбачено розпізнавання двох варіантів: <code>&lt;</code> для отримання "
+"повідомлень із меншим розміром і <code>&gt;</code> для отримання повідомлень "
+"із більшим розміром за вказаний. Приклад: <code>size-&gt;:1024</code> "
+"фільтрує повідомлення, розмір яких перевищує 1 МБ."
 
 #. (itstool) path: td/p
 #: C/mail-searching.page:90
@@ -12442,8 +12433,9 @@ msgid ""
 "compare is equal, but, similar to <code>size</code> a <code>&lt;</code> and "
 "<code>&gt;</code> options can be used"
 msgstr ""
-"порівнює теґ <code>score</code> повідомлення зі вказаним значенням; типовим режимом порівняння є рівність, але, подібно до <code>size</code>, можна скористатися режимами <code>&lt;</code> і "
-"<code>&gt;</code>"
+"порівнює теґ <code>score</code> повідомлення зі вказаним значенням; типовим "
+"режимом порівняння є рівність, але, подібно до <code>size</code>, можна "
+"скористатися режимами <code>&lt;</code> і <code>&gt;</code>"
 
 #. (itstool) path: td/p
 #: C/mail-searching.page:91
@@ -12453,19 +12445,20 @@ msgid ""
 "if the option is one of the <code>regex</code>, <code>re</code> or <code>r</"
 "code>."
 msgstr ""
-"перевіряє, чи міститься вказане слово у тексті повідомлення; типовим варіантом порівняння є <code>містить</code>, але може бути використано формальний вираз, якщо варіантом вказано <code>regex</code>, <code>re</code> або <code>r</code>."
+"перевіряє, чи міститься вказане слово у тексті повідомлення; типовим "
+"варіантом порівняння є <code>містить</code>, але може бути використано "
+"формальний вираз, якщо варіантом вказано <code>regex</code>, <code>re</code> "
+"або <code>r</code>."
 
 #. (itstool) path: td/p
 #: C/mail-searching.page:92
 msgid "message's Sent date should match (**)"
-msgstr ""
-"має бути відповідною дата повідомлення у полі «Надіслано» (**)"
+msgstr "має бути відповідною дата повідомлення у полі «Надіслано» (**)"
 
 #. (itstool) path: td/p
 #: C/mail-searching.page:93
 msgid "message's Received date should match (**)"
-msgstr ""
-"має бути відповідною дата повідомлення у полі «Отримано» (**)"
+msgstr "має бути відповідною дата повідомлення у полі «Отримано» (**)"
 
 #. (itstool) path: td/p
 #: C/mail-searching.page:94
@@ -12473,7 +12466,9 @@ msgid ""
 "message has (if the value is not any of <code>no</code>, <code>false</code>, "
 "<code>0</code>) an attachment. Similar to <code>flag:attachment</code> tag."
 msgstr ""
-"повідомлення містить долучення (якщо значення не дорівнює <code>no</code>, <code>false</code>, <code>0</code>). Подібний до теґу <code>flag:attachment</code>."
+"повідомлення містить долучення (якщо значення не дорівнює <code>no</code>, "
+"<code>false</code>, <code>0</code>). Подібний до теґу <code>flag:attachment</"
+"code>."
 
 #. (itstool) path: td/p
 #: C/mail-searching.page:95
@@ -12482,12 +12477,12 @@ msgid ""
 "<gui>Properties</gui>. Example: <code>location:\"On This Computer/Inbox\"</"
 "code>"
 msgstr ""
-"Перевіряє розташування повідомлення. Значення розташування (адресу) можна знайти у теці <gui>Властивості</gui>. Приклад: <code>location:\"On This Computer/Inbox\"</"
-"code>"
+"Перевіряє розташування повідомлення. Значення розташування (адресу) можна "
+"знайти у теці <gui>Властивості</gui>. Приклад: <code>location:\"On This "
+"Computer/Inbox\"</code>"
 
 #. (itstool) path: td/p
 #: C/mail-searching.page:96
-#| msgid "Composing a new message"
 msgid "Compares message ID."
 msgstr "Порівнює ідентифікатор повідомлення."
 
@@ -12497,61 +12492,54 @@ msgid ""
 "(*) Header comparisons can have a matching type option. The default is to "
 "check for a <code>contains</code>. The available options are:"
 msgstr ""
-"(*) Порівняння заголовків може містити варіант типу встановлення відповідності. Типовим режимом порівняння є <code>містить</code>. Доступні варіанти:"
+"(*) Порівняння заголовків може містити варіант типу встановлення "
+"відповідності. Типовим режимом порівняння є <code>містить</code>. Доступні "
+"варіанти:"
 
 #. (itstool) path: td/p
 #: C/mail-searching.page:100
-#| msgid "Action"
 msgid "Option"
 msgstr "Параметр"
 
 #. (itstool) path: td/p
 #: C/mail-searching.page:101
 msgid "matches with contains"
-msgstr ""
-"порівнює у режимі «містить»"
+msgstr "порівнює у режимі «містить»"
 
 #. (itstool) path: td/p
 #: C/mail-searching.page:102
 msgid "matches if contains whole word"
-msgstr ""
-"визначає, чи містить ціле слово"
+msgstr "визначає, чи містить ціле слово"
 
 #. (itstool) path: td/p
 #: C/mail-searching.page:103
 msgid "value's exact match"
-msgstr ""
-"точна відповідність значенню"
+msgstr "точна відповідність значенню"
 
 #. (itstool) path: td/p
 #: C/mail-searching.page:104
 msgid "header value starts with the given value"
-msgstr ""
-"значення заголовка починається із вказаного значення"
+msgstr "значення заголовка починається із вказаного значення"
 
 #. (itstool) path: td/p
 #: C/mail-searching.page:105
 msgid "header value ends with the given value"
-msgstr ""
-"значення заголовка завершується вказаним значенням"
+msgstr "значення заголовка завершується вказаним значенням"
 
 #. (itstool) path: td/p
 #: C/mail-searching.page:106
 msgid "header value sounds similar to given value"
-msgstr ""
-"значення заголовка є подібним до вказаного значення"
+msgstr "значення заголовка є подібним до вказаного значення"
 
 #. (itstool) path: td/p
 #: C/mail-searching.page:107
 msgid "the given value is a regular expression"
-msgstr ""
-"вказане значення є формальним виразом"
+msgstr "вказане значення є формальним виразом"
 
 #. (itstool) path: td/p
 #: C/mail-searching.page:108
 msgid "another type of a regular expression"
-msgstr ""
-"інший тип формального виразу"
+msgstr "інший тип формального виразу"
 
 #. (itstool) path: section/p
 #: C/mail-searching.page:110
@@ -12566,13 +12554,23 @@ msgid ""
 "code>, <code>=</code> or <code>&gt;</code>, where the <code>&gt;</code> is "
 "the default compare option."
 msgstr ""
-"(**) Дати можна записувати відносно (додатне число означає <code>протягом останніх X днів</code>), а від'ємне дає дати у майбутньому. Наприклад, щоб отримати повідомлення, які було отримано протягом останніх 10 днів, скористайтеся таким виразом: <code>recv:10</code>. Можна також скористатися точною датою у форматі <code>РРРР-ММ-ДД</code> (рекомендований формат), форматі ISO 8601 або специфічному для локалі форматі дати або дати і часу. Якщо засобу обробки не вдасться розібрати запис дати і часу, умову буде пропущено. У порівняннях дат також можна скористатися різними варіантами, а саме, <code>&lt;</code>, <code>=</code> або <code>&gt;</code>. Типовим є варіант порівняння <code>&gt;</code>."
+"(**) Дати можна записувати відносно (додатне число означає <code>протягом "
+"останніх X днів</code>), а від'ємне дає дати у майбутньому. Наприклад, щоб "
+"отримати повідомлення, які було отримано протягом останніх 10 днів, "
+"скористайтеся таким виразом: <code>recv:10</code>. Можна також скористатися "
+"точною датою у форматі <code>РРРР-ММ-ДД</code> (рекомендований формат), "
+"форматі ISO 8601 або специфічному для локалі форматі дати або дати і часу. "
+"Якщо засобу обробки не вдасться розібрати запис дати і часу, умову буде "
+"пропущено. У порівняннях дат також можна скористатися різними варіантами, а "
+"саме, <code>&lt;</code>, <code>=</code> або <code>&gt;</code>. Типовим є "
+"варіант порівняння <code>&gt;</code>."
 
 #. (itstool) path: section/p
 #: C/mail-searching.page:111
 msgid "There are three special tags, which require special notation. They are:"
 msgstr ""
-"Передбачено три спеціальних теґи, які потребують особливого позначення. Ось вони:"
+"Передбачено три спеціальних теґи, які потребують особливого позначення. Ось "
+"вони:"
 
 #. (itstool) path: section/p
 #: C/mail-searching.page:117
@@ -12584,43 +12582,43 @@ msgid ""
 "From and <code>John</code> in the To, while <code>or:(f:Bugzilla t:John)</"
 "code> filters messages from Bugzilla or addressed to John."
 msgstr ""
-"який уможливлює створення спеціалізованих виразів. Типовим (найбільш зовнішнім) поєднанням є <code>and</code>. Щоб змінити його на <code>or</code>, скористайтеся такою конструкцією <code>or:(....)</code>. Приклад: <code>f:Bugzilla t:John</code> фільтрує усі повідомлення, які містять <code>Bugzilla</code> у полі «Від» і <code>John</code> у полі «Кому», а <code>or:(f:Bugzilla t:John)</code> фільтрує повідомлення від «Bugzilla» або надіслані користувачу «John»."
+"який уможливлює створення спеціалізованих виразів. Типовим (найбільш "
+"зовнішнім) поєднанням є <code>and</code>. Щоб змінити його на <code>or</"
+"code>, скористайтеся такою конструкцією <code>or:(....)</code>. Приклад: "
+"<code>f:Bugzilla t:John</code> фільтрує усі повідомлення, які містять "
+"<code>Bugzilla</code> у полі «Від» і <code>John</code> у полі «Кому», а "
+"<code>or:(f:Bugzilla t:John)</code> фільтрує повідомлення від «Bugzilla» або "
+"надіслані користувачу «John»."
 
 #. (itstool) path: section/title
 #: C/mail-searching.page:121
-#| msgid "Free Form Expression:"
 msgid "Free Form Expression examples"
 msgstr "Приклади виразу у довільній формі"
 
 #. (itstool) path: section/p
 #: C/mail-searching.page:122
 msgid "A list of some free form expressions follows:"
-msgstr ""
-"Нижче наведено список декількох виразів у довільній формі:"
+msgstr "Нижче наведено список декількох виразів у довільній формі:"
 
 #. (itstool) path: td/p
 #: C/mail-searching.page:124
-#| msgid "Expression:"
 msgid "Expression"
 msgstr "Вираз"
 
 #. (itstool) path: td/p
 #: C/mail-searching.page:125
 msgid "<code>f:John</code>"
-msgstr ""
-"<code>f:John</code>"
+msgstr "<code>f:John</code>"
 
 #. (itstool) path: td/p
 #: C/mail-searching.page:125
 msgid "Messages from <code>John</code>"
-msgstr ""
-"Повідомлення від користувача <code>John</code>"
+msgstr "Повідомлення від користувача <code>John</code>"
 
 #. (itstool) path: td/p
 #: C/mail-searching.page:126
 msgid "<code>s-has-words:\"green blue\"</code>"
-msgstr ""
-"<code>s-has-words:\"green blue\"</code>"
+msgstr "<code>s-has-words:\"green blue\"</code>"
 
 #. (itstool) path: td/p
 #: C/mail-searching.page:126
@@ -12628,145 +12626,125 @@ msgid ""
 "Messages, which contain both <code>green</code> and <code>blue</code> words "
 "in the Subject"
 msgstr ""
-"Повідомлення, у полі теми яких містяться одразу слова <code>green</code> і <code>blue</code>"
+"Повідомлення, у полі теми яких містяться одразу слова <code>green</code> і "
+"<code>blue</code>"
 
 #. (itstool) path: td/p
 #: C/mail-searching.page:127
 msgid "<code>r-ew:example.com</code>"
-msgstr ""
-"<code>r-ew:example.com</code>"
+msgstr "<code>r-ew:example.com</code>"
 
 #. (itstool) path: td/p
 #: C/mail-searching.page:127
 msgid "Recipients' address (To/Cc headers) ends with <code>example.com</code>"
 msgstr ""
-"Адреса отримувачів (заголовки «Кому/Копія») завершується на <code>example.com</code>"
+"Адреса отримувачів (заголовки «Кому/Копія») завершується на <code>example."
+"com</code>"
 
 #. (itstool) path: td/p
 #: C/mail-searching.page:128
 msgid "<code>h-starts-with:Cc=Alice</code>"
-msgstr ""
-"<code>h-starts-with:Cc=Alice</code>"
+msgstr "<code>h-starts-with:Cc=Alice</code>"
 
 #. (itstool) path: td/p
 #: C/mail-searching.page:128
 msgid "The <code>Cc</code> starts with word <code>Alice</code>"
-msgstr ""
-"Поле <code>Копія</code> починається зі слова <code>Alice</code>"
+msgstr "Поле <code>Копія</code> починається зі слова <code>Alice</code>"
 
 #. (itstool) path: td/p
 #: C/mail-searching.page:129
 msgid "<code>e:X-Secret-Header</code>"
-msgstr ""
-"<code>e:X-Secret-Header</code>"
+msgstr "<code>e:X-Secret-Header</code>"
 
 #. (itstool) path: td/p
 #: C/mail-searching.page:129
-#| msgid "<code>ObjectClass=User</code>: Lists only the users."
 msgid "An <code>X-Secret-Header</code> exists in the message"
 msgstr "У повідомленні є <code>X-Secret-Header</code>"
 
 #. (itstool) path: td/p
 #: C/mail-searching.page:130
 msgid "<code>l:work</code>"
-msgstr ""
-"<code>l:work</code>"
+msgstr "<code>l:work</code>"
 
 #. (itstool) path: td/p
 #: C/mail-searching.page:130
 msgid "Label <code>work</code> is set on the message"
-msgstr ""
-"Для повідомлення встановлено мітку <code>work</code>"
+msgstr "Для повідомлення встановлено мітку <code>work</code>"
 
 #. (itstool) path: td/p
 #: C/mail-searching.page:131
 msgid "<code>sz-&lt;:10</code>"
-msgstr ""
-"<code>sz-&lt;:10</code>"
+msgstr "<code>sz-&lt;:10</code>"
 
 #. (itstool) path: td/p
 #: C/mail-searching.page:131
 msgid "Message size is less than 10KB"
-msgstr ""
-"Розмір повідомлення є меншим за 10 кБ"
+msgstr "Розмір повідомлення є меншим за 10 кБ"
 
 #. (itstool) path: td/p
 #: C/mail-searching.page:132
 msgid "<code>sz-&gt;:100</code>"
-msgstr ""
-"<code>sz-&gt;:100</code>"
+msgstr "<code>sz-&gt;:100</code>"
 
 #. (itstool) path: td/p
 #: C/mail-searching.page:132
 msgid "Message size is more than 100KB"
-msgstr ""
-"Розмір повідомлення перевищує 100 кБ"
+msgstr "Розмір повідомлення перевищує 100 кБ"
 
 #. (itstool) path: td/p
 #: C/mail-searching.page:133
 msgid "<code>b:important</code>"
-msgstr ""
-"<code>b:important</code>"
+msgstr "<code>b:important</code>"
 
 #. (itstool) path: td/p
 #: C/mail-searching.page:133
 msgid "The body contains a word <code>important</code>"
-msgstr ""
-"У тексті повідомлення міститься слово <code>important</code>"
+msgstr "У тексті повідомлення міститься слово <code>important</code>"
 
 #. (itstool) path: td/p
 #: C/mail-searching.page:134
 msgid "<code>sent:7</code>"
-msgstr ""
-"<code>sent:7</code>"
+msgstr "<code>sent:7</code>"
 
 #. (itstool) path: td/p
 #: C/mail-searching.page:134
 msgid "Messages sent in the last 7 days"
-msgstr ""
-"Повідомлення надіслано протягом останніх 7 днів"
+msgstr "Повідомлення надіслано протягом останніх 7 днів"
 
 #. (itstool) path: td/p
 #: C/mail-searching.page:135
 msgid "<code>rcv-=:2020-02-02</code>"
-msgstr ""
-"<code>rcv-=:2020-02-02</code>"
+msgstr "<code>rcv-=:2020-02-02</code>"
 
 #. (itstool) path: td/p
 #: C/mail-searching.page:135
 msgid "Messages received on the February 2nd, 2020"
-msgstr ""
-"Повідомлення отримано 2 лютого 2020 року"
+msgstr "Повідомлення отримано 2 лютого 2020 року"
 
 #. (itstool) path: td/p
 #: C/mail-searching.page:136
 msgid "<code>a:1</code>"
-msgstr ""
-"<code>a:1</code>"
+msgstr "<code>a:1</code>"
 
 #. (itstool) path: td/p
 #: C/mail-searching.page:136
-#| msgid "Managing attachments"
 msgid "Messages with attachment"
 msgstr "Повідомлення із долученням"
 
 #. (itstool) path: td/p
 #: C/mail-searching.page:137
 msgid "<code>a:0</code>"
-msgstr ""
-"<code>a:0</code>"
+msgstr "<code>a:0</code>"
 
 #. (itstool) path: td/p
 #: C/mail-searching.page:137
-#| msgid "Forwarding a message with its attachments"
 msgid "Messages without attachments"
 msgstr "Повідомлення без долучень"
 
 #. (itstool) path: td/p
 #: C/mail-searching.page:138
 msgid "<code>and:(or:(r:Alice r:Bob) not:(r:Smith))</code>"
-msgstr ""
-"<code>and:(or:(r:Alice r:Bob) not:(r:Smith))</code>"
+msgstr "<code>and:(or:(r:Alice r:Bob) not:(r:Smith))</code>"
 
 #. (itstool) path: td/p
 #: C/mail-searching.page:138
@@ -12774,19 +12752,18 @@ msgid ""
 "Messages whose recipient is <code>Alice</code> or <code>Bob</code>, but not "
 "<code>Smith</code>"
 msgstr ""
-"Повідомлення, отримувачем яких є <code>Alice</code> або <code>Bob</code>, але не <code>Smith</code>"
+"Повідомлення, отримувачем яких є <code>Alice</code> або <code>Bob</code>, "
+"але не <code>Smith</code>"
 
 #. (itstool) path: td/p
 #: C/mail-searching.page:139
 msgid "<code>f:Bob rcv-&gt;:2020-01-01 rcv-&lt;:2020-12-31</code>"
-msgstr ""
-"<code>f:Bob rcv-&gt;:2020-01-01 rcv-&lt;:2020-12-31</code>"
+msgstr "<code>f:Bob rcv-&gt;:2020-01-01 rcv-&lt;:2020-12-31</code>"
 
 #. (itstool) path: td/p
 #: C/mail-searching.page:139
 msgid "Messages from <code>Bob</code>, received during the year 2020"
-msgstr ""
-"Повідомлення від <code>Bob</code>, отримані протягом 2020 року"
+msgstr "Повідомлення від <code>Bob</code>, отримані протягом 2020 року"
 
 #. (itstool) path: td/p
 #: C/mail-searching.page:140
@@ -12804,8 +12781,7 @@ msgstr ""
 #. (itstool) path: td/p
 #: C/mail-searching.page:141
 msgid "<code>flag:Seen a:1 sz-&gt;:1024 f:Bob rcv:31</code>"
-msgstr ""
-"<code>flag:Seen a:1 sz-&gt;:1024 f:Bob rcv:31</code>"
+msgstr "<code>flag:Seen a:1 sz-&gt;:1024 f:Bob rcv:31</code>"
 
 #. (itstool) path: td/p
 #: C/mail-searching.page:141
@@ -12813,13 +12789,13 @@ msgid ""
 "Read messages with attachment larger than 1MB from <code>Bob</code>, "
 "received during the past 31 days"
 msgstr ""
-"Прочитані повідомлення із долученням, розмір якого перевищує 1 МБ від <code>Bob</code>, отримані протягом останнього 31 дня"
+"Прочитані повідомлення із долученням, розмір якого перевищує 1 МБ від "
+"<code>Bob</code>, отримані протягом останнього 31 дня"
 
 #. (itstool) path: td/p
 #: C/mail-searching.page:142
 msgid "<code>m:\"On This Computer/Inbox\"</code>"
-msgstr ""
-"<code>m:\"On This Computer/Inbox\"</code>"
+msgstr "<code>m:\"On This Computer/Inbox\"</code>"
 
 #. (itstool) path: td/p
 #: C/mail-searching.page:142
@@ -12830,15 +12806,15 @@ msgstr ""
 #. (itstool) path: td/p
 #: C/mail-searching.page:143
 msgid "<code>location-no:\"On This Computer/Inbox\"</code>"
-msgstr ""
-"<code>location-no:\"On This Computer/Inbox\"</code>"
+msgstr "<code>location-no:\"On This Computer/Inbox\"</code>"
 
 #. (itstool) path: td/p
 #: C/mail-searching.page:143
 msgid ""
 "Messages stored in all but the <code>On This Computer/Inbox</code> folder"
 msgstr ""
-"Повідомлення, які зберігаються будь-де, окрім теки <code>On This Computer/Inbox</code>"
+"Повідомлення, які зберігаються будь-де, окрім теки <code>On This Computer/"
+"Inbox</code>"
 
 #. (itstool) path: info/desc
 #: C/mail-send-and-receive-automatically.page:5
@@ -13200,29 +13176,38 @@ msgstr ""
 #. (itstool) path: note/p
 #: C/mail-sorting-message-list.page:38
 msgid ""
-"For Advanced Users: By default, all email threads are expanded. If you want "
-"all threads to be collapsed by default:"
+"Advanced users can change further thread settings by running commands in the "
+"<app>Terminal</app> application."
 msgstr ""
-"Для досвідчених користувачів: типово, усі гілки повідомлень електронної "
-"пошти буде розгорнуто. Якщо ви хочете, щоб типово усі гілки було згорнуто, "
-"виконайте такі дії:"
+"Досвідчені користувачі можуть ще більше змінити параметри гілки за допомогою команд, які можна віддати у програмі <app>Термінал</app>."
 
 #. (itstool) path: item/p
 #: C/mail-sorting-message-list.page:41
-msgid ""
-"Run the command <cmd>gsettings set org.gnome.evolution.mail thread-expand "
-"false</cmd>"
+msgid "To sort each thread by latest message rather than by message date:"
 msgstr ""
-"Віддайте команду <cmd>gsettings set org.gnome.evolution.mail thread-expand "
-"false</cmd>"
+"Щоб упорядкувати усі гілки за найсвіжішим повідомленням, а не за датою повідомлення, віддайте таку команду:"
+
+#. (itstool) path: item/p
+#: C/mail-sorting-message-list.page:45
+msgid ""
+"To use ascending sort order of child messages in a thread rather than the "
+"sort order as in the thread root level:"
+msgstr ""
+"Щоб скористатися упорядкуванням за зростанням для дочірніх повідомлень у гілці, а не тим самим порядком, що і у корені гілки, скористайтеся такою командою:"
+
+#. (itstool) path: item/p
+#: C/mail-sorting-message-list.page:49
+msgid "To collapse all threads by default rather than expanding them:"
+msgstr ""
+"Щоб усі гілки було типово згорнуто, а не розгорнуто, скористайтеся такою командою:"
 
 #. (itstool) path: section/title
-#: C/mail-sorting-message-list.page:47
+#: C/mail-sorting-message-list.page:57
 msgid "Sorting Mail with Column Headers"
 msgstr "Упорядковування пошти за допомогою заголовків стовпчиків"
 
 #. (itstool) path: section/p
-#: C/mail-sorting-message-list.page:48
+#: C/mail-sorting-message-list.page:58
 msgid ""
 "The message list displays columns that indicate whether a message has been "
 "read, whether it has attachments, how important the message is, the sender, "
@@ -13236,17 +13221,17 @@ msgstr ""
 "ви можете виконати одну з таких дій:"
 
 #. (itstool) path: item/p
-#: C/mail-sorting-message-list.page:50
+#: C/mail-sorting-message-list.page:60
 msgid "Drag and drop the column header bars"
 msgstr "Перетягнути і скинути панелі заголовків стовпчиків"
 
 #. (itstool) path: item/p
-#: C/mail-sorting-message-list.page:51
+#: C/mail-sorting-message-list.page:61
 msgid "Right-click on the header."
 msgstr "Клацнути правою кнопкою на заголовку."
 
 #. (itstool) path: item/p
-#: C/mail-sorting-message-list.page:52
+#: C/mail-sorting-message-list.page:62
 msgid ""
 "Select the <gui>Remove This Column</gui> or <gui>Add a Column</gui> option."
 msgstr ""
@@ -13254,7 +13239,7 @@ msgstr ""
 "gui>."
 
 #. (itstool) path: section/p
-#: C/mail-sorting-message-list.page:55
+#: C/mail-sorting-message-list.page:65
 msgid ""
 "<app>Evolution</app> allows you to sort your messages using these columns. "
 "Just click on the column label to sort the emails. The direction of the "
@@ -13266,7 +13251,7 @@ msgstr ""
 "заголовку стовпчика вказує на порядок сортування."
 
 #. (itstool) path: section/p
-#: C/mail-sorting-message-list.page:55
+#: C/mail-sorting-message-list.page:65
 msgid ""
 "You can apply a secondary sort criterion by clicking a column label while "
 "pressing <key>Ctrl</key>."
@@ -13275,12 +13260,12 @@ msgstr ""
 "стовпчика із одночасним утримуванням натиснутою клавіші <key>Ctrl</key>."
 
 #. (itstool) path: section/title
-#: C/mail-sorting-message-list.page:62
+#: C/mail-sorting-message-list.page:72
 msgid "Using Other Sorting Options"
 msgstr "Користування іншими параметрами сортування"
 
 #. (itstool) path: section/p
-#: C/mail-sorting-message-list.page:63
+#: C/mail-sorting-message-list.page:73
 msgid ""
 "<app>Evolution</app> provides other ways for sorting email messages. You can "
 "use Sort By, Sort Ascending, Sort Descending, or Reset sort."
@@ -13291,176 +13276,176 @@ msgstr ""
 "упорядковування."
 
 #. (itstool) path: section/title
-#: C/mail-sorting-message-list.page:65
+#: C/mail-sorting-message-list.page:75
 msgid "Sort By"
 msgstr "Упорядкувати за"
 
 #. (itstool) path: section/p
-#: C/mail-sorting-message-list.page:66
+#: C/mail-sorting-message-list.page:76
 msgid "You can also sort email messages using the <gui>Sort By</gui> list."
 msgstr ""
 "Крім того, ви можете упорядкувати повідомлення за допомогою списку "
 "<gui>Упорядкувати за</gui>."
 
 #. (itstool) path: item/p
-#: C/mail-sorting-message-list.page:68 C/mail-sorting-message-list.page:98
-#: C/mail-sorting-message-list.page:107 C/mail-sorting-message-list.page:116
+#: C/mail-sorting-message-list.page:78 C/mail-sorting-message-list.page:108
+#: C/mail-sorting-message-list.page:117 C/mail-sorting-message-list.page:126
 msgid "Right-click on the message list column headers."
 msgstr "Клацніть правою кнопкою на заголовку стовпчика у списку повідомлень."
 
 #. (itstool) path: item/p
-#: C/mail-sorting-message-list.page:69
+#: C/mail-sorting-message-list.page:79
 msgid "Select the <gui>Sort By</gui> option."
 msgstr "Виберіть пункт <gui>Упорядкувати за</gui>."
 
 #. (itstool) path: item/p
-#: C/mail-sorting-message-list.page:69
+#: C/mail-sorting-message-list.page:79
 msgid "This brings up this list of criteria for sorting email messages:"
 msgstr ""
 "У відповідь буде відкрито список критеріїв для сортування повідомлень "
 "електронної пошти:"
 
 #. (itstool) path: item/p
-#: C/mail-sorting-message-list.page:71
+#: C/mail-sorting-message-list.page:81
 msgid "Subject - Trimmed"
 msgstr "Тема — скорочено"
 
 #. (itstool) path: item/p
-#: C/mail-sorting-message-list.page:72
+#: C/mail-sorting-message-list.page:82
 msgid "Labels"
 msgstr "Позначки"
 
 #. (itstool) path: item/p
-#: C/mail-sorting-message-list.page:73
+#: C/mail-sorting-message-list.page:83
 msgid "Recipients"
 msgstr "Отримувач"
 
 #. (itstool) path: item/p
-#: C/mail-sorting-message-list.page:74
+#: C/mail-sorting-message-list.page:84
 msgid "Sender"
 msgstr "Відправник"
 
 #. (itstool) path: item/p
-#: C/mail-sorting-message-list.page:75
+#: C/mail-sorting-message-list.page:85
 msgid "Location"
 msgstr "Адреса"
 
 #. (itstool) path: item/p
-#: C/mail-sorting-message-list.page:76
+#: C/mail-sorting-message-list.page:86
 msgid "Due By"
 msgstr "До"
 
 #. (itstool) path: item/p
-#: C/mail-sorting-message-list.page:77
+#: C/mail-sorting-message-list.page:87
 msgid "<link xref=\"mail-follow-up-flag\">Follow Up Flag</link>"
 msgstr "<link xref=\"mail-follow-up-flag\">Ознака «До виконання»</link>"
 
 #. (itstool) path: item/p
-#: C/mail-sorting-message-list.page:78
+#: C/mail-sorting-message-list.page:88
 msgid "Flag Status"
 msgstr "Стан ознаки"
 
 #. (itstool) path: item/p
-#: C/mail-sorting-message-list.page:79
+#: C/mail-sorting-message-list.page:89
 msgid "Size"
 msgstr "Розмір"
 
 #. (itstool) path: item/p
-#: C/mail-sorting-message-list.page:80
+#: C/mail-sorting-message-list.page:90
 msgid "To"
 msgstr "Кому"
 
 #. (itstool) path: item/p
-#: C/mail-sorting-message-list.page:81
+#: C/mail-sorting-message-list.page:91
 msgid "Received"
 msgstr "Отримано"
 
 #. (itstool) path: item/p
-#: C/mail-sorting-message-list.page:82
+#: C/mail-sorting-message-list.page:92
 msgid "Date"
 msgstr "Дата"
 
 #. (itstool) path: item/p
-#: C/mail-sorting-message-list.page:83
+#: C/mail-sorting-message-list.page:93
 msgid "Subject"
 msgstr "Тема"
 
 #. (itstool) path: item/p
-#: C/mail-sorting-message-list.page:84
+#: C/mail-sorting-message-list.page:94
 msgid "From"
 msgstr "Від"
 
 #. (itstool) path: item/p
-#: C/mail-sorting-message-list.page:85
+#: C/mail-sorting-message-list.page:95
 msgid "Attachment"
 msgstr "Долучення"
 
 #. (itstool) path: item/p
-#: C/mail-sorting-message-list.page:86
+#: C/mail-sorting-message-list.page:96
 msgid "Flagged"
 msgstr "Позначено"
 
 #. (itstool) path: item/p
-#: C/mail-sorting-message-list.page:87
+#: C/mail-sorting-message-list.page:97
 msgid "Status"
 msgstr "Стан"
 
 #. (itstool) path: item/p
-#: C/mail-sorting-message-list.page:88
+#: C/mail-sorting-message-list.page:98
 msgid "Custom"
 msgstr "Інший"
 
 #. (itstool) path: item/p
-#: C/mail-sorting-message-list.page:91
+#: C/mail-sorting-message-list.page:101
 msgid "Select the option you wish to use in sorting email messages."
 msgstr ""
 "Виберіть варіант, яким ви хочете скористатися для сортування повідомлень "
 "електронної пошти."
 
 #. (itstool) path: section/title
-#: C/mail-sorting-message-list.page:96
+#: C/mail-sorting-message-list.page:106
 msgid "Sort Ascending"
 msgstr "Сортування за зростанням"
 
 #. (itstool) path: item/p
-#: C/mail-sorting-message-list.page:99
+#: C/mail-sorting-message-list.page:109
 msgid "Select the <gui>Sort Ascending</gui> option."
 msgstr "Виберіть пункт <gui>Сортування за зростанням</gui>."
 
 #. (itstool) path: section/p
-#: C/mail-sorting-message-list.page:101
+#: C/mail-sorting-message-list.page:111
 msgid "The messages will be displayed with the most recent at the bottom."
 msgstr ""
 "Повідомлення буде показано так, що найсвіжіші з них будуть наприкінці списку."
 
 #. (itstool) path: section/title
-#: C/mail-sorting-message-list.page:105
+#: C/mail-sorting-message-list.page:115
 msgid "Sort Descending"
 msgstr "Сортування за спаданням"
 
 #. (itstool) path: item/p
-#: C/mail-sorting-message-list.page:108
+#: C/mail-sorting-message-list.page:118
 msgid "Select the <gui>Sort Descending</gui> option."
 msgstr "Виберіть пункт <gui>Сортування за спаданням</gui>."
 
 #. (itstool) path: section/p
-#: C/mail-sorting-message-list.page:110
+#: C/mail-sorting-message-list.page:120
 msgid "The messages will be displayed with the most recent at the top."
 msgstr ""
 "Повідомлення буде показано так, що найсвіжіші з них будуть на початку списку."
 
 #. (itstool) path: section/title
-#: C/mail-sorting-message-list.page:114
+#: C/mail-sorting-message-list.page:124
 msgid "Reset sort"
 msgstr "Скинути впорядкування"
 
 #. (itstool) path: item/p
-#: C/mail-sorting-message-list.page:117
+#: C/mail-sorting-message-list.page:127
 msgid "Select the <gui>Reset sort</gui> option."
 msgstr "Виберіть пункт <gui>Скинути впорядкування</gui>."
 
 #. (itstool) path: section/p
-#: C/mail-sorting-message-list.page:119
+#: C/mail-sorting-message-list.page:129
 msgid ""
 "This removes sorting from the column, reverting to the order of messages as "
 "they were added to the folder."
@@ -13952,7 +13937,7 @@ msgstr ""
 "Exchange, для уможливлення читання повідомлень."
 
 #. (itstool) path: note/p
-#: C/mail-working-offline.page:27 C/offline.page:40
+#: C/mail-working-offline.page:27 C/offline.page:39
 msgid ""
 "<app>Evolution</app>'s forced offline mode only refers to mail and does not "
 "apply to contacts and calendars."
@@ -14383,7 +14368,7 @@ msgstr ""
 "підтримки вашого дистрибутива, у списках листування тощо."
 
 #. (itstool) path: page/p
-#: C/offline.page:35
+#: C/offline.page:34
 msgid ""
 "If you want to force <app>Evolution</app> to be in online mode, make sure "
 "that <app>Evolution</app> is not running and open a <app>Terminal</app> "
@@ -14758,33 +14743,33 @@ msgstr ""
 "gui><gui>Календар та завдання</gui><gui>Завдання</gui></guiseq>."
 
 #. (itstool) path: item/p
-#: C/tasks-display-settings.page:31
+#: C/tasks-display-settings.page:30
 msgid "Tasks due today:"
 msgstr "Завдання на сьогодні:"
 
 #. (itstool) path: item/p
-#: C/tasks-display-settings.page:32
+#: C/tasks-display-settings.page:31
 msgid "Select the color for tasks due today."
 msgstr ""
 "Вибір кольору для завдань, строк виконання яких визначено як поточну дату."
 
 #. (itstool) path: item/p
-#: C/tasks-display-settings.page:33
+#: C/tasks-display-settings.page:32
 msgid "Overdue tasks:"
 msgstr "Прострочені завдання:"
 
 #. (itstool) path: item/p
-#: C/tasks-display-settings.page:34
+#: C/tasks-display-settings.page:33
 msgid "Select the color for overdue tasks."
 msgstr "Вибір кольору для прострочених завдань."
 
 #. (itstool) path: item/p
-#: C/tasks-display-settings.page:35
+#: C/tasks-display-settings.page:34
 msgid "Hide completed tasks after:"
 msgstr "Приховувати виконані завдання через:"
 
 #. (itstool) path: item/p
-#: C/tasks-display-settings.page:36
+#: C/tasks-display-settings.page:35
 msgid ""
 "Select this option to have completed tasks hidden after a period of time "
 "measured in days, hours, or minutes. If you do not select this option, "
@@ -15721,6 +15706,24 @@ msgstr ""
 #: C/xinclude-searching.xml:30
 msgid "Click <_:gui-1/>."
 msgstr "Натисніть <_:gui-1/>."
+
+#~ msgid "Click <gui style=\"button\">Apply</gui>."
+#~ msgstr "Натисніть кнопку <gui style=\"button\">Застосувати</gui>."
+
+#~ msgid ""
+#~ "For Advanced Users: By default, all email threads are expanded. If you "
+#~ "want all threads to be collapsed by default:"
+#~ msgstr ""
+#~ "Для досвідчених користувачів: типово, усі гілки повідомлень електронної "
+#~ "пошти буде розгорнуто. Якщо ви хочете, щоб типово усі гілки було "
+#~ "згорнуто, виконайте такі дії:"
+
+#~ msgid ""
+#~ "Run the command <cmd>gsettings set org.gnome.evolution.mail thread-expand "
+#~ "false</cmd>"
+#~ msgstr ""
+#~ "Віддайте команду <cmd>gsettings set org.gnome.evolution.mail thread-"
+#~ "expand false</cmd>"
 
 #~ msgid ""
 #~ "Color chooser for text. The box displays the current text color. To "
