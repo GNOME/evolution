@@ -6,8 +6,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: evolution master\n"
-"POT-Creation-Date: 2021-08-20 12:56+0000\n"
-"PO-Revision-Date: 2021-08-22 09:48+0300\n"
+"POT-Creation-Date: 2021-08-27 10:36+0000\n"
+"PO-Revision-Date: 2021-08-27 14:57+0300\n"
 "Last-Translator: Yuri Chornoivan <yurchor@ukr.net>\n"
 "Language-Team: Ukrainian <trans-uk@lists.fedoraproject.org>\n"
 "Language: uk\n"
@@ -4112,7 +4112,7 @@ msgstr ""
 #: C/mail-account-manage-local-delivery.page:29
 #: C/mail-account-manage-maildir-format-directories.page:30
 #: C/mail-account-manage-mh-format-directories.page:29
-#: C/mail-account-manage-microsoft-exchange-evo-ews.page:29
+#: C/mail-account-manage-microsoft-exchange-evo-ews.page:32
 #: C/mail-account-manage-microsoft-exchange-evo-mapi.page:29
 #: C/mail-account-manage-pop.page:29
 #: C/mail-account-manage-unix-mbox-spool-directory.page:29
@@ -4126,7 +4126,7 @@ msgstr "Особисті дані"
 #: C/mail-account-manage-local-delivery.page:30
 #: C/mail-account-manage-maildir-format-directories.page:31
 #: C/mail-account-manage-mh-format-directories.page:30
-#: C/mail-account-manage-microsoft-exchange-evo-ews.page:30
+#: C/mail-account-manage-microsoft-exchange-evo-ews.page:33
 #: C/mail-account-manage-microsoft-exchange-evo-mapi.page:30
 #: C/mail-account-manage-pop.page:30
 #: C/mail-account-manage-unix-mbox-spool-directory.page:30
@@ -4140,7 +4140,7 @@ msgstr "Тут ви визначаєте ваше ім'я та вашу адре
 #: C/mail-account-manage-local-delivery.page:31
 #: C/mail-account-manage-maildir-format-directories.page:32
 #: C/mail-account-manage-mh-format-directories.page:31
-#: C/mail-account-manage-microsoft-exchange-evo-ews.page:31
+#: C/mail-account-manage-microsoft-exchange-evo-ews.page:34
 #: C/mail-account-manage-microsoft-exchange-evo-mapi.page:31
 #: C/mail-account-manage-pop.page:31
 #: C/mail-account-manage-unix-mbox-spool-directory.page:31
@@ -4247,10 +4247,10 @@ msgstr ""
 #. (itstool) path: info/title
 #: C/intro-first-run.page:65 C/intro-first-run.page:81
 #: C/intro-first-run.page:97 C/intro-first-run.page:121
-#: C/intro-first-run.page:145 C/intro-first-run.page:161
-#: C/intro-first-run.page:177 C/intro-first-run.page:193
-#: C/intro-first-run.page:209 C/intro-first-run.page:225
-#: C/intro-first-run.page:252
+#: C/intro-first-run.page:146 C/intro-first-run.page:162
+#: C/intro-first-run.page:178 C/intro-first-run.page:194
+#: C/intro-first-run.page:210 C/intro-first-run.page:226
+#: C/intro-first-run.page:253
 msgctxt "ui:collapsed"
 msgid "Show how to configure this account type"
 msgstr "Показати, як налаштувати цей тип облікового запису"
@@ -4300,17 +4300,18 @@ msgid "Exchange EWS"
 msgstr "EWS Exchange"
 
 #. (itstool) path: section/p
-#: C/intro-first-run.page:109
+#. (itstool) path: note/p
+#: C/intro-first-run.page:109 C/mail-account-manage-microsoft-exchange.page:26
+#| msgid ""
+#| "For Microsoft Exchange 2007, 2010 and newer it is recommended to use the "
+#| "package <sys>evolution-ews</sys>."
 msgid ""
-"For connecting to a Microsoft Exchange 2007/2010 or OpenChange server. Note "
-"that this is currently under development and will replace the <gui>Exchange "
-"MAPI</gui> account type in the future. It might not be available yet for "
-"your distribution."
+"For connecting to a Microsoft Exchange server (version 2007 or newer) or "
+"OpenChange server, it is recommended to use the package <sys>evolution-ews</"
+"sys>."
 msgstr ""
-"Для з'єднання із сервером Microsoft Exchange 2007/2010 або OpenChange. "
-"Зауважте, що цей модуль перебуває у стадії розробки, згодом він замінить тип "
-"облікових записів <gui>MAPI Exchange</gui>. Ймовірно, відповідного пакунка "
-"ще немає у вашому дистрибутиві."
+"Для роботи із сервером Microsoft Exchange (версії 2007 або новішої) або сервером OpenChange рекомендуємо вам скористатися пакунком <sys>evolution-ews</"
+"sys>."
 
 #. (itstool) path: note/p
 #: C/intro-first-run.page:111
@@ -4344,14 +4345,34 @@ msgstr "Exchange MAPI"
 msgid "For connecting to a Microsoft Exchange 2007/2010 or OpenChange server."
 msgstr "Для з'єднання із сервером Microsoft Exchange 2007/2010 або OpenChange."
 
+#. (itstool) path: section/p
 #. (itstool) path: note/p
-#: C/intro-first-run.page:135
+#: C/intro-first-run.page:134 C/mail-account-manage-microsoft-exchange.page:35
+#| msgid ""
+#| "For older versions of Microsoft Exchange, or if <sys>evolution-ews</sys> "
+#| "does not work well for you, try <sys>evolution-mapi</sys>. It uses "
+#| "Microsoft's Messaging API which is also used by Microsoft Outlook. "
+#| "However, <sys>evolution-mapi</sys> requires installing <sys>OpenChange</"
+#| "sys> and <sys>Samba 4</sys>, and is not as performant as <sys>evolution-"
+#| "ews</sys>."
+msgid ""
+"It uses Microsoft's Messaging API which is also used by Microsoft Outlook. "
+"However, <sys>evolution-mapi</sys> requires installing <sys>OpenChange</sys> "
+"and <sys>Samba 4</sys>, and is not as performant as <sys>evolution-ews</sys>."
+msgstr ""
+"У цьому пакунку використано програмний інтерфейс обміну "
+"повідомленнями Microsoft, який також використовується у Microsoft Outlook. "
+"Втім, <sys>evolution-mapi</sys> потребує встановлення <sys>OpenChange</sys> "
+"і <sys>Samba 4</sys> і працює не так швидко, як <sys>evolution-ews</sys>."
+
+#. (itstool) path: note/p
+#: C/intro-first-run.page:136
 msgid "This requires having the <sys>evolution-mapi</sys> package installed."
 msgstr "Це потребує встановлення пакунка <sys>evolution-mapi</sys>."
 
 #. (itstool) path: when/p
 #. (itstool) path: note/p
-#: C/intro-first-run.page:138 C/mail-account-manage-microsoft-exchange.page:41
+#: C/intro-first-run.page:139 C/mail-account-manage-microsoft-exchange.page:40
 msgid ""
 "<link action=\"install:evolution-mapi\" href=\"https://wiki.gnome.org/Apps/"
 "Evolution#Get_the_Source_Code\" style=\"button\">Install evolution-mapi</"
@@ -4363,17 +4384,17 @@ msgstr ""
 
 #. (itstool) path: section/title
 #. (itstool) path: page/title
-#: C/intro-first-run.page:147 C/mail-receiving-options-exchange-mapi.page:20
+#: C/intro-first-run.page:148 C/mail-receiving-options-exchange-mapi.page:20
 msgid "Exchange MAPI receiving options"
 msgstr "Параметри отримання пошти MAPI Exchange"
 
 #. (itstool) path: section/title
-#: C/intro-first-run.page:156
+#: C/intro-first-run.page:157
 msgid "Local delivery"
 msgstr "Локальне доставлення"
 
 #. (itstool) path: section/p
-#: C/intro-first-run.page:157
+#: C/intro-first-run.page:158
 msgid ""
 "Local delivery: If you want to move email from the spool (the location where "
 "mail waits for delivery) and store it in your home directory. You need to "
@@ -4389,17 +4410,17 @@ msgstr ""
 
 #. (itstool) path: section/title
 #. (itstool) path: page/title
-#: C/intro-first-run.page:163 C/mail-receiving-options-local-delivery.page:20
+#: C/intro-first-run.page:164 C/mail-receiving-options-local-delivery.page:20
 msgid "Local delivery receiving options"
 msgstr "Параметри отримання локального доставлення"
 
 #. (itstool) path: section/title
-#: C/intro-first-run.page:172
+#: C/intro-first-run.page:173
 msgid "MH-Format Mail Directories"
 msgstr "Поштові каталоги у форматі MH"
 
 #. (itstool) path: section/p
-#: C/intro-first-run.page:173
+#: C/intro-first-run.page:174
 msgid "For downloading email using MH or another MH-style application."
 msgstr ""
 "Для отримання електронної пошти за допомогою MH або іншої програми у стилі "
@@ -4407,18 +4428,18 @@ msgstr ""
 
 #. (itstool) path: section/title
 #. (itstool) path: page/title
-#: C/intro-first-run.page:179
+#: C/intro-first-run.page:180
 #: C/mail-receiving-options-mh-format-directories.page:20
 msgid "MH-format mail directories receiving options"
 msgstr "Параметри отримання для поштових каталогів у форматі MH"
 
 #. (itstool) path: section/title
-#: C/intro-first-run.page:188
+#: C/intro-first-run.page:189
 msgid "Maildir-Format Mail Directories"
 msgstr "Поштові каталоги у форматі Maildir"
 
 #. (itstool) path: section/p
-#: C/intro-first-run.page:189
+#: C/intro-first-run.page:190
 msgid ""
 "Maildir-Format Mail Directories: For downloading your email using Qmail or "
 "another Maildir-style application."
@@ -4428,18 +4449,18 @@ msgstr ""
 
 #. (itstool) path: section/title
 #. (itstool) path: page/title
-#: C/intro-first-run.page:195
+#: C/intro-first-run.page:196
 #: C/mail-receiving-options-maildir-format-directories.page:20
 msgid "Maildir-format mail directories receiving options"
 msgstr "Параметри отримання для поштових каталогів у форматі Maildir"
 
 #. (itstool) path: section/title
-#: C/intro-first-run.page:204
+#: C/intro-first-run.page:205
 msgid "Standard Unix mbox spool file"
 msgstr "Стандартна для Unix скринька mbox"
 
 #. (itstool) path: section/p
-#: C/intro-first-run.page:205
+#: C/intro-first-run.page:206
 msgid ""
 "Standard Unix mbox spool file: For reading and storing email in the mail "
 "spool file on your local system."
@@ -4449,18 +4470,18 @@ msgstr ""
 
 #. (itstool) path: section/title
 #. (itstool) path: page/title
-#: C/intro-first-run.page:211
+#: C/intro-first-run.page:212
 #: C/mail-receiving-options-unix-mbox-spool-file.page:20
 msgid "Standard Unix mbox spool file receiving options"
 msgstr "Параметри отримання пошти для стандартної для Unix скриньки mbox"
 
 #. (itstool) path: section/title
-#: C/intro-first-run.page:220
+#: C/intro-first-run.page:221
 msgid "Standard Unix mbox spool directory"
 msgstr "Стандартний для Unix каталог пошти"
 
 #. (itstool) path: section/p
-#: C/intro-first-run.page:221
+#: C/intro-first-run.page:222
 msgid ""
 "Standard Unix mbox spool directory: For reading and storing email in the "
 "mail spool directory on your local system."
@@ -4470,40 +4491,40 @@ msgstr ""
 
 #. (itstool) path: section/title
 #. (itstool) path: page/title
-#: C/intro-first-run.page:227
+#: C/intro-first-run.page:228
 #: C/mail-receiving-options-unix-mbox-spool-directory.page:20
 msgid "Standard Unix mbox spool directory receiving options"
 msgstr "Параметри отримання пошти для стандартного для Unix каталогу mbox"
 
 #. (itstool) path: section/title
-#: C/intro-first-run.page:236
+#: C/intro-first-run.page:237
 msgid "None"
 msgstr "Немає"
 
 #. (itstool) path: section/p
-#: C/intro-first-run.page:237
+#: C/intro-first-run.page:238
 msgid "If you do not plan to use <app>Evolution</app> for receiving email."
 msgstr ""
 "Якщо ви не плануєте користуватися <app>Evolution</app> для отримання "
 "електронної пошти."
 
 #. (itstool) path: section/title
-#: C/intro-first-run.page:243 C/mail-displaying-character-encodings.page:32
+#: C/intro-first-run.page:244 C/mail-displaying-character-encodings.page:32
 msgid "Sending mail"
 msgstr "Надсилаємо пошту"
 
 #. (itstool) path: section/p
-#: C/intro-first-run.page:244
+#: C/intro-first-run.page:245
 msgid "Available server types are:"
 msgstr "Доступними типами серверів є такі:"
 
 #. (itstool) path: section/title
-#: C/intro-first-run.page:247
+#: C/intro-first-run.page:248
 msgid "SMTP"
 msgstr "SMTP"
 
 #. (itstool) path: section/p
-#: C/intro-first-run.page:248
+#: C/intro-first-run.page:249
 msgid ""
 "Sends mail using an outbound mail server. This is the most common choice for "
 "sending mail."
@@ -4513,17 +4534,17 @@ msgstr ""
 
 #. (itstool) path: section/title
 #. (itstool) path: page/title
-#: C/intro-first-run.page:254 C/mail-sending-options-smtp.page:26
+#: C/intro-first-run.page:255 C/mail-sending-options-smtp.page:26
 msgid "SMTP sending options"
 msgstr "Параметри надсилання SMTP"
 
 #. (itstool) path: section/title
-#: C/intro-first-run.page:263
+#: C/intro-first-run.page:264
 msgid "Sendmail"
 msgstr "Sendmail"
 
 #. (itstool) path: section/p
-#: C/intro-first-run.page:264
+#: C/intro-first-run.page:265
 msgid ""
 "Uses the <app>Sendmail</app> application to send mail from your system. It "
 "is not easy to configure, so you should select this option only if you know "
@@ -4534,22 +4555,22 @@ msgstr ""
 "лише якщо ви знаєте, як налаштувати службу Sendmail."
 
 #. (itstool) path: section/title
-#: C/intro-first-run.page:270
+#: C/intro-first-run.page:271
 msgid "Account Information"
 msgstr "Інформація про обліковий запис"
 
 #. (itstool) path: section/p
-#: C/intro-first-run.page:271
+#: C/intro-first-run.page:272
 msgid "Give the account any name you prefer."
 msgstr "Надайте обліковому запису будь-яку бажану назву."
 
 #. (itstool) path: section/title
-#: C/intro-first-run.page:275
+#: C/intro-first-run.page:276
 msgid "Importing Mail (Optional)"
 msgstr "Імпортування пошти (необов'язкове)"
 
 #. (itstool) path: section/p
-#: C/intro-first-run.page:276
+#: C/intro-first-run.page:277
 msgid ""
 "Continue with <link xref=\"import-data\">Importing data from another "
 "application</link>."
@@ -5701,7 +5722,7 @@ msgstr ""
 #: C/mail-account-manage-local-delivery.page:26
 #: C/mail-account-manage-maildir-format-directories.page:27
 #: C/mail-account-manage-mh-format-directories.page:26
-#: C/mail-account-manage-microsoft-exchange-evo-ews.page:26
+#: C/mail-account-manage-microsoft-exchange-evo-ews.page:29
 #: C/mail-account-manage-microsoft-exchange-evo-mapi.page:26
 #: C/mail-account-manage-pop.page:26
 #: C/mail-account-manage-unix-mbox-spool-directory.page:26
@@ -5723,7 +5744,7 @@ msgstr "Параметри отримання електронної пошти 
 #: C/mail-account-manage-local-delivery.page:38
 #: C/mail-account-manage-maildir-format-directories.page:39
 #: C/mail-account-manage-mh-format-directories.page:38
-#: C/mail-account-manage-microsoft-exchange-evo-ews.page:38
+#: C/mail-account-manage-microsoft-exchange-evo-ews.page:41
 #: C/mail-account-manage-microsoft-exchange-evo-mapi.page:38
 #: C/mail-account-manage-pop.page:38
 #: C/mail-account-manage-unix-mbox-spool-directory.page:38
@@ -5761,7 +5782,7 @@ msgstr "Типові параметри (облікові записи IMAP+)"
 #: C/mail-account-manage-local-delivery.page:52
 #: C/mail-account-manage-maildir-format-directories.page:53
 #: C/mail-account-manage-mh-format-directories.page:52
-#: C/mail-account-manage-microsoft-exchange-evo-ews.page:45
+#: C/mail-account-manage-microsoft-exchange-evo-ews.page:48
 #: C/mail-account-manage-microsoft-exchange-evo-mapi.page:45
 #: C/mail-account-manage-pop.page:52
 #: C/mail-account-manage-unix-mbox-spool-directory.page:52
@@ -5781,7 +5802,7 @@ msgstr "Створення повідомлень (облікові записи
 #: C/mail-account-manage-local-delivery.page:59
 #: C/mail-account-manage-maildir-format-directories.page:60
 #: C/mail-account-manage-mh-format-directories.page:59
-#: C/mail-account-manage-microsoft-exchange-evo-ews.page:52
+#: C/mail-account-manage-microsoft-exchange-evo-ews.page:55
 #: C/mail-account-manage-microsoft-exchange-evo-mapi.page:52
 #: C/mail-account-manage-pop.page:59
 #: C/mail-account-manage-unix-mbox-spool-directory.page:59
@@ -5801,7 +5822,7 @@ msgstr "Безпека (облікові записи IMAP+)"
 #: C/mail-account-manage-local-delivery.page:66
 #: C/mail-account-manage-maildir-format-directories.page:67
 #: C/mail-account-manage-mh-format-directories.page:66
-#: C/mail-account-manage-microsoft-exchange-evo-ews.page:59
+#: C/mail-account-manage-microsoft-exchange-evo-ews.page:62
 #: C/mail-account-manage-microsoft-exchange-evo-mapi.page:65
 #: C/mail-account-manage-pop.page:66
 #: C/mail-account-manage-unix-mbox-spool-directory.page:66
@@ -6035,38 +6056,48 @@ msgstr ""
 msgid "Exchange Web Services account settings"
 msgstr "Параметри облікового запису Web Services Exchange"
 
+#. (itstool) path: note/p
+#: C/mail-account-manage-microsoft-exchange-evo-ews.page:27
+msgid ""
+"See also the <link href=\"https://wiki.gnome.org/Apps/Evolution/EWS/"
+"OAuth2\">documentation how to set up and troubleshoot OAuth2</link> "
+"authentication."
+msgstr ""
+"Ознайомтеся також із <link href=\"https://wiki.gnome.org/Apps/Evolution/EWS/"
+"OAuth2\">документацією щодо налаштовування і діагностики розпізнавання OAuth2</link>."
+
 #. (itstool) path: info/title
-#: C/mail-account-manage-microsoft-exchange-evo-ews.page:36
+#: C/mail-account-manage-microsoft-exchange-evo-ews.page:39
 msgctxt "link"
 msgid "Receiving Email and Receiving options (Exchange Web Services accounts)"
 msgstr ""
 "Параметри отримання електронної пошти (облікові записи Web Services Exchange)"
 
 #. (itstool) path: info/title
-#: C/mail-account-manage-microsoft-exchange-evo-ews.page:43
+#: C/mail-account-manage-microsoft-exchange-evo-ews.page:46
 msgctxt "link"
 msgid "Defaults (Exchange Web Services accounts)"
 msgstr "Типові параметри (облікові записи Web Services Exchange)"
 
 #. (itstool) path: info/title
-#: C/mail-account-manage-microsoft-exchange-evo-ews.page:50
+#: C/mail-account-manage-microsoft-exchange-evo-ews.page:53
 msgctxt "link"
 msgid "Composing Messages (Exchange Web Services accounts)"
 msgstr "Створення повідомлень (облікові записи Web Services Exchange)"
 
 #. (itstool) path: info/title
-#: C/mail-account-manage-microsoft-exchange-evo-ews.page:57
+#: C/mail-account-manage-microsoft-exchange-evo-ews.page:60
 msgctxt "link"
 msgid "Security (Exchange Web Services accounts)"
 msgstr "Безпека (облікові записи Web Services Exchange)"
 
 #. (itstool) path: section/title
-#: C/mail-account-manage-microsoft-exchange-evo-ews.page:63
+#: C/mail-account-manage-microsoft-exchange-evo-ews.page:66
 msgid "Out of Office"
 msgstr "За межами офісу"
 
 #. (itstool) path: section/p
-#: C/mail-account-manage-microsoft-exchange-evo-ews.page:64
+#: C/mail-account-manage-microsoft-exchange-evo-ews.page:67
 msgid ""
 "Define the email reply to automatically send to internal or external persons "
 "in a certain time period."
@@ -6075,12 +6106,12 @@ msgstr ""
 "працівникам організації та за межі організації у певний період часу."
 
 #. (itstool) path: section/title
-#: C/mail-account-manage-microsoft-exchange-evo-ews.page:68
+#: C/mail-account-manage-microsoft-exchange-evo-ews.page:71
 msgid "Delegates"
 msgstr "Делегати"
 
 #. (itstool) path: section/p
-#: C/mail-account-manage-microsoft-exchange-evo-ews.page:69
+#: C/mail-account-manage-microsoft-exchange-evo-ews.page:72
 msgid ""
 "Define who can send emails and reply to meeting requests on your behalf."
 msgstr ""
@@ -6157,32 +6188,15 @@ msgstr ""
 "який забезпечує працездатність відповідних можливостей."
 
 #. (itstool) path: note/p
-#: C/mail-account-manage-microsoft-exchange.page:26
-msgid ""
-"For Microsoft Exchange 2007, 2010 and newer it is recommended to use the "
-"package <sys>evolution-ews</sys>."
-msgstr ""
-"Для Microsoft Exchange 2007, 2010 і новіших версій рекомендуємо скористатися "
-"пакунком <sys>evolution-ews</sys>."
-
-#. (itstool) path: note/p
-#: C/mail-account-manage-microsoft-exchange.page:36
+#: C/mail-account-manage-microsoft-exchange.page:35
 msgid ""
 "For older versions of Microsoft Exchange, or if <sys>evolution-ews</sys> "
-"does not work well for you, try <sys>evolution-mapi</sys>. It uses "
-"Microsoft's Messaging API which is also used by Microsoft Outlook. However, "
-"<sys>evolution-mapi</sys> requires installing <sys>OpenChange</sys> and "
-"<sys>Samba 4</sys>, and is not as performant as <sys>evolution-ews</sys>."
+"does not work well for you, try <sys>evolution-mapi</sys>."
 msgstr ""
-"Для старіших версій Microsoft Exchange або випадків, коли <sys>evolution-"
-"ews</sys> не працює у вас належним чином, спробуйте пакунок <sys>evolution-"
-"mapi</sys>. У цьому пакунку використано програмний інтерфейс обміну "
-"повідомленнями Microsoft, який також використовується у Microsoft Outlook. "
-"Втім, <sys>evolution-mapi</sys> потребує встановлення <sys>OpenChange</sys> "
-"і <sys>Samba 4</sys> і працює не так швидко, як <sys>evolution-ews</sys>."
+"Для роботи із застарілими версіями Microsoft Exchange або у випадках непрацездатності <sys>evolution-ews</sys> спробуйте скористатися <sys>evolution-mapi</sys>."
 
 #. (itstool) path: note/p
-#: C/mail-account-manage-microsoft-exchange.page:46
+#: C/mail-account-manage-microsoft-exchange.page:45
 msgid ""
 "If you are unsure which Microsoft Exchange server version is used, you may "
 "want to contact your system administrator for more information."
@@ -6192,7 +6206,7 @@ msgstr ""
 "дізнатися більше."
 
 #. (itstool) path: page/p
-#: C/mail-account-manage-microsoft-exchange.page:48
+#: C/mail-account-manage-microsoft-exchange.page:47
 msgid ""
 "For topics not covered here please refer to the <link href=\"https://help."
 "gnome.org/users/evolution/2.32/usage-exchange.html\">old <app>Evolution</"
@@ -13179,13 +13193,15 @@ msgid ""
 "Advanced users can change further thread settings by running commands in the "
 "<app>Terminal</app> application."
 msgstr ""
-"Досвідчені користувачі можуть ще більше змінити параметри гілки за допомогою команд, які можна віддати у програмі <app>Термінал</app>."
+"Досвідчені користувачі можуть ще більше змінити параметри гілки за допомогою "
+"команд, які можна віддати у програмі <app>Термінал</app>."
 
 #. (itstool) path: item/p
 #: C/mail-sorting-message-list.page:41
 msgid "To sort each thread by latest message rather than by message date:"
 msgstr ""
-"Щоб упорядкувати усі гілки за найсвіжішим повідомленням, а не за датою повідомлення, віддайте таку команду:"
+"Щоб упорядкувати усі гілки за найсвіжішим повідомленням, а не за датою "
+"повідомлення, віддайте таку команду:"
 
 #. (itstool) path: item/p
 #: C/mail-sorting-message-list.page:45
@@ -13193,13 +13209,16 @@ msgid ""
 "To use ascending sort order of child messages in a thread rather than the "
 "sort order as in the thread root level:"
 msgstr ""
-"Щоб скористатися упорядкуванням за зростанням для дочірніх повідомлень у гілці, а не тим самим порядком, що і у корені гілки, скористайтеся такою командою:"
+"Щоб скористатися упорядкуванням за зростанням для дочірніх повідомлень у "
+"гілці, а не тим самим порядком, що і у корені гілки, скористайтеся такою "
+"командою:"
 
 #. (itstool) path: item/p
 #: C/mail-sorting-message-list.page:49
 msgid "To collapse all threads by default rather than expanding them:"
 msgstr ""
-"Щоб усі гілки було типово згорнуто, а не розгорнуто, скористайтеся такою командою:"
+"Щоб усі гілки було типово згорнуто, а не розгорнуто, скористайтеся такою "
+"командою:"
 
 #. (itstool) path: section/title
 #: C/mail-sorting-message-list.page:57
@@ -15706,6 +15725,17 @@ msgstr ""
 #: C/xinclude-searching.xml:30
 msgid "Click <_:gui-1/>."
 msgstr "Натисніть <_:gui-1/>."
+
+#~ msgid ""
+#~ "For connecting to a Microsoft Exchange 2007/2010 or OpenChange server. "
+#~ "Note that this is currently under development and will replace the "
+#~ "<gui>Exchange MAPI</gui> account type in the future. It might not be "
+#~ "available yet for your distribution."
+#~ msgstr ""
+#~ "Для з'єднання із сервером Microsoft Exchange 2007/2010 або OpenChange. "
+#~ "Зауважте, що цей модуль перебуває у стадії розробки, згодом він замінить "
+#~ "тип облікових записів <gui>MAPI Exchange</gui>. Ймовірно, відповідного "
+#~ "пакунка ще немає у вашому дистрибутиві."
 
 #~ msgid "Click <gui style=\"button\">Apply</gui>."
 #~ msgstr "Натисніть кнопку <gui style=\"button\">Застосувати</gui>."
