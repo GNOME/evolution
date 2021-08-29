@@ -8,8 +8,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: evolution\n"
-"POT-Creation-Date: 2021-03-09 09:06+0000\n"
-"PO-Revision-Date: 2021-03-13 15:35+0100\n"
+"POT-Creation-Date: 2021-08-27 10:36+0000\n"
+"PO-Revision-Date: 2021-08-28 14:53+0200\n"
 "Last-Translator: Marek Černocký <marek@manet.cz>\n"
 "Language-Team: čeština <>\n"
 "Language: cs\n"
@@ -301,11 +301,20 @@ msgstr "Zadejte uživatelské jméno a e-mailovou adresu."
 
 #. (itstool) path: item/p
 #: C/calendar-caldav.page:59 C/calendar-google.page:55 C/calendar-local.page:46
-#: C/calendar-weather.page:56 C/calendar-webdav.page:55
-#: C/contacts-google.page:49 C/contacts-ldap.page:58 C/contacts-local.page:37
+#: C/calendar-meetings-delegating.page:41 C/calendar-weather.page:56
+#: C/calendar-webdav.page:55 C/contacts-google.page:49 C/contacts-ldap.page:58
+#: C/contacts-local.page:37 C/contacts-usage-add-contact.page:43
+#: C/contacts-usage-edit-contact.page:34 C/contacts-using-contact-lists.page:69
+#: C/mail-attachments-sending.page:32
+#: C/mail-composer-custom-header-lines.page:47
+#: C/mail-encryption-gpg-set-up.page:35
+#: C/mail-encryption-gpg-signing-encrypting.page:40
+#: C/mail-encryption-s-mime-signing-encrypting.page:36 C/mail-filters.page:50
+#: C/mail-filters.page:71 C/mail-search-folders-add.page:47
 #: C/tasks-caldav.page:32 C/tasks-local.page:28 C/tasks-webdav.page:34
-msgid "Click <gui style=\"button\">Apply</gui>."
-msgstr "Klikněte na <gui style=\"button\">Použít</gui>."
+#: C/using-categories.page:51 C/using-categories.page:53
+msgid "Click <gui style=\"button\">OK</gui>."
+msgstr "Klikněte na <gui style=\"button\">Budiž</gui>."
 
 #. (itstool) path: page/p
 #: C/calendar-caldav.page:63 C/calendar-google.page:59 C/calendar-local.page:50
@@ -503,7 +512,7 @@ msgstr ""
 "údaje</gui> <gui>Webové adresy</gui> <gui>Volno/obsazeno</gui></guiseq>."
 
 #. (itstool) path: page/p
-#: C/calendar-free-busy.page:90 C/calendar-publishing.page:43
+#: C/calendar-free-busy.page:90 C/calendar-publishing.page:40
 msgid ""
 "You can publish Calendar and Free/Busy information to a WebDAV server, FTP "
 "server, a remote machine through SSH or to any other web server with HTTP "
@@ -538,12 +547,12 @@ msgstr ""
 "server volno/obsazeno</gui></guiseq>."
 
 #. (itstool) path: section/title
-#: C/calendar-free-busy.page:108
+#: C/calendar-free-busy.page:105
 msgid "Accessing Free/Busy Data Without a Groupware Server"
 msgstr "Přístup k datům Volno/obsazeno bez serveru pro týmovou spolupráci"
 
 #. (itstool) path: section/p
-#: C/calendar-free-busy.page:110
+#: C/calendar-free-busy.page:107
 msgid ""
 "If individuals give you a URL for Free/Busy data or for their web calendar, "
 "you can add the URL under <guiseq><gui>Personal Information</gui><gui>Web "
@@ -995,19 +1004,6 @@ msgstr "Klikněte na <gui>Delegovat schůzku</gui>."
 msgid "Select the contacts you want to delegate the meeting to."
 msgstr "Vyberte kontakty, kterým chcete schůzku postoupit."
 
-#. (itstool) path: item/p
-#: C/calendar-meetings-delegating.page:41 C/contacts-usage-add-contact.page:43
-#: C/contacts-usage-edit-contact.page:34 C/contacts-using-contact-lists.page:69
-#: C/mail-attachments-sending.page:32
-#: C/mail-composer-custom-header-lines.page:47
-#: C/mail-encryption-gpg-set-up.page:35
-#: C/mail-encryption-gpg-signing-encrypting.page:40
-#: C/mail-encryption-s-mime-signing-encrypting.page:36 C/mail-filters.page:50
-#: C/mail-filters.page:71 C/mail-search-folders-add.page:47
-#: C/using-categories.page:51 C/using-categories.page:53
-msgid "Click <gui style=\"button\">OK</gui>."
-msgstr "Klikněte na <gui style=\"button\">Budiž</gui>."
-
 #. (itstool) path: page/p
 #: C/calendar-meetings-delegating.page:45
 msgid "Each contact receives a copy of the meeting invitation."
@@ -1307,7 +1303,7 @@ msgstr ""
 "server."
 
 #. (itstool) path: page/p
-#: C/calendar-publishing.page:40
+#: C/calendar-publishing.page:37
 msgid ""
 "You can specify the online location, the frequency of publishing, which "
 "calendar(s) to publish, and authentication information for uploading."
@@ -1316,7 +1312,7 @@ msgstr ""
 "či kalendáře zveřejnit a přihlašovací údaje pro nahrávání."
 
 #. (itstool) path: page/p
-#: C/calendar-publishing.page:47
+#: C/calendar-publishing.page:44
 msgid ""
 "To immediately publish calendar information, click <guiseq><gui>Actions</"
 "gui><gui>Publish Calendar Information</gui></guiseq> in the calendar."
@@ -1402,14 +1398,14 @@ msgstr "V seznamu vyberte podmínky hledání."
 
 #. (itstool) path: item/p
 #: C/calendar-searching.page:50 C/contacts-searching.page:58
-#: C/mail-searching.page:50 C/memos-searching.page:45 C/tasks-searching.page:45
+#: C/mail-searching.page:49 C/memos-searching.page:45 C/tasks-searching.page:45
 msgid "Enter the text you want to search for and press <key>Enter</key>."
 msgstr "Zadejte text, který chcete vyhledat, a zmáčkněte <key>Enter</key>."
 
 #. (itstool) path: item/p
 #: C/calendar-searching.page:53 C/calendar-searching.page:67
 #: C/contacts-searching.page:62 C/contacts-searching.page:76
-#: C/mail-searching.page:51 C/memos-searching.page:46 C/memos-searching.page:52
+#: C/mail-searching.page:50 C/memos-searching.page:46 C/memos-searching.page:52
 #: C/tasks-searching.page:46 C/tasks-searching.page:52
 msgid "<app>Evolution</app> displays the search results."
 msgstr "<app>Evolution</app> zobrazí výsledky hledání."
@@ -1446,7 +1442,7 @@ msgstr ""
 
 #. (itstool) path: section/p
 #: C/calendar-searching.page:76 C/contacts-searching.page:80
-#: C/mail-searching.page:55 C/memos-searching.page:54 C/tasks-searching.page:54
+#: C/mail-searching.page:54 C/memos-searching.page:54 C/tasks-searching.page:54
 msgid ""
 "If you want to set several search conditions, you should use an Advanced "
 "search, which is described below."
@@ -1809,7 +1805,7 @@ msgstr "Zapněte <gui>Automatické kontakty</gui>."
 #: C/mail-composer-external-editor.page:28
 #: C/mail-composer-message-templates.page:29
 #: C/mail-composer-message-templates-variables.page:30
-#: C/mail-displaying-sender-photograph.page:37
+#: C/mail-displaying-sender-photograph.page:36
 #: C/mail-received-notification.page:32
 msgid ""
 "If a plugin is not available under <guiseq><gui>Edit</gui><gui>Plugins</"
@@ -3033,7 +3029,7 @@ msgstr "Trvalé smazání pošty nebo příloh"
 
 #. (itstool) path: section/title
 #: C/deleting-emails.page:29 C/import-supported-file-formats.page:28
-#: C/intro-keyboard-shortcuts.page:142 C/intro-main-window.page:35
+#: C/intro-keyboard-shortcuts.page:142 C/intro-main-window.page:34
 msgid "Mail"
 msgstr "Pošta"
 
@@ -3292,12 +3288,12 @@ msgid "Mozilla"
 msgstr "Mozilla"
 
 #. (itstool) path: note/p
-#: C/import-apps-mozilla.page:26
+#: C/import-apps-mozilla.page:24
 msgid "The instructions below might be outdated and not work anymore."
 msgstr "Instrukce uvedené níže mohou být zastaralé a nemusí fungovat."
 
 #. (itstool) path: note/p
-#: C/import-apps-mozilla.page:26
+#: C/import-apps-mozilla.page:24
 msgid ""
 "Follow <link href=\"https://mail.gnome.org/archives/evolution-list/2019-"
 "February/msg00055.html\">this mailing list posting</link> for an alternative "
@@ -3308,7 +3304,7 @@ msgstr ""
 "příspěvku v poštovní konferenci</link>."
 
 #. (itstool) path: item/p
-#: C/import-apps-mozilla.page:29
+#: C/import-apps-mozilla.page:27
 msgid ""
 "<link href=\"https://support.mozilla.org/en-US/kb/profiles-where-thunderbird-"
 "stores-user-data\">Find your <app>Thunderbird</app> profile folder.</link>"
@@ -3318,13 +3314,13 @@ msgstr ""
 "<app>Thunderbird</app>.</link>"
 
 #. (itstool) path: item/p
-#: C/import-apps-mozilla.page:30 C/import-apps-outlook.page:62
+#: C/import-apps-mozilla.page:28 C/import-apps-outlook.page:62
 #: C/import-single-files.page:24
 msgid "Click <guiseq><gui>File</gui><gui>Import</gui></guiseq>."
 msgstr "Klikněte na <guiseq><gui>Soubor</gui> <gui>Importovat</gui></guiseq>."
 
 #. (itstool) path: item/p
-#: C/import-apps-mozilla.page:31 C/import-apps-outlook.page:63
+#: C/import-apps-mozilla.page:29 C/import-apps-outlook.page:63
 #: C/import-single-files.page:25
 msgid ""
 "In the <gui>Importer Type</gui> tab, click <gui>Import a single file</gui>."
@@ -3333,7 +3329,7 @@ msgstr ""
 "gui>."
 
 #. (itstool) path: item/p
-#: C/import-apps-mozilla.page:32
+#: C/import-apps-mozilla.page:30
 msgid ""
 "Go to the folder in which <app>Thunderbird</app> stores its data. You will "
 "have to make sure to <link xref=\"help:gnome-help/files-hidden#show-hidden\" "
@@ -3347,7 +3343,7 @@ msgstr ""
 "skrytých souborů</link>."
 
 #. (itstool) path: item/p
-#: C/import-apps-mozilla.page:35
+#: C/import-apps-mozilla.page:33
 msgid ""
 "If you would like to import <app>Thunderbird</app> mail, go to <file>Mail/"
 "Local Folders</file> (for local mail accounts) or <file>ImapMail/servername</"
@@ -3362,7 +3358,7 @@ msgstr ""
 "Soubory bez přípony (ne soubory <file>.msf</file>) obsahují vaše zprávy."
 
 #. (itstool) path: item/p
-#: C/import-apps-mozilla.page:36
+#: C/import-apps-mozilla.page:34
 msgid ""
 "If you would like to import <app>Thunderbird/Lightning</app> calendar data, "
 "you may be able to export your <app>Thunderbird</app> events as an <file>."
@@ -3378,13 +3374,13 @@ msgstr ""
 "databázovém formátu."
 
 #. (itstool) path: item/p
-#: C/import-apps-mozilla.page:38 C/import-apps-outlook.page:64
+#: C/import-apps-mozilla.page:36 C/import-apps-outlook.page:64
 #: C/import-single-files.page:26
 msgid "The file type will be automatically determined."
 msgstr "Typ souboru bude určen automaticky."
 
 #. (itstool) path: item/p
-#: C/import-apps-mozilla.page:39
+#: C/import-apps-mozilla.page:37
 msgid ""
 "Choose the destination (e.g. the folder or calendar in <app>Evolution</app>) "
 "for the imported data."
@@ -3393,7 +3389,7 @@ msgstr ""
 "importovaná data."
 
 #. (itstool) path: item/p
-#: C/import-apps-mozilla.page:40 C/import-apps-outlook.page:68
+#: C/import-apps-mozilla.page:38 C/import-apps-outlook.page:68
 msgid "Repeat the import steps until you have imported all your data."
 msgstr "Opakujte kroky importu, dokud nebudete mít naimportována všechna data."
 
@@ -3770,7 +3766,7 @@ msgstr ""
 
 #. (itstool) path: section/title
 #: C/import-supported-file-formats.page:46 C/intro-keyboard-shortcuts.page:254
-#: C/intro-main-window.page:98
+#: C/intro-main-window.page:97
 msgid "Calendar"
 msgstr "Kalendář"
 
@@ -3807,7 +3803,7 @@ msgstr ""
 
 #. (itstool) path: section/title
 #: C/import-supported-file-formats.page:60 C/intro-keyboard-shortcuts.page:326
-#: C/intro-main-window.page:144
+#: C/intro-main-window.page:143
 msgid "Contacts"
 msgstr "Kontakty"
 
@@ -4023,7 +4019,7 @@ msgstr ""
 #: C/mail-account-manage-local-delivery.page:29
 #: C/mail-account-manage-maildir-format-directories.page:30
 #: C/mail-account-manage-mh-format-directories.page:29
-#: C/mail-account-manage-microsoft-exchange-evo-ews.page:29
+#: C/mail-account-manage-microsoft-exchange-evo-ews.page:32
 #: C/mail-account-manage-microsoft-exchange-evo-mapi.page:29
 #: C/mail-account-manage-pop.page:29
 #: C/mail-account-manage-unix-mbox-spool-directory.page:29
@@ -4037,7 +4033,7 @@ msgstr "Identita"
 #: C/mail-account-manage-local-delivery.page:30
 #: C/mail-account-manage-maildir-format-directories.page:31
 #: C/mail-account-manage-mh-format-directories.page:30
-#: C/mail-account-manage-microsoft-exchange-evo-ews.page:30
+#: C/mail-account-manage-microsoft-exchange-evo-ews.page:33
 #: C/mail-account-manage-microsoft-exchange-evo-mapi.page:30
 #: C/mail-account-manage-pop.page:30
 #: C/mail-account-manage-unix-mbox-spool-directory.page:30
@@ -4051,7 +4047,7 @@ msgstr "Zde určujete svoje jméno a e-mailovou adresu."
 #: C/mail-account-manage-local-delivery.page:31
 #: C/mail-account-manage-maildir-format-directories.page:32
 #: C/mail-account-manage-mh-format-directories.page:31
-#: C/mail-account-manage-microsoft-exchange-evo-ews.page:31
+#: C/mail-account-manage-microsoft-exchange-evo-ews.page:34
 #: C/mail-account-manage-microsoft-exchange-evo-mapi.page:31
 #: C/mail-account-manage-pop.page:31
 #: C/mail-account-manage-unix-mbox-spool-directory.page:31
@@ -4153,10 +4149,10 @@ msgstr ""
 #. (itstool) path: info/title
 #: C/intro-first-run.page:65 C/intro-first-run.page:81
 #: C/intro-first-run.page:97 C/intro-first-run.page:121
-#: C/intro-first-run.page:145 C/intro-first-run.page:161
-#: C/intro-first-run.page:177 C/intro-first-run.page:193
-#: C/intro-first-run.page:209 C/intro-first-run.page:225
-#: C/intro-first-run.page:252
+#: C/intro-first-run.page:146 C/intro-first-run.page:162
+#: C/intro-first-run.page:178 C/intro-first-run.page:194
+#: C/intro-first-run.page:210 C/intro-first-run.page:226
+#: C/intro-first-run.page:253
 msgctxt "ui:collapsed"
 msgid "Show how to configure this account type"
 msgstr "Zobrazit, jak se nastavuje tento typ účtu"
@@ -4208,17 +4204,15 @@ msgid "Exchange EWS"
 msgstr "Exchange EWS"
 
 #. (itstool) path: section/p
-#: C/intro-first-run.page:109
+#. (itstool) path: note/p
+#: C/intro-first-run.page:109 C/mail-account-manage-microsoft-exchange.page:26
 msgid ""
-"For connecting to a Microsoft Exchange 2007/2010 or OpenChange server. Note "
-"that this is currently under development and will replace the <gui>Exchange "
-"MAPI</gui> account type in the future. It might not be available yet for "
-"your distribution."
+"For connecting to a Microsoft Exchange server (version 2007 or newer) or "
+"OpenChange server, it is recommended to use the package <sys>evolution-ews</"
+"sys>."
 msgstr ""
-"Pro připojení k serveru Microsoft Exchange 2007/2010 nebo OpenChange. "
-"Upozorňujeme, že vývoj ještě není zcela dokončen a v budoucnu bude sloužit "
-"jako náhrada účtů typu <gui>Exchange MAPI</gui>. Nemusí být zatím ani k "
-"dispozici ve vaší distribuci."
+"Pro připojování k serverům Microsoft Exchange (verze 2007 a novější) je "
+"doporučeno použít balíček <sys>evolution-ews</sys>."
 
 #. (itstool) path: note/p
 #: C/intro-first-run.page:111
@@ -4252,14 +4246,26 @@ msgstr "Exchange MAPI"
 msgid "For connecting to a Microsoft Exchange 2007/2010 or OpenChange server."
 msgstr "Pro připojení k serveru Microsoft Exchange 2007/2010 nebo OpenChange."
 
+#. (itstool) path: section/p
 #. (itstool) path: note/p
-#: C/intro-first-run.page:135
+#: C/intro-first-run.page:134 C/mail-account-manage-microsoft-exchange.page:35
+msgid ""
+"It uses Microsoft's Messaging API which is also used by Microsoft Outlook. "
+"However, <sys>evolution-mapi</sys> requires installing <sys>OpenChange</sys> "
+"and <sys>Samba 4</sys>, and is not as performant as <sys>evolution-ews</sys>."
+msgstr ""
+"Používá Messaging API firmy Microsoft, stejně jako Microsoft Outlook. "
+"Vyžaduje ale navíc instalaci <sys>OpenChange</sys> a <sys>Samba 4</sys> a "
+"není tak vykonné jako <sys>evolution-ews</sys>."
+
+#. (itstool) path: note/p
+#: C/intro-first-run.page:136
 msgid "This requires having the <sys>evolution-mapi</sys> package installed."
 msgstr "Vyžaduje, aby byl nainstalován balíček <sys>evolution-mapi</sys>."
 
 #. (itstool) path: when/p
 #. (itstool) path: note/p
-#: C/intro-first-run.page:138 C/mail-account-manage-microsoft-exchange.page:41
+#: C/intro-first-run.page:139 C/mail-account-manage-microsoft-exchange.page:40
 msgid ""
 "<link action=\"install:evolution-mapi\" href=\"https://wiki.gnome.org/Apps/"
 "Evolution#Get_the_Source_Code\" style=\"button\">Install evolution-mapi</"
@@ -4271,17 +4277,17 @@ msgstr ""
 
 #. (itstool) path: section/title
 #. (itstool) path: page/title
-#: C/intro-first-run.page:147 C/mail-receiving-options-exchange-mapi.page:20
+#: C/intro-first-run.page:148 C/mail-receiving-options-exchange-mapi.page:20
 msgid "Exchange MAPI receiving options"
 msgstr "Možnosti přijmu u Exchange MAPI"
 
 #. (itstool) path: section/title
-#: C/intro-first-run.page:156
+#: C/intro-first-run.page:157
 msgid "Local delivery"
 msgstr "Místní doručování"
 
 #. (itstool) path: section/p
-#: C/intro-first-run.page:157
+#: C/intro-first-run.page:158
 msgid ""
 "Local delivery: If you want to move email from the spool (the location where "
 "mail waits for delivery) and store it in your home directory. You need to "
@@ -4297,35 +4303,35 @@ msgstr ""
 
 #. (itstool) path: section/title
 #. (itstool) path: page/title
-#: C/intro-first-run.page:163 C/mail-receiving-options-local-delivery.page:20
+#: C/intro-first-run.page:164 C/mail-receiving-options-local-delivery.page:20
 msgid "Local delivery receiving options"
 msgstr "Možnosti přijmu u místního doručení"
 
 #. (itstool) path: section/title
-#: C/intro-first-run.page:172
+#: C/intro-first-run.page:173
 msgid "MH-Format Mail Directories"
 msgstr "Poštovní složky ve formátu MH"
 
 #. (itstool) path: section/p
-#: C/intro-first-run.page:173
+#: C/intro-first-run.page:174
 msgid "For downloading email using MH or another MH-style application."
 msgstr ""
 "Pro stahování pošty pomocí MH nebo jiné aplikace používající formát MH."
 
 #. (itstool) path: section/title
 #. (itstool) path: page/title
-#: C/intro-first-run.page:179
+#: C/intro-first-run.page:180
 #: C/mail-receiving-options-mh-format-directories.page:20
 msgid "MH-format mail directories receiving options"
 msgstr "Možnosti přijmu adresářů pošty ve formátu MH"
 
 #. (itstool) path: section/title
-#: C/intro-first-run.page:188
+#: C/intro-first-run.page:189
 msgid "Maildir-Format Mail Directories"
 msgstr "Poštovní složky ve formátu Maildir"
 
 #. (itstool) path: section/p
-#: C/intro-first-run.page:189
+#: C/intro-first-run.page:190
 msgid ""
 "Maildir-Format Mail Directories: For downloading your email using Qmail or "
 "another Maildir-style application."
@@ -4335,18 +4341,18 @@ msgstr ""
 
 #. (itstool) path: section/title
 #. (itstool) path: page/title
-#: C/intro-first-run.page:195
+#: C/intro-first-run.page:196
 #: C/mail-receiving-options-maildir-format-directories.page:20
 msgid "Maildir-format mail directories receiving options"
 msgstr "Možnosti přijmu adresářů pošty ve formátu maildir"
 
 #. (itstool) path: section/title
-#: C/intro-first-run.page:204
+#: C/intro-first-run.page:205
 msgid "Standard Unix mbox spool file"
 msgstr "Standardní unixový soubor mbox"
 
 #. (itstool) path: section/p
-#: C/intro-first-run.page:205
+#: C/intro-first-run.page:206
 msgid ""
 "Standard Unix mbox spool file: For reading and storing email in the mail "
 "spool file on your local system."
@@ -4356,18 +4362,18 @@ msgstr ""
 
 #. (itstool) path: section/title
 #. (itstool) path: page/title
-#: C/intro-first-run.page:211
+#: C/intro-first-run.page:212
 #: C/mail-receiving-options-unix-mbox-spool-file.page:20
 msgid "Standard Unix mbox spool file receiving options"
 msgstr "Možnosti přiju u standardního unixového souboru mbox"
 
 #. (itstool) path: section/title
-#: C/intro-first-run.page:220
+#: C/intro-first-run.page:221
 msgid "Standard Unix mbox spool directory"
 msgstr "Standardní unixová složka mbox"
 
 #. (itstool) path: section/p
-#: C/intro-first-run.page:221
+#: C/intro-first-run.page:222
 msgid ""
 "Standard Unix mbox spool directory: For reading and storing email in the "
 "mail spool directory on your local system."
@@ -4377,39 +4383,39 @@ msgstr ""
 
 #. (itstool) path: section/title
 #. (itstool) path: page/title
-#: C/intro-first-run.page:227
+#: C/intro-first-run.page:228
 #: C/mail-receiving-options-unix-mbox-spool-directory.page:20
 msgid "Standard Unix mbox spool directory receiving options"
 msgstr "Možnosti příjmu u standardní unixové složky mbox"
 
 #. (itstool) path: section/title
-#: C/intro-first-run.page:236
+#: C/intro-first-run.page:237
 msgid "None"
 msgstr "Žádný"
 
 #. (itstool) path: section/p
-#: C/intro-first-run.page:237
+#: C/intro-first-run.page:238
 msgid "If you do not plan to use <app>Evolution</app> for receiving email."
 msgstr ""
 "V případě, že neplánujete používat <app>Evolution</app> pro příjem pošty."
 
 #. (itstool) path: section/title
-#: C/intro-first-run.page:243 C/mail-displaying-character-encodings.page:32
+#: C/intro-first-run.page:244 C/mail-displaying-character-encodings.page:32
 msgid "Sending mail"
 msgstr "Posílání pošty"
 
 #. (itstool) path: section/p
-#: C/intro-first-run.page:244
+#: C/intro-first-run.page:245
 msgid "Available server types are:"
 msgstr "Dostupné typy serverů jsou:"
 
 #. (itstool) path: section/title
-#: C/intro-first-run.page:247
+#: C/intro-first-run.page:248
 msgid "SMTP"
 msgstr "SMTP"
 
 #. (itstool) path: section/p
-#: C/intro-first-run.page:248
+#: C/intro-first-run.page:249
 msgid ""
 "Sends mail using an outbound mail server. This is the most common choice for "
 "sending mail."
@@ -4419,17 +4425,17 @@ msgstr ""
 
 #. (itstool) path: section/title
 #. (itstool) path: page/title
-#: C/intro-first-run.page:254 C/mail-sending-options-smtp.page:26
+#: C/intro-first-run.page:255 C/mail-sending-options-smtp.page:26
 msgid "SMTP sending options"
 msgstr "Možnosti odesílání SMTP"
 
 #. (itstool) path: section/title
-#: C/intro-first-run.page:263
+#: C/intro-first-run.page:264
 msgid "Sendmail"
 msgstr "Sendmail"
 
 #. (itstool) path: section/p
-#: C/intro-first-run.page:264
+#: C/intro-first-run.page:265
 msgid ""
 "Uses the <app>Sendmail</app> application to send mail from your system. It "
 "is not easy to configure, so you should select this option only if you know "
@@ -4440,22 +4446,22 @@ msgstr ""
 "jen pokud máte patřičné znalosti."
 
 #. (itstool) path: section/title
-#: C/intro-first-run.page:270
+#: C/intro-first-run.page:271
 msgid "Account Information"
 msgstr "Informace o účtu"
 
 #. (itstool) path: section/p
-#: C/intro-first-run.page:271
+#: C/intro-first-run.page:272
 msgid "Give the account any name you prefer."
 msgstr "Dejte účtu název, který vám vyhovuje."
 
 #. (itstool) path: section/title
-#: C/intro-first-run.page:275
+#: C/intro-first-run.page:276
 msgid "Importing Mail (Optional)"
 msgstr "Import pošty (volitelné)"
 
 #. (itstool) path: section/p
-#: C/intro-first-run.page:276
+#: C/intro-first-run.page:277
 msgid ""
 "Continue with <link xref=\"import-data\">Importing data from another "
 "application</link>."
@@ -5021,7 +5027,7 @@ msgid "The <app>Evolution</app> main window"
 msgstr "Hlavní okno aplikace <app>Evolution</app>"
 
 #. (itstool) path: page/p
-#: C/intro-main-window.page:32
+#: C/intro-main-window.page:31
 msgid ""
 "<app>Evolution</app> provides functionality for Email, Calendar, Contacts, "
 "Tasks, and Memos. You can switch to another functionality by using the "
@@ -5038,7 +5044,7 @@ msgstr ""
 #. the file changes, the md5 hash will change to let you know you need to
 #. update your localized copy. The msgstr is not used at all. Set it to
 #. whatever you like once you have updated your copy of the file.
-#: C/intro-main-window.page:37
+#: C/intro-main-window.page:36
 msgctxt "_"
 msgid ""
 "external ref='./figures/window-overview-layers.png' "
@@ -5048,72 +5054,72 @@ msgstr ""
 "md5='e8970a16606fd7c6665afbc404a8c220'"
 
 #. (itstool) path: media/p
-#: C/intro-main-window.page:38
+#: C/intro-main-window.page:37
 msgid "The <app>Evolution</app> mail main window"
 msgstr "Hlavní okno aplikace <app>Evolution</app>"
 
 #. (itstool) path: section/p
-#: C/intro-main-window.page:41
+#: C/intro-main-window.page:40
 msgid "Corresponding elements in the mail main window:"
 msgstr "Příslušné části v hlavním okně pošty:"
 
 #. (itstool) path: td/p
-#: C/intro-main-window.page:44 C/intro-main-window.page:102
-#: C/intro-main-window.page:148
+#: C/intro-main-window.page:43 C/intro-main-window.page:101
+#: C/intro-main-window.page:147
 msgid "<_:media-1/> Menu bar"
 msgstr "<_:media-1/> Nabídková lišta"
 
 #. (itstool) path: td/p
-#: C/intro-main-window.page:47 C/intro-main-window.page:105
-#: C/intro-main-window.page:151
+#: C/intro-main-window.page:46 C/intro-main-window.page:104
+#: C/intro-main-window.page:150
 msgid "<_:media-1/> Tool bar"
 msgstr "<_:media-1/> Nástrojová lišta"
 
 #. (itstool) path: td/p
-#: C/intro-main-window.page:50
+#: C/intro-main-window.page:49
 msgid "<_:media-1/> Folder list"
 msgstr "<_:media-1/> Seznam složek"
 
 #. (itstool) path: td/p
-#: C/intro-main-window.page:51 C/intro-main-window.page:109
-#: C/intro-main-window.page:155
+#: C/intro-main-window.page:50 C/intro-main-window.page:108
+#: C/intro-main-window.page:154
 msgid "<_:media-1/> Search bar"
 msgstr "<_:media-1/> Vyhledávací lišta"
 
 #. (itstool) path: td/p
-#: C/intro-main-window.page:54
+#: C/intro-main-window.page:53
 msgid "<_:media-1/> Message list"
 msgstr "<_:media-1/> Seznam zpráv"
 
 #. (itstool) path: td/p
-#: C/intro-main-window.page:55
+#: C/intro-main-window.page:54
 msgid "<_:media-1/> To Do bar"
 msgstr "<_:media-1/> Panel k vyřízení"
 
 #. (itstool) path: td/p
-#: C/intro-main-window.page:58
+#: C/intro-main-window.page:57
 msgid "<_:media-1/> Preview pane"
 msgstr "<_:media-1/> Panel s náhledem"
 
 #. (itstool) path: td/p
-#: C/intro-main-window.page:61 C/intro-main-window.page:120
-#: C/intro-main-window.page:161
+#: C/intro-main-window.page:60 C/intro-main-window.page:119
+#: C/intro-main-window.page:160
 msgid "<_:media-1/> Switcher"
 msgstr "<_:media-1/> Přepínač"
 
 #. (itstool) path: td/p
-#: C/intro-main-window.page:64 C/intro-main-window.page:123
-#: C/intro-main-window.page:165
+#: C/intro-main-window.page:63 C/intro-main-window.page:122
+#: C/intro-main-window.page:164
 msgid "<_:media-1/> Status bar"
 msgstr "<_:media-1/> Stavová lišta"
 
 #. (itstool) path: item/title
-#: C/intro-main-window.page:70
+#: C/intro-main-window.page:69
 msgid "Folder list"
 msgstr "Seznam složek"
 
 #. (itstool) path: item/p
-#: C/intro-main-window.page:71
+#: C/intro-main-window.page:70
 msgid ""
 "The folder list gives you a list of the available folders for each account. "
 "To see the contents of a folder, click the folder name and its contents are "
@@ -5124,19 +5130,19 @@ msgstr ""
 "zobrazí v seznamu zpráv."
 
 #. (itstool) path: note/p
-#: C/intro-main-window.page:72
+#: C/intro-main-window.page:71
 msgid ""
 "For more information see <link xref=\"mail-folders\">Using Folders</link>."
 msgstr ""
 "Více informací viz <link xref=\"mail-folders\">Používání složek</link>."
 
 #. (itstool) path: item/title
-#: C/intro-main-window.page:75
+#: C/intro-main-window.page:74
 msgid "Message List"
 msgstr "Seznam zpráv"
 
 #. (itstool) path: item/p
-#: C/intro-main-window.page:76
+#: C/intro-main-window.page:75
 msgid ""
 "The message list displays all the read and unread messages that you have in "
 "the chosen folder. To view an email in the preview pane, click the message "
@@ -5147,12 +5153,12 @@ msgstr ""
 "seznamu zpráv."
 
 #. (itstool) path: item/title
-#: C/intro-main-window.page:79
+#: C/intro-main-window.page:78
 msgid "Switcher"
 msgstr "Přepínač"
 
 #. (itstool) path: item/p
-#: C/intro-main-window.page:80
+#: C/intro-main-window.page:79
 msgid ""
 "The switcher at the bottom of the side bar lets you switch between the "
 "<app>Evolution</app> tools: Mail, Contacts, Calendars, Memos and Tasks."
@@ -5162,7 +5168,7 @@ msgstr ""
 "poznámkami a úkoly."
 
 #. (itstool) path: note/p
-#: C/intro-main-window.page:81
+#: C/intro-main-window.page:80
 msgid ""
 "You can disable the folder list and the switcher side bar by toggling "
 "<guiseq><gui>View</gui><gui>Layout</gui><gui>Show Side Bar</gui></guiseq> or "
@@ -5173,19 +5179,19 @@ msgstr ""
 "panel</gui></guiseq> nebo zmáčknutím <key>F9</key>."
 
 #. (itstool) path: item/title
-#: C/intro-main-window.page:84
+#: C/intro-main-window.page:83
 msgid "Preview Pane"
 msgstr "Panel s náhledem"
 
 #. (itstool) path: item/p
-#: C/intro-main-window.page:85
+#: C/intro-main-window.page:84
 msgid ""
 "The preview pane displays the message that is currently chosen in the "
 "message list."
 msgstr "Panel náhledu ukazuje zprávu, která je vybrána v seznamu zpráv."
 
 #. (itstool) path: note/p
-#: C/intro-main-window.page:86
+#: C/intro-main-window.page:85
 msgid ""
 "You can disable the preview pane by toggling <guiseq><gui>View</"
 "gui><gui>Preview</gui><gui>Show Message Preview</gui></guiseq>."
@@ -5194,12 +5200,12 @@ msgstr ""
 "<gui>Náhled</gui> <gui>Zobrazovat náhled zprávy</gui></guiseq>."
 
 #. (itstool) path: item/title
-#: C/intro-main-window.page:89
+#: C/intro-main-window.page:88
 msgid "To Do bar"
 msgstr "Panel k vyřízení"
 
 #. (itstool) path: item/p
-#: C/intro-main-window.page:90
+#: C/intro-main-window.page:89
 msgid ""
 "The to do bar displays calendar appointments and tasks with due dates within "
 "the next seven days."
@@ -5208,7 +5214,7 @@ msgstr ""
 "v nejbližších sedmi dnech."
 
 #. (itstool) path: note/p
-#: C/intro-main-window.page:91
+#: C/intro-main-window.page:90
 msgid ""
 "You can disable the to do bar by toggling <guiseq><gui>View</"
 "gui><gui>Layout</gui><gui>Show To Do Bar</gui></guiseq>."
@@ -5217,7 +5223,7 @@ msgstr ""
 "<gui>Rozložení</gui> <gui>Zobrazovat panel k vyřízení</gui></guiseq>."
 
 #. (itstool) path: note/p
-#: C/intro-main-window.page:94
+#: C/intro-main-window.page:93
 msgid ""
 "If you ever accidentally hide the menu bar, press <key>Alt</key> and re-"
 "enable it by toggling <guiseq><gui>View</gui><gui>Layout</gui><gui>Show Menu "
@@ -5228,42 +5234,42 @@ msgstr ""
 "gui><gui>Rozložení</gui><gui>Zobrazovat nabídkovou lištu</gui></guiseq>."
 
 #. (itstool) path: section/p
-#: C/intro-main-window.page:99
+#: C/intro-main-window.page:98
 msgid "Elements in the calendar main window:"
 msgstr "Části hlavního okna kalendáře:"
 
 #. (itstool) path: td/p
-#: C/intro-main-window.page:108
+#: C/intro-main-window.page:107
 msgid "<_:media-1/> Calendar list"
 msgstr "<_:media-1/> Seznam kalendářů"
 
 #. (itstool) path: td/p
-#: C/intro-main-window.page:112
+#: C/intro-main-window.page:111
 msgid "<_:media-1/> Appointment list"
 msgstr "<_:media-1/> Seznam událostí"
 
 #. (itstool) path: td/p
-#: C/intro-main-window.page:113
+#: C/intro-main-window.page:112
 msgid "Task list"
 msgstr "Seznam úkolů"
 
 #. (itstool) path: td/p
-#: C/intro-main-window.page:116
+#: C/intro-main-window.page:115
 msgid "Month pane"
 msgstr "Měsíční panel"
 
 #. (itstool) path: td/p
-#: C/intro-main-window.page:117
+#: C/intro-main-window.page:116
 msgid "Memo list"
 msgstr "Seznam poznámek"
 
 #. (itstool) path: item/title
-#: C/intro-main-window.page:128
+#: C/intro-main-window.page:127
 msgid "Appointment List"
 msgstr "Seznam událostí"
 
 #. (itstool) path: item/p
-#: C/intro-main-window.page:129
+#: C/intro-main-window.page:128
 msgid ""
 "The appointment list displays all your scheduled appointments in the time "
 "frame selected."
@@ -5272,12 +5278,12 @@ msgstr ""
 "časovém období."
 
 #. (itstool) path: item/title
-#: C/intro-main-window.page:132
+#: C/intro-main-window.page:131
 msgid "Month Pane"
 msgstr "Měsíční panel"
 
 #. (itstool) path: item/p
-#: C/intro-main-window.page:133
+#: C/intro-main-window.page:132
 msgid ""
 "The month pane is a small view of a calendar month. To display additional "
 "months, drag the column border to the right. You can also select a range of "
@@ -5289,12 +5295,12 @@ msgstr ""
 "měsíčním panelu pro zobrazení vlastního rozsahu dnů v seznamu událostí."
 
 #. (itstool) path: item/title
-#: C/intro-main-window.page:136
+#: C/intro-main-window.page:135
 msgid "Task list and Memo list"
 msgstr "Seznam úkolů a seznam poznámek"
 
 #. (itstool) path: item/p
-#: C/intro-main-window.page:137
+#: C/intro-main-window.page:136
 msgid ""
 "Tasks and memos are just displayed for your convenience and are not "
 "associated to any appointments. Use the <gui>switcher</gui> to go to their "
@@ -5305,27 +5311,27 @@ msgstr ""
 "hlavního okna."
 
 #. (itstool) path: section/p
-#: C/intro-main-window.page:145
+#: C/intro-main-window.page:144
 msgid "Elements in the contacts main window:"
 msgstr "Části hlavního okna kontaktů:"
 
 #. (itstool) path: td/p
-#: C/intro-main-window.page:154
+#: C/intro-main-window.page:153
 msgid "<_:media-1/> Address book list"
 msgstr "<_:media-1/> Adresář"
 
 #. (itstool) path: td/p
-#: C/intro-main-window.page:158
+#: C/intro-main-window.page:157
 msgid "<_:media-1/> Contacts list"
 msgstr "<_:media-1/> Seznam kontaktů"
 
 #. (itstool) path: td/p
-#: C/intro-main-window.page:162
+#: C/intro-main-window.page:161
 msgid "<_:media-1/> Contact preview"
 msgstr "<_:media-1/> Náhled kontaktu"
 
 #. (itstool) path: note/p
-#: C/intro-main-window.page:168
+#: C/intro-main-window.page:167
 msgid ""
 "You can disable the contact preview by toggling <guiseq><gui>View</"
 "gui><gui>Preview</gui><gui>Contact Preview</gui></guiseq>."
@@ -5586,7 +5592,7 @@ msgstr ""
 #: C/mail-account-manage-local-delivery.page:26
 #: C/mail-account-manage-maildir-format-directories.page:27
 #: C/mail-account-manage-mh-format-directories.page:26
-#: C/mail-account-manage-microsoft-exchange-evo-ews.page:26
+#: C/mail-account-manage-microsoft-exchange-evo-ews.page:29
 #: C/mail-account-manage-microsoft-exchange-evo-mapi.page:26
 #: C/mail-account-manage-pop.page:26
 #: C/mail-account-manage-unix-mbox-spool-directory.page:26
@@ -5607,7 +5613,7 @@ msgstr "Příjem pošty a volby příjmu (účty IMAP+)"
 #: C/mail-account-manage-local-delivery.page:38
 #: C/mail-account-manage-maildir-format-directories.page:39
 #: C/mail-account-manage-mh-format-directories.page:38
-#: C/mail-account-manage-microsoft-exchange-evo-ews.page:38
+#: C/mail-account-manage-microsoft-exchange-evo-ews.page:41
 #: C/mail-account-manage-microsoft-exchange-evo-mapi.page:38
 #: C/mail-account-manage-pop.page:38
 #: C/mail-account-manage-unix-mbox-spool-directory.page:38
@@ -5645,7 +5651,7 @@ msgstr "Výchozí hodnoty (účty IMAP+)"
 #: C/mail-account-manage-local-delivery.page:52
 #: C/mail-account-manage-maildir-format-directories.page:53
 #: C/mail-account-manage-mh-format-directories.page:52
-#: C/mail-account-manage-microsoft-exchange-evo-ews.page:45
+#: C/mail-account-manage-microsoft-exchange-evo-ews.page:48
 #: C/mail-account-manage-microsoft-exchange-evo-mapi.page:45
 #: C/mail-account-manage-pop.page:52
 #: C/mail-account-manage-unix-mbox-spool-directory.page:52
@@ -5665,7 +5671,7 @@ msgstr "Psaní zpráv (účty IMAP+)"
 #: C/mail-account-manage-local-delivery.page:59
 #: C/mail-account-manage-maildir-format-directories.page:60
 #: C/mail-account-manage-mh-format-directories.page:59
-#: C/mail-account-manage-microsoft-exchange-evo-ews.page:52
+#: C/mail-account-manage-microsoft-exchange-evo-ews.page:55
 #: C/mail-account-manage-microsoft-exchange-evo-mapi.page:52
 #: C/mail-account-manage-pop.page:59
 #: C/mail-account-manage-unix-mbox-spool-directory.page:59
@@ -5685,7 +5691,7 @@ msgstr "Zabezpeční (účty IMAP+)"
 #: C/mail-account-manage-local-delivery.page:66
 #: C/mail-account-manage-maildir-format-directories.page:67
 #: C/mail-account-manage-mh-format-directories.page:66
-#: C/mail-account-manage-microsoft-exchange-evo-ews.page:59
+#: C/mail-account-manage-microsoft-exchange-evo-ews.page:62
 #: C/mail-account-manage-microsoft-exchange-evo-mapi.page:65
 #: C/mail-account-manage-pop.page:66
 #: C/mail-account-manage-unix-mbox-spool-directory.page:66
@@ -5908,37 +5914,48 @@ msgstr ""
 msgid "Exchange Web Services account settings"
 msgstr "Nastavení účtu Exchange Web Services"
 
+#. (itstool) path: note/p
+#: C/mail-account-manage-microsoft-exchange-evo-ews.page:27
+msgid ""
+"See also the <link href=\"https://wiki.gnome.org/Apps/Evolution/EWS/"
+"OAuth2\">documentation how to set up and troubleshoot OAuth2</link> "
+"authentication."
+msgstr ""
+"Viz také <link href=\"https://wiki.gnome.org/Apps/Evolution/EWS/OAuth2\">"
+"dokumentace, jak řešit problémy s ověřováním přes OAuth2</link> (odkazovaný "
+"text je v angličtině)."
+
 #. (itstool) path: info/title
-#: C/mail-account-manage-microsoft-exchange-evo-ews.page:36
+#: C/mail-account-manage-microsoft-exchange-evo-ews.page:39
 msgctxt "link"
 msgid "Receiving Email and Receiving options (Exchange Web Services accounts)"
 msgstr "Příjem pošty a volby příjmu (účty Exchange Web Services)"
 
 #. (itstool) path: info/title
-#: C/mail-account-manage-microsoft-exchange-evo-ews.page:43
+#: C/mail-account-manage-microsoft-exchange-evo-ews.page:46
 msgctxt "link"
 msgid "Defaults (Exchange Web Services accounts)"
 msgstr "Výchozí hodnoty (účty Exchange Web Services)"
 
 #. (itstool) path: info/title
-#: C/mail-account-manage-microsoft-exchange-evo-ews.page:50
+#: C/mail-account-manage-microsoft-exchange-evo-ews.page:53
 msgctxt "link"
 msgid "Composing Messages (Exchange Web Services accounts)"
 msgstr "Psaní zpráv (účty Exchange Web Services)"
 
 #. (itstool) path: info/title
-#: C/mail-account-manage-microsoft-exchange-evo-ews.page:57
+#: C/mail-account-manage-microsoft-exchange-evo-ews.page:60
 msgctxt "link"
 msgid "Security (Exchange Web Services accounts)"
 msgstr "Zabezpečení (účty Exchange Web Services)"
 
 #. (itstool) path: section/title
-#: C/mail-account-manage-microsoft-exchange-evo-ews.page:63
+#: C/mail-account-manage-microsoft-exchange-evo-ews.page:66
 msgid "Out of Office"
 msgstr "Mimo kancelář"
 
 #. (itstool) path: section/p
-#: C/mail-account-manage-microsoft-exchange-evo-ews.page:64
+#: C/mail-account-manage-microsoft-exchange-evo-ews.page:67
 msgid ""
 "Define the email reply to automatically send to internal or external persons "
 "in a certain time period."
@@ -5947,12 +5964,12 @@ msgstr ""
 "externím osobám ve stanoveném období."
 
 #. (itstool) path: section/title
-#: C/mail-account-manage-microsoft-exchange-evo-ews.page:68
+#: C/mail-account-manage-microsoft-exchange-evo-ews.page:71
 msgid "Delegates"
 msgstr "Delegáti"
 
 #. (itstool) path: section/p
-#: C/mail-account-manage-microsoft-exchange-evo-ews.page:69
+#: C/mail-account-manage-microsoft-exchange-evo-ews.page:72
 msgid ""
 "Define who can send emails and reply to meeting requests on your behalf."
 msgstr ""
@@ -6028,31 +6045,16 @@ msgstr ""
 "požadovanou funkcionalitu."
 
 #. (itstool) path: note/p
-#: C/mail-account-manage-microsoft-exchange.page:26
-msgid ""
-"For Microsoft Exchange 2007, 2010 and newer it is recommended to use the "
-"package <sys>evolution-ews</sys>."
-msgstr ""
-"Pro Microsoft Exchange 2007, 2010 a novější je doporučováno použí balíček "
-"<sys>evolution-ews</sys>."
-
-#. (itstool) path: note/p
-#: C/mail-account-manage-microsoft-exchange.page:36
+#: C/mail-account-manage-microsoft-exchange.page:35
 msgid ""
 "For older versions of Microsoft Exchange, or if <sys>evolution-ews</sys> "
-"does not work well for you, try <sys>evolution-mapi</sys>. It uses "
-"Microsoft's Messaging API which is also used by Microsoft Outlook. However, "
-"<sys>evolution-mapi</sys> requires installing <sys>OpenChange</sys> and "
-"<sys>Samba 4</sys>, and is not as performant as <sys>evolution-ews</sys>."
+"does not work well for you, try <sys>evolution-mapi</sys>."
 msgstr ""
-"Pro starší verze Microsoft Exchange, nebo když vám <sys>evolution-ews</sys> "
-"nefunguje správně, zkuste <sys>evolution-mapi</sys>. To využívá Messaging "
-"API firmy Microsoft, stejně jako Microsoft Outlook. Vyžaduje ale navíc "
-"instalaci <sys>OpenChange</sys> a <sys>Samba 4</sys> a není tak vykonné jako "
-"<sys>evolution-ews</sys>."
+"Pro starší verze serveru Microsoft Exchange, nebo když vám <sys>evolution-ews"
+"</sys> nebude fungovat správně, vyzkoušejte <sys>evolution-mapi</sys>."
 
 #. (itstool) path: note/p
-#: C/mail-account-manage-microsoft-exchange.page:46
+#: C/mail-account-manage-microsoft-exchange.page:45
 msgid ""
 "If you are unsure which Microsoft Exchange server version is used, you may "
 "want to contact your system administrator for more information."
@@ -6061,7 +6063,7 @@ msgstr ""
 "kontaktujte správce svého systému, aby vám informaci poskytl."
 
 #. (itstool) path: page/p
-#: C/mail-account-manage-microsoft-exchange.page:48
+#: C/mail-account-manage-microsoft-exchange.page:47
 msgid ""
 "For topics not covered here please refer to the <link href=\"https://help."
 "gnome.org/users/evolution/2.32/usage-exchange.html\">old <app>Evolution</"
@@ -6680,7 +6682,7 @@ msgstr ""
 
 #. (itstool) path: note/p
 #: C/mail-change-columns-in-message-list.page:27
-#: C/mail-sorting-message-list.page:57
+#: C/mail-sorting-message-list.page:67
 msgid ""
 "If you would like to have a different sort order and/or columns for specific "
 "mail folders, make sure that <guiseq><gui>Edit</gui><gui>Preferences</"
@@ -7491,83 +7493,87 @@ msgstr "Popis"
 
 #. (itstool) path: td/p
 #: C/mail-composer-html-text.page:36
+msgid "Default"
+msgstr "Výchozí"
+
+#. (itstool) path: td/p
+#: C/mail-composer-html-text.page:37
+msgid "Font name."
+msgstr "Název fontu."
+
+#. (itstool) path: td/p
+#: C/mail-composer-html-text.page:40
 msgid "+0"
 msgstr "+0"
 
 #. (itstool) path: td/p
-#: C/mail-composer-html-text.page:37
-msgid "Font size."
-msgstr "Velikost písma"
-
-#. (itstool) path: td/p
 #: C/mail-composer-html-text.page:41
-msgid ""
-"Color chooser for text. The box displays the current text color. To choose a "
-"new color, click the arrow button to the right. If you have text selected, "
-"the color applies to the selected text. If you do not have text selected, "
-"the color applies to whatever you type next. You can select a background "
-"color or image by right-clicking the message background, then selecting "
-"<guiseq><gui>Style</gui><gui>Page Style</gui></guiseq>."
-msgstr ""
-"Výběr barvy pro text. Obdélník zobrazuje aktuální barvu textu. Když chcete "
-"vybrat novou barvu, klikněte na tlačítko se šipkou po pravé straně. Pokud "
-"máte vybraný text, použije se barva na vybraný text. Pokud žádný vybraný "
-"nemáte, použije se barva na vše, co nově napíšete. Můžete vybrat barvu "
-"pozadí nebo obrázek na pozadí kliknutím pravým tlačítkem na pozadí zprávy a "
-"následným výběrem <guiseq><gui>Styl</gui> <gui>Styl stránky</gui></guiseq>."
-
-#. (itstool) path: td/p
-#: C/mail-composer-html-text.page:44
-msgid "TT"
-msgstr "TT"
+msgid "Font size."
+msgstr "Velikost fontu."
 
 #. (itstool) path: td/p
 #: C/mail-composer-html-text.page:45
-msgid "Typewriter text, which is similar to a monospace font."
-msgstr "Text dálnopisu, což je podobné jako písmo s pevnou šířkou."
+msgid "Text color."
+msgstr "Barva textu."
 
 #. (itstool) path: td/p
-#: C/mail-composer-html-text.page:48
+#: C/mail-composer-html-text.page:45 C/mail-composer-html-text.page:49
+msgid ""
+"The box displays the current text color. If you have text selected, the "
+"color applies to the selected text. If you do not have text selected, the "
+"color applies to whatever you type next."
+msgstr ""
+"Čtvereček ukazuje aktuální barvu textu. Pokud máte vybraný nějaký text, barva "
+"se použije na něj. Pokud text vybraný nemáte, barva se použije na vše, co "
+"nově napíšete."
+
+#. (itstool) path: td/p
+#: C/mail-composer-html-text.page:49
+msgid "Background color of the text."
+msgstr "Barva pozadí textu."
+
+#. (itstool) path: td/p
+#: C/mail-composer-html-text.page:52
 msgid "Bold A"
 msgstr "Tučné A"
 
 #. (itstool) path: td/p
-#: C/mail-composer-html-text.page:49
+#: C/mail-composer-html-text.page:53
 msgid "Bolds the text."
 msgstr "Udělá text tučný."
 
 #. (itstool) path: td/p
-#: C/mail-composer-html-text.page:52
+#: C/mail-composer-html-text.page:56
 msgid "Italic A"
 msgstr "A v kurzívě"
 
 #. (itstool) path: td/p
-#: C/mail-composer-html-text.page:53
+#: C/mail-composer-html-text.page:57
 msgid "Italicizes the text."
 msgstr "Udělát text v kurzívě."
 
 #. (itstool) path: td/p
-#: C/mail-composer-html-text.page:56
+#: C/mail-composer-html-text.page:60
 msgid "Underlined A"
 msgstr "Podtržené A"
 
 #. (itstool) path: td/p
-#: C/mail-composer-html-text.page:57
+#: C/mail-composer-html-text.page:61
 msgid "Underlines the text."
 msgstr "Podtrhne text."
 
 #. (itstool) path: td/p
-#: C/mail-composer-html-text.page:60
+#: C/mail-composer-html-text.page:64
 msgid "Strike through A"
 msgstr "Přeškrtnuté A"
 
 #. (itstool) path: td/p
-#: C/mail-composer-html-text.page:61
+#: C/mail-composer-html-text.page:65
 msgid "Marks a line through the text."
 msgstr "Přeškrtne text."
 
 #. (itstool) path: section/p
-#: C/mail-composer-html-text.page:65
+#: C/mail-composer-html-text.page:69
 msgid ""
 "The other buttons are explained under <link xref=\"mail-composer-"
 "html#formatting-options-html\"/>."
@@ -7942,12 +7948,12 @@ msgstr ""
 "změny neproběhnou."
 
 #. (itstool) path: section/title
-#: C/mail-composer-message-templates-variables.page:54
+#: C/mail-composer-message-templates-variables.page:53
 msgid "Using Elements From a Message in a Template When Replying"
 msgstr "Použití prvků ze zprávy v šabloně pro odpověď̈́"
 
 #. (itstool) path: section/p
-#: C/mail-composer-message-templates-variables.page:55
+#: C/mail-composer-message-templates-variables.page:54
 msgid ""
 "Templates can contain more than just the predefined set of <link xref="
 "\"#configure\">key-value pairs</link>. You can also get any message header "
@@ -7961,7 +7967,7 @@ msgstr ""
 #. (itstool) path: section/p
 #. TO TRANSLATORS: Do NOT translate $ORIG[subject] and $ORIG[body] in this
 #. sentence!
-#: C/mail-composer-message-templates-variables.page:57
+#: C/mail-composer-message-templates-variables.page:56
 msgid ""
 "In order to do this, use the format <code>$ORIG[header_name]</code> and "
 "replace the variable <code>header_name</code> by the actual header. For "
@@ -7978,7 +7984,7 @@ msgstr ""
 #. (itstool) path: section/p
 #. TO TRANSLATORS: Do NOT translate $ORIG[body] and $ORIG[reply-to] in
 #. this sentence!
-#: C/mail-composer-message-templates-variables.page:59
+#: C/mail-composer-message-templates-variables.page:58
 msgid ""
 "If no replacement for a variable is found, the variable is not removed "
 "(except for <code>$ORIG[body]</code>) but left in place so that you see that "
@@ -9019,6 +9025,17 @@ msgstr "Zobrazení zprávy"
 #. (itstool) path: page/p
 #: C/mail-displaying-message.page:23
 msgid ""
+"Emails can be in two formats: <link href=\"https://en.wikipedia.org/wiki/"
+"Email#Plain_text_and_HTML\">Plain text or HTML</link>. Each format has its "
+"pros and cons."
+msgstr ""
+"E-maily mohou být ve dvou formátech <link href=\"https://en.wikipedia.org/wiki/"
+"Email#Plain_text_and_HTML\">prostý text nebo HTML</link> (odkazovaný text je "
+"v angličtině). Oba formáty mají své výhody i nevýhody."
+
+#. (itstool) path: page/p
+#: C/mail-displaying-message.page:25
+msgid ""
 "You can define how received HTML messages are displayed via "
 "<guiseq><gui>Edit</gui><gui>Preferences</gui><gui>Mail Preferences</"
 "gui><gui>HTML Messages</gui></guiseq>. For example, you can display them as "
@@ -9029,8 +9046,17 @@ msgstr ""
 "guiseq>. Například je můžete nechat zobrazit jako prostý text nebo blokovat "
 "načítání vzdáleného obsahu."
 
+#. (itstool) path: note/p
+#: C/mail-displaying-message.page:27
+msgid ""
+"For formatting emails in the composer, see <link xref=\"mail-composer-html\"/"
+">."
+msgstr ""
+"Jak v editoru e-maily formátovat najdete v kapitole <link xref=\"mail-"
+"composer-html\"/>."
+
 #. (itstool) path: section/title
-#: C/mail-displaying-message.page:26
+#: C/mail-displaying-message.page:30
 msgid "Advanced"
 msgstr "Pokročilé"
 
@@ -9082,7 +9108,7 @@ msgid ""
 msgstr "Pokud se shoduje více kontaktů, použije se vždy první."
 
 #. (itstool) path: note/p
-#: C/mail-displaying-sender-photograph.page:36
+#: C/mail-displaying-sender-photograph.page:35
 msgid ""
 "You can also embed your own image in messages that you send under "
 "<guiseq><gui>Edit</gui><gui>Plugins</gui><gui>Face</gui></guiseq>. The image "
@@ -9949,7 +9975,7 @@ msgstr "Zavřete <app>Evolution</app>."
 
 #. (itstool) path: item/p
 #: C/mail-filters-not-working.page:45 C/mail-localized-re-subjects.page:24
-#: C/mail-save-as-pdf.page:27 C/mail-sorting-message-list.page:40
+#: C/mail-save-as-pdf.page:27
 msgid "Open the <app>Terminal</app> application."
 msgstr "Otevřete aplikaci <app>Terminál</app>."
 
@@ -11100,7 +11126,7 @@ msgstr ""
 
 #. (itstool) path: item/p
 #: C/mail-receiving-options-exchange-ews.page:45
-#: C/mail-receiving-options-imap-plus.page:52
+#: C/mail-receiving-options-imap-plus.page:51
 msgid ""
 "Select if you want <link xref=\"mail-filters\">filters</link> to be "
 "automatically applied on mail that you receive, if <link xref=\"mail-spam-"
@@ -11199,7 +11225,7 @@ msgstr ""
 "link>, vyberte <gui>Používat rychlou synchronizaci</gui>."
 
 #. (itstool) path: item/p
-#: C/mail-receiving-options-imap-plus.page:49
+#: C/mail-receiving-options-imap-plus.page:48
 msgid ""
 "If the mail server does not allow multiple connections from <app>Evolution</"
 "app> to the server at the same time (for example when you have more than one "
@@ -11211,7 +11237,7 @@ msgstr ""
 "jeden účet), nastavte <gui>Počet použitých souběžných připojení</gui> na 1."
 
 #. (itstool) path: item/p
-#: C/mail-receiving-options-imap-plus.page:50
+#: C/mail-receiving-options-imap-plus.page:49
 msgid ""
 "You can also define if <app>Evolution</app> checks for new messages in all "
 "folders, or only in subscribed folders."
@@ -11220,7 +11246,7 @@ msgstr ""
 "všech složkách nebo jen v odebíraných složkách."
 
 #. (itstool) path: item/p
-#: C/mail-receiving-options-imap-plus.page:51
+#: C/mail-receiving-options-imap-plus.page:50
 msgid ""
 "Select if you want <app>Evolution</app> to show only <link xref=\"mail-imap-"
 "subscriptions\">subscribed folders</link>."
@@ -11820,24 +11846,13 @@ msgstr ""
 "věcí, které jsou již dostupné lokálně (např. příjemci nebo předmět zprávy), "
 "hledání poběží lokálně."
 
-#. (itstool) path: note/p
-#: C/mail-searching.page:45
-msgid ""
-"Advanced users can <link href=\"https://bugzilla.gnome.org/show_bug.cgi?"
-"id=550796#c10\">combine numerous conditions by using the <gui>Free form "
-"expression</gui> syntax</link>."
-msgstr ""
-"Pokročilí uživatelé mohou <link href=\"https://bugzilla.gnome.org/show_bug."
-"cgi?id=550796#c10\">kombinovat několik podmínek pomocí syntaxe <gui>Výrazů "
-"ve volném tvaru</gui></link>."
-
 #. (itstool) path: item/p
-#: C/mail-searching.page:47
+#: C/mail-searching.page:46
 msgid "Select the scope from the drop-down list right to the text box."
 msgstr "Vyberte rozsah z rozbalovacího seznamu napravo od textového pole."
 
 #. (itstool) path: note/p
-#: C/mail-searching.page:48
+#: C/mail-searching.page:47
 msgid ""
 "For the <gui>Current Account</gui> scope, the term \"account\" refers to top-"
 "level nodes in the <link xref=\"intro-main-window#e-mail\"> mail folder "
@@ -11848,7 +11863,7 @@ msgstr ""
 "jako například „V tomto počítači“ nebo vzdálené poštovní účty."
 
 #. (itstool) path: note/p
-#: C/mail-searching.page:53
+#: C/mail-searching.page:52
 msgid ""
 "If you start directly from the fourth step, text will be searched in mail's "
 "subjects and addresses and scope will be \"Current folder\"."
@@ -11857,7 +11872,7 @@ msgstr ""
 "zpráv a v adresách a rozsah bude „Aktuální složka“."
 
 #. (itstool) path: note/p
-#: C/mail-searching.page:54
+#: C/mail-searching.page:53
 msgid ""
 "If you search for messages that are not in the same folder rather often you "
 "might want to create a search folder instead; see <link xref=\"mail-search-"
@@ -11866,6 +11881,595 @@ msgstr ""
 "Pokud často hledáte zprávy, které nejsou ve stejné složce, raději místo toto "
 "vytvořte vyhledávací složku; více informací naleznete v <link xref=\"mail-"
 "search-folders\">Používání vyhledávacích složek</link>."
+
+#. (itstool) path: section/title
+#: C/mail-searching.page:64
+msgid "Free Form Expression"
+msgstr "Výraz ve volném tvaru"
+
+#. (itstool) path: section/p
+#: C/mail-searching.page:65
+msgid ""
+"One of the search conditions is a <gui>Free Form Expression</gui>, which "
+"allows defining complex conditions. As the first step, the given Free Form "
+"Expression is divided into words. If the word doesn't have any (known) tag "
+"prefix, then the value is checked whether it is in headers To, CC or "
+"Subject. In case of a white-space or any other special character is needed, "
+"then enclose the word into double quotes. To get a double quote double it "
+"inside quoted text; example: <code>cite \"\"here\"\"</code> is parsed as one "
+"word <code>cite \"here\"</code>. For example, <code>f:John Smith</code> "
+"filters messages for the From containing <code>John</code> and the To, CC or "
+"Subject containing <code>Smith</code>, while <code>f:\"John Smith\"</code> "
+"filters messages for a sender <code>John Smith</code>."
+msgstr ""
+"Jednou z vyhledávacích podmínek je <gui>Výraz ve volném tvaru</gui>, pomocí "
+"kterého můžete definovat komplexní podmínky. V prvním kroce je zadaný výraz "
+"ve volném tvaru rozdělen na jednotlivá slova. Pokud slovo není předcházeno "
+"některou ze známých značek, je kontrolováno v hlavičkách Komu, Kopie a "
+"Předmět. Pokud jsou zapotřebí mezery nebo jiné speciální znaky, uzavřete text "
+"do dvojitých uvozovek. Dvojité uvozovky uvnitř získáte jejich zdvojením "
+"(např. <code>citováno \"\"zde\"\"</code> je zpracováno vcelku jako <code>"
+"citováno \"zde\"</code>). Například <code>f:Josef Novák</code> filtruje "
+"zprávy, ve kterých obsahuje Od jméno <code>Josef</code> a Komu, Kopie nebo "
+"Předmět obsahuje <code>Novák</code>, zatímco <code>f:\"Josef Novák\"</code> "
+"filtruje zprávy s odesilatelem <code>Josef Novák</code>."
+
+#. (itstool) path: section/p
+#: C/mail-searching.page:66
+msgid ""
+"The syntax of the tags is <code>&lt;tag&gt;[-&lt;options&gt;]:value</code>. "
+"The tags are:"
+msgstr ""
+"Syntax značek je <code>&lt;značka&gt;[-&lt;volby&gt;]:hodnota</code>. "
+"Značky jsou:"
+
+#. (itstool) path: td/p
+#: C/mail-searching.page:68
+msgid "Tag"
+msgstr "Značka"
+
+#. (itstool) path: td/p
+#: C/mail-searching.page:68 C/mail-searching.page:100
+msgid "Abbreviation"
+msgstr "Zkratka"
+
+#. (itstool) path: td/p
+#: C/mail-searching.page:68 C/mail-searching.page:100 C/mail-searching.page:124
+msgid "Meaning"
+msgstr "Význam"
+
+#. (itstool) path: td/p
+#. Translators: 'From' is a header name, do not translate it
+#: C/mail-searching.page:69
+msgid "From header should match (*)"
+msgstr "Měla by vyhovovat hlavička Od. (*)"
+
+#. (itstool) path: td/p
+#. Translators: 'To' is a header name, do not translate it
+#: C/mail-searching.page:70
+msgid "To header should match (*)"
+msgstr "Měla by vyhovovat hlavička Komu. (*)"
+
+#. (itstool) path: td/p
+#. Translators: 'CC' is a header name, do not translate it
+#: C/mail-searching.page:71
+msgid "CC header should match (*)"
+msgstr "Měla by vyhovovat hlavička Kopie. (*)"
+
+#. (itstool) path: td/p
+#. Translators: 'To' and 'CC' are the header names, do not translate it
+#: C/mail-searching.page:72
+msgid "To or CC headers should match (*)"
+msgstr "Měla by vyhovovat hlavička Komu nebo Kopie. (*)"
+
+#. (itstool) path: td/p
+#. Translators: 'Subject' is a header name, do not translate it
+#: C/mail-searching.page:73
+msgid "Subject header should match (*)"
+msgstr "Měla by vyhovovat hlavička Předmět. (*)"
+
+#. (itstool) path: td/p
+#: C/mail-searching.page:74
+msgid "Mailing list header should match (*)"
+msgstr "Měla by vyhovovat hlavička Poštovní konference. (*)"
+
+#. (itstool) path: td/p
+#: C/mail-searching.page:75
+msgid "given header should match (*)"
+msgstr "Měla by vyhovovat zadaná hlavička. (*)"
+
+#. (itstool) path: td/p
+#: C/mail-searching.page:76
+msgid ""
+"the syntax is: <code>h:headerName=value</code> while the equal sign is used "
+"only as a delimiter, not as a match rule"
+msgstr ""
+"Syntax je: <code>h:názevHlavičky=hodnota</code>, kde rovnítko je použito jako "
+"oddělovač, ne porovnání."
+
+#. (itstool) path: td/p
+#: C/mail-searching.page:77
+msgid "whether given header exists"
+msgstr "Zda zadaná hlavička existuje."
+
+#. (itstool) path: td/p
+#: C/mail-searching.page:78
+msgid "given user tag is set on a message"
+msgstr "Ve zprávě by měl být vložen zadaný uživatelský štítek."
+
+#. (itstool) path: td/p
+#: C/mail-searching.page:79
+msgid "whether certain flag is set; known special values are:"
+msgstr "Zda je nastaven příslušný příznak. Známé speciální hodnoty jsou:"
+
+#. (itstool) path: td/p
+#. (itstool) comment: ./code
+#. Translators: This is translated in a 'ffe' context
+#: C/mail-searching.page:80
+msgid ""
+"<code its:locNote=\"Translators: This is translated in a 'ffe' context"
+"\">Answered</code> - the message is marked as replied"
+msgstr ""
+"<code>Answered</code> – zpráva je označená jako zodpovězená"
+
+#. (itstool) path: td/p
+#. (itstool) comment: ./code
+#. Translators: This is translated in a 'ffe' context
+#: C/mail-searching.page:81
+msgid ""
+"<code its:locNote=\"Translators: This is translated in a 'ffe' context"
+"\">Deleted</code> - the message is marked as deleted"
+msgstr ""
+"<code>Deleted</code> – zpráva je označená jako smazaná"
+
+#. (itstool) path: td/p
+#. (itstool) comment: ./code
+#. Translators: This is translated in a 'ffe' context
+#: C/mail-searching.page:82
+msgid ""
+"<code its:locNote=\"Translators: This is translated in a 'ffe' context"
+"\">Draft</code> - the message is marked as draft"
+msgstr ""
+"<code>Draft</code> – zpráva je označená jako koncept"
+
+#. (itstool) path: td/p
+#. (itstool) comment: ./code
+#. Translators: This is translated in a 'ffe' context
+#: C/mail-searching.page:83
+msgid ""
+"<code its:locNote=\"Translators: This is translated in a 'ffe' context"
+"\">Flagged</code> - the message is marked as important"
+msgstr ""
+"<code>Flagged</code> – zpráva je označená jako důležitá"
+
+#. (itstool) path: td/p
+#. (itstool) comment: ./code
+#. Translators: This is translated in a 'ffe' context
+#: C/mail-searching.page:84
+msgid ""
+"<code its:locNote=\"Translators: This is translated in a 'ffe' context"
+"\">Seen</code> - the message is marked as seen (not unread)"
+msgstr ""
+"<code>Seen</code> – zpráva je označená jako viděná (není nepřečtená)"
+
+#. (itstool) path: td/p
+#. (itstool) comment: ./code
+#. Translators: This is translated in a 'ffe' context
+#: C/mail-searching.page:85
+msgid ""
+"<code its:locNote=\"Translators: This is translated in a 'ffe' context"
+"\">Attachment</code> - the message has an attachment"
+msgstr ""
+"<code>Attachment</code> – zpráva má přílohu"
+
+#. (itstool) path: td/p
+#: C/mail-searching.page:86
+msgid "Any other value is checked for its non-emptiness."
+msgstr "Jakákoliv jiná hodnota kontroluje neprázdnot příznaku."
+
+#. (itstool) path: td/p
+#: C/mail-searching.page:87
+msgid ""
+"whether certain <link xref=\"mail-labels\">label</link> is set on the message"
+msgstr ""
+"Zda je u zprávy nastaven příslušný <link xref=\"mail-labels\">štítek</link>."
+
+#. (itstool) path: td/p
+#: C/mail-searching.page:88
+msgid "whether message size, in KB, is equal to the given value"
+msgstr "Zda je velikost zprávy v kB rovna zadané hodnotě."
+
+#. (itstool) path: td/p
+#: C/mail-searching.page:89
+msgid ""
+"Two options are recognized, <code>&lt;</code> to get messages with smaller "
+"size, and <code>&gt;</code> to get messages with bigger size than the given. "
+"Example: <code>size-&gt;:1024</code> filters messages which are more than "
+"1MB large."
+msgstr ""
+"Jsou rozpoznávány dvě možnosti. <code>&lt;</code> vrací zprávy s menší "
+"velikostí a <code>&gt;</code> vrací zprávy s větší velikostí, než je zadaná. "
+"Příklad: <code>size-&gt;:1024</code> filtruje zprávy, které jsou větší než "
+"1 MB."
+
+#. (itstool) path: td/p
+#: C/mail-searching.page:90
+msgid ""
+"compares <code>score</code> tag on the message against given value; default "
+"compare is equal, but, similar to <code>size</code> a <code>&lt;</code> and "
+"<code>&gt;</code> options can be used"
+msgstr ""
+"Porovnává značku <code>score</code> zprávy vůči zadané hodnotě. Výchozí typ "
+"porovnávání je, zda je rovno, ale podobně jako u značky <code>size</code>, "
+"lze použít volby <code>&lt;</code> a <code>&gt;</code>."
+
+#. (itstool) path: td/p
+#: C/mail-searching.page:91
+msgid ""
+"checks message body for an existence of the given word; default compare "
+"options is for <code>contains</code>, but a regular expression can be used "
+"if the option is one of the <code>regex</code>, <code>re</code> or <code>r</"
+"code>."
+msgstr ""
+"Kontroluje, zda se v těle zprávy nachází zadané slovo. Výchozí volba "
+"porovnávání je <code>contains</code>, ale dá se použít i regulární výraz "
+"doplněním volby <code>regex</code>, <code>re</code> or <code>r</code>."
+
+#. (itstool) path: td/p
+#: C/mail-searching.page:92
+msgid "message's Sent date should match (**)"
+msgstr "Mělo by se vyhovovat datum odeslání zprávy. (**)"
+
+#. (itstool) path: td/p
+#: C/mail-searching.page:93
+msgid "message's Received date should match (**)"
+msgstr "Mělo by vyhovovat datum přijetí zprávy. (**)"
+
+#. (itstool) path: td/p
+#: C/mail-searching.page:94
+msgid ""
+"message has (if the value is not any of <code>no</code>, <code>false</code>, "
+"<code>0</code>) an attachment. Similar to <code>flag:attachment</code> tag."
+msgstr ""
+"Zpráva by měla mít přílohu (pokud hodnotou není <code>no</code>, <code>false"
+"</code> nebo <code>0</code>). Funguje podobně jako značka <code>flag:"
+"attachment</code>."
+
+#. (itstool) path: td/p
+#: C/mail-searching.page:95
+msgid ""
+"Checks message location. The location value (URL) can be found in the folder "
+"<gui>Properties</gui>. Example: <code>location:\"On This Computer/Inbox\"</"
+"code>"
+msgstr ""
+"Kontroluje umístění zprávy. Hodnotu umístění (URL) lze najít ve <gui>"
+"Vlastnostech</gui> složky. Příklad: <code>location:\"V tomto počítači/Inbox\""
+"</code>"
+
+#. (itstool) path: td/p
+#: C/mail-searching.page:96
+msgid "Compares message ID."
+msgstr "porovnává ID zprávy"
+
+#. (itstool) path: section/p
+#: C/mail-searching.page:98
+msgid ""
+"(*) Header comparisons can have a matching type option. The default is to "
+"check for a <code>contains</code>. The available options are:"
+msgstr ""
+"(*) Při porovnávání hlaviček lze uvést volbu typu shody. Výchozí je kontrola, "
+"zda obsahuje hodnotu (<code>contains</code>). Dostupné volby jsou:"
+
+#. (itstool) path: td/p
+#: C/mail-searching.page:100
+msgid "Option"
+msgstr "Volba"
+
+#. (itstool) path: td/p
+#: C/mail-searching.page:101
+msgid "matches with contains"
+msgstr "obsahuje"
+
+#. (itstool) path: td/p
+#: C/mail-searching.page:102
+msgid "matches if contains whole word"
+msgstr "obsahuje celé slovo"
+
+#. (itstool) path: td/p
+#: C/mail-searching.page:103
+msgid "value's exact match"
+msgstr "shoduje se přesně"
+
+#. (itstool) path: td/p
+#: C/mail-searching.page:104
+msgid "header value starts with the given value"
+msgstr "hodnota hlavičky začíná zadanou hodnotou"
+
+#. (itstool) path: td/p
+#: C/mail-searching.page:105
+msgid "header value ends with the given value"
+msgstr "hodnota hlavičky končí zadanou hodnotou"
+
+#. (itstool) path: td/p
+#: C/mail-searching.page:106
+msgid "header value sounds similar to given value"
+msgstr "hodnota hlavičky zní podobně jako zadaná hodnota"
+
+#. (itstool) path: td/p
+#: C/mail-searching.page:107
+msgid "the given value is a regular expression"
+msgstr "zadaná hodnota je regulární výraz"
+
+#. (itstool) path: td/p
+#: C/mail-searching.page:108
+msgid "another type of a regular expression"
+msgstr "jiný typ regulárního výrazu"
+
+#. (itstool) path: section/p
+#: C/mail-searching.page:110
+msgid ""
+"(**) Dates can be written relatively (positive number means <code>in the "
+"last X days</code>), while negative goes into the future. For example, to "
+"get messages received in the last 10 days use: <code>recv:10</code>. An "
+"exact date can be used as well, the format can be either <code>YYYY-MM-DD</"
+"code> (the preferred one), then ISO 8601 format or a date/date-time locale "
+"specific format. If the date/time parse fails, then the condition is "
+"skipped. The date compares can have extra options too, it's <code>&lt;</"
+"code>, <code>=</code> or <code>&gt;</code>, where the <code>&gt;</code> is "
+"the default compare option."
+msgstr ""
+"(**) Datum může být zapsáno relativně. Kladné číslo znamená <code>v "
+"posledních X dnech</code>, zatímco záporné jde do budoucnosti. Například, "
+"když chcete získat zprávy přijaté za posledních 10 dní, použijte: <code>recv:"
+"10</code>. Lze zadat i přesné datum, kdy formát může být buď <code>RRRR-MM-DD"
+"</code> (upřednostňováno), ISO 8601 nebo datum/datum-čas v místním formátu. "
+"Pokud zpracování data/času selže, je podmínka vynechána. Porovnávání data má "
+"tři dodatečné volby: <code>&lt;</code>, <code>=</code> a <code>&gt;"
+"</code>, kdy <code>&gt;</code> je výchozí."
+
+#. (itstool) path: section/p
+#: C/mail-searching.page:111
+msgid "There are three special tags, which require special notation. They are:"
+msgstr "Existují tři značky, které vyžadují speciální notaci. Jsou to:"
+
+#. (itstool) path: section/p
+#: C/mail-searching.page:117
+msgid ""
+"which allows to create specialized expressions. The default (the most outer) "
+"conjunction is <code>and</code>. To change it to <code>or</code> enclose the "
+"whole filter into <code>or:(....)</code>. For example: <code>f:Bugzilla t:"
+"John</code> filters all messages which contains <code>Bugzilla</code> in the "
+"From and <code>John</code> in the To, while <code>or:(f:Bugzilla t:John)</"
+"code> filters messages from Bugzilla or addressed to John."
+msgstr ""
+"Umožňují vytvářet specializované výrazy. Výchozí (nejvyšší priorita) spojka "
+"je <code>and</code>. Pokud má mít vyšší prioritu <code>or</code>, je třeba "
+"celý filter uzavřít do <code>or:(....)</code>. Například: <code>f:Banka "
+"t:Honza</code> filtruje všechny zprávy, které obsahují <code>Banka</code> v "
+"odesilateli a <code>Honza</code> v příjemci, zatímco <code>or:(f:Banka "
+"t:Honza)</code> filtruje zprávy od Banky nebo adresované Honzovi."
+
+#. (itstool) path: section/title
+#: C/mail-searching.page:121
+msgid "Free Form Expression examples"
+msgstr "Příklady výrazů ve volném tvaru:"
+
+#. (itstool) path: section/p
+#: C/mail-searching.page:122
+msgid "A list of some free form expressions follows:"
+msgstr "Zde je uveden seznam pár výrazů ve volném tvaru:"
+
+#. (itstool) path: td/p
+#: C/mail-searching.page:124
+msgid "Expression"
+msgstr "Výraz"
+
+#. (itstool) path: td/p
+#: C/mail-searching.page:125
+msgid "<code>f:John</code>"
+msgstr "<code>f:Honza</code>"
+
+#. (itstool) path: td/p
+#: C/mail-searching.page:125
+msgid "Messages from <code>John</code>"
+msgstr "Zpráva od uživatele <code>Honza</code>."
+
+#. (itstool) path: td/p
+#: C/mail-searching.page:126
+msgid "<code>s-has-words:\"green blue\"</code>"
+msgstr "<code>s-has-words:\"zelená modrá\"</code>"
+
+#. (itstool) path: td/p
+#: C/mail-searching.page:126
+msgid ""
+"Messages, which contain both <code>green</code> and <code>blue</code> words "
+"in the Subject"
+msgstr ""
+"Zprávy, které mají v předmětu jak slovo <code>zelená</code>, tak <code>"
+"modrá</code>."
+
+#. (itstool) path: td/p
+#: C/mail-searching.page:127
+msgid "<code>r-ew:example.com</code>"
+msgstr "<code>r-ew:posta.cz</code>"
+
+#. (itstool) path: td/p
+#: C/mail-searching.page:127
+msgid "Recipients' address (To/Cc headers) ends with <code>example.com</code>"
+msgstr "Adresy příjemců (hlavičky Komu/Kopie) končí <code>posta.cz</code>."
+
+#. (itstool) path: td/p
+#: C/mail-searching.page:128
+msgid "<code>h-starts-with:Cc=Alice</code>"
+msgstr "<code>h-starts-with:Cc=Alice</code>"
+
+#. (itstool) path: td/p
+#: C/mail-searching.page:128
+msgid "The <code>Cc</code> starts with word <code>Alice</code>"
+msgstr "<code>Kopie</code> začíná slovem <code>Alice</code>"
+
+#. (itstool) path: td/p
+#: C/mail-searching.page:129
+msgid "<code>e:X-Secret-Header</code>"
+msgstr "<code>e:X-Secret-Header</code>"
+
+#. (itstool) path: td/p
+#: C/mail-searching.page:129
+msgid "An <code>X-Secret-Header</code> exists in the message"
+msgstr "Ve zprávě se nachází hlavička <code>X-Secret-Header</code>."
+
+#. (itstool) path: td/p
+#: C/mail-searching.page:130
+msgid "<code>l:work</code>"
+msgstr "<code>l:work</code>"
+
+#. (itstool) path: td/p
+#: C/mail-searching.page:130
+msgid "Label <code>work</code> is set on the message"
+msgstr "U zprávy je nastavený štítek <code>work</code> (Pracovní)"
+
+#. (itstool) path: td/p
+#: C/mail-searching.page:131
+msgid "<code>sz-&lt;:10</code>"
+msgstr "<code>sz-&lt;:10</code>"
+
+#. (itstool) path: td/p
+#: C/mail-searching.page:131
+msgid "Message size is less than 10KB"
+msgstr "Velikost zprávy je menší než 10 kB."
+
+#. (itstool) path: td/p
+#: C/mail-searching.page:132
+msgid "<code>sz-&gt;:100</code>"
+msgstr "<code>sz-&gt;:100</code>"
+
+#. (itstool) path: td/p
+#: C/mail-searching.page:132
+msgid "Message size is more than 100KB"
+msgstr "Velikost zprávy je větší než 100 kB"
+
+#. (itstool) path: td/p
+#: C/mail-searching.page:133
+msgid "<code>b:important</code>"
+msgstr "<code>b:důležité</code>"
+
+#. (itstool) path: td/p
+#: C/mail-searching.page:133
+msgid "The body contains a word <code>important</code>"
+msgstr "Tělo obsahuje slovo <code>důležité</code>"
+
+#. (itstool) path: td/p
+#: C/mail-searching.page:134
+msgid "<code>sent:7</code>"
+msgstr "<code>sent:7</code>"
+
+#. (itstool) path: td/p
+#: C/mail-searching.page:134
+msgid "Messages sent in the last 7 days"
+msgstr "Zpráva byla posládna v posledních 7 dnech"
+
+#. (itstool) path: td/p
+#: C/mail-searching.page:135
+msgid "<code>rcv-=:2020-02-02</code>"
+msgstr "<code>rcv-=:2020-02-02</code>"
+
+#. (itstool) path: td/p
+#: C/mail-searching.page:135
+msgid "Messages received on the February 2nd, 2020"
+msgstr "Zpráva byla přijata 2. února 2020"
+
+#. (itstool) path: td/p
+#: C/mail-searching.page:136
+msgid "<code>a:1</code>"
+msgstr "<code>a:1</code>"
+
+#. (itstool) path: td/p
+#: C/mail-searching.page:136
+msgid "Messages with attachment"
+msgstr "Zprávy s přílohou"
+
+#. (itstool) path: td/p
+#: C/mail-searching.page:137
+msgid "<code>a:0</code>"
+msgstr "<code>a:0</code>"
+
+#. (itstool) path: td/p
+#: C/mail-searching.page:137
+msgid "Messages without attachments"
+msgstr "Zprávy bez přílohy"
+
+#. (itstool) path: td/p
+#: C/mail-searching.page:138
+msgid "<code>and:(or:(r:Alice r:Bob) not:(r:Smith))</code>"
+msgstr "<code>and:(or:(r:Alice r:Robert) not:(r:Procházka))</code>"
+
+#. (itstool) path: td/p
+#: C/mail-searching.page:138
+msgid ""
+"Messages whose recipient is <code>Alice</code> or <code>Bob</code>, but not "
+"<code>Smith</code>"
+msgstr ""
+"Zprávy, jejímiž příjemcem je <code>Alice</code> nebo <code>Robert</code>, ale "
+"ne <code>Procházka</code>."
+
+#. (itstool) path: td/p
+#: C/mail-searching.page:139
+msgid "<code>f:Bob rcv-&gt;:2020-01-01 rcv-&lt;:2020-12-31</code>"
+msgstr "<code>f:Robert rcv-&gt;:2020-01-01 rcv-&lt;:2020-12-31</code>"
+
+#. (itstool) path: td/p
+#: C/mail-searching.page:139
+msgid "Messages from <code>Bob</code>, received during the year 2020"
+msgstr "Zprávy od uživatele <code>Robert</code>, přijaté během roku 2020"
+
+#. (itstool) path: td/p
+#: C/mail-searching.page:140
+msgid ""
+"<code>not:(flag:Seen) f:Bob rcv-&gt;:2020-01-01 rcv-&lt;:2020-12-31</code>"
+msgstr ""
+"<code>not:(flag:Seen) f:Robert rcv-&gt;:2020-01-01 rcv-&lt;:2020-12-31</code>"
+
+#. (itstool) path: td/p
+#: C/mail-searching.page:140
+msgid "Unread messages from <code>Bob</code>, received during the year 2020"
+msgstr ""
+"Nepřečtené zprávy od uživatele <code>Robert</code>, přijaté během roku 2020"
+
+#. (itstool) path: td/p
+#: C/mail-searching.page:141
+msgid "<code>flag:Seen a:1 sz-&gt;:1024 f:Bob rcv:31</code>"
+msgstr "<code>flag:Seen a:1 sz-&gt;:1024 f:Robert rcv:31</code>"
+
+#. (itstool) path: td/p
+#: C/mail-searching.page:141
+msgid ""
+"Read messages with attachment larger than 1MB from <code>Bob</code>, "
+"received during the past 31 days"
+msgstr ""
+"Přečtené zprávy s přílohou větší než 1 MB od uživatele <code>Robert</code>, "
+"přijaté během posledních 31 dní"
+
+#. (itstool) path: td/p
+#: C/mail-searching.page:142
+msgid "<code>m:\"On This Computer/Inbox\"</code>"
+msgstr "<code>m:\"V tomto počítači/Inbox\"</code>"
+
+#. (itstool) path: td/p
+#: C/mail-searching.page:142
+msgid "Messages stored in the <code>On This Computer/Inbox</code> folder"
+msgstr "Zprávy uložené ve složce <code>V tomto počítači/Inbox</code>"
+
+#. (itstool) path: td/p
+#: C/mail-searching.page:143
+msgid "<code>location-no:\"On This Computer/Inbox\"</code>"
+msgstr "<code>location-no:\"V tomto počítači/Inbox\"</code>"
+
+#. (itstool) path: td/p
+#: C/mail-searching.page:143
+msgid ""
+"Messages stored in all but the <code>On This Computer/Inbox</code> folder"
+msgstr ""
+"Zprávy uložené ve všech složkách, vyjma <code>V tomto počítači/Inbox</code>"
 
 #. (itstool) path: info/desc
 #: C/mail-send-and-receive-automatically.page:5
@@ -12058,17 +12662,17 @@ msgid "Sorting the mail folder list in the left pane."
 msgstr "Jak seřadit složky pošty v levém panelu."
 
 #. (itstool) path: page/title
-#: C/mail-sorting-folder-list.page:21
+#: C/mail-sorting-folder-list.page:22
 msgid "Sorting the mail folder list"
 msgstr "Řazení seznam složek pošty"
 
 #. (itstool) path: section/title
-#: C/mail-sorting-folder-list.page:24
+#: C/mail-sorting-folder-list.page:25
 msgid "Default sort order"
 msgstr "Výchozí řazení"
 
 #. (itstool) path: section/p
-#: C/mail-sorting-folder-list.page:25
+#: C/mail-sorting-folder-list.page:26
 msgid ""
 "By default the <link xref=\"intro-main-window#e-mail\">mail folder list</"
 "link> in the left pane contains top-level nodes in the following order:"
@@ -12078,7 +12682,7 @@ msgstr ""
 "pořadí:"
 
 #. (itstool) path: item/p
-#: C/mail-sorting-folder-list.page:27
+#: C/mail-sorting-folder-list.page:28
 msgid ""
 "<gui>On This Computer</gui> - contains all mail for local account types (if "
 "configured)"
@@ -12087,12 +12691,12 @@ msgstr ""
 "(pokud jsou nastavené)"
 
 #. (itstool) path: item/p
-#: C/mail-sorting-folder-list.page:28
+#: C/mail-sorting-folder-list.page:29
 msgid "One or more remote email account types (if configured)"
 msgstr "Jeden nebo více vzdálených typů účtů (pokud jsou nastavené)"
 
 #. (itstool) path: item/p
-#: C/mail-sorting-folder-list.page:29
+#: C/mail-sorting-folder-list.page:30
 msgid ""
 "<gui><link xref=\"mail-search-folders\">Search Folders</link></gui> (if "
 "enabled)"
@@ -12101,17 +12705,17 @@ msgstr ""
 "(pokud jsou povolené)"
 
 #. (itstool) path: section/p
-#: C/mail-sorting-folder-list.page:31
+#: C/mail-sorting-folder-list.page:32
 msgid "The folders under each top-level node are sorted in alphabetical order."
 msgstr "Složky pod jednotlivými uzly nejvyšší úrovně jsou řazené abecedně."
 
 #. (itstool) path: section/title
-#: C/mail-sorting-folder-list.page:35
+#: C/mail-sorting-folder-list.page:36
 msgid "Changing the sort order"
 msgstr "Změna řazení"
 
-#. (itstool) path: section/p
-#: C/mail-sorting-folder-list.page:37
+#. (itstool) path: item/p
+#: C/mail-sorting-folder-list.page:39
 msgid ""
 "You can change the default sort order of the top-level nodes under "
 "<guiseq><gui>Edit</gui><gui>Preferences</gui><gui>Mail Accounts</gui></"
@@ -12121,8 +12725,8 @@ msgstr ""
 "gui> <gui>Předvolby</gui> <gui>Poštovní účty</gui></guiseq> prostým "
 "přetažením účtu v seznamu nahoru nebo dolů."
 
-#. (itstool) path: section/p
-#: C/mail-sorting-folder-list.page:39
+#. (itstool) path: item/p
+#: C/mail-sorting-folder-list.page:41
 msgid ""
 "You can revert your custom sort order by choosing <guiseq><gui>Edit</"
 "gui><gui>Preferences</gui><gui>Mail Accounts</gui><gui style=\"button"
@@ -12131,6 +12735,15 @@ msgstr ""
 "Vlastní řazení můžete vrátit zpět na původní pomocí <guiseq><gui>Upravit</"
 "gui> <gui>Předvolby</gui> <gui>Poštovní účty</gui> <gui style=\"button"
 "\">Obnovit výchozí</gui></guiseq>."
+
+#. (itstool) path: item/p
+#: C/mail-sorting-folder-list.page:44
+msgid ""
+"You can change the sort order of folders under <guiseq><gui>Folder</"
+"gui><gui>Edit Sort Order…</gui></guiseq>."
+msgstr ""
+"Pořadí složek můžete změnit v nabídce <guiseq><gui>Složka</gui><gui>Upravit "
+"řazení…</gui></guiseq>"
 
 #. (itstool) path: info/desc
 #: C/mail-sorting-message-list.page:5
@@ -12204,28 +12817,41 @@ msgstr ""
 #. (itstool) path: note/p
 #: C/mail-sorting-message-list.page:38
 msgid ""
-"For Advanced Users: By default, all email threads are expanded. If you want "
-"all threads to be collapsed by default:"
+"Advanced users can change further thread settings by running commands in the "
+"<app>Terminal</app> application."
 msgstr ""
-"Pro pokročilé uživatele: ve výchozím stavu jsou poštovní vlákna rozbalená. "
-"Chcete-li, aby byla všechna vlákna ve výchozím stavu sbalená:"
+"Pokročilí uživatelé mohou měnit další nastavení vláken spouštěním příkazů v "
+"aplikaci <app>Terminál</app>."
 
 #. (itstool) path: item/p
 #: C/mail-sorting-message-list.page:41
-msgid ""
-"Run the command <cmd>gsettings set org.gnome.evolution.mail thread-expand "
-"false</cmd>"
+msgid "To sort each thread by latest message rather than by message date:"
 msgstr ""
-"Spusťte příkaz <cmd>gsettings set org.gnome.evolution.mail thread-expand "
-"false</cmd>"
+"Když chcete řadit jednotlivá vlákna podle poslední zprávy, namísto data "
+"zprávy:"
+
+#. (itstool) path: item/p
+#: C/mail-sorting-message-list.page:45
+msgid ""
+"To use ascending sort order of child messages in a thread rather than the "
+"sort order as in the thread root level:"
+msgstr ""
+"Když chcete používat vzestupné řazení podřízených zpráv ve vlákně, namísto "
+"řazení jako v kořenové úrovni vlákna:"
+
+#. (itstool) path: item/p
+#: C/mail-sorting-message-list.page:49
+msgid "To collapse all threads by default rather than expanding them:"
+msgstr ""
+"Když chcete mít ve výchozím stavu všechna vlákna sbalená, namísto rozbalená:"
 
 #. (itstool) path: section/title
-#: C/mail-sorting-message-list.page:47
+#: C/mail-sorting-message-list.page:57
 msgid "Sorting Mail with Column Headers"
 msgstr "Řazení pošty podle sloupců"
 
 #. (itstool) path: section/p
-#: C/mail-sorting-message-list.page:48
+#: C/mail-sorting-message-list.page:58
 msgid ""
 "The message list displays columns that indicate whether a message has been "
 "read, whether it has attachments, how important the message is, the sender, "
@@ -12237,17 +12863,17 @@ msgstr ""
 "seznamu změnit, můžete udělat něco z následujícího:"
 
 #. (itstool) path: item/p
-#: C/mail-sorting-message-list.page:50
+#: C/mail-sorting-message-list.page:60
 msgid "Drag and drop the column header bars"
 msgstr "Přetáhněte a upusťte lištu záhlaví sloupce"
 
 #. (itstool) path: item/p
-#: C/mail-sorting-message-list.page:51
+#: C/mail-sorting-message-list.page:61
 msgid "Right-click on the header."
 msgstr "Klikněte pravým tlačítkem na záhlaví."
 
 #. (itstool) path: item/p
-#: C/mail-sorting-message-list.page:52
+#: C/mail-sorting-message-list.page:62
 msgid ""
 "Select the <gui>Remove This Column</gui> or <gui>Add a Column</gui> option."
 msgstr ""
@@ -12255,7 +12881,7 @@ msgstr ""
 "gui>."
 
 #. (itstool) path: section/p
-#: C/mail-sorting-message-list.page:55
+#: C/mail-sorting-message-list.page:65
 msgid ""
 "<app>Evolution</app> allows you to sort your messages using these columns. "
 "Just click on the column label to sort the emails. The direction of the "
@@ -12266,7 +12892,7 @@ msgstr ""
 "popisu sloupce ukazuje směr řazení."
 
 #. (itstool) path: section/p
-#: C/mail-sorting-message-list.page:55
+#: C/mail-sorting-message-list.page:65
 msgid ""
 "You can apply a secondary sort criterion by clicking a column label while "
 "pressing <key>Ctrl</key>."
@@ -12275,12 +12901,12 @@ msgstr ""
 "současného držení klávesy <key>Ctrl</key>. "
 
 #. (itstool) path: section/title
-#: C/mail-sorting-message-list.page:62
+#: C/mail-sorting-message-list.page:72
 msgid "Using Other Sorting Options"
 msgstr "Používání dalších voleb řazení"
 
 #. (itstool) path: section/p
-#: C/mail-sorting-message-list.page:63
+#: C/mail-sorting-message-list.page:73
 msgid ""
 "<app>Evolution</app> provides other ways for sorting email messages. You can "
 "use Sort By, Sort Ascending, Sort Descending, or Reset sort."
@@ -12289,170 +12915,170 @@ msgstr ""
 "Můžete použít Řadit podle, Řadit vzestupně, Řadit sestupně nebo Neřadit."
 
 #. (itstool) path: section/title
-#: C/mail-sorting-message-list.page:65
+#: C/mail-sorting-message-list.page:75
 msgid "Sort By"
 msgstr "Řadit podle"
 
 #. (itstool) path: section/p
-#: C/mail-sorting-message-list.page:66
+#: C/mail-sorting-message-list.page:76
 msgid "You can also sort email messages using the <gui>Sort By</gui> list."
 msgstr ""
 "Můžete také použít řazení poštovních zpráv podle seznamu <gui>Řadit podle</"
 "gui>."
 
 #. (itstool) path: item/p
-#: C/mail-sorting-message-list.page:68 C/mail-sorting-message-list.page:98
-#: C/mail-sorting-message-list.page:107 C/mail-sorting-message-list.page:116
+#: C/mail-sorting-message-list.page:78 C/mail-sorting-message-list.page:108
+#: C/mail-sorting-message-list.page:117 C/mail-sorting-message-list.page:126
 msgid "Right-click on the message list column headers."
 msgstr "Klikněte pravým tlačítkem na záhlaví sloupce v seznamu zpráv."
 
 #. (itstool) path: item/p
-#: C/mail-sorting-message-list.page:69
+#: C/mail-sorting-message-list.page:79
 msgid "Select the <gui>Sort By</gui> option."
 msgstr "Vyberte volbu <gui>Řadit podle</gui>."
 
 #. (itstool) path: item/p
-#: C/mail-sorting-message-list.page:69
+#: C/mail-sorting-message-list.page:79
 msgid "This brings up this list of criteria for sorting email messages:"
 msgstr "Tím se zobrazí seznam kritérií pro řazení poštovních zpráv:"
 
 #. (itstool) path: item/p
-#: C/mail-sorting-message-list.page:71
+#: C/mail-sorting-message-list.page:81
 msgid "Subject - Trimmed"
 msgstr "Předmět - oříznutý"
 
 #. (itstool) path: item/p
-#: C/mail-sorting-message-list.page:72
+#: C/mail-sorting-message-list.page:82
 msgid "Labels"
 msgstr "Štítky"
 
 #. (itstool) path: item/p
-#: C/mail-sorting-message-list.page:73
+#: C/mail-sorting-message-list.page:83
 msgid "Recipients"
 msgstr "Příjemce"
 
 #. (itstool) path: item/p
-#: C/mail-sorting-message-list.page:74
+#: C/mail-sorting-message-list.page:84
 msgid "Sender"
 msgstr "Odesílatel"
 
 #. (itstool) path: item/p
-#: C/mail-sorting-message-list.page:75
+#: C/mail-sorting-message-list.page:85
 msgid "Location"
 msgstr "Místo"
 
 #. (itstool) path: item/p
-#: C/mail-sorting-message-list.page:76
+#: C/mail-sorting-message-list.page:86
 msgid "Due By"
 msgstr "Termín dokončení"
 
 #. (itstool) path: item/p
-#: C/mail-sorting-message-list.page:77
+#: C/mail-sorting-message-list.page:87
 msgid "<link xref=\"mail-follow-up-flag\">Follow Up Flag</link>"
 msgstr "<link xref=\"mail-follow-up-flag\">Příznak K vyřízení</link>"
 
 #. (itstool) path: item/p
-#: C/mail-sorting-message-list.page:78
+#: C/mail-sorting-message-list.page:88
 msgid "Flag Status"
 msgstr "Příznak Stav"
 
 #. (itstool) path: item/p
-#: C/mail-sorting-message-list.page:79
+#: C/mail-sorting-message-list.page:89
 msgid "Size"
 msgstr "Velikost"
 
 #. (itstool) path: item/p
-#: C/mail-sorting-message-list.page:80
+#: C/mail-sorting-message-list.page:90
 msgid "To"
 msgstr "Komu"
 
 #. (itstool) path: item/p
-#: C/mail-sorting-message-list.page:81
+#: C/mail-sorting-message-list.page:91
 msgid "Received"
 msgstr "Přijato"
 
 #. (itstool) path: item/p
-#: C/mail-sorting-message-list.page:82
+#: C/mail-sorting-message-list.page:92
 msgid "Date"
 msgstr "Datum"
 
 #. (itstool) path: item/p
-#: C/mail-sorting-message-list.page:83
+#: C/mail-sorting-message-list.page:93
 msgid "Subject"
 msgstr "Předmět"
 
 #. (itstool) path: item/p
-#: C/mail-sorting-message-list.page:84
+#: C/mail-sorting-message-list.page:94
 msgid "From"
 msgstr "Od"
 
 #. (itstool) path: item/p
-#: C/mail-sorting-message-list.page:85
+#: C/mail-sorting-message-list.page:95
 msgid "Attachment"
 msgstr "Příloha"
 
 #. (itstool) path: item/p
-#: C/mail-sorting-message-list.page:86
+#: C/mail-sorting-message-list.page:96
 msgid "Flagged"
 msgstr "Označeno"
 
 #. (itstool) path: item/p
-#: C/mail-sorting-message-list.page:87
+#: C/mail-sorting-message-list.page:97
 msgid "Status"
 msgstr "Stav"
 
 #. (itstool) path: item/p
-#: C/mail-sorting-message-list.page:88
+#: C/mail-sorting-message-list.page:98
 msgid "Custom"
 msgstr "Vlastní"
 
 #. (itstool) path: item/p
-#: C/mail-sorting-message-list.page:91
+#: C/mail-sorting-message-list.page:101
 msgid "Select the option you wish to use in sorting email messages."
 msgstr "Vyberte volbu, kterou chcete použít pro řazení e-mailových zpráv."
 
 #. (itstool) path: section/title
-#: C/mail-sorting-message-list.page:96
+#: C/mail-sorting-message-list.page:106
 msgid "Sort Ascending"
 msgstr "Řadit vzestupně"
 
 #. (itstool) path: item/p
-#: C/mail-sorting-message-list.page:99
+#: C/mail-sorting-message-list.page:109
 msgid "Select the <gui>Sort Ascending</gui> option."
 msgstr "Vyberte volbu <gui>Řadit vzestupně</gui>."
 
 #. (itstool) path: section/p
-#: C/mail-sorting-message-list.page:101
+#: C/mail-sorting-message-list.page:111
 msgid "The messages will be displayed with the most recent at the bottom."
 msgstr "Zprávy budou zobrazeny tak, že ty nejnovější budou dole."
 
 #. (itstool) path: section/title
-#: C/mail-sorting-message-list.page:105
+#: C/mail-sorting-message-list.page:115
 msgid "Sort Descending"
 msgstr "Řadit sestupně"
 
 #. (itstool) path: item/p
-#: C/mail-sorting-message-list.page:108
+#: C/mail-sorting-message-list.page:118
 msgid "Select the <gui>Sort Descending</gui> option."
 msgstr "Vyberte volbu <gui>Řadit sestupně</gui>."
 
 #. (itstool) path: section/p
-#: C/mail-sorting-message-list.page:110
+#: C/mail-sorting-message-list.page:120
 msgid "The messages will be displayed with the most recent at the top."
 msgstr "Zprávy budou zobrazeny tak, že ty nejnovější budou nahoře."
 
 #. (itstool) path: section/title
-#: C/mail-sorting-message-list.page:114
+#: C/mail-sorting-message-list.page:124
 msgid "Reset sort"
 msgstr "Výchozí řazení"
 
 #. (itstool) path: item/p
-#: C/mail-sorting-message-list.page:117
+#: C/mail-sorting-message-list.page:127
 msgid "Select the <gui>Reset sort</gui> option."
 msgstr "Vyberte volbu <gui>Výchozí řazení</gui>."
 
 #. (itstool) path: section/p
-#: C/mail-sorting-message-list.page:119
+#: C/mail-sorting-message-list.page:129
 msgid ""
 "This removes sorting from the column, reverting to the order of messages as "
 "they were added to the folder."
@@ -12932,7 +13558,7 @@ msgstr ""
 "abyste si je mohli číst i při odpojení."
 
 #. (itstool) path: note/p
-#: C/mail-working-offline.page:27 C/offline.page:40
+#: C/mail-working-offline.page:27 C/offline.page:39
 msgid ""
 "<app>Evolution</app>'s forced offline mode only refers to mail and does not "
 "apply to contacts and calendars."
@@ -13345,7 +13971,7 @@ msgstr ""
 "konferenci fungujícím jako podpora k vaší distribuci."
 
 #. (itstool) path: page/p
-#: C/offline.page:35
+#: C/offline.page:34
 msgid ""
 "If you want to force <app>Evolution</app> to be in online mode, make sure "
 "that <app>Evolution</app> is not running and open a <app>Terminal</app> "
@@ -13718,32 +14344,32 @@ msgstr ""
 "gui><gui>Úkoly</gui></guiseq>."
 
 #. (itstool) path: item/p
-#: C/tasks-display-settings.page:31
+#: C/tasks-display-settings.page:30
 msgid "Tasks due today:"
 msgstr "Úkoly, které mají být splněny dnes:"
 
 #. (itstool) path: item/p
-#: C/tasks-display-settings.page:32
+#: C/tasks-display-settings.page:31
 msgid "Select the color for tasks due today."
 msgstr "Vyberte barvu pro úkoly, které mají být splněny dnes."
 
 #. (itstool) path: item/p
-#: C/tasks-display-settings.page:33
+#: C/tasks-display-settings.page:32
 msgid "Overdue tasks:"
 msgstr "Úkoly, které již měly být splněny:"
 
 #. (itstool) path: item/p
-#: C/tasks-display-settings.page:34
+#: C/tasks-display-settings.page:33
 msgid "Select the color for overdue tasks."
 msgstr "Vyberte barvu pro úkoly, které již měly být splněny."
 
 #. (itstool) path: item/p
-#: C/tasks-display-settings.page:35
+#: C/tasks-display-settings.page:34
 msgid "Hide completed tasks after:"
 msgstr "Skrýt splněné úkoly po:"
 
 #. (itstool) path: item/p
-#: C/tasks-display-settings.page:36
+#: C/tasks-display-settings.page:35
 msgid ""
 "Select this option to have completed tasks hidden after a period of time "
 "measured in days, hours, or minutes. If you do not select this option, "
@@ -14476,9 +15102,9 @@ msgstr ""
 "(Pro pokročilé uživatele) Pokud znáte program <_:link-1/> nebo se vyznáte v "
 "regulárních výrazech, můžete díky této volbě hledat složitější vzory textu. "
 "Například všechna slova, která začínají na „m“ a končí na „a“ a mají šest až "
-"patnáct znaků, nebo všechny zprávy, které deklarují určitou hlavičku dvakrát. "
-"<_:app-2/> podporuje syntax rozšířených regulárních výrazů ERE (Extended "
-"Regular Expression)."
+"patnáct znaků, nebo všechny zprávy, které deklarují určitou hlavičku "
+"dvakrát. <_:app-2/> podporuje syntax rozšířených regulárních výrazů ERE "
+"(Extended Regular Expression)."
 
 #. (itstool) path: section/title
 #. (itstool) path: guiseq/gui
@@ -14642,3 +15268,61 @@ msgstr "V dialogovém okně upravte název nebo podmínky hledání."
 msgid "Click <_:gui-1/>."
 msgstr "Klikněte na <_:gui-1/>."
 
+#~ msgid "Click <gui style=\"button\">Apply</gui>."
+#~ msgstr "Klikněte na <gui style=\"button\">Použít</gui>."
+
+#~ msgid ""
+#~ "For connecting to a Microsoft Exchange 2007/2010 or OpenChange server. "
+#~ "Note that this is currently under development and will replace the "
+#~ "<gui>Exchange MAPI</gui> account type in the future. It might not be "
+#~ "available yet for your distribution."
+#~ msgstr ""
+#~ "Pro připojení k serveru Microsoft Exchange 2007/2010 nebo OpenChange. "
+#~ "Upozorňujeme, že vývoj ještě není zcela dokončen a v budoucnu bude "
+#~ "sloužit jako náhrada účtů typu <gui>Exchange MAPI</gui>. Nemusí být zatím "
+#~ "ani k dispozici ve vaší distribuci."
+
+#~ msgid ""
+#~ "Color chooser for text. The box displays the current text color. To "
+#~ "choose a new color, click the arrow button to the right. If you have text "
+#~ "selected, the color applies to the selected text. If you do not have text "
+#~ "selected, the color applies to whatever you type next. You can select a "
+#~ "background color or image by right-clicking the message background, then "
+#~ "selecting <guiseq><gui>Style</gui><gui>Page Style</gui></guiseq>."
+#~ msgstr ""
+#~ "Výběr barvy pro text. Obdélník zobrazuje aktuální barvu textu. Když "
+#~ "chcete vybrat novou barvu, klikněte na tlačítko se šipkou po pravé "
+#~ "straně. Pokud máte vybraný text, použije se barva na vybraný text. Pokud "
+#~ "žádný vybraný nemáte, použije se barva na vše, co nově napíšete. Můžete "
+#~ "vybrat barvu pozadí nebo obrázek na pozadí kliknutím pravým tlačítkem na "
+#~ "pozadí zprávy a následným výběrem <guiseq><gui>Styl</gui> <gui>Styl "
+#~ "stránky</gui></guiseq>."
+
+#~ msgid "TT"
+#~ msgstr "TT"
+
+#~ msgid "Typewriter text, which is similar to a monospace font."
+#~ msgstr "Text dálnopisu, což je podobné jako písmo s pevnou šířkou."
+
+#~ msgid ""
+#~ "Advanced users can <link href=\"https://bugzilla.gnome.org/show_bug.cgi?"
+#~ "id=550796#c10\">combine numerous conditions by using the <gui>Free form "
+#~ "expression</gui> syntax</link>."
+#~ msgstr ""
+#~ "Pokročilí uživatelé mohou <link href=\"https://bugzilla.gnome.org/"
+#~ "show_bug.cgi?id=550796#c10\">kombinovat několik podmínek pomocí syntaxe "
+#~ "<gui>Výrazů ve volném tvaru</gui></link>."
+
+#~ msgid ""
+#~ "For Advanced Users: By default, all email threads are expanded. If you "
+#~ "want all threads to be collapsed by default:"
+#~ msgstr ""
+#~ "Pro pokročilé uživatele: ve výchozím stavu jsou poštovní vlákna "
+#~ "rozbalená. Chcete-li, aby byla všechna vlákna ve výchozím stavu sbalená:"
+
+#~ msgid ""
+#~ "Run the command <cmd>gsettings set org.gnome.evolution.mail thread-expand "
+#~ "false</cmd>"
+#~ msgstr ""
+#~ "Spusťte příkaz <cmd>gsettings set org.gnome.evolution.mail thread-expand "
+#~ "false</cmd>"
