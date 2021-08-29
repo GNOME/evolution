@@ -7,9 +7,9 @@
 #
 msgid ""
 msgstr ""
-"Project-Id-Version: evolution\n"
-"POT-Creation-Date: 2021-03-09 09:06+0000\n"
-"PO-Revision-Date: 2021-03-13 15:35+0100\n"
+"Project-Id-Version: evolution gnome-40\n"
+"POT-Creation-Date: 2021-05-21 18:41+0000\n"
+"PO-Revision-Date: 2021-08-28 14:53+0200\n"
 "Last-Translator: Marek Černocký <marek@manet.cz>\n"
 "Language-Team: čeština <>\n"
 "Language: cs\n"
@@ -301,11 +301,20 @@ msgstr "Zadejte uživatelské jméno a e-mailovou adresu."
 
 #. (itstool) path: item/p
 #: C/calendar-caldav.page:59 C/calendar-google.page:55 C/calendar-local.page:46
-#: C/calendar-weather.page:56 C/calendar-webdav.page:55
-#: C/contacts-google.page:49 C/contacts-ldap.page:58 C/contacts-local.page:37
+#: C/calendar-meetings-delegating.page:41 C/calendar-weather.page:56
+#: C/calendar-webdav.page:55 C/contacts-google.page:49 C/contacts-ldap.page:58
+#: C/contacts-local.page:37 C/contacts-usage-add-contact.page:43
+#: C/contacts-usage-edit-contact.page:34 C/contacts-using-contact-lists.page:69
+#: C/mail-attachments-sending.page:32
+#: C/mail-composer-custom-header-lines.page:47
+#: C/mail-encryption-gpg-set-up.page:35
+#: C/mail-encryption-gpg-signing-encrypting.page:40
+#: C/mail-encryption-s-mime-signing-encrypting.page:36 C/mail-filters.page:50
+#: C/mail-filters.page:71 C/mail-search-folders-add.page:47
 #: C/tasks-caldav.page:32 C/tasks-local.page:28 C/tasks-webdav.page:34
-msgid "Click <gui style=\"button\">Apply</gui>."
-msgstr "Klikněte na <gui style=\"button\">Použít</gui>."
+#: C/using-categories.page:51 C/using-categories.page:53
+msgid "Click <gui style=\"button\">OK</gui>."
+msgstr "Klikněte na <gui style=\"button\">Budiž</gui>."
 
 #. (itstool) path: page/p
 #: C/calendar-caldav.page:63 C/calendar-google.page:59 C/calendar-local.page:50
@@ -994,19 +1003,6 @@ msgstr "Klikněte na <gui>Delegovat schůzku</gui>."
 #: C/calendar-meetings-delegating.page:38
 msgid "Select the contacts you want to delegate the meeting to."
 msgstr "Vyberte kontakty, kterým chcete schůzku postoupit."
-
-#. (itstool) path: item/p
-#: C/calendar-meetings-delegating.page:41 C/contacts-usage-add-contact.page:43
-#: C/contacts-usage-edit-contact.page:34 C/contacts-using-contact-lists.page:69
-#: C/mail-attachments-sending.page:32
-#: C/mail-composer-custom-header-lines.page:47
-#: C/mail-encryption-gpg-set-up.page:35
-#: C/mail-encryption-gpg-signing-encrypting.page:40
-#: C/mail-encryption-s-mime-signing-encrypting.page:36 C/mail-filters.page:50
-#: C/mail-filters.page:71 C/mail-search-folders-add.page:47
-#: C/using-categories.page:51 C/using-categories.page:53
-msgid "Click <gui style=\"button\">OK</gui>."
-msgstr "Klikněte na <gui style=\"button\">Budiž</gui>."
 
 #. (itstool) path: page/p
 #: C/calendar-meetings-delegating.page:45
@@ -7491,83 +7487,87 @@ msgstr "Popis"
 
 #. (itstool) path: td/p
 #: C/mail-composer-html-text.page:36
+msgid "Default"
+msgstr "Výchozí"
+
+#. (itstool) path: td/p
+#: C/mail-composer-html-text.page:37
+msgid "Font name."
+msgstr "Název fontu."
+
+#. (itstool) path: td/p
+#: C/mail-composer-html-text.page:40
 msgid "+0"
 msgstr "+0"
 
 #. (itstool) path: td/p
-#: C/mail-composer-html-text.page:37
-msgid "Font size."
-msgstr "Velikost písma"
-
-#. (itstool) path: td/p
 #: C/mail-composer-html-text.page:41
-msgid ""
-"Color chooser for text. The box displays the current text color. To choose a "
-"new color, click the arrow button to the right. If you have text selected, "
-"the color applies to the selected text. If you do not have text selected, "
-"the color applies to whatever you type next. You can select a background "
-"color or image by right-clicking the message background, then selecting "
-"<guiseq><gui>Style</gui><gui>Page Style</gui></guiseq>."
-msgstr ""
-"Výběr barvy pro text. Obdélník zobrazuje aktuální barvu textu. Když chcete "
-"vybrat novou barvu, klikněte na tlačítko se šipkou po pravé straně. Pokud "
-"máte vybraný text, použije se barva na vybraný text. Pokud žádný vybraný "
-"nemáte, použije se barva na vše, co nově napíšete. Můžete vybrat barvu "
-"pozadí nebo obrázek na pozadí kliknutím pravým tlačítkem na pozadí zprávy a "
-"následným výběrem <guiseq><gui>Styl</gui> <gui>Styl stránky</gui></guiseq>."
-
-#. (itstool) path: td/p
-#: C/mail-composer-html-text.page:44
-msgid "TT"
-msgstr "TT"
+msgid "Font size."
+msgstr "Velikost fontu."
 
 #. (itstool) path: td/p
 #: C/mail-composer-html-text.page:45
-msgid "Typewriter text, which is similar to a monospace font."
-msgstr "Text dálnopisu, což je podobné jako písmo s pevnou šířkou."
+msgid "Text color."
+msgstr "Barva textu."
 
 #. (itstool) path: td/p
-#: C/mail-composer-html-text.page:48
+#: C/mail-composer-html-text.page:45 C/mail-composer-html-text.page:49
+msgid ""
+"The box displays the current text color. If you have text selected, the "
+"color applies to the selected text. If you do not have text selected, the "
+"color applies to whatever you type next."
+msgstr ""
+"Čtvereček ukazuje aktuální barvu textu. Pokud máte vybraný nějaký text, barva "
+"se použije na něj. Pokud text vybraný nemáte, barva se použije na vše, co "
+"nově napíšete."
+
+#. (itstool) path: td/p
+#: C/mail-composer-html-text.page:49
+msgid "Background color of the text."
+msgstr "Barva pozadí textu."
+
+#. (itstool) path: td/p
+#: C/mail-composer-html-text.page:52
 msgid "Bold A"
 msgstr "Tučné A"
 
 #. (itstool) path: td/p
-#: C/mail-composer-html-text.page:49
+#: C/mail-composer-html-text.page:53
 msgid "Bolds the text."
 msgstr "Udělá text tučný."
 
 #. (itstool) path: td/p
-#: C/mail-composer-html-text.page:52
+#: C/mail-composer-html-text.page:56
 msgid "Italic A"
 msgstr "A v kurzívě"
 
 #. (itstool) path: td/p
-#: C/mail-composer-html-text.page:53
+#: C/mail-composer-html-text.page:57
 msgid "Italicizes the text."
 msgstr "Udělát text v kurzívě."
 
 #. (itstool) path: td/p
-#: C/mail-composer-html-text.page:56
+#: C/mail-composer-html-text.page:60
 msgid "Underlined A"
 msgstr "Podtržené A"
 
 #. (itstool) path: td/p
-#: C/mail-composer-html-text.page:57
+#: C/mail-composer-html-text.page:61
 msgid "Underlines the text."
 msgstr "Podtrhne text."
 
 #. (itstool) path: td/p
-#: C/mail-composer-html-text.page:60
+#: C/mail-composer-html-text.page:64
 msgid "Strike through A"
 msgstr "Přeškrtnuté A"
 
 #. (itstool) path: td/p
-#: C/mail-composer-html-text.page:61
+#: C/mail-composer-html-text.page:65
 msgid "Marks a line through the text."
 msgstr "Přeškrtne text."
 
 #. (itstool) path: section/p
-#: C/mail-composer-html-text.page:65
+#: C/mail-composer-html-text.page:69
 msgid ""
 "The other buttons are explained under <link xref=\"mail-composer-"
 "html#formatting-options-html\"/>."
@@ -14476,9 +14476,9 @@ msgstr ""
 "(Pro pokročilé uživatele) Pokud znáte program <_:link-1/> nebo se vyznáte v "
 "regulárních výrazech, můžete díky této volbě hledat složitější vzory textu. "
 "Například všechna slova, která začínají na „m“ a končí na „a“ a mají šest až "
-"patnáct znaků, nebo všechny zprávy, které deklarují určitou hlavičku dvakrát. "
-"<_:app-2/> podporuje syntax rozšířených regulárních výrazů ERE (Extended "
-"Regular Expression)."
+"patnáct znaků, nebo všechny zprávy, které deklarují určitou hlavičku "
+"dvakrát. <_:app-2/> podporuje syntax rozšířených regulárních výrazů ERE "
+"(Extended Regular Expression)."
 
 #. (itstool) path: section/title
 #. (itstool) path: guiseq/gui
@@ -14642,3 +14642,27 @@ msgstr "V dialogovém okně upravte název nebo podmínky hledání."
 msgid "Click <_:gui-1/>."
 msgstr "Klikněte na <_:gui-1/>."
 
+#~ msgid "Click <gui style=\"button\">Apply</gui>."
+#~ msgstr "Klikněte na <gui style=\"button\">Použít</gui>."
+
+#~ msgid ""
+#~ "Color chooser for text. The box displays the current text color. To "
+#~ "choose a new color, click the arrow button to the right. If you have text "
+#~ "selected, the color applies to the selected text. If you do not have text "
+#~ "selected, the color applies to whatever you type next. You can select a "
+#~ "background color or image by right-clicking the message background, then "
+#~ "selecting <guiseq><gui>Style</gui><gui>Page Style</gui></guiseq>."
+#~ msgstr ""
+#~ "Výběr barvy pro text. Obdélník zobrazuje aktuální barvu textu. Když "
+#~ "chcete vybrat novou barvu, klikněte na tlačítko se šipkou po pravé "
+#~ "straně. Pokud máte vybraný text, použije se barva na vybraný text. Pokud "
+#~ "žádný vybraný nemáte, použije se barva na vše, co nově napíšete. Můžete "
+#~ "vybrat barvu pozadí nebo obrázek na pozadí kliknutím pravým tlačítkem na "
+#~ "pozadí zprávy a následným výběrem <guiseq><gui>Styl</gui> <gui>Styl "
+#~ "stránky</gui></guiseq>."
+
+#~ msgid "TT"
+#~ msgstr "TT"
+
+#~ msgid "Typewriter text, which is similar to a monospace font."
+#~ msgstr "Text dálnopisu, což je podobné jako písmo s pevnou šířkou."
