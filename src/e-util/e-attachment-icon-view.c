@@ -43,8 +43,6 @@ enum {
 	PROP_EDITABLE
 };
 
-static gint icon_size = GTK_ICON_SIZE_DIALOG;
-
 /* Forward Declarations */
 static void	e_attachment_icon_view_interface_init
 					(EAttachmentViewInterface *iface);
@@ -58,12 +56,6 @@ G_DEFINE_TYPE_WITH_CODE (
 		e_attachment_icon_view_interface_init)
 	G_IMPLEMENT_INTERFACE (
 		E_TYPE_EXTENSIBLE, NULL))
-
-void
-e_attachment_icon_view_set_default_icon_size (gint size)
-{
-	icon_size = size;
-}
 
 static void
 attachment_icon_view_set_property (GObject *object,
@@ -139,6 +131,7 @@ attachment_icon_view_constructed (GObject *object)
 	G_OBJECT_CLASS (e_attachment_icon_view_parent_class)->constructed (object);
 
 	gtk_icon_view_set_selection_mode (GTK_ICON_VIEW (object), GTK_SELECTION_MULTIPLE);
+	gtk_icon_view_set_item_width (GTK_ICON_VIEW (object), 96);
 
 	cell_layout = GTK_CELL_LAYOUT (object);
 
@@ -146,7 +139,11 @@ attachment_icon_view_constructed (GObject *object)
 	 * so that GtkCellLayout.get_area() returns something valid. */
 
 	renderer = gtk_cell_renderer_pixbuf_new ();
-	g_object_set (renderer, "stock-size", icon_size, NULL);
+	g_object_set (renderer,
+		"stock-size", GTK_ICON_SIZE_DIALOG,
+		"xalign", 0.5,
+		"yalign", 0.5,
+		NULL);
 	gtk_cell_layout_pack_start (cell_layout, renderer, FALSE);
 
 	gtk_cell_layout_add_attribute (
@@ -154,10 +151,16 @@ attachment_icon_view_constructed (GObject *object)
 		E_ATTACHMENT_STORE_COLUMN_ICON);
 
 	renderer = gtk_cell_renderer_text_new ();
-	g_object_set (
-		renderer, "alignment", PANGO_ALIGN_CENTER,
-		"wrap-mode", PANGO_WRAP_WORD, "wrap-width", 150,
-		"yalign", 0.0, NULL);
+	g_object_set (renderer,
+		"alignment", PANGO_ALIGN_LEFT,
+		"ellipsize", PANGO_ELLIPSIZE_END,
+		"wrap-mode", PANGO_WRAP_WORD,
+		"wrap-width", 96,
+		"scale", 0.8,
+		"xpad", 0,
+		"xalign", 0.5,
+		"yalign", 0.0,
+		NULL);
 	gtk_cell_layout_pack_start (cell_layout, renderer, FALSE);
 
 	gtk_cell_layout_add_attribute (

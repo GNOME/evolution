@@ -347,6 +347,8 @@ static void
 picture_gallery_constructed (GObject *object)
 {
 	GtkIconView *icon_view;
+	GtkCellLayout *cell_layout;
+	GtkCellRenderer *renderer;
 	GtkListStore *list_store;
 	GtkTargetEntry *targets;
 	GtkTargetList *list;
@@ -362,14 +364,37 @@ picture_gallery_constructed (GObject *object)
 	gtk_icon_view_set_model (icon_view, GTK_TREE_MODEL (list_store));
 	g_object_unref (list_store);
 
-	gtk_icon_view_set_pixbuf_column (icon_view, COL_PIXBUF);
-	gtk_icon_view_set_text_column (icon_view, COL_FILENAME_TEXT);
-	gtk_icon_view_set_tooltip_column (icon_view, -1);
+	gtk_icon_view_set_item_width (icon_view, 96);
 
-	/* Fit more icons by letting text wrap, especially with long filenames.
-	 * The thumbnail is usually 128x128, so match it, as the text won't wrap
-	 * smaller than the thumbnail width anyway. */
-	gtk_icon_view_set_item_width (icon_view, 128);
+	cell_layout = GTK_CELL_LAYOUT (icon_view);
+
+	/* This needs to happen after constructor properties are set
+	 * so that GtkCellLayout.get_area() returns something valid. */
+
+	renderer = gtk_cell_renderer_pixbuf_new ();
+	g_object_set (renderer,
+		"stock-size", GTK_ICON_SIZE_DIALOG,
+		"xalign", 0.5,
+		"yalign", 0.5,
+		NULL);
+	gtk_cell_layout_pack_start (cell_layout, renderer, FALSE);
+
+	gtk_cell_layout_add_attribute (cell_layout, renderer, "pixbuf", COL_PIXBUF);
+
+	renderer = gtk_cell_renderer_text_new ();
+	g_object_set (renderer,
+		"alignment", PANGO_ALIGN_LEFT,
+		"ellipsize", PANGO_ELLIPSIZE_END,
+		"wrap-mode", PANGO_WRAP_WORD,
+		"wrap-width", 96,
+		"scale", 0.8,
+		"xpad", 0,
+		"xalign", 0.5,
+		"yalign", 0.0,
+		NULL);
+	gtk_cell_layout_pack_start (cell_layout, renderer, FALSE);
+
+	gtk_cell_layout_add_attribute (cell_layout, renderer, "text", COL_FILENAME_TEXT);
 
 	list = gtk_target_list_new (NULL, 0);
 	gtk_target_list_add_uri_targets (list, 0);
