@@ -64,8 +64,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: evolution\n"
 "Report-Msgid-Bugs-To: https://gitlab.gnome.org/GNOME/evolution/issues\n"
-"POT-Creation-Date: 2021-04-02 14:12+0000\n"
-"PO-Revision-Date: 2021-04-02 16:23+0200\n"
+"POT-Creation-Date: 2021-08-29 14:37+0000\n"
+"PO-Revision-Date: 2021-08-31 14:49+0200\n"
 "Last-Translator: Nathan Follens <nthn@unseen.is>\n"
 "Language-Team: Dutch <gnome-nl-list@gnome.org>\n"
 "Language: nl\n"
@@ -73,7 +73,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
-"X-Generator: Poedit 2.4.2\n"
+"X-Generator: Poedit 3.0\n"
 "X-DamnedLies-Scope: partial\n"
 "X-Launchpad-Export-Date: 2011-08-15 14:28+0000\n"
 "X-Project-Style: gnome\n"
@@ -3668,7 +3668,7 @@ msgid "Contacts"
 msgstr "Contacten"
 
 #: ../data/org.gnome.Evolution.desktop.in.in.h:9
-#: ../src/addressbook/gui/widgets/eab-contact-formatter.c:1002
+#: ../src/addressbook/gui/widgets/eab-contact-formatter.c:1003
 #: ../src/e-util/e-collection-account-wizard.c:855
 #: ../src/e-util/e-send-options.c:544 ../src/e-util/e-webdav-browser.c:532
 #: ../src/modules/calendar/e-cal-shell-view-actions.c:199
@@ -3698,7 +3698,7 @@ msgstr "Memo’s"
 #: ../data/org.gnome.Evolution.desktop.in.in.h:12
 #: ../src/calendar/gui/e-task-table.c:618 ../src/calendar/gui/print.c:2442
 #: ../src/calendar/importers/icalendar-importer.c:77
-#: ../src/calendar/importers/icalendar-importer.c:1148
+#: ../src/calendar/importers/icalendar-importer.c:1151
 #: ../src/e-util/e-webdav-browser.c:523
 #: ../src/modules/calendar/e-calendar-preferences.ui.h:72
 #: ../src/modules/calendar/e-cal-shell-content.c:1847
@@ -4180,7 +4180,7 @@ msgstr ""
 
 #: ../src/addressbook/addressbook.error.xml.h:32
 #: ../src/addressbook/gui/contact-list-editor/contact-list-editor.ui.h:9
-#: ../src/addressbook/gui/widgets/eab-contact-merging.c:757
+#: ../src/addressbook/gui/widgets/eab-contact-merging.c:762
 #: ../src/calendar/gui/e-comp-editor-page-general.c:1493
 #: ../src/e-util/e-accounts-window.c:1563
 #: ../src/e-util/e-mail-signature-manager.c:324
@@ -4232,7 +4232,7 @@ msgstr ""
 "Wilt u hem toch toevoegen?"
 
 #: ../src/addressbook/addressbook.error.xml.h:39
-#: ../src/addressbook/gui/widgets/e-addressbook-view.c:1247
+#: ../src/addressbook/gui/widgets/e-addressbook-view.c:1357
 msgid "Failed to delete contact"
 msgstr "Verwijderen van contact is mislukt"
 
@@ -4374,9 +4374,9 @@ msgstr "Opties"
 #: ../src/addressbook/gui/contact-editor/fullname.ui.h:14
 #: ../src/addressbook/gui/contact-list-editor/contact-list-editor.ui.h:2
 #: ../src/addressbook/gui/widgets/eab-contact-merging.c:516
-#: ../src/addressbook/gui/widgets/eab-contact-merging.c:752
+#: ../src/addressbook/gui/widgets/eab-contact-merging.c:757
 #: ../src/addressbook/gui/widgets/eab-gui-util.c:316
-#: ../src/addressbook/gui/widgets/e-addressbook-view.c:1327
+#: ../src/addressbook/gui/widgets/e-addressbook-view.c:1437
 #: ../src/calendar/gui/e-cal-dialogs.c:690
 #: ../src/calendar/gui/e-comp-editor-page-recurrence.c:305
 #: ../src/composer/e-composer-actions.c:242 ../src/e-util/e-activity-bar.c:370
@@ -4404,16 +4404,16 @@ msgstr "Opties"
 #: ../src/e-util/e-source-selector-dialog.c:325
 #: ../src/e-util/e-table-config.c:540 ../src/e-util/e-table-config.ui.h:3
 #: ../src/e-util/e-timezone-dialog.ui.h:2
-#: ../src/e-util/evolution-source-viewer.c:829 ../src/e-util/e-web-view.c:3994
+#: ../src/e-util/evolution-source-viewer.c:829 ../src/e-util/e-web-view.c:3996
 #: ../src/e-util/gal-view-instance-save-as-dialog.c:265
 #: ../src/mail/e-mail-config-window.c:310 ../src/mail/e-mail-label-dialog.c:186
-#: ../src/mail/e-mail-tag-editor.c:160 ../src/mail/em-composer-utils.c:4031
+#: ../src/mail/e-mail-tag-editor.c:160 ../src/mail/em-composer-utils.c:4028
 #: ../src/mail/em-folder-selector.c:333 ../src/mail/mail-config.ui.h:2
 #: ../src/mail/mail.error.xml.h:16 ../src/mail/mail-send-recv.c:874
 #: ../src/mail/mail-send-recv.c:955 ../src/mail/mail-vfolder-ui.c:149
 #: ../src/mail/mail-vfolder-ui.c:271
 #: ../src/modules/accounts-window/e-accounts-window-editors.c:277
-#: ../src/modules/backup-restore/evolution-backup-tool.c:989
+#: ../src/modules/backup-restore/evolution-backup-tool.c:1226
 #: ../src/modules/book-config-ldap/evolution-book-config-ldap.c:406
 #: ../src/modules/calendar/e-cal-attachment-handler.c:281
 #: ../src/plugins/email-custom-header/org-gnome-email-custom-header.ui.h:3
@@ -4434,7 +4434,7 @@ msgstr "Annuleren"
 #: ../src/addressbook/gui/contact-editor/contact-editor.ui.h:15
 #: ../src/addressbook/gui/contact-editor/e-contact-editor.c:3504
 #: ../src/addressbook/gui/contact-list-editor/contact-list-editor.ui.h:3
-#: ../src/addressbook/gui/widgets/eab-contact-merging.c:755
+#: ../src/addressbook/gui/widgets/eab-contact-merging.c:760
 #: ../src/calendar/calendar.error.xml.h:47
 #: ../src/calendar/gui/e-comp-editor.c:2237
 #: ../src/composer/e-composer-actions.c:242
@@ -4442,7 +4442,7 @@ msgstr "Annuleren"
 #: ../src/e-util/e-attachment-store.c:848
 #: ../src/e-util/e-attachment-store.c:855
 #: ../src/e-util/e-mail-signature-script-dialog.c:362
-#: ../src/e-util/e-webdav-browser.c:2631 ../src/e-util/e-web-view.c:3994
+#: ../src/e-util/e-webdav-browser.c:2631 ../src/e-util/e-web-view.c:3996
 #: ../src/e-util/gal-view-instance-save-as-dialog.c:266
 #: ../src/shell/e-shell-content.c:642 ../src/shell/e-shell-utils.c:133
 #: ../src/smime/gui/certificate-manager.c:653
@@ -4490,8 +4490,8 @@ msgid "Full _Name..."
 msgstr "Volledige naam…"
 
 #: ../src/addressbook/gui/contact-editor/contact-editor.ui.h:23
-#: ../src/addressbook/gui/widgets/eab-contact-formatter.c:918
-#: ../src/addressbook/gui/widgets/eab-contact-formatter.c:1331
+#: ../src/addressbook/gui/widgets/eab-contact-formatter.c:919
+#: ../src/addressbook/gui/widgets/eab-contact-formatter.c:1332
 #: ../src/addressbook/gui/widgets/e-addressbook-view.etspec.h:6
 msgid "Email"
 msgstr "E-mail"
@@ -4514,7 +4514,7 @@ msgid "Instant Messaging"
 msgstr "Instant Messaging"
 
 #: ../src/addressbook/gui/contact-editor/contact-editor.ui.h:28
-#: ../src/addressbook/importers/evolution-vcard-importer.c:981
+#: ../src/addressbook/importers/evolution-vcard-importer.c:826
 msgid "Contact"
 msgstr "Contact"
 
@@ -4614,14 +4614,14 @@ msgid "_Anniversary:"
 msgstr "Ver_jaardag:"
 
 #: ../src/addressbook/gui/contact-editor/contact-editor.ui.h:52
-#: ../src/addressbook/gui/widgets/eab-contact-formatter.c:1048
+#: ../src/addressbook/gui/widgets/eab-contact-formatter.c:1049
 #: ../src/addressbook/gui/widgets/e-addressbook-view.etspec.h:47
 #: ../src/calendar/gui/e-calendar-view.c:2214
 msgid "Anniversary"
 msgstr "Verjaardag"
 
 #: ../src/addressbook/gui/contact-editor/contact-editor.ui.h:53
-#: ../src/addressbook/gui/widgets/eab-contact-formatter.c:1047
+#: ../src/addressbook/gui/widgets/eab-contact-formatter.c:1048
 #: ../src/addressbook/gui/widgets/e-addressbook-view.etspec.h:46
 #: ../src/calendar/gui/e-calendar-view.c:2213
 msgid "Birthday"
@@ -4629,7 +4629,7 @@ msgstr "Geboortedatum"
 
 #. Other options
 #: ../src/addressbook/gui/contact-editor/contact-editor.ui.h:54
-#: ../src/mail/e-mail-config-defaults-page.c:888
+#: ../src/mail/e-mail-config-defaults-page.c:883
 #: ../src/modules/addressbook/autocompletion-config.c:127
 #: ../src/modules/calendar/e-calendar-preferences.ui.h:46
 msgid "Miscellaneous"
@@ -4665,23 +4665,23 @@ msgid "_Address:"
 msgstr "_Adres:"
 
 #: ../src/addressbook/gui/contact-editor/contact-editor.ui.h:62
-#: ../src/addressbook/gui/widgets/eab-contact-formatter.c:83
+#: ../src/addressbook/gui/widgets/eab-contact-formatter.c:84
 #: ../src/addressbook/gui/widgets/e-contact-map.c:367
 msgid "Home"
 msgstr "Thuis"
 
 #: ../src/addressbook/gui/contact-editor/contact-editor.ui.h:63
-#: ../src/addressbook/gui/widgets/eab-contact-formatter.c:82
-#: ../src/addressbook/gui/widgets/eab-contact-formatter.c:1016
+#: ../src/addressbook/gui/widgets/eab-contact-formatter.c:83
+#: ../src/addressbook/gui/widgets/eab-contact-formatter.c:1017
 #: ../src/addressbook/gui/widgets/e-contact-map.c:380
 msgid "Work"
 msgstr "Werk"
 
 #: ../src/addressbook/gui/contact-editor/contact-editor.ui.h:64
-#: ../src/addressbook/gui/widgets/eab-contact-formatter.c:84
-#: ../src/addressbook/gui/widgets/eab-contact-formatter.c:526
-#: ../src/addressbook/gui/widgets/eab-contact-formatter.c:1082
-#: ../src/calendar/gui/e-cal-model.c:3793
+#: ../src/addressbook/gui/widgets/eab-contact-formatter.c:85
+#: ../src/addressbook/gui/widgets/eab-contact-formatter.c:527
+#: ../src/addressbook/gui/widgets/eab-contact-formatter.c:1083
+#: ../src/calendar/gui/e-cal-model.c:3827
 msgid "Other"
 msgstr "Overige"
 
@@ -4739,7 +4739,7 @@ msgstr "Certificaten"
 
 #: ../src/addressbook/gui/contact-editor/e-contact-editor.c:261
 #: ../src/calendar/gui/e-comp-editor.c:2169
-#: ../src/e-util/e-html-editor-actions.c:1109
+#: ../src/e-util/e-html-editor-actions.c:1113
 msgid "_Undo"
 msgstr "_Ongedaan maken"
 
@@ -4751,7 +4751,7 @@ msgstr "Ongedaan maken"
 
 #: ../src/addressbook/gui/contact-editor/e-contact-editor.c:268
 #: ../src/calendar/gui/e-comp-editor.c:2176
-#: ../src/e-util/e-html-editor-actions.c:1095
+#: ../src/e-util/e-html-editor-actions.c:1099
 msgid "_Redo"
 msgstr "Op_nieuw"
 
@@ -5153,154 +5153,154 @@ msgstr "Klik hier om mail te versturen naar %s"
 msgid "Click to open map for %s"
 msgstr "Klik om de kaart voor %s te openen"
 
-#: ../src/addressbook/gui/widgets/eab-contact-formatter.c:154
+#: ../src/addressbook/gui/widgets/eab-contact-formatter.c:155
 msgid "Open map"
 msgstr "Map openen"
 
-#: ../src/addressbook/gui/widgets/eab-contact-formatter.c:451
+#: ../src/addressbook/gui/widgets/eab-contact-formatter.c:452
 msgid "SIP"
 msgstr "SIP"
 
-#: ../src/addressbook/gui/widgets/eab-contact-formatter.c:683
+#: ../src/addressbook/gui/widgets/eab-contact-formatter.c:684
 msgid "List Members:"
 msgstr "Lijstleden:"
 
-#: ../src/addressbook/gui/widgets/eab-contact-formatter.c:777
+#: ../src/addressbook/gui/widgets/eab-contact-formatter.c:778
 msgid "Fax"
 msgstr "Fax"
 
-#: ../src/addressbook/gui/widgets/eab-contact-formatter.c:779
+#: ../src/addressbook/gui/widgets/eab-contact-formatter.c:780
 msgid "Phone"
 msgstr "Telefoon"
 
-#: ../src/addressbook/gui/widgets/eab-contact-formatter.c:923
+#: ../src/addressbook/gui/widgets/eab-contact-formatter.c:924
 #: ../src/addressbook/gui/widgets/e-addressbook-view.etspec.h:5
 msgid "Nickname"
 msgstr "Bijnaam"
 
-#: ../src/addressbook/gui/widgets/eab-contact-formatter.c:924
+#: ../src/addressbook/gui/widgets/eab-contact-formatter.c:925
 msgid "AIM"
 msgstr "AIM"
 
-#: ../src/addressbook/gui/widgets/eab-contact-formatter.c:925
+#: ../src/addressbook/gui/widgets/eab-contact-formatter.c:926
 msgid "GroupWise"
 msgstr "GroupWise"
 
-#: ../src/addressbook/gui/widgets/eab-contact-formatter.c:926
+#: ../src/addressbook/gui/widgets/eab-contact-formatter.c:927
 msgid "ICQ"
 msgstr "ICQ"
 
-#: ../src/addressbook/gui/widgets/eab-contact-formatter.c:927
+#: ../src/addressbook/gui/widgets/eab-contact-formatter.c:928
 msgid "Jabber"
 msgstr "Jabber"
 
-#: ../src/addressbook/gui/widgets/eab-contact-formatter.c:928
+#: ../src/addressbook/gui/widgets/eab-contact-formatter.c:929
 msgid "MSN"
 msgstr "MSN"
 
-#: ../src/addressbook/gui/widgets/eab-contact-formatter.c:929
+#: ../src/addressbook/gui/widgets/eab-contact-formatter.c:930
 msgid "Yahoo"
 msgstr "Yahoo"
 
-#: ../src/addressbook/gui/widgets/eab-contact-formatter.c:930
+#: ../src/addressbook/gui/widgets/eab-contact-formatter.c:931
 msgid "Gadu-Gadu"
 msgstr "Gadu-Gadu"
 
-#: ../src/addressbook/gui/widgets/eab-contact-formatter.c:931
+#: ../src/addressbook/gui/widgets/eab-contact-formatter.c:932
 msgid "Skype"
 msgstr "Skype"
 
-#: ../src/addressbook/gui/widgets/eab-contact-formatter.c:932
+#: ../src/addressbook/gui/widgets/eab-contact-formatter.c:933
 msgid "Twitter"
 msgstr "Twitter"
 
-#: ../src/addressbook/gui/widgets/eab-contact-formatter.c:994
+#: ../src/addressbook/gui/widgets/eab-contact-formatter.c:995
 #: ../src/addressbook/gui/widgets/e-addressbook-view.etspec.h:34
 msgid "Company"
 msgstr "Bedrijf"
 
 # departement/afdeling
-#: ../src/addressbook/gui/widgets/eab-contact-formatter.c:995
+#: ../src/addressbook/gui/widgets/eab-contact-formatter.c:996
 msgid "Department"
 msgstr "Afdeling"
 
-#: ../src/addressbook/gui/widgets/eab-contact-formatter.c:996
+#: ../src/addressbook/gui/widgets/eab-contact-formatter.c:997
 #: ../src/addressbook/gui/widgets/e-addressbook-view.etspec.h:36
 msgid "Office"
 msgstr "Kantoor"
 
-#: ../src/addressbook/gui/widgets/eab-contact-formatter.c:997
+#: ../src/addressbook/gui/widgets/eab-contact-formatter.c:998
 msgid "Profession"
 msgstr "Beroep"
 
 # Functie/positie/rang
-#: ../src/addressbook/gui/widgets/eab-contact-formatter.c:998
+#: ../src/addressbook/gui/widgets/eab-contact-formatter.c:999
 msgid "Position"
 msgstr "Positie"
 
 # beheerder
-#: ../src/addressbook/gui/widgets/eab-contact-formatter.c:999
+#: ../src/addressbook/gui/widgets/eab-contact-formatter.c:1000
 #: ../src/addressbook/gui/widgets/e-addressbook-view.etspec.h:39
 msgid "Manager"
 msgstr "Manager"
 
-#: ../src/addressbook/gui/widgets/eab-contact-formatter.c:1000
+#: ../src/addressbook/gui/widgets/eab-contact-formatter.c:1001
 #: ../src/addressbook/gui/widgets/e-addressbook-view.etspec.h:40
 msgid "Assistant"
 msgstr "Assistent"
 
-#: ../src/addressbook/gui/widgets/eab-contact-formatter.c:1001
+#: ../src/addressbook/gui/widgets/eab-contact-formatter.c:1002
 msgid "Video Chat"
 msgstr "Video-chat"
 
-#: ../src/addressbook/gui/widgets/eab-contact-formatter.c:1003
+#: ../src/addressbook/gui/widgets/eab-contact-formatter.c:1004
 #: ../src/plugins/publish-calendar/publish-calendar.ui.h:2
 msgid "Free/Busy"
 msgstr "Vrij/Bezet"
 
-#: ../src/addressbook/gui/widgets/eab-contact-formatter.c:1006
-#: ../src/addressbook/gui/widgets/eab-contact-formatter.c:1046
-#: ../src/addressbook/gui/widgets/eab-contact-formatter.c:1072
+#: ../src/addressbook/gui/widgets/eab-contact-formatter.c:1007
+#: ../src/addressbook/gui/widgets/eab-contact-formatter.c:1047
+#: ../src/addressbook/gui/widgets/eab-contact-formatter.c:1073
 msgid "Address"
 msgstr "Adres"
 
 # Webstek/Home page/Website
-#: ../src/addressbook/gui/widgets/eab-contact-formatter.c:1042
+#: ../src/addressbook/gui/widgets/eab-contact-formatter.c:1043
 msgid "Home Page"
 msgstr "Startpagina"
 
-#: ../src/addressbook/gui/widgets/eab-contact-formatter.c:1043
+#: ../src/addressbook/gui/widgets/eab-contact-formatter.c:1044
 msgid "Web Log"
 msgstr "Weblog"
 
-#: ../src/addressbook/gui/widgets/eab-contact-formatter.c:1049
+#: ../src/addressbook/gui/widgets/eab-contact-formatter.c:1050
 #: ../src/addressbook/gui/widgets/e-addressbook-view.etspec.h:44
 msgid "Spouse"
 msgstr "Echtgeno(o)t(e)"
 
 # Privé/Persoonlijk
-#: ../src/addressbook/gui/widgets/eab-contact-formatter.c:1059
+#: ../src/addressbook/gui/widgets/eab-contact-formatter.c:1060
 msgid "Personal"
 msgstr "Persoonlijk"
 
-#: ../src/addressbook/gui/widgets/eab-contact-formatter.c:1104
+#: ../src/addressbook/gui/widgets/eab-contact-formatter.c:1105
 #: ../src/addressbook/gui/widgets/e-addressbook-view.etspec.h:45
 msgid "Note"
 msgstr "Opmerkingen"
 
-#: ../src/addressbook/gui/widgets/eab-contact-formatter.c:1293
+#: ../src/addressbook/gui/widgets/eab-contact-formatter.c:1294
 msgid "List Members"
 msgstr "Lijstleden"
 
-#: ../src/addressbook/gui/widgets/eab-contact-formatter.c:1316
+#: ../src/addressbook/gui/widgets/eab-contact-formatter.c:1317
 msgid "Job Title"
 msgstr "Functie"
 
-#: ../src/addressbook/gui/widgets/eab-contact-formatter.c:1357
+#: ../src/addressbook/gui/widgets/eab-contact-formatter.c:1358
 msgid "Home page"
 msgstr "Startpagina"
 
-#: ../src/addressbook/gui/widgets/eab-contact-formatter.c:1367
+#: ../src/addressbook/gui/widgets/eab-contact-formatter.c:1368
 msgid "Blog"
 msgstr "Blog"
 
@@ -5314,15 +5314,15 @@ msgid "Merge Contact"
 msgstr "Contact samenvoegen"
 
 #: ../src/addressbook/gui/widgets/eab-contact-merging.c:517
-#: ../src/addressbook/gui/widgets/eab-contact-merging.c:758
+#: ../src/addressbook/gui/widgets/eab-contact-merging.c:763
 msgid "_Merge"
 msgstr "Sa_menvoegen"
 
-#: ../src/addressbook/gui/widgets/eab-contact-merging.c:747
+#: ../src/addressbook/gui/widgets/eab-contact-merging.c:752
 msgid "Duplicate Contact Detected"
 msgstr "Duplicaatcontact gevonden"
 
-#: ../src/addressbook/gui/widgets/eab-contact-merging.c:805
+#: ../src/addressbook/gui/widgets/eab-contact-merging.c:810
 msgid ""
 "The name or email address of this contact already exists\n"
 "in this folder. Would you like to save the changes anyway?"
@@ -5330,7 +5330,7 @@ msgstr ""
 "De naam of het e-mailadres van dit contact bestaat al in\n"
 "deze map. Wilt u de wijzigingen toch opslaan?"
 
-#: ../src/addressbook/gui/widgets/eab-contact-merging.c:808
+#: ../src/addressbook/gui/widgets/eab-contact-merging.c:813
 msgid ""
 "The name or email address of this contact already exists\n"
 "in this folder. Would you like to add it anyway?"
@@ -5338,19 +5338,19 @@ msgstr ""
 "De naam of het e-mailadres van dit contact bestaat al in\n"
 "deze map. Wilt u het toch toevoegen?"
 
-#: ../src/addressbook/gui/widgets/eab-contact-merging.c:823
+#: ../src/addressbook/gui/widgets/eab-contact-merging.c:828
 msgid "Changed Contact:"
 msgstr "Gewijzigd contact:"
 
-#: ../src/addressbook/gui/widgets/eab-contact-merging.c:825
+#: ../src/addressbook/gui/widgets/eab-contact-merging.c:830
 msgid "New Contact:"
 msgstr "Nieuw contact:"
 
-#: ../src/addressbook/gui/widgets/eab-contact-merging.c:864
+#: ../src/addressbook/gui/widgets/eab-contact-merging.c:869
 msgid "Conflicting Contact:"
 msgstr "Conflicterend contact:"
 
-#: ../src/addressbook/gui/widgets/eab-contact-merging.c:866
+#: ../src/addressbook/gui/widgets/eab-contact-merging.c:871
 msgid "Old Contact:"
 msgstr "Oud contact:"
 
@@ -5467,22 +5467,22 @@ msgstr "Contacten verplaatsen naar"
 msgid "Copy contacts to"
 msgstr "Contacten kopiëren naar"
 
-#: ../src/addressbook/gui/widgets/e-addressbook-model.c:160
+#: ../src/addressbook/gui/widgets/e-addressbook-model.c:161
 msgid "No contacts"
 msgstr "Geen contacten"
 
-#: ../src/addressbook/gui/widgets/e-addressbook-model.c:164
+#: ../src/addressbook/gui/widgets/e-addressbook-model.c:165
 #, c-format
 msgid "%d contact"
 msgid_plural "%d contacts"
 msgstr[0] "%d contact"
 msgstr[1] "%d contacten"
 
-#: ../src/addressbook/gui/widgets/e-addressbook-model.c:370
+#: ../src/addressbook/gui/widgets/e-addressbook-model.c:371
 msgid "Error getting book view"
 msgstr "Fout bij weergave boekvorm"
 
-#: ../src/addressbook/gui/widgets/e-addressbook-model.c:814
+#: ../src/addressbook/gui/widgets/e-addressbook-model.c:826
 msgid "Search Interrupted"
 msgstr "Zoeken onderbroken"
 
@@ -5490,58 +5490,58 @@ msgstr "Zoeken onderbroken"
 msgid "Error modifying card"
 msgstr "Fout bij aanpassen van kaart"
 
-#: ../src/addressbook/gui/widgets/e-addressbook-view.c:657
+#: ../src/addressbook/gui/widgets/e-addressbook-view.c:767
 msgid "Cut selected contacts to the clipboard"
 msgstr "De geselecteerde contacten naar klembord verplaatsen"
 
-#: ../src/addressbook/gui/widgets/e-addressbook-view.c:663
+#: ../src/addressbook/gui/widgets/e-addressbook-view.c:773
 msgid "Copy selected contacts to the clipboard"
 msgstr "De geselecteerde contacten naar klembord kopiëren"
 
-#: ../src/addressbook/gui/widgets/e-addressbook-view.c:669
+#: ../src/addressbook/gui/widgets/e-addressbook-view.c:779
 msgid "Paste contacts from the clipboard"
 msgstr "Contacten vanaf het klembord plakken"
 
-#: ../src/addressbook/gui/widgets/e-addressbook-view.c:675
+#: ../src/addressbook/gui/widgets/e-addressbook-view.c:785
 #: ../src/modules/addressbook/e-book-shell-view-actions.c:1101
 msgid "Delete selected contacts"
 msgstr "Geselecteerde contacten verwijderen"
 
-#: ../src/addressbook/gui/widgets/e-addressbook-view.c:681
+#: ../src/addressbook/gui/widgets/e-addressbook-view.c:791
 msgid "Select all visible contacts"
 msgstr "Alle zichtbare contacten selecteren"
 
-#: ../src/addressbook/gui/widgets/e-addressbook-view.c:922
+#: ../src/addressbook/gui/widgets/e-addressbook-view.c:1032
 msgid "Searching for the Contacts…"
 msgstr "Zoeken naar contacten…"
 
-#: ../src/addressbook/gui/widgets/e-addressbook-view.c:1295
+#: ../src/addressbook/gui/widgets/e-addressbook-view.c:1405
 msgid "Are you sure you want to delete these contact lists?"
 msgstr "Weet u zeker dat u deze contactenlijsten wilt verwijderen?"
 
-#: ../src/addressbook/gui/widgets/e-addressbook-view.c:1299
+#: ../src/addressbook/gui/widgets/e-addressbook-view.c:1409
 msgid "Are you sure you want to delete this contact list?"
 msgstr "Weet u zeker dat u deze contactenlijst wilt verwijderen?"
 
-#: ../src/addressbook/gui/widgets/e-addressbook-view.c:1303
+#: ../src/addressbook/gui/widgets/e-addressbook-view.c:1413
 #, c-format
 msgid "Are you sure you want to delete this contact list (%s)?"
 msgstr "Weet u zeker dat u deze contactenlijst (%s) wilt verwijderen?"
 
-#: ../src/addressbook/gui/widgets/e-addressbook-view.c:1309
+#: ../src/addressbook/gui/widgets/e-addressbook-view.c:1419
 msgid "Are you sure you want to delete these contacts?"
 msgstr "Weet u zeker dat u deze contacten wilt verwijderen?"
 
-#: ../src/addressbook/gui/widgets/e-addressbook-view.c:1313
+#: ../src/addressbook/gui/widgets/e-addressbook-view.c:1423
 msgid "Are you sure you want to delete this contact?"
 msgstr "Weet u zeker dat u dit contact wilt verwijderen?"
 
-#: ../src/addressbook/gui/widgets/e-addressbook-view.c:1317
+#: ../src/addressbook/gui/widgets/e-addressbook-view.c:1427
 #, c-format
 msgid "Are you sure you want to delete this contact (%s)?"
 msgstr "Weet u zeker dat u het contact (%s) wilt verwijderen?"
 
-#: ../src/addressbook/gui/widgets/e-addressbook-view.c:1328
+#: ../src/addressbook/gui/widgets/e-addressbook-view.c:1438
 #: ../src/calendar/gui/e-comp-editor.c:2127
 #: ../src/e-util/e-accounts-window.c:1753 ../src/e-util/e-focus-tracker.c:816
 #: ../src/e-util/evolution-source-viewer.c:800
@@ -5558,7 +5558,7 @@ msgid "_Delete"
 msgstr "_Verwijderen"
 
 #. Translators: This is shown for > 5 contacts.
-#: ../src/addressbook/gui/widgets/e-addressbook-view.c:1476
+#: ../src/addressbook/gui/widgets/e-addressbook-view.c:1586
 #, c-format
 msgid ""
 "Opening %d contacts will open %d new windows as well.\n"
@@ -5573,11 +5573,11 @@ msgstr[1] ""
 "%d contacten weergeven zal %d nieuwe vensters openen.\n"
 "Wilt u echt al deze contacten weergeven?"
 
-#: ../src/addressbook/gui/widgets/e-addressbook-view.c:1484
+#: ../src/addressbook/gui/widgets/e-addressbook-view.c:1594
 msgid "_Don’t Display"
 msgstr "_Niet weergeven"
 
-#: ../src/addressbook/gui/widgets/e-addressbook-view.c:1485
+#: ../src/addressbook/gui/widgets/e-addressbook-view.c:1595
 msgid "Display _All Contacts"
 msgstr "_Alle contacten weergeven"
 
@@ -5757,13 +5757,13 @@ msgstr "_Inzoomen"
 
 #. Zoom-out button
 #: ../src/addressbook/gui/widgets/e-contact-map-window.c:417
-#: ../src/mail/e-mail-reader.c:2878
+#: ../src/mail/e-mail-reader.c:2888
 msgid "Zoom _Out"
 msgstr "_Uitzoomen"
 
 #. Search button
 #: ../src/addressbook/gui/widgets/e-contact-map-window.c:447
-#: ../src/e-util/e-html-editor-actions.c:2206
+#: ../src/e-util/e-html-editor-actions.c:2210
 #: ../src/e-util/e-html-editor-find-dialog.c:244
 #: ../src/shell/e-shell-window-actions.c:1038
 msgid "_Find"
@@ -5829,10 +5829,10 @@ msgstr ""
 
 #: ../src/addressbook/importers/evolution-csv-importer.c:796
 #: ../src/addressbook/importers/evolution-ldif-importer.c:547
-#: ../src/addressbook/importers/evolution-vcard-importer.c:247
+#: ../src/addressbook/importers/evolution-vcard-importer.c:237
 #: ../src/calendar/importers/icalendar-importer.c:506
-#: ../src/calendar/importers/icalendar-importer.c:1010
-#: ../src/calendar/importers/icalendar-importer.c:1050
+#: ../src/calendar/importers/icalendar-importer.c:1013
+#: ../src/calendar/importers/icalendar-importer.c:1053
 msgid "Importing…"
 msgstr "Bezig met importeren…"
 
@@ -5876,11 +5876,11 @@ msgstr "LDAP Data Interchange Format (.ldif)"
 msgid "Evolution LDIF importer"
 msgstr "Evolution LDIF importeerprogramma"
 
-#: ../src/addressbook/importers/evolution-vcard-importer.c:644
+#: ../src/addressbook/importers/evolution-vcard-importer.c:489
 msgid "vCard (.vcf, .gcrd)"
 msgstr "vCard (.vcf, .gcrd)"
 
-#: ../src/addressbook/importers/evolution-vcard-importer.c:645
+#: ../src/addressbook/importers/evolution-vcard-importer.c:490
 msgid "Evolution vCard Importer"
 msgstr "Evolution vCard importeerprogramma"
 
@@ -6886,7 +6886,7 @@ msgstr "Samenvatting bevat"
 msgid "Description Contains"
 msgstr "Omschrijving bevat"
 
-#: ../src/calendar/gui/comp-util.c:1547
+#: ../src/calendar/gui/comp-util.c:1553
 #: ../src/modules/itip-formatter/itip-view.c:2313
 #, c-format
 msgid "with one guest"
@@ -6895,57 +6895,57 @@ msgstr[0] "met één gast"
 msgstr[1] "met %d gasten"
 
 # opmerking
-#: ../src/calendar/gui/comp-util.c:1606
+#: ../src/calendar/gui/comp-util.c:1612
 #, c-format
 msgid "Comments: %s"
 msgstr "Commentaren: %s"
 
-#: ../src/calendar/gui/comp-util.c:1620 ../src/calendar/gui/comp-util.c:1623
+#: ../src/calendar/gui/comp-util.c:1626 ../src/calendar/gui/comp-util.c:1629
 msgctxt "iCalendarStatus"
 msgid "None"
 msgstr "Geen"
 
-#: ../src/calendar/gui/comp-util.c:1621
+#: ../src/calendar/gui/comp-util.c:1627
 msgctxt "iCalendarStatus"
 msgid "Tentative"
 msgstr "Voorlopig"
 
-#: ../src/calendar/gui/comp-util.c:1622
+#: ../src/calendar/gui/comp-util.c:1628
 msgctxt "iCalendarStatus"
 msgid "Confirmed"
 msgstr "Bevestigd"
 
-#: ../src/calendar/gui/comp-util.c:1624
+#: ../src/calendar/gui/comp-util.c:1630
 msgctxt "iCalendarStatus"
 msgid "Draft"
 msgstr "Concept"
 
-#: ../src/calendar/gui/comp-util.c:1625
+#: ../src/calendar/gui/comp-util.c:1631
 msgctxt "iCalendarStatus"
 msgid "Final"
 msgstr "Eindversie"
 
-#: ../src/calendar/gui/comp-util.c:1626
+#: ../src/calendar/gui/comp-util.c:1632
 msgctxt "iCalendarStatus"
 msgid "Not Started"
 msgstr "Niet begonnen"
 
-#: ../src/calendar/gui/comp-util.c:1627
+#: ../src/calendar/gui/comp-util.c:1633
 msgctxt "iCalendarStatus"
 msgid "Needs Action"
 msgstr "Heeft actie nodig"
 
-#: ../src/calendar/gui/comp-util.c:1628
+#: ../src/calendar/gui/comp-util.c:1634
 msgctxt "iCalendarStatus"
 msgid "In Progress"
 msgstr "In behandeling"
 
-#: ../src/calendar/gui/comp-util.c:1629
+#: ../src/calendar/gui/comp-util.c:1635
 msgctxt "iCalendarStatus"
 msgid "Completed"
 msgstr "Voltooid"
 
-#: ../src/calendar/gui/comp-util.c:1630
+#: ../src/calendar/gui/comp-util.c:1636
 msgctxt "iCalendarStatus"
 msgid "Cancelled"
 msgstr "Geannuleerd"
@@ -7172,52 +7172,52 @@ msgstr "agendaweergave voor een maand"
 msgid "calendar view for one or more weeks"
 msgstr "agendaweergave voor één of meer weken"
 
-#: ../src/calendar/gui/e-cal-component-preview.c:237
+#: ../src/calendar/gui/e-cal-component-preview.c:238
 #: ../src/e-util/e-filter-rule.c:1015 ../src/mail/e-mail-config-page.c:124
 msgid "Untitled"
 msgstr "Naamloos"
 
-#: ../src/calendar/gui/e-cal-component-preview.c:251
+#: ../src/calendar/gui/e-cal-component-preview.c:252
 msgid "Categories:"
 msgstr "Categorieën:"
 
-#: ../src/calendar/gui/e-cal-component-preview.c:288
+#: ../src/calendar/gui/e-cal-component-preview.c:289
 #: ../src/modules/cal-config-weather/evolution-cal-config-weather.c:280
 #: ../src/modules/itip-formatter/itip-view.c:1703
 #: ../src/modules/itip-formatter/itip-view.c:1815
 msgid "Location:"
 msgstr "Locatie:"
 
-#: ../src/calendar/gui/e-cal-component-preview.c:295
+#: ../src/calendar/gui/e-cal-component-preview.c:296
 msgid "Start Date:"
 msgstr "Begindatum:"
 
-#: ../src/calendar/gui/e-cal-component-preview.c:304
+#: ../src/calendar/gui/e-cal-component-preview.c:305
 msgid "End Date:"
 msgstr "Einddatum:"
 
-#: ../src/calendar/gui/e-cal-component-preview.c:313
+#: ../src/calendar/gui/e-cal-component-preview.c:314
 msgid "Due Date:"
 msgstr "Verloopdatum:"
 
-#: ../src/calendar/gui/e-cal-component-preview.c:327
+#: ../src/calendar/gui/e-cal-component-preview.c:328
 msgid "Recurs:"
 msgstr "Keert terug:"
 
-#: ../src/calendar/gui/e-cal-component-preview.c:339
+#: ../src/calendar/gui/e-cal-component-preview.c:340
 #: ../src/modules/itip-formatter/itip-view.c:1707
 #: ../src/modules/itip-formatter/itip-view.c:1827
 msgid "Status:"
 msgstr "Status:"
 
-#: ../src/calendar/gui/e-cal-component-preview.c:348
+#: ../src/calendar/gui/e-cal-component-preview.c:349
 #: ../src/calendar/gui/e-task-table.c:464
 #: ../src/calendar/gui/tasktypes.xml.in.h:19
 #: ../src/e-util/e-send-options.ui.h:2 ../src/mail/message-list.c:338
 msgid "High"
 msgstr "Hoog"
 
-#: ../src/calendar/gui/e-cal-component-preview.c:350
+#: ../src/calendar/gui/e-cal-component-preview.c:351
 #: ../src/calendar/gui/e-cal-model.c:1873
 #: ../src/calendar/gui/e-task-table.c:465
 #: ../src/calendar/gui/tasktypes.xml.in.h:20
@@ -7225,31 +7225,31 @@ msgstr "Hoog"
 msgid "Normal"
 msgstr "Normaal"
 
-#: ../src/calendar/gui/e-cal-component-preview.c:352
+#: ../src/calendar/gui/e-cal-component-preview.c:353
 #: ../src/calendar/gui/e-task-table.c:466
 #: ../src/calendar/gui/tasktypes.xml.in.h:21
 #: ../src/e-util/e-send-options.ui.h:4 ../src/mail/message-list.c:336
 msgid "Low"
 msgstr "Laag"
 
-#: ../src/calendar/gui/e-cal-component-preview.c:354
+#: ../src/calendar/gui/e-cal-component-preview.c:355
 msgid "Priority:"
 msgstr "Prioriteit:"
 
-#: ../src/calendar/gui/e-cal-component-preview.c:366
+#: ../src/calendar/gui/e-cal-component-preview.c:367
 msgid "Organizer:"
 msgstr "Organisator:"
 
-#: ../src/calendar/gui/e-cal-component-preview.c:407
+#: ../src/calendar/gui/e-cal-component-preview.c:408
 msgid "Attendees:"
 msgstr "Aanwezigen:"
 
-#: ../src/calendar/gui/e-cal-component-preview.c:454
+#: ../src/calendar/gui/e-cal-component-preview.c:455
 #: ../src/mail/e-mail-config-service-page.c:522
 msgid "Description:"
 msgstr "Omschrijving:"
 
-#: ../src/calendar/gui/e-cal-component-preview.c:508
+#: ../src/calendar/gui/e-cal-component-preview.c:509
 msgid "Web Page:"
 msgstr "Webpagina:"
 
@@ -7488,7 +7488,7 @@ msgstr "%d %b %Y"
 #. * change the specifiers or add anything.
 #: ../src/calendar/gui/e-calendar-view.c:1156
 #: ../src/calendar/gui/e-day-view.c:3073
-#: ../src/calendar/gui/e-day-view-top-item.c:854
+#: ../src/calendar/gui/e-day-view-top-item.c:856
 #: ../src/calendar/gui/e-week-view-main-item.c:230
 msgid "%d %b"
 msgstr "%d %b"
@@ -7505,7 +7505,7 @@ msgstr "%A %d %b %Y"
 #. * specifiers or add anything.
 #: ../src/calendar/gui/e-calendar-view.c:1169
 #: ../src/calendar/gui/e-day-view.c:3057
-#: ../src/calendar/gui/e-day-view-top-item.c:850
+#: ../src/calendar/gui/e-day-view-top-item.c:852
 #: ../src/calendar/gui/e-week-view-main-item.c:216
 msgid "%a %d %b"
 msgstr "%a %d %b"
@@ -7561,7 +7561,7 @@ msgstr "Tijd: %s %s"
 #: ../src/calendar/gui/e-memo-table.c:660
 #: ../src/calendar/gui/e-task-table.c:882
 #: ../src/calendar/gui/e-to-do-pane.c:590 ../src/e-util/e-misc-utils.c:4614
-#: ../src/e-util/e-text.c:566 ../src/e-util/e-web-view.c:4175
+#: ../src/e-util/e-text.c:566 ../src/e-util/e-web-view.c:4177
 msgid "…"
 msgstr "…"
 
@@ -7621,7 +7621,7 @@ msgstr "Bron"
 #. To Translators: 'Status' here means the state of the attendees, the resulting string will be in a form:
 #. * Status: Accepted: X   Declined: Y   ...
 #: ../src/calendar/gui/e-cal-list-view.etspec.h:10
-#: ../src/calendar/gui/e-cal-model.c:3847
+#: ../src/calendar/gui/e-cal-model.c:3881
 #: ../src/calendar/gui/e-meeting-list-view.c:689
 #: ../src/calendar/gui/e-meeting-time-sel.etspec.h:9
 #: ../src/calendar/gui/e-memo-table.etspec.h:9
@@ -7698,7 +7698,7 @@ msgstr "Ja"
 msgid "No"
 msgstr "Nee"
 
-#: ../src/calendar/gui/e-cal-model.c:3788
+#: ../src/calendar/gui/e-cal-model.c:3822
 #: ../src/calendar/gui/e-meeting-list-view.c:205
 #: ../src/calendar/gui/e-meeting-store.c:179
 #: ../src/calendar/gui/e-meeting-store.c:202
@@ -7707,7 +7707,7 @@ msgid "Accepted"
 msgstr "Geaccepteerd"
 
 # afgezegd/geweigerd/afgewezen
-#: ../src/calendar/gui/e-cal-model.c:3789
+#: ../src/calendar/gui/e-cal-model.c:3823
 #: ../src/calendar/gui/e-meeting-list-view.c:206
 #: ../src/calendar/gui/e-meeting-store.c:181
 #: ../src/calendar/gui/e-meeting-store.c:204
@@ -7715,7 +7715,7 @@ msgstr "Geaccepteerd"
 msgid "Declined"
 msgstr "Afgewezen"
 
-#: ../src/calendar/gui/e-cal-model.c:3790
+#: ../src/calendar/gui/e-cal-model.c:3824
 #: ../src/calendar/gui/e-meeting-list-view.c:207
 #: ../src/calendar/gui/e-meeting-store.c:183
 #: ../src/calendar/gui/e-meeting-store.c:206
@@ -7723,7 +7723,7 @@ msgstr "Afgewezen"
 msgid "Tentative"
 msgstr "Voorlopig"
 
-#: ../src/calendar/gui/e-cal-model.c:3791
+#: ../src/calendar/gui/e-cal-model.c:3825
 #: ../src/calendar/gui/e-meeting-list-view.c:208
 #: ../src/calendar/gui/e-meeting-store.c:185
 #: ../src/calendar/gui/e-meeting-store.c:208
@@ -7731,7 +7731,7 @@ msgstr "Voorlopig"
 msgid "Delegated"
 msgstr "Overgedragen"
 
-#: ../src/calendar/gui/e-cal-model.c:3792
+#: ../src/calendar/gui/e-cal-model.c:3826
 msgid "Needs action"
 msgstr "Heeft actie nodig"
 
@@ -7989,9 +7989,9 @@ msgstr "Begintijd is geen geldig tijdstip"
 #: ../src/em-format/e-mail-part-secure-button.c:97
 #: ../src/e-util/e-misc-utils.c:4003 ../src/e-util/e-misc-utils.c:4015
 #: ../src/e-util/e-misc-utils.c:4029 ../src/mail/e-mail-autoconfig.c:1041
-#: ../src/mail/e-mail-display.c:2449 ../src/mail/e-mail-notes.c:875
-#: ../src/mail/e-mail-reader-utils.c:805 ../src/mail/em-composer-utils.c:3820
-#: ../src/mail/em-composer-utils.c:3851 ../src/mail/mail-send-recv.c:598
+#: ../src/mail/e-mail-display.c:2449 ../src/mail/e-mail-notes.c:877
+#: ../src/mail/e-mail-reader-utils.c:805 ../src/mail/em-composer-utils.c:3817
+#: ../src/mail/em-composer-utils.c:3848 ../src/mail/mail-send-recv.c:598
 #: ../src/mail/mail-send-recv.c:1493
 #: ../src/modules/accounts-window/e-accounts-window-editors.c:172
 #: ../src/plugins/face/face.c:175 ../src/shell/e-shell.c:1235
@@ -8009,13 +8009,13 @@ msgid "End time is not a valid time"
 msgstr "Eindtijd is geen geldig tijdstip"
 
 #: ../src/calendar/gui/e-comp-editor-event.c:713
-#: ../src/calendar/gui/e-comp-editor-memo.c:249
+#: ../src/calendar/gui/e-comp-editor-memo.c:258
 #: ../src/calendar/gui/e-comp-editor-task.c:697
 msgid "_Categories"
 msgstr "_Categorieën"
 
 #: ../src/calendar/gui/e-comp-editor-event.c:715
-#: ../src/calendar/gui/e-comp-editor-memo.c:251
+#: ../src/calendar/gui/e-comp-editor-memo.c:260
 #: ../src/calendar/gui/e-comp-editor-task.c:699
 msgid "Toggles whether to display categories"
 msgstr "Schakelt de weergave van categorieën aan/uit"
@@ -8091,7 +8091,7 @@ msgid "All da_y event"
 msgstr "Afspraak voor de hele _dag"
 
 #: ../src/calendar/gui/e-comp-editor-event.c:965
-#: ../src/calendar/gui/e-comp-editor-memo.c:350
+#: ../src/calendar/gui/e-comp-editor-memo.c:359
 #: ../src/calendar/gui/e-comp-editor-task.c:875
 msgctxt "ECompEditorPage"
 msgid "General"
@@ -8111,7 +8111,7 @@ msgid "Recurrence"
 msgstr "Herhaling"
 
 #: ../src/calendar/gui/e-comp-editor-event.c:974
-#: ../src/calendar/gui/e-comp-editor-memo.c:353
+#: ../src/calendar/gui/e-comp-editor-memo.c:362
 #: ../src/calendar/gui/e-comp-editor-task.c:906
 msgctxt "ECompEditorPage"
 msgid "Attachments"
@@ -8138,20 +8138,20 @@ msgstr "Afspraak — %s"
 msgid "New note"
 msgstr "Nieuwe notitie"
 
-#: ../src/calendar/gui/e-comp-editor-memo.c:211
+#: ../src/calendar/gui/e-comp-editor-memo.c:220
 msgid ""
 "Memo cannot be edited, because the selected memo list could not be opened"
 msgstr ""
 "De memo kan niet worden bewerkt, omdat de geselecteerde memolijst niet kan "
 "worden geopend"
 
-#: ../src/calendar/gui/e-comp-editor-memo.c:213
+#: ../src/calendar/gui/e-comp-editor-memo.c:222
 msgid "Memo cannot be edited, because the selected memo list is read only"
 msgstr ""
 "De memo kan niet worden bewerkt, omdat de geselecteerde memolijst ‘alleen-"
 "lezen’ is"
 
-#: ../src/calendar/gui/e-comp-editor-memo.c:215
+#: ../src/calendar/gui/e-comp-editor-memo.c:224
 msgid ""
 "Changes made to the memo will not be sent to the attendees, because you are "
 "not the organizer"
@@ -8159,23 +8159,23 @@ msgstr ""
 "Wijzigingen aan de memo zullen niet naar de aanwezigen gestuurd worden omdat "
 "u niet de organisator bent"
 
-#: ../src/calendar/gui/e-comp-editor-memo.c:311
+#: ../src/calendar/gui/e-comp-editor-memo.c:320
 #: ../src/calendar/gui/e-comp-editor-task.c:806
 msgid "_List:"
 msgstr "_Lijst:"
 
-#: ../src/calendar/gui/e-comp-editor-memo.c:318
+#: ../src/calendar/gui/e-comp-editor-memo.c:327
 #: ../src/calendar/gui/e-comp-editor-task.c:816
 msgctxt "ECompEditor"
 msgid "Sta_rt date:"
 msgstr "Be_gindatum:"
 
-#: ../src/calendar/gui/e-comp-editor-memo.c:385
+#: ../src/calendar/gui/e-comp-editor-memo.c:394
 #, c-format
 msgid "Assigned Memo — %s"
 msgstr "Toegewezen memo — %s"
 
-#: ../src/calendar/gui/e-comp-editor-memo.c:386
+#: ../src/calendar/gui/e-comp-editor-memo.c:395
 #, c-format
 msgid "Memo — %s"
 msgstr "Memo — %s"
@@ -8357,7 +8357,7 @@ msgstr "Aa_nwezigen…"
 #: ../src/calendar/gui/e-comp-editor-page-recurrence.c:2317
 #: ../src/calendar/gui/e-comp-editor.c:2192
 #: ../src/e-util/e-accounts-window.c:1745
-#: ../src/e-util/e-html-editor-actions.c:1118
+#: ../src/e-util/e-html-editor-actions.c:1122
 #: ../src/e-util/e-mail-signature-manager.c:354
 #: ../src/e-util/e-webdav-browser.c:2848 ../src/e-util/filter.ui.h:26
 #: ../src/mail/e-mail-account-manager.c:730 ../src/mail/e-mail-browser.c:217
@@ -9054,7 +9054,7 @@ msgstr "Geen samenvatting"
 #: ../src/e-util/e-table-field-chooser-dialog.c:197
 #: ../src/mail/e-mail-browser.c:166
 #: ../src/mail/e-mail-folder-sort-order-dialog.c:751
-#: ../src/mail/e-mail-notes.c:1015 ../src/mail/em-filter-editor.c:45
+#: ../src/mail/e-mail-notes.c:1017 ../src/mail/em-filter-editor.c:45
 #: ../src/mail/em-folder-properties.c:1487
 #: ../src/mail/em-subscription-editor.c:1734
 #: ../src/modules/plugin-manager/evolution-plugin-manager.c:307
@@ -9070,7 +9070,7 @@ msgstr "Het huidige venster sluiten"
 
 #. copy menu item
 #: ../src/calendar/gui/e-comp-editor.c:2113 ../src/e-util/e-focus-tracker.c:806
-#: ../src/e-util/e-html-editor-actions.c:1074 ../src/e-util/e-text.c:2065
+#: ../src/e-util/e-html-editor-actions.c:1078 ../src/e-util/e-text.c:2065
 #: ../src/e-util/e-web-view.c:467 ../src/mail/e-mail-browser.c:173
 #: ../src/mail/mail.error.xml.h:147 ../src/shell/e-shell-window-actions.c:947
 msgid "_Copy"
@@ -9086,7 +9086,7 @@ msgstr "Selectie kopiëren"
 
 #. cut menu item
 #: ../src/calendar/gui/e-comp-editor.c:2120 ../src/e-util/e-focus-tracker.c:801
-#: ../src/e-util/e-html-editor-actions.c:1081 ../src/e-util/e-text.c:2051
+#: ../src/e-util/e-html-editor-actions.c:1085 ../src/e-util/e-text.c:2051
 #: ../src/mail/e-mail-browser.c:180 ../src/shell/e-shell-window-actions.c:954
 msgid "Cu_t"
 msgstr "K_nippen"
@@ -9110,7 +9110,7 @@ msgstr "Hulp weergeven"
 
 #. paste menu item
 #: ../src/calendar/gui/e-comp-editor.c:2141 ../src/e-util/e-focus-tracker.c:811
-#: ../src/e-util/e-html-editor-actions.c:1088 ../src/e-util/e-text.c:2077
+#: ../src/e-util/e-html-editor-actions.c:1092 ../src/e-util/e-text.c:2077
 #: ../src/mail/e-mail-browser.c:187 ../src/shell/e-shell-window-actions.c:982
 msgid "_Paste"
 msgstr "_Plakken"
@@ -9123,13 +9123,13 @@ msgid "Paste the clipboard"
 msgstr "Plakken vanuit klembord"
 
 #: ../src/calendar/gui/e-comp-editor.c:2148
-#: ../src/composer/e-composer-actions.c:387 ../src/mail/e-mail-reader.c:2759
+#: ../src/composer/e-composer-actions.c:387 ../src/mail/e-mail-reader.c:2769
 #: ../src/modules/addressbook/e-book-shell-view-actions.c:1319
 #: ../src/modules/addressbook/e-book-shell-view-actions.c:1333
 msgid "_Print…"
 msgstr "_Afdrukken…"
 
-#: ../src/calendar/gui/e-comp-editor.c:2155 ../src/mail/e-mail-reader.c:2766
+#: ../src/calendar/gui/e-comp-editor.c:2155 ../src/mail/e-mail-reader.c:2776
 #: ../src/modules/addressbook/e-book-shell-view-actions.c:1326
 #: ../src/modules/calendar/e-cal-shell-view-actions.c:1821
 #: ../src/modules/calendar/e-memo-shell-view-actions.c:838
@@ -9138,7 +9138,7 @@ msgid "Pre_view…"
 msgstr "_Voorbeeld…"
 
 #: ../src/calendar/gui/e-comp-editor.c:2162 ../src/e-util/e-focus-tracker.c:821
-#: ../src/e-util/e-html-editor-actions.c:1102 ../src/e-util/e-web-view.c:484
+#: ../src/e-util/e-html-editor-actions.c:1106 ../src/e-util/e-web-view.c:484
 #: ../src/mail/e-mail-browser.c:194 ../src/shell/e-shell-window-actions.c:1059
 msgid "Select _All"
 msgstr "_Alles selecteren"
@@ -9154,14 +9154,14 @@ msgid "_Classification"
 msgstr "_Classificatie"
 
 #: ../src/calendar/gui/e-comp-editor.c:2199
-#: ../src/e-util/e-html-editor-actions.c:1125
+#: ../src/e-util/e-html-editor-actions.c:1129
 #: ../src/e-util/e-mail-signature-editor.c:333 ../src/mail/e-mail-browser.c:210
-#: ../src/mail/e-mail-notes.c:1029 ../src/shell/e-shell-window-actions.c:1110
+#: ../src/mail/e-mail-notes.c:1031 ../src/shell/e-shell-window-actions.c:1110
 msgid "_File"
 msgstr "_Bestand"
 
 #: ../src/calendar/gui/e-comp-editor.c:2213
-#: ../src/e-util/e-html-editor-actions.c:1146
+#: ../src/e-util/e-html-editor-actions.c:1150
 msgid "_Insert"
 msgstr "I_nvoegen"
 
@@ -9171,7 +9171,7 @@ msgid "_Options"
 msgstr "_Opties"
 
 #: ../src/calendar/gui/e-comp-editor.c:2227
-#: ../src/e-util/e-html-editor-actions.c:1167 ../src/mail/e-mail-browser.c:224
+#: ../src/e-util/e-html-editor-actions.c:1171 ../src/mail/e-mail-browser.c:224
 #: ../src/shell/e-shell-window-actions.c:1153
 #: ../src/smime/gui/certificate-manager.c:1644 ../src/smime/gui/smime-ui.ui.h:3
 msgid "_View"
@@ -9182,7 +9182,7 @@ msgid "Save current changes"
 msgstr "Huidige wijzigingen opslaan"
 
 #: ../src/calendar/gui/e-comp-editor.c:2244
-#: ../src/e-util/e-mail-signature-editor.c:328 ../src/mail/e-mail-notes.c:1024
+#: ../src/e-util/e-mail-signature-editor.c:328 ../src/mail/e-mail-notes.c:1026
 msgid "Save and Close"
 msgstr "Opslaan en sluiten"
 
@@ -9213,7 +9213,7 @@ msgstr "pm"
 #. * order but don't change the specifiers or add
 #. * anything.
 #: ../src/calendar/gui/e-day-view.c:3040
-#: ../src/calendar/gui/e-day-view-top-item.c:846
+#: ../src/calendar/gui/e-day-view-top-item.c:848
 #: ../src/calendar/gui/e-week-view-main-item.c:207
 #: ../src/calendar/gui/print.c:2117
 msgid "%A %d %B"
@@ -9702,32 +9702,32 @@ msgstr "%s (%s)"
 msgid "%d %B"
 msgstr "%d %B"
 
-#: ../src/calendar/gui/itip-utils.c:913 ../src/calendar/gui/itip-utils.c:979
-#: ../src/calendar/gui/itip-utils.c:1128
+#: ../src/calendar/gui/itip-utils.c:914 ../src/calendar/gui/itip-utils.c:980
+#: ../src/calendar/gui/itip-utils.c:1129
 msgid "An organizer must be set."
 msgstr "Er moet een organisator ingesteld worden."
 
-#: ../src/calendar/gui/itip-utils.c:969
+#: ../src/calendar/gui/itip-utils.c:970
 msgid "At least one attendee is necessary"
 msgstr "Er is minstens één bezoeker nodig"
 
-#: ../src/calendar/gui/itip-utils.c:1226 ../src/calendar/gui/itip-utils.c:1392
+#: ../src/calendar/gui/itip-utils.c:1227 ../src/calendar/gui/itip-utils.c:1393
 msgid "Event information"
 msgstr "Afspraakinformatie"
 
-#: ../src/calendar/gui/itip-utils.c:1229 ../src/calendar/gui/itip-utils.c:1395
+#: ../src/calendar/gui/itip-utils.c:1230 ../src/calendar/gui/itip-utils.c:1396
 msgid "Task information"
 msgstr "Taakinformatie"
 
-#: ../src/calendar/gui/itip-utils.c:1232 ../src/calendar/gui/itip-utils.c:1398
+#: ../src/calendar/gui/itip-utils.c:1233 ../src/calendar/gui/itip-utils.c:1399
 msgid "Memo information"
 msgstr "Memo-informatie"
 
-#: ../src/calendar/gui/itip-utils.c:1235 ../src/calendar/gui/itip-utils.c:1416
+#: ../src/calendar/gui/itip-utils.c:1236 ../src/calendar/gui/itip-utils.c:1417
 msgid "Free/Busy information"
 msgstr "Vrij/Bezet-informatie"
 
-#: ../src/calendar/gui/itip-utils.c:1238
+#: ../src/calendar/gui/itip-utils.c:1239
 msgid "Calendar information"
 msgstr "Agenda-informatie"
 
@@ -9735,7 +9735,7 @@ msgstr "Agenda-informatie"
 #. * line of a meeting request or update email.
 #. * The full subject line would be:
 #. * "Accepted: Meeting Name".
-#: ../src/calendar/gui/itip-utils.c:1278
+#: ../src/calendar/gui/itip-utils.c:1279
 msgctxt "Meeting"
 msgid "Accepted"
 msgstr "Geaccepteerd"
@@ -9744,7 +9744,7 @@ msgstr "Geaccepteerd"
 #. * line of a meeting request or update email.
 #. * The full subject line would be:
 #. * "Tentatively Accepted: Meeting Name".
-#: ../src/calendar/gui/itip-utils.c:1285
+#: ../src/calendar/gui/itip-utils.c:1286
 msgctxt "Meeting"
 msgid "Tentatively Accepted"
 msgstr "Voorlopig geaccepteerd"
@@ -9757,7 +9757,7 @@ msgstr "Voorlopig geaccepteerd"
 #. Translators: This is part of the subject line of a
 #. * meeting request or update email.  The full subject
 #. * line would be: "Declined: Meeting Name".
-#: ../src/calendar/gui/itip-utils.c:1292 ../src/calendar/gui/itip-utils.c:1340
+#: ../src/calendar/gui/itip-utils.c:1293 ../src/calendar/gui/itip-utils.c:1341
 msgctxt "Meeting"
 msgid "Declined"
 msgstr "Afgewezen"
@@ -9766,7 +9766,7 @@ msgstr "Afgewezen"
 #. * line of a meeting request or update email.
 #. * The full subject line would be:
 #. * "Delegated: Meeting Name".
-#: ../src/calendar/gui/itip-utils.c:1299
+#: ../src/calendar/gui/itip-utils.c:1300
 msgctxt "Meeting"
 msgid "Delegated"
 msgstr "Overgedragen"
@@ -9775,7 +9775,7 @@ msgstr "Overgedragen"
 #. Translators: This is part of the subject line of a
 #. * meeting request or update email.  The full subject
 #. * line would be: "Updated: Meeting Name".
-#: ../src/calendar/gui/itip-utils.c:1312
+#: ../src/calendar/gui/itip-utils.c:1313
 msgctxt "Meeting"
 msgid "Updated"
 msgstr "Bijgewerkt"
@@ -9783,7 +9783,7 @@ msgstr "Bijgewerkt"
 #. Translators: This is part of the subject line of a
 #. * meeting request or update email.  The full subject
 #. * line would be: "Cancel: Meeting Name".
-#: ../src/calendar/gui/itip-utils.c:1319
+#: ../src/calendar/gui/itip-utils.c:1320
 msgctxt "Meeting"
 msgid "Cancel"
 msgstr "Annuleren"
@@ -9791,7 +9791,7 @@ msgstr "Annuleren"
 #. Translators: This is part of the subject line of a
 #. * meeting request or update email.  The full subject
 #. * line would be: "Refresh: Meeting Name".
-#: ../src/calendar/gui/itip-utils.c:1326
+#: ../src/calendar/gui/itip-utils.c:1327
 msgctxt "Meeting"
 msgid "Refresh"
 msgstr "Verversen"
@@ -9799,48 +9799,48 @@ msgstr "Verversen"
 #. Translators: This is part of the subject line of a
 #. * meeting request or update email.  The full subject
 #. * line would be: "Counter-proposal: Meeting Name".
-#: ../src/calendar/gui/itip-utils.c:1333
+#: ../src/calendar/gui/itip-utils.c:1334
 msgctxt "Meeting"
 msgid "Counter-proposal"
 msgstr "Tegenvoorstel"
 
-#: ../src/calendar/gui/itip-utils.c:1413
+#: ../src/calendar/gui/itip-utils.c:1414
 #, c-format
 msgid "Free/Busy information (%s to %s)"
 msgstr "Vrij/Bezet-informatie (%s tot %s)"
 
-#: ../src/calendar/gui/itip-utils.c:1421
+#: ../src/calendar/gui/itip-utils.c:1422
 msgid "iCalendar information"
 msgstr "iCalendar-informatie"
 
-#: ../src/calendar/gui/itip-utils.c:1450
+#: ../src/calendar/gui/itip-utils.c:1451
 #, c-format
 msgid "Unable to book a resource, the new event collides with some other."
 msgstr "Kan geen bron noteren, de nieuwe gebeurtenis botst met een andere."
 
-#: ../src/calendar/gui/itip-utils.c:1455
+#: ../src/calendar/gui/itip-utils.c:1456
 msgid "Unable to book a resource, error: "
 msgstr "Kan een bron niet noteren, fout: "
 
-#: ../src/calendar/gui/itip-utils.c:1648
+#: ../src/calendar/gui/itip-utils.c:1649
 msgid "You must be an attendee of the event."
 msgstr "U moet een bezoeker zijn van het evenement."
 
-#: ../src/calendar/gui/itip-utils.c:2527
+#: ../src/calendar/gui/itip-utils.c:2528
 msgid "Sending an event"
 msgstr "Afspraak versturen"
 
-#: ../src/calendar/gui/itip-utils.c:2531
+#: ../src/calendar/gui/itip-utils.c:2532
 msgid "Sending a memo"
 msgstr "Memo versturen"
 
-#: ../src/calendar/gui/itip-utils.c:2535
+#: ../src/calendar/gui/itip-utils.c:2536
 msgid "Sending a task"
 msgstr "Taak versturen"
 
 # Niet ondertekend of positief getal?
 #. Translator: This is used as a placeholder when an event doesn't have set a location
-#: ../src/calendar/gui/itip-utils.c:2780
+#: ../src/calendar/gui/itip-utils.c:2781
 msgctxt "Location"
 msgid "Unspecified"
 msgstr "Niet opgegeven"
@@ -10076,65 +10076,65 @@ msgid "Cre_ate new task list"
 msgstr "Nieuwe _takenlijst toevoegen"
 
 #: ../src/calendar/importers/icalendar-importer.c:528
-#: ../src/calendar/importers/icalendar-importer.c:978
+#: ../src/calendar/importers/icalendar-importer.c:981
 msgid "Opening calendar"
 msgstr "Agenda openen"
 
-#: ../src/calendar/importers/icalendar-importer.c:675
+#: ../src/calendar/importers/icalendar-importer.c:678
 msgid "iCalendar files (.ics)"
 msgstr "iCalendar-agendabestanden (.ics)"
 
-#: ../src/calendar/importers/icalendar-importer.c:676
+#: ../src/calendar/importers/icalendar-importer.c:679
 msgid "Evolution iCalendar importer"
 msgstr "Evolution iCalendar-import"
 
 # 1 uitroepteken is voldoende
-#: ../src/calendar/importers/icalendar-importer.c:771
+#: ../src/calendar/importers/icalendar-importer.c:773
 msgid "Reminder!"
 msgstr "Herinnering!"
 
-#: ../src/calendar/importers/icalendar-importer.c:866
+#: ../src/calendar/importers/icalendar-importer.c:869
 msgid "vCalendar files (.vcs)"
 msgstr "vCalendar-bestanden(.vcs)"
 
-#: ../src/calendar/importers/icalendar-importer.c:867
+#: ../src/calendar/importers/icalendar-importer.c:870
 msgid "Evolution vCalendar importer"
 msgstr "Evolution vCalendar-importeerprogramma"
 
-#: ../src/calendar/importers/icalendar-importer.c:1141
+#: ../src/calendar/importers/icalendar-importer.c:1144
 msgid "Calendar Events"
 msgstr "Afspraken"
 
-#: ../src/calendar/importers/icalendar-importer.c:1184
+#: ../src/calendar/importers/icalendar-importer.c:1187
 msgid "GNOME Calendar"
 msgstr "Gnome Agenda"
 
-#: ../src/calendar/importers/icalendar-importer.c:1185
+#: ../src/calendar/importers/icalendar-importer.c:1188
 msgid "Evolution Calendar intelligent importer"
 msgstr "Evolution agenda, intelligente import"
 
 # Combinatietoets is Shift+Ctrl+E
-#: ../src/calendar/importers/icalendar-importer.c:1280
-#: ../src/calendar/importers/icalendar-importer.c:1606
+#: ../src/calendar/importers/icalendar-importer.c:1283
+#: ../src/calendar/importers/icalendar-importer.c:1609
 msgctxt "iCalImp"
 msgid "Meeting"
 msgstr "Bijeenkomst"
 
-#: ../src/calendar/importers/icalendar-importer.c:1280
-#: ../src/calendar/importers/icalendar-importer.c:1606
+#: ../src/calendar/importers/icalendar-importer.c:1283
+#: ../src/calendar/importers/icalendar-importer.c:1609
 msgctxt "iCalImp"
 msgid "Event"
 msgstr "Gebeurtenis"
 
-#: ../src/calendar/importers/icalendar-importer.c:1283
-#: ../src/calendar/importers/icalendar-importer.c:1607
+#: ../src/calendar/importers/icalendar-importer.c:1286
+#: ../src/calendar/importers/icalendar-importer.c:1610
 msgctxt "iCalImp"
 msgid "Task"
 msgstr "Taak"
 
 # meervoud beter?
-#: ../src/calendar/importers/icalendar-importer.c:1286
-#: ../src/calendar/importers/icalendar-importer.c:1608
+#: ../src/calendar/importers/icalendar-importer.c:1289
+#: ../src/calendar/importers/icalendar-importer.c:1611
 msgctxt "iCalImp"
 msgid "Memo"
 msgstr "Memo"
@@ -10142,126 +10142,126 @@ msgstr "Memo"
 # deze keer en vorige keren/instanties
 # deze, en die in het verleden
 # deze, en alle vorige
-#: ../src/calendar/importers/icalendar-importer.c:1295
+#: ../src/calendar/importers/icalendar-importer.c:1298
 msgctxt "iCalImp"
 msgid "is an instance"
 msgstr "is een instantie"
 
 #. have ? NULL :
-#: ../src/calendar/importers/icalendar-importer.c:1298
+#: ../src/calendar/importers/icalendar-importer.c:1301
 msgctxt "iCalImp"
 msgid "has recurrences"
 msgstr "heeft herhalingen"
 
 # standaard wordt dit aangevuld tot:
 # Herinnering geven [15] [minuten] voor het begin van elke afspraak
-#: ../src/calendar/importers/icalendar-importer.c:1303
+#: ../src/calendar/importers/icalendar-importer.c:1306
 msgctxt "iCalImp"
 msgid "has reminders"
 msgstr "heeft herinneringen"
 
-#: ../src/calendar/importers/icalendar-importer.c:1308
+#: ../src/calendar/importers/icalendar-importer.c:1311
 msgctxt "iCalImp"
 msgid "has attachments"
 msgstr "bevat bijlagen"
 
 #. Translators: Appointment's classification
-#: ../src/calendar/importers/icalendar-importer.c:1320
+#: ../src/calendar/importers/icalendar-importer.c:1323
 msgctxt "iCalImp"
 msgid "Public"
 msgstr "Openbaar"
 
 #. Translators: Appointment's classification
-#: ../src/calendar/importers/icalendar-importer.c:1323
+#: ../src/calendar/importers/icalendar-importer.c:1326
 msgctxt "iCalImp"
 msgid "Private"
 msgstr "Privé"
 
 #. Translators: Appointment's classification
-#: ../src/calendar/importers/icalendar-importer.c:1326
+#: ../src/calendar/importers/icalendar-importer.c:1329
 msgctxt "iCalImp"
 msgid "Confidential"
 msgstr "Vertrouwelijk"
 
 #. Translators: Appointment's classification section name
-#: ../src/calendar/importers/icalendar-importer.c:1330
+#: ../src/calendar/importers/icalendar-importer.c:1333
 msgctxt "iCalImp"
 msgid "Classification"
 msgstr "Classificatie"
 
 #. Translators: Appointment's summary
 #. Translators: Column header for a component summary
-#: ../src/calendar/importers/icalendar-importer.c:1335
-#: ../src/calendar/importers/icalendar-importer.c:1651
+#: ../src/calendar/importers/icalendar-importer.c:1338
+#: ../src/calendar/importers/icalendar-importer.c:1654
 msgctxt "iCalImp"
 msgid "Summary"
 msgstr "Samenvatting"
 
 #. Translators: Appointment's location
-#: ../src/calendar/importers/icalendar-importer.c:1342
+#: ../src/calendar/importers/icalendar-importer.c:1345
 msgctxt "iCalImp"
 msgid "Location"
 msgstr "Locatie"
 
 #. Translators: Appointment's start time
 #. Translators: Column header for a component start date/time
-#: ../src/calendar/importers/icalendar-importer.c:1350
-#: ../src/calendar/importers/icalendar-importer.c:1646
+#: ../src/calendar/importers/icalendar-importer.c:1353
+#: ../src/calendar/importers/icalendar-importer.c:1649
 msgctxt "iCalImp"
 msgid "Start"
 msgstr "Begin"
 
 #. Translators: 'Due' like the time due a task should be finished
-#: ../src/calendar/importers/icalendar-importer.c:1360
+#: ../src/calendar/importers/icalendar-importer.c:1363
 msgctxt "iCalImp"
 msgid "Due"
 msgstr "Verloopt"
 
 #. Translators: Appointment's end time
-#: ../src/calendar/importers/icalendar-importer.c:1371
+#: ../src/calendar/importers/icalendar-importer.c:1374
 msgctxt "iCalImp"
 msgid "End"
 msgstr "Eind"
 
 #. Translators: Appointment's categories
-#: ../src/calendar/importers/icalendar-importer.c:1380
+#: ../src/calendar/importers/icalendar-importer.c:1383
 msgctxt "iCalImp"
 msgid "Categories"
 msgstr "Categorieën"
 
 #. Translators: Appointment's complete value (either percentage, or a date/time of a completion)
-#: ../src/calendar/importers/icalendar-importer.c:1405
+#: ../src/calendar/importers/icalendar-importer.c:1408
 msgctxt "iCalImp"
 msgid "Completed"
 msgstr "Voltooid"
 
 #. Translators: Appointment's URL
-#: ../src/calendar/importers/icalendar-importer.c:1412
+#: ../src/calendar/importers/icalendar-importer.c:1415
 msgctxt "iCalImp"
 msgid "URL"
 msgstr "URL"
 
 #. Translators: Appointment's organizer
-#: ../src/calendar/importers/icalendar-importer.c:1429
 #: ../src/calendar/importers/icalendar-importer.c:1432
+#: ../src/calendar/importers/icalendar-importer.c:1435
 msgctxt "iCalImp"
 msgid "Organizer"
 msgstr "Organisator"
 
 #. Translators: Appointment's attendees
-#: ../src/calendar/importers/icalendar-importer.c:1461
 #: ../src/calendar/importers/icalendar-importer.c:1464
+#: ../src/calendar/importers/icalendar-importer.c:1467
 msgctxt "iCalImp"
 msgid "Attendees"
 msgstr "Aanwezigen"
 
-#: ../src/calendar/importers/icalendar-importer.c:1480
+#: ../src/calendar/importers/icalendar-importer.c:1483
 msgctxt "iCalImp"
 msgid "Description"
 msgstr "Omschrijving"
 
 #. Translators: Column header for a component type; it can be Event, Task or Memo
-#: ../src/calendar/importers/icalendar-importer.c:1641
+#: ../src/calendar/importers/icalendar-importer.c:1644
 msgctxt "iCalImp"
 msgid "Type"
 msgstr "Type"
@@ -12071,22 +12071,22 @@ msgstr ""
 "ingesteld voor dit account"
 
 # een nieuw bericht opstellen/stel een nieuw bericht op
-#: ../src/composer/e-msg-composer.c:1818 ../src/composer/e-msg-composer.c:2492
+#: ../src/composer/e-msg-composer.c:1819 ../src/composer/e-msg-composer.c:2496
 msgid "Compose Message"
 msgstr "Een nieuw bericht opstellen"
 
-#: ../src/composer/e-msg-composer.c:4381
+#: ../src/composer/e-msg-composer.c:4467
 #: ../src/modules/composer-to-meeting/e-composer-to-meeting.c:352
 msgid "Reading text content…"
 msgstr "Tekstinhoud lezen…"
 
-#: ../src/composer/e-msg-composer.c:5191
+#: ../src/composer/e-msg-composer.c:5277
 msgid "Review attachment before sending."
 msgid_plural "Review attachments before sending."
 msgstr[0] "Bijlage nakijken vóór verzenden."
 msgstr[1] "Bijlagen nakijken vóór verzenden."
 
-#: ../src/composer/e-msg-composer.c:5196
+#: ../src/composer/e-msg-composer.c:5282
 #, c-format
 msgid ""
 "There had been added %d attachment. Make sure it does not contain any "
@@ -12101,7 +12101,7 @@ msgstr[1] ""
 "Er zijn %d bijlagen toegevoegd. Zorg ervoor dat deze geen gevoelige "
 "informatie bevatten vooraleer u het bericht verstuurt."
 
-#: ../src/composer/e-msg-composer.c:5329
+#: ../src/composer/e-msg-composer.c:5415
 msgid "The composer contains a non-text message body, which cannot be edited."
 msgstr ""
 "Dit is berichtinhoud wat geen tekst is, en kan daarom niet bewerkt worden."
@@ -13358,7 +13358,7 @@ msgid "popup list"
 msgstr "pop-uplijst"
 
 #: ../src/e-util/e-cell-date.c:49 ../src/e-util/e-cell-date.c:138
-#: ../src/e-util/e-cell-date.c:158 ../src/mail/message-list.c:2146
+#: ../src/e-util/e-cell-date.c:158 ../src/mail/message-list.c:2166
 msgid "?"
 msgstr "?"
 
@@ -13674,7 +13674,7 @@ msgstr "Zelfgekozen kleur kiezen"
 #: ../src/mail/e-mail-account-tree-view.c:135
 #: ../src/mail/e-mail-config-security-page.c:540
 #: ../src/mail/e-mail-config-security-page.c:704
-#: ../src/mail/e-mail-reader.c:4891 ../src/mail/mail-config.ui.h:78
+#: ../src/mail/e-mail-reader.c:4904 ../src/mail/mail-config.ui.h:78
 msgid "Default"
 msgstr "Standaard"
 
@@ -14424,511 +14424,511 @@ msgstr "Tekstbestand invoegen"
 msgid "Text file"
 msgstr "Tekstbestand"
 
-#: ../src/e-util/e-html-editor-actions.c:1076
+#: ../src/e-util/e-html-editor-actions.c:1080
 msgid "Copy selected text to the clipboard"
 msgstr "Geselecteerde tekst naar klembord kopiëren"
 
-#: ../src/e-util/e-html-editor-actions.c:1083
+#: ../src/e-util/e-html-editor-actions.c:1087
 msgid "Cut selected text to the clipboard"
 msgstr "Geselecteerde tekst naar het klembord knippen"
 
-#: ../src/e-util/e-html-editor-actions.c:1090
+#: ../src/e-util/e-html-editor-actions.c:1094
 msgid "Paste text from the clipboard"
 msgstr "Tekst vanaf het klembord plakken"
 
-#: ../src/e-util/e-html-editor-actions.c:1097
+#: ../src/e-util/e-html-editor-actions.c:1101
 msgid "Redo the last undone action"
 msgstr "Laatste ongedaan gemaakte actie opnieuw uitvoeren"
 
-#: ../src/e-util/e-html-editor-actions.c:1111
+#: ../src/e-util/e-html-editor-actions.c:1115
 msgid "Undo the last action"
 msgstr "Laatste actie ongedaan maken"
 
-#: ../src/e-util/e-html-editor-actions.c:1132
+#: ../src/e-util/e-html-editor-actions.c:1136
 msgid "For_mat"
 msgstr "Op_maak"
 
-#: ../src/e-util/e-html-editor-actions.c:1139
+#: ../src/e-util/e-html-editor-actions.c:1143
 msgid "_Paragraph Style"
 msgstr "_Paragraafstijl"
 
-#: ../src/e-util/e-html-editor-actions.c:1153
+#: ../src/e-util/e-html-editor-actions.c:1157
 #: ../src/e-util/e-html-editor-image-dialog.c:678
 msgid "_Alignment"
 msgstr "_Uitlijning"
 
-#: ../src/e-util/e-html-editor-actions.c:1160
+#: ../src/e-util/e-html-editor-actions.c:1164
 msgid "Current _Languages"
 msgstr "Huidige _talen"
 
-#: ../src/e-util/e-html-editor-actions.c:1177
+#: ../src/e-util/e-html-editor-actions.c:1181
 msgid "_Increase Indent"
 msgstr "Indentatie ver_groten"
 
-#: ../src/e-util/e-html-editor-actions.c:1179
+#: ../src/e-util/e-html-editor-actions.c:1183
 msgid "Increase Indent"
 msgstr "Indentatie vergroten"
 
-#: ../src/e-util/e-html-editor-actions.c:1184
-#: ../src/e-util/e-html-editor-actions.c:2212
+#: ../src/e-util/e-html-editor-actions.c:1188
+#: ../src/e-util/e-html-editor-actions.c:2216
 msgid "E_moji"
 msgstr "E_moji"
 
-#: ../src/e-util/e-html-editor-actions.c:1186
-#: ../src/e-util/e-html-editor-actions.c:1193
+#: ../src/e-util/e-html-editor-actions.c:1190
+#: ../src/e-util/e-html-editor-actions.c:1197
 msgid "Insert Emoji"
 msgstr "Emoji invoegen"
 
-#: ../src/e-util/e-html-editor-actions.c:1191
+#: ../src/e-util/e-html-editor-actions.c:1195
 msgid "Insert E_moji"
 msgstr "E_moji invoegen"
 
-#: ../src/e-util/e-html-editor-actions.c:1198
+#: ../src/e-util/e-html-editor-actions.c:1202
 msgid "_HTML File…"
 msgstr "_HTML-bestand…"
 
-#: ../src/e-util/e-html-editor-actions.c:1205
+#: ../src/e-util/e-html-editor-actions.c:1209
 msgid "Te_xt File…"
 msgstr "Tekst_bestand…"
 
-#: ../src/e-util/e-html-editor-actions.c:1212
+#: ../src/e-util/e-html-editor-actions.c:1216
 msgid "Paste _Quotation"
 msgstr "_Citaat plakken"
 
-#: ../src/e-util/e-html-editor-actions.c:1219
+#: ../src/e-util/e-html-editor-actions.c:1223
 msgid "_Find…"
 msgstr "_Zoeken…"
 
-#: ../src/e-util/e-html-editor-actions.c:1221
+#: ../src/e-util/e-html-editor-actions.c:1225
 msgid "Search for text"
 msgstr "Tekst zoeken"
 
-#: ../src/e-util/e-html-editor-actions.c:1226
+#: ../src/e-util/e-html-editor-actions.c:1230
 msgid "Find A_gain"
 msgstr "_Opnieuw zoeken"
 
-#: ../src/e-util/e-html-editor-actions.c:1233
+#: ../src/e-util/e-html-editor-actions.c:1237
 msgid "Re_place…"
 msgstr "_Vervangen…"
 
-#: ../src/e-util/e-html-editor-actions.c:1235
+#: ../src/e-util/e-html-editor-actions.c:1239
 msgid "Search for and replace text"
 msgstr "Tekst zoeken en vervangen"
 
-#: ../src/e-util/e-html-editor-actions.c:1240
+#: ../src/e-util/e-html-editor-actions.c:1244
 msgid "Check _Spelling…"
 msgstr "_Spelling controleren…"
 
-#: ../src/e-util/e-html-editor-actions.c:1247
+#: ../src/e-util/e-html-editor-actions.c:1251
 msgid "_Decrease Indent"
 msgstr "Indentatie ver_kleinen"
 
-#: ../src/e-util/e-html-editor-actions.c:1249
+#: ../src/e-util/e-html-editor-actions.c:1253
 msgid "Decrease Indent"
 msgstr "Indentatie verkleinen"
 
-#: ../src/e-util/e-html-editor-actions.c:1254
+#: ../src/e-util/e-html-editor-actions.c:1258
 msgid "_Wrap Lines"
 msgstr "_Tekstomloop"
 
 #. Center
-#: ../src/e-util/e-html-editor-actions.c:1264
+#: ../src/e-util/e-html-editor-actions.c:1268
 #: ../src/e-util/e-html-editor-paragraph-dialog.c:109
 msgid "_Center"
 msgstr "_Midden"
 
-#: ../src/e-util/e-html-editor-actions.c:1266
+#: ../src/e-util/e-html-editor-actions.c:1270
 msgid "Center Alignment"
 msgstr "Uitlijning in het midden"
 
 #. Justified
-#: ../src/e-util/e-html-editor-actions.c:1271
+#: ../src/e-util/e-html-editor-actions.c:1275
 #: ../src/e-util/e-html-editor-paragraph-dialog.c:127
 msgid "_Justified"
 msgstr "_Uitgevuld"
 
-#: ../src/e-util/e-html-editor-actions.c:1273
+#: ../src/e-util/e-html-editor-actions.c:1277
 msgid "Align Justified"
 msgstr "Uitgevulde uitlijning"
 
 #. Left
-#: ../src/e-util/e-html-editor-actions.c:1278
+#: ../src/e-util/e-html-editor-actions.c:1282
 #: ../src/e-util/e-html-editor-paragraph-dialog.c:100
 msgid "_Left"
 msgstr "_Links"
 
-#: ../src/e-util/e-html-editor-actions.c:1280
+#: ../src/e-util/e-html-editor-actions.c:1284
 msgid "Left Alignment"
 msgstr "Uitlijning links"
 
 #. Right
-#: ../src/e-util/e-html-editor-actions.c:1285
+#: ../src/e-util/e-html-editor-actions.c:1289
 #: ../src/e-util/e-html-editor-paragraph-dialog.c:118
 msgid "_Right"
 msgstr "_Rechts"
 
-#: ../src/e-util/e-html-editor-actions.c:1287
+#: ../src/e-util/e-html-editor-actions.c:1291
 msgid "Right Alignment"
 msgstr "Uitlijning rechts"
 
-#: ../src/e-util/e-html-editor-actions.c:1295
+#: ../src/e-util/e-html-editor-actions.c:1299
 #: ../src/modules/text-highlight/languages.c:70
 msgid "_HTML"
 msgstr "_HTML"
 
-#: ../src/e-util/e-html-editor-actions.c:1297
+#: ../src/e-util/e-html-editor-actions.c:1301
 msgid "HTML editing mode"
 msgstr "HTML-bewerkmodus"
 
 # modus weglaten?
-#: ../src/e-util/e-html-editor-actions.c:1302
+#: ../src/e-util/e-html-editor-actions.c:1306
 msgid "Plain _Text"
 msgstr "Platte _tekst"
 
 # modus weglaten?
-#: ../src/e-util/e-html-editor-actions.c:1304
+#: ../src/e-util/e-html-editor-actions.c:1308
 msgid "Plain text editing mode"
 msgstr "Plattetekst-bewerkmodus"
 
-#: ../src/e-util/e-html-editor-actions.c:1312
+#: ../src/e-util/e-html-editor-actions.c:1316
 msgid "_Normal"
 msgstr "_Normaal"
 
-#: ../src/e-util/e-html-editor-actions.c:1319
+#: ../src/e-util/e-html-editor-actions.c:1323
 msgid "Heading _1"
 msgstr "Kop _1"
 
-#: ../src/e-util/e-html-editor-actions.c:1326
+#: ../src/e-util/e-html-editor-actions.c:1330
 msgid "Heading _2"
 msgstr "Kop _2"
 
-#: ../src/e-util/e-html-editor-actions.c:1333
+#: ../src/e-util/e-html-editor-actions.c:1337
 msgid "Heading _3"
 msgstr "Kop _3"
 
-#: ../src/e-util/e-html-editor-actions.c:1340
+#: ../src/e-util/e-html-editor-actions.c:1344
 msgid "Heading _4"
 msgstr "Kop _4"
 
-#: ../src/e-util/e-html-editor-actions.c:1347
+#: ../src/e-util/e-html-editor-actions.c:1351
 msgid "Heading _5"
 msgstr "Kop _5"
 
-#: ../src/e-util/e-html-editor-actions.c:1354
+#: ../src/e-util/e-html-editor-actions.c:1358
 msgid "Heading _6"
 msgstr "Kop _6"
 
 # view/hide = tonen/verbergen
-#: ../src/e-util/e-html-editor-actions.c:1361
+#: ../src/e-util/e-html-editor-actions.c:1365
 msgid "_Preformatted"
 msgstr "Voorge_formatteerd"
 
-#: ../src/e-util/e-html-editor-actions.c:1368
+#: ../src/e-util/e-html-editor-actions.c:1372
 msgid "A_ddress"
 msgstr "A_dres"
 
-#: ../src/e-util/e-html-editor-actions.c:1375
+#: ../src/e-util/e-html-editor-actions.c:1379
 msgid "_Bulleted List"
 msgstr "_Puntenlijst"
 
-#: ../src/e-util/e-html-editor-actions.c:1382
+#: ../src/e-util/e-html-editor-actions.c:1386
 msgid "_Roman Numeral List"
 msgstr "_Romeinse genummerde lijst"
 
-#: ../src/e-util/e-html-editor-actions.c:1389
+#: ../src/e-util/e-html-editor-actions.c:1393
 msgid "Numbered _List"
 msgstr "Genummerde _lijst"
 
-#: ../src/e-util/e-html-editor-actions.c:1396
+#: ../src/e-util/e-html-editor-actions.c:1400
 msgid "_Alphabetical List"
 msgstr "_Alfabetische lijst"
 
 # plaatje/foto/afbeelding
-#: ../src/e-util/e-html-editor-actions.c:1412
-#: ../src/e-util/e-html-editor-actions.c:1450
+#: ../src/e-util/e-html-editor-actions.c:1416
+#: ../src/e-util/e-html-editor-actions.c:1454
 msgid "_Image…"
 msgstr "Afbeeld_ing…"
 
 #. Translators: This is an action tooltip
-#: ../src/e-util/e-html-editor-actions.c:1415
+#: ../src/e-util/e-html-editor-actions.c:1419
 msgid "Insert Image"
 msgstr "Afbeelding invoegen"
 
-#: ../src/e-util/e-html-editor-actions.c:1420
-#: ../src/e-util/e-html-editor-actions.c:1457
+#: ../src/e-util/e-html-editor-actions.c:1424
+#: ../src/e-util/e-html-editor-actions.c:1461
 msgid "_Link…"
 msgstr "Koppe_ling…"
 
-#: ../src/e-util/e-html-editor-actions.c:1422
+#: ../src/e-util/e-html-editor-actions.c:1426
 msgid "Insert Link"
 msgstr "Koppeling invoegen"
 
 #. Translators: 'Rule' here means a horizontal line in an HTML text
-#: ../src/e-util/e-html-editor-actions.c:1428
-#: ../src/e-util/e-html-editor-actions.c:1472
+#: ../src/e-util/e-html-editor-actions.c:1432
+#: ../src/e-util/e-html-editor-actions.c:1476
 msgid "_Rule…"
 msgstr "_Regel…"
 
 #. Translators: 'Rule' here means a horizontal line in an HTML text
-#: ../src/e-util/e-html-editor-actions.c:1431
+#: ../src/e-util/e-html-editor-actions.c:1435
 msgid "Insert Rule"
 msgstr "Regel invoegen"
 
-#: ../src/e-util/e-html-editor-actions.c:1436
-#: ../src/e-util/e-html-editor-actions.c:1479
+#: ../src/e-util/e-html-editor-actions.c:1440
+#: ../src/e-util/e-html-editor-actions.c:1483
 msgid "_Table…"
 msgstr "_Tabel…"
 
-#: ../src/e-util/e-html-editor-actions.c:1438
+#: ../src/e-util/e-html-editor-actions.c:1442
 msgid "Insert Table"
 msgstr "Tabel invoegen"
 
-#: ../src/e-util/e-html-editor-actions.c:1443
+#: ../src/e-util/e-html-editor-actions.c:1447
 msgid "_Cell…"
 msgstr "_Cel…"
 
-#: ../src/e-util/e-html-editor-actions.c:1464
+#: ../src/e-util/e-html-editor-actions.c:1468
 msgid "Pa_ge…"
 msgstr "Pa_gina…"
 
-#: ../src/e-util/e-html-editor-actions.c:1488
+#: ../src/e-util/e-html-editor-actions.c:1492
 msgid "Font _Size"
 msgstr "Letter_grootte"
 
-#: ../src/e-util/e-html-editor-actions.c:1495
+#: ../src/e-util/e-html-editor-actions.c:1499
 msgid "_Font Style"
 msgstr "_Lettertypestijl"
 
-#: ../src/e-util/e-html-editor-actions.c:1502
+#: ../src/e-util/e-html-editor-actions.c:1506
 msgid "Paste As _Text"
 msgstr "Plakken als _tekst"
 
-#: ../src/e-util/e-html-editor-actions.c:1513
+#: ../src/e-util/e-html-editor-actions.c:1517
 #: ../src/e-util/e-html-editor-text-dialog.c:201
 msgid "_Bold"
 msgstr "_Vet"
 
-#: ../src/e-util/e-html-editor-actions.c:1515
+#: ../src/e-util/e-html-editor-actions.c:1519
 msgid "Bold"
 msgstr "Vet"
 
-#: ../src/e-util/e-html-editor-actions.c:1521
+#: ../src/e-util/e-html-editor-actions.c:1525
 #: ../src/e-util/e-html-editor-text-dialog.c:212
 msgid "_Italic"
 msgstr "Curs_ief"
 
-#: ../src/e-util/e-html-editor-actions.c:1523
+#: ../src/e-util/e-html-editor-actions.c:1527
 msgid "Italic"
 msgstr "Cursief"
 
-#: ../src/e-util/e-html-editor-actions.c:1529
+#: ../src/e-util/e-html-editor-actions.c:1533
 #: ../src/e-util/e-html-editor-text-dialog.c:233
 msgid "_Strikethrough"
 msgstr "_Doorgehaald"
 
-#: ../src/e-util/e-html-editor-actions.c:1531
+#: ../src/e-util/e-html-editor-actions.c:1535
 msgid "Strikethrough"
 msgstr "Doorgehaald"
 
-#: ../src/e-util/e-html-editor-actions.c:1537
+#: ../src/e-util/e-html-editor-actions.c:1541
 msgid "Subs_cript"
 msgstr "Subs_cript"
 
-#: ../src/e-util/e-html-editor-actions.c:1539
+#: ../src/e-util/e-html-editor-actions.c:1543
 msgid "Subscript"
 msgstr "Subscript"
 
-#: ../src/e-util/e-html-editor-actions.c:1545
+#: ../src/e-util/e-html-editor-actions.c:1549
 msgid "Su_perscript"
 msgstr "Su_perscript"
 
-#: ../src/e-util/e-html-editor-actions.c:1547
+#: ../src/e-util/e-html-editor-actions.c:1551
 msgid "Superscript"
 msgstr "Superscript"
 
-#: ../src/e-util/e-html-editor-actions.c:1553
+#: ../src/e-util/e-html-editor-actions.c:1557
 #: ../src/e-util/e-html-editor-text-dialog.c:223
 msgid "_Underline"
 msgstr "_Onderstrepen"
 
-#: ../src/e-util/e-html-editor-actions.c:1555
+#: ../src/e-util/e-html-editor-actions.c:1559
 msgid "Underline"
 msgstr "Onderstrepen"
 
 #. Translators: This is a font size level. It is shown on a tool bar. Please keep it as short as possible.
-#: ../src/e-util/e-html-editor-actions.c:1565
+#: ../src/e-util/e-html-editor-actions.c:1569
 msgid "-2"
 msgstr "-2"
 
 #. Translators: This is a font size level. It is shown on a tool bar. Please keep it as short as possible.
-#: ../src/e-util/e-html-editor-actions.c:1573
+#: ../src/e-util/e-html-editor-actions.c:1577
 msgid "-1"
 msgstr "-1"
 
 #. Translators: This is a font size level. It is shown on a tool bar. Please keep it as short as possible.
-#: ../src/e-util/e-html-editor-actions.c:1581
+#: ../src/e-util/e-html-editor-actions.c:1585
 msgid "+0"
 msgstr "+0"
 
 #. Translators: This is a font size level. It is shown on a tool bar. Please keep it as short as possible.
-#: ../src/e-util/e-html-editor-actions.c:1589
+#: ../src/e-util/e-html-editor-actions.c:1593
 msgid "+1"
 msgstr "+1"
 
 #. Translators: This is a font size level. It is shown on a tool bar. Please keep it as short as possible.
-#: ../src/e-util/e-html-editor-actions.c:1597
+#: ../src/e-util/e-html-editor-actions.c:1601
 msgid "+2"
 msgstr "+2"
 
 #. Translators: This is a font size level. It is shown on a tool bar. Please keep it as short as possible.
-#: ../src/e-util/e-html-editor-actions.c:1605
+#: ../src/e-util/e-html-editor-actions.c:1609
 msgid "+3"
 msgstr "+3"
 
 #. Translators: This is a font size level. It is shown on a tool bar. Please keep it as short as possible.
-#: ../src/e-util/e-html-editor-actions.c:1613
+#: ../src/e-util/e-html-editor-actions.c:1617
 msgid "+4"
 msgstr "+4"
 
-#: ../src/e-util/e-html-editor-actions.c:1632
+#: ../src/e-util/e-html-editor-actions.c:1636
 msgid "Cell Contents"
 msgstr "Celinhoud"
 
-#: ../src/e-util/e-html-editor-actions.c:1639
+#: ../src/e-util/e-html-editor-actions.c:1643
 msgid "Column"
 msgstr "Kolom"
 
-#: ../src/e-util/e-html-editor-actions.c:1646
+#: ../src/e-util/e-html-editor-actions.c:1650
 msgid "Row"
 msgstr "Rij"
 
-#: ../src/e-util/e-html-editor-actions.c:1653
+#: ../src/e-util/e-html-editor-actions.c:1657
 msgid "Table"
 msgstr "Tabel"
 
 #. Translators: Popup menu item caption, containing all the Delete options for a table
-#: ../src/e-util/e-html-editor-actions.c:1663
+#: ../src/e-util/e-html-editor-actions.c:1667
 msgid "Table Delete"
 msgstr "Verwijderen uit tabel"
 
 #. Translators: Popup menu item caption, containing all the Insert options for a table
-#: ../src/e-util/e-html-editor-actions.c:1671
+#: ../src/e-util/e-html-editor-actions.c:1675
 msgid "Table Insert"
 msgstr "Invoegen in tabel"
 
-#: ../src/e-util/e-html-editor-actions.c:1678
+#: ../src/e-util/e-html-editor-actions.c:1682
 msgid "Properties"
 msgstr "Eigenschappen"
 
-#: ../src/e-util/e-html-editor-actions.c:1696
+#: ../src/e-util/e-html-editor-actions.c:1700
 msgid "Column After"
 msgstr "Volgende kolom"
 
-#: ../src/e-util/e-html-editor-actions.c:1703
+#: ../src/e-util/e-html-editor-actions.c:1707
 msgid "Column Before"
 msgstr "Vorige kolom"
 
-#: ../src/e-util/e-html-editor-actions.c:1710
+#: ../src/e-util/e-html-editor-actions.c:1714
 msgid "Insert _Link"
 msgstr "Koppe_ling invoegen"
 
-#: ../src/e-util/e-html-editor-actions.c:1717
+#: ../src/e-util/e-html-editor-actions.c:1721
 msgid "Row Above"
 msgstr "Bovenliggende rij"
 
-#: ../src/e-util/e-html-editor-actions.c:1724
+#: ../src/e-util/e-html-editor-actions.c:1728
 msgid "Row Below"
 msgstr "Onderliggende rij"
 
-#: ../src/e-util/e-html-editor-actions.c:1731
+#: ../src/e-util/e-html-editor-actions.c:1735
 msgid "Cell…"
 msgstr "Cel…"
 
 # plaatje/foto/afbeelding
-#: ../src/e-util/e-html-editor-actions.c:1738
+#: ../src/e-util/e-html-editor-actions.c:1742
 msgid "Image…"
 msgstr "Afbeelding…"
 
-#: ../src/e-util/e-html-editor-actions.c:1745
+#: ../src/e-util/e-html-editor-actions.c:1749
 msgid "Link…"
 msgstr "Koppeling…"
 
-#: ../src/e-util/e-html-editor-actions.c:1752
+#: ../src/e-util/e-html-editor-actions.c:1756
 msgid "Page…"
 msgstr "Pagina…"
 
-#: ../src/e-util/e-html-editor-actions.c:1759
+#: ../src/e-util/e-html-editor-actions.c:1763
 msgid "Paragraph…"
 msgstr "Alinea…"
 
 #. Translators: 'Rule' here means a horizontal line in an HTML text
-#: ../src/e-util/e-html-editor-actions.c:1767
+#: ../src/e-util/e-html-editor-actions.c:1771
 msgid "Rule…"
 msgstr "Regel…"
 
-#: ../src/e-util/e-html-editor-actions.c:1774
+#: ../src/e-util/e-html-editor-actions.c:1778
 msgid "Table…"
 msgstr "Tabel…"
 
-#: ../src/e-util/e-html-editor-actions.c:1781
+#: ../src/e-util/e-html-editor-actions.c:1785
 msgid "Text…"
 msgstr "Tekst…"
 
-#: ../src/e-util/e-html-editor-actions.c:1788
+#: ../src/e-util/e-html-editor-actions.c:1792
 msgid "Remove Link"
 msgstr "Koppeling verwijderen"
 
-#: ../src/e-util/e-html-editor-actions.c:1805
+#: ../src/e-util/e-html-editor-actions.c:1809
 msgid "Add Word to Dictionary"
 msgstr "Woord toevoegen aan woordenboek"
 
-#: ../src/e-util/e-html-editor-actions.c:1812
+#: ../src/e-util/e-html-editor-actions.c:1816
 msgid "Ignore Misspelled Word"
 msgstr "Verkeerd gespeld woord negeren"
 
-#: ../src/e-util/e-html-editor-actions.c:1819
+#: ../src/e-util/e-html-editor-actions.c:1823
 msgid "Add Word To"
 msgstr "Woord toevoegen aan"
 
-#: ../src/e-util/e-html-editor-actions.c:1828
+#: ../src/e-util/e-html-editor-actions.c:1832
 msgid "More Suggestions"
 msgstr "Meer suggesties"
 
 #. Translators: %s will be replaced with the actual dictionary
 #. * name, where a user can add a word to. This is part of an
 #. * "Add Word To" submenu.
-#: ../src/e-util/e-html-editor-actions.c:2063
+#: ../src/e-util/e-html-editor-actions.c:2067
 #, c-format
 msgid "%s Dictionary"
 msgstr "%s woordenboek"
 
-#: ../src/e-util/e-html-editor-actions.c:2140
+#: ../src/e-util/e-html-editor-actions.c:2144
 msgid "_Emoticon"
 msgstr "_Emoticon"
 
-#: ../src/e-util/e-html-editor-actions.c:2141
+#: ../src/e-util/e-html-editor-actions.c:2145
 msgid "Insert Emoticon"
 msgstr "Smiley invoegen"
 
-#: ../src/e-util/e-html-editor-actions.c:2209
+#: ../src/e-util/e-html-editor-actions.c:2213
 msgid "Re_place"
 msgstr "_Vervangen"
 
 # plaatje/foto/afbeelding
-#: ../src/e-util/e-html-editor-actions.c:2215
+#: ../src/e-util/e-html-editor-actions.c:2219
 msgid "_Image"
 msgstr "_Afbeelding"
 
-#: ../src/e-util/e-html-editor-actions.c:2218
+#: ../src/e-util/e-html-editor-actions.c:2222
 msgid "_Link"
 msgstr "Koppe_ling"
 
 #. Translators: 'Rule' here means a horizontal line in an HTML text
-#: ../src/e-util/e-html-editor-actions.c:2222
+#: ../src/e-util/e-html-editor-actions.c:2226
 msgid "_Rule"
 msgstr "_Regel"
 
-#: ../src/e-util/e-html-editor-actions.c:2225
+#: ../src/e-util/e-html-editor-actions.c:2229
 #: ../src/e-util/e-html-editor-cell-dialog.c:448
 msgid "_Table"
 msgstr "_Tabel"
@@ -15583,11 +15583,11 @@ msgstr "dagen"
 msgid "Autogenerated"
 msgstr "Automatisch gegenereerd"
 
-#: ../src/e-util/e-mail-signature-editor.c:321 ../src/mail/e-mail-notes.c:1017
+#: ../src/e-util/e-mail-signature-editor.c:321 ../src/mail/e-mail-notes.c:1019
 msgid "Close"
 msgstr "Sluiten"
 
-#: ../src/e-util/e-mail-signature-editor.c:326 ../src/mail/e-mail-notes.c:1022
+#: ../src/e-util/e-mail-signature-editor.c:326 ../src/mail/e-mail-notes.c:1024
 msgid "_Save and Close"
 msgstr "Op_slaan en sluiten"
 
@@ -16070,13 +16070,13 @@ msgstr "Verzendopties"
 msgid "R_eply requested"
 msgstr "_Antwoord verwacht"
 
-#. Translators: This is part of 'Within [ X ] days', where [ X ] is a spinner with a number
+#. Translators: This is part of
 #: ../src/e-util/e-send-options.ui.h:20
 msgctxt "ESendOptionsWithin"
 msgid "Wi_thin"
 msgstr "_Binnen"
 
-#. Translators: This is part of 'Within [ X ] days', where [ X ] is a spinner with a number
+#. Translators: This is part of
 #: ../src/e-util/e-send-options.ui.h:22
 msgctxt "ESendOptionsWithin"
 msgid "days"
@@ -16091,13 +16091,13 @@ msgstr "_Wanneer het uitkomt"
 msgid "_Delay message delivery"
 msgstr "Bezorging ver_tragen"
 
-#. Translators: This is part of 'After [ X ] days', where [ X ] is a spinner with a number
+#. Translators: This is part of
 #: ../src/e-util/e-send-options.ui.h:28
 msgctxt "ESendOptionsAfter"
 msgid "_After"
 msgstr "_Na"
 
-#. Translators: This is part of 'After [ X ] days', where [ X ] is a spinner with a number
+#. Translators: This is part of
 #: ../src/e-util/e-send-options.ui.h:30
 msgctxt "ESendOptionsAfter"
 msgid "days"
@@ -16107,7 +16107,7 @@ msgstr "dagen"
 msgid "_Set expiration date"
 msgstr "Verloo_pdatum instellen"
 
-#. Translators: This is part of 'Until [ date ]', where [ date ] is a date picker
+#. Translators: This is part of
 #: ../src/e-util/e-send-options.ui.h:33
 msgctxt "ESendOptions"
 msgid "_Until"
@@ -16853,13 +16853,13 @@ msgid "Save the image to a file"
 msgstr "De afbeelding opslaan in een bestand"
 
 #: ../src/e-util/e-web-view.c:474 ../src/mail/e-mail-browser.c:201
-#: ../src/mail/e-mail-reader.c:2836
+#: ../src/mail/e-mail-reader.c:2846
 msgid "Search _Web…"
 msgstr "_Web doorzoeken…"
 
 # geadresseerden
 #: ../src/e-util/e-web-view.c:476 ../src/mail/e-mail-browser.c:203
-#: ../src/mail/e-mail-reader.c:2838
+#: ../src/mail/e-mail-reader.c:2848
 msgid "Search the Web with the selected text"
 msgstr "De geselecteerde tekst zoeken op het web"
 
@@ -16867,20 +16867,20 @@ msgstr "De geselecteerde tekst zoeken op het web"
 msgid "Select all text and images"
 msgstr "De gehele tekst en afbeeldingen selecteren"
 
-#: ../src/e-util/e-web-view.c:3804
+#: ../src/e-util/e-web-view.c:3806
 msgid "Copying image to clipboard"
 msgstr "De afbeelding wordt naar het klembord gekopieerd"
 
-#: ../src/e-util/e-web-view.c:3992
+#: ../src/e-util/e-web-view.c:3994
 msgid "Save Image"
 msgstr "Afbeelding opslaan"
 
-#: ../src/e-util/e-web-view.c:4029
+#: ../src/e-util/e-web-view.c:4031
 #, c-format
 msgid "Saving image to “%s”"
 msgstr "Afbeelding wordt opgeslagen naar ‘%s’"
 
-#: ../src/e-util/e-web-view.c:4179
+#: ../src/e-util/e-web-view.c:4181
 #, c-format
 msgid "Cannot get URI “%s”, do not know how to download it."
 msgstr "Kan URI ‘%s’ niet verkrijgen. Niet bekend hoe te downloaden."
@@ -17686,12 +17686,12 @@ msgid "Language for Reply and Forward attribution text"
 msgstr "Taal voor attributietekst voor Antwoorden en Doorsturen"
 
 #: ../src/mail/e-mail-config-composing-page.c:524
-#: ../src/mail/em-composer-utils.c:4129 ../src/mail/mail-config.ui.h:22
+#: ../src/mail/em-composer-utils.c:4126 ../src/mail/mail-config.ui.h:22
 msgid "Start _typing at the bottom"
 msgstr "_Onderaan beginnen met typen"
 
 #: ../src/mail/e-mail-config-composing-page.c:531
-#: ../src/mail/em-composer-utils.c:4132 ../src/mail/mail-config.ui.h:23
+#: ../src/mail/em-composer-utils.c:4129 ../src/mail/mail-config.ui.h:23
 msgid "_Keep signature above the original message"
 msgstr "_Handtekening boven oorspronkelijke bericht"
 
@@ -17738,72 +17738,72 @@ msgstr "Klaar"
 msgid "Checking server settings…"
 msgstr "Serverinstellingen controleren…"
 
-#: ../src/mail/e-mail-config-defaults-page.c:663
+#: ../src/mail/e-mail-config-defaults-page.c:662
 msgid "Special Folders"
 msgstr "Speciale mappen"
 
-#: ../src/mail/e-mail-config-defaults-page.c:672
+#: ../src/mail/e-mail-config-defaults-page.c:671
 msgid "Draft Messages _Folder:"
 msgstr "Concepten_map:"
 
-#: ../src/mail/e-mail-config-defaults-page.c:682
+#: ../src/mail/e-mail-config-defaults-page.c:681
 msgid "Choose a folder for saving draft messages."
 msgstr "Een map kiezen waarin concepten bewaard moeten worden."
 
-#: ../src/mail/e-mail-config-defaults-page.c:698
+#: ../src/mail/e-mail-config-defaults-page.c:697
 msgid "Sent _Messages Folder:"
 msgstr "_Verzonden berichtenmap:"
 
-#: ../src/mail/e-mail-config-defaults-page.c:726
+#: ../src/mail/e-mail-config-defaults-page.c:725
 msgid "Choose a folder for saving sent messages."
 msgstr "Een map kiezen waarin verzonden berichten bewaard moet worden."
 
-#: ../src/mail/e-mail-config-defaults-page.c:752
+#: ../src/mail/e-mail-config-defaults-page.c:751
 msgid "S_ave replies in the folder of the message being replied to"
 msgstr "Antwoorden _opslaan in de map met het bericht dat beantwoord wordt"
 
-#: ../src/mail/e-mail-config-defaults-page.c:775
+#: ../src/mail/e-mail-config-defaults-page.c:774
 msgid "Archi_ve Folder:"
 msgstr "Archie_fmap:"
 
-#: ../src/mail/e-mail-config-defaults-page.c:785
+#: ../src/mail/e-mail-config-defaults-page.c:784
 #: ../src/modules/mail/em-mailer-prefs.c:1517
 msgid "Choose a folder to archive messages to."
 msgstr "Kies een map waar berichten moeten worden gearchiveerd."
 
-#: ../src/mail/e-mail-config-defaults-page.c:800
+#: ../src/mail/e-mail-config-defaults-page.c:799
 msgid "_Templates Folder:"
 msgstr "_Sjabloonmap:"
 
-#: ../src/mail/e-mail-config-defaults-page.c:810
+#: ../src/mail/e-mail-config-defaults-page.c:809
 msgid "Choose a folder to use for template messages."
 msgstr "Een map kiezen waarin berichtsjablonen bewaard moeten worden."
 
-#: ../src/mail/e-mail-config-defaults-page.c:832
+#: ../src/mail/e-mail-config-defaults-page.c:827
 msgid "_Restore Defaults"
 msgstr "_Standaardinstellingen herstellen"
 
-#: ../src/mail/e-mail-config-defaults-page.c:849
+#: ../src/mail/e-mail-config-defaults-page.c:844
 msgid "_Lookup Folders"
 msgstr "Op_zoekmappen"
 
-#: ../src/mail/e-mail-config-defaults-page.c:867
+#: ../src/mail/e-mail-config-defaults-page.c:862
 msgid "Use a Real Folder for _Trash:"
 msgstr "Een echte map gebruiken voor de _Prullenbak:"
 
-#: ../src/mail/e-mail-config-defaults-page.c:868
+#: ../src/mail/e-mail-config-defaults-page.c:863
 msgid "Choose a folder for deleted messages."
 msgstr "Een map kiezen waarin verwijderde berichten bewaard moeten worden."
 
-#: ../src/mail/e-mail-config-defaults-page.c:877
+#: ../src/mail/e-mail-config-defaults-page.c:872
 msgid "Use a Real Folder for _Junk:"
 msgstr "Een echte map gebruiken voor _spam:"
 
-#: ../src/mail/e-mail-config-defaults-page.c:878
+#: ../src/mail/e-mail-config-defaults-page.c:873
 msgid "Choose a folder for junk messages."
 msgstr "Een map kiezen waarin spamberichten bewaard moeten worden."
 
-#: ../src/mail/e-mail-config-defaults-page.c:996
+#: ../src/mail/e-mail-config-defaults-page.c:991
 msgid "Defaults"
 msgstr "Standaardinstellingen"
 
@@ -18294,7 +18294,7 @@ msgstr "_Te doen"
 msgid "_Later"
 msgstr "_Later"
 
-#: ../src/mail/e-mail-label-manager.c:153 ../src/mail/e-mail-reader.c:914
+#: ../src/mail/e-mail-label-manager.c:153 ../src/mail/e-mail-reader.c:913
 #: ../src/mail/em-folder-properties.c:1170
 msgid "Add Label"
 msgstr "Label toevoegen"
@@ -18317,7 +18317,7 @@ msgstr ""
 msgid "Color"
 msgstr "Kleur"
 
-#: ../src/mail/e-mail-notes.c:322 ../src/mail/e-mail-notes.c:725
+#: ../src/mail/e-mail-notes.c:322 ../src/mail/e-mail-notes.c:727
 msgid "Message Note"
 msgstr "Berichtnotitie"
 
@@ -18325,19 +18325,19 @@ msgstr "Berichtnotitie"
 msgid "Cannot find message in its folder summary"
 msgstr "Kan bericht niet vinden in zijn mapsamenvatting"
 
-#: ../src/mail/e-mail-notes.c:870
+#: ../src/mail/e-mail-notes.c:872
 msgid "Failed to convert text to message"
 msgstr "Omzetten van tekst naar bericht mislukt"
 
-#: ../src/mail/e-mail-notes.c:884 ../src/mail/e-mail-notes.c:909
+#: ../src/mail/e-mail-notes.c:886 ../src/mail/e-mail-notes.c:911
 msgid "Storing changes…"
 msgstr "Wijzigingen opslaan…"
 
-#: ../src/mail/e-mail-notes.c:1052
+#: ../src/mail/e-mail-notes.c:1054
 msgid "Edit Message Note"
 msgstr "Berichtnotitie bewerken"
 
-#: ../src/mail/e-mail-notes.c:1207
+#: ../src/mail/e-mail-notes.c:1209
 msgid "Retrieving message…"
 msgstr "Bericht ophalen…"
 
@@ -18402,674 +18402,674 @@ msgstr "_Kopiëren"
 msgid "Deleting message note…"
 msgstr "Verwijderen van berichtnotitie…"
 
-#: ../src/mail/e-mail-reader.c:1618 ../src/mail/e-mail-reader.c:1910
-#: ../src/mail/e-mail-reader.c:1950
+#: ../src/mail/e-mail-reader.c:1625 ../src/mail/e-mail-reader.c:1917
+#: ../src/mail/e-mail-reader.c:1957
 msgid "_Do not ask me again."
 msgstr "_Niet opnieuw vragen."
 
-#: ../src/mail/e-mail-reader.c:1956
+#: ../src/mail/e-mail-reader.c:1963
 msgid "_Always ignore Reply-To: for mailing lists."
 msgstr "Antwoord naar: _altijd negeren voor mailinglijsten."
 
-#: ../src/mail/e-mail-reader.c:2160
+#: ../src/mail/e-mail-reader.c:2167
 msgid "Failed to retrieve message:"
 msgstr "Ophalen van bericht is mislukt:"
 
-#: ../src/mail/e-mail-reader.c:2206 ../src/mail/e-mail-reader.c:3707
+#: ../src/mail/e-mail-reader.c:2213 ../src/mail/e-mail-reader.c:3717
 #, c-format
 msgid "Retrieving message “%s”"
 msgstr "Ophalen van bericht ‘%s’"
 
-#: ../src/mail/e-mail-reader.c:2407
+#: ../src/mail/e-mail-reader.c:2417
 msgid "A_dd Sender to Address Book"
 msgstr "Afzender aan a_dresboek toevoegen"
 
-#: ../src/mail/e-mail-reader.c:2409
+#: ../src/mail/e-mail-reader.c:2419
 msgid "Add sender to address book"
 msgstr "Afzender aan adresboek toevoegen"
 
-#: ../src/mail/e-mail-reader.c:2414
+#: ../src/mail/e-mail-reader.c:2424
 msgid "_Archive…"
 msgstr "_Archiveren…"
 
-#: ../src/mail/e-mail-reader.c:2416
+#: ../src/mail/e-mail-reader.c:2426
 msgid "Move selected messages to the Archive folder for the account"
 msgstr "Geselecteerde berichten naar de archiefmap van dit account verplaatsen"
 
-#: ../src/mail/e-mail-reader.c:2421
+#: ../src/mail/e-mail-reader.c:2431
 msgid "Check for _Junk"
 msgstr "Controleren op _spam"
 
-#: ../src/mail/e-mail-reader.c:2423
+#: ../src/mail/e-mail-reader.c:2433
 msgid "Filter the selected messages for junk status"
 msgstr "Filter de geselecteerde berichten op spamstatus"
 
-#: ../src/mail/e-mail-reader.c:2428
+#: ../src/mail/e-mail-reader.c:2438
 msgid "Assign C_olor…"
 msgstr "Kleur t_oewijzen…"
 
-#: ../src/mail/e-mail-reader.c:2430
+#: ../src/mail/e-mail-reader.c:2440
 msgid "Assign color for the selected messages"
 msgstr "Kleur toewijzen aan de geselecteerde berichten"
 
-#: ../src/mail/e-mail-reader.c:2435
+#: ../src/mail/e-mail-reader.c:2445
 msgid "Unse_t Color"
 msgstr "Kleur ui_tzetten"
 
-#: ../src/mail/e-mail-reader.c:2437
+#: ../src/mail/e-mail-reader.c:2447
 msgid "Unset color for the selected messages"
 msgstr "Kleur verwijderen van de geselecteerde berichten"
 
-#: ../src/mail/e-mail-reader.c:2442
+#: ../src/mail/e-mail-reader.c:2452
 msgid "_Copy to Folder…"
 msgstr "_Kopiëren naar map…"
 
-#: ../src/mail/e-mail-reader.c:2444
+#: ../src/mail/e-mail-reader.c:2454
 msgid "Copy selected messages to another folder"
 msgstr "Kopieer het bericht naar een andere map"
 
 # de _v wordt gebruikt voor _voorkeuren
-#: ../src/mail/e-mail-reader.c:2449
+#: ../src/mail/e-mail-reader.c:2459
 msgid "_Delete Message"
 msgstr "Berichten verwij_deren"
 
-#: ../src/mail/e-mail-reader.c:2451
+#: ../src/mail/e-mail-reader.c:2461
 msgid "Mark the selected messages for deletion"
 msgstr "Geselecteerde berichten om te verwijderen markeren"
 
 # bijlage toevoegen/bestand bijvoegen
-#: ../src/mail/e-mail-reader.c:2456
+#: ../src/mail/e-mail-reader.c:2466
 msgid "_Add note…"
 msgstr "Notitie _toevoegen…"
 
-#: ../src/mail/e-mail-reader.c:2458
+#: ../src/mail/e-mail-reader.c:2468
 msgid "Add a note for the selected message"
 msgstr "Een notitie toevoegen voor het geselecteerde bericht"
 
 # de _v wordt gebruikt voor _voorkeuren
-#: ../src/mail/e-mail-reader.c:2463
+#: ../src/mail/e-mail-reader.c:2473
 msgid "Delete no_te"
 msgstr "Notitie _verwijderen"
 
-#: ../src/mail/e-mail-reader.c:2465
+#: ../src/mail/e-mail-reader.c:2475
 msgid "Delete the note for the selected message"
 msgstr "De notitie verwijderen voor het geselecteerde bericht"
 
-#: ../src/mail/e-mail-reader.c:2470
+#: ../src/mail/e-mail-reader.c:2480
 msgid "_Edit note…"
 msgstr "Notitie b_ewerken…"
 
-#: ../src/mail/e-mail-reader.c:2472
+#: ../src/mail/e-mail-reader.c:2482
 msgid "Edit a note for the selected message"
 msgstr "Een notitie bewerken voor het geselecteerde bericht"
 
-#: ../src/mail/e-mail-reader.c:2477
+#: ../src/mail/e-mail-reader.c:2487
 msgid "Create a Filter Rule for Mailing _List…"
 msgstr "Filterregel voor mailing_lijst aanmaken…"
 
-#: ../src/mail/e-mail-reader.c:2479
+#: ../src/mail/e-mail-reader.c:2489
 msgid "Create a rule to filter messages to this mailing list"
 msgstr "Maak een regel om de berichten naar deze e-maillijst te filteren"
 
-#: ../src/mail/e-mail-reader.c:2484
+#: ../src/mail/e-mail-reader.c:2494
 msgid "Create a Filter Rule for _Recipients…"
 msgstr "Filterregel voor _geadresseerden aanmaken…"
 
-#: ../src/mail/e-mail-reader.c:2486
+#: ../src/mail/e-mail-reader.c:2496
 msgid "Create a rule to filter messages to these recipients"
 msgstr "Maak een regel om de berichten van deze geadresseerden te filteren"
 
-#: ../src/mail/e-mail-reader.c:2491
+#: ../src/mail/e-mail-reader.c:2501
 msgid "Create a Filter Rule for Se_nder…"
 msgstr "Filterregel voor _afzender aanmaken…"
 
-#: ../src/mail/e-mail-reader.c:2493
+#: ../src/mail/e-mail-reader.c:2503
 msgid "Create a rule to filter messages from this sender"
 msgstr "Maak een regel om de berichten van deze afzender te filteren"
 
-#: ../src/mail/e-mail-reader.c:2498
+#: ../src/mail/e-mail-reader.c:2508
 msgid "Create a Filter Rule for _Subject…"
 msgstr "Filterregel voor _onderwerp aanmaken…"
 
-#: ../src/mail/e-mail-reader.c:2500
+#: ../src/mail/e-mail-reader.c:2510
 msgid "Create a rule to filter messages with this subject"
 msgstr "Maak een regel om de berichten met dit onderwerp te filteren"
 
-#: ../src/mail/e-mail-reader.c:2505
+#: ../src/mail/e-mail-reader.c:2515
 msgid "A_pply Filters"
 msgstr "Filters _toepassen"
 
-#: ../src/mail/e-mail-reader.c:2507
+#: ../src/mail/e-mail-reader.c:2517
 msgid "Apply filter rules to the selected messages"
 msgstr "Filterregels toepassen op geselecteerde berichten"
 
-#: ../src/mail/e-mail-reader.c:2512
+#: ../src/mail/e-mail-reader.c:2522
 msgid "_Find in Message…"
 msgstr "_Zoeken in bericht…"
 
-#: ../src/mail/e-mail-reader.c:2514
+#: ../src/mail/e-mail-reader.c:2524
 msgid "Search for text in the body of the displayed message"
 msgstr "Zoek naar tekst in de inhoud van het weergegeven bericht"
 
-#: ../src/mail/e-mail-reader.c:2519
+#: ../src/mail/e-mail-reader.c:2529
 msgid "_Clear Flag"
 msgstr "Vlag _wissen"
 
-#: ../src/mail/e-mail-reader.c:2521
+#: ../src/mail/e-mail-reader.c:2531
 msgid "Remove the follow-up flag from the selected messages"
 msgstr "Verwijder de vervolgactie-vlag uit de geselecteerde berichten"
 
-#: ../src/mail/e-mail-reader.c:2526
+#: ../src/mail/e-mail-reader.c:2536
 msgid "_Flag Completed"
 msgstr "Markeren als _voltooid"
 
-#: ../src/mail/e-mail-reader.c:2528
+#: ../src/mail/e-mail-reader.c:2538
 msgid "Set the follow-up flag to completed on the selected messages"
 msgstr ""
 "Markeer de vervolgactie-vlag als voltooid voor de geselecteerde berichten"
 
-#: ../src/mail/e-mail-reader.c:2533
+#: ../src/mail/e-mail-reader.c:2543
 msgid "Follow _Up…"
 msgstr "_Antwoord…"
 
-#: ../src/mail/e-mail-reader.c:2535
+#: ../src/mail/e-mail-reader.c:2545
 msgid "Flag the selected messages for follow-up"
 msgstr "Geselecteerde berichten markeren voor vervolgactie"
 
-#: ../src/mail/e-mail-reader.c:2540
+#: ../src/mail/e-mail-reader.c:2550
 #: ../src/modules/mail/e-mail-attachment-handler.c:431
 msgid "_Attached"
 msgstr "_Bijgevoegd"
 
-#: ../src/mail/e-mail-reader.c:2542 ../src/mail/e-mail-reader.c:2549
+#: ../src/mail/e-mail-reader.c:2552 ../src/mail/e-mail-reader.c:2559
 #: ../src/modules/mail/e-mail-attachment-handler.c:433
 msgid "Forward the selected message to someone as an attachment"
 msgstr "Het bericht als bijlage naar iemand doorsturen"
 
-#: ../src/mail/e-mail-reader.c:2547
+#: ../src/mail/e-mail-reader.c:2557
 msgid "Forward As _Attached"
 msgstr "Doorsturen als _Bijgevoegd"
 
-#: ../src/mail/e-mail-reader.c:2554
+#: ../src/mail/e-mail-reader.c:2564
 #: ../src/modules/mail/e-mail-attachment-handler.c:438
 msgid "_Inline"
 msgstr "_In bericht"
 
-#: ../src/mail/e-mail-reader.c:2556 ../src/mail/e-mail-reader.c:2563
+#: ../src/mail/e-mail-reader.c:2566 ../src/mail/e-mail-reader.c:2573
 #: ../src/modules/mail/e-mail-attachment-handler.c:440
 msgid "Forward the selected message in the body of a new message"
 msgstr ""
 "Het geselecteerde bericht doorsturen in de inhoud van een nieuw bericht"
 
-#: ../src/mail/e-mail-reader.c:2561
+#: ../src/mail/e-mail-reader.c:2571
 msgid "Forward As _Inline"
 msgstr "Doorsturen als _In bericht"
 
-#: ../src/mail/e-mail-reader.c:2568
+#: ../src/mail/e-mail-reader.c:2578
 #: ../src/modules/mail/e-mail-attachment-handler.c:445
 msgid "_Quoted"
 msgstr "Ge_citeerd"
 
-#: ../src/mail/e-mail-reader.c:2570 ../src/mail/e-mail-reader.c:2577
+#: ../src/mail/e-mail-reader.c:2580 ../src/mail/e-mail-reader.c:2587
 #: ../src/modules/mail/e-mail-attachment-handler.c:447
 msgid "Forward the selected message quoted like a reply"
 msgstr "Het bericht geciteerd doorsturen alsof het een antwoord is"
 
-#: ../src/mail/e-mail-reader.c:2575
+#: ../src/mail/e-mail-reader.c:2585
 msgid "Forward As _Quoted"
 msgstr "Doorsturen als Ge_citeerd"
 
-#: ../src/mail/e-mail-reader.c:2582
+#: ../src/mail/e-mail-reader.c:2592
 msgid "_New Label"
 msgstr "_Nieuw label"
 
 #. Translators: "None" is used in the message label context menu.
 #. *              It removes all labels from the selected messages.
-#: ../src/mail/e-mail-reader.c:2591
+#: ../src/mail/e-mail-reader.c:2601
 msgid "N_one"
 msgstr "_Geen"
 
-#: ../src/mail/e-mail-reader.c:2598
+#: ../src/mail/e-mail-reader.c:2608
 msgid "_Load Images"
 msgstr "_Afbeeldingen laden"
 
-#: ../src/mail/e-mail-reader.c:2600
+#: ../src/mail/e-mail-reader.c:2610
 msgid "Force images in HTML mail to be loaded"
 msgstr "Afbeeldingen in HTML-berichten altijd laden"
 
-#: ../src/mail/e-mail-reader.c:2605 ../src/mail/e-mail-reader.c:3031
+#: ../src/mail/e-mail-reader.c:2615 ../src/mail/e-mail-reader.c:3041
 msgid "_Ignore Subthread"
 msgstr "Subconversat_ie negeren"
 
-#: ../src/mail/e-mail-reader.c:2607
+#: ../src/mail/e-mail-reader.c:2617
 msgid "Mark new mails in a subthread as read automatically"
 msgstr "Nieuwe e-mails in een subconversatie automatisch markeren als gelezen"
 
-#: ../src/mail/e-mail-reader.c:2612 ../src/mail/e-mail-reader.c:3035
+#: ../src/mail/e-mail-reader.c:2622 ../src/mail/e-mail-reader.c:3045
 msgid "_Ignore Thread"
 msgstr "_Conversatie negeren"
 
-#: ../src/mail/e-mail-reader.c:2614
+#: ../src/mail/e-mail-reader.c:2624
 msgid "Mark new mails in this thread as read automatically"
 msgstr "Nieuwe e-mails in deze conversatie markeren als gelezen"
 
-#: ../src/mail/e-mail-reader.c:2619
+#: ../src/mail/e-mail-reader.c:2629
 msgid "_Important"
 msgstr "_Belangrijk"
 
-#: ../src/mail/e-mail-reader.c:2621
+#: ../src/mail/e-mail-reader.c:2631
 msgid "Mark the selected messages as important"
 msgstr "Geselecteerde berichten als belangrijk markeren"
 
-#: ../src/mail/e-mail-reader.c:2626
+#: ../src/mail/e-mail-reader.c:2636
 msgid "_Junk"
 msgstr "_Spam"
 
-#: ../src/mail/e-mail-reader.c:2628
+#: ../src/mail/e-mail-reader.c:2638
 msgid "Mark the selected messages as junk"
 msgstr "Geselecteerde berichten als spam markeren"
 
-#: ../src/mail/e-mail-reader.c:2633
+#: ../src/mail/e-mail-reader.c:2643
 msgid "_Not Junk"
 msgstr "_Geen spam"
 
-#: ../src/mail/e-mail-reader.c:2635
+#: ../src/mail/e-mail-reader.c:2645
 msgid "Mark the selected messages as not being junk"
 msgstr "Geselecteerde berichten als geen-spam markeren"
 
-#: ../src/mail/e-mail-reader.c:2640
+#: ../src/mail/e-mail-reader.c:2650
 msgid "_Read"
 msgstr "_Gelezen"
 
-#: ../src/mail/e-mail-reader.c:2642
+#: ../src/mail/e-mail-reader.c:2652
 msgid "Mark the selected messages as having been read"
 msgstr "Geselecteerde berichten als gelezen markeren"
 
-#: ../src/mail/e-mail-reader.c:2647 ../src/mail/e-mail-reader.c:3055
+#: ../src/mail/e-mail-reader.c:2657 ../src/mail/e-mail-reader.c:3065
 msgid "Do not _Ignore Subthread"
 msgstr "Subconversatie n_iet negeren"
 
-#: ../src/mail/e-mail-reader.c:2649
+#: ../src/mail/e-mail-reader.c:2659
 msgid "Do not mark new mails in a subthread as read automatically"
 msgstr ""
 "Nieuwe e-mails in een subconversatie niet automatisch markeren als gelezen"
 
-#: ../src/mail/e-mail-reader.c:2654 ../src/mail/e-mail-reader.c:3059
+#: ../src/mail/e-mail-reader.c:2664 ../src/mail/e-mail-reader.c:3069
 msgid "Do not _Ignore Thread"
 msgstr "Conversatie n_iet negeren"
 
-#: ../src/mail/e-mail-reader.c:2656
+#: ../src/mail/e-mail-reader.c:2666
 msgid "Do not mark new mails in this thread as read automatically"
 msgstr ""
 "Nieuwe e-mails in deze conversatie niet automatisch markeren als gelezen"
 
-#: ../src/mail/e-mail-reader.c:2661
+#: ../src/mail/e-mail-reader.c:2671
 msgid "Uni_mportant"
 msgstr "_Niet belangrijk"
 
-#: ../src/mail/e-mail-reader.c:2663
+#: ../src/mail/e-mail-reader.c:2673
 msgid "Mark the selected messages as unimportant"
 msgstr "Geselecteerde berichten als onbelangrijk markeren"
 
-#: ../src/mail/e-mail-reader.c:2668
+#: ../src/mail/e-mail-reader.c:2678
 msgid "_Unread"
 msgstr "O_ngelezen"
 
-#: ../src/mail/e-mail-reader.c:2670
+#: ../src/mail/e-mail-reader.c:2680
 msgid "Mark the selected messages as not having been read"
 msgstr "Geselecteerde berichten als ongelezen markeren"
 
-#: ../src/mail/e-mail-reader.c:2675
+#: ../src/mail/e-mail-reader.c:2685
 #: ../src/modules/mail/e-mail-attachment-handler.c:417
 msgid "_Edit as New Message…"
 msgstr "B_ewerken als nieuw bericht…"
 
 # voor redactiewerk/om te bewerken
-#: ../src/mail/e-mail-reader.c:2677
+#: ../src/mail/e-mail-reader.c:2687
 #: ../src/modules/mail/e-mail-attachment-handler.c:419
 msgid "Open the selected messages in the composer for editing"
 msgstr "Geselecteerde berichten openen in een opstelvenster om te bewerken"
 
-#: ../src/mail/e-mail-reader.c:2682
+#: ../src/mail/e-mail-reader.c:2692
 msgid "Compose _New Message"
 msgstr "_Nieuw bericht opstellen"
 
-#: ../src/mail/e-mail-reader.c:2684
+#: ../src/mail/e-mail-reader.c:2694
 msgid "Open a window for composing a mail message"
 msgstr "Venster openen om een e-mail op te stellen"
 
-#: ../src/mail/e-mail-reader.c:2689
+#: ../src/mail/e-mail-reader.c:2699
 msgid "_Open in New Window"
 msgstr "In nieuw venster _openen"
 
-#: ../src/mail/e-mail-reader.c:2691
+#: ../src/mail/e-mail-reader.c:2701
 msgid "Open the selected messages in a new window"
 msgstr "Geselecteerde berichten openen in een nieuw venster"
 
-#: ../src/mail/e-mail-reader.c:2696
+#: ../src/mail/e-mail-reader.c:2706
 msgid "_Move to Folder…"
 msgstr "Verplaatsen naar _map…"
 
-#: ../src/mail/e-mail-reader.c:2698
+#: ../src/mail/e-mail-reader.c:2708
 msgid "Move selected messages to another folder"
 msgstr "Geselecteerde berichten verplaatsen naar een andere map"
 
-#: ../src/mail/e-mail-reader.c:2703
+#: ../src/mail/e-mail-reader.c:2713
 msgid "_Next Message"
 msgstr "V_olgende bericht"
 
-#: ../src/mail/e-mail-reader.c:2705
+#: ../src/mail/e-mail-reader.c:2715
 msgid "Display the next message"
 msgstr "Toon het volgende bericht"
 
-#: ../src/mail/e-mail-reader.c:2710
+#: ../src/mail/e-mail-reader.c:2720
 msgid "Next _Important Message"
 msgstr "Volgende _belangrijke bericht"
 
-#: ../src/mail/e-mail-reader.c:2712
+#: ../src/mail/e-mail-reader.c:2722
 msgid "Display the next important message"
 msgstr "Toon het volgende belangrijke bericht"
 
-#: ../src/mail/e-mail-reader.c:2717
+#: ../src/mail/e-mail-reader.c:2727
 msgid "Next _Thread"
 msgstr "Volgende _conversatie"
 
-#: ../src/mail/e-mail-reader.c:2719
+#: ../src/mail/e-mail-reader.c:2729
 msgid "Display the next thread"
 msgstr "Toon de volgende conversatie"
 
 # _o wordt gebruikt voor V_olgende
-#: ../src/mail/e-mail-reader.c:2724
+#: ../src/mail/e-mail-reader.c:2734
 msgid "Next _Unread Message"
 msgstr "Volgende o_ngelezen bericht"
 
-#: ../src/mail/e-mail-reader.c:2726
+#: ../src/mail/e-mail-reader.c:2736
 msgid "Display the next unread message"
 msgstr "Toon het volgende ongelezen bericht"
 
-#: ../src/mail/e-mail-reader.c:2731
+#: ../src/mail/e-mail-reader.c:2741
 msgid "_Previous Message"
 msgstr "Vo_rige bericht"
 
-#: ../src/mail/e-mail-reader.c:2733
+#: ../src/mail/e-mail-reader.c:2743
 msgid "Display the previous message"
 msgstr "Toon het vorige bericht"
 
-#: ../src/mail/e-mail-reader.c:2738
+#: ../src/mail/e-mail-reader.c:2748
 msgid "Pr_evious Important Message"
 msgstr "Vorige b_elangrijke bericht"
 
-#: ../src/mail/e-mail-reader.c:2740
+#: ../src/mail/e-mail-reader.c:2750
 msgid "Display the previous important message"
 msgstr "Toon het vorige belangrijke bericht"
 
-#: ../src/mail/e-mail-reader.c:2745
+#: ../src/mail/e-mail-reader.c:2755
 msgid "Previous T_hread"
 msgstr "Vo_rige conversatie"
 
-#: ../src/mail/e-mail-reader.c:2747
+#: ../src/mail/e-mail-reader.c:2757
 msgid "Display the previous thread"
 msgstr "Toon de vorige conversatie"
 
-#: ../src/mail/e-mail-reader.c:2752
+#: ../src/mail/e-mail-reader.c:2762
 msgid "P_revious Unread Message"
 msgstr "Vorige on_gelezen bericht"
 
-#: ../src/mail/e-mail-reader.c:2754
+#: ../src/mail/e-mail-reader.c:2764
 msgid "Display the previous unread message"
 msgstr "Toon het vorige ongelezen bericht"
 
-#: ../src/mail/e-mail-reader.c:2761
+#: ../src/mail/e-mail-reader.c:2771
 msgid "Print this message"
 msgstr "Druk dit bericht af"
 
-#: ../src/mail/e-mail-reader.c:2768
+#: ../src/mail/e-mail-reader.c:2778
 msgid "Preview the message to be printed"
 msgstr "Geeft een afdrukvoorbeeld van het bericht"
 
-#: ../src/mail/e-mail-reader.c:2773
+#: ../src/mail/e-mail-reader.c:2783
 #: ../src/modules/mail/e-mail-attachment-handler.c:452
 msgid "Re_direct"
 msgstr "Doorsturen"
 
-#: ../src/mail/e-mail-reader.c:2775
+#: ../src/mail/e-mail-reader.c:2785
 #: ../src/modules/mail/e-mail-attachment-handler.c:454
 msgid "Redirect (bounce) the selected message to someone"
 msgstr "Stuur het geselecteerde bericht door naar iemand"
 
-#: ../src/mail/e-mail-reader.c:2780
+#: ../src/mail/e-mail-reader.c:2790
 msgid "Remo_ve Attachments"
 msgstr "Bijlages _verwijderen"
 
-#: ../src/mail/e-mail-reader.c:2782
+#: ../src/mail/e-mail-reader.c:2792
 msgid "Remove attachments"
 msgstr "Bijlages verwijderen"
 
-#: ../src/mail/e-mail-reader.c:2787
+#: ../src/mail/e-mail-reader.c:2797
 msgid "Remove Du_plicate Messages"
 msgstr "_Duplicaten verwijderen"
 
-#: ../src/mail/e-mail-reader.c:2789
+#: ../src/mail/e-mail-reader.c:2799
 msgid "Checks selected messages for duplicates"
 msgstr "Geselecteerde berichten aanvinken om te dupliceren"
 
-#: ../src/mail/e-mail-reader.c:2794 ../src/mail/em-composer-utils.c:4083
+#: ../src/mail/e-mail-reader.c:2804 ../src/mail/em-composer-utils.c:4080
 #: ../src/mail/mail.error.xml.h:28
 #: ../src/modules/calendar/e-cal-shell-view-actions.c:1550
 #: ../src/modules/mail/e-mail-attachment-handler.c:396
 msgid "Reply to _All"
 msgstr "_Allen beantwoorden"
 
-#: ../src/mail/e-mail-reader.c:2796
+#: ../src/mail/e-mail-reader.c:2806
 #: ../src/modules/mail/e-mail-attachment-handler.c:398
 msgid "Compose a reply to all the recipients of the selected message"
 msgstr "Stuur antwoord naar alle geadresseerden van dit bericht"
 
-#: ../src/mail/e-mail-reader.c:2801
+#: ../src/mail/e-mail-reader.c:2811
 msgid "Al_ternative Reply…"
 msgstr "Al_ternatief antwoord…"
 
-#: ../src/mail/e-mail-reader.c:2803
+#: ../src/mail/e-mail-reader.c:2813
 msgid "Choose reply options for the selected message"
 msgstr "Kies antwoordopties voor het geselecteerde bericht"
 
-#: ../src/mail/e-mail-reader.c:2808 ../src/mail/em-composer-utils.c:4078
+#: ../src/mail/e-mail-reader.c:2818 ../src/mail/em-composer-utils.c:4075
 #: ../src/mail/mail.error.xml.h:26
 #: ../src/modules/mail/e-mail-attachment-handler.c:403
 msgid "Reply to _List"
 msgstr "_Lijst beantwoorden"
 
-#: ../src/mail/e-mail-reader.c:2810
+#: ../src/mail/e-mail-reader.c:2820
 #: ../src/modules/mail/e-mail-attachment-handler.c:405
 msgid "Compose a reply to the mailing list of the selected message"
 msgstr "Geef een antwoord voor de mailinglijst van het geselecteerde bericht"
 
-#: ../src/mail/e-mail-reader.c:2815
+#: ../src/mail/e-mail-reader.c:2825
 #: ../src/modules/mail/e-mail-attachment-handler.c:410
 msgid "_Reply to Sender"
 msgstr "_Afzender beantwoorden"
 
-#: ../src/mail/e-mail-reader.c:2817
+#: ../src/mail/e-mail-reader.c:2827
 #: ../src/modules/mail/e-mail-attachment-handler.c:412
 msgid "Compose a reply to the sender of the selected message"
 msgstr "Beantwoord dit bericht"
 
-#: ../src/mail/e-mail-reader.c:2822
+#: ../src/mail/e-mail-reader.c:2832
 msgid "Repl_y with Template"
 msgstr "_Beantwoorden met sjabloon"
 
-#: ../src/mail/e-mail-reader.c:2829
+#: ../src/mail/e-mail-reader.c:2839
 msgid "_Save as mbox…"
 msgstr "Op_slaan als mbox…"
 
-#: ../src/mail/e-mail-reader.c:2831
+#: ../src/mail/e-mail-reader.c:2841
 msgid "Save selected messages as an mbox file"
 msgstr "Geselecteerde berichten opslaan als mboxbestand"
 
-#: ../src/mail/e-mail-reader.c:2843
+#: ../src/mail/e-mail-reader.c:2853
 msgid "_Message Source"
 msgstr "_Berichtenbron"
 
-#: ../src/mail/e-mail-reader.c:2845
+#: ../src/mail/e-mail-reader.c:2855
 msgid "Show the raw email source of the message"
 msgstr "Brontekst van het bericht weergeven"
 
-#: ../src/mail/e-mail-reader.c:2857
+#: ../src/mail/e-mail-reader.c:2867
 msgid "_Undelete Message"
 msgstr "Bericht _terughalen"
 
-#: ../src/mail/e-mail-reader.c:2859
+#: ../src/mail/e-mail-reader.c:2869
 msgid "Undelete the selected messages"
 msgstr "Verwijderen van de geselecteerde berichten ongedaan maken"
 
-#: ../src/mail/e-mail-reader.c:2864
+#: ../src/mail/e-mail-reader.c:2874
 msgid "_Normal Size"
 msgstr "_Normale afmeting"
 
-#: ../src/mail/e-mail-reader.c:2866
+#: ../src/mail/e-mail-reader.c:2876
 msgid "Reset the text to its original size"
 msgstr "De tekst zijn oorspronkelijke grootte geven"
 
-#: ../src/mail/e-mail-reader.c:2871
+#: ../src/mail/e-mail-reader.c:2881
 msgid "_Zoom In"
 msgstr "In_zoomen"
 
-#: ../src/mail/e-mail-reader.c:2873
+#: ../src/mail/e-mail-reader.c:2883
 msgid "Increase the text size"
 msgstr "Tekst groter maken"
 
-#: ../src/mail/e-mail-reader.c:2880
+#: ../src/mail/e-mail-reader.c:2890
 msgid "Decrease the text size"
 msgstr "Tekst verkleinen"
 
-#: ../src/mail/e-mail-reader.c:2887
+#: ../src/mail/e-mail-reader.c:2897
 msgid "Cre_ate"
 msgstr "_Aanmaken"
 
-#: ../src/mail/e-mail-reader.c:2894
+#: ../src/mail/e-mail-reader.c:2904
 msgid "Ch_aracter Encoding"
 msgstr "_Tekencodering"
 
-#: ../src/mail/e-mail-reader.c:2901
+#: ../src/mail/e-mail-reader.c:2911
 #: ../src/modules/mail/e-mail-attachment-handler.c:424
 msgid "F_orward As"
 msgstr "D_oorsturen als"
 
-#: ../src/mail/e-mail-reader.c:2908
+#: ../src/mail/e-mail-reader.c:2918
 msgid "_Label"
 msgstr "_Label"
 
-#: ../src/mail/e-mail-reader.c:2915
+#: ../src/mail/e-mail-reader.c:2925
 msgid "_Group Reply"
 msgstr "_Groep beantwoorden"
 
-#: ../src/mail/e-mail-reader.c:2922
+#: ../src/mail/e-mail-reader.c:2932
 msgid "_Go To"
 msgstr "_Ga naar"
 
-#: ../src/mail/e-mail-reader.c:2929
+#: ../src/mail/e-mail-reader.c:2939
 msgid "Mar_k As"
 msgstr "Mar_keren als"
 
 # meervoud is beter hier
-#: ../src/mail/e-mail-reader.c:2936
+#: ../src/mail/e-mail-reader.c:2946
 msgid "_Message"
 msgstr "B_erichten"
 
 # Menu: _View -> _Zoom -> _Zoom In
 #                          Zoom _Out
 #                         _Normal Sie
-#: ../src/mail/e-mail-reader.c:2943
+#: ../src/mail/e-mail-reader.c:2953
 msgid "_Zoom"
 msgstr "_Zoomen"
 
-#: ../src/mail/e-mail-reader.c:2953
+#: ../src/mail/e-mail-reader.c:2963
 msgid "Create a Search Folder from Mailing _List…"
 msgstr "Zoekmap aanmaken op mailing_lijst…"
 
-#: ../src/mail/e-mail-reader.c:2955
+#: ../src/mail/e-mail-reader.c:2965
 msgid "Create a search folder for this mailing list"
 msgstr "Een zoekmap aanmaken voor deze mailinglijst"
 
-#: ../src/mail/e-mail-reader.c:2960
+#: ../src/mail/e-mail-reader.c:2970
 msgid "Create a Search Folder from Recipien_ts…"
 msgstr "Zoekmap aanmaken op _geadresseerden…"
 
-#: ../src/mail/e-mail-reader.c:2962
+#: ../src/mail/e-mail-reader.c:2972
 msgid "Create a search folder for these recipients"
 msgstr "Een zoekmap aanmaken voor deze geadresseerden"
 
-#: ../src/mail/e-mail-reader.c:2967
+#: ../src/mail/e-mail-reader.c:2977
 msgid "Create a Search Folder from Sen_der…"
 msgstr "Zoekmap aanmaken op _afzender…"
 
-#: ../src/mail/e-mail-reader.c:2969
+#: ../src/mail/e-mail-reader.c:2979
 msgid "Create a search folder for this sender"
 msgstr "Een zoekmap aanmaken voor deze afzender"
 
-#: ../src/mail/e-mail-reader.c:2974
+#: ../src/mail/e-mail-reader.c:2984
 msgid "Create a Search Folder from S_ubject…"
 msgstr "Zoekmap aanmaken op _onderwerp…"
 
-#: ../src/mail/e-mail-reader.c:2976
+#: ../src/mail/e-mail-reader.c:2986
 msgid "Create a search folder for this subject"
 msgstr "Een zoekmap aanmaken voor dit onderwerp"
 
-#: ../src/mail/e-mail-reader.c:3023
+#: ../src/mail/e-mail-reader.c:3033
 msgid "Mark for Follo_w Up…"
 msgstr "Markeren voor vervolg_actie…"
 
-#: ../src/mail/e-mail-reader.c:3039
+#: ../src/mail/e-mail-reader.c:3049
 msgid "Mark as _Important"
 msgstr "Markeren als belan_grijk"
 
-#: ../src/mail/e-mail-reader.c:3043
+#: ../src/mail/e-mail-reader.c:3053
 msgid "Mark as _Junk"
 msgstr "Markeren als _spam"
 
-#: ../src/mail/e-mail-reader.c:3047
+#: ../src/mail/e-mail-reader.c:3057
 msgid "Mark as _Not Junk"
 msgstr "Markeren als _geen-spam"
 
-#: ../src/mail/e-mail-reader.c:3051
+#: ../src/mail/e-mail-reader.c:3061
 msgid "Mar_k as Read"
 msgstr "Als gelezen mar_keren"
 
-#: ../src/mail/e-mail-reader.c:3063
+#: ../src/mail/e-mail-reader.c:3073
 msgid "Mark as Uni_mportant"
 msgstr "Markeren als _onbelangrijk"
 
-#: ../src/mail/e-mail-reader.c:3067
+#: ../src/mail/e-mail-reader.c:3077
 msgid "Mark as _Unread"
 msgstr "Markeren als o_ngelezen"
 
-#: ../src/mail/e-mail-reader.c:3119
+#: ../src/mail/e-mail-reader.c:3129
 msgid "_Caret Mode"
 msgstr "_Cursor-modus"
 
-#: ../src/mail/e-mail-reader.c:3121
+#: ../src/mail/e-mail-reader.c:3131
 msgid "Show a blinking cursor in the body of displayed messages"
 msgstr "Een knipperende cursor tonen in de inhoud van weergegeven berichten"
 
-#: ../src/mail/e-mail-reader.c:3127
+#: ../src/mail/e-mail-reader.c:3137
 msgid "All Message _Headers"
 msgstr "Alle bericht_koppen"
 
 # volledige/complete
-#: ../src/mail/e-mail-reader.c:3129
+#: ../src/mail/e-mail-reader.c:3139
 msgid "Show messages with all email headers"
 msgstr "Berichten weergeven met alle berichtkoppen"
 
-#: ../src/mail/e-mail-reader.c:3713
+#: ../src/mail/e-mail-reader.c:3723
 msgid "Retrieving message"
 msgstr "Ophalen van bericht"
 
-#: ../src/mail/e-mail-reader.c:5083
+#: ../src/mail/e-mail-reader.c:5096
 #: ../src/modules/mail/e-mail-attachment-handler.c:389
 msgid "_Forward"
 msgstr "_Doorsturen"
 
-#: ../src/mail/e-mail-reader.c:5084
+#: ../src/mail/e-mail-reader.c:5097
 #: ../src/modules/mail/e-mail-attachment-handler.c:391
 msgid "Forward the selected message to someone"
 msgstr "Het bericht doorsturen naar iemand"
@@ -19078,29 +19078,29 @@ msgstr "Het bericht doorsturen naar iemand"
 #. * (if possible and if that configuration option is enabled), or else
 #. * it will reply to all. The word "Group" was chosen because it covers
 #. * either of those, without too strongly implying one or the other.
-#: ../src/mail/e-mail-reader.c:5103
+#: ../src/mail/e-mail-reader.c:5116
 msgid "Group Reply"
 msgstr "Groep beantwoorden"
 
-#: ../src/mail/e-mail-reader.c:5104
+#: ../src/mail/e-mail-reader.c:5117
 msgid "Reply to the mailing list, or to all recipients"
 msgstr "Stuur antwoord naar de mailinglijst, of naar alle geadresseerden"
 
-#: ../src/mail/e-mail-reader.c:5170 ../src/mail/filtertypes.xml.in.h:67
+#: ../src/mail/e-mail-reader.c:5183 ../src/mail/filtertypes.xml.in.h:67
 msgid "Delete"
 msgstr "Verwijderen"
 
-#: ../src/mail/e-mail-reader.c:5182
+#: ../src/mail/e-mail-reader.c:5195
 #: ../src/modules/calendar/e-cal-shell-view-actions.c:1298
 msgid "Next"
 msgstr "Volgende"
 
-#: ../src/mail/e-mail-reader.c:5186
+#: ../src/mail/e-mail-reader.c:5199
 #: ../src/modules/calendar/e-cal-shell-view-actions.c:1291
 msgid "Previous"
 msgstr "Vorige"
 
-#: ../src/mail/e-mail-reader.c:5195 ../src/mail/mail-dialogs.ui.h:9
+#: ../src/mail/e-mail-reader.c:5208 ../src/mail/mail-dialogs.ui.h:9
 msgid "Reply"
 msgstr "Beantwoorden"
 
@@ -19153,7 +19153,7 @@ msgstr[0] ""
 msgstr[1] ""
 "Map ‘%s’ bevat %u duplicaten. Weet u zeker dat u die wilt verwijderen?"
 
-#: ../src/mail/e-mail-reader-utils.c:2989
+#: ../src/mail/e-mail-reader-utils.c:2990
 msgid "Save Message"
 msgid_plural "Save Messages"
 msgstr[0] "Bericht opslaan"
@@ -19164,13 +19164,13 @@ msgstr[1] "Berichten opslaan"
 #. * mbox format, when the first message doesn't have a
 #. * subject.  The extension ".mbox" is appended to the
 #. * string; for example "Message.mbox".
-#: ../src/mail/e-mail-reader-utils.c:3010
+#: ../src/mail/e-mail-reader-utils.c:3011
 msgid "Message"
 msgid_plural "Messages"
 msgstr[0] "Bericht"
 msgstr[1] "Berichten"
 
-#: ../src/mail/e-mail-reader-utils.c:3424
+#: ../src/mail/e-mail-reader-utils.c:3425
 msgid "Parsing message"
 msgstr "Bericht ontleden"
 
@@ -19303,74 +19303,74 @@ msgid "-----Original Message-----"
 msgstr "-----Oorspronkelijk bericht-----"
 
 #. Translators: This is a reply attribution in the message reply subject. The %s is replaced with the subject of the original message. Both 'Re'-s in the 'reply-attribution' translation context should translate into the same string, the same as the ':' separator.
-#: ../src/mail/em-composer-utils.c:2777
+#: ../src/mail/em-composer-utils.c:2773
 #, c-format
 msgctxt "reply-attribution"
 msgid "Re: %s"
 msgstr "Re: %s"
 
-#: ../src/mail/em-composer-utils.c:3395
+#: ../src/mail/em-composer-utils.c:3391
 msgid "an unknown sender"
 msgstr "een onbekende afzender"
 
 # ? - Nathan
-#: ../src/mail/em-composer-utils.c:4029
+#: ../src/mail/em-composer-utils.c:4026
 msgid "Alternative Reply"
 msgstr "Alternatief antwoord"
 
-#: ../src/mail/em-composer-utils.c:4032
+#: ../src/mail/em-composer-utils.c:4029
 #: ../src/modules/calendar/e-cal-shell-view-actions.c:1543
 msgid "_Reply"
 msgstr "_Beantwoorden"
 
-#: ../src/mail/em-composer-utils.c:4045
+#: ../src/mail/em-composer-utils.c:4042
 msgid "Recipients:"
 msgstr "Geadresseerden:"
 
-#: ../src/mail/em-composer-utils.c:4073
+#: ../src/mail/em-composer-utils.c:4070
 msgid "Reply to _Sender"
 msgstr "Af_zender beantwoorden"
 
-#: ../src/mail/em-composer-utils.c:4095
+#: ../src/mail/em-composer-utils.c:4092
 msgid "Reply style:"
 msgstr "Antwoordstijl:"
 
-#: ../src/mail/em-composer-utils.c:4103
+#: ../src/mail/em-composer-utils.c:4100
 msgid "_Default"
 msgstr "Stan_daard"
 
-#: ../src/mail/em-composer-utils.c:4107
+#: ../src/mail/em-composer-utils.c:4104
 msgid "Attach_ment"
 msgstr "_Bijlage"
 
 # In lijn/Inline/Recht/Ingebonden
 # Oorspronkelijke bericht citeren in Outlook-stijl
-#: ../src/mail/em-composer-utils.c:4111
+#: ../src/mail/em-composer-utils.c:4108
 msgid "Inline (_Outlook style)"
 msgstr "In bericht (_Outlook-stijl)"
 
-#: ../src/mail/em-composer-utils.c:4115
+#: ../src/mail/em-composer-utils.c:4112
 msgid "_Quote"
 msgstr "_Citeren"
 
 # niet aanhalen/niet citeren
-#: ../src/mail/em-composer-utils.c:4119
+#: ../src/mail/em-composer-utils.c:4116
 msgid "Do _Not Quote"
 msgstr "_Niet citeren"
 
-#: ../src/mail/em-composer-utils.c:4126
+#: ../src/mail/em-composer-utils.c:4123
 msgid "_Format message in HTML"
 msgstr "Berichten op_maken met HTML"
 
-#: ../src/mail/em-composer-utils.c:4139
+#: ../src/mail/em-composer-utils.c:4136
 msgid "Apply t_emplate"
 msgstr "Sjabloon toepass_en"
 
-#: ../src/mail/em-composer-utils.c:4151
+#: ../src/mail/em-composer-utils.c:4148
 msgid "Preserve original message S_ubject"
 msgstr "Onderwerp van oorspronkelijk bericht beho_uden"
 
-#: ../src/mail/em-composer-utils.c:4217
+#: ../src/mail/em-composer-utils.c:4214
 #, c-format
 msgid "one recipient"
 msgid_plural "%d recipients"
@@ -19631,12 +19631,12 @@ msgstr "Verplaatsen van map %s"
 msgid "Copying folder %s"
 msgstr "Kopiëren van map %s"
 
-#: ../src/mail/em-folder-tree.c:2381 ../src/mail/message-list.c:2632
+#: ../src/mail/em-folder-tree.c:2381 ../src/mail/message-list.c:2653
 #, c-format
 msgid "Moving messages into folder %s"
 msgstr "Berichten worden verplaatst naar map %s"
 
-#: ../src/mail/em-folder-tree.c:2385 ../src/mail/message-list.c:2634
+#: ../src/mail/em-folder-tree.c:2385 ../src/mail/message-list.c:2655
 #, c-format
 msgid "Copying messages into folder %s"
 msgstr "Berichten worden gekopieerd naar map %s"
@@ -19814,18 +19814,18 @@ msgid "Messages from %s"
 msgstr "Berichten van %s"
 
 #. Translators: This is a reply attribution in the message reply subject. Both 'Re'-s in the 'reply-attribution' translation context should translate into the same string.
-#: ../src/mail/em-utils.c:1583
+#: ../src/mail/em-utils.c:1626
 msgctxt "reply-attribution"
 msgid "Re"
 msgstr "Re"
 
 #. Translators: This is a reply attribution separator in the message reply subject. This should match the ':' in 'Re: %s' in the 'reply-attribution' translation context.
-#: ../src/mail/em-utils.c:1586
+#: ../src/mail/em-utils.c:1629
 msgctxt "reply-attribution"
 msgid ":"
 msgstr ":"
 
-#: ../src/mail/em-utils.c:1886
+#: ../src/mail/em-utils.c:1929
 msgid "Deleting old messages"
 msgstr "Oude berichten verwijderen"
 
@@ -20489,7 +20489,7 @@ msgstr ""
 msgid "Sending a message using _key accelerator (Ctrl+Enter)"
 msgstr "Een bericht met _sneltoets versturen (Ctrl+Enter)"
 
-#. Translators: 'changes' is a verb. This is whether to show a warning or not in that situation
+#. Translators:
 #: ../src/mail/mail-config.ui.h:61
 msgid "Before composer _format changes from HTML to Plain Text"
 msgstr "Voordat het opstel_formaat verandert van HTML naar platte tekst"
@@ -20585,7 +20585,7 @@ msgstr "Vaste _breedte-lettertype:"
 msgid "Minimum Font _Size:"
 msgstr "Minimale letter_grootte:"
 
-#. Translators: This is part of 'Minimum Font Size: [ spin button ] (in pixels)'
+#. Translators: This is part of
 #: ../src/mail/mail-config.ui.h:96
 msgid "(in pixels)"
 msgstr "(in pixels)"
@@ -21893,21 +21893,14 @@ msgstr "Ongelezen"
 msgid "Seen"
 msgstr "Gelezen"
 
-#: ../src/mail/message-list.c:318
+#: ../src/mail/message-list.c:318 ../src/mail/message-list.c:320
 msgid "Answered"
 msgstr "Beantwoord"
 
-#: ../src/mail/message-list.c:319
+#. and unread
+#: ../src/mail/message-list.c:319 ../src/mail/message-list.c:321
 msgid "Forwarded"
 msgstr "Doorgestuurd"
-
-#: ../src/mail/message-list.c:320
-msgid "Multiple Unseen Messages"
-msgstr "Meerdere Ongelezen Berichten"
-
-#: ../src/mail/message-list.c:321
-msgid "Multiple Messages"
-msgstr "Meerdere Berichten"
 
 #: ../src/mail/message-list.c:334
 msgid "Lowest"
@@ -21931,45 +21924,45 @@ msgstr "Genereren van berichtenlijst"
 
 #. strftime format of a time,
 #. * in 12-hour format, without seconds.
-#: ../src/mail/message-list.c:2154
+#: ../src/mail/message-list.c:2174
 #: ../src/modules/itip-formatter/itip-view.c:274
 msgid "Today %l:%M %p"
 msgstr "Vandaag %l:%M %p"
 
-#: ../src/mail/message-list.c:2163
+#: ../src/mail/message-list.c:2183
 msgid "Yesterday %l:%M %p"
 msgstr "Gisteren %l:%M %p"
 
-#: ../src/mail/message-list.c:2175
+#: ../src/mail/message-list.c:2195
 msgid "%a %l:%M %p"
 msgstr "%a %l:%M %p"
 
-#: ../src/mail/message-list.c:2183
+#: ../src/mail/message-list.c:2203
 msgid "%b %d %l:%M %p"
 msgstr "%b %d %l:%M %p"
 
-#: ../src/mail/message-list.c:2185
+#: ../src/mail/message-list.c:2205
 msgid "%b %d %Y"
 msgstr "%b %d %Y"
 
-#: ../src/mail/message-list.c:3364
+#: ../src/mail/message-list.c:3385
 msgid "Select all visible messages"
 msgstr "Selecteer alle zichtbare berichten"
 
-#: ../src/mail/message-list.c:4168 ../src/mail/message-list.etspec.h:17
+#: ../src/mail/message-list.c:4189 ../src/mail/message-list.etspec.h:17
 msgid "Messages"
 msgstr "Berichten"
 
 #. default follow-up flag name to use when clicked in the message list column
-#: ../src/mail/message-list.c:5749
+#: ../src/mail/message-list.c:5770
 msgid "Follow-up"
 msgstr "Vervolg"
 
-#: ../src/mail/message-list.c:6498 ../src/mail/message-list.c:6935
+#: ../src/mail/message-list.c:6519 ../src/mail/message-list.c:6956
 msgid "Generating message list…"
 msgstr "Genereren van berichtenlijst…"
 
-#: ../src/mail/message-list.c:6501
+#: ../src/mail/message-list.c:6522
 msgid ""
 "No message satisfies your search criteria. Change search criteria by "
 "selecting a new Show message filter from the drop down list above or by "
@@ -21981,7 +21974,7 @@ msgstr ""
 "door een nieuwe zoekopdracht te starten door deze leeg te maken via het "
 "menuonderdeel Zoeken→Wissen of door bovenstaande zoekopdracht te wijzigen."
 
-#: ../src/mail/message-list.c:6508
+#: ../src/mail/message-list.c:6529
 msgid "There are no messages in this folder."
 msgstr "Er zijn momenteel geen berichten in deze map."
 
@@ -22587,107 +22580,107 @@ msgstr "_Evolution-gegevens herstellen…"
 msgid "Restore Evolution data and settings from an archive file"
 msgstr "Evolution-gegevens en -instellingen herstellen vanuit een reservekopie"
 
-#: ../src/modules/backup-restore/evolution-backup-tool.c:72
+#: ../src/modules/backup-restore/evolution-backup-tool.c:74
 msgid "Back up Evolution directory"
 msgstr "Map Evolution-reservekopie"
 
-#: ../src/modules/backup-restore/evolution-backup-tool.c:74
+#: ../src/modules/backup-restore/evolution-backup-tool.c:76
 msgid "Restore Evolution directory"
 msgstr "Evolution-map herstellen"
 
-#: ../src/modules/backup-restore/evolution-backup-tool.c:76
+#: ../src/modules/backup-restore/evolution-backup-tool.c:78
 msgid "Check Evolution Back up"
 msgstr "Reservekopie Evolution controleren"
 
-#: ../src/modules/backup-restore/evolution-backup-tool.c:78
+#: ../src/modules/backup-restore/evolution-backup-tool.c:80
 msgid "Restart Evolution"
 msgstr "Evolution herstarten"
 
-#: ../src/modules/backup-restore/evolution-backup-tool.c:80
+#: ../src/modules/backup-restore/evolution-backup-tool.c:82
 msgid "With Graphical User Interface"
 msgstr "Met grafische bedieningsinterface"
 
 #. FIXME Will the versioned setting always work?
-#: ../src/modules/backup-restore/evolution-backup-tool.c:293
-#: ../src/modules/backup-restore/evolution-backup-tool.c:551
+#: ../src/modules/backup-restore/evolution-backup-tool.c:516
+#: ../src/modules/backup-restore/evolution-backup-tool.c:772
 msgid "Shutting down Evolution"
 msgstr "Evolution wordt afgesloten"
 
-#: ../src/modules/backup-restore/evolution-backup-tool.c:302
+#: ../src/modules/backup-restore/evolution-backup-tool.c:525
 msgid "Backing Evolution accounts and settings"
 msgstr "Evolution-accounts en -instellingen wegschrijven"
 
-#: ../src/modules/backup-restore/evolution-backup-tool.c:319
+#: ../src/modules/backup-restore/evolution-backup-tool.c:540
 msgid "Backing Evolution data (Mails, Contacts, Calendar, Tasks, Memos)"
 msgstr ""
 "Verwerken van Evolution-gegevens (e-mails, contacten, agenda, taken, memo’s)"
 
-#: ../src/modules/backup-restore/evolution-backup-tool.c:335
+#: ../src/modules/backup-restore/evolution-backup-tool.c:556
 msgid "Back up complete"
 msgstr "Reservekopie voltooid"
 
-#: ../src/modules/backup-restore/evolution-backup-tool.c:342
-#: ../src/modules/backup-restore/evolution-backup-tool.c:758
+#: ../src/modules/backup-restore/evolution-backup-tool.c:563
+#: ../src/modules/backup-restore/evolution-backup-tool.c:995
 msgid "Restarting Evolution"
 msgstr "Evolution wordt opnieuw gestart"
 
-#: ../src/modules/backup-restore/evolution-backup-tool.c:557
+#: ../src/modules/backup-restore/evolution-backup-tool.c:778
 msgid "Back up current Evolution data"
 msgstr "Reservekopie maken van Evolution-gegevens"
 
-#: ../src/modules/backup-restore/evolution-backup-tool.c:564
+#: ../src/modules/backup-restore/evolution-backup-tool.c:785
 msgid "Extracting files from back up"
 msgstr "Uitpakken van bestanden uit reservekopie"
 
-#: ../src/modules/backup-restore/evolution-backup-tool.c:659
+#: ../src/modules/backup-restore/evolution-backup-tool.c:880
 msgid "Loading Evolution settings"
 msgstr "Laden van Evolution-instellingen"
 
-#: ../src/modules/backup-restore/evolution-backup-tool.c:729
+#: ../src/modules/backup-restore/evolution-backup-tool.c:966
 msgid "Removing temporary back up files"
 msgstr "Verwijderen van tijdelijke reservekopiebestanden"
 
-#: ../src/modules/backup-restore/evolution-backup-tool.c:743
+#: ../src/modules/backup-restore/evolution-backup-tool.c:980
 msgid "Reloading registry service"
 msgstr "Registerdienst opnieuw laden"
 
-#: ../src/modules/backup-restore/evolution-backup-tool.c:956
+#: ../src/modules/backup-restore/evolution-backup-tool.c:1193
 msgid "Evolution Back Up"
 msgstr "Evolution-reservekopie"
 
-#: ../src/modules/backup-restore/evolution-backup-tool.c:957
+#: ../src/modules/backup-restore/evolution-backup-tool.c:1194
 #, c-format
 msgid "Backing up to the file %s"
 msgstr "Reservekopie maken naar het bestand %s"
 
 # backup terugzetten/herstellen
-#: ../src/modules/backup-restore/evolution-backup-tool.c:961
+#: ../src/modules/backup-restore/evolution-backup-tool.c:1198
 msgid "Evolution Restore"
 msgstr "Evolution herstellen"
 
-#: ../src/modules/backup-restore/evolution-backup-tool.c:962
+#: ../src/modules/backup-restore/evolution-backup-tool.c:1199
 #, c-format
 msgid "Restoring from the file %s"
 msgstr "Reservekopie terugzetten van het bestand %s"
 
-#: ../src/modules/backup-restore/evolution-backup-tool.c:1031
+#: ../src/modules/backup-restore/evolution-backup-tool.c:1268
 msgid "Backing up Evolution Data"
 msgstr "Reservekopie maken van Evolution-gegevens"
 
-#: ../src/modules/backup-restore/evolution-backup-tool.c:1032
+#: ../src/modules/backup-restore/evolution-backup-tool.c:1269
 msgid "Please wait while Evolution is backing up your data."
 msgstr "Even geduld a.u.b. Evolution maakt een reservekopie van uw gegevens."
 
-#: ../src/modules/backup-restore/evolution-backup-tool.c:1034
+#: ../src/modules/backup-restore/evolution-backup-tool.c:1271
 msgid "Restoring Evolution Data"
 msgstr "Evolution-gegevens worden hersteld"
 
-#: ../src/modules/backup-restore/evolution-backup-tool.c:1035
+#: ../src/modules/backup-restore/evolution-backup-tool.c:1272
 msgid "Please wait while Evolution is restoring your data."
 msgstr ""
 "Even geduld a.u.b. Evolution is bezig met het terugzetten van uw gegevens."
 
-#: ../src/modules/backup-restore/evolution-backup-tool.c:1057
+#: ../src/modules/backup-restore/evolution-backup-tool.c:1294
 msgid "This may take a while depending on the amount of data in your account."
 msgstr ""
 "Dit kan even duren en hangt af van de hoeveelheid gegevens in uw account."
@@ -25517,13 +25510,17 @@ msgstr "Server _eist aanmeldingscontrole"
 msgid "T_ype:"
 msgstr "T_ype:"
 
-#: ../src/modules/mail-config/e-mail-config-yahoo-summary.c:248
+#: ../src/modules/mail-config/e-mail-config-yahoo-summary.c:268
 msgid "Yahoo! Features"
 msgstr "Yahoo!-functies"
 
-#: ../src/modules/mail-config/e-mail-config-yahoo-summary.c:257
+#: ../src/modules/mail-config/e-mail-config-yahoo-summary.c:277
 msgid "Add Yahoo! Ca_lendar and Tasks to this account"
 msgstr "Yahoo!-_agenda en -taken toevoegen aan deze account"
+
+#: ../src/modules/mail-config/e-mail-config-yahoo-summary.c:285
+msgid "Add Con_tacts to this account"
+msgstr "Con_tacten toevoegen aan deze account"
 
 #: ../src/modules/mail/e-mail-attachment-handler.c:644
 #, c-format
@@ -27194,26 +27191,26 @@ msgid_plural "You have received %d new messages."
 msgstr[0] "U heeft %d nieuw bericht ontvangen."
 msgstr[1] "U heeft %d nieuwe berichten ontvangen."
 
-#. Translators: The '%s' is replaced by the folder name, where a new
-#. * mail message arrived. Example: "Folder: On This Computer : Inbox"
-#: ../src/plugins/mail-notification/mail-notification.c:509
-#, c-format
-msgid "Folder: %s"
-msgstr "Map: %s"
-
 #. Translators: "From:" is preceding a new mail
 #. * sender address, like "From: user@example.com"
-#: ../src/plugins/mail-notification/mail-notification.c:517
+#: ../src/plugins/mail-notification/mail-notification.c:509
 #, c-format
 msgid "From: %s"
 msgstr "Van: %s"
 
 #. Translators: "Subject:" is preceding a new mail
 #. * subject, like "Subject: It happened again"
-#: ../src/plugins/mail-notification/mail-notification.c:525
+#: ../src/plugins/mail-notification/mail-notification.c:517
 #, c-format
 msgid "Subject: %s"
 msgstr "Onderwerp: %s"
+
+#. Translators: The '%s' is replaced by the folder name, where a new
+#. * mail message arrived. Example: "Folder: On This Computer : Inbox"
+#: ../src/plugins/mail-notification/mail-notification.c:525
+#, c-format
+msgid "Folder: %s"
+msgstr "Map: %s"
 
 #. Translators: %d is the count of mails received in addition
 #. * to the one displayed in this notification.
@@ -27881,7 +27878,7 @@ msgstr "Zoekopdracht opslaan"
 #. * allows the user to filter the current view.  Examples of
 #. * items that appear in the combo box are "Unread Messages",
 #. * "Important Messages", or "Active Appointments".
-#: ../src/shell/e-shell-searchbar.c:924
+#: ../src/shell/e-shell-searchbar.c:929
 msgid "Sho_w:"
 msgstr "_Tonen:"
 
@@ -27889,13 +27886,13 @@ msgstr "_Tonen:"
 # Sear_ch: [tekstveld] i_n [Current Folder]
 #. Translators: This is part of the quick search interface.
 #. * example: Search: [_______________] in [ Current Folder ]
-#: ../src/shell/e-shell-searchbar.c:950
+#: ../src/shell/e-shell-searchbar.c:955
 msgid "Sear_ch:"
 msgstr "_Zoeken naar:"
 
 #. Translators: This is part of the quick search interface.
 #. * example: Search: [_______________] in [ Current Folder ]
-#: ../src/shell/e-shell-searchbar.c:1018
+#: ../src/shell/e-shell-searchbar.c:1023
 msgid "i_n"
 msgstr "i_n"
 
@@ -28392,11 +28389,11 @@ msgstr ""
 "instantie niet. Systeemfout: %s"
 
 # Personal information manager
-#: ../src/shell/main.c:493 ../src/shell/main.c:498
+#: ../src/shell/main.c:497 ../src/shell/main.c:502
 msgid "— The Evolution PIM and Email Client"
 msgstr "— Het Evolution PIM- en e-mailprogramma"
 
-#: ../src/shell/main.c:554
+#: ../src/shell/main.c:558
 #, c-format
 msgid ""
 "%s: --online and --offline cannot be used together.\n"
@@ -28405,7 +28402,7 @@ msgstr ""
 "%s: --online en --offline kan niet tegelijk worden gebruikt.\n"
 "  Gebruik ‘%s --help’ voor meer informatie.\n"
 
-#: ../src/shell/main.c:560
+#: ../src/shell/main.c:564
 #, c-format
 msgid ""
 "%s: --force-online and --offline cannot be used together.\n"
@@ -29031,6 +29028,12 @@ msgstr "Kon winkel niet naar schijf wegschrijven, err_code: %i"
 #: ../src/smime/lib/e-pkcs12.c:407
 msgid "Imported Certificate"
 msgstr "Geïmporteerd certificaat"
+
+#~ msgid "Multiple Unseen Messages"
+#~ msgstr "Meerdere Ongelezen Berichten"
+
+#~ msgid "Multiple Messages"
+#~ msgstr "Meerdere Berichten"
 
 #, fuzzy
 #~| msgid "SHA1 Fingerprint"
