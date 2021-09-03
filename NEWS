@@ -1,3 +1,27 @@
+Evolution 3.41.3 2021-09-03
+---------------------------
+
+Bug Fixes:
+	I#1291 - EAttachmentIconView: Improve display settings (Milan Crha)
+
+Miscellaneous:
+	help: Cover more advanced mail thread sorting options (Andre Klapper)
+	help: Update Exchange server related docs; link to OAuth2 wiki page (Andre Klapper)
+
+Translations:
+	Jordi Mas (ca)
+	Asier Sarasua Garmendia (eu)
+	Philipp Kiemle (de)
+	Fran Dieguez (gl)
+	Daniel Mustieles (es)
+	Marek Černocký (cs)
+	Anders Jonsson (sv)
+	Bruce Cowan (en_GB)
+	Kukuh Syafaat (id)
+	Baurzhan Muftakhidinov (kk)
+	Danial Behzadi (fa)
+	Yuri Chornoivan (uk)
+
 Evolution 3.41.2 2021-08-13
 ---------------------------
 
