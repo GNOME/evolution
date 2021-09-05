@@ -71,10 +71,10 @@
 	  <p>The following options are available:</p>
           <list>
             <item>
-	      <p>One: Searches the Search Base and one entry below it.</p>
+	      <p>One Level: Searches one entry below the Search Base.</p>
 	    </item>
             <item>
-	      <p>Sub: Searches the Search Base and all entries below it.</p>
+	      <p>Subtree: Searches the Search Base and all entries below it.</p>
             </item>
           </list>
         </item>
