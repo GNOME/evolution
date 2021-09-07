@@ -6,7 +6,7 @@ msgstr ""
 "Project-Id-Version: evolution 0\n"
 "Report-Msgid-Bugs-To: https://gitlab.gnome.org/GNOME/evolution/issues\n"
 "POT-Creation-Date: 2021-09-04 16:48+0000\n"
-"PO-Revision-Date: 2021-09-07 13:41+0200\n"
+"PO-Revision-Date: 2021-09-07 13:44+0200\n"
 "Last-Translator: gogo <trebelnik2@gmail.com>\n"
 "Language-Team: Croatian <lokalizacija@linux.hr>\n"
 "Language: hr\n"
@@ -20284,7 +20284,7 @@ msgstr "Vr_ati izvorno"
 
 #: ../src/mail/mail-config.ui.h:134
 msgid "Message List User Headers"
-msgstr "Zaglavlje korinika u popisu poruka"
+msgstr "Zaglavlje korisnika u popisu poruka"
 
 #: ../src/mail/mail-config.ui.h:135
 msgid "Message List User Headers Table"
