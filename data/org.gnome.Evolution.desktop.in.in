@@ -19,7 +19,7 @@ X-GNOME-Bugzilla-OtherBinaries=evolution-addressbook-factory;evolution-calendar-
 X-GNOME-UsesNotifications=true
 X-Flatpak-RenamedFrom=evolution
 MimeType=text/calendar;text/x-vcard;text/directory;application/mbox;message/rfc822;x-scheme-handler/mailto;x-scheme-handler/webcal;x-scheme-handler/calendar;x-scheme-handler/task;x-scheme-handler/memo;
-
+@WMCLASS_OVERRIDE@
 [Desktop Action new-window]
 _Name=New Window
 Exec=evolution -c current

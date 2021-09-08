@@ -329,7 +329,8 @@
 				"-DENABLE_YTNEF=OFF",
 				"-DWITH_BOGOFILTER=/app/bin/bogofilter",
 				"-DWITH_GLADE_CATALOG=OFF",
-				"-DWITH_HELP=OFF"
+				"-DWITH_HELP=OFF",
+				"-DWITH_WMCLASS_OVERRIDE=evolution.bin"
 			],
 			"cleanup": [
 				"/etc/xdg",

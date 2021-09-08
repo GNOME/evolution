@@ -1,6 +1,14 @@
 set(filedeps)
 set(desktopdir ${SHARE_INSTALL_PREFIX}/applications)
 
+option(WITH_WMCLASS_OVERRIDE "Override WMClass in the .desktop file" "")
+
+if("${WITH_WMCLASS_OVERRIDE}" STREQUAL "" OR "${WITH_WMCLASS_OVERRIDE}" STREQUAL "OFF")
+	set(WMCLASS_OVERRIDE "")
+else("${WITH_WMCLASS_OVERRIDE}" STREQUAL "" OR "${WITH_WMCLASS_OVERRIDE}" STREQUAL "OFF")
+	set(WMCLASS_OVERRIDE "StartupWMClass=${WITH_WMCLASS_OVERRIDE}\n")
+endif("${WITH_WMCLASS_OVERRIDE}" STREQUAL "" OR "${WITH_WMCLASS_OVERRIDE}" STREQUAL "OFF")
+
 configure_file(org.gnome.Evolution.desktop.in.in
 	org.gnome.Evolution.desktop.in
 	@ONLY
