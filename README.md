@@ -1,4 +1,4 @@
-![icon] Evolution
+<img alt="Evolution app icon" src="logo.png" width=48> Evolution
 ============
 
 **Evolution** is the integrated mail, calendar and address book suite from
@@ -26,7 +26,6 @@ the menu after running the application), at the
 
 The rest of this file is dedicated to building Evolution.
 
-[icon]: https://raw.github.com/gnome-design-team/gnome-icons/master/apps/hicolor/48x48/apps/evolution.png "Evolution app icon"
 [gnome-wiki]: https://wiki.gnome.org/Apps/Evolution
 [mailing-list]: https://mail.gnome.org/mailman/listinfo
 [#evolution]: irc://irc.gnome.org/evolution
