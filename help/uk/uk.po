@@ -6,8 +6,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: evolution master\n"
-"POT-Creation-Date: 2021-08-27 10:36+0000\n"
-"PO-Revision-Date: 2021-08-27 14:57+0300\n"
+"POT-Creation-Date: 2021-09-09 19:52+0000\n"
+"PO-Revision-Date: 2021-09-09 23:41+0300\n"
 "Last-Translator: Yuri Chornoivan <yurchor@ukr.net>\n"
 "Language-Team: Ukrainian <trans-uk@lists.fedoraproject.org>\n"
 "Language: uk\n"
@@ -2059,12 +2059,14 @@ msgstr "Можна скористатися одним з таких варіа�
 
 #. (itstool) path: item/p
 #: C/contacts-ldap.page:74
-msgid "One: Searches the Search Base and one entry below it."
+#| msgid "One: Searches the Search Base and one entry below it."
+msgid "One Level: Searches one entry below the Search Base."
 msgstr "Один рівень: шукати у базі пошуку і на один запис під нею."
 
 #. (itstool) path: item/p
 #: C/contacts-ldap.page:77
-msgid "Sub: Searches the Search Base and all entries below it."
+#| msgid "Sub: Searches the Search Base and all entries below it."
+msgid "Subtree: Searches the Search Base and all entries below it."
 msgstr "Піддерево: шукати у базі пошуку і усіх записах під нею."
 
 #. (itstool) path: item/p
@@ -4302,16 +4304,14 @@ msgstr "EWS Exchange"
 #. (itstool) path: section/p
 #. (itstool) path: note/p
 #: C/intro-first-run.page:109 C/mail-account-manage-microsoft-exchange.page:26
-#| msgid ""
-#| "For Microsoft Exchange 2007, 2010 and newer it is recommended to use the "
-#| "package <sys>evolution-ews</sys>."
 msgid ""
 "For connecting to a Microsoft Exchange server (version 2007 or newer) or "
 "OpenChange server, it is recommended to use the package <sys>evolution-ews</"
 "sys>."
 msgstr ""
-"Для роботи із сервером Microsoft Exchange (версії 2007 або новішої) або сервером OpenChange рекомендуємо вам скористатися пакунком <sys>evolution-ews</"
-"sys>."
+"Для роботи із сервером Microsoft Exchange (версії 2007 або новішої) або "
+"сервером OpenChange рекомендуємо вам скористатися пакунком <sys>evolution-"
+"ews</sys>."
 
 #. (itstool) path: note/p
 #: C/intro-first-run.page:111
@@ -4348,22 +4348,15 @@ msgstr "Для з'єднання із сервером Microsoft Exchange 2007/2
 #. (itstool) path: section/p
 #. (itstool) path: note/p
 #: C/intro-first-run.page:134 C/mail-account-manage-microsoft-exchange.page:35
-#| msgid ""
-#| "For older versions of Microsoft Exchange, or if <sys>evolution-ews</sys> "
-#| "does not work well for you, try <sys>evolution-mapi</sys>. It uses "
-#| "Microsoft's Messaging API which is also used by Microsoft Outlook. "
-#| "However, <sys>evolution-mapi</sys> requires installing <sys>OpenChange</"
-#| "sys> and <sys>Samba 4</sys>, and is not as performant as <sys>evolution-"
-#| "ews</sys>."
 msgid ""
 "It uses Microsoft's Messaging API which is also used by Microsoft Outlook. "
 "However, <sys>evolution-mapi</sys> requires installing <sys>OpenChange</sys> "
 "and <sys>Samba 4</sys>, and is not as performant as <sys>evolution-ews</sys>."
 msgstr ""
-"У цьому пакунку використано програмний інтерфейс обміну "
-"повідомленнями Microsoft, який також використовується у Microsoft Outlook. "
-"Втім, <sys>evolution-mapi</sys> потребує встановлення <sys>OpenChange</sys> "
-"і <sys>Samba 4</sys> і працює не так швидко, як <sys>evolution-ews</sys>."
+"У цьому пакунку використано програмний інтерфейс обміну повідомленнями "
+"Microsoft, який також використовується у Microsoft Outlook. Втім, "
+"<sys>evolution-mapi</sys> потребує встановлення <sys>OpenChange</sys> і "
+"<sys>Samba 4</sys> і працює не так швидко, як <sys>evolution-ews</sys>."
 
 #. (itstool) path: note/p
 #: C/intro-first-run.page:136
@@ -6064,7 +6057,8 @@ msgid ""
 "authentication."
 msgstr ""
 "Ознайомтеся також із <link href=\"https://wiki.gnome.org/Apps/Evolution/EWS/"
-"OAuth2\">документацією щодо налаштовування і діагностики розпізнавання OAuth2</link>."
+"OAuth2\">документацією щодо налаштовування і діагностики розпізнавання "
+"OAuth2</link>."
 
 #. (itstool) path: info/title
 #: C/mail-account-manage-microsoft-exchange-evo-ews.page:39
@@ -6193,7 +6187,9 @@ msgid ""
 "For older versions of Microsoft Exchange, or if <sys>evolution-ews</sys> "
 "does not work well for you, try <sys>evolution-mapi</sys>."
 msgstr ""
-"Для роботи із застарілими версіями Microsoft Exchange або у випадках непрацездатності <sys>evolution-ews</sys> спробуйте скористатися <sys>evolution-mapi</sys>."
+"Для роботи із застарілими версіями Microsoft Exchange або у випадках "
+"непрацездатності <sys>evolution-ews</sys> спробуйте скористатися "
+"<sys>evolution-mapi</sys>."
 
 #. (itstool) path: note/p
 #: C/mail-account-manage-microsoft-exchange.page:45
