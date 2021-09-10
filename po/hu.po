@@ -14,8 +14,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: evolution master\n"
 "Report-Msgid-Bugs-To: https://gitlab.gnome.org/GNOME/evolution/issues\n"
-"POT-Creation-Date: 2021-02-15 10:22+0000\n"
-"PO-Revision-Date: 2021-02-15 20:10+0100\n"
+"POT-Creation-Date: 2021-04-14 15:05+0000\n"
+"PO-Revision-Date: 2021-04-26 18:41+0200\n"
 "Last-Translator: Meskó Balázs <mesko.balazs@fsf.hu>\n"
 "Language-Team: Hungarian <gnome-hu-list at gnome dot org>\n"
 "Language: hu\n"
@@ -3294,7 +3294,7 @@ msgstr "Naptár"
 #: ../data/org.gnome.Evolution.desktop.in.in.h:10 ../src/e-util/e-send-options.c:536
 #: ../src/mail/importers/elm-importer.c:330 ../src/mail/importers/kmail-importer.c:249
 #: ../src/mail/importers/pine-importer.c:423 ../src/modules/mail/e-mail-shell-view.c:1608
-#: ../src/smime/gui/certificate-manager.c:1661
+#: ../src/smime/gui/certificate-manager.c:1664
 msgid "Mail"
 msgstr "Levelek"
 
@@ -3617,11 +3617,11 @@ msgstr "S_zéles nézethez"
 msgid "As Sent Folder for Wi_de View"
 msgstr "Elküldött mappaként a _széles nézethez"
 
-#: ../data/views/memos/galview.xml.h:1 ../src/e-util/e-webdav-browser.c:2592
+#: ../data/views/memos/galview.xml.h:1 ../src/e-util/e-webdav-browser.c:2603
 msgid "_Memos"
 msgstr "_Feljegyzések"
 
-#: ../data/views/tasks/galview.xml.h:1 ../src/e-util/e-webdav-browser.c:2596
+#: ../data/views/tasks/galview.xml.h:1 ../src/e-util/e-webdav-browser.c:2607
 #: ../src/plugins/pst-import/pst-importer.c:571
 msgid "_Tasks"
 msgstr "_Feladatok"
@@ -3777,7 +3777,7 @@ msgstr ""
 #: ../src/addressbook/addressbook.error.xml.h:32
 #: ../src/addressbook/gui/contact-list-editor/contact-list-editor.ui.h:9
 #: ../src/addressbook/gui/widgets/eab-contact-merging.c:757
-#: ../src/calendar/gui/e-comp-editor-page-general.c:1491
+#: ../src/calendar/gui/e-comp-editor-page-general.c:1493
 #: ../src/e-util/e-accounts-window.c:1563 ../src/e-util/e-mail-signature-manager.c:324
 #: ../src/e-util/e-name-selector-dialog.c:1026 ../src/e-util/filter.ui.h:25
 #: ../src/mail/e-mail-account-manager.c:721 ../src/mail/e-mail-label-manager.c:355
@@ -3935,7 +3935,7 @@ msgid "Contact Editor"
 msgstr "Névjegyszerkesztő"
 
 #: ../src/addressbook/gui/contact-editor/contact-editor.ui.h:13
-#: ../src/calendar/gui/e-comp-editor-page-reminders.c:2379
+#: ../src/calendar/gui/e-comp-editor-page-reminders.c:2433
 #: ../src/em-format/e-mail-formatter-attachment.c:277 ../src/mail/mail-config.ui.h:40
 msgid "Options"
 msgstr "Beállítások"
@@ -3956,7 +3956,7 @@ msgstr "Beállítások"
 #: ../src/addressbook/gui/widgets/eab-gui-util.c:316
 #: ../src/addressbook/gui/widgets/e-addressbook-view.c:1327
 #: ../src/calendar/gui/e-cal-dialogs.c:690
-#: ../src/calendar/gui/e-comp-editor-page-recurrence.c:304
+#: ../src/calendar/gui/e-comp-editor-page-recurrence.c:305
 #: ../src/composer/e-composer-actions.c:242 ../src/e-util/e-activity-bar.c:370
 #: ../src/e-util/e-attachment-dialog.c:289 ../src/e-util/e-attachment-store.c:658
 #: ../src/e-util/e-attachment-store.c:668 ../src/e-util/e-attachment-store.c:848
@@ -3975,7 +3975,7 @@ msgstr "Beállítások"
 #: ../src/e-util/e-send-options.ui.h:16 ../src/e-util/e-source-config-dialog.c:356
 #: ../src/e-util/e-source-selector-dialog.c:325 ../src/e-util/e-table-config.c:540
 #: ../src/e-util/e-table-config.ui.h:3 ../src/e-util/e-timezone-dialog.ui.h:2
-#: ../src/e-util/evolution-source-viewer.c:829 ../src/e-util/e-web-view.c:3981
+#: ../src/e-util/evolution-source-viewer.c:829 ../src/e-util/e-web-view.c:3994
 #: ../src/e-util/gal-view-instance-save-as-dialog.c:265 ../src/mail/e-mail-config-window.c:310
 #: ../src/mail/e-mail-label-dialog.c:186 ../src/mail/e-mail-tag-editor.c:160
 #: ../src/mail/em-composer-utils.c:4031 ../src/mail/em-folder-selector.c:333
@@ -3991,9 +3991,9 @@ msgstr "Beállítások"
 #: ../src/plugins/publish-calendar/url-editor-dialog.c:417
 #: ../src/plugins/save-calendar/save-calendar.c:184 ../src/shell/e-shell-content.c:641
 #: ../src/shell/e-shell-content.c:748 ../src/shell/e-shell-utils.c:69
-#: ../src/shell/e-shell-utils.c:133 ../src/smime/gui/certificate-manager.c:650
-#: ../src/smime/gui/certificate-manager.c:718 ../src/smime/gui/certificate-manager.c:946
-#: ../src/smime/gui/certificate-manager.c:1327 ../src/smime/gui/e-cert-selector.c:235
+#: ../src/shell/e-shell-utils.c:133 ../src/smime/gui/certificate-manager.c:653
+#: ../src/smime/gui/certificate-manager.c:721 ../src/smime/gui/certificate-manager.c:949
+#: ../src/smime/gui/certificate-manager.c:1330 ../src/smime/gui/e-cert-selector.c:235
 #: ../src/smime/gui/smime-ui.ui.h:17
 msgid "_Cancel"
 msgstr "Mé_gse"
@@ -4002,18 +4002,18 @@ msgstr "Mé_gse"
 #: ../src/addressbook/gui/contact-editor/e-contact-editor.c:3504
 #: ../src/addressbook/gui/contact-list-editor/contact-list-editor.ui.h:3
 #: ../src/addressbook/gui/widgets/eab-contact-merging.c:755
-#: ../src/calendar/calendar.error.xml.h:47 ../src/calendar/gui/e-comp-editor.c:2235
+#: ../src/calendar/calendar.error.xml.h:47 ../src/calendar/gui/e-comp-editor.c:2237
 #: ../src/composer/e-composer-actions.c:242 ../src/composer/e-composer-actions.c:354
 #: ../src/e-util/e-attachment-store.c:848 ../src/e-util/e-attachment-store.c:855
-#: ../src/e-util/e-mail-signature-script-dialog.c:362 ../src/e-util/e-webdav-browser.c:2620
-#: ../src/e-util/e-web-view.c:3981 ../src/e-util/gal-view-instance-save-as-dialog.c:266
+#: ../src/e-util/e-mail-signature-script-dialog.c:362 ../src/e-util/e-webdav-browser.c:2631
+#: ../src/e-util/e-web-view.c:3994 ../src/e-util/gal-view-instance-save-as-dialog.c:266
 #: ../src/shell/e-shell-content.c:642 ../src/shell/e-shell-utils.c:133
-#: ../src/smime/gui/certificate-manager.c:650 ../src/smime/gui/certificate-manager.c:719
+#: ../src/smime/gui/certificate-manager.c:653 ../src/smime/gui/certificate-manager.c:722
 msgid "_Save"
 msgstr "M_entés"
 
 #: ../src/addressbook/gui/contact-editor/contact-editor.ui.h:16
-#: ../src/calendar/gui/e-comp-editor.c:2132 ../src/calendar/gui/e-comp-editor.c:2204
+#: ../src/calendar/gui/e-comp-editor.c:2134 ../src/calendar/gui/e-comp-editor.c:2206
 #: ../src/e-util/e-preferences-window.c:387 ../src/e-util/e-send-options.ui.h:15
 #: ../src/plugins/email-custom-header/org-gnome-email-custom-header.ui.h:2
 #: ../src/shell/e-shell-window-actions.c:1117
@@ -4080,7 +4080,7 @@ msgstr "_Honlap:"
 
 #: ../src/addressbook/gui/contact-editor/contact-editor.ui.h:30
 #: ../src/calendar/gui/e-comp-editor-event.c:871
-#: ../src/modules/itip-formatter/itip-view.c:1978
+#: ../src/modules/itip-formatter/itip-view.c:1979
 msgid "_Calendar:"
 msgstr "_Naptár:"
 
@@ -4170,14 +4170,14 @@ msgstr "É_vforduló:"
 #: ../src/addressbook/gui/contact-editor/contact-editor.ui.h:52
 #: ../src/addressbook/gui/widgets/eab-contact-formatter.c:1048
 #: ../src/addressbook/gui/widgets/e-addressbook-view.etspec.h:47
-#: ../src/calendar/gui/e-calendar-view.c:2205
+#: ../src/calendar/gui/e-calendar-view.c:2214
 msgid "Anniversary"
 msgstr "Évforduló"
 
 #: ../src/addressbook/gui/contact-editor/contact-editor.ui.h:53
 #: ../src/addressbook/gui/widgets/eab-contact-formatter.c:1047
 #: ../src/addressbook/gui/widgets/e-addressbook-view.etspec.h:46
-#: ../src/calendar/gui/e-calendar-view.c:2204
+#: ../src/calendar/gui/e-calendar-view.c:2213
 msgid "Birthday"
 msgstr "Születésnap"
 
@@ -4259,7 +4259,7 @@ msgstr "_X.509 hozzáadása"
 
 #: ../src/addressbook/gui/contact-editor/contact-editor.ui.h:69
 #: ../src/addressbook/gui/contact-list-editor/contact-list-editor.ui.h:11
-#: ../src/calendar/gui/e-comp-editor-page-general.c:1507 ../src/e-util/e-attachment-view.c:355
+#: ../src/calendar/gui/e-comp-editor-page-general.c:1509 ../src/e-util/e-attachment-view.c:355
 #: ../src/e-util/e-filter-rule.c:409 ../src/e-util/e-mail-signature-manager.c:364
 #: ../src/e-util/e-name-selector-dialog.c:1030 ../src/e-util/filter.error.xml.h:18
 #: ../src/e-util/filter.ui.h:27 ../src/mail/e-mail-config-identity-page.c:872
@@ -4289,23 +4289,23 @@ msgid "Certificates"
 msgstr "Tanúsítványok"
 
 #: ../src/addressbook/gui/contact-editor/e-contact-editor.c:261
-#: ../src/calendar/gui/e-comp-editor.c:2167 ../src/e-util/e-html-editor-actions.c:1109
+#: ../src/calendar/gui/e-comp-editor.c:2169 ../src/e-util/e-html-editor-actions.c:1109
 msgid "_Undo"
 msgstr "_Visszavonás"
 
 #: ../src/addressbook/gui/contact-editor/e-contact-editor.c:263
-#: ../src/calendar/gui/e-comp-editor.c:2169 ../src/e-util/e-focus-tracker.c:147
+#: ../src/calendar/gui/e-comp-editor.c:2171 ../src/e-util/e-focus-tracker.c:147
 #: ../src/e-util/e-focus-tracker.c:150
 msgid "Undo"
 msgstr "Visszavonás"
 
 #: ../src/addressbook/gui/contact-editor/e-contact-editor.c:268
-#: ../src/calendar/gui/e-comp-editor.c:2174 ../src/e-util/e-html-editor-actions.c:1095
+#: ../src/calendar/gui/e-comp-editor.c:2176 ../src/e-util/e-html-editor-actions.c:1095
 msgid "_Redo"
 msgstr "Mé_gis"
 
 #: ../src/addressbook/gui/contact-editor/e-contact-editor.c:270
-#: ../src/calendar/gui/e-comp-editor.c:2176 ../src/e-util/e-focus-tracker.c:163
+#: ../src/calendar/gui/e-comp-editor.c:2178 ../src/e-util/e-focus-tracker.c:163
 #: ../src/e-util/e-focus-tracker.c:166
 msgid "Redo"
 msgstr "Mégis"
@@ -4339,7 +4339,7 @@ msgstr "PGP-kulcsok"
 
 #: ../src/addressbook/gui/contact-editor/e-contact-editor.c:3252
 #: ../src/e-util/e-html-editor-actions.c:395 ../src/e-util/e-image-chooser-dialog.c:193
-#: ../src/smime/gui/certificate-manager.c:671 ../src/smime/gui/certificate-manager.c:956
+#: ../src/smime/gui/certificate-manager.c:674 ../src/smime/gui/certificate-manager.c:959
 msgid "All files"
 msgstr "Minden fájl"
 
@@ -4358,7 +4358,7 @@ msgstr "X.509 tanúsítvány megnyitása"
 #: ../src/e-util/e-html-editor-actions.c:342 ../src/e-util/e-html-editor-actions.c:386
 #: ../src/e-util/e-html-editor-actions.c:489 ../src/e-util/e-image-chooser-dialog.c:182
 #: ../src/plugins/face/face.c:298 ../src/shell/e-shell-utils.c:69
-#: ../src/smime/gui/certificate-manager.c:946
+#: ../src/smime/gui/certificate-manager.c:949
 msgid "_Open"
 msgstr "_Megnyitás"
 
@@ -4441,7 +4441,7 @@ msgstr "Érvénytelen névjegy."
 #: ../src/addressbook/gui/contact-editor/e-contact-quick-add.c:454
 #: ../src/addressbook/gui/contact-editor/fullname.ui.h:13
 #: ../src/addressbook/gui/widgets/eab-gui-util.c:317
-#: ../src/calendar/gui/e-comp-editor-page-recurrence.c:305
+#: ../src/calendar/gui/e-comp-editor-page-recurrence.c:306
 #: ../src/e-util/e-attachment-dialog.c:291 ../src/e-util/e-categories-dialog.c:81
 #: ../src/e-util/e-category-editor.c:258 ../src/e-util/e-charset-combo-box.c:100
 #: ../src/e-util/e-color-chooser-widget.c:126 ../src/e-util/e-filter-datespec.c:301
@@ -4458,7 +4458,7 @@ msgstr "Érvénytelen névjegy."
 #: ../src/plugins/email-custom-header/org-gnome-email-custom-header.ui.h:4
 #: ../src/plugins/publish-calendar/url-editor-dialog.c:418 ../src/shell/e-shell-content.c:643
 #: ../src/shell/e-shell-content.c:749 ../src/shell/main.c:177
-#: ../src/smime/gui/certificate-manager.c:1328 ../src/smime/gui/e-cert-selector.c:236
+#: ../src/smime/gui/certificate-manager.c:1331 ../src/smime/gui/e-cert-selector.c:236
 #: ../src/smime/gui/smime-ui.ui.h:18
 msgid "_OK"
 msgstr "_OK"
@@ -4554,7 +4554,7 @@ msgid "_Suffix:"
 msgstr "M_egkülönböztető név:"
 
 #: ../src/addressbook/gui/contact-list-editor/contact-list-editor.ui.h:1
-#: ../src/addressbook/gui/contact-list-editor/e-contact-list-editor.c:822
+#: ../src/addressbook/gui/contact-list-editor/e-contact-list-editor.c:825
 msgid "Contact List Editor"
 msgstr "Címlista-szerkesztő"
 
@@ -4610,23 +4610,23 @@ msgstr "_Le"
 msgid "_Bottom"
 msgstr "_Aljára"
 
-#: ../src/addressbook/gui/contact-list-editor/e-contact-list-editor.c:947
+#: ../src/addressbook/gui/contact-list-editor/e-contact-list-editor.c:950
 msgid "Contact List Members"
 msgstr "Címlistatagok"
 
-#: ../src/addressbook/gui/contact-list-editor/e-contact-list-editor.c:1499
+#: ../src/addressbook/gui/contact-list-editor/e-contact-list-editor.c:1502
 msgid "_Members"
 msgstr "_Tagok"
 
-#: ../src/addressbook/gui/contact-list-editor/e-contact-list-editor.c:1639
+#: ../src/addressbook/gui/contact-list-editor/e-contact-list-editor.c:1642
 msgid "Error adding list"
 msgstr "Hiba a lista hozzáadásakor"
 
-#: ../src/addressbook/gui/contact-list-editor/e-contact-list-editor.c:1659
+#: ../src/addressbook/gui/contact-list-editor/e-contact-list-editor.c:1662
 msgid "Error modifying list"
 msgstr "Hiba a lista módosításakor"
 
-#: ../src/addressbook/gui/contact-list-editor/e-contact-list-editor.c:1679
+#: ../src/addressbook/gui/contact-list-editor/e-contact-list-editor.c:1682
 msgid "Error removing list"
 msgstr "Hiba a lista törlésekor"
 
@@ -5065,15 +5065,15 @@ msgid "Are you sure you want to delete this contact (%s)?"
 msgstr "Biztos benne, hogy törli a névjegyet (%s)?"
 
 #: ../src/addressbook/gui/widgets/e-addressbook-view.c:1328
-#: ../src/calendar/gui/e-comp-editor.c:2125 ../src/e-util/e-accounts-window.c:1753
+#: ../src/calendar/gui/e-comp-editor.c:2127 ../src/e-util/e-accounts-window.c:1753
 #: ../src/e-util/e-focus-tracker.c:816 ../src/e-util/evolution-source-viewer.c:800
-#: ../src/e-util/e-webdav-browser.c:2844 ../src/mail/e-mail-account-manager.c:739
+#: ../src/e-util/e-webdav-browser.c:2855 ../src/mail/e-mail-account-manager.c:739
 #: ../src/modules/addressbook/e-book-shell-view-actions.c:1173
 #: ../src/modules/calendar/e-cal-shell-view-actions.c:1597
 #: ../src/modules/calendar/e-memo-shell-view-actions.c:697
 #: ../src/modules/calendar/e-task-shell-view-actions.c:851
 #: ../src/modules/mail/e-mail-shell-view-actions.c:1622
-#: ../src/shell/e-shell-window-actions.c:961 ../src/smime/gui/certificate-manager.c:1651
+#: ../src/shell/e-shell-window-actions.c:961 ../src/smime/gui/certificate-manager.c:1654
 #: ../src/smime/gui/smime-ui.ui.h:8
 msgid "_Delete"
 msgstr "_Törlés"
@@ -6267,7 +6267,7 @@ msgid "Do Not Exist"
 msgstr "Nem létezik"
 
 #: ../src/calendar/gui/caltypes.xml.in.h:19
-#: ../src/calendar/gui/e-comp-editor-page-recurrence.c:2096
+#: ../src/calendar/gui/e-comp-editor-page-recurrence.c:2097
 msgid "Recurrence"
 msgstr "Ismétlődés"
 
@@ -6303,64 +6303,64 @@ msgstr "Összefoglaló tartalma"
 msgid "Description Contains"
 msgstr "Leírás tartalma"
 
-#: ../src/calendar/gui/comp-util.c:1552 ../src/modules/itip-formatter/itip-view.c:2312
+#: ../src/calendar/gui/comp-util.c:1547 ../src/modules/itip-formatter/itip-view.c:2313
 #, c-format
 msgid "with one guest"
 msgid_plural "with %d guests"
 msgstr[0] "egy vendéggel"
 msgstr[1] "%d vendéggel"
 
-#: ../src/calendar/gui/comp-util.c:1611
+#: ../src/calendar/gui/comp-util.c:1606
 #, c-format
 msgid "Comments: %s"
 msgstr "Megjegyzések: %s"
 
-#: ../src/calendar/gui/comp-util.c:1625 ../src/calendar/gui/comp-util.c:1628
+#: ../src/calendar/gui/comp-util.c:1620 ../src/calendar/gui/comp-util.c:1623
 msgctxt "iCalendarStatus"
 msgid "None"
 msgstr "Nincs"
 
-#: ../src/calendar/gui/comp-util.c:1626
+#: ../src/calendar/gui/comp-util.c:1621
 msgctxt "iCalendarStatus"
 msgid "Tentative"
 msgstr "Feltételes"
 
-#: ../src/calendar/gui/comp-util.c:1627
+#: ../src/calendar/gui/comp-util.c:1622
 msgctxt "iCalendarStatus"
 msgid "Confirmed"
 msgstr "Megerősítve"
 
-#: ../src/calendar/gui/comp-util.c:1629
+#: ../src/calendar/gui/comp-util.c:1624
 msgctxt "iCalendarStatus"
 msgid "Draft"
 msgstr "Piszkozat"
 
-#: ../src/calendar/gui/comp-util.c:1630
+#: ../src/calendar/gui/comp-util.c:1625
 msgctxt "iCalendarStatus"
 msgid "Final"
 msgstr "Végleges"
 
-#: ../src/calendar/gui/comp-util.c:1631
+#: ../src/calendar/gui/comp-util.c:1626
 msgctxt "iCalendarStatus"
 msgid "Not Started"
 msgstr "Nincs elindítva"
 
-#: ../src/calendar/gui/comp-util.c:1632
+#: ../src/calendar/gui/comp-util.c:1627
 msgctxt "iCalendarStatus"
 msgid "Needs Action"
 msgstr "Beavatkozás szükséges"
 
-#: ../src/calendar/gui/comp-util.c:1633
+#: ../src/calendar/gui/comp-util.c:1628
 msgctxt "iCalendarStatus"
 msgid "In Progress"
 msgstr "Folyamatban"
 
-#: ../src/calendar/gui/comp-util.c:1634
+#: ../src/calendar/gui/comp-util.c:1629
 msgctxt "iCalendarStatus"
 msgid "Completed"
 msgstr "Befejezve"
 
-#: ../src/calendar/gui/comp-util.c:1635
+#: ../src/calendar/gui/comp-util.c:1630
 msgctxt "iCalendarStatus"
 msgid "Cancelled"
 msgstr "Megszakítva"
@@ -6468,28 +6468,28 @@ msgstr "Kattintson ide további események kereséséhez."
 
 #. Translators: Part of: [ Play a sound ] [ x ] [ minute(s) ] [ before ] [ start ]
 #: ../src/calendar/gui/e-alarm-list.c:387
-#: ../src/calendar/gui/e-comp-editor-page-reminders.c:2214
+#: ../src/calendar/gui/e-comp-editor-page-reminders.c:2268
 msgctxt "cal-reminders"
 msgid "Play a sound"
 msgstr "Hangjelzés ennyivel:"
 
 #. Translators: Part of: [ Pop up an alert ] [ x ] [ minute(s) ] [ before ] [ start ]
 #: ../src/calendar/gui/e-alarm-list.c:391
-#: ../src/calendar/gui/e-comp-editor-page-reminders.c:2212
+#: ../src/calendar/gui/e-comp-editor-page-reminders.c:2266
 msgctxt "cal-reminders"
 msgid "Pop up an alert"
 msgstr "Bukkanjon elő egy figyelmeztetés ennyivel:"
 
 #. Translators: Part of: [ Send an email ] [ x ] [ minute(s) ] [ before ] [ start ]
 #: ../src/calendar/gui/e-alarm-list.c:395
-#: ../src/calendar/gui/e-comp-editor-page-reminders.c:2218
+#: ../src/calendar/gui/e-comp-editor-page-reminders.c:2272
 msgctxt "cal-reminders"
 msgid "Send an email"
 msgstr "E-mail küldése"
 
 #. Translators: Part of: [ Run a program ] [ x ] [ minute(s) ] [ before ] [ start ]
 #: ../src/calendar/gui/e-alarm-list.c:399
-#: ../src/calendar/gui/e-comp-editor-page-reminders.c:2216
+#: ../src/calendar/gui/e-comp-editor-page-reminders.c:2270
 msgctxt "cal-reminders"
 msgid "Run a program"
 msgstr "Program futtatása ennyivel:"
@@ -6592,8 +6592,8 @@ msgstr "Kategóriák:"
 
 #: ../src/calendar/gui/e-cal-component-preview.c:288
 #: ../src/modules/cal-config-weather/evolution-cal-config-weather.c:280
-#: ../src/modules/itip-formatter/itip-view.c:1702
-#: ../src/modules/itip-formatter/itip-view.c:1814
+#: ../src/modules/itip-formatter/itip-view.c:1703
+#: ../src/modules/itip-formatter/itip-view.c:1815
 msgid "Location:"
 msgstr "Hely:"
 
@@ -6614,8 +6614,8 @@ msgid "Recurs:"
 msgstr "Ismétlődő:"
 
 #: ../src/calendar/gui/e-cal-component-preview.c:339
-#: ../src/modules/itip-formatter/itip-view.c:1706
-#: ../src/modules/itip-formatter/itip-view.c:1826
+#: ../src/modules/itip-formatter/itip-view.c:1707
+#: ../src/modules/itip-formatter/itip-view.c:1827
 msgid "Status:"
 msgstr "Állapot:"
 
@@ -6801,48 +6801,48 @@ msgstr "Emlékeztetők küldése ezzel az eseménnyel"
 msgid "Notify new attendees _only"
 msgstr "_Csak az új résztvevőket értesítse"
 
-#: ../src/calendar/gui/e-calendar-view.c:472
+#: ../src/calendar/gui/e-calendar-view.c:481
 msgid "Cut selected events to the clipboard"
 msgstr "Kijelölt események kivágása a vágólapra"
 
-#: ../src/calendar/gui/e-calendar-view.c:478
+#: ../src/calendar/gui/e-calendar-view.c:487
 msgid "Copy selected events to the clipboard"
 msgstr "Kijelölt események másolása a vágólapra"
 
-#: ../src/calendar/gui/e-calendar-view.c:484
+#: ../src/calendar/gui/e-calendar-view.c:493
 msgid "Paste events from the clipboard"
 msgstr "Események beillesztése a vágólapról"
 
-#: ../src/calendar/gui/e-calendar-view.c:490
+#: ../src/calendar/gui/e-calendar-view.c:499
 msgid "Delete selected events"
 msgstr "Kijelölt események törlése"
 
-#: ../src/calendar/gui/e-calendar-view.c:901
+#: ../src/calendar/gui/e-calendar-view.c:910
 msgid "Pasted text doesn’t contain valid iCalendar data"
 msgstr "A beillesztett szöveg nem tartalmaz érvényes iCalendar adatot"
 
-#: ../src/calendar/gui/e-calendar-view.c:912 ../src/calendar/gui/e-cal-ops.c:1585
+#: ../src/calendar/gui/e-calendar-view.c:921 ../src/calendar/gui/e-cal-ops.c:1585
 msgid "Default calendar not found"
 msgstr "Az alapértelmezett naptár nem található"
 
-#: ../src/calendar/gui/e-calendar-view.c:917 ../src/calendar/gui/e-cal-ops.c:1588
+#: ../src/calendar/gui/e-calendar-view.c:926 ../src/calendar/gui/e-cal-ops.c:1588
 msgid "Default memo list not found"
 msgstr "Az alapértelmezett feljegyzéslista nem található"
 
-#: ../src/calendar/gui/e-calendar-view.c:922 ../src/calendar/gui/e-cal-ops.c:1591
+#: ../src/calendar/gui/e-calendar-view.c:931 ../src/calendar/gui/e-cal-ops.c:1591
 msgid "Default task list not found"
 msgstr "Az alapértelmezett feladatlista nem található"
 
-#: ../src/calendar/gui/e-calendar-view.c:1014
+#: ../src/calendar/gui/e-calendar-view.c:1023
 msgid "No suitable component found"
 msgstr "Nem található megfelelő komponens"
 
-#: ../src/calendar/gui/e-calendar-view.c:1084
+#: ../src/calendar/gui/e-calendar-view.c:1093
 msgid "Pasting iCalendar data"
 msgstr "iCalendar adatok beillesztése"
 
-#: ../src/calendar/gui/e-calendar-view.c:1145 ../src/calendar/gui/e-calendar-view.c:1148
-#: ../src/calendar/gui/e-calendar-view.c:1151 ../src/calendar/gui/e-calendar-view.c:1152
+#: ../src/calendar/gui/e-calendar-view.c:1154 ../src/calendar/gui/e-calendar-view.c:1157
+#: ../src/calendar/gui/e-calendar-view.c:1160 ../src/calendar/gui/e-calendar-view.c:1161
 msgid "%d %b %Y"
 msgstr "%Y. %b. %-d."
 
@@ -6851,13 +6851,13 @@ msgstr "%Y. %b. %-d."
 #. strftime format %d = day of month, %b = abbreviated
 #. * month name. You can change the order but don't
 #. * change the specifiers or add anything.
-#: ../src/calendar/gui/e-calendar-view.c:1147 ../src/calendar/gui/e-day-view.c:3059
+#: ../src/calendar/gui/e-calendar-view.c:1156 ../src/calendar/gui/e-day-view.c:3073
 #: ../src/calendar/gui/e-day-view-top-item.c:854
 #: ../src/calendar/gui/e-week-view-main-item.c:230
 msgid "%d %b"
 msgstr "%b %d"
 
-#: ../src/calendar/gui/e-calendar-view.c:1158
+#: ../src/calendar/gui/e-calendar-view.c:1167
 msgid "%A %d %b %Y"
 msgstr "%Y. %b. %-d. %A"
 
@@ -6867,14 +6867,14 @@ msgstr "%Y. %b. %-d. %A"
 #. * %d = day of month, %b = abbreviated month name.
 #. * You can change the order but don't change the
 #. * specifiers or add anything.
-#: ../src/calendar/gui/e-calendar-view.c:1160 ../src/calendar/gui/e-day-view.c:3043
+#: ../src/calendar/gui/e-calendar-view.c:1169 ../src/calendar/gui/e-day-view.c:3057
 #: ../src/calendar/gui/e-day-view-top-item.c:850
 #: ../src/calendar/gui/e-week-view-main-item.c:216
 msgid "%a %d %b"
 msgstr "%b %d %a"
 
-#: ../src/calendar/gui/e-calendar-view.c:1161 ../src/calendar/gui/e-calendar-view.c:1163
-#: ../src/calendar/gui/e-calendar-view.c:1164
+#: ../src/calendar/gui/e-calendar-view.c:1170 ../src/calendar/gui/e-calendar-view.c:1172
+#: ../src/calendar/gui/e-calendar-view.c:1173
 msgid "%a %d %b %Y"
 msgstr "%Y. %b. %-d. %a."
 
@@ -6883,7 +6883,7 @@ msgstr "%Y. %b. %-d. %a."
 #. * "Organizer: NameOfTheUser <email@ofuser.com>"
 #. To Translators: It will display
 #. * "Organizer: NameOfTheUser <email@ofuser.com>"
-#: ../src/calendar/gui/e-calendar-view.c:1956 ../src/calendar/gui/e-memo-table.c:561
+#: ../src/calendar/gui/e-calendar-view.c:1965 ../src/calendar/gui/e-memo-table.c:561
 #: ../src/calendar/gui/e-task-table.c:730
 #, c-format
 msgid "Organizer: %s <%s>"
@@ -6892,7 +6892,7 @@ msgstr "Szervező: %s <%s>"
 #. With SunOne accounts, there may be no ':' in organiser.value
 #. With SunOne accounts, there may be no ':' in
 #. * organizer.value.
-#: ../src/calendar/gui/e-calendar-view.c:1959 ../src/calendar/gui/e-memo-table.c:566
+#: ../src/calendar/gui/e-calendar-view.c:1968 ../src/calendar/gui/e-memo-table.c:566
 #: ../src/calendar/gui/e-task-table.c:734
 #, c-format
 msgid "Organizer: %s"
@@ -6900,7 +6900,7 @@ msgstr "Szervező: %s"
 
 #. Translators: It will display "Location: PlaceOfTheMeeting"
 #. Translators: It will display "Location: LocationOfTheAppointment"
-#: ../src/calendar/gui/e-calendar-view.c:1978 ../src/calendar/gui/e-meeting-time-sel.c:2580
+#: ../src/calendar/gui/e-calendar-view.c:1987 ../src/calendar/gui/e-meeting-time-sel.c:2580
 #: ../src/calendar/gui/e-task-table.c:752 ../src/calendar/gui/e-to-do-pane.c:377
 #: ../src/calendar/gui/print.c:3627
 #, c-format
@@ -6909,15 +6909,15 @@ msgstr "Hely: %s"
 
 #. To Translators: It will display "Time: ActualStartDateAndTime (DurationOfTheMeeting)"
 #. Translators: It will display "Time: StartDateAndTime (Duration)"
-#: ../src/calendar/gui/e-calendar-view.c:2037 ../src/calendar/gui/e-to-do-pane.c:480
+#: ../src/calendar/gui/e-calendar-view.c:2046 ../src/calendar/gui/e-to-do-pane.c:480
 #, c-format
 msgid "Time: %s %s"
 msgstr "Idő: %s %s"
 
-#: ../src/calendar/gui/e-calendar-view.c:2106 ../src/calendar/gui/e-memo-table.c:660
+#: ../src/calendar/gui/e-calendar-view.c:2115 ../src/calendar/gui/e-memo-table.c:660
 #: ../src/calendar/gui/e-task-table.c:882 ../src/calendar/gui/e-to-do-pane.c:590
 #: ../src/e-util/e-misc-utils.c:4614 ../src/e-util/e-text.c:566
-#: ../src/e-util/e-web-view.c:4162
+#: ../src/e-util/e-web-view.c:4175
 msgid "…"
 msgstr "…"
 
@@ -6925,7 +6925,7 @@ msgstr "…"
 #. The string is used for Birthday & Anniversary events where the first year is
 #. know, constructing a summary which also shows how many years the birthday or
 #. anniversary is for. Example: "Birthday: John Doe (13)"
-#: ../src/calendar/gui/e-calendar-view.c:2224
+#: ../src/calendar/gui/e-calendar-view.c:2233
 #, c-format
 msgctxt "BirthdaySummary"
 msgid "%s (%d)"
@@ -6985,7 +6985,7 @@ msgstr "Állapot"
 #: ../src/calendar/gui/e-meeting-time-sel.etspec.h:4
 #: ../src/calendar/gui/e-memo-table.etspec.h:3 ../src/calendar/gui/e-task-table.etspec.h:3
 #: ../src/e-util/e-accounts-window.c:1443 ../src/e-util/e-attachment-tree-view.c:205
-#: ../src/e-util/e-collection-account-wizard.c:2026 ../src/e-util/e-webdav-browser.c:2517
+#: ../src/e-util/e-collection-account-wizard.c:2026 ../src/e-util/e-webdav-browser.c:2528
 #: ../src/mail/e-mail-account-tree-view.c:158
 msgid "Type"
 msgstr "Típus"
@@ -6994,8 +6994,8 @@ msgstr "Típus"
 #: ../src/calendar/gui/e-meeting-list-view.c:194 ../src/calendar/gui/e-meeting-store.c:135
 #: ../src/calendar/gui/e-meeting-store.c:170 ../src/calendar/gui/e-meeting-store.c:215
 #: ../src/calendar/gui/print.c:1265 ../src/calendar/gui/print.c:1282
-#: ../src/e-util/e-charset.c:49 ../src/modules/itip-formatter/itip-view.c:3443
-#: ../src/modules/itip-formatter/itip-view.c:6404
+#: ../src/e-util/e-charset.c:49 ../src/modules/itip-formatter/itip-view.c:3444
+#: ../src/modules/itip-formatter/itip-view.c:6436
 #: ../src/modules/plugin-manager/evolution-plugin-manager.c:97
 msgid "Unknown"
 msgstr "Ismeretlen"
@@ -7039,13 +7039,13 @@ msgstr "Nem"
 
 #: ../src/calendar/gui/e-cal-model.c:3788 ../src/calendar/gui/e-meeting-list-view.c:205
 #: ../src/calendar/gui/e-meeting-store.c:179 ../src/calendar/gui/e-meeting-store.c:202
-#: ../src/modules/itip-formatter/itip-view.c:6392
+#: ../src/modules/itip-formatter/itip-view.c:6424
 msgid "Accepted"
 msgstr "Elfogadva"
 
 #: ../src/calendar/gui/e-cal-model.c:3789 ../src/calendar/gui/e-meeting-list-view.c:206
 #: ../src/calendar/gui/e-meeting-store.c:181 ../src/calendar/gui/e-meeting-store.c:204
-#: ../src/modules/itip-formatter/itip-view.c:6398
+#: ../src/modules/itip-formatter/itip-view.c:6430
 msgid "Declined"
 msgstr "Elutasítva"
 
@@ -7057,7 +7057,7 @@ msgstr "Feltételes"
 
 #: ../src/calendar/gui/e-cal-model.c:3791 ../src/calendar/gui/e-meeting-list-view.c:208
 #: ../src/calendar/gui/e-meeting-store.c:185 ../src/calendar/gui/e-meeting-store.c:208
-#: ../src/modules/itip-formatter/itip-view.c:6401
+#: ../src/modules/itip-formatter/itip-view.c:6433
 msgid "Delegated"
 msgstr "Átruházva"
 
@@ -7310,7 +7310,7 @@ msgstr "A kezdés időpontja érvénytelen"
 #: ../src/mail/mail-send-recv.c:598 ../src/mail/mail-send-recv.c:1493
 #: ../src/modules/accounts-window/e-accounts-window-editors.c:172
 #: ../src/plugins/face/face.c:175 ../src/shell/e-shell.c:1235 ../src/shell/e-shell.c:1260
-#: ../src/smime/gui/certificate-manager.c:357
+#: ../src/smime/gui/certificate-manager.c:360
 #, c-format
 msgid "Unknown error"
 msgstr "Ismeretlen hiba"
@@ -7595,46 +7595,46 @@ msgstr "_Típus mező"
 msgid "Toggles whether the Attendee Type is displayed"
 msgstr "Átváltja a Résztvevő típusának megjelenítését"
 
-#: ../src/calendar/gui/e-comp-editor-page-general.c:1030
+#: ../src/calendar/gui/e-comp-editor-page-general.c:1032
 msgid "An organizer is required."
 msgstr "A szervezőt be kell állítani."
 
-#: ../src/calendar/gui/e-comp-editor-page-general.c:1040
-#: ../src/calendar/gui/e-comp-editor-page-general.c:1182
+#: ../src/calendar/gui/e-comp-editor-page-general.c:1042
+#: ../src/calendar/gui/e-comp-editor-page-general.c:1184
 msgid "At least one attendee is required."
 msgstr "Legalább egy résztvevő szükséges."
 
-#: ../src/calendar/gui/e-comp-editor-page-general.c:1306
+#: ../src/calendar/gui/e-comp-editor-page-general.c:1308
 msgid "Or_ganizer:"
 msgstr "Sz_ervező:"
 
-#: ../src/calendar/gui/e-comp-editor-page-general.c:1401
+#: ../src/calendar/gui/e-comp-editor-page-general.c:1403
 msgid "Override color of the event. If not set, then color of the calendar is used."
 msgstr ""
 "Az esemény színének felülírása. Ha nincs megadva, akkor a naptár színe lesz használva."
 
-#: ../src/calendar/gui/e-comp-editor-page-general.c:1403
+#: ../src/calendar/gui/e-comp-editor-page-general.c:1405
 msgid "Override color of the memo. If not set, then color of the memo list is used."
 msgstr ""
 "A feljegyzés színének felülírása. Ha nincs megadva, akkor a feljegyzéslista színe lesz "
 "használva."
 
 #. E_SOURCE_EXTENSION_TASK_LIST
-#: ../src/calendar/gui/e-comp-editor-page-general.c:1405
+#: ../src/calendar/gui/e-comp-editor-page-general.c:1407
 msgid "Override color of the task. If not set, then color of the task list is used."
 msgstr ""
 "A feladat színének felülírása. Ha nincs megadva, akkor a feladatlista színe lesz használva."
 
-#: ../src/calendar/gui/e-comp-editor-page-general.c:1416
+#: ../src/calendar/gui/e-comp-editor-page-general.c:1418
 msgctxt "ECompEditor"
 msgid "Atte_ndees…"
 msgstr "_Résztvevők…"
 
-#: ../src/calendar/gui/e-comp-editor-page-general.c:1499
-#: ../src/calendar/gui/e-comp-editor-page-recurrence.c:2316
-#: ../src/calendar/gui/e-comp-editor.c:2190 ../src/e-util/e-accounts-window.c:1745
+#: ../src/calendar/gui/e-comp-editor-page-general.c:1501
+#: ../src/calendar/gui/e-comp-editor-page-recurrence.c:2317
+#: ../src/calendar/gui/e-comp-editor.c:2192 ../src/e-util/e-accounts-window.c:1745
 #: ../src/e-util/e-html-editor-actions.c:1118 ../src/e-util/e-mail-signature-manager.c:354
-#: ../src/e-util/e-webdav-browser.c:2837 ../src/e-util/filter.ui.h:26
+#: ../src/e-util/e-webdav-browser.c:2848 ../src/e-util/filter.ui.h:26
 #: ../src/mail/e-mail-account-manager.c:730 ../src/mail/e-mail-browser.c:217
 #: ../src/mail/e-mail-label-manager.c:364 ../src/mail/em-folder-properties.c:1362
 #: ../src/mail/mail-config.ui.h:68
@@ -7647,17 +7647,17 @@ msgstr "_Résztvevők…"
 msgid "_Edit"
 msgstr "S_zerkesztés"
 
-#: ../src/calendar/gui/e-comp-editor-page-recurrence.c:328
+#: ../src/calendar/gui/e-comp-editor-page-recurrence.c:329
 msgid "Add exception"
 msgstr "Kivétel hozzáadása"
 
-#: ../src/calendar/gui/e-comp-editor-page-recurrence.c:369
+#: ../src/calendar/gui/e-comp-editor-page-recurrence.c:370
 msgid "Modify exception"
 msgstr "Kivétel módosítása"
 
 #. TRANSLATORS: Entire string is for example: This appointment recurs/Every [x] week(s) on [Wednesday] [forever]'
 #. * (dropdown menu options are in [square brackets]). This means that after the 'on', name of a week day always follows.
-#: ../src/calendar/gui/e-comp-editor-page-recurrence.c:502
+#: ../src/calendar/gui/e-comp-editor-page-recurrence.c:503
 msgid "on"
 msgstr "ekkor:"
 
@@ -7665,7 +7665,7 @@ msgstr "ekkor:"
 #. * (dropdown menu options are in [square brackets]). This means that after 'first', either the string 'day' or
 #. * the name of a week day (like 'Monday' or 'Friday') always follow.
 #.
-#: ../src/calendar/gui/e-comp-editor-page-recurrence.c:583
+#: ../src/calendar/gui/e-comp-editor-page-recurrence.c:584
 msgctxt "ECompEditorPageRecur"
 msgid "first"
 msgstr "első"
@@ -7675,7 +7675,7 @@ msgstr "első"
 #. * (dropdown menu options are in [square brackets]). This means that after 'second', either the string 'day' or
 #. * the name of a week day (like 'Monday' or 'Friday') always follow.
 #.
-#: ../src/calendar/gui/e-comp-editor-page-recurrence.c:589
+#: ../src/calendar/gui/e-comp-editor-page-recurrence.c:590
 msgctxt "ECompEditorPageRecur"
 msgid "second"
 msgstr "második"
@@ -7684,7 +7684,7 @@ msgstr "második"
 #. * (dropdown menu options are in [square brackets]). This means that after 'third', either the string 'day' or
 #. * the name of a week day (like 'Monday' or 'Friday') always follow.
 #.
-#: ../src/calendar/gui/e-comp-editor-page-recurrence.c:594
+#: ../src/calendar/gui/e-comp-editor-page-recurrence.c:595
 msgctxt "ECompEditorPageRecur"
 msgid "third"
 msgstr "harmadik"
@@ -7693,7 +7693,7 @@ msgstr "harmadik"
 #. * (dropdown menu options are in [square brackets]). This means that after 'fourth', either the string 'day' or
 #. * the name of a week day (like 'Monday' or 'Friday') always follow.
 #.
-#: ../src/calendar/gui/e-comp-editor-page-recurrence.c:599
+#: ../src/calendar/gui/e-comp-editor-page-recurrence.c:600
 msgctxt "ECompEditorPageRecur"
 msgid "fourth"
 msgstr "negyedik"
@@ -7702,7 +7702,7 @@ msgstr "negyedik"
 #. * (dropdown menu options are in [square brackets]). This means that after 'fifth', either the string 'day' or
 #. * the name of a week day (like 'Monday' or 'Friday') always follow.
 #.
-#: ../src/calendar/gui/e-comp-editor-page-recurrence.c:604
+#: ../src/calendar/gui/e-comp-editor-page-recurrence.c:605
 msgctxt "ECompEditorPageRecur"
 msgid "fifth"
 msgstr "ötödik"
@@ -7711,14 +7711,14 @@ msgstr "ötödik"
 #. * (dropdown menu options are in [square brackets]). This means that after 'last', either the string 'day' or
 #. * the name of a week day (like 'Monday' or 'Friday') always follow.
 #.
-#: ../src/calendar/gui/e-comp-editor-page-recurrence.c:609
+#: ../src/calendar/gui/e-comp-editor-page-recurrence.c:610
 msgctxt "ECompEditorPageRecur"
 msgid "last"
 msgstr "utolsó"
 
 #. TRANSLATORS: Entire string is for example: This appointment recurs/Every [x] month(s) on the [Other date] [11th to 20th] [17th] [forever]'
 #. * (dropdown menu options are in [square brackets]).
-#: ../src/calendar/gui/e-comp-editor-page-recurrence.c:636
+#: ../src/calendar/gui/e-comp-editor-page-recurrence.c:637
 msgctxt "ECompEditorPageRecur"
 msgid "Other Date"
 msgstr "Egyéb dátum"
@@ -7727,7 +7727,7 @@ msgstr "Egyéb dátum"
 #. * the month to setup an appointment recurrence. The entire string is for example: This appointment recurs/Every [x] month(s)
 #. * on the [Other date] [1st to 10th] [7th] [forever]' (dropdown menu options are in [square brackets]).
 #.
-#: ../src/calendar/gui/e-comp-editor-page-recurrence.c:642
+#: ../src/calendar/gui/e-comp-editor-page-recurrence.c:643
 msgctxt "ECompEditorPageRecur"
 msgid "1st to 10th"
 msgstr "1-10. között"
@@ -7736,7 +7736,7 @@ msgstr "1-10. között"
 #. * the month to setup an appointment recurrence. The entire string is for example: This appointment recurs/Every [x] month(s)
 #. * on the [Other date] [11th to 20th] [17th] [forever]' (dropdown menu options are in [square brackets]).
 #.
-#: ../src/calendar/gui/e-comp-editor-page-recurrence.c:648
+#: ../src/calendar/gui/e-comp-editor-page-recurrence.c:649
 msgctxt "ECompEditorPageRecur"
 msgid "11th to 20th"
 msgstr "11-20. között"
@@ -7745,7 +7745,7 @@ msgstr "11-20. között"
 #. * the month to setup an appointment recurrence. The entire string is for example: This appointment recurs/Every [x] month(s)
 #. * on the [Other date] [21th to 31th] [27th] [forever]' (dropdown menu options are in [square brackets]).
 #.
-#: ../src/calendar/gui/e-comp-editor-page-recurrence.c:654
+#: ../src/calendar/gui/e-comp-editor-page-recurrence.c:655
 msgctxt "ECompEditorPageRecur"
 msgid "21st to 31st"
 msgstr "21-31. között"
@@ -7753,42 +7753,42 @@ msgstr "21-31. között"
 #. For Translator : 'day' is part of the sentence of the form 'appointment recurs/Every [x] month(s) on the [first] [day] [forever]'
 #. * (dropdown menu options are in[square brackets]). This means that after 'first', either the string 'day' or
 #. * the name of a week day (like 'Monday' or 'Friday') always follow.
-#: ../src/calendar/gui/e-comp-editor-page-recurrence.c:680
+#: ../src/calendar/gui/e-comp-editor-page-recurrence.c:681
 msgctxt "ECompEditorPageRecur"
 msgid "day"
 msgstr "nap"
 
-#: ../src/calendar/gui/e-comp-editor-page-recurrence.c:681
+#: ../src/calendar/gui/e-comp-editor-page-recurrence.c:682
 msgctxt "ECompEditorPageRecur"
 msgid "Monday"
 msgstr "Hétfő"
 
-#: ../src/calendar/gui/e-comp-editor-page-recurrence.c:682
+#: ../src/calendar/gui/e-comp-editor-page-recurrence.c:683
 msgctxt "ECompEditorPageRecur"
 msgid "Tuesday"
 msgstr "Kedd"
 
-#: ../src/calendar/gui/e-comp-editor-page-recurrence.c:683
+#: ../src/calendar/gui/e-comp-editor-page-recurrence.c:684
 msgctxt "ECompEditorPageRecur"
 msgid "Wednesday"
 msgstr "Szerda"
 
-#: ../src/calendar/gui/e-comp-editor-page-recurrence.c:684
+#: ../src/calendar/gui/e-comp-editor-page-recurrence.c:685
 msgctxt "ECompEditorPageRecur"
 msgid "Thursday"
 msgstr "Csütörtök"
 
-#: ../src/calendar/gui/e-comp-editor-page-recurrence.c:685
+#: ../src/calendar/gui/e-comp-editor-page-recurrence.c:686
 msgctxt "ECompEditorPageRecur"
 msgid "Friday"
 msgstr "Péntek"
 
-#: ../src/calendar/gui/e-comp-editor-page-recurrence.c:686
+#: ../src/calendar/gui/e-comp-editor-page-recurrence.c:687
 msgctxt "ECompEditorPageRecur"
 msgid "Saturday"
 msgstr "Szombat"
 
-#: ../src/calendar/gui/e-comp-editor-page-recurrence.c:687
+#: ../src/calendar/gui/e-comp-editor-page-recurrence.c:688
 msgctxt "ECompEditorPageRecur"
 msgid "Sunday"
 msgstr "Vasárnap"
@@ -7796,127 +7796,127 @@ msgstr "Vasárnap"
 #. TRANSLATORS: Entire string is for example: 'This appointment recurs/Every [x] month(s) on the [second] [Tuesday] [forever]'
 #. * (dropdown menu options are in [square brackets])."
 #.
-#: ../src/calendar/gui/e-comp-editor-page-recurrence.c:816
+#: ../src/calendar/gui/e-comp-editor-page-recurrence.c:817
 msgctxt "ECompEditorPageRecur"
 msgid "on the"
 msgstr "ezen:"
 
-#: ../src/calendar/gui/e-comp-editor-page-recurrence.c:1090
+#: ../src/calendar/gui/e-comp-editor-page-recurrence.c:1091
 msgctxt "ECompEditorPageRecur"
 msgid "occurrences"
 msgstr "alkalommal"
 
 #. Translators: Entire string is for example:     'This appointment recurs/Every[x][day(s)][for][1]occurrences' (combobox options are in [square brackets])
-#: ../src/calendar/gui/e-comp-editor-page-recurrence.c:1551
-#: ../src/calendar/gui/e-comp-editor-page-recurrence.c:2108
+#: ../src/calendar/gui/e-comp-editor-page-recurrence.c:1552
+#: ../src/calendar/gui/e-comp-editor-page-recurrence.c:2109
 msgctxt "ECompEditorPageRecur"
 msgid "This appointment rec_urs"
 msgstr "Ez az érte_kezlet ismétlődik"
 
 #. Translators: Entire string is for example:     'This task recurs/Every[x][day(s)][for][1]occurrences' (combobox options are in [square brackets])
-#: ../src/calendar/gui/e-comp-editor-page-recurrence.c:1556
+#: ../src/calendar/gui/e-comp-editor-page-recurrence.c:1557
 msgctxt "ECompEditorPageRecur"
 msgid "This task rec_urs"
 msgstr "Ez a fela_dat ismétlődik"
 
 #. Translators: Entire string is for example:     'This memo recurs/Every[x][day(s)][for][1]occurrences' (combobox options are in [square brackets])
-#: ../src/calendar/gui/e-comp-editor-page-recurrence.c:1561
+#: ../src/calendar/gui/e-comp-editor-page-recurrence.c:1562
 msgctxt "ECompEditorPageRecur"
 msgid "This memo rec_urs"
 msgstr "Ez a _feljegyzés ismétlődik"
 
 #. Translators: Entire string is for example:     'This component recurs/Every[x][day(s)][for][1]occurrences' (combobox options are in [square brackets])
-#: ../src/calendar/gui/e-comp-editor-page-recurrence.c:1566
+#: ../src/calendar/gui/e-comp-editor-page-recurrence.c:1567
 msgctxt "ECompEditorPageRecur"
 msgid "This component rec_urs"
 msgstr "Ez az összete_vő ismétlődik"
 
-#: ../src/calendar/gui/e-comp-editor-page-recurrence.c:1937
+#: ../src/calendar/gui/e-comp-editor-page-recurrence.c:1938
 msgid "Recurrence exception date is invalid"
 msgstr "Érvénytelen ismétlődéskivételi dátum"
 
-#: ../src/calendar/gui/e-comp-editor-page-recurrence.c:1993
+#: ../src/calendar/gui/e-comp-editor-page-recurrence.c:1994
 msgid "End time of the recurrence is before the start"
 msgstr "Az ismétlődés befejezési ideje a kezdés előtt volt"
 
-#: ../src/calendar/gui/e-comp-editor-page-recurrence.c:2036
+#: ../src/calendar/gui/e-comp-editor-page-recurrence.c:2037
 msgid "R_ecurrence"
 msgstr "_Ismétlődés"
 
-#: ../src/calendar/gui/e-comp-editor-page-recurrence.c:2038
+#: ../src/calendar/gui/e-comp-editor-page-recurrence.c:2039
 msgid "Set or unset recurrence"
 msgstr "Ismétlődés beállítása vagy törlése"
 
 #. Translators: Entire string is for example:     'This appointment recurs/Every[x][day(s)][for][1]occurrences' (combobox options are in [square brackets])
-#: ../src/calendar/gui/e-comp-editor-page-recurrence.c:2140
+#: ../src/calendar/gui/e-comp-editor-page-recurrence.c:2141
 msgctxt "ECompEditorPageRecur"
 msgid "Every"
 msgstr "Minden"
 
 #. Translators: Entire string is for example:     'This appointment recurs/Every[x][day(s)][for][1]occurrences' (combobox options are in [square brackets])
-#: ../src/calendar/gui/e-comp-editor-page-recurrence.c:2175
+#: ../src/calendar/gui/e-comp-editor-page-recurrence.c:2176
 msgctxt "ECompEditorPageRecur"
 msgid "day(s)"
 msgstr "nap"
 
 #. Translators: Entire string is for example:     'This appointment recurs/Every[x][day(s)][for][1]occurrences' (combobox options are in [square brackets])
-#: ../src/calendar/gui/e-comp-editor-page-recurrence.c:2177
+#: ../src/calendar/gui/e-comp-editor-page-recurrence.c:2178
 msgctxt "ECompEditorPageRecur"
 msgid "week(s)"
 msgstr "héten"
 
 #. Translators: Entire string is for example:     'This appointment recurs/Every[x][day(s)][for][1]occurrences' (combobox options are in [square brackets])
-#: ../src/calendar/gui/e-comp-editor-page-recurrence.c:2179
+#: ../src/calendar/gui/e-comp-editor-page-recurrence.c:2180
 msgctxt "ECompEditorPageRecur"
 msgid "month(s)"
 msgstr "hónapban"
 
 #. Translators: Entire string is for example:     'This appointment recurs/Every[x][day(s)][for][1]occurrences' (combobox options are in [square brackets])
-#: ../src/calendar/gui/e-comp-editor-page-recurrence.c:2181
+#: ../src/calendar/gui/e-comp-editor-page-recurrence.c:2182
 msgctxt "ECompEditorPageRecur"
 msgid "year(s)"
 msgstr "évben"
 
 #. Translators: Entire string is for example:     'This appointment recurs/Every[x][day(s)][for][1]occurrences' (combobox options are in [square brackets])
-#: ../src/calendar/gui/e-comp-editor-page-recurrence.c:2210
+#: ../src/calendar/gui/e-comp-editor-page-recurrence.c:2211
 msgctxt "ECompEditorPageRecur"
 msgid "for"
 msgstr "hossz:"
 
 #. Translators: Entire string is for example:     'This appointment recurs/Every[x][day(s)][for][1]occurrences' (combobox options are in [square brackets])
-#: ../src/calendar/gui/e-comp-editor-page-recurrence.c:2212
+#: ../src/calendar/gui/e-comp-editor-page-recurrence.c:2213
 msgctxt "ECompEditorPageRecur"
 msgid "until"
 msgstr "eddig:"
 
 #. Translators: Entire string is for example:     'This appointment recurs/Every[x][day(s)][for][1]occurrences' (combobox options are in [square brackets])
-#: ../src/calendar/gui/e-comp-editor-page-recurrence.c:2214
+#: ../src/calendar/gui/e-comp-editor-page-recurrence.c:2215
 msgctxt "ECompEditorPageRecur"
 msgid "forever"
 msgstr "örökké"
 
-#: ../src/calendar/gui/e-comp-editor-page-recurrence.c:2230
+#: ../src/calendar/gui/e-comp-editor-page-recurrence.c:2231
 msgid "This appointment contains recurrences that Evolution cannot edit."
 msgstr ""
 "Ez az értekezlet olyan ismétlődéseket tartalmaz, amelyeket az Evolution nem tud "
 "szerkeszteni."
 
-#: ../src/calendar/gui/e-comp-editor-page-recurrence.c:2243
+#: ../src/calendar/gui/e-comp-editor-page-recurrence.c:2244
 msgid "Exceptions"
 msgstr "Kivételek"
 
-#: ../src/calendar/gui/e-comp-editor-page-recurrence.c:2308
-#: ../src/calendar/gui/e-comp-editor-page-reminders.c:2168
+#: ../src/calendar/gui/e-comp-editor-page-recurrence.c:2309
+#: ../src/calendar/gui/e-comp-editor-page-reminders.c:2222
 #: ../src/mail/e-mail-config-identity-page.c:854 ../src/mail/mail-config.ui.h:67
 msgid "A_dd"
 msgstr "Hozzá_adás"
 
-#: ../src/calendar/gui/e-comp-editor-page-recurrence.c:2324
-#: ../src/calendar/gui/e-comp-editor-page-reminders.c:2176 ../src/mail/mail-config.ui.h:69
+#: ../src/calendar/gui/e-comp-editor-page-recurrence.c:2325
+#: ../src/calendar/gui/e-comp-editor-page-reminders.c:2230 ../src/mail/mail-config.ui.h:69
 msgid "Re_move"
 msgstr "_Eltávolítás"
 
-#: ../src/calendar/gui/e-comp-editor-page-recurrence.c:2332
+#: ../src/calendar/gui/e-comp-editor-page-recurrence.c:2333
 msgid "Preview"
 msgstr "Előnézet"
 
@@ -7924,16 +7924,16 @@ msgstr "Előnézet"
 msgid "Send To"
 msgstr "Küldés"
 
-#: ../src/calendar/gui/e-comp-editor-page-reminders.c:1592
+#: ../src/calendar/gui/e-comp-editor-page-reminders.c:1646
 msgid "_Reminders"
 msgstr "E_mlékeztetők"
 
-#: ../src/calendar/gui/e-comp-editor-page-reminders.c:1594
+#: ../src/calendar/gui/e-comp-editor-page-reminders.c:1648
 msgid "Set or unset reminders"
 msgstr "Emlékeztetők beállítása vagy törlése"
 
 #. Translators: "None" for "No reminder set"
-#: ../src/calendar/gui/e-comp-editor-page-reminders.c:1706
+#: ../src/calendar/gui/e-comp-editor-page-reminders.c:1760
 msgctxt "cal-reminders"
 msgid "None"
 msgstr "Nincs"
@@ -7941,162 +7941,162 @@ msgstr "Nincs"
 #. Translators: This constructs predefined reminder's description, for example "15 minutes before",
 #. "1 hour before", "1 day before", but, if user has set, also more complicated strings like
 #. "2 days 13 hours 1 minute before".
-#: ../src/calendar/gui/e-comp-editor-page-reminders.c:1716
+#: ../src/calendar/gui/e-comp-editor-page-reminders.c:1770
 #, c-format
 msgctxt "cal-reminders"
 msgid "%s before"
 msgstr "%s előtte"
 
-#: ../src/calendar/gui/e-comp-editor-page-reminders.c:1721
+#: ../src/calendar/gui/e-comp-editor-page-reminders.c:1775
 msgctxt "cal-reminders"
 msgid "at the start"
 msgstr "a kezdéskor"
 
 #. Translators: "Custom" for "Custom reminder set"
-#: ../src/calendar/gui/e-comp-editor-page-reminders.c:1729
+#: ../src/calendar/gui/e-comp-editor-page-reminders.c:1783
 msgctxt "cal-reminders"
 msgid "Custom"
 msgstr "Egyéni"
 
-#: ../src/calendar/gui/e-comp-editor-page-reminders.c:1875
+#: ../src/calendar/gui/e-comp-editor-page-reminders.c:1929
 msgid "Set a custom predefined time to"
 msgstr "Egyéni előre meghatározott idő beállítása ehhez"
 
 #. Translators: this is part of: "Set a custom predefined time to [nnn] days [nnn] hours [nnn] minutes", where the text in "[]" means a separate widget
-#: ../src/calendar/gui/e-comp-editor-page-reminders.c:1888
+#: ../src/calendar/gui/e-comp-editor-page-reminders.c:1942
 msgctxt "cal-reminders"
 msgid "da_ys"
 msgstr "_nap"
 
 #. Translators: this is part of: "Set a custom predefined time to [nnn] days [nnn] hours [nnn] minutes", where the text in "[]" means a separate widget
-#: ../src/calendar/gui/e-comp-editor-page-reminders.c:1904
+#: ../src/calendar/gui/e-comp-editor-page-reminders.c:1958
 msgctxt "cal-reminders"
 msgid "_hours"
 msgstr "ó_ra"
 
 #. Translators: this is part of: "Set a custom predefined time to [nnn] days [nnn] hours [nnn] minutes", where the text in "[]" means a separate widget
-#: ../src/calendar/gui/e-comp-editor-page-reminders.c:1920
+#: ../src/calendar/gui/e-comp-editor-page-reminders.c:1974
 msgctxt "cal-reminders"
 msgid "_minutes"
 msgstr "_perc"
 
-#: ../src/calendar/gui/e-comp-editor-page-reminders.c:1926
+#: ../src/calendar/gui/e-comp-editor-page-reminders.c:1980
 msgid "_Add time"
 msgstr "_Idő hozzáadása"
 
-#: ../src/calendar/gui/e-comp-editor-page-reminders.c:2006
+#: ../src/calendar/gui/e-comp-editor-page-reminders.c:2060
 #: ../src/modules/calendar/e-calendar-preferences.ui.h:73
 msgid "Reminders"
 msgstr "Emlékeztetők"
 
-#: ../src/calendar/gui/e-comp-editor-page-reminders.c:2031
+#: ../src/calendar/gui/e-comp-editor-page-reminders.c:2085
 msgid "_Reminder"
 msgstr "E_mlékeztető"
 
-#: ../src/calendar/gui/e-comp-editor-page-reminders.c:2056
+#: ../src/calendar/gui/e-comp-editor-page-reminders.c:2110
 msgid "Add custom predefined time"
 msgstr "Egyéni előre meghatározott idő hozzáadása"
 
-#: ../src/calendar/gui/e-comp-editor-page-reminders.c:2064
+#: ../src/calendar/gui/e-comp-editor-page-reminders.c:2118
 msgid "Remove custom predefined times"
 msgstr "Egyéni előre meghatározott idő eltávolítása"
 
 #. Translators: Part of: [ Pop up an alert ] [ x ] [ minute(s) ] [ before ] [ start ]
-#: ../src/calendar/gui/e-comp-editor-page-reminders.c:2249
+#: ../src/calendar/gui/e-comp-editor-page-reminders.c:2303
 msgctxt "cal-reminders"
 msgid "minute(s)"
 msgstr "perc"
 
 #. Translators: Part of: [ Pop up an alert ] [ x ] [ hour(s) ] [ before ] [ start ]
-#: ../src/calendar/gui/e-comp-editor-page-reminders.c:2251
+#: ../src/calendar/gui/e-comp-editor-page-reminders.c:2305
 msgctxt "cal-reminders"
 msgid "hour(s)"
 msgstr "óra"
 
 #. Translators: Part of: [ Pop up an alert ] [ x ] [ day(s) ] [ before ] [ start ]
-#: ../src/calendar/gui/e-comp-editor-page-reminders.c:2253
+#: ../src/calendar/gui/e-comp-editor-page-reminders.c:2307
 msgctxt "cal-reminders"
 msgid "day(s)"
 msgstr "nap"
 
 #. Translators: Part of: [ Pop up an alert ] [ x ] [ minute(s) ] [ before ] [ start ]
-#: ../src/calendar/gui/e-comp-editor-page-reminders.c:2270
+#: ../src/calendar/gui/e-comp-editor-page-reminders.c:2324
 msgctxt "cal-reminders"
 msgid "before"
 msgstr "ez előtt:"
 
 #. Translators: Part of: [ Pop up an alert ] [ x ] [ minute(s) ] [ after ] [ start ]
-#: ../src/calendar/gui/e-comp-editor-page-reminders.c:2272
+#: ../src/calendar/gui/e-comp-editor-page-reminders.c:2326
 msgctxt "cal-reminders"
 msgid "after"
 msgstr "ez után:"
 
 #. Translators: Part of: [ Pop up an alert ] [ x ] [ minute(s) ] [ before ] [ start ]
-#: ../src/calendar/gui/e-comp-editor-page-reminders.c:2288
+#: ../src/calendar/gui/e-comp-editor-page-reminders.c:2342
 msgctxt "cal-reminders"
 msgid "start"
 msgstr "kezdés"
 
 #. Translators: Part of: [ Pop up an alert ] [ x ] [ minute(s) ] [ before ] [ end ]
-#: ../src/calendar/gui/e-comp-editor-page-reminders.c:2290
+#: ../src/calendar/gui/e-comp-editor-page-reminders.c:2344
 msgctxt "cal-reminders"
 msgid "end"
 msgstr "befejezés"
 
 #. Translators: Part of: Repeat the reminder [ x ] extra times every [ y ] [ minutes ]
-#: ../src/calendar/gui/e-comp-editor-page-reminders.c:2309
+#: ../src/calendar/gui/e-comp-editor-page-reminders.c:2363
 msgid "Re_peat the reminder"
 msgstr "_Emlékeztető megismétlése"
 
 #. Translators: Part of: Repeat the reminder [ x ] extra times every [ y ] [ minutes ]
-#: ../src/calendar/gui/e-comp-editor-page-reminders.c:2334
+#: ../src/calendar/gui/e-comp-editor-page-reminders.c:2388
 msgctxt "cal-reminders"
 msgid "extra times every"
 msgstr "alkalommal ennyi:"
 
 #. Translators: Part of: Repeat the reminder [ x ] extra times every [ y ] [ minutes ]
-#: ../src/calendar/gui/e-comp-editor-page-reminders.c:2371
+#: ../src/calendar/gui/e-comp-editor-page-reminders.c:2425
 msgctxt "cal-reminders"
 msgid "minutes"
 msgstr "perc"
 
 #. Translators: Part of: Repeat the reminder [ x ] extra times every [ y ] [ hours ]
-#: ../src/calendar/gui/e-comp-editor-page-reminders.c:2373
+#: ../src/calendar/gui/e-comp-editor-page-reminders.c:2427
 msgctxt "cal-reminders"
 msgid "hours"
 msgstr "óra"
 
 #. Translators: Part of: Repeat the reminder [ x ] extra times every [ y ] [ days ]
-#: ../src/calendar/gui/e-comp-editor-page-reminders.c:2375
+#: ../src/calendar/gui/e-comp-editor-page-reminders.c:2429
 msgctxt "cal-reminders"
 msgid "days"
 msgstr "nap"
 
 #. page_reminders->priv->custom_email_entry is initialized on demand
-#: ../src/calendar/gui/e-comp-editor-page-reminders.c:2412
-#: ../src/calendar/gui/e-comp-editor-page-reminders.c:2569
+#: ../src/calendar/gui/e-comp-editor-page-reminders.c:2466
+#: ../src/calendar/gui/e-comp-editor-page-reminders.c:2623
 msgctxt "cal-reminders"
 msgid "Custom _message"
 msgstr "Egyé_ni üzenet"
 
-#: ../src/calendar/gui/e-comp-editor-page-reminders.c:2456
+#: ../src/calendar/gui/e-comp-editor-page-reminders.c:2510
 msgctxt "cal-reminders"
 msgid "Custom reminder _sound"
 msgstr "Egyéni e_mlékeztető hang"
 
-#: ../src/calendar/gui/e-comp-editor-page-reminders.c:2467
+#: ../src/calendar/gui/e-comp-editor-page-reminders.c:2521
 msgid "Select a sound file"
 msgstr "Válasszon hangfájlt"
 
-#: ../src/calendar/gui/e-comp-editor-page-reminders.c:2495
+#: ../src/calendar/gui/e-comp-editor-page-reminders.c:2549
 msgid "_Program:"
 msgstr "_Program:"
 
-#: ../src/calendar/gui/e-comp-editor-page-reminders.c:2520
+#: ../src/calendar/gui/e-comp-editor-page-reminders.c:2574
 msgid "_Arguments:"
 msgstr "_Argumentumok:"
 
-#: ../src/calendar/gui/e-comp-editor-page-reminders.c:2552
+#: ../src/calendar/gui/e-comp-editor-page-reminders.c:2606
 msgid "_Send To:"
 msgstr "_Küldés:"
 
@@ -8291,7 +8291,7 @@ msgstr "melléklet"
 msgid "Sending notifications to attendees…"
 msgstr "Értesítések küldése a résztvevőknek…"
 
-#: ../src/calendar/gui/e-comp-editor.c:1025 ../src/e-util/e-webdav-browser.c:1923
+#: ../src/calendar/gui/e-comp-editor.c:1025 ../src/e-util/e-webdav-browser.c:1925
 msgid "Saving changes…"
 msgstr "Változtatások mentése…"
 
@@ -8300,7 +8300,7 @@ msgid "No Summary"
 msgstr "Nincs összefoglaló"
 
 #. == Button box ==
-#: ../src/calendar/gui/e-comp-editor.c:2104 ../src/composer/e-composer-actions.c:333
+#: ../src/calendar/gui/e-comp-editor.c:2106 ../src/composer/e-composer-actions.c:333
 #: ../src/e-util/e-accounts-window.c:1778 ../src/e-util/e-html-editor-dialog.c:194
 #: ../src/e-util/e-mail-signature-editor.c:319 ../src/e-util/e-name-selector-dialog.c:548
 #: ../src/e-util/e-preferences-window.c:396 ../src/e-util/e-table-field-chooser-dialog.c:197
@@ -8309,76 +8309,76 @@ msgstr "Nincs összefoglaló"
 #: ../src/mail/em-folder-properties.c:1487 ../src/mail/em-subscription-editor.c:1734
 #: ../src/modules/plugin-manager/evolution-plugin-manager.c:307
 #: ../src/shell/e-shell-window-actions.c:354 ../src/shell/e-shell-window-actions.c:926
-#: ../src/smime/gui/certificate-manager.c:2173
+#: ../src/smime/gui/certificate-manager.c:2176
 msgid "_Close"
 msgstr "_Bezárás"
 
-#: ../src/calendar/gui/e-comp-editor.c:2106
+#: ../src/calendar/gui/e-comp-editor.c:2108
 msgid "Close the current window"
 msgstr "A jelenlegi ablak bezárása"
 
 #. copy menu item
-#: ../src/calendar/gui/e-comp-editor.c:2111 ../src/e-util/e-focus-tracker.c:806
+#: ../src/calendar/gui/e-comp-editor.c:2113 ../src/e-util/e-focus-tracker.c:806
 #: ../src/e-util/e-html-editor-actions.c:1074 ../src/e-util/e-text.c:2065
 #: ../src/e-util/e-web-view.c:467 ../src/mail/e-mail-browser.c:173
 #: ../src/mail/mail.error.xml.h:147 ../src/shell/e-shell-window-actions.c:947
 msgid "_Copy"
 msgstr "_Másolás"
 
-#: ../src/calendar/gui/e-comp-editor.c:2113 ../src/e-util/e-focus-tracker.c:203
+#: ../src/calendar/gui/e-comp-editor.c:2115 ../src/e-util/e-focus-tracker.c:203
 #: ../src/e-util/e-focus-tracker.c:259 ../src/e-util/e-focus-tracker.c:312
 #: ../src/e-util/e-focus-tracker.c:807 ../src/e-util/e-web-view.c:469
-#: ../src/e-util/e-web-view.c:2042 ../src/mail/e-mail-browser.c:175
+#: ../src/e-util/e-web-view.c:2055 ../src/mail/e-mail-browser.c:175
 #: ../src/shell/e-shell-window-actions.c:949
 msgid "Copy the selection"
 msgstr "A kijelölés másolása"
 
 #. cut menu item
-#: ../src/calendar/gui/e-comp-editor.c:2118 ../src/e-util/e-focus-tracker.c:801
+#: ../src/calendar/gui/e-comp-editor.c:2120 ../src/e-util/e-focus-tracker.c:801
 #: ../src/e-util/e-html-editor-actions.c:1081 ../src/e-util/e-text.c:2051
 #: ../src/mail/e-mail-browser.c:180 ../src/shell/e-shell-window-actions.c:954
 msgid "Cu_t"
 msgstr "_Kivágás"
 
-#: ../src/calendar/gui/e-comp-editor.c:2120 ../src/e-util/e-focus-tracker.c:196
+#: ../src/calendar/gui/e-comp-editor.c:2122 ../src/e-util/e-focus-tracker.c:196
 #: ../src/e-util/e-focus-tracker.c:252 ../src/e-util/e-focus-tracker.c:306
-#: ../src/e-util/e-focus-tracker.c:802 ../src/e-util/e-web-view.c:2051
+#: ../src/e-util/e-focus-tracker.c:802 ../src/e-util/e-web-view.c:2064
 #: ../src/mail/e-mail-browser.c:182 ../src/shell/e-shell-window-actions.c:956
 msgid "Cut the selection"
 msgstr "A kijelölés kivágása"
 
-#: ../src/calendar/gui/e-comp-editor.c:2127 ../src/e-util/e-focus-tracker.c:217
+#: ../src/calendar/gui/e-comp-editor.c:2129 ../src/e-util/e-focus-tracker.c:217
 #: ../src/e-util/e-focus-tracker.c:273 ../src/e-util/e-focus-tracker.c:817
 #: ../src/shell/e-shell-window-actions.c:963
 msgid "Delete the selection"
 msgstr "A kijelölés törlése"
 
-#: ../src/calendar/gui/e-comp-editor.c:2134
+#: ../src/calendar/gui/e-comp-editor.c:2136
 msgid "View help"
 msgstr "Súgó megjelenítése"
 
 #. paste menu item
-#: ../src/calendar/gui/e-comp-editor.c:2139 ../src/e-util/e-focus-tracker.c:811
+#: ../src/calendar/gui/e-comp-editor.c:2141 ../src/e-util/e-focus-tracker.c:811
 #: ../src/e-util/e-html-editor-actions.c:1088 ../src/e-util/e-text.c:2077
 #: ../src/mail/e-mail-browser.c:187 ../src/shell/e-shell-window-actions.c:982
 msgid "_Paste"
 msgstr "_Beillesztés"
 
-#: ../src/calendar/gui/e-comp-editor.c:2141 ../src/e-util/e-focus-tracker.c:210
+#: ../src/calendar/gui/e-comp-editor.c:2143 ../src/e-util/e-focus-tracker.c:210
 #: ../src/e-util/e-focus-tracker.c:266 ../src/e-util/e-focus-tracker.c:318
-#: ../src/e-util/e-focus-tracker.c:812 ../src/e-util/e-web-view.c:2060
+#: ../src/e-util/e-focus-tracker.c:812 ../src/e-util/e-web-view.c:2073
 #: ../src/mail/e-mail-browser.c:189 ../src/shell/e-shell-window-actions.c:984
 msgid "Paste the clipboard"
 msgstr "A vágólap tartalmának beillesztése"
 
-#: ../src/calendar/gui/e-comp-editor.c:2146 ../src/composer/e-composer-actions.c:387
+#: ../src/calendar/gui/e-comp-editor.c:2148 ../src/composer/e-composer-actions.c:387
 #: ../src/mail/e-mail-reader.c:2759
 #: ../src/modules/addressbook/e-book-shell-view-actions.c:1319
 #: ../src/modules/addressbook/e-book-shell-view-actions.c:1333
 msgid "_Print…"
 msgstr "_Nyomtatás…"
 
-#: ../src/calendar/gui/e-comp-editor.c:2153 ../src/mail/e-mail-reader.c:2766
+#: ../src/calendar/gui/e-comp-editor.c:2155 ../src/mail/e-mail-reader.c:2766
 #: ../src/modules/addressbook/e-book-shell-view-actions.c:1326
 #: ../src/modules/calendar/e-cal-shell-view-actions.c:1821
 #: ../src/modules/calendar/e-memo-shell-view-actions.c:838
@@ -8386,66 +8386,66 @@ msgstr "_Nyomtatás…"
 msgid "Pre_view…"
 msgstr "_Előnézet…"
 
-#: ../src/calendar/gui/e-comp-editor.c:2160 ../src/e-util/e-focus-tracker.c:821
+#: ../src/calendar/gui/e-comp-editor.c:2162 ../src/e-util/e-focus-tracker.c:821
 #: ../src/e-util/e-html-editor-actions.c:1102 ../src/e-util/e-web-view.c:484
 #: ../src/mail/e-mail-browser.c:194 ../src/shell/e-shell-window-actions.c:1059
 msgid "Select _All"
 msgstr "Ö_sszes kijelölése"
 
-#: ../src/calendar/gui/e-comp-editor.c:2162 ../src/e-util/e-focus-tracker.c:224
+#: ../src/calendar/gui/e-comp-editor.c:2164 ../src/e-util/e-focus-tracker.c:224
 #: ../src/e-util/e-focus-tracker.c:280 ../src/e-util/e-focus-tracker.c:822
 #: ../src/mail/e-mail-browser.c:196 ../src/shell/e-shell-window-actions.c:1061
 msgid "Select all text"
 msgstr "A teljes szöveg kijelölése"
 
-#: ../src/calendar/gui/e-comp-editor.c:2183
+#: ../src/calendar/gui/e-comp-editor.c:2185
 msgid "_Classification"
 msgstr "_Besorolás"
 
-#: ../src/calendar/gui/e-comp-editor.c:2197 ../src/e-util/e-html-editor-actions.c:1125
+#: ../src/calendar/gui/e-comp-editor.c:2199 ../src/e-util/e-html-editor-actions.c:1125
 #: ../src/e-util/e-mail-signature-editor.c:333 ../src/mail/e-mail-browser.c:210
 #: ../src/mail/e-mail-notes.c:1029 ../src/shell/e-shell-window-actions.c:1110
 msgid "_File"
 msgstr "_Fájl"
 
-#: ../src/calendar/gui/e-comp-editor.c:2211 ../src/e-util/e-html-editor-actions.c:1146
+#: ../src/calendar/gui/e-comp-editor.c:2213 ../src/e-util/e-html-editor-actions.c:1146
 msgid "_Insert"
 msgstr "_Beszúrás"
 
-#: ../src/calendar/gui/e-comp-editor.c:2218 ../src/composer/e-composer-actions.c:377
+#: ../src/calendar/gui/e-comp-editor.c:2220 ../src/composer/e-composer-actions.c:377
 msgid "_Options"
 msgstr "_Beállítások"
 
-#: ../src/calendar/gui/e-comp-editor.c:2225 ../src/e-util/e-html-editor-actions.c:1167
+#: ../src/calendar/gui/e-comp-editor.c:2227 ../src/e-util/e-html-editor-actions.c:1167
 #: ../src/mail/e-mail-browser.c:224 ../src/shell/e-shell-window-actions.c:1153
-#: ../src/smime/gui/certificate-manager.c:1641 ../src/smime/gui/smime-ui.ui.h:3
+#: ../src/smime/gui/certificate-manager.c:1644 ../src/smime/gui/smime-ui.ui.h:3
 msgid "_View"
 msgstr "_Nézet"
 
-#: ../src/calendar/gui/e-comp-editor.c:2237
+#: ../src/calendar/gui/e-comp-editor.c:2239
 msgid "Save current changes"
 msgstr "Jelenlegi változtatások mentése"
 
-#: ../src/calendar/gui/e-comp-editor.c:2242 ../src/e-util/e-mail-signature-editor.c:328
+#: ../src/calendar/gui/e-comp-editor.c:2244 ../src/e-util/e-mail-signature-editor.c:328
 #: ../src/mail/e-mail-notes.c:1024
 msgid "Save and Close"
 msgstr "Mentés és bezárás"
 
-#: ../src/calendar/gui/e-comp-editor.c:2244
+#: ../src/calendar/gui/e-comp-editor.c:2246
 msgid "Save current changes and close editor"
 msgstr "Jelenlegi változtatások mentése és szerkesztő bezárása"
 
 #. String to use in 12-hour time format for times in the morning.
-#: ../src/calendar/gui/e-day-view.c:2132 ../src/calendar/gui/e-to-do-pane.c:245
-#: ../src/calendar/gui/e-week-view.c:1750 ../src/calendar/gui/print.c:1076
+#: ../src/calendar/gui/e-day-view.c:2146 ../src/calendar/gui/e-to-do-pane.c:245
+#: ../src/calendar/gui/e-week-view.c:1761 ../src/calendar/gui/print.c:1076
 #: ../src/calendar/gui/print.c:1095 ../src/calendar/gui/print.c:2663
 #: ../src/calendar/gui/print.c:2683
 msgid "am"
 msgstr "de"
 
 #. String to use in 12-hour time format for times in the afternoon.
-#: ../src/calendar/gui/e-day-view.c:2135 ../src/calendar/gui/e-to-do-pane.c:249
-#: ../src/calendar/gui/e-week-view.c:1753 ../src/calendar/gui/print.c:1081
+#: ../src/calendar/gui/e-day-view.c:2149 ../src/calendar/gui/e-to-do-pane.c:249
+#: ../src/calendar/gui/e-week-view.c:1764 ../src/calendar/gui/print.c:1081
 #: ../src/calendar/gui/print.c:1097 ../src/calendar/gui/print.c:2668
 #: ../src/calendar/gui/print.c:2685
 msgid "pm"
@@ -8457,13 +8457,13 @@ msgstr "du"
 #. * month, %B = full month name. You can change the
 #. * order but don't change the specifiers or add
 #. * anything.
-#: ../src/calendar/gui/e-day-view.c:3026 ../src/calendar/gui/e-day-view-top-item.c:846
+#: ../src/calendar/gui/e-day-view.c:3040 ../src/calendar/gui/e-day-view-top-item.c:846
 #: ../src/calendar/gui/e-week-view-main-item.c:207 ../src/calendar/gui/print.c:2117
 msgid "%A %d %B"
 msgstr "%B %d %A"
 
 #. To Translators: the %d stands for a week number, it's value between 1 and 52/53
-#: ../src/calendar/gui/e-day-view.c:3767
+#: ../src/calendar/gui/e-day-view.c:3780
 #, c-format
 msgid "Week %d"
 msgstr "%d. hét"
@@ -8518,7 +8518,7 @@ msgid "Attendees"
 msgstr "Résztvevők"
 
 #: ../src/calendar/gui/e-meeting-list-view.c:176 ../src/calendar/gui/e-meeting-store.c:110
-#: ../src/calendar/gui/e-meeting-store.c:127 ../src/calendar/gui/e-meeting-store.c:1072
+#: ../src/calendar/gui/e-meeting-store.c:127 ../src/calendar/gui/e-meeting-store.c:1073
 #: ../src/calendar/gui/print.c:1261
 msgid "Individual"
 msgstr "Egyén"
@@ -8545,7 +8545,7 @@ msgid "Chair"
 msgstr "Levezető"
 
 #: ../src/calendar/gui/e-meeting-list-view.c:191 ../src/calendar/gui/e-meeting-store.c:147
-#: ../src/calendar/gui/e-meeting-store.c:164 ../src/calendar/gui/e-meeting-store.c:1073
+#: ../src/calendar/gui/e-meeting-store.c:164 ../src/calendar/gui/e-meeting-store.c:1074
 #: ../src/calendar/gui/print.c:1279
 msgid "Required Participant"
 msgstr "Szükséges résztvevők"
@@ -8561,7 +8561,7 @@ msgid "Non-Participant"
 msgstr "Nem vesz részt"
 
 #: ../src/calendar/gui/e-meeting-list-view.c:204 ../src/calendar/gui/e-meeting-store.c:177
-#: ../src/calendar/gui/e-meeting-store.c:200 ../src/calendar/gui/e-meeting-store.c:1079
+#: ../src/calendar/gui/e-meeting-store.c:200 ../src/calendar/gui/e-meeting-store.c:1080
 msgid "Needs Action"
 msgstr "Beavatkozás szükséges"
 
@@ -8580,18 +8580,18 @@ msgstr "Befejezve"
 msgid "In Process"
 msgstr "Folyamatban"
 
-#: ../src/calendar/gui/e-meeting-store.c:2003
+#: ../src/calendar/gui/e-meeting-store.c:2015
 #, c-format
 msgid "Enter password to access free/busy information on server %s as user %s"
 msgstr ""
 "Adja meg a jelszavát az időbeosztás eléréséhez a(z) %s kiszolgálón %s felhasználóként."
 
-#: ../src/calendar/gui/e-meeting-store.c:2013
+#: ../src/calendar/gui/e-meeting-store.c:2025
 #, c-format
 msgid "Failure reason: %s"
 msgstr "A hiba oka: %s"
 
-#: ../src/calendar/gui/e-meeting-store.c:2018 ../src/e-util/e-collection-account-wizard.c:501
+#: ../src/calendar/gui/e-meeting-store.c:2030 ../src/e-util/e-collection-account-wizard.c:501
 #: ../src/plugins/publish-calendar/publish-calendar.c:350 ../src/smime/gui/component.c:61
 msgid "Enter password"
 msgstr "Adja meg a jelszót"
@@ -8893,7 +8893,7 @@ msgstr "Teendő"
 #. Translators: the first '%s' is replaced with a component summary;
 #. the second '%s' is replaced with an event location.
 #. Example: "Meet John Doe (Central Park)"
-#: ../src/calendar/gui/e-week-view.c:3697
+#: ../src/calendar/gui/e-week-view.c:3715
 #, c-format
 msgctxt "SummaryWithLocation"
 msgid "%s (%s)"
@@ -8906,32 +8906,32 @@ msgstr "%s (%s)"
 msgid "%d %B"
 msgstr "%B %d"
 
-#: ../src/calendar/gui/itip-utils.c:842 ../src/calendar/gui/itip-utils.c:908
-#: ../src/calendar/gui/itip-utils.c:1057
+#: ../src/calendar/gui/itip-utils.c:913 ../src/calendar/gui/itip-utils.c:979
+#: ../src/calendar/gui/itip-utils.c:1128
 msgid "An organizer must be set."
 msgstr "A szervezőt be kell állítani."
 
-#: ../src/calendar/gui/itip-utils.c:898
+#: ../src/calendar/gui/itip-utils.c:969
 msgid "At least one attendee is necessary"
 msgstr "Legalább egy résztvevő szükséges"
 
-#: ../src/calendar/gui/itip-utils.c:1155 ../src/calendar/gui/itip-utils.c:1321
+#: ../src/calendar/gui/itip-utils.c:1226 ../src/calendar/gui/itip-utils.c:1392
 msgid "Event information"
 msgstr "Eseményinformációk"
 
-#: ../src/calendar/gui/itip-utils.c:1158 ../src/calendar/gui/itip-utils.c:1324
+#: ../src/calendar/gui/itip-utils.c:1229 ../src/calendar/gui/itip-utils.c:1395
 msgid "Task information"
 msgstr "Feladatinformációk"
 
-#: ../src/calendar/gui/itip-utils.c:1161 ../src/calendar/gui/itip-utils.c:1327
+#: ../src/calendar/gui/itip-utils.c:1232 ../src/calendar/gui/itip-utils.c:1398
 msgid "Memo information"
 msgstr "Feljegyzésinformációk"
 
-#: ../src/calendar/gui/itip-utils.c:1164 ../src/calendar/gui/itip-utils.c:1345
+#: ../src/calendar/gui/itip-utils.c:1235 ../src/calendar/gui/itip-utils.c:1416
 msgid "Free/Busy information"
 msgstr "Időbeosztás"
 
-#: ../src/calendar/gui/itip-utils.c:1167
+#: ../src/calendar/gui/itip-utils.c:1238
 msgid "Calendar information"
 msgstr "Naptár-információk"
 
@@ -8939,7 +8939,7 @@ msgstr "Naptár-információk"
 #. * line of a meeting request or update email.
 #. * The full subject line would be:
 #. * "Accepted: Meeting Name".
-#: ../src/calendar/gui/itip-utils.c:1207
+#: ../src/calendar/gui/itip-utils.c:1278
 msgctxt "Meeting"
 msgid "Accepted"
 msgstr "Elfogadva"
@@ -8948,7 +8948,7 @@ msgstr "Elfogadva"
 #. * line of a meeting request or update email.
 #. * The full subject line would be:
 #. * "Tentatively Accepted: Meeting Name".
-#: ../src/calendar/gui/itip-utils.c:1214
+#: ../src/calendar/gui/itip-utils.c:1285
 msgctxt "Meeting"
 msgid "Tentatively Accepted"
 msgstr "Feltételesen elfogadva"
@@ -8960,7 +8960,7 @@ msgstr "Feltételesen elfogadva"
 #. Translators: This is part of the subject line of a
 #. * meeting request or update email.  The full subject
 #. * line would be: "Declined: Meeting Name".
-#: ../src/calendar/gui/itip-utils.c:1221 ../src/calendar/gui/itip-utils.c:1269
+#: ../src/calendar/gui/itip-utils.c:1292 ../src/calendar/gui/itip-utils.c:1340
 msgctxt "Meeting"
 msgid "Declined"
 msgstr "Elutasítva"
@@ -8969,7 +8969,7 @@ msgstr "Elutasítva"
 #. * line of a meeting request or update email.
 #. * The full subject line would be:
 #. * "Delegated: Meeting Name".
-#: ../src/calendar/gui/itip-utils.c:1228
+#: ../src/calendar/gui/itip-utils.c:1299
 msgctxt "Meeting"
 msgid "Delegated"
 msgstr "Átruházva"
@@ -8977,7 +8977,7 @@ msgstr "Átruházva"
 #. Translators: This is part of the subject line of a
 #. * meeting request or update email.  The full subject
 #. * line would be: "Updated: Meeting Name".
-#: ../src/calendar/gui/itip-utils.c:1241
+#: ../src/calendar/gui/itip-utils.c:1312
 msgctxt "Meeting"
 msgid "Updated"
 msgstr "Frissítve"
@@ -8985,7 +8985,7 @@ msgstr "Frissítve"
 #. Translators: This is part of the subject line of a
 #. * meeting request or update email.  The full subject
 #. * line would be: "Cancel: Meeting Name".
-#: ../src/calendar/gui/itip-utils.c:1248
+#: ../src/calendar/gui/itip-utils.c:1319
 msgctxt "Meeting"
 msgid "Cancel"
 msgstr "Lemondva"
@@ -8993,7 +8993,7 @@ msgstr "Lemondva"
 #. Translators: This is part of the subject line of a
 #. * meeting request or update email.  The full subject
 #. * line would be: "Refresh: Meeting Name".
-#: ../src/calendar/gui/itip-utils.c:1255
+#: ../src/calendar/gui/itip-utils.c:1326
 msgctxt "Meeting"
 msgid "Refresh"
 msgstr "Frissítés"
@@ -9001,47 +9001,47 @@ msgstr "Frissítés"
 #. Translators: This is part of the subject line of a
 #. * meeting request or update email.  The full subject
 #. * line would be: "Counter-proposal: Meeting Name".
-#: ../src/calendar/gui/itip-utils.c:1262
+#: ../src/calendar/gui/itip-utils.c:1333
 msgctxt "Meeting"
 msgid "Counter-proposal"
 msgstr "Ellenjavaslat"
 
-#: ../src/calendar/gui/itip-utils.c:1342
+#: ../src/calendar/gui/itip-utils.c:1413
 #, c-format
 msgid "Free/Busy information (%s to %s)"
 msgstr "Időbeosztások (%s – %s)"
 
-#: ../src/calendar/gui/itip-utils.c:1350
+#: ../src/calendar/gui/itip-utils.c:1421
 msgid "iCalendar information"
 msgstr "iCalendar információk"
 
-#: ../src/calendar/gui/itip-utils.c:1379
+#: ../src/calendar/gui/itip-utils.c:1450
 #, c-format
 msgid "Unable to book a resource, the new event collides with some other."
 msgstr "Nem foglalható le az erőforrás, az új esemény egy másikkal ütközik."
 
-#: ../src/calendar/gui/itip-utils.c:1384
+#: ../src/calendar/gui/itip-utils.c:1455
 msgid "Unable to book a resource, error: "
 msgstr "Nem foglalható le erőforrás, hiba: "
 
-#: ../src/calendar/gui/itip-utils.c:1577
+#: ../src/calendar/gui/itip-utils.c:1648
 msgid "You must be an attendee of the event."
 msgstr "Részt kell vennie az eseményen."
 
-#: ../src/calendar/gui/itip-utils.c:2456
+#: ../src/calendar/gui/itip-utils.c:2527
 msgid "Sending an event"
 msgstr "Esemény küldése"
 
-#: ../src/calendar/gui/itip-utils.c:2460
+#: ../src/calendar/gui/itip-utils.c:2531
 msgid "Sending a memo"
 msgstr "Feljegyzés küldése"
 
-#: ../src/calendar/gui/itip-utils.c:2464
+#: ../src/calendar/gui/itip-utils.c:2535
 msgid "Sending a task"
 msgstr "Feladat küldése"
 
 #. Translator: This is used as a placeholder when an event doesn't have set a location
-#: ../src/calendar/gui/itip-utils.c:2709
+#: ../src/calendar/gui/itip-utils.c:2780
 msgctxt "Location"
 msgid "Unspecified"
 msgstr "Nincs megadva"
@@ -9130,7 +9130,7 @@ msgstr " (Befejezve: "
 #. * where COMPLETED is a completed date/time.
 #: ../src/calendar/gui/print.c:3424
 msgid "Completed "
-msgstr "Befejezve:"
+msgstr "Befejezve: "
 
 #. Translators: This is part of "START (Due DUE)",
 #. * where START and DUE are dates/times.
@@ -11160,7 +11160,7 @@ msgstr "Piszkozat mentése"
 
 #: ../src/composer/e-composer-from-header.c:108
 #: ../src/e-util/e-collection-account-wizard.c:2058
-#: ../src/e-util/e-mail-signature-script-dialog.c:408 ../src/e-util/e-webdav-browser.c:2544
+#: ../src/e-util/e-mail-signature-script-dialog.c:408 ../src/e-util/e-webdav-browser.c:2555
 #: ../src/e-util/gal-view-instance-save-as-dialog.ui.h:2
 #: ../src/mail/e-mail-config-identity-page.c:551 ../src/mail/e-mail-config-summary-page.c:327
 #: ../src/modules/accounts-window/e-accounts-window-editors.c:297
@@ -11596,7 +11596,7 @@ msgstr "RFC822 üzenet"
 msgid "Format part as an RFC822 message"
 msgstr "Rész formázása RFC822 üzenetként"
 
-#: ../src/em-format/e-mail-formatter-print.c:50 ../src/e-util/e-webdav-browser.c:2488
+#: ../src/em-format/e-mail-formatter-print.c:50 ../src/e-util/e-webdav-browser.c:2499
 #: ../src/e-util/gal-view-instance-save-as-dialog.c:92 ../src/mail/e-mail-label-tree-view.c:96
 #: ../src/modules/plugin-manager/evolution-plugin-manager.c:64
 msgid "Name"
@@ -11611,7 +11611,7 @@ msgstr "Méret"
 #: ../src/em-format/e-mail-part-headers.c:51 ../src/mail/e-mail-tag-editor.c:201
 #: ../src/mail/filtertypes.xml.in.h:16 ../src/mail/message-list.etspec.h:6
 #: ../src/mail/searchtypes.xml.in.h:17 ../src/mail/vfoldertypes.xml.in.h:17
-#: ../src/modules/mail/em-mailer-prefs.c:65 ../src/smime/gui/certificate-manager.c:1622
+#: ../src/modules/mail/em-mailer-prefs.c:65 ../src/smime/gui/certificate-manager.c:1625
 msgid "Subject"
 msgstr "Tárgy"
 
@@ -12029,7 +12029,7 @@ msgstr "Evolution fiókok"
 #. widget = gtk_button_new_with_mnemonic (_("_Permissions"));
 #. gtk_box_pack_start (GTK_BOX (container), widget, FALSE, FALSE, 0);
 #. webdav_browser->priv->permissions_button = widget;
-#: ../src/e-util/e-accounts-window.c:1761 ../src/e-util/e-webdav-browser.c:2855
+#: ../src/e-util/e-accounts-window.c:1761 ../src/e-util/e-webdav-browser.c:2866
 #: ../src/mail/em-subscription-editor.c:1945
 #: ../src/modules/mail/e-mail-shell-view-actions.c:1594
 #: ../src/modules/mail/e-mail-shell-view-actions.c:1672
@@ -12155,7 +12155,7 @@ msgid "F_ilename:"
 msgstr "_Fájlnév:"
 
 #: ../src/e-util/e-attachment-dialog.c:334 ../src/e-util/e-html-editor-image-dialog.c:602
-#: ../src/e-util/e-html-editor-link-dialog.c:226 ../src/e-util/e-webdav-browser.c:2600
+#: ../src/e-util/e-html-editor-link-dialog.c:226 ../src/e-util/e-webdav-browser.c:2611
 msgid "_Description:"
 msgstr "_Leírás:"
 
@@ -12623,7 +12623,7 @@ msgstr "_Felhasználónév:"
 
 #: ../src/e-util/e-collection-account-wizard.c:691
 #: ../src/plugins/publish-calendar/publish-calendar.ui.h:30
-#: ../src/smime/gui/certificate-manager.c:761
+#: ../src/smime/gui/certificate-manager.c:764
 msgid "_Password:"
 msgstr "_Jelszó:"
 
@@ -14401,7 +14401,7 @@ msgid "_Padding:"
 msgstr "_Helykihagyás:"
 
 #: ../src/e-util/e-html-editor-table-dialog.c:676
-#: ../src/e-util/e-html-editor-text-dialog.c:248 ../src/e-util/e-webdav-browser.c:2554
+#: ../src/e-util/e-html-editor-text-dialog.c:248 ../src/e-util/e-webdav-browser.c:2565
 msgid "_Color:"
 msgstr "S_zín:"
 
@@ -15126,7 +15126,7 @@ msgstr "Típus:"
 msgid "Name:"
 msgstr "Név:"
 
-#: ../src/e-util/e-source-config.c:814 ../src/e-util/e-webdav-browser.c:1856
+#: ../src/e-util/e-source-config.c:814 ../src/e-util/e-webdav-browser.c:1858
 msgid "Name cannot be empty"
 msgstr "A név nem lehet üres"
 
@@ -15611,105 +15611,105 @@ msgstr "Felhasználó saját könyvtárának keresése, kis türelmet…"
 msgid "Failed to search for user home"
 msgstr "Nem sikerült a felhasználó saját könyvtárának keresése"
 
-#: ../src/e-util/e-webdav-browser.c:1872
+#: ../src/e-util/e-webdav-browser.c:1874
 msgid "At least one component type should be set"
 msgstr "Legalább egy komponenstípust be kell állítani"
 
-#: ../src/e-util/e-webdav-browser.c:1891
+#: ../src/e-util/e-webdav-browser.c:1893
 msgid "Failed to get selected collection HREF"
 msgstr "A kijelölt gyűjtemény címének lekérése meghiúsult"
 
-#: ../src/e-util/e-webdav-browser.c:1924
+#: ../src/e-util/e-webdav-browser.c:1926
 msgid "Failed to save changes"
 msgstr "A változtatások mentése meghiúsult"
 
-#: ../src/e-util/e-webdav-browser.c:1926
+#: ../src/e-util/e-webdav-browser.c:1928
 msgid "Creating new book…"
 msgstr "Új címjegyzék létrehozása…"
 
-#: ../src/e-util/e-webdav-browser.c:1927
+#: ../src/e-util/e-webdav-browser.c:1929
 msgid "Failed to create new book"
 msgstr "Az új címjegyzék létrehozása meghiúsult"
 
-#: ../src/e-util/e-webdav-browser.c:1929
+#: ../src/e-util/e-webdav-browser.c:1931
 msgid "Creating new calendar…"
 msgstr "Új naptár létrehozása…"
 
-#: ../src/e-util/e-webdav-browser.c:1930
+#: ../src/e-util/e-webdav-browser.c:1932
 msgid "Failed to create new calendar"
 msgstr "Az új naptár létrehozása meghiúsult"
 
-#: ../src/e-util/e-webdav-browser.c:1932
+#: ../src/e-util/e-webdav-browser.c:1934
 msgid "Creating new collection…"
 msgstr "Új gyűjtemény létrehozása…"
 
-#: ../src/e-util/e-webdav-browser.c:1933
+#: ../src/e-util/e-webdav-browser.c:1935
 msgid "Failed to create new collection"
 msgstr "Az új gyűjtemény létrehozása meghiúsult"
 
-#: ../src/e-util/e-webdav-browser.c:2074
+#: ../src/e-util/e-webdav-browser.c:2085
 msgid "It is not allowed to create book under another book or calendar"
 msgstr "Nem lehet másik címjegyzék vagy naptár alatt létrehozni címjegyzéket"
 
 #. if (button == webdav_browser->priv->create_calendar_button)
-#: ../src/e-util/e-webdav-browser.c:2076
+#: ../src/e-util/e-webdav-browser.c:2087
 msgid "It is not allowed to create calendar under another book or calendar"
 msgstr "Nem lehet másik címjegyzék vagy naptár alatt létrehozni naptárat"
 
-#: ../src/e-util/e-webdav-browser.c:2323
+#: ../src/e-util/e-webdav-browser.c:2334
 msgid "Deleting book…"
 msgstr "Címjegyzék törlése…"
 
-#: ../src/e-util/e-webdav-browser.c:2324
+#: ../src/e-util/e-webdav-browser.c:2335
 msgid "Failed to delete book"
 msgstr "A címjegyzék törlése meghiúsult"
 
-#: ../src/e-util/e-webdav-browser.c:2327
+#: ../src/e-util/e-webdav-browser.c:2338
 msgid "Deleting calendar…"
 msgstr "Naptár törlése…"
 
-#: ../src/e-util/e-webdav-browser.c:2328
+#: ../src/e-util/e-webdav-browser.c:2339
 msgid "Failed to delete calendar"
 msgstr "A naptár törlése meghiúsult"
 
-#: ../src/e-util/e-webdav-browser.c:2331
+#: ../src/e-util/e-webdav-browser.c:2342
 msgid "Deleting collection…"
 msgstr "Gyűjtemény törlése…"
 
-#: ../src/e-util/e-webdav-browser.c:2332
+#: ../src/e-util/e-webdav-browser.c:2343
 msgid "Failed to delete collection"
 msgstr "A gyűjtemény törlése meghiúsult"
 
 #. Translators: It's 'order' as 'sorting order'
-#: ../src/e-util/e-webdav-browser.c:2566
+#: ../src/e-util/e-webdav-browser.c:2577
 msgid "_Order:"
 msgstr "_Sorrend:"
 
-#: ../src/e-util/e-webdav-browser.c:2576
+#: ../src/e-util/e-webdav-browser.c:2587
 msgid "Use -1 to not set the sort order"
 msgstr "Használjon -1 értéket, hogy ne állítsa be a rendezési sorrendet"
 
-#: ../src/e-util/e-webdav-browser.c:2582
+#: ../src/e-util/e-webdav-browser.c:2593
 msgid "For Components:"
 msgstr "Ezen összetevőkhöz:"
 
-#: ../src/e-util/e-webdav-browser.c:2588
+#: ../src/e-util/e-webdav-browser.c:2599
 msgid "_Events"
 msgstr "_Események"
 
-#: ../src/e-util/e-webdav-browser.c:2781
+#: ../src/e-util/e-webdav-browser.c:2792
 msgid "WebDAV server:"
 msgstr "WebDAV kiszolgáló:"
 
-#: ../src/e-util/e-webdav-browser.c:2816
+#: ../src/e-util/e-webdav-browser.c:2827
 msgid "Create _Book"
 msgstr "_Címjegyzék létrehozása"
 
-#: ../src/e-util/e-webdav-browser.c:2823
+#: ../src/e-util/e-webdav-browser.c:2834
 msgid "Create _Calendar"
 msgstr "_Naptár létrehozása"
 
-#: ../src/e-util/e-webdav-browser.c:2830
+#: ../src/e-util/e-webdav-browser.c:2841
 msgid "Create Collectio_n"
 msgstr "_Gyűjtemény létrehozása"
 
@@ -15767,24 +15767,24 @@ msgstr "Keresés a _világhálón…"
 msgid "Search the Web with the selected text"
 msgstr "A kijelölt szöveg keresése a világhálón"
 
-#: ../src/e-util/e-web-view.c:486 ../src/e-util/e-web-view.c:2064
+#: ../src/e-util/e-web-view.c:486 ../src/e-util/e-web-view.c:2077
 msgid "Select all text and images"
 msgstr "Az összes szöveg és kép kijelölése az üzenetben"
 
-#: ../src/e-util/e-web-view.c:3791
+#: ../src/e-util/e-web-view.c:3804
 msgid "Copying image to clipboard"
 msgstr "Kép másolása a vágólapra"
 
-#: ../src/e-util/e-web-view.c:3979
+#: ../src/e-util/e-web-view.c:3992
 msgid "Save Image"
 msgstr "Kép mentése"
 
-#: ../src/e-util/e-web-view.c:4016
+#: ../src/e-util/e-web-view.c:4029
 #, c-format
 msgid "Saving image to “%s”"
 msgstr "Kép mentése ide: „%s”"
 
-#: ../src/e-util/e-web-view.c:4166
+#: ../src/e-util/e-web-view.c:4179
 #, c-format
 msgid "Cannot get URI “%s”, do not know how to download it."
 msgstr "Nem lehet lekérni a(z) „%s” URI-t, mert nem lehet tudni, hogy kell letölteni."
@@ -17992,15 +17992,15 @@ msgstr "_Törlés"
 msgid "No Title"
 msgstr "Nincs cím"
 
-#: ../src/mail/e-mail-ui-session.c:841
-#, c-format
-msgid "%s authentication failed"
-msgstr "A(z) %s hitelesítés sikertelen"
-
-#: ../src/mail/e-mail-ui-session.c:891
+#: ../src/mail/e-mail-ui-session.c:857 ../src/mail/e-mail-ui-session.c:929
 #, c-format
 msgid "No data source found for UID “%s”"
 msgstr "Nem található adatforrás a(z) „%s” UID-hez"
+
+#: ../src/mail/e-mail-ui-session.c:879
+#, c-format
+msgid "%s authentication failed"
+msgstr "A(z) %s hitelesítés sikertelen"
 
 #. Translators: The %d is replaced with the actual count of recipients, which is always more than one.
 #: ../src/mail/em-composer-utils.c:395
@@ -21363,8 +21363,8 @@ msgstr "Válasszon egy címjegyzéket"
 #: ../src/modules/cal-config-webcal/evolution-cal-config-webcal.c:165
 #: ../src/modules/cal-config-webdav-notes/evolution-cal-config-webdav-notes.c:301
 #: ../src/modules/cal-config-webdav-notes/evolution-cal-config-webdav-notes.c:322
-#: ../src/modules/itip-formatter/itip-view.c:1703
-#: ../src/modules/itip-formatter/itip-view.c:1817
+#: ../src/modules/itip-formatter/itip-view.c:1704
+#: ../src/modules/itip-formatter/itip-view.c:1818
 msgid "URL:"
 msgstr "URL:"
 
@@ -23407,7 +23407,7 @@ msgid "Start day:"
 msgstr "Kezdés napja:"
 
 #: ../src/modules/itip-formatter/itip-view.c:864
-#: ../src/modules/itip-formatter/itip-view.c:1704
+#: ../src/modules/itip-formatter/itip-view.c:1705
 msgid "Start time:"
 msgstr "Kezdés időpontja:"
 
@@ -23416,7 +23416,7 @@ msgid "End day:"
 msgstr "Befejezés napja:"
 
 #: ../src/modules/itip-formatter/itip-view.c:873
-#: ../src/modules/itip-formatter/itip-view.c:1705
+#: ../src/modules/itip-formatter/itip-view.c:1706
 msgid "End time:"
 msgstr "Befejezés időpontja:"
 
@@ -23452,322 +23452,322 @@ msgstr "Információk kül_dése"
 msgid "_Update Attendee Status"
 msgstr "_Résztvevő állapotának frissítése"
 
-#: ../src/modules/itip-formatter/itip-view.c:1276 ../src/smime/gui/certificate-manager.c:1656
+#: ../src/modules/itip-formatter/itip-view.c:1276 ../src/smime/gui/certificate-manager.c:1659
 msgid "_Update"
 msgstr "_Frissítés"
 
-#: ../src/modules/itip-formatter/itip-view.c:1707
-#: ../src/modules/itip-formatter/itip-view.c:1755
-#: ../src/modules/itip-formatter/itip-view.c:1829
+#: ../src/modules/itip-formatter/itip-view.c:1708
+#: ../src/modules/itip-formatter/itip-view.c:1756
+#: ../src/modules/itip-formatter/itip-view.c:1830
 msgid "Comment:"
 msgstr "Megjegyzés:"
 
 #. RSVP area
-#: ../src/modules/itip-formatter/itip-view.c:1743
+#: ../src/modules/itip-formatter/itip-view.c:1744
 msgid "Send reply to sender"
 msgstr "Válasz küldése a feladónak"
 
 #. Updates
-#: ../src/modules/itip-formatter/itip-view.c:1758
+#: ../src/modules/itip-formatter/itip-view.c:1759
 msgid "Send _updates to attendees"
 msgstr "_Frissítések küldése a résztvevőknek"
 
 #. The recurrence check button
-#: ../src/modules/itip-formatter/itip-view.c:1761
+#: ../src/modules/itip-formatter/itip-view.c:1762
 msgid "_Apply to all instances"
 msgstr "Alkalmazás min_den előfordulásra"
 
-#: ../src/modules/itip-formatter/itip-view.c:1762
+#: ../src/modules/itip-formatter/itip-view.c:1763
 msgid "Show time as _free"
 msgstr "Megjelenítés _szabadként"
 
-#: ../src/modules/itip-formatter/itip-view.c:1763
+#: ../src/modules/itip-formatter/itip-view.c:1764
 msgid "_Preserve my reminder"
 msgstr "_Emlékeztető megőrzése"
 
-#: ../src/modules/itip-formatter/itip-view.c:1764
+#: ../src/modules/itip-formatter/itip-view.c:1765
 msgid "_Inherit reminder"
 msgstr "E_mlékeztető öröklése"
 
-#: ../src/modules/itip-formatter/itip-view.c:1981
+#: ../src/modules/itip-formatter/itip-view.c:1982
 msgid "_Tasks:"
 msgstr "Felada_tok:"
 
-#: ../src/modules/itip-formatter/itip-view.c:1984
+#: ../src/modules/itip-formatter/itip-view.c:1985
 msgid "_Memos:"
 msgstr "_Feljegyzések:"
 
-#: ../src/modules/itip-formatter/itip-view.c:2991
+#: ../src/modules/itip-formatter/itip-view.c:2992
 msgid "Sa_ve"
 msgstr "_Mentés"
 
-#: ../src/modules/itip-formatter/itip-view.c:3518
-#: ../src/modules/itip-formatter/itip-view.c:5189
+#: ../src/modules/itip-formatter/itip-view.c:3519
+#: ../src/modules/itip-formatter/itip-view.c:5220
 msgid "Attendee status updated"
 msgstr "A résztvevő állapota frissítve"
 
-#: ../src/modules/itip-formatter/itip-view.c:3728
+#: ../src/modules/itip-formatter/itip-view.c:3750
 #, c-format
 msgid "An appointment “%s” in the calendar “%s” conflicts with this meeting"
 msgstr "A(z) „%2$s” naptár „%1$s” értekezlete ütközik ezzel a találkozóval"
 
-#: ../src/modules/itip-formatter/itip-view.c:3735
+#: ../src/modules/itip-formatter/itip-view.c:3757
 #, c-format
 msgid "A task “%s” in the task list “%s” conflicts with this task"
 msgstr "A(z) „%2$s” naptár „%1$s” feladata ütközik ezzel a feladattal"
 
-#: ../src/modules/itip-formatter/itip-view.c:3742
+#: ../src/modules/itip-formatter/itip-view.c:3764
 #, c-format
 msgid "A memo “%s” in the memo list “%s” conflicts with this memo"
 msgstr "A(z) „%2$s” naptár „%1$s” feljegyzése ütközik ezzel a feljegyzéssel"
 
-#: ../src/modules/itip-formatter/itip-view.c:3753
+#: ../src/modules/itip-formatter/itip-view.c:3775
 #, c-format
 msgid "The calendar “%s” contains an appointment which conflicts with this meeting"
 msgid_plural "The calendar “%s” contains %d appointments which conflict with this meeting"
 msgstr[0] "A(z) „%s” naptár egyik értekezlete ütközik ezzel a találkozóval"
 msgstr[1] "A(z) „%s” naptár %d értekezlete ütközik ezzel a találkozóval"
 
-#: ../src/modules/itip-formatter/itip-view.c:3762
+#: ../src/modules/itip-formatter/itip-view.c:3784
 #, c-format
 msgid "The task list “%s” contains a task which conflicts with this task"
 msgid_plural "The task list “%s” contains %d tasks which conflict with this task"
 msgstr[0] "A(z) „%s” feladatlista egyik feladata ütközik ezzel a feladattal"
 msgstr[1] "A(z) „%s” feladatlista %d feladata ütközik ezzel a feladattal"
 
-#: ../src/modules/itip-formatter/itip-view.c:3771
+#: ../src/modules/itip-formatter/itip-view.c:3793
 #, c-format
 msgid "The memo list “%s” contains a memo which conflicts with this memo"
 msgid_plural "The memo list “%s” contains %d memos which conflict with this memo"
 msgstr[0] "A(z) „%s” feljegyzéslista egyik feljegyzése ütközik ezzel a feljegyzéssel"
 msgstr[1] "A(z) „%s” feljegyzéslista %d feljegyzése ütközik ezzel a feljegyzéssel"
 
-#: ../src/modules/itip-formatter/itip-view.c:3809
+#: ../src/modules/itip-formatter/itip-view.c:3831
 #, c-format
 msgid "Found the appointment in the calendar “%s”"
 msgstr "Az értekezlet megtalálható a(z) „%s” naptárban"
 
-#: ../src/modules/itip-formatter/itip-view.c:3814
+#: ../src/modules/itip-formatter/itip-view.c:3836
 #, c-format
 msgid "Found the task in the task list “%s”"
 msgstr "A feladat megtalálható a(z) „%s” feladatlistában"
 
-#: ../src/modules/itip-formatter/itip-view.c:3819
+#: ../src/modules/itip-formatter/itip-view.c:3841
 #, c-format
 msgid "Found the memo in the memo list “%s”"
 msgstr "A feljegyzés megtalálható a(z) „%s” feljegyzéslistában"
 
-#: ../src/modules/itip-formatter/itip-view.c:3830
+#: ../src/modules/itip-formatter/itip-view.c:3852
 msgid "This meeting invitation is obsolete. It had been updated."
 msgstr "A találkozómeghívó elavult. Frissítve lett."
 
-#: ../src/modules/itip-formatter/itip-view.c:3972
+#: ../src/modules/itip-formatter/itip-view.c:3997
 msgid "Unable to find any calendars"
 msgstr "Nem található egyetlen naptár sem"
 
-#: ../src/modules/itip-formatter/itip-view.c:3980
+#: ../src/modules/itip-formatter/itip-view.c:4005
 msgid "Unable to find this meeting in any calendar"
 msgstr "Ez a találkozó nem található egyik naptárban sem"
 
-#: ../src/modules/itip-formatter/itip-view.c:3985
+#: ../src/modules/itip-formatter/itip-view.c:4010
 msgid "Unable to find this task in any task list"
 msgstr "A feladat nem található meg egyetlen feladatlistában sem"
 
-#: ../src/modules/itip-formatter/itip-view.c:3990
+#: ../src/modules/itip-formatter/itip-view.c:4015
 msgid "Unable to find this memo in any memo list"
 msgstr "A feljegyzés nem található meg egyetlen feljegyzéslistában sem"
 
-#: ../src/modules/itip-formatter/itip-view.c:4303
+#: ../src/modules/itip-formatter/itip-view.c:4328
 msgid "Searching for an existing version of this appointment"
 msgstr "Ezen értekezlet egy létező változatának keresése"
 
-#: ../src/modules/itip-formatter/itip-view.c:4307
+#: ../src/modules/itip-formatter/itip-view.c:4332
 msgid "Searching for an existing version of this task"
 msgstr "Ezen találkozó egy meglévő változatának keresése"
 
-#: ../src/modules/itip-formatter/itip-view.c:4311
+#: ../src/modules/itip-formatter/itip-view.c:4336
 msgid "Searching for an existing version of this memo"
 msgstr "Ezen feljegyzés egy meglévő változatának keresése"
 
-#: ../src/modules/itip-formatter/itip-view.c:4369
+#: ../src/modules/itip-formatter/itip-view.c:4394
 msgid "Opening the calendar. Please wait…"
 msgstr "Naptár megnyitása, kis türelmet…"
 
-#: ../src/modules/itip-formatter/itip-view.c:4715
+#: ../src/modules/itip-formatter/itip-view.c:4744
 #, c-format
 msgid "Unable to send item to calendar “%s”. %s"
 msgstr "Nem küldhető el az elem a(z) „%s” naptárnak. %s"
 
-#: ../src/modules/itip-formatter/itip-view.c:4723
+#: ../src/modules/itip-formatter/itip-view.c:4752
 #, c-format
 msgid "Unable to send item to task list “%s”. %s"
 msgstr "Nem küldhető el az elem a(z) „%s” feladatlistának. %s"
 
-#: ../src/modules/itip-formatter/itip-view.c:4731
+#: ../src/modules/itip-formatter/itip-view.c:4760
 #, c-format
 msgid "Unable to send item to memo list “%s”. %s"
 msgstr "Nem küldhető el az elem a(z) „%s” feljegyzéslistának. %s"
 
-#: ../src/modules/itip-formatter/itip-view.c:4751
+#: ../src/modules/itip-formatter/itip-view.c:4781
 #, c-format
 msgid "Sent to calendar “%s” as accepted"
 msgstr "Elküldve a(z) „%s” naptárnak elfogadottként"
 
-#: ../src/modules/itip-formatter/itip-view.c:4756
+#: ../src/modules/itip-formatter/itip-view.c:4786
 #, c-format
 msgid "Sent to task list “%s” as accepted"
 msgstr "Elküldve a(z) „%s” feladatlistának elfogadottként"
 
-#: ../src/modules/itip-formatter/itip-view.c:4761
+#: ../src/modules/itip-formatter/itip-view.c:4791
 #, c-format
 msgid "Sent to memo list “%s” as accepted"
 msgstr "Elküldve a(z) „%s” feljegyzéslistának elfogadottként"
 
-#: ../src/modules/itip-formatter/itip-view.c:4771
+#: ../src/modules/itip-formatter/itip-view.c:4801
 #, c-format
 msgid "Sent to calendar “%s” as tentative"
 msgstr "Elküldve a(z) „%s” naptárnak feltételesként"
 
-#: ../src/modules/itip-formatter/itip-view.c:4776
+#: ../src/modules/itip-formatter/itip-view.c:4806
 #, c-format
 msgid "Sent to task list “%s” as tentative"
 msgstr "Elküldve a(z) „%s” feladatlistának feltételesként"
 
-#: ../src/modules/itip-formatter/itip-view.c:4781
+#: ../src/modules/itip-formatter/itip-view.c:4811
 #, c-format
 msgid "Sent to memo list “%s” as tentative"
 msgstr "Elküldve a(z) „%s” feljegyzéslistának feltételesként"
 
-#: ../src/modules/itip-formatter/itip-view.c:4791
+#: ../src/modules/itip-formatter/itip-view.c:4821
 #, c-format
 msgid "Sent to calendar “%s” as declined"
 msgstr "Elküldve a(z) „%s” naptárnak elutasítottként"
 
-#: ../src/modules/itip-formatter/itip-view.c:4796
+#: ../src/modules/itip-formatter/itip-view.c:4826
 #, c-format
 msgid "Sent to task list “%s” as declined"
 msgstr "Elküldve a(z) „%s” feladatlistának elutasítottként"
 
-#: ../src/modules/itip-formatter/itip-view.c:4801
+#: ../src/modules/itip-formatter/itip-view.c:4831
 #, c-format
 msgid "Sent to memo list “%s” as declined"
 msgstr "Elküldve a(z) „%s” feljegyzéslistának elutasítottként"
 
-#: ../src/modules/itip-formatter/itip-view.c:4811
+#: ../src/modules/itip-formatter/itip-view.c:4841
 #, c-format
 msgid "Sent to calendar “%s” as cancelled"
 msgstr "Elküldve a(z) „%s” naptárnak lemondottként"
 
-#: ../src/modules/itip-formatter/itip-view.c:4816
+#: ../src/modules/itip-formatter/itip-view.c:4846
 #, c-format
 msgid "Sent to task list “%s” as cancelled"
 msgstr "Elküldve a(z) „%s” feladatlistának lemondottként"
 
-#: ../src/modules/itip-formatter/itip-view.c:4821
+#: ../src/modules/itip-formatter/itip-view.c:4851
 #, c-format
 msgid "Sent to memo list “%s” as cancelled"
 msgstr "Elküldve a(z) „%s” feljegyzéslistának lemondottként"
 
-#: ../src/modules/itip-formatter/itip-view.c:4839
+#: ../src/modules/itip-formatter/itip-view.c:4870
 msgid "Saving changes to the calendar. Please wait…"
 msgstr "Változtatások mentése a naptárba, kis türelmet…"
 
-#: ../src/modules/itip-formatter/itip-view.c:4842
+#: ../src/modules/itip-formatter/itip-view.c:4873
 msgid "Saving changes to the task list. Please wait…"
 msgstr "Változtatások mentése a feladatlistába, kis türelmet…"
 
-#: ../src/modules/itip-formatter/itip-view.c:4845
+#: ../src/modules/itip-formatter/itip-view.c:4876
 msgid "Saving changes to the memo list. Please wait…"
 msgstr "Változtatások mentése a feljegyzéslistába, kis türelmet…"
 
-#: ../src/modules/itip-formatter/itip-view.c:4916
+#: ../src/modules/itip-formatter/itip-view.c:4947
 msgid "Unable to parse item"
 msgstr "Nem dolgozható fel az elem"
 
-#: ../src/modules/itip-formatter/itip-view.c:5114
+#: ../src/modules/itip-formatter/itip-view.c:5145
 #, c-format
 msgid "Organizer has removed the delegate %s "
 msgstr "A szervező eltávolította %s meghatalmazottat"
 
-#: ../src/modules/itip-formatter/itip-view.c:5131
+#: ../src/modules/itip-formatter/itip-view.c:5162
 msgid "Sent a cancellation notice to the delegate"
 msgstr "Lemondási értesítés elküldve a meghatalmazottnak"
 
-#: ../src/modules/itip-formatter/itip-view.c:5135
+#: ../src/modules/itip-formatter/itip-view.c:5166
 msgid "Could not send the cancellation notice to the delegate"
 msgstr "Nem sikerült elküldeni a lemondási értesítést a meghatalmazottnak"
 
-#: ../src/modules/itip-formatter/itip-view.c:5181
+#: ../src/modules/itip-formatter/itip-view.c:5212
 #, c-format
 msgid "Unable to update attendee. %s"
 msgstr "Nem frissíthető a résztvevő: %s"
 
-#: ../src/modules/itip-formatter/itip-view.c:5214
+#: ../src/modules/itip-formatter/itip-view.c:5245
 msgid "The meeting is invalid and cannot be updated"
 msgstr "A találkozó érvénytelen, és nem frissíthető"
 
-#: ../src/modules/itip-formatter/itip-view.c:5299
+#: ../src/modules/itip-formatter/itip-view.c:5330
 msgid "Attendee status could not be updated because the status is invalid"
 msgstr "A résztvevő állapotát nem lehetett frissíteni, mert az állapot érvénytelen"
 
-#: ../src/modules/itip-formatter/itip-view.c:5374
-#: ../src/modules/itip-formatter/itip-view.c:5412
+#: ../src/modules/itip-formatter/itip-view.c:5406
+#: ../src/modules/itip-formatter/itip-view.c:5444
 msgid "Attendee status can not be updated because the item no longer exists"
 msgstr "A résztvevő állapotát nem lehetett frissíteni, mert az elem nem létezik többé"
 
-#: ../src/modules/itip-formatter/itip-view.c:5473
+#: ../src/modules/itip-formatter/itip-view.c:5505
 msgid "Meeting information sent"
 msgstr "A találkozóinformációk elküldve"
 
-#: ../src/modules/itip-formatter/itip-view.c:5478
+#: ../src/modules/itip-formatter/itip-view.c:5510
 msgid "Task information sent"
 msgstr "A feladatinformációk elküldve"
 
-#: ../src/modules/itip-formatter/itip-view.c:5483
+#: ../src/modules/itip-formatter/itip-view.c:5515
 msgid "Memo information sent"
 msgstr "A feljegyzésinformációk elküldve"
 
-#: ../src/modules/itip-formatter/itip-view.c:5494
+#: ../src/modules/itip-formatter/itip-view.c:5526
 msgid "Unable to send meeting information, the meeting does not exist"
 msgstr "A találkozóinformációk nem küldhetők el, a találkozó nem létezik"
 
-#: ../src/modules/itip-formatter/itip-view.c:5499
+#: ../src/modules/itip-formatter/itip-view.c:5531
 msgid "Unable to send task information, the task does not exist"
 msgstr "A feladatinformációk nem küldhetők el, a feladat nem létezik"
 
-#: ../src/modules/itip-formatter/itip-view.c:5504
+#: ../src/modules/itip-formatter/itip-view.c:5536
 msgid "Unable to send memo information, the memo does not exist"
 msgstr "A feljegyzésinformációk nem küldhetők el, a feljegyzés nem létezik"
 
 #. Translators: This is a default filename for a calendar.
-#: ../src/modules/itip-formatter/itip-view.c:5549
+#: ../src/modules/itip-formatter/itip-view.c:5581
 msgid "calendar.ics"
 msgstr "naptár.ics"
 
-#: ../src/modules/itip-formatter/itip-view.c:5554
+#: ../src/modules/itip-formatter/itip-view.c:5586
 msgid "Save Calendar"
 msgstr "Naptár mentése"
 
-#: ../src/modules/itip-formatter/itip-view.c:5602
-#: ../src/modules/itip-formatter/itip-view.c:5615
+#: ../src/modules/itip-formatter/itip-view.c:5634
+#: ../src/modules/itip-formatter/itip-view.c:5647
 msgid "The calendar attached is not valid"
 msgstr "A csatolt naptár érvénytelen"
 
-#: ../src/modules/itip-formatter/itip-view.c:5603
-#: ../src/modules/itip-formatter/itip-view.c:5616
+#: ../src/modules/itip-formatter/itip-view.c:5635
+#: ../src/modules/itip-formatter/itip-view.c:5648
 msgid "The message claims to contain a calendar, but the calendar is not a valid iCalendar."
 msgstr ""
 "Az üzenet azt állítja, hogy egy naptárt tartalmaz, de a naptár nem egy érvényes iCalendar."
 
-#: ../src/modules/itip-formatter/itip-view.c:5698
-#: ../src/modules/itip-formatter/itip-view.c:5782
-#: ../src/modules/itip-formatter/itip-view.c:5886
+#: ../src/modules/itip-formatter/itip-view.c:5730
+#: ../src/modules/itip-formatter/itip-view.c:5814
+#: ../src/modules/itip-formatter/itip-view.c:5918
 msgid "The item in the calendar is not valid"
 msgstr "Az elem a naptárban érvénytelen"
 
-#: ../src/modules/itip-formatter/itip-view.c:5699
-#: ../src/modules/itip-formatter/itip-view.c:5783
-#: ../src/modules/itip-formatter/itip-view.c:5887
+#: ../src/modules/itip-formatter/itip-view.c:5731
+#: ../src/modules/itip-formatter/itip-view.c:5815
+#: ../src/modules/itip-formatter/itip-view.c:5919
 msgid ""
 "The message does contain a calendar, but the calendar contains no events, tasks or free/"
 "busy information"
@@ -23775,21 +23775,21 @@ msgstr ""
 "Az üzenet tartalmaz egy naptárt, de az nem tartalmaz eseményeket, feladatokat vagy "
 "időbeosztásokat"
 
-#: ../src/modules/itip-formatter/itip-view.c:5792
+#: ../src/modules/itip-formatter/itip-view.c:5824
 msgid "The calendar attached contains multiple items"
 msgstr "A csatolt naptár több elemet tartalmaz"
 
-#: ../src/modules/itip-formatter/itip-view.c:5793
+#: ../src/modules/itip-formatter/itip-view.c:5825
 msgid "To process all of these items, the file should be saved and the calendar imported"
 msgstr ""
 "Ezen elemek mindegyikének feldolgozásához a fájlt el kell menteni és a naptárt importálni"
 
-#: ../src/modules/itip-formatter/itip-view.c:6373
+#: ../src/modules/itip-formatter/itip-view.c:6405
 msgctxt "cal-itip"
 msgid "None"
 msgstr "Nincs"
 
-#: ../src/modules/itip-formatter/itip-view.c:6395
+#: ../src/modules/itip-formatter/itip-view.c:6427
 msgid "Tentatively Accepted"
 msgstr "Feltételesen elfogadva"
 
@@ -23979,13 +23979,17 @@ msgstr "A kiszolgáló megköveteli a _hitelesítést"
 msgid "T_ype:"
 msgstr "Típ_us:"
 
-#: ../src/modules/mail-config/e-mail-config-yahoo-summary.c:248
+#: ../src/modules/mail-config/e-mail-config-yahoo-summary.c:268
 msgid "Yahoo! Features"
 msgstr "Yahoo! szolgáltatások"
 
-#: ../src/modules/mail-config/e-mail-config-yahoo-summary.c:257
+#: ../src/modules/mail-config/e-mail-config-yahoo-summary.c:277
 msgid "Add Yahoo! Ca_lendar and Tasks to this account"
 msgstr "_Yahoo! naptár és feladatok támogatás ehhez a fiókhoz"
+
+#: ../src/modules/mail-config/e-mail-config-yahoo-summary.c:285
+msgid "Add Con_tacts to this account"
+msgstr "Né_vjegyek hozzáadása ehhez a fiókhoz"
 
 #: ../src/modules/mail/e-mail-attachment-handler.c:644
 #, c-format
@@ -26863,69 +26867,70 @@ msgstr ""
 "\n"
 "Megbízhatósági beállítások szerkesztése:"
 
-#: ../src/smime/gui/certificate-manager.c:82 ../src/smime/gui/certificate-manager.c:101
-#: ../src/smime/gui/certificate-manager.c:121
+#: ../src/smime/gui/certificate-manager.c:82 ../src/smime/gui/certificate-manager.c:102
+#: ../src/smime/gui/certificate-manager.c:123
 msgid "Certificate Name"
 msgstr "Tanúsítvány neve"
 
-#: ../src/smime/gui/certificate-manager.c:83 ../src/smime/gui/certificate-manager.c:103
+#: ../src/smime/gui/certificate-manager.c:83 ../src/smime/gui/certificate-manager.c:104
 msgid "Issued To Organization"
 msgstr "Kibocsátva ennek a szervezetnek"
 
-#: ../src/smime/gui/certificate-manager.c:84 ../src/smime/gui/certificate-manager.c:104
+#: ../src/smime/gui/certificate-manager.c:84 ../src/smime/gui/certificate-manager.c:105
 msgid "Issued To Organizational Unit"
 msgstr "Kibocsátva ennek a szervezeti egységnek"
 
-#: ../src/smime/gui/certificate-manager.c:85 ../src/smime/gui/certificate-manager.c:105
-#: ../src/smime/gui/certificate-manager.c:123
+#: ../src/smime/gui/certificate-manager.c:85 ../src/smime/gui/certificate-manager.c:106
+#: ../src/smime/gui/certificate-manager.c:125
 msgid "Serial Number"
 msgstr "Sorozatszám"
 
-#: ../src/smime/gui/certificate-manager.c:86 ../src/smime/gui/certificate-manager.c:106
-#: ../src/smime/gui/certificate-manager.c:124
+#: ../src/smime/gui/certificate-manager.c:86 ../src/smime/gui/certificate-manager.c:107
+#: ../src/smime/gui/certificate-manager.c:126
 msgid "Purposes"
 msgstr "Célok"
 
-#: ../src/smime/gui/certificate-manager.c:87 ../src/smime/gui/certificate-manager.c:107
-#: ../src/smime/gui/certificate-manager.c:125
+#: ../src/smime/gui/certificate-manager.c:87 ../src/smime/gui/certificate-manager.c:108
+#: ../src/smime/gui/certificate-manager.c:127
 msgid "Issued By"
 msgstr "Kibocsátó"
 
-#: ../src/smime/gui/certificate-manager.c:88 ../src/smime/gui/certificate-manager.c:108
-#: ../src/smime/gui/certificate-manager.c:126
+#: ../src/smime/gui/certificate-manager.c:88 ../src/smime/gui/certificate-manager.c:109
+#: ../src/smime/gui/certificate-manager.c:128
 msgid "Issued By Organization"
 msgstr "Kibocsátó szervezet"
 
-#: ../src/smime/gui/certificate-manager.c:89 ../src/smime/gui/certificate-manager.c:109
-#: ../src/smime/gui/certificate-manager.c:127
+#: ../src/smime/gui/certificate-manager.c:89 ../src/smime/gui/certificate-manager.c:110
+#: ../src/smime/gui/certificate-manager.c:129
 msgid "Issued By Organizational Unit"
 msgstr "Kibocsátó szervezeti egység"
 
-#: ../src/smime/gui/certificate-manager.c:90 ../src/smime/gui/certificate-manager.c:110
-#: ../src/smime/gui/certificate-manager.c:128
+#: ../src/smime/gui/certificate-manager.c:90 ../src/smime/gui/certificate-manager.c:111
+#: ../src/smime/gui/certificate-manager.c:130
 msgid "Issued"
 msgstr "Kibocsátva"
 
-#: ../src/smime/gui/certificate-manager.c:91 ../src/smime/gui/certificate-manager.c:111
-#: ../src/smime/gui/certificate-manager.c:129
+#: ../src/smime/gui/certificate-manager.c:91 ../src/smime/gui/certificate-manager.c:112
+#: ../src/smime/gui/certificate-manager.c:131
 msgid "Expires"
 msgstr "Lejárat"
 
-#: ../src/smime/gui/certificate-manager.c:92 ../src/smime/gui/certificate-manager.c:112
-#: ../src/smime/gui/certificate-manager.c:130
+#. { G_TYPE_STRING, N_("SHA256 Fingerprint"),		e_cert_get_sha256_fingerprint,	FALSE },
+#: ../src/smime/gui/certificate-manager.c:93 ../src/smime/gui/certificate-manager.c:114
+#: ../src/smime/gui/certificate-manager.c:133
 msgid "SHA1 Fingerprint"
 msgstr "SHA1 ujjlenyomat"
 
-#: ../src/smime/gui/certificate-manager.c:93 ../src/smime/gui/certificate-manager.c:113
-#: ../src/smime/gui/certificate-manager.c:131
+#: ../src/smime/gui/certificate-manager.c:94 ../src/smime/gui/certificate-manager.c:115
+#: ../src/smime/gui/certificate-manager.c:134
 msgid "MD5 Fingerprint"
 msgstr "MD5 ujjlenyomat"
 
-#: ../src/smime/gui/certificate-manager.c:102 ../src/smime/gui/certificate-manager.c:122
+#: ../src/smime/gui/certificate-manager.c:103 ../src/smime/gui/certificate-manager.c:124
 msgid "Email Address"
 msgstr "E-mail cím"
 
-#: ../src/smime/gui/certificate-manager.c:647
+#: ../src/smime/gui/certificate-manager.c:650
 msgid "Select a file to backup your key and certificate…"
 msgstr "Válasszon egy fájlt a kulcs és tanúsítvány biztonsági mentéséhez…"
 
@@ -26934,31 +26939,31 @@ msgstr "Válasszon egy fájlt a kulcs és tanúsítvány biztonsági mentéséhe
 #. * when a user wants to backup one of her/his private keys/certificates.
 #. * For example: gnomedev-backup.p12
 #.
-#: ../src/smime/gui/certificate-manager.c:657
+#: ../src/smime/gui/certificate-manager.c:660
 #, c-format
 msgid "%s-backup.p12"
 msgstr "%s-backup.p12"
 
-#: ../src/smime/gui/certificate-manager.c:716
+#: ../src/smime/gui/certificate-manager.c:719
 msgid "Backup Certificate"
 msgstr "Tanúsítvány biztonsági mentése"
 
 #. filename selection
-#: ../src/smime/gui/certificate-manager.c:731
+#: ../src/smime/gui/certificate-manager.c:734
 msgid "_File name:"
 msgstr "_Fájlnév:"
 
 #. FIXME when gtk_file_chooser_button allows GTK_FILE_CHOOSER_ACTION_SAVE use it
-#: ../src/smime/gui/certificate-manager.c:736
+#: ../src/smime/gui/certificate-manager.c:739
 msgid "Please select a file…"
 msgstr "Válasszon egy fájlt…"
 
-#: ../src/smime/gui/certificate-manager.c:750
+#: ../src/smime/gui/certificate-manager.c:753
 msgid "_Include certificate chain in the backup"
 msgstr "A tanúsítványlánc _felvétele a biztonsági mentésbe"
 
 #. To Translators: this text was copied from Firefox
-#: ../src/smime/gui/certificate-manager.c:756
+#: ../src/smime/gui/certificate-manager.c:759
 msgid ""
 "The certificate backup password you set here protects the backup file that you are about to "
 "create.\n"
@@ -26968,16 +26973,16 @@ msgstr ""
 "mentésfájlt.\n"
 "A folytatáshoz meg kell adni a jelszót."
 
-#: ../src/smime/gui/certificate-manager.c:775
+#: ../src/smime/gui/certificate-manager.c:778
 msgid "_Repeat Password:"
 msgstr "_Jelszó ismétlése:"
 
-#: ../src/smime/gui/certificate-manager.c:794
+#: ../src/smime/gui/certificate-manager.c:797
 msgid "Passwords do not match"
 msgstr "A jelszavak nem egyeznek"
 
 #. To Translators: this text was copied from Firefox
-#: ../src/smime/gui/certificate-manager.c:802
+#: ../src/smime/gui/certificate-manager.c:805
 msgid ""
 "Important:\n"
 "If you forget your certificate backup password, you will not be able to restore this backup "
@@ -26989,92 +26994,92 @@ msgstr ""
 "tudni visszaállítani a tanúsítványokat a mentésből.\n"
 "Írja fel biztonságos helyre."
 
-#: ../src/smime/gui/certificate-manager.c:847
+#: ../src/smime/gui/certificate-manager.c:850
 msgid "No file name provided"
 msgstr "Nincs megadva fájlnév"
 
-#: ../src/smime/gui/certificate-manager.c:851
+#: ../src/smime/gui/certificate-manager.c:854
 msgid "Failed to backup key and certificate"
 msgstr "A kulcs és tanúsítvány biztonsági mentése meghiúsult"
 
-#: ../src/smime/gui/certificate-manager.c:943
+#: ../src/smime/gui/certificate-manager.c:946
 msgid "Select a certificate to import…"
 msgstr "Válasszon ki egy importálandó tanúsítványt…"
 
-#: ../src/smime/gui/certificate-manager.c:992
+#: ../src/smime/gui/certificate-manager.c:995
 msgid "Failed to import certificate"
 msgstr "A tanúsítvány importálása meghiúsult"
 
-#: ../src/smime/gui/certificate-manager.c:1109
+#: ../src/smime/gui/certificate-manager.c:1112
 msgctxt "CamelTrust"
 msgid "Ask when used"
 msgstr "Kérdezzen használat előtt"
 
-#: ../src/smime/gui/certificate-manager.c:1111
+#: ../src/smime/gui/certificate-manager.c:1114
 msgctxt "CamelTrust"
 msgid "Never"
 msgstr "Soha"
 
-#: ../src/smime/gui/certificate-manager.c:1113
+#: ../src/smime/gui/certificate-manager.c:1116
 msgctxt "CamelTrust"
 msgid "Marginally"
 msgstr "Kismértékben"
 
-#: ../src/smime/gui/certificate-manager.c:1115
+#: ../src/smime/gui/certificate-manager.c:1118
 msgctxt "CamelTrust"
 msgid "Fully"
 msgstr "Teljesen"
 
-#: ../src/smime/gui/certificate-manager.c:1117
+#: ../src/smime/gui/certificate-manager.c:1120
 msgctxt "CamelTrust"
 msgid "Ultimately"
 msgstr "Tökéletesen"
 
-#: ../src/smime/gui/certificate-manager.c:1119
+#: ../src/smime/gui/certificate-manager.c:1122
 msgctxt "CamelTrust"
 msgid "Temporarily"
 msgstr "Átmenetileg"
 
-#: ../src/smime/gui/certificate-manager.c:1325
+#: ../src/smime/gui/certificate-manager.c:1328
 msgid "Change certificate trust"
 msgstr "Tanúsítvány megbízhatóságának módosítása"
 
-#: ../src/smime/gui/certificate-manager.c:1337
+#: ../src/smime/gui/certificate-manager.c:1340
 #, c-format
 msgid "Change trust for the host “%s”:"
 msgstr "Megbízhatóság módosítása ezen géphez: „%s”:"
 
-#: ../src/smime/gui/certificate-manager.c:1361
+#: ../src/smime/gui/certificate-manager.c:1364
 msgctxt "CamelTrust"
 msgid "_Ask when used"
 msgstr "Kérdezzen _használat előtt"
 
-#: ../src/smime/gui/certificate-manager.c:1362
+#: ../src/smime/gui/certificate-manager.c:1365
 msgctxt "CamelTrust"
 msgid "_Never trust this certificate"
 msgstr "_Sose bízzon meg ebben tanúsítványában"
 
-#: ../src/smime/gui/certificate-manager.c:1363
+#: ../src/smime/gui/certificate-manager.c:1366
 msgctxt "CamelTrust"
 msgid "_Temporarily trusted (this session only)"
 msgstr "Át_menetileg megbízható (csak erre a munkamenetre)"
 
-#: ../src/smime/gui/certificate-manager.c:1364
+#: ../src/smime/gui/certificate-manager.c:1367
 msgctxt "CamelTrust"
 msgid "_Marginally trusted"
 msgstr "_Kismértékben megbízható"
 
-#: ../src/smime/gui/certificate-manager.c:1365
+#: ../src/smime/gui/certificate-manager.c:1368
 msgctxt "CamelTrust"
 msgid "_Fully trusted"
 msgstr "_Teljesen megbízható"
 
-#: ../src/smime/gui/certificate-manager.c:1366
+#: ../src/smime/gui/certificate-manager.c:1369
 msgctxt "CamelTrust"
 msgid "_Ultimately trusted"
 msgstr "Tökél_etesen megbízható"
 
-#: ../src/smime/gui/certificate-manager.c:1370
+#: ../src/smime/gui/certificate-manager.c:1373
 msgid ""
 "Before trusting this site, you should examine its certificate and its policy and procedures "
 "(if available)."
@@ -27082,43 +27087,43 @@ msgstr ""
 "Mielőtt megbízik ebben az oldalban, meg kell vizsgálnia a hitelességét, szabályait és "
 "eljárásait (ha lehetséges)."
 
-#: ../src/smime/gui/certificate-manager.c:1385
+#: ../src/smime/gui/certificate-manager.c:1388
 msgid "_Display certificate"
 msgstr "_Tanúsítvány megjelenítése"
 
-#: ../src/smime/gui/certificate-manager.c:1590
+#: ../src/smime/gui/certificate-manager.c:1593
 msgid "You have certificates on file that identify these mail servers:"
 msgstr "Ön rendelkezik olyan tanúsítványokkal, melyek azonosítják a következő kiszolgálókat:"
 
-#: ../src/smime/gui/certificate-manager.c:1621
+#: ../src/smime/gui/certificate-manager.c:1624
 msgid "Host name"
 msgstr "Gépnév"
 
-#: ../src/smime/gui/certificate-manager.c:1623
+#: ../src/smime/gui/certificate-manager.c:1626
 msgid "Issuer"
 msgstr "Kibocsátó"
 
-#: ../src/smime/gui/certificate-manager.c:1624
+#: ../src/smime/gui/certificate-manager.c:1627
 msgid "Fingerprint"
 msgstr "Ujjlenyomat"
 
-#: ../src/smime/gui/certificate-manager.c:1625
+#: ../src/smime/gui/certificate-manager.c:1628
 msgid "Trust"
 msgstr "Megbízhatóság"
 
-#: ../src/smime/gui/certificate-manager.c:1646
+#: ../src/smime/gui/certificate-manager.c:1649
 msgid "_Edit Trust"
 msgstr "_Megbízhatóság szerkesztése"
 
-#: ../src/smime/gui/certificate-manager.c:2082
+#: ../src/smime/gui/certificate-manager.c:2085
 msgid "All PKCS12 files"
 msgstr "Minden PKCS12 fájl"
 
-#: ../src/smime/gui/certificate-manager.c:2099
+#: ../src/smime/gui/certificate-manager.c:2102
 msgid "All email certificate files"
 msgstr "Minden e-mail tanúsítványfájl"
 
-#: ../src/smime/gui/certificate-manager.c:2116
+#: ../src/smime/gui/certificate-manager.c:2119
 msgid "All CA certificate files"
 msgstr "Minden hitelesítésszolgáltató-tanúsítványfájl"
 
@@ -27245,11 +27250,11 @@ msgid "C_ertificate:"
 msgstr "_Tanúsítvány:"
 
 #. x509 certificate usage types
-#: ../src/smime/lib/e-cert.c:402
+#: ../src/smime/lib/e-cert.c:414
 msgid "Sign"
 msgstr "Aláírás"
 
-#: ../src/smime/lib/e-cert.c:403
+#: ../src/smime/lib/e-cert.c:415
 msgid "Encrypt"
 msgstr "Titkosítás"
 
