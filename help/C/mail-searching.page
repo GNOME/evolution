@@ -77,12 +77,12 @@ http://blogs.gnome.org/shaunm/2011/07/21/understanding-xinclude/ for how it work
 <tr><td><p its:translate="no">exists</p></td><td><p its:translate="no">e</p></td><td><p>whether given header exists</p></td></tr>
 <tr><td><p its:translate="no">tag</p></td><td><p></p></td><td><p>given user tag is set on a message</p></td></tr>
 <tr><td><p its:translate="no">flag</p></td><td><p></p></td><td><p>whether certain flag is set; known special values are:</p>
-<p><code its:locNote="Translators: This is translated in a 'ffe' context">Answered</code> - the message is marked as replied</p>
-<p><code its:locNote="Translators: This is translated in a 'ffe' context">Deleted</code> - the message is marked as deleted</p>
-<p><code its:locNote="Translators: This is translated in a 'ffe' context">Draft</code> - the message is marked as draft</p>
-<p><code its:locNote="Translators: This is translated in a 'ffe' context">Flagged</code> - the message is marked as important</p>
-<p><code its:locNote="Translators: This is translated in a 'ffe' context">Seen</code> - the message is marked as seen (not unread)</p>
-<p><code its:locNote="Translators: This is translated in a 'ffe' context">Attachment</code> - the message has an attachment</p>
+<p its:locNote="Translators: This is translated in a 'ffe' context"><code>Answered</code> - the message is marked as replied</p>
+<p its:locNote="Translators: This is translated in a 'ffe' context"><code>Deleted</code> - the message is marked as deleted</p>
+<p its:locNote="Translators: This is translated in a 'ffe' context"><code>Draft</code> - the message is marked as draft</p>
+<p its:locNote="Translators: This is translated in a 'ffe' context"><code>Flagged</code> - the message is marked as important</p>
+<p its:locNote="Translators: This is translated in a 'ffe' context"><code>Seen</code> - the message is marked as seen (not unread)</p>
+<p its:locNote="Translators: This is translated in a 'ffe' context"><code>Attachment</code> - the message has an attachment</p>
 <p>Any other value is checked for its non-emptiness.</p></td></tr>
 <tr><td><p its:translate="no">label</p></td><td><p its:translate="no">l</p></td><td><p>whether certain <link xref="mail-labels">label</link> is set on the message</p></td></tr>
 <tr><td><p its:translate="no">size</p></td><td><p its:translate="no">sz</p></td><td><p>whether message size, in KB, is equal to the given value</p>
