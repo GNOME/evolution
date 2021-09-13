@@ -21,8 +21,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: evolution\n"
 "Report-Msgid-Bugs-To: https://gitlab.gnome.org/GNOME/evolution/issues\n"
-"POT-Creation-Date: 2021-08-05 08:54+0000\n"
-"PO-Revision-Date: 2021-08-28 01:02+0200\n"
+"POT-Creation-Date: 2021-09-10 18:09+0000\n"
+"PO-Revision-Date: 2021-09-13 21:37+0200\n"
 "Last-Translator: Anders Jonsson <anders.jonsson@norsjovallen.se>\n"
 "Language-Team: Swedish <tp-sv@listor.tp-sv.se>\n"
 "Language: sv\n"
@@ -12911,12 +12911,12 @@ msgstr "Kunde inte ställa in som bakgrund"
 msgid "Set as _Background"
 msgstr "Spara som _bakgrund"
 
-#: ../src/e-util/e-attachment-icon-view.c:168
+#: ../src/e-util/e-attachment-icon-view.c:171
 #: ../src/e-util/e-attachment-tree-view.c:168
 msgid "Loading"
 msgstr "Läser in"
 
-#: ../src/e-util/e-attachment-icon-view.c:180
+#: ../src/e-util/e-attachment-icon-view.c:183
 #: ../src/e-util/e-attachment-tree-view.c:180
 msgid "Saving"
 msgstr "Sparar"
@@ -17916,12 +17916,12 @@ msgstr "Återställ sorteringsordning på alla nivåer till deras standardvärde
 #: ../src/mail/e-mail-free-form-exp.c:233
 msgctxt "ffe"
 msgid "Answered"
-msgstr "Besvarad"
+msgstr "Besvarat"
 
 #: ../src/mail/e-mail-free-form-exp.c:234
 msgctxt "ffe"
 msgid "Deleted"
-msgstr "Borttagen"
+msgstr "Borttaget"
 
 #: ../src/mail/e-mail-free-form-exp.c:235
 msgctxt "ffe"
@@ -17931,7 +17931,7 @@ msgstr "Utkast"
 #: ../src/mail/e-mail-free-form-exp.c:236
 msgctxt "ffe"
 msgid "Flagged"
-msgstr "Flaggad"
+msgstr "Flaggat"
 
 #: ../src/mail/e-mail-free-form-exp.c:237
 msgctxt "ffe"
