@@ -8,8 +8,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: evolution\n"
-"POT-Creation-Date: 2021-08-27 10:36+0000\n"
-"PO-Revision-Date: 2021-08-28 14:53+0200\n"
+"POT-Creation-Date: 2021-09-12 13:55+0000\n"
+"PO-Revision-Date: 2021-09-16 16:17+0200\n"
 "Last-Translator: Marek Černocký <marek@manet.cz>\n"
 "Language-Team: čeština <>\n"
 "Language: cs\n"
@@ -2016,12 +2016,12 @@ msgstr "Dostupné jsou následující volby:"
 
 #. (itstool) path: item/p
 #: C/contacts-ldap.page:74
-msgid "One: Searches the Search Base and one entry below it."
-msgstr "Jedna úroveň: Prohledává se základ vyhledávání a jeden záznam pod ním."
+msgid "One Level: Searches one entry below the Search Base."
+msgstr "Jedna úroveň: Prohledává se jeden záznam pod základem vyhledávání."
 
 #. (itstool) path: item/p
 #: C/contacts-ldap.page:77
-msgid "Sub: Searches the Search Base and all entries below it."
+msgid "Subtree: Searches the Search Base and all entries below it."
 msgstr "Podstrom: Prohledává základ vyhledávání a všechny záznamy pod ním."
 
 #. (itstool) path: item/p
@@ -5921,9 +5921,9 @@ msgid ""
 "OAuth2\">documentation how to set up and troubleshoot OAuth2</link> "
 "authentication."
 msgstr ""
-"Viz také <link href=\"https://wiki.gnome.org/Apps/Evolution/EWS/OAuth2\">"
-"dokumentace, jak řešit problémy s ověřováním přes OAuth2</link> (odkazovaný "
-"text je v angličtině)."
+"Viz také <link href=\"https://wiki.gnome.org/Apps/Evolution/EWS/"
+"OAuth2\">dokumentace, jak řešit problémy s ověřováním přes OAuth2</link> "
+"(odkazovaný text je v angličtině)."
 
 #. (itstool) path: info/title
 #: C/mail-account-manage-microsoft-exchange-evo-ews.page:39
@@ -6050,8 +6050,8 @@ msgid ""
 "For older versions of Microsoft Exchange, or if <sys>evolution-ews</sys> "
 "does not work well for you, try <sys>evolution-mapi</sys>."
 msgstr ""
-"Pro starší verze serveru Microsoft Exchange, nebo když vám <sys>evolution-ews"
-"</sys> nebude fungovat správně, vyzkoušejte <sys>evolution-mapi</sys>."
+"Pro starší verze serveru Microsoft Exchange, nebo když vám <sys>evolution-"
+"ews</sys> nebude fungovat správně, vyzkoušejte <sys>evolution-mapi</sys>."
 
 #. (itstool) path: note/p
 #: C/mail-account-manage-microsoft-exchange.page:45
@@ -7523,9 +7523,9 @@ msgid ""
 "color applies to the selected text. If you do not have text selected, the "
 "color applies to whatever you type next."
 msgstr ""
-"Čtvereček ukazuje aktuální barvu textu. Pokud máte vybraný nějaký text, barva "
-"se použije na něj. Pokud text vybraný nemáte, barva se použije na vše, co "
-"nově napíšete."
+"Čtvereček ukazuje aktuální barvu textu. Pokud máte vybraný nějaký text, "
+"barva se použije na něj. Pokud text vybraný nemáte, barva se použije na vše, "
+"co nově napíšete."
 
 #. (itstool) path: td/p
 #: C/mail-composer-html-text.page:49
@@ -9029,9 +9029,9 @@ msgid ""
 "Email#Plain_text_and_HTML\">Plain text or HTML</link>. Each format has its "
 "pros and cons."
 msgstr ""
-"E-maily mohou být ve dvou formátech <link href=\"https://en.wikipedia.org/wiki/"
-"Email#Plain_text_and_HTML\">prostý text nebo HTML</link> (odkazovaný text je "
-"v angličtině). Oba formáty mají své výhody i nevýhody."
+"E-maily mohou být ve dvou formátech <link href=\"https://en.wikipedia.org/"
+"wiki/Email#Plain_text_and_HTML\">prostý text nebo HTML</link> (odkazovaný "
+"text je v angličtině). Oba formáty mají své výhody i nevýhody."
 
 #. (itstool) path: page/p
 #: C/mail-displaying-message.page:25
@@ -11906,13 +11906,13 @@ msgstr ""
 "kterého můžete definovat komplexní podmínky. V prvním kroce je zadaný výraz "
 "ve volném tvaru rozdělen na jednotlivá slova. Pokud slovo není předcházeno "
 "některou ze známých značek, je kontrolováno v hlavičkách Komu, Kopie a "
-"Předmět. Pokud jsou zapotřebí mezery nebo jiné speciální znaky, uzavřete text "
-"do dvojitých uvozovek. Dvojité uvozovky uvnitř získáte jejich zdvojením "
-"(např. <code>citováno \"\"zde\"\"</code> je zpracováno vcelku jako <code>"
-"citováno \"zde\"</code>). Například <code>f:Josef Novák</code> filtruje "
-"zprávy, ve kterých obsahuje Od jméno <code>Josef</code> a Komu, Kopie nebo "
-"Předmět obsahuje <code>Novák</code>, zatímco <code>f:\"Josef Novák\"</code> "
-"filtruje zprávy s odesilatelem <code>Josef Novák</code>."
+"Předmět. Pokud jsou zapotřebí mezery nebo jiné speciální znaky, uzavřete "
+"text do dvojitých uvozovek. Dvojité uvozovky uvnitř získáte jejich zdvojením "
+"(např. <code>citováno \"\"zde\"\"</code> je zpracováno vcelku jako "
+"<code>citováno \"zde\"</code>). Například <code>f:Josef Novák</code> "
+"filtruje zprávy, ve kterých obsahuje Od jméno <code>Josef</code> a Komu, "
+"Kopie nebo Předmět obsahuje <code>Novák</code>, zatímco <code>f:\"Josef Novák"
+"\"</code> filtruje zprávy s odesilatelem <code>Josef Novák</code>."
 
 #. (itstool) path: section/p
 #: C/mail-searching.page:66
@@ -11920,8 +11920,8 @@ msgid ""
 "The syntax of the tags is <code>&lt;tag&gt;[-&lt;options&gt;]:value</code>. "
 "The tags are:"
 msgstr ""
-"Syntax značek je <code>&lt;značka&gt;[-&lt;volby&gt;]:hodnota</code>. "
-"Značky jsou:"
+"Syntax značek je <code>&lt;značka&gt;[-&lt;volby&gt;]:hodnota</code>. Značky "
+"jsou:"
 
 #. (itstool) path: td/p
 #: C/mail-searching.page:68
@@ -11984,8 +11984,8 @@ msgid ""
 "the syntax is: <code>h:headerName=value</code> while the equal sign is used "
 "only as a delimiter, not as a match rule"
 msgstr ""
-"Syntax je: <code>h:názevHlavičky=hodnota</code>, kde rovnítko je použito jako "
-"oddělovač, ne porovnání."
+"Syntax je: <code>h:názevHlavičky=hodnota</code>, kde rovnítko je použito "
+"jako oddělovač, ne porovnání."
 
 #. (itstool) path: td/p
 #: C/mail-searching.page:77
@@ -12003,64 +12003,40 @@ msgid "whether certain flag is set; known special values are:"
 msgstr "Zda je nastaven příslušný příznak. Známé speciální hodnoty jsou:"
 
 #. (itstool) path: td/p
-#. (itstool) comment: ./code
 #. Translators: This is translated in a 'ffe' context
 #: C/mail-searching.page:80
-msgid ""
-"<code its:locNote=\"Translators: This is translated in a 'ffe' context"
-"\">Answered</code> - the message is marked as replied"
-msgstr ""
-"<code>Answered</code> – zpráva je označená jako zodpovězená"
+msgid "<code>Answered</code> - the message is marked as replied"
+msgstr "<code>Answered</code> – zpráva je označená jako zodpovězená"
 
 #. (itstool) path: td/p
-#. (itstool) comment: ./code
 #. Translators: This is translated in a 'ffe' context
 #: C/mail-searching.page:81
-msgid ""
-"<code its:locNote=\"Translators: This is translated in a 'ffe' context"
-"\">Deleted</code> - the message is marked as deleted"
-msgstr ""
-"<code>Deleted</code> – zpráva je označená jako smazaná"
+msgid "<code>Deleted</code> - the message is marked as deleted"
+msgstr "<code>Deleted</code> – zpráva je označená jako smazaná"
 
 #. (itstool) path: td/p
-#. (itstool) comment: ./code
 #. Translators: This is translated in a 'ffe' context
 #: C/mail-searching.page:82
-msgid ""
-"<code its:locNote=\"Translators: This is translated in a 'ffe' context"
-"\">Draft</code> - the message is marked as draft"
-msgstr ""
-"<code>Draft</code> – zpráva je označená jako koncept"
+msgid "<code>Draft</code> - the message is marked as draft"
+msgstr "<code>Draft</code> – zpráva je označená jako koncept"
 
 #. (itstool) path: td/p
-#. (itstool) comment: ./code
 #. Translators: This is translated in a 'ffe' context
 #: C/mail-searching.page:83
-msgid ""
-"<code its:locNote=\"Translators: This is translated in a 'ffe' context"
-"\">Flagged</code> - the message is marked as important"
-msgstr ""
-"<code>Flagged</code> – zpráva je označená jako důležitá"
+msgid "<code>Flagged</code> - the message is marked as important"
+msgstr "<code>Flagged</code> – zpráva je označená jako důležitá"
 
 #. (itstool) path: td/p
-#. (itstool) comment: ./code
 #. Translators: This is translated in a 'ffe' context
 #: C/mail-searching.page:84
-msgid ""
-"<code its:locNote=\"Translators: This is translated in a 'ffe' context"
-"\">Seen</code> - the message is marked as seen (not unread)"
-msgstr ""
-"<code>Seen</code> – zpráva je označená jako viděná (není nepřečtená)"
+msgid "<code>Seen</code> - the message is marked as seen (not unread)"
+msgstr "<code>Seen</code> – zpráva je označená jako viděná (není nepřečtená)"
 
 #. (itstool) path: td/p
-#. (itstool) comment: ./code
 #. Translators: This is translated in a 'ffe' context
 #: C/mail-searching.page:85
-msgid ""
-"<code its:locNote=\"Translators: This is translated in a 'ffe' context"
-"\">Attachment</code> - the message has an attachment"
-msgstr ""
-"<code>Attachment</code> – zpráva má přílohu"
+msgid "<code>Attachment</code> - the message has an attachment"
+msgstr "<code>Attachment</code> – zpráva má přílohu"
 
 #. (itstool) path: td/p
 #: C/mail-searching.page:86
@@ -12131,9 +12107,9 @@ msgid ""
 "message has (if the value is not any of <code>no</code>, <code>false</code>, "
 "<code>0</code>) an attachment. Similar to <code>flag:attachment</code> tag."
 msgstr ""
-"Zpráva by měla mít přílohu (pokud hodnotou není <code>no</code>, <code>false"
-"</code> nebo <code>0</code>). Funguje podobně jako značka <code>flag:"
-"attachment</code>."
+"Zpráva by měla mít přílohu (pokud hodnotou není <code>no</code>, "
+"<code>false</code> nebo <code>0</code>). Funguje podobně jako značka "
+"<code>flag:attachment</code>."
 
 #. (itstool) path: td/p
 #: C/mail-searching.page:95
@@ -12142,9 +12118,9 @@ msgid ""
 "<gui>Properties</gui>. Example: <code>location:\"On This Computer/Inbox\"</"
 "code>"
 msgstr ""
-"Kontroluje umístění zprávy. Hodnotu umístění (URL) lze najít ve <gui>"
-"Vlastnostech</gui> složky. Příklad: <code>location:\"V tomto počítači/Inbox\""
-"</code>"
+"Kontroluje umístění zprávy. Hodnotu umístění (URL) lze najít ve "
+"<gui>Vlastnostech</gui> složky. Příklad: <code>location:\"V tomto počítači/"
+"Inbox\"</code>"
 
 #. (itstool) path: td/p
 #: C/mail-searching.page:96
@@ -12157,8 +12133,8 @@ msgid ""
 "(*) Header comparisons can have a matching type option. The default is to "
 "check for a <code>contains</code>. The available options are:"
 msgstr ""
-"(*) Při porovnávání hlaviček lze uvést volbu typu shody. Výchozí je kontrola, "
-"zda obsahuje hodnotu (<code>contains</code>). Dostupné volby jsou:"
+"(*) Při porovnávání hlaviček lze uvést volbu typu shody. Výchozí je "
+"kontrola, zda obsahuje hodnotu (<code>contains</code>). Dostupné volby jsou:"
 
 #. (itstool) path: td/p
 #: C/mail-searching.page:100
@@ -12220,12 +12196,12 @@ msgid ""
 msgstr ""
 "(**) Datum může být zapsáno relativně. Kladné číslo znamená <code>v "
 "posledních X dnech</code>, zatímco záporné jde do budoucnosti. Například, "
-"když chcete získat zprávy přijaté za posledních 10 dní, použijte: <code>recv:"
-"10</code>. Lze zadat i přesné datum, kdy formát může být buď <code>RRRR-MM-DD"
-"</code> (upřednostňováno), ISO 8601 nebo datum/datum-čas v místním formátu. "
-"Pokud zpracování data/času selže, je podmínka vynechána. Porovnávání data má "
-"tři dodatečné volby: <code>&lt;</code>, <code>=</code> a <code>&gt;"
-"</code>, kdy <code>&gt;</code> je výchozí."
+"když chcete získat zprávy přijaté za posledních 10 dní, použijte: "
+"<code>recv:10</code>. Lze zadat i přesné datum, kdy formát může být buď "
+"<code>RRRR-MM-DD</code> (upřednostňováno), ISO 8601 nebo datum/datum-čas v "
+"místním formátu. Pokud zpracování data/času selže, je podmínka vynechána. "
+"Porovnávání data má tři dodatečné volby: <code>&lt;</code>, <code>=</code> a "
+"<code>&gt;</code>, kdy <code>&gt;</code> je výchozí."
 
 #. (itstool) path: section/p
 #: C/mail-searching.page:111
@@ -12244,10 +12220,10 @@ msgid ""
 msgstr ""
 "Umožňují vytvářet specializované výrazy. Výchozí (nejvyšší priorita) spojka "
 "je <code>and</code>. Pokud má mít vyšší prioritu <code>or</code>, je třeba "
-"celý filter uzavřít do <code>or:(....)</code>. Například: <code>f:Banka "
-"t:Honza</code> filtruje všechny zprávy, které obsahují <code>Banka</code> v "
-"odesilateli a <code>Honza</code> v příjemci, zatímco <code>or:(f:Banka "
-"t:Honza)</code> filtruje zprávy od Banky nebo adresované Honzovi."
+"celý filter uzavřít do <code>or:(....)</code>. Například: <code>f:Banka t:"
+"Honza</code> filtruje všechny zprávy, které obsahují <code>Banka</code> v "
+"odesilateli a <code>Honza</code> v příjemci, zatímco <code>or:(f:Banka t:"
+"Honza)</code> filtruje zprávy od Banky nebo adresované Honzovi."
 
 #. (itstool) path: section/title
 #: C/mail-searching.page:121
@@ -12285,8 +12261,8 @@ msgid ""
 "Messages, which contain both <code>green</code> and <code>blue</code> words "
 "in the Subject"
 msgstr ""
-"Zprávy, které mají v předmětu jak slovo <code>zelená</code>, tak <code>"
-"modrá</code>."
+"Zprávy, které mají v předmětu jak slovo <code>zelená</code>, tak "
+"<code>modrá</code>."
 
 #. (itstool) path: td/p
 #: C/mail-searching.page:127
@@ -12409,8 +12385,8 @@ msgid ""
 "Messages whose recipient is <code>Alice</code> or <code>Bob</code>, but not "
 "<code>Smith</code>"
 msgstr ""
-"Zprávy, jejímiž příjemcem je <code>Alice</code> nebo <code>Robert</code>, ale "
-"ne <code>Procházka</code>."
+"Zprávy, jejímiž příjemcem je <code>Alice</code> nebo <code>Robert</code>, "
+"ale ne <code>Procházka</code>."
 
 #. (itstool) path: td/p
 #: C/mail-searching.page:139
@@ -15268,61 +15244,3 @@ msgstr "V dialogovém okně upravte název nebo podmínky hledání."
 msgid "Click <_:gui-1/>."
 msgstr "Klikněte na <_:gui-1/>."
 
-#~ msgid "Click <gui style=\"button\">Apply</gui>."
-#~ msgstr "Klikněte na <gui style=\"button\">Použít</gui>."
-
-#~ msgid ""
-#~ "For connecting to a Microsoft Exchange 2007/2010 or OpenChange server. "
-#~ "Note that this is currently under development and will replace the "
-#~ "<gui>Exchange MAPI</gui> account type in the future. It might not be "
-#~ "available yet for your distribution."
-#~ msgstr ""
-#~ "Pro připojení k serveru Microsoft Exchange 2007/2010 nebo OpenChange. "
-#~ "Upozorňujeme, že vývoj ještě není zcela dokončen a v budoucnu bude "
-#~ "sloužit jako náhrada účtů typu <gui>Exchange MAPI</gui>. Nemusí být zatím "
-#~ "ani k dispozici ve vaší distribuci."
-
-#~ msgid ""
-#~ "Color chooser for text. The box displays the current text color. To "
-#~ "choose a new color, click the arrow button to the right. If you have text "
-#~ "selected, the color applies to the selected text. If you do not have text "
-#~ "selected, the color applies to whatever you type next. You can select a "
-#~ "background color or image by right-clicking the message background, then "
-#~ "selecting <guiseq><gui>Style</gui><gui>Page Style</gui></guiseq>."
-#~ msgstr ""
-#~ "Výběr barvy pro text. Obdélník zobrazuje aktuální barvu textu. Když "
-#~ "chcete vybrat novou barvu, klikněte na tlačítko se šipkou po pravé "
-#~ "straně. Pokud máte vybraný text, použije se barva na vybraný text. Pokud "
-#~ "žádný vybraný nemáte, použije se barva na vše, co nově napíšete. Můžete "
-#~ "vybrat barvu pozadí nebo obrázek na pozadí kliknutím pravým tlačítkem na "
-#~ "pozadí zprávy a následným výběrem <guiseq><gui>Styl</gui> <gui>Styl "
-#~ "stránky</gui></guiseq>."
-
-#~ msgid "TT"
-#~ msgstr "TT"
-
-#~ msgid "Typewriter text, which is similar to a monospace font."
-#~ msgstr "Text dálnopisu, což je podobné jako písmo s pevnou šířkou."
-
-#~ msgid ""
-#~ "Advanced users can <link href=\"https://bugzilla.gnome.org/show_bug.cgi?"
-#~ "id=550796#c10\">combine numerous conditions by using the <gui>Free form "
-#~ "expression</gui> syntax</link>."
-#~ msgstr ""
-#~ "Pokročilí uživatelé mohou <link href=\"https://bugzilla.gnome.org/"
-#~ "show_bug.cgi?id=550796#c10\">kombinovat několik podmínek pomocí syntaxe "
-#~ "<gui>Výrazů ve volném tvaru</gui></link>."
-
-#~ msgid ""
-#~ "For Advanced Users: By default, all email threads are expanded. If you "
-#~ "want all threads to be collapsed by default:"
-#~ msgstr ""
-#~ "Pro pokročilé uživatele: ve výchozím stavu jsou poštovní vlákna "
-#~ "rozbalená. Chcete-li, aby byla všechna vlákna ve výchozím stavu sbalená:"
-
-#~ msgid ""
-#~ "Run the command <cmd>gsettings set org.gnome.evolution.mail thread-expand "
-#~ "false</cmd>"
-#~ msgstr ""
-#~ "Spusťte příkaz <cmd>gsettings set org.gnome.evolution.mail thread-expand "
-#~ "false</cmd>"
