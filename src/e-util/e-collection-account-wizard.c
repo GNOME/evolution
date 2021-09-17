@@ -883,15 +883,21 @@ collection_account_wizard_fill_results (ECollectionAccountWizard *wizard)
 	for (ii = 0; ii < G_N_ELEMENTS (results_info); ii++) {
 		GSList *results = results_info[ii].results, *link, *known_results = NULL, *klink;
 		gboolean is_collection_kind = results_info[ii].kind == E_CONFIG_LOOKUP_RESULT_COLLECTION;
+		gboolean group_enabled = TRUE;
 		GtkTreePath *path;
 
 		/* Skip empty groups */
 		if (!results)
 			continue;
 
+		if (results_info[ii].kind == E_CONFIG_LOOKUP_RESULT_MAIL_RECEIVE ||
+		    results_info[ii].kind == E_CONFIG_LOOKUP_RESULT_MAIL_SEND) {
+			group_enabled = e_util_strcmp0 (gtk_entry_get_text (GTK_ENTRY (wizard->priv->email_entry)), NULL) != 0;
+		}
+
 		gtk_tree_store_append (tree_store, &parent, NULL);
 		gtk_tree_store_set (tree_store, &parent,
-			PART_COLUMN_BOOL_ENABLED, TRUE,
+			PART_COLUMN_BOOL_ENABLED, group_enabled,
 			PART_COLUMN_BOOL_ENABLED_VISIBLE, TRUE,
 			PART_COLUMN_BOOL_RADIO, FALSE,
 			PART_COLUMN_BOOL_SENSITIVE, results != NULL,
@@ -934,7 +940,7 @@ collection_account_wizard_fill_results (ECollectionAccountWizard *wizard)
 				PART_COLUMN_BOOL_ENABLED, link == results || (is_collection_kind && collection_account_wizard_is_first_result_of_this_kind (known_results, result)),
 				PART_COLUMN_BOOL_ENABLED_VISIBLE, g_slist_next (results) != NULL,
 				PART_COLUMN_BOOL_RADIO, !is_collection_kind,
-				PART_COLUMN_BOOL_SENSITIVE, TRUE,
+				PART_COLUMN_BOOL_SENSITIVE, group_enabled,
 				PART_COLUMN_BOOL_ICON_VISIBLE, NULL,
 				PART_COLUMN_STRING_ICON_NAME, NULL,
 				PART_COLUMN_STRING_DESCRIPTION, markup,
