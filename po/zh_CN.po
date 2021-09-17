@@ -26,8 +26,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: evolution master\n"
 "Report-Msgid-Bugs-To: https://gitlab.gnome.org/GNOME/evolution/issues\n"
-"POT-Creation-Date: 2021-09-05 09:35+0000\n"
-"PO-Revision-Date: 2021-09-05 16:42-0400\n"
+"POT-Creation-Date: 2021-09-17 15:32+0000\n"
+"PO-Revision-Date: 2021-09-17 14:18-0400\n"
 "Last-Translator: Boyuan Yang <073plan@gmail.com>\n"
 "Language-Team: Chinese - China <i18n-zh@googlegroups.com>\n"
 "Language: zh_CN\n"
@@ -3258,7 +3258,7 @@ msgid "Contacts"
 msgstr "联系人"
 
 #: ../data/org.gnome.Evolution.desktop.in.in.h:9
-#: ../src/addressbook/gui/widgets/eab-contact-formatter.c:1005
+#: ../src/addressbook/gui/widgets/eab-contact-formatter.c:1006
 #: ../src/e-util/e-collection-account-wizard.c:855
 #: ../src/e-util/e-send-options.c:544 ../src/e-util/e-webdav-browser.c:532
 #: ../src/modules/calendar/e-cal-shell-view-actions.c:199
@@ -3951,8 +3951,8 @@ msgstr "选项"
 #: ../src/e-util/e-categories-dialog.c:80 ../src/e-util/e-category-editor.c:169
 #: ../src/e-util/e-category-editor.c:257 ../src/e-util/e-charset-combo-box.c:99
 #: ../src/e-util/e-collection-account-wizard.c:240
-#: ../src/e-util/e-collection-account-wizard.c:1887
-#: ../src/e-util/e-collection-account-wizard.c:2134
+#: ../src/e-util/e-collection-account-wizard.c:1893
+#: ../src/e-util/e-collection-account-wizard.c:2140
 #: ../src/e-util/e-color-chooser-widget.c:125
 #: ../src/e-util/e-filter-datespec.c:300
 #: ../src/e-util/e-html-editor-actions.c:362
@@ -4050,7 +4050,7 @@ msgstr "全名(_N)..."
 
 #: ../src/addressbook/gui/contact-editor/contact-editor.ui.h:23
 #: ../src/addressbook/gui/widgets/eab-contact-formatter.c:920
-#: ../src/addressbook/gui/widgets/eab-contact-formatter.c:1334
+#: ../src/addressbook/gui/widgets/eab-contact-formatter.c:1335
 #: ../src/addressbook/gui/widgets/e-addressbook-view.etspec.h:6
 msgid "Email"
 msgstr "电子邮件"
@@ -4170,14 +4170,14 @@ msgid "_Anniversary:"
 msgstr "周年(_A)："
 
 #: ../src/addressbook/gui/contact-editor/contact-editor.ui.h:52
-#: ../src/addressbook/gui/widgets/eab-contact-formatter.c:1051
+#: ../src/addressbook/gui/widgets/eab-contact-formatter.c:1052
 #: ../src/addressbook/gui/widgets/e-addressbook-view.etspec.h:47
 #: ../src/calendar/gui/e-calendar-view.c:2228
 msgid "Anniversary"
 msgstr "纪念日"
 
 #: ../src/addressbook/gui/contact-editor/contact-editor.ui.h:53
-#: ../src/addressbook/gui/widgets/eab-contact-formatter.c:1050
+#: ../src/addressbook/gui/widgets/eab-contact-formatter.c:1051
 #: ../src/addressbook/gui/widgets/e-addressbook-view.etspec.h:46
 #: ../src/calendar/gui/e-calendar-view.c:2227
 msgid "Birthday"
@@ -4228,7 +4228,7 @@ msgstr "家庭"
 
 #: ../src/addressbook/gui/contact-editor/contact-editor.ui.h:63
 #: ../src/addressbook/gui/widgets/eab-contact-formatter.c:84
-#: ../src/addressbook/gui/widgets/eab-contact-formatter.c:1019
+#: ../src/addressbook/gui/widgets/eab-contact-formatter.c:1020
 #: ../src/addressbook/gui/widgets/e-contact-map.c:432
 msgid "Work"
 msgstr "工作"
@@ -4236,7 +4236,7 @@ msgstr "工作"
 #: ../src/addressbook/gui/contact-editor/contact-editor.ui.h:64
 #: ../src/addressbook/gui/widgets/eab-contact-formatter.c:86
 #: ../src/addressbook/gui/widgets/eab-contact-formatter.c:528
-#: ../src/addressbook/gui/widgets/eab-contact-formatter.c:1085
+#: ../src/addressbook/gui/widgets/eab-contact-formatter.c:1086
 #: ../src/calendar/gui/e-cal-model.c:3827
 msgid "Other"
 msgstr "其它"
@@ -4726,127 +4726,136 @@ msgid "Nickname"
 msgstr "昵称"
 
 #: ../src/addressbook/gui/widgets/eab-contact-formatter.c:926
+#: ../src/addressbook/gui/widgets/e-addressbook-view.etspec.h:43
+#: ../src/calendar/gui/e-cal-list-view.etspec.h:6
+#: ../src/calendar/gui/e-memo-table.etspec.h:4
+#: ../src/calendar/gui/e-task-table.etspec.h:12
+#: ../src/e-util/e-categories-dialog.c:85
+msgid "Categories"
+msgstr "类别"
+
+#: ../src/addressbook/gui/widgets/eab-contact-formatter.c:927
 msgid "AIM"
 msgstr "AIM"
 
-#: ../src/addressbook/gui/widgets/eab-contact-formatter.c:927
+#: ../src/addressbook/gui/widgets/eab-contact-formatter.c:928
 msgid "GroupWise"
 msgstr "GroupWise"
 
-#: ../src/addressbook/gui/widgets/eab-contact-formatter.c:928
+#: ../src/addressbook/gui/widgets/eab-contact-formatter.c:929
 msgid "ICQ"
 msgstr "ICQ"
 
-#: ../src/addressbook/gui/widgets/eab-contact-formatter.c:929
+#: ../src/addressbook/gui/widgets/eab-contact-formatter.c:930
 msgid "Jabber"
 msgstr "Jabber"
 
-#: ../src/addressbook/gui/widgets/eab-contact-formatter.c:930
+#: ../src/addressbook/gui/widgets/eab-contact-formatter.c:931
 msgid "MSN"
 msgstr "MSN"
 
-#: ../src/addressbook/gui/widgets/eab-contact-formatter.c:931
+#: ../src/addressbook/gui/widgets/eab-contact-formatter.c:932
 msgid "Yahoo"
 msgstr "雅虎"
 
-#: ../src/addressbook/gui/widgets/eab-contact-formatter.c:932
+#: ../src/addressbook/gui/widgets/eab-contact-formatter.c:933
 msgid "Gadu-Gadu"
 msgstr "Gadu-Gadu"
 
-#: ../src/addressbook/gui/widgets/eab-contact-formatter.c:933
+#: ../src/addressbook/gui/widgets/eab-contact-formatter.c:934
 msgid "Skype"
 msgstr "Skype"
 
-#: ../src/addressbook/gui/widgets/eab-contact-formatter.c:934
+#: ../src/addressbook/gui/widgets/eab-contact-formatter.c:935
 msgid "Twitter"
 msgstr "Twitter"
 
-#: ../src/addressbook/gui/widgets/eab-contact-formatter.c:935
+#: ../src/addressbook/gui/widgets/eab-contact-formatter.c:936
 msgid "Matrix"
 msgstr "Matrix"
 
-#: ../src/addressbook/gui/widgets/eab-contact-formatter.c:997
+#: ../src/addressbook/gui/widgets/eab-contact-formatter.c:998
 #: ../src/addressbook/gui/widgets/e-addressbook-view.etspec.h:34
 msgid "Company"
 msgstr "公司"
 
-#: ../src/addressbook/gui/widgets/eab-contact-formatter.c:998
+#: ../src/addressbook/gui/widgets/eab-contact-formatter.c:999
 msgid "Department"
 msgstr "部门"
 
-#: ../src/addressbook/gui/widgets/eab-contact-formatter.c:999
+#: ../src/addressbook/gui/widgets/eab-contact-formatter.c:1000
 #: ../src/addressbook/gui/widgets/e-addressbook-view.etspec.h:36
 msgid "Office"
 msgstr "办公室"
 
-#: ../src/addressbook/gui/widgets/eab-contact-formatter.c:1000
+#: ../src/addressbook/gui/widgets/eab-contact-formatter.c:1001
 msgid "Profession"
 msgstr "职业"
 
-#: ../src/addressbook/gui/widgets/eab-contact-formatter.c:1001
+#: ../src/addressbook/gui/widgets/eab-contact-formatter.c:1002
 msgid "Position"
 msgstr "位置"
 
-#: ../src/addressbook/gui/widgets/eab-contact-formatter.c:1002
+#: ../src/addressbook/gui/widgets/eab-contact-formatter.c:1003
 #: ../src/addressbook/gui/widgets/e-addressbook-view.etspec.h:39
 msgid "Manager"
 msgstr "经理"
 
-#: ../src/addressbook/gui/widgets/eab-contact-formatter.c:1003
+#: ../src/addressbook/gui/widgets/eab-contact-formatter.c:1004
 #: ../src/addressbook/gui/widgets/e-addressbook-view.etspec.h:40
 msgid "Assistant"
 msgstr "助手"
 
-#: ../src/addressbook/gui/widgets/eab-contact-formatter.c:1004
+#: ../src/addressbook/gui/widgets/eab-contact-formatter.c:1005
 msgid "Video Chat"
 msgstr "视频聊天"
 
-#: ../src/addressbook/gui/widgets/eab-contact-formatter.c:1006
+#: ../src/addressbook/gui/widgets/eab-contact-formatter.c:1007
 #: ../src/plugins/publish-calendar/publish-calendar.ui.h:2
 msgid "Free/Busy"
 msgstr "忙/闲"
 
-#: ../src/addressbook/gui/widgets/eab-contact-formatter.c:1009
-#: ../src/addressbook/gui/widgets/eab-contact-formatter.c:1049
-#: ../src/addressbook/gui/widgets/eab-contact-formatter.c:1075
+#: ../src/addressbook/gui/widgets/eab-contact-formatter.c:1010
+#: ../src/addressbook/gui/widgets/eab-contact-formatter.c:1050
+#: ../src/addressbook/gui/widgets/eab-contact-formatter.c:1076
 msgid "Address"
 msgstr "地址"
 
-#: ../src/addressbook/gui/widgets/eab-contact-formatter.c:1045
+#: ../src/addressbook/gui/widgets/eab-contact-formatter.c:1046
 msgid "Home Page"
 msgstr "主页"
 
-#: ../src/addressbook/gui/widgets/eab-contact-formatter.c:1046
+#: ../src/addressbook/gui/widgets/eab-contact-formatter.c:1047
 msgid "Web Log"
 msgstr "Web 日志"
 
-#: ../src/addressbook/gui/widgets/eab-contact-formatter.c:1052
+#: ../src/addressbook/gui/widgets/eab-contact-formatter.c:1053
 #: ../src/addressbook/gui/widgets/e-addressbook-view.etspec.h:44
 msgid "Spouse"
 msgstr "配偶"
 
-#: ../src/addressbook/gui/widgets/eab-contact-formatter.c:1062
+#: ../src/addressbook/gui/widgets/eab-contact-formatter.c:1063
 msgid "Personal"
 msgstr "个人"
 
-#: ../src/addressbook/gui/widgets/eab-contact-formatter.c:1107
+#: ../src/addressbook/gui/widgets/eab-contact-formatter.c:1108
 #: ../src/addressbook/gui/widgets/e-addressbook-view.etspec.h:45
 msgid "Note"
 msgstr "便笺"
 
-#: ../src/addressbook/gui/widgets/eab-contact-formatter.c:1296
+#: ../src/addressbook/gui/widgets/eab-contact-formatter.c:1297
 msgid "List Members"
 msgstr "列出成员"
 
-#: ../src/addressbook/gui/widgets/eab-contact-formatter.c:1319
+#: ../src/addressbook/gui/widgets/eab-contact-formatter.c:1320
 msgid "Job Title"
 msgstr "职称"
 
-#: ../src/addressbook/gui/widgets/eab-contact-formatter.c:1360
+#: ../src/addressbook/gui/widgets/eab-contact-formatter.c:1361
 msgid "Home page"
 msgstr "主页"
 
-#: ../src/addressbook/gui/widgets/eab-contact-formatter.c:1370
+#: ../src/addressbook/gui/widgets/eab-contact-formatter.c:1371
 msgid "Blog"
 msgstr "博客"
 
@@ -5240,14 +5249,6 @@ msgstr "网站"
 #: ../src/addressbook/gui/widgets/e-addressbook-view.etspec.h:42
 msgid "Journal"
 msgstr "日记"
-
-#: ../src/addressbook/gui/widgets/e-addressbook-view.etspec.h:43
-#: ../src/calendar/gui/e-cal-list-view.etspec.h:6
-#: ../src/calendar/gui/e-memo-table.etspec.h:4
-#: ../src/calendar/gui/e-task-table.etspec.h:12
-#: ../src/e-util/e-categories-dialog.c:85
-msgid "Categories"
-msgstr "类别"
 
 #: ../src/addressbook/gui/widgets/ea-minicard.c:31
 msgid "Open"
@@ -6200,7 +6201,7 @@ msgstr "不含有"
 #: ../src/calendar/gui/memotypes.xml.in.h:4
 #: ../src/calendar/gui/tasktypes.xml.in.h:4
 #: ../src/e-util/e-attachment-tree-view.c:147
-#: ../src/e-util/e-collection-account-wizard.c:1985
+#: ../src/e-util/e-collection-account-wizard.c:1991
 #: ../src/e-util/e-table-config.ui.h:20
 #: ../src/modules/plugin-manager/evolution-plugin-manager.c:66
 msgid "Description"
@@ -7064,7 +7065,7 @@ msgstr "状态"
 #: ../src/calendar/gui/e-task-table.etspec.h:3
 #: ../src/e-util/e-accounts-window.c:1443
 #: ../src/e-util/e-attachment-tree-view.c:205
-#: ../src/e-util/e-collection-account-wizard.c:2026
+#: ../src/e-util/e-collection-account-wizard.c:2032
 #: ../src/e-util/e-webdav-browser.c:2528
 #: ../src/mail/e-mail-account-tree-view.c:158
 msgid "Type"
@@ -9038,7 +9039,7 @@ msgstr "待办"
 #. Translators: the first '%s' is replaced with a component summary;
 #. the second '%s' is replaced with an event location.
 #. Example: "Meet John Doe (Central Park)"
-#: ../src/calendar/gui/e-week-view.c:3715
+#: ../src/calendar/gui/e-week-view.c:3718
 #, c-format
 msgctxt "SummaryWithLocation"
 msgid "%s (%s)"
@@ -11307,7 +11308,7 @@ msgid "Save Draft"
 msgstr "保存草稿"
 
 #: ../src/composer/e-composer-from-header.c:108
-#: ../src/e-util/e-collection-account-wizard.c:2058
+#: ../src/e-util/e-collection-account-wizard.c:2064
 #: ../src/e-util/e-mail-signature-script-dialog.c:408
 #: ../src/e-util/e-webdav-browser.c:2555
 #: ../src/e-util/gal-view-instance-save-as-dialog.ui.h:2
@@ -12514,25 +12515,25 @@ msgstr "将任务列表内容复制到本地以进行离线操作"
 msgid "Copy memo list contents locally for offline operation"
 msgstr "将备忘录内容复制到本地以进行离线操作"
 
-#: ../src/e-util/e-categories-editor.c:251
+#: ../src/e-util/e-categories-editor.c:269
 msgid "Currently _used categories:"
 msgstr "当前使用的分类(_U)："
 
-#: ../src/e-util/e-categories-editor.c:262
+#: ../src/e-util/e-categories-editor.c:280
 msgid "_Available Categories:"
 msgstr "可用类别(_A)："
 
-#: ../src/e-util/e-categories-editor.c:302
+#: ../src/e-util/e-categories-editor.c:320
 msgctxt "category"
 msgid "_New"
 msgstr "新建(_N)"
 
-#: ../src/e-util/e-categories-editor.c:306
+#: ../src/e-util/e-categories-editor.c:324
 msgctxt "category"
 msgid "_Edit"
 msgstr "编辑(_E)"
 
-#: ../src/e-util/e-categories-editor.c:310
+#: ../src/e-util/e-categories-editor.c:328
 msgctxt "category"
 msgid "_Delete"
 msgstr "删除(_D)"
@@ -12825,52 +12826,52 @@ msgstr "备忘列表"
 msgid "Task List"
 msgstr "任务列表"
 
-#: ../src/e-util/e-collection-account-wizard.c:1193
+#: ../src/e-util/e-collection-account-wizard.c:1199
 msgid "Looking up LDAP server’s search base…"
 msgstr "正在查找 LDAP 服务器的搜索库…"
 
-#: ../src/e-util/e-collection-account-wizard.c:1326
+#: ../src/e-util/e-collection-account-wizard.c:1332
 msgid "Failed to store password: "
 msgstr "无法存储密码："
 
-#: ../src/e-util/e-collection-account-wizard.c:1336
+#: ../src/e-util/e-collection-account-wizard.c:1342
 msgid "Failed to create sources: "
 msgstr "未能创建源："
 
-#: ../src/e-util/e-collection-account-wizard.c:1503
+#: ../src/e-util/e-collection-account-wizard.c:1509
 msgid "Saving account settings, please wait…"
 msgstr "正在保存帐号设置，请稍候……"
 
-#: ../src/e-util/e-collection-account-wizard.c:1655
+#: ../src/e-util/e-collection-account-wizard.c:1661
 msgid "User details"
 msgstr "用户详情"
 
-#: ../src/e-util/e-collection-account-wizard.c:1668
+#: ../src/e-util/e-collection-account-wizard.c:1674
 msgid "_Email Address or User name:"
 msgstr "电子邮件地址或用户名(_E)："
 
-#: ../src/e-util/e-collection-account-wizard.c:1699
+#: ../src/e-util/e-collection-account-wizard.c:1705
 msgid "_Advanced Options"
 msgstr "高级选项(_A)"
 
-#: ../src/e-util/e-collection-account-wizard.c:1704
+#: ../src/e-util/e-collection-account-wizard.c:1710
 #: ../src/modules/mail-config/e-mail-config-remote-accounts.c:217
 #: ../src/modules/mail-config/e-mail-config-smtp-backend.c:173
 #: ../src/plugins/publish-calendar/publish-calendar.ui.h:25
 msgid "_Server:"
 msgstr "服务器(_S)："
 
-#: ../src/e-util/e-collection-account-wizard.c:1723
+#: ../src/e-util/e-collection-account-wizard.c:1729
 msgid ""
 "Semicolon (“;”) separated list of servers to look up information for, in "
 "addition to the domain of the e-mail address."
 msgstr "除电子邮件地址的域外，用分号（“;”）分隔的要查找信息的服务器列表。"
 
-#: ../src/e-util/e-collection-account-wizard.c:1925
+#: ../src/e-util/e-collection-account-wizard.c:1931
 msgid "Select which parts should be configured:"
 msgstr "选择应配置的部件："
 
-#: ../src/e-util/e-collection-account-wizard.c:2049
+#: ../src/e-util/e-collection-account-wizard.c:2055
 #: ../src/mail/e-mail-config-identity-page.c:542
 #: ../src/mail/e-mail-config-summary-page.c:318
 msgid "Account Information"
@@ -19695,16 +19696,12 @@ msgid "Re_set"
 msgstr "重置(_S)"
 
 #: ../src/mail/mail-config.ui.h:134
-#, fuzzy
-#| msgid "Message Header"
 msgid "Message List User Headers"
-msgstr "信头"
+msgstr "信息列表用户邮件头"
 
 #: ../src/mail/mail-config.ui.h:135
-#, fuzzy
-#| msgid "Mail Headers Table"
 msgid "Message List User Headers Table"
-msgstr "邮件头表"
+msgstr "信息列表用户邮件头表"
 
 #: ../src/mail/mail-config.ui.h:136
 #: ../src/modules/addressbook/autocompletion-config.c:118
@@ -20814,22 +20811,16 @@ msgid "%b %d %Y"
 msgstr "%Y年%m月%d日"
 
 #: ../src/mail/message-list.c:3116 ../src/mail/message-list.etspec.h:24
-#, fuzzy
-#| msgid "Message Header"
 msgid "User Header 1"
-msgstr "信头"
+msgstr "用户邮件头 1"
 
 #: ../src/mail/message-list.c:3117 ../src/mail/message-list.etspec.h:25
-#, fuzzy
-#| msgid "Message Header"
 msgid "User Header 2"
-msgstr "信头"
+msgstr "用户邮件头 2"
 
 #: ../src/mail/message-list.c:3118 ../src/mail/message-list.etspec.h:26
-#, fuzzy
-#| msgid "Message Header"
 msgid "User Header 3"
-msgstr "信头"
+msgstr "用户邮件头 3"
 
 #: ../src/mail/message-list.c:3523
 msgid "Select all visible messages"
