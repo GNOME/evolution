@@ -1119,7 +1119,7 @@ et_build_groups (ETable *et)
 		"drawfocus", et->draw_focus,
 		"cursor_mode", et->cursor_mode,
 		"length_threshold", et->length_threshold,
-		"uniform_row_height", et->uniform_row_height,
+		"uniform_row_height", et->uniform_row_height && !et->is_grouped,
 		"selection_model", et->selection,
 		NULL);
 
@@ -2208,8 +2208,7 @@ et_set_property (GObject *object,
 		if (etable->group) {
 			gnome_canvas_item_set (
 				GNOME_CANVAS_ITEM (etable->group),
-				"uniform_row_height",
-				etable->uniform_row_height,
+				"uniform_row_height", etable->uniform_row_height && !etable->is_grouped,
 				NULL);
 		}
 		break;
