@@ -292,7 +292,8 @@ book_config_ldap_search_base_thread (ESimpleAsyncResult *result,
 				     gpointer source_object,
 				     GCancellable *cancellable)
 {
-	ESourceAuthentication *extension;
+	ESourceAuthentication *auth_extension;
+	ESourceLDAP *ldap_extension;
 	SearchBaseData *sbd;
 
 	g_return_if_fail (E_IS_SIMPLE_ASYNC_RESULT (result));
@@ -301,11 +302,13 @@ book_config_ldap_search_base_thread (ESimpleAsyncResult *result,
 
 	g_return_if_fail (sbd != NULL);
 
-	extension = e_source_get_extension (sbd->source, E_SOURCE_EXTENSION_AUTHENTICATION);
+	auth_extension = e_source_get_extension (sbd->source, E_SOURCE_EXTENSION_AUTHENTICATION);
+	ldap_extension = e_source_get_extension (sbd->source, E_SOURCE_EXTENSION_LDAP_BACKEND);
 
 	if (!e_util_query_ldap_root_dse_sync (
-		e_source_authentication_get_host (extension),
-		e_source_authentication_get_port (extension),
+		e_source_authentication_get_host (auth_extension),
+		e_source_authentication_get_port (auth_extension),
+		e_source_ldap_get_security (ldap_extension),
 		&sbd->root_dse, cancellable, &sbd->error)) {
 		sbd->root_dse = NULL;
 	}

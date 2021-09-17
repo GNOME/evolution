@@ -3935,6 +3935,7 @@ e_util_resize_window_for_screen (GtkWindow *window,
  * e_util_query_ldap_root_dse_sync:
  * @host: an LDAP server host name
  * @port: an LDAP server port
+ * @security: an %ESourceLDAPSecurity to use for the connection
  * @out_root_dse: (out) (transfer full): NULL-terminated array of the server root DSE-s, or %NULL on error
  * @cancellable: optional #GCancellable object, or %NULL
  * @error: return location for a #GError, or %NULL
@@ -3954,6 +3955,7 @@ e_util_resize_window_for_screen (GtkWindow *window,
 gboolean
 e_util_query_ldap_root_dse_sync (const gchar *host,
 				 guint16 port,
+				 ESourceLDAPSecurity security,
 				 gchar ***out_root_dse,
 				 GCancellable *cancellable,
 				 GError **error)
@@ -4002,6 +4004,42 @@ e_util_query_ldap_root_dse_sync (const gchar *host,
 			_("Failed to set protocol version to LDAPv3 (%d): %s"), ldap_error,
 			ldap_err2string (ldap_error) ? ldap_err2string (ldap_error) : _("Unknown error"));
 		goto exit;
+	}
+
+	if (g_cancellable_set_error_if_cancelled (cancellable, error))
+		goto exit;
+
+	if (security == E_SOURCE_LDAP_SECURITY_LDAPS) {
+#ifdef SUNLDAP
+		if (ldap_error == LDAP_SUCCESS) {
+			ldap_set_option (ldap, LDAP_OPT_RECONNECT, LDAP_OPT_ON );
+		}
+#else
+#if defined (LDAP_OPT_X_TLS_HARD) && defined (LDAP_OPT_X_TLS)
+		gint tls_level = LDAP_OPT_X_TLS_HARD;
+		ldap_set_option (ldap, LDAP_OPT_X_TLS, &tls_level);
+
+		/* setup this on the global option set */
+		tls_level = LDAP_OPT_X_TLS_ALLOW;
+		ldap_set_option (NULL, LDAP_OPT_X_TLS_REQUIRE_CERT, &tls_level);
+#elif defined (G_OS_WIN32)
+		ldap_set_option (ldap, LDAP_OPT_SSL, LDAP_OPT_ON);
+#endif
+#endif
+	} else if (security == E_SOURCE_LDAP_SECURITY_STARTTLS) {
+#ifdef SUNLDAP
+		if (ldap_error == LDAP_SUCCESS) {
+			ldap_set_option (ldap, LDAP_OPT_RECONNECT, LDAP_OPT_ON);
+		}
+#else
+		ldap_error = ldap_start_tls_s (ldap, NULL, NULL);
+#endif
+		if (ldap_error != LDAP_SUCCESS) {
+			g_set_error (error, G_IO_ERROR, G_IO_ERROR_CONNECTION_REFUSED,
+				_("Failed to use STARTTLS (%d): %s"), ldap_error,
+				ldap_err2string (ldap_error) ? ldap_err2string (ldap_error) : _("Unknown error"));
+			goto exit;
+		}
 	}
 
 	if (g_cancellable_set_error_if_cancelled (cancellable, error))

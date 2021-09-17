@@ -1189,13 +1189,28 @@ collection_account_wizard_write_changes_thread (ESimpleAsyncResult *result,
 
 		if (!root_dn || !*root_dn) {
 			gchar **root_dse = NULL;
+			ESourceLDAPSecurity security;
+			gboolean success;
 
 			camel_operation_push_message (cancellable, "%s", _("Looking up LDAP server’s search base…"));
 
-			if (e_util_query_ldap_root_dse_sync (
+			security = e_source_ldap_get_security (ldap_extension);
+			success = e_util_query_ldap_root_dse_sync (
 				e_source_authentication_get_host (auth_extension),
 				e_source_authentication_get_port (auth_extension),
-				&root_dse, cancellable, NULL)) {
+				security,
+				&root_dse, cancellable, &local_error);
+
+			if (!success && security != E_SOURCE_LDAP_SECURITY_NONE &&
+			    g_error_matches (local_error, G_IO_ERROR, G_IO_ERROR_CONNECTION_REFUSED)) {
+				success = e_util_query_ldap_root_dse_sync (
+					e_source_authentication_get_host (auth_extension),
+					e_source_authentication_get_port (auth_extension),
+					E_SOURCE_LDAP_SECURITY_NONE,
+					&root_dse, cancellable, NULL);
+			}
+
+			if (success) {
 				if (root_dse && root_dse[0])
 					e_source_ldap_set_root_dn (ldap_extension, root_dse[0]);
 
@@ -1203,6 +1218,8 @@ collection_account_wizard_write_changes_thread (ESimpleAsyncResult *result,
 			}
 
 			camel_operation_pop_message (cancellable);
+
+			g_clear_error (&local_error);
 		}
 	}
 

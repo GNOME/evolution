@@ -316,6 +316,7 @@ void		e_util_resize_window_for_screen	(GtkWindow *window,
 						 const GSList *children); /* GtkWidget * */
 gboolean	e_util_query_ldap_root_dse_sync	(const gchar *host,
 						 guint16 port,
+						 ESourceLDAPSecurity security,
 						 gchar ***out_root_dse,
 						 GCancellable *cancellable,
 						 GError **error);
