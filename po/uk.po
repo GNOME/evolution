@@ -12,8 +12,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: evolution\n"
 "Report-Msgid-Bugs-To: https://gitlab.gnome.org/GNOME/evolution/issues\n"
-"POT-Creation-Date: 2021-08-05 08:54+0000\n"
-"PO-Revision-Date: 2021-08-06 20:55+0300\n"
+"POT-Creation-Date: 2021-09-17 10:05+0000\n"
+"PO-Revision-Date: 2021-09-17 15:24+0300\n"
 "Last-Translator: Yuri Chornoivan <yurchor@ukr.net>\n"
 "Language-Team: Ukrainian <trans-uk@lists.fedoraproject.org>\n"
 "Language: uk\n"
@@ -4264,8 +4264,8 @@ msgstr "Параметри"
 #: ../src/e-util/e-categories-dialog.c:80 ../src/e-util/e-category-editor.c:169
 #: ../src/e-util/e-category-editor.c:257 ../src/e-util/e-charset-combo-box.c:99
 #: ../src/e-util/e-collection-account-wizard.c:240
-#: ../src/e-util/e-collection-account-wizard.c:1887
-#: ../src/e-util/e-collection-account-wizard.c:2134
+#: ../src/e-util/e-collection-account-wizard.c:1904
+#: ../src/e-util/e-collection-account-wizard.c:2151
 #: ../src/e-util/e-color-chooser-widget.c:125
 #: ../src/e-util/e-filter-datespec.c:300
 #: ../src/e-util/e-html-editor-actions.c:362
@@ -4290,7 +4290,7 @@ msgstr "Параметри"
 #: ../src/mail/mail-vfolder-ui.c:271
 #: ../src/modules/accounts-window/e-accounts-window-editors.c:277
 #: ../src/modules/backup-restore/evolution-backup-tool.c:1226
-#: ../src/modules/book-config-ldap/evolution-book-config-ldap.c:406
+#: ../src/modules/book-config-ldap/evolution-book-config-ldap.c:409
 #: ../src/modules/calendar/e-cal-attachment-handler.c:281
 #: ../src/plugins/email-custom-header/org-gnome-email-custom-header.ui.h:3
 #: ../src/plugins/face/face.c:298
@@ -5003,7 +5003,7 @@ msgid "Send a mail message to this address"
 msgstr "Перетворити виділене повідомлення на завдання"
 
 #: ../src/addressbook/gui/widgets/eab-contact-display.c:317
-#: ../src/e-util/e-misc-utils.c:4550
+#: ../src/e-util/e-misc-utils.c:4588
 #, c-format
 msgid "Click to mail %s"
 msgstr "Клацніть, щоб надіслати лист %s"
@@ -6576,7 +6576,7 @@ msgstr "не містить"
 #: ../src/calendar/gui/memotypes.xml.in.h:4
 #: ../src/calendar/gui/tasktypes.xml.in.h:4
 #: ../src/e-util/e-attachment-tree-view.c:147
-#: ../src/e-util/e-collection-account-wizard.c:1985
+#: ../src/e-util/e-collection-account-wizard.c:2002
 #: ../src/e-util/e-table-config.ui.h:20
 #: ../src/modules/plugin-manager/evolution-plugin-manager.c:66
 msgid "Description"
@@ -7367,7 +7367,7 @@ msgstr "Час: %s %s"
 #: ../src/calendar/gui/e-calendar-view.c:2129
 #: ../src/calendar/gui/e-memo-table.c:660
 #: ../src/calendar/gui/e-task-table.c:882
-#: ../src/calendar/gui/e-to-do-pane.c:590 ../src/e-util/e-misc-utils.c:4614
+#: ../src/calendar/gui/e-to-do-pane.c:590 ../src/e-util/e-misc-utils.c:4652
 #: ../src/e-util/e-text.c:566 ../src/e-util/e-web-view.c:4177
 msgid "…"
 msgstr "…"
@@ -7448,7 +7448,7 @@ msgstr "Стан"
 #: ../src/calendar/gui/e-task-table.etspec.h:3
 #: ../src/e-util/e-accounts-window.c:1443
 #: ../src/e-util/e-attachment-tree-view.c:205
-#: ../src/e-util/e-collection-account-wizard.c:2026
+#: ../src/e-util/e-collection-account-wizard.c:2043
 #: ../src/e-util/e-webdav-browser.c:2528
 #: ../src/mail/e-mail-account-tree-view.c:158
 msgid "Type"
@@ -7815,12 +7815,12 @@ msgstr "Час початку — недійсний час"
 #: ../src/calendar/gui/e-comp-editor.c:340
 #: ../src/composer/e-composer-actions.c:180
 #: ../src/em-format/e-mail-part-secure-button.c:97
-#: ../src/e-util/e-misc-utils.c:4003 ../src/e-util/e-misc-utils.c:4015
-#: ../src/e-util/e-misc-utils.c:4029 ../src/mail/e-mail-autoconfig.c:1041
-#: ../src/mail/e-mail-display.c:2449 ../src/mail/e-mail-notes.c:877
-#: ../src/mail/e-mail-reader-utils.c:805 ../src/mail/em-composer-utils.c:3843
-#: ../src/mail/em-composer-utils.c:3874 ../src/mail/mail-send-recv.c:598
-#: ../src/mail/mail-send-recv.c:1493
+#: ../src/e-util/e-misc-utils.c:4005 ../src/e-util/e-misc-utils.c:4040
+#: ../src/e-util/e-misc-utils.c:4053 ../src/e-util/e-misc-utils.c:4067
+#: ../src/mail/e-mail-autoconfig.c:1041 ../src/mail/e-mail-display.c:2449
+#: ../src/mail/e-mail-notes.c:877 ../src/mail/e-mail-reader-utils.c:805
+#: ../src/mail/em-composer-utils.c:3843 ../src/mail/em-composer-utils.c:3874
+#: ../src/mail/mail-send-recv.c:598 ../src/mail/mail-send-recv.c:1493
 #: ../src/modules/accounts-window/e-accounts-window-editors.c:172
 #: ../src/plugins/face/face.c:175 ../src/shell/e-shell.c:1238
 #: ../src/shell/e-shell.c:1263 ../src/smime/gui/certificate-manager.c:360
@@ -9487,7 +9487,7 @@ msgstr "Зробити"
 #. Translators: the first '%s' is replaced with a component summary;
 #. the second '%s' is replaced with an event location.
 #. Example: "Meet John Doe (Central Park)"
-#: ../src/calendar/gui/e-week-view.c:3715
+#: ../src/calendar/gui/e-week-view.c:3718
 #, c-format
 msgctxt "SummaryWithLocation"
 msgid "%s (%s)"
@@ -11769,7 +11769,7 @@ msgid "Save Draft"
 msgstr "Зберегти _чернетку"
 
 #: ../src/composer/e-composer-from-header.c:108
-#: ../src/e-util/e-collection-account-wizard.c:2058
+#: ../src/e-util/e-collection-account-wizard.c:2075
 #: ../src/e-util/e-mail-signature-script-dialog.c:408
 #: ../src/e-util/e-webdav-browser.c:2555
 #: ../src/e-util/gal-view-instance-save-as-dialog.ui.h:2
@@ -12860,12 +12860,12 @@ msgstr "Не можу встановити як тло"
 msgid "Set as _Background"
 msgstr "Встановити як _тло"
 
-#: ../src/e-util/e-attachment-icon-view.c:168
+#: ../src/e-util/e-attachment-icon-view.c:171
 #: ../src/e-util/e-attachment-tree-view.c:168
 msgid "Loading"
 msgstr "Завантаження"
 
-#: ../src/e-util/e-attachment-icon-view.c:180
+#: ../src/e-util/e-attachment-icon-view.c:183
 #: ../src/e-util/e-attachment-tree-view.c:180
 msgid "Saving"
 msgstr "Зберігання"
@@ -13358,42 +13358,42 @@ msgstr "Список приміток"
 msgid "Task List"
 msgstr "Список завдань"
 
-#: ../src/e-util/e-collection-account-wizard.c:1193
+#: ../src/e-util/e-collection-account-wizard.c:1195
 msgid "Looking up LDAP server’s search base…"
 msgstr "Пошук у базі сервера LDAP…"
 
-#: ../src/e-util/e-collection-account-wizard.c:1326
+#: ../src/e-util/e-collection-account-wizard.c:1343
 msgid "Failed to store password: "
 msgstr "Не вдалося зберегти пароль: "
 
-#: ../src/e-util/e-collection-account-wizard.c:1336
+#: ../src/e-util/e-collection-account-wizard.c:1353
 msgid "Failed to create sources: "
 msgstr "Не вдалося створити джерела: "
 
-#: ../src/e-util/e-collection-account-wizard.c:1503
+#: ../src/e-util/e-collection-account-wizard.c:1520
 msgid "Saving account settings, please wait…"
 msgstr "Збереження параметрів облікового запису, зачекайте…"
 
-#: ../src/e-util/e-collection-account-wizard.c:1655
+#: ../src/e-util/e-collection-account-wizard.c:1672
 msgid "User details"
 msgstr "Подробиці користувача"
 
-#: ../src/e-util/e-collection-account-wizard.c:1668
+#: ../src/e-util/e-collection-account-wizard.c:1685
 msgid "_Email Address or User name:"
 msgstr "_Електронна адреса чи ім'я користувача:"
 
-#: ../src/e-util/e-collection-account-wizard.c:1699
+#: ../src/e-util/e-collection-account-wizard.c:1716
 msgid "_Advanced Options"
 msgstr "_Додаткові параметри"
 
-#: ../src/e-util/e-collection-account-wizard.c:1704
+#: ../src/e-util/e-collection-account-wizard.c:1721
 #: ../src/modules/mail-config/e-mail-config-remote-accounts.c:217
 #: ../src/modules/mail-config/e-mail-config-smtp-backend.c:173
 #: ../src/plugins/publish-calendar/publish-calendar.ui.h:25
 msgid "_Server:"
 msgstr "_Сервер:"
 
-#: ../src/e-util/e-collection-account-wizard.c:1723
+#: ../src/e-util/e-collection-account-wizard.c:1740
 msgid ""
 "Semicolon (“;”) separated list of servers to look up information for, in "
 "addition to the domain of the e-mail address."
@@ -13401,11 +13401,11 @@ msgstr ""
 "Список через крапку з комою серверів для пошуку відомостей, додаткових щодо "
 "домену електронної адреси."
 
-#: ../src/e-util/e-collection-account-wizard.c:1925
+#: ../src/e-util/e-collection-account-wizard.c:1942
 msgid "Select which parts should be configured:"
 msgstr "Виберіть, які частини потрібно налаштувати:"
 
-#: ../src/e-util/e-collection-account-wizard.c:2049
+#: ../src/e-util/e-collection-account-wizard.c:2066
 #: ../src/mail/e-mail-config-identity-page.c:542
 #: ../src/mail/e-mail-config-summary-page.c:318
 msgid "Account Information"
@@ -14046,7 +14046,7 @@ msgstr "Знайти елементи, що відповідають вказа�
 #: ../src/libemail-engine/camel-null-store.c:29
 #: ../src/mail/e-mail-autoconfig.c:778
 #: ../src/mail/e-mail-config-summary-page.c:143
-#: ../src/modules/book-config-ldap/evolution-book-config-ldap.c:681
+#: ../src/modules/book-config-ldap/evolution-book-config-ldap.c:684
 msgid "None"
 msgstr "Немає"
 
@@ -15416,7 +15416,7 @@ msgstr "Відкриття адресної книги «%s»"
 msgid "_Do not show this message again"
 msgstr "_Не показувати це повідомлення знову."
 
-#: ../src/e-util/e-misc-utils.c:3990
+#: ../src/e-util/e-misc-utils.c:3992
 msgid ""
 "This address book server might be unreachable or the server name may be "
 "misspelled or your network connection could be down."
@@ -15424,17 +15424,23 @@ msgstr ""
 "Можливо, цей сервер адресної книги недосяжний, або неправильно вказана назва "
 "сервера, або ж мережне з'єднання вимкнено."
 
-#: ../src/e-util/e-misc-utils.c:4002
+#: ../src/e-util/e-misc-utils.c:4004
 #, c-format
 msgid "Failed to set protocol version to LDAPv3 (%d): %s"
 msgstr "Не вдалося встановити версію протоколу LDAPv3 (%d): %s"
 
-#: ../src/e-util/e-misc-utils.c:4014
+#: ../src/e-util/e-misc-utils.c:4039
+#, c-format
+#| msgid "Failed to spawn SpamAssassin (%s): "
+msgid "Failed to use STARTTLS (%d): %s"
+msgstr "Не вдалося скористатися STARTTLS (%d): %s"
+
+#: ../src/e-util/e-misc-utils.c:4052
 #, c-format
 msgid "Failed to authenticate with LDAP server (%d): %s"
 msgstr "Не вдалося пройти розпізнавання на сервері LDAP (%d): %s"
 
-#: ../src/e-util/e-misc-utils.c:4028
+#: ../src/e-util/e-misc-utils.c:4066
 #, c-format
 msgid ""
 "This LDAP server may use an older version of LDAP, which does not support "
@@ -15450,7 +15456,7 @@ msgstr ""
 "\n"
 "Подробиці помилки (%d): %s"
 
-#: ../src/e-util/e-misc-utils.c:4039
+#: ../src/e-util/e-misc-utils.c:4077
 msgid ""
 "This LDAP server may use an older version of LDAP, which does not support "
 "this functionality or it may be misconfigured. Ask your administrator for "
@@ -15460,12 +15466,12 @@ msgstr ""
 "цю функціональність, або він може бути неправильно налаштований. Спитайте у "
 "вашого системного адміністратора які бази пошуку підтримуються."
 
-#: ../src/e-util/e-misc-utils.c:4072
+#: ../src/e-util/e-misc-utils.c:4110
 msgid "Evolution had not been compiled with LDAP support"
 msgstr "Evolution було зібрано без підтримки LDAP"
 
 #. Translators: %s is the language ISO code.
-#: ../src/e-util/e-misc-utils.c:4395
+#: ../src/e-util/e-misc-utils.c:4433
 #, c-format
 msgctxt "language"
 msgid "Unknown (%s)"
@@ -15473,31 +15479,31 @@ msgstr "Невідома (%s)"
 
 #. Translators: The first %s is the language name, and the
 #. * second is the country name. Example: "French (France)"
-#: ../src/e-util/e-misc-utils.c:4404
+#: ../src/e-util/e-misc-utils.c:4442
 #, c-format
 msgctxt "language"
 msgid "%s (%s)"
 msgstr "%s (%s)"
 
-#: ../src/e-util/e-misc-utils.c:4555
+#: ../src/e-util/e-misc-utils.c:4593
 #, c-format
 msgid "Click to call %s"
 msgstr "Клацніть, щоб подзвонити %s"
 
-#: ../src/e-util/e-misc-utils.c:4557
+#: ../src/e-util/e-misc-utils.c:4595
 msgid "Click to hide/unhide addresses"
 msgstr "Клацніть, щоб показати/сховати адреси "
 
-#: ../src/e-util/e-misc-utils.c:4570
+#: ../src/e-util/e-misc-utils.c:4608
 #, c-format
 msgid "Go to the section %s of the message"
 msgstr "Перейти до розділу %s повідомлення"
 
-#: ../src/e-util/e-misc-utils.c:4572
+#: ../src/e-util/e-misc-utils.c:4610
 msgid "Go to the beginning of the message"
 msgstr "Перейти до початку повідомлення"
 
-#: ../src/e-util/e-misc-utils.c:4578
+#: ../src/e-util/e-misc-utils.c:4616
 #, c-format
 msgid "Click to open %s"
 msgstr "Клацніть, щоб відкрити %s"
@@ -17777,12 +17783,12 @@ msgid "Server Type:"
 msgstr "Тип сервера: "
 
 #: ../src/mail/e-mail-config-summary-page.c:447
-#: ../src/modules/book-config-ldap/evolution-book-config-ldap.c:658
+#: ../src/modules/book-config-ldap/evolution-book-config-ldap.c:661
 msgid "Server:"
 msgstr "Сервер:"
 
 #: ../src/mail/e-mail-config-summary-page.c:468
-#: ../src/modules/book-config-ldap/evolution-book-config-ldap.c:776
+#: ../src/modules/book-config-ldap/evolution-book-config-ldap.c:779
 msgid "Username:"
 msgstr "Ім'я користувача:"
 
@@ -20421,12 +20427,10 @@ msgid "Re_set"
 msgstr "С_кинути"
 
 #: ../src/mail/mail-config.ui.h:134
-#| msgid "Message Header"
 msgid "Message List User Headers"
 msgstr "Заголовки користувача у списку повідомлень"
 
 #: ../src/mail/mail-config.ui.h:135
-#| msgid "Mail Headers Table"
 msgid "Message List User Headers Table"
 msgstr "Таблиця заголовків користувача у списку повідомлень"
 
@@ -21595,17 +21599,14 @@ msgid "%b %d %Y"
 msgstr "%d %b %Y"
 
 #: ../src/mail/message-list.c:3116 ../src/mail/message-list.etspec.h:24
-#| msgid "Message Header"
 msgid "User Header 1"
 msgstr "Заголовок користувача 1"
 
 #: ../src/mail/message-list.c:3117 ../src/mail/message-list.etspec.h:25
-#| msgid "Message Header"
 msgid "User Header 2"
 msgstr "Заголовок користувача 2"
 
 #: ../src/mail/message-list.c:3118 ../src/mail/message-list.etspec.h:26
-#| msgid "Message Header"
 msgid "User Header 3"
 msgstr "Заголовок користувача 3"
 
@@ -22448,7 +22449,7 @@ msgid "Address Book:"
 msgstr "Адресна книга:"
 
 #: ../src/modules/book-config-google/evolution-book-config-google.c:100
-#: ../src/modules/book-config-ldap/evolution-book-config-ldap.c:1066
+#: ../src/modules/book-config-ldap/evolution-book-config-ldap.c:1069
 #: ../src/modules/cal-config-google/e-cal-config-google.c:187
 #: ../src/modules/cal-config-google/e-cal-config-gtasks.c:115
 #: ../src/modules/mail-config/e-mail-config-remote-accounts.c:444
@@ -22456,124 +22457,124 @@ msgstr "Адресна книга:"
 msgid "User name cannot be empty"
 msgstr "Обов'язково вкажіть користувача"
 
-#: ../src/modules/book-config-ldap/evolution-book-config-ldap.c:415
+#: ../src/modules/book-config-ldap/evolution-book-config-ldap.c:418
 msgid "Looking up server search bases, please wait…"
 msgstr "Пошук серед баз сервера, зачекайте…"
 
-#: ../src/modules/book-config-ldap/evolution-book-config-ldap.c:491
+#: ../src/modules/book-config-ldap/evolution-book-config-ldap.c:494
 msgid "Standard LDAP Port"
 msgstr "Стандартний порт LDAP"
 
-#: ../src/modules/book-config-ldap/evolution-book-config-ldap.c:497
-#: ../src/modules/book-config-ldap/evolution-book-config-ldap.c:684
+#: ../src/modules/book-config-ldap/evolution-book-config-ldap.c:500
+#: ../src/modules/book-config-ldap/evolution-book-config-ldap.c:687
 msgid "LDAP over SSL/TLS (deprecated)"
 msgstr "LDAP над SSL/TLS  (застаріло)"
 
-#: ../src/modules/book-config-ldap/evolution-book-config-ldap.c:503
+#: ../src/modules/book-config-ldap/evolution-book-config-ldap.c:506
 msgid "Microsoft Global Catalog"
 msgstr "Microsoft Global Catalog"
 
-#: ../src/modules/book-config-ldap/evolution-book-config-ldap.c:509
+#: ../src/modules/book-config-ldap/evolution-book-config-ldap.c:512
 msgid "Microsoft Global Catalog over SSL/TLS"
 msgstr "Microsoft Global Catalog над SSL/TLS"
 
 #. Page 1
-#: ../src/modules/book-config-ldap/evolution-book-config-ldap.c:620
+#: ../src/modules/book-config-ldap/evolution-book-config-ldap.c:623
 msgid "Connecting to LDAP"
 msgstr "З'єднання з LDAP"
 
-#: ../src/modules/book-config-ldap/evolution-book-config-ldap.c:637
+#: ../src/modules/book-config-ldap/evolution-book-config-ldap.c:640
 msgid "Server Information"
 msgstr "Інформація про сервер"
 
-#: ../src/modules/book-config-ldap/evolution-book-config-ldap.c:664
+#: ../src/modules/book-config-ldap/evolution-book-config-ldap.c:667
 msgid "Port:"
 msgstr "_Порт:"
 
-#: ../src/modules/book-config-ldap/evolution-book-config-ldap.c:672
+#: ../src/modules/book-config-ldap/evolution-book-config-ldap.c:675
 #: ../src/modules/mail-config/e-mail-config-remote-accounts.c:247
 #: ../src/modules/mail-config/e-mail-config-smtp-backend.c:202
 msgid "Port number is not valid"
 msgstr "Неправильний номер порту"
 
-#: ../src/modules/book-config-ldap/evolution-book-config-ldap.c:687
+#: ../src/modules/book-config-ldap/evolution-book-config-ldap.c:690
 msgid "StartTLS (recommended)"
 msgstr "StartTLS (рекомендовано)"
 
-#: ../src/modules/book-config-ldap/evolution-book-config-ldap.c:689
+#: ../src/modules/book-config-ldap/evolution-book-config-ldap.c:692
 msgid "Encryption:"
 msgstr "Шифрування:"
 
-#: ../src/modules/book-config-ldap/evolution-book-config-ldap.c:713
+#: ../src/modules/book-config-ldap/evolution-book-config-ldap.c:716
 #: ../src/modules/mail-config/e-mail-config-remote-accounts.c:324
 #: ../src/modules/mail-config/e-mail-config-smtp-backend.c:267
 msgid "Authentication"
 msgstr "Автентифікація"
 
-#: ../src/modules/book-config-ldap/evolution-book-config-ldap.c:745
+#: ../src/modules/book-config-ldap/evolution-book-config-ldap.c:748
 msgid "Anonymous"
 msgstr "Анонімно"
 
-#: ../src/modules/book-config-ldap/evolution-book-config-ldap.c:746
+#: ../src/modules/book-config-ldap/evolution-book-config-ldap.c:749
 msgid "Username can be left empty"
 msgstr "Ім'я користувача можна залишити порожнім"
 
-#: ../src/modules/book-config-ldap/evolution-book-config-ldap.c:752
+#: ../src/modules/book-config-ldap/evolution-book-config-ldap.c:755
 msgid "Using email address"
 msgstr "За електронною адресою"
 
-#: ../src/modules/book-config-ldap/evolution-book-config-ldap.c:753
+#: ../src/modules/book-config-ldap/evolution-book-config-ldap.c:756
 msgid "requires anonymous access to your LDAP server"
 msgstr "вимагає анонімного доступу до вашого сервера LDAP"
 
-#: ../src/modules/book-config-ldap/evolution-book-config-ldap.c:759
+#: ../src/modules/book-config-ldap/evolution-book-config-ldap.c:762
 msgid "Using distinguished name (DN)"
 msgstr "Використовуючи відокремлене ім'я (DN)"
 
-#: ../src/modules/book-config-ldap/evolution-book-config-ldap.c:760
+#: ../src/modules/book-config-ldap/evolution-book-config-ldap.c:763
 msgid "for example: uid=user,dc=example,dc=com"
 msgstr "приклад: uid=користувач,dc=приклад,dc=com"
 
-#: ../src/modules/book-config-ldap/evolution-book-config-ldap.c:768
+#: ../src/modules/book-config-ldap/evolution-book-config-ldap.c:771
 msgid "Method:"
 msgstr "Спосіб:"
 
-#: ../src/modules/book-config-ldap/evolution-book-config-ldap.c:772
+#: ../src/modules/book-config-ldap/evolution-book-config-ldap.c:775
 msgid "This is the method Evolution will use to authenticate you."
 msgstr "Це метод вашої автентифікації, що буде використовуватись в Evolution."
 
 #. Page 2
-#: ../src/modules/book-config-ldap/evolution-book-config-ldap.c:784
+#: ../src/modules/book-config-ldap/evolution-book-config-ldap.c:787
 msgid "Using LDAP"
 msgstr "Використання LDAP"
 
-#: ../src/modules/book-config-ldap/evolution-book-config-ldap.c:801
+#: ../src/modules/book-config-ldap/evolution-book-config-ldap.c:804
 #: ../src/modules/mail/e-mail-shell-view.c:119
 #: ../src/modules/mail/e-mail-shell-view.c:208
 msgid "Searching"
 msgstr "Пошук"
 
-#: ../src/modules/book-config-ldap/evolution-book-config-ldap.c:823
+#: ../src/modules/book-config-ldap/evolution-book-config-ldap.c:826
 msgid "Search Base:"
 msgstr "База пошуку:"
 
-#: ../src/modules/book-config-ldap/evolution-book-config-ldap.c:827
+#: ../src/modules/book-config-ldap/evolution-book-config-ldap.c:830
 msgid "Find Possible Search Bases"
 msgstr "Знайти можливі бази пошуку"
 
-#: ../src/modules/book-config-ldap/evolution-book-config-ldap.c:849
+#: ../src/modules/book-config-ldap/evolution-book-config-ldap.c:852
 msgid "One Level"
 msgstr "Один рівень"
 
-#: ../src/modules/book-config-ldap/evolution-book-config-ldap.c:851
+#: ../src/modules/book-config-ldap/evolution-book-config-ldap.c:854
 msgid "Subtree"
 msgstr "Піддерево"
 
-#: ../src/modules/book-config-ldap/evolution-book-config-ldap.c:853
+#: ../src/modules/book-config-ldap/evolution-book-config-ldap.c:856
 msgid "Search Scope:"
 msgstr "Діапазон пошуку:"
 
-#: ../src/modules/book-config-ldap/evolution-book-config-ldap.c:858
+#: ../src/modules/book-config-ldap/evolution-book-config-ldap.c:861
 msgid ""
 "The search scope defines how deep you would like the search to extend down "
 "the directory tree.  A search scope of “Subtree” will include all entries "
@@ -22585,27 +22586,27 @@ msgstr ""
 "пошуковою базою. Обсяг пошуку «Один рівень» включатиме лише записи на одному "
 "рівні під вашою пошуковою базою."
 
-#: ../src/modules/book-config-ldap/evolution-book-config-ldap.c:867
+#: ../src/modules/book-config-ldap/evolution-book-config-ldap.c:870
 msgid "Search Filter:"
 msgstr "Фільтр пошуку:"
 
-#: ../src/modules/book-config-ldap/evolution-book-config-ldap.c:879
+#: ../src/modules/book-config-ldap/evolution-book-config-ldap.c:882
 msgid "Downloading"
 msgstr "Завантаження"
 
-#: ../src/modules/book-config-ldap/evolution-book-config-ldap.c:900
+#: ../src/modules/book-config-ldap/evolution-book-config-ldap.c:903
 msgid "Limit:"
 msgstr "Обмеження:"
 
-#: ../src/modules/book-config-ldap/evolution-book-config-ldap.c:911
+#: ../src/modules/book-config-ldap/evolution-book-config-ldap.c:914
 msgid "contacts"
 msgstr "контакти"
 
-#: ../src/modules/book-config-ldap/evolution-book-config-ldap.c:916
+#: ../src/modules/book-config-ldap/evolution-book-config-ldap.c:919
 msgid "Browse until limit is reached"
 msgstr "Переглядати, поки не буде досягнуто обмеження"
 
-#: ../src/modules/book-config-ldap/evolution-book-config-ldap.c:1051
+#: ../src/modules/book-config-ldap/evolution-book-config-ldap.c:1054
 #: ../src/modules/mail-config/e-mail-config-remote-accounts.c:425
 #: ../src/modules/mail-config/e-mail-config-smtp-backend.c:461
 msgid "Server address cannot be empty"
