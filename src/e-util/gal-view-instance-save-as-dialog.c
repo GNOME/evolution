@@ -289,7 +289,6 @@ gal_view_instance_save_as_dialog_init (GalViewInstanceSaveAsDialog *dialog)
 	gvisad_setup_validate_button (dialog);
 
 	gtk_window_set_title (GTK_WINDOW (dialog), _("Save Current View"));
-	gtk_widget_show (GTK_WIDGET (dialog));
 }
 
 /* External methods */
