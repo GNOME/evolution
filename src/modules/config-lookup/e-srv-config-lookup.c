@@ -156,16 +156,6 @@ srv_config_lookup_domain_sync (EConfigLookup *config_lookup,
 					CamelNetworkSecurityMethod security_method;
 					const gchar *extension_name;
 
-					extension_name = e_source_camel_get_extension_name (known_services[ii].evo_protocol);
-
-					if (g_str_has_suffix (known_services[ii].gio_protocol, "s"))
-						security_method = CAMEL_NETWORK_SECURITY_METHOD_SSL_ON_ALTERNATE_PORT;
-					else
-						security_method = CAMEL_NETWORK_SECURITY_METHOD_STARTTLS_ON_STANDARD_PORT;
-
-					e_config_lookup_result_simple_add_enum (lookup_result, extension_name, "security-method",
-						CAMEL_TYPE_NETWORK_SECURITY_METHOD, security_method);
-
 					if (known_services[ii].kind == E_CONFIG_LOOKUP_RESULT_MAIL_RECEIVE)
 						extension_name = E_SOURCE_EXTENSION_MAIL_ACCOUNT;
 					else
@@ -179,6 +169,16 @@ srv_config_lookup_domain_sync (EConfigLookup *config_lookup,
 						e_config_lookup_result_simple_add_string (lookup_result, E_SOURCE_EXTENSION_AUTHENTICATION,
 							"method", "PLAIN");
 					}
+
+					extension_name = e_source_camel_get_extension_name (known_services[ii].evo_protocol);
+
+					if (g_str_has_suffix (known_services[ii].gio_protocol, "s"))
+						security_method = CAMEL_NETWORK_SECURITY_METHOD_SSL_ON_ALTERNATE_PORT;
+					else
+						security_method = CAMEL_NETWORK_SECURITY_METHOD_STARTTLS_ON_STANDARD_PORT;
+
+					e_config_lookup_result_simple_add_enum (lookup_result, extension_name, "security-method",
+						CAMEL_TYPE_NETWORK_SECURITY_METHOD, security_method);
 
 					/* Set the security method before the port, to not have it overwritten
 					   in New Mail Account wizard (binding callback). */
