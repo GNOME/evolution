@@ -29,6 +29,7 @@
 #include "e-category-completion.h"
 #include "e-category-editor.h"
 #include "e-dialog-widgets.h"
+#include "e-misc-utils.h"
 
 #define E_CATEGORIES_EDITOR_GET_PRIVATE(obj) \
 	(G_TYPE_INSTANCE_GET_PRIVATE \
@@ -43,6 +44,8 @@ struct _ECategoriesEditorPrivate {
 	GtkWidget *delete_button;
 
 	guint ignore_category_changes : 1;
+	gulong category_checked_handler_id;
+	gulong entry_changed_handler_id;
 };
 
 enum {
@@ -70,6 +73,10 @@ static void
 entry_changed_cb (GtkEntry *entry,
                   ECategoriesEditor *editor)
 {
+	g_signal_handler_block (editor->priv->categories_list, editor->priv->category_checked_handler_id);
+	e_categories_selector_set_checked (editor->priv->categories_list, gtk_entry_get_text (entry));
+	g_signal_handler_unblock (editor->priv->categories_list, editor->priv->category_checked_handler_id);
+
 	g_signal_emit (editor, signals[ENTRY_CHANGED], 0);
 }
 
@@ -98,9 +105,18 @@ categories_editor_update_entry (ECategoriesEditor *editor)
 	entry = GTK_ENTRY (editor->priv->categories_entry);
 	categories = e_categories_selector_get_checked (editor->priv->categories_list);
 
+	g_signal_handler_block (entry, editor->priv->entry_changed_handler_id);
 	gtk_entry_set_text (entry, categories);
+	g_signal_handler_unblock (entry, editor->priv->entry_changed_handler_id);
 
 	g_free (categories);
+}
+
+static void
+categories_editor_category_checked_cb (ECategoriesEditor *editor)
+{
+	categories_editor_update_entry (editor);
+	g_signal_emit (editor, signals[ENTRY_CHANGED], 0);
 }
 
 static void
@@ -240,6 +256,8 @@ e_categories_editor_init (ECategoriesEditor *editor)
 	GtkWidget *button_edit;
 	GtkWidget *button_delete;
 
+	editor->priv = E_CATEGORIES_EDITOR_GET_PRIVATE (editor);
+
 	gtk_widget_set_size_request (GTK_WIDGET (editor), -1, 400);
 
 	grid = GTK_GRID (editor);
@@ -286,9 +304,9 @@ e_categories_editor_init (ECategoriesEditor *editor)
 	gtk_tree_view_set_headers_visible (
 		GTK_TREE_VIEW (categories_list), FALSE);
 	gtk_tree_view_set_rules_hint (GTK_TREE_VIEW (categories_list), TRUE);
-	g_signal_connect_swapped (
+	editor->priv->category_checked_handler_id = g_signal_connect_swapped (
 		G_OBJECT (categories_list), "category-checked",
-		G_CALLBACK (categories_editor_update_entry), editor);
+		G_CALLBACK (categories_editor_category_checked_cb), editor);
 
 	hbuttonbox1 = gtk_button_box_new (GTK_ORIENTATION_HORIZONTAL);
 	g_object_set (
@@ -315,8 +333,6 @@ e_categories_editor_init (ECategoriesEditor *editor)
 		GTK_LABEL (label_header), entry_categories);
 	gtk_label_set_mnemonic_widget (
 		GTK_LABEL (label2), categories_list);
-
-	editor->priv = E_CATEGORIES_EDITOR_GET_PRIVATE (editor);
 
 	editor->priv->categories_list = E_CATEGORIES_SELECTOR (categories_list);
 	editor->priv->categories_entry = entry_categories;
@@ -347,7 +363,7 @@ e_categories_editor_init (ECategoriesEditor *editor)
 		G_CALLBACK (delete_button_clicked_cb),
 		editor);
 
-	g_signal_connect (
+	editor->priv->entry_changed_handler_id = g_signal_connect (
 		editor->priv->categories_entry, "changed",
 		G_CALLBACK (entry_changed_cb), editor);
 
@@ -384,13 +400,47 @@ e_categories_editor_new (void)
 gchar *
 e_categories_editor_get_categories (ECategoriesEditor *editor)
 {
-	ECategoriesSelector *categories_list;
-
 	g_return_val_if_fail (E_IS_CATEGORIES_EDITOR (editor), NULL);
 
-	categories_list = editor->priv->categories_list;
+	if (e_categories_editor_get_entry_visible (editor)) {
+		GString *categories;
+		gchar **split;
+		gint ii;
 
-	return e_categories_selector_get_checked (categories_list);
+		categories = g_string_new ("");
+
+		split = g_strsplit (gtk_entry_get_text (GTK_ENTRY (editor->priv->categories_entry)), ",", 0);
+
+		if (split) {
+			GHashTable *known;
+			GSList *items = NULL, *link;
+
+			known = g_hash_table_new (g_str_hash, g_str_equal);
+
+			for (ii = 0; split[ii] != NULL; ii++) {
+				gchar *value = g_strstrip (split[ii]);
+
+				if (*value && g_hash_table_insert (known, value, GINT_TO_POINTER (1)))
+					items = g_slist_prepend (items, value);
+			}
+
+			items = g_slist_sort (items, e_collate_compare);
+
+			for (link = items; link; link = g_slist_next (link)) {
+				if (categories->len)
+					g_string_append_c (categories, ',');
+				g_string_append (categories, link->data);
+			}
+
+			g_hash_table_destroy (known);
+			g_slist_free (items);
+			g_strfreev (split);
+		}
+
+		return g_string_free (categories, FALSE);
+	}
+
+	return e_categories_selector_get_checked (editor->priv->categories_list);
 }
 
 /**
