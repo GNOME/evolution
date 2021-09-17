@@ -3142,6 +3142,9 @@ e_week_view_on_scroll (GtkWidget *widget,
 	new_value = CLAMP (new_value, lower, upper - page_size);
 	gtk_adjustment_set_value (adjustment, new_value);
 
+	week_view->events_need_layout = TRUE;
+	e_week_view_check_layout (week_view);
+
 	return TRUE;
 }
 
