@@ -1046,6 +1046,9 @@ remodel (EMinicard *e_minicard)
 			if (field == E_CONTACT_FULL_NAME && is_list)
 				continue;
 
+			if (field == E_CONTACT_NICKNAME && eab_fullname_matches_nickname (e_minicard->contact))
+				continue;
+
 			if (field == E_CONTACT_EMAIL_1 || field == E_CONTACT_EMAIL_2 || field == E_CONTACT_EMAIL_3 || field == E_CONTACT_EMAIL_4) {
 				if (email_rendered)
 					continue;

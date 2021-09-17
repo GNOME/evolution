@@ -1114,3 +1114,22 @@ eab_format_address (EContact *contact,
 
 	return result;
 }
+
+gboolean
+eab_fullname_matches_nickname (EContact *contact)
+{
+	gchar *nickname, *fullname;
+	gboolean same;
+
+	g_return_val_if_fail (E_IS_CONTACT (contact), FALSE);
+
+	nickname = e_contact_get (contact, E_CONTACT_NICKNAME);
+	fullname = e_contact_get (contact, E_CONTACT_FULL_NAME);
+	same = g_strcmp0 (nickname && *nickname ? nickname : NULL,
+			  fullname && *fullname ? fullname : NULL) == 0;
+
+	g_free (nickname);
+	g_free (fullname);
+
+	return same;
+}

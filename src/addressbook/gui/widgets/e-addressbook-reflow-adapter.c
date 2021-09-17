@@ -175,6 +175,9 @@ addressbook_height (EReflowModel *erm,
 		if (field == E_CONTACT_FAMILY_NAME || field == E_CONTACT_GIVEN_NAME)
 			continue;
 
+		if (field == E_CONTACT_NICKNAME && eab_fullname_matches_nickname (contact))
+			continue;
+
 		string = e_contact_get (contact, field);
 		if (string && *string) {
 			gint this_height;
