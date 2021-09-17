@@ -923,6 +923,7 @@ render_contact_column (EABContactFormatter *formatter,
 	accum_sip (accum, contact, EAB_CONTACT_FORMATTER_SIP_TYPE_OTHER, NULL, sip_flags);
 
 	accum_attribute (accum, contact, _("Nickname"), E_CONTACT_NICKNAME, NULL, 0);
+	accum_attribute (accum, contact, _("Categories"), E_CONTACT_CATEGORIES, NULL, 0);
 	accum_attribute_multival (accum, contact, _("AIM"), E_CONTACT_IM_AIM, AIM_ICON, 0);
 	accum_attribute_multival (accum, contact, _("GroupWise"), E_CONTACT_IM_GROUPWISE, GROUPWISE_ICON, 0);
 	accum_attribute_multival (accum, contact, _("ICQ"), E_CONTACT_IM_ICQ, ICQ_ICON, 0);
