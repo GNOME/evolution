@@ -1,3 +1,33 @@
+Evolution 3.42.0 2021-09-17
+---------------------------
+
+Bug Fixes:
+	I#1620 - Flatpak: Set StartupWMClass in the .desktop file (Milan Crha)
+	I#1630 - help: fix its:locNote placement (Anders Jonsson)
+	M!85 - help/ldap - clarify search scopes (Дилян Палаузов)
+
+Miscellaneous:
+	help: Remove unused translated images (Andre Klapper)
+
+Translations:
+	Alan Mortensen (da)
+	Anders Jonsson (sv)
+	Andika Triwidada (id)
+	Balázs Úr (hu)
+	Boyuan Yang (zh_CN)
+	Changwoo Ryu (ko)
+	Christian Kirbach (de)
+	Daniel Mustieles (es)
+	Daniel Șerbănescu (ro)
+	Efstathios Iosifidis (el)
+	Goran Vidović (hr)
+	Guillaume Bernard (fr)
+	Jiri Grönroos (fi)
+	Marek Černocký (cs)
+	Nathan Follens (nl)
+	Piotr Drąg (pl)
+	Yuri Chornoivan (uk)
+
 Evolution 3.41.3 2021-09-03
 ---------------------------
 
