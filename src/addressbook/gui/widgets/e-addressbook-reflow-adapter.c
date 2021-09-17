@@ -157,7 +157,7 @@ addressbook_height (EReflowModel *erm,
 	EAddressbookReflowAdapterPrivate *priv = adapter->priv;
 	EContactField field;
 	gint count = 0;
-	gchar *string;
+	gchar *string, *file_as;
 	EContact *contact = (EContact *) e_addressbook_model_contact_at (priv->model, i);
 	PangoLayout *layout;
 	gint height;
@@ -165,9 +165,8 @@ addressbook_height (EReflowModel *erm,
 	layout = gtk_widget_create_pango_layout (
 		GTK_WIDGET (GNOME_CANVAS_ITEM (parent)->canvas), "");
 
-	string = e_contact_get (contact, E_CONTACT_FILE_AS);
-	height = text_height (layout, string ? string : "") + 10.0;
-	g_free (string);
+	file_as = e_contact_get (contact, E_CONTACT_FILE_AS);
+	height = text_height (layout, file_as ? file_as : "") + 10.0;
 
 	for (field = E_CONTACT_FULL_NAME;
 	     field != E_CONTACT_LAST_SIMPLE_STRING && count < 5; field++) {
@@ -179,7 +178,7 @@ addressbook_height (EReflowModel *erm,
 			continue;
 
 		string = e_contact_get (contact, field);
-		if (string && *string) {
+		if (string && *string && e_util_strcmp0 (string, file_as) != 0) {
 			gint this_height;
 			gint field_text_height;
 
@@ -199,6 +198,7 @@ addressbook_height (EReflowModel *erm,
 	height += 2;
 
 	g_object_unref (layout);
+	g_free (file_as);
 
 	return height;
 }

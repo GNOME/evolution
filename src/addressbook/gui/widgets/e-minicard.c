@@ -1014,13 +1014,13 @@ remodel (EMinicard *e_minicard)
 		gboolean email_rendered = FALSE;
 		gboolean has_voice = FALSE, has_fax = FALSE;
 
+		file_as = e_contact_get (e_minicard->contact, E_CONTACT_FILE_AS);
+
 		if (e_minicard->header_text) {
-			file_as = e_contact_get (e_minicard->contact, E_CONTACT_FILE_AS);
 			gnome_canvas_item_set (
 				e_minicard->header_text,
 				"text", file_as ? file_as : "",
 				NULL);
-			g_free (file_as);
 		}
 
 		if (e_minicard->contact && e_contact_get (e_minicard->contact, E_CONTACT_IS_LIST))
@@ -1063,7 +1063,7 @@ remodel (EMinicard *e_minicard)
 				gchar *string;
 
 				string = e_contact_get (e_minicard->contact, field);
-				if (string && *string) {
+				if (string && *string && e_util_strcmp0 (string, file_as) != 0) {
 					e_minicard->fields = g_list_append (e_minicard->fields, minicard_field);
 					g_object_set (
 						minicard_field->label,
@@ -1095,7 +1095,7 @@ remodel (EMinicard *e_minicard)
 					g_list_free_full (email, (GDestroyNotify) e_vcard_attribute_free);
 				} else {
 					string = e_contact_get (e_minicard->contact, field);
-					if (string && *string) {
+					if (string && *string && e_util_strcmp0 (string, file_as) != 0) {
 						add_field (e_minicard, field, left_width);
 						count++;
 
@@ -1113,8 +1113,8 @@ remodel (EMinicard *e_minicard)
 			}
 		}
 
-		g_list_foreach (list, (GFunc) e_minicard_field_destroy, NULL);
-		g_list_free (list);
+		g_list_free_full (list, (GDestroyNotify) e_minicard_field_destroy);
+		g_free (file_as);
 	}
 }
 
