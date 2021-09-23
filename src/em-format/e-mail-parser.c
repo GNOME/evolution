@@ -76,6 +76,9 @@ GType e_mail_parser_text_plain_get_type (void);
 #ifdef ENABLE_SMIME
 GType e_mail_parser_application_smime_get_type (void);
 #endif
+#ifdef HAVE_MARKDOWN
+GType e_mail_parser_text_markdown_get_type (void);
+#endif
 
 static gpointer parent_class;
 
@@ -322,6 +325,9 @@ e_mail_parser_base_init (EMailParserClass *class)
 	g_type_ensure (e_mail_parser_text_plain_get_type ());
 #ifdef ENABLE_SMIME
 	g_type_ensure (e_mail_parser_application_smime_get_type ());
+#endif
+#ifdef HAVE_MARKDOWN
+	g_type_ensure (e_mail_parser_text_markdown_get_type ());
 #endif
 
 	class->extension_registry = g_object_new (

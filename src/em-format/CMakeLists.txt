@@ -78,6 +78,13 @@ if(ENABLE_SMIME)
 	)
 endif(ENABLE_SMIME)
 
+if(ENABLE_MARKDOWN)
+	list(APPEND SOURCES
+		e-mail-formatter-text-markdown.c
+		e-mail-parser-text-markdown.c
+	)
+endif(ENABLE_MARKDOWN)
+
 set(HEADERS
 	e-mail-extension-registry.h
 	e-mail-formatter-extension.h
@@ -130,12 +137,14 @@ target_include_directories(evolution-mail-formatter PUBLIC
 	${CMAKE_CURRENT_SOURCE_DIR}
 	${EVOLUTION_DATA_SERVER_INCLUDE_DIRS}
 	${GNOME_PLATFORM_INCLUDE_DIRS}
+	${MARKDOWN_INCLUDE_DIRS}
 )
 
 target_link_libraries(evolution-mail-formatter
 	${DEPENDENCIES}
 	${EVOLUTION_DATA_SERVER_LDFLAGS}
 	${GNOME_PLATFORM_LDFLAGS}
+	${MARKDOWN_LDFLAGS}
 )
 
 install(TARGETS evolution-mail-formatter

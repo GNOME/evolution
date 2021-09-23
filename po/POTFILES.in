@@ -141,6 +141,7 @@ src/em-format/e-mail-formatter-secure-button.c
 src/em-format/e-mail-formatter-source.c
 src/em-format/e-mail-formatter-text-enriched.c
 src/em-format/e-mail-formatter-text-html.c
+src/em-format/e-mail-formatter-text-markdown.c
 src/em-format/e-mail-formatter-text-plain.c
 src/em-format/e-mail-formatter-utils.c
 src/em-format/e-mail-parser-application-mbox.c

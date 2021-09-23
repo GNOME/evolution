@@ -705,6 +705,19 @@ if(WITH_GLADE_CATALOG)
 	pkg_check_modules_for_option(WITH_GLADE_CATALOG "Glade 3 catalog files" GLADEUI gladeui-2.0>=${gladeui_minimum_version})
 endif(WITH_GLADE_CATALOG)
 
+# ******************************
+# cmark for CommonMarkdown
+# ******************************
+
+add_printable_option(ENABLE_MARKDOWN "Enable markdown support" ON)
+
+if(ENABLE_MARKDOWN)
+	pkg_check_modules_for_option(ENABLE_MARKDOWN "markdown support" MARKDOWN
+		libcmark
+	)
+	set(HAVE_MARKDOWN ON)
+endif(ENABLE_MARKDOWN)
+
 # Generate the ${PROJECT_NAME}-config.h file
 CONFIGURE_FILE(${CMAKE_SOURCE_DIR}/config.h.in ${CMAKE_BINARY_DIR}/${PROJECT_NAME}-config.h)
 

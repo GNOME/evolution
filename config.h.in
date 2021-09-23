@@ -119,3 +119,6 @@
 
 /* D-Bus service name of the evolution-source-registry, as provided by evolution-data-server-1.2.pc */
 #define EDS_SOURCES_DBUS_SERVICE_NAME "@EDS_SOURCES_DBUS_SERVICE_NAME@"
+
+/* Define if markdown support is enabled */
+#cmakedefine HAVE_MARKDOWN 1

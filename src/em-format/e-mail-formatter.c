@@ -15,6 +15,8 @@
  *
  */
 
+#include "evolution-config.h"
+
 #include "e-mail-formatter.h"
 
 #include <string.h>
@@ -72,6 +74,9 @@ GType e_mail_formatter_source_get_type (void);
 GType e_mail_formatter_text_enriched_get_type (void);
 GType e_mail_formatter_text_html_get_type (void);
 GType e_mail_formatter_text_plain_get_type (void);
+#ifdef HAVE_MARKDOWN
+GType e_mail_formatter_text_markdown_get_type (void);
+#endif
 
 static gpointer e_mail_formatter_parent_class = 0;
 
@@ -561,6 +566,9 @@ e_mail_formatter_base_init (EMailFormatterClass *class)
 	g_type_ensure (e_mail_formatter_text_enriched_get_type ());
 	g_type_ensure (e_mail_formatter_text_html_get_type ());
 	g_type_ensure (e_mail_formatter_text_plain_get_type ());
+#ifdef HAVE_MARKDOWN
+	g_type_ensure (e_mail_formatter_text_markdown_get_type ());
+#endif
 
 	class->extension_registry = g_object_new (
 		E_TYPE_MAIL_FORMATTER_EXTENSION_REGISTRY, NULL);
