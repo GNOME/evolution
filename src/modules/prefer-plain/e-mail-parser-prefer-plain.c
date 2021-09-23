@@ -184,7 +184,8 @@ hide_parts (GQueue *work_queue)
 	for (link = head; link != NULL; link = g_list_next (link)) {
 		EMailPart *mail_part = link->data;
 
-		mail_part->is_hidden = TRUE;
+		if (!e_mail_part_get_is_attachment (mail_part))
+			mail_part->is_hidden = TRUE;
 	}
 }
 
