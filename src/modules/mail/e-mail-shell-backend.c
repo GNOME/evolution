@@ -1666,3 +1666,53 @@ e_mail_labels_get_filter_code (EFilterElement *element,
 	g_string_append (out, " ))");
 }
 
+static gint
+filter_opts_sort_by_title_cb (gconstpointer aa,
+			      gconstpointer bb)
+{
+	const struct _filter_option *opt_a = aa;
+	const struct _filter_option *opt_b = bb;
+
+	return g_utf8_collate (opt_a->title, opt_b->title);
+}
+
+GSList *
+e_mail_addressbook_get_filter_options (void)
+{
+	EShell *shell;
+	ESourceRegistry *registry;
+	GSList *list = NULL;
+	GList *sources, *link;
+	struct _filter_option *option;
+
+	shell = e_shell_get_default ();
+	registry = e_shell_get_registry (shell);
+	sources = e_source_registry_list_enabled (registry, E_SOURCE_EXTENSION_ADDRESS_BOOK);
+
+	for (link = sources; link; link = g_list_next (link)) {
+		ESource *source = link->data;
+
+		option = g_new0 (struct _filter_option, 1);
+		option->title = e_util_get_source_full_name (registry, source);
+		option->value = e_source_dup_uid (source);
+		list = g_slist_prepend (list, option);
+	}
+
+	g_list_free_full (sources, g_object_unref);
+
+	list = g_slist_sort (list, filter_opts_sort_by_title_cb);
+
+	option = g_new0 (struct _filter_option, 1);
+	/* Translators: Meaning "any configured addressbook included in autocompletion" in the filter dialog */
+	option->title = g_strdup (C_("addrbook", "Included in Autocompletion"));
+	option->value = g_strdup (CAMEL_SESSION_BOOK_UID_COMPLETION);
+	list = g_slist_prepend (list, option);
+
+	option = g_new0 (struct _filter_option, 1);
+	/* Translators: Meaning "any configured addressbook" in the filter dialog */
+	option->title = g_strdup (C_("addrbook", "Any"));
+	option->value = g_strdup (CAMEL_SESSION_BOOK_UID_ANY);
+	list = g_slist_prepend (list, option);
+
+	return list;
+}

@@ -683,6 +683,23 @@
   <input type="regex" name="expression"/>
  </part>
 
+ <part name="addressbook">
+  <_title>Address book</_title>
+  <input type="optionlist" name="book">
+     <dynamic func="e_mail_addressbook_get_filter_options"/>
+  </input>
+  <input type="optionlist" name="compare-type">
+   <option value="contains-sender">
+    <_title>contains Sender</_title>
+    <code>(addressbook-contains ${book} "From")</code>
+   </option>
+   <option value="not-contains-sender">
+    <_title>does not contain Sender</_title>
+    <code>(not (addressbook-contains ${book} "From"))</code>
+   </option>
+  </input>
+ </part>
+
  <part name="all">
   <_title>Match All</_title>
   <code>#t</code>

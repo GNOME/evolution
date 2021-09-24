@@ -619,6 +619,111 @@ mail_ui_session_lookup_addressbook (CamelSession *session,
 	return known_address;
 }
 
+static gboolean
+mail_ui_session_check_book_contains_sync (EMailUISession *ui_session,
+					  ESource *source,
+					  const gchar *email_address,
+					  GCancellable *cancellable,
+					  GError **error)
+{
+	EPhotoCache *photo_cache;
+	EClientCache *client_cache;
+	EClient *client;
+	gboolean success = FALSE;
+
+	g_return_val_if_fail (E_IS_MAIL_UI_SESSION (ui_session), FALSE);
+	g_return_val_if_fail (E_IS_SOURCE (source), FALSE);
+	g_return_val_if_fail (email_address != NULL, FALSE);
+
+	if (g_cancellable_set_error_if_cancelled (cancellable, error))
+		return FALSE;
+
+	if (!e_source_get_enabled (source))
+		return FALSE;
+
+	/* XXX EPhotoCache holds a reference on EClientCache, which
+	 *     we need.  EMailUISession should probably hold its own
+	 *     EClientCache reference, but this will do for now. */
+	photo_cache = e_mail_ui_session_get_photo_cache (ui_session);
+	client_cache = e_photo_cache_ref_client_cache (photo_cache);
+
+	client = e_client_cache_get_client_sync (
+		client_cache, source,
+		E_SOURCE_EXTENSION_ADDRESS_BOOK, (guint32) 10,
+		cancellable, error);
+
+	if (client != NULL) {
+		success = e_book_client_contains_email_sync (
+			E_BOOK_CLIENT (client), email_address,
+			cancellable, error);
+
+		g_object_unref (client);
+	}
+
+	g_object_unref (client_cache);
+
+	return success;
+}
+
+static gboolean
+mail_ui_session_addressbook_contains_sync (CamelSession *session,
+					   const gchar *book_uid,
+					   const gchar *email_address,
+					   GCancellable *cancellable,
+					   GError **error)
+{
+	EMailUISession *ui_session = E_MAIL_UI_SESSION (session);
+	GError *local_error = NULL;
+	GList *books = NULL, *link;
+	gboolean found = FALSE;
+
+	if (g_strcmp0 (book_uid, CAMEL_SESSION_BOOK_UID_ANY) == 0) {
+		books = e_source_registry_list_enabled (ui_session->priv->registry, E_SOURCE_EXTENSION_ADDRESS_BOOK);
+	} else if (g_strcmp0 (book_uid, CAMEL_SESSION_BOOK_UID_COMPLETION) == 0) {
+		GList *next = NULL;
+
+		books = e_source_registry_list_enabled (ui_session->priv->registry, E_SOURCE_EXTENSION_ADDRESS_BOOK);
+
+		for (link = books; link; link = next) {
+			ESource *source = link->data;
+
+			next = g_list_next (link);
+
+			if (e_source_has_extension (source, E_SOURCE_EXTENSION_AUTOCOMPLETE) &&
+			    !e_source_autocomplete_get_include_me (E_SOURCE_AUTOCOMPLETE (e_source_get_extension (source, E_SOURCE_EXTENSION_AUTOCOMPLETE)))) {
+				g_object_unref (source);
+				books = g_list_delete_link (books, link);
+			}
+		}
+	} else {
+		ESource *source;
+
+		source = e_source_registry_ref_source (ui_session->priv->registry, book_uid);
+		if (source) {
+			found = mail_ui_session_check_book_contains_sync (ui_session, source, email_address, cancellable, error);
+			g_object_unref (source);
+		} else {
+			g_set_error (error, G_IO_ERROR, G_IO_ERROR_NOT_FOUND, _("Book '%s' not found"), book_uid);
+		}
+	}
+
+	for (link = books; link && !found && !g_cancellable_is_cancelled (cancellable); link = g_list_next (link)) {
+		ESource *source = link->data;
+
+		/* use the error from the first book, if looking in more books */
+		found = mail_ui_session_check_book_contains_sync (ui_session, source, email_address, cancellable, local_error ? NULL : &local_error);
+	}
+
+	g_list_free_full (books, g_object_unref);
+
+	if (!found && local_error)
+		g_propagate_error (error, local_error);
+	else
+		g_clear_error (&local_error);
+
+	return found;
+}
+
 static void
 mail_ui_session_user_alert (CamelSession *session,
                             CamelService *service,
@@ -999,6 +1104,7 @@ e_mail_ui_session_class_init (EMailUISessionClass *class)
 	session_class->remove_service = mail_ui_session_remove_service;
 	session_class->get_filter_driver = mail_ui_session_get_filter_driver;
 	session_class->lookup_addressbook = mail_ui_session_lookup_addressbook;
+	session_class->addressbook_contains_sync = mail_ui_session_addressbook_contains_sync;
 	session_class->user_alert = mail_ui_session_user_alert;
 	session_class->trust_prompt = mail_ui_session_trust_prompt;
 	session_class->authenticate_sync = mail_ui_session_authenticate_sync;
@@ -1209,10 +1315,8 @@ e_mail_ui_session_check_known_address_sync (EMailUISession *session,
 	EPhotoCache *photo_cache;
 	EClientCache *client_cache;
 	ESourceRegistry *registry;
-	EBookQuery *book_query;
 	GList *list, *link;
 	const gchar *email_address = NULL;
-	gchar *book_query_string;
 	gboolean known_address = FALSE;
 	gboolean success = FALSE;
 
@@ -1243,11 +1347,6 @@ e_mail_ui_session_check_known_address_sync (EMailUISession *session,
 	client_cache = e_photo_cache_ref_client_cache (photo_cache);
 	registry = e_client_cache_ref_registry (client_cache);
 
-	book_query = e_book_query_field_test (
-		E_CONTACT_EMAIL, E_BOOK_QUERY_IS, email_address);
-	book_query_string = e_book_query_to_string (book_query);
-	e_book_query_unref (book_query);
-
 	if (check_local_only) {
 		ESource *source;
 
@@ -1263,7 +1362,6 @@ e_mail_ui_session_check_known_address_sync (EMailUISession *session,
 	for (link = list; link != NULL && !g_cancellable_is_cancelled (cancellable); link = g_list_next (link)) {
 		ESource *source = E_SOURCE (link->data);
 		EClient *client;
-		GSList *uids = NULL;
 		GError *local_error = NULL;
 
 		/* Skip disabled sources. */
@@ -1290,30 +1388,23 @@ e_mail_ui_session_check_known_address_sync (EMailUISession *session,
 			break;
 		}
 
-		success = e_book_client_get_contacts_uids_sync (
-			E_BOOK_CLIENT (client), book_query_string,
-			&uids, cancellable, &local_error);
+		success = e_book_client_contains_email_sync (
+			E_BOOK_CLIENT (client), email_address,
+			cancellable, &local_error);
 
 		g_object_unref (client);
 
 		if (!success) {
-			g_warn_if_fail (uids == NULL);
-
 			/* ignore book-specific errors here and continue with the next */
 			g_clear_error (&local_error);
 			continue;
 		}
 
-		if (uids != NULL) {
-			g_slist_free_full (uids, (GDestroyNotify) g_free);
-			known_address = TRUE;
-			break;
-		}
+		known_address = TRUE;
+		break;
 	}
 
 	g_list_free_full (list, (GDestroyNotify) g_object_unref);
-
-	g_free (book_query_string);
 
 	g_object_unref (registry);
 	g_object_unref (client_cache);

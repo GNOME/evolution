@@ -85,6 +85,8 @@ GSList *	e_mail_labels_get_filter_options_without_none
 void		e_mail_labels_get_filter_code	(EFilterElement *element,
 						 GString *out,
 						 EFilterPart *part);
+GSList *	e_mail_addressbook_get_filter_options
+						(void);
 
 G_END_DECLS
 
