@@ -12,8 +12,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: evolution\n"
 "Report-Msgid-Bugs-To: https://gitlab.gnome.org/GNOME/evolution/issues\n"
-"POT-Creation-Date: 2021-09-17 10:05+0000\n"
-"PO-Revision-Date: 2021-09-17 15:24+0300\n"
+"POT-Creation-Date: 2021-09-26 09:26+0000\n"
+"PO-Revision-Date: 2021-09-29 16:03+0300\n"
 "Last-Translator: Yuri Chornoivan <yurchor@ukr.net>\n"
 "Language-Team: Ukrainian <trans-uk@lists.fedoraproject.org>\n"
 "Language: uk\n"
@@ -3560,7 +3560,7 @@ msgid "Contacts"
 msgstr "Контакти"
 
 #: ../data/org.gnome.Evolution.desktop.in.in.h:9
-#: ../src/addressbook/gui/widgets/eab-contact-formatter.c:1005
+#: ../src/addressbook/gui/widgets/eab-contact-formatter.c:1006
 #: ../src/e-util/e-collection-account-wizard.c:855
 #: ../src/e-util/e-send-options.c:544 ../src/e-util/e-webdav-browser.c:532
 #: ../src/modules/calendar/e-cal-shell-view-actions.c:199
@@ -4264,8 +4264,8 @@ msgstr "Параметри"
 #: ../src/e-util/e-categories-dialog.c:80 ../src/e-util/e-category-editor.c:169
 #: ../src/e-util/e-category-editor.c:257 ../src/e-util/e-charset-combo-box.c:99
 #: ../src/e-util/e-collection-account-wizard.c:240
-#: ../src/e-util/e-collection-account-wizard.c:1904
-#: ../src/e-util/e-collection-account-wizard.c:2151
+#: ../src/e-util/e-collection-account-wizard.c:1910
+#: ../src/e-util/e-collection-account-wizard.c:2157
 #: ../src/e-util/e-color-chooser-widget.c:125
 #: ../src/e-util/e-filter-datespec.c:300
 #: ../src/e-util/e-html-editor-actions.c:362
@@ -4363,7 +4363,7 @@ msgstr "Повне _ім'я…"
 
 #: ../src/addressbook/gui/contact-editor/contact-editor.ui.h:23
 #: ../src/addressbook/gui/widgets/eab-contact-formatter.c:920
-#: ../src/addressbook/gui/widgets/eab-contact-formatter.c:1334
+#: ../src/addressbook/gui/widgets/eab-contact-formatter.c:1335
 #: ../src/addressbook/gui/widgets/e-addressbook-view.etspec.h:6
 msgid "Email"
 msgstr "Ел.пошта"
@@ -4483,14 +4483,14 @@ msgid "_Anniversary:"
 msgstr "_Річниця:"
 
 #: ../src/addressbook/gui/contact-editor/contact-editor.ui.h:52
-#: ../src/addressbook/gui/widgets/eab-contact-formatter.c:1051
+#: ../src/addressbook/gui/widgets/eab-contact-formatter.c:1052
 #: ../src/addressbook/gui/widgets/e-addressbook-view.etspec.h:47
 #: ../src/calendar/gui/e-calendar-view.c:2228
 msgid "Anniversary"
 msgstr "Річниця"
 
 #: ../src/addressbook/gui/contact-editor/contact-editor.ui.h:53
-#: ../src/addressbook/gui/widgets/eab-contact-formatter.c:1050
+#: ../src/addressbook/gui/widgets/eab-contact-formatter.c:1051
 #: ../src/addressbook/gui/widgets/e-addressbook-view.etspec.h:46
 #: ../src/calendar/gui/e-calendar-view.c:2227
 msgid "Birthday"
@@ -4541,7 +4541,7 @@ msgstr "Дім"
 
 #: ../src/addressbook/gui/contact-editor/contact-editor.ui.h:63
 #: ../src/addressbook/gui/widgets/eab-contact-formatter.c:84
-#: ../src/addressbook/gui/widgets/eab-contact-formatter.c:1019
+#: ../src/addressbook/gui/widgets/eab-contact-formatter.c:1020
 #: ../src/addressbook/gui/widgets/e-contact-map.c:432
 msgid "Work"
 msgstr "Робота"
@@ -4549,7 +4549,7 @@ msgstr "Робота"
 #: ../src/addressbook/gui/contact-editor/contact-editor.ui.h:64
 #: ../src/addressbook/gui/widgets/eab-contact-formatter.c:86
 #: ../src/addressbook/gui/widgets/eab-contact-formatter.c:528
-#: ../src/addressbook/gui/widgets/eab-contact-formatter.c:1085
+#: ../src/addressbook/gui/widgets/eab-contact-formatter.c:1086
 #: ../src/calendar/gui/e-cal-model.c:3827
 msgid "Other"
 msgstr "Інша"
@@ -5039,127 +5039,136 @@ msgid "Nickname"
 msgstr "Прізвисько"
 
 #: ../src/addressbook/gui/widgets/eab-contact-formatter.c:926
+#: ../src/addressbook/gui/widgets/e-addressbook-view.etspec.h:43
+#: ../src/calendar/gui/e-cal-list-view.etspec.h:6
+#: ../src/calendar/gui/e-memo-table.etspec.h:4
+#: ../src/calendar/gui/e-task-table.etspec.h:12
+#: ../src/e-util/e-categories-dialog.c:85
+msgid "Categories"
+msgstr "Категорії"
+
+#: ../src/addressbook/gui/widgets/eab-contact-formatter.c:927
 msgid "AIM"
 msgstr "AIM"
 
-#: ../src/addressbook/gui/widgets/eab-contact-formatter.c:927
+#: ../src/addressbook/gui/widgets/eab-contact-formatter.c:928
 msgid "GroupWise"
 msgstr "GroupWise"
 
-#: ../src/addressbook/gui/widgets/eab-contact-formatter.c:928
+#: ../src/addressbook/gui/widgets/eab-contact-formatter.c:929
 msgid "ICQ"
 msgstr "ICQ"
 
-#: ../src/addressbook/gui/widgets/eab-contact-formatter.c:929
+#: ../src/addressbook/gui/widgets/eab-contact-formatter.c:930
 msgid "Jabber"
 msgstr "Jabber"
 
-#: ../src/addressbook/gui/widgets/eab-contact-formatter.c:930
+#: ../src/addressbook/gui/widgets/eab-contact-formatter.c:931
 msgid "MSN"
 msgstr "MSN"
 
-#: ../src/addressbook/gui/widgets/eab-contact-formatter.c:931
+#: ../src/addressbook/gui/widgets/eab-contact-formatter.c:932
 msgid "Yahoo"
 msgstr "Yahoo"
 
-#: ../src/addressbook/gui/widgets/eab-contact-formatter.c:932
+#: ../src/addressbook/gui/widgets/eab-contact-formatter.c:933
 msgid "Gadu-Gadu"
 msgstr "Gadu-Gadu"
 
-#: ../src/addressbook/gui/widgets/eab-contact-formatter.c:933
+#: ../src/addressbook/gui/widgets/eab-contact-formatter.c:934
 msgid "Skype"
 msgstr "Skype"
 
-#: ../src/addressbook/gui/widgets/eab-contact-formatter.c:934
+#: ../src/addressbook/gui/widgets/eab-contact-formatter.c:935
 msgid "Twitter"
 msgstr "Twitter"
 
-#: ../src/addressbook/gui/widgets/eab-contact-formatter.c:935
+#: ../src/addressbook/gui/widgets/eab-contact-formatter.c:936
 msgid "Matrix"
 msgstr "Matrix"
 
-#: ../src/addressbook/gui/widgets/eab-contact-formatter.c:997
+#: ../src/addressbook/gui/widgets/eab-contact-formatter.c:998
 #: ../src/addressbook/gui/widgets/e-addressbook-view.etspec.h:34
 msgid "Company"
 msgstr "Компанія"
 
-#: ../src/addressbook/gui/widgets/eab-contact-formatter.c:998
+#: ../src/addressbook/gui/widgets/eab-contact-formatter.c:999
 msgid "Department"
 msgstr "Відділ"
 
-#: ../src/addressbook/gui/widgets/eab-contact-formatter.c:999
+#: ../src/addressbook/gui/widgets/eab-contact-formatter.c:1000
 #: ../src/addressbook/gui/widgets/e-addressbook-view.etspec.h:36
 msgid "Office"
 msgstr "Офіс"
 
-#: ../src/addressbook/gui/widgets/eab-contact-formatter.c:1000
+#: ../src/addressbook/gui/widgets/eab-contact-formatter.c:1001
 msgid "Profession"
 msgstr "Фах"
 
-#: ../src/addressbook/gui/widgets/eab-contact-formatter.c:1001
+#: ../src/addressbook/gui/widgets/eab-contact-formatter.c:1002
 msgid "Position"
 msgstr "Посада"
 
-#: ../src/addressbook/gui/widgets/eab-contact-formatter.c:1002
+#: ../src/addressbook/gui/widgets/eab-contact-formatter.c:1003
 #: ../src/addressbook/gui/widgets/e-addressbook-view.etspec.h:39
 msgid "Manager"
 msgstr "Керівник"
 
-#: ../src/addressbook/gui/widgets/eab-contact-formatter.c:1003
+#: ../src/addressbook/gui/widgets/eab-contact-formatter.c:1004
 #: ../src/addressbook/gui/widgets/e-addressbook-view.etspec.h:40
 msgid "Assistant"
 msgstr "Помічник"
 
-#: ../src/addressbook/gui/widgets/eab-contact-formatter.c:1004
+#: ../src/addressbook/gui/widgets/eab-contact-formatter.c:1005
 msgid "Video Chat"
 msgstr "Відеочат"
 
-#: ../src/addressbook/gui/widgets/eab-contact-formatter.c:1006
+#: ../src/addressbook/gui/widgets/eab-contact-formatter.c:1007
 #: ../src/plugins/publish-calendar/publish-calendar.ui.h:2
 msgid "Free/Busy"
 msgstr "Зайнятий/вільний"
 
-#: ../src/addressbook/gui/widgets/eab-contact-formatter.c:1009
-#: ../src/addressbook/gui/widgets/eab-contact-formatter.c:1049
-#: ../src/addressbook/gui/widgets/eab-contact-formatter.c:1075
+#: ../src/addressbook/gui/widgets/eab-contact-formatter.c:1010
+#: ../src/addressbook/gui/widgets/eab-contact-formatter.c:1050
+#: ../src/addressbook/gui/widgets/eab-contact-formatter.c:1076
 msgid "Address"
 msgstr "Адреса"
 
-#: ../src/addressbook/gui/widgets/eab-contact-formatter.c:1045
+#: ../src/addressbook/gui/widgets/eab-contact-formatter.c:1046
 msgid "Home Page"
 msgstr "Домашня сторінка"
 
-#: ../src/addressbook/gui/widgets/eab-contact-formatter.c:1046
+#: ../src/addressbook/gui/widgets/eab-contact-formatter.c:1047
 msgid "Web Log"
 msgstr "Веб-журнал"
 
-#: ../src/addressbook/gui/widgets/eab-contact-formatter.c:1052
+#: ../src/addressbook/gui/widgets/eab-contact-formatter.c:1053
 #: ../src/addressbook/gui/widgets/e-addressbook-view.etspec.h:44
 msgid "Spouse"
 msgstr "Дружина"
 
-#: ../src/addressbook/gui/widgets/eab-contact-formatter.c:1062
+#: ../src/addressbook/gui/widgets/eab-contact-formatter.c:1063
 msgid "Personal"
 msgstr "Особисте"
 
-#: ../src/addressbook/gui/widgets/eab-contact-formatter.c:1107
+#: ../src/addressbook/gui/widgets/eab-contact-formatter.c:1108
 #: ../src/addressbook/gui/widgets/e-addressbook-view.etspec.h:45
 msgid "Note"
 msgstr "Примітка"
 
-#: ../src/addressbook/gui/widgets/eab-contact-formatter.c:1296
+#: ../src/addressbook/gui/widgets/eab-contact-formatter.c:1297
 msgid "List Members"
 msgstr "Учасники списку"
 
-#: ../src/addressbook/gui/widgets/eab-contact-formatter.c:1319
+#: ../src/addressbook/gui/widgets/eab-contact-formatter.c:1320
 msgid "Job Title"
 msgstr "Посада"
 
-#: ../src/addressbook/gui/widgets/eab-contact-formatter.c:1360
+#: ../src/addressbook/gui/widgets/eab-contact-formatter.c:1361
 msgid "Home page"
 msgstr "Домашня сторінка"
 
-#: ../src/addressbook/gui/widgets/eab-contact-formatter.c:1370
+#: ../src/addressbook/gui/widgets/eab-contact-formatter.c:1371
 msgid "Blog"
 msgstr "Блог"
 
@@ -5572,14 +5581,6 @@ msgstr "Сайт"
 #: ../src/addressbook/gui/widgets/e-addressbook-view.etspec.h:42
 msgid "Journal"
 msgstr "Журнал"
-
-#: ../src/addressbook/gui/widgets/e-addressbook-view.etspec.h:43
-#: ../src/calendar/gui/e-cal-list-view.etspec.h:6
-#: ../src/calendar/gui/e-memo-table.etspec.h:4
-#: ../src/calendar/gui/e-task-table.etspec.h:12
-#: ../src/e-util/e-categories-dialog.c:85
-msgid "Categories"
-msgstr "Категорії"
 
 #: ../src/addressbook/gui/widgets/ea-minicard.c:31
 msgid "Open"
@@ -6576,7 +6577,7 @@ msgstr "не містить"
 #: ../src/calendar/gui/memotypes.xml.in.h:4
 #: ../src/calendar/gui/tasktypes.xml.in.h:4
 #: ../src/e-util/e-attachment-tree-view.c:147
-#: ../src/e-util/e-collection-account-wizard.c:2002
+#: ../src/e-util/e-collection-account-wizard.c:2008
 #: ../src/e-util/e-table-config.ui.h:20
 #: ../src/modules/plugin-manager/evolution-plugin-manager.c:66
 msgid "Description"
@@ -7448,7 +7449,7 @@ msgstr "Стан"
 #: ../src/calendar/gui/e-task-table.etspec.h:3
 #: ../src/e-util/e-accounts-window.c:1443
 #: ../src/e-util/e-attachment-tree-view.c:205
-#: ../src/e-util/e-collection-account-wizard.c:2043
+#: ../src/e-util/e-collection-account-wizard.c:2049
 #: ../src/e-util/e-webdav-browser.c:2528
 #: ../src/mail/e-mail-account-tree-view.c:158
 msgid "Type"
@@ -7817,7 +7818,7 @@ msgstr "Час початку — недійсний час"
 #: ../src/em-format/e-mail-part-secure-button.c:97
 #: ../src/e-util/e-misc-utils.c:4005 ../src/e-util/e-misc-utils.c:4040
 #: ../src/e-util/e-misc-utils.c:4053 ../src/e-util/e-misc-utils.c:4067
-#: ../src/mail/e-mail-autoconfig.c:1041 ../src/mail/e-mail-display.c:2449
+#: ../src/mail/e-mail-autoconfig.c:1122 ../src/mail/e-mail-display.c:2449
 #: ../src/mail/e-mail-notes.c:877 ../src/mail/e-mail-reader-utils.c:805
 #: ../src/mail/em-composer-utils.c:3843 ../src/mail/em-composer-utils.c:3874
 #: ../src/mail/mail-send-recv.c:598 ../src/mail/mail-send-recv.c:1493
@@ -11769,7 +11770,7 @@ msgid "Save Draft"
 msgstr "Зберегти _чернетку"
 
 #: ../src/composer/e-composer-from-header.c:108
-#: ../src/e-util/e-collection-account-wizard.c:2075
+#: ../src/e-util/e-collection-account-wizard.c:2081
 #: ../src/e-util/e-mail-signature-script-dialog.c:408
 #: ../src/e-util/e-webdav-browser.c:2555
 #: ../src/e-util/gal-view-instance-save-as-dialog.ui.h:2
@@ -12459,6 +12460,16 @@ msgstr "Зашифровано:"
 msgid "Display source of a MIME part"
 msgstr "Показати джерело частини MIME"
 
+#: ../src/em-format/e-mail-formatter-text-markdown.c:176
+#| msgid "Plain Text"
+msgid "Markdown Text"
+msgstr "Текст Markdown"
+
+#: ../src/em-format/e-mail-formatter-text-markdown.c:177
+#| msgid "Format part as plain text"
+msgid "Format part as markdown text"
+msgstr "Форматувати частину як текст markdown"
+
 #: ../src/em-format/e-mail-formatter-utils.c:212
 #: ../src/em-format/e-mail-formatter-utils.c:237
 #: ../src/em-format/e-mail-part-headers.c:48
@@ -13043,25 +13054,25 @@ msgstr "Копіювати список завдань календаря для
 msgid "Copy memo list contents locally for offline operation"
 msgstr "Копіювати вміст списку приміток для автономної роботи"
 
-#: ../src/e-util/e-categories-editor.c:251
+#: ../src/e-util/e-categories-editor.c:269
 msgid "Currently _used categories:"
 msgstr "Поточно _використовувані категорії:"
 
-#: ../src/e-util/e-categories-editor.c:262
+#: ../src/e-util/e-categories-editor.c:280
 msgid "_Available Categories:"
 msgstr "_Наявні категорії:"
 
-#: ../src/e-util/e-categories-editor.c:302
+#: ../src/e-util/e-categories-editor.c:320
 msgctxt "category"
 msgid "_New"
 msgstr "_Створити"
 
-#: ../src/e-util/e-categories-editor.c:306
+#: ../src/e-util/e-categories-editor.c:324
 msgctxt "category"
 msgid "_Edit"
 msgstr "_Редагувати"
 
-#: ../src/e-util/e-categories-editor.c:310
+#: ../src/e-util/e-categories-editor.c:328
 msgctxt "category"
 msgid "_Delete"
 msgstr "В_илучити"
@@ -13358,42 +13369,42 @@ msgstr "Список приміток"
 msgid "Task List"
 msgstr "Список завдань"
 
-#: ../src/e-util/e-collection-account-wizard.c:1195
+#: ../src/e-util/e-collection-account-wizard.c:1201
 msgid "Looking up LDAP server’s search base…"
 msgstr "Пошук у базі сервера LDAP…"
 
-#: ../src/e-util/e-collection-account-wizard.c:1343
+#: ../src/e-util/e-collection-account-wizard.c:1349
 msgid "Failed to store password: "
 msgstr "Не вдалося зберегти пароль: "
 
-#: ../src/e-util/e-collection-account-wizard.c:1353
+#: ../src/e-util/e-collection-account-wizard.c:1359
 msgid "Failed to create sources: "
 msgstr "Не вдалося створити джерела: "
 
-#: ../src/e-util/e-collection-account-wizard.c:1520
+#: ../src/e-util/e-collection-account-wizard.c:1526
 msgid "Saving account settings, please wait…"
 msgstr "Збереження параметрів облікового запису, зачекайте…"
 
-#: ../src/e-util/e-collection-account-wizard.c:1672
+#: ../src/e-util/e-collection-account-wizard.c:1678
 msgid "User details"
 msgstr "Подробиці користувача"
 
-#: ../src/e-util/e-collection-account-wizard.c:1685
+#: ../src/e-util/e-collection-account-wizard.c:1691
 msgid "_Email Address or User name:"
 msgstr "_Електронна адреса чи ім'я користувача:"
 
-#: ../src/e-util/e-collection-account-wizard.c:1716
+#: ../src/e-util/e-collection-account-wizard.c:1722
 msgid "_Advanced Options"
 msgstr "_Додаткові параметри"
 
-#: ../src/e-util/e-collection-account-wizard.c:1721
+#: ../src/e-util/e-collection-account-wizard.c:1727
 #: ../src/modules/mail-config/e-mail-config-remote-accounts.c:217
 #: ../src/modules/mail-config/e-mail-config-smtp-backend.c:173
 #: ../src/plugins/publish-calendar/publish-calendar.ui.h:25
 msgid "_Server:"
 msgstr "_Сервер:"
 
-#: ../src/e-util/e-collection-account-wizard.c:1740
+#: ../src/e-util/e-collection-account-wizard.c:1746
 msgid ""
 "Semicolon (“;”) separated list of servers to look up information for, in "
 "addition to the domain of the e-mail address."
@@ -13401,11 +13412,11 @@ msgstr ""
 "Список через крапку з комою серверів для пошуку відомостей, додаткових щодо "
 "домену електронної адреси."
 
-#: ../src/e-util/e-collection-account-wizard.c:1942
+#: ../src/e-util/e-collection-account-wizard.c:1948
 msgid "Select which parts should be configured:"
 msgstr "Виберіть, які частини потрібно налаштувати:"
 
-#: ../src/e-util/e-collection-account-wizard.c:2066
+#: ../src/e-util/e-collection-account-wizard.c:2072
 #: ../src/mail/e-mail-config-identity-page.c:542
 #: ../src/mail/e-mail-config-summary-page.c:318
 msgid "Account Information"
@@ -14044,7 +14055,7 @@ msgstr "Знайти елементи, що відповідають вказа�
 #: ../src/e-util/e-mail-identity-combo-box.c:798
 #: ../src/e-util/e-mail-signature-combo-box.c:422
 #: ../src/libemail-engine/camel-null-store.c:29
-#: ../src/mail/e-mail-autoconfig.c:778
+#: ../src/mail/e-mail-autoconfig.c:856
 #: ../src/mail/e-mail-config-summary-page.c:143
 #: ../src/modules/book-config-ldap/evolution-book-config-ldap.c:684
 msgid "None"
@@ -15431,7 +15442,6 @@ msgstr "Не вдалося встановити версію протоколу
 
 #: ../src/e-util/e-misc-utils.c:4039
 #, c-format
-#| msgid "Failed to spawn SpamAssassin (%s): "
 msgid "Failed to use STARTTLS (%d): %s"
 msgstr "Не вдалося скористатися STARTTLS (%d): %s"
 
@@ -16396,7 +16406,8 @@ msgstr "Ознаки"
 msgid "Identity"
 msgstr "Особисті дані"
 
-#: ../src/e-util/e-webdav-browser.c:510
+#: ../src/e-util/e-webdav-browser.c:510 ../src/mail/filtertypes.xml.in.h:64
+#: ../src/mail/searchtypes.xml.in.h:56 ../src/mail/vfoldertypes.xml.in.h:58
 msgid "Address book"
 msgstr "Адресна книга"
 
@@ -17241,62 +17252,62 @@ msgstr "Можете перетягувати назви облікових за
 msgid "De_fault"
 msgstr "Зробити _типовим"
 
-#: ../src/mail/e-mail-autoconfig.c:436
+#: ../src/mail/e-mail-autoconfig.c:511
 #, c-format
 msgid "Invalid URI: “%s”"
 msgstr "Недійсна адреса URI: “%s”"
 
-#: ../src/mail/e-mail-autoconfig.c:768
+#: ../src/mail/e-mail-autoconfig.c:846
 #, c-format
 msgid "Host: %s:%d"
 msgstr "Вузол: %s:%d"
 
-#: ../src/mail/e-mail-autoconfig.c:772
+#: ../src/mail/e-mail-autoconfig.c:850
 #, c-format
 msgid "User: %s"
 msgstr "Користувач: %s"
 
-#: ../src/mail/e-mail-autoconfig.c:776
+#: ../src/mail/e-mail-autoconfig.c:854
 #, c-format
 msgid "Security method: %s"
 msgstr "Метод захисту: %s"
 
-#: ../src/mail/e-mail-autoconfig.c:777
+#: ../src/mail/e-mail-autoconfig.c:855
 #: ../src/mail/e-mail-config-summary-page.c:146
 msgid "TLS"
 msgstr "TLS"
 
-#: ../src/mail/e-mail-autoconfig.c:778
+#: ../src/mail/e-mail-autoconfig.c:856
 #: ../src/mail/e-mail-config-summary-page.c:149
 msgid "STARTTLS"
 msgstr "STARTTLS"
 
-#: ../src/mail/e-mail-autoconfig.c:782
+#: ../src/mail/e-mail-autoconfig.c:860
 #, c-format
 msgid "Authentication mechanism: %s"
 msgstr "Механізм автентифікації: %s"
 
-#: ../src/mail/e-mail-autoconfig.c:962
+#: ../src/mail/e-mail-autoconfig.c:1043
 msgid "No email address provided"
 msgstr "Не надано поштової адреси"
 
-#: ../src/mail/e-mail-autoconfig.c:971
+#: ../src/mail/e-mail-autoconfig.c:1052
 msgid "Missing domain in email address"
 msgstr "Немає домену в поштовій адресі"
 
-#: ../src/mail/e-mail-autoconfig.c:1321
+#: ../src/mail/e-mail-autoconfig.c:1412
 #: ../src/modules/config-lookup/e-srv-config-lookup.c:87
 #: ../src/modules/config-lookup/e-srv-config-lookup.c:88
 msgid "IMAP server"
 msgstr "Сервер IMAP"
 
-#: ../src/mail/e-mail-autoconfig.c:1328
+#: ../src/mail/e-mail-autoconfig.c:1419
 #: ../src/modules/config-lookup/e-srv-config-lookup.c:89
 #: ../src/modules/config-lookup/e-srv-config-lookup.c:90
 msgid "POP3 server"
 msgstr "Сервер POP3"
 
-#: ../src/mail/e-mail-autoconfig.c:1335
+#: ../src/mail/e-mail-autoconfig.c:1426
 #: ../src/modules/config-lookup/e-srv-config-lookup.c:91
 #: ../src/modules/config-lookup/e-srv-config-lookup.c:92
 msgid "SMTP server"
@@ -18074,11 +18085,11 @@ msgstr "Заголовки"
 msgid "Page %d of %d"
 msgstr "Сторінка %d з %d"
 
-#: ../src/mail/e-mail-reader.c:359 ../src/mail/filtertypes.xml.in.h:65
+#: ../src/mail/e-mail-reader.c:359 ../src/mail/filtertypes.xml.in.h:68
 msgid "Move to Folder"
 msgstr "Перемістити в теку"
 
-#: ../src/mail/e-mail-reader.c:359 ../src/mail/filtertypes.xml.in.h:66
+#: ../src/mail/e-mail-reader.c:359 ../src/mail/filtertypes.xml.in.h:69
 msgid "Copy to Folder"
 msgstr "Скопіювати у теку"
 
@@ -18767,7 +18778,7 @@ msgstr "Групувати відповіді"
 msgid "Reply to the mailing list, or to all recipients"
 msgstr "Відповісти у список листування або всім одержувачам"
 
-#: ../src/mail/e-mail-reader.c:5206 ../src/mail/filtertypes.xml.in.h:67
+#: ../src/mail/e-mail-reader.c:5206 ../src/mail/filtertypes.xml.in.h:70
 msgid "Delete"
 msgstr "Вилучити"
 
@@ -18910,12 +18921,18 @@ msgstr "О_чистити"
 msgid "No Title"
 msgstr "Немає заголовку"
 
-#: ../src/mail/e-mail-ui-session.c:857 ../src/mail/e-mail-ui-session.c:929
+#: ../src/mail/e-mail-ui-session.c:706
+#, c-format
+msgid "Book '%s' not found"
+msgstr ""
+"Книгу «%s» не знайдено"
+
+#: ../src/mail/e-mail-ui-session.c:962 ../src/mail/e-mail-ui-session.c:1034
 #, c-format
 msgid "No data source found for UID “%s”"
 msgstr "Немає джерела даних для унікальний ідентифікатора «%s»"
 
-#: ../src/mail/e-mail-ui-session.c:879
+#: ../src/mail/e-mail-ui-session.c:984
 #, c-format
 msgid "%s authentication failed"
 msgstr "Не вдалось розпізнати %s"
@@ -19791,65 +19808,77 @@ msgstr "Повідомлення не є спамом"
 msgid "Message Location"
 msgstr "Місцезнаходження повідомлення"
 
-#: ../src/mail/filtertypes.xml.in.h:64 ../src/mail/searchtypes.xml.in.h:56
-#: ../src/mail/vfoldertypes.xml.in.h:58
+#: ../src/mail/filtertypes.xml.in.h:65 ../src/mail/searchtypes.xml.in.h:57
+#: ../src/mail/vfoldertypes.xml.in.h:59
+#| msgid "contains"
+msgid "contains Sender"
+msgstr "містить відправника"
+
+#: ../src/mail/filtertypes.xml.in.h:66 ../src/mail/searchtypes.xml.in.h:58
+#: ../src/mail/vfoldertypes.xml.in.h:60
+#| msgid "does not contain"
+msgid "does not contain Sender"
+msgstr "не містить відправника"
+
+#: ../src/mail/filtertypes.xml.in.h:67 ../src/mail/searchtypes.xml.in.h:59
+#: ../src/mail/vfoldertypes.xml.in.h:61
 msgid "Match All"
 msgstr "Відповідає усім"
 
-#: ../src/mail/filtertypes.xml.in.h:68
+#: ../src/mail/filtertypes.xml.in.h:71
 msgid "Stop Processing"
 msgstr "Зупинити обробку"
 
-#: ../src/mail/filtertypes.xml.in.h:69
+#: ../src/mail/filtertypes.xml.in.h:72
 msgid "Set Label"
 msgstr "Встановити позначку"
 
-#: ../src/mail/filtertypes.xml.in.h:70
+#: ../src/mail/filtertypes.xml.in.h:73
 msgid "Assign Color"
 msgstr "Призначити колір"
 
-#: ../src/mail/filtertypes.xml.in.h:71
+#: ../src/mail/filtertypes.xml.in.h:74
 msgid "Unset Color"
 msgstr "Невказаний колір"
 
-#: ../src/mail/filtertypes.xml.in.h:72
+#: ../src/mail/filtertypes.xml.in.h:75
 msgid "Assign Score"
 msgstr "Призначити вагу"
 
-#: ../src/mail/filtertypes.xml.in.h:73
+#: ../src/mail/filtertypes.xml.in.h:76
 msgid "Adjust Score"
 msgstr "Скоригувати вагу"
 
-#: ../src/mail/filtertypes.xml.in.h:74
+#: ../src/mail/filtertypes.xml.in.h:77
 msgid "Set Status"
 msgstr "Встановити стан"
 
-#: ../src/mail/filtertypes.xml.in.h:75 ../src/mail/searchtypes.xml.in.h:40
+#: ../src/mail/filtertypes.xml.in.h:78 ../src/mail/searchtypes.xml.in.h:40
 #: ../src/mail/vfoldertypes.xml.in.h:40
 msgid "Deleted"
 msgstr "Вилучено"
 
-#: ../src/mail/filtertypes.xml.in.h:76
+#: ../src/mail/filtertypes.xml.in.h:79
 msgid "Unset Status"
 msgstr "Скинути стан"
 
-#: ../src/mail/filtertypes.xml.in.h:77
+#: ../src/mail/filtertypes.xml.in.h:80
 msgid "Beep"
 msgstr "Звукове повідомлення"
 
-#: ../src/mail/filtertypes.xml.in.h:78
+#: ../src/mail/filtertypes.xml.in.h:81
 msgid "Play Sound"
 msgstr "Відтворити звук"
 
-#: ../src/mail/filtertypes.xml.in.h:79
+#: ../src/mail/filtertypes.xml.in.h:82
 msgid "Run Program"
 msgstr "Запустити програму"
 
-#: ../src/mail/filtertypes.xml.in.h:80
+#: ../src/mail/filtertypes.xml.in.h:83
 msgid "Forward to"
 msgstr "Переслати"
 
-#: ../src/mail/filtertypes.xml.in.h:81
+#: ../src/mail/filtertypes.xml.in.h:84
 msgid "with"
 msgstr "з"
 
@@ -21688,36 +21717,36 @@ msgstr "Пошта отримувачів"
 msgid "Any header"
 msgstr "Будь-який заголовок"
 
-#: ../src/mail/searchtypes.xml.in.h:57
+#: ../src/mail/searchtypes.xml.in.h:60
 msgid "Subject or Addresses contains"
 msgstr "Тема або адреси містять"
 
-#: ../src/mail/searchtypes.xml.in.h:58
+#: ../src/mail/searchtypes.xml.in.h:61
 #: ../src/modules/mail/e-mail-shell-view-actions.c:2105
 msgid "Recipients contain"
 msgstr "Отримувач містять"
 
-#: ../src/mail/searchtypes.xml.in.h:59
+#: ../src/mail/searchtypes.xml.in.h:62
 #: ../src/modules/mail/e-mail-shell-view-actions.c:2098
 msgid "Message contains"
 msgstr "Повідомлення містить"
 
-#: ../src/mail/searchtypes.xml.in.h:60
+#: ../src/mail/searchtypes.xml.in.h:63
 #: ../src/modules/mail/e-mail-shell-view-actions.c:2119
 msgid "Subject contains"
 msgstr "Тема містить"
 
-#: ../src/mail/searchtypes.xml.in.h:61
+#: ../src/mail/searchtypes.xml.in.h:64
 #: ../src/modules/mail/e-mail-shell-view-actions.c:2112
 msgid "Sender contains"
 msgstr "Відправник містить"
 
-#: ../src/mail/searchtypes.xml.in.h:62
+#: ../src/mail/searchtypes.xml.in.h:65
 #: ../src/modules/mail/e-mail-shell-view-actions.c:2084
 msgid "Body contains"
 msgstr "Вміст містить"
 
-#: ../src/mail/searchtypes.xml.in.h:63
+#: ../src/mail/searchtypes.xml.in.h:66
 #: ../src/modules/mail/e-mail-shell-view-actions.c:2091
 msgid "Free form expression"
 msgstr "Вираз у довільній формі"
@@ -25221,6 +25250,21 @@ msgstr "Параметри мережі"
 msgctxt "label"
 msgid "None"
 msgstr "Немає"
+
+#. Translators: Meaning "any configured addressbook included in autocompletion" in the filter dialog
+#: ../src/modules/mail/e-mail-shell-backend.c:1707
+#| msgid "Autocompletion"
+msgctxt "addrbook"
+msgid "Included in Autocompletion"
+msgstr "Включені до автодоповнення"
+
+#. Translators: Meaning "any configured addressbook" in the filter dialog
+#: ../src/modules/mail/e-mail-shell-backend.c:1713
+#| msgctxt "mail-filter-rule"
+#| msgid "Any"
+msgctxt "addrbook"
+msgid "Any"
+msgstr "Будь-яка"
 
 #: ../src/modules/mail/e-mail-shell-view-actions.c:853
 msgid "Marking messages as read…"
