@@ -30,12 +30,12 @@
 static void
 test_create_editor (TestFixture *fixture)
 {
-	g_assert (fixture->editor != NULL);
+	g_assert_true (fixture->editor != NULL);
 	g_assert_cmpstr (e_html_editor_get_content_editor_name (fixture->editor), ==, DEFAULT_CONTENT_EDITOR_NAME);
 
 	/* test of the test function */
-	g_assert (test_utils_html_equal (fixture, "<span>a</span>", "<sPaN>a</spaN>"));
-	g_assert (!test_utils_html_equal (fixture, "<span>A</span>", "<sPaN>a</spaN>"));
+	g_assert_true (test_utils_html_equal (fixture, "<span>a</span>", "<sPaN>a</spaN>"));
+	g_assert_true (!test_utils_html_equal (fixture, "<span>A</span>", "<sPaN>a</spaN>"));
 }
 
 static void

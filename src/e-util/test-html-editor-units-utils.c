@@ -97,7 +97,7 @@ get_editor_content_hash_ready_cb (GObject *source_object,
 	GError *error = NULL;
 
 	g_assert_nonnull (gcd);
-	g_assert (E_IS_CONTENT_EDITOR (source_object));
+	g_assert_true (E_IS_CONTENT_EDITOR (source_object));
 
 	gcd->content_hash = e_content_editor_get_content_finish (E_CONTENT_EDITOR (source_object), result, &error);
 
@@ -114,14 +114,14 @@ test_utils_get_editor_content_hash_sync (EContentEditor *cnt_editor,
 {
 	GetContentData gcd;
 
-	g_assert (E_IS_CONTENT_EDITOR (cnt_editor));
+	g_assert_true (E_IS_CONTENT_EDITOR (cnt_editor));
 
 	gcd.content_hash = NULL;
 	gcd.async_data = test_utils_async_call_prepare ();
 
 	e_content_editor_get_content (cnt_editor, flags, "test-domain", NULL, get_editor_content_hash_ready_cb, &gcd);
 
-	g_assert (test_utils_async_call_wait (gcd.async_data, MAX (event_processing_delay_ms / 25, 1) + 1));
+	g_assert_true (test_utils_async_call_wait (gcd.async_data, MAX (event_processing_delay_ms / 25, 1) + 1));
 	g_assert_nonnull (gcd.content_hash);
 
 	return gcd.content_hash;
@@ -717,7 +717,7 @@ test_html_equal_done_cb (GObject *source_object,
 
 	js_value = webkit_javascript_result_get_js_value (js_result);
 	g_assert_nonnull (js_value);
-	g_assert (jsc_value_is_boolean (js_value));
+	g_assert_true (jsc_value_is_boolean (js_value));
 
 	hed->equal = jsc_value_to_boolean (js_value);
 
