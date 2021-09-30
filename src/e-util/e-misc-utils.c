@@ -4586,6 +4586,7 @@ e_util_get_uri_tooltip (const gchar *uri)
 	curl = camel_url_new (uri, NULL);
 	address = camel_internet_address_new ();
 	camel_address_decode (CAMEL_ADDRESS (address), curl->path);
+	camel_internet_address_sanitize_ascii_domain (address);
 	who = camel_address_format (CAMEL_ADDRESS (address));
 	g_object_unref (address);
 	camel_url_free (curl);

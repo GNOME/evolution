@@ -128,7 +128,7 @@ e_mail_formatter_format_address (EMailFormatter *formatter,
                                  gboolean elipsize)
 {
 	CamelMimeFilterToHTMLFlags flags;
-	gchar *name, *mailto, *addr;
+	gchar *name, *mailto, *addr, *sanitized_addr;
 	gint i = 0;
 	gchar *str = NULL;
 	gint limit = mail_config_get_address_count ();
@@ -148,6 +148,7 @@ e_mail_formatter_format_address (EMailFormatter *formatter,
 
 		switch (a->type) {
 		case CAMEL_HEADER_ADDRESS_NAME:
+			sanitized_addr = camel_utils_sanitize_ascii_domain_in_address (a->v.addr, TRUE);
 			if (name != NULL && *name != '\0') {
 				gchar *real, *mailaddr;
 
@@ -162,23 +163,24 @@ e_mail_formatter_format_address (EMailFormatter *formatter,
 
 				/* rfc2368 for mailto syntax and url encoding extras */
 				if ((real = camel_header_encode_phrase ((guchar *) a->name))) {
-					mailaddr = g_strdup_printf ("%s <%s>", real, a->v.addr);
+					mailaddr = g_strdup_printf ("%s <%s>", real, sanitized_addr ? sanitized_addr : a->v.addr);
 					g_free (real);
 					mailto = camel_url_encode (mailaddr, "?=&()");
 					g_free (mailaddr);
 				} else {
-					mailto = camel_url_encode (a->v.addr, "?=&()");
+					mailto = camel_url_encode (sanitized_addr ? sanitized_addr : a->v.addr, "?=&()");
 				}
 			} else {
-				mailto = camel_url_encode (a->v.addr, "?=&()");
+				mailto = camel_url_encode (sanitized_addr ? sanitized_addr : a->v.addr, "?=&()");
 			}
-			addr = camel_text_to_html (a->v.addr, flags, 0);
+			addr = camel_text_to_html (sanitized_addr ? sanitized_addr : a->v.addr, flags, 0);
 			if (no_links)
 				g_string_append_printf (out, "%s", addr);
 			else if (!show_mails && name && *name)
 				g_string_append_printf (out, "<a href=\"mailto:%s\">%s</a>", mailto, name);
 			else
 				g_string_append_printf (out, "<a href=\"mailto:%s\">%s</a>", mailto, addr);
+			g_free (sanitized_addr);
 			g_free (mailto);
 			g_free (addr);
 
