@@ -2950,7 +2950,7 @@ msgid ""
 "Whether to preserve expand state of the folders when calling Copy/Move to "
 "Folder."
 msgstr ""
-"Si s'ha de preservar l'estat d'expansió de les carpetes en cridar Copia/Mou "
+"Si s'ha de conservar l'estat d'expansió de les carpetes en cridar Copia/Mou "
 "a la carpeta."
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:308
@@ -3095,11 +3095,11 @@ msgstr ""
 
 #: ../data/org.gnome.evolution.plugin.autocontacts.gschema.xml.in.h:7
 msgid "Whether to set “File under” field as “First Last”"
-msgstr "Si definir el camp «Format del fitxer» com «Primer Últim»"
+msgstr "Si s'ha de definir el camp «Arxiva com» a «Primer Últim»"
 
 #: ../data/org.gnome.evolution.plugin.autocontacts.gschema.xml.in.h:8
 msgid "Set File under as “First Last”, instead of “Last, First”."
-msgstr "Formata el fitxer en «Primer Últim», en lloc de «Últim, Primer»."
+msgstr "Estableix «Arxiva com» a «Primer Últim», en lloc de «Últim, Primer»."
 
 #: ../data/org.gnome.evolution.plugin.autocontacts.gschema.xml.in.h:9
 msgid "Pidgin address book source"
@@ -4508,7 +4508,7 @@ msgstr "Sobre_nom:"
 
 #: ../src/addressbook/gui/contact-editor/contact-editor.ui.h:19
 msgid "_File under:"
-msgstr "_Format del fitxer:"
+msgstr "_Arxiva com:"
 
 #: ../src/addressbook/gui/contact-editor/contact-editor.ui.h:20
 #: ../src/addressbook/gui/contact-list-editor/contact-list-editor.ui.h:5
@@ -18632,7 +18632,7 @@ msgstr "_Ignora el fil"
 
 #: ../src/mail/e-mail-reader.c:2637
 msgid "Mark new mails in this thread as read automatically"
-msgstr "Marca automàticament els nous missatges d'aquest fil com a llegits"
+msgstr "Marca automàticament els missatges nous d'aquest fil com a llegits"
 
 #: ../src/mail/e-mail-reader.c:2642
 msgid "_Important"
@@ -19341,7 +19341,7 @@ msgstr "Aplica la _plantilla"
 
 #: ../src/mail/em-composer-utils.c:4174
 msgid "Preserve original message S_ubject"
-msgstr "Preserva l'_assumpte del missatge original"
+msgstr "Manté l'_assumpte del missatge original"
 
 #: ../src/mail/em-composer-utils.c:4240
 #, c-format
@@ -20755,7 +20755,7 @@ msgstr "_Cerca només a les llibretes d'adreces locals"
 
 #: ../src/mail/mail-config.ui.h:143
 msgid "Check cu_stom headers for junk"
-msgstr "Comprova s_i les capçaleres personalitzades són brossa"
+msgstr "_Comprova les capçaleres personalitzades per a identificar brossa"
 
 #: ../src/mail/mail-config.ui.h:145
 #: ../src/modules/mail-config/e-mail-config-remote-accounts.c:303
@@ -21375,7 +21375,7 @@ msgid ""
 "Cannot read the license file “{0}”, due to an installation problem. You will"
 " not be able to use this provider until you can accept its license."
 msgstr ""
-"No es pot llegir el fitxer de llicència «{0}» degut a un problema "
+"No es pot llegir el fitxer de llicència «{0}» a causa d'un problema "
 "d'instal·lació. No podreu utilitzar aquest proveïdor fins que no n'accepteu "
 "la llicència."
 
@@ -26677,7 +26677,7 @@ msgstr "Crea _entrades a la llibreta d'adreces en enviar correus"
 #. File Under setting
 #: ../src/plugins/bbdb/bbdb.c:741
 msgid "Set File _under as “First Last”, instead of “Last, First”"
-msgstr "_Formata el fitxer en «Primer Últim», en lloc de «Últim, Primer»"
+msgstr "_Estableix «arxiva com» a «Primer Últim», en lloc de «Últim, Primer»"
 
 #: ../src/plugins/bbdb/bbdb.c:752
 msgid "Select Address book for Automatic Contacts"
