@@ -30,6 +30,8 @@ if(WIN32)
 	)
 endif(WIN32)
 
+glib_compile_resources(${CMAKE_SOURCE_DIR}/data/ ${CMAKE_CURRENT_BINARY_DIR}/org.gnome.Evolution.gresource org_gnome_evolution ../../data/org.gnome.Evolution.gresource.xml ${CMAKE_SOURCE_DIR}/data/emoji.data)
+
 # Main libevolution-util
 
 set(DEPENDENCIES
@@ -309,6 +311,8 @@ set(SOURCES
 	${PLATFORM_SOURCES}
 	${CMAKE_CURRENT_BINARY_DIR}/e-marshal.c
 	${CMAKE_CURRENT_BINARY_DIR}/e-util-enumtypes.c
+	${CMAKE_CURRENT_BINARY_DIR}/org.gnome.Evolution.gresource.c
+	${CMAKE_CURRENT_BINARY_DIR}/org.gnome.Evolution.gresource.h
 )
 
 set(HEADERS
