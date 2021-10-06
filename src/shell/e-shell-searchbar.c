@@ -688,7 +688,7 @@ shell_searchbar_constructed (GObject *object)
 		shell_view, "custom-search",
 		G_CALLBACK (shell_searchbar_custom_search_cb), searchbar);
 
-	g_signal_connect_after (
+	g_signal_connect (
 		shell_view, "execute-search",
 		G_CALLBACK (shell_searchbar_execute_search_cb), searchbar);
 

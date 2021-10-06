@@ -1068,7 +1068,7 @@ e_shell_view_class_init (EShellViewClass *class)
 	signals[EXECUTE_SEARCH] = g_signal_new (
 		"execute-search",
 		G_OBJECT_CLASS_TYPE (object_class),
-		G_SIGNAL_RUN_FIRST,
+		G_SIGNAL_RUN_LAST,
 		G_STRUCT_OFFSET (EShellViewClass, execute_search),
 		NULL, NULL,
 		g_cclosure_marshal_VOID__VOID,
