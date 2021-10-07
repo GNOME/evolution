@@ -2169,6 +2169,8 @@ outbox_data_free (gpointer ptr)
  * @folder: a #CamelFolder
  * @message: a #CamelMimeMessage
  * @message_uid: UID of @message, or %NULL
+ * @keep_signature: whether to keep signature in the original message
+ * @replace_original_message: whether can replace the message in the original Draft/Outbox folder
  *
  * Sets up the @composer with the headers/mime-parts/etc of the @message.
  *
@@ -2179,20 +2181,36 @@ em_utils_edit_message (EMsgComposer *composer,
                        CamelFolder *folder,
                        CamelMimeMessage *message,
                        const gchar *message_uid,
-                       gboolean keep_signature)
+                       gboolean keep_signature,
+		       gboolean replace_original_message)
 {
 	ESourceRegistry *registry;
 	ESource *source;
+	CamelFolder *real_folder = NULL, *original_folder = NULL;
 	gboolean folder_is_sent;
 	gboolean folder_is_drafts;
 	gboolean folder_is_outbox;
 	gboolean folder_is_templates;
+	gchar *real_message_uid = NULL;
 	gchar *override_identity_uid = NULL, *override_alias_name = NULL, *override_alias_address = NULL;
 
 	g_return_if_fail (E_IS_MSG_COMPOSER (composer));
 	g_return_if_fail (CAMEL_IS_MIME_MESSAGE (message));
-	if (folder)
+	if (folder) {
 		g_return_if_fail (CAMEL_IS_FOLDER (folder));
+
+		if (CAMEL_IS_VEE_FOLDER (folder) && message_uid) {
+			em_utils_get_real_folder_and_message_uid (folder, message_uid, &real_folder, NULL, &real_message_uid);
+
+			if (real_folder) {
+				original_folder = folder;
+				folder = real_folder;
+			}
+
+			if (real_message_uid)
+				message_uid = real_message_uid;
+		}
+	}
 
 	registry = e_shell_get_registry (e_msg_composer_get_shell (composer));
 
@@ -2222,7 +2240,12 @@ em_utils_edit_message (EMsgComposer *composer,
 			}
 		}
 
-		source = em_utils_check_send_account_override (e_msg_composer_get_shell (composer), message, folder, &override_alias_name, &override_alias_address);
+		source = NULL;
+
+		if (original_folder)
+			source = em_utils_check_send_account_override (e_msg_composer_get_shell (composer), message, original_folder, &override_alias_name, &override_alias_address);
+		if (!source)
+			source = em_utils_check_send_account_override (e_msg_composer_get_shell (composer), message, folder, &override_alias_name, &override_alias_address);
 		if (source) {
 			g_free (override_identity_uid);
 			override_identity_uid = e_source_dup_uid (source);
@@ -2278,7 +2301,7 @@ em_utils_edit_message (EMsgComposer *composer,
 	e_msg_composer_remove_header (
 		composer, "X-Evolution-Replace-Outbox-UID");
 
-	if (message_uid != NULL && folder_is_drafts && folder) {
+	if (message_uid != NULL && folder_is_drafts && folder && replace_original_message) {
 		gchar *folder_uri;
 
 		folder_uri = e_mail_folder_uri_from_folder (folder);
@@ -2288,7 +2311,7 @@ em_utils_edit_message (EMsgComposer *composer,
 
 		g_free (folder_uri);
 
-	} else if (message_uid != NULL && folder_is_outbox) {
+	} else if (message_uid != NULL && folder_is_outbox && replace_original_message) {
 		CamelMessageInfo *info;
 
 		e_msg_composer_set_header (
@@ -2313,6 +2336,9 @@ em_utils_edit_message (EMsgComposer *composer,
 	composer_set_no_change (composer);
 
 	gtk_widget_show (GTK_WIDGET (composer));
+
+	g_clear_object (&real_folder);
+	g_free (real_message_uid);
 }
 
 static void
@@ -3788,7 +3814,7 @@ alt_reply_composer_created_cb (GObject *source_object,
 				e_content_editor_set_html_mode (cnt_editor, (context->flags & E_MAIL_REPLY_FLAG_FORMAT_HTML) != 0);
 			}
 
-			em_utils_edit_message (composer, context->folder, context->new_message, context->message_uid, TRUE);
+			em_utils_edit_message (composer, context->folder, context->new_message, context->message_uid, TRUE, FALSE);
 
 			if (context->type == E_MAIL_REPLY_TO_SENDER) {
 				/* Reply to sender */

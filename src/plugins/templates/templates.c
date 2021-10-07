@@ -594,7 +594,7 @@ create_new_message_composer_created_cb (GObject *source_object,
 	g_return_if_fail (E_IS_MSG_COMPOSER (composer));
 
 	/* Create the composer */
-	em_utils_edit_message (composer, context->template_folder, context->new_message, context->source_message_uid, TRUE);
+	em_utils_edit_message (composer, context->template_folder, context->new_message, context->source_message_uid, TRUE, FALSE);
 
 	em_composer_utils_update_security (composer, context->validity_pgp_sum, context->validity_smime_sum);
 

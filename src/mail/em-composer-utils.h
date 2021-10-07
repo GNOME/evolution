@@ -52,7 +52,8 @@ void		em_utils_edit_message		(EMsgComposer *composer,
 						 CamelFolder *folder,
 						 CamelMimeMessage *message,
 						 const gchar *message_uid,
-						 gboolean keep_signature);
+						 gboolean keep_signature,
+						 gboolean replace_original_message);
 void		em_utils_forward_message	(EMsgComposer *composer,
 						 CamelMimeMessage *message,
 						 EMailForwardStyle style,

@@ -218,7 +218,7 @@ mail_attachment_handler_composer_created_cb (GObject *source_object,
 		} else if (ccd->is_forward) {
 			em_utils_forward_message (composer, ccd->message, ccd->forward_style, ccd->folder, NULL);
 		} else {
-			em_utils_edit_message (composer, ccd->folder, ccd->message, NULL, TRUE);
+			em_utils_edit_message (composer, ccd->folder, ccd->message, NULL, TRUE, FALSE);
 		}
 	}
 

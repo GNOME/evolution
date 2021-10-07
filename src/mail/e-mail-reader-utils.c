@@ -1932,6 +1932,7 @@ typedef struct _CreateComposerData {
 	CamelMimeMessage *message;
 	const gchar *message_uid; /* Allocated on the string pool, use camel_pstring_strdup/free */
 	gboolean keep_signature;
+	gboolean replace;
 
 	EMailPartList *part_list;
 	EMailReplyType reply_type;
@@ -1996,7 +1997,7 @@ mail_reader_edit_messages_composer_created_cb (GObject *source_object,
 
 		em_utils_edit_message (
 			composer, ccd->folder, ccd->message, ccd->message_uid,
-			ccd->keep_signature);
+			ccd->keep_signature, ccd->replace);
 
 		e_mail_reader_composer_created (
 			ccd->reader, composer, ccd->message);
@@ -2062,10 +2063,9 @@ mail_reader_edit_messages_cb (GObject *source_object,
 		ccd->reader = g_object_ref (async_context->reader);
 		ccd->folder = g_object_ref (folder);
 		ccd->message = g_object_ref (CAMEL_MIME_MESSAGE (value));
+		ccd->message_uid = camel_pstring_strdup ((const gchar *) key);
 		ccd->keep_signature = async_context->keep_signature;
-
-		if (async_context->replace)
-			ccd->message_uid = camel_pstring_strdup ((const gchar *) key);
+		ccd->replace = async_context->replace;
 
 		e_msg_composer_new (shell, mail_reader_edit_messages_composer_created_cb, ccd);
 	}
