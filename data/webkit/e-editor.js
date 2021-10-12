@@ -3197,6 +3197,16 @@ EvoEditor.maybeRemoveQuotationMark = function(node)
 	return true;
 }
 
+EvoEditor.isQuotedElementEmpty = function(node)
+{
+	for (node = node.firstChild; node !== null; node = node.nextSibling) {
+		// the text inside is not empty
+		if (node.nodeType == node.TEXT_NODE && node.nodeValue !== null && node.nodeValue !== "")
+			return false;
+	}
+	return true;
+}
+
 EvoEditor.removeEmptyElements = function(tagName)
 {
 	var nodes, node, ii, didRemove = 0;
@@ -3215,9 +3225,7 @@ EvoEditor.removeEmptyElements = function(tagName)
 		    node.firstElementChild.className != "-x-evo-quoted"))
 			continue;
 
-		// the text inside is not empty, possibly on either of the two sides of the quotation mark
-		if ((node.firstChild && (node.firstChild.nodeType == node.TEXT_NODE && node.firstChild.nodeValue)) ||
-		    (node.lastChild && !(node.lastChild === node.firstChild) && (node.lastChild.nodeType == node.TEXT_NODE && node.lastChild.nodeValue)))
+		if (!EvoEditor.isQuotedElementEmpty(node))
 			continue;
 
 		// it's either completely empty or it contains only the quotation mark and nothing else
