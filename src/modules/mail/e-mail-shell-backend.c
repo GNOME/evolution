@@ -187,6 +187,9 @@ mbox_fill_preview_cb (GObject *preview,
 		mail_session = e_mail_session_new (registry);
 	}
 
+	if (!camel_mime_message_get_message_id (msg))
+		camel_mime_message_set_message_id (msg, NULL);
+
 	parser = e_mail_parser_new (CAMEL_SESSION (mail_session));
 	e_mail_parser_parse (
 		parser, NULL, camel_mime_message_get_message_id (msg), msg,
