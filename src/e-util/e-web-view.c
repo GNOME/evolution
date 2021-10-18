@@ -2128,25 +2128,13 @@ web_view_toplevel_event_after_cb (GtkWidget *widget,
 				  GdkEvent *event,
 				  EWebView *web_view)
 {
-	if (event && event->type == GDK_MOTION_NOTIFY && web_view->priv->has_hover_link) {
-		GdkEventMotion *motion_event = (GdkEventMotion *) event;
+	if (event && event->type == GDK_MOTION_NOTIFY && web_view->priv->has_hover_link &&
+	    gdk_event_get_window (event) != gtk_widget_get_window (GTK_WIDGET (web_view))) {
+		/* This won't reset WebKitGTK's cached link the cursor stays on, but do this,
+		   instead of sending a fake signal to the WebKitGTK. */
+		e_web_view_status_message (web_view, NULL);
 
-		if (gdk_event_get_window (event) != gtk_widget_get_window (GTK_WIDGET (web_view))) {
-			GdkEventMotion fake_motion_event;
-			gboolean result = FALSE;
-
-			fake_motion_event = *motion_event;
-			fake_motion_event.x = -1.0;
-			fake_motion_event.y = -1.0;
-			fake_motion_event.window = gtk_widget_get_window (GTK_WIDGET (web_view));
-
-			/* Use a fake event instead of the call to unset the status message, because
-			   WebKit caches which link it stays on and doesn't emit the signal when still
-			   moving about the same link, thus this will unset the link also for the WebKit. */
-			g_signal_emit_by_name (web_view, "motion-notify-event", &fake_motion_event, &result);
-
-			web_view->priv->has_hover_link = FALSE;
-		}
+		web_view->priv->has_hover_link = FALSE;
 	}
 }
 
@@ -2172,6 +2160,8 @@ web_view_unmap (GtkWidget *widget)
 	g_signal_handlers_disconnect_by_func (toplevel, G_CALLBACK (web_view_toplevel_event_after_cb), widget);
 
 	GTK_WIDGET_CLASS (e_web_view_parent_class)->unmap (widget);
+
+	e_web_view_status_message (E_WEB_VIEW (widget), NULL);
 }
 
 static void
