@@ -538,7 +538,11 @@ new_notify_status (EMEventTargetFolder *t)
 			additional_messages), additional_messages);
 	}
 
-	icon_name = "evolution";
+	if (e_util_is_running_flatpak ())
+		icon_name = "org.gnome.Evolution";
+	else
+		icon_name = "evolution";
+
 	summary = _("New email in Evolution");
 	escaped_text = g_markup_escape_text (text->str, -1);
 
