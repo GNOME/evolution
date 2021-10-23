@@ -422,6 +422,7 @@ cal_component_preview_write_html (ECalComponentPreview *preview,
 				str = g_strconcat (e_cal_component_attendee_get_cn (attnd), " <", email, ">", NULL);
 				html = camel_text_to_html (str,
 					CAMEL_MIME_FILTER_TOHTML_CONVERT_NL |
+					CAMEL_MIME_FILTER_TOHTML_CONVERT_URLS |
 					CAMEL_MIME_FILTER_TOHTML_CONVERT_SPACES |
 					CAMEL_MIME_FILTER_TOHTML_CONVERT_ADDRESSES, 0);
 				g_string_append (buffer, html);
@@ -430,6 +431,7 @@ cal_component_preview_write_html (ECalComponentPreview *preview,
 			} else {
 				str = camel_text_to_html (email,
 					CAMEL_MIME_FILTER_TOHTML_CONVERT_NL |
+					CAMEL_MIME_FILTER_TOHTML_CONVERT_URLS |
 					CAMEL_MIME_FILTER_TOHTML_CONVERT_SPACES |
 					CAMEL_MIME_FILTER_TOHTML_CONVERT_ADDRESSES, 0);
 				g_string_append (buffer, str);
