@@ -1559,9 +1559,16 @@ cal_model_value_at (ETableModel *etm,
 			model, comp_data, I_CAL_CREATED_PROPERTY,
 			i_cal_property_get_created, &comp_data->created);
 	case E_CAL_MODEL_FIELD_LASTMODIFIED :
-		return (gpointer) get_datetime_from_utc (
+	{
+		gpointer result = (gpointer) get_datetime_from_utc (
 			model, comp_data, I_CAL_LASTMODIFIED_PROPERTY,
 			i_cal_property_get_lastmodified, &comp_data->lastmodified);
+		if (!result && !e_cal_util_component_has_property (comp_data->icalcomp, I_CAL_METHOD_PROPERTY))
+			return get_datetime_from_utc (model, comp_data, I_CAL_DTSTAMP_PROPERTY, i_cal_property_get_dtstamp, &comp_data->lastmodified);
+
+		return result;
+
+	}
 	case E_CAL_MODEL_FIELD_HAS_ALARMS :
 		return GINT_TO_POINTER (e_cal_util_component_has_alarms (comp_data->icalcomp));
 	case E_CAL_MODEL_FIELD_ICON :
