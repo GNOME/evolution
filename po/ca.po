@@ -23427,7 +23427,7 @@ msgstr "Mostra la finestra de recordatoris amb  _notificacions"
 #: ../src/modules/calendar/e-calendar-preferences.ui.h:79
 msgid "Keep reminder notification _window always on top"
 msgstr ""
-"Mante les _finestres de notificacions de recordatoris sempre per damunt"
+"Mantén les _finestres de notificacions de recordatoris sempre per damunt"
 
 #: ../src/modules/calendar/e-calendar-preferences.ui.h:80
 msgid "Display reminders for completed _tasks"
@@ -26029,7 +26029,7 @@ msgstr "Destinatari"
 
 #: ../src/modules/mail/em-composer-prefs.c:1220
 msgid "Keep in Outbox"
-msgstr "Desa'l a la safata de sortida"
+msgstr "Mantén a la safata de sortida"
 
 #: ../src/modules/mail/em-composer-prefs.c:1221
 msgid "Send immediately"
