@@ -1,3 +1,38 @@
+Evolution 3.42.1 2021-10-29
+---------------------------
+
+Bug Fixes:
+	I#1555 - EWeekView: Ensure events layout after scroll (Milan Crha)
+	I#1586 - ETable: Grouping by column misplaces group content (Milan Crha)
+	I#1609 - EMinicard: Hide Nickname, when matches Full name (Milan Crha)
+	I#1611 - ECollectionAccountWizard: Disable mail parts, when no username is provided (Milan Crha)
+	I#1612 - Display the Categories in the Contact preview (Milan Crha)
+	I#1613 - Manually typed categories are ignored (Milan Crha)
+	I#1621 - Prevent IDN homograph attacks (Milan Crha)
+	I#1623 - EMinicard: Hide fields same as the FileAs (Milan Crha)
+	I#1640 - prefer-plain: Do not hide attachments (Milan Crha)
+	I#1646 - Emoji picker empty (Milan Crha)
+	I#1649 - Unable to clear search (Milan Crha)
+	I#1657 - Composer: Correct empty paragraph detection for removal (Milan Crha)
+	I#1667 - Component Preview: render Attendees with HTTPs-URI as hyperlinks (Дилян Палаузов)
+	I#1672 - ECalModel: Show DTSTAMP, when LAST-MODIFIED is missing (Дилян Палаузов)
+
+Miscellaneous:
+	GalViewInstanceSaveAsDialog: Do not show the dialog in the init() (Milan Crha)
+	By_Company.galview: Correct the column index in the grouping part (Milan Crha)
+	ESrvConfigLookup: Use correct extension name for properties (Milan Crha)
+	mail-importer: Ensure Message-ID header on imported message (Milan Crha)
+	EWebView: Change mouse leave detection code (Milan Crha)
+	mail-notification: Use different icon name in the notification under Flatpak (Milan Crha)
+
+Translations:
+	Boyuan Yang (zh_CN)
+	Мирослав Николић (sr)
+	Danial Behzadi (fa)
+	Dušan Kazik (sk)
+	Rafael Fontenelle (pt_BR)
+	Asier Sarasua Garmendia (eu)
+
 Evolution 3.42.0 2021-09-17
 ---------------------------
 

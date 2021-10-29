@@ -44,7 +44,46 @@
   <project_group>GNOME</project_group>
   <translation type="gettext">evolution</translation>
   <releases>
-    <release version="@APPDATA_RELEASE_VERSION@" type="@APPDATA_RELEASE_TYPE@" date="@APPDATA_RELEASE_BUILD_DATE@"/>
+    <release version="3.42.1" type="stable" date="2021-10-29">
+      <description>
+        <p>Bug Fixes:</p>
+        <ul>
+          <li>I#1555 - EWeekView: Ensure events layout after scroll (Milan Crha)</li>
+          <li>I#1586 - ETable: Grouping by column misplaces group content (Milan Crha)</li>
+          <li>I#1609 - EMinicard: Hide Nickname, when matches Full name (Milan Crha)</li>
+          <li>I#1611 - ECollectionAccountWizard: Disable mail parts, when no username is provided (Milan Crha)</li>
+          <li>I#1612 - Display the Categories in the Contact preview (Milan Crha)</li>
+          <li>I#1613 - Manually typed categories are ignored (Milan Crha)</li>
+          <li>I#1621 - Prevent IDN homograph attacks (Milan Crha)</li>
+          <li>I#1623 - EMinicard: Hide fields same as the FileAs (Milan Crha)</li>
+          <li>I#1640 - prefer-plain: Do not hide attachments (Milan Crha)</li>
+          <li>I#1646 - Emoji picker empty (Milan Crha)</li>
+          <li>I#1649 - Unable to clear search (Milan Crha)</li>
+          <li>I#1657 - Composer: Correct empty paragraph detection for removal (Milan Crha)</li>
+          <li>I#1667 - Component Preview: render Attendees with HTTPs-URI as hyperlinks (Дилян Палаузов)</li>
+          <li>I#1672 - ECalModel: Show DTSTAMP, when LAST-MODIFIED is missing (Дилян Палаузов)</li>
+        </ul>
+        <p>Miscellaneous:</p>
+        <ul>
+          <li>GalViewInstanceSaveAsDialog: Do not show the dialog in the init() (Milan Crha)</li>
+          <li>By_Company.galview: Correct the column index in the grouping part (Milan Crha)</li>
+          <li>ESrvConfigLookup: Use correct extension name for properties (Milan Crha)</li>
+          <li>mail-importer: Ensure Message-ID header on imported message (Milan Crha)</li>
+          <li>EWebView: Change mouse leave detection code (Milan Crha)</li>
+          <li>mail-notification: Use different icon name in the notification under Flatpak (Milan Crha)</li>
+        </ul>
+        <p>Translations:</p>
+        <ul>
+          <li>Boyuan Yang (zh_CN)</li>
+          <li>Мирослав Николић (sr)</li>
+          <li>Danial Behzadi (fa)</li>
+          <li>Dušan Kazik (sk)</li>
+          <li>Rafael Fontenelle (pt_BR)</li>
+          <li>Asier Sarasua Garmendia (eu)</li>
+        </ul>
+      </description>
+    </release>
+    <release version="3.42.0" type="stable" date="2021-09-17"/>
   </releases>
   <content_rating type="oars-1.1">
     <content_attribute id="social-chat">intense</content_attribute>
