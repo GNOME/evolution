@@ -1424,7 +1424,7 @@ msgstr "Cercant per sumari:"
 #: C/memos-searching.page:43 C/tasks-searching.page:43
 msgid "Click the search icon <_:media-1/> to expand the drop-down list."
 msgstr ""
-"Feu clic a la icona de cerca<_:media-1/> per a expandir la llista "
+"Feu clic a la icona de cerca <_:media-1/> per a expandir la llista "
 "desplegable."
 
 #. (itstool) path: item/p
@@ -14695,7 +14695,7 @@ msgid ""
 "Checks whether the message is <_:link-1/> or completed (after a certain "
 "date)."
 msgstr ""
-"Comprova si el missatge està<_:link-1/> o completat (després d'una data "
+"Comprova si el missatge està <_:link-1/> o completat (després d'una data "
 "determinada)."
 
 #. (itstool) path: item/p
