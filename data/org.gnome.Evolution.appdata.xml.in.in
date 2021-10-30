@@ -44,8 +44,7 @@
   <project_group>GNOME</project_group>
   <translation type="gettext">evolution</translation>
   <releases>
-    <release version="@APPDATA_RELEASE_VERSION@" type="@APPDATA_RELEASE_TYPE@" date="@APPDATA_RELEASE_BUILD_DATE@"/>
-  </releases>
+@APPDATA_RELEASES@  </releases>
   <content_rating type="oars-1.1">
     <content_attribute id="social-chat">intense</content_attribute>
     <content_attribute id="social-contacts">intense</content_attribute>

@@ -718,6 +718,46 @@ if(ENABLE_MARKDOWN)
 	set(HAVE_MARKDOWN ON)
 endif(ENABLE_MARKDOWN)
 
+# ******************************
+# news-to-appdata tool
+# ******************************
+
+add_executable(news-to-appdata
+	news-to-appdata.c)
+
+target_compile_options(news-to-appdata PUBLIC
+	${GNOME_PLATFORM_CFLAGS}
+)
+
+target_include_directories(news-to-appdata PUBLIC
+	${GNOME_PLATFORM_INCLUDE_DIRS}
+)
+
+target_link_libraries(news-to-appdata
+	${GNOME_PLATFORM_LDFLAGS}
+)
+
+set(CMAKE_REQUIRED_FLAGS ${GNOME_PLATFORM_CFLAGS})
+set(CMAKE_REQUIRED_INCLUDES ${GNOME_PLATFORM_INCLUDE_DIRS})
+set(CMAKE_REQUIRED_LIBRARIES ${GNOME_PLATFORM_LDFLAGS})
+file(TO_NATIVE_PATH "${CMAKE_BINARY_DIR}/appdata-releases.txt" _output_filename)
+file(TO_NATIVE_PATH "${CMAKE_SOURCE_DIR}/NEWS" _news_filename)
+CHECK_C_SOURCE_RUNS("#define BUILD_RUN 1
+		     #define BUILD_OUTPUT \"${_output_filename}\"
+		     #define BUILD_TYPE \"${APPDATA_RELEASE_TYPE}\"
+		     #define BUILD_VERSION \"${PROJECT_VERSION_MAJOR}.${PROJECT_VERSION_MINOR}\"
+		     #define BUILD_NEWS_FILE \"${_news_filename}\"
+		     #include \"${CMAKE_SOURCE_DIR}/news-to-appdata.c\"" _news_to_appdata_result)
+unset(_news_filename)
+unset(_output_filename)
+unset(CMAKE_REQUIRED_LIBRARIES)
+unset(CMAKE_REQUIRED_INCLUDES)
+unset(CMAKE_REQUIRED_FLAGS)
+
+if(NOT "${_news_to_appdata_result}" EQUAL "1")
+	message(FATAL_ERROR "Failed to run news-to-appdata")
+endif(NOT "${_news_to_appdata_result}" EQUAL "1")
+
 # Generate the ${PROJECT_NAME}-config.h file
 CONFIGURE_FILE(${CMAKE_SOURCE_DIR}/config.h.in ${CMAKE_BINARY_DIR}/${PROJECT_NAME}-config.h)
 
