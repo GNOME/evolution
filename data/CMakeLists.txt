@@ -30,6 +30,15 @@ endif("${VERSION_SUBSTRING}" STREQUAL "")
 
 string(TIMESTAMP APPDATA_RELEASE_BUILD_DATE "%Y-%m-%d")
 
+if(EXISTS "${CMAKE_BINARY_DIR}/appdata-releases.txt")
+	file(READ ${CMAKE_BINARY_DIR}/appdata-releases.txt APPDATA_RELEASES)
+endif(EXISTS "${CMAKE_BINARY_DIR}/appdata-releases.txt")
+
+if("${APPDATA_RELEASES}" STREQUAL "")
+	message(WARNING "Failed to extract release information from the NEWS file, falling back to generic information")
+	set(APPDATA_RELEASES "    <release version=\"${APPDATA_RELEASE_VERSION}\" date=\"${APPDATA_RELEASE_BUILD_DATE}\" time=\"${APPDATA_RELEASE_TYPE}\"/>\n")
+endif("${APPDATA_RELEASES}" STREQUAL "")
+
 configure_file(org.gnome.Evolution.appdata.xml.in.in
 	org.gnome.Evolution.appdata.xml.in
 	@ONLY
