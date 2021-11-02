@@ -706,23 +706,8 @@ if(WITH_GLADE_CATALOG)
 endif(WITH_GLADE_CATALOG)
 
 # ******************************
-# news-to-appdata tool
+# news-to-appdata
 # ******************************
-
-add_executable(news-to-appdata
-	news-to-appdata.c)
-
-target_compile_options(news-to-appdata PUBLIC
-	${GNOME_PLATFORM_CFLAGS}
-)
-
-target_include_directories(news-to-appdata PUBLIC
-	${GNOME_PLATFORM_INCLUDE_DIRS}
-)
-
-target_link_libraries(news-to-appdata
-	${GNOME_PLATFORM_LDFLAGS}
-)
 
 set(CMAKE_REQUIRED_FLAGS ${GNOME_PLATFORM_CFLAGS})
 set(CMAKE_REQUIRED_INCLUDES ${GNOME_PLATFORM_INCLUDE_DIRS})
