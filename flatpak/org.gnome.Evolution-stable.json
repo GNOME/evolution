@@ -65,7 +65,13 @@
 				"--disable-gtk-doc",
 				"--disable-gtk-doc-html"
 			],
-			"cleanup": [ "/bin", "/share/gtk-doc" ],
+			"cleanup": [
+				"/bin",
+				"/share/gtk-doc",
+				"/share/gdm",
+				"/share/gnome",
+				"/share/vala"
+			],
 			"sources": [
 				{
 					"type": "git",
@@ -77,7 +83,10 @@
 
 		{
 			"name": "libical",
-			"cleanup": [ "/lib/cmake" ],
+			"cleanup": [
+				"/lib/cmake",
+				"/libexec/libical"
+			],
 			"buildsystem": "cmake-ninja",
 			"config-opts": [
 				"-DCMAKE_INSTALL_LIBDIR:PATH=/app/lib",
@@ -114,10 +123,15 @@
 			"config-opts": [
 				"--disable-Werror",
 				"--disable-telepathy",
+				"--disable-introspection",
 				"--disable-documentation",
 				"--disable-backend"
 			],
-			"cleanup": [ "/bin", "/share/GConf" ],
+			"cleanup": [
+				"/bin",
+				"/share/GConf",
+				"/share/gir-1.0"
+			],
 			"sources": [
 				{
 					"type": "archive",
@@ -154,6 +168,7 @@
 			"name": "geocode-glib",
 			"buildsystem": "meson",
 			"config-opts": [
+				"-Denable-installed-tests=false",
 				"-Denable-introspection=false",
 				"-Denable-gtk-doc=false"
 			],
@@ -172,8 +187,14 @@
 		{
 			"name": "libgweather",
 			"buildsystem": "meson",
+			"config-opts": [
+				"-Dglade_catalog=false",
+				"-Denable_vala=false"
+			],
 			"cleanup": [
-				"/share/gtk-doc"
+				"/lib/girepository-1.0",
+				"/share/gtk-doc",
+				"/share/gir-1.0"
 			],
 			"sources": [
 				{
@@ -189,6 +210,7 @@
 			"rm-configure": true,
 			"cleanup": [
 				"/bin",
+				"/etc",
 				"/share/man"
 			],
 			"config-opts": [
@@ -224,7 +246,10 @@
 				"--disable-introspection",
 				"--disable-vala"
 			],
-			"cleanup": [ "/share/gtk-doc" ],
+			"cleanup": [
+				"/bin",
+				"/share/gtk-doc"
+			],
 			"sources": [
 				{
 					"type": "archive",
@@ -248,6 +273,7 @@
 				"--disable-pinentry-tqt",
 				"--disable-pinentry-fltk"
 			],
+			"cleanup": [ "/share/info" ],
 			"sources": [
 				{
 					"type": "archive",
@@ -263,6 +289,7 @@
 			"build-commands": [
 				"cd ./bogofilter/ && echo \"# Skip for Flatpak build\" > doc/Makefile.am && autoreconf -fi && ./configure --prefix=/app --disable-rpath --with-database=sqlite3 && make && make install"
 			],
+			"cleanup": [ "/etc" ],
 			"sources": [
 				{
 					"type": "git",
@@ -287,7 +314,10 @@
 		{
 			"name": "evolution-data-server",
 			"buildsystem": "cmake-ninja",
-			"cleanup": [ "/share/GConf" ],
+			"cleanup": [
+				"/etc/xdg",
+				"/share/GConf"
+			],
 			"config-opts": [
 				"-DDBUS_SERVICES_PREFIX=org.gnome.Evolution",
 				"-DENABLE_FILE_LOCKING=fcntl",
@@ -311,6 +341,9 @@
 					"url": "https://gitlab.gnome.org/GNOME/evolution-data-server.git",
 					"branch": "gnome-41"
 				}
+			],
+			"post-install": [
+				"cp NEWS /app/share/NEWS.eds"
 			]
 		},
 
@@ -333,7 +366,8 @@
 			],
 			"cleanup": [
 				"/etc/xdg",
-				"/share/GConf"
+				"/share/GConf",
+				"/share/man"
 			],
 			"sources": [
 				{
@@ -345,9 +379,16 @@
 					"type": "shell",
 					"commands": [
 						"cp config.h.in config.h.in.orig",
-						"cat config.h.in.orig | sed -e \"s|\\@VERSION_SUBSTRING\\@| \\(flatpak git$(git log --pretty=format:%h --max-count=1)\\)|\" >config.h.in"
+						"cat config.h.in.orig | sed -e \"s|\\@VERSION_SUBSTRING\\@| \\(flatpak git$(git log --pretty=format:%h --max-count=1)\\)|\" >config.h.in",
+						"cp data/org.gnome.Evolution.appdata.xml.in.in data/org.gnome.Evolution.appdata.xml.in.in.orig",
+						"cat data/org.gnome.Evolution.appdata.xml.in.in.orig | sed -e \"s|\\@APPDATA_RELEASES\\@|APPDATA_RELEASES|\" >data/org.gnome.Evolution.appdata.xml.in.in"
 					]
 				}
+			],
+			"post-install": [
+				"cp NEWS /app/share/NEWS.evo",
+				"cp news-to-appdata.c /app/share/",
+				"mv /app/share/metainfo/org.gnome.Evolution.appdata.xml /app/share/"
 			]
 		},
 		{
@@ -423,6 +464,43 @@
 					"url": "https://gitlab.gnome.org/GNOME/evolution-ews.git",
 					"branch": "gnome-41"
 				}
+			],
+			"post-install": [
+				"cp NEWS /app/share/NEWS.ews"
+			]
+		},
+		{
+			"name": "news-to-appdata",
+			"buildsystem": "simple",
+			"sources": [
+				{
+					"type": "script",
+					"commands": [
+						"gcc /app/share/news-to-appdata.c -g -O0 -o news-to-appdata `pkg-config --cflags --libs glib-2.0`",
+						"TYPE=${1}",
+						"VER=$(pkg-config --modversion evolution-shell-3.0)",
+						"if [ \"${VER}\" = \"\" ]; then",
+						"   echo \"Failed to get evolution version\" 1>&2",
+						"   exit 1",
+						"fi",
+						"VER=${VER%.*}",
+						"APPDATA_RELEASES=`./news-to-appdata \"\" ${TYPE} ${VER} /app/share/NEWS.evo ${VER} /app/share/NEWS.eds ${VER} /app/share/NEWS.ews`",
+						"APPDATA=`cat /app/share/org.gnome.Evolution.appdata.xml`",
+						"if [ \"${APPDATA_RELEASES}\" = \"\" ]; then",
+						"    APPDATA_RELEASES=\"<release version=\\\"$(pkg-config --modversion evolution-shell-3.0)\\\" date=\\\"$(date +%Y-%m-%d)\\\" type=\\\"${TYPE}\\\"/>\"",
+						"fi",
+						"echo \"${APPDATA%APPDATA_RELEASES*}${APPDATA_RELEASES}${APPDATA#*APPDATA_RELEASES}\">/app/share/metainfo/org.gnome.Evolution.appdata.xml",
+						"rm /app/share/NEWS.eds",
+						"rm /app/share/NEWS.evo",
+						"rm /app/share/NEWS.ews",
+						"rm /app/share/news-to-appdata.c",
+						"rm /app/share/org.gnome.Evolution.appdata.xml"
+					],
+					"dest-filename": "update-appdata.sh"
+				}
+			],
+			"build-commands": [
+				"./update-appdata.sh stable"
 			]
 		}
 	]
