@@ -321,6 +321,7 @@ main (gint argc,
 	for (vlink = versions; vlink; vlink = g_slist_next (vlink)) {
 		EVersion *version = vlink->data;
 		GSList *slink;
+		gchar *tmp;
 
 		if (g_strcmp0 (version->version, last_version) != 0) {
 			if (last_version) {
@@ -329,19 +330,24 @@ main (gint argc,
 			}
 
 			/* Uses the release data of the first noticed version */
-			fprintf (output, "    <release version=\"%s\" date=\"%s\" type=\"%s\">\n", version->version, version->date, release_type);
+			tmp = g_markup_printf_escaped ("    <release version=\"%s\" date=\"%s\" type=\"%s\">\n", version->version, version->date, release_type);
+			fprintf (output, "%s", tmp);
 			fprintf (output, "      <description>\n");
 
 			last_version = version->version;
+			g_free (tmp);
 		}
 
 		for (slink = version->sections; slink; slink = g_slist_next (slink)) {
 			ESection *section = slink->data;
 
 			if (multiple_projects && section->items)
-				fprintf (output, "        <p>%s %s</p>\n", version->project_name, section->header);
+				tmp = g_markup_printf_escaped ("        <p>%s %s</p>\n", version->project_name, section->header);
 			else
-				fprintf (output, "        <p>%s</p>\n", section->header);
+				tmp = g_markup_printf_escaped ("        <p>%s</p>\n", section->header);
+
+			fprintf (output, "%s", tmp);
+			g_free (tmp);
 
 			if (section->items) {
 				GSList *ilink;
@@ -351,7 +357,9 @@ main (gint argc,
 				for (ilink = section->items; ilink; ilink = g_slist_next (ilink)) {
 					const gchar *item = ilink->data;
 
-					fprintf (output, "          <li>%s</li>\n", item);
+					tmp = g_markup_printf_escaped ("          <li>%s</li>\n", item);
+					fprintf (output, "%s", tmp);
+					g_free (tmp);
 				}
 
 				fprintf (output, "        </ul>\n");
