@@ -1384,6 +1384,24 @@ webkit_editor_update_styles (EContentEditor *editor)
 			"  border-color: %s;\n"
 			"}\n",
 			e_web_view_get_citation_color_for_level (5));
+
+		g_string_append_printf (
+			stylesheet,
+			"body "
+			"blockquote[type=cite] "
+			"blockquote[type=cite] "
+			"blockquote[type=cite] "
+			"blockquote[type=cite] "
+			"blockquote[type=cite] "
+			"blockquote[type=cite] "
+			"{\n"
+			"  border-color: %s;\n"
+			"  padding: 0ch 0ch 0ch 1ch;\n"
+			"  margin: 0ch;\n"
+			"  border-width: 0px 0px 0px 2px;\n"
+			"  border-style: none none none solid;\n"
+			"}\n",
+			e_web_view_get_citation_color_for_level (1));
 	} else {
 		g_string_append (
 			stylesheet,
