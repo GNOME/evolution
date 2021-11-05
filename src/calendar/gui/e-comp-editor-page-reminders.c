@@ -781,9 +781,13 @@ ecep_reminders_widgets_to_selected (ECompEditorPageReminders *page_reminders)
 				e_cal_component_alarm_take_description (alarm, description);
 
 				ecep_reminders_remove_needs_description_property (alarm);
+			} else {
+				ecep_reminders_add_needs_description_property (alarm);
 			}
 
 			g_free (text);
+		} else {
+			ecep_reminders_add_needs_description_property (alarm);
 		}
 		break;
 
@@ -831,9 +835,13 @@ ecep_reminders_widgets_to_selected (ECompEditorPageReminders *page_reminders)
 				e_cal_component_alarm_take_description (alarm, description);
 
 				ecep_reminders_remove_needs_description_property (alarm);
+			} else {
+				ecep_reminders_add_needs_description_property (alarm);
 			}
 
 			g_free (text);
+		} else {
+			ecep_reminders_add_needs_description_property (alarm);
 		}
 		} break;
 
