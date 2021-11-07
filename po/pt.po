@@ -13,8 +13,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: 3.12\n"
 "Report-Msgid-Bugs-To: https://gitlab.gnome.org/GNOME/evolution/issues\n"
-"POT-Creation-Date: 2021-11-05 10:44+0000\n"
-"PO-Revision-Date: 2021-11-06 16:45+0000\n"
+"POT-Creation-Date: 2021-11-06 16:47+0000\n"
+"PO-Revision-Date: 2021-11-07 20:44+0000\n"
 "Last-Translator: Hugo Carvalho <hugokarvalho@hotmail.com>\n"
 "Language-Team: Portuguese <https://l10n.gnome.org/teams/pt/>\n"
 "Language: pt\n"
@@ -1611,7 +1611,7 @@ msgid ""
 "paragraph mode. The Normal paragraph mode will be used when set to false."
 msgstr ""
 "Quando definido como verdadeiro, novas mensagens em Texto Simples "
-"selecionarão previamente o modo parágrafo preformatado. O modo parágrafo "
+"selecionarão previamente o modo parágrafo pré-formatado. O modo parágrafo "
 "normal será usado quando definido como falso."
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:86
@@ -14299,7 +14299,7 @@ msgstr "Procurar e substituir texto"
 
 #: ../src/e-util/e-html-editor-actions.c:1264
 msgid "Check _Spelling…"
-msgstr "Verificar _Ortografia…"
+msgstr "Verificar _ortografia…"
 
 #: ../src/e-util/e-html-editor-actions.c:1271
 msgid "_Decrease Indent"
@@ -14317,7 +14317,7 @@ msgstr "_Qebrar linhas"
 #: ../src/e-util/e-html-editor-actions.c:1288
 #: ../src/e-util/e-html-editor-paragraph-dialog.c:109
 msgid "_Center"
-msgstr "_Centrar"
+msgstr "_Central"
 
 #: ../src/e-util/e-html-editor-actions.c:1290
 msgid "Center Alignment"
@@ -14331,17 +14331,17 @@ msgstr "_Justificado"
 
 #: ../src/e-util/e-html-editor-actions.c:1297
 msgid "Align Justified"
-msgstr "Justificar"
+msgstr "Alinhamento justificado"
 
 #. Left
 #: ../src/e-util/e-html-editor-actions.c:1302
 #: ../src/e-util/e-html-editor-paragraph-dialog.c:100
 msgid "_Left"
-msgstr "_Esquerdo"
+msgstr "_Esquerda"
 
 #: ../src/e-util/e-html-editor-actions.c:1304
 msgid "Left Alignment"
-msgstr "Alinhamento esquerdo"
+msgstr "Alinhamento à esquerda"
 
 #. Right
 #: ../src/e-util/e-html-editor-actions.c:1309
@@ -14351,7 +14351,7 @@ msgstr "_Direita"
 
 #: ../src/e-util/e-html-editor-actions.c:1311
 msgid "Right Alignment"
-msgstr "Alinhamento direito"
+msgstr "Alinhamento à direita"
 
 #: ../src/e-util/e-html-editor-actions.c:1319
 #: ../src/modules/text-highlight/languages.c:70
@@ -14400,7 +14400,7 @@ msgstr "Cabeçalho _6"
 
 #: ../src/e-util/e-html-editor-actions.c:1385
 msgid "_Preformatted"
-msgstr "_Preformatado"
+msgstr "_Pré-formatado"
 
 #: ../src/e-util/e-html-editor-actions.c:1392
 msgid "A_ddress"
@@ -17994,27 +17994,27 @@ msgstr "Nome da _etiqueta:"
 
 #: ../src/mail/e-mail-label-list-store.c:55
 msgid "I_mportant"
-msgstr "I_mportante"
+msgstr "Importante"
 
 #. red
 #: ../src/mail/e-mail-label-list-store.c:56
 msgid "_Work"
-msgstr "_Emprego"
+msgstr "Emprego"
 
 #. orange
 #: ../src/mail/e-mail-label-list-store.c:57
 msgid "_Personal"
-msgstr "_Pessoal"
+msgstr "Pessoal"
 
 #. green
 #: ../src/mail/e-mail-label-list-store.c:58
 msgid "_To Do"
-msgstr "A _fazer"
+msgstr "A fazer"
 
 #. blue
 #: ../src/mail/e-mail-label-list-store.c:59
 msgid "_Later"
-msgstr "Mais _tarde"
+msgstr "Mais tarde"
 
 #: ../src/mail/e-mail-label-manager.c:153 ../src/mail/e-mail-reader.c:913
 #: ../src/mail/em-folder-properties.c:1170
@@ -20140,7 +20140,7 @@ msgstr ""
 
 #: ../src/mail/mail-config.ui.h:41
 msgid "Check spelling while I _type"
-msgstr "Verificar a ortografia _enquando escrevo"
+msgstr "Verificar a ortografia _enquanto escrevo"
 
 #: ../src/mail/mail-config.ui.h:43
 msgid ""
@@ -25210,14 +25210,14 @@ msgstr "base"
 #: ../src/modules/mail/e-mail-shell-backend.c:987
 msgctxt "NetworkMonitor"
 msgid "netlink"
-msgstr "ligaçãoderede"
+msgstr "ligação de rede"
 
 #. Translators: One of the known implementation names of the GNetworkMonitor. Either translate
 #. it to some user-friendly form, or keep it as is.
 #: ../src/modules/mail/e-mail-shell-backend.c:990
 msgctxt "NetworkMonitor"
 msgid "networkmanager"
-msgstr "gestorderede"
+msgstr "gestor de rede"
 
 #: ../src/modules/mail/e-mail-shell-backend.c:1021
 msgctxt "NetworkMonitor"
