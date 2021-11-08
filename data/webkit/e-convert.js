@@ -912,7 +912,25 @@ EvoConvert.processNode = function(node, normalDivWidth, quoteLevel)
 				useDefaultWidth = true;
 			}
 
-			if (useDefaultWidth && normalDivWidth > 0) {
+			var childrenWillWrap = true;
+			if (!node.classList.contains("gmail_quote")) {
+				var ii;
+				for (ii = 0; childrenWillWrap && ii < node.childNodes.length; ii++) {
+					var child = node.childNodes.item(ii);
+					childrenWillWrap = (child.nodeType == child.ELEMENT_NODE &&
+							   (child.tagName == "DIV" ||
+							    child.tagName == "P" ||
+							    child.tagName == "PRE" ||
+							    child.tagName == "BLOCKQUOTE" ||
+							    child.tagName == "BR")) ||
+							   (child.nodeType == child.TEXT_NODE &&
+							    EvoConvert.RemoveInsignificantNewLines(child, true).trim().length == 0);
+				}
+			}
+
+			if (childrenWillWrap) {
+				width = -1;
+			} else if (useDefaultWidth && normalDivWidth > 0) {
 				width = normalDivWidth - (quoteLevel * 2);
 
 				if (width < EvoConvert.MIN_PARAGRAPH_WIDTH)
