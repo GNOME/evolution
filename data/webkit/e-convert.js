@@ -914,11 +914,12 @@ EvoConvert.processNode = function(node, normalDivWidth, quoteLevel)
 
 			var childrenWillWrap = true;
 			if (!node.classList.contains("gmail_quote")) {
+				childrenWillWrap = node.childNodes.length > 0 && liText == "";
 				var ii;
 				for (ii = 0; childrenWillWrap && ii < node.childNodes.length; ii++) {
 					var child = node.childNodes.item(ii);
 					childrenWillWrap = (child.nodeType == child.ELEMENT_NODE &&
-							   (child.tagName == "DIV" ||
+							   ((child.tagName == "DIV" && !child.getAttribute("x-evo-li-text")) ||
 							    child.tagName == "P" ||
 							    child.tagName == "PRE" ||
 							    child.tagName == "BLOCKQUOTE" ||
