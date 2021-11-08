@@ -83,6 +83,7 @@ set(libpst_minimum_version 0.6.54)
 set(libxml_minimum_version 2.7.3)
 set(shared_mime_info_minimum_version 0.22)
 set(webkit2gtk_minimum_version 2.28.0)
+set(sqlite_minimum_version 3.7.17)
 
 # Optional Packages
 set(champlain_minimum_version 0.12)
@@ -280,6 +281,7 @@ pkg_check_modules(EVOLUTION_DATA_SERVER REQUIRED
 pkg_check_modules(A11Y REQUIRED atk)
 pkg_check_modules(LIBSOUP REQUIRED libsoup-2.4>=${soup_minimum_version})
 pkg_check_modules(WEB_EXTENSION REQUIRED webkit2gtk-4.0>=${webkit2gtk_minimum_version})
+pkg_check_modules(SQLITE3 REQUIRED sqlite3>=${sqlite_minimum_version})
 
 pkg_check_variable(EDS_SOURCES_DBUS_SERVICE_NAME evolution-data-server-1.2 sourcesdbusservicename)
 
@@ -579,8 +581,12 @@ unset(optupper)
 # as both gnutls and mozilla-nss have a header called "pkcs12.h" which is
 # included in smime/lib/e-pkcs12.c. It wants the Mozilla NSS one.
 
-set(CERT_UI_INCLUDES ${MANUAL_NSPR_INCLUDES} ${MANUAL_NSS_INCLUDES})
-set(CERT_UI_LIBS ${MANUAL_NSPR_LIBS} ${MANUAL_NSS_LIBS})
+if((NOT (mozilla_nspr STREQUAL "")) AND (NOT (mozilla_nss STREQUAL "")))
+	pkg_check_modules(CERT_UI REQUIRED ${mozilla_nspr} ${mozilla_nss})
+else((NOT (mozilla_nspr STREQUAL "")) AND (NOT (mozilla_nss STREQUAL "")))
+	set(CERT_UI_INCLUDE_DIRS ${MANUAL_NSPR_INCLUDES} ${MANUAL_NSS_INCLUDES})
+	set(CERT_UI_LDFLAGS ${MANUAL_NSPR_LIBS} ${MANUAL_NSS_LIBS})
+endif((NOT (mozilla_nspr STREQUAL "")) AND (NOT (mozilla_nss STREQUAL "")))
 
 # ******************************
 # Libnotify
