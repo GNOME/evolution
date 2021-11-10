@@ -1957,42 +1957,41 @@ async_read (GObject *source_object,
 	}
 }
 
-static void
-soup_authenticate (SoupSession *session,
-                   SoupMessage *msg,
+static gboolean
+soup_authenticate (SoupMessage *msg,
                    SoupAuth *auth,
                    gboolean retrying,
                    gpointer data)
 {
-	SoupURI *suri;
+	GUri *guri;
 	const gchar *orig_uri;
 	gboolean tried = FALSE;
 
-	g_return_if_fail (msg != NULL);
-	g_return_if_fail (auth != NULL);
+	g_return_val_if_fail (msg != NULL, FALSE);
+	g_return_val_if_fail (auth != NULL, FALSE);
 
 	orig_uri = g_object_get_data (G_OBJECT (msg), "orig-uri");
-	g_return_if_fail (orig_uri != NULL);
+	g_return_val_if_fail (orig_uri != NULL, FALSE);
 
-	suri = soup_uri_new (orig_uri);
-	if (!suri)
-		return;
+	guri = g_uri_parse (orig_uri, SOUP_HTTP_URI_FLAGS | G_URI_FLAGS_PARSE_RELAXED, NULL);
+	if (!guri)
+		return FALSE;
 
-	if (!suri->user || !*suri->user) {
-		soup_uri_free (suri);
-		return;
+	if (!g_uri_get_user (guri) || !g_uri_get_user (guri)[0]) {
+		g_uri_unref (guri);
+		return FALSE;
 	}
 
 	if (!retrying) {
-		if (suri->password) {
-			soup_auth_authenticate (auth, suri->user, suri->password);
+		if (g_uri_get_password (guri)) {
+			soup_auth_authenticate (auth, g_uri_get_user (guri), g_uri_get_password (guri));
 			tried = TRUE;
 		} else {
 			gchar *password;
 
 			password = e_passwords_get_password (orig_uri);
 			if (password) {
-				soup_auth_authenticate (auth, suri->user, password);
+				soup_auth_authenticate (auth, g_uri_get_user (guri), password);
 				tried = TRUE;
 
 				memset (password, 0, strlen (password));
@@ -2006,8 +2005,8 @@ soup_authenticate (SoupSession *session,
 		gchar *password, *bold_host, *bold_user;
 		GString *description;
 
-		bold_host = g_strconcat ("<b>", suri->host, "</b>", NULL);
-		bold_user = g_strconcat ("<b>", suri->user, "</b>", NULL);
+		bold_host = g_strconcat ("<b>", g_uri_get_host (guri), "</b>", NULL);
+		bold_user = g_strconcat ("<b>", g_uri_get_user (guri), "</b>", NULL);
 
 		description = g_string_new ("");
 
@@ -2019,11 +2018,11 @@ soup_authenticate (SoupSession *session,
 		g_free (bold_host);
 		g_free (bold_user);
 
-		if (retrying && msg->reason_phrase && *msg->reason_phrase) {
+		if (retrying && soup_message_get_reason_phrase (msg) && *soup_message_get_reason_phrase (msg)) {
 			g_string_append_c (description, '\n');
 			g_string_append_printf (
 				description, _("Failure reason: %s"),
-				msg->reason_phrase);
+				soup_message_get_reason_phrase (msg));
 		}
 
 		password = e_passwords_ask_password (
@@ -2036,70 +2035,46 @@ soup_authenticate (SoupSession *session,
 		g_string_free (description, TRUE);
 
 		if (password) {
-			soup_auth_authenticate (auth, suri->user, password);
+			soup_auth_authenticate (auth, g_uri_get_user (guri), password);
 
 			memset (password, 0, strlen (password));
 			g_free (password);
 		}
 	}
 
-	soup_uri_free (suri);
+	g_uri_unref (guri);
+
+	return FALSE;
 }
 
 static void
-redirect_handler (SoupMessage *msg,
-                  gpointer user_data)
-{
-	if (SOUP_STATUS_IS_REDIRECTION (msg->status_code)) {
-		SoupSession *soup_session = user_data;
-		SoupURI *new_uri;
-		const gchar *new_loc;
-
-		new_loc = soup_message_headers_get_list (msg->response_headers, "Location");
-		if (!new_loc)
-			return;
-
-		new_uri = soup_uri_new_with_base (soup_message_get_uri (msg), new_loc);
-		if (!new_uri) {
-			soup_message_set_status_full (
-				msg,
-				SOUP_STATUS_MALFORMED,
-				"Invalid Redirect URL");
-			return;
-		}
-
-		soup_message_set_uri (msg, new_uri);
-		soup_session_requeue_message (soup_session, msg);
-
-		soup_uri_free (new_uri);
-	}
-}
-
-static void
-soup_msg_ready_cb (SoupSession *session,
-                   SoupMessage *msg,
+soup_msg_ready_cb (GObject *source_object,
+                   GAsyncResult *result,
                    gpointer user_data)
 {
 	EMeetingStoreQueueData *qdata = user_data;
+	GBytes *bytes;
+	GError *local_error = NULL;
 
-	g_return_if_fail (session != NULL);
-	g_return_if_fail (msg != NULL);
+	g_return_if_fail (source_object != NULL);
 	g_return_if_fail (qdata != NULL);
 
-	if (SOUP_STATUS_IS_SUCCESSFUL (msg->status_code)) {
+	bytes = soup_session_send_and_read_finish (SOUP_SESSION (source_object), result, &local_error);
+	if (bytes && !local_error) {
 		qdata->string = g_string_new_len (
-			msg->response_body->data,
-			msg->response_body->length);
+			g_bytes_get_data (bytes, NULL),
+			g_bytes_get_size (bytes));
 		process_free_busy (qdata, qdata->string->str);
 	} else {
 		g_warning (
 			"Unable to access free/busy url: %s",
-			msg->reason_phrase && *msg->reason_phrase ?
-			msg->reason_phrase : (soup_status_get_phrase (
-			msg->status_code) ? soup_status_get_phrase (
-			msg->status_code) : "Unknown error"));
+			local_error ? local_error->message : "Unknown error");
 		process_callbacks (qdata);
 	}
+
+	if (bytes)
+		g_bytes_unref (bytes);
+	g_clear_error (&local_error);
 }
 
 static void
@@ -2122,17 +2097,13 @@ download_with_libsoup (const gchar *uri,
 	g_object_set_data_full (G_OBJECT (msg), "orig-uri", g_strdup (uri), g_free);
 
 	session = soup_session_new ();
-	g_object_set (session, SOUP_SESSION_TIMEOUT, 90, NULL);
+	g_object_set (session, "timeout", 60, NULL);
 	g_signal_connect (
-		session, "authenticate",
+		msg, "authenticate",
 		G_CALLBACK (soup_authenticate), NULL);
 
-	soup_message_set_flags (msg, SOUP_MESSAGE_NO_REDIRECT);
-	soup_message_add_header_handler (
-		msg, "got_body", "Location",
-		G_CALLBACK (redirect_handler), session);
-	soup_message_headers_append (msg->request_headers, "Connection", "close");
-	soup_session_queue_message (session, msg, soup_msg_ready_cb, qdata);
+	soup_message_headers_append (soup_message_get_request_headers (msg), "Connection", "close");
+	soup_session_send_and_read_async (session, msg, G_PRIORITY_DEFAULT, NULL, soup_msg_ready_cb, qdata);
 }
 
 static void
@@ -2154,7 +2125,7 @@ start_async_read (const gchar *uri,
 
 	istream = G_INPUT_STREAM (g_file_read (file, NULL, &error));
 
-	if (g_error_matches (error, SOUP_HTTP_ERROR, SOUP_STATUS_UNAUTHORIZED) ||
+	if (g_error_matches (error, E_SOUP_SESSION_ERROR, SOUP_STATUS_UNAUTHORIZED) ||
 	    g_error_matches (error, G_IO_ERROR, G_IO_ERROR_PERMISSION_DENIED)) {
 		download_with_libsoup (uri, qdata);
 		g_object_unref (file);

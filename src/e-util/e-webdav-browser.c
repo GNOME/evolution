@@ -38,6 +38,7 @@
 #include "e-alert-bar.h"
 #include "e-alert-dialog.h"
 #include "e-alert-sink.h"
+#include "e-misc-utils.h"
 #include "e-spell-text-view.h"
 
 #include "e-webdav-browser.h"
@@ -358,11 +359,11 @@ webdav_browser_manage_login_errors (EWebDAVBrowser *webdav_browser,
 	led.flag = NULL;
 	led.repeat = FALSE;
 
-	if (g_error_matches (error, SOUP_HTTP_ERROR, SOUP_STATUS_SSL_FAILED) &&
+	if (g_error_matches (error, G_TLS_ERROR, G_TLS_ERROR_BAD_CERTIFICATE) &&
 	    e_soup_session_get_ssl_error_details (E_SOUP_SESSION (session), &led.certificate_pem, &led.certificate_errors)) {
 		led.run_trust_prompt = TRUE;
 		led.flag = e_flag_new ();
-	} else if (g_error_matches (error, SOUP_HTTP_ERROR, SOUP_STATUS_UNAUTHORIZED)) {
+	} else if (g_error_matches (error, E_SOUP_SESSION_ERROR, SOUP_STATUS_UNAUTHORIZED)) {
 		led.flag = e_flag_new ();
 	}
 
@@ -712,7 +713,7 @@ typedef struct _SearchHomeData {
 static gboolean
 webdav_browser_search_home_hrefs_cb (EWebDAVSession *webdav,
 				     xmlNodePtr prop_node,
-				     const SoupURI *request_uri,
+				     const GUri *request_uri,
 				     const gchar *href,
 				     guint status_code,
 				     gpointer user_data)
@@ -899,7 +900,6 @@ webdav_browser_gather_href_resources_sync (EWebDAVBrowser *webdav_browser,
 				GHashTable *allows = NULL;
 				guint32 editing_flags = E_EDITING_FLAG_NONE;
 				ResourceData *rd;
-				gchar *tmp;
 
 				if (!resource ||
 				    !resource->href || (
@@ -934,6 +934,8 @@ webdav_browser_gather_href_resources_sync (EWebDAVBrowser *webdav_browser,
 					editing_flags |= E_EDITING_FLAG_IS_COLLECTION;
 
 				if (!g_str_has_suffix (resource->href, "/")) {
+					gchar *tmp;
+
 					tmp = g_strconcat (resource->href, "/", NULL);
 
 					g_free (resource->href);
@@ -942,9 +944,13 @@ webdav_browser_gather_href_resources_sync (EWebDAVBrowser *webdav_browser,
 
 				/* Because for example Google server returns the '@' sometimes encoded and sometimes not,
 				   which breaks lookup based on href in the code. */
-				tmp = soup_uri_normalize (resource->href, "@");
-				g_free (resource->href);
-				resource->href = tmp;
+				if (strstr (resource->href, "%40")) {
+					GString *tmp;
+
+					tmp = e_str_replace_string (resource->href, "%40", "@");
+					g_free (resource->href);
+					resource->href = g_string_free (tmp, FALSE);
+				}
 
 				rd = g_slice_new0 (ResourceData);
 				rd->editing_flags = editing_flags;
@@ -1154,22 +1160,21 @@ webdav_browser_search_user_home_thread (EAlertSinkThreadJobData *job_data,
 	source = e_soup_session_get_source (E_SOUP_SESSION (session));
 	if (source && e_source_has_extension (source, E_SOURCE_EXTENSION_WEBDAV_BACKEND)) {
 		ESourceWebdav *webdav_extension;
-		SoupURI *suri;
+		GUri *guri;
 
 		webdav_extension = e_source_get_extension (source, E_SOURCE_EXTENSION_WEBDAV_BACKEND);
-		suri = e_source_webdav_dup_soup_uri (webdav_extension);
+		guri = e_source_webdav_dup_uri (webdav_extension);
 
-		if (suri) {
+		if (guri) {
 			gchar *path;
 
-			soup_uri_set_user (suri, NULL);
-			path = soup_uri_to_string (suri, FALSE);
+			path = g_uri_to_string_partial (guri, G_URI_HIDE_USERINFO | G_URI_HIDE_PASSWORD);
 			if (path) {
 				shd.home_hrefs = g_slist_prepend (shd.home_hrefs, g_strdup (path));
 				g_hash_table_insert (shd.covered_home_hrefs, path, NULL);
 			}
 
-			path = g_strdup (soup_uri_get_path (suri));
+			path = g_strdup (g_uri_get_path (guri));
 			if (path) {
 				gint len, pos;
 				gint levels_back = 0;
@@ -1187,8 +1192,8 @@ webdav_browser_search_user_home_thread (EAlertSinkThreadJobData *job_data,
 
 						path[pos + 1] = '\0';
 
-						soup_uri_set_path (suri, path);
-						shd.todo_hrefs = g_slist_prepend (shd.todo_hrefs, soup_uri_to_string (suri, FALSE));
+						e_util_change_uri_component (&guri, SOUP_URI_PATH, path);
+						shd.todo_hrefs = g_slist_prepend (shd.todo_hrefs, g_uri_to_string_partial (guri, G_URI_HIDE_PASSWORD));
 					}
 				}
 
@@ -1196,19 +1201,18 @@ webdav_browser_search_user_home_thread (EAlertSinkThreadJobData *job_data,
 			}
 		}
 
-		if (suri && (!soup_uri_get_path (suri) || !strstr (soup_uri_get_path (suri), "/.well-known/"))) {
-			soup_uri_set_path (suri, "/.well-known/caldav");
-			shd.todo_hrefs = g_slist_prepend (shd.todo_hrefs, soup_uri_to_string (suri, FALSE));
+		if (guri && (!g_uri_get_path (guri) || !strstr (g_uri_get_path (guri), "/.well-known/"))) {
+			e_util_change_uri_component (&guri, SOUP_URI_PATH, "/.well-known/caldav");
+			shd.todo_hrefs = g_slist_prepend (shd.todo_hrefs, g_uri_to_string_partial (guri, G_URI_HIDE_PASSWORD));
 
-			soup_uri_set_path (suri, "/.well-known/carddav");
-			shd.todo_hrefs = g_slist_prepend (shd.todo_hrefs, soup_uri_to_string (suri, FALSE));
+			e_util_change_uri_component (&guri, SOUP_URI_PATH, "/.well-known/carddav");
+			shd.todo_hrefs = g_slist_prepend (shd.todo_hrefs, g_uri_to_string_partial (guri, G_URI_HIDE_PASSWORD));
 		}
 
-		if (suri) {
-			soup_uri_set_path (suri, "");
-			shd.todo_hrefs = g_slist_prepend (shd.todo_hrefs, soup_uri_to_string (suri, FALSE));
-
-			soup_uri_free (suri);
+		if (guri) {
+			e_util_change_uri_component (&guri, SOUP_URI_PATH, "");
+			shd.todo_hrefs = g_slist_prepend (shd.todo_hrefs, g_uri_to_string_partial (guri, G_URI_HIDE_PASSWORD));
+			g_uri_unref (guri);
 		}
 	}
 
@@ -1251,22 +1255,20 @@ webdav_browser_search_user_home_thread (EAlertSinkThreadJobData *job_data,
 
 	if (!shd.home_hrefs) {
 		ESourceWebdav *webdav_extension;
-		SoupURI *suri;
+		GUri *guri;
 
 		webdav_extension = e_source_get_extension (source, E_SOURCE_EXTENSION_WEBDAV_BACKEND);
-		suri = e_source_webdav_dup_soup_uri (webdav_extension);
+		guri = e_source_webdav_dup_uri (webdav_extension);
 
-		if (suri) {
+		if (guri) {
 			gchar *path;
 
-			soup_uri_set_user (suri, NULL);
-
-			path = g_strdup (soup_uri_get_path (suri));
+			path = g_uri_to_string_partial (guri, G_URI_HIDE_USERINFO | G_URI_HIDE_PASSWORD);
 			if (path) {
 				gint len, pos;
 				gint levels_back = 0;
 
-				shd.home_hrefs = g_slist_prepend (shd.home_hrefs, soup_uri_to_string (suri, FALSE));
+				shd.home_hrefs = g_slist_prepend (shd.home_hrefs, g_strdup (path));
 
 				/* There is no guarantee that the parent folder is a WebDAV collection,
 				   but let's try it, just in case. */
@@ -1283,8 +1285,8 @@ webdav_browser_search_user_home_thread (EAlertSinkThreadJobData *job_data,
 
 						path[pos + 1] = '\0';
 
-						soup_uri_set_path (suri, path);
-						href = soup_uri_to_string (suri, FALSE);
+						e_util_change_uri_component (&guri, SOUP_URI_PATH, path);
+						href = g_uri_to_string_partial (guri, G_URI_HIDE_USERINFO | G_URI_HIDE_PASSWORD);
 
 						if (!g_hash_table_contains (shd.covered_home_hrefs, href))
 							shd.home_hrefs = g_slist_prepend (shd.home_hrefs, href);
@@ -1296,7 +1298,7 @@ webdav_browser_search_user_home_thread (EAlertSinkThreadJobData *job_data,
 				g_free (path);
 			}
 
-			soup_uri_free (suri);
+			g_uri_unref (guri);
 		}
 	}
 
@@ -1732,23 +1734,23 @@ webdav_browser_save_changes_thread (EAlertSinkThreadJobData *job_data,
 
 		g_slist_free_full (changes, e_webdav_property_change_free);
 	} else {
-		SoupURI *suri;
+		GUri *guri;
 		GString *path;
 		gchar *encoded;
 
-		suri = soup_uri_new (scd->href);
-		path = g_string_new (soup_uri_get_path (suri));
+		guri = g_uri_parse (scd->href, SOUP_HTTP_URI_FLAGS | G_URI_FLAGS_PARSE_RELAXED, NULL);
+		path = g_string_new (g_uri_get_path (guri));
 
 		if (path->len && path->str[path->len - 1] != '/')
 			g_string_append_c (path, '/');
 
-		encoded = soup_uri_encode (scd->name, NULL);
+		encoded = g_uri_escape_string (scd->name, NULL, FALSE);
 		g_string_append (path, encoded);
 		g_free (encoded);
 
-		soup_uri_set_path (suri, path->str);
+		e_util_change_uri_component (&guri, SOUP_URI_PATH, path->str);
 
-		new_href = soup_uri_to_string (suri, FALSE);
+		new_href = g_uri_to_string_partial (guri, G_URI_HIDE_PASSWORD);
 
 		if ((scd->supports & E_WEBDAV_RESOURCE_SUPPORTS_CONTACTS) != 0) {
 			success = e_webdav_session_mkcol_addressbook_sync (session, new_href,
@@ -1792,7 +1794,7 @@ webdav_browser_save_changes_thread (EAlertSinkThreadJobData *job_data,
 		}
 
 		g_string_free (path, TRUE);
-		soup_uri_free (suri);
+		g_uri_unref (guri);
 	}
 
 	if (success) {
@@ -2405,20 +2407,20 @@ webdav_browser_refresh (EWebDAVBrowser *webdav_browser)
 	if (webdav_browser->priv->session) {
 		ESource *source;
 		ESourceWebdav *webdav_extension;
-		SoupURI *suri;
+		GUri *guri;
 
 		source = e_soup_session_get_source (E_SOUP_SESSION (webdav_browser->priv->session));
 		g_return_if_fail (E_IS_SOURCE (source));
 		g_return_if_fail (e_source_has_extension (source, E_SOURCE_EXTENSION_WEBDAV_BACKEND));
 
 		webdav_extension = e_source_get_extension (source, E_SOURCE_EXTENSION_WEBDAV_BACKEND);
-		suri = e_source_webdav_dup_soup_uri (webdav_extension);
+		guri = e_source_webdav_dup_uri (webdav_extension);
 
-		g_return_if_fail (suri != NULL);
+		g_return_if_fail (guri != NULL);
 
-		gtk_label_set_text (webdav_browser->priv->url_label, soup_uri_get_host (suri));
+		gtk_label_set_text (webdav_browser->priv->url_label, g_uri_get_host (guri));
 
-		soup_uri_free (suri);
+		g_uri_unref (guri);
 
 		webdav_browser_search_user_home (webdav_browser);
 	} else {

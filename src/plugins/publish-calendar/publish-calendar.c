@@ -325,7 +325,7 @@ ask_password (GMountOperation *op,
 	const gchar *username;
 	gchar *password;
 	gboolean req_pass = FALSE;
-	SoupURI *soup_uri;
+	GUri *guri;
 
 	g_return_if_fail (ms != NULL);
 
@@ -333,10 +333,10 @@ ask_password (GMountOperation *op,
 	if ((flags & G_ASK_PASSWORD_NEED_PASSWORD) == 0)
 		return;
 
-	soup_uri = soup_uri_new (ms->uri->location);
-	g_return_if_fail (soup_uri != NULL);
+	guri = g_uri_parse (ms->uri->location, SOUP_HTTP_URI_FLAGS | G_URI_FLAGS_PARSE_RELAXED, NULL);
+	g_return_if_fail (guri != NULL);
 
-	username = soup_uri_get_user (soup_uri);
+	username = g_uri_get_user (guri);
 	password = e_passwords_get_password (ms->uri->location);
 	req_pass =
 		((username && *username) &&
@@ -357,7 +357,7 @@ ask_password (GMountOperation *op,
 		if (!password) {
 			/* user canceled password dialog */
 			g_mount_operation_reply (op, G_MOUNT_OPERATION_ABORTED);
-			soup_uri_free (soup_uri);
+			g_uri_unref (guri);
 
 			return;
 		}
@@ -373,7 +373,7 @@ ask_password (GMountOperation *op,
 
 	g_mount_operation_reply (op, G_MOUNT_OPERATION_HANDLED);
 
-	soup_uri_free (soup_uri);
+	g_uri_unref (guri);
 }
 
 static void

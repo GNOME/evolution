@@ -93,9 +93,6 @@
 /* When defined GSpell usage is enabled */
 #cmakedefine HAVE_GSPELL 1
 
-/* Defined when linking against gweather4. Cannot just use GWEATHER_CHECK_VERSION because 40.0 made the versions non-monotonic. */
-#cmakedefine WITH_GWEATHER4 1
-
 /* Source code highlighting utility */
 #cmakedefine HIGHLIGHT_COMMAND "@HIGHLIGHT_COMMAND@"
 

@@ -71,7 +71,7 @@ gravatar_photo_source_get_photo_thread (GSimpleAsyncResult *simple,
                                         GCancellable *cancellable)
 {
 	AsyncContext *async_context;
-	SoupRequest *request;
+	SoupMessage *message;
 	SoupSession *session;
 	GInputStream *stream = NULL;
 	gchar *hash;
@@ -94,10 +94,10 @@ gravatar_photo_source_get_photo_thread (GSimpleAsyncResult *simple,
 	session = soup_session_new ();
 
 	/* We control the URI so there should be no error. */
-	request = soup_session_request (session, uri, NULL);
-	g_return_if_fail (request != NULL);
+	message = soup_message_new (SOUP_METHOD_GET, uri);
+	g_return_if_fail (message != NULL);
 
-	stream = soup_request_send (request, cancellable, &local_error);
+	stream = soup_session_send (session, message, cancellable, &local_error);
 
 	/* Sanity check. */
 	g_return_if_fail (
@@ -108,22 +108,16 @@ gravatar_photo_source_get_photo_thread (GSimpleAsyncResult *simple,
 	 *     We need to check the status code on the SoupMessage
 	 *     to make sure the we're not getting an error message. */
 	if (stream != NULL) {
-		SoupMessage *message;
-
-		message = soup_request_http_get_message (
-			SOUP_REQUEST_HTTP (request));
-
-		if (SOUP_STATUS_IS_SUCCESSFUL (message->status_code)) {
+		if (SOUP_STATUS_IS_SUCCESSFUL (soup_message_get_status (message))) {
 			async_context->stream = g_object_ref (stream);
 
-		} else if (message->status_code != SOUP_STATUS_NOT_FOUND) {
+		} else if (soup_message_get_status (message) != SOUP_STATUS_NOT_FOUND) {
 			local_error = g_error_new_literal (
-				SOUP_HTTP_ERROR,
-				message->status_code,
-				message->reason_phrase);
+				E_SOUP_SESSION_ERROR,
+				soup_message_get_status (message),
+				soup_message_get_reason_phrase (message));
 		}
 
-		g_object_unref (message);
 		g_object_unref (stream);
 	}
 
@@ -137,7 +131,7 @@ gravatar_photo_source_get_photo_thread (GSimpleAsyncResult *simple,
 
 	g_debug ("Request complete");
 
-	g_clear_object (&request);
+	g_clear_object (&message);
 	g_clear_object (&session);
 
 	g_free (hash);

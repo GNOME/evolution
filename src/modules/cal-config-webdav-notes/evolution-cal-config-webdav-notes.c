@@ -85,7 +85,7 @@ cal_config_webdav_notes_run_dialog (GtkButton *button,
 	ESourceWebdav *webdav_extension;
 	ECalClientSourceType source_type;
 	ECredentialsPrompter *prompter;
-	SoupURI *uri;
+	GUri *guri;
 	gchar *base_url;
 	GtkDialog *dialog;
 	gpointer parent;
@@ -111,11 +111,11 @@ cal_config_webdav_notes_run_dialog (GtkButton *button,
 
 	webdav_extension = e_source_get_extension (context->scratch_source, E_SOURCE_EXTENSION_WEBDAV_BACKEND);
 
-	uri = e_source_webdav_dup_soup_uri (webdav_extension);
+	guri = e_source_webdav_dup_uri (webdav_extension);
 
 	prompter = e_credentials_prompter_new (registry);
 	e_credentials_prompter_set_auto_prompt (prompter, FALSE);
-	base_url = soup_uri_to_string (uri, FALSE);
+	base_url = g_uri_to_string_partial (guri, G_URI_HIDE_PASSWORD);
 
 	dialog = e_webdav_discover_dialog_new (parent, title, prompter, context->scratch_source, base_url, supports_filter);
 
@@ -138,10 +138,10 @@ cal_config_webdav_notes_run_dialog (GtkButton *button,
 		content = e_webdav_discover_dialog_get_content (dialog);
 
 		if (e_webdav_discover_content_get_selected (content, 0, &href, &supports, &display_name, &color, &order)) {
-			soup_uri_free (uri);
-			uri = soup_uri_new (href);
+			g_uri_unref (guri);
+			guri = g_uri_parse (href, SOUP_HTTP_URI_FLAGS | G_URI_FLAGS_PARSE_RELAXED, NULL);
 
-			if (uri) {
+			if (guri) {
 				ESourceSelectable *selectable_extension;
 				const gchar *extension_name;
 
@@ -158,7 +158,7 @@ cal_config_webdav_notes_run_dialog (GtkButton *button,
 				e_source_set_display_name (context->scratch_source, display_name);
 
 				e_source_webdav_set_display_name (webdav_extension, display_name);
-				e_source_webdav_set_soup_uri (webdav_extension, uri);
+				e_source_webdav_set_uri (webdav_extension, guri);
 				e_source_webdav_set_order (webdav_extension, order);
 
 				if (color && *color)
@@ -187,72 +187,9 @@ cal_config_webdav_notes_run_dialog (GtkButton *button,
 	gtk_widget_destroy (GTK_WIDGET (dialog));
 
 	g_object_unref (prompter);
-	if (uri)
-		soup_uri_free (uri);
+	if (guri)
+		g_uri_unref (guri);
 	g_free (base_url);
-}
-
-static gboolean
-cal_config_webdav_notes_uri_to_text (GBinding *binding,
-				     const GValue *source_value,
-				     GValue *target_value,
-				     gpointer user_data)
-{
-	SoupURI *soup_uri;
-	gchar *text;
-
-	soup_uri = g_value_get_boxed (source_value);
-	soup_uri_set_user (soup_uri, NULL);
-
-	if (soup_uri_get_host (soup_uri)) {
-		text = soup_uri_to_string (soup_uri, FALSE);
-	} else {
-		GObject *target;
-
-		text = NULL;
-		target = g_binding_get_target (binding);
-		g_object_get (target, g_binding_get_target_property (binding), &text, NULL);
-
-		if (!text || !*text) {
-			g_free (text);
-			text = soup_uri_to_string (soup_uri, FALSE);
-		}
-	}
-
-	g_value_take_string (target_value, text);
-
-	return TRUE;
-}
-
-static gboolean
-cal_config_webdav_notes_text_to_uri (GBinding *binding,
-				     const GValue *source_value,
-				     GValue *target_value,
-				     gpointer user_data)
-{
-	ESource *source;
-	SoupURI *soup_uri;
-	ESourceAuthentication *extension;
-	const gchar *extension_name;
-	const gchar *text;
-	const gchar *user;
-
-	text = g_value_get_string (source_value);
-	soup_uri = soup_uri_new (text);
-
-	if (!soup_uri)
-		soup_uri = soup_uri_new ("http://");
-
-	source = E_SOURCE (user_data);
-	extension_name = E_SOURCE_EXTENSION_AUTHENTICATION;
-	extension = e_source_get_extension (source, extension_name);
-	user = e_source_authentication_get_user (extension);
-
-	soup_uri_set_user (soup_uri, user);
-
-	g_value_take_boxed (target_value, soup_uri);
-
-	return TRUE;
 }
 
 static gboolean
@@ -305,10 +242,10 @@ cal_config_webdav_notes_insert_widgets (ESourceConfigBackend *backend,
 		extension = e_source_get_extension (scratch_source, E_SOURCE_EXTENSION_WEBDAV_BACKEND);
 
 		e_binding_bind_property_full (
-			extension, "soup-uri",
+			extension, "uri",
 			widget, "label",
 			G_BINDING_SYNC_CREATE,
-			cal_config_webdav_notes_uri_to_text,
+			e_binding_transform_uri_to_text,
 			NULL,
 			g_object_ref (scratch_source),
 			(GDestroyNotify) g_object_unref);
@@ -386,12 +323,12 @@ cal_config_webdav_notes_insert_widgets (ESourceConfigBackend *backend,
 
 	if (context->url_entry) {
 		e_binding_bind_property_full (
-			extension, "soup-uri",
+			extension, "uri",
 			context->url_entry, "text",
 			G_BINDING_BIDIRECTIONAL |
 			G_BINDING_SYNC_CREATE,
-			cal_config_webdav_notes_uri_to_text,
-			cal_config_webdav_notes_text_to_uri,
+			e_binding_transform_uri_to_text,
+			e_binding_transform_text_to_uri,
 			g_object_ref (scratch_source),
 			(GDestroyNotify) g_object_unref);
 	}
@@ -404,7 +341,7 @@ cal_config_webdav_notes_check_complete (ESourceConfigBackend *backend,
 	Context *context;
 	const gchar *uid;
 	const gchar *uri_string;
-	SoupURI *soup_uri;
+	GUri *guri;
 	gboolean complete;
 
 	uid = e_source_get_uid (scratch_source);
@@ -415,19 +352,21 @@ cal_config_webdav_notes_check_complete (ESourceConfigBackend *backend,
 		return TRUE;
 
 	uri_string = gtk_entry_get_text (GTK_ENTRY (context->url_entry));
-	soup_uri = soup_uri_new (uri_string);
+	guri = g_uri_parse (uri_string, SOUP_HTTP_URI_FLAGS | G_URI_FLAGS_PARSE_RELAXED, NULL);
 
-	if (soup_uri) {
-		if (g_strcmp0 (soup_uri_get_scheme (soup_uri), "caldav") == 0)
-			soup_uri_set_scheme (soup_uri, SOUP_URI_SCHEME_HTTP);
+	if (guri) {
+		if (g_strcmp0 (g_uri_get_scheme (guri), "caldav") == 0)
+			e_util_change_uri_component (&guri, SOUP_URI_SCHEME, "https");
 
-		complete = soup_uri_get_host (soup_uri) && SOUP_URI_VALID_FOR_HTTP (soup_uri);
+		complete = (g_strcmp0 (g_uri_get_scheme (guri), "http") == 0 ||
+			    g_strcmp0 (g_uri_get_scheme (guri), "https") == 0) &&
+			    g_uri_get_host (guri) && g_uri_get_path (guri);
 	} else {
 		complete = FALSE;
 	}
 
-	if (soup_uri != NULL)
-		soup_uri_free (soup_uri);
+	if (guri)
+		g_uri_unref (guri);
 
 	gtk_widget_set_sensitive (context->find_button, complete);
 

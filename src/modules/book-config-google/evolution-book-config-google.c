@@ -113,7 +113,7 @@ book_config_google_commit_changes (ESourceConfigBackend *backend,
 	ESourceBackend *addressbook_extension;
 	ESourceWebdav *webdav_extension;
 	ESourceAuthentication *extension;
-	SoupURI *soup_uri;
+	GUri *guri;
 	const gchar *extension_name;
 	const gchar *user;
 
@@ -148,18 +148,18 @@ book_config_google_commit_changes (ESourceConfigBackend *backend,
 		g_free (full_user);
 	}
 
-	soup_uri = e_source_webdav_dup_soup_uri (webdav_extension);
+	guri = e_source_webdav_dup_uri (webdav_extension);
 
-	if (!soup_uri->path || !*soup_uri->path || g_strcmp0 (soup_uri->path, "/") == 0) {
-		e_google_book_chooser_button_construct_default_uri (soup_uri, e_source_authentication_get_user (extension));
+	if (!g_uri_get_path (guri) || !*g_uri_get_path (guri) || g_strcmp0 (g_uri_get_path (guri), "/") == 0) {
+		e_google_book_chooser_button_construct_default_uri (&guri, e_source_authentication_get_user (extension));
 	}
 
 	/* Google's CalDAV interface requires a secure connection. */
-	soup_uri_set_scheme (soup_uri, SOUP_URI_SCHEME_HTTPS);
+	e_util_change_uri_component (&guri, SOUP_URI_SCHEME, "https");
 
-	e_source_webdav_set_soup_uri (webdav_extension, soup_uri);
+	e_source_webdav_set_uri (webdav_extension, guri);
 
-	soup_uri_free (soup_uri);
+	g_uri_unref (guri);
 }
 
 static void

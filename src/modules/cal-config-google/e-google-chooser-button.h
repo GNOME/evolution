@@ -64,7 +64,7 @@ ESource *	e_google_chooser_button_get_source
 ESourceConfig *	e_google_chooser_button_get_config
 						(EGoogleChooserButton *button);
 void		e_google_chooser_button_construct_default_uri
-						(SoupURI *soup_uri,
+						(GUri **inout_uri,
 						 const gchar *username);
 
 G_END_DECLS

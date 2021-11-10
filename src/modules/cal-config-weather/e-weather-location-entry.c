@@ -125,17 +125,9 @@ finalize (GObject *object)
 	priv = entry->priv;
 
 	if (priv->location)
-		#ifdef WITH_GWEATHER4
 		g_object_unref (priv->location);
-		#else
-		gweather_location_unref (priv->location);
-		#endif
 	if (priv->top)
-		#ifdef WITH_GWEATHER4
 		g_object_unref (priv->top);
-		#else
-		gweather_location_unref (priv->top);
-		#endif
 	if (priv->model)
 		g_object_unref (priv->model);
 
@@ -222,11 +214,7 @@ e_weather_location_entry_class_init (EWeatherLocationEntryClass *location_entry_
 
 	g_object_class_install_property (
 		object_class, PROP_TOP,
-		#ifdef WITH_GWEATHER4
 		g_param_spec_object ("top",
-		#else
-		g_param_spec_boxed ("top",
-		#endif
 				     "Top Location",
 				     "The GWeatherLocation whose children will be used to fill in the entry",
 				     GWEATHER_TYPE_LOCATION,
@@ -242,11 +230,7 @@ e_weather_location_entry_class_init (EWeatherLocationEntryClass *location_entry_
 
 	g_object_class_install_property (
 		object_class, PROP_LOCATION,
-		#ifdef WITH_GWEATHER4
 		g_param_spec_object ("location",
-		#else
-		g_param_spec_boxed ("location",
-		#endif
 				     "Location",
 				     "The selected GWeatherLocation",
 				     GWEATHER_TYPE_LOCATION,
@@ -263,22 +247,14 @@ set_property (GObject *object,
 
 	switch (prop_id) {
 	case PROP_TOP:
-		#ifdef WITH_GWEATHER4
 		entry->priv->top = g_value_dup_object (value);
-		#else
-		entry->priv->top = g_value_dup_boxed (value);
-		#endif
 		break;
 	case PROP_SHOW_NAMED_TIMEZONES:
 		entry->priv->show_named_timezones = g_value_get_boolean (value);
 		break;
 	case PROP_LOCATION:
 		e_weather_location_entry_set_location (E_WEATHER_LOCATION_ENTRY (object),
-						       #ifdef WITH_GWEATHER4
 						       g_value_get_object (value));
-						       #else
-						       g_value_get_boxed (value));
-						       #endif
 		break;
 	default:
 		G_OBJECT_WARN_INVALID_PROPERTY_ID (object, prop_id, pspec);
@@ -299,11 +275,7 @@ get_property (GObject *object,
 		g_value_set_boolean (value, entry->priv->show_named_timezones);
 		break;
 	case PROP_LOCATION:
-		#ifdef WITH_GWEATHER4
 		g_value_set_object (value, entry->priv->location);
-		#else
-		g_value_set_boxed (value, entry->priv->location);
-		#endif
 		break;
 	default:
 		G_OBJECT_WARN_INVALID_PROPERTY_ID (object, prop_id, pspec);
@@ -349,11 +321,7 @@ set_location_internal (EWeatherLocationEntry *entry,
 	priv = entry->priv;
 
 	if (priv->location)
-		#ifdef WITH_GWEATHER4
 		g_object_unref (priv->location);
-		#else
-		gweather_location_unref (priv->location);
-		#endif
 
 	g_return_if_fail (iter == NULL || loc == NULL);
 
@@ -366,11 +334,7 @@ set_location_internal (EWeatherLocationEntry *entry,
 		priv->custom_text = FALSE;
 		g_free (name);
 	} else if (loc) {
-		#ifdef WITH_GWEATHER4
 		priv->location = g_object_ref (loc);
-		#else
-		priv->location = gweather_location_ref (loc);
-		#endif
 		gtk_entry_set_text (GTK_ENTRY (entry), gweather_location_get_name (loc));
 		priv->custom_text = FALSE;
 	} else {
@@ -420,19 +384,11 @@ e_weather_location_entry_set_location (EWeatherLocationEntry *entry,
 				    -1);
 		if (gweather_location_equal (loc, cmploc)) {
 			set_location_internal (entry, model, &iter, NULL);
-			#ifdef WITH_GWEATHER4
 			g_object_unref (cmploc);
-			#else
-			gweather_location_unref (cmploc);
-			#endif
 			return;
 		}
 
-		#ifdef WITH_GWEATHER4
 		g_object_unref (cmploc);
-		#else
-		gweather_location_unref (cmploc);
-		#endif
 	} while (gtk_tree_model_iter_next (model, &iter));
 
 	set_location_internal (entry, model, NULL, loc);
@@ -455,11 +411,7 @@ e_weather_location_entry_get_location (EWeatherLocationEntry *entry)
 	g_return_val_if_fail (E_WEATHER_IS_LOCATION_ENTRY (entry), NULL);
 
 	if (entry->priv->location)
-		#ifdef WITH_GWEATHER4
 		return g_object_ref (entry->priv->location);
-		#else
-		return gweather_location_ref (entry->priv->location);
-		#endif
 	else
 		return NULL;
 }
@@ -522,22 +474,14 @@ e_weather_location_entry_set_city (EWeatherLocationEntry *entry,
 
 		cmpcode = gweather_location_get_code (cmploc);
 		if (!cmpcode || strcmp (cmpcode, code) != 0) {
-			#ifdef WITH_GWEATHER4
 			g_object_unref (cmploc);
-			#else
-			gweather_location_unref (cmploc);
-			#endif
 			continue;
 		}
 
 		if (city_name) {
 			cmpname = gweather_location_get_city_name (cmploc);
 			if (!cmpname || strcmp (cmpname, city_name) != 0) {
-				#ifdef WITH_GWEATHER4
 				g_object_unref (cmploc);
-				#else
-				gweather_location_unref (cmploc);
-				#endif
 				g_free (cmpname);
 				continue;
 			}
@@ -545,11 +489,7 @@ e_weather_location_entry_set_city (EWeatherLocationEntry *entry,
 		}
 
 		set_location_internal (entry, model, &iter, NULL);
-		#ifdef WITH_GWEATHER4
 		g_object_unref (cmploc);
-		#else
-		gweather_location_unref (cmploc);
-		#endif
 		return TRUE;
 	} while (gtk_tree_model_iter_next (model, &iter));
 
@@ -706,11 +646,7 @@ fill_location_entry_model (GtkListStore *store,
 		break;
 	}
 
-	#ifdef WITH_GWEATHER4
 	g_clear_object (&child);
-	#else
-	g_clear_pointer (&child, gweather_location_unref);
-	#endif
 }
 
 static gchar *

@@ -249,6 +249,14 @@ gboolean	e_binding_transform_text_non_null
 						 const GValue *source_value,
 						 GValue *target_value,
 						 gpointer user_data);
+gboolean	e_binding_transform_text_to_uri	(GBinding *binding,
+						 const GValue *source_value,
+						 GValue *target_value,
+						 gpointer not_used);
+gboolean	e_binding_transform_uri_to_text	(GBinding *binding,
+						 const GValue *source_value,
+						 GValue *target_value,
+						 gpointer not_used);
 
 GBinding *	e_binding_bind_object_text_property
 						(gpointer source,

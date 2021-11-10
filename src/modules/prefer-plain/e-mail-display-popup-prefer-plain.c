@@ -92,22 +92,22 @@ toggle_part (GtkAction *action,
              EMailDisplayPopupExtension *extension)
 {
 	EMailDisplayPopupPreferPlain *pp_extension = (EMailDisplayPopupPreferPlain *) extension;
-	SoupURI *soup_uri;
+	GUri *guri;
 	GHashTable *query;
-	gchar *uri;
+	gchar *uri, *query_str;
 
 	if (!pp_extension->iframe_src)
 		return;
 
-	soup_uri = soup_uri_new (pp_extension->iframe_src);
+	guri = g_uri_parse (pp_extension->iframe_src, SOUP_HTTP_URI_FLAGS | G_URI_FLAGS_PARSE_RELAXED, NULL);
 
-	if (!soup_uri || !soup_uri->query) {
-		if (soup_uri)
-			soup_uri_free (soup_uri);
+	if (!guri || !g_uri_get_query (guri)) {
+		if (guri)
+			g_uri_unref (guri);
 		return;
 	}
 
-	query = soup_form_decode (soup_uri->query);
+	query = soup_form_decode (g_uri_get_query (guri));
 	g_hash_table_replace (
 		query, g_strdup ("part_id"),
 		pp_extension->text_html_id ?
@@ -119,11 +119,13 @@ toggle_part (GtkAction *action,
 			(gpointer) "text/html" :
 			(gpointer) "text/plain");
 
-	soup_uri_set_query_from_form (soup_uri, query);
-	g_hash_table_destroy (query);
+	query_str = soup_form_encode_hash (query);
+	e_util_change_uri_component (&guri, SOUP_URI_QUERY, query_str);
+	g_hash_table_unref (query);
+	g_free (query_str);
 
-	uri = soup_uri_to_string (soup_uri, FALSE);
-	soup_uri_free (soup_uri);
+	uri = g_uri_to_string_partial (guri, G_URI_HIDE_PASSWORD);
+	g_uri_unref (guri);
 
 	e_web_view_set_iframe_src (E_WEB_VIEW (e_extension_get_extensible (E_EXTENSION (extension))),
 		pp_extension->iframe_id, uri);
@@ -240,7 +242,7 @@ mail_display_popup_prefer_plain_update_actions (EMailDisplayPopupExtension *exte
 	EMailDisplayPopupPreferPlain *pp_extension;
 	GtkAction *action;
 	gchar *part_id, *pos, *prefix;
-	SoupURI *soup_uri;
+	GUri *guri;
 	GHashTable *query;
 	EMailPartList *part_list;
 	gboolean is_text_plain;
@@ -259,18 +261,18 @@ mail_display_popup_prefer_plain_update_actions (EMailDisplayPopupExtension *exte
 	set_popup_place (pp_extension, popup_iframe_src, popup_iframe_id);
 
 	if (pp_extension->iframe_src)
-		soup_uri = soup_uri_new (pp_extension->iframe_src);
+		guri = g_uri_parse (pp_extension->iframe_src, SOUP_HTTP_URI_FLAGS | G_URI_FLAGS_PARSE_RELAXED, NULL);
 	else
-		soup_uri = NULL;
+		guri = NULL;
 
-	if (!soup_uri || !soup_uri->query) {
+	if (!guri || !g_uri_get_query (guri)) {
 		gtk_action_group_set_visible (pp_extension->action_group, FALSE);
-		if (soup_uri)
-			soup_uri_free (soup_uri);
+		if (guri)
+			g_uri_unref (guri);
 		return;
 	}
 
-	query = soup_form_decode (soup_uri->query);
+	query = soup_form_decode (g_uri_get_query (guri));
 	part_id = g_hash_table_lookup (query, "part_id");
 	if (part_id == NULL) {
 		gtk_action_group_set_visible (pp_extension->action_group, FALSE);
@@ -356,7 +358,7 @@ mail_display_popup_prefer_plain_update_actions (EMailDisplayPopupExtension *exte
 	g_free (prefix);
  out:
 	g_hash_table_destroy (query);
-	soup_uri_free (soup_uri);
+	g_uri_unref (guri);
 }
 
 void

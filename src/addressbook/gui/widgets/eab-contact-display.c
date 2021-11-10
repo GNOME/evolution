@@ -321,21 +321,23 @@ contact_display_hovering_over_link (EWebView *web_view,
 
 		handled = TRUE;
 	} else if (uri && g_str_has_prefix (uri, "open-map:")) {
-		SoupURI *suri;
+		GUri *guri;
 
-		suri = soup_uri_new (uri);
-		if (suri) {
+		guri = g_uri_parse (uri, SOUP_HTTP_URI_FLAGS | G_URI_FLAGS_PARSE_RELAXED, NULL);
+		if (guri) {
 			gchar *decoded;
 
-			decoded = soup_uri_decode (soup_uri_get_path (suri));
+			decoded = g_uri_unescape_string (g_uri_get_path (guri), NULL);
 
-			message = g_strdup_printf (_("Click to open map for %s"), decoded);
-			e_web_view_status_message (web_view, message);
-			g_free (message);
+			if (decoded) {
+				message = g_strdup_printf (_("Click to open map for %s"), decoded);
+				e_web_view_status_message (web_view, message);
+				g_free (message);
 
-			handled = TRUE;
+				handled = TRUE;
+			}
 
-			soup_uri_free (suri);
+			g_uri_unref (guri);
 			g_free (decoded);
 		}
 	}
@@ -366,12 +368,12 @@ contact_display_link_clicked (EWebView *web_view,
 
 	length = strlen ("open-map:");
 	if (g_ascii_strncasecmp (uri, "open-map:", length) == 0) {
-		SoupURI *suri;
+		GUri *guri;
 
-		suri = soup_uri_new (uri);
-		if (suri) {
-			contact_display_open_map (display, soup_uri_get_path (suri));
-			soup_uri_free (suri);
+		guri = g_uri_parse (uri, SOUP_HTTP_URI_FLAGS | G_URI_FLAGS_PARSE_RELAXED, NULL);
+		if (guri) {
+			contact_display_open_map (display, g_uri_get_path (guri));
+			g_uri_unref (guri);
 		}
 
 		return;

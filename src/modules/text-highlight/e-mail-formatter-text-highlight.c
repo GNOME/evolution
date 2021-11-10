@@ -78,15 +78,15 @@ get_syntax (EMailPart *part,
 	mime_part = e_mail_part_ref_mime_part (part);
 
 	if (uri) {
-		SoupURI *soup_uri = soup_uri_new (uri);
-		GHashTable *query = soup_form_decode (soup_uri->query);
+		GUri *guri = g_uri_parse (uri, SOUP_HTTP_URI_FLAGS | G_URI_FLAGS_PARSE_RELAXED, NULL);
+		GHashTable *query = soup_form_decode (g_uri_get_query (guri));
 
 		syntax = g_hash_table_lookup (query, "__formatas");
 		if (syntax) {
 			syntax = g_strdup (syntax);
 		}
 		g_hash_table_destroy (query);
-		soup_uri_free (soup_uri);
+		g_uri_unref (guri);
 	}
 
 	/* Try to detect syntax by content-type first */
@@ -293,17 +293,17 @@ emfe_text_highlight_format (EMailFormatterExtension *extension,
 			gboolean can_process = FALSE;
 
 			if (context->uri) {
-				SoupURI *soup_uri;
+				GUri *guri;
 
-				soup_uri = soup_uri_new (context->uri);
-				if (soup_uri) {
+				guri = g_uri_parse (context->uri, SOUP_HTTP_URI_FLAGS | G_URI_FLAGS_PARSE_RELAXED, NULL);
+				if (guri) {
 					GHashTable *query;
 
-					query = soup_form_decode (soup_uri->query);
+					query = soup_form_decode (g_uri_get_query (guri));
 					can_process = query && g_strcmp0 (g_hash_table_lookup (query, "__force_highlight"), "true") == 0;
 					if (query)
 						g_hash_table_destroy (query);
-					soup_uri_free (soup_uri);
+					g_uri_unref (guri);
 				}
 			}
 

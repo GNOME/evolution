@@ -116,7 +116,7 @@ cal_config_google_commit_changes (ESourceConfigBackend *backend,
 	ESourceWebdav *webdav_extension;
 	ESourceAuthentication *authentication_extension;
 	gboolean can_google_auth;
-	SoupURI *soup_uri;
+	GUri *guri;
 
 	/* We need to hard-code a few settings. */
 
@@ -136,33 +136,32 @@ cal_config_google_commit_changes (ESourceConfigBackend *backend,
 	 * ESource is a child of the built-in "Google" source. */
 	e_source_backend_set_backend_name (calendar_extension, "caldav");
 
-	soup_uri = e_source_webdav_dup_soup_uri (webdav_extension);
+	guri = e_source_webdav_dup_uri (webdav_extension);
 
 	if (can_google_auth || g_strcmp0 (e_source_authentication_get_method (authentication_extension), "Google") == 0) {
 		/* Prefer 'Google', aka internal OAuth2, authentication method, if available */
 		e_source_authentication_set_method (authentication_extension, "Google");
 
 		/* See https://developers.google.com/google-apps/calendar/caldav/v2/guide */
-		soup_uri_set_host (soup_uri, "apidata.googleusercontent.com");
+		e_util_change_uri_component (&guri, SOUP_URI_HOST, "apidata.googleusercontent.com");
 	} else {
-		soup_uri_set_host (soup_uri, "www.google.com");
+		e_util_change_uri_component (&guri, SOUP_URI_HOST, "www.google.com");
 	}
 
-	if (!soup_uri->path || !*soup_uri->path || g_strcmp0 (soup_uri->path, "/") == 0) {
+	if (!g_uri_get_path (guri) || !*g_uri_get_path (guri) || g_strcmp0 (g_uri_get_path (guri), "/") == 0) {
 		ESourceAuthentication *authentication_extension
 			= e_source_get_extension (scratch_source, E_SOURCE_EXTENSION_AUTHENTICATION);
 
-		e_google_chooser_button_construct_default_uri (
-			soup_uri,
+		e_google_chooser_button_construct_default_uri (&guri,
 			e_source_authentication_get_user (authentication_extension));
 	}
 
 	/* Google's CalDAV interface requires a secure connection. */
-	soup_uri_set_scheme (soup_uri, SOUP_URI_SCHEME_HTTPS);
+	e_util_change_uri_component (&guri, SOUP_URI_SCHEME, "https");
 
-	e_source_webdav_set_soup_uri (webdav_extension, soup_uri);
+	e_source_webdav_set_uri (webdav_extension, guri);
 
-	soup_uri_free (soup_uri);
+	g_uri_unref (guri);
 }
 
 static gboolean

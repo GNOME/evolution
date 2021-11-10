@@ -48,7 +48,7 @@ set(PROJECT_DISTCONFIGURE_PARAMS
 )
 
 # Keep these two definitions in agreement.
-set(glib_minimum_version 2.56)
+set(glib_minimum_version 2.66)
 set(glib_encoded_version GLIB_VERSION_2_56)
 
 # Keep these two definitions in agreement.
@@ -56,8 +56,8 @@ set(gdk_minimum_version 3.22)
 set(gdk_encoded_version GDK_VERSION_3_22)
 
 # Keep these two definitions in agreement.
-set(soup_minimum_version 2.42)
-set(soup_encoded_version SOUP_VERSION_2_42)
+set(soup_minimum_version 3.0)
+set(soup_encoded_version SOUP_VERSION_3_0)
 
 # Warn about API usage that violates our minimum requirements.
 add_definitions(-DGLIB_VERSION_MAX_ALLOWED=${glib_encoded_version})
@@ -82,7 +82,7 @@ set(gsettings_desktop_schemas_minimum_version 2.91.92)
 set(libpst_minimum_version 0.6.54)
 set(libxml_minimum_version 2.7.3)
 set(shared_mime_info_minimum_version 0.22)
-set(webkit2gtk_minimum_version 2.28.0)
+set(webkit2gtk_minimum_version 2.34.0)
 set(sqlite_minimum_version 3.7.17)
 
 # Optional Packages
@@ -91,8 +91,7 @@ set(clutter_gtk_minimum_version 0.90)
 set(geocode_glib_minimum_version 3.10)
 set(gladeui_minimum_version 3.10.0)
 set(gnome_autoar_minimum_version 0.1.1)
-set(gweather_minimum_version 3.10)
-set(gweather4_minimum_version 3.91.0)
+set(gweather_minimum_version 3.91)
 set(libcanberra_gtk_minimum_version 0.25)
 set(libnotify_minimum_version 0.7)
 set(libunity_minimum_version 7.1.4)
@@ -266,7 +265,7 @@ pkg_check_modules(GNOME_PLATFORM REQUIRED
 	gtk+-3.0>=${gdk_minimum_version}
 	libxml-2.0>=${libxml_minimum_version}
 	shared-mime-info>=${shared_mime_info_minimum_version}
-	webkit2gtk-4.0>=${webkit2gtk_minimum_version}
+	webkit2gtk-4.1>=${webkit2gtk_minimum_version}
 )
 
 pkg_check_modules(EVOLUTION_DATA_SERVER REQUIRED
@@ -279,8 +278,8 @@ pkg_check_modules(EVOLUTION_DATA_SERVER REQUIRED
 )
 
 pkg_check_modules(A11Y REQUIRED atk)
-pkg_check_modules(LIBSOUP REQUIRED libsoup-2.4>=${soup_minimum_version})
-pkg_check_modules(WEB_EXTENSION REQUIRED webkit2gtk-4.0>=${webkit2gtk_minimum_version})
+pkg_check_modules(LIBSOUP REQUIRED libsoup-3.0>=${soup_minimum_version})
+pkg_check_modules(WEB_EXTENSION REQUIRED webkit2gtk-4.1>=${webkit2gtk_minimum_version})
 pkg_check_modules(SQLITE3 REQUIRED sqlite3>=${sqlite_minimum_version})
 
 pkg_check_variable(EDS_SOURCES_DBUS_SERVICE_NAME evolution-data-server-1.2 sourcesdbusservicename)
@@ -691,15 +690,21 @@ endif(ENABLE_TEXT_HIGHLIGHT)
 add_printable_option(ENABLE_WEATHER "Enable weather calendars" ON)
 
 if(ENABLE_WEATHER)
-	add_printable_variable(WITH_GWEATHER4 "Use GWeather 4 instead of 3" OFF)
-
-	if(WITH_GWEATHER4)
-		pkg_check_modules_for_option(ENABLE_WEATHER "weather calendar" GWEATHER gweather4>=${gweather4_minimum_version})
-	else(WITH_GWEATHER4)
-		pkg_check_modules_for_option(ENABLE_WEATHER "weather calendar" GWEATHER gweather-3.0>=${gweather_minimum_version})
-	endif(WITH_GWEATHER4)
-
+	pkg_check_modules_for_option(ENABLE_WEATHER "weather calendar" GWEATHER gweather4>=${gweather_minimum_version})
 	pkg_check_modules_for_option(ENABLE_WEATHER "weather calendar" GEO geocode-glib-1.0>=${geocode_glib_minimum_version})
+
+	# compatibility check
+	pkg_check_variable(gweather_soupapiversion gweather4 soupapiversion)
+	if(NOT "${gweather_soupapiversion}" STREQUAL "3.0")
+		message(FATAL_ERROR "Requires libgweather compiled with libsoup 3.0 API, but found version '${gweather_soupapiversion}' instead. If you want to disable weather calendar, please use -DENABLE_WEATHER=OFF argument to cmake command.")
+	endif(NOT "${gweather_soupapiversion}" STREQUAL "3.0")
+	unset(gweather_soupapiversion)
+
+	pkg_check_variable(geocode_glib_soupapiversion geocode-glib-1.0 soupapiversion)
+	if(NOT "${geocode_glib_soupapiversion}" STREQUAL "3.0")
+		message(FATAL_ERROR "Requires geocode-glib compiled with libsoup 3.0 API, but found version '${geocode_glib_soupapiversion}' instead. If you want to disable weather calendar, please use -DENABLE_WEATHER=OFF argument to cmake command.")
+	endif(NOT "${geocode_glib_soupapiversion}" STREQUAL "3.0")
+	unset(geocode_glib_soupapiversion)
 endif(ENABLE_WEATHER)
 
 # maps in Contacts preview
@@ -707,9 +712,11 @@ endif(ENABLE_WEATHER)
 add_printable_option(ENABLE_CONTACT_MAPS "Enable contact maps" OFF)
 
 if(ENABLE_CONTACT_MAPS)
-	pkg_check_modules_for_option(ENABLE_CONTACT_MAPS "contact maps" CHAMPLAIN champlain-gtk-0.12>=${champlain_minimum_version})
-	pkg_check_modules_for_option(ENABLE_CONTACT_MAPS "contact maps" GEO geocode-glib-1.0>=${geocode_glib_minimum_version})
-	pkg_check_modules_for_option(ENABLE_CONTACT_MAPS "contact maps" CLUTTER_GTK clutter-gtk-1.0>=${clutter_gtk_minimum_version})
+	message("Contact maps auto-disabled due to no champlain-gtk, which uses libsoup3")
+	set(ENABLE_CONTACT_MAPS OFF)
+#	pkg_check_modules_for_option(ENABLE_CONTACT_MAPS "contact maps" CHAMPLAIN champlain-gtk-0.12>=${champlain_minimum_version})
+#	pkg_check_modules_for_option(ENABLE_CONTACT_MAPS "contact maps" GEO geocode-glib-1.0>=${geocode_glib_minimum_version})
+#	pkg_check_modules_for_option(ENABLE_CONTACT_MAPS "contact maps" CLUTTER_GTK clutter-gtk-1.0>=${clutter_gtk_minimum_version})
 endif(ENABLE_CONTACT_MAPS)
 
 # pst-import plugin

@@ -300,7 +300,7 @@ static void
 set_from_uri (UrlEditorDialog *dialog)
 {
 	EPublishUri *uri;
-	SoupURI *soup_uri;
+	GUri *guri;
 	const gchar *scheme;
 	const gchar *user;
 	const gchar *host;
@@ -309,11 +309,11 @@ set_from_uri (UrlEditorDialog *dialog)
 
 	uri = dialog->uri;
 
-	soup_uri = soup_uri_new (uri->location);
-	g_return_if_fail (soup_uri != NULL);
+	guri = g_uri_parse (uri->location, SOUP_HTTP_URI_FLAGS | G_URI_FLAGS_PARSE_RELAXED, NULL);
+	g_return_if_fail (guri != NULL);
 
 	/* determine our service type */
-	scheme = soup_uri_get_scheme (soup_uri);
+	scheme = g_uri_get_scheme (guri);
 	g_return_if_fail (scheme != NULL);
 
 	if (strcmp (scheme, "smb") == 0)
@@ -331,10 +331,10 @@ set_from_uri (UrlEditorDialog *dialog)
 	else
 		uri->service_type = TYPE_URI;
 
-	user = soup_uri_get_user (soup_uri);
-	host = soup_uri_get_host (soup_uri);
-	port = soup_uri_get_port (soup_uri);
-	path = soup_uri_get_path (soup_uri);
+	user = g_uri_get_user (guri);
+	host = g_uri_get_host (guri);
+	port = g_uri_get_port (guri);
+	path = g_uri_get_path (guri);
 
 	if (user != NULL)
 		gtk_entry_set_text (GTK_ENTRY (dialog->username_entry), user);
@@ -357,7 +357,7 @@ set_from_uri (UrlEditorDialog *dialog)
 
 	gtk_combo_box_set_active (GTK_COMBO_BOX (dialog->publish_service), uri->service_type);
 
-	soup_uri_free (soup_uri);
+	g_uri_unref (guri);
 }
 
 static gboolean

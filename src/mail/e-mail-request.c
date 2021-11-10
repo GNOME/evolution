@@ -91,7 +91,7 @@ save_gicon_to_stream (GIcon *icon,
 
 static gboolean
 mail_request_process_mail_sync (EContentRequest *request,
-				SoupURI *suri,
+				GUri *guri,
 				GHashTable *uri_query,
 				GObject *requester,
 				GInputStream **out_stream,
@@ -115,7 +115,7 @@ mail_request_process_mail_sync (EContentRequest *request,
 	if (g_cancellable_set_error_if_cancelled (cancellable, error))
 		return FALSE;
 
-	tmp = g_strdup_printf ("%s://%s%s", suri->scheme, suri->host, suri->path);
+	tmp = g_strdup_printf ("%s://%s%s", g_uri_get_scheme (guri), g_uri_get_host (guri), g_uri_get_path (guri));
 
 	registry = e_mail_part_list_get_registry ();
 	part_list = camel_object_bag_get (registry, tmp);
@@ -129,7 +129,7 @@ mail_request_process_mail_sync (EContentRequest *request,
 			g_object_ref (part_list);
 	}
 
-	context.uri = soup_uri_to_string (suri, FALSE);
+	context.uri = g_uri_to_string_partial (guri, G_URI_HIDE_PASSWORD);
 
 	if (camel_debug_start ("emformat:requests")) {
 		printf ("%s: found part-list %p for full_uri '%s'\n", G_STRFUNC, part_list, context.uri);
@@ -176,8 +176,8 @@ mail_request_process_mail_sync (EContentRequest *request,
 	if (val) {
 		gchar *attachment_id;
 
-		attachment_id = soup_uri_decode (val);
-		if (E_IS_MAIL_DISPLAY (requester)) {
+		attachment_id = g_uri_unescape_string (val, NULL);
+		if (attachment_id && E_IS_MAIL_DISPLAY (requester)) {
 			EMailDisplay *mail_display = E_MAIL_DISPLAY (requester);
 			EAttachmentStore *attachment_store;
 			GList *attachments, *link;
@@ -236,8 +236,8 @@ mail_request_process_mail_sync (EContentRequest *request,
 		const gchar *mime_type;
 		gchar *part_id;
 
-		part_id = soup_uri_decode (val);
-		part = e_mail_part_list_ref_part (part_list, part_id);
+		part_id = g_uri_unescape_string (val, NULL);
+		part = part_id ? e_mail_part_list_ref_part (part_list, part_id) : NULL;
 		if (!part) {
 			if (camel_debug_start ("emformat:requests")) {
 				printf ("%s: part with id '%s' not found\n", G_STRFUNC, part_id);
@@ -316,7 +316,7 @@ mail_request_process_mail_sync (EContentRequest *request,
 
 static gboolean
 mail_request_process_contact_photo_sync (EContentRequest *request,
-					 SoupURI *suri,
+					 GUri *guri,
 					 GHashTable *uri_query,
 					 GObject *requester,
 					 GInputStream **out_stream,
@@ -393,7 +393,7 @@ mail_request_process_contact_photo_sync (EContentRequest *request,
 typedef struct _MailIdleData
 {
 	EContentRequest *request;
-	SoupURI *suri;
+	GUri *guri;
 	GHashTable *uri_query;
 	GObject *requester;
 	GInputStream **out_stream;
@@ -413,11 +413,11 @@ process_mail_request_idle_cb (gpointer user_data)
 
 	g_return_val_if_fail (mid != NULL, FALSE);
 	g_return_val_if_fail (E_IS_MAIL_REQUEST (mid->request), FALSE);
-	g_return_val_if_fail (mid->suri != NULL, FALSE);
+	g_return_val_if_fail (mid->guri != NULL, FALSE);
 	g_return_val_if_fail (mid->flag != NULL, FALSE);
 
 	mid->success = mail_request_process_mail_sync (mid->request,
-		mid->suri, mid->uri_query, mid->requester, mid->out_stream,
+		mid->guri, mid->uri_query, mid->requester, mid->out_stream,
 		mid->out_stream_length, mid->out_mime_type,
 		mid->cancellable, mid->error);
 
@@ -436,7 +436,7 @@ e_mail_request_process_sync (EContentRequest *request,
 			     GCancellable *cancellable,
 			     GError **error)
 {
-	SoupURI *suri;
+	GUri *guri;
 	GHashTable *uri_query;
 	gboolean success = FALSE;
 
@@ -446,23 +446,23 @@ e_mail_request_process_sync (EContentRequest *request,
 	if (g_cancellable_set_error_if_cancelled (cancellable, error))
 		return FALSE;
 
-	suri = soup_uri_new (uri);
-	g_return_val_if_fail (suri != NULL, FALSE);
+	guri = g_uri_parse (uri, SOUP_HTTP_URI_FLAGS | G_URI_FLAGS_PARSE_RELAXED, NULL);
+	g_return_val_if_fail (guri != NULL, FALSE);
 
-	if (suri->query) {
-		uri_query = soup_form_decode (suri->query);
+	if (g_uri_get_query (guri)) {
+		uri_query = soup_form_decode (g_uri_get_query (guri));
 	} else {
 		uri_query = NULL;
 	}
 
-	if (g_strcmp0 (suri->host, "contact-photo") == 0) {
-		success = mail_request_process_contact_photo_sync (request, suri, uri_query, requester,
+	if (g_strcmp0 (g_uri_get_host (guri), "contact-photo") == 0) {
+		success = mail_request_process_contact_photo_sync (request, guri, uri_query, requester,
 			out_stream, out_stream_length, out_mime_type, cancellable, error);
 	} else {
 		MailIdleData mid;
 
 		mid.request = request;
-		mid.suri = suri;
+		mid.guri = guri;
 		mid.uri_query = uri_query;
 		mid.requester = requester;
 		mid.out_stream = out_stream;
@@ -494,7 +494,7 @@ e_mail_request_process_sync (EContentRequest *request,
 
 	if (uri_query)
 		g_hash_table_destroy (uri_query);
-	soup_uri_free (suri);
+	g_uri_unref (guri);
 
 	return success;
 }

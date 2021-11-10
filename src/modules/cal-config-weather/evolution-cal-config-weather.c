@@ -72,33 +72,15 @@ cal_config_weather_location_to_string (GBinding *binding,
 	GWeatherLocation *location;
 	gchar *string = NULL;
 
-	#ifdef WITH_GWEATHER4
 	location = g_value_get_object (source_value);
-	#else
-	location = g_value_get_boxed (source_value);
-	#endif
-	#if GWEATHER_CHECK_VERSION(3, 39, 0)
 	if (location)
-		#ifdef WITH_GWEATHER4
 		g_object_ref (location);
-		#else
-		gweather_location_ref (location);
-		#endif
-	#endif
 
 	while (location && !gweather_location_has_coords (location)) {
-		#if GWEATHER_CHECK_VERSION(3, 39, 0)
 		GWeatherLocation *child = location;
 
 		location = gweather_location_get_parent (child);
-		#ifdef WITH_GWEATHER4
 		g_object_unref (child);
-		#else
-		gweather_location_unref (child);
-		#endif
-		#else
-		location = gweather_location_get_parent (location);
-		#endif
 	}
 
 	if (location) {
@@ -113,11 +95,7 @@ cal_config_weather_location_to_string (GBinding *binding,
 
 		string = g_strdup_printf ("%s/%s", lat_str, lon_str);
 
-		#ifdef WITH_GWEATHER4
 		g_object_unref (location);
-		#elif GWEATHER_CHECK_VERSION(3, 39, 0)
-		gweather_location_unref (location);
-		#endif
 	}
 
 	g_value_take_string (target_value, string);
@@ -131,12 +109,7 @@ cal_config_weather_find_location_by_coords (GWeatherLocation *start,
 					    gdouble longitude)
 {
 	GWeatherLocation *location;
-	#if GWEATHER_CHECK_VERSION(3, 39, 0)
 	GWeatherLocation *child = NULL;
-	#else
-	GWeatherLocation **children;
-	gint ii;
-	#endif
 
 	if (!start)
 		return NULL;
@@ -148,43 +121,20 @@ cal_config_weather_find_location_by_coords (GWeatherLocation *start,
 		gweather_location_get_coords (location, &lat, &lon);
 
 		if (lat == latitude && lon == longitude) {
-			#ifdef WITH_GWEATHER4
 			g_object_ref (location);
-			#else
-			gweather_location_ref (location);
-			#endif
 			return location;
 		}
 	}
 
-	#if GWEATHER_CHECK_VERSION(3, 39, 0)
 	while (child = gweather_location_next_child (location, child), child) {
 		GWeatherLocation *result;
 
 		result = cal_config_weather_find_location_by_coords (child, latitude, longitude);
 		if (result) {
-			#ifdef WITH_GWEATHER4
 			g_object_unref (child);
-			#else
-			gweather_location_unref (child);
-			#endif
 			return result;
 		}
 	}
-	#else
-	children = gweather_location_get_children (location);
-	for (ii = 0; children[ii]; ii++) {
-		location = cal_config_weather_find_location_by_coords (children[ii], latitude, longitude);
-		if (location) {
-			#ifdef WITH_GWEATHER4
-			g_object_ref (location);
-			#else
-			gweather_location_ref (location);
-			#endif
-			return location;
-		}
-	}
-	#endif
 
 	return NULL;
 }
@@ -220,11 +170,7 @@ cal_config_weather_string_to_location (GBinding *binding,
 
 	match = cal_config_weather_find_location_by_coords (world, latitude, longitude);
 
-	#ifdef WITH_GWEATHER4
 	g_value_take_object (target_value, match);
-	#else
-	g_value_take_boxed (target_value, match);
-	#endif
 
 	g_strfreev (tokens);
 
@@ -350,13 +296,8 @@ cal_config_weather_insert_widgets (ESourceConfigBackend *backend,
 		G_BINDING_SYNC_CREATE,
 		cal_config_weather_string_to_location,
 		cal_config_weather_location_to_string,
-		#ifdef WITH_GWEATHER4
 		g_object_ref (world),
 		g_object_unref);
-		#else
-		gweather_location_ref (world),
-		(GDestroyNotify) gweather_location_unref);
-		#endif
 
 	e_binding_bind_property (
 		extension, "units",
@@ -364,11 +305,7 @@ cal_config_weather_insert_widgets (ESourceConfigBackend *backend,
 		G_BINDING_BIDIRECTIONAL |
 		G_BINDING_SYNC_CREATE);
 
-#ifdef WITH_GWEATHER4
 	g_object_unref (world);
-#elif GWEATHER_CHECK_VERSION(3, 39, 0)
-	gweather_location_unref (world);
-#endif
 }
 
 static gboolean

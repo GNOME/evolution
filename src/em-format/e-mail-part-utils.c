@@ -518,7 +518,7 @@ e_mail_part_build_uri (CamelFolder *folder,
 		service_uid = "generic";
 	} else {
 		tmp = (gchar *) camel_folder_get_full_name (folder);
-		folder_name = (const gchar *) soup_uri_encode (tmp, NULL);
+		folder_name = (const gchar *) g_uri_escape_string (tmp, NULL, FALSE);
 		store = camel_folder_get_parent_store (folder);
 		if (store)
 			service_uid = camel_service_get_uid (CAMEL_SERVICE (store));
@@ -526,7 +526,7 @@ e_mail_part_build_uri (CamelFolder *folder,
 			service_uid = "generic";
 	}
 
-	encoded_message_uid = soup_uri_encode (message_uid, NULL);
+	encoded_message_uid = g_uri_escape_string (message_uid, NULL, FALSE);
 	tmp = g_strdup_printf (
 		"mail://%s/%s/%s",
 		service_uid,
@@ -563,7 +563,7 @@ e_mail_part_build_uri (CamelFolder *folder,
 			}
 			case G_TYPE_STRING: {
 				gchar *val = va_arg (ap, gchar *);
-				gchar *escaped = soup_uri_encode (val, NULL);
+				gchar *escaped = g_uri_escape_string (val, NULL, FALSE);
 				tmp2 = g_strdup_printf (
 					"%s%c%s=%s", tmp,
 						separator, name, escaped);

@@ -193,7 +193,7 @@ static void
 e_mail_display_claim_skipped_uri (EMailDisplay *mail_display,
 				  const gchar *uri)
 {
-	SoupURI *soup_uri;
+	GUri *guri;
 	const gchar *site;
 
 	g_return_if_fail (E_IS_MAIL_DISPLAY (mail_display));
@@ -203,11 +203,11 @@ e_mail_display_claim_skipped_uri (EMailDisplay *mail_display,
 	if (!g_settings_get_boolean (mail_display->priv->settings, "notify-remote-content"))
 		return;
 
-	soup_uri = soup_uri_new (uri);
-	if (!soup_uri)
+	guri = g_uri_parse (uri, SOUP_HTTP_URI_FLAGS | G_URI_FLAGS_PARSE_RELAXED, NULL);
+	if (!guri)
 		return;
 
-	site = soup_uri_get_host (soup_uri);
+	site = g_uri_get_host (guri);
 	if (site && *site) {
 		g_mutex_lock (&mail_display->priv->remote_content_lock);
 
@@ -218,7 +218,7 @@ e_mail_display_claim_skipped_uri (EMailDisplay *mail_display,
 		g_mutex_unlock (&mail_display->priv->remote_content_lock);
 	}
 
-	soup_uri_free (soup_uri);
+	g_uri_unref (guri);
 }
 
 static void
@@ -235,7 +235,7 @@ static gboolean
 e_mail_display_can_download_uri (EMailDisplay *mail_display,
 				 const gchar *uri)
 {
-	SoupURI *soup_uri;
+	GUri *guri;
 	const gchar *site;
 	gboolean can_download = FALSE;
 	EMailRemoteContent *remote_content;
@@ -247,17 +247,17 @@ e_mail_display_can_download_uri (EMailDisplay *mail_display,
 	if (!remote_content)
 		return FALSE;
 
-	soup_uri = soup_uri_new (uri);
-	if (!soup_uri) {
+	guri = g_uri_parse (uri, SOUP_HTTP_URI_FLAGS | G_URI_FLAGS_PARSE_RELAXED, NULL);
+	if (!guri) {
 		g_object_unref (remote_content);
 		return FALSE;
 	}
 
-	site = soup_uri_get_host (soup_uri);
+	site = g_uri_get_host (guri);
 	if (site && *site)
 		can_download = e_mail_remote_content_has_site (remote_content, site);
 
-	soup_uri_free (soup_uri);
+	g_uri_unref (guri);
 
 	if (!can_download && mail_display->priv->part_list) {
 		CamelMimeMessage *message;
@@ -1773,8 +1773,8 @@ mail_display_uri_requested_cb (EWebView *web_view,
 	if (uri_is_http) {
 		CamelFolder *folder;
 		const gchar *message_uid;
-		gchar *new_uri, *mail_uri;
-		SoupURI *soup_uri;
+		gchar *new_uri, *mail_uri, *query_str;
+		GUri *guri;
 		GHashTable *query;
 		gboolean can_download_uri;
 		EImageLoadingPolicy image_policy;
@@ -1803,10 +1803,10 @@ mail_display_uri_requested_cb (EWebView *web_view,
 		message_uid = e_mail_part_list_get_message_uid (part_list);
 
 		if (g_str_has_prefix (uri, "evo-")) {
-			soup_uri = soup_uri_new (uri);
+			guri = g_uri_parse (uri, SOUP_HTTP_URI_FLAGS | G_URI_FLAGS_PARSE_RELAXED, NULL);
 		} else {
 			new_uri = g_strconcat ("evo-", uri, NULL);
-			soup_uri = soup_uri_new (new_uri);
+			guri = g_uri_parse (new_uri, SOUP_HTTP_URI_FLAGS | G_URI_FLAGS_PARSE_RELAXED, NULL);
 
 			g_free (new_uri);
 		}
@@ -1818,7 +1818,7 @@ mail_display_uri_requested_cb (EWebView *web_view,
 			g_str_hash, g_str_equal,
 			g_free, g_free);
 
-		if (soup_uri->query) {
+		if (g_uri_get_query (guri)) {
 			GHashTable *uri_query;
 			GHashTableIter iter;
 			gpointer key, value;
@@ -1826,7 +1826,7 @@ mail_display_uri_requested_cb (EWebView *web_view,
 			/* It's required to copy the hash table, because it's uncertain
 			   which of the key/value pair is freed and which not, while the code
 			   below expects to have freed both. */
-			uri_query = soup_form_decode (soup_uri->query);
+			uri_query = soup_form_decode (g_uri_get_query (guri));
 
 			g_hash_table_iter_init (&iter, uri_query);
 			while (g_hash_table_iter_next (&iter, &key, &value)) {
@@ -1836,9 +1836,9 @@ mail_display_uri_requested_cb (EWebView *web_view,
 			g_hash_table_unref (uri_query);
 		}
 
-		g_hash_table_insert (query, g_strdup ("__evo-mail"), soup_uri_encode (mail_uri, NULL));
+		g_hash_table_insert (query, g_strdup ("__evo-mail"), g_uri_escape_string (mail_uri, NULL, FALSE));
 
-		/* Required, because soup_uri_set_query_from_form() can change
+		/* Required, because soup_form_encode_hash() can change
 		   order of arguments, then the URL checksum doesn't match. */
 		g_hash_table_insert (query, g_strdup ("__evo-original-uri"), g_strdup (uri));
 
@@ -1851,11 +1851,13 @@ mail_display_uri_requested_cb (EWebView *web_view,
 			e_mail_display_claim_skipped_uri (display, uri);
 		}
 
-		soup_uri_set_query_from_form (soup_uri, query);
+		query_str = soup_form_encode_hash (query);
+		e_util_change_uri_component (&guri, SOUP_URI_QUERY, query_str);
+		g_free (query_str);
 
-		new_uri = soup_uri_to_string (soup_uri, FALSE);
+		new_uri = g_uri_to_string_partial (guri, G_URI_HIDE_PASSWORD);
 
-		soup_uri_free (soup_uri);
+		g_uri_unref (guri);
 		g_hash_table_unref (query);
 		g_free (mail_uri);
 
@@ -1895,7 +1897,7 @@ mail_display_suggest_filename (EWebView *web_view,
 {
 	EMailDisplay *display;
 	CamelMimePart *mime_part;
-	SoupURI *suri;
+	GUri *guri;
 
 	/* Note, this assumes the URI comes
 	 * from the currently loaded message. */
@@ -1906,14 +1908,14 @@ mail_display_suggest_filename (EWebView *web_view,
 	if (mime_part)
 		return g_strdup (camel_mime_part_get_filename (mime_part));
 
-	suri = soup_uri_new (uri);
-	if (suri) {
+	guri = g_uri_parse (uri, SOUP_HTTP_URI_FLAGS | G_URI_FLAGS_PARSE_RELAXED, NULL);
+	if (guri) {
 		gchar *filename = NULL;
 
-		if (suri->query) {
+		if (g_uri_get_query (guri)) {
 			GHashTable *uri_query;
 
-			uri_query = soup_form_decode (suri->query);
+			uri_query = soup_form_decode (g_uri_get_query (guri));
 			if (uri_query && g_hash_table_contains (uri_query, "filename"))
 				filename = g_strdup (g_hash_table_lookup (uri_query, "filename"));
 
@@ -1921,7 +1923,7 @@ mail_display_suggest_filename (EWebView *web_view,
 				g_hash_table_destroy (uri_query);
 		}
 
-		soup_uri_free (suri);
+		g_uri_unref (guri);
 
 		if (filename && *filename)
 			return filename;
@@ -2024,17 +2026,17 @@ mail_display_drag_data_get (GtkWidget *widget,
 	mime_part = camel_mime_part_from_cid (display, uri);
 
 	if (!mime_part && g_str_has_prefix (uri, "mail:")) {
-		SoupURI *soup_uri;
-		const gchar *soup_query;
+		GUri *guri;
+		const gchar *query_str;
 
-		soup_uri = soup_uri_new (uri);
-		if (soup_uri) {
-			soup_query = soup_uri_get_query (soup_uri);
-			if (soup_query) {
+		guri = g_uri_parse (uri, SOUP_HTTP_URI_FLAGS | G_URI_FLAGS_PARSE_RELAXED, NULL);
+		if (guri) {
+			query_str = g_uri_get_query (guri);
+			if (query_str) {
 				GHashTable *query;
 				const gchar *part_id_raw;
 
-				query = soup_form_decode (soup_query);
+				query = soup_form_decode (query_str);
 				part_id_raw = query ? g_hash_table_lookup (query, "part_id") : NULL;
 				if (part_id_raw && *part_id_raw) {
 					EMailPartList *part_list;
@@ -2042,9 +2044,9 @@ mail_display_drag_data_get (GtkWidget *widget,
 
 					part_list = e_mail_display_get_part_list (display);
 					if (part_list) {
-						gchar *part_id = soup_uri_decode (part_id_raw);
+						gchar *part_id = g_uri_unescape_string (part_id_raw, NULL);
 
-						mail_part = e_mail_part_list_ref_part (part_list, part_id);
+						mail_part = part_id ? e_mail_part_list_ref_part (part_list, part_id) : NULL;
 						g_free (part_id);
 
 						if (mail_part) {
@@ -2065,7 +2067,7 @@ mail_display_drag_data_get (GtkWidget *widget,
 					g_hash_table_unref (query);
 			}
 
-			soup_uri_free (soup_uri);
+			g_uri_unref (guri);
 		}
 	}
 
@@ -2790,7 +2792,7 @@ do_reload_display (EMailDisplay *display)
 	EWebView *web_view;
 	gchar *uri, *query;
 	GHashTable *table;
-	SoupURI *soup_uri;
+	GUri *guri;
 	gchar *mode, *collapsable, *collapsed;
 	const gchar *default_charset, *charset;
 
@@ -2807,7 +2809,7 @@ do_reload_display (EMailDisplay *display)
 		return FALSE;
 	}
 
-	soup_uri = soup_uri_new (uri);
+	guri = g_uri_parse (uri, SOUP_HTTP_URI_FLAGS | G_URI_FLAGS_PARSE_RELAXED, NULL);
 
 	mode = g_strdup_printf ("%d", display->priv->mode);
 	collapsable = g_strdup_printf ("%d", display->priv->headers_collapsable);
@@ -2820,7 +2822,7 @@ do_reload_display (EMailDisplay *display)
 	if (!charset)
 		charset = "";
 
-	table = soup_form_decode (soup_uri->query);
+	table = soup_form_decode (g_uri_get_query (guri));
 	g_hash_table_replace (
 		table, g_strdup ("mode"), mode);
 	g_hash_table_replace (
@@ -2840,13 +2842,13 @@ do_reload_display (EMailDisplay *display)
 	g_free (collapsed);
 	g_hash_table_destroy (table);
 
-	soup_uri_set_query (soup_uri, query);
+	e_util_change_uri_component (&guri, SOUP_URI_QUERY, query);
 	g_free (query);
 
-	uri = soup_uri_to_string (soup_uri, FALSE);
+	uri = g_uri_to_string_partial (guri, G_URI_HIDE_PASSWORD);
 	e_web_view_load_uri (web_view, uri);
 	g_free (uri);
-	soup_uri_free (soup_uri);
+	g_uri_unref (guri);
 
 	return FALSE;
 }

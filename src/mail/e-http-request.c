@@ -19,10 +19,7 @@
 
 #include <string.h>
 
-#define LIBSOUP_USE_UNSTABLE_REQUEST_API
 #include <libsoup/soup.h>
-#include <libsoup/soup-requester.h>
-#include <libsoup/soup-request-http.h>
 #include <camel/camel.h>
 #include <webkit2/webkit2.h>
 
@@ -98,75 +95,6 @@ copy_stream_to_stream (GIOStream *file_io_stream,
 }
 
 static void
-redirect_handler (SoupMessage *msg,
-                  gpointer user_data)
-{
-	if (SOUP_STATUS_IS_REDIRECTION (msg->status_code)) {
-		SoupSession *soup_session = user_data;
-		SoupURI *new_uri;
-		const gchar *new_loc;
-
-		new_loc = soup_message_headers_get_list (
-			msg->response_headers, "Location");
-		if (new_loc == NULL)
-			return;
-
-		new_uri = soup_uri_new_with_base (
-			soup_message_get_uri (msg), new_loc);
-		if (new_uri == NULL) {
-			soup_message_set_status_full (
-				msg,
-				SOUP_STATUS_MALFORMED,
-				"Invalid Redirect URL");
-			return;
-		}
-
-		soup_message_set_uri (msg, new_uri);
-		soup_session_requeue_message (soup_session, msg);
-
-		soup_uri_free (new_uri);
-	}
-}
-
-static void
-send_and_handle_redirection (SoupSession *session,
-                             SoupMessage *message,
-                             gchar **new_location)
-{
-	SoupURI *soup_uri;
-	gchar *old_uri = NULL;
-
-	g_return_if_fail (message != NULL);
-
-	soup_uri = soup_message_get_uri (message);
-
-	if (new_location != NULL)
-		old_uri = soup_uri_to_string (soup_uri, FALSE);
-
-	soup_message_set_flags (message, SOUP_MESSAGE_NO_REDIRECT);
-	soup_message_add_header_handler (
-		message, "got_body", "Location",
-		G_CALLBACK (redirect_handler), session);
-	soup_message_headers_append (
-		message->request_headers, "Connection", "close");
-	soup_session_send_message (session, message);
-
-	if (new_location != NULL) {
-		gchar *new_loc;
-
-		new_loc = soup_uri_to_string (soup_uri, FALSE);
-
-		if (new_loc && old_uri && !g_str_equal (new_loc, old_uri)) {
-			*new_location = new_loc;
-		} else {
-			g_free (new_loc);
-		}
-	}
-
-	g_free (old_uri);
-}
-
-static void
 http_request_cancelled_cb (GCancellable *cancellable,
 			   SoupSession *session)
 {
@@ -183,7 +111,7 @@ e_http_request_process_sync (EContentRequest *request,
 			     GCancellable *cancellable,
 			     GError **error)
 {
-	SoupURI *soup_uri;
+	GUri *guri;
 	gchar *evo_uri = NULL, *use_uri;
 	gchar *mail_uri = NULL;
 	GInputStream *stream;
@@ -205,22 +133,23 @@ e_http_request_process_sync (EContentRequest *request,
 	if (g_cancellable_set_error_if_cancelled (cancellable, error))
 		return FALSE;
 
-	soup_uri = soup_uri_new (uri);
-	g_return_val_if_fail (soup_uri != NULL, FALSE);
+	guri = g_uri_parse (uri, SOUP_HTTP_URI_FLAGS | G_URI_FLAGS_PARSE_RELAXED, NULL);
+	g_return_val_if_fail (guri != NULL, FALSE);
 
 	/* Remove the __evo-mail query */
-	soup_query = soup_uri_get_query (soup_uri);
+	soup_query = g_uri_get_query (guri);
 	if (soup_query) {
 		GHashTable *query;
+		gchar *query_str;
 
-		query = soup_form_decode (soup_uri_get_query (soup_uri));
+		query = soup_form_decode (g_uri_get_query (guri));
 		mail_uri = g_hash_table_lookup (query, "__evo-mail");
 		if (mail_uri)
 			mail_uri = g_strdup (mail_uri);
 
 		g_hash_table_remove (query, "__evo-mail");
 
-		/* Required, because soup_uri_set_query_from_form() can change
+		/* Required, because soup_form_encode_hash() can change
 		   order of arguments, then the URL checksum doesn't match. */
 		evo_uri = g_hash_table_lookup (query, "__evo-original-uri");
 		if (evo_uri)
@@ -232,12 +161,14 @@ e_http_request_process_sync (EContentRequest *request,
 		 * force_load_images to TRUE) */
 		force_load_images = g_hash_table_remove (query, "__evo-load-images");
 
-		soup_uri_set_query_from_form (soup_uri, query);
+		query_str = soup_form_encode_hash (query);
+		e_util_change_uri_component (&guri, SOUP_URI_QUERY, query_str);
 		g_hash_table_unref (query);
+		g_free (query_str);
 	}
 
 	if (!evo_uri)
-		evo_uri = soup_uri_to_string (soup_uri, FALSE);
+		evo_uri = g_uri_to_string_partial (guri, G_URI_HIDE_PASSWORD);
 
 	if (camel_debug_start ("emformat:requests")) {
 		printf (
@@ -363,9 +294,12 @@ e_http_request_process_sync (EContentRequest *request,
 		EMailPartList *part_list;
 
 		registry = e_mail_part_list_get_registry ();
-		decoded_uri = soup_uri_decode (mail_uri);
+		decoded_uri = g_uri_unescape_string (mail_uri, NULL);
 
-		part_list = camel_object_bag_get (registry, decoded_uri);
+		if (!decoded_uri)
+			part_list = NULL;
+		else
+			part_list = camel_object_bag_get (registry, decoded_uri);
 		if (part_list != NULL) {
 			EShellBackend *shell_backend;
 			EMailBackend *backend;
@@ -406,7 +340,7 @@ e_http_request_process_sync (EContentRequest *request,
 		SoupSession *temp_session;
 		SoupMessage *message;
 		GIOStream *cache_stream;
-		GMainContext *context;
+		GInputStream *input_stream;
 		gulong cancelled_id = 0;
 
 		if (g_cancellable_set_error_if_cancelled (cancellable, error))
@@ -418,39 +352,33 @@ e_http_request_process_sync (EContentRequest *request,
 			goto cleanup;
 		}
 
-		context = g_main_context_new ();
-		g_main_context_push_thread_default (context);
-
-		temp_session = soup_session_new_with_options (
-			SOUP_SESSION_TIMEOUT, 90, NULL);
-
 		proxy_source = e_source_registry_ref_builtin_proxy (e_shell_get_registry (shell));
 
-		g_object_set (
-			temp_session,
-			SOUP_SESSION_PROXY_RESOLVER,
-			G_PROXY_RESOLVER (proxy_source),
+		temp_session = soup_session_new_with_options (
+			"timeout", 90,
+			"proxy-resolver", proxy_source,
 			NULL);
 
 		g_object_unref (proxy_source);
 
 		soup_message_headers_append (
-			message->request_headers,
+			soup_message_get_request_headers (message),
 			"User-Agent", "Evolution/" VERSION);
 
 		if (cancellable)
 			cancelled_id = g_cancellable_connect (cancellable, G_CALLBACK (http_request_cancelled_cb), temp_session, NULL);
 
-		send_and_handle_redirection (temp_session, message, NULL);
+		soup_message_headers_append (soup_message_get_request_headers (message), "Connection", "close");
+		input_stream = soup_session_send (temp_session, message, cancellable, NULL);
 
 		if (cancellable && cancelled_id)
 			g_cancellable_disconnect (cancellable, cancelled_id);
 
-		if (!SOUP_STATUS_IS_SUCCESSFUL (message->status_code)) {
-			g_debug ("Failed to request %s (code %d)", use_uri, message->status_code);
+		if (!input_stream || !SOUP_STATUS_IS_SUCCESSFUL (soup_message_get_status (message))) {
+			g_debug ("Failed to request %s (code %d)", use_uri, soup_message_get_status (message));
 			g_object_unref (message);
 			g_object_unref (temp_session);
-			g_main_context_unref (context);
+			g_clear_object (&input_stream);
 			goto cleanup;
 		}
 
@@ -466,52 +394,60 @@ e_http_request_process_sync (EContentRequest *request,
 				g_clear_error (&local_error);
 			} else {
 				GOutputStream *output_stream;
+				gssize bytes_copied;
 
-				output_stream =
-					g_io_stream_get_output_stream (cache_stream);
-
-				success = g_output_stream_write_all (
-					output_stream,
-					message->response_body->data,
-					message->response_body->length,
-					NULL, cancellable, &local_error);
+				output_stream = g_io_stream_get_output_stream (cache_stream);
+				bytes_copied = g_output_stream_splice (output_stream, input_stream, G_OUTPUT_STREAM_SPLICE_NONE, cancellable, &local_error);
 
 				g_io_stream_close (cache_stream, NULL, NULL);
 				g_object_unref (cache_stream);
 
 				if (local_error != NULL) {
 					if (!g_error_matches (local_error, G_IO_ERROR, G_IO_ERROR_CANCELLED))
-						g_warning (
-							"Failed to write data to cache stream: %s",
-							local_error->message);
+						g_warning ("Failed to write data to cache stream: %s", local_error->message);
 					g_clear_error (&local_error);
 					g_object_unref (message);
 					g_object_unref (temp_session);
-					g_main_context_unref (context);
+					g_clear_object (&input_stream);
 					goto cleanup;
 				}
 
-				if (success) {
-					/* Send the response body to WebKit */
-					stream = g_memory_input_stream_new_from_data (
-						g_memdup (
-							message->response_body->data,
-							message->response_body->length),
-						message->response_body->length,
-						(GDestroyNotify) g_free);
+				if (bytes_copied >= 0) {
+					gchar *filename;
 
-					*out_stream = stream;
-					*out_stream_length = message->response_body->length;
-					*out_mime_type = g_strdup (
-						soup_message_headers_get_content_type (
-							message->response_headers, NULL));
+					filename = camel_data_cache_get_filename (cache, "http", uri_md5);
+
+					if (filename) {
+						GFileInputStream *file_input_stream;
+						GFile *file;
+
+						file = g_file_new_for_path (filename);
+						file_input_stream = g_file_read (file, cancellable, &local_error);
+
+						g_object_unref (file);
+
+						if (file_input_stream) {
+							*out_stream = G_INPUT_STREAM (file_input_stream);
+							*out_stream_length = bytes_copied;
+							*out_mime_type = g_strdup (soup_message_headers_get_content_type (soup_message_get_response_headers (message), NULL));
+
+							success = TRUE;
+						} else {
+							g_warning ("Failed to read cache file '%s': %s", filename, local_error ? local_error->message : "Unknown error");
+							g_clear_error (&local_error);
+						}
+
+						g_free (filename);
+					} else {
+						g_warning ("Failed to get just written cache file name");
+					}
 				}
 			}
 		}
 
 		g_object_unref (message);
 		g_object_unref (temp_session);
-		g_main_context_unref (context);
+		g_clear_object (&input_stream);
 
 		d (printf ("Received image from %s\n"
 			"Content-Type: %s\n"
@@ -527,7 +463,7 @@ e_http_request_process_sync (EContentRequest *request,
 	g_free (use_uri);
 	g_free (uri_md5);
 	g_free (mail_uri);
-	soup_uri_free (soup_uri);
+	g_uri_unref (guri);
 
 	return success;
 }
@@ -562,18 +498,18 @@ gchar *
 e_http_request_util_compute_uri_checksum (const gchar *in_uri)
 {
 	GString *string;
-	SoupURI *soup_uri;
+	GUri *guri;
 	const gchar *soup_query;
 	gchar *md5, *uri;
 
 	g_return_val_if_fail (in_uri != NULL, NULL);
 
-	soup_uri = soup_uri_new (in_uri);
-	g_return_val_if_fail (soup_uri != NULL, NULL);
+	guri = g_uri_parse (in_uri, SOUP_HTTP_URI_FLAGS | G_URI_FLAGS_PARSE_RELAXED, NULL);
+	g_return_val_if_fail (guri != NULL, NULL);
 
 	string = g_string_new ("");
 
-	soup_query = soup_uri_get_query (soup_uri);
+	soup_query = g_uri_get_query (guri);
 	if (soup_query) {
 		GHashTable *query;
 		GList *keys, *link;
@@ -593,10 +529,10 @@ e_http_request_util_compute_uri_checksum (const gchar *in_uri)
 		g_list_free (keys);
 		g_hash_table_unref (query);
 
-		soup_uri_set_query (soup_uri, NULL);
+		e_util_change_uri_component (&guri, SOUP_URI_QUERY, NULL);
 	}
 
-	uri = soup_uri_to_string (soup_uri, FALSE);
+	uri = g_uri_to_string_partial (guri, G_URI_HIDE_PASSWORD);
 	g_string_append (string, uri ? uri : "");
 	g_free (uri);
 
@@ -608,7 +544,7 @@ e_http_request_util_compute_uri_checksum (const gchar *in_uri)
 		md5 = NULL;
 
 	g_string_free (string, TRUE);
-	soup_uri_free (soup_uri);
+	g_uri_unref (guri);
 
 	return md5;
 }

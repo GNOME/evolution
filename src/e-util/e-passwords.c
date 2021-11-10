@@ -103,27 +103,33 @@ static GQueue message_queue = G_QUEUE_INIT;
 static gint idle_id;
 static gint ep_online_state = TRUE;
 
-static SoupURI *
+static GUri *
 ep_keyring_uri_new (const gchar *string,
                     GError **error)
 {
-	SoupURI *uri;
+	GUri *uri;
 
-	uri = soup_uri_new (string);
+	uri = g_uri_parse (string, SOUP_HTTP_URI_FLAGS | G_URI_FLAGS_PARSE_RELAXED, NULL);
 	g_return_val_if_fail (uri != NULL, NULL);
 
 	/* LDAP URIs do not have usernames, so use the URI as the username. */
-	if (uri->user == NULL && uri->scheme != NULL &&
-			(strcmp (uri->scheme, "ldap") == 0|| strcmp (uri->scheme, "google") == 0))
-		uri->user = g_strdelimit (g_strdup (string), "/=", '_');
+	if (!g_uri_get_user (uri) &&
+	    (g_strcmp0 (g_uri_get_scheme (uri), "ldap") == 0 ||
+	     g_strcmp0 (g_uri_get_scheme (uri), "google") == 0)) {
+		gchar *user = g_strdelimit (g_strdup (string), "/=", '_');
+
+		e_util_change_uri_component (&uri, SOUP_URI_USER, user);
+
+		g_free (user);
+	}
 
 	/* Make sure the URI has the required components. */
-	if (uri->user == NULL && uri->host == NULL) {
+	if (!g_uri_get_user (uri) && !g_uri_get_host (uri)) {
 		g_set_error_literal (
 			error, G_IO_ERROR,
 			G_IO_ERROR_INVALID_ARGUMENT,
 			_("Keyring key is unusable: no user or host name"));
-		soup_uri_free (uri);
+		g_uri_unref (uri);
 		uri = NULL;
 	}
 
@@ -212,7 +218,7 @@ static void
 ep_remember_password (EPassMsg *msg)
 {
 	gchar *password;
-	SoupURI *uri;
+	GUri *uri;
 	GError *error = NULL;
 
 	password = g_hash_table_lookup (password_cache, msg->key);
@@ -231,9 +237,9 @@ ep_remember_password (EPassMsg *msg)
 		msg->key, password,
 		NULL, &error,
 		"application", "Evolution",
-		"user", uri->user,
-		"server", uri->host,
-		"protocol", uri->scheme,
+		"user", g_uri_get_user (uri),
+		"server", g_uri_get_host (uri),
+		"protocol", g_uri_get_scheme (uri),
 		NULL);
 
 	/* Only remove the password from the session hash
@@ -243,7 +249,7 @@ ep_remember_password (EPassMsg *msg)
 	else
 		g_propagate_error (&msg->error, error);
 
-	soup_uri_free (uri);
+	g_uri_unref (uri);
 
 exit:
 	if (!msg->noreply)
@@ -253,7 +259,7 @@ exit:
 static void
 ep_forget_password (EPassMsg *msg)
 {
-	SoupURI *uri;
+	GUri *uri;
 	GError *error = NULL;
 
 	g_hash_table_remove (password_cache, msg->key);
@@ -273,14 +279,14 @@ ep_forget_password (EPassMsg *msg)
 	secret_password_clear_sync (
 		&e_passwords_schema, NULL, &error,
 		"application", "Evolution",
-		"user", uri->user,
-		"server", uri->host,
+		"user", g_uri_get_user (uri),
+		"server", g_uri_get_host (uri),
 		NULL);
 
 	if (error != NULL)
 		g_propagate_error (&msg->error, error);
 
-	soup_uri_free (uri);
+	g_uri_unref (uri);
 
 exit:
 	if (!msg->noreply)
@@ -290,7 +296,7 @@ exit:
 static void
 ep_get_password (EPassMsg *msg)
 {
-	SoupURI *uri;
+	GUri *uri;
 	gchar *password;
 	GError *error = NULL;
 
@@ -308,9 +314,9 @@ ep_get_password (EPassMsg *msg)
 	msg->password = secret_password_lookup_sync (
 		&e_passwords_schema, NULL, &error,
 		"application", "Evolution",
-		"user", uri->user,
-		"server", uri->host,
-		"protocol", uri->scheme,
+		"user", g_uri_get_user (uri),
+		"server", g_uri_get_host (uri),
+		"protocol", g_uri_get_scheme (uri),
 		NULL);
 
 	if (msg->password != NULL)
@@ -327,15 +333,15 @@ ep_get_password (EPassMsg *msg)
 	msg->password = secret_password_lookup_sync (
 		&e_passwords_schema, NULL, &error,
 		"application", "Evolution",
-		"user", uri->user,
-		"server", uri->host,
+		"user", g_uri_get_user (uri),
+		"server", g_uri_get_host (uri),
 		NULL);
 
 done:
 	if (error != NULL)
 		g_propagate_error (&msg->error, error);
 
-	soup_uri_free (uri);
+	g_uri_unref (uri);
 
 exit:
 	if (!msg->noreply)

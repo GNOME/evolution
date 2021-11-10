@@ -71,7 +71,7 @@ static gboolean
 process_stock_request_idle_cb (gpointer user_data)
 {
 	StockIdleData *sid = user_data;
-	SoupURI *suri;
+	GUri *guri;
 	GHashTable *query = NULL;
 	GtkStyleContext *context;
 	GtkWidgetPath *path;
@@ -93,11 +93,11 @@ process_stock_request_idle_cb (gpointer user_data)
 		return FALSE;
 	}
 
-	suri = soup_uri_new (sid->uri);
-	g_return_val_if_fail (suri != NULL, FALSE);
+	guri = g_uri_parse (sid->uri, SOUP_HTTP_URI_FLAGS | G_URI_FLAGS_PARSE_RELAXED, NULL);
+	g_return_val_if_fail (guri != NULL, FALSE);
 
-	if (suri->query != NULL)
-		query = soup_form_decode (suri->query);
+	if (g_uri_get_query (guri))
+		query = soup_form_decode (g_uri_get_query (guri));
 
 	if (query != NULL) {
 		const gchar *value;
@@ -117,7 +117,7 @@ process_stock_request_idle_cb (gpointer user_data)
 	gtk_style_context_set_path (context, path);
 	gtk_widget_path_free (path);
 
-	icon_set = gtk_style_context_lookup_icon_set (context, suri->host);
+	icon_set = gtk_style_context_lookup_icon_set (context, g_uri_get_host (guri));
 	if (icon_set != NULL) {
 		GdkPixbuf *pixbuf;
 
@@ -150,7 +150,7 @@ process_stock_request_idle_cb (gpointer user_data)
 		icon_theme = gtk_icon_theme_get_default ();
 
 		icon_info = gtk_icon_theme_lookup_icon (
-			icon_theme, suri->host, size,
+			icon_theme, g_uri_get_host (guri), size,
 			GTK_ICON_LOOKUP_USE_BUILTIN);
 
 		/* Some icons can be missing in the theme */
@@ -176,7 +176,7 @@ process_stock_request_idle_cb (gpointer user_data)
 			}
 
 			gtk_icon_info_free (icon_info);
-		} else if (g_strcmp0 (suri->host, "x-evolution-arrow-down") == 0) {
+		} else if (g_strcmp0 (g_uri_get_host (guri), "x-evolution-arrow-down") == 0) {
 			GdkPixbuf *pixbuf;
 			GdkRGBA rgba;
 			guchar *data;
@@ -237,7 +237,7 @@ process_stock_request_idle_cb (gpointer user_data)
 		sid->success = FALSE;
 	}
 
-	soup_uri_free (suri);
+	g_uri_unref (guri);
 	g_object_unref (context);
 
 	e_flag_set (sid->flag);

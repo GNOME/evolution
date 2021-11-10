@@ -49,8 +49,8 @@ Additional dependencies, besides the stock GNOME libraries (the
 dependencies should be compiled in the order they are listed here):
 
 * [evolution-data-server of the same version as the Evolution is][eds]
-* [libsoup 2.42 or later][libsoup]
-* [WebKitGTK+ 2.28.0][webkitgtk]
+* [libsoup 3.0 or later][libsoup]
+* [WebKitGTK 2.34.0][webkitgtk]
 * [Mozilla NSPR/NSS libraries][mozilla]
   These are needed if you want to compile Evolution with SSL and S/MIME
   support. Many distributions ship these as Mozilla development packages.

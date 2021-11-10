@@ -2895,6 +2895,102 @@ e_binding_transform_text_non_null (GBinding *binding,
 }
 
 /**
+ * e_binding_transform_text_to_uri:
+ * @binding: a #GBinding
+ * @source_value: a #GValue of type #G_TYPE_STRING
+ * @target_value: a #GValue of boxed #GUri
+ * @not_used: not used
+ *
+ * Transforms a URI string into a #GUri. It expects the source
+ * object to be an #ESourceExtension descendant, then it adds
+ * also the user name from its #ESourceAuthentication extension.
+ *
+ * Returns: %TRUE
+ *
+ **/
+gboolean
+e_binding_transform_text_to_uri (GBinding *binding,
+				 const GValue *source_value,
+				 GValue *target_value,
+				 gpointer not_used)
+{
+	GUri *uri;
+	GObject *source_binding;
+	const gchar *text;
+
+	text = g_value_get_string (source_value);
+	uri = g_uri_parse (text, SOUP_HTTP_URI_FLAGS, NULL);
+
+	if (!uri)
+		uri = g_uri_build (G_URI_FLAGS_NONE, "http", NULL, NULL, -1, "", NULL, NULL);
+
+	source_binding = g_binding_get_source (binding);
+
+	if (E_IS_SOURCE_EXTENSION (source_binding)) {
+		ESource *source = NULL;
+		ESourceAuthentication *extension;
+		const gchar *user;
+
+		source = e_source_extension_ref_source (E_SOURCE_EXTENSION (source_binding));
+		if (e_source_has_extension (source, E_SOURCE_EXTENSION_AUTHENTICATION)) {
+			extension = e_source_get_extension (source, E_SOURCE_EXTENSION_AUTHENTICATION);
+			user = e_source_authentication_get_user (extension);
+
+			e_util_change_uri_component (&uri, SOUP_URI_USER, user);
+		}
+
+		g_clear_object (&source);
+	}
+
+	g_value_take_boxed (target_value, uri);
+
+	return TRUE;
+}
+
+/**
+ * e_binding_transform_uri_to_text:
+ * @binding: a #GBinding
+ * @source_value: a #GValue of boxed #GUri
+ * @target_value: a #GValue of type #G_TYPE_STRING
+ * @not_used: not used
+ *
+ * Transforms a #GUri into a string.
+ *
+ * Returns: %TRUE
+ *
+ **/
+gboolean
+e_binding_transform_uri_to_text (GBinding *binding,
+				 const GValue *source_value,
+				 GValue *target_value,
+				 gpointer not_used)
+{
+	GUri *uri;
+	gchar *text;
+
+	uri = g_value_get_boxed (source_value);
+
+	if (g_uri_get_host (uri)) {
+		text = g_uri_to_string_partial (uri, G_URI_HIDE_USERINFO | G_URI_HIDE_PASSWORD);
+	} else {
+		GObject *target;
+
+		text = NULL;
+		target = g_binding_get_target (binding);
+		g_object_get (target, g_binding_get_target_property (binding), &text, NULL);
+
+		if (!text || !*text) {
+			g_free (text);
+			text = g_uri_to_string_partial (uri, G_URI_HIDE_USERINFO | G_URI_HIDE_PASSWORD);
+		}
+	}
+
+	g_value_take_string (target_value, text);
+
+	return TRUE;
+}
+
+/**
  * e_binding_bind_object_text_property:
  * @source: the source #GObject
  * @source_property: the text property on the source to bind
@@ -4666,21 +4762,21 @@ e_util_get_uri_tooltip (const gchar *uri)
 		message = g_string_new (_("Click to hide/unhide addresses"));
 	else if (g_str_has_prefix (uri, "mail:")) {
 		const gchar *fragment;
-		SoupURI *soup_uri;
+		GUri *guri;
 
-		soup_uri = soup_uri_new (uri);
-		if (!soup_uri)
+		guri = g_uri_parse (uri, SOUP_HTTP_URI_FLAGS | G_URI_FLAGS_PARSE_RELAXED, NULL);
+		if (!guri)
 			goto exit;
 
 		message = g_string_new (NULL);
-		fragment = soup_uri_get_fragment (soup_uri);
+		fragment = g_uri_get_fragment (guri);
 
 		if (fragment && *fragment)
 			g_string_append_printf (message, _("Go to the section %s of the message"), fragment);
 		else
 			g_string_append (message, _("Go to the beginning of the message"));
 
-		soup_uri_free (soup_uri);
+		g_uri_unref (guri);
 	} else {
 		message = g_string_new (NULL);
 

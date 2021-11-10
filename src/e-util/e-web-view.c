@@ -721,31 +721,31 @@ web_view_decide_policy_cb (EWebView *web_view,
 
 	/* Allow navigation through fragments in page */
 	if (uri && *uri && view_uri && *view_uri) {
-		SoupURI *uri_link, *uri_view;
+		GUri *uri_link, *uri_view;
 
-		uri_link = soup_uri_new (uri);
-		uri_view = soup_uri_new (view_uri);
+		uri_link = g_uri_parse (uri, SOUP_HTTP_URI_FLAGS | G_URI_FLAGS_PARSE_RELAXED, NULL);
+		uri_view = g_uri_parse (view_uri, SOUP_HTTP_URI_FLAGS | G_URI_FLAGS_PARSE_RELAXED, NULL);
 		if (uri_link && uri_view) {
 			const gchar *tmp1, *tmp2;
 
-			tmp1 = soup_uri_get_scheme (uri_link);
-			tmp2 = soup_uri_get_scheme (uri_view);
+			tmp1 = g_uri_get_scheme (uri_link);
+			tmp2 = g_uri_get_scheme (uri_view);
 
 			/* The scheme on both URIs should be the same */
 			if (tmp1 && tmp2 && g_ascii_strcasecmp (tmp1, tmp2) != 0)
 				goto free_uris;
 
-			tmp1 = soup_uri_get_host (uri_link);
-			tmp2 = soup_uri_get_host (uri_view);
+			tmp1 = g_uri_get_host (uri_link);
+			tmp2 = g_uri_get_host (uri_view);
 
 			/* The host on both URIs should be the same */
 			if (tmp1 && tmp2 && g_ascii_strcasecmp (tmp1, tmp2) != 0)
 				goto free_uris;
 
 			/* URI from link should have fragment set - could be empty */
-			if (soup_uri_get_fragment (uri_link)) {
-				soup_uri_free (uri_link);
-				soup_uri_free (uri_view);
+			if (g_uri_get_fragment (uri_link)) {
+				g_uri_unref (uri_link);
+				g_uri_unref (uri_view);
 				webkit_policy_decision_use (decision);
 				return TRUE;
 			}
@@ -753,9 +753,9 @@ web_view_decide_policy_cb (EWebView *web_view,
 
  free_uris:
 		if (uri_link)
-			soup_uri_free (uri_link);
+			g_uri_unref (uri_link);
 		if (uri_view)
-			soup_uri_free (uri_view);
+			g_uri_unref (uri_view);
 	}
 
 	/* XXX WebKitWebView does not provide a class method for

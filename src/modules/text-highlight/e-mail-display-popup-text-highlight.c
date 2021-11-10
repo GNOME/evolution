@@ -128,9 +128,9 @@ reformat (GtkAction *old,
           gpointer user_data)
 {
 	EMailDisplayPopupTextHighlight *th_extension;
-	SoupURI *soup_uri;
+	GUri *guri;
 	GHashTable *query;
-	gchar *uri;
+	gchar *uri, *query_str;
 
 	th_extension = E_MAIL_DISPLAY_POPUP_TEXT_HIGHLIGHT (user_data);
 
@@ -138,19 +138,19 @@ reformat (GtkAction *old,
 		return;
 
 	if (th_extension->iframe_src)
-		soup_uri = soup_uri_new (th_extension->iframe_src);
+		guri = g_uri_parse (th_extension->iframe_src, SOUP_HTTP_URI_FLAGS | G_URI_FLAGS_PARSE_RELAXED, NULL);
 	else
-		soup_uri = NULL;
+		guri = NULL;
 
-	if (!soup_uri)
+	if (!guri)
 		return;
 
-	if (!soup_uri->query) {
-		soup_uri_free (soup_uri);
+	if (!g_uri_get_query (guri)) {
+		g_uri_unref (guri);
 		return;
 	}
 
-	query = soup_form_decode (soup_uri->query);
+	query = soup_form_decode (g_uri_get_query (guri));
 	g_hash_table_replace (
 		query, g_strdup ("__formatas"), (gpointer) gtk_action_get_name (action));
 	g_hash_table_replace (
@@ -166,11 +166,13 @@ reformat (GtkAction *old,
 	}
 	#endif
 
-	soup_uri_set_query_from_form (soup_uri, query);
-	g_hash_table_destroy (query);
+	query_str = soup_form_encode_hash (query);
+	e_util_change_uri_component (&guri, SOUP_URI_QUERY, query_str);
+	g_hash_table_unref (query);
+	g_free (query_str);
 
-	uri = soup_uri_to_string (soup_uri, FALSE);
-	soup_uri_free (soup_uri);
+	uri = g_uri_to_string_partial (guri, G_URI_HIDE_PASSWORD);
+	g_uri_unref (guri);
 
 	e_web_view_set_iframe_src (E_WEB_VIEW (e_extension_get_extensible (E_EXTENSION (th_extension))),
 		th_extension->iframe_id, uri);
@@ -323,13 +325,13 @@ update_actions (EMailDisplayPopupExtension *extension,
 	 * then try to check what formatter it's using at the moment and set
 	 * it as active in the popup menu */
 	if (th_extension->iframe_src && strstr (th_extension->iframe_src, ".text-highlight") != NULL) {
-		SoupURI *soup_uri;
+		GUri *guri;
 		gtk_action_group_set_visible (
 			th_extension->action_group, TRUE);
 
-		soup_uri = soup_uri_new (th_extension->iframe_src);
-		if (soup_uri && soup_uri->query) {
-			GHashTable *query = soup_form_decode (soup_uri->query);
+		guri = g_uri_parse (th_extension->iframe_src, SOUP_HTTP_URI_FLAGS | G_URI_FLAGS_PARSE_RELAXED, NULL);
+		if (guri && g_uri_get_query (guri)) {
+			GHashTable *query = soup_form_decode (g_uri_get_query (guri));
 			const gchar *highlighter;
 
 			if (!emdp_text_highlight_is_enabled () &&
@@ -356,8 +358,8 @@ update_actions (EMailDisplayPopupExtension *extension,
 			g_hash_table_destroy (query);
 		}
 
-		if (soup_uri)
-			soup_uri_free (soup_uri);
+		if (guri)
+			g_uri_unref (guri);
 	} else {
 		gtk_action_group_set_visible (th_extension->action_group, FALSE);
 	}

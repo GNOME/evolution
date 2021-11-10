@@ -51,21 +51,21 @@ static const gchar *formatter_mime_types[] = {
 static gboolean
 emfe_itip_get_use_alternative_html (const gchar *uri)
 {
-	SoupURI *soup_uri;
+	GUri *guri;
 	gboolean res = FALSE;
 
 	if (!uri)
 		return FALSE;
 
-	soup_uri = soup_uri_new (uri);
-	if (soup_uri) {
+	guri = g_uri_parse (uri, SOUP_HTTP_URI_FLAGS | G_URI_FLAGS_PARSE_RELAXED, NULL);
+	if (guri) {
 		GHashTable *query;
 
-		query = soup_form_decode (soup_uri->query);
+		query = g_uri_get_query (guri) ? soup_form_decode (g_uri_get_query (guri)) : NULL;
 		res = query && g_strcmp0 (g_hash_table_lookup (query, "e-itip-view-alternative-html"), "1") == 0;
 		if (query)
 			g_hash_table_destroy (query);
-		soup_uri_free (soup_uri);
+		g_uri_unref (guri);
 	}
 
 	return res;

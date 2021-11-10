@@ -80,7 +80,7 @@
 #define FAKE_EVOLUTION_USER_STRING "EVOLUTIONUSER"
 
 #define ERROR_IS_NOT_FOUND(error) \
-	(g_error_matches ((error), SOUP_HTTP_ERROR, SOUP_STATUS_NOT_FOUND))
+	(g_error_matches ((error), E_SOUP_SESSION_ERROR, SOUP_STATUS_NOT_FOUND))
 
 typedef struct _EMailAutoconfigResult EMailAutoconfigResult;
 typedef struct _ParserClosure ParserClosure;
@@ -501,8 +501,9 @@ mail_autoconfig_lookup_uri_sync (EMailAutoconfig *autoconfig,
 				 GError **error)
 {
 	SoupMessage *soup_message;
+	GBytes *data;
 	gboolean success;
-	guint status;
+	GError *local_error = NULL;
 
 	soup_message = soup_message_new (SOUP_METHOD_GET, uri);
 
@@ -513,14 +514,14 @@ mail_autoconfig_lookup_uri_sync (EMailAutoconfig *autoconfig,
 	}
 
 	soup_message_headers_append (
-		soup_message->request_headers,
+		soup_message_get_request_headers (soup_message),
 		"User-Agent", "Evolution/" VERSION VERSION_SUBSTRING " " VERSION_COMMENT);
 
-	status = soup_session_send_message (soup_session, soup_message);
+	data = soup_session_send_and_read (soup_session, soup_message, cancellable, &local_error);
 
-	success = SOUP_STATUS_IS_SUCCESSFUL (status);
+	success = SOUP_STATUS_IS_SUCCESSFUL (soup_message_get_status (soup_message));
 
-	if (success) {
+	if (success && data) {
 		GMarkupParseContext *context;
 		ParserClosure closure;
 
@@ -535,8 +536,8 @@ mail_autoconfig_lookup_uri_sync (EMailAutoconfig *autoconfig,
 
 		success = g_markup_parse_context_parse (
 			context,
-			soup_message->response_body->data,
-			soup_message->response_body->length,
+			g_bytes_get_data (data, NULL),
+			g_bytes_get_size (data),
 			error);
 
 		if (success)
@@ -546,14 +547,20 @@ mail_autoconfig_lookup_uri_sync (EMailAutoconfig *autoconfig,
 		g_clear_pointer (&closure.current_type, g_free);
 
 		g_markup_parse_context_free (context);
+	} else if (local_error) {
+		g_propagate_error (error, local_error);
+		local_error = NULL;
 	} else {
 		g_set_error_literal (
-			error, SOUP_HTTP_ERROR,
-			soup_message->status_code,
-			soup_message->reason_phrase);
+			error, E_SOUP_SESSION_ERROR,
+			soup_message_get_status (soup_message),
+			soup_message_get_reason_phrase (soup_message));
 	}
 
+	if (data)
+		g_bytes_unref (data);
 	g_object_unref (soup_message);
+	g_clear_error (&local_error);
 
 	return success;
 }
@@ -576,8 +583,8 @@ mail_autoconfig_lookup (EMailAutoconfig *autoconfig,
 	proxy_source = e_source_registry_ref_builtin_proxy (registry);
 
 	soup_session = soup_session_new_with_options (
-		SOUP_SESSION_PROXY_RESOLVER, G_PROXY_RESOLVER (proxy_source),
-		SOUP_SESSION_TIMEOUT, 15,
+		"proxy-resolver", G_PROXY_RESOLVER (proxy_source),
+		"timeout", 15,
 		NULL);
 
 	g_object_unref (proxy_source);
