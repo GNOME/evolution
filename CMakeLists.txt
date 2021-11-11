@@ -669,6 +669,7 @@ add_printable_option(ENABLE_WEATHER "Enable weather calendars" ON)
 
 if(ENABLE_WEATHER)
 	pkg_check_modules_for_option(ENABLE_WEATHER "weather calendar" GWEATHER gweather-3.0>=${gweather_minimum_version})
+	pkg_check_modules_for_option(ENABLE_WEATHER "weather calendar" GEO geocode-glib-1.0>=${geocode_glib_minimum_version})
 endif(ENABLE_WEATHER)
 
 # maps in Contacts preview

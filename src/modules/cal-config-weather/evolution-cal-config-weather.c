@@ -26,6 +26,8 @@
 #include <libgweather/gweather.h>
 #undef GWEATHER_I_KNOW_THIS_IS_UNSTABLE
 
+#include "e-weather-location-entry.h"
+
 #include <e-util/e-util.h>
 
 #if defined(HAVE_NL_LANGINFO)
@@ -275,7 +277,7 @@ cal_config_weather_insert_widgets (ESourceConfigBackend *backend,
 
 	world = gweather_location_get_world ();
 
-	widget = gweather_location_entry_new (world);
+	widget = e_weather_location_entry_new (world);
 	e_source_config_insert_widget (
 		config, scratch_source, _("Location:"), widget);
 	context->location_entry = g_object_ref (widget);
