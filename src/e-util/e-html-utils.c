@@ -398,7 +398,7 @@ e_text_to_html_full (const gchar *input,
 		} else
 			next = (const guchar *) g_utf8_next_char (cur);
 
-		out = check_size (&buffer, &buffer_size, out, 10);
+		out = check_size (&buffer, &buffer_size, out, 11);
 
 		switch (u) {
 		case '<':
@@ -472,7 +472,7 @@ e_text_to_html_full (const gchar *input,
 				if (flags & E_TEXT_TO_HTML_ESCAPE_8BIT)
 					*out++ = '?';
 				else
-					out += g_snprintf (out, 9, "&#%d;", u);
+					out += g_snprintf (out, 10, "&#%d;", u);
 			}
 			col++;
 			break;
