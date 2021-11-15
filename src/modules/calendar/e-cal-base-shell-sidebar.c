@@ -312,7 +312,7 @@ open_client_data_free (gpointer pdata)
 	OpenClientData *data = pdata;
 
 	if (data) {
-		if (data->cb || !data->client) {
+		if (!data->client || (data->cb && g_hash_table_lookup (data->sidebar->priv->selected_uids, e_source_get_uid (data->source)))) {
 			g_hash_table_remove (data->sidebar->priv->selected_uids, e_source_get_uid (data->source));
 		} else {
 			/* To free the cancellable in the 'value' pair, which is useless now */
