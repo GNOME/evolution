@@ -1399,6 +1399,7 @@ cal_shell_content_setup_foreign_sources (EShellWindow *shell_window,
 	EShellContent *foreign_content;
 	EShellView *foreign_view;
 	ECalModel *foreign_model;
+	GList *clients;
 	gboolean is_new_view;
 
 	g_return_if_fail (E_IS_SHELL_WINDOW (shell_window));
@@ -1443,6 +1444,22 @@ cal_shell_content_setup_foreign_sources (EShellWindow *shell_window,
 
 	g_signal_connect_object (model, "row-appended",
 		G_CALLBACK (e_cal_base_shell_view_model_row_appended), foreign_view, G_CONNECT_SWAPPED);
+
+	/* Add clients already opened in the foreign view */
+	clients = e_cal_data_model_get_clients (e_cal_model_get_data_model (foreign_model));
+	if (clients) {
+		ECalDataModel *data_model;
+		GList *link;
+
+		data_model = e_cal_model_get_data_model (model);
+
+		for (link = clients; link; link = g_list_next (link)) {
+			ECalClient *client = link->data;
+			e_cal_data_model_add_client (data_model, client);
+		}
+
+		g_list_free_full (clients, g_object_unref);
+	}
 
 	/* This makes sure that the local models for memos and tasks
 	   in the calendar view get populated with the same sources
