@@ -563,6 +563,35 @@ mail_account_in_recipients (ESourceRegistry *registry,
 		}
 	}
 
+	/* Return only accounts, which can send messages */
+	if (match) {
+		ESourceMailSubmission *submission;
+
+		submission = e_source_has_extension (source, E_SOURCE_EXTENSION_MAIL_SUBMISSION) ?
+			e_source_get_extension (source, E_SOURCE_EXTENSION_MAIL_SUBMISSION) : NULL;
+
+		match = submission && e_source_mail_submission_get_transport_uid (submission) != NULL;
+
+		if (match) {
+			ESource *transport_source;
+
+			transport_source = e_source_registry_ref_source (registry, e_source_mail_submission_get_transport_uid (submission));
+			if (transport_source) {
+				ESourceBackend *transport;
+
+				transport = e_source_has_extension (transport_source, E_SOURCE_EXTENSION_MAIL_TRANSPORT) ?
+					e_source_get_extension (transport_source, E_SOURCE_EXTENSION_MAIL_TRANSPORT) : NULL;
+
+				match = transport && e_source_backend_get_backend_name (transport) != NULL &&
+					g_strcmp0 (e_source_backend_get_backend_name (transport), "none") != 0;
+
+				g_object_unref (transport_source);
+			} else {
+				match = FALSE;
+			}
+		}
+	}
+
 	g_object_unref (source);
 
 	return match;
