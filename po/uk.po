@@ -12,8 +12,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: evolution\n"
 "Report-Msgid-Bugs-To: https://gitlab.gnome.org/GNOME/evolution/issues\n"
-"POT-Creation-Date: 2021-11-11 14:47+0000\n"
-"PO-Revision-Date: 2021-11-11 17:44+0200\n"
+"POT-Creation-Date: 2021-11-16 13:35+0000\n"
+"PO-Revision-Date: 2021-11-16 16:26+0200\n"
 "Last-Translator: Yuri Chornoivan <yurchor@ukr.net>\n"
 "Language-Team: Ukrainian <trans-uk@lists.fedoraproject.org>\n"
 "Language: uk\n"
@@ -3580,7 +3580,7 @@ msgstr "Пошта"
 
 #: ../data/org.gnome.Evolution.desktop.in.in.h:11
 #: ../src/calendar/gui/e-memo-table.c:446 ../src/e-util/e-webdav-browser.c:522
-#: ../src/modules/calendar/e-cal-shell-content.c:1903
+#: ../src/modules/calendar/e-cal-shell-content.c:1920
 #: ../src/modules/calendar/e-memo-shell-view-actions.c:196
 #: ../src/modules/calendar/e-memo-shell-view-actions.c:211
 #: ../src/modules/calendar/e-memo-shell-view.c:335
@@ -3593,7 +3593,7 @@ msgstr "Примітки"
 #: ../src/calendar/importers/icalendar-importer.c:1151
 #: ../src/e-util/e-webdav-browser.c:523
 #: ../src/modules/calendar/e-calendar-preferences.ui.h:76
-#: ../src/modules/calendar/e-cal-shell-content.c:1863
+#: ../src/modules/calendar/e-cal-shell-content.c:1880
 #: ../src/modules/calendar/e-task-shell-view-actions.c:220
 #: ../src/modules/calendar/e-task-shell-view-actions.c:235
 #: ../src/modules/calendar/e-task-shell-view.c:530
@@ -12656,7 +12656,7 @@ msgstr "Адресні книги"
 
 #: ../src/e-util/e-accounts-window.c:570 ../src/e-util/e-accounts-window.c:704
 #: ../src/e-util/e-accounts-window.c:909
-#: ../src/modules/calendar/e-calendar-preferences.ui.h:91
+#: ../src/modules/calendar/e-calendar-preferences.ui.h:92
 msgid "Calendars"
 msgstr "Календарі"
 
@@ -12667,7 +12667,7 @@ msgstr "Списки приміток"
 
 #: ../src/e-util/e-accounts-window.c:582 ../src/e-util/e-accounts-window.c:706
 #: ../src/e-util/e-accounts-window.c:911
-#: ../src/modules/calendar/e-calendar-preferences.ui.h:92
+#: ../src/modules/calendar/e-calendar-preferences.ui.h:93
 msgid "Task Lists"
 msgstr "Списки завдань"
 
@@ -15038,7 +15038,7 @@ msgid "Background Image"
 msgstr "Зображення тла"
 
 #: ../src/e-util/e-html-editor-page-dialog.c:523
-#: ../src/modules/calendar/e-calendar-preferences.ui.h:94
+#: ../src/modules/calendar/e-calendar-preferences.ui.h:95
 msgid "_Template:"
 msgstr "_Шаблон:"
 
@@ -22723,8 +22723,7 @@ msgstr "Дозволяє програмі оновлювати файл"
 #: ../src/modules/cal-config-weather/e-weather-location-entry.c:574
 #, c-format
 msgid "%s, %s"
-msgstr ""
-"%s, %s"
+msgstr "%s, %s"
 
 #. Translators: Please indicate whether your locale uses the
 #. * metric or imperial measurement system by changing this to
@@ -22883,11 +22882,11 @@ msgstr "Пошук конфліктів"
 msgid "Select the calendars to search for meeting conflicts"
 msgstr "Виберіть календарі для пошуку конфліктуючих зібрань"
 
-#: ../src/modules/calendar/e-calendar-preferences.c:1128
+#: ../src/modules/calendar/e-calendar-preferences.c:1134
 msgid "Ti_me and date:"
 msgstr "Дата й _час:"
 
-#: ../src/modules/calendar/e-calendar-preferences.c:1129
+#: ../src/modules/calendar/e-calendar-preferences.c:1135
 msgid "_Date only:"
 msgstr "Лише _дата:"
 
@@ -23145,48 +23144,53 @@ msgid "Keep reminder notification _window always on top"
 msgstr "Тримати _вікно сповіщення про нагадування завжди зверху"
 
 #: ../src/modules/calendar/e-calendar-preferences.ui.h:80
+#| msgid "Enable icon in notification area."
+msgid "Enable _audio notifications"
+msgstr "Увімкнути зв_укові сповіщення"
+
+#: ../src/modules/calendar/e-calendar-preferences.ui.h:81
 msgid "Display reminders for completed _tasks"
 msgstr "Показувати нагадування виконаних _завдань"
 
-#: ../src/modules/calendar/e-calendar-preferences.ui.h:81
+#: ../src/modules/calendar/e-calendar-preferences.ui.h:82
 msgid "Display reminders for _past events"
 msgstr "Показувати нагадування _минулих завдань"
 
 #. This is the first half of a user preference. "Set default reminder [time-period] before every new appointment"
-#: ../src/modules/calendar/e-calendar-preferences.ui.h:83
+#: ../src/modules/calendar/e-calendar-preferences.ui.h:84
 msgid "Set _default reminder"
 msgstr "Встановити _типове нагадування"
 
 #. This is the last half of a user preference. "Set default reminder [time-period] before every new appointment"
-#: ../src/modules/calendar/e-calendar-preferences.ui.h:85
+#: ../src/modules/calendar/e-calendar-preferences.ui.h:86
 msgid "before every new appointment"
 msgstr "перед кожною новою зустріччю"
 
 #. This is the first half of a user preference. "Show a reminder [time-period] before every anniversary/birthday"
-#: ../src/modules/calendar/e-calendar-preferences.ui.h:87
+#: ../src/modules/calendar/e-calendar-preferences.ui.h:88
 msgid "Show a _reminder"
 msgstr "Показати _нагадування"
 
 #. This is the last half of a user preference. "Show a reminder [time-period] before every anniversary/birthday"
-#: ../src/modules/calendar/e-calendar-preferences.ui.h:89
+#: ../src/modules/calendar/e-calendar-preferences.ui.h:90
 msgid "before every anniversary/birthday"
 msgstr "до кожної річниці/дня народження"
 
-#: ../src/modules/calendar/e-calendar-preferences.ui.h:90
+#: ../src/modules/calendar/e-calendar-preferences.ui.h:91
 msgid "Select the sources for reminder notification:"
 msgstr "Виберіть джерела для сповіщення про нагадування:"
 
-#: ../src/modules/calendar/e-calendar-preferences.ui.h:93
+#: ../src/modules/calendar/e-calendar-preferences.ui.h:94
 msgid "Default Free/Busy Server"
 msgstr "<span weight=\"bold\">Типовий сервер «Вільний/зайнятий»</span>"
 
-#: ../src/modules/calendar/e-calendar-preferences.ui.h:96
+#: ../src/modules/calendar/e-calendar-preferences.ui.h:97
 #, no-c-format
 msgid "%u and %d will be replaced by user and domain from the email address."
 msgstr ""
 "%u и %d будуть замінені на користувача та домен з адреси електронної пошти."
 
-#: ../src/modules/calendar/e-calendar-preferences.ui.h:97
+#: ../src/modules/calendar/e-calendar-preferences.ui.h:98
 msgid ""
 "Specify login user name as part of the URL in case the server requires "
 "authentication, like: https://USER@example.com/"
@@ -23194,7 +23198,7 @@ msgstr ""
 "Вкажіть ім'я користувача для входу як частину адреси, якщо для доступу до "
 "сервера слід пройти розпізнавання. Приклад: https://USER@example.com/"
 
-#: ../src/modules/calendar/e-calendar-preferences.ui.h:98
+#: ../src/modules/calendar/e-calendar-preferences.ui.h:99
 msgid "Publishing Information"
 msgstr "Оприлюднення інформації"
 
