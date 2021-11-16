@@ -1101,6 +1101,12 @@ calendar_preferences_construct (ECalendarPreferences *prefs,
 		widget, "active",
 		G_SETTINGS_BIND_DEFAULT);
 
+	widget = e_builder_get_widget (prefs->priv->builder, "notify_enable_audio");
+	g_settings_bind (
+		eds_calendar_settings, "notify-enable-audio",
+		widget, "active",
+		G_SETTINGS_BIND_DEFAULT);
+
 	widget = e_builder_get_widget (prefs->priv->builder, "task_reminder_for_completed");
 	g_settings_bind (
 		eds_calendar_settings, "notify-completed-tasks",
