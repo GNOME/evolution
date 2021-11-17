@@ -4270,7 +4270,7 @@ e_day_view_convert_event_coords (EDayView *day_view,
                                  gint *y_return)
 {
 	gint event_x, event_y, win_x, win_y;
-	GdkWindow *event_window;;
+	GdkWindow *event_window;
 
 	/* Get the event window, x & y from the appropriate event struct. */
 	switch (event->type) {

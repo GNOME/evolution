@@ -223,7 +223,7 @@ process_stock_request_idle_cb (gpointer user_data)
 		mime_type = g_strdup ("image/png");
 
 	if (buffer != NULL) {
-		*sid->out_stream = g_memory_input_stream_new_from_data (buffer, buff_len, g_free);;
+		*sid->out_stream = g_memory_input_stream_new_from_data (buffer, buff_len, g_free);
 		*sid->out_stream_length = buff_len;
 		*sid->out_mime_type = mime_type;
 

@@ -803,7 +803,7 @@ e_table_sort_info_load_from_node (ETableSortInfo *sort_info,
 		if (g_str_equal ((gchar *) grouping->name, "leaf")) {
 			GtkSortType sort_type;
 			gboolean ascending;
-			gint index;;
+			gint index;
 
 			index = e_xml_get_integer_prop_by_name (
 				grouping, (guchar *) "column");

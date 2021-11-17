@@ -2056,7 +2056,7 @@ editor_actions_setup_spell_check_menu (EHTMLEditor *editor)
 	guint merge_id;
 
 	manager = editor->priv->manager;
-	action_group = editor->priv->spell_check_actions;;
+	action_group = editor->priv->spell_check_actions;
 	cnt_editor = e_html_editor_get_content_editor (editor);
 	spell_checker = e_content_editor_ref_spell_checker (cnt_editor);
 	available_dicts = e_spell_checker_list_available_dicts (spell_checker);
