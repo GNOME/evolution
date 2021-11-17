@@ -13,8 +13,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: 3.12\n"
 "Report-Msgid-Bugs-To: https://gitlab.gnome.org/GNOME/evolution/issues\n"
-"POT-Creation-Date: 2021-11-11 14:47+0000\n"
-"PO-Revision-Date: 2021-11-13 15:34+0000\n"
+"POT-Creation-Date: 2021-11-16 13:35+0000\n"
+"PO-Revision-Date: 2021-11-17 12:10+0000\n"
 "Last-Translator: Hugo Carvalho <hugokarvalho@hotmail.com>\n"
 "Language-Team: Portuguese <https://l10n.gnome.org/teams/pt/>\n"
 "Language: pt\n"
@@ -3651,7 +3651,7 @@ msgstr "Correio"
 
 #: ../data/org.gnome.Evolution.desktop.in.in.h:11
 #: ../src/calendar/gui/e-memo-table.c:446 ../src/e-util/e-webdav-browser.c:522
-#: ../src/modules/calendar/e-cal-shell-content.c:1903
+#: ../src/modules/calendar/e-cal-shell-content.c:1920
 #: ../src/modules/calendar/e-memo-shell-view-actions.c:196
 #: ../src/modules/calendar/e-memo-shell-view-actions.c:211
 #: ../src/modules/calendar/e-memo-shell-view.c:335
@@ -3664,7 +3664,7 @@ msgstr "Memorandos"
 #: ../src/calendar/importers/icalendar-importer.c:1151
 #: ../src/e-util/e-webdav-browser.c:523
 #: ../src/modules/calendar/e-calendar-preferences.ui.h:76
-#: ../src/modules/calendar/e-cal-shell-content.c:1863
+#: ../src/modules/calendar/e-cal-shell-content.c:1880
 #: ../src/modules/calendar/e-task-shell-view-actions.c:220
 #: ../src/modules/calendar/e-task-shell-view-actions.c:235
 #: ../src/modules/calendar/e-task-shell-view.c:530
@@ -12696,7 +12696,7 @@ msgstr "Livro de endereços"
 
 #: ../src/e-util/e-accounts-window.c:570 ../src/e-util/e-accounts-window.c:704
 #: ../src/e-util/e-accounts-window.c:909
-#: ../src/modules/calendar/e-calendar-preferences.ui.h:91
+#: ../src/modules/calendar/e-calendar-preferences.ui.h:92
 msgid "Calendars"
 msgstr "Calendário"
 
@@ -12707,7 +12707,7 @@ msgstr "Lista de memorandos"
 
 #: ../src/e-util/e-accounts-window.c:582 ../src/e-util/e-accounts-window.c:706
 #: ../src/e-util/e-accounts-window.c:911
-#: ../src/modules/calendar/e-calendar-preferences.ui.h:92
+#: ../src/modules/calendar/e-calendar-preferences.ui.h:93
 msgid "Task Lists"
 msgstr "Lista de tarefas"
 
@@ -15055,7 +15055,7 @@ msgid "Background Image"
 msgstr "Imagem de fundo"
 
 #: ../src/e-util/e-html-editor-page-dialog.c:523
-#: ../src/modules/calendar/e-calendar-preferences.ui.h:94
+#: ../src/modules/calendar/e-calendar-preferences.ui.h:95
 msgid "_Template:"
 msgstr "_Modelo:"
 
@@ -22894,11 +22894,11 @@ msgstr "Procura de conflitos"
 msgid "Select the calendars to search for meeting conflicts"
 msgstr "Selecione os calendários onde procurar por conflitos entre reuniões"
 
-#: ../src/modules/calendar/e-calendar-preferences.c:1128
+#: ../src/modules/calendar/e-calendar-preferences.c:1134
 msgid "Ti_me and date:"
 msgstr "Data e _Hora:"
 
-#: ../src/modules/calendar/e-calendar-preferences.c:1129
+#: ../src/modules/calendar/e-calendar-preferences.c:1135
 msgid "_Date only:"
 msgstr "Só _Data:"
 
@@ -23100,7 +23100,7 @@ msgstr "Permi_tir edição direta no resumo de eventos"
 
 #: ../src/modules/calendar/e-calendar-preferences.ui.h:60
 msgid "Hi_de cancelled events"
-msgstr "Oculta_r eventos cancelados"
+msgstr "Ocultar eventos cancela_dos"
 
 #: ../src/modules/calendar/e-calendar-preferences.ui.h:61
 msgid "Alerts"
@@ -23128,7 +23128,7 @@ msgstr "_Ocultar as tarefas terminadas após"
 
 #: ../src/modules/calendar/e-calendar-preferences.ui.h:69
 msgid "Hid_e cancelled tasks"
-msgstr "Ocultar as tarefas c_anceladas"
+msgstr "Ocultar as tarefas canc_eladas"
 
 #: ../src/modules/calendar/e-calendar-preferences.ui.h:70
 msgid "To Do bar"
@@ -23159,49 +23159,53 @@ msgid "Keep reminder notification _window always on top"
 msgstr "M_anter a janela de notificação dos lembretes no topo"
 
 #: ../src/modules/calendar/e-calendar-preferences.ui.h:80
+msgid "Enable _audio notifications"
+msgstr "Ativar notificações áudio"
+
+#: ../src/modules/calendar/e-calendar-preferences.ui.h:81
 msgid "Display reminders for completed _tasks"
 msgstr "Mostrar lembretes para _tarefas completadas"
 
-#: ../src/modules/calendar/e-calendar-preferences.ui.h:81
+#: ../src/modules/calendar/e-calendar-preferences.ui.h:82
 msgid "Display reminders for _past events"
 msgstr "Mostrar lembretes para _tarefas passadas"
 
 #. This is the first half of a user preference. "Set default reminder [time-period] before every new appointment"
-#: ../src/modules/calendar/e-calendar-preferences.ui.h:83
+#: ../src/modules/calendar/e-calendar-preferences.ui.h:84
 msgid "Set _default reminder"
-msgstr "Configurar _lembrete de predefinição"
+msgstr "Definir _lembrete predefinido"
 
 #. This is the last half of a user preference. "Set default reminder [time-period] before every new appointment"
-#: ../src/modules/calendar/e-calendar-preferences.ui.h:85
+#: ../src/modules/calendar/e-calendar-preferences.ui.h:86
 msgid "before every new appointment"
 msgstr "antes de todos os compromissos"
 
 #. This is the first half of a user preference. "Show a reminder [time-period] before every anniversary/birthday"
-#: ../src/modules/calendar/e-calendar-preferences.ui.h:87
+#: ../src/modules/calendar/e-calendar-preferences.ui.h:88
 msgid "Show a _reminder"
 msgstr "Mostrar um _lembrete"
 
 #. This is the last half of a user preference. "Show a reminder [time-period] before every anniversary/birthday"
-#: ../src/modules/calendar/e-calendar-preferences.ui.h:89
+#: ../src/modules/calendar/e-calendar-preferences.ui.h:90
 msgid "before every anniversary/birthday"
 msgstr "antes de todos os aniversários"
 
-#: ../src/modules/calendar/e-calendar-preferences.ui.h:90
+#: ../src/modules/calendar/e-calendar-preferences.ui.h:91
 msgid "Select the sources for reminder notification:"
 msgstr "Selecione as fontes para as notificações de lembrete:"
 
-#: ../src/modules/calendar/e-calendar-preferences.ui.h:93
+#: ../src/modules/calendar/e-calendar-preferences.ui.h:94
 msgid "Default Free/Busy Server"
 msgstr "Servidor predefinido de Livre/Ocupado"
 
-#: ../src/modules/calendar/e-calendar-preferences.ui.h:96
+#: ../src/modules/calendar/e-calendar-preferences.ui.h:97
 #, no-c-format
 msgid "%u and %d will be replaced by user and domain from the email address."
 msgstr ""
 "%u e %d serão substituídos pelo utilizador e domínio do endereço de correio "
 "eletrónico."
 
-#: ../src/modules/calendar/e-calendar-preferences.ui.h:97
+#: ../src/modules/calendar/e-calendar-preferences.ui.h:98
 msgid ""
 "Specify login user name as part of the URL in case the server requires "
 "authentication, like: https://USER@example.com/"
@@ -23209,7 +23213,7 @@ msgstr ""
 "Especifique o nome de utilizador como parte do URL caso o servidor peça por "
 "autenticação, a exemplo: https://USER@example.com/"
 
-#: ../src/modules/calendar/e-calendar-preferences.ui.h:98
+#: ../src/modules/calendar/e-calendar-preferences.ui.h:99
 msgid "Publishing Information"
 msgstr "Informação de publicação"
 
