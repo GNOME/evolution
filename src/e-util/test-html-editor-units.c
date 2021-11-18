@@ -7688,6 +7688,7 @@ main (gint argc,
 	application = g_application_new ("org.gnome.Evolution.test-html-editor-units", G_APPLICATION_FLAGS_NONE);
 
 	gtk_icon_theme_append_search_path (gtk_icon_theme_get_default (), EVOLUTION_ICONDIR);
+	gtk_icon_theme_append_search_path (gtk_icon_theme_get_default (), E_DATA_SERVER_ICONDIR);
 
 	modules = e_module_load_all_in_directory (EVOLUTION_MODULEDIR);
 	g_list_free_full (modules, (GDestroyNotify) g_type_module_unuse);

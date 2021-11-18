@@ -68,6 +68,7 @@ target_compile_definitions(evolution-shell PRIVATE
 	-DEVOLUTION_ICONDIR=\"${icondir}\"
 	-DEVOLUTION_MODULEDIR=\"${moduledir}\"
 	-DEVOLUTION_RULEDIR=\"${privdatadir}\"
+	-DE_DATA_SERVER_ICONDIR=\"${E_DATA_SERVER_ICONDIR}\"
 )
 
 target_compile_options(evolution-shell PUBLIC
@@ -136,6 +137,7 @@ target_compile_definitions(evolution PRIVATE
 	-DEVOLUTION_PREFIX=\"${CMAKE_INSTALL_PREFIX}\"
 	-DEVOLUTION_RULEDIR=\"${privdatadir}\"
 	-DEVOLUTION_TOOLSDIR=\"${privlibexecdir}\"
+	-DE_DATA_SERVER_ICONDIR=\"${E_DATA_SERVER_ICONDIR}\"
 )
 
 target_compile_options(evolution PUBLIC

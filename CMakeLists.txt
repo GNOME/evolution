@@ -284,6 +284,7 @@ pkg_check_modules(WEB_EXTENSION REQUIRED webkit2gtk-4.0>=${webkit2gtk_minimum_ve
 pkg_check_modules(SQLITE3 REQUIRED sqlite3>=${sqlite_minimum_version})
 
 pkg_check_variable(EDS_SOURCES_DBUS_SERVICE_NAME evolution-data-server-1.2 sourcesdbusservicename)
+pkg_check_variable(E_DATA_SERVER_ICONDIR evolution-data-server-1.2 icondir)
 
 # ******************************
 # Enchant - support both, but better to use the same as the dependencies (gspell, webkitgtk+,...)

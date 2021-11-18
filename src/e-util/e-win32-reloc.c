@@ -53,6 +53,7 @@ static const gchar *sysconfdir;
 static const gchar *toolsdir;
 static const gchar *uidir;
 static const gchar *webkitdatadir;
+static const gchar *e_data_server_icondir;
 
 static HMODULE hmodule;
 G_LOCK_DEFINE_STATIC (mutex);
@@ -121,6 +122,11 @@ setup (void)
 	etspecdir = replace_prefix (full_prefix, EVOLUTION_ETSPECDIR);
 	galviewsdir = replace_prefix (full_prefix, EVOLUTION_GALVIEWSDIR);
 	helpdir = replace_prefix (full_prefix, EVOLUTION_HELPDIR);
+	if (g_getenv ("E_DATA_SERVER_ICONDIR") &&
+	    g_file_test (g_getenv ("E_DATA_SERVER_ICONDIR"), G_FILE_TEST_IS_DIR))
+		e_data_server_icondir = g_getenv ("E_DATA_SERVER_ICONDIR");
+	else
+		e_data_server_icondir = replace_prefix (full_prefix, E_DATA_SERVER_ICONDIR);
 	if (g_getenv ("EVOLUTION_ICONDIR") &&
 	    g_file_test (g_getenv ("EVOLUTION_ICONDIR"), G_FILE_TEST_IS_DIR))
 		icondir = g_getenv ("EVOLUTION_ICONDIR");
@@ -183,6 +189,7 @@ GETTER(sysconfdir)
 GETTER(toolsdir)
 GETTER(uidir)
 GETTER(webkitdatadir)
+GETTER(e_data_server_icondir)
 
 gpointer _e_get_dll_hmodule (void)
 {

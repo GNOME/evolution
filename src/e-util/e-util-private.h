@@ -57,6 +57,7 @@ const gchar *_e_get_sysconfdir (void) G_GNUC_CONST;
 const gchar *_e_get_toolsdir (void) G_GNUC_CONST;
 const gchar *_e_get_uidir (void) G_GNUC_CONST;
 const gchar *_e_get_webkitdatadir (void) G_GNUC_CONST;
+const gchar *_e_get_data_server_icondir (void) G_GNUC_CONST;
 
 #undef DATADIR
 #define DATADIR _e_get_datadir ()
@@ -126,6 +127,9 @@ const gchar *_e_get_webkitdatadir (void) G_GNUC_CONST;
 
 #undef EVOLUTION_WEBKITDATADIR
 #define EVOLUTION_WEBKITDATADIR _e_get_webkitdatadir ()
+
+#undef E_DATA_SERVER_ICONDIR
+#define E_DATA_SERVER_ICONDIR _e_get_data_server_icondir ()
 
 #endif	/* G_OS_WIN32 */
 

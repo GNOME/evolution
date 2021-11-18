@@ -2191,6 +2191,7 @@ e_shell_init (EShell *shell)
 	 * here instead of in main() so Anjal picks it up. */
 	icon_theme = gtk_icon_theme_get_default ();
 	gtk_icon_theme_append_search_path (icon_theme, EVOLUTION_ICONDIR);
+	gtk_icon_theme_append_search_path (icon_theme, E_DATA_SERVER_ICONDIR);
 
 	e_signal_connect_notify (
 		shell, "notify::online",
