@@ -158,6 +158,14 @@ reformat (GtkAction *old,
 	g_hash_table_replace (
 		query, g_strdup ("__force_highlight"), (gpointer) "true");
 
+	#ifdef HAVE_MARKDOWN
+	if (g_strcmp0 (gtk_action_get_name (action), "markdown") == 0) {
+		g_hash_table_remove (query, "__formatas");
+		g_hash_table_remove (query, "__force_highlight");
+		g_hash_table_replace (query, g_strdup ("mime_type"), (gpointer) "text/markdown");
+	}
+	#endif
+
 	soup_uri_set_query_from_form (soup_uri, query);
 	g_hash_table_destroy (query);
 

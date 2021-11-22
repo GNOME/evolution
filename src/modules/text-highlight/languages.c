@@ -93,6 +93,11 @@ static Language languages[] = {
 			      (gchar[]) { "text/x-patch" }, NULL }
 	},
 
+	{ "markdown", N_("_Markdown"),
+	  (const gchar *[]) { (gchar[]) { "md" }, NULL },
+	  (const gchar *[]) { NULL }
+	},
+
 	{ "perl", N_("_Perl"),
 	  (const gchar *[]) { (gchar[]) { "perl" }, (gchar[]) { "cgi"},
 			      (gchar[]) { "perl" }, (gchar[]) { "pl" },
