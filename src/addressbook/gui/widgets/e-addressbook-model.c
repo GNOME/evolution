@@ -35,6 +35,7 @@
 struct _EAddressbookModelPrivate {
 	EClientCache *client_cache;
 	gulong client_notify_readonly_handler_id;
+	gulong client_notify_capabilities_handler_id;
 
 	EBookClient *book_client;
 	gchar *query_str;
@@ -348,6 +349,25 @@ addressbook_model_client_notify_readonly_cb (EClientCache *client_cache,
 	}
 }
 
+static gboolean addressbook_model_idle_cb (EAddressbookModel *model);
+
+static void
+addressbook_model_client_notify_capabilities_cb (EClientCache *client_cache,
+						 EClient *client,
+						 GParamSpec *pspec,
+						 EAddressbookModel *model)
+{
+	if (!E_IS_BOOK_CLIENT (client))
+		return;
+
+	if (E_BOOK_CLIENT (client) == model->priv->book_client &&
+	    model->priv->client_view_idle_id == 0) {
+		model->priv->client_view_idle_id = g_idle_add (
+			(GSourceFunc) addressbook_model_idle_cb,
+			g_object_ref (model));
+	}
+}
+
 static void
 client_view_ready_cb (GObject *source_object,
                       GAsyncResult *result,
@@ -560,6 +580,13 @@ addressbook_model_dispose (GObject *object)
 		model->priv->client_notify_readonly_handler_id = 0;
 	}
 
+	if (model->priv->client_notify_capabilities_handler_id > 0) {
+		g_signal_handler_disconnect (
+			model->priv->client_cache,
+			model->priv->client_notify_capabilities_handler_id);
+		model->priv->client_notify_capabilities_handler_id = 0;
+	}
+
 	g_clear_object (&model->priv->client_cache);
 	g_clear_object (&model->priv->book_client);
 
@@ -601,6 +628,12 @@ addressbook_model_constructed (GObject *object)
 		G_CALLBACK (addressbook_model_client_notify_readonly_cb),
 		model);
 	model->priv->client_notify_readonly_handler_id = handler_id;
+
+	handler_id = g_signal_connect (
+		client_cache, "client-notify::capabilities",
+		G_CALLBACK (addressbook_model_client_notify_capabilities_cb),
+		model);
+	model->priv->client_notify_capabilities_handler_id = handler_id;
 }
 
 static void
