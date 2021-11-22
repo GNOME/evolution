@@ -8,8 +8,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: evolution master\n"
 "Report-Msgid-Bugs-To: https://gitlab.gnome.org/GNOME/evolution/issues\n"
-"POT-Creation-Date: 2021-09-24 12:13+0000\n"
-"PO-Revision-Date: 2021-11-06 22:32+0100\n"
+"POT-Creation-Date: 2021-11-16 13:35+0000\n"
+"PO-Revision-Date: 2021-11-22 15:25+0100\n"
 "Last-Translator: Fabio Tomat <f.t.public@gmail.com>\n"
 "Language-Team: Friulian <f.t.public@gmail.com>\n"
 "Language: fur\n"
@@ -3645,7 +3645,7 @@ msgstr "Pueste"
 
 #: ../data/org.gnome.Evolution.desktop.in.in.h:11
 #: ../src/calendar/gui/e-memo-table.c:446 ../src/e-util/e-webdav-browser.c:522
-#: ../src/modules/calendar/e-cal-shell-content.c:1903
+#: ../src/modules/calendar/e-cal-shell-content.c:1920
 #: ../src/modules/calendar/e-memo-shell-view-actions.c:196
 #: ../src/modules/calendar/e-memo-shell-view-actions.c:211
 #: ../src/modules/calendar/e-memo-shell-view.c:335
@@ -3658,7 +3658,7 @@ msgstr "Pro memoria"
 #: ../src/calendar/importers/icalendar-importer.c:1151
 #: ../src/e-util/e-webdav-browser.c:523
 #: ../src/modules/calendar/e-calendar-preferences.ui.h:76
-#: ../src/modules/calendar/e-cal-shell-content.c:1863
+#: ../src/modules/calendar/e-cal-shell-content.c:1880
 #: ../src/modules/calendar/e-task-shell-view-actions.c:220
 #: ../src/modules/calendar/e-task-shell-view-actions.c:235
 #: ../src/modules/calendar/e-task-shell-view.c:530
@@ -4084,8 +4084,8 @@ msgid ""
 "You are attempting to move a contact from one address book to another but it "
 "cannot be removed from the source. Do you want to save a copy instead?"
 msgstr ""
-"Si sta cirint di spostâ un contat di une rubriche a une altre, ma il contat "
-"nol pues jessi gjavât de origjin. Salvâ invezit une copie?"
+"Si sta cirint di spostâ un contat di une rubriche a une altre, ma nol è "
+"pussibil gjavâ il contat de sô origjin. Salvâ invezit une copie?"
 
 #: ../src/addressbook/addressbook.error.xml.h:23
 msgid ""
@@ -4203,8 +4203,8 @@ msgid ""
 "“{0}” is a read-only address book and cannot be modified. Please select a "
 "different address book from the side bar in the Contacts view."
 msgstr ""
-"“{0}” e je une rubriche in dome-leture e no pues jessi modificade. Selezionâ "
-"une divierse rubriche tal ricuadri laterâl inte viodude contats."
+"“{0}” e je une rubriche in dome-leture e nol è pussibil modificâle. "
+"Selezionâ une divierse rubriche tal ricuadri laterâl inte viodude contats."
 
 #: ../src/addressbook/addressbook.error.xml.h:44
 msgid "Cannot save a contact, address book is still opening"
@@ -4302,7 +4302,7 @@ msgid "Contact Editor"
 msgstr "Editôr dai contats"
 
 #: ../src/addressbook/gui/contact-editor/contact-editor.ui.h:13
-#: ../src/calendar/gui/e-comp-editor-page-reminders.c:2486
+#: ../src/calendar/gui/e-comp-editor-page-reminders.c:2494
 #: ../src/em-format/e-mail-formatter-attachment.c:314
 #: ../src/mail/mail-config.ui.h:40
 msgid "Options"
@@ -4350,10 +4350,10 @@ msgstr "Opzions"
 #: ../src/e-util/e-source-selector-dialog.c:325
 #: ../src/e-util/e-table-config.c:540 ../src/e-util/e-table-config.ui.h:3
 #: ../src/e-util/e-timezone-dialog.ui.h:2
-#: ../src/e-util/evolution-source-viewer.c:829 ../src/e-util/e-web-view.c:3996
+#: ../src/e-util/evolution-source-viewer.c:829 ../src/e-util/e-web-view.c:3986
 #: ../src/e-util/gal-view-instance-save-as-dialog.c:265
 #: ../src/mail/e-mail-config-window.c:310 ../src/mail/e-mail-label-dialog.c:186
-#: ../src/mail/e-mail-tag-editor.c:160 ../src/mail/em-composer-utils.c:4054
+#: ../src/mail/e-mail-tag-editor.c:160 ../src/mail/em-composer-utils.c:4080
 #: ../src/mail/em-folder-selector.c:333 ../src/mail/mail-config.ui.h:2
 #: ../src/mail/mail.error.xml.h:16 ../src/mail/mail-send-recv.c:874
 #: ../src/mail/mail-send-recv.c:955 ../src/mail/mail-vfolder-ui.c:149
@@ -4388,7 +4388,7 @@ msgstr "_Anule"
 #: ../src/e-util/e-attachment-store.c:848
 #: ../src/e-util/e-attachment-store.c:855
 #: ../src/e-util/e-mail-signature-script-dialog.c:362
-#: ../src/e-util/e-webdav-browser.c:2631 ../src/e-util/e-web-view.c:3996
+#: ../src/e-util/e-webdav-browser.c:2631 ../src/e-util/e-web-view.c:3986
 #: ../src/e-util/gal-view-instance-save-as-dialog.c:266
 #: ../src/shell/e-shell-content.c:642 ../src/shell/e-shell-utils.c:133
 #: ../src/smime/gui/certificate-manager.c:653
@@ -4620,7 +4620,7 @@ msgstr "Lavôr"
 #: ../src/addressbook/gui/widgets/eab-contact-formatter.c:86
 #: ../src/addressbook/gui/widgets/eab-contact-formatter.c:528
 #: ../src/addressbook/gui/widgets/eab-contact-formatter.c:1086
-#: ../src/calendar/gui/e-cal-model.c:3827
+#: ../src/calendar/gui/e-cal-model.c:3834
 msgid "Other"
 msgstr "Altri"
 
@@ -6342,8 +6342,8 @@ msgid ""
 "“{0}” is a read-only calendar and cannot be modified. Please select a "
 "different calendar that can accept appointments."
 msgstr ""
-"“{0}” al è un calendari in dome-leture e nol pues jessi modificât. Selezionâ "
-"un calendari diviers che al podedi acetâ apontaments."
+"“{0}” al è un calendari in dome-leture e nol è pussibil modificâlu. "
+"Selezionâ un calendari diviers che al podedi acetâ apontaments."
 
 #: ../src/calendar/calendar.error.xml.h:81
 msgid "Cannot save task"
@@ -6980,28 +6980,28 @@ msgstr "Fâs clic achì par cjatâ altris events."
 
 #. Translators: Part of: [ Play a sound ] [ x ] [ minute(s) ] [ before ] [ start ]
 #: ../src/calendar/gui/e-alarm-list.c:387
-#: ../src/calendar/gui/e-comp-editor-page-reminders.c:2321
+#: ../src/calendar/gui/e-comp-editor-page-reminders.c:2329
 msgctxt "cal-reminders"
 msgid "Play a sound"
 msgstr "Riprodûs un sun"
 
 #. Translators: Part of: [ Pop up an alert ] [ x ] [ minute(s) ] [ before ] [ start ]
 #: ../src/calendar/gui/e-alarm-list.c:391
-#: ../src/calendar/gui/e-comp-editor-page-reminders.c:2319
+#: ../src/calendar/gui/e-comp-editor-page-reminders.c:2327
 msgctxt "cal-reminders"
 msgid "Pop up an alert"
 msgstr "Mostre une alerte"
 
 #. Translators: Part of: [ Send an email ] [ x ] [ minute(s) ] [ before ] [ start ]
 #: ../src/calendar/gui/e-alarm-list.c:395
-#: ../src/calendar/gui/e-comp-editor-page-reminders.c:2325
+#: ../src/calendar/gui/e-comp-editor-page-reminders.c:2333
 msgctxt "cal-reminders"
 msgid "Send an email"
 msgstr "Invie une e-mail"
 
 #. Translators: Part of: [ Run a program ] [ x ] [ minute(s) ] [ before ] [ start ]
 #: ../src/calendar/gui/e-alarm-list.c:399
-#: ../src/calendar/gui/e-comp-editor-page-reminders.c:2323
+#: ../src/calendar/gui/e-comp-editor-page-reminders.c:2331
 msgctxt "cal-reminders"
 msgid "Run a program"
 msgstr "Eseguìs un program"
@@ -7103,7 +7103,7 @@ msgid "Categories:"
 msgstr "Categoriis:"
 
 #: ../src/calendar/gui/e-cal-component-preview.c:289
-#: ../src/modules/cal-config-weather/evolution-cal-config-weather.c:280
+#: ../src/modules/cal-config-weather/evolution-cal-config-weather.c:282
 #: ../src/modules/itip-formatter/itip-view.c:1705
 #: ../src/modules/itip-formatter/itip-view.c:1818
 msgid "Location:"
@@ -7139,7 +7139,7 @@ msgid "High"
 msgstr "Alte"
 
 #: ../src/calendar/gui/e-cal-component-preview.c:351
-#: ../src/calendar/gui/e-cal-model.c:1873
+#: ../src/calendar/gui/e-cal-model.c:1880
 #: ../src/calendar/gui/e-task-table.c:465
 #: ../src/calendar/gui/tasktypes.xml.in.h:20
 #: ../src/e-util/e-send-options.ui.h:5 ../src/mail/message-list.c:341
@@ -7167,12 +7167,12 @@ msgstr "Organizadôr:"
 msgid "Attendees:"
 msgstr "Partecipants:"
 
-#: ../src/calendar/gui/e-cal-component-preview.c:455
+#: ../src/calendar/gui/e-cal-component-preview.c:457
 #: ../src/mail/e-mail-config-service-page.c:522
 msgid "Description:"
 msgstr "Descrizion:"
 
-#: ../src/calendar/gui/e-cal-component-preview.c:509
+#: ../src/calendar/gui/e-cal-component-preview.c:511
 msgid "Web Page:"
 msgstr "Pagjine Web:"
 
@@ -7449,8 +7449,8 @@ msgstr "Date e ore: %s %s"
 #: ../src/calendar/gui/e-calendar-view.c:2129
 #: ../src/calendar/gui/e-memo-table.c:660
 #: ../src/calendar/gui/e-task-table.c:882
-#: ../src/calendar/gui/e-to-do-pane.c:590 ../src/e-util/e-misc-utils.c:4652
-#: ../src/e-util/e-text.c:566 ../src/e-util/e-web-view.c:4177
+#: ../src/calendar/gui/e-to-do-pane.c:590 ../src/e-util/e-misc-utils.c:4653
+#: ../src/e-util/e-text.c:566 ../src/e-util/e-web-view.c:4167
 msgid "…"
 msgstr "…"
 
@@ -7510,7 +7510,7 @@ msgstr "Sorzint"
 #. To Translators: 'Status' here means the state of the attendees, the resulting string will be in a form:
 #. * Status: Accepted: X   Declined: Y   ...
 #: ../src/calendar/gui/e-cal-list-view.etspec.h:10
-#: ../src/calendar/gui/e-cal-model.c:3881
+#: ../src/calendar/gui/e-cal-model.c:3888
 #: ../src/calendar/gui/e-meeting-list-view.c:689
 #: ../src/calendar/gui/e-meeting-time-sel.etspec.h:9
 #: ../src/calendar/gui/e-memo-table.etspec.h:9
@@ -7569,25 +7569,25 @@ msgstr "Daûr a creâ un pro memoria"
 msgid "Creating a task"
 msgstr "Daûr a creâ une ativitât"
 
-#: ../src/calendar/gui/e-cal-model.c:1875
+#: ../src/calendar/gui/e-cal-model.c:1882
 msgid "Recurring"
 msgstr "Ricorint"
 
-#: ../src/calendar/gui/e-cal-model.c:1877
+#: ../src/calendar/gui/e-cal-model.c:1884
 msgid "Assigned"
 msgstr "Assegnât"
 
-#: ../src/calendar/gui/e-cal-model.c:1880
+#: ../src/calendar/gui/e-cal-model.c:1887
 #: ../src/calendar/gui/e-cal-model-tasks.c:1097
 msgid "Yes"
 msgstr "Sì"
 
-#: ../src/calendar/gui/e-cal-model.c:1880
+#: ../src/calendar/gui/e-cal-model.c:1887
 #: ../src/calendar/gui/e-cal-model-tasks.c:1097
 msgid "No"
 msgstr "No"
 
-#: ../src/calendar/gui/e-cal-model.c:3822
+#: ../src/calendar/gui/e-cal-model.c:3829
 #: ../src/calendar/gui/e-meeting-list-view.c:205
 #: ../src/calendar/gui/e-meeting-store.c:179
 #: ../src/calendar/gui/e-meeting-store.c:202
@@ -7595,7 +7595,7 @@ msgstr "No"
 msgid "Accepted"
 msgstr "Acetât"
 
-#: ../src/calendar/gui/e-cal-model.c:3823
+#: ../src/calendar/gui/e-cal-model.c:3830
 #: ../src/calendar/gui/e-meeting-list-view.c:206
 #: ../src/calendar/gui/e-meeting-store.c:181
 #: ../src/calendar/gui/e-meeting-store.c:204
@@ -7603,7 +7603,7 @@ msgstr "Acetât"
 msgid "Declined"
 msgstr "Declinât"
 
-#: ../src/calendar/gui/e-cal-model.c:3824
+#: ../src/calendar/gui/e-cal-model.c:3831
 #: ../src/calendar/gui/e-meeting-list-view.c:207
 #: ../src/calendar/gui/e-meeting-store.c:183
 #: ../src/calendar/gui/e-meeting-store.c:206
@@ -7611,7 +7611,7 @@ msgstr "Declinât"
 msgid "Tentative"
 msgstr "Provisori"
 
-#: ../src/calendar/gui/e-cal-model.c:3825
+#: ../src/calendar/gui/e-cal-model.c:3832
 #: ../src/calendar/gui/e-meeting-list-view.c:208
 #: ../src/calendar/gui/e-meeting-store.c:185
 #: ../src/calendar/gui/e-meeting-store.c:208
@@ -7619,7 +7619,7 @@ msgstr "Provisori"
 msgid "Delegated"
 msgstr "Delegât"
 
-#: ../src/calendar/gui/e-cal-model.c:3826
+#: ../src/calendar/gui/e-cal-model.c:3833
 msgid "Needs action"
 msgstr "Azion necessarie"
 
@@ -7877,7 +7877,7 @@ msgstr "La ore di inizi no je valide"
 #: ../src/e-util/e-misc-utils.c:4053 ../src/e-util/e-misc-utils.c:4067
 #: ../src/mail/e-mail-autoconfig.c:1122 ../src/mail/e-mail-display.c:2449
 #: ../src/mail/e-mail-notes.c:877 ../src/mail/e-mail-reader-utils.c:805
-#: ../src/mail/em-composer-utils.c:3843 ../src/mail/em-composer-utils.c:3874
+#: ../src/mail/em-composer-utils.c:3869 ../src/mail/em-composer-utils.c:3900
 #: ../src/mail/mail-send-recv.c:598 ../src/mail/mail-send-recv.c:1493
 #: ../src/modules/accounts-window/e-accounts-window-editors.c:172
 #: ../src/plugins/face/face.c:175 ../src/shell/e-shell.c:1238
@@ -8021,8 +8021,8 @@ msgstr "Gnove note"
 msgid ""
 "Memo cannot be edited, because the selected memo list could not be opened"
 msgstr ""
-"Nol è pussibil modificâ il pro memoria parcè che la liste dai pro memoria "
-"selezionade no pues jessi vierte"
+"Nol è pussibil modificâ il pro memoria parcè che nol è pussibil vierzi la "
+"liste dai pro memoria selezionade"
 
 #: ../src/calendar/gui/e-comp-editor-memo.c:222
 msgid "Memo cannot be edited, because the selected memo list is read only"
@@ -8507,14 +8507,14 @@ msgid "Exceptions"
 msgstr "Ecezions"
 
 #: ../src/calendar/gui/e-comp-editor-page-recurrence.c:2304
-#: ../src/calendar/gui/e-comp-editor-page-reminders.c:2275
+#: ../src/calendar/gui/e-comp-editor-page-reminders.c:2283
 #: ../src/mail/e-mail-config-identity-page.c:854
 #: ../src/mail/mail-config.ui.h:67
 msgid "A_dd"
 msgstr "Zon_te"
 
 #: ../src/calendar/gui/e-comp-editor-page-recurrence.c:2320
-#: ../src/calendar/gui/e-comp-editor-page-reminders.c:2283
+#: ../src/calendar/gui/e-comp-editor-page-reminders.c:2291
 #: ../src/mail/mail-config.ui.h:69
 msgid "Re_move"
 msgstr "Gja_ve"
@@ -8527,16 +8527,16 @@ msgstr "Anteprime"
 msgid "Send To"
 msgstr "Invie a"
 
-#: ../src/calendar/gui/e-comp-editor-page-reminders.c:1694
+#: ../src/calendar/gui/e-comp-editor-page-reminders.c:1702
 msgid "_Reminders"
 msgstr "P_ro memoria"
 
-#: ../src/calendar/gui/e-comp-editor-page-reminders.c:1696
+#: ../src/calendar/gui/e-comp-editor-page-reminders.c:1704
 msgid "Set or unset reminders"
 msgstr "Met o gjave i pro memoria"
 
 #. Translators: "None" for "No reminder set"
-#: ../src/calendar/gui/e-comp-editor-page-reminders.c:1808
+#: ../src/calendar/gui/e-comp-editor-page-reminders.c:1816
 msgctxt "cal-reminders"
 msgid "None"
 msgstr "Nissun"
@@ -8544,162 +8544,162 @@ msgstr "Nissun"
 #. Translators: This constructs predefined reminder's description, for example "15 minutes before",
 #. "1 hour before", "1 day before", but, if user has set, also more complicated strings like
 #. "2 days 13 hours 1 minute before".
-#: ../src/calendar/gui/e-comp-editor-page-reminders.c:1818
+#: ../src/calendar/gui/e-comp-editor-page-reminders.c:1826
 #, c-format
 msgctxt "cal-reminders"
 msgid "%s before"
 msgstr "%s indaûr"
 
-#: ../src/calendar/gui/e-comp-editor-page-reminders.c:1823
+#: ../src/calendar/gui/e-comp-editor-page-reminders.c:1831
 msgctxt "cal-reminders"
 msgid "at the start"
 msgstr "al inizi"
 
 #. Translators: "Custom" for "Custom reminder set"
-#: ../src/calendar/gui/e-comp-editor-page-reminders.c:1831
+#: ../src/calendar/gui/e-comp-editor-page-reminders.c:1839
 msgctxt "cal-reminders"
 msgid "Custom"
 msgstr "Personalizât"
 
-#: ../src/calendar/gui/e-comp-editor-page-reminders.c:1833
+#: ../src/calendar/gui/e-comp-editor-page-reminders.c:1841
 msgid "Add predefined time…"
 msgstr "Zonte orari predefinît…"
 
-#: ../src/calendar/gui/e-comp-editor-page-reminders.c:1836
+#: ../src/calendar/gui/e-comp-editor-page-reminders.c:1844
 msgid "Remove predefined times"
 msgstr "Gjave oraris predefinîts"
 
-#: ../src/calendar/gui/e-comp-editor-page-reminders.c:1979
+#: ../src/calendar/gui/e-comp-editor-page-reminders.c:1987
 msgid "Set a custom predefined time to"
 msgstr "Stabilìs un orari predefinît personalizât a"
 
 #. Translators: this is part of: "Set a custom predefined time to [nnn] days [nnn] hours [nnn] minutes", where the text in "[]" means a separate widget
-#: ../src/calendar/gui/e-comp-editor-page-reminders.c:1992
+#: ../src/calendar/gui/e-comp-editor-page-reminders.c:2000
 msgctxt "cal-reminders"
 msgid "da_ys"
 msgstr "d_îs"
 
 #. Translators: this is part of: "Set a custom predefined time to [nnn] days [nnn] hours [nnn] minutes", where the text in "[]" means a separate widget
-#: ../src/calendar/gui/e-comp-editor-page-reminders.c:2008
+#: ../src/calendar/gui/e-comp-editor-page-reminders.c:2016
 msgctxt "cal-reminders"
 msgid "_hours"
 msgstr "_oris"
 
 #. Translators: this is part of: "Set a custom predefined time to [nnn] days [nnn] hours [nnn] minutes", where the text in "[]" means a separate widget
-#: ../src/calendar/gui/e-comp-editor-page-reminders.c:2024
+#: ../src/calendar/gui/e-comp-editor-page-reminders.c:2032
 msgctxt "cal-reminders"
 msgid "_minutes"
 msgstr "_minûts"
 
-#: ../src/calendar/gui/e-comp-editor-page-reminders.c:2030
+#: ../src/calendar/gui/e-comp-editor-page-reminders.c:2038
 msgid "_Add time"
 msgstr "_Zonte orari"
 
-#: ../src/calendar/gui/e-comp-editor-page-reminders.c:2128
+#: ../src/calendar/gui/e-comp-editor-page-reminders.c:2136
 #: ../src/modules/calendar/e-calendar-preferences.ui.h:77
 msgid "Reminders"
 msgstr "Pro memoria"
 
-#: ../src/calendar/gui/e-comp-editor-page-reminders.c:2153
+#: ../src/calendar/gui/e-comp-editor-page-reminders.c:2161
 msgid "_Reminder"
 msgstr "P_ro memoria"
 
 #. Translators: Part of: [ Pop up an alert ] [ x ] [ minute(s) ] [ before ] [ start ]
-#: ../src/calendar/gui/e-comp-editor-page-reminders.c:2356
+#: ../src/calendar/gui/e-comp-editor-page-reminders.c:2364
 msgctxt "cal-reminders"
 msgid "minute(s)"
 msgstr "minût(s)"
 
 #. Translators: Part of: [ Pop up an alert ] [ x ] [ hour(s) ] [ before ] [ start ]
-#: ../src/calendar/gui/e-comp-editor-page-reminders.c:2358
+#: ../src/calendar/gui/e-comp-editor-page-reminders.c:2366
 msgctxt "cal-reminders"
 msgid "hour(s)"
 msgstr "ore(is)"
 
 #. Translators: Part of: [ Pop up an alert ] [ x ] [ day(s) ] [ before ] [ start ]
-#: ../src/calendar/gui/e-comp-editor-page-reminders.c:2360
+#: ../src/calendar/gui/e-comp-editor-page-reminders.c:2368
 msgctxt "cal-reminders"
 msgid "day(s)"
 msgstr "dì(îs)"
 
 #. Translators: Part of: [ Pop up an alert ] [ x ] [ minute(s) ] [ before ] [ start ]
-#: ../src/calendar/gui/e-comp-editor-page-reminders.c:2377
+#: ../src/calendar/gui/e-comp-editor-page-reminders.c:2385
 msgctxt "cal-reminders"
 msgid "before"
 msgstr "prime"
 
 #. Translators: Part of: [ Pop up an alert ] [ x ] [ minute(s) ] [ after ] [ start ]
-#: ../src/calendar/gui/e-comp-editor-page-reminders.c:2379
+#: ../src/calendar/gui/e-comp-editor-page-reminders.c:2387
 msgctxt "cal-reminders"
 msgid "after"
 msgstr "dopo"
 
 #. Translators: Part of: [ Pop up an alert ] [ x ] [ minute(s) ] [ before ] [ start ]
-#: ../src/calendar/gui/e-comp-editor-page-reminders.c:2395
+#: ../src/calendar/gui/e-comp-editor-page-reminders.c:2403
 msgctxt "cal-reminders"
 msgid "start"
 msgstr "inizi"
 
 #. Translators: Part of: [ Pop up an alert ] [ x ] [ minute(s) ] [ before ] [ end ]
-#: ../src/calendar/gui/e-comp-editor-page-reminders.c:2397
+#: ../src/calendar/gui/e-comp-editor-page-reminders.c:2405
 msgctxt "cal-reminders"
 msgid "end"
 msgstr "fin"
 
 #. Translators: Part of: Repeat the reminder [ x ] extra times every [ y ] [ minutes ]
-#: ../src/calendar/gui/e-comp-editor-page-reminders.c:2416
+#: ../src/calendar/gui/e-comp-editor-page-reminders.c:2424
 msgid "Re_peat the reminder"
 msgstr "Ri_pet il pro memoria"
 
 #. Translators: Part of: Repeat the reminder [ x ] extra times every [ y ] [ minutes ]
-#: ../src/calendar/gui/e-comp-editor-page-reminders.c:2441
+#: ../src/calendar/gui/e-comp-editor-page-reminders.c:2449
 msgctxt "cal-reminders"
 msgid "extra times every"
 msgstr "plui timp ogni"
 
 #. Translators: Part of: Repeat the reminder [ x ] extra times every [ y ] [ minutes ]
-#: ../src/calendar/gui/e-comp-editor-page-reminders.c:2478
+#: ../src/calendar/gui/e-comp-editor-page-reminders.c:2486
 msgctxt "cal-reminders"
 msgid "minutes"
 msgstr "minûts"
 
 #. Translators: Part of: Repeat the reminder [ x ] extra times every [ y ] [ hours ]
-#: ../src/calendar/gui/e-comp-editor-page-reminders.c:2480
+#: ../src/calendar/gui/e-comp-editor-page-reminders.c:2488
 msgctxt "cal-reminders"
 msgid "hours"
 msgstr "oris"
 
 #. Translators: Part of: Repeat the reminder [ x ] extra times every [ y ] [ days ]
-#: ../src/calendar/gui/e-comp-editor-page-reminders.c:2482
+#: ../src/calendar/gui/e-comp-editor-page-reminders.c:2490
 msgctxt "cal-reminders"
 msgid "days"
 msgstr "dîs"
 
 #. page_reminders->priv->custom_email_entry is initialized on demand
-#: ../src/calendar/gui/e-comp-editor-page-reminders.c:2519
-#: ../src/calendar/gui/e-comp-editor-page-reminders.c:2676
+#: ../src/calendar/gui/e-comp-editor-page-reminders.c:2527
+#: ../src/calendar/gui/e-comp-editor-page-reminders.c:2684
 msgctxt "cal-reminders"
 msgid "Custom _message"
 msgstr "_Messaç personalizât"
 
-#: ../src/calendar/gui/e-comp-editor-page-reminders.c:2563
+#: ../src/calendar/gui/e-comp-editor-page-reminders.c:2571
 msgctxt "cal-reminders"
 msgid "Custom reminder _sound"
 msgstr "_Sun pro memoria personalizât"
 
-#: ../src/calendar/gui/e-comp-editor-page-reminders.c:2574
+#: ../src/calendar/gui/e-comp-editor-page-reminders.c:2582
 msgid "Select a sound file"
 msgstr "Selezione un file audio"
 
-#: ../src/calendar/gui/e-comp-editor-page-reminders.c:2602
+#: ../src/calendar/gui/e-comp-editor-page-reminders.c:2610
 msgid "_Program:"
 msgstr "_Program:"
 
-#: ../src/calendar/gui/e-comp-editor-page-reminders.c:2627
+#: ../src/calendar/gui/e-comp-editor-page-reminders.c:2635
 msgid "_Arguments:"
 msgstr "_Argoments:"
 
-#: ../src/calendar/gui/e-comp-editor-page-reminders.c:2659
+#: ../src/calendar/gui/e-comp-editor-page-reminders.c:2667
 msgid "_Send To:"
 msgstr "_Invie a:"
 
@@ -8841,8 +8841,8 @@ msgstr "La date di scjadince de ativitât e je tal passât"
 msgid ""
 "Task cannot be edited, because the selected task list could not be opened"
 msgstr ""
-"Nol è pussibil modificâ la ativitât parcè che la liste des ativitâts "
-"selezionade no pues jessi vierte"
+"Nol è pussibil modificâ la ativitât parcè che nol è pussibil vierzi la liste "
+"des ativitâts selezionade"
 
 #: ../src/calendar/gui/e-comp-editor-task.c:525
 msgid "Task cannot be edited, because the selected task list is read only"
@@ -11952,7 +11952,7 @@ msgstr "Impussibil alegâ il file “{0}” a chest messaç."
 #: ../src/composer/mail-composer.error.xml.h:2
 msgid "The file “{0}” is not a regular file and cannot be sent in a message."
 msgstr ""
-"Il file “{0}” nol è un file normâl e nol pues jessi inviât intun messaç."
+"Il file “{0}” nol è un file normâl e nol è pussibil inviâlu intun messaç."
 
 #: ../src/composer/mail-composer.error.xml.h:3
 msgid "Could not retrieve messages to attach from {0}."
@@ -12312,7 +12312,7 @@ msgstr "Ogjet"
 
 #. pseudo-header
 #: ../src/em-format/e-mail-formatter-quote-headers.c:205
-#: ../src/em-format/e-mail-formatter-utils.c:360
+#: ../src/em-format/e-mail-formatter-utils.c:362
 #: ../src/modules/mail/em-mailer-prefs.c:716
 #: ../src/modules/mail/em-mailer-prefs.c:1934
 #: ../src/modules/mail/em-mailer-prefs.c:1983
@@ -12388,7 +12388,7 @@ msgid ""
 "The signature of this message cannot be verified, it may have been altered "
 "in transit."
 msgstr ""
-"La firme di chest messaç no pues jessi verificade. E pues jessi stade "
+"Nol è pussibil verificâ la firme di chest messaç. E podarès jessi stade "
 "alterade inte trasmission."
 
 #: ../src/em-format/e-mail-formatter-secure-button.c:62
@@ -12432,7 +12432,7 @@ msgid ""
 "This message is not encrypted. Its content may be viewed in transit across "
 "the Internet."
 msgstr ""
-"Chest messaç nol è cifrât. Il so contignût al pues jessi viodût dilunc la "
+"Chest messaç nol è cifrât. Al è pussibil viodi il so contignût dilunc la "
 "trasmission vie Internet."
 
 #: ../src/em-format/e-mail-formatter-secure-button.c:78
@@ -12521,8 +12521,8 @@ msgstr "Test sempliç"
 msgid "Format part as markdown text"
 msgstr "Formate part come test sempliç"
 
-#: ../src/em-format/e-mail-formatter-utils.c:212
-#: ../src/em-format/e-mail-formatter-utils.c:237
+#: ../src/em-format/e-mail-formatter-utils.c:214
+#: ../src/em-format/e-mail-formatter-utils.c:239
 #: ../src/em-format/e-mail-part-headers.c:48
 #: ../src/mail/message-list.etspec.h:9 ../src/mail/searchtypes.xml.in.h:11
 #: ../src/mail/vfoldertypes.xml.in.h:11
@@ -12530,53 +12530,53 @@ msgstr "Formate part come test sempliç"
 msgid "To"
 msgstr "A"
 
-#: ../src/em-format/e-mail-formatter-utils.c:213
-#: ../src/em-format/e-mail-formatter-utils.c:238
+#: ../src/em-format/e-mail-formatter-utils.c:215
+#: ../src/em-format/e-mail-formatter-utils.c:240
 #: ../src/em-format/e-mail-part-headers.c:49
 #: ../src/modules/mail/em-mailer-prefs.c:74
 msgid "Cc"
 msgstr "Cc"
 
-#: ../src/em-format/e-mail-formatter-utils.c:214
-#: ../src/em-format/e-mail-formatter-utils.c:239
+#: ../src/em-format/e-mail-formatter-utils.c:216
+#: ../src/em-format/e-mail-formatter-utils.c:241
 #: ../src/em-format/e-mail-part-headers.c:50
 #: ../src/modules/mail/em-mailer-prefs.c:75
 msgid "Bcc"
 msgstr "Ccp"
 
-#: ../src/em-format/e-mail-formatter-utils.c:577
+#: ../src/em-format/e-mail-formatter-utils.c:579
 msgid "GPG signed"
 msgstr "Firmât GPG"
 
-#: ../src/em-format/e-mail-formatter-utils.c:577
+#: ../src/em-format/e-mail-formatter-utils.c:579
 msgid "partially GPG signed"
 msgstr "firmât GPG in maniere parziâl"
 
-#: ../src/em-format/e-mail-formatter-utils.c:578
+#: ../src/em-format/e-mail-formatter-utils.c:580
 msgid "GPG encrypted"
 msgstr "Cifrât GPG"
 
-#: ../src/em-format/e-mail-formatter-utils.c:578
+#: ../src/em-format/e-mail-formatter-utils.c:580
 msgid "partially GPG encrypted"
 msgstr "cifrât GPG in maniere parziâl"
 
-#: ../src/em-format/e-mail-formatter-utils.c:579
+#: ../src/em-format/e-mail-formatter-utils.c:581
 msgid "S/MIME signed"
 msgstr "Firmât S/MIME"
 
-#: ../src/em-format/e-mail-formatter-utils.c:579
+#: ../src/em-format/e-mail-formatter-utils.c:581
 msgid "partially S/MIME signed"
 msgstr "firmât S/MIME in maniere parziâl"
 
-#: ../src/em-format/e-mail-formatter-utils.c:580
+#: ../src/em-format/e-mail-formatter-utils.c:582
 msgid "S/MIME encrypted"
 msgstr "Cifrât S/MIME"
 
-#: ../src/em-format/e-mail-formatter-utils.c:580
+#: ../src/em-format/e-mail-formatter-utils.c:582
 msgid "partially S/MIME encrypted"
 msgstr "cifrât S/MIME in maniere parziâl"
 
-#: ../src/em-format/e-mail-formatter-utils.c:693
+#: ../src/em-format/e-mail-formatter-utils.c:695
 #: ../src/mail/e-mail-config-security-page.c:852
 #: ../src/modules/mail-config/e-mail-config-remote-accounts.c:273
 #: ../src/modules/mail-config/e-mail-config-smtp-backend.c:216
@@ -12699,7 +12699,7 @@ msgstr "element dal calendari di evolution"
 
 #: ../src/e-util/e-accounts-window.c:557 ../src/e-util/e-accounts-window.c:674
 #: ../src/e-util/e-accounts-window.c:894
-#: ../src/modules/mail/e-mail-shell-backend.c:1110
+#: ../src/modules/mail/e-mail-shell-backend.c:1113
 msgid "Mail Accounts"
 msgstr "Account di pueste"
 
@@ -12710,7 +12710,7 @@ msgstr "Rubrichis"
 
 #: ../src/e-util/e-accounts-window.c:570 ../src/e-util/e-accounts-window.c:704
 #: ../src/e-util/e-accounts-window.c:909
-#: ../src/modules/calendar/e-calendar-preferences.ui.h:91
+#: ../src/modules/calendar/e-calendar-preferences.ui.h:92
 msgid "Calendars"
 msgstr "Calendaris"
 
@@ -12721,7 +12721,7 @@ msgstr "Listis pro memoria"
 
 #: ../src/e-util/e-accounts-window.c:582 ../src/e-util/e-accounts-window.c:706
 #: ../src/e-util/e-accounts-window.c:911
-#: ../src/modules/calendar/e-calendar-preferences.ui.h:92
+#: ../src/modules/calendar/e-calendar-preferences.ui.h:93
 msgid "Task Lists"
 msgstr "Listis des ativitâts"
 
@@ -12729,14 +12729,14 @@ msgstr "Listis des ativitâts"
 #: ../src/mail/e-mail-account-tree-view.c:84
 #: ../src/modules/mail/em-composer-prefs.c:1303
 #: ../src/modules/plugin-manager/evolution-plugin-manager.c:394
-#: ../src/plugins/mail-notification/mail-notification.c:1175
+#: ../src/plugins/mail-notification/mail-notification.c:1179
 #: ../src/plugins/publish-calendar/publish-calendar.c:853
 msgid "Enabled"
 msgstr "Abilitât"
 
 #: ../src/e-util/e-accounts-window.c:1415
 #: ../src/mail/e-mail-account-tree-view.c:108
-#: ../src/plugins/mail-notification/mail-notification.c:1191
+#: ../src/plugins/mail-notification/mail-notification.c:1195
 msgid "Account Name"
 msgstr "Non account"
 
@@ -15063,7 +15063,7 @@ msgid "Background Image"
 msgstr "Imagjin di sfont"
 
 #: ../src/e-util/e-html-editor-page-dialog.c:523
-#: ../src/modules/calendar/e-calendar-preferences.ui.h:94
+#: ../src/modules/calendar/e-calendar-preferences.ui.h:95
 msgid "_Template:"
 msgstr "_Model:"
 
@@ -16449,6 +16449,7 @@ msgstr "Events"
 
 #: ../src/e-util/e-webdav-browser.c:594 ../src/mail/em-folder-tree-model.c:1587
 #: ../src/mail/em-folder-tree-model.c:1975
+#: ../src/modules/cal-config-weather/e-weather-location-entry.c:858
 msgid "Loading…"
 msgstr "Daûr a cjariâ…"
 
@@ -16629,20 +16630,20 @@ msgstr "Cîr tal web cul test selezionât"
 msgid "Select all text and images"
 msgstr "Selezione dut il test e lis imagjins"
 
-#: ../src/e-util/e-web-view.c:3806
+#: ../src/e-util/e-web-view.c:3796
 msgid "Copying image to clipboard"
 msgstr "Copie imagjin intes notis"
 
-#: ../src/e-util/e-web-view.c:3994
+#: ../src/e-util/e-web-view.c:3984
 msgid "Save Image"
 msgstr "Salve imagjin"
 
-#: ../src/e-util/e-web-view.c:4031
+#: ../src/e-util/e-web-view.c:4021
 #, c-format
 msgid "Saving image to “%s”"
 msgstr "Daûr a salvâ la imagjin su “%s”"
 
-#: ../src/e-util/e-web-view.c:4181
+#: ../src/e-util/e-web-view.c:4171
 #, c-format
 msgid "Cannot get URI “%s”, do not know how to download it."
 msgstr "Impussibil otignî il URI “%s”, no si sa cemût discjariâlu."
@@ -17433,12 +17434,12 @@ msgid "Language for Reply and Forward attribution text"
 msgstr "Lenghe pal test di atribuzion di Rispuint e Mande indenant"
 
 #: ../src/mail/e-mail-config-composing-page.c:524
-#: ../src/mail/em-composer-utils.c:4152 ../src/mail/mail-config.ui.h:22
+#: ../src/mail/em-composer-utils.c:4178 ../src/mail/mail-config.ui.h:22
 msgid "Start _typing at the bottom"
 msgstr "_Tache scrîf sot da pît"
 
 #: ../src/mail/e-mail-config-composing-page.c:531
-#: ../src/mail/em-composer-utils.c:4155 ../src/mail/mail-config.ui.h:23
+#: ../src/mail/em-composer-utils.c:4181 ../src/mail/mail-config.ui.h:23
 msgid "_Keep signature above the original message"
 msgstr "_Ten la firme sore dal messaç origjinâl"
 
@@ -17670,7 +17671,7 @@ msgstr "%s — %s"
 #: ../src/modules/addressbook/autocompletion-config.c:115
 #: ../src/modules/calendar/e-calendar-preferences.c:622
 #: ../src/modules/calendar/e-calendar-preferences.ui.h:48
-#: ../src/modules/mail/e-mail-shell-backend.c:1002
+#: ../src/modules/mail/e-mail-shell-backend.c:1005
 #: ../src/plugins/publish-calendar/publish-calendar.ui.h:17
 msgid "General"
 msgstr "Gjenerâl"
@@ -18573,7 +18574,7 @@ msgstr "Gjave messaçs do_plis"
 msgid "Checks selected messages for duplicates"
 msgstr "Verifiche la presince di doplis tai messaçs selezionâts"
 
-#: ../src/mail/e-mail-reader.c:2817 ../src/mail/em-composer-utils.c:4106
+#: ../src/mail/e-mail-reader.c:2817 ../src/mail/em-composer-utils.c:4132
 #: ../src/mail/mail.error.xml.h:28
 #: ../src/modules/calendar/e-cal-shell-view-actions.c:1579
 #: ../src/modules/mail/e-mail-attachment-handler.c:396
@@ -18593,7 +18594,7 @@ msgstr "Rispueste al_ternative…"
 msgid "Choose reply options for the selected message"
 msgstr "Sielç lis opzions de rispueste pal messaç selezionât"
 
-#: ../src/mail/e-mail-reader.c:2831 ../src/mail/em-composer-utils.c:4101
+#: ../src/mail/e-mail-reader.c:2831 ../src/mail/em-composer-utils.c:4127
 #: ../src/mail/mail.error.xml.h:26
 #: ../src/modules/mail/e-mail-attachment-handler.c:403
 msgid "Reply to _List"
@@ -18937,7 +18938,7 @@ msgstr "Nissun titul"
 #: ../src/mail/e-mail-ui-session.c:706
 #, c-format
 msgid "Book '%s' not found"
-msgstr ""
+msgstr "Rubriche '%s' no cjatade"
 
 #: ../src/mail/e-mail-ui-session.c:962 ../src/mail/e-mail-ui-session.c:1034
 #, c-format
@@ -19013,70 +19014,70 @@ msgid "-----Original Message-----"
 msgstr "-----Messaç origjinâl-----"
 
 #. Translators: This is a reply attribution in the message reply subject. The %s is replaced with the subject of the original message. Both 'Re'-s in the 'reply-attribution' translation context should translate into the same string, the same as the ':' separator.
-#: ../src/mail/em-composer-utils.c:2799
+#: ../src/mail/em-composer-utils.c:2825
 #, c-format
 msgctxt "reply-attribution"
 msgid "Re: %s"
 msgstr "Risp: %s"
 
-#: ../src/mail/em-composer-utils.c:3417
+#: ../src/mail/em-composer-utils.c:3443
 msgid "an unknown sender"
 msgstr "un mitent no cognossût"
 
-#: ../src/mail/em-composer-utils.c:4052
+#: ../src/mail/em-composer-utils.c:4078
 msgid "Alternative Reply"
 msgstr "Rispueste alternative"
 
-#: ../src/mail/em-composer-utils.c:4055
+#: ../src/mail/em-composer-utils.c:4081
 #: ../src/modules/calendar/e-cal-shell-view-actions.c:1572
 msgid "_Reply"
 msgstr "_Rispuint"
 
-#: ../src/mail/em-composer-utils.c:4068
+#: ../src/mail/em-composer-utils.c:4094
 msgid "Recipients:"
 msgstr "Destinataris:"
 
-#: ../src/mail/em-composer-utils.c:4096
+#: ../src/mail/em-composer-utils.c:4122
 msgid "Reply to _Sender"
 msgstr "Rispuint al _mitent"
 
-#: ../src/mail/em-composer-utils.c:4118
+#: ../src/mail/em-composer-utils.c:4144
 msgid "Reply style:"
 msgstr "Stîl de rispueste:"
 
-#: ../src/mail/em-composer-utils.c:4126
+#: ../src/mail/em-composer-utils.c:4152
 msgid "_Default"
 msgstr "_Predefinît"
 
-#: ../src/mail/em-composer-utils.c:4130
+#: ../src/mail/em-composer-utils.c:4156
 msgid "Attach_ment"
 msgstr "Zo_nte"
 
-#: ../src/mail/em-composer-utils.c:4134
+#: ../src/mail/em-composer-utils.c:4160
 msgid "Inline (_Outlook style)"
 msgstr "Incorporât (stîl _Outlook)"
 
-#: ../src/mail/em-composer-utils.c:4138
+#: ../src/mail/em-composer-utils.c:4164
 msgid "_Quote"
 msgstr "_Citâ"
 
-#: ../src/mail/em-composer-utils.c:4142
+#: ../src/mail/em-composer-utils.c:4168
 msgid "Do _Not Quote"
 msgstr "_No sta citâ"
 
-#: ../src/mail/em-composer-utils.c:4149
+#: ../src/mail/em-composer-utils.c:4175
 msgid "_Format message in HTML"
 msgstr "For_mate il messaç in HTML"
 
-#: ../src/mail/em-composer-utils.c:4162
+#: ../src/mail/em-composer-utils.c:4188
 msgid "Apply t_emplate"
 msgstr "Apliche mod_el"
 
-#: ../src/mail/em-composer-utils.c:4174
+#: ../src/mail/em-composer-utils.c:4200
 msgid "Preserve original message S_ubject"
 msgstr "Manten l'_ogjet dal messaç origjinâl"
 
-#: ../src/mail/em-composer-utils.c:4240
+#: ../src/mail/em-composer-utils.c:4266
 #, c-format
 msgid "one recipient"
 msgid_plural "%d recipients"
@@ -19084,11 +19085,11 @@ msgstr[0] "un destinatari"
 msgstr[1] "%d destinataris"
 
 #. FIXME GTK_WINDOW (composer)
-#: ../src/mail/em-composer-utils.c:4684
+#: ../src/mail/em-composer-utils.c:4710
 msgid "Posting destination"
 msgstr "Destinazion di publicazion"
 
-#: ../src/mail/em-composer-utils.c:4689
+#: ../src/mail/em-composer-utils.c:4715
 msgid "Choose folders to post the message to."
 msgstr "Sielzi lis cartelis dulà publicâ il messaç."
 
@@ -20718,7 +20719,7 @@ msgstr ""
 msgid ""
 "This message cannot be sent because you have not specified any recipients"
 msgstr ""
-"Chest messaç nol pues jessi inviât parcè che nol è stât specificât nissun "
+"Nol è pussibil inviâ chest messaç parcè che nol è stât specificât nissun "
 "destinatari"
 
 #: ../src/mail/mail.error.xml.h:32
@@ -21257,7 +21258,7 @@ msgid ""
 "This message cannot be sent because the account you chose to send with is "
 "not enabled"
 msgstr ""
-"Chest messaç nol pues jessi inviât parcè che l'account che tu âs sielt par "
+"Nol è pussibil inviâ chest messaç parcè che l'account che tu âs sielt par "
 "inviâlu nol è abilitât"
 
 #: ../src/mail/mail.error.xml.h:158
@@ -21267,7 +21268,7 @@ msgstr "Par plasê abilite l'account o invie doprant un altri account."
 #: ../src/mail/mail.error.xml.h:159
 msgid "This message cannot be sent because there is no mail account configured"
 msgstr ""
-"Chest messaç nol pues jessi inviât parcè che no 'ndi son account configurâts"
+"Nol è pussibil inviâ chest messaç parcè che no 'ndi son accounts configurâts"
 
 #: ../src/mail/mail.error.xml.h:160
 msgid ""
@@ -21342,12 +21343,11 @@ msgid ""
 "folder is selected, to make sure that all the messages in the folder will be "
 "available in offline mode."
 msgstr ""
-"Chest al pues jessi dovût al fat che il messaç nol sedi stât ancjemò "
-"discjariât. La cartele o l'account a puedin jessi segnât pe sincronizazion "
-"fûr rêt. Alore, cuant che l'account al torne in rêt, doprâ File→Discjarie "
-"messaçs pal ûs fûr rêt cuant che cheste cartele e je selezionade, par "
-"sigurâsi che ducj i messaçs inte cartele a saran disponibii inte modalitât "
-"fûr rêt."
+"Chest al pues jessi dovût al fat che il messaç nol è stât ancjemò "
+"discjariât. La cartele o l'account a puedin jessi segnâts pe sincronizazion "
+"fûr rêt. Alore, cuant che l'account al torne in rêt, dopre File→Discjarie "
+"messaçs pal ûs fûr rêt cuant che cheste cartele e je selezionade, cussì che "
+"ducj i messaçs inte cartele a saran disponibii te modalitât fûr rêt."
 
 #: ../src/mail/mail.error.xml.h:177
 msgid "Failed to open folder."
@@ -22554,7 +22554,7 @@ msgstr "Anonim"
 
 #: ../src/modules/book-config-ldap/evolution-book-config-ldap.c:749
 msgid "Username can be left empty"
-msgstr "Il non utent al pues jessi lassât vueit"
+msgstr "Nol è pussibil lassâ vueit il non utent"
 
 #: ../src/modules/book-config-ldap/evolution-book-config-ldap.c:755
 msgid "Using email address"
@@ -22721,39 +22721,55 @@ msgstr "File:"
 msgid "Allow Evolution to update the file"
 msgstr "Permet a Evolution di inzornâ il file"
 
+#. Recurse, adding the ADM1 name to the country name
+#. Translators: this is the name of a location followed by a region, for example:
+#. * 'London, United Kingdom'
+#. * You shouldn't need to translate this string unless the language has a different comma.
+#.
+#. <location> with no parent <city>
+#. Translators: this is the name of a location followed by a region, for example:
+#. * 'London, United Kingdom'
+#. * You shouldn't need to translate this string unless the language has a different comma.
+#.
+#: ../src/modules/cal-config-weather/e-weather-location-entry.c:545
+#: ../src/modules/cal-config-weather/e-weather-location-entry.c:574
+#, c-format
+msgid "%s, %s"
+msgstr "%s, %s"
+
 #. Translators: Please indicate whether your locale uses the
 #. * metric or imperial measurement system by changing this to
 #. * either "default:mm" or "default:inch", respectively.
 #. *
 #. * This string is just a fallback mechanism for systems on
 #. * which _NL_MEASUREMENT_MEASUREMENT is not available.
-#: ../src/modules/cal-config-weather/evolution-cal-config-weather.c:221
+#: ../src/modules/cal-config-weather/evolution-cal-config-weather.c:223
 msgctxt "locale-metric"
 msgid "default:mm"
 msgstr "default:mm"
 
 #. Translators: This is the temperature in degrees
 #. * Fahrenheit. (\302\260 is U+00B0 DEGREE SIGN)
-#: ../src/modules/cal-config-weather/evolution-cal-config-weather.c:290
+#: ../src/modules/cal-config-weather/evolution-cal-config-weather.c:292
 msgid "Fahrenheit (°F)"
 msgstr "Fahrenheit (°F)"
 
 #. Translators: This is the temperature in degrees
 #. * Celsius. (\302\260 is U+00B0 DEGREE SIGN)
-#: ../src/modules/cal-config-weather/evolution-cal-config-weather.c:295
+#: ../src/modules/cal-config-weather/evolution-cal-config-weather.c:297
 msgid "Centigrade (°C)"
 msgstr "Centigrat (°C)"
 
 #. Translators: This is the temperature in kelvin.
-#: ../src/modules/cal-config-weather/evolution-cal-config-weather.c:299
+#: ../src/modules/cal-config-weather/evolution-cal-config-weather.c:301
 msgid "Kelvin (K)"
 msgstr "Kelvin (K)"
 
-#: ../src/modules/cal-config-weather/evolution-cal-config-weather.c:301
+#: ../src/modules/cal-config-weather/evolution-cal-config-weather.c:303
 msgid "Units:"
 msgstr "Unitâts:"
 
-#: ../src/modules/cal-config-weather/evolution-cal-config-weather.c:357
+#: ../src/modules/cal-config-weather/evolution-cal-config-weather.c:359
 msgid "Location cannot be empty"
 msgstr "La ubicazion no pues jessi vueide"
 
@@ -22878,11 +22894,11 @@ msgstr "Ricercje conflits"
 msgid "Select the calendars to search for meeting conflicts"
 msgstr "Selezione i calendaris par cirî i apontaments in conflit"
 
-#: ../src/modules/calendar/e-calendar-preferences.c:1128
+#: ../src/modules/calendar/e-calendar-preferences.c:1134
 msgid "Ti_me and date:"
 msgstr "_Ore e date:"
 
-#: ../src/modules/calendar/e-calendar-preferences.c:1129
+#: ../src/modules/calendar/e-calendar-preferences.c:1135
 msgid "_Date only:"
 msgstr "_Dome date:"
 
@@ -23141,47 +23157,51 @@ msgid "Keep reminder notification _window always on top"
 msgstr "Ten il _barcon di notifiche pro memoria simpri denant"
 
 #: ../src/modules/calendar/e-calendar-preferences.ui.h:80
+msgid "Enable _audio notifications"
+msgstr "Abilite lis notifichis _audio"
+
+#: ../src/modules/calendar/e-calendar-preferences.ui.h:81
 msgid "Display reminders for completed _tasks"
 msgstr "Mostrâ i pro memoria pes a_tivitâts completadis"
 
-#: ../src/modules/calendar/e-calendar-preferences.ui.h:81
+#: ../src/modules/calendar/e-calendar-preferences.ui.h:82
 msgid "Display reminders for _past events"
 msgstr "Mostrâ i pro memoria pai events _passâts"
 
 #. This is the first half of a user preference. "Set default reminder [time-period] before every new appointment"
-#: ../src/modules/calendar/e-calendar-preferences.ui.h:83
+#: ../src/modules/calendar/e-calendar-preferences.ui.h:84
 msgid "Set _default reminder"
 msgstr "Stabilìs pro memoria pre_definît"
 
 #. This is the last half of a user preference. "Set default reminder [time-period] before every new appointment"
-#: ../src/modules/calendar/e-calendar-preferences.ui.h:85
+#: ../src/modules/calendar/e-calendar-preferences.ui.h:86
 msgid "before every new appointment"
 msgstr "prime di ogni gnûf apontament"
 
 #. This is the first half of a user preference. "Show a reminder [time-period] before every anniversary/birthday"
-#: ../src/modules/calendar/e-calendar-preferences.ui.h:87
+#: ../src/modules/calendar/e-calendar-preferences.ui.h:88
 msgid "Show a _reminder"
 msgstr "Mostrâ un p_ro memoria"
 
 #. This is the last half of a user preference. "Show a reminder [time-period] before every anniversary/birthday"
-#: ../src/modules/calendar/e-calendar-preferences.ui.h:89
+#: ../src/modules/calendar/e-calendar-preferences.ui.h:90
 msgid "before every anniversary/birthday"
 msgstr "prime di ogni aniversari/complean"
 
-#: ../src/modules/calendar/e-calendar-preferences.ui.h:90
+#: ../src/modules/calendar/e-calendar-preferences.ui.h:91
 msgid "Select the sources for reminder notification:"
 msgstr "Selezione lis sorzints pes notifichis dai pro memoria:"
 
-#: ../src/modules/calendar/e-calendar-preferences.ui.h:93
+#: ../src/modules/calendar/e-calendar-preferences.ui.h:94
 msgid "Default Free/Busy Server"
 msgstr "Servidôr libar/impegnât predefinît"
 
-#: ../src/modules/calendar/e-calendar-preferences.ui.h:96
+#: ../src/modules/calendar/e-calendar-preferences.ui.h:97
 #, no-c-format
 msgid "%u and %d will be replaced by user and domain from the email address."
 msgstr "%u e %d a vignaran rimplaçâts dal utent e domini de direzion e-mail."
 
-#: ../src/modules/calendar/e-calendar-preferences.ui.h:97
+#: ../src/modules/calendar/e-calendar-preferences.ui.h:98
 msgid ""
 "Specify login user name as part of the URL in case the server requires "
 "authentication, like: https://USER@example.com/"
@@ -23189,7 +23209,7 @@ msgstr ""
 "Specifiche il non utent pal login come part dal URL tal câs che il servidôr "
 "al domandi autenticazion, par esempli: https://UTENT@esempli.com/"
 
-#: ../src/modules/calendar/e-calendar-preferences.ui.h:98
+#: ../src/modules/calendar/e-calendar-preferences.ui.h:99
 msgid "Publishing Information"
 msgstr "Informazions di publicazion"
 
@@ -24903,13 +24923,13 @@ msgstr "La riunion no je valide e no pues jessi inzornade"
 #: ../src/modules/itip-formatter/itip-view.c:5396
 msgid "Attendee status could not be updated because the status is invalid"
 msgstr ""
-"Il stât dal partecipant nol pues jessi inzornât parcè che il stât nol è valit"
+"Nol è pussibil inzornâ il stât dal partecipant parcè che il stât nol è valit"
 
 #: ../src/modules/itip-formatter/itip-view.c:5472
 #: ../src/modules/itip-formatter/itip-view.c:5510
 msgid "Attendee status can not be updated because the item no longer exists"
 msgstr ""
-"Il stât dal partecipant nol pues jessi inzornât par vie che l'element nol "
+"Nol è pussibil inzornâ il stât dal partecipant par vie che l'element nol "
 "esist plui"
 
 #: ../src/modules/itip-formatter/itip-view.c:5571
@@ -25107,7 +25127,7 @@ msgstr "La cartele code di pueste mbox no pues jessi vueide"
 #: ../src/modules/mail-config/e-mail-config-sendmail-backend.c:59
 #: ../src/modules/mail-config/e-mail-config-smtp-backend.c:155
 #: ../src/modules/plugin-manager/evolution-plugin-manager.c:194
-#: ../src/plugins/mail-notification/mail-notification.c:1271
+#: ../src/plugins/mail-notification/mail-notification.c:1275
 msgid "Configuration"
 msgstr "Configurazion"
 
@@ -25200,105 +25220,105 @@ msgid_plural "%d attached messages"
 msgstr[0] "%d messaç alegât"
 msgstr[1] "%d messaçs alegâts"
 
-#: ../src/modules/mail/e-mail-shell-backend.c:420
+#: ../src/modules/mail/e-mail-shell-backend.c:423
 msgctxt "New"
 msgid "_Mail Message"
 msgstr "_Messaç di pueste"
 
-#: ../src/modules/mail/e-mail-shell-backend.c:422
+#: ../src/modules/mail/e-mail-shell-backend.c:425
 msgid "Compose a new mail message"
 msgstr "Scrîf un gnûf messaç di pueste"
 
-#: ../src/modules/mail/e-mail-shell-backend.c:430
+#: ../src/modules/mail/e-mail-shell-backend.c:433
 msgctxt "New"
 msgid "Mail Acco_unt"
 msgstr "Acco_unt di pueste"
 
-#: ../src/modules/mail/e-mail-shell-backend.c:432
+#: ../src/modules/mail/e-mail-shell-backend.c:435
 msgid "Create a new mail account"
 msgstr "Cree un gnûf account di pueste"
 
-#: ../src/modules/mail/e-mail-shell-backend.c:437
+#: ../src/modules/mail/e-mail-shell-backend.c:440
 msgctxt "New"
 msgid "Mail _Folder"
 msgstr "Cartele di _pueste"
 
-#: ../src/modules/mail/e-mail-shell-backend.c:439
+#: ../src/modules/mail/e-mail-shell-backend.c:442
 msgid "Create a new mail folder"
 msgstr "Cree une gnove cartele di pueste"
 
 #. Translators: One of the known implementation names of the GNetworkMonitor. Either translate
 #. it to some user-friendly form, or keep it as is.
-#: ../src/modules/mail/e-mail-shell-backend.c:981
+#: ../src/modules/mail/e-mail-shell-backend.c:984
 msgctxt "NetworkMonitor"
 msgid "base"
 msgstr "base"
 
 #. Translators: One of the known implementation names of the GNetworkMonitor. Either translate
 #. it to some user-friendly form, or keep it as is.
-#: ../src/modules/mail/e-mail-shell-backend.c:984
+#: ../src/modules/mail/e-mail-shell-backend.c:987
 msgctxt "NetworkMonitor"
 msgid "netlink"
 msgstr "netlink"
 
 #. Translators: One of the known implementation names of the GNetworkMonitor. Either translate
 #. it to some user-friendly form, or keep it as is.
-#: ../src/modules/mail/e-mail-shell-backend.c:987
+#: ../src/modules/mail/e-mail-shell-backend.c:990
 msgctxt "NetworkMonitor"
 msgid "networkmanager"
 msgstr "networkmanager"
 
-#: ../src/modules/mail/e-mail-shell-backend.c:1018
+#: ../src/modules/mail/e-mail-shell-backend.c:1021
 msgctxt "NetworkMonitor"
 msgid "Method to detect _online state:"
 msgstr "Metodi par rivelâ il stât _in rêt:"
 
 #. Translators: The '%s' is replaced with the actual name of the GNetworkMonitor implementation
-#: ../src/modules/mail/e-mail-shell-backend.c:1029
+#: ../src/modules/mail/e-mail-shell-backend.c:1032
 #, c-format
 msgctxt "NetworkMonitor"
 msgid "Default (%s)"
 msgstr "Predefinît (%s)"
 
 #. Always as the first
-#: ../src/modules/mail/e-mail-shell-backend.c:1033
+#: ../src/modules/mail/e-mail-shell-backend.c:1036
 msgctxt "NetworkMonitor"
 msgid "Default"
 msgstr "Predefinît"
 
 #. Always as the last
-#: ../src/modules/mail/e-mail-shell-backend.c:1050
+#: ../src/modules/mail/e-mail-shell-backend.c:1053
 msgctxt "NetworkMonitor"
 msgid "Always Online"
 msgstr "_Simpri in rêt"
 
-#: ../src/modules/mail/e-mail-shell-backend.c:1119
+#: ../src/modules/mail/e-mail-shell-backend.c:1122
 msgid "Mail Preferences"
 msgstr "Preferencis di pueste"
 
-#: ../src/modules/mail/e-mail-shell-backend.c:1128
+#: ../src/modules/mail/e-mail-shell-backend.c:1131
 msgid "Composer Preferences"
 msgstr "Preferencis di composizion"
 
-#: ../src/modules/mail/e-mail-shell-backend.c:1137
+#: ../src/modules/mail/e-mail-shell-backend.c:1140
 msgid "Network Preferences"
 msgstr "Preferencis di rêt"
 
 #. Translators: The first item in the list, to be
 #. * able to set rule: [Label] [is/is-not] [None]
-#: ../src/modules/mail/e-mail-shell-backend.c:1498
+#: ../src/modules/mail/e-mail-shell-backend.c:1501
 msgctxt "label"
 msgid "None"
 msgstr "Nissune"
 
 #. Translators: Meaning "any configured addressbook included in autocompletion" in the filter dialog
-#: ../src/modules/mail/e-mail-shell-backend.c:1707
+#: ../src/modules/mail/e-mail-shell-backend.c:1710
 msgctxt "addrbook"
 msgid "Included in Autocompletion"
 msgstr "Includûts tal completament automatic"
 
 #. Translators: Meaning "any configured addressbook" in the filter dialog
-#: ../src/modules/mail/e-mail-shell-backend.c:1713
+#: ../src/modules/mail/e-mail-shell-backend.c:1716
 msgctxt "addrbook"
 msgid "Any"
 msgstr "Ducj"
@@ -26584,8 +26604,8 @@ msgid ""
 "The external editor is still running. The mail composer window cannot be "
 "closed as long as the editor is active."
 msgstr ""
-"L'editôr esterni al è ancjemò in esecuzion. Il barcon dal compositôr di "
-"pueste nol pues jessi sierât fintremai che l'editôr al è atîf."
+"L'editôr esterni al è ancjemò in esecuzion. Nol è pussibil sierâ il barcon "
+"dal compositôr di pueste fintremai che l'editôr al è atîf."
 
 #: ../src/plugins/face/face.c:295
 msgid "Select a Face Picture"
@@ -26784,8 +26804,8 @@ msgid ""
 "\n"
 "Header: {1}"
 msgstr ""
-"La intestazion {0} di chest messaç e je sbaliade e no pues jessi "
-"processade.\n"
+"La intestazion {0} di chest messaç e je sbaliade e nol è pussibil "
+"elaborâle.\n"
 "\n"
 "Intestazion: {1}"
 
@@ -26843,55 +26863,55 @@ msgid_plural "(and %d more)"
 msgstr[0] "(e %d altri)"
 msgstr[1] "(e altris %d)"
 
-#: ../src/plugins/mail-notification/mail-notification.c:542
+#: ../src/plugins/mail-notification/mail-notification.c:546
 msgid "New email in Evolution"
 msgstr "Gnove e-mail in Evolution"
 
 #. Translators: The '%s' is a mail
 #. * folder name.  (e.g. "Show Inbox")
-#: ../src/plugins/mail-notification/mail-notification.c:583
+#: ../src/plugins/mail-notification/mail-notification.c:587
 #, c-format
 msgid "Show %s"
 msgstr "Mostre %s"
 
-#: ../src/plugins/mail-notification/mail-notification.c:843
+#: ../src/plugins/mail-notification/mail-notification.c:847
 msgid "_Play sound when a new message arrives"
 msgstr "_Sune cuant che al rive un gnûf messaç"
 
-#: ../src/plugins/mail-notification/mail-notification.c:875
+#: ../src/plugins/mail-notification/mail-notification.c:879
 msgid "_Beep"
 msgstr "A_vîs acustic"
 
-#: ../src/plugins/mail-notification/mail-notification.c:888
+#: ../src/plugins/mail-notification/mail-notification.c:892
 msgid "Use sound _theme"
 msgstr "Dopre il _teme audio"
 
-#: ../src/plugins/mail-notification/mail-notification.c:907
+#: ../src/plugins/mail-notification/mail-notification.c:911
 msgid "Play _file:"
 msgstr "Sune il _file:"
 
-#: ../src/plugins/mail-notification/mail-notification.c:916
+#: ../src/plugins/mail-notification/mail-notification.c:920
 msgid "Select sound file"
 msgstr "Selezione file audio"
 
-#: ../src/plugins/mail-notification/mail-notification.c:1065
+#: ../src/plugins/mail-notification/mail-notification.c:1069
 msgid "Select _accounts for which enable notifications:"
 msgstr "Selezione i _account che par chei si à di abilitâ lis notifichis:"
 
-#: ../src/plugins/mail-notification/mail-notification.c:1227
+#: ../src/plugins/mail-notification/mail-notification.c:1231
 #: ../src/plugins/mail-notification/org-gnome-mail-notification.eplug.xml.h:1
 msgid "Mail Notification"
 msgstr "Notifiche pueste"
 
-#: ../src/plugins/mail-notification/mail-notification.c:1241
+#: ../src/plugins/mail-notification/mail-notification.c:1245
 msgid "Notify new messages for _Inbox only"
 msgstr "Notificâ _dome i gnûfs messaçs in «In jentrade»"
 
-#: ../src/plugins/mail-notification/mail-notification.c:1257
+#: ../src/plugins/mail-notification/mail-notification.c:1261
 msgid "Show _notification when a new message arrives"
 msgstr "Mostrâ une _notifiche cuant che al rive un gnûf messaç"
 
-#: ../src/plugins/mail-notification/mail-notification.c:1275
+#: ../src/plugins/mail-notification/mail-notification.c:1279
 msgid "Accounts"
 msgstr "Account"
 
