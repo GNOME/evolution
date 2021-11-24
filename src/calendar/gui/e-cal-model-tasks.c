@@ -332,10 +332,8 @@ get_due_status (ECalModelTasks *model,
 			g_object_unref (due_tt);
 			g_object_unref (prop);
 
-			if (cmp < 0)
+			if (cmp <= 0)
 				return E_CAL_MODEL_TASKS_DUE_OVERDUE;
-			else if (cmp == 0)
-				return E_CAL_MODEL_TASKS_DUE_TODAY;
 			else
 				return E_CAL_MODEL_TASKS_DUE_FUTURE;
 		} else {

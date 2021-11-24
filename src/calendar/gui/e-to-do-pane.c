@@ -222,7 +222,8 @@ etdp_date_time_to_string (const ECalComponentDateTime *dt,
 
 	etdp_itt_to_zone (*out_itt, e_cal_component_datetime_get_tzid (dt), client, default_zone);
 
-	is_overdue = is_task && etdp_create_date_mark (*out_itt) < today_date_mark;
+	is_overdue = is_task && (etdp_create_date_mark (*out_itt) < today_date_mark ||
+		(i_cal_time_is_date (*out_itt) && etdp_create_date_mark (*out_itt) <= today_date_mark));
 
 	if (i_cal_time_is_date (*out_itt) && !is_overdue)
 		return NULL;
@@ -903,7 +904,7 @@ etdp_get_comp_colors (EToDoPane *to_do_pane,
 
 			now = i_cal_time_new_current_with_zone (default_zone);
 
-			if ((is_date && i_cal_time_compare_date_only (itt, now) < 0) ||
+			if ((is_date && i_cal_time_compare_date_only (itt, now) <= 0) ||
 			    (!is_date && i_cal_time_compare (itt, now) <= 0)) {
 				bgcolor = to_do_pane->priv->overdue_color;
 			} else if (out_nearest_due) {
