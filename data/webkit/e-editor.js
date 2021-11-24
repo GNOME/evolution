@@ -1832,24 +1832,44 @@ EvoEditor.quoteParagraphWrap = function(node, lineLength, wrapWidth, prefixHtml)
 	var words = node.nodeValue.split(" "), ii, offset = 0, inc;
 
 	for (ii = 0; ii < words.length; ii++) {
-		var word = words[ii], wordLen = word.length;
+		var word = words[ii], wordLen = word.length, eraseSpaceInSplit, firstHit = true;
 
-		if (lineLength + wordLen > wrapWidth) {
+		while (lineLength + wordLen > wrapWidth) {
+			eraseSpaceInSplit = true;
+
+			if (offset == 0) {
+				if (firstHit) {
+					firstHit = false;
+
+					var linkParts = EvoEditor.splitTextWithLinks(word);
+					// do not wrap links
+					if (linkParts != null && linkParts[0].href)
+						break;
+				}
+
+				eraseSpaceInSplit = false;
+				offset = wrapWidth + 1;
+				wordLen -= wrapWidth;
+			}
+
 			if (offset > 0) {
 				node.splitText(offset - 1);
 				node = node.nextSibling;
 
-				// erase the space at the end of the line
-				node.splitText(1);
-				var next = node.nextSibling;
-				node.remove();
-				node = next;
+				if (eraseSpaceInSplit) {
+					// erase the space at the end of the line
+					node.splitText(1);
+					var next = node.nextSibling;
+					node.remove();
+					node = next;
+				}
 
 				// add the prefix and <br> only if there's still anything to be quoted
 				if (node.nodeValue.length > 0 || ii + 1 < words.length) {
 					var br = document.createElement("BR");
 					br.className = "-x-evo-wrap-br";
-					br.setAttribute("x-evo-is-space", "1");
+					if (eraseSpaceInSplit || (wordLen == 0 && ii + 1 < words.length))
+						br.setAttribute("x-evo-is-space", "1");
 
 					node.parentElement.insertBefore(br, node);
 
@@ -2982,22 +3002,17 @@ EvoEditor.findSmileys = function(text, unicodeSmileys)
 EvoEditor.maybeUpdateParagraphWidth = function(topNode)
 {
 	if (EvoEditor.mode == EvoEditor.MODE_PLAIN_TEXT) {
-		var node = topNode, citeLevel = 0;
+		var node = topNode, isCite = false;
 
-		while (node && node.tagName != "BODY") {
+		while (node && !isCite && node.tagName != "BODY") {
 			if (node.tagName == "BLOCKQUOTE")
-				citeLevel++;
+				isCite = true;
 
 			node = node.parentElement;
 		}
 
-		if (citeLevel * 2 < EvoEditor.NORMAL_PARAGRAPH_WIDTH) {
-			// to include the '> ' into the line length
-			if (citeLevel >= 1)
-				citeLevel--;
-
-			topNode.style.width = (EvoEditor.NORMAL_PARAGRAPH_WIDTH - citeLevel * 2) + "ch";
-		}
+		if (!isCite)
+			topNode.style.width = EvoEditor.NORMAL_PARAGRAPH_WIDTH + "ch";
 	}
 }
 
