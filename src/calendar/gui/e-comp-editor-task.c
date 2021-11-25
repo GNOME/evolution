@@ -50,6 +50,8 @@ struct _ECompEditorTaskPrivate {
 
 	gpointer in_the_past_alert;
 	gpointer insensitive_info_alert;
+	gboolean dtstart_is_unset;
+	gboolean due_is_unset;
 };
 
 G_DEFINE_TYPE (ECompEditorTask, e_comp_editor_task, E_TYPE_COMP_EDITOR)
@@ -313,9 +315,13 @@ ece_task_dtstart_changed_cb (EDateEdit *date_edit,
 			     ECompEditorTask *task_editor)
 {
 	ECompEditor *comp_editor;
+	gboolean was_unset;
 
 	g_return_if_fail (E_IS_DATE_EDIT (date_edit));
 	g_return_if_fail (E_IS_COMP_EDITOR_TASK (task_editor));
+
+	was_unset = task_editor->priv->dtstart_is_unset;
+	task_editor->priv->dtstart_is_unset = e_date_edit_get_time (date_edit) == (time_t) -1;
 
 	comp_editor = E_COMP_EDITOR (task_editor);
 
@@ -328,6 +334,16 @@ ece_task_dtstart_changed_cb (EDateEdit *date_edit,
 		task_editor->priv->dtstart, task_editor->priv->due_date,
 		TRUE);
 
+	/* When setting DTSTART for the first time, derive the type from the DUE,
+	   otherwise the DUE has changed the type to the DATE only. */
+	if (was_unset) {
+		e_comp_editor_ensure_same_value_type (E_COMP_EDITOR (task_editor),
+			task_editor->priv->due_date, task_editor->priv->dtstart);
+	} else {
+		e_comp_editor_ensure_same_value_type (E_COMP_EDITOR (task_editor),
+			task_editor->priv->dtstart, task_editor->priv->due_date);
+	}
+
 	e_comp_editor_set_updating (comp_editor, FALSE);
 
 	ece_task_check_dates_in_the_past (task_editor);
@@ -338,9 +354,13 @@ ece_task_due_date_changed_cb (EDateEdit *date_edit,
 			      ECompEditorTask *task_editor)
 {
 	ECompEditor *comp_editor;
+	gboolean was_unset;
 
 	g_return_if_fail (E_IS_DATE_EDIT (date_edit));
 	g_return_if_fail (E_IS_COMP_EDITOR_TASK (task_editor));
+
+	was_unset = task_editor->priv->due_is_unset;
+	task_editor->priv->due_is_unset = e_date_edit_get_time (date_edit) == (time_t) -1;
 
 	comp_editor = E_COMP_EDITOR (task_editor);
 
@@ -352,6 +372,16 @@ ece_task_due_date_changed_cb (EDateEdit *date_edit,
 	e_comp_editor_ensure_start_before_end (E_COMP_EDITOR (task_editor),
 		task_editor->priv->dtstart, task_editor->priv->due_date,
 		FALSE);
+
+	/* When setting DUE for the first time, derive the type from the DTSTART,
+	   otherwise the DTSTART has changed the type to the DATE only. */
+	if (was_unset) {
+		e_comp_editor_ensure_same_value_type (E_COMP_EDITOR (task_editor),
+			task_editor->priv->dtstart, task_editor->priv->due_date);
+	} else {
+		e_comp_editor_ensure_same_value_type (E_COMP_EDITOR (task_editor),
+			task_editor->priv->due_date, task_editor->priv->dtstart);
+	}
 
 	e_comp_editor_set_updating (comp_editor, FALSE);
 
@@ -667,6 +697,44 @@ ece_task_fill_component (ECompEditor *comp_editor,
 }
 
 static void
+ece_task_all_day_notify_active_cb (GObject *object,
+				   GParamSpec *param,
+				   gpointer user_data)
+{
+	ECompEditorTask *task_editor = user_data;
+	gboolean active = FALSE, visible = FALSE;
+
+	g_object_get (object,
+		"active", &active,
+		"visible", &visible,
+		NULL);
+
+	if (!active && visible) {
+		EDateEdit *dtstart_date_edit;
+
+		dtstart_date_edit = E_DATE_EDIT (e_comp_editor_property_part_get_edit_widget (task_editor->priv->dtstart));
+
+		if (e_date_edit_get_time (dtstart_date_edit) != (time_t) -1) {
+			EDateEdit *due_date_edit;
+
+			due_date_edit = E_DATE_EDIT (e_comp_editor_property_part_get_edit_widget (task_editor->priv->due_date));
+
+			if (e_date_edit_get_time (due_date_edit) != (time_t) -1) {
+				gint hour, minute;
+
+				if (e_date_edit_get_time_of_day (dtstart_date_edit, &hour, &minute) !=
+				    e_date_edit_get_time_of_day (due_date_edit, &hour, &minute)) {
+					if (e_date_edit_get_time_of_day (dtstart_date_edit, &hour, &minute))
+						e_date_edit_set_time_of_day (due_date_edit, hour, minute);
+					else
+						e_date_edit_set_time_of_day (due_date_edit, -1, -1);
+				}
+			}
+		}
+	}
+}
+
+static void
 ece_task_setup_ui (ECompEditorTask *task_editor)
 {
 	const gchar *ui =
@@ -784,6 +852,9 @@ ece_task_setup_ui (ECompEditorTask *task_editor)
 		action, "active",
 		edit_widget, "show-time",
 		G_BINDING_INVERT_BOOLEAN);
+
+	e_signal_connect_notify (action, "notify::active",
+		G_CALLBACK (ece_task_all_day_notify_active_cb), task_editor);
 }
 
 static void

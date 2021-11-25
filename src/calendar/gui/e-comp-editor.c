@@ -3543,6 +3543,53 @@ e_comp_editor_ensure_start_before_end (ECompEditor *comp_editor,
 	g_clear_object (&end_tt);
 }
 
+void
+e_comp_editor_ensure_same_value_type (ECompEditor *comp_editor,
+				      ECompEditorPropertyPart *src_datetime,
+				      ECompEditorPropertyPart *des_datetime)
+{
+	ECompEditorPropertyPartDatetime *src_dtm, *des_dtm;
+	ICalTime *src_tt, *des_tt;
+
+	g_return_if_fail (E_IS_COMP_EDITOR (comp_editor));
+	g_return_if_fail (E_IS_COMP_EDITOR_PROPERTY_PART_DATETIME (src_datetime));
+	g_return_if_fail (E_IS_COMP_EDITOR_PROPERTY_PART_DATETIME (des_datetime));
+
+	src_dtm = E_COMP_EDITOR_PROPERTY_PART_DATETIME (src_datetime);
+	des_dtm = E_COMP_EDITOR_PROPERTY_PART_DATETIME (des_datetime);
+
+	src_tt = e_comp_editor_property_part_datetime_get_value (src_dtm);
+	des_tt = e_comp_editor_property_part_datetime_get_value (des_dtm);
+
+	if (!src_tt || !des_tt ||
+	    i_cal_time_is_null_time (src_tt) ||
+	    i_cal_time_is_null_time (des_tt) ||
+	    !i_cal_time_is_valid_time (src_tt) ||
+	    !i_cal_time_is_valid_time (des_tt)) {
+		g_clear_object (&src_tt);
+		g_clear_object (&des_tt);
+		return;
+	}
+
+	if (i_cal_time_is_date (src_tt) != i_cal_time_is_date (des_tt)) {
+		gint hour = 0, minute = 0, second = 0;
+
+		i_cal_time_set_is_date (des_tt, i_cal_time_is_date (src_tt));
+
+		if (!i_cal_time_is_date (des_tt)) {
+			i_cal_time_get_time (src_tt, &hour, &minute, &second);
+			i_cal_time_set_time (des_tt, hour, minute, second);
+		}
+
+		e_comp_editor_set_updating (comp_editor, TRUE);
+		e_comp_editor_property_part_datetime_set_value (des_dtm, des_tt);
+		e_comp_editor_set_updating (comp_editor, FALSE);
+	}
+
+	g_clear_object (&src_tt);
+	g_clear_object (&des_tt);
+}
+
 static gboolean
 e_comp_editor_holds_component (ECompEditor *comp_editor,
 			       ESource *origin_source,

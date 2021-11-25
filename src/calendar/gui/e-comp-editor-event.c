@@ -82,6 +82,9 @@ ece_event_update_times (ECompEditorEvent *event_editor,
 			event_editor->priv->dtstart,
 			event_editor->priv->dtend,
 			change_end_datetime);
+		e_comp_editor_ensure_same_value_type (E_COMP_EDITOR (event_editor),
+			change_end_datetime ? event_editor->priv->dtstart : event_editor->priv->dtend,
+			change_end_datetime ? event_editor->priv->dtend : event_editor->priv->dtstart);
 	}
 
 	flags = e_comp_editor_get_flags (E_COMP_EDITOR (event_editor));
@@ -144,6 +147,13 @@ ece_event_all_day_toggled_cb (ECompEditorEvent *event_editor)
 	g_return_if_fail (E_IS_COMP_EDITOR_EVENT (event_editor));
 
 	edit_widget = e_comp_editor_property_part_get_edit_widget (event_editor->priv->dtstart);
+
+	if (gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (event_editor->priv->all_day_check))) {
+		gint hour, minute;
+
+		if (!e_date_edit_get_time_of_day (E_DATE_EDIT (edit_widget), &hour, &minute))
+			e_date_edit_set_time_of_day (E_DATE_EDIT (edit_widget), 0, 0);
+	}
 
 	ece_event_update_times (event_editor, E_DATE_EDIT (edit_widget), TRUE);
 

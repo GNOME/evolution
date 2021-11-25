@@ -1119,12 +1119,10 @@ e_comp_editor_property_part_datetime_set_value (ECompEditorPropertyPartDatetime 
 
 		if (!i_cal_time_is_date (value))
 			e_date_edit_set_time_of_day (date_edit, i_cal_time_get_hour (value), i_cal_time_get_minute (value));
-		else if (e_date_edit_get_show_time (date_edit))
-			e_date_edit_set_time_of_day (date_edit, 0, 0);
-		else if (e_date_edit_get_allow_no_date_set (date_edit))
+		else if (e_date_edit_get_show_time (date_edit) && e_date_edit_get_allow_no_date_set (date_edit))
 			e_date_edit_set_time_of_day (date_edit, -1, -1);
-
-		e_comp_editor_property_part_datetime_set_date_only (part_datetime, i_cal_time_is_date (value));
+		else
+			e_comp_editor_property_part_datetime_set_date_only (part_datetime, TRUE);
 	}
 
 	g_clear_object (&tmp_value);
