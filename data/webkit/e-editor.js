@@ -87,6 +87,7 @@ var EvoEditor = {
 	MODE_PLAIN_TEXT : 0,
 	MODE_HTML : 1,
 
+	plugins : null,
 	mode : 1, // one of the MODE constants
 	storedSelection : null,
 	propertiesSelection : null, // dedicated to Properties dialogs
@@ -116,6 +117,45 @@ var EvoEditor = {
 		bodyFontFamily : null
 	}
 };
+
+EvoEditor.RegisterPlugin = function(plugin)
+{
+	if (plugin == null)
+		return;
+
+	if (plugin.name === undefined) {
+		console.error("Evo.RegisterPlugin: Plugin '" + plugin + "' has missing 'name' member");
+		return;
+	}
+
+	if (plugin.setup === undefined) {
+		console.error("Evo.RegisterPlugin: Plugin '" + plugin.name + "' has missing 'setup' function");
+		return;
+	}
+
+	if (EvoEditor.plugins == null)
+		EvoEditor.plugins = [];
+
+	EvoEditor.plugins.push(plugin);
+}
+
+EvoEditor.setupPlugins = function(doc)
+{
+	if (EvoEditor.plugins == null)
+		return;
+
+	var ii;
+
+	for (ii = 0; ii < EvoEditor.plugins.length; ii++) {
+		try {
+			if (EvoEditor.plugins[ii] != null)
+				EvoEditor.plugins[ii].setup(doc);
+		} catch (err) {
+			console.error("Failed to setup plugin '" + EvoEditor.plugins[ii].name + "': " + err.name + ": " + err.message);
+			EvoEditor.plugins[ii] = null;
+		}
+	}
+}
 
 EvoEditor.maybeUpdateFormattingState = function(force)
 {
@@ -1778,6 +1818,8 @@ EvoEditor.initializeContent = function()
 			document.getSelection().setPosition(document.body.firstChild ? document.body.firstChild : document.body, 0);
 		}
 	}
+
+	EvoEditor.setupPlugins(document);
 }
 
 EvoEditor.getNextNodeInHierarchy = function(node, upToNode)

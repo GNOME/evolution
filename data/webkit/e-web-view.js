@@ -24,8 +24,48 @@ var Evo = {
 	hasSelection : false,
 	blockquoteStyle : "margin:0 0 0 .8ex; border-left:2px #729fcf solid;padding-left:1ex",
 	magicSpacebarState: -1,
-	markCitationColor : null
+	markCitationColor : null,
+	plugins : null
 };
+
+Evo.RegisterPlugin = function(plugin)
+{
+	if (plugin == null)
+		return;
+
+	if (plugin.name === undefined) {
+		console.error("Evo.RegisterPlugin: Plugin '" + plugin + "' has missing 'name' member");
+		return;
+	}
+
+	if (plugin.setup === undefined) {
+		console.error("Evo.RegisterPlugin: Plugin '" + plugin.name + "' has missing 'setup' function");
+		return;
+	}
+
+	if (Evo.plugins == null)
+		Evo.plugins = [];
+
+	Evo.plugins.push(plugin);
+}
+
+Evo.setupPlugins = function(doc)
+{
+	if (Evo.plugins == null)
+		return;
+
+	var ii;
+
+	for (ii = 0; ii < Evo.plugins.length; ii++) {
+		try {
+			if (Evo.plugins[ii] != null)
+				Evo.plugins[ii].setup(doc);
+		} catch (err) {
+			console.error("Failed to setup plugin '" + Evo.plugins[ii].name + "': " + err.name + ": " + err.message);
+			Evo.plugins[ii] = null;
+		}
+	}
+}
 
 /* The 'traversar_obj' is an object, which implements a callback function:
    boolean exec(doc, iframe_id, level);
@@ -618,6 +658,8 @@ Evo.initialize = function(elem)
 		doc = elem.contentDocument;
 	} else
 		doc = document;
+
+	Evo.setupPlugins(doc);
 
 	elems = doc.getElementsByTagName("iframe");
 
