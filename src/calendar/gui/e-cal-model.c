@@ -4385,6 +4385,9 @@ e_cal_model_util_get_datetime_value (ECalModel *model,
 		if (!tzid || !*tzid ||
 		    !e_cal_client_get_timezone_sync (comp_data->client, tzid, &zone, NULL, NULL))
 			zone = NULL;
+
+		if (!zone && i_cal_time_is_utc (tt))
+			zone = i_cal_timezone_get_utc_timezone ();
 	}
 
 	if (e_cal_data_model_get_expand_recurrences (model->priv->data_model)) {
