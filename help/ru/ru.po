@@ -454,7 +454,7 @@ msgstr "Чтобы получить доступ к представлению �
 #: C/calendar-free-busy.page:48 C/calendar-meetings-sending-invitation.page:44
 msgid "Click <guiseq><gui>File</gui><gui>New</gui><gui>Meeting</gui></guiseq>."
 msgstr ""
-"Выберите пункт меню <guiseq><gui>Файл<gui>Создать</gui><gui>Собрание</gui>"
+"Выберите пункт меню <guiseq><gui>Файл</gui><gui>Создать</gui><gui>Собрание</gui></guiseq>."
 
 #. (itstool) path: item/p
 #: C/calendar-free-busy.page:52 C/calendar-meetings-sending-invitation.page:55
@@ -759,9 +759,9 @@ msgid ""
 "gui><gui>Preferences</gui> <gui>Calendar and Tasks</gui><gui>General</gui></"
 "guiseq>."
 msgstr ""
-"Следующие параметры доступны в разделе настройки <guiseq><gui>Правка<gui"
-">Параметры</gui> <gui>Календарь и задачи</"
-"gui><gui>Общие</gui>."
+"Следующие параметры доступны в разделе настройки <guiseq><gui>Правка</gui"
+"><gui>Параметры</gui> <gui>Календарь и задачи</"
+"gui><gui>Общие</gui></guiseq>."
 
 #. (itstool) path: section/title
 #: C/calendar-layout-general-formatting.page:37
@@ -15050,7 +15050,7 @@ msgid ""
 "in Task…</gui></guiseq> from the main menu."
 msgstr ""
 "Чтобы найти текст в отображаемой задаче, выберите пункт главного меню  <"
-"guiseq><gui>Правка<gui>Найти в задаче…</gui>."
+"guiseq><gui>Правка</gui><gui>Найти в задаче…</gui></guiseq>."
 
 #. (itstool) path: section/title
 #: C/tasks-searching.page:36
