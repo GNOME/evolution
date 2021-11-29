@@ -1207,7 +1207,6 @@ format_dt (const ECalComponentDateTime *dt,
 
 	tt = e_cal_component_datetime_get_value (dt);
 
-	i_cal_time_set_timezone (tt, NULL);
 	if (e_cal_component_datetime_get_tzid (dt)) {
 		const gchar *tzid = e_cal_component_datetime_get_tzid (dt);
 
@@ -1216,8 +1215,13 @@ format_dt (const ECalComponentDateTime *dt,
 		if (!i_cal_time_get_timezone (tt))
 			i_cal_time_set_timezone (tt, i_cal_timezone_get_builtin_timezone_from_tzid (tzid));
 
+		if (!i_cal_time_get_timezone (tt))
+			i_cal_time_set_timezone (tt, i_cal_timezone_get_builtin_timezone (tzid));
+
 		if (!i_cal_time_get_timezone (tt) && g_ascii_strcasecmp (tzid, "UTC") == 0)
 			i_cal_time_set_timezone (tt, i_cal_timezone_get_utc_timezone ());
+	} else if (!i_cal_time_is_utc (tt)) {
+		i_cal_time_set_timezone (tt, NULL);
 	}
 
 	if (i_cal_time_get_timezone (tt))
