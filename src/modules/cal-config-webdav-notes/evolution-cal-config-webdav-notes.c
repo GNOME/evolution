@@ -49,7 +49,7 @@ G_DEFINE_DYNAMIC_TYPE (ECalConfigWebDAVNotes, e_cal_config_webdav_notes, E_TYPE_
 
 static Context *
 cal_config_webdav_notes_context_new (ESourceConfigBackend *backend,
-                               ESource *scratch_source)
+				     ESource *scratch_source)
 {
 	Context *context;
 
@@ -78,7 +78,7 @@ caldav_config_get_dialog_parent_cb (ECredentialsPrompter *prompter,
 
 static void
 cal_config_webdav_notes_run_dialog (GtkButton *button,
-                              Context *context)
+				    Context *context)
 {
 	ESourceConfig *config;
 	ESourceRegistry *registry;
@@ -194,9 +194,9 @@ cal_config_webdav_notes_run_dialog (GtkButton *button,
 
 static gboolean
 cal_config_webdav_notes_uri_to_text (GBinding *binding,
-                               const GValue *source_value,
-                               GValue *target_value,
-                               gpointer user_data)
+				     const GValue *source_value,
+				     GValue *target_value,
+				     gpointer user_data)
 {
 	SoupURI *soup_uri;
 	gchar *text;
@@ -226,9 +226,9 @@ cal_config_webdav_notes_uri_to_text (GBinding *binding,
 
 static gboolean
 cal_config_webdav_notes_text_to_uri (GBinding *binding,
-                               const GValue *source_value,
-                               GValue *target_value,
-                               gpointer user_data)
+				     const GValue *source_value,
+				     GValue *target_value,
+				     gpointer user_data)
 {
 	ESource *source;
 	SoupURI *soup_uri;
@@ -274,8 +274,9 @@ cal_config_webdav_notes_insert_widgets (ESourceConfigBackend *backend,
 	ESourceConfig *config;
 	ESource *collection_source;
 	ESourceExtension *extension;
+	ESourceWebDAVNotes *notes_extension;
 	ECalClientSourceType source_type;
-	GtkWidget *widget;
+	GtkWidget *widget, *container;
 	Context *context;
 	const gchar *extension_name;
 	const gchar *label;
@@ -346,6 +347,39 @@ cal_config_webdav_notes_insert_widgets (ESourceConfigBackend *backend,
 	}
 
 	e_source_config_add_refresh_interval (config, scratch_source);
+
+	notes_extension = e_source_get_extension (scratch_source, E_SOURCE_EXTENSION_WEBDAV_NOTES);
+
+	widget = gtk_alignment_new (0.0, 0.5, 0.0, 0.0);
+	e_source_config_insert_widget (config, scratch_source, NULL, widget);
+	gtk_widget_show (widget);
+
+	container = widget;
+
+	widget = gtk_box_new (GTK_ORIENTATION_HORIZONTAL, 6);
+	gtk_container_add (GTK_CONTAINER (container), widget);
+	gtk_widget_show (widget);
+
+	container = widget;
+
+	widget = gtk_label_new (_("File extension for new notes:"));
+	gtk_box_pack_start (GTK_BOX (container), widget, FALSE, FALSE, 0);
+	gtk_widget_show (widget);
+
+	widget = gtk_combo_box_text_new ();
+	gtk_combo_box_text_append (GTK_COMBO_BOX_TEXT (widget), ".md", ".md");
+	gtk_combo_box_text_append (GTK_COMBO_BOX_TEXT (widget), ".txt", ".txt");
+	gtk_box_pack_start (GTK_BOX (container), widget, FALSE, FALSE, 0);
+	gtk_widget_show (widget);
+
+	e_binding_bind_property (
+		notes_extension, "default-ext",
+		widget, "active-id",
+		G_BINDING_BIDIRECTIONAL |
+		G_BINDING_SYNC_CREATE);
+
+	if (gtk_combo_box_get_active (GTK_COMBO_BOX (widget)) == -1)
+		gtk_combo_box_set_active (GTK_COMBO_BOX (widget), 0);
 
 	extension_name = E_SOURCE_EXTENSION_WEBDAV_BACKEND;
 	extension = e_source_get_extension (scratch_source, extension_name);
