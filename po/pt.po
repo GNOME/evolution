@@ -13,8 +13,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: 3.12\n"
 "Report-Msgid-Bugs-To: https://gitlab.gnome.org/GNOME/evolution/issues\n"
-"POT-Creation-Date: 2021-12-01 08:30+0000\n"
-"PO-Revision-Date: 2021-12-01 15:27+0000\n"
+"POT-Creation-Date: 2021-12-01 17:05+0000\n"
+"PO-Revision-Date: 2021-12-01 18:10+0000\n"
 "Last-Translator: Hugo Carvalho <hugokarvalho@hotmail.com>\n"
 "Language-Team: Portuguese <https://l10n.gnome.org/teams/pt/>\n"
 "Language: pt\n"
@@ -4563,14 +4563,14 @@ msgstr "_Aniversário:"
 #: ../src/addressbook/gui/contact-editor/contact-editor.ui.h:52
 #: ../src/addressbook/gui/widgets/eab-contact-formatter.c:1052
 #: ../src/addressbook/gui/widgets/e-addressbook-view.etspec.h:47
-#: ../src/calendar/gui/e-calendar-view.c:2228
+#: ../src/calendar/gui/e-calendar-view.c:2235
 msgid "Anniversary"
 msgstr "Aniversário"
 
 #: ../src/addressbook/gui/contact-editor/contact-editor.ui.h:53
 #: ../src/addressbook/gui/widgets/eab-contact-formatter.c:1051
 #: ../src/addressbook/gui/widgets/e-addressbook-view.etspec.h:46
-#: ../src/calendar/gui/e-calendar-view.c:2227
+#: ../src/calendar/gui/e-calendar-view.c:2234
 msgid "Birthday"
 msgstr "Data de nascimento"
 
@@ -7412,7 +7412,7 @@ msgstr "%a %d %b %Y"
 #. * "Organizer: NameOfTheUser <email@ofuser.com>"
 #. To Translators: It will display
 #. * "Organizer: NameOfTheUser <email@ofuser.com>"
-#: ../src/calendar/gui/e-calendar-view.c:1979
+#: ../src/calendar/gui/e-calendar-view.c:1986
 #: ../src/calendar/gui/e-memo-table.c:561
 #: ../src/calendar/gui/e-task-table.c:730
 #, c-format
@@ -7422,7 +7422,7 @@ msgstr "Organizador: %s <%s>"
 #. With SunOne accounts, there may be no ':' in organiser.value
 #. With SunOne accounts, there may be no ':' in
 #. * organizer.value.
-#: ../src/calendar/gui/e-calendar-view.c:1982
+#: ../src/calendar/gui/e-calendar-view.c:1989
 #: ../src/calendar/gui/e-memo-table.c:566
 #: ../src/calendar/gui/e-task-table.c:734
 #, c-format
@@ -7431,7 +7431,7 @@ msgstr "Organizador: %s"
 
 #. Translators: It will display "Location: PlaceOfTheMeeting"
 #. Translators: It will display "Location: LocationOfTheAppointment"
-#: ../src/calendar/gui/e-calendar-view.c:2001
+#: ../src/calendar/gui/e-calendar-view.c:2008
 #: ../src/calendar/gui/e-meeting-time-sel.c:2580
 #: ../src/calendar/gui/e-task-table.c:752
 #: ../src/calendar/gui/e-to-do-pane.c:378 ../src/calendar/gui/print.c:3627
@@ -7441,13 +7441,13 @@ msgstr "Localização: %s"
 
 #. To Translators: It will display "Time: ActualStartDateAndTime (DurationOfTheMeeting)"
 #. Translators: It will display "Time: StartDateAndTime (Duration)"
-#: ../src/calendar/gui/e-calendar-view.c:2060
+#: ../src/calendar/gui/e-calendar-view.c:2067
 #: ../src/calendar/gui/e-to-do-pane.c:481
 #, c-format
 msgid "Time: %s %s"
 msgstr "Hora: %s %s"
 
-#: ../src/calendar/gui/e-calendar-view.c:2129
+#: ../src/calendar/gui/e-calendar-view.c:2136
 #: ../src/calendar/gui/e-memo-table.c:660
 #: ../src/calendar/gui/e-task-table.c:882
 #: ../src/calendar/gui/e-to-do-pane.c:591 ../src/e-util/e-misc-utils.c:4653
@@ -7459,7 +7459,7 @@ msgstr "…"
 #. The string is used for Birthday & Anniversary events where the first year is
 #. know, constructing a summary which also shows how many years the birthday or
 #. anniversary is for. Example: "Birthday: John Doe (13)"
-#: ../src/calendar/gui/e-calendar-view.c:2247
+#: ../src/calendar/gui/e-calendar-view.c:2254
 #, c-format
 msgctxt "BirthdaySummary"
 msgid "%s (%d)"
@@ -9085,7 +9085,7 @@ msgid "%A %d %B"
 msgstr "%A %d %B"
 
 #. To Translators: the %d stands for a week number, it's value between 1 and 52/53
-#: ../src/calendar/gui/e-day-view.c:3780
+#: ../src/calendar/gui/e-day-view.c:3802
 #, c-format
 msgid "Week %d"
 msgstr "Semana %d"
@@ -9545,7 +9545,7 @@ msgstr "A fazer"
 #. Translators: the first '%s' is replaced with a component summary;
 #. the second '%s' is replaced with an event location.
 #. Example: "Meet John Doe (Central Park)"
-#: ../src/calendar/gui/e-week-view.c:3718
+#: ../src/calendar/gui/e-week-view.c:3732
 #, c-format
 msgctxt "SummaryWithLocation"
 msgid "%s (%s)"
@@ -22459,8 +22459,8 @@ msgstr "Escolher um livro de endereços"
 #: ../src/modules/cal-config-caldav/evolution-cal-config-caldav.c:333
 #: ../src/modules/cal-config-webcal/evolution-cal-config-webcal.c:144
 #: ../src/modules/cal-config-webcal/evolution-cal-config-webcal.c:165
-#: ../src/modules/cal-config-webdav-notes/evolution-cal-config-webdav-notes.c:301
-#: ../src/modules/cal-config-webdav-notes/evolution-cal-config-webdav-notes.c:322
+#: ../src/modules/cal-config-webdav-notes/evolution-cal-config-webdav-notes.c:302
+#: ../src/modules/cal-config-webdav-notes/evolution-cal-config-webdav-notes.c:323
 #: ../src/modules/itip-formatter/itip-view.c:1706
 #: ../src/modules/itip-formatter/itip-view.c:1821
 msgid "URL:"
@@ -22477,7 +22477,7 @@ msgstr "Evitar IfMatch (necessário no Apache < 2.2.8)"
 #: ../src/modules/book-config-carddav/evolution-book-config-carddav.c:356
 #: ../src/modules/cal-config-caldav/evolution-cal-config-caldav.c:452
 #: ../src/modules/cal-config-webcal/evolution-cal-config-webcal.c:230
-#: ../src/modules/cal-config-webdav-notes/evolution-cal-config-webdav-notes.c:400
+#: ../src/modules/cal-config-webdav-notes/evolution-cal-config-webdav-notes.c:434
 msgid "URL is not a valid http:// nor https:// URL"
 msgstr "O URL não é um http:// ou https:// válido"
 
@@ -22781,9 +22781,13 @@ msgstr "A localização não pode estar vazia"
 msgid "Choose Notes"
 msgstr "Escolher notas"
 
-#: ../src/modules/cal-config-webdav-notes/evolution-cal-config-webdav-notes.c:336
+#: ../src/modules/cal-config-webdav-notes/evolution-cal-config-webdav-notes.c:337
 msgid "Find Notes"
 msgstr "Procurar notas"
+
+#: ../src/modules/cal-config-webdav-notes/evolution-cal-config-webdav-notes.c:365
+msgid "File extension for new notes:"
+msgstr "Extensão de ficheiro para novas notas:"
 
 #: ../src/modules/calendar/e-cal-attachment-handler.c:283
 #: ../src/smime/gui/smime-ui.ui.h:7
