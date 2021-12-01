@@ -3170,6 +3170,31 @@ e_day_view_foreach_event_with_uid (EDayView *day_view,
 	}
 }
 
+static void
+e_day_view_maybe_destroy_event_tooltip (EDayView *day_view,
+					EDayViewEvent *event)
+{
+	GObject *object = G_OBJECT (day_view);
+
+	if (event->timeout > 0 && GPOINTER_TO_UINT (g_object_get_data (object, "tooltip-timeout")) == event->timeout) {
+		g_source_remove (event->timeout);
+		event->timeout = 0;
+
+		g_object_set_data (object, "tooltip-timeout", NULL);
+	} else {
+		event->timeout = 0;
+	}
+
+	if (event->tooltip && event->tooltip == g_object_get_data (object, "tooltip-window")) {
+		gtk_widget_destroy (event->tooltip);
+		event->tooltip = NULL;
+
+		g_object_set_data (object, "tooltip-window", NULL);
+	} else {
+		event->tooltip = NULL;
+	}
+}
+
 static gboolean
 e_day_view_remove_event_cb (EDayView *day_view,
                             gint day,
@@ -3209,10 +3234,7 @@ e_day_view_remove_event_cb (EDayView *day_view,
 		day_view->popup_event_num--;
 	}
 
-	if (event->timeout > 0) {
-		g_source_remove (event->timeout);
-		event->timeout = -1;
-	}
+	e_day_view_maybe_destroy_event_tooltip (day_view, event);
 
 	if (day_view->resize_bars_event_num >= event_num && day_view->resize_bars_event_day == day) {
 		if (day_view->resize_bars_event_num == event_num) {
@@ -4433,6 +4455,8 @@ e_day_view_on_main_canvas_scroll (GtkWidget *widget,
                                   GdkEventScroll *scroll,
                                   EDayView *day_view)
 {
+	e_calendar_view_destroy_tooltip (E_CALENDAR_VIEW (day_view));
+
 	switch (scroll->direction) {
 	case GDK_SCROLL_UP:
 		e_day_view_scroll (day_view, E_DAY_VIEW_WHEEL_MOUSE_STEP_SIZE);
@@ -4458,6 +4482,8 @@ e_day_view_on_top_canvas_scroll (GtkWidget *widget,
                                   GdkEventScroll *scroll,
                                   EDayView *day_view)
 {
+	e_calendar_view_destroy_tooltip (E_CALENDAR_VIEW (day_view));
+
 	switch (scroll->direction) {
 	case GDK_SCROLL_UP:
 		e_day_view_top_scroll (day_view, E_DAY_VIEW_WHEEL_MOUSE_STEP_SIZE);
@@ -4853,13 +4879,7 @@ e_day_view_show_popup_menu (EDayView *day_view,
                             gint day,
                             gint event_num)
 {
-	EDayViewEvent *pevent = NULL;
-
-	if (event_num >= 0)
-		pevent = tooltip_get_view_event (day_view, day, event_num);
-
-	if (pevent && pevent->canvas_item)
-		tooltip_destroy (day_view, pevent->canvas_item);
+	e_calendar_view_destroy_tooltip (E_CALENDAR_VIEW (day_view));
 
 	e_day_view_set_popup_event (day_view, day, event_num);
 
@@ -5728,13 +5748,12 @@ e_day_view_free_event_array (EDayView *day_view,
 		if (is_comp_data_valid (event))
 			g_object_unref (event->comp_data);
 
-		if (event->timeout > 0) {
-			g_source_remove (event->timeout);
-			event->timeout = -1;
-		}
+		e_day_view_maybe_destroy_event_tooltip (day_view, event);
 	}
 
 	g_array_set_size (array, 0);
+
+	e_calendar_view_destroy_tooltip (E_CALENDAR_VIEW (day_view));
 }
 
 /* This adds one event to the view, adding it to the appropriate array. */
@@ -5750,6 +5769,7 @@ e_day_view_add_event (ESourceRegistry *registry,
 	EDayViewEvent event;
 	gint day, offset;
 	gint days_shown;
+	guint tooltip_timeout;
 	ICalTime *start_tt, *end_tt;
 	ICalTimezone *zone;
 	AddEventData *add_event_data;
@@ -5770,6 +5790,12 @@ e_day_view_add_event (ESourceRegistry *registry,
 
 	if (end != start || end < add_event_data->day_view->lower)
 		g_return_if_fail (end > add_event_data->day_view->lower);
+
+	tooltip_timeout = GPOINTER_TO_UINT (g_object_get_data (G_OBJECT (add_event_data->day_view), "tooltip-timeout"));
+	if (tooltip_timeout) {
+		g_source_remove (tooltip_timeout);
+		g_object_set_data (G_OBJECT (add_event_data->day_view), "tooltip-timeout", NULL);
+	}
 
 	zone = e_calendar_view_get_timezone (E_CALENDAR_VIEW (add_event_data->day_view));
 	start_tt = i_cal_time_new_from_timet_with_zone (start, FALSE, zone);
@@ -5853,7 +5879,6 @@ e_day_view_add_event (ESourceRegistry *registry,
 	g_array_append_val (add_event_data->day_view->long_events, event);
 	add_event_data->day_view->long_events_sorted = FALSE;
 	add_event_data->day_view->long_events_need_layout = TRUE;
-	return;
 }
 
 /* This lays out the short (less than 1 day) events in the columns.
@@ -7376,12 +7401,7 @@ static void
 tooltip_destroy (EDayView *day_view,
                  GnomeCanvasItem *item)
 {
-	GtkWidget *tooltip = g_object_get_data (G_OBJECT (day_view), "tooltip-window");
-
-	if (tooltip) {
-		gtk_widget_destroy (tooltip);
-		g_object_set_data (G_OBJECT (day_view), "tooltip-window", NULL);
-	}
+	e_calendar_view_destroy_tooltip (E_CALENDAR_VIEW (day_view));
 
 	if (item) {
 		EDayViewEvent *pevent;
@@ -7394,11 +7414,20 @@ tooltip_destroy (EDayView *day_view,
 		pevent = tooltip_get_view_event (day_view, day, event_num);
 		if (pevent) {
 			pevent->tooltip = NULL;
-			if (pevent->timeout != -1) {
-				g_source_remove (pevent->timeout);
-				pevent->timeout = -1;
-			}
+			pevent->timeout = 0;
 		}
+	}
+}
+
+static void
+e_day_view_destroy_tooltip_timeout_data (gpointer ptr)
+{
+	ECalendarViewEventData *data = ptr;
+
+	if (data) {
+		g_object_set_data (G_OBJECT (data->cal_view), "tooltip-timeout", NULL);
+		g_object_unref (data->cal_view);
+		g_free (data);
 	}
 }
 
@@ -7540,19 +7569,22 @@ e_day_view_on_text_item_event (GnomeCanvasItem *item,
 			g_object_set_data (G_OBJECT (item), "event-num", GINT_TO_POINTER (event_num));
 			g_object_set_data (G_OBJECT (item), "event-day", GINT_TO_POINTER (day));
 
+			e_calendar_view_destroy_tooltip (E_CALENDAR_VIEW (day_view));
+
 			data = g_malloc (sizeof (ECalendarViewEventData));
 			pevent->x = ((GdkEventCrossing *) event)->x_root;
 			pevent->y = ((GdkEventCrossing *) event)->y_root;
 			pevent->tooltip = NULL;
 
-			data->cal_view = (ECalendarView *) day_view;
+			data->cal_view = g_object_ref (E_CALENDAR_VIEW (day_view));
 			data->day = day;
 			data->event_num = event_num;
 			data->get_view_event = (ECalendarViewEvent * (*)(ECalendarView *, int, gint)) tooltip_get_view_event;
 			pevent->timeout = e_named_timeout_add_full (
 				G_PRIORITY_DEFAULT, 500,
 				(GSourceFunc) e_calendar_view_get_tooltips,
-				data, (GDestroyNotify) g_free);
+				data, e_day_view_destroy_tooltip_timeout_data);
+			g_object_set_data (G_OBJECT (day_view), "tooltip-timeout", GUINT_TO_POINTER (pevent->timeout));
 
 		return TRUE;
 		}

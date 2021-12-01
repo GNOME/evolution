@@ -1864,12 +1864,19 @@ e_calendar_view_destroy_tooltip (ECalendarView *cal_view)
 {
 	GtkWidget *widget;
 	GObject *object;
+	guint timeout;
 
 	g_return_if_fail (E_IS_CALENDAR_VIEW (cal_view));
 
 	object = G_OBJECT (cal_view);
-	widget = g_object_get_data (object, "tooltip-window");
 
+	timeout = GPOINTER_TO_UINT (g_object_get_data (object, "tooltip-timeout"));
+	if (timeout) {
+		g_source_remove (timeout);
+		g_object_set_data (object, "tooltip-timeout", NULL);
+	}
+
+	widget = g_object_get_data (object, "tooltip-window");
 	if (widget) {
 		gtk_widget_destroy (widget);
 		g_object_set_data (object, "tooltip-window", NULL);
@@ -2180,7 +2187,7 @@ e_calendar_view_get_tooltips (const ECalendarViewEventData *data)
 	g_signal_connect (
 		pevent->tooltip, "key-press-event",
 		G_CALLBACK (tooltip_key_event), data->cal_view);
-	pevent->timeout = -1;
+	pevent->timeout = 0;
 
 	g_object_set_data (G_OBJECT (data->cal_view), "tooltip-window", pevent->tooltip);
 	g_object_unref (newcomp);
