@@ -672,6 +672,39 @@ ece_task_fill_component (ECompEditor *comp_editor,
 
 	g_clear_object (&itt);
 
+	itt = e_comp_editor_property_part_datetime_get_value (E_COMP_EDITOR_PROPERTY_PART_DATETIME (task_editor->priv->dtstart));
+
+	if (itt && i_cal_time_is_valid_time (itt) && !i_cal_time_is_null_time (itt)) {
+		ICalTime *due;
+
+		due = e_comp_editor_property_part_datetime_get_value (E_COMP_EDITOR_PROPERTY_PART_DATETIME (task_editor->priv->due_date));
+
+		if (due && i_cal_time_is_valid_time (due) && !i_cal_time_is_null_time (due)) {
+			gboolean same;
+
+			if (i_cal_time_is_date (itt))
+				same = i_cal_time_compare_date_only (itt, due) == 0;
+			else
+				same = i_cal_time_compare (itt, due) == 0;
+
+			if (same) {
+				e_comp_editor_set_validation_error (comp_editor,
+					task_editor->priv->page_general,
+					e_comp_editor_property_part_get_edit_widget (task_editor->priv->due_date),
+					_("Due date cannot be the same as the Start date"));
+
+				g_clear_object (&itt);
+				g_clear_object (&due);
+
+				return FALSE;
+			}
+		}
+
+		g_clear_object (&due);
+	}
+
+	g_clear_object (&itt);
+
 	if (!E_COMP_EDITOR_CLASS (e_comp_editor_task_parent_class)->fill_component (comp_editor, component))
 		return FALSE;
 
