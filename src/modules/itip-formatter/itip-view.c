@@ -95,6 +95,9 @@ struct _ItipViewPrivate {
         gchar *end_label;
         const gchar *end_header;
 
+	gchar *categories;
+	gchar *due_date_label;
+
 	GSList *upper_info_items;
 	GSList *lower_info_items;
 
@@ -849,6 +852,8 @@ update_start_end_times (ItipView *view)
 
 	g_free (priv->start_label);
 	g_free (priv->end_label);
+	g_free (priv->categories);
+	g_free (priv->due_date_label);
 
 	#define is_same(_member) (priv->start_tm->_member == priv->end_tm->_member)
 	if (priv->start_tm && priv->end_tm && priv->start_tm_is_date && priv->end_tm_is_date
@@ -1706,8 +1711,10 @@ itip_view_write (gpointer itip_part_ptr,
 	append_text_table_row (buffer, TABLE_ROW_URL, _("URL:"), NULL);
 	append_text_table_row (buffer, TABLE_ROW_START_DATE, _("Start time:"), NULL);
 	append_text_table_row (buffer, TABLE_ROW_END_DATE, _("End time:"), NULL);
+	append_text_table_row (buffer, TABLE_ROW_DUE_DATE, _("Due date:"), NULL);
 	append_text_table_row (buffer, TABLE_ROW_STATUS, _("Status:"), NULL);
 	append_text_table_row (buffer, TABLE_ROW_COMMENT, _("Comment:"), NULL);
+	append_text_table_row (buffer, TABLE_ROW_CATEGORIES, _("Categories:"), NULL);
 	append_text_table_row (buffer, TABLE_ROW_ATTENDEES, _("Attendees:"), NULL);
 
 	g_string_append (buffer, "</table>\n");
@@ -1826,11 +1833,17 @@ itip_view_write_for_printing (ItipView *view,
 		buffer, TABLE_ROW_END_DATE,
 		view->priv->end_header, view->priv->end_label);
 	append_text_table_row_nonempty (
+		buffer, TABLE_ROW_DUE_DATE,
+		_("Due date:"), view->priv->due_date_label);
+	append_text_table_row_nonempty (
 		buffer, TABLE_ROW_STATUS,
 		_("Status:"), view->priv->status);
 	append_text_table_row_nonempty (
 		buffer, TABLE_ROW_COMMENT,
 		_("Comment:"), view->priv->comment);
+	append_text_table_row_nonempty (
+		buffer, TABLE_ROW_CATEGORIES,
+		_("Categories:"), view->priv->categories);
 	append_text_table_row_nonempty (
 		buffer, TABLE_ROW_ATTENDEES,
 		_("Attendees:"), view->priv->attendees);
@@ -6721,6 +6734,87 @@ itip_view_init_view (ItipView *view)
 		g_clear_object (&from_zone);
 	}
 	e_cal_component_datetime_free (datetime);
+
+	g_clear_pointer (&view->priv->due_date_label, g_free);
+
+	if (e_cal_component_get_vtype (view->priv->comp) == E_CAL_COMPONENT_TODO) {
+		datetime = e_cal_component_get_due (view->priv->comp);
+		if (datetime && e_cal_component_datetime_get_value (datetime)) {
+			ICalTime *itt = e_cal_component_datetime_get_value (datetime);
+			gchar buffer[256];
+			struct tm due_tm;
+			time_t now;
+			struct tm *now_tm;
+			gboolean is_abbreviated_value = FALSE;
+			EWebView *web_view;
+
+			/* If the timezone is not in the component, guess the local time */
+			/* Should we guess if the timezone is an olsen name somehow? */
+			if (i_cal_time_is_utc (itt))
+				from_zone = g_object_ref (i_cal_timezone_get_utc_timezone ());
+			else if (e_cal_component_datetime_get_tzid (datetime)) {
+				from_zone = i_cal_component_get_timezone (view->priv->top_level, e_cal_component_datetime_get_tzid (datetime));
+
+				if (!from_zone) {
+					from_zone = itip_view_guess_timezone (e_cal_component_datetime_get_tzid (datetime));
+					if (from_zone)
+						g_object_ref (from_zone);
+				}
+			} else
+				from_zone = NULL;
+
+			due_tm = e_cal_util_icaltime_to_tm_with_zone (itt, from_zone, to_zone);
+
+			now = time (NULL);
+			now_tm = localtime (&now);
+
+			format_date_and_time_x (&due_tm, now_tm, FALSE, TRUE, FALSE, i_cal_time_is_date (itt), &is_abbreviated_value, buffer, 256);
+			view->priv->due_date_label = contact_abbreviated_date (buffer, &due_tm, i_cal_time_is_date (itt), is_abbreviated_value);
+
+			web_view = itip_view_ref_web_view (view);
+
+			if (web_view) {
+				if (view->priv->due_date_label) {
+					e_web_view_jsc_run_script (WEBKIT_WEB_VIEW (web_view), e_web_view_get_cancellable (web_view),
+						"EvoItip.UpdateTimes(%s, %s, %s, %s);",
+						view->priv->part_id,
+						TABLE_ROW_DUE_DATE,
+						_("Due date:"),
+						view->priv->due_date_label);
+				} else {
+					hide_element (view, TABLE_ROW_DUE_DATE, TRUE);
+				}
+			}
+
+			g_clear_object (&web_view);
+			g_clear_object (&from_zone);
+		}
+		e_cal_component_datetime_free (datetime);
+	}
+
+	g_clear_pointer (&view->priv->categories, g_free);
+
+	list = e_cal_component_get_categories_list (view->priv->comp);
+	if (list) {
+		GString *string = g_string_new ("");
+
+		for (l = list; l; l = l->next) {
+			const gchar *category = l->data;
+
+			if (string->len)
+				g_string_append_len (string, ", ", 2);
+
+			g_string_append (string, category);
+		}
+		if (string->len > 0) {
+			view->priv->categories = g_string_free (string, FALSE);
+		} else {
+			g_string_free (string, TRUE);
+		}
+		g_slist_free_full (list, g_free);
+
+		set_area_text (view, TABLE_ROW_CATEGORIES, view->priv->categories, FALSE);
+	}
 
         /* Recurrence info */
 	itip_view_add_recurring_info (view);
