@@ -5009,6 +5009,41 @@ webkit_editor_load_changed_cb (EWebKitEditor *wk_editor,
 	e_content_editor_emit_load_finished (E_CONTENT_EDITOR (wk_editor));
 }
 
+static gboolean
+is_libreoffice_content (GdkAtom *targets,
+			gint n_targets)
+{
+	struct _prefixes {
+		const gchar *prefix;
+		gint len;
+	} prefixes[] = {
+		{ "application/x-openoffice", 0 },
+		{ "application/x-libreoffice", 0 }
+	};
+	gint ii, jj;
+
+	for (ii = 0; ii < n_targets; ii++) {
+		gchar *name = gdk_atom_name (targets[ii]);
+
+		if (!name)
+			continue;
+
+		for (jj = 0; jj < G_N_ELEMENTS (prefixes); jj++) {
+			if (!prefixes[jj].len)
+				prefixes[jj].len = strlen (prefixes[jj].prefix);
+			if (g_ascii_strncasecmp (name, prefixes[jj].prefix, prefixes[jj].len) == 0)
+				break;
+		}
+
+		g_free (name);
+
+		if (jj < G_N_ELEMENTS (prefixes))
+			break;
+	}
+
+	return ii < n_targets;
+}
+
 static void
 webkit_editor_paste_clipboard_targets_cb (GtkClipboard *clipboard,
                                           GdkAtom *targets,
@@ -5050,7 +5085,8 @@ webkit_editor_paste_clipboard_targets_cb (GtkClipboard *clipboard,
 	}
 
 	if (wk_editor->priv->html_mode &&
-	    gtk_targets_include_image (targets, n_targets, TRUE)) {
+	    gtk_targets_include_image (targets, n_targets, TRUE) &&
+	    (!content || !*content || !is_libreoffice_content (targets, n_targets))) {
 		gchar *uri;
 
 		if (!(uri = e_util_save_image_from_clipboard (clipboard)))
