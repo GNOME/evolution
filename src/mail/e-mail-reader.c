@@ -1282,10 +1282,19 @@ action_mail_archive_cb (GtkAction *action,
 	folder = e_mail_reader_ref_folder (reader);
 	archive_folder = em_utils_get_archive_folder_uri_from_folder (folder, backend, uids, TRUE);
 
-	if (archive_folder != NULL)
+	if (archive_folder && *archive_folder) {
 		mail_transfer_messages (
 			session, folder, uids,
 			TRUE, archive_folder, 0, NULL, NULL);
+	} else {
+		EAlertSink *alert_sink;
+
+		alert_sink = e_mail_reader_get_alert_sink (reader);
+
+		e_alert_submit (
+			alert_sink, "mail:no-archive-folder",
+			NULL);
+	}
 
 	g_clear_object (&folder);
 	g_ptr_array_unref (uids);
@@ -4556,7 +4565,7 @@ mail_reader_update_actions (EMailReader *reader,
 	gtk_action_set_sensitive (action, sensitive);
 
 	action_name = "mail-archive";
-	sensitive = any_messages_selected && (state & E_MAIL_READER_FOLDER_ARCHIVE_FOLDER_SET) != 0;
+	sensitive = any_messages_selected;
 	action = e_mail_reader_get_action (reader, action_name);
 	gtk_action_set_sensitive (action, sensitive);
 
@@ -5470,7 +5479,6 @@ e_mail_reader_check_state (EMailReader *reader)
 	gboolean is_mailing_list;
 	gboolean is_junk_folder = FALSE;
 	gboolean is_vtrash_folder = FALSE;
-	gboolean archive_folder_set = FALSE;
 	guint32 state = 0;
 	guint ii;
 
@@ -5487,7 +5495,6 @@ e_mail_reader_check_state (EMailReader *reader)
 	uids = e_mail_reader_get_selected_uids_with_collapsed_threads (reader);
 
 	if (folder != NULL) {
-		gchar *archive_folder;
 		guint32 folder_flags;
 
 		store = camel_folder_get_parent_store (folder);
@@ -5497,12 +5504,6 @@ e_mail_reader_check_state (EMailReader *reader)
 		drafts_or_outbox =
 			em_utils_folder_is_drafts (registry, folder) ||
 			em_utils_folder_is_outbox (registry, folder);
-
-		archive_folder = em_utils_get_archive_folder_uri_from_folder (folder, backend, uids, TRUE);
-		if (archive_folder && *archive_folder)
-			archive_folder_set = TRUE;
-
-		g_free (archive_folder);
 	}
 
 	/* Initialize this flag based on whether there are any
@@ -5634,8 +5635,6 @@ e_mail_reader_check_state (EMailReader *reader)
 		state |= E_MAIL_READER_FOLDER_IS_JUNK;
 	if (is_vtrash_folder)
 		state |= E_MAIL_READER_FOLDER_IS_VTRASH;
-	if (archive_folder_set)
-		state |= E_MAIL_READER_FOLDER_ARCHIVE_FOLDER_SET;
 	if (has_mail_note)
 		state |= E_MAIL_READER_SELECTION_HAS_MAIL_NOTE;
 	if (has_color)

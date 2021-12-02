@@ -656,4 +656,9 @@ in the folder will be available in offline mode.</_secondary>
     <_primary>Failed to empty Junk folder “{0}”</_primary>
     <secondary>{1}</secondary>
   </error>
+
+  <error id="no-archive-folder" type="error">
+    <_primary>Cannot archive messages</_primary>
+    <_secondary>No Archive folder is configured. Please configure one for the account in order to be able to archive messages.</_secondary>
+  </error>
 </error-list>
