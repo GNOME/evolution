@@ -61,6 +61,7 @@ set(SOURCES
 	e-day-view-main-item.c
 	e-day-view-time-item.c
 	e-day-view-top-item.c
+	e-estimated-duration-entry.c
 	e-meeting-attendee.c
 	e-meeting-list-view.c
 	e-meeting-store.c
@@ -130,6 +131,7 @@ set(HEADERS
 	e-comp-editor-property-part.h
 	e-comp-editor-property-parts.h
 	e-comp-editor-task.h
+	e-estimated-duration-entry.h
 	e-date-time-list.h
 	e-day-view-layout.h
 	e-day-view-main-item.h

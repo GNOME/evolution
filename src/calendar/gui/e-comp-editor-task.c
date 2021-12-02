@@ -45,6 +45,7 @@ struct _ECompEditorTaskPrivate {
 	ECompEditorPropertyPart *completed_date;
 	ECompEditorPropertyPart *percentcomplete;
 	ECompEditorPropertyPart *status;
+	ECompEditorPropertyPart *estimated_duration;
 	ECompEditorPropertyPart *timezone;
 	ECompEditorPropertyPart *description;
 
@@ -221,6 +222,7 @@ ece_task_notify_target_client_cb (GObject *object,
 	gboolean was_allday;
 	gboolean can_recur;
 	gboolean can_reminders;
+	gboolean can_estimated_duration;
 
 	g_return_if_fail (E_IS_COMP_EDITOR_TASK (object));
 
@@ -256,6 +258,9 @@ ece_task_notify_target_client_cb (GObject *object,
 
 	can_recur = !cal_client || e_client_check_capability (E_CLIENT (cal_client), E_CAL_STATIC_CAPABILITY_TASK_CAN_RECUR);
 	gtk_widget_set_visible (GTK_WIDGET (task_editor->priv->recurrence_page), can_recur);
+
+	can_estimated_duration = !cal_client || e_client_check_capability (E_CLIENT (cal_client), E_CAL_STATIC_CAPABILITY_TASK_ESTIMATED_DURATION);
+	e_comp_editor_property_part_set_visible (task_editor->priv->estimated_duration, can_estimated_duration);
 }
 
 static void
@@ -964,16 +969,20 @@ e_comp_editor_task_constructed (GObject *object)
 	part = e_comp_editor_property_part_classification_new ();
 	e_comp_editor_page_add_property_part (page, part, 2, 7, 2, 1);
 
-	part = e_comp_editor_property_part_timezone_new ();
+	part = e_comp_editor_property_part_estimated_duration_new ();
 	e_comp_editor_page_add_property_part (page, part, 0, 8, 4, 1);
+	task_editor->priv->estimated_duration = part;
+
+	part = e_comp_editor_property_part_timezone_new ();
+	e_comp_editor_page_add_property_part (page, part, 0, 9, 4, 1);
 	task_editor->priv->timezone = part;
 
 	part = e_comp_editor_property_part_categories_new (focus_tracker);
-	e_comp_editor_page_add_property_part (page, part, 0, 9, 4, 1);
+	e_comp_editor_page_add_property_part (page, part, 0, 10, 4, 1);
 	task_editor->priv->categories = part;
 
 	part = e_comp_editor_property_part_description_new (focus_tracker);
-	e_comp_editor_page_add_property_part (page, part, 0, 10, 4, 1);
+	e_comp_editor_page_add_property_part (page, part, 0, 11, 4, 1);
 	task_editor->priv->description = part;
 
 	e_comp_editor_add_page (comp_editor, C_("ECompEditorPage", "General"), page);

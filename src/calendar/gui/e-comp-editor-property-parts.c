@@ -28,6 +28,7 @@
 #include "comp-util.h"
 #include "e-cal-model.h"
 #include "e-timezone-entry.h"
+#include "e-estimated-duration-entry.h"
 
 #include "e-comp-editor-property-part.h"
 #include "e-comp-editor-property-parts.h"
@@ -2424,3 +2425,139 @@ e_comp_editor_property_part_color_new (void)
 {
 	return g_object_new (E_TYPE_COMP_EDITOR_PROPERTY_PART_COLOR, NULL);
 }
+
+/* ************************************************************************* */
+
+#define E_TYPE_COMP_EDITOR_PROPERTY_PART_ESTIMATED_DURATION \
+	(e_comp_editor_property_part_estimated_duration_get_type ())
+#define E_COMP_EDITOR_PROPERTY_PART_ESTIMATED_DURATION(obj) \
+	(G_TYPE_CHECK_INSTANCE_CAST \
+	((obj), E_TYPE_COMP_EDITOR_PROPERTY_PART_ESTIMATED_DURATION, ECompEditorPropertyParteEtimatedDuration))
+#define E_IS_COMP_EDITOR_PROPERTY_PART_ESTIMATED_DURATION(obj) \
+	(G_TYPE_CHECK_INSTANCE_TYPE \
+	((obj), E_TYPE_COMP_EDITOR_PROPERTY_PART_ESTIMATED_DURATION))
+
+typedef struct _ECompEditorPropertyPartEstimatedDuration ECompEditorPropertyPartEstimatedDuration;
+typedef struct _ECompEditorPropertyPartEstimatedDurationClass ECompEditorPropertyPartEstimatedDurationClass;
+
+struct _ECompEditorPropertyPartEstimatedDuration {
+	ECompEditorPropertyPart parent;
+};
+
+struct _ECompEditorPropertyPartEstimatedDurationClass {
+	ECompEditorPropertyPartClass parent_class;
+};
+
+GType e_comp_editor_property_part_estimated_duration_get_type (void) G_GNUC_CONST;
+
+G_DEFINE_TYPE (ECompEditorPropertyPartEstimatedDuration, e_comp_editor_property_part_estimated_duration, E_TYPE_COMP_EDITOR_PROPERTY_PART)
+
+static void
+ecepp_estimated_duration_create_widgets (ECompEditorPropertyPart *property_part,
+					 GtkWidget **out_label_widget,
+					 GtkWidget **out_edit_widget)
+{
+	g_return_if_fail (E_IS_COMP_EDITOR_PROPERTY_PART_ESTIMATED_DURATION (property_part));
+	g_return_if_fail (out_label_widget != NULL);
+	g_return_if_fail (out_edit_widget != NULL);
+
+	*out_label_widget = gtk_label_new_with_mnemonic (_("Esti_mated duration:"));
+
+	g_object_set (G_OBJECT (*out_label_widget),
+		"hexpand", FALSE,
+		"halign", GTK_ALIGN_END,
+		"vexpand", FALSE,
+		"valign", GTK_ALIGN_CENTER,
+		NULL);
+
+	gtk_widget_show (*out_label_widget);
+
+	*out_edit_widget = e_estimated_duration_entry_new ();
+	gtk_widget_show (*out_edit_widget);
+
+	gtk_label_set_mnemonic_widget (GTK_LABEL (*out_label_widget), *out_edit_widget);
+
+	g_signal_connect_swapped (*out_edit_widget, "changed",
+		G_CALLBACK (e_comp_editor_property_part_emit_changed), property_part);
+}
+
+static void
+ecepp_estimated_duration_fill_widget (ECompEditorPropertyPart *property_part,
+				      ICalComponent *component)
+{
+	GtkWidget *edit_widget;
+	ICalProperty *prop;
+
+	g_return_if_fail (E_IS_COMP_EDITOR_PROPERTY_PART_ESTIMATED_DURATION (property_part));
+
+	edit_widget = e_comp_editor_property_part_get_edit_widget (property_part);
+	g_return_if_fail (E_IS_ESTIMATED_DURATION_ENTRY (edit_widget));
+
+	prop = i_cal_component_get_first_property (component, I_CAL_ESTIMATEDDURATION_PROPERTY);
+	if (prop) {
+		ICalDuration *duration = i_cal_property_get_estimatedduration (prop);
+
+		e_estimated_duration_entry_set_value (E_ESTIMATED_DURATION_ENTRY (edit_widget), duration);
+
+		g_clear_object (&duration);
+		g_clear_object (&prop);
+	} else {
+		e_estimated_duration_entry_set_value (E_ESTIMATED_DURATION_ENTRY (edit_widget), NULL);
+	}
+}
+
+static void
+ecepp_estimated_duration_fill_component (ECompEditorPropertyPart *property_part,
+					 ICalComponent *component)
+{
+	GtkWidget *edit_widget;
+	ICalProperty *prop;
+	ICalDuration *duration;
+
+	g_return_if_fail (E_IS_COMP_EDITOR_PROPERTY_PART_ESTIMATED_DURATION (property_part));
+
+	edit_widget = e_comp_editor_property_part_get_edit_widget (property_part);
+	g_return_if_fail (E_IS_ESTIMATED_DURATION_ENTRY (edit_widget));
+
+	duration = e_estimated_duration_entry_get_value (E_ESTIMATED_DURATION_ENTRY (edit_widget));
+
+	prop = i_cal_component_get_first_property (component, I_CAL_ESTIMATEDDURATION_PROPERTY);
+
+	if (duration) {
+		if (prop) {
+			i_cal_property_set_estimatedduration (prop, duration);
+		} else {
+			prop = i_cal_property_new_estimatedduration (duration);
+			i_cal_component_add_property (component, prop);
+		}
+	} else {
+		if (prop)
+			i_cal_component_remove_property (component, prop);
+	}
+
+	g_clear_object (&prop);
+}
+
+static void
+e_comp_editor_property_part_estimated_duration_init (ECompEditorPropertyPartEstimatedDuration *part_estimated_duration)
+{
+}
+
+static void
+e_comp_editor_property_part_estimated_duration_class_init (ECompEditorPropertyPartEstimatedDurationClass *klass)
+{
+	ECompEditorPropertyPartClass *part_class;
+
+	part_class = E_COMP_EDITOR_PROPERTY_PART_CLASS (klass);
+	part_class->create_widgets = ecepp_estimated_duration_create_widgets;
+	part_class->fill_widget = ecepp_estimated_duration_fill_widget;
+	part_class->fill_component = ecepp_estimated_duration_fill_component;
+}
+
+ECompEditorPropertyPart *
+e_comp_editor_property_part_estimated_duration_new (void)
+{
+	return g_object_new (E_TYPE_COMP_EDITOR_PROPERTY_PART_ESTIMATED_DURATION, NULL);
+}
+
+/* ************************************************************************* */

@@ -96,6 +96,7 @@ src/calendar/gui/e-comp-editor.c
 src/calendar/gui/e-day-view.c
 src/calendar/gui/e-day-view-time-item.c
 src/calendar/gui/e-day-view-top-item.c
+src/calendar/gui/e-estimated-duration-entry.c
 src/calendar/gui/e-meeting-list-view.c
 src/calendar/gui/e-meeting-store.c
 src/calendar/gui/e-meeting-time-sel.c

@@ -97,6 +97,7 @@ struct _ItipViewPrivate {
 
 	gchar *categories;
 	gchar *due_date_label;
+	gchar *estimated_duration;
 
 	GSList *upper_info_items;
 	GSList *lower_info_items;
@@ -854,6 +855,7 @@ update_start_end_times (ItipView *view)
 	g_free (priv->end_label);
 	g_free (priv->categories);
 	g_free (priv->due_date_label);
+	g_free (priv->estimated_duration);
 
 	#define is_same(_member) (priv->start_tm->_member == priv->end_tm->_member)
 	if (priv->start_tm && priv->end_tm && priv->start_tm_is_date && priv->end_tm_is_date
@@ -1712,6 +1714,7 @@ itip_view_write (gpointer itip_part_ptr,
 	append_text_table_row (buffer, TABLE_ROW_START_DATE, _("Start time:"), NULL);
 	append_text_table_row (buffer, TABLE_ROW_END_DATE, _("End time:"), NULL);
 	append_text_table_row (buffer, TABLE_ROW_DUE_DATE, _("Due date:"), NULL);
+	append_text_table_row (buffer, TABLE_ROW_ESTIMATED_DURATION, _("Estimated duration:"), NULL);
 	append_text_table_row (buffer, TABLE_ROW_STATUS, _("Status:"), NULL);
 	append_text_table_row (buffer, TABLE_ROW_COMMENT, _("Comment:"), NULL);
 	append_text_table_row (buffer, TABLE_ROW_CATEGORIES, _("Categories:"), NULL);
@@ -1835,6 +1838,9 @@ itip_view_write_for_printing (ItipView *view,
 	append_text_table_row_nonempty (
 		buffer, TABLE_ROW_DUE_DATE,
 		_("Due date:"), view->priv->due_date_label);
+	append_text_table_row_nonempty (
+		buffer, TABLE_ROW_ESTIMATED_DURATION,
+		_("Estimated duration:"), view->priv->estimated_duration);
 	append_text_table_row_nonempty (
 		buffer, TABLE_ROW_STATUS,
 		_("Status:"), view->priv->status);
@@ -6814,6 +6820,28 @@ itip_view_init_view (ItipView *view)
 		g_slist_free_full (list, g_free);
 
 		set_area_text (view, TABLE_ROW_CATEGORIES, view->priv->categories, FALSE);
+	}
+
+	g_clear_pointer (&view->priv->estimated_duration, g_free);
+
+	prop = i_cal_component_get_first_property (icomp, I_CAL_ESTIMATEDDURATION_PROPERTY);
+	if (prop) {
+		ICalDuration *duration;
+
+		duration = i_cal_property_get_estimatedduration (prop);
+
+		if (duration) {
+			gint seconds;
+
+			seconds = i_cal_duration_as_int (duration);
+			if (seconds > 0) {
+				view->priv->estimated_duration = e_cal_util_seconds_to_string (seconds);
+				set_area_text (view, TABLE_ROW_ESTIMATED_DURATION, view->priv->estimated_duration, FALSE);
+			}
+		}
+
+		g_clear_object (&duration);
+		g_object_unref (prop);
 	}
 
         /* Recurrence info */

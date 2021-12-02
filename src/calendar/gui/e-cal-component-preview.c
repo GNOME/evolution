@@ -318,6 +318,27 @@ cal_component_preview_write_html (ECalComponentPreview *preview,
 
 	icomp = e_cal_component_get_icalcomponent (comp);
 
+	prop = i_cal_component_get_first_property (icomp, I_CAL_ESTIMATEDDURATION_PROPERTY);
+	if (prop) {
+		ICalDuration *duration;
+
+		duration = i_cal_property_get_estimatedduration (prop);
+
+		if (duration) {
+			gint seconds;
+
+			seconds = i_cal_duration_as_int (duration);
+			if (seconds > 0) {
+				str = e_cal_util_seconds_to_string (seconds);
+				cal_component_preview_add_table_line (buffer, _("Estimated duration:"), str);
+				g_free (str);
+			}
+		}
+
+		g_clear_object (&duration);
+		g_object_unref (prop);
+	}
+
 	if (e_cal_util_component_has_recurrences (icomp)) {
 		str = e_cal_recur_describe_recurrence_ex (icomp,
 			calendar_config_get_week_start_day (),

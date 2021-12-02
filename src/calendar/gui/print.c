@@ -3660,11 +3660,42 @@ print_comp_draw_real (GtkPrintOperation *operation,
 
 	/* For a VTODO we print the Status, Priority, % Complete and URL. */
 	if (vtype == E_CAL_COMPONENT_TODO) {
+		ICalComponent *icomp;
+		ICalProperty *prop;
 		ICalPropertyStatus status;
 		const gchar *status_string = NULL;
 		gint percent;
 		gint priority;
 		gchar *url;
+
+		icomp = e_cal_component_get_icalcomponent (comp);
+
+		/* Estimated duration */
+		prop = i_cal_component_get_first_property (icomp, I_CAL_ESTIMATEDDURATION_PROPERTY);
+		if (prop) {
+			ICalDuration *duration;
+
+			duration = i_cal_property_get_estimatedduration (prop);
+
+			if (duration) {
+				gint seconds;
+
+				seconds = i_cal_duration_as_int (duration);
+				if (seconds > 0) {
+					gchar *tmp = e_cal_util_seconds_to_string (seconds);
+					gchar *estimated_duration = g_strdup_printf (_("Estimated duration: %s"), tmp);
+					top = bound_text (
+						context, font, estimated_duration, -1,
+						0.0, top, width, height, FALSE, NULL, &page_start, &pages);
+					top += get_font_size (font) - 6;
+					g_free (estimated_duration);
+					g_free (tmp);
+				}
+			}
+
+			g_clear_object (&duration);
+			g_object_unref (prop);
+		}
 
 		/* Status */
 		status = e_cal_component_get_status (comp);
