@@ -13,8 +13,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: 3.12\n"
 "Report-Msgid-Bugs-To: https://gitlab.gnome.org/GNOME/evolution/issues\n"
-"POT-Creation-Date: 2021-12-02 17:46+0000\n"
-"PO-Revision-Date: 2021-12-02 22:25+0000\n"
+"POT-Creation-Date: 2021-12-03 09:31+0000\n"
+"PO-Revision-Date: 2021-12-03 16:50+0000\n"
 "Last-Translator: Hugo Carvalho <hugokarvalho@hotmail.com>\n"
 "Language-Team: Portuguese <https://l10n.gnome.org/teams/pt/>\n"
 "Language: pt\n"
@@ -3659,7 +3659,7 @@ msgid "Memos"
 msgstr "Memorandos"
 
 #: ../data/org.gnome.Evolution.desktop.in.in.h:12
-#: ../src/calendar/gui/e-task-table.c:618 ../src/calendar/gui/print.c:2442
+#: ../src/calendar/gui/e-task-table.c:629 ../src/calendar/gui/print.c:2442
 #: ../src/calendar/importers/icalendar-importer.c:77
 #: ../src/calendar/importers/icalendar-importer.c:1151
 #: ../src/e-util/e-webdav-browser.c:523
@@ -6697,21 +6697,21 @@ msgstr "não é"
 #: ../src/calendar/gui/caltypes.xml.in.h:9
 #: ../src/calendar/gui/e-cal-list-view.c:293
 #: ../src/calendar/gui/e-cal-model.c:293 ../src/calendar/gui/e-cal-model.c:301
-#: ../src/calendar/gui/e-task-table.c:438
+#: ../src/calendar/gui/e-task-table.c:449
 #: ../src/calendar/gui/memotypes.xml.in.h:10
 msgid "Public"
 msgstr "Público"
 
 #: ../src/calendar/gui/caltypes.xml.in.h:10
 #: ../src/calendar/gui/e-cal-list-view.c:294
-#: ../src/calendar/gui/e-cal-model.c:303 ../src/calendar/gui/e-task-table.c:439
+#: ../src/calendar/gui/e-cal-model.c:303 ../src/calendar/gui/e-task-table.c:450
 #: ../src/calendar/gui/memotypes.xml.in.h:11
 msgid "Private"
 msgstr "Privado"
 
 #: ../src/calendar/gui/caltypes.xml.in.h:11
 #: ../src/calendar/gui/e-cal-list-view.c:295
-#: ../src/calendar/gui/e-cal-model.c:305 ../src/calendar/gui/e-task-table.c:440
+#: ../src/calendar/gui/e-cal-model.c:305 ../src/calendar/gui/e-task-table.c:451
 #: ../src/calendar/gui/memotypes.xml.in.h:12
 #: ../src/e-util/e-html-editor-page-dialog.c:116
 #: ../src/e-util/e-send-options.ui.h:7
@@ -7141,7 +7141,7 @@ msgid "Status:"
 msgstr "Estado:"
 
 #: ../src/calendar/gui/e-cal-component-preview.c:370
-#: ../src/calendar/gui/e-task-table.c:464
+#: ../src/calendar/gui/e-task-table.c:475
 #: ../src/calendar/gui/tasktypes.xml.in.h:19
 #: ../src/e-util/e-send-options.ui.h:2 ../src/mail/message-list.c:342
 msgid "High"
@@ -7149,14 +7149,14 @@ msgstr "Alta"
 
 #: ../src/calendar/gui/e-cal-component-preview.c:372
 #: ../src/calendar/gui/e-cal-model.c:1880
-#: ../src/calendar/gui/e-task-table.c:465
+#: ../src/calendar/gui/e-task-table.c:476
 #: ../src/calendar/gui/tasktypes.xml.in.h:20
 #: ../src/e-util/e-send-options.ui.h:5 ../src/mail/message-list.c:341
 msgid "Normal"
 msgstr "Normal"
 
 #: ../src/calendar/gui/e-cal-component-preview.c:374
-#: ../src/calendar/gui/e-task-table.c:466
+#: ../src/calendar/gui/e-task-table.c:477
 #: ../src/calendar/gui/tasktypes.xml.in.h:21
 #: ../src/e-util/e-send-options.ui.h:4 ../src/mail/message-list.c:340
 msgid "Low"
@@ -7423,7 +7423,7 @@ msgstr "%a %d %b %Y"
 #. * "Organizer: NameOfTheUser <email@ofuser.com>"
 #: ../src/calendar/gui/e-calendar-view.c:1986
 #: ../src/calendar/gui/e-memo-table.c:561
-#: ../src/calendar/gui/e-task-table.c:730
+#: ../src/calendar/gui/e-task-table.c:741
 #, c-format
 msgid "Organizer: %s <%s>"
 msgstr "Organizador: %s <%s>"
@@ -7433,7 +7433,7 @@ msgstr "Organizador: %s <%s>"
 #. * organizer.value.
 #: ../src/calendar/gui/e-calendar-view.c:1989
 #: ../src/calendar/gui/e-memo-table.c:566
-#: ../src/calendar/gui/e-task-table.c:734
+#: ../src/calendar/gui/e-task-table.c:745
 #, c-format
 msgid "Organizer: %s"
 msgstr "Organizador: %s"
@@ -7442,7 +7442,7 @@ msgstr "Organizador: %s"
 #. Translators: It will display "Location: LocationOfTheAppointment"
 #: ../src/calendar/gui/e-calendar-view.c:2008
 #: ../src/calendar/gui/e-meeting-time-sel.c:2580
-#: ../src/calendar/gui/e-task-table.c:752
+#: ../src/calendar/gui/e-task-table.c:763
 #: ../src/calendar/gui/e-to-do-pane.c:378 ../src/calendar/gui/print.c:3627
 #, c-format
 msgid "Location: %s"
@@ -7458,7 +7458,7 @@ msgstr "Hora: %s %s"
 
 #: ../src/calendar/gui/e-calendar-view.c:2136
 #: ../src/calendar/gui/e-memo-table.c:660
-#: ../src/calendar/gui/e-task-table.c:882
+#: ../src/calendar/gui/e-task-table.c:893
 #: ../src/calendar/gui/e-to-do-pane.c:591 ../src/e-util/e-misc-utils.c:4653
 #: ../src/e-util/e-text.c:566 ../src/e-util/e-web-view.c:4167
 msgid "…"
@@ -7588,12 +7588,12 @@ msgid "Assigned"
 msgstr "Atribuída"
 
 #: ../src/calendar/gui/e-cal-model.c:1887
-#: ../src/calendar/gui/e-cal-model-tasks.c:1095
+#: ../src/calendar/gui/e-cal-model-tasks.c:1150
 msgid "Yes"
 msgstr "Sim"
 
 #: ../src/calendar/gui/e-cal-model.c:1887
-#: ../src/calendar/gui/e-cal-model-tasks.c:1095
+#: ../src/calendar/gui/e-cal-model-tasks.c:1150
 msgid "No"
 msgstr "Não"
 
@@ -7634,13 +7634,13 @@ msgid "Needs action"
 msgstr "Requer ação"
 
 #: ../src/calendar/gui/e-cal-model-calendar.c:91
-#: ../src/calendar/gui/e-task-table.c:523
+#: ../src/calendar/gui/e-task-table.c:534
 msgid "Free"
 msgstr "Livre"
 
 #: ../src/calendar/gui/e-cal-model-calendar.c:94
 #: ../src/calendar/gui/e-meeting-time-sel.c:524
-#: ../src/calendar/gui/e-task-table.c:524
+#: ../src/calendar/gui/e-task-table.c:535
 msgid "Busy"
 msgstr "Ocupado"
 
@@ -9387,19 +9387,19 @@ msgid "Language"
 msgstr "Idioma"
 
 #: ../src/calendar/gui/e-memo-table.c:524
-#: ../src/calendar/gui/e-task-table.c:694
+#: ../src/calendar/gui/e-task-table.c:705
 msgid "* No Summary *"
 msgstr "* Sem resumo *"
 
 #. Translators: This is followed by an event's start date/time
 #: ../src/calendar/gui/e-memo-table.c:611
-#: ../src/calendar/gui/e-task-table.c:795
+#: ../src/calendar/gui/e-task-table.c:806
 msgid "Start: "
 msgstr "Início: "
 
 #. Translators: This is followed by an event's due date/time
 #: ../src/calendar/gui/e-memo-table.c:631
-#: ../src/calendar/gui/e-task-table.c:828
+#: ../src/calendar/gui/e-task-table.c:839
 msgid "Due: "
 msgstr "Limite: "
 
@@ -9428,7 +9428,7 @@ msgstr "Selecionar todos os memorandos visíveis"
 msgid "Click to add a memo"
 msgstr "Clicar para adicionar um memorando"
 
-#: ../src/calendar/gui/e-task-table.c:467
+#: ../src/calendar/gui/e-task-table.c:478
 #: ../src/calendar/gui/tasktypes.xml.in.h:22
 #: ../src/e-util/e-send-options.ui.h:1
 msgid "Undefined"
@@ -9438,29 +9438,29 @@ msgstr "Indefinida"
 #. * %d is the actual value, %% is replaced with a percent sign.
 #. * Result values will be 0%, 10%, 20%, ... 100%
 #.
-#: ../src/calendar/gui/e-task-table.c:496
+#: ../src/calendar/gui/e-task-table.c:507
 #, c-format
 msgid "%d%%"
 msgstr "%d%%"
 
-#: ../src/calendar/gui/e-task-table.c:1066
+#: ../src/calendar/gui/e-task-table.c:1077
 msgid "Cut selected tasks to the clipboard"
 msgstr "Cortar as tarefas selecionadas para a área de transferência"
 
-#: ../src/calendar/gui/e-task-table.c:1072
+#: ../src/calendar/gui/e-task-table.c:1083
 msgid "Copy selected tasks to the clipboard"
 msgstr "Copiar as tarefas selecionadas para a área de transferência"
 
-#: ../src/calendar/gui/e-task-table.c:1078
+#: ../src/calendar/gui/e-task-table.c:1089
 msgid "Paste tasks from the clipboard"
 msgstr "Colar as tarefas da área de transferência"
 
-#: ../src/calendar/gui/e-task-table.c:1084
+#: ../src/calendar/gui/e-task-table.c:1095
 #: ../src/modules/calendar/e-task-shell-view-actions.c:698
 msgid "Delete selected tasks"
 msgstr "Eliminar a tarefa selecionada"
 
-#: ../src/calendar/gui/e-task-table.c:1090
+#: ../src/calendar/gui/e-task-table.c:1101
 msgid "Select all visible tasks"
 msgstr "Selecionar todas as tarefas visíveis"
 
@@ -9495,6 +9495,10 @@ msgstr "% terminada"
 #: ../src/plugins/save-calendar/csv-format.c:373
 msgid "Priority"
 msgstr "Prioridade"
+
+#: ../src/calendar/gui/e-task-table.etspec.h:17
+msgid "Estimated duration"
+msgstr "Duração estimada"
 
 #. Translators: 'None' for a time zone, like 'No time zone being set'
 #: ../src/calendar/gui/e-timezone-entry.c:92
