@@ -1,3 +1,31 @@
+Evolution 3.42.2 2021-12-03
+---------------------------
+
+Bug Fixes:
+	I#1679 - e-convert.js: Do not re-wrap gmail_quote paragraphs (Milan Crha)
+	I#1696 - Composer: Consider only accounts, which can send messages (Milan Crha)
+	I#1697 - e_text_to_html_full: Use large enough buffer for character escape (Milan Crha)
+	I#1708 - Composer: Wrap quoted long words (Milan Crha)
+	I#1712 - Tasks: Correct overdue calculation for DATE value type (Milan Crha)
+	I#1714 - Composer: Prefer HTML over image on LibreOffice data paste (Milan Crha)
+	I#1715 - Calendar: Ensure value type matches for start/end, start/due (Milan Crha)
+	I#1717 - ECalModel: Properly show also UTC times (Milan Crha)
+	I#1721 - Calendar: Leftover tooltip after event delete (Milan Crha)
+
+Miscellaneous:
+	Misc: Generate appdata <releases/> from the NEWS file (Milan Crha)
+	news-to-appdata: Escape text exported to XML (Milan Crha)
+	flatpak: Update build manifests (Milan Crha)
+	Calendar: Cannot always remove custom reminder message (Milan Crha)
+	Composer: Don't show blockquote indicators on both sides for 6th+ level (Milan Crha)
+	Calendar: Not all task lists included in the task panel (Milan Crha)
+	Load JavaScript plugins for message preview and WebKit editor (Milan Crha)
+	icalendar-importer: Can show incorrect time in imported data preview (Milan Crha)
+
+Translations:
+	Rūdolfs Mazurs (lv)
+	Quentin PAGÈS (oc)
+
 Evolution 3.42.1 2021-10-29
 ---------------------------
 
