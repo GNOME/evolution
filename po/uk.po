@@ -12,8 +12,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: evolution\n"
 "Report-Msgid-Bugs-To: https://gitlab.gnome.org/GNOME/evolution/issues\n"
-"POT-Creation-Date: 2021-12-02 17:46+0000\n"
-"PO-Revision-Date: 2021-12-02 23:00+0200\n"
+"POT-Creation-Date: 2021-12-03 09:31+0000\n"
+"PO-Revision-Date: 2021-12-03 17:30+0200\n"
 "Last-Translator: Yuri Chornoivan <yurchor@ukr.net>\n"
 "Language-Team: Ukrainian <trans-uk@lists.fedoraproject.org>\n"
 "Language: uk\n"
@@ -3588,7 +3588,7 @@ msgid "Memos"
 msgstr "Примітки"
 
 #: ../data/org.gnome.Evolution.desktop.in.in.h:12
-#: ../src/calendar/gui/e-task-table.c:618 ../src/calendar/gui/print.c:2442
+#: ../src/calendar/gui/e-task-table.c:629 ../src/calendar/gui/print.c:2442
 #: ../src/calendar/importers/icalendar-importer.c:77
 #: ../src/calendar/importers/icalendar-importer.c:1151
 #: ../src/e-util/e-webdav-browser.c:523
@@ -6612,21 +6612,21 @@ msgstr "не збігається з"
 #: ../src/calendar/gui/caltypes.xml.in.h:9
 #: ../src/calendar/gui/e-cal-list-view.c:293
 #: ../src/calendar/gui/e-cal-model.c:293 ../src/calendar/gui/e-cal-model.c:301
-#: ../src/calendar/gui/e-task-table.c:438
+#: ../src/calendar/gui/e-task-table.c:449
 #: ../src/calendar/gui/memotypes.xml.in.h:10
 msgid "Public"
 msgstr "Загальне"
 
 #: ../src/calendar/gui/caltypes.xml.in.h:10
 #: ../src/calendar/gui/e-cal-list-view.c:294
-#: ../src/calendar/gui/e-cal-model.c:303 ../src/calendar/gui/e-task-table.c:439
+#: ../src/calendar/gui/e-cal-model.c:303 ../src/calendar/gui/e-task-table.c:450
 #: ../src/calendar/gui/memotypes.xml.in.h:11
 msgid "Private"
 msgstr "Приватне"
 
 #: ../src/calendar/gui/caltypes.xml.in.h:11
 #: ../src/calendar/gui/e-cal-list-view.c:295
-#: ../src/calendar/gui/e-cal-model.c:305 ../src/calendar/gui/e-task-table.c:440
+#: ../src/calendar/gui/e-cal-model.c:305 ../src/calendar/gui/e-task-table.c:451
 #: ../src/calendar/gui/memotypes.xml.in.h:12
 #: ../src/e-util/e-html-editor-page-dialog.c:116
 #: ../src/e-util/e-send-options.ui.h:7
@@ -7046,7 +7046,6 @@ msgstr "Дата завершення:"
 #: ../src/calendar/gui/e-cal-component-preview.c:333
 #: ../src/modules/itip-formatter/itip-view.c:1717
 #: ../src/modules/itip-formatter/itip-view.c:1843
-#| msgid "Time _duration:"
 msgid "Estimated duration:"
 msgstr "Оцінка тривалості:"
 
@@ -7061,7 +7060,7 @@ msgid "Status:"
 msgstr "Стан:"
 
 #: ../src/calendar/gui/e-cal-component-preview.c:370
-#: ../src/calendar/gui/e-task-table.c:464
+#: ../src/calendar/gui/e-task-table.c:475
 #: ../src/calendar/gui/tasktypes.xml.in.h:19
 #: ../src/e-util/e-send-options.ui.h:2 ../src/mail/message-list.c:342
 msgid "High"
@@ -7069,14 +7068,14 @@ msgstr "Високий"
 
 #: ../src/calendar/gui/e-cal-component-preview.c:372
 #: ../src/calendar/gui/e-cal-model.c:1880
-#: ../src/calendar/gui/e-task-table.c:465
+#: ../src/calendar/gui/e-task-table.c:476
 #: ../src/calendar/gui/tasktypes.xml.in.h:20
 #: ../src/e-util/e-send-options.ui.h:5 ../src/mail/message-list.c:341
 msgid "Normal"
 msgstr "Звичайний"
 
 #: ../src/calendar/gui/e-cal-component-preview.c:374
-#: ../src/calendar/gui/e-task-table.c:466
+#: ../src/calendar/gui/e-task-table.c:477
 #: ../src/calendar/gui/tasktypes.xml.in.h:21
 #: ../src/e-util/e-send-options.ui.h:4 ../src/mail/message-list.c:340
 msgid "Low"
@@ -7342,7 +7341,7 @@ msgstr "%a, %d %b %Y"
 #. * "Organizer: NameOfTheUser <email@ofuser.com>"
 #: ../src/calendar/gui/e-calendar-view.c:1986
 #: ../src/calendar/gui/e-memo-table.c:561
-#: ../src/calendar/gui/e-task-table.c:730
+#: ../src/calendar/gui/e-task-table.c:741
 #, c-format
 msgid "Organizer: %s <%s>"
 msgstr "Організатор:  %s <%s>"
@@ -7352,7 +7351,7 @@ msgstr "Організатор:  %s <%s>"
 #. * organizer.value.
 #: ../src/calendar/gui/e-calendar-view.c:1989
 #: ../src/calendar/gui/e-memo-table.c:566
-#: ../src/calendar/gui/e-task-table.c:734
+#: ../src/calendar/gui/e-task-table.c:745
 #, c-format
 msgid "Organizer: %s"
 msgstr "Організатор: %s"
@@ -7361,7 +7360,7 @@ msgstr "Організатор: %s"
 #. Translators: It will display "Location: LocationOfTheAppointment"
 #: ../src/calendar/gui/e-calendar-view.c:2008
 #: ../src/calendar/gui/e-meeting-time-sel.c:2580
-#: ../src/calendar/gui/e-task-table.c:752
+#: ../src/calendar/gui/e-task-table.c:763
 #: ../src/calendar/gui/e-to-do-pane.c:378 ../src/calendar/gui/print.c:3627
 #, c-format
 msgid "Location: %s"
@@ -7377,7 +7376,7 @@ msgstr "Час: %s %s"
 
 #: ../src/calendar/gui/e-calendar-view.c:2136
 #: ../src/calendar/gui/e-memo-table.c:660
-#: ../src/calendar/gui/e-task-table.c:882
+#: ../src/calendar/gui/e-task-table.c:893
 #: ../src/calendar/gui/e-to-do-pane.c:591 ../src/e-util/e-misc-utils.c:4653
 #: ../src/e-util/e-text.c:566 ../src/e-util/e-web-view.c:4167
 msgid "…"
@@ -7509,12 +7508,12 @@ msgid "Assigned"
 msgstr "Прив'язано"
 
 #: ../src/calendar/gui/e-cal-model.c:1887
-#: ../src/calendar/gui/e-cal-model-tasks.c:1095
+#: ../src/calendar/gui/e-cal-model-tasks.c:1150
 msgid "Yes"
 msgstr "Так"
 
 #: ../src/calendar/gui/e-cal-model.c:1887
-#: ../src/calendar/gui/e-cal-model-tasks.c:1095
+#: ../src/calendar/gui/e-cal-model-tasks.c:1150
 msgid "No"
 msgstr "Ні"
 
@@ -7555,13 +7554,13 @@ msgid "Needs action"
 msgstr "Необхідна дія"
 
 #: ../src/calendar/gui/e-cal-model-calendar.c:91
-#: ../src/calendar/gui/e-task-table.c:523
+#: ../src/calendar/gui/e-task-table.c:534
 msgid "Free"
 msgstr "Вільний"
 
 #: ../src/calendar/gui/e-cal-model-calendar.c:94
 #: ../src/calendar/gui/e-meeting-time-sel.c:524
-#: ../src/calendar/gui/e-task-table.c:524
+#: ../src/calendar/gui/e-task-table.c:535
 msgid "Busy"
 msgstr "Зайнятий"
 
@@ -8784,7 +8783,6 @@ msgid "None"
 msgstr "Жодного"
 
 #: ../src/calendar/gui/e-comp-editor-property-parts.c:2464
-#| msgid "Time _duration:"
 msgid "Esti_mated duration:"
 msgstr "_Оцінка тривалості:"
 
@@ -8834,7 +8832,6 @@ msgid "Completed date cannot be in the future"
 msgstr "Дата завершення не може бути у майбутньому"
 
 #: ../src/calendar/gui/e-comp-editor-task.c:699
-#| msgid "Completed date cannot be in the future"
 msgid "Due date cannot be the same as the Start date"
 msgstr "Дата завершення не може бути тією самою, що і дата початку"
 
@@ -9085,46 +9082,37 @@ msgid "Select…"
 msgstr "Вибрати…"
 
 #: ../src/calendar/gui/e-estimated-duration-entry.c:64
-#| msgid "None"
 msgctxt "estimated-duration"
 msgid "None"
 msgstr "Немає"
 
 #: ../src/calendar/gui/e-estimated-duration-entry.c:202
 msgid "Set an estimated duration for"
-msgstr ""
-"Встановити оцінювану тривалість для"
+msgstr "Встановити оцінювану тривалість для"
 
 #. Translators: this is part of: "Set an estimated duration for [nnn] days [nnn] hours [nnn] minutes", where the text in "[]" means a separate widget
 #: ../src/calendar/gui/e-estimated-duration-entry.c:215
-#| msgid "days"
 msgctxt "estimated-duration"
 msgid "_days"
 msgstr "ді_б"
 
 #. Translators: this is part of: "Set an estimated duration for [nnn] days [nnn] hours [nnn] minutes", where the text in "[]" means a separate widget
 #: ../src/calendar/gui/e-estimated-duration-entry.c:231
-#| msgctxt "cal-reminders"
-#| msgid "_hours"
 msgctxt "estimated-duration"
 msgid "_hours"
 msgstr "_годин"
 
 #. Translators: this is part of: "Set an estimated duration for [nnn] days [nnn] hours [nnn] minutes", where the text in "[]" means a separate widget
 #: ../src/calendar/gui/e-estimated-duration-entry.c:247
-#| msgctxt "cal-reminders"
-#| msgid "_minutes"
 msgctxt "estimated-duration"
 msgid "_minutes"
 msgstr "_хвилин"
 
 #: ../src/calendar/gui/e-estimated-duration-entry.c:268
 msgid "_Set"
-msgstr ""
-"_Встановити"
+msgstr "_Встановити"
 
 #: ../src/calendar/gui/e-estimated-duration-entry.c:473
-#| msgid "Pa_ge…"
 msgid "Chan_ge…"
 msgstr "З_мінити…"
 
@@ -9346,19 +9334,19 @@ msgid "Language"
 msgstr "Мова"
 
 #: ../src/calendar/gui/e-memo-table.c:524
-#: ../src/calendar/gui/e-task-table.c:694
+#: ../src/calendar/gui/e-task-table.c:705
 msgid "* No Summary *"
 msgstr "* Немає короткого опису *"
 
 #. Translators: This is followed by an event's start date/time
 #: ../src/calendar/gui/e-memo-table.c:611
-#: ../src/calendar/gui/e-task-table.c:795
+#: ../src/calendar/gui/e-task-table.c:806
 msgid "Start: "
 msgstr "Починається:"
 
 #. Translators: This is followed by an event's due date/time
 #: ../src/calendar/gui/e-memo-table.c:631
-#: ../src/calendar/gui/e-task-table.c:828
+#: ../src/calendar/gui/e-task-table.c:839
 msgid "Due: "
 msgstr "Завершення: "
 
@@ -9387,7 +9375,7 @@ msgstr "Виділити всі видимі примітки"
 msgid "Click to add a memo"
 msgstr "Клацніть, щоб додати примітку"
 
-#: ../src/calendar/gui/e-task-table.c:467
+#: ../src/calendar/gui/e-task-table.c:478
 #: ../src/calendar/gui/tasktypes.xml.in.h:22
 #: ../src/e-util/e-send-options.ui.h:1
 msgid "Undefined"
@@ -9397,29 +9385,29 @@ msgstr "Невизначено"
 #. * %d is the actual value, %% is replaced with a percent sign.
 #. * Result values will be 0%, 10%, 20%, ... 100%
 #.
-#: ../src/calendar/gui/e-task-table.c:496
+#: ../src/calendar/gui/e-task-table.c:507
 #, c-format
 msgid "%d%%"
 msgstr "%d%%"
 
-#: ../src/calendar/gui/e-task-table.c:1066
+#: ../src/calendar/gui/e-task-table.c:1077
 msgid "Cut selected tasks to the clipboard"
 msgstr "Вирізати виділені завдання у буфер обміну"
 
-#: ../src/calendar/gui/e-task-table.c:1072
+#: ../src/calendar/gui/e-task-table.c:1083
 msgid "Copy selected tasks to the clipboard"
 msgstr "Копіювати виділені завдання у буфер обміну"
 
-#: ../src/calendar/gui/e-task-table.c:1078
+#: ../src/calendar/gui/e-task-table.c:1089
 msgid "Paste tasks from the clipboard"
 msgstr "Вставити завдання з буферу обміну"
 
-#: ../src/calendar/gui/e-task-table.c:1084
+#: ../src/calendar/gui/e-task-table.c:1095
 #: ../src/modules/calendar/e-task-shell-view-actions.c:698
 msgid "Delete selected tasks"
 msgstr "Вилучити вибрані завдання"
 
-#: ../src/calendar/gui/e-task-table.c:1090
+#: ../src/calendar/gui/e-task-table.c:1101
 msgid "Select all visible tasks"
 msgstr "Виділити всі видимі завдання"
 
@@ -9454,6 +9442,11 @@ msgstr "% виконання:"
 #: ../src/plugins/save-calendar/csv-format.c:373
 msgid "Priority"
 msgstr "Пріоритет"
+
+#: ../src/calendar/gui/e-task-table.etspec.h:17
+#| msgid "Estimated duration:"
+msgid "Estimated duration"
+msgstr "Оцінка тривалості"
 
 #. Translators: 'None' for a time zone, like 'No time zone being set'
 #: ../src/calendar/gui/e-timezone-entry.c:92
@@ -9831,7 +9824,6 @@ msgstr "Учасники:"
 
 #: ../src/calendar/gui/print.c:3686
 #, c-format
-#| msgid "Time _duration:"
 msgid "Estimated duration: %s"
 msgstr "Оцінка тривалості: %s"
 
@@ -21574,8 +21566,6 @@ msgid "Failed to empty Junk folder “{0}”"
 msgstr "Не вдалося спорожнити теку спаму «{0}»"
 
 #: ../src/mail/mail.error.xml.h:217
-#| msgctxt "shortcut window"
-#| msgid "Send and receive messages"
 msgid "Cannot archive messages"
 msgstr "Не вдалося архівувати повідомлення"
 
@@ -21584,7 +21574,8 @@ msgid ""
 "No Archive folder is configured. Please configure one for the account in "
 "order to be able to archive messages."
 msgstr ""
-"Не налаштовано теки архівування. Будь ласка, налаштуйте таку теку для облікового запису, щоб мати змогу архівувати повідомлення."
+"Не налаштовано теки архівування. Будь ласка, налаштуйте таку теку для "
+"облікового запису, щоб мати змогу архівувати повідомлення."
 
 #: ../src/mail/mail-send-recv.c:193
 msgid "Canceling…"
@@ -22854,8 +22845,7 @@ msgstr "Пошук нотаток"
 
 #: ../src/modules/cal-config-webdav-notes/evolution-cal-config-webdav-notes.c:365
 msgid "File extension for new notes:"
-msgstr ""
-"Суфікс назв файлів для нових нотаток:"
+msgstr "Суфікс назв файлів для нових нотаток:"
 
 #: ../src/modules/calendar/e-cal-attachment-handler.c:283
 #: ../src/smime/gui/smime-ui.ui.h:7
@@ -24701,8 +24691,6 @@ msgstr "_Оновити"
 #: ../src/modules/itip-formatter/itip-view.c:1716
 #: ../src/modules/itip-formatter/itip-view.c:1840
 #: ../src/modules/itip-formatter/itip-view.c:6788
-#| msgctxt "ECompEditor"
-#| msgid "D_ue date:"
 msgid "Due date:"
 msgstr "Дата завершення:"
 
