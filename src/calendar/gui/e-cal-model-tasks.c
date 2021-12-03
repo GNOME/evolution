@@ -627,6 +627,36 @@ set_location (ECalModelComponent *comp_data,
 	}
 }
 
+static gpointer
+get_estimated_duration (ECalModelComponent *comp_data)
+{
+	ICalProperty *prop;
+	gpointer res = NULL;
+
+	prop = i_cal_component_get_first_property (comp_data->icalcomp, I_CAL_ESTIMATEDDURATION_PROPERTY);
+	if (prop) {
+		ICalDuration *duration;
+		gint duration_int;
+
+		duration = i_cal_property_get_estimatedduration (prop);
+		duration_int = duration ? i_cal_duration_as_int (duration) : 0;
+
+		if (duration_int > 0) {
+			gint64 *pvalue;
+
+			pvalue = g_new (gint64, 1);
+			*pvalue = duration_int;
+
+			res = pvalue;
+		}
+
+		g_clear_object (&duration);
+		g_object_unref (prop);
+	}
+
+	return res;
+}
+
 static void
 cal_model_tasks_set_property (GObject *object,
                               guint property_id,
@@ -766,6 +796,7 @@ cal_model_tasks_store_values_from_model (ECalModel *model,
 	e_cal_model_util_set_value (values, source_model, E_CAL_MODEL_TASKS_FIELD_PRIORITY, row);
 	e_cal_model_util_set_value (values, source_model, E_CAL_MODEL_TASKS_FIELD_URL, row);
 	e_cal_model_util_set_value (values, source_model, E_CAL_MODEL_TASKS_FIELD_LOCATION, row);
+	e_cal_model_util_set_value (values, source_model, E_CAL_MODEL_TASKS_FIELD_ESTIMATED_DURATION, row);
 }
 
 static void
@@ -796,6 +827,7 @@ cal_model_tasks_fill_component_from_values (ECalModel *model,
 	set_priority (comp_data, e_cal_model_util_get_value (values, E_CAL_MODEL_TASKS_FIELD_PRIORITY));
 	set_url (comp_data, e_cal_model_util_get_value (values, E_CAL_MODEL_TASKS_FIELD_URL));
 	set_location (comp_data, e_cal_model_util_get_value (values, E_CAL_MODEL_TASKS_FIELD_LOCATION));
+	/*set_estimated_duration (comp_data, e_cal_model_util_get_value (values, E_CAL_MODEL_TASKS_FIELD_ESTIMATED_DURATION)); - read-only*/
 }
 
 static gint
@@ -847,6 +879,8 @@ cal_model_tasks_value_at (ETableModel *etm,
 		return get_url (comp_data);
 	case E_CAL_MODEL_TASKS_FIELD_LOCATION:
 		return get_location (comp_data);
+	case E_CAL_MODEL_TASKS_FIELD_ESTIMATED_DURATION:
+		return get_estimated_duration (comp_data);
 	}
 
 	return (gpointer) "";
@@ -903,6 +937,9 @@ cal_model_tasks_set_value_at (ETableModel *etm,
 	case E_CAL_MODEL_TASKS_FIELD_LOCATION:
 		set_location (comp_data, value);
 		break;
+	case E_CAL_MODEL_TASKS_FIELD_ESTIMATED_DURATION:
+		/* set_estimated_duration (comp_data, value); - read-only */
+		break;
 	}
 
 	e_cal_model_modify_component (E_CAL_MODEL (model), comp_data, E_CAL_OBJ_MOD_ALL);
@@ -937,6 +974,8 @@ cal_model_tasks_is_cell_editable (ETableModel *etm,
 	case E_CAL_MODEL_TASKS_FIELD_URL :
 	case E_CAL_MODEL_TASKS_FIELD_LOCATION:
 		return TRUE;
+	case E_CAL_MODEL_TASKS_FIELD_ESTIMATED_DURATION:
+		return FALSE;
 	}
 
 	return FALSE;
@@ -968,6 +1007,17 @@ cal_model_tasks_duplicate_value (ETableModel *etm,
 
 	case E_CAL_MODEL_TASKS_FIELD_LOCATION:
 		return g_strdup (value);
+
+	case E_CAL_MODEL_TASKS_FIELD_ESTIMATED_DURATION:
+		if (value) {
+			gint64 *res = g_new (gint64, 1);
+			const gint64 *pvalue = value;
+
+			*res = *pvalue;
+
+			return res;
+		}
+		return NULL;
 	}
 
 	return NULL;
@@ -1000,6 +1050,9 @@ cal_model_tasks_free_value (ETableModel *etm,
 	case E_CAL_MODEL_TASKS_FIELD_COMPLETE :
 	case E_CAL_MODEL_TASKS_FIELD_OVERDUE :
 		break;
+	case E_CAL_MODEL_TASKS_FIELD_ESTIMATED_DURATION:
+		g_free (value);
+		break;
 	}
 }
 
@@ -1026,6 +1079,7 @@ cal_model_tasks_initialize_value (ETableModel *etm,
 	case E_CAL_MODEL_TASKS_FIELD_DUE :
 	case E_CAL_MODEL_TASKS_FIELD_COMPLETE :
 	case E_CAL_MODEL_TASKS_FIELD_OVERDUE :
+	case E_CAL_MODEL_TASKS_FIELD_ESTIMATED_DURATION:
 		return NULL;
 	case E_CAL_MODEL_TASKS_FIELD_PERCENT :
 		return GINT_TO_POINTER (-1);
@@ -1056,6 +1110,7 @@ cal_model_tasks_value_is_empty (ETableModel *etm,
 		return string_is_empty (value);
 	case E_CAL_MODEL_TASKS_FIELD_COMPLETED :
 	case E_CAL_MODEL_TASKS_FIELD_DUE :
+	case E_CAL_MODEL_TASKS_FIELD_ESTIMATED_DURATION:
 		return value ? FALSE : TRUE;
 	case E_CAL_MODEL_TASKS_FIELD_PERCENT :
 		return (GPOINTER_TO_INT (value) < 0) ? TRUE : FALSE;
@@ -1098,6 +1153,12 @@ cal_model_tasks_value_to_string (ETableModel *etm,
 			return g_strdup ("N/A");
 		else
 			return g_strdup_printf ("%i%%", GPOINTER_TO_INT (value));
+	case E_CAL_MODEL_TASKS_FIELD_ESTIMATED_DURATION:
+		if (value) {
+			const gint64 *pvalue = value;
+			return e_cal_util_seconds_to_string (*pvalue);
+		}
+		break;
 	}
 
 	return g_strdup ("");

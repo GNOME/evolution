@@ -42,6 +42,7 @@
 #include "e-cal-ops.h"
 #include "e-calendar-view.h"
 #include "e-cell-date-edit-text.h"
+#include "e-cell-estimated-duration.h"
 #include "itip-utils.h"
 #include "print.h"
 #include "misc.h"
@@ -415,6 +416,16 @@ task_table_constructed (GObject *object)
 	e_cell_date_edit_set_get_time_callback (
 		E_CELL_DATE_EDIT (popup_cell),
 		e_task_table_get_current_time, task_table, NULL);
+
+	cell = e_cell_estimated_duration_new (NULL, GTK_JUSTIFY_LEFT);
+	g_object_set (
+		cell,
+		"strikeout_column", E_CAL_MODEL_TASKS_FIELD_STRIKEOUT,
+		"bold_column", E_CAL_MODEL_TASKS_FIELD_OVERDUE,
+		"bg_color_column", E_CAL_MODEL_FIELD_COLOR,
+		NULL);
+	e_table_extras_add_cell (extras, "estimatedduration", cell);
+	g_object_unref (cell);
 
 	/*
 	 * Combo fields.

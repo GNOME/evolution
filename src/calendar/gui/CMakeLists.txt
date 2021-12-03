@@ -43,6 +43,7 @@ set(SOURCES
 	e-cal-ops.c
 	e-calendar-view.c
 	e-cell-date-edit-text.c
+	e-cell-estimated-duration.c
 	e-comp-editor.c
 	e-comp-editor-event.c
 	e-comp-editor-memo.c
@@ -119,6 +120,7 @@ set(HEADERS
 	e-cal-ops.h
 	e-calendar-view.h
 	e-cell-date-edit-text.h
+	e-cell-estimated-duration.h
 	e-comp-editor.h
 	e-comp-editor-event.h
 	e-comp-editor-memo.h
