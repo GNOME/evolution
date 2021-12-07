@@ -1179,30 +1179,42 @@ webkit_editor_update_styles (EContentEditor *editor)
 	if (use_custom_font) {
 		font = g_settings_get_string (
 			wk_editor->priv->mail_settings, "monospace-font");
-		ms = pango_font_description_from_string (font ? font : "monospace 10");
+		ms = pango_font_description_from_string (font && *font ? font : "monospace 10");
 		g_free (font);
 	} else {
 		font = g_settings_get_string (
 			wk_editor->priv->font_settings, "monospace-font-name");
-		ms = pango_font_description_from_string (font ? font : "monospace 10");
+		ms = pango_font_description_from_string (font && *font ? font : "monospace 10");
 		g_free (font);
+	}
+
+	if (!pango_font_description_get_family (ms) ||
+	    !pango_font_description_get_size (ms)) {
+		pango_font_description_free (ms);
+		ms = pango_font_description_from_string ("monospace 10");
 	}
 
 	if (wk_editor->priv->html_mode) {
 		if (use_custom_font) {
 			font = g_settings_get_string (
 				wk_editor->priv->mail_settings, "variable-width-font");
-			vw = pango_font_description_from_string (font ? font : "serif 10");
+			vw = pango_font_description_from_string (font && *font ? font : "serif 10");
 			g_free (font);
 		} else {
 			font = g_settings_get_string (
 				wk_editor->priv->font_settings, "font-name");
-			vw = pango_font_description_from_string (font ? font : "serif 10");
+			vw = pango_font_description_from_string (font && *font ? font : "serif 10");
 			g_free (font);
 		}
 	} else {
 		/* When in plain text mode, force monospace font */
 		vw = pango_font_description_copy (ms);
+	}
+
+	if (!pango_font_description_get_family (vw) ||
+	    !pango_font_description_get_size (vw)) {
+		pango_font_description_free (vw);
+		vw = pango_font_description_from_string ("serif 10");
 	}
 
 	stylesheet = g_string_new ("");

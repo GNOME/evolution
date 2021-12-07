@@ -3327,13 +3327,22 @@ e_web_view_update_fonts_settings (GSettings *font_settings,
 			"monospace-font-name");
 
 		ms = pango_font_description_from_string (
-			(font != NULL) ? font : "monospace 10");
+			(font && *font) ? font : "monospace 10");
 
 		clean_ms = TRUE;
 
 		g_free (font);
 	} else
 		ms = ms_font;
+
+	if (!pango_font_description_get_family (ms) ||
+	    !pango_font_description_get_size (ms)) {
+		if (clean_ms)
+			pango_font_description_free (ms);
+
+		clean_ms = TRUE;
+		ms = pango_font_description_from_string ("monospace 10");
+	}
 
 	if (!vw_font) {
 		gchar *font;
@@ -3343,13 +3352,22 @@ e_web_view_update_fonts_settings (GSettings *font_settings,
 			"font-name");
 
 		vw = pango_font_description_from_string (
-			(font != NULL) ? font : "serif 10");
+			(font && *font) ? font : "serif 10");
 
 		clean_vw = TRUE;
 
 		g_free (font);
 	} else
 		vw = vw_font;
+
+	if (!pango_font_description_get_family (vw) ||
+	    !pango_font_description_get_size (vw)) {
+		if (clean_vw)
+			pango_font_description_free (vw);
+
+		clean_vw = TRUE;
+		vw = pango_font_description_from_string ("serif 10");
+	}
 
 	stylesheet = g_string_new ("");
 	g_ascii_dtostr (fsbuff, G_ASCII_DTOSTR_BUF_SIZE,
