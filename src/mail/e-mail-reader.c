@@ -1280,25 +1280,94 @@ action_mail_archive_cb (GtkAction *action,
 	g_return_if_fail (uids != NULL);
 
 	folder = e_mail_reader_ref_folder (reader);
-	archive_folder = em_utils_get_archive_folder_uri_from_folder (folder, backend, uids, TRUE);
 
-	if (archive_folder && *archive_folder) {
-		mail_transfer_messages (
-			session, folder, uids,
-			TRUE, archive_folder, 0, NULL, NULL);
+	if (CAMEL_IS_VEE_FOLDER (folder) && uids->len > 1) {
+		GHashTable *split_by_folder; /* CamelFolder * ~> GPtrArray { gchar * uids } */
+		GHashTableIter iter;
+		gpointer key, value;
+		guint ii, n_successful = 0, n_failed = 0;
+
+		split_by_folder = g_hash_table_new_full (g_direct_hash, g_direct_equal, g_object_unref, (GDestroyNotify) g_ptr_array_unref);
+
+		for (ii = 0; ii < uids->len; ii++) {
+			const gchar *uid = g_ptr_array_index (uids, ii);
+			CamelFolder *real_folder = NULL;
+			gchar *real_message_uid = NULL;
+
+			em_utils_get_real_folder_and_message_uid (folder, uid, &real_folder, NULL, &real_message_uid);
+
+			if (real_folder && real_message_uid) {
+				GPtrArray *array;
+
+				array = g_hash_table_lookup (split_by_folder, real_folder);
+
+				if (array) {
+					g_object_unref (real_folder);
+				} else {
+					array = g_ptr_array_new_with_free_func (g_free);
+					g_hash_table_insert (split_by_folder, real_folder, array);
+				}
+
+				g_ptr_array_add (array, real_message_uid);
+			} else {
+				g_clear_object (&real_folder);
+				g_free (real_message_uid);
+			}
+		}
+
+		g_hash_table_iter_init (&iter, split_by_folder);
+
+		while (g_hash_table_iter_next (&iter, &key, &value)) {
+			CamelFolder *real_folder = key;
+			GPtrArray *real_uids = value;
+
+			archive_folder = em_utils_get_archive_folder_uri_from_folder (real_folder, backend, real_uids, TRUE);
+
+			if (archive_folder && *archive_folder) {
+				n_successful++;
+				mail_transfer_messages (
+					session, folder, uids,
+					TRUE, archive_folder, 0, NULL, NULL);
+			} else {
+				n_failed++;
+			}
+
+			g_free (archive_folder);
+		}
+
+		g_hash_table_destroy (split_by_folder);
+
+		if (n_failed && !n_successful) {
+			EAlertSink *alert_sink;
+
+			alert_sink = e_mail_reader_get_alert_sink (reader);
+
+			e_alert_submit (
+				alert_sink, "mail:no-archive-folder",
+				NULL);
+		}
 	} else {
-		EAlertSink *alert_sink;
+		archive_folder = em_utils_get_archive_folder_uri_from_folder (folder, backend, uids, TRUE);
 
-		alert_sink = e_mail_reader_get_alert_sink (reader);
+		if (archive_folder && *archive_folder) {
+			mail_transfer_messages (
+				session, folder, uids,
+				TRUE, archive_folder, 0, NULL, NULL);
+		} else {
+			EAlertSink *alert_sink;
 
-		e_alert_submit (
-			alert_sink, "mail:no-archive-folder",
-			NULL);
+			alert_sink = e_mail_reader_get_alert_sink (reader);
+
+			e_alert_submit (
+				alert_sink, "mail:no-archive-folder",
+				NULL);
+		}
+
+		g_free (archive_folder);
 	}
 
 	g_clear_object (&folder);
 	g_ptr_array_unref (uids);
-	g_free (archive_folder);
 }
 
 static void
