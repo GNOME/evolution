@@ -323,8 +323,14 @@ e_shell_utils_run_help_about (EShell *shell)
 	static const gchar *authors[] = {
 		"The Evolution Team",
 		"",
-		"Milan Crha <mcrha@redhat.com>",
-		"Fabiano Fid\xC3\xAAncio <fabiano@fidencio.org>",
+		"Bharath Acharya",
+		"Matthew Barnes",
+		"Milan Crha",
+		"Fabiano Fid\xC3\xAAncio",
+		"Chenthill Palanisamy",
+		"Tomas Popela",
+		"Srinivasa Ragavan",
+		"Dan Vr\xC3\xA1til",
 		"",
 		"and many past contributors",
 		NULL
