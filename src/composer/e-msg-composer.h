@@ -191,7 +191,8 @@ void		e_msg_composer_add_attachments_from_part_list
 						(EMsgComposer *composer,
 						 EMailPartList *part_list,
 						 gboolean just_inlines);
-
+void		e_msg_composer_check_inline_attachments
+						(EMsgComposer *composer);
 
 void		e_msg_composer_request_close	(EMsgComposer *composer);
 gboolean	e_msg_composer_can_close	(EMsgComposer *composer,

@@ -1751,6 +1751,76 @@ e_html_editor_remove_all_cid_parts (EHTMLEditor *editor)
 	g_hash_table_remove_all (editor->priv->cid_parts);
 }
 
+typedef struct _RemoveUnusedCidPartsData {
+	GHashTable *used_hash; /* CamelMimePart * ~> NULL */
+	GSList **out_removed_mime_parts;
+} RemoveUnusedCidPartsData;
+
+static gboolean
+remove_unused_cid_parts_cb (gpointer key,
+			    gpointer value,
+			    gpointer user_data)
+{
+	RemoveUnusedCidPartsData *data = user_data;
+	CamelMimePart *mime_part = value;
+	gboolean remove;
+
+	remove = !data->used_hash || !g_hash_table_contains (data->used_hash, mime_part);
+
+	if (remove && data->out_removed_mime_parts)
+		*data->out_removed_mime_parts = g_slist_prepend (*data->out_removed_mime_parts, g_object_ref (mime_part));
+
+	return remove;
+}
+
+/**
+ * e_html_editor_remove_unused_cid_parts:
+ * @editor: an #EHTMLEditor
+ * @used_mime_parts: (nullable) (element-type CamelMimePart): list of used CamelMimePart-s to keep
+ * @out_removed_mime_parts: (out) (optional) (element-type CamelMimePart) (transfer full): list of removed parts
+ *
+ * Traverses the list of "cid:" parts and removes all which are not part
+ * of the @used_mime_parts.
+ *
+ * The optional @out_removed_mime_parts is filled with the removed parts.
+ * Free it with g_slist_free_full (list, g_object_unref);, when no longer needed.
+ *
+ * Since: 3.44
+ **/
+void
+e_html_editor_remove_unused_cid_parts (EHTMLEditor *editor,
+				       GSList *used_mime_parts,
+				       GSList **out_removed_mime_parts)
+{
+	RemoveUnusedCidPartsData data;
+
+	g_return_if_fail (E_IS_HTML_EDITOR (editor));
+
+	if (out_removed_mime_parts)
+		*out_removed_mime_parts = NULL;
+
+	data.used_hash = NULL;
+	data.out_removed_mime_parts = out_removed_mime_parts;
+
+	if (used_mime_parts) {
+		GSList *link;
+
+		data.used_hash = g_hash_table_new (g_direct_hash, g_direct_equal);
+
+		for (link = used_mime_parts; link; link = g_slist_next (link)) {
+			g_hash_table_insert (data.used_hash, link->data, NULL);
+		}
+	}
+
+	g_hash_table_foreach_remove (editor->priv->cid_parts, remove_unused_cid_parts_cb, &data);
+
+	if (data.used_hash)
+		g_hash_table_destroy (data.used_hash);
+
+	if (out_removed_mime_parts)
+		*out_removed_mime_parts = g_slist_reverse (*out_removed_mime_parts);
+}
+
 /**
  * e_html_editor_ref_cid_part:
  * @editor: an #EHTMLEditor

@@ -2573,6 +2573,7 @@ forward_non_attached (EMsgComposer *composer,
 		emu_set_source_headers (composer, folder, uid, CAMEL_MESSAGE_FORWARDED);
 
 		emu_update_composers_security (composer, validity_found);
+		e_msg_composer_check_inline_attachments (composer);
 		composer_set_no_change (composer);
 		gtk_widget_show (GTK_WIDGET (composer));
 

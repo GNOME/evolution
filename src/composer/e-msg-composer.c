@@ -3335,6 +3335,84 @@ e_msg_composer_add_attachments_from_part_list (EMsgComposer *composer,
 }
 
 static void
+e_msg_composer_filter_inline_attachments (EMsgComposer *composer,
+					  GSList *used_mime_parts) /* CamelMimePart * */
+{
+	GSList *removed_parts = NULL, *link;
+	gboolean been_changed;
+	EHTMLEditor *editor;
+	EContentEditor *content_editor;
+
+	editor = e_msg_composer_get_editor (composer);
+	content_editor = e_html_editor_get_content_editor (editor);
+
+	been_changed = e_content_editor_get_changed (content_editor);
+	e_html_editor_remove_unused_cid_parts (editor, used_mime_parts, &removed_parts);
+
+	for (link = removed_parts; link; link = g_slist_next (link)) {
+		CamelMimePart *mime_part = link->data;
+		e_msg_composer_attach (composer, mime_part);
+	}
+
+	g_slist_free_full (removed_parts, g_object_unref);
+
+	/* This is not a user change */
+	e_content_editor_set_changed (content_editor, been_changed);
+}
+
+static void
+e_mg_composer_got_used_inline_images_cb (GObject *source_object,
+					 GAsyncResult *result,
+					 gpointer user_data)
+{
+	EMsgComposer *composer = user_data;
+	EContentEditorContentHash *content_hash;
+
+	content_hash = e_content_editor_get_content_finish (E_CONTENT_EDITOR (source_object), result, NULL);
+	if (content_hash) {
+		GSList *inline_images_parts;
+
+		inline_images_parts = e_content_editor_util_get_content_data (content_hash, E_CONTENT_EDITOR_GET_INLINE_IMAGES);
+
+		e_msg_composer_filter_inline_attachments (composer, inline_images_parts);
+
+		g_hash_table_destroy (content_hash);
+	} else {
+		e_msg_composer_filter_inline_attachments (composer, NULL);
+	}
+
+	g_object_unref (composer);
+}
+
+/**
+ * e_msg_composer_check_inline_attachments:
+ * @composer: an #EMsgComposer
+ *
+ * Checks which inline attachments are referenced in the message body
+ * and those which are not referenced are added as regular attachments.
+ *
+ * Since: 3.44
+ **/
+void
+e_msg_composer_check_inline_attachments (EMsgComposer *composer)
+{
+	EHTMLEditor *editor;
+	EContentEditor *content_editor;
+
+	g_return_if_fail (E_IS_MSG_COMPOSER (composer));
+
+	editor = e_msg_composer_get_editor (composer);
+	content_editor = e_html_editor_get_content_editor (editor);
+
+	if (e_content_editor_get_html_mode (content_editor)) {
+		e_content_editor_get_content (content_editor, E_CONTENT_EDITOR_GET_INLINE_IMAGES,
+			"localhost", NULL, e_mg_composer_got_used_inline_images_cb, g_object_ref (composer));
+	} else {
+		e_msg_composer_filter_inline_attachments (composer, NULL);
+	}
+}
+
+static void
 handle_multipart_signed (EMsgComposer *composer,
                          CamelMultipart *multipart,
 			 CamelMimePart *parent_part,
