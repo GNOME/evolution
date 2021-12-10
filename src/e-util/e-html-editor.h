@@ -120,6 +120,10 @@ void		e_html_editor_add_cid_part	(EHTMLEditor *editor,
 						 CamelMimePart *mime_part);
 void		e_html_editor_remove_cid_part	(EHTMLEditor *editor,
 						 const gchar *cid_uri);
+void		e_html_editor_remove_unused_cid_parts
+						(EHTMLEditor *editor,
+						 GSList *used_mime_parts, /*  CamelMimePart * */
+						 GSList **out_removed_mime_parts); /*  CamelMimePart * */
 void		e_html_editor_remove_all_cid_parts
 						(EHTMLEditor *editor);
 CamelMimePart * e_html_editor_ref_cid_part	(EHTMLEditor *editor,
