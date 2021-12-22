@@ -116,7 +116,7 @@ table_column_selector_build_model (ETableColumnSelector *selector)
 		gtk_list_store_set (
 			list_store, &iter,
 			COLUMN_ACTIVE, TRUE,
-			COLUMN_TITLE, column_spec->title,
+			COLUMN_TITLE, _(column_spec->title),
 			COLUMN_SPECIFICATION, column_spec,
 			COLUMN_EXPANSION, expansion,
 			-1);
@@ -147,7 +147,7 @@ table_column_selector_build_model (ETableColumnSelector *selector)
 		gtk_list_store_set (
 			list_store, &iter,
 			COLUMN_ACTIVE, FALSE,
-			COLUMN_TITLE, column_spec->title,
+			COLUMN_TITLE, _(column_spec->title),
 			COLUMN_SPECIFICATION, column_spec,
 			COLUMN_EXPANSION, 1.0,
 			-1);
