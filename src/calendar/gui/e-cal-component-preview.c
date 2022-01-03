@@ -376,6 +376,26 @@ cal_component_preview_write_html (ECalComponentPreview *preview,
 		cal_component_preview_add_table_line (buffer, _("Priority:"), tmp);
 	}
 
+	prop = i_cal_component_get_first_property (icomp, I_CAL_CLASS_PROPERTY);
+	if (prop) {
+		switch (i_cal_property_get_class (prop)) {
+		case I_CAL_CLASS_PRIVATE:
+			tmp = _("Private");
+			break;
+		case I_CAL_CLASS_CONFIDENTIAL:
+			tmp = _("Confidential");
+			break;
+		default:
+			tmp = NULL;
+			break;
+		}
+
+		if (tmp)
+			cal_component_preview_add_table_line (buffer, _("Classification:"), tmp);
+
+		g_object_unref (prop);
+	}
+
 	if (e_cal_component_has_organizer (comp)) {
 		ECalComponentOrganizer *organizer;
 
