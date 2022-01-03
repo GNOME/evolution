@@ -2,12 +2,12 @@
 # Copyright (C) 2020 evolution's COPYRIGHT HOLDER
 # This file is distributed under the same license as the evolution package.
 #
-# Yuri Chornoivan <yurchor@ukr.net>, 2020, 2021.
+# Yuri Chornoivan <yurchor@ukr.net>, 2020, 2021, 2022.
 msgid ""
 msgstr ""
 "Project-Id-Version: evolution master\n"
-"POT-Creation-Date: 2021-09-12 13:55+0000\n"
-"PO-Revision-Date: 2021-09-12 21:19+0300\n"
+"POT-Creation-Date: 2022-01-03 19:42+0000\n"
+"PO-Revision-Date: 2022-01-03 23:01+0200\n"
 "Last-Translator: Yuri Chornoivan <yurchor@ukr.net>\n"
 "Language-Team: Ukrainian <trans-uk@lists.fedoraproject.org>\n"
 "Language: uk\n"
@@ -2786,6 +2786,20 @@ msgstr ""
 #. (itstool) path: page/p
 #: C/customize-ui-items.page:34
 msgid ""
+"Changing the order of tool bar/menu items in some <file>.ui</file> files may "
+"not affect their displayed order in <app>Evolution</app>. As a workaround, "
+"the attribute <code>position='top'</code> can be added to some elements (e."
+"g. <code>toolitem</code> and non-empty <code>placeholder</code> elements), "
+"which will place them before other items in the group and cause them to be "
+"displayed according to their order in the <file>.ui</file> file. This "
+"attribute may need to be added to all items in a group to achieve the "
+"overall desired item order."
+msgstr ""
+"Зміна порядку пунктів панелі інструментів або меню у деяких файлах <file>.ui</file> може ніяк не вплинути на порядок показу їх в <app>Evolution</app>. Щоб розв'язати цю проблему, можна додати атрибут <code>position='top'</code> до деяких елементів (наприклад елементів <code>toolitem</code> і непорожніх <code>placeholder</code>). Таке додавання призведе до розташування цих елементів перед іншими елементами у групі і показу їх у порядку, у якому їх вказано у файлі <file>.ui</file>. Для досягнення бажаного порядку пунктів може виникнути потреба у додаванні цього атрибута до всіх записів у групі."
+
+#. (itstool) path: page/p
+#: C/customize-ui-items.page:36
+msgid ""
 "The modified files will be used if the <code>evolution-ui-version</code> "
 "attribute of the root <code>ui</code> element matches the version of the "
 "default files provided by <app>Evolution</app>."
@@ -2795,7 +2809,7 @@ msgstr ""
 "які є частиною пакунків <app>Evolution</app>."
 
 #. (itstool) path: page/p
-#: C/customize-ui-items.page:36
+#: C/customize-ui-items.page:38
 msgid ""
 "To change keyboard shortcuts, edit <file>~/.config/evolution/accels</file> "
 "while <app>Evolution</app> is not running. Commented lines start with a "
@@ -12340,9 +12354,6 @@ msgstr "чи встановлено певний прапорець; відом�
 #. (itstool) path: td/p
 #. Translators: This is translated in a 'ffe' context
 #: C/mail-searching.page:80
-#| msgid ""
-#| "<code its:locNote=\"Translators: This is translated in a 'ffe' context"
-#| "\">Answered</code> - the message is marked as replied"
 msgid "<code>Answered</code> - the message is marked as replied"
 msgstr ""
 "<code>Answered</code> — повідомлення позначене як таке, на яке надіслано "
@@ -12351,39 +12362,24 @@ msgstr ""
 #. (itstool) path: td/p
 #. Translators: This is translated in a 'ffe' context
 #: C/mail-searching.page:81
-#| msgid ""
-#| "<code its:locNote=\"Translators: This is translated in a 'ffe' context"
-#| "\">Deleted</code> - the message is marked as deleted"
 msgid "<code>Deleted</code> - the message is marked as deleted"
-msgstr ""
-"<code>Deleted</code> — повідомлення позначено як вилучене"
+msgstr "<code>Deleted</code> — повідомлення позначено як вилучене"
 
 #. (itstool) path: td/p
 #. Translators: This is translated in a 'ffe' context
 #: C/mail-searching.page:82
-#| msgid ""
-#| "<code its:locNote=\"Translators: This is translated in a 'ffe' context"
-#| "\">Draft</code> - the message is marked as draft"
 msgid "<code>Draft</code> - the message is marked as draft"
-msgstr ""
-"<code>Draft</code> — повідомлення позначено як чернетку"
+msgstr "<code>Draft</code> — повідомлення позначено як чернетку"
 
 #. (itstool) path: td/p
 #. Translators: This is translated in a 'ffe' context
 #: C/mail-searching.page:83
-#| msgid ""
-#| "<code its:locNote=\"Translators: This is translated in a 'ffe' context"
-#| "\">Flagged</code> - the message is marked as important"
 msgid "<code>Flagged</code> - the message is marked as important"
-msgstr ""
-"<code>Flagged</code> — повідомлення позначено як важливе"
+msgstr "<code>Flagged</code> — повідомлення позначено як важливе"
 
 #. (itstool) path: td/p
 #. Translators: This is translated in a 'ffe' context
 #: C/mail-searching.page:84
-#| msgid ""
-#| "<code its:locNote=\"Translators: This is translated in a 'ffe' context"
-#| "\">Seen</code> - the message is marked as seen (not unread)"
 msgid "<code>Seen</code> - the message is marked as seen (not unread)"
 msgstr ""
 "<code>Seen</code> — повідомлення позначено як переглянуте (не непрочитане)"
@@ -12391,12 +12387,8 @@ msgstr ""
 #. (itstool) path: td/p
 #. Translators: This is translated in a 'ffe' context
 #: C/mail-searching.page:85
-#| msgid ""
-#| "<code its:locNote=\"Translators: This is translated in a 'ffe' context"
-#| "\">Attachment</code> - the message has an attachment"
 msgid "<code>Attachment</code> - the message has an attachment"
-msgstr ""
-"<code>Attachment</code> — у повідомлення є долучення"
+msgstr "<code>Attachment</code> — у повідомлення є долучення"
 
 #. (itstool) path: td/p
 #: C/mail-searching.page:86
