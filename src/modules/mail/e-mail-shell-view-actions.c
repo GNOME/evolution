@@ -1766,14 +1766,14 @@ static GtkActionEntry mail_entries[] = {
 	  NULL },
 
 	{ "mail-smart-backward",
-	  NULL,
+	  "go-up", /* In case a user adds it to the UI */
 	  NULL,  /* No menu item; key press only */
 	  "BackSpace",
 	  NULL,
 	  G_CALLBACK (action_mail_smart_backward_cb) },
 
 	{ "mail-smart-forward",
-	  NULL,
+	  "go-down", /* In case a user adds it to the UI */
 	  NULL,  /* No menu item; key press only */
 	  "space",
 	  NULL,
