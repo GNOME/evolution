@@ -3375,7 +3375,10 @@ ece_check_start_before_end (ECompEditor *comp_editor,
 			ICalTime *orig_start, *orig_end;
 
 			orig_start = i_cal_component_get_dtstart (icomp);
-			orig_end = i_cal_component_get_dtend (icomp);
+			if (e_cal_util_component_has_property (icomp, I_CAL_DTEND_PROPERTY))
+				orig_end = i_cal_component_get_dtend (icomp);
+			else
+				orig_end = i_cal_component_get_due (icomp);
 
 			if (orig_start && i_cal_time_is_valid_time (orig_start) &&
 			    orig_end && i_cal_time_is_valid_time (orig_end)) {

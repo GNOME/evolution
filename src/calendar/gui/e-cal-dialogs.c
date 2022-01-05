@@ -47,7 +47,7 @@ is_past_event (ECalComponent *comp)
 	if (!comp)
 		return TRUE;
 
-	end_date = e_cal_component_get_dtend (comp);
+	end_date = e_cal_component_get_vtype (comp) == E_CAL_COMPONENT_EVENT ? e_cal_component_get_dtend (comp) : NULL;
 
 	if (!end_date)
 		return FALSE;
