@@ -299,7 +299,7 @@ cal_component_preview_write_html (ECalComponentPreview *preview,
 	e_cal_component_datetime_free (dt);
 
 	/* write end date */
-	dt = e_cal_component_get_dtend (comp);
+	dt = e_cal_component_get_vtype (comp) == E_CAL_COMPONENT_EVENT ? e_cal_component_get_dtend (comp) : NULL;
 	if (dt && e_cal_component_datetime_get_value (dt)) {
 		str = timet_to_str_with_zone (dt, client, default_zone);
 		cal_component_preview_add_table_line (buffer, _("End Date:"), str);
@@ -308,7 +308,7 @@ cal_component_preview_write_html (ECalComponentPreview *preview,
 	e_cal_component_datetime_free (dt);
 
 	/* write Due Date */
-	dt = e_cal_component_get_due (comp);
+	dt = e_cal_component_get_vtype (comp) == E_CAL_COMPONENT_TODO ? e_cal_component_get_due (comp) : NULL;
 	if (dt && e_cal_component_datetime_get_value (dt)) {
 		str = timet_to_str_with_zone (dt, client, default_zone);
 		cal_component_preview_add_table_line (buffer, _("Due Date:"), str);
