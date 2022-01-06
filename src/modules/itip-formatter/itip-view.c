@@ -25,6 +25,9 @@
 #include <glib/gi18n.h>
 #include <libedataserver/libedataserver.h>
 
+#include <libxml/HTMLparser.h>
+#include <libxml/HTMLtree.h>
+
 #include <shell/e-shell.h>
 #include <shell/e-shell-utils.h>
 
@@ -942,7 +945,7 @@ itip_view_get_state_cb (GObject *source_object,
 			    (!g_error_matches (error, WEBKIT_JAVASCRIPT_ERROR, WEBKIT_JAVASCRIPT_ERROR_SCRIPT_FAILED) ||
 			     /* WebKit can return empty error message, thus ignore those. */
 			     (error->message && *(error->message))))
-				g_warning ("Failed to call 'ItipView.GetState()' function: %s:%d: %s", g_quark_to_string (error->domain), error->code, error->message);
+				g_warning ("Failed to call 'EvoItip.GetState()' function: %s:%d: %s", g_quark_to_string (error->domain), error->code, error->message);
 			g_clear_error (&error);
 		}
 
@@ -954,7 +957,7 @@ itip_view_get_state_cb (GObject *source_object,
 			exception = jsc_context_get_exception (jsc_value_get_context (value));
 
 			if (exception) {
-				g_warning ("Failed to call 'ItipView.GetState()': %s", jsc_exception_get_message (exception));
+				g_warning ("Failed to call 'EvoItip.GetState()': %s", jsc_exception_get_message (exception));
 				jsc_context_clear_exception (jsc_value_get_context (value));
 			}
 
@@ -1669,58 +1672,254 @@ itip_view_set_extension_name (ItipView *view,
 	itip_view_rebuild_source_list (view);
 }
 
+static void
+itip_html_check_characters (gpointer user_data,
+			    const xmlChar *str,
+			    gint len)
+{
+	gboolean *p_is_empty = user_data;
+	gint ii;
+
+	for (ii = 0; ii < len && *p_is_empty; ii++) {
+		/* a comment starting with "<!--" */
+		if (ii + 3 < len &&
+		    str[ii    ] == '<' &&
+		    str[ii + 1] == '!' &&
+		    str[ii + 2] == '-' &&
+		    str[ii + 3] == '-') {
+			gint jj;
+
+			for (jj = 4; ii + jj + 2 < len; jj++) {
+				/* move after the comment end "-->" */
+				if (str[ii + jj    ] == '-' &&
+				    str[ii + jj + 1] == '-' &&
+				    str[ii + jj + 2] == '>') {
+					ii += jj + 2;
+					break;
+				}
+			}
+		} else {
+			*p_is_empty = g_ascii_isspace (str[ii]);
+		}
+	}
+}
+
+static void
+itip_html_check_warning (gpointer user_data,
+			 const gchar *format,
+			 ...)
+{
+	/* ignore any warning */
+}
+
+static void
+itip_html_check_error (gpointer user_data,
+		       const gchar *format,
+		       ...)
+{
+	/* ignore any error */
+}
+
+static gboolean
+itip_html_is_empty (const gchar *html)
+{
+	htmlParserCtxtPtr ctxt;
+	htmlSAXHandler sax;
+	gboolean is_empty;
+
+	if (!html || !*html)
+		return TRUE;
+
+	memset (&sax, 0, sizeof (htmlSAXHandler));
+
+	is_empty = TRUE;
+	sax.characters = itip_html_check_characters;
+	sax.warning = itip_html_check_warning;
+	sax.error = itip_html_check_error;
+
+	ctxt = htmlCreatePushParserCtxt (&sax, &is_empty, html, strlen (html), "", XML_CHAR_ENCODING_UTF8);
+
+	htmlParseChunk (ctxt, html, 0, 1);
+	htmlFreeParserCtxt (ctxt);
+
+	return is_empty;
+}
+
+typedef struct _FindPartData {
+	CamelMimePart *look_for;
+	CamelMimePart *parent_part;
+} FindPartData;
+
+static gboolean
+itip_view_find_parent_part_cb (CamelMimeMessage *message,
+			       CamelMimePart *part,
+			       CamelMimePart *parent_part,
+			       gpointer user_data)
+{
+	FindPartData *fpd = user_data;
+
+	if (fpd->look_for == part) {
+		if (parent_part)
+			fpd->parent_part = g_object_ref (parent_part);
+
+		return FALSE;
+	}
+
+	return TRUE;
+}
+
+static CamelMimePart *
+itip_view_ref_parent_part (CamelMimeMessage *message,
+			   CamelMimePart *part)
+{
+	FindPartData fpd;
+
+	if (!message || !part)
+		return NULL;
+
+	fpd.look_for = part;
+	fpd.parent_part = NULL;
+
+	camel_mime_message_foreach_part (message, itip_view_find_parent_part_cb, &fpd);
+
+	return fpd.parent_part;
+}
+
+static gchar *
+itip_view_dup_alternative_html (EMailPartItip *itip_part)
+{
+	CamelMimePart *parent_part;
+	gchar *html = NULL;
+
+	if (!itip_part->message)
+		return NULL;
+
+	parent_part = itip_view_ref_parent_part (itip_part->message, itip_part->itip_mime_part);
+
+	if (parent_part) {
+		CamelContentType *ct;
+		CamelDataWrapper *containee;
+
+		ct = camel_mime_part_get_content_type (parent_part);
+		containee = camel_medium_get_content (CAMEL_MEDIUM (parent_part));
+
+		if (camel_content_type_is (ct, "multipart", "alternative") && CAMEL_IS_MULTIPART (containee)) {
+			CamelMultipart *multipart = CAMEL_MULTIPART (containee);
+			CamelMimePart *text_part = NULL, *html_part = NULL;
+			guint ii, sz;
+
+			sz = camel_multipart_get_number (multipart);
+
+			for (ii = 0; ii < sz && (!text_part || !html_part); ii++) {
+				CamelMimePart *part = camel_multipart_get_part (multipart, ii);
+
+				if (part == itip_part->itip_mime_part)
+					continue;
+
+				ct = camel_mime_part_get_content_type (part);
+
+				if (camel_content_type_is (ct, "text", "plain"))
+					text_part = part;
+				else if (camel_content_type_is (ct, "text", "html"))
+					html_part = part;
+			}
+
+			if (html_part) {
+				html = itip_view_util_extract_part_content (html_part, FALSE);
+			} else if (text_part) {
+				gchar *content;
+				const gchar *format;
+				guint32 flags =
+					CAMEL_MIME_FILTER_TOHTML_CONVERT_NL |
+					CAMEL_MIME_FILTER_TOHTML_CONVERT_URLS |
+					CAMEL_MIME_FILTER_TOHTML_CONVERT_ADDRESSES;
+
+				if ((format = camel_content_type_param (camel_mime_part_get_content_type (text_part), "format")) &&
+				    !g_ascii_strcasecmp (format, "flowed"))
+					flags |= CAMEL_MIME_FILTER_TOHTML_FORMAT_FLOWED;
+
+				content = itip_view_util_extract_part_content (text_part, TRUE);
+				html = camel_text_to_html (content, flags, 0);
+
+				g_free (content);
+			}
+		}
+	}
+
+	g_clear_object (&parent_part);
+
+	if (html && itip_html_is_empty (html))
+		g_clear_pointer (&html, g_free);
+
+	return html;
+}
+
 void
 itip_view_write (gpointer itip_part_ptr,
 		 EMailFormatter *formatter,
                  GString *buffer)
 {
 	gint icon_width, icon_height;
-	gchar *header = e_mail_formatter_get_html_header (formatter);
+	GSettings *settings;
+	gchar *header;
+	gchar *alternative_html;
 
+	header = e_mail_formatter_get_html_header (formatter);
 	g_string_append (buffer, header);
 	g_free (header);
 
-	if (!gtk_icon_size_lookup (GTK_ICON_SIZE_BUTTON, &icon_width, &icon_height)) {
-		icon_width = 16;
-		icon_height = 16;
+	settings = e_util_ref_settings ("org.gnome.evolution.plugin.itip");
+
+	if (g_settings_get_boolean (settings, "show-message-description"))
+		alternative_html = itip_view_dup_alternative_html (itip_part_ptr);
+	else
+		alternative_html = NULL;
+
+	g_clear_object (&settings);
+
+	if (!alternative_html) {
+		if (!gtk_icon_size_lookup (GTK_ICON_SIZE_BUTTON, &icon_width, &icon_height)) {
+			icon_width = 16;
+			icon_height = 16;
+		}
+
+		g_string_append_printf (
+			buffer,
+			"<img src=\"gtk-stock://%s?size=%d\" class=\"itip icon\" width=\"%dpx\" height=\"%dpx\"/>\n",
+				MEETING_ICON, GTK_ICON_SIZE_BUTTON, icon_width, icon_height);
+
+		g_string_append (
+			buffer,
+			"<div class=\"itip content\" id=\"" DIV_ITIP_CONTENT "\">\n");
+
+		/* The first section listing the sender */
+		/* FIXME What to do if the send and organizer do not match */
+		g_string_append (
+			buffer,
+			"<div id=\"" TEXT_ROW_SENDER "\" class=\"itip sender\"></div>\n");
+
+		g_string_append (buffer, "<hr>\n");
+
+		/* Elementary event information */
+		g_string_append (
+			buffer,
+			"<table class=\"itip table\" border=\"0\" "
+			"cellspacing=\"5\" cellpadding=\"0\">\n");
+
+		append_text_table_row (buffer, TABLE_ROW_SUMMARY, NULL, NULL);
+		append_text_table_row (buffer, TABLE_ROW_LOCATION, _("Location:"), NULL);
+		append_text_table_row (buffer, TABLE_ROW_URL, _("URL:"), NULL);
+		append_text_table_row (buffer, TABLE_ROW_START_DATE, _("Start time:"), NULL);
+		append_text_table_row (buffer, TABLE_ROW_END_DATE, _("End time:"), NULL);
+		append_text_table_row (buffer, TABLE_ROW_DUE_DATE, _("Due date:"), NULL);
+		append_text_table_row (buffer, TABLE_ROW_ESTIMATED_DURATION, _("Estimated duration:"), NULL);
+		append_text_table_row (buffer, TABLE_ROW_STATUS, _("Status:"), NULL);
+		append_text_table_row (buffer, TABLE_ROW_COMMENT, _("Comment:"), NULL);
+		append_text_table_row (buffer, TABLE_ROW_CATEGORIES, _("Categories:"), NULL);
+		append_text_table_row (buffer, TABLE_ROW_ATTENDEES, _("Attendees:"), NULL);
+
+		g_string_append (buffer, "</table>\n");
 	}
-
-	g_string_append_printf (
-		buffer,
-		"<img src=\"gtk-stock://%s?size=%d\" class=\"itip icon\" width=\"%dpx\" height=\"%dpx\"/>\n",
-			MEETING_ICON, GTK_ICON_SIZE_BUTTON, icon_width, icon_height);
-
-	g_string_append (
-		buffer,
-		"<div class=\"itip content\" id=\"" DIV_ITIP_CONTENT "\">\n");
-
-        /* The first section listing the sender */
-        /* FIXME What to do if the send and organizer do not match */
-	g_string_append (
-		buffer,
-		"<div id=\"" TEXT_ROW_SENDER "\" class=\"itip sender\"></div>\n");
-
-	g_string_append (buffer, "<hr>\n");
-
-        /* Elementary event information */
-	g_string_append (
-		buffer,
-		"<table class=\"itip table\" border=\"0\" "
-		"cellspacing=\"5\" cellpadding=\"0\">\n");
-
-	append_text_table_row (buffer, TABLE_ROW_SUMMARY, NULL, NULL);
-	append_text_table_row (buffer, TABLE_ROW_LOCATION, _("Location:"), NULL);
-	append_text_table_row (buffer, TABLE_ROW_URL, _("URL:"), NULL);
-	append_text_table_row (buffer, TABLE_ROW_START_DATE, _("Start time:"), NULL);
-	append_text_table_row (buffer, TABLE_ROW_END_DATE, _("End time:"), NULL);
-	append_text_table_row (buffer, TABLE_ROW_DUE_DATE, _("Due date:"), NULL);
-	append_text_table_row (buffer, TABLE_ROW_ESTIMATED_DURATION, _("Estimated duration:"), NULL);
-	append_text_table_row (buffer, TABLE_ROW_STATUS, _("Status:"), NULL);
-	append_text_table_row (buffer, TABLE_ROW_COMMENT, _("Comment:"), NULL);
-	append_text_table_row (buffer, TABLE_ROW_CATEGORIES, _("Categories:"), NULL);
-	append_text_table_row (buffer, TABLE_ROW_ATTENDEES, _("Attendees:"), NULL);
-
-	g_string_append (buffer, "</table>\n");
 
 	/* Upper Info items */
 	g_string_append (
@@ -1728,10 +1927,14 @@ itip_view_write (gpointer itip_part_ptr,
 		"<table class=\"itip info\" id=\"" TABLE_UPPER_ITIP_INFO "\" border=\"0\" "
 		"cellspacing=\"5\" cellpadding=\"0\">");
 
-        /* Description */
-	g_string_append (
-		buffer,
-		"<div id=\"" TABLE_ROW_DESCRIPTION "\" class=\"itip description\" hidden=\"\"></div>\n");
+	if (alternative_html) {
+		g_string_append (buffer, alternative_html);
+	} else {
+		/* Description */
+		g_string_append (
+			buffer,
+			"<div id=\"" TABLE_ROW_DESCRIPTION "\" class=\"itip description\" hidden=\"\"></div>\n");
+	}
 
 	g_string_append (buffer, "<hr>\n");
 
@@ -1782,12 +1985,14 @@ itip_view_write (gpointer itip_part_ptr,
         /* Buttons table */
 	append_buttons_table (buffer, itip_part_ptr);
 
-        /* <div class="itip content" > */
+	/* <div class="itip content" > */
 	g_string_append (buffer, "</div>\n");
 
 	g_string_append (buffer, "<div class=\"itip error\" id=\"" DIV_ITIP_ERROR "\"></div>");
 
 	g_string_append (buffer, "</body></html>");
+
+	g_free (alternative_html);
 }
 
 void
@@ -6956,4 +7161,51 @@ itip_view_ref_web_view (ItipView *view)
 	g_return_val_if_fail (ITIP_IS_VIEW (view), NULL);
 
 	return g_weak_ref_get (view->priv->web_view_weakref);
+}
+
+gchar *
+itip_view_util_extract_part_content (CamelMimePart *part,
+				     gboolean convert_charset)
+{
+	CamelDataWrapper *dw;
+	CamelStream *stream;
+	GByteArray *byte_array;
+	gchar *content = NULL;
+
+	g_return_val_if_fail (CAMEL_IS_MIME_PART (part), NULL);
+
+	dw = camel_medium_get_content (CAMEL_MEDIUM (part));
+
+	byte_array = g_byte_array_new ();
+	stream = camel_stream_mem_new_with_byte_array (byte_array);
+
+	if (convert_charset) {
+		CamelContentType *ct;
+		const gchar *charset;
+
+		ct = camel_mime_part_get_content_type (part);
+		charset = camel_content_type_param (ct, "charset");
+
+		if (charset && *charset && g_ascii_strcasecmp (charset, "UTF-8") != 0) {
+			CamelStream *filter_stream;
+			CamelMimeFilter *filter;
+
+			filter_stream = camel_stream_filter_new (stream);
+			g_object_unref (stream);
+			stream = filter_stream;
+
+			filter = camel_mime_filter_charset_new (charset, "UTF-8");
+			camel_stream_filter_add (CAMEL_STREAM_FILTER (stream), filter);
+			g_object_unref (filter);
+		}
+	}
+
+	camel_data_wrapper_decode_to_stream_sync (dw, stream, NULL, NULL);
+
+	if (byte_array->len != 0)
+		content = g_strndup ((gchar *) byte_array->data, byte_array->len);
+
+	g_object_unref (stream);
+
+	return content;
 }

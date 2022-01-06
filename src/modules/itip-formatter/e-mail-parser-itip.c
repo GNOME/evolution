@@ -190,33 +190,16 @@ empe_itip_parse (EMailParserExtension *extension,
                  GQueue *out_mail_parts)
 {
 	EMailPartItip *itip_part;
-	CamelDataWrapper *content;
-	CamelStream *stream;
-	GByteArray *byte_array;
-	gint len;
 	const CamelContentDisposition *disposition;
 	GQueue work_queue = G_QUEUE_INIT;
+	gint len;
 
 	len = part_id->len;
 	g_string_append_printf (part_id, ".itip");
 
 	itip_part = e_mail_part_itip_new (part, part_id->str);
 	itip_part->itip_mime_part = g_object_ref (part);
-
-	/* This is non-gui thread. Download the part for using in the main thread */
-	content = camel_medium_get_content ((CamelMedium *) part);
-
-	byte_array = g_byte_array_new ();
-	stream = camel_stream_mem_new_with_byte_array (byte_array);
-	camel_data_wrapper_decode_to_stream_sync (content, stream, NULL, NULL);
-
-	if (byte_array->len == 0)
-		itip_part->vcalendar = NULL;
-	else
-		itip_part->vcalendar = g_strndup (
-			(gchar *) byte_array->data, byte_array->len);
-
-	g_object_unref (stream);
+	itip_part->vcalendar = itip_view_util_extract_part_content (part, FALSE);
 
 	g_queue_push_tail (&work_queue, itip_part);
 

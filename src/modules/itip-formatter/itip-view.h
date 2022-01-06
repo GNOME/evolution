@@ -254,6 +254,10 @@ void		itip_view_set_error		(ItipView *view,
 						 const gchar *error_html,
 						 gboolean show_save_btn);
 
+gchar *		itip_view_util_extract_part_content
+						(CamelMimePart *part,
+						 gboolean convert_charset);
+
 G_END_DECLS
 
 #endif /* ITIP_VIEW_H */
