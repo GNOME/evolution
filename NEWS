@@ -1,3 +1,105 @@
+Evolution 3.43.1 2022-01-07
+---------------------------
+
+Bug Fixes:
+	I#1032 - alarm-notify: Add a way to disable sound notifications
+	I#1373 - itip-view: Offer to show other parts from multipart/alternative
+	I#1555 - EWeekView: Ensure events layout after scroll
+	I#1571 - Broken font settings can break message display
+	I#1586 - ETable: Grouping by column misplaces group content
+	I#1605 - LDAP: Use also set security when searching the root DSE
+	I#1609 - EMinicard: Hide Nickname, when matches Full name
+	I#1611 - ECollectionAccountWizard: Disable mail parts, when no username is provided
+	I#1612 - Display the Categories in the Contact preview
+	I#1613 - Manually typed categories are ignored
+	I#1621 - Prevent IDN homograph attacks
+	I#1623 - EMinicard: Hide fields same as the FileAs
+	I#1637 - EMailAutoconfig: Autoconfig with Exchange accounts
+	I#1639 - Filter messages by condition if sender is in address book
+	I#1640 - prefer-plain: Do not hide attachments
+	I#1645 - Tasks: Support ESTIMATED-DURATION
+	I#1646 - Emoji picker empty
+	I#1649 - Unable to clear search
+	I#1653 - Correct Edit as New Message inside a Search Folder
+	I#1657 - Composer: Correct empty paragraph detection for removal
+	I#1667 - Component Preview: render Attendees with HTTPs-URI as hyperlinks (Дилян Палаузов)
+	I#1672 - ECalModel: Show DTSTAMP, when LAST-MODIFIED is missing (Дилян Палаузов)
+	I#1679 - e-convert.js: Do not re-wrap gmail_quote paragraphs
+	I#1696 - Composer: Consider only accounts, which can send messages
+	I#1697 - e_text_to_html_full: Use large enough buffer for character escape
+	I#1698 - Bundle legacy icons removed from adwaita-icon-theme
+	I#1705 - text-highlight: Add Markdown language
+	I#1708 - Composer: Wrap quoted long words
+	I#1712 - Tasks: Correct overdue calculation for DATE value type
+	I#1714 - Composer: Prefer HTML over image on LibreOffice data paste
+	I#1715 - Calendar: Ensure value type matches for start/end, start/due
+	I#1716 - Mail: Show an error message on Archive when the Archive folder is not set
+	I#1717 - ECalModel: Properly show also UTC times
+	I#1718 - ECompEditorTask: Verify Due date is after the Start date
+	I#1721 - Calendar: Leftover tooltip after event delete
+	I#1722 - itip-formatter: Show Due date and Categories
+	I#1724 - Mail: Improve Archive messages in Search Folders
+	I#1729 - Composer: Forward can lost unreferenced attachments with Content-ID
+	I#1730 - ToDo Bar: Disallow deleting read-only events and tasks
+	I#1747 - ETableColumnSelector: Correct column names' translation (Ivan Chevychelov)
+	I#1749 - ECalComponentPreview: Show component (non-public) classification
+	I#1756 - Mail: Let always available Go To->Previous/Next Unread Message
+	I#1757 - Add icons for mail-smart-backward and mail-smart-forward
+	I#1758 - Calendar: Adapt to libical 3.0.12 change
+	M!93 - Correct various typos (Дилян Палаузов)
+	M!95 - deduplicate terminating ;; in C source code (Дилян Палаузов)
+
+Miscellaneous:
+	GalViewInstanceSaveAsDialog: Do not show the dialog in the init()
+	By_Company.galview: Correct the column index in the grouping part
+	ESrvConfigLookup: Use correct extension name for properties
+	em-format: Format text/markdown with cmark library
+	Use `g_assert_true()` instead of `g_assert()` in the unit tests
+	mail-importer: Ensure Message-ID header on imported message
+	EWebView: Change mouse leave detection code
+	mail-notification: Use different icon name in the notification under Flatpak
+	Misc: Generate appdata <releases/> from the NEWS file
+	Misc: Do not build news-to-appdata executable
+	Misc: Correct typo in fallback appdata attribute name
+	news-to-appdata: Escape text exported to XML
+	flatpak: Update build manifests
+	Calendar: Cannot always remove custom reminder message
+	Composer: Don't show blockquote indicators on both sides for 6th+ level
+	Misc: Do not rely on build flags provided by evolution-data-server
+	cal-config-weather: Bundle WeatherLocationEntry
+	Calendar: Not all task lists included in the task panel
+	Install legacy icons into correct directory
+	EAddressbookModel: Update view on client's capabilities property change
+	Load JavaScript plugins for message preview and WebKit editor
+	icalendar-importer: Can show incorrect time in imported data preview
+	WebDAVNotes: Let the user choose which extension is used for new notes
+	Update list of authors for Help->About->Credits
+	help: Add note about UI element sorting workaround (GN)
+
+Translations:
+	Alan Mortensen (da)
+	Aleksandr Melman (ru)
+	Asier Sarasua Garmendia (eu)
+	Aurimas Černius (lt)
+	Boyuan Yang (zh_CN)
+	Danial Behzadi (fa)
+	Daniel Mustieles (es)
+	Dušan Kazik (sk)
+	Fabio Tomat (fur)
+	Fran Dieguez (gl)
+	Gianvito Cavasoli (it)
+	Goran Vidović (hr)
+	Hugo Carvalho (pt)
+	Jordi Mas i Hernandez (ca)
+	Kristjan SCHMIDT (eo)
+	Kukuh Syafaat (id)
+	Quentin PAGÈS (oc)
+	Rafael Fontenelle (pt_BR)
+	Rūdolfs Mazurs (lv)
+	Yuri Chornoivan (uk)
+	Мирослав Николић (sr)
+	Олеся Герасименко (ru)
+
 Evolution 3.42.0 2021-09-17
 ---------------------------
 
