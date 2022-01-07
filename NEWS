@@ -1,3 +1,17 @@
+Evolution 3.42.3 2022-01-07
+---------------------------
+
+Bug Fixes:
+	I#1571 - Broken font settings can break message display
+	I#1729 - Composer: Forward can lost unreferenced attachments with Content-ID
+	I#1747 - ETableColumnSelector: Correct column names' translation (Ivan Chevychelov)
+	I#1756 - Mail: Let always available Go To->Previous/Next Unread Message
+	I#1757 - Add icons for mail-smart-backward and mail-smart-forward
+	I#1758 - Calendar: Adapt to libical 3.0.12 change
+
+Translations:
+	Gianvito Cavasoli (it)
+
 Evolution 3.42.2 2021-12-03
 ---------------------------
 
