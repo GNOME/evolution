@@ -93,6 +93,15 @@ a.evo-awrap {
   word-break: break-all;
 }
 
+.calpreview th {
+  white-space: nowrap;
+  width: 1%;
+}
+
+.calpreview td {
+  width: 99%;
+}
+
 /**** HEADERS ****/
 
 button.header-collapse {

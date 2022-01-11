@@ -233,7 +233,7 @@ cal_component_preview_write_html (ECalComponentPreview *preview,
 	text = e_cal_component_get_summary (comp);
 
 	g_string_append (buffer, HTML_HEADER);
-	g_string_append (buffer, "<body class=\"-e-web-view-background-color -e-web-view-text-color\">");
+	g_string_append (buffer, "<body class=\"-e-web-view-background-color -e-web-view-text-color calpreview\">");
 
 	markup = g_markup_escape_text (text && e_cal_component_text_get_value (text) ? e_cal_component_text_get_value (text) : _("Untitled"), -1);
 	if (text && e_cal_component_text_get_value (text))
@@ -488,44 +488,6 @@ cal_component_preview_write_html (ECalComponentPreview *preview,
 		g_slist_free_full (attendees, e_cal_component_attendee_free);
 	}
 
-	/* write description and URL */
-	g_string_append (buffer, "<tr><td colspan=\"2\"><hr></td></tr>");
-
-	list = e_cal_component_get_descriptions (comp);
-	if (list) {
-		GSList *node;
-
-		markup = g_markup_escape_text (_("Description:"), -1);
-		g_string_append_printf (buffer, "<tr><th>%s</th>", markup);
-		g_free (markup);
-
-		g_string_append (buffer, "<td class=\"description\">");
-
-		for (node = list; node != NULL; node = node->next) {
-			gchar *html;
-
-			text = node->data;
-			if (!text || !e_cal_component_text_get_value (text))
-				continue;
-
-			html = camel_text_to_html (
-				e_cal_component_text_get_value (text),
-				CAMEL_MIME_FILTER_TOHTML_CONVERT_NL |
-				CAMEL_MIME_FILTER_TOHTML_CONVERT_SPACES |
-				CAMEL_MIME_FILTER_TOHTML_CONVERT_URLS |
-				CAMEL_MIME_FILTER_TOHTML_CONVERT_ADDRESSES, 0);
-
-			if (html)
-				g_string_append_printf (buffer, "%s", html);
-
-			g_free (html);
-		}
-
-		g_string_append (buffer, "</td></tr>");
-
-		g_slist_free_full (list, e_cal_component_text_free);
-	}
-
 	/* URL */
 	url = e_cal_component_get_url (comp);
 	if (url) {
@@ -560,6 +522,48 @@ cal_component_preview_write_html (ECalComponentPreview *preview,
 		g_free (markup);
 		g_free (str);
 		g_free (url);
+	}
+
+	g_string_append (buffer, "<tr><td colspan=\"2\"><hr></td></tr>");
+
+	/* Write description as the last, using full width */
+
+	list = e_cal_component_get_descriptions (comp);
+	if (list) {
+		GSList *node;
+		gboolean has_header = FALSE;
+
+		for (node = list; node != NULL; node = node->next) {
+			gchar *html;
+
+			text = node->data;
+			if (!text || !e_cal_component_text_get_value (text))
+				continue;
+
+			html = camel_text_to_html (
+				e_cal_component_text_get_value (text),
+				CAMEL_MIME_FILTER_TOHTML_CONVERT_NL |
+				CAMEL_MIME_FILTER_TOHTML_CONVERT_SPACES |
+				CAMEL_MIME_FILTER_TOHTML_CONVERT_URLS |
+				CAMEL_MIME_FILTER_TOHTML_CONVERT_ADDRESSES, 0);
+
+			if (html) {
+				if (!has_header) {
+					has_header = TRUE;
+
+					g_string_append (buffer, "<tr><td colspan=\"2\" class=\"description\">");
+				}
+
+				g_string_append_printf (buffer, "%s", html);
+			}
+
+			g_free (html);
+		}
+
+		if (has_header)
+			g_string_append (buffer, "</td></tr>");
+
+		g_slist_free_full (list, e_cal_component_text_free);
 	}
 
 	g_string_append (buffer, "</table>");
