@@ -15,8 +15,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: evolution master\n"
 "Report-Msgid-Bugs-To: https://gitlab.gnome.org/GNOME/evolution/issues\n"
-"POT-Creation-Date: 2022-01-04 11:17+0000\n"
-"PO-Revision-Date: 2022-01-05 09:20+0700\n"
+"POT-Creation-Date: 2022-01-07 11:48+0000\n"
+"PO-Revision-Date: 2022-01-12 11:51+0700\n"
 "Last-Translator: Kukuh Syafaat <kukuhsyafaat@gnome.org>\n"
 "Language-Team: Indonesian <gnome@i15n.org>\n"
 "Language: id\n"
@@ -3054,6 +3054,20 @@ msgid "Whether to preset option to preserve existing reminder by default"
 msgstr ""
 "Apakah akan menetapkan opsi untuk menyimpan pengingat yang ada secara bawaan"
 
+#: ../data/org.gnome.evolution.plugin.itip.gschema.xml.in.h:5
+msgid "Show invitation description provided by the sender"
+msgstr "Tampilkan deskripsi undangan yang disediakan oleh pengirim"
+
+#: ../data/org.gnome.evolution.plugin.itip.gschema.xml.in.h:6
+msgid ""
+"Set to true to show invitation description as provided by the sender, if "
+"such is available; otherwise generate the invitation description from the "
+"iCalendar component"
+msgstr ""
+"Atur ke true untuk menampilkan deskripsi undangan seperti yang disediakan "
+"oleh pengirim, jika tersedia; jika tidak, buat deskripsi undangan dari "
+"komponen iCalendar"
+
 #: ../data/org.gnome.evolution.plugin.mail-notification.gschema.xml.in.h:1
 msgid "Notify new messages for Inbox only."
 msgstr "Beritahukan pesan baru hanya bagi Inbox."
@@ -4390,7 +4404,7 @@ msgstr "_Halaman Utama:"
 
 #: ../src/addressbook/gui/contact-editor/contact-editor.ui.h:30
 #: ../src/calendar/gui/e-comp-editor-event.c:881
-#: ../src/modules/itip-formatter/itip-view.c:2004
+#: ../src/modules/itip-formatter/itip-view.c:2209
 msgid "_Calendar:"
 msgstr "_Kalender:"
 
@@ -6733,7 +6747,7 @@ msgid "Description Contains"
 msgstr "Deskripsi berisi"
 
 #: ../src/calendar/gui/comp-util.c:1553
-#: ../src/modules/itip-formatter/itip-view.c:2417
+#: ../src/modules/itip-formatter/itip-view.c:2622
 #, c-format
 msgid "with one guest"
 msgid_plural "with %d guests"
@@ -7015,15 +7029,15 @@ msgid "Untitled"
 msgstr "Tak ada judul"
 
 #: ../src/calendar/gui/e-cal-component-preview.c:252
-#: ../src/modules/itip-formatter/itip-view.c:1720
-#: ../src/modules/itip-formatter/itip-view.c:1852
+#: ../src/modules/itip-formatter/itip-view.c:1918
+#: ../src/modules/itip-formatter/itip-view.c:2057
 msgid "Categories:"
 msgstr "Kategori:"
 
 #: ../src/calendar/gui/e-cal-component-preview.c:289
 #: ../src/modules/cal-config-weather/evolution-cal-config-weather.c:282
-#: ../src/modules/itip-formatter/itip-view.c:1712
-#: ../src/modules/itip-formatter/itip-view.c:1828
+#: ../src/modules/itip-formatter/itip-view.c:1910
+#: ../src/modules/itip-formatter/itip-view.c:2033
 msgid "Location:"
 msgstr "Lokasi:"
 
@@ -7040,8 +7054,8 @@ msgid "Due Date:"
 msgstr "Tanggal Tenggat:"
 
 #: ../src/calendar/gui/e-cal-component-preview.c:333
-#: ../src/modules/itip-formatter/itip-view.c:1717
-#: ../src/modules/itip-formatter/itip-view.c:1843
+#: ../src/modules/itip-formatter/itip-view.c:1915
+#: ../src/modules/itip-formatter/itip-view.c:2048
 msgid "Estimated duration:"
 msgstr "Perkiraan durasi:"
 
@@ -7050,8 +7064,8 @@ msgid "Recurs:"
 msgstr "Berulang:"
 
 #: ../src/calendar/gui/e-cal-component-preview.c:361
-#: ../src/modules/itip-formatter/itip-view.c:1718
-#: ../src/modules/itip-formatter/itip-view.c:1846
+#: ../src/modules/itip-formatter/itip-view.c:1916
+#: ../src/modules/itip-formatter/itip-view.c:2051
 msgid "Status:"
 msgstr "Status:"
 
@@ -7090,8 +7104,8 @@ msgid "Organizer:"
 msgstr "Penyelenggara:"
 
 #: ../src/calendar/gui/e-cal-component-preview.c:449
-#: ../src/modules/itip-formatter/itip-view.c:1721
-#: ../src/modules/itip-formatter/itip-view.c:1855
+#: ../src/modules/itip-formatter/itip-view.c:1919
+#: ../src/modules/itip-formatter/itip-view.c:2060
 msgid "Attendees:"
 msgstr "Peserta:"
 
@@ -7471,8 +7485,8 @@ msgstr "Tipe"
 #: ../src/calendar/gui/e-meeting-store.c:170
 #: ../src/calendar/gui/e-meeting-store.c:215 ../src/calendar/gui/print.c:1265
 #: ../src/calendar/gui/print.c:1282 ../src/e-util/e-charset.c:49
-#: ../src/modules/itip-formatter/itip-view.c:3529
-#: ../src/modules/itip-formatter/itip-view.c:6521
+#: ../src/modules/itip-formatter/itip-view.c:3734
+#: ../src/modules/itip-formatter/itip-view.c:6726
 #: ../src/modules/plugin-manager/evolution-plugin-manager.c:97
 msgid "Unknown"
 msgstr "Tidak dikenal"
@@ -7521,7 +7535,7 @@ msgstr "Tidak ada"
 #: ../src/calendar/gui/e-meeting-list-view.c:205
 #: ../src/calendar/gui/e-meeting-store.c:179
 #: ../src/calendar/gui/e-meeting-store.c:202
-#: ../src/modules/itip-formatter/itip-view.c:6509
+#: ../src/modules/itip-formatter/itip-view.c:6714
 msgid "Accepted"
 msgstr "Diterima"
 
@@ -7529,7 +7543,7 @@ msgstr "Diterima"
 #: ../src/calendar/gui/e-meeting-list-view.c:206
 #: ../src/calendar/gui/e-meeting-store.c:181
 #: ../src/calendar/gui/e-meeting-store.c:204
-#: ../src/modules/itip-formatter/itip-view.c:6515
+#: ../src/modules/itip-formatter/itip-view.c:6720
 msgid "Declined"
 msgstr "Ditolak"
 
@@ -7545,7 +7559,7 @@ msgstr "Sementara"
 #: ../src/calendar/gui/e-meeting-list-view.c:208
 #: ../src/calendar/gui/e-meeting-store.c:185
 #: ../src/calendar/gui/e-meeting-store.c:208
-#: ../src/modules/itip-formatter/itip-view.c:6518
+#: ../src/modules/itip-formatter/itip-view.c:6723
 msgid "Delegated"
 msgstr "Terdelegasi"
 
@@ -9432,14 +9446,14 @@ msgstr "Selesai: %s"
 #: ../src/calendar/gui/e-to-do-pane.c:1589 ../src/e-util/e-cell-date-edit.c:338
 #: ../src/e-util/e-datetime-format.c:207
 #: ../src/modules/calendar/e-cal-shell-view-actions.c:1966
-#: ../src/modules/itip-formatter/itip-view.c:265
+#: ../src/modules/itip-formatter/itip-view.c:268
 msgid "Today"
 msgstr "Hari ini"
 
 #. strftime format of a weekday and a date.
 #: ../src/calendar/gui/e-to-do-pane.c:1591
 #: ../src/e-util/e-datetime-format.c:218
-#: ../src/modules/itip-formatter/itip-view.c:293
+#: ../src/modules/itip-formatter/itip-view.c:296
 msgid "Tomorrow"
 msgstr "Besok"
 
@@ -21486,7 +21500,7 @@ msgstr "Membuat daftar pesan"
 #. strftime format of a time,
 #. * in 12-hour format, without seconds.
 #: ../src/mail/message-list.c:2189
-#: ../src/modules/itip-formatter/itip-view.c:279
+#: ../src/modules/itip-formatter/itip-view.c:282
 msgid "Today %l:%M %p"
 msgstr "Hari ini %l:%M %p"
 
@@ -22338,8 +22352,8 @@ msgstr "Pilih Buku Alamat"
 #: ../src/modules/cal-config-webcal/evolution-cal-config-webcal.c:165
 #: ../src/modules/cal-config-webdav-notes/evolution-cal-config-webdav-notes.c:302
 #: ../src/modules/cal-config-webdav-notes/evolution-cal-config-webdav-notes.c:323
-#: ../src/modules/itip-formatter/itip-view.c:1713
-#: ../src/modules/itip-formatter/itip-view.c:1831
+#: ../src/modules/itip-formatter/itip-view.c:1911
+#: ../src/modules/itip-formatter/itip-view.c:2036
 msgid "URL:"
 msgstr "URL:"
 
@@ -22770,21 +22784,25 @@ msgstr "_Hapus pesan setelah beraksi"
 msgid "_Preserve existing reminder by default"
 msgstr "Lestarikan _pengingat yang ada secara bawaan"
 
-#: ../src/modules/calendar/e-calendar-preferences.c:660
-#: ../src/modules/calendar/e-calendar-preferences.c:691
+#: ../src/modules/calendar/e-calendar-preferences.c:653
+msgid "_Show invitation description provided by the sender"
+msgstr "Tampilkan de_skripsi undangan yang diberikan oleh pengirim"
+
+#: ../src/modules/calendar/e-calendar-preferences.c:667
+#: ../src/modules/calendar/e-calendar-preferences.c:698
 msgid "Conflict Search"
 msgstr "Pencarian Bermasalah"
 
 #. Source selector
-#: ../src/modules/calendar/e-calendar-preferences.c:675
+#: ../src/modules/calendar/e-calendar-preferences.c:682
 msgid "Select the calendars to search for meeting conflicts"
 msgstr "Cari adanya jadwal pertemuan yang bentrok pada kalender"
 
-#: ../src/modules/calendar/e-calendar-preferences.c:1134
+#: ../src/modules/calendar/e-calendar-preferences.c:1141
 msgid "Ti_me and date:"
 msgstr "_Waktu dan tanggal:"
 
-#: ../src/modules/calendar/e-calendar-preferences.c:1135
+#: ../src/modules/calendar/e-calendar-preferences.c:1142
 msgid "_Date only:"
 msgstr "_Hanya tanggal:"
 
@@ -23371,7 +23389,7 @@ msgid "Accept meeting request for selected instance only"
 msgstr "Terima permintaan rapat hanya untuk instance yang dipilih"
 
 #: ../src/modules/calendar/e-cal-shell-view-actions.c:1516
-#: ../src/modules/itip-formatter/itip-view.c:1263
+#: ../src/modules/itip-formatter/itip-view.c:1266
 msgid "_Decline"
 msgstr "_Tolak"
 
@@ -24073,290 +24091,290 @@ msgstr "Tampilkan bagian sebagai undangan"
 
 #. strftime format of a time,
 #. * in 24-hour format, without seconds.
-#: ../src/modules/itip-formatter/itip-view.c:270
+#: ../src/modules/itip-formatter/itip-view.c:273
 msgid "Today %H:%M"
 msgstr "Hari ini %H:%M"
 
 #. strftime format of a time,
 #. * in 24-hour format.
-#: ../src/modules/itip-formatter/itip-view.c:274
+#: ../src/modules/itip-formatter/itip-view.c:277
 msgid "Today %H:%M:%S"
 msgstr "Hari ini %H:%M:%S"
 
 #. strftime format of a time,
 #. * in 12-hour format.
-#: ../src/modules/itip-formatter/itip-view.c:283
+#: ../src/modules/itip-formatter/itip-view.c:286
 msgid "Today %l:%M:%S %p"
 msgstr "Hari ini %l:%M:%S %p"
 
 #. strftime format of a time,
 #. * in 24-hour format, without seconds.
-#: ../src/modules/itip-formatter/itip-view.c:298
+#: ../src/modules/itip-formatter/itip-view.c:301
 msgid "Tomorrow %H:%M"
 msgstr "Besok %H:%M"
 
 #. strftime format of a time,
 #. * in 24-hour format.
-#: ../src/modules/itip-formatter/itip-view.c:302
+#: ../src/modules/itip-formatter/itip-view.c:305
 msgid "Tomorrow %H:%M:%S"
 msgstr "Besok %H:%M:%S"
 
 #. strftime format of a time,
 #. * in 12-hour format, without seconds.
-#: ../src/modules/itip-formatter/itip-view.c:307
+#: ../src/modules/itip-formatter/itip-view.c:310
 msgid "Tomorrow %l:%M %p"
 msgstr "Besok %l:%M %p"
 
 #. strftime format of a time,
 #. * in 12-hour format.
-#: ../src/modules/itip-formatter/itip-view.c:311
+#: ../src/modules/itip-formatter/itip-view.c:314
 msgid "Tomorrow %l:%M:%S %p"
 msgstr "Besok %l:%M:%S %p"
 
 #. strftime format of a weekday.
-#: ../src/modules/itip-formatter/itip-view.c:330
+#: ../src/modules/itip-formatter/itip-view.c:333
 #, c-format
 msgid "%A"
 msgstr "%A"
 
 #. strftime format of a weekday and a
 #. * time, in 24-hour format, without seconds.
-#: ../src/modules/itip-formatter/itip-view.c:335
+#: ../src/modules/itip-formatter/itip-view.c:338
 msgid "%A %H:%M"
 msgstr "%A %H:%M"
 
 #. strftime format of a weekday and a
 #. * time, in 24-hour format.
-#: ../src/modules/itip-formatter/itip-view.c:339
+#: ../src/modules/itip-formatter/itip-view.c:342
 msgid "%A %H:%M:%S"
 msgstr "%A %H:%M:%S"
 
 #. strftime format of a weekday and a
 #. * time, in 12-hour format, without seconds.
-#: ../src/modules/itip-formatter/itip-view.c:344
+#: ../src/modules/itip-formatter/itip-view.c:347
 msgid "%A %l:%M %p"
 msgstr "%A %l:%M %p"
 
 #. strftime format of a weekday and a
 #. * time, in 12-hour format.
-#: ../src/modules/itip-formatter/itip-view.c:348
+#: ../src/modules/itip-formatter/itip-view.c:351
 msgid "%A %l:%M:%S %p"
 msgstr "%A %l:%M:%S %p"
 
 #. strftime format of a weekday and a date
 #. * without a year.
-#: ../src/modules/itip-formatter/itip-view.c:359
+#: ../src/modules/itip-formatter/itip-view.c:362
 msgid "%A, %B %e"
 msgstr "%A, %B %e"
 
 #. strftime format of a weekday, a date
 #. * without a year and a time,
 #. * in 24-hour format, without seconds.
-#: ../src/modules/itip-formatter/itip-view.c:365
+#: ../src/modules/itip-formatter/itip-view.c:368
 msgid "%A, %B %e %H:%M"
 msgstr "%A, %B %e %H:%M"
 
 #. strftime format of a weekday, a date without a year
 #. * and a time, in 24-hour format.
-#: ../src/modules/itip-formatter/itip-view.c:369
+#: ../src/modules/itip-formatter/itip-view.c:372
 msgid "%A, %B %e %H:%M:%S"
 msgstr "%A, %B %e %H:%M:%S"
 
 #. strftime format of a weekday, a date without a year
 #. * and a time, in 12-hour format, without seconds.
-#: ../src/modules/itip-formatter/itip-view.c:374
+#: ../src/modules/itip-formatter/itip-view.c:377
 msgid "%A, %B %e %l:%M %p"
 msgstr "%A, %B %e %l:%M %p"
 
 #. strftime format of a weekday, a date without a year
 #. * and a time, in 12-hour format.
-#: ../src/modules/itip-formatter/itip-view.c:378
+#: ../src/modules/itip-formatter/itip-view.c:381
 msgid "%A, %B %e %l:%M:%S %p"
 msgstr "%A, %B %e %l:%M:%S %p"
 
 #. strftime format of a weekday and a date.
-#: ../src/modules/itip-formatter/itip-view.c:386
+#: ../src/modules/itip-formatter/itip-view.c:389
 msgid "%A, %B %e, %Y"
 msgstr "%A, %B %e, %Y"
 
 #. strftime format of a weekday, a date and a
 #. * time, in 24-hour format, without seconds.
-#: ../src/modules/itip-formatter/itip-view.c:391
+#: ../src/modules/itip-formatter/itip-view.c:394
 msgid "%A, %B %e, %Y %H:%M"
 msgstr "%A, %B %e, %Y %H:%M"
 
 #. strftime format of a weekday, a date and a
 #. * time, in 24-hour format.
-#: ../src/modules/itip-formatter/itip-view.c:395
+#: ../src/modules/itip-formatter/itip-view.c:398
 msgid "%A, %B %e, %Y %H:%M:%S"
 msgstr "%A, %B %e, %Y %H:%M:%S"
 
 #. strftime format of a weekday, a date and a
 #. * time, in 12-hour format, without seconds.
-#: ../src/modules/itip-formatter/itip-view.c:400
+#: ../src/modules/itip-formatter/itip-view.c:403
 msgid "%A, %B %e, %Y %l:%M %p"
 msgstr "%A, %B %e, %Y %l:%M %p"
 
 #. strftime format of a weekday, a date and a
 #. * time, in 12-hour format.
-#: ../src/modules/itip-formatter/itip-view.c:404
+#: ../src/modules/itip-formatter/itip-view.c:407
 msgid "%A, %B %e, %Y %l:%M:%S %p"
 msgstr "%A, %B %e, %Y %l:%M:%S %p"
 
 #. Translators: The first '%s' is replaced with an abbreviated date/time of an appointment start or end, like "Tomorrow" or "Tomorrow 10:30";
 #. the second '%s' is replaced with the actual date, to know what the 'Tomorrow' means. What the date looks like depends on the user settings.
 #. Example: 'Tomorrow 10:30 (20.2.2020)'
-#: ../src/modules/itip-formatter/itip-view.c:431
+#: ../src/modules/itip-formatter/itip-view.c:434
 #, c-format
 msgctxt "cal-itip"
 msgid "%s (%s)"
 msgstr "%s (%s)"
 
-#: ../src/modules/itip-formatter/itip-view.c:469
-#: ../src/modules/itip-formatter/itip-view.c:470
-#: ../src/modules/itip-formatter/itip-view.c:559
-#: ../src/modules/itip-formatter/itip-view.c:560
-#: ../src/modules/itip-formatter/itip-view.c:649
+#: ../src/modules/itip-formatter/itip-view.c:472
+#: ../src/modules/itip-formatter/itip-view.c:473
+#: ../src/modules/itip-formatter/itip-view.c:562
+#: ../src/modules/itip-formatter/itip-view.c:563
+#: ../src/modules/itip-formatter/itip-view.c:652
 msgid "An unknown person"
 msgstr "Orang tidak dikenal"
 
-#: ../src/modules/itip-formatter/itip-view.c:474
-#: ../src/modules/itip-formatter/itip-view.c:564
-#: ../src/modules/itip-formatter/itip-view.c:653
+#: ../src/modules/itip-formatter/itip-view.c:477
+#: ../src/modules/itip-formatter/itip-view.c:567
+#: ../src/modules/itip-formatter/itip-view.c:656
 #, c-format
 msgid "Please respond on behalf of %s"
 msgstr "Mohon merespon atas nama %s"
 
-#: ../src/modules/itip-formatter/itip-view.c:476
-#: ../src/modules/itip-formatter/itip-view.c:566
-#: ../src/modules/itip-formatter/itip-view.c:655
+#: ../src/modules/itip-formatter/itip-view.c:479
+#: ../src/modules/itip-formatter/itip-view.c:569
+#: ../src/modules/itip-formatter/itip-view.c:658
 #, c-format
 msgid "Received on behalf of %s"
 msgstr "Diterima atas nama %s"
 
-#: ../src/modules/itip-formatter/itip-view.c:481
+#: ../src/modules/itip-formatter/itip-view.c:484
 #, c-format
 msgid "%s through %s has published the following meeting information:"
 msgstr "%s melalui %s telah menerbitkan informasi rapat berikut:"
 
-#: ../src/modules/itip-formatter/itip-view.c:483
+#: ../src/modules/itip-formatter/itip-view.c:486
 #, c-format
 msgid "%s has published the following meeting information:"
 msgstr "%s telah menerbitkan informasi rapat berikut:"
 
-#: ../src/modules/itip-formatter/itip-view.c:488
+#: ../src/modules/itip-formatter/itip-view.c:491
 #, c-format
 msgid "%s has delegated the following meeting to you:"
 msgstr "%s telah mendelegasikan rapat berikut kepada Anda:"
 
-#: ../src/modules/itip-formatter/itip-view.c:491
+#: ../src/modules/itip-formatter/itip-view.c:494
 #, c-format
 msgid "%s through %s requests your presence at the following meeting:"
 msgstr "%s melalui %s meminta kehadiran Anda para rapat berikut:"
 
-#: ../src/modules/itip-formatter/itip-view.c:493
+#: ../src/modules/itip-formatter/itip-view.c:496
 #, c-format
 msgid "%s requests your presence at the following meeting:"
 msgstr "%s meminta kehadiran Anda pada rapat berikut:"
 
-#: ../src/modules/itip-formatter/itip-view.c:499
+#: ../src/modules/itip-formatter/itip-view.c:502
 #, c-format
 msgid "%s through %s wishes to add to an existing meeting:"
 msgstr "%s melalui %s berharap menambah ke rapat yang ada:"
 
-#: ../src/modules/itip-formatter/itip-view.c:501
+#: ../src/modules/itip-formatter/itip-view.c:504
 #, c-format
 msgid "%s wishes to add to an existing meeting:"
 msgstr "%s berharap menambah ke rapat yang ada:"
 
-#: ../src/modules/itip-formatter/itip-view.c:505
+#: ../src/modules/itip-formatter/itip-view.c:508
 #, c-format
 msgid ""
 "%s through %s wishes to receive the latest information for the following "
 "meeting:"
 msgstr "%s melalui %s berharap menerima informasi terakhir bagi rapat berikut:"
 
-#: ../src/modules/itip-formatter/itip-view.c:507
+#: ../src/modules/itip-formatter/itip-view.c:510
 #, c-format
 msgid "%s wishes to receive the latest information for the following meeting:"
 msgstr "%s berharap menerima informasi terakhir bagi rapat berikut:"
 
-#: ../src/modules/itip-formatter/itip-view.c:511
+#: ../src/modules/itip-formatter/itip-view.c:514
 #, c-format
 msgid "%s through %s has sent back the following meeting response:"
 msgstr "%s melalui %s telah mengirim balik respon rapat berikit:"
 
-#: ../src/modules/itip-formatter/itip-view.c:513
+#: ../src/modules/itip-formatter/itip-view.c:516
 #, c-format
 msgid "%s has sent back the following meeting response:"
 msgstr "%s telah mengirim balik respon rapat berikit:"
 
-#: ../src/modules/itip-formatter/itip-view.c:517
+#: ../src/modules/itip-formatter/itip-view.c:520
 #, c-format
 msgid "%s through %s has cancelled the following meeting:"
 msgstr "%s melalui %s telah membatalkan rapat berikut:"
 
-#: ../src/modules/itip-formatter/itip-view.c:519
+#: ../src/modules/itip-formatter/itip-view.c:522
 #, c-format
 msgid "%s has cancelled the following meeting:"
 msgstr "%s telah membatalkan rapat berikut:"
 
-#: ../src/modules/itip-formatter/itip-view.c:523
+#: ../src/modules/itip-formatter/itip-view.c:526
 #, c-format
 msgid "%s through %s has proposed the following meeting changes."
 msgstr "%s melalui %s telah mengusulkan perubahan rapat berikut."
 
-#: ../src/modules/itip-formatter/itip-view.c:525
+#: ../src/modules/itip-formatter/itip-view.c:528
 #, c-format
 msgid "%s has proposed the following meeting changes:"
 msgstr "%s telah mengusulkan perubahan berikut pada rapat:"
 
-#: ../src/modules/itip-formatter/itip-view.c:529
+#: ../src/modules/itip-formatter/itip-view.c:532
 #, c-format
 msgid "%s through %s has declined the following meeting changes:"
 msgstr "%s melalui %s telah menolak perubahan rapat berikut:"
 
-#: ../src/modules/itip-formatter/itip-view.c:531
+#: ../src/modules/itip-formatter/itip-view.c:534
 #, c-format
 msgid "%s has declined the following meeting changes:"
 msgstr "%s telah menolak perubahan berikut pada rapat:"
 
-#: ../src/modules/itip-formatter/itip-view.c:571
+#: ../src/modules/itip-formatter/itip-view.c:574
 #, c-format
 msgid "%s through %s has published the following task:"
 msgstr "%s melalui %s telah menerbitkan tugas berikut:"
 
-#: ../src/modules/itip-formatter/itip-view.c:573
+#: ../src/modules/itip-formatter/itip-view.c:576
 #, c-format
 msgid "%s has published the following task:"
 msgstr "%s telah menerbitkan tugas berikut:"
 
-#: ../src/modules/itip-formatter/itip-view.c:578
+#: ../src/modules/itip-formatter/itip-view.c:581
 #, c-format
 msgid "%s requests the assignment of %s to the following task:"
 msgstr "%s meminta ditugaskannya %s ke tugas berikut:"
 
-#: ../src/modules/itip-formatter/itip-view.c:581
+#: ../src/modules/itip-formatter/itip-view.c:584
 #, c-format
 msgid "%s through %s has assigned you a task:"
 msgstr "%s melalui %s telah memberi Anda tugas:"
 
-#: ../src/modules/itip-formatter/itip-view.c:583
+#: ../src/modules/itip-formatter/itip-view.c:586
 #, c-format
 msgid "%s has assigned you a task:"
 msgstr "%s telah memberi Anda tugas:"
 
-#: ../src/modules/itip-formatter/itip-view.c:589
+#: ../src/modules/itip-formatter/itip-view.c:592
 #, c-format
 msgid "%s through %s wishes to add to an existing task:"
 msgstr "%s melalui %s berharap menambah ke tugas yang ada:"
 
-#: ../src/modules/itip-formatter/itip-view.c:591
+#: ../src/modules/itip-formatter/itip-view.c:594
 #, c-format
 msgid "%s wishes to add to an existing task:"
 msgstr "%s berharap menambah ke tugas yang telah ada:"
 
-#: ../src/modules/itip-formatter/itip-view.c:595
+#: ../src/modules/itip-formatter/itip-view.c:598
 #, c-format
 msgid ""
 "%s through %s wishes to receive the latest information for the following "
@@ -24364,213 +24382,213 @@ msgid ""
 msgstr ""
 "%s melalui %s berharap menerima informasi terakhir untuk penugasan berikut:"
 
-#: ../src/modules/itip-formatter/itip-view.c:597
+#: ../src/modules/itip-formatter/itip-view.c:600
 #, c-format
 msgid ""
 "%s wishes to receive the latest information for the following assigned task:"
 msgstr "%s berharap menerima informasi terakhir untuk penugasan berikut:"
 
-#: ../src/modules/itip-formatter/itip-view.c:601
+#: ../src/modules/itip-formatter/itip-view.c:604
 #, c-format
 msgid "%s through %s has sent back the following assigned task response:"
 msgstr "%s melalui %s telah mengirim balik respon penugasan berikut:"
 
-#: ../src/modules/itip-formatter/itip-view.c:603
+#: ../src/modules/itip-formatter/itip-view.c:606
 #, c-format
 msgid "%s has sent back the following assigned task response:"
 msgstr "%s telah mengirim balik respon penugasan berikut:"
 
-#: ../src/modules/itip-formatter/itip-view.c:607
+#: ../src/modules/itip-formatter/itip-view.c:610
 #, c-format
 msgid "%s through %s has cancelled the following assigned task:"
 msgstr "%s melalui %s telah membatalkan penugasan berikut:"
 
-#: ../src/modules/itip-formatter/itip-view.c:609
+#: ../src/modules/itip-formatter/itip-view.c:612
 #, c-format
 msgid "%s has cancelled the following assigned task:"
 msgstr "%s telah membatalkan penugasan berikut:"
 
-#: ../src/modules/itip-formatter/itip-view.c:613
+#: ../src/modules/itip-formatter/itip-view.c:616
 #, c-format
 msgid "%s through %s has proposed the following task assignment changes:"
 msgstr "%s melalui %s telah mengusulkan perubahan penugasan berikut:"
 
-#: ../src/modules/itip-formatter/itip-view.c:615
+#: ../src/modules/itip-formatter/itip-view.c:618
 #, c-format
 msgid "%s has proposed the following task assignment changes:"
 msgstr "%s telah mengusulkan perubahan penugasan berikut:"
 
-#: ../src/modules/itip-formatter/itip-view.c:619
+#: ../src/modules/itip-formatter/itip-view.c:622
 #, c-format
 msgid "%s through %s has declined the following assigned task:"
 msgstr "%s melalui %s telah menolak penugasan berikut:"
 
-#: ../src/modules/itip-formatter/itip-view.c:621
+#: ../src/modules/itip-formatter/itip-view.c:624
 #, c-format
 msgid "%s has declined the following assigned task:"
 msgstr "%s telah menolak penugasan berikut:"
 
-#: ../src/modules/itip-formatter/itip-view.c:660
+#: ../src/modules/itip-formatter/itip-view.c:663
 #, c-format
 msgid "%s through %s has published the following memo:"
 msgstr "%s melalui %s telah menerbitkan memo berikut:"
 
-#: ../src/modules/itip-formatter/itip-view.c:662
+#: ../src/modules/itip-formatter/itip-view.c:665
 #, c-format
 msgid "%s has published the following memo:"
 msgstr "%s telah menerbitkan memo berikut:"
 
-#: ../src/modules/itip-formatter/itip-view.c:667
+#: ../src/modules/itip-formatter/itip-view.c:670
 #, c-format
 msgid "%s through %s wishes to add to an existing memo:"
 msgstr "%s melalui %s berharap menambah ke memo yang ada:"
 
-#: ../src/modules/itip-formatter/itip-view.c:669
+#: ../src/modules/itip-formatter/itip-view.c:672
 #, c-format
 msgid "%s wishes to add to an existing memo:"
 msgstr "%s berharap menambah ke memo yang ada:"
 
-#: ../src/modules/itip-formatter/itip-view.c:673
+#: ../src/modules/itip-formatter/itip-view.c:676
 #, c-format
 msgid "%s through %s has cancelled the following shared memo:"
 msgstr "%s melalui %s telah membatalkan memo bersama berikut:"
 
-#: ../src/modules/itip-formatter/itip-view.c:675
+#: ../src/modules/itip-formatter/itip-view.c:678
 #, c-format
 msgid "%s has cancelled the following shared memo:"
 msgstr "%s telah membatalkan memo bersama berikut:"
 
-#: ../src/modules/itip-formatter/itip-view.c:866
+#: ../src/modules/itip-formatter/itip-view.c:869
 msgid "All day:"
 msgstr "Seharian:"
 
-#: ../src/modules/itip-formatter/itip-view.c:872
+#: ../src/modules/itip-formatter/itip-view.c:875
 msgid "Start day:"
 msgstr "Tanggal mulai:"
 
-#: ../src/modules/itip-formatter/itip-view.c:872
-#: ../src/modules/itip-formatter/itip-view.c:1714
+#: ../src/modules/itip-formatter/itip-view.c:875
+#: ../src/modules/itip-formatter/itip-view.c:1912
 msgid "Start time:"
 msgstr "Waktu mulai:"
 
-#: ../src/modules/itip-formatter/itip-view.c:881
+#: ../src/modules/itip-formatter/itip-view.c:884
 msgid "End day:"
 msgstr "Tanggal akhir:"
 
-#: ../src/modules/itip-formatter/itip-view.c:881
-#: ../src/modules/itip-formatter/itip-view.c:1715
+#: ../src/modules/itip-formatter/itip-view.c:884
+#: ../src/modules/itip-formatter/itip-view.c:1913
 msgid "End time:"
 msgstr "Waktu berakhir:"
 
-#: ../src/modules/itip-formatter/itip-view.c:1257
+#: ../src/modules/itip-formatter/itip-view.c:1260
 msgid "Ope_n Calendar"
 msgstr "Buka Kale_nder"
 
-#: ../src/modules/itip-formatter/itip-view.c:1260
+#: ../src/modules/itip-formatter/itip-view.c:1263
 msgid "_Decline all"
 msgstr "Tolak _semua"
 
-#: ../src/modules/itip-formatter/itip-view.c:1266
+#: ../src/modules/itip-formatter/itip-view.c:1269
 msgid "_Tentative all"
 msgstr "Semen_tara smua"
 
-#: ../src/modules/itip-formatter/itip-view.c:1269
+#: ../src/modules/itip-formatter/itip-view.c:1272
 msgid "_Tentative"
 msgstr "Semen_tara"
 
-#: ../src/modules/itip-formatter/itip-view.c:1272
+#: ../src/modules/itip-formatter/itip-view.c:1275
 msgid "Acce_pt all"
 msgstr "_Terima semua"
 
-#: ../src/modules/itip-formatter/itip-view.c:1275
+#: ../src/modules/itip-formatter/itip-view.c:1278
 msgid "Acce_pt"
 msgstr "_Terima"
 
-#: ../src/modules/itip-formatter/itip-view.c:1278
+#: ../src/modules/itip-formatter/itip-view.c:1281
 msgid "Send _Information"
 msgstr "Kirim _Informasi"
 
-#: ../src/modules/itip-formatter/itip-view.c:1281
+#: ../src/modules/itip-formatter/itip-view.c:1284
 msgid "_Update Attendee Status"
 msgstr "Perbar_ui Status Responden"
 
-#: ../src/modules/itip-formatter/itip-view.c:1284
+#: ../src/modules/itip-formatter/itip-view.c:1287
 #: ../src/smime/gui/certificate-manager.c:1659
 msgid "_Update"
 msgstr "Pembar_uan"
 
-#: ../src/modules/itip-formatter/itip-view.c:1716
-#: ../src/modules/itip-formatter/itip-view.c:1840
-#: ../src/modules/itip-formatter/itip-view.c:6788
+#: ../src/modules/itip-formatter/itip-view.c:1914
+#: ../src/modules/itip-formatter/itip-view.c:2045
+#: ../src/modules/itip-formatter/itip-view.c:6993
 msgid "Due date:"
 msgstr "Tanggal tenggat:"
 
-#: ../src/modules/itip-formatter/itip-view.c:1719
-#: ../src/modules/itip-formatter/itip-view.c:1769
-#: ../src/modules/itip-formatter/itip-view.c:1849
+#: ../src/modules/itip-formatter/itip-view.c:1917
+#: ../src/modules/itip-formatter/itip-view.c:1972
+#: ../src/modules/itip-formatter/itip-view.c:2054
 msgid "Comment:"
 msgstr "Komentar:"
 
 #. RSVP area
-#: ../src/modules/itip-formatter/itip-view.c:1757
+#: ../src/modules/itip-formatter/itip-view.c:1960
 msgid "Send reply to sender"
 msgstr "Balas ke pengirim"
 
 #. Updates
-#: ../src/modules/itip-formatter/itip-view.c:1772
+#: ../src/modules/itip-formatter/itip-view.c:1975
 msgid "Send _updates to attendees"
 msgstr "Kirim pembar_uan ke peserta"
 
 #. The recurrence check button
-#: ../src/modules/itip-formatter/itip-view.c:1775
+#: ../src/modules/itip-formatter/itip-view.c:1978
 msgid "_Apply to all instances"
 msgstr "Ter_apkan keseluruh instance"
 
-#: ../src/modules/itip-formatter/itip-view.c:1776
+#: ../src/modules/itip-formatter/itip-view.c:1979
 msgid "Show time as _free"
 msgstr "Tampilkan waktu sebagai _bebas"
 
-#: ../src/modules/itip-formatter/itip-view.c:1777
+#: ../src/modules/itip-formatter/itip-view.c:1980
 msgid "_Preserve my reminder"
 msgstr "Lestarikan _pengingat saya"
 
-#: ../src/modules/itip-formatter/itip-view.c:1778
+#: ../src/modules/itip-formatter/itip-view.c:1981
 msgid "_Inherit reminder"
 msgstr "_Inherit reminder"
 
-#: ../src/modules/itip-formatter/itip-view.c:2007
+#: ../src/modules/itip-formatter/itip-view.c:2212
 msgid "_Tasks:"
 msgstr "_Tugas:"
 
-#: ../src/modules/itip-formatter/itip-view.c:2010
+#: ../src/modules/itip-formatter/itip-view.c:2215
 msgid "_Memos:"
 msgstr "_Memo:"
 
-#: ../src/modules/itip-formatter/itip-view.c:3077
+#: ../src/modules/itip-formatter/itip-view.c:3282
 msgid "Sa_ve"
 msgstr "_Simpan"
 
-#: ../src/modules/itip-formatter/itip-view.c:3604
-#: ../src/modules/itip-formatter/itip-view.c:5305
+#: ../src/modules/itip-formatter/itip-view.c:3809
+#: ../src/modules/itip-formatter/itip-view.c:5510
 msgid "Attendee status updated"
 msgstr "Status peserta diperbarui"
 
-#: ../src/modules/itip-formatter/itip-view.c:3835
+#: ../src/modules/itip-formatter/itip-view.c:4040
 #, c-format
 msgid "An appointment “%s” in the calendar “%s” conflicts with this meeting"
 msgstr "Janji “%s” dalam kalender “%s” konflik dengan rapat ini"
 
-#: ../src/modules/itip-formatter/itip-view.c:3842
+#: ../src/modules/itip-formatter/itip-view.c:4047
 #, c-format
 msgid "A task “%s” in the task list “%s” conflicts with this task"
 msgstr "Tugas \"%s\" di daftar tugas \"%s\" konflik dengan tugas ini"
 
-#: ../src/modules/itip-formatter/itip-view.c:3849
+#: ../src/modules/itip-formatter/itip-view.c:4054
 #, c-format
 msgid "A memo “%s” in the memo list “%s” conflicts with this memo"
 msgstr "Memo \"%s\" di daftar memo \"%s\" konflik dengan memo ini"
 
-#: ../src/modules/itip-formatter/itip-view.c:3860
+#: ../src/modules/itip-formatter/itip-view.c:4065
 #, c-format
 msgid ""
 "The calendar “%s” contains an appointment which conflicts with this meeting"
@@ -24579,234 +24597,234 @@ msgid_plural ""
 msgstr[0] ""
 "Kalender “%s” mengandung janji %d yang bertentangan dengan rapat ini"
 
-#: ../src/modules/itip-formatter/itip-view.c:3869
+#: ../src/modules/itip-formatter/itip-view.c:4074
 #, c-format
 msgid "The task list “%s” contains a task which conflicts with this task"
 msgid_plural ""
 "The task list “%s” contains %d tasks which conflict with this task"
 msgstr[0] "Daftar tugas \"%s\" berisi %d tugas yang konflik dengan tugas ini"
 
-#: ../src/modules/itip-formatter/itip-view.c:3878
+#: ../src/modules/itip-formatter/itip-view.c:4083
 #, c-format
 msgid "The memo list “%s” contains a memo which conflicts with this memo"
 msgid_plural ""
 "The memo list “%s” contains %d memos which conflict with this memo"
 msgstr[0] "Daftar memo \"%s\" berisi %d memo yang konflik dengan memo ini"
 
-#: ../src/modules/itip-formatter/itip-view.c:3916
+#: ../src/modules/itip-formatter/itip-view.c:4121
 #, c-format
 msgid "Found the appointment in the calendar “%s”"
 msgstr "Menemukan janji pada kalender “%s”"
 
-#: ../src/modules/itip-formatter/itip-view.c:3921
+#: ../src/modules/itip-formatter/itip-view.c:4126
 #, c-format
 msgid "Found the task in the task list “%s”"
 msgstr "Menemukan tugas di daftar tugas “%s”"
 
-#: ../src/modules/itip-formatter/itip-view.c:3926
+#: ../src/modules/itip-formatter/itip-view.c:4131
 #, c-format
 msgid "Found the memo in the memo list “%s”"
 msgstr "Menemukan memo di daftar memo “%s”"
 
-#: ../src/modules/itip-formatter/itip-view.c:3937
+#: ../src/modules/itip-formatter/itip-view.c:4142
 msgid "This meeting invitation is obsolete. It had been updated."
 msgstr "Undangan rapat ini sudah usang. Ini telah diperbarui."
 
-#: ../src/modules/itip-formatter/itip-view.c:4082
+#: ../src/modules/itip-formatter/itip-view.c:4287
 msgid "Unable to find any calendars"
 msgstr "Gagal menemukan kalender apapun"
 
-#: ../src/modules/itip-formatter/itip-view.c:4090
+#: ../src/modules/itip-formatter/itip-view.c:4295
 msgid "Unable to find this meeting in any calendar"
 msgstr "Gagal menemukan pertemuan ini pada kelender"
 
-#: ../src/modules/itip-formatter/itip-view.c:4095
+#: ../src/modules/itip-formatter/itip-view.c:4300
 msgid "Unable to find this task in any task list"
 msgstr "Gagal menemukan tugas ini pada daftar tugas"
 
-#: ../src/modules/itip-formatter/itip-view.c:4100
+#: ../src/modules/itip-formatter/itip-view.c:4305
 msgid "Unable to find this memo in any memo list"
 msgstr "Gagal menemukan memo ini dalam daftar memo mana pun"
 
-#: ../src/modules/itip-formatter/itip-view.c:4413
+#: ../src/modules/itip-formatter/itip-view.c:4618
 msgid "Searching for an existing version of this appointment"
 msgstr "Mencari versi yang ada untuk pertemuan ini"
 
-#: ../src/modules/itip-formatter/itip-view.c:4417
+#: ../src/modules/itip-formatter/itip-view.c:4622
 msgid "Searching for an existing version of this task"
 msgstr "Mencari versi yang ada dari tugas ini"
 
-#: ../src/modules/itip-formatter/itip-view.c:4421
+#: ../src/modules/itip-formatter/itip-view.c:4626
 msgid "Searching for an existing version of this memo"
 msgstr "Mencari versi yang ada dari memo ini"
 
-#: ../src/modules/itip-formatter/itip-view.c:4479
+#: ../src/modules/itip-formatter/itip-view.c:4684
 msgid "Opening the calendar. Please wait…"
 msgstr "Membuka kalender. Mohon tunggu…"
 
-#: ../src/modules/itip-formatter/itip-view.c:4829
+#: ../src/modules/itip-formatter/itip-view.c:5034
 #, c-format
 msgid "Unable to send item to calendar “%s”. %s"
 msgstr "Tidak dapat mengirim butir ke kalender “%s”. %s"
 
-#: ../src/modules/itip-formatter/itip-view.c:4837
+#: ../src/modules/itip-formatter/itip-view.c:5042
 #, c-format
 msgid "Unable to send item to task list “%s”. %s"
 msgstr "Tidak dapat mengirim butir ke daftar tugas “%s”. %s"
 
-#: ../src/modules/itip-formatter/itip-view.c:4845
+#: ../src/modules/itip-formatter/itip-view.c:5050
 #, c-format
 msgid "Unable to send item to memo list “%s”. %s"
 msgstr "Tidak dapat mengirim butir ke daftar memo “%s”. %s"
 
-#: ../src/modules/itip-formatter/itip-view.c:4866
+#: ../src/modules/itip-formatter/itip-view.c:5071
 #, c-format
 msgid "Sent to calendar “%s” as accepted"
 msgstr "Kirim ke kalender “%s” sebagai diterima"
 
-#: ../src/modules/itip-formatter/itip-view.c:4871
+#: ../src/modules/itip-formatter/itip-view.c:5076
 #, c-format
 msgid "Sent to task list “%s” as accepted"
 msgstr "Kirim ke daftar tugas “%s” sebagai diterima"
 
-#: ../src/modules/itip-formatter/itip-view.c:4876
+#: ../src/modules/itip-formatter/itip-view.c:5081
 #, c-format
 msgid "Sent to memo list “%s” as accepted"
 msgstr "Kirim ke daftar memo “%s” sebagai diterima"
 
-#: ../src/modules/itip-formatter/itip-view.c:4886
+#: ../src/modules/itip-formatter/itip-view.c:5091
 #, c-format
 msgid "Sent to calendar “%s” as tentative"
 msgstr "Kirim ke kalender “%s” sebagai tentatif"
 
-#: ../src/modules/itip-formatter/itip-view.c:4891
+#: ../src/modules/itip-formatter/itip-view.c:5096
 #, c-format
 msgid "Sent to task list “%s” as tentative"
 msgstr "Kirim ke daftar tugas “%s” sebagai tentatif"
 
-#: ../src/modules/itip-formatter/itip-view.c:4896
+#: ../src/modules/itip-formatter/itip-view.c:5101
 #, c-format
 msgid "Sent to memo list “%s” as tentative"
 msgstr "Kirim ke daftar memo “%s” sebagai tentatif"
 
-#: ../src/modules/itip-formatter/itip-view.c:4906
+#: ../src/modules/itip-formatter/itip-view.c:5111
 #, c-format
 msgid "Sent to calendar “%s” as declined"
 msgstr "Kirim ke kalender “%s” sebagai ditolak"
 
-#: ../src/modules/itip-formatter/itip-view.c:4911
+#: ../src/modules/itip-formatter/itip-view.c:5116
 #, c-format
 msgid "Sent to task list “%s” as declined"
 msgstr "Kirim ke daftar tugas “%s” sebagai ditolak"
 
-#: ../src/modules/itip-formatter/itip-view.c:4916
+#: ../src/modules/itip-formatter/itip-view.c:5121
 #, c-format
 msgid "Sent to memo list “%s” as declined"
 msgstr "Kirim ke daftar memo “%s” sebagai ditolak"
 
-#: ../src/modules/itip-formatter/itip-view.c:4926
+#: ../src/modules/itip-formatter/itip-view.c:5131
 #, c-format
 msgid "Sent to calendar “%s” as cancelled"
 msgstr "Kirim ke kalender “%s” sebagai dibatalkan"
 
-#: ../src/modules/itip-formatter/itip-view.c:4931
+#: ../src/modules/itip-formatter/itip-view.c:5136
 #, c-format
 msgid "Sent to task list “%s” as cancelled"
 msgstr "Kirim ke daftar tugas “%s” sebagai dibatalkan"
 
-#: ../src/modules/itip-formatter/itip-view.c:4936
+#: ../src/modules/itip-formatter/itip-view.c:5141
 #, c-format
 msgid "Sent to memo list “%s” as cancelled"
 msgstr "Kirim ke daftar memo “%s” sebagai dibatalkan"
 
-#: ../src/modules/itip-formatter/itip-view.c:4955
+#: ../src/modules/itip-formatter/itip-view.c:5160
 msgid "Saving changes to the calendar. Please wait…"
 msgstr "Menyimpan perubahan ke kalender. Tunggu sebentar…"
 
-#: ../src/modules/itip-formatter/itip-view.c:4958
+#: ../src/modules/itip-formatter/itip-view.c:5163
 msgid "Saving changes to the task list. Please wait…"
 msgstr "Menyimpan perubahan ke daftar tugas. Tunggu sebentar…"
 
-#: ../src/modules/itip-formatter/itip-view.c:4961
+#: ../src/modules/itip-formatter/itip-view.c:5166
 msgid "Saving changes to the memo list. Please wait…"
 msgstr "Menyimpan perubahan ke daftar memo. Tunggu sebentar…"
 
-#: ../src/modules/itip-formatter/itip-view.c:5032
+#: ../src/modules/itip-formatter/itip-view.c:5237
 msgid "Unable to parse item"
 msgstr "Butir tidak dapat diuraikan"
 
-#: ../src/modules/itip-formatter/itip-view.c:5230
+#: ../src/modules/itip-formatter/itip-view.c:5435
 #, c-format
 msgid "Organizer has removed the delegate %s "
 msgstr "Pengatur telah menghapus delegasi %s "
 
-#: ../src/modules/itip-formatter/itip-view.c:5247
+#: ../src/modules/itip-formatter/itip-view.c:5452
 msgid "Sent a cancellation notice to the delegate"
 msgstr "Mengirim pemberitahuan pembatalan kepada delegasi"
 
-#: ../src/modules/itip-formatter/itip-view.c:5251
+#: ../src/modules/itip-formatter/itip-view.c:5456
 msgid "Could not send the cancellation notice to the delegate"
 msgstr "Tidak dapat mengirim pemberitahuan pembatalan kepada delegasi"
 
-#: ../src/modules/itip-formatter/itip-view.c:5297
+#: ../src/modules/itip-formatter/itip-view.c:5502
 #, c-format
 msgid "Unable to update attendee. %s"
 msgstr "Data peserta %s tidak dapat diperbarui"
 
-#: ../src/modules/itip-formatter/itip-view.c:5330
+#: ../src/modules/itip-formatter/itip-view.c:5535
 msgid "The meeting is invalid and cannot be updated"
 msgstr "Rapat tak valid dan tak dapat dimutakhirkan"
 
-#: ../src/modules/itip-formatter/itip-view.c:5415
+#: ../src/modules/itip-formatter/itip-view.c:5620
 msgid "Attendee status could not be updated because the status is invalid"
 msgstr ""
 "Status peserta tidak dapat diperbarui karena berisi status yang tidak dikenal"
 
-#: ../src/modules/itip-formatter/itip-view.c:5491
-#: ../src/modules/itip-formatter/itip-view.c:5529
+#: ../src/modules/itip-formatter/itip-view.c:5696
+#: ../src/modules/itip-formatter/itip-view.c:5734
 msgid "Attendee status can not be updated because the item no longer exists"
 msgstr "Status peserta tidak dapat diubah karena sudah tidak ada lagi"
 
-#: ../src/modules/itip-formatter/itip-view.c:5590
+#: ../src/modules/itip-formatter/itip-view.c:5795
 msgid "Meeting information sent"
 msgstr "Informasi pertemuan dikirim"
 
-#: ../src/modules/itip-formatter/itip-view.c:5595
+#: ../src/modules/itip-formatter/itip-view.c:5800
 msgid "Task information sent"
 msgstr "Informasi tugas dikirim"
 
-#: ../src/modules/itip-formatter/itip-view.c:5600
+#: ../src/modules/itip-formatter/itip-view.c:5805
 msgid "Memo information sent"
 msgstr "Informasi memo dikirim"
 
-#: ../src/modules/itip-formatter/itip-view.c:5611
+#: ../src/modules/itip-formatter/itip-view.c:5816
 msgid "Unable to send meeting information, the meeting does not exist"
 msgstr "Tak bisa mengirim informasi rapat, rapat tak ada"
 
-#: ../src/modules/itip-formatter/itip-view.c:5616
+#: ../src/modules/itip-formatter/itip-view.c:5821
 msgid "Unable to send task information, the task does not exist"
 msgstr "Gagal mengirim informasi tugas, tugas tak ada"
 
-#: ../src/modules/itip-formatter/itip-view.c:5621
+#: ../src/modules/itip-formatter/itip-view.c:5826
 msgid "Unable to send memo information, the memo does not exist"
 msgstr "Tak bisa mengirim informasi memo, memo tak ada"
 
 #. Translators: This is a default filename for a calendar.
-#: ../src/modules/itip-formatter/itip-view.c:5666
+#: ../src/modules/itip-formatter/itip-view.c:5871
 msgid "calendar.ics"
 msgstr "calendar.ics"
 
-#: ../src/modules/itip-formatter/itip-view.c:5671
+#: ../src/modules/itip-formatter/itip-view.c:5876
 msgid "Save Calendar"
 msgstr "Simpan Kalender"
 
-#: ../src/modules/itip-formatter/itip-view.c:5719
-#: ../src/modules/itip-formatter/itip-view.c:5732
+#: ../src/modules/itip-formatter/itip-view.c:5924
+#: ../src/modules/itip-formatter/itip-view.c:5937
 msgid "The calendar attached is not valid"
 msgstr "Data kalender berikut salah"
 
-#: ../src/modules/itip-formatter/itip-view.c:5720
-#: ../src/modules/itip-formatter/itip-view.c:5733
+#: ../src/modules/itip-formatter/itip-view.c:5925
+#: ../src/modules/itip-formatter/itip-view.c:5938
 msgid ""
 "The message claims to contain a calendar, but the calendar is not a valid "
 "iCalendar."
@@ -24814,15 +24832,15 @@ msgstr ""
 "Pesan ini katanya berisi kalender, tapi kalendernya bukan merupakan "
 "iCalendar yang benar."
 
-#: ../src/modules/itip-formatter/itip-view.c:5815
-#: ../src/modules/itip-formatter/itip-view.c:5899
-#: ../src/modules/itip-formatter/itip-view.c:6003
+#: ../src/modules/itip-formatter/itip-view.c:6020
+#: ../src/modules/itip-formatter/itip-view.c:6104
+#: ../src/modules/itip-formatter/itip-view.c:6208
 msgid "The item in the calendar is not valid"
 msgstr "Butir dalam kalender ini tidak benar"
 
-#: ../src/modules/itip-formatter/itip-view.c:5816
-#: ../src/modules/itip-formatter/itip-view.c:5900
-#: ../src/modules/itip-formatter/itip-view.c:6004
+#: ../src/modules/itip-formatter/itip-view.c:6021
+#: ../src/modules/itip-formatter/itip-view.c:6105
+#: ../src/modules/itip-formatter/itip-view.c:6209
 msgid ""
 "The message does contain a calendar, but the calendar contains no events, "
 "tasks or free/busy information"
@@ -24830,11 +24848,11 @@ msgstr ""
 "Surel ini berisi kalender, tapi ternyata tidak terdapat informasi tentang "
 "acara, tugas atau informasi jadwal sibuk/bebasnya"
 
-#: ../src/modules/itip-formatter/itip-view.c:5909
+#: ../src/modules/itip-formatter/itip-view.c:6114
 msgid "The calendar attached contains multiple items"
 msgstr "Kalender yang terlampir terdiri dari banyak objek"
 
-#: ../src/modules/itip-formatter/itip-view.c:5910
+#: ../src/modules/itip-formatter/itip-view.c:6115
 msgid ""
 "To process all of these items, the file should be saved and the calendar "
 "imported"
@@ -24842,12 +24860,12 @@ msgstr ""
 "Untuk memproses seluruh objek, berkas harus disimpan dan kalender telah "
 "diimport"
 
-#: ../src/modules/itip-formatter/itip-view.c:6490
+#: ../src/modules/itip-formatter/itip-view.c:6695
 msgctxt "cal-itip"
 msgid "None"
 msgstr "Nihil"
 
-#: ../src/modules/itip-formatter/itip-view.c:6512
+#: ../src/modules/itip-formatter/itip-view.c:6717
 msgid "Tentatively Accepted"
 msgstr "Sementara Terima"
 
