@@ -3093,6 +3093,23 @@ EvoEditor.hasElementWithTagNameAsParent = function(node, tagName)
 	return false;
 }
 
+EvoEditor.requoteBlockquotes = function(node, blockquoteLevel)
+{
+	var child;
+
+	for (child = node.firstChild; child; child = child.nextElementSibling) {
+		if (child.tagName == "DIV" ||
+		    child.tagName == "P" ||
+		    child.tagName == "PRE" ||
+		    child.tagName == "UL" ||
+		    child.tagName == "OL") {
+			EvoEditor.quoteParagraph(child, blockquoteLevel, EvoEditor.NORMAL_PARAGRAPH_WIDTH - (2 * blockquoteLevel));
+		} else if (child.tagName == "BLOCKQUOTE") {
+			EvoEditor.requoteBlockquotes(child, blockquoteLevel + 1);
+		}
+	}
+}
+
 EvoEditor.requoteNodeParagraph = function(node)
 {
 	while (node && node.tagName != "BODY" && !EvoEditor.IsBlockNode(node)) {
@@ -3108,7 +3125,11 @@ EvoEditor.requoteNodeParagraph = function(node)
 	try {
 		var blockquoteLevel = EvoEditor.getBlockquoteLevel(node);
 
-		EvoEditor.quoteParagraph(node, blockquoteLevel, EvoEditor.NORMAL_PARAGRAPH_WIDTH - (2 * blockquoteLevel));
+		if (node.tagName == "BLOCKQUOTE") {
+			EvoEditor.requoteBlockquotes(node, blockquoteLevel);
+		} else {
+			EvoEditor.quoteParagraph(node, blockquoteLevel, EvoEditor.NORMAL_PARAGRAPH_WIDTH - (2 * blockquoteLevel));
+		}
 	} finally {
 		EvoUndoRedo.StopRecord(EvoUndoRedo.RECORD_KIND_CUSTOM, "requote");
 	}
