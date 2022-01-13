@@ -1942,6 +1942,44 @@ EvoEditor.getBlockquotePrefixHtml = function(blockquoteLevel)
 	return prefixHtml;
 }
 
+EvoEditor.removeMailto = function(paragraph)
+{
+	var node, next, anyRemoved = false;
+	var selectionUpdater = EvoSelection.CreateUpdaterObject();
+
+	for (node = paragraph.firstChild; node; node = next) {
+		next = EvoEditor.getNextNodeInHierarchy(node, paragraph);
+
+		if (node.nodeType == node.ELEMENT_NODE && node.tagName == "A" &&
+		    node.href && node.href.toLowerCase().startsWith("mailto:")) {
+			var innerText = node.innerText, newNode;
+
+			next = node.parentElement;
+
+			if (innerText.length > 0) {
+				var textNode = document.createTextNode(innerText);
+				next.insertBefore(textNode, node);
+				newNode = textNode;
+			} else {
+				newNode = node.nextSibling;
+			}
+
+			selectionUpdater.beforeRemove(node);
+
+			node.remove();
+			next = next.firstChild;
+			anyRemoved = true;
+
+			selectionUpdater.afterRemove(newNode);
+		}
+	}
+
+	if (anyRemoved)
+		selectionUpdater.restore();
+
+	return anyRemoved;
+}
+
 EvoEditor.quoteParagraph = function(paragraph, blockquoteLevel, wrapWidth)
 {
 	if (!paragraph || !(blockquoteLevel > 0))
@@ -1952,13 +1990,26 @@ EvoEditor.quoteParagraph = function(paragraph, blockquoteLevel, wrapWidth)
 	if (paragraph.tagName == "PRE")
 		wrapWidth = -1;
 
-	var node = paragraph.firstChild, next, lineLength = 0;
+	var node, next, lineLength = 0;
+	var restoreMailto = EvoEditor.removeMailto(paragraph);
 	var prefixHtml = EvoEditor.getBlockquotePrefixHtml(blockquoteLevel);
 
-	while (node) {
+	for (node = paragraph.firstChild; node; node = next) {
 		next = EvoEditor.getNextNodeInHierarchy(node, paragraph);
 
 		if (node.nodeType == node.TEXT_NODE) {
+			if (node.nextSibling) {
+				// merge consecutive text nodes into a single node, without calling normalize()
+				var sibling;
+
+				for (sibling = node.nextSibling; sibling && sibling.nodeType == sibling.TEXT_NODE; sibling = sibling.nextSibling) {
+					if (sibling.nodeValue != "") {
+						node.nodeValue = node.nodeValue + sibling.nodeValue;
+						sibling.nodeValue = "";
+					}
+				}
+			}
+
 			if (wrapWidth > 0 && lineLength + node.nodeValue.length > wrapWidth) {
 				lineLength = EvoEditor.quoteParagraphWrap(node, lineLength, wrapWidth, prefixHtml);
 			} else {
@@ -1989,11 +2040,18 @@ EvoEditor.quoteParagraph = function(paragraph, blockquoteLevel, wrapWidth)
 				next = node.nextSibling;
 			}
 		}
-
-		node = next;
 	}
 
 	paragraph.insertAdjacentHTML("afterbegin", prefixHtml);
+
+	if (restoreMailto) {
+		for (node = paragraph.firstChild; node; node = next) {
+			next = EvoEditor.getNextNodeInHierarchy(node, paragraph);
+
+			if (node.nodeType == node.TEXT_NODE && node.parentElement.tagName != "A")
+				EvoEditor.linkifyText(node, false);
+		}
+	}
 }
 
 EvoEditor.reBlockquotePlainText = function(plainText, usePreTag, isPreTag)
