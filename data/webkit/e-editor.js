@@ -3498,16 +3498,22 @@ EvoEditor.AfterInputEvent = function(inputEvent, isWordDelim)
 		    !EvoEditor.hasElementWithTagNameAsParent(selection.anchorNode, "TABLE")) {
 			// insertParagraph should split the blockquote into two
 			if (isInsertParagraph) {
-				var node = selection.anchorNode, childNode = node, parent, removeNode = null;
+				var node = selection.anchorNode, childNode = node, parent, removeNode = null, backupNode = null;
 
 				for (parent = node.parentElement; parent && parent.tagName != "BODY"; parent = parent.parentElement) {
 					if (parent.tagName == "BLOCKQUOTE") {
-						childNode = parent;
-						break;
+						if (!backupNode)
+							childNode = parent;
+
+						// the toplevel BLOCKQUOTE, because splitting the content to the BODY
+						backupNode = parent;
 					}
 				}
 
-				EvoUndoRedo.StartRecord(EvoUndoRedo.RECORD_KIND_CUSTOM, "blockquoteSplit", childNode, childNode,
+				if (!backupNode)
+					backupNode = childNode;
+
+				EvoUndoRedo.StartRecord(EvoUndoRedo.RECORD_KIND_CUSTOM, "blockquoteSplit", backupNode, backupNode,
 					EvoEditor.CLAIM_CONTENT_FLAG_USE_PARENT_BLOCK_NODE | EvoEditor.CLAIM_CONTENT_FLAG_SAVE_HTML);
 				try {
 					if (node.nodeType == node.ELEMENT_NODE && node.childNodes.length == 1 && node.firstChild.tagName == "BR")
