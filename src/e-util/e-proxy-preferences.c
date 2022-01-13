@@ -128,7 +128,7 @@ proxy_preferences_commit_stash (EProxyPreferences *preferences,
 
 				preferences->priv->toplevel = toplevel;
 
-				if (!gtk_widget_get_visible (toplevel)) {
+				if (!gtk_widget_is_visible (toplevel)) {
 					start_timeout = FALSE;
 					commit_now = TRUE;
 				}
@@ -287,7 +287,7 @@ proxy_preferences_toplevel_notify_visible_cb (GtkWidget *widget,
 	g_return_if_fail (E_IS_PROXY_PREFERENCES (preferences));
 
 	/* The toplevel widget was hidden, save anything pending immediately */
-	if (!gtk_widget_get_visible (widget))
+	if (!gtk_widget_is_visible (widget))
 		e_proxy_preferences_submit (preferences);
 }
 

@@ -309,7 +309,7 @@ action_interface_do_action (AtkAction *action,
 		 */
 		return FALSE;
 
-	if (!gtk_widget_get_sensitive (widget) || !gtk_widget_get_visible (widget))
+	if (!gtk_widget_get_sensitive (widget) || !gtk_widget_is_visible (widget))
 		return FALSE;
 
 	cal_view = E_CALENDAR_VIEW (widget);
@@ -365,7 +365,7 @@ action_interface_get_keybinding (AtkAction *action,
 		 */
 		return NULL;
 
-	if (!gtk_widget_get_sensitive (widget) || !gtk_widget_get_visible (widget))
+	if (!gtk_widget_get_sensitive (widget) || !gtk_widget_is_visible (widget))
 		return NULL;
 
 	 switch (index) {

@@ -1157,7 +1157,7 @@ message_list_select (MessageList *message_list,
 
 		/* This function is usually called in response to a key
 		 * press, so grab focus if the message list is visible. */
-		if (gtk_widget_get_visible (GTK_WIDGET (message_list)))
+		if (gtk_widget_is_visible (GTK_WIDGET (message_list)))
 			gtk_widget_grab_focus (GTK_WIDGET (message_list));
 
 		return TRUE;
@@ -5679,7 +5679,7 @@ message_list_set_show_subject_above_sender (MessageList *message_list,
 
 		if (message_list->priv->folder &&
 		    gtk_widget_get_realized (GTK_WIDGET (message_list)) &&
-		    gtk_widget_get_visible (GTK_WIDGET (message_list)))
+		    gtk_widget_is_visible (GTK_WIDGET (message_list)))
 			mail_regen_list (message_list, NULL, NULL);
 	}
 
@@ -6659,7 +6659,7 @@ message_list_update_tree_text (MessageList *message_list)
 	g_return_if_fail (IS_MESSAGE_LIST (message_list));
 	g_return_if_fail (e_util_is_main_thread (g_thread_self ()));
 
-	if (!gtk_widget_get_visible (GTK_WIDGET (message_list)))
+	if (!gtk_widget_is_visible (GTK_WIDGET (message_list)))
 		return;
 
 	tree = E_TREE (message_list);
@@ -7111,7 +7111,7 @@ message_list_regen_idle_cb (gpointer user_data)
 	row_count = e_table_model_row_count (E_TABLE_MODEL (adapter));
 
 	if (row_count <= 0) {
-		if (gtk_widget_get_visible (GTK_WIDGET (message_list)))
+		if (gtk_widget_is_visible (GTK_WIDGET (message_list)))
 			e_tree_set_info_message (E_TREE (message_list), _("Generating message list…"));
 	} else if (regen_data->group_by_threads &&
 		   !message_list->just_set_folder &&

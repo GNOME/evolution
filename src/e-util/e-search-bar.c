@@ -261,7 +261,7 @@ web_view_load_changed_cb (WebKitWebView *webkit_web_view,
 	if (load_event != WEBKIT_LOAD_FINISHED)
 		return;
 
-	if (gtk_widget_get_visible (GTK_WIDGET (search_bar))) {
+	if (gtk_widget_is_visible (GTK_WIDGET (search_bar))) {
 		if (search_bar->priv->active_search != NULL) {
 			e_web_view_disable_highlights (search_bar->priv->web_view);
 			search_bar_find (search_bar, TRUE);

@@ -2782,7 +2782,7 @@ e_mail_reader_utils_get_selection_or_message (EMailReader *reader,
 	if (preloaded_message)
 		smd->preloaded_message = g_object_ref (preloaded_message);
 
-	if (gtk_widget_get_visible (GTK_WIDGET (web_view)) &&
+	if (gtk_widget_is_visible (GTK_WIDGET (web_view)) &&
 	    e_web_view_has_selection (web_view)) {
 		EMailPartList *part_list;
 		CamelMimeMessage *message = NULL;

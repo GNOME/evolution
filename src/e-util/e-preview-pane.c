@@ -86,7 +86,7 @@ preview_pane_alert_bar_visible_notify_cb (GtkWidget *alert_bar,
 	focused = GTK_IS_WINDOW (toplevel) ? gtk_window_get_focus (GTK_WINDOW (toplevel)) : NULL;
 
 	if (!focused && preview_pane->priv->web_view &&
-	    gtk_widget_get_visible (preview_pane->priv->web_view)) {
+	    gtk_widget_is_visible (preview_pane->priv->web_view)) {
 		gtk_widget_grab_focus (preview_pane->priv->web_view);
 	}
 }

@@ -1031,7 +1031,7 @@ tag_calendar_by_comp (ECalendar *ecal,
 	g_return_if_fail (E_IS_CAL_COMPONENT (comp));
 
 	/* If the ECalendar isn't visible, we just return. */
-	if (!gtk_widget_get_visible (GTK_WIDGET (ecal)))
+	if (!gtk_widget_is_visible (GTK_WIDGET (ecal)))
 		return;
 
 	if (!prepare_tag (ecal, &closure, display_zone, clear_first))
