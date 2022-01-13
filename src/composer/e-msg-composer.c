@@ -2699,7 +2699,7 @@ msg_composer_map (GtkWidget *widget)
 		e_composer_header_table_get_header (
 		table, E_COMPOSER_HEADER_TO)->input_widget;
 	text = gtk_entry_get_text (GTK_ENTRY (input_widget));
-	if (gtk_widget_get_visible (input_widget) && (text == NULL || *text == '\0')) {
+	if (gtk_widget_is_visible (input_widget) && (text == NULL || *text == '\0')) {
 		gtk_widget_grab_focus (input_widget);
 		return;
 	}
@@ -2709,7 +2709,7 @@ msg_composer_map (GtkWidget *widget)
 		e_composer_header_table_get_header (
 		table, E_COMPOSER_HEADER_SUBJECT)->input_widget;
 	text = gtk_entry_get_text (GTK_ENTRY (input_widget));
-	if (gtk_widget_get_visible (input_widget) && (text == NULL || *text == '\0')) {
+	if (gtk_widget_is_visible (input_widget) && (text == NULL || *text == '\0')) {
 		gtk_widget_grab_focus (input_widget);
 		return;
 	}

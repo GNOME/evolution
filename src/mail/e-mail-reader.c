@@ -3461,7 +3461,7 @@ mail_reader_preview_pane_visible_changed_cb (EMailReader *reader,
 	g_return_if_fail (E_IS_MAIL_READER (reader));
 	g_return_if_fail (GTK_IS_WIDGET (widget));
 
-	if (!gtk_widget_get_visible (widget))
+	if (!gtk_widget_is_visible (widget))
 		discard_timeout_mark_seen_cb (reader);
 }
 
