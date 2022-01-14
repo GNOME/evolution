@@ -1890,20 +1890,29 @@ EvoEditor.quoteParagraphWrap = function(node, lineLength, wrapWidth, prefixHtml)
 				}
 
 				eraseSpaceInSplit = false;
-				offset = wrapWidth + 1;
-				wordLen -= wrapWidth;
+				if (lineLength + offset >= wrapWidth)
+					offset = 1;
+				else
+					offset = wrapWidth + 1;
+
+				if (offset > node.nodeValue.length)
+					offset = node.nodeValue.length + 1;
+
+				wordLen = wordLen - offset + 1;
 			}
 
 			if (offset > 0) {
 				node.splitText(offset - 1);
 				node = node.nextSibling;
 
-				if (eraseSpaceInSplit) {
+				if (eraseSpaceInSplit && node.nodeValue.startsWith(" ")) {
 					// erase the space at the end of the line
 					node.splitText(1);
 					var next = node.nextSibling;
 					node.remove();
 					node = next;
+				} else if (eraseSpaceInSplit) {
+					eraseSpaceInSplit = false;
 				}
 
 				// add the prefix and <br> only if there's still anything to be quoted
