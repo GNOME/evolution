@@ -2,19 +2,26 @@
 # Copyright (C) 2020 evolution's COPYRIGHT HOLDER
 # This file is distributed under the same license as the evolution package.
 # Andika Triwidada <atriwidada@gnome.org>, 2020.
+# Rofiquzzaki <babisayabundar@gmail.com>, 2021.
 #
 msgid ""
 msgstr ""
 "Project-Id-Version: evolution master\n"
-"POT-Creation-Date: 2021-08-31 10:08+0000\n"
-"PO-Revision-Date: 2021-09-03 15:27+0700\n"
-"Last-Translator: Andika Triwidada <andika@gmail.com>\n"
+"POT-Creation-Date: 2021-09-23 17:29+0000\n"
+"PO-Revision-Date: 2021-11-09 12:44+0700\n"
+"Last-Translator: Rofiquzzaki <babisayabundar@gmail.com>\n"
 "Language-Team: Indonesian <gnome-l10n-id@googlegroups.com>\n"
 "Language: id\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Generator: Poedit 2.4.3\n"
+"X-Generator: Gtranslator 40.0\n"
+"X-DL-Team: id\n"
+"X-DL-Module: evolution\n"
+"X-DL-Branch: gnome-41\n"
+"X-DL-Domain: help\n"
+"X-DL-State: Translating\n"
+"Plural-Forms: nplurals=1; plural=0\n"
 
 #. Put one translator per line, in the form NAME <EMAIL>, YEAR1, YEAR2
 msgctxt "_"
@@ -2035,12 +2042,16 @@ msgstr "Opsi berikut ini tersedia:"
 
 #. (itstool) path: item/p
 #: C/contacts-ldap.page:74
-msgid "One: Searches the Search Base and one entry below it."
+#, fuzzy
+#| msgid "One: Searches the Search Base and one entry below it."
+msgid "One Level: Searches one entry below the Search Base."
 msgstr "Satu: Mencari Basis Pencarian dan satu entri di bawahnya."
 
 #. (itstool) path: item/p
 #: C/contacts-ldap.page:77
-msgid "Sub: Searches the Search Base and all entries below it."
+#, fuzzy
+#| msgid "Sub: Searches the Search Base and all entries below it."
+msgid "Subtree: Searches the Search Base and all entries below it."
 msgstr "Sub: Mencari Basis Pencarian dan semua entri di bawahnya."
 
 #. (itstool) path: item/p
@@ -3785,7 +3796,6 @@ msgstr ""
 
 #. (itstool) path: item/p
 #: C/import-supported-file-formats.page:38
-#, fuzzy
 msgid "Outlook Express 5/6 Personal Folders (.dbx):"
 msgstr "Folder Pribadi Outlook Express 5/6 (.dbx):"
 
@@ -3851,7 +3861,6 @@ msgstr "LDAP Data Interchange Format (.ldif):"
 
 #. (itstool) path: item/p
 #: C/import-supported-file-formats.page:64
-#, fuzzy
 msgid "A standard data format for contact cards."
 msgstr "Format data standar untuk kartu kontak."
 
@@ -4185,7 +4194,6 @@ msgstr "IMAP+"
 
 #. (itstool) path: section/p
 #: C/intro-first-run.page:61
-#, fuzzy
 msgid ""
 "Keeps the mail on the server so you can access your mail from multiple "
 "systems."
@@ -4228,7 +4236,6 @@ msgstr "Opsi penerimaan POP"
 
 #. (itstool) path: section/title
 #: C/intro-first-run.page:92
-#, fuzzy
 msgid "USENET News"
 msgstr "Berita USENET"
 
@@ -4639,7 +4646,6 @@ msgstr "<keyseq><key>Ctrl</key><key>N</key></keyseq>"
 
 #. (itstool) path: td/p
 #: C/intro-keyboard-shortcuts.page:76
-#, fuzzy
 msgid "Create a new item in current component."
 msgstr "Membuat item baru di komponen saat ini."
 
@@ -4650,9 +4656,8 @@ msgstr "<key>F6</key>"
 
 #. (itstool) path: td/p
 #: C/intro-keyboard-shortcuts.page:82
-#, fuzzy
 msgid "Cycle focus between panes."
-msgstr "Fokus siklus antar panel."
+msgstr "Gilir fokus antar panel."
 
 #. (itstool) path: td/p
 #: C/intro-keyboard-shortcuts.page:85
@@ -5163,9 +5168,8 @@ msgstr "<_:media-1/> Daftar Pesan"
 
 #. (itstool) path: td/p
 #: C/intro-main-window.page:54
-#, fuzzy
 msgid "<_:media-1/> To Do bar"
-msgstr "<_:media-1/> Bilah Harus Dilakukan"
+msgstr "<_:media-1/> Bilah Untuk Dilakukan"
 
 #. (itstool) path: td/p
 #: C/intro-main-window.page:57
@@ -5274,9 +5278,8 @@ msgstr ""
 
 #. (itstool) path: item/title
 #: C/intro-main-window.page:88
-#, fuzzy
 msgid "To Do bar"
-msgstr "Bilah Harus Dilakukan"
+msgstr "Bilah Untuk Dilakukan"
 
 #. (itstool) path: item/p
 #: C/intro-main-window.page:89
@@ -5556,7 +5559,6 @@ msgstr "Aktifkan POP untuk semua surel (bahkan surel yang sudah diunduh)"
 
 #. (itstool) path: item/p
 #: C/mail-access-gmail-pop-account.page:38
-#, fuzzy
 msgid "Enable POP for mail that arrives from now on"
 msgstr "Aktifkan POP untuk surel yang tiba dari sekarang"
 
@@ -5754,10 +5756,9 @@ msgstr "Baku"
 
 #. (itstool) path: info/title
 #: C/mail-account-manage-imap-plus.page:57
-#, fuzzy
 msgctxt "link"
 msgid "Composing Messages (IMAP+ accounts)"
-msgstr "Membuat Pesan (akun IMAP+)"
+msgstr "Menyusun Pesan (akun IMAP+)"
 
 #. (itstool) path: section/title
 #: C/mail-account-manage-imap-plus.page:59
@@ -5871,7 +5872,6 @@ msgstr "Membuat Pesan (Akun Pengiriman Lokal)"
 
 #. (itstool) path: info/title
 #: C/mail-account-manage-local-delivery.page:64
-#, fuzzy
 msgctxt "link"
 msgid "Security (Local Delivery accounts)"
 msgstr "Keamanan (Akun Pengiriman Lokal)"
@@ -6033,6 +6033,9 @@ msgid ""
 "OAuth2\">documentation how to set up and troubleshoot OAuth2</link> "
 "authentication."
 msgstr ""
+"Lihat juga <link href=\"https://wiki.gnome.org/Apps/Evolution/EWS/"
+"OAuth2\">dokumentasi bagaimana cara mempersiapkan dan penyelesaian masalah "
+"autentikasi OAuth2</link>."
 
 #. (itstool) path: info/title
 #: C/mail-account-manage-microsoft-exchange-evo-ews.page:39
@@ -6111,10 +6114,9 @@ msgstr "Menerima opsi Email dan Penerimaan (akun Exchange MAPI)"
 
 #. (itstool) path: info/title
 #: C/mail-account-manage-microsoft-exchange-evo-mapi.page:43
-#, fuzzy
 msgctxt "link"
 msgid "Defaults (Exchange MAPI accounts)"
-msgstr "Default (akun Exchange MAPI)"
+msgstr "Bawaan (akun Exchange MAPI)"
 
 #. (itstool) path: info/title
 #: C/mail-account-manage-microsoft-exchange-evo-mapi.page:50
@@ -6167,6 +6169,8 @@ msgid ""
 "For older versions of Microsoft Exchange, or if <sys>evolution-ews</sys> "
 "does not work well for you, try <sys>evolution-mapi</sys>."
 msgstr ""
+"Untuk versi lama Microsoft Exchange, atau jika <sys>evolution-ews</sys> "
+"tidak bekerja dengan baik untukmu, coba <sys>evolution-mapi</sys>."
 
 #. (itstool) path: note/p
 #: C/mail-account-manage-microsoft-exchange.page:45
@@ -6204,10 +6208,9 @@ msgstr "Pengaturan akun surat POP"
 
 #. (itstool) path: info/title
 #: C/mail-account-manage-pop.page:36
-#, fuzzy
 msgctxt "link"
 msgid "Receiving Email and Receiving options (POP accounts)"
-msgstr "Menerima opsi Email dan Penerimaan (akun POP)"
+msgstr "Menerima Surel dan Opsi Penerimaan (akun POP)"
 
 #. (itstool) path: info/title
 #: C/mail-account-manage-pop.page:43
@@ -6223,10 +6226,9 @@ msgstr "Baku (akun POP)"
 
 #. (itstool) path: info/title
 #: C/mail-account-manage-pop.page:57
-#, fuzzy
 msgctxt "link"
 msgid "Composing Messages (POP accounts)"
-msgstr "Membuat Pesan (akun POP)"
+msgstr "Menyusun Pesan (akun POP)"
 
 #. (itstool) path: info/title
 #: C/mail-account-manage-pop.page:64
@@ -6710,7 +6712,6 @@ msgstr ""
 
 #. (itstool) path: page/title
 #: C/mail-cannot-see.page:20
-#, fuzzy
 msgid "I cannot see some emails, where are they?"
 msgstr "Saya tidak bisa melihat beberapa surel, di mana mereka?"
 
@@ -6781,9 +6782,8 @@ msgstr ""
 
 #. (itstool) path: info/desc
 #: C/mail-change-columns-in-message-list.page:5
-#, fuzzy
 msgid "Editing the columns displayed in the list of messages."
-msgstr "Mengedit kolom yang ditampilkan dalam daftar pesan."
+msgstr "Menyunting kolom yang ditampilkan dalam daftar pesan."
 
 #. (itstool) path: page/title
 #: C/mail-change-columns-in-message-list.page:20
@@ -7000,7 +7000,6 @@ msgstr "Menggunakan bidang kustom di header pesan yang disusun."
 
 #. (itstool) path: page/title
 #: C/mail-composer-custom-header-lines.page:23
-#, fuzzy
 msgid "Custom Header Lines"
 msgstr "Baris Header Kustom"
 
@@ -7085,13 +7084,11 @@ msgstr "Atur nilai untuk bidang header dengan menggunakan daftar turun bawah."
 
 #. (itstool) path: info/desc
 #: C/mail-composer-enable-html-format.page:5
-#, fuzzy
 msgid "Enable HTML format in the mail composer."
 msgstr "Aktifkan format HTML di komposer surel."
 
 #. (itstool) path: page/title
 #: C/mail-composer-enable-html-format.page:21
-#, fuzzy
 msgid "Enabling HTML format"
 msgstr "Mengaktifkan format HTML"
 
@@ -7163,9 +7160,8 @@ msgstr ""
 
 #. (itstool) path: item/p
 #: C/mail-composer-external-editor.page:26
-#, fuzzy
 msgid "Enable <gui>External Editor</gui>."
-msgstr "Aktifkan <gui>Editor Eksternal</gui>."
+msgstr "Aktifkan <gui>Penyunting Eksternal</gui>."
 
 #. (itstool) path: item/p
 #: C/mail-composer-external-editor.page:30
@@ -7175,15 +7171,14 @@ msgstr "Atur Perintah yang <gui>sesuai</gui> untuk memulai aplikasi."
 
 #. (itstool) path: item/p
 #: C/mail-composer-external-editor.page:31
-#, fuzzy
 msgid ""
 "If <gui>Automatically launch when a new mail is edited</gui> is not set, you "
 "need to select <guiseq><gui>File</gui><gui>Compose in External Editor</gui></"
 "guiseq> in the mail composer."
 msgstr ""
-"Jika <gui>Secara otomatis diluncurkan saat surel baru diedit tidak</gui> "
-"diatur, Anda harus memilih Buat <guiseq> <gui>File</gui>di "
-"Editor<gui>Eksternal</gui> </guiseq> di komposer surel."
+"Jika <gui>Secara otomatis diluncurkan saat surel baru disunting</gui> tidak "
+"diatur, Anda harus memilih <guiseq><gui>Berkas</gui><gui>Buat di Penyunting "
+"Eksternal</gui></guiseq> di komposer surel."
 
 #. (itstool) path: info/desc
 #: C/mail-composer-forward.page:5
@@ -7296,9 +7291,8 @@ msgstr ""
 
 #. (itstool) path: section/title
 #: C/mail-composer-forward.page:40 C/mail-composer-reply.page:53
-#, fuzzy
 msgid "Default settings"
-msgstr "Setelan asali"
+msgstr "Setelan bawaan"
 
 #. (itstool) path: section/p
 #: C/mail-composer-forward.page:41
@@ -8080,10 +8074,9 @@ msgstr ""
 
 #. (itstool) path: item/p
 #: C/mail-composer-message-templates-save.page:30
-#, fuzzy
 msgid ""
 "Select the <gui>Templates</gui> folder under <gui>On This Computer</gui>."
-msgstr "Pilih folder <gui>Templat di</gui> bawah Di <gui>Komputer Ini.</gui>"
+msgstr "Pilih folder <gui>Templat</gui> di bawah <gui>Pada Komputer Ini</gui>."
 
 #. (itstool) path: section/p
 #: C/mail-composer-message-templates-save.page:32
@@ -8417,13 +8410,12 @@ msgstr ""
 
 #. (itstool) path: note/p
 #: C/mail-composer-priority.page:27
-#, fuzzy
 msgid ""
 "<app>Evolution</app> will ignore the message priority of incoming messages "
 "because the recipient should decide whether the message is important or not. "
 "You can set the \"Important\" flag for any messages."
 msgstr ""
-"<app>Evolution</app> akan mengabaikan prioritas pesan pesan masuk karena "
+"<app>Evolution</app> akan mengabaikan prioritas pesan-pesan masuk karena "
 "penerima harus memutuskan apakah pesan tersebut penting atau tidak. Anda "
 "dapat mengatur bendera \"Penting\" untuk pesan apa pun."
 
@@ -9419,6 +9411,9 @@ msgid ""
 "Email#Plain_text_and_HTML\">Plain text or HTML</link>. Each format has its "
 "pros and cons."
 msgstr ""
+"Surel bisa dalam dua format: <link href=\"https://en.wikipedia.org/wiki/"
+"Email#Plain_text_and_HTML\">Teks biasa atau HTML</link>. Setiap format "
+"memiliki pro dan kontranya."
 
 #. (itstool) path: page/p
 #: C/mail-displaying-message.page:25
@@ -9440,6 +9435,7 @@ msgid ""
 "For formatting emails in the composer, see <link xref=\"mail-composer-html\"/"
 ">."
 msgstr ""
+"Untuk memformat surel di komposer, lihat <link xref=\"mail-composer-html\"/>."
 
 #. (itstool) path: section/title
 #: C/mail-displaying-message.page:30
@@ -10163,13 +10159,12 @@ msgstr "Atur Status:"
 
 #. (itstool) path: item/p
 #: C/mail-filters-actions.page:51
-#, fuzzy
 msgid ""
 "Sets the status of the message. The status can be Replied To, Draft, "
 "Important, Read, or Junk."
 msgstr ""
-"Menyetel status pesan. Status dapat dibalas Ke, Draf, Penting, Dibaca, atau "
-"Sampah."
+"Menyetel status pesan. Status dapat dibalas Kepada, Draf, Penting, Dibaca, "
+"atau Sampah."
 
 #. (itstool) path: item/p
 #: C/mail-filters-actions.page:53
@@ -10344,12 +10339,11 @@ msgstr "Urutan Filter"
 
 #. (itstool) path: section/p
 #: C/mail-filters-not-working.page:29
-#, fuzzy
 msgid ""
 "The order of filters is very important. They are applied to the original "
 "message in sequence, like a recipe."
 msgstr ""
-"Urutan filter sangat penting. Mereka diterapkan ke pesan asli secara "
+"Urutan penyaringan sangatlah penting. Mereka diterapkan ke pesan asli secara "
 "berurutan, seperti resep."
 
 #. (itstool) path: section/p
@@ -10640,13 +10634,12 @@ msgstr ""
 
 #. (itstool) path: note/p
 #: C/mail-filters.page:44
-#, fuzzy
 msgid ""
 "The order of filters is important. Filters are applied to the original "
 "message in sequence, like a recipe."
 msgstr ""
-"Urutan filter penting. Filter diterapkan ke pesan asli secara berurutan, "
-"seperti resep."
+"Urutan penyaringan penting. Penyaring diterapkan ke pesan asli secara "
+"berurutan, seperti resep."
 
 #. (itstool) path: note/p
 #: C/mail-filters.page:45
@@ -10880,7 +10873,6 @@ msgstr ""
 
 #. (itstool) path: item/p
 #: C/mail-follow-up-flag.page:26
-#, fuzzy
 msgid "Select one or more messages."
 msgstr "Pilih satu atau beberapa pesan."
 
@@ -10971,7 +10963,6 @@ msgstr ""
 
 #. (itstool) path: note/p
 #: C/mail-follow-up-flag.page:42
-#, fuzzy
 msgid ""
 "If you prefer a simpler way to remind yourself about messages, you can mark "
 "them as important by right-clicking the message, then click <gui>Mark as "
@@ -10981,8 +10972,8 @@ msgstr ""
 "Jika Anda lebih suka cara yang lebih sederhana untuk mengingatkan diri Anda "
 "tentang pesan, Anda dapat menandainya sebagai penting dengan mengklik kanan "
 "pesan, lalu klik <gui>Tandai sebagai Penting</gui>, atau dengan memilih "
-"<guiseq> <gui>Tanda</gui><gui>Pesan</gui><gui>sebagai</gui> </guiseq> "
-"Penting dari bilah menu."
+"<guiseq> <gui>Pesan</gui><gui>Tandai sebagai</gui><gui>Penting</gui> </"
+"guiseq> dari bilah menu."
 
 #. (itstool) path: info/desc
 #: C/mail-imap-change-send-method.page:5
@@ -12487,15 +12478,14 @@ msgstr "Pilih lingkup dari daftar turun bawah langsung ke kotak teks."
 
 #. (itstool) path: note/p
 #: C/mail-searching.page:47
-#, fuzzy
 msgid ""
 "For the <gui>Current Account</gui> scope, the term \"account\" refers to top-"
 "level nodes in the <link xref=\"intro-main-window#e-mail\"> mail folder "
 "list</link>, like \"On this computer\" and remote mail accounts."
 msgstr ""
-"Untuk lingkup <gui>Akun Saat</gui> Ini, istilah \"akun\" mengacu pada node "
+"Untuk lingkup <gui>Akun Saat Ini</gui>, istilah \"akun\" mengacu pada node "
 "tingkat atas dalam daftar <link xref=\"intro-main-window#e-mail\"> folder "
-"surel, seperti \"Di komputer ini\" dan akun surel jarak jauh."
+"surel</link>, seperti \"Pada komputer ini\" dan akun surel jarak jauh."
 
 #. (itstool) path: note/p
 #: C/mail-searching.page:52
@@ -12521,9 +12511,8 @@ msgstr ""
 
 #. (itstool) path: section/title
 #: C/mail-searching.page:64
-#, fuzzy
 msgid "Free Form Expression"
-msgstr "Ekspresi Formulir Bebas:"
+msgstr "Ekspresi Bentuk Bebas"
 
 #. (itstool) path: section/p
 #: C/mail-searching.page:65
@@ -12540,13 +12529,29 @@ msgid ""
 "Subject containing <code>Smith</code>, while <code>f:\"John Smith\"</code> "
 "filters messages for a sender <code>John Smith</code>."
 msgstr ""
+"Salah satu dari kondisi pencarian adalah <gui>Ekspresi Bentuk Bebas</gui>, "
+"yang memungkinkan untuk mendefinisikan kondisi kompleks. Sebagai langkah "
+"pertama, Ekspresi Bentuk Bebas yang diberikan dibagi dalam kata-kata. Jika "
+"kata tidak mengandung awalan tag apapun (yang diketahui), maka nilai "
+"diperiksa apakah itu di dalam headers Kepada, Tembusan atau Subjek. Dalam "
+"kasus white-space atau karakter spesial lain yang dibutuhkan, maka kurung "
+"kata di dalam tanda kutip ganda. Untuk mendapatkan tanda kutip ganda "
+"gandakan itu di dalam teks kutipan; contoh: <code>cite \"\"here\"\"</code> "
+"diurai dalam satu kata <code> cite \"here\"</code>. Untuk contoh, <code>f:"
+"John Smith</code> menyaring pesan untuk Dari yang mengandung <code>John</"
+"code> dan Kepada, Tembusan atau Subjek yang mengandung <code>Smith</code>, "
+"sedangkan <code>f:\"John-Smith\"</code> menyaring pesan untuk pengirim "
+"<code>John Smith</code>"
 
 #. (itstool) path: section/p
 #: C/mail-searching.page:66
+#, fuzzy
 msgid ""
 "The syntax of the tags is <code>&lt;tag&gt;[-&lt;options&gt;]:value</code>. "
 "The tags are:"
 msgstr ""
+"Sintaksi dari penanda adalah <code>&lt;tag&gt;[-&lt;options&gt;]:value</"
+"code>. Penanda:"
 
 #. (itstool) path: td/p
 #: C/mail-searching.page:68
@@ -12567,53 +12572,56 @@ msgstr "Arti"
 #. Translators: 'From' is a header name, do not translate it
 #: C/mail-searching.page:69
 msgid "From header should match (*)"
-msgstr ""
+msgstr "Header Dari harus cocok (*)"
 
 #. (itstool) path: td/p
 #. Translators: 'To' is a header name, do not translate it
 #: C/mail-searching.page:70
 msgid "To header should match (*)"
-msgstr ""
+msgstr "Header Kepada harus cocok (*)"
 
 #. (itstool) path: td/p
 #. Translators: 'CC' is a header name, do not translate it
 #: C/mail-searching.page:71
 msgid "CC header should match (*)"
-msgstr ""
+msgstr "Header Tembusan harus cocok (*)"
 
 #. (itstool) path: td/p
 #. Translators: 'To' and 'CC' are the header names, do not translate it
 #: C/mail-searching.page:72
 msgid "To or CC headers should match (*)"
-msgstr ""
+msgstr "Header Kepada atau Tembusan harus cocok (*)"
 
 #. (itstool) path: td/p
 #. Translators: 'Subject' is a header name, do not translate it
 #: C/mail-searching.page:73
 msgid "Subject header should match (*)"
-msgstr ""
+msgstr "Header Subjek harus cocok (*)"
 
 #. (itstool) path: td/p
 #: C/mail-searching.page:74
 msgid "Mailing list header should match (*)"
-msgstr ""
+msgstr "Header Milis harus cocok (*)"
 
 #. (itstool) path: td/p
 #: C/mail-searching.page:75
 msgid "given header should match (*)"
-msgstr ""
+msgstr "header yang diberikan harus cocok (*)"
 
 #. (itstool) path: td/p
 #: C/mail-searching.page:76
+#, fuzzy
 msgid ""
 "the syntax is: <code>h:headerName=value</code> while the equal sign is used "
 "only as a delimiter, not as a match rule"
 msgstr ""
+"sintaksnya adalah: <code>h:headerName=value</code> ketika tanda sama dengan "
+"digunakan hanya sebagai pembatas, bukan sebagai aturan pencocokan"
 
 #. (itstool) path: td/p
 #: C/mail-searching.page:77
 msgid "whether given header exists"
-msgstr ""
+msgstr "apakah header yang diberikan ada"
 
 #. (itstool) path: td/p
 #: C/mail-searching.page:78
@@ -12624,77 +12632,63 @@ msgstr "Menyisipkan header kustom dalam pesan"
 #. (itstool) path: td/p
 #: C/mail-searching.page:79
 msgid "whether certain flag is set; known special values are:"
-msgstr ""
+msgstr "apakah bendera tertentu diatur; nilai spesial diketahui diantaranya:"
 
 #. (itstool) path: td/p
-#. (itstool) comment: ./code
 #. Translators: This is translated in a 'ffe' context
 #: C/mail-searching.page:80
-msgid ""
-"<code its:locNote=\"Translators: This is translated in a 'ffe' context"
-"\">Answered</code> - the message is marked as replied"
-msgstr ""
+msgid "<code>Answered</code> - the message is marked as replied"
+msgstr "<code>Answered</code> - pesan ditandai sebagai sudah terjawab"
 
 #. (itstool) path: td/p
-#. (itstool) comment: ./code
 #. Translators: This is translated in a 'ffe' context
 #: C/mail-searching.page:81
-msgid ""
-"<code its:locNote=\"Translators: This is translated in a 'ffe' context"
-"\">Deleted</code> - the message is marked as deleted"
-msgstr ""
+msgid "<code>Deleted</code> - the message is marked as deleted"
+msgstr "<code>Deleted</code> - pesan ditandai sebagai sudah dihapus"
 
 #. (itstool) path: td/p
-#. (itstool) comment: ./code
 #. Translators: This is translated in a 'ffe' context
 #: C/mail-searching.page:82
-msgid ""
-"<code its:locNote=\"Translators: This is translated in a 'ffe' context"
-"\">Draft</code> - the message is marked as draft"
-msgstr ""
+msgid "<code>Draft</code> - the message is marked as draft"
+msgstr "<code>Draft</code> - pesan ditandai sebagai konsep"
 
 #. (itstool) path: td/p
-#. (itstool) comment: ./code
 #. Translators: This is translated in a 'ffe' context
 #: C/mail-searching.page:83
-msgid ""
-"<code its:locNote=\"Translators: This is translated in a 'ffe' context"
-"\">Flagged</code> - the message is marked as important"
-msgstr ""
+msgid "<code>Flagged</code> - the message is marked as important"
+msgstr "<code>Ditandai</code> - pesan ditandai sebagai penting"
 
 #. (itstool) path: td/p
-#. (itstool) comment: ./code
 #. Translators: This is translated in a 'ffe' context
 #: C/mail-searching.page:84
-msgid ""
-"<code its:locNote=\"Translators: This is translated in a 'ffe' context"
-"\">Seen</code> - the message is marked as seen (not unread)"
+msgid "<code>Seen</code> - the message is marked as seen (not unread)"
 msgstr ""
+"<code>Dilihat</code> - pesan sudah ditandai sebagai dilihat (bukan tidak "
+"dibaca)"
 
 #. (itstool) path: td/p
-#. (itstool) comment: ./code
 #. Translators: This is translated in a 'ffe' context
 #: C/mail-searching.page:85
-msgid ""
-"<code its:locNote=\"Translators: This is translated in a 'ffe' context"
-"\">Attachment</code> - the message has an attachment"
-msgstr ""
+msgid "<code>Attachment</code> - the message has an attachment"
+msgstr "<code>Lampiran</code> - pesan memiliki lampiran"
 
 #. (itstool) path: td/p
 #: C/mail-searching.page:86
 msgid "Any other value is checked for its non-emptiness."
-msgstr ""
+msgstr "Nilai lainnya diperiksa atas ketidakkosongannya."
 
 #. (itstool) path: td/p
 #: C/mail-searching.page:87
 msgid ""
 "whether certain <link xref=\"mail-labels\">label</link> is set on the message"
 msgstr ""
+"apakah <link xref=\"mail-labels\">label</link> tertentu sudah diatur pada "
+"pesan"
 
 #. (itstool) path: td/p
 #: C/mail-searching.page:88
 msgid "whether message size, in KB, is equal to the given value"
-msgstr ""
+msgstr "apakah ukuran pesan, dalam KB, sama dengan nilai yang diberikan"
 
 #. (itstool) path: td/p
 #: C/mail-searching.page:89
@@ -12704,6 +12698,10 @@ msgid ""
 "Example: <code>size-&gt;:1024</code> filters messages which are more than "
 "1MB large."
 msgstr ""
+"Dua opsi dikenali, <code>&lt;</code> untuk mendapatkan pesan dengan ukuran "
+"lebih kecil, dan <code>&gt;</code> untuk mendapatkan pesan dengan ukuran "
+"lebih besar dari yang diberikan. Contoh: <code>size-&gt;:1024</code> "
+"menyaring pesan yang besarnya lebih dari 1MB"
 
 #. (itstool) path: td/p
 #: C/mail-searching.page:90
@@ -12712,6 +12710,9 @@ msgid ""
 "compare is equal, but, similar to <code>size</code> a <code>&lt;</code> and "
 "<code>&gt;</code> options can be used"
 msgstr ""
+"membandingkan tag <code>skor</code> di pesan terhadap nilai yang diberikan; "
+"perbandingan standar adalah sama dengan, tetapi, mirip dengan <code>ukuran</"
+"code> bisa juga menggunakan opsi <code>&lt;</code> dan <code>&gt;</code>"
 
 #. (itstool) path: td/p
 #: C/mail-searching.page:91
@@ -12721,16 +12722,20 @@ msgid ""
 "if the option is one of the <code>regex</code>, <code>re</code> or <code>r</"
 "code>."
 msgstr ""
+"memeriksa isi pesan untuk keberadaan kata yang diberikan; opsi perbandingan "
+"standar adalah untuk <code>kandungan</code>, tetapi ekspresi reguler bisa "
+"digunakan jika salah satu opsi adalah satu diantara <code>regex</code>, "
+"<code>re</code> atau <code>r</code>."
 
 #. (itstool) path: td/p
 #: C/mail-searching.page:92
 msgid "message's Sent date should match (**)"
-msgstr ""
+msgstr "tanggal pesan Terkirim harus cocok (**)"
 
 #. (itstool) path: td/p
 #: C/mail-searching.page:93
 msgid "message's Received date should match (**)"
-msgstr ""
+msgstr "Tanggal pesan Diterima harus cocok (**)"
 
 #. (itstool) path: td/p
 #: C/mail-searching.page:94
@@ -12738,6 +12743,9 @@ msgid ""
 "message has (if the value is not any of <code>no</code>, <code>false</code>, "
 "<code>0</code>) an attachment. Similar to <code>flag:attachment</code> tag."
 msgstr ""
+"pesan memiliki (jika nilai bukan merupakan satu dari <code>no</code>, "
+"<code>false</code>, <code>0</code>) sebuah lampiran. Mirip dengan tag "
+"<code>flag:attachment</code>."
 
 #. (itstool) path: td/p
 #: C/mail-searching.page:95
@@ -12746,6 +12754,9 @@ msgid ""
 "<gui>Properties</gui>. Example: <code>location:\"On This Computer/Inbox\"</"
 "code>"
 msgstr ""
+"Periksa lokasi pesan. Nilai lokasi (URL) dapat ditemukan pada folder "
+"<gui>Properti</gui>. Contoh: <code>location:\"Pada Komputer Ini/Kotak Masuk"
+"\"</code>"
 
 #. (itstool) path: td/p
 #: C/mail-searching.page:96
@@ -12758,6 +12769,8 @@ msgid ""
 "(*) Header comparisons can have a matching type option. The default is to "
 "check for a <code>contains</code>. The available options are:"
 msgstr ""
+"(*) Perbandingan Header bisa memiliki opsi tipe yang cocok. Bawaannya adalah "
+"untuk memeriksa <code>kandungan</code>. Opsi yang tersedia diantaranya:"
 
 #. (itstool) path: td/p
 #: C/mail-searching.page:100
@@ -12767,42 +12780,42 @@ msgstr "Opsi"
 #. (itstool) path: td/p
 #: C/mail-searching.page:101
 msgid "matches with contains"
-msgstr ""
+msgstr "cocok dengan isi"
 
 #. (itstool) path: td/p
 #: C/mail-searching.page:102
 msgid "matches if contains whole word"
-msgstr ""
+msgstr "cocok jika mengandung keseluruhan kata"
 
 #. (itstool) path: td/p
 #: C/mail-searching.page:103
 msgid "value's exact match"
-msgstr ""
+msgstr "nilai yang sama persis"
 
 #. (itstool) path: td/p
 #: C/mail-searching.page:104
 msgid "header value starts with the given value"
-msgstr ""
+msgstr "nilai header berawal dengan nilai yang diberikan"
 
 #. (itstool) path: td/p
 #: C/mail-searching.page:105
 msgid "header value ends with the given value"
-msgstr ""
+msgstr "nilai header berakhir dengan nilai yang diberikan"
 
 #. (itstool) path: td/p
 #: C/mail-searching.page:106
 msgid "header value sounds similar to given value"
-msgstr ""
+msgstr "nilai header terdengar mirip dengan nilai yang diberikan"
 
 #. (itstool) path: td/p
 #: C/mail-searching.page:107
 msgid "the given value is a regular expression"
-msgstr ""
+msgstr "nilai yang diberikan adalah ekspresi reguler"
 
 #. (itstool) path: td/p
 #: C/mail-searching.page:108
 msgid "another type of a regular expression"
-msgstr ""
+msgstr "Tipe lain dari ekspresi reguler"
 
 #. (itstool) path: section/p
 #: C/mail-searching.page:110
@@ -12817,11 +12830,20 @@ msgid ""
 "code>, <code>=</code> or <code>&gt;</code>, where the <code>&gt;</code> is "
 "the default compare option."
 msgstr ""
+"(**) Tanggal bisa ditulis secara relatif (angka positif berarti <code>dalam "
+"X hari terakhir</code>), sedangkan negatif jadi ke masa depan. Sebagai "
+"contoh, untuk mendapatkan pesan yang diterima dalam 10 hari terakhir "
+"gunakan: <code>recv:10</code>. Tanggal tepat bisa juga digunakan, formatnya "
+"bisa <code>YYYY-MM-DD</code> (yang disukai), kemudian format ISO 8601 atau "
+"format tanggal/tanggal-waktu spesifik lokal. Jika penguraian tanggal/waktu "
+"gagal, maka kondisi dilewati. Perbandingan tanggal bisa mempunyai opsi "
+"tambahan juga, yaitu <code>&lt;</code>, <code>=</code> atau <code>&gt;</"
+"code>, yang mana <code>&gt;</code> adalah opsi perbandingan standar."
 
 #. (itstool) path: section/p
 #: C/mail-searching.page:111
 msgid "There are three special tags, which require special notation. They are:"
-msgstr ""
+msgstr "Ada tiga tag spesial, yang membutuhkan notasi spesial. Diantaranya:"
 
 #. (itstool) path: section/p
 #: C/mail-searching.page:117
@@ -12833,17 +12855,23 @@ msgid ""
 "From and <code>John</code> in the To, while <code>or:(f:Bugzilla t:John)</"
 "code> filters messages from Bugzilla or addressed to John."
 msgstr ""
+"yang memungkinkan untuk membuat ekspresi khusus. Kata sambung bawaan (yang "
+"paling luar) adalah <code>and</code>. Untuk mengubahnya menjadi <code>or</"
+"code> sertakan seluruh saringan ke dalam <code>or:(....)</code>. Sebagai "
+"contoh: <code>f:Bugzilla t:John</code> menyaring semua pesan yang mengandung "
+"<code>Bugzilla</code> di dalam Dari dan <code>John</code> di dalam Kepada, "
+"sedangkan <code>or:(f:Bugzilla t:John)</code> menyaring pesan dari Bugzilla "
+"atau yang ditujukan pada John."
 
 #. (itstool) path: section/title
 #: C/mail-searching.page:121
-#, fuzzy
 msgid "Free Form Expression examples"
-msgstr "Ekspresi Formulir Bebas:"
+msgstr "Contoh-contoh Ekspresi Bentuk Bebas"
 
 #. (itstool) path: section/p
 #: C/mail-searching.page:122
 msgid "A list of some free form expressions follows:"
-msgstr ""
+msgstr "Sebuah daftar dari beberapa ekspresi bentuk bebas berikut:"
 
 #. (itstool) path: td/p
 #: C/mail-searching.page:124
@@ -12858,7 +12886,7 @@ msgstr "<code>f:John</code>"
 #. (itstool) path: td/p
 #: C/mail-searching.page:125
 msgid "Messages from <code>John</code>"
-msgstr ""
+msgstr "Pesan dari <code>John</code>"
 
 #. (itstool) path: td/p
 #: C/mail-searching.page:126
@@ -12871,6 +12899,8 @@ msgid ""
 "Messages, which contain both <code>green</code> and <code>blue</code> words "
 "in the Subject"
 msgstr ""
+"Pesan-pesan, yang mengandung semua kata <code>hijau</code> dan <code>biru</"
+"code> di dalam Subjek"
 
 #. (itstool) path: td/p
 #: C/mail-searching.page:127
@@ -12881,6 +12911,8 @@ msgstr "<code>r-ew:example.com</code>"
 #: C/mail-searching.page:127
 msgid "Recipients' address (To/Cc headers) ends with <code>example.com</code>"
 msgstr ""
+"Alaman Penerima (header Kepada/Tembusan) berakhir dengan <code>example.com</"
+"code>"
 
 #. (itstool) path: td/p
 #: C/mail-searching.page:128
@@ -12890,7 +12922,7 @@ msgstr "<code>h-starts-with:Cc=Alice</code>"
 #. (itstool) path: td/p
 #: C/mail-searching.page:128
 msgid "The <code>Cc</code> starts with word <code>Alice</code>"
-msgstr ""
+msgstr "<code>Tembusan</code> dimulai dengan kata <code>Alice</code>"
 
 #. (itstool) path: td/p
 #: C/mail-searching.page:129
@@ -12912,7 +12944,7 @@ msgstr "<code>l:work</code>"
 #. (itstool) path: td/p
 #: C/mail-searching.page:130
 msgid "Label <code>work</code> is set on the message"
-msgstr ""
+msgstr "Label <code>work</code> sudah diatur pada pesan"
 
 #. (itstool) path: td/p
 #: C/mail-searching.page:131
@@ -12937,12 +12969,12 @@ msgstr "Ukuran pesan lebih dari 100KB"
 #. (itstool) path: td/p
 #: C/mail-searching.page:133
 msgid "<code>b:important</code>"
-msgstr ""
+msgstr "<code>b:penting</code>"
 
 #. (itstool) path: td/p
 #: C/mail-searching.page:133
 msgid "The body contains a word <code>important</code>"
-msgstr ""
+msgstr "Isi mengandung kata <code>penting</code>"
 
 #. (itstool) path: td/p
 #: C/mail-searching.page:134
@@ -12971,10 +13003,9 @@ msgstr "<code>a:1</code>"
 
 #. (itstool) path: td/p
 #: C/mail-searching.page:136
-#, fuzzy
 #| msgid "Managing attachments"
 msgid "Messages with attachment"
-msgstr "Mengelola lampiran"
+msgstr "Pesan dengan lampiran"
 
 #. (itstool) path: td/p
 #: C/mail-searching.page:137
@@ -12983,9 +13014,8 @@ msgstr "<code>a:0</code>"
 
 #. (itstool) path: td/p
 #: C/mail-searching.page:137
-#, fuzzy
 msgid "Messages without attachments"
-msgstr "Meneruskan pesan dengan lampirannya"
+msgstr "Pesan tanpa lampiran"
 
 #. (itstool) path: td/p
 #: C/mail-searching.page:138
@@ -12998,6 +13028,8 @@ msgid ""
 "Messages whose recipient is <code>Alice</code> or <code>Bob</code>, but not "
 "<code>Smith</code>"
 msgstr ""
+"Pesan dengan penerimanya adalah <code>Alice</code> atau <code>Bob</code>, "
+"tapi bukan <code>Smith</code>"
 
 #. (itstool) path: td/p
 #: C/mail-searching.page:139
@@ -13007,7 +13039,7 @@ msgstr "<code>f:Bob rcv-&gt;:2020-01-01 rcv-&lt;:2020-12-31</code>"
 #. (itstool) path: td/p
 #: C/mail-searching.page:139
 msgid "Messages from <code>Bob</code>, received during the year 2020"
-msgstr ""
+msgstr "Pesan dari <code>Bob</code>, diterima pada tahun 2020"
 
 #. (itstool) path: td/p
 #: C/mail-searching.page:140
@@ -13019,7 +13051,7 @@ msgstr ""
 #. (itstool) path: td/p
 #: C/mail-searching.page:140
 msgid "Unread messages from <code>Bob</code>, received during the year 2020"
-msgstr ""
+msgstr "Pesan tak terbaca dari <code>Bob</code>, diterima pada tahun 2020"
 
 #. (itstool) path: td/p
 #: C/mail-searching.page:141
@@ -13032,27 +13064,31 @@ msgid ""
 "Read messages with attachment larger than 1MB from <code>Bob</code>, "
 "received during the past 31 days"
 msgstr ""
+"Baca pesan dengan lampiran lebih dari 1MB dari <code>Bob</code>, diterima "
+"pada 31 hari terakhir"
 
 #. (itstool) path: td/p
 #: C/mail-searching.page:142
 msgid "<code>m:\"On This Computer/Inbox\"</code>"
-msgstr ""
+msgstr "<code>m:\"Pada Komputer Ini/Kotak Masuk\"</code>"
 
 #. (itstool) path: td/p
 #: C/mail-searching.page:142
 msgid "Messages stored in the <code>On This Computer/Inbox</code> folder"
-msgstr ""
+msgstr "Pesan disimpan di folder <code>Pada Komputer Ini/Kotak Masuk</code>"
 
 #. (itstool) path: td/p
 #: C/mail-searching.page:143
 msgid "<code>location-no:\"On This Computer/Inbox\"</code>"
-msgstr ""
+msgstr "<code>location-no:\"Pada Komputer Ini/Kotak Masuk\"</code>"
 
 #. (itstool) path: td/p
 #: C/mail-searching.page:143
 msgid ""
 "Messages stored in all but the <code>On This Computer/Inbox</code> folder"
 msgstr ""
+"Pesan disimpan di semua kecuali folder <code>Pada Komputer Ini/Kotak Masuk</"
+"code>"
 
 #. (itstool) path: info/desc
 #: C/mail-send-and-receive-automatically.page:5
@@ -13062,7 +13098,6 @@ msgstr "Periksa secara otomatis dan teratur untuk surel baru yang diterima."
 
 #. (itstool) path: page/title
 #: C/mail-send-and-receive-automatically.page:20
-#, fuzzy
 msgid "Automatically check for new mail"
 msgstr "Otomatis periksa surat baru"
 
@@ -13100,7 +13135,6 @@ msgstr ""
 
 #. (itstool) path: info/desc
 #: C/mail-send-and-receive-manual.page:5
-#, fuzzy
 msgid "Force sending and receiving emails."
 msgstr "Paksa mengirim dan menerima surel."
 
@@ -13170,7 +13204,6 @@ msgstr ""
 
 #. (itstool) path: info/desc
 #: C/mail-sending-options-smtp.page:5
-#, fuzzy
 msgid "Sending options for SMTP."
 msgstr "Opsi pengiriman untuk SMTP."
 
@@ -13258,21 +13291,18 @@ msgstr ""
 
 #. (itstool) path: info/desc
 #: C/mail-sorting-folder-list.page:5
-#, fuzzy
 msgid "Sorting the mail folder list in the left pane."
 msgstr "Mengurutkan daftar folder surel di panel kiri."
 
 #. (itstool) path: page/title
 #: C/mail-sorting-folder-list.page:22
-#, fuzzy
 msgid "Sorting the mail folder list"
 msgstr "Mengurutkan daftar folder surel"
 
 #. (itstool) path: section/title
 #: C/mail-sorting-folder-list.page:25
-#, fuzzy
 msgid "Default sort order"
-msgstr "Pengurutan standar"
+msgstr "Urutan pengurutan standar"
 
 #. (itstool) path: section/p
 #: C/mail-sorting-folder-list.page:26
@@ -13286,7 +13316,6 @@ msgstr ""
 
 #. (itstool) path: item/p
 #: C/mail-sorting-folder-list.page:28
-#, fuzzy
 msgid ""
 "<gui>On This Computer</gui> - contains all mail for local account types (if "
 "configured)"
@@ -13318,7 +13347,6 @@ msgstr ""
 
 #. (itstool) path: section/title
 #: C/mail-sorting-folder-list.page:36
-#, fuzzy
 msgid "Changing the sort order"
 msgstr "Mengubah susunan urutan"
 
@@ -13441,11 +13469,14 @@ msgid ""
 "Advanced users can change further thread settings by running commands in the "
 "<app>Terminal</app> application."
 msgstr ""
+"Pengguna tingkat lanjut dapat mengubah pengaturan utas lebih jauh dengan "
+"menjalankan perintah di aplikasi <app>Terminal</app>."
 
 #. (itstool) path: item/p
 #: C/mail-sorting-message-list.page:41
 msgid "To sort each thread by latest message rather than by message date:"
 msgstr ""
+"Untuk menyortir setiap utas menurut pesan terakhir daripada tanggal pesan:"
 
 #. (itstool) path: item/p
 #: C/mail-sorting-message-list.page:45
@@ -13453,11 +13484,13 @@ msgid ""
 "To use ascending sort order of child messages in a thread rather than the "
 "sort order as in the thread root level:"
 msgstr ""
+"Untuk menggunakan urutan sortir menaik dari pesan turunan dalam sebuah utas "
+"dibandingkan urutan sortir yang digunakan pada tingkat akar:"
 
 #. (itstool) path: item/p
 #: C/mail-sorting-message-list.page:49
 msgid "To collapse all threads by default rather than expanding them:"
-msgstr ""
+msgstr "Untuk menciutkan semua utas secara default daripada memperluasnya:"
 
 #. (itstool) path: section/title
 #: C/mail-sorting-message-list.page:57
@@ -13467,7 +13500,6 @@ msgstr "Mengurutkan Email dengan Header Kolom"
 
 #. (itstool) path: section/p
 #: C/mail-sorting-message-list.page:58
-#, fuzzy
 msgid ""
 "The message list displays columns that indicate whether a message has been "
 "read, whether it has attachments, how important the message is, the sender, "
@@ -13675,7 +13707,6 @@ msgstr "Pilih opsi yang ingin Anda gunakan dalam mengurutkan pesan surel."
 
 #. (itstool) path: section/title
 #: C/mail-sorting-message-list.page:106
-#, fuzzy
 msgid "Sort Ascending"
 msgstr "Sortir Menaik"
 
@@ -13693,7 +13724,6 @@ msgstr "Pesan akan ditampilkan dengan yang terbaru di bagian bawah."
 
 #. (itstool) path: section/title
 #: C/mail-sorting-message-list.page:115
-#, fuzzy
 msgid "Sort Descending"
 msgstr "Sortir Menurun"
 
@@ -13711,9 +13741,8 @@ msgstr "Pesan akan ditampilkan dengan yang terbaru di bagian atas."
 
 #. (itstool) path: section/title
 #: C/mail-sorting-message-list.page:124
-#, fuzzy
 msgid "Reset sort"
-msgstr "Mereset pengurutan"
+msgstr "Atur ulang pengurutan"
 
 #. (itstool) path: item/p
 #: C/mail-sorting-message-list.page:127
@@ -15735,9 +15764,8 @@ msgstr ""
 
 #. (itstool) path: item/p
 #: C/xinclude-filter-vfolder-conditions.xml:31
-#, fuzzy
 msgid "Free Form Expression:"
-msgstr "Ekspresi Formulir Bebas:"
+msgstr "Ekspresi Bentuk Bebas:"
 
 #. (itstool) path: p/link
 #: C/xinclude-filter-vfolder-conditions.xml:32
@@ -15853,19 +15881,17 @@ msgstr "Status:"
 
 #. (itstool) path: item/p
 #: C/xinclude-filter-vfolder-conditions.xml:50
-#, fuzzy
 msgid ""
 "Filters according to the status of a message. The status can be Replied To, "
 "Draft, Important, Read, or Junk."
 msgstr ""
-"Memfilter sesuai dengan status pesan. Status dapat dibalas Ke, Draf, "
+"Menyaring sesuai dengan status pesan. Status dapat Dibalas Kepada, Draf, "
 "Penting, Dibaca, atau Sampah."
 
 #. (itstool) path: item/p
 #: C/xinclude-filter-vfolder-conditions.xml:52
-#, fuzzy
 msgid "Follow Up:"
-msgstr "Ikuti:"
+msgstr "Tindak Lanjut:"
 
 #. (itstool) path: p/link
 #: C/xinclude-filter-vfolder-conditions.xml:53
