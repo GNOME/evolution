@@ -24,6 +24,7 @@
 
 #include <mail/e-mail-config-auth-check.h>
 #include <mail/e-mail-config-page.h>
+#include <mail/e-mail-config-provider-page.h>
 #include <mail/e-mail-config-service-page.h>
 
 #include "e-mail-config-smtp-backend.h"
@@ -331,6 +332,8 @@ mail_config_smtp_backend_insert_widgets (EMailConfigServiceBackend *backend,
 	gtk_grid_attach (GTK_GRID (container), widget, 1, 2, 3, 1);
 	priv->forget_password_button = widget; /* do not reference */
 	gtk_widget_hide (widget);
+
+	e_mail_config_provider_add_widgets (provider, settings, parent, FALSE);
 
 	g_signal_connect (priv->forget_password_button, "clicked",
 		G_CALLBACK (smtp_backend_forget_password_cb), backend);

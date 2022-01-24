@@ -79,6 +79,12 @@ GtkBox *	e_mail_config_provider_page_get_placeholder
 					(EMailConfigProviderPage *page,
 					 const gchar *name);
 
+void		e_mail_config_provider_add_widgets
+					(CamelProvider *provider,
+					 CamelSettings *settings,
+					 GtkBox *main_box,
+					 gboolean skip_first_section_name);
+
 G_END_DECLS
 
 #endif /* E_MAIL_CONFIG_PROVIDER_PAGE_H */
