@@ -13,8 +13,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: 3.12\n"
 "Report-Msgid-Bugs-To: https://gitlab.gnome.org/GNOME/evolution/issues\n"
-"POT-Creation-Date: 2022-01-06 13:51+0000\n"
-"PO-Revision-Date: 2022-01-06 22:16+0000\n"
+"POT-Creation-Date: 2022-01-24 13:38+0000\n"
+"PO-Revision-Date: 2022-01-24 14:48+0000\n"
 "Last-Translator: Hugo Carvalho <hugokarvalho@hotmail.com>\n"
 "Language-Team: Portuguese <https://l10n.gnome.org/teams/pt/>\n"
 "Language: pt\n"
@@ -7196,12 +7196,7 @@ msgstr "Organizador:"
 msgid "Attendees:"
 msgstr "Participantes:"
 
-#: ../src/calendar/gui/e-cal-component-preview.c:498
-#: ../src/mail/e-mail-config-service-page.c:522
-msgid "Description:"
-msgstr "Descrição:"
-
-#: ../src/calendar/gui/e-cal-component-preview.c:552
+#: ../src/calendar/gui/e-cal-component-preview.c:514
 msgid "Web Page:"
 msgstr "Página Web:"
 
@@ -17857,6 +17852,10 @@ msgstr "A enviar mensagens"
 msgid "Server _Type:"
 msgstr "_Tipo de servidor:"
 
+#: ../src/mail/e-mail-config-service-page.c:522
+msgid "Description:"
+msgstr "Descrição:"
+
 #: ../src/mail/e-mail-config-summary-page.c:301
 msgid ""
 "This is a summary of the settings which will be used to access your mail."
@@ -21594,6 +21593,10 @@ msgstr ""
 "Nenhuma pasta de arquivo está configurada. Configure uma para a conta, a fim "
 "de poder arquivar mensagens."
 
+#: ../src/mail/mail.error.xml.h:219
+msgid "Failed to generate message list"
+msgstr "Falha ao gerar a lista de mensagens"
+
 #: ../src/mail/mail-send-recv.c:193
 msgid "Canceling…"
 msgstr "A cancelar…"
@@ -21739,7 +21742,7 @@ msgstr "Mensagens"
 msgid "Follow-up"
 msgstr "Dar seguimento"
 
-#: ../src/mail/message-list.c:6678 ../src/mail/message-list.c:7115
+#: ../src/mail/message-list.c:6678 ../src/mail/message-list.c:7124
 msgid "Generating message list…"
 msgstr "A gerar a lista de mensagens…"
 
