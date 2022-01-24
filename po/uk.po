@@ -12,8 +12,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: evolution\n"
 "Report-Msgid-Bugs-To: https://gitlab.gnome.org/GNOME/evolution/issues\n"
-"POT-Creation-Date: 2022-01-06 13:51+0000\n"
-"PO-Revision-Date: 2022-01-07 00:01+0200\n"
+"POT-Creation-Date: 2022-01-24 13:38+0000\n"
+"PO-Revision-Date: 2022-01-24 17:49+0200\n"
 "Last-Translator: Yuri Chornoivan <yurchor@ukr.net>\n"
 "Language-Team: Ukrainian <trans-uk@lists.fedoraproject.org>\n"
 "Language: uk\n"
@@ -3049,8 +3049,7 @@ msgstr ""
 
 #: ../data/org.gnome.evolution.plugin.itip.gschema.xml.in.h:5
 msgid "Show invitation description provided by the sender"
-msgstr ""
-"Показ опису запрошення, який надано відправником"
+msgstr "Показ опису запрошення, який надано відправником"
 
 #: ../data/org.gnome.evolution.plugin.itip.gschema.xml.in.h:6
 msgid ""
@@ -3058,7 +3057,9 @@ msgid ""
 "such is available; otherwise generate the invitation description from the "
 "iCalendar component"
 msgstr ""
-"Встановіть значення «true», щоб програма показувала опис запрошення, як його надано відправником, якщо такий є доступним. Якщо значенням буде «false» опис запрошення буде створено на основі даних компонента iCalendar"
+"Встановіть значення «true», щоб програма показувала опис запрошення, як його "
+"надано відправником, якщо такий є доступним. Якщо значенням буде «false» "
+"опис запрошення буде створено на основі даних компонента iCalendar"
 
 #: ../data/org.gnome.evolution.plugin.mail-notification.gschema.xml.in.h:1
 msgid "Notify new messages for Inbox only."
@@ -7114,12 +7115,7 @@ msgstr "Організатор:"
 msgid "Attendees:"
 msgstr "Запрошені:"
 
-#: ../src/calendar/gui/e-cal-component-preview.c:498
-#: ../src/mail/e-mail-config-service-page.c:522
-msgid "Description:"
-msgstr "Опис:"
-
-#: ../src/calendar/gui/e-cal-component-preview.c:552
+#: ../src/calendar/gui/e-cal-component-preview.c:514
 msgid "Web Page:"
 msgstr "Веб-сторінка:"
 
@@ -17843,6 +17839,10 @@ msgstr "Відсилання пошти"
 msgid "Server _Type:"
 msgstr "_Тип сервера: "
 
+#: ../src/mail/e-mail-config-service-page.c:522
+msgid "Description:"
+msgstr "Опис:"
+
 #: ../src/mail/e-mail-config-summary-page.c:301
 msgid ""
 "This is a summary of the settings which will be used to access your mail."
@@ -21595,6 +21595,12 @@ msgstr ""
 "Не налаштовано теки архівування. Будь ласка, налаштуйте таку теку для "
 "облікового запису, щоб мати змогу архівувати повідомлення."
 
+#: ../src/mail/mail.error.xml.h:219
+#| msgid "Failed to send a message"
+#| msgid_plural "Failed to send %d of %d messages"
+msgid "Failed to generate message list"
+msgstr "Не вдалось створити список повідомлень"
+
 #: ../src/mail/mail-send-recv.c:193
 msgid "Canceling…"
 msgstr "Скасування…"
@@ -21740,7 +21746,7 @@ msgstr "Повідомлення"
 msgid "Follow-up"
 msgstr "Відповісти"
 
-#: ../src/mail/message-list.c:6678 ../src/mail/message-list.c:7115
+#: ../src/mail/message-list.c:6678 ../src/mail/message-list.c:7124
 msgid "Generating message list…"
 msgstr "Створення списку повідомлень…"
 
@@ -22970,8 +22976,7 @@ msgstr "Типово з_берігати наявне нагадування"
 
 #: ../src/modules/calendar/e-calendar-preferences.c:653
 msgid "_Show invitation description provided by the sender"
-msgstr ""
-"_Показувати опис запрошення, який надано відправником"
+msgstr "_Показувати опис запрошення, який надано відправником"
 
 #: ../src/modules/calendar/e-calendar-preferences.c:667
 #: ../src/modules/calendar/e-calendar-preferences.c:698
