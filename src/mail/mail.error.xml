@@ -661,4 +661,9 @@ in the folder will be available in offline mode.</_secondary>
     <_primary>Cannot archive messages</_primary>
     <_secondary>No Archive folder is configured. Please configure one for the account in order to be able to archive messages.</_secondary>
   </error>
+
+  <error id="message-list-regen-failed" type="error">
+    <_primary>Failed to generate message list</_primary>
+    <secondary>{0}</secondary>
+  </error>
 </error-list>

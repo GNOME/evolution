@@ -6728,9 +6728,18 @@ message_list_regen_done_cb (GObject *source_object,
 		g_error_free (local_error);
 		return;
 
-	/* FIXME This should be handed off to an EAlertSink. */
 	} else if (local_error != NULL) {
-		g_warning ("%s: %s", G_STRFUNC, local_error->message);
+		EAlertSink *alert_sink = e_activity_get_alert_sink (activity);
+		gboolean handled = FALSE;
+
+		if (alert_sink) {
+			e_alert_submit (alert_sink, "mail:message-list-regen-failed", local_error->message, NULL);
+			handled = TRUE;
+		}
+
+		if (!handled)
+			g_warning ("%s: %s", G_STRFUNC, local_error->message);
+
 		g_error_free (local_error);
 		return;
 	}

@@ -181,6 +181,14 @@ shell_taskbar_activity_add (EShellTaskbar *shell_taskbar,
 		shell_taskbar_weak_notify_cb, shell_taskbar);
 
 	g_hash_table_insert (proxy_table, activity, proxy);
+
+	/* Ensure there's an alert sink set, thus the errors are shown in the GUI */
+	if (!e_activity_get_alert_sink (activity)) {
+		EShellView *shell_view = e_shell_taskbar_get_shell_view (shell_taskbar);
+		EShellContent *shell_content = e_shell_view_get_shell_content (shell_view);
+
+		e_activity_set_alert_sink (activity, E_ALERT_SINK (shell_content));
+	}
 }
 
 static gboolean
