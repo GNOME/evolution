@@ -17,16 +17,16 @@
 # Gustavo Marques <gutodisse@gmail.com>, 2015, 2016.
 # rafagazonit <rafael.moreira@ifms.edu.br>, 2016.
 # Enrico Nicoletto <liverig@gmail.com>, 2013-2015, 2020-2021.
-# Rafael Fontenelle <rafaelff@gnome.org>, 2012-2021.
 # Leônidas Araújo <leorusvellt@hotmail.com>, 2022.
+# Rafael Fontenelle <rafaelff@gnome.org>, 2012-2022.
 #
 msgid ""
 msgstr ""
 "Project-Id-Version: evolution\n"
 "Report-Msgid-Bugs-To: https://gitlab.gnome.org/GNOME/evolution/issues\n"
-"POT-Creation-Date: 2022-01-24 13:38+0000\n"
-"PO-Revision-Date: 2022-01-09 14:54-0500\n"
-"Last-Translator: Leônidas Araújo <leorusvellt@hotmail.com>\n"
+"POT-Creation-Date: 2022-01-24 16:25+0000\n"
+"PO-Revision-Date: 2022-01-24 13:45-0300\n"
+"Last-Translator: Rafael Fontenelle <rafaelff@gnome.org>\n"
 "Language-Team: Brazilian Portuguese <gnome-pt_br-list@gnome.org>\n"
 "Language: pt_BR\n"
 "MIME-Version: 1.0\n"
@@ -3123,6 +3123,16 @@ msgstr "Se deve predefinir a opção de preservar lembrete existente por padrão
 #: ../data/org.gnome.evolution.plugin.itip.gschema.xml.in.h:5
 msgid "Show invitation description provided by the sender"
 msgstr "Mostrar a descrição do convite fornecida pelo remetente"
+
+#: ../data/org.gnome.evolution.plugin.itip.gschema.xml.in.h:6
+msgid ""
+"Set to true to show invitation description as provided by the sender, if "
+"such is available; otherwise generate the invitation description from the "
+"iCalendar component"
+msgstr ""
+"Defina para verdadeiro para mostrar a descrição do convite como fornecido "
+"pelo remetente, se estiver disponível; do contrário, gera a descrição do "
+"convite a partir do componente iCalendar."
 
 #: ../data/org.gnome.evolution.plugin.mail-notification.gschema.xml.in.h:1
 msgid "Notify new messages for Inbox only."
