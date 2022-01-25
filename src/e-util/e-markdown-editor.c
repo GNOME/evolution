@@ -1,0 +1,585 @@
+/* -*- Mode: C; tab-width: 8; indent-tabs-mode: t; c-basic-offset: 8 -*- */
+/*
+ * SPDX-FileCopyrightText: (C) 2022 Red Hat (www.redhat.com)
+ * SPDX-License-Identifier: LGPL-2.1-or-later
+ */
+
+#include "evolution-config.h"
+
+#ifdef HAVE_MARKDOWN
+#include <cmark.h>
+#endif
+
+#include <glib/gi18n-lib.h>
+#include <gtk/gtk.h>
+
+#include <libedataserverui/libedataserverui.h>
+
+#include "e-misc-utils.h"
+#include "e-spell-text-view.h"
+#include "e-web-view.h"
+
+#include "e-markdown-editor.h"
+
+struct _EMarkdownEditorPrivate {
+	GtkTextView *text_view;
+	EWebView *web_view;
+	GtkToolbar *action_toolbar;
+};
+
+G_DEFINE_TYPE_WITH_PRIVATE (EMarkdownEditor, e_markdown_editor, GTK_TYPE_BOX)
+
+static void
+e_markdown_editor_get_selection (EMarkdownEditor *self,
+				 GtkTextIter *out_start,
+				 GtkTextIter *out_end,
+				 gchar **out_selected_text)
+{
+	GtkTextBuffer *buffer;
+	GtkTextIter start, end;
+
+	buffer = gtk_text_view_get_buffer (self->priv->text_view);
+
+	if (gtk_text_buffer_get_selection_bounds (buffer, &start, &end) && out_selected_text) {
+		*out_selected_text = gtk_text_buffer_get_text (buffer, &start, &end, FALSE);
+	} else if (out_selected_text) {
+		*out_selected_text = NULL;
+	}
+
+	if (out_start)
+		*out_start = start;
+
+	if (out_end)
+		*out_end = end;
+}
+
+static void
+e_markdown_editor_surround_selection (EMarkdownEditor *self,
+				      gboolean whole_lines,
+				      const gchar *prefix,
+				      const gchar *suffix)
+{
+	GtkTextIter start, end;
+	GtkTextBuffer *buffer;
+
+	e_markdown_editor_get_selection (self, &start, &end, NULL);
+
+	buffer = gtk_text_view_get_buffer (self->priv->text_view);
+
+	gtk_text_buffer_begin_user_action (buffer);
+
+	if (whole_lines) {
+		gint to_line, ii;
+
+		to_line = gtk_text_iter_get_line (&end);
+
+		for (ii = gtk_text_iter_get_line (&start); ii <= to_line; ii++) {
+			GtkTextIter iter;
+
+			gtk_text_buffer_get_iter_at_line (buffer, &iter, ii);
+
+			if (prefix && *prefix)
+				gtk_text_buffer_insert (buffer, &iter, prefix, -1);
+
+			if (suffix && *suffix) {
+				gtk_text_iter_forward_to_line_end (&iter);
+				gtk_text_buffer_insert (buffer, &iter, suffix, -1);
+			}
+		}
+	} else {
+		gint end_offset = gtk_text_iter_get_offset (&end);
+
+		if (prefix && *prefix) {
+			gtk_text_buffer_insert (buffer, &start, prefix, -1);
+			/* Keep the cursor where it is, move it only when the suffix is used */
+			end_offset += strlen (prefix);
+			gtk_text_buffer_get_iter_at_offset (buffer, &end, end_offset);
+		}
+
+		if (suffix && *suffix) {
+			gtk_text_buffer_insert (buffer, &end, suffix, -1);
+			/* Place the cursor before the suffix */
+			gtk_text_buffer_get_iter_at_offset (buffer, &end, end_offset);
+			gtk_text_buffer_select_range (buffer, &end, &end);
+		}
+	}
+
+	gtk_text_buffer_end_user_action (buffer);
+}
+
+static void
+e_markdown_editor_add_bold_text_cb (GtkToolButton *button,
+				    gpointer user_data)
+{
+	EMarkdownEditor *self = user_data;
+
+	g_return_if_fail (E_IS_MARKDOWN_EDITOR (self));
+
+	e_markdown_editor_surround_selection (self, FALSE, "**", "**");
+}
+
+static void
+e_markdown_editor_add_italic_text_cb (GtkToolButton *button,
+				      gpointer user_data)
+{
+	EMarkdownEditor *self = user_data;
+
+	g_return_if_fail (E_IS_MARKDOWN_EDITOR (self));
+
+	e_markdown_editor_surround_selection (self, FALSE, "*", "*");
+}
+
+static void
+e_markdown_editor_insert_quote_cb (GtkToolButton *button,
+				   gpointer user_data)
+{
+	EMarkdownEditor *self = user_data;
+
+	g_return_if_fail (E_IS_MARKDOWN_EDITOR (self));
+
+	e_markdown_editor_surround_selection (self, TRUE, "> ", NULL);
+}
+
+static void
+e_markdown_editor_insert_code_cb (GtkToolButton *button,
+				  gpointer user_data)
+{
+	EMarkdownEditor *self = user_data;
+	GtkTextIter start, end;
+	gchar *selection = NULL;
+
+	g_return_if_fail (E_IS_MARKDOWN_EDITOR (self));
+
+	e_markdown_editor_get_selection (self, &start, &end, &selection);
+
+	if (selection && strchr (selection, '\n')) {
+		GtkTextBuffer *buffer;
+		GtkTextIter iter;
+		gint start_line, end_line;
+
+		buffer = gtk_text_view_get_buffer (self->priv->text_view);
+
+		gtk_text_buffer_begin_user_action (buffer);
+
+		start_line = gtk_text_iter_get_line (&start);
+		end_line = gtk_text_iter_get_line (&end);
+
+		gtk_text_buffer_get_iter_at_line (buffer, &iter, start_line);
+		gtk_text_buffer_insert (buffer, &iter, "```\n", -1);
+
+		/* One line added above + 1 for the end line itself */
+		end_line = end_line + 2;
+		gtk_text_buffer_get_iter_at_line (buffer, &iter, end_line);
+		if (gtk_text_iter_is_end (&iter) && gtk_text_iter_get_line_offset (&iter) > 0) {
+			gtk_text_buffer_insert (buffer, &iter, "\n```\n", -1);
+		} else {
+			if (gtk_text_iter_is_end (&iter))
+				end_line--;
+			gtk_text_buffer_insert (buffer, &iter, "```\n", -1);
+		}
+
+		/* Place the cursor before the suffix */
+		gtk_text_buffer_get_iter_at_line (buffer, &iter, end_line);
+		gtk_text_buffer_select_range (buffer, &iter, &iter);
+
+		gtk_text_buffer_end_user_action (buffer);
+	} else {
+		e_markdown_editor_surround_selection (self, FALSE, "`", "`");
+	}
+
+	g_free (selection);
+}
+
+static void
+e_markdown_editor_add_link_cb (GtkToolButton *button,
+			       gpointer user_data)
+{
+	EMarkdownEditor *self = user_data;
+	GtkTextBuffer *buffer;
+	GtkTextIter start, end;
+	gchar *selection = NULL;
+	gint offset;
+
+	g_return_if_fail (E_IS_MARKDOWN_EDITOR (self));
+
+	e_markdown_editor_get_selection (self, &start, &end, &selection);
+
+	buffer = gtk_text_view_get_buffer (self->priv->text_view);
+	offset = gtk_text_iter_get_offset (&start);
+
+	gtk_text_buffer_begin_user_action (buffer);
+
+	if (selection && *selection) {
+		gint end_offset = gtk_text_iter_get_offset (&end);
+
+		if (g_ascii_strncasecmp (selection, "http:", 5) == 0 ||
+		    g_ascii_strncasecmp (selection, "https:", 6) == 0) {
+			gtk_text_buffer_insert (buffer, &start, "[](", -1);
+			gtk_text_buffer_get_iter_at_offset (buffer, &end, end_offset + 3);
+			gtk_text_buffer_insert (buffer, &end, ")", -1);
+			gtk_text_buffer_get_iter_at_offset (buffer, &start, offset + 1);
+			end = start;
+		} else {
+			gtk_text_buffer_insert (buffer, &start, "[", -1);
+			gtk_text_buffer_get_iter_at_offset (buffer, &end, end_offset + 1);
+			gtk_text_buffer_insert (buffer, &end, "](https://)", -1);
+			gtk_text_buffer_get_iter_at_offset (buffer, &start, end_offset + 1 + 2);
+			gtk_text_buffer_get_iter_at_offset (buffer, &end, end_offset + 1 + 10);
+		}
+
+		gtk_text_buffer_select_range (buffer, &start, &end);
+	} else {
+		gtk_text_buffer_insert (buffer, &start, "[](https://)", -1);
+
+		/* skip "[](" */
+		offset += 3;
+
+		gtk_text_buffer_get_iter_at_offset (buffer, &start, offset);
+
+		/* after the "https://" text */
+		gtk_text_buffer_get_iter_at_offset (buffer, &end, offset + 8);
+
+		gtk_text_buffer_select_range (buffer, &start, &end);
+	}
+
+	gtk_text_buffer_end_user_action (buffer);
+}
+
+static void
+e_markdown_editor_add_bullet_list_cb (GtkToolButton *button,
+				      gpointer user_data)
+{
+	EMarkdownEditor *self = user_data;
+
+	g_return_if_fail (E_IS_MARKDOWN_EDITOR (self));
+
+	e_markdown_editor_surround_selection (self, TRUE, "- ", NULL);
+}
+
+static void
+e_markdown_editor_add_numbered_list_cb (GtkToolButton *button,
+					gpointer user_data)
+{
+	EMarkdownEditor *self = user_data;
+
+	g_return_if_fail (E_IS_MARKDOWN_EDITOR (self));
+
+	e_markdown_editor_surround_selection (self, TRUE, "1. ", NULL);
+}
+
+static void
+e_markdown_editor_add_header_cb (GtkToolButton *button,
+				 gpointer user_data)
+{
+	EMarkdownEditor *self = user_data;
+
+	g_return_if_fail (E_IS_MARKDOWN_EDITOR (self));
+
+	e_markdown_editor_surround_selection (self, TRUE, "# ", NULL);
+}
+
+static void
+e_markdown_editor_markdown_syntax_cb (GtkToolButton *button,
+				      gpointer user_data)
+{
+	EMarkdownEditor *self = user_data;
+	GtkWidget *toplevel;
+
+	g_return_if_fail (E_IS_MARKDOWN_EDITOR (self));
+
+	toplevel = gtk_widget_get_toplevel (GTK_WIDGET (self));
+
+	e_show_uri (GTK_IS_WINDOW (toplevel) ? GTK_WINDOW (toplevel) : NULL, "https://commonmark.org/help/");
+}
+
+#ifdef HAVE_MARKDOWN
+static void
+e_markdown_editor_switch_page_cb (GtkNotebook *notebook,
+				  GtkWidget *page,
+				  guint page_num,
+				  gpointer user_data)
+{
+	EMarkdownEditor *self = user_data;
+	gchar *converted;
+	gchar *html;
+
+	g_return_if_fail (E_IS_MARKDOWN_EDITOR (self));
+
+	gtk_widget_set_visible (GTK_WIDGET (self->priv->action_toolbar), page_num != 1);
+
+	/* Not the Preview page */
+	if (page_num != 1)
+		return;
+
+	converted = e_markdown_editor_dup_html (self);
+
+	html = g_strconcat ("<div class=\"-e-web-view-background-color -e-web-view-text-color\" style=\"border: none; padding: 0px; margin: 0;\">",
+		converted ? converted : "",
+		"</div>",
+		NULL);
+
+	e_web_view_load_string (self->priv->web_view, html);
+
+	g_free (converted);
+	g_free (html);
+}
+#endif /* HAVE_MARKDOWN */
+
+static gboolean
+e_markdown_editor_is_dark_theme (EMarkdownEditor *self)
+{
+	GdkRGBA rgba;
+	gdouble brightness;
+
+	e_utils_get_theme_color (GTK_WIDGET (self), "theme_text_color,theme_fg_color", E_UTILS_DEFAULT_THEME_TEXT_COLOR, &rgba);
+
+	brightness =
+		(0.2109 * 255.0 * rgba.red) +
+		(0.5870 * 255.0 * rgba.green) +
+		(0.1021 * 255.0 * rgba.blue);
+
+	return brightness > 140;
+}
+
+static void
+e_markdown_editor_constructed (GObject *object)
+{
+	struct _items {
+		const gchar *label;
+		const gchar *icon_name;
+		const gchar *icon_name_dark;
+		GCallback callback;
+	} items[] = {
+		#define ITEM(lbl, icn, cbk) { lbl, icn, icn "-dark", G_CALLBACK (cbk) }
+		ITEM (N_("Add bold text"), "markdown-bold", e_markdown_editor_add_bold_text_cb),
+		ITEM (N_("Add italic text"), "markdown-italic", e_markdown_editor_add_italic_text_cb),
+		ITEM (N_("Insert a quote"), "markdown-quote", e_markdown_editor_insert_quote_cb),
+		ITEM (N_("Insert code"), "markdown-code", e_markdown_editor_insert_code_cb),
+		ITEM (N_("Add a link"), "markdown-link", e_markdown_editor_add_link_cb),
+		ITEM (N_("Add a bullet list"), "markdown-bullets", e_markdown_editor_add_bullet_list_cb),
+		ITEM (N_("Add a numbered list"), "markdown-numbers", e_markdown_editor_add_numbered_list_cb),
+		ITEM (N_("Add a header"), "markdown-header", e_markdown_editor_add_header_cb),
+		ITEM (NULL, "", NULL),
+		ITEM (N_("Open online common mark documentation"), "markdown-help", G_CALLBACK (e_markdown_editor_markdown_syntax_cb))
+		#undef ITEM
+	};
+	EMarkdownEditor *self = E_MARKDOWN_EDITOR (object);
+	GtkWidget *widget;
+	GtkNotebook *notebook;
+	GtkScrolledWindow *scrolled_window;
+	gboolean is_dark_theme;
+	guint ii;
+
+	/* Chain up to parent's method. */
+	G_OBJECT_CLASS (e_markdown_editor_parent_class)->constructed (object);
+
+	widget = gtk_notebook_new ();
+	g_object_set (G_OBJECT (widget),
+		"halign", GTK_ALIGN_FILL,
+		"hexpand", TRUE,
+		"valign", GTK_ALIGN_FILL,
+		"vexpand", TRUE,
+		"visible", TRUE,
+		"show-border", FALSE,
+		"show-tabs", TRUE,
+		NULL);
+	gtk_box_pack_start (GTK_BOX (self), widget, TRUE, TRUE, 0);
+
+	notebook = GTK_NOTEBOOK (widget);
+
+	widget = gtk_scrolled_window_new (NULL, NULL);
+	g_object_set (G_OBJECT (widget),
+		"halign", GTK_ALIGN_FILL,
+		"hexpand", TRUE,
+		"valign", GTK_ALIGN_FILL,
+		"vexpand", TRUE,
+		"visible", TRUE,
+		"hscrollbar-policy", GTK_POLICY_AUTOMATIC,
+		"vscrollbar-policy", GTK_POLICY_AUTOMATIC,
+		NULL);
+
+	gtk_notebook_append_page (notebook, widget, gtk_label_new_with_mnemonic (_("_Write")));
+
+	scrolled_window = GTK_SCROLLED_WINDOW (widget);
+
+	widget = gtk_text_view_new ();
+	g_object_set (G_OBJECT (widget),
+		"halign", GTK_ALIGN_FILL,
+		"hexpand", TRUE,
+		"valign", GTK_ALIGN_FILL,
+		"vexpand", TRUE,
+		"visible", TRUE,
+		"margin", 4,
+		"monospace", TRUE,
+		"wrap-mode", GTK_WRAP_WORD_CHAR,
+		NULL);
+
+	gtk_container_add (GTK_CONTAINER (scrolled_window), widget);
+
+	self->priv->text_view = GTK_TEXT_VIEW (widget);
+
+	e_buffer_tagger_connect (self->priv->text_view);
+	e_spell_text_view_attach (self->priv->text_view);
+
+	#ifdef HAVE_MARKDOWN
+	widget = gtk_scrolled_window_new (NULL, NULL);
+	g_object_set (G_OBJECT (widget),
+		"halign", GTK_ALIGN_FILL,
+		"hexpand", TRUE,
+		"valign", GTK_ALIGN_FILL,
+		"vexpand", TRUE,
+		"visible", TRUE,
+		"hscrollbar-policy", GTK_POLICY_AUTOMATIC,
+		"vscrollbar-policy", GTK_POLICY_AUTOMATIC,
+		NULL);
+
+	gtk_notebook_append_page (notebook, widget, gtk_label_new_with_mnemonic (_("_Preview")));
+
+	scrolled_window = GTK_SCROLLED_WINDOW (widget);
+
+	widget = e_web_view_new ();
+	g_object_set (G_OBJECT (widget),
+		"halign", GTK_ALIGN_FILL,
+		"hexpand", TRUE,
+		"valign", GTK_ALIGN_FILL,
+		"vexpand", TRUE,
+		"visible", TRUE,
+		"margin", 4,
+		NULL);
+
+	gtk_container_add (GTK_CONTAINER (scrolled_window), widget);
+
+	self->priv->web_view = E_WEB_VIEW (widget);
+	#endif /* HAVE_MARKDOWN */
+
+	widget = gtk_toolbar_new ();
+	gtk_widget_show (widget);
+	gtk_notebook_set_action_widget (notebook, widget, GTK_PACK_END);
+
+	self->priv->action_toolbar = GTK_TOOLBAR (widget);
+
+	is_dark_theme = e_markdown_editor_is_dark_theme (self);
+
+	for (ii = 0; ii < G_N_ELEMENTS (items); ii++) {
+		GtkToolItem *item;
+
+		if (items[ii].callback) {
+			GtkWidget *icon;
+			const gchar *icon_name;
+
+			icon_name = is_dark_theme ? items[ii].icon_name_dark : items[ii].icon_name;
+			icon = gtk_image_new_from_icon_name (icon_name, GTK_ICON_SIZE_LARGE_TOOLBAR);
+			gtk_widget_show (GTK_WIDGET (icon));
+			item = gtk_tool_button_new (icon, _(items[ii].label));
+			gtk_tool_item_set_tooltip_text (item, _(items[ii].label));
+			g_signal_connect_object (item, "clicked", items[ii].callback, self, 0);
+		} else {
+			item = gtk_separator_tool_item_new ();
+		}
+
+		gtk_widget_show (GTK_WIDGET (item));
+		gtk_toolbar_insert (self->priv->action_toolbar, item, -1);
+	}
+
+	#ifdef HAVE_MARKDOWN
+	g_signal_connect_object (notebook, "switch-page", G_CALLBACK (e_markdown_editor_switch_page_cb), self, 0);
+	#endif
+}
+
+static void
+e_markdown_editor_class_init (EMarkdownEditorClass *klass)
+{
+	GObjectClass *object_class;
+
+	object_class = G_OBJECT_CLASS (klass);
+	object_class->constructed = e_markdown_editor_constructed;
+}
+
+static void
+e_markdown_editor_init (EMarkdownEditor *self)
+{
+	self->priv = e_markdown_editor_get_instance_private (self);
+}
+
+/**
+ * e_markdown_editor_new:
+ *
+ * Creates a new #EMarkdownEditor
+ *
+ * Returns: (transfer full): a new #EMarkdownEditor
+ *
+ * Since: 3.44
+ */
+GtkWidget *
+e_markdown_editor_new (void)
+{
+	return g_object_new (E_TYPE_MARKDOWN_EDITOR, NULL);
+}
+
+/**
+ * e_markdown_editor_dup_text:
+ * @self: an #EMarkdownEditor
+ *
+ * Get the markdown text entered in the @self. To get
+ * the HTML version of it use e_markdown_editor_dup_html().
+ * Free the returned string with g_free(), when no longer needed.
+ *
+ * Returns: (transfer full): the markdown text
+ *
+ * Since: 3.44
+ **/
+gchar *
+e_markdown_editor_dup_text (EMarkdownEditor *self)
+{
+	GtkTextBuffer *buffer;
+	GtkTextIter start, end;
+
+	g_return_val_if_fail (E_IS_MARKDOWN_EDITOR (self), NULL);
+
+	buffer = gtk_text_view_get_buffer (self->priv->text_view);
+	gtk_text_buffer_get_bounds (buffer, &start, &end);
+
+	return gtk_text_buffer_get_text (buffer, &start, &end, FALSE);
+}
+
+/**
+ * e_markdown_editor_dup_html:
+ * @self: an #EMarkdownEditor
+ *
+ * Get the HTML version of the markdown text entered in the @self.
+ * To get the markdown text use e_markdown_editor_dup_text().
+ * Free the returned string with g_free(), when no longer needed.
+ *
+ * Note: The function can return %NULL when was not built
+ *    with the markdown support.
+ *
+ * Returns: (transfer full) (nullable): the markdown text converted
+ *    into HTML, or %NULL, when was not built with the markdown support
+ *
+ * Since: 3.44
+ **/
+gchar *
+e_markdown_editor_dup_html (EMarkdownEditor *self)
+{
+	#ifdef HAVE_MARKDOWN
+	GString *html;
+	gchar *text, *converted;
+	#endif
+
+	g_return_val_if_fail (E_IS_MARKDOWN_EDITOR (self), NULL);
+
+	#ifdef HAVE_MARKDOWN
+	text = e_markdown_editor_dup_text (self);
+	converted = cmark_markdown_to_html (text ? text : "", text ? strlen (text) : 0,
+		CMARK_OPT_VALIDATE_UTF8 | CMARK_OPT_UNSAFE);
+
+	html = e_str_replace_string (converted, "<blockquote>", "<blockquote type=\"cite\">");
+
+	g_free (converted);
+	g_free (text);
+
+	return g_string_free (html, FALSE);
+	#else
+	return NULL;
+	#endif
+}

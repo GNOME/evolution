@@ -152,6 +152,7 @@
 #include <e-util/e-mail-signature-script-dialog.h>
 #include <e-util/e-mail-signature-tree-view.h>
 #include <e-util/e-map.h>
+#include <e-util/e-markdown-editor.h>
 #include <e-util/e-menu-tool-action.h>
 #include <e-util/e-menu-tool-button.h>
 #include <e-util/e-misc-utils.h>

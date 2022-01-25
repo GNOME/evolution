@@ -92,6 +92,24 @@ set(private_icons
 	hicolor_actions_32x32_view-calendar-month.png
 	hicolor_actions_32x32_view-calendar-week.png
 	hicolor_actions_32x32_view-calendar-workweek.png
+	hicolor_actions_scalable_markdown-bold.svg
+	hicolor_actions_scalable_markdown-bold-dark.svg
+	hicolor_actions_scalable_markdown-bullets.svg
+	hicolor_actions_scalable_markdown-bullets-dark.svg
+	hicolor_actions_scalable_markdown-code.svg
+	hicolor_actions_scalable_markdown-code-dark.svg
+	hicolor_actions_scalable_markdown-header.svg
+	hicolor_actions_scalable_markdown-header-dark.svg
+	hicolor_actions_scalable_markdown-help.svg
+	hicolor_actions_scalable_markdown-help-dark.svg
+	hicolor_actions_scalable_markdown-italic.svg
+	hicolor_actions_scalable_markdown-italic-dark.svg
+	hicolor_actions_scalable_markdown-link.svg
+	hicolor_actions_scalable_markdown-link-dark.svg
+	hicolor_actions_scalable_markdown-numbers.svg
+	hicolor_actions_scalable_markdown-numbers-dark.svg
+	hicolor_actions_scalable_markdown-quote.svg
+	hicolor_actions_scalable_markdown-quote-dark.svg
 	hicolor_actions_scalable_view-calendar-day.svg
 	hicolor_actions_scalable_view-calendar-list.svg
 	hicolor_actions_scalable_view-calendar-month.svg

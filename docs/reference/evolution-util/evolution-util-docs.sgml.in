@@ -280,6 +280,7 @@
     <xi:include href="xml/e-interval-chooser.xml"/>
     <xi:include href="xml/e-mail-identity-combo-box.xml"/>
     <xi:include href="xml/e-map.xml"/>
+    <xi:include href="xml/e-markdown-editor.xml"/>
     <xi:include href="xml/e-menu-tool-action.xml"/>
     <xi:include href="xml/e-menu-tool-button.xml"/>
     <xi:include href="xml/e-mktemp.xml"/>
@@ -325,6 +326,10 @@
   <index id="api-index-full">
     <title>Index</title>
     <xi:include href="xml/api-index-full.xml"><xi:fallback /></xi:include>
+  </index>
+  <index id="api-index-3-44" role="3.44">
+    <title>Index of new symbols in 3.44</title>
+    <xi:include href="xml/api-index-3.44.xml"><xi:fallback /></xi:include>
   </index>
   <index id="api-index-3-42" role="3.42">
     <title>Index of new symbols in 3.42</title>

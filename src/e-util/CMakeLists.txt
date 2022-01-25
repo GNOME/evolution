@@ -168,6 +168,7 @@ set(SOURCES
 	e-mail-signature-script-dialog.c
 	e-mail-signature-tree-view.c
 	e-map.c
+	e-markdown-editor.c
 	e-marshal.c
 	e-menu-tool-action.c
 	e-menu-tool-button.c
@@ -443,6 +444,7 @@ set(HEADERS
 	e-mail-signature-script-dialog.h
 	e-mail-signature-tree-view.h
 	e-map.h
+	e-markdown-editor.h
 	e-menu-tool-action.h
 	e-menu-tool-button.h
 	e-misc-utils.h
@@ -651,6 +653,7 @@ target_include_directories(evolution-util PUBLIC
 	${GEO_INCLUDE_DIRS}
 	${GNOME_PLATFORM_INCLUDE_DIRS}
 	${GSPELL_INCLUDE_DIRS}
+	${MARKDOWN_INCLUDE_DIRS}
 )
 
 target_link_libraries(evolution-util
@@ -663,6 +666,7 @@ target_link_libraries(evolution-util
 	${GSPELL_LDFLAGS}
 	${ICONV_LIBS}
 	${MATH_LDFLAGS}
+	${MARKDOWN_LDFLAGS}
 )
 
 if(HAVE_LDAP)
@@ -816,6 +820,7 @@ add_private_programs_simple(
 	test-dateedit
 	test-html-editor
 	test-mail-signatures
+	test-markdown-editor
 	test-name-selector
 	test-preferences-window
 	test-proxy-preferences
