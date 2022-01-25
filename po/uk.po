@@ -12,8 +12,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: evolution\n"
 "Report-Msgid-Bugs-To: https://gitlab.gnome.org/GNOME/evolution/issues\n"
-"POT-Creation-Date: 2022-01-24 13:38+0000\n"
-"PO-Revision-Date: 2022-01-24 17:49+0200\n"
+"POT-Creation-Date: 2022-01-25 17:34+0000\n"
+"PO-Revision-Date: 2022-01-25 23:05+0200\n"
 "Last-Translator: Yuri Chornoivan <yurchor@ukr.net>\n"
 "Language-Team: Ukrainian <trans-uk@lists.fedoraproject.org>\n"
 "Language: uk\n"
@@ -12602,7 +12602,7 @@ msgstr "частково зашифровано за допомогою S/MIME"
 #: ../src/em-format/e-mail-formatter-utils.c:695
 #: ../src/mail/e-mail-config-security-page.c:852
 #: ../src/modules/mail-config/e-mail-config-remote-accounts.c:273
-#: ../src/modules/mail-config/e-mail-config-smtp-backend.c:216
+#: ../src/modules/mail-config/e-mail-config-smtp-backend.c:217
 msgid "Security"
 msgstr "Безпека"
 
@@ -13473,7 +13473,7 @@ msgstr "_Додаткові параметри"
 
 #: ../src/e-util/e-collection-account-wizard.c:1727
 #: ../src/modules/mail-config/e-mail-config-remote-accounts.c:217
-#: ../src/modules/mail-config/e-mail-config-smtp-backend.c:173
+#: ../src/modules/mail-config/e-mail-config-smtp-backend.c:174
 #: ../src/plugins/publish-calendar/publish-calendar.ui.h:25
 msgid "_Server:"
 msgstr "_Сервер:"
@@ -15386,7 +15386,7 @@ msgstr ""
 "Натисніть кнопку «Застосувати», щоб почати імпортування файла до Evolution."
 
 #: ../src/e-util/e-interval-chooser.c:140 ../src/e-util/filter.ui.h:6
-#: ../src/mail/e-mail-config-provider-page.c:583
+#: ../src/mail/e-mail-config-provider-page.c:627
 msgid "minutes"
 msgstr "хвилини"
 
@@ -15467,6 +15467,64 @@ msgid ""
 msgstr ""
 "Інтерактивна мапа для вибору часового поясу мишею. За допомогою клавіатури "
 "часовий пояс можна вибрати у розкривному списку, розташованому нижче."
+
+#: ../src/e-util/e-markdown-editor.c:354
+#| msgid "Add Folder"
+msgid "Add bold text"
+msgstr "Додати текст напівжирним"
+
+#: ../src/e-util/e-markdown-editor.c:355
+#| msgid "Edit as text"
+msgid "Add italic text"
+msgstr "Додати текст курсивом"
+
+#: ../src/e-util/e-markdown-editor.c:356
+#| msgid "Insert Rule"
+msgid "Insert a quote"
+msgstr "Вставити цитату"
+
+#: ../src/e-util/e-markdown-editor.c:357
+#| msgid "Insert Rule"
+msgid "Insert code"
+msgstr "Вставити код"
+
+#: ../src/e-util/e-markdown-editor.c:358
+#| msgid "Add a Column"
+msgid "Add a link"
+msgstr "Додати посилання"
+
+#: ../src/e-util/e-markdown-editor.c:359
+#| msgid "Add Label"
+msgid "Add a bullet list"
+msgstr "Додати список з пунктами"
+
+#: ../src/e-util/e-markdown-editor.c:360
+#| msgid "Numbered _List"
+msgid "Add a numbered list"
+msgstr "Додати нумерований список"
+
+#: ../src/e-util/e-markdown-editor.c:361
+#| msgid "Any header"
+msgid "Add a header"
+msgstr "Додати заголовок"
+
+#: ../src/e-util/e-markdown-editor.c:363
+msgid "Open online common mark documentation"
+msgstr ""
+"Відкрити документацію щодо типової розмітки в інтернеті"
+
+#: ../src/e-util/e-markdown-editor.c:401
+#| msgid "_Overwrite"
+msgid "_Write"
+msgstr "З_апис"
+
+#: ../src/e-util/e-markdown-editor.c:436
+#: ../src/modules/addressbook/e-book-shell-view-actions.c:1164
+#: ../src/modules/calendar/e-memo-shell-view-actions.c:684
+#: ../src/modules/calendar/e-task-shell-view-actions.c:838
+#: ../src/modules/mail/e-mail-shell-view-actions.c:1828
+msgid "_Preview"
+msgstr "_Попередній перегляд"
 
 #: ../src/e-util/e-misc-utils.c:279
 msgid "Could not open the link."
@@ -17696,15 +17754,15 @@ msgstr "Назва облікового запису не може бути по
 msgid "Looking up account details…"
 msgstr "Визначаємо параметри облікового запису…"
 
-#: ../src/mail/e-mail-config-provider-page.c:541
+#: ../src/mail/e-mail-config-provider-page.c:585
 msgid "Checking for New Mail"
 msgstr "Перевіряння на нову пошту"
 
-#: ../src/mail/e-mail-config-provider-page.c:557
+#: ../src/mail/e-mail-config-provider-page.c:601
 msgid "Check for _new messages every"
 msgstr "Перевіряти _нову пошту кожні"
 
-#: ../src/mail/e-mail-config-provider-page.c:763
+#: ../src/mail/e-mail-config-provider-page.c:751
 msgid "Receiving Options"
 msgstr "Параметри отримання"
 
@@ -20572,7 +20630,7 @@ msgstr "Перевіряти _інші заголовки на спам"
 
 #: ../src/mail/mail-config.ui.h:145
 #: ../src/modules/mail-config/e-mail-config-remote-accounts.c:303
-#: ../src/modules/mail-config/e-mail-config-smtp-backend.c:246
+#: ../src/modules/mail-config/e-mail-config-smtp-backend.c:247
 msgid "No encryption"
 msgstr "Без шифрування"
 
@@ -21596,8 +21654,6 @@ msgstr ""
 "облікового запису, щоб мати змогу архівувати повідомлення."
 
 #: ../src/mail/mail.error.xml.h:219
-#| msgid "Failed to send a message"
-#| msgid_plural "Failed to send %d of %d messages"
 msgid "Failed to generate message list"
 msgstr "Не вдалось створити список повідомлень"
 
@@ -22154,13 +22210,6 @@ msgstr "Надіслати повідомлення до обраних конт
 msgid "_Actions"
 msgstr "Ді_ї"
 
-#: ../src/modules/addressbook/e-book-shell-view-actions.c:1164
-#: ../src/modules/calendar/e-memo-shell-view-actions.c:684
-#: ../src/modules/calendar/e-task-shell-view-actions.c:838
-#: ../src/modules/mail/e-mail-shell-view-actions.c:1828
-msgid "_Preview"
-msgstr "_Попередній перегляд"
-
 #: ../src/modules/addressbook/e-book-shell-view-actions.c:1177
 #: ../src/modules/calendar/e-cal-shell-view-actions.c:1638
 #: ../src/modules/calendar/e-memo-shell-view-actions.c:701
@@ -22576,7 +22625,7 @@ msgstr "Адресна книга:"
 #: ../src/modules/cal-config-google/e-cal-config-google.c:187
 #: ../src/modules/cal-config-google/e-cal-config-gtasks.c:115
 #: ../src/modules/mail-config/e-mail-config-remote-accounts.c:444
-#: ../src/modules/mail-config/e-mail-config-smtp-backend.c:479
+#: ../src/modules/mail-config/e-mail-config-smtp-backend.c:482
 msgid "User name cannot be empty"
 msgstr "Обов'язково вкажіть користувача"
 
@@ -22616,7 +22665,7 @@ msgstr "_Порт:"
 
 #: ../src/modules/book-config-ldap/evolution-book-config-ldap.c:675
 #: ../src/modules/mail-config/e-mail-config-remote-accounts.c:247
-#: ../src/modules/mail-config/e-mail-config-smtp-backend.c:202
+#: ../src/modules/mail-config/e-mail-config-smtp-backend.c:203
 msgid "Port number is not valid"
 msgstr "Неправильний номер порту"
 
@@ -22630,7 +22679,7 @@ msgstr "Шифрування:"
 
 #: ../src/modules/book-config-ldap/evolution-book-config-ldap.c:716
 #: ../src/modules/mail-config/e-mail-config-remote-accounts.c:324
-#: ../src/modules/mail-config/e-mail-config-smtp-backend.c:267
+#: ../src/modules/mail-config/e-mail-config-smtp-backend.c:268
 msgid "Authentication"
 msgstr "Автентифікація"
 
@@ -22731,7 +22780,7 @@ msgstr "Переглядати, поки не буде досягнуто обм
 
 #: ../src/modules/book-config-ldap/evolution-book-config-ldap.c:1054
 #: ../src/modules/mail-config/e-mail-config-remote-accounts.c:425
-#: ../src/modules/mail-config/e-mail-config-smtp-backend.c:461
+#: ../src/modules/mail-config/e-mail-config-smtp-backend.c:464
 msgid "Server address cannot be empty"
 msgstr "Адреса сервера не може бути порожня"
 
@@ -25191,40 +25240,40 @@ msgstr "Поштовий каталог Mbox не може бути порожн
 
 #: ../src/modules/mail-config/e-mail-config-remote-accounts.c:199
 #: ../src/modules/mail-config/e-mail-config-sendmail-backend.c:59
-#: ../src/modules/mail-config/e-mail-config-smtp-backend.c:155
+#: ../src/modules/mail-config/e-mail-config-smtp-backend.c:156
 #: ../src/modules/plugin-manager/evolution-plugin-manager.c:194
 #: ../src/plugins/mail-notification/mail-notification.c:1275
 msgid "Configuration"
 msgstr "Налаштовування"
 
 #: ../src/modules/mail-config/e-mail-config-remote-accounts.c:231
-#: ../src/modules/mail-config/e-mail-config-smtp-backend.c:186
+#: ../src/modules/mail-config/e-mail-config-smtp-backend.c:187
 msgid "_Port:"
 msgstr "_Порт:"
 
 #. do not reference
 #: ../src/modules/mail-config/e-mail-config-remote-accounts.c:252
-#: ../src/modules/mail-config/e-mail-config-smtp-backend.c:314
+#: ../src/modules/mail-config/e-mail-config-smtp-backend.c:315
 msgid "User_name:"
 msgstr "_Назва запису:"
 
 #: ../src/modules/mail-config/e-mail-config-remote-accounts.c:266
-#: ../src/modules/mail-config/e-mail-config-smtp-backend.c:328
+#: ../src/modules/mail-config/e-mail-config-smtp-backend.c:329
 msgid "_Forget password"
 msgstr "_Забути пароль"
 
 #: ../src/modules/mail-config/e-mail-config-remote-accounts.c:292
-#: ../src/modules/mail-config/e-mail-config-smtp-backend.c:235
+#: ../src/modules/mail-config/e-mail-config-smtp-backend.c:236
 msgid "Encryption _method:"
 msgstr "_Спосіб шифрування:"
 
 #: ../src/modules/mail-config/e-mail-config-remote-accounts.c:307
-#: ../src/modules/mail-config/e-mail-config-smtp-backend.c:250
+#: ../src/modules/mail-config/e-mail-config-smtp-backend.c:251
 msgid "STARTTLS after connecting"
 msgstr "STARTTLS після з'єднання"
 
 #: ../src/modules/mail-config/e-mail-config-remote-accounts.c:311
-#: ../src/modules/mail-config/e-mail-config-smtp-backend.c:254
+#: ../src/modules/mail-config/e-mail-config-smtp-backend.c:255
 msgid "TLS on a dedicated port"
 msgstr "TLS на особливому порті"
 
@@ -25263,11 +25312,11 @@ msgid "Custom binary cannot be empty"
 msgstr "Бінарний файл не може бути порожній"
 
 #. do not reference
-#: ../src/modules/mail-config/e-mail-config-smtp-backend.c:207
+#: ../src/modules/mail-config/e-mail-config-smtp-backend.c:208
 msgid "Ser_ver requires authentication"
 msgstr "Потрібна ав_тентифікація"
 
-#: ../src/modules/mail-config/e-mail-config-smtp-backend.c:296
+#: ../src/modules/mail-config/e-mail-config-smtp-backend.c:297
 msgid "T_ype:"
 msgstr "Т_ип:"
 
