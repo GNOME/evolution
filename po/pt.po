@@ -13,8 +13,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: 3.12\n"
 "Report-Msgid-Bugs-To: https://gitlab.gnome.org/GNOME/evolution/issues\n"
-"POT-Creation-Date: 2022-01-24 13:38+0000\n"
-"PO-Revision-Date: 2022-01-24 14:48+0000\n"
+"POT-Creation-Date: 2022-01-25 17:34+0000\n"
+"PO-Revision-Date: 2022-01-25 19:47+0000\n"
 "Last-Translator: Hugo Carvalho <hugokarvalho@hotmail.com>\n"
 "Language-Team: Portuguese <https://l10n.gnome.org/teams/pt/>\n"
 "Language: pt\n"
@@ -12642,7 +12642,7 @@ msgstr "encriptada parcialmente com S/MIME"
 #: ../src/em-format/e-mail-formatter-utils.c:695
 #: ../src/mail/e-mail-config-security-page.c:852
 #: ../src/modules/mail-config/e-mail-config-remote-accounts.c:273
-#: ../src/modules/mail-config/e-mail-config-smtp-backend.c:216
+#: ../src/modules/mail-config/e-mail-config-smtp-backend.c:217
 msgid "Security"
 msgstr "Segurança"
 
@@ -13518,7 +13518,7 @@ msgstr "Opções _avançadas"
 
 #: ../src/e-util/e-collection-account-wizard.c:1727
 #: ../src/modules/mail-config/e-mail-config-remote-accounts.c:217
-#: ../src/modules/mail-config/e-mail-config-smtp-backend.c:173
+#: ../src/modules/mail-config/e-mail-config-smtp-backend.c:174
 #: ../src/plugins/publish-calendar/publish-calendar.ui.h:25
 msgid "_Server:"
 msgstr "_Servidor:"
@@ -15402,7 +15402,7 @@ msgstr ""
 "Clique em “Aplicar” para iniciar a importação do ficheiro para o Evolution."
 
 #: ../src/e-util/e-interval-chooser.c:140 ../src/e-util/filter.ui.h:6
-#: ../src/mail/e-mail-config-provider-page.c:583
+#: ../src/mail/e-mail-config-provider-page.c:627
 msgid "minutes"
 msgstr "minutos"
 
@@ -15474,7 +15474,7 @@ msgstr "O ficheiro de script tem de ser executável."
 
 #: ../src/e-util/e-map.c:883
 msgid "World Map"
-msgstr "Mapa Mundi"
+msgstr "Mapa Mundial"
 
 #: ../src/e-util/e-map.c:886
 msgid ""
@@ -15484,6 +15484,54 @@ msgstr ""
 "Widget de mapa interativo baseado no rato para seleção de um fuso horário. "
 "Utilizadores só com teclado deverão antes selecionar o fuso horário na caixa "
 "de seleção abaixo."
+
+#: ../src/e-util/e-markdown-editor.c:354
+msgid "Add bold text"
+msgstr "Adicionar texto em negrito"
+
+#: ../src/e-util/e-markdown-editor.c:355
+msgid "Add italic text"
+msgstr "Adicionar texto em itálico"
+
+#: ../src/e-util/e-markdown-editor.c:356
+msgid "Insert a quote"
+msgstr "Inserir uma citação"
+
+#: ../src/e-util/e-markdown-editor.c:357
+msgid "Insert code"
+msgstr "Inserir código"
+
+#: ../src/e-util/e-markdown-editor.c:358
+msgid "Add a link"
+msgstr "Adicionar uma ligação"
+
+#: ../src/e-util/e-markdown-editor.c:359
+msgid "Add a bullet list"
+msgstr "Adicionar uma lista de marcas"
+
+#: ../src/e-util/e-markdown-editor.c:360
+msgid "Add a numbered list"
+msgstr "Adicionar uma lista numerada"
+
+#: ../src/e-util/e-markdown-editor.c:361
+msgid "Add a header"
+msgstr "Adicionar um cabeçalho"
+
+#: ../src/e-util/e-markdown-editor.c:363
+msgid "Open online common mark documentation"
+msgstr "Abrir documentação de marca comum online"
+
+#: ../src/e-util/e-markdown-editor.c:401
+msgid "_Write"
+msgstr "_Escrever"
+
+#: ../src/e-util/e-markdown-editor.c:436
+#: ../src/modules/addressbook/e-book-shell-view-actions.c:1164
+#: ../src/modules/calendar/e-memo-shell-view-actions.c:684
+#: ../src/modules/calendar/e-task-shell-view-actions.c:838
+#: ../src/modules/mail/e-mail-shell-view-actions.c:1828
+msgid "_Preview"
+msgstr "_Antever"
 
 #: ../src/e-util/e-misc-utils.c:279
 msgid "Could not open the link."
@@ -17709,15 +17757,15 @@ msgstr "O nome de conta não pode estar vazio"
 msgid "Looking up account details…"
 msgstr "A procurar os detalhes da conta…"
 
-#: ../src/mail/e-mail-config-provider-page.c:541
+#: ../src/mail/e-mail-config-provider-page.c:585
 msgid "Checking for New Mail"
 msgstr "A procurar novas mensagens"
 
-#: ../src/mail/e-mail-config-provider-page.c:557
+#: ../src/mail/e-mail-config-provider-page.c:601
 msgid "Check for _new messages every"
 msgstr "Verificar se existem _novas mensagens a cada"
 
-#: ../src/mail/e-mail-config-provider-page.c:763
+#: ../src/mail/e-mail-config-provider-page.c:751
 msgid "Receiving Options"
 msgstr "Opções de receção"
 
@@ -20558,7 +20606,7 @@ msgstr "Verificar nos cabeçalhos personalizados _se é não solicitado"
 
 #: ../src/mail/mail-config.ui.h:145
 #: ../src/modules/mail-config/e-mail-config-remote-accounts.c:303
-#: ../src/modules/mail-config/e-mail-config-smtp-backend.c:246
+#: ../src/modules/mail-config/e-mail-config-smtp-backend.c:247
 msgid "No encryption"
 msgstr "Sem encriptação"
 
@@ -22151,13 +22199,6 @@ msgstr "Enviar uma mensagem aos contactos selecionados"
 msgid "_Actions"
 msgstr "_Ações"
 
-#: ../src/modules/addressbook/e-book-shell-view-actions.c:1164
-#: ../src/modules/calendar/e-memo-shell-view-actions.c:684
-#: ../src/modules/calendar/e-task-shell-view-actions.c:838
-#: ../src/modules/mail/e-mail-shell-view-actions.c:1828
-msgid "_Preview"
-msgstr "_Antever"
-
 #: ../src/modules/addressbook/e-book-shell-view-actions.c:1177
 #: ../src/modules/calendar/e-cal-shell-view-actions.c:1638
 #: ../src/modules/calendar/e-memo-shell-view-actions.c:701
@@ -22586,7 +22627,7 @@ msgstr "Livro de endereços:"
 #: ../src/modules/cal-config-google/e-cal-config-google.c:187
 #: ../src/modules/cal-config-google/e-cal-config-gtasks.c:115
 #: ../src/modules/mail-config/e-mail-config-remote-accounts.c:444
-#: ../src/modules/mail-config/e-mail-config-smtp-backend.c:479
+#: ../src/modules/mail-config/e-mail-config-smtp-backend.c:482
 msgid "User name cannot be empty"
 msgstr "O nome de utilizador não pode estar vazio"
 
@@ -22626,7 +22667,7 @@ msgstr "Porta:"
 
 #: ../src/modules/book-config-ldap/evolution-book-config-ldap.c:675
 #: ../src/modules/mail-config/e-mail-config-remote-accounts.c:247
-#: ../src/modules/mail-config/e-mail-config-smtp-backend.c:202
+#: ../src/modules/mail-config/e-mail-config-smtp-backend.c:203
 msgid "Port number is not valid"
 msgstr "O número de porta não é válido"
 
@@ -22640,7 +22681,7 @@ msgstr "Encriptação:"
 
 #: ../src/modules/book-config-ldap/evolution-book-config-ldap.c:716
 #: ../src/modules/mail-config/e-mail-config-remote-accounts.c:324
-#: ../src/modules/mail-config/e-mail-config-smtp-backend.c:267
+#: ../src/modules/mail-config/e-mail-config-smtp-backend.c:268
 msgid "Authentication"
 msgstr "Autenticação"
 
@@ -22741,7 +22782,7 @@ msgstr "Navegar até atingir o limite"
 
 #: ../src/modules/book-config-ldap/evolution-book-config-ldap.c:1054
 #: ../src/modules/mail-config/e-mail-config-remote-accounts.c:425
-#: ../src/modules/mail-config/e-mail-config-smtp-backend.c:461
+#: ../src/modules/mail-config/e-mail-config-smtp-backend.c:464
 msgid "Server address cannot be empty"
 msgstr "O endereço do servidor não pode estar vazio"
 
@@ -25207,40 +25248,40 @@ msgstr "A pasta de spool Mbox não pode estar vazia"
 
 #: ../src/modules/mail-config/e-mail-config-remote-accounts.c:199
 #: ../src/modules/mail-config/e-mail-config-sendmail-backend.c:59
-#: ../src/modules/mail-config/e-mail-config-smtp-backend.c:155
+#: ../src/modules/mail-config/e-mail-config-smtp-backend.c:156
 #: ../src/modules/plugin-manager/evolution-plugin-manager.c:194
 #: ../src/plugins/mail-notification/mail-notification.c:1275
 msgid "Configuration"
 msgstr "Configuração"
 
 #: ../src/modules/mail-config/e-mail-config-remote-accounts.c:231
-#: ../src/modules/mail-config/e-mail-config-smtp-backend.c:186
+#: ../src/modules/mail-config/e-mail-config-smtp-backend.c:187
 msgid "_Port:"
 msgstr "_Porta:"
 
 #. do not reference
 #: ../src/modules/mail-config/e-mail-config-remote-accounts.c:252
-#: ../src/modules/mail-config/e-mail-config-smtp-backend.c:314
+#: ../src/modules/mail-config/e-mail-config-smtp-backend.c:315
 msgid "User_name:"
 msgstr "_Nome de utilizador:"
 
 #: ../src/modules/mail-config/e-mail-config-remote-accounts.c:266
-#: ../src/modules/mail-config/e-mail-config-smtp-backend.c:328
+#: ../src/modules/mail-config/e-mail-config-smtp-backend.c:329
 msgid "_Forget password"
 msgstr "Es_quecer senhas"
 
 #: ../src/modules/mail-config/e-mail-config-remote-accounts.c:292
-#: ../src/modules/mail-config/e-mail-config-smtp-backend.c:235
+#: ../src/modules/mail-config/e-mail-config-smtp-backend.c:236
 msgid "Encryption _method:"
 msgstr "_Método de encriptação:"
 
 #: ../src/modules/mail-config/e-mail-config-remote-accounts.c:307
-#: ../src/modules/mail-config/e-mail-config-smtp-backend.c:250
+#: ../src/modules/mail-config/e-mail-config-smtp-backend.c:251
 msgid "STARTTLS after connecting"
 msgstr "STARTTLS após ligar"
 
 #: ../src/modules/mail-config/e-mail-config-remote-accounts.c:311
-#: ../src/modules/mail-config/e-mail-config-smtp-backend.c:254
+#: ../src/modules/mail-config/e-mail-config-smtp-backend.c:255
 msgid "TLS on a dedicated port"
 msgstr "TLS numa porta dedicada"
 
@@ -25279,11 +25320,11 @@ msgid "Custom binary cannot be empty"
 msgstr "O binário personalizado não pode estar vazio"
 
 #. do not reference
-#: ../src/modules/mail-config/e-mail-config-smtp-backend.c:207
+#: ../src/modules/mail-config/e-mail-config-smtp-backend.c:208
 msgid "Ser_ver requires authentication"
 msgstr "Ser_vidor requer autenticação"
 
-#: ../src/modules/mail-config/e-mail-config-smtp-backend.c:296
+#: ../src/modules/mail-config/e-mail-config-smtp-backend.c:297
 msgid "T_ype:"
 msgstr "T_ipo:"
 
@@ -32495,9 +32536,6 @@ msgstr "Certificado importado"
 
 #~ msgid "Subscribe to my _notifications"
 #~ msgstr "Subscrever as minhas _notificações"
-
-#~ msgid "_Write"
-#~ msgstr "_Escrever"
 
 #~ msgid "permission to read|_Read"
 #~ msgstr "Le_r"
