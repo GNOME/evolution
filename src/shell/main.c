@@ -631,6 +631,8 @@ main (gint argc,
 	}
 
 	if (g_application_get_is_remote (G_APPLICATION (shell))) {
+		g_application_activate (G_APPLICATION (shell));
+
 		if (remaining_args && *remaining_args)
 			e_shell_handle_uris (shell, (const gchar * const *) remaining_args, import_uris);
 
