@@ -68,7 +68,7 @@ emfe_text_markdown_format (EMailFormatterExtension *extension,
 
 		html = cmark_markdown_to_html ((const gchar *) g_memory_output_stream_get_data (G_MEMORY_OUTPUT_STREAM (output_stream)),
 					       g_memory_output_stream_get_data_size (G_MEMORY_OUTPUT_STREAM (output_stream)),
-					       CMARK_OPT_VALIDATE_UTF8);
+					       CMARK_OPT_VALIDATE_UTF8 | CMARK_OPT_UNSAFE);
 		g_object_unref (output_stream);
 		g_object_unref (mime_part);
 
