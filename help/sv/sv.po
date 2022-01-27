@@ -1,8 +1,8 @@
 # Swedish messages for Evolution manual.
-# Copyright © 2007-2021 Free Software Foundation, Inc.
+# Copyright © 2007-2022 Free Software Foundation, Inc.
 # Daniel Nylander <po@danielnylander.se>, 2007.
 # Sebastian Rasmussen <sebras@gmail.com>, 2016, 2018.
-# Anders Jonsson <anders.jonsson@norsjovallen.se>, 2017, 2018, 2019, 2020, 2021.
+# Anders Jonsson <anders.jonsson@norsjovallen.se>, 2017, 2018, 2019, 2020, 2021, 2022.
 # Luna Jernberg <droidbittin@gmail.com>, 2021.
 #
 msgid ""
@@ -10,8 +10,8 @@ msgstr ""
 "Project-Id-Version: evolution.help.HEAD\n"
 "Report-Msgid-Bugs-To: http://bugzilla.gnome.org/enter_bug.cgi?"
 "product=evolution&keywords=I18N+L10N&component=User%20Documentation\n"
-"POT-Creation-Date: 2021-09-13 15:02+0000\n"
-"PO-Revision-Date: 2021-09-13 22:33+0200\n"
+"POT-Creation-Date: 2022-01-03 21:02+0000\n"
+"PO-Revision-Date: 2022-01-27 12:42+0100\n"
 "Last-Translator: Anders Jonsson <anders.jonsson@norsjovallen.se>\n"
 "Language-Team: Swedish <tp-sv@listor.tp-sv.se>\n"
 "Language: sv\n"
@@ -19,7 +19,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
-"X-Generator: Poedit 3.0\n"
+"X-Generator: Poedit 3.0.1\n"
 
 #. Put one translator per line, in the form NAME <EMAIL>, YEAR1, YEAR2
 msgctxt "_"
@@ -2743,6 +2743,27 @@ msgstr ""
 #. (itstool) path: page/p
 #: C/customize-ui-items.page:34
 msgid ""
+"Changing the order of tool bar/menu items in some <file>.ui</file> files may "
+"not affect their displayed order in <app>Evolution</app>. As a workaround, "
+"the attribute <code>position='top'</code> can be added to some elements (e."
+"g. <code>toolitem</code> and non-empty <code>placeholder</code> elements), "
+"which will place them before other items in the group and cause them to be "
+"displayed according to their order in the <file>.ui</file> file. This "
+"attribute may need to be added to all items in a group to achieve the "
+"overall desired item order."
+msgstr ""
+"Att ändra ordningen på objekt i verktygsfält/menyer i några <file>.ui</file>-"
+"filer kanske inte påverkar deras visningsordning i <app>Evolution</app>. Som "
+"en lösning på detta kan attributet <code>position='top'</code> läggas till i "
+"vissa element (t.ex. elementet <code>toolitem</code> och ej tomma "
+"<code>placeholder</code>-element), vilket kommer placera dem före andra "
+"objekt i gruppen och få dem att visas enligt sin ordning i <file>.ui</file>-"
+"filen. Detta attribute kan behöva läggas till för alla objekt i en grupp för "
+"att åstadkomma den övergripande önskade objektordningen."
+
+#. (itstool) path: page/p
+#: C/customize-ui-items.page:36
+msgid ""
 "The modified files will be used if the <code>evolution-ui-version</code> "
 "attribute of the root <code>ui</code> element matches the version of the "
 "default files provided by <app>Evolution</app>."
@@ -2752,7 +2773,7 @@ msgstr ""
 "standardfilerna som tillhandahålls av <app>Evolution</app>."
 
 #. (itstool) path: page/p
-#: C/customize-ui-items.page:36
+#: C/customize-ui-items.page:38
 msgid ""
 "To change keyboard shortcuts, edit <file>~/.config/evolution/accels</file> "
 "while <app>Evolution</app> is not running. Commented lines start with a "
