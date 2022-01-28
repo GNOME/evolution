@@ -562,21 +562,56 @@ gchar *
 e_markdown_editor_dup_html (EMarkdownEditor *self)
 {
 	#ifdef HAVE_MARKDOWN
-	GString *html;
-	gchar *text, *converted;
+	gchar *text, *html;
 	#endif
 
 	g_return_val_if_fail (E_IS_MARKDOWN_EDITOR (self), NULL);
 
 	#ifdef HAVE_MARKDOWN
 	text = e_markdown_editor_dup_text (self);
-	converted = cmark_markdown_to_html (text ? text : "", text ? strlen (text) : 0,
+	html = e_markdown_util_text_to_html (text, -1);
+
+	g_free (text);
+
+	return html;
+	#else
+	return NULL;
+	#endif
+}
+
+/**
+ * e_markdown_util_text_to_html:
+ * @plain_text: plain text with markdown to convert to HTML
+ * @length: length of the @plain_text, or -1 when it's nul-terminated
+ *
+ * Convert @plain_text, possibly with markdown, into the HTML.
+ *
+ * Note: The function can return %NULL when was not built
+ *    with the markdown support.
+ *
+ * Returns: (transfer full) (nullable): text converted into HTML,
+ *    or %NULL, when was not built with the markdown support.
+ *    Free the string with g_free(), when no longer needed.
+ *
+ * Since: 3.44
+ **/
+gchar *
+e_markdown_util_text_to_html (const gchar *plain_text,
+			      gssize length)
+{
+	#ifdef HAVE_MARKDOWN
+	GString *html;
+	gchar *converted;
+
+	if (length == -1)
+		length = plain_text ? strlen (plain_text) : 0;
+
+	converted = cmark_markdown_to_html (plain_text ? plain_text : "", length,
 		CMARK_OPT_VALIDATE_UTF8 | CMARK_OPT_UNSAFE);
 
 	html = e_str_replace_string (converted, "<blockquote>", "<blockquote type=\"cite\">");
 
 	g_free (converted);
-	g_free (text);
 
 	return g_string_free (html, FALSE);
 	#else

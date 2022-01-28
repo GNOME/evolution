@@ -52,6 +52,9 @@ GtkWidget *	e_markdown_editor_new			(void);
 gchar *		e_markdown_editor_dup_text		(EMarkdownEditor *self);
 gchar *		e_markdown_editor_dup_html		(EMarkdownEditor *self);
 
+gchar *		e_markdown_util_text_to_html		(const gchar *plain_text,
+							 gssize length);
+
 G_END_DECLS
 
 #endif /* E_MARKDOWN_EDITOR_H */
