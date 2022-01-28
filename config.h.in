@@ -57,9 +57,6 @@
 /* Define if libc defines an altzone variable */
 #cmakedefine HAVE_ALTZONE 1
 
-/* Define to 1 if you have the `mkdtemp' function. */
-#cmakedefine HAVE_MKDTEMP 1
-
 /* Define if you have the iso-codes package */
 #cmakedefine HAVE_ISO_CODES 1
 

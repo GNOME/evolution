@@ -1560,7 +1560,7 @@ attachment_store_move_file (SaveContext *save_context,
 	 * we get a spurious G_IO_ERROR_WOULD_MERGE error and the
 	 * user has to try saving attachments again. */
 	tmpl = g_strdup_printf (PACKAGE "-%s-XXXXXX", g_get_user_name ());
-	path = e_mktemp (tmpl);
+	path = e_mkdtemp (tmpl);
 	g_free (tmpl);
 
 	save_context->trash_directory = g_file_new_for_path (path);
