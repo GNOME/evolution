@@ -1557,6 +1557,10 @@ EvoItip.SetSelectSelected = function(iframe_id, element_id, option_value)
 				break;
 			}
 		}
+
+		// claim what source is selected when failed to select the requested source
+		if (ii >= elem.length)
+			EvoItip.selectedSourceChanged(elem);
 	}
 }
 

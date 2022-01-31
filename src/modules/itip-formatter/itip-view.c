@@ -3026,15 +3026,19 @@ itip_view_set_source (ItipView *view,
 		view->priv->part_id, SELECT_ESOURCE, FALSE,
 		e_web_view_get_cancellable (web_view));
 
+	/* Set the source UID before updating the combo, to be able
+	   to change the source when the passed-in source is not
+	   available in the combo. */
+	itip_set_selected_source_uid (view, e_source_get_uid (source));
+
+	source_changed_cb (view);
+
 	e_web_view_jsc_run_script (WEBKIT_WEB_VIEW (web_view), e_web_view_get_cancellable (web_view),
 		"EvoItip.SetSelectSelected(%s, %s, %s);",
 		view->priv->part_id,
 		SELECT_ESOURCE,
 		e_source_get_uid (source));
 
-	itip_set_selected_source_uid (view, e_source_get_uid (source));
-
-	source_changed_cb (view);
 	g_object_unref (web_view);
 }
 
