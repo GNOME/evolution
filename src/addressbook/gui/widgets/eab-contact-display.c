@@ -49,6 +49,7 @@ struct _EABContactDisplayPrivate {
 
 	EABContactDisplayMode mode;
 	gboolean show_maps;
+	gboolean home_before_work;
 };
 
 enum {
@@ -436,6 +437,24 @@ contact_display_web_process_crashed_cb (EABContactDisplay *display)
 }
 
 static void
+eab_contact_display_settings_changed_cb (GSettings *settings,
+					 const gchar *key,
+					 gpointer user_data)
+{
+	EABContactDisplay *display = user_data;
+	gboolean home_before_work;
+
+	g_return_if_fail (EAB_IS_CONTACT_DISPLAY (display));
+
+	home_before_work = g_settings_get_boolean (settings, "preview-home-before-work");
+
+	if (display->priv->contact && (home_before_work ? 1 : 0) != (display->priv->home_before_work ? 1 : 0)) {
+		display->priv->home_before_work = home_before_work;
+		load_contact (display);
+	}
+}
+
+static void
 eab_contact_display_class_init (EABContactDisplayClass *class)
 {
 	GObjectClass *object_class;
@@ -503,6 +522,7 @@ eab_contact_display_init (EABContactDisplay *display)
 	EWebView *web_view;
 	GtkUIManager *ui_manager;
 	GtkActionGroup *action_group;
+	GSettings *settings;
 	const gchar *domain = GETTEXT_PACKAGE;
 	GError *error = NULL;
 
@@ -537,6 +557,12 @@ eab_contact_display_init (EABContactDisplay *display)
 	gtk_ui_manager_add_ui_from_string (ui_manager, ui, -1, &error);
 	if (error != NULL)
 		g_error ("%s", error->message);
+
+	settings = e_util_ref_settings ("org.gnome.evolution.addressbook");
+	g_signal_connect_object (settings, "changed::preview-home-before-work",
+		G_CALLBACK (eab_contact_display_settings_changed_cb), display, 0);
+	display->priv->home_before_work = g_settings_get_boolean (settings, "preview-home-before-work");
+	g_clear_object (&settings);
 }
 
 GtkWidget *

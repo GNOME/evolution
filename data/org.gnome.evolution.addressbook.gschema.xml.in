@@ -120,5 +120,10 @@
       <_summary>Where to open contact locations</_summary>
       <_description>Currently supported values are “openstreetmap” and “google”; if unknown set, uses “openstreetmap”</_description>
     </key>
+    <key type="b" name="preview-home-before-work">
+      <_default>false</_default>
+      <summary>Preview Personal before Work information</summary>
+      <_description>Show the Personal information before the Work information in the contact preview</_description>
+    </key>
   </schema>
 </schemalist>

@@ -1120,12 +1120,24 @@ render_contact (EABContactFormatter *formatter,
                 EContact *contact,
                 GString *buffer)
 {
+	GSettings *settings;
+	gboolean home_before_work;
+
+	settings = e_util_ref_settings ("org.gnome.evolution.addressbook");
+	home_before_work = g_settings_get_boolean (settings, "preview-home-before-work");
+	g_clear_object (&settings);
+
 	render_title_block (formatter, contact, buffer);
 
 	g_string_append (buffer, "<div id=\"columns\">");
 	render_contact_column (formatter, contact, buffer);
-	render_work_column (formatter, contact, buffer);
-	render_personal_column (formatter, contact, buffer);
+	if (home_before_work) {
+		render_personal_column (formatter, contact, buffer);
+		render_work_column (formatter, contact, buffer);
+	} else {
+		render_work_column (formatter, contact, buffer);
+		render_personal_column (formatter, contact, buffer);
+	}
 	render_other_column (formatter, contact, buffer);
 	g_string_append (buffer, "</div>");
 

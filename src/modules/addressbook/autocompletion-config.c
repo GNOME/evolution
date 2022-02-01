@@ -135,6 +135,15 @@ get_general_page (EConfig *config,
 	gtk_box_pack_start (GTK_BOX (itembox), widget, FALSE, FALSE, 0);
 	gtk_widget_show (widget);
 
+	widget = gtk_check_button_new_with_mnemonic (
+		_("_Preview Personal information before Work information"));
+	g_settings_bind (
+		settings, "preview-home-before-work",
+		widget, "active",
+		G_SETTINGS_BIND_DEFAULT);
+	gtk_box_pack_start (GTK_BOX (itembox), widget, FALSE, FALSE, 0);
+	gtk_widget_show (widget);
+
 	container = gtk_box_new (GTK_ORIENTATION_HORIZONTAL, 12);
 	gtk_box_pack_start (GTK_BOX (itembox), container, FALSE, FALSE, 0);
 	gtk_widget_show (container);
