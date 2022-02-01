@@ -608,9 +608,19 @@ G_DEFINE_TYPE (ECompEditorPropertyPartDescription, e_comp_editor_property_part_d
 static GtkWidget *
 ecepp_description_get_real_edit_widget (ECompEditorPropertyPartString *part_string)
 {
+	ECompEditorPropertyPartDescription *description_part;
+
 	g_return_val_if_fail (E_IS_COMP_EDITOR_PROPERTY_PART_DESCRIPTION (part_string), NULL);
 
-	return E_COMP_EDITOR_PROPERTY_PART_DESCRIPTION (part_string)->real_edit_widget;
+	description_part = E_COMP_EDITOR_PROPERTY_PART_DESCRIPTION (part_string);
+
+	if (!description_part->real_edit_widget)
+		return NULL;
+
+	if (E_IS_MARKDOWN_EDITOR (description_part->real_edit_widget))
+		return GTK_WIDGET (e_markdown_editor_get_text_view (E_MARKDOWN_EDITOR (description_part->real_edit_widget)));
+
+	return description_part->real_edit_widget;
 }
 
 static void
@@ -682,13 +692,32 @@ ecepp_description_flip_view_as_cb (GtkLabel *label,
 }
 
 static void
+ecepp_description_changed_cb (GtkWidget *widget,
+			      gpointer user_data)
+{
+	ECompEditorPropertyPartDescription *description_part = user_data;
+
+	g_return_if_fail (E_IS_COMP_EDITOR_PROPERTY_PART_DESCRIPTION (description_part));
+
+	if (description_part->has_html) {
+		description_part->has_html = FALSE;
+		description_part->mode_html = TRUE;
+		g_clear_pointer (&description_part->alt_desc, g_free);
+
+		ecepp_description_update_view_mode (description_part);
+	}
+
+	e_comp_editor_property_part_emit_changed (E_COMP_EDITOR_PROPERTY_PART (description_part));
+}
+
+static void
 ecepp_description_create_widgets (ECompEditorPropertyPart *property_part,
 				  GtkWidget **out_label_widget,
 				  GtkWidget **out_edit_widget)
 {
 	ECompEditorPropertyPartClass *part_class;
 	ECompEditorPropertyPartDescription *description_part;
-	GtkTextView *text_view;
+	GSettings *settings;
 	GtkWidget *box, *label;
 
 	g_return_if_fail (E_IS_COMP_EDITOR_PROPERTY_PART_DESCRIPTION (property_part));
@@ -703,9 +732,38 @@ ecepp_description_create_widgets (ECompEditorPropertyPart *property_part,
 
 	*out_label_widget = NULL;
 
-	part_class->create_widgets (property_part, out_label_widget, out_edit_widget);
-	g_return_if_fail (*out_label_widget == NULL);
-	g_return_if_fail (*out_edit_widget != NULL);
+	settings = e_util_ref_settings ("org.gnome.evolution.calendar");
+
+	if (g_settings_get_boolean (settings, "use-markdown-editor")) {
+		*out_edit_widget = e_markdown_editor_new ();
+
+		g_object_set (G_OBJECT (*out_edit_widget),
+			"hexpand", FALSE,
+			"halign", GTK_ALIGN_FILL,
+			"vexpand", FALSE,
+			"valign", GTK_ALIGN_START,
+			"visible", TRUE,
+			NULL);
+
+		g_signal_connect_object (*out_edit_widget, "changed", G_CALLBACK (ecepp_description_changed_cb), description_part, 0);
+	} else {
+		GtkTextView *text_view;
+
+		part_class->create_widgets (property_part, out_label_widget, out_edit_widget);
+		g_return_if_fail (*out_label_widget == NULL);
+		g_return_if_fail (*out_edit_widget != NULL);
+
+		text_view = GTK_TEXT_VIEW (gtk_bin_get_child (GTK_BIN (*out_edit_widget)));
+		gtk_text_view_set_wrap_mode (text_view, GTK_WRAP_WORD);
+		gtk_text_view_set_monospace (text_view, TRUE);
+		e_buffer_tagger_connect (text_view);
+		e_spell_text_view_attach (text_view);
+
+		g_signal_connect_object (gtk_text_view_get_buffer (text_view), "changed",
+			G_CALLBACK (ecepp_description_changed_cb), description_part, 0);
+	}
+
+	g_clear_object (&settings);
 
 	description_part->real_edit_widget = *out_edit_widget;
 
@@ -713,12 +771,6 @@ ecepp_description_create_widgets (ECompEditorPropertyPart *property_part,
 	gtk_label_set_mnemonic_widget (GTK_LABEL (label), *out_edit_widget);
 
 	description_part->description_label = label;
-
-	text_view = GTK_TEXT_VIEW (gtk_bin_get_child (GTK_BIN (*out_edit_widget)));
-	gtk_text_view_set_wrap_mode (text_view, GTK_WRAP_WORD);
-	gtk_text_view_set_monospace (text_view, TRUE);
-	e_buffer_tagger_connect (text_view);
-	e_spell_text_view_attach (text_view);
 
 	g_object_set (G_OBJECT (label),
 		"hexpand", FALSE,
@@ -850,7 +902,8 @@ ecepp_description_fill_widget (ECompEditorPropertyPart *property_part,
 	edit_widget = e_comp_editor_property_part_string_get_real_edit_widget (E_COMP_EDITOR_PROPERTY_PART_STRING (property_part));
 	g_return_if_fail (GTK_IS_TEXT_VIEW (edit_widget));
 
-	e_buffer_tagger_update_tags (GTK_TEXT_VIEW (edit_widget));
+	if (!E_IS_MARKDOWN_EDITOR (description_part->real_edit_widget))
+		e_buffer_tagger_update_tags (GTK_TEXT_VIEW (edit_widget));
 
 	buffer = gtk_text_view_get_buffer (GTK_TEXT_VIEW (edit_widget));
 	gtk_text_buffer_get_start_iter (buffer, &text_iter_start);
@@ -910,6 +963,11 @@ ecepp_description_fill_component (ECompEditorPropertyPart *property_part,
 				  ICalComponent *component)
 {
 	ECompEditorPropertyPartClass *part_class;
+	ECompEditorPropertyPartDescription *description_part;
+
+	g_return_if_fail (E_IS_COMP_EDITOR_PROPERTY_PART_DESCRIPTION (property_part));
+
+	description_part = E_COMP_EDITOR_PROPERTY_PART_DESCRIPTION (property_part);
 
 	part_class = E_COMP_EDITOR_PROPERTY_PART_CLASS (e_comp_editor_property_part_description_parent_class);
 	g_return_if_fail (part_class != NULL);
@@ -919,6 +977,27 @@ ecepp_description_fill_component (ECompEditorPropertyPart *property_part,
 
 	while (e_cal_util_component_remove_x_property (component, "X-ALT-DESC")) {
 		/* Remove all of them, not only text/html, they are obsolete now */
+	}
+
+	if (E_IS_MARKDOWN_EDITOR (description_part->real_edit_widget)) {
+		gchar *html;
+
+		html = e_markdown_editor_dup_html (E_MARKDOWN_EDITOR (description_part->real_edit_widget));
+
+		if (html && *html) {
+			ICalProperty *prop;
+			ICalParameter *param;
+
+			prop = i_cal_property_new_x (html);
+			i_cal_property_set_x_name (prop, "X-ALT-DESC");
+
+			param = i_cal_parameter_new_fmttype ("text/html");
+			i_cal_property_take_parameter (prop, param);
+
+			i_cal_component_take_property (component, prop);
+		}
+
+		g_free (html);
 	}
 }
 

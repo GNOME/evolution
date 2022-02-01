@@ -471,6 +471,10 @@
       <default>[]</default>
       <_summary>User-defined reminder times, in minutes</_summary>
     </key>
+    <key name="use-markdown-editor" type="b">
+      <default>false</default>
+      <_summary>Whether to use markdown editor for the description in the component editor.</_summary>
+    </key>
 
     <!-- The following keys are deprecated. -->
 

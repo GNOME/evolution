@@ -25,9 +25,17 @@ struct _EMarkdownEditorPrivate {
 	GtkTextView *text_view;
 	EWebView *web_view;
 	GtkToolbar *action_toolbar;
+	gboolean is_dark_theme;
 };
 
 G_DEFINE_TYPE_WITH_PRIVATE (EMarkdownEditor, e_markdown_editor, GTK_TYPE_BOX)
+
+enum {
+	CHANGED,
+	LAST_SIGNAL
+};
+
+static guint signals[LAST_SIGNAL];
 
 static void
 e_markdown_editor_get_selection (EMarkdownEditor *self,
@@ -126,7 +134,7 @@ e_markdown_editor_add_italic_text_cb (GtkToolButton *button,
 
 	g_return_if_fail (E_IS_MARKDOWN_EDITOR (self));
 
-	e_markdown_editor_surround_selection (self, FALSE, "*", "*");
+	e_markdown_editor_surround_selection (self, FALSE, "_", "_");
 }
 
 static void
@@ -302,10 +310,23 @@ e_markdown_editor_switch_page_cb (GtkNotebook *notebook,
 	EMarkdownEditor *self = user_data;
 	gchar *converted;
 	gchar *html;
+	gint n_items, ii;
 
 	g_return_if_fail (E_IS_MARKDOWN_EDITOR (self));
 
-	gtk_widget_set_visible (GTK_WIDGET (self->priv->action_toolbar), page_num != 1);
+	n_items = gtk_toolbar_get_n_items (self->priv->action_toolbar);
+
+	for (ii = 0; ii < n_items; ii++) {
+		GtkToolItem *item = gtk_toolbar_get_nth_item (self->priv->action_toolbar, ii);
+
+		if (item) {
+			GtkWidget *widget = GTK_WIDGET (item);
+
+			/* Keep only the help button and hide any other */
+			if (g_strcmp0 (gtk_widget_get_name (widget), "markdown-help") != 0)
+				gtk_widget_set_visible (widget, page_num != 1);
+		}
+	}
 
 	/* Not the Preview page */
 	if (page_num != 1)
@@ -328,10 +349,14 @@ e_markdown_editor_switch_page_cb (GtkNotebook *notebook,
 static gboolean
 e_markdown_editor_is_dark_theme (EMarkdownEditor *self)
 {
+	GtkStyleContext *style_context;
 	GdkRGBA rgba;
 	gdouble brightness;
 
-	e_utils_get_theme_color (GTK_WIDGET (self), "theme_text_color,theme_fg_color", E_UTILS_DEFAULT_THEME_TEXT_COLOR, &rgba);
+	g_return_val_if_fail (self->priv->action_toolbar != NULL, FALSE);
+
+	style_context = gtk_widget_get_style_context (GTK_WIDGET (self->priv->action_toolbar));
+	gtk_style_context_get_color (style_context, gtk_style_context_get_state (style_context), &rgba);
 
 	brightness =
 		(0.2109 * 255.0 * rgba.red) +
@@ -341,33 +366,128 @@ e_markdown_editor_is_dark_theme (EMarkdownEditor *self)
 	return brightness > 140;
 }
 
+struct _toolbar_items {
+	const gchar *label;
+	const gchar *icon_name;
+	const gchar *icon_name_dark;
+	GCallback callback;
+};
+
+static struct _toolbar_items toolbar_items[] = {
+	#define ITEM(lbl, icn, cbk) { lbl, icn, icn "-dark", G_CALLBACK (cbk) }
+	ITEM (N_("Add bold text"), "markdown-bold", e_markdown_editor_add_bold_text_cb),
+	ITEM (N_("Add italic text"), "markdown-italic", e_markdown_editor_add_italic_text_cb),
+	ITEM (N_("Insert a quote"), "markdown-quote", e_markdown_editor_insert_quote_cb),
+	ITEM (N_("Insert code"), "markdown-code", e_markdown_editor_insert_code_cb),
+	ITEM (N_("Add a link"), "markdown-link", e_markdown_editor_add_link_cb),
+	ITEM (N_("Add a bullet list"), "markdown-bullets", e_markdown_editor_add_bullet_list_cb),
+	ITEM (N_("Add a numbered list"), "markdown-numbers", e_markdown_editor_add_numbered_list_cb),
+	ITEM (N_("Add a header"), "markdown-header", e_markdown_editor_add_header_cb),
+	ITEM (NULL, "", NULL),
+	ITEM (N_("Open online common mark documentation"), "markdown-help", G_CALLBACK (e_markdown_editor_markdown_syntax_cb))
+	#undef ITEM
+};
+
+static void
+e_markdown_editor_style_updated_cb (GtkWidget *widget,
+				    gpointer user_data)
+{
+	EMarkdownEditor *self;
+	gboolean is_dark_theme;
+
+	g_return_if_fail (E_IS_MARKDOWN_EDITOR (widget));
+
+	self = E_MARKDOWN_EDITOR (widget);
+	is_dark_theme = e_markdown_editor_is_dark_theme (self);
+
+	if (self->priv->is_dark_theme != is_dark_theme) {
+		gint n_items, ii, jj, idx = 0;
+
+		self->priv->is_dark_theme = is_dark_theme;
+
+		n_items = gtk_toolbar_get_n_items (self->priv->action_toolbar);
+
+		for (ii = 0; ii < n_items; ii++) {
+			GtkToolItem *item = gtk_toolbar_get_nth_item (self->priv->action_toolbar, ii);
+			const gchar *name;
+
+			if (!item || !GTK_IS_TOOL_BUTTON (item))
+				continue;
+
+			name = gtk_widget_get_name (GTK_WIDGET (item));
+
+			if (!name || !*name)
+				continue;
+
+			for (jj = 0; jj < G_N_ELEMENTS (toolbar_items); jj++) {
+				gint index = (jj + idx) % G_N_ELEMENTS (toolbar_items);
+
+				if (g_strcmp0 (name, toolbar_items[index].icon_name) == 0) {
+					const gchar *icon_name = is_dark_theme ? toolbar_items[index].icon_name_dark : toolbar_items[index].icon_name;
+
+					if (icon_name) {
+						GtkWidget *icon_widget = gtk_tool_button_get_icon_widget (GTK_TOOL_BUTTON (item));
+
+						if (icon_widget)
+							gtk_image_set_from_icon_name (GTK_IMAGE (icon_widget), icon_name, GTK_ICON_SIZE_SMALL_TOOLBAR);
+						else
+							gtk_tool_button_set_icon_name (GTK_TOOL_BUTTON (item), icon_name);
+					}
+
+					idx = jj + 1;
+					break;
+				}
+			}
+		}
+	}
+}
+
+static void
+e_markdown_editor_notify_editable_cb (GObject *object,
+				      GParamSpec *param,
+				      gpointer user_data)
+{
+	EMarkdownEditor *self = user_data;
+	gboolean sensitive = FALSE;
+	gint n_items, ii;
+
+	g_return_if_fail (E_IS_MARKDOWN_EDITOR (self));
+
+	g_object_get (object, "editable", &sensitive, NULL);
+
+	n_items = gtk_toolbar_get_n_items (self->priv->action_toolbar);
+
+	for (ii = 0; ii < n_items; ii++) {
+		GtkToolItem *item = gtk_toolbar_get_nth_item (self->priv->action_toolbar, ii);
+
+		if (item) {
+			GtkWidget *widget = GTK_WIDGET (item);
+
+			/* Keep only the help button and hide any other */
+			if (g_strcmp0 (gtk_widget_get_name (widget), "markdown-help") != 0)
+				gtk_widget_set_sensitive (widget, sensitive);
+		}
+	}
+}
+
+static void
+e_markdown_editor_text_view_changed_cb (GtkTextView *text_view,
+					gpointer user_data)
+{
+	EMarkdownEditor *self = user_data;
+
+	g_return_if_fail (E_IS_MARKDOWN_EDITOR (self));
+
+	g_signal_emit (self, signals[CHANGED], 0, NULL);
+}
+
 static void
 e_markdown_editor_constructed (GObject *object)
 {
-	struct _items {
-		const gchar *label;
-		const gchar *icon_name;
-		const gchar *icon_name_dark;
-		GCallback callback;
-	} items[] = {
-		#define ITEM(lbl, icn, cbk) { lbl, icn, icn "-dark", G_CALLBACK (cbk) }
-		ITEM (N_("Add bold text"), "markdown-bold", e_markdown_editor_add_bold_text_cb),
-		ITEM (N_("Add italic text"), "markdown-italic", e_markdown_editor_add_italic_text_cb),
-		ITEM (N_("Insert a quote"), "markdown-quote", e_markdown_editor_insert_quote_cb),
-		ITEM (N_("Insert code"), "markdown-code", e_markdown_editor_insert_code_cb),
-		ITEM (N_("Add a link"), "markdown-link", e_markdown_editor_add_link_cb),
-		ITEM (N_("Add a bullet list"), "markdown-bullets", e_markdown_editor_add_bullet_list_cb),
-		ITEM (N_("Add a numbered list"), "markdown-numbers", e_markdown_editor_add_numbered_list_cb),
-		ITEM (N_("Add a header"), "markdown-header", e_markdown_editor_add_header_cb),
-		ITEM (NULL, "", NULL),
-		ITEM (N_("Open online common mark documentation"), "markdown-help", G_CALLBACK (e_markdown_editor_markdown_syntax_cb))
-		#undef ITEM
-	};
 	EMarkdownEditor *self = E_MARKDOWN_EDITOR (object);
 	GtkWidget *widget;
 	GtkNotebook *notebook;
 	GtkScrolledWindow *scrolled_window;
-	gboolean is_dark_theme;
 	guint ii;
 
 	/* Chain up to parent's method. */
@@ -380,7 +500,7 @@ e_markdown_editor_constructed (GObject *object)
 		"valign", GTK_ALIGN_FILL,
 		"vexpand", TRUE,
 		"visible", TRUE,
-		"show-border", FALSE,
+		"show-border", TRUE,
 		"show-tabs", TRUE,
 		NULL);
 	gtk_box_pack_start (GTK_BOX (self), widget, TRUE, TRUE, 0);
@@ -453,26 +573,27 @@ e_markdown_editor_constructed (GObject *object)
 	#endif /* HAVE_MARKDOWN */
 
 	widget = gtk_toolbar_new ();
+	gtk_toolbar_set_icon_size (GTK_TOOLBAR (widget), GTK_ICON_SIZE_SMALL_TOOLBAR);
 	gtk_widget_show (widget);
 	gtk_notebook_set_action_widget (notebook, widget, GTK_PACK_END);
 
 	self->priv->action_toolbar = GTK_TOOLBAR (widget);
+	self->priv->is_dark_theme = e_markdown_editor_is_dark_theme (self);
 
-	is_dark_theme = e_markdown_editor_is_dark_theme (self);
-
-	for (ii = 0; ii < G_N_ELEMENTS (items); ii++) {
+	for (ii = 0; ii < G_N_ELEMENTS (toolbar_items); ii++) {
 		GtkToolItem *item;
 
-		if (items[ii].callback) {
+		if (toolbar_items[ii].callback) {
 			GtkWidget *icon;
 			const gchar *icon_name;
 
-			icon_name = is_dark_theme ? items[ii].icon_name_dark : items[ii].icon_name;
-			icon = gtk_image_new_from_icon_name (icon_name, GTK_ICON_SIZE_LARGE_TOOLBAR);
+			icon_name = self->priv->is_dark_theme ? toolbar_items[ii].icon_name_dark : toolbar_items[ii].icon_name;
+			icon = gtk_image_new_from_icon_name (icon_name, GTK_ICON_SIZE_SMALL_TOOLBAR);
 			gtk_widget_show (GTK_WIDGET (icon));
-			item = gtk_tool_button_new (icon, _(items[ii].label));
-			gtk_tool_item_set_tooltip_text (item, _(items[ii].label));
-			g_signal_connect_object (item, "clicked", items[ii].callback, self, 0);
+			item = gtk_tool_button_new (icon, _(toolbar_items[ii].label));
+			gtk_widget_set_name (GTK_WIDGET (item), toolbar_items[ii].icon_name);
+			gtk_tool_item_set_tooltip_text (item, _(toolbar_items[ii].label));
+			g_signal_connect_object (item, "clicked", toolbar_items[ii].callback, self, 0);
 		} else {
 			item = gtk_separator_tool_item_new ();
 		}
@@ -484,6 +605,10 @@ e_markdown_editor_constructed (GObject *object)
 	#ifdef HAVE_MARKDOWN
 	g_signal_connect_object (notebook, "switch-page", G_CALLBACK (e_markdown_editor_switch_page_cb), self, 0);
 	#endif
+
+	g_signal_connect (self, "style-updated", G_CALLBACK (e_markdown_editor_style_updated_cb), NULL);
+	g_signal_connect_object (gtk_text_view_get_buffer (self->priv->text_view), "changed", G_CALLBACK (e_markdown_editor_text_view_changed_cb), self, 0);
+	e_signal_connect_notify_object (self->priv->text_view, "notify::editable", G_CALLBACK (e_markdown_editor_notify_editable_cb), self, 0);
 }
 
 static void
@@ -493,6 +618,23 @@ e_markdown_editor_class_init (EMarkdownEditorClass *klass)
 
 	object_class = G_OBJECT_CLASS (klass);
 	object_class->constructed = e_markdown_editor_constructed;
+
+	/**
+	 * EMarkdownEditor::changed:
+	 * @self: an #EMarkdownEditor, which sent the signal
+	 *
+	 * This signal is emitted the content of the @self changes.
+	 *
+	 * Since: 3.44
+	 **/
+	signals[CHANGED] = g_signal_new (
+		"changed",
+		G_TYPE_FROM_CLASS (klass),
+		G_SIGNAL_RUN_FIRST,
+		0,
+		NULL, NULL, NULL,
+		G_TYPE_NONE, 0,
+		G_TYPE_NONE);
 }
 
 static void
@@ -514,6 +656,39 @@ GtkWidget *
 e_markdown_editor_new (void)
 {
 	return g_object_new (E_TYPE_MARKDOWN_EDITOR, NULL);
+}
+
+/**
+ * e_markdown_editor_get_text_view:
+ * @self: an #EMarkdownEditor
+ *
+ * Returns: (transfer none): a #GtkTextView of the @self
+ *
+ * Since: 3.44
+ **/
+GtkTextView *
+e_markdown_editor_get_text_view (EMarkdownEditor *self)
+{
+	g_return_val_if_fail (E_IS_MARKDOWN_EDITOR (self), NULL);
+
+	return self->priv->text_view;
+}
+
+/**
+ * e_markdown_editor_get_action_toolbar:
+ * @self: an #EMarkdownEditor
+ *
+ * Returns: (transfer none): a #GtkToolbar of the @self, where the caller
+ *    can add its own action buttons.
+ *
+ * Since: 3.44
+ **/
+GtkToolbar *
+e_markdown_editor_get_action_toolbar (EMarkdownEditor *self)
+{
+	g_return_val_if_fail (E_IS_MARKDOWN_EDITOR (self), NULL);
+
+	return self->priv->action_toolbar;
 }
 
 /**

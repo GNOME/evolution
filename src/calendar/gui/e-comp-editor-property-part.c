@@ -378,8 +378,7 @@ ecepp_string_create_widgets (ECompEditorPropertyPart *property_part,
 
 	klass = E_COMP_EDITOR_PROPERTY_PART_STRING_GET_CLASS (property_part);
 	g_return_if_fail (klass != NULL);
-	g_return_if_fail (g_type_is_a (klass->entry_type, GTK_TYPE_ENTRY) ||
-			  g_type_is_a (klass->entry_type, GTK_TYPE_TEXT_VIEW));
+	g_return_if_fail (klass->entry_type > 0);
 
 	/* The descendant sets the 'out_label_widget' parameter */
 	*out_edit_widget = g_object_new (klass->entry_type, NULL);

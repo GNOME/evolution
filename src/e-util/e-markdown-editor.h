@@ -49,6 +49,8 @@ struct _EMarkdownEditorClass {
 
 GType		e_markdown_editor_get_type		(void) G_GNUC_CONST;
 GtkWidget *	e_markdown_editor_new			(void);
+GtkTextView *	e_markdown_editor_get_text_view		(EMarkdownEditor *self);
+GtkToolbar *	e_markdown_editor_get_action_toolbar	(EMarkdownEditor *self);
 gchar *		e_markdown_editor_dup_text		(EMarkdownEditor *self);
 gchar *		e_markdown_editor_dup_html		(EMarkdownEditor *self);
 

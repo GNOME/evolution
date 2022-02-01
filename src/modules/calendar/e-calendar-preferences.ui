@@ -791,6 +791,22 @@
           </packing>
         </child>
         <child>
+          <object class="GtkCheckButton" id="use-markdown-editor">
+            <property name="label" translatable="yes">Use ma_rkdown for Description in the component editor</property>
+            <property name="visible">True</property>
+            <property name="can_focus">True</property>
+            <property name="receives_default">False</property>
+            <property name="margin_left">12</property>
+            <property name="use_underline">True</property>
+            <property name="draw_indicator">True</property>
+          </object>
+          <packing>
+            <property name="expand">False</property>
+            <property name="fill">False</property>
+            <property name="position">8</property>
+          </packing>
+        </child>
+        <child>
           <object class="GtkLabel" id="general-space-label">
             <property name="visible">True</property>
             <property name="can_focus">False</property>
@@ -798,7 +814,7 @@
           <packing>
             <property name="expand">True</property>
             <property name="fill">True</property>
-            <property name="position">8</property>
+            <property name="position">9</property>
           </packing>
         </child>
       </object>
