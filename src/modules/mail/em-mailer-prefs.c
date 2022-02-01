@@ -1786,6 +1786,12 @@ em_mailer_prefs_construct (EMMailerPrefs *prefs,
 		widget, "active",
 		G_SETTINGS_BIND_DEFAULT);
 
+	widget = e_builder_get_widget (prefs->priv->builder, "chkUnsetHTMLColors");
+	g_settings_bind (
+		settings, "preview-unset-html-colors",
+		widget, "active",
+		G_SETTINGS_BIND_DEFAULT);
+
 	widget = e_builder_get_widget (prefs->priv->builder, "chkPromptWantHTML");
 	g_settings_bind (
 		settings, "prompt-on-unwanted-html",

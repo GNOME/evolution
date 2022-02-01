@@ -2108,12 +2108,13 @@ mail_display_drag_data_get (GtkWidget *widget,
 	g_free (uri);
 }
 
-static void
-e_mail_display_test_change_and_update_fonts_cb (EMailDisplay *mail_display,
-						const gchar *key,
-						GSettings *settings)
+static gboolean
+e_mail_display_test_key_changed (EMailDisplay *mail_display,
+				 const gchar *key,
+				 GSettings *settings)
 {
 	GVariant *new_value, *old_value;
+	gboolean changed = FALSE;
 
 	new_value = g_settings_get_value (settings, key);
 	old_value = g_hash_table_lookup (mail_display->priv->old_settings, key);
@@ -2124,10 +2125,30 @@ e_mail_display_test_change_and_update_fonts_cb (EMailDisplay *mail_display,
 		else
 			g_hash_table_remove (mail_display->priv->old_settings, key);
 
-		e_web_view_update_fonts (E_WEB_VIEW (mail_display));
+		changed = TRUE;
 	} else if (new_value) {
 		g_variant_unref (new_value);
 	}
+
+	return changed;
+}
+
+static void
+e_mail_display_test_change_and_update_fonts_cb (EMailDisplay *mail_display,
+						const gchar *key,
+						GSettings *settings)
+{
+	if (e_mail_display_test_key_changed (mail_display, key, settings))
+		e_web_view_update_fonts (E_WEB_VIEW (mail_display));
+}
+
+static void
+e_mail_display_test_change_and_reload_cb (EMailDisplay *mail_display,
+					  const gchar *key,
+					  GSettings *settings)
+{
+	if (e_mail_display_test_key_changed (mail_display, key, settings))
+		e_mail_display_reload (mail_display);
 }
 
 static void
@@ -2408,6 +2429,9 @@ e_mail_display_init (EMailDisplay *display)
 	g_signal_connect_swapped (
 		display->priv->settings , "changed::use-custom-font",
 		G_CALLBACK (e_mail_display_test_change_and_update_fonts_cb), display);
+	g_signal_connect_swapped (
+		display->priv->settings , "changed::preview-unset-html-colors",
+		G_CALLBACK (e_mail_display_test_change_and_reload_cb), display);
 
 	g_signal_connect (
 		display, "load-changed",

@@ -1069,10 +1069,10 @@ Evo.unsetHTMLColors = function(doc)
 				continue;
 
 			if (rule.style.color)
-				rule.style.color = "inherit";
+				rule.style.removeProperty("color");
 
 			if (rule.style.backgroundColor)
-				rule.style.backgroundColor = "inherit";
+				rule.style.removeProperty("background-color");
 		}
 	}
 
@@ -1086,10 +1086,13 @@ Evo.unsetHTMLColors = function(doc)
 		if (elem.tagName != "HTML" && elem.tagName != "IFRAME" && elem.tagName != "INPUT" && elem.tagName != "BUTTON" && elem.tagName != "IMG") {
 			if (elem.style) {
 				if (elem.style.color)
-					elem.style.color = "inherit";
+					elem.style.removeProperty("color");
 
 				if (elem.style.backgroundColor)
-					elem.style.backgroundColor = "inherit";
+					elem.style.removeProperty("background-color");
+
+				if (!elem.style.length)
+					elem.removeAttribute("style");
 			}
 
 			elem.removeAttribute("color");
