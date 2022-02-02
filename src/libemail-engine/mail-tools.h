@@ -42,7 +42,8 @@ void		mail_tool_restore_xevolution_headers
 
 /* Generates the subject for a message forwarding @msg */
 gchar *		mail_tool_generate_forward_subject
-						(CamelMimeMessage *msg);
+						(CamelMimeMessage *msg,
+						 const gchar *orig_subject);
 
 /* Make a message into an attachment */
 CamelMimePart *	mail_tool_make_message_attachment

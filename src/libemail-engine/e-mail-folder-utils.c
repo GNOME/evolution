@@ -40,7 +40,7 @@ struct _AsyncContext {
 	GHashTable *hash_table;
 	GPtrArray *ptr_array;
 	GFile *destination;
-	gchar *fwd_subject;
+	gchar *orig_subject;
 	gchar *message_uid;
 };
 
@@ -58,7 +58,7 @@ async_context_free (AsyncContext *context)
 	g_clear_object (&context->part);
 	g_clear_object (&context->destination);
 
-	g_free (context->fwd_subject);
+	g_free (context->orig_subject);
 	g_free (context->message_uid);
 
 	g_slice_free (AsyncContext, context);
@@ -492,7 +492,7 @@ mail_folder_build_attachment_thread (GSimpleAsyncResult *simple,
 
 	context->part = e_mail_folder_build_attachment_sync (
 		CAMEL_FOLDER (object), context->ptr_array,
-		&context->fwd_subject, cancellable, &error);
+		&context->orig_subject, cancellable, &error);
 
 	if (error != NULL)
 		g_simple_async_result_take_error (simple, error);
@@ -501,7 +501,7 @@ mail_folder_build_attachment_thread (GSimpleAsyncResult *simple,
 CamelMimePart *
 e_mail_folder_build_attachment_sync (CamelFolder *folder,
                                      GPtrArray *message_uids,
-                                     gchar **fwd_subject,
+                                     gchar **orig_subject,
                                      GCancellable *cancellable,
                                      GError **error)
 {
@@ -530,8 +530,8 @@ e_mail_folder_build_attachment_sync (CamelFolder *folder,
 	message = g_hash_table_lookup (hash_table, uid);
 	g_return_val_if_fail (message != NULL, NULL);
 
-	if (fwd_subject != NULL)
-		*fwd_subject = mail_tool_generate_forward_subject (message);
+	if (orig_subject != NULL)
+		*orig_subject = g_strdup (camel_mime_message_get_subject (message));
 
 	if (message_uids->len == 1) {
 		part = mail_tool_make_message_attachment (message);
@@ -613,7 +613,7 @@ e_mail_folder_build_attachment (CamelFolder *folder,
 CamelMimePart *
 e_mail_folder_build_attachment_finish (CamelFolder *folder,
                                        GAsyncResult *result,
-                                       gchar **fwd_subject,
+                                       gchar **orig_subject,
                                        GError **error)
 {
 	GSimpleAsyncResult *simple;
@@ -630,9 +630,9 @@ e_mail_folder_build_attachment_finish (CamelFolder *folder,
 	if (g_simple_async_result_propagate_error (simple, error))
 		return NULL;
 
-	if (fwd_subject != NULL) {
-		*fwd_subject = context->fwd_subject;
-		context->fwd_subject = NULL;
+	if (orig_subject != NULL) {
+		*orig_subject = context->orig_subject;
+		context->orig_subject = NULL;
 	}
 
 	g_return_val_if_fail (CAMEL_IS_MIME_PART (context->part), NULL);

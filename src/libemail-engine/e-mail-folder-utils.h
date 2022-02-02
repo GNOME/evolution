@@ -63,7 +63,7 @@ gboolean	e_mail_folder_expunge_finish	(CamelFolder *folder,
 CamelMimePart *	e_mail_folder_build_attachment_sync
 						(CamelFolder *folder,
 						 GPtrArray *message_uids,
-						 gchar **fwd_subject,
+						 gchar **orig_subject,
 						 GCancellable *cancellable,
 						 GError **error);
 void		e_mail_folder_build_attachment	(CamelFolder *folder,
@@ -75,7 +75,7 @@ void		e_mail_folder_build_attachment	(CamelFolder *folder,
 CamelMimePart *	e_mail_folder_build_attachment_finish
 						(CamelFolder *folder,
 						 GAsyncResult *result,
-						 gchar **fwd_subject,
+						 gchar **orig_subject,
 						 GError **error);
 
 GHashTable *	e_mail_folder_find_duplicate_messages_sync

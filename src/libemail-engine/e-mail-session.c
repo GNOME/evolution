@@ -27,6 +27,7 @@
 #include "evolution-config.h"
 
 #include <errno.h>
+#include <locale.h>
 #include <stdlib.h>
 #include <string.h>
 
@@ -1584,6 +1585,116 @@ mail_session_decode_forward_with (ESourceRegistry *registry,
 	return source;
 }
 
+static void
+ems_change_locale (const gchar *lc_messages,
+		   const gchar *lc_time,
+		   gchar **out_lc_messages,
+		   gchar **out_lc_time)
+{
+	gboolean success;
+	gchar *previous;
+
+	if (lc_messages) {
+		#if defined(LC_MESSAGES)
+		previous = g_strdup (setlocale (LC_MESSAGES, NULL));
+		success = setlocale (LC_MESSAGES, lc_messages) != NULL;
+		#else
+		previous = g_strdup (setlocale (LC_ALL, NULL));
+		success = setlocale (LC_ALL, lc_messages) != NULL;
+		#endif
+
+		if (out_lc_messages)
+			*out_lc_messages = success ? g_strdup (previous) : NULL;
+
+		g_free (previous);
+	}
+
+	if (lc_time) {
+		#if defined(LC_TIME)
+		previous = g_strdup (setlocale (LC_TIME, NULL));
+		success = setlocale (LC_TIME, lc_time) != NULL;
+		#elif defined(LC_MESSAGES)
+		previous = g_strdup (setlocale (LC_ALL, NULL));
+		success = setlocale (LC_ALL, lc_time) != NULL;
+		#else
+		previous = NULL;
+		success = FALSE;
+		#endif
+
+		if (out_lc_time)
+			*out_lc_time = success ? g_strdup (previous) : NULL;
+
+		g_free (previous);
+	}
+}
+
+static void
+ems_prepare_attribution_locale (ESource *identity_source,
+				gchar **out_lc_messages,
+				gchar **out_lc_time)
+{
+	gchar *lang = NULL;
+
+	g_return_if_fail (out_lc_messages != NULL);
+	g_return_if_fail (out_lc_time != NULL);
+
+	if (identity_source && e_source_has_extension (identity_source, E_SOURCE_EXTENSION_MAIL_COMPOSITION)) {
+		ESourceMailComposition *extension;
+
+		extension = e_source_get_extension (identity_source, E_SOURCE_EXTENSION_MAIL_COMPOSITION);
+		lang = e_source_mail_composition_dup_language (extension);
+	}
+
+	if (!lang || !*lang) {
+		GSettings *settings;
+
+		g_free (lang);
+
+		settings = e_util_ref_settings ("org.gnome.evolution.mail");
+		lang = g_settings_get_string (settings, "composer-attribution-language");
+		g_object_unref (settings);
+
+		if (!lang || !*lang)
+			g_clear_pointer (&lang, g_free);
+	}
+
+	if (!lang) {
+		/* Set the locale always, even when using the user interface
+		   language, because gettext() can return wrong text (in the previously
+		   used language) */
+		#if defined(LC_MESSAGES)
+		lang = g_strdup (setlocale (LC_MESSAGES, NULL));
+		#else
+		lang = g_strdup (setlocale (LC_ALL, NULL));
+		#endif
+	}
+
+	if (lang) {
+		if (!g_str_equal (lang, "C") && !strchr (lang, '.')) {
+			gchar *tmp;
+
+			tmp = g_strconcat (lang, ".UTF-8", NULL);
+			g_free (lang);
+			lang = tmp;
+		}
+
+		ems_change_locale (lang, lang, out_lc_messages, out_lc_time);
+
+		g_free (lang);
+	}
+}
+
+/* Takes ownership (frees) the 'restore_locale' */
+static void
+ems_restore_locale_after_attribution (gchar *restore_lc_messages,
+				      gchar *restore_lc_time)
+{
+	ems_change_locale (restore_lc_messages, restore_lc_time, NULL, NULL);
+
+	g_free (restore_lc_messages);
+	g_free (restore_lc_time);
+}
+
 static gboolean
 mail_session_forward_to_sync (CamelSession *session,
                               CamelFolder *folder,
@@ -1604,6 +1715,7 @@ mail_session_forward_to_sync (CamelSession *session,
 	CamelMessageInfo *info;
 	CamelMedium *medium;
 	CamelNameValueArray *orig_headers;
+	GSettings *settings;
 	GString *references = NULL;
 	const gchar *extension_name;
 	const gchar *from_address;
@@ -1612,6 +1724,7 @@ mail_session_forward_to_sync (CamelSession *session,
 	gboolean success;
 	gchar *subject;
 	gchar *alias_name = NULL, *alias_address = NULL;
+	gchar *restore_lc_messages = NULL, *restore_lc_time = NULL;
 	guint ii, len;
 
 	g_return_val_if_fail (folder != NULL, FALSE);
@@ -1753,9 +1866,16 @@ mail_session_forward_to_sync (CamelSession *session,
 	g_object_unref (addr);
 
 	/* subject */
-	subject = mail_tool_generate_forward_subject (message);
+	settings = e_util_ref_settings ("org.gnome.evolution.mail");
+	if (g_settings_get_boolean (settings, "composer-use-localized-fwd-re"))
+		ems_prepare_attribution_locale (source, &restore_lc_messages, &restore_lc_time);
+	g_object_unref (settings);
+
+	subject = mail_tool_generate_forward_subject (message, NULL);
 	camel_mime_message_set_subject (forward, subject);
 	g_free (subject);
+
+	ems_restore_locale_after_attribution (restore_lc_messages, restore_lc_time);
 
 	/* store send account information */
 	mail_submission = e_source_get_extension (source, E_SOURCE_EXTENSION_MAIL_SUBMISSION);

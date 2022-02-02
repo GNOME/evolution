@@ -61,7 +61,7 @@ void		em_utils_forward_message	(EMsgComposer *composer,
 						 const gchar *uid);
 void		em_utils_forward_attachment	(EMsgComposer *composer,
 						 CamelMimePart *part,
-						 const gchar *subject,
+						 const gchar *orig_subject,
 						 CamelFolder *folder,
 						 GPtrArray *uids);
 void		em_utils_redirect_message	(EMsgComposer *composer,

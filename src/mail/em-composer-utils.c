@@ -2010,6 +2010,36 @@ emcu_restore_locale_after_attribution (gchar *restore_lc_messages,
 	g_free (restore_lc_time);
 }
 
+static gchar *
+emcu_generate_forward_subject (EMsgComposer *composer,
+			       CamelMimeMessage *message,
+			       const gchar *orig_subject)
+{
+	GSettings *settings;
+	gchar *restore_lc_messages = NULL, *restore_lc_time = NULL;
+	gchar *subject;
+
+	settings = e_util_ref_settings ("org.gnome.evolution.mail");
+
+	if (g_settings_get_boolean (settings, "composer-use-localized-fwd-re")) {
+		ESource *identity_source;
+
+		identity_source = emcu_ref_identity_source_from_composer (composer);
+
+		emcu_prepare_attribution_locale (identity_source, &restore_lc_messages, &restore_lc_time);
+
+		g_clear_object (&identity_source);
+	}
+
+	g_object_unref (settings);
+
+	subject = mail_tool_generate_forward_subject (message, orig_subject);
+
+	emcu_restore_locale_after_attribution (restore_lc_messages, restore_lc_time);
+
+	return subject;
+}
+
 /* Editing messages... */
 
 typedef enum {
@@ -2538,6 +2568,7 @@ forward_non_attached (EMsgComposer *composer,
                       EMailForwardStyle style)
 {
 	CamelSession *session;
+	EComposerHeaderTable *table;
 	EMailPartList *part_list = NULL;
 	gchar *text, *forward, *subject;
 	guint32 validity_found = 0;
@@ -2554,10 +2585,13 @@ forward_non_attached (EMsgComposer *composer,
 	if (!e_content_editor_get_html_mode (e_html_editor_get_content_editor (e_msg_composer_get_editor (composer))))
 		flags |= E_MAIL_FORMATTER_QUOTE_FLAG_NO_FORMATTING;
 
-	/* Setup composer's From account before calling quoting_text(),
-	   because quoting_text() relies on that account. */
-	subject = mail_tool_generate_forward_subject (message);
-	set_up_new_composer (composer, subject, folder, message, uid, FALSE);
+	/* Setup composer's From account before calling quoting_text() and
+	   forward subject, because both rely on that account. */
+	set_up_new_composer (composer, NULL, folder, message, uid, FALSE);
+
+	subject = emcu_generate_forward_subject (composer, message, NULL);
+	table = e_msg_composer_get_header_table (composer);
+	e_composer_header_table_set_subject (table, subject);
 	g_free (subject);
 
 	forward = quoting_text (QUOTING_FORWARD, composer);
@@ -2618,7 +2652,6 @@ em_utils_forward_message (EMsgComposer *composer,
 {
 	CamelMimePart *part;
 	GPtrArray *uids = NULL;
-	gchar *subject;
 
 	g_return_if_fail (E_IS_MSG_COMPOSER (composer));
 	g_return_if_fail (CAMEL_IS_MIME_MESSAGE (message));
@@ -2629,17 +2662,15 @@ em_utils_forward_message (EMsgComposer *composer,
 		case E_MAIL_FORWARD_STYLE_ATTACHED:
 		default:
 			part = mail_tool_make_message_attachment (message);
-			subject = mail_tool_generate_forward_subject (message);
 
 			if (folder && uid) {
 				uids = g_ptr_array_new ();
 				g_ptr_array_add (uids, (gpointer) uid);
 			}
 
-			em_utils_forward_attachment (composer, part, subject, uids ? folder : NULL, uids);
+			em_utils_forward_attachment (composer, part, camel_mime_message_get_subject (message), uids ? folder : NULL, uids);
 
 			g_object_unref (part);
-			g_free (subject);
 			break;
 
 		case E_MAIL_FORWARD_STYLE_INLINE:
@@ -2655,7 +2686,7 @@ em_utils_forward_message (EMsgComposer *composer,
 void
 em_utils_forward_attachment (EMsgComposer *composer,
                              CamelMimePart *part,
-                             const gchar *subject,
+                             const gchar *orig_subject,
                              CamelFolder *folder,
                              GPtrArray *uids)
 {
@@ -2669,7 +2700,15 @@ em_utils_forward_attachment (EMsgComposer *composer,
 
 	e_msg_composer_set_is_reply_or_forward (composer, TRUE);
 
-	set_up_new_composer (composer, subject, folder, NULL, NULL, FALSE);
+	set_up_new_composer (composer, NULL, folder, NULL, NULL, FALSE);
+
+	if (orig_subject) {
+		gchar *subject;
+
+		subject = emcu_generate_forward_subject (composer, NULL, orig_subject);
+		e_composer_header_table_set_subject (e_msg_composer_get_header_table (composer), subject);
+		g_free (subject);
+	}
 
 	e_msg_composer_attach (composer, part);
 
@@ -2809,7 +2848,8 @@ em_utils_camel_address_to_destination (CamelInternetAddress *iaddr)
 }
 
 static gchar *
-emcu_construct_reply_subject (const gchar *source_subject)
+emcu_construct_reply_subject (EMsgComposer *composer,
+			      const gchar *source_subject)
 {
 	gchar *res;
 
@@ -2822,8 +2862,22 @@ emcu_construct_reply_subject (const gchar *source_subject)
 
 		settings = e_util_ref_settings ("org.gnome.evolution.mail");
 		if (g_settings_get_boolean (settings, "composer-use-localized-fwd-re")) {
+			gchar *restore_lc_messages = NULL, *restore_lc_time = NULL;
+
+			if (composer) {
+				ESource *identity_source;
+
+				identity_source = emcu_ref_identity_source_from_composer (composer);
+
+				emcu_prepare_attribution_locale (identity_source, &restore_lc_messages, &restore_lc_time);
+
+				g_clear_object (&identity_source);
+			}
+
 			/* Translators: This is a reply attribution in the message reply subject. The %s is replaced with the subject of the original message. Both 'Re'-s in the 'reply-attribution' translation context should translate into the same string, the same as the ':' separator. */
 			res = g_strdup_printf (C_("reply-attribution", "Re: %s"), source_subject);
+
+			emcu_restore_locale_after_attribution (restore_lc_messages, restore_lc_time);
 		} else {
 			/* Do not localize this string */
 			res = g_strdup_printf ("Re: %s", source_subject);
@@ -2938,13 +2992,12 @@ reply_setup_composer (EMsgComposer *composer,
 
 	reply_setup_composer_recipients (composer, to, cc, folder, message_uid, postto);
 
-	/* Set the subject of the new message. */
-	subject = emcu_construct_reply_subject (camel_mime_message_get_subject (message));
-
 	table = e_msg_composer_get_header_table (composer);
-	e_composer_header_table_set_subject (table, subject);
 	e_composer_header_table_set_identity_uid (table, identity_uid, identity_name, identity_address);
 
+	/* Set the subject of the new message. */
+	subject = emcu_construct_reply_subject (composer, camel_mime_message_get_subject (message));
+	e_composer_header_table_set_subject (table, subject);
 	g_free (subject);
 
 	/* Add In-Reply-To and References. */
@@ -3811,6 +3864,14 @@ alt_reply_composer_created_cb (GObject *source_object,
 			CamelNNTPAddress *postto = NULL;
 			gboolean need_reply_all = FALSE;
 
+			if (context->template_preserve_subject) {
+				gchar *subject;
+
+				subject = emcu_construct_reply_subject (composer, camel_mime_message_get_subject (context->source_message));
+				camel_mime_message_set_subject (context->new_message, subject);
+				g_free (subject);
+			}
+
 			if ((context->flags & (E_MAIL_REPLY_FLAG_FORMAT_PLAIN | E_MAIL_REPLY_FLAG_FORMAT_HTML)) != 0) {
 				e_content_editor_set_html_mode (cnt_editor, (context->flags & E_MAIL_REPLY_FLAG_FORMAT_HTML) != 0);
 			}
@@ -3887,14 +3948,6 @@ alt_reply_template_applied_cb (GObject *source_object,
 	context->new_message = e_mail_templates_apply_finish (source_object, result, &error);
 
 	if (context->new_message) {
-		if (context->template_preserve_subject) {
-			gchar *subject;
-
-			subject = emcu_construct_reply_subject (camel_mime_message_get_subject (context->source_message));
-			camel_mime_message_set_subject (context->new_message, subject);
-			g_free (subject);
-		}
-
 		e_msg_composer_new (context->shell, alt_reply_composer_created_cb, context);
 	} else {
 		e_alert_submit (context->alert_sink, "mail:no-retrieve-message",

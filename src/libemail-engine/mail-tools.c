@@ -150,16 +150,17 @@ mail_tool_do_movemail (CamelStore *store,
 }
 
 gchar *
-mail_tool_generate_forward_subject (CamelMimeMessage *msg)
+mail_tool_generate_forward_subject (CamelMimeMessage *msg,
+				    const gchar *orig_subject)
 {
-	const gchar *orig_subject;
 	gchar *subject = NULL;
 	gchar *fwd_subj;
 	const gint max_subject_length = 1024;
 	const gchar *format;
 	GSettings *settings;
 
-	orig_subject = camel_mime_message_get_subject (msg);
+	if ((!orig_subject || !*orig_subject) && msg)
+		orig_subject = camel_mime_message_get_subject (msg);
 
 	if (orig_subject && *orig_subject) {
 		gchar *utf8;
@@ -184,7 +185,7 @@ mail_tool_generate_forward_subject (CamelMimeMessage *msg)
 		g_free (utf8);
 	}
 
-	if (!subject) {
+	if (!subject && msg) {
 		const CamelInternetAddress *from;
 
 		from = camel_mime_message_get_from (msg);
