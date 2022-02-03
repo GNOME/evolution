@@ -1454,7 +1454,7 @@ e_content_editor_get_visually_wrap_long_lines (EContentEditor *editor)
 }
 
 /**
- * e_content_editor_setup_editor:
+ * e_content_editor_initialize:
  * @content_editor: an #EContentEditor
  * @callback: an #EContentEditorInitializedCallback function
  * @user_data: data to pass to @callback
@@ -1585,7 +1585,7 @@ e_content_editor_get_content_finish (EContentEditor *editor,
 
 	iface = E_CONTENT_EDITOR_GET_IFACE (editor);
 	g_return_val_if_fail (iface != NULL, NULL);
-	g_return_val_if_fail (iface->get_content != NULL, NULL);
+	g_return_val_if_fail (iface->get_content_finish != NULL, NULL);
 
 	return iface->get_content_finish (editor, result, error);
 }
