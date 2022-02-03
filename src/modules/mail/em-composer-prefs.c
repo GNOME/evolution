@@ -1056,6 +1056,45 @@ emcp_free (EConfig *ec,
 	g_slist_free (items);
 }
 
+static gboolean
+emcp_composer_mode_to_current_value_cb (GValue *value,
+					GVariant *variant,
+					gpointer user_data)
+{
+	const gchar *str;
+	gint mode = E_CONTENT_EDITOR_MODE_UNKNOWN;
+
+	str = g_variant_get_string (variant, NULL);
+
+	if (!e_enum_from_string (E_TYPE_CONTENT_EDITOR_MODE, str, &mode))
+		mode = E_CONTENT_EDITOR_MODE_UNKNOWN;
+
+	if (mode == E_CONTENT_EDITOR_MODE_UNKNOWN)
+		mode = E_CONTENT_EDITOR_MODE_PLAIN_TEXT;
+
+	g_value_set_int (value, mode);
+
+	return TRUE;
+}
+
+static GVariant *
+emcp_current_value_to_composer_mode_cb (const GValue *value,
+					const GVariantType *expected_type,
+					gpointer user_data)
+{
+	const gchar *str;
+	gint mode;
+
+	mode = g_value_get_int (value);
+
+	str = e_enum_to_string (E_TYPE_CONTENT_EDITOR_MODE, mode);
+
+	if (!str)
+		str = e_enum_to_string (E_TYPE_CONTENT_EDITOR_MODE, E_CONTENT_EDITOR_MODE_PLAIN_TEXT);
+
+	return g_variant_new_string (str);
+}
+
 static void
 em_composer_prefs_construct (EMComposerPrefs *prefs,
                              EShell *shell)
@@ -1063,7 +1102,9 @@ em_composer_prefs_construct (EMComposerPrefs *prefs,
 	GtkWidget *toplevel, *widget, *info_pixmap;
 	GtkWidget *container;
 	GSettings *settings;
+	EActionComboBox *action_combo_box;
 	ESourceRegistry *registry;
+	GtkRadioAction *radio_action;
 	GtkTreeView *view;
 	GtkListStore *store;
 	GtkTreeSelection *selection;
@@ -1106,11 +1147,21 @@ em_composer_prefs_construct (EMComposerPrefs *prefs,
 
 	/* Default Behavior */
 
-	widget = e_builder_get_widget (prefs->builder, "chkSendHTML");
-	g_settings_bind (
-		settings, "composer-send-html",
-		widget, "active",
-		G_SETTINGS_BIND_DEFAULT);
+	container = e_builder_get_widget (prefs->builder, "hboxSendMode");
+	action_combo_box = e_html_editor_util_new_mode_combobox ();
+	widget = GTK_WIDGET (action_combo_box);
+	gtk_widget_show (widget);
+	gtk_box_pack_start (GTK_BOX (container), widget, FALSE, FALSE, 0);
+	widget = e_builder_get_widget (prefs->builder, "lblSendMode");
+	gtk_label_set_mnemonic_widget (GTK_LABEL (widget), GTK_WIDGET (action_combo_box));
+	radio_action = e_action_combo_box_get_action (action_combo_box);
+	g_settings_bind_with_mapping (
+		settings, "composer-mode",
+		radio_action, "current-value",
+		G_SETTINGS_BIND_DEFAULT,
+		emcp_composer_mode_to_current_value_cb,
+		emcp_current_value_to_composer_mode_cb,
+		NULL, NULL);
 
 	widget = e_builder_get_widget (prefs->builder, "chkInheritThemeColors");
 	g_settings_bind (
@@ -1359,8 +1410,8 @@ em_composer_prefs_construct (EMComposerPrefs *prefs,
 		G_CALLBACK (gtk_application_add_window), shell);
 
 	g_settings_bind (
-		settings, "composer-send-html",
-		widget, "prefer-html",
+		settings, "composer-mode",
+		widget, "prefer-mode",
 		G_SETTINGS_BIND_GET);
 
 	/* Send Account override */

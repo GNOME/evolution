@@ -292,23 +292,7 @@ test_utils_html_editor_created_cb (GObject *source_object,
 
 	fixture->focus_tracker = e_focus_tracker_new (GTK_WINDOW (fixture->window));
 
-	e_focus_tracker_set_cut_clipboard_action (fixture->focus_tracker,
-		e_html_editor_get_action (fixture->editor, "cut"));
-
-	e_focus_tracker_set_copy_clipboard_action (fixture->focus_tracker,
-		e_html_editor_get_action (fixture->editor, "copy"));
-
-	e_focus_tracker_set_paste_clipboard_action (fixture->focus_tracker,
-		e_html_editor_get_action (fixture->editor, "paste"));
-
-	e_focus_tracker_set_select_all_action (fixture->focus_tracker,
-		e_html_editor_get_action (fixture->editor, "select-all"));
-
-	e_focus_tracker_set_undo_action (fixture->focus_tracker,
-		e_html_editor_get_action (fixture->editor, "undo"));
-
-	e_focus_tracker_set_redo_action (fixture->focus_tracker,
-		e_html_editor_get_action (fixture->editor, "redo"));
+	e_html_editor_connect_focus_tracker (fixture->editor, fixture->focus_tracker);
 
 	/* Make sure this is off */
 	test_utils_fixture_change_setting_boolean (fixture,

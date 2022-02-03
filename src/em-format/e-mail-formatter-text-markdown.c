@@ -65,7 +65,7 @@ emfe_text_markdown_format (EMailFormatterExtension *extension,
 		e_mail_formatter_format_text (formatter, part, output_stream, cancellable);
 		g_output_stream_flush (output_stream, cancellable, NULL);
 
-		html = e_markdown_util_text_to_html ((const gchar *) g_memory_output_stream_get_data (G_MEMORY_OUTPUT_STREAM (output_stream)),
+		html = e_markdown_utils_text_to_html ((const gchar *) g_memory_output_stream_get_data (G_MEMORY_OUTPUT_STREAM (output_stream)),
 			g_memory_output_stream_get_data_size (G_MEMORY_OUTPUT_STREAM (output_stream)));
 
 		g_object_unref (output_stream);

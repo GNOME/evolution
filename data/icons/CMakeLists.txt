@@ -98,6 +98,8 @@ set(private_icons
 	hicolor_actions_scalable_markdown-bullets-dark.svg
 	hicolor_actions_scalable_markdown-code.svg
 	hicolor_actions_scalable_markdown-code-dark.svg
+	hicolor_actions_scalable_markdown-emoji.svg
+	hicolor_actions_scalable_markdown-emoji-dark.svg
 	hicolor_actions_scalable_markdown-header.svg
 	hicolor_actions_scalable_markdown-header-dark.svg
 	hicolor_actions_scalable_markdown-help.svg

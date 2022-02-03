@@ -13,6 +13,8 @@
 
 #include <gtk/gtk.h>
 
+#include <e-util/e-focus-tracker.h>
+
 /* Standard GObject macros */
 #define E_TYPE_MARKDOWN_EDITOR \
 	(e_markdown_editor_get_type ())
@@ -45,17 +47,35 @@ struct _EMarkdownEditor {
 
 struct _EMarkdownEditorClass {
 	GtkBoxClass parent_class;
+
+	void	(* changed)		(EMarkdownEditor *self);
+	void	(* format_bold)		(EMarkdownEditor *self);
+	void	(* format_italic)	(EMarkdownEditor *self);
+	void	(* format_quote)	(EMarkdownEditor *self);
+	void	(* format_code)		(EMarkdownEditor *self);
+	void	(* format_bullet_list)	(EMarkdownEditor *self);
+	void	(* format_numbered_list)(EMarkdownEditor *self);
+	void	(* format_header)	(EMarkdownEditor *self);
+	void	(* insert_link)		(EMarkdownEditor *self);
+	void	(* insert_emoji)	(EMarkdownEditor *self);
+
+	/* Padding for future expansion */
+	gpointer padding[12];
 };
 
 GType		e_markdown_editor_get_type		(void) G_GNUC_CONST;
 GtkWidget *	e_markdown_editor_new			(void);
+void		e_markdown_editor_connect_focus_tracker	(EMarkdownEditor *self,
+							 EFocusTracker *focus_tracker);
 GtkTextView *	e_markdown_editor_get_text_view		(EMarkdownEditor *self);
 GtkToolbar *	e_markdown_editor_get_action_toolbar	(EMarkdownEditor *self);
+void		e_markdown_editor_set_text		(EMarkdownEditor *self,
+							 const gchar *text);
 gchar *		e_markdown_editor_dup_text		(EMarkdownEditor *self);
 gchar *		e_markdown_editor_dup_html		(EMarkdownEditor *self);
-
-gchar *		e_markdown_util_text_to_html		(const gchar *plain_text,
-							 gssize length);
+gboolean	e_markdown_editor_get_preview_mode	(EMarkdownEditor *self);
+void		e_markdown_editor_set_preview_mode	(EMarkdownEditor *self,
+							 gboolean preview_mode);
 
 G_END_DECLS
 

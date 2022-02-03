@@ -50,6 +50,7 @@ struct _AsyncContext {
 	ESource *source;
 	GCancellable *cancellable;
 	EContentEditorGetContentFlags contents_flag;
+	EContentEditorMode editor_mode;
 	gchar *contents;
 	gsize length;
 	GDestroyNotify destroy_contents;
@@ -108,13 +109,13 @@ mail_signature_editor_loaded_cb (GObject *object,
 {
 	EHTMLEditor *editor;
 	EContentEditor *cnt_editor;
+	EContentEditorMode mode;
 	ESource *source;
 	EMailSignatureEditor *window;
 	ESourceMailSignature *extension;
 	const gchar *extension_name;
 	const gchar *mime_type;
 	gchar *contents = NULL;
-	gboolean is_html;
 	GError *error = NULL;
 
 	source = E_SOURCE (object);
@@ -147,15 +148,24 @@ mail_signature_editor_loaded_cb (GObject *object,
 	extension_name = E_SOURCE_EXTENSION_MAIL_SIGNATURE;
 	extension = e_source_get_extension (source, extension_name);
 	mime_type = e_source_mail_signature_get_mime_type (extension);
-	is_html = (g_strcmp0 (mime_type, "text/html") == 0);
+	if (g_strcmp0 (mime_type, "text/html") == 0)
+		mode = E_CONTENT_EDITOR_MODE_HTML;
+	else if (g_strcmp0 (mime_type, "text/markdown") == 0)
+		mode = E_CONTENT_EDITOR_MODE_MARKDOWN;
+	else if (g_strcmp0 (mime_type, "text/markdown-plain") == 0)
+		mode = E_CONTENT_EDITOR_MODE_MARKDOWN_PLAIN_TEXT;
+	else if (g_strcmp0 (mime_type, "text/markdown-html") == 0)
+		mode = E_CONTENT_EDITOR_MODE_MARKDOWN_HTML;
+	else
+		mode = E_CONTENT_EDITOR_MODE_PLAIN_TEXT;
 
 	editor = e_mail_signature_editor_get_editor (window);
+	e_html_editor_set_mode (editor, mode);
 	cnt_editor = e_html_editor_get_content_editor (editor);
-	e_content_editor_set_html_mode (cnt_editor, is_html);
 
-	if (is_html) {
+	if (mode == E_CONTENT_EDITOR_MODE_HTML) {
 		if (strstr (contents, "data-evo-signature-plain-text-mode"))
-			e_content_editor_set_html_mode (cnt_editor, FALSE);
+			e_html_editor_set_mode (editor, E_CONTENT_EDITOR_MODE_PLAIN_TEXT);
 
 		e_content_editor_insert_content (
 			cnt_editor,
@@ -597,17 +607,7 @@ mail_signature_editor_constructed (GObject *object)
 	/* Configure an EFocusTracker to manage selection actions. */
 	focus_tracker = e_focus_tracker_new (GTK_WINDOW (window));
 
-	action = e_html_editor_get_action (editor, "cut");
-	e_focus_tracker_set_cut_clipboard_action (focus_tracker, action);
-
-	action = e_html_editor_get_action (editor, "copy");
-	e_focus_tracker_set_copy_clipboard_action (focus_tracker, action);
-
-	action = e_html_editor_get_action (editor, "paste");
-	e_focus_tracker_set_paste_clipboard_action (focus_tracker, action);
-
-	action = e_html_editor_get_action (editor, "select-all");
-	e_focus_tracker_set_select_all_action (focus_tracker, action);
+	e_html_editor_connect_focus_tracker (editor, focus_tracker);
 
 	window->priv->focus_tracker = focus_tracker;
 
@@ -917,6 +917,7 @@ mail_signature_editor_content_hash_ready_cb (GObject *source_object,
 	EContentEditorContentHash *content_hash;
 	ESourceMailSignature *extension;
 	AsyncContext *async_context;
+	const gchar *mime_type = "text/plain";
 	GError *error = NULL;
 
 	g_return_if_fail (E_IS_CONTENT_EDITOR (source_object));
@@ -946,9 +947,29 @@ mail_signature_editor_content_hash_ready_cb (GObject *source_object,
 
 	async_context->length = strlen (async_context->contents);
 
+	switch (async_context->editor_mode) {
+	case E_CONTENT_EDITOR_MODE_UNKNOWN:
+		g_warn_if_reached ();
+		break;
+	case E_CONTENT_EDITOR_MODE_PLAIN_TEXT:
+		mime_type = "text/plain";
+		break;
+	case E_CONTENT_EDITOR_MODE_HTML:
+		mime_type = "text/html";
+		break;
+	case E_CONTENT_EDITOR_MODE_MARKDOWN:
+		mime_type = "text/markdown";
+		break;
+	case E_CONTENT_EDITOR_MODE_MARKDOWN_PLAIN_TEXT:
+		mime_type = "text/markdown-plain";
+		break;
+	case E_CONTENT_EDITOR_MODE_MARKDOWN_HTML:
+		mime_type = "text/markdown-html";
+		break;
+	}
+
 	extension = e_source_get_extension (async_context->source, E_SOURCE_EXTENSION_MAIL_SIGNATURE);
-	e_source_mail_signature_set_mime_type (extension,
-		async_context->contents_flag == E_CONTENT_EDITOR_GET_RAW_BODY_HTML ? "text/html" : "text/plain");
+	e_source_mail_signature_set_mime_type (extension, mime_type);
 
 	e_source_registry_commit_source (
 		async_context->registry, async_context->source,
@@ -981,7 +1002,9 @@ e_mail_signature_editor_commit (EMailSignatureEditor *window,
 	async_context = g_slice_new0 (AsyncContext);
 	async_context->registry = g_object_ref (registry);
 	async_context->source = g_object_ref (source);
-	async_context->contents_flag = e_content_editor_get_html_mode (cnt_editor) ? E_CONTENT_EDITOR_GET_RAW_BODY_HTML : E_CONTENT_EDITOR_GET_TO_SEND_PLAIN;
+	async_context->editor_mode = e_html_editor_get_mode (editor);
+	async_context->contents_flag = async_context->editor_mode == E_CONTENT_EDITOR_MODE_HTML ?
+		E_CONTENT_EDITOR_GET_RAW_BODY_HTML : E_CONTENT_EDITOR_GET_TO_SEND_PLAIN;
 
 	if (G_IS_CANCELLABLE (cancellable))
 		async_context->cancellable = g_object_ref (cancellable);

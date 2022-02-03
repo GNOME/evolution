@@ -86,8 +86,7 @@ typedef enum {
 	COMPOSER_FLAG_PGP_ENCRYPT		= 1 << 5,
 	COMPOSER_FLAG_SMIME_SIGN		= 1 << 6,
 	COMPOSER_FLAG_SMIME_ENCRYPT		= 1 << 7,
-	COMPOSER_FLAG_HTML_MODE			= 1 << 8,
-	COMPOSER_FLAG_SAVE_DRAFT		= 1 << 9
+	COMPOSER_FLAG_SAVE_DRAFT		= 1 << 8
 } ComposerFlags;
 
 enum {
@@ -217,7 +216,7 @@ e_msg_composer_dec_soft_busy (EMsgComposer *composer)
 		g_object_notify (G_OBJECT (composer), "soft-busy");
 }
 
-/**
+/*
  * emcu_part_to_html:
  * @part:
  *
@@ -227,7 +226,7 @@ e_msg_composer_dec_soft_busy (EMsgComposer *composer)
  * will be performed.
  *
  * Return Value: The part in displayable html format.
- **/
+ */
 static gchar *
 emcu_part_to_html (EMsgComposer *composer,
                    CamelMimePart *part,
@@ -302,6 +301,45 @@ emcu_part_to_html (EMsgComposer *composer,
 		*len = strlen (text);
 
 	g_object_unref (stream);
+
+	return text;
+}
+
+static gchar *
+emcu_part_as_text (EMsgComposer *composer,
+                   CamelMimePart *part,
+                   gssize *out_len,
+                   GCancellable *cancellable)
+{
+	CamelDataWrapper *dw;
+	gchar *text;
+	gssize length;
+
+	dw = camel_medium_get_content (CAMEL_MEDIUM (part));
+	if (dw) {
+		CamelStream *mem = camel_stream_mem_new ();
+		GByteArray *bytes;
+
+		camel_data_wrapper_decode_to_stream_sync (dw, mem, cancellable, NULL);
+		camel_stream_close (mem, cancellable, NULL);
+
+		bytes = camel_stream_mem_get_byte_array (CAMEL_STREAM_MEM (mem));
+		if (bytes && bytes->len) {
+			text = g_strndup ((const gchar *) bytes->data, bytes->len);
+			length = bytes->len;
+		} else {
+			text = g_strdup ("");
+			length = 0;
+		}
+
+		g_object_unref (mem);
+	} else {
+		text = g_strdup ("");
+		length = 0;
+	}
+
+	if (out_len)
+		*out_len = length;
 
 	return text;
 }
@@ -1203,27 +1241,45 @@ composer_build_message_thread (GSimpleAsyncResult *simple,
 #endif /* ENABLE_SMIME */
 }
 
+static const gchar *
+composer_get_editor_mode_format_text (EContentEditorMode mode)
+{
+	switch (mode) {
+	case E_CONTENT_EDITOR_MODE_UNKNOWN:
+		g_warn_if_reached ();
+		break;
+	case E_CONTENT_EDITOR_MODE_PLAIN_TEXT:
+		return "text/plain";
+	case E_CONTENT_EDITOR_MODE_HTML:
+		return "text/html";
+	case E_CONTENT_EDITOR_MODE_MARKDOWN:
+		return "text/markdown";
+	case E_CONTENT_EDITOR_MODE_MARKDOWN_PLAIN_TEXT:
+		return "text/markdown-plain";
+	case E_CONTENT_EDITOR_MODE_MARKDOWN_HTML:
+		return "text/markdown-html";
+	}
+
+	return "text/plain";
+}
+
 static void
 composer_add_evolution_composer_mode_header (CamelMedium *medium,
                                              EMsgComposer *composer)
 {
-	gboolean html_mode;
 	EHTMLEditor *editor;
-	EContentEditor *cnt_editor;
+	const gchar *mode;
 
 	editor = e_msg_composer_get_editor (composer);
-	cnt_editor = e_html_editor_get_content_editor (editor);
-	html_mode = e_content_editor_get_html_mode (cnt_editor);
+	mode = composer_get_editor_mode_format_text (e_html_editor_get_mode (editor));
 
-	camel_medium_add_header (
-		medium,
-		"X-Evolution-Composer-Mode",
-		html_mode ? "text/html" : "text/plain");
+	camel_medium_add_header (medium, "X-Evolution-Composer-Mode", mode);
 }
 
 static void
 composer_add_evolution_format_header (CamelMedium *medium,
-                                      ComposerFlags flags)
+				      ComposerFlags flags,
+				      EContentEditorMode mode)
 {
 	GString *string;
 
@@ -1460,7 +1516,10 @@ composer_build_message (EMsgComposer *composer,
 		if (!g_str_has_suffix (text, "\r\n") && !g_str_has_suffix (text, "\n"))
 			g_byte_array_append (data, (const guint8 *) "\r\n", 2);
 
-		type = camel_content_type_new ("text", "plain");
+		if (e_html_editor_get_mode (editor) == E_CONTENT_EDITOR_MODE_MARKDOWN)
+			type = camel_content_type_new ("text", "markdown");
+		else
+			type = camel_content_type_new ("text", "plain");
 		charset = best_charset (
 			data, priv->charset, &context->plain_encoding);
 		if (charset != NULL) {
@@ -1468,6 +1527,12 @@ composer_build_message (EMsgComposer *composer,
 			iconv_charset = camel_iconv_charset_name (charset);
 			g_free (charset);
 		}
+
+		if ((flags & COMPOSER_FLAG_SAVE_DRAFT) == 0 && (
+		    e_html_editor_get_mode (editor) == E_CONTENT_EDITOR_MODE_MARKDOWN ||
+		    e_html_editor_get_mode (editor) == E_CONTENT_EDITOR_MODE_MARKDOWN_PLAIN_TEXT ||
+		    e_html_editor_get_mode (editor) == E_CONTENT_EDITOR_MODE_MARKDOWN_HTML))
+			composer_add_evolution_composer_mode_header (CAMEL_MEDIUM (context->message), composer);
 	}
 
 	mem_stream = camel_stream_mem_new_with_byte_array (data);
@@ -1527,7 +1592,7 @@ composer_build_message (EMsgComposer *composer,
 		if ((flags & COMPOSER_FLAG_SAVE_DRAFT) != 0) {
 			/* X-Evolution-Format */
 			composer_add_evolution_format_header (
-				CAMEL_MEDIUM (context->message), flags);
+				CAMEL_MEDIUM (context->message), flags, e_html_editor_get_mode (composer->priv->editor));
 
 			/* X-Evolution-Composer-Mode */
 			composer_add_evolution_composer_mode_header (
@@ -1968,7 +2033,7 @@ msg_composer_paste_clipboard_targets_cb (GtkClipboard *clipboard,
 	editor = e_msg_composer_get_editor (composer);
 	cnt_editor = e_html_editor_get_content_editor (editor);
 
-	if (!e_content_editor_get_html_mode (cnt_editor) &&
+	if (e_html_editor_get_mode (editor) != E_CONTENT_EDITOR_MODE_HTML &&
 	    gtk_targets_include_image (targets, n_targets, TRUE)) {
 		e_composer_paste_image (composer, clipboard);
 		return;
@@ -2052,7 +2117,7 @@ msg_composer_drag_data_received_cb (GtkWidget *widget,
 
 	editor = e_msg_composer_get_editor (composer);
 	cnt_editor = e_html_editor_get_content_editor (editor);
-	html_mode = e_content_editor_get_html_mode (cnt_editor);
+	html_mode = e_html_editor_get_mode (editor) == E_CONTENT_EDITOR_MODE_HTML;
 
 	g_signal_handler_disconnect (cnt_editor, composer->priv->drag_data_received_handler_id);
 	composer->priv->drag_data_received_handler_id = 0;
@@ -2716,7 +2781,7 @@ msg_composer_map (GtkWidget *widget)
 
 	/* Jump to the editor as a last resort. */
 	cnt_editor = e_html_editor_get_content_editor (editor);
-	gtk_widget_grab_focus (GTK_WIDGET (cnt_editor));
+	e_content_editor_grab_focus (cnt_editor);
 }
 
 static gboolean
@@ -2750,11 +2815,11 @@ msg_composer_key_press_event (GtkWidget *widget,
 	}
 
 	if (event->keyval == GDK_KEY_Tab && gtk_widget_is_focus (input_widget)) {
-		gtk_widget_grab_focus (GTK_WIDGET (cnt_editor));
+		e_content_editor_grab_focus (cnt_editor);
 		return TRUE;
 	}
 
-	if (gtk_widget_is_focus (GTK_WIDGET (cnt_editor))) {
+	if (e_content_editor_is_focus (cnt_editor)) {
 		if (event->keyval == GDK_KEY_ISO_Left_Tab) {
 			gboolean view_processed = FALSE;
 
@@ -3404,12 +3469,29 @@ e_msg_composer_check_inline_attachments (EMsgComposer *composer)
 	editor = e_msg_composer_get_editor (composer);
 	content_editor = e_html_editor_get_content_editor (editor);
 
-	if (e_content_editor_get_html_mode (content_editor)) {
+	if (e_html_editor_get_mode (editor) == E_CONTENT_EDITOR_MODE_HTML) {
 		e_content_editor_get_content (content_editor, E_CONTENT_EDITOR_GET_INLINE_IMAGES,
 			"localhost", NULL, e_mg_composer_got_used_inline_images_cb, g_object_ref (composer));
 	} else {
 		e_msg_composer_filter_inline_attachments (composer, NULL);
 	}
+}
+
+static gboolean
+emcu_format_as_plain_text (EMsgComposer *composer,
+			   CamelContentType *content_type)
+{
+	EContentEditorMode mode;
+
+	if (!camel_content_type_is (content_type, "text", "plain") &&
+	    !camel_content_type_is (content_type, "text", "markdown"))
+		return FALSE;
+
+	mode = e_html_editor_get_mode (e_msg_composer_get_editor (composer));
+
+	return mode == E_CONTENT_EDITOR_MODE_MARKDOWN ||
+		mode == E_CONTENT_EDITOR_MODE_MARKDOWN_PLAIN_TEXT ||
+		mode == E_CONTENT_EDITOR_MODE_MARKDOWN_HTML;
 }
 
 static void
@@ -3488,7 +3570,14 @@ handle_multipart_signed (EMsgComposer *composer,
 			handle_multipart (
 				composer, multipart, parent_part, keep_signature, cancellable, depth);
 		}
+	} else if (camel_content_type_is (content_type, "text", "markdown") ||
+		   emcu_format_as_plain_text (composer, content_type)) {
+		gchar *text;
+		gssize length;
 
+		text = emcu_part_as_text (composer, mime_part, &length, cancellable);
+		if (text)
+			e_msg_composer_set_pending_body (composer, text, length, FALSE);
 	} else if (camel_content_type_is (content_type, "text", "*")) {
 		gchar *html;
 		gssize length;
@@ -3591,6 +3680,14 @@ handle_multipart_encrypted (EMsgComposer *composer,
 				composer, content_multipart, multipart, keep_signature, cancellable, depth);
 		}
 
+	} else if (camel_content_type_is (content_type, "text", "markdown") ||
+		   emcu_format_as_plain_text (composer, content_type)) {
+		gchar *text;
+		gssize length;
+
+		text = emcu_part_as_text (composer, mime_part, &length, cancellable);
+		if (text)
+			e_msg_composer_set_pending_body (composer, text, length, FALSE);
 	} else if (camel_content_type_is (content_type, "text", "*")) {
 		gchar *html;
 		gssize length;
@@ -3663,6 +3760,17 @@ handle_multipart_alternative (EMsgComposer *composer,
 			/* text/html is preferable, so once we find it we're done... */
 			text_part = mime_part;
 			break;
+		} else if (camel_content_type_is (content_type, "text", "markdown") ||
+			   emcu_format_as_plain_text (composer, content_type)) {
+			gchar *text;
+			gssize length;
+
+			text = emcu_part_as_text (composer, mime_part, &length, cancellable);
+			if (text) {
+				e_msg_composer_set_pending_body (composer, text, length, FALSE);
+				text_part = NULL;
+				break;
+			}
 		} else if (camel_content_type_is (content_type, "text", "*")) {
 			/* anyt text part not text/html is second rate so the first
 			 * text part we find isn't necessarily the one we'll use. */
@@ -3682,11 +3790,33 @@ handle_multipart_alternative (EMsgComposer *composer,
 		gchar *html;
 		gssize length;
 
-		html = emcu_part_to_html (
-			composer, text_part, &length, keep_signature, cancellable);
-		if (!html && fallback_text_part)
-			html = emcu_part_to_html (
-				composer, fallback_text_part, &length, keep_signature, cancellable);
+		if (emcu_format_as_plain_text (composer, camel_mime_part_get_content_type (text_part))) {
+			gchar *text;
+			gssize length;
+
+			text = emcu_part_as_text (composer, text_part, &length, cancellable);
+			if (text) {
+				e_msg_composer_set_pending_body (composer, text, length, FALSE);
+				return;
+			}
+		}
+
+		html = emcu_part_to_html (composer, text_part, &length, keep_signature, cancellable);
+		if (!html && fallback_text_part) {
+			if (emcu_format_as_plain_text (composer, camel_mime_part_get_content_type (fallback_text_part))) {
+				gchar *text;
+				gssize length;
+
+				text = emcu_part_as_text (composer, fallback_text_part, &length, cancellable);
+				if (text) {
+					e_msg_composer_set_pending_body (composer, text, length, FALSE);
+					return;
+				}
+			}
+
+			html = emcu_part_to_html (composer, fallback_text_part, &length, keep_signature, cancellable);
+		}
+
 		if (html)
 			e_msg_composer_set_pending_body (composer, html, length, TRUE);
 	}
@@ -3748,15 +3878,26 @@ handle_multipart (EMsgComposer *composer,
 			}
 
 		} else if (depth == 0 && i == 0) {
-			gchar *html = NULL;
-			gssize length = 0;
-
 			/* Since the first part is not multipart/alternative,
 			 * this must be the body. */
-			html = emcu_part_to_html (
-				composer, mime_part, &length, keep_signature, cancellable);
 
-			e_msg_composer_set_pending_body (composer, html, length, TRUE);
+			if (camel_content_type_is (content_type, "text", "markdown") ||
+			    emcu_format_as_plain_text (composer, content_type)) {
+				gchar *text;
+				gssize length;
+
+				text = emcu_part_as_text (composer, mime_part, &length, cancellable);
+				if (text)
+					e_msg_composer_set_pending_body (composer, text, length, FALSE);
+			} else {
+				gchar *html = NULL;
+				gssize length = 0;
+
+				html = emcu_part_to_html (
+					composer, mime_part, &length, keep_signature, cancellable);
+
+				e_msg_composer_set_pending_body (composer, html, length, TRUE);
+			}
 
 		} else if (camel_content_type_is (content_type, "image", "*") && (
 			   camel_mime_part_get_content_id (mime_part) ||
@@ -4108,7 +4249,7 @@ e_msg_composer_setup_with_message (EMsgComposer *composer,
 	composer_mode = camel_medium_get_header (
 		CAMEL_MEDIUM (message), "X-Evolution-Composer-Mode");
 
-	if (composer_mode && *composer_mode)
+	if (format && *format && composer_mode && *composer_mode)
 		is_message_from_draft = TRUE;
 
 	if (format != NULL) {
@@ -4121,10 +4262,24 @@ e_msg_composer_setup_with_message (EMsgComposer *composer,
 		for (i = 0; flags[i]; i++) {
 			if (g_ascii_strcasecmp (flags[i], "text/html") == 0 ||
 			    g_ascii_strcasecmp (flags[i], "text/plain") == 0) {
-				gboolean html_mode;
+				EContentEditorMode mode = E_CONTENT_EDITOR_MODE_HTML;
 
-				html_mode = composer_mode && !g_ascii_strcasecmp (composer_mode, "text/html");
-				e_content_editor_set_html_mode (cnt_editor, html_mode);
+				if (composer_mode) {
+					if (!g_ascii_strcasecmp (composer_mode, "text/plain"))
+						mode = E_CONTENT_EDITOR_MODE_PLAIN_TEXT;
+					else if (!g_ascii_strcasecmp (composer_mode, "text/html"))
+						mode = E_CONTENT_EDITOR_MODE_HTML;
+					else if (!g_ascii_strcasecmp (composer_mode, "text/markdown"))
+						mode = E_CONTENT_EDITOR_MODE_MARKDOWN;
+					else if (!g_ascii_strcasecmp (composer_mode, "text/markdown-plain"))
+						mode = E_CONTENT_EDITOR_MODE_MARKDOWN_PLAIN_TEXT;
+					else if (!g_ascii_strcasecmp (composer_mode, "text/markdown-html"))
+						mode = E_CONTENT_EDITOR_MODE_MARKDOWN_HTML;
+				} else if (!g_ascii_strcasecmp (flags[i], "text/plain")) {
+					mode = E_CONTENT_EDITOR_MODE_PLAIN_TEXT;
+				}
+
+				e_html_editor_set_mode (editor, mode);
 			} else if (g_ascii_strcasecmp (flags[i], "pgp-sign") == 0) {
 				action = GTK_TOGGLE_ACTION (ACTION (PGP_SIGN));
 				gtk_toggle_action_set_active (action, TRUE);
@@ -4140,6 +4295,21 @@ e_msg_composer_setup_with_message (EMsgComposer *composer,
 			}
 		}
 		g_strfreev (flags);
+	} else if (composer_mode != NULL) {
+		EContentEditorMode mode = E_CONTENT_EDITOR_MODE_HTML;
+
+		if (!g_ascii_strcasecmp (composer_mode, "text/plain"))
+			mode = E_CONTENT_EDITOR_MODE_PLAIN_TEXT;
+		else if (!g_ascii_strcasecmp (composer_mode, "text/html"))
+			mode = E_CONTENT_EDITOR_MODE_HTML;
+		else if (!g_ascii_strcasecmp (composer_mode, "text/markdown"))
+			mode = E_CONTENT_EDITOR_MODE_MARKDOWN;
+		else if (!g_ascii_strcasecmp (composer_mode, "text/markdown-plain"))
+			mode = E_CONTENT_EDITOR_MODE_MARKDOWN_PLAIN_TEXT;
+		else if (!g_ascii_strcasecmp (composer_mode, "text/markdown-html"))
+			mode = E_CONTENT_EDITOR_MODE_MARKDOWN_HTML;
+
+		e_html_editor_set_mode (editor, mode);
 	}
 
 	if (is_message_from_draft || (
@@ -4250,7 +4420,6 @@ e_msg_composer_setup_with_message (EMsgComposer *composer,
 		/* If we are opening message from Drafts */
 		if (is_message_from_draft) {
 			/* Extract the body */
-			CamelDataWrapper *dw;
 
 			#ifdef ENABLE_SMIME
 			if (is_smime_encrypted) {
@@ -4279,28 +4448,11 @@ e_msg_composer_setup_with_message (EMsgComposer *composer,
 			}
 			#endif
 
-			dw = camel_medium_get_content ((CamelMedium *) mime_part);
-			if (dw) {
-				CamelStream *mem = camel_stream_mem_new ();
-				GByteArray *bytes;
-
-				camel_data_wrapper_decode_to_stream_sync (dw, mem, cancellable, NULL);
-				camel_stream_close (mem, cancellable, NULL);
-
-				bytes = camel_stream_mem_get_byte_array (CAMEL_STREAM_MEM (mem));
-				if (bytes && bytes->len) {
-					html = g_strndup ((const gchar *) bytes->data, bytes->len);
-					length = bytes->len;
-				} else {
-					html = g_strdup ("");
-					length = 0;
-				}
-
-				g_object_unref (mem);
-			} else {
-				html = g_strdup ("");
-				length = 0;
-			}
+			html = emcu_part_as_text (composer, mime_part, &length, cancellable);
+		} else if (camel_content_type_is (content_type, "text", "markdown") ||
+			   emcu_format_as_plain_text (composer, content_type)) {
+			is_html = FALSE;
+			html = emcu_part_as_text (composer, CAMEL_MIME_PART (message), &length, cancellable);
 		} else {
 			is_html = TRUE;
 			html = emcu_part_to_html (
@@ -5493,7 +5645,7 @@ e_msg_composer_set_body (EMsgComposer *composer,
 	content = _("The composer contains a non-text message body, which cannot be edited.");
 	set_editor_text (composer, content, TRUE, FALSE);
 
-	e_content_editor_set_html_mode (cnt_editor, FALSE);
+	e_html_editor_set_mode (editor, E_CONTENT_EDITOR_MODE_PLAIN_TEXT);
 	e_content_editor_set_editable (cnt_editor, FALSE);
 
 	g_free (priv->mime_body);
@@ -5872,12 +6024,10 @@ e_msg_composer_get_message (EMsgComposer *composer,
 	GtkAction *action;
 	ComposerFlags flags = 0;
 	EHTMLEditor *editor;
-	EContentEditor *cnt_editor;
 
 	g_return_if_fail (E_IS_MSG_COMPOSER (composer));
 
 	editor = e_msg_composer_get_editor (composer);
-	cnt_editor = e_html_editor_get_content_editor (editor);
 
 	simple = g_simple_async_result_new (
 		G_OBJECT (composer), callback,
@@ -5885,7 +6035,8 @@ e_msg_composer_get_message (EMsgComposer *composer,
 
 	g_simple_async_result_set_check_cancellable (simple, cancellable);
 
-	if (e_content_editor_get_html_mode (cnt_editor))
+	if (e_html_editor_get_mode (editor) == E_CONTENT_EDITOR_MODE_HTML ||
+	    e_html_editor_get_mode (editor) == E_CONTENT_EDITOR_MODE_MARKDOWN_HTML)
 		flags |= COMPOSER_FLAG_HTML_CONTENT;
 
 	action = ACTION (PRIORITIZE_MESSAGE);
@@ -5996,8 +6147,6 @@ e_msg_composer_get_message_draft (EMsgComposer *composer,
                                   GAsyncReadyCallback callback,
                                   gpointer user_data)
 {
-	EHTMLEditor *editor;
-	EContentEditor *cnt_editor;
 	GSimpleAsyncResult *simple;
 	ComposerFlags flags = COMPOSER_FLAG_SAVE_DRAFT;
 	GtkAction *action;
@@ -6010,11 +6159,6 @@ e_msg_composer_get_message_draft (EMsgComposer *composer,
 
 	g_simple_async_result_set_check_cancellable (simple, cancellable);
 
-	editor = e_msg_composer_get_editor (composer);
-	cnt_editor = e_html_editor_get_content_editor (editor);
-	/* We need to remember composer mode */
-	if (e_content_editor_get_html_mode (cnt_editor))
-		flags |= COMPOSER_FLAG_HTML_MODE;
 	/* We want to save HTML content everytime when we save as draft */
 	flags |= COMPOSER_FLAG_SAVE_DRAFT;
 

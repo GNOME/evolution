@@ -344,7 +344,7 @@ action_save_cb (GtkAction *action,
 			return;
 
 	filename = e_html_editor_get_filename (editor);
-	as_html = (e_content_editor_get_html_mode (e_html_editor_get_content_editor (editor)));
+	as_html = e_html_editor_get_mode (editor) == E_CONTENT_EDITOR_MODE_HTML;
 
 	e_html_editor_save (editor, filename, as_html, NULL, html_editor_save_done_cb, NULL);
 }
@@ -360,7 +360,7 @@ action_save_as_cb (GtkAction *action,
 		return;
 
 	filename = e_html_editor_get_filename (editor);
-	as_html = (e_content_editor_get_html_mode (e_html_editor_get_content_editor (editor)));
+	as_html = e_html_editor_get_mode (editor) == E_CONTENT_EDITOR_MODE_HTML;
 
 	e_html_editor_save (editor, filename, as_html, NULL, html_editor_save_done_cb, NULL);
 }
@@ -592,23 +592,7 @@ create_new_editor_cb (GObject *source_object,
 	focus_tracker = e_focus_tracker_new (GTK_WINDOW (widget));
 	g_object_set_data_full (G_OBJECT (widget), "e-focus-tracker", focus_tracker, g_object_unref);
 
-	e_focus_tracker_set_cut_clipboard_action (focus_tracker,
-		e_html_editor_get_action (editor, "cut"));
-
-	e_focus_tracker_set_copy_clipboard_action (focus_tracker,
-		e_html_editor_get_action (editor, "copy"));
-
-	e_focus_tracker_set_paste_clipboard_action (focus_tracker,
-		e_html_editor_get_action (editor, "paste"));
-
-	e_focus_tracker_set_select_all_action (focus_tracker,
-		e_html_editor_get_action (editor, "select-all"));
-
-	e_focus_tracker_set_undo_action (focus_tracker,
-		e_html_editor_get_action (editor, "undo"));
-
-	e_focus_tracker_set_redo_action (focus_tracker,
-		e_html_editor_get_action (editor, "redo"));
+	e_html_editor_connect_focus_tracker (editor, focus_tracker);
 
 	g_signal_connect_swapped (
 		widget, "destroy",

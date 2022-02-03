@@ -144,7 +144,7 @@ struct _EContentEditorInterface {
 
 	gchar *		(*insert_signature)		(EContentEditor *editor,
 							 const gchar *content,
-							 gboolean is_html,
+							 EContentEditorMode editor_mode,
 							 gboolean can_reposition_caret,
 							 const gchar *signature_id,
 							 gboolean *set_signature_from_message,
@@ -426,14 +426,23 @@ struct _EContentEditorInterface {
 	void		(*delete_h_rule)		(EContentEditor *editor);
 	void		(*delete_image)			(EContentEditor *editor);
 
+	gboolean	(*supports_mode)		(EContentEditor *editor,
+							 EContentEditorMode mode);
+	void		(*grab_focus)			(EContentEditor *editor);
+	gboolean	(*is_focus)			(EContentEditor *editor);
+
 	/* padding for future expansion */
-	gpointer reserved[20];
+	gpointer reserved[17];
 };
 
 /* Properties */
 
 ESpellChecker *	e_content_editor_ref_spell_checker
 						(EContentEditor *editor);
+gboolean	e_content_editor_supports_mode	(EContentEditor *editor,
+						 EContentEditorMode mode);
+void		e_content_editor_grab_focus	(EContentEditor *editor);
+gboolean	e_content_editor_is_focus	(EContentEditor *editor);
 gboolean	e_content_editor_is_malfunction	(EContentEditor *editor);
 gboolean	e_content_editor_can_cut	(EContentEditor *editor);
 gboolean	e_content_editor_can_copy	(EContentEditor *editor);
@@ -452,9 +461,6 @@ void		e_content_editor_set_editable	(EContentEditor *editor,
 gboolean	e_content_editor_get_changed	(EContentEditor *editor);
 void		e_content_editor_set_changed	(EContentEditor *editor,
 						 gboolean changed);
-gboolean	e_content_editor_get_html_mode	(EContentEditor *editor);
-void		e_content_editor_set_html_mode	(EContentEditor *editor,
-						 gboolean html_mode);
 void		e_content_editor_set_alignment	(EContentEditor *editor,
 						 EContentEditorAlignment value);
 EContentEditorAlignment
@@ -649,7 +655,7 @@ void		e_content_editor_take_last_error(EContentEditor *editor,
 gchar *		e_content_editor_insert_signature
 						(EContentEditor *editor,
 						 const gchar *content,
-						 gboolean is_html,
+						 EContentEditorMode editor_mode,
 						 gboolean can_reposition_caret,
 						 const gchar *signature_id,
 						 gboolean *set_signature_from_message,
@@ -1010,6 +1016,10 @@ void		e_content_editor_emit_content_changed
 CamelMimePart *	e_content_editor_emit_ref_mime_part
 						(EContentEditor *editor,
 						 const gchar *uri);
+
+gboolean	e_content_editor_util_three_state_to_bool
+						(EThreeState value,
+						 const gchar *mail_key);
 
 G_END_DECLS
 

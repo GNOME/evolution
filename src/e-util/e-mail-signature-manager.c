@@ -46,12 +46,12 @@ struct _EMailSignatureManagerPrivate {
 	GtkWidget *preview;		/* not referenced */
 	GtkWidget *preview_frame;	/* not referenced */
 
-	gboolean prefer_html;
+	EContentEditorMode prefer_mode;
 };
 
 enum {
 	PROP_0,
-	PROP_PREFER_HTML,
+	PROP_PREFER_MODE,
 	PROP_REGISTRY
 };
 
@@ -188,10 +188,10 @@ mail_signature_manager_set_property (GObject *object,
                                 GParamSpec *pspec)
 {
 	switch (property_id) {
-		case PROP_PREFER_HTML:
-			e_mail_signature_manager_set_prefer_html (
+		case PROP_PREFER_MODE:
+			e_mail_signature_manager_set_prefer_mode (
 				E_MAIL_SIGNATURE_MANAGER (object),
-				g_value_get_boolean (value));
+				g_value_get_enum (value));
 			return;
 
 		case PROP_REGISTRY:
@@ -211,10 +211,10 @@ mail_signature_manager_get_property (GObject *object,
                                 GParamSpec *pspec)
 {
 	switch (property_id) {
-		case PROP_PREFER_HTML:
-			g_value_set_boolean (
+		case PROP_PREFER_MODE:
+			g_value_set_enum (
 				value,
-				e_mail_signature_manager_get_prefer_html (
+				e_mail_signature_manager_get_prefer_mode (
 				E_MAIL_SIGNATURE_MANAGER (object)));
 			return;
 
@@ -396,7 +396,6 @@ mail_signature_manager_editor_created_add_signature_cb (GObject *source_object,
 {
 	EMailSignatureManager *manager = user_data;
 	EHTMLEditor *editor;
-	EContentEditor *cnt_editor;
 	GtkWidget *widget;
 	GError *error = NULL;
 
@@ -411,8 +410,7 @@ mail_signature_manager_editor_created_add_signature_cb (GObject *source_object,
 	}
 
 	editor = e_mail_signature_editor_get_editor (E_MAIL_SIGNATURE_EDITOR (widget));
-	cnt_editor = e_html_editor_get_content_editor (editor);
-	e_content_editor_set_html_mode (cnt_editor, manager->priv->prefer_html);
+	e_html_editor_set_mode (editor, manager->priv->prefer_mode);
 
 	mail_signature_manager_emit_editor_created (manager, widget);
 
@@ -601,12 +599,13 @@ e_mail_signature_manager_class_init (EMailSignatureManagerClass *class)
 
 	g_object_class_install_property (
 		object_class,
-		PROP_PREFER_HTML,
-		g_param_spec_boolean (
-			"prefer-html",
-			"Prefer HTML",
+		PROP_PREFER_MODE,
+		g_param_spec_enum (
+			"prefer-mode",
+			"Prefer editor mode",
 			NULL,
-			TRUE,
+			E_TYPE_CONTENT_EDITOR_MODE,
+			E_CONTENT_EDITOR_MODE_HTML,
 			G_PARAM_READWRITE |
 			G_PARAM_CONSTRUCT |
 			G_PARAM_STATIC_STRINGS));
@@ -719,26 +718,29 @@ e_mail_signature_manager_remove_signature (EMailSignatureManager *manager)
 	g_signal_emit (manager, signals[REMOVE_SIGNATURE], 0);
 }
 
-gboolean
-e_mail_signature_manager_get_prefer_html (EMailSignatureManager *manager)
+EContentEditorMode
+e_mail_signature_manager_get_prefer_mode (EMailSignatureManager *manager)
 {
 	g_return_val_if_fail (E_IS_MAIL_SIGNATURE_MANAGER (manager), FALSE);
 
-	return manager->priv->prefer_html;
+	return manager->priv->prefer_mode;
 }
 
 void
-e_mail_signature_manager_set_prefer_html (EMailSignatureManager *manager,
-                                          gboolean prefer_html)
+e_mail_signature_manager_set_prefer_mode (EMailSignatureManager *manager,
+                                          EContentEditorMode prefer_mode)
 {
 	g_return_if_fail (E_IS_MAIL_SIGNATURE_MANAGER (manager));
 
-	if (manager->priv->prefer_html == prefer_html)
+	if (prefer_mode == E_CONTENT_EDITOR_MODE_UNKNOWN)
+		prefer_mode = E_CONTENT_EDITOR_MODE_PLAIN_TEXT;
+
+	if (manager->priv->prefer_mode == prefer_mode)
 		return;
 
-	manager->priv->prefer_html = prefer_html;
+	manager->priv->prefer_mode = prefer_mode;
 
-	g_object_notify (G_OBJECT (manager), "prefer-html");
+	g_object_notify (G_OBJECT (manager), "prefer-mode");
 }
 
 ESourceRegistry *

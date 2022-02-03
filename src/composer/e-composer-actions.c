@@ -558,6 +558,35 @@ static GtkToggleActionEntry toggle_entries[] = {
 	  FALSE }
 };
 
+static gboolean
+eca_transform_mode_html_to_boolean_cb (GBinding *binding,
+				       const GValue *source_value,
+				       GValue *target_value,
+				       gpointer not_used)
+{
+	g_value_set_boolean (target_value, g_value_get_enum (source_value) == E_CONTENT_EDITOR_MODE_HTML);
+
+	return TRUE;
+}
+
+static gboolean
+eca_mode_to_bool_hide_in_markdown_cb (GBinding *binding,
+				      const GValue *from_value,
+				      GValue *to_value,
+				      gpointer user_data)
+{
+	EContentEditorMode mode;
+
+	mode = g_value_get_enum (from_value);
+
+	g_value_set_boolean (to_value,
+		mode != E_CONTENT_EDITOR_MODE_MARKDOWN &&
+		mode != E_CONTENT_EDITOR_MODE_MARKDOWN_PLAIN_TEXT &&
+		mode != E_CONTENT_EDITOR_MODE_MARKDOWN_HTML);
+
+	return TRUE;
+}
+
 void
 e_composer_actions_init (EMsgComposer *composer)
 {
@@ -676,10 +705,12 @@ e_composer_actions_init (EMsgComposer *composer)
 		g_object_unref (gcr_gnupg_icon);
 	}
 
-	e_binding_bind_property (
-		cnt_editor, "html-mode",
+	e_binding_bind_property_full (
+		editor, "mode",
 		ACTION (PICTURE_GALLERY), "sensitive",
-		G_BINDING_SYNC_CREATE);
+		G_BINDING_SYNC_CREATE,
+		eca_transform_mode_html_to_boolean_cb,
+		NULL, NULL, NULL);
 
 	e_binding_bind_property (
 		cnt_editor, "editable",
@@ -710,6 +741,13 @@ e_composer_actions_init (EMsgComposer *composer)
 		cnt_editor, "visually-wrap-long-lines",
 		e_html_editor_get_action (editor, "visually-wrap-long-lines"), "active",
 		G_BINDING_BIDIRECTIONAL | G_BINDING_SYNC_CREATE);
+
+	e_binding_bind_property_full (
+		editor, "mode",
+		e_html_editor_get_action (editor, "visually-wrap-long-lines"), "visible",
+		G_BINDING_SYNC_CREATE,
+		eca_mode_to_bool_hide_in_markdown_cb,
+		NULL, NULL, NULL);
 
 #if defined (ENABLE_SMIME)
 	visible = TRUE;

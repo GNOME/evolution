@@ -29,11 +29,11 @@ signature_loaded_cb (EMailSignatureComboBox *combo_box,
                      EWebView *web_view)
 {
 	gchar *contents = NULL;
-	gboolean is_html;
+	EContentEditorMode editor_mode = E_CONTENT_EDITOR_MODE_UNKNOWN;
 	GError *error = NULL;
 
 	e_mail_signature_combo_box_load_selected_finish (
-		combo_box, result, &contents, NULL, &is_html, &error);
+		combo_box, result, &contents, NULL, &editor_mode, &error);
 
 	/* Ignore cancellations. */
 	if (g_error_matches (error, G_IO_ERROR, G_IO_ERROR_CANCELLED)) {
@@ -55,7 +55,7 @@ signature_loaded_cb (EMailSignatureComboBox *combo_box,
 
 	if (contents == NULL)
 		e_web_view_clear (web_view);
-	else if (is_html)
+	else if (editor_mode == E_CONTENT_EDITOR_MODE_HTML)
 		e_web_view_load_string (web_view, contents);
 	else {
 		gchar *string;

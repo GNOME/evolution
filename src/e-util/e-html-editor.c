@@ -34,8 +34,12 @@
 #include "e-alert-sink.h"
 #include "e-html-editor-private.h"
 #include "e-content-editor.h"
+#include "e-markdown-editor.h"
 #include "e-misc-utils.h"
 #include "e-simple-async-result.h"
+#include "e-util-enumtypes.h"
+
+#define MARKDOWN_EDITOR_NAME "markdown"
 
 #define E_HTML_EDITOR_GET_PRIVATE(obj) \
 	(G_TYPE_INSTANCE_GET_PRIVATE \
@@ -70,6 +74,7 @@
 
 enum {
 	PROP_0,
+	PROP_MODE,
 	PROP_FILENAME,
 	PROP_PASTE_PLAIN_PREFER_PRE
 };
@@ -605,7 +610,7 @@ html_editor_spell_languages_changed (EHTMLEditor *editor)
 			E_HTML_EDITOR_SPELL_CHECK_DIALOG (
 			editor->priv->spell_check_dialog));
 
-	editor_actions_update_spellcheck_languages_menu (editor, (const gchar * const *) languages);
+	e_html_editor_actions_update_spellcheck_languages_menu (editor, (const gchar * const *) languages);
 	g_clear_object (&spell_checker);
 	g_strfreev (languages);
 }
@@ -760,6 +765,24 @@ html_editor_get_paste_plain_prefer_pre (EHTMLEditor *editor)
 	return editor->priv->paste_plain_prefer_pre;
 }
 
+static gboolean
+e_html_editor_mode_to_bool_hide_in_markdown_cb (GBinding *binding,
+						const GValue *from_value,
+						GValue *to_value,
+						gpointer user_data)
+{
+	EContentEditorMode mode;
+
+	mode = g_value_get_enum (from_value);
+
+	g_value_set_boolean (to_value,
+		mode != E_CONTENT_EDITOR_MODE_MARKDOWN &&
+		mode != E_CONTENT_EDITOR_MODE_MARKDOWN_PLAIN_TEXT &&
+		mode != E_CONTENT_EDITOR_MODE_MARKDOWN_HTML);
+
+	return TRUE;
+}
+
 static void
 html_editor_set_property (GObject *object,
                           guint property_id,
@@ -767,6 +790,12 @@ html_editor_set_property (GObject *object,
                           GParamSpec *pspec)
 {
 	switch (property_id) {
+		case PROP_MODE:
+			e_html_editor_set_mode (
+				E_HTML_EDITOR (object),
+				g_value_get_enum (value));
+			return;
+
 		case PROP_FILENAME:
 			e_html_editor_set_filename (
 				E_HTML_EDITOR (object),
@@ -790,6 +819,12 @@ html_editor_get_property (GObject *object,
                           GParamSpec *pspec)
 {
 	switch (property_id) {
+		case PROP_MODE:
+			g_value_set_enum (
+				value, e_html_editor_get_mode (
+				E_HTML_EDITOR (object)));
+			return;
+
 		case PROP_FILENAME:
 			g_value_set_string (
 				value, e_html_editor_get_filename (
@@ -822,7 +857,23 @@ html_editor_constructed (GObject *object)
 
 	e_extensible_load_extensions (E_EXTENSIBLE (object));
 
-	editor_actions_init (editor);
+	/* Register the markdown editor */
+	priv->markdown_editor = g_object_ref_sink (e_markdown_editor_new ());
+	e_html_editor_register_content_editor (editor, MARKDOWN_EDITOR_NAME, E_CONTENT_EDITOR (priv->markdown_editor));
+
+	/* Construct the main editing area. */
+	widget = gtk_box_new (GTK_ORIENTATION_HORIZONTAL, 0);
+	g_object_set (G_OBJECT (widget),
+		"halign", GTK_ALIGN_FILL,
+		"hexpand", TRUE,
+		"halign", GTK_ALIGN_FILL,
+		"hexpand", TRUE,
+		"visible", TRUE,
+		NULL);
+	gtk_grid_attach (GTK_GRID (editor), widget, 0, 4, 1, 1);
+	priv->content_editors_box = widget;
+
+	e_html_editor_actions_init (editor);
 	priv->editor_layout_row = 2;
 
 	/* Tweak the main-toolbar style. */
@@ -862,30 +913,9 @@ html_editor_constructed (GObject *object)
 	priv->alert_bar = g_object_ref (widget);
 	/* EAlertBar controls its own visibility. */
 
-	/* Construct the main editing area. */
+	/* Have the default editor added (it's done inside the function) */
 	widget = GTK_WIDGET (e_html_editor_get_content_editor (editor));
-
-	/* Pack editors which implement GtkScrollable in a scrolled window */
-	if (GTK_IS_SCROLLABLE (widget)) {
-		GtkWidget *scrolled_window;
-
-		scrolled_window = gtk_scrolled_window_new (NULL, NULL);
-		gtk_scrolled_window_set_policy (GTK_SCROLLED_WINDOW (scrolled_window),
-			GTK_POLICY_AUTOMATIC, GTK_POLICY_AUTOMATIC);
-		gtk_widget_show (scrolled_window);
-
-		gtk_grid_attach (GTK_GRID (editor), scrolled_window, 0, 4, 1, 1);
-
-		gtk_container_add (GTK_CONTAINER (scrolled_window), widget);
-	} else {
-		gtk_grid_attach (GTK_GRID (editor), widget, 0, 4, 1, 1);
-	}
-
 	gtk_widget_show (widget);
-
-	g_signal_connect (
-		widget, "context-menu-requested",
-		G_CALLBACK (html_editor_context_menu_requested_cb), editor);
 
 	/* Add some combo boxes to the "edit" toolbar. */
 
@@ -913,6 +943,7 @@ html_editor_constructed (GObject *object)
 	gtk_widget_set_tooltip_text (widget, _("Editing Mode"));
 	gtk_toolbar_insert (toolbar, tool_item, 0);
 	priv->mode_combo_box = g_object_ref (widget);
+	priv->mode_tool_item = g_object_ref (tool_item);
 	gtk_widget_show_all (GTK_WIDGET (tool_item));
 
 	/* Add some combo boxes to the "html" toolbar. */
@@ -957,6 +988,41 @@ html_editor_constructed (GObject *object)
 	priv->font_name_combo_box = g_object_ref (widget);
 	gtk_widget_show_all (GTK_WIDGET (tool_item));
 
+	e_binding_bind_property_full (
+		editor, "mode",
+		E_HTML_EDITOR_ACTION (editor, "paragraph-style-menu"), "visible",
+		G_BINDING_SYNC_CREATE,
+		e_html_editor_mode_to_bool_hide_in_markdown_cb,
+		NULL, NULL, NULL);
+
+	e_binding_bind_property_full (
+		editor, "mode",
+		E_HTML_EDITOR_ACTION (editor, "justify-menu"), "visible",
+		G_BINDING_SYNC_CREATE,
+		e_html_editor_mode_to_bool_hide_in_markdown_cb,
+		NULL, NULL, NULL);
+
+	e_binding_bind_property_full (
+		editor, "mode",
+		E_HTML_EDITOR_ACTION_WRAP_LINES (editor), "visible",
+		G_BINDING_SYNC_CREATE,
+		e_html_editor_mode_to_bool_hide_in_markdown_cb,
+		NULL, NULL, NULL);
+
+	e_binding_bind_property_full (
+		editor, "mode",
+		E_HTML_EDITOR_ACTION_INDENT (editor), "visible",
+		G_BINDING_SYNC_CREATE,
+		e_html_editor_mode_to_bool_hide_in_markdown_cb,
+		NULL, NULL, NULL);
+
+	e_binding_bind_property_full (
+		editor, "mode",
+		E_HTML_EDITOR_ACTION_UNINDENT (editor), "visible",
+		G_BINDING_SYNC_CREATE,
+		e_html_editor_mode_to_bool_hide_in_markdown_cb,
+		NULL, NULL, NULL);
+
 	g_signal_connect_after (object, "realize", G_CALLBACK (html_editor_realize), NULL);
 
 	settings = e_util_ref_settings ("org.gnome.evolution.mail");
@@ -976,6 +1042,9 @@ html_editor_dispose (GObject *object)
 
 	priv = E_HTML_EDITOR_GET_PRIVATE (object);
 
+	if (priv->mode_change_content_cancellable)
+		g_cancellable_cancel (priv->mode_change_content_cancellable);
+
 	g_clear_object (&priv->manager);
 	g_clear_object (&priv->core_actions);
 	g_clear_object (&priv->core_editor_actions);
@@ -993,13 +1062,23 @@ html_editor_dispose (GObject *object)
 	g_clear_object (&priv->activity_bar);
 	g_clear_object (&priv->alert_bar);
 	g_clear_object (&priv->edit_area);
+	g_clear_object (&priv->markdown_editor);
 
 	g_clear_object (&priv->fg_color_combo_box);
 	g_clear_object (&priv->bg_color_combo_box);
 	g_clear_object (&priv->mode_combo_box);
+	g_clear_object (&priv->mode_tool_item);
 	g_clear_object (&priv->size_combo_box);
 	g_clear_object (&priv->font_name_combo_box);
 	g_clear_object (&priv->style_combo_box);
+
+	g_clear_object (&priv->mode_change_content_cancellable);
+
+	/* Do not unbind/disconnect signal handlers here, just free/unset them */
+	g_slist_free_full (priv->content_editor_bindings, g_object_unref);
+	priv->content_editor_bindings = NULL;
+	priv->subscript_notify_id = 0;
+	priv->superscript_notify_id = 0;
 
 	/* Chain up to parent's dispose() method. */
 	G_OBJECT_CLASS (e_html_editor_parent_class)->dispose (object);
@@ -1012,6 +1091,7 @@ html_editor_finalize (GObject *object)
 
 	g_hash_table_destroy (editor->priv->cid_parts);
 	g_hash_table_destroy (editor->priv->content_editors);
+	g_hash_table_destroy (editor->priv->content_editors_for_mode);
 
 	/* Chain up to parent's method. */
 	G_OBJECT_CLASS (e_html_editor_parent_class)->finalize (object);
@@ -1048,6 +1128,19 @@ e_html_editor_class_init (EHTMLEditorClass *class)
 
 	class->update_actions = html_editor_update_actions;
 	class->spell_languages_changed = html_editor_spell_languages_changed;
+
+	g_object_class_install_property (
+		object_class,
+		PROP_MODE,
+		g_param_spec_enum (
+			"mode",
+			NULL,
+			NULL,
+			E_TYPE_CONTENT_EDITOR_MODE,
+			E_CONTENT_EDITOR_MODE_HTML,
+			G_PARAM_READWRITE |
+			G_PARAM_EXPLICIT_NOTIFY |
+			G_PARAM_STATIC_STRINGS));
 
 	g_object_class_install_property (
 		object_class,
@@ -1109,6 +1202,7 @@ e_html_editor_init (EHTMLEditor *editor)
 
 	priv = editor->priv;
 
+	priv->mode = E_CONTENT_EDITOR_MODE_HTML;
 	priv->manager = gtk_ui_manager_new ();
 	priv->core_actions = gtk_action_group_new ("core");
 	priv->core_editor_actions = gtk_action_group_new ("core-editor");
@@ -1120,6 +1214,7 @@ e_html_editor_init (EHTMLEditor *editor)
 	priv->suggestion_actions = gtk_action_group_new ("suggestion");
 	priv->cid_parts = g_hash_table_new_full (camel_strcase_hash, camel_strcase_equal, g_free, g_object_unref);
 	priv->content_editors = g_hash_table_new_full (camel_strcase_hash, camel_strcase_equal, g_free, NULL);
+	priv->content_editors_for_mode = g_hash_table_new_full (g_direct_hash, g_direct_equal, NULL, NULL);
 
 	filename = html_editor_find_ui_file ("e-html-editor-manager.ui");
 	if (!gtk_ui_manager_add_ui_from_file (priv->manager, filename, &error)) {
@@ -1142,23 +1237,12 @@ e_html_editor_content_editor_initialized (EContentEditor *content_editor,
 	g_return_if_fail (E_IS_HTML_EDITOR (html_editor));
 	g_return_if_fail (content_editor == e_html_editor_get_content_editor (html_editor));
 
-	e_binding_bind_property (
-		html_editor->priv->fg_color_combo_box, "current-color",
-		content_editor, "font-color",
-		G_BINDING_SYNC_CREATE | G_BINDING_BIDIRECTIONAL);
-	e_binding_bind_property (
-		content_editor, "editable",
-		html_editor->priv->fg_color_combo_box, "sensitive",
-		G_BINDING_SYNC_CREATE);
-	e_binding_bind_property (
-		html_editor->priv->bg_color_combo_box, "current-color",
-		content_editor, "background-color",
-		G_BINDING_SYNC_CREATE | G_BINDING_BIDIRECTIONAL);
-	e_binding_bind_property (
-		content_editor, "editable",
-		html_editor->priv->bg_color_combo_box, "sensitive",
-		G_BINDING_SYNC_CREATE);
-	editor_actions_bind (html_editor);
+	/* Synchronize widget mode with the buttons */
+	e_html_editor_set_mode (html_editor, E_CONTENT_EDITOR_MODE_HTML);
+
+	/* Make sure the actions did bind, even when the content editor did not change */
+	e_html_editor_actions_unbind (html_editor);
+	e_html_editor_actions_bind (html_editor);
 
 	g_object_set (G_OBJECT (content_editor),
 		"halign", GTK_ALIGN_FILL,
@@ -1227,6 +1311,253 @@ e_html_editor_new_finish (GAsyncResult *result,
 }
 
 /**
+ * e_html_editor_connect_focus_tracker:
+ * @editor: an #EHTMLEditor
+ * @focus_tracker: an #EFocusTracker
+ *
+ * Connects @editor actions and widgets to the @focus_tracker.
+ *
+ * Since: 3.44
+ **/
+void
+e_html_editor_connect_focus_tracker (EHTMLEditor *editor,
+				     EFocusTracker *focus_tracker)
+{
+	g_return_if_fail (E_IS_HTML_EDITOR (editor));
+	g_return_if_fail (E_IS_FOCUS_TRACKER (focus_tracker));
+
+	e_focus_tracker_set_cut_clipboard_action (focus_tracker,
+		e_html_editor_get_action (editor, "cut"));
+
+	e_focus_tracker_set_copy_clipboard_action (focus_tracker,
+		e_html_editor_get_action (editor, "copy"));
+
+	e_focus_tracker_set_paste_clipboard_action (focus_tracker,
+		e_html_editor_get_action (editor, "paste"));
+
+	e_focus_tracker_set_select_all_action (focus_tracker,
+		e_html_editor_get_action (editor, "select-all"));
+
+	e_focus_tracker_set_undo_action (focus_tracker,
+		e_html_editor_get_action (editor, "undo"));
+
+	e_focus_tracker_set_redo_action (focus_tracker,
+		e_html_editor_get_action (editor, "redo"));
+
+	e_markdown_editor_connect_focus_tracker (E_MARKDOWN_EDITOR (editor->priv->markdown_editor), focus_tracker);
+}
+
+/**
+ * e_html_editor_get_content_box:
+ * @editor: an #EHTMLEditor
+ *
+ * Returns: (transfer none): the content box, the content editors are
+ *    packed into.
+ *
+ * Since: 3.44
+ **/
+GtkWidget *
+e_html_editor_get_content_box (EHTMLEditor *editor)
+{
+	g_return_val_if_fail (E_IS_HTML_EDITOR (editor), NULL);
+
+	return editor->priv->content_editors_box;
+}
+
+static void
+e_html_editor_content_editor_notify_mode_cb (GObject *object,
+					     GParamSpec *param,
+					     gpointer user_data)
+{
+	EHTMLEditor *editor = user_data;
+
+	g_return_if_fail (E_IS_HTML_EDITOR (editor));
+	g_return_if_fail (E_IS_CONTENT_EDITOR (object));
+
+	if (E_CONTENT_EDITOR (object) == e_html_editor_get_content_editor (editor)) {
+		EContentEditorMode mode = E_CONTENT_EDITOR_MODE_PLAIN_TEXT;
+
+		g_object_get (object, "mode", &mode, NULL);
+
+		e_html_editor_set_mode (editor, mode);
+	}
+}
+
+static EContentEditor *
+e_html_editor_get_content_editor_for_mode (EHTMLEditor *editor,
+					   EContentEditorMode mode)
+{
+	EContentEditor *cnt_editor;
+	GSettings *settings;
+	const gchar *mode_name = NULL;
+	gchar *name;
+
+	if (!g_hash_table_size (editor->priv->content_editors))
+		return NULL;
+
+	cnt_editor = g_hash_table_lookup (editor->priv->content_editors_for_mode, GINT_TO_POINTER (mode));
+
+	if (cnt_editor)
+		return cnt_editor;
+
+	switch (mode) {
+	case E_CONTENT_EDITOR_MODE_UNKNOWN:
+		g_warn_if_reached ();
+		break;
+	case E_CONTENT_EDITOR_MODE_PLAIN_TEXT:
+		mode_name = "plain";
+		break;
+	case E_CONTENT_EDITOR_MODE_HTML:
+		mode_name = "html";
+		break;
+	case E_CONTENT_EDITOR_MODE_MARKDOWN:
+		mode_name = "markdown";
+		break;
+	case E_CONTENT_EDITOR_MODE_MARKDOWN_PLAIN_TEXT:
+		mode_name = "markdown-plain";
+		break;
+	case E_CONTENT_EDITOR_MODE_MARKDOWN_HTML:
+		mode_name = "markdown-html";
+		break;
+	}
+
+	settings = e_util_ref_settings ("org.gnome.evolution.mail");
+	name = g_settings_get_string (settings, "composer-editor");
+	g_clear_object (&settings);
+
+	if (name && *name && mode_name) {
+		gchar **split_names;
+		gint ii, mode_name_len = strlen (mode_name);
+
+		split_names = g_strsplit (name, ",", -1);
+
+		/* first round with the mode-specific overrides */
+		for (ii = 0; split_names && split_names[ii] && !cnt_editor; ii++) {
+			const gchar *check_name = split_names[ii];
+
+			if (g_ascii_strncasecmp (check_name, mode_name, mode_name_len) == 0 &&
+			    check_name[mode_name_len] == ':') {
+				cnt_editor = g_hash_table_lookup (editor->priv->content_editors, check_name + mode_name_len + 1);
+
+				if (cnt_editor && !e_content_editor_supports_mode (cnt_editor, mode))
+					cnt_editor = NULL;
+			}
+		}
+
+		/* second round without the mode-specific overrides */
+		for (ii = 0; split_names && split_names[ii] && !cnt_editor; ii++) {
+			const gchar *check_name = split_names[ii];
+
+			cnt_editor = g_hash_table_lookup (editor->priv->content_editors, check_name);
+
+			if (cnt_editor && !e_content_editor_supports_mode (cnt_editor, mode))
+				cnt_editor = NULL;
+		}
+
+		g_strfreev (split_names);
+	}
+
+	g_free (name);
+
+	if (!cnt_editor) {
+		if (mode == E_CONTENT_EDITOR_MODE_MARKDOWN ||
+		    mode == E_CONTENT_EDITOR_MODE_MARKDOWN_PLAIN_TEXT ||
+		    mode == E_CONTENT_EDITOR_MODE_MARKDOWN_HTML)
+			cnt_editor = g_hash_table_lookup (editor->priv->content_editors, MARKDOWN_EDITOR_NAME);
+		else
+			cnt_editor = g_hash_table_lookup (editor->priv->content_editors, DEFAULT_CONTENT_EDITOR_NAME);
+
+		if (cnt_editor && !e_content_editor_supports_mode (cnt_editor, mode))
+			cnt_editor = NULL;
+	}
+
+	if (!cnt_editor) {
+		GHashTableIter iter;
+		gpointer value;
+
+		g_hash_table_iter_init (&iter, editor->priv->content_editors);
+		while (g_hash_table_iter_next (&iter, NULL, &value)) {
+			if (e_content_editor_supports_mode (value, mode)) {
+				cnt_editor = value;
+				break;
+			}
+		}
+	}
+
+	if (cnt_editor) {
+		GHashTableIter iter;
+		gpointer value;
+
+		g_hash_table_iter_init (&iter, editor->priv->content_editors_for_mode);
+		while (g_hash_table_iter_next (&iter, NULL, &value)) {
+			/* The editor can be used for multiple modes and it is already packed in the content box. */
+			if (value == cnt_editor) {
+				g_hash_table_insert (editor->priv->content_editors_for_mode, GINT_TO_POINTER (mode), cnt_editor);
+				return cnt_editor;
+			}
+		}
+	}
+
+	if (cnt_editor) {
+		e_content_editor_setup_editor (cnt_editor, editor);
+
+		g_signal_connect_swapped (cnt_editor, "ref-mime-part",
+			G_CALLBACK (e_html_editor_ref_cid_part), editor);
+
+		e_signal_connect_notify (cnt_editor, "notify::mode",
+			G_CALLBACK (e_html_editor_content_editor_notify_mode_cb), editor);
+
+		/* Pack editors which implement GtkScrollable in a scrolled window */
+		if (GTK_IS_SCROLLABLE (cnt_editor)) {
+			GtkWidget *scrolled_window;
+
+			scrolled_window = gtk_scrolled_window_new (NULL, NULL);
+			gtk_scrolled_window_set_policy (GTK_SCROLLED_WINDOW (scrolled_window),
+				GTK_POLICY_AUTOMATIC, GTK_POLICY_AUTOMATIC);
+
+			gtk_box_pack_start (GTK_BOX (editor->priv->content_editors_box), scrolled_window, TRUE, TRUE, 0);
+
+			gtk_container_add (GTK_CONTAINER (scrolled_window), GTK_WIDGET (cnt_editor));
+
+			e_binding_bind_property (cnt_editor, "visible",
+				scrolled_window, "visible",
+				G_BINDING_SYNC_CREATE);
+		} else {
+			gtk_box_pack_start (GTK_BOX (editor->priv->content_editors_box), GTK_WIDGET (cnt_editor), TRUE, TRUE, 0);
+		}
+
+		g_signal_connect (
+			cnt_editor, "context-menu-requested",
+			G_CALLBACK (html_editor_context_menu_requested_cb), editor);
+
+		g_hash_table_insert (editor->priv->content_editors_for_mode, GINT_TO_POINTER (mode), cnt_editor);
+	}
+
+	return cnt_editor;
+}
+
+gboolean
+e_html_editor_has_editor_for_mode (EHTMLEditor *editor,
+				   EContentEditorMode mode)
+{
+	GHashTableIter iter;
+	gpointer value;
+
+	g_return_val_if_fail (E_IS_HTML_EDITOR (editor), FALSE);
+
+	g_hash_table_iter_init (&iter, editor->priv->content_editors);
+
+	while (g_hash_table_iter_next (&iter, NULL, &value)) {
+		EContentEditor *cnt_editor = value;
+
+		if (e_content_editor_supports_mode (cnt_editor, mode))
+			return TRUE;
+	}
+
+	return FALSE;
+}
+
+/**
  * e_html_editor_get_content_editor:
  * @editor: an #EHTMLEditor
  *
@@ -1238,40 +1569,8 @@ e_html_editor_get_content_editor (EHTMLEditor *editor)
 	g_return_val_if_fail (E_IS_HTML_EDITOR (editor), NULL);
 
 	if (!editor->priv->use_content_editor) {
-		GSettings *settings;
-		gchar *name;
-
-		if (!g_hash_table_size (editor->priv->content_editors))
-			return NULL;
-
-		settings = e_util_ref_settings ("org.gnome.evolution.mail");
-		name = g_settings_get_string (settings, "composer-editor");
-		g_clear_object (&settings);
-
-		if (name)
-			editor->priv->use_content_editor = g_hash_table_lookup (editor->priv->content_editors, name);
-
-		g_free (name);
-
-		if (!editor->priv->use_content_editor)
-			editor->priv->use_content_editor = g_hash_table_lookup (editor->priv->content_editors, DEFAULT_CONTENT_EDITOR_NAME);
-
-		if (!editor->priv->use_content_editor) {
-			GHashTableIter iter;
-			gpointer key, value;
-
-			g_hash_table_iter_init (&iter, editor->priv->content_editors);
-			if (g_hash_table_iter_next (&iter, &key, &value)) {
-				editor->priv->use_content_editor = value;
-			}
-		}
-
-		if (editor->priv->use_content_editor) {
-			e_content_editor_setup_editor (editor->priv->use_content_editor, editor);
-
-			g_signal_connect_swapped (editor->priv->use_content_editor, "ref-mime-part",
-				G_CALLBACK (e_html_editor_ref_cid_part), editor);
-		}
+		editor->priv->use_content_editor =
+			e_html_editor_get_content_editor_for_mode (editor, editor->priv->mode);
 	}
 
 	return editor->priv->use_content_editor;
@@ -1300,6 +1599,25 @@ e_html_editor_get_content_editor_name (EHTMLEditor *editor)
 	return NULL;
 }
 
+static void
+e_html_editor_content_changed_cb (EContentEditor *cnt_editor,
+				  gpointer user_data)
+{
+	EHTMLEditor *editor = user_data;
+
+	g_return_if_fail (E_IS_HTML_EDITOR (editor));
+
+	if (editor->priv->mode_change_content_cancellable) {
+		if (cnt_editor == editor->priv->use_content_editor) {
+			g_cancellable_cancel (editor->priv->mode_change_content_cancellable);
+			g_clear_object (&editor->priv->mode_change_content_cancellable);
+		}
+	}
+
+	g_signal_handlers_disconnect_by_func (cnt_editor,
+		G_CALLBACK (e_html_editor_content_changed_cb), editor);
+}
+
 void
 e_html_editor_register_content_editor (EHTMLEditor *editor,
 				       const gchar *name,
@@ -1318,6 +1636,189 @@ e_html_editor_register_content_editor (EHTMLEditor *editor,
 			G_STRFUNC, G_OBJECT_TYPE_NAME (cnt_editor), name, G_OBJECT_TYPE_NAME (already_taken));
 	} else {
 		g_hash_table_insert (editor->priv->content_editors, g_strdup (name), cnt_editor);
+	}
+}
+
+static void
+e_html_editor_update_content_on_mode_change_cb (GObject *source_object,
+						GAsyncResult *result,
+						gpointer user_data)
+{
+	GWeakRef *weak_ref = user_data;
+	EContentEditorContentHash *content_hash;
+	EContentEditor *cnt_editor;
+	EHTMLEditor *editor;
+
+	g_return_if_fail (E_IS_CONTENT_EDITOR (source_object));
+	g_return_if_fail (weak_ref != NULL);
+
+	editor = g_weak_ref_get (weak_ref);
+
+	e_weak_ref_free (weak_ref);
+
+	if (!editor)
+		return;
+
+	g_clear_object (&editor->priv->mode_change_content_cancellable);
+
+	cnt_editor = E_CONTENT_EDITOR (source_object);
+	content_hash = e_content_editor_get_content_finish (cnt_editor, result, NULL);
+
+	if (content_hash) {
+		gpointer text;
+
+		text = e_content_editor_util_get_content_data (content_hash, E_CONTENT_EDITOR_GET_TO_SEND_HTML);
+
+		if (editor->priv->mode == E_CONTENT_EDITOR_MODE_HTML && text) {
+			e_content_editor_insert_content (editor->priv->use_content_editor, text,
+				E_CONTENT_EDITOR_INSERT_CONVERT |
+				E_CONTENT_EDITOR_INSERT_TEXT_HTML |
+				E_CONTENT_EDITOR_INSERT_REPLACE_ALL);
+		} else {
+			text = e_content_editor_util_get_content_data (content_hash, E_CONTENT_EDITOR_GET_TO_SEND_PLAIN);
+
+			if (text) {
+				e_content_editor_insert_content (editor->priv->use_content_editor, text,
+					E_CONTENT_EDITOR_INSERT_CONVERT |
+					E_CONTENT_EDITOR_INSERT_TEXT_PLAIN |
+					E_CONTENT_EDITOR_INSERT_REPLACE_ALL);
+			}
+		}
+
+		e_content_editor_clear_undo_redo_history (editor->priv->use_content_editor);
+
+		e_content_editor_util_free_content_hash (content_hash);
+	}
+
+	g_object_unref (editor);
+}
+
+/**
+ * e_html_editor_get_mode:
+ * @editor: an #EHTMLEditor
+ *
+ * Returns: Current editor mode, as an #EContentEditorMode
+ *
+ * Since: 3.44
+ **/
+EContentEditorMode
+e_html_editor_get_mode (EHTMLEditor *editor)
+{
+	g_return_val_if_fail (E_IS_HTML_EDITOR (editor), E_CONTENT_EDITOR_MODE_PLAIN_TEXT);
+
+	return editor->priv->mode;
+}
+
+/**
+ * e_html_editor_set_mode:
+ * @editor: an #EHTMLEditor
+ * @mode: an #EContentEditorMode
+ *
+ * Sets the editor mode.
+ *
+ * Since: 3.44
+ **/
+void
+e_html_editor_set_mode (EHTMLEditor *editor,
+			EContentEditorMode mode)
+{
+	EContentEditor *cnt_editor;
+
+	g_return_if_fail (E_IS_HTML_EDITOR (editor));
+
+	if (mode == E_CONTENT_EDITOR_MODE_UNKNOWN)
+		mode = E_CONTENT_EDITOR_MODE_PLAIN_TEXT;
+
+	/* In case the same mode is set, but no editor is assigned, then assign it */
+	if (editor->priv->mode == mode && editor->priv->use_content_editor != NULL)
+		return;
+
+	if (editor->priv->mode_change_content_cancellable) {
+		g_cancellable_cancel (editor->priv->mode_change_content_cancellable);
+		g_clear_object (&editor->priv->mode_change_content_cancellable);
+	}
+
+	cnt_editor = e_html_editor_get_content_editor_for_mode (editor, mode);
+
+	if (cnt_editor) {
+		gboolean editor_changed = cnt_editor != editor->priv->use_content_editor;
+
+		if (editor_changed) {
+			EContentEditorInterface *iface;
+			gboolean is_focused = FALSE;
+
+			if (editor->priv->use_content_editor) {
+				e_html_editor_actions_unbind (editor);
+
+				is_focused = e_content_editor_is_focus (editor->priv->use_content_editor);
+
+				editor->priv->mode_change_content_cancellable = g_cancellable_new ();
+
+				g_signal_connect_object (cnt_editor, "content-changed",
+					G_CALLBACK (e_html_editor_content_changed_cb), editor, 0);
+
+				/* Transfer also the content between editors */
+				e_content_editor_get_content (editor->priv->use_content_editor,
+					E_CONTENT_EDITOR_GET_TO_SEND_HTML | E_CONTENT_EDITOR_GET_TO_SEND_PLAIN,
+					"localhost", editor->priv->mode_change_content_cancellable,
+					e_html_editor_update_content_on_mode_change_cb,
+					e_weak_ref_new (editor));
+
+				gtk_widget_hide (GTK_WIDGET (editor->priv->use_content_editor));
+
+				if (E_IS_MARKDOWN_EDITOR (editor->priv->use_content_editor)) {
+					EMarkdownEditor *markdown_editor;
+					GtkToolbar *toolbar;
+
+					markdown_editor = E_MARKDOWN_EDITOR (editor->priv->use_content_editor);
+
+					e_markdown_editor_set_preview_mode (markdown_editor, FALSE);
+
+					toolbar = e_markdown_editor_get_action_toolbar (markdown_editor);
+					gtk_container_remove (GTK_CONTAINER (toolbar), GTK_WIDGET (editor->priv->mode_tool_item));
+
+					toolbar = GTK_TOOLBAR (editor->priv->edit_toolbar);
+					gtk_toolbar_insert (toolbar, editor->priv->mode_tool_item, 0);
+
+					gtk_widget_show (GTK_WIDGET (editor->priv->edit_toolbar));
+				}
+			}
+
+			gtk_widget_show (GTK_WIDGET (cnt_editor));
+
+			if (E_IS_MARKDOWN_EDITOR (cnt_editor)) {
+				GtkToolbar *toolbar;
+
+				toolbar = GTK_TOOLBAR (editor->priv->edit_toolbar);
+				gtk_container_remove (GTK_CONTAINER (toolbar), GTK_WIDGET (editor->priv->mode_tool_item));
+
+				toolbar = e_markdown_editor_get_action_toolbar (E_MARKDOWN_EDITOR (cnt_editor));
+				gtk_toolbar_insert (toolbar, editor->priv->mode_tool_item, 0);
+
+				gtk_widget_hide (GTK_WIDGET (editor->priv->edit_toolbar));
+			}
+
+			if (is_focused)
+				e_content_editor_grab_focus (cnt_editor);
+
+			/* Disable spell-check dialog when the content editor doesn't
+			   support moving between misspelled words. */
+			iface = E_CONTENT_EDITOR_GET_IFACE (cnt_editor);
+
+			gtk_action_set_visible (e_html_editor_get_action (editor, "spell-check"),
+				iface && iface->spell_check_next_word && iface->spell_check_prev_word);
+
+			e_content_editor_clear_undo_redo_history (cnt_editor);
+		}
+
+		editor->priv->mode = mode;
+		editor->priv->use_content_editor = cnt_editor;
+
+		if (editor_changed)
+			e_html_editor_actions_bind (editor);
+
+		g_object_set (G_OBJECT (cnt_editor), "mode", mode, NULL);
+		g_object_notify (G_OBJECT (editor), "mode");
 	}
 }
 

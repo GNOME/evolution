@@ -720,9 +720,12 @@ static void
 set_preformatted_block_format_on_load_finished_cb (EContentEditor *cnt_editor,
 						   gpointer user_data)
 {
+	EHTMLEditor *editor = user_data;
+
+	g_return_if_fail (E_IS_HTML_EDITOR (editor));
 	g_return_if_fail (E_IS_CONTENT_EDITOR (cnt_editor));
 
-	if (!e_content_editor_get_html_mode (cnt_editor)) {
+	if (e_html_editor_get_mode (editor) != E_CONTENT_EDITOR_MODE_HTML) {
 		e_content_editor_set_block_format (cnt_editor, E_CONTENT_EDITOR_BLOCK_FORMAT_PRE);
 		e_content_editor_set_changed (cnt_editor, FALSE);
 		e_content_editor_clear_undo_redo_history (cnt_editor);
@@ -756,23 +759,24 @@ mail_shell_backend_window_added_cb (GtkApplication *application,
 	/* This applies to both the composer and signature editor. */
 	if (editor != NULL) {
 		EContentEditor *cnt_editor;
+		EContentEditorMode mode;
 		GSettings *settings;
-		gboolean use_html, use_preformatted;
+		gboolean use_preformatted;
 
 		cnt_editor = e_html_editor_get_content_editor (editor);
 
 		settings = e_util_ref_settings ("org.gnome.evolution.mail");
 
-		use_html = g_settings_get_boolean (settings, "composer-send-html");
+		mode = g_settings_get_enum (settings, "composer-mode");
 		use_preformatted = g_settings_get_boolean (settings, "composer-plain-text-starts-preformatted");
 
 		g_object_unref (settings);
 
-		e_content_editor_set_html_mode (cnt_editor, use_html);
+		e_html_editor_set_mode (editor, mode);
 
 		if (use_preformatted) {
-			g_signal_connect (cnt_editor, "load-finished",
-				G_CALLBACK (set_preformatted_block_format_on_load_finished_cb), NULL);
+			g_signal_connect_object (cnt_editor, "load-finished",
+				G_CALLBACK (set_preformatted_block_format_on_load_finished_cb), editor, 0);
 		}
 	}
 

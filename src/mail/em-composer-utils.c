@@ -552,8 +552,8 @@ composer_presend_check_unwanted_html (EMsgComposer *composer,
 {
 	EDestination **recipients;
 	EHTMLEditor *editor;
-	EContentEditor *cnt_editor;
 	EComposerHeaderTable *table;
+	EContentEditorMode mode;
 	GSettings *settings;
 	gboolean check_passed = TRUE;
 	gboolean html_mode;
@@ -564,13 +564,14 @@ composer_presend_check_unwanted_html (EMsgComposer *composer,
 	settings = e_util_ref_settings ("org.gnome.evolution.mail");
 
 	editor = e_msg_composer_get_editor (composer);
-	cnt_editor = e_html_editor_get_content_editor (editor);
-	html_mode = e_content_editor_get_html_mode (cnt_editor);
+	mode = e_html_editor_get_mode (editor);
+	html_mode = mode == E_CONTENT_EDITOR_MODE_HTML || mode == E_CONTENT_EDITOR_MODE_MARKDOWN_HTML;
 
 	table = e_msg_composer_get_header_table (composer);
 	recipients = e_composer_header_table_get_destinations (table);
 
-	send_html = g_settings_get_boolean (settings, "composer-send-html");
+	mode = g_settings_get_enum (settings, "composer-mode");
+	send_html = mode == E_CONTENT_EDITOR_MODE_HTML || mode == E_CONTENT_EDITOR_MODE_MARKDOWN_HTML;
 	confirm_html = g_settings_get_boolean (settings, "prompt-on-unwanted-html");
 
 	/* Only show this warning if our default is to send html.  If it
@@ -2582,7 +2583,7 @@ forward_non_attached (EMsgComposer *composer,
 		E_MAIL_FORMATTER_QUOTE_FLAG_KEEP_SIG;
 	if (style == E_MAIL_FORWARD_STYLE_QUOTED)
 		flags |= E_MAIL_FORMATTER_QUOTE_FLAG_CITE;
-	if (!e_content_editor_get_html_mode (e_html_editor_get_content_editor (e_msg_composer_get_editor (composer))))
+	if (e_html_editor_get_mode (e_msg_composer_get_editor (composer)) != E_CONTENT_EDITOR_MODE_HTML)
 		flags |= E_MAIL_FORMATTER_QUOTE_FLAG_NO_FORMATTING;
 
 	/* Setup composer's From account before calling quoting_text() and
@@ -3855,9 +3856,9 @@ alt_reply_composer_created_cb (GObject *source_object,
 	composer = e_msg_composer_new_finish (result, &error);
 
 	if (composer) {
-		EContentEditor *cnt_editor;
+		EHTMLEditor *editor;
 
-		cnt_editor = e_html_editor_get_content_editor (e_msg_composer_get_editor (composer));
+		editor = e_msg_composer_get_editor (composer);
 
 		if (context->new_message) {
 			CamelInternetAddress *to = NULL, *cc = NULL;
@@ -3873,7 +3874,7 @@ alt_reply_composer_created_cb (GObject *source_object,
 			}
 
 			if ((context->flags & (E_MAIL_REPLY_FLAG_FORMAT_PLAIN | E_MAIL_REPLY_FLAG_FORMAT_HTML)) != 0) {
-				e_content_editor_set_html_mode (cnt_editor, (context->flags & E_MAIL_REPLY_FLAG_FORMAT_HTML) != 0);
+				e_html_editor_set_mode (editor, (context->flags & E_MAIL_REPLY_FLAG_FORMAT_HTML) != 0 ? E_CONTENT_EDITOR_MODE_HTML : E_CONTENT_EDITOR_MODE_PLAIN_TEXT);
 			}
 
 			em_utils_edit_message (composer, context->folder, context->new_message, context->message_uid, TRUE, FALSE);
@@ -4110,7 +4111,8 @@ em_utils_reply_alternative (GtkWindow *parent,
 	GtkRadioButton *recip_sender, *recip_list, *recip_all;
 	GtkLabel *sender_label, *list_label, *all_label;
 	GtkRadioButton *style_default, *style_attach, *style_inline, *style_quote, *style_no_quote;
-	GtkToggleButton *html_format;
+	EActionComboBox *mode_combo;
+	GtkRadioAction *radio_action, *html_mode_radio_action;
 	GtkToggleButton *bottom_posting;
 	GtkToggleButton *top_signature;
 	GtkCheckButton *apply_template;
@@ -4226,8 +4228,21 @@ em_utils_reply_alternative (GtkWindow *parent,
 	widget = gtk_label_new (" ");
 	gtk_box_pack_start (vbox, widget, FALSE, FALSE, 0);
 
-	html_format = GTK_TOGGLE_BUTTON (gtk_check_button_new_with_mnemonic (_("_Format message in HTML")));
-	gtk_box_pack_start (vbox, GTK_WIDGET (html_format), FALSE, FALSE, 0);
+	hbox = GTK_BOX (gtk_box_new (GTK_ORIENTATION_HORIZONTAL, 6));
+	gtk_box_pack_start (vbox, GTK_WIDGET (hbox), FALSE, FALSE, 0);
+
+	/* Translators: The text is followed by the format combo with values like 'Plain Text', 'HTML' and so on */
+	widget = gtk_label_new_with_mnemonic (_("_Format message in"));
+	gtk_box_pack_start (hbox, widget, FALSE, FALSE, 0);
+
+	mode_combo = e_html_editor_util_new_mode_combobox ();
+	gtk_label_set_mnemonic_widget (GTK_LABEL (widget), GTK_WIDGET (mode_combo));
+	gtk_box_pack_start (hbox, GTK_WIDGET (mode_combo), FALSE, FALSE, 0);
+
+	html_mode_radio_action = e_action_combo_box_get_action (mode_combo);
+	radio_action = gtk_radio_action_new ("unknown", _("Use global setting"), NULL, NULL, E_CONTENT_EDITOR_MODE_UNKNOWN);
+	gtk_radio_action_join_group (radio_action, html_mode_radio_action);
+	e_action_combo_box_update_model (mode_combo);
 
 	bottom_posting = GTK_TOGGLE_BUTTON (gtk_check_button_new_with_mnemonic (_("Start _typing at the bottom")));
 	gtk_box_pack_start (vbox, GTK_WIDGET (bottom_posting), FALSE, FALSE, 0);
@@ -4366,7 +4381,7 @@ em_utils_reply_alternative (GtkWindow *parent,
 		break;
 	}
 
-	emcu_three_state_set_value (html_format, g_settings_get_enum (settings, "alt-reply-html-format"));
+	e_action_combo_box_set_current_value (mode_combo, g_settings_get_enum (settings, "alt-reply-format-mode"));
 	emcu_three_state_set_value (bottom_posting, g_settings_get_enum (settings, "alt-reply-start-bottom"));
 	emcu_three_state_set_value (top_signature, g_settings_get_enum (settings, "alt-reply-top-signature"));
 	gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (apply_template), g_settings_get_boolean (settings, "alt-reply-template-apply"));
@@ -4375,7 +4390,6 @@ em_utils_reply_alternative (GtkWindow *parent,
 	if (!gtk_widget_get_sensitive (GTK_WIDGET (templates)))
 		gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (apply_template), FALSE);
 
-	emcu_connect_three_state_changer (html_format);
 	emcu_connect_three_state_changer (bottom_posting);
 	emcu_connect_three_state_changer (top_signature);
 
@@ -4434,6 +4448,7 @@ em_utils_reply_alternative (GtkWindow *parent,
 	if (gtk_dialog_run (GTK_DIALOG (dialog)) == GTK_RESPONSE_OK) {
 		GtkTreeIter iter;
 		AltReplyContext *context;
+		EContentEditorMode mode;
 		EThreeState three_state;
 		CamelFolder *template_folder = NULL;
 		gchar *template_message_uid = NULL;
@@ -4461,13 +4476,28 @@ em_utils_reply_alternative (GtkWindow *parent,
 		else
 			context->flags = context->flags & (~E_MAIL_REPLY_FLAG_FORCE_STYLE);
 
-		three_state = emcu_three_state_get_value (html_format);
-		g_settings_set_enum (settings, "alt-reply-html-format", three_state);
+		mode = e_action_combo_box_get_current_value (mode_combo);
+		g_settings_set_enum (settings, "alt-reply-format-mode", mode);
 
-		if (three_state == E_THREE_STATE_ON)
-			context->flags |= E_MAIL_REPLY_FLAG_FORMAT_HTML;
-		else if (three_state == E_THREE_STATE_OFF)
+		switch (mode) {
+		case E_CONTENT_EDITOR_MODE_UNKNOWN:
+			break;
+		case E_CONTENT_EDITOR_MODE_PLAIN_TEXT:
 			context->flags |= E_MAIL_REPLY_FLAG_FORMAT_PLAIN;
+			break;
+		case E_CONTENT_EDITOR_MODE_HTML:
+			context->flags |= E_MAIL_REPLY_FLAG_FORMAT_HTML;
+			break;
+		case E_CONTENT_EDITOR_MODE_MARKDOWN:
+			context->flags |= E_MAIL_REPLY_FLAG_FORMAT_MARKDOWN;
+			break;
+		case E_CONTENT_EDITOR_MODE_MARKDOWN_PLAIN_TEXT:
+			context->flags |= E_MAIL_REPLY_FLAG_FORMAT_MARKDOWN_PLAIN;
+			break;
+		case E_CONTENT_EDITOR_MODE_MARKDOWN_HTML:
+			context->flags |= E_MAIL_REPLY_FLAG_FORMAT_MARKDOWN_HTML;
+			break;
+		}
 
 		three_state = emcu_three_state_get_value (bottom_posting);
 		g_settings_set_enum (settings, "alt-reply-start-bottom", three_state);
@@ -4597,8 +4627,34 @@ em_utils_reply_to_message (EMsgComposer *composer,
 
 	cnt_editor = e_html_editor_get_content_editor (e_msg_composer_get_editor (composer));
 
-	if ((reply_flags & (E_MAIL_REPLY_FLAG_FORMAT_PLAIN | E_MAIL_REPLY_FLAG_FORMAT_HTML)) != 0) {
-		e_content_editor_set_html_mode (cnt_editor, (reply_flags & E_MAIL_REPLY_FLAG_FORMAT_HTML) != 0);
+	flags = reply_flags & (E_MAIL_REPLY_FLAG_FORMAT_PLAIN |
+				E_MAIL_REPLY_FLAG_FORMAT_HTML |
+				E_MAIL_REPLY_FLAG_FORMAT_MARKDOWN |
+				E_MAIL_REPLY_FLAG_FORMAT_MARKDOWN_PLAIN |
+				E_MAIL_REPLY_FLAG_FORMAT_MARKDOWN_HTML);
+	if (flags != 0) {
+		EContentEditorMode mode = E_CONTENT_EDITOR_MODE_UNKNOWN;
+
+		switch (flags) {
+		case E_MAIL_REPLY_FLAG_FORMAT_PLAIN:
+			mode = E_CONTENT_EDITOR_MODE_PLAIN_TEXT;
+			break;
+		case E_MAIL_REPLY_FLAG_FORMAT_HTML:
+			mode = E_CONTENT_EDITOR_MODE_HTML;
+			break;
+		case E_MAIL_REPLY_FLAG_FORMAT_MARKDOWN:
+			mode = E_CONTENT_EDITOR_MODE_MARKDOWN;
+			break;
+		case E_MAIL_REPLY_FLAG_FORMAT_MARKDOWN_PLAIN:
+			mode = E_CONTENT_EDITOR_MODE_MARKDOWN_PLAIN_TEXT;
+			break;
+		case E_MAIL_REPLY_FLAG_FORMAT_MARKDOWN_HTML:
+			mode = E_CONTENT_EDITOR_MODE_MARKDOWN_HTML;
+			break;
+		}
+
+		if (mode != E_CONTENT_EDITOR_MODE_UNKNOWN)
+			e_html_editor_set_mode (e_msg_composer_get_editor (composer), mode);
 	}
 
 	em_utils_update_by_reply_flags (cnt_editor, reply_flags);

@@ -62,14 +62,12 @@ static void
 composer_update_gallery_visibility (EMsgComposer *composer)
 {
 	EHTMLEditor *editor;
-	EContentEditor *cnt_editor;
 	GtkToggleAction *toggle_action;
 	gboolean gallery_active;
 	gboolean is_html;
 
 	editor = e_msg_composer_get_editor (composer);
-	cnt_editor = e_html_editor_get_content_editor (editor);
-	is_html = e_content_editor_get_html_mode (cnt_editor);
+	is_html = e_html_editor_get_mode (editor) == E_CONTENT_EDITOR_MODE_HTML;
 
 	toggle_action = GTK_TOGGLE_ACTION (ACTION (PICTURE_GALLERY));
 	gallery_active = gtk_toggle_action_get_active (toggle_action);
@@ -261,23 +259,7 @@ e_composer_private_constructed (EMsgComposer *composer)
 
 	focus_tracker = e_focus_tracker_new (GTK_WINDOW (composer));
 
-	action = e_html_editor_get_action (editor, "cut");
-	e_focus_tracker_set_cut_clipboard_action (focus_tracker, action);
-
-	action = e_html_editor_get_action (editor, "copy");
-	e_focus_tracker_set_copy_clipboard_action (focus_tracker, action);
-
-	action = e_html_editor_get_action (editor, "paste");
-	e_focus_tracker_set_paste_clipboard_action (focus_tracker, action);
-
-	action = e_html_editor_get_action (editor, "select-all");
-	e_focus_tracker_set_select_all_action (focus_tracker, action);
-
-	action = e_html_editor_get_action (editor, "undo");
-	e_focus_tracker_set_undo_action (focus_tracker, action);
-
-	action = e_html_editor_get_action (editor, "redo");
-	e_focus_tracker_set_redo_action (focus_tracker, action);
+	e_html_editor_connect_focus_tracker (editor, focus_tracker);
 
 	priv->focus_tracker = focus_tracker;
 
@@ -351,12 +333,7 @@ e_composer_private_constructed (EMsgComposer *composer)
 	priv->gallery_scrolled_window = g_object_ref (widget);
 	gtk_widget_show (widget);
 
-	widget = GTK_WIDGET (cnt_editor);
-	if (GTK_IS_SCROLLABLE (cnt_editor)) {
-		/* Scrollables are packed in a scrolled window */
-		widget = gtk_widget_get_parent (widget);
-		g_warn_if_fail (GTK_IS_SCROLLED_WINDOW (widget));
-	}
+	widget = e_html_editor_get_content_box (editor);
 	gtk_widget_reparent (widget, container);
 
 	/* Construct the picture gallery. */
@@ -372,7 +349,7 @@ e_composer_private_constructed (EMsgComposer *composer)
 	g_free (gallery_path);
 
 	e_signal_connect_notify_swapped (
-		cnt_editor, "notify::html-mode",
+		editor, "notify::mode",
 		G_CALLBACK (composer_update_gallery_visibility), composer);
 
 	g_signal_connect_swapped (
@@ -757,13 +734,13 @@ composer_load_signature_cb (EMailSignatureComboBox *combo_box,
 	EMsgComposer *composer = usd->composer;
 	gchar *contents = NULL, *new_signature_id;
 	gsize length = 0;
-	gboolean is_html;
+	EContentEditorMode editor_mode = E_CONTENT_EDITOR_MODE_UNKNOWN;
 	GError *error = NULL;
 	EHTMLEditor *editor;
 	EContentEditor *cnt_editor;
 
 	e_mail_signature_combo_box_load_selected_finish (
-		combo_box, result, &contents, &length, &is_html, &error);
+		combo_box, result, &contents, &length, &editor_mode, &error);
 
 	/* FIXME Use an EAlert here. */
 	if (error != NULL) {
@@ -788,7 +765,7 @@ composer_load_signature_cb (EMailSignatureComboBox *combo_box,
 	new_signature_id = e_content_editor_insert_signature (
 		cnt_editor,
 		contents,
-		is_html,
+		editor_mode,
 		usd->can_reposition_caret,
 		gtk_combo_box_get_active_id (GTK_COMBO_BOX (combo_box)),
 		&composer->priv->set_signature_from_message,

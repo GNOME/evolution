@@ -24,6 +24,7 @@
 
 #include <gtk/gtk.h>
 
+#include <e-util/e-util-enumtypes.h>
 #include <e-util/e-mail-signature-editor.h>
 #include <e-util/e-mail-signature-tree-view.h>
 
@@ -80,11 +81,12 @@ void		e_mail_signature_manager_edit_signature
 					(EMailSignatureManager *manager);
 void		e_mail_signature_manager_remove_signature
 					(EMailSignatureManager *manager);
-gboolean	e_mail_signature_manager_get_prefer_html
+EContentEditorMode
+		e_mail_signature_manager_get_prefer_mode
 					(EMailSignatureManager *manager);
-void		e_mail_signature_manager_set_prefer_html
+void		e_mail_signature_manager_set_prefer_mode
 					(EMailSignatureManager *manager,
-					 gboolean prefer_html);
+					 EContentEditorMode prefer_mode);
 ESourceRegistry *
 		e_mail_signature_manager_get_registry
 					(EMailSignatureManager *manager);

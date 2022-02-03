@@ -607,21 +607,17 @@ update_mode_combobox (gpointer data)
 {
 	GWeakRef *weak_ref = data;
 	EHTMLEditor *editor;
-	EContentEditor *cnt_editor;
+	EContentEditorMode mode;
 	GtkAction *action;
-	gboolean is_html;
 
 	editor = g_weak_ref_get (weak_ref);
 	if (!editor)
 		return FALSE;
 
-	cnt_editor = e_html_editor_get_content_editor (editor);
-	is_html = e_content_editor_get_html_mode (cnt_editor);
+	mode = e_html_editor_get_mode (editor);
 
-	action = gtk_action_group_get_action (
-		editor->priv->core_editor_actions, "mode-html");
-	gtk_radio_action_set_current_value (
-		GTK_RADIO_ACTION (action), (is_html ? 1 : 0));
+	action = gtk_action_group_get_action (editor->priv->core_editor_actions, "mode-html");
+	gtk_radio_action_set_current_value (GTK_RADIO_ACTION (action), mode);
 
 	g_object_unref (editor);
 
@@ -629,18 +625,17 @@ update_mode_combobox (gpointer data)
 }
 
 static void
-html_editor_actions_notify_html_mode_cb (EContentEditor *cnt_editor,
-					 GParamSpec *param,
-					 EHTMLEditor *editor)
+html_editor_actions_notify_mode_cb (EHTMLEditor *editor,
+				    GParamSpec *param,
+				    gpointer user_data)
 {
 	GtkActionGroup *action_group;
 	GtkWidget *style_combo_box;
 	gboolean is_html;
 
-	g_return_if_fail (E_IS_CONTENT_EDITOR (cnt_editor));
 	g_return_if_fail (E_IS_HTML_EDITOR (editor));
 
-	is_html = e_content_editor_get_html_mode (cnt_editor);
+	is_html = e_html_editor_get_mode (editor) == E_CONTENT_EDITOR_MODE_HTML;
 
 	g_object_set (G_OBJECT (editor->priv->html_actions), "sensitive", is_html, NULL);
 
@@ -793,7 +788,7 @@ action_paste_quote_cb (GtkAction *action,
 		gdk_display_get_default (),
 		GDK_SELECTION_CLIPBOARD);
 
-	if (e_content_editor_get_html_mode (cnt_editor)) {
+	if (e_html_editor_get_mode (editor) == E_CONTENT_EDITOR_MODE_HTML) {
 		if (e_clipboard_wait_is_html_available (clipboard))
 			e_clipboard_request_html (clipboard, clipboard_html_received_for_paste_quote, editor);
 		else if (gtk_clipboard_wait_is_text_available (clipboard))
@@ -1319,14 +1314,35 @@ static GtkRadioActionEntry core_mode_entries[] = {
 	  N_("_HTML"),
 	  NULL,
 	  N_("HTML editing mode"),
-	  TRUE },	/* e_content_editor_set_html_mode */
+	  E_CONTENT_EDITOR_MODE_HTML },
 
 	{ "mode-plain",
 	  NULL,
 	  N_("Plain _Text"),
 	  NULL,
 	  N_("Plain text editing mode"),
-	  FALSE }	/* e_content_editor_set_html_mode */
+	  E_CONTENT_EDITOR_MODE_PLAIN_TEXT },
+
+	{ "mode-markdown",
+	  NULL,
+	  N_("_Markdown"),
+	  NULL,
+	  N_("Markdown editing mode"),
+	  E_CONTENT_EDITOR_MODE_MARKDOWN },
+
+	{ "mode-markdown-plain",
+	  NULL,
+	  N_("Ma_rkdown as Plain Text"),
+	  NULL,
+	  N_("Markdown editing mode, exported as Plain Text"),
+	  E_CONTENT_EDITOR_MODE_MARKDOWN_PLAIN_TEXT },
+
+	{ "mode-markdown-html",
+	  NULL,
+	  N_("Mar_kdown as HTML"),
+	  NULL,
+	  N_("Markdown editing mode, exported as HTML"),
+	  E_CONTENT_EDITOR_MODE_MARKDOWN_HTML }
 };
 
 static GtkRadioActionEntry core_style_entries[] = {
@@ -2131,12 +2147,13 @@ editor_actions_setup_spell_check_menu (EHTMLEditor *editor)
 }
 
 void
-editor_actions_init (EHTMLEditor *editor)
+e_html_editor_actions_init (EHTMLEditor *editor)
 {
 	GtkAction *action;
 	GtkActionGroup *action_group;
 	GtkUIManager *manager;
 	const gchar *domain;
+	guint ii;
 
 	g_return_if_fail (E_IS_HTML_EDITOR (editor));
 
@@ -2164,7 +2181,7 @@ editor_actions_init (EHTMLEditor *editor)
 	gtk_action_group_add_radio_actions (
 		action_group, core_mode_entries,
 		G_N_ELEMENTS (core_mode_entries),
-		TRUE,
+		E_CONTENT_EDITOR_MODE_HTML,
 		G_CALLBACK (action_mode_cb), editor);
 	gtk_action_group_add_radio_actions (
 		action_group, core_style_entries,
@@ -2264,6 +2281,26 @@ editor_actions_init (EHTMLEditor *editor)
 
 	gtk_action_set_sensitive (ACTION (UNINDENT), FALSE);
 	gtk_action_set_sensitive (ACTION (FIND_AGAIN), FALSE);
+
+	g_signal_connect_object (ACTION (SUBSCRIPT), "toggled",
+		G_CALLBACK (html_editor_actions_subscript_toggled_cb), editor, 0);
+	g_signal_connect_object (ACTION (SUPERSCRIPT), "toggled",
+		G_CALLBACK (html_editor_actions_superscript_toggled_cb), editor, 0);
+	g_signal_connect (editor, "notify::mode",
+		G_CALLBACK (html_editor_actions_notify_mode_cb), NULL);
+
+	action_group = editor->priv->core_editor_actions;
+	action = gtk_action_group_get_action (action_group, "mode-html");
+	e_binding_bind_property (
+		editor, "mode",
+		action, "current-value",
+		G_BINDING_BIDIRECTIONAL | G_BINDING_SYNC_CREATE);
+
+	for (ii = 0; ii < G_N_ELEMENTS (core_mode_entries); ii++) {
+		action = gtk_action_group_get_action (action_group, core_mode_entries[ii].name);
+
+		gtk_action_set_visible (action, e_html_editor_has_editor_for_mode (editor, core_mode_entries[ii].value));
+	}
 }
 
 static gboolean
@@ -2302,137 +2339,216 @@ e_html_editor_indent_level_to_bool_unindent_cb (GBinding *binding,
 	return TRUE;
 }
 
-void
-editor_actions_bind (EHTMLEditor *editor)
+static gboolean
+e_html_editor_sensitize_html_actions_cb (GBinding *binding,
+					 const GValue *from_value,
+					 GValue *to_value,
+					 gpointer user_data)
 {
-	GtkAction *action;
+	/* It should be editable... */
+	if (g_value_get_boolean (from_value)) {
+		EHTMLEditor *editor = user_data;
+
+		/* ... and in the HTML mode */
+		g_value_set_boolean (to_value, e_html_editor_get_mode (editor) == E_CONTENT_EDITOR_MODE_HTML);
+	} else {
+		g_value_set_boolean (to_value, FALSE);
+	}
+
+	return TRUE;
+}
+
+/**
+ * e_html_editor_util_new_mode_combobox:
+ *
+ * Creates a new combo box containing all composer modes.
+ *
+ * It's a descendant of #EActionComboBox, thus use e_action_combo_box_get_current_value()
+ * and e_action_combo_box_set_current_value() to get the currently selected mode.
+ *
+ * Returns: (transfer full): a new #EActionComboBox with composer modes
+ *
+ * Since: 3.44
+ **/
+EActionComboBox *
+e_html_editor_util_new_mode_combobox (void)
+{
 	GtkActionGroup *action_group;
+	GtkAction *action;
+	GtkWidget *widget;
+
+	action_group = gtk_action_group_new ("core-mode-entries");
+
+	gtk_action_group_add_radio_actions (
+		action_group, core_mode_entries,
+		G_N_ELEMENTS (core_mode_entries),
+		E_CONTENT_EDITOR_MODE_HTML,
+		NULL, NULL);
+
+	action = gtk_action_group_get_action (action_group, "mode-html");
+
+	widget = e_action_combo_box_new_with_action (GTK_RADIO_ACTION (action));
+	gtk_combo_box_set_focus_on_click (GTK_COMBO_BOX (widget), FALSE);
+	gtk_widget_set_tooltip_text (widget, _("Editing Mode"));
+
+	g_object_set_data_full (G_OBJECT (widget), "core-mode-entries-action-group", action_group, g_object_unref);
+
+	return E_ACTION_COMBO_BOX (widget);
+}
+
+void
+e_html_editor_actions_bind (EHTMLEditor *editor)
+{
 	EContentEditor *cnt_editor;
 
 	g_return_if_fail (E_IS_HTML_EDITOR (editor));
 
 	cnt_editor = e_html_editor_get_content_editor (editor);
 
-	action_group = editor->priv->core_editor_actions;
-	action = gtk_action_group_get_action (action_group, "mode-html");
-	e_binding_bind_property (
-		cnt_editor, "html-mode",
-		action, "current-value",
-		G_BINDING_BIDIRECTIONAL | G_BINDING_SYNC_CREATE);
+	/* 'rb' for 'remember binding' */
+	#define rb(x) editor->priv->content_editor_bindings = g_slist_prepend (editor->priv->content_editor_bindings, g_object_ref (x))
 
-	/* Synchronize widget mode with the buttons */
-	e_content_editor_set_html_mode (cnt_editor, TRUE);
+	rb (e_binding_bind_property (
+		editor->priv->fg_color_combo_box, "current-color",
+		cnt_editor, "font-color",
+		G_BINDING_SYNC_CREATE | G_BINDING_BIDIRECTIONAL));
+	rb (e_binding_bind_property (
+		cnt_editor, "editable",
+		editor->priv->fg_color_combo_box, "sensitive",
+		G_BINDING_SYNC_CREATE));
+	rb (e_binding_bind_property (
+		editor->priv->bg_color_combo_box, "current-color",
+		cnt_editor, "background-color",
+		G_BINDING_SYNC_CREATE | G_BINDING_BIDIRECTIONAL));
+	rb (e_binding_bind_property (
+		cnt_editor, "editable",
+		editor->priv->bg_color_combo_box, "sensitive",
+		G_BINDING_SYNC_CREATE));
 
-	e_binding_bind_property (
+	rb (e_binding_bind_property (
 		cnt_editor, "can-redo",
 		ACTION (REDO), "sensitive",
-		G_BINDING_SYNC_CREATE);
-	e_binding_bind_property (
+		G_BINDING_SYNC_CREATE));
+	rb (e_binding_bind_property (
 		cnt_editor, "can-undo",
 		ACTION (UNDO), "sensitive",
-		G_BINDING_SYNC_CREATE);
-	e_binding_bind_property (
+		G_BINDING_SYNC_CREATE));
+	rb (e_binding_bind_property (
 		cnt_editor, "can-copy",
 		ACTION (COPY), "sensitive",
-		G_BINDING_SYNC_CREATE);
-	e_binding_bind_property (
+		G_BINDING_SYNC_CREATE));
+	rb (e_binding_bind_property (
 		cnt_editor, "can-cut",
 		ACTION (CUT), "sensitive",
-		G_BINDING_SYNC_CREATE);
-	e_binding_bind_property (
+		G_BINDING_SYNC_CREATE));
+	rb (e_binding_bind_property (
 		cnt_editor, "can-paste",
 		ACTION (PASTE), "sensitive",
-		G_BINDING_SYNC_CREATE);
-	e_binding_bind_property (
+		G_BINDING_SYNC_CREATE));
+	rb (e_binding_bind_property (
 		cnt_editor, "can-paste",
 		ACTION (PASTE_QUOTE), "sensitive",
-		G_BINDING_SYNC_CREATE);
+		G_BINDING_SYNC_CREATE));
 
 	/* This is connected to JUSTIFY_LEFT action only, but
 	 * it automatically applies on all actions in the group. */
-	e_binding_bind_property (
+	rb (e_binding_bind_property (
 		cnt_editor, "alignment",
 		ACTION (JUSTIFY_LEFT), "current-value",
-		G_BINDING_SYNC_CREATE | G_BINDING_BIDIRECTIONAL);
-	e_binding_bind_property (
+		G_BINDING_SYNC_CREATE | G_BINDING_BIDIRECTIONAL));
+	rb (e_binding_bind_property (
 		cnt_editor, "bold",
 		ACTION (BOLD), "active",
-		G_BINDING_SYNC_CREATE | G_BINDING_BIDIRECTIONAL);
-	e_binding_bind_property (
+		G_BINDING_SYNC_CREATE | G_BINDING_BIDIRECTIONAL));
+	rb (e_binding_bind_property (
 		cnt_editor, "font-size",
 		ACTION (FONT_SIZE_GROUP), "current-value",
-		G_BINDING_SYNC_CREATE | G_BINDING_BIDIRECTIONAL);
-	e_binding_bind_property (
+		G_BINDING_SYNC_CREATE | G_BINDING_BIDIRECTIONAL));
+	rb (e_binding_bind_property (
 		cnt_editor, "block-format",
 		ACTION (STYLE_NORMAL), "current-value",
-		G_BINDING_SYNC_CREATE | G_BINDING_BIDIRECTIONAL);
-	e_binding_bind_property_full (
+		G_BINDING_SYNC_CREATE | G_BINDING_BIDIRECTIONAL));
+	rb (e_binding_bind_property_full (
 		cnt_editor, "indent-level",
 		ACTION (INDENT), "sensitive",
 		G_BINDING_SYNC_CREATE,
 		e_html_editor_indent_level_to_bool_indent_cb,
-		NULL, NULL, NULL);
-	e_binding_bind_property_full (
+		NULL, NULL, NULL));
+	rb (e_binding_bind_property_full (
 		cnt_editor, "indent-level",
 		ACTION (UNINDENT), "sensitive",
 		G_BINDING_SYNC_CREATE,
 		e_html_editor_indent_level_to_bool_unindent_cb,
-		NULL, NULL, NULL);
-	e_binding_bind_property (
+		NULL, NULL, NULL));
+	rb (e_binding_bind_property (
 		cnt_editor, "italic",
 		ACTION (ITALIC), "active",
-		G_BINDING_SYNC_CREATE | G_BINDING_BIDIRECTIONAL);
-	e_binding_bind_property (
+		G_BINDING_SYNC_CREATE | G_BINDING_BIDIRECTIONAL));
+	rb (e_binding_bind_property (
 		cnt_editor, "strikethrough",
 		ACTION (STRIKETHROUGH), "active",
-		G_BINDING_SYNC_CREATE | G_BINDING_BIDIRECTIONAL);
-	e_binding_bind_property (
+		G_BINDING_SYNC_CREATE | G_BINDING_BIDIRECTIONAL));
+	rb (e_binding_bind_property (
 		cnt_editor, "underline",
 		ACTION (UNDERLINE), "active",
-		G_BINDING_SYNC_CREATE | G_BINDING_BIDIRECTIONAL);
-	e_binding_bind_property_full (
+		G_BINDING_SYNC_CREATE | G_BINDING_BIDIRECTIONAL));
+	rb (e_binding_bind_property_full (
 		cnt_editor, "font-name",
 		editor->priv->font_name_combo_box, "active-id",
 		G_BINDING_SYNC_CREATE | G_BINDING_BIDIRECTIONAL,
 		e_html_editor_content_editor_font_name_to_combo_box,
 		NULL,
-		NULL, NULL);
+		NULL, NULL));
 
 	/* Cannot use binding, due to subscript and superscript being mutually exclusive */
-	g_signal_connect_object (ACTION (SUBSCRIPT), "toggled",
-		G_CALLBACK (html_editor_actions_subscript_toggled_cb), editor, 0);
-	g_signal_connect_object (cnt_editor, "notify::subscript",
+	editor->priv->subscript_notify_id = g_signal_connect_object (cnt_editor, "notify::subscript",
 		G_CALLBACK (html_editor_actions_notify_subscript_cb), editor, 0);
-	g_signal_connect_object (ACTION (SUPERSCRIPT), "toggled",
-		G_CALLBACK (html_editor_actions_superscript_toggled_cb), editor, 0);
-	g_signal_connect_object (cnt_editor, "notify::superscript",
+	editor->priv->superscript_notify_id = g_signal_connect_object (cnt_editor, "notify::superscript",
 		G_CALLBACK (html_editor_actions_notify_superscript_cb), editor, 0);
 
-	g_signal_connect_object (cnt_editor, "notify::html-mode",
-		G_CALLBACK (html_editor_actions_notify_html_mode_cb), editor, 0);
-
 	/* Disable all actions and toolbars when editor is not editable */
-	e_binding_bind_property (
+	rb (e_binding_bind_property (
 		cnt_editor, "editable",
 		editor->priv->core_editor_actions, "sensitive",
-		G_BINDING_SYNC_CREATE);
-	e_binding_bind_property (
+		G_BINDING_SYNC_CREATE));
+	rb (e_binding_bind_property_full (
 		cnt_editor, "editable",
 		editor->priv->html_actions, "sensitive",
-		G_BINDING_SYNC_CREATE);
-	e_binding_bind_property (
+		G_BINDING_SYNC_CREATE,
+		e_html_editor_sensitize_html_actions_cb,
+		NULL, editor, NULL));
+	rb (e_binding_bind_property (
 		cnt_editor, "editable",
 		editor->priv->spell_check_actions, "sensitive",
-		G_BINDING_SYNC_CREATE);
-	e_binding_bind_property (
+		G_BINDING_SYNC_CREATE));
+	rb (e_binding_bind_property (
 		cnt_editor, "editable",
 		editor->priv->suggestion_actions, "sensitive",
-		G_BINDING_SYNC_CREATE);
+		G_BINDING_SYNC_CREATE));
+
+	#undef rb
 }
 
 void
-editor_actions_update_spellcheck_languages_menu (EHTMLEditor *editor,
-						 const gchar * const *languages)
+e_html_editor_actions_unbind (EHTMLEditor *editor)
+{
+	EContentEditor *cnt_editor;
+
+	g_slist_foreach (editor->priv->content_editor_bindings, (GFunc) g_binding_unbind, NULL);
+	g_slist_free_full (editor->priv->content_editor_bindings, g_object_unref);
+	editor->priv->content_editor_bindings = NULL;
+
+	cnt_editor = e_html_editor_get_content_editor (editor);
+
+	if (cnt_editor) {
+		e_signal_disconnect_notify_handler (cnt_editor, &editor->priv->subscript_notify_id);
+		e_signal_disconnect_notify_handler (cnt_editor, &editor->priv->superscript_notify_id);
+	}
+}
+
+void
+e_html_editor_actions_update_spellcheck_languages_menu (EHTMLEditor *editor,
+							const gchar * const *languages)
 {
 	GHashTable *active;
 	GList *actions, *link;

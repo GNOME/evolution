@@ -103,3 +103,85 @@ e_spell_text_view_attach (GtkTextView *text_view)
 	gspell_text_view_set_enable_language_menu (spell_view, TRUE);
 #endif /* HAVE_GSPELL */
 }
+
+/**
+ * e_spell_text_view_get_enabled:
+ * @text_view: a #GtkTextView
+ *
+ * Returns: whether the inline spell checking is enabled for the @text_view.
+ * This can be used only after calling e_spell_text_view_attach().
+ *
+ * Since: 3.44
+ **/
+gboolean
+e_spell_text_view_get_enabled (GtkTextView *text_view)
+{
+#ifdef HAVE_GSPELL
+	GspellTextView *spell_view;
+
+	spell_view = gspell_text_view_get_from_gtk_text_view (text_view);
+
+	return gspell_text_view_get_inline_spell_checking (spell_view);
+#else /* HAVE_GSPELL */
+	return FALSE;
+#endif /* HAVE_GSPELL */
+}
+
+/**
+ * e_spell_text_view_set_enabled:
+ * @text_view: a #GtkTextView
+ * @enabled: value to set
+ *
+ * Sets whether the inline spell checking is enabled for the @text_view.
+ * This can be used only after calling e_spell_text_view_attach().
+ *
+ * Since: 3.44
+ **/
+void
+e_spell_text_view_set_enabled (GtkTextView *text_view,
+			       gboolean enabled)
+{
+#ifdef HAVE_GSPELL
+	GspellTextView *spell_view;
+
+	spell_view = gspell_text_view_get_from_gtk_text_view (text_view);
+
+	gspell_text_view_set_inline_spell_checking (spell_view, enabled);
+#endif /* HAVE_GSPELL */
+}
+
+/**
+ * e_spell_text_view_set_languages:
+ * @text_view: a #GtkTextView
+ * @languages: (nullable): languages to set, or %NULL to unset any previous
+ *
+ * Sets @languages for inline spell checking for the @text_view.
+ * This can be used only after calling e_spell_text_view_attach().
+ *
+ * Since: 3.44
+ **/
+void
+e_spell_text_view_set_languages (GtkTextView *text_view,
+				 const gchar **languages)
+{
+#ifdef HAVE_GSPELL
+	GspellTextBuffer *spell_buffer;
+	GspellChecker *checker = NULL;
+	GtkTextBuffer *text_buffer;
+	guint ii;
+
+	for (ii = 0; !checker && languages && languages[ii]; ii++) {
+		const GspellLanguage *language;
+
+		language = gspell_language_lookup (languages[ii]);
+
+		if (language)
+			checker = gspell_checker_new (language);
+	}
+
+	text_buffer = gtk_text_view_get_buffer (text_view);
+	spell_buffer = gspell_text_buffer_get_from_gtk_text_buffer (text_buffer);
+	gspell_text_buffer_set_spell_checker (spell_buffer, checker);
+	g_clear_object (&checker);
+#endif /* HAVE_GSPELL */
+}

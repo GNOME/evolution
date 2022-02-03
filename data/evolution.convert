@@ -121,7 +121,6 @@ composer-no-signature-delim = /apps/evolution/mail/composer/no_signature_delim
 composer-outlook-filenames = /apps/evolution/mail/composer/outlook_filenames
 composer-reply-start-bottom = /apps/evolution/mail/composer/reply_start_bottom
 composer-request-receipt = /apps/evolution/mail/composer/request_receipt
-composer-send-html = /apps/evolution/mail/composer/send_html
 composer-show-bcc = /apps/evolution/mail/composer/show_mail_bcc
 composer-show-cc = /apps/evolution/mail/composer/show_mail_cc
 composer-show-post-from = /apps/evolution/mail/composer/show_post_from

@@ -57,31 +57,6 @@ reset_dialog (EHTMLEditorFindDialog *dialog)
 }
 
 static void
-html_editor_find_dialog_hide (GtkWidget *widget)
-{
-	EHTMLEditorFindDialog *dialog = E_HTML_EDITOR_FIND_DIALOG (widget);
-
-	e_content_editor_on_dialog_close (dialog->priv->cnt_editor, E_CONTENT_EDITOR_DIALOG_FIND);
-
-	/* Chain up to parent's implementation */
-	GTK_WIDGET_CLASS (e_html_editor_find_dialog_parent_class)->hide (widget);
-}
-
-static void
-html_editor_find_dialog_show (GtkWidget *widget)
-{
-	EHTMLEditorFindDialog *dialog = E_HTML_EDITOR_FIND_DIALOG (widget);
-
-	reset_dialog (dialog);
-	gtk_widget_grab_focus (dialog->priv->entry);
-
-	e_content_editor_on_dialog_open (dialog->priv->cnt_editor, E_CONTENT_EDITOR_DIALOG_FIND);
-
-	/* Chain up to parent's implementation */
-	GTK_WIDGET_CLASS (e_html_editor_find_dialog_parent_class)->show (widget);
-}
-
-static void
 content_editor_find_done_cb (EContentEditor *cnt_editor,
 			     guint match_count,
 			     EHTMLEditorFindDialog *dialog)
@@ -94,6 +69,55 @@ content_editor_find_done_cb (EContentEditor *cnt_editor,
 	}
 
 	gtk_widget_set_sensitive (dialog->priv->find_button, match_count > 0);
+}
+
+static void
+html_editor_find_dialog_hide (GtkWidget *widget)
+{
+	EHTMLEditorFindDialog *dialog = E_HTML_EDITOR_FIND_DIALOG (widget);
+
+	g_warn_if_fail (dialog->priv->cnt_editor != NULL);
+
+	e_content_editor_on_dialog_close (dialog->priv->cnt_editor, E_CONTENT_EDITOR_DIALOG_FIND);
+
+	if (dialog->priv->find_done_handler_id > 0) {
+		g_signal_handler_disconnect (
+			dialog->priv->cnt_editor,
+			dialog->priv->find_done_handler_id);
+		dialog->priv->find_done_handler_id = 0;
+	}
+
+	dialog->priv->cnt_editor = NULL;
+
+	/* Chain up to parent's implementation */
+	GTK_WIDGET_CLASS (e_html_editor_find_dialog_parent_class)->hide (widget);
+}
+
+static void
+html_editor_find_dialog_show (GtkWidget *widget)
+{
+	EHTMLEditorFindDialog *dialog = E_HTML_EDITOR_FIND_DIALOG (widget);
+	EHTMLEditor *editor;
+	EContentEditor *cnt_editor;
+
+	g_warn_if_fail (dialog->priv->cnt_editor == NULL);
+
+	editor = e_html_editor_dialog_get_editor (E_HTML_EDITOR_DIALOG (dialog));
+	cnt_editor = e_html_editor_get_content_editor (editor);
+
+	dialog->priv->find_done_handler_id = g_signal_connect (
+		cnt_editor, "find-done",
+		G_CALLBACK (content_editor_find_done_cb), dialog);
+
+	dialog->priv->cnt_editor = cnt_editor;
+
+	reset_dialog (dialog);
+	gtk_widget_grab_focus (dialog->priv->entry);
+
+	e_content_editor_on_dialog_open (dialog->priv->cnt_editor, E_CONTENT_EDITOR_DIALOG_FIND);
+
+	/* Chain up to parent's implementation */
+	GTK_WIDGET_CLASS (e_html_editor_find_dialog_parent_class)->show (widget);
 }
 
 static void
@@ -152,28 +176,6 @@ html_editor_find_dialog_dispose (GObject *object)
 }
 
 static void
-html_editor_find_dialog_constructed (GObject *object)
-{
-	EHTMLEditor *editor;
-	EHTMLEditorFindDialog *dialog;
-	EContentEditor *cnt_editor;
-
-	dialog = E_HTML_EDITOR_FIND_DIALOG (object);
-	dialog->priv = E_HTML_EDITOR_FIND_DIALOG_GET_PRIVATE (dialog);
-
-	editor = e_html_editor_dialog_get_editor (E_HTML_EDITOR_DIALOG (dialog));
-	cnt_editor = e_html_editor_get_content_editor (editor);
-
-	dialog->priv->find_done_handler_id = g_signal_connect (
-		cnt_editor, "find-done",
-		G_CALLBACK (content_editor_find_done_cb), dialog);
-
-	dialog->priv->cnt_editor = cnt_editor;
-
-	G_OBJECT_CLASS (e_html_editor_find_dialog_parent_class)->constructed (object);
-}
-
-static void
 e_html_editor_find_dialog_class_init (EHTMLEditorFindDialogClass *class)
 {
 	GObjectClass *object_class;
@@ -182,7 +184,6 @@ e_html_editor_find_dialog_class_init (EHTMLEditorFindDialogClass *class)
 	g_type_class_add_private (class, sizeof (EHTMLEditorFindDialogPrivate));
 
 	object_class = G_OBJECT_CLASS (class);
-	object_class->constructed = html_editor_find_dialog_constructed;
 	object_class->dispose = html_editor_find_dialog_dispose;
 
 	widget_class = GTK_WIDGET_CLASS (class);

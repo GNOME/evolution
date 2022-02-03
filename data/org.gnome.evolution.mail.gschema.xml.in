@@ -44,6 +44,16 @@
     <value nick='books'         value='2'/>
   </enum>
 
+  <!-- Keep this synchronized with EContentEditorMode. -->
+  <enum id="org.gnome.evolution.mail.ContentEditorMode">
+    <value nick='unknown'             value='-1'/>
+    <value nick='plain-text'          value='0'/>
+    <value nick='html'                value='1'/>
+    <value nick='markdown'            value='2'/>
+    <value nick='markdown-plain-text' value='3'/>
+    <value nick='markdown-html'       value='4'/>
+  </enum>
+
   <schema gettext-domain="evolution" id="org.gnome.evolution.mail" path="/org/gnome/evolution/mail/">
     <key name="prompt-check-if-default-mailer" type="b">
       <default>true</default>
@@ -57,8 +67,8 @@
     </key>
     <key name="composer-editor" type="s">
       <default>''</default>
-      <_summary>Name of the editor to prefer in the message composer</_summary>
-      <_description>If the name doesn’t correspond to any known editor, then the built-in WebKit editor is used.</_description>
+      <_summary>Comma-separated names of the editor to prefer in the message composer</_summary>
+      <_description>If the name doesn’t correspond to any known editor, then the built-in WebKit editor is used. The mode is optional, in which case the editor is used for all the modes it supports. Modes are “plain”, “html”, "markdown-plain", "markdown-html" and "markdown". Example values: “webkit” (to use WebKit for plain and html), “plain:first-editor,html:second-editor” (to use “first-editor” for the “plain” and “second-editor” for “html”)</_description>
     </key>
     <key name="composer-gallery-path" type="s">
       <default>''</default>
@@ -115,10 +125,9 @@
       <_summary>Always request read receipt</_summary>
       <_description>Whether a read receipt request gets added to every message by default.</_description>
     </key>
-    <key name="composer-send-html" type="b">
-      <default>false</default>
-      <_summary>Send HTML mail by default</_summary>
-      <_description>Send HTML mail by default.</_description>
+    <key name="composer-mode" enum="org.gnome.evolution.mail.ContentEditorMode">
+      <default>'plain-text'</default>
+      <_summary>What mode open the composer with</_summary>
     </key>
     <key name="composer-spell-languages" type="as">
       <default>[]</default>
@@ -800,9 +809,9 @@
       <default>'quoted'</default>
       <_summary>Alternative reply style</_summary>
     </key>
-    <key name="alt-reply-html-format" enum="org.gnome.evolution.mail.ThreeState">
-      <default>'inconsistent'</default>
-      <_summary>Format message in HTML</_summary>
+    <key name="alt-reply-format-mode" enum="org.gnome.evolution.mail.ContentEditorMode">
+      <default>'unknown'</default>
+      <_summary>Composer mode to use.</_summary>
     </key>
     <key name="alt-reply-start-bottom" enum="org.gnome.evolution.mail.ThreeState">
       <default>'inconsistent'</default>

@@ -298,11 +298,22 @@ meeting_to_composer_composer_created_cb (GObject *source_object,
 		if (text && *text) {
 			EHTMLEditor *html_editor;
 			EContentEditor *cnt_editor;
+			EContentEditorMode mode;
+			GSettings *settings;
+
+			settings = e_util_ref_settings ("org.gnome.evolution.mail");
+			mode = g_settings_get_enum (settings, "composer-mode");
+			g_clear_object (&settings);
+
+			/* Let the markdown be allowed, otherwise use the plain text mode */
+			if (mode != E_CONTENT_EDITOR_MODE_MARKDOWN &&
+			    mode != E_CONTENT_EDITOR_MODE_MARKDOWN_PLAIN_TEXT)
+				mode = E_CONTENT_EDITOR_MODE_PLAIN_TEXT;
 
 			html_editor = e_msg_composer_get_editor (composer);
 			cnt_editor = e_html_editor_get_content_editor (html_editor);
 
-			e_content_editor_set_html_mode (cnt_editor, FALSE);
+			e_html_editor_set_mode (html_editor, mode);
 			e_content_editor_insert_content (cnt_editor, text, E_CONTENT_EDITOR_INSERT_REPLACE_ALL | E_CONTENT_EDITOR_INSERT_TEXT_PLAIN);
 		}
 

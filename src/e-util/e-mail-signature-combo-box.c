@@ -618,7 +618,7 @@ struct _LoadContext {
 	GCancellable *cancellable;
 	gchar *contents;
 	gsize length;
-	gboolean is_html;
+	EContentEditorMode editor_mode;
 };
 
 static void
@@ -708,7 +708,7 @@ mail_signature_combo_box_autogenerate (EMailSignatureComboBox *combo_box,
 
 	context->length = buffer->len;
 	context->contents = g_string_free (buffer, FALSE);
-	context->is_html = TRUE;
+	context->editor_mode = E_CONTENT_EDITOR_MODE_HTML;
 
 	g_object_unref (source);
 }
@@ -740,7 +740,17 @@ mail_signature_combo_box_load_cb (ESource *source,
 	extension_name = E_SOURCE_EXTENSION_MAIL_SIGNATURE;
 	extension = e_source_get_extension (source, extension_name);
 	mime_type = e_source_mail_signature_get_mime_type (extension);
-	context->is_html = (g_strcmp0 (mime_type, "text/html") == 0);
+
+	if (g_strcmp0 (mime_type, "text/html") == 0)
+		context->editor_mode = E_CONTENT_EDITOR_MODE_HTML;
+	else if (g_strcmp0 (mime_type, "text/markdown") == 0)
+		context->editor_mode = E_CONTENT_EDITOR_MODE_MARKDOWN;
+	else if (g_strcmp0 (mime_type, "text/markdown-plain") == 0)
+		context->editor_mode = E_CONTENT_EDITOR_MODE_MARKDOWN_PLAIN_TEXT;
+	else if (g_strcmp0 (mime_type, "text/markdown-html") == 0)
+		context->editor_mode = E_CONTENT_EDITOR_MODE_MARKDOWN_HTML;
+	else
+		context->editor_mode = E_CONTENT_EDITOR_MODE_PLAIN_TEXT;
 
 	g_simple_async_result_complete (simple);
 
@@ -810,7 +820,7 @@ e_mail_signature_combo_box_load_selected_finish (EMailSignatureComboBox *combo_b
                                                  GAsyncResult *result,
                                                  gchar **contents,
                                                  gsize *length,
-                                                 gboolean *is_html,
+                                                 EContentEditorMode *out_editor_mode,
                                                  GError **error)
 {
 	GSimpleAsyncResult *simple;
@@ -838,8 +848,8 @@ e_mail_signature_combo_box_load_selected_finish (EMailSignatureComboBox *combo_b
 	if (length != NULL)
 		*length = context->length;
 
-	if (is_html != NULL)
-		*is_html = context->is_html;
+	if (out_editor_mode)
+		*out_editor_mode = context->editor_mode;
 
 	return TRUE;
 }

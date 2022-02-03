@@ -24,6 +24,7 @@
 
 #include <gtk/gtk.h>
 #include <libedataserver/libedataserver.h>
+#include <e-util/e-util-enums.h>
 
 /* Standard GObject macros */
 #define E_TYPE_MAIL_SIGNATURE_COMBO_BOX \
@@ -101,7 +102,7 @@ gboolean	e_mail_signature_combo_box_load_selected_finish
 					 GAsyncResult *result,
 					 gchar **contents,
 					 gsize *length,
-					 gboolean *is_html,
+					 EContentEditorMode *out_editor_mode,
 					 GError **error);
 
 G_END_DECLS

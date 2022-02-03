@@ -526,6 +526,28 @@ typedef enum {
 } EContentEditorFindFlags;
 
 /**
+ * EContentEditorMode:
+ * @E_CONTENT_EDITOR_MODE_UNKNOWN: unknown mode
+ * @E_CONTENT_EDITOR_MODE_PLAIN_TEXT: plain text, expects export as text/plain
+ * @E_CONTENT_EDITOR_MODE_HTML: HTML, expects export as text/html
+ * @E_CONTENT_EDITOR_MODE_MARKDOWN: markdown, expects export as text/markdown
+ * @E_CONTENT_EDITOR_MODE_MARKDOWN_PLAIN_TEXT: markdown, expects export as text/plain
+ * @E_CONTENT_EDITOR_MODE_MARKDOWN_HTML: markdown, expects export as text/html
+ *
+ * Editing mode of a content editor.
+ *
+ * Since: 3.44
+ **/
+typedef enum {
+	E_CONTENT_EDITOR_MODE_UNKNOWN = -1,
+	E_CONTENT_EDITOR_MODE_PLAIN_TEXT,
+	E_CONTENT_EDITOR_MODE_HTML,
+	E_CONTENT_EDITOR_MODE_MARKDOWN,
+	E_CONTENT_EDITOR_MODE_MARKDOWN_PLAIN_TEXT,
+	E_CONTENT_EDITOR_MODE_MARKDOWN_HTML
+} EContentEditorMode;
+
+/**
  * EUndoRedoState:
  * @E_UNDO_REDO_STATE_NONE: Cannot undo, neither redo.
  * @E_UNDO_REDO_STATE_CAN_UNDO: Undo is available.
@@ -619,6 +641,22 @@ typedef enum {
  * Since: 3.28
  **/
 #define E_CONFIG_LOOKUP_RESULT_LAST_KIND E_CONFIG_LOOKUP_RESULT_TASK_LIST
+
+/**
+ * EMarkdownHTMLToTextFlags:
+ * @E_MARKDOWN_HTML_TO_TEXT_FLAG_NONE: no flag set
+ * @E_MARKDOWN_HTML_TO_TEXT_FLAG_PLAIN_TEXT: disallow any HTML, save in pure plain text
+ * @E_MARKDOWN_HTML_TO_TEXT_FLAG_COMPOSER_QUIRKS: enable composer quirks to post-process the text
+ *
+ * Flags used in e_markdown_util_html_to_text().
+ *
+ * Since: 3.44
+ **/
+typedef enum { /*< flags >*/
+	E_MARKDOWN_HTML_TO_TEXT_FLAG_NONE		= 0,
+	E_MARKDOWN_HTML_TO_TEXT_FLAG_PLAIN_TEXT		= 1 << 0,
+	E_MARKDOWN_HTML_TO_TEXT_FLAG_COMPOSER_QUIRKS	= 1 << 1
+} EMarkdownHTMLToTextFlags;
 
 G_END_DECLS
 

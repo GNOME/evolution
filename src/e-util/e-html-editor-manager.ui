@@ -51,6 +51,9 @@
       <placeholder name='format-menu-top'/>
       <menuitem action='mode-html'/>
       <menuitem action='mode-plain'/>
+      <menuitem action='mode-markdown-plain'/>
+      <menuitem action='mode-markdown-html'/>
+      <menuitem action='mode-markdown'/>
       <separator/>
       <menu action='font-style-menu'>
         <menuitem action='bold'/>

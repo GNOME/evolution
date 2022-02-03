@@ -44,7 +44,7 @@ enum {
 	PROP_CAN_UNDO,
 	PROP_CHANGED,
 	PROP_EDITABLE,
-	PROP_HTML_MODE,
+	PROP_MODE,
 	PROP_SPELL_CHECK_ENABLED,
 	PROP_SPELL_CHECKER,
 	PROP_START_BOTTOM,
@@ -82,7 +82,7 @@ struct _EWebKitEditorPrivate {
 	GHashTable *scheme_handlers; /* const gchar *scheme ~> EContentRequest */
 	GCancellable *cancellable;
 
-	gboolean html_mode;
+	EContentEditorMode mode;
 	gboolean changed;
 	gboolean can_copy;
 	gboolean can_cut;
@@ -545,7 +545,7 @@ webkit_editor_dialog_utils_get_attribute_with_unit (EWebKitEditor *wk_editor,
 
 	*out_unit = E_CONTENT_EDITOR_UNIT_AUTO;
 
-	if (!wk_editor->priv->html_mode)
+	if (wk_editor->priv->mode != E_CONTENT_EDITOR_MODE_HTML)
 		return default_value;
 
 	value = webkit_editor_dialog_utils_get_attribute (wk_editor, selector, name);
@@ -594,29 +594,6 @@ webkit_editor_dialog_utils_has_attribute (EWebKitEditor *wk_editor,
 			"EvoEditor.DialogUtilsHasAttribute(%s);",
 			name),
 		FALSE);
-}
-
-static gboolean
-e_webkit_editor_three_state_to_bool (EThreeState value,
-				     const gchar *mail_key)
-{
-	gboolean res = FALSE;
-
-	if (value == E_THREE_STATE_ON)
-		return TRUE;
-
-	if (value == E_THREE_STATE_OFF)
-		return FALSE;
-
-	if (mail_key && *mail_key) {
-		GSettings *settings;
-
-		settings = e_util_ref_settings ("org.gnome.evolution.mail");
-		res = g_settings_get_boolean (settings, mail_key);
-		g_clear_object (&settings);
-	}
-
-	return res;
 }
 
 EWebKitEditor *
@@ -838,8 +815,8 @@ formatting_changed_cb (WebKitUserContentManager *manager,
 	if (jsc_value && jsc_value_is_number (jsc_value)) {
 		gint value = jsc_value_to_int32 (jsc_value);
 
-		if ((value ? 1 : 0) != (wk_editor->priv->html_mode ? 1 : 0)) {
-			wk_editor->priv->html_mode = value;
+		if ((value ? 1 : 0) != (wk_editor->priv->mode == E_CONTENT_EDITOR_MODE_HTML ? 1 : 0)) {
+			wk_editor->priv->mode = value ? E_CONTENT_EDITOR_MODE_HTML : E_CONTENT_EDITOR_MODE_PLAIN_TEXT;
 			changed = TRUE;
 		}
 	}
@@ -850,7 +827,7 @@ formatting_changed_cb (WebKitUserContentManager *manager,
 		webkit_editor_update_styles (E_CONTENT_EDITOR (wk_editor));
 		webkit_editor_style_updated (wk_editor, FALSE);
 
-		g_object_notify (object, "html-mode");
+		g_object_notify (object, "mode");
 	}
 
 	changed = FALSE;
@@ -1135,6 +1112,16 @@ webkit_editor_show_inspector (EWebKitEditor *wk_editor)
 	webkit_web_inspector_show (inspector);
 }
 
+static gboolean
+webkit_editor_supports_mode (EContentEditor *content_editor,
+			     EContentEditorMode mode)
+{
+	g_return_val_if_fail (E_IS_WEBKIT_EDITOR (content_editor), FALSE);
+
+	return mode == E_CONTENT_EDITOR_MODE_PLAIN_TEXT ||
+		mode == E_CONTENT_EDITOR_MODE_HTML;
+}
+
 static void
 webkit_editor_initialize (EContentEditor *content_editor,
                           EContentEditorInitializedCallback callback,
@@ -1194,7 +1181,7 @@ webkit_editor_update_styles (EContentEditor *editor)
 		ms = pango_font_description_from_string ("monospace 10");
 	}
 
-	if (wk_editor->priv->html_mode) {
+	if (wk_editor->priv->mode == E_CONTENT_EDITOR_MODE_HTML) {
 		if (use_custom_font) {
 			font = g_settings_get_string (
 				wk_editor->priv->mail_settings, "variable-width-font");
@@ -1315,7 +1302,7 @@ webkit_editor_update_styles (EContentEditor *editor)
 		"  vertical-align: top;\n"
 		"}\n");
 
-	if (wk_editor->priv->html_mode) {
+	if (wk_editor->priv->mode == E_CONTENT_EDITOR_MODE_HTML) {
 		g_string_append (
 			stylesheet,
 			"body ul > li.-x-evo-align-center,ol > li.-x-evo-align-center "
@@ -1564,7 +1551,7 @@ webkit_editor_update_styles (EContentEditor *editor)
 		"  -webkit-margin-after: 0em; \n"
 		"}\n");
 
-	if (wk_editor->priv->html_mode) {
+	if (wk_editor->priv->mode == E_CONTENT_EDITOR_MODE_HTML) {
 		g_string_append (
 			stylesheet,
 			"a "
@@ -1715,7 +1702,7 @@ webkit_editor_page_get_text_color (EContentEditor *editor,
 {
 	EWebKitEditor *wk_editor = E_WEBKIT_EDITOR (editor);
 
-	if (wk_editor->priv->html_mode &&
+	if (wk_editor->priv->mode == E_CONTENT_EDITOR_MODE_HTML &&
 	    wk_editor->priv->body_fg_color) {
 		*color = *wk_editor->priv->body_fg_color;
 	} else {
@@ -1736,7 +1723,7 @@ webkit_editor_page_get_background_color (EContentEditor *editor,
 {
 	EWebKitEditor *wk_editor = E_WEBKIT_EDITOR (editor);
 
-	if (wk_editor->priv->html_mode &&
+	if (wk_editor->priv->mode == E_CONTENT_EDITOR_MODE_HTML &&
 	    wk_editor->priv->body_bg_color) {
 		*color = *wk_editor->priv->body_bg_color;
 	} else {
@@ -1757,7 +1744,7 @@ webkit_editor_page_get_link_color (EContentEditor *editor,
 {
 	EWebKitEditor *wk_editor = E_WEBKIT_EDITOR (editor);
 
-	if (wk_editor->priv->html_mode &&
+	if (wk_editor->priv->mode == E_CONTENT_EDITOR_MODE_HTML &&
 	    wk_editor->priv->body_link_color) {
 		*color = *wk_editor->priv->body_link_color;
 	} else {
@@ -1781,7 +1768,7 @@ webkit_editor_page_get_visited_link_color (EContentEditor *editor,
 {
 	EWebKitEditor *wk_editor = E_WEBKIT_EDITOR (editor);
 
-	if (wk_editor->priv->html_mode &&
+	if (wk_editor->priv->mode == E_CONTENT_EDITOR_MODE_HTML &&
 	    wk_editor->priv->body_vlink_color) {
 		*color = *wk_editor->priv->body_vlink_color;
 	} else {
@@ -1808,7 +1795,7 @@ webkit_editor_page_get_font_name (EContentEditor *editor)
 {
 	EWebKitEditor *wk_editor = E_WEBKIT_EDITOR (editor);
 
-	if (!wk_editor->priv->html_mode)
+	if (wk_editor->priv->mode != E_CONTENT_EDITOR_MODE_HTML)
 		return NULL;
 
 	return wk_editor->priv->body_font_name;
@@ -1871,7 +1858,7 @@ webkit_editor_style_updated (EWebKitEditor *wk_editor,
 	style_context = gtk_widget_get_style_context (GTK_WIDGET (wk_editor));
 	backdrop = (state_flags & GTK_STATE_FLAG_BACKDROP) != 0;
 
-	if (wk_editor->priv->html_mode && !inherit_theme_colors) {
+	if (wk_editor->priv->mode == E_CONTENT_EDITOR_MODE_HTML && !inherit_theme_colors) {
 		/* Default to white background when not inheriting theme colors */
 		bgcolor.red = 1.0;
 		bgcolor.green = 1.0;
@@ -1884,7 +1871,7 @@ webkit_editor_style_updated (EWebKitEditor *wk_editor,
 		gdk_rgba_parse (&bgcolor, E_UTILS_DEFAULT_THEME_BASE_COLOR);
 	}
 
-	if (wk_editor->priv->html_mode && !inherit_theme_colors) {
+	if (wk_editor->priv->mode == E_CONTENT_EDITOR_MODE_HTML && !inherit_theme_colors) {
 		/* Default to black text color when not inheriting theme colors */
 		fgcolor.red = 0.0;
 		fgcolor.green = 0.0;
@@ -1942,10 +1929,10 @@ webkit_editor_style_updated_cb (EWebKitEditor *wk_editor)
 	webkit_editor_style_updated (wk_editor, FALSE);
 }
 
-static gboolean
-webkit_editor_get_html_mode (EWebKitEditor *wk_editor)
+static EContentEditorMode
+webkit_editor_get_mode (EWebKitEditor *wk_editor)
 {
-	return wk_editor->priv->html_mode;
+	return wk_editor->priv->mode;
 }
 
 static gboolean
@@ -1966,7 +1953,7 @@ show_lose_formatting_dialog (EWebKitEditor *wk_editor)
 
 	if (!lose) {
 		/* Nothing has changed, but notify anyway */
-		g_object_notify (G_OBJECT (wk_editor), "html-mode");
+		g_object_notify (G_OBJECT (wk_editor), "mode");
 		return FALSE;
 	}
 
@@ -1974,17 +1961,18 @@ show_lose_formatting_dialog (EWebKitEditor *wk_editor)
 }
 
 static void
-webkit_editor_set_html_mode (EWebKitEditor *wk_editor,
-                             gboolean html_mode)
+webkit_editor_set_mode (EWebKitEditor *wk_editor,
+			EContentEditorMode mode)
 {
 	g_return_if_fail (E_IS_WEBKIT_EDITOR (wk_editor));
+	g_return_if_fail (mode == E_CONTENT_EDITOR_MODE_PLAIN_TEXT || mode == E_CONTENT_EDITOR_MODE_HTML);
 
-	if (html_mode == wk_editor->priv->html_mode)
+	if (mode == wk_editor->priv->mode)
 		return;
 
-	wk_editor->priv->html_mode = html_mode;
+	wk_editor->priv->mode = mode;
 
-	if (html_mode) {
+	if (mode == E_CONTENT_EDITOR_MODE_HTML) {
 		e_web_view_jsc_run_script (WEBKIT_WEB_VIEW (wk_editor), wk_editor->priv->cancellable,
 			"EvoEditor.SetMode(EvoEditor.MODE_HTML);");
 	} else {
@@ -2041,11 +2029,11 @@ webkit_editor_insert_content (EContentEditor *editor,
 		}
 
 		/* Only convert messages that are in HTML */
-		if (!(wk_editor->priv->html_mode)) {
+		if (wk_editor->priv->mode != E_CONTENT_EDITOR_MODE_HTML) {
 			if (strstr (content, "<!-- text/html -->") &&
 			    !strstr (content, "<!-- disable-format-prompt -->")) {
 				if (!show_lose_formatting_dialog (wk_editor)) {
-					webkit_editor_set_html_mode (wk_editor, TRUE);
+					webkit_editor_set_mode (wk_editor, E_CONTENT_EDITOR_MODE_HTML);
 					e_web_view_jsc_run_script (WEBKIT_WEB_VIEW (wk_editor), wk_editor->priv->cancellable,
 						"EvoEditor.LoadHTML(%s);", content);
 					if (cleanup_sig_id)
@@ -2467,7 +2455,7 @@ webkit_editor_set_start_bottom (EWebKitEditor *wk_editor,
 
 	e_web_view_jsc_run_script (WEBKIT_WEB_VIEW (wk_editor), wk_editor->priv->cancellable,
 		"EvoEditor.START_BOTTOM = %x;",
-		e_webkit_editor_three_state_to_bool (value, "composer-reply-start-bottom"));
+		e_content_editor_util_three_state_to_bool (value, "composer-reply-start-bottom"));
 
 	g_object_notify (G_OBJECT (wk_editor), "start-bottom");
 }
@@ -2595,7 +2583,7 @@ webkit_editor_get_current_signature_uid (EContentEditor *editor)
 static gchar *
 webkit_editor_insert_signature (EContentEditor *editor,
                                 const gchar *content,
-                                gboolean is_html,
+                                EContentEditorMode editor_mode,
 				gboolean can_reposition_caret,
                                 const gchar *signature_id,
                                 gboolean *set_signature_from_message,
@@ -2607,8 +2595,12 @@ webkit_editor_insert_signature (EContentEditor *editor,
 
 	g_return_val_if_fail (E_IS_WEBKIT_EDITOR (editor), NULL);
 
-	if (!is_html && content && *content) {
-		tmp = camel_text_to_html (content, CAMEL_MIME_FILTER_TOHTML_PRE, 0);
+	if (editor_mode != E_CONTENT_EDITOR_MODE_HTML && content && *content) {
+		if (editor_mode == E_CONTENT_EDITOR_MODE_MARKDOWN_HTML)
+			tmp = e_markdown_utils_text_to_html (content, -1);
+
+		if (!tmp)
+			tmp = camel_text_to_html (content, CAMEL_MIME_FILTER_TOHTML_PRE, 0);
 
 		if (tmp)
 			content = tmp;
@@ -2617,15 +2609,15 @@ webkit_editor_insert_signature (EContentEditor *editor,
 	jsc_value = webkit_editor_call_jsc_sync (E_WEBKIT_EDITOR (editor),
 		"EvoEditor.InsertSignature(%s, %x, %x, %s, %x, %x, %x, %x, %x, %x);",
 		content ? content : "",
-		is_html,
+		editor_mode == E_CONTENT_EDITOR_MODE_HTML,
 		can_reposition_caret,
 		signature_id,
 		*set_signature_from_message,
 		*check_if_signature_is_changed,
 		*ignore_next_signature_change,
-		e_webkit_editor_three_state_to_bool (e_content_editor_get_start_bottom (editor), "composer-reply-start-bottom"),
-		e_webkit_editor_three_state_to_bool (e_content_editor_get_top_signature (editor), "composer-top-signature"),
-		!e_webkit_editor_three_state_to_bool (E_THREE_STATE_INCONSISTENT, "composer-no-signature-delim"));
+		e_content_editor_util_three_state_to_bool (e_content_editor_get_start_bottom (editor), "composer-reply-start-bottom"),
+		e_content_editor_util_three_state_to_bool (e_content_editor_get_top_signature (editor), "composer-top-signature"),
+		!e_content_editor_util_three_state_to_bool (E_THREE_STATE_INCONSISTENT, "composer-no-signature-delim"));
 
 	g_free (tmp);
 
@@ -3477,7 +3469,7 @@ webkit_editor_get_font_name (EWebKitEditor *wk_editor)
 {
 	g_return_val_if_fail (E_IS_WEBKIT_EDITOR (wk_editor), NULL);
 
-	if (!wk_editor->priv->html_mode)
+	if (wk_editor->priv->mode != E_CONTENT_EDITOR_MODE_HTML)
 		return NULL;
 
 	return wk_editor->priv->font_name;
@@ -3506,7 +3498,7 @@ webkit_editor_get_font_color (EWebKitEditor *wk_editor)
 {
 	g_return_val_if_fail (E_IS_WEBKIT_EDITOR (wk_editor), NULL);
 
-	if (!wk_editor->priv->html_mode || !wk_editor->priv->font_color)
+	if (wk_editor->priv->mode != E_CONTENT_EDITOR_MODE_HTML || !wk_editor->priv->font_color)
 		return &black;
 
 	return wk_editor->priv->font_color;
@@ -4474,10 +4466,10 @@ webkit_editor_set_property (GObject *object,
 				g_value_get_boolean (value));
 			return;
 
-		case PROP_HTML_MODE:
-			webkit_editor_set_html_mode (
+		case PROP_MODE:
+			webkit_editor_set_mode (
 				E_WEBKIT_EDITOR (object),
-				g_value_get_boolean (value));
+				g_value_get_enum (value));
 			return;
 
 		case PROP_NORMAL_PARAGRAPH_WIDTH:
@@ -4683,9 +4675,9 @@ webkit_editor_get_property (GObject *object,
 				E_WEBKIT_EDITOR (object)));
 			return;
 
-		case PROP_HTML_MODE:
-			g_value_set_boolean (
-				value, webkit_editor_get_html_mode (
+		case PROP_MODE:
+			g_value_set_enum (
+				value, webkit_editor_get_mode (
 				E_WEBKIT_EDITOR (object)));
 			return;
 
@@ -4970,7 +4962,7 @@ webkit_editor_load_changed_cb (EWebKitEditor *wk_editor,
 		"EvoEditor.UNICODE_SMILEYS = %x;"
 		"EvoEditor.WRAP_QUOTED_TEXT_IN_REPLIES = %x;",
 		wk_editor->priv->normal_paragraph_width,
-		e_webkit_editor_three_state_to_bool (wk_editor->priv->start_bottom, "composer-reply-start-bottom"),
+		e_content_editor_util_three_state_to_bool (wk_editor->priv->start_bottom, "composer-reply-start-bottom"),
 		wk_editor->priv->magic_links,
 		wk_editor->priv->magic_smileys,
 		wk_editor->priv->unicode_smileys,
@@ -5081,7 +5073,7 @@ webkit_editor_paste_clipboard_targets_cb (GtkClipboard *clipboard,
 	 * with SRCSET attribute in clipboard correctly). And if this fails the
 	 * source application can cancel the content and we could not fallback
 	 * to at least some content. */
-	if (wk_editor->priv->html_mode) {
+	if (wk_editor->priv->mode == E_CONTENT_EDITOR_MODE_HTML) {
 		if (e_targets_include_html (targets, n_targets)) {
 			content = e_clipboard_wait_for_html (clipboard);
 			is_html = TRUE;
@@ -5096,7 +5088,7 @@ webkit_editor_paste_clipboard_targets_cb (GtkClipboard *clipboard,
 		}
 	}
 
-	if (wk_editor->priv->html_mode &&
+	if (wk_editor->priv->mode == E_CONTENT_EDITOR_MODE_HTML &&
 	    gtk_targets_include_image (targets, n_targets, TRUE) &&
 	    (!content || !*content || !is_libreoffice_content (targets, n_targets))) {
 		gchar *uri;
@@ -5441,7 +5433,7 @@ paste_primary_clipboard_quoted (EContentEditor *editor)
 		gdk_display_get_default (),
 		GDK_SELECTION_PRIMARY);
 
-       if (wk_editor->priv->html_mode) {
+       if (wk_editor->priv->mode == E_CONTENT_EDITOR_MODE_HTML) {
                if (e_clipboard_wait_is_html_available (clipboard))
                        e_clipboard_request_html (clipboard, clipboard_html_received_for_paste_quote, editor);
                else if (gtk_clipboard_wait_is_text_available (clipboard))
@@ -5608,7 +5600,7 @@ e_webkit_editor_class_init (EWebKitEditorClass *class)
 	g_object_class_override_property (
 		object_class, PROP_CHANGED, "changed");
 	g_object_class_override_property (
-		object_class, PROP_HTML_MODE, "html-mode");
+		object_class, PROP_MODE, "mode");
 	g_object_class_override_property (
 		object_class, PROP_EDITABLE, "editable");
 	g_object_class_override_property (
@@ -5821,7 +5813,7 @@ e_webkit_editor_init (EWebKitEditor *wk_editor)
 		g_settings, "changed::composer-inherit-theme-colors",
 		G_CALLBACK (webkit_editor_style_settings_changed_cb), wk_editor);
 
-	wk_editor->priv->html_mode = TRUE;
+	wk_editor->priv->mode = E_CONTENT_EDITOR_MODE_HTML;
 	wk_editor->priv->changed = FALSE;
 	wk_editor->priv->can_copy = FALSE;
 	wk_editor->priv->can_cut = FALSE;
@@ -5845,6 +5837,7 @@ e_webkit_editor_init (EWebKitEditor *wk_editor)
 static void
 e_webkit_editor_content_editor_init (EContentEditorInterface *iface)
 {
+	iface->supports_mode = webkit_editor_supports_mode;
 	iface->initialize = webkit_editor_initialize;
 	iface->update_styles = webkit_editor_update_styles;
 	iface->insert_content = webkit_editor_insert_content;

@@ -36,6 +36,7 @@
 #include <e-util/e-html-editor-spell-check-dialog.h>
 #include <e-util/e-html-editor-table-dialog.h>
 #include <e-util/e-html-editor-text-dialog.h>
+#include <e-util/e-util-enumtypes.h>
 
 #ifdef HAVE_XFREE
 #include <X11/XF86keysym.h>
@@ -47,6 +48,10 @@
 G_BEGIN_DECLS
 
 struct _EHTMLEditorPrivate {
+	EContentEditorMode mode;
+
+	GtkWidget *content_editors_box;
+
 	GtkUIManager *manager;
 	GtkActionGroup *core_actions;
 	GtkActionGroup *core_editor_actions;
@@ -64,6 +69,7 @@ struct _EHTMLEditorPrivate {
 	GtkWidget *activity_bar;
 	GtkWidget *alert_bar;
 	GtkWidget *edit_area;
+	GtkWidget *markdown_editor;
 
 	GtkWidget *find_dialog;
 	GtkWidget *replace_dialog;
@@ -80,6 +86,7 @@ struct _EHTMLEditorPrivate {
 	GtkWidget *fg_color_combo_box;
 	GtkWidget *bg_color_combo_box;
 	GtkWidget *mode_combo_box;
+	GtkToolItem *mode_tool_item;
 	GtkWidget *size_combo_box;
 	GtkWidget *style_combo_box;
 	GtkWidget *font_name_combo_box;
@@ -88,10 +95,15 @@ struct _EHTMLEditorPrivate {
 	GtkWidget *emoji_chooser;
 
 	GHashTable *cid_parts; /* gchar *cid: URI ~> CamelMimePart * */
-	GHashTable *content_editors;
+	GHashTable *content_editors; /* gchar *name ~> EContentEditor * */
+	GHashTable *content_editors_for_mode; /* EContentEditorMode ~> EContentEditor *; pointers borrowed from content_editors */
 	EContentEditor *use_content_editor;
+	GCancellable *mode_change_content_cancellable;
 
 	gchar *filename;
+	GSList *content_editor_bindings; /* reffed GBinding-s related to the EContentEditor */
+	gulong subscript_notify_id;
+	gulong superscript_notify_id;
 
 	guint spell_suggestions_merge_id;
 	guint recent_spell_languages_merge_id;
@@ -101,9 +113,10 @@ struct _EHTMLEditorPrivate {
 	gboolean paste_plain_prefer_pre;
 };
 
-void		editor_actions_init		(EHTMLEditor *editor);
-void		editor_actions_bind		(EHTMLEditor *editor);
-void		editor_actions_update_spellcheck_languages_menu
+void		e_html_editor_actions_init	(EHTMLEditor *editor);
+void		e_html_editor_actions_bind	(EHTMLEditor *editor);
+void		e_html_editor_actions_unbind	(EHTMLEditor *editor);
+void		e_html_editor_actions_update_spellcheck_languages_menu
 						(EHTMLEditor *editor,
 						 const gchar * const *languages);
 const gchar *	e_html_editor_get_content_editor_name
@@ -112,6 +125,9 @@ GtkWidget *	e_html_editor_util_create_font_name_combo
 						(void);
 gchar *		e_html_editor_util_dup_font_id	(GtkComboBox *combo_box,
 						 const gchar *font_name);
+gboolean	e_html_editor_has_editor_for_mode
+						(EHTMLEditor *editor,
+						 EContentEditorMode mode);
 
 G_END_DECLS
 
