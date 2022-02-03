@@ -27,16 +27,16 @@ msgid ""
 msgstr ""
 "Project-Id-Version: evolution master\n"
 "Report-Msgid-Bugs-To: https://gitlab.gnome.org/GNOME/evolution/issues\n"
-"POT-Creation-Date: 2022-02-01 18:07+0000\n"
-"PO-Revision-Date: 2022-02-02 10:44+0800\n"
-"Last-Translator: lumingzh <lumingzh@qq.com>\n"
+"POT-Creation-Date: 2022-02-03 17:21+0000\n"
+"PO-Revision-Date: 2022-02-03 13:44-0500\n"
+"Last-Translator: Boyuan Yang <073plan@gmail.com>\n"
 "Language-Team: Chinese - China <i18n-zh@googlegroups.com>\n"
 "Language: zh_CN\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Plural-Forms: nplurals=1; plural=0\n"
-"X-Generator: Gtranslator 41.0\n"
+"Plural-Forms: nplurals=1; plural=0;\n"
+"X-Generator: Poedit 3.0.1\n"
 "X-DamnedLies-Scope: partial\n"
 
 #: ../data/org.gnome.evolution.addressbook.gschema.xml.in.h:1
@@ -194,8 +194,6 @@ msgstr ""
 "用“openstreetmap”"
 
 #: ../data/org.gnome.evolution.addressbook.gschema.xml.in.h:35
-#| msgctxt "ffe"
-#| msgid "false"
 msgid "false"
 msgstr "false"
 
@@ -932,7 +930,6 @@ msgid "User-defined reminder times, in minutes"
 msgstr "用户定义的提醒时间，以分钟计"
 
 #: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:160
-#| msgid "Whether to show job information in the editor"
 msgid ""
 "Whether to use markdown editor for the description in the component editor."
 msgstr "是否在组件编辑器中为描述使用 Markdown 编辑器。"
@@ -4003,7 +4000,7 @@ msgstr "选项"
 #: ../src/e-util/evolution-source-viewer.c:829 ../src/e-util/e-web-view.c:4004
 #: ../src/e-util/gal-view-instance-save-as-dialog.c:265
 #: ../src/mail/e-mail-config-window.c:310 ../src/mail/e-mail-label-dialog.c:186
-#: ../src/mail/e-mail-tag-editor.c:160 ../src/mail/em-composer-utils.c:4081
+#: ../src/mail/e-mail-tag-editor.c:160 ../src/mail/em-composer-utils.c:4134
 #: ../src/mail/em-folder-selector.c:333 ../src/mail/mail-config.ui.h:2
 #: ../src/mail/mail.error.xml.h:16 ../src/mail/mail-send-recv.c:874
 #: ../src/mail/mail-send-recv.c:955 ../src/mail/mail-vfolder-ui.c:149
@@ -7438,7 +7435,7 @@ msgstr "开始时间无效"
 #: ../src/e-util/e-misc-utils.c:4053 ../src/e-util/e-misc-utils.c:4067
 #: ../src/mail/e-mail-autoconfig.c:1122 ../src/mail/e-mail-display.c:2473
 #: ../src/mail/e-mail-notes.c:877 ../src/mail/e-mail-reader-utils.c:805
-#: ../src/mail/em-composer-utils.c:3870 ../src/mail/em-composer-utils.c:3901
+#: ../src/mail/em-composer-utils.c:3931 ../src/mail/em-composer-utils.c:3954
 #: ../src/mail/mail-send-recv.c:598 ../src/mail/mail-send-recv.c:1493
 #: ../src/modules/accounts-window/e-accounts-window-editors.c:172
 #: ../src/plugins/face/face.c:175 ../src/shell/e-shell.c:1238
@@ -7530,7 +7527,7 @@ msgstr "结束时间(_E)："
 #: ../src/calendar/gui/e-comp-editor-event.c:907
 msgctxt "ECompEditor"
 msgid "All da_y event"
-msgstr "所有当日事件"
+msgstr "全天事件(_Y)"
 
 #: ../src/calendar/gui/e-comp-editor-event.c:975
 #: ../src/calendar/gui/e-comp-editor-memo.c:359
@@ -7951,7 +7948,7 @@ msgstr "在"
 #: ../src/calendar/gui/e-comp-editor-page-recurrence.c:1091
 msgctxt "ECompEditorPageRecur"
 msgid "occurrences"
-msgstr "发生"
+msgstr "次"
 
 #. Translators: Entire string is for example:     'This appointment recurs/Every[x][day(s)][for][1]occurrences' (combobox options are in [square brackets])
 #: ../src/calendar/gui/e-comp-editor-page-recurrence.c:1552
@@ -13598,7 +13595,7 @@ msgstr "包含线索(_N)："
 
 #: ../src/e-util/e-filter-rule.c:1194
 msgid "A_dd Condition"
-msgstr "添加动作(_D)"
+msgstr "添加条件(_D)"
 
 #: ../src/e-util/e-filter-rule.c:1514 ../src/e-util/filter.ui.h:1
 #: ../src/mail/em-filter-rule.c:981 ../src/mail/em-utils.c:166
@@ -16440,7 +16437,7 @@ msgid "Invalid folder URI “%s”"
 msgstr "无效的文件夹 URI “%s”"
 
 #. Some local folders
-#: ../src/libemail-engine/e-mail-session.c:120
+#: ../src/libemail-engine/e-mail-session.c:121
 #: ../src/mail/em-folder-properties.c:1473
 #: ../src/mail/em-folder-tree-model.c:1509
 #: ../src/mail/em-folder-tree-model.c:1533
@@ -16451,7 +16448,7 @@ msgid "Inbox"
 msgstr "收件箱"
 
 #. E_MAIL_LOCAL_FOLDER_INBOX
-#: ../src/libemail-engine/e-mail-session.c:121
+#: ../src/libemail-engine/e-mail-session.c:122
 #: ../src/mail/em-folder-tree-model.c:1503
 #: ../src/mail/em-folder-tree-model.c:1537
 #: ../src/mail/importers/kmail-libs.c:144
@@ -16460,7 +16457,7 @@ msgid "Drafts"
 msgstr "草稿"
 
 #. E_MAIL_LOCAL_FOLDER_DRAFTS
-#: ../src/libemail-engine/e-mail-session.c:122
+#: ../src/libemail-engine/e-mail-session.c:123
 #: ../src/mail/em-folder-tree-model.c:1513
 #: ../src/mail/importers/kmail-libs.c:140
 #: ../src/modules/mail/e-mail-shell-view-private.c:1038
@@ -16468,7 +16465,7 @@ msgid "Outbox"
 msgstr "发件箱"
 
 #. E_MAIL_LOCAL_FOLDER_OUTBOX
-#: ../src/libemail-engine/e-mail-session.c:123
+#: ../src/libemail-engine/e-mail-session.c:124
 #: ../src/mail/em-folder-tree-model.c:1516
 #: ../src/mail/em-folder-tree-model.c:1536
 #: ../src/mail/importers/kmail-libs.c:142
@@ -16477,7 +16474,7 @@ msgid "Sent"
 msgstr "已发箱"
 
 #. E_MAIL_LOCAL_FOLDER_SENT
-#: ../src/libemail-engine/e-mail-session.c:124
+#: ../src/libemail-engine/e-mail-session.c:125
 #: ../src/mail/em-folder-tree-model.c:1505
 #: ../src/mail/importers/kmail-libs.c:146
 #: ../src/modules/mail/e-mail-shell-view-private.c:1042
@@ -16485,37 +16482,37 @@ msgstr "已发箱"
 msgid "Templates"
 msgstr "模板"
 
-#: ../src/libemail-engine/e-mail-session.c:1504
+#: ../src/libemail-engine/e-mail-session.c:1505
 #, c-format
 msgid "User cancelled operation"
 msgstr "用户己取消操作"
 
-#: ../src/libemail-engine/e-mail-session.c:1626
+#: ../src/libemail-engine/e-mail-session.c:1739
 #, c-format
 msgid ""
 "No destination address provided, forwarding of the message has been "
 "cancelled."
 msgstr "缺少发送目标地址，信息转发被取消。"
 
-#: ../src/libemail-engine/e-mail-session.c:1646
+#: ../src/libemail-engine/e-mail-session.c:1759
 #, c-format
 msgid "No identity found to use, forwarding of the message has been cancelled."
 msgstr "无可用身份，信息转发被取消。"
 
-#: ../src/libemail-engine/e-mail-session.c:1847
+#: ../src/libemail-engine/e-mail-session.c:1967
 #, c-format
 msgid "Corresponding source for service with UID “%s” not found"
 msgstr "找不到 UID 为“%s”的服务的对应源"
 
-#: ../src/libemail-engine/e-mail-session.c:1967
+#: ../src/libemail-engine/e-mail-session.c:2087
 msgid "Looking up recipient S/MIME certificates in address books…"
 msgstr "正在通讯簿中查找收件人 S/MIME 证书…"
 
-#: ../src/libemail-engine/e-mail-session.c:1969
+#: ../src/libemail-engine/e-mail-session.c:2089
 msgid "Looking up recipient PGP keys in address books…"
 msgstr "正在通讯簿中查找收件人 PGP 密钥…"
 
-#: ../src/libemail-engine/e-mail-session.c:3016
+#: ../src/libemail-engine/e-mail-session.c:3136
 #, c-format
 msgid "Waiting for “%s”"
 msgstr "正在等待“%s”"
@@ -16683,23 +16680,23 @@ msgid "Trying to movemail a non-mbox source “%s”"
 msgstr "正在试图将邮件移至非 mbox 源 %s"
 
 #. Translators: This is a subject attribution for forwarded messages. The %s is replaced with subject of the original message.
-#: ../src/libemail-engine/mail-tools.c:198
+#: ../src/libemail-engine/mail-tools.c:199
 #, c-format
 msgid "Fwd: %s"
 msgstr "Fwd: %s"
 
 #. Translators: This is a subject attribution for forwarded messages, used when there could not be used any subject.
 #. It results in "[Fwd: No Subject]" being used as a subject of the forwarded message.
-#: ../src/libemail-engine/mail-tools.c:208
+#: ../src/libemail-engine/mail-tools.c:209
 msgid "No Subject"
 msgstr "（无主题）"
 
-#: ../src/libemail-engine/mail-tools.c:283
+#: ../src/libemail-engine/mail-tools.c:284
 #, c-format
 msgid "Forwarded message — %s"
 msgstr "转发的信息 — %s"
 
-#: ../src/libemail-engine/mail-tools.c:285
+#: ../src/libemail-engine/mail-tools.c:286
 msgid "Forwarded message"
 msgstr "转发的信息"
 
@@ -16912,12 +16909,12 @@ msgid "Language for Reply and Forward attribution text"
 msgstr "回复和转发属性文本的语言"
 
 #: ../src/mail/e-mail-config-composing-page.c:524
-#: ../src/mail/em-composer-utils.c:4179 ../src/mail/mail-config.ui.h:22
+#: ../src/mail/em-composer-utils.c:4232 ../src/mail/mail-config.ui.h:22
 msgid "Start _typing at the bottom"
 msgstr "在底部开始打字(_T)"
 
 #: ../src/mail/e-mail-config-composing-page.c:531
-#: ../src/mail/em-composer-utils.c:4182 ../src/mail/mail-config.ui.h:23
+#: ../src/mail/em-composer-utils.c:4235 ../src/mail/mail-config.ui.h:23
 msgid "_Keep signature above the original message"
 msgstr "保留原始信息的签名(_K)"
 
@@ -17253,7 +17250,7 @@ msgstr "当发送加密信息时总是对自身加密"
 
 #: ../src/mail/e-mail-config-sending-page.c:50
 msgid "Sending Email"
-msgstr "发送电子邮件中"
+msgstr "发送电子邮件"
 
 #: ../src/mail/e-mail-config-service-page.c:490
 msgid "Server _Type:"
@@ -18044,7 +18041,7 @@ msgstr "移除重复的信息(_P)"
 msgid "Checks selected messages for duplicates"
 msgstr "检查所选信息中的重复信息"
 
-#: ../src/mail/e-mail-reader.c:2895 ../src/mail/em-composer-utils.c:4133
+#: ../src/mail/e-mail-reader.c:2895 ../src/mail/em-composer-utils.c:4186
 #: ../src/mail/mail.error.xml.h:28
 #: ../src/modules/calendar/e-cal-shell-view-actions.c:1579
 #: ../src/modules/mail/e-mail-attachment-handler.c:396
@@ -18064,7 +18061,7 @@ msgstr "备用回复(_T)…"
 msgid "Choose reply options for the selected message"
 msgstr "为所选邮件选择答复选项"
 
-#: ../src/mail/e-mail-reader.c:2909 ../src/mail/em-composer-utils.c:4128
+#: ../src/mail/e-mail-reader.c:2909 ../src/mail/em-composer-utils.c:4181
 #: ../src/mail/mail.error.xml.h:26
 #: ../src/modules/mail/e-mail-attachment-handler.c:403
 msgid "Reply to _List"
@@ -18454,7 +18451,7 @@ msgstr "正在等待附件载入…"
 #. * when quoting messages.  Each ${Variable} gets replaced
 #. * with a value.  To see a full list of available variables,
 #. * see mail/em-composer-utils.c:attribvars array.
-#: ../src/mail/em-composer-utils.c:2031
+#: ../src/mail/em-composer-utils.c:2061
 msgid ""
 "On ${AbbrevWeekdayName}, ${Year}-${Month}-${Day} at ${24Hour}:${Minute} "
 "${TimeZone}, ${Sender} wrote:"
@@ -18462,90 +18459,90 @@ msgstr ""
 "在 ${Year}-${Month}-${Day}${WeekdayName}的 ${24Hour}:${Minute} "
 "${TimeZone}，${Sender}写道："
 
-#: ../src/mail/em-composer-utils.c:2037
+#: ../src/mail/em-composer-utils.c:2067
 msgid "-------- Forwarded Message --------"
 msgstr "-------- 转发的信息 --------"
 
-#: ../src/mail/em-composer-utils.c:2042
+#: ../src/mail/em-composer-utils.c:2072
 msgid "-----Original Message-----"
 msgstr "-------- 原始信息 --------"
 
 #. Translators: This is a reply attribution in the message reply subject. The %s is replaced with the subject of the original message. Both 'Re'-s in the 'reply-attribution' translation context should translate into the same string, the same as the ':' separator.
-#: ../src/mail/em-composer-utils.c:2826
+#: ../src/mail/em-composer-utils.c:2878
 #, c-format
 msgctxt "reply-attribution"
 msgid "Re: %s"
 msgstr "Re: %s"
 
-#: ../src/mail/em-composer-utils.c:3444
+#: ../src/mail/em-composer-utils.c:3497
 msgid "an unknown sender"
 msgstr "未知发件人"
 
-#: ../src/mail/em-composer-utils.c:4079
+#: ../src/mail/em-composer-utils.c:4132
 msgid "Alternative Reply"
 msgstr "备选回复"
 
-#: ../src/mail/em-composer-utils.c:4082
+#: ../src/mail/em-composer-utils.c:4135
 #: ../src/modules/calendar/e-cal-shell-view-actions.c:1572
 msgid "_Reply"
 msgstr "回复(_R)"
 
-#: ../src/mail/em-composer-utils.c:4095
+#: ../src/mail/em-composer-utils.c:4148
 msgid "Recipients:"
 msgstr "收件人："
 
-#: ../src/mail/em-composer-utils.c:4123
+#: ../src/mail/em-composer-utils.c:4176
 msgid "Reply to _Sender"
 msgstr "回复发件人(_S)"
 
-#: ../src/mail/em-composer-utils.c:4145
+#: ../src/mail/em-composer-utils.c:4198
 msgid "Reply style:"
 msgstr "回复风格："
 
-#: ../src/mail/em-composer-utils.c:4153
+#: ../src/mail/em-composer-utils.c:4206
 msgid "_Default"
 msgstr "默认(_D)"
 
-#: ../src/mail/em-composer-utils.c:4157
+#: ../src/mail/em-composer-utils.c:4210
 msgid "Attach_ment"
 msgstr "附件(_M)"
 
-#: ../src/mail/em-composer-utils.c:4161
+#: ../src/mail/em-composer-utils.c:4214
 msgid "Inline (_Outlook style)"
 msgstr "内嵌（_Outlook 风格）"
 
-#: ../src/mail/em-composer-utils.c:4165
+#: ../src/mail/em-composer-utils.c:4218
 msgid "_Quote"
 msgstr "引用(_Q)"
 
-#: ../src/mail/em-composer-utils.c:4169
+#: ../src/mail/em-composer-utils.c:4222
 msgid "Do _Not Quote"
 msgstr "不引用(_N)"
 
-#: ../src/mail/em-composer-utils.c:4176
+#: ../src/mail/em-composer-utils.c:4229
 msgid "_Format message in HTML"
 msgstr "以 HTML 方式格式化信息(_F)"
 
-#: ../src/mail/em-composer-utils.c:4189
+#: ../src/mail/em-composer-utils.c:4242
 msgid "Apply t_emplate"
 msgstr "应用模板(_E)"
 
-#: ../src/mail/em-composer-utils.c:4201
+#: ../src/mail/em-composer-utils.c:4254
 msgid "Preserve original message S_ubject"
 msgstr "保留原始邮件主题(_U)"
 
-#: ../src/mail/em-composer-utils.c:4267
+#: ../src/mail/em-composer-utils.c:4320
 #, c-format
 msgid "one recipient"
 msgid_plural "%d recipients"
 msgstr[0] "%d 个接收者"
 
 #. FIXME GTK_WINDOW (composer)
-#: ../src/mail/em-composer-utils.c:4711
+#: ../src/mail/em-composer-utils.c:4764
 msgid "Posting destination"
 msgstr "投递目的"
 
-#: ../src/mail/em-composer-utils.c:4716
+#: ../src/mail/em-composer-utils.c:4769
 msgid "Choose folders to post the message to."
 msgstr "选择要将信息投递到哪个文件夹。"
 
@@ -18815,7 +18812,7 @@ msgstr "不匹配"
 #: ../src/mail/importers/kmail-libs.c:149
 #: ../src/modules/mail/e-mail-shell-view-private.c:1044
 msgid "Trash"
-msgstr "回收站"
+msgstr "废件箱"
 
 #: ../src/mail/em-folder-tree-model.c:1535 ../src/mail/filtertypes.xml.in.h:41
 #: ../src/mail/mail-config.ui.h:145 ../src/mail/vfoldertypes.xml.in.h:44
@@ -18883,7 +18880,7 @@ msgstr "退订全部(_A)"
 #, c-format
 msgid "%d unread, "
 msgid_plural "%d unread, "
-msgstr[0] "，%d 封未读，"
+msgstr[0] "%d 封未读，"
 
 #: ../src/mail/em-subscription-editor.c:1319
 #: ../src/modules/mail/e-mail-shell-view-private.c:1023
@@ -19059,7 +19056,7 @@ msgstr "发音不像"
 #: ../src/mail/filtertypes.xml.in.h:12 ../src/mail/message-list.etspec.h:16
 #: ../src/mail/searchtypes.xml.in.h:10 ../src/mail/vfoldertypes.xml.in.h:10
 msgid "Recipients"
-msgstr "收件人"
+msgstr "接收者"
 
 #: ../src/mail/filtertypes.xml.in.h:13 ../src/mail/searchtypes.xml.in.h:14
 #: ../src/mail/vfoldertypes.xml.in.h:14
@@ -19800,7 +19797,6 @@ msgid "_Show animated images"
 msgstr "显示动态图像(_S)"
 
 #: ../src/mail/mail-config.ui.h:115
-#| msgid "Whether unset colors provided in HTML mails."
 msgid "Unset colors provided in HTML mails in message previe_w"
 msgstr "在消息预览中取消由 HTML 邮件提供的颜色设置(_W)"
 
@@ -21473,7 +21469,7 @@ msgstr "在联系人预览窗口中显示地图"
 #: ../src/modules/calendar/e-task-shell-view-actions.c:932
 #: ../src/modules/mail/e-mail-shell-view-actions.c:1986
 msgid "_Classic View"
-msgstr "分类视图(_C)"
+msgstr "经典视图(_C)"
 
 #: ../src/modules/addressbook/e-book-shell-view-actions.c:1256
 msgid "Show contact preview below the contact list"
