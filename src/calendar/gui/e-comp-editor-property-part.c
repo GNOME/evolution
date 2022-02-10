@@ -913,7 +913,14 @@ ecepp_datetime_fill_component (ECompEditorPropertyPart *property_part,
 			g_object_unref (prop);
 		}
 	} else {
+		ICalTimezone *zone;
+
 		value = e_comp_editor_property_part_datetime_get_value (part_datetime);
+
+		zone = value && !i_cal_time_is_null_time (value) ? i_cal_time_get_timezone (value) : NULL;
+
+		if (zone)
+			g_object_ref (zone);
 
 		if (prop) {
 			/* Remove the VALUE parameter, to correspond to the actual value being set */
@@ -925,6 +932,11 @@ ecepp_datetime_fill_component (ECompEditorPropertyPart *property_part,
 			g_clear_object (&value);
 			value = klass->i_cal_get_func (prop);
 
+			/* The timezone can be dropped since libical 3.0.14, thus restore it
+			   before updating the TZID parameter */
+			if (zone && value && !i_cal_time_is_null_time (value) && !i_cal_time_is_date (value))
+				i_cal_time_set_timezone (value, zone);
+
 			cal_comp_util_update_tzid_parameter (prop, value);
 		} else {
 			prop = klass->i_cal_new_func (value);
@@ -933,12 +945,18 @@ ecepp_datetime_fill_component (ECompEditorPropertyPart *property_part,
 			g_clear_object (&value);
 			value = klass->i_cal_get_func (prop);
 
+			/* The timezone can be dropped since libical 3.0.14, thus restore it
+			   before updating the TZID parameter */
+			if (zone && value && !i_cal_time_is_null_time (value) && !i_cal_time_is_date (value))
+				i_cal_time_set_timezone (value, zone);
+
 			cal_comp_util_update_tzid_parameter (prop, value);
 			i_cal_component_add_property (component, prop);
 		}
 
 		g_clear_object (&value);
 		g_clear_object (&prop);
+		g_clear_object (&zone);
 	}
 }
 
