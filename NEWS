@@ -1,3 +1,21 @@
+Evolution 3.42.4 2022-02-11
+---------------------------
+
+Bug Fixes:
+	I#1763 - Composer: Correct line wrapping with a link followed by a text
+	I#1783 - EShell not emitting activate signal
+
+Miscellaneous:
+	Use gtk_widget_is_visible() instead of gtk_widget_get_visible() on some places
+	Composer: Backup from toplevel BLOCKQUOTE on split for Undo/Redo
+	Composer: Special-case requote of BLOCKQUOTE nodes in Plain Text mode
+	Composer: Various changes for Plain Text re-quote
+	ECompEditor: Timezone can be reset on component save
+
+Translations:
+	Boyuan Yang (zh_CN)
+	rofiquzzaki rofiquzzaki (id)
+
 Evolution 3.42.3 2022-01-07
 ---------------------------
 
