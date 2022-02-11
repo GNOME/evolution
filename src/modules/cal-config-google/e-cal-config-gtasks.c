@@ -112,7 +112,9 @@ cal_config_gtasks_check_complete (ESourceConfigBackend *backend,
 
 	correct = user && *user;
 
-	e_util_set_entry_issue_hint (context->user_entry, correct ? NULL : _("User name cannot be empty"));
+	e_util_set_entry_issue_hint (context->user_entry, correct ?
+		(camel_string_is_all_ascii (user) ? NULL : _("User name contains letters, which can prevent log in. Make sure the server accepts such written user name."))
+		: _("User name cannot be empty"));
 
 	return correct;
 }

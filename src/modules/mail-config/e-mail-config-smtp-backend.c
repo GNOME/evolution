@@ -479,7 +479,10 @@ mail_config_smtp_backend_check_complete (EMailConfigServiceBackend *backend)
 			correct = FALSE;
 
 	complete = complete && correct;
-	e_util_set_entry_issue_hint (priv->user_entry, correct ? NULL : _("User name cannot be empty"));
+	e_util_set_entry_issue_hint (priv->user_entry, correct ?
+		((!gtk_toggle_button_get_active (toggle_button) || camel_string_is_all_ascii (user)) ? NULL :
+		_("User name contains letters, which can prevent log in. Make sure the server accepts such written user name."))
+		: _("User name cannot be empty"));
 
 	return complete;
 }

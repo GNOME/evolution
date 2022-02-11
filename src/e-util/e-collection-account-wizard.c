@@ -659,6 +659,15 @@ collection_account_wizard_try_again_clicked_cb (GtkButton *button,
 }
 
 static void
+collection_account_wizard_update_entry_hint (GtkWidget *entry)
+{
+	const gchar *user = gtk_entry_get_text (GTK_ENTRY (entry));
+
+	e_util_set_entry_issue_hint (entry, (!user || !*user || camel_string_is_all_ascii (user)) ? NULL :
+		_("User name contains letters, which can prevent log in. Make sure the server accepts such written user name."));
+}
+
+static void
 collection_account_wizard_show_password_prompt (ECollectionAccountWizard *wizard,
 						EConfigLookupWorker *worker,
 						WorkerData *wd)
@@ -687,6 +696,9 @@ collection_account_wizard_show_password_prompt (ECollectionAccountWizard *wizard
 	gtk_label_set_mnemonic_widget (GTK_LABEL (label), widget);
 	gtk_grid_attach (grid, widget, 1, 0, 1, 1);
 	user_entry = widget;
+
+	g_signal_connect (user_entry, "changed",
+		G_CALLBACK (collection_account_wizard_update_entry_hint), NULL);
 
 	widget = gtk_label_new_with_mnemonic (_("_Password:"));
 	gtk_widget_set_halign (widget, GTK_ALIGN_END);
@@ -1562,6 +1574,17 @@ collection_account_wizard_finish_cancel_clicked_cb (GtkButton *button,
 }
 
 static void
+collection_account_wizard_email_entry_changed (ECollectionAccountWizard *wizard,
+					       GtkWidget *entry)
+{
+
+	collection_account_wizard_notify_can_run (G_OBJECT (wizard));
+	collection_account_wizard_mark_changed (wizard);
+
+	collection_account_wizard_update_entry_hint (entry);
+}
+
+static void
 collection_account_wizard_set_registry (ECollectionAccountWizard *wizard,
 					ESourceRegistry *registry)
 {
@@ -1714,10 +1737,7 @@ collection_account_wizard_constructed (GObject *object)
 	gtk_grid_attach (grid, widget, 1, 0, 1, 1);
 
 	g_signal_connect_swapped (wizard->priv->email_entry, "changed",
-		G_CALLBACK (collection_account_wizard_notify_can_run), wizard);
-
-	g_signal_connect_swapped (wizard->priv->email_entry, "changed",
-		G_CALLBACK (collection_account_wizard_mark_changed), wizard);
+		G_CALLBACK (collection_account_wizard_email_entry_changed), wizard);
 
 	expander = gtk_expander_new_with_mnemonic (_("_Advanced Options"));
 	gtk_widget_show (expander);

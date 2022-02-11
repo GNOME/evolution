@@ -1066,7 +1066,9 @@ book_config_ldap_check_complete (ESourceConfigBackend *backend,
 
 	complete = complete && correct;
 
-	e_util_set_entry_issue_hint (context->auth_entry, correct ? NULL : _("User name cannot be empty"));
+	e_util_set_entry_issue_hint (context->auth_entry, correct ?
+		(camel_string_is_all_ascii (user) ? NULL : _("User name contains letters, which can prevent log in. Make sure the server accepts such written user name."))
+		: _("User name cannot be empty"));
 
 	return complete;
 }
