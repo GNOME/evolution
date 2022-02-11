@@ -1,3 +1,50 @@
+Evolution 3.43.2 2022-02-11
+---------------------------
+
+Bug Fixes:
+	I#449 - Support markdown in composer
+	I#1763 - Composer: Correct line wrapping with a link followed by a text
+	I#1767 - ECalComponentPreview: Use full width for the Description
+	I#1783 - EShell not emitting activate signal
+	I#1791 - itip-view: Incorrect calendar used in certain corner case
+	I#1792 - Contacts: Option to preview Personal section before Work
+	I#1793 - Mail: Apply custom locale also to localized fwd-re
+	eds-I#372 - SMTP: Add option to not re-encode message on upload
+
+Miscellaneous:
+	Use gtk_widget_is_visible() instead of gtk_widget_get_visible() on some places
+	Composer: Backup from toplevel BLOCKQUOTE on split for Undo/Redo
+	Composer: Special-case requote of BLOCKQUOTE nodes in Plain Text mode
+	Composer: Various changes for Plain Text re-quote
+	MessageList: Show regen error in GUI, rather than in the terminal
+	Add a simple EMarkdownEditor widget
+	text/markdown formatter: Allow HTML tags in the markdown
+	Save temporary files into system temp, rather than under home
+	Have a single function to convert markdown into HTML
+	Add option to unset colors provided in HTML mails for preview into Preferences
+	Calendar: Add option to use a markdown editor for Description in component editor
+	ECompEditor: Timezone can be reset on component save
+
+Translations:
+	Aleksandr Melman (ru)
+	Anders Jonsson (sv)
+	Aurimas Černius (lt)
+	Boyuan Yang (zh_CN)
+	Danial Behzadi (fa)
+	Daniel Mustieles (es)
+	Fabio Tomat (fur)
+	Fran Dieguez (gl)
+	Hugo Carvalho (pt)
+	Kukuh Syafaat (id)
+	Leônidas Araújo (pt_BR)
+	Luming Zh (zh_CN)
+	Marek Černocký (cs)
+	Matej Urbančič (sl)
+	Matheus Barbosa (pt_BR)
+	Philipp Kiemle (de)
+	Rafael Fontenelle (pt_BR)
+	Yuri Chornoivan (uk)
+
 Evolution 3.43.1 2022-01-07
 ---------------------------
 
