@@ -12,8 +12,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: evolution\n"
 "Report-Msgid-Bugs-To: https://gitlab.gnome.org/GNOME/evolution/issues\n"
-"POT-Creation-Date: 2022-02-11 09:07+0000\n"
-"PO-Revision-Date: 2022-02-11 13:30+0200\n"
+"POT-Creation-Date: 2022-02-11 12:34+0000\n"
+"PO-Revision-Date: 2022-02-11 17:56+0200\n"
 "Last-Translator: Yuri Chornoivan <yurchor@ukr.net>\n"
 "Language-Team: Ukrainian <trans-uk@lists.fedoraproject.org>\n"
 "Language: uk\n"
@@ -1086,9 +1086,9 @@ msgstr ""
 "вказано."
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:5
-#| msgid "Name of the editor to prefer in the message composer"
 msgid "Comma-separated names of the editor to prefer in the message composer"
-msgstr "Відокремлені комами назви редакторів листів, яким слід віддавати перевагу"
+msgstr ""
+"Відокремлені комами назви редакторів листів, яким слід віддавати перевагу"
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:6
 msgid ""
@@ -1099,7 +1099,13 @@ msgid ""
 "for plain and html), “plain:first-editor,html:second-editor” (to use “first-"
 "editor” for the “plain” and “second-editor” for “html”)"
 msgstr ""
-"Якщо назва не відповідає жодному відомому редактору, буде використано вбудований редактор WebKit. Режим є необов'язковим. Якщо вказано, редактор використовується для усіх режимів, підтримку яких передбачено. Режимами є «plain», «html», «markdown-plain», «markdown-html» і «markdown». Приклади значень: «webkit» (щоб скористатися WebKit для звичайного тексту та html), «plain:first-editor,html:second-editor» (щоб скористатися «first-editor» для «plain» і «second-editor» для «html»)"
+"Якщо назва не відповідає жодному відомому редактору, буде використано "
+"вбудований редактор WebKit. Режим є необов'язковим. Якщо вказано, редактор "
+"використовується для усіх режимів, підтримку яких передбачено. Режимами є "
+"«plain», «html», «markdown-plain», «markdown-html» і «markdown». Приклади "
+"значень: «webkit» (щоб скористатися WebKit для звичайного тексту та html), "
+"«plain:first-editor,html:second-editor» (щоб скористатися «first-editor» для "
+"«plain» і «second-editor» для «html»)"
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:7
 msgid "Path where picture gallery should search for its content"
@@ -1227,8 +1233,7 @@ msgstr "Чи додавати звіт про прочитання до кожн
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:29
 msgid "What mode open the composer with"
-msgstr ""
-"У якому режимі слід відкривати редактор повідомлень"
+msgstr "У якому режимі слід відкривати редактор повідомлень"
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:30
 msgid "Spell checking languages"
@@ -2685,7 +2690,6 @@ msgid "Alternative reply style"
 msgstr "Альтернативний стиль відповідей"
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:286
-#| msgid "Compose Message"
 msgid "Composer mode to use."
 msgstr "Режим редактора повідомлень, яким слід скористатися."
 
@@ -3595,7 +3599,7 @@ msgstr "Контакти"
 
 #: ../data/org.gnome.Evolution.desktop.in.in.h:9
 #: ../src/addressbook/gui/widgets/eab-contact-formatter.c:1006
-#: ../src/e-util/e-collection-account-wizard.c:855
+#: ../src/e-util/e-collection-account-wizard.c:867
 #: ../src/e-util/e-send-options.c:544 ../src/e-util/e-webdav-browser.c:532
 #: ../src/modules/calendar/e-cal-shell-view-actions.c:199
 #: ../src/modules/calendar/e-cal-shell-view.c:631
@@ -4299,8 +4303,8 @@ msgstr "Параметри"
 #: ../src/e-util/e-categories-dialog.c:80 ../src/e-util/e-category-editor.c:169
 #: ../src/e-util/e-category-editor.c:257 ../src/e-util/e-charset-combo-box.c:99
 #: ../src/e-util/e-collection-account-wizard.c:240
-#: ../src/e-util/e-collection-account-wizard.c:1910
-#: ../src/e-util/e-collection-account-wizard.c:2157
+#: ../src/e-util/e-collection-account-wizard.c:1930
+#: ../src/e-util/e-collection-account-wizard.c:2177
 #: ../src/e-util/e-color-chooser-widget.c:125
 #: ../src/e-util/e-filter-datespec.c:300
 #: ../src/e-util/e-html-editor-actions.c:362
@@ -6612,7 +6616,7 @@ msgstr "не містить"
 #: ../src/calendar/gui/memotypes.xml.in.h:4
 #: ../src/calendar/gui/tasktypes.xml.in.h:4
 #: ../src/e-util/e-attachment-tree-view.c:147
-#: ../src/e-util/e-collection-account-wizard.c:2008
+#: ../src/e-util/e-collection-account-wizard.c:2028
 #: ../src/e-util/e-table-config.ui.h:20
 #: ../src/modules/plugin-manager/evolution-plugin-manager.c:66
 msgid "Description"
@@ -7493,7 +7497,7 @@ msgstr "Стан"
 #: ../src/calendar/gui/e-task-table.etspec.h:3
 #: ../src/e-util/e-accounts-window.c:1443
 #: ../src/e-util/e-attachment-tree-view.c:205
-#: ../src/e-util/e-collection-account-wizard.c:2049
+#: ../src/e-util/e-collection-account-wizard.c:2069
 #: ../src/e-util/e-webdav-browser.c:2528
 #: ../src/mail/e-mail-account-tree-view.c:158
 msgid "Type"
@@ -11866,7 +11870,7 @@ msgid "Save Draft"
 msgstr "Зберегти _чернетку"
 
 #: ../src/composer/e-composer-from-header.c:108
-#: ../src/e-util/e-collection-account-wizard.c:2081
+#: ../src/e-util/e-collection-account-wizard.c:2101
 #: ../src/e-util/e-mail-signature-script-dialog.c:408
 #: ../src/e-util/e-webdav-browser.c:2555
 #: ../src/e-util/gal-view-instance-save-as-dialog.ui.h:2
@@ -12142,7 +12146,7 @@ msgid "_Save to Outbox"
 msgstr "З_берегти у вихідні"
 
 #: ../src/composer/mail-composer.error.xml.h:34
-#: ../src/e-util/e-collection-account-wizard.c:710
+#: ../src/e-util/e-collection-account-wizard.c:722
 msgid "_Try Again"
 msgstr "_Спробувати знову"
 
@@ -13419,86 +13423,99 @@ msgstr[1] "Знайдено %d кандидатів"
 msgstr[2] "Знайдено %d кандидатів"
 msgstr[3] "Знайдено одного кандидата"
 
-#: ../src/e-util/e-collection-account-wizard.c:679
+#: ../src/e-util/e-collection-account-wizard.c:667
+#: ../src/modules/book-config-google/evolution-book-config-google.c:101
+#: ../src/modules/book-config-ldap/evolution-book-config-ldap.c:1070
+#: ../src/modules/cal-config-google/e-cal-config-google.c:188
+#: ../src/modules/cal-config-google/e-cal-config-gtasks.c:116
+#: ../src/modules/mail-config/e-mail-config-remote-accounts.c:445
+#: ../src/modules/mail-config/e-mail-config-smtp-backend.c:484
+msgid ""
+"User name contains letters, which can prevent log in. Make sure the server "
+"accepts such written user name."
+msgstr ""
+"У імені користувача містяться символи, які можуть завадити входу до системи. Переконайтеся, що сервер приймає такі записи імені користувача."
+
+#: ../src/e-util/e-collection-account-wizard.c:688
 #: ../src/plugins/publish-calendar/publish-calendar.ui.h:29
 msgid "_Username:"
 msgstr "_Назва запису:"
 
-#: ../src/e-util/e-collection-account-wizard.c:691
+#: ../src/e-util/e-collection-account-wizard.c:703
 #: ../src/plugins/publish-calendar/publish-calendar.ui.h:30
 #: ../src/smime/gui/certificate-manager.c:764
 msgid "_Password:"
 msgstr "_Пароль:"
 
-#: ../src/e-util/e-collection-account-wizard.c:704
+#: ../src/e-util/e-collection-account-wizard.c:716
 #: ../src/plugins/publish-calendar/publish-calendar.ui.h:31
 msgid "_Remember password"
 msgstr "_Запам'ятати пароль"
 
-#: ../src/e-util/e-collection-account-wizard.c:851
+#: ../src/e-util/e-collection-account-wizard.c:863
 #: ../src/e-util/e-webdav-browser.c:536
 msgid "Collection"
 msgstr "Колекція"
 
-#: ../src/e-util/e-collection-account-wizard.c:852
+#: ../src/e-util/e-collection-account-wizard.c:864
 msgid "Mail Receive"
 msgstr "Отримання пошти"
 
-#: ../src/e-util/e-collection-account-wizard.c:853
+#: ../src/e-util/e-collection-account-wizard.c:865
 msgid "Mail Send"
 msgstr "Надсилання пошти"
 
-#: ../src/e-util/e-collection-account-wizard.c:854
+#: ../src/e-util/e-collection-account-wizard.c:866
 #: ../src/e-util/e-name-selector-dialog.c:445
 #: ../src/mail/importers/pine-importer.c:430
 msgid "Address Book"
 msgstr "Адресна книга"
 
-#: ../src/e-util/e-collection-account-wizard.c:856
+#: ../src/e-util/e-collection-account-wizard.c:868
 msgid "Memo List"
 msgstr "Список приміток"
 
-#: ../src/e-util/e-collection-account-wizard.c:857
+#: ../src/e-util/e-collection-account-wizard.c:869
 #: ../src/modules/calendar/e-calendar-preferences.ui.h:65
 msgid "Task List"
 msgstr "Список завдань"
 
-#: ../src/e-util/e-collection-account-wizard.c:1201
+#: ../src/e-util/e-collection-account-wizard.c:1213
 msgid "Looking up LDAP server’s search base…"
 msgstr "Пошук у базі сервера LDAP…"
 
-#: ../src/e-util/e-collection-account-wizard.c:1349
+#: ../src/e-util/e-collection-account-wizard.c:1361
 msgid "Failed to store password: "
 msgstr "Не вдалося зберегти пароль: "
 
-#: ../src/e-util/e-collection-account-wizard.c:1359
+#: ../src/e-util/e-collection-account-wizard.c:1371
 msgid "Failed to create sources: "
 msgstr "Не вдалося створити джерела: "
 
-#: ../src/e-util/e-collection-account-wizard.c:1526
+#: ../src/e-util/e-collection-account-wizard.c:1538
 msgid "Saving account settings, please wait…"
 msgstr "Збереження параметрів облікового запису, зачекайте…"
 
-#: ../src/e-util/e-collection-account-wizard.c:1678
+#: ../src/e-util/e-collection-account-wizard.c:1701
 msgid "User details"
 msgstr "Подробиці користувача"
 
-#: ../src/e-util/e-collection-account-wizard.c:1691
+#: ../src/e-util/e-collection-account-wizard.c:1714
 msgid "_Email Address or User name:"
 msgstr "_Електронна адреса чи ім'я користувача:"
 
-#: ../src/e-util/e-collection-account-wizard.c:1722
+#: ../src/e-util/e-collection-account-wizard.c:1742
 msgid "_Advanced Options"
 msgstr "_Додаткові параметри"
 
-#: ../src/e-util/e-collection-account-wizard.c:1727
+#: ../src/e-util/e-collection-account-wizard.c:1747
 #: ../src/modules/mail-config/e-mail-config-remote-accounts.c:217
 #: ../src/modules/mail-config/e-mail-config-smtp-backend.c:174
 #: ../src/plugins/publish-calendar/publish-calendar.ui.h:25
 msgid "_Server:"
 msgstr "_Сервер:"
 
-#: ../src/e-util/e-collection-account-wizard.c:1746
+#: ../src/e-util/e-collection-account-wizard.c:1766
 msgid ""
 "Semicolon (“;”) separated list of servers to look up information for, in "
 "addition to the domain of the e-mail address."
@@ -13506,11 +13523,11 @@ msgstr ""
 "Список через крапку з комою серверів для пошуку відомостей, додаткових щодо "
 "домену електронної адреси."
 
-#: ../src/e-util/e-collection-account-wizard.c:1948
+#: ../src/e-util/e-collection-account-wizard.c:1968
 msgid "Select which parts should be configured:"
 msgstr "Виберіть, які частини потрібно налаштувати:"
 
-#: ../src/e-util/e-collection-account-wizard.c:2072
+#: ../src/e-util/e-collection-account-wizard.c:2092
 #: ../src/mail/e-mail-config-identity-page.c:542
 #: ../src/mail/e-mail-config-summary-page.c:318
 msgid "Account Information"
@@ -14456,29 +14473,24 @@ msgid "_Markdown"
 msgstr "_Markdown"
 
 #: ../src/e-util/e-html-editor-actions.c:1330
-#| msgid "HTML editing mode"
 msgid "Markdown editing mode"
 msgstr "Режим редагування розмітки"
 
 #: ../src/e-util/e-html-editor-actions.c:1335
-#| msgid "Markdown Text"
 msgid "Ma_rkdown as Plain Text"
 msgstr "Роз_мітка як звичайний текст"
 
 #: ../src/e-util/e-html-editor-actions.c:1337
 msgid "Markdown editing mode, exported as Plain Text"
-msgstr ""
-"Режим редагування розмітки, експортування у звичайний текст"
+msgstr "Режим редагування розмітки, експортування у звичайний текст"
 
 #: ../src/e-util/e-html-editor-actions.c:1342
-#| msgid "Markdown Text"
 msgid "Mar_kdown as HTML"
 msgstr "Розм_ітка як HTML"
 
 #: ../src/e-util/e-html-editor-actions.c:1344
 msgid "Markdown editing mode, exported as HTML"
-msgstr ""
-"Режим редагування розмітки, експортування у HTML"
+msgstr "Режим редагування розмітки, експортування у HTML"
 
 #: ../src/e-util/e-html-editor-actions.c:1352
 msgid "_Normal"
@@ -19245,7 +19257,6 @@ msgstr "Не _цитувати"
 
 #. Translators: The text is followed by the format combo with values like 'Plain Text', 'HTML' and so on
 #: ../src/mail/em-composer-utils.c:4235
-#| msgid "_Format message in HTML"
 msgid "_Format message in"
 msgstr "_Форматувати повідомлення до"
 
@@ -20248,7 +20259,6 @@ msgstr "Типова поведінка"
 
 #. Translators: The text is followed by the format combo with values like
 #: ../src/mail/mail-config.ui.h:9
-#| msgid "For_mat messages in HTML"
 msgid "For_mat messages in"
 msgstr "Ф_орматувати повідомлення у"
 
@@ -22674,12 +22684,12 @@ msgstr "Типова адресна книга користувача"
 msgid "Address Book:"
 msgstr "Адресна книга:"
 
-#: ../src/modules/book-config-google/evolution-book-config-google.c:100
-#: ../src/modules/book-config-ldap/evolution-book-config-ldap.c:1069
-#: ../src/modules/cal-config-google/e-cal-config-google.c:187
-#: ../src/modules/cal-config-google/e-cal-config-gtasks.c:115
-#: ../src/modules/mail-config/e-mail-config-remote-accounts.c:444
-#: ../src/modules/mail-config/e-mail-config-smtp-backend.c:482
+#: ../src/modules/book-config-google/evolution-book-config-google.c:102
+#: ../src/modules/book-config-ldap/evolution-book-config-ldap.c:1071
+#: ../src/modules/cal-config-google/e-cal-config-google.c:189
+#: ../src/modules/cal-config-google/e-cal-config-gtasks.c:117
+#: ../src/modules/mail-config/e-mail-config-remote-accounts.c:446
+#: ../src/modules/mail-config/e-mail-config-smtp-backend.c:485
 msgid "User name cannot be empty"
 msgstr "Обов'язково вкажіть користувача"
 
