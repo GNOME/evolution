@@ -5,6 +5,7 @@
     <desc>Add and edit a Microsoft Exchange 2007 or 2010 account in <app>Evolution</app>.</desc>
 
   <link type="guide" xref="mail-account-manage-microsoft-exchange" group="#first"/>
+  <title type="link" role="trail">Web Services</title>
 
     <revision pkgversion="3.24.4" version="0.6" date="2017-07-28" status="candidate"/>
     <credit type="author">
@@ -29,6 +30,10 @@
 <p>The following settings are available when editing an existing account:</p>
 
 <section id="identity">
+<info>
+  <title type="link">Identity (Exchange Web Services accounts)</title>
+  <title type="link" role="trail">Identity</title>
+</info>
 <title>Identity</title>
 <p>Here you define your name and your email address.</p>
 <p>Optionally you can set a Reply-To email address (if you want replies to messages sent to a different address), set an organization (a company or organization you represent when you send email from this account), your default <link xref="mail-composer-mail-signatures">signature</link> for this account, and <link href="https://en.wikipedia.org/wiki/Email_alias">email aliases</link>.</p>
@@ -37,6 +42,7 @@
 <section id="receiving-email">
 <info>
   <title type="link">Receiving Email and Receiving options (Exchange Web Services accounts)</title>
+  <title type="link" role="trail">Receiving</title>
 </info>
 <title>Receiving Email and Receiving options</title>
 </section>
@@ -44,6 +50,7 @@
 <section id="defaults">
 <info>
   <title type="link">Defaults (Exchange Web Services accounts)</title>
+  <title type="link" role="trail">Defaults</title>
 </info>
 <title>Defaults</title>
 </section>
@@ -51,6 +58,7 @@
 <section id="composing-messages">
 <info>
   <title type="link">Composing Messages (Exchange Web Services accounts)</title>
+  <title type="link" role="trail">Composing</title>
 </info>
 <title>Composing Messages</title>
 </section>
@@ -58,6 +66,7 @@
 <section id="security">
 <info>
   <title type="link">Security (Exchange Web Services accounts)</title>
+  <title type="link" role="trail">Security</title>
 </info>
 <title>Security</title>
 </section>

@@ -5,6 +5,7 @@
     <desc>Add and edit a Microsoft Exchange MAPI account in <app>Evolution</app>.</desc>
 
     <link type="guide" xref="mail-account-manage-microsoft-exchange"/>
+    <title type="link" role="trail">MAPI</title>
 
     <revision pkgversion="3.7" version="0.7" date="2013-06-22" status="candidate"/>
     <credit type="author">
@@ -34,6 +35,7 @@
 <section id="receiving-email">
 <info>
   <title type="link">Receiving Email and Receiving options (Exchange MAPI accounts)</title>
+  <title type="link" role="trail">Receiving</title>
 </info>
 <title>Receiving Email and Receiving options</title>
 </section>
@@ -41,6 +43,7 @@
 <section id="defaults">
 <info>
   <title type="link">Defaults (Exchange MAPI accounts)</title>
+  <title type="link" role="trail">Defaults</title>
 </info>
 <title>Defaults</title>
 </section>
@@ -48,6 +51,7 @@
 <section id="composing-messages">
 <info>
   <title type="link">Composing Messages (Exchange MAPI accounts)</title>
+  <title type="link" role="trail">Composing</title>
 </info>
 <title>Composing Messages</title>
 </section>
@@ -61,6 +65,7 @@
 <section id="security">
 <info>
   <title type="link">Security (Exchange MAPI accounts)</title>
+  <title type="link" role="trail">Security</title>
 </info>
 <title>Security</title>
 </section>

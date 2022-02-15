@@ -20,14 +20,23 @@
 <title>Account Management</title>
 
   <section id="mail-common-account-types" style="2column">
+    <info>
+      <title type="link" role="trail">Common</title>
+    </info>
     <title>Common Account Types</title>
   </section>
 
   <section id="mail-local-account-types" style="2column">
+    <info>
+      <title type="link" role="trail">Local</title>
+    </info>
     <title>Local Account Types</title>
   </section>
 
   <section id="mail-corporate-account-types" style="2column">
+    <info>
+      <title type="link" role="trail">Corporate</title>
+    </info>
     <title>Corporate Account Types</title>
   </section>
 
