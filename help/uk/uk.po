@@ -6,8 +6,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: evolution master\n"
-"POT-Creation-Date: 2022-01-03 19:42+0000\n"
-"PO-Revision-Date: 2022-01-03 23:01+0200\n"
+"POT-Creation-Date: 2022-02-16 13:39+0000\n"
+"PO-Revision-Date: 2022-02-17 18:39+0200\n"
 "Last-Translator: Yuri Chornoivan <yurchor@ukr.net>\n"
 "Language-Team: Ukrainian <trans-uk@lists.fedoraproject.org>\n"
 "Language: uk\n"
@@ -2795,7 +2795,14 @@ msgid ""
 "attribute may need to be added to all items in a group to achieve the "
 "overall desired item order."
 msgstr ""
-"Зміна порядку пунктів панелі інструментів або меню у деяких файлах <file>.ui</file> може ніяк не вплинути на порядок показу їх в <app>Evolution</app>. Щоб розв'язати цю проблему, можна додати атрибут <code>position='top'</code> до деяких елементів (наприклад елементів <code>toolitem</code> і непорожніх <code>placeholder</code>). Таке додавання призведе до розташування цих елементів перед іншими елементами у групі і показу їх у порядку, у якому їх вказано у файлі <file>.ui</file>. Для досягнення бажаного порядку пунктів може виникнути потреба у додаванні цього атрибута до всіх записів у групі."
+"Зміна порядку пунктів панелі інструментів або меню у деяких файлах <file>."
+"ui</file> може ніяк не вплинути на порядок показу їх в <app>Evolution</app>. "
+"Щоб розв'язати цю проблему, можна додати атрибут <code>position='top'</code> "
+"до деяких елементів (наприклад елементів <code>toolitem</code> і непорожніх "
+"<code>placeholder</code>). Таке додавання призведе до розташування цих "
+"елементів перед іншими елементами у групі і показу їх у порядку, у якому їх "
+"вказано у файлі <file>.ui</file>. Для досягнення бажаного порядку пунктів "
+"може виникнути потреба у додаванні цього атрибута до всіх записів у групі."
 
 #. (itstool) path: page/p
 #: C/customize-ui-items.page:36
@@ -4122,44 +4129,44 @@ msgstr ""
 "облікові записи</app>."
 
 #. (itstool) path: section/title
-#: C/intro-first-run.page:32 C/mail-account-manage-imap-plus.page:29
-#: C/mail-account-manage-local-delivery.page:29
-#: C/mail-account-manage-maildir-format-directories.page:30
-#: C/mail-account-manage-mh-format-directories.page:29
-#: C/mail-account-manage-microsoft-exchange-evo-ews.page:32
-#: C/mail-account-manage-microsoft-exchange-evo-mapi.page:29
-#: C/mail-account-manage-pop.page:29
-#: C/mail-account-manage-unix-mbox-spool-directory.page:29
-#: C/mail-account-manage-unix-mbox-spool-file.page:29
-#: C/mail-account-manage-usenet-news.page:29
+#: C/intro-first-run.page:32 C/mail-account-manage-imap-plus.page:34
+#: C/mail-account-manage-local-delivery.page:34
+#: C/mail-account-manage-maildir-format-directories.page:35
+#: C/mail-account-manage-mh-format-directories.page:34
+#: C/mail-account-manage-microsoft-exchange-evo-ews.page:37
+#: C/mail-account-manage-microsoft-exchange-evo-mapi.page:30
+#: C/mail-account-manage-pop.page:34
+#: C/mail-account-manage-unix-mbox-spool-directory.page:34
+#: C/mail-account-manage-unix-mbox-spool-file.page:34
+#: C/mail-account-manage-usenet-news.page:34
 msgid "Identity"
 msgstr "Особисті дані"
 
 #. (itstool) path: section/p
-#: C/intro-first-run.page:33 C/mail-account-manage-imap-plus.page:30
-#: C/mail-account-manage-local-delivery.page:30
-#: C/mail-account-manage-maildir-format-directories.page:31
-#: C/mail-account-manage-mh-format-directories.page:30
-#: C/mail-account-manage-microsoft-exchange-evo-ews.page:33
-#: C/mail-account-manage-microsoft-exchange-evo-mapi.page:30
-#: C/mail-account-manage-pop.page:30
-#: C/mail-account-manage-unix-mbox-spool-directory.page:30
-#: C/mail-account-manage-unix-mbox-spool-file.page:30
-#: C/mail-account-manage-usenet-news.page:30
+#: C/intro-first-run.page:33 C/mail-account-manage-imap-plus.page:35
+#: C/mail-account-manage-local-delivery.page:35
+#: C/mail-account-manage-maildir-format-directories.page:36
+#: C/mail-account-manage-mh-format-directories.page:35
+#: C/mail-account-manage-microsoft-exchange-evo-ews.page:38
+#: C/mail-account-manage-microsoft-exchange-evo-mapi.page:31
+#: C/mail-account-manage-pop.page:35
+#: C/mail-account-manage-unix-mbox-spool-directory.page:35
+#: C/mail-account-manage-unix-mbox-spool-file.page:35
+#: C/mail-account-manage-usenet-news.page:35
 msgid "Here you define your name and your email address."
 msgstr "Тут ви визначаєте ваше ім'я та вашу адресу електронної пошти."
 
 #. (itstool) path: section/p
-#: C/intro-first-run.page:34 C/mail-account-manage-imap-plus.page:31
-#: C/mail-account-manage-local-delivery.page:31
-#: C/mail-account-manage-maildir-format-directories.page:32
-#: C/mail-account-manage-mh-format-directories.page:31
-#: C/mail-account-manage-microsoft-exchange-evo-ews.page:34
-#: C/mail-account-manage-microsoft-exchange-evo-mapi.page:31
-#: C/mail-account-manage-pop.page:31
-#: C/mail-account-manage-unix-mbox-spool-directory.page:31
-#: C/mail-account-manage-unix-mbox-spool-file.page:31
-#: C/mail-account-manage-usenet-news.page:31
+#: C/intro-first-run.page:34 C/mail-account-manage-imap-plus.page:36
+#: C/mail-account-manage-local-delivery.page:36
+#: C/mail-account-manage-maildir-format-directories.page:37
+#: C/mail-account-manage-mh-format-directories.page:36
+#: C/mail-account-manage-microsoft-exchange-evo-ews.page:39
+#: C/mail-account-manage-microsoft-exchange-evo-mapi.page:32
+#: C/mail-account-manage-pop.page:36
+#: C/mail-account-manage-unix-mbox-spool-directory.page:36
+#: C/mail-account-manage-unix-mbox-spool-file.page:36
+#: C/mail-account-manage-usenet-news.page:36
 msgid ""
 "Optionally you can set a Reply-To email address (if you want replies to "
 "messages sent to a different address), set an organization (a company or "
@@ -4315,7 +4322,7 @@ msgstr "EWS Exchange"
 
 #. (itstool) path: section/p
 #. (itstool) path: note/p
-#: C/intro-first-run.page:109 C/mail-account-manage-microsoft-exchange.page:26
+#: C/intro-first-run.page:109 C/mail-account-manage-microsoft-exchange.page:27
 msgid ""
 "For connecting to a Microsoft Exchange server (version 2007 or newer) or "
 "OpenChange server, it is recommended to use the package <sys>evolution-ews</"
@@ -4332,7 +4339,7 @@ msgstr "Це потребує встановлення пакунка <sys>evolu
 
 #. (itstool) path: when/p
 #. (itstool) path: note/p
-#: C/intro-first-run.page:114 C/mail-account-manage-microsoft-exchange.page:30
+#: C/intro-first-run.page:114 C/mail-account-manage-microsoft-exchange.page:31
 msgid ""
 "<link action=\"install:evolution-ews\" href=\"https://wiki.gnome.org/Apps/"
 "Evolution#Get_the_Source_Code\" style=\"button\">Install evolution-ews</link>"
@@ -4359,7 +4366,7 @@ msgstr "Для з'єднання із сервером Microsoft Exchange 2007/2
 
 #. (itstool) path: section/p
 #. (itstool) path: note/p
-#: C/intro-first-run.page:134 C/mail-account-manage-microsoft-exchange.page:35
+#: C/intro-first-run.page:134 C/mail-account-manage-microsoft-exchange.page:36
 msgid ""
 "It uses Microsoft's Messaging API which is also used by Microsoft Outlook. "
 "However, <sys>evolution-mapi</sys> requires installing <sys>OpenChange</sys> "
@@ -4377,7 +4384,7 @@ msgstr "Це потребує встановлення пакунка <sys>evolu
 
 #. (itstool) path: when/p
 #. (itstool) path: note/p
-#: C/intro-first-run.page:139 C/mail-account-manage-microsoft-exchange.page:40
+#: C/intro-first-run.page:139 C/mail-account-manage-microsoft-exchange.page:41
 msgid ""
 "<link action=\"install:evolution-mapi\" href=\"https://wiki.gnome.org/Apps/"
 "Evolution#Get_the_Source_Code\" style=\"button\">Install evolution-mapi</"
@@ -5659,29 +5666,22 @@ msgid "Add and edit an IMAP+ mail account in <app>Evolution</app>."
 msgstr ""
 "Додавання і редагування облікового запису пошти IMAP+ в <app>Evolution</app>."
 
+#. (itstool) path: info/title
+#: C/mail-account-manage-imap-plus.page:8
+#| msgid "IMAP+"
+msgctxt "link:trail"
+msgid "IMAP+"
+msgstr "IMAP+"
+
 #. (itstool) path: page/title
-#: C/mail-account-manage-imap-plus.page:20
+#: C/mail-account-manage-imap-plus.page:21
 msgid "IMAP+ mail account settings"
 msgstr "Параметри облікового запису пошти IMAP+"
 
 #. (itstool) path: section/title
-#: C/mail-account-manage-imap-plus.page:23
-#: C/mail-account-manage-local-delivery.page:23
-#: C/mail-account-manage-maildir-format-directories.page:23
-#: C/mail-account-manage-mh-format-directories.page:23
-#: C/mail-account-manage-microsoft-exchange-evo-ews.page:23
-#: C/mail-account-manage-microsoft-exchange-evo-mapi.page:23
-#: C/mail-account-manage-pop.page:23
-#: C/mail-account-manage-unix-mbox-spool-directory.page:23
-#: C/mail-account-manage-unix-mbox-spool-file.page:23
-#: C/mail-account-manage-usenet-news.page:23
-msgid "Account Editor"
-msgstr "Редактор облікових записів"
-
-#. (itstool) path: section/p
 #: C/mail-account-manage-imap-plus.page:24
 #: C/mail-account-manage-local-delivery.page:24
-#: C/mail-account-manage-maildir-format-directories.page:25
+#: C/mail-account-manage-maildir-format-directories.page:24
 #: C/mail-account-manage-mh-format-directories.page:24
 #: C/mail-account-manage-microsoft-exchange-evo-ews.page:24
 #: C/mail-account-manage-microsoft-exchange-evo-mapi.page:24
@@ -5689,6 +5689,20 @@ msgstr "Редактор облікових записів"
 #: C/mail-account-manage-unix-mbox-spool-directory.page:24
 #: C/mail-account-manage-unix-mbox-spool-file.page:24
 #: C/mail-account-manage-usenet-news.page:24
+msgid "Account Editor"
+msgstr "Редактор облікових записів"
+
+#. (itstool) path: section/p
+#: C/mail-account-manage-imap-plus.page:25
+#: C/mail-account-manage-local-delivery.page:25
+#: C/mail-account-manage-maildir-format-directories.page:26
+#: C/mail-account-manage-mh-format-directories.page:25
+#: C/mail-account-manage-microsoft-exchange-evo-ews.page:25
+#: C/mail-account-manage-microsoft-exchange-evo-mapi.page:25
+#: C/mail-account-manage-pop.page:25
+#: C/mail-account-manage-unix-mbox-spool-directory.page:25
+#: C/mail-account-manage-unix-mbox-spool-file.page:25
+#: C/mail-account-manage-usenet-news.page:25
 msgid ""
 "Mail accounts can be added by choosing <guiseq><gui>File</gui><gui>New</"
 "gui><gui>Mail Account</gui></guiseq> or via <guiseq><gui>Edit</"
@@ -5706,10 +5720,10 @@ msgstr ""
 "відновлювати дані з файла резервної копії."
 
 #. (itstool) path: section/p
-#: C/mail-account-manage-imap-plus.page:25
-#: C/mail-account-manage-microsoft-exchange-evo-ews.page:25
-#: C/mail-account-manage-microsoft-exchange-evo-mapi.page:25
-#: C/mail-account-manage-usenet-news.page:25
+#: C/mail-account-manage-imap-plus.page:26
+#: C/mail-account-manage-microsoft-exchange-evo-ews.page:26
+#: C/mail-account-manage-microsoft-exchange-evo-mapi.page:26
+#: C/mail-account-manage-usenet-news.page:26
 msgid ""
 "Mail accounts can be edited via <guiseq><gui>Edit</gui><gui>Preferences</"
 "gui><gui>Mail Accounts</gui><gui style=\"button\">Edit</gui></guiseq> or by "
@@ -5723,134 +5737,242 @@ msgstr ""
 "меню пункту <gui>Властивості</gui>."
 
 #. (itstool) path: section/p
-#: C/mail-account-manage-imap-plus.page:26
-#: C/mail-account-manage-local-delivery.page:26
-#: C/mail-account-manage-maildir-format-directories.page:27
-#: C/mail-account-manage-mh-format-directories.page:26
-#: C/mail-account-manage-microsoft-exchange-evo-ews.page:29
-#: C/mail-account-manage-microsoft-exchange-evo-mapi.page:26
-#: C/mail-account-manage-pop.page:26
-#: C/mail-account-manage-unix-mbox-spool-directory.page:26
-#: C/mail-account-manage-unix-mbox-spool-file.page:26
-#: C/mail-account-manage-usenet-news.page:26
+#: C/mail-account-manage-imap-plus.page:27
+#: C/mail-account-manage-local-delivery.page:27
+#: C/mail-account-manage-maildir-format-directories.page:28
+#: C/mail-account-manage-mh-format-directories.page:27
+#: C/mail-account-manage-microsoft-exchange-evo-ews.page:30
+#: C/mail-account-manage-microsoft-exchange-evo-mapi.page:27
+#: C/mail-account-manage-pop.page:27
+#: C/mail-account-manage-unix-mbox-spool-directory.page:27
+#: C/mail-account-manage-unix-mbox-spool-file.page:27
+#: C/mail-account-manage-usenet-news.page:27
 msgid "The following settings are available when editing an existing account:"
 msgstr ""
 "При редагуванні наявного облікового запису ви отримаєте доступ до таких "
 "параметрів:"
 
 #. (itstool) path: info/title
-#: C/mail-account-manage-imap-plus.page:36
+#: C/mail-account-manage-imap-plus.page:31
+#| msgctxt "link"
+#| msgid "Security (IMAP+ accounts)"
+msgctxt "link"
+msgid "Identity (IMAP+ accounts)"
+msgstr "Профіль (облікові записи IMAP+)"
+
+#. (itstool) path: info/title
+#: C/mail-account-manage-imap-plus.page:32
+#: C/mail-account-manage-local-delivery.page:32
+#: C/mail-account-manage-maildir-format-directories.page:33
+#: C/mail-account-manage-mh-format-directories.page:32
+#: C/mail-account-manage-microsoft-exchange-evo-ews.page:35
+#: C/mail-account-manage-pop.page:32
+#: C/mail-account-manage-unix-mbox-spool-directory.page:32
+#: C/mail-account-manage-unix-mbox-spool-file.page:32
+#: C/mail-account-manage-usenet-news.page:32
+#| msgid "Identity"
+msgctxt "link:trail"
+msgid "Identity"
+msgstr "Профіль"
+
+#. (itstool) path: info/title
+#: C/mail-account-manage-imap-plus.page:41
 msgctxt "link"
 msgid "Receiving Email and Receiving options (IMAP+ accounts)"
 msgstr "Параметри отримання електронної пошти (облікові записи IMAP+)"
 
-#. (itstool) path: section/title
-#: C/mail-account-manage-imap-plus.page:38
-#: C/mail-account-manage-local-delivery.page:38
-#: C/mail-account-manage-maildir-format-directories.page:39
-#: C/mail-account-manage-mh-format-directories.page:38
-#: C/mail-account-manage-microsoft-exchange-evo-ews.page:41
+#. (itstool) path: info/title
+#: C/mail-account-manage-imap-plus.page:42
+#: C/mail-account-manage-local-delivery.page:42
+#: C/mail-account-manage-maildir-format-directories.page:43
+#: C/mail-account-manage-mh-format-directories.page:42
+#: C/mail-account-manage-microsoft-exchange-evo-ews.page:45
 #: C/mail-account-manage-microsoft-exchange-evo-mapi.page:38
-#: C/mail-account-manage-pop.page:38
-#: C/mail-account-manage-unix-mbox-spool-directory.page:38
-#: C/mail-account-manage-unix-mbox-spool-file.page:38
-#: C/mail-account-manage-usenet-news.page:38
+#: C/mail-account-manage-pop.page:42
+#: C/mail-account-manage-unix-mbox-spool-directory.page:42
+#: C/mail-account-manage-unix-mbox-spool-file.page:42
+#: C/mail-account-manage-usenet-news.page:42
+#| msgid "Receiving Email"
+msgctxt "link:trail"
+msgid "Receiving"
+msgstr "Отримання"
+
+#. (itstool) path: section/title
+#: C/mail-account-manage-imap-plus.page:44
+#: C/mail-account-manage-local-delivery.page:44
+#: C/mail-account-manage-maildir-format-directories.page:45
+#: C/mail-account-manage-mh-format-directories.page:44
+#: C/mail-account-manage-microsoft-exchange-evo-ews.page:47
+#: C/mail-account-manage-microsoft-exchange-evo-mapi.page:40
+#: C/mail-account-manage-pop.page:44
+#: C/mail-account-manage-unix-mbox-spool-directory.page:44
+#: C/mail-account-manage-unix-mbox-spool-file.page:44
+#: C/mail-account-manage-usenet-news.page:44
 msgid "Receiving Email and Receiving options"
 msgstr "Отримання і параметри отримання електронної пошти"
 
 #. (itstool) path: info/title
-#: C/mail-account-manage-imap-plus.page:43
+#: C/mail-account-manage-imap-plus.page:49
 msgctxt "link"
 msgid "Sending Email (IMAP+ accounts)"
 msgstr "Надсилання електронної пошти (облікові записи IMAP+)"
 
-#. (itstool) path: section/title
-#: C/mail-account-manage-imap-plus.page:45
-#: C/mail-account-manage-local-delivery.page:45
-#: C/mail-account-manage-maildir-format-directories.page:46
-#: C/mail-account-manage-mh-format-directories.page:45
-#: C/mail-account-manage-pop.page:45
-#: C/mail-account-manage-unix-mbox-spool-directory.page:45
-#: C/mail-account-manage-unix-mbox-spool-file.page:45
-#: C/mail-account-manage-usenet-news.page:45
-msgid "Sending Email"
-msgstr "Відсилання пошти"
-
 #. (itstool) path: info/title
 #: C/mail-account-manage-imap-plus.page:50
-msgctxt "link"
-msgid "Defaults (IMAP+ accounts)"
-msgstr "Типові параметри (облікові записи IMAP+)"
+#: C/mail-account-manage-local-delivery.page:50
+#: C/mail-account-manage-maildir-format-directories.page:51
+#: C/mail-account-manage-mh-format-directories.page:50
+#: C/mail-account-manage-pop.page:50
+#: C/mail-account-manage-unix-mbox-spool-directory.page:50
+#: C/mail-account-manage-unix-mbox-spool-file.page:50
+#: C/mail-account-manage-usenet-news.page:50
+#| msgid "Sending mail"
+msgctxt "link:trail"
+msgid "Sending"
+msgstr "Надсилання"
 
 #. (itstool) path: section/title
 #: C/mail-account-manage-imap-plus.page:52
 #: C/mail-account-manage-local-delivery.page:52
 #: C/mail-account-manage-maildir-format-directories.page:53
 #: C/mail-account-manage-mh-format-directories.page:52
-#: C/mail-account-manage-microsoft-exchange-evo-ews.page:48
-#: C/mail-account-manage-microsoft-exchange-evo-mapi.page:45
 #: C/mail-account-manage-pop.page:52
 #: C/mail-account-manage-unix-mbox-spool-directory.page:52
 #: C/mail-account-manage-unix-mbox-spool-file.page:52
 #: C/mail-account-manage-usenet-news.page:52
-msgid "Defaults"
-msgstr "Умовчання"
+msgid "Sending Email"
+msgstr "Відсилання пошти"
 
 #. (itstool) path: info/title
 #: C/mail-account-manage-imap-plus.page:57
 msgctxt "link"
+msgid "Defaults (IMAP+ accounts)"
+msgstr "Типові параметри (облікові записи IMAP+)"
+
+#. (itstool) path: info/title
+#: C/mail-account-manage-imap-plus.page:58
+#: C/mail-account-manage-local-delivery.page:58
+#: C/mail-account-manage-maildir-format-directories.page:59
+#: C/mail-account-manage-mh-format-directories.page:58
+#: C/mail-account-manage-microsoft-exchange-evo-ews.page:53
+#: C/mail-account-manage-microsoft-exchange-evo-mapi.page:46
+#: C/mail-account-manage-pop.page:58
+#: C/mail-account-manage-unix-mbox-spool-directory.page:58
+#: C/mail-account-manage-unix-mbox-spool-file.page:58
+#: C/mail-account-manage-usenet-news.page:58
+#| msgid "Defaults"
+msgctxt "link:trail"
+msgid "Defaults"
+msgstr "Типове"
+
+#. (itstool) path: section/title
+#: C/mail-account-manage-imap-plus.page:60
+#: C/mail-account-manage-local-delivery.page:60
+#: C/mail-account-manage-maildir-format-directories.page:61
+#: C/mail-account-manage-mh-format-directories.page:60
+#: C/mail-account-manage-microsoft-exchange-evo-ews.page:55
+#: C/mail-account-manage-microsoft-exchange-evo-mapi.page:48
+#: C/mail-account-manage-pop.page:60
+#: C/mail-account-manage-unix-mbox-spool-directory.page:60
+#: C/mail-account-manage-unix-mbox-spool-file.page:60
+#: C/mail-account-manage-usenet-news.page:60
+msgid "Defaults"
+msgstr "Умовчання"
+
+#. (itstool) path: info/title
+#: C/mail-account-manage-imap-plus.page:65
+msgctxt "link"
 msgid "Composing Messages (IMAP+ accounts)"
 msgstr "Створення повідомлень (облікові записи IMAP+)"
 
-#. (itstool) path: section/title
-#: C/mail-account-manage-imap-plus.page:59
-#: C/mail-account-manage-local-delivery.page:59
-#: C/mail-account-manage-maildir-format-directories.page:60
-#: C/mail-account-manage-mh-format-directories.page:59
-#: C/mail-account-manage-microsoft-exchange-evo-ews.page:55
-#: C/mail-account-manage-microsoft-exchange-evo-mapi.page:52
-#: C/mail-account-manage-pop.page:59
-#: C/mail-account-manage-unix-mbox-spool-directory.page:59
-#: C/mail-account-manage-unix-mbox-spool-file.page:59
-#: C/mail-account-manage-usenet-news.page:59
-msgid "Composing Messages"
-msgstr "Створення повідомлення"
-
 #. (itstool) path: info/title
-#: C/mail-account-manage-imap-plus.page:64
-msgctxt "link"
-msgid "Security (IMAP+ accounts)"
-msgstr "Безпека (облікові записи IMAP+)"
-
-#. (itstool) path: section/title
 #: C/mail-account-manage-imap-plus.page:66
 #: C/mail-account-manage-local-delivery.page:66
 #: C/mail-account-manage-maildir-format-directories.page:67
 #: C/mail-account-manage-mh-format-directories.page:66
-#: C/mail-account-manage-microsoft-exchange-evo-ews.page:62
-#: C/mail-account-manage-microsoft-exchange-evo-mapi.page:65
+#: C/mail-account-manage-microsoft-exchange-evo-ews.page:61
+#: C/mail-account-manage-microsoft-exchange-evo-mapi.page:54
 #: C/mail-account-manage-pop.page:66
 #: C/mail-account-manage-unix-mbox-spool-directory.page:66
 #: C/mail-account-manage-unix-mbox-spool-file.page:66
 #: C/mail-account-manage-usenet-news.page:66
+#| msgid "Mail Composing"
+msgctxt "link:trail"
+msgid "Composing"
+msgstr "Створення"
+
+#. (itstool) path: section/title
+#: C/mail-account-manage-imap-plus.page:68
+#: C/mail-account-manage-local-delivery.page:68
+#: C/mail-account-manage-maildir-format-directories.page:69
+#: C/mail-account-manage-mh-format-directories.page:68
+#: C/mail-account-manage-microsoft-exchange-evo-ews.page:63
+#: C/mail-account-manage-microsoft-exchange-evo-mapi.page:56
+#: C/mail-account-manage-pop.page:68
+#: C/mail-account-manage-unix-mbox-spool-directory.page:68
+#: C/mail-account-manage-unix-mbox-spool-file.page:68
+#: C/mail-account-manage-usenet-news.page:68
+msgid "Composing Messages"
+msgstr "Створення повідомлення"
+
+#. (itstool) path: info/title
+#: C/mail-account-manage-imap-plus.page:73
+msgctxt "link"
+msgid "Security (IMAP+ accounts)"
+msgstr "Безпека (облікові записи IMAP+)"
+
+#. (itstool) path: info/title
+#: C/mail-account-manage-imap-plus.page:74
+#: C/mail-account-manage-local-delivery.page:74
+#: C/mail-account-manage-maildir-format-directories.page:75
+#: C/mail-account-manage-mh-format-directories.page:74
+#: C/mail-account-manage-microsoft-exchange-evo-ews.page:69
+#: C/mail-account-manage-microsoft-exchange-evo-mapi.page:68
+#: C/mail-account-manage-pop.page:74
+#: C/mail-account-manage-unix-mbox-spool-directory.page:74
+#: C/mail-account-manage-unix-mbox-spool-file.page:74
+#: C/mail-account-manage-usenet-news.page:74
+#| msgid "Security"
+msgctxt "link:trail"
+msgid "Security"
+msgstr "Безпека"
+
+#. (itstool) path: section/title
+#: C/mail-account-manage-imap-plus.page:76
+#: C/mail-account-manage-local-delivery.page:76
+#: C/mail-account-manage-maildir-format-directories.page:77
+#: C/mail-account-manage-mh-format-directories.page:76
+#: C/mail-account-manage-microsoft-exchange-evo-ews.page:71
+#: C/mail-account-manage-microsoft-exchange-evo-mapi.page:70
+#: C/mail-account-manage-pop.page:76
+#: C/mail-account-manage-unix-mbox-spool-directory.page:76
+#: C/mail-account-manage-unix-mbox-spool-file.page:76
+#: C/mail-account-manage-usenet-news.page:76
 msgid "Security"
 msgstr "Безпека"
 
 #. (itstool) path: info/title
-#: C/mail-account-manage-imap-plus.page:75
+#: C/mail-account-manage-imap-plus.page:85
 msgctxt "link"
 msgid "Other settings (IMAP+ accounts)"
 msgstr "Інші параметри (облікові записи IMAP+)"
 
+#. (itstool) path: info/title
+#: C/mail-account-manage-imap-plus.page:86
+#| msgid "Other settings"
+msgctxt "link:trail"
+msgid "Other settings"
+msgstr "Інші параметри"
+
 #. (itstool) path: section/title
-#: C/mail-account-manage-imap-plus.page:77
-#: C/mail-account-manage-usenet-news.page:75
+#: C/mail-account-manage-imap-plus.page:88
+#: C/mail-account-manage-usenet-news.page:86
 msgid "Other settings"
 msgstr "Інші параметри"
 
 #. (itstool) path: section/p
-#: C/mail-account-manage-imap-plus.page:78
-#: C/mail-account-manage-usenet-news.page:76
+#: C/mail-account-manage-imap-plus.page:89
+#: C/mail-account-manage-usenet-news.page:87
 msgid ""
 "Other account related settings that are not located in the <gui>Account "
 "Editor</gui>:"
@@ -5865,18 +5987,26 @@ msgstr ""
 "Додавання і редагування облікового запису локального доставлення в "
 "<app>Evolution</app>."
 
+#. (itstool) path: info/title
+#: C/mail-account-manage-local-delivery.page:8
+#: C/mail-account-management.page:31
+#| msgid "Location"
+msgctxt "link:trail"
+msgid "Local"
+msgstr "Локальний"
+
 #. (itstool) path: page/title
-#: C/mail-account-manage-local-delivery.page:20
+#: C/mail-account-manage-local-delivery.page:21
 msgid "Local Delivery account settings"
 msgstr "Параметри облікового запису локального доставлення"
 
 #. (itstool) path: section/p
-#: C/mail-account-manage-local-delivery.page:25
-#: C/mail-account-manage-maildir-format-directories.page:26
-#: C/mail-account-manage-mh-format-directories.page:25
-#: C/mail-account-manage-pop.page:25
-#: C/mail-account-manage-unix-mbox-spool-directory.page:25
-#: C/mail-account-manage-unix-mbox-spool-file.page:25
+#: C/mail-account-manage-local-delivery.page:26
+#: C/mail-account-manage-maildir-format-directories.page:27
+#: C/mail-account-manage-mh-format-directories.page:26
+#: C/mail-account-manage-pop.page:26
+#: C/mail-account-manage-unix-mbox-spool-directory.page:26
+#: C/mail-account-manage-unix-mbox-spool-file.page:26
 msgid ""
 "Mail accounts can be edited via <guiseq><gui>Edit</gui><gui>Preferences</"
 "gui><gui>Mail Accounts</gui><gui style=\"button\">Edit</gui></guiseq>."
@@ -5886,7 +6016,15 @@ msgstr ""
 "style=\"button\">Редагувати</gui></guiseq>."
 
 #. (itstool) path: info/title
-#: C/mail-account-manage-local-delivery.page:36
+#: C/mail-account-manage-local-delivery.page:31
+#| msgctxt "link"
+#| msgid "Security (Local Delivery accounts)"
+msgctxt "link"
+msgid "Identity (Local Delivery accounts)"
+msgstr "Профіль (облікові записи локального доставлення)"
+
+#. (itstool) path: info/title
+#: C/mail-account-manage-local-delivery.page:41
 msgctxt "link"
 msgid "Receiving Email and Receiving options (Local Delivery accounts)"
 msgstr ""
@@ -5894,25 +6032,25 @@ msgstr ""
 "доставлення)"
 
 #. (itstool) path: info/title
-#: C/mail-account-manage-local-delivery.page:43
+#: C/mail-account-manage-local-delivery.page:49
 msgctxt "link"
 msgid "Sending Email (Local Delivery accounts)"
 msgstr "Надсилання електронної пошти (облікові записи локального доставлення)"
 
 #. (itstool) path: info/title
-#: C/mail-account-manage-local-delivery.page:50
+#: C/mail-account-manage-local-delivery.page:57
 msgctxt "link"
 msgid "Defaults (Local Delivery accounts)"
 msgstr "Типові параметри (облікові записи локального доставлення)"
 
 #. (itstool) path: info/title
-#: C/mail-account-manage-local-delivery.page:57
+#: C/mail-account-manage-local-delivery.page:65
 msgctxt "link"
 msgid "Composing Messages (Local Delivery accounts)"
 msgstr "Створення повідомлень (облікові записи локального доставлення)"
 
 #. (itstool) path: info/title
-#: C/mail-account-manage-local-delivery.page:64
+#: C/mail-account-manage-local-delivery.page:73
 msgctxt "link"
 msgid "Security (Local Delivery accounts)"
 msgstr "Безпека (облікові записи локального доставлення)"
@@ -5926,18 +6064,33 @@ msgstr ""
 "Додавання та редагування облікового запису із поштовими каталогами у форматі "
 "Maildir в <app>Evolution</app>."
 
+#. (itstool) path: info/title
+#: C/mail-account-manage-maildir-format-directories.page:8
+#| msgid "Mail"
+msgctxt "link:trail"
+msgid "Maildir"
+msgstr "Maildir"
+
 #. (itstool) path: page/title
-#: C/mail-account-manage-maildir-format-directories.page:20
+#: C/mail-account-manage-maildir-format-directories.page:21
 msgid "Maildir Format Mail Directories account settings"
 msgstr "Параметри облікових записів поштових каталогів у форматі Maildir"
 
 #. (itstool) path: section/p
-#: C/mail-account-manage-maildir-format-directories.page:24
+#: C/mail-account-manage-maildir-format-directories.page:25
 msgid "<app>Evolution</app> supports the Maildir++ specification."
 msgstr "У <app>Evolution</app> передбачено підтримку специфікації Maildir++."
 
 #. (itstool) path: info/title
-#: C/mail-account-manage-maildir-format-directories.page:37
+#: C/mail-account-manage-maildir-format-directories.page:32
+#| msgctxt "link"
+#| msgid "Security (Maildir Format Mail Directories accounts)"
+msgctxt "link"
+msgid "Identity (Maildir Format Mail Directories accounts)"
+msgstr "Профіль (облікові записи поштових каталогів у форматі Maildir)"
+
+#. (itstool) path: info/title
+#: C/mail-account-manage-maildir-format-directories.page:42
 msgctxt "link"
 msgid ""
 "Receiving Email and Receiving options (Maildir Format Mail Directories "
@@ -5947,21 +6100,21 @@ msgstr ""
 "форматі Maildir)"
 
 #. (itstool) path: info/title
-#: C/mail-account-manage-maildir-format-directories.page:44
+#: C/mail-account-manage-maildir-format-directories.page:50
 msgctxt "link"
 msgid "Sending Email (Maildir Format Mail Directories accounts)"
 msgstr ""
 "Надсилання пошти (облікові записи поштових каталогів у форматі Maildir)"
 
 #. (itstool) path: info/title
-#: C/mail-account-manage-maildir-format-directories.page:51
+#: C/mail-account-manage-maildir-format-directories.page:58
 msgctxt "link"
 msgid "Defaults (Maildir Format Mail Directories accounts)"
 msgstr ""
 "Типові параметри (облікові записи поштових каталогів у форматі Maildir)"
 
 #. (itstool) path: info/title
-#: C/mail-account-manage-maildir-format-directories.page:58
+#: C/mail-account-manage-maildir-format-directories.page:66
 msgctxt "link"
 msgid "Composing Messages (Maildir Format Mail Directories accounts)"
 msgstr ""
@@ -5969,7 +6122,7 @@ msgstr ""
 "Maildir)"
 
 #. (itstool) path: info/title
-#: C/mail-account-manage-maildir-format-directories.page:65
+#: C/mail-account-manage-maildir-format-directories.page:74
 msgctxt "link"
 msgid "Security (Maildir Format Mail Directories accounts)"
 msgstr "Безпека (облікові записи поштових каталогів у форматі Maildir)"
@@ -5985,18 +6138,32 @@ msgstr ""
 msgid "Account Management"
 msgstr "Керування обліковими записами"
 
+#. (itstool) path: info/title
+#: C/mail-account-management.page:24
+msgctxt "link:trail"
+msgid "Common"
+msgstr ""
+"Загальний"
+
 #. (itstool) path: section/title
-#: C/mail-account-management.page:23
+#: C/mail-account-management.page:26
 msgid "Common Account Types"
 msgstr "Типи загальних облікових записів"
 
 #. (itstool) path: section/title
-#: C/mail-account-management.page:27
+#: C/mail-account-management.page:33
 msgid "Local Account Types"
 msgstr "Типи локальних облікових записів"
 
+#. (itstool) path: info/title
+#: C/mail-account-management.page:38
+msgctxt "link:trail"
+msgid "Corporate"
+msgstr ""
+"Корпоративний"
+
 #. (itstool) path: section/title
-#: C/mail-account-management.page:31
+#: C/mail-account-management.page:40
 msgid "Corporate Account Types"
 msgstr "Типи корпоративних облікових записів"
 
@@ -6008,13 +6175,28 @@ msgstr ""
 "Додавання та редагування облікового запису із поштовими каталогами у форматі "
 "MH в <app>Evolution</app>."
 
+#. (itstool) path: info/title
+#: C/mail-account-manage-mh-format-directories.page:8
+msgctxt "link:trail"
+msgid "MH Format"
+msgstr ""
+"Формат MH"
+
 #. (itstool) path: page/title
-#: C/mail-account-manage-mh-format-directories.page:20
+#: C/mail-account-manage-mh-format-directories.page:21
 msgid "MH Format Mail Directories account settings"
 msgstr "Параметри облікових записів поштових каталогів у форматі MH"
 
 #. (itstool) path: info/title
-#: C/mail-account-manage-mh-format-directories.page:36
+#: C/mail-account-manage-mh-format-directories.page:31
+#| msgctxt "link"
+#| msgid "Security (MH Format Mail Directories accounts)"
+msgctxt "link"
+msgid "Identity (MH Format Mail Directories accounts)"
+msgstr "Профіль (облікові записи поштових каталогів у форматі MH)"
+
+#. (itstool) path: info/title
+#: C/mail-account-manage-mh-format-directories.page:41
 msgctxt "link"
 msgid ""
 "Receiving Email and Receiving options (MH Format Mail Directories accounts)"
@@ -6023,26 +6205,26 @@ msgstr ""
 "форматі MH)"
 
 #. (itstool) path: info/title
-#: C/mail-account-manage-mh-format-directories.page:43
+#: C/mail-account-manage-mh-format-directories.page:49
 msgctxt "link"
 msgid "Sending Email (MH Format Mail Directories accounts)"
 msgstr "Надсилання пошти (облікові записи поштових каталогів у форматі MH)"
 
 #. (itstool) path: info/title
-#: C/mail-account-manage-mh-format-directories.page:50
+#: C/mail-account-manage-mh-format-directories.page:57
 msgctxt "link"
 msgid "Defaults (MH Format Mail Directories accounts)"
 msgstr "Типові параметри (облікові записи поштових каталогів у форматі MH)"
 
 #. (itstool) path: info/title
-#: C/mail-account-manage-mh-format-directories.page:57
+#: C/mail-account-manage-mh-format-directories.page:65
 msgctxt "link"
 msgid "Composing Messages (MH Format Mail Directories accounts)"
 msgstr ""
 "Редагування повідомлень (облікові записи поштових каталогів у форматі MH)"
 
 #. (itstool) path: info/title
-#: C/mail-account-manage-mh-format-directories.page:64
+#: C/mail-account-manage-mh-format-directories.page:73
 msgctxt "link"
 msgid "Security (MH Format Mail Directories accounts)"
 msgstr "Безпека (облікові записи поштових каталогів у форматі MH)"
@@ -6056,13 +6238,20 @@ msgstr ""
 "Додавання і редагування облікового запису Microsoft Exchange 2007 або 2010 в "
 "<app>Evolution</app>."
 
+#. (itstool) path: info/title
+#: C/mail-account-manage-microsoft-exchange-evo-ews.page:8
+msgctxt "link:trail"
+msgid "Web Services"
+msgstr ""
+"Вебслужби"
+
 #. (itstool) path: page/title
-#: C/mail-account-manage-microsoft-exchange-evo-ews.page:20
+#: C/mail-account-manage-microsoft-exchange-evo-ews.page:21
 msgid "Exchange Web Services account settings"
 msgstr "Параметри облікового запису Web Services Exchange"
 
 #. (itstool) path: note/p
-#: C/mail-account-manage-microsoft-exchange-evo-ews.page:27
+#: C/mail-account-manage-microsoft-exchange-evo-ews.page:28
 msgid ""
 "See also the <link href=\"https://wiki.gnome.org/Apps/Evolution/EWS/"
 "OAuth2\">documentation how to set up and troubleshoot OAuth2</link> "
@@ -6073,37 +6262,45 @@ msgstr ""
 "OAuth2</link>."
 
 #. (itstool) path: info/title
-#: C/mail-account-manage-microsoft-exchange-evo-ews.page:39
+#: C/mail-account-manage-microsoft-exchange-evo-ews.page:34
+#| msgctxt "link"
+#| msgid "Security (Exchange Web Services accounts)"
+msgctxt "link"
+msgid "Identity (Exchange Web Services accounts)"
+msgstr "Профіль (облікові записи Web Services Exchange)"
+
+#. (itstool) path: info/title
+#: C/mail-account-manage-microsoft-exchange-evo-ews.page:44
 msgctxt "link"
 msgid "Receiving Email and Receiving options (Exchange Web Services accounts)"
 msgstr ""
 "Параметри отримання електронної пошти (облікові записи Web Services Exchange)"
 
 #. (itstool) path: info/title
-#: C/mail-account-manage-microsoft-exchange-evo-ews.page:46
+#: C/mail-account-manage-microsoft-exchange-evo-ews.page:52
 msgctxt "link"
 msgid "Defaults (Exchange Web Services accounts)"
 msgstr "Типові параметри (облікові записи Web Services Exchange)"
 
 #. (itstool) path: info/title
-#: C/mail-account-manage-microsoft-exchange-evo-ews.page:53
+#: C/mail-account-manage-microsoft-exchange-evo-ews.page:60
 msgctxt "link"
 msgid "Composing Messages (Exchange Web Services accounts)"
 msgstr "Створення повідомлень (облікові записи Web Services Exchange)"
 
 #. (itstool) path: info/title
-#: C/mail-account-manage-microsoft-exchange-evo-ews.page:60
+#: C/mail-account-manage-microsoft-exchange-evo-ews.page:68
 msgctxt "link"
 msgid "Security (Exchange Web Services accounts)"
 msgstr "Безпека (облікові записи Web Services Exchange)"
 
 #. (itstool) path: section/title
-#: C/mail-account-manage-microsoft-exchange-evo-ews.page:66
+#: C/mail-account-manage-microsoft-exchange-evo-ews.page:75
 msgid "Out of Office"
 msgstr "За межами офісу"
 
 #. (itstool) path: section/p
-#: C/mail-account-manage-microsoft-exchange-evo-ews.page:67
+#: C/mail-account-manage-microsoft-exchange-evo-ews.page:76
 msgid ""
 "Define the email reply to automatically send to internal or external persons "
 "in a certain time period."
@@ -6112,12 +6309,12 @@ msgstr ""
 "працівникам організації та за межі організації у певний період часу."
 
 #. (itstool) path: section/title
-#: C/mail-account-manage-microsoft-exchange-evo-ews.page:71
+#: C/mail-account-manage-microsoft-exchange-evo-ews.page:80
 msgid "Delegates"
 msgstr "Делегати"
 
 #. (itstool) path: section/p
-#: C/mail-account-manage-microsoft-exchange-evo-ews.page:72
+#: C/mail-account-manage-microsoft-exchange-evo-ews.page:81
 msgid ""
 "Define who can send emails and reply to meeting requests on your behalf."
 msgstr ""
@@ -6131,41 +6328,48 @@ msgstr ""
 "Додавання і редагування облікового запису MAPI Microsoft Exchange в "
 "<app>Evolution</app>."
 
+#. (itstool) path: info/title
+#: C/mail-account-manage-microsoft-exchange-evo-mapi.page:8
+msgctxt "link:trail"
+msgid "MAPI"
+msgstr ""
+"MAPI"
+
 #. (itstool) path: page/title
-#: C/mail-account-manage-microsoft-exchange-evo-mapi.page:20
+#: C/mail-account-manage-microsoft-exchange-evo-mapi.page:21
 msgid "Exchange MAPI account settings"
 msgstr "Параметри облікових записів MAPI Exchange"
 
 #. (itstool) path: info/title
-#: C/mail-account-manage-microsoft-exchange-evo-mapi.page:36
+#: C/mail-account-manage-microsoft-exchange-evo-mapi.page:37
 msgctxt "link"
 msgid "Receiving Email and Receiving options (Exchange MAPI accounts)"
 msgstr "Параметри отримання електронної пошти (облікові записи MAPI Exchange)"
 
 #. (itstool) path: info/title
-#: C/mail-account-manage-microsoft-exchange-evo-mapi.page:43
+#: C/mail-account-manage-microsoft-exchange-evo-mapi.page:45
 msgctxt "link"
 msgid "Defaults (Exchange MAPI accounts)"
 msgstr "Типові параметри (облікові записи MAPI Exchange)"
 
 #. (itstool) path: info/title
-#: C/mail-account-manage-microsoft-exchange-evo-mapi.page:50
+#: C/mail-account-manage-microsoft-exchange-evo-mapi.page:53
 msgctxt "link"
 msgid "Composing Messages (Exchange MAPI accounts)"
 msgstr "Створення повідомлень (облікові записи MAPI Exchange)"
 
 #. (itstool) path: section/title
-#: C/mail-account-manage-microsoft-exchange-evo-mapi.page:57
+#: C/mail-account-manage-microsoft-exchange-evo-mapi.page:61
 msgid "Exchange Settings"
 msgstr "Параметри Exchange"
 
 #. (itstool) path: section/p
-#: C/mail-account-manage-microsoft-exchange-evo-mapi.page:58
+#: C/mail-account-manage-microsoft-exchange-evo-mapi.page:62
 msgid "In this section you can view the size of all Exchange folders."
 msgstr "У цьому розділі ви зможете переглянути розмір усіх тек Exchange."
 
 #. (itstool) path: info/title
-#: C/mail-account-manage-microsoft-exchange-evo-mapi.page:63
+#: C/mail-account-manage-microsoft-exchange-evo-mapi.page:67
 msgctxt "link"
 msgid "Security (Exchange MAPI accounts)"
 msgstr "Безпека (облікові записи MAPI Exchange)"
@@ -6177,13 +6381,20 @@ msgstr ""
 "Додавання і редагування облікового запису Microsoft Exchange в "
 "<app>Evolution</app>."
 
+#. (itstool) path: info/title
+#: C/mail-account-manage-microsoft-exchange.page:10
+#| msgid "Microsoft Exchange account settings"
+msgctxt "link:trail"
+msgid "Microsoft Exchange"
+msgstr "Microsoft Exchange"
+
 #. (itstool) path: page/title
-#: C/mail-account-manage-microsoft-exchange.page:22
+#: C/mail-account-manage-microsoft-exchange.page:23
 msgid "Microsoft Exchange account settings"
 msgstr "Параметри облікового запису Microsoft Exchange"
 
 #. (itstool) path: note/p
-#: C/mail-account-manage-microsoft-exchange.page:24
+#: C/mail-account-manage-microsoft-exchange.page:25
 msgid ""
 "Depending on the version of the Microsoft Exchange server that you would "
 "like to connect to it is required to make sure that an additional package is "
@@ -6194,7 +6405,7 @@ msgstr ""
 "який забезпечує працездатність відповідних можливостей."
 
 #. (itstool) path: note/p
-#: C/mail-account-manage-microsoft-exchange.page:35
+#: C/mail-account-manage-microsoft-exchange.page:36
 msgid ""
 "For older versions of Microsoft Exchange, or if <sys>evolution-ews</sys> "
 "does not work well for you, try <sys>evolution-mapi</sys>."
@@ -6204,7 +6415,7 @@ msgstr ""
 "<sys>evolution-mapi</sys>."
 
 #. (itstool) path: note/p
-#: C/mail-account-manage-microsoft-exchange.page:45
+#: C/mail-account-manage-microsoft-exchange.page:46
 msgid ""
 "If you are unsure which Microsoft Exchange server version is used, you may "
 "want to contact your system administrator for more information."
@@ -6214,7 +6425,7 @@ msgstr ""
 "дізнатися більше."
 
 #. (itstool) path: page/p
-#: C/mail-account-manage-microsoft-exchange.page:47
+#: C/mail-account-manage-microsoft-exchange.page:48
 msgid ""
 "For topics not covered here please refer to the <link href=\"https://help."
 "gnome.org/users/evolution/2.32/usage-exchange.html\">old <app>Evolution</"
@@ -6230,37 +6441,52 @@ msgid "Add and edit a POP mail account in <app>Evolution</app>."
 msgstr ""
 "Додавання і редагування облікового запису пошти POP в <app>Evolution</app>."
 
+#. (itstool) path: info/title
+#: C/mail-account-manage-pop.page:8
+#| msgid "POP"
+msgctxt "link:trail"
+msgid "POP"
+msgstr "POP"
+
 #. (itstool) path: page/title
-#: C/mail-account-manage-pop.page:20
+#: C/mail-account-manage-pop.page:21
 msgid "POP mail account settings"
 msgstr "Параметри облікового запису пошти POP"
 
 #. (itstool) path: info/title
-#: C/mail-account-manage-pop.page:36
+#: C/mail-account-manage-pop.page:31
+#| msgctxt "link"
+#| msgid "Security (POP accounts)"
+msgctxt "link"
+msgid "Identity (POP accounts)"
+msgstr "Профіль (облікові записи POP)"
+
+#. (itstool) path: info/title
+#: C/mail-account-manage-pop.page:41
 msgctxt "link"
 msgid "Receiving Email and Receiving options (POP accounts)"
 msgstr "Параметри отримання електронної пошти (облікові записи POP)"
 
 #. (itstool) path: info/title
-#: C/mail-account-manage-pop.page:43
+#: C/mail-account-manage-pop.page:49
 msgctxt "link"
 msgid "Sending Email (POP accounts)"
 msgstr "Надсилання електронної пошти (облікові записи POP)"
 
 #. (itstool) path: info/title
-#: C/mail-account-manage-pop.page:50
+#: C/mail-account-manage-pop.page:57
 msgctxt "link"
 msgid "Defaults (POP accounts)"
 msgstr "Типові параметри (облікові записи POP)"
 
 #. (itstool) path: info/title
-#: C/mail-account-manage-pop.page:57
+#: C/mail-account-manage-pop.page:65
 msgctxt "link"
 msgid "Composing Messages (POP accounts)"
 msgstr "Створення повідомлень (облікові записи POP)"
 
 #. (itstool) path: info/title
-#: C/mail-account-manage-pop.page:64
+#: C/mail-account-manage-pop.page:73
 msgctxt "link"
 msgid "Security (POP accounts)"
 msgstr "Безпека (облікові записи POP)"
@@ -6274,13 +6500,28 @@ msgstr ""
 "Додавання і редагування облікового запису стандартного для Unix каталогу "
 "буфера mbox в <app>Evolution</app>."
 
+#. (itstool) path: info/title
+#: C/mail-account-manage-unix-mbox-spool-directory.page:8
+msgctxt "link:trail"
+msgid "mbox Directory"
+msgstr ""
+"Каталог mbox"
+
 #. (itstool) path: page/title
-#: C/mail-account-manage-unix-mbox-spool-directory.page:20
+#: C/mail-account-manage-unix-mbox-spool-directory.page:21
 msgid "Standard Unix mbox Spool Directory account settings"
 msgstr "Параметри облікового запису стандартного для Unix каталогу буфера mbox"
 
 #. (itstool) path: info/title
-#: C/mail-account-manage-unix-mbox-spool-directory.page:36
+#: C/mail-account-manage-unix-mbox-spool-directory.page:31
+#| msgctxt "link"
+#| msgid "Security (Standard Unix mbox Spool Directory accounts)"
+msgctxt "link"
+msgid "Identity (Standard Unix mbox Spool Directory accounts)"
+msgstr "Профіль (облікові записи стандартного для Unix каталогу буфера mbox)"
+
+#. (itstool) path: info/title
+#: C/mail-account-manage-unix-mbox-spool-directory.page:41
 msgctxt "link"
 msgid ""
 "Receiving Email and Receiving options (Standard Unix mbox Spool Directory "
@@ -6290,7 +6531,7 @@ msgstr ""
 "каталогу буфера mbox)"
 
 #. (itstool) path: info/title
-#: C/mail-account-manage-unix-mbox-spool-directory.page:43
+#: C/mail-account-manage-unix-mbox-spool-directory.page:49
 msgctxt "link"
 msgid "Sending Email (Standard Unix mbox Spool Directory accounts)"
 msgstr ""
@@ -6298,14 +6539,14 @@ msgstr ""
 "буфера mbox)"
 
 #. (itstool) path: info/title
-#: C/mail-account-manage-unix-mbox-spool-directory.page:50
+#: C/mail-account-manage-unix-mbox-spool-directory.page:57
 msgctxt "link"
 msgid "Defaults (Standard Unix mbox Spool Directory accounts)"
 msgstr ""
 "Типові параметри (облікові записи стандартного для Unix каталогу буфера mbox)"
 
 #. (itstool) path: info/title
-#: C/mail-account-manage-unix-mbox-spool-directory.page:57
+#: C/mail-account-manage-unix-mbox-spool-directory.page:65
 msgctxt "link"
 msgid "Composing Messages (Standard Unix mbox Spool Directory accounts)"
 msgstr ""
@@ -6313,7 +6554,7 @@ msgstr ""
 "буфера mbox)"
 
 #. (itstool) path: info/title
-#: C/mail-account-manage-unix-mbox-spool-directory.page:64
+#: C/mail-account-manage-unix-mbox-spool-directory.page:73
 msgctxt "link"
 msgid "Security (Standard Unix mbox Spool Directory accounts)"
 msgstr "Безпека (облікові записи стандартного для Unix каталогу буфера mbox)"
@@ -6326,13 +6567,28 @@ msgstr ""
 "Додавання і редагування облікового запису стандартного для Unix файла буфера "
 "mbox в <app>Evolution</app>."
 
+#. (itstool) path: info/title
+#: C/mail-account-manage-unix-mbox-spool-file.page:8
+msgctxt "link:trail"
+msgid "mbox File"
+msgstr ""
+"Файл mbox"
+
 #. (itstool) path: page/title
-#: C/mail-account-manage-unix-mbox-spool-file.page:20
+#: C/mail-account-manage-unix-mbox-spool-file.page:21
 msgid "Standard Unix mbox Spool File account settings"
 msgstr "Параметри облікового запису стандартного для Unix файла буфера mbox"
 
 #. (itstool) path: info/title
-#: C/mail-account-manage-unix-mbox-spool-file.page:36
+#: C/mail-account-manage-unix-mbox-spool-file.page:31
+#| msgctxt "link"
+#| msgid "Security (Standard Unix mbox Spool File accounts)"
+msgctxt "link"
+msgid "Identity (Standard Unix mbox Spool File accounts)"
+msgstr "Профіль (облікові записи стандартного для Unix файла буфера mbox)"
+
+#. (itstool) path: info/title
+#: C/mail-account-manage-unix-mbox-spool-file.page:41
 msgctxt "link"
 msgid ""
 "Receiving Email and Receiving options (Standard Unix mbox Spool File "
@@ -6342,7 +6598,7 @@ msgstr ""
 "файла буфера mbox)"
 
 #. (itstool) path: info/title
-#: C/mail-account-manage-unix-mbox-spool-file.page:43
+#: C/mail-account-manage-unix-mbox-spool-file.page:49
 msgctxt "link"
 msgid "Sending Email (Standard Unix mbox Spool File accounts)"
 msgstr ""
@@ -6350,14 +6606,14 @@ msgstr ""
 "буфера mbox)"
 
 #. (itstool) path: info/title
-#: C/mail-account-manage-unix-mbox-spool-file.page:50
+#: C/mail-account-manage-unix-mbox-spool-file.page:57
 msgctxt "link"
 msgid "Defaults (Standard Unix mbox Spool File accounts)"
 msgstr ""
 "Типові параметри (облікові записи стандартного для Unix файла буфера mbox)"
 
 #. (itstool) path: info/title
-#: C/mail-account-manage-unix-mbox-spool-file.page:57
+#: C/mail-account-manage-unix-mbox-spool-file.page:65
 msgctxt "link"
 msgid "Composing Messages (Standard Unix mbox Spool File accounts)"
 msgstr ""
@@ -6365,7 +6621,7 @@ msgstr ""
 "mbox)"
 
 #. (itstool) path: info/title
-#: C/mail-account-manage-unix-mbox-spool-file.page:64
+#: C/mail-account-manage-unix-mbox-spool-file.page:73
 msgctxt "link"
 msgid "Security (Standard Unix mbox Spool File accounts)"
 msgstr "Безпека (облікові записи стандартного для Unix файла буфера mbox)"
@@ -6377,46 +6633,68 @@ msgstr ""
 "Додавання і редагування облікового запису новин Usenet в <app>Evolution</"
 "app>."
 
+#. (itstool) path: info/title
+#: C/mail-account-manage-usenet-news.page:8
+msgctxt "link:trail"
+msgid "Usenet"
+msgstr ""
+"Usenet"
+
 #. (itstool) path: page/title
-#: C/mail-account-manage-usenet-news.page:20
+#: C/mail-account-manage-usenet-news.page:21
 msgid "Usenet news account settings"
 msgstr "Параметри облікового запису новин Usenet"
 
 #. (itstool) path: info/title
-#: C/mail-account-manage-usenet-news.page:36
+#: C/mail-account-manage-usenet-news.page:31
+#| msgctxt "link"
+#| msgid "Security (Usenet News accounts)"
+msgctxt "link"
+msgid "Identity (Usenet News accounts)"
+msgstr "Профіль (облікові записи новин Usenet)"
+
+#. (itstool) path: info/title
+#: C/mail-account-manage-usenet-news.page:41
 msgctxt "link"
 msgid "Receiving Email and Receiving options (Usenet News accounts)"
 msgstr "Параметри отримання електронної пошти (облікові записи новин Usenet)"
 
 #. (itstool) path: info/title
-#: C/mail-account-manage-usenet-news.page:43
+#: C/mail-account-manage-usenet-news.page:49
 msgctxt "link"
 msgid "Sending Email (Usenet News accounts)"
 msgstr "Надсилання електронної пошти (облікові записи новин Usenet)"
 
 #. (itstool) path: info/title
-#: C/mail-account-manage-usenet-news.page:50
+#: C/mail-account-manage-usenet-news.page:57
 msgctxt "link"
 msgid "Defaults (Usenet News accounts)"
 msgstr "Типові параметри (облікові записи новин Usenet)"
 
 #. (itstool) path: info/title
-#: C/mail-account-manage-usenet-news.page:57
+#: C/mail-account-manage-usenet-news.page:65
 msgctxt "link"
 msgid "Composing Messages (Usenet News accounts)"
 msgstr "Створення повідомлень (облікові записи новин Usenet)"
 
 #. (itstool) path: info/title
-#: C/mail-account-manage-usenet-news.page:64
+#: C/mail-account-manage-usenet-news.page:73
 msgctxt "link"
 msgid "Security (Usenet News accounts)"
 msgstr "Безпека (облікові записи новин Usenet)"
 
 #. (itstool) path: info/title
-#: C/mail-account-manage-usenet-news.page:73
+#: C/mail-account-manage-usenet-news.page:83
 msgctxt "link"
 msgid "Other settings (Usenet News accounts)"
 msgstr "Інші параметри (облікові записи новин Usenet)"
+
+#. (itstool) path: info/title
+#: C/mail-account-manage-usenet-news.page:84
+msgctxt "link:trail"
+msgid "Other"
+msgstr ""
+"Інше"
 
 #. (itstool) path: info/desc
 #: C/mail-attachments.page:5
