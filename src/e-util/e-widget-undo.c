@@ -37,7 +37,8 @@
 
 typedef enum {
 	E_UNDO_INSERT,
-	E_UNDO_DELETE
+	E_UNDO_DELETE,
+	E_UNDO_GROUP
 } EUndoType;
 
 typedef enum {
@@ -47,7 +48,10 @@ typedef enum {
 
 typedef struct _EUndoInfo {
 	EUndoType type;
-	gchar *text;
+	union _data {
+		gchar *text;
+		GPtrArray *group; /* EUndoInfo */
+	} data;
 	gint position_start;
 	gint position_end; /* valid for delete type only */
 } EUndoInfo;
@@ -64,6 +68,9 @@ typedef struct _EUndoData {
 
 	gulong insert_handler_id;
 	gulong delete_handler_id;
+
+	guint user_action_counter;
+	GPtrArray *user_action_array; /* EUndoInfo * */
 } EUndoData;
 
 static void
@@ -72,7 +79,12 @@ free_undo_info (gpointer ptr)
 	EUndoInfo *info = ptr;
 
 	if (info) {
-		g_free (info->text);
+		if (info->type == E_UNDO_GROUP) {
+			if (info->data.group)
+				g_ptr_array_free (info->data.group, TRUE);
+		} else {
+			g_free (info->data.text);
+		}
 		g_free (info);
 	}
 }
@@ -84,6 +96,9 @@ free_undo_data (gpointer ptr)
 
 	if (data) {
 		gint ii;
+
+		if (data->user_action_array)
+			g_ptr_array_free (data->user_action_array, TRUE);
 
 		for (ii = 0; ii < data->undo_len; ii++) {
 			free_undo_info (data->undo_stack[ii]);
@@ -114,6 +129,11 @@ push_undo (EUndoData *data,
 {
 	gint index;
 
+	if (data->user_action_counter) {
+		g_ptr_array_add (data->user_action_array, info);
+		return;
+	}
+
 	reset_redos (data);
 
 	if (data->n_undos == data->undo_len) {
@@ -143,12 +163,12 @@ can_merge_insert_undos (EUndoInfo *current_info,
 	if (text[0] == '\r' || text[0] == '\n')
 		return FALSE;
 
-	len = strlen (current_info->text);
+	len = strlen (current_info->data.text);
 	if (position != current_info->position_start + len)
 		return FALSE;
 
 	if (g_ascii_isspace (text[0])) {
-		if (len <= 0 || !g_ascii_isspace (current_info->text[len - 1]))
+		if (len <= 0 || !g_ascii_isspace (current_info->data.text[len - 1]))
 			return FALSE;
 	}
 
@@ -175,16 +195,16 @@ push_insert_undo (GObject *object,
 	    can_merge_insert_undos (data->current_info, text, text_len, position)) {
 		gchar *new_text;
 
-		new_text = g_strdup_printf ("%s%*s", data->current_info->text, text_len, text);
-		g_free (data->current_info->text);
-		data->current_info->text = new_text;
+		new_text = g_strdup_printf ("%s%*s", data->current_info->data.text, text_len, text);
+		g_free (data->current_info->data.text);
+		data->current_info->data.text = new_text;
 
 		return;
 	}
 
 	info = g_new0 (EUndoInfo, 1);
 	info->type = E_UNDO_INSERT;
-	info->text = g_strndup (text, text_len);
+	info->data.text = g_strndup (text, text_len);
 	info->position_start = position;
 
 	push_undo (data, info);
@@ -214,9 +234,9 @@ push_delete_undo (GObject *object,
 		if (info->position_start == position_start) {
 			gchar *new_text;
 
-			new_text = g_strconcat (info->text, text, NULL);
-			g_free (info->text);
-			info->text = new_text;
+			new_text = g_strconcat (info->data.text, text, NULL);
+			g_free (info->data.text);
+			info->data.text = new_text;
 			g_free (text);
 
 			info->position_end++;
@@ -225,9 +245,9 @@ push_delete_undo (GObject *object,
 		} else if (data->current_info->position_start == position_end) {
 			gchar *new_text;
 
-			new_text = g_strconcat (text, info->text, NULL);
-			g_free (info->text);
-			info->text = new_text;
+			new_text = g_strconcat (text, info->data.text, NULL);
+			g_free (info->data.text);
+			info->data.text = new_text;
 			g_free (text);
 
 			info->position_start = position_start;
@@ -238,7 +258,7 @@ push_delete_undo (GObject *object,
 
 	info = g_new0 (EUndoInfo, 1);
 	info->type = E_UNDO_DELETE;
-	info->text = text;
+	info->data.text = text;
 	info->position_start = position_start;
 	info->position_end = position_end;
 
@@ -310,6 +330,55 @@ text_buffer_undo_delete_range_cb (GtkTextBuffer *text_buffer,
 }
 
 static void
+text_buffer_undo_begin_user_action_cb (GtkTextBuffer *text_buffer,
+				       gpointer user_data)
+{
+	EUndoData *data;
+
+	data = g_object_get_data (G_OBJECT (text_buffer), UNDO_DATA_KEY);
+
+	if (!data)
+		return;
+
+	data->user_action_counter++;
+
+	if (data->user_action_counter == 1 && !data->user_action_array)
+		data->user_action_array = g_ptr_array_new_with_free_func (free_undo_info);
+}
+
+static void
+text_buffer_undo_end_user_action_cb (GtkTextBuffer *text_buffer,
+				     gpointer user_data)
+{
+	EUndoData *data;
+
+	data = g_object_get_data (G_OBJECT (text_buffer), UNDO_DATA_KEY);
+
+	if (!data || !data->user_action_counter)
+		return;
+
+	data->user_action_counter--;
+
+	if (!data->user_action_counter && data->user_action_array && data->user_action_array->len) {
+		EUndoInfo *info;
+
+		if (data->user_action_array->len == 1) {
+			info = g_ptr_array_steal_index (data->user_action_array, 0);
+			data->current_info = info;
+		} else {
+			info = g_new0 (EUndoInfo, 1);
+			info->type = E_UNDO_GROUP;
+			info->data.group = data->user_action_array;
+
+			data->user_action_array = NULL;
+			data->current_info = NULL;
+		}
+
+		push_undo (data, info);
+	}
+}
+
+static void
 text_buffer_undo_insert_text (GObject *object,
                               const gchar *text,
                               gint position)
@@ -360,6 +429,52 @@ widget_undo_place_cursor_at (GObject *object,
 }
 
 static void
+undo_apply_info (EUndoInfo *info,
+		 GObject *object,
+		 EUndoDoType todo,
+		 void (* insert_func) (GObject *object,
+			const gchar *text,
+			gint position),
+		 void (* delete_func) (GObject *object,
+			gint position_start,
+			gint position_end))
+{
+	if (info->type == E_UNDO_INSERT) {
+		if (todo == E_UNDO_DO_UNDO) {
+			delete_func (object, info->position_start, info->position_start + g_utf8_strlen (info->data.text, -1));
+			widget_undo_place_cursor_at (object, info->position_start);
+		} else {
+			insert_func (object, info->data.text, info->position_start);
+			widget_undo_place_cursor_at (object, info->position_start + g_utf8_strlen (info->data.text, -1));
+		}
+	} else if (info->type == E_UNDO_DELETE) {
+		if (todo == E_UNDO_DO_UNDO) {
+			insert_func (object, info->data.text, info->position_start);
+			widget_undo_place_cursor_at (object, info->position_start + g_utf8_strlen (info->data.text, -1));
+		} else {
+			delete_func (object, info->position_start, info->position_end);
+			widget_undo_place_cursor_at (object, info->position_start);
+		}
+	} else if (info->type == E_UNDO_GROUP) {
+		guint ii;
+
+		for (ii = 0; ii < info->data.group->len; ii++) {
+			EUndoInfo *info2;
+
+			if (todo == E_UNDO_DO_UNDO)
+				info2 = g_ptr_array_index (info->data.group, info->data.group->len - ii - 1);
+			else
+				info2 = g_ptr_array_index (info->data.group, ii);
+
+			if (!info2)
+				continue;
+
+			undo_apply_info (info2, object, todo, insert_func, delete_func);
+		}
+	}
+}
+
+static void
 undo_do_something (GObject *object,
                    EUndoDoType todo,
                    void (* insert_func) (GObject *object,
@@ -392,23 +507,7 @@ undo_do_something (GObject *object,
 	g_signal_handler_block (object, data->insert_handler_id);
 	g_signal_handler_block (object, data->delete_handler_id);
 
-	if (info->type == E_UNDO_INSERT) {
-		if (todo == E_UNDO_DO_UNDO) {
-			delete_func (object, info->position_start, info->position_start + g_utf8_strlen (info->text, -1));
-			widget_undo_place_cursor_at (object, info->position_start);
-		} else {
-			insert_func (object, info->text, info->position_start);
-			widget_undo_place_cursor_at (object, info->position_start + g_utf8_strlen (info->text, -1));
-		}
-	} else if (info->type == E_UNDO_DELETE) {
-		if (todo == E_UNDO_DO_UNDO) {
-			insert_func (object, info->text, info->position_start);
-			widget_undo_place_cursor_at (object, info->position_start + g_utf8_strlen (info->text, -1));
-		} else {
-			delete_func (object, info->position_start, info->position_end);
-			widget_undo_place_cursor_at (object, info->position_start);
-		}
-	}
+	undo_apply_info (info, object, todo, insert_func, delete_func);
 
 	data->current_info = NULL;
 
@@ -428,33 +527,33 @@ undo_describe_info (EUndoInfo *info,
 			return g_strdup (_("Undo “Insert text”"));
 		else
 			return g_strdup (_("Redo “Insert text”"));
-		/* if (strlen (info->text) > 15) {
+		/* if (strlen (info->data.text) > 15) {
 			if (undo_type == E_UNDO_DO_UNDO)
-				return g_strdup_printf (_("Undo “Insert “%.12s...””"), info->text);
+				return g_strdup_printf (_("Undo “Insert “%.12s...””"), info->data.text);
 			else
-				return g_strdup_printf (_("Redo “Insert “%.12s...””"), info->text);
+				return g_strdup_printf (_("Redo “Insert “%.12s...””"), info->data.text);
 		}
- *
+
 		if (undo_type == E_UNDO_DO_UNDO)
-			return g_strdup_printf (_("Undo “Insert “%s””"), info->text);
+			return g_strdup_printf (_("Undo “Insert “%s””"), info->data.text);
 		else
-			return g_strdup_printf (_("Redo “Insert “%s””"), info->text); */
+			return g_strdup_printf (_("Redo “Insert “%s””"), info->data.text); */
 	} else if (info->type == E_UNDO_DELETE) {
 		if (undo_type == E_UNDO_DO_UNDO)
 			return g_strdup (_("Undo “Delete text”"));
 		else
 			return g_strdup (_("Redo “Delete text”"));
-		/* if (strlen (info->text) > 15) {
+		/* if (strlen (info->data.text) > 15) {
 			if (undo_type == E_UNDO_DO_UNDO)
-				return g_strdup_printf (_("Undo “Delete “%.12s...””"), info->text);
+				return g_strdup_printf (_("Undo “Delete “%.12s...””"), info->data.text);
 			else
-				return g_strdup_printf (_("Redo “Delete “%.12s...””"), info->text);
+				return g_strdup_printf (_("Redo “Delete “%.12s...””"), info->data.text);
 		}
- *
+
 		if (undo_type == E_UNDO_DO_UNDO)
-			return g_strdup_printf (_("Undo “Delete “%s””"), info->text);
+			return g_strdup_printf (_("Undo “Delete “%s””"), info->data.text);
 		else
-			return g_strdup_printf (_("Redo “Delete “%s””"), info->text); */
+			return g_strdup_printf (_("Redo “Delete “%s””"), info->data.text); */
 	}
 
 	return NULL;
@@ -652,6 +751,10 @@ e_widget_undo_attach (GtkWidget *widget,
 		data->delete_handler_id = g_signal_connect (
 			text_buffer, "delete-range",
 			G_CALLBACK (text_buffer_undo_delete_range_cb), NULL);
+		g_signal_connect (text_buffer, "begin-user-action",
+			G_CALLBACK (text_buffer_undo_begin_user_action_cb), NULL);
+		g_signal_connect (text_buffer, "end-user-action",
+			G_CALLBACK (text_buffer_undo_end_user_action_cb), NULL);
 
 		if (focus_tracker)
 			g_signal_connect_swapped (
