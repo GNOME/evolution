@@ -92,6 +92,7 @@ set(geocode_glib_minimum_version 3.10)
 set(gladeui_minimum_version 3.10.0)
 set(gnome_autoar_minimum_version 0.1.1)
 set(gweather_minimum_version 3.10)
+set(gweather4_minimum_version 3.91.0)
 set(libcanberra_gtk_minimum_version 0.25)
 set(libnotify_minimum_version 0.7)
 set(libunity_minimum_version 7.1.4)
@@ -668,7 +669,14 @@ endif(ENABLE_TEXT_HIGHLIGHT)
 add_printable_option(ENABLE_WEATHER "Enable weather calendars" ON)
 
 if(ENABLE_WEATHER)
-	pkg_check_modules_for_option(ENABLE_WEATHER "weather calendar" GWEATHER gweather-3.0>=${gweather_minimum_version})
+	add_printable_variable(WITH_GWEATHER4 "Use GWeather 4 instead of 3" OFF)
+
+	if(WITH_GWEATHER4)
+		pkg_check_modules_for_option(ENABLE_WEATHER "weather calendar" GWEATHER gweather4>=${gweather4_minimum_version})
+	else(WITH_GWEATHER4)
+		pkg_check_modules_for_option(ENABLE_WEATHER "weather calendar" GWEATHER gweather-3.0>=${gweather_minimum_version})
+	endif(WITH_GWEATHER4)
+
 	pkg_check_modules_for_option(ENABLE_WEATHER "weather calendar" GEO geocode-glib-1.0>=${geocode_glib_minimum_version})
 endif(ENABLE_WEATHER)
 
