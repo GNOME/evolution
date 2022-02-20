@@ -3,11 +3,13 @@
 # This file is distributed under the same license as the PACKAGE package.
 #
 # Iñaki Larrañaga Murgoitio <dooteo@euskalgnu.org>, 2008.
+# Asier Sarasua Garmendia <asiersarasua@ni.eus>, 2021, 2022.
+#
 msgid ""
 msgstr "Project-Id-Version: evolution_help.HEAD\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2021-08-27 10:36+0000\n"
-"PO-Revision-Date: 2021-09-26 18:58+0100\n"
+"POT-Creation-Date: 2022-02-16 13:39+0000\n"
+"PO-Revision-Date: 2022-02-20 18:58+0100\n"
 "Last-Translator: Asier Sarasua Garmendia <asiersarasua@ni.eus>\n"
 "Language-Team: Basque <librezale@librezale.eus>\n"
 "Language: eu\n"
@@ -37,7 +39,7 @@ msgid ""
 "You can back up your <app>Evolution</app> data. The backup saves your "
 "settings, mail, contacts, tasks, memos and calendars. It will be stored in a "
 "gzip-compressed tar archive file."
-msgstr ""
+msgstr "<app>Evolution</app> datuen babeskopia egiteko aukera dago. Babeskopian, ezarpenak, posta, kontaktuak, zereginak, zirkularrak eta egutegiak gordetzen dira. GZIP bidez konprimatutako TAR artxibo batean gordeko dira."
 
 #. (itstool) path: section/title
 #: C/backup-restore.page:29
@@ -48,21 +50,21 @@ msgstr "Babeskopia egitea"
 #: C/backup-restore.page:33
 msgid ""
 "Select <guiseq><gui>File</gui> <gui>Back up Evolution Data…</gui></guiseq>."
-msgstr ""
+msgstr "Hautatu <guiseq><gui>Fitxategia</gui> <gui>Egin Evolution-en datuek babeskopia…</gui></guiseq>."
 
 #. (itstool) path: item/p
 #: C/backup-restore.page:37
 msgid ""
 "Choose a filename and the folder where you want to save the backup file, and "
 "click <gui style=\"button\">Save</gui>."
-msgstr ""
+msgstr "Hautatu fitxategi-izen bat eta babeskopia-fitxategia gordeko den karpeta, eta sakatu<gui style=\"button\">Gorde</gui>."
 
 #. (itstool) path: item/p
 #: C/backup-restore.page:41 C/backup-restore.page:69
 msgid ""
 "You will be asked to close <app>Evolution</app>. Answer with <gui style="
 "\"button\">Yes</gui>."
-msgstr ""
+msgstr "<app>Evolution</app> ixteko eskatuko dizu aplikazioak. Erantzun <gui style=\"button\"> Bai</gui>."
 
 #. (itstool) path: note/p
 #: C/backup-restore.page:47
@@ -84,7 +86,7 @@ msgstr "Leheneratzea"
 #: C/backup-restore.page:62
 msgid ""
 "Select <guiseq><gui>File</gui> <gui>Restore Evolution Data…</gui></guiseq>."
-msgstr ""
+msgstr "Hautatu <guiseq><gui>Fitxategia</gui> <gui>Leheneratu Evolution-en datuak…</gui></guiseq>."
 
 #. (itstool) path: item/p
 #: C/backup-restore.page:66
@@ -101,7 +103,7 @@ msgstr ""
 #. (itstool) path: info/desc
 #: C/calendar-alarms-and-reminders.page:23
 msgid "Setting up reminder notifications for appointments."
-msgstr ""
+msgstr "Hitzorduen oroigarriak ezartzea"
 
 #. (itstool) path: page/title
 #: C/calendar-alarms-and-reminders.page:26
@@ -130,7 +132,7 @@ msgid ""
 "For general information on displaying reminders, please see <link xref="
 "\"help:gnome-help/shell-notifications\" href=\"https://help.gnome.org/users/"
 "gnome-help/stable/shell-notifications\"> the GNOME Desktop Help</link>."
-msgstr ""
+msgstr "Oroigarriak bistaratzeari buruzko informazio orokorrerako, begiratu <link xref=\"help:gnome-help/shell-notifications\" href=\"https://help.gnome.org/users/gnome-help/stable/shell-notifications\">GNOME mahaigainaren laguntza</link>."
 
 #. (itstool) path: section/title
 #: C/calendar-alarms-and-reminders.page:50
@@ -142,14 +144,14 @@ msgstr "Eskuzko oroigarriak"
 msgid ""
 "Apart from the general settings you can also set up reminders in the "
 "appointment editor for certain appointments only:"
-msgstr ""
+msgstr "Ezarpen orokorrez gain, hitzorduen editorean ere ezarri daitezke oroigarriak, zenbait hitzorduren kasuan:"
 
 #. (itstool) path: item/p
 #: C/calendar-alarms-and-reminders.page:57
 msgid ""
 "Click <guiseq><gui>Options</gui><gui>Reminders</gui></guiseq> or press the "
 "Reminder button in the toolbar."
-msgstr ""
+msgstr "Egin klik <guiseq><gui>Aukerak</gui><gui>Oroigarriak</gui></guiseq> aukera edo sakatu tresna-barrako 'Oroigarria' botoia."
 
 #. (itstool) path: item/p
 #: C/calendar-alarms-and-reminders.page:61
@@ -195,7 +197,7 @@ msgstr "Horrelako eguteko bat Evolution-en gehitzeko, jarraitu honako urratsak:"
 #: C/calendar-weather.page:29 C/calendar-webdav.page:28
 msgid ""
 "Click <guiseq><gui>File</gui><gui>New</gui><gui>Calendar</gui></guiseq>."
-msgstr ""
+msgstr "Joan <guiseq><gui>Fitxategia</gui><gui>Berria</gui><gui>Egutegia</gui></guiseq> aukerara."
 
 #. (itstool) path: item/p
 #: C/calendar-caldav.page:36
@@ -224,7 +226,7 @@ msgstr "Aukeran, aukeratu erabili nahi duzun kolorea."
 #: C/contacts-google.page:38
 msgid ""
 "Choose if you want to be able to view the content also when being offline."
-msgstr ""
+msgstr "Aukeratu edukia lineaz kanpo ere ikusiko den ala ez."
 
 #. (itstool) path: item/p
 #: C/calendar-caldav.page:49 C/calendar-webdav.page:45
@@ -240,7 +242,7 @@ msgstr "Sartu helbidea <gui>URL</gui> eremuan."
 #: C/tasks-webdav.page:32
 msgid ""
 "Choose <gui>Use a secure connection</gui> if you want to connect securely."
-msgstr ""
+msgstr "Aukeratu <gui>Erabili konexio segurua</gui> modu seguruan konektatzeko."
 
 #. (itstool) path: item/p
 #: C/calendar-caldav.page:56 C/tasks-caldav.page:31
@@ -269,12 +271,12 @@ msgstr "Egin klik <gui style=\"button\">Ados</gui> botoian."
 #: C/calendar-weather.page:60 C/calendar-webdav.page:59
 msgid ""
 "The calendar will be added to the list of calendars in <app>Evolution</app>."
-msgstr ""
+msgstr "Egutegia <app>Evolution</app> aplikazioaren egutegien zerrendari gehituko zaio."
 
 #. (itstool) path: info/desc
 #: C/calendar-classifications.page:23
 msgid "Restricting visibility of appointments on remote servers."
-msgstr ""
+msgstr "Hitzorduen ikusgaitasuna mugatzea urruneko zerbitzarietan."
 
 #. (itstool) path: page/title
 #: C/calendar-classifications.page:26
@@ -287,7 +289,7 @@ msgid ""
 "If you are using a calendar on a remote server (such as Novell GroupWise or "
 "Microsoft Exchange), you can select a classification to determine who can "
 "view it."
-msgstr ""
+msgstr "Urruneko zerbitzari bateko (adibidez, Novell GroupWise edo Microsoft Exchange) egutegi bat erabiltzen ari bazara, sailkapen bat aukeratu dezakezu hura nork ikusiko duen zehazteko"
 
 #. (itstool) path: page/p
 #: C/calendar-classifications.page:32
@@ -354,14 +356,14 @@ msgstr "Libre/lanpetuta ikuspegira joateko:"
 #. (itstool) path: item/p
 #: C/calendar-free-busy.page:48 C/calendar-meetings-sending-invitation.page:44
 msgid "Click <guiseq><gui>File</gui><gui>New</gui><gui>Meeting</gui></guiseq>."
-msgstr ""
+msgstr "Egin klik <guiseq><gui>Fitxategia</gui><gui>Berria</gui><gui>Bilera</gui></guiseq> aukerarn"
 
 #. (itstool) path: item/p
 #: C/calendar-free-busy.page:52 C/calendar-meetings-sending-invitation.page:55
 msgid ""
 "Click <gui style=\"button\">Add</gui> to add the email addresses of people "
 "you want to invite."
-msgstr ""
+msgstr "Egin klik <gui style=\"button\">Gehitu</gui> botoian gonbidatu nahi dituzun pertsonen posta-helbidea gehitzeko"
 
 #. (itstool) path: item/p
 #: C/calendar-free-busy.page:56
@@ -527,7 +529,7 @@ msgstr ""
 #. (itstool) path: item/p
 #: C/calendar-layout-appointment-display.page:52
 msgid "Show appointment icons in the month view"
-msgstr ""
+msgstr "Erakutsi hitzorduen ikonoak hileko ikuspegietan"
 
 #. (itstool) path: item/p
 #: C/calendar-layout-appointment-display.page:55
@@ -554,7 +556,7 @@ msgstr "Egutegian, aste bakoitzaren ondoan dagokion aste-zenbakia azalduko da."
 #. (itstool) path: item/p
 #: C/calendar-layout-appointment-display.page:65
 msgid "Show recurring events in italic in bottom left calendar."
-msgstr ""
+msgstr "Erakutsi gertaera errepikakorrak letra etzanez beheko ezkerreko egutegian"
 
 #. (itstool) path: item/p
 #: C/calendar-layout-appointment-display.page:68
@@ -571,7 +573,7 @@ msgstr "Abisuak"
 msgid ""
 "If you want to be warned before you delete any appointment, select this "
 "option."
-msgstr ""
+msgstr "Hitzordu bat ezabatu baino lehen abisu bat jaso nahi baduzu, hautatu aukera hau."
 
 #. (itstool) path: info/desc
 #: C/calendar-layout-general-formatting.page:27
@@ -686,17 +688,17 @@ msgstr ""
 #. (itstool) path: info/desc
 #: C/calendar-layout.page:17
 msgid "Adjusting the display and views of the calendar."
-msgstr ""
+msgstr "Egutegiaren bistaratzea eta bistak doitzea."
 
 #. (itstool) path: page/title
 #: C/calendar-layout.page:20
 msgid "Changing the calendar layout"
-msgstr ""
+msgstr "Egutegiaren diseinua aldatzea"
 
 #. (itstool) path: info/desc
 #: C/calendar-layout-views.page:23
 msgid "Using date ranges (day, week, month) to look at the calendar."
-msgstr ""
+msgstr "Data-barrutiak (eguna, astea, hila) erabiltzea egutegian begiratzeko."
 
 #. (itstool) path: page/title
 #: C/calendar-layout-views.page:26
@@ -706,7 +708,7 @@ msgstr "Erabilgarri dauden ikuspegiak"
 #. (itstool) path: page/p
 #: C/calendar-layout-views.page:28
 msgid "<app>Evolution</app> offers five different views of your calendar data:"
-msgstr ""
+msgstr "<app>Evolution</app> aplikazioak egutegiko datuak ikusteko bost modu ditu:"
 
 #. (itstool) path: item/p
 #. (itstool) path: td/p
@@ -766,29 +768,29 @@ msgstr ""
 msgid ""
 "To visit calendar entries for a specific date, click the <gui>Select a "
 "specific date</gui> button in the toolbar."
-msgstr ""
+msgstr "Data jakin bateko egutegi-sarrerak ikusteko, egin klik tresna-barrako <gui>hautatu data zehatz bat</gui> botoian."
 
 #. (itstool) path: info/desc
 #: C/calendar-local.page:17
 msgid "Adding another local calendar."
-msgstr ""
+msgstr "Beste egutegi lokal bat gehitzea."
 
 #. (itstool) path: page/title
 #: C/calendar-local.page:20
 msgid "Adding another local calendar"
-msgstr ""
+msgstr "Beste egutegi lokal bat gehitzea."
 
 #. (itstool) path: page/p
 #: C/calendar-local.page:22
 msgid ""
 "To add another local calendar to <app>Evolution</app>, perform the following "
 "steps:"
-msgstr ""
+msgstr "<app>Evolution</app> aplikazioan beste eguteko lokal bat gehitzeko, jarraitu honako urratsak:"
 
 #. (itstool) path: item/p
 #: C/calendar-local.page:31 C/contacts-local.page:31 C/tasks-local.page:25
 msgid "Select the type <gui>On This Computer</gui>."
-msgstr ""
+msgstr "Hautatu <gui>Ordenagailu honetan</gui> mota."
 
 #. (itstool) path: item/p
 #: C/calendar-local.page:40
@@ -802,7 +804,7 @@ msgstr ""
 #. (itstool) path: info/desc
 #: C/calendar-marcus-bains-line.page:17
 msgid "The red \"Marcus Bains\" line displays the current time."
-msgstr ""
+msgstr "Marcus Bains-en marra gorriak uneko ordua erakusten du."
 
 #. (itstool) path: page/title
 #: C/calendar-marcus-bains-line.page:20
@@ -819,7 +821,7 @@ msgstr ""
 #. (itstool) path: info/desc
 #: C/calendar-meetings-delegating.page:22
 msgid "Ask somebody else to run the meeting."
-msgstr ""
+msgstr "Eskatu beste norbaiti bilera kudeatu dezan."
 
 #. (itstool) path: page/title
 #: C/calendar-meetings-delegating.page:25
@@ -831,17 +833,17 @@ msgstr "Bilerak delegatzea"
 msgid ""
 "Only attendees of a meeting can delegate a meeting, but not the organizer of "
 "a meeting."
-msgstr ""
+msgstr "Bilera bateko parte-hartzaileek soilik delegatu dezakete bilera, baina ez bileraren antolatzaileak."
 
 #. (itstool) path: item/p
 #: C/calendar-meetings-delegating.page:32
 msgid "Right-click on the meeting that you want to delegate."
-msgstr ""
+msgstr "Egin eskuineko klik delegatu nahi den bileran."
 
 #. (itstool) path: item/p
 #: C/calendar-meetings-delegating.page:35
 msgid "Click <gui>Delegate Meeting</gui>."
-msgstr ""
+msgstr "Egin klik <gui>Delegatu bilera</gui> aukeran."
 
 #. (itstool) path: item/p
 #: C/calendar-meetings-delegating.page:38
@@ -851,7 +853,7 @@ msgstr "Hautatu bilera delegatu nahi diezun kontaktuak."
 #. (itstool) path: page/p
 #: C/calendar-meetings-delegating.page:45
 msgid "Each contact receives a copy of the meeting invitation."
-msgstr ""
+msgstr "Kontaktu bakoitzak bilera-gonbidapenaren kopia bat jasoko du."
 
 #. (itstool) path: info/desc
 #: C/calendar-meetings.page:17
@@ -1106,12 +1108,12 @@ msgstr ""
 #. (itstool) path: info/desc
 #: C/calendar-recurrence.page:23
 msgid "Repeating appointments."
-msgstr ""
+msgstr "Hitzordu errepikatuak."
 
 #. (itstool) path: page/title
 #: C/calendar-recurrence.page:26
 msgid "Using Recurrence"
-msgstr ""
+msgstr "Errepikapena erabiltzea"
 
 #. (itstool) path: page/p
 #: C/calendar-recurrence.page:28
@@ -1130,7 +1132,7 @@ msgstr ""
 #. (itstool) path: info/desc
 #: C/calendar-searching.page:27
 msgid "Searching appointments and meetings."
-msgstr ""
+msgstr "Hitzorduak eta bilerak bilatzea"
 
 #. (itstool) path: page/title
 #: C/calendar-searching.page:30
@@ -1160,7 +1162,7 @@ msgstr "Laburpenaren arabera bilatzea:"
 #: C/calendar-searching.page:42 C/contacts-searching.page:50
 #: C/memos-searching.page:43 C/tasks-searching.page:43
 msgid "Click the search icon <_:media-1/> to expand the drop-down list."
-msgstr ""
+msgstr "Egin klik bilaketa-ikonoan <_:media-1/> goitibeherako zerrenda zabaltzeko."
 
 #. (itstool) path: item/p
 #: C/calendar-searching.page:47 C/contacts-searching.page:55
@@ -1172,7 +1174,7 @@ msgstr "Hautatu bilaketa-baldintza zerrendan."
 #: C/calendar-searching.page:50 C/contacts-searching.page:58
 #: C/mail-searching.page:49 C/memos-searching.page:45 C/tasks-searching.page:45
 msgid "Enter the text you want to search for and press <key>Enter</key>."
-msgstr ""
+msgstr "Sartu bilatu nahi den testua eta sakatu <key>Enter</key>."
 
 #. (itstool) path: item/p
 #: C/calendar-searching.page:53 C/calendar-searching.page:67
@@ -1180,7 +1182,7 @@ msgstr ""
 #: C/mail-searching.page:50 C/memos-searching.page:46 C/memos-searching.page:52
 #: C/tasks-searching.page:46 C/tasks-searching.page:52
 msgid "<app>Evolution</app> displays the search results."
-msgstr ""
+msgstr "<app>Evolution</app>-ek bilaketa-emaitzak bistaratuko ditu.."
 
 #. (itstool) path: section/p
 #: C/calendar-searching.page:57 C/contacts-searching.page:66
@@ -1192,7 +1194,7 @@ msgstr "Kategoriaren arabera bilatzea:"
 #: C/calendar-searching.page:61 C/contacts-searching.page:70
 #: C/memos-searching.page:50 C/tasks-searching.page:50
 msgid "Click the <gui>Show</gui> drop-down list."
-msgstr ""
+msgstr "Egin klik <gui>Erakutsi</gui> goitibeherako zerrendan."
 
 #. (itstool) path: item/p
 #: C/calendar-searching.page:64 C/contacts-searching.page:73
@@ -1246,7 +1248,7 @@ msgstr "<app>Evolution</app> aplikazioak ordu-zona anitz onartzen ditu."
 #. (itstool) path: section/title
 #: C/calendar-timezones.page:30
 msgid "Setting your global timezone(s)"
-msgstr ""
+msgstr "Zure ordu-zona globala(k) ezartzea"
 
 #. (itstool) path: section/p
 #: C/calendar-timezones.page:32
@@ -1270,7 +1272,7 @@ msgstr ""
 #. (itstool) path: section/title
 #: C/calendar-timezones.page:46
 msgid "Setting a timezone for an appointment"
-msgstr ""
+msgstr "Hitzordu baterako ordu-zona ezartzea"
 
 #. (itstool) path: section/p
 #: C/calendar-timezones.page:48
@@ -1308,7 +1310,7 @@ msgstr ""
 #. (itstool) path: item/p
 #: C/calendar-usage-add-appointment.page:33
 msgid "If you use the Appointment dialog:"
-msgstr ""
+msgstr "'Hitzordua' elkarrizketa-koadroa erabiliz gero:"
 
 #. (itstool) path: item/p
 #: C/calendar-usage-add-appointment.page:56
@@ -1320,12 +1322,12 @@ msgstr ""
 #. (itstool) path: info/desc
 #: C/calendar-usage-delete-appointment.page:17
 msgid "Deleting an appointment in your calendar."
-msgstr ""
+msgstr "Egutegiko hitzordu bat ezabatzea."
 
 #. (itstool) path: page/title
 #: C/calendar-usage-delete-appointment.page:20
 msgid "Deleting an Appointment"
-msgstr ""
+msgstr "Hitzordu bat ezabatzea"
 
 #. (itstool) path: page/p
 #: C/calendar-usage-delete-appointment.page:22
@@ -1352,12 +1354,12 @@ msgstr "Hitzordu bat editatzea"
 #: C/calendar-usage-edit-appointment.page:22
 msgid ""
 "If you want to change an appointment that already exists in your calendars:"
-msgstr ""
+msgstr "Lehendik zure egutegian dagoen hitzordu bat aldatu nahi baduzu:"
 
 #. (itstool) path: item/p
 #: C/calendar-usage-edit-appointment.page:27
 msgid "Double-click on the appointment that you want to edit in the calendar."
-msgstr ""
+msgstr "Egin klik bikoitza editatuko den egutegiko hitzorduan."
 
 #. (itstool) path: item/p
 #: C/calendar-usage-edit-appointment.page:31
@@ -1388,7 +1390,7 @@ msgstr "Gehitu, editatu eta ezabatu hitzorduak"
 #. (itstool) path: info/desc
 #: C/calendar-using-several-calendars.page:25
 msgid "Adding and using more than one calendar and different types."
-msgstr ""
+msgstr "Egutegi bat baino gehiago eta mota askotakoak gehitzea eta erabiltzea."
 
 #. (itstool) path: page/title
 #: C/calendar-using-several-calendars.page:28
@@ -1410,7 +1412,7 @@ msgstr ""
 #. (itstool) path: page/p
 #: C/calendar-using-several-calendars.page:38
 msgid "Appointments for each calendar appear in different color."
-msgstr ""
+msgstr "Egutegi bakoitzeko hitzorduak kolore desberdinetan ageri dira."
 
 #. (itstool) path: page/p
 #: C/calendar-using-several-calendars.page:40
@@ -1451,7 +1453,7 @@ msgstr "Hautatu <gui>Eguraldia</gui> mota."
 #. (itstool) path: item/p
 #: C/calendar-weather.page:46
 msgid "Choose a location by selecting continent, country and city."
-msgstr ""
+msgstr "Aukeratu kokaleku bat, horretarako hautatu kontinentea, herrialdea eta hiria."
 
 #. (itstool) path: item/p
 #: C/calendar-weather.page:53
@@ -1690,12 +1692,12 @@ msgstr "Honako aukerak daude erabilgarri:"
 
 #. (itstool) path: item/p
 #: C/contacts-ldap.page:74
-msgid "One: Searches the Search Base and one entry below it."
+msgid "One Level: Searches one entry below the Search Base."
 msgstr ""
 
 #. (itstool) path: item/p
 #: C/contacts-ldap.page:77
-msgid "Sub: Searches the Search Base and all entries below it."
+msgid "Subtree: Searches the Search Base and all entries below it."
 msgstr ""
 
 #. (itstool) path: item/p
@@ -1914,7 +1916,7 @@ msgstr ""
 #. (itstool) path: section/p
 #: C/contacts-searching.page:46
 msgid "Searching by contact's info:"
-msgstr ""
+msgstr "Kontaktuaren informazioaren arabera bilatzea:"
 
 #. (itstool) path: info/desc
 #: C/contacts-usage-add-contact.page:17
@@ -1961,7 +1963,7 @@ msgstr ""
 #. (itstool) path: section/p
 #: C/contacts-usage-add-contact.page:50
 msgid "You can also add a contact directly from an email."
-msgstr ""
+msgstr "Kontaktu bat zuzenean posta-helbide batetik ere gehitu daiteke."
 
 #. (itstool) path: item/p
 #: C/contacts-usage-add-contact.page:54
@@ -2114,7 +2116,7 @@ msgstr ""
 #. (itstool) path: section/title
 #: C/contacts-using-contact-lists.page:79
 msgid "Sending messages to a contact list"
-msgstr ""
+msgstr "Mezuak kontaktu-zerrenda batera bidaltzea"
 
 #. (itstool) path: section/p
 #: C/contacts-using-contact-lists.page:81
@@ -2134,7 +2136,7 @@ msgstr ""
 #. (itstool) path: page/title
 #: C/contacts-using-several-addressbooks.page:21
 msgid "Adding and creating address books"
-msgstr ""
+msgstr "Helbide-liburuak gehitzea eta sortzea"
 
 #. (itstool) path: page/p
 #: C/contacts-using-several-addressbooks.page:23
@@ -2200,7 +2202,7 @@ msgstr "<app>Evolution</app> aplikazioaren erabiltzaile-dokumentazioaren itzultz
 #. andre
 #: C/credits.page:42
 msgid "(Not applicable to the English version)"
-msgstr ""
+msgstr "(Ez zaio ingelesezko bertsioari aplikatzen)"
 
 #. (itstool) path: section/title
 #: C/credits.page:46
@@ -2275,13 +2277,26 @@ msgstr ""
 #. (itstool) path: page/p
 #: C/customize-ui-items.page:34
 msgid ""
+"Changing the order of tool bar/menu items in some <file>.ui</file> files may "
+"not affect their displayed order in <app>Evolution</app>. As a workaround, "
+"the attribute <code>position='top'</code> can be added to some elements (e."
+"g. <code>toolitem</code> and non-empty <code>placeholder</code> elements), "
+"which will place them before other items in the group and cause them to be "
+"displayed according to their order in the <file>.ui</file> file. This "
+"attribute may need to be added to all items in a group to achieve the "
+"overall desired item order."
+msgstr ""
+
+#. (itstool) path: page/p
+#: C/customize-ui-items.page:36
+msgid ""
 "The modified files will be used if the <code>evolution-ui-version</code> "
 "attribute of the root <code>ui</code> element matches the version of the "
 "default files provided by <app>Evolution</app>."
 msgstr ""
 
 #. (itstool) path: page/p
-#: C/customize-ui-items.page:36
+#: C/customize-ui-items.page:38
 msgid ""
 "To change keyboard shortcuts, edit <file>~/.config/evolution/accels</file> "
 "while <app>Evolution</app> is not running. Commented lines start with a "
@@ -2400,7 +2415,7 @@ msgstr ""
 #. (itstool) path: item/p
 #: C/default-browser.page:34
 msgid "Open a terminal application."
-msgstr ""
+msgstr "Ireki terminal bat."
 
 #. (itstool) path: item/p
 #: C/default-browser.page:37
@@ -2499,7 +2514,7 @@ msgstr ""
 #. (itstool) path: info/desc
 #: C/deleting-appointments.page:5
 msgid "Deleting calendar entries to reduce the size of the mailbox."
-msgstr ""
+msgstr "Egutegi-sarrerak ezabatzea postontziaren tamaina txikitzeko."
 
 #. (itstool) path: page/title
 #: C/deleting-appointments.page:20
@@ -2896,51 +2911,51 @@ msgstr ""
 #. (itstool) path: td/p
 #: C/import-apps-outlook.page:37
 msgid "Windows 7, Windows Vista"
-msgstr ""
+msgstr "Windows 7, Windows Vista"
 
 #. (itstool) path: td/p
 #: C/import-apps-outlook.page:37
 msgid "Windows XP"
-msgstr ""
+msgstr "Windows XP"
 
 #. (itstool) path: td/p
 #: C/import-apps-outlook.page:40
 msgid "Outlook 2010"
-msgstr ""
+msgstr "Outlook 2010"
 
 #. (itstool) path: td/p
 #: C/import-apps-outlook.page:40
 msgid "<file>C:\\Users\\username\\My Documents\\Outlook Files</file>"
-msgstr ""
+msgstr "<file>C:\\Users\\username\\My Documents\\Outlook Files</file>"
 
 #. (itstool) path: td/p
 #: C/import-apps-outlook.page:40
 msgid ""
 "<file>C:\\Documents and Settings\\username\\My Documents\\Outlook Files</"
 "file>"
-msgstr ""
+msgstr "<file>C:\\Documents and Settings\\username\\My Documents\\Outlook Files</file>"
 
 #. (itstool) path: td/p
 #: C/import-apps-outlook.page:43
 msgid "Outlook 2007 and earlier"
-msgstr ""
+msgstr "Outlook 2007 eta zaharragoak"
 
 #. (itstool) path: td/p
 #: C/import-apps-outlook.page:43
 msgid "<file>C:\\Users\\username\\AppData\\Local\\Microsoft\\Outlook</file>"
-msgstr ""
+msgstr "<file>C:\\Users\\username\\AppData\\Local\\Microsoft\\Outlook</file>"
 
 #. (itstool) path: td/p
 #: C/import-apps-outlook.page:43
 msgid ""
 "<file>C:\\Documents and Settings\\username\\AppData\\Local\\Microsoft"
 "\\Outlook</file>"
-msgstr ""
+msgstr "<file>C:\\Documents and Settings\\username\\AppData\\Local\\Microsoft\\Outlook</file>"
 
 #. (itstool) path: item/p
 #: C/import-apps-outlook.page:46
 msgid "(Replace \"username\" by your username.)"
-msgstr ""
+msgstr "(Ordeztu \"username\" zure erabiltzaile-izenarekin.)"
 
 #. (itstool) path: item/p
 #: C/import-apps-outlook.page:49
@@ -2960,7 +2975,7 @@ msgstr ""
 #. (itstool) path: section/title
 #: C/import-apps-outlook.page:55
 msgid "Importing into <app>Evolution</app>"
-msgstr ""
+msgstr "<app>Evolution</app> aplikaziora inportatzea"
 
 #. (itstool) path: item/p
 #: C/import-apps-outlook.page:57
@@ -2979,7 +2994,7 @@ msgstr "Kopiatu posta-fitxategi guztiak direktorio nagusian, edo komeni den best
 #. (itstool) path: item/p
 #: C/import-apps-outlook.page:59 C/mail-filters-not-working.page:48
 msgid "Start <app>Evolution</app>."
-msgstr ""
+msgstr "Abiarazi <app>Evolution</app>."
 
 #. (itstool) path: item/p
 #: C/import-apps-outlook.page:60
@@ -3016,12 +3031,12 @@ msgstr ""
 #. (itstool) path: info/desc
 #: C/import-data.page:5
 msgid "Importing data from another application."
-msgstr ""
+msgstr "Datuak beste aplikazio batetik inportatzea."
 
 #. (itstool) path: page/title
 #: C/import-data.page:20
 msgid "Importing data from another application"
-msgstr ""
+msgstr "Datuak beste aplikazio batetik inportatzea"
 
 #. (itstool) path: section/title
 #: C/import-data.page:23
@@ -3286,12 +3301,12 @@ msgstr "Kontaktuen kudeaketa"
 #. (itstool) path: section/title
 #: C/index.page:60
 msgid "Memos and Tasks Management"
-msgstr ""
+msgstr "Zirkularren eta zereginen kudeaketa"
 
 #. (itstool) path: section/title
 #: C/index.page:64
 msgid "Data Migration and Synchronization"
-msgstr ""
+msgstr "Datuak migratzea eta sinkronizatzea"
 
 #. (itstool) path: section/title
 #: C/index.page:68
@@ -3311,7 +3326,7 @@ msgstr ""
 #. (itstool) path: section/title
 #: C/index.page:80
 msgid "Further reading"
-msgstr ""
+msgstr "Gehiago:"
 
 #. (itstool) path: info/desc
 #: C/intro-first-run.page:8
@@ -3349,44 +3364,44 @@ msgid ""
 msgstr ""
 
 #. (itstool) path: section/title
-#: C/intro-first-run.page:32 C/mail-account-manage-imap-plus.page:29
-#: C/mail-account-manage-local-delivery.page:29
-#: C/mail-account-manage-maildir-format-directories.page:30
-#: C/mail-account-manage-mh-format-directories.page:29
-#: C/mail-account-manage-microsoft-exchange-evo-ews.page:32
-#: C/mail-account-manage-microsoft-exchange-evo-mapi.page:29
-#: C/mail-account-manage-pop.page:29
-#: C/mail-account-manage-unix-mbox-spool-directory.page:29
-#: C/mail-account-manage-unix-mbox-spool-file.page:29
-#: C/mail-account-manage-usenet-news.page:29
+#: C/intro-first-run.page:32 C/mail-account-manage-imap-plus.page:34
+#: C/mail-account-manage-local-delivery.page:34
+#: C/mail-account-manage-maildir-format-directories.page:35
+#: C/mail-account-manage-mh-format-directories.page:34
+#: C/mail-account-manage-microsoft-exchange-evo-ews.page:37
+#: C/mail-account-manage-microsoft-exchange-evo-mapi.page:30
+#: C/mail-account-manage-pop.page:34
+#: C/mail-account-manage-unix-mbox-spool-directory.page:34
+#: C/mail-account-manage-unix-mbox-spool-file.page:34
+#: C/mail-account-manage-usenet-news.page:34
 msgid "Identity"
 msgstr "Identitatea"
 
 #. (itstool) path: section/p
-#: C/intro-first-run.page:33 C/mail-account-manage-imap-plus.page:30
-#: C/mail-account-manage-local-delivery.page:30
-#: C/mail-account-manage-maildir-format-directories.page:31
-#: C/mail-account-manage-mh-format-directories.page:30
-#: C/mail-account-manage-microsoft-exchange-evo-ews.page:33
-#: C/mail-account-manage-microsoft-exchange-evo-mapi.page:30
-#: C/mail-account-manage-pop.page:30
-#: C/mail-account-manage-unix-mbox-spool-directory.page:30
-#: C/mail-account-manage-unix-mbox-spool-file.page:30
-#: C/mail-account-manage-usenet-news.page:30
+#: C/intro-first-run.page:33 C/mail-account-manage-imap-plus.page:35
+#: C/mail-account-manage-local-delivery.page:35
+#: C/mail-account-manage-maildir-format-directories.page:36
+#: C/mail-account-manage-mh-format-directories.page:35
+#: C/mail-account-manage-microsoft-exchange-evo-ews.page:38
+#: C/mail-account-manage-microsoft-exchange-evo-mapi.page:31
+#: C/mail-account-manage-pop.page:35
+#: C/mail-account-manage-unix-mbox-spool-directory.page:35
+#: C/mail-account-manage-unix-mbox-spool-file.page:35
+#: C/mail-account-manage-usenet-news.page:35
 msgid "Here you define your name and your email address."
 msgstr ""
 
 #. (itstool) path: section/p
-#: C/intro-first-run.page:34 C/mail-account-manage-imap-plus.page:31
-#: C/mail-account-manage-local-delivery.page:31
-#: C/mail-account-manage-maildir-format-directories.page:32
-#: C/mail-account-manage-mh-format-directories.page:31
-#: C/mail-account-manage-microsoft-exchange-evo-ews.page:34
-#: C/mail-account-manage-microsoft-exchange-evo-mapi.page:31
-#: C/mail-account-manage-pop.page:31
-#: C/mail-account-manage-unix-mbox-spool-directory.page:31
-#: C/mail-account-manage-unix-mbox-spool-file.page:31
-#: C/mail-account-manage-usenet-news.page:31
+#: C/intro-first-run.page:34 C/mail-account-manage-imap-plus.page:36
+#: C/mail-account-manage-local-delivery.page:36
+#: C/mail-account-manage-maildir-format-directories.page:37
+#: C/mail-account-manage-mh-format-directories.page:36
+#: C/mail-account-manage-microsoft-exchange-evo-ews.page:39
+#: C/mail-account-manage-microsoft-exchange-evo-mapi.page:32
+#: C/mail-account-manage-pop.page:36
+#: C/mail-account-manage-unix-mbox-spool-directory.page:36
+#: C/mail-account-manage-unix-mbox-spool-file.page:36
+#: C/mail-account-manage-usenet-news.page:36
 msgid ""
 "Optionally you can set a Reply-To email address (if you want replies to "
 "messages sent to a different address), set an organization (a company or "
@@ -3520,7 +3535,7 @@ msgstr "Exchange EWS"
 
 #. (itstool) path: section/p
 #. (itstool) path: note/p
-#: C/intro-first-run.page:109 C/mail-account-manage-microsoft-exchange.page:26
+#: C/intro-first-run.page:109 C/mail-account-manage-microsoft-exchange.page:27
 msgid ""
 "For connecting to a Microsoft Exchange server (version 2007 or newer) or "
 "OpenChange server, it is recommended to use the package <sys>evolution-ews</"
@@ -3534,7 +3549,7 @@ msgstr ""
 
 #. (itstool) path: when/p
 #. (itstool) path: note/p
-#: C/intro-first-run.page:114 C/mail-account-manage-microsoft-exchange.page:30
+#: C/intro-first-run.page:114 C/mail-account-manage-microsoft-exchange.page:31
 msgid ""
 "<link action=\"install:evolution-ews\" href=\"https://wiki.gnome.org/Apps/"
 "Evolution#Get_the_Source_Code\" style=\"button\">Install evolution-ews</link>"
@@ -3558,7 +3573,7 @@ msgstr ""
 
 #. (itstool) path: section/p
 #. (itstool) path: note/p
-#: C/intro-first-run.page:134 C/mail-account-manage-microsoft-exchange.page:35
+#: C/intro-first-run.page:134 C/mail-account-manage-microsoft-exchange.page:36
 msgid ""
 "It uses Microsoft's Messaging API which is also used by Microsoft Outlook. "
 "However, <sys>evolution-mapi</sys> requires installing <sys>OpenChange</sys> "
@@ -3572,7 +3587,7 @@ msgstr ""
 
 #. (itstool) path: when/p
 #. (itstool) path: note/p
-#: C/intro-first-run.page:139 C/mail-account-manage-microsoft-exchange.page:40
+#: C/intro-first-run.page:139 C/mail-account-manage-microsoft-exchange.page:41
 msgid ""
 "<link action=\"install:evolution-mapi\" href=\"https://wiki.gnome.org/Apps/"
 "Evolution#Get_the_Source_Code\" style=\"button\">Install evolution-mapi</"
@@ -3683,7 +3698,7 @@ msgstr ""
 #. (itstool) path: section/title
 #: C/intro-first-run.page:237
 msgid "None"
-msgstr ""
+msgstr "Bat ere ez"
 
 #. (itstool) path: section/p
 #: C/intro-first-run.page:238
@@ -3698,7 +3713,7 @@ msgstr "Mezuak bidali"
 #. (itstool) path: section/p
 #: C/intro-first-run.page:245
 msgid "Available server types are:"
-msgstr ""
+msgstr "Zerbitzari mota erabilgarriak honakoak dira:"
 
 #. (itstool) path: section/title
 #: C/intro-first-run.page:248
@@ -3739,7 +3754,7 @@ msgstr "Kontuaren informazioa"
 #. (itstool) path: section/p
 #: C/intro-first-run.page:272
 msgid "Give the account any name you prefer."
-msgstr ""
+msgstr "Ezarri kontuari zuk nahi duzun izena."
 
 #. (itstool) path: section/title
 #: C/intro-first-run.page:276
@@ -3762,7 +3777,7 @@ msgstr ""
 #. (itstool) path: td/p
 #: C/intro-keyboard-shortcuts.page:25 C/mail-composer-reply.page:41
 msgid "Shortcut keys"
-msgstr ""
+msgstr "Laster-teklak"
 
 #. (itstool) path: page/p
 #: C/intro-keyboard-shortcuts.page:27
@@ -3935,7 +3950,7 @@ msgstr "Ezabatu hautapena."
 #. (itstool) path: td/p
 #: C/intro-keyboard-shortcuts.page:127
 msgid "<keyseq><key>Shift</key><key>Ctrl</key><key>V</key></keyseq>"
-msgstr ""
+msgstr "<keyseq><key>Shift</key><key>Ctrl</key><key>V</key></keyseq>"
 
 #. (itstool) path: td/p
 #: C/intro-keyboard-shortcuts.page:130
@@ -3945,7 +3960,7 @@ msgstr ""
 #. (itstool) path: td/p
 #: C/intro-keyboard-shortcuts.page:133
 msgid "<keyseq><key>Shift</key><key>Ctrl</key><key>Y</key></keyseq>"
-msgstr ""
+msgstr "<keyseq><key>Shift</key><key>Ctrl</key><key>Y</key></keyseq>"
 
 #. (itstool) path: td/p
 #: C/intro-keyboard-shortcuts.page:136
@@ -3955,7 +3970,7 @@ msgstr ""
 #. (itstool) path: td/p
 #: C/intro-keyboard-shortcuts.page:145
 msgid "<keyseq><key>Shift</key><key>Ctrl</key><key>M</key></keyseq>"
-msgstr ""
+msgstr "<keyseq><key>Shift</key><key>Ctrl</key><key>M</key></keyseq>"
 
 #. (itstool) path: td/p
 #: C/intro-keyboard-shortcuts.page:148
@@ -3965,7 +3980,7 @@ msgstr ""
 #. (itstool) path: td/p
 #: C/intro-keyboard-shortcuts.page:151
 msgid "<key>F12</key>"
-msgstr ""
+msgstr "<key>F12</key>"
 
 #. (itstool) path: td/p
 #: C/intro-keyboard-shortcuts.page:154
@@ -3975,7 +3990,7 @@ msgstr ""
 #. (itstool) path: td/p
 #: C/intro-keyboard-shortcuts.page:157 C/intro-keyboard-shortcuts.page:293
 msgid "<keyseq><key>Ctrl</key><key>Y</key></keyseq>"
-msgstr ""
+msgstr "<keyseq><key>Ctrl</key><key>Y</key></keyseq>"
 
 #. (itstool) path: td/p
 #: C/intro-keyboard-shortcuts.page:160
@@ -3985,17 +4000,17 @@ msgstr ""
 #. (itstool) path: td/p
 #: C/intro-keyboard-shortcuts.page:163
 msgid "<keyseq><key>Ctrl</key><key>O</key></keyseq> or <key>Return</key>"
-msgstr ""
+msgstr "<keyseq><key>Ctrl</key><key>O</key></keyseq> edo <key>Return</key>"
 
 #. (itstool) path: td/p
 #: C/intro-keyboard-shortcuts.page:166
 msgid "Open selection in new window."
-msgstr ""
+msgstr "Ireki hautapena leiho berrian."
 
 #. (itstool) path: td/p
 #: C/intro-keyboard-shortcuts.page:169
 msgid "<keyseq><key>Ctrl</key><key>F</key></keyseq>"
-msgstr ""
+msgstr "<keyseq><key>Ctrl</key><key>F</key></keyseq>"
 
 #. (itstool) path: td/p
 #: C/intro-keyboard-shortcuts.page:172
@@ -4005,113 +4020,113 @@ msgstr ""
 #. (itstool) path: td/p
 #: C/intro-keyboard-shortcuts.page:175 C/intro-keyboard-shortcuts.page:305
 msgid "<keyseq><key>Ctrl</key><key>K</key></keyseq>"
-msgstr ""
+msgstr "<keyseq><key>Ctrl</key><key>K</key></keyseq>"
 
 #. (itstool) path: td/p
 #: C/intro-keyboard-shortcuts.page:178
 msgid "Mark the selection as read."
-msgstr ""
+msgstr "Markatu hautapena irakurrita gisa."
 
 #. (itstool) path: td/p
 #: C/intro-keyboard-shortcuts.page:181
 msgid "<keyseq><key>Ctrl</key><key>Shift</key><key>K</key></keyseq>"
-msgstr ""
+msgstr "<keyseq><key>Ctrl</key><key>Shift</key><key>K</key></keyseq>"
 
 #. (itstool) path: td/p
 #: C/intro-keyboard-shortcuts.page:184
 msgid "Mark the selection as unread."
-msgstr ""
+msgstr "Markatu hautapena irakurri gabe gisa."
 
 #. (itstool) path: td/p
 #: C/intro-keyboard-shortcuts.page:187
 msgid "<key>↓</key>"
-msgstr ""
+msgstr "<key>↓</key>"
 
 #. (itstool) path: td/p
 #: C/intro-keyboard-shortcuts.page:190
 msgid "Jump to next message."
-msgstr ""
+msgstr "Joan hurrengo mezura."
 
 #. (itstool) path: td/p
 #: C/intro-keyboard-shortcuts.page:193
 msgid "<key>↑</key>"
-msgstr ""
+msgstr "<key>↑</key>"
 
 #. (itstool) path: td/p
 #: C/intro-keyboard-shortcuts.page:196
 msgid "Jump to previous message."
-msgstr ""
+msgstr "Joan aurreko mezura."
 
 #. (itstool) path: td/p
 #: C/intro-keyboard-shortcuts.page:199
 msgid "<key>.</key> or <key>]</key>"
-msgstr ""
+msgstr "<key>.</key> edo <key>]</key>"
 
 #. (itstool) path: td/p
 #: C/intro-keyboard-shortcuts.page:202
 msgid "Jump to next unread message."
-msgstr ""
+msgstr "Joan irakurri gabeko hurrengo mezura."
 
 #. (itstool) path: td/p
 #: C/intro-keyboard-shortcuts.page:205
 msgid "<key>,</key> or <key>[</key>"
-msgstr ""
+msgstr "<key>,</key> edo <key>[</key>"
 
 #. (itstool) path: td/p
 #: C/intro-keyboard-shortcuts.page:208
 msgid "Jump to previous unread message."
-msgstr ""
+msgstr "Joan irakurri gabeko aurreko mezura."
 
 #. (itstool) path: td/p
 #: C/intro-keyboard-shortcuts.page:211 C/mail-composer-reply.page:43
 msgid "<keyseq><key>Ctrl</key><key>R</key></keyseq>"
-msgstr ""
+msgstr "<keyseq><key>Ctrl</key><key>R</key></keyseq>"
 
 #. (itstool) path: td/p
 #: C/intro-keyboard-shortcuts.page:214
 msgid "Reply to sender."
-msgstr ""
+msgstr "Erantzun bidaltzaileari."
 
 #. (itstool) path: td/p
 #: C/intro-keyboard-shortcuts.page:217 C/intro-keyboard-shortcuts.page:317
 #: C/mail-composer-reply.page:45
 msgid "<keyseq><key>Ctrl</key><key>L</key></keyseq>"
-msgstr ""
+msgstr "<keyseq><key>Ctrl</key><key>L</key></keyseq>"
 
 #. (itstool) path: td/p
 #: C/intro-keyboard-shortcuts.page:220
 msgid "Reply to list."
-msgstr ""
+msgstr "Erantzun zerrendari."
 
 #. (itstool) path: td/p
 #: C/intro-keyboard-shortcuts.page:223 C/mail-composer-reply.page:47
 msgid "<keyseq><key>Shift</key><key>Ctrl</key><key>R</key></keyseq>"
-msgstr ""
+msgstr "<keyseq><key>Shift</key><key>Ctrl</key><key>R</key></keyseq>"
 
 #. (itstool) path: td/p
 #: C/intro-keyboard-shortcuts.page:226
 msgid "Reply to all recipients."
-msgstr ""
+msgstr "Erantzun hartzaile guztiei."
 
 #. (itstool) path: td/p
 #: C/intro-keyboard-shortcuts.page:229
 msgid "<key>Backspace</key>"
-msgstr ""
+msgstr "<key>Atzerako tekla</key>"
 
 #. (itstool) path: td/p
 #: C/intro-keyboard-shortcuts.page:232
 msgid "Scroll up."
-msgstr ""
+msgstr "Korritu gora."
 
 #. (itstool) path: td/p
 #: C/intro-keyboard-shortcuts.page:235
 msgid "<key>Space</key>"
-msgstr ""
+msgstr "<key>Zuriune-tekla</key>"
 
 #. (itstool) path: td/p
 #: C/intro-keyboard-shortcuts.page:238
 msgid "Scroll down."
-msgstr ""
+msgstr "Korritu behera."
 
 #. (itstool) path: section/p
 #: C/intro-keyboard-shortcuts.page:242
@@ -4171,87 +4186,87 @@ msgstr ""
 #. (itstool) path: td/p
 #: C/intro-keyboard-shortcuts.page:260
 msgid "Create a new appointment."
-msgstr ""
+msgstr "Sortu hitzordu berria."
 
 #. (itstool) path: td/p
 #: C/intro-keyboard-shortcuts.page:263
 msgid "<keyseq><key>Shift</key><key>Ctrl</key><key>E</key></keyseq>"
-msgstr ""
+msgstr "<keyseq><key>Shift</key><key>Ctrl</key><key>E</key></keyseq>"
 
 #. (itstool) path: td/p
 #: C/intro-keyboard-shortcuts.page:266
 msgid "Create a new meeting."
-msgstr ""
+msgstr "Sortu bilera berria."
 
 #. (itstool) path: td/p
 #: C/intro-keyboard-shortcuts.page:269
 msgid "<keyseq><key>Shift</key><key>Ctrl</key><key>T</key></keyseq>"
-msgstr ""
+msgstr "<keyseq><key>Shift</key><key>Ctrl</key><key>T</key></keyseq>"
 
 #. (itstool) path: td/p
 #: C/intro-keyboard-shortcuts.page:272
 msgid "Create a new task."
-msgstr ""
+msgstr "Sortu zeregin berria."
 
 #. (itstool) path: td/p
 #: C/intro-keyboard-shortcuts.page:275
 msgid "<keyseq><key>Shift</key><key>Ctrl</key><key>O</key></keyseq>"
-msgstr ""
+msgstr "<keyseq><key>Shift</key><key>Ctrl</key><key>O</key></keyseq>"
 
 #. (itstool) path: td/p
 #: C/intro-keyboard-shortcuts.page:278
 msgid "Create a new memo."
-msgstr ""
+msgstr "Sortu zirkular berria."
 
 #. (itstool) path: td/p
 #: C/intro-keyboard-shortcuts.page:281
 msgid "<keyseq><key>Ctrl</key><key>T</key></keyseq>"
-msgstr ""
+msgstr "<keyseq><key>Ctrl</key><key>T</key></keyseq>"
 
 #. (itstool) path: td/p
 #: C/intro-keyboard-shortcuts.page:284
 msgid "Go to today."
-msgstr ""
+msgstr "Joan gaurko egunera."
 
 #. (itstool) path: td/p
 #: C/intro-keyboard-shortcuts.page:287
 msgid "<keyseq><key>Ctrl</key><key>G</key></keyseq>"
-msgstr ""
+msgstr "<keyseq><key>Ctrl</key><key>G</key></keyseq>"
 
 #. (itstool) path: td/p
 #: C/intro-keyboard-shortcuts.page:290
 msgid "Go to date."
-msgstr ""
+msgstr "Joan data jakin batera."
 
 #. (itstool) path: td/p
 #: C/intro-keyboard-shortcuts.page:299
 msgid "<keyseq><key>Ctrl</key><key>J</key></keyseq>"
-msgstr ""
+msgstr "<keyseq><key>Ctrl</key><key>J</key></keyseq>"
 
 #. (itstool) path: td/p
 #: C/intro-keyboard-shortcuts.page:311
 msgid "<keyseq><key>Ctrl</key><key>M</key></keyseq>"
-msgstr ""
+msgstr "<keyseq><key>Ctrl</key><key>M</key></keyseq>"
 
 #. (itstool) path: td/p
 #: C/intro-keyboard-shortcuts.page:329
 msgid "<keyseq><key>Shift</key><key>Ctrl</key><key>C</key></keyseq>"
-msgstr ""
+msgstr "<keyseq><key>Shift</key><key>Ctrl</key><key>C</key></keyseq>"
 
 #. (itstool) path: td/p
 #: C/intro-keyboard-shortcuts.page:332
 msgid "Create a new contact."
-msgstr ""
+msgstr "Sortu kontaktu berria."
 
 #. (itstool) path: td/p
 #: C/intro-keyboard-shortcuts.page:335
 msgid "<keyseq><key>Shift</key><key>Ctrl</key><key>L</key></keyseq>"
-msgstr ""
+msgstr "<keyseq><key>Shift</key><key>Ctrl</key><key>L</key></keyseq>"
 
 #. (itstool) path: td/p
 #: C/intro-keyboard-shortcuts.page:338
 msgid "Create a new contact list."
-msgstr ""
+msgstr "Sortu kontaktu-zerrenda berria."
 
 #. (itstool) path: section/title
 #: C/intro-keyboard-shortcuts.page:344
@@ -4705,29 +4720,21 @@ msgstr ""
 msgid "Add and edit an IMAP+ mail account in <app>Evolution</app>."
 msgstr ""
 
+#. (itstool) path: info/title
+#: C/mail-account-manage-imap-plus.page:8
+msgctxt "link:trail"
+msgid "IMAP+"
+msgstr ""
+
 #. (itstool) path: page/title
-#: C/mail-account-manage-imap-plus.page:20
+#: C/mail-account-manage-imap-plus.page:21
 msgid "IMAP+ mail account settings"
 msgstr ""
 
 #. (itstool) path: section/title
-#: C/mail-account-manage-imap-plus.page:23
-#: C/mail-account-manage-local-delivery.page:23
-#: C/mail-account-manage-maildir-format-directories.page:23
-#: C/mail-account-manage-mh-format-directories.page:23
-#: C/mail-account-manage-microsoft-exchange-evo-ews.page:23
-#: C/mail-account-manage-microsoft-exchange-evo-mapi.page:23
-#: C/mail-account-manage-pop.page:23
-#: C/mail-account-manage-unix-mbox-spool-directory.page:23
-#: C/mail-account-manage-unix-mbox-spool-file.page:23
-#: C/mail-account-manage-usenet-news.page:23
-msgid "Account Editor"
-msgstr "Kontu-editorea"
-
-#. (itstool) path: section/p
 #: C/mail-account-manage-imap-plus.page:24
 #: C/mail-account-manage-local-delivery.page:24
-#: C/mail-account-manage-maildir-format-directories.page:25
+#: C/mail-account-manage-maildir-format-directories.page:24
 #: C/mail-account-manage-mh-format-directories.page:24
 #: C/mail-account-manage-microsoft-exchange-evo-ews.page:24
 #: C/mail-account-manage-microsoft-exchange-evo-mapi.page:24
@@ -4735,6 +4742,20 @@ msgstr "Kontu-editorea"
 #: C/mail-account-manage-unix-mbox-spool-directory.page:24
 #: C/mail-account-manage-unix-mbox-spool-file.page:24
 #: C/mail-account-manage-usenet-news.page:24
+msgid "Account Editor"
+msgstr "Kontu-editorea"
+
+#. (itstool) path: section/p
+#: C/mail-account-manage-imap-plus.page:25
+#: C/mail-account-manage-local-delivery.page:25
+#: C/mail-account-manage-maildir-format-directories.page:26
+#: C/mail-account-manage-mh-format-directories.page:25
+#: C/mail-account-manage-microsoft-exchange-evo-ews.page:25
+#: C/mail-account-manage-microsoft-exchange-evo-mapi.page:25
+#: C/mail-account-manage-pop.page:25
+#: C/mail-account-manage-unix-mbox-spool-directory.page:25
+#: C/mail-account-manage-unix-mbox-spool-file.page:25
+#: C/mail-account-manage-usenet-news.page:25
 msgid ""
 "Mail accounts can be added by choosing <guiseq><gui>File</gui><gui>New</"
 "gui><gui>Mail Account</gui></guiseq> or via <guiseq><gui>Edit</"
@@ -4745,10 +4766,10 @@ msgid ""
 msgstr ""
 
 #. (itstool) path: section/p
-#: C/mail-account-manage-imap-plus.page:25
-#: C/mail-account-manage-microsoft-exchange-evo-ews.page:25
-#: C/mail-account-manage-microsoft-exchange-evo-mapi.page:25
-#: C/mail-account-manage-usenet-news.page:25
+#: C/mail-account-manage-imap-plus.page:26
+#: C/mail-account-manage-microsoft-exchange-evo-ews.page:26
+#: C/mail-account-manage-microsoft-exchange-evo-mapi.page:26
+#: C/mail-account-manage-usenet-news.page:26
 msgid ""
 "Mail accounts can be edited via <guiseq><gui>Edit</gui><gui>Preferences</"
 "gui><gui>Mail Accounts</gui><gui style=\"button\">Edit</gui></guiseq> or by "
@@ -4757,61 +4778,91 @@ msgid ""
 msgstr ""
 
 #. (itstool) path: section/p
-#: C/mail-account-manage-imap-plus.page:26
-#: C/mail-account-manage-local-delivery.page:26
-#: C/mail-account-manage-maildir-format-directories.page:27
-#: C/mail-account-manage-mh-format-directories.page:26
-#: C/mail-account-manage-microsoft-exchange-evo-ews.page:29
-#: C/mail-account-manage-microsoft-exchange-evo-mapi.page:26
-#: C/mail-account-manage-pop.page:26
-#: C/mail-account-manage-unix-mbox-spool-directory.page:26
-#: C/mail-account-manage-unix-mbox-spool-file.page:26
-#: C/mail-account-manage-usenet-news.page:26
+#: C/mail-account-manage-imap-plus.page:27
+#: C/mail-account-manage-local-delivery.page:27
+#: C/mail-account-manage-maildir-format-directories.page:28
+#: C/mail-account-manage-mh-format-directories.page:27
+#: C/mail-account-manage-microsoft-exchange-evo-ews.page:30
+#: C/mail-account-manage-microsoft-exchange-evo-mapi.page:27
+#: C/mail-account-manage-pop.page:27
+#: C/mail-account-manage-unix-mbox-spool-directory.page:27
+#: C/mail-account-manage-unix-mbox-spool-file.page:27
+#: C/mail-account-manage-usenet-news.page:27
 msgid "The following settings are available when editing an existing account:"
 msgstr ""
 
 #. (itstool) path: info/title
-#: C/mail-account-manage-imap-plus.page:36
+#: C/mail-account-manage-imap-plus.page:31
+msgctxt "link"
+msgid "Identity (IMAP+ accounts)"
+msgstr ""
+
+#. (itstool) path: info/title
+#: C/mail-account-manage-imap-plus.page:32
+#: C/mail-account-manage-local-delivery.page:32
+#: C/mail-account-manage-maildir-format-directories.page:33
+#: C/mail-account-manage-mh-format-directories.page:32
+#: C/mail-account-manage-microsoft-exchange-evo-ews.page:35
+#: C/mail-account-manage-pop.page:32
+#: C/mail-account-manage-unix-mbox-spool-directory.page:32
+#: C/mail-account-manage-unix-mbox-spool-file.page:32
+#: C/mail-account-manage-usenet-news.page:32
+msgctxt "link:trail"
+msgid "Identity"
+msgstr ""
+
+#. (itstool) path: info/title
+#: C/mail-account-manage-imap-plus.page:41
 msgctxt "link"
 msgid "Receiving Email and Receiving options (IMAP+ accounts)"
 msgstr ""
 
-#. (itstool) path: section/title
-#: C/mail-account-manage-imap-plus.page:38
-#: C/mail-account-manage-local-delivery.page:38
-#: C/mail-account-manage-maildir-format-directories.page:39
-#: C/mail-account-manage-mh-format-directories.page:38
-#: C/mail-account-manage-microsoft-exchange-evo-ews.page:41
+#. (itstool) path: info/title
+#: C/mail-account-manage-imap-plus.page:42
+#: C/mail-account-manage-local-delivery.page:42
+#: C/mail-account-manage-maildir-format-directories.page:43
+#: C/mail-account-manage-mh-format-directories.page:42
+#: C/mail-account-manage-microsoft-exchange-evo-ews.page:45
 #: C/mail-account-manage-microsoft-exchange-evo-mapi.page:38
-#: C/mail-account-manage-pop.page:38
-#: C/mail-account-manage-unix-mbox-spool-directory.page:38
-#: C/mail-account-manage-unix-mbox-spool-file.page:38
-#: C/mail-account-manage-usenet-news.page:38
+#: C/mail-account-manage-pop.page:42
+#: C/mail-account-manage-unix-mbox-spool-directory.page:42
+#: C/mail-account-manage-unix-mbox-spool-file.page:42
+#: C/mail-account-manage-usenet-news.page:42
+msgctxt "link:trail"
+msgid "Receiving"
+msgstr ""
+
+#. (itstool) path: section/title
+#: C/mail-account-manage-imap-plus.page:44
+#: C/mail-account-manage-local-delivery.page:44
+#: C/mail-account-manage-maildir-format-directories.page:45
+#: C/mail-account-manage-mh-format-directories.page:44
+#: C/mail-account-manage-microsoft-exchange-evo-ews.page:47
+#: C/mail-account-manage-microsoft-exchange-evo-mapi.page:40
+#: C/mail-account-manage-pop.page:44
+#: C/mail-account-manage-unix-mbox-spool-directory.page:44
+#: C/mail-account-manage-unix-mbox-spool-file.page:44
+#: C/mail-account-manage-usenet-news.page:44
 msgid "Receiving Email and Receiving options"
 msgstr ""
 
 #. (itstool) path: info/title
-#: C/mail-account-manage-imap-plus.page:43
+#: C/mail-account-manage-imap-plus.page:49
 msgctxt "link"
 msgid "Sending Email (IMAP+ accounts)"
 msgstr ""
 
-#. (itstool) path: section/title
-#: C/mail-account-manage-imap-plus.page:45
-#: C/mail-account-manage-local-delivery.page:45
-#: C/mail-account-manage-maildir-format-directories.page:46
-#: C/mail-account-manage-mh-format-directories.page:45
-#: C/mail-account-manage-pop.page:45
-#: C/mail-account-manage-unix-mbox-spool-directory.page:45
-#: C/mail-account-manage-unix-mbox-spool-file.page:45
-#: C/mail-account-manage-usenet-news.page:45
-msgid "Sending Email"
-msgstr "Mezuak bidali"
-
 #. (itstool) path: info/title
 #: C/mail-account-manage-imap-plus.page:50
-msgctxt "link"
-msgid "Defaults (IMAP+ accounts)"
+#: C/mail-account-manage-local-delivery.page:50
+#: C/mail-account-manage-maildir-format-directories.page:51
+#: C/mail-account-manage-mh-format-directories.page:50
+#: C/mail-account-manage-pop.page:50
+#: C/mail-account-manage-unix-mbox-spool-directory.page:50
+#: C/mail-account-manage-unix-mbox-spool-file.page:50
+#: C/mail-account-manage-usenet-news.page:50
+msgctxt "link:trail"
+msgid "Sending"
 msgstr ""
 
 #. (itstool) path: section/title
@@ -4819,70 +4870,139 @@ msgstr ""
 #: C/mail-account-manage-local-delivery.page:52
 #: C/mail-account-manage-maildir-format-directories.page:53
 #: C/mail-account-manage-mh-format-directories.page:52
-#: C/mail-account-manage-microsoft-exchange-evo-ews.page:48
-#: C/mail-account-manage-microsoft-exchange-evo-mapi.page:45
 #: C/mail-account-manage-pop.page:52
 #: C/mail-account-manage-unix-mbox-spool-directory.page:52
 #: C/mail-account-manage-unix-mbox-spool-file.page:52
 #: C/mail-account-manage-usenet-news.page:52
-msgid "Defaults"
-msgstr "Lehenespenak"
+msgid "Sending Email"
+msgstr "Mezuak bidali"
 
 #. (itstool) path: info/title
 #: C/mail-account-manage-imap-plus.page:57
 msgctxt "link"
-msgid "Composing Messages (IMAP+ accounts)"
-msgstr ""
-
-#. (itstool) path: section/title
-#: C/mail-account-manage-imap-plus.page:59
-#: C/mail-account-manage-local-delivery.page:59
-#: C/mail-account-manage-maildir-format-directories.page:60
-#: C/mail-account-manage-mh-format-directories.page:59
-#: C/mail-account-manage-microsoft-exchange-evo-ews.page:55
-#: C/mail-account-manage-microsoft-exchange-evo-mapi.page:52
-#: C/mail-account-manage-pop.page:59
-#: C/mail-account-manage-unix-mbox-spool-directory.page:59
-#: C/mail-account-manage-unix-mbox-spool-file.page:59
-#: C/mail-account-manage-usenet-news.page:59
-msgid "Composing Messages"
+msgid "Defaults (IMAP+ accounts)"
 msgstr ""
 
 #. (itstool) path: info/title
-#: C/mail-account-manage-imap-plus.page:64
-msgctxt "link"
-msgid "Security (IMAP+ accounts)"
+#: C/mail-account-manage-imap-plus.page:58
+#: C/mail-account-manage-local-delivery.page:58
+#: C/mail-account-manage-maildir-format-directories.page:59
+#: C/mail-account-manage-mh-format-directories.page:58
+#: C/mail-account-manage-microsoft-exchange-evo-ews.page:53
+#: C/mail-account-manage-microsoft-exchange-evo-mapi.page:46
+#: C/mail-account-manage-pop.page:58
+#: C/mail-account-manage-unix-mbox-spool-directory.page:58
+#: C/mail-account-manage-unix-mbox-spool-file.page:58
+#: C/mail-account-manage-usenet-news.page:58
+msgctxt "link:trail"
+msgid "Defaults"
 msgstr ""
 
 #. (itstool) path: section/title
+#: C/mail-account-manage-imap-plus.page:60
+#: C/mail-account-manage-local-delivery.page:60
+#: C/mail-account-manage-maildir-format-directories.page:61
+#: C/mail-account-manage-mh-format-directories.page:60
+#: C/mail-account-manage-microsoft-exchange-evo-ews.page:55
+#: C/mail-account-manage-microsoft-exchange-evo-mapi.page:48
+#: C/mail-account-manage-pop.page:60
+#: C/mail-account-manage-unix-mbox-spool-directory.page:60
+#: C/mail-account-manage-unix-mbox-spool-file.page:60
+#: C/mail-account-manage-usenet-news.page:60
+msgid "Defaults"
+msgstr "Lehenespenak"
+
+#. (itstool) path: info/title
+#: C/mail-account-manage-imap-plus.page:65
+msgctxt "link"
+msgid "Composing Messages (IMAP+ accounts)"
+msgstr ""
+
+#. (itstool) path: info/title
 #: C/mail-account-manage-imap-plus.page:66
 #: C/mail-account-manage-local-delivery.page:66
 #: C/mail-account-manage-maildir-format-directories.page:67
 #: C/mail-account-manage-mh-format-directories.page:66
-#: C/mail-account-manage-microsoft-exchange-evo-ews.page:62
-#: C/mail-account-manage-microsoft-exchange-evo-mapi.page:65
+#: C/mail-account-manage-microsoft-exchange-evo-ews.page:61
+#: C/mail-account-manage-microsoft-exchange-evo-mapi.page:54
 #: C/mail-account-manage-pop.page:66
 #: C/mail-account-manage-unix-mbox-spool-directory.page:66
 #: C/mail-account-manage-unix-mbox-spool-file.page:66
 #: C/mail-account-manage-usenet-news.page:66
+msgctxt "link:trail"
+msgid "Composing"
+msgstr ""
+
+#. (itstool) path: section/title
+#: C/mail-account-manage-imap-plus.page:68
+#: C/mail-account-manage-local-delivery.page:68
+#: C/mail-account-manage-maildir-format-directories.page:69
+#: C/mail-account-manage-mh-format-directories.page:68
+#: C/mail-account-manage-microsoft-exchange-evo-ews.page:63
+#: C/mail-account-manage-microsoft-exchange-evo-mapi.page:56
+#: C/mail-account-manage-pop.page:68
+#: C/mail-account-manage-unix-mbox-spool-directory.page:68
+#: C/mail-account-manage-unix-mbox-spool-file.page:68
+#: C/mail-account-manage-usenet-news.page:68
+msgid "Composing Messages"
+msgstr ""
+
+#. (itstool) path: info/title
+#: C/mail-account-manage-imap-plus.page:73
+msgctxt "link"
+msgid "Security (IMAP+ accounts)"
+msgstr ""
+
+#. (itstool) path: info/title
+#: C/mail-account-manage-imap-plus.page:74
+#: C/mail-account-manage-local-delivery.page:74
+#: C/mail-account-manage-maildir-format-directories.page:75
+#: C/mail-account-manage-mh-format-directories.page:74
+#: C/mail-account-manage-microsoft-exchange-evo-ews.page:69
+#: C/mail-account-manage-microsoft-exchange-evo-mapi.page:68
+#: C/mail-account-manage-pop.page:74
+#: C/mail-account-manage-unix-mbox-spool-directory.page:74
+#: C/mail-account-manage-unix-mbox-spool-file.page:74
+#: C/mail-account-manage-usenet-news.page:74
+msgctxt "link:trail"
+msgid "Security"
+msgstr ""
+
+#. (itstool) path: section/title
+#: C/mail-account-manage-imap-plus.page:76
+#: C/mail-account-manage-local-delivery.page:76
+#: C/mail-account-manage-maildir-format-directories.page:77
+#: C/mail-account-manage-mh-format-directories.page:76
+#: C/mail-account-manage-microsoft-exchange-evo-ews.page:71
+#: C/mail-account-manage-microsoft-exchange-evo-mapi.page:70
+#: C/mail-account-manage-pop.page:76
+#: C/mail-account-manage-unix-mbox-spool-directory.page:76
+#: C/mail-account-manage-unix-mbox-spool-file.page:76
+#: C/mail-account-manage-usenet-news.page:76
 msgid "Security"
 msgstr "Segurtasuna"
 
 #. (itstool) path: info/title
-#: C/mail-account-manage-imap-plus.page:75
+#: C/mail-account-manage-imap-plus.page:85
 msgctxt "link"
 msgid "Other settings (IMAP+ accounts)"
 msgstr ""
 
+#. (itstool) path: info/title
+#: C/mail-account-manage-imap-plus.page:86
+msgctxt "link:trail"
+msgid "Other settings"
+msgstr ""
+
 #. (itstool) path: section/title
-#: C/mail-account-manage-imap-plus.page:77
-#: C/mail-account-manage-usenet-news.page:75
+#: C/mail-account-manage-imap-plus.page:88
+#: C/mail-account-manage-usenet-news.page:86
 msgid "Other settings"
 msgstr ""
 
 #. (itstool) path: section/p
-#: C/mail-account-manage-imap-plus.page:78
-#: C/mail-account-manage-usenet-news.page:76
+#: C/mail-account-manage-imap-plus.page:89
+#: C/mail-account-manage-usenet-news.page:87
 msgid ""
 "Other account related settings that are not located in the <gui>Account "
 "Editor</gui>:"
@@ -4893,49 +5013,62 @@ msgstr ""
 msgid "Add and edit a Local Delivery account in <app>Evolution</app>."
 msgstr ""
 
+#. (itstool) path: info/title
+#: C/mail-account-manage-local-delivery.page:8
+#: C/mail-account-management.page:31
+msgctxt "link:trail"
+msgid "Local"
+msgstr ""
+
 #. (itstool) path: page/title
-#: C/mail-account-manage-local-delivery.page:20
+#: C/mail-account-manage-local-delivery.page:21
 msgid "Local Delivery account settings"
 msgstr ""
 
 #. (itstool) path: section/p
-#: C/mail-account-manage-local-delivery.page:25
-#: C/mail-account-manage-maildir-format-directories.page:26
-#: C/mail-account-manage-mh-format-directories.page:25
-#: C/mail-account-manage-pop.page:25
-#: C/mail-account-manage-unix-mbox-spool-directory.page:25
-#: C/mail-account-manage-unix-mbox-spool-file.page:25
+#: C/mail-account-manage-local-delivery.page:26
+#: C/mail-account-manage-maildir-format-directories.page:27
+#: C/mail-account-manage-mh-format-directories.page:26
+#: C/mail-account-manage-pop.page:26
+#: C/mail-account-manage-unix-mbox-spool-directory.page:26
+#: C/mail-account-manage-unix-mbox-spool-file.page:26
 msgid ""
 "Mail accounts can be edited via <guiseq><gui>Edit</gui><gui>Preferences</"
 "gui><gui>Mail Accounts</gui><gui style=\"button\">Edit</gui></guiseq>."
 msgstr ""
 
 #. (itstool) path: info/title
-#: C/mail-account-manage-local-delivery.page:36
+#: C/mail-account-manage-local-delivery.page:31
+msgctxt "link"
+msgid "Identity (Local Delivery accounts)"
+msgstr ""
+
+#. (itstool) path: info/title
+#: C/mail-account-manage-local-delivery.page:41
 msgctxt "link"
 msgid "Receiving Email and Receiving options (Local Delivery accounts)"
 msgstr ""
 
 #. (itstool) path: info/title
-#: C/mail-account-manage-local-delivery.page:43
+#: C/mail-account-manage-local-delivery.page:49
 msgctxt "link"
 msgid "Sending Email (Local Delivery accounts)"
 msgstr ""
 
 #. (itstool) path: info/title
-#: C/mail-account-manage-local-delivery.page:50
+#: C/mail-account-manage-local-delivery.page:57
 msgctxt "link"
 msgid "Defaults (Local Delivery accounts)"
 msgstr ""
 
 #. (itstool) path: info/title
-#: C/mail-account-manage-local-delivery.page:57
+#: C/mail-account-manage-local-delivery.page:65
 msgctxt "link"
 msgid "Composing Messages (Local Delivery accounts)"
 msgstr ""
 
 #. (itstool) path: info/title
-#: C/mail-account-manage-local-delivery.page:64
+#: C/mail-account-manage-local-delivery.page:73
 msgctxt "link"
 msgid "Security (Local Delivery accounts)"
 msgstr ""
@@ -4947,18 +5080,30 @@ msgid ""
 "app>."
 msgstr ""
 
+#. (itstool) path: info/title
+#: C/mail-account-manage-maildir-format-directories.page:8
+msgctxt "link:trail"
+msgid "Maildir"
+msgstr ""
+
 #. (itstool) path: page/title
-#: C/mail-account-manage-maildir-format-directories.page:20
+#: C/mail-account-manage-maildir-format-directories.page:21
 msgid "Maildir Format Mail Directories account settings"
 msgstr ""
 
 #. (itstool) path: section/p
-#: C/mail-account-manage-maildir-format-directories.page:24
+#: C/mail-account-manage-maildir-format-directories.page:25
 msgid "<app>Evolution</app> supports the Maildir++ specification."
 msgstr ""
 
 #. (itstool) path: info/title
-#: C/mail-account-manage-maildir-format-directories.page:37
+#: C/mail-account-manage-maildir-format-directories.page:32
+msgctxt "link"
+msgid "Identity (Maildir Format Mail Directories accounts)"
+msgstr ""
+
+#. (itstool) path: info/title
+#: C/mail-account-manage-maildir-format-directories.page:42
 msgctxt "link"
 msgid ""
 "Receiving Email and Receiving options (Maildir Format Mail Directories "
@@ -4966,25 +5111,25 @@ msgid ""
 msgstr ""
 
 #. (itstool) path: info/title
-#: C/mail-account-manage-maildir-format-directories.page:44
+#: C/mail-account-manage-maildir-format-directories.page:50
 msgctxt "link"
 msgid "Sending Email (Maildir Format Mail Directories accounts)"
 msgstr ""
 
 #. (itstool) path: info/title
-#: C/mail-account-manage-maildir-format-directories.page:51
+#: C/mail-account-manage-maildir-format-directories.page:58
 msgctxt "link"
 msgid "Defaults (Maildir Format Mail Directories accounts)"
 msgstr ""
 
 #. (itstool) path: info/title
-#: C/mail-account-manage-maildir-format-directories.page:58
+#: C/mail-account-manage-maildir-format-directories.page:66
 msgctxt "link"
 msgid "Composing Messages (Maildir Format Mail Directories accounts)"
 msgstr ""
 
 #. (itstool) path: info/title
-#: C/mail-account-manage-maildir-format-directories.page:65
+#: C/mail-account-manage-maildir-format-directories.page:74
 msgctxt "link"
 msgid "Security (Maildir Format Mail Directories accounts)"
 msgstr ""
@@ -4999,18 +5144,30 @@ msgstr ""
 msgid "Account Management"
 msgstr "Kontuaren kudeaketa"
 
+#. (itstool) path: info/title
+#: C/mail-account-management.page:24
+msgctxt "link:trail"
+msgid "Common"
+msgstr ""
+
 #. (itstool) path: section/title
-#: C/mail-account-management.page:23
+#: C/mail-account-management.page:26
 msgid "Common Account Types"
 msgstr ""
 
 #. (itstool) path: section/title
-#: C/mail-account-management.page:27
+#: C/mail-account-management.page:33
 msgid "Local Account Types"
 msgstr ""
 
+#. (itstool) path: info/title
+#: C/mail-account-management.page:38
+msgctxt "link:trail"
+msgid "Corporate"
+msgstr ""
+
 #. (itstool) path: section/title
-#: C/mail-account-management.page:31
+#: C/mail-account-management.page:40
 msgid "Corporate Account Types"
 msgstr ""
 
@@ -5020,38 +5177,50 @@ msgid ""
 "Add and edit a MH Format Mail Directories account in <app>Evolution</app>."
 msgstr ""
 
+#. (itstool) path: info/title
+#: C/mail-account-manage-mh-format-directories.page:8
+msgctxt "link:trail"
+msgid "MH Format"
+msgstr ""
+
 #. (itstool) path: page/title
-#: C/mail-account-manage-mh-format-directories.page:20
+#: C/mail-account-manage-mh-format-directories.page:21
 msgid "MH Format Mail Directories account settings"
 msgstr ""
 
 #. (itstool) path: info/title
-#: C/mail-account-manage-mh-format-directories.page:36
+#: C/mail-account-manage-mh-format-directories.page:31
+msgctxt "link"
+msgid "Identity (MH Format Mail Directories accounts)"
+msgstr ""
+
+#. (itstool) path: info/title
+#: C/mail-account-manage-mh-format-directories.page:41
 msgctxt "link"
 msgid ""
 "Receiving Email and Receiving options (MH Format Mail Directories accounts)"
 msgstr ""
 
 #. (itstool) path: info/title
-#: C/mail-account-manage-mh-format-directories.page:43
+#: C/mail-account-manage-mh-format-directories.page:49
 msgctxt "link"
 msgid "Sending Email (MH Format Mail Directories accounts)"
 msgstr ""
 
 #. (itstool) path: info/title
-#: C/mail-account-manage-mh-format-directories.page:50
+#: C/mail-account-manage-mh-format-directories.page:57
 msgctxt "link"
 msgid "Defaults (MH Format Mail Directories accounts)"
 msgstr ""
 
 #. (itstool) path: info/title
-#: C/mail-account-manage-mh-format-directories.page:57
+#: C/mail-account-manage-mh-format-directories.page:65
 msgctxt "link"
 msgid "Composing Messages (MH Format Mail Directories accounts)"
 msgstr ""
 
 #. (itstool) path: info/title
-#: C/mail-account-manage-mh-format-directories.page:64
+#: C/mail-account-manage-mh-format-directories.page:73
 msgctxt "link"
 msgid "Security (MH Format Mail Directories accounts)"
 msgstr ""
@@ -5063,13 +5232,19 @@ msgid ""
 "app>."
 msgstr ""
 
+#. (itstool) path: info/title
+#: C/mail-account-manage-microsoft-exchange-evo-ews.page:8
+msgctxt "link:trail"
+msgid "Web Services"
+msgstr ""
+
 #. (itstool) path: page/title
-#: C/mail-account-manage-microsoft-exchange-evo-ews.page:20
+#: C/mail-account-manage-microsoft-exchange-evo-ews.page:21
 msgid "Exchange Web Services account settings"
 msgstr ""
 
 #. (itstool) path: note/p
-#: C/mail-account-manage-microsoft-exchange-evo-ews.page:27
+#: C/mail-account-manage-microsoft-exchange-evo-ews.page:28
 msgid ""
 "See also the <link href=\"https://wiki.gnome.org/Apps/Evolution/EWS/"
 "OAuth2\">documentation how to set up and troubleshoot OAuth2</link> "
@@ -5077,48 +5252,54 @@ msgid ""
 msgstr ""
 
 #. (itstool) path: info/title
-#: C/mail-account-manage-microsoft-exchange-evo-ews.page:39
+#: C/mail-account-manage-microsoft-exchange-evo-ews.page:34
+msgctxt "link"
+msgid "Identity (Exchange Web Services accounts)"
+msgstr ""
+
+#. (itstool) path: info/title
+#: C/mail-account-manage-microsoft-exchange-evo-ews.page:44
 msgctxt "link"
 msgid "Receiving Email and Receiving options (Exchange Web Services accounts)"
 msgstr ""
 
 #. (itstool) path: info/title
-#: C/mail-account-manage-microsoft-exchange-evo-ews.page:46
+#: C/mail-account-manage-microsoft-exchange-evo-ews.page:52
 msgctxt "link"
 msgid "Defaults (Exchange Web Services accounts)"
 msgstr ""
 
 #. (itstool) path: info/title
-#: C/mail-account-manage-microsoft-exchange-evo-ews.page:53
+#: C/mail-account-manage-microsoft-exchange-evo-ews.page:60
 msgctxt "link"
 msgid "Composing Messages (Exchange Web Services accounts)"
 msgstr ""
 
 #. (itstool) path: info/title
-#: C/mail-account-manage-microsoft-exchange-evo-ews.page:60
+#: C/mail-account-manage-microsoft-exchange-evo-ews.page:68
 msgctxt "link"
 msgid "Security (Exchange Web Services accounts)"
 msgstr ""
 
 #. (itstool) path: section/title
-#: C/mail-account-manage-microsoft-exchange-evo-ews.page:66
+#: C/mail-account-manage-microsoft-exchange-evo-ews.page:75
 msgid "Out of Office"
 msgstr ""
 
 #. (itstool) path: section/p
-#: C/mail-account-manage-microsoft-exchange-evo-ews.page:67
+#: C/mail-account-manage-microsoft-exchange-evo-ews.page:76
 msgid ""
 "Define the email reply to automatically send to internal or external persons "
 "in a certain time period."
 msgstr ""
 
 #. (itstool) path: section/title
-#: C/mail-account-manage-microsoft-exchange-evo-ews.page:71
+#: C/mail-account-manage-microsoft-exchange-evo-ews.page:80
 msgid "Delegates"
 msgstr ""
 
 #. (itstool) path: section/p
-#: C/mail-account-manage-microsoft-exchange-evo-ews.page:72
+#: C/mail-account-manage-microsoft-exchange-evo-ews.page:81
 msgid ""
 "Define who can send emails and reply to meeting requests on your behalf."
 msgstr ""
@@ -5128,41 +5309,47 @@ msgstr ""
 msgid "Add and edit a Microsoft Exchange MAPI account in <app>Evolution</app>."
 msgstr ""
 
+#. (itstool) path: info/title
+#: C/mail-account-manage-microsoft-exchange-evo-mapi.page:8
+msgctxt "link:trail"
+msgid "MAPI"
+msgstr ""
+
 #. (itstool) path: page/title
-#: C/mail-account-manage-microsoft-exchange-evo-mapi.page:20
+#: C/mail-account-manage-microsoft-exchange-evo-mapi.page:21
 msgid "Exchange MAPI account settings"
 msgstr ""
 
 #. (itstool) path: info/title
-#: C/mail-account-manage-microsoft-exchange-evo-mapi.page:36
+#: C/mail-account-manage-microsoft-exchange-evo-mapi.page:37
 msgctxt "link"
 msgid "Receiving Email and Receiving options (Exchange MAPI accounts)"
 msgstr ""
 
 #. (itstool) path: info/title
-#: C/mail-account-manage-microsoft-exchange-evo-mapi.page:43
+#: C/mail-account-manage-microsoft-exchange-evo-mapi.page:45
 msgctxt "link"
 msgid "Defaults (Exchange MAPI accounts)"
 msgstr ""
 
 #. (itstool) path: info/title
-#: C/mail-account-manage-microsoft-exchange-evo-mapi.page:50
+#: C/mail-account-manage-microsoft-exchange-evo-mapi.page:53
 msgctxt "link"
 msgid "Composing Messages (Exchange MAPI accounts)"
 msgstr ""
 
 #. (itstool) path: section/title
-#: C/mail-account-manage-microsoft-exchange-evo-mapi.page:57
+#: C/mail-account-manage-microsoft-exchange-evo-mapi.page:61
 msgid "Exchange Settings"
 msgstr ""
 
 #. (itstool) path: section/p
-#: C/mail-account-manage-microsoft-exchange-evo-mapi.page:58
+#: C/mail-account-manage-microsoft-exchange-evo-mapi.page:62
 msgid "In this section you can view the size of all Exchange folders."
 msgstr ""
 
 #. (itstool) path: info/title
-#: C/mail-account-manage-microsoft-exchange-evo-mapi.page:63
+#: C/mail-account-manage-microsoft-exchange-evo-mapi.page:67
 msgctxt "link"
 msgid "Security (Exchange MAPI accounts)"
 msgstr ""
@@ -5172,13 +5359,19 @@ msgstr ""
 msgid "Add and edit a Microsoft Exchange account in <app>Evolution</app>."
 msgstr ""
 
+#. (itstool) path: info/title
+#: C/mail-account-manage-microsoft-exchange.page:10
+msgctxt "link:trail"
+msgid "Microsoft Exchange"
+msgstr ""
+
 #. (itstool) path: page/title
-#: C/mail-account-manage-microsoft-exchange.page:22
+#: C/mail-account-manage-microsoft-exchange.page:23
 msgid "Microsoft Exchange account settings"
 msgstr ""
 
 #. (itstool) path: note/p
-#: C/mail-account-manage-microsoft-exchange.page:24
+#: C/mail-account-manage-microsoft-exchange.page:25
 msgid ""
 "Depending on the version of the Microsoft Exchange server that you would "
 "like to connect to it is required to make sure that an additional package is "
@@ -5186,21 +5379,21 @@ msgid ""
 msgstr ""
 
 #. (itstool) path: note/p
-#: C/mail-account-manage-microsoft-exchange.page:35
+#: C/mail-account-manage-microsoft-exchange.page:36
 msgid ""
 "For older versions of Microsoft Exchange, or if <sys>evolution-ews</sys> "
 "does not work well for you, try <sys>evolution-mapi</sys>."
 msgstr ""
 
 #. (itstool) path: note/p
-#: C/mail-account-manage-microsoft-exchange.page:45
+#: C/mail-account-manage-microsoft-exchange.page:46
 msgid ""
 "If you are unsure which Microsoft Exchange server version is used, you may "
 "want to contact your system administrator for more information."
 msgstr ""
 
 #. (itstool) path: page/p
-#: C/mail-account-manage-microsoft-exchange.page:47
+#: C/mail-account-manage-microsoft-exchange.page:48
 msgid ""
 "For topics not covered here please refer to the <link href=\"https://help."
 "gnome.org/users/evolution/2.32/usage-exchange.html\">old <app>Evolution</"
@@ -5212,37 +5405,49 @@ msgstr ""
 msgid "Add and edit a POP mail account in <app>Evolution</app>."
 msgstr ""
 
+#. (itstool) path: info/title
+#: C/mail-account-manage-pop.page:8
+msgctxt "link:trail"
+msgid "POP"
+msgstr ""
+
 #. (itstool) path: page/title
-#: C/mail-account-manage-pop.page:20
+#: C/mail-account-manage-pop.page:21
 msgid "POP mail account settings"
 msgstr ""
 
 #. (itstool) path: info/title
-#: C/mail-account-manage-pop.page:36
+#: C/mail-account-manage-pop.page:31
+msgctxt "link"
+msgid "Identity (POP accounts)"
+msgstr ""
+
+#. (itstool) path: info/title
+#: C/mail-account-manage-pop.page:41
 msgctxt "link"
 msgid "Receiving Email and Receiving options (POP accounts)"
 msgstr ""
 
 #. (itstool) path: info/title
-#: C/mail-account-manage-pop.page:43
+#: C/mail-account-manage-pop.page:49
 msgctxt "link"
 msgid "Sending Email (POP accounts)"
 msgstr ""
 
 #. (itstool) path: info/title
-#: C/mail-account-manage-pop.page:50
+#: C/mail-account-manage-pop.page:57
 msgctxt "link"
 msgid "Defaults (POP accounts)"
 msgstr ""
 
 #. (itstool) path: info/title
-#: C/mail-account-manage-pop.page:57
+#: C/mail-account-manage-pop.page:65
 msgctxt "link"
 msgid "Composing Messages (POP accounts)"
 msgstr ""
 
 #. (itstool) path: info/title
-#: C/mail-account-manage-pop.page:64
+#: C/mail-account-manage-pop.page:73
 msgctxt "link"
 msgid "Security (POP accounts)"
 msgstr ""
@@ -5254,13 +5459,25 @@ msgid ""
 "app>."
 msgstr ""
 
+#. (itstool) path: info/title
+#: C/mail-account-manage-unix-mbox-spool-directory.page:8
+msgctxt "link:trail"
+msgid "mbox Directory"
+msgstr ""
+
 #. (itstool) path: page/title
-#: C/mail-account-manage-unix-mbox-spool-directory.page:20
+#: C/mail-account-manage-unix-mbox-spool-directory.page:21
 msgid "Standard Unix mbox Spool Directory account settings"
 msgstr ""
 
 #. (itstool) path: info/title
-#: C/mail-account-manage-unix-mbox-spool-directory.page:36
+#: C/mail-account-manage-unix-mbox-spool-directory.page:31
+msgctxt "link"
+msgid "Identity (Standard Unix mbox Spool Directory accounts)"
+msgstr ""
+
+#. (itstool) path: info/title
+#: C/mail-account-manage-unix-mbox-spool-directory.page:41
 msgctxt "link"
 msgid ""
 "Receiving Email and Receiving options (Standard Unix mbox Spool Directory "
@@ -5268,25 +5485,25 @@ msgid ""
 msgstr ""
 
 #. (itstool) path: info/title
-#: C/mail-account-manage-unix-mbox-spool-directory.page:43
+#: C/mail-account-manage-unix-mbox-spool-directory.page:49
 msgctxt "link"
 msgid "Sending Email (Standard Unix mbox Spool Directory accounts)"
 msgstr ""
 
 #. (itstool) path: info/title
-#: C/mail-account-manage-unix-mbox-spool-directory.page:50
+#: C/mail-account-manage-unix-mbox-spool-directory.page:57
 msgctxt "link"
 msgid "Defaults (Standard Unix mbox Spool Directory accounts)"
 msgstr ""
 
 #. (itstool) path: info/title
-#: C/mail-account-manage-unix-mbox-spool-directory.page:57
+#: C/mail-account-manage-unix-mbox-spool-directory.page:65
 msgctxt "link"
 msgid "Composing Messages (Standard Unix mbox Spool Directory accounts)"
 msgstr ""
 
 #. (itstool) path: info/title
-#: C/mail-account-manage-unix-mbox-spool-directory.page:64
+#: C/mail-account-manage-unix-mbox-spool-directory.page:73
 msgctxt "link"
 msgid "Security (Standard Unix mbox Spool Directory accounts)"
 msgstr ""
@@ -5297,13 +5514,25 @@ msgid ""
 "Add and edit a Standard Unix mbox Spool File account in <app>Evolution</app>."
 msgstr ""
 
+#. (itstool) path: info/title
+#: C/mail-account-manage-unix-mbox-spool-file.page:8
+msgctxt "link:trail"
+msgid "mbox File"
+msgstr ""
+
 #. (itstool) path: page/title
-#: C/mail-account-manage-unix-mbox-spool-file.page:20
+#: C/mail-account-manage-unix-mbox-spool-file.page:21
 msgid "Standard Unix mbox Spool File account settings"
 msgstr ""
 
 #. (itstool) path: info/title
-#: C/mail-account-manage-unix-mbox-spool-file.page:36
+#: C/mail-account-manage-unix-mbox-spool-file.page:31
+msgctxt "link"
+msgid "Identity (Standard Unix mbox Spool File accounts)"
+msgstr ""
+
+#. (itstool) path: info/title
+#: C/mail-account-manage-unix-mbox-spool-file.page:41
 msgctxt "link"
 msgid ""
 "Receiving Email and Receiving options (Standard Unix mbox Spool File "
@@ -5311,25 +5540,25 @@ msgid ""
 msgstr ""
 
 #. (itstool) path: info/title
-#: C/mail-account-manage-unix-mbox-spool-file.page:43
+#: C/mail-account-manage-unix-mbox-spool-file.page:49
 msgctxt "link"
 msgid "Sending Email (Standard Unix mbox Spool File accounts)"
 msgstr ""
 
 #. (itstool) path: info/title
-#: C/mail-account-manage-unix-mbox-spool-file.page:50
+#: C/mail-account-manage-unix-mbox-spool-file.page:57
 msgctxt "link"
 msgid "Defaults (Standard Unix mbox Spool File accounts)"
 msgstr ""
 
 #. (itstool) path: info/title
-#: C/mail-account-manage-unix-mbox-spool-file.page:57
+#: C/mail-account-manage-unix-mbox-spool-file.page:65
 msgctxt "link"
 msgid "Composing Messages (Standard Unix mbox Spool File accounts)"
 msgstr ""
 
 #. (itstool) path: info/title
-#: C/mail-account-manage-unix-mbox-spool-file.page:64
+#: C/mail-account-manage-unix-mbox-spool-file.page:73
 msgctxt "link"
 msgid "Security (Standard Unix mbox Spool File accounts)"
 msgstr ""
@@ -5339,45 +5568,63 @@ msgstr ""
 msgid "Add and edit a Usenet news account in <app>Evolution</app>."
 msgstr ""
 
+#. (itstool) path: info/title
+#: C/mail-account-manage-usenet-news.page:8
+msgctxt "link:trail"
+msgid "Usenet"
+msgstr ""
+
 #. (itstool) path: page/title
-#: C/mail-account-manage-usenet-news.page:20
+#: C/mail-account-manage-usenet-news.page:21
 msgid "Usenet news account settings"
 msgstr ""
 
 #. (itstool) path: info/title
-#: C/mail-account-manage-usenet-news.page:36
+#: C/mail-account-manage-usenet-news.page:31
+msgctxt "link"
+msgid "Identity (Usenet News accounts)"
+msgstr ""
+
+#. (itstool) path: info/title
+#: C/mail-account-manage-usenet-news.page:41
 msgctxt "link"
 msgid "Receiving Email and Receiving options (Usenet News accounts)"
 msgstr ""
 
 #. (itstool) path: info/title
-#: C/mail-account-manage-usenet-news.page:43
+#: C/mail-account-manage-usenet-news.page:49
 msgctxt "link"
 msgid "Sending Email (Usenet News accounts)"
 msgstr ""
 
 #. (itstool) path: info/title
-#: C/mail-account-manage-usenet-news.page:50
+#: C/mail-account-manage-usenet-news.page:57
 msgctxt "link"
 msgid "Defaults (Usenet News accounts)"
 msgstr ""
 
 #. (itstool) path: info/title
-#: C/mail-account-manage-usenet-news.page:57
+#: C/mail-account-manage-usenet-news.page:65
 msgctxt "link"
 msgid "Composing Messages (Usenet News accounts)"
 msgstr ""
 
 #. (itstool) path: info/title
-#: C/mail-account-manage-usenet-news.page:64
+#: C/mail-account-manage-usenet-news.page:73
 msgctxt "link"
 msgid "Security (Usenet News accounts)"
 msgstr ""
 
 #. (itstool) path: info/title
-#: C/mail-account-manage-usenet-news.page:73
+#: C/mail-account-manage-usenet-news.page:83
 msgctxt "link"
 msgid "Other settings (Usenet News accounts)"
+msgstr ""
+
+#. (itstool) path: info/title
+#: C/mail-account-manage-usenet-news.page:84
+msgctxt "link:trail"
+msgid "Other"
 msgstr ""
 
 #. (itstool) path: info/desc
@@ -10071,57 +10318,39 @@ msgid "whether certain flag is set; known special values are:"
 msgstr ""
 
 #. (itstool) path: td/p
-#. (itstool) comment: ./code
 #. Translators: This is translated in a 'ffe' context
 #: C/mail-searching.page:80
-msgid ""
-"<code its:locNote=\"Translators: This is translated in a 'ffe' context"
-"\">Answered</code> - the message is marked as replied"
+msgid "<code>Answered</code> - the message is marked as replied"
 msgstr ""
 
 #. (itstool) path: td/p
-#. (itstool) comment: ./code
 #. Translators: This is translated in a 'ffe' context
 #: C/mail-searching.page:81
-msgid ""
-"<code its:locNote=\"Translators: This is translated in a 'ffe' context"
-"\">Deleted</code> - the message is marked as deleted"
+msgid "<code>Deleted</code> - the message is marked as deleted"
 msgstr ""
 
 #. (itstool) path: td/p
-#. (itstool) comment: ./code
 #. Translators: This is translated in a 'ffe' context
 #: C/mail-searching.page:82
-msgid ""
-"<code its:locNote=\"Translators: This is translated in a 'ffe' context"
-"\">Draft</code> - the message is marked as draft"
+msgid "<code>Draft</code> - the message is marked as draft"
 msgstr ""
 
 #. (itstool) path: td/p
-#. (itstool) comment: ./code
 #. Translators: This is translated in a 'ffe' context
 #: C/mail-searching.page:83
-msgid ""
-"<code its:locNote=\"Translators: This is translated in a 'ffe' context"
-"\">Flagged</code> - the message is marked as important"
+msgid "<code>Flagged</code> - the message is marked as important"
 msgstr ""
 
 #. (itstool) path: td/p
-#. (itstool) comment: ./code
 #. Translators: This is translated in a 'ffe' context
 #: C/mail-searching.page:84
-msgid ""
-"<code its:locNote=\"Translators: This is translated in a 'ffe' context"
-"\">Seen</code> - the message is marked as seen (not unread)"
+msgid "<code>Seen</code> - the message is marked as seen (not unread)"
 msgstr ""
 
 #. (itstool) path: td/p
-#. (itstool) comment: ./code
 #. Translators: This is translated in a 'ffe' context
 #: C/mail-searching.page:85
-msgid ""
-"<code its:locNote=\"Translators: This is translated in a 'ffe' context"
-"\">Attachment</code> - the message has an attachment"
+msgid "<code>Attachment</code> - the message has an attachment"
 msgstr ""
 
 #. (itstool) path: td/p
@@ -12842,9 +13071,6 @@ msgstr ""
 #~ msgid "search"
 #~ msgstr "Bilatu:"
 
-#~ msgid "File"
-#~ msgstr "Fitxategia:"
-
 #~ msgid "New"
 #~ msgstr "Berria"
 
@@ -13195,9 +13421,6 @@ msgstr ""
 
 #~ msgid "Download Messages for Offline Usage"
 #~ msgstr "_Deskargatu mezuak lineaz kanpo erabiltzeko"
-
-#~ msgid "Format"
-#~ msgstr "Formatua:"
 
 #~ msgid "Preformatted"
 #~ msgstr "Ikusi formaturik _gabe"
@@ -14407,9 +14630,6 @@ msgstr ""
 #~ msgid "Configuration instructions"
 #~ msgstr "Konfigurazio-bertsioa"
 
-#~ msgid "Other"
-#~ msgstr "Bestelakoa"
-
 #~ msgid "Standard Instructions"
 #~ msgstr "_Letra-tipo estandarra:"
 
@@ -14439,9 +14659,6 @@ msgstr ""
 
 #~ msgid "Continue with <placeholder-1/>."
 #~ msgstr "gpg <placeholder-1/>"
-
-#~ msgid "Microsoft Exchange"
-#~ msgstr "Microsoft Exchange:"
 
 #~ msgid "Novell Groupwise"
 #~ msgstr "Novell GroupWise:"
@@ -14518,9 +14735,6 @@ msgstr ""
 
 #~ msgid "Activities"
 #~ msgstr "Autoritateak"
-
-#~ msgid "System Settings"
-#~ msgstr "Ezarpenak"
 
 #~ msgid "Default Applications"
 #~ msgstr "Ezarpen lehenetsiak"
@@ -15492,9 +15706,6 @@ msgstr ""
 
 #~ msgid "Defining Your Identity"
 #~ msgstr "Zure identitatea definitzea"
-
-#~ msgid "Receiving Mail"
-#~ msgstr "Mezuak hartu"
 
 #~ msgid "Sending Mail"
 #~ msgstr "Mezuak bidali"
@@ -16752,9 +16963,6 @@ msgstr ""
 #~ "Zerrenda osoa ikusteko, sartu <command>man evolution</command> komandoa, "
 #~ "edo <command>evolution --help</command>. Komando-lerroko aukera "
 #~ "garrantzitsuenak:"
-
-#~ msgid "Command"
-#~ msgstr "Komandoa"
 
 #~ msgid "evolution --offline"
 #~ msgstr "evolution --offline"
