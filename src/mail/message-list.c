@@ -4019,6 +4019,8 @@ message_list_class_init (MessageListClass *class)
 	widget_class = GTK_WIDGET_CLASS (class);
 	widget_class->get_preferred_width = message_list_get_preferred_width;
 
+	gtk_widget_class_set_css_name (widget_class, "MessageList");
+
 	object_class = G_OBJECT_CLASS (class);
 	object_class->set_property = message_list_set_property;
 	object_class->get_property = message_list_get_property;

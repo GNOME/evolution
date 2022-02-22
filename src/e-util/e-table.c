@@ -3200,8 +3200,9 @@ e_table_class_init (ETableClass *class)
 	widget_class->get_preferred_width = et_get_preferred_width;
 	widget_class->get_preferred_height = et_get_preferred_height;
 	widget_class->style_updated = et_canvas_style_updated;
-
 	widget_class->focus = et_focus;
+
+	gtk_widget_class_set_css_name (widget_class, "ETable");
 
 	class->cursor_change = NULL;
 	class->cursor_activated = NULL;

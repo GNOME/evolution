@@ -2818,6 +2818,8 @@ e_to_do_pane_class_init (EToDoPaneClass *klass)
 
 	g_type_class_add_private (klass, sizeof (EToDoPanePrivate));
 
+	gtk_widget_class_set_css_name (GTK_WIDGET_CLASS (klass), "EToDoPane");
+
 	object_class = G_OBJECT_CLASS (klass);
 	object_class->set_property = e_to_do_pane_set_property;
 	object_class->get_property = e_to_do_pane_get_property;

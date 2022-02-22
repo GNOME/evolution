@@ -2867,6 +2867,8 @@ e_tree_class_init (ETreeClass *class)
 	widget_class->style_updated = et_canvas_style_updated;
 	widget_class->focus = et_focus;
 
+	gtk_widget_class_set_css_name (widget_class, "ETree");
+
 	class->start_drag = et_real_start_drag;
 
 	signals[CURSOR_CHANGE] = g_signal_new (

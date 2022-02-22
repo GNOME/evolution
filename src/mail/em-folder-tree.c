@@ -1350,6 +1350,7 @@ folder_tree_constructed (GObject *object)
 	GtkCellRenderer *renderer;
 	GtkTreeView *tree_view;
 	GtkTreeModel *model;
+	GtkStyleContext *style_context;
 	gulong handler_id;
 
 	priv = EM_FOLDER_TREE_GET_PRIVATE (object);
@@ -1459,6 +1460,9 @@ folder_tree_constructed (GObject *object)
 
 	g_signal_connect (tree_view, "row-collapsed",
 		G_CALLBACK (folder_tree_reset_store_unread_value_cb), NULL);
+
+	style_context = gtk_widget_get_style_context (GTK_WIDGET (object));
+	gtk_style_context_add_class (style_context, "EMFolderTree");
 }
 
 static gboolean
