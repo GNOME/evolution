@@ -288,7 +288,7 @@ e_show_uri (GtkWindow *parent,
 }
 
 static gboolean
-e_misc_utils_is_help_package_installed (void)
+e_misc_utils_is_help_package_installed (GAppInfo **out_yelp_info)
 {
 	gboolean is_installed;
 	gchar *path;
@@ -302,13 +302,29 @@ e_misc_utils_is_help_package_installed (void)
 	g_free (path);
 
 	if (is_installed) {
-		GAppInfo *help_handler;
+		GAppInfo *yelp_info = NULL;
+		GList *app_infos, *link;
 
-		help_handler = g_app_info_get_default_for_uri_scheme ("help");
+		app_infos = g_app_info_get_all_for_type ("x-scheme-handler/help");
 
-		is_installed = help_handler && g_app_info_get_commandline (help_handler);
+		for (link = app_infos; link; link = g_list_next (link)) {
+			GAppInfo *app_info = link->data;
+			const gchar *executable;
 
-		g_clear_object (&help_handler);
+			executable = g_app_info_get_executable (app_info);
+
+			if (executable && camel_strstrcase (executable, "yelp")) {
+				yelp_info = app_info;
+				break;
+			}
+		}
+
+		is_installed = yelp_info && g_app_info_get_commandline (yelp_info);
+
+		if (is_installed)
+			*out_yelp_info = g_object_ref (yelp_info);
+
+		g_list_free_full (app_infos, g_object_unref);
 	}
 
 	return is_installed;
@@ -328,13 +344,14 @@ void
 e_display_help (GtkWindow *parent,
                 const gchar *link_id)
 {
+	GAppInfo *yelp_info = NULL;
 	GString *uri;
 	GtkWidget *dialog;
 	GdkScreen *screen = NULL;
 	GError *error = NULL;
 	guint32 timestamp;
 
-	if (e_misc_utils_is_help_package_installed ()) {
+	if (e_misc_utils_is_help_package_installed (&yelp_info)) {
 		uri = g_string_new ("help:" PACKAGE);
 	} else {
 		uri = g_string_new ("https://help.gnome.org/users/" PACKAGE "/");
@@ -353,8 +370,34 @@ e_display_help (GtkWindow *parent,
 		g_string_append (uri, link_id);
 	}
 
-	if (gtk_show_uri (screen, uri->str, timestamp, &error))
+	if (yelp_info) {
+		GAppLaunchContext *context = NULL;
+		GList *uris;
+		gboolean success;
+
+		uris = g_list_prepend (NULL, uri->str);
+
+		if (parent && gtk_widget_get_screen (GTK_WIDGET (parent))) {
+			GdkAppLaunchContext *gdk_context;
+			GdkScreen *screen;
+
+			screen = gtk_widget_get_screen (GTK_WIDGET (parent));
+			gdk_context = gdk_display_get_app_launch_context (gdk_screen_get_display (screen));
+
+			if (gdk_context)
+				context = G_APP_LAUNCH_CONTEXT (gdk_context);
+		}
+
+		success = g_app_info_launch_uris (yelp_info, uris, context, &error);
+
+		g_list_free (uris);
+		g_clear_object (&context);
+
+		if (success)
+			goto exit;
+	} else if (gtk_show_uri (screen, uri->str, timestamp, &error)) {
 		goto exit;
+	}
 
 	dialog = gtk_message_dialog_new_with_markup (
 		parent, GTK_DIALOG_DESTROY_WITH_PARENT,
@@ -372,6 +415,7 @@ e_display_help (GtkWindow *parent,
 
 exit:
 	g_string_free (uri, TRUE);
+	g_clear_object (&yelp_info);
 }
 
 /**
