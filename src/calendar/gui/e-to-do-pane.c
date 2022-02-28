@@ -198,8 +198,10 @@ etdp_itt_to_zone (ICalTime *itt,
 		zone = i_cal_timezone_get_utc_timezone ();
 	}
 
-	if (zone)
+	if (zone) {
 		i_cal_time_convert_timezone (itt, zone, default_zone);
+		i_cal_time_set_timezone (itt, default_zone);
+	}
 }
 
 static gchar *
