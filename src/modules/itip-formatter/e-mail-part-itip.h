@@ -59,6 +59,7 @@ struct _EMailPartItip {
 	gchar *message_uid;
 	CamelMimePart *itip_mime_part;
 	gchar *vcalendar;
+	gchar *alternative_html;
 
 	/* cancelled when freeing the puri */
 	GCancellable *cancellable;

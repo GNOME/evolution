@@ -11,9 +11,9 @@
       <_description>Whether to preset option to preserve existing reminder by default</_description>
     </key>
     <key name="show-message-description" type="b">
-      <default>true</default>
+      <default>false</default>
       <_summary>Show invitation description provided by the sender</_summary>
-      <_description>Set to true to show invitation description as provided by the sender, if such is available; otherwise generate the invitation description from the iCalendar component</_description>
+      <_description>Set to true to show invitation description as provided by the sender, if such is available</_description>
     </key>
   </schema>
 </schemalist>

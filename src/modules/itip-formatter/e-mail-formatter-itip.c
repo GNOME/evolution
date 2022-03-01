@@ -49,6 +49,29 @@ static const gchar *formatter_mime_types[] = {
 };
 
 static gboolean
+emfe_itip_get_use_alternative_html (const gchar *uri)
+{
+	SoupURI *soup_uri;
+	gboolean res = FALSE;
+
+	if (!uri)
+		return FALSE;
+
+	soup_uri = soup_uri_new (uri);
+	if (soup_uri) {
+		GHashTable *query;
+
+		query = soup_form_decode (soup_uri->query);
+		res = query && g_strcmp0 (g_hash_table_lookup (query, "e-itip-view-alternative-html"), "1") == 0;
+		if (query)
+			g_hash_table_destroy (query);
+		soup_uri_free (soup_uri);
+	}
+
+	return res;
+}
+
+static gboolean
 emfe_itip_format (EMailFormatterExtension *extension,
                   EMailFormatter *formatter,
                   EMailFormatterContext *context,
@@ -58,11 +81,17 @@ emfe_itip_format (EMailFormatterExtension *extension,
 {
 	GString *buffer;
 	EMailPartItip *itip_part;
+	gboolean use_alternative_html;
 
 	/* This can be called with attachment parts too, thus
 	   return silently in that case */
 	if (!E_IS_MAIL_PART_ITIP (part))
 		return FALSE;
+
+	use_alternative_html = emfe_itip_get_use_alternative_html (context->uri);
+
+	if (use_alternative_html && context->mode != E_MAIL_FORMATTER_MODE_RAW)
+		return TRUE;
 
 	itip_part = (EMailPartItip *) part;
 
@@ -83,6 +112,17 @@ emfe_itip_format (EMailFormatterExtension *extension,
 		itip_view_write_for_printing (itip_view, buffer);
 
 	} else if (context->mode == E_MAIL_FORMATTER_MODE_RAW) {
+		if (use_alternative_html) {
+			if (itip_part->alternative_html) {
+				g_output_stream_write_all (stream,
+					itip_part->alternative_html,
+					strlen (itip_part->alternative_html),
+					NULL, cancellable, NULL);
+			}
+
+			return TRUE;
+		}
+
 		buffer = g_string_sized_new (2048);
 
 		itip_view_write (itip_part, formatter, buffer);
@@ -114,6 +154,7 @@ emfe_itip_format (EMailFormatterExtension *extension,
 		itip_part->folder = folder ? g_object_ref (folder) : NULL;
 		itip_part->message = g_object_ref (message);
 		itip_part->message_uid = g_strdup (message_uid);
+		g_clear_pointer (&itip_part->alternative_html, g_free);
 
 		g_clear_object (&old_folder);
 		g_clear_object (&old_message);

@@ -38,6 +38,7 @@
 #include <mail/em-config.h>
 #include <mail/em-utils.h>
 #include <em-format/e-mail-formatter-utils.h>
+#include <em-format/e-mail-part-utils.h>
 
 #include "itip-view.h"
 #include "e-mail-part-itip.h"
@@ -1859,67 +1860,59 @@ itip_view_write (gpointer itip_part_ptr,
 		 EMailFormatter *formatter,
                  GString *buffer)
 {
+	EMailPartItip *itip_part = itip_part_ptr;
 	gint icon_width, icon_height;
-	GSettings *settings;
 	gchar *header;
-	gchar *alternative_html;
 
 	header = e_mail_formatter_get_html_header (formatter);
 	g_string_append (buffer, header);
 	g_free (header);
 
-	settings = e_util_ref_settings ("org.gnome.evolution.plugin.itip");
+	g_clear_pointer (&itip_part->alternative_html, g_free);
 
-	if (g_settings_get_boolean (settings, "show-message-description"))
-		alternative_html = itip_view_dup_alternative_html (itip_part_ptr);
-	else
-		alternative_html = NULL;
+	itip_part->alternative_html = itip_view_dup_alternative_html (itip_part_ptr);
 
-	g_clear_object (&settings);
-
-	if (!alternative_html) {
-		if (!gtk_icon_size_lookup (GTK_ICON_SIZE_BUTTON, &icon_width, &icon_height)) {
-			icon_width = 16;
-			icon_height = 16;
-		}
-
-		g_string_append_printf (
-			buffer,
-			"<img src=\"gtk-stock://%s?size=%d\" class=\"itip icon\" width=\"%dpx\" height=\"%dpx\"/>\n",
-				MEETING_ICON, GTK_ICON_SIZE_BUTTON, icon_width, icon_height);
-
-		g_string_append (
-			buffer,
-			"<div class=\"itip content\" id=\"" DIV_ITIP_CONTENT "\">\n");
-
-		/* The first section listing the sender */
-		/* FIXME What to do if the send and organizer do not match */
-		g_string_append (
-			buffer,
-			"<div id=\"" TEXT_ROW_SENDER "\" class=\"itip sender\"></div>\n");
-
-		g_string_append (buffer, "<hr>\n");
-
-		/* Elementary event information */
-		g_string_append (
-			buffer,
-			"<table class=\"itip table\" border=\"0\" "
-			"cellspacing=\"5\" cellpadding=\"0\">\n");
-
-		append_text_table_row (buffer, TABLE_ROW_SUMMARY, NULL, NULL);
-		append_text_table_row (buffer, TABLE_ROW_LOCATION, _("Location:"), NULL);
-		append_text_table_row (buffer, TABLE_ROW_URL, _("URL:"), NULL);
-		append_text_table_row (buffer, TABLE_ROW_START_DATE, _("Start time:"), NULL);
-		append_text_table_row (buffer, TABLE_ROW_END_DATE, _("End time:"), NULL);
-		append_text_table_row (buffer, TABLE_ROW_DUE_DATE, _("Due date:"), NULL);
-		append_text_table_row (buffer, TABLE_ROW_ESTIMATED_DURATION, _("Estimated duration:"), NULL);
-		append_text_table_row (buffer, TABLE_ROW_STATUS, _("Status:"), NULL);
-		append_text_table_row (buffer, TABLE_ROW_COMMENT, _("Comment:"), NULL);
-		append_text_table_row (buffer, TABLE_ROW_CATEGORIES, _("Categories:"), NULL);
-		append_text_table_row (buffer, TABLE_ROW_ATTENDEES, _("Attendees:"), NULL);
-
-		g_string_append (buffer, "</table>\n");
+	if (!gtk_icon_size_lookup (GTK_ICON_SIZE_BUTTON, &icon_width, &icon_height)) {
+		icon_width = 16;
+		icon_height = 16;
 	}
+
+	g_string_append_printf (
+		buffer,
+		"<img src=\"gtk-stock://%s?size=%d\" class=\"itip icon\" width=\"%dpx\" height=\"%dpx\"/>\n",
+			MEETING_ICON, GTK_ICON_SIZE_BUTTON, icon_width, icon_height);
+
+	g_string_append (
+		buffer,
+		"<div class=\"itip content\" id=\"" DIV_ITIP_CONTENT "\">\n");
+
+	/* The first section listing the sender */
+	/* FIXME What to do if the send and organizer do not match */
+	g_string_append (
+		buffer,
+		"<div id=\"" TEXT_ROW_SENDER "\" class=\"itip sender\"></div>\n");
+
+	g_string_append (buffer, "<hr>\n");
+
+	/* Elementary event information */
+	g_string_append (
+		buffer,
+		"<table class=\"itip table\" border=\"0\" "
+		"cellspacing=\"5\" cellpadding=\"0\">\n");
+
+	append_text_table_row (buffer, TABLE_ROW_SUMMARY, NULL, NULL);
+	append_text_table_row (buffer, TABLE_ROW_LOCATION, _("Location:"), NULL);
+	append_text_table_row (buffer, TABLE_ROW_URL, _("URL:"), NULL);
+	append_text_table_row (buffer, TABLE_ROW_START_DATE, _("Start time:"), NULL);
+	append_text_table_row (buffer, TABLE_ROW_END_DATE, _("End time:"), NULL);
+	append_text_table_row (buffer, TABLE_ROW_DUE_DATE, _("Due date:"), NULL);
+	append_text_table_row (buffer, TABLE_ROW_ESTIMATED_DURATION, _("Estimated duration:"), NULL);
+	append_text_table_row (buffer, TABLE_ROW_STATUS, _("Status:"), NULL);
+	append_text_table_row (buffer, TABLE_ROW_COMMENT, _("Comment:"), NULL);
+	append_text_table_row (buffer, TABLE_ROW_CATEGORIES, _("Categories:"), NULL);
+	append_text_table_row (buffer, TABLE_ROW_ATTENDEES, _("Attendees:"), NULL);
+
+	g_string_append (buffer, "</table>\n");
 
 	/* Upper Info items */
 	g_string_append (
@@ -1927,16 +1920,95 @@ itip_view_write (gpointer itip_part_ptr,
 		"<table class=\"itip info\" id=\"" TABLE_UPPER_ITIP_INFO "\" border=\"0\" "
 		"cellspacing=\"5\" cellpadding=\"0\">");
 
-	if (alternative_html) {
-		g_string_append (buffer, alternative_html);
-	} else {
-		/* Description */
-		g_string_append (
-			buffer,
-			"<div id=\"" TABLE_ROW_DESCRIPTION "\" class=\"itip description\" hidden=\"\"></div>\n");
-	}
+	/* Description */
+	g_string_append (
+		buffer,
+		"<div id=\"" TABLE_ROW_DESCRIPTION "\" class=\"itip description\" hidden=\"\"></div>\n");
 
 	g_string_append (buffer, "<hr>\n");
+
+	if (itip_part->alternative_html) {
+		EMailPart *part = E_MAIL_PART (itip_part);
+		GSettings *settings;
+		const gchar *default_charset, *charset;
+		const gchar *text, *other_text;
+		const gchar *img, *other_img;
+		gboolean expand;
+		gchar *uri;
+
+		settings = e_util_ref_settings ("org.gnome.evolution.plugin.itip");
+		expand = g_settings_get_boolean (settings, "show-message-description");
+		g_clear_object (&settings);
+
+		text = _("Show description provided by the sender");
+		other_text = _("Hide description provided by the sender");
+		img = "pan-end-symbolic";
+		other_img = "pan-down-symbolic";
+
+		if (expand) {
+			#define SWAP(a,b) { const gchar *tmp = a; a = b; b = tmp; }
+			SWAP (text, other_text);
+			SWAP (img, other_img);
+			#undef SWAP
+		}
+
+		if (!gtk_icon_size_lookup (GTK_ICON_SIZE_MENU, &icon_width, &icon_height)) {
+			icon_width = 16;
+			icon_height = 16;
+		}
+
+		e_util_markup_append_escaped (buffer,
+			"<span class=\"itip-view-alternative-html\" id=\"%p:spn\" value=\"itip-view-alternative-html-%p\" style=\"vertical-align:bottom;\">"
+			"<img id=\"itip-view-alternative-html-%p-img\" style=\"vertical-align:middle;\" width=\"%dpx\" height=\"%dpx\""
+			" src=\"gtk-stock://%s?size=%d\" othersrc=\"gtk-stock://%s?size=%d\" style=\"vertical-align:center;\">&nbsp;"
+			"<span id=\"itip-view-alternative-html-%p-spn\" othertext=\"%s\" style=\"vertical-align:center;\">%s</span></span><br>",
+			itip_part, itip_part, itip_part, icon_width, icon_height,
+			img, GTK_ICON_SIZE_MENU,
+			other_img, GTK_ICON_SIZE_MENU,
+			itip_part,
+			other_text, text);
+
+		default_charset = e_mail_formatter_get_default_charset (formatter);
+		charset = e_mail_formatter_get_charset (formatter);
+
+		if (!default_charset)
+			default_charset = "";
+		if (!charset)
+			charset = "";
+
+		uri = e_mail_part_build_uri (
+			itip_part->folder, itip_part->message_uid,
+			"part_id", G_TYPE_STRING, e_mail_part_get_id (part),
+			"mode", G_TYPE_INT, E_MAIL_FORMATTER_MODE_RAW,
+			"formatter_default_charset", G_TYPE_STRING, default_charset,
+			"formatter_charset", G_TYPE_STRING, charset,
+			"e-itip-view-alternative-html", G_TYPE_STRING, "1",
+			NULL);
+
+		settings = e_util_ref_settings ("org.gnome.evolution.mail");
+
+		g_string_append_printf (
+			buffer,
+			"<div class=\"part-container-nostyle\" id=\"itip-view-alternative-html-%p\"%s>"
+			"<iframe width=\"100%%\" height=\"10\" "
+			" frameborder=\"0\" src=\"%s\" "
+			" id=\"%s.iframe\" name=\"%s\" "
+			" class=\"-e-mail-formatter-frame-color\" "
+			" %s>"
+			"</iframe>"
+			"</div>",
+			itip_part,
+			expand ? "" : " hidden",
+			uri,
+			e_mail_part_get_id (part),
+			e_mail_part_get_id (part),
+			g_settings_get_boolean (settings, "preview-unset-html-colors") ? "x-e-unset-colors=\"1\"" : "style=\"background-color: #ffffff;\"");
+
+		g_clear_object (&settings);
+		g_free (uri);
+
+		g_string_append (buffer, "<hr>\n");
+	}
 
 	/* Lower Info items */
 	g_string_append (
@@ -1991,8 +2063,6 @@ itip_view_write (gpointer itip_part_ptr,
 	g_string_append (buffer, "<div class=\"itip error\" id=\"" DIV_ITIP_ERROR "\"></div>");
 
 	g_string_append (buffer, "</body></html>");
-
-	g_free (alternative_html);
 }
 
 void

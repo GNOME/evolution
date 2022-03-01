@@ -42,11 +42,9 @@ mail_part_itip_dispose (GObject *object)
 
 	g_cancellable_cancel (part->cancellable);
 
-	g_free (part->message_uid);
-	part->message_uid = NULL;
-
-	g_free (part->vcalendar);
-	part->vcalendar = NULL;
+	g_clear_pointer (&part->message_uid, g_free);
+	g_clear_pointer (&part->vcalendar, g_free);
+	g_clear_pointer (&part->alternative_html, g_free);
 
 	g_clear_object (&part->folder);
 	g_clear_object (&part->message);
@@ -67,6 +65,54 @@ mail_part_itip_finalize (GObject *object)
 
 	/* Chain up to parent's finalize() method. */
 	G_OBJECT_CLASS (e_mail_part_itip_parent_class)->finalize (object);
+}
+
+static void
+itip_view_alternative_html_clicked_cb (EWebView *web_view,
+				       const gchar *iframe_id,
+				       const gchar *element_id,
+				       const gchar *element_class,
+				       const gchar *element_value,
+				       const GtkAllocation *element_position,
+				       gpointer user_data)
+{
+	EMailPart *mail_part = user_data;
+	gchar tmp[128];
+
+	g_return_if_fail (E_IS_MAIL_PART_ITIP (mail_part));
+
+	if (!element_id || !element_value)
+		return;
+
+	g_return_if_fail (g_snprintf (tmp, sizeof (tmp), "%p:", mail_part) < sizeof (tmp));
+
+	if (g_str_has_prefix (element_id, tmp)) {
+		gchar spn[128];
+
+		g_return_if_fail (g_snprintf (spn, sizeof (spn), "%s-spn", element_value) < sizeof (spn));
+		g_return_if_fail (g_snprintf (tmp, sizeof (tmp), "%s-img", element_value) < sizeof (tmp));
+
+		e_web_view_jsc_run_script (WEBKIT_WEB_VIEW (web_view), e_web_view_get_cancellable (web_view),
+			"var elem = Evo.FindElement(%s, %s);\n"
+			"if (elem) {\n"
+			"	elem.hidden = !elem.hidden;\n"
+			"}\n"
+			"elem = Evo.FindElement(%s, %s);\n"
+			"if (elem) {\n"
+			"	var tmp = elem.src;\n"
+			"	elem.src = elem.getAttribute(\"othersrc\");\n"
+			"	elem.setAttribute(\"othersrc\", tmp);\n"
+			"}\n"
+			"elem = Evo.FindElement(%s, %s);\n"
+			"if (elem) {\n"
+			"	var tmp = elem.innerText;\n"
+			"	elem.innerText = elem.getAttribute(\"othertext\");\n"
+			"	elem.setAttribute(\"othertext\", tmp);\n"
+			"}\n",
+			iframe_id, element_value,
+			iframe_id, tmp,
+			iframe_id, spn);
+	}
 }
 
 static void
@@ -116,6 +162,8 @@ mail_part_itip_content_loaded (EMailPart *part,
 
 		pitip->priv->views = g_slist_prepend (pitip->priv->views, itip_view);
 	}
+
+	e_web_view_register_element_clicked (web_view, "itip-view-alternative-html", itip_view_alternative_html_clicked_cb, pitip);
 }
 
 static void
