@@ -16,8 +16,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: evolution\n"
 "Report-Msgid-Bugs-To: https://gitlab.gnome.org/GNOME/evolution/issues\n"
-"POT-Creation-Date: 2022-02-22 15:21+0000\n"
-"PO-Revision-Date: 2022-02-22 20:49+0300\n"
+"POT-Creation-Date: 2022-03-01 15:02+0000\n"
+"PO-Revision-Date: 2022-03-02 16:00+0300\n"
 "Last-Translator: Emin Tufan Çetin <etcetin@gmail.com>\n"
 "Language-Team: Turkish <gnome-turk@gnome.org>\n"
 "Language: tr\n"
@@ -3068,11 +3068,9 @@ msgstr "Gönderence sağlanan davet açıklamasını göster"
 #: ../data/org.gnome.evolution.plugin.itip.gschema.xml.in.h:6
 msgid ""
 "Set to true to show invitation description as provided by the sender, if "
-"such is available; otherwise generate the invitation description from the "
-"iCalendar component"
-msgstr ""
-"Eğer varsa gönderence sağlanan davet açıklamasını göstermek için doğru "
-"olarak belirle; yoksa davet açıklamasını iCalendar bileşeninden oluştur"
+"such is available"
+msgstr "Eğer varsa gönderence sağlanan davet açıklamasını göstermek için "
+"doğru olarak belirle"
 
 #: ../data/org.gnome.evolution.plugin.mail-notification.gschema.xml.in.h:1
 msgid "Notify new messages for Inbox only."
@@ -4344,7 +4342,7 @@ msgid "_Help"
 msgstr "_Yardım"
 
 #: ../src/addressbook/gui/contact-editor/contact-editor.ui.h:17
-#: ../src/e-util/e-misc-utils.c:3585
+#: ../src/e-util/e-misc-utils.c:3629
 msgid "Image"
 msgstr "Resim"
 
@@ -4403,7 +4401,7 @@ msgstr "_Ev Sayfası:"
 
 #: ../src/addressbook/gui/contact-editor/contact-editor.ui.h:30
 #: ../src/calendar/gui/e-comp-editor-event.c:881
-#: ../src/modules/itip-formatter/itip-view.c:2209
+#: ../src/modules/itip-formatter/itip-view.c:2279
 msgid "_Calendar:"
 msgstr "_Takvim:"
 
@@ -5011,7 +5009,7 @@ msgid "Send a mail message to this address"
 msgstr "Bu adrese posta iletisi gönder"
 
 #: ../src/addressbook/gui/widgets/eab-contact-display.c:318
-#: ../src/e-util/e-misc-utils.c:4588
+#: ../src/e-util/e-misc-utils.c:4632
 #, c-format
 msgid "Click to mail %s"
 msgstr "%s adresine posta göndermek için tıklayın"
@@ -6745,7 +6743,7 @@ msgid "Description Contains"
 msgstr "Tanım İçerir"
 
 #: ../src/calendar/gui/comp-util.c:1553
-#: ../src/modules/itip-formatter/itip-view.c:2622
+#: ../src/modules/itip-formatter/itip-view.c:2692
 #, c-format
 msgid "with one guest"
 msgid_plural "with %d guests"
@@ -7027,15 +7025,15 @@ msgid "Untitled"
 msgstr "Adsız"
 
 #: ../src/calendar/gui/e-cal-component-preview.c:252
-#: ../src/modules/itip-formatter/itip-view.c:1918
-#: ../src/modules/itip-formatter/itip-view.c:2057
+#: ../src/modules/itip-formatter/itip-view.c:1912
+#: ../src/modules/itip-formatter/itip-view.c:2127
 msgid "Categories:"
 msgstr "Kategoriler:"
 
 #: ../src/calendar/gui/e-cal-component-preview.c:289
 #: ../src/modules/cal-config-weather/evolution-cal-config-weather.c:312
-#: ../src/modules/itip-formatter/itip-view.c:1910
-#: ../src/modules/itip-formatter/itip-view.c:2033
+#: ../src/modules/itip-formatter/itip-view.c:1904
+#: ../src/modules/itip-formatter/itip-view.c:2103
 msgid "Location:"
 msgstr "Konum:"
 
@@ -7052,8 +7050,8 @@ msgid "Due Date:"
 msgstr "Tamamlanma Tarihi:"
 
 #: ../src/calendar/gui/e-cal-component-preview.c:333
-#: ../src/modules/itip-formatter/itip-view.c:1915
-#: ../src/modules/itip-formatter/itip-view.c:2048
+#: ../src/modules/itip-formatter/itip-view.c:1909
+#: ../src/modules/itip-formatter/itip-view.c:2118
 msgid "Estimated duration:"
 msgstr "Öngörülen süre:"
 
@@ -7062,8 +7060,8 @@ msgid "Recurs:"
 msgstr "Yineler:"
 
 #: ../src/calendar/gui/e-cal-component-preview.c:361
-#: ../src/modules/itip-formatter/itip-view.c:1916
-#: ../src/modules/itip-formatter/itip-view.c:2051
+#: ../src/modules/itip-formatter/itip-view.c:1910
+#: ../src/modules/itip-formatter/itip-view.c:2121
 msgid "Status:"
 msgstr "Durum:"
 
@@ -7102,8 +7100,8 @@ msgid "Organizer:"
 msgstr "Düzenleyici:"
 
 #: ../src/calendar/gui/e-cal-component-preview.c:449
-#: ../src/modules/itip-formatter/itip-view.c:1919
-#: ../src/modules/itip-formatter/itip-view.c:2060
+#: ../src/modules/itip-formatter/itip-view.c:1913
+#: ../src/modules/itip-formatter/itip-view.c:2130
 msgid "Attendees:"
 msgstr "Katılımcılar:"
 
@@ -7369,7 +7367,7 @@ msgstr "Organizatör: %s"
 #: ../src/calendar/gui/e-calendar-view.c:2008
 #: ../src/calendar/gui/e-meeting-time-sel.c:2580
 #: ../src/calendar/gui/e-task-table.c:763
-#: ../src/calendar/gui/e-to-do-pane.c:378 ../src/calendar/gui/print.c:3627
+#: ../src/calendar/gui/e-to-do-pane.c:380 ../src/calendar/gui/print.c:3627
 #, c-format
 msgid "Location: %s"
 msgstr "Konum: %s"
@@ -7377,7 +7375,7 @@ msgstr "Konum: %s"
 #. To Translators: It will display "Time: ActualStartDateAndTime (DurationOfTheMeeting)"
 #. Translators: It will display "Time: StartDateAndTime (Duration)"
 #: ../src/calendar/gui/e-calendar-view.c:2067
-#: ../src/calendar/gui/e-to-do-pane.c:481
+#: ../src/calendar/gui/e-to-do-pane.c:483
 #, c-format
 msgid "Time: %s %s"
 msgstr "Zaman: %s %s"
@@ -7385,7 +7383,7 @@ msgstr "Zaman: %s %s"
 #: ../src/calendar/gui/e-calendar-view.c:2136
 #: ../src/calendar/gui/e-memo-table.c:660
 #: ../src/calendar/gui/e-task-table.c:893
-#: ../src/calendar/gui/e-to-do-pane.c:591 ../src/e-util/e-misc-utils.c:4653
+#: ../src/calendar/gui/e-to-do-pane.c:593 ../src/e-util/e-misc-utils.c:4697
 #: ../src/e-util/e-text.c:566 ../src/e-util/e-web-view.c:4185
 msgid "…"
 msgstr "…"
@@ -7476,8 +7474,8 @@ msgstr "Tür"
 #: ../src/calendar/gui/e-meeting-store.c:170
 #: ../src/calendar/gui/e-meeting-store.c:215 ../src/calendar/gui/print.c:1265
 #: ../src/calendar/gui/print.c:1282 ../src/e-util/e-charset.c:49
-#: ../src/modules/itip-formatter/itip-view.c:3738
-#: ../src/modules/itip-formatter/itip-view.c:6730
+#: ../src/modules/itip-formatter/itip-view.c:3808
+#: ../src/modules/itip-formatter/itip-view.c:6800
 #: ../src/modules/plugin-manager/evolution-plugin-manager.c:97
 msgid "Unknown"
 msgstr "Bilinmiyor"
@@ -7526,7 +7524,7 @@ msgstr "Hayır"
 #: ../src/calendar/gui/e-meeting-list-view.c:205
 #: ../src/calendar/gui/e-meeting-store.c:179
 #: ../src/calendar/gui/e-meeting-store.c:202
-#: ../src/modules/itip-formatter/itip-view.c:6718
+#: ../src/modules/itip-formatter/itip-view.c:6788
 msgid "Accepted"
 msgstr "Onaylandı"
 
@@ -7534,7 +7532,7 @@ msgstr "Onaylandı"
 #: ../src/calendar/gui/e-meeting-list-view.c:206
 #: ../src/calendar/gui/e-meeting-store.c:181
 #: ../src/calendar/gui/e-meeting-store.c:204
-#: ../src/modules/itip-formatter/itip-view.c:6724
+#: ../src/modules/itip-formatter/itip-view.c:6794
 msgid "Declined"
 msgstr "Reddedildi"
 
@@ -7550,7 +7548,7 @@ msgstr "Girişimli"
 #: ../src/calendar/gui/e-meeting-list-view.c:208
 #: ../src/calendar/gui/e-meeting-store.c:185
 #: ../src/calendar/gui/e-meeting-store.c:208
-#: ../src/modules/itip-formatter/itip-view.c:6727
+#: ../src/modules/itip-formatter/itip-view.c:6797
 msgid "Delegated"
 msgstr "Temsilci"
 
@@ -7595,15 +7593,15 @@ msgstr "Not değiştiriliyor"
 msgid "Modifying a task"
 msgstr "Görev değiştiriliyor"
 
-#: ../src/calendar/gui/e-cal-ops.c:426 ../src/calendar/gui/e-to-do-pane.c:2087
+#: ../src/calendar/gui/e-cal-ops.c:426 ../src/calendar/gui/e-to-do-pane.c:2089
 msgid "Removing an event"
 msgstr "Olay kaldırılıyor"
 
-#: ../src/calendar/gui/e-cal-ops.c:430 ../src/calendar/gui/e-to-do-pane.c:2091
+#: ../src/calendar/gui/e-cal-ops.c:430 ../src/calendar/gui/e-to-do-pane.c:2093
 msgid "Removing a memo"
 msgstr "Not kaldırılıyor"
 
-#: ../src/calendar/gui/e-cal-ops.c:434 ../src/calendar/gui/e-to-do-pane.c:2095
+#: ../src/calendar/gui/e-cal-ops.c:434 ../src/calendar/gui/e-to-do-pane.c:2097
 msgid "Removing a task"
 msgstr "Görev kaldırılıyor"
 
@@ -7793,8 +7791,8 @@ msgstr "Başlangıç saati geçerli zaman değil"
 #: ../src/calendar/gui/e-comp-editor.c:340
 #: ../src/composer/e-composer-actions.c:180
 #: ../src/em-format/e-mail-part-secure-button.c:97
-#: ../src/e-util/e-misc-utils.c:4005 ../src/e-util/e-misc-utils.c:4040
-#: ../src/e-util/e-misc-utils.c:4053 ../src/e-util/e-misc-utils.c:4067
+#: ../src/e-util/e-misc-utils.c:4049 ../src/e-util/e-misc-utils.c:4084
+#: ../src/e-util/e-misc-utils.c:4097 ../src/e-util/e-misc-utils.c:4111
 #: ../src/mail/e-mail-autoconfig.c:1122 ../src/mail/e-mail-display.c:2473
 #: ../src/mail/e-mail-notes.c:929 ../src/mail/e-mail-reader-utils.c:805
 #: ../src/mail/em-composer-utils.c:3932 ../src/mail/em-composer-utils.c:3955
@@ -8968,7 +8966,7 @@ msgid "Save current changes and close editor"
 msgstr "Değişiklikleri kaydet düzenleyiciyi kapat"
 
 #. String to use in 12-hour time format for times in the morning.
-#: ../src/calendar/gui/e-day-view.c:2146 ../src/calendar/gui/e-to-do-pane.c:246
+#: ../src/calendar/gui/e-day-view.c:2146 ../src/calendar/gui/e-to-do-pane.c:248
 #: ../src/calendar/gui/e-week-view.c:1761 ../src/calendar/gui/print.c:1076
 #: ../src/calendar/gui/print.c:1095 ../src/calendar/gui/print.c:2663
 #: ../src/calendar/gui/print.c:2683
@@ -8976,7 +8974,7 @@ msgid "am"
 msgstr "öö"
 
 #. String to use in 12-hour time format for times in the afternoon.
-#: ../src/calendar/gui/e-day-view.c:2149 ../src/calendar/gui/e-to-do-pane.c:250
+#: ../src/calendar/gui/e-day-view.c:2149 ../src/calendar/gui/e-to-do-pane.c:252
 #: ../src/calendar/gui/e-week-view.c:1764 ../src/calendar/gui/print.c:1081
 #: ../src/calendar/gui/print.c:1097 ../src/calendar/gui/print.c:2668
 #: ../src/calendar/gui/print.c:2685
@@ -9411,85 +9409,85 @@ msgid "Select Timezone"
 msgstr "Zaman Dilimi Seç"
 
 #. Translators: It will display "Start: StartDateAndTime"
-#: ../src/calendar/gui/e-to-do-pane.c:407
+#: ../src/calendar/gui/e-to-do-pane.c:409
 #, c-format
 msgid "Start: %s"
 msgstr "Başlama: %s"
 
 #. Translators: It will display "Due: DueDateAndTime"
-#: ../src/calendar/gui/e-to-do-pane.c:429
+#: ../src/calendar/gui/e-to-do-pane.c:431
 #, c-format
 msgid "Due: %s"
 msgstr "Teslim: %s"
 
 #. Translators: It will display "Completed: DateAndTimeWhenCompleted"
-#: ../src/calendar/gui/e-to-do-pane.c:443
+#: ../src/calendar/gui/e-to-do-pane.c:445
 #, c-format
 msgid "Completed: %s"
 msgstr "Tamamlanan: %s"
 
 #. strftime format of a weekday and a date.
-#: ../src/calendar/gui/e-to-do-pane.c:1589 ../src/e-util/e-cell-date-edit.c:338
+#: ../src/calendar/gui/e-to-do-pane.c:1591 ../src/e-util/e-cell-date-edit.c:338
 #: ../src/e-util/e-datetime-format.c:207
 #: ../src/modules/calendar/e-cal-shell-view-actions.c:1966
-#: ../src/modules/itip-formatter/itip-view.c:268
+#: ../src/modules/itip-formatter/itip-view.c:269
 msgid "Today"
 msgstr "Bugün"
 
 #. strftime format of a weekday and a date.
-#: ../src/calendar/gui/e-to-do-pane.c:1591
+#: ../src/calendar/gui/e-to-do-pane.c:1593
 #: ../src/e-util/e-datetime-format.c:218
-#: ../src/modules/itip-formatter/itip-view.c:296
+#: ../src/modules/itip-formatter/itip-view.c:297
 msgid "Tomorrow"
 msgstr "Yarın"
 
-#: ../src/calendar/gui/e-to-do-pane.c:1601
+#: ../src/calendar/gui/e-to-do-pane.c:1603
 msgid "Tasks without Due date"
 msgstr "Tamamlanma tarihi olmayan görevler"
 
-#: ../src/calendar/gui/e-to-do-pane.c:2189
+#: ../src/calendar/gui/e-to-do-pane.c:2191
 #: ../src/modules/calendar/e-cal-shell-view-actions.c:1551
 msgid "New _Appointment…"
 msgstr "Yeni _Randevu…"
 
-#: ../src/calendar/gui/e-to-do-pane.c:2197
+#: ../src/calendar/gui/e-to-do-pane.c:2199
 #: ../src/modules/calendar/e-cal-shell-view-actions.c:1488
 msgid "New _Meeting…"
 msgstr "Yeni _Toplantı…"
 
-#: ../src/calendar/gui/e-to-do-pane.c:2205
+#: ../src/calendar/gui/e-to-do-pane.c:2207
 msgid "New _Task…"
 msgstr "Yeni _Görev…"
 
-#: ../src/calendar/gui/e-to-do-pane.c:2213
+#: ../src/calendar/gui/e-to-do-pane.c:2215
 msgid "_New Assigned Task…"
 msgstr "_Yeni Atanmış Görev…"
 
-#: ../src/calendar/gui/e-to-do-pane.c:2226
+#: ../src/calendar/gui/e-to-do-pane.c:2228
 msgid "_Open…"
 msgstr "_Aç…"
 
-#: ../src/calendar/gui/e-to-do-pane.c:2241
+#: ../src/calendar/gui/e-to-do-pane.c:2243
 msgid "_Delete This Instance…"
 msgstr "Bu Yinelemeyi _Sil…"
 
-#: ../src/calendar/gui/e-to-do-pane.c:2250
+#: ../src/calendar/gui/e-to-do-pane.c:2252
 msgid "Delete This and F_uture Occurrences…"
 msgstr "Bunu ve _Gelecek Yinelemeleri Sil…"
 
-#: ../src/calendar/gui/e-to-do-pane.c:2259
+#: ../src/calendar/gui/e-to-do-pane.c:2261
 msgid "D_elete All Instances…"
 msgstr "Tüm Yinelemeleri _Sil…"
 
-#: ../src/calendar/gui/e-to-do-pane.c:2267
+#: ../src/calendar/gui/e-to-do-pane.c:2269
 msgid "_Delete…"
 msgstr "_Sil…"
 
-#: ../src/calendar/gui/e-to-do-pane.c:2285
+#: ../src/calendar/gui/e-to-do-pane.c:2287
 msgid "_Show Tasks without Due date"
 msgstr "Tamamlanma tarihi olmayan Görevleri _göster"
 
-#: ../src/calendar/gui/e-to-do-pane.c:2564
+#: ../src/calendar/gui/e-to-do-pane.c:2566
 msgid "To Do"
 msgstr "Yapılacaklar"
 
@@ -15415,36 +15413,36 @@ msgstr "Ö_n İzle"
 msgid "Could not open the link."
 msgstr "Bağ açılamadı."
 
-#: ../src/e-util/e-misc-utils.c:363
+#: ../src/e-util/e-misc-utils.c:406
 msgid "Could not display help for Evolution."
 msgstr "Evolution için yardım görüntülenemiyor."
 
-#: ../src/e-util/e-misc-utils.c:2562
+#: ../src/e-util/e-misc-utils.c:2606
 #, c-format
 msgid "Opening calendar “%s”"
 msgstr "“%s” takvimi açılıyor"
 
-#: ../src/e-util/e-misc-utils.c:2565
+#: ../src/e-util/e-misc-utils.c:2609
 #, c-format
 msgid "Opening memo list “%s”"
 msgstr "“%s” not listesi açılıyor"
 
-#: ../src/e-util/e-misc-utils.c:2568
+#: ../src/e-util/e-misc-utils.c:2612
 #, c-format
 msgid "Opening task list “%s”"
 msgstr "“%s” görev listesi açılıyor"
 
-#: ../src/e-util/e-misc-utils.c:2571
+#: ../src/e-util/e-misc-utils.c:2615
 #, c-format
 msgid "Opening address book “%s”"
 msgstr "“%s” adres defteri açılıyor"
 
-#: ../src/e-util/e-misc-utils.c:3348
+#: ../src/e-util/e-misc-utils.c:3392
 #: ../src/modules/mailto-handler/evolution-mailto-handler.c:146
 msgid "_Do not show this message again"
 msgstr "_Bu iletiyi yeniden gösterme"
 
-#: ../src/e-util/e-misc-utils.c:3992
+#: ../src/e-util/e-misc-utils.c:4036
 msgid ""
 "This address book server might be unreachable or the server name may be "
 "misspelled or your network connection could be down."
@@ -15452,22 +15450,22 @@ msgstr ""
 "Bu adres defteri sunucusu ulaşılamıyor olabilir ya da sunucu adı yanlış "
 "yazılmış veya ağ bağlantınız kesik."
 
-#: ../src/e-util/e-misc-utils.c:4004
+#: ../src/e-util/e-misc-utils.c:4048
 #, c-format
 msgid "Failed to set protocol version to LDAPv3 (%d): %s"
 msgstr "İletişim kuralı sürümü LDAPv3 (%d) olarak belirlenemedi: %s"
 
-#: ../src/e-util/e-misc-utils.c:4039
+#: ../src/e-util/e-misc-utils.c:4083
 #, c-format
 msgid "Failed to use STARTTLS (%d): %s"
 msgstr "STARTTLS (%d) kullanılamadı: %s"
 
-#: ../src/e-util/e-misc-utils.c:4052
+#: ../src/e-util/e-misc-utils.c:4096
 #, c-format
 msgid "Failed to authenticate with LDAP server (%d): %s"
 msgstr "LDAP sunucuyla kimlik doğrulaması başarısız oldu (%d): %s"
 
-#: ../src/e-util/e-misc-utils.c:4066
+#: ../src/e-util/e-misc-utils.c:4110
 #, c-format
 msgid ""
 "This LDAP server may use an older version of LDAP, which does not support "
@@ -15482,7 +15480,7 @@ msgstr ""
 "\n"
 "Ayrıntılı hata (%d): %s"
 
-#: ../src/e-util/e-misc-utils.c:4077
+#: ../src/e-util/e-misc-utils.c:4121
 msgid ""
 "This LDAP server may use an older version of LDAP, which does not support "
 "this functionality or it may be misconfigured. Ask your administrator for "
@@ -15492,12 +15490,12 @@ msgstr ""
 "olabilir ya da yanlış yapılandırılmıştır. Desteklenen arama tabanları için "
 "sistem yöneticinize danışın."
 
-#: ../src/e-util/e-misc-utils.c:4110
+#: ../src/e-util/e-misc-utils.c:4154
 msgid "Evolution had not been compiled with LDAP support"
 msgstr "Evolution, LDAP desteğiyle derlenmemiş"
 
 #. Translators: %s is the language ISO code.
-#: ../src/e-util/e-misc-utils.c:4433
+#: ../src/e-util/e-misc-utils.c:4477
 #, c-format
 msgctxt "language"
 msgid "Unknown (%s)"
@@ -15505,31 +15503,31 @@ msgstr "Bilinmiyor (%s)"
 
 #. Translators: The first %s is the language name, and the
 #. * second is the country name. Example: "French (France)"
-#: ../src/e-util/e-misc-utils.c:4442
+#: ../src/e-util/e-misc-utils.c:4486
 #, c-format
 msgctxt "language"
 msgid "%s (%s)"
 msgstr "%s (%s)"
 
-#: ../src/e-util/e-misc-utils.c:4593
+#: ../src/e-util/e-misc-utils.c:4637
 #, c-format
 msgid "Click to call %s"
 msgstr "%s çağırmak için tıklayın"
 
-#: ../src/e-util/e-misc-utils.c:4595
+#: ../src/e-util/e-misc-utils.c:4639
 msgid "Click to hide/unhide addresses"
 msgstr "Adresi saklamak/göstermek için tıklayın"
 
-#: ../src/e-util/e-misc-utils.c:4608
+#: ../src/e-util/e-misc-utils.c:4652
 #, c-format
 msgid "Go to the section %s of the message"
 msgstr "İletinin %s bölümüne git"
 
-#: ../src/e-util/e-misc-utils.c:4610
+#: ../src/e-util/e-misc-utils.c:4654
 msgid "Go to the beginning of the message"
 msgstr "İletinin başına git"
 
-#: ../src/e-util/e-misc-utils.c:4616
+#: ../src/e-util/e-misc-utils.c:4660
 #, c-format
 msgid "Click to open %s"
 msgstr "%s açmak için tıklayın"
@@ -21551,7 +21549,7 @@ msgstr "İleti listesi oluşturuluyor"
 #. strftime format of a time,
 #. * in 12-hour format, without seconds.
 #: ../src/mail/message-list.c:2189
-#: ../src/modules/itip-formatter/itip-view.c:282
+#: ../src/modules/itip-formatter/itip-view.c:283
 msgid "Today %l:%M %p"
 msgstr "Bugün %l:%M %p"
 
@@ -22389,8 +22387,8 @@ msgstr "Adres Defteri Seç"
 #: ../src/modules/cal-config-webcal/evolution-cal-config-webcal.c:165
 #: ../src/modules/cal-config-webdav-notes/evolution-cal-config-webdav-notes.c:302
 #: ../src/modules/cal-config-webdav-notes/evolution-cal-config-webdav-notes.c:323
-#: ../src/modules/itip-formatter/itip-view.c:1911
-#: ../src/modules/itip-formatter/itip-view.c:2036
+#: ../src/modules/itip-formatter/itip-view.c:1905
+#: ../src/modules/itip-formatter/itip-view.c:2106
 msgid "URL:"
 msgstr "URL:"
 
@@ -23429,7 +23427,7 @@ msgid "Accept meeting request for selected instance only"
 msgstr "Toplantı istemini yalnızca seçilen örnek için onayla"
 
 #: ../src/modules/calendar/e-cal-shell-view-actions.c:1516
-#: ../src/modules/itip-formatter/itip-view.c:1266
+#: ../src/modules/itip-formatter/itip-view.c:1267
 msgid "_Decline"
 msgstr "_Reddet"
 
@@ -24118,213 +24116,213 @@ msgstr "Sürdürmek için parola gerekir."
 msgid "Look up for a CalDAV/CardDAV server"
 msgstr "CalDAV/CardDAV sunucusuna bak"
 
-#: ../src/modules/itip-formatter/e-mail-formatter-itip.c:164
+#: ../src/modules/itip-formatter/e-mail-formatter-itip.c:205
 msgid "ITIP"
 msgstr "ITIP"
 
-#: ../src/modules/itip-formatter/e-mail-formatter-itip.c:165
+#: ../src/modules/itip-formatter/e-mail-formatter-itip.c:206
 msgid "Display part as an invitation"
 msgstr "Bölümü davetiye olarak göster"
 
 #. strftime format of a time,
 #. * in 24-hour format, without seconds.
-#: ../src/modules/itip-formatter/itip-view.c:273
+#: ../src/modules/itip-formatter/itip-view.c:274
 msgid "Today %H:%M"
 msgstr "Bugün %H:%M"
 
 #. strftime format of a time,
 #. * in 24-hour format.
-#: ../src/modules/itip-formatter/itip-view.c:277
+#: ../src/modules/itip-formatter/itip-view.c:278
 msgid "Today %H:%M:%S"
 msgstr "Bugün %H:%M:%S"
 
 #. strftime format of a time,
 #. * in 12-hour format.
-#: ../src/modules/itip-formatter/itip-view.c:286
+#: ../src/modules/itip-formatter/itip-view.c:287
 msgid "Today %l:%M:%S %p"
 msgstr "Bugün %l:%M:%S %p"
 
 #. strftime format of a time,
 #. * in 24-hour format, without seconds.
-#: ../src/modules/itip-formatter/itip-view.c:301
+#: ../src/modules/itip-formatter/itip-view.c:302
 msgid "Tomorrow %H:%M"
 msgstr "Yarın %H:%M"
 
 #. strftime format of a time,
 #. * in 24-hour format.
-#: ../src/modules/itip-formatter/itip-view.c:305
+#: ../src/modules/itip-formatter/itip-view.c:306
 msgid "Tomorrow %H:%M:%S"
 msgstr "Yarın %H:%M:%S"
 
 #. strftime format of a time,
 #. * in 12-hour format, without seconds.
-#: ../src/modules/itip-formatter/itip-view.c:310
+#: ../src/modules/itip-formatter/itip-view.c:311
 msgid "Tomorrow %l:%M %p"
 msgstr "Yarın %l:%M %p"
 
 #. strftime format of a time,
 #. * in 12-hour format.
-#: ../src/modules/itip-formatter/itip-view.c:314
+#: ../src/modules/itip-formatter/itip-view.c:315
 msgid "Tomorrow %l:%M:%S %p"
 msgstr "Yarın %l:%M:%S %p"
 
 #. strftime format of a weekday.
-#: ../src/modules/itip-formatter/itip-view.c:333
+#: ../src/modules/itip-formatter/itip-view.c:334
 #, c-format
 msgid "%A"
 msgstr "%A"
 
 #. strftime format of a weekday and a
 #. * time, in 24-hour format, without seconds.
-#: ../src/modules/itip-formatter/itip-view.c:338
+#: ../src/modules/itip-formatter/itip-view.c:339
 msgid "%A %H:%M"
 msgstr "%A %H:%M"
 
 #. strftime format of a weekday and a
 #. * time, in 24-hour format.
-#: ../src/modules/itip-formatter/itip-view.c:342
+#: ../src/modules/itip-formatter/itip-view.c:343
 msgid "%A %H:%M:%S"
 msgstr "%A %H:%M:%S"
 
 #. strftime format of a weekday and a
 #. * time, in 12-hour format, without seconds.
-#: ../src/modules/itip-formatter/itip-view.c:347
+#: ../src/modules/itip-formatter/itip-view.c:348
 msgid "%A %l:%M %p"
 msgstr "%A %l:%M %p"
 
 #. strftime format of a weekday and a
 #. * time, in 12-hour format.
-#: ../src/modules/itip-formatter/itip-view.c:351
+#: ../src/modules/itip-formatter/itip-view.c:352
 msgid "%A %l:%M:%S %p"
 msgstr "%A %l:%M:%S %p"
 
 #. strftime format of a weekday and a date
 #. * without a year.
-#: ../src/modules/itip-formatter/itip-view.c:362
+#: ../src/modules/itip-formatter/itip-view.c:363
 msgid "%A, %B %e"
 msgstr "%e %B %A"
 
 #. strftime format of a weekday, a date
 #. * without a year and a time,
 #. * in 24-hour format, without seconds.
-#: ../src/modules/itip-formatter/itip-view.c:368
+#: ../src/modules/itip-formatter/itip-view.c:369
 msgid "%A, %B %e %H:%M"
 msgstr "%e %B %A %H:%M"
 
 #. strftime format of a weekday, a date without a year
 #. * and a time, in 24-hour format.
-#: ../src/modules/itip-formatter/itip-view.c:372
+#: ../src/modules/itip-formatter/itip-view.c:373
 msgid "%A, %B %e %H:%M:%S"
 msgstr "%e %B %A %H:%M:%S"
 
 #. strftime format of a weekday, a date without a year
 #. * and a time, in 12-hour format, without seconds.
-#: ../src/modules/itip-formatter/itip-view.c:377
+#: ../src/modules/itip-formatter/itip-view.c:378
 msgid "%A, %B %e %l:%M %p"
 msgstr "%e %B %A %l:%M %p"
 
 #. strftime format of a weekday, a date without a year
 #. * and a time, in 12-hour format.
-#: ../src/modules/itip-formatter/itip-view.c:381
+#: ../src/modules/itip-formatter/itip-view.c:382
 msgid "%A, %B %e %l:%M:%S %p"
 msgstr "%e %B %A %l:%M:%S %p"
 
 #. strftime format of a weekday and a date.
-#: ../src/modules/itip-formatter/itip-view.c:389
+#: ../src/modules/itip-formatter/itip-view.c:390
 msgid "%A, %B %e, %Y"
 msgstr "%e %B %Y %A"
 
 #. strftime format of a weekday, a date and a
 #. * time, in 24-hour format, without seconds.
-#: ../src/modules/itip-formatter/itip-view.c:394
+#: ../src/modules/itip-formatter/itip-view.c:395
 msgid "%A, %B %e, %Y %H:%M"
 msgstr "%e %B %Y %A %H:%M"
 
 #. strftime format of a weekday, a date and a
 #. * time, in 24-hour format.
-#: ../src/modules/itip-formatter/itip-view.c:398
+#: ../src/modules/itip-formatter/itip-view.c:399
 msgid "%A, %B %e, %Y %H:%M:%S"
 msgstr "%e %B %Y %A %H:%M:%S"
 
 #. strftime format of a weekday, a date and a
 #. * time, in 12-hour format, without seconds.
-#: ../src/modules/itip-formatter/itip-view.c:403
+#: ../src/modules/itip-formatter/itip-view.c:404
 msgid "%A, %B %e, %Y %l:%M %p"
 msgstr "%e %B %Y %A %l:%M %p"
 
 #. strftime format of a weekday, a date and a
 #. * time, in 12-hour format.
-#: ../src/modules/itip-formatter/itip-view.c:407
+#: ../src/modules/itip-formatter/itip-view.c:408
 msgid "%A, %B %e, %Y %l:%M:%S %p"
 msgstr "%e %B %Y %A %l:%M:%S %p"
 
 #. Translators: The first '%s' is replaced with an abbreviated date/time of an appointment start or end, like "Tomorrow" or "Tomorrow 10:30";
 #. the second '%s' is replaced with the actual date, to know what the 'Tomorrow' means. What the date looks like depends on the user settings.
 #. Example: 'Tomorrow 10:30 (20.2.2020)'
-#: ../src/modules/itip-formatter/itip-view.c:434
+#: ../src/modules/itip-formatter/itip-view.c:435
 #, c-format
 msgctxt "cal-itip"
 msgid "%s (%s)"
 msgstr "%s (%s)"
 
-#: ../src/modules/itip-formatter/itip-view.c:472
 #: ../src/modules/itip-formatter/itip-view.c:473
-#: ../src/modules/itip-formatter/itip-view.c:562
+#: ../src/modules/itip-formatter/itip-view.c:474
 #: ../src/modules/itip-formatter/itip-view.c:563
-#: ../src/modules/itip-formatter/itip-view.c:652
+#: ../src/modules/itip-formatter/itip-view.c:564
+#: ../src/modules/itip-formatter/itip-view.c:653
 msgid "An unknown person"
 msgstr "Bilinmeyen kişi"
 
-#: ../src/modules/itip-formatter/itip-view.c:477
-#: ../src/modules/itip-formatter/itip-view.c:567
-#: ../src/modules/itip-formatter/itip-view.c:656
+#: ../src/modules/itip-formatter/itip-view.c:478
+#: ../src/modules/itip-formatter/itip-view.c:568
+#: ../src/modules/itip-formatter/itip-view.c:657
 #, c-format
 msgid "Please respond on behalf of %s"
 msgstr "Lütfen %s adına yanıtlayın"
 
-#: ../src/modules/itip-formatter/itip-view.c:479
-#: ../src/modules/itip-formatter/itip-view.c:569
-#: ../src/modules/itip-formatter/itip-view.c:658
+#: ../src/modules/itip-formatter/itip-view.c:480
+#: ../src/modules/itip-formatter/itip-view.c:570
+#: ../src/modules/itip-formatter/itip-view.c:659
 #, c-format
 msgid "Received on behalf of %s"
 msgstr "%s adına alındı"
 
-#: ../src/modules/itip-formatter/itip-view.c:484
+#: ../src/modules/itip-formatter/itip-view.c:485
 #, c-format
 msgid "%s through %s has published the following meeting information:"
 msgstr "%s %s üzerinden aşağıdaki toplantı bilgisini yayımladı:"
 
-#: ../src/modules/itip-formatter/itip-view.c:486
+#: ../src/modules/itip-formatter/itip-view.c:487
 #, c-format
 msgid "%s has published the following meeting information:"
 msgstr "%s aşağıdaki toplantı bilgisini yayımladı:"
 
-#: ../src/modules/itip-formatter/itip-view.c:491
+#: ../src/modules/itip-formatter/itip-view.c:492
 #, c-format
 msgid "%s has delegated the following meeting to you:"
 msgstr "%s aşağıdaki toplantıya sizi temsilci olarak belirtti:"
 
-#: ../src/modules/itip-formatter/itip-view.c:494
+#: ../src/modules/itip-formatter/itip-view.c:495
 #, c-format
 msgid "%s through %s requests your presence at the following meeting:"
 msgstr "%s %s üzerinden aşağıdaki toplantıda sizin bulunmanızı istiyor:"
 
-#: ../src/modules/itip-formatter/itip-view.c:496
+#: ../src/modules/itip-formatter/itip-view.c:497
 #, c-format
 msgid "%s requests your presence at the following meeting:"
 msgstr "%s aşağıdaki toplantıda sizin bulunmanızı istiyor:"
 
-#: ../src/modules/itip-formatter/itip-view.c:502
+#: ../src/modules/itip-formatter/itip-view.c:503
 #, c-format
 msgid "%s through %s wishes to add to an existing meeting:"
 msgstr "%s %s üzerinden var olan toplantıya ekleme yapmak istiyor:"
 
-#: ../src/modules/itip-formatter/itip-view.c:504
+#: ../src/modules/itip-formatter/itip-view.c:505
 #, c-format
 msgid "%s wishes to add to an existing meeting:"
 msgstr "%s var olan toplantıya ekleme yapmak istiyor:"
 
-#: ../src/modules/itip-formatter/itip-view.c:508
+#: ../src/modules/itip-formatter/itip-view.c:509
 #, c-format
 msgid ""
 "%s through %s wishes to receive the latest information for the following "
@@ -24332,87 +24330,87 @@ msgid ""
 msgstr ""
 "%s %s aracılığıyla aşağıdaki toplantı için en son bilgileri almak istiyor:"
 
-#: ../src/modules/itip-formatter/itip-view.c:510
+#: ../src/modules/itip-formatter/itip-view.c:511
 #, c-format
 msgid "%s wishes to receive the latest information for the following meeting:"
 msgstr "%s aşağıdaki toplantı için en son bilgileri almak istiyor:"
 
-#: ../src/modules/itip-formatter/itip-view.c:514
+#: ../src/modules/itip-formatter/itip-view.c:515
 #, c-format
 msgid "%s through %s has sent back the following meeting response:"
 msgstr "%s %s aracılığıyla aşağıdaki toplantı yanıtını geri yolladı:"
 
-#: ../src/modules/itip-formatter/itip-view.c:516
+#: ../src/modules/itip-formatter/itip-view.c:517
 #, c-format
 msgid "%s has sent back the following meeting response:"
 msgstr "%s aşağıdaki toplantı yanıtını geri yolladı:"
 
-#: ../src/modules/itip-formatter/itip-view.c:520
+#: ../src/modules/itip-formatter/itip-view.c:521
 #, c-format
 msgid "%s through %s has cancelled the following meeting:"
 msgstr "%s %s aracılığıyla aşağıdaki toplantıyı iptal etti:"
 
-#: ../src/modules/itip-formatter/itip-view.c:522
+#: ../src/modules/itip-formatter/itip-view.c:523
 #, c-format
 msgid "%s has cancelled the following meeting:"
 msgstr "%s aşağıdaki toplantıyı iptal etti:"
 
-#: ../src/modules/itip-formatter/itip-view.c:526
+#: ../src/modules/itip-formatter/itip-view.c:527
 #, c-format
 msgid "%s through %s has proposed the following meeting changes."
 msgstr "%s %s aracılığıyla aşağıdaki toplantı değişikliklerini önerdi."
 
-#: ../src/modules/itip-formatter/itip-view.c:528
+#: ../src/modules/itip-formatter/itip-view.c:529
 #, c-format
 msgid "%s has proposed the following meeting changes:"
 msgstr "%s aşağıdaki toplantı değişikliklerini önerdi:"
 
-#: ../src/modules/itip-formatter/itip-view.c:532
+#: ../src/modules/itip-formatter/itip-view.c:533
 #, c-format
 msgid "%s through %s has declined the following meeting changes:"
 msgstr "%s %s aracılığıyla aşağıdaki toplantı değişikliklerini reddetti:"
 
-#: ../src/modules/itip-formatter/itip-view.c:534
+#: ../src/modules/itip-formatter/itip-view.c:535
 #, c-format
 msgid "%s has declined the following meeting changes:"
 msgstr "%s aşağıdaki toplantı değişikliklerini reddetti:"
 
-#: ../src/modules/itip-formatter/itip-view.c:574
+#: ../src/modules/itip-formatter/itip-view.c:575
 #, c-format
 msgid "%s through %s has published the following task:"
 msgstr "%s %s aracılığıyla aşağıdaki görevi yayımladı:"
 
-#: ../src/modules/itip-formatter/itip-view.c:576
+#: ../src/modules/itip-formatter/itip-view.c:577
 #, c-format
 msgid "%s has published the following task:"
 msgstr "%s aşağıdaki görevi yayımladı:"
 
-#: ../src/modules/itip-formatter/itip-view.c:581
+#: ../src/modules/itip-formatter/itip-view.c:582
 #, c-format
 msgid "%s requests the assignment of %s to the following task:"
 msgstr "%s aşağıdaki göreve %s atanmasını istiyor:"
 
-#: ../src/modules/itip-formatter/itip-view.c:584
+#: ../src/modules/itip-formatter/itip-view.c:585
 #, c-format
 msgid "%s through %s has assigned you a task:"
 msgstr "%s %s aracılığıyla size görev atadı:"
 
-#: ../src/modules/itip-formatter/itip-view.c:586
+#: ../src/modules/itip-formatter/itip-view.c:587
 #, c-format
 msgid "%s has assigned you a task:"
 msgstr "%s size görev atadı:"
 
-#: ../src/modules/itip-formatter/itip-view.c:592
+#: ../src/modules/itip-formatter/itip-view.c:593
 #, c-format
 msgid "%s through %s wishes to add to an existing task:"
 msgstr "%s %s aracılığıyla var olan göreve eklenti yapmak istiyor:"
 
-#: ../src/modules/itip-formatter/itip-view.c:594
+#: ../src/modules/itip-formatter/itip-view.c:595
 #, c-format
 msgid "%s wishes to add to an existing task:"
 msgstr "%s var olan göreve eklenti yapmak istiyor:"
 
-#: ../src/modules/itip-formatter/itip-view.c:598
+#: ../src/modules/itip-formatter/itip-view.c:599
 #, c-format
 msgid ""
 "%s through %s wishes to receive the latest information for the following "
@@ -24421,213 +24419,221 @@ msgstr ""
 "%s %s aracılığıyla aşağıdaki atanmış görevler için en son bilgileri almak "
 "istiyor:"
 
-#: ../src/modules/itip-formatter/itip-view.c:600
+#: ../src/modules/itip-formatter/itip-view.c:601
 #, c-format
 msgid ""
 "%s wishes to receive the latest information for the following assigned task:"
 msgstr "%s aşağıdaki atanmış görevler için en son bilgileri almak istiyor:"
 
-#: ../src/modules/itip-formatter/itip-view.c:604
+#: ../src/modules/itip-formatter/itip-view.c:605
 #, c-format
 msgid "%s through %s has sent back the following assigned task response:"
 msgstr "%s %s aracılığıyla aşağıdaki atanmış görev yanıtını geri gönderdi:"
 
-#: ../src/modules/itip-formatter/itip-view.c:606
+#: ../src/modules/itip-formatter/itip-view.c:607
 #, c-format
 msgid "%s has sent back the following assigned task response:"
 msgstr "%s aşağıdaki atanmış görev yanıtını geri gönderdi:"
 
-#: ../src/modules/itip-formatter/itip-view.c:610
+#: ../src/modules/itip-formatter/itip-view.c:611
 #, c-format
 msgid "%s through %s has cancelled the following assigned task:"
 msgstr "%s %s aracılığıyla aşağıdaki atanmış görevi iptal etti:"
 
-#: ../src/modules/itip-formatter/itip-view.c:612
+#: ../src/modules/itip-formatter/itip-view.c:613
 #, c-format
 msgid "%s has cancelled the following assigned task:"
 msgstr "%s aşağıdaki atanmış görevi iptal etti:"
 
-#: ../src/modules/itip-formatter/itip-view.c:616
+#: ../src/modules/itip-formatter/itip-view.c:617
 #, c-format
 msgid "%s through %s has proposed the following task assignment changes:"
 msgstr "%s %s aracılığıyla aşağıdaki görev atama değişikliklerini önerdi:"
 
-#: ../src/modules/itip-formatter/itip-view.c:618
+#: ../src/modules/itip-formatter/itip-view.c:619
 #, c-format
 msgid "%s has proposed the following task assignment changes:"
 msgstr "%s aşağıdaki görev atama değişikliklerini önerdi:"
 
-#: ../src/modules/itip-formatter/itip-view.c:622
+#: ../src/modules/itip-formatter/itip-view.c:623
 #, c-format
 msgid "%s through %s has declined the following assigned task:"
 msgstr "%s %s aracılığıyla aşağıdaki atanmış görevi reddetti:"
 
-#: ../src/modules/itip-formatter/itip-view.c:624
+#: ../src/modules/itip-formatter/itip-view.c:625
 #, c-format
 msgid "%s has declined the following assigned task:"
 msgstr "%s aşağıdaki atanmış görevi reddetti:"
 
-#: ../src/modules/itip-formatter/itip-view.c:663
+#: ../src/modules/itip-formatter/itip-view.c:664
 #, c-format
 msgid "%s through %s has published the following memo:"
 msgstr "%s %s aracılığıyla aşağıdaki notu yayımladı:"
 
-#: ../src/modules/itip-formatter/itip-view.c:665
+#: ../src/modules/itip-formatter/itip-view.c:666
 #, c-format
 msgid "%s has published the following memo:"
 msgstr "%s aşağıdaki notu yayımladı:"
 
-#: ../src/modules/itip-formatter/itip-view.c:670
+#: ../src/modules/itip-formatter/itip-view.c:671
 #, c-format
 msgid "%s through %s wishes to add to an existing memo:"
 msgstr "%s %s üzerinden var olan nota ekleme yapmak istiyor:"
 
-#: ../src/modules/itip-formatter/itip-view.c:672
+#: ../src/modules/itip-formatter/itip-view.c:673
 #, c-format
 msgid "%s wishes to add to an existing memo:"
 msgstr "%s var olan nota ekleme yapmak istiyor:"
 
-#: ../src/modules/itip-formatter/itip-view.c:676
+#: ../src/modules/itip-formatter/itip-view.c:677
 #, c-format
 msgid "%s through %s has cancelled the following shared memo:"
 msgstr "%s %s aracılığıyla aşağıdaki paylaşılmış notu iptal etti:"
 
-#: ../src/modules/itip-formatter/itip-view.c:678
+#: ../src/modules/itip-formatter/itip-view.c:679
 #, c-format
 msgid "%s has cancelled the following shared memo:"
 msgstr "%s aşağıdaki paylaşılmış notu iptal etti:"
 
-#: ../src/modules/itip-formatter/itip-view.c:869
+#: ../src/modules/itip-formatter/itip-view.c:870
 msgid "All day:"
 msgstr "Tüm gün:"
 
-#: ../src/modules/itip-formatter/itip-view.c:875
+#: ../src/modules/itip-formatter/itip-view.c:876
 msgid "Start day:"
 msgstr "Başlangıç günü:"
 
-#: ../src/modules/itip-formatter/itip-view.c:875
-#: ../src/modules/itip-formatter/itip-view.c:1912
+#: ../src/modules/itip-formatter/itip-view.c:876
+#: ../src/modules/itip-formatter/itip-view.c:1906
 msgid "Start time:"
 msgstr "Başlangıç zamanı:"
 
-#: ../src/modules/itip-formatter/itip-view.c:884
+#: ../src/modules/itip-formatter/itip-view.c:885
 msgid "End day:"
 msgstr "Bitiş günü:"
 
-#: ../src/modules/itip-formatter/itip-view.c:884
-#: ../src/modules/itip-formatter/itip-view.c:1913
+#: ../src/modules/itip-formatter/itip-view.c:885
+#: ../src/modules/itip-formatter/itip-view.c:1907
 msgid "End time:"
 msgstr "Bitiş zamanı:"
 
-#: ../src/modules/itip-formatter/itip-view.c:1260
+#: ../src/modules/itip-formatter/itip-view.c:1261
 msgid "Ope_n Calendar"
 msgstr "_Takvim Aç"
 
-#: ../src/modules/itip-formatter/itip-view.c:1263
+#: ../src/modules/itip-formatter/itip-view.c:1264
 msgid "_Decline all"
 msgstr "Tümünü _reddet"
 
-#: ../src/modules/itip-formatter/itip-view.c:1269
+#: ../src/modules/itip-formatter/itip-view.c:1270
 msgid "_Tentative all"
 msgstr "_Tümünü kararsızlaştır"
 
-#: ../src/modules/itip-formatter/itip-view.c:1272
+#: ../src/modules/itip-formatter/itip-view.c:1273
 msgid "_Tentative"
 msgstr "_Kararsızlaştır"
 
-#: ../src/modules/itip-formatter/itip-view.c:1275
+#: ../src/modules/itip-formatter/itip-view.c:1276
 msgid "Acce_pt all"
 msgstr "Tümünü _kabul et"
 
-#: ../src/modules/itip-formatter/itip-view.c:1278
+#: ../src/modules/itip-formatter/itip-view.c:1279
 msgid "Acce_pt"
 msgstr "Ka_bul Et"
 
-#: ../src/modules/itip-formatter/itip-view.c:1281
+#: ../src/modules/itip-formatter/itip-view.c:1282
 msgid "Send _Information"
 msgstr "_Bilgi Gönder"
 
-#: ../src/modules/itip-formatter/itip-view.c:1284
+#: ../src/modules/itip-formatter/itip-view.c:1285
 msgid "_Update Attendee Status"
 msgstr "_Katılımcı Durumunu Güncelle"
 
-#: ../src/modules/itip-formatter/itip-view.c:1287
+#: ../src/modules/itip-formatter/itip-view.c:1288
 #: ../src/smime/gui/certificate-manager.c:1659
 msgid "_Update"
 msgstr "_Güncelle"
 
-#: ../src/modules/itip-formatter/itip-view.c:1914
-#: ../src/modules/itip-formatter/itip-view.c:2045
-#: ../src/modules/itip-formatter/itip-view.c:6997
+#: ../src/modules/itip-formatter/itip-view.c:1908
+#: ../src/modules/itip-formatter/itip-view.c:2115
+#: ../src/modules/itip-formatter/itip-view.c:7067
 msgid "Due date:"
 msgstr "Tamamlanma tarihi:"
 
-#: ../src/modules/itip-formatter/itip-view.c:1917
-#: ../src/modules/itip-formatter/itip-view.c:1972
-#: ../src/modules/itip-formatter/itip-view.c:2054
+#: ../src/modules/itip-formatter/itip-view.c:1911
+#: ../src/modules/itip-formatter/itip-view.c:2044
+#: ../src/modules/itip-formatter/itip-view.c:2124
 msgid "Comment:"
 msgstr "Yorum:"
 
+#: ../src/modules/itip-formatter/itip-view.c:1943
+msgid "Show description provided by the sender"
+msgstr "Gönderence sağlanan açıklamayı göster"
+
+#: ../src/modules/itip-formatter/itip-view.c:1944
+msgid "Hide description provided by the sender"
+msgstr "Gönderence sağlanan açıklamayı gizle"
+
 #. RSVP area
-#: ../src/modules/itip-formatter/itip-view.c:1960
+#: ../src/modules/itip-formatter/itip-view.c:2032
 msgid "Send reply to sender"
 msgstr "Gönderene yanıt gönder"
 
 #. Updates
-#: ../src/modules/itip-formatter/itip-view.c:1975
+#: ../src/modules/itip-formatter/itip-view.c:2047
 msgid "Send _updates to attendees"
 msgstr "Katılımcılara _güncellenemeleri yolla"
 
 #. The recurrence check button
-#: ../src/modules/itip-formatter/itip-view.c:1978
+#: ../src/modules/itip-formatter/itip-view.c:2050
 msgid "_Apply to all instances"
 msgstr "Tüm oluşumlara _uygula"
 
-#: ../src/modules/itip-formatter/itip-view.c:1979
+#: ../src/modules/itip-formatter/itip-view.c:2051
 msgid "Show time as _free"
 msgstr "Zamanı _boş olarak göster"
 
-#: ../src/modules/itip-formatter/itip-view.c:1980
+#: ../src/modules/itip-formatter/itip-view.c:2052
 msgid "_Preserve my reminder"
 msgstr "Hatırlatıcımı _sakla"
 
-#: ../src/modules/itip-formatter/itip-view.c:1981
+#: ../src/modules/itip-formatter/itip-view.c:2053
 msgid "_Inherit reminder"
 msgstr "_Hatırlatıcıyı benzet"
 
-#: ../src/modules/itip-formatter/itip-view.c:2212
+#: ../src/modules/itip-formatter/itip-view.c:2282
 msgid "_Tasks:"
 msgstr "_Görevler:"
 
-#: ../src/modules/itip-formatter/itip-view.c:2215
+#: ../src/modules/itip-formatter/itip-view.c:2285
 msgid "_Memos:"
 msgstr "_Notlar:"
 
-#: ../src/modules/itip-formatter/itip-view.c:3286
+#: ../src/modules/itip-formatter/itip-view.c:3356
 msgid "Sa_ve"
 msgstr "Kay_det"
 
-#: ../src/modules/itip-formatter/itip-view.c:3813
-#: ../src/modules/itip-formatter/itip-view.c:5514
+#: ../src/modules/itip-formatter/itip-view.c:3883
+#: ../src/modules/itip-formatter/itip-view.c:5584
 msgid "Attendee status updated"
 msgstr "Katılımcı durumu güncellendi"
 
-#: ../src/modules/itip-formatter/itip-view.c:4044
+#: ../src/modules/itip-formatter/itip-view.c:4114
 #, c-format
 msgid "An appointment “%s” in the calendar “%s” conflicts with this meeting"
 msgstr "“%2$s” takvimindeki “%1$s” randevusu bu toplantı ile çakışıyor"
 
-#: ../src/modules/itip-formatter/itip-view.c:4051
+#: ../src/modules/itip-formatter/itip-view.c:4121
 #, c-format
 msgid "A task “%s” in the task list “%s” conflicts with this task"
 msgstr "“%2$s” görev listesindeki “%1$s” görevi bu görevle çakışıyor"
 
-#: ../src/modules/itip-formatter/itip-view.c:4058
+#: ../src/modules/itip-formatter/itip-view.c:4128
 #, c-format
 msgid "A memo “%s” in the memo list “%s” conflicts with this memo"
 msgstr "“%2$s” not listesindeki “%1$s” notu bu notla çakışıyor"
 
-#: ../src/modules/itip-formatter/itip-view.c:4069
+#: ../src/modules/itip-formatter/itip-view.c:4139
 #, c-format
 msgid ""
 "The calendar “%s” contains an appointment which conflicts with this meeting"
@@ -24635,247 +24641,247 @@ msgid_plural ""
 "The calendar “%s” contains %d appointments which conflict with this meeting"
 msgstr[0] "“%s” takvimindeki %d randevu bu toplantı ile çakışıyor"
 
-#: ../src/modules/itip-formatter/itip-view.c:4078
+#: ../src/modules/itip-formatter/itip-view.c:4148
 #, c-format
 msgid "The task list “%s” contains a task which conflicts with this task"
 msgid_plural ""
 "The task list “%s” contains %d tasks which conflict with this task"
 msgstr[0] "“%s” görev listesi, bu görev ile çakışan %d görev içeriyor"
 
-#: ../src/modules/itip-formatter/itip-view.c:4087
+#: ../src/modules/itip-formatter/itip-view.c:4157
 #, c-format
 msgid "The memo list “%s” contains a memo which conflicts with this memo"
 msgid_plural ""
 "The memo list “%s” contains %d memos which conflict with this memo"
 msgstr[0] "“%s” not listesi, bu not ile çakışan %d not içeriyor"
 
-#: ../src/modules/itip-formatter/itip-view.c:4125
+#: ../src/modules/itip-formatter/itip-view.c:4195
 #, c-format
 msgid "Found the appointment in the calendar “%s”"
 msgstr "Randevu, “%s” takviminde bulundu"
 
-#: ../src/modules/itip-formatter/itip-view.c:4130
+#: ../src/modules/itip-formatter/itip-view.c:4200
 #, c-format
 msgid "Found the task in the task list “%s”"
 msgstr "Görev, “%s” görev listesinde bulundu"
 
-#: ../src/modules/itip-formatter/itip-view.c:4135
+#: ../src/modules/itip-formatter/itip-view.c:4205
 #, c-format
 msgid "Found the memo in the memo list “%s”"
 msgstr "Not, “%s” not listesinde bulundu"
 
-#: ../src/modules/itip-formatter/itip-view.c:4146
+#: ../src/modules/itip-formatter/itip-view.c:4216
 msgid "This meeting invitation is obsolete. It had been updated."
 msgstr "Bu toplantı daveti artık kullanılamaz. Güncellenmelidir."
 
-#: ../src/modules/itip-formatter/itip-view.c:4291
+#: ../src/modules/itip-formatter/itip-view.c:4361
 msgid "Unable to find any calendars"
 msgstr "Hiçbir takvim bulunamadı"
 
-#: ../src/modules/itip-formatter/itip-view.c:4299
+#: ../src/modules/itip-formatter/itip-view.c:4369
 msgid "Unable to find this meeting in any calendar"
 msgstr "Bu toplantı hiçbir takvimde bulunamadı"
 
-#: ../src/modules/itip-formatter/itip-view.c:4304
+#: ../src/modules/itip-formatter/itip-view.c:4374
 msgid "Unable to find this task in any task list"
 msgstr "Bu görev hiçbir görev listesinde bulunamadı"
 
-#: ../src/modules/itip-formatter/itip-view.c:4309
+#: ../src/modules/itip-formatter/itip-view.c:4379
 msgid "Unable to find this memo in any memo list"
 msgstr "Bu not hiçbir not listesinde bulunamadı"
 
-#: ../src/modules/itip-formatter/itip-view.c:4622
+#: ../src/modules/itip-formatter/itip-view.c:4692
 msgid "Searching for an existing version of this appointment"
 msgstr "Bu randevunun var olan sürümü aranıyor"
 
-#: ../src/modules/itip-formatter/itip-view.c:4626
+#: ../src/modules/itip-formatter/itip-view.c:4696
 msgid "Searching for an existing version of this task"
 msgstr "Bu görevin var olan sürümü aranıyor"
 
-#: ../src/modules/itip-formatter/itip-view.c:4630
+#: ../src/modules/itip-formatter/itip-view.c:4700
 msgid "Searching for an existing version of this memo"
 msgstr "Bu notun var olan sürümü aranıyor"
 
-#: ../src/modules/itip-formatter/itip-view.c:4688
+#: ../src/modules/itip-formatter/itip-view.c:4758
 msgid "Opening the calendar. Please wait…"
 msgstr "Takvim açılıyor. Lütfen bekleyin…"
 
-#: ../src/modules/itip-formatter/itip-view.c:5038
+#: ../src/modules/itip-formatter/itip-view.c:5108
 #, c-format
 msgid "Unable to send item to calendar “%s”. %s"
 msgstr "“%s” takvimine öge gönderilemedi. %s"
 
-#: ../src/modules/itip-formatter/itip-view.c:5046
+#: ../src/modules/itip-formatter/itip-view.c:5116
 #, c-format
 msgid "Unable to send item to task list “%s”. %s"
 msgstr "“%s” görev listesine öge gönderilemedi. %s"
 
-#: ../src/modules/itip-formatter/itip-view.c:5054
+#: ../src/modules/itip-formatter/itip-view.c:5124
 #, c-format
 msgid "Unable to send item to memo list “%s”. %s"
 msgstr "“%s” not listesine öge gönderilemedi. %s"
 
-#: ../src/modules/itip-formatter/itip-view.c:5075
+#: ../src/modules/itip-formatter/itip-view.c:5145
 #, c-format
 msgid "Sent to calendar “%s” as accepted"
 msgstr "Onaylanmış olarak “%s” takvimine gönder"
 
-#: ../src/modules/itip-formatter/itip-view.c:5080
+#: ../src/modules/itip-formatter/itip-view.c:5150
 #, c-format
 msgid "Sent to task list “%s” as accepted"
 msgstr "Onaylanmış olarak “%s” görev listesine gönderildi"
 
-#: ../src/modules/itip-formatter/itip-view.c:5085
+#: ../src/modules/itip-formatter/itip-view.c:5155
 #, c-format
 msgid "Sent to memo list “%s” as accepted"
 msgstr "Onaylanmış olarak “%s” not listesine gönderildi"
 
-#: ../src/modules/itip-formatter/itip-view.c:5095
+#: ../src/modules/itip-formatter/itip-view.c:5165
 #, c-format
 msgid "Sent to calendar “%s” as tentative"
 msgstr "Kararsız olarak “%s” takvimine gönder"
 
-#: ../src/modules/itip-formatter/itip-view.c:5100
+#: ../src/modules/itip-formatter/itip-view.c:5170
 #, c-format
 msgid "Sent to task list “%s” as tentative"
 msgstr "Kararsız olarak “%s” görev listesine gönderildi"
 
-#: ../src/modules/itip-formatter/itip-view.c:5105
+#: ../src/modules/itip-formatter/itip-view.c:5175
 #, c-format
 msgid "Sent to memo list “%s” as tentative"
 msgstr "Kararsız olarak “%s” not listesine gönderildi"
 
-#: ../src/modules/itip-formatter/itip-view.c:5115
+#: ../src/modules/itip-formatter/itip-view.c:5185
 #, c-format
 msgid "Sent to calendar “%s” as declined"
 msgstr "Reddedilmiş olarak “%s” takvimine gönder"
 
-#: ../src/modules/itip-formatter/itip-view.c:5120
+#: ../src/modules/itip-formatter/itip-view.c:5190
 #, c-format
 msgid "Sent to task list “%s” as declined"
 msgstr "Reddedilmiş olarak “%s” görev listesine gönderildi"
 
-#: ../src/modules/itip-formatter/itip-view.c:5125
+#: ../src/modules/itip-formatter/itip-view.c:5195
 #, c-format
 msgid "Sent to memo list “%s” as declined"
 msgstr "Reddedilmiş olarak “%s” not listesine gönderildi"
 
-#: ../src/modules/itip-formatter/itip-view.c:5135
+#: ../src/modules/itip-formatter/itip-view.c:5205
 #, c-format
 msgid "Sent to calendar “%s” as cancelled"
 msgstr "İptal edilmiş olarak “%s” takvimine gönderildi"
 
-#: ../src/modules/itip-formatter/itip-view.c:5140
+#: ../src/modules/itip-formatter/itip-view.c:5210
 #, c-format
 msgid "Sent to task list “%s” as cancelled"
 msgstr "İptal edilmiş olarak “%s” görev listesine gönderildi"
 
-#: ../src/modules/itip-formatter/itip-view.c:5145
+#: ../src/modules/itip-formatter/itip-view.c:5215
 #, c-format
 msgid "Sent to memo list “%s” as cancelled"
 msgstr "İptal edilmiş olarak “%s” not listesine gönderildi"
 
-#: ../src/modules/itip-formatter/itip-view.c:5164
+#: ../src/modules/itip-formatter/itip-view.c:5234
 msgid "Saving changes to the calendar. Please wait…"
 msgstr "Değişiklikler takvime kaydediliyor. Lütfen bekleyin…"
 
-#: ../src/modules/itip-formatter/itip-view.c:5167
+#: ../src/modules/itip-formatter/itip-view.c:5237
 msgid "Saving changes to the task list. Please wait…"
 msgstr "Değişiklikler görev listesine kaydediliyor. Lütfen bekleyin…"
 
-#: ../src/modules/itip-formatter/itip-view.c:5170
+#: ../src/modules/itip-formatter/itip-view.c:5240
 msgid "Saving changes to the memo list. Please wait…"
 msgstr "Değişiklikler not listesine kaydediliyor. Lütfen bekleyin…"
 
-#: ../src/modules/itip-formatter/itip-view.c:5241
+#: ../src/modules/itip-formatter/itip-view.c:5311
 msgid "Unable to parse item"
 msgstr "Öge ayrıştırılamadı"
 
-#: ../src/modules/itip-formatter/itip-view.c:5439
+#: ../src/modules/itip-formatter/itip-view.c:5509
 #, c-format
 msgid "Organizer has removed the delegate %s "
 msgstr "Organizatör %s temsilcisini sildi "
 
-#: ../src/modules/itip-formatter/itip-view.c:5456
+#: ../src/modules/itip-formatter/itip-view.c:5526
 msgid "Sent a cancellation notice to the delegate"
 msgstr "Temsilciye iptal bildirimi gönderildi"
 
-#: ../src/modules/itip-formatter/itip-view.c:5460
+#: ../src/modules/itip-formatter/itip-view.c:5530
 msgid "Could not send the cancellation notice to the delegate"
 msgstr "Temsilciye iptal uyarısı gönderilemedi"
 
-#: ../src/modules/itip-formatter/itip-view.c:5506
+#: ../src/modules/itip-formatter/itip-view.c:5576
 #, c-format
 msgid "Unable to update attendee. %s"
 msgstr "Katılımcı güncellenemedi. %s"
 
-#: ../src/modules/itip-formatter/itip-view.c:5539
+#: ../src/modules/itip-formatter/itip-view.c:5609
 msgid "The meeting is invalid and cannot be updated"
 msgstr "Toplantı geçersiz ve güncellenemez"
 
-#: ../src/modules/itip-formatter/itip-view.c:5624
+#: ../src/modules/itip-formatter/itip-view.c:5694
 msgid "Attendee status could not be updated because the status is invalid"
 msgstr "Durum geçersiz olduğu için katılımcı durumu güncellenmedi"
 
-#: ../src/modules/itip-formatter/itip-view.c:5700
-#: ../src/modules/itip-formatter/itip-view.c:5738
+#: ../src/modules/itip-formatter/itip-view.c:5770
+#: ../src/modules/itip-formatter/itip-view.c:5808
 msgid "Attendee status can not be updated because the item no longer exists"
 msgstr "Bu öge yerinde bulunamadığı için katılımcı bilgileri güncellenemedi"
 
-#: ../src/modules/itip-formatter/itip-view.c:5799
+#: ../src/modules/itip-formatter/itip-view.c:5869
 msgid "Meeting information sent"
 msgstr "Toplantı bilgisi gönderildi"
 
-#: ../src/modules/itip-formatter/itip-view.c:5804
+#: ../src/modules/itip-formatter/itip-view.c:5874
 msgid "Task information sent"
 msgstr "Görev bilgisi gönderildi"
 
-#: ../src/modules/itip-formatter/itip-view.c:5809
+#: ../src/modules/itip-formatter/itip-view.c:5879
 msgid "Memo information sent"
 msgstr "Not bilgisi gönderildi"
 
-#: ../src/modules/itip-formatter/itip-view.c:5820
+#: ../src/modules/itip-formatter/itip-view.c:5890
 msgid "Unable to send meeting information, the meeting does not exist"
 msgstr "Toplantı bilgisi gönderilemedi, toplantı yok"
 
-#: ../src/modules/itip-formatter/itip-view.c:5825
+#: ../src/modules/itip-formatter/itip-view.c:5895
 msgid "Unable to send task information, the task does not exist"
 msgstr "Görev bilgisi gönderilemedi, görev yok"
 
-#: ../src/modules/itip-formatter/itip-view.c:5830
+#: ../src/modules/itip-formatter/itip-view.c:5900
 msgid "Unable to send memo information, the memo does not exist"
 msgstr "Not bilgisi gönderilemedi, not yok"
 
 #. Translators: This is a default filename for a calendar.
-#: ../src/modules/itip-formatter/itip-view.c:5875
+#: ../src/modules/itip-formatter/itip-view.c:5945
 msgid "calendar.ics"
 msgstr "takvim.ics"
 
-#: ../src/modules/itip-formatter/itip-view.c:5880
+#: ../src/modules/itip-formatter/itip-view.c:5950
 msgid "Save Calendar"
 msgstr "Takvimi Kaydet"
 
-#: ../src/modules/itip-formatter/itip-view.c:5928
-#: ../src/modules/itip-formatter/itip-view.c:5941
+#: ../src/modules/itip-formatter/itip-view.c:5998
+#: ../src/modules/itip-formatter/itip-view.c:6011
 msgid "The calendar attached is not valid"
 msgstr "Eklenmiş takvim geçerli değil"
 
-#: ../src/modules/itip-formatter/itip-view.c:5929
-#: ../src/modules/itip-formatter/itip-view.c:5942
+#: ../src/modules/itip-formatter/itip-view.c:5999
+#: ../src/modules/itip-formatter/itip-view.c:6012
 msgid ""
 "The message claims to contain a calendar, but the calendar is not a valid "
 "iCalendar."
 msgstr "İleti takvim içerdiğini belirtiyor ama geçerli iCalendar değil."
 
-#: ../src/modules/itip-formatter/itip-view.c:6024
-#: ../src/modules/itip-formatter/itip-view.c:6108
-#: ../src/modules/itip-formatter/itip-view.c:6212
+#: ../src/modules/itip-formatter/itip-view.c:6094
+#: ../src/modules/itip-formatter/itip-view.c:6178
+#: ../src/modules/itip-formatter/itip-view.c:6282
 msgid "The item in the calendar is not valid"
 msgstr "Takvimdeki öge geçerli değil"
 
-#: ../src/modules/itip-formatter/itip-view.c:6025
-#: ../src/modules/itip-formatter/itip-view.c:6109
-#: ../src/modules/itip-formatter/itip-view.c:6213
+#: ../src/modules/itip-formatter/itip-view.c:6095
+#: ../src/modules/itip-formatter/itip-view.c:6179
+#: ../src/modules/itip-formatter/itip-view.c:6283
 msgid ""
 "The message does contain a calendar, but the calendar contains no events, "
 "tasks or free/busy information"
@@ -24883,23 +24889,23 @@ msgstr ""
 "İleti takvim içeriyor ama takvim olay, görev ya da meşgul/müsait bilgisi "
 "içermiyor"
 
-#: ../src/modules/itip-formatter/itip-view.c:6118
+#: ../src/modules/itip-formatter/itip-view.c:6188
 msgid "The calendar attached contains multiple items"
 msgstr "Eklenmiş takvim çoklu öge içeriyor"
 
-#: ../src/modules/itip-formatter/itip-view.c:6119
+#: ../src/modules/itip-formatter/itip-view.c:6189
 msgid ""
 "To process all of these items, the file should be saved and the calendar "
 "imported"
 msgstr ""
 "Bu ögelerin tümünü işlemek için, dosya kaydedilmeli ve takvim içe aktarılmalı"
 
-#: ../src/modules/itip-formatter/itip-view.c:6699
+#: ../src/modules/itip-formatter/itip-view.c:6769
 msgctxt "cal-itip"
 msgid "None"
 msgstr "Hiçbiri"
 
-#: ../src/modules/itip-formatter/itip-view.c:6721
+#: ../src/modules/itip-formatter/itip-view.c:6791
 msgid "Tentatively Accepted"
 msgstr "Geçici Olarak Kabul Edildi"
 
@@ -28455,6 +28461,14 @@ msgstr "Deponun diske yazılması başarısız, hata_kodu: %i"
 #: ../src/smime/lib/e-pkcs12.c:407
 msgid "Imported Certificate"
 msgstr "Aktarılmış Sertifika"
+
+#~ msgid ""
+#~ "Set to true to show invitation description as provided by the sender, if "
+#~ "such is available; otherwise generate the invitation description from the "
+#~ "iCalendar component"
+#~ msgstr ""
+#~ "Eğer varsa gönderence sağlanan davet açıklamasını göstermek için doğru "
+#~ "olarak belirle; yoksa davet açıklamasını iCalendar bileşeninden oluştur"
 
 #~ msgid ""
 #~ "If the name doesn’t correspond to any known editor, then the built-in "
