@@ -5080,7 +5080,7 @@ EvoEditor.removeUnwantedTags = function(parent)
 	for (child = parent.firstChild; child; child = next) {
 		next = child.nextSibling;
 
-		if (child.tagName == "STYLE" ||
+		if (child.tagName == "TITLE" ||
 		    child.tagName == "META")
 			child.remove();
 	}
