@@ -1,3 +1,41 @@
+Evolution 3.43.3 2022-03-04
+---------------------------
+
+Bug Fixes:
+	I#1373 - itip-view: Offer to show other parts from multipart/alternative ][
+	I#1787 - Hint when user name contains non-ASCII letters
+	I#1821 - EToDoPane: Incorrect time shown in the tooltip for UTC times
+	I#1824 - Composer: Preserve STYLE element of the signature
+	M!102 - Port to libgweather4 (Jan Tojnar)
+
+Miscellaneous:
+	e-widget-undo: Group user actions into a single undo record
+	Set gtk+ CSS widget names for some widgets
+	e_display_help: Call Yelp directly to display help
+	help: Add shorter link titles for link trails (Shaun McCance)
+
+Translations:
+	Alan Mortensen (da)
+	Aleksandr Melman (ru)
+	Anders Jonsson (sv)
+	Asier Sarasua Garmendia (eu)
+	Danial Behzadi (fa)
+	Daniel Mustieles (es)
+	Dušan Kazik (sk)
+	Emin Tufan Çetin (tr)
+	Fabio Tomat (fur)
+	Fran Dieguez (gl)
+	Goran Vidović (hr)
+	Hugo Carvalho (pt)
+	Jordi Mas i Hernandez (ca)
+	Kukuh Syafaat (id)
+	Luming Zh (zh_CN)
+	Marek Černocký (cs)
+	Matej Urbančič (sl)
+	Rafael Fontenelle (pt_BR)
+	Sergej A (ru)
+	Yuri Chornoivan (uk)
+
 Evolution 3.43.2 2022-02-11
 ---------------------------
 
