@@ -11,16 +11,16 @@ msgid ""
 msgstr ""
 "Project-Id-Version: evolution\n"
 "Report-Msgid-Bugs-To: https://gitlab.gnome.org/GNOME/evolution/issues\n"
-"POT-Creation-Date: 2022-02-19 17:41+0000\n"
-"PO-Revision-Date: 2022-02-21 19:09+0330\n"
-"Last-Translator: Danial Behzadi <dani.behzi@ubuntu.com>\n"
+"POT-Creation-Date: 2022-03-07 16:16+0000\n"
+"PO-Revision-Date: 2022-03-08 14:16+0330\n"
+"Last-Translator: MohammadSaleh Kamyab <mskf1383@protonmail.com>\n"
 "Language-Team: Persian <>\n"
 "Language: fa\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n!=1);\n"
-"X-Generator: Poedit 3.0.1\n"
+"X-Generator: Poedit 3.0\n"
 "X-DamnedLies-Scope: partial\n"
 
 #: ../data/org.gnome.evolution.addressbook.gschema.xml.in.h:1
@@ -203,11 +203,8 @@ msgid "Whether to ask for confirmation when deleting an appointment or task"
 msgstr "این که برای حذف قرارها یا تکلیف‌ها پرسیده شود یا خیر"
 
 #: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:11
-#, fuzzy
-#| msgctxt "iCalendarStatus"
-#| msgid "Confirmed"
 msgid "Confirm expunge"
-msgstr "تأییدشده"
+msgstr "تأیید از بین بردن"
 
 #: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:12
 #, fuzzy
@@ -278,8 +275,8 @@ msgid ""
 "Time the workday ends on, in twenty four hour format HHMM, 0000 to 2359, or -1 to "
 "use day-end-hour and day-end-minute"
 msgstr ""
-"ساعت پایان روز کاری، در قالب بیست و چهار ساعتی HHMM، از ۰۰۰۰ تا ۲۳۵۹ یا استفاده از "
-"‪-۱‬ برای ساعت پایان روز و دقیقهٔ پایان روز"
+"ساعت پایان روز کاری، در قالب بیست و چهار ساعتی HHMM، از ۰۰۰۰ تا ۲۳۵۹ یا استفاده از"
+" ‪-۱‬ برای ساعت پایان روز و دقیقهٔ پایان روز"
 
 #: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:27
 msgid "Workday start time for Tuesday"
@@ -290,8 +287,8 @@ msgid ""
 "Time the workday ends on, in twenty four hour format HHMM, 0000 to 2359, or -1 to "
 "use day-start-hour and day-start-minute"
 msgstr ""
-"ساعت پایان روز کاری، در قالب بیست و چهار ساعتی HHMM، از ۰۰۰۰ تا ۲۳۵۹ یا استفاده از "
-"‪-۱‬ برای ساعت آغاز روز و دقیقهٔ آغاز روز"
+"ساعت پایان روز کاری، در قالب بیست و چهار ساعتی HHMM، از ۰۰۰۰ تا ۲۳۵۹ یا استفاده از"
+" ‪-۱‬ برای ساعت آغاز روز و دقیقهٔ آغاز روز"
 
 #: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:29
 msgid "Workday end time for Tuesday"
@@ -1015,6 +1012,24 @@ msgstr "به یا کار انداختن ویژگی جست‌جوی فوری"
 msgid "Enable or disable magic space bar"
 msgstr "به یا از کار انداختن نوار فضای جادویی"
 
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:95
+#, fuzzy
+#| msgid "Apply the same _view settings to all folders"
+msgid "Enable to use a similar message list view settings for all folders"
+msgstr "اعمال همین تنظیمات _نمابه تمامی شاخه‌ها"
+
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:96
+#, fuzzy
+#| msgid "Apply the same _view settings to all folders"
+msgid "Enable to use a similar message list view settings for all folders."
+msgstr "اعمال همین تنظیمات _نمابه تمامی شاخه‌ها"
+
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:97
+#, fuzzy
+#| msgid "Apply the same _view settings to all folders"
+msgid "Enable to use the same search settings for all folders"
+msgstr "اعمال همین تنظیمات _نمابه تمامی شاخه‌ها"
+
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:99
 #, fuzzy
 #| msgid "Mark citations in the message \"Preview\""
@@ -1492,6 +1507,20 @@ msgstr "تأیید گرفتن _هنگام پاک‌سازی یک شاخه"
 msgid "Inherit theme colors in HTML format"
 msgstr "ارث‌بری رنگ‌های زمینه در قالب HTML"
 
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:261
+#, fuzzy
+#| msgid "Archive folder to use for On This Computer messages"
+msgid "An Archive folder for On This Computer folders."
+msgstr "شاخهٔ بایگانی برای استفاده روی پیام‌های این رایانه"
+
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:262
+#, fuzzy
+#| msgid "Archive folder to use for On This Computer messages"
+msgid ""
+"An Archive folder to use for Messages|Archive... feature when in an On This "
+"Computer folder."
+msgstr "شاخهٔ بایگانی برای استفاده روی پیام‌های این رایانه"
+
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:263
 #, fuzzy
 #| msgid "Whether to show categories field in the event/meeting editor"
@@ -1724,6 +1753,14 @@ msgstr "این که قاب پیش‌نمایش نشان داده بشود یا �
 msgid "Show invitation description provided by the sender"
 msgstr "_نمایش شرح دعوت فراهم شده به دست فرستنده"
 
+#: ../data/org.gnome.evolution.plugin.itip.gschema.xml.in.h:6
+#, fuzzy
+#| msgid "_Show invitation description provided by the sender"
+msgid ""
+"Set to true to show invitation description as provided by the sender, if such is "
+"available"
+msgstr "_نمایش شرح دعوت فراهم شده به دست فرستنده"
+
 #: ../data/org.gnome.evolution.plugin.mail-notification.gschema.xml.in.h:1
 #, fuzzy
 #| msgid "Notify new attendees _only"
@@ -1903,9 +1940,9 @@ msgstr "سبک دکمهٔ پنجره"
 #: ../data/org.gnome.evolution.shell.gschema.xml.in.h:22
 #, fuzzy
 #| msgid ""
-#| "The style of the window buttons. Can be \"text\", \"icons\", \"both\", "
-#| "\"toolbar\". If \"toolbar\" is set, the style of the buttons is determined by "
-#| "the GNOME toolbar setting."
+#| "The style of the window buttons. Can be \"text\", \"icons\", \"both\", \"toolbar"
+#| "\". If \"toolbar\" is set, the style of the buttons is determined by the GNOME "
+#| "toolbar setting."
 msgid ""
 "The style of the window buttons. Can be “text”, “icons”, “both”, “toolbar”. If "
 "“toolbar” is set, the style of the buttons is determined by the GNOME toolbar "
@@ -2123,11 +2160,9 @@ msgid "Select Memos component"
 msgstr "گزینش مولّفه‌های یادداشت‌ها"
 
 #: ../data/ui/evolution-shortcuts.ui.h:8
-#, fuzzy
-#| msgid "Create a new mail folder"
 msgctxt "shortcut window"
 msgid "Create a new item in current component"
-msgstr "ایجاد یک شاخهٔ نامهٔ جدید"
+msgstr "ایجاد یک مورد جدید در جزء کنونی"
 
 #: ../data/ui/evolution-shortcuts.ui.h:9
 msgctxt "shortcut window"
@@ -2135,32 +2170,24 @@ msgid "Cycle focus between panes"
 msgstr "چرخش تمرکز بین قاب‌ها"
 
 #: ../data/ui/evolution-shortcuts.ui.h:10
-#, fuzzy
-#| msgid "Check Evolution archive"
 msgctxt "shortcut window"
 msgid "Open the Evolution user guide"
-msgstr "بررسی آرشیو اوولوشن"
+msgstr "گشودن دفترچهٔ راهنمای کاربری اوولوشن"
 
 #: ../data/ui/evolution-shortcuts.ui.h:11
-#, fuzzy
-#| msgid "Always Search"
 msgctxt "shortcut window"
 msgid "Clear search bar"
-msgstr "همیشه جست‌وجو شود"
+msgstr "پاک کردن نوار جست‌وجو"
 
 #: ../data/ui/evolution-shortcuts.ui.h:12
-#, fuzzy
-#| msgid "Move contacts to"
 msgctxt "shortcut window"
 msgid "Move mails or contacts to folder"
-msgstr "جابه‌جایی آشنا‌ها به"
+msgstr "جابه‌جایی نامه‌ها یا آشنایان به شاخه"
 
 #: ../data/ui/evolution-shortcuts.ui.h:13
-#, fuzzy
-#| msgid "Copy contacts to"
 msgctxt "shortcut window"
 msgid "Copy mails or contacts to folder"
-msgstr "رونوشت از آشنا‌ها در"
+msgstr "رونوشت از نامه‌ها یا آشنا‌یان به شاخه"
 
 #: ../data/ui/evolution-shortcuts.ui.h:14
 msgctxt "shortcut window"
@@ -2188,32 +2215,24 @@ msgid "Mail"
 msgstr "نامه"
 
 #: ../data/ui/evolution-shortcuts.ui.h:19
-#, fuzzy
-#| msgid "Create a new memo"
 msgctxt "shortcut window"
 msgid "Create a new message"
-msgstr "ایجاد یک یادداشت جدید"
+msgstr "ایجاد یک پیام جدید"
 
 #: ../data/ui/evolution-shortcuts.ui.h:20
-#, fuzzy
-#| msgid "Failed to retrieve message"
 msgctxt "shortcut window"
 msgid "Send and receive messages"
-msgstr "بازیابی پیام شکست خورد"
+msgstr "ارسال و دریافت پیام‌ها"
 
 #: ../data/ui/evolution-shortcuts.ui.h:21
-#, fuzzy
-#| msgid "Copy the selection"
 msgctxt "shortcut window"
 msgid "Apply filters to selection"
-msgstr "رونوشت از گزیده‌ها"
+msgstr "اِعمال پالایه‌ها به گزیده"
 
 #: ../data/ui/evolution-shortcuts.ui.h:22
-#, fuzzy
-#| msgid "Open the selected messages in a new window"
 msgctxt "shortcut window"
 msgid "Open selection in new window"
-msgstr "گشودن پیام‌های گزیده در پنجرهٔ جدید"
+msgstr "گشودن گزیده در پنجرهٔ جدید"
 
 #: ../data/ui/evolution-shortcuts.ui.h:23
 msgctxt "shortcut window"
@@ -2221,60 +2240,44 @@ msgid "Go to folder"
 msgstr "رفتن به شاخه"
 
 #: ../data/ui/evolution-shortcuts.ui.h:24
-#, fuzzy
-#| msgid "Mark the selected messages as junk"
 msgctxt "shortcut window"
 msgid "Mark selected messages as read"
-msgstr "علامت‌گذاری پیام‌های گزیده به این عنوان که آشغال هستند"
+msgstr "علامت‌گذاری پیام‌های گزیده به عنوان خوانده"
 
 #: ../data/ui/evolution-shortcuts.ui.h:25
-#, fuzzy
-#| msgid "Mark the selected messages as junk"
 msgctxt "shortcut window"
 msgid "Mark selected messages as unread"
-msgstr "علامت‌گذاری پیام‌های گزیده به این عنوان که آشغال هستند"
+msgstr "علامت‌گذاری پیام‌های گزیده به عنوان نخوانده"
 
 #: ../data/ui/evolution-shortcuts.ui.h:26
-#, fuzzy
-#| msgid "Display the next unread message"
 msgctxt "shortcut window"
 msgid "Jump to the next unread message"
-msgstr "نمایش پیام نخواندهٔ بعدی"
+msgstr "پریدن به پیام نخواندهٔ بعدی"
 
 #: ../data/ui/evolution-shortcuts.ui.h:27
-#, fuzzy
-#| msgid "Display the previous unread message"
 msgctxt "shortcut window"
 msgid "Jump to the previous unread message"
-msgstr "نمایش پیام نخواندهٔ قبلی"
+msgstr "پریدن به پیام نخواندهٔ قبلی"
 
 #: ../data/ui/evolution-shortcuts.ui.h:28
-#, fuzzy
-#| msgid "Forwarded messages"
 msgctxt "shortcut window"
 msgid "Forward selected messages"
-msgstr "پیام ارجاعی"
+msgstr "هدایت پیام‌های گزیده"
 
 #: ../data/ui/evolution-shortcuts.ui.h:29
-#, fuzzy
-#| msgid "_Reply to Sender"
 msgctxt "shortcut window"
 msgid "Reply to sender"
-msgstr "پاسخ به _فرستنده"
+msgstr "پاسخ به فرستنده"
 
 #: ../data/ui/evolution-shortcuts.ui.h:30
-#, fuzzy
-#| msgid "Reply to _List"
 msgctxt "shortcut window"
 msgid "Reply to list"
-msgstr "پاسخ به _فهرست"
+msgstr "پاسخ به سیاهه"
 
 #: ../data/ui/evolution-shortcuts.ui.h:31
-#, fuzzy
-#| msgid "Compose a reply to the mailing list of the selected message"
 msgctxt "shortcut window"
 msgid "Reply to all recipients"
-msgstr "نگارش پاسخ برای فهرست پستی پیام گزیده"
+msgstr "پاسخ به تمامی گیرندگان"
 
 #: ../data/ui/evolution-shortcuts.ui.h:32
 msgctxt "shortcut window"
@@ -2287,109 +2290,79 @@ msgid "Scroll down"
 msgstr "لغزش به پایین"
 
 #: ../data/ui/evolution-shortcuts.ui.h:34
-#, fuzzy
-#| msgid "Calendar"
 msgctxt "shortcut window"
 msgid "Calendar"
 msgstr "تقویم"
 
 #: ../data/ui/evolution-shortcuts.ui.h:35
-#, fuzzy
-#| msgid "Create a new appointment"
 msgctxt "shortcut window"
 msgid "Create a new appointment"
 msgstr "ایجاد یک قرار جدید"
 
 #: ../data/ui/evolution-shortcuts.ui.h:36
-#, fuzzy
-#| msgid "Create a new meeting request"
 msgctxt "shortcut window"
 msgid "Create a new meeting"
-msgstr "ایجاد یک درخواست جلسهٔ جدید"
+msgstr "ایجاد یک جلسهٔ جدید"
 
 #: ../data/ui/evolution-shortcuts.ui.h:37
-#, fuzzy
-#| msgid "Create a new task"
 msgctxt "shortcut window"
 msgid "Create a new task"
-msgstr "ایجاد یک تکلیف جدید"
+msgstr "ایجاد یک وظیفهٔ جدید"
 
 #: ../data/ui/evolution-shortcuts.ui.h:38
-#, fuzzy
-#| msgid "Create a new memo"
 msgctxt "shortcut window"
 msgid "Create a new memo"
 msgstr "ایجاد یک یادداشت جدید"
 
 #: ../data/ui/evolution-shortcuts.ui.h:39
-#, fuzzy
-#| msgid "Go to Today"
 msgctxt "shortcut window"
 msgid "Go to today"
 msgstr "رفتن به امروز"
 
 #: ../data/ui/evolution-shortcuts.ui.h:40
-#, fuzzy
-#| msgid "Go to Date"
 msgctxt "shortcut window"
 msgid "Go to date"
 msgstr "رفتن به تاریخ"
 
 #: ../data/ui/evolution-shortcuts.ui.h:41
-#, fuzzy
-#| msgid "Day View"
 msgctxt "shortcut window"
 msgid "Day View"
 msgstr "نمای روز"
 
 #: ../data/ui/evolution-shortcuts.ui.h:42
-#, fuzzy
-#| msgid "Work Week View"
 msgctxt "shortcut window"
 msgid "Work Week View"
 msgstr "نمای هفتهٔ کاری"
 
 #: ../data/ui/evolution-shortcuts.ui.h:43
-#, fuzzy
-#| msgid "Week View"
 msgctxt "shortcut window"
 msgid "Week View"
 msgstr "نمای هفته"
 
 #: ../data/ui/evolution-shortcuts.ui.h:44
-#, fuzzy
-#| msgid "Month View"
 msgctxt "shortcut window"
 msgid "Month View"
 msgstr "نمای ماه"
 
 #: ../data/ui/evolution-shortcuts.ui.h:45
-#, fuzzy
-#| msgid "_List View"
 msgctxt "shortcut window"
 msgid "List View"
-msgstr "نمای _فهرست"
+msgstr "نمای سیاهه"
 
 #: ../data/ui/evolution-shortcuts.ui.h:46
-#, fuzzy
-#| msgid "Contacts"
 msgctxt "shortcut window"
 msgid "Contacts"
-msgstr "آشنا‌ها"
+msgstr "آشنایان"
 
 #: ../data/ui/evolution-shortcuts.ui.h:47
-#, fuzzy
-#| msgid "Create a new contact"
 msgctxt "shortcut window"
 msgid "Create a new contact"
 msgstr "ایجاد یک آشنای جدید"
 
 #: ../data/ui/evolution-shortcuts.ui.h:48
-#, fuzzy
-#| msgid "Create a new contact list"
 msgctxt "shortcut window"
 msgid "Create a new contact list"
-msgstr "ایجاد یک فهرست آشنای جدید"
+msgstr "ایجاد یک سیاههٔ آشنای جدید"
 
 #: ../data/views/addressbook/galview.xml.h:1
 msgid "_Address Cards"
@@ -2789,10 +2762,8 @@ msgid "Show Web Addresses"
 msgstr "نشانی‌های وب"
 
 #: ../src/addressbook/gui/contact-editor/contact-editor.ui.h:5
-#, fuzzy
-#| msgid "Show the second time zone"
 msgid "Show Job section"
-msgstr "نمایش منطقهٔ زمانی دوم"
+msgstr "نمایش بخش شغل"
 
 #: ../src/addressbook/gui/contact-editor/contact-editor.ui.h:6
 #, fuzzy
@@ -2801,34 +2772,24 @@ msgid "Show Miscellaneous"
 msgstr "متفرقه"
 
 #: ../src/addressbook/gui/contact-editor/contact-editor.ui.h:7
-#, fuzzy
-#| msgid "Mailing Address"
 msgid "Show Home Mailing Address"
-msgstr "نشانی پستی"
+msgstr "نمایش نشانی‌های پستی خانگی"
 
 #: ../src/addressbook/gui/contact-editor/contact-editor.ui.h:8
-#, fuzzy
-#| msgid "Mailing Address"
 msgid "Show Work Mailing Address"
-msgstr "نشانی پستی"
+msgstr "نمایش نشانی‌های پستی کاری"
 
 #: ../src/addressbook/gui/contact-editor/contact-editor.ui.h:9
-#, fuzzy
-#| msgid "Mailing Address"
 msgid "Show Other Mailing Address"
-msgstr "نشانی پستی"
+msgstr "نمایش نشانی‌های پستی دیگر"
 
 #: ../src/addressbook/gui/contact-editor/contact-editor.ui.h:10
-#, fuzzy
-#| msgid "Show Fields"
 msgid "Show Notes"
-msgstr "نمایش فیلدها"
+msgstr "نمایش یادداشت‌ها"
 
 #: ../src/addressbook/gui/contact-editor/contact-editor.ui.h:11
-#, fuzzy
-#| msgid "Certificates"
 msgid "Show Certificates"
-msgstr "گواهی‌ها"
+msgstr "نمایش گواهی‌ها"
 
 #: ../src/addressbook/gui/contact-editor/contact-editor.ui.h:12
 #: ../src/addressbook/gui/contact-editor/e-contact-editor.c:725
@@ -2904,10 +2865,8 @@ msgstr "گزینه‌ها"
 #: ../src/smime/gui/certificate-manager.c:949
 #: ../src/smime/gui/certificate-manager.c:1330 ../src/smime/gui/e-cert-selector.c:235
 #: ../src/smime/gui/smime-ui.ui.h:17
-#, fuzzy
-#| msgid "Cancel"
 msgid "_Cancel"
-msgstr "انصراف"
+msgstr "_لغو"
 
 #: ../src/addressbook/gui/contact-editor/contact-editor.ui.h:15
 #: ../src/addressbook/gui/contact-editor/e-contact-editor.c:3505
@@ -2934,7 +2893,7 @@ msgid "_Help"
 msgstr "راهنما"
 
 #: ../src/addressbook/gui/contact-editor/contact-editor.ui.h:17
-#: ../src/e-util/e-misc-utils.c:3585
+#: ../src/e-util/e-misc-utils.c:3629
 msgid "Image"
 msgstr "تصویر"
 
@@ -2995,7 +2954,7 @@ msgstr "صفحهٔ آغازه:"
 
 #: ../src/addressbook/gui/contact-editor/contact-editor.ui.h:30
 #: ../src/calendar/gui/e-comp-editor-event.c:881
-#: ../src/modules/itip-formatter/itip-view.c:2209
+#: ../src/modules/itip-formatter/itip-view.c:2279
 msgid "_Calendar:"
 msgstr "تقویم:"
 
@@ -3265,10 +3224,8 @@ msgstr "کلیدهای PGP"
 #: ../src/e-util/e-image-chooser-dialog.c:193
 #: ../src/smime/gui/certificate-manager.c:674
 #: ../src/smime/gui/certificate-manager.c:959
-#, fuzzy
-#| msgid "Attach file(s)"
 msgid "All files"
-msgstr "پیوست پرونده‌(ها‏)"
+msgstr "تمام پرونده‌ها"
 
 #: ../src/addressbook/gui/contact-editor/e-contact-editor.c:3273
 #, fuzzy
@@ -3628,7 +3585,7 @@ msgid "Send a mail message to this address"
 msgstr "ارسال یک پیعام نامه به این نشانی"
 
 #: ../src/addressbook/gui/widgets/eab-contact-display.c:318
-#: ../src/e-util/e-misc-utils.c:4588
+#: ../src/e-util/e-misc-utils.c:4632
 #, c-format
 msgid "Click to mail %s"
 msgstr "برای فرستادن نامه به %s کلیک کنید"
@@ -3853,10 +3810,8 @@ msgid "Conflicting Contact:"
 msgstr "آشنای متعارض:"
 
 #: ../src/addressbook/gui/widgets/eab-contact-merging.c:876
-#, fuzzy
-#| msgid "Contact: "
 msgid "Old Contact:"
-msgstr "آشنا‌ها: "
+msgstr "آشنا‌یان قدیمی:"
 
 #: ../src/addressbook/gui/widgets/eab-gui-util.c:119
 msgid ""
@@ -4255,10 +4210,8 @@ msgstr "آشنا‌ها: "
 
 #. Zoom-in button
 #: ../src/addressbook/gui/widgets/e-contact-map-window.c:409
-#, fuzzy
-#| msgid "_Zoom In"
 msgid "Zoom _In"
-msgstr "زوم به _داخل"
+msgstr "_بزرگ‌نمایی"
 
 #. Zoom-out button
 #: ../src/addressbook/gui/widgets/e-contact-map-window.c:417
@@ -4343,10 +4296,8 @@ msgstr ""
 #: ../src/calendar/importers/icalendar-importer.c:506
 #: ../src/calendar/importers/icalendar-importer.c:1013
 #: ../src/calendar/importers/icalendar-importer.c:1053
-#, fuzzy
-#| msgid "Importing"
 msgid "Importing…"
-msgstr "در حال وارد کردن"
+msgstr "درون‌ریزی…"
 
 #: ../src/addressbook/importers/evolution-csv-importer.c:978
 #, fuzzy
@@ -5458,7 +5409,7 @@ msgid "Description Contains"
 msgstr "شرح‌ها حاوی"
 
 #: ../src/calendar/gui/comp-util.c:1553
-#: ../src/modules/itip-formatter/itip-view.c:2622
+#: ../src/modules/itip-formatter/itip-view.c:2692
 #, c-format
 msgid "with one guest"
 msgid_plural "with %d guests"
@@ -5466,10 +5417,9 @@ msgstr[0] "با یک مهمان"
 msgstr[1] "با %Id مهمان"
 
 #: ../src/calendar/gui/comp-util.c:1612
-#, fuzzy, c-format
-#| msgid "Comment:"
+#, c-format
 msgid "Comments: %s"
-msgstr "توضیح:"
+msgstr "یادداشت‌ها: %s"
 
 #: ../src/calendar/gui/comp-util.c:1626 ../src/calendar/gui/comp-util.c:1629
 msgctxt "iCalendarStatus"
@@ -5744,15 +5694,15 @@ msgid "Untitled"
 msgstr "بی‌عنوان"
 
 #: ../src/calendar/gui/e-cal-component-preview.c:252
-#: ../src/modules/itip-formatter/itip-view.c:1918
-#: ../src/modules/itip-formatter/itip-view.c:2057
+#: ../src/modules/itip-formatter/itip-view.c:1912
+#: ../src/modules/itip-formatter/itip-view.c:2127
 msgid "Categories:"
 msgstr "دسته‌ها:"
 
 #: ../src/calendar/gui/e-cal-component-preview.c:289
-#: ../src/modules/cal-config-weather/evolution-cal-config-weather.c:282
-#: ../src/modules/itip-formatter/itip-view.c:1910
-#: ../src/modules/itip-formatter/itip-view.c:2033
+#: ../src/modules/cal-config-weather/evolution-cal-config-weather.c:312
+#: ../src/modules/itip-formatter/itip-view.c:1904
+#: ../src/modules/itip-formatter/itip-view.c:2103
 msgid "Location:"
 msgstr "مکان:"
 
@@ -5769,8 +5719,8 @@ msgid "Due Date:"
 msgstr "تاریخ سررسید:"
 
 #: ../src/calendar/gui/e-cal-component-preview.c:333
-#: ../src/modules/itip-formatter/itip-view.c:1915
-#: ../src/modules/itip-formatter/itip-view.c:2048
+#: ../src/modules/itip-formatter/itip-view.c:1909
+#: ../src/modules/itip-formatter/itip-view.c:2118
 #, fuzzy
 #| msgid "Time _zone:"
 msgid "Estimated duration:"
@@ -5783,8 +5733,8 @@ msgid "Recurs:"
 msgstr "مکرر"
 
 #: ../src/calendar/gui/e-cal-component-preview.c:361
-#: ../src/modules/itip-formatter/itip-view.c:1916
-#: ../src/modules/itip-formatter/itip-view.c:2051
+#: ../src/modules/itip-formatter/itip-view.c:1910
+#: ../src/modules/itip-formatter/itip-view.c:2121
 msgid "Status:"
 msgstr "وضعیت:"
 
@@ -5812,56 +5762,46 @@ msgid "Priority:"
 msgstr "اولویت:"
 
 #: ../src/calendar/gui/e-cal-component-preview.c:394
-#, fuzzy
-#| msgid "_Classification:"
 msgid "Classification:"
-msgstr "_طبقه‌بندی:"
+msgstr "طبقه‌بندی:"
 
 #: ../src/calendar/gui/e-cal-component-preview.c:408
-#, fuzzy
-#| msgid "Or_ganizer:"
 msgid "Organizer:"
-msgstr "_سازمان‌دهنده:"
+msgstr "سازمان‌دهنده:"
 
 #: ../src/calendar/gui/e-cal-component-preview.c:449
-#: ../src/modules/itip-formatter/itip-view.c:1919
-#: ../src/modules/itip-formatter/itip-view.c:2060
-#, fuzzy
-#| msgid "Attendees: "
+#: ../src/modules/itip-formatter/itip-view.c:1913
+#: ../src/modules/itip-formatter/itip-view.c:2130
 msgid "Attendees:"
-msgstr "شرکت‌کنندگان: "
+msgstr "شرکت‌کنندگان:"
 
 #: ../src/calendar/gui/e-cal-component-preview.c:514
 msgid "Web Page:"
 msgstr "صفحهٔ وب:"
 
 #: ../src/calendar/gui/e-cal-data-model.c:1733
-#, fuzzy, c-format
-#| msgid "Creating folder `%s'"
+#, c-format
 msgid "Creating view for calendar “%s”"
-msgstr "در حال ایجاد شاخهٔ '%s'"
+msgstr "ایجاد نما برای تقویم «%s»"
 
 #: ../src/calendar/gui/e-cal-data-model.c:1737
-#, fuzzy, c-format
-#| msgid "Create a new task list"
+#, c-format
 msgid "Creating view for task list “%s”"
-msgstr "ایجاد یک فهرست تکلیف جدید"
+msgstr "ایجاد نما برای سیاههٔ وظیفهٔ «%s»"
 
 #: ../src/calendar/gui/e-cal-data-model.c:1741
-#, fuzzy, c-format
-#| msgid "Create a new memo list"
+#, c-format
 msgid "Creating view for memo list “%s”"
-msgstr "ایجاد یک فهرست یادداشت جدید"
+msgstr "ایجاد نما برای سیاههٔ یادداشت «%s»"
 
 #: ../src/calendar/gui/e-cal-dialogs.c:217 ../src/calendar/gui/e-cal-ops.c:1994
 msgid "Destination is read only"
 msgstr "مقصد فقط خواندنی است"
 
 #: ../src/calendar/gui/e-cal-dialogs.c:297
-#, fuzzy, c-format
-#| msgid "Copy selected events to the clipboard"
+#, c-format
 msgid "Copying events to the calendar “%s”"
-msgstr "رونوشت از رویدادهای گزیده در تخته‌گیره"
+msgstr "رونوشت از رویدادها به تقویم «%s»"
 
 #: ../src/calendar/gui/e-cal-dialogs.c:303
 #, c-format
@@ -6005,22 +5945,16 @@ msgid "Pasted text doesn’t contain valid iCalendar data"
 msgstr "متن چسبانده شامل داده‌های معتبر iCalendar نیست"
 
 #: ../src/calendar/gui/e-calendar-view.c:932 ../src/calendar/gui/e-cal-ops.c:1585
-#, fuzzy
-#| msgid "Weather Calendars"
 msgid "Default calendar not found"
-msgstr "تقویم‌های آب و هوا"
+msgstr "تقویم پیش‌گزیده یافت نشد"
 
 #: ../src/calendar/gui/e-calendar-view.c:937 ../src/calendar/gui/e-cal-ops.c:1588
-#, fuzzy
-#| msgid "Mark  as default folder"
 msgid "Default memo list not found"
-msgstr "به عنوان شاخهٔ پیش‌گزیده علامت‌گذاری شود؟"
+msgstr "سیاههٔ یادداشت پیش‌گزیده یافت نشد"
 
 #: ../src/calendar/gui/e-calendar-view.c:942 ../src/calendar/gui/e-cal-ops.c:1591
-#, fuzzy
-#| msgid "Mark  as default folder"
 msgid "Default task list not found"
-msgstr "به عنوان شاخهٔ پیش‌گزیده علامت‌گذاری شود؟"
+msgstr "سیاههٔ وظیفهٔ پیش‌گزیده یافت نشد"
 
 #: ../src/calendar/gui/e-calendar-view.c:1034
 msgid "No suitable component found"
@@ -6096,7 +6030,7 @@ msgstr "سازمان‌دهنده: %s"
 #. Translators: It will display "Location: LocationOfTheAppointment"
 #: ../src/calendar/gui/e-calendar-view.c:2008
 #: ../src/calendar/gui/e-meeting-time-sel.c:2580
-#: ../src/calendar/gui/e-task-table.c:763 ../src/calendar/gui/e-to-do-pane.c:378
+#: ../src/calendar/gui/e-task-table.c:763 ../src/calendar/gui/e-to-do-pane.c:380
 #: ../src/calendar/gui/print.c:3627
 #, c-format
 msgid "Location: %s"
@@ -6104,19 +6038,17 @@ msgstr "مکان: %s"
 
 #. To Translators: It will display "Time: ActualStartDateAndTime (DurationOfTheMeeting)"
 #. Translators: It will display "Time: StartDateAndTime (Duration)"
-#: ../src/calendar/gui/e-calendar-view.c:2067 ../src/calendar/gui/e-to-do-pane.c:481
+#: ../src/calendar/gui/e-calendar-view.c:2067 ../src/calendar/gui/e-to-do-pane.c:483
 #, c-format
 msgid "Time: %s %s"
 msgstr "مدت: %s. %s"
 
 #: ../src/calendar/gui/e-calendar-view.c:2136 ../src/calendar/gui/e-memo-table.c:660
-#: ../src/calendar/gui/e-task-table.c:893 ../src/calendar/gui/e-to-do-pane.c:591
-#: ../src/e-util/e-misc-utils.c:4653 ../src/e-util/e-text.c:566
+#: ../src/calendar/gui/e-task-table.c:893 ../src/calendar/gui/e-to-do-pane.c:593
+#: ../src/e-util/e-misc-utils.c:4697 ../src/e-util/e-text.c:566
 #: ../src/e-util/e-web-view.c:4185
-#, fuzzy
-#| msgid "Cell…"
 msgid "…"
-msgstr "سلول…"
+msgstr "…"
 
 #. Translators: the '%s' stands for a component summary, the '%d' for the years.
 #. The string is used for Birthday & Anniversary events where the first year is
@@ -6139,11 +6071,9 @@ msgstr[1] "قرار جدید"
 #: ../src/calendar/gui/e-cal-list-view.c:120
 #: ../src/modules/calendar/e-memo-shell-view-private.c:365
 #: ../src/modules/calendar/e-task-shell-view-private.c:574
-#, fuzzy, c-format
-#| msgid ", %d selected"
-#| msgid_plural ", %d selected"
+#, c-format
 msgid "%d selected"
-msgstr "، %Idتا گزیده"
+msgstr "%Idتا گزیده"
 
 #: ../src/calendar/gui/e-cal-list-view.etspec.h:1
 #: ../src/calendar/gui/e-memo-table.etspec.h:5
@@ -6206,8 +6136,8 @@ msgstr "نوع"
 #: ../src/calendar/gui/e-meeting-store.c:170
 #: ../src/calendar/gui/e-meeting-store.c:215 ../src/calendar/gui/print.c:1265
 #: ../src/calendar/gui/print.c:1282 ../src/e-util/e-charset.c:49
-#: ../src/modules/itip-formatter/itip-view.c:3738
-#: ../src/modules/itip-formatter/itip-view.c:6730
+#: ../src/modules/itip-formatter/itip-view.c:3808
+#: ../src/modules/itip-formatter/itip-view.c:6800
 #: ../src/modules/plugin-manager/evolution-plugin-manager.c:97
 msgid "Unknown"
 msgstr "نامعلوم"
@@ -6221,24 +6151,18 @@ msgstr "منبعی با شناسهٔ «%s» پیدا نشد"
 
 #: ../src/calendar/gui/e-cal-model.c:1477 ../src/calendar/gui/e-cal-ops.c:194
 #: ../src/calendar/gui/e-cal-ops.c:1387
-#, fuzzy
-#| msgid "Cannot create a new event"
 msgid "Creating an event"
-msgstr "نمی‌توان رویداد جدیدی ایجاد کرد"
+msgstr "ایجاد یک رویداد"
 
 #: ../src/calendar/gui/e-cal-model.c:1481 ../src/calendar/gui/e-cal-ops.c:198
 #: ../src/calendar/gui/e-cal-ops.c:1391
-#, fuzzy
-#| msgid "Create a new memo"
 msgid "Creating a memo"
-msgstr "ایجاد یک یادداشت جدید"
+msgstr "ایجاد یک یادداشت"
 
 #: ../src/calendar/gui/e-cal-model.c:1485 ../src/calendar/gui/e-cal-ops.c:202
 #: ../src/calendar/gui/e-cal-ops.c:1395
-#, fuzzy
-#| msgid "Create a new task"
 msgid "Creating a task"
-msgstr "ایجاد یک تکلیف جدید"
+msgstr "ایجاد یک وظیفه"
 
 #: ../src/calendar/gui/e-cal-model.c:1882
 msgid "Recurring"
@@ -6262,7 +6186,7 @@ msgstr "خیر"
 #: ../src/calendar/gui/e-meeting-list-view.c:205
 #: ../src/calendar/gui/e-meeting-store.c:179
 #: ../src/calendar/gui/e-meeting-store.c:202
-#: ../src/modules/itip-formatter/itip-view.c:6718
+#: ../src/modules/itip-formatter/itip-view.c:6788
 msgid "Accepted"
 msgstr "پذیرفته شد"
 
@@ -6270,7 +6194,7 @@ msgstr "پذیرفته شد"
 #: ../src/calendar/gui/e-meeting-list-view.c:206
 #: ../src/calendar/gui/e-meeting-store.c:181
 #: ../src/calendar/gui/e-meeting-store.c:204
-#: ../src/modules/itip-formatter/itip-view.c:6724
+#: ../src/modules/itip-formatter/itip-view.c:6794
 msgid "Declined"
 msgstr "رد شد"
 
@@ -6286,7 +6210,7 @@ msgstr "احتمالی"
 #: ../src/calendar/gui/e-meeting-list-view.c:208
 #: ../src/calendar/gui/e-meeting-store.c:185
 #: ../src/calendar/gui/e-meeting-store.c:208
-#: ../src/modules/itip-formatter/itip-view.c:6727
+#: ../src/modules/itip-formatter/itip-view.c:6797
 msgid "Delegated"
 msgstr "واگذار شد"
 
@@ -6324,100 +6248,78 @@ msgid "Modifying an event"
 msgstr "تغییر یک رویداد"
 
 #: ../src/calendar/gui/e-cal-ops.c:321
-#, fuzzy
-#| msgid "Loading memos"
 msgid "Modifying a memo"
-msgstr "در حال بار کردن یادداشت‌ها"
+msgstr "تغییر یک یادداشت"
 
 #: ../src/calendar/gui/e-cal-ops.c:325
-#, fuzzy
-#| msgid "Loading tasks"
 msgid "Modifying a task"
-msgstr "در حال بار کردن تکلیف‌ها"
+msgstr "تغییر یک وظیفه"
 
-#: ../src/calendar/gui/e-cal-ops.c:426 ../src/calendar/gui/e-to-do-pane.c:2087
-#, fuzzy
-#| msgid "Saving attachment"
+#: ../src/calendar/gui/e-cal-ops.c:426 ../src/calendar/gui/e-to-do-pane.c:2089
 msgid "Removing an event"
-msgstr "در حال ذخیرهٔ پیوست"
+msgstr "برداشتن یه رویداد"
 
-#: ../src/calendar/gui/e-cal-ops.c:430 ../src/calendar/gui/e-to-do-pane.c:2091
-#, fuzzy
-#| msgid "Saving attachment"
+#: ../src/calendar/gui/e-cal-ops.c:430 ../src/calendar/gui/e-to-do-pane.c:2093
 msgid "Removing a memo"
-msgstr "در حال ذخیرهٔ پیوست"
+msgstr "برداشتن یک یادداشت"
 
-#: ../src/calendar/gui/e-cal-ops.c:434 ../src/calendar/gui/e-to-do-pane.c:2095
-#, fuzzy
-#| msgid "Saving attachment"
+#: ../src/calendar/gui/e-cal-ops.c:434 ../src/calendar/gui/e-to-do-pane.c:2097
 msgid "Removing a task"
-msgstr "در حال ذخیرهٔ پیوست"
+msgstr "برداشتن یک وظیفه"
 
 #: ../src/calendar/gui/e-cal-ops.c:522
-#, fuzzy, c-format
-#| msgid "Meeting Information"
+#, c-format
 msgid "Deleting an event"
 msgid_plural "Deleting %d events"
-msgstr[0] "اطلاعات جلسه"
-msgstr[1] "اطلاعات جلسه"
+msgstr[0] "حذف یک رویداد"
+msgstr[1] "حذف %Id رویداد"
 
 #: ../src/calendar/gui/e-cal-ops.c:526
-#, fuzzy, c-format
-#| msgid "Delegate To"
+#, c-format
 msgid "Deleting a memo"
 msgid_plural "Deleting %d memos"
-msgstr[0] "واگذاری به"
-msgstr[1] "واگذاری به"
+msgstr[0] "حذف یک یادداشت"
+msgstr[1] "حذف %Id رویداد"
 
 #: ../src/calendar/gui/e-cal-ops.c:530
-#, fuzzy, c-format
-#| msgid "Meetings and Tasks"
+#, c-format
 msgid "Deleting a task"
 msgid_plural "Deleting %d tasks"
-msgstr[0] "جلسه‌ها و تکلیف‌ها"
-msgstr[1] "جلسه‌ها و تکلیف‌ها"
+msgstr[0] "حذف یک وظیفه"
+msgstr[1] "حذف %Id وظیفه"
 
 #: ../src/calendar/gui/e-cal-ops.c:741
-#, fuzzy, c-format
-#| msgid "Print this event"
+#, c-format
 msgid "Pasting an event"
 msgid_plural "Pasting %d events"
-msgstr[0] "چاپ این رویداد"
-msgstr[1] "چاپ این رویداد"
+msgstr[0] "جای‌گذاری یک رویداد"
+msgstr[1] "جای‌گذاری %Id رویداد"
 
 #: ../src/calendar/gui/e-cal-ops.c:756
-#, fuzzy, c-format
-#| msgid "Loading memos"
+#, c-format
 msgid "Pasting a memo"
 msgid_plural "Pasting %d memos"
-msgstr[0] "در حال بار کردن یادداشت‌ها"
-msgstr[1] "در حال بار کردن یادداشت‌ها"
+msgstr[0] "جای‌گذاری یک یادداشت"
+msgstr[1] "جای‌گذاری %Id یادداشت"
 
 #: ../src/calendar/gui/e-cal-ops.c:771
-#, fuzzy, c-format
-#| msgid "Loading tasks"
+#, c-format
 msgid "Pasting a task"
 msgid_plural "Pasting %d tasks"
-msgstr[0] "در حال بار کردن تکلیف‌ها"
-msgstr[1] "در حال بار کردن تکلیف‌ها"
+msgstr[0] "جای‌گذاری یک وظیفه"
+msgstr[1] "جای‌گذاری %Id وظیفه"
 
 #: ../src/calendar/gui/e-cal-ops.c:871
-#, fuzzy
-#| msgid "Updating objects"
 msgid "Updating an event"
-msgstr "در حال به‌هنگام‌سازی اشیا"
+msgstr "به‌روز رسانی یک رویداد"
 
 #: ../src/calendar/gui/e-cal-ops.c:875
-#, fuzzy
-#| msgid "Updating query"
 msgid "Updating a memo"
-msgstr "به‌هنگام‌سازی پرس‌وجو"
+msgstr "به‌روز رسانی یک یادداشت"
 
 #: ../src/calendar/gui/e-cal-ops.c:879
-#, fuzzy
-#| msgid "Updating objects"
 msgid "Updating a task"
-msgstr "در حال به‌هنگام‌سازی اشیا"
+msgstr "به‌روز رسانی یک وظیفه"
 
 #: ../src/calendar/gui/e-cal-ops.c:992
 #, fuzzy, c-format
@@ -6452,22 +6354,16 @@ msgid "Purging tasks in the task list “%s”"
 msgstr "زدودن تکلیف‌ها در سیاههٔ تکلیف «%s»"
 
 #: ../src/calendar/gui/e-cal-ops.c:1129
-#, fuzzy
-#| msgid "Purging"
 msgid "Purging events"
-msgstr "در حال پاک‌سازی"
+msgstr "پاک‌سازی رویدادها"
 
 #: ../src/calendar/gui/e-cal-ops.c:1133
-#, fuzzy
-#| msgid "Print Memos"
 msgid "Purging memos"
-msgstr "چاپ یادداشت‌ها"
+msgstr "پاک‌سازی یادداشت‌ها"
 
 #: ../src/calendar/gui/e-cal-ops.c:1137
-#, fuzzy
-#| msgid "Print Tasks"
 msgid "Purging tasks"
-msgstr "چاپ تکلیف‌ها"
+msgstr "پاک‌سازی وظایف"
 
 #: ../src/calendar/gui/e-cal-ops.c:1239
 #, fuzzy
@@ -6476,52 +6372,46 @@ msgid "Expunging completed tasks"
 msgstr "نهفتن تکلیف‌های انجام شده"
 
 #: ../src/calendar/gui/e-cal-ops.c:2087
-#, fuzzy, c-format
-#| msgid "Moving messages"
+#, c-format
 msgid "Moving an event"
 msgid_plural "Moving %d events"
-msgstr[0] "در حال جابه‌جایی پیام‌ها"
-msgstr[1] "در حال جابه‌جایی پیام‌ها"
+msgstr[0] "جابه‌جایی یک رویداد"
+msgstr[1] "جابه‌جایی %Id رویداد"
 
 #: ../src/calendar/gui/e-cal-ops.c:2088
-#, fuzzy, c-format
-#| msgid "Copying messages"
+#, c-format
 msgid "Copying an event"
 msgid_plural "Copying %d events"
-msgstr[0] "در حال رونوشت از پیام‌ها"
-msgstr[1] "در حال رونوشت از پیام‌ها"
+msgstr[0] "رونوشت از یک رویداد"
+msgstr[1] "رونوشت از %Id رویداد"
 
 #: ../src/calendar/gui/e-cal-ops.c:2094
-#, fuzzy, c-format
-#| msgid "Moving items"
+#, c-format
 msgid "Moving a memo"
 msgid_plural "Moving %d memos"
-msgstr[0] "در حال جابه‌جایی موارد"
-msgstr[1] "در حال جابه‌جایی موارد"
+msgstr[0] "جابه‌جایی یک یادداشت"
+msgstr[1] "جابه‌جایی %Id یادداشت"
 
 #: ../src/calendar/gui/e-cal-ops.c:2095
-#, fuzzy, c-format
-#| msgid "Copying items"
+#, c-format
 msgid "Copying a memo"
 msgid_plural "Copying %d memos"
-msgstr[0] "در حال رونوشت از موارد"
-msgstr[1] "در حال رونوشت از موارد"
+msgstr[0] "رونوشت از یک یادداشت"
+msgstr[1] "رونوشت از %Id یادداشت"
 
 #: ../src/calendar/gui/e-cal-ops.c:2101
-#, fuzzy, c-format
-#| msgid "Moving items"
+#, c-format
 msgid "Moving a task"
 msgid_plural "Moving %d tasks"
-msgstr[0] "در حال جابه‌جایی موارد"
-msgstr[1] "در حال جابه‌جایی موارد"
+msgstr[0] "جابه‌جایی یک وظیفه"
+msgstr[1] "جابه‌جایی %Id وظیفه"
 
 #: ../src/calendar/gui/e-cal-ops.c:2102
-#, fuzzy, c-format
-#| msgid "Copying items"
+#, c-format
 msgid "Copying a task"
 msgid_plural "Copying %d tasks"
-msgstr[0] "در حال رونوشت از موارد"
-msgstr[1] "در حال رونوشت از موارد"
+msgstr[0] "رونوشت از یک وظیفه"
+msgstr[1] "رونوشت از %Id وظیفه"
 
 #. strftime format of a weekday, a date and a time, 24-hour.
 #: ../src/calendar/gui/e-cell-date-edit-text.c:177
@@ -6544,10 +6434,8 @@ msgstr ""
 "%s"
 
 #: ../src/calendar/gui/e-comp-editor-event.c:103
-#, fuzzy
-#| msgid "Event's start time is in the past"
 msgid "Event’s time is in the past"
-msgstr "زمان شروع رویداد در گذشته است"
+msgstr "زمان رویداد در گذشته است"
 
 #: ../src/calendar/gui/e-comp-editor-event.c:214
 #, fuzzy
@@ -6584,9 +6472,9 @@ msgstr "زمان آغاز اشتباه است"
 #: ../src/calendar/gui/e-comp-editor-event.c:532
 #: ../src/calendar/gui/e-comp-editor-page-attachments.c:206
 #: ../src/calendar/gui/e-comp-editor.c:340 ../src/composer/e-composer-actions.c:180
-#: ../src/em-format/e-mail-part-secure-button.c:97 ../src/e-util/e-misc-utils.c:4005
-#: ../src/e-util/e-misc-utils.c:4040 ../src/e-util/e-misc-utils.c:4053
-#: ../src/e-util/e-misc-utils.c:4067 ../src/mail/e-mail-autoconfig.c:1122
+#: ../src/em-format/e-mail-part-secure-button.c:97 ../src/e-util/e-misc-utils.c:4049
+#: ../src/e-util/e-misc-utils.c:4084 ../src/e-util/e-misc-utils.c:4097
+#: ../src/e-util/e-misc-utils.c:4111 ../src/mail/e-mail-autoconfig.c:1122
 #: ../src/mail/e-mail-display.c:2473 ../src/mail/e-mail-notes.c:929
 #: ../src/mail/e-mail-reader-utils.c:805 ../src/mail/em-composer-utils.c:3932
 #: ../src/mail/em-composer-utils.c:3955 ../src/mail/mail-send-recv.c:598
@@ -6719,23 +6607,19 @@ msgid "Schedule"
 msgstr "زمان‌بندی"
 
 #: ../src/calendar/gui/e-comp-editor-event.c:1029
-#, fuzzy, c-format
-#| msgid "Meeting - %s"
+#, c-format
 msgid "Meeting — %s"
-msgstr "جلسه ‐ %s"
+msgstr "جلسه — %s"
 
 #: ../src/calendar/gui/e-comp-editor-event.c:1030
-#, fuzzy, c-format
-#| msgid "Appointment - %s"
+#, c-format
 msgid "Appointment — %s"
-msgstr "قرار ‐ %s"
+msgstr "قرار — %s"
 
 #: ../src/calendar/gui/e-comp-editor-memo.c:59
 #: ../src/calendar/gui/e-comp-editor-memo.c:88
-#, fuzzy
-#| msgid "New _Window"
 msgid "New note"
-msgstr "_پنجرهٔ جدید"
+msgstr "یادداشت جدید"
 
 #: ../src/calendar/gui/e-comp-editor-memo.c:220
 #, fuzzy
@@ -6767,16 +6651,14 @@ msgid "Sta_rt date:"
 msgstr "تاریخ _آغاز:"
 
 #: ../src/calendar/gui/e-comp-editor-memo.c:394
-#, fuzzy, c-format
-#| msgid "Assigned Task - %s"
+#, c-format
 msgid "Assigned Memo — %s"
-msgstr "تکلیف تخصیص داده شده ـ %s"
+msgstr "یادداشت تخصیص داده شده — %s"
 
 #: ../src/calendar/gui/e-comp-editor-memo.c:395
-#, fuzzy, c-format
-#| msgid "Memo - %s"
+#, c-format
 msgid "Memo — %s"
-msgstr "یادداشت - %s"
+msgstr "یادداشت — %s"
 
 #: ../src/calendar/gui/e-comp-editor-page-attachments.c:123
 #: ../src/calendar/gui/e-comp-editor-page-attachments.c:128
@@ -6827,10 +6709,8 @@ msgstr "پیوست «%s» نشانی معتبری ندارد. لطفاً از س
 
 #: ../src/calendar/gui/e-comp-editor-page-attachments.c:623
 #: ../src/composer/e-composer-actions.c:326
-#, fuzzy
-#| msgid "Attachment"
 msgid "_Attachment…"
-msgstr "پیوست"
+msgstr "_پیوست…"
 
 #: ../src/calendar/gui/e-comp-editor-page-attachments.c:625
 #: ../src/composer/e-composer-actions.c:328 ../src/e-util/e-attachment-view.c:343
@@ -6838,30 +6718,22 @@ msgid "Attach a file"
 msgstr "پیوست کردن یک پرونده"
 
 #: ../src/calendar/gui/e-comp-editor-page-attachments.c:632
-#, fuzzy
-#| msgid "Attachments"
 msgid "_Attachments"
-msgstr "پیوست‌ها"
+msgstr "_پیوست‌ها"
 
 #: ../src/calendar/gui/e-comp-editor-page-attachments.c:634
-#, fuzzy
-#| msgid "Show _attachments"
 msgid "Show attachments"
 msgstr "نمایش پیوست‌ها"
 
 #: ../src/calendar/gui/e-comp-editor-page-attachments.c:802
 #: ../src/e-util/e-attachment-bar.c:716 ../src/e-util/e-attachment-paned.c:690
-#, fuzzy
-#| msgid "Month View"
 msgid "Icon View"
-msgstr "نمای ماه"
+msgstr "نمای نقشک"
 
 #: ../src/calendar/gui/e-comp-editor-page-attachments.c:804
 #: ../src/e-util/e-attachment-bar.c:718 ../src/e-util/e-attachment-paned.c:692
-#, fuzzy
-#| msgid "_List View"
 msgid "List View"
-msgstr "نمای _فهرست"
+msgstr "نمای سیاهه"
 
 #: ../src/calendar/gui/e-comp-editor-page-general.c:322
 #, c-format
@@ -6886,10 +6758,8 @@ msgid "Organizer address is not a valid user mail address"
 msgstr "نشانی برگزارکننده، یک نشانی نامهٔ کاربری معتبر نیست"
 
 #: ../src/calendar/gui/e-comp-editor-page-general.c:686
-#, fuzzy
-#| msgid "Attendees"
 msgid "A_ttendees"
-msgstr "شرکت‌کنندگان"
+msgstr "شر_کت‌کنندگان"
 
 #: ../src/calendar/gui/e-comp-editor-page-general.c:688
 #, fuzzy
@@ -7250,20 +7120,16 @@ msgstr "افزودن"
 #: ../src/calendar/gui/e-comp-editor-page-recurrence.c:2320
 #: ../src/calendar/gui/e-comp-editor-page-reminders.c:2291
 #: ../src/mail/mail-config.ui.h:70
-#, fuzzy
-#| msgid "Remove"
 msgid "Re_move"
-msgstr "حذف"
+msgstr "بر_داشتن"
 
 #: ../src/calendar/gui/e-comp-editor-page-recurrence.c:2328
 msgid "Preview"
 msgstr "پیش‌نمایش"
 
 #: ../src/calendar/gui/e-comp-editor-page-reminders.c:39
-#, fuzzy
-#| msgid "Send To:"
 msgid "Send To"
-msgstr "ارسال به:"
+msgstr "ارسال به"
 
 #: ../src/calendar/gui/e-comp-editor-page-reminders.c:1702
 msgid "_Reminders"
@@ -7336,10 +7202,8 @@ msgid "_minutes"
 msgstr "_دقیقه"
 
 #: ../src/calendar/gui/e-comp-editor-page-reminders.c:2038
-#, fuzzy
-#| msgid "_End time:"
 msgid "_Add time"
-msgstr "زمان _پایان:"
+msgstr "ا_فزودن زمان"
 
 #: ../src/calendar/gui/e-comp-editor-page-reminders.c:2136
 #: ../src/modules/calendar/e-calendar-preferences.ui.h:78
@@ -7394,10 +7258,8 @@ msgstr "پایان"
 
 #. Translators: Part of: Repeat the reminder [ x ] extra times every [ y ] [ minutes ]
 #: ../src/calendar/gui/e-comp-editor-page-reminders.c:2424
-#, fuzzy
-#| msgid "_Repeat the reminder"
 msgid "Re_peat the reminder"
-msgstr "تکرار یادآوری"
+msgstr "تکرار _یادآوری"
 
 #. Translators: Part of: Repeat the reminder [ x ] extra times every [ y ] [ minutes ]
 #: ../src/calendar/gui/e-comp-editor-page-reminders.c:2449
@@ -7450,16 +7312,12 @@ msgid "_Arguments:"
 msgstr "_آرگومان‌ها:"
 
 #: ../src/calendar/gui/e-comp-editor-page-reminders.c:2667
-#, fuzzy
-#| msgid "Send To:"
 msgid "_Send To:"
-msgstr "ارسال به:"
+msgstr "ارسال _به:"
 
 #: ../src/calendar/gui/e-comp-editor-page-schedule.c:479
-#, fuzzy
-#| msgid "Scheduling"
 msgid "_Schedule"
-msgstr "زمان‌بندی"
+msgstr "_زمان‌بندی"
 
 #: ../src/calendar/gui/e-comp-editor-page-schedule.c:481
 msgid "Query free / busy information for the attendees"
@@ -7481,10 +7339,8 @@ msgid "_Categories…"
 msgstr "_دسته‌ها…"
 
 #: ../src/calendar/gui/e-comp-editor-property-parts.c:635
-#, fuzzy
-#| msgid "Edit Label"
 msgid "Edit as text"
-msgstr "ویرایش برچسب"
+msgstr "ویرایش به عنوان متن\t"
 
 #: ../src/calendar/gui/e-comp-editor-property-parts.c:635
 msgid "View as text"
@@ -7687,10 +7543,8 @@ msgid "Sending notifications to attendees…"
 msgstr "فرستادن به‌هنگام‌سازی‌ها به شرکت‌کنندگان"
 
 #: ../src/calendar/gui/e-comp-editor.c:1025 ../src/e-util/e-webdav-browser.c:1925
-#, fuzzy
-#| msgid "_Save Changes"
 msgid "Saving changes…"
-msgstr "_ذخیرهٔ تغییرات"
+msgstr "_ذخیرهٔ تغییرات,"
 
 #: ../src/calendar/gui/e-comp-editor.c:1296
 msgid "No Summary"
@@ -7759,10 +7613,8 @@ msgstr "نمایش راهنما"
 #: ../src/calendar/gui/e-comp-editor.c:2141 ../src/e-util/e-focus-tracker.c:811
 #: ../src/e-util/e-html-editor-actions.c:1107 ../src/e-util/e-text.c:2077
 #: ../src/mail/e-mail-browser.c:187 ../src/shell/e-shell-window-actions.c:982
-#, fuzzy
-#| msgid "Paste"
 msgid "_Paste"
-msgstr "چسباندن"
+msgstr "_جای‌گذاری"
 
 #: ../src/calendar/gui/e-comp-editor.c:2143 ../src/e-util/e-focus-tracker.c:210
 #: ../src/e-util/e-focus-tracker.c:266 ../src/e-util/e-focus-tracker.c:318
@@ -7775,20 +7627,16 @@ msgstr "چسباندن تخته‌گیره"
 #: ../src/mail/e-mail-reader.c:2860
 #: ../src/modules/addressbook/e-book-shell-view-actions.c:1319
 #: ../src/modules/addressbook/e-book-shell-view-actions.c:1333
-#, fuzzy
-#| msgid "_Print"
 msgid "_Print…"
-msgstr "_چاپ"
+msgstr "_چاپ…"
 
 #: ../src/calendar/gui/e-comp-editor.c:2155 ../src/mail/e-mail-reader.c:2867
 #: ../src/modules/addressbook/e-book-shell-view-actions.c:1326
 #: ../src/modules/calendar/e-cal-shell-view-actions.c:1865
 #: ../src/modules/calendar/e-memo-shell-view-actions.c:838
 #: ../src/modules/calendar/e-task-shell-view-actions.c:1067
-#, fuzzy
-#| msgid "Preview"
 msgid "Pre_view…"
-msgstr "پیش‌نمایش"
+msgstr "_پیش‌نمایش…"
 
 #: ../src/calendar/gui/e-comp-editor.c:2162 ../src/e-util/e-focus-tracker.c:821
 #: ../src/e-util/e-html-editor-actions.c:1121 ../src/e-util/e-web-view.c:484
@@ -7843,7 +7691,7 @@ msgid "Save current changes and close editor"
 msgstr "ذخیرهٔ تفییرات جاری و بستن ویرایشگر"
 
 #. String to use in 12-hour time format for times in the morning.
-#: ../src/calendar/gui/e-day-view.c:2146 ../src/calendar/gui/e-to-do-pane.c:246
+#: ../src/calendar/gui/e-day-view.c:2146 ../src/calendar/gui/e-to-do-pane.c:248
 #: ../src/calendar/gui/e-week-view.c:1761 ../src/calendar/gui/print.c:1076
 #: ../src/calendar/gui/print.c:1095 ../src/calendar/gui/print.c:2663
 #: ../src/calendar/gui/print.c:2683
@@ -7851,7 +7699,7 @@ msgid "am"
 msgstr "صبح"
 
 #. String to use in 12-hour time format for times in the afternoon.
-#: ../src/calendar/gui/e-day-view.c:2149 ../src/calendar/gui/e-to-do-pane.c:250
+#: ../src/calendar/gui/e-day-view.c:2149 ../src/calendar/gui/e-to-do-pane.c:252
 #: ../src/calendar/gui/e-week-view.c:1764 ../src/calendar/gui/print.c:1081
 #: ../src/calendar/gui/print.c:1097 ../src/calendar/gui/print.c:2668
 #: ../src/calendar/gui/print.c:2685
@@ -7903,14 +7751,10 @@ msgstr "هیچ‌کدام"
 #: ../src/calendar/gui/e-day-view-time-item.c:893
 #: ../src/calendar/gui/e-timezone-entry.c:346
 #: ../src/modules/calendar/e-calendar-preferences.c:394
-#, fuzzy
-#| msgid "_Select"
 msgid "Select…"
-msgstr "_انتخاب"
+msgstr "_گزینش…"
 
 #: ../src/calendar/gui/e-estimated-duration-entry.c:64
-#, fuzzy
-#| msgid "None"
 msgctxt "estimated-duration"
 msgid "None"
 msgstr "هیچ‌کدام"
@@ -7921,26 +7765,18 @@ msgstr "تنظیم مدّت تخمینی برای"
 
 #. Translators: this is part of: "Set an estimated duration for [nnn] days [nnn] hours [nnn] minutes", where the text in "[]" means a separate widget
 #: ../src/calendar/gui/e-estimated-duration-entry.c:215
-#, fuzzy
-#| msgid "days"
 msgctxt "estimated-duration"
 msgid "_days"
-msgstr "روز"
+msgstr "_روز"
 
 #. Translators: this is part of: "Set an estimated duration for [nnn] days [nnn] hours [nnn] minutes", where the text in "[]" means a separate widget
 #: ../src/calendar/gui/e-estimated-duration-entry.c:231
-#, fuzzy
-#| msgctxt "cal-reminders"
-#| msgid "_hours"
 msgctxt "estimated-duration"
 msgid "_hours"
 msgstr "_ساعت"
 
 #. Translators: this is part of: "Set an estimated duration for [nnn] days [nnn] hours [nnn] minutes", where the text in "[]" means a separate widget
 #: ../src/calendar/gui/e-estimated-duration-entry.c:247
-#, fuzzy
-#| msgctxt "cal-reminders"
-#| msgid "_minutes"
 msgctxt "estimated-duration"
 msgid "_minutes"
 msgstr "_دقیقه"
@@ -7950,10 +7786,8 @@ msgid "_Set"
 msgstr "_تنظیم"
 
 #: ../src/calendar/gui/e-estimated-duration-entry.c:473
-#, fuzzy
-#| msgid "Pa_ge…"
 msgid "Chan_ge…"
-msgstr "_صفحه…"
+msgstr "_تغییر…"
 
 #: ../src/calendar/gui/e-meeting-list-view.c:62
 msgid "Chair Persons"
@@ -8079,10 +7913,8 @@ msgid "No Information"
 msgstr "بدون اطلاعات"
 
 #: ../src/calendar/gui/e-meeting-time-sel.c:543
-#, fuzzy
-#| msgid "Atte_ndees"
 msgid "Atte_ndees…"
-msgstr "شر_کت‌کنندگان"
+msgstr "شر_کت‌کنندگان…"
 
 #: ../src/calendar/gui/e-meeting-time-sel.c:562
 msgid "O_ptions"
@@ -8295,107 +8127,100 @@ msgid "Select Timezone"
 msgstr "منطقهٔ زمانی را انتخاب کنید"
 
 #. Translators: It will display "Start: StartDateAndTime"
-#: ../src/calendar/gui/e-to-do-pane.c:407
-#, fuzzy, c-format
-#| msgid "Start: "
+#: ../src/calendar/gui/e-to-do-pane.c:409
+#, c-format
 msgid "Start: %s"
-msgstr "شروع:"
+msgstr "شروع: %s"
 
 #. Translators: It will display "Due: DueDateAndTime"
-#: ../src/calendar/gui/e-to-do-pane.c:429
-#, fuzzy, c-format
-#| msgid "Due: "
+#: ../src/calendar/gui/e-to-do-pane.c:431
+#, c-format
 msgid "Due: %s"
-msgstr "سررسید:"
+msgstr "سررسید: %s"
 
 #. Translators: It will display "Completed: DateAndTimeWhenCompleted"
-#: ../src/calendar/gui/e-to-do-pane.c:443
-#, fuzzy, c-format
-#| msgid "Completed "
+#: ../src/calendar/gui/e-to-do-pane.c:445
+#, c-format
 msgid "Completed: %s"
-msgstr "تکمیل "
+msgstr "تکمیل: %s"
 
 #. strftime format of a weekday and a date.
-#: ../src/calendar/gui/e-to-do-pane.c:1589 ../src/e-util/e-cell-date-edit.c:338
+#: ../src/calendar/gui/e-to-do-pane.c:1591 ../src/e-util/e-cell-date-edit.c:338
 #: ../src/e-util/e-datetime-format.c:207
 #: ../src/modules/calendar/e-cal-shell-view-actions.c:1966
-#: ../src/modules/itip-formatter/itip-view.c:268
+#: ../src/modules/itip-formatter/itip-view.c:269
 msgid "Today"
 msgstr "امروز"
 
 #. strftime format of a weekday and a date.
-#: ../src/calendar/gui/e-to-do-pane.c:1591 ../src/e-util/e-datetime-format.c:218
-#: ../src/modules/itip-formatter/itip-view.c:296
+#: ../src/calendar/gui/e-to-do-pane.c:1593 ../src/e-util/e-datetime-format.c:218
+#: ../src/modules/itip-formatter/itip-view.c:297
 msgid "Tomorrow"
 msgstr "فردا"
 
-#: ../src/calendar/gui/e-to-do-pane.c:1601
+#: ../src/calendar/gui/e-to-do-pane.c:1603
 #, fuzzy
 #| msgid "With _Due Date"
 msgid "Tasks without Due date"
 msgstr "با زمان _سررسید"
 
-#: ../src/calendar/gui/e-to-do-pane.c:2189
+#: ../src/calendar/gui/e-to-do-pane.c:2191
 #: ../src/modules/calendar/e-cal-shell-view-actions.c:1551
 #, fuzzy
 #| msgid "New Appointment"
 msgid "New _Appointment…"
 msgstr "قرار جدید"
 
-#: ../src/calendar/gui/e-to-do-pane.c:2197
+#: ../src/calendar/gui/e-to-do-pane.c:2199
 #: ../src/modules/calendar/e-cal-shell-view-actions.c:1488
 #, fuzzy
 #| msgid "New Meeting"
 msgid "New _Meeting…"
 msgstr "جلسهٔ جدید"
 
-#: ../src/calendar/gui/e-to-do-pane.c:2205
-#, fuzzy
-#| msgid "New _Task"
+#: ../src/calendar/gui/e-to-do-pane.c:2207
 msgid "New _Task…"
-msgstr "_تکلیف جدید"
+msgstr "_وظیفهٔ جدید"
 
-#: ../src/calendar/gui/e-to-do-pane.c:2213
+#: ../src/calendar/gui/e-to-do-pane.c:2215
 #, fuzzy
 #| msgid "New assigned task"
 msgid "_New Assigned Task…"
 msgstr "تکلیف تخصیص داده شدهٔ جدید"
 
-#: ../src/calendar/gui/e-to-do-pane.c:2226
-#, fuzzy
-#| msgid "_Open"
+#: ../src/calendar/gui/e-to-do-pane.c:2228
 msgid "_Open…"
-msgstr "_گشودن"
+msgstr "_گشودن…"
 
-#: ../src/calendar/gui/e-to-do-pane.c:2241
+#: ../src/calendar/gui/e-to-do-pane.c:2243
 #, fuzzy
 #| msgid "Delete this _Occurrence"
 msgid "_Delete This Instance…"
 msgstr "حذف این _دفعه"
 
-#: ../src/calendar/gui/e-to-do-pane.c:2250
+#: ../src/calendar/gui/e-to-do-pane.c:2252
 #, fuzzy
 #| msgid "Delete this _Occurrence"
 msgid "Delete This and F_uture Occurrences…"
 msgstr "حذف این _دفعه"
 
-#: ../src/calendar/gui/e-to-do-pane.c:2259
+#: ../src/calendar/gui/e-to-do-pane.c:2261
 #, fuzzy
 #| msgid "All Instances"
 msgid "D_elete All Instances…"
 msgstr "همهٔ موارد"
 
-#: ../src/calendar/gui/e-to-do-pane.c:2267
+#: ../src/calendar/gui/e-to-do-pane.c:2269
 #, fuzzy
 #| msgid "_Delete"
 msgid "_Delete…"
 msgstr "_حذف شود"
 
-#: ../src/calendar/gui/e-to-do-pane.c:2285
+#: ../src/calendar/gui/e-to-do-pane.c:2287
 msgid "_Show Tasks without Due date"
 msgstr "_نمایش تکلیف‌ها بدون تاریخ سررسید"
 
-#: ../src/calendar/gui/e-to-do-pane.c:2564
+#: ../src/calendar/gui/e-to-do-pane.c:2566
 msgid "To Do"
 msgstr "رسیدگی شود"
 
@@ -8403,11 +8228,11 @@ msgstr "رسیدگی شود"
 #. the second '%s' is replaced with an event location.
 #. Example: "Meet John Doe (Central Park)"
 #: ../src/calendar/gui/e-week-view.c:3732
-#, fuzzy, c-format
+#, c-format
 #| msgid "%s (%d items)"
 msgctxt "SummaryWithLocation"
 msgid "%s (%s)"
-msgstr "%s (%Id مورد)"
+msgstr "%s (%s)"
 
 #. strftime format %d = day of month, %B = full
 #. * month name. You can change the order but don't
@@ -8769,17 +8594,12 @@ msgid "Due In"
 msgstr "سرسید "
 
 #: ../src/calendar/gui/tasktypes.xml.in.h:33
-#, fuzzy
-#| msgctxt "DateFmt"
-#| msgid "Next Sat"
 msgid "Next Days"
-msgstr "شنبهٔ بعد"
+msgstr "روزهای بعدی"
 
 #: ../src/calendar/gui/tasktypes.xml.in.h:34
-#, fuzzy
-#| msgid "Previous year"
 msgid "Previous Days"
-msgstr "پارسال"
+msgstr "روزهای قبلی"
 
 #: ../src/calendar/importers/icalendar-importer.c:76
 msgid "Appointments and Meetings"
@@ -8797,10 +8617,8 @@ msgstr "تقویم جدید"
 #: ../src/modules/accounts-window/e-accounts-window-editors.c:488
 #: ../src/modules/calendar/e-cal-base-shell-backend.c:288
 #: ../src/modules/calendar/e-task-shell-view-actions.c:204
-#, fuzzy
-#| msgid "_New Task List"
 msgid "New Task List"
-msgstr "فهرست تکلیف _جدید"
+msgstr "سیاههٔ وظیفهٔ جدید"
 
 #: ../src/calendar/importers/icalendar-importer.c:379
 #, fuzzy
@@ -8844,10 +8662,8 @@ msgid "Calendar Events"
 msgstr "رویدادهای تقویم"
 
 #: ../src/calendar/importers/icalendar-importer.c:1187
-#, fuzzy
-#| msgid "New Calendar"
 msgid "GNOME Calendar"
-msgstr "تقویم جدید"
+msgstr "تقویم گنوم"
 
 #: ../src/calendar/importers/icalendar-importer.c:1188
 msgid "Evolution Calendar intelligent importer"
@@ -9891,8 +9707,6 @@ msgid "Asia/Kashgar"
 msgstr "آسیا/کاشغر"
 
 #: ../src/calendar/zones.h:242
-#, fuzzy
-#| msgid "Asia/Katmandu"
 msgid "Asia/Kathmandu"
 msgstr "آسیا/کاتماندو"
 
@@ -10549,10 +10363,8 @@ msgid "Pacific/Yap"
 msgstr "اقیانوس آرام/یپ"
 
 #: ../src/composer/e-composer-actions.c:240
-#, fuzzy
-#| msgid "Save As"
 msgid "Save as…"
-msgstr "ذخیره به نام"
+msgstr "ذخیره به عنوان…"
 
 #: ../src/composer/e-composer-actions.c:335
 msgid "Close the current file"
@@ -10567,8 +10379,6 @@ msgid "Open New Message window"
 msgstr "گشودن پنجرهٔ پیام جدید"
 
 #: ../src/composer/e-composer-actions.c:347 ../src/shell/e-shell-window-actions.c:996
-#, fuzzy
-#| msgid "Prefere_nces"
 msgid "_Preferences"
 msgstr "تر_جیحات"
 
@@ -10581,10 +10391,8 @@ msgid "Save the current file"
 msgstr "ذخیرهٔ پروندهٔ فعلی"
 
 #: ../src/composer/e-composer-actions.c:361
-#, fuzzy
-#| msgid "Save As"
 msgid "Save _As…"
-msgstr "ذخیره به نام"
+msgstr "ذخیره به _عنوان…"
 
 #: ../src/composer/e-composer-actions.c:363
 msgid "Save the current file with a different name"
@@ -11179,10 +10987,9 @@ msgid "From"
 msgstr "فرستنده"
 
 #: ../src/em-format/e-mail-formatter-headers.c:134
-#, fuzzy
 #| msgid "Subject"
 msgid "(no subject)"
-msgstr "موضوع"
+msgstr "(بدون موضوع)"
 
 #: ../src/em-format/e-mail-formatter-headers.c:150
 #: ../src/em-format/e-mail-formatter-headers.c:514
@@ -11274,10 +11081,8 @@ msgstr "_قالب‌بندی پیام در HTML"
 
 #: ../src/em-format/e-mail-formatter-quote-text-plain.c:130
 #: ../src/em-format/e-mail-formatter-text-plain.c:196
-#, fuzzy
-#| msgid "Plain Text Mode"
 msgid "Plain Text"
-msgstr "حالت متن ساده"
+msgstr "متن ساده"
 
 #: ../src/em-format/e-mail-formatter-quote-text-plain.c:131
 #: ../src/em-format/e-mail-formatter-text-plain.c:197
@@ -11396,54 +11201,42 @@ msgstr ""
 "که با صرف زمانی معقول محتویات این پیام را ببیند."
 
 #: ../src/em-format/e-mail-formatter-secure-button.c:271
-#, fuzzy
-#| msgid "_View Certificate"
 msgid "View Certificate"
-msgstr "_نمایش گواهی"
+msgstr "نمایش گواهی"
 
 #: ../src/em-format/e-mail-formatter-secure-button.c:278
-#, fuzzy
-#| msgid "Imported Certificate"
 msgid "Import Certificate"
-msgstr "گواهی وارد شده"
+msgstr "درون‌ریزی گواهی"
 
 #: ../src/em-format/e-mail-formatter-secure-button.c:320
 msgid "Details"
 msgstr "جزئیات"
 
 #: ../src/em-format/e-mail-formatter-secure-button.c:412
-#, fuzzy
-#| msgid "Edit signature"
 msgid "Digital Signature"
-msgstr "ویرایش امضا"
+msgstr "امضای دیجیتال"
 
 #: ../src/em-format/e-mail-formatter-secure-button.c:418
-#, fuzzy
-#| msgid "Sign"
 msgid "Signer:"
 msgid_plural "Signers:"
-msgstr[0] "امضا"
-msgstr[1] "امضا"
+msgstr[0] "امضا کننده:"
+msgstr[1] "امضا کنندگان:"
 
 #: ../src/em-format/e-mail-formatter-secure-button.c:429
 msgid "Encryption"
 msgstr "رمزنگاری"
 
 #: ../src/em-format/e-mail-formatter-secure-button.c:434
-#, fuzzy
-#| msgid "Encrypted"
 msgid "Encrypted by:"
-msgstr "رمزنگاری شده"
+msgstr "رمزنگاری شده توسط:"
 
 #: ../src/em-format/e-mail-formatter-source.c:119
 msgid "Display source of a MIME part"
 msgstr "نمایش منبع بخش MIME"
 
 #: ../src/em-format/e-mail-formatter-text-markdown.c:175
-#, fuzzy
-#| msgid "Plain Text Mode"
 msgid "Markdown Text"
-msgstr "حالت متن ساده"
+msgstr "متن مارک‌داون"
 
 #: ../src/em-format/e-mail-formatter-text-markdown.c:176
 #, fuzzy
@@ -11693,10 +11486,8 @@ msgid "Address _Book"
 msgstr "_دفترچهٔ نشانی"
 
 #: ../src/e-util/e-accounts-window.c:1485
-#, fuzzy
-#| msgid "_Calendar:"
 msgid "_Calendar"
-msgstr "تقویم:"
+msgstr "_تقویم"
 
 #: ../src/e-util/e-accounts-window.c:1486
 msgid "M_emo List"
@@ -11717,8 +11508,6 @@ msgstr "حساب‌های اوولوشن"
 #: ../src/mail/em-subscription-editor.c:1945
 #: ../src/modules/mail/e-mail-shell-view-actions.c:1594
 #: ../src/modules/mail/e-mail-shell-view-actions.c:1672
-#, fuzzy
-#| msgid "_Refresh:"
 msgid "_Refresh"
 msgstr "_نوسازی:"
 
@@ -11856,10 +11645,8 @@ msgid "_Description:"
 msgstr "شرح:"
 
 #: ../src/e-util/e-attachment-dialog.c:352
-#, fuzzy
-#| msgid "MIME Type"
 msgid "MIME Type:"
-msgstr "نوع MIME"
+msgstr "نوع MIME:"
 
 #: ../src/e-util/e-attachment-dialog.c:360 ../src/e-util/e-attachment-store.c:700
 #, fuzzy
@@ -12131,10 +11918,8 @@ msgid "_Unset icon"
 msgstr "ستون انتخاب نشده"
 
 #: ../src/e-util/e-category-editor.c:260
-#, fuzzy
-#| msgid "Calendar Properties"
 msgid "Category Properties"
-msgstr "ویژگی‌های تقویم"
+msgstr "ویژگی‌های دسته"
 
 #: ../src/e-util/e-category-editor.c:321
 #, c-format
@@ -12262,10 +12047,8 @@ msgid "Enter the character set to use"
 msgstr "وارد کردن مجموعه‌نویسهٔ مورد استفاده"
 
 #: ../src/e-util/e-charset-combo-box.c:356
-#, fuzzy
-#| msgid "Other"
 msgid "Other…"
-msgstr "دیگر"
+msgstr "دیگر…"
 
 #: ../src/e-util/e-client-cache.c:1146 ../src/e-util/e-client-cache.c:1277
 #, c-format
@@ -12273,19 +12056,14 @@ msgid "Cannot create a client object from extension name “%s”"
 msgstr "نمی‌توان از نام افزونهٔ «%s» شی کارخواهی ایجاد کرد"
 
 #: ../src/e-util/e-client-selector.c:190 ../src/mail/em-folder-tree.c:1035
-#, fuzzy
-#| msgid "Work Offline"
 msgctxt "Status"
 msgid "Offline"
-msgstr "کار برون‌خط"
+msgstr "برون‌خط"
 
 #: ../src/e-util/e-client-selector.c:193 ../src/mail/em-folder-tree.c:1038
-#, fuzzy
-#| msgctxt "ReplyForward"
-#| msgid "Inline"
 msgctxt "Status"
 msgid "Online"
-msgstr "درون‌خط"
+msgstr "برخط"
 
 #: ../src/e-util/e-client-selector.c:196 ../src/mail/em-folder-tree.c:1041
 msgctxt "Status"
@@ -12293,11 +12071,9 @@ msgid "Unreachable"
 msgstr "خارج از دسترس"
 
 #: ../src/e-util/e-client-selector.c:199 ../src/mail/em-folder-tree.c:1044
-#, fuzzy
-#| msgid "Failed to delete contact"
 msgctxt "Status"
 msgid "Failed to connect"
-msgstr "ناتوان در حذف آشنا"
+msgstr "شکست در اتّصال"
 
 #: ../src/e-util/e-collection-account-wizard.c:107
 #: ../src/modules/accounts-window/e-collection-wizard-page.c:83
@@ -12430,10 +12206,8 @@ msgid "Saving account settings, please wait…"
 msgstr "ذخیره کردن تنظیمات حساب. لطفاً شکیبا باشید…"
 
 #: ../src/e-util/e-collection-account-wizard.c:1701
-#, fuzzy
-#| msgid "Personal details:"
 msgid "User details"
-msgstr "جزئیات شخصی:"
+msgstr "جزئیات کاربر"
 
 #: ../src/e-util/e-collection-account-wizard.c:1714
 msgid "_Email Address or User name:"
@@ -12760,10 +12534,8 @@ msgid "Use locale default"
 msgstr "استفاده از _پیش‌گزیده"
 
 #: ../src/e-util/e-datetime-format.c:610
-#, fuzzy
-#| msgid "Format"
 msgid "Format:"
-msgstr "قالب"
+msgstr "قالب:"
 
 #. Translators: This is part of: "Do not synchronize locally mails older than [ xxx ] [ days ]"
 #: ../src/e-util/e-dialog-widgets.c:181
@@ -13129,89 +12901,64 @@ msgid "Outgoing"
 msgstr "صادره"
 
 #: ../src/e-util/e-gtkemojichooser.c:753
-#, fuzzy
-#| msgid "Receiving"
 msgctxt "EmojiChooser"
 msgid "Recent"
-msgstr "درحال دریافت"
+msgstr "اخیر"
 
 #: ../src/e-util/e-gtkemojichooser.c:757
-#, fuzzy
-#| msgid "Smileys & People"
 msgctxt "EmojiChooser"
 msgid "Smileys & People"
 msgstr "شکلک‌ها و افراد"
 
 #: ../src/e-util/e-gtkemojichooser.c:758
-#, fuzzy
-#| msgid "Body contains"
 msgctxt "EmojiChooser"
 msgid "Body & Clothing"
-msgstr "بدنه حاوی"
+msgstr "بدن و لباس‌ها"
 
 #: ../src/e-util/e-gtkemojichooser.c:759
-#, fuzzy
-#| msgid "Animals & Nature"
 msgctxt "EmojiChooser"
 msgid "Animals & Nature"
 msgstr "حیوانات و طبعیت"
 
 #: ../src/e-util/e-gtkemojichooser.c:760
-#, fuzzy
-#| msgid "Food & Drink"
 msgctxt "EmojiChooser"
 msgid "Food & Drink"
 msgstr "غذا و نوشیدنی"
 
 #: ../src/e-util/e-gtkemojichooser.c:761
-#, fuzzy
-#| msgid "Travel & Places"
 msgctxt "EmojiChooser"
 msgid "Travel & Places"
 msgstr "سفر و مکان‌ها"
 
 #: ../src/e-util/e-gtkemojichooser.c:762
-#, fuzzy
-#| msgid "Authorities"
 msgctxt "EmojiChooser"
 msgid "Activities"
-msgstr "مراجع صدور"
+msgstr "فعّالیت‌ها"
 
 #: ../src/e-util/e-gtkemojichooser.c:763
-#, fuzzy
-#| msgctxt "emoji category"
-#| msgid "Objects"
 msgctxt "EmojiChooser"
 msgid "Objects"
-msgstr "اشیاء"
+msgstr "اشیا"
 
 #: ../src/e-util/e-gtkemojichooser.c:764
-#, fuzzy
-#| msgid "Symbols"
 msgctxt "EmojiChooser"
 msgid "Symbols"
 msgstr "نمادها"
 
 #: ../src/e-util/e-gtkemojichooser.c:765
-#, fuzzy
-#| msgid "_Flag:"
 msgctxt "EmojiChooser"
 msgid "Flags"
-msgstr "پرچم_:"
+msgstr "پرچم‌ها"
 
 #: ../src/e-util/e-gtkemojichooser.c:789
-#, fuzzy
-#| msgid "No Results Found"
 msgctxt "EmojiChooser"
 msgid "No Results Found"
-msgstr "هیچ نتیجه‌ای پیدا نشد"
+msgstr "نتیجه‌ای پیدا نشد"
 
 #: ../src/e-util/e-gtkemojichooser.c:797
-#, fuzzy
-#| msgid "Try again with a different password."
 msgctxt "EmojiChooser"
 msgid "Try a different search"
-msgstr "یک گذرواژهٔ دیگر را امتحان کنید."
+msgstr "یک جست‌وجوی دیگر را امتحان کنید"
 
 #: ../src/e-util/e-html-editor-actions.c:81
 #, fuzzy
@@ -13226,16 +12973,12 @@ msgid "Failed to insert text file."
 msgstr "تأیید هویت شکست خورد.\n"
 
 #: ../src/e-util/e-html-editor-actions.c:360
-#, fuzzy
-#| msgid "Input File"
 msgid "Insert HTML File"
-msgstr "پروندهٔ ورودی"
+msgstr "درج پروندهٔ HTML"
 
 #: ../src/e-util/e-html-editor-actions.c:365
-#, fuzzy
-#| msgid "HTML Mode"
 msgid "HTML file"
-msgstr "حالت HTML"
+msgstr "پروندهٔ HTML"
 
 #: ../src/e-util/e-html-editor-actions.c:403
 #: ../src/e-util/e-html-editor-actions.c:421
@@ -13246,16 +12989,12 @@ msgstr "درج تصویر"
 #: ../src/e-util/e-html-editor-actions.c:410
 #: ../src/e-util/e-html-editor-actions.c:428
 #: ../src/e-util/e-image-chooser-dialog.c:188 ../src/plugins/face/face.c:301
-#, fuzzy
-#| msgid "Import a _single file"
 msgid "Image files"
-msgstr "وارد کردن یک _تک پرونده"
+msgstr "پرونده‌های تصویری"
 
 #: ../src/e-util/e-html-editor-actions.c:507
-#, fuzzy
-#| msgid "Increase the text size"
 msgid "Insert text file"
-msgstr "افزایش اندازهٔ متن"
+msgstr "درج پروندهٔ متنی"
 
 #: ../src/e-util/e-html-editor-actions.c:512
 msgid "Text file"
@@ -13441,10 +13180,8 @@ msgid "_Markdown"
 msgstr "_مارک‌دون"
 
 #: ../src/e-util/e-html-editor-actions.c:1330
-#, fuzzy
-#| msgid "HTML editing mode"
 msgid "Markdown editing mode"
-msgstr "حالت ویرایش HTML"
+msgstr "حالت ویرایش مارک‌داون"
 
 #: ../src/e-util/e-html-editor-actions.c:1335
 #, fuzzy
@@ -13611,10 +13348,8 @@ msgid "Subs_cript"
 msgstr "_کدنوشته:"
 
 #: ../src/e-util/e-html-editor-actions.c:1579
-#, fuzzy
-#| msgid "_Subscribe"
 msgid "Subscript"
-msgstr "ا_شتراک"
+msgstr "زیرنویسه"
 
 #: ../src/e-util/e-html-editor-actions.c:1585
 #, fuzzy
@@ -13623,10 +13358,8 @@ msgid "Su_perscript"
 msgstr "_کدنوشته:"
 
 #: ../src/e-util/e-html-editor-actions.c:1587
-#, fuzzy
-#| msgid "Description"
 msgid "Superscript"
-msgstr "شرح"
+msgstr "بالانویسه"
 
 #: ../src/e-util/e-html-editor-actions.c:1593
 #: ../src/e-util/e-html-editor-text-dialog.c:223
@@ -13703,16 +13436,12 @@ msgid "Properties"
 msgstr "ترجیحات"
 
 #: ../src/e-util/e-html-editor-actions.c:1736
-#, fuzzy
-#| msgid "_Delete all"
 msgid "Delete Rule"
-msgstr "_حذف همه"
+msgstr "حذف قانون"
 
 #: ../src/e-util/e-html-editor-actions.c:1743
-#, fuzzy
-#| msgid "_Delete Message"
 msgid "Delete Image"
-msgstr "_حذف پیام"
+msgstr "حذف تصویر"
 
 #: ../src/e-util/e-html-editor-actions.c:1750
 msgid "Column After"
@@ -13848,10 +13577,8 @@ msgid "Font Size"
 msgstr "اندازهٔ قلم"
 
 #: ../src/e-util/e-html-editor.c:986
-#, fuzzy
-#| msgid "Account Name"
 msgid "Font Name"
-msgstr "نام حساب"
+msgstr "نام قلم"
 
 #: ../src/e-util/e-html-editor.c:2080
 #, fuzzy
@@ -14134,10 +13861,8 @@ msgstr "کاغذ رسم"
 
 #. == Colors ==
 #: ../src/e-util/e-html-editor-page-dialog.c:402
-#, fuzzy
-#| msgid "Color"
 msgid "Colors"
-msgstr "رنگ"
+msgstr "رنگ‌ها"
 
 #: ../src/e-util/e-html-editor-page-dialog.c:422
 msgid "_Text:"
@@ -14157,23 +13882,17 @@ msgstr "_پس‌زمینه:"
 
 #. == Text ==
 #: ../src/e-util/e-html-editor-page-dialog.c:475
-#, fuzzy
-#| msgid "_Text:"
 msgid "Text"
-msgstr "_متن:"
+msgstr "متن"
 
 #: ../src/e-util/e-html-editor-page-dialog.c:493
-#, fuzzy
-#| msgid "_Folder Name:"
 msgid "_Font Name:"
 msgstr "_نام پوشه:"
 
 #. == Background Image ==
 #: ../src/e-util/e-html-editor-page-dialog.c:500
-#, fuzzy
-#| msgid "Choose Background Image"
 msgid "Background Image"
-msgstr "گزینش تصویر پس‌زمینه"
+msgstr "تصویر پس‌زمینه"
 
 #: ../src/e-util/e-html-editor-page-dialog.c:523
 #: ../src/modules/calendar/e-calendar-preferences.ui.h:96
@@ -14546,34 +14265,24 @@ msgstr ""
 "دارند باید منطقهٔ زمانی را از فهرست زیر انتخاب کنند."
 
 #: ../src/e-util/e-markdown-editor.c:1456
-#, fuzzy
-#| msgid "Add Folder"
 msgid "Add bold text"
-msgstr "افزودن شاخه"
+msgstr "افزودن متن کلفت"
 
 #: ../src/e-util/e-markdown-editor.c:1457
-#, fuzzy
-#| msgid "Edit Label"
 msgid "Add italic text"
-msgstr "ویرایش برچسب"
+msgstr "افزودن متن کج"
 
 #: ../src/e-util/e-markdown-editor.c:1458
-#, fuzzy
-#| msgid "Insert Rule"
 msgid "Insert a quote"
-msgstr "درج قاعده"
+msgstr "درج نقل قول"
 
 #: ../src/e-util/e-markdown-editor.c:1459
-#, fuzzy
-#| msgid "Insert Rule"
 msgid "Insert code"
-msgstr "درج قاعده"
+msgstr "درج کد"
 
 #: ../src/e-util/e-markdown-editor.c:1460
-#, fuzzy
-#| msgid "Add a Column"
 msgid "Add a link"
-msgstr "افزودن یک ستون"
+msgstr "افزودن یک پیوند"
 
 #: ../src/e-util/e-markdown-editor.c:1461
 #, fuzzy
@@ -14582,16 +14291,12 @@ msgid "Add a bullet list"
 msgstr "افزودن برچسب"
 
 #: ../src/e-util/e-markdown-editor.c:1462
-#, fuzzy
-#| msgid "Numbered _List"
 msgid "Add a numbered list"
-msgstr "فهرست _عددی"
+msgstr "افزودن یک سیاههٔ عددی"
 
 #: ../src/e-util/e-markdown-editor.c:1463
-#, fuzzy
-#| msgid "Any header"
 msgid "Add a header"
-msgstr "هر سرایندی"
+msgstr "افزودن یک سرصفحه"
 
 #: ../src/e-util/e-markdown-editor.c:1466
 msgid "Open online common mark documentation"
@@ -14613,40 +14318,40 @@ msgstr "_پیش‌نمایش"
 msgid "Could not open the link."
 msgstr "نتوانست پیوند را بگشاید."
 
-#: ../src/e-util/e-misc-utils.c:363
+#: ../src/e-util/e-misc-utils.c:406
 msgid "Could not display help for Evolution."
 msgstr "نمی‌توان راهنما را برای اوولوشن نشان داد."
 
-#: ../src/e-util/e-misc-utils.c:2562
+#: ../src/e-util/e-misc-utils.c:2606
 #, fuzzy, c-format
 #| msgid "Opening calendar"
 msgid "Opening calendar “%s”"
 msgstr "در حال گشودن تقویم"
 
-#: ../src/e-util/e-misc-utils.c:2565
+#: ../src/e-util/e-misc-utils.c:2609
 #, fuzzy, c-format
 #| msgid "Opening memos at %s"
 msgid "Opening memo list “%s”"
 msgstr "در حال گشودن یادداشت‌ها %s"
 
-#: ../src/e-util/e-misc-utils.c:2568
+#: ../src/e-util/e-misc-utils.c:2612
 #, fuzzy, c-format
 #| msgid "Opening tasks at %s"
 msgid "Opening task list “%s”"
 msgstr "در حال بار کردن تکلیف‌ها %s"
 
-#: ../src/e-util/e-misc-utils.c:2571
+#: ../src/e-util/e-misc-utils.c:2615
 #, fuzzy, c-format
 #| msgid "evolution address book"
 msgid "Opening address book “%s”"
 msgstr "دفترچهٔ نشانی اوولوشن"
 
-#: ../src/e-util/e-misc-utils.c:3348
+#: ../src/e-util/e-misc-utils.c:3392
 #: ../src/modules/mailto-handler/evolution-mailto-handler.c:146
 msgid "_Do not show this message again"
 msgstr "_دیگر این پیام نشان داده نشود"
 
-#: ../src/e-util/e-misc-utils.c:3992
+#: ../src/e-util/e-misc-utils.c:4036
 msgid ""
 "This address book server might be unreachable or the server name may be misspelled "
 "or your network connection could be down."
@@ -14654,24 +14359,24 @@ msgstr ""
 "ممکن است این کارساز دفترچهٔ نشانی غیر قابل دسترسی باشد یا نام کارساز اشتباه نوشته "
 "شده باشد یا اتّصال شبکهٔ شما قطع باشد."
 
-#: ../src/e-util/e-misc-utils.c:4004
+#: ../src/e-util/e-misc-utils.c:4048
 #, c-format
 msgid "Failed to set protocol version to LDAPv3 (%d): %s"
 msgstr ""
 
-#: ../src/e-util/e-misc-utils.c:4039
+#: ../src/e-util/e-misc-utils.c:4083
 #, fuzzy, c-format
 #| msgid "Failed to execute gpg: %s"
 msgid "Failed to use STARTTLS (%d): %s"
 msgstr "اجرای gpg شکست خورد: %s"
 
-#: ../src/e-util/e-misc-utils.c:4052
+#: ../src/e-util/e-misc-utils.c:4096
 #, fuzzy, c-format
 #| msgid "Failed to authenticate with LDAP server."
 msgid "Failed to authenticate with LDAP server (%d): %s"
 msgstr "تأیید هویت با کارساز LDAP شکست خورد."
 
-#: ../src/e-util/e-misc-utils.c:4066
+#: ../src/e-util/e-misc-utils.c:4110
 #, fuzzy, c-format
 #| msgid ""
 #| "This LDAP server may use an older version of LDAP, which does not support this "
@@ -14687,7 +14392,7 @@ msgstr ""
 "این کارساز LDAP ممکن است نسخهٔ قدیمی‌تری از LDAP را به کار ببرد، که از این امکانات "
 "پشتیبانی نمی‌کند یا شاید غلط پیکربندی شده باشد. "
 
-#: ../src/e-util/e-misc-utils.c:4077
+#: ../src/e-util/e-misc-utils.c:4121
 msgid ""
 "This LDAP server may use an older version of LDAP, which does not support this "
 "functionality or it may be misconfigured. Ask your administrator for supported "
@@ -14697,12 +14402,12 @@ msgstr ""
 "پشتیبانی نمی‌کند یا شاید غلط پیکربندی شده باشد. پایه‌های جست‌وجوی پشتیبانی شده را از "
 "مدیرتان بپرسید."
 
-#: ../src/e-util/e-misc-utils.c:4110
+#: ../src/e-util/e-misc-utils.c:4154
 msgid "Evolution had not been compiled with LDAP support"
 msgstr "اوولوشن با پشتیبانی LDAP ترجمه نشده"
 
 #. Translators: %s is the language ISO code.
-#: ../src/e-util/e-misc-utils.c:4433
+#: ../src/e-util/e-misc-utils.c:4477
 #, c-format
 msgctxt "language"
 msgid "Unknown (%s)"
@@ -14710,35 +14415,35 @@ msgstr "ناشناخته (%s)"
 
 #. Translators: The first %s is the language name, and the
 #. * second is the country name. Example: "French (France)"
-#: ../src/e-util/e-misc-utils.c:4442
+#: ../src/e-util/e-misc-utils.c:4486
 #, c-format
 msgctxt "language"
 msgid "%s (%s)"
 msgstr "%s (%s)"
 
-#: ../src/e-util/e-misc-utils.c:4593
+#: ../src/e-util/e-misc-utils.c:4637
 #, fuzzy, c-format
 #| msgid "Click to mail %s"
 msgid "Click to call %s"
 msgstr "برای فرستادن نامه به %s کلیک کنید"
 
-#: ../src/e-util/e-misc-utils.c:4595
+#: ../src/e-util/e-misc-utils.c:4639
 msgid "Click to hide/unhide addresses"
 msgstr "کلیک برای نهفتن/آشکارسازی نشانی‌ها"
 
-#: ../src/e-util/e-misc-utils.c:4608
+#: ../src/e-util/e-misc-utils.c:4652
 #, fuzzy, c-format
 #| msgid "Enter the recipients of the message"
 msgid "Go to the section %s of the message"
 msgstr "گیرنده‌های پیام را وارد کنید"
 
-#: ../src/e-util/e-misc-utils.c:4610
+#: ../src/e-util/e-misc-utils.c:4654
 #, fuzzy
 #| msgid "Enter the recipients of the message"
 msgid "Go to the beginning of the message"
 msgstr "گیرنده‌های پیام را وارد کنید"
 
-#: ../src/e-util/e-misc-utils.c:4616
+#: ../src/e-util/e-misc-utils.c:4660
 #, c-format
 msgid "Click to open %s"
 msgstr "برای گشودن %s کلیک کنید"
@@ -14858,8 +14563,6 @@ msgid "_Remember this password for the remainder of this session"
 msgstr "به _خاطر سپردن این گذرواژه برای بقیهٔ این نشست"
 
 #: ../src/e-util/e-preferences-window.c:300
-#, fuzzy
-#| msgid "_Help"
 msgid "Help"
 msgstr "راهنما"
 
@@ -15696,7 +15399,7 @@ msgstr "رویدادها"
 
 #: ../src/e-util/e-webdav-browser.c:594 ../src/mail/em-folder-tree-model.c:1587
 #: ../src/mail/em-folder-tree-model.c:1975
-#: ../src/modules/cal-config-weather/e-weather-location-entry.c:858
+#: ../src/modules/cal-config-weather/e-weather-location-entry.c:922
 msgid "Loading…"
 msgstr "در حال بار کردن…"
 
@@ -18820,31 +18523,31 @@ msgctxt "folder-display"
 msgid "%s (%u%s)"
 msgstr "%s (%Iu%s)"
 
-#: ../src/mail/em-folder-tree.c:1822
+#: ../src/mail/em-folder-tree.c:1826
 msgid "Mail Folder Tree"
 msgstr "‌درخت شاخهٔ نامه"
 
-#: ../src/mail/em-folder-tree.c:2371
+#: ../src/mail/em-folder-tree.c:2375
 #, c-format
 msgid "Moving folder %s"
 msgstr "در حال جابه‌جایی شاخهٔ %s"
 
-#: ../src/mail/em-folder-tree.c:2374
+#: ../src/mail/em-folder-tree.c:2378
 #, c-format
 msgid "Copying folder %s"
 msgstr "در حال رونوشت از شاخهٔ %s"
 
-#: ../src/mail/em-folder-tree.c:2381 ../src/mail/message-list.c:2668
+#: ../src/mail/em-folder-tree.c:2385 ../src/mail/message-list.c:2668
 #, c-format
 msgid "Moving messages into folder %s"
 msgstr "در حال جابه‌جایی پیام‌ها به شاخهٔ %s"
 
-#: ../src/mail/em-folder-tree.c:2385 ../src/mail/message-list.c:2670
+#: ../src/mail/em-folder-tree.c:2389 ../src/mail/message-list.c:2670
 #, c-format
 msgid "Copying messages into folder %s"
 msgstr "‌در حال رونوشت از پیام‌ها در شاخهٔ %s"
 
-#: ../src/mail/em-folder-tree.c:2404
+#: ../src/mail/em-folder-tree.c:2408
 #, c-format
 msgid "Cannot drop message(s) into toplevel store"
 msgstr "نمی‌توان پیام(ها) در بالاترین مخزن رها کرد"
@@ -21271,7 +20974,7 @@ msgstr "در حال تولید فهرست پیام‌ها"
 
 #. strftime format of a time,
 #. * in 12-hour format, without seconds.
-#: ../src/mail/message-list.c:2189 ../src/modules/itip-formatter/itip-view.c:282
+#: ../src/mail/message-list.c:2189 ../src/modules/itip-formatter/itip-view.c:283
 msgid "Today %l:%M %p"
 msgstr "امروز %OH:%OM"
 
@@ -21307,27 +21010,27 @@ msgstr "استفاده از سرایند ۳"
 msgid "Select all visible messages"
 msgstr "انتخاب همهٔ پیام‌های مرئی"
 
-#: ../src/mail/message-list.c:4346 ../src/mail/message-list.etspec.h:17
+#: ../src/mail/message-list.c:4348 ../src/mail/message-list.etspec.h:17
 msgid "Messages"
 msgstr "پیام‌ها"
 
 #. default follow-up flag name to use when clicked in the message list column
-#: ../src/mail/message-list.c:5929
+#: ../src/mail/message-list.c:5931
 msgid "Follow-up"
 msgstr "پی‌گیری"
 
-#: ../src/mail/message-list.c:6678 ../src/mail/message-list.c:7124
+#: ../src/mail/message-list.c:6680 ../src/mail/message-list.c:7126
 msgid "Generating message list…"
 msgstr "در حال تولید فهرست پیام…"
 
-#: ../src/mail/message-list.c:6681
+#: ../src/mail/message-list.c:6683
 msgid ""
 "No message satisfies your search criteria. Change search criteria by selecting a "
 "new Show message filter from the drop down list above or by running a new search "
 "either by clearing it with Search→Clear menu item or by changing the query above."
 msgstr ""
 
-#: ../src/mail/message-list.c:6688
+#: ../src/mail/message-list.c:6690
 msgid "There are no messages in this folder."
 msgstr "هیچ پیامی در این شاخه نیست."
 
@@ -21414,10 +21117,8 @@ msgid "Free form expression"
 msgstr "اصطلاح"
 
 #: ../src/modules/accounts-window/e-accounts-window-editors.c:275
-#, fuzzy
-#| msgid "Collection"
 msgid "Edit Collection"
-msgstr "مجموعه"
+msgstr "ویرایش مجموعه"
 
 #: ../src/modules/accounts-window/e-accounts-window-editors.c:312
 msgid "Use for"
@@ -22171,8 +21872,8 @@ msgstr "دفترچهٔ نشانی جدید"
 #: ../src/modules/cal-config-webcal/evolution-cal-config-webcal.c:165
 #: ../src/modules/cal-config-webdav-notes/evolution-cal-config-webdav-notes.c:302
 #: ../src/modules/cal-config-webdav-notes/evolution-cal-config-webdav-notes.c:323
-#: ../src/modules/itip-formatter/itip-view.c:1911
-#: ../src/modules/itip-formatter/itip-view.c:2036
+#: ../src/modules/itip-formatter/itip-view.c:1905
+#: ../src/modules/itip-formatter/itip-view.c:2106
 msgid "URL:"
 msgstr "نشانی اینترنتی:"
 
@@ -22455,8 +22156,8 @@ msgstr "اجازه به اوولوشن برای به‌روز رسانی پرو�
 #. * 'London, United Kingdom'
 #. * You shouldn't need to translate this string unless the language has a different comma.
 #.
-#: ../src/modules/cal-config-weather/e-weather-location-entry.c:545
-#: ../src/modules/cal-config-weather/e-weather-location-entry.c:574
+#: ../src/modules/cal-config-weather/e-weather-location-entry.c:605
+#: ../src/modules/cal-config-weather/e-weather-location-entry.c:634
 #, c-format
 msgid "%s, %s"
 msgstr "%2s، %1s"
@@ -22467,47 +22168,43 @@ msgstr "%2s، %1s"
 #. *
 #. * This string is just a fallback mechanism for systems on
 #. * which _NL_MEASUREMENT_MEASUREMENT is not available.
-#: ../src/modules/cal-config-weather/evolution-cal-config-weather.c:223
+#: ../src/modules/cal-config-weather/evolution-cal-config-weather.c:253
 msgctxt "locale-metric"
 msgid "default:mm"
 msgstr "default:mm"
 
 #. Translators: This is the temperature in degrees
 #. * Fahrenheit. (\302\260 is U+00B0 DEGREE SIGN)
-#: ../src/modules/cal-config-weather/evolution-cal-config-weather.c:292
+#: ../src/modules/cal-config-weather/evolution-cal-config-weather.c:322
 msgid "Fahrenheit (°F)"
 msgstr "فارنهایت (‪°F‬)"
 
 #. Translators: This is the temperature in degrees
 #. * Celsius. (\302\260 is U+00B0 DEGREE SIGN)
-#: ../src/modules/cal-config-weather/evolution-cal-config-weather.c:297
+#: ../src/modules/cal-config-weather/evolution-cal-config-weather.c:327
 msgid "Centigrade (°C)"
 msgstr "سانتی‌گراد (‪°C‬)"
 
 #. Translators: This is the temperature in kelvin.
-#: ../src/modules/cal-config-weather/evolution-cal-config-weather.c:301
+#: ../src/modules/cal-config-weather/evolution-cal-config-weather.c:331
 msgid "Kelvin (K)"
 msgstr "کلوین (K)"
 
-#: ../src/modules/cal-config-weather/evolution-cal-config-weather.c:303
+#: ../src/modules/cal-config-weather/evolution-cal-config-weather.c:333
 msgid "Units:"
 msgstr "یکاها:"
 
-#: ../src/modules/cal-config-weather/evolution-cal-config-weather.c:359
+#: ../src/modules/cal-config-weather/evolution-cal-config-weather.c:396
 msgid "Location cannot be empty"
 msgstr "موقعیت نمی‌تواند خالی باشد"
 
 #: ../src/modules/cal-config-webdav-notes/evolution-cal-config-webdav-notes.c:106
-#, fuzzy
-#| msgid "Show Fields"
 msgid "Choose Notes"
-msgstr "نمایش فیلدها"
+msgstr "گزینش یادداشت‌ها"
 
 #: ../src/modules/cal-config-webdav-notes/evolution-cal-config-webdav-notes.c:337
-#, fuzzy
-#| msgid "_Find Now"
 msgid "Find Notes"
-msgstr "_پیدا کردن فوری"
+msgstr "یافتن یادداشت‌ها"
 
 #: ../src/modules/cal-config-webdav-notes/evolution-cal-config-webdav-notes.c:365
 msgid "File extension for new notes:"
@@ -22621,10 +22318,8 @@ msgid "Selected Task Lists for Notifications of Reminders"
 msgstr "سیاهه‌های تکلیف گزیده برای آگاهی‌های یادآورها"
 
 #: ../src/modules/calendar/e-calendar-preferences.c:613
-#, fuzzy
-#| msgid "Meeting Information"
 msgid "Meeting Invitations"
-msgstr "اطلاعات جلسه"
+msgstr "دعوت‌های جلسه"
 
 #: ../src/modules/calendar/e-calendar-preferences.c:639
 msgid "_Delete message after acting"
@@ -22872,10 +22567,8 @@ msgid "Hi_de cancelled events"
 msgstr "کاربر از عملیات منصر شد"
 
 #: ../src/modules/calendar/e-calendar-preferences.ui.h:62
-#, fuzzy
-#| msgid "<b>Alerts</b>"
 msgid "Alerts"
-msgstr "<b>اعلام خطرها</b>"
+msgstr "هشدارها"
 
 #: ../src/modules/calendar/e-calendar-preferences.ui.h:63
 msgid "_Ask for confirmation when deleting items"
@@ -22917,20 +22610,15 @@ msgstr ""
 
 #. Translators: This constructs: Show [spinner] days
 #: ../src/modules/calendar/e-calendar-preferences.ui.h:74
-#, fuzzy
-#| msgid "Show"
 msgctxt "to-do-bar-n-days"
 msgid "Show"
 msgstr "نمایش"
 
 #. Translators: This constructs: Show [spinner] days
 #: ../src/modules/calendar/e-calendar-preferences.ui.h:76
-#, fuzzy
-#| msgctxt "cal-reminders"
-#| msgid "da_ys"
 msgctxt "to-do-bar-n-days"
 msgid "da_ys"
-msgstr "روز"
+msgstr "رو_ز"
 
 #: ../src/modules/calendar/e-calendar-preferences.ui.h:79
 #, fuzzy
@@ -23333,7 +23021,7 @@ msgid "Accept meeting request for selected instance only"
 msgstr ""
 
 #: ../src/modules/calendar/e-cal-shell-view-actions.c:1516
-#: ../src/modules/itip-formatter/itip-view.c:1266
+#: ../src/modules/itip-formatter/itip-view.c:1267
 msgid "_Decline"
 msgstr "_رد"
 
@@ -24154,221 +23842,220 @@ msgstr "گذرواژهٔ %s (کاربر %s) را وارد کنید"
 msgid "Look up for a CalDAV/CardDAV server"
 msgstr "گشتن برای کارساز CalDAV و CardDAV"
 
-#: ../src/modules/itip-formatter/e-mail-formatter-itip.c:164
+#: ../src/modules/itip-formatter/e-mail-formatter-itip.c:205
 msgid "ITIP"
 msgstr "ITIP"
 
-#: ../src/modules/itip-formatter/e-mail-formatter-itip.c:165
+#: ../src/modules/itip-formatter/e-mail-formatter-itip.c:206
 msgid "Display part as an invitation"
 msgstr ""
 
 #. strftime format of a time,
 #. * in 24-hour format, without seconds.
-#: ../src/modules/itip-formatter/itip-view.c:273
+#: ../src/modules/itip-formatter/itip-view.c:274
 msgid "Today %H:%M"
 msgstr "امروز %OH:%OM"
 
 #. strftime format of a time,
 #. * in 24-hour format.
-#: ../src/modules/itip-formatter/itip-view.c:277
+#: ../src/modules/itip-formatter/itip-view.c:278
 msgid "Today %H:%M:%S"
 msgstr "امروز %OH:%OM:%OS"
 
 #. strftime format of a time,
 #. * in 12-hour format.
-#: ../src/modules/itip-formatter/itip-view.c:286
+#: ../src/modules/itip-formatter/itip-view.c:287
 msgid "Today %l:%M:%S %p"
 msgstr "امروز %OH:%OM:%OS"
 
 #. strftime format of a time,
 #. * in 24-hour format, without seconds.
-#: ../src/modules/itip-formatter/itip-view.c:301
+#: ../src/modules/itip-formatter/itip-view.c:302
 msgid "Tomorrow %H:%M"
 msgstr "فردا %OH:%OM"
 
 #. strftime format of a time,
 #. * in 24-hour format.
-#: ../src/modules/itip-formatter/itip-view.c:305
+#: ../src/modules/itip-formatter/itip-view.c:306
 msgid "Tomorrow %H:%M:%S"
 msgstr "فردا %OH:%OM:%OS"
 
 #. strftime format of a time,
 #. * in 12-hour format, without seconds.
-#: ../src/modules/itip-formatter/itip-view.c:310
+#: ../src/modules/itip-formatter/itip-view.c:311
 msgid "Tomorrow %l:%M %p"
 msgstr "فردا %OH:%OM"
 
 #. strftime format of a time,
 #. * in 12-hour format.
-#: ../src/modules/itip-formatter/itip-view.c:314
+#: ../src/modules/itip-formatter/itip-view.c:315
 msgid "Tomorrow %l:%M:%S %p"
 msgstr "فردا %OH:%OM:%OS"
 
 #. strftime format of a weekday.
-#: ../src/modules/itip-formatter/itip-view.c:333
+#: ../src/modules/itip-formatter/itip-view.c:334
 #, c-format
 msgid "%A"
 msgstr "%A"
 
 #. strftime format of a weekday and a
 #. * time, in 24-hour format, without seconds.
-#: ../src/modules/itip-formatter/itip-view.c:338
+#: ../src/modules/itip-formatter/itip-view.c:339
 msgid "%A %H:%M"
 msgstr "%A %OH:%OM"
 
 #. strftime format of a weekday and a
 #. * time, in 24-hour format.
-#: ../src/modules/itip-formatter/itip-view.c:342
+#: ../src/modules/itip-formatter/itip-view.c:343
 msgid "%A %H:%M:%S"
 msgstr "%A %OH:%OM:%OS"
 
 #. strftime format of a weekday and a
 #. * time, in 12-hour format, without seconds.
-#: ../src/modules/itip-formatter/itip-view.c:347
+#: ../src/modules/itip-formatter/itip-view.c:348
 msgid "%A %l:%M %p"
 msgstr "%A %OH:%OM"
 
 #. strftime format of a weekday and a
 #. * time, in 12-hour format.
-#: ../src/modules/itip-formatter/itip-view.c:351
+#: ../src/modules/itip-formatter/itip-view.c:352
 msgid "%A %l:%M:%S %p"
 msgstr "%A %OH:%OM:%OS"
 
 #. strftime format of a weekday and a date
 #. * without a year.
-#: ../src/modules/itip-formatter/itip-view.c:362
+#: ../src/modules/itip-formatter/itip-view.c:363
 msgid "%A, %B %e"
 msgstr "%A، %Oe %B"
 
 #. strftime format of a weekday, a date
 #. * without a year and a time,
 #. * in 24-hour format, without seconds.
-#: ../src/modules/itip-formatter/itip-view.c:368
+#: ../src/modules/itip-formatter/itip-view.c:369
 msgid "%A, %B %e %H:%M"
 msgstr "%A، %Oe %B، %OH:%OM"
 
 #. strftime format of a weekday, a date without a year
 #. * and a time, in 24-hour format.
-#: ../src/modules/itip-formatter/itip-view.c:372
+#: ../src/modules/itip-formatter/itip-view.c:373
 msgid "%A, %B %e %H:%M:%S"
 msgstr "%A، %Oe %B، %OH:%OM:%OS"
 
 #. strftime format of a weekday, a date without a year
 #. * and a time, in 12-hour format, without seconds.
-#: ../src/modules/itip-formatter/itip-view.c:377
+#: ../src/modules/itip-formatter/itip-view.c:378
 msgid "%A, %B %e %l:%M %p"
 msgstr "%A، %Oe %B، %OH:%OM"
 
 #. strftime format of a weekday, a date without a year
 #. * and a time, in 12-hour format.
-#: ../src/modules/itip-formatter/itip-view.c:381
+#: ../src/modules/itip-formatter/itip-view.c:382
 msgid "%A, %B %e %l:%M:%S %p"
 msgstr "%A، %Oe %B، %OH:%OM:%OS"
 
 #. strftime format of a weekday and a date.
-#: ../src/modules/itip-formatter/itip-view.c:389
+#: ../src/modules/itip-formatter/itip-view.c:390
 msgid "%A, %B %e, %Y"
 msgstr "%A، %Oe %B %Oy"
 
 #. strftime format of a weekday, a date and a
 #. * time, in 24-hour format, without seconds.
-#: ../src/modules/itip-formatter/itip-view.c:394
+#: ../src/modules/itip-formatter/itip-view.c:395
 msgid "%A, %B %e, %Y %H:%M"
 msgstr "%A، %Oe %B %Oy، %OH:%OM"
 
 #. strftime format of a weekday, a date and a
 #. * time, in 24-hour format.
-#: ../src/modules/itip-formatter/itip-view.c:398
+#: ../src/modules/itip-formatter/itip-view.c:399
 msgid "%A, %B %e, %Y %H:%M:%S"
 msgstr "%A، %Oe %B %Oy، %OH:%OM:%OS"
 
 #. strftime format of a weekday, a date and a
 #. * time, in 12-hour format, without seconds.
-#: ../src/modules/itip-formatter/itip-view.c:403
+#: ../src/modules/itip-formatter/itip-view.c:404
 msgid "%A, %B %e, %Y %l:%M %p"
 msgstr "%A، %Oe %B %Oy، %OH:%OM"
 
 #. strftime format of a weekday, a date and a
 #. * time, in 12-hour format.
-#: ../src/modules/itip-formatter/itip-view.c:407
+#: ../src/modules/itip-formatter/itip-view.c:408
 msgid "%A, %B %e, %Y %l:%M:%S %p"
 msgstr "%A، %Oe %B %Oy، %OH:%OM:%OS"
 
 #. Translators: The first '%s' is replaced with an abbreviated date/time of an appointment start or end, like "Tomorrow" or "Tomorrow 10:30";
 #. the second '%s' is replaced with the actual date, to know what the 'Tomorrow' means. What the date looks like depends on the user settings.
 #. Example: 'Tomorrow 10:30 (20.2.2020)'
-#: ../src/modules/itip-formatter/itip-view.c:434
-#, fuzzy, c-format
-#| msgid "%s (%d items)"
+#: ../src/modules/itip-formatter/itip-view.c:435
+#, c-format
 msgctxt "cal-itip"
 msgid "%s (%s)"
-msgstr "%s (%Id مورد)"
+msgstr "%s (%s)"
 
-#: ../src/modules/itip-formatter/itip-view.c:472
 #: ../src/modules/itip-formatter/itip-view.c:473
-#: ../src/modules/itip-formatter/itip-view.c:562
+#: ../src/modules/itip-formatter/itip-view.c:474
 #: ../src/modules/itip-formatter/itip-view.c:563
-#: ../src/modules/itip-formatter/itip-view.c:652
+#: ../src/modules/itip-formatter/itip-view.c:564
+#: ../src/modules/itip-formatter/itip-view.c:653
 msgid "An unknown person"
 msgstr "یک شخص نامعلوم"
 
-#: ../src/modules/itip-formatter/itip-view.c:477
-#: ../src/modules/itip-formatter/itip-view.c:567
-#: ../src/modules/itip-formatter/itip-view.c:656
+#: ../src/modules/itip-formatter/itip-view.c:478
+#: ../src/modules/itip-formatter/itip-view.c:568
+#: ../src/modules/itip-formatter/itip-view.c:657
 #, c-format
 msgid "Please respond on behalf of %s"
 msgstr ""
 
-#: ../src/modules/itip-formatter/itip-view.c:479
-#: ../src/modules/itip-formatter/itip-view.c:569
-#: ../src/modules/itip-formatter/itip-view.c:658
+#: ../src/modules/itip-formatter/itip-view.c:480
+#: ../src/modules/itip-formatter/itip-view.c:570
+#: ../src/modules/itip-formatter/itip-view.c:659
 #, c-format
 msgid "Received on behalf of %s"
 msgstr ""
 
-#: ../src/modules/itip-formatter/itip-view.c:484
+#: ../src/modules/itip-formatter/itip-view.c:485
 #, fuzzy, c-format
 #| msgid "<b>%s</b> through %s has published the following meeting information:"
 msgid "%s through %s has published the following meeting information:"
 msgstr "<b>%s</b> از طریق %s اطلاعات جلسهٔ زیر را منتشر کرده است:"
 
-#: ../src/modules/itip-formatter/itip-view.c:486
+#: ../src/modules/itip-formatter/itip-view.c:487
 #, fuzzy, c-format
 #| msgid "<b>%s</b> has published the following meeting information:"
 msgid "%s has published the following meeting information:"
 msgstr "<b>%s</b> اطلاعات جلسهٔ زیر را منتشر کرده است:"
 
-#: ../src/modules/itip-formatter/itip-view.c:491
+#: ../src/modules/itip-formatter/itip-view.c:492
 #, fuzzy, c-format
 #| msgid "<b>%s</b> has delegated the following meeting to you:"
 msgid "%s has delegated the following meeting to you:"
 msgstr "<b>%s</b> جلسهٔ زیر را به شما واگذار کرده است:"
 
-#: ../src/modules/itip-formatter/itip-view.c:494
+#: ../src/modules/itip-formatter/itip-view.c:495
 #, fuzzy, c-format
 #| msgid "<b>%s</b> through %s requests your presence at the following meeting:"
 msgid "%s through %s requests your presence at the following meeting:"
 msgstr "<b>%s</b>از طریق %s خواستار حضور شما در جلسهٔ زیر است:"
 
-#: ../src/modules/itip-formatter/itip-view.c:496
+#: ../src/modules/itip-formatter/itip-view.c:497
 #, fuzzy, c-format
 #| msgid "<b>%s</b> requests your presence at the following meeting:"
 msgid "%s requests your presence at the following meeting:"
 msgstr "<b>%s</b> خواستار حضور شما در جلسهٔ زیر است:"
 
-#: ../src/modules/itip-formatter/itip-view.c:502
+#: ../src/modules/itip-formatter/itip-view.c:503
 #, fuzzy, c-format
 #| msgid "<b>%s</b> through %s wishes to add to an existing meeting:"
 msgid "%s through %s wishes to add to an existing meeting:"
 msgstr "<b>%s</b> از طریق %s می‌خواهد به جلسهٔ موجود افزوده شود:"
 
-#: ../src/modules/itip-formatter/itip-view.c:504
+#: ../src/modules/itip-formatter/itip-view.c:505
 #, fuzzy, c-format
 #| msgid "<b>%s</b> wishes to add to an existing meeting:"
 msgid "%s wishes to add to an existing meeting:"
 msgstr "<b>%s</b> می‌خواهد به جلسهٔ موجود افزوده شود:"
 
-#: ../src/modules/itip-formatter/itip-view.c:508
+#: ../src/modules/itip-formatter/itip-view.c:509
 #, fuzzy, c-format
 #| msgid ""
 #| "<b>%s</b> wishes to receive the latest information for the following meeting:"
@@ -24376,104 +24063,104 @@ msgid ""
 "%s through %s wishes to receive the latest information for the following meeting:"
 msgstr "<b>%s</b> مایل است آخرین اطلاعات جلسهٔ زیر را دریافت کند:"
 
-#: ../src/modules/itip-formatter/itip-view.c:510
+#: ../src/modules/itip-formatter/itip-view.c:511
 #, fuzzy, c-format
 #| msgid ""
 #| "<b>%s</b> wishes to receive the latest information for the following meeting:"
 msgid "%s wishes to receive the latest information for the following meeting:"
 msgstr "<b>%s</b> مایل است آخرین اطلاعات جلسهٔ زیر را دریافت کند:"
 
-#: ../src/modules/itip-formatter/itip-view.c:514
+#: ../src/modules/itip-formatter/itip-view.c:515
 #, fuzzy, c-format
 #| msgid "<b>%s</b> has sent back the following meeting response:"
 msgid "%s through %s has sent back the following meeting response:"
 msgstr "<b>%s</b> پاسخ جلسهٔ زیر را  فرستاده است:"
 
-#: ../src/modules/itip-formatter/itip-view.c:516
+#: ../src/modules/itip-formatter/itip-view.c:517
 #, fuzzy, c-format
 #| msgid "<b>%s</b> has sent back the following meeting response:"
 msgid "%s has sent back the following meeting response:"
 msgstr "<b>%s</b> پاسخ جلسهٔ زیر را  فرستاده است:"
 
-#: ../src/modules/itip-formatter/itip-view.c:520
+#: ../src/modules/itip-formatter/itip-view.c:521
 #, fuzzy, c-format
 #| msgid "<b>%s</b> through %s has canceled the following meeting:"
 msgid "%s through %s has cancelled the following meeting:"
 msgstr "<b>%s</b> از طریق %s جلسهٔ زیر را لغو کرده است:"
 
-#: ../src/modules/itip-formatter/itip-view.c:522
+#: ../src/modules/itip-formatter/itip-view.c:523
 #, fuzzy, c-format
 #| msgid "<b>%s</b> has canceled the following meeting."
 msgid "%s has cancelled the following meeting:"
 msgstr "<b>%s</b> جلسهٔ زیر را لغو کرده است."
 
-#: ../src/modules/itip-formatter/itip-view.c:526
+#: ../src/modules/itip-formatter/itip-view.c:527
 #, fuzzy, c-format
 #| msgid "<b>%s</b> has proposed the following meeting changes."
 msgid "%s through %s has proposed the following meeting changes."
 msgstr "<b>%s</b> تغییرات جلسهٔ زیر را پیشنهاد کرده است."
 
-#: ../src/modules/itip-formatter/itip-view.c:528
+#: ../src/modules/itip-formatter/itip-view.c:529
 #, fuzzy, c-format
 #| msgid "<b>%s</b> has proposed the following meeting changes."
 msgid "%s has proposed the following meeting changes:"
 msgstr "<b>%s</b> تغییرات جلسهٔ زیر را پیشنهاد کرده است."
 
-#: ../src/modules/itip-formatter/itip-view.c:532
+#: ../src/modules/itip-formatter/itip-view.c:533
 #, fuzzy, c-format
 #| msgid "<b>%s</b> through %s has declined the following meeting changes:"
 msgid "%s through %s has declined the following meeting changes:"
 msgstr "<b>%s</b> از طریق %s تغییرات جلسهٔ زیر را پیشنهاد کرده است:"
 
-#: ../src/modules/itip-formatter/itip-view.c:534
+#: ../src/modules/itip-formatter/itip-view.c:535
 #, fuzzy, c-format
 #| msgid "<b>%s</b> has declined the following meeting changes."
 msgid "%s has declined the following meeting changes:"
 msgstr "<b>%s</b> تغییرات جلسهٔ زیر را رد کرده است."
 
-#: ../src/modules/itip-formatter/itip-view.c:574
+#: ../src/modules/itip-formatter/itip-view.c:575
 #, fuzzy, c-format
 #| msgid "<b>%s</b> through %s has published the following task:"
 msgid "%s through %s has published the following task:"
 msgstr "<b>%s</b>از طریق %s تکلیف زیر را منتشر کرده است:"
 
-#: ../src/modules/itip-formatter/itip-view.c:576
+#: ../src/modules/itip-formatter/itip-view.c:577
 #, fuzzy, c-format
 #| msgid "<b>%s</b> has published the following task:"
 msgid "%s has published the following task:"
 msgstr "<b>%s</b> تکلیف زیر را منتشر کرده است:"
 
-#: ../src/modules/itip-formatter/itip-view.c:581
+#: ../src/modules/itip-formatter/itip-view.c:582
 #, fuzzy, c-format
 #| msgid "<b>%s</b> requests the assignment of %s to the following task:"
 msgid "%s requests the assignment of %s to the following task:"
 msgstr "<b>%s</b> خواستار تخصیص %s به تکلیف زیر شده است:"
 
-#: ../src/modules/itip-formatter/itip-view.c:584
+#: ../src/modules/itip-formatter/itip-view.c:585
 #, fuzzy, c-format
 #| msgid "<b>%s</b> through %s has assigned you a task:"
 msgid "%s through %s has assigned you a task:"
 msgstr "<b>%s</b> از طریق %s تکلیفی به شما تخصیص داده است:"
 
-#: ../src/modules/itip-formatter/itip-view.c:586
+#: ../src/modules/itip-formatter/itip-view.c:587
 #, fuzzy, c-format
 #| msgid "<b>%s</b> has assigned you a task:"
 msgid "%s has assigned you a task:"
 msgstr "<b>%s</b> تکلیفی به شما تخصیص داده است:"
 
-#: ../src/modules/itip-formatter/itip-view.c:592
+#: ../src/modules/itip-formatter/itip-view.c:593
 #, fuzzy, c-format
 #| msgid "<b>%s</b> through %s wishes to add to an existing task:"
 msgid "%s through %s wishes to add to an existing task:"
 msgstr "<b>%s</b> از طریق %s میل دارد به یک تکلیف موجود اضافه شود:"
 
-#: ../src/modules/itip-formatter/itip-view.c:594
+#: ../src/modules/itip-formatter/itip-view.c:595
 #, fuzzy, c-format
 #| msgid "<b>%s</b> wishes to add to an existing task:"
 msgid "%s wishes to add to an existing task:"
 msgstr "<b>%s</b> میل دارد به یک تکلیف موجود اضافه شود:"
 
-#: ../src/modules/itip-formatter/itip-view.c:598
+#: ../src/modules/itip-formatter/itip-view.c:599
 #, fuzzy, c-format
 #| msgid ""
 #| "<b>%s</b> wishes to receive the latest information for the following assigned "
@@ -24483,7 +24170,7 @@ msgid ""
 "task:"
 msgstr "<b>%s</b> مایل است آخرین اطلاعات تکلیف تخصیص داده شدهٔ زیر را دریافت کند"
 
-#: ../src/modules/itip-formatter/itip-view.c:600
+#: ../src/modules/itip-formatter/itip-view.c:601
 #, fuzzy, c-format
 #| msgid ""
 #| "<b>%s</b> wishes to receive the latest information for the following assigned "
@@ -24491,232 +24178,244 @@ msgstr "<b>%s</b> مایل است آخرین اطلاعات تکلیف تخصی�
 msgid "%s wishes to receive the latest information for the following assigned task:"
 msgstr "<b>%s</b> مایل است آخرین اطلاعات تکلیف تخصیص داده شدهٔ زیر را دریافت کند"
 
-#: ../src/modules/itip-formatter/itip-view.c:604
+#: ../src/modules/itip-formatter/itip-view.c:605
 #, fuzzy, c-format
 #| msgid "<b>%s</b> has sent back the following assigned task response:"
 msgid "%s through %s has sent back the following assigned task response:"
 msgstr "<b>%s</b> پیام تکلیف تخصیص داده شدهٔ زیر را فرستاده کرده است:"
 
-#: ../src/modules/itip-formatter/itip-view.c:606
+#: ../src/modules/itip-formatter/itip-view.c:607
 #, fuzzy, c-format
 #| msgid "<b>%s</b> has sent back the following assigned task response:"
 msgid "%s has sent back the following assigned task response:"
 msgstr "<b>%s</b> پیام تکلیف تخصیص داده شدهٔ زیر را فرستاده کرده است:"
 
-#: ../src/modules/itip-formatter/itip-view.c:610
+#: ../src/modules/itip-formatter/itip-view.c:611
 #, fuzzy, c-format
 #| msgid "<b>%s</b> through %s has canceled the following assigned task:"
 msgid "%s through %s has cancelled the following assigned task:"
 msgstr "<b>%s</b> از طریق %s تکلیف تخصیص داده شدهٔ زیر را لغو کرده است:"
 
-#: ../src/modules/itip-formatter/itip-view.c:612
+#: ../src/modules/itip-formatter/itip-view.c:613
 #, fuzzy, c-format
 #| msgid "<b>%s</b> has canceled the following assigned task:"
 msgid "%s has cancelled the following assigned task:"
 msgstr "<b>%s</b> تکلیف تخصیص داده شدهٔ زیر را لغو کرده است:"
 
-#: ../src/modules/itip-formatter/itip-view.c:616
+#: ../src/modules/itip-formatter/itip-view.c:617
 #, fuzzy, c-format
 #| msgid "<b>%s</b> has proposed the following task assignment changes:"
 msgid "%s through %s has proposed the following task assignment changes:"
 msgstr "<b>%s</b> تغییرات تخصیص تکلیف زیر را پیشنهاد کرده است:"
 
-#: ../src/modules/itip-formatter/itip-view.c:618
+#: ../src/modules/itip-formatter/itip-view.c:619
 #, fuzzy, c-format
 #| msgid "<b>%s</b> has proposed the following task assignment changes:"
 msgid "%s has proposed the following task assignment changes:"
 msgstr "<b>%s</b> تغییرات تخصیص تکلیف زیر را پیشنهاد کرده است:"
 
-#: ../src/modules/itip-formatter/itip-view.c:622
+#: ../src/modules/itip-formatter/itip-view.c:623
 #, fuzzy, c-format
 #| msgid "<b>%s</b> through %s has declined the following assigned task:"
 msgid "%s through %s has declined the following assigned task:"
 msgstr "<b>%s</b> از طریق %s تکلیف تخصیص داده‌ شدهٔ زیر را رد کرده است:"
 
-#: ../src/modules/itip-formatter/itip-view.c:624
+#: ../src/modules/itip-formatter/itip-view.c:625
 #, fuzzy, c-format
 #| msgid "<b>%s</b> has declined the following assigned task:"
 msgid "%s has declined the following assigned task:"
 msgstr "<b>%s</b> تکلیف تخصیص داده‌ شدهٔ زیر را رد کرده است:"
 
-#: ../src/modules/itip-formatter/itip-view.c:663
+#: ../src/modules/itip-formatter/itip-view.c:664
 #, fuzzy, c-format
 #| msgid "<b>%s</b> through %s has published the following task:"
 msgid "%s through %s has published the following memo:"
 msgstr "<b>%s</b>از طریق %s تکلیف زیر را منتشر کرده است:"
 
-#: ../src/modules/itip-formatter/itip-view.c:665
+#: ../src/modules/itip-formatter/itip-view.c:666
 #, fuzzy, c-format
 #| msgid "<b>%s</b> has published the following task:"
 msgid "%s has published the following memo:"
 msgstr "<b>%s</b> تکلیف زیر را منتشر کرده است:"
 
-#: ../src/modules/itip-formatter/itip-view.c:670
+#: ../src/modules/itip-formatter/itip-view.c:671
 #, fuzzy, c-format
 #| msgid "<b>%s</b> through %s wishes to add to an existing meeting:"
 msgid "%s through %s wishes to add to an existing memo:"
 msgstr "<b>%s</b> از طریق %s می‌خواهد به جلسهٔ موجود افزوده شود:"
 
-#: ../src/modules/itip-formatter/itip-view.c:672
+#: ../src/modules/itip-formatter/itip-view.c:673
 #, fuzzy, c-format
 #| msgid "<b>%s</b> wishes to add to an existing meeting:"
 msgid "%s wishes to add to an existing memo:"
 msgstr "<b>%s</b> می‌خواهد به جلسهٔ موجود افزوده شود:"
 
-#: ../src/modules/itip-formatter/itip-view.c:676
+#: ../src/modules/itip-formatter/itip-view.c:677
 #, fuzzy, c-format
 #| msgid "<b>%s</b> through %s has canceled the following meeting:"
 msgid "%s through %s has cancelled the following shared memo:"
 msgstr "<b>%s</b> از طریق %s جلسهٔ زیر را لغو کرده است:"
 
-#: ../src/modules/itip-formatter/itip-view.c:678
+#: ../src/modules/itip-formatter/itip-view.c:679
 #, fuzzy, c-format
 #| msgid "<b>%s</b> has canceled the following assigned task:"
 msgid "%s has cancelled the following shared memo:"
 msgstr "<b>%s</b> تکلیف تخصیص داده شدهٔ زیر را لغو کرده است:"
 
-#: ../src/modules/itip-formatter/itip-view.c:869
+#: ../src/modules/itip-formatter/itip-view.c:870
 msgid "All day:"
 msgstr "تمام روز:"
 
-#: ../src/modules/itip-formatter/itip-view.c:875
+#: ../src/modules/itip-formatter/itip-view.c:876
 msgid "Start day:"
 msgstr "روز آغاز:"
 
-#: ../src/modules/itip-formatter/itip-view.c:875
-#: ../src/modules/itip-formatter/itip-view.c:1912
+#: ../src/modules/itip-formatter/itip-view.c:876
+#: ../src/modules/itip-formatter/itip-view.c:1906
 msgid "Start time:"
 msgstr "زمان آغاز:"
 
-#: ../src/modules/itip-formatter/itip-view.c:884
+#: ../src/modules/itip-formatter/itip-view.c:885
 msgid "End day:"
 msgstr "%روز پایان:"
 
-#: ../src/modules/itip-formatter/itip-view.c:884
-#: ../src/modules/itip-formatter/itip-view.c:1913
+#: ../src/modules/itip-formatter/itip-view.c:885
+#: ../src/modules/itip-formatter/itip-view.c:1907
 msgid "End time:"
 msgstr "زمان پایان:"
 
-#: ../src/modules/itip-formatter/itip-view.c:1260
+#: ../src/modules/itip-formatter/itip-view.c:1261
 msgid "Ope_n Calendar"
 msgstr "_گشودن تقویم"
 
-#: ../src/modules/itip-formatter/itip-view.c:1263
+#: ../src/modules/itip-formatter/itip-view.c:1264
 msgid "_Decline all"
 msgstr "_رد همه"
 
-#: ../src/modules/itip-formatter/itip-view.c:1269
+#: ../src/modules/itip-formatter/itip-view.c:1270
 msgid "_Tentative all"
 msgstr "همه _احتمالی"
 
-#: ../src/modules/itip-formatter/itip-view.c:1272
+#: ../src/modules/itip-formatter/itip-view.c:1273
 msgid "_Tentative"
 msgstr "_احتمالی"
 
-#: ../src/modules/itip-formatter/itip-view.c:1275
+#: ../src/modules/itip-formatter/itip-view.c:1276
 msgid "Acce_pt all"
 msgstr "پذیرش همه"
 
-#: ../src/modules/itip-formatter/itip-view.c:1278
+#: ../src/modules/itip-formatter/itip-view.c:1279
 msgid "Acce_pt"
 msgstr "پذیرش"
 
-#: ../src/modules/itip-formatter/itip-view.c:1281
+#: ../src/modules/itip-formatter/itip-view.c:1282
 msgid "Send _Information"
 msgstr "فرستادن _اطّلاعات"
 
-#: ../src/modules/itip-formatter/itip-view.c:1284
+#: ../src/modules/itip-formatter/itip-view.c:1285
 msgid "_Update Attendee Status"
 msgstr "_به‌هنگام‌سازی وضعیت شرکت‌کنندگان"
 
-#: ../src/modules/itip-formatter/itip-view.c:1287
+#: ../src/modules/itip-formatter/itip-view.c:1288
 #: ../src/smime/gui/certificate-manager.c:1659
 msgid "_Update"
 msgstr "_به‌هنگام سازی"
 
-#: ../src/modules/itip-formatter/itip-view.c:1914
-#: ../src/modules/itip-formatter/itip-view.c:2045
-#: ../src/modules/itip-formatter/itip-view.c:6997
+#: ../src/modules/itip-formatter/itip-view.c:1908
+#: ../src/modules/itip-formatter/itip-view.c:2115
+#: ../src/modules/itip-formatter/itip-view.c:7067
 #, fuzzy
 #| msgctxt "ECompEditor"
 #| msgid "D_ue date:"
 msgid "Due date:"
 msgstr "تاریخ _سررسید:"
 
-#: ../src/modules/itip-formatter/itip-view.c:1917
-#: ../src/modules/itip-formatter/itip-view.c:1972
-#: ../src/modules/itip-formatter/itip-view.c:2054
+#: ../src/modules/itip-formatter/itip-view.c:1911
+#: ../src/modules/itip-formatter/itip-view.c:2044
+#: ../src/modules/itip-formatter/itip-view.c:2124
 msgid "Comment:"
 msgstr "توضیح:"
 
+#: ../src/modules/itip-formatter/itip-view.c:1943
+#, fuzzy
+#| msgid "_Show invitation description provided by the sender"
+msgid "Show description provided by the sender"
+msgstr "_نمایش شرح دعوت فراهم شده به دست فرستنده"
+
+#: ../src/modules/itip-formatter/itip-view.c:1944
+#, fuzzy
+#| msgid "_Show invitation description provided by the sender"
+msgid "Hide description provided by the sender"
+msgstr "_نمایش شرح دعوت فراهم شده به دست فرستنده"
+
 #. RSVP area
-#: ../src/modules/itip-formatter/itip-view.c:1960
+#: ../src/modules/itip-formatter/itip-view.c:2032
 msgid "Send reply to sender"
 msgstr "فرستادن پاسخ به فرستنده"
 
 #. Updates
-#: ../src/modules/itip-formatter/itip-view.c:1975
+#: ../src/modules/itip-formatter/itip-view.c:2047
 #, fuzzy
 #| msgid "Send u_pdates to attendees"
 msgid "Send _updates to attendees"
 msgstr "فرستادن به‌هنگام‌سازی‌ها به شرکت‌کنندگان"
 
 #. The recurrence check button
-#: ../src/modules/itip-formatter/itip-view.c:1978
+#: ../src/modules/itip-formatter/itip-view.c:2050
 #, fuzzy
 #| msgid "A_pply to all instances"
 msgid "_Apply to all instances"
 msgstr "اِ_عمال به همهٔ نمونه‌ها"
 
-#: ../src/modules/itip-formatter/itip-view.c:1979
+#: ../src/modules/itip-formatter/itip-view.c:2051
 msgid "Show time as _free"
 msgstr "نمایش زمان به شکل _آزاد"
 
-#: ../src/modules/itip-formatter/itip-view.c:1980
+#: ../src/modules/itip-formatter/itip-view.c:2052
 msgid "_Preserve my reminder"
 msgstr ""
 
-#: ../src/modules/itip-formatter/itip-view.c:1981
+#: ../src/modules/itip-formatter/itip-view.c:2053
 #, fuzzy
 #| msgid "Sh_ow a reminder"
 msgid "_Inherit reminder"
 msgstr "نمای_ش یک یادآور"
 
-#: ../src/modules/itip-formatter/itip-view.c:2212
+#: ../src/modules/itip-formatter/itip-view.c:2282
 msgid "_Tasks:"
 msgstr "_تکلیف‌ها:"
 
-#: ../src/modules/itip-formatter/itip-view.c:2215
+#: ../src/modules/itip-formatter/itip-view.c:2285
 msgid "_Memos:"
 msgstr "_یادداشت‌ها:"
 
-#: ../src/modules/itip-formatter/itip-view.c:3286
+#: ../src/modules/itip-formatter/itip-view.c:3356
 msgid "Sa_ve"
 msgstr "_ذخیره"
 
-#: ../src/modules/itip-formatter/itip-view.c:3813
-#: ../src/modules/itip-formatter/itip-view.c:5514
+#: ../src/modules/itip-formatter/itip-view.c:3883
+#: ../src/modules/itip-formatter/itip-view.c:5584
 msgid "Attendee status updated"
 msgstr "وضعیت شرکت‌کنندگان به‌هنگام‌سازی شد"
 
-#: ../src/modules/itip-formatter/itip-view.c:4044
+#: ../src/modules/itip-formatter/itip-view.c:4114
 #, fuzzy, c-format
 #| msgid "An appointment in the calendar '%s' conflicts with this meeting"
 msgid "An appointment “%s” in the calendar “%s” conflicts with this meeting"
 msgstr "قراری در تقویم «%s» با این جلسه تداخل دارد"
 
-#: ../src/modules/itip-formatter/itip-view.c:4051
+#: ../src/modules/itip-formatter/itip-view.c:4121
 #, c-format
 msgid "A task “%s” in the task list “%s” conflicts with this task"
 msgstr ""
 
-#: ../src/modules/itip-formatter/itip-view.c:4058
+#: ../src/modules/itip-formatter/itip-view.c:4128
 #, fuzzy, c-format
 #| msgid "An appointment in the calendar '%s' conflicts with this meeting"
 msgid "A memo “%s” in the memo list “%s” conflicts with this memo"
 msgstr "قراری در تقویم «%s» با این جلسه تداخل دارد"
 
-#: ../src/modules/itip-formatter/itip-view.c:4069
+#: ../src/modules/itip-formatter/itip-view.c:4139
 #, fuzzy, c-format
 #| msgid "An appointment in the calendar '%s' conflicts with this meeting"
 msgid "The calendar “%s” contains an appointment which conflicts with this meeting"
@@ -24725,312 +24424,312 @@ msgid_plural ""
 msgstr[0] "قراری در تقویم «%s» با این جلسه تداخل دارد"
 msgstr[1] "قراری در تقویم «%s» با این جلسه تداخل دارد"
 
-#: ../src/modules/itip-formatter/itip-view.c:4078
+#: ../src/modules/itip-formatter/itip-view.c:4148
 #, c-format
 msgid "The task list “%s” contains a task which conflicts with this task"
 msgid_plural "The task list “%s” contains %d tasks which conflict with this task"
 msgstr[0] ""
 msgstr[1] ""
 
-#: ../src/modules/itip-formatter/itip-view.c:4087
+#: ../src/modules/itip-formatter/itip-view.c:4157
 #, c-format
 msgid "The memo list “%s” contains a memo which conflicts with this memo"
 msgid_plural "The memo list “%s” contains %d memos which conflict with this memo"
 msgstr[0] ""
 msgstr[1] ""
 
-#: ../src/modules/itip-formatter/itip-view.c:4125
+#: ../src/modules/itip-formatter/itip-view.c:4195
 #, fuzzy, c-format
 #| msgid "Found the appointment in the calendar '%s'"
 msgid "Found the appointment in the calendar “%s”"
 msgstr "قرار در تقویم «%s» پیدا شد"
 
-#: ../src/modules/itip-formatter/itip-view.c:4130
+#: ../src/modules/itip-formatter/itip-view.c:4200
 #, fuzzy, c-format
 #| msgid "Unable to find this task in any task list"
 msgid "Found the task in the task list “%s”"
 msgstr "این تکلیف در هیچ فهرست تکلیفی پیدا نشد"
 
-#: ../src/modules/itip-formatter/itip-view.c:4135
+#: ../src/modules/itip-formatter/itip-view.c:4205
 #, fuzzy, c-format
 #| msgid "Unable to find this task in any task list"
 msgid "Found the memo in the memo list “%s”"
 msgstr "این تکلیف در هیچ فهرست تکلیفی پیدا نشد"
 
-#: ../src/modules/itip-formatter/itip-view.c:4146
+#: ../src/modules/itip-formatter/itip-view.c:4216
 #, fuzzy
 #| msgid "Object is invalid and cannot be updated\n"
 msgid "This meeting invitation is obsolete. It had been updated."
 msgstr "شیء نامعتبر است و به‌هنگام‌سازی آن ممکن نیست\n"
 
-#: ../src/modules/itip-formatter/itip-view.c:4291
+#: ../src/modules/itip-formatter/itip-view.c:4361
 msgid "Unable to find any calendars"
 msgstr "هیچ تقویمی پیدا نشد"
 
-#: ../src/modules/itip-formatter/itip-view.c:4299
+#: ../src/modules/itip-formatter/itip-view.c:4369
 msgid "Unable to find this meeting in any calendar"
 msgstr "این جلسه در هیچ تقویمی پیدا نشد"
 
-#: ../src/modules/itip-formatter/itip-view.c:4304
+#: ../src/modules/itip-formatter/itip-view.c:4374
 msgid "Unable to find this task in any task list"
 msgstr "این تکلیف در هیچ فهرست تکلیفی پیدا نشد"
 
-#: ../src/modules/itip-formatter/itip-view.c:4309
+#: ../src/modules/itip-formatter/itip-view.c:4379
 #, fuzzy
 #| msgid "Unable to find this task in any task list"
 msgid "Unable to find this memo in any memo list"
 msgstr "این تکلیف در هیچ فهرست تکلیفی پیدا نشد"
 
-#: ../src/modules/itip-formatter/itip-view.c:4622
+#: ../src/modules/itip-formatter/itip-view.c:4692
 msgid "Searching for an existing version of this appointment"
 msgstr "در حال جست‌وجو برای نگارشی موجود از این قرار"
 
-#: ../src/modules/itip-formatter/itip-view.c:4626
+#: ../src/modules/itip-formatter/itip-view.c:4696
 #, fuzzy
 #| msgid "Searching for an existing version of this appointment"
 msgid "Searching for an existing version of this task"
 msgstr "در حال جست‌وجو به دنبال نسخهٔ موجود این قرار!"
 
-#: ../src/modules/itip-formatter/itip-view.c:4630
+#: ../src/modules/itip-formatter/itip-view.c:4700
 #, fuzzy
 #| msgid "Searching for an existing version of this appointment"
 msgid "Searching for an existing version of this memo"
 msgstr "در حال جست‌وجو به دنبال نسخهٔ موجود این قرار!"
 
-#: ../src/modules/itip-formatter/itip-view.c:4688
+#: ../src/modules/itip-formatter/itip-view.c:4758
 #, fuzzy
 #| msgid "Opening calendar"
 msgid "Opening the calendar. Please wait…"
 msgstr "در حال گشودن تقویم"
 
-#: ../src/modules/itip-formatter/itip-view.c:5038
+#: ../src/modules/itip-formatter/itip-view.c:5108
 #, fuzzy, c-format
 #| msgid "Unable to send item to calendar '%s'.  %s"
 msgid "Unable to send item to calendar “%s”. %s"
 msgstr "ارسال مورد به تقویم «%s» ممکن نیست. %s"
 
-#: ../src/modules/itip-formatter/itip-view.c:5046
+#: ../src/modules/itip-formatter/itip-view.c:5116
 #, fuzzy, c-format
 #| msgid "Unable to send item to calendar '%s'.  %s"
 msgid "Unable to send item to task list “%s”. %s"
 msgstr "ارسال مورد به تقویم «%s» ممکن نیست. %s"
 
-#: ../src/modules/itip-formatter/itip-view.c:5054
+#: ../src/modules/itip-formatter/itip-view.c:5124
 #, fuzzy, c-format
 #| msgid "Unable to send item to calendar '%s'.  %s"
 msgid "Unable to send item to memo list “%s”. %s"
 msgstr "ارسال مورد به تقویم «%s» ممکن نیست. %s"
 
-#: ../src/modules/itip-formatter/itip-view.c:5075
+#: ../src/modules/itip-formatter/itip-view.c:5145
 #, fuzzy, c-format
 #| msgid "Sent to calendar '%s' as accepted"
 msgid "Sent to calendar “%s” as accepted"
 msgstr "ارسال به تقویم «%s» به عنوان پذیرفته شده"
 
-#: ../src/modules/itip-formatter/itip-view.c:5080
+#: ../src/modules/itip-formatter/itip-view.c:5150
 #, fuzzy, c-format
 #| msgid "Sent to calendar '%s' as accepted"
 msgid "Sent to task list “%s” as accepted"
 msgstr "ارسال به تقویم «%s» به عنوان پذیرفته شده"
 
-#: ../src/modules/itip-formatter/itip-view.c:5085
+#: ../src/modules/itip-formatter/itip-view.c:5155
 #, fuzzy, c-format
 #| msgid "Sent to calendar '%s' as accepted"
 msgid "Sent to memo list “%s” as accepted"
 msgstr "ارسال به تقویم «%s» به عنوان پذیرفته شده"
 
-#: ../src/modules/itip-formatter/itip-view.c:5095
+#: ../src/modules/itip-formatter/itip-view.c:5165
 #, fuzzy, c-format
 #| msgid "Sent to calendar '%s' as tentative"
 msgid "Sent to calendar “%s” as tentative"
 msgstr "ارسال به تقویم «%s» به عنوان احتمالی"
 
-#: ../src/modules/itip-formatter/itip-view.c:5100
+#: ../src/modules/itip-formatter/itip-view.c:5170
 #, fuzzy, c-format
 #| msgid "Sent to calendar '%s' as tentative"
 msgid "Sent to task list “%s” as tentative"
 msgstr "ارسال به تقویم «%s» به عنوان احتمالی"
 
-#: ../src/modules/itip-formatter/itip-view.c:5105
+#: ../src/modules/itip-formatter/itip-view.c:5175
 #, fuzzy, c-format
 #| msgid "Sent to calendar '%s' as tentative"
 msgid "Sent to memo list “%s” as tentative"
 msgstr "ارسال به تقویم «%s» به عنوان احتمالی"
 
-#: ../src/modules/itip-formatter/itip-view.c:5115
+#: ../src/modules/itip-formatter/itip-view.c:5185
 #, fuzzy, c-format
 #| msgid "Sent to calendar '%s' as declined"
 msgid "Sent to calendar “%s” as declined"
 msgstr "ارسال به تقویم «%s» به عنوان رد شده"
 
-#: ../src/modules/itip-formatter/itip-view.c:5120
+#: ../src/modules/itip-formatter/itip-view.c:5190
 #, fuzzy, c-format
 #| msgid "Sent to calendar '%s' as declined"
 msgid "Sent to task list “%s” as declined"
 msgstr "ارسال به تقویم «%s» به عنوان رد شده"
 
-#: ../src/modules/itip-formatter/itip-view.c:5125
+#: ../src/modules/itip-formatter/itip-view.c:5195
 #, fuzzy, c-format
 #| msgid "Sent to calendar '%s' as declined"
 msgid "Sent to memo list “%s” as declined"
 msgstr "ارسال به تقویم «%s» به عنوان رد شده"
 
-#: ../src/modules/itip-formatter/itip-view.c:5135
+#: ../src/modules/itip-formatter/itip-view.c:5205
 #, fuzzy, c-format
 #| msgid "Sent to calendar '%s' as canceled"
 msgid "Sent to calendar “%s” as cancelled"
 msgstr "ارسال به تقویم «%s» به عنوان لغو شده"
 
-#: ../src/modules/itip-formatter/itip-view.c:5140
+#: ../src/modules/itip-formatter/itip-view.c:5210
 #, fuzzy, c-format
 #| msgid "Sent to calendar '%s' as canceled"
 msgid "Sent to task list “%s” as cancelled"
 msgstr "ارسال به تقویم «%s» به عنوان لغو شده"
 
-#: ../src/modules/itip-formatter/itip-view.c:5145
+#: ../src/modules/itip-formatter/itip-view.c:5215
 #, fuzzy, c-format
 #| msgid "Sent to calendar '%s' as canceled"
 msgid "Sent to memo list “%s” as cancelled"
 msgstr "ارسال به تقویم «%s» به عنوان لغو شده"
 
-#: ../src/modules/itip-formatter/itip-view.c:5164
+#: ../src/modules/itip-formatter/itip-view.c:5234
 #, fuzzy
 #| msgid "Opening calendar"
 msgid "Saving changes to the calendar. Please wait…"
 msgstr "در حال گشودن تقویم"
 
-#: ../src/modules/itip-formatter/itip-view.c:5167
+#: ../src/modules/itip-formatter/itip-view.c:5237
 msgid "Saving changes to the task list. Please wait…"
 msgstr ""
 
-#: ../src/modules/itip-formatter/itip-view.c:5170
+#: ../src/modules/itip-formatter/itip-view.c:5240
 msgid "Saving changes to the memo list. Please wait…"
 msgstr ""
 
-#: ../src/modules/itip-formatter/itip-view.c:5241
+#: ../src/modules/itip-formatter/itip-view.c:5311
 msgid "Unable to parse item"
 msgstr "تجزیهٔ مورد ممکن نیست"
 
-#: ../src/modules/itip-formatter/itip-view.c:5439
+#: ../src/modules/itip-formatter/itip-view.c:5509
 #, c-format
 msgid "Organizer has removed the delegate %s "
 msgstr "سازمان‌دهنده نمایندهٔ %s را حذف کرد "
 
-#: ../src/modules/itip-formatter/itip-view.c:5456
+#: ../src/modules/itip-formatter/itip-view.c:5526
 #, fuzzy
 #| msgid "Sent a cancelation notice to the delegate"
 msgid "Sent a cancellation notice to the delegate"
 msgstr "اطلاع انصراف برای نماینده ارسال شد"
 
-#: ../src/modules/itip-formatter/itip-view.c:5460
+#: ../src/modules/itip-formatter/itip-view.c:5530
 #, fuzzy
 #| msgid "Could not send the cancelation notice to the delegate"
 msgid "Could not send the cancellation notice to the delegate"
 msgstr "فرستادن اطلاع انصراف به نماینده ممکن نشد"
 
-#: ../src/modules/itip-formatter/itip-view.c:5506
+#: ../src/modules/itip-formatter/itip-view.c:5576
 #, c-format
 msgid "Unable to update attendee. %s"
 msgstr "به‌هنگام‌سازی شرکت‌کنندگان ممکن نیست. %s"
 
-#: ../src/modules/itip-formatter/itip-view.c:5539
+#: ../src/modules/itip-formatter/itip-view.c:5609
 #, fuzzy
 #| msgid "Object is invalid and cannot be updated\n"
 msgid "The meeting is invalid and cannot be updated"
 msgstr "شیء نامعتبر است و به‌هنگام‌سازی آن ممکن نیست\n"
 
-#: ../src/modules/itip-formatter/itip-view.c:5624
+#: ../src/modules/itip-formatter/itip-view.c:5694
 msgid "Attendee status could not be updated because the status is invalid"
 msgstr "به‌هنگام‌سازی وضعیت شرکت‌کنندگان ممکن نیست چون وضعیت نامعتبر است"
 
-#: ../src/modules/itip-formatter/itip-view.c:5700
-#: ../src/modules/itip-formatter/itip-view.c:5738
+#: ../src/modules/itip-formatter/itip-view.c:5770
+#: ../src/modules/itip-formatter/itip-view.c:5808
 msgid "Attendee status can not be updated because the item no longer exists"
 msgstr "به‌هنگام‌سازی وضعیت شرکت‌کننده ممکن نیست چون مورد دیگر وجود ندارد"
 
-#: ../src/modules/itip-formatter/itip-view.c:5799
+#: ../src/modules/itip-formatter/itip-view.c:5869
 #, fuzzy
 #| msgid "Meeting Information"
 msgid "Meeting information sent"
 msgstr "اطلاعات جلسه"
 
-#: ../src/modules/itip-formatter/itip-view.c:5804
+#: ../src/modules/itip-formatter/itip-view.c:5874
 #, fuzzy
 #| msgid "Task information"
 msgid "Task information sent"
 msgstr "اطلاعات تکلیف"
 
-#: ../src/modules/itip-formatter/itip-view.c:5809
+#: ../src/modules/itip-formatter/itip-view.c:5879
 #, fuzzy
 #| msgid "No Information"
 msgid "Memo information sent"
 msgstr "بدون اطلاعات"
 
-#: ../src/modules/itip-formatter/itip-view.c:5820
+#: ../src/modules/itip-formatter/itip-view.c:5890
 msgid "Unable to send meeting information, the meeting does not exist"
 msgstr ""
 
-#: ../src/modules/itip-formatter/itip-view.c:5825
+#: ../src/modules/itip-formatter/itip-view.c:5895
 #, fuzzy
 #| msgid "Unable to find this task in any task list"
 msgid "Unable to send task information, the task does not exist"
 msgstr "این تکلیف در هیچ فهرست تکلیفی پیدا نشد"
 
-#: ../src/modules/itip-formatter/itip-view.c:5830
+#: ../src/modules/itip-formatter/itip-view.c:5900
 msgid "Unable to send memo information, the memo does not exist"
 msgstr ""
 
 #. Translators: This is a default filename for a calendar.
-#: ../src/modules/itip-formatter/itip-view.c:5875
+#: ../src/modules/itip-formatter/itip-view.c:5945
 msgid "calendar.ics"
 msgstr "تقویم.ics"
 
-#: ../src/modules/itip-formatter/itip-view.c:5880
+#: ../src/modules/itip-formatter/itip-view.c:5950
 msgid "Save Calendar"
 msgstr "ذخیرهٔ تقویم"
 
-#: ../src/modules/itip-formatter/itip-view.c:5928
-#: ../src/modules/itip-formatter/itip-view.c:5941
+#: ../src/modules/itip-formatter/itip-view.c:5998
+#: ../src/modules/itip-formatter/itip-view.c:6011
 msgid "The calendar attached is not valid"
 msgstr "تقویم پیوست شده معتبر نیست"
 
-#: ../src/modules/itip-formatter/itip-view.c:5929
-#: ../src/modules/itip-formatter/itip-view.c:5942
+#: ../src/modules/itip-formatter/itip-view.c:5999
+#: ../src/modules/itip-formatter/itip-view.c:6012
 msgid ""
 "The message claims to contain a calendar, but the calendar is not a valid "
 "iCalendar."
 msgstr "پیام ادعا می‌کند حاوی یک تقویم است، اما تقویم یک آی‌کلندر استاندارد نیست."
 
-#: ../src/modules/itip-formatter/itip-view.c:6024
-#: ../src/modules/itip-formatter/itip-view.c:6108
-#: ../src/modules/itip-formatter/itip-view.c:6212
+#: ../src/modules/itip-formatter/itip-view.c:6094
+#: ../src/modules/itip-formatter/itip-view.c:6178
+#: ../src/modules/itip-formatter/itip-view.c:6282
 msgid "The item in the calendar is not valid"
 msgstr "مورد داخل تقویم معتبر نیست"
 
-#: ../src/modules/itip-formatter/itip-view.c:6025
-#: ../src/modules/itip-formatter/itip-view.c:6109
-#: ../src/modules/itip-formatter/itip-view.c:6213
+#: ../src/modules/itip-formatter/itip-view.c:6095
+#: ../src/modules/itip-formatter/itip-view.c:6179
+#: ../src/modules/itip-formatter/itip-view.c:6283
 msgid ""
 "The message does contain a calendar, but the calendar contains no events, tasks or "
 "free/busy information"
 msgstr ""
 "پیام شامل یک تقویم است اما تقویم شامل هیچ اتفاق، تکلیف، یا اطلاعات آزاد/مشغول نیست"
 
-#: ../src/modules/itip-formatter/itip-view.c:6118
+#: ../src/modules/itip-formatter/itip-view.c:6188
 msgid "The calendar attached contains multiple items"
 msgstr "تقویم پیوست شده حاوی موارد متعددی است"
 
-#: ../src/modules/itip-formatter/itip-view.c:6119
+#: ../src/modules/itip-formatter/itip-view.c:6189
 msgid ""
 "To process all of these items, the file should be saved and the calendar imported"
 msgstr "برای پردازش همهٔ این موارد،‌ پرونده باید ذخیره شود و تقویم وارد شود"
 
-#: ../src/modules/itip-formatter/itip-view.c:6699
+#: ../src/modules/itip-formatter/itip-view.c:6769
 msgctxt "cal-itip"
 msgid "None"
 msgstr "هیچ‌کدام"
 
-#: ../src/modules/itip-formatter/itip-view.c:6721
+#: ../src/modules/itip-formatter/itip-view.c:6791
 msgid "Tentatively Accepted"
 msgstr "به طور احتمالی پذیرفته شد"
 
@@ -25355,17 +25054,12 @@ msgstr "هیچ‌کدام"
 
 #. Translators: Meaning "any configured addressbook included in autocompletion" in the filter dialog
 #: ../src/modules/mail/e-mail-shell-backend.c:1714
-#, fuzzy
-#| msgid "Autocompletion"
 msgctxt "addrbook"
 msgid "Included in Autocompletion"
-msgstr "کامل کردن خودکار"
+msgstr "در تکمیل خودکار قرار دارد"
 
 #. Translators: Meaning "any configured addressbook" in the filter dialog
 #: ../src/modules/mail/e-mail-shell-backend.c:1720
-#, fuzzy
-#| msgctxt "mail-filter-rule"
-#| msgid "Any"
 msgctxt "addrbook"
 msgid "Any"
 msgstr "هر"
@@ -26271,11 +25965,9 @@ msgstr "دیگر این گفت‌وگو نشان داده نشود"
 
 #. Translators: This is part of "Alternatively, you can %s (email, contacts and calendaring) instead." sentence from the same translation context.
 #: ../src/modules/startup-wizard/e-startup-assistant.c:194
-#, fuzzy
-#| msgid "Create a new mail folder"
 msgctxt "wizard-ca-note"
 msgid "create a collection account"
-msgstr "ایجاد یک شاخهٔ نامهٔ جدید"
+msgstr "ایجاد یک حساب مجموعه"
 
 #. Translators: The '%s' is replaced with "create a collection account" from the same translation context.
 #: ../src/modules/startup-wizard/e-startup-assistant.c:196
