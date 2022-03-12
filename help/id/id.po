@@ -6,20 +6,21 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: evolution master\n"
-"POT-Creation-Date: 2021-08-31 10:08+0000\n"
-"PO-Revision-Date: 2021-09-03 15:27+0700\n"
+"POT-Creation-Date: 2022-03-07 16:18+0000\n"
+"PO-Revision-Date: 2022-03-12 10:49+0700\n"
 "Last-Translator: Andika Triwidada <andika@gmail.com>\n"
 "Language-Team: Indonesian <gnome-l10n-id@googlegroups.com>\n"
 "Language: id\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Generator: Poedit 2.4.3\n"
+"X-Generator: Poedit 2.4.2\n"
+"Plural-Forms: nplurals=1; plural=0;\n"
 
 #. Put one translator per line, in the form NAME <EMAIL>, YEAR1, YEAR2
 msgctxt "_"
 msgid "translator-credits"
-msgstr "Andika Triwidada <andika@gmail.com>, 2020, 2021."
+msgstr "Andika Triwidada <andika@gmail.com>, 2020-2022."
 
 #. (itstool) path: info/desc
 #: C/backup-restore.page:18
@@ -1676,7 +1677,6 @@ msgstr "Menggunakan beberapa kalender"
 
 #. (itstool) path: page/p
 #: C/calendar-using-several-calendars.page:30
-#, fuzzy
 msgid ""
 "You can have multiple calendars and overlay them one over the other. For "
 "example, you might have a schedule of events for work, one for home, and one "
@@ -1686,14 +1686,14 @@ msgid ""
 "appointments, you can be sure to avoid conflicts, while keeping a minimum of "
 "clutter in your view."
 msgstr ""
-"Anda dapat memiliki beberapa kalender dan melapisinya satu di atas kalender "
-"lainnya. Misalnya, Anda mungkin memiliki jadwal acara untuk bekerja, satu "
-"untuk rumah, dan satu untuk tim olahraga favorit Anda. Bilah sisi "
-"mencantumkan kalender tersebut, dan Anda bisa memilih atau membatalkan "
-"pilihan kotak di sampingnya untuk memperlihatkan dan menyembunyikan janji "
-"dalam tampilan kalender Anda. Dengan menyembunyikan dan memperlihatkan "
-"rangkaian janji temu yang berbeda, Anda dapat yakin untuk menghindari "
-"konflik, sambil menjaga kesemrawutan minimum dalam tampilan Anda."
+"Anda dapat memiliki beberapa kalender dan menumpuknya satu sama lain. "
+"Misalnya, Anda mungkin memiliki jadwal acara untuk kantor, satu untuk rumah, "
+"dan satu untuk tim olahraga favorit Anda. Bilah sisi mencantumkan kalender "
+"tersebut, dan Anda bisa memilih atau membatalkan pilihan kotak di sampingnya "
+"untuk memperlihatkan dan menyembunyikan janji dalam tampilan kalender Anda. "
+"Dengan menyembunyikan dan memperlihatkan rangkaian janji temu yang berbeda, "
+"Anda dapat yakin untuk menghindari konflik, sambil menjaga kesemrawutan "
+"minimum dalam tampilan Anda."
 
 #. (itstool) path: page/p
 #: C/calendar-using-several-calendars.page:38
@@ -1859,7 +1859,6 @@ msgstr ""
 
 #. (itstool) path: info/desc
 #: C/contacts-autocompletion.page:28
-#, fuzzy
 msgid ""
 "Autocompletion of names and email addresses entered in the mail composer."
 msgstr ""
@@ -1867,9 +1866,8 @@ msgstr ""
 
 #. (itstool) path: page/title
 #: C/contacts-autocompletion.page:31
-#, fuzzy
 msgid "Autocompletion of mail recipients"
-msgstr "Lengkapiotomatis penerima surel"
+msgstr "Lengkapi otomatis penerima surel"
 
 #. (itstool) path: page/p
 #: C/contacts-autocompletion.page:33
@@ -1884,43 +1882,40 @@ msgstr ""
 
 #. (itstool) path: page/p
 #: C/contacts-autocompletion.page:37
-#, fuzzy
 msgid ""
 "To enable autocompletion, go to <guiseq><gui>Edit</gui><gui>Preferences</"
 "gui><gui>Contacts</gui> <gui>Autocompletion</gui></guiseq> and choose the "
 "address books from the list that <app>Evolution</app> should look in for "
 "matches."
 msgstr ""
-"Untuk mengaktifkan lengkapiotomatis, buka <guiseq> <gui>Edit</"
-"gui><gui>LengkapiOtomatis</gui> <gui>Kontak</gui> <gui>Preferences</gui></"
-"guiseq> Preferensi dan pilih buku alamat dari daftar yang harus "
-"<app>dicocokkan</app> oleh Evolution."
+"Untuk mengaktifkan lengkapi otomatis, buka <guiseq><gui>Sunting</"
+"gui><gui>Preferensi</gui><gui>Kontak</gui><gui>Lengkapi Otomatis</gui></"
+"guiseq> dan pilih buku alamat dari daftar yang <app>Evolution</app> mesti "
+"mencari kecocokannya."
 
 #. (itstool) path: page/p
 #: C/contacts-autocompletion.page:42
-#, fuzzy
 msgid ""
 "Select <gui>Always show address of the autocompleted contact</gui> to also "
 "show the email address along with the name. This can be helpful to "
 "distinguish if a contact has several email addresses."
 msgstr ""
-"Pilih <gui>Selalu perlihatkan alamat kontak lengkapiotomatis untuk</gui> "
-"juga memperlihatkan alamat surel bersama dengan namanya. Ini dapat membantu "
-"untuk membedakan jika kontak memiliki beberapa alamat surel."
+"Pilih <gui>Selalu perlihatkan alamat kontak yang dilengkapi otomatis</gui> "
+"untuk juga memperlihatkan alamat surel bersama dengan namanya. Ini dapat "
+"membantu untuk membedakan jika kontak memiliki beberapa alamat surel."
 
 #. (itstool) path: page/p
 #: C/contacts-autocompletion.page:46
-#, fuzzy
 msgid ""
 "Alternately, you can click the <gui>To:</gui>, <gui>Cc:</gui>, or <gui>Bcc:</"
 "gui> buttons to get a list of the email addresses in your contacts. Select "
 "addresses and click the arrow buttons to move them into the appropriate "
 "address columns."
 msgstr ""
-"Secara bergantian, Anda <gui>dapat mengklik tombol Kepada:</gui>, <gui>Cc:</"
-"gui>, <gui>atau Bcc:</gui> untuk mendapatkan daftar alamat surel di kontak "
-"Anda. Pilih alamat dan klik tombol panah untuk memindahkannya ke kolom "
-"alamat yang sesuai."
+"Atau, Anda dapat mengklik tombol <gui>Kepada:</gui>, <gui>Cc:</gui>, atau "
+"<gui>Bcc:</gui> untuk mendapatkan daftar alamat surel di kontak Anda. Pilih "
+"alamat dan klik tombol panah untuk memindahkannya ke kolom alamat yang "
+"sesuai."
 
 #. (itstool) path: info/desc
 #: C/contacts-google.page:18
@@ -2035,12 +2030,16 @@ msgstr "Opsi berikut ini tersedia:"
 
 #. (itstool) path: item/p
 #: C/contacts-ldap.page:74
-msgid "One: Searches the Search Base and one entry below it."
+#, fuzzy
+#| msgid "One: Searches the Search Base and one entry below it."
+msgid "One Level: Searches one entry below the Search Base."
 msgstr "Satu: Mencari Basis Pencarian dan satu entri di bawahnya."
 
 #. (itstool) path: item/p
 #: C/contacts-ldap.page:77
-msgid "Sub: Searches the Search Base and all entries below it."
+#, fuzzy
+#| msgid "Sub: Searches the Search Base and all entries below it."
+msgid "Subtree: Searches the Search Base and all entries below it."
 msgstr "Sub: Mencari Basis Pencarian dan semua entri di bawahnya."
 
 #. (itstool) path: item/p
@@ -2558,7 +2557,6 @@ msgstr "Mengirim pesan ke daftar kontak"
 
 #. (itstool) path: section/p
 #: C/contacts-using-contact-lists.page:81
-#, fuzzy
 msgid ""
 "To send a message to the contact list, enter the name that you chose for the "
 "contact list as the recipient in the mail composer. You can also right-click "
@@ -2567,8 +2565,8 @@ msgid ""
 msgstr ""
 "Untuk mengirim pesan ke daftar kontak, masukkan nama yang Anda pilih untuk "
 "daftar kontak sebagai penerima di komposer surel. Anda juga bisa mengklik "
-"kanan daftar kontak di buku alamat Anda dan pilih <gui>Kirim Pesan ke Daftar."
-"</gui>"
+"kanan daftar kontak di buku alamat Anda dan pilih <gui>Kirim Pesan ke "
+"Daftar</gui>."
 
 #. (itstool) path: info/desc
 #: C/contacts-using-several-addressbooks.page:17
@@ -2606,15 +2604,13 @@ msgstr ""
 
 #. (itstool) path: info/desc
 #: C/credits.page:5
-#, fuzzy
 msgid "Credits and Acknowledgment."
-msgstr "Kredit dan Pengakuan."
+msgstr "Penghargaan dan Pengakuan."
 
 #. (itstool) path: page/title
 #: C/credits.page:20
-#, fuzzy
 msgid "Credits and Acknowledgment"
-msgstr "Ucapan dan Pengakuan"
+msgstr "Penghargaan dan Pengakuan"
 
 #. (itstool) path: section/title
 #: C/credits.page:23
@@ -2746,6 +2742,19 @@ msgstr ""
 #. (itstool) path: page/p
 #: C/customize-ui-items.page:34
 msgid ""
+"Changing the order of tool bar/menu items in some <file>.ui</file> files may "
+"not affect their displayed order in <app>Evolution</app>. As a workaround, "
+"the attribute <code>position='top'</code> can be added to some elements (e."
+"g. <code>toolitem</code> and non-empty <code>placeholder</code> elements), "
+"which will place them before other items in the group and cause them to be "
+"displayed according to their order in the <file>.ui</file> file. This "
+"attribute may need to be added to all items in a group to achieve the "
+"overall desired item order."
+msgstr ""
+
+#. (itstool) path: page/p
+#: C/customize-ui-items.page:36
+msgid ""
 "The modified files will be used if the <code>evolution-ui-version</code> "
 "attribute of the root <code>ui</code> element matches the version of the "
 "default files provided by <app>Evolution</app>."
@@ -2755,7 +2764,7 @@ msgstr ""
 "disediakan oleh <app>Evolution</app>."
 
 #. (itstool) path: page/p
-#: C/customize-ui-items.page:36
+#: C/customize-ui-items.page:38
 msgid ""
 "To change keyboard shortcuts, edit <file>~/.config/evolution/accels</file> "
 "while <app>Evolution</app> is not running. Commented lines start with a "
@@ -3851,7 +3860,6 @@ msgstr "LDAP Data Interchange Format (.ldif):"
 
 #. (itstool) path: item/p
 #: C/import-supported-file-formats.page:64
-#, fuzzy
 msgid "A standard data format for contact cards."
 msgstr "Format data standar untuk kartu kontak."
 
@@ -4058,44 +4066,44 @@ msgstr ""
 "hanya dapat dihapus di akun <app>Online itu</app> sendiri."
 
 #. (itstool) path: section/title
-#: C/intro-first-run.page:32 C/mail-account-manage-imap-plus.page:29
-#: C/mail-account-manage-local-delivery.page:29
-#: C/mail-account-manage-maildir-format-directories.page:30
-#: C/mail-account-manage-mh-format-directories.page:29
-#: C/mail-account-manage-microsoft-exchange-evo-ews.page:32
-#: C/mail-account-manage-microsoft-exchange-evo-mapi.page:29
-#: C/mail-account-manage-pop.page:29
-#: C/mail-account-manage-unix-mbox-spool-directory.page:29
-#: C/mail-account-manage-unix-mbox-spool-file.page:29
-#: C/mail-account-manage-usenet-news.page:29
+#: C/intro-first-run.page:32 C/mail-account-manage-imap-plus.page:34
+#: C/mail-account-manage-local-delivery.page:34
+#: C/mail-account-manage-maildir-format-directories.page:35
+#: C/mail-account-manage-mh-format-directories.page:34
+#: C/mail-account-manage-microsoft-exchange-evo-ews.page:37
+#: C/mail-account-manage-microsoft-exchange-evo-mapi.page:30
+#: C/mail-account-manage-pop.page:34
+#: C/mail-account-manage-unix-mbox-spool-directory.page:34
+#: C/mail-account-manage-unix-mbox-spool-file.page:34
+#: C/mail-account-manage-usenet-news.page:34
 msgid "Identity"
 msgstr "Identitas"
 
 #. (itstool) path: section/p
-#: C/intro-first-run.page:33 C/mail-account-manage-imap-plus.page:30
-#: C/mail-account-manage-local-delivery.page:30
-#: C/mail-account-manage-maildir-format-directories.page:31
-#: C/mail-account-manage-mh-format-directories.page:30
-#: C/mail-account-manage-microsoft-exchange-evo-ews.page:33
-#: C/mail-account-manage-microsoft-exchange-evo-mapi.page:30
-#: C/mail-account-manage-pop.page:30
-#: C/mail-account-manage-unix-mbox-spool-directory.page:30
-#: C/mail-account-manage-unix-mbox-spool-file.page:30
-#: C/mail-account-manage-usenet-news.page:30
+#: C/intro-first-run.page:33 C/mail-account-manage-imap-plus.page:35
+#: C/mail-account-manage-local-delivery.page:35
+#: C/mail-account-manage-maildir-format-directories.page:36
+#: C/mail-account-manage-mh-format-directories.page:35
+#: C/mail-account-manage-microsoft-exchange-evo-ews.page:38
+#: C/mail-account-manage-microsoft-exchange-evo-mapi.page:31
+#: C/mail-account-manage-pop.page:35
+#: C/mail-account-manage-unix-mbox-spool-directory.page:35
+#: C/mail-account-manage-unix-mbox-spool-file.page:35
+#: C/mail-account-manage-usenet-news.page:35
 msgid "Here you define your name and your email address."
 msgstr "Di sini Anda menentukan nama dan alamat surel Anda."
 
 #. (itstool) path: section/p
-#: C/intro-first-run.page:34 C/mail-account-manage-imap-plus.page:31
-#: C/mail-account-manage-local-delivery.page:31
-#: C/mail-account-manage-maildir-format-directories.page:32
-#: C/mail-account-manage-mh-format-directories.page:31
-#: C/mail-account-manage-microsoft-exchange-evo-ews.page:34
-#: C/mail-account-manage-microsoft-exchange-evo-mapi.page:31
-#: C/mail-account-manage-pop.page:31
-#: C/mail-account-manage-unix-mbox-spool-directory.page:31
-#: C/mail-account-manage-unix-mbox-spool-file.page:31
-#: C/mail-account-manage-usenet-news.page:31
+#: C/intro-first-run.page:34 C/mail-account-manage-imap-plus.page:36
+#: C/mail-account-manage-local-delivery.page:36
+#: C/mail-account-manage-maildir-format-directories.page:37
+#: C/mail-account-manage-mh-format-directories.page:36
+#: C/mail-account-manage-microsoft-exchange-evo-ews.page:39
+#: C/mail-account-manage-microsoft-exchange-evo-mapi.page:32
+#: C/mail-account-manage-pop.page:36
+#: C/mail-account-manage-unix-mbox-spool-directory.page:36
+#: C/mail-account-manage-unix-mbox-spool-file.page:36
+#: C/mail-account-manage-usenet-news.page:36
 #, fuzzy
 msgid ""
 "Optionally you can set a Reply-To email address (if you want replies to "
@@ -4228,7 +4236,6 @@ msgstr "Opsi penerimaan POP"
 
 #. (itstool) path: section/title
 #: C/intro-first-run.page:92
-#, fuzzy
 msgid "USENET News"
 msgstr "Berita USENET"
 
@@ -4244,7 +4251,6 @@ msgstr ""
 #. (itstool) path: section/title
 #. (itstool) path: page/title
 #: C/intro-first-run.page:99 C/mail-receiving-options-usenet-news.page:23
-#, fuzzy
 msgid "Usenet news receiving options"
 msgstr "Opsi penerimaan berita Usenet"
 
@@ -4255,7 +4261,7 @@ msgstr "Exchange EWS"
 
 #. (itstool) path: section/p
 #. (itstool) path: note/p
-#: C/intro-first-run.page:109 C/mail-account-manage-microsoft-exchange.page:26
+#: C/intro-first-run.page:109 C/mail-account-manage-microsoft-exchange.page:27
 #, fuzzy
 msgid ""
 "For connecting to a Microsoft Exchange server (version 2007 or newer) or "
@@ -4273,7 +4279,7 @@ msgstr "Ini membutuhkan paket <sys>evolution-ews</sys> yang terpasang."
 
 #. (itstool) path: when/p
 #. (itstool) path: note/p
-#: C/intro-first-run.page:114 C/mail-account-manage-microsoft-exchange.page:30
+#: C/intro-first-run.page:114 C/mail-account-manage-microsoft-exchange.page:31
 #, fuzzy
 msgid ""
 "<link action=\"install:evolution-ews\" href=\"https://wiki.gnome.org/Apps/"
@@ -4303,7 +4309,7 @@ msgstr ""
 
 #. (itstool) path: section/p
 #. (itstool) path: note/p
-#: C/intro-first-run.page:134 C/mail-account-manage-microsoft-exchange.page:35
+#: C/intro-first-run.page:134 C/mail-account-manage-microsoft-exchange.page:36
 #, fuzzy
 msgid ""
 "It uses Microsoft's Messaging API which is also used by Microsoft Outlook. "
@@ -4325,7 +4331,7 @@ msgstr "Ini membutuhkan paket <sys>evolution-mapi</sys> yang terinstal."
 
 #. (itstool) path: when/p
 #. (itstool) path: note/p
-#: C/intro-first-run.page:139 C/mail-account-manage-microsoft-exchange.page:40
+#: C/intro-first-run.page:139 C/mail-account-manage-microsoft-exchange.page:41
 #, fuzzy
 msgid ""
 "<link action=\"install:evolution-mapi\" href=\"https://wiki.gnome.org/Apps/"
@@ -4639,9 +4645,8 @@ msgstr "<keyseq><key>Ctrl</key><key>N</key></keyseq>"
 
 #. (itstool) path: td/p
 #: C/intro-keyboard-shortcuts.page:76
-#, fuzzy
 msgid "Create a new item in current component."
-msgstr "Membuat item baru di komponen saat ini."
+msgstr "Membuat butir baru di komponen saat ini."
 
 #. (itstool) path: td/p
 #: C/intro-keyboard-shortcuts.page:79
@@ -4650,9 +4655,8 @@ msgstr "<key>F6</key>"
 
 #. (itstool) path: td/p
 #: C/intro-keyboard-shortcuts.page:82
-#, fuzzy
 msgid "Cycle focus between panes."
-msgstr "Fokus siklus antar panel."
+msgstr "Memutar fokus antar panel."
 
 #. (itstool) path: td/p
 #: C/intro-keyboard-shortcuts.page:85
@@ -5129,7 +5133,6 @@ msgstr "Jendela utama surat <app>Evolution</app>"
 
 #. (itstool) path: section/p
 #: C/intro-main-window.page:40
-#, fuzzy
 msgid "Corresponding elements in the mail main window:"
 msgstr "Elemen yang sesuai di jendela utama surel:"
 
@@ -5274,9 +5277,8 @@ msgstr ""
 
 #. (itstool) path: item/title
 #: C/intro-main-window.page:88
-#, fuzzy
 msgid "To Do bar"
-msgstr "Bilah Harus Dilakukan"
+msgstr "Bilah Pe Er"
 
 #. (itstool) path: item/p
 #: C/intro-main-window.page:89
@@ -5613,29 +5615,21 @@ msgstr ""
 msgid "Add and edit an IMAP+ mail account in <app>Evolution</app>."
 msgstr "Menambahkan dan menyunting akun surat IMAP+ di <app>Evolution</app>."
 
+#. (itstool) path: info/title
+#: C/mail-account-manage-imap-plus.page:8
+msgctxt "link:trail"
+msgid "IMAP+"
+msgstr "IMAP+"
+
 #. (itstool) path: page/title
-#: C/mail-account-manage-imap-plus.page:20
+#: C/mail-account-manage-imap-plus.page:21
 msgid "IMAP+ mail account settings"
 msgstr "Pengaturan akun surat IMAP+"
 
 #. (itstool) path: section/title
-#: C/mail-account-manage-imap-plus.page:23
-#: C/mail-account-manage-local-delivery.page:23
-#: C/mail-account-manage-maildir-format-directories.page:23
-#: C/mail-account-manage-mh-format-directories.page:23
-#: C/mail-account-manage-microsoft-exchange-evo-ews.page:23
-#: C/mail-account-manage-microsoft-exchange-evo-mapi.page:23
-#: C/mail-account-manage-pop.page:23
-#: C/mail-account-manage-unix-mbox-spool-directory.page:23
-#: C/mail-account-manage-unix-mbox-spool-file.page:23
-#: C/mail-account-manage-usenet-news.page:23
-msgid "Account Editor"
-msgstr "Penyunting Akun"
-
-#. (itstool) path: section/p
 #: C/mail-account-manage-imap-plus.page:24
 #: C/mail-account-manage-local-delivery.page:24
-#: C/mail-account-manage-maildir-format-directories.page:25
+#: C/mail-account-manage-maildir-format-directories.page:24
 #: C/mail-account-manage-mh-format-directories.page:24
 #: C/mail-account-manage-microsoft-exchange-evo-ews.page:24
 #: C/mail-account-manage-microsoft-exchange-evo-mapi.page:24
@@ -5643,6 +5637,20 @@ msgstr "Penyunting Akun"
 #: C/mail-account-manage-unix-mbox-spool-directory.page:24
 #: C/mail-account-manage-unix-mbox-spool-file.page:24
 #: C/mail-account-manage-usenet-news.page:24
+msgid "Account Editor"
+msgstr "Penyunting Akun"
+
+#. (itstool) path: section/p
+#: C/mail-account-manage-imap-plus.page:25
+#: C/mail-account-manage-local-delivery.page:25
+#: C/mail-account-manage-maildir-format-directories.page:26
+#: C/mail-account-manage-mh-format-directories.page:25
+#: C/mail-account-manage-microsoft-exchange-evo-ews.page:25
+#: C/mail-account-manage-microsoft-exchange-evo-mapi.page:25
+#: C/mail-account-manage-pop.page:25
+#: C/mail-account-manage-unix-mbox-spool-directory.page:25
+#: C/mail-account-manage-unix-mbox-spool-file.page:25
+#: C/mail-account-manage-usenet-news.page:25
 #, fuzzy
 msgid ""
 "Mail accounts can be added by choosing <guiseq><gui>File</gui><gui>New</"
@@ -5661,10 +5669,10 @@ msgstr ""
 "dari file cadangan."
 
 #. (itstool) path: section/p
-#: C/mail-account-manage-imap-plus.page:25
-#: C/mail-account-manage-microsoft-exchange-evo-ews.page:25
-#: C/mail-account-manage-microsoft-exchange-evo-mapi.page:25
-#: C/mail-account-manage-usenet-news.page:25
+#: C/mail-account-manage-imap-plus.page:26
+#: C/mail-account-manage-microsoft-exchange-evo-ews.page:26
+#: C/mail-account-manage-microsoft-exchange-evo-mapi.page:26
+#: C/mail-account-manage-usenet-news.page:26
 #, fuzzy
 msgid ""
 "Mail accounts can be edited via <guiseq><gui>Edit</gui><gui>Preferences</"
@@ -5678,136 +5686,234 @@ msgstr ""
 "folder dan memilih <gui>Properti</gui>."
 
 #. (itstool) path: section/p
-#: C/mail-account-manage-imap-plus.page:26
-#: C/mail-account-manage-local-delivery.page:26
-#: C/mail-account-manage-maildir-format-directories.page:27
-#: C/mail-account-manage-mh-format-directories.page:26
-#: C/mail-account-manage-microsoft-exchange-evo-ews.page:29
-#: C/mail-account-manage-microsoft-exchange-evo-mapi.page:26
-#: C/mail-account-manage-pop.page:26
-#: C/mail-account-manage-unix-mbox-spool-directory.page:26
-#: C/mail-account-manage-unix-mbox-spool-file.page:26
-#: C/mail-account-manage-usenet-news.page:26
+#: C/mail-account-manage-imap-plus.page:27
+#: C/mail-account-manage-local-delivery.page:27
+#: C/mail-account-manage-maildir-format-directories.page:28
+#: C/mail-account-manage-mh-format-directories.page:27
+#: C/mail-account-manage-microsoft-exchange-evo-ews.page:30
+#: C/mail-account-manage-microsoft-exchange-evo-mapi.page:27
+#: C/mail-account-manage-pop.page:27
+#: C/mail-account-manage-unix-mbox-spool-directory.page:27
+#: C/mail-account-manage-unix-mbox-spool-file.page:27
+#: C/mail-account-manage-usenet-news.page:27
 #, fuzzy
 msgid "The following settings are available when editing an existing account:"
 msgstr "Pengaturan berikut ini tersedia saat mengedit akun yang sudah ada:"
 
 #. (itstool) path: info/title
-#: C/mail-account-manage-imap-plus.page:36
+#: C/mail-account-manage-imap-plus.page:31
+msgctxt "link"
+msgid "Identity (IMAP+ accounts)"
+msgstr "Identitas (akun IMAP+)"
+
+#. (itstool) path: info/title
+#: C/mail-account-manage-imap-plus.page:32
+#: C/mail-account-manage-local-delivery.page:32
+#: C/mail-account-manage-maildir-format-directories.page:33
+#: C/mail-account-manage-mh-format-directories.page:32
+#: C/mail-account-manage-microsoft-exchange-evo-ews.page:35
+#: C/mail-account-manage-pop.page:32
+#: C/mail-account-manage-unix-mbox-spool-directory.page:32
+#: C/mail-account-manage-unix-mbox-spool-file.page:32
+#: C/mail-account-manage-usenet-news.page:32
+msgctxt "link:trail"
+msgid "Identity"
+msgstr "Identitas"
+
+#. (itstool) path: info/title
+#: C/mail-account-manage-imap-plus.page:41
 #, fuzzy
 msgctxt "link"
 msgid "Receiving Email and Receiving options (IMAP+ accounts)"
 msgstr "Menerima opsi Email dan Penerimaan (akun IMAP+)"
 
-#. (itstool) path: section/title
-#: C/mail-account-manage-imap-plus.page:38
-#: C/mail-account-manage-local-delivery.page:38
-#: C/mail-account-manage-maildir-format-directories.page:39
-#: C/mail-account-manage-mh-format-directories.page:38
-#: C/mail-account-manage-microsoft-exchange-evo-ews.page:41
+#. (itstool) path: info/title
+#: C/mail-account-manage-imap-plus.page:42
+#: C/mail-account-manage-local-delivery.page:42
+#: C/mail-account-manage-maildir-format-directories.page:43
+#: C/mail-account-manage-mh-format-directories.page:42
+#: C/mail-account-manage-microsoft-exchange-evo-ews.page:45
 #: C/mail-account-manage-microsoft-exchange-evo-mapi.page:38
-#: C/mail-account-manage-pop.page:38
-#: C/mail-account-manage-unix-mbox-spool-directory.page:38
-#: C/mail-account-manage-unix-mbox-spool-file.page:38
-#: C/mail-account-manage-usenet-news.page:38
+#: C/mail-account-manage-pop.page:42
+#: C/mail-account-manage-unix-mbox-spool-directory.page:42
+#: C/mail-account-manage-unix-mbox-spool-file.page:42
+#: C/mail-account-manage-usenet-news.page:42
+msgctxt "link:trail"
+msgid "Receiving"
+msgstr "Menerima"
+
+#. (itstool) path: section/title
+#: C/mail-account-manage-imap-plus.page:44
+#: C/mail-account-manage-local-delivery.page:44
+#: C/mail-account-manage-maildir-format-directories.page:45
+#: C/mail-account-manage-mh-format-directories.page:44
+#: C/mail-account-manage-microsoft-exchange-evo-ews.page:47
+#: C/mail-account-manage-microsoft-exchange-evo-mapi.page:40
+#: C/mail-account-manage-pop.page:44
+#: C/mail-account-manage-unix-mbox-spool-directory.page:44
+#: C/mail-account-manage-unix-mbox-spool-file.page:44
+#: C/mail-account-manage-usenet-news.page:44
 #, fuzzy
 msgid "Receiving Email and Receiving options"
 msgstr "Opsi Menerima Email dan Penerimaan"
 
 #. (itstool) path: info/title
-#: C/mail-account-manage-imap-plus.page:43
+#: C/mail-account-manage-imap-plus.page:49
 msgctxt "link"
 msgid "Sending Email (IMAP+ accounts)"
 msgstr "Mengirim Surel (akun IMAP+)"
 
-#. (itstool) path: section/title
-#: C/mail-account-manage-imap-plus.page:45
-#: C/mail-account-manage-local-delivery.page:45
-#: C/mail-account-manage-maildir-format-directories.page:46
-#: C/mail-account-manage-mh-format-directories.page:45
-#: C/mail-account-manage-pop.page:45
-#: C/mail-account-manage-unix-mbox-spool-directory.page:45
-#: C/mail-account-manage-unix-mbox-spool-file.page:45
-#: C/mail-account-manage-usenet-news.page:45
-msgid "Sending Email"
-msgstr "Mengirim Surel"
-
 #. (itstool) path: info/title
 #: C/mail-account-manage-imap-plus.page:50
-msgctxt "link"
-msgid "Defaults (IMAP+ accounts)"
-msgstr "Baku (akun IMAP+)"
+#: C/mail-account-manage-local-delivery.page:50
+#: C/mail-account-manage-maildir-format-directories.page:51
+#: C/mail-account-manage-mh-format-directories.page:50
+#: C/mail-account-manage-pop.page:50
+#: C/mail-account-manage-unix-mbox-spool-directory.page:50
+#: C/mail-account-manage-unix-mbox-spool-file.page:50
+#: C/mail-account-manage-usenet-news.page:50
+msgctxt "link:trail"
+msgid "Sending"
+msgstr "Mengirim"
 
 #. (itstool) path: section/title
 #: C/mail-account-manage-imap-plus.page:52
 #: C/mail-account-manage-local-delivery.page:52
 #: C/mail-account-manage-maildir-format-directories.page:53
 #: C/mail-account-manage-mh-format-directories.page:52
-#: C/mail-account-manage-microsoft-exchange-evo-ews.page:48
-#: C/mail-account-manage-microsoft-exchange-evo-mapi.page:45
 #: C/mail-account-manage-pop.page:52
 #: C/mail-account-manage-unix-mbox-spool-directory.page:52
 #: C/mail-account-manage-unix-mbox-spool-file.page:52
 #: C/mail-account-manage-usenet-news.page:52
+msgid "Sending Email"
+msgstr "Mengirim Surel"
+
+#. (itstool) path: info/title
+#: C/mail-account-manage-imap-plus.page:57
+msgctxt "link"
+msgid "Defaults (IMAP+ accounts)"
+msgstr "Baku (akun IMAP+)"
+
+#. (itstool) path: info/title
+#: C/mail-account-manage-imap-plus.page:58
+#: C/mail-account-manage-local-delivery.page:58
+#: C/mail-account-manage-maildir-format-directories.page:59
+#: C/mail-account-manage-mh-format-directories.page:58
+#: C/mail-account-manage-microsoft-exchange-evo-ews.page:53
+#: C/mail-account-manage-microsoft-exchange-evo-mapi.page:46
+#: C/mail-account-manage-pop.page:58
+#: C/mail-account-manage-unix-mbox-spool-directory.page:58
+#: C/mail-account-manage-unix-mbox-spool-file.page:58
+#: C/mail-account-manage-usenet-news.page:58
+msgctxt "link:trail"
+msgid "Defaults"
+msgstr "Baku"
+
+#. (itstool) path: section/title
+#: C/mail-account-manage-imap-plus.page:60
+#: C/mail-account-manage-local-delivery.page:60
+#: C/mail-account-manage-maildir-format-directories.page:61
+#: C/mail-account-manage-mh-format-directories.page:60
+#: C/mail-account-manage-microsoft-exchange-evo-ews.page:55
+#: C/mail-account-manage-microsoft-exchange-evo-mapi.page:48
+#: C/mail-account-manage-pop.page:60
+#: C/mail-account-manage-unix-mbox-spool-directory.page:60
+#: C/mail-account-manage-unix-mbox-spool-file.page:60
+#: C/mail-account-manage-usenet-news.page:60
 msgid "Defaults"
 msgstr "Baku"
 
 #. (itstool) path: info/title
-#: C/mail-account-manage-imap-plus.page:57
-#, fuzzy
+#: C/mail-account-manage-imap-plus.page:65
 msgctxt "link"
 msgid "Composing Messages (IMAP+ accounts)"
-msgstr "Membuat Pesan (akun IMAP+)"
-
-#. (itstool) path: section/title
-#: C/mail-account-manage-imap-plus.page:59
-#: C/mail-account-manage-local-delivery.page:59
-#: C/mail-account-manage-maildir-format-directories.page:60
-#: C/mail-account-manage-mh-format-directories.page:59
-#: C/mail-account-manage-microsoft-exchange-evo-ews.page:55
-#: C/mail-account-manage-microsoft-exchange-evo-mapi.page:52
-#: C/mail-account-manage-pop.page:59
-#: C/mail-account-manage-unix-mbox-spool-directory.page:59
-#: C/mail-account-manage-unix-mbox-spool-file.page:59
-#: C/mail-account-manage-usenet-news.page:59
-msgid "Composing Messages"
-msgstr "Menyusun Pesan"
+msgstr "Menyusun Pesan (akun IMAP+)"
 
 #. (itstool) path: info/title
-#: C/mail-account-manage-imap-plus.page:64
-msgctxt "link"
-msgid "Security (IMAP+ accounts)"
-msgstr "Keamanan (akun IMAP+)"
-
-#. (itstool) path: section/title
 #: C/mail-account-manage-imap-plus.page:66
 #: C/mail-account-manage-local-delivery.page:66
 #: C/mail-account-manage-maildir-format-directories.page:67
 #: C/mail-account-manage-mh-format-directories.page:66
-#: C/mail-account-manage-microsoft-exchange-evo-ews.page:62
-#: C/mail-account-manage-microsoft-exchange-evo-mapi.page:65
+#: C/mail-account-manage-microsoft-exchange-evo-ews.page:61
+#: C/mail-account-manage-microsoft-exchange-evo-mapi.page:54
 #: C/mail-account-manage-pop.page:66
 #: C/mail-account-manage-unix-mbox-spool-directory.page:66
 #: C/mail-account-manage-unix-mbox-spool-file.page:66
 #: C/mail-account-manage-usenet-news.page:66
+msgctxt "link:trail"
+msgid "Composing"
+msgstr "Menyusun"
+
+#. (itstool) path: section/title
+#: C/mail-account-manage-imap-plus.page:68
+#: C/mail-account-manage-local-delivery.page:68
+#: C/mail-account-manage-maildir-format-directories.page:69
+#: C/mail-account-manage-mh-format-directories.page:68
+#: C/mail-account-manage-microsoft-exchange-evo-ews.page:63
+#: C/mail-account-manage-microsoft-exchange-evo-mapi.page:56
+#: C/mail-account-manage-pop.page:68
+#: C/mail-account-manage-unix-mbox-spool-directory.page:68
+#: C/mail-account-manage-unix-mbox-spool-file.page:68
+#: C/mail-account-manage-usenet-news.page:68
+msgid "Composing Messages"
+msgstr "Menyusun Pesan"
+
+#. (itstool) path: info/title
+#: C/mail-account-manage-imap-plus.page:73
+msgctxt "link"
+msgid "Security (IMAP+ accounts)"
+msgstr "Keamanan (akun IMAP+)"
+
+#. (itstool) path: info/title
+#: C/mail-account-manage-imap-plus.page:74
+#: C/mail-account-manage-local-delivery.page:74
+#: C/mail-account-manage-maildir-format-directories.page:75
+#: C/mail-account-manage-mh-format-directories.page:74
+#: C/mail-account-manage-microsoft-exchange-evo-ews.page:69
+#: C/mail-account-manage-microsoft-exchange-evo-mapi.page:68
+#: C/mail-account-manage-pop.page:74
+#: C/mail-account-manage-unix-mbox-spool-directory.page:74
+#: C/mail-account-manage-unix-mbox-spool-file.page:74
+#: C/mail-account-manage-usenet-news.page:74
+msgctxt "link:trail"
+msgid "Security"
+msgstr "Keamanan"
+
+#. (itstool) path: section/title
+#: C/mail-account-manage-imap-plus.page:76
+#: C/mail-account-manage-local-delivery.page:76
+#: C/mail-account-manage-maildir-format-directories.page:77
+#: C/mail-account-manage-mh-format-directories.page:76
+#: C/mail-account-manage-microsoft-exchange-evo-ews.page:71
+#: C/mail-account-manage-microsoft-exchange-evo-mapi.page:70
+#: C/mail-account-manage-pop.page:76
+#: C/mail-account-manage-unix-mbox-spool-directory.page:76
+#: C/mail-account-manage-unix-mbox-spool-file.page:76
+#: C/mail-account-manage-usenet-news.page:76
 msgid "Security"
 msgstr "Keamanan"
 
 #. (itstool) path: info/title
-#: C/mail-account-manage-imap-plus.page:75
+#: C/mail-account-manage-imap-plus.page:85
 msgctxt "link"
 msgid "Other settings (IMAP+ accounts)"
 msgstr "Setelan lainnya (akun IMAP+)"
 
+#. (itstool) path: info/title
+#: C/mail-account-manage-imap-plus.page:86
+msgctxt "link:trail"
+msgid "Other settings"
+msgstr "Setelan lainnya"
+
 #. (itstool) path: section/title
-#: C/mail-account-manage-imap-plus.page:77
-#: C/mail-account-manage-usenet-news.page:75
+#: C/mail-account-manage-imap-plus.page:88
+#: C/mail-account-manage-usenet-news.page:86
 msgid "Other settings"
 msgstr "Setelan lainnya"
 
 #. (itstool) path: section/p
-#: C/mail-account-manage-imap-plus.page:78
-#: C/mail-account-manage-usenet-news.page:76
+#: C/mail-account-manage-imap-plus.page:89
+#: C/mail-account-manage-usenet-news.page:87
 #, fuzzy
 msgid ""
 "Other account related settings that are not located in the <gui>Account "
@@ -5821,18 +5927,25 @@ msgstr ""
 msgid "Add and edit a Local Delivery account in <app>Evolution</app>."
 msgstr "Tambahkan dan edit akun Pengiriman Lokal di <app>Evolution</app>."
 
+#. (itstool) path: info/title
+#: C/mail-account-manage-local-delivery.page:8
+#: C/mail-account-management.page:31
+msgctxt "link:trail"
+msgid "Local"
+msgstr "Lokal"
+
 #. (itstool) path: page/title
-#: C/mail-account-manage-local-delivery.page:20
+#: C/mail-account-manage-local-delivery.page:21
 msgid "Local Delivery account settings"
 msgstr "Pengaturan akun Pengiriman Lokal"
 
 #. (itstool) path: section/p
-#: C/mail-account-manage-local-delivery.page:25
-#: C/mail-account-manage-maildir-format-directories.page:26
-#: C/mail-account-manage-mh-format-directories.page:25
-#: C/mail-account-manage-pop.page:25
-#: C/mail-account-manage-unix-mbox-spool-directory.page:25
-#: C/mail-account-manage-unix-mbox-spool-file.page:25
+#: C/mail-account-manage-local-delivery.page:26
+#: C/mail-account-manage-maildir-format-directories.page:27
+#: C/mail-account-manage-mh-format-directories.page:26
+#: C/mail-account-manage-pop.page:26
+#: C/mail-account-manage-unix-mbox-spool-directory.page:26
+#: C/mail-account-manage-unix-mbox-spool-file.page:26
 #, fuzzy
 msgid ""
 "Mail accounts can be edited via <guiseq><gui>Edit</gui><gui>Preferences</"
@@ -5842,36 +5955,38 @@ msgstr ""
 "Akun</gui><gui>Email</gui><gui style=\"button\">Edit</gui></guiseq>."
 
 #. (itstool) path: info/title
-#: C/mail-account-manage-local-delivery.page:36
+#: C/mail-account-manage-local-delivery.page:31
+msgctxt "link"
+msgid "Identity (Local Delivery accounts)"
+msgstr "Identitas (Akun Pengiriman Lokal)"
+
+#. (itstool) path: info/title
+#: C/mail-account-manage-local-delivery.page:41
 #, fuzzy
 msgctxt "link"
 msgid "Receiving Email and Receiving options (Local Delivery accounts)"
 msgstr "Menerima opsi Email dan Penerimaan (Akun Pengiriman Lokal)"
 
 #. (itstool) path: info/title
-#: C/mail-account-manage-local-delivery.page:43
-#, fuzzy
+#: C/mail-account-manage-local-delivery.page:49
 msgctxt "link"
 msgid "Sending Email (Local Delivery accounts)"
-msgstr "Mengirim Email (Akun Pengiriman Lokal)"
-
-#. (itstool) path: info/title
-#: C/mail-account-manage-local-delivery.page:50
-#, fuzzy
-msgctxt "link"
-msgid "Defaults (Local Delivery accounts)"
-msgstr "Asali (Akun Pengiriman Lokal)"
+msgstr "Mengirim Surel (Akun Pengiriman Lokal)"
 
 #. (itstool) path: info/title
 #: C/mail-account-manage-local-delivery.page:57
-#, fuzzy
 msgctxt "link"
-msgid "Composing Messages (Local Delivery accounts)"
-msgstr "Membuat Pesan (Akun Pengiriman Lokal)"
+msgid "Defaults (Local Delivery accounts)"
+msgstr "Baku (Akun Pengiriman Lokal)"
 
 #. (itstool) path: info/title
-#: C/mail-account-manage-local-delivery.page:64
-#, fuzzy
+#: C/mail-account-manage-local-delivery.page:65
+msgctxt "link"
+msgid "Composing Messages (Local Delivery accounts)"
+msgstr "Menyusun Pesan (Akun Pengiriman Lokal)"
+
+#. (itstool) path: info/title
+#: C/mail-account-manage-local-delivery.page:73
 msgctxt "link"
 msgid "Security (Local Delivery accounts)"
 msgstr "Keamanan (Akun Pengiriman Lokal)"
@@ -5886,20 +6001,33 @@ msgstr ""
 "Tambahkan dan edit akun Direktori Email Format Maildir di <app>Evolution</"
 "app>."
 
+#. (itstool) path: info/title
+#: C/mail-account-manage-maildir-format-directories.page:8
+#| msgid "Mail"
+msgctxt "link:trail"
+msgid "Maildir"
+msgstr "Maildir"
+
 #. (itstool) path: page/title
-#: C/mail-account-manage-maildir-format-directories.page:20
+#: C/mail-account-manage-maildir-format-directories.page:21
 #, fuzzy
 msgid "Maildir Format Mail Directories account settings"
 msgstr "Pengaturan akun Direktori Email Format Maildir"
 
 #. (itstool) path: section/p
-#: C/mail-account-manage-maildir-format-directories.page:24
+#: C/mail-account-manage-maildir-format-directories.page:25
 #, fuzzy
 msgid "<app>Evolution</app> supports the Maildir++ specification."
 msgstr "<app>Evolution</app> mendukung spesifikasi Maildir++."
 
 #. (itstool) path: info/title
-#: C/mail-account-manage-maildir-format-directories.page:37
+#: C/mail-account-manage-maildir-format-directories.page:32
+msgctxt "link"
+msgid "Identity (Maildir Format Mail Directories accounts)"
+msgstr "Identitas (akun Direktori Surat Format Maildir)"
+
+#. (itstool) path: info/title
+#: C/mail-account-manage-maildir-format-directories.page:42
 #, fuzzy
 msgctxt "link"
 msgid ""
@@ -5908,32 +6036,28 @@ msgid ""
 msgstr "Menerima opsi Email dan Penerimaan (akun Direktori Email Format Mail)"
 
 #. (itstool) path: info/title
-#: C/mail-account-manage-maildir-format-directories.page:44
-#, fuzzy
+#: C/mail-account-manage-maildir-format-directories.page:50
 msgctxt "link"
 msgid "Sending Email (Maildir Format Mail Directories accounts)"
-msgstr "Mengirim Email (akun Direktori Email Format Mail)"
-
-#. (itstool) path: info/title
-#: C/mail-account-manage-maildir-format-directories.page:51
-#, fuzzy
-msgctxt "link"
-msgid "Defaults (Maildir Format Mail Directories accounts)"
-msgstr "Asali (akun Direktori Email Format Maildir)"
+msgstr "Mengirim Surel (akun Direktori Email Format Mail)"
 
 #. (itstool) path: info/title
 #: C/mail-account-manage-maildir-format-directories.page:58
-#, fuzzy
 msgctxt "link"
-msgid "Composing Messages (Maildir Format Mail Directories accounts)"
-msgstr "Membuat Pesan (akun Direktori Email Format Maildir)"
+msgid "Defaults (Maildir Format Mail Directories accounts)"
+msgstr "Baku (akun Direktori Surat Format Maildir)"
 
 #. (itstool) path: info/title
-#: C/mail-account-manage-maildir-format-directories.page:65
-#, fuzzy
+#: C/mail-account-manage-maildir-format-directories.page:66
+msgctxt "link"
+msgid "Composing Messages (Maildir Format Mail Directories accounts)"
+msgstr "Menyusun Pesan (akun Direktori Surat Format Maildir)"
+
+#. (itstool) path: info/title
+#: C/mail-account-manage-maildir-format-directories.page:74
 msgctxt "link"
 msgid "Security (Maildir Format Mail Directories accounts)"
-msgstr "Keamanan (Akun Direktori Email Format Maildir)"
+msgstr "Keamanan (akun Direktori Surat Format Maildir)"
 
 #. (itstool) path: info/desc
 #: C/mail-account-management.page:5
@@ -5945,18 +6069,30 @@ msgstr "Menambah, menyunting, dan mengelola akun surat."
 msgid "Account Management"
 msgstr "Manajemen Akun"
 
+#. (itstool) path: info/title
+#: C/mail-account-management.page:24
+msgctxt "link:trail"
+msgid "Common"
+msgstr ""
+
 #. (itstool) path: section/title
-#: C/mail-account-management.page:23
+#: C/mail-account-management.page:26
 msgid "Common Account Types"
 msgstr "Tipe Akun Umum"
 
 #. (itstool) path: section/title
-#: C/mail-account-management.page:27
+#: C/mail-account-management.page:33
 msgid "Local Account Types"
 msgstr "Tipe Akun Lokal"
 
+#. (itstool) path: info/title
+#: C/mail-account-management.page:38
+msgctxt "link:trail"
+msgid "Corporate"
+msgstr ""
+
 #. (itstool) path: section/title
-#: C/mail-account-management.page:31
+#: C/mail-account-management.page:40
 msgid "Corporate Account Types"
 msgstr "Tipe Akun Perusahaan"
 
@@ -5968,14 +6104,26 @@ msgid ""
 msgstr ""
 "Tambahkan dan edit akun MH Format Mail Directories di <app>Evolution</app>."
 
+#. (itstool) path: info/title
+#: C/mail-account-manage-mh-format-directories.page:8
+msgctxt "link:trail"
+msgid "MH Format"
+msgstr ""
+
 #. (itstool) path: page/title
-#: C/mail-account-manage-mh-format-directories.page:20
+#: C/mail-account-manage-mh-format-directories.page:21
 #, fuzzy
 msgid "MH Format Mail Directories account settings"
 msgstr "Pengaturan akun MH Format Direktori Email"
 
 #. (itstool) path: info/title
-#: C/mail-account-manage-mh-format-directories.page:36
+#: C/mail-account-manage-mh-format-directories.page:31
+msgctxt "link"
+msgid "Identity (MH Format Mail Directories accounts)"
+msgstr "Identitas (akun Direktori Surat Format MH)"
+
+#. (itstool) path: info/title
+#: C/mail-account-manage-mh-format-directories.page:41
 #, fuzzy
 msgctxt "link"
 msgid ""
@@ -5983,32 +6131,28 @@ msgid ""
 msgstr "Menerima opsi Email dan Penerimaan (akun Direktori Email Format MH)"
 
 #. (itstool) path: info/title
-#: C/mail-account-manage-mh-format-directories.page:43
-#, fuzzy
+#: C/mail-account-manage-mh-format-directories.page:49
 msgctxt "link"
 msgid "Sending Email (MH Format Mail Directories accounts)"
-msgstr "Mengirim Email (akun Direktori Email Format MH)"
-
-#. (itstool) path: info/title
-#: C/mail-account-manage-mh-format-directories.page:50
-#, fuzzy
-msgctxt "link"
-msgid "Defaults (MH Format Mail Directories accounts)"
-msgstr "Asali (akun Direktori Email Format MH)"
+msgstr "Mengirim Surel (akun Direktori Surat Format MH)"
 
 #. (itstool) path: info/title
 #: C/mail-account-manage-mh-format-directories.page:57
-#, fuzzy
 msgctxt "link"
-msgid "Composing Messages (MH Format Mail Directories accounts)"
-msgstr "Membuat Pesan (akun Direktori Email Format MH)"
+msgid "Defaults (MH Format Mail Directories accounts)"
+msgstr "Baku (akun Direktori Surat Format MH)"
 
 #. (itstool) path: info/title
-#: C/mail-account-manage-mh-format-directories.page:64
-#, fuzzy
+#: C/mail-account-manage-mh-format-directories.page:65
+msgctxt "link"
+msgid "Composing Messages (MH Format Mail Directories accounts)"
+msgstr "Menyusun Pesan (akun Direktori Surat Format MH)"
+
+#. (itstool) path: info/title
+#: C/mail-account-manage-mh-format-directories.page:73
 msgctxt "link"
 msgid "Security (MH Format Mail Directories accounts)"
-msgstr "Keamanan (akun Direktori Email Format MH)"
+msgstr "Keamanan (akun Direktori Surat Format MH)"
 
 #. (itstool) path: info/desc
 #: C/mail-account-manage-microsoft-exchange-evo-ews.page:5
@@ -6020,14 +6164,20 @@ msgstr ""
 "Tambahkan dan edit akun Microsoft Exchange 2007 atau 2010 di <app>Evolution</"
 "app>."
 
+#. (itstool) path: info/title
+#: C/mail-account-manage-microsoft-exchange-evo-ews.page:8
+msgctxt "link:trail"
+msgid "Web Services"
+msgstr ""
+
 #. (itstool) path: page/title
-#: C/mail-account-manage-microsoft-exchange-evo-ews.page:20
+#: C/mail-account-manage-microsoft-exchange-evo-ews.page:21
 #, fuzzy
 msgid "Exchange Web Services account settings"
 msgstr "Pengaturan akun Exchange Web Services"
 
 #. (itstool) path: note/p
-#: C/mail-account-manage-microsoft-exchange-evo-ews.page:27
+#: C/mail-account-manage-microsoft-exchange-evo-ews.page:28
 msgid ""
 "See also the <link href=\"https://wiki.gnome.org/Apps/Evolution/EWS/"
 "OAuth2\">documentation how to set up and troubleshoot OAuth2</link> "
@@ -6035,40 +6185,43 @@ msgid ""
 msgstr ""
 
 #. (itstool) path: info/title
-#: C/mail-account-manage-microsoft-exchange-evo-ews.page:39
+#: C/mail-account-manage-microsoft-exchange-evo-ews.page:34
+msgctxt "link"
+msgid "Identity (Exchange Web Services accounts)"
+msgstr "Identitas (akun Exchange Web Services)"
+
+#. (itstool) path: info/title
+#: C/mail-account-manage-microsoft-exchange-evo-ews.page:44
 #, fuzzy
 msgctxt "link"
 msgid "Receiving Email and Receiving options (Exchange Web Services accounts)"
 msgstr "Menerima opsi Email dan Penerimaan (akun Exchange Web Services)"
 
 #. (itstool) path: info/title
-#: C/mail-account-manage-microsoft-exchange-evo-ews.page:46
-#, fuzzy
+#: C/mail-account-manage-microsoft-exchange-evo-ews.page:52
 msgctxt "link"
 msgid "Defaults (Exchange Web Services accounts)"
-msgstr "Default (akun Exchange Web Services)"
-
-#. (itstool) path: info/title
-#: C/mail-account-manage-microsoft-exchange-evo-ews.page:53
-#, fuzzy
-msgctxt "link"
-msgid "Composing Messages (Exchange Web Services accounts)"
-msgstr "Membuat Pesan (akun Exchange Web Services)"
+msgstr "Baku (akun Exchange Web Services)"
 
 #. (itstool) path: info/title
 #: C/mail-account-manage-microsoft-exchange-evo-ews.page:60
-#, fuzzy
+msgctxt "link"
+msgid "Composing Messages (Exchange Web Services accounts)"
+msgstr "Menyusun Pesan (akun Exchange Web Services)"
+
+#. (itstool) path: info/title
+#: C/mail-account-manage-microsoft-exchange-evo-ews.page:68
 msgctxt "link"
 msgid "Security (Exchange Web Services accounts)"
 msgstr "Keamanan (akun Exchange Web Services)"
 
 #. (itstool) path: section/title
-#: C/mail-account-manage-microsoft-exchange-evo-ews.page:66
+#: C/mail-account-manage-microsoft-exchange-evo-ews.page:75
 msgid "Out of Office"
 msgstr "Di Luar Kantor"
 
 #. (itstool) path: section/p
-#: C/mail-account-manage-microsoft-exchange-evo-ews.page:67
+#: C/mail-account-manage-microsoft-exchange-evo-ews.page:76
 #, fuzzy
 msgid ""
 "Define the email reply to automatically send to internal or external persons "
@@ -6078,12 +6231,12 @@ msgstr ""
 "eksternal dalam periode waktu tertentu."
 
 #. (itstool) path: section/title
-#: C/mail-account-manage-microsoft-exchange-evo-ews.page:71
+#: C/mail-account-manage-microsoft-exchange-evo-ews.page:80
 msgid "Delegates"
 msgstr "Mendelegasikan"
 
 #. (itstool) path: section/p
-#: C/mail-account-manage-microsoft-exchange-evo-ews.page:72
+#: C/mail-account-manage-microsoft-exchange-evo-ews.page:81
 msgid ""
 "Define who can send emails and reply to meeting requests on your behalf."
 msgstr ""
@@ -6097,43 +6250,48 @@ msgstr ""
 "Menambahkan dan menyunting akun Microsoft Exchange MAPI di <app>Evolution</"
 "app>."
 
+#. (itstool) path: info/title
+#: C/mail-account-manage-microsoft-exchange-evo-mapi.page:8
+msgctxt "link:trail"
+msgid "MAPI"
+msgstr ""
+
 #. (itstool) path: page/title
-#: C/mail-account-manage-microsoft-exchange-evo-mapi.page:20
+#: C/mail-account-manage-microsoft-exchange-evo-mapi.page:21
 msgid "Exchange MAPI account settings"
 msgstr "Pengaturan akun Exchange MAPI"
 
 #. (itstool) path: info/title
-#: C/mail-account-manage-microsoft-exchange-evo-mapi.page:36
+#: C/mail-account-manage-microsoft-exchange-evo-mapi.page:37
 #, fuzzy
 msgctxt "link"
 msgid "Receiving Email and Receiving options (Exchange MAPI accounts)"
 msgstr "Menerima opsi Email dan Penerimaan (akun Exchange MAPI)"
 
 #. (itstool) path: info/title
-#: C/mail-account-manage-microsoft-exchange-evo-mapi.page:43
-#, fuzzy
+#: C/mail-account-manage-microsoft-exchange-evo-mapi.page:45
 msgctxt "link"
 msgid "Defaults (Exchange MAPI accounts)"
-msgstr "Default (akun Exchange MAPI)"
+msgstr "Baku (akun Exchange MAPI)"
 
 #. (itstool) path: info/title
-#: C/mail-account-manage-microsoft-exchange-evo-mapi.page:50
+#: C/mail-account-manage-microsoft-exchange-evo-mapi.page:53
 msgctxt "link"
 msgid "Composing Messages (Exchange MAPI accounts)"
 msgstr "Membuat Pesan (akun Exchange MAPI)"
 
 #. (itstool) path: section/title
-#: C/mail-account-manage-microsoft-exchange-evo-mapi.page:57
+#: C/mail-account-manage-microsoft-exchange-evo-mapi.page:61
 msgid "Exchange Settings"
 msgstr "Pengaturan Exchange"
 
 #. (itstool) path: section/p
-#: C/mail-account-manage-microsoft-exchange-evo-mapi.page:58
+#: C/mail-account-manage-microsoft-exchange-evo-mapi.page:62
 msgid "In this section you can view the size of all Exchange folders."
 msgstr "Di bagian ini Anda bisa melihat ukuran semua folder Exchange."
 
 #. (itstool) path: info/title
-#: C/mail-account-manage-microsoft-exchange-evo-mapi.page:63
+#: C/mail-account-manage-microsoft-exchange-evo-mapi.page:67
 msgctxt "link"
 msgid "Security (Exchange MAPI accounts)"
 msgstr "Keamanan (akun Exchange MAPI)"
@@ -6144,13 +6302,20 @@ msgid "Add and edit a Microsoft Exchange account in <app>Evolution</app>."
 msgstr ""
 "Menambahkan dan menyunting akun Microsoft Exchange di <app>Evolution</app>."
 
+#. (itstool) path: info/title
+#: C/mail-account-manage-microsoft-exchange.page:10
+#| msgid "Microsoft Exchange account settings"
+msgctxt "link:trail"
+msgid "Microsoft Exchange"
+msgstr "Microsoft Exchange"
+
 #. (itstool) path: page/title
-#: C/mail-account-manage-microsoft-exchange.page:22
+#: C/mail-account-manage-microsoft-exchange.page:23
 msgid "Microsoft Exchange account settings"
 msgstr "Pengaturan akun Microsoft Exchange"
 
 #. (itstool) path: note/p
-#: C/mail-account-manage-microsoft-exchange.page:24
+#: C/mail-account-manage-microsoft-exchange.page:25
 #, fuzzy
 msgid ""
 "Depending on the version of the Microsoft Exchange server that you would "
@@ -6162,14 +6327,14 @@ msgstr ""
 "fungsionalitas ini."
 
 #. (itstool) path: note/p
-#: C/mail-account-manage-microsoft-exchange.page:35
+#: C/mail-account-manage-microsoft-exchange.page:36
 msgid ""
 "For older versions of Microsoft Exchange, or if <sys>evolution-ews</sys> "
 "does not work well for you, try <sys>evolution-mapi</sys>."
 msgstr ""
 
 #. (itstool) path: note/p
-#: C/mail-account-manage-microsoft-exchange.page:45
+#: C/mail-account-manage-microsoft-exchange.page:46
 #, fuzzy
 msgid ""
 "If you are unsure which Microsoft Exchange server version is used, you may "
@@ -6180,7 +6345,7 @@ msgstr ""
 "lebih lanjut."
 
 #. (itstool) path: page/p
-#: C/mail-account-manage-microsoft-exchange.page:47
+#: C/mail-account-manage-microsoft-exchange.page:48
 #, fuzzy
 msgid ""
 "For topics not covered here please refer to the <link href=\"https://help."
@@ -6197,39 +6362,52 @@ msgstr ""
 msgid "Add and edit a POP mail account in <app>Evolution</app>."
 msgstr "Tambahkan dan edit akun surel POP di <app>Evolution</app>."
 
+#. (itstool) path: info/title
+#: C/mail-account-manage-pop.page:8
+#, fuzzy
+#| msgid "POP"
+msgctxt "link:trail"
+msgid "POP"
+msgstr "POP"
+
 #. (itstool) path: page/title
-#: C/mail-account-manage-pop.page:20
+#: C/mail-account-manage-pop.page:21
 msgid "POP mail account settings"
 msgstr "Pengaturan akun surat POP"
 
 #. (itstool) path: info/title
-#: C/mail-account-manage-pop.page:36
+#: C/mail-account-manage-pop.page:31
+msgctxt "link"
+msgid "Identity (POP accounts)"
+msgstr "Identitas (akun POP)"
+
+#. (itstool) path: info/title
+#: C/mail-account-manage-pop.page:41
 #, fuzzy
 msgctxt "link"
 msgid "Receiving Email and Receiving options (POP accounts)"
 msgstr "Menerima opsi Email dan Penerimaan (akun POP)"
 
 #. (itstool) path: info/title
-#: C/mail-account-manage-pop.page:43
+#: C/mail-account-manage-pop.page:49
 msgctxt "link"
 msgid "Sending Email (POP accounts)"
 msgstr "Mengirim Surel (akun POP)"
 
 #. (itstool) path: info/title
-#: C/mail-account-manage-pop.page:50
+#: C/mail-account-manage-pop.page:57
 msgctxt "link"
 msgid "Defaults (POP accounts)"
 msgstr "Baku (akun POP)"
 
 #. (itstool) path: info/title
-#: C/mail-account-manage-pop.page:57
-#, fuzzy
+#: C/mail-account-manage-pop.page:65
 msgctxt "link"
 msgid "Composing Messages (POP accounts)"
-msgstr "Membuat Pesan (akun POP)"
+msgstr "Menyusun Pesan (akun POP)"
 
 #. (itstool) path: info/title
-#: C/mail-account-manage-pop.page:64
+#: C/mail-account-manage-pop.page:73
 msgctxt "link"
 msgid "Security (POP accounts)"
 msgstr "Keamanan (akun POP)"
@@ -6244,14 +6422,27 @@ msgstr ""
 "Tambahkan dan edit akun Standard Unix mbox Spool Directory di "
 "<app>Evolution</app>."
 
+#. (itstool) path: info/title
+#: C/mail-account-manage-unix-mbox-spool-directory.page:8
+msgctxt "link:trail"
+msgid "mbox Directory"
+msgstr ""
+
 #. (itstool) path: page/title
-#: C/mail-account-manage-unix-mbox-spool-directory.page:20
+#: C/mail-account-manage-unix-mbox-spool-directory.page:21
 #, fuzzy
 msgid "Standard Unix mbox Spool Directory account settings"
 msgstr "Pengaturan akun Direktori Spool Mbox Unix standar"
 
 #. (itstool) path: info/title
-#: C/mail-account-manage-unix-mbox-spool-directory.page:36
+#: C/mail-account-manage-unix-mbox-spool-directory.page:31
+#, fuzzy
+msgctxt "link"
+msgid "Identity (Standard Unix mbox Spool Directory accounts)"
+msgstr "Keamanan (akun Direktori Spool mbox Unix Standar)"
+
+#. (itstool) path: info/title
+#: C/mail-account-manage-unix-mbox-spool-directory.page:41
 #, fuzzy
 msgctxt "link"
 msgid ""
@@ -6261,28 +6452,28 @@ msgstr ""
 "Menerima opsi Email dan Penerimaan (akun Direktori Spool Mbox Unix Standar)"
 
 #. (itstool) path: info/title
-#: C/mail-account-manage-unix-mbox-spool-directory.page:43
+#: C/mail-account-manage-unix-mbox-spool-directory.page:49
 #, fuzzy
 msgctxt "link"
 msgid "Sending Email (Standard Unix mbox Spool Directory accounts)"
 msgstr "Mengirim Email (akun Direktori Spool mbox Unix Standar)"
 
 #. (itstool) path: info/title
-#: C/mail-account-manage-unix-mbox-spool-directory.page:50
+#: C/mail-account-manage-unix-mbox-spool-directory.page:57
 #, fuzzy
 msgctxt "link"
 msgid "Defaults (Standard Unix mbox Spool Directory accounts)"
 msgstr "Asali (akun Direktori Spool mbox Unix Standar)"
 
 #. (itstool) path: info/title
-#: C/mail-account-manage-unix-mbox-spool-directory.page:57
+#: C/mail-account-manage-unix-mbox-spool-directory.page:65
 #, fuzzy
 msgctxt "link"
 msgid "Composing Messages (Standard Unix mbox Spool Directory accounts)"
 msgstr "Membuat Pesan (akun Direktori Spool mbox Unix Standar)"
 
 #. (itstool) path: info/title
-#: C/mail-account-manage-unix-mbox-spool-directory.page:64
+#: C/mail-account-manage-unix-mbox-spool-directory.page:73
 #, fuzzy
 msgctxt "link"
 msgid "Security (Standard Unix mbox Spool Directory accounts)"
@@ -6296,14 +6487,27 @@ msgid ""
 msgstr ""
 "Tambahkan dan edit akun File Spool mbox Unix Standar di <app>Evolution</app>."
 
+#. (itstool) path: info/title
+#: C/mail-account-manage-unix-mbox-spool-file.page:8
+msgctxt "link:trail"
+msgid "mbox File"
+msgstr ""
+
 #. (itstool) path: page/title
-#: C/mail-account-manage-unix-mbox-spool-file.page:20
+#: C/mail-account-manage-unix-mbox-spool-file.page:21
 #, fuzzy
 msgid "Standard Unix mbox Spool File account settings"
 msgstr "Pengaturan akun File Spool mbox Unix standar"
 
 #. (itstool) path: info/title
-#: C/mail-account-manage-unix-mbox-spool-file.page:36
+#: C/mail-account-manage-unix-mbox-spool-file.page:31
+#, fuzzy
+msgctxt "link"
+msgid "Identity (Standard Unix mbox Spool File accounts)"
+msgstr "Keamanan (Akun File Spool mbox Unix Standar)"
+
+#. (itstool) path: info/title
+#: C/mail-account-manage-unix-mbox-spool-file.page:41
 #, fuzzy
 msgctxt "link"
 msgid ""
@@ -6312,28 +6516,28 @@ msgid ""
 msgstr "Menerima opsi Email dan Penerimaan (akun File Spool mbox Unix Standar)"
 
 #. (itstool) path: info/title
-#: C/mail-account-manage-unix-mbox-spool-file.page:43
+#: C/mail-account-manage-unix-mbox-spool-file.page:49
 #, fuzzy
 msgctxt "link"
 msgid "Sending Email (Standard Unix mbox Spool File accounts)"
 msgstr "Mengirim Email (akun File Spool mbox Unix Standar)"
 
 #. (itstool) path: info/title
-#: C/mail-account-manage-unix-mbox-spool-file.page:50
+#: C/mail-account-manage-unix-mbox-spool-file.page:57
 #, fuzzy
 msgctxt "link"
 msgid "Defaults (Standard Unix mbox Spool File accounts)"
 msgstr "Asali (akun Berkas Spool mbox Unix Standar)"
 
 #. (itstool) path: info/title
-#: C/mail-account-manage-unix-mbox-spool-file.page:57
+#: C/mail-account-manage-unix-mbox-spool-file.page:65
 #, fuzzy
 msgctxt "link"
 msgid "Composing Messages (Standard Unix mbox Spool File accounts)"
 msgstr "Membuat Pesan (akun File Spool mbox Unix Standar)"
 
 #. (itstool) path: info/title
-#: C/mail-account-manage-unix-mbox-spool-file.page:64
+#: C/mail-account-manage-unix-mbox-spool-file.page:73
 #, fuzzy
 msgctxt "link"
 msgid "Security (Standard Unix mbox Spool File accounts)"
@@ -6345,53 +6549,72 @@ msgstr "Keamanan (Akun File Spool mbox Unix Standar)"
 msgid "Add and edit a Usenet news account in <app>Evolution</app>."
 msgstr "Tambahkan dan edit akun berita Usenet di <app>Evolution</app>."
 
+#. (itstool) path: info/title
+#: C/mail-account-manage-usenet-news.page:8
+msgctxt "link:trail"
+msgid "Usenet"
+msgstr ""
+
 #. (itstool) path: page/title
-#: C/mail-account-manage-usenet-news.page:20
+#: C/mail-account-manage-usenet-news.page:21
 #, fuzzy
 msgid "Usenet news account settings"
 msgstr "Setelan akun berita Usenet"
 
 #. (itstool) path: info/title
-#: C/mail-account-manage-usenet-news.page:36
+#: C/mail-account-manage-usenet-news.page:31
+#, fuzzy
+msgctxt "link"
+msgid "Identity (Usenet News accounts)"
+msgstr "Keamanan (akun Usenet News)"
+
+#. (itstool) path: info/title
+#: C/mail-account-manage-usenet-news.page:41
 #, fuzzy
 msgctxt "link"
 msgid "Receiving Email and Receiving options (Usenet News accounts)"
 msgstr "Menerima opsi Email dan Penerimaan (akun Usenet News)"
 
 #. (itstool) path: info/title
-#: C/mail-account-manage-usenet-news.page:43
+#: C/mail-account-manage-usenet-news.page:49
 #, fuzzy
 msgctxt "link"
 msgid "Sending Email (Usenet News accounts)"
 msgstr "Mengirim Email (akun Usenet News)"
 
 #. (itstool) path: info/title
-#: C/mail-account-manage-usenet-news.page:50
+#: C/mail-account-manage-usenet-news.page:57
 #, fuzzy
 msgctxt "link"
 msgid "Defaults (Usenet News accounts)"
 msgstr "Asali (akun Berita Usenet)"
 
 #. (itstool) path: info/title
-#: C/mail-account-manage-usenet-news.page:57
+#: C/mail-account-manage-usenet-news.page:65
 #, fuzzy
 msgctxt "link"
 msgid "Composing Messages (Usenet News accounts)"
 msgstr "Membuat Pesan (akun Berita Usenet)"
 
 #. (itstool) path: info/title
-#: C/mail-account-manage-usenet-news.page:64
+#: C/mail-account-manage-usenet-news.page:73
 #, fuzzy
 msgctxt "link"
 msgid "Security (Usenet News accounts)"
 msgstr "Keamanan (akun Usenet News)"
 
 #. (itstool) path: info/title
-#: C/mail-account-manage-usenet-news.page:73
+#: C/mail-account-manage-usenet-news.page:83
 #, fuzzy
 msgctxt "link"
 msgid "Other settings (Usenet News accounts)"
 msgstr "Setelan lainnya (akun Berita Usenet)"
+
+#. (itstool) path: info/title
+#: C/mail-account-manage-usenet-news.page:84
+msgctxt "link:trail"
+msgid "Other"
+msgstr ""
 
 #. (itstool) path: info/desc
 #: C/mail-attachments.page:5
@@ -6710,7 +6933,6 @@ msgstr ""
 
 #. (itstool) path: page/title
 #: C/mail-cannot-see.page:20
-#, fuzzy
 msgid "I cannot see some emails, where are they?"
 msgstr "Saya tidak bisa melihat beberapa surel, di mana mereka?"
 
@@ -6928,9 +7150,8 @@ msgstr "Pengguna tingkat lanjut dapat mengubah string ini."
 
 #. (itstool) path: item/p
 #: C/mail-composer-change-quotation-string.page:38
-#, fuzzy
 msgid "Open the <app>dconf-editor</app> application."
-msgstr "Buka aplikasi <app>dconf-penyunting.</app>"
+msgstr "Buka aplikasi <app>dconf-editor</app>."
 
 #. (itstool) path: item/p
 #: C/mail-composer-change-quotation-string.page:39
@@ -6988,7 +7209,6 @@ msgstr "<_:code-1/> (format: 01-12)"
 
 #. (itstool) path: item/p
 #: C/mail-composer-change-quotation-string.page:66
-#, fuzzy
 msgid "<_:code-1/> (e.g. 15 for the year 2015)"
 msgstr "<_:code-1/> (misalnya 15 untuk tahun 2015)"
 
@@ -7000,9 +7220,8 @@ msgstr "Menggunakan bidang kustom di header pesan yang disusun."
 
 #. (itstool) path: page/title
 #: C/mail-composer-custom-header-lines.page:23
-#, fuzzy
 msgid "Custom Header Lines"
-msgstr "Baris Header Kustom"
+msgstr "Baris Header Ubahan"
 
 #. (itstool) path: page/p
 #: C/mail-composer-custom-header-lines.page:25
@@ -7091,7 +7310,6 @@ msgstr "Aktifkan format HTML di komposer surel."
 
 #. (itstool) path: page/title
 #: C/mail-composer-enable-html-format.page:21
-#, fuzzy
 msgid "Enabling HTML format"
 msgstr "Mengaktifkan format HTML"
 
@@ -7296,9 +7514,8 @@ msgstr ""
 
 #. (itstool) path: section/title
 #: C/mail-composer-forward.page:40 C/mail-composer-reply.page:53
-#, fuzzy
 msgid "Default settings"
-msgstr "Setelan asali"
+msgstr "Setelan baku"
 
 #. (itstool) path: section/p
 #: C/mail-composer-forward.page:41
@@ -7642,7 +7859,6 @@ msgstr "Pilih <gui>Berbayang</gui> jika diinginkan."
 
 #. (itstool) path: info/desc
 #: C/mail-composer-html-table.page:5
-#, fuzzy
 msgid "Insert a table in the mail composer."
 msgstr "Menyisipkan tabel di komposer surel."
 
@@ -9869,7 +10085,6 @@ msgstr "Agar setiap pesan ditandatangani atau dienkripsi:"
 #. (itstool) path: item/p
 #: C/mail-encryption-gpg-signing-encrypting.page:36
 #: C/mail-encryption-s-mime-signing-encrypting.page:31
-#, fuzzy
 msgid "Select the mail account to encrypt the messages in."
 msgstr "Pilih akun surel untuk mengenkripsi pesan."
 
@@ -9881,11 +10096,10 @@ msgstr "Klik <gui style=\"button\">Sunting</gui>."
 
 #. (itstool) path: item/p
 #: C/mail-encryption-gpg-signing-encrypting.page:39
-#, fuzzy
 msgid ""
 "Select <gui>Always sign outgoing messages when using this account</gui>."
 msgstr ""
-"Pilih <gui>Selalu tanda tangani pesan keluar saat menggunakan akun ini.</gui>"
+"Pilih <gui>Selalu tanda tangani pesan keluar saat menggunakan akun ini</gui>."
 
 #. (itstool) path: info/desc
 #: C/mail-encryption.page:5
@@ -10044,19 +10258,16 @@ msgstr ""
 
 #. (itstool) path: item/p
 #: C/mail-encryption-s-mime-signing-encrypting.page:35
-#, fuzzy
 msgid "Select the appropriate options."
 msgstr "Pilih opsi yang sesuai."
 
 #. (itstool) path: info/desc
 #: C/mail-filters-actions.page:5
-#, fuzzy
 msgid "Available actions for setting up filtering."
 msgstr "Tindakan yang tersedia untuk menyetel pemfilteran."
 
 #. (itstool) path: page/title
 #: C/mail-filters-actions.page:23
-#, fuzzy
 msgid "Available Filter actions"
 msgstr "Tindakan Filter yang Tersedia"
 
@@ -10194,7 +10405,6 @@ msgstr "Bip:"
 
 #. (itstool) path: item/p
 #: C/mail-filters-actions.page:57
-#, fuzzy
 msgid "Makes the system beep."
 msgstr "Membuat sistem berbunyi bip."
 
@@ -10258,7 +10468,6 @@ msgstr "Kondisi yang tersedia untuk menyetel pemfilteran."
 
 #. (itstool) path: page/title
 #: C/mail-filters-conditions.page:23
-#, fuzzy
 msgid "Available Filter conditions"
 msgstr "Kondisi Filter yang tersedia"
 
@@ -10333,9 +10542,8 @@ msgstr ""
 
 #. (itstool) path: page/title
 #: C/mail-filters-not-working.page:25
-#, fuzzy
 msgid "Mail filters are not working"
-msgstr "Filter surel tidak berfungsi"
+msgstr "Filter surat tidak berfungsi"
 
 #. (itstool) path: section/title
 #: C/mail-filters-not-working.page:28
@@ -10414,9 +10622,8 @@ msgstr ""
 
 #. (itstool) path: section/title
 #: C/mail-filters-not-working.page:41
-#, fuzzy
 msgid "Logging Filter Actions"
-msgstr "Tindakan Filter Pembuatan Log"
+msgstr "Mencatat Log Tindakan Filter"
 
 #. (itstool) path: section/p
 #: C/mail-filters-not-working.page:42
@@ -10712,9 +10919,8 @@ msgstr "Klik <gui style=\"button\">Hapus.</gui>"
 
 #. (itstool) path: info/desc
 #: C/mail-folders.page:5
-#, fuzzy
 msgid "Use folders to organize your mail."
-msgstr "Gunakan folder untuk menata surel Anda."
+msgstr "Gunakan folder untuk mengorganisasi surat Anda."
 
 #. (itstool) path: page/title
 #: C/mail-folders.page:29
@@ -10880,7 +11086,6 @@ msgstr ""
 
 #. (itstool) path: item/p
 #: C/mail-follow-up-flag.page:26
-#, fuzzy
 msgid "Select one or more messages."
 msgstr "Pilih satu atau beberapa pesan."
 
@@ -11056,13 +11261,11 @@ msgstr ""
 
 #. (itstool) path: info/desc
 #: C/mail-imap-subscriptions.page:5
-#, fuzzy
 msgid "IMAP folder subscriptions."
 msgstr "Langganan folder IMAP."
 
 #. (itstool) path: page/title
 #: C/mail-imap-subscriptions.page:25
-#, fuzzy
 msgid "IMAP Subscriptions"
 msgstr "Langganan IMAP"
 
@@ -11402,7 +11605,6 @@ msgstr "Cara mengaktifkan meminta tanda terima baca."
 
 #. (itstool) path: page/title
 #: C/mail-read-receipts.page:34
-#, fuzzy
 msgid "Read receipts for emails"
 msgstr "Membaca tanda terima untuk surel"
 
@@ -11454,7 +11656,6 @@ msgstr "Opsi pada pemberitahuan surel yang baru diterima."
 
 #. (itstool) path: page/title
 #: C/mail-received-notification.page:21
-#, fuzzy
 msgid "Getting notified of new mail"
 msgstr "Mendapatkan pemberitahuan tentang surat baru"
 
@@ -11728,7 +11929,6 @@ msgstr ""
 
 #. (itstool) path: item/p
 #: C/mail-receiving-options-exchange-mapi.page:29
-#, fuzzy
 msgid "Enter the Domain name for that server."
 msgstr "Masukkan nama Domain untuk server tersebut."
 
@@ -11754,9 +11954,8 @@ msgstr ""
 
 #. (itstool) path: info/desc
 #: C/mail-receiving-options-imap-plus.page:5
-#, fuzzy
 msgid "Receiving options for IMAP+ accounts."
-msgstr "Menerima opsi untuk akun IMAP+."
+msgstr "Opsi penerimaan untuk akun IMAP+."
 
 #. (itstool) path: item/p
 #: C/mail-receiving-options-imap-plus.page:32
@@ -12245,7 +12444,6 @@ msgstr "Lokasi Pesan:"
 
 #. (itstool) path: item/p
 #: C/mail-search-folders-conditions.page:34
-#, fuzzy
 msgid "Checks whether the message is located in a specific folder."
 msgstr "Memeriksa apakah pesan berada di folder tertentu."
 
@@ -12521,9 +12719,8 @@ msgstr ""
 
 #. (itstool) path: section/title
 #: C/mail-searching.page:64
-#, fuzzy
 msgid "Free Form Expression"
-msgstr "Ekspresi Formulir Bebas:"
+msgstr "Ekspresi Bentuk Bebas"
 
 #. (itstool) path: section/p
 #: C/mail-searching.page:65
@@ -12627,57 +12824,39 @@ msgid "whether certain flag is set; known special values are:"
 msgstr ""
 
 #. (itstool) path: td/p
-#. (itstool) comment: ./code
 #. Translators: This is translated in a 'ffe' context
 #: C/mail-searching.page:80
-msgid ""
-"<code its:locNote=\"Translators: This is translated in a 'ffe' context"
-"\">Answered</code> - the message is marked as replied"
+msgid "<code>Answered</code> - the message is marked as replied"
 msgstr ""
 
 #. (itstool) path: td/p
-#. (itstool) comment: ./code
 #. Translators: This is translated in a 'ffe' context
 #: C/mail-searching.page:81
-msgid ""
-"<code its:locNote=\"Translators: This is translated in a 'ffe' context"
-"\">Deleted</code> - the message is marked as deleted"
+msgid "<code>Deleted</code> - the message is marked as deleted"
 msgstr ""
 
 #. (itstool) path: td/p
-#. (itstool) comment: ./code
 #. Translators: This is translated in a 'ffe' context
 #: C/mail-searching.page:82
-msgid ""
-"<code its:locNote=\"Translators: This is translated in a 'ffe' context"
-"\">Draft</code> - the message is marked as draft"
+msgid "<code>Draft</code> - the message is marked as draft"
 msgstr ""
 
 #. (itstool) path: td/p
-#. (itstool) comment: ./code
 #. Translators: This is translated in a 'ffe' context
 #: C/mail-searching.page:83
-msgid ""
-"<code its:locNote=\"Translators: This is translated in a 'ffe' context"
-"\">Flagged</code> - the message is marked as important"
+msgid "<code>Flagged</code> - the message is marked as important"
 msgstr ""
 
 #. (itstool) path: td/p
-#. (itstool) comment: ./code
 #. Translators: This is translated in a 'ffe' context
 #: C/mail-searching.page:84
-msgid ""
-"<code its:locNote=\"Translators: This is translated in a 'ffe' context"
-"\">Seen</code> - the message is marked as seen (not unread)"
+msgid "<code>Seen</code> - the message is marked as seen (not unread)"
 msgstr ""
 
 #. (itstool) path: td/p
-#. (itstool) comment: ./code
 #. Translators: This is translated in a 'ffe' context
 #: C/mail-searching.page:85
-msgid ""
-"<code its:locNote=\"Translators: This is translated in a 'ffe' context"
-"\">Attachment</code> - the message has an attachment"
+msgid "<code>Attachment</code> - the message has an attachment"
 msgstr ""
 
 #. (itstool) path: td/p
@@ -13318,7 +13497,6 @@ msgstr ""
 
 #. (itstool) path: section/title
 #: C/mail-sorting-folder-list.page:36
-#, fuzzy
 msgid "Changing the sort order"
 msgstr "Mengubah susunan urutan"
 
@@ -13663,9 +13841,8 @@ msgstr "Status"
 
 #. (itstool) path: item/p
 #: C/mail-sorting-message-list.page:98
-#, fuzzy
 msgid "Custom"
-msgstr "Kustom"
+msgstr "Ubahan"
 
 #. (itstool) path: item/p
 #: C/mail-sorting-message-list.page:101
@@ -13675,9 +13852,8 @@ msgstr "Pilih opsi yang ingin Anda gunakan dalam mengurutkan pesan surel."
 
 #. (itstool) path: section/title
 #: C/mail-sorting-message-list.page:106
-#, fuzzy
 msgid "Sort Ascending"
-msgstr "Sortir Menaik"
+msgstr "Urut Naik"
 
 #. (itstool) path: item/p
 #: C/mail-sorting-message-list.page:109
@@ -13693,9 +13869,8 @@ msgstr "Pesan akan ditampilkan dengan yang terbaru di bagian bawah."
 
 #. (itstool) path: section/title
 #: C/mail-sorting-message-list.page:115
-#, fuzzy
 msgid "Sort Descending"
-msgstr "Sortir Menurun"
+msgstr "Urut Turun"
 
 #. (itstool) path: item/p
 #: C/mail-sorting-message-list.page:118
@@ -13711,7 +13886,6 @@ msgstr "Pesan akan ditampilkan dengan yang terbaru di bagian atas."
 
 #. (itstool) path: section/title
 #: C/mail-sorting-message-list.page:124
-#, fuzzy
 msgid "Reset sort"
 msgstr "Mereset pengurutan"
 
@@ -13739,9 +13913,8 @@ msgstr "Cara menandai surel sampah dan spam yang tidak diinginkan."
 
 #. (itstool) path: page/title
 #: C/mail-spam-marking.page:30
-#, fuzzy
 msgid "Marking Mail as Junk"
-msgstr "Menandai Email sebagai Sampah"
+msgstr "Menandai Surat sebagai Sampah"
 
 #. (itstool) path: page/p
 #: C/mail-spam-marking.page:32
@@ -13768,9 +13941,8 @@ msgstr ""
 
 #. (itstool) path: section/title
 #: C/mail-spam-marking.page:35
-#, fuzzy
 msgid "Manually Marking Junk Mail"
-msgstr "Menandai Email Sampah Secara Manual"
+msgstr "Menandai Surat Sampah Secara Manual"
 
 #. (itstool) path: section/p
 #: C/mail-spam-marking.page:36
