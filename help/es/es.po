@@ -8,28 +8,28 @@
 # Rodrigo <rodhos92@gmail.com>, 2018.
 # Rodrigo Lledó <rodhos92@gmail.com>, 2019.
 # Daniel Mustieles <daniel.mustieles@gmail.com>, 2011-2020.
-# Daniel Mustieles García <daniel.mustieles@gmail.com>, 2021.
+# Daniel Mustieles García <daniel.mustieles@gmail.com>, 2021-2022.
 #
 msgid ""
 msgstr ""
 "Project-Id-Version: evolution-help.master\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2021-09-10 15:56+0000\n"
-"PO-Revision-Date: 2021-09-10 17:54+0200\n"
+"POT-Creation-Date: 2022-02-16 13:39+0000\n"
+"PO-Revision-Date: 2022-03-15 09:20+0100\n"
 "Last-Translator: Daniel Mustieles García <daniel.mustieles@gmail.com>\n"
 "Language-Team: Spanish - Spain <gnome-es-list@gnome.org>\n"
 "Language: es_ES\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Generator: Gtranslator 40.0\n"
+"X-Generator: Gtranslator 41.0\n"
 "Plural-Forms: nplurals=2; plural=(n != 1)\n"
 
 #. Put one translator per line, in the form NAME <EMAIL>, YEAR1, YEAR2
 msgctxt "_"
 msgid "translator-credits"
 msgstr ""
-"Daniel Mustieles <daniel.mustieles@gmail.com>, 2012 - 2021\n"
+"Daniel Mustieles <daniel.mustieles@gmail.com>, 2012 - 2022\n"
 "Rodrigo Lledó <rodhos92@gmail.com>, 2018\n"
 "Yolanda Álvarez Pérez <yolandaa.alvarez.perez@gmail.com>, 2016\n"
 "Jorge González <jorgegonz@svn.gnome.org>, 2007-2011\n"
@@ -2063,18 +2063,16 @@ msgstr "Están disponibles las siguientes opciones:"
 
 #. (itstool) path: item/p
 #: C/contacts-ldap.page:74
-#, fuzzy
 #| msgid "One: Searches the Search Base and one entry below it."
 msgid "One Level: Searches one entry below the Search Base."
-msgstr "Una: busca dentro de la raíz y un nivel de subcarpetas debajo."
+msgstr "Un nivel: busca dentro de la raíz y un nivel de subcarpetas debajo."
 
 #. (itstool) path: item/p
 #: C/contacts-ldap.page:77
-#, fuzzy
 #| msgid "Sub: Searches the Search Base and all entries below it."
 msgid "Subtree: Searches the Search Base and all entries below it."
 msgstr ""
-"Sub: busca dentro de la búsqueda base y en todas las entradas bajo ésta."
+"Subárbol: busca dentro de la búsqueda base y en todas las entradas bajo ésta."
 
 #. (itstool) path: item/p
 #: C/contacts-ldap.page:82
@@ -2790,6 +2788,19 @@ msgstr ""
 #. (itstool) path: page/p
 #: C/customize-ui-items.page:34
 msgid ""
+"Changing the order of tool bar/menu items in some <file>.ui</file> files may "
+"not affect their displayed order in <app>Evolution</app>. As a workaround, "
+"the attribute <code>position='top'</code> can be added to some elements (e."
+"g. <code>toolitem</code> and non-empty <code>placeholder</code> elements), "
+"which will place them before other items in the group and cause them to be "
+"displayed according to their order in the <file>.ui</file> file. This "
+"attribute may need to be added to all items in a group to achieve the "
+"overall desired item order."
+msgstr ""
+
+#. (itstool) path: page/p
+#: C/customize-ui-items.page:36
+msgid ""
 "The modified files will be used if the <code>evolution-ui-version</code> "
 "attribute of the root <code>ui</code> element matches the version of the "
 "default files provided by <app>Evolution</app>."
@@ -2799,7 +2810,7 @@ msgstr ""
 "de los archivos predeterminados proporcionados por <app>Evolution</app>."
 
 #. (itstool) path: page/p
-#: C/customize-ui-items.page:36
+#: C/customize-ui-items.page:38
 msgid ""
 "To change keyboard shortcuts, edit <file>~/.config/evolution/accels</file> "
 "while <app>Evolution</app> is not running. Commented lines start with a "
@@ -4096,44 +4107,44 @@ msgstr ""
 "<app>Cuentas en línea</app>."
 
 #. (itstool) path: section/title
-#: C/intro-first-run.page:32 C/mail-account-manage-imap-plus.page:29
-#: C/mail-account-manage-local-delivery.page:29
-#: C/mail-account-manage-maildir-format-directories.page:30
-#: C/mail-account-manage-mh-format-directories.page:29
-#: C/mail-account-manage-microsoft-exchange-evo-ews.page:32
-#: C/mail-account-manage-microsoft-exchange-evo-mapi.page:29
-#: C/mail-account-manage-pop.page:29
-#: C/mail-account-manage-unix-mbox-spool-directory.page:29
-#: C/mail-account-manage-unix-mbox-spool-file.page:29
-#: C/mail-account-manage-usenet-news.page:29
+#: C/intro-first-run.page:32 C/mail-account-manage-imap-plus.page:34
+#: C/mail-account-manage-local-delivery.page:34
+#: C/mail-account-manage-maildir-format-directories.page:35
+#: C/mail-account-manage-mh-format-directories.page:34
+#: C/mail-account-manage-microsoft-exchange-evo-ews.page:37
+#: C/mail-account-manage-microsoft-exchange-evo-mapi.page:30
+#: C/mail-account-manage-pop.page:34
+#: C/mail-account-manage-unix-mbox-spool-directory.page:34
+#: C/mail-account-manage-unix-mbox-spool-file.page:34
+#: C/mail-account-manage-usenet-news.page:34
 msgid "Identity"
 msgstr "Identidad"
 
 #. (itstool) path: section/p
-#: C/intro-first-run.page:33 C/mail-account-manage-imap-plus.page:30
-#: C/mail-account-manage-local-delivery.page:30
-#: C/mail-account-manage-maildir-format-directories.page:31
-#: C/mail-account-manage-mh-format-directories.page:30
-#: C/mail-account-manage-microsoft-exchange-evo-ews.page:33
-#: C/mail-account-manage-microsoft-exchange-evo-mapi.page:30
-#: C/mail-account-manage-pop.page:30
-#: C/mail-account-manage-unix-mbox-spool-directory.page:30
-#: C/mail-account-manage-unix-mbox-spool-file.page:30
-#: C/mail-account-manage-usenet-news.page:30
+#: C/intro-first-run.page:33 C/mail-account-manage-imap-plus.page:35
+#: C/mail-account-manage-local-delivery.page:35
+#: C/mail-account-manage-maildir-format-directories.page:36
+#: C/mail-account-manage-mh-format-directories.page:35
+#: C/mail-account-manage-microsoft-exchange-evo-ews.page:38
+#: C/mail-account-manage-microsoft-exchange-evo-mapi.page:31
+#: C/mail-account-manage-pop.page:35
+#: C/mail-account-manage-unix-mbox-spool-directory.page:35
+#: C/mail-account-manage-unix-mbox-spool-file.page:35
+#: C/mail-account-manage-usenet-news.page:35
 msgid "Here you define your name and your email address."
 msgstr "Introduzca aquí su nombre y su dorección de correo electrónico."
 
 #. (itstool) path: section/p
-#: C/intro-first-run.page:34 C/mail-account-manage-imap-plus.page:31
-#: C/mail-account-manage-local-delivery.page:31
-#: C/mail-account-manage-maildir-format-directories.page:32
-#: C/mail-account-manage-mh-format-directories.page:31
-#: C/mail-account-manage-microsoft-exchange-evo-ews.page:34
-#: C/mail-account-manage-microsoft-exchange-evo-mapi.page:31
-#: C/mail-account-manage-pop.page:31
-#: C/mail-account-manage-unix-mbox-spool-directory.page:31
-#: C/mail-account-manage-unix-mbox-spool-file.page:31
-#: C/mail-account-manage-usenet-news.page:31
+#: C/intro-first-run.page:34 C/mail-account-manage-imap-plus.page:36
+#: C/mail-account-manage-local-delivery.page:36
+#: C/mail-account-manage-maildir-format-directories.page:37
+#: C/mail-account-manage-mh-format-directories.page:36
+#: C/mail-account-manage-microsoft-exchange-evo-ews.page:39
+#: C/mail-account-manage-microsoft-exchange-evo-mapi.page:32
+#: C/mail-account-manage-pop.page:36
+#: C/mail-account-manage-unix-mbox-spool-directory.page:36
+#: C/mail-account-manage-unix-mbox-spool-file.page:36
+#: C/mail-account-manage-usenet-news.page:36
 msgid ""
 "Optionally you can set a Reply-To email address (if you want replies to "
 "messages sent to a different address), set an organization (a company or "
@@ -4289,7 +4300,7 @@ msgstr "Exchange EWS"
 
 #. (itstool) path: section/p
 #. (itstool) path: note/p
-#: C/intro-first-run.page:109 C/mail-account-manage-microsoft-exchange.page:26
+#: C/intro-first-run.page:109 C/mail-account-manage-microsoft-exchange.page:27
 msgid ""
 "For connecting to a Microsoft Exchange server (version 2007 or newer) or "
 "OpenChange server, it is recommended to use the package <sys>evolution-ews</"
@@ -4305,7 +4316,7 @@ msgstr "Esto requiere tener instalado el paquete <sys>evolution-ews</sys>."
 
 #. (itstool) path: when/p
 #. (itstool) path: note/p
-#: C/intro-first-run.page:114 C/mail-account-manage-microsoft-exchange.page:30
+#: C/intro-first-run.page:114 C/mail-account-manage-microsoft-exchange.page:31
 msgid ""
 "<link action=\"install:evolution-ews\" href=\"https://wiki.gnome.org/Apps/"
 "Evolution#Get_the_Source_Code\" style=\"button\">Install evolution-ews</link>"
@@ -4333,7 +4344,7 @@ msgstr ""
 
 #. (itstool) path: section/p
 #. (itstool) path: note/p
-#: C/intro-first-run.page:134 C/mail-account-manage-microsoft-exchange.page:35
+#: C/intro-first-run.page:134 C/mail-account-manage-microsoft-exchange.page:36
 msgid ""
 "It uses Microsoft's Messaging API which is also used by Microsoft Outlook. "
 "However, <sys>evolution-mapi</sys> requires installing <sys>OpenChange</sys> "
@@ -4351,7 +4362,7 @@ msgstr "Esto requiere tener instalado el paquete <sys>evolution-mapi</sys>."
 
 #. (itstool) path: when/p
 #. (itstool) path: note/p
-#: C/intro-first-run.page:139 C/mail-account-manage-microsoft-exchange.page:40
+#: C/intro-first-run.page:139 C/mail-account-manage-microsoft-exchange.page:41
 msgid ""
 "<link action=\"install:evolution-mapi\" href=\"https://wiki.gnome.org/Apps/"
 "Evolution#Get_the_Source_Code\" style=\"button\">Install evolution-mapi</"
@@ -5625,29 +5636,22 @@ msgstr ""
 msgid "Add and edit an IMAP+ mail account in <app>Evolution</app>."
 msgstr "Añadir y editar una cuenta de correo IMAP+ en <app>Evolution</app>."
 
+#. (itstool) path: info/title
+#: C/mail-account-manage-imap-plus.page:8
+#| msgid "IMAP+"
+msgctxt "link:trail"
+msgid "IMAP+"
+msgstr "IMAP+"
+
 #. (itstool) path: page/title
-#: C/mail-account-manage-imap-plus.page:20
+#: C/mail-account-manage-imap-plus.page:21
 msgid "IMAP+ mail account settings"
 msgstr "Configuración de cuenta de correo IMAP+"
 
 #. (itstool) path: section/title
-#: C/mail-account-manage-imap-plus.page:23
-#: C/mail-account-manage-local-delivery.page:23
-#: C/mail-account-manage-maildir-format-directories.page:23
-#: C/mail-account-manage-mh-format-directories.page:23
-#: C/mail-account-manage-microsoft-exchange-evo-ews.page:23
-#: C/mail-account-manage-microsoft-exchange-evo-mapi.page:23
-#: C/mail-account-manage-pop.page:23
-#: C/mail-account-manage-unix-mbox-spool-directory.page:23
-#: C/mail-account-manage-unix-mbox-spool-file.page:23
-#: C/mail-account-manage-usenet-news.page:23
-msgid "Account Editor"
-msgstr "Editor de cuentas"
-
-#. (itstool) path: section/p
 #: C/mail-account-manage-imap-plus.page:24
 #: C/mail-account-manage-local-delivery.page:24
-#: C/mail-account-manage-maildir-format-directories.page:25
+#: C/mail-account-manage-maildir-format-directories.page:24
 #: C/mail-account-manage-mh-format-directories.page:24
 #: C/mail-account-manage-microsoft-exchange-evo-ews.page:24
 #: C/mail-account-manage-microsoft-exchange-evo-mapi.page:24
@@ -5655,6 +5659,20 @@ msgstr "Editor de cuentas"
 #: C/mail-account-manage-unix-mbox-spool-directory.page:24
 #: C/mail-account-manage-unix-mbox-spool-file.page:24
 #: C/mail-account-manage-usenet-news.page:24
+msgid "Account Editor"
+msgstr "Editor de cuentas"
+
+#. (itstool) path: section/p
+#: C/mail-account-manage-imap-plus.page:25
+#: C/mail-account-manage-local-delivery.page:25
+#: C/mail-account-manage-maildir-format-directories.page:26
+#: C/mail-account-manage-mh-format-directories.page:25
+#: C/mail-account-manage-microsoft-exchange-evo-ews.page:25
+#: C/mail-account-manage-microsoft-exchange-evo-mapi.page:25
+#: C/mail-account-manage-pop.page:25
+#: C/mail-account-manage-unix-mbox-spool-directory.page:25
+#: C/mail-account-manage-unix-mbox-spool-file.page:25
+#: C/mail-account-manage-usenet-news.page:25
 msgid ""
 "Mail accounts can be added by choosing <guiseq><gui>File</gui><gui>New</"
 "gui><gui>Mail Account</gui></guiseq> or via <guiseq><gui>Edit</"
@@ -5672,10 +5690,10 @@ msgstr ""
 "aplicaciones o restaurarlos desde un archivo de respaldo."
 
 #. (itstool) path: section/p
-#: C/mail-account-manage-imap-plus.page:25
-#: C/mail-account-manage-microsoft-exchange-evo-ews.page:25
-#: C/mail-account-manage-microsoft-exchange-evo-mapi.page:25
-#: C/mail-account-manage-usenet-news.page:25
+#: C/mail-account-manage-imap-plus.page:26
+#: C/mail-account-manage-microsoft-exchange-evo-ews.page:26
+#: C/mail-account-manage-microsoft-exchange-evo-mapi.page:26
+#: C/mail-account-manage-usenet-news.page:26
 msgid ""
 "Mail accounts can be edited via <guiseq><gui>Edit</gui><gui>Preferences</"
 "gui><gui>Mail Accounts</gui><gui style=\"button\">Edit</gui></guiseq> or by "
@@ -5689,133 +5707,241 @@ msgstr ""
 "gui>."
 
 #. (itstool) path: section/p
-#: C/mail-account-manage-imap-plus.page:26
-#: C/mail-account-manage-local-delivery.page:26
-#: C/mail-account-manage-maildir-format-directories.page:27
-#: C/mail-account-manage-mh-format-directories.page:26
-#: C/mail-account-manage-microsoft-exchange-evo-ews.page:29
-#: C/mail-account-manage-microsoft-exchange-evo-mapi.page:26
-#: C/mail-account-manage-pop.page:26
-#: C/mail-account-manage-unix-mbox-spool-directory.page:26
-#: C/mail-account-manage-unix-mbox-spool-file.page:26
-#: C/mail-account-manage-usenet-news.page:26
+#: C/mail-account-manage-imap-plus.page:27
+#: C/mail-account-manage-local-delivery.page:27
+#: C/mail-account-manage-maildir-format-directories.page:28
+#: C/mail-account-manage-mh-format-directories.page:27
+#: C/mail-account-manage-microsoft-exchange-evo-ews.page:30
+#: C/mail-account-manage-microsoft-exchange-evo-mapi.page:27
+#: C/mail-account-manage-pop.page:27
+#: C/mail-account-manage-unix-mbox-spool-directory.page:27
+#: C/mail-account-manage-unix-mbox-spool-file.page:27
+#: C/mail-account-manage-usenet-news.page:27
 msgid "The following settings are available when editing an existing account:"
 msgstr ""
 "La siguiente configuración está disponible al editar una cuenta existente:"
 
 #. (itstool) path: info/title
-#: C/mail-account-manage-imap-plus.page:36
+#: C/mail-account-manage-imap-plus.page:31
+#| msgctxt "link"
+#| msgid "Security (IMAP+ accounts)"
+msgctxt "link"
+msgid "Identity (IMAP+ accounts)"
+msgstr "Identidad (cuentas IMAP+)"
+
+#. (itstool) path: info/title
+#: C/mail-account-manage-imap-plus.page:32
+#: C/mail-account-manage-local-delivery.page:32
+#: C/mail-account-manage-maildir-format-directories.page:33
+#: C/mail-account-manage-mh-format-directories.page:32
+#: C/mail-account-manage-microsoft-exchange-evo-ews.page:35
+#: C/mail-account-manage-pop.page:32
+#: C/mail-account-manage-unix-mbox-spool-directory.page:32
+#: C/mail-account-manage-unix-mbox-spool-file.page:32
+#: C/mail-account-manage-usenet-news.page:32
+#| msgid "Identity"
+msgctxt "link:trail"
+msgid "Identity"
+msgstr "Identidad"
+
+#. (itstool) path: info/title
+#: C/mail-account-manage-imap-plus.page:41
 msgctxt "link"
 msgid "Receiving Email and Receiving options (IMAP+ accounts)"
 msgstr "Recibir correo y opciones de recepción (cuentas IMAP+)"
 
-#. (itstool) path: section/title
-#: C/mail-account-manage-imap-plus.page:38
-#: C/mail-account-manage-local-delivery.page:38
-#: C/mail-account-manage-maildir-format-directories.page:39
-#: C/mail-account-manage-mh-format-directories.page:38
-#: C/mail-account-manage-microsoft-exchange-evo-ews.page:41
+#. (itstool) path: info/title
+#: C/mail-account-manage-imap-plus.page:42
+#: C/mail-account-manage-local-delivery.page:42
+#: C/mail-account-manage-maildir-format-directories.page:43
+#: C/mail-account-manage-mh-format-directories.page:42
+#: C/mail-account-manage-microsoft-exchange-evo-ews.page:45
 #: C/mail-account-manage-microsoft-exchange-evo-mapi.page:38
-#: C/mail-account-manage-pop.page:38
-#: C/mail-account-manage-unix-mbox-spool-directory.page:38
-#: C/mail-account-manage-unix-mbox-spool-file.page:38
-#: C/mail-account-manage-usenet-news.page:38
+#: C/mail-account-manage-pop.page:42
+#: C/mail-account-manage-unix-mbox-spool-directory.page:42
+#: C/mail-account-manage-unix-mbox-spool-file.page:42
+#: C/mail-account-manage-usenet-news.page:42
+#| msgid "Receiving Email"
+msgctxt "link:trail"
+msgid "Receiving"
+msgstr "Recepción de correo"
+
+#. (itstool) path: section/title
+#: C/mail-account-manage-imap-plus.page:44
+#: C/mail-account-manage-local-delivery.page:44
+#: C/mail-account-manage-maildir-format-directories.page:45
+#: C/mail-account-manage-mh-format-directories.page:44
+#: C/mail-account-manage-microsoft-exchange-evo-ews.page:47
+#: C/mail-account-manage-microsoft-exchange-evo-mapi.page:40
+#: C/mail-account-manage-pop.page:44
+#: C/mail-account-manage-unix-mbox-spool-directory.page:44
+#: C/mail-account-manage-unix-mbox-spool-file.page:44
+#: C/mail-account-manage-usenet-news.page:44
 msgid "Receiving Email and Receiving options"
 msgstr "Recibir correo y opciones de recepción"
 
 #. (itstool) path: info/title
-#: C/mail-account-manage-imap-plus.page:43
+#: C/mail-account-manage-imap-plus.page:49
 msgctxt "link"
 msgid "Sending Email (IMAP+ accounts)"
 msgstr "Enviar correo-e (cuentas IMAP+)"
 
-#. (itstool) path: section/title
-#: C/mail-account-manage-imap-plus.page:45
-#: C/mail-account-manage-local-delivery.page:45
-#: C/mail-account-manage-maildir-format-directories.page:46
-#: C/mail-account-manage-mh-format-directories.page:45
-#: C/mail-account-manage-pop.page:45
-#: C/mail-account-manage-unix-mbox-spool-directory.page:45
-#: C/mail-account-manage-unix-mbox-spool-file.page:45
-#: C/mail-account-manage-usenet-news.page:45
-msgid "Sending Email"
-msgstr "Envío de correo"
-
 #. (itstool) path: info/title
 #: C/mail-account-manage-imap-plus.page:50
-msgctxt "link"
-msgid "Defaults (IMAP+ accounts)"
-msgstr "Opciones predeterminadas (cuentas IMAP+)"
+#: C/mail-account-manage-local-delivery.page:50
+#: C/mail-account-manage-maildir-format-directories.page:51
+#: C/mail-account-manage-mh-format-directories.page:50
+#: C/mail-account-manage-pop.page:50
+#: C/mail-account-manage-unix-mbox-spool-directory.page:50
+#: C/mail-account-manage-unix-mbox-spool-file.page:50
+#: C/mail-account-manage-usenet-news.page:50
+#| msgid "Sending mail"
+msgctxt "link:trail"
+msgid "Sending"
+msgstr "Enviando"
 
 #. (itstool) path: section/title
 #: C/mail-account-manage-imap-plus.page:52
 #: C/mail-account-manage-local-delivery.page:52
 #: C/mail-account-manage-maildir-format-directories.page:53
 #: C/mail-account-manage-mh-format-directories.page:52
-#: C/mail-account-manage-microsoft-exchange-evo-ews.page:48
-#: C/mail-account-manage-microsoft-exchange-evo-mapi.page:45
 #: C/mail-account-manage-pop.page:52
 #: C/mail-account-manage-unix-mbox-spool-directory.page:52
 #: C/mail-account-manage-unix-mbox-spool-file.page:52
 #: C/mail-account-manage-usenet-news.page:52
-msgid "Defaults"
-msgstr "Predeterminados"
+msgid "Sending Email"
+msgstr "Envío de correo"
 
 #. (itstool) path: info/title
 #: C/mail-account-manage-imap-plus.page:57
 msgctxt "link"
+msgid "Defaults (IMAP+ accounts)"
+msgstr "Opciones predeterminadas (cuentas IMAP+)"
+
+#. (itstool) path: info/title
+#: C/mail-account-manage-imap-plus.page:58
+#: C/mail-account-manage-local-delivery.page:58
+#: C/mail-account-manage-maildir-format-directories.page:59
+#: C/mail-account-manage-mh-format-directories.page:58
+#: C/mail-account-manage-microsoft-exchange-evo-ews.page:53
+#: C/mail-account-manage-microsoft-exchange-evo-mapi.page:46
+#: C/mail-account-manage-pop.page:58
+#: C/mail-account-manage-unix-mbox-spool-directory.page:58
+#: C/mail-account-manage-unix-mbox-spool-file.page:58
+#: C/mail-account-manage-usenet-news.page:58
+#| msgid "Defaults"
+msgctxt "link:trail"
+msgid "Defaults"
+msgstr "Predeterminados"
+
+#. (itstool) path: section/title
+#: C/mail-account-manage-imap-plus.page:60
+#: C/mail-account-manage-local-delivery.page:60
+#: C/mail-account-manage-maildir-format-directories.page:61
+#: C/mail-account-manage-mh-format-directories.page:60
+#: C/mail-account-manage-microsoft-exchange-evo-ews.page:55
+#: C/mail-account-manage-microsoft-exchange-evo-mapi.page:48
+#: C/mail-account-manage-pop.page:60
+#: C/mail-account-manage-unix-mbox-spool-directory.page:60
+#: C/mail-account-manage-unix-mbox-spool-file.page:60
+#: C/mail-account-manage-usenet-news.page:60
+msgid "Defaults"
+msgstr "Predeterminados"
+
+#. (itstool) path: info/title
+#: C/mail-account-manage-imap-plus.page:65
+msgctxt "link"
 msgid "Composing Messages (IMAP+ accounts)"
 msgstr "Redactar correos (cuentas IMAP+)"
 
-#. (itstool) path: section/title
-#: C/mail-account-manage-imap-plus.page:59
-#: C/mail-account-manage-local-delivery.page:59
-#: C/mail-account-manage-maildir-format-directories.page:60
-#: C/mail-account-manage-mh-format-directories.page:59
-#: C/mail-account-manage-microsoft-exchange-evo-ews.page:55
-#: C/mail-account-manage-microsoft-exchange-evo-mapi.page:52
-#: C/mail-account-manage-pop.page:59
-#: C/mail-account-manage-unix-mbox-spool-directory.page:59
-#: C/mail-account-manage-unix-mbox-spool-file.page:59
-#: C/mail-account-manage-usenet-news.page:59
-msgid "Composing Messages"
-msgstr "Redactar correos"
-
 #. (itstool) path: info/title
-#: C/mail-account-manage-imap-plus.page:64
-msgctxt "link"
-msgid "Security (IMAP+ accounts)"
-msgstr "Seguridad (cuentas IMAP+)"
-
-#. (itstool) path: section/title
 #: C/mail-account-manage-imap-plus.page:66
 #: C/mail-account-manage-local-delivery.page:66
 #: C/mail-account-manage-maildir-format-directories.page:67
 #: C/mail-account-manage-mh-format-directories.page:66
-#: C/mail-account-manage-microsoft-exchange-evo-ews.page:62
-#: C/mail-account-manage-microsoft-exchange-evo-mapi.page:65
+#: C/mail-account-manage-microsoft-exchange-evo-ews.page:61
+#: C/mail-account-manage-microsoft-exchange-evo-mapi.page:54
 #: C/mail-account-manage-pop.page:66
 #: C/mail-account-manage-unix-mbox-spool-directory.page:66
 #: C/mail-account-manage-unix-mbox-spool-file.page:66
 #: C/mail-account-manage-usenet-news.page:66
+#| msgid "Mail Composing"
+msgctxt "link:trail"
+msgid "Composing"
+msgstr "Componiendo"
+
+#. (itstool) path: section/title
+#: C/mail-account-manage-imap-plus.page:68
+#: C/mail-account-manage-local-delivery.page:68
+#: C/mail-account-manage-maildir-format-directories.page:69
+#: C/mail-account-manage-mh-format-directories.page:68
+#: C/mail-account-manage-microsoft-exchange-evo-ews.page:63
+#: C/mail-account-manage-microsoft-exchange-evo-mapi.page:56
+#: C/mail-account-manage-pop.page:68
+#: C/mail-account-manage-unix-mbox-spool-directory.page:68
+#: C/mail-account-manage-unix-mbox-spool-file.page:68
+#: C/mail-account-manage-usenet-news.page:68
+msgid "Composing Messages"
+msgstr "Redactar correos"
+
+#. (itstool) path: info/title
+#: C/mail-account-manage-imap-plus.page:73
+msgctxt "link"
+msgid "Security (IMAP+ accounts)"
+msgstr "Seguridad (cuentas IMAP+)"
+
+#. (itstool) path: info/title
+#: C/mail-account-manage-imap-plus.page:74
+#: C/mail-account-manage-local-delivery.page:74
+#: C/mail-account-manage-maildir-format-directories.page:75
+#: C/mail-account-manage-mh-format-directories.page:74
+#: C/mail-account-manage-microsoft-exchange-evo-ews.page:69
+#: C/mail-account-manage-microsoft-exchange-evo-mapi.page:68
+#: C/mail-account-manage-pop.page:74
+#: C/mail-account-manage-unix-mbox-spool-directory.page:74
+#: C/mail-account-manage-unix-mbox-spool-file.page:74
+#: C/mail-account-manage-usenet-news.page:74
+#| msgid "Security"
+msgctxt "link:trail"
+msgid "Security"
+msgstr "Seguridad"
+
+#. (itstool) path: section/title
+#: C/mail-account-manage-imap-plus.page:76
+#: C/mail-account-manage-local-delivery.page:76
+#: C/mail-account-manage-maildir-format-directories.page:77
+#: C/mail-account-manage-mh-format-directories.page:76
+#: C/mail-account-manage-microsoft-exchange-evo-ews.page:71
+#: C/mail-account-manage-microsoft-exchange-evo-mapi.page:70
+#: C/mail-account-manage-pop.page:76
+#: C/mail-account-manage-unix-mbox-spool-directory.page:76
+#: C/mail-account-manage-unix-mbox-spool-file.page:76
+#: C/mail-account-manage-usenet-news.page:76
 msgid "Security"
 msgstr "Seguridad"
 
 #. (itstool) path: info/title
-#: C/mail-account-manage-imap-plus.page:75
+#: C/mail-account-manage-imap-plus.page:85
 msgctxt "link"
 msgid "Other settings (IMAP+ accounts)"
 msgstr "Otros ajustes (cuentas IMAP+)"
 
+#. (itstool) path: info/title
+#: C/mail-account-manage-imap-plus.page:86
+#| msgid "Other settings"
+msgctxt "link:trail"
+msgid "Other settings"
+msgstr "Otros ajustes"
+
 #. (itstool) path: section/title
-#: C/mail-account-manage-imap-plus.page:77
-#: C/mail-account-manage-usenet-news.page:75
+#: C/mail-account-manage-imap-plus.page:88
+#: C/mail-account-manage-usenet-news.page:86
 msgid "Other settings"
 msgstr "Otros ajustes"
 
 #. (itstool) path: section/p
-#: C/mail-account-manage-imap-plus.page:78
-#: C/mail-account-manage-usenet-news.page:76
+#: C/mail-account-manage-imap-plus.page:89
+#: C/mail-account-manage-usenet-news.page:87
 msgid ""
 "Other account related settings that are not located in the <gui>Account "
 "Editor</gui>:"
@@ -5826,18 +5952,26 @@ msgstr "Otros ajustes "
 msgid "Add and edit a Local Delivery account in <app>Evolution</app>."
 msgstr "Añadir y editar una cuenta de envío local en <app>Evolution</app>."
 
+#. (itstool) path: info/title
+#: C/mail-account-manage-local-delivery.page:8
+#: C/mail-account-management.page:31
+#| msgid "Location"
+msgctxt "link:trail"
+msgid "Local"
+msgstr "Local"
+
 #. (itstool) path: page/title
-#: C/mail-account-manage-local-delivery.page:20
+#: C/mail-account-manage-local-delivery.page:21
 msgid "Local Delivery account settings"
 msgstr "Configuración de cuenta de envío local"
 
 #. (itstool) path: section/p
-#: C/mail-account-manage-local-delivery.page:25
-#: C/mail-account-manage-maildir-format-directories.page:26
-#: C/mail-account-manage-mh-format-directories.page:25
-#: C/mail-account-manage-pop.page:25
-#: C/mail-account-manage-unix-mbox-spool-directory.page:25
-#: C/mail-account-manage-unix-mbox-spool-file.page:25
+#: C/mail-account-manage-local-delivery.page:26
+#: C/mail-account-manage-maildir-format-directories.page:27
+#: C/mail-account-manage-mh-format-directories.page:26
+#: C/mail-account-manage-pop.page:26
+#: C/mail-account-manage-unix-mbox-spool-directory.page:26
+#: C/mail-account-manage-unix-mbox-spool-file.page:26
 msgid ""
 "Mail accounts can be edited via <guiseq><gui>Edit</gui><gui>Preferences</"
 "gui><gui>Mail Accounts</gui><gui style=\"button\">Edit</gui></guiseq>."
@@ -5847,31 +5981,39 @@ msgstr ""
 "\">Editar</gui></guiseq>."
 
 #. (itstool) path: info/title
-#: C/mail-account-manage-local-delivery.page:36
+#: C/mail-account-manage-local-delivery.page:31
+#| msgctxt "link"
+#| msgid "Security (Local Delivery accounts)"
+msgctxt "link"
+msgid "Identity (Local Delivery accounts)"
+msgstr "Identidad (cuentas de envío local)"
+
+#. (itstool) path: info/title
+#: C/mail-account-manage-local-delivery.page:41
 msgctxt "link"
 msgid "Receiving Email and Receiving options (Local Delivery accounts)"
 msgstr "Recibir correo y opciones de recepción (cuentas de envío local)"
 
 #. (itstool) path: info/title
-#: C/mail-account-manage-local-delivery.page:43
+#: C/mail-account-manage-local-delivery.page:49
 msgctxt "link"
 msgid "Sending Email (Local Delivery accounts)"
 msgstr "Envío de correo (cuentas de envío local)"
 
 #. (itstool) path: info/title
-#: C/mail-account-manage-local-delivery.page:50
+#: C/mail-account-manage-local-delivery.page:57
 msgctxt "link"
 msgid "Defaults (Local Delivery accounts)"
 msgstr "Opciones predeterminadas (cuentas de envío local)"
 
 #. (itstool) path: info/title
-#: C/mail-account-manage-local-delivery.page:57
+#: C/mail-account-manage-local-delivery.page:65
 msgctxt "link"
 msgid "Composing Messages (Local Delivery accounts)"
 msgstr "Redactar correos (cuentas de envío local)"
 
 #. (itstool) path: info/title
-#: C/mail-account-manage-local-delivery.page:64
+#: C/mail-account-manage-local-delivery.page:73
 msgctxt "link"
 msgid "Security (Local Delivery accounts)"
 msgstr "Seguridad (cuentas de envío local)"
@@ -5885,18 +6027,33 @@ msgstr ""
 "Añadir y editar una cuenta de directorios de correo en formato Maildir en "
 "<app>Evolution</app>."
 
+#. (itstool) path: info/title
+#: C/mail-account-manage-maildir-format-directories.page:8
+#| msgid "Mail"
+msgctxt "link:trail"
+msgid "Maildir"
+msgstr "Maildir"
+
 #. (itstool) path: page/title
-#: C/mail-account-manage-maildir-format-directories.page:20
+#: C/mail-account-manage-maildir-format-directories.page:21
 msgid "Maildir Format Mail Directories account settings"
 msgstr "Configuración de cuenta para directorios de correo en formato Maildir"
 
 #. (itstool) path: section/p
-#: C/mail-account-manage-maildir-format-directories.page:24
+#: C/mail-account-manage-maildir-format-directories.page:25
 msgid "<app>Evolution</app> supports the Maildir++ specification."
 msgstr "<app>Evolution</app> soporta la especificación Maildir++."
 
 #. (itstool) path: info/title
-#: C/mail-account-manage-maildir-format-directories.page:37
+#: C/mail-account-manage-maildir-format-directories.page:32
+#| msgctxt "link"
+#| msgid "Security (Maildir Format Mail Directories accounts)"
+msgctxt "link"
+msgid "Identity (Maildir Format Mail Directories accounts)"
+msgstr "Identidad (cuentas para directorios de correo en formato Maildir)"
+
+#. (itstool) path: info/title
+#: C/mail-account-manage-maildir-format-directories.page:42
 msgctxt "link"
 msgid ""
 "Receiving Email and Receiving options (Maildir Format Mail Directories "
@@ -5906,14 +6063,14 @@ msgstr ""
 "correo en formato Maildir)"
 
 #. (itstool) path: info/title
-#: C/mail-account-manage-maildir-format-directories.page:44
+#: C/mail-account-manage-maildir-format-directories.page:50
 msgctxt "link"
 msgid "Sending Email (Maildir Format Mail Directories accounts)"
 msgstr ""
 "Envío de correo (cuentas para directorios de correo en formato Maildir)"
 
 #. (itstool) path: info/title
-#: C/mail-account-manage-maildir-format-directories.page:51
+#: C/mail-account-manage-maildir-format-directories.page:58
 msgctxt "link"
 msgid "Defaults (Maildir Format Mail Directories accounts)"
 msgstr ""
@@ -5921,14 +6078,14 @@ msgstr ""
 "Maildir)"
 
 #. (itstool) path: info/title
-#: C/mail-account-manage-maildir-format-directories.page:58
+#: C/mail-account-manage-maildir-format-directories.page:66
 msgctxt "link"
 msgid "Composing Messages (Maildir Format Mail Directories accounts)"
 msgstr ""
 "Redactar correos (cuentas para directorios de correo en formato Maildir)"
 
 #. (itstool) path: info/title
-#: C/mail-account-manage-maildir-format-directories.page:65
+#: C/mail-account-manage-maildir-format-directories.page:74
 msgctxt "link"
 msgid "Security (Maildir Format Mail Directories accounts)"
 msgstr "Seguridad (cuentas para directorios de correo en formato Maildir)"
@@ -5943,18 +6100,30 @@ msgstr "Añadir, editar y gestionar cuentas de correo."
 msgid "Account Management"
 msgstr "Gestión de la cuenta"
 
+#. (itstool) path: info/title
+#: C/mail-account-management.page:24
+msgctxt "link:trail"
+msgid "Common"
+msgstr "Común"
+
 #. (itstool) path: section/title
-#: C/mail-account-management.page:23
+#: C/mail-account-management.page:26
 msgid "Common Account Types"
 msgstr "Tipos comunes de cuentas"
 
 #. (itstool) path: section/title
-#: C/mail-account-management.page:27
+#: C/mail-account-management.page:33
 msgid "Local Account Types"
 msgstr "Tipos de cuenta locales"
 
+#. (itstool) path: info/title
+#: C/mail-account-management.page:38
+msgctxt "link:trail"
+msgid "Corporate"
+msgstr "Corporativa"
+
 #. (itstool) path: section/title
-#: C/mail-account-management.page:31
+#: C/mail-account-management.page:40
 msgid "Corporate Account Types"
 msgstr "Tipos de cuenta corporativos"
 
@@ -5966,13 +6135,27 @@ msgstr ""
 "Añadir y editar una cuenta de directorios de correo en formato MH en "
 "<app>Evolution</app>."
 
+#. (itstool) path: info/title
+#: C/mail-account-manage-mh-format-directories.page:8
+msgctxt "link:trail"
+msgid "MH Format"
+msgstr "Formato MH"
+
 #. (itstool) path: page/title
-#: C/mail-account-manage-mh-format-directories.page:20
+#: C/mail-account-manage-mh-format-directories.page:21
 msgid "MH Format Mail Directories account settings"
 msgstr "Configuración de cuenta para directorios de correo en formato MH"
 
 #. (itstool) path: info/title
-#: C/mail-account-manage-mh-format-directories.page:36
+#: C/mail-account-manage-mh-format-directories.page:31
+#| msgctxt "link"
+#| msgid "Security (MH Format Mail Directories accounts)"
+msgctxt "link"
+msgid "Identity (MH Format Mail Directories accounts)"
+msgstr "Identidad (cuentas para directorios de correo en formato MH)"
+
+#. (itstool) path: info/title
+#: C/mail-account-manage-mh-format-directories.page:41
 msgctxt "link"
 msgid ""
 "Receiving Email and Receiving options (MH Format Mail Directories accounts)"
@@ -5981,26 +6164,26 @@ msgstr ""
 "correo en formato MH)"
 
 #. (itstool) path: info/title
-#: C/mail-account-manage-mh-format-directories.page:43
+#: C/mail-account-manage-mh-format-directories.page:49
 msgctxt "link"
 msgid "Sending Email (MH Format Mail Directories accounts)"
 msgstr "Envío de correo (cuentas para directorios de correo en formato MH)"
 
 #. (itstool) path: info/title
-#: C/mail-account-manage-mh-format-directories.page:50
+#: C/mail-account-manage-mh-format-directories.page:57
 msgctxt "link"
 msgid "Defaults (MH Format Mail Directories accounts)"
 msgstr ""
 "Opciones predeterminadas (cuentas para directorios de correo en formato MH)"
 
 #. (itstool) path: info/title
-#: C/mail-account-manage-mh-format-directories.page:57
+#: C/mail-account-manage-mh-format-directories.page:65
 msgctxt "link"
 msgid "Composing Messages (MH Format Mail Directories accounts)"
 msgstr "Redactar correos (cuentas para directorios de correo en formato MH)"
 
 #. (itstool) path: info/title
-#: C/mail-account-manage-mh-format-directories.page:64
+#: C/mail-account-manage-mh-format-directories.page:73
 msgctxt "link"
 msgid "Security (MH Format Mail Directories accounts)"
 msgstr "Seguridad (cuentas para directorios de correo en formato MH)"
@@ -6014,13 +6197,19 @@ msgstr ""
 "Añadir y editar una cuenta de Microsoft Exchange 2007 o 2010 en "
 "<app>Evolution</app>."
 
+#. (itstool) path: info/title
+#: C/mail-account-manage-microsoft-exchange-evo-ews.page:8
+msgctxt "link:trail"
+msgid "Web Services"
+msgstr "Servicios web"
+
 #. (itstool) path: page/title
-#: C/mail-account-manage-microsoft-exchange-evo-ews.page:20
+#: C/mail-account-manage-microsoft-exchange-evo-ews.page:21
 msgid "Exchange Web Services account settings"
 msgstr "Configuración de cuenta para Exchange Web Services"
 
 #. (itstool) path: note/p
-#: C/mail-account-manage-microsoft-exchange-evo-ews.page:27
+#: C/mail-account-manage-microsoft-exchange-evo-ews.page:28
 msgid ""
 "See also the <link href=\"https://wiki.gnome.org/Apps/Evolution/EWS/"
 "OAuth2\">documentation how to set up and troubleshoot OAuth2</link> "
@@ -6031,37 +6220,45 @@ msgstr ""
 "link>."
 
 #. (itstool) path: info/title
-#: C/mail-account-manage-microsoft-exchange-evo-ews.page:39
+#: C/mail-account-manage-microsoft-exchange-evo-ews.page:34
+#| msgctxt "link"
+#| msgid "Security (Exchange Web Services accounts)"
+msgctxt "link"
+msgid "Identity (Exchange Web Services accounts)"
+msgstr "Identidad (cuentas Exchange Web Services)"
+
+#. (itstool) path: info/title
+#: C/mail-account-manage-microsoft-exchange-evo-ews.page:44
 msgctxt "link"
 msgid "Receiving Email and Receiving options (Exchange Web Services accounts)"
 msgstr ""
 "Recepción de correo y opciones de recepción (cuentas Exchange Web Services)"
 
 #. (itstool) path: info/title
-#: C/mail-account-manage-microsoft-exchange-evo-ews.page:46
+#: C/mail-account-manage-microsoft-exchange-evo-ews.page:52
 msgctxt "link"
 msgid "Defaults (Exchange Web Services accounts)"
 msgstr "Opciones predeterminadas (cuentas para Exchange Web Services)"
 
 #. (itstool) path: info/title
-#: C/mail-account-manage-microsoft-exchange-evo-ews.page:53
+#: C/mail-account-manage-microsoft-exchange-evo-ews.page:60
 msgctxt "link"
 msgid "Composing Messages (Exchange Web Services accounts)"
 msgstr "Redactar correos (cuentas para Exchange Web Services)"
 
 #. (itstool) path: info/title
-#: C/mail-account-manage-microsoft-exchange-evo-ews.page:60
+#: C/mail-account-manage-microsoft-exchange-evo-ews.page:68
 msgctxt "link"
 msgid "Security (Exchange Web Services accounts)"
 msgstr "Seguridad (cuentas Exchange Web Services)"
 
 #. (itstool) path: section/title
-#: C/mail-account-manage-microsoft-exchange-evo-ews.page:66
+#: C/mail-account-manage-microsoft-exchange-evo-ews.page:75
 msgid "Out of Office"
 msgstr "Fuera de la oficina"
 
 #. (itstool) path: section/p
-#: C/mail-account-manage-microsoft-exchange-evo-ews.page:67
+#: C/mail-account-manage-microsoft-exchange-evo-ews.page:76
 msgid ""
 "Define the email reply to automatically send to internal or external persons "
 "in a certain time period."
@@ -6070,12 +6267,12 @@ msgstr ""
 "internas o externas en un cierto periodo de tiempo."
 
 #. (itstool) path: section/title
-#: C/mail-account-manage-microsoft-exchange-evo-ews.page:71
+#: C/mail-account-manage-microsoft-exchange-evo-ews.page:80
 msgid "Delegates"
 msgstr "Delegados"
 
 #. (itstool) path: section/p
-#: C/mail-account-manage-microsoft-exchange-evo-ews.page:72
+#: C/mail-account-manage-microsoft-exchange-evo-ews.page:81
 msgid ""
 "Define who can send emails and reply to meeting requests on your behalf."
 msgstr ""
@@ -6089,41 +6286,47 @@ msgstr ""
 "Añadir y editar una cuenta de Microsoft Exchange MAPI en <app>Evolution</"
 "app>."
 
+#. (itstool) path: info/title
+#: C/mail-account-manage-microsoft-exchange-evo-mapi.page:8
+msgctxt "link:trail"
+msgid "MAPI"
+msgstr "MAPI"
+
 #. (itstool) path: page/title
-#: C/mail-account-manage-microsoft-exchange-evo-mapi.page:20
+#: C/mail-account-manage-microsoft-exchange-evo-mapi.page:21
 msgid "Exchange MAPI account settings"
 msgstr "Configuración de cuenta para Exchange MAPI"
 
 #. (itstool) path: info/title
-#: C/mail-account-manage-microsoft-exchange-evo-mapi.page:36
+#: C/mail-account-manage-microsoft-exchange-evo-mapi.page:37
 msgctxt "link"
 msgid "Receiving Email and Receiving options (Exchange MAPI accounts)"
 msgstr "Recepción de correo y opciones de recepción (cuentas Exchange MAPI)"
 
 #. (itstool) path: info/title
-#: C/mail-account-manage-microsoft-exchange-evo-mapi.page:43
+#: C/mail-account-manage-microsoft-exchange-evo-mapi.page:45
 msgctxt "link"
 msgid "Defaults (Exchange MAPI accounts)"
 msgstr "Opciones predeterminadas (cuentas para Exchange MAPI)"
 
 #. (itstool) path: info/title
-#: C/mail-account-manage-microsoft-exchange-evo-mapi.page:50
+#: C/mail-account-manage-microsoft-exchange-evo-mapi.page:53
 msgctxt "link"
 msgid "Composing Messages (Exchange MAPI accounts)"
 msgstr "Redactar correos (cuentas para Exchange MAPI)"
 
 #. (itstool) path: section/title
-#: C/mail-account-manage-microsoft-exchange-evo-mapi.page:57
+#: C/mail-account-manage-microsoft-exchange-evo-mapi.page:61
 msgid "Exchange Settings"
 msgstr "Configuración de Exchange"
 
 #. (itstool) path: section/p
-#: C/mail-account-manage-microsoft-exchange-evo-mapi.page:58
+#: C/mail-account-manage-microsoft-exchange-evo-mapi.page:62
 msgid "In this section you can view the size of all Exchange folders."
 msgstr "En esta sección puede ver el tamaño de todas sus carpetas Exchange."
 
 #. (itstool) path: info/title
-#: C/mail-account-manage-microsoft-exchange-evo-mapi.page:63
+#: C/mail-account-manage-microsoft-exchange-evo-mapi.page:67
 msgctxt "link"
 msgid "Security (Exchange MAPI accounts)"
 msgstr "Seguridad (cuentas Exchange MAPI)"
@@ -6134,13 +6337,20 @@ msgid "Add and edit a Microsoft Exchange account in <app>Evolution</app>."
 msgstr ""
 "Añadir y editar una cuenta de Microsoft Exchange en <app>Evolution</app>."
 
+#. (itstool) path: info/title
+#: C/mail-account-manage-microsoft-exchange.page:10
+#| msgid "Microsoft Exchange"
+msgctxt "link:trail"
+msgid "Microsoft Exchange"
+msgstr "Microsoft Exchange"
+
 #. (itstool) path: page/title
-#: C/mail-account-manage-microsoft-exchange.page:22
+#: C/mail-account-manage-microsoft-exchange.page:23
 msgid "Microsoft Exchange account settings"
 msgstr "Configuración de cuenta para Microsoft Exchange"
 
 #. (itstool) path: note/p
-#: C/mail-account-manage-microsoft-exchange.page:24
+#: C/mail-account-manage-microsoft-exchange.page:25
 msgid ""
 "Depending on the version of the Microsoft Exchange server that you would "
 "like to connect to it is required to make sure that an additional package is "
@@ -6151,7 +6361,7 @@ msgstr ""
 "proporciona esta funcionalidad."
 
 #. (itstool) path: note/p
-#: C/mail-account-manage-microsoft-exchange.page:35
+#: C/mail-account-manage-microsoft-exchange.page:36
 msgid ""
 "For older versions of Microsoft Exchange, or if <sys>evolution-ews</sys> "
 "does not work well for you, try <sys>evolution-mapi</sys>."
@@ -6160,7 +6370,7 @@ msgstr ""
 "no le funciona bien, pruebe <sys>evolution-mapi</sys>."
 
 #. (itstool) path: note/p
-#: C/mail-account-manage-microsoft-exchange.page:45
+#: C/mail-account-manage-microsoft-exchange.page:46
 msgid ""
 "If you are unsure which Microsoft Exchange server version is used, you may "
 "want to contact your system administrator for more information."
@@ -6170,7 +6380,7 @@ msgstr ""
 "información."
 
 #. (itstool) path: page/p
-#: C/mail-account-manage-microsoft-exchange.page:47
+#: C/mail-account-manage-microsoft-exchange.page:48
 msgid ""
 "For topics not covered here please refer to the <link href=\"https://help."
 "gnome.org/users/evolution/2.32/usage-exchange.html\">old <app>Evolution</"
@@ -6185,37 +6395,52 @@ msgstr ""
 msgid "Add and edit a POP mail account in <app>Evolution</app>."
 msgstr "Añadir y editar una cuenta de correo POP en <app>Evolution</app>."
 
+#. (itstool) path: info/title
+#: C/mail-account-manage-pop.page:8
+#| msgid "POP"
+msgctxt "link:trail"
+msgid "POP"
+msgstr "POP"
+
 #. (itstool) path: page/title
-#: C/mail-account-manage-pop.page:20
+#: C/mail-account-manage-pop.page:21
 msgid "POP mail account settings"
 msgstr "Configuración de cuenta de correo POP"
 
 #. (itstool) path: info/title
-#: C/mail-account-manage-pop.page:36
+#: C/mail-account-manage-pop.page:31
+#| msgctxt "link"
+#| msgid "Security (POP accounts)"
+msgctxt "link"
+msgid "Identity (POP accounts)"
+msgstr "Identidad (cuentas POP)"
+
+#. (itstool) path: info/title
+#: C/mail-account-manage-pop.page:41
 msgctxt "link"
 msgid "Receiving Email and Receiving options (POP accounts)"
 msgstr "Recepción de correo y opciones de recepción (cuentas POP)"
 
 #. (itstool) path: info/title
-#: C/mail-account-manage-pop.page:43
+#: C/mail-account-manage-pop.page:49
 msgctxt "link"
 msgid "Sending Email (POP accounts)"
 msgstr "Envío de correo (cuentas POP)"
 
 #. (itstool) path: info/title
-#: C/mail-account-manage-pop.page:50
+#: C/mail-account-manage-pop.page:57
 msgctxt "link"
 msgid "Defaults (POP accounts)"
 msgstr "Opciones predeterminadas (cuentas POP)"
 
 #. (itstool) path: info/title
-#: C/mail-account-manage-pop.page:57
+#: C/mail-account-manage-pop.page:65
 msgctxt "link"
 msgid "Composing Messages (POP accounts)"
 msgstr "Redactar correos (cuentas POP)"
 
 #. (itstool) path: info/title
-#: C/mail-account-manage-pop.page:64
+#: C/mail-account-manage-pop.page:73
 msgctxt "link"
 msgid "Security (POP accounts)"
 msgstr "Seguridad (cuentas POP)"
@@ -6229,15 +6454,30 @@ msgstr ""
 "Añadir y editar una cuenta de Archivo spool mbox estándar de Unix en "
 "<app>Evolution</app>."
 
+#. (itstool) path: info/title
+#: C/mail-account-manage-unix-mbox-spool-directory.page:8
+msgctxt "link:trail"
+msgid "mbox Directory"
+msgstr "Carpeta mbox"
+
 #. (itstool) path: page/title
-#: C/mail-account-manage-unix-mbox-spool-directory.page:20
+#: C/mail-account-manage-unix-mbox-spool-directory.page:21
 msgid "Standard Unix mbox Spool Directory account settings"
 msgstr ""
 "Configuración de cuenta de directorios de correo mbox en formato estándar de "
 "Unix"
 
 #. (itstool) path: info/title
-#: C/mail-account-manage-unix-mbox-spool-directory.page:36
+#: C/mail-account-manage-unix-mbox-spool-directory.page:31
+#| msgctxt "link"
+#| msgid "Security (Standard Unix mbox Spool Directory accounts)"
+msgctxt "link"
+msgid "Identity (Standard Unix mbox Spool Directory accounts)"
+msgstr ""
+"Identidad (cuentas de directorios de correo mbox en formato estándar de Unix)"
+
+#. (itstool) path: info/title
+#: C/mail-account-manage-unix-mbox-spool-directory.page:41
 msgctxt "link"
 msgid ""
 "Receiving Email and Receiving options (Standard Unix mbox Spool Directory "
@@ -6247,7 +6487,7 @@ msgstr ""
 "estándar de Unix)"
 
 #. (itstool) path: info/title
-#: C/mail-account-manage-unix-mbox-spool-directory.page:43
+#: C/mail-account-manage-unix-mbox-spool-directory.page:49
 msgctxt "link"
 msgid "Sending Email (Standard Unix mbox Spool Directory accounts)"
 msgstr ""
@@ -6255,7 +6495,7 @@ msgstr ""
 "de Unix)"
 
 #. (itstool) path: info/title
-#: C/mail-account-manage-unix-mbox-spool-directory.page:50
+#: C/mail-account-manage-unix-mbox-spool-directory.page:57
 msgctxt "link"
 msgid "Defaults (Standard Unix mbox Spool Directory accounts)"
 msgstr ""
@@ -6263,7 +6503,7 @@ msgstr ""
 "estándar de Unix)"
 
 #. (itstool) path: info/title
-#: C/mail-account-manage-unix-mbox-spool-directory.page:57
+#: C/mail-account-manage-unix-mbox-spool-directory.page:65
 msgctxt "link"
 msgid "Composing Messages (Standard Unix mbox Spool Directory accounts)"
 msgstr ""
@@ -6271,7 +6511,7 @@ msgstr ""
 "de Unix)"
 
 #. (itstool) path: info/title
-#: C/mail-account-manage-unix-mbox-spool-directory.page:64
+#: C/mail-account-manage-unix-mbox-spool-directory.page:73
 msgctxt "link"
 msgid "Security (Standard Unix mbox Spool Directory accounts)"
 msgstr ""
@@ -6285,13 +6525,27 @@ msgstr ""
 "Añadir y editar una cuenta de Archivo spool mbox estándar de Unix en "
 "<app>Evolution</app>."
 
+#. (itstool) path: info/title
+#: C/mail-account-manage-unix-mbox-spool-file.page:8
+msgctxt "link:trail"
+msgid "mbox File"
+msgstr "Archivo mbox"
+
 #. (itstool) path: page/title
-#: C/mail-account-manage-unix-mbox-spool-file.page:20
+#: C/mail-account-manage-unix-mbox-spool-file.page:21
 msgid "Standard Unix mbox Spool File account settings"
 msgstr "Configuración de cuenta de Archivo spool mbox estándar de Unix"
 
 #. (itstool) path: info/title
-#: C/mail-account-manage-unix-mbox-spool-file.page:36
+#: C/mail-account-manage-unix-mbox-spool-file.page:31
+#| msgctxt "link"
+#| msgid "Security (Standard Unix mbox Spool File accounts)"
+msgctxt "link"
+msgid "Identity (Standard Unix mbox Spool File accounts)"
+msgstr "Identidad (cuentas de Archivo spool mbox estándar de Unix)"
+
+#. (itstool) path: info/title
+#: C/mail-account-manage-unix-mbox-spool-file.page:41
 msgctxt "link"
 msgid ""
 "Receiving Email and Receiving options (Standard Unix mbox Spool File "
@@ -6301,26 +6555,26 @@ msgstr ""
 "estándar de Unix)"
 
 #. (itstool) path: info/title
-#: C/mail-account-manage-unix-mbox-spool-file.page:43
+#: C/mail-account-manage-unix-mbox-spool-file.page:49
 msgctxt "link"
 msgid "Sending Email (Standard Unix mbox Spool File accounts)"
 msgstr "Envío de correo (cuenta de Archivo spool mbox estándar de Unix)"
 
 #. (itstool) path: info/title
-#: C/mail-account-manage-unix-mbox-spool-file.page:50
+#: C/mail-account-manage-unix-mbox-spool-file.page:57
 msgctxt "link"
 msgid "Defaults (Standard Unix mbox Spool File accounts)"
 msgstr ""
 "Opciones predeterminadas (cuentas de Archivo spool mbox estándar de Unix)"
 
 #. (itstool) path: info/title
-#: C/mail-account-manage-unix-mbox-spool-file.page:57
+#: C/mail-account-manage-unix-mbox-spool-file.page:65
 msgctxt "link"
 msgid "Composing Messages (Standard Unix mbox Spool File accounts)"
 msgstr "Redactar correos (cuentas de archivo spool mbox estándar de Unix)"
 
 #. (itstool) path: info/title
-#: C/mail-account-manage-unix-mbox-spool-file.page:64
+#: C/mail-account-manage-unix-mbox-spool-file.page:73
 msgctxt "link"
 msgid "Security (Standard Unix mbox Spool File accounts)"
 msgstr "Seguridad (cuentas de Archivo spool mbox estándar de Unix)"
@@ -6331,47 +6585,68 @@ msgid "Add and edit a Usenet news account in <app>Evolution</app>."
 msgstr ""
 "Añadir y editar una cuenta de noticias de Usenet en <app>Evolution</app>."
 
+#. (itstool) path: info/title
+#: C/mail-account-manage-usenet-news.page:8
+msgctxt "link:trail"
+msgid "Usenet"
+msgstr "Usenet"
+
 #. (itstool) path: page/title
-#: C/mail-account-manage-usenet-news.page:20
+#: C/mail-account-manage-usenet-news.page:21
 msgid "Usenet news account settings"
 msgstr "Configuración de cuenta de noticias de Usenet"
 
 #. (itstool) path: info/title
-#: C/mail-account-manage-usenet-news.page:36
+#: C/mail-account-manage-usenet-news.page:31
+#| msgctxt "link"
+#| msgid "Security (Usenet News accounts)"
+msgctxt "link"
+msgid "Identity (Usenet News accounts)"
+msgstr "Identidad (cuentas de noticias de Usenet)"
+
+#. (itstool) path: info/title
+#: C/mail-account-manage-usenet-news.page:41
 msgctxt "link"
 msgid "Receiving Email and Receiving options (Usenet News accounts)"
 msgstr ""
 "Recepción de correo y opciones de recepción (cuentas de noticias de Usenet)"
 
 #. (itstool) path: info/title
-#: C/mail-account-manage-usenet-news.page:43
+#: C/mail-account-manage-usenet-news.page:49
 msgctxt "link"
 msgid "Sending Email (Usenet News accounts)"
 msgstr "Envío de correo (cuentas de noticias de Usenet)"
 
 #. (itstool) path: info/title
-#: C/mail-account-manage-usenet-news.page:50
+#: C/mail-account-manage-usenet-news.page:57
 msgctxt "link"
 msgid "Defaults (Usenet News accounts)"
 msgstr "Opciones predeterminadas (cuentas de noticias de Usenet)"
 
 #. (itstool) path: info/title
-#: C/mail-account-manage-usenet-news.page:57
+#: C/mail-account-manage-usenet-news.page:65
 msgctxt "link"
 msgid "Composing Messages (Usenet News accounts)"
 msgstr "Redactar correos (cuentas de noticias de Usenet)"
 
 #. (itstool) path: info/title
-#: C/mail-account-manage-usenet-news.page:64
+#: C/mail-account-manage-usenet-news.page:73
 msgctxt "link"
 msgid "Security (Usenet News accounts)"
 msgstr "Seguridad (cuentas de noticias de Usenet)"
 
 #. (itstool) path: info/title
-#: C/mail-account-manage-usenet-news.page:73
+#: C/mail-account-manage-usenet-news.page:83
 msgctxt "link"
 msgid "Other settings (Usenet News accounts)"
 msgstr "Otra configuración (cuentas de noticias de Usenet)"
+
+#. (itstool) path: info/title
+#: C/mail-account-manage-usenet-news.page:84
+#| msgid "Other"
+msgctxt "link:trail"
+msgid "Other"
+msgstr "Otro"
 
 #. (itstool) path: info/desc
 #: C/mail-attachments.page:5
@@ -12226,57 +12501,39 @@ msgid "whether certain flag is set; known special values are:"
 msgstr "indica si existe determinada opción. Los valores especiales son:"
 
 #. (itstool) path: td/p
-#. (itstool) comment: ./code
 #. Translators: This is translated in a 'ffe' context
 #: C/mail-searching.page:80
-msgid ""
-"<code its:locNote=\"Translators: This is translated in a 'ffe' context"
-"\">Answered</code> - the message is marked as replied"
+msgid "<code>Answered</code> - the message is marked as replied"
 msgstr ""
 
 #. (itstool) path: td/p
-#. (itstool) comment: ./code
 #. Translators: This is translated in a 'ffe' context
 #: C/mail-searching.page:81
-msgid ""
-"<code its:locNote=\"Translators: This is translated in a 'ffe' context"
-"\">Deleted</code> - the message is marked as deleted"
+msgid "<code>Deleted</code> - the message is marked as deleted"
 msgstr ""
 
 #. (itstool) path: td/p
-#. (itstool) comment: ./code
 #. Translators: This is translated in a 'ffe' context
 #: C/mail-searching.page:82
-msgid ""
-"<code its:locNote=\"Translators: This is translated in a 'ffe' context"
-"\">Draft</code> - the message is marked as draft"
+msgid "<code>Draft</code> - the message is marked as draft"
 msgstr ""
 
 #. (itstool) path: td/p
-#. (itstool) comment: ./code
 #. Translators: This is translated in a 'ffe' context
 #: C/mail-searching.page:83
-msgid ""
-"<code its:locNote=\"Translators: This is translated in a 'ffe' context"
-"\">Flagged</code> - the message is marked as important"
+msgid "<code>Flagged</code> - the message is marked as important"
 msgstr ""
 
 #. (itstool) path: td/p
-#. (itstool) comment: ./code
 #. Translators: This is translated in a 'ffe' context
 #: C/mail-searching.page:84
-msgid ""
-"<code its:locNote=\"Translators: This is translated in a 'ffe' context"
-"\">Seen</code> - the message is marked as seen (not unread)"
+msgid "<code>Seen</code> - the message is marked as seen (not unread)"
 msgstr ""
 
 #. (itstool) path: td/p
-#. (itstool) comment: ./code
 #. Translators: This is translated in a 'ffe' context
 #: C/mail-searching.page:85
-msgid ""
-"<code its:locNote=\"Translators: This is translated in a 'ffe' context"
-"\">Attachment</code> - the message has an attachment"
+msgid "<code>Attachment</code> - the message has an attachment"
 msgstr ""
 
 #. (itstool) path: td/p
@@ -12601,7 +12858,7 @@ msgstr ""
 #. (itstool) path: td/p
 #: C/mail-searching.page:139
 msgid "<code>f:Bob rcv-&gt;:2020-01-01 rcv-&lt;:2020-12-31</code>"
-msgstr ""
+msgstr "<code>f:Bob rcv-&gt;:2020-01-01 rcv-&lt;:2020-12-31</code>"
 
 #. (itstool) path: td/p
 #: C/mail-searching.page:139
@@ -12613,6 +12870,7 @@ msgstr ""
 msgid ""
 "<code>not:(flag:Seen) f:Bob rcv-&gt;:2020-01-01 rcv-&lt;:2020-12-31</code>"
 msgstr ""
+"<code>not:(flag:Seen) f:Bob rcv-&gt;:2020-01-01 rcv-&lt;:2020-12-31</code>"
 
 #. (itstool) path: td/p
 #: C/mail-searching.page:140
@@ -12622,7 +12880,7 @@ msgstr ""
 #. (itstool) path: td/p
 #: C/mail-searching.page:141
 msgid "<code>flag:Seen a:1 sz-&gt;:1024 f:Bob rcv:31</code>"
-msgstr ""
+msgstr "<code>flag:Seen a:1 sz-&gt;:1024 f:Bob rcv:31</code>"
 
 #. (itstool) path: td/p
 #: C/mail-searching.page:141
@@ -16509,9 +16767,6 @@ msgstr "Pulse <_:gui-1/>."
 #~ msgid "Corporate Environments"
 #~ msgstr "Entornos corporativos"
 
-#~ msgid "Microsoft Exchange"
-#~ msgstr "Microsoft Exchange"
-
 #~ msgid "Using <gui>Search</gui> folders"
 #~ msgstr "Usar <gui>Carpetas de búsqueda</gui>"
 
@@ -18178,10 +18433,6 @@ msgstr "Pulse <_:gui-1/>."
 #~ msgid "search"
 #~ msgstr "Buscar:"
 
-#, fuzzy
-#~ msgid "File"
-#~ msgstr "Archivo:"
-
 #~ msgid "New"
 #~ msgstr "Nuevo"
 
@@ -18384,10 +18635,6 @@ msgstr "Pulse <_:gui-1/>."
 #, fuzzy
 #~ msgid "Download Messages for Offline Usage"
 #~ msgstr "_Descargar correos para trabajar sin conexión"
-
-#, fuzzy
-#~ msgid "Format"
-#~ msgstr "Formato:"
 
 #, fuzzy
 #~ msgid "Paragraph Style"
@@ -19182,9 +19429,6 @@ msgstr "Pulse <_:gui-1/>."
 #, fuzzy
 #~ msgid "Configuration instructions"
 #~ msgstr "Versión de la configuración"
-
-#~ msgid "Other"
-#~ msgstr "Otro"
 
 #, fuzzy
 #~ msgid "Standard Instructions"
