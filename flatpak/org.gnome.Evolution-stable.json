@@ -6,8 +6,8 @@
 	"command": "evolution",
 	"rename-icon": "evolution",
 	"copy-icon": true,
-	"branch": "gnome-41",
-	"desktop-file-name-suffix": " (3.42)",
+	"branch": "gnome-42",
+	"desktop-file-name-suffix": " (3.44)",
 	"build-options" : {
 		"cflags": "-O2 -g -Wno-deprecated-declarations",
 		"cxxflags": "-O2 -g -Wno-deprecated-declarations"
@@ -135,8 +135,8 @@
 			"sources": [
 				{
 					"type": "archive",
-					"url": "https://download.gnome.org/sources/gnome-online-accounts/3.38/gnome-online-accounts-3.38.0.tar.xz",
-					"sha256": "3760ea78729b3038dda0c416b57bc2cbaafcc619eec6c5109654d747fad2418c"
+					"url": "https://download.gnome.org/sources/gnome-online-accounts/3.40/gnome-online-accounts-3.40.1.tar.xz",
+					"sha256": "955a03128d0e87855d34d7c534e088f6286ed7ac01baa4ef824ef42a2cb39aad"
 				}
 			]
 		},
@@ -158,8 +158,8 @@
 			"sources": [
 				{
 					"type": "archive",
-					"url": "https://download.gnome.org/sources/libgdata/0.17/libgdata-0.17.13.tar.xz",
-					"sha256": "eab9ef792c3c2b9ece19d45aea15225aba8df2521bc12785b1b2d3318d8c472e"
+					"url": "https://download.gnome.org/sources/libgdata/0.18/libgdata-0.18.1.tar.xz",
+					"sha256": "dd8592eeb6512ad0a8cf5c8be8c72e76f74bfe6b23e4dd93f0756ee0716804c7"
 				}
 			]
 		},
@@ -178,8 +178,8 @@
 			"sources": [
 				{
 					"type": "archive",
-					"url": "https://download.gnome.org/sources/geocode-glib/3.26/geocode-glib-3.26.1.tar.xz",
-					"sha256": "5baa6ab76a76c9fc567e4c32c3af2cd1d1784934c255bc5a62c512e6af6bde1c"
+					"url": "https://download.gnome.org/sources/geocode-glib/3.26/geocode-glib-3.26.2.tar.xz",
+					"sha256": "01fe84cfa0be50c6e401147a2bc5e2f1574326e2293b55c69879be3e82030fd1"
 				}
 			]
 		},
@@ -199,8 +199,8 @@
 			"sources": [
 				{
 					"type": "archive",
-					"url": "https://download.gnome.org/sources/libgweather/3.36/libgweather-3.36.1.tar.xz",
-					"sha256": "de2709f0ee233b20116d5fa9861d406071798c4aa37830ca25f5ef2c0083e450"
+					"url": "https://download.gnome.org/sources/libgweather/40/libgweather-40.0.tar.xz",
+					"sha256": "ca4e8f2a4baaa9fc6d75d8856adb57056ef1cd6e55c775ba878ae141b6276ee6"
 				}
 			]
 		},
@@ -225,8 +225,8 @@
 			"sources": [
 				{
 					"type": "archive",
-					"url": "http://www.openldap.org/software/download/OpenLDAP/openldap-release/openldap-2.4.56.tgz",
-					"sha256": "25520e0363c93f3bcb89802a4aa3db33046206039436e0c7c9262db5a61115e0"
+					"url": "https://www.openldap.org/software/download/OpenLDAP/openldap-release/openldap-2.4.59.tgz",
+					"sha256": "99f37d6747d88206c470067eda624d5e48c1011e943ec0ab217bae8712e22f34"
 				},
 
 				{
@@ -277,8 +277,8 @@
 			"sources": [
 				{
 					"type": "archive",
-					"url": "https://www.gnupg.org/ftp/gcrypt/pinentry/pinentry-1.1.0.tar.bz2",
-					"sha256": "68076686fa724a290ea49cdf0d1c0c1500907d1b759a3bcbfbec0293e8f56570"
+					"url": "https://www.gnupg.org/ftp/gcrypt/pinentry/pinentry-1.2.0.tar.bz2",
+					"sha256": "10072045a3e043d0581f91cd5676fcac7ffee957a16636adedaa4f583a616470"
 				}
 			]
 		},
@@ -339,11 +339,29 @@
 				{
 					"type": "git",
 					"url": "https://gitlab.gnome.org/GNOME/evolution-data-server.git",
-					"branch": "gnome-41"
+					"branch": "gnome-42"
 				}
 			],
 			"post-install": [
 				"cp NEWS /app/share/NEWS.eds"
+			]
+		},
+
+		{
+			"name": "cmark",
+			"buildsystem": "cmake-ninja",
+			"builddir": true,
+			"cleanup": [
+				"/bin",
+				"/lib/cmake",
+				"/share"
+			],
+			"sources": [
+				{
+					"type": "archive",
+					"url": "https://github.com/commonmark/cmark/archive/refs/tags/0.30.2.tar.gz",
+					"sha256": "6c7d2bcaea1433d977d8fed0b55b71c9d045a7cdf616e3cd2dce9007da753db3"
+				}
 			]
 		},
 
@@ -373,7 +391,7 @@
 				{
 					"type": "git",
 					"url": "https://gitlab.gnome.org/GNOME/evolution.git",
-					"branch": "gnome-41"
+					"branch": "gnome-42"
 				},
 				{
 					"type": "shell",
@@ -462,7 +480,7 @@
 				{
 					"type": "git",
 					"url": "https://gitlab.gnome.org/GNOME/evolution-ews.git",
-					"branch": "gnome-41"
+					"branch": "gnome-42"
 				}
 			],
 			"post-install": [
@@ -501,6 +519,22 @@
 			],
 			"build-commands": [
 				"./update-appdata.sh stable"
+			]
+		},
+		{
+			"name": "libsecret",
+			"buildsystem": "meson",
+			"config-opts": [
+				"-Dmanpage=false",
+				"-Dvapi=false",
+				"-Dgtk_doc=false"
+			],
+			"sources": [
+				{
+					"type": "archive",
+					"url": "https://download.gnome.org/sources/libsecret/0.19/libsecret-0.19.1.tar.xz",
+					"sha256": "8583e10179456ae2c83075d95455f156dc08db6278b32bf4bd61819335a30e3a"
+				}
 			]
 		}
 	]
