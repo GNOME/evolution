@@ -190,8 +190,8 @@
     </key>
     <key type="i" name="composer-delay-outbox-flush">
       <default>-1</default>
-      <summary>How long to delay Outbox flush when sending messages through Outbox folder</summary>
-      <description>A delay, in minutes, to wait for the Outbox folder flush. Less than 0 means never flush, 0 means immediately, the rest is the delay interval in minutes.</description>
+      <_summary>How long to delay Outbox flush when sending messages through Outbox folder</_summary>
+      <_description>A delay, in minutes, to wait for the Outbox folder flush. Less than 0 means never flush, 0 means immediately, the rest is the delay interval in minutes.</_description>
     </key>
     <key name="composer-signature-in-new-only" type="b">
       <default>false</default>

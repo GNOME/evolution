@@ -61,58 +61,58 @@
       <_description>Whether to show the preview pane.</_description>
     </key>
     <key type="b" name="editor-show-contact-phone">
-      <_default>true</_default>
-      <summary>Show phone numbers</summary>
+      <default>true</default>
+      <_summary>Show phone numbers</_summary>
       <_description>Whether to show phone numbers in the editor</_description>
     </key>
     <key type="b" name="editor-show-contact-sip">
-      <_default>true</_default>
-      <summary>Show SIP addresses</summary>
+      <default>true</default>
+      <_summary>Show SIP addresses</_summary>
       <_description>Whether to show SIP addresses in the editor</_description>
     </key>
     <key type="b" name="editor-show-contact-im">
-      <_default>true</_default>
-      <summary>Show IM addresses</summary>
+      <default>true</default>
+      <_summary>Show IM addresses</_summary>
       <_description>Whether to show IM addresses in the editor</_description>
     </key>
     <key type="b" name="editor-show-mailing-home">
-      <_default>true</_default>
-      <summary>Show mailing Home addresses</summary>
+      <default>true</default>
+      <_summary>Show mailing Home addresses</_summary>
       <_description>Whether to show mailing Home addresses in the editor</_description>
     </key>
     <key type="b" name="editor-show-mailing-work">
-      <_default>true</_default>
-      <summary>Show mailing Work addresses</summary>
+      <default>true</default>
+      <_summary>Show mailing Work addresses</_summary>
       <_description>Whether to show mailing addresses Work in the editor</_description>
     </key>
     <key type="b" name="editor-show-mailing-other">
-      <_default>true</_default>
-      <summary>Show mailing Other addresses</summary>
+      <default>true</default>
+      <_summary>Show mailing Other addresses</_summary>
       <_description>Whether to show mailing addresses Other in the editor</_description>
     </key>
     <key type="b" name="editor-show-personal-web">
-      <_default>true</_default>
-      <summary>Show web addresses</summary>
+      <default>true</default>
+      <_summary>Show web addresses</_summary>
       <_description>Whether to show Web Addresses in the editor</_description>
     </key>
     <key type="b" name="editor-show-personal-job">
-      <_default>true</_default>
-      <summary>Show job information</summary>
+      <default>true</default>
+      <_summary>Show job information</_summary>
       <_description>Whether to show job information in the editor</_description>
     </key>
     <key type="b" name="editor-show-personal-misc">
-      <_default>true</_default>
-      <summary>Show Miscellaneous information</summary>
+      <default>true</default>
+      <_summary>Show Miscellaneous information</_summary>
       <_description>Whether to show Miscellaneous information in the editor</_description>
     </key>
     <key type="b" name="editor-show-notes">
-      <_default>true</_default>
-      <summary>Show notes-tab</summary>
+      <default>true</default>
+      <_summary>Show notes-tab</_summary>
       <_description>Whether to show notes in the editor</_description>
     </key>
     <key type="b" name="editor-show-certs">
-      <_default>true</_default>
-      <summary>Show Certificates tab</summary>
+      <default>true</default>
+      <_summary>Show Certificates tab</_summary>
       <_description>Whether to show Certificates tab in the editor</_description>
     </key>
     <key type="s" name="open-map-target">
@@ -121,8 +121,8 @@
       <_description>Currently supported values are “openstreetmap” and “google”; if unknown set, uses “openstreetmap”</_description>
     </key>
     <key type="b" name="preview-home-before-work">
-      <_default>false</_default>
-      <summary>Preview Personal before Work information</summary>
+      <default>false</default>
+      <_summary>Preview Personal before Work information</_summary>
       <_description>Show the Personal information before the Work information in the contact preview</_description>
     </key>
   </schema>
