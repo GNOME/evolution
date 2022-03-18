@@ -855,11 +855,11 @@ update_start_end_times (ItipView *view)
 	now = time (NULL);
 	now_tm = localtime (&now);
 
-	g_free (priv->start_label);
-	g_free (priv->end_label);
-	g_free (priv->categories);
-	g_free (priv->due_date_label);
-	g_free (priv->estimated_duration);
+	g_clear_pointer (&priv->start_label, g_free);
+	g_clear_pointer (&priv->end_label, g_free);
+	g_clear_pointer (&priv->categories, g_free);
+	g_clear_pointer (&priv->due_date_label, g_free);
+	g_clear_pointer (&priv->estimated_duration, g_free);
 
 	#define is_same(_member) (priv->start_tm->_member == priv->end_tm->_member)
 	if (priv->start_tm && priv->end_tm && priv->start_tm_is_date && priv->end_tm_is_date
@@ -1506,6 +1506,7 @@ itip_view_finalize (GObject *object)
 	g_free (priv->end_tm);
 	g_free (priv->end_label);
 	g_free (priv->description);
+	g_free (priv->categories);
 	g_free (priv->error);
 	g_free (priv->part_id);
 	g_free (priv->selected_source_uid);
