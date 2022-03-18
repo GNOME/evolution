@@ -59,16 +59,16 @@ static guint e_meeting_list_view_signals[LAST_SIGNAL] = { 0 };
 
 static void name_selector_dialog_close_cb (ENameSelectorDialog *dialog, gint response, gpointer data);
 
-static const gchar *sections[] = {N_("Chair Persons"),
-				  N_("Required Participants"),
+static const gchar *sections[] = {N_("Required Participants"),
 				  N_("Optional Participants"),
 				  N_("Resources"),
+				  N_("Chair Persons"),
 				  NULL};
 
-static ICalParameterRole roles[] = { I_CAL_ROLE_CHAIR,
-				     I_CAL_ROLE_REQPARTICIPANT,
+static ICalParameterRole roles[] = { I_CAL_ROLE_REQPARTICIPANT,
 				     I_CAL_ROLE_OPTPARTICIPANT,
 				     I_CAL_ROLE_NONPARTICIPANT,
+				     I_CAL_ROLE_CHAIR,
 				     I_CAL_ROLE_NONE };
 
 G_DEFINE_TYPE (EMeetingListView, e_meeting_list_view, GTK_TYPE_TREE_VIEW)
