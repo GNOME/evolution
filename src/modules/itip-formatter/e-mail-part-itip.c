@@ -116,6 +116,38 @@ itip_view_alternative_html_clicked_cb (EWebView *web_view,
 }
 
 static void
+e_mail_part_itip_web_view_load_changed_cb (WebKitWebView *webkit_web_view,
+					   WebKitLoadEvent load_event,
+					   gpointer user_data)
+{
+	EMailPartItip *pitip = user_data;
+
+	g_return_if_fail (E_IS_MAIL_PART_ITIP (pitip));
+
+	if (load_event == WEBKIT_LOAD_STARTED) {
+		EWebView *web_view = E_WEB_VIEW (webkit_web_view);
+		ItipView *itip_view;
+		GSList *link;
+
+		for (link = pitip->priv->views; link; link = g_slist_next (link)) {
+			EWebView *used_web_view;
+
+			itip_view = link->data;
+			used_web_view = itip_view_ref_web_view (itip_view);
+
+			if (used_web_view == web_view) {
+				pitip->priv->views = g_slist_remove (pitip->priv->views, itip_view);
+				g_clear_object (&used_web_view);
+				g_clear_object (&itip_view);
+				return;
+			}
+
+			g_clear_object (&used_web_view);
+		}
+	}
+}
+
+static void
 mail_part_itip_content_loaded (EMailPart *part,
 			       EWebView *web_view,
 			       const gchar *iframe_id)
@@ -164,6 +196,9 @@ mail_part_itip_content_loaded (EMailPart *part,
 	}
 
 	e_web_view_register_element_clicked (web_view, "itip-view-alternative-html", itip_view_alternative_html_clicked_cb, pitip);
+
+	g_signal_connect_object (web_view, "load-changed",
+		G_CALLBACK (e_mail_part_itip_web_view_load_changed_cb), pitip, 0);
 }
 
 static void
