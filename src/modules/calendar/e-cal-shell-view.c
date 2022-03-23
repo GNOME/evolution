@@ -225,8 +225,12 @@ cal_shell_view_execute_search (EShellView *shell_view)
 		gtk_toggle_action_set_active (GTK_TOGGLE_ACTION (action), TRUE);
 		gtk_widget_hide (GTK_WIDGET (calendar));
 	} else {
+		ECalViewKind view_kind;
+
+		view_kind = e_cal_shell_content_get_current_view_id (cal_shell_content);
+
 		/* Ensure the date navigator is visible. */
-		gtk_widget_show (GTK_WIDGET (calendar));
+		gtk_widget_set_visible (GTK_WIDGET (calendar), view_kind != E_CAL_VIEW_KIND_LIST);
 		e_cal_shell_content_get_current_range (cal_shell_content, &start_range, &end_range);
 		end_range = time_day_end (end_range) - 1;
 	}
