@@ -326,9 +326,6 @@
                     "url": "https://gitlab.gnome.org/GNOME/evolution-data-server.git",
                     "branch": "master"
                 }
-            ],
-            "post-install": [
-                "cp NEWS /app/share/NEWS.eds"
             ]
         },
         {
@@ -373,9 +370,6 @@
                     "url": "https://gitlab.gnome.org/GNOME/evolution-ews.git",
                     "branch": "master"
                 }
-            ],
-            "post-install": [
-                "cp NEWS /app/share/NEWS.ews"
             ]
         },
         {
@@ -394,7 +388,6 @@
             "build-commands": [
                 "./evolution-fix-service-names.sh <evolution-wrapper.sh.in >evolution-wrapper.sh",
                 "chmod a+x evolution-wrapper.sh",
-                "mv /app/bin/evolution /app/bin/evolution.bin",
                 "cp evolution-wrapper.sh /app/bin/evolution"
             ]
         },
@@ -425,20 +418,7 @@
                     "type": "git",
                     "url": "https://gitlab.gnome.org/GNOME/evolution.git",
                     "branch": "master"
-                },
-                {
-                    "type": "shell",
-                    "commands": [
-                        "cp config.h.in config.h.in.orig",
-                        "cat config.h.in.orig | sed -e \"s|\\@VERSION_SUBSTRING\\@| \\(flatpak git$(git log --pretty=format:%h --max-count=1)\\)|\" >config.h.in",
-                        "cp data/org.gnome.Evolution.appdata.xml.in.in data/org.gnome.Evolution.appdata.xml.in.in.orig",
-                        "cat data/org.gnome.Evolution.appdata.xml.in.in.orig | sed -e \"s|\\@APPDATA_RELEASES\\@|APPDATA_RELEASES|\" >data/org.gnome.Evolution.appdata.xml.in.in"
-                    ]
                 }
-            ],
-            "post-install": [
-                "cp NEWS /app/share/NEWS.evo",
-                "mv /app/share/metainfo/org.gnome.Evolution.appdata.xml /app/share/"
             ]
         }
     ]
