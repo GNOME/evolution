@@ -3,7 +3,7 @@
     "runtime": "org.gnome.Platform",
     "runtime-version": "master",
     "sdk": "org.gnome.Sdk",
-    "command": "evolution",
+    "command": "evolution-wrapper",
     "rename-icon": "evolution",
     "copy-icon": true,
     "desktop-file-name-suffix": " (Development)",
@@ -401,67 +401,23 @@
             ]
         },
         {
-            "name": "flatpak-evolution-wrapper",
+            "name": "evolution-wrapper",
             "buildsystem": "simple",
             "sources": [
                 {
-                    "type": "script",
-                    "commands": [
-                        "if [ \"$1\" = \"--quit\" -o \"$1\" = \"--force-shutdown\" ]; then",
-                        "   /app/bin/evolution.bin \"$@\"",
-                        "else",
-                        "   export BOGOFILTER_DIR=\"${XDG_DATA_HOME}/bogofilter/\"",
-                        "   export GIO_USE_NETWORK_MONITOR=base",
-                        "   export WEBKIT_FORCE_SANDBOX=0",
-                        "   gsettings reset org.gnome.evolution-data-server network-monitor-gio-name",
-                        "",
-                        "   gpg-agent --homedir ~/.gnupg --daemon --pinentry-program=/app/bin/pinentry",
-                        "",
-                        "   LINES=$(gdbus call --session --dest org.freedesktop.DBus --object-path /org/freedesktop/DBus --method org.freedesktop.DBus.ListNames | grep @SOURCES_SERVICE@ | wc -l)",
-                        "   if [ \"${LINES}\" = \"0\" ]; then",
-                        "      /app/libexec/evolution-source-registry &",
-                        "      gdbus wait --session --timeout=1@TIMEOUTMULT@ @SOURCES_SERVICE@",
-                        "   fi",
-                        "",
-                        "   LINES=$(gdbus call --session --dest org.freedesktop.DBus --object-path /org/freedesktop/DBus --method org.freedesktop.DBus.ListNames | grep @ADDRESSBOOK_SERVICE@ | wc -l)",
-                        "   if [ \"${LINES}\" = \"0\" ]; then",
-                        "      /app/libexec/evolution-addressbook-factory -r &",
-                        "      gdbus wait --session --timeout=1@TIMEOUTMULT@ @ADDRESSBOOK_SERVICE@",
-                        "   fi",
-                        "",
-                        "   LINES=$(gdbus call --session --dest org.freedesktop.DBus --object-path /org/freedesktop/DBus --method org.freedesktop.DBus.ListNames | grep @CALENDAR_SERVICE@ | wc -l)",
-                        "   if [ \"${LINES}\" = \"0\" ]; then",
-                        "      /app/libexec/evolution-calendar-factory -r &",
-                        "      gdbus wait --session --timeout=1@TIMEOUTMULT@ @CALENDAR_SERVICE@",
-                        "   fi",
-                        "",
-                        "   /app/bin/evolution.bin \"$@\"",
-                        "",
-                        "   pkill -TERM gpg-agent",
-                        "fi"
-                    ],
-                    "dest-filename": "flatpak-evolution-wrapper.sh.in"
+                    "type": "file",
+                    "path": "evolution-fix-service-names.sh"
                 },
                 {
-                    "type": "script",
-                    "commands": [
-                        "# see https://gitlab.gnome.org/GNOME/glib/issues/1737",
-                        "# previous versions used milliseconds instead of seconds as the timeout argument",
-                        "(`pkg-config --atleast-version 2.60.1 gio-2.0` || `pkg-config --atleast-version 2.61.0 gio-2.0`) && TIMEOUTMULT= || TIMEOUTMULT=000",
-                        "",
-                        "sed -e \"s|\\@SOURCES_SERVICE\\@|$(pkg-config --variable=sourcesdbusservicename evolution-data-server-1.2)|\" \\",
-                        "    -e \"s|\\@ADDRESSBOOK_SERVICE\\@|$(pkg-config --variable=addressbookdbusservicename evolution-data-server-1.2)|\" \\",
-                        "    -e \"s|\\@CALENDAR_SERVICE\\@|$(pkg-config --variable=calendardbusservicename evolution-data-server-1.2)|\" \\",
-                        "    -e \"s|\\@TIMEOUTMULT\\@|${TIMEOUTMULT}|\""
-                    ],
-                    "dest-filename": "flatpak-evolution-fix-service-names.sh"
+                    "type": "file",
+                    "path": "evolution-wrapper.sh.in"
                 }
             ],
             "build-commands": [
-                "./flatpak-evolution-fix-service-names.sh <flatpak-evolution-wrapper.sh.in >flatpak-evolution-wrapper.sh",
-                "chmod a+x flatpak-evolution-wrapper.sh",
+                "./evolution-fix-service-names.sh <evolution-wrapper.sh.in >evolution-wrapper.sh",
+                "chmod a+x evolution-wrapper.sh",
                 "mv /app/bin/evolution /app/bin/evolution.bin",
-                "cp flatpak-evolution-wrapper.sh /app/bin/evolution"
+                "cp evolution-wrapper.sh /app/bin/evolution"
             ]
         },
         {

@@ -1,0 +1,32 @@
+if [ "$1" = "--quit" -o "$1" = "--force-shutdown" ]; then
+   /app/bin/evolution "$@"
+else
+   export BOGOFILTER_DIR="${XDG_DATA_HOME}/bogofilter/"
+   export GIO_USE_NETWORK_MONITOR=base
+   export WEBKIT_FORCE_SANDBOX=0
+   gsettings reset org.gnome.evolution-data-server network-monitor-gio-name
+
+   gpg-agent --homedir ~/.gnupg --daemon --pinentry-program=/app/bin/pinentry
+
+   LINES=$(gdbus call --session --dest org.freedesktop.DBus --object-path /org/freedesktop/DBus --method org.freedesktop.DBus.ListNames | grep @SOURCES_SERVICE@ | wc -l)
+   if [ "${LINES}" = "0" ]; then
+      /app/libexec/evolution-source-registry &
+      gdbus wait --session --timeout=1@TIMEOUTMULT@ @SOURCES_SERVICE@
+   fi
+
+   LINES=$(gdbus call --session --dest org.freedesktop.DBus --object-path /org/freedesktop/DBus --method org.freedesktop.DBus.ListNames | grep @ADDRESSBOOK_SERVICE@ | wc -l)
+   if [ "${LINES}" = "0" ]; then
+      /app/libexec/evolution-addressbook-factory -r &
+      gdbus wait --session --timeout=1@TIMEOUTMULT@ @ADDRESSBOOK_SERVICE@
+   fi
+
+   LINES=$(gdbus call --session --dest org.freedesktop.DBus --object-path /org/freedesktop/DBus --method org.freedesktop.DBus.ListNames | grep @CALENDAR_SERVICE@ | wc -l)
+   if [ "${LINES}" = "0" ]; then
+      /app/libexec/evolution-calendar-factory -r &
+      gdbus wait --session --timeout=1@TIMEOUTMULT@ @CALENDAR_SERVICE@
+   fi
+
+   /app/bin/evolution "$@"
+
+   pkill -TERM gpg-agent
+fi
