@@ -357,6 +357,56 @@
             ]
         },
         {
+            "name": "libsecret",
+            "buildsystem": "meson",
+            "config-opts": [
+                "-Dmanpage=false",
+                "-Dvapi=false",
+                "-Dgtk_doc=false"
+            ],
+            "sources": [
+                {
+                    "type": "archive",
+                    "url": "https://download.gnome.org/sources/libsecret/0.19/libsecret-0.19.1.tar.xz",
+                    "sha256": "8583e10179456ae2c83075d95455f156dc08db6278b32bf4bd61819335a30e3a"
+                }
+            ]
+        },
+        {
+            "name": "evolution-ews",
+            "buildsystem": "cmake-ninja",
+            "sources": [
+                {
+                    "type": "git",
+                    "url": "https://gitlab.gnome.org/GNOME/evolution-ews.git",
+                    "branch": "master"
+                }
+            ],
+            "post-install": [
+                "cp NEWS /app/share/NEWS.ews"
+            ]
+        },
+        {
+            "name": "evolution-wrapper",
+            "buildsystem": "simple",
+            "sources": [
+                {
+                    "type": "file",
+                    "path": "evolution-fix-service-names.sh"
+                },
+                {
+                    "type": "file",
+                    "path": "evolution-wrapper.sh.in"
+                }
+            ],
+            "build-commands": [
+                "./evolution-fix-service-names.sh <evolution-wrapper.sh.in >evolution-wrapper.sh",
+                "chmod a+x evolution-wrapper.sh",
+                "mv /app/bin/evolution /app/bin/evolution.bin",
+                "cp evolution-wrapper.sh /app/bin/evolution"
+            ]
+        },
+        {
             "name": "evolution",
             "buildsystem": "cmake-ninja",
             "config-opts": [
@@ -398,90 +448,6 @@
                 "cp NEWS /app/share/NEWS.evo",
                 "cp news-to-appdata.c /app/share/",
                 "mv /app/share/metainfo/org.gnome.Evolution.appdata.xml /app/share/"
-            ]
-        },
-        {
-            "name": "evolution-wrapper",
-            "buildsystem": "simple",
-            "sources": [
-                {
-                    "type": "file",
-                    "path": "evolution-fix-service-names.sh"
-                },
-                {
-                    "type": "file",
-                    "path": "evolution-wrapper.sh.in"
-                }
-            ],
-            "build-commands": [
-                "./evolution-fix-service-names.sh <evolution-wrapper.sh.in >evolution-wrapper.sh",
-                "chmod a+x evolution-wrapper.sh",
-                "mv /app/bin/evolution /app/bin/evolution.bin",
-                "cp evolution-wrapper.sh /app/bin/evolution"
-            ]
-        },
-        {
-            "name": "evolution-ews",
-            "buildsystem": "cmake-ninja",
-            "sources": [
-                {
-                    "type": "git",
-                    "url": "https://gitlab.gnome.org/GNOME/evolution-ews.git",
-                    "branch": "master"
-                }
-            ],
-            "post-install": [
-                "cp NEWS /app/share/NEWS.ews"
-            ]
-        },
-        {
-            "name": "news-to-appdata",
-            "buildsystem": "simple",
-            "sources": [
-                {
-                    "type": "script",
-                    "commands": [
-                        "gcc /app/share/news-to-appdata.c -g -O0 -o news-to-appdata `pkg-config --cflags --libs glib-2.0`",
-                        "TYPE=${1}",
-                        "VER=$(pkg-config --modversion evolution-shell-3.0)",
-                        "if [ \"${VER}\" = \"\" ]; then",
-                        "   echo \"Failed to get evolution version\" 1>&2",
-                        "   exit 1",
-                        "fi",
-                        "VER=${VER%.*}",
-                        "APPDATA_RELEASES=`./news-to-appdata \"\" ${TYPE} ${VER} /app/share/NEWS.evo ${VER} /app/share/NEWS.eds ${VER} /app/share/NEWS.ews`",
-                        "APPDATA=`cat /app/share/org.gnome.Evolution.appdata.xml`",
-                        "if [ \"${APPDATA_RELEASES}\" = \"\" ]; then",
-                        "    APPDATA_RELEASES=\"<release version=\\\"$(pkg-config --modversion evolution-shell-3.0)\\\" date=\\\"$(date +%Y-%m-%d)\\\" type=\\\"${TYPE}\\\"/>\"",
-                        "fi",
-                        "echo \"${APPDATA%APPDATA_RELEASES*}${APPDATA_RELEASES}${APPDATA#*APPDATA_RELEASES}\">/app/share/metainfo/org.gnome.Evolution.appdata.xml",
-                        "rm /app/share/NEWS.eds",
-                        "rm /app/share/NEWS.evo",
-                        "rm /app/share/NEWS.ews",
-                        "rm /app/share/news-to-appdata.c",
-                        "rm /app/share/org.gnome.Evolution.appdata.xml"
-                    ],
-                    "dest-filename": "update-appdata.sh"
-                }
-            ],
-            "build-commands": [
-                "./update-appdata.sh development"
-            ]
-        },
-        {
-            "name": "libsecret",
-            "buildsystem": "meson",
-            "config-opts": [
-                "-Dmanpage=false",
-                "-Dvapi=false",
-                "-Dgtk_doc=false"
-            ],
-            "sources": [
-                {
-                    "type": "archive",
-                    "url": "https://download.gnome.org/sources/libsecret/0.19/libsecret-0.19.1.tar.xz",
-                    "sha256": "8583e10179456ae2c83075d95455f156dc08db6278b32bf4bd61819335a30e3a"
-                }
             ]
         }
     ]
