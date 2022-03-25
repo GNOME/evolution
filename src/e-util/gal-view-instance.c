@@ -315,6 +315,12 @@ load_current_view (GalViewInstance *instance)
 		g_free (type);
 	}
 
+	if (view == NULL) {
+		/* If everything fails, maybe due to broken setup, default to the first view in the collection. */
+		view = gal_view_collection_get_view (instance->collection, 0);
+		view = gal_view_clone (view);
+	}
+
 	connect_view (instance, view);
 
 	xmlFreeDoc (doc);
