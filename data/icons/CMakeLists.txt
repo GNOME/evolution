@@ -73,12 +73,14 @@ set(private_icons
 	hicolor_actions_16x16_view-calendar-month.png
 	hicolor_actions_16x16_view-calendar-week.png
 	hicolor_actions_16x16_view-calendar-workweek.png
+	hicolor_actions_16x16_view-calendar-year.png
 	hicolor_actions_22x22_go-today.png
 	hicolor_actions_22x22_view-calendar-day.png
 	hicolor_actions_22x22_view-calendar-list.png
 	hicolor_actions_22x22_view-calendar-month.png
 	hicolor_actions_22x22_view-calendar-week.png
 	hicolor_actions_22x22_view-calendar-workweek.png
+	hicolor_actions_22x22_view-calendar-year.png
 	hicolor_actions_24x24_go-today.png
 	hicolor_actions_24x24_mail-archive.png
 	hicolor_actions_24x24_query-free-busy.png
@@ -87,11 +89,13 @@ set(private_icons
 	hicolor_actions_24x24_view-calendar-month.png
 	hicolor_actions_24x24_view-calendar-week.png
 	hicolor_actions_24x24_view-calendar-workweek.png
+	hicolor_actions_24x24_view-calendar-year.png
 	hicolor_actions_32x32_view-calendar-day.png
 	hicolor_actions_32x32_view-calendar-list.png
 	hicolor_actions_32x32_view-calendar-month.png
 	hicolor_actions_32x32_view-calendar-week.png
 	hicolor_actions_32x32_view-calendar-workweek.png
+	hicolor_actions_32x32_view-calendar-year.png
 	hicolor_actions_scalable_markdown-bold.svg
 	hicolor_actions_scalable_markdown-bold-dark.svg
 	hicolor_actions_scalable_markdown-bullets.svg
@@ -117,6 +121,7 @@ set(private_icons
 	hicolor_actions_scalable_view-calendar-month.svg
 	hicolor_actions_scalable_view-calendar-week.svg
 	hicolor_actions_scalable_view-calendar-workweek.svg
+	hicolor_actions_scalable_view-calendar-year.svg
 	hicolor_categories_24x24_preferences-calendar-and-tasks.svg
 	hicolor_categories_24x24_preferences-certificates.svg
 	hicolor_categories_24x24_preferences-composer.svg
@@ -788,17 +793,20 @@ set(noinst_icons
 	hicolor_actions_16x16_view-calendar-month.svg
 	hicolor_actions_16x16_view-calendar-week.svg
 	hicolor_actions_16x16_view-calendar-workweek.svg
+	hicolor_actions_16x16_view-calendar-year.svg
 	hicolor_actions_22x22_go-today.svg
 	hicolor_actions_22x22_view-calendar-day.svg
 	hicolor_actions_22x22_view-calendar-list.svg
 	hicolor_actions_22x22_view-calendar-month.svg
 	hicolor_actions_22x22_view-calendar-week.svg
 	hicolor_actions_22x22_view-calendar-workweek.svg
+	hicolor_actions_22x22_view-calendar-year.svg
 	hicolor_actions_32x32_view-calendar-day.svg
 	hicolor_actions_32x32_view-calendar-list.svg
 	hicolor_actions_32x32_view-calendar-month.svg
 	hicolor_actions_32x32_view-calendar-week.svg
 	hicolor_actions_32x32_view-calendar-workweek.svg
+	hicolor_actions_32x32_view-calendar-year.svg
 	hicolor_places_16x16_mail-inbox.svg
 	hicolor_places_16x16_mail-outbox.svg
 	hicolor_places_16x16_mail-sent.svg

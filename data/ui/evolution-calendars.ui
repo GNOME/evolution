@@ -31,6 +31,14 @@
           <menuitem action='calendar-show-tag-vpane'/>
         </placeholder>
       </menu>
+      <placeholder name='view-custom-menus'>
+        <menu action='calendar-preview-menu'>
+          <menuitem action='calendar-preview'/>
+          <separator/>
+          <menuitem action='calendar-preview-horizontal'/>
+          <menuitem action='calendar-preview-vertical'/>
+        </menu>
+      </placeholder>
     </menu>
     <placeholder name='custom-menus'>
       <menu action='calendar-actions-menu'>
@@ -60,8 +68,8 @@
     <toolitem action='calendar-view-day'/>
     <toolitem action='calendar-view-workweek'/>
     <toolitem action='calendar-view-week'/>
-
     <toolitem action='calendar-view-month'/>
+    <toolitem action='calendar-view-year'/>
     <toolitem action='calendar-view-list'/>
   </toolbar>
   <toolbar name='close-toolbar'>
@@ -97,6 +105,7 @@
       <menuitem action='calendar-view-workweek'/>
       <menuitem action='calendar-view-week'/>
       <menuitem action='calendar-view-month'/>
+      <menuitem action='calendar-view-year'/>
       <menuitem action='calendar-view-list'/>
     </menu>
     <menuitem action='calendar-popup-go-today'/>

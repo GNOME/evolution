@@ -1380,11 +1380,11 @@ week_view_popup_menu (GtkWidget *widget)
 	return TRUE;
 }
 
-static GList *
+static GSList *
 week_view_get_selected_events (ECalendarView *cal_view)
 {
 	EWeekViewEvent *event = NULL;
-	GList *list = NULL;
+	GSList *selection = NULL;
 	EWeekView *week_view = (EWeekView *) cal_view;
 
 	g_return_val_if_fail (E_IS_WEEK_VIEW (week_view), NULL);
@@ -1406,10 +1406,12 @@ week_view_get_selected_events (ECalendarView *cal_view)
 					week_view->popup_event_num);
 	}
 
-	if (event)
-		list = g_list_prepend (list, event);
+	if (event && event->comp_data) {
+		selection = g_slist_prepend (selection,
+			e_calendar_view_selection_data_new (event->comp_data->client, event->comp_data->icalcomp));
+	}
 
-	return list;
+	return selection;
 }
 
 static gboolean

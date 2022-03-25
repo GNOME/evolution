@@ -54,7 +54,7 @@ struct _ECalendarViewPrivate {
 	ECalModel *model;
 
 	gint time_divisions;
-	GSList *selected_cut_list;
+	GSList *selected_cut_list; /* ECalendarViewSelectionData * */
 
 	GtkTargetList *copy_target_list;
 	GtkTargetList *paste_target_list;
@@ -94,6 +94,31 @@ G_DEFINE_ABSTRACT_TYPE_WITH_CODE (
 	ECalendarView, e_calendar_view, GTK_TYPE_GRID,
 	G_IMPLEMENT_INTERFACE (E_TYPE_EXTENSIBLE, NULL)
 	G_IMPLEMENT_INTERFACE (E_TYPE_SELECTABLE, calendar_view_selectable_init));
+
+ECalendarViewSelectionData *
+e_calendar_view_selection_data_new (ECalClient *client,
+				    ICalComponent *icalcomp)
+{
+	ECalendarViewSelectionData *sel_data;
+
+	sel_data = g_slice_new0 (ECalendarViewSelectionData);
+	sel_data->client = g_object_ref (client);
+	sel_data->icalcomp = g_object_ref (icalcomp);
+
+	return sel_data;
+}
+
+void
+e_calendar_view_selection_data_free (gpointer ptr)
+{
+	ECalendarViewSelectionData *sel_data = ptr;
+
+	if (sel_data) {
+		g_clear_object (&sel_data->client);
+		g_clear_object (&sel_data->icalcomp);
+		g_slice_free (ECalendarViewSelectionData, sel_data);
+	}
+}
 
 static void
 calendar_view_add_retract_data (ECalComponent *comp,
@@ -155,7 +180,7 @@ calendar_view_check_for_retract (ECalComponent *comp,
 
 static void
 calendar_view_delete_event (ECalendarView *cal_view,
-                            ECalendarViewEvent *event,
+                            ECalendarViewSelectionData *sel_data,
 			    gboolean only_occurrence,
 			    ECalObjModType mod)
 {
@@ -165,22 +190,28 @@ calendar_view_delete_event (ECalendarView *cal_view,
 	ESourceRegistry *registry;
 	ECalClient *client;
 	ICalComponent *icalcomp;
+	ICalTime *itt_start = NULL, *itt_end = NULL;
 	time_t instance_start;
-	gboolean delete = TRUE;
-
-	if (!is_comp_data_valid (event))
-		return;
+	gboolean do_delete = TRUE;
 
 	model = e_calendar_view_get_model (cal_view);
 	registry = e_cal_model_get_registry (model);
 
 	comp = e_cal_component_new ();
-	e_cal_component_set_icalcomponent (comp, i_cal_component_clone (event->comp_data->icalcomp));
+	e_cal_component_set_icalcomponent (comp, i_cal_component_clone (sel_data->icalcomp));
 	vtype = e_cal_component_get_vtype (comp);
 
-	/* Remember structure values, because the 'event' can be freed while the question dialog is opened */
-	instance_start = event->comp_data->instance_start;
-	client = g_object_ref (event->comp_data->client);
+	cal_comp_get_instance_times (sel_data->client, sel_data->icalcomp,
+		e_cal_model_get_timezone (model),
+		&itt_start, &itt_end, NULL);
+
+	instance_start = itt_start ? i_cal_time_as_timet_with_zone (itt_start,
+		i_cal_time_get_timezone (itt_start)) : 0;
+
+	g_clear_object (&itt_start);
+	g_clear_object (&itt_end);
+
+	client = g_object_ref (sel_data->client);
 	icalcomp = e_cal_component_get_icalcomponent (comp);
 
 	/*FIXME remove it once the we don't set the recurrence id for all the generated instances */
@@ -192,7 +223,7 @@ calendar_view_delete_event (ECalendarView *cal_view,
 		gchar *retract_comment = NULL;
 		gboolean retract = FALSE;
 
-		delete = e_cal_dialogs_prompt_retract (GTK_WIDGET (cal_view), comp, &retract_comment, &retract);
+		do_delete = e_cal_dialogs_prompt_retract (GTK_WIDGET (cal_view), comp, &retract_comment, &retract);
 		if (retract) {
 			ICalComponent *icomp;
 
@@ -203,10 +234,10 @@ calendar_view_delete_event (ECalendarView *cal_view,
 			e_cal_ops_send_component (model, client, icomp);
 		}
 	} else if (e_cal_model_get_confirm_delete (model))
-		delete = e_cal_dialogs_delete_component (
+		do_delete = e_cal_dialogs_delete_component (
 			comp, FALSE, 1, vtype, GTK_WIDGET (cal_view));
 
-	if (delete) {
+	if (do_delete) {
 		const gchar *uid;
 		gchar *rid;
 
@@ -247,6 +278,7 @@ calendar_view_delete_event (ECalendarView *cal_view,
 
 		uid = e_cal_component_get_uid (comp);
 		if (!uid || !*uid) {
+			g_clear_object (&client);
 			g_object_unref (comp);
 			g_free (rid);
 			return;
@@ -403,8 +435,7 @@ calendar_view_dispose (GObject *object)
 	g_clear_pointer (&priv->paste_target_list, gtk_target_list_unref);
 
 	if (priv->selected_cut_list) {
-		g_slist_foreach (priv->selected_cut_list, (GFunc) g_object_unref, NULL);
-		g_slist_free (priv->selected_cut_list);
+		g_slist_free_full (priv->selected_cut_list, e_calendar_view_selection_data_free);
 		priv->selected_cut_list = NULL;
 	}
 
@@ -446,7 +477,7 @@ calendar_view_update_actions (ESelectable *selectable,
 	ECalendarView *view;
 	GtkAction *action;
 	GtkTargetList *target_list;
-	GList *list, *iter;
+	GSList *selected, *link;
 	gboolean can_paste = FALSE;
 	gboolean sources_are_editable = TRUE;
 	gboolean recurring = FALSE;
@@ -459,19 +490,16 @@ calendar_view_update_actions (ESelectable *selectable,
 	view = E_CALENDAR_VIEW (selectable);
 	is_editing = e_calendar_view_is_editing (view);
 
-	list = e_calendar_view_get_selected_events (view);
-	n_selected = g_list_length (list);
+	selected = e_calendar_view_get_selected_events (view);
+	n_selected = g_slist_length (selected);
 
-	for (iter = list; iter != NULL; iter = iter->next) {
-		ECalendarViewEvent *event = iter->data;
+	for (link = selected; link; link = g_slist_next (link)) {
+		ECalendarViewSelectionData *sel_data = link->data;
 		ECalClient *client;
 		ICalComponent *icomp;
 
-		if (event == NULL || event->comp_data == NULL)
-			continue;
-
-		client = event->comp_data->client;
-		icomp = event->comp_data->icalcomp;
+		client = sel_data->client;
+		icomp = sel_data->icalcomp;
 
 		sources_are_editable = sources_are_editable && !e_client_is_readonly (E_CLIENT (client));
 
@@ -480,7 +508,7 @@ calendar_view_update_actions (ESelectable *selectable,
 			e_cal_util_component_has_recurrences (icomp);
 	}
 
-	g_list_free (list);
+	g_slist_free_full (selected, e_calendar_view_selection_data_free);
 
 	target_list = e_selectable_get_paste_target_list (selectable);
 	for (ii = 0; ii < n_clipboard_targets && !can_paste; ii++)
@@ -517,10 +545,13 @@ calendar_view_cut_clipboard (ESelectable *selectable)
 {
 	ECalendarView *cal_view;
 	ECalendarViewPrivate *priv;
-	GList *selected, *l;
+	GSList *selected;
 
 	cal_view = E_CALENDAR_VIEW (selectable);
 	priv = cal_view->priv;
+
+	g_slist_free_full (priv->selected_cut_list, e_calendar_view_selection_data_free);
+	priv->selected_cut_list = NULL;
 
 	selected = e_calendar_view_get_selected_events (cal_view);
 	if (!selected)
@@ -528,13 +559,7 @@ calendar_view_cut_clipboard (ESelectable *selectable)
 
 	e_selectable_copy_clipboard (selectable);
 
-	for (l = selected; l != NULL; l = g_list_next (l)) {
-		ECalendarViewEvent *event = (ECalendarViewEvent *) l->data;
-
-		priv->selected_cut_list = g_slist_prepend (priv->selected_cut_list, g_object_ref (event->comp_data));
-	}
-
-	g_list_free (selected);
+	priv->selected_cut_list = selected;
 }
 
 static void
@@ -605,10 +630,9 @@ calendar_view_copy_clipboard (ESelectable *selectable)
 {
 	ECalendarView *cal_view;
 	ECalendarViewPrivate *priv;
-	GList *selected, *l;
+	GSList *selected, *link;
 	gchar *comp_str;
 	ICalComponent *vcal_comp;
-	ECalendarViewEvent *event;
 	GtkClipboard *clipboard;
 
 	cal_view = E_CALENDAR_VIEW (selectable);
@@ -619,32 +643,24 @@ calendar_view_copy_clipboard (ESelectable *selectable)
 		return;
 
 	if (priv->selected_cut_list) {
-		g_slist_foreach (priv->selected_cut_list, (GFunc) g_object_unref, NULL);
-		g_slist_free (priv->selected_cut_list);
+		g_slist_free_full (priv->selected_cut_list, e_calendar_view_selection_data_free);
 		priv->selected_cut_list = NULL;
 	}
 
 	/* create top-level VCALENDAR component and add VTIMEZONE's */
 	vcal_comp = e_cal_util_new_top_level ();
-	for (l = selected; l != NULL; l = l->next) {
-		event = (ECalendarViewEvent *) l->data;
+	for (link = selected; link; link = g_slist_next (link)) {
+		ECalendarViewSelectionData *sel_data = link->data;
 
-		if (event && is_comp_data_valid (event)) {
-			e_cal_util_add_timezones_from_component (vcal_comp, event->comp_data->icalcomp);
-
-			add_related_timezones (vcal_comp, event->comp_data->icalcomp, event->comp_data->client);
-		}
+		e_cal_util_add_timezones_from_component (vcal_comp, sel_data->icalcomp);
+		add_related_timezones (vcal_comp, sel_data->icalcomp, sel_data->client);
 	}
 
-	for (l = selected; l != NULL; l = l->next) {
+	for (link = selected; link; link = g_slist_next (link)) {
+		ECalendarViewSelectionData *sel_data = link->data;
 		ICalComponent *new_icomp;
 
-		event = (ECalendarViewEvent *) l->data;
-
-		if (!is_comp_data_valid (event))
-			continue;
-
-		new_icomp = i_cal_component_clone (event->comp_data->icalcomp);
+		new_icomp = i_cal_component_clone (sel_data->icalcomp);
 
 		/* do not remove RECURRENCE-IDs from copied objects */
 		i_cal_component_take_component (vcal_comp, new_icomp);
@@ -660,7 +676,7 @@ calendar_view_copy_clipboard (ESelectable *selectable)
 	/* free memory */
 	g_object_unref (vcal_comp);
 	g_free (comp_str);
-	g_list_free (selected);
+	g_slist_free_full (selected, e_calendar_view_selection_data_free);
 }
 
 static void
@@ -807,7 +823,7 @@ e_calendar_view_add_event_sync (ECalModel *model,
 
 typedef struct {
 	ECalendarView *cal_view;
-	GSList *selected_cut_list; /* ECalModelComponent * */
+	GSList *selected_cut_list; /* ECalendarViewSelectionData * */
 	GSList *copied_uids; /* gchar * */
 	gchar *ical_str;
 	time_t selection_start;
@@ -834,27 +850,27 @@ paste_clipboard_data_free (gpointer ptr)
 			registry = e_cal_model_get_registry (model);
 
 			for (link = pcd->selected_cut_list; link != NULL; link = g_slist_next (link)) {
-				ECalModelComponent *comp_data = (ECalModelComponent *) link->data;
+				ECalendarViewSelectionData *sel_data = link->data;
 				ECalComponent *comp;
 				const gchar *uid;
 				GSList *found = NULL;
 
 				/* Remove them one by one after ensuring it has been copied to the destination successfully */
-				found = g_slist_find_custom (pcd->copied_uids, i_cal_component_get_uid (comp_data->icalcomp), (GCompareFunc) strcmp);
+				found = g_slist_find_custom (pcd->copied_uids, i_cal_component_get_uid (sel_data->icalcomp), (GCompareFunc) strcmp);
 				if (!found)
 					continue;
 
 				g_free (found->data);
 				pcd->copied_uids = g_slist_delete_link (pcd->copied_uids, found);
 
-				comp = e_cal_component_new_from_icalcomponent (i_cal_component_clone (comp_data->icalcomp));
+				comp = e_cal_component_new_from_icalcomponent (i_cal_component_clone (sel_data->icalcomp));
 
 				if (itip_has_any_attendees (comp) &&
-				    (itip_organizer_is_user (registry, comp, comp_data->client) ||
-				    itip_sentby_is_user (registry, comp, comp_data->client))
-				    && e_cal_dialogs_cancel_component ((GtkWindow *) pcd->top_level, comp_data->client, comp, TRUE))
+				    (itip_organizer_is_user (registry, comp, sel_data->client) ||
+				    itip_sentby_is_user (registry, comp, sel_data->client))
+				    && e_cal_dialogs_cancel_component ((GtkWindow *) pcd->top_level, sel_data->client, comp, TRUE))
 					itip_send_component_with_model (model, I_CAL_METHOD_CANCEL,
-						comp, comp_data->client, NULL, NULL, NULL,
+						comp, sel_data->client, NULL, NULL, NULL,
 						E_ITIP_SEND_COMPONENT_FLAG_STRIP_ALARMS | E_ITIP_SEND_COMPONENT_FLAG_ENSURE_MASTER_OBJECT);
 
 				uid = e_cal_component_get_uid (comp);
@@ -863,10 +879,10 @@ paste_clipboard_data_free (gpointer ptr)
 
 					/* when cutting detached instances, only cut that instance */
 					rid = e_cal_component_get_recurid_as_string (comp);
-					e_cal_ops_remove_component (model, comp_data->client, uid, rid, E_CAL_OBJ_MOD_THIS, TRUE);
+					e_cal_ops_remove_component (model, sel_data->client, uid, rid, E_CAL_OBJ_MOD_THIS, TRUE);
 					g_free (rid);
 				} else {
-					e_cal_ops_remove_component (model, comp_data->client, uid, NULL, E_CAL_OBJ_MOD_ALL, FALSE);
+					e_cal_ops_remove_component (model, sel_data->client, uid, NULL, E_CAL_OBJ_MOD_ALL, FALSE);
 				}
 
 				g_object_unref (comp);
@@ -883,7 +899,7 @@ paste_clipboard_data_free (gpointer ptr)
 		g_clear_object (&pcd->cal_view);
 		g_clear_object (&pcd->top_level);
 		g_clear_object (&pcd->client);
-		g_slist_free_full (pcd->selected_cut_list, g_object_unref);
+		g_slist_free_full (pcd->selected_cut_list, e_calendar_view_selection_data_free);
 		g_slist_free_full (pcd->copied_uids, g_free);
 		g_free (pcd->ical_str);
 		g_slice_free (PasteClipboardData, pcd);
@@ -1054,12 +1070,7 @@ calendar_view_paste_clipboard (ESelectable *selectable)
 
 	/* Paste text into an event being edited. */
 	if (gtk_clipboard_wait_is_text_available (clipboard)) {
-		ECalendarViewClass *class;
-
-		class = E_CALENDAR_VIEW_GET_CLASS (cal_view);
-		g_return_if_fail (class->paste_text != NULL);
-
-		class->paste_text (cal_view);
+		e_calendar_view_paste_text (cal_view);
 
 	/* Paste iCalendar data into the view. */
 	} else if (e_clipboard_wait_is_calendar_available (clipboard)) {
@@ -1112,23 +1123,19 @@ static void
 calendar_view_delete_selection (ESelectable *selectable)
 {
 	ECalendarView *cal_view;
-	GList *selected, *iter;
+	GSList *selected, *link;
 
 	cal_view = E_CALENDAR_VIEW (selectable);
 
 	selected = e_calendar_view_get_selected_events (cal_view);
 
-	for (iter = selected; iter != NULL; iter = iter->next) {
-		ECalendarViewEvent *event = iter->data;
+	for (link = selected; link; link = g_slist_next (link)) {
+		ECalendarViewSelectionData *sel_data = link->data;
 
-		/* XXX Why would this ever be NULL? */
-		if (event == NULL)
-			continue;
-
-		calendar_view_delete_event (cal_view, event, FALSE, E_CAL_OBJ_MOD_ALL);
+		calendar_view_delete_event (cal_view, sel_data, FALSE, E_CAL_OBJ_MOD_ALL);
 	}
 
-	g_list_free (selected);
+	g_slist_free_full (selected, e_calendar_view_selection_data_free);
 }
 
 static gchar *
@@ -1485,7 +1492,9 @@ e_calendar_view_set_time_divisions (ECalendarView *cal_view,
 	g_object_notify (G_OBJECT (cal_view), "time-divisions");
 }
 
-GList *
+/* (transfer full) (element-type ECalendarViewSelectionData):
+   free with g_slist_free_full (selection, e_calendar_view_selection_data_free); */
+GSList *
 e_calendar_view_get_selected_events (ECalendarView *cal_view)
 {
 	ECalendarViewClass *class;
@@ -1578,11 +1587,24 @@ e_calendar_view_update_query (ECalendarView *cal_view)
 }
 
 void
+e_calendar_view_paste_text (ECalendarView *cal_view)
+{
+	ECalendarViewClass *class;
+
+	g_return_if_fail (E_IS_CALENDAR_VIEW (cal_view));
+
+	class = E_CALENDAR_VIEW_GET_CLASS (cal_view);
+	g_return_if_fail (class->paste_text != NULL);
+
+	class->paste_text (cal_view);
+}
+
+void
 e_calendar_view_delete_selected_occurrence (ECalendarView *cal_view,
 					    ECalObjModType mod)
 {
-	ECalendarViewEvent *event;
-	GList *selected;
+	ECalendarViewSelectionData *sel_data;
+	GSList *selected;
 
 	g_return_if_fail (mod == E_CAL_OBJ_MOD_THIS || mod == E_CAL_OBJ_MOD_THIS_AND_FUTURE);
 
@@ -1590,26 +1612,23 @@ e_calendar_view_delete_selected_occurrence (ECalendarView *cal_view,
 	if (!selected)
 		return;
 
-	event = (ECalendarViewEvent *) selected->data;
-	if (is_comp_data_valid (event)) {
-		calendar_view_delete_event (cal_view, event, TRUE, mod);
-	}
+	sel_data = selected->data;
+	calendar_view_delete_event (cal_view, sel_data, TRUE, mod);
 
-	g_list_free (selected);
+	g_slist_free_full (selected, e_calendar_view_selection_data_free);
 }
 
 void
 e_calendar_view_open_event (ECalendarView *cal_view)
 {
-	GList *selected;
+	GSList *selected;
 
 	selected = e_calendar_view_get_selected_events (cal_view);
 	if (selected) {
-		ECalendarViewEvent *event = (ECalendarViewEvent *) selected->data;
-		if (event && is_comp_data_valid (event))
-			e_calendar_view_edit_appointment (cal_view, event->comp_data->client, event->comp_data->icalcomp, EDIT_EVENT_AUTODETECT);
+		ECalendarViewSelectionData *sel_data = selected->data;
+		e_calendar_view_edit_appointment (cal_view, sel_data->client, sel_data->icalcomp, EDIT_EVENT_AUTODETECT);
 
-		g_list_free (selected);
+		g_slist_free_full (selected, e_calendar_view_selection_data_free);
 	}
 }
 

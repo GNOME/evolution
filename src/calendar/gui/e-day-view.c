@@ -1783,11 +1783,11 @@ day_view_popup_menu (GtkWidget *widget)
 }
 
 /* Returns the currently-selected event, or NULL if none */
-static GList *
+static GSList *
 day_view_get_selected_events (ECalendarView *cal_view)
 {
 	EDayViewEvent *event = NULL;
-	GList *list = NULL;
+	GSList *selection = NULL;
 	EDayView *day_view = (EDayView *) cal_view;
 
 	g_return_val_if_fail (E_IS_DAY_VIEW (day_view), NULL);
@@ -1826,10 +1826,12 @@ day_view_get_selected_events (ECalendarView *cal_view)
 		}
 	}
 
-	if (event)
-		list = g_list_append (list, event);
+	if (event && event->comp_data) {
+		selection = g_slist_prepend (selection,
+			e_calendar_view_selection_data_new (event->comp_data->client, event->comp_data->icalcomp));
+	}
 
-	return list;
+	return selection;
 }
 
 /* This sets the selected time range. If the start_time & end_time are not equal

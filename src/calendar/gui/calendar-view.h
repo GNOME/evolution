@@ -29,6 +29,8 @@
 	(gal_view_calendar_week_get_type ())
 #define GAL_TYPE_VIEW_CALENDAR_MONTH \
 	(gal_view_calendar_month_get_type ())
+#define GAL_TYPE_VIEW_CALENDAR_YEAR \
+	(gal_view_calendar_year_get_type ())
 
 G_BEGIN_DECLS
 
@@ -44,10 +46,14 @@ typedef struct _GalViewClass GalViewCalendarWeekClass;
 typedef struct _GalView GalViewCalendarMonth;
 typedef struct _GalViewClass GalViewCalendarMonthClass;
 
+typedef struct _GalView GalViewCalendarYear;
+typedef struct _GalViewClass GalViewCalendarYearClass;
+
 GType		gal_view_calendar_day_get_type		(void) G_GNUC_CONST;
 GType		gal_view_calendar_work_week_get_type	(void) G_GNUC_CONST;
 GType		gal_view_calendar_week_get_type		(void) G_GNUC_CONST;
 GType		gal_view_calendar_month_get_type	(void) G_GNUC_CONST;
+GType		gal_view_calendar_year_get_type		(void) G_GNUC_CONST;
 
 G_END_DECLS
 

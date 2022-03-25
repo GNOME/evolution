@@ -582,6 +582,7 @@ main (gint argc,
 		settings = e_util_ref_settings ("org.gnome.evolution.calendar");
 		g_settings_set_boolean (settings, "show-memo-preview", FALSE);
 		g_settings_set_boolean (settings, "show-task-preview", FALSE);
+		g_settings_set_boolean (settings, "year-show-preview", FALSE);
 		g_object_unref (settings);
 	}
 

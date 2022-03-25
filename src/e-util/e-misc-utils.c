@@ -4571,6 +4571,33 @@ e_util_markup_append_escaped (GString *buffer,
 	g_free (escaped);
 }
 
+/**
+ * e_util_markup_append_escaped_text:
+ * @buffer: a #GString buffer to append escaped text to
+ * @text: a text to escape and append to the buffer
+ *
+ * Markup-escapes @text and appends it to @buffer.
+ *
+ * Since: 3.46
+ **/
+void
+e_util_markup_append_escaped_text (GString *buffer,
+				   const gchar *text)
+{
+	gchar *escaped;
+
+	g_return_if_fail (buffer != NULL);
+
+	if (!text || !*text)
+		return;
+
+	escaped = g_markup_escape_text (text, -1);
+
+	g_string_append (buffer, escaped);
+
+	g_free (escaped);
+}
+
 void
 e_util_enum_supported_locales (void)
 {

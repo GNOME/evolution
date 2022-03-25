@@ -37,6 +37,11 @@ G_DEFINE_TYPE (
 	gal_view_calendar_month,
 	GAL_TYPE_VIEW)
 
+G_DEFINE_TYPE (
+	GalViewCalendarYear,
+	gal_view_calendar_year,
+	GAL_TYPE_VIEW)
+
 static void
 gal_view_calendar_day_class_init (GalViewClass *class)
 {
@@ -81,3 +86,13 @@ gal_view_calendar_month_init (GalView *view)
 {
 }
 
+static void
+gal_view_calendar_year_class_init (GalViewClass *class)
+{
+	class->type_code = "year_view";
+}
+
+static void
+gal_view_calendar_year_init (GalView *view)
+{
+}

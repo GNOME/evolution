@@ -42,9 +42,6 @@
 struct _ECalListViewPrivate {
 	/* The main display table */
 	ETable *table;
-
-	/* The last ECalendarViewEvent we returned from e_cal_list_view_get_selected_events(), to be freed */
-	ECalendarViewEvent *cursor_event;
 };
 
 enum {
@@ -61,7 +58,7 @@ static const gchar *icon_names[] = {
 
 static void      e_cal_list_view_dispose                (GObject *object);
 
-static GList    *e_cal_list_view_get_selected_events    (ECalendarView *cal_view);
+static GSList    *e_cal_list_view_get_selected_events    (ECalendarView *cal_view);
 static gboolean  e_cal_list_view_get_selected_time_range (ECalendarView *cal_view, time_t *start_time, time_t *end_time);
 static gboolean  e_cal_list_view_get_visible_time_range (ECalendarView *cal_view, time_t *start_time,
 							 time_t *end_time);
@@ -161,7 +158,6 @@ e_cal_list_view_init (ECalListView *cal_list_view)
 	cal_list_view->priv = G_TYPE_INSTANCE_GET_PRIVATE (cal_list_view, E_TYPE_CAL_LIST_VIEW, ECalListViewPrivate);
 
 	cal_list_view->priv->table = NULL;
-	cal_list_view->priv->cursor_event = NULL;
 }
 
 /* Returns the current time, for the ECellDateEdit items. */
@@ -426,8 +422,6 @@ e_cal_list_view_dispose (GObject *object)
 
 	cal_list_view = E_CAL_LIST_VIEW (object);
 
-	g_clear_pointer (&cal_list_view->priv->cursor_event, g_free);
-
 	if (cal_list_view->priv->table) {
 		gtk_widget_destroy (GTK_WIDGET (cal_list_view->priv->table));
 		cal_list_view->priv->table = NULL;
@@ -557,19 +551,16 @@ e_cal_list_view_get_selected_time_range (ECalendarView *cal_view,
                                          time_t *start_time,
                                          time_t *end_time)
 {
-	GList *selected;
+	GSList *selected;
 	ICalTimezone *zone;
 
 	selected = e_calendar_view_get_selected_events (cal_view);
 	if (selected) {
-		ECalendarViewEvent *event = (ECalendarViewEvent *) selected->data;
+		ECalendarViewSelectionData *sel_data = selected->data;
 		ECalComponent *comp;
 
-		if (!is_comp_data_valid (event))
-			return FALSE;
-
 		comp = e_cal_component_new ();
-		e_cal_component_set_icalcomponent (comp, i_cal_component_clone (event->comp_data->icalcomp));
+		e_cal_component_set_icalcomponent (comp, i_cal_component_clone (sel_data->icalcomp));
 		if (start_time) {
 			ECalComponentDateTime *dt;
 
@@ -608,7 +599,7 @@ e_cal_list_view_get_selected_time_range (ECalendarView *cal_view,
 		}
 
 		g_object_unref (comp);
-		g_list_free (selected);
+		g_slist_free_full (selected, e_calendar_view_selection_data_free);
 
 		return TRUE;
 	}
@@ -616,29 +607,26 @@ e_cal_list_view_get_selected_time_range (ECalendarView *cal_view,
 	return FALSE;
 }
 
-static GList *
+static GSList *
 e_cal_list_view_get_selected_events (ECalendarView *cal_view)
 {
-	GList *event_list = NULL;
-	gint   cursor_row;
+	GSList *selection = NULL;
+	gint cursor_row;
 
-	g_clear_pointer (&E_CAL_LIST_VIEW (cal_view)->priv->cursor_event, g_free);
-
-	cursor_row = e_table_get_cursor_row (
-		E_CAL_LIST_VIEW (cal_view)->priv->table);
+	cursor_row = e_table_get_cursor_row (E_CAL_LIST_VIEW (cal_view)->priv->table);
 
 	if (cursor_row >= 0) {
-		ECalendarViewEvent *event;
+		ECalModelComponent *comp_data;
 
-		event = E_CAL_LIST_VIEW (cal_view)->priv->cursor_event = g_new0 (ECalendarViewEvent, 1);
-		event->comp_data =
-			e_cal_model_get_component_at (
-				e_calendar_view_get_model (cal_view),
-				cursor_row);
-		event_list = g_list_prepend (event_list, event);
+		comp_data = e_cal_model_get_component_at (e_calendar_view_get_model (cal_view), cursor_row);
+
+		if (comp_data) {
+			selection = g_slist_prepend (selection,
+				e_calendar_view_selection_data_new (comp_data->client, comp_data->icalcomp));
+		}
 	}
 
-	return event_list;
+	return selection;
 }
 
 static gboolean

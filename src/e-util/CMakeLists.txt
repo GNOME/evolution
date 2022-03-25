@@ -175,6 +175,7 @@ set(SOURCES
 	e-menu-tool-button.c
 	e-misc-utils.c
 	e-mktemp.c
+	e-month-widget.c
 	e-name-selector-dialog.c
 	e-name-selector-entry.c
 	e-name-selector-list.c
@@ -451,6 +452,7 @@ set(HEADERS
 	e-menu-tool-button.h
 	e-misc-utils.h
 	e-mktemp.h
+	e-month-widget.h
 	e-name-selector-dialog.h
 	e-name-selector-entry.h
 	e-name-selector-list.h
@@ -823,6 +825,7 @@ add_private_programs_simple(
 	test-html-editor
 	test-mail-signatures
 	test-markdown-editor
+	test-month-widget
 	test-name-selector
 	test-preferences-window
 	test-proxy-preferences

@@ -32,6 +32,7 @@
 #include "calendar/gui/e-day-view.h"
 #include "calendar/gui/e-month-view.h"
 #include "calendar/gui/e-week-view.h"
+#include "calendar/gui/e-year-view.h"
 #include "calendar/gui/itip-utils.h"
 #include "calendar/gui/tag-calendar.h"
 
@@ -431,6 +432,9 @@ cal_shell_content_datepicker_selection_changed_cb (ECalendarItem *calitem,
 	g_return_if_fail (E_IS_CAL_SHELL_CONTENT (cal_shell_content));
 	g_return_if_fail (E_IS_CALENDAR_ITEM (calitem));
 
+	if (cal_shell_content->priv->current_view == E_CAL_VIEW_KIND_YEAR)
+		return;
+
 	g_date_clear (&sel_start, 1);
 	g_date_clear (&sel_end, 1);
 
@@ -511,6 +515,8 @@ cal_shell_content_datepicker_selection_changed_cb (ECalendarItem *calitem,
 		} else if (cal_shell_content->priv->current_view == E_CAL_VIEW_KIND_WORKWEEK) {
 			cal_shell_content_clamp_for_whole_weeks (calitem->week_start_day, &sel_start, &sel_end, TRUE);
 			e_cal_shell_content_change_view (cal_shell_content, E_CAL_VIEW_KIND_WEEK, &sel_start, &sel_end, FALSE);
+		} else if (cal_shell_content->priv->current_view == E_CAL_VIEW_KIND_YEAR) {
+			e_cal_shell_content_change_view (cal_shell_content, cal_shell_content->priv->current_view, &sel_start, &sel_end, FALSE);
 		} else {
 			e_cal_shell_content_change_view (cal_shell_content, E_CAL_VIEW_KIND_DAY, &sel_start, &sel_end, FALSE);
 		}
@@ -548,6 +554,8 @@ cal_shell_content_datepicker_selection_changed_cb (ECalendarItem *calitem,
 			cal_shell_content_clamp_for_whole_weeks (calitem->week_start_day, &sel_start, &sel_end, FALSE);
 
 			e_cal_shell_content_change_view (cal_shell_content, E_CAL_VIEW_KIND_LIST, &sel_start, &sel_end, FALSE);
+		} else if (cal_shell_content->priv->current_view == E_CAL_VIEW_KIND_YEAR) {
+			e_cal_shell_content_change_view (cal_shell_content, cal_shell_content->priv->current_view, &sel_start, &sel_end, FALSE);
 		} else {
 			cal_shell_content_clamp_for_whole_weeks (calitem->week_start_day, &sel_start, &sel_end,
 				cal_shell_content->priv->current_view == E_CAL_VIEW_KIND_MONTH || cal_shell_content->priv->current_view == E_CAL_VIEW_KIND_WEEK);
@@ -667,6 +675,7 @@ cal_shell_content_current_view_id_changed_cb (ECalShellContent *cal_shell_conten
 
 	switch (cal_shell_content->priv->current_view) {
 		case E_CAL_VIEW_KIND_DAY:
+		case E_CAL_VIEW_KIND_YEAR:
 			/* Left the start & end being the current view start */
 			sel_end = sel_start;
 			break;
@@ -760,6 +769,9 @@ cal_shell_content_display_view_cb (ECalShellContent *cal_shell_content,
 
 	} else if (gal_view_type == GAL_TYPE_VIEW_CALENDAR_MONTH) {
 		view_kind = E_CAL_VIEW_KIND_MONTH;
+
+	} else if (gal_view_type == GAL_TYPE_VIEW_CALENDAR_YEAR) {
+		view_kind = E_CAL_VIEW_KIND_YEAR;
 
 	} else {
 		g_return_if_reached ();
@@ -971,8 +983,7 @@ cal_shell_content_check_state (EShellContent *shell_content)
 	gboolean selection_can_delegate = FALSE;
 	gboolean this_and_future_supported = FALSE;
 	guint32 state = 0;
-	GList *selected;
-	GList *link;
+	GSList *selected, *link;
 	guint n_selected;
 
 	cal_shell_content = E_CAL_SHELL_CONTENT (shell_content);
@@ -985,15 +996,15 @@ cal_shell_content_check_state (EShellContent *shell_content)
 	calendar_view = e_cal_shell_content_get_current_calendar_view (cal_shell_content);
 
 	selected = e_calendar_view_get_selected_events (calendar_view);
-	n_selected = g_list_length (selected);
+	n_selected = g_slist_length (selected);
 
 	/* If we have a selection, assume it's
 	 * editable until we learn otherwise. */
 	if (n_selected > 0)
 		selection_is_editable = TRUE;
 
-	for (link = selected; link != NULL; link = g_list_next (link)) {
-		ECalendarViewEvent *event = link->data;
+	for (link = selected; link; link = g_slist_next (link)) {
+		ECalendarViewSelectionData *sel_data = link->data;
 		ECalClient *client;
 		ECalComponent *comp;
 		gchar *user_email;
@@ -1004,11 +1015,8 @@ cal_shell_content_check_state (EShellContent *shell_content)
 		gboolean icomp_is_delegated;
 		gboolean read_only;
 
-		if (!is_comp_data_valid (event))
-			continue;
-
-		client = event->comp_data->client;
-		icomp = event->comp_data->icalcomp;
+		client = sel_data->client;
+		icomp = sel_data->icalcomp;
 
 		read_only = e_client_is_readonly (E_CLIENT (client));
 		selection_is_editable &= !read_only;
@@ -1071,7 +1079,7 @@ cal_shell_content_check_state (EShellContent *shell_content)
 		g_object_unref (comp);
 	}
 
-	g_list_free (selected);
+	g_slist_free_full (selected, e_calendar_view_selection_data_free);
 
 	if (n_selected == 1)
 		state |= E_CAL_BASE_SHELL_CONTENT_SELECTION_SINGLE;
@@ -1590,6 +1598,7 @@ e_cal_shell_content_create_calendar_views (ECalShellContent *cal_shell_content)
 	ECalModel *model;
 	ECalendarView *calendar_view;
 	GtkAdjustment *adjustment;
+	GSettings *settings;
 	time_t today;
 	gint ii;
 
@@ -1597,6 +1606,7 @@ e_cal_shell_content_create_calendar_views (ECalShellContent *cal_shell_content)
 	g_return_if_fail (cal_shell_content->priv->calendar_notebook != NULL);
 	g_return_if_fail (cal_shell_content->priv->views[0] == NULL);
 
+	settings = e_util_ref_settings ("org.gnome.evolution.calendar");
 	model = e_cal_base_shell_content_get_model (E_CAL_BASE_SHELL_CONTENT (cal_shell_content));
 
 	/* Day View */
@@ -1635,6 +1645,11 @@ e_cal_shell_content_create_calendar_views (ECalShellContent *cal_shell_content)
 		adjustment, "value-changed",
 		G_CALLBACK (month_view_adjustment_changed_cb), cal_shell_content);
 
+	/* Year View */
+	calendar_view = e_year_view_new (model);
+	cal_shell_content->priv->views[E_CAL_VIEW_KIND_YEAR] = calendar_view;
+	g_object_ref_sink (calendar_view);
+
 	/* List View */
 	calendar_view = e_cal_list_view_new (cal_shell_content->priv->list_view_model);
 	cal_shell_content->priv->views[E_CAL_VIEW_KIND_LIST] = calendar_view;
@@ -1663,6 +1678,8 @@ e_cal_shell_content_create_calendar_views (ECalShellContent *cal_shell_content)
 			GTK_WIDGET (calendar_view), NULL);
 		gtk_widget_show (GTK_WIDGET (calendar_view));
 	}
+
+	g_object_unref (settings);
 }
 
 static void
@@ -2206,7 +2223,9 @@ cal_shell_content_switch_list_view (ECalShellContent *cal_shell_content,
 	g_return_if_fail (from_view_kind != to_view_kind);
 
 	if (to_view_kind != E_CAL_VIEW_KIND_LIST &&
-	    from_view_kind != E_CAL_VIEW_KIND_LIST)
+	    to_view_kind != E_CAL_VIEW_KIND_YEAR &&
+	    from_view_kind != E_CAL_VIEW_KIND_LIST &&
+	    from_view_kind != E_CAL_VIEW_KIND_YEAR)
 		return;
 
 	shell_view = e_shell_content_get_shell_view (E_SHELL_CONTENT (cal_shell_content));
@@ -2215,15 +2234,17 @@ cal_shell_content_switch_list_view (ECalShellContent *cal_shell_content,
 	date_navigator = e_cal_base_shell_sidebar_get_date_navigator (cal_base_shell_sidebar);
 	source_selector = e_cal_base_shell_sidebar_get_selector (cal_base_shell_sidebar);
 
-	gtk_widget_set_visible (GTK_WIDGET (date_navigator), to_view_kind != E_CAL_VIEW_KIND_LIST);
+	gtk_widget_set_visible (GTK_WIDGET (date_navigator), to_view_kind != E_CAL_VIEW_KIND_LIST && to_view_kind != E_CAL_VIEW_KIND_YEAR);
 	e_source_selector_set_show_toggles (source_selector, to_view_kind != E_CAL_VIEW_KIND_LIST);
 
-	model = e_calendar_view_get_model (cal_shell_content->priv->views[from_view_kind]);
-	cal_filter = e_cal_data_model_dup_filter (e_cal_model_get_data_model (model));
-	if (cal_filter) {
-		model = e_calendar_view_get_model (cal_shell_content->priv->views[to_view_kind]);
-		e_cal_data_model_set_filter (e_cal_model_get_data_model (model), cal_filter);
-		g_free (cal_filter);
+	if (to_view_kind == E_CAL_VIEW_KIND_LIST || from_view_kind == E_CAL_VIEW_KIND_LIST) {
+		model = e_calendar_view_get_model (cal_shell_content->priv->views[from_view_kind]);
+		cal_filter = e_cal_data_model_dup_filter (e_cal_model_get_data_model (model));
+		if (cal_filter) {
+			model = e_calendar_view_get_model (cal_shell_content->priv->views[to_view_kind]);
+			e_cal_data_model_set_filter (e_cal_model_get_data_model (model), cal_filter);
+			g_free (cal_filter);
+		}
 	}
 
 	/* The list view is activated */
@@ -2241,6 +2262,7 @@ e_cal_shell_content_set_current_view_id (ECalShellContent *cal_shell_content,
 					 ECalViewKind view_kind)
 {
 	EShellView *shell_view;
+	EShellWindow *shell_window;
 	time_t start_time = -1, end_time = -1;
 	gint ii;
 
@@ -2313,13 +2335,17 @@ e_cal_shell_content_set_current_view_id (ECalShellContent *cal_shell_content,
 
 	cal_shell_content_switch_list_view (cal_shell_content, cal_shell_content->priv->current_view, view_kind);
 
+	shell_view = e_shell_content_get_shell_view (E_SHELL_CONTENT (cal_shell_content));
+	shell_window = e_shell_view_get_shell_window (shell_view);
+
+	gtk_action_set_sensitive (ACTION (CALENDAR_PREVIEW_MENU), view_kind == E_CAL_VIEW_KIND_YEAR);
+
 	cal_shell_content->priv->current_view = view_kind;
 
 	g_object_notify (G_OBJECT (cal_shell_content), "current-view-id");
 
 	gtk_widget_queue_draw (GTK_WIDGET (cal_shell_content->priv->views[cal_shell_content->priv->current_view]));
 
-	shell_view = e_shell_content_get_shell_view (E_SHELL_CONTENT (cal_shell_content));
 	e_shell_view_update_actions (shell_view);
 	e_cal_shell_view_update_sidebar (E_CAL_SHELL_VIEW (shell_view));
 }
@@ -2449,6 +2475,15 @@ cal_shell_content_move_view_range_relative (ECalShellContent *cal_shell_content,
 			g_date_set_day (&end, g_date_get_days_in_month (g_date_get_month (&start), g_date_get_year (&start)));
 			g_date_add_days (&end, 6);
 			break;
+		case E_CAL_VIEW_KIND_YEAR:
+			if (direction > 0) {
+				g_date_add_years (&start, direction);
+				g_date_add_years (&end, direction);
+			} else {
+				g_date_subtract_years (&start, direction * -1);
+				g_date_subtract_years (&end, direction * -1);
+			}
+			break;
 		case E_CAL_VIEW_KIND_LAST:
 			return;
 	}
@@ -2492,13 +2527,25 @@ e_cal_shell_content_move_view_range (ECalShellContent *cal_shell_content,
 		case E_CALENDAR_VIEW_MOVE_TO_TODAY:
 			tt = i_cal_time_new_current_with_zone (zone);
 			g_date_set_dmy (&date, i_cal_time_get_day (tt), i_cal_time_get_month (tt), i_cal_time_get_year (tt));
+			if (cal_shell_content->priv->current_view == E_CAL_VIEW_KIND_YEAR) {
+				ECalendarView *cal_view = e_cal_shell_content_get_current_calendar_view (cal_shell_content);
+				time_t tmt;
+
+				tmt = i_cal_time_as_timet (tt);
+				e_calendar_view_set_selected_time_range (cal_view, tmt, tmt);
+			}
 			g_clear_object (&tt);
 			/* one-day selection takes care of the view range move with left view kind */
 			e_calendar_item_set_selection (e_calendar_get_item (calendar), &date, &date);
 			break;
 		case E_CALENDAR_VIEW_MOVE_TO_EXACT_DAY:
-			time_to_gdate_with_zone (&date, exact_date, zone);
-			e_cal_shell_content_change_view (cal_shell_content, E_CAL_VIEW_KIND_DAY, &date, &date, FALSE);
+			if (cal_shell_content->priv->current_view == E_CAL_VIEW_KIND_YEAR) {
+				ECalendarView *cal_view = e_cal_shell_content_get_current_calendar_view (cal_shell_content);
+				e_calendar_view_set_selected_time_range (cal_view, exact_date, exact_date);
+			} else {
+				time_to_gdate_with_zone (&date, exact_date, zone);
+				e_cal_shell_content_change_view (cal_shell_content, E_CAL_VIEW_KIND_DAY, &date, &date, FALSE);
+			}
 			break;
 	}
 }

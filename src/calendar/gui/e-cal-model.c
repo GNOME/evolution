@@ -3821,78 +3821,9 @@ e_cal_model_get_attendees_status_info (ECalModel *model,
                                        ECalComponent *comp,
                                        ECalClient *cal_client)
 {
-	struct _values {
-		ICalParameterPartstat status;
-		const gchar *caption;
-		gint count;
-	} values[] = {
-		{ I_CAL_PARTSTAT_ACCEPTED,    N_("Accepted"),     0 },
-		{ I_CAL_PARTSTAT_DECLINED,    N_("Declined"),     0 },
-		{ I_CAL_PARTSTAT_TENTATIVE,   N_("Tentative"),    0 },
-		{ I_CAL_PARTSTAT_DELEGATED,   N_("Delegated"),    0 },
-		{ I_CAL_PARTSTAT_NEEDSACTION, N_("Needs action"), 0 },
-		{ I_CAL_PARTSTAT_NONE,        N_("Other"),        0 },
-		{ I_CAL_PARTSTAT_X,           NULL,              -1 }
-	};
-
-	ESourceRegistry *registry;
-	GSList *attendees = NULL, *a;
-	gboolean have = FALSE;
-	gchar *res = NULL;
-	gint i;
-
 	g_return_val_if_fail (E_IS_CAL_MODEL (model), NULL);
 
-	registry = e_cal_model_get_registry (model);
-
-	if (!comp || !e_cal_component_has_attendees (comp) ||
-	    !itip_organizer_is_user_ex (registry, comp, cal_client, TRUE))
-		return NULL;
-
-	attendees = e_cal_component_get_attendees (comp);
-
-	for (a = attendees; a; a = a->next) {
-		ECalComponentAttendee *att = a->data;
-
-		if (att && e_cal_component_attendee_get_cutype (att) == I_CAL_CUTYPE_INDIVIDUAL &&
-		    (e_cal_component_attendee_get_role (att) == I_CAL_ROLE_CHAIR ||
-		     e_cal_component_attendee_get_role (att) == I_CAL_ROLE_REQPARTICIPANT ||
-		     e_cal_component_attendee_get_role (att) == I_CAL_ROLE_OPTPARTICIPANT)) {
-			have = TRUE;
-
-			for (i = 0; values[i].count != -1; i++) {
-				if (e_cal_component_attendee_get_partstat (att) == values[i].status || values[i].status == I_CAL_PARTSTAT_NONE) {
-					values[i].count++;
-					break;
-				}
-			}
-		}
-	}
-
-	if (have) {
-		GString *str = g_string_new ("");
-
-		for (i = 0; values[i].count != -1; i++) {
-			if (values[i].count > 0) {
-				if (str->str && *str->str)
-					g_string_append (str, "   ");
-
-				g_string_append_printf (str, "%s: %d", _(values[i].caption), values[i].count);
-			}
-		}
-
-		g_string_prepend (str, ": ");
-
-		/* To Translators: 'Status' here means the state of the attendees, the resulting string will be in a form:
-		 * Status: Accepted: X   Declined: Y   ... */
-		g_string_prepend (str, _("Status"));
-
-		res = g_string_free (str, FALSE);
-	}
-
-	g_slist_free_full (attendees, e_cal_component_attendee_free);
-
-	return res;
+	return cal_comp_util_dup_attendees_status_info (comp, cal_client, e_cal_model_get_registry (model));
 }
 
 /**

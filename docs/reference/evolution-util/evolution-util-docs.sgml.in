@@ -284,6 +284,7 @@
     <xi:include href="xml/e-menu-tool-action.xml"/>
     <xi:include href="xml/e-menu-tool-button.xml"/>
     <xi:include href="xml/e-mktemp.xml"/>
+    <xi:include href="xml/e-month-widget.xml"/>
     <xi:include href="xml/e-name-selector-dialog.xml"/>
     <xi:include href="xml/e-name-selector-entry.xml"/>
     <xi:include href="xml/e-name-selector-list.xml"/>
@@ -326,6 +327,10 @@
   <index id="api-index-full">
     <title>Index</title>
     <xi:include href="xml/api-index-full.xml"><xi:fallback /></xi:include>
+  </index>
+  <index id="api-index-3-46" role="3.46">
+    <title>Index of new symbols in 3.46</title>
+    <xi:include href="xml/api-index-3.46.xml"><xi:fallback /></xi:include>
   </index>
   <index id="api-index-3-44" role="3.44">
     <title>Index of new symbols in 3.44</title>

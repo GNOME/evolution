@@ -158,6 +158,7 @@
 #include <e-util/e-menu-tool-button.h>
 #include <e-util/e-misc-utils.h>
 #include <e-util/e-mktemp.h>
+#include <e-util/e-month-widget.h>
 #include <e-util/e-name-selector-dialog.h>
 #include <e-util/e-name-selector-entry.h>
 #include <e-util/e-name-selector-list.h>

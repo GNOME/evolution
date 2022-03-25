@@ -122,6 +122,16 @@ typedef struct {
 	gint event_num;
 } ECalendarViewEventData;
 
+typedef struct _ECalendarViewSelectionData {
+	ECalClient *client;
+	ICalComponent *icalcomp;
+} ECalendarViewSelectionData;
+
+ECalendarViewSelectionData *
+		e_calendar_view_selection_data_new	(ECalClient *client,
+							 ICalComponent *icalcomp);
+void		e_calendar_view_selection_data_free	(gpointer ptr);
+
 typedef enum {
 	EDIT_EVENT_AUTODETECT,
 	EDIT_EVENT_FORCE_MEETING,
@@ -163,7 +173,7 @@ struct _ECalendarViewClass {
 						 gint64 exact_date);
 
 	/* Virtual methods */
-	GList *		(*get_selected_events)	(ECalendarView *cal_view);
+	GSList *	(*get_selected_events)	(ECalendarView *cal_view); /* ECalendarViewSelectionData * */
 	gboolean	(*get_selected_time_range)
 						(ECalendarView *cal_view,
 						 time_t *start_time,
@@ -203,7 +213,7 @@ GtkTargetList *	e_calendar_view_get_copy_target_list
 GtkTargetList *	e_calendar_view_get_paste_target_list
 						(ECalendarView *cal_view);
 
-GList *		e_calendar_view_get_selected_events
+GSList *	e_calendar_view_get_selected_events /* ECalendarViewSelectionData * */
 						(ECalendarView *cal_view);
 gboolean	e_calendar_view_get_selected_time_range
 						(ECalendarView *cal_view,
@@ -224,6 +234,7 @@ void		e_calendar_view_precalc_visible_time_range
 						 time_t *out_start_time,
 						 time_t *out_end_time);
 void		e_calendar_view_update_query	(ECalendarView *cal_view);
+void		e_calendar_view_paste_text	(ECalendarView *cal_view);
 
 void		e_calendar_view_delete_selected_occurrence
 						(ECalendarView *cal_view,

@@ -341,7 +341,7 @@
     </key>
     <key name="show-week-numbers" type="b">
       <default>false</default>
-      <_summary>Show week numbers in Day View, Work Week View, and Date Navigator</_summary>
+      <_summary>Show week numbers in Day View, Work Week View, Year view and Date Navigator</_summary>
       <_description>Whether to show week numbers in various places in the Calendar</_description>
     </key>
     <key name="tag-vpane-position" type="d">
@@ -474,6 +474,35 @@
     <key name="use-markdown-editor" type="b">
       <default>false</default>
       <_summary>Whether to use markdown editor for the description in the component editor.</_summary>
+    </key>
+    <key name="year-show-day-names" type="b">
+      <default>true</default>
+      <_summary>Show week day names in the Year View</_summary>
+    </key>
+    <key name="year-show-preview" type="b">
+      <default>true</default>
+      <_summary>Show the preview pane in the Year View</_summary>
+      <_description>If “true”, show the preview pane in the Year View</_description>
+    </key>
+    <key name="year-hpane-position" type="i">
+      <default>400</default>
+      <_summary>Year view horizontal pane position</_summary>
+      <_description>Position of the horizontal pane, between the year calendar and the list of events for the selected day in the year view, in pixels</_description>
+    </key>
+    <key name="year-layout" type="i">
+      <default>0</default>
+      <_summary>Layout style for the Year View</_summary>
+      <_description>The layout style determines where to place the preview pane. “0” (Horizontal View) places the preview pane below the calendar.  “1” (Vertical View) places the preview pane next to the calendar.</_description>
+    </key>
+    <key name="year-hpreview-position" type="i">
+      <default>400</default>
+      <_summary>Year view horizontal preview position</_summary>
+      <_description>Position of the horizontal event preview for the year view, in pixels</_description>
+    </key>
+    <key name="year-vpreview-position" type="i">
+      <default>400</default>
+      <_summary>Year view vertical preview position</_summary>
+      <_description>Position of the vertical event preview for the year view, in pixels</_description>
     </key>
 
     <!-- The following keys are deprecated. -->

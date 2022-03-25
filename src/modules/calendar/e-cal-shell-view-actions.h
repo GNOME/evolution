@@ -38,6 +38,14 @@
 	E_SHELL_WINDOW_ACTION ((window), "calendar-jump-to")
 #define E_SHELL_WINDOW_ACTION_CALENDAR_NEW(window) \
 	E_SHELL_WINDOW_ACTION ((window), "calendar-new")
+#define E_SHELL_WINDOW_ACTION_CALENDAR_PREVIEW(window) \
+	E_SHELL_WINDOW_ACTION ((window), "calendar-preview")
+#define E_SHELL_WINDOW_ACTION_CALENDAR_PREVIEW_MENU(window) \
+	E_SHELL_WINDOW_ACTION ((window), "calendar-preview-menu")
+#define E_SHELL_WINDOW_ACTION_CALENDAR_PREVIEW_HORIZONTAL(window) \
+	E_SHELL_WINDOW_ACTION ((window), "calendar-preview-horizontal")
+#define E_SHELL_WINDOW_ACTION_CALENDAR_PREVIEW_VERTICAL(window) \
+	E_SHELL_WINDOW_ACTION ((window), "calendar-preview-vertical")
 #define E_SHELL_WINDOW_ACTION_CALENDAR_PRINT(window) \
 	E_SHELL_WINDOW_ACTION ((window), "calendar-print")
 #define E_SHELL_WINDOW_ACTION_CALENDAR_PRINT_PREVIEW(window) \
@@ -74,6 +82,8 @@
 	E_SHELL_WINDOW_ACTION ((window), "calendar-view-week")
 #define E_SHELL_WINDOW_ACTION_CALENDAR_VIEW_WORKWEEK(window) \
 	E_SHELL_WINDOW_ACTION ((window), "calendar-view-workweek")
+#define E_SHELL_WINDOW_ACTION_CALENDAR_VIEW_YEAR(window) \
+	E_SHELL_WINDOW_ACTION ((window), "calendar-view-year")
 
 /* Event Actions */
 #define E_SHELL_WINDOW_ACTION_EVENT_DELEGATE(window) \

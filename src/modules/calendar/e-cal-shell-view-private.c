@@ -70,7 +70,7 @@ static void
 cal_shell_view_popup_event_cb (EShellView *shell_view,
                                GdkEvent *button_event)
 {
-	GList *list;
+	GSList *selected;
 	ECalendarView *view;
 	ECalShellViewPrivate *priv;
 	const gchar *widget_path;
@@ -80,9 +80,9 @@ cal_shell_view_popup_event_cb (EShellView *shell_view,
 
 	view = e_cal_shell_content_get_current_calendar_view (priv->cal_shell_content);
 
-	list = e_calendar_view_get_selected_events (view);
-	n_selected = g_list_length (list);
-	g_list_free (list);
+	selected = e_calendar_view_get_selected_events (view);
+	n_selected = g_slist_length (selected);
+	g_slist_free_full (selected, e_calendar_view_selection_data_free);
 
 	if (n_selected <= 0)
 		widget_path = "/calendar-empty-popup";

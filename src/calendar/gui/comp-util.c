@@ -1853,3 +1853,499 @@ cal_comp_util_format_itt (ICalTime *itt,
 	tm = e_cal_util_icaltime_to_tm (itt);
 	e_datetime_format_format_tm_inline ("calendar", "table", i_cal_time_is_date (itt) ? DTFormatKindDate : DTFormatKindDateTime, &tm, buffer, buffer_size);
 }
+
+ICalTime *
+cal_comp_util_date_time_to_zone (ECalComponentDateTime *dt,
+				 ECalClient *client,
+				 ICalTimezone *default_zone)
+{
+	ICalTime *itt;
+	ICalTimezone *zone = NULL;
+	const gchar *tzid;
+
+	if (!dt)
+		return NULL;
+
+	itt = i_cal_time_clone (e_cal_component_datetime_get_value (dt));
+	tzid = e_cal_component_datetime_get_tzid (dt);
+
+	if (tzid && *tzid) {
+		if (!e_cal_client_get_timezone_sync (client, tzid, &zone, NULL, NULL))
+			zone = NULL;
+	} else if (i_cal_time_is_utc (itt)) {
+		zone = i_cal_timezone_get_utc_timezone ();
+	}
+
+	if (zone) {
+		i_cal_time_convert_timezone (itt, zone, default_zone);
+		i_cal_time_set_timezone (itt, default_zone);
+	}
+
+	return itt;
+}
+
+gchar *
+cal_comp_util_dup_attendees_status_info (ECalComponent *comp,
+					 ECalClient *cal_client,
+					 ESourceRegistry *registry)
+{
+	struct _values {
+		ICalParameterPartstat status;
+		const gchar *caption;
+		gint count;
+	} values[] = {
+		{ I_CAL_PARTSTAT_ACCEPTED,    N_("Accepted"),     0 },
+		{ I_CAL_PARTSTAT_DECLINED,    N_("Declined"),     0 },
+		{ I_CAL_PARTSTAT_TENTATIVE,   N_("Tentative"),    0 },
+		{ I_CAL_PARTSTAT_DELEGATED,   N_("Delegated"),    0 },
+		{ I_CAL_PARTSTAT_NEEDSACTION, N_("Needs action"), 0 },
+		{ I_CAL_PARTSTAT_NONE,        N_("Other"),        0 },
+		{ I_CAL_PARTSTAT_X,           NULL,              -1 }
+	};
+	GSList *attendees = NULL, *link;
+	gboolean have = FALSE;
+	gchar *res = NULL;
+	gint ii;
+
+	g_return_val_if_fail (E_IS_CAL_CLIENT (cal_client), NULL);
+
+	if (registry) {
+		g_return_val_if_fail (E_IS_SOURCE_REGISTRY (registry), NULL);
+		g_object_ref (registry);
+	} else {
+		GError *error = NULL;
+
+		registry = e_source_registry_new_sync (NULL, &error);
+		if (!registry)
+			g_warning ("%s: Failed to create source registry: %s", G_STRFUNC, error ? error->message : "Unknown error");
+		g_clear_error (&error);
+	}
+
+	if (!comp || !e_cal_component_has_attendees (comp) ||
+	    !itip_organizer_is_user_ex (registry, comp, cal_client, TRUE)) {
+		g_clear_object (&registry);
+		return NULL;
+	}
+
+	attendees = e_cal_component_get_attendees (comp);
+
+	for (link = attendees; link; link = g_slist_next (link)) {
+		ECalComponentAttendee *att = link->data;
+
+		if (att && e_cal_component_attendee_get_cutype (att) == I_CAL_CUTYPE_INDIVIDUAL &&
+		    (e_cal_component_attendee_get_role (att) == I_CAL_ROLE_CHAIR ||
+		     e_cal_component_attendee_get_role (att) == I_CAL_ROLE_REQPARTICIPANT ||
+		     e_cal_component_attendee_get_role (att) == I_CAL_ROLE_OPTPARTICIPANT)) {
+			have = TRUE;
+
+			for (ii = 0; values[ii].count != -1; ii++) {
+				if (e_cal_component_attendee_get_partstat (att) == values[ii].status || values[ii].status == I_CAL_PARTSTAT_NONE) {
+					values[ii].count++;
+					break;
+				}
+			}
+		}
+	}
+
+	if (have) {
+		GString *str = g_string_new ("");
+
+		for (ii = 0; values[ii].count != -1; ii++) {
+			if (values[ii].count > 0) {
+				if (str->str && *str->str)
+					g_string_append (str, "   ");
+
+				g_string_append_printf (str, "%s: %d", _(values[ii].caption), values[ii].count);
+			}
+		}
+
+		g_string_prepend (str, ": ");
+
+		/* Translators: 'Status' here means the state of the attendees, the resulting string will be in a form:
+		 * Status: Accepted: X   Declined: Y   ... */
+		g_string_prepend (str, _("Status"));
+
+		res = g_string_free (str, FALSE);
+	}
+
+	g_slist_free_full (attendees, e_cal_component_attendee_free);
+
+	g_clear_object (&registry);
+
+	return res;
+}
+
+gchar *
+cal_comp_util_describe (ECalComponent *comp,
+			ECalClient *client,
+			ICalTimezone *default_zone,
+			ECalCompUtilDescribeFlags flags)
+{
+	gboolean use_markup = (flags & E_CAL_COMP_UTIL_DESCRIBE_FLAG_USE_MARKUP) != 0;
+	ECalComponentDateTime *dtstart = NULL, *dtend = NULL;
+	ICalTime *itt_start, *itt_end;
+	ICalComponent *icalcomp;
+	gchar *summary;
+	const gchar *location;
+	gchar *timediff = NULL, *tmp;
+	gchar timestr[255];
+	GString *markup;
+
+	g_return_val_if_fail (E_IS_CAL_COMPONENT (comp), NULL);
+	g_return_val_if_fail (E_IS_CAL_CLIENT (client), NULL);
+
+	timestr[0] = 0;
+	markup = g_string_sized_new (256);
+	icalcomp = e_cal_component_get_icalcomponent (comp);
+	summary = e_calendar_view_dup_component_summary (icalcomp);
+	location = i_cal_component_get_location (icalcomp);
+
+	if (location && !*location)
+		location = NULL;
+
+	if (e_cal_component_get_vtype (comp) == E_CAL_COMPONENT_EVENT) {
+		dtstart = e_cal_component_get_dtstart (comp);
+		dtend = e_cal_component_get_dtend (comp);
+	} else if (e_cal_component_get_vtype (comp) == E_CAL_COMPONENT_TODO) {
+		dtstart = e_cal_component_get_dtstart (comp);
+	} else if (e_cal_component_get_vtype (comp) == E_CAL_COMPONENT_JOURNAL) {
+		dtstart = e_cal_component_get_dtstart (comp);
+	}
+
+	itt_start = cal_comp_util_date_time_to_zone (dtstart, client, default_zone);
+	itt_end = cal_comp_util_date_time_to_zone (dtend, client, default_zone);
+
+	if ((flags & E_CAL_COMP_UTIL_DESCRIBE_FLAG_ONLY_TIME) != 0 &&
+	    (itt_start && (!itt_end || i_cal_time_compare_date_only (itt_start, itt_end) == 0))) {
+		if ((flags & E_CAL_COMP_UTIL_DESCRIBE_FLAG_24HOUR_FORMAT) != 0) {
+			g_snprintf (timestr, sizeof (timestr), "%d:%02d", i_cal_time_get_hour (itt_start), i_cal_time_get_minute (itt_start));
+		} else {
+			gint hour = i_cal_time_get_hour (itt_start);
+			const gchar *suffix;
+
+			if (hour < 12) {
+				/* String to use in 12-hour time format for times in the morning. */
+				suffix = _("am");
+			} else {
+				hour -= 12;
+				/* String to use in 12-hour time format for times in the afternoon. */
+				suffix = _("pm");
+			}
+
+			if (hour == 0)
+				hour = 12;
+
+			if (!i_cal_time_get_minute (itt_start))
+				g_snprintf (timestr, sizeof (timestr), "%d %s", hour, suffix);
+			else
+				g_snprintf (timestr, sizeof (timestr), "%d:%02d %s", hour, i_cal_time_get_minute (itt_start), suffix);
+		}
+	} else if (itt_start) {
+		cal_comp_util_format_itt (itt_start, timestr, sizeof (timestr) - 1);
+	}
+
+	if (itt_start && itt_end) {
+		gint64 start, end;
+
+		start = i_cal_time_as_timet (itt_start);
+		end = i_cal_time_as_timet (itt_end);
+
+		if (start < end)
+			timediff = e_cal_util_seconds_to_string (end - start);
+	}
+
+	if (!summary || !*summary)
+		g_clear_pointer (&summary, g_free);
+
+	if (use_markup) {
+		tmp = g_markup_printf_escaped ("<b>%s</b>", summary ? summary : _( "No Summary"));
+		g_string_append (markup, tmp);
+		g_free (tmp);
+	} else {
+		g_string_append (markup, summary ? summary : _( "No Summary"));
+	}
+
+	if (*timestr) {
+		GSList *parts = NULL, *link;
+		const gchar *use_timestr = timestr;
+		const gchar *use_timediff = timediff;
+		const gchar *use_location = location;
+		gchar *escaped_timestr = NULL;
+		gchar *escaped_timediff = NULL;
+		gchar *escaped_location = NULL;
+
+		g_string_append_c (markup, '\n');
+
+		if (use_markup) {
+			escaped_timestr = g_markup_escape_text (timestr, -1);
+			use_timestr = escaped_timestr;
+
+			if (timediff && *timediff) {
+				escaped_timediff = g_markup_escape_text (timediff, -1);
+				use_timediff = escaped_timediff;
+			}
+
+			if (location) {
+				escaped_location = g_markup_escape_text (location, -1);
+				use_location = escaped_location;
+			}
+		}
+
+		if (timediff && *timediff) {
+			if (use_location) {
+				parts = g_slist_prepend (parts, (gpointer) use_timestr);
+				parts = g_slist_prepend (parts, (gpointer) " (");
+				parts = g_slist_prepend (parts, (gpointer) use_timediff);
+				parts = g_slist_prepend (parts, (gpointer) ") ");
+				parts = g_slist_prepend (parts, (gpointer) use_location);
+			} else {
+				parts = g_slist_prepend (parts, (gpointer) use_timestr);
+				parts = g_slist_prepend (parts, (gpointer) " (");
+				parts = g_slist_prepend (parts, (gpointer) use_timediff);
+				parts = g_slist_prepend (parts, (gpointer) ")");
+			}
+		} else if (use_location) {
+				parts = g_slist_prepend (parts, (gpointer) use_timestr);
+				parts = g_slist_prepend (parts, (gpointer) " ");
+				parts = g_slist_prepend (parts, (gpointer) use_location);
+		} else {
+			parts = g_slist_prepend (parts, (gpointer) use_timestr);
+		}
+
+		if (!(flags & E_CAL_COMP_UTIL_DESCRIBE_FLAG_RTL))
+			parts = g_slist_reverse (parts);
+
+		if (use_markup)
+			g_string_append (markup, "<small>");
+		for (link = parts; link; link = g_slist_next (link)) {
+			g_string_append (markup, (const gchar *) link->data);
+		}
+		if (use_markup)
+			g_string_append (markup, "</small>");
+
+		g_slist_free (parts);
+		g_free (escaped_timestr);
+		g_free (escaped_timediff);
+		g_free (escaped_location);
+	} else if (location) {
+		g_string_append_c (markup, '\n');
+
+		if (use_markup) {
+			tmp = g_markup_printf_escaped ("%s", location);
+
+			g_string_append (markup, "<small>");
+			g_string_append (markup, tmp);
+			g_string_append (markup, "</small>");
+
+			g_free (tmp);
+		} else {
+			g_string_append (markup, location);
+		}
+	}
+
+	g_free (timediff);
+	g_free (summary);
+
+	e_cal_component_datetime_free (dtstart);
+	e_cal_component_datetime_free (dtend);
+	g_clear_object (&itt_start);
+	g_clear_object (&itt_end);
+
+	return g_string_free (markup, FALSE);
+}
+
+gchar *
+cal_comp_util_dup_tooltip (ECalComponent *comp,
+			   ECalClient *client,
+			   ESourceRegistry *registry,
+			   ICalTimezone *default_zone)
+{
+	ECalComponentOrganizer *organizer;
+	ECalComponentDateTime *dtstart, *dtend;
+	ICalComponent *icalcomp;
+	ICalTimezone *zone;
+	GString *tooltip;
+	const gchar *description;
+	gchar *tmp;
+
+	g_return_val_if_fail (E_IS_CAL_COMPONENT (comp), NULL);
+	g_return_val_if_fail (E_IS_CAL_CLIENT (client), NULL);
+
+	icalcomp = e_cal_component_get_icalcomponent (comp);
+	tooltip = g_string_sized_new (256);
+
+	tmp = e_calendar_view_dup_component_summary (icalcomp);
+	e_util_markup_append_escaped (tooltip, "<b>%s</b>", tmp && *tmp ? tmp : _("No Summary"));
+	g_clear_pointer (&tmp, g_free);
+
+	organizer = e_cal_component_get_organizer (comp);
+	if (organizer && e_cal_component_organizer_get_cn (organizer)) {
+		const gchar *email;
+
+		email = itip_strip_mailto (e_cal_component_organizer_get_value (organizer));
+
+		if (email) {
+			/* Translators: It will display "Organizer: NameOfTheUser <email@ofuser.com>" */
+			tmp = g_strdup_printf (_("Organizer: %s <%s>"), e_cal_component_organizer_get_cn (organizer), email);
+		} else {
+			/* Translators: It will display "Organizer: NameOfTheUser" */
+			tmp = g_strdup_printf (_("Organizer: %s"), e_cal_component_organizer_get_cn (organizer));
+		}
+
+		g_string_append_c (tooltip, '\n');
+		e_util_markup_append_escaped_text (tooltip, tmp);
+		g_clear_pointer (&tmp, g_free);
+	}
+
+	e_cal_component_organizer_free (organizer);
+
+	tmp = e_cal_component_get_location (comp);
+
+	if (tmp && *tmp) {
+		g_string_append_c (tooltip, '\n');
+		/* Translators: It will display "Location: PlaceOfTheMeeting" */
+		e_util_markup_append_escaped (tooltip, _("Location: %s"), tmp);
+	}
+
+	g_clear_pointer (&tmp, g_free);
+
+	dtstart = e_cal_component_get_dtstart (comp);
+	dtend = e_cal_component_get_dtend (comp);
+
+	if (dtstart && e_cal_component_datetime_get_tzid (dtstart)) {
+		zone = i_cal_component_get_timezone (icalcomp, e_cal_component_datetime_get_tzid (dtstart));
+		if (!zone &&
+		    !e_cal_client_get_timezone_sync (client, e_cal_component_datetime_get_tzid (dtstart), &zone, NULL, NULL))
+			zone = NULL;
+
+		if (!zone)
+			zone = default_zone;
+
+	} else {
+		zone = default_zone;
+	}
+
+	if (dtstart && e_cal_component_datetime_get_value (dtstart)) {
+		struct tm tmp_tm;
+		time_t t_start, t_end;
+		gchar *tmp1;
+
+		t_start = i_cal_time_as_timet_with_zone (e_cal_component_datetime_get_value (dtstart), zone);
+
+		if (dtend && e_cal_component_datetime_get_value (dtend)) {
+			ICalTimezone *end_zone = default_zone;
+
+			if (e_cal_component_datetime_get_tzid (dtend)) {
+				end_zone = i_cal_component_get_timezone (e_cal_component_get_icalcomponent (comp), e_cal_component_datetime_get_tzid (dtend));
+				if (!end_zone &&
+				    !e_cal_client_get_timezone_sync (client, e_cal_component_datetime_get_tzid (dtend), &end_zone, NULL, NULL))
+					end_zone = NULL;
+
+				if (!end_zone)
+					end_zone = default_zone;
+			}
+
+			t_end = i_cal_time_as_timet_with_zone (e_cal_component_datetime_get_value (dtend), end_zone);
+		} else {
+			t_end = t_start;
+		}
+
+		tmp_tm = e_cal_util_icaltime_to_tm_with_zone (e_cal_component_datetime_get_value (dtstart), zone, default_zone);
+		tmp1 = e_datetime_format_format_tm ("calendar", "table", i_cal_time_is_date (e_cal_component_datetime_get_value (dtstart)) ?
+			DTFormatKindDate : DTFormatKindDateTime, &tmp_tm);
+
+		g_string_append_c (tooltip, '\n');
+
+		if (t_end > t_start) {
+			tmp = e_cal_util_seconds_to_string (t_end - t_start);
+			/* Translators: It will display "Time: ActualStartDateAndTime (DurationOfTheMeeting)" */
+			e_util_markup_append_escaped (tooltip, _("Time: %s (%s)"), tmp1, tmp);
+			g_clear_pointer (&tmp, g_free);
+		} else {
+			/* Translators: It will display "Time: ActualStartDateAndTime" */
+			e_util_markup_append_escaped (tooltip, _("Time: %s"), tmp1);
+		}
+
+		g_clear_pointer (&tmp1, g_free);
+
+		if (zone && !cal_comp_util_compare_event_timezones (comp, client, default_zone)) {
+			tmp_tm = e_cal_util_icaltime_to_tm_with_zone (e_cal_component_datetime_get_value (dtstart), zone, zone);
+			tmp1 = e_datetime_format_format_tm ("calendar", "table", i_cal_time_is_date (e_cal_component_datetime_get_value (dtstart)) ?
+				DTFormatKindDate : DTFormatKindDateTime, &tmp_tm);
+			e_util_markup_append_escaped (tooltip, "\n\t[ %s %s ]", tmp1, i_cal_timezone_get_display_name (zone));
+			g_clear_pointer (&tmp1, g_free);
+		}
+	}
+
+	e_cal_component_datetime_free (dtstart);
+	e_cal_component_datetime_free (dtend);
+
+	if (e_cal_component_get_vtype (comp) == E_CAL_COMPONENT_TODO) {
+		ECalComponentDateTime *due;
+
+		due = e_cal_component_get_due (comp);
+
+		if (due) {
+			ICalTime *itt;
+
+			itt = cal_comp_util_date_time_to_zone (due, client, default_zone);
+			if (itt) {
+				gchar timestr[255] = { 0, };
+
+				cal_comp_util_format_itt (itt, timestr, sizeof (timestr) - 1);
+
+				if (*timestr) {
+					g_string_append_c (tooltip, '\n');
+					/* Translators: It's for a task due date, it will display "Due: DateAndTime" */
+					e_util_markup_append_escaped (tooltip, _("Due: %s"), timestr);
+				}
+
+				g_clear_object (&itt);
+			}
+		}
+
+		e_cal_component_datetime_free (due);
+	}
+
+	tmp = cal_comp_util_dup_attendees_status_info (comp, client, registry);
+	if (tmp) {
+		g_string_append_c (tooltip, '\n');
+		e_util_markup_append_escaped_text (tooltip, tmp);
+		g_clear_pointer (&tmp, g_free);
+	}
+
+	tmp = cal_comp_util_get_attendee_comments (icalcomp);
+	if (tmp) {
+		g_string_append_c (tooltip, '\n');
+		e_util_markup_append_escaped_text (tooltip, tmp);
+		g_clear_pointer (&tmp, g_free);
+	}
+
+	description = i_cal_component_get_description (icalcomp);
+	if (description && *description && g_utf8_validate (description, -1, NULL) &&
+	    !g_str_equal (description, "\r") &&
+	    !g_str_equal (description, "\n") &&
+	    !g_str_equal (description, "\r\n")) {
+		#define MAX_TOOLTIP_DESCRIPTION_LEN 1024
+		glong len;
+
+		len = g_utf8_strlen (description, -1);
+		if (len > MAX_TOOLTIP_DESCRIPTION_LEN) {
+			GString *str;
+			const gchar *end;
+
+			end = g_utf8_offset_to_pointer (description, MAX_TOOLTIP_DESCRIPTION_LEN);
+			str = g_string_new_len (description, end - description);
+			g_string_append (str, _("…"));
+
+			tmp = g_string_free (str, FALSE);
+		}
+
+		g_string_append_c (tooltip, '\n');
+		g_string_append_c (tooltip, '\n');
+		e_util_markup_append_escaped_text (tooltip, tmp ? tmp : description);
+		g_clear_pointer (&tmp, g_free);
+	}
+
+	return g_string_free (tooltip, FALSE);
+}

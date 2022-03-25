@@ -230,7 +230,7 @@ cal_shell_view_execute_search (EShellView *shell_view)
 		view_kind = e_cal_shell_content_get_current_view_id (cal_shell_content);
 
 		/* Ensure the date navigator is visible. */
-		gtk_widget_set_visible (GTK_WIDGET (calendar), view_kind != E_CAL_VIEW_KIND_LIST);
+		gtk_widget_set_visible (GTK_WIDGET (calendar), view_kind != E_CAL_VIEW_KIND_LIST && view_kind != E_CAL_VIEW_KIND_YEAR);
 		e_cal_shell_content_get_current_range (cal_shell_content, &start_range, &end_range);
 		end_range = time_day_end (end_range) - 1;
 	}
@@ -651,6 +651,7 @@ e_cal_shell_view_class_init (ECalShellViewClass *class)
 	g_type_ensure (GAL_TYPE_VIEW_CALENDAR_WORK_WEEK);
 	g_type_ensure (GAL_TYPE_VIEW_CALENDAR_WEEK);
 	g_type_ensure (GAL_TYPE_VIEW_CALENDAR_MONTH);
+	g_type_ensure (GAL_TYPE_VIEW_CALENDAR_YEAR);
 	g_type_ensure (GAL_TYPE_VIEW_ETABLE);
 
 	e_calendar_a11y_init ();

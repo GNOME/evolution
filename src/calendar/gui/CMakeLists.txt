@@ -83,6 +83,7 @@ set(SOURCES
 	e-week-view-titles-item.c
 	e-weekday-chooser.c
 	e-timezone-entry.c
+	e-year-view.c
 	itip-utils.c
 	misc.c
 	print.c
@@ -161,6 +162,7 @@ set(HEADERS
 	e-week-view.h
 	e-weekday-chooser.h
 	e-timezone-entry.h
+	e-year-view.h
 	itip-utils.h
 	misc.h
 	print.h

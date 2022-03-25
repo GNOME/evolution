@@ -330,6 +330,9 @@ gboolean	e_util_can_preview_filename	(const gchar *filename);
 void		e_util_markup_append_escaped	(GString *buffer,
 						 const gchar *format,
 						 ...) G_GNUC_PRINTF (2, 3);
+void		e_util_markup_append_escaped_text
+						(GString *buffer,
+						 const gchar *text);
 
 typedef struct _ESupportedLocales {
 	const gchar *code;	/* like 'en' */
