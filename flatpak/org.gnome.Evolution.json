@@ -200,7 +200,6 @@
         },
         {
             "name": "openldap",
-            "rm-configure": true,
             "cleanup": [
                 "/bin",
                 "/etc",
@@ -218,15 +217,8 @@
             "sources": [
                 {
                     "type": "archive",
-                    "url": "https://www.openldap.org/software/download/OpenLDAP/openldap-release/openldap-2.4.59.tgz",
-                    "sha256": "99f37d6747d88206c470067eda624d5e48c1011e943ec0ab217bae8712e22f34"
-                },
-                {
-                    "type": "script",
-                    "dest-filename": "autogen.sh",
-                    "commands": [
-                        "AUTOMAKE=\"/bin/true\" autoreconf -vfi"
-                    ]
+                    "url": "https://openldap.org/software/download/OpenLDAP/openldap-release/openldap-2.5.7.tgz",
+                    "sha256": "ea9757001bc36295037f0030ede16810a1bb7438bbe8f871a35cc2a2b439d9ab"
                 }
             ]
         },
@@ -446,7 +438,6 @@
             ],
             "post-install": [
                 "cp NEWS /app/share/NEWS.evo",
-                "cp news-to-appdata.c /app/share/",
                 "mv /app/share/metainfo/org.gnome.Evolution.appdata.xml /app/share/"
             ]
         }
