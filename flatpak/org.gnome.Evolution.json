@@ -1,18 +1,12 @@
 {
 	"app-id": "org.gnome.Evolution",
 	"runtime": "org.gnome.Platform",
-	"runtime-version": "40",
+	"runtime-version": "master",
 	"sdk": "org.gnome.Sdk",
 	"command": "evolution",
 	"rename-icon": "evolution",
 	"copy-icon": true,
-	"branch": "master",
 	"desktop-file-name-suffix": " (Development)",
-	"tags": [ "devel" ],
-	"build-options" : {
-		"cflags": "-O2 -g -Wno-deprecated-declarations",
-		"cxxflags": "-O2 -g -Wno-deprecated-declarations"
-	},
 	"cleanup": [
 		"/include",
 		"/lib/pkgconfig",
