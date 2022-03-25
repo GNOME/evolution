@@ -26,22 +26,22 @@
 # Christian Kirbach <christian.kirbach@gmail.com>, 2009, 2010, 2011, 2012, 2013.
 # Benjamin Steinwender <b@stbe.at>, 2013.
 # Bernd Homuth <dev@hmt.im>, 2015.
-# Tim Sabsch <tim@sabsch.com>, 2018.
+# Tim Sabsch <tim@sabsch.com>, 2018, 2022.
 # Mario Blättermann <mario.blaettermann@gmail.com>, 2009-2013, 2016-2021.
 msgid ""
 msgstr ""
 "Project-Id-Version: manual_evolution\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2021-09-12 13:55+0000\n"
-"PO-Revision-Date: 2021-09-12 23:54+0200\n"
-"Last-Translator: Christian Kirbach <christian.kirbach@gmail.com>\n"
+"POT-Creation-Date: 2022-03-15 11:24+0000\n"
+"PO-Revision-Date: 2022-03-19 22:42+0100\n"
+"Last-Translator: Tim Sabsch <tim@sabsch.com>\n"
 "Language-Team: German <gnome-de@gnome.org>\n"
 "Language: de\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
-"X-Generator: Poedit 2.3\n"
+"X-Generator: Poedit 3.0.1\n"
 
 #. Put one translator per line, in the form NAME <EMAIL>, YEAR1, YEAR2
 msgctxt "_"
@@ -50,10 +50,10 @@ msgstr ""
 "Andre Klapper <ak-47@gmx.net>, 2007-2009\n"
 "Mario Blättermann <mario.blaettermann@gmail.com>, 2009-2013, 2016-2018, "
 "2020-2021\n"
-"Christian Kirbach <Christian.Kirbach@gmail.com>, 2009-2013, 2015-2021\n"
+"Christian Kirbach <Christian.Kirbach@gmail.com>, 2009-2013, 2015-2022\n"
 "Gabor Karsay <gabor.karsay@gmx.at>, 2011-2012\n"
 "Bernd Homuth <dev@hmt.im>, 2015\n"
-"Tim Sabsch <tim@sabsch.com>, 2018"
+"Tim Sabsch <tim@sabsch.com>, 2018, 2022"
 
 #. (itstool) path: info/desc
 #: C/backup-restore.page:18
@@ -2117,19 +2117,16 @@ msgstr "Es gibt die folgenden Einstellmöglichkeiten:"
 # kontrollieren
 #. (itstool) path: item/p
 #: C/contacts-ldap.page:74
-#, fuzzy
-#| msgid "One: Searches the Search Base and one entry below it."
 msgid "One Level: Searches one entry below the Search Base."
 msgstr ""
-"Durchsucht lediglich die Ebene unterhalb des Ausgangspunktes der Suche."
+"Eine Ebene: Durchsucht lediglich die Ebene unterhalb des Ausgangspunktes der "
+"Suche."
 
 # kontrollieren
 #. (itstool) path: item/p
 #: C/contacts-ldap.page:77
-#, fuzzy
-#| msgid "Sub: Searches the Search Base and all entries below it."
 msgid "Subtree: Searches the Search Base and all entries below it."
-msgstr "Die Suchbasis und alle Einträge darunter durchsuchen."
+msgstr "Unterbaum: Die Suchbasis und alle Einträge darunter durchsuchen."
 
 #. (itstool) path: item/p
 #: C/contacts-ldap.page:82
@@ -4379,17 +4376,13 @@ msgstr "Exchange EWS"
 #. (itstool) path: section/p
 #. (itstool) path: note/p
 #: C/intro-first-run.page:109 C/mail-account-manage-microsoft-exchange.page:26
-#, fuzzy
-#| msgid ""
-#| "For Microsoft Exchange 2007, 2010 and newer it is recommended to use the "
-#| "package <sys>evolution-ews</sys>."
 msgid ""
 "For connecting to a Microsoft Exchange server (version 2007 or newer) or "
 "OpenChange server, it is recommended to use the package <sys>evolution-ews</"
 "sys>."
 msgstr ""
-"Für Microsoft Exchange 2007 und 2010 wird das Paket <sys>evolution-ews</sys> "
-"empfohlen."
+"Für eine Verbindung mit Microsoft Exchange Server (Version 2007 und neuer) "
+"oder OpenChange-Server wird das Paket <sys>evolution-ews</sys> empfohlen."
 
 #. (itstool) path: note/p
 #: C/intro-first-run.page:111
@@ -4427,21 +4420,11 @@ msgstr ""
 #. (itstool) path: section/p
 #. (itstool) path: note/p
 #: C/intro-first-run.page:134 C/mail-account-manage-microsoft-exchange.page:35
-#, fuzzy
-#| msgid ""
-#| "For older versions of Microsoft Exchange, or if <sys>evolution-ews</sys> "
-#| "does not work well for you, try <sys>evolution-mapi</sys>. It uses "
-#| "Microsoft's Messaging API which is also used by Microsoft Outlook. "
-#| "However, <sys>evolution-mapi</sys> requires installing <sys>OpenChange</"
-#| "sys> and <sys>Samba 4</sys>, and is not as performant as <sys>evolution-"
-#| "ews</sys>."
 msgid ""
 "It uses Microsoft's Messaging API which is also used by Microsoft Outlook. "
 "However, <sys>evolution-mapi</sys> requires installing <sys>OpenChange</sys> "
 "and <sys>Samba 4</sys>, and is not as performant as <sys>evolution-ews</sys>."
 msgstr ""
-"Bei älteren Versionen von Microsoft Exchange, oder wenn <sys>evolution-ews</"
-"sys> nicht gut funktioniert, versuchen Sie bitte <sys>evolution-mapi</sys>. "
 "Es verwendet Microsofts Messaging API, das auch von Microsoft Outlook "
 "verwendet wird. <sys>evolution-mapi</sys> erfordert jedoch die Installation "
 "von <sys>OpenChange</sys> und <sys>Samba 4</sys> und ist nicht so schnell "
@@ -7734,10 +7717,8 @@ msgstr "Standard"
 
 #. (itstool) path: td/p
 #: C/mail-composer-html-text.page:37
-#, fuzzy
-#| msgid "Font size."
 msgid "Font name."
-msgstr "Schriftgröße."
+msgstr "Schriftname."
 
 #. (itstool) path: td/p
 #: C/mail-composer-html-text.page:40
@@ -7756,21 +7737,14 @@ msgstr "Textfarbe."
 
 #. (itstool) path: td/p
 #: C/mail-composer-html-text.page:45 C/mail-composer-html-text.page:49
-#, fuzzy
-#| msgid ""
-#| "Use these buttons in the lower tool bar to determine the way your email "
-#| "looks. If you have text selected, the style applies to the selected text. "
-#| "If you do not have text selected, the style applies to whatever you type "
-#| "next."
 msgid ""
 "The box displays the current text color. If you have text selected, the "
 "color applies to the selected text. If you do not have text selected, the "
 "color applies to whatever you type next."
 msgstr ""
-"Verwenden Sie diese Knöpfe in der unteren Werkzeugleiste um festzulegen, wie "
-"Ihre E-Mail aussehen soll. Wenn Sie Text ausgewählt haben, so wird der Stil "
-"auf den gewählten Text angewendet. Falls kein Text ausgewählt ist, so wird "
-"der Stil auf das angewendet, was Sie als nächstes schreiben."
+"Die Box zeigt die aktuelle Textfarbe. Wenn Sie Text ausgewählt haben, so "
+"wird dieser entsprechend eingefärbt. Falls kein Text ausgewählt ist, so wird "
+"das eingefärbt, was Sie als nächstes schreiben."
 
 #. (itstool) path: td/p
 #: C/mail-composer-html-text.page:49
@@ -9332,6 +9306,9 @@ msgid ""
 "Email#Plain_text_and_HTML\">Plain text or HTML</link>. Each format has its "
 "pros and cons."
 msgstr ""
+"E-Mails können aus zwei Formaten bestehen: <link href=\"https://de.wikipedia."
+"org/wiki/E-Mail#Formatierung_in_HTML\">Reiner Text oder HTML</link>. Jedes "
+"Format hat eigene Vor- und Nachteile."
 
 #. (itstool) path: page/p
 #: C/mail-displaying-message.page:25
@@ -9353,6 +9330,8 @@ msgid ""
 "For formatting emails in the composer, see <link xref=\"mail-composer-html\"/"
 ">."
 msgstr ""
+"Lesen Sie <link xref=\"mail-composer-html\"/> für weitere Informationen zum "
+"Formatierungsmodus beim Verfassen."
 
 #. (itstool) path: section/title
 #: C/mail-displaying-message.page:30
@@ -12290,6 +12269,20 @@ msgid ""
 "Subject containing <code>Smith</code>, while <code>f:\"John Smith\"</code> "
 "filters messages for a sender <code>John Smith</code>."
 msgstr ""
+"Eine der Suchbedingungen ist das <gui>Freie Eingabefeld</gui>, mit dem "
+"komplexe Bedingungen formuliert werden können. Im ersten Schritt wird das "
+"freie Eingabefeld in Wörter aufgeteilt. Falls das Wort kein (bekanntes) "
+"Schlüsselwort-Präfix ist, dann wird geprüft, ob der Wert in den Kopfzeilen "
+"Von, Kopie-an oder Betreff enthalten ist. Falls ein Leerzeichen oder anderes "
+"Sonderzeichen benötigt wird, umschließen Sie es mit doppelten "
+"Anführungszeichen. Um ein doppeltes Anführungszeichen anzugeben, setzen Sie "
+"es in zwei Anführungszeichen. Ein Beispiel: <code>Zitat \"\"hier\"\"</code> "
+"wird als ein Wort <code>Zitat \"hier\"</code> interpretiert. Beispielsweise "
+"filtert <code>f:Max Mustermann</code> nach Nachrichten, die <code>Max</code> "
+"in der Von-Kopfzeile enthalten und die <code>Mustermann</code> in den An-, "
+"Kopie-an oder Betreff-Kopfzeilen enthalten. Im Gegensatz dazu filtert "
+"<code>f:\"Max Muster\"</code> nach Nachrichten mit Absender <code>Max "
+"Muster</code>."
 
 #. (itstool) path: section/p
 #: C/mail-searching.page:66
@@ -12297,11 +12290,14 @@ msgid ""
 "The syntax of the tags is <code>&lt;tag&gt;[-&lt;options&gt;]:value</code>. "
 "The tags are:"
 msgstr ""
+"Die Syntax der Schlüsselwörter ist <code>&lt;Schlüsselwort&gt;[-&lt;"
+"Optionen&gt;]:Wert</code>. Die Schlüsselwörter sind:"
 
+# paast hier besser in der Tabelle "Freies Eingabefeld"
 #. (itstool) path: td/p
 #: C/mail-searching.page:68
 msgid "Tag"
-msgstr ""
+msgstr "Schlüsselwort"
 
 #. (itstool) path: td/p
 #: C/mail-searching.page:68 C/mail-searching.page:100
@@ -12317,41 +12313,41 @@ msgstr "Bedeutung"
 #. Translators: 'From' is a header name, do not translate it
 #: C/mail-searching.page:69
 msgid "From header should match (*)"
-msgstr ""
+msgstr "Die Von-Kopfzeile sollte übereinstimmen (*)"
 
 #. (itstool) path: td/p
 #. Translators: 'To' is a header name, do not translate it
 #: C/mail-searching.page:70
 msgid "To header should match (*)"
-msgstr ""
+msgstr "Die An-Kopfzeile sollte übereinstimmen (*)"
 
 #. (itstool) path: td/p
 #. Translators: 'CC' is a header name, do not translate it
 #: C/mail-searching.page:71
 msgid "CC header should match (*)"
-msgstr ""
+msgstr "Die Kopie-an-Kopfzeile sollte übereinstimmen (*)"
 
 #. (itstool) path: td/p
 #. Translators: 'To' and 'CC' are the header names, do not translate it
 #: C/mail-searching.page:72
 msgid "To or CC headers should match (*)"
-msgstr ""
+msgstr "Die An- oder Kopie-An-Kopfzeile sollte übereinstimmen (*)"
 
 #. (itstool) path: td/p
 #. Translators: 'Subject' is a header name, do not translate it
 #: C/mail-searching.page:73
 msgid "Subject header should match (*)"
-msgstr ""
+msgstr "Die Betreff-Kopfzeile sollte übereinstimmen (*)"
 
 #. (itstool) path: td/p
 #: C/mail-searching.page:74
 msgid "Mailing list header should match (*)"
-msgstr ""
+msgstr "Die Mailing-Liste-Kopfzeile sollte übereinstimmen (*)"
 
 #. (itstool) path: td/p
 #: C/mail-searching.page:75
 msgid "given header should match (*)"
-msgstr ""
+msgstr "Die angegebene Kopfzeile sollte übereinstimmen (*)"
 
 #. (itstool) path: td/p
 #: C/mail-searching.page:76
@@ -12363,60 +12359,59 @@ msgstr ""
 #. (itstool) path: td/p
 #: C/mail-searching.page:77
 msgid "whether given header exists"
-msgstr ""
+msgstr "ob die angegebene Kopfzeile vorhanden ist"
 
 #. (itstool) path: td/p
 #: C/mail-searching.page:78
-#, fuzzy
-#| msgid "Inserting custom headers in a message"
 msgid "given user tag is set on a message"
-msgstr "Benutzerdefinierte Kopfzeilen in eine Nachricht einfügen"
+msgstr "ob das Schlüsselwort des Benutzers in einer Nachricht festgelegt ist"
 
 #. (itstool) path: td/p
 #: C/mail-searching.page:79
 msgid "whether certain flag is set; known special values are:"
-msgstr ""
+msgstr "ob ein bestimmtes Flag gesetzt ist. Bekannte Spezialwerte sind:"
 
 #. (itstool) path: td/p
 #. Translators: This is translated in a 'ffe' context
 #: C/mail-searching.page:80
 msgid "<code>Answered</code> - the message is marked as replied"
 msgstr ""
+"<code>Answered</code> - Die Nachricht ist als beantwortet gekennzeichnet"
 
 #. (itstool) path: td/p
 #. Translators: This is translated in a 'ffe' context
 #: C/mail-searching.page:81
 msgid "<code>Deleted</code> - the message is marked as deleted"
-msgstr ""
+msgstr "<code>Deleted</code> - Die Nachricht ist als gelöscht gekennzeichnet"
 
 #. (itstool) path: td/p
 #. Translators: This is translated in a 'ffe' context
 #: C/mail-searching.page:82
 msgid "<code>Draft</code> - the message is marked as draft"
-msgstr ""
+msgstr "<code>Draft</code> - Die Nachricht ist als Entwurf gekennzeichnet"
 
 #. (itstool) path: td/p
 #. Translators: This is translated in a 'ffe' context
 #: C/mail-searching.page:83
 msgid "<code>Flagged</code> - the message is marked as important"
-msgstr ""
+msgstr "<code>Flagged</code> - Die Nachricht ist als wichtig gekennzeichnet"
 
 #. (itstool) path: td/p
 #. Translators: This is translated in a 'ffe' context
 #: C/mail-searching.page:84
 msgid "<code>Seen</code> - the message is marked as seen (not unread)"
-msgstr ""
+msgstr "<code>Seen</code> - Die Nachricht ist als gelesen gekennzeichnet"
 
 #. (itstool) path: td/p
 #. Translators: This is translated in a 'ffe' context
 #: C/mail-searching.page:85
 msgid "<code>Attachment</code> - the message has an attachment"
-msgstr ""
+msgstr "<code>Attachment</code> - Die Nachricht enthält einen Anhang"
 
 #. (itstool) path: td/p
 #: C/mail-searching.page:86
 msgid "Any other value is checked for its non-emptiness."
-msgstr ""
+msgstr "Jeder andere Wert wird auf Belegung geprüft."
 
 #. (itstool) path: td/p
 #: C/mail-searching.page:87
@@ -12427,7 +12422,7 @@ msgstr ""
 #. (itstool) path: td/p
 #: C/mail-searching.page:88
 msgid "whether message size, in KB, is equal to the given value"
-msgstr ""
+msgstr "ob die Nachrichtengröße in KB dem Wert entspricht"
 
 #. (itstool) path: td/p
 #: C/mail-searching.page:89
@@ -12437,6 +12432,10 @@ msgid ""
 "Example: <code>size-&gt;:1024</code> filters messages which are more than "
 "1MB large."
 msgstr ""
+"Zwei Optionen sind möglich: <code>&lt;</code> , um kleinere Nachrichten zu "
+"erfassen und <code>&gt;</code>, um größere Nachrichten zu erfassen. "
+"Beispiel: <code>size-&gt;:1024</code> filtert auf Nachrichten größer als 1 "
+"MB."
 
 #. (itstool) path: td/p
 #: C/mail-searching.page:90
@@ -12445,6 +12444,10 @@ msgid ""
 "compare is equal, but, similar to <code>size</code> a <code>&lt;</code> and "
 "<code>&gt;</code> options can be used"
 msgstr ""
+"vergleicht das Schlüsselwort <code>score</code> der Nachricht mit einem "
+"angegebenen Wert. Der Standard-Vergleichsoperator ist »entspricht«, aber "
+"ähnlich wie bei <code>size</code> sind die Optionen <code>&lt;</code> und "
+"<code>&gt;</code> einsetzbar"
 
 #. (itstool) path: td/p
 #: C/mail-searching.page:91
@@ -12454,16 +12457,20 @@ msgid ""
 "if the option is one of the <code>regex</code>, <code>re</code> or <code>r</"
 "code>."
 msgstr ""
+"prüft, ob der angegebene Wert im Nachrichtenrumpf enthalten ist. Die "
+"Standard-Vergleichsoption ist <code>enthält</code>, aber reguläre Ausdrücke "
+"sind mit den Optionen <code>regex</code>, <code>re</code> oder <code>r</"
+"code> einsetzbar."
 
 #. (itstool) path: td/p
 #: C/mail-searching.page:92
 msgid "message's Sent date should match (**)"
-msgstr ""
+msgstr "das Sendedatum der Nachricht sollte übereinstimmen (**)"
 
 #. (itstool) path: td/p
 #: C/mail-searching.page:93
 msgid "message's Received date should match (**)"
-msgstr ""
+msgstr "das Empfangsdatum der Nachricht sollte übereinstimmen (**)"
 
 #. (itstool) path: td/p
 #: C/mail-searching.page:94
@@ -12482,10 +12489,8 @@ msgstr ""
 
 #. (itstool) path: td/p
 #: C/mail-searching.page:96
-#, fuzzy
-#| msgid "Composing a new message"
 msgid "Compares message ID."
-msgstr "Eine neue E-Mail-Nachricht verfassen"
+msgstr "Vergleicht die Nachrichtenkennung."
 
 #. (itstool) path: section/p
 #: C/mail-searching.page:98
@@ -12493,37 +12498,39 @@ msgid ""
 "(*) Header comparisons can have a matching type option. The default is to "
 "check for a <code>contains</code>. The available options are:"
 msgstr ""
+"(*) Kopfzeilen-Vergleiche können der Option eines Übereinstimmungstyps "
+"unterliegen. Vorgabe ist eine Prüfung durch <code>enthält</code>. Die "
+"möglichen Optionen sind:"
 
 #. (itstool) path: td/p
 #: C/mail-searching.page:100
-#| msgid "Action"
 msgid "Option"
 msgstr "Option"
 
 #. (itstool) path: td/p
 #: C/mail-searching.page:101
 msgid "matches with contains"
-msgstr ""
+msgstr "Treffer durch Übereinstimmung"
 
 #. (itstool) path: td/p
 #: C/mail-searching.page:102
 msgid "matches if contains whole word"
-msgstr ""
+msgstr "Treffer durch Übereinstimmung eines ganzen Worts"
 
 #. (itstool) path: td/p
 #: C/mail-searching.page:103
 msgid "value's exact match"
-msgstr ""
+msgstr "Exakte Übereinstimmung des Werts"
 
 #. (itstool) path: td/p
 #: C/mail-searching.page:104
 msgid "header value starts with the given value"
-msgstr ""
+msgstr "Die Kopfzeile beginnt mit dem angegebenen Wert"
 
 #. (itstool) path: td/p
 #: C/mail-searching.page:105
 msgid "header value ends with the given value"
-msgstr ""
+msgstr "Die Kopfzeile endet mit dem angegebenen Wert"
 
 #. (itstool) path: td/p
 #: C/mail-searching.page:106
@@ -12533,12 +12540,12 @@ msgstr ""
 #. (itstool) path: td/p
 #: C/mail-searching.page:107
 msgid "the given value is a regular expression"
-msgstr ""
+msgstr "Der angegebene Wert ist ein regulärer Ausdruck"
 
 #. (itstool) path: td/p
 #: C/mail-searching.page:108
 msgid "another type of a regular expression"
-msgstr ""
+msgstr "Eine andere Art eines regulären Ausdrucks"
 
 #. (itstool) path: section/p
 #: C/mail-searching.page:110
@@ -12558,6 +12565,8 @@ msgstr ""
 #: C/mail-searching.page:111
 msgid "There are three special tags, which require special notation. They are:"
 msgstr ""
+"Drei der Schlagworte benötigen eine besondere Notation. Dabei handelt es "
+"sich um:"
 
 #. (itstool) path: section/p
 #: C/mail-searching.page:117
@@ -12572,15 +12581,13 @@ msgstr ""
 
 #. (itstool) path: section/title
 #: C/mail-searching.page:121
-#, fuzzy
-#| msgid "Free Form Expression:"
 msgid "Free Form Expression examples"
-msgstr "Freier Ausdruck:"
+msgstr "Beispielausdrücke des freien Eingabefelds"
 
 #. (itstool) path: section/p
 #: C/mail-searching.page:122
 msgid "A list of some free form expressions follows:"
-msgstr ""
+msgstr "Im Folgenden ist eine Liste mit Ausdrücken des freien Eingabefelds:"
 
 #. (itstool) path: td/p
 #: C/mail-searching.page:124
@@ -12590,17 +12597,17 @@ msgstr "Ausdruck"
 #. (itstool) path: td/p
 #: C/mail-searching.page:125
 msgid "<code>f:John</code>"
-msgstr ""
+msgstr "<code>f:Max</code>"
 
 #. (itstool) path: td/p
 #: C/mail-searching.page:125
 msgid "Messages from <code>John</code>"
-msgstr ""
+msgstr "Nachrichten von <code>Max</code>"
 
 #. (itstool) path: td/p
 #: C/mail-searching.page:126
 msgid "<code>s-has-words:\"green blue\"</code>"
-msgstr ""
+msgstr "<code>s-has-words:\"grün blau\"</code>"
 
 #. (itstool) path: td/p
 #: C/mail-searching.page:126
@@ -12608,103 +12615,107 @@ msgid ""
 "Messages, which contain both <code>green</code> and <code>blue</code> words "
 "in the Subject"
 msgstr ""
+"Nachrichten, die sowohl das Wort <code>grün</code> als auch <code>blau</"
+"code> im Betreff enthalten"
 
 #. (itstool) path: td/p
 #: C/mail-searching.page:127
 msgid "<code>r-ew:example.com</code>"
-msgstr ""
+msgstr "<code>r-ew:beispiel.de</code>"
 
 #. (itstool) path: td/p
 #: C/mail-searching.page:127
 msgid "Recipients' address (To/Cc headers) ends with <code>example.com</code>"
 msgstr ""
+"Die Empfängeradresse (An- oder Kopie-An-Kopfzeile) endet mit <code>beispiel."
+"de</code>"
 
 #. (itstool) path: td/p
 #: C/mail-searching.page:128
 msgid "<code>h-starts-with:Cc=Alice</code>"
-msgstr ""
+msgstr "<code>h-starts-with:Cc=Erika</code>"
 
 #. (itstool) path: td/p
 #: C/mail-searching.page:128
 msgid "The <code>Cc</code> starts with word <code>Alice</code>"
 msgstr ""
+"Die Kopie-An-Kopfzeile (<code>Cc</code>) startet mit dem Wort <code>Erika</"
+"code>"
 
 #. (itstool) path: td/p
 #: C/mail-searching.page:129
 msgid "<code>e:X-Secret-Header</code>"
-msgstr ""
+msgstr "<code>e:X-Secret-Header</code>"
 
 #. (itstool) path: td/p
 #: C/mail-searching.page:129
-#, fuzzy
-#| msgid "<code>ObjectClass=User</code>: Lists only the users."
 msgid "An <code>X-Secret-Header</code> exists in the message"
-msgstr "<code>ObjectClass=User</code>: Listet nur die Benutzer auf."
+msgstr "Ein <code>X-Secret-Header</code> ist in der Nachricht vorhanden"
 
 #. (itstool) path: td/p
 #: C/mail-searching.page:130
 msgid "<code>l:work</code>"
-msgstr ""
+msgstr "<code>l:Geschäftlich</code>"
 
 #. (itstool) path: td/p
 #: C/mail-searching.page:130
 msgid "Label <code>work</code> is set on the message"
-msgstr ""
+msgstr "Nachrichten mit der Beschriftung <code>Geschäftlich</code>"
 
 #. (itstool) path: td/p
 #: C/mail-searching.page:131
 msgid "<code>sz-&lt;:10</code>"
-msgstr ""
+msgstr "<code>sz-&lt;:10</code>"
 
 #. (itstool) path: td/p
 #: C/mail-searching.page:131
 msgid "Message size is less than 10KB"
-msgstr ""
+msgstr "Die Nachrichtengröße ist kleiner als 10 KB"
 
 #. (itstool) path: td/p
 #: C/mail-searching.page:132
 msgid "<code>sz-&gt;:100</code>"
-msgstr ""
+msgstr "<code>sz-&gt;:100</code>"
 
 #. (itstool) path: td/p
 #: C/mail-searching.page:132
 msgid "Message size is more than 100KB"
-msgstr ""
+msgstr "Die Nachrichtengröße ist größer als 100 KB"
 
 #. (itstool) path: td/p
 #: C/mail-searching.page:133
 msgid "<code>b:important</code>"
-msgstr ""
+msgstr "<code>b:wichtig</code>"
 
 #. (itstool) path: td/p
 #: C/mail-searching.page:133
 msgid "The body contains a word <code>important</code>"
-msgstr ""
+msgstr "Der Rumpf enthält das Wort <code>wichtig</code>"
 
 #. (itstool) path: td/p
 #: C/mail-searching.page:134
 msgid "<code>sent:7</code>"
-msgstr ""
+msgstr "<code>sent:7</code>"
 
 #. (itstool) path: td/p
 #: C/mail-searching.page:134
 msgid "Messages sent in the last 7 days"
-msgstr ""
+msgstr "Nachrichten, die innerhalb der letzten sieben Tage gesendet wurden"
 
 #. (itstool) path: td/p
 #: C/mail-searching.page:135
 msgid "<code>rcv-=:2020-02-02</code>"
-msgstr ""
+msgstr "<code>rcv-=:2020-02-02</code>"
 
 #. (itstool) path: td/p
 #: C/mail-searching.page:135
 msgid "Messages received on the February 2nd, 2020"
-msgstr ""
+msgstr "Nachrichten, die am 2. Februar 2020 empfangen wurden"
 
 #. (itstool) path: td/p
 #: C/mail-searching.page:136
 msgid "<code>a:1</code>"
-msgstr ""
+msgstr "<code>a:1</code>"
 
 #. (itstool) path: td/p
 #: C/mail-searching.page:136
@@ -12714,7 +12725,7 @@ msgstr "Nachrichten mit Anlage"
 #. (itstool) path: td/p
 #: C/mail-searching.page:137
 msgid "<code>a:0</code>"
-msgstr ""
+msgstr "<code>a:0</code>"
 
 #. (itstool) path: td/p
 #: C/mail-searching.page:137
@@ -12724,7 +12735,7 @@ msgstr "Nachrichten ohne Anlage"
 #. (itstool) path: td/p
 #: C/mail-searching.page:138
 msgid "<code>and:(or:(r:Alice r:Bob) not:(r:Smith))</code>"
-msgstr ""
+msgstr "<code>and:(or:(r:Max r:Erika) not:(r:Mustermann))</code>"
 
 #. (itstool) path: td/p
 #: C/mail-searching.page:138
@@ -12732,32 +12743,39 @@ msgid ""
 "Messages whose recipient is <code>Alice</code> or <code>Bob</code>, but not "
 "<code>Smith</code>"
 msgstr ""
+"Nachrichten, deren Empfänger entweder <code>Max</code> oder <code>Erika</"
+"code> ist, aber nicht <code>Mustermann</code>"
 
 #. (itstool) path: td/p
 #: C/mail-searching.page:139
 msgid "<code>f:Bob rcv-&gt;:2020-01-01 rcv-&lt;:2020-12-31</code>"
-msgstr ""
+msgstr "<code>f:Max rcv-&gt;:2020-01-01 rcv-&lt;:2020-12-31</code>"
 
 #. (itstool) path: td/p
 #: C/mail-searching.page:139
 msgid "Messages from <code>Bob</code>, received during the year 2020"
 msgstr ""
+"Nachrichten von <code>Max</code>, die im Laufe des Jahres 2020 empfangen "
+"wurden"
 
 #. (itstool) path: td/p
 #: C/mail-searching.page:140
 msgid ""
 "<code>not:(flag:Seen) f:Bob rcv-&gt;:2020-01-01 rcv-&lt;:2020-12-31</code>"
 msgstr ""
+"<code>not:(flag:Seen) f:Max rcv-&gt;:2020-01-01 rcv-&lt;:2020-12-31</code>"
 
 #. (itstool) path: td/p
 #: C/mail-searching.page:140
 msgid "Unread messages from <code>Bob</code>, received during the year 2020"
 msgstr ""
+"Ungelesene Nachrichten von <code>Max</code>, die im Laufe des Jahres 2020 "
+"empfangen wurden"
 
 #. (itstool) path: td/p
 #: C/mail-searching.page:141
 msgid "<code>flag:Seen a:1 sz-&gt;:1024 f:Bob rcv:31</code>"
-msgstr ""
+msgstr "<code>flag:Seen a:1 sz-&gt;:1024 f:Max rcv:31</code>"
 
 #. (itstool) path: td/p
 #: C/mail-searching.page:141
@@ -12765,27 +12783,33 @@ msgid ""
 "Read messages with attachment larger than 1MB from <code>Bob</code>, "
 "received during the past 31 days"
 msgstr ""
+"Gelesene Nachrichten von <code>Max</code> mit einer Anlage größer als 1 MB, "
+"die innerhalb der letzten 31 Tage empfangen wurden"
 
 #. (itstool) path: td/p
 #: C/mail-searching.page:142
 msgid "<code>m:\"On This Computer/Inbox\"</code>"
-msgstr ""
+msgstr "<code>m:\"Auf diesem Rechner/Posteingang\"</code>"
 
 #. (itstool) path: td/p
 #: C/mail-searching.page:142
 msgid "Messages stored in the <code>On This Computer/Inbox</code> folder"
 msgstr ""
+"Im Ordner <code>Auf diesem Rechner/Posteingang</code> gespeicherte "
+"Nachrichten"
 
 #. (itstool) path: td/p
 #: C/mail-searching.page:143
 msgid "<code>location-no:\"On This Computer/Inbox\"</code>"
-msgstr ""
+msgstr "<code>location-no:\"Auf diesem Rechner/Posteingang\"</code>"
 
 #. (itstool) path: td/p
 #: C/mail-searching.page:143
 msgid ""
 "Messages stored in all but the <code>On This Computer/Inbox</code> folder"
 msgstr ""
+"In einem anderen Ordner als <code>Auf diesem Rechner/Posteingang</code> "
+"gespeicherte Nachrichten"
 
 #. (itstool) path: info/desc
 #: C/mail-send-and-receive-automatically.page:5
@@ -13158,8 +13182,11 @@ msgstr ""
 
 #. (itstool) path: item/p
 #: C/mail-sorting-message-list.page:41
+#, fuzzy
 msgid "To sort each thread by latest message rather than by message date:"
 msgstr ""
+"So sortieren Sie jede Konversation nach der neuesten Nachricht anstelle nach "
+"Nachrichtendatum:"
 
 #. (itstool) path: item/p
 #: C/mail-sorting-message-list.page:45
@@ -13172,6 +13199,8 @@ msgstr ""
 #: C/mail-sorting-message-list.page:49
 msgid "To collapse all threads by default rather than expanding them:"
 msgstr ""
+"So lassen Sie alle Konversationen standardmäßig eingeklappt, anstatt sie "
+"auszuklappen:"
 
 #. (itstool) path: section/title
 #: C/mail-sorting-message-list.page:57
@@ -15320,7 +15349,7 @@ msgstr ""
 #. (itstool) path: item/p
 #: C/xinclude-filter-vfolder-conditions.xml:31
 msgid "Free Form Expression:"
-msgstr "Freier Ausdruck:"
+msgstr "Freies Eingabefeld:"
 
 #. (itstool) path: p/link
 #: C/xinclude-filter-vfolder-conditions.xml:32
