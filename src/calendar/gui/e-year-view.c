@@ -61,12 +61,19 @@ struct _EYearViewPrivate {
 	guint current_day;
 	guint current_month;
 	guint current_year;
+
+	/* Track today */
+	gboolean highlight_today;
+	gboolean today_fix_timeout;
+	guint today_source_id;
+	guint today_date; /* YYYYMMDD - current highlighted day */
 };
 
 enum {
 	PROP_0,
 	PROP_PREVIEW_VISIBLE,
 	PROP_USE_24HOUR_FORMAT,
+	PROP_HIGHLIGHT_TODAY,
 	LAST_PROP,
 	PROP_IS_EDITING /* override property as the last */
 };
@@ -514,6 +521,70 @@ year_view_update_tree_view (EYearView *self)
 	gtk_tree_view_set_model (self->priv->tree_view, GTK_TREE_MODEL (self->priv->list_store));
 }
 
+static gboolean
+year_view_update_today (EYearView *self)
+{
+	if (self->priv->highlight_today) {
+		ICalTime *now;
+		gint year = 0, month = 0, day = 0, seconds = 0;
+		guint today;
+
+		now = i_cal_time_new_current_with_zone (e_cal_data_model_get_timezone (self->priv->data_model));
+
+		/* Inc two seconds in case the GSource is invoked just before midnight */
+		i_cal_time_adjust (now, 0, 0, 0, 2);
+		i_cal_time_get_date (now, &year, &month, &day);
+		i_cal_time_get_time (now, NULL, NULL, &seconds);
+
+		g_clear_object (&now);
+
+		today = (year * 10000) + (month * 100) + day;
+
+		if (today != self->priv->today_date) {
+			if (self->priv->today_date) {
+				e_month_widget_remove_day_css_class (self->priv->months[((self->priv->today_date / 100) % 100) - 1],
+					self->priv->today_date % 100, E_MONTH_WIDGET_CSS_CLASS_HIGHLIGHT);
+			}
+
+			self->priv->today_date = today;
+
+			if (year == self->priv->current_year) {
+				e_month_widget_add_day_css_class (self->priv->months[((self->priv->today_date / 100) % 100) - 1],
+					self->priv->today_date % 100, E_MONTH_WIDGET_CSS_CLASS_HIGHLIGHT);
+			}
+		}
+
+		if (seconds > 1) {
+			if (self->priv->today_source_id)
+				g_source_remove (self->priv->today_source_id);
+
+			self->priv->today_fix_timeout = TRUE;
+			self->priv->today_source_id = g_timeout_add_seconds (61 - seconds, (GSourceFunc) year_view_update_today, self);
+		} else if (self->priv->today_fix_timeout || !self->priv->today_source_id) {
+			self->priv->today_fix_timeout = FALSE;
+			self->priv->today_source_id = g_timeout_add_seconds (60, (GSourceFunc) year_view_update_today, self);
+		} else {
+			return TRUE;
+		}
+	} else {
+		if (self->priv->today_source_id) {
+			g_source_remove (self->priv->today_source_id);
+			self->priv->today_source_id = 0;
+		}
+
+		if (self->priv->today_date) {
+			e_month_widget_remove_day_css_class (self->priv->months[((self->priv->today_date / 100) % 100) - 1],
+				self->priv->today_date % 100, E_MONTH_WIDGET_CSS_CLASS_HIGHLIGHT);
+
+			self->priv->today_date = 0;
+		}
+
+		self->priv->today_fix_timeout = FALSE;
+	}
+
+	return FALSE;
+}
+
 static void
 year_view_set_year (EYearView *self,
 		    guint year,
@@ -565,10 +636,13 @@ year_view_set_year (EYearView *self,
 			e_month_widget_set_month (self->priv->months[ii], ii + 1, self->priv->current_year);
 		}
 
+		self->priv->today_date = 0;
+
 		e_month_widget_set_day_selected (self->priv->months[self->priv->current_month - 1], self->priv->current_day, TRUE);
 
 		year_view_update_data_model (self);
 		year_view_update_tree_view (self);
+		year_view_update_today (self);
 	}
 }
 
@@ -1526,6 +1600,12 @@ year_view_set_property (GObject *object,
 				E_YEAR_VIEW (object),
 				g_value_get_boolean (value));
 			return;
+
+		case PROP_HIGHLIGHT_TODAY:
+			e_year_view_set_highlight_today (
+				E_YEAR_VIEW (object),
+				g_value_get_boolean (value));
+			return;
 	}
 
 	G_OBJECT_WARN_INVALID_PROPERTY_ID (object, property_id, pspec);
@@ -1550,6 +1630,11 @@ year_view_get_property (GObject *object,
 		case PROP_USE_24HOUR_FORMAT:
 			g_value_set_boolean (value,
 				e_year_view_get_use_24hour_format (E_YEAR_VIEW (object)));
+			return;
+
+		case PROP_HIGHLIGHT_TODAY:
+			g_value_set_boolean (value,
+				e_year_view_get_highlight_today (E_YEAR_VIEW (object)));
 			return;
 	}
 
@@ -1793,6 +1878,11 @@ year_view_dispose (GObject *object)
 		self->priv->clearing_comps = FALSE;
 	}
 
+	if (self->priv->today_source_id) {
+		g_source_remove (self->priv->today_source_id);
+		self->priv->today_source_id = 0;
+	}
+
 	g_clear_object (&self->priv->registry);
 	g_clear_object (&self->priv->list_store);
 	g_clear_object (&self->priv->data_model);
@@ -1854,6 +1944,11 @@ e_year_view_class_init (EYearViewClass *klass)
 			FALSE,
 			G_PARAM_READWRITE | G_PARAM_STATIC_STRINGS | G_PARAM_EXPLICIT_NOTIFY);
 
+	obj_props[PROP_HIGHLIGHT_TODAY] =
+		g_param_spec_boolean ("highlight-today", NULL, NULL,
+			TRUE,
+			G_PARAM_READWRITE | G_PARAM_STATIC_STRINGS | G_PARAM_EXPLICIT_NOTIFY);
+
 	g_object_class_install_properties (object_class, LAST_PROP, obj_props);
 }
 
@@ -1862,6 +1957,7 @@ e_year_view_init (EYearView *self)
 {
 	self->priv = e_year_view_get_instance_private (self);
 	self->priv->preview_visible = TRUE;
+	self->priv->highlight_today = TRUE;
 	self->priv->current_day = 1;
 	self->priv->current_month = 1;
 	self->priv->current_year = 2000;
@@ -2011,4 +2107,28 @@ e_year_view_get_use_24hour_format (EYearView *self)
 	g_return_val_if_fail (E_IS_YEAR_VIEW (self), FALSE);
 
 	return self->priv->use_24hour_format;
+}
+
+void
+e_year_view_set_highlight_today (EYearView *self,
+				 gboolean value)
+{
+	g_return_if_fail (E_IS_YEAR_VIEW (self));
+
+	if ((self->priv->highlight_today ? 1 : 0) == (value ? 1 : 0))
+		return;
+
+	self->priv->highlight_today = value;
+
+	year_view_update_today (self);
+
+	g_object_notify_by_pspec (G_OBJECT (self), obj_props[PROP_HIGHLIGHT_TODAY]);
+}
+
+gboolean
+e_year_view_get_highlight_today (EYearView *self)
+{
+	g_return_val_if_fail (E_IS_YEAR_VIEW (self), FALSE);
+
+	return self->priv->highlight_today;
 }
