@@ -286,7 +286,19 @@ cal_component_preview_write_html (ECalComponentPreview *preview,
 
 	/* write location */
 	location = e_cal_component_get_location (comp);
-	cal_component_preview_add_table_line (buffer, _("Location:"), location);
+	if (location && *location) {
+		markup = g_markup_escape_text (_("Location:"), -1);
+		g_string_append_printf (buffer, "<tr><th>%s</th>", markup);
+		g_free (markup);
+
+		markup = camel_text_to_html (location,
+			CAMEL_MIME_FILTER_TOHTML_CONVERT_NL |
+			CAMEL_MIME_FILTER_TOHTML_CONVERT_SPACES |
+			CAMEL_MIME_FILTER_TOHTML_CONVERT_URLS |
+			CAMEL_MIME_FILTER_TOHTML_CONVERT_ADDRESSES, 0);
+		g_string_append_printf (buffer, "<td>%s</td></tr>", markup);
+		g_free (markup);
+	}
 	g_free (location);
 
 	/* write start date */
