@@ -369,7 +369,22 @@ static void
 cell_editing_canceled_cb (GtkCellRenderer *cell,
                           UIData *ui)
 {
-	gtk_button_clicked (GTK_BUTTON (ui->clue_remove));
+	GtkTreeSelection *selection;
+	GtkTreeModel *model;
+	GtkTreeIter iter;
+
+	selection = gtk_tree_view_get_selection (GTK_TREE_VIEW (ui->treeview));
+
+	if (gtk_tree_selection_get_selected (selection, &model, &iter)) {
+		gchar *text = NULL;
+
+		gtk_tree_model_get (model, &iter, CLUE_KEYWORD_COLUMN, &text, -1);
+
+		if (!text || !*g_strstrip (text))
+			gtk_button_clicked (GTK_BUTTON (ui->clue_remove));
+
+		g_free (text);
+	}
 }
 
 static void

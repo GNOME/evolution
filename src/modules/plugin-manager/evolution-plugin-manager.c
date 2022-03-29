@@ -213,6 +213,17 @@ eppm_selection_changed (GtkTreeSelection *selection,
 	GtkTreeModel *model;
 	GtkTreeIter iter;
 
+	if (gtk_tree_selection_get_selected (selection, &model, &iter)) {
+		GtkWidget *cfg_widget = NULL;
+
+		gtk_tree_model_get (
+			model, &iter,
+			COL_PLUGIN_CFG_WIDGET, &cfg_widget, -1);
+
+		if (cfg_widget && cfg_widget == m->active_cfg_widget)
+			return;
+	}
+
 	g_signal_handler_block (notebook, switch_page_handler_id);
 
 	if (m->active_cfg_widget && GTK_IS_NOTEBOOK (m->active_cfg_widget)) {
