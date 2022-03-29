@@ -124,7 +124,37 @@ cal_comp_util_compare_event_timezones (ECalComponent *comp,
 	}
 
 	if (!start_datetime || !end_datetime) {
-		retval = FALSE;
+		if (e_cal_component_get_vtype (comp) == E_CAL_COMPONENT_EVENT) {
+			retval = FALSE;
+		} else if (start_datetime || end_datetime) {
+			ECalComponentDateTime *dt = start_datetime ? start_datetime : end_datetime;
+
+			retval = !e_cal_component_datetime_get_tzid (dt) ||
+			         cal_comp_util_tzid_equal (tzid, e_cal_component_datetime_get_tzid (dt));
+
+			if (!retval) {
+				ICalTimezone *dt_zone;
+
+				if (!e_cal_client_get_timezone_sync (client, e_cal_component_datetime_get_tzid (dt), &dt_zone, NULL, NULL))
+					dt_zone = NULL;
+
+				if (dt_zone) {
+					gint is_daylight = 0; /* Its value is ignored, but libical-glib 3.0.5 API requires it */
+
+					offset1 = i_cal_timezone_get_utc_offset (dt_zone,
+						e_cal_component_datetime_get_value (dt),
+						&is_daylight);
+					offset2 = i_cal_timezone_get_utc_offset (zone,
+						e_cal_component_datetime_get_value (dt),
+						&is_daylight);
+
+					retval = offset1 == offset2;
+				}
+			}
+		} else {
+			retval = TRUE;
+		}
+
 		goto out;
 	}
 
@@ -2258,12 +2288,12 @@ cal_comp_util_dup_tooltip (ECalComponent *comp,
 
 		if (t_end > t_start) {
 			tmp = e_cal_util_seconds_to_string (t_end - t_start);
-			/* Translators: It will display "Time: ActualStartDateAndTime (DurationOfTheMeeting)" */
-			e_util_markup_append_escaped (tooltip, _("Time: %s (%s)"), tmp1, tmp);
+			/* Translators: It will display "Start: ActualStartDateAndTime (DurationOfTheMeeting)" */
+			e_util_markup_append_escaped (tooltip, _("Start: %s (%s)"), tmp1, tmp);
 			g_clear_pointer (&tmp, g_free);
 		} else {
-			/* Translators: It will display "Time: ActualStartDateAndTime" */
-			e_util_markup_append_escaped (tooltip, _("Time: %s"), tmp1);
+			/* Translators: It will display "Start: ActualStartDateAndTime" */
+			e_util_markup_append_escaped (tooltip, _("Start: %s"), tmp1);
 		}
 
 		g_clear_pointer (&tmp1, g_free);
@@ -2282,6 +2312,7 @@ cal_comp_util_dup_tooltip (ECalComponent *comp,
 
 	if (e_cal_component_get_vtype (comp) == E_CAL_COMPONENT_TODO) {
 		ECalComponentDateTime *due;
+		ICalTime *completed;
 
 		due = e_cal_component_get_due (comp);
 
@@ -2305,6 +2336,28 @@ cal_comp_util_dup_tooltip (ECalComponent *comp,
 		}
 
 		e_cal_component_datetime_free (due);
+
+		completed = e_cal_component_get_completed (comp);
+
+		if (completed) {
+			gchar timestr[255] = { 0, };
+
+			if (i_cal_time_is_utc (completed)) {
+				zone = i_cal_timezone_get_utc_timezone ();
+				i_cal_time_convert_timezone (completed, i_cal_timezone_get_utc_timezone (), default_zone);
+				i_cal_time_set_timezone (completed, default_zone);
+			}
+
+			cal_comp_util_format_itt (completed, timestr, sizeof (timestr) - 1);
+
+			if (*timestr) {
+				g_string_append_c (tooltip, '\n');
+				/* Translators: It's for a task completed date, it will display "Completed: DateAndTime" */
+				e_util_markup_append_escaped (tooltip, _("Completed: %s"), timestr);
+			}
+
+			g_clear_object (&completed);
+		}
 	}
 
 	tmp = cal_comp_util_dup_attendees_status_info (comp, client, registry);

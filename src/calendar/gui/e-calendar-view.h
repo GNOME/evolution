@@ -49,8 +49,6 @@
 
 G_BEGIN_DECLS
 
-#define E_CALENDAR_VIEW_TOOLTIP_OFFSET 16
-
 typedef enum {
 	E_CALENDAR_VIEW_POS_OUTSIDE,
 	E_CALENDAR_VIEW_POS_NONE,
@@ -79,8 +77,6 @@ typedef enum {
 	guint16 end_minute; \
 	guint different_timezone : 1; \
 	gboolean is_editable; \
-	GtkWidget *tooltip; \
-	gint	timeout; \
 	GdkColor *color; \
 	gint x,y;
 
@@ -112,15 +108,6 @@ struct _ECalendarView {
 	gboolean in_focus;
 	ECalendarViewPrivate *priv;
 };
-
-typedef struct {
-	ECalendarViewEvent * (*get_view_event)	(ECalendarView *view,
-						 gint day,
-						 gint event_num);
-	ECalendarView *cal_view;
-	gint day;
-	gint event_num;
-} ECalendarViewEventData;
 
 typedef struct _ECalendarViewSelectionData {
 	ECalClient *client;
@@ -267,12 +254,6 @@ gchar *		e_calendar_view_get_description_text
 void		e_calendar_view_move_view_range	(ECalendarView *cal_view,
 						 ECalendarViewMoveType mode_type,
 						 time_t exact_date);
-gboolean	e_calendar_view_get_tooltips	(const ECalendarViewEventData *data);
-
-void		e_calendar_view_move_tip	(GtkWidget *widget,
-						 gint x,
-						 gint y);
-void		e_calendar_view_destroy_tooltip	(ECalendarView *cal_view);
 
 gchar *		e_calendar_view_dup_component_summary
 						(ICalComponent *icomp);

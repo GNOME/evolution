@@ -486,8 +486,6 @@ static void e_day_view_precalc_visible_time_range (ECalendarView *cal_view,
 static void e_day_view_queue_layout (EDayView *day_view);
 static void e_day_view_cancel_layout (EDayView *day_view);
 static gboolean e_day_view_layout_timeout_cb (gpointer data);
-static void tooltip_destroy (EDayView *day_view, GnomeCanvasItem *item);
-static EDayViewEvent *tooltip_get_view_event (EDayView *day_view, gint day, gint event_num);
 
 enum {
 	PROP_0,
@@ -1970,6 +1968,121 @@ day_view_paste_text (ECalendarView *cal_view)
 	}
 }
 
+static EDayViewEvent *
+e_day_view_get_event (EDayView *day_view,
+		      gint day,
+		      gint event_num)
+{
+	EDayViewEvent *pevent;
+
+	if (day == E_DAY_VIEW_LONG_EVENT) {
+		if (!is_array_index_in_bounds (day_view->long_events, event_num))
+			return NULL;
+
+		pevent = &g_array_index (day_view->long_events, EDayViewEvent, event_num);
+	} else {
+		if (!is_array_index_in_bounds (day_view->events[day], event_num))
+			return NULL;
+
+		pevent = &g_array_index (day_view->events[day], EDayViewEvent, event_num);
+	}
+
+	return pevent;
+}
+
+static gboolean
+e_day_view_query_tooltip (EDayView *day_view,
+			  gint day,
+			  gint event_num,
+			  GtkTooltip *tooltip)
+{
+	EDayViewEvent *event;
+	ECalComponent *new_comp;
+	ECalModel *model;
+	gchar *markup;
+
+	event = e_day_view_get_event (day_view, day, event_num);
+	if (!event || !event->comp_data)
+		return FALSE;
+
+	new_comp = e_cal_component_new_from_icalcomponent (i_cal_component_clone (event->comp_data->icalcomp));
+	if (!new_comp)
+		return FALSE;
+
+	model = e_calendar_view_get_model (E_CALENDAR_VIEW (day_view));
+
+	markup = cal_comp_util_dup_tooltip (new_comp, event->comp_data->client,
+		e_cal_model_get_registry (model),
+		e_cal_model_get_timezone (model));
+
+	gtk_tooltip_set_markup (tooltip, markup);
+
+	g_free (markup);
+	g_object_unref (new_comp);
+
+	return TRUE;
+}
+
+static gboolean
+e_day_view_top_canvas_query_tooltip_cb (GtkWidget *widget,
+					gint x,
+					gint y,
+					gboolean keyboard_mode,
+					GtkTooltip *tooltip,
+					gpointer user_data)
+{
+	EDayView *day_view = user_data;
+	ECalendarViewPosition pos;
+	gint day, event_num;
+
+	g_return_val_if_fail (E_IS_DAY_VIEW (day_view), FALSE);
+
+	if (keyboard_mode)
+		return FALSE;
+
+	y += gtk_adjustment_get_value (gtk_scrollable_get_vadjustment (GTK_SCROLLABLE (day_view->top_canvas)));
+
+	pos = e_day_view_convert_position_in_top_canvas (day_view, x, y, &day, &event_num);
+
+	if (pos == E_CALENDAR_VIEW_POS_OUTSIDE)
+		return FALSE;
+
+	if (pos == E_CALENDAR_VIEW_POS_NONE)
+		return FALSE;
+
+	return e_day_view_query_tooltip (day_view, E_DAY_VIEW_LONG_EVENT, event_num, tooltip);
+}
+
+static gboolean
+e_day_view_main_canvas_query_tooltip_cb (GtkWidget *widget,
+					 gint x,
+					 gint y,
+					 gboolean keyboard_mode,
+					 GtkTooltip *tooltip,
+					 gpointer user_data)
+{
+	EDayView *day_view = user_data;
+	ECalendarViewPosition pos;
+	gint row, day, event_num;
+
+	g_return_val_if_fail (E_IS_DAY_VIEW (day_view), FALSE);
+
+	if (keyboard_mode)
+		return FALSE;
+
+	y += gtk_adjustment_get_value (gtk_scrollable_get_vadjustment (GTK_SCROLLABLE (day_view->main_canvas)));
+
+	pos = e_day_view_convert_position_in_main_canvas (day_view, x, y, &day, &row, &event_num);
+
+	if (pos == E_CALENDAR_VIEW_POS_OUTSIDE)
+		return FALSE;
+
+	if (pos == E_CALENDAR_VIEW_POS_NONE)
+		return FALSE;
+
+	return e_day_view_query_tooltip (day_view, day, event_num, tooltip);
+}
+
 static void
 e_day_view_class_init (EDayViewClass *class)
 {
@@ -2219,6 +2332,7 @@ e_day_view_init (EDayView *day_view)
 	 * disconnect signal handlers in dispose(). */
 	widget = e_canvas_new ();
 	gtk_box_pack_end (GTK_BOX (container), widget, TRUE, TRUE, 0);
+	gtk_widget_set_has_tooltip (widget, TRUE);
 	day_view->top_canvas = g_object_ref (widget);
 	gtk_widget_show (widget);
 
@@ -2271,6 +2385,9 @@ e_day_view_init (EDayView *day_view)
 		day_view->top_canvas, "drag_data_received",
 		G_CALLBACK (e_day_view_on_top_canvas_drag_data_received), day_view);
 	day_view->priv->top_canvas_drag_data_received_handler_id = handler_id;
+
+	g_signal_connect_object (day_view->top_canvas, "query-tooltip",
+		G_CALLBACK (e_day_view_top_canvas_query_tooltip_cb), day_view, 0);
 
 	canvas_group = GNOME_CANVAS_GROUP (GNOME_CANVAS (day_view->top_dates_canvas)->root);
 
@@ -2326,6 +2443,7 @@ e_day_view_init (EDayView *day_view)
 		"vexpand", TRUE,
 		"halign", GTK_ALIGN_FILL,
 		"valign", GTK_ALIGN_FILL,
+		"has-tooltip", TRUE,
 		NULL);
 	day_view->main_canvas = g_object_ref (widget);
 	gtk_widget_show (widget);
@@ -2385,6 +2503,9 @@ e_day_view_init (EDayView *day_view)
 		day_view->main_canvas, "drag_data_received",
 		G_CALLBACK (e_day_view_on_main_canvas_drag_data_received), day_view);
 	day_view->priv->main_canvas_drag_data_received_handler_id = handler_id;
+
+	g_signal_connect_object (day_view->main_canvas, "query-tooltip",
+		G_CALLBACK (e_day_view_main_canvas_query_tooltip_cb), day_view, 0);
 
 	canvas_group = GNOME_CANVAS_GROUP (GNOME_CANVAS (day_view->main_canvas)->root);
 
@@ -3172,31 +3293,6 @@ e_day_view_foreach_event_with_uid (EDayView *day_view,
 	}
 }
 
-static void
-e_day_view_maybe_destroy_event_tooltip (EDayView *day_view,
-					EDayViewEvent *event)
-{
-	GObject *object = G_OBJECT (day_view);
-
-	if (event->timeout > 0 && GPOINTER_TO_UINT (g_object_get_data (object, "tooltip-timeout")) == event->timeout) {
-		g_source_remove (event->timeout);
-		event->timeout = 0;
-
-		g_object_set_data (object, "tooltip-timeout", NULL);
-	} else {
-		event->timeout = 0;
-	}
-
-	if (event->tooltip && event->tooltip == g_object_get_data (object, "tooltip-window")) {
-		gtk_widget_destroy (event->tooltip);
-		event->tooltip = NULL;
-
-		g_object_set_data (object, "tooltip-window", NULL);
-	} else {
-		event->tooltip = NULL;
-	}
-}
-
 static gboolean
 e_day_view_remove_event_cb (EDayView *day_view,
                             gint day,
@@ -3235,8 +3331,6 @@ e_day_view_remove_event_cb (EDayView *day_view,
 	} else if (day_view->popup_event_num > event_num && day_view->popup_event_day == day) {
 		day_view->popup_event_num--;
 	}
-
-	e_day_view_maybe_destroy_event_tooltip (day_view, event);
 
 	if (day_view->resize_bars_event_num >= event_num && day_view->resize_bars_event_day == day) {
 		if (day_view->resize_bars_event_num == event_num) {
@@ -4457,8 +4551,6 @@ e_day_view_on_main_canvas_scroll (GtkWidget *widget,
                                   GdkEventScroll *scroll,
                                   EDayView *day_view)
 {
-	e_calendar_view_destroy_tooltip (E_CALENDAR_VIEW (day_view));
-
 	switch (scroll->direction) {
 	case GDK_SCROLL_UP:
 		e_day_view_scroll (day_view, E_DAY_VIEW_WHEEL_MOUSE_STEP_SIZE);
@@ -4484,8 +4576,6 @@ e_day_view_on_top_canvas_scroll (GtkWidget *widget,
                                   GdkEventScroll *scroll,
                                   EDayView *day_view)
 {
-	e_calendar_view_destroy_tooltip (E_CALENDAR_VIEW (day_view));
-
 	switch (scroll->direction) {
 	case GDK_SCROLL_UP:
 		e_day_view_top_scroll (day_view, E_DAY_VIEW_WHEEL_MOUSE_STEP_SIZE);
@@ -4511,13 +4601,6 @@ e_day_view_on_time_canvas_scroll (GtkWidget *widget,
                                   GdkEventScroll *scroll,
                                   EDayView *day_view)
 {
-	GtkWidget *tool_window = g_object_get_data ((GObject *) day_view, "tooltip-window");
-
-	if (tool_window) {
-		gtk_widget_destroy (tool_window);
-		g_object_set_data (G_OBJECT (day_view), "tooltip-window", NULL);
-	}
-
 	switch (scroll->direction) {
 	case GDK_SCROLL_UP:
 		e_day_view_scroll (day_view, E_DAY_VIEW_WHEEL_MOUSE_STEP_SIZE);
@@ -4881,8 +4964,6 @@ e_day_view_show_popup_menu (EDayView *day_view,
                             gint day,
                             gint event_num)
 {
-	e_calendar_view_destroy_tooltip (E_CALENDAR_VIEW (day_view));
-
 	e_day_view_set_popup_event (day_view, day, event_num);
 
 	e_calendar_view_popup_event (E_CALENDAR_VIEW (day_view), button_event);
@@ -5749,13 +5830,9 @@ e_day_view_free_event_array (EDayView *day_view,
 
 		if (is_comp_data_valid (event))
 			g_object_unref (event->comp_data);
-
-		e_day_view_maybe_destroy_event_tooltip (day_view, event);
 	}
 
 	g_array_set_size (array, 0);
-
-	e_calendar_view_destroy_tooltip (E_CALENDAR_VIEW (day_view));
 }
 
 /* This adds one event to the view, adding it to the appropriate array. */
@@ -5771,7 +5848,6 @@ e_day_view_add_event (ESourceRegistry *registry,
 	EDayViewEvent event;
 	gint day, offset;
 	gint days_shown;
-	guint tooltip_timeout;
 	ICalTime *start_tt, *end_tt;
 	ICalTimezone *zone;
 	AddEventData *add_event_data;
@@ -5793,12 +5869,6 @@ e_day_view_add_event (ESourceRegistry *registry,
 	if (end != start || end < add_event_data->day_view->lower)
 		g_return_if_fail (end > add_event_data->day_view->lower);
 
-	tooltip_timeout = GPOINTER_TO_UINT (g_object_get_data (G_OBJECT (add_event_data->day_view), "tooltip-timeout"));
-	if (tooltip_timeout) {
-		g_source_remove (tooltip_timeout);
-		g_object_set_data (G_OBJECT (add_event_data->day_view), "tooltip-timeout", NULL);
-	}
-
 	zone = e_calendar_view_get_timezone (E_CALENDAR_VIEW (add_event_data->day_view));
 	start_tt = i_cal_time_new_from_timet_with_zone (start, FALSE, zone);
 	end_tt = i_cal_time_new_from_timet_with_zone (end, FALSE, zone);
@@ -5814,9 +5884,7 @@ e_day_view_add_event (ESourceRegistry *registry,
 	}
 
 	event.start = start;
-	event.tooltip = NULL;
 	event.color = NULL;
-	event.timeout = -1;
 	event.end = end;
 	event.canvas_item = NULL;
 	event.comp_data->instance_start = start;
@@ -7257,20 +7325,7 @@ e_day_view_start_editing_event (EDayView *day_view,
 	    && event_num == day_view->editing_event_num)
 		return;
 
-	if (day == E_DAY_VIEW_LONG_EVENT) {
-		if (!is_array_index_in_bounds (day_view->long_events, event_num))
-			return;
-
-		event = &g_array_index (day_view->long_events, EDayViewEvent,
-					event_num);
-	} else {
-		if (!is_array_index_in_bounds (day_view->events[day], event_num))
-			return;
-
-		event = &g_array_index (day_view->events[day], EDayViewEvent,
-					event_num);
-	}
-
+	event = e_day_view_get_event (day_view, day, event_num);
 	if (!is_comp_data_valid (event))
 		return;
 
@@ -7348,18 +7403,7 @@ cancel_editing (EDayView *day_view)
 	if (day == -1)
 		return;
 
-	if (day == E_DAY_VIEW_LONG_EVENT) {
-		if (!is_array_index_in_bounds (day_view->long_events, event_num))
-			return;
-
-		event = &g_array_index (day_view->long_events, EDayViewEvent, event_num);
-	} else {
-		if (!is_array_index_in_bounds (day_view->events[day], event_num))
-			return;
-
-		event = &g_array_index (day_view->events[day], EDayViewEvent, event_num);
-	}
-
+	event = e_day_view_get_event (day_view, day, event_num);
 	if (!is_comp_data_valid (event))
 		return;
 
@@ -7375,64 +7419,6 @@ cancel_editing (EDayView *day_view)
 	e_day_view_stop_editing_event (day_view);
 }
 
-static EDayViewEvent *
-tooltip_get_view_event (EDayView *day_view,
-                        gint day,
-                        gint event_num)
-{
-	EDayViewEvent *pevent;
-
-	if (day == E_DAY_VIEW_LONG_EVENT) {
-		if (!is_array_index_in_bounds (day_view->long_events, event_num))
-			return  NULL;
-
-		pevent = &g_array_index (day_view->long_events, EDayViewEvent,
-					event_num);
-	} else {
-		if (!is_array_index_in_bounds (day_view->events[day], event_num))
-			return NULL;
-
-		pevent = &g_array_index (day_view->events[day], EDayViewEvent,
-					event_num);
-	}
-
-	return pevent;
-}
-
-static void
-tooltip_destroy (EDayView *day_view,
-                 GnomeCanvasItem *item)
-{
-	e_calendar_view_destroy_tooltip (E_CALENDAR_VIEW (day_view));
-
-	if (item) {
-		EDayViewEvent *pevent;
-		gint event_num, day;
-
-		e_day_view_check_layout (day_view);
-
-		event_num = GPOINTER_TO_INT (g_object_get_data ((GObject *) item, "event-num"));
-		day = GPOINTER_TO_INT (g_object_get_data ((GObject *) item, "event-day"));
-		pevent = tooltip_get_view_event (day_view, day, event_num);
-		if (pevent) {
-			pevent->tooltip = NULL;
-			pevent->timeout = 0;
-		}
-	}
-}
-
-static void
-e_day_view_destroy_tooltip_timeout_data (gpointer ptr)
-{
-	ECalendarViewEventData *data = ptr;
-
-	if (data) {
-		g_object_set_data (G_OBJECT (data->cal_view), "tooltip-timeout", NULL);
-		g_object_unref (data->cal_view);
-		g_free (data);
-	}
-}
-
 static gboolean
 e_day_view_on_text_item_event (GnomeCanvasItem *item,
                                GdkEvent *event,
@@ -7440,7 +7426,6 @@ e_day_view_on_text_item_event (GnomeCanvasItem *item,
 {
 	switch (event->type) {
 	case GDK_KEY_PRESS:
-		tooltip_destroy (day_view, item);
 		if (!E_TEXT (item)->preedit_len && event && (
 		     event->key.keyval == GDK_KEY_Return ||
 		     event->key.keyval == GDK_KEY_KP_Enter)) {
@@ -7483,14 +7468,12 @@ e_day_view_on_text_item_event (GnomeCanvasItem *item,
 
 		if (day_view->drag_event_num != -1)
 			day_view->drag_event_num = -1;
-		tooltip_destroy (day_view, item);
 		/* Only let the EText handle the event while editing. */
 		if (!E_TEXT (item)->editing)
 			g_signal_stop_emission_by_name (item, "event");
 		break;
 
 	case GDK_BUTTON_PRESS:
-		tooltip_destroy (day_view, item);
 		/* Only let the EText handle the event while editing. */
 		if (!E_TEXT (item)->editing)
 			g_signal_stop_emission_by_name (item, "event");
@@ -7505,7 +7488,6 @@ e_day_view_on_text_item_event (GnomeCanvasItem *item,
 	case GDK_ENTER_NOTIFY:
 		{
 			EDayViewEvent *pevent;
-			ECalendarViewEventData *data;
 			gint event_x, event_y, row, day, event_num;
 			ECalendarViewPosition pos;
 			gboolean main_canvas = TRUE;
@@ -7564,34 +7546,19 @@ e_day_view_on_text_item_event (GnomeCanvasItem *item,
 			if (day == -1 || event_num == -1)
 				break;
 
-			pevent = tooltip_get_view_event (day_view, day, event_num);
+			pevent = e_day_view_get_event (day_view, day, event_num);
 			if (!pevent)
 				break;
 
 			g_object_set_data (G_OBJECT (item), "event-num", GINT_TO_POINTER (event_num));
 			g_object_set_data (G_OBJECT (item), "event-day", GINT_TO_POINTER (day));
 
-			e_calendar_view_destroy_tooltip (E_CALENDAR_VIEW (day_view));
-
-			data = g_malloc (sizeof (ECalendarViewEventData));
 			pevent->x = ((GdkEventCrossing *) event)->x_root;
 			pevent->y = ((GdkEventCrossing *) event)->y_root;
-			pevent->tooltip = NULL;
-
-			data->cal_view = g_object_ref (E_CALENDAR_VIEW (day_view));
-			data->day = day;
-			data->event_num = event_num;
-			data->get_view_event = (ECalendarViewEvent * (*)(ECalendarView *, int, gint)) tooltip_get_view_event;
-			pevent->timeout = e_named_timeout_add_full (
-				G_PRIORITY_DEFAULT, 500,
-				(GSourceFunc) e_calendar_view_get_tooltips,
-				data, e_day_view_destroy_tooltip_timeout_data);
-			g_object_set_data (G_OBJECT (day_view), "tooltip-timeout", GUINT_TO_POINTER (pevent->timeout));
 
 		return TRUE;
 		}
 	case GDK_LEAVE_NOTIFY:
-		tooltip_destroy (day_view, item);
 		return TRUE;
 	case GDK_MOTION_NOTIFY:
 		{
@@ -7603,17 +7570,12 @@ e_day_view_on_text_item_event (GnomeCanvasItem *item,
 			event_num = GPOINTER_TO_INT (g_object_get_data ((GObject *) item, "event-num"));
 			day = GPOINTER_TO_INT (g_object_get_data ((GObject *) item, "event-day"));
 
-			pevent = tooltip_get_view_event (day_view, day, event_num);
+			pevent = e_day_view_get_event (day_view, day, event_num);
 			if (!pevent)
 				break;
 
 			pevent->x = ((GdkEventMotion *) event)->x_root;
 			pevent->y = ((GdkEventMotion *) event)->y_root;
-			pevent->tooltip = (GtkWidget *) g_object_get_data (G_OBJECT (day_view), "tooltip-window");
-
-			if (pevent->tooltip) {
-				e_calendar_view_move_tip (pevent->tooltip, pevent->x, pevent->y);
-			}
 
 			return TRUE;
 		}
@@ -7959,20 +7921,7 @@ e_day_view_on_editing_stopped (EDayView *day_view,
 	if (day == -1)
 		return;
 
-	if (day == E_DAY_VIEW_LONG_EVENT) {
-		if (!is_array_index_in_bounds (day_view->long_events, event_num))
-			return;
-
-		event = &g_array_index (day_view->long_events, EDayViewEvent,
-					event_num);
-	} else {
-		if (!is_array_index_in_bounds (day_view->events[day], event_num))
-			return;
-
-		event = &g_array_index (day_view->events[day], EDayViewEvent,
-					event_num);
-
-	}
+	event = e_day_view_get_event (day_view, day, event_num);
 
 	if (!is_comp_data_valid (event))
 		return;
@@ -9054,19 +9003,10 @@ e_day_view_on_drag_begin (GtkWidget *widget,
 
 	g_return_if_fail (event_num != -1);
 
-	if (day == E_DAY_VIEW_LONG_EVENT) {
-		if (!is_array_index_in_bounds (day_view->long_events, event_num))
-			return;
+	event = e_day_view_get_event (day_view, day, event_num);
 
-		event = &g_array_index (day_view->long_events, EDayViewEvent,
-					event_num);
-	} else {
-		if (!is_array_index_in_bounds (day_view->events[day], event_num))
-			return;
-
-		event = &g_array_index (day_view->events[day], EDayViewEvent,
-					event_num);
-	}
+	if (!event)
+		return;
 
 	/* Hide the text item, since it will be shown in the special drag
 	 * items. */
@@ -9089,21 +9029,14 @@ e_day_view_on_drag_end (GtkWidget *widget,
 	if (day == -1 || event_num == -1)
 		return;
 
-	if (day == E_DAY_VIEW_LONG_EVENT) {
-		if (!is_array_index_in_bounds (day_view->long_events, event_num))
-			return;
+	event = e_day_view_get_event (day_view, day, event_num);
+	if (!event)
+		return;
 
-		event = &g_array_index (day_view->long_events, EDayViewEvent,
-					event_num);
+	if (day == E_DAY_VIEW_LONG_EVENT)
 		gtk_widget_queue_draw (day_view->top_canvas);
-	} else {
-		if (!is_array_index_in_bounds (day_view->events[day], event_num))
-			return;
-
-		event = &g_array_index (day_view->events[day], EDayViewEvent,
-					event_num);
+	else
 		gtk_widget_queue_draw (day_view->main_canvas);
-	}
 
 	/* Show the text item again. */
 	gnome_canvas_item_show (event->canvas_item);
