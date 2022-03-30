@@ -571,9 +571,9 @@ e_markdown_utils_html_to_text (const gchar *html,
 	sax.warning = markdown_utils_sax_warning_cb;
 	sax.error = markdown_utils_sax_error_cb;
 
-	ctxt = htmlCreatePushParserCtxt (&sax, &data, html ? html : "", length, "", XML_CHAR_ENCODING_UTF8);
-
-	htmlParseChunk (ctxt, "", 0, 1);
+	ctxt = htmlCreatePushParserCtxt (&sax, &data, "", 0, "", XML_CHAR_ENCODING_UTF8);
+	htmlCtxtUseOptions (ctxt, HTML_PARSE_RECOVER | HTML_PARSE_NONET | HTML_PARSE_IGNORE_ENC);
+	htmlParseChunk (ctxt, html ? html : "", length, 1);
 
 	/* The libxml doesn't read elements after </html>, but the quirks can be stored after them,
 	   thus retry after that element end, if it exists. */
@@ -585,8 +585,9 @@ e_markdown_utils_html_to_text (const gchar *html,
 
 			data.composer_quirks.reading_html_end = TRUE;
 
-			ctxt2 = htmlCreatePushParserCtxt (&sax, &data, (const gchar *) ctxt->input->cur, html_end_length, "", XML_CHAR_ENCODING_UTF8);
-			htmlParseChunk (ctxt2, "", 0, 1);
+			ctxt2 = htmlCreatePushParserCtxt (&sax, &data, "", 0, "", XML_CHAR_ENCODING_UTF8);
+			htmlCtxtUseOptions (ctxt2, HTML_PARSE_RECOVER | HTML_PARSE_NONET | HTML_PARSE_IGNORE_ENC);
+			htmlParseChunk (ctxt2, (const gchar *) ctxt->input->cur, html_end_length, 1);
 			htmlFreeParserCtxt (ctxt2);
 		}
 	}
