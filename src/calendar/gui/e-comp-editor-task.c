@@ -621,25 +621,6 @@ ece_task_fill_component (ECompEditor *comp_editor,
 		return FALSE;
 	}
 
-	if (e_cal_util_component_has_recurrences (component)) {
-		ICalTime *dtstart;
-
-		dtstart = e_comp_editor_property_part_datetime_get_value (E_COMP_EDITOR_PROPERTY_PART_DATETIME (task_editor->priv->dtstart));
-
-		if (!dtstart || i_cal_time_is_null_time (dtstart) || !i_cal_time_is_valid_time (dtstart)) {
-			e_comp_editor_set_validation_error (comp_editor,
-				task_editor->priv->page_general,
-				e_comp_editor_property_part_get_edit_widget (task_editor->priv->dtstart),
-				_("Start date is required for recurring tasks"));
-
-			g_clear_object (&dtstart);
-
-			return FALSE;
-		}
-
-		g_clear_object (&dtstart);
-	}
-
 	if (!e_comp_editor_property_part_datetime_check_validity (
 		E_COMP_EDITOR_PROPERTY_PART_DATETIME (task_editor->priv->due_date), NULL, NULL)) {
 
@@ -715,6 +696,24 @@ ece_task_fill_component (ECompEditor *comp_editor,
 
 	if (e_cal_util_component_has_recurrences (component)) {
 		ECalClient *cal_client;
+		ICalTime *dtstart;
+
+		/* Check this only after the recurrence page updates the component,
+		   like when the component is not recurring anymore. */
+		dtstart = e_comp_editor_property_part_datetime_get_value (E_COMP_EDITOR_PROPERTY_PART_DATETIME (task_editor->priv->dtstart));
+
+		if (!dtstart || i_cal_time_is_null_time (dtstart) || !i_cal_time_is_valid_time (dtstart)) {
+			e_comp_editor_set_validation_error (comp_editor,
+				task_editor->priv->page_general,
+				e_comp_editor_property_part_get_edit_widget (task_editor->priv->dtstart),
+				_("Start date is required for recurring tasks"));
+
+			g_clear_object (&dtstart);
+
+			return FALSE;
+		}
+
+		g_clear_object (&dtstart);
 
 		cal_client = e_comp_editor_get_source_client (comp_editor);
 		if (!cal_client)
