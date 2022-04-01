@@ -38,7 +38,9 @@
 
 #define d(x)
 
-/* define to put temporary files in ~/evolution/cache/tmp */
+/* define to put temporary files in ~/.cache/evolution/tmp/ */
+/* Keep this for Flatpak builds, until glib allows access to in-sandbox /tmp
+   See https://gitlab.gnome.org/GNOME/glib/-/issues/2235 for more information */
 /* #define TEMP_HOME */
 
 /* how old things need to be to expire */

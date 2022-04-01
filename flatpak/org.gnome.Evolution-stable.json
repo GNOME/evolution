@@ -368,6 +368,9 @@
 		{
 			"name": "evolution",
 			"buildsystem": "cmake-ninja",
+			"build-options" : {
+				"cflags": "-DTEMP_HOME=1"
+			},
 			"config-opts": [
 				"-DENABLE_AUTOAR=OFF",
 				"-DENABLE_CONTACT_MAPS=OFF",
