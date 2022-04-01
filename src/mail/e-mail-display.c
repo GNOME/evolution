@@ -787,7 +787,7 @@ mail_display_open_attachment (EMailDisplay *display,
 			attachment, default_app, (GAsyncReadyCallback)
 			e_attachment_open_handle_error, parent);
 
-		g_object_unref (default_app);
+		g_clear_object (&default_app);
 	} else {
 		/* ...or save it */
 		GList *attachments;
