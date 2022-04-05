@@ -146,6 +146,7 @@ prompt_for_password (gchar *title,
                      gchar *prompt,
                      SECItem *pwd)
 {
+	gboolean res = TRUE;
 	gchar *passwd;
 
 	passwd = e_passwords_ask_password (
@@ -155,28 +156,98 @@ prompt_for_password (gchar *title,
 
 	if (passwd) {
 		gsize len = strlen (passwd);
-		const gchar *inptr = passwd;
-		guchar *outptr;
-		gunichar2 c;
 
-		SECITEM_AllocItem (NULL, pwd, sizeof (gunichar2) * (len + 1));
+		pwd->len = len * 3 + 2;
+		pwd->data = (unsigned char *) PORT_ZAlloc (pwd->len);
 
-		outptr = pwd->data;
-		while (inptr && (c = (gunichar2) (g_utf8_get_char (inptr) & 0xffff))) {
-			inptr = g_utf8_next_char (inptr);
-			c = GUINT16_TO_BE (c);
-			*outptr++ = ((gchar *) &c)[0];
-			*outptr++ = ((gchar *) &c)[1];
+		if (pwd->data) {
+			PRBool toUnicode = PR_TRUE;
+			#if G_BYTE_ORDER == G_LITTLE_ENDIAN
+			PRBool swapUnicode = PR_TRUE;
+			#else
+			PRBool swapUnicode = PR_FALSE;
+			#endif
+			if (PORT_UCS2_ASCIIConversion (toUnicode, (unsigned char *) passwd, len, pwd->data, pwd->len, &pwd->len, swapUnicode) == PR_FALSE) {
+				res = FALSE;
+			} else if ((pwd->len >= 2) && (pwd->data[pwd->len - 1] || pwd->data[pwd->len - 2])) {
+				if (pwd->len + 2 > 3 * len)
+					pwd->data = (unsigned char *) PORT_Realloc (pwd->data, pwd->len + 2);
+				if (!pwd->data) {
+					res = FALSE;
+				} else {
+					pwd->len += 2;
+					pwd->data[pwd->len - 1] = 0;
+					pwd->data[pwd->len - 2] = 0;
+				}
+			}
+		} else {
+			res = FALSE;
 		}
-
-		outptr[0] = 0;
-		outptr[1] = 0;
 
 		memset (passwd, 0, strlen (passwd));
 		g_free (passwd);
+
+		if (!res && pwd->data) {
+			PORT_Free (pwd->data);
+			pwd->data = NULL;
+			pwd->len = 0;
+		}
 	}
 
-	return TRUE;
+	return res;
+}
+
+static SEC_PKCS12DecoderContext *
+read_with_password (PK11SlotInfo *slot,
+		    const gchar *path,
+		    SECItem *passwd,
+		    SECStatus *out_status,
+		    gboolean *out_rv,
+		    GError **error)
+{
+	SEC_PKCS12DecoderContext *dcx = NULL;
+
+	*out_status = SECFailure;
+	*out_rv = FALSE;
+
+	/* initialize the decoder */
+	dcx = SEC_PKCS12DecoderStart (
+		passwd,
+		slot,
+		/* we specify NULL for all the
+		 * funcs + data so it'll use the
+		 * default pk11wrap functions */
+		NULL, NULL, NULL,
+		NULL, NULL, NULL);
+	if (!dcx) {
+		*out_status = SECFailure;
+		return NULL;
+	}
+	/* read input file and feed it to the decoder */
+	*out_rv = input_to_decoder (dcx, path, error);
+	if (!*out_rv) {
+#ifdef notyet
+		/* XXX we need this to check the gerror */
+		if (NS_ERROR_ABORT == rv) {
+			/* inputToDecoder indicated a NSS error */
+			*out_status = SECFailure;
+		}
+#else
+		*out_status = SECFailure;
+#endif
+		SEC_PKCS12DecoderFinish (dcx);
+
+		return NULL;
+	}
+
+	/* verify the blob */
+	*out_status = SEC_PKCS12DecoderVerify (dcx);
+	if (*out_status) {
+		SEC_PKCS12DecoderFinish (dcx);
+		dcx = NULL;
+	}
+
+	return dcx;
 }
 
 static gboolean
@@ -191,51 +262,30 @@ import_from_file_helper (EPKCS12 *pkcs12,
 	SECStatus srv = SECSuccess;
 	SEC_PKCS12DecoderContext *dcx = NULL;
 	SECItem passwd;
-	GError *err = NULL;
 
 	*aWantRetry = FALSE;
 
-	passwd.data = NULL;
-	rv = prompt_for_password (
-		_("PKCS12 File Password"),
-		_("Enter password for PKCS12 file:"), &passwd);
-	if (!rv) goto finish;
-	if (passwd.data == NULL) {
-		handle_error (PKCS12_USER_CANCELED);
-		return TRUE;
-	}
+	memset (&passwd, 0, sizeof (SECItem));
 
-	/* initialize the decoder */
-	dcx = SEC_PKCS12DecoderStart (
-		&passwd,
-		slot,
-		/* we specify NULL for all the
-		 * funcs + data so it'll use the
-		 * default pk11wrap functions */
-		NULL, NULL, NULL,
-		NULL, NULL, NULL);
+	/* First try without password */
+	dcx = read_with_password (slot, path, &passwd, &srv, &rv, NULL);
+
+	/* if failed, ask for password */
 	if (!dcx) {
-		srv = SECFailure;
-		goto finish;
-	}
-	/* read input file and feed it to the decoder */
-	rv = input_to_decoder (dcx, path, &err);
-	if (!rv) {
-#ifdef notyet
-		/* XXX we need this to check the gerror */
-		if (NS_ERROR_ABORT == rv) {
-			/* inputToDecoder indicated a NSS error */
-			srv = SECFailure;
+		passwd.data = NULL;
+		rv = prompt_for_password (
+			_("PKCS12 File Password"),
+			_("Enter password for PKCS12 file:"), &passwd);
+		if (!rv)
+			goto finish;
+		if (passwd.data == NULL) {
+			handle_error (PKCS12_USER_CANCELED);
+			return TRUE;
 		}
-#else
-		srv = SECFailure;
-#endif
-		goto finish;
+
+		dcx = read_with_password (slot, path, &passwd, &srv, &rv, error);
 	}
 
-	/* verify the blob */
-	srv = SEC_PKCS12DecoderVerify (dcx);
-	if (srv) goto finish;
 	/* validate bags */
 	srv = SEC_PKCS12DecoderValidateBags (dcx, nickname_collision);
 	if (srv) goto finish;
@@ -249,7 +299,8 @@ import_from_file_helper (EPKCS12 *pkcs12,
 	 * We should use that error code instead of inventing a new one
 	 * for every error possible. */
 	if (srv != SECSuccess) {
-		if (SEC_ERROR_BAD_PASSWORD == PORT_GetError ()) {
+		if (SEC_ERROR_BAD_PASSWORD == PORT_GetError () ||
+		    SEC_ERROR_INVALID_ARGS == PORT_GetError ()) {
 			*aWantRetry = TRUE;
 		}
 		handle_error (PKCS12_NSS_ERROR);
@@ -259,6 +310,8 @@ import_from_file_helper (EPKCS12 *pkcs12,
 	/* finish the decoder */
 	if (dcx)
 		SEC_PKCS12DecoderFinish (dcx);
+	if (passwd.data)
+		PORT_Free (passwd.data);
 	return TRUE;
 }
 
