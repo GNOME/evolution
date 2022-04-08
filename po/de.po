@@ -27,13 +27,14 @@
 # Bernd Homuth <dev@hmt.im>, 2014, 2015, 2016.
 # Christian Kirbach <christian.kirbach@gmail.com>, 2009-2013, 2017, 2020, 2021.
 # Tim Sabsch <tim@sabsch.com>, 2019-2021.
+# Philipp Kiemle <philipp.kiemle@gmail.com>, 2022.
 #
 msgid ""
 msgstr ""
 "Project-Id-Version: evolution master\n"
 "Report-Msgid-Bugs-To: https://gitlab.gnome.org/GNOME/evolution/issues\n"
-"POT-Creation-Date: 2021-09-20 18:07+0000\n"
-"PO-Revision-Date: 2022-02-03 18:09+0100\n"
+"POT-Creation-Date: 2022-02-03 17:14+0000\n"
+"PO-Revision-Date: 2022-04-08 18:40+0200\n"
 "Last-Translator: Philipp Kiemle <philipp.kiemle@gmail.com>\n"
 "Language-Team: German <gnome-de@gnome.org>\n"
 "Language: de\n"
@@ -26566,7 +26567,7 @@ msgstr "Beim Eintreffen neuer E-Mails benachrichtigen."
 #: ../src/plugins/mail-to-task/mail-to-task.c:198
 #, c-format
 msgid "Created from a mail by %s"
-msgstr "Erstellt aus einer Nachricht an %s"
+msgstr "Erstellt aus einer Nachricht von %s"
 
 #. Translators: Dialog button to Cancel edit of an existing event/memo/task
 #: ../src/plugins/mail-to-task/mail-to-task.c:598
@@ -27186,7 +27187,8 @@ msgstr ""
 "Tobias Endrigkeit <tobiasendrigkeit@googlemail.com>\n"
 "Benjamin Steinwender <b@stbe.at>\n"
 "Bernd Homuth <dev@hmt.im>\n"
-"Tim Sabsch <tim@sabsch.com>"
+"Tim Sabsch <tim@sabsch.com>\n"
+"Philipp Kiemle <philipp.kiemle@gmail.com>"
 
 #: ../src/shell/e-shell-utils.c:354
 msgid "Website"
