@@ -28,22 +28,22 @@
 # Wolfgang Stöggl <c72578@yahoo.de>, 2015, 2017-2018.
 # Christian Kirbach <christian.kirbach@gmail.com>, 2009-2013, 2017, 2020-2022.
 # Tim Sabsch <tim@sabsch.com>, 2019-2022.
-# Philipp Kiemle <philipp.kiemle@gmail.com>, 2021.
+# Philipp Kiemle <philipp.kiemle@gmail.com>, 2021-2022.
 #
 msgid ""
 msgstr ""
 "Project-Id-Version: evolution master\n"
 "Report-Msgid-Bugs-To: https://gitlab.gnome.org/GNOME/evolution/issues\n"
-"POT-Creation-Date: 2022-03-14 16:27+0000\n"
-"PO-Revision-Date: 2022-03-14 22:42+0100\n"
-"Last-Translator: Christian Kirbach <christian.kirbach@gmail.com>\n"
+"POT-Creation-Date: 2022-04-05 14:55+0000\n"
+"PO-Revision-Date: 2022-04-08 18:34+0200\n"
+"Last-Translator: Philipp Kiemle <philipp.kiemle@gmail.com>\n"
 "Language-Team: German <gnome-de@gnome.org>\n"
 "Language: de\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
-"X-Generator: Poedit 3.0.1\n"
+"X-Generator: Poedit 3.0\n"
 
 #: ../data/org.gnome.evolution.addressbook.gschema.xml.in.h:1
 msgid "Enable address formatting"
@@ -3654,7 +3654,7 @@ msgstr "Kontakte"
 #: ../src/e-util/e-collection-account-wizard.c:867 ../src/e-util/e-send-options.c:544
 #: ../src/e-util/e-webdav-browser.c:532
 #: ../src/modules/calendar/e-cal-shell-view-actions.c:199
-#: ../src/modules/calendar/e-cal-shell-view.c:631
+#: ../src/modules/calendar/e-cal-shell-view.c:635
 #: ../src/plugins/publish-calendar/publish-calendar.ui.h:22
 msgid "Calendar"
 msgstr "Kalender"
@@ -4163,7 +4163,7 @@ msgstr ""
 #: ../src/mail/em-folder-properties.c:1359 ../src/mail/em-vfolder-editor-rule.c:405
 #: ../src/mail/em-vfolder-editor-rule.c:634 ../src/mail/mail-config.ui.h:64
 #: ../src/modules/mail/em-composer-prefs.c:420
-#: ../src/plugins/attachment-reminder/attachment-reminder.c:544
+#: ../src/plugins/attachment-reminder/attachment-reminder.c:559
 #: ../src/plugins/email-custom-header/email-custom-header.c:826
 #: ../src/plugins/publish-calendar/publish-calendar.ui.h:33
 #: ../src/plugins/sender-validation/sender-validation.c:498
@@ -4478,7 +4478,7 @@ msgstr "_Homepage:"
 
 #: ../src/addressbook/gui/contact-editor/contact-editor.ui.h:30
 #: ../src/calendar/gui/e-comp-editor-event.c:881
-#: ../src/modules/itip-formatter/itip-view.c:2279
+#: ../src/modules/itip-formatter/itip-view.c:2280
 msgid "_Calendar:"
 msgstr "_Kalender:"
 
@@ -4665,7 +4665,7 @@ msgstr "_X.509 hinzufügen"
 #: ../src/mail/e-mail-label-manager.c:373 ../src/mail/em-filter-rule.c:678
 #: ../src/mail/em-folder-properties.c:1365 ../src/mail/em-vfolder-editor-rule.c:639
 #: ../src/mail/mail-config.ui.h:65
-#: ../src/plugins/attachment-reminder/attachment-reminder.c:554
+#: ../src/plugins/attachment-reminder/attachment-reminder.c:569
 #: ../src/plugins/email-custom-header/email-custom-header.c:836
 #: ../src/plugins/publish-calendar/publish-calendar.c:789
 #: ../src/plugins/publish-calendar/publish-calendar.ui.h:35
@@ -6801,7 +6801,7 @@ msgid "Description Contains"
 msgstr "Beschreibung enthält"
 
 #: ../src/calendar/gui/comp-util.c:1553
-#: ../src/modules/itip-formatter/itip-view.c:2692
+#: ../src/modules/itip-formatter/itip-view.c:2693
 #, c-format
 msgid "with one guest"
 msgid_plural "with %d guests"
@@ -7085,15 +7085,15 @@ msgid "Untitled"
 msgstr "Namenlos"
 
 #: ../src/calendar/gui/e-cal-component-preview.c:252
-#: ../src/modules/itip-formatter/itip-view.c:1912
-#: ../src/modules/itip-formatter/itip-view.c:2127
+#: ../src/modules/itip-formatter/itip-view.c:1913
+#: ../src/modules/itip-formatter/itip-view.c:2128
 msgid "Categories:"
 msgstr "Kategorien:"
 
 #: ../src/calendar/gui/e-cal-component-preview.c:289
 #: ../src/modules/cal-config-weather/evolution-cal-config-weather.c:312
-#: ../src/modules/itip-formatter/itip-view.c:1904
-#: ../src/modules/itip-formatter/itip-view.c:2103
+#: ../src/modules/itip-formatter/itip-view.c:1905
+#: ../src/modules/itip-formatter/itip-view.c:2104
 msgid "Location:"
 msgstr "Ort:"
 
@@ -7110,8 +7110,8 @@ msgid "Due Date:"
 msgstr "Fällig am:"
 
 #: ../src/calendar/gui/e-cal-component-preview.c:333
-#: ../src/modules/itip-formatter/itip-view.c:1909
-#: ../src/modules/itip-formatter/itip-view.c:2118
+#: ../src/modules/itip-formatter/itip-view.c:1910
+#: ../src/modules/itip-formatter/itip-view.c:2119
 msgid "Estimated duration:"
 msgstr "Geschätzte Dauer:"
 
@@ -7120,8 +7120,8 @@ msgid "Recurs:"
 msgstr "Wiederkehrend:"
 
 #: ../src/calendar/gui/e-cal-component-preview.c:361
-#: ../src/modules/itip-formatter/itip-view.c:1910
-#: ../src/modules/itip-formatter/itip-view.c:2121
+#: ../src/modules/itip-formatter/itip-view.c:1911
+#: ../src/modules/itip-formatter/itip-view.c:2122
 msgid "Status:"
 msgstr "Status:"
 
@@ -7157,8 +7157,8 @@ msgid "Organizer:"
 msgstr "Organisator:"
 
 #: ../src/calendar/gui/e-cal-component-preview.c:449
-#: ../src/modules/itip-formatter/itip-view.c:1913
-#: ../src/modules/itip-formatter/itip-view.c:2130
+#: ../src/modules/itip-formatter/itip-view.c:1914
+#: ../src/modules/itip-formatter/itip-view.c:2131
 msgid "Attendees:"
 msgstr "Teilnehmer:"
 
@@ -7525,8 +7525,8 @@ msgstr "Art"
 #: ../src/calendar/gui/e-meeting-store.c:170
 #: ../src/calendar/gui/e-meeting-store.c:215 ../src/calendar/gui/print.c:1265
 #: ../src/calendar/gui/print.c:1282 ../src/e-util/e-charset.c:49
-#: ../src/modules/itip-formatter/itip-view.c:3808
-#: ../src/modules/itip-formatter/itip-view.c:6800
+#: ../src/modules/itip-formatter/itip-view.c:3809
+#: ../src/modules/itip-formatter/itip-view.c:6801
 #: ../src/modules/plugin-manager/evolution-plugin-manager.c:97
 msgid "Unknown"
 msgstr "Unbekannt"
@@ -7575,7 +7575,7 @@ msgstr "Nein"
 #: ../src/calendar/gui/e-meeting-list-view.c:205
 #: ../src/calendar/gui/e-meeting-store.c:179
 #: ../src/calendar/gui/e-meeting-store.c:202
-#: ../src/modules/itip-formatter/itip-view.c:6788
+#: ../src/modules/itip-formatter/itip-view.c:6789
 msgid "Accepted"
 msgstr "Angenommen"
 
@@ -7583,7 +7583,7 @@ msgstr "Angenommen"
 #: ../src/calendar/gui/e-meeting-list-view.c:206
 #: ../src/calendar/gui/e-meeting-store.c:181
 #: ../src/calendar/gui/e-meeting-store.c:204
-#: ../src/modules/itip-formatter/itip-view.c:6794
+#: ../src/modules/itip-formatter/itip-view.c:6795
 msgid "Declined"
 msgstr "Abgelehnt"
 
@@ -7599,7 +7599,7 @@ msgstr "Vorläufig"
 #: ../src/calendar/gui/e-meeting-list-view.c:208
 #: ../src/calendar/gui/e-meeting-store.c:185
 #: ../src/calendar/gui/e-meeting-store.c:208
-#: ../src/modules/itip-formatter/itip-view.c:6797
+#: ../src/modules/itip-formatter/itip-view.c:6798
 msgid "Delegated"
 msgstr "Delegiert"
 
@@ -7878,23 +7878,23 @@ msgstr "Die Endzeit ist ungültig"
 
 #: ../src/calendar/gui/e-comp-editor-event.c:723
 #: ../src/calendar/gui/e-comp-editor-memo.c:258
-#: ../src/calendar/gui/e-comp-editor-task.c:803
+#: ../src/calendar/gui/e-comp-editor-task.c:802
 msgid "_Categories"
 msgstr "_Kategorien"
 
 #: ../src/calendar/gui/e-comp-editor-event.c:725
 #: ../src/calendar/gui/e-comp-editor-memo.c:260
-#: ../src/calendar/gui/e-comp-editor-task.c:805
+#: ../src/calendar/gui/e-comp-editor-task.c:804
 msgid "Toggles whether to display categories"
 msgstr "Kategorien anzeigen/verbergen"
 
 #: ../src/calendar/gui/e-comp-editor-event.c:731
-#: ../src/calendar/gui/e-comp-editor-task.c:811
+#: ../src/calendar/gui/e-comp-editor-task.c:810
 msgid "Time _Zone"
 msgstr "Zeit_zone"
 
 #: ../src/calendar/gui/e-comp-editor-event.c:733
-#: ../src/calendar/gui/e-comp-editor-task.c:813
+#: ../src/calendar/gui/e-comp-editor-task.c:812
 msgid "Toggles whether the time zone is displayed"
 msgstr "Zeitzone anzeigen/verbergen"
 
@@ -7955,26 +7955,26 @@ msgstr "_Ganztägiger Termin"
 
 #: ../src/calendar/gui/e-comp-editor-event.c:975
 #: ../src/calendar/gui/e-comp-editor-memo.c:359
-#: ../src/calendar/gui/e-comp-editor-task.c:988
+#: ../src/calendar/gui/e-comp-editor-task.c:987
 msgctxt "ECompEditorPage"
 msgid "General"
 msgstr "Allgemein"
 
 #: ../src/calendar/gui/e-comp-editor-event.c:978
-#: ../src/calendar/gui/e-comp-editor-task.c:1011
+#: ../src/calendar/gui/e-comp-editor-task.c:1010
 msgctxt "ECompEditorPage"
 msgid "Reminders"
 msgstr "Erinnerungen"
 
 #: ../src/calendar/gui/e-comp-editor-event.c:981
-#: ../src/calendar/gui/e-comp-editor-task.c:1015
+#: ../src/calendar/gui/e-comp-editor-task.c:1014
 msgctxt "ECompEditorPage"
 msgid "Recurrence"
 msgstr "Wiederholung"
 
 #: ../src/calendar/gui/e-comp-editor-event.c:984
 #: ../src/calendar/gui/e-comp-editor-memo.c:362
-#: ../src/calendar/gui/e-comp-editor-task.c:1019
+#: ../src/calendar/gui/e-comp-editor-task.c:1018
 msgctxt "ECompEditorPage"
 msgid "Attachments"
 msgstr "Anlagen"
@@ -8020,12 +8020,12 @@ msgstr ""
 "Sie nicht der Organisator sind"
 
 #: ../src/calendar/gui/e-comp-editor-memo.c:320
-#: ../src/calendar/gui/e-comp-editor-task.c:915
+#: ../src/calendar/gui/e-comp-editor-task.c:914
 msgid "_List:"
 msgstr "_Liste:"
 
 #: ../src/calendar/gui/e-comp-editor-memo.c:327
-#: ../src/calendar/gui/e-comp-editor-task.c:925
+#: ../src/calendar/gui/e-comp-editor-task.c:924
 msgctxt "ECompEditor"
 msgid "Sta_rt date:"
 msgstr "_Anfangsdatum:"
@@ -8216,7 +8216,7 @@ msgstr "Teil_nehmer …"
 #: ../src/e-util/filter.ui.h:26 ../src/mail/e-mail-account-manager.c:730
 #: ../src/mail/e-mail-browser.c:217 ../src/mail/e-mail-label-manager.c:364
 #: ../src/mail/em-folder-properties.c:1362 ../src/mail/mail-config.ui.h:69
-#: ../src/plugins/attachment-reminder/attachment-reminder.c:549
+#: ../src/plugins/attachment-reminder/attachment-reminder.c:564
 #: ../src/plugins/email-custom-header/email-custom-header.c:831
 #: ../src/plugins/publish-calendar/publish-calendar.ui.h:34
 #: ../src/plugins/sender-validation/sender-validation.c:503
@@ -8836,40 +8836,40 @@ msgstr ""
 "Änderungen an dieser Aufgabe werden nicht an die Beteiligten weitergeleitet, weil "
 "Sie nicht der Organisator sind"
 
-#: ../src/calendar/gui/e-comp-editor-task.c:633
-msgid "Start date is required for recurring tasks"
-msgstr "Für wiederkehrende Aufgaben ist ein Startdatum erforderlich"
-
-#: ../src/calendar/gui/e-comp-editor-task.c:649
+#: ../src/calendar/gui/e-comp-editor-task.c:630
 msgid "Due date is not a valid date"
 msgstr "Das Fälligkeitsdatum ist ungültig"
 
-#: ../src/calendar/gui/e-comp-editor-task.c:660
+#: ../src/calendar/gui/e-comp-editor-task.c:641
 msgid "Completed date is not a valid date"
 msgstr "Das Fertigstellungsdatum ist ungültig"
 
-#: ../src/calendar/gui/e-comp-editor-task.c:671
+#: ../src/calendar/gui/e-comp-editor-task.c:652
 msgid "Completed date cannot be in the future"
 msgstr "Das Fertigstellungsdatum kann nicht in der Zukunft liegen"
 
-#: ../src/calendar/gui/e-comp-editor-task.c:699
+#: ../src/calendar/gui/e-comp-editor-task.c:680
 msgid "Due date cannot be the same as the Start date"
 msgstr "Das Fälligkeitsdatum darf nicht dem Startdatum entsprechen"
 
-#: ../src/calendar/gui/e-comp-editor-task.c:819
+#: ../src/calendar/gui/e-comp-editor-task.c:709
+msgid "Start date is required for recurring tasks"
+msgstr "Für wiederkehrende Aufgaben ist ein Startdatum erforderlich"
+
+#: ../src/calendar/gui/e-comp-editor-task.c:818
 msgid "All _Day Task"
 msgstr "_Ganztägige Aufgabe"
 
-#: ../src/calendar/gui/e-comp-editor-task.c:821
+#: ../src/calendar/gui/e-comp-editor-task.c:820
 msgid "Toggles whether to have All Day Task"
 msgstr "Festlegen, ob es eine ganztägige Aufgabe ist"
 
-#: ../src/calendar/gui/e-comp-editor-task.c:1052
+#: ../src/calendar/gui/e-comp-editor-task.c:1051
 #, c-format
 msgid "Assigned Task — %s"
 msgstr "Zugewiesene Aufgabe – %s"
 
-#: ../src/calendar/gui/e-comp-editor-task.c:1053
+#: ../src/calendar/gui/e-comp-editor-task.c:1052
 #, c-format
 msgid "Task — %s"
 msgstr "Aufgabe – %s"
@@ -9131,20 +9131,20 @@ msgid "Chan_ge…"
 msgstr "Ä_ndern …"
 
 #: ../src/calendar/gui/e-meeting-list-view.c:62
-msgid "Chair Persons"
-msgstr "Vorsitzende"
-
-#: ../src/calendar/gui/e-meeting-list-view.c:63
 msgid "Required Participants"
 msgstr "Benötigte Teilnehmer"
 
-#: ../src/calendar/gui/e-meeting-list-view.c:64
+#: ../src/calendar/gui/e-meeting-list-view.c:63
 msgid "Optional Participants"
 msgstr "Optionale Teilnehmer"
 
-#: ../src/calendar/gui/e-meeting-list-view.c:65
+#: ../src/calendar/gui/e-meeting-list-view.c:64
 msgid "Resources"
 msgstr "Ressourcen"
+
+#: ../src/calendar/gui/e-meeting-list-view.c:65
+msgid "Chair Persons"
+msgstr "Vorsitzende"
 
 #: ../src/calendar/gui/e-meeting-list-view.c:160
 msgid "Attendees"
@@ -12720,7 +12720,7 @@ msgstr "Aufgabenlisten"
 #: ../src/e-util/e-accounts-window.c:1399 ../src/e-util/filter.ui.h:23
 #: ../src/mail/e-mail-account-tree-view.c:84
 #: ../src/modules/mail/em-composer-prefs.c:1354
-#: ../src/modules/plugin-manager/evolution-plugin-manager.c:394
+#: ../src/modules/plugin-manager/evolution-plugin-manager.c:405
 #: ../src/plugins/mail-notification/mail-notification.c:1179
 #: ../src/plugins/publish-calendar/publish-calendar.c:853
 msgid "Enabled"
@@ -22543,8 +22543,8 @@ msgstr "Wählen Sie ein Adressbuch"
 #: ../src/modules/cal-config-webcal/evolution-cal-config-webcal.c:165
 #: ../src/modules/cal-config-webdav-notes/evolution-cal-config-webdav-notes.c:302
 #: ../src/modules/cal-config-webdav-notes/evolution-cal-config-webdav-notes.c:323
-#: ../src/modules/itip-formatter/itip-view.c:1905
-#: ../src/modules/itip-formatter/itip-view.c:2106
+#: ../src/modules/itip-formatter/itip-view.c:1906
+#: ../src/modules/itip-formatter/itip-view.c:2107
 msgid "URL:"
 msgstr "Adresse:"
 
@@ -24662,7 +24662,7 @@ msgid "Start day:"
 msgstr "Anfangsdatum:"
 
 #: ../src/modules/itip-formatter/itip-view.c:876
-#: ../src/modules/itip-formatter/itip-view.c:1906
+#: ../src/modules/itip-formatter/itip-view.c:1907
 msgid "Start time:"
 msgstr "Anfangszeit:"
 
@@ -24671,7 +24671,7 @@ msgid "End day:"
 msgstr "Enddatum:"
 
 #: ../src/modules/itip-formatter/itip-view.c:885
-#: ../src/modules/itip-formatter/itip-view.c:1907
+#: ../src/modules/itip-formatter/itip-view.c:1908
 msgid "End time:"
 msgstr "Endzeit:"
 
@@ -24712,86 +24712,86 @@ msgstr "Teilnehmerstatus a_ktualisieren"
 msgid "_Update"
 msgstr "A_ktualisieren"
 
-#: ../src/modules/itip-formatter/itip-view.c:1908
-#: ../src/modules/itip-formatter/itip-view.c:2115
-#: ../src/modules/itip-formatter/itip-view.c:7067
+#: ../src/modules/itip-formatter/itip-view.c:1909
+#: ../src/modules/itip-formatter/itip-view.c:2116
+#: ../src/modules/itip-formatter/itip-view.c:7068
 msgid "Due date:"
 msgstr "Fällig am:"
 
-#: ../src/modules/itip-formatter/itip-view.c:1911
-#: ../src/modules/itip-formatter/itip-view.c:2044
-#: ../src/modules/itip-formatter/itip-view.c:2124
+#: ../src/modules/itip-formatter/itip-view.c:1912
+#: ../src/modules/itip-formatter/itip-view.c:2045
+#: ../src/modules/itip-formatter/itip-view.c:2125
 msgid "Comment:"
 msgstr "Kommentar:"
 
-#: ../src/modules/itip-formatter/itip-view.c:1943
+#: ../src/modules/itip-formatter/itip-view.c:1944
 msgid "Show description provided by the sender"
 msgstr "Vom Absender gelieferte Beschreibung anzeigen"
 
-#: ../src/modules/itip-formatter/itip-view.c:1944
+#: ../src/modules/itip-formatter/itip-view.c:1945
 msgid "Hide description provided by the sender"
 msgstr "Vom Absender gelieferte Beschreibung verbergen"
 
 #. RSVP area
-#: ../src/modules/itip-formatter/itip-view.c:2032
+#: ../src/modules/itip-formatter/itip-view.c:2033
 msgid "Send reply to sender"
 msgstr "Antwort an Absender verschicken"
 
 #. Updates
-#: ../src/modules/itip-formatter/itip-view.c:2047
+#: ../src/modules/itip-formatter/itip-view.c:2048
 msgid "Send _updates to attendees"
 msgstr "Akt_ualisierungen an die Teilnehmer verschicken"
 
 #. The recurrence check button
-#: ../src/modules/itip-formatter/itip-view.c:2050
+#: ../src/modules/itip-formatter/itip-view.c:2051
 msgid "_Apply to all instances"
 msgstr "Auf alle _Instanzen anwenden"
 
-#: ../src/modules/itip-formatter/itip-view.c:2051
+#: ../src/modules/itip-formatter/itip-view.c:2052
 msgid "Show time as _free"
 msgstr "Zeit als _frei anzeigen"
 
-#: ../src/modules/itip-formatter/itip-view.c:2052
+#: ../src/modules/itip-formatter/itip-view.c:2053
 msgid "_Preserve my reminder"
 msgstr "_Erinnerung aufbewahren"
 
-#: ../src/modules/itip-formatter/itip-view.c:2053
+#: ../src/modules/itip-formatter/itip-view.c:2054
 msgid "_Inherit reminder"
 msgstr "Erinnerung ü_bernehmen"
 
-#: ../src/modules/itip-formatter/itip-view.c:2282
+#: ../src/modules/itip-formatter/itip-view.c:2283
 msgid "_Tasks:"
 msgstr "Auf_gaben:"
 
-#: ../src/modules/itip-formatter/itip-view.c:2285
+#: ../src/modules/itip-formatter/itip-view.c:2286
 msgid "_Memos:"
 msgstr "_Notizen:"
 
-#: ../src/modules/itip-formatter/itip-view.c:3356
+#: ../src/modules/itip-formatter/itip-view.c:3357
 msgid "Sa_ve"
 msgstr "_Speichern"
 
-#: ../src/modules/itip-formatter/itip-view.c:3883
-#: ../src/modules/itip-formatter/itip-view.c:5584
+#: ../src/modules/itip-formatter/itip-view.c:3884
+#: ../src/modules/itip-formatter/itip-view.c:5585
 msgid "Attendee status updated"
 msgstr "Teilnehmerstatus aktualisiert"
 
-#: ../src/modules/itip-formatter/itip-view.c:4114
+#: ../src/modules/itip-formatter/itip-view.c:4115
 #, c-format
 msgid "An appointment “%s” in the calendar “%s” conflicts with this meeting"
 msgstr "Ein Termin »%s« im Kalender »%s« überschneidet sich mit dieser Besprechung"
 
-#: ../src/modules/itip-formatter/itip-view.c:4121
+#: ../src/modules/itip-formatter/itip-view.c:4122
 #, c-format
 msgid "A task “%s” in the task list “%s” conflicts with this task"
 msgstr "Eine Aufgabe »%s« in der Aufgabenliste »%s« kollidiert mit dieser Aufgabe"
 
-#: ../src/modules/itip-formatter/itip-view.c:4128
+#: ../src/modules/itip-formatter/itip-view.c:4129
 #, c-format
 msgid "A memo “%s” in the memo list “%s” conflicts with this memo"
 msgstr "Eine Notiz »%s« in der Notizliste »%s« kollidiert mit dieser Notiz"
 
-#: ../src/modules/itip-formatter/itip-view.c:4139
+#: ../src/modules/itip-formatter/itip-view.c:4140
 #, c-format
 msgid "The calendar “%s” contains an appointment which conflicts with this meeting"
 msgid_plural ""
@@ -24801,7 +24801,7 @@ msgstr[0] ""
 msgstr[1] ""
 "Der Kalender »%s« enthält %d Termine, die sich mit diesem Termin überschneiden"
 
-#: ../src/modules/itip-formatter/itip-view.c:4148
+#: ../src/modules/itip-formatter/itip-view.c:4149
 #, c-format
 msgid "The task list “%s” contains a task which conflicts with this task"
 msgid_plural "The task list “%s” contains %d tasks which conflict with this task"
@@ -24810,233 +24810,233 @@ msgstr[0] ""
 msgstr[1] ""
 "Die Aufgabenliste »%s« enthält %d Aufgaben, die mit dieser Aufgabe kollidieren"
 
-#: ../src/modules/itip-formatter/itip-view.c:4157
+#: ../src/modules/itip-formatter/itip-view.c:4158
 #, c-format
 msgid "The memo list “%s” contains a memo which conflicts with this memo"
 msgid_plural "The memo list “%s” contains %d memos which conflict with this memo"
 msgstr[0] "Die Notizliste »%s« enthält eine Notiz, die mit dieser Notiz kollidiert"
 msgstr[1] "Die Notizliste »%s« enthält %d Notizen, die mit dieser Notiz kollidieren"
 
-#: ../src/modules/itip-formatter/itip-view.c:4195
+#: ../src/modules/itip-formatter/itip-view.c:4196
 #, c-format
 msgid "Found the appointment in the calendar “%s”"
 msgstr "Der Termin wurde im Kalender »%s« gefunden"
 
-#: ../src/modules/itip-formatter/itip-view.c:4200
+#: ../src/modules/itip-formatter/itip-view.c:4201
 #, c-format
 msgid "Found the task in the task list “%s”"
 msgstr "Die Aufgabe wurde in der Aufgabenliste »%s« gefunden"
 
-#: ../src/modules/itip-formatter/itip-view.c:4205
+#: ../src/modules/itip-formatter/itip-view.c:4206
 #, c-format
 msgid "Found the memo in the memo list “%s”"
 msgstr "Die Notiz wurde in der Notizliste »%s« gefunden"
 
-#: ../src/modules/itip-formatter/itip-view.c:4216
+#: ../src/modules/itip-formatter/itip-view.c:4217
 msgid "This meeting invitation is obsolete. It had been updated."
 msgstr "Die Besprechungsanfrage ist obsolet. Sie hätte aktualisiert werden müssen."
 
-#: ../src/modules/itip-formatter/itip-view.c:4361
+#: ../src/modules/itip-formatter/itip-view.c:4362
 msgid "Unable to find any calendars"
 msgstr "Es wurden keine Kalender gefunden"
 
-#: ../src/modules/itip-formatter/itip-view.c:4369
+#: ../src/modules/itip-formatter/itip-view.c:4370
 msgid "Unable to find this meeting in any calendar"
 msgstr "Diese Besprechung wurde in keinem Kalender gefunden"
 
-#: ../src/modules/itip-formatter/itip-view.c:4374
+#: ../src/modules/itip-formatter/itip-view.c:4375
 msgid "Unable to find this task in any task list"
 msgstr "Diese Aufgabe wurde in keiner Aufgabenliste gefunden"
 
-#: ../src/modules/itip-formatter/itip-view.c:4379
+#: ../src/modules/itip-formatter/itip-view.c:4380
 msgid "Unable to find this memo in any memo list"
 msgstr "Diese Notiz wurde in keiner Notizliste gefunden"
 
-#: ../src/modules/itip-formatter/itip-view.c:4692
+#: ../src/modules/itip-formatter/itip-view.c:4693
 msgid "Searching for an existing version of this appointment"
 msgstr "Eine bestehende Version dieses Termins wird gesucht"
 
-#: ../src/modules/itip-formatter/itip-view.c:4696
+#: ../src/modules/itip-formatter/itip-view.c:4697
 msgid "Searching for an existing version of this task"
 msgstr "Eine bestehende Version dieser Aufgabe wird gesucht"
 
-#: ../src/modules/itip-formatter/itip-view.c:4700
+#: ../src/modules/itip-formatter/itip-view.c:4701
 msgid "Searching for an existing version of this memo"
 msgstr "Eine bestehende Version dieser Notiz wird gesucht"
 
-#: ../src/modules/itip-formatter/itip-view.c:4758
+#: ../src/modules/itip-formatter/itip-view.c:4759
 msgid "Opening the calendar. Please wait…"
 msgstr "Kalender wird geöffnet. Bitte warten …"
 
-#: ../src/modules/itip-formatter/itip-view.c:5108
+#: ../src/modules/itip-formatter/itip-view.c:5109
 #, c-format
 msgid "Unable to send item to calendar “%s”. %s"
 msgstr "Element kann nicht zu Kalender »%s« gesendet werden. %s"
 
-#: ../src/modules/itip-formatter/itip-view.c:5116
+#: ../src/modules/itip-formatter/itip-view.c:5117
 #, c-format
 msgid "Unable to send item to task list “%s”. %s"
 msgstr "Element kann nicht zu Aufgabenliste »%s« gesendet werden. %s"
 
-#: ../src/modules/itip-formatter/itip-view.c:5124
+#: ../src/modules/itip-formatter/itip-view.c:5125
 #, c-format
 msgid "Unable to send item to memo list “%s”. %s"
 msgstr "Element kann nicht zu Notizliste »%s« gesendet werden. %s"
 
-#: ../src/modules/itip-formatter/itip-view.c:5145
+#: ../src/modules/itip-formatter/itip-view.c:5146
 #, c-format
 msgid "Sent to calendar “%s” as accepted"
 msgstr "In Kalender »%s« als »Angenommen« eingetragen"
 
-#: ../src/modules/itip-formatter/itip-view.c:5150
+#: ../src/modules/itip-formatter/itip-view.c:5151
 #, c-format
 msgid "Sent to task list “%s” as accepted"
 msgstr "In Aufgabenliste »%s« als »Angenommen« eingetragen"
 
-#: ../src/modules/itip-formatter/itip-view.c:5155
+#: ../src/modules/itip-formatter/itip-view.c:5156
 #, c-format
 msgid "Sent to memo list “%s” as accepted"
 msgstr "In Notizliste »%s« als »Angenommen« eingetragen"
 
-#: ../src/modules/itip-formatter/itip-view.c:5165
+#: ../src/modules/itip-formatter/itip-view.c:5166
 #, c-format
 msgid "Sent to calendar “%s” as tentative"
 msgstr "In Kalender »%s« als »Vorläufig angenommen« eingetragen"
 
-#: ../src/modules/itip-formatter/itip-view.c:5170
+#: ../src/modules/itip-formatter/itip-view.c:5171
 #, c-format
 msgid "Sent to task list “%s” as tentative"
 msgstr "In Aufgabenliste »%s« als »Vorläufig angenommen« eingetragen"
 
-#: ../src/modules/itip-formatter/itip-view.c:5175
+#: ../src/modules/itip-formatter/itip-view.c:5176
 #, c-format
 msgid "Sent to memo list “%s” as tentative"
 msgstr "In Notizliste »%s« als »Vorläufig angenommen« eingetragen"
 
-#: ../src/modules/itip-formatter/itip-view.c:5185
+#: ../src/modules/itip-formatter/itip-view.c:5186
 #, c-format
 msgid "Sent to calendar “%s” as declined"
 msgstr "In Kalender »%s« als »Abgelehnt« eingetragen"
 
-#: ../src/modules/itip-formatter/itip-view.c:5190
+#: ../src/modules/itip-formatter/itip-view.c:5191
 #, c-format
 msgid "Sent to task list “%s” as declined"
 msgstr "In Aufgabenliste »%s« als »Abgelehnt« eingetragen"
 
-#: ../src/modules/itip-formatter/itip-view.c:5195
+#: ../src/modules/itip-formatter/itip-view.c:5196
 #, c-format
 msgid "Sent to memo list “%s” as declined"
 msgstr "In Notizliste »%s« als »Abgelehnt« eingetragen"
 
-#: ../src/modules/itip-formatter/itip-view.c:5205
+#: ../src/modules/itip-formatter/itip-view.c:5206
 #, c-format
 msgid "Sent to calendar “%s” as cancelled"
 msgstr "In Kalender »%s« als »Abgesagt« eingetragen"
 
-#: ../src/modules/itip-formatter/itip-view.c:5210
+#: ../src/modules/itip-formatter/itip-view.c:5211
 #, c-format
 msgid "Sent to task list “%s” as cancelled"
 msgstr "In Aufgabenliste »%s« als »Abgesagt« eingetragen"
 
-#: ../src/modules/itip-formatter/itip-view.c:5215
+#: ../src/modules/itip-formatter/itip-view.c:5216
 #, c-format
 msgid "Sent to memo list “%s” as cancelled"
 msgstr "In Notizliste »%s« als »Abgesagt« eingetragen"
 
-#: ../src/modules/itip-formatter/itip-view.c:5234
+#: ../src/modules/itip-formatter/itip-view.c:5235
 msgid "Saving changes to the calendar. Please wait…"
 msgstr "Änderungen im Kalender werden gespeichert. Bitte warten …"
 
-#: ../src/modules/itip-formatter/itip-view.c:5237
+#: ../src/modules/itip-formatter/itip-view.c:5238
 msgid "Saving changes to the task list. Please wait…"
 msgstr "Änderungen in der Aufgabenliste werden gespeichert. Bitte warten …"
 
-#: ../src/modules/itip-formatter/itip-view.c:5240
+#: ../src/modules/itip-formatter/itip-view.c:5241
 msgid "Saving changes to the memo list. Please wait…"
 msgstr "Änderungen in der Notizliste werden gespeichert. Bitte warten …"
 
-#: ../src/modules/itip-formatter/itip-view.c:5311
+#: ../src/modules/itip-formatter/itip-view.c:5312
 msgid "Unable to parse item"
 msgstr "Element kann nicht analysiert werden"
 
-#: ../src/modules/itip-formatter/itip-view.c:5509
+#: ../src/modules/itip-formatter/itip-view.c:5510
 #, c-format
 msgid "Organizer has removed the delegate %s "
 msgstr "Der Organisator hat den Vertreter %s entfernt "
 
-#: ../src/modules/itip-formatter/itip-view.c:5526
+#: ../src/modules/itip-formatter/itip-view.c:5527
 msgid "Sent a cancellation notice to the delegate"
 msgstr "Eine Absagenachricht an den Vertreter senden"
 
-#: ../src/modules/itip-formatter/itip-view.c:5530
+#: ../src/modules/itip-formatter/itip-view.c:5531
 msgid "Could not send the cancellation notice to the delegate"
 msgstr "Die Absagenachricht konnte nicht an den Vertreter geschickt werden"
 
-#: ../src/modules/itip-formatter/itip-view.c:5576
+#: ../src/modules/itip-formatter/itip-view.c:5577
 #, c-format
 msgid "Unable to update attendee. %s"
 msgstr "Teilnehmer konnte nicht aktualisiert werden. %s"
 
-#: ../src/modules/itip-formatter/itip-view.c:5609
+#: ../src/modules/itip-formatter/itip-view.c:5610
 msgid "The meeting is invalid and cannot be updated"
 msgstr "Die Besprechung ist ungültig und kann nicht aktualisiert werden"
 
-#: ../src/modules/itip-formatter/itip-view.c:5694
+#: ../src/modules/itip-formatter/itip-view.c:5695
 msgid "Attendee status could not be updated because the status is invalid"
 msgstr ""
 "Teilnehmerstatus konnte auf Grund eines ungültigen Zustands nicht aktualisiert "
 "werden"
 
-#: ../src/modules/itip-formatter/itip-view.c:5770
-#: ../src/modules/itip-formatter/itip-view.c:5808
+#: ../src/modules/itip-formatter/itip-view.c:5771
+#: ../src/modules/itip-formatter/itip-view.c:5809
 msgid "Attendee status can not be updated because the item no longer exists"
 msgstr ""
 "Teilnahmestatus konnte nicht aktualisiert werden, weil der Eintrag nicht mehr "
 "existiert"
 
-#: ../src/modules/itip-formatter/itip-view.c:5869
+#: ../src/modules/itip-formatter/itip-view.c:5870
 msgid "Meeting information sent"
 msgstr "Besprechungsinformationen wurden verschickt"
 
-#: ../src/modules/itip-formatter/itip-view.c:5874
+#: ../src/modules/itip-formatter/itip-view.c:5875
 msgid "Task information sent"
 msgstr "Aufgabeninformationen wurden verschickt"
 
-#: ../src/modules/itip-formatter/itip-view.c:5879
+#: ../src/modules/itip-formatter/itip-view.c:5880
 msgid "Memo information sent"
 msgstr "Notizinformationen wurden verschickt"
 
-#: ../src/modules/itip-formatter/itip-view.c:5890
+#: ../src/modules/itip-formatter/itip-view.c:5891
 msgid "Unable to send meeting information, the meeting does not exist"
 msgstr ""
 "Verschicken der Besprechungsinformationen nicht möglich, die Besprechung existiert "
 "nicht"
 
-#: ../src/modules/itip-formatter/itip-view.c:5895
+#: ../src/modules/itip-formatter/itip-view.c:5896
 msgid "Unable to send task information, the task does not exist"
 msgstr ""
 "Verschicken der Aufgabeninformationen nicht möglich, die Aufgabe existiert nicht"
 
-#: ../src/modules/itip-formatter/itip-view.c:5900
+#: ../src/modules/itip-formatter/itip-view.c:5901
 msgid "Unable to send memo information, the memo does not exist"
 msgstr "Verschicken der Notizinformationen nicht möglich, die Notiz existiert nicht"
 
 #. Translators: This is a default filename for a calendar.
-#: ../src/modules/itip-formatter/itip-view.c:5945
+#: ../src/modules/itip-formatter/itip-view.c:5946
 msgid "calendar.ics"
 msgstr "calendar.ics"
 
-#: ../src/modules/itip-formatter/itip-view.c:5950
+#: ../src/modules/itip-formatter/itip-view.c:5951
 msgid "Save Calendar"
 msgstr "Kalender speichern"
 
-#: ../src/modules/itip-formatter/itip-view.c:5998
-#: ../src/modules/itip-formatter/itip-view.c:6011
+#: ../src/modules/itip-formatter/itip-view.c:5999
+#: ../src/modules/itip-formatter/itip-view.c:6012
 msgid "The calendar attached is not valid"
 msgstr "Der beigelegte Kalender ist ungültig"
 
-#: ../src/modules/itip-formatter/itip-view.c:5999
-#: ../src/modules/itip-formatter/itip-view.c:6012
+#: ../src/modules/itip-formatter/itip-view.c:6000
+#: ../src/modules/itip-formatter/itip-view.c:6013
 msgid ""
 "The message claims to contain a calendar, but the calendar is not a valid "
 "iCalendar."
@@ -25044,15 +25044,15 @@ msgstr ""
 "Die Nachricht gibt an, einen Kalender zu enthalten. Dieser Kalender ist jedoch "
 "kein gültiger iCalendar."
 
-#: ../src/modules/itip-formatter/itip-view.c:6094
-#: ../src/modules/itip-formatter/itip-view.c:6178
-#: ../src/modules/itip-formatter/itip-view.c:6282
-msgid "The item in the calendar is not valid"
-msgstr "Das Element im Kalender ist ungültig"
-
 #: ../src/modules/itip-formatter/itip-view.c:6095
 #: ../src/modules/itip-formatter/itip-view.c:6179
 #: ../src/modules/itip-formatter/itip-view.c:6283
+msgid "The item in the calendar is not valid"
+msgstr "Das Element im Kalender ist ungültig"
+
+#: ../src/modules/itip-formatter/itip-view.c:6096
+#: ../src/modules/itip-formatter/itip-view.c:6180
+#: ../src/modules/itip-formatter/itip-view.c:6284
 msgid ""
 "The message does contain a calendar, but the calendar contains no events, tasks or "
 "free/busy information"
@@ -25060,23 +25060,23 @@ msgstr ""
 "Die Nachricht enthält einen Kalender. Dieser beinhaltet allerdings keine Termine, "
 "Aufgaben oder Verfügbarkeitsinformationen"
 
-#: ../src/modules/itip-formatter/itip-view.c:6188
+#: ../src/modules/itip-formatter/itip-view.c:6189
 msgid "The calendar attached contains multiple items"
 msgstr "Der beigelegte Kalender enthält mehrere Elemente"
 
-#: ../src/modules/itip-formatter/itip-view.c:6189
+#: ../src/modules/itip-formatter/itip-view.c:6190
 msgid ""
 "To process all of these items, the file should be saved and the calendar imported"
 msgstr ""
 "Um alle diese Elemente weiterzuverarbeiten, sollte die Datei gespeichert und der "
 "Kalender importiert werden"
 
-#: ../src/modules/itip-formatter/itip-view.c:6769
+#: ../src/modules/itip-formatter/itip-view.c:6770
 msgctxt "cal-itip"
 msgid "None"
 msgstr "Keine"
 
-#: ../src/modules/itip-formatter/itip-view.c:6791
+#: ../src/modules/itip-formatter/itip-view.c:6792
 msgid "Tentatively Accepted"
 msgstr "Vorläufig angenommen"
 
@@ -25974,20 +25974,20 @@ msgstr ""
 msgid "Author(s)"
 msgstr "Autor(en)"
 
-#: ../src/modules/plugin-manager/evolution-plugin-manager.c:301
+#: ../src/modules/plugin-manager/evolution-plugin-manager.c:312
 msgid "Note: Some changes will not take effect until restart"
 msgstr "Hinweis: Einige Änderungen werden erst nach einem Neustart wirksam"
 
-#: ../src/modules/plugin-manager/evolution-plugin-manager.c:331
+#: ../src/modules/plugin-manager/evolution-plugin-manager.c:342
 msgid "Overview"
 msgstr "Überblick"
 
-#: ../src/modules/plugin-manager/evolution-plugin-manager.c:402
-#: ../src/modules/plugin-manager/evolution-plugin-manager.c:490
+#: ../src/modules/plugin-manager/evolution-plugin-manager.c:413
+#: ../src/modules/plugin-manager/evolution-plugin-manager.c:501
 msgid "Plugin"
 msgstr "Erweiterung"
 
-#: ../src/modules/plugin-manager/evolution-plugin-manager.c:516
+#: ../src/modules/plugin-manager/evolution-plugin-manager.c:527
 msgid "Plugins"
 msgstr "Erweiterungen"
 
@@ -26427,7 +26427,7 @@ msgstr "Teil als Adressbuchkontakt anzeigen"
 msgid "_Do not show this message again."
 msgstr "Diese _Meldung nicht mehr anzeigen."
 
-#: ../src/plugins/attachment-reminder/attachment-reminder.c:571
+#: ../src/plugins/attachment-reminder/attachment-reminder.c:586
 #: ../src/plugins/templates/templates.c:495
 msgid "Keywords"
 msgstr "Schlüsselwörter"
@@ -26993,7 +26993,7 @@ msgstr "Beim Eintreffen neuer E-Mails benachrichtigen."
 #: ../src/plugins/mail-to-task/mail-to-task.c:198
 #, c-format
 msgid "Created from a mail by %s"
-msgstr "Erstellt aus einer Nachricht an %s"
+msgstr "Erstellt aus einer Nachricht von %s"
 
 #. Translators: Dialog button to Cancel edit of an existing event/memo/task
 #: ../src/plugins/mail-to-task/mail-to-task.c:598
@@ -28653,43 +28653,43 @@ msgstr "Verschlüsseln"
 msgid "Certificate already exists"
 msgstr "Zertifikat ist bereits vorhanden"
 
-#: ../src/smime/lib/e-pkcs12.c:200
+#: ../src/smime/lib/e-pkcs12.c:277
 msgid "PKCS12 File Password"
 msgstr "Passwort für PKCS12-Datei"
 
-#: ../src/smime/lib/e-pkcs12.c:201
+#: ../src/smime/lib/e-pkcs12.c:278
 msgid "Enter password for PKCS12 file:"
 msgstr "Geben Sie das Passwort für die PKCS12-Datei ein:"
 
-#: ../src/smime/lib/e-pkcs12.c:327
+#: ../src/smime/lib/e-pkcs12.c:380
 #, c-format
 msgid "Unable to create export context, err_code: %i"
 msgstr "Export-Kontext konnte nicht erstellt werden. Fehlernummer: %i"
 
 # Bitte prüfen
-#: ../src/smime/lib/e-pkcs12.c:334
+#: ../src/smime/lib/e-pkcs12.c:387
 #, c-format
 msgid "Unable to setup password integrity, err_code: %i"
 msgstr "Passwortsicherheit konnte nicht eingerichtet werden. Fehlernummer: %i"
 
-#: ../src/smime/lib/e-pkcs12.c:344
+#: ../src/smime/lib/e-pkcs12.c:397
 #, c-format
 msgid "Unable to create safe bag, err_code: %i"
 msgstr "Ein Safe-Bag konnte nicht erstellt werden. Fehlernummer: %i"
 
-#: ../src/smime/lib/e-pkcs12.c:362
+#: ../src/smime/lib/e-pkcs12.c:415
 #, c-format
 msgid "Unable to add key/cert to the store, err_code: %i"
 msgstr ""
 "Schlüssel/Zertifikat konnte nicht zum Speicher hinzugefügt werden. Fehlernummer: %i"
 
-#: ../src/smime/lib/e-pkcs12.c:380
+#: ../src/smime/lib/e-pkcs12.c:433
 #, c-format
 msgid "Unable to write store to disk, err_code: %i"
 msgstr ""
 "Speicher konnte nicht auf den Datenträger geschrieben werden. Fehlernummer: %i"
 
-#: ../src/smime/lib/e-pkcs12.c:407
+#: ../src/smime/lib/e-pkcs12.c:460
 msgid "Imported Certificate"
 msgstr "Importiertes Zertifikat"
 
