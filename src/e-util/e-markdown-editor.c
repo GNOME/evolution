@@ -863,7 +863,7 @@ e_markdown_editor_insert_signature (EContentEditor *cnt_editor,
 
 		tmp = g_strconcat ("-- \n",
 			/* Add an empty line between the delimiter and the markdown signature */
-			editor_mode == E_CONTENT_EDITOR_MODE_PLAIN_TEXT ? "" : "\n",
+			"\n",
 			content, NULL);
 
 		g_free (plain_text);

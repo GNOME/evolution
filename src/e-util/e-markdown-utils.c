@@ -105,6 +105,11 @@ markdown_utils_apply_composer_quirks (GString *buffer,
 
 	if (quirks->to_body_credits) {
 		g_string_insert (buffer, 0, "\n");
+
+		/* For Inline/Outlook style replies */
+		if (!quirks->cite_body)
+			g_string_insert (buffer, 0, "<br>");
+
 		g_string_insert (buffer, 0, quirks->to_body_credits);
 	}
 }
@@ -116,7 +121,9 @@ typedef struct _HTMLToTextData {
 	gint in_pre;
 	gint in_paragraph;
 	gboolean in_paragraph_end;
+	gboolean in_div_begin;
 	gboolean in_li;
+	gboolean last_was_br; /* To avoid double "<br>" in "<div>...<br></div>" */
 	GString *quote_prefix;
 	gchar *href;
 	GString *link_text;
@@ -132,6 +139,8 @@ markdown_utils_sax_start_element_cb (gpointer ctx,
 {
 	HTMLToTextData *data = ctx;
 	const gchar *name = (const gchar *) xcname;
+	gboolean was_in_div_begin;
+	gboolean last_was_br;
 	#if dd(1)+0
 	{
 		gint ii;
@@ -173,6 +182,11 @@ markdown_utils_sax_start_element_cb (gpointer ctx,
 	if (!data->in_body)
 		return;
 
+	was_in_div_begin = data->in_div_begin;
+	last_was_br = data->last_was_br;
+	data->in_div_begin = FALSE;
+	data->last_was_br = FALSE;
+
 	if (g_ascii_strcasecmp (name, "a") == 0) {
 		if (!data->plain_text && !data->href) {
 			const gchar *href;
@@ -202,12 +216,14 @@ markdown_utils_sax_start_element_cb (gpointer ctx,
 	}
 
 	if (g_ascii_strcasecmp (name, "br") == 0) {
+		data->last_was_br = TRUE;
+
 		if (data->plain_text) {
 			g_string_append (data->buffer, "\n");
 
 			if (data->quote_prefix->len)
 				g_string_append (data->buffer, data->quote_prefix->str);
-		} else if (!data->composer_quirks.enabled) {
+		} else if (!data->composer_quirks.enabled || !was_in_div_begin) {
 			g_string_append (data->buffer, "<br>");
 		}
 
@@ -290,13 +306,14 @@ markdown_utils_sax_start_element_cb (gpointer ctx,
 		if (data->in_paragraph_end) {
 			data->in_paragraph_end = FALSE;
 
-			if (data->quote_prefix->len)
+			if (!last_was_br && data->quote_prefix->len)
 				g_string_append (data->buffer, data->quote_prefix->str);
 
 			g_string_append_c (data->buffer, '\n');
 		}
 
 		data->in_paragraph++;
+		data->in_div_begin = g_ascii_strcasecmp (name, "div") == 0;
 		if (data->quote_prefix->len)
 			g_string_append (data->buffer, data->quote_prefix->str);
 		return;
@@ -434,10 +451,14 @@ markdown_utils_sax_end_element_cb (gpointer ctx,
 	    g_ascii_strcasecmp (name, "h5") == 0 ||
 	    g_ascii_strcasecmp (name, "h6") == 0) {
 		/* To avoid double-line ends when parsing composer HTML */
-		if (data->composer_quirks.enabled && !(
-		    g_ascii_strcasecmp (name, "p") == 0 ||
-		    g_ascii_strcasecmp (name, "div") == 0))
-			g_string_append_c (data->buffer, '\n');
+		if (data->composer_quirks.enabled) {
+			if (data->plain_text && !(
+			    g_ascii_strcasecmp (name, "p") == 0 ||
+			    g_ascii_strcasecmp (name, "div") == 0))
+				g_string_append_c (data->buffer, '\n');
+			else if (!data->plain_text && !data->last_was_br)
+				g_string_append (data->buffer, "<br>");
+		}
 
 		data->in_paragraph_end = TRUE;
 
@@ -493,6 +514,9 @@ markdown_utils_sax_characters_cb (gpointer ctx,
 	dd (printf ("%s: text:'%.*s' in_body:%d in_paragraph:%d in_li:%d\n", G_STRFUNC, len, text, data->in_body, data->in_paragraph, data->in_li);)
 
 	if (data->in_body && (data->in_paragraph || data->in_li || !markdown_utils_only_whitespace (text, len))) {
+		data->in_div_begin = FALSE;
+		data->last_was_br = FALSE;
+
 		if (data->link_text) {
 			g_string_append_len (data->link_text, text, len);
 		} else {

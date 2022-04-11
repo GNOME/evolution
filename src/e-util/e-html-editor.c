@@ -1669,7 +1669,7 @@ e_html_editor_update_content_on_mode_change_cb (GObject *source_object,
 
 		text = e_content_editor_util_get_content_data (content_hash, E_CONTENT_EDITOR_GET_TO_SEND_HTML);
 
-		if (editor->priv->mode == E_CONTENT_EDITOR_MODE_HTML && text) {
+		if (editor->priv->mode != E_CONTENT_EDITOR_MODE_PLAIN_TEXT && text) {
 			e_content_editor_insert_content (editor->priv->use_content_editor, text,
 				E_CONTENT_EDITOR_INSERT_CONVERT |
 				E_CONTENT_EDITOR_INSERT_TEXT_HTML |
