@@ -170,6 +170,9 @@ e_icon_factory_create_thumbnail (const gchar *filename)
 	static GnomeDesktopThumbnailFactory *thumbnail_factory = NULL;
 	struct stat file_stat;
 	gchar *thumbnail = NULL;
+#if defined(GNOME_DESKTOP_PLATFORM_VERSION) && GNOME_DESKTOP_PLATFORM_VERSION >= 43
+	GError *error = NULL;
+#endif
 
 	g_return_val_if_fail (filename != NULL, NULL);
 
@@ -194,10 +197,26 @@ e_icon_factory_create_thumbnail (const gchar *filename)
 			if (!thumbnail && gnome_desktop_thumbnail_factory_can_thumbnail (thumbnail_factory, uri, mime, file_stat.st_mtime)) {
 				GdkPixbuf *pixbuf;
 
+#if defined(GNOME_DESKTOP_PLATFORM_VERSION) && GNOME_DESKTOP_PLATFORM_VERSION >= 43
+				pixbuf = gnome_desktop_thumbnail_factory_generate_thumbnail (thumbnail_factory, uri, mime, NULL, &error);
+				if (!pixbuf) {
+					g_warning ("Failed to generate thumbnail for %s: %s", uri, error ? error->message : "Unknown error");
+					g_clear_error (&error);
+				}
+#else
 				pixbuf = gnome_desktop_thumbnail_factory_generate_thumbnail (thumbnail_factory, uri, mime);
+#endif
 
 				if (pixbuf) {
+#if defined(GNOME_DESKTOP_PLATFORM_VERSION) && GNOME_DESKTOP_PLATFORM_VERSION >= 43
+					gnome_desktop_thumbnail_factory_save_thumbnail (thumbnail_factory, pixbuf, uri, file_stat.st_mtime, NULL, &error);
+					if (error) {
+						g_warning ("Failed to save thumbnail for %s: %s", uri, error ? error->message : "Unknown error");
+						g_clear_error (&error);
+					}
+#else
 					gnome_desktop_thumbnail_factory_save_thumbnail (thumbnail_factory, pixbuf, uri, file_stat.st_mtime);
+#endif
 					g_object_unref (pixbuf);
 
 					thumbnail = gnome_desktop_thumbnail_factory_lookup (thumbnail_factory, uri, file_stat.st_mtime);
