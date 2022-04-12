@@ -307,6 +307,20 @@ cal_component_preview_write_html (ECalComponentPreview *preview,
 	}
 	e_cal_component_datetime_free (dt);
 
+	icomp = e_cal_component_get_icalcomponent (comp);
+
+	if (e_cal_util_component_has_recurrences (icomp)) {
+		str = e_cal_recur_describe_recurrence_ex (icomp,
+			calendar_config_get_week_start_day (),
+			E_CAL_RECUR_DESCRIBE_RECURRENCE_FLAG_NONE,
+			cal_comp_util_format_itt);
+
+		if (str) {
+			cal_component_preview_add_table_line (buffer, _("Recurs:"), str);
+			g_free (str);
+		}
+	}
+
 	/* write Due Date */
 	dt = e_cal_component_get_vtype (comp) == E_CAL_COMPONENT_TODO ? e_cal_component_get_due (comp) : NULL;
 	if (dt && e_cal_component_datetime_get_value (dt)) {
@@ -315,8 +329,6 @@ cal_component_preview_write_html (ECalComponentPreview *preview,
 		g_free (str);
 	}
 	e_cal_component_datetime_free (dt);
-
-	icomp = e_cal_component_get_icalcomponent (comp);
 
 	prop = i_cal_component_get_first_property (icomp, I_CAL_ESTIMATEDDURATION_PROPERTY);
 	if (prop) {
@@ -337,18 +349,6 @@ cal_component_preview_write_html (ECalComponentPreview *preview,
 
 		g_clear_object (&duration);
 		g_object_unref (prop);
-	}
-
-	if (e_cal_util_component_has_recurrences (icomp)) {
-		str = e_cal_recur_describe_recurrence_ex (icomp,
-			calendar_config_get_week_start_day (),
-			E_CAL_RECUR_DESCRIBE_RECURRENCE_FLAG_NONE,
-			cal_comp_util_format_itt);
-
-		if (str) {
-			cal_component_preview_add_table_line (buffer, _("Recurs:"), str);
-			g_free (str);
-		}
 	}
 
 	/* write status */
