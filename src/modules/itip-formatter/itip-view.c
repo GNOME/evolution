@@ -102,6 +102,7 @@ struct _ItipViewPrivate {
 	gchar *categories;
 	gchar *due_date_label;
 	gchar *estimated_duration;
+	gchar *recurring_info;
 
 	GSList *upper_info_items;
 	GSList *lower_info_items;
@@ -695,7 +696,8 @@ htmlize_text (const gchar *id,
 	      const gchar *text,
 	      gchar **out_tmp)
 {
-	if (text && *text) {
+	if (text && *text &&
+	    g_strcmp0 (id, TABLE_ROW_ATTENDEES) != 0) {
 		if (g_strcmp0 (id, TABLE_ROW_LOCATION) == 0 ||
 		    g_strcmp0 (id, TABLE_ROW_URL) == 0) {
 			*out_tmp = camel_text_to_html (text, CAMEL_MIME_FILTER_TOHTML_CONVERT_URLS | CAMEL_MIME_FILTER_TOHTML_CONVERT_ADDRESSES, 0);
@@ -860,6 +862,7 @@ update_start_end_times (ItipView *view)
 	g_clear_pointer (&priv->categories, g_free);
 	g_clear_pointer (&priv->due_date_label, g_free);
 	g_clear_pointer (&priv->estimated_duration, g_free);
+	g_clear_pointer (&priv->recurring_info, g_free);
 
 	#define is_same(_member) (priv->start_tm->_member == priv->end_tm->_member)
 	if (priv->start_tm && priv->end_tm && priv->start_tm_is_date && priv->end_tm_is_date
@@ -1510,6 +1513,9 @@ itip_view_finalize (GObject *object)
 	g_free (priv->error);
 	g_free (priv->part_id);
 	g_free (priv->selected_source_uid);
+	g_free (priv->due_date_label);
+	g_free (priv->estimated_duration);
+	g_free (priv->recurring_info);
 
 	for (iter = priv->lower_info_items; iter; iter = iter->next) {
 		ItipViewInfoItem *item = iter->data;
@@ -1906,6 +1912,7 @@ itip_view_write (gpointer itip_part_ptr,
 	append_text_table_row (buffer, TABLE_ROW_URL, _("URL:"), NULL);
 	append_text_table_row (buffer, TABLE_ROW_START_DATE, _("Start time:"), NULL);
 	append_text_table_row (buffer, TABLE_ROW_END_DATE, _("End time:"), NULL);
+	append_text_table_row (buffer, TABLE_ROW_RECURRING_INFO, _("Recurs:"), NULL);
 	append_text_table_row (buffer, TABLE_ROW_DUE_DATE, _("Due date:"), NULL);
 	append_text_table_row (buffer, TABLE_ROW_ESTIMATED_DURATION, _("Estimated duration:"), NULL);
 	append_text_table_row (buffer, TABLE_ROW_STATUS, _("Status:"), NULL);
@@ -2111,6 +2118,9 @@ itip_view_write_for_printing (ItipView *view,
 	append_text_table_row_nonempty (
 		buffer, TABLE_ROW_END_DATE,
 		view->priv->end_header, view->priv->end_label);
+	append_text_table_row_nonempty (
+		buffer, TABLE_ROW_RECURRING_INFO,
+		_("Recurs:"), view->priv->recurring_info);
 	append_text_table_row_nonempty (
 		buffer, TABLE_ROW_DUE_DATE,
 		_("Due date:"), view->priv->due_date_label);
@@ -6571,12 +6581,14 @@ itip_view_add_recurring_info (ItipView *view)
 
 	description = e_cal_recur_describe_recurrence_ex (e_cal_component_get_icalcomponent (view->priv->comp),
 		calendar_config_get_week_start_day (),
-		E_CAL_RECUR_DESCRIBE_RECURRENCE_FLAG_PREFIXED | E_CAL_RECUR_DESCRIBE_RECURRENCE_FLAG_FALLBACK,
+		E_CAL_RECUR_DESCRIBE_RECURRENCE_FLAG_FALLBACK,
 		cal_comp_util_format_itt);
 
+	g_clear_pointer (&view->priv->recurring_info, g_free);
+
 	if (description) {
-		itip_view_add_upper_info_item (view, ITIP_VIEW_INFO_ITEM_TYPE_INFO, description);
-		g_free (description);
+		view->priv->recurring_info = description;
+		set_area_text (view, TABLE_ROW_RECURRING_INFO, view->priv->recurring_info, FALSE);
 	}
 }
 

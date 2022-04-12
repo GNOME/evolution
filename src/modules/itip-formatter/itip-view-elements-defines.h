@@ -25,6 +25,7 @@
 #define TABLE_ROW_URL "table_row_url"
 #define TABLE_ROW_START_DATE "table_row_start_time"
 #define TABLE_ROW_END_DATE "table_row_end_time"
+#define TABLE_ROW_RECURRING_INFO "table_row_recurring_info"
 #define TABLE_ROW_DUE_DATE "table_row_due_date"
 #define TABLE_ROW_ESTIMATED_DURATION "table_row_estimated_duration"
 #define TABLE_ROW_STATUS "table_row_status"
