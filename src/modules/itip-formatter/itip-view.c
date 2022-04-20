@@ -1113,7 +1113,7 @@ append_text_table_row (GString *buffer,
 		g_string_append_printf (
 			buffer,
 			"<tr id=\"%s\"%s><td colspan=\"2\">%s</td></tr>\n",
-			id, g_strcmp0 (id, TABLE_ROW_SUMMARY) == 0 ? "" : " hidden=\"\"", value ? value : "");
+			id, g_strcmp0 (id, TABLE_ROW_SUMMARY) == 0 ? " class=\"itip-summary\"" : " hidden=\"\"", value ? value : "");
 
 	}
 
@@ -6847,6 +6847,49 @@ itip_view_init_view (ItipView *view)
 	itip_view_extract_attendee_info (view);
 
 	icomp = e_cal_component_get_icalcomponent (view->priv->comp);
+	prop = i_cal_component_get_first_property (icomp, I_CAL_COLOR_PROPERTY);
+	if (!prop && view->priv->main_comp)
+		prop = i_cal_component_get_first_property (view->priv->main_comp, I_CAL_COLOR_PROPERTY);
+	if (prop) {
+		GdkRGBA bgcolor, fgcolor;
+		const gchar *color_spec;
+
+		color_spec = i_cal_property_get_color (prop);
+		if (color_spec && gdk_rgba_parse (&bgcolor, color_spec)) {
+			EWebView *web_view;
+
+			web_view = itip_view_ref_web_view (view);
+			if (web_view) {
+				gchar *css;
+
+				fgcolor = e_utils_get_text_color_for_background (&bgcolor);
+
+				#define as_uchar_color(_val) ((guchar) (_val * 255))
+
+				css = g_strdup_printf (
+					"   background-color: #%02x%02x%02x;"
+					"   color: #%02x%02x%02x;",
+					as_uchar_color (bgcolor.red),
+					as_uchar_color (bgcolor.green),
+					as_uchar_color (bgcolor.blue),
+					as_uchar_color (fgcolor.red),
+					as_uchar_color (fgcolor.green),
+					as_uchar_color (fgcolor.blue));
+
+				#undef as_uchar_color
+
+				e_web_view_jsc_run_script (WEBKIT_WEB_VIEW (web_view), e_web_view_get_cancellable (web_view),
+					"Evo.AddRuleIntoStyleSheet(%s, %s, %s, %s);",
+					view->priv->part_id, "itip-css", ".itip-summary", css);
+
+				g_object_unref (web_view);
+				g_free (css);
+			}
+		}
+
+		g_clear_object (&prop);
+	}
+
 	prop = e_cal_util_component_find_x_property (icomp, "X-ALT-DESC");
 
 	if (prop) {
