@@ -4697,11 +4697,29 @@ e_util_get_uri_tooltip (const gchar *uri)
 	camel_address_decode (CAMEL_ADDRESS (address), curl->path);
 	camel_internet_address_sanitize_ascii_domain (address);
 	who = camel_address_format (CAMEL_ADDRESS (address));
+
+	if (!who && g_str_has_prefix (uri, "mailto:") && curl->query && *curl->query) {
+		GHashTable *query;
+
+		query = soup_form_decode (curl->query);
+		if (query) {
+			const gchar *to = g_hash_table_lookup (query, "to");
+			if (to && *to) {
+				camel_address_decode (CAMEL_ADDRESS (address), to);
+				camel_internet_address_sanitize_ascii_domain (address);
+				who = camel_address_format (CAMEL_ADDRESS (address));
+			}
+			g_hash_table_destroy (query);
+		}
+	}
+
 	g_object_unref (address);
 	camel_url_free (curl);
 
-	if (!who)
+	if (!who) {
 		who = g_strdup (strchr (uri, ':') + 1);
+		camel_url_decode (who);
+	}
 
 	message = g_string_new (NULL);
 
