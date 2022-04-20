@@ -856,6 +856,12 @@ calendar_preferences_construct (ECalendarPreferences *prefs,
 		widget, "active",
 		G_SETTINGS_BIND_DEFAULT);
 
+	widget = e_builder_get_widget (prefs->priv->builder, "shorten_end_time_interval");
+	g_settings_bind (
+		settings, "shorten-end-time",
+		widget, "value",
+		G_SETTINGS_BIND_DEFAULT);
+
 	widget = e_builder_get_widget (prefs->priv->builder, "confirm_delete");
 	g_settings_bind (
 		settings, "confirm-delete",

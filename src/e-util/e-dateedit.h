@@ -213,6 +213,10 @@ GtkWidget *	e_date_edit_get_entry		(EDateEdit *dedit);
 
 gboolean	e_date_edit_has_focus		(EDateEdit *dedit);
 
+gint		e_date_edit_get_shorten_time	(EDateEdit *self);
+void		e_date_edit_set_shorten_time	(EDateEdit *self,
+						 gint minutes);
+
 G_END_DECLS
 
 #endif /* E_DATE_EDIT_H */

@@ -1432,6 +1432,7 @@ e_comp_editor_property_part_dtend_new (const gchar *label,
 				       gboolean allow_no_date_set)
 {
 	ECompEditorPropertyPart *part;
+	GtkWidget *edit_widget;
 
 	part = g_object_new (E_TYPE_COMP_EDITOR_PROPERTY_PART_DTEND,
 		"label", label,
@@ -1440,6 +1441,21 @@ e_comp_editor_property_part_dtend_new (const gchar *label,
 	e_comp_editor_property_part_datetime_labeled_setup (
 		E_COMP_EDITOR_PROPERTY_PART_DATETIME_LABELED (part),
 		date_only, allow_no_date_set);
+
+	edit_widget = e_comp_editor_property_part_get_edit_widget (part);
+	if (E_IS_DATE_EDIT (edit_widget)) {
+		GSettings *settings;
+
+		settings = e_util_ref_settings ("org.gnome.evolution.calendar");
+
+		g_settings_bind (settings, "shorten-end-time",
+			edit_widget, "shorten-time",
+			G_SETTINGS_BIND_GET | G_SETTINGS_BIND_NO_SENSITIVITY);
+
+		g_object_unref (settings);
+	} else {
+		g_warn_if_reached ();
+	}
 
 	return part;
 }

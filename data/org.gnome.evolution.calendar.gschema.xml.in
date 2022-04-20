@@ -504,6 +504,11 @@
       <_summary>Year view vertical preview position</_summary>
       <_description>Position of the vertical event preview for the year view, in pixels</_description>
     </key>
+    <key name="shorten-end-time" type="i">
+      <default>5</default>
+      <_summary>Shorten event end time by minutes</_summary>
+      <_description>By how many minutes to shorted new event end time</_description>
+    </key>
 
     <!-- The following keys are deprecated. -->
 

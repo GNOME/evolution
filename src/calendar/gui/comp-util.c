@@ -462,6 +462,9 @@ cal_comp_event_new_with_current_time_sync (ECalClient *client,
 		e_cal_component_set_dtstart (comp, dt);
 		e_cal_component_set_dtend (comp, dt);
 	} else {
+		GSettings *settings;
+		gint shorten_by;
+
 		itt = i_cal_time_new_current_with_zone (zone);
 		i_cal_time_adjust (itt, 0, 1, -i_cal_time_get_minute (itt), -i_cal_time_get_second (itt));
 
@@ -470,6 +473,14 @@ cal_comp_event_new_with_current_time_sync (ECalClient *client,
 		e_cal_component_set_dtstart (comp, dt);
 
 		i_cal_time_adjust (e_cal_component_datetime_get_value (dt), 0, 1, 0, 0);
+
+		settings = e_util_ref_settings ("org.gnome.evolution.calendar");
+		shorten_by = g_settings_get_int (settings, "shorten-end-time");
+		g_clear_object (&settings);
+
+		if (shorten_by > 0 && shorten_by < 60)
+			i_cal_time_adjust (e_cal_component_datetime_get_value (dt), 0, 0, -shorten_by, 0);
+
 		e_cal_component_set_dtend (comp, dt);
 	}
 
