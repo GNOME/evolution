@@ -7,9 +7,9 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: evolution-help\n"
-"POT-Creation-Date: 2019-09-28 10:26+0000\n"
-"PO-Revision-Date: 2018-06-17 06:51+0000\n"
-"Last-Translator: Jaume Jorba <jaume.jorba@gmail.com>, 2018\n"
+"POT-Creation-Date: 2022-04-12 17:51+0000\n"
+"PO-Revision-Date: 2022-04-12 20:15+0200\n"
+"Last-Translator: maite guix <maite.guix@me.com>\n"
 "Language-Team: Catalan (https://www.transifex.com/softcatala/teams/62837/"
 "ca/)\n"
 "Language: ca\n"
@@ -17,6 +17,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
+"X-Generator: Poedit 3.0.1\n"
 
 #. Put one translator per line, in the form NAME <EMAIL>, YEAR1, YEAR2
 msgctxt "_"
@@ -101,7 +102,7 @@ msgstr ""
 "<file>~/.spamassassin/</file>."
 
 #. (itstool) path: section/title
-#: C/backup-restore.page:58 C/intro-first-run.page:43
+#: C/backup-restore.page:58 C/intro-first-run.page:45
 msgid "Restoring"
 msgstr "Restauració"
 
@@ -124,9 +125,9 @@ msgid ""
 "In the <link xref=\"intro-first-run\">first-run assistant</link>, you can "
 "restore <app>Evolution</app> data from a backup file."
 msgstr ""
-"a l'<link xref=\"intro-first-run\">assistent per a la primera execució</"
-"link>, podeu restaurar les dades d'<app>Evolution</app> des d'un fitxer de "
-"còpia de seguretat."
+"A l'<link xref=\"intro-first-run\">assistent de primera execució</link>, "
+"podeu restaurar les dades d'<app>Evolution</app> des d'un fitxer de còpia de "
+"seguretat."
 
 #. (itstool) path: info/desc
 #: C/calendar-alarms-and-reminders.page:23
@@ -307,11 +308,20 @@ msgstr ""
 
 #. (itstool) path: item/p
 #: C/calendar-caldav.page:59 C/calendar-google.page:55 C/calendar-local.page:46
-#: C/calendar-weather.page:56 C/calendar-webdav.page:55
-#: C/contacts-google.page:49 C/contacts-ldap.page:58 C/contacts-local.page:37
+#: C/calendar-meetings-delegating.page:41 C/calendar-weather.page:56
+#: C/calendar-webdav.page:55 C/contacts-google.page:49 C/contacts-ldap.page:58
+#: C/contacts-local.page:37 C/contacts-usage-add-contact.page:43
+#: C/contacts-usage-edit-contact.page:34 C/contacts-using-contact-lists.page:69
+#: C/mail-attachments-sending.page:32
+#: C/mail-composer-custom-header-lines.page:47
+#: C/mail-encryption-gpg-set-up.page:35
+#: C/mail-encryption-gpg-signing-encrypting.page:40
+#: C/mail-encryption-s-mime-signing-encrypting.page:36 C/mail-filters.page:50
+#: C/mail-filters.page:71 C/mail-search-folders-add.page:47
 #: C/tasks-caldav.page:32 C/tasks-local.page:28 C/tasks-webdav.page:34
-msgid "Click <gui style=\"button\">Apply</gui>."
-msgstr "Feu clic a <gui style=\"button\">Aplica</gui>."
+#: C/using-categories.page:51 C/using-categories.page:53
+msgid "Click <gui style=\"button\">OK</gui>."
+msgstr "Feu clic a <gui style=\"button\">D'acord</gui>."
 
 #. (itstool) path: page/p
 #: C/calendar-caldav.page:63 C/calendar-google.page:59 C/calendar-local.page:50
@@ -514,7 +524,7 @@ msgstr ""
 "Web</gui><gui>Lliure/Ocupat</gui></guiseq>."
 
 #. (itstool) path: page/p
-#: C/calendar-free-busy.page:90 C/calendar-publishing.page:43
+#: C/calendar-free-busy.page:90 C/calendar-publishing.page:40
 msgid ""
 "You can publish Calendar and Free/Busy information to a WebDAV server, FTP "
 "server, a remote machine through SSH or to any other web server with HTTP "
@@ -546,15 +556,15 @@ msgid ""
 msgstr ""
 "El servidor per defecte es pot definir a <guiseq><gui>Edita</"
 "gui><gui>Preferències</gui> <gui>Calendari i tasques</gui> <gui>Informació "
-"Publicada</gui> <gui>Servidor Lliure/Ocupat per defecte</gui></guiseq>."
+"de publicació</gui> <gui>Servidor Lliure/Ocupat per defecte</gui></guiseq>."
 
 #. (itstool) path: section/title
-#: C/calendar-free-busy.page:108
+#: C/calendar-free-busy.page:105
 msgid "Accessing Free/Busy Data Without a Groupware Server"
 msgstr "Accedir a les dades col·laboratives sense un servidor Groupware"
 
 #. (itstool) path: section/p
-#: C/calendar-free-busy.page:110
+#: C/calendar-free-busy.page:107
 msgid ""
 "If individuals give you a URL for Free/Busy data or for their web calendar, "
 "you can add the URL under <guiseq><gui>Personal Information</gui><gui>Web "
@@ -949,7 +959,7 @@ msgstr ""
 #. (itstool) path: item/p
 #: C/calendar-local.page:31 C/contacts-local.page:31 C/tasks-local.page:25
 msgid "Select the type <gui>On This Computer</gui>."
-msgstr " Seleccioneu el tipus <gui>A aquest ordinador</gui>."
+msgstr "Seleccioneu el tipus <gui>A aquest ordinador</gui>."
 
 #. (itstool) path: item/p
 #: C/calendar-local.page:40
@@ -1016,19 +1026,6 @@ msgstr "Feu clic a <gui>Delega una reunió</gui>."
 #: C/calendar-meetings-delegating.page:38
 msgid "Select the contacts you want to delegate the meeting to."
 msgstr "Seleccioneu els contactes als quals voleu delegar la reunió."
-
-#. (itstool) path: item/p
-#: C/calendar-meetings-delegating.page:41 C/contacts-usage-add-contact.page:43
-#: C/contacts-usage-edit-contact.page:34 C/contacts-using-contact-lists.page:69
-#: C/mail-attachments-sending.page:32
-#: C/mail-composer-custom-header-lines.page:47
-#: C/mail-encryption-gpg-set-up.page:35
-#: C/mail-encryption-gpg-signing-encrypting.page:40
-#: C/mail-encryption-s-mime-signing-encrypting.page:36 C/mail-filters.page:50
-#: C/mail-filters.page:71 C/mail-search-folders-add.page:47
-#: C/using-categories.page:51 C/using-categories.page:53
-msgid "Click <gui style=\"button\">OK</gui>."
-msgstr "Feu clic a <gui style=\"button\">D'acord</gui>."
 
 #. (itstool) path: page/p
 #: C/calendar-meetings-delegating.page:45
@@ -1338,7 +1335,7 @@ msgstr ""
 "\"button\">Afegeix</gui></guiseq>."
 
 #. (itstool) path: page/p
-#: C/calendar-publishing.page:40
+#: C/calendar-publishing.page:37
 msgid ""
 "You can specify the online location, the frequency of publishing, which "
 "calendar(s) to publish, and authentication information for uploading."
@@ -1347,7 +1344,7 @@ msgstr ""
 "calendari(s) a publicar, i la informació d'autenticació per a carregar."
 
 #. (itstool) path: page/p
-#: C/calendar-publishing.page:47
+#: C/calendar-publishing.page:44
 msgid ""
 "To immediately publish calendar information, click <guiseq><gui>Actions</"
 "gui><gui>Publish Calendar Information</gui></guiseq> in the calendar."
@@ -1435,14 +1432,14 @@ msgstr "Seleccioneu la condició de cerca de la llista."
 
 #. (itstool) path: item/p
 #: C/calendar-searching.page:50 C/contacts-searching.page:58
-#: C/mail-searching.page:50 C/memos-searching.page:45 C/tasks-searching.page:45
+#: C/mail-searching.page:49 C/memos-searching.page:45 C/tasks-searching.page:45
 msgid "Enter the text you want to search for and press <key>Enter</key>."
 msgstr "Introduïu el text que voleu cercar i premeu <key>Retorn</key>."
 
 #. (itstool) path: item/p
 #: C/calendar-searching.page:53 C/calendar-searching.page:67
 #: C/contacts-searching.page:62 C/contacts-searching.page:76
-#: C/mail-searching.page:51 C/memos-searching.page:46 C/memos-searching.page:52
+#: C/mail-searching.page:50 C/memos-searching.page:46 C/memos-searching.page:52
 #: C/tasks-searching.page:46 C/tasks-searching.page:52
 msgid "<app>Evolution</app> displays the search results."
 msgstr "<app>Evolution</app> mostra la llista de resultats."
@@ -1480,7 +1477,7 @@ msgstr ""
 
 #. (itstool) path: section/p
 #: C/calendar-searching.page:76 C/contacts-searching.page:80
-#: C/mail-searching.page:55 C/memos-searching.page:54 C/tasks-searching.page:54
+#: C/mail-searching.page:54 C/memos-searching.page:54 C/tasks-searching.page:54
 msgid ""
 "If you want to set several search conditions, you should use an Advanced "
 "search, which is described below."
@@ -1843,7 +1840,7 @@ msgstr "Activeu <gui>Contactes automàtics</gui>."
 #: C/mail-composer-external-editor.page:28
 #: C/mail-composer-message-templates.page:29
 #: C/mail-composer-message-templates-variables.page:30
-#: C/mail-displaying-sender-photograph.page:37
+#: C/mail-displaying-sender-photograph.page:36
 #: C/mail-received-notification.page:32
 msgid ""
 "If a plugin is not available under <guiseq><gui>Edit</gui><gui>Plugins</"
@@ -2061,13 +2058,14 @@ msgstr "Les següents opcions estan disponibles:"
 
 #. (itstool) path: item/p
 #: C/contacts-ldap.page:74
-msgid "One: Searches the Search Base and one entry below it."
-msgstr "Un nivell: cerca la base de cerca i un nivell a sota."
+msgid "One Level: Searches one entry below the Search Base."
+msgstr "Un nivell: cerca una entrada a sota la base de cerca."
 
 #. (itstool) path: item/p
 #: C/contacts-ldap.page:77
-msgid "Sub: Searches the Search Base and all entries below it."
-msgstr "Sub: cerca la base de cerca i totes les entrades de sota."
+msgid "Subtree: Searches the Search Base and all entries below it."
+msgstr ""
+"Subarbre: cerca a la base de cerca i a totes les entrades que hi ha a sota."
 
 #. (itstool) path: item/p
 #: C/contacts-ldap.page:82
@@ -2780,6 +2778,28 @@ msgstr ""
 #. (itstool) path: page/p
 #: C/customize-ui-items.page:34
 msgid ""
+"Changing the order of tool bar/menu items in some <file>.ui</file> files may "
+"not affect their displayed order in <app>Evolution</app>. As a workaround, "
+"the attribute <code>position='top'</code> can be added to some elements (e."
+"g. <code>toolitem</code> and non-empty <code>placeholder</code> elements), "
+"which will place them before other items in the group and cause them to be "
+"displayed according to their order in the <file>.ui</file> file. This "
+"attribute may need to be added to all items in a group to achieve the "
+"overall desired item order."
+msgstr ""
+"És possible que canviar l'ordre dels elements de la barra d'eines/menú "
+"d'alguns fitxers <file>.ui</file> no afecti l'ordre mostrat a "
+"<app>Evolution</app>. Com a solució alternativa, l'atribut "
+"<code>position='top'</code> es pot afegir a alguns elements (per exemple, "
+"<code>toolitem</code> i elements no buits <code>placeholder</code> ), que "
+"els col·locaran davant d'altres elements del grup i faran que es mostrin "
+"segons el seu ordre al fitxer <file>.ui</file> . És possible que aquest "
+"atribut s'hagi d'afegir a tots els elements d'un grup per a aconseguir "
+"l'ordre general de l'element desitjat."
+
+#. (itstool) path: page/p
+#: C/customize-ui-items.page:36
+msgid ""
 "The modified files will be used if the <code>evolution-ui-version</code> "
 "attribute of the root <code>ui</code> element matches the version of the "
 "default files provided by <app>Evolution</app>."
@@ -2789,7 +2809,7 @@ msgstr ""
 "dels fitxers predeterminats proporcionats per <app>Evolution</app>."
 
 #. (itstool) path: page/p
-#: C/customize-ui-items.page:36
+#: C/customize-ui-items.page:38
 msgid ""
 "To change keyboard shortcuts, edit <file>~/.config/evolution/accels</file> "
 "while <app>Evolution</app> is not running. Commented lines start with a "
@@ -3090,7 +3110,7 @@ msgstr "Esborrar permanentment correus o fitxers adjunts"
 
 #. (itstool) path: section/title
 #: C/deleting-emails.page:29 C/import-supported-file-formats.page:28
-#: C/intro-keyboard-shortcuts.page:142 C/intro-main-window.page:35
+#: C/intro-keyboard-shortcuts.page:142 C/intro-main-window.page:34
 msgid "Mail"
 msgstr "Correu"
 
@@ -3354,12 +3374,12 @@ msgid "Mozilla"
 msgstr "Mozilla"
 
 #. (itstool) path: note/p
-#: C/import-apps-mozilla.page:26
+#: C/import-apps-mozilla.page:24
 msgid "The instructions below might be outdated and not work anymore."
 msgstr "Les instruccions següents poden ser obsoletes i no funcionar."
 
 #. (itstool) path: note/p
-#: C/import-apps-mozilla.page:26
+#: C/import-apps-mozilla.page:24
 msgid ""
 "Follow <link href=\"https://mail.gnome.org/archives/evolution-list/2019-"
 "February/msg00055.html\">this mailing list posting</link> for an alternative "
@@ -3370,7 +3390,7 @@ msgstr ""
 "per a provar un mètode alternatiu."
 
 #. (itstool) path: item/p
-#: C/import-apps-mozilla.page:29
+#: C/import-apps-mozilla.page:27
 msgid ""
 "<link href=\"https://support.mozilla.org/en-US/kb/profiles-where-thunderbird-"
 "stores-user-data\">Find your <app>Thunderbird</app> profile folder.</link>"
@@ -3380,22 +3400,22 @@ msgstr ""
 "link>"
 
 #. (itstool) path: item/p
-#: C/import-apps-mozilla.page:30 C/import-apps-outlook.page:62
+#: C/import-apps-mozilla.page:28 C/import-apps-outlook.page:62
 #: C/import-single-files.page:24
 msgid "Click <guiseq><gui>File</gui><gui>Import</gui></guiseq>."
 msgstr "Feu clic a <guiseq><gui>Fitxer</gui><gui>Importa</gui></guiseq>."
 
 #. (itstool) path: item/p
-#: C/import-apps-mozilla.page:31 C/import-apps-outlook.page:63
+#: C/import-apps-mozilla.page:29 C/import-apps-outlook.page:63
 #: C/import-single-files.page:25
 msgid ""
 "In the <gui>Importer Type</gui> tab, click <gui>Import a single file</gui>."
 msgstr ""
-"A la pestanya <gui>Tipus d'importació</gui>, feu clic a <gui>Importa un sol "
+"A la pestanya <gui>Tipus d'importador</gui>, feu clic a <gui>Importa un sol "
 "fitxer</gui>."
 
 #. (itstool) path: item/p
-#: C/import-apps-mozilla.page:32
+#: C/import-apps-mozilla.page:30
 msgid ""
 "Go to the folder in which <app>Thunderbird</app> stores its data. You will "
 "have to make sure to <link xref=\"help:gnome-help/files-hidden#show-hidden\" "
@@ -3408,7 +3428,7 @@ msgstr ""
 "hidden\">mostrar els fitxers ocults</link> al diàleg de selecció de fitxers."
 
 #. (itstool) path: item/p
-#: C/import-apps-mozilla.page:35
+#: C/import-apps-mozilla.page:33
 msgid ""
 "If you would like to import <app>Thunderbird</app> mail, go to <file>Mail/"
 "Local Folders</file> (for local mail accounts) or <file>ImapMail/servername</"
@@ -3416,15 +3436,15 @@ msgid ""
 "address of your remote mail server. Files without a file ending include your "
 "messages (not the <file>.msf</file> files)."
 msgstr ""
-"si voleu importar el correu <app>Thunderbird</app>, aneu a les "
-"<file>carpetes Mail/Local</file> (per a comptes locals) o <file>ImapMail/"
-"servername</file> (per a comptes de correu electrònic remots). "
-"<file>servername</file> és l'adreça del vostre servidor de correu remot. Els "
-"fitxers sense final de fitxer inclouen els missatges (no els fitxers <file>."
-"msf</file>)."
+"Si voleu importar correu <app>del Thunderbird</app> , aneu a <file>Carpetes "
+"de correu/local</file> (per a comptes de correu locals) o <file>ImapMail/"
+"servername</file> (per a comptes de correu remots). <file>el nom del "
+"servidor</file> serà l'adreça del servidor de correu remot. Els fitxers "
+"sense final de fitxer inclouen els missatges (no els fitxers <file>.msf</"
+"file> )."
 
 #. (itstool) path: item/p
-#: C/import-apps-mozilla.page:36
+#: C/import-apps-mozilla.page:34
 msgid ""
 "If you would like to import <app>Thunderbird/Lightning</app> calendar data, "
 "you may be able to export your <app>Thunderbird</app> events as an <file>."
@@ -3440,13 +3460,13 @@ msgstr ""
 "format de base de dades no estàndard."
 
 #. (itstool) path: item/p
-#: C/import-apps-mozilla.page:38 C/import-apps-outlook.page:64
+#: C/import-apps-mozilla.page:36 C/import-apps-outlook.page:64
 #: C/import-single-files.page:26
 msgid "The file type will be automatically determined."
 msgstr "El tipus de fitxer es determinarà automàticament."
 
 #. (itstool) path: item/p
-#: C/import-apps-mozilla.page:39
+#: C/import-apps-mozilla.page:37
 msgid ""
 "Choose the destination (e.g. the folder or calendar in <app>Evolution</app>) "
 "for the imported data."
@@ -3455,7 +3475,7 @@ msgstr ""
 "per a importar les dades."
 
 #. (itstool) path: item/p
-#: C/import-apps-mozilla.page:40 C/import-apps-outlook.page:68
+#: C/import-apps-mozilla.page:38 C/import-apps-outlook.page:68
 msgid "Repeat the import steps until you have imported all your data."
 msgstr ""
 "Repetiu els passos d'importació fins que hàgiu importat totes les vostres "
@@ -3602,7 +3622,7 @@ msgstr ""
 #. (itstool) path: item/p
 #: C/import-apps-outlook.page:46
 msgid "(Replace \"username\" by your username.)"
-msgstr "(Substitueix «nom d'usuari» pel vostre nom d'usuari)."
+msgstr "(Substitueix «nom d'usuari» pel vostre nom d'usuari.)"
 
 #. (itstool) path: item/p
 #: C/import-apps-outlook.page:49
@@ -3837,7 +3857,7 @@ msgstr ""
 
 #. (itstool) path: section/title
 #: C/import-supported-file-formats.page:46 C/intro-keyboard-shortcuts.page:254
-#: C/intro-main-window.page:98
+#: C/intro-main-window.page:97
 msgid "Calendar"
 msgstr "Calendari"
 
@@ -3874,7 +3894,7 @@ msgstr ""
 
 #. (itstool) path: section/title
 #: C/import-supported-file-formats.page:60 C/intro-keyboard-shortcuts.page:326
-#: C/intro-main-window.page:144
+#: C/intro-main-window.page:143
 msgid "Contacts"
 msgstr "Contactes"
 
@@ -3969,8 +3989,7 @@ msgid "<_:media-1/> <app>Evolution</app> Mail and Calendar"
 msgstr "<_:media-1/> Correu i calendari d'<app>Evolution</app>"
 
 #. (itstool) path: section/title
-#. (itstool) path: page/title
-#: C/index.page:31 C/intro-application.page:24
+#: C/index.page:31
 msgid "Getting Started"
 msgstr "Primers passos"
 
@@ -4040,53 +4059,6 @@ msgid "Further reading"
 msgstr "Informació relacionada"
 
 #. (itstool) path: info/desc
-#: C/intro-application.page:5
-msgid "An introduction to <app>Evolution</app>."
-msgstr "Introducció a <app>Evolution</app>."
-
-#. (itstool) path: page/p
-#: C/intro-application.page:25
-msgid ""
-"<app>Evolution</app> allows you to access your personal information like "
-"your calendars, mail, address books and tasks in one place."
-msgstr ""
-"<app>Evolution</app> us permet accedir a la vostra informació personal, com "
-"ara els vostres calendaris, correus electrònics, llibretes d'adreces i "
-"tasques en un sol lloc."
-
-#. (itstool) path: page/p
-#: C/intro-application.page:27
-msgid ""
-"By default <app>Evolution</app> opens the mail view. This is where you can "
-"view all your mail. You can change to other views of the application by "
-"going to the bottom of the left pane in the window (the so-called \"switcher"
-"\") and selecting the desired view. <link xref=\"intro-main-window\">Learn "
-"more about the elements of the main window</link>."
-msgstr ""
-"Per defecte, l'<app>Evolution</app> obre la vista de correu. Aquí és on "
-"podeu veure tot el vostre correu. Podeu canviar a altres visualitzacions de "
-"l'aplicació anant a la part inferior del panell esquerre de la finestra "
-"(anomenat «commutador») i seleccionat la visualització desitjada. <link xref="
-"\"intro-main-window\">Més informació sobre els elements de la finestra "
-"principal</link>."
-
-#. (itstool) path: note/p
-#: C/intro-application.page:29
-msgid ""
-"When <app>Evolution</app> starts, it remembers the last view that you used. "
-"However you can also explicitly start <app>Evolution</app> in a specific "
-"view. For the calendar view, use the command <cmd>evolution --"
-"component=calendar</cmd> in the <app>Terminal</app> application. Other "
-"available options are \"mail\", \"contacts\", \"tasks\", and \"memos\"."
-msgstr ""
-"Quan s'inicia <app>Evolution</app>, recorda l'última vista que s'ha "
-"utilitzat. Tanmateix, també podeu començar explícitament <app>Evolution</"
-"app> en una vista concreta. Per a la vista del calendari, utilitzeu l'ordre "
-"<cmd>evolution --component=calendar</cmd> a l'aplicatiu <app>Terminal</app>. "
-"Altres opcions disponibles són \"correu\", \"contactes\", \"tasques\" i "
-"\"notes\"."
-
-#. (itstool) path: info/desc
 #: C/intro-first-run.page:8
 msgid "Set up email accounts, import data, or restore from a backup."
 msgstr ""
@@ -4101,6 +4073,16 @@ msgstr "Iniciar <app>Evolution</app> per primer cop"
 #. (itstool) path: page/p
 #: C/intro-first-run.page:25
 msgid ""
+"<app>Evolution</app> allows you to access your personal information like "
+"your calendars, mail, address books and tasks in one place."
+msgstr ""
+"<app>Evolution</app> us permet accedir a la vostra informació personal, com "
+"ara els vostres calendaris, correus electrònics, llibretes d'adreces i "
+"tasques en un sol lloc."
+
+#. (itstool) path: page/p
+#: C/intro-first-run.page:27
+msgid ""
 "The first time you run <app>Evolution</app>, it opens the First-Run "
 "Assistant. It helps you set up email accounts and <link xref=\"import-data"
 "\">import data from other applications.</link>"
@@ -4110,7 +4092,7 @@ msgstr ""
 "i a <link xref=\"import-data\">importar dades d'altres aplicacions.</link>"
 
 #. (itstool) path: page/p
-#: C/intro-first-run.page:27
+#: C/intro-first-run.page:29
 msgid ""
 "This assistant is not shown if there is an already configured e-mail account "
 "in <link xref=\"help:gnome-help/accounts\"><app>Online accounts</app></link> "
@@ -4126,44 +4108,44 @@ msgstr ""
 "<app>Comptes en línia</app>."
 
 #. (itstool) path: section/title
-#: C/intro-first-run.page:30 C/mail-account-manage-imap-plus.page:29
-#: C/mail-account-manage-local-delivery.page:29
-#: C/mail-account-manage-maildir-format-directories.page:30
-#: C/mail-account-manage-mh-format-directories.page:29
-#: C/mail-account-manage-microsoft-exchange-evo-ews.page:29
-#: C/mail-account-manage-microsoft-exchange-evo-mapi.page:29
-#: C/mail-account-manage-pop.page:29
-#: C/mail-account-manage-unix-mbox-spool-directory.page:29
-#: C/mail-account-manage-unix-mbox-spool-file.page:29
-#: C/mail-account-manage-usenet-news.page:29
+#: C/intro-first-run.page:32 C/mail-account-manage-imap-plus.page:34
+#: C/mail-account-manage-local-delivery.page:34
+#: C/mail-account-manage-maildir-format-directories.page:35
+#: C/mail-account-manage-mh-format-directories.page:34
+#: C/mail-account-manage-microsoft-exchange-evo-ews.page:37
+#: C/mail-account-manage-microsoft-exchange-evo-mapi.page:30
+#: C/mail-account-manage-pop.page:34
+#: C/mail-account-manage-unix-mbox-spool-directory.page:34
+#: C/mail-account-manage-unix-mbox-spool-file.page:34
+#: C/mail-account-manage-usenet-news.page:34
 msgid "Identity"
 msgstr "Identitat"
 
 #. (itstool) path: section/p
-#: C/intro-first-run.page:31 C/mail-account-manage-imap-plus.page:30
-#: C/mail-account-manage-local-delivery.page:30
-#: C/mail-account-manage-maildir-format-directories.page:31
-#: C/mail-account-manage-mh-format-directories.page:30
-#: C/mail-account-manage-microsoft-exchange-evo-ews.page:30
-#: C/mail-account-manage-microsoft-exchange-evo-mapi.page:30
-#: C/mail-account-manage-pop.page:30
-#: C/mail-account-manage-unix-mbox-spool-directory.page:30
-#: C/mail-account-manage-unix-mbox-spool-file.page:30
-#: C/mail-account-manage-usenet-news.page:30
+#: C/intro-first-run.page:33 C/mail-account-manage-imap-plus.page:35
+#: C/mail-account-manage-local-delivery.page:35
+#: C/mail-account-manage-maildir-format-directories.page:36
+#: C/mail-account-manage-mh-format-directories.page:35
+#: C/mail-account-manage-microsoft-exchange-evo-ews.page:38
+#: C/mail-account-manage-microsoft-exchange-evo-mapi.page:31
+#: C/mail-account-manage-pop.page:35
+#: C/mail-account-manage-unix-mbox-spool-directory.page:35
+#: C/mail-account-manage-unix-mbox-spool-file.page:35
+#: C/mail-account-manage-usenet-news.page:35
 msgid "Here you define your name and your email address."
 msgstr "Aquí definiu el vostre nom i la vostra adreça de correu electrònic."
 
 #. (itstool) path: section/p
-#: C/intro-first-run.page:32 C/mail-account-manage-imap-plus.page:31
-#: C/mail-account-manage-local-delivery.page:31
-#: C/mail-account-manage-maildir-format-directories.page:32
-#: C/mail-account-manage-mh-format-directories.page:31
-#: C/mail-account-manage-microsoft-exchange-evo-ews.page:31
-#: C/mail-account-manage-microsoft-exchange-evo-mapi.page:31
-#: C/mail-account-manage-pop.page:31
-#: C/mail-account-manage-unix-mbox-spool-directory.page:31
-#: C/mail-account-manage-unix-mbox-spool-file.page:31
-#: C/mail-account-manage-usenet-news.page:31
+#: C/intro-first-run.page:34 C/mail-account-manage-imap-plus.page:36
+#: C/mail-account-manage-local-delivery.page:36
+#: C/mail-account-manage-maildir-format-directories.page:37
+#: C/mail-account-manage-mh-format-directories.page:36
+#: C/mail-account-manage-microsoft-exchange-evo-ews.page:39
+#: C/mail-account-manage-microsoft-exchange-evo-mapi.page:32
+#: C/mail-account-manage-pop.page:36
+#: C/mail-account-manage-unix-mbox-spool-directory.page:36
+#: C/mail-account-manage-unix-mbox-spool-file.page:36
+#: C/mail-account-manage-usenet-news.page:36
 msgid ""
 "Optionally you can set a Reply-To email address (if you want replies to "
 "messages sent to a different address), set an organization (a company or "
@@ -4181,12 +4163,12 @@ msgstr ""
 "\">àlies de correu electrònic</link>."
 
 #. (itstool) path: section/title
-#: C/intro-first-run.page:36
+#: C/intro-first-run.page:38
 msgid "Restore from backup"
 msgstr "Recupera des de la còpia de seguretat"
 
 #. (itstool) path: section/p
-#: C/intro-first-run.page:37
+#: C/intro-first-run.page:39
 msgid ""
 "You will be asked whether to restore from a backup of a previous version. If "
 "you do not have a backup, go to the next page."
@@ -4195,13 +4177,13 @@ msgstr ""
 "anterior. Si no teniu cap còpia de seguretat, aneu a la pàgina següent."
 
 #. (itstool) path: info/title
-#: C/intro-first-run.page:41
+#: C/intro-first-run.page:43
 msgctxt "ui:collapsed"
 msgid "Show how to restore from a backup"
 msgstr "Veure com restaurar una còpia de seguretat"
 
 #. (itstool) path: section/title
-#: C/intro-first-run.page:51 C/mail-receiving-options-exchange-ews.page:23
+#: C/intro-first-run.page:53 C/mail-receiving-options-exchange-ews.page:23
 #: C/mail-receiving-options-exchange-mapi.page:23
 #: C/mail-receiving-options-imap-plus.page:26
 #: C/mail-receiving-options-local-delivery.page:23
@@ -4215,7 +4197,7 @@ msgid "Receiving Email"
 msgstr "Recepció de correu"
 
 #. (itstool) path: section/p
-#: C/intro-first-run.page:52
+#: C/intro-first-run.page:54
 msgid ""
 "First, choose the server type from the <gui>Server Type</gui> drop-down list."
 msgstr ""
@@ -4223,7 +4205,7 @@ msgstr ""
 "de Servidor</gui>."
 
 #. (itstool) path: section/p
-#: C/intro-first-run.page:53
+#: C/intro-first-run.page:55
 msgid ""
 "If you are unsure about the type of server to choose, ask your system "
 "administrator or Internet Service Provider."
@@ -4232,7 +4214,7 @@ msgstr ""
 "l'administrador del vostre sistema o al proveïdor de serveis d'Internet."
 
 #. (itstool) path: note/p
-#: C/intro-first-run.page:55
+#: C/intro-first-run.page:57
 msgid ""
 "Later on, if you want to change an account, or if you want to create another "
 "one, go to <guiseq><gui>Edit</gui><gui>Preferences</gui><gui>Mail Accounts</"
@@ -4247,12 +4229,12 @@ msgstr ""
 "clic <gui style=\"button\">Afegeix</gui>."
 
 #. (itstool) path: section/title
-#: C/intro-first-run.page:58
+#: C/intro-first-run.page:60
 msgid "IMAP+"
 msgstr "IMAP+"
 
 #. (itstool) path: section/p
-#: C/intro-first-run.page:59
+#: C/intro-first-run.page:61
 msgid ""
 "Keeps the mail on the server so you can access your mail from multiple "
 "systems."
@@ -4261,45 +4243,45 @@ msgstr ""
 "sistemes."
 
 #. (itstool) path: info/title
-#: C/intro-first-run.page:63 C/intro-first-run.page:79
-#: C/intro-first-run.page:95 C/intro-first-run.page:119
-#: C/intro-first-run.page:143 C/intro-first-run.page:159
-#: C/intro-first-run.page:175 C/intro-first-run.page:191
-#: C/intro-first-run.page:207 C/intro-first-run.page:223
-#: C/intro-first-run.page:250
+#: C/intro-first-run.page:65 C/intro-first-run.page:81
+#: C/intro-first-run.page:97 C/intro-first-run.page:121
+#: C/intro-first-run.page:146 C/intro-first-run.page:162
+#: C/intro-first-run.page:178 C/intro-first-run.page:194
+#: C/intro-first-run.page:210 C/intro-first-run.page:226
+#: C/intro-first-run.page:253
 msgctxt "ui:collapsed"
 msgid "Show how to configure this account type"
 msgstr "Veure com es configura aquest tipus de compte"
 
 #. (itstool) path: section/title
 #. (itstool) path: page/title
-#: C/intro-first-run.page:65 C/mail-receiving-options-imap-plus.page:23
+#: C/intro-first-run.page:67 C/mail-receiving-options-imap-plus.page:23
 msgid "IMAP+ receiving options"
 msgstr "Opcions de recepció IMAP+"
 
 #. (itstool) path: section/title
-#: C/intro-first-run.page:74
+#: C/intro-first-run.page:76
 msgid "POP"
 msgstr "POP"
 
 #. (itstool) path: section/p
-#: C/intro-first-run.page:75
+#: C/intro-first-run.page:77
 msgid "Downloads your email to your hard disk."
 msgstr "Descarrega el vostre correu al vostre disc dur."
 
 #. (itstool) path: section/title
 #. (itstool) path: page/title
-#: C/intro-first-run.page:81 C/mail-receiving-options-pop.page:27
+#: C/intro-first-run.page:83 C/mail-receiving-options-pop.page:27
 msgid "POP receiving options"
 msgstr "Opcions de recepció POP"
 
 #. (itstool) path: section/title
-#: C/intro-first-run.page:90
+#: C/intro-first-run.page:92
 msgid "USENET News"
 msgstr "Notícies USENET"
 
 #. (itstool) path: section/p
-#: C/intro-first-run.page:91
+#: C/intro-first-run.page:93
 msgid ""
 "Connects to a news server and downloads a list of available news digests."
 msgstr ""
@@ -4308,36 +4290,35 @@ msgstr ""
 
 #. (itstool) path: section/title
 #. (itstool) path: page/title
-#: C/intro-first-run.page:97 C/mail-receiving-options-usenet-news.page:23
+#: C/intro-first-run.page:99 C/mail-receiving-options-usenet-news.page:23
 msgid "Usenet news receiving options"
 msgstr "Opcions de recepció de notícies Usenet"
 
 #. (itstool) path: section/title
-#: C/intro-first-run.page:106
+#: C/intro-first-run.page:108
 msgid "Exchange EWS"
 msgstr "Exchange EWS"
 
 #. (itstool) path: section/p
-#: C/intro-first-run.page:107
+#. (itstool) path: note/p
+#: C/intro-first-run.page:109 C/mail-account-manage-microsoft-exchange.page:27
 msgid ""
-"For connecting to a Microsoft Exchange 2007/2010 or OpenChange server. Note "
-"that this is currently under development and will replace the <gui>Exchange "
-"MAPI</gui> account type in the future. It might not be available yet for "
-"your distribution."
+"For connecting to a Microsoft Exchange server (version 2007 or newer) or "
+"OpenChange server, it is recommended to use the package <sys>evolution-ews</"
+"sys>."
 msgstr ""
-"Per a connectar-se a un servidor Microsoft Exchange 2007/2010 o OpenChange. "
-"Tingueu en compte que actualment està en desenvolupament i en el futur "
-"substituirà el tipus de compte <gui>Exchange MAPI</gui>. Pot ser que encara "
-"no estigui disponible per a la vostra distribució."
+"Per a connectar-vos a un servidor del Microsoft Exchange (versió 2007 o més "
+"recent) o a un servidor OpenChange, es recomana utilitzar el paquet "
+"<sys>evolution-ews</sys>."
 
 #. (itstool) path: note/p
-#: C/intro-first-run.page:109
+#: C/intro-first-run.page:111
 msgid "This requires having the <sys>evolution-ews</sys> package installed."
 msgstr "Requereix tenir instal·lat el paquet <sys>evolution-ews</sys>."
 
 #. (itstool) path: when/p
 #. (itstool) path: note/p
-#: C/intro-first-run.page:112 C/mail-account-manage-microsoft-exchange.page:30
+#: C/intro-first-run.page:114 C/mail-account-manage-microsoft-exchange.page:31
 msgid ""
 "<link action=\"install:evolution-ews\" href=\"https://wiki.gnome.org/Apps/"
 "Evolution#Get_the_Source_Code\" style=\"button\">Install evolution-ews</link>"
@@ -4348,29 +4329,42 @@ msgstr ""
 
 #. (itstool) path: section/title
 #. (itstool) path: page/title
-#: C/intro-first-run.page:121 C/mail-receiving-options-exchange-ews.page:20
+#: C/intro-first-run.page:123 C/mail-receiving-options-exchange-ews.page:20
 msgid "Exchange Web Services receiving options"
 msgstr "Opcions de recepció d'Exchange Web Services"
 
 #. (itstool) path: section/title
-#: C/intro-first-run.page:130
+#: C/intro-first-run.page:132
 msgid "Exchange MAPI"
 msgstr "Exchange MAPI"
 
 #. (itstool) path: section/p
-#: C/intro-first-run.page:131
+#: C/intro-first-run.page:133
 msgid "For connecting to a Microsoft Exchange 2007/2010 or OpenChange server."
 msgstr ""
 "Per a connectar-se a un servidor Microsoft Exchange 2007/2010 o OpenChange."
 
+#. (itstool) path: section/p
 #. (itstool) path: note/p
-#: C/intro-first-run.page:133
+#: C/intro-first-run.page:134 C/mail-account-manage-microsoft-exchange.page:36
+msgid ""
+"It uses Microsoft's Messaging API which is also used by Microsoft Outlook. "
+"However, <sys>evolution-mapi</sys> requires installing <sys>OpenChange</sys> "
+"and <sys>Samba 4</sys>, and is not as performant as <sys>evolution-ews</sys>."
+msgstr ""
+"Utilitza l'API de missatgeria de Microsoft que també utilitza Microsoft "
+"Outlook. No obstant això, <sys>evolution-mapi</sys> requereix instal·lar "
+"<sys>OpenChange</sys> i <sys>Samba 4</sys>, i no és tan potent com "
+"<sys>evolution-ews</sys>."
+
+#. (itstool) path: note/p
+#: C/intro-first-run.page:136
 msgid "This requires having the <sys>evolution-mapi</sys> package installed."
 msgstr "Requereix tenir instal·lat el paquet <sys>evolution-mapi</sys>."
 
 #. (itstool) path: when/p
 #. (itstool) path: note/p
-#: C/intro-first-run.page:136 C/mail-account-manage-microsoft-exchange.page:41
+#: C/intro-first-run.page:139 C/mail-account-manage-microsoft-exchange.page:41
 msgid ""
 "<link action=\"install:evolution-mapi\" href=\"https://wiki.gnome.org/Apps/"
 "Evolution#Get_the_Source_Code\" style=\"button\">Install evolution-mapi</"
@@ -4382,17 +4376,17 @@ msgstr ""
 
 #. (itstool) path: section/title
 #. (itstool) path: page/title
-#: C/intro-first-run.page:145 C/mail-receiving-options-exchange-mapi.page:20
+#: C/intro-first-run.page:148 C/mail-receiving-options-exchange-mapi.page:20
 msgid "Exchange MAPI receiving options"
 msgstr "Opcions de recepció MAPI"
 
 #. (itstool) path: section/title
-#: C/intro-first-run.page:154
+#: C/intro-first-run.page:157
 msgid "Local delivery"
 msgstr "Lliurament local"
 
 #. (itstool) path: section/p
-#: C/intro-first-run.page:155
+#: C/intro-first-run.page:158
 msgid ""
 "Local delivery: If you want to move email from the spool (the location where "
 "mail waits for delivery) and store it in your home directory. You need to "
@@ -4408,17 +4402,17 @@ msgstr ""
 
 #. (itstool) path: section/title
 #. (itstool) path: page/title
-#: C/intro-first-run.page:161 C/mail-receiving-options-local-delivery.page:20
+#: C/intro-first-run.page:164 C/mail-receiving-options-local-delivery.page:20
 msgid "Local delivery receiving options"
 msgstr "Opcions de recepció per a l'enviament local"
 
 #. (itstool) path: section/title
-#: C/intro-first-run.page:170
+#: C/intro-first-run.page:173
 msgid "MH-Format Mail Directories"
 msgstr "Directoris de correu en format MH"
 
 #. (itstool) path: section/p
-#: C/intro-first-run.page:171
+#: C/intro-first-run.page:174
 msgid "For downloading email using MH or another MH-style application."
 msgstr ""
 "Per a descarregar el correu electrònic utilitzant MH o una altra aplicació "
@@ -4426,18 +4420,18 @@ msgstr ""
 
 #. (itstool) path: section/title
 #. (itstool) path: page/title
-#: C/intro-first-run.page:177
+#: C/intro-first-run.page:180
 #: C/mail-receiving-options-mh-format-directories.page:20
 msgid "MH-format mail directories receiving options"
 msgstr "Opcions de recepció per a directoris de correu en format MH"
 
 #. (itstool) path: section/title
-#: C/intro-first-run.page:186
+#: C/intro-first-run.page:189
 msgid "Maildir-Format Mail Directories"
 msgstr "Directoris de correu en format maildir"
 
 #. (itstool) path: section/p
-#: C/intro-first-run.page:187
+#: C/intro-first-run.page:190
 msgid ""
 "Maildir-Format Mail Directories: For downloading your email using Qmail or "
 "another Maildir-style application."
@@ -4447,18 +4441,18 @@ msgstr ""
 
 #. (itstool) path: section/title
 #. (itstool) path: page/title
-#: C/intro-first-run.page:193
+#: C/intro-first-run.page:196
 #: C/mail-receiving-options-maildir-format-directories.page:20
 msgid "Maildir-format mail directories receiving options"
 msgstr "Opcions de recepció per a directoris de correu en format Maildir"
 
 #. (itstool) path: section/title
-#: C/intro-first-run.page:202
+#: C/intro-first-run.page:205
 msgid "Standard Unix mbox spool file"
 msgstr "Fitxer mbox estàndard per a cues de correu de l'Unix"
 
 #. (itstool) path: section/p
-#: C/intro-first-run.page:203
+#: C/intro-first-run.page:206
 msgid ""
 "Standard Unix mbox spool file: For reading and storing email in the mail "
 "spool file on your local system."
@@ -4468,18 +4462,18 @@ msgstr ""
 
 #. (itstool) path: section/title
 #. (itstool) path: page/title
-#: C/intro-first-run.page:209
+#: C/intro-first-run.page:212
 #: C/mail-receiving-options-unix-mbox-spool-file.page:20
 msgid "Standard Unix mbox spool file receiving options"
 msgstr "Opcions de recepció en el fitxer de cua Standard Unix mbox"
 
 #. (itstool) path: section/title
-#: C/intro-first-run.page:218
+#: C/intro-first-run.page:221
 msgid "Standard Unix mbox spool directory"
 msgstr "Directori mbox estàndard per a cues de correu de l'Unix"
 
 #. (itstool) path: section/p
-#: C/intro-first-run.page:219
+#: C/intro-first-run.page:222
 msgid ""
 "Standard Unix mbox spool directory: For reading and storing email in the "
 "mail spool directory on your local system."
@@ -4489,39 +4483,39 @@ msgstr ""
 
 #. (itstool) path: section/title
 #. (itstool) path: page/title
-#: C/intro-first-run.page:225
+#: C/intro-first-run.page:228
 #: C/mail-receiving-options-unix-mbox-spool-directory.page:20
 msgid "Standard Unix mbox spool directory receiving options"
 msgstr "Opcions de recepció de la carpeta de cua Standard Unix mbox"
 
 #. (itstool) path: section/title
-#: C/intro-first-run.page:234
+#: C/intro-first-run.page:237
 msgid "None"
 msgstr "Cap"
 
 #. (itstool) path: section/p
-#: C/intro-first-run.page:235
+#: C/intro-first-run.page:238
 msgid "If you do not plan to use <app>Evolution</app> for receiving email."
 msgstr ""
 "Si no voleu utilitzar <app>Evolution</app> per a rebre correu electrònic."
 
 #. (itstool) path: section/title
-#: C/intro-first-run.page:241 C/mail-displaying-character-encodings.page:32
+#: C/intro-first-run.page:244 C/mail-displaying-character-encodings.page:32
 msgid "Sending mail"
 msgstr "Enviar correu"
 
 #. (itstool) path: section/p
-#: C/intro-first-run.page:242
+#: C/intro-first-run.page:245
 msgid "Available server types are:"
 msgstr "Els tipus de servidor disponibles són:"
 
 #. (itstool) path: section/title
-#: C/intro-first-run.page:245
+#: C/intro-first-run.page:248
 msgid "SMTP"
 msgstr "SMTP"
 
 #. (itstool) path: section/p
-#: C/intro-first-run.page:246
+#: C/intro-first-run.page:249
 msgid ""
 "Sends mail using an outbound mail server. This is the most common choice for "
 "sending mail."
@@ -4531,17 +4525,17 @@ msgstr ""
 
 #. (itstool) path: section/title
 #. (itstool) path: page/title
-#: C/intro-first-run.page:252 C/mail-sending-options-smtp.page:26
+#: C/intro-first-run.page:255 C/mail-sending-options-smtp.page:26
 msgid "SMTP sending options"
 msgstr "Opcions d'enviament SMTP"
 
 #. (itstool) path: section/title
-#: C/intro-first-run.page:261
+#: C/intro-first-run.page:264
 msgid "Sendmail"
 msgstr "Sendmail"
 
 #. (itstool) path: section/p
-#: C/intro-first-run.page:262
+#: C/intro-first-run.page:265
 msgid ""
 "Uses the <app>Sendmail</app> application to send mail from your system. It "
 "is not easy to configure, so you should select this option only if you know "
@@ -4553,22 +4547,22 @@ msgstr ""
 "Sendmail."
 
 #. (itstool) path: section/title
-#: C/intro-first-run.page:268
+#: C/intro-first-run.page:271
 msgid "Account Information"
 msgstr "Informació de compte"
 
 #. (itstool) path: section/p
-#: C/intro-first-run.page:269
+#: C/intro-first-run.page:272
 msgid "Give the account any name you prefer."
 msgstr "Doneu al compte el nom que preferiu."
 
 #. (itstool) path: section/title
-#: C/intro-first-run.page:273
+#: C/intro-first-run.page:276
 msgid "Importing Mail (Optional)"
 msgstr "Importar Mail (opcional)"
 
 #. (itstool) path: section/p
-#: C/intro-first-run.page:274
+#: C/intro-first-run.page:277
 msgid ""
 "Continue with <link xref=\"import-data\">Importing data from another "
 "application</link>."
@@ -5137,7 +5131,7 @@ msgid "The <app>Evolution</app> main window"
 msgstr "La finestra principal d'<app>Evolution</app>"
 
 #. (itstool) path: page/p
-#: C/intro-main-window.page:32
+#: C/intro-main-window.page:31
 msgid ""
 "<app>Evolution</app> provides functionality for Email, Calendar, Contacts, "
 "Tasks, and Memos. You can switch to another functionality by using the "
@@ -5155,7 +5149,7 @@ msgstr ""
 #. the file changes, the md5 hash will change to let you know you need to
 #. update your localized copy. The msgstr is not used at all. Set it to
 #. whatever you like once you have updated your copy of the file.
-#: C/intro-main-window.page:37
+#: C/intro-main-window.page:36
 msgctxt "_"
 msgid ""
 "external ref='./figures/window-overview-layers.png' "
@@ -5165,72 +5159,72 @@ msgstr ""
 "md5='e8970a16606fd7c6665afbc404a8c220'"
 
 #. (itstool) path: media/p
-#: C/intro-main-window.page:38
+#: C/intro-main-window.page:37
 msgid "The <app>Evolution</app> mail main window"
 msgstr "La finestra principal del correu <app>Evolution</app>"
 
 #. (itstool) path: section/p
-#: C/intro-main-window.page:41
+#: C/intro-main-window.page:40
 msgid "Corresponding elements in the mail main window:"
 msgstr "Elements corresponents a la finestra principal de correu:"
 
 #. (itstool) path: td/p
-#: C/intro-main-window.page:44 C/intro-main-window.page:102
-#: C/intro-main-window.page:148
+#: C/intro-main-window.page:43 C/intro-main-window.page:101
+#: C/intro-main-window.page:147
 msgid "<_:media-1/> Menu bar"
 msgstr "<_:media-1/> Barra de menú"
 
 #. (itstool) path: td/p
-#: C/intro-main-window.page:47 C/intro-main-window.page:105
-#: C/intro-main-window.page:151
+#: C/intro-main-window.page:46 C/intro-main-window.page:104
+#: C/intro-main-window.page:150
 msgid "<_:media-1/> Tool bar"
 msgstr "<_:media-1/> Barra d'eines"
 
 #. (itstool) path: td/p
-#: C/intro-main-window.page:50
+#: C/intro-main-window.page:49
 msgid "<_:media-1/> Folder list"
 msgstr "<_:media-1/> Llista de carpetes"
 
 #. (itstool) path: td/p
-#: C/intro-main-window.page:51 C/intro-main-window.page:109
-#: C/intro-main-window.page:155
+#: C/intro-main-window.page:50 C/intro-main-window.page:108
+#: C/intro-main-window.page:154
 msgid "<_:media-1/> Search bar"
 msgstr "<_:media-1/> Barra de cerca"
 
 #. (itstool) path: td/p
-#: C/intro-main-window.page:54
+#: C/intro-main-window.page:53
 msgid "<_:media-1/> Message list"
 msgstr "<_:media-1/> Llista de missatges"
 
 #. (itstool) path: td/p
-#: C/intro-main-window.page:55
+#: C/intro-main-window.page:54
 msgid "<_:media-1/> To Do bar"
 msgstr "<_:media-1/> Barra de tasques pendents"
 
 #. (itstool) path: td/p
-#: C/intro-main-window.page:58
+#: C/intro-main-window.page:57
 msgid "<_:media-1/> Preview pane"
 msgstr "<_:media-1/> Panell de previsualització"
 
 #. (itstool) path: td/p
-#: C/intro-main-window.page:61 C/intro-main-window.page:120
-#: C/intro-main-window.page:161
+#: C/intro-main-window.page:60 C/intro-main-window.page:119
+#: C/intro-main-window.page:160
 msgid "<_:media-1/> Switcher"
 msgstr "<_:media-1/> Canviador"
 
 #. (itstool) path: td/p
-#: C/intro-main-window.page:64 C/intro-main-window.page:123
-#: C/intro-main-window.page:165
+#: C/intro-main-window.page:63 C/intro-main-window.page:122
+#: C/intro-main-window.page:164
 msgid "<_:media-1/> Status bar"
 msgstr "<_:media-1/> Barra d'estat"
 
 #. (itstool) path: item/title
-#: C/intro-main-window.page:70
+#: C/intro-main-window.page:69
 msgid "Folder list"
 msgstr "Llista de carpetes"
 
 #. (itstool) path: item/p
-#: C/intro-main-window.page:71
+#: C/intro-main-window.page:70
 msgid ""
 "The folder list gives you a list of the available folders for each account. "
 "To see the contents of a folder, click the folder name and its contents are "
@@ -5241,7 +5235,7 @@ msgstr ""
 "carpeta i el seu contingut es mostrarà a la llista de missatges."
 
 #. (itstool) path: note/p
-#: C/intro-main-window.page:72
+#: C/intro-main-window.page:71
 msgid ""
 "For more information see <link xref=\"mail-folders\">Using Folders</link>."
 msgstr ""
@@ -5249,12 +5243,12 @@ msgstr ""
 "link>."
 
 #. (itstool) path: item/title
-#: C/intro-main-window.page:75
+#: C/intro-main-window.page:74
 msgid "Message List"
 msgstr "Llista de missatges"
 
 #. (itstool) path: item/p
-#: C/intro-main-window.page:76
+#: C/intro-main-window.page:75
 msgid ""
 "The message list displays all the read and unread messages that you have in "
 "the chosen folder. To view an email in the preview pane, click the message "
@@ -5265,12 +5259,12 @@ msgstr ""
 "de previsualització, feu clic al missatge a la llista de missatges."
 
 #. (itstool) path: item/title
-#: C/intro-main-window.page:79
+#: C/intro-main-window.page:78
 msgid "Switcher"
 msgstr "Commutador"
 
 #. (itstool) path: item/p
-#: C/intro-main-window.page:80
+#: C/intro-main-window.page:79
 msgid ""
 "The switcher at the bottom of the side bar lets you switch between the "
 "<app>Evolution</app> tools: Mail, Contacts, Calendars, Memos and Tasks."
@@ -5280,7 +5274,7 @@ msgstr ""
 "Anotacions i Tasques."
 
 #. (itstool) path: note/p
-#: C/intro-main-window.page:81
+#: C/intro-main-window.page:80
 msgid ""
 "You can disable the folder list and the switcher side bar by toggling "
 "<guiseq><gui>View</gui><gui>Layout</gui><gui>Show Side Bar</gui></guiseq> or "
@@ -5291,12 +5285,12 @@ msgstr ""
 "lateral</gui></guiseq> o prement <key>F9</key>."
 
 #. (itstool) path: item/title
-#: C/intro-main-window.page:84
+#: C/intro-main-window.page:83
 msgid "Preview Pane"
 msgstr "Panell de previsualització"
 
 #. (itstool) path: item/p
-#: C/intro-main-window.page:85
+#: C/intro-main-window.page:84
 msgid ""
 "The preview pane displays the message that is currently chosen in the "
 "message list."
@@ -5305,7 +5299,7 @@ msgstr ""
 "llista de missatges."
 
 #. (itstool) path: note/p
-#: C/intro-main-window.page:86
+#: C/intro-main-window.page:85
 msgid ""
 "You can disable the preview pane by toggling <guiseq><gui>View</"
 "gui><gui>Preview</gui><gui>Show Message Preview</gui></guiseq>."
@@ -5315,12 +5309,12 @@ msgstr ""
 "prèvia de missatges</gui></guiseq>."
 
 #. (itstool) path: item/title
-#: C/intro-main-window.page:89
+#: C/intro-main-window.page:88
 msgid "To Do bar"
 msgstr "Barra de tasques pendents"
 
 #. (itstool) path: item/p
-#: C/intro-main-window.page:90
+#: C/intro-main-window.page:89
 msgid ""
 "The to do bar displays calendar appointments and tasks with due dates within "
 "the next seven days."
@@ -5329,7 +5323,7 @@ msgstr ""
 "de venciment en els propers set dies."
 
 #. (itstool) path: note/p
-#: C/intro-main-window.page:91
+#: C/intro-main-window.page:90
 msgid ""
 "You can disable the to do bar by toggling <guiseq><gui>View</"
 "gui><gui>Layout</gui><gui>Show To Do Bar</gui></guiseq>."
@@ -5339,7 +5333,7 @@ msgstr ""
 "guiseq>."
 
 #. (itstool) path: note/p
-#: C/intro-main-window.page:94
+#: C/intro-main-window.page:93
 msgid ""
 "If you ever accidentally hide the menu bar, press <key>Alt</key> and re-"
 "enable it by toggling <guiseq><gui>View</gui><gui>Layout</gui><gui>Show Menu "
@@ -5350,42 +5344,42 @@ msgstr ""
 "gui><gui>Mostra la barra de menú</gui></guiseq>."
 
 #. (itstool) path: section/p
-#: C/intro-main-window.page:99
+#: C/intro-main-window.page:98
 msgid "Elements in the calendar main window:"
 msgstr "Elements a la finestra principal del calendari:"
 
 #. (itstool) path: td/p
-#: C/intro-main-window.page:108
+#: C/intro-main-window.page:107
 msgid "<_:media-1/> Calendar list"
 msgstr "<_:media-1/> Llista de calendaris"
 
 #. (itstool) path: td/p
-#: C/intro-main-window.page:112
+#: C/intro-main-window.page:111
 msgid "<_:media-1/> Appointment list"
 msgstr "<_:media-1/> Llista de cites"
 
 #. (itstool) path: td/p
-#: C/intro-main-window.page:113
+#: C/intro-main-window.page:112
 msgid "Task list"
 msgstr "Llista de tasques"
 
 #. (itstool) path: td/p
-#: C/intro-main-window.page:116
+#: C/intro-main-window.page:115
 msgid "Month pane"
 msgstr "Panell del mes"
 
 #. (itstool) path: td/p
-#: C/intro-main-window.page:117
+#: C/intro-main-window.page:116
 msgid "Memo list"
 msgstr "Llista d'anotacions"
 
 #. (itstool) path: item/title
-#: C/intro-main-window.page:128
+#: C/intro-main-window.page:127
 msgid "Appointment List"
 msgstr "Llista de cites"
 
 #. (itstool) path: item/p
-#: C/intro-main-window.page:129
+#: C/intro-main-window.page:128
 msgid ""
 "The appointment list displays all your scheduled appointments in the time "
 "frame selected."
@@ -5394,12 +5388,12 @@ msgstr ""
 "seleccionat."
 
 #. (itstool) path: item/title
-#: C/intro-main-window.page:132
+#: C/intro-main-window.page:131
 msgid "Month Pane"
 msgstr "Panell del mes"
 
 #. (itstool) path: item/p
-#: C/intro-main-window.page:133
+#: C/intro-main-window.page:132
 msgid ""
 "The month pane is a small view of a calendar month. To display additional "
 "months, drag the column border to the right. You can also select a range of "
@@ -5412,12 +5406,12 @@ msgstr ""
 "cites en un interval de dies personalitzat."
 
 #. (itstool) path: item/title
-#: C/intro-main-window.page:136
+#: C/intro-main-window.page:135
 msgid "Task list and Memo list"
 msgstr "Llista de tasques i d'anotacions"
 
 #. (itstool) path: item/p
-#: C/intro-main-window.page:137
+#: C/intro-main-window.page:136
 msgid ""
 "Tasks and memos are just displayed for your convenience and are not "
 "associated to any appointments. Use the <gui>switcher</gui> to go to their "
@@ -5428,27 +5422,27 @@ msgstr ""
 "les seves finestres principals."
 
 #. (itstool) path: section/p
-#: C/intro-main-window.page:145
+#: C/intro-main-window.page:144
 msgid "Elements in the contacts main window:"
 msgstr "Elements a la finestra principal de contactes:"
 
 #. (itstool) path: td/p
-#: C/intro-main-window.page:154
+#: C/intro-main-window.page:153
 msgid "<_:media-1/> Address book list"
 msgstr "<_:media-1/> Llista de llibretes d'adreces"
 
 #. (itstool) path: td/p
-#: C/intro-main-window.page:158
+#: C/intro-main-window.page:157
 msgid "<_:media-1/> Contacts list"
 msgstr "<_:media-1/> Llista de contactes"
 
 #. (itstool) path: td/p
-#: C/intro-main-window.page:162
+#: C/intro-main-window.page:161
 msgid "<_:media-1/> Contact preview"
 msgstr "<_:media-1/> Previsualització de contactes"
 
 #. (itstool) path: note/p
-#: C/intro-main-window.page:168
+#: C/intro-main-window.page:167
 msgid ""
 "You can disable the contact preview by toggling <guiseq><gui>View</"
 "gui><gui>Preview</gui><gui>Contact Preview</gui></guiseq>."
@@ -5647,29 +5641,21 @@ msgstr ""
 msgid "Add and edit an IMAP+ mail account in <app>Evolution</app>."
 msgstr "Afegir i editar un compte de correu IMAP + a <app>Evolution</app>."
 
+#. (itstool) path: info/title
+#: C/mail-account-manage-imap-plus.page:8
+msgctxt "link:trail"
+msgid "IMAP+"
+msgstr "IMAP+"
+
 #. (itstool) path: page/title
-#: C/mail-account-manage-imap-plus.page:20
+#: C/mail-account-manage-imap-plus.page:21
 msgid "IMAP+ mail account settings"
 msgstr "Configuració del compte de correu IMAP +"
 
 #. (itstool) path: section/title
-#: C/mail-account-manage-imap-plus.page:23
-#: C/mail-account-manage-local-delivery.page:23
-#: C/mail-account-manage-maildir-format-directories.page:23
-#: C/mail-account-manage-mh-format-directories.page:23
-#: C/mail-account-manage-microsoft-exchange-evo-ews.page:23
-#: C/mail-account-manage-microsoft-exchange-evo-mapi.page:23
-#: C/mail-account-manage-pop.page:23
-#: C/mail-account-manage-unix-mbox-spool-directory.page:23
-#: C/mail-account-manage-unix-mbox-spool-file.page:23
-#: C/mail-account-manage-usenet-news.page:23
-msgid "Account Editor"
-msgstr "Editor de comptes"
-
-#. (itstool) path: section/p
 #: C/mail-account-manage-imap-plus.page:24
 #: C/mail-account-manage-local-delivery.page:24
-#: C/mail-account-manage-maildir-format-directories.page:25
+#: C/mail-account-manage-maildir-format-directories.page:24
 #: C/mail-account-manage-mh-format-directories.page:24
 #: C/mail-account-manage-microsoft-exchange-evo-ews.page:24
 #: C/mail-account-manage-microsoft-exchange-evo-mapi.page:24
@@ -5677,6 +5663,20 @@ msgstr "Editor de comptes"
 #: C/mail-account-manage-unix-mbox-spool-directory.page:24
 #: C/mail-account-manage-unix-mbox-spool-file.page:24
 #: C/mail-account-manage-usenet-news.page:24
+msgid "Account Editor"
+msgstr "Editor de comptes"
+
+#. (itstool) path: section/p
+#: C/mail-account-manage-imap-plus.page:25
+#: C/mail-account-manage-local-delivery.page:25
+#: C/mail-account-manage-maildir-format-directories.page:26
+#: C/mail-account-manage-mh-format-directories.page:25
+#: C/mail-account-manage-microsoft-exchange-evo-ews.page:25
+#: C/mail-account-manage-microsoft-exchange-evo-mapi.page:25
+#: C/mail-account-manage-pop.page:25
+#: C/mail-account-manage-unix-mbox-spool-directory.page:25
+#: C/mail-account-manage-unix-mbox-spool-file.page:25
+#: C/mail-account-manage-usenet-news.page:25
 msgid ""
 "Mail accounts can be added by choosing <guiseq><gui>File</gui><gui>New</"
 "gui><gui>Mail Account</gui></guiseq> or via <guiseq><gui>Edit</"
@@ -5694,10 +5694,10 @@ msgstr ""
 "d'altres aplicacions o recuperar-les d'un fitxer de còpia de seguretat."
 
 #. (itstool) path: section/p
-#: C/mail-account-manage-imap-plus.page:25
-#: C/mail-account-manage-microsoft-exchange-evo-ews.page:25
-#: C/mail-account-manage-microsoft-exchange-evo-mapi.page:25
-#: C/mail-account-manage-usenet-news.page:25
+#: C/mail-account-manage-imap-plus.page:26
+#: C/mail-account-manage-microsoft-exchange-evo-ews.page:26
+#: C/mail-account-manage-microsoft-exchange-evo-mapi.page:26
+#: C/mail-account-manage-usenet-news.page:26
 msgid ""
 "Mail accounts can be edited via <guiseq><gui>Edit</gui><gui>Preferences</"
 "gui><gui>Mail Accounts</gui><gui style=\"button\">Edit</gui></guiseq> or by "
@@ -5710,133 +5710,232 @@ msgstr ""
 "corresponent a la llista de carpetes i triant <gui>Propietats</gui>."
 
 #. (itstool) path: section/p
-#: C/mail-account-manage-imap-plus.page:26
-#: C/mail-account-manage-local-delivery.page:26
-#: C/mail-account-manage-maildir-format-directories.page:27
-#: C/mail-account-manage-mh-format-directories.page:26
-#: C/mail-account-manage-microsoft-exchange-evo-ews.page:26
-#: C/mail-account-manage-microsoft-exchange-evo-mapi.page:26
-#: C/mail-account-manage-pop.page:26
-#: C/mail-account-manage-unix-mbox-spool-directory.page:26
-#: C/mail-account-manage-unix-mbox-spool-file.page:26
-#: C/mail-account-manage-usenet-news.page:26
+#: C/mail-account-manage-imap-plus.page:27
+#: C/mail-account-manage-local-delivery.page:27
+#: C/mail-account-manage-maildir-format-directories.page:28
+#: C/mail-account-manage-mh-format-directories.page:27
+#: C/mail-account-manage-microsoft-exchange-evo-ews.page:30
+#: C/mail-account-manage-microsoft-exchange-evo-mapi.page:27
+#: C/mail-account-manage-pop.page:27
+#: C/mail-account-manage-unix-mbox-spool-directory.page:27
+#: C/mail-account-manage-unix-mbox-spool-file.page:27
+#: C/mail-account-manage-usenet-news.page:27
 msgid "The following settings are available when editing an existing account:"
 msgstr ""
 "Els següents ajustos estan disponibles quan s'edita un compte existent:"
 
 #. (itstool) path: info/title
-#: C/mail-account-manage-imap-plus.page:36
+#: C/mail-account-manage-imap-plus.page:31
+msgctxt "link"
+msgid "Identity (IMAP+ accounts)"
+msgstr "Identitat (comptes IMAP+)"
+
+#. (itstool) path: info/title
+#: C/mail-account-manage-imap-plus.page:32
+#: C/mail-account-manage-local-delivery.page:32
+#: C/mail-account-manage-maildir-format-directories.page:33
+#: C/mail-account-manage-mh-format-directories.page:32
+#: C/mail-account-manage-microsoft-exchange-evo-ews.page:35
+#: C/mail-account-manage-pop.page:32
+#: C/mail-account-manage-unix-mbox-spool-directory.page:32
+#: C/mail-account-manage-unix-mbox-spool-file.page:32
+#: C/mail-account-manage-usenet-news.page:32
+msgctxt "link:trail"
+msgid "Identity"
+msgstr "Identitat"
+
+#. (itstool) path: info/title
+#: C/mail-account-manage-imap-plus.page:41
 msgctxt "link"
 msgid "Receiving Email and Receiving options (IMAP+ accounts)"
 msgstr "Rebre correu electrònic i opcions de recepció (comptes IMAP +)"
 
-#. (itstool) path: section/title
-#: C/mail-account-manage-imap-plus.page:38
-#: C/mail-account-manage-local-delivery.page:38
-#: C/mail-account-manage-maildir-format-directories.page:39
-#: C/mail-account-manage-mh-format-directories.page:38
-#: C/mail-account-manage-microsoft-exchange-evo-ews.page:38
+#. (itstool) path: info/title
+#: C/mail-account-manage-imap-plus.page:42
+#: C/mail-account-manage-local-delivery.page:42
+#: C/mail-account-manage-maildir-format-directories.page:43
+#: C/mail-account-manage-mh-format-directories.page:42
+#: C/mail-account-manage-microsoft-exchange-evo-ews.page:45
 #: C/mail-account-manage-microsoft-exchange-evo-mapi.page:38
-#: C/mail-account-manage-pop.page:38
-#: C/mail-account-manage-unix-mbox-spool-directory.page:38
-#: C/mail-account-manage-unix-mbox-spool-file.page:38
-#: C/mail-account-manage-usenet-news.page:38
+#: C/mail-account-manage-pop.page:42
+#: C/mail-account-manage-unix-mbox-spool-directory.page:42
+#: C/mail-account-manage-unix-mbox-spool-file.page:42
+#: C/mail-account-manage-usenet-news.page:42
+msgctxt "link:trail"
+msgid "Receiving"
+msgstr "Recepció"
+
+#. (itstool) path: section/title
+#: C/mail-account-manage-imap-plus.page:44
+#: C/mail-account-manage-local-delivery.page:44
+#: C/mail-account-manage-maildir-format-directories.page:45
+#: C/mail-account-manage-mh-format-directories.page:44
+#: C/mail-account-manage-microsoft-exchange-evo-ews.page:47
+#: C/mail-account-manage-microsoft-exchange-evo-mapi.page:40
+#: C/mail-account-manage-pop.page:44
+#: C/mail-account-manage-unix-mbox-spool-directory.page:44
+#: C/mail-account-manage-unix-mbox-spool-file.page:44
+#: C/mail-account-manage-usenet-news.page:44
 msgid "Receiving Email and Receiving options"
 msgstr "Rebre correu electrònic i opcions de recepció"
 
 #. (itstool) path: info/title
-#: C/mail-account-manage-imap-plus.page:43
+#: C/mail-account-manage-imap-plus.page:49
 msgctxt "link"
 msgid "Sending Email (IMAP+ accounts)"
 msgstr "Enviar correu electrònic (comptes IMAP+)"
 
-#. (itstool) path: section/title
-#: C/mail-account-manage-imap-plus.page:45
-#: C/mail-account-manage-local-delivery.page:45
-#: C/mail-account-manage-maildir-format-directories.page:46
-#: C/mail-account-manage-mh-format-directories.page:45
-#: C/mail-account-manage-pop.page:45
-#: C/mail-account-manage-unix-mbox-spool-directory.page:45
-#: C/mail-account-manage-unix-mbox-spool-file.page:45
-#: C/mail-account-manage-usenet-news.page:45
-msgid "Sending Email"
-msgstr "Enviament de correu"
-
 #. (itstool) path: info/title
 #: C/mail-account-manage-imap-plus.page:50
-msgctxt "link"
-msgid "Defaults (IMAP+ accounts)"
-msgstr "Opcions predeterminades (comptes IMAP+)"
+#: C/mail-account-manage-local-delivery.page:50
+#: C/mail-account-manage-maildir-format-directories.page:51
+#: C/mail-account-manage-mh-format-directories.page:50
+#: C/mail-account-manage-pop.page:50
+#: C/mail-account-manage-unix-mbox-spool-directory.page:50
+#: C/mail-account-manage-unix-mbox-spool-file.page:50
+#: C/mail-account-manage-usenet-news.page:50
+msgctxt "link:trail"
+msgid "Sending"
+msgstr "Enviament"
 
 #. (itstool) path: section/title
 #: C/mail-account-manage-imap-plus.page:52
 #: C/mail-account-manage-local-delivery.page:52
 #: C/mail-account-manage-maildir-format-directories.page:53
 #: C/mail-account-manage-mh-format-directories.page:52
-#: C/mail-account-manage-microsoft-exchange-evo-ews.page:45
-#: C/mail-account-manage-microsoft-exchange-evo-mapi.page:45
 #: C/mail-account-manage-pop.page:52
 #: C/mail-account-manage-unix-mbox-spool-directory.page:52
 #: C/mail-account-manage-unix-mbox-spool-file.page:52
 #: C/mail-account-manage-usenet-news.page:52
-msgid "Defaults"
-msgstr "Opcions predeterminades"
+msgid "Sending Email"
+msgstr "Enviament de correu"
 
 #. (itstool) path: info/title
 #: C/mail-account-manage-imap-plus.page:57
 msgctxt "link"
+msgid "Defaults (IMAP+ accounts)"
+msgstr "Opcions predeterminades (comptes IMAP+)"
+
+#. (itstool) path: info/title
+#: C/mail-account-manage-imap-plus.page:58
+#: C/mail-account-manage-local-delivery.page:58
+#: C/mail-account-manage-maildir-format-directories.page:59
+#: C/mail-account-manage-mh-format-directories.page:58
+#: C/mail-account-manage-microsoft-exchange-evo-ews.page:53
+#: C/mail-account-manage-microsoft-exchange-evo-mapi.page:46
+#: C/mail-account-manage-pop.page:58
+#: C/mail-account-manage-unix-mbox-spool-directory.page:58
+#: C/mail-account-manage-unix-mbox-spool-file.page:58
+#: C/mail-account-manage-usenet-news.page:58
+msgctxt "link:trail"
+msgid "Defaults"
+msgstr "Predeterminats"
+
+#. (itstool) path: section/title
+#: C/mail-account-manage-imap-plus.page:60
+#: C/mail-account-manage-local-delivery.page:60
+#: C/mail-account-manage-maildir-format-directories.page:61
+#: C/mail-account-manage-mh-format-directories.page:60
+#: C/mail-account-manage-microsoft-exchange-evo-ews.page:55
+#: C/mail-account-manage-microsoft-exchange-evo-mapi.page:48
+#: C/mail-account-manage-pop.page:60
+#: C/mail-account-manage-unix-mbox-spool-directory.page:60
+#: C/mail-account-manage-unix-mbox-spool-file.page:60
+#: C/mail-account-manage-usenet-news.page:60
+msgid "Defaults"
+msgstr "Opcions predeterminades"
+
+#. (itstool) path: info/title
+#: C/mail-account-manage-imap-plus.page:65
+msgctxt "link"
 msgid "Composing Messages (IMAP+ accounts)"
 msgstr "Redacció de missatges (comptes IMAP + )"
 
-#. (itstool) path: section/title
-#: C/mail-account-manage-imap-plus.page:59
-#: C/mail-account-manage-local-delivery.page:59
-#: C/mail-account-manage-maildir-format-directories.page:60
-#: C/mail-account-manage-mh-format-directories.page:59
-#: C/mail-account-manage-microsoft-exchange-evo-ews.page:52
-#: C/mail-account-manage-microsoft-exchange-evo-mapi.page:52
-#: C/mail-account-manage-pop.page:59
-#: C/mail-account-manage-unix-mbox-spool-directory.page:59
-#: C/mail-account-manage-unix-mbox-spool-file.page:59
-#: C/mail-account-manage-usenet-news.page:59
-msgid "Composing Messages"
-msgstr "Redacció de missatges"
-
 #. (itstool) path: info/title
-#: C/mail-account-manage-imap-plus.page:64
-msgctxt "link"
-msgid "Security (IMAP+ accounts)"
-msgstr "Seguretat (comptes IMAP+)"
-
-#. (itstool) path: section/title
 #: C/mail-account-manage-imap-plus.page:66
 #: C/mail-account-manage-local-delivery.page:66
 #: C/mail-account-manage-maildir-format-directories.page:67
 #: C/mail-account-manage-mh-format-directories.page:66
-#: C/mail-account-manage-microsoft-exchange-evo-ews.page:59
-#: C/mail-account-manage-microsoft-exchange-evo-mapi.page:65
+#: C/mail-account-manage-microsoft-exchange-evo-ews.page:61
+#: C/mail-account-manage-microsoft-exchange-evo-mapi.page:54
 #: C/mail-account-manage-pop.page:66
 #: C/mail-account-manage-unix-mbox-spool-directory.page:66
 #: C/mail-account-manage-unix-mbox-spool-file.page:66
 #: C/mail-account-manage-usenet-news.page:66
+msgctxt "link:trail"
+msgid "Composing"
+msgstr "S'està creant la composició"
+
+#. (itstool) path: section/title
+#: C/mail-account-manage-imap-plus.page:68
+#: C/mail-account-manage-local-delivery.page:68
+#: C/mail-account-manage-maildir-format-directories.page:69
+#: C/mail-account-manage-mh-format-directories.page:68
+#: C/mail-account-manage-microsoft-exchange-evo-ews.page:63
+#: C/mail-account-manage-microsoft-exchange-evo-mapi.page:56
+#: C/mail-account-manage-pop.page:68
+#: C/mail-account-manage-unix-mbox-spool-directory.page:68
+#: C/mail-account-manage-unix-mbox-spool-file.page:68
+#: C/mail-account-manage-usenet-news.page:68
+msgid "Composing Messages"
+msgstr "Redacció de missatges"
+
+#. (itstool) path: info/title
+#: C/mail-account-manage-imap-plus.page:73
+msgctxt "link"
+msgid "Security (IMAP+ accounts)"
+msgstr "Seguretat (comptes IMAP+)"
+
+#. (itstool) path: info/title
+#: C/mail-account-manage-imap-plus.page:74
+#: C/mail-account-manage-local-delivery.page:74
+#: C/mail-account-manage-maildir-format-directories.page:75
+#: C/mail-account-manage-mh-format-directories.page:74
+#: C/mail-account-manage-microsoft-exchange-evo-ews.page:69
+#: C/mail-account-manage-microsoft-exchange-evo-mapi.page:68
+#: C/mail-account-manage-pop.page:74
+#: C/mail-account-manage-unix-mbox-spool-directory.page:74
+#: C/mail-account-manage-unix-mbox-spool-file.page:74
+#: C/mail-account-manage-usenet-news.page:74
+msgctxt "link:trail"
+msgid "Security"
+msgstr "Seguretat"
+
+#. (itstool) path: section/title
+#: C/mail-account-manage-imap-plus.page:76
+#: C/mail-account-manage-local-delivery.page:76
+#: C/mail-account-manage-maildir-format-directories.page:77
+#: C/mail-account-manage-mh-format-directories.page:76
+#: C/mail-account-manage-microsoft-exchange-evo-ews.page:71
+#: C/mail-account-manage-microsoft-exchange-evo-mapi.page:70
+#: C/mail-account-manage-pop.page:76
+#: C/mail-account-manage-unix-mbox-spool-directory.page:76
+#: C/mail-account-manage-unix-mbox-spool-file.page:76
+#: C/mail-account-manage-usenet-news.page:76
 msgid "Security"
 msgstr "Seguretat"
 
 #. (itstool) path: info/title
-#: C/mail-account-manage-imap-plus.page:75
+#: C/mail-account-manage-imap-plus.page:85
 msgctxt "link"
 msgid "Other settings (IMAP+ accounts)"
 msgstr "Altres configuracions (comptes IMAP+)"
 
+#. (itstool) path: info/title
+#: C/mail-account-manage-imap-plus.page:86
+msgctxt "link:trail"
+msgid "Other settings"
+msgstr "Altres configuracions"
+
 #. (itstool) path: section/title
-#: C/mail-account-manage-imap-plus.page:77
-#: C/mail-account-manage-usenet-news.page:75
+#: C/mail-account-manage-imap-plus.page:88
+#: C/mail-account-manage-usenet-news.page:86
 msgid "Other settings"
 msgstr "Altres configuracions"
 
 #. (itstool) path: section/p
-#: C/mail-account-manage-imap-plus.page:78
-#: C/mail-account-manage-usenet-news.page:76
+#: C/mail-account-manage-imap-plus.page:89
+#: C/mail-account-manage-usenet-news.page:87
 msgid ""
 "Other account related settings that are not located in the <gui>Account "
 "Editor</gui>:"
@@ -5849,18 +5948,25 @@ msgstr ""
 msgid "Add and edit a Local Delivery account in <app>Evolution</app>."
 msgstr "Afegir i editar un compte de Lliurament Local a <app>Evolution</app>."
 
+#. (itstool) path: info/title
+#: C/mail-account-manage-local-delivery.page:8
+#: C/mail-account-management.page:31
+msgctxt "link:trail"
+msgid "Local"
+msgstr "Local"
+
 #. (itstool) path: page/title
-#: C/mail-account-manage-local-delivery.page:20
+#: C/mail-account-manage-local-delivery.page:21
 msgid "Local Delivery account settings"
 msgstr "Configuració d'un compte de Lliurament Local"
 
 #. (itstool) path: section/p
-#: C/mail-account-manage-local-delivery.page:25
-#: C/mail-account-manage-maildir-format-directories.page:26
-#: C/mail-account-manage-mh-format-directories.page:25
-#: C/mail-account-manage-pop.page:25
-#: C/mail-account-manage-unix-mbox-spool-directory.page:25
-#: C/mail-account-manage-unix-mbox-spool-file.page:25
+#: C/mail-account-manage-local-delivery.page:26
+#: C/mail-account-manage-maildir-format-directories.page:27
+#: C/mail-account-manage-mh-format-directories.page:26
+#: C/mail-account-manage-pop.page:26
+#: C/mail-account-manage-unix-mbox-spool-directory.page:26
+#: C/mail-account-manage-unix-mbox-spool-file.page:26
 msgid ""
 "Mail accounts can be edited via <guiseq><gui>Edit</gui><gui>Preferences</"
 "gui><gui>Mail Accounts</gui><gui style=\"button\">Edit</gui></guiseq>."
@@ -5870,32 +5976,38 @@ msgstr ""
 "\">Edita</gui></guiseq>."
 
 #. (itstool) path: info/title
-#: C/mail-account-manage-local-delivery.page:36
+#: C/mail-account-manage-local-delivery.page:31
+msgctxt "link"
+msgid "Identity (Local Delivery accounts)"
+msgstr "Identitat (comptes de lliurament local)"
+
+#. (itstool) path: info/title
+#: C/mail-account-manage-local-delivery.page:41
 msgctxt "link"
 msgid "Receiving Email and Receiving options (Local Delivery accounts)"
 msgstr ""
 "Rebre correu electrònic i opcions de recepció (comptes de Lliurament Local)"
 
 #. (itstool) path: info/title
-#: C/mail-account-manage-local-delivery.page:43
+#: C/mail-account-manage-local-delivery.page:49
 msgctxt "link"
 msgid "Sending Email (Local Delivery accounts)"
 msgstr "Enviar correu electrònic (comptes de Lliurament Local)"
 
 #. (itstool) path: info/title
-#: C/mail-account-manage-local-delivery.page:50
+#: C/mail-account-manage-local-delivery.page:57
 msgctxt "link"
 msgid "Defaults (Local Delivery accounts)"
 msgstr "Opcions predeterminades (Comptes de Lliurament Local)"
 
 #. (itstool) path: info/title
-#: C/mail-account-manage-local-delivery.page:57
+#: C/mail-account-manage-local-delivery.page:65
 msgctxt "link"
 msgid "Composing Messages (Local Delivery accounts)"
 msgstr "Redacció de missatges (comptes de Lliurament Local)"
 
 #. (itstool) path: info/title
-#: C/mail-account-manage-local-delivery.page:64
+#: C/mail-account-manage-local-delivery.page:73
 msgctxt "link"
 msgid "Security (Local Delivery accounts)"
 msgstr "Seguretat (Comptes de Lliurament Local)"
@@ -5909,18 +6021,30 @@ msgstr ""
 "Afegir i editar un compte de directoris de correu en format Maildir a "
 "<app>Evolution</app>."
 
+#. (itstool) path: info/title
+#: C/mail-account-manage-maildir-format-directories.page:8
+msgctxt "link:trail"
+msgid "Maildir"
+msgstr "Maildir"
+
 #. (itstool) path: page/title
-#: C/mail-account-manage-maildir-format-directories.page:20
+#: C/mail-account-manage-maildir-format-directories.page:21
 msgid "Maildir Format Mail Directories account settings"
 msgstr "Configuració d'un compte de directoris de correu en format Maildir"
 
 #. (itstool) path: section/p
-#: C/mail-account-manage-maildir-format-directories.page:24
+#: C/mail-account-manage-maildir-format-directories.page:25
 msgid "<app>Evolution</app> supports the Maildir++ specification."
 msgstr "<app>Evolution</app> suporta l'especificació Maildir++."
 
 #. (itstool) path: info/title
-#: C/mail-account-manage-maildir-format-directories.page:37
+#: C/mail-account-manage-maildir-format-directories.page:32
+msgctxt "link"
+msgid "Identity (Maildir Format Mail Directories accounts)"
+msgstr "Identitat (comptes de Directoris de correu de format Maildir)"
+
+#. (itstool) path: info/title
+#: C/mail-account-manage-maildir-format-directories.page:42
 msgctxt "link"
 msgid ""
 "Receiving Email and Receiving options (Maildir Format Mail Directories "
@@ -5930,28 +6054,28 @@ msgstr ""
 "correu en format MailDir)"
 
 #. (itstool) path: info/title
-#: C/mail-account-manage-maildir-format-directories.page:44
+#: C/mail-account-manage-maildir-format-directories.page:50
 msgctxt "link"
 msgid "Sending Email (Maildir Format Mail Directories accounts)"
 msgstr ""
 "Enviar correu electrònic (comptes de directoris de correu en format MailDir)"
 
 #. (itstool) path: info/title
-#: C/mail-account-manage-maildir-format-directories.page:51
+#: C/mail-account-manage-maildir-format-directories.page:58
 msgctxt "link"
 msgid "Defaults (Maildir Format Mail Directories accounts)"
 msgstr ""
 "Opcions predeterminades (comptes de directoris de correu en format MailDir)"
 
 #. (itstool) path: info/title
-#: C/mail-account-manage-maildir-format-directories.page:58
+#: C/mail-account-manage-maildir-format-directories.page:66
 msgctxt "link"
 msgid "Composing Messages (Maildir Format Mail Directories accounts)"
 msgstr ""
 "Redacció de missatges (comptes de directoris de correu en format MailDir)"
 
 #. (itstool) path: info/title
-#: C/mail-account-manage-maildir-format-directories.page:65
+#: C/mail-account-manage-maildir-format-directories.page:74
 msgctxt "link"
 msgid "Security (Maildir Format Mail Directories accounts)"
 msgstr "Seguretat (comptes de directoris de correu en format MailDir)"
@@ -5966,18 +6090,30 @@ msgstr "Afegir, editar, i gestionar, comptes de correu."
 msgid "Account Management"
 msgstr "Gestió de comptes"
 
+#. (itstool) path: info/title
+#: C/mail-account-management.page:24
+msgctxt "link:trail"
+msgid "Common"
+msgstr "Comú"
+
 #. (itstool) path: section/title
-#: C/mail-account-management.page:23
+#: C/mail-account-management.page:26
 msgid "Common Account Types"
 msgstr "Tipus de comptes comuns"
 
 #. (itstool) path: section/title
-#: C/mail-account-management.page:27
+#: C/mail-account-management.page:33
 msgid "Local Account Types"
 msgstr "Tipus de comptes locals"
 
+#. (itstool) path: info/title
+#: C/mail-account-management.page:38
+msgctxt "link:trail"
+msgid "Corporate"
+msgstr "Institució"
+
 #. (itstool) path: section/title
-#: C/mail-account-management.page:31
+#: C/mail-account-management.page:40
 msgid "Corporate Account Types"
 msgstr "Tipus de comptes corporatius"
 
@@ -5989,13 +6125,25 @@ msgstr ""
 "Afegir i editar un compte de directoris de correu en format MH a "
 "<app>Evolution</app>."
 
+#. (itstool) path: info/title
+#: C/mail-account-manage-mh-format-directories.page:8
+msgctxt "link:trail"
+msgid "MH Format"
+msgstr "Format MH"
+
 #. (itstool) path: page/title
-#: C/mail-account-manage-mh-format-directories.page:20
+#: C/mail-account-manage-mh-format-directories.page:21
 msgid "MH Format Mail Directories account settings"
 msgstr "Configuració d'un compte de directoris de correu en format MH"
 
 #. (itstool) path: info/title
-#: C/mail-account-manage-mh-format-directories.page:36
+#: C/mail-account-manage-mh-format-directories.page:31
+msgctxt "link"
+msgid "Identity (MH Format Mail Directories accounts)"
+msgstr "Identitat (comptes de directoris de correu de format MH)"
+
+#. (itstool) path: info/title
+#: C/mail-account-manage-mh-format-directories.page:41
 msgctxt "link"
 msgid ""
 "Receiving Email and Receiving options (MH Format Mail Directories accounts)"
@@ -6004,26 +6152,26 @@ msgstr ""
 "correu en format MH)"
 
 #. (itstool) path: info/title
-#: C/mail-account-manage-mh-format-directories.page:43
+#: C/mail-account-manage-mh-format-directories.page:49
 msgctxt "link"
 msgid "Sending Email (MH Format Mail Directories accounts)"
 msgstr ""
 "Enviar correu electrònic (comptes de directoris de correu en format MH)"
 
 #. (itstool) path: info/title
-#: C/mail-account-manage-mh-format-directories.page:50
+#: C/mail-account-manage-mh-format-directories.page:57
 msgctxt "link"
 msgid "Defaults (MH Format Mail Directories accounts)"
 msgstr "Opcions predeterminades (comptes de directoris de correu en format MH)"
 
 #. (itstool) path: info/title
-#: C/mail-account-manage-mh-format-directories.page:57
+#: C/mail-account-manage-mh-format-directories.page:65
 msgctxt "link"
 msgid "Composing Messages (MH Format Mail Directories accounts)"
 msgstr "Redacció de missatges (comptes de directoris de correu en format MH)"
 
 #. (itstool) path: info/title
-#: C/mail-account-manage-mh-format-directories.page:64
+#: C/mail-account-manage-mh-format-directories.page:73
 msgctxt "link"
 msgid "Security (MH Format Mail Directories accounts)"
 msgstr "Seguretat (comptes de directoris de correu en format MH)"
@@ -6037,43 +6185,66 @@ msgstr ""
 "Afegir i editar un compte de Microsoft Exchange 2007 o 2010 a "
 "<app>Evolution</app>."
 
+#. (itstool) path: info/title
+#: C/mail-account-manage-microsoft-exchange-evo-ews.page:8
+msgctxt "link:trail"
+msgid "Web Services"
+msgstr "Web Services"
+
 #. (itstool) path: page/title
-#: C/mail-account-manage-microsoft-exchange-evo-ews.page:20
+#: C/mail-account-manage-microsoft-exchange-evo-ews.page:21
 msgid "Exchange Web Services account settings"
 msgstr "Configuració d'un compte d'Exchange Web Services"
 
+#. (itstool) path: note/p
+#: C/mail-account-manage-microsoft-exchange-evo-ews.page:28
+msgid ""
+"See also the <link href=\"https://wiki.gnome.org/Apps/Evolution/EWS/"
+"OAuth2\">documentation how to set up and troubleshoot OAuth2</link> "
+"authentication."
+msgstr ""
+"Vegeu també la <link href=\"https://wiki.gnome.org/Apps/Evolution/EWS/"
+"OAuth2\">documentació de com configurar i resoldre problemes d'autenticació "
+"OAuth2</link>."
+
 #. (itstool) path: info/title
-#: C/mail-account-manage-microsoft-exchange-evo-ews.page:36
+#: C/mail-account-manage-microsoft-exchange-evo-ews.page:34
+msgctxt "link"
+msgid "Identity (Exchange Web Services accounts)"
+msgstr "Identitat (comptes de l'Exchange Web Services)"
+
+#. (itstool) path: info/title
+#: C/mail-account-manage-microsoft-exchange-evo-ews.page:44
 msgctxt "link"
 msgid "Receiving Email and Receiving options (Exchange Web Services accounts)"
 msgstr ""
 "Rebre correu electrònic i opcions de recepció (comptes Exchange Web Services)"
 
 #. (itstool) path: info/title
-#: C/mail-account-manage-microsoft-exchange-evo-ews.page:43
+#: C/mail-account-manage-microsoft-exchange-evo-ews.page:52
 msgctxt "link"
 msgid "Defaults (Exchange Web Services accounts)"
 msgstr "Opcions predeterminades (Comptes d'Exchange Web Services)"
 
 #. (itstool) path: info/title
-#: C/mail-account-manage-microsoft-exchange-evo-ews.page:50
+#: C/mail-account-manage-microsoft-exchange-evo-ews.page:60
 msgctxt "link"
 msgid "Composing Messages (Exchange Web Services accounts)"
 msgstr "Redacció de missatges (comptes d'Exchange Web Services)"
 
 #. (itstool) path: info/title
-#: C/mail-account-manage-microsoft-exchange-evo-ews.page:57
+#: C/mail-account-manage-microsoft-exchange-evo-ews.page:68
 msgctxt "link"
 msgid "Security (Exchange Web Services accounts)"
 msgstr "Seguretat (Comptes d'Exchange Web Services)"
 
 #. (itstool) path: section/title
-#: C/mail-account-manage-microsoft-exchange-evo-ews.page:63
+#: C/mail-account-manage-microsoft-exchange-evo-ews.page:75
 msgid "Out of Office"
 msgstr "Fora de l'oficina"
 
 #. (itstool) path: section/p
-#: C/mail-account-manage-microsoft-exchange-evo-ews.page:64
+#: C/mail-account-manage-microsoft-exchange-evo-ews.page:76
 msgid ""
 "Define the email reply to automatically send to internal or external persons "
 "in a certain time period."
@@ -6082,12 +6253,12 @@ msgstr ""
 "persones internes o externes en un període de temps determinat."
 
 #. (itstool) path: section/title
-#: C/mail-account-manage-microsoft-exchange-evo-ews.page:68
+#: C/mail-account-manage-microsoft-exchange-evo-ews.page:80
 msgid "Delegates"
 msgstr "Delegats"
 
 #. (itstool) path: section/p
-#: C/mail-account-manage-microsoft-exchange-evo-ews.page:69
+#: C/mail-account-manage-microsoft-exchange-evo-ews.page:81
 msgid ""
 "Define who can send emails and reply to meeting requests on your behalf."
 msgstr ""
@@ -6100,42 +6271,48 @@ msgid "Add and edit a Microsoft Exchange MAPI account in <app>Evolution</app>."
 msgstr ""
 "Afegir i editar un compte de Microsoft Exchange MAPI a <app>Evolution</app>."
 
+#. (itstool) path: info/title
+#: C/mail-account-manage-microsoft-exchange-evo-mapi.page:8
+msgctxt "link:trail"
+msgid "MAPI"
+msgstr "MAPI"
+
 #. (itstool) path: page/title
-#: C/mail-account-manage-microsoft-exchange-evo-mapi.page:20
+#: C/mail-account-manage-microsoft-exchange-evo-mapi.page:21
 msgid "Exchange MAPI account settings"
 msgstr "Configuració d'un compte d'Exchange MAPI"
 
 #. (itstool) path: info/title
-#: C/mail-account-manage-microsoft-exchange-evo-mapi.page:36
+#: C/mail-account-manage-microsoft-exchange-evo-mapi.page:37
 msgctxt "link"
 msgid "Receiving Email and Receiving options (Exchange MAPI accounts)"
 msgstr "Rebre correu electrònic i opcions de recepció (comptes Exchange MAPI)"
 
 #. (itstool) path: info/title
-#: C/mail-account-manage-microsoft-exchange-evo-mapi.page:43
+#: C/mail-account-manage-microsoft-exchange-evo-mapi.page:45
 msgctxt "link"
 msgid "Defaults (Exchange MAPI accounts)"
 msgstr "Opcions predeterminades (comptes Exchange MAPI)"
 
 #. (itstool) path: info/title
-#: C/mail-account-manage-microsoft-exchange-evo-mapi.page:50
+#: C/mail-account-manage-microsoft-exchange-evo-mapi.page:53
 msgctxt "link"
 msgid "Composing Messages (Exchange MAPI accounts)"
 msgstr "Redacció de missatges (comptes Exchange MAPI)"
 
 #. (itstool) path: section/title
-#: C/mail-account-manage-microsoft-exchange-evo-mapi.page:57
+#: C/mail-account-manage-microsoft-exchange-evo-mapi.page:61
 msgid "Exchange Settings"
 msgstr "Configuració d'Exchange"
 
 #. (itstool) path: section/p
-#: C/mail-account-manage-microsoft-exchange-evo-mapi.page:58
+#: C/mail-account-manage-microsoft-exchange-evo-mapi.page:62
 msgid "In this section you can view the size of all Exchange folders."
 msgstr ""
 "En aquesta secció podeu veure la mida de totes les carpetes d'Exchange."
 
 #. (itstool) path: info/title
-#: C/mail-account-manage-microsoft-exchange-evo-mapi.page:63
+#: C/mail-account-manage-microsoft-exchange-evo-mapi.page:67
 msgctxt "link"
 msgid "Security (Exchange MAPI accounts)"
 msgstr "Seguretat (comptes d'Exchange MAPI)"
@@ -6146,13 +6323,19 @@ msgid "Add and edit a Microsoft Exchange account in <app>Evolution</app>."
 msgstr ""
 "Afegir i editar un compte de Microsoft Exchange a <app>Evolution</app>."
 
+#. (itstool) path: info/title
+#: C/mail-account-manage-microsoft-exchange.page:10
+msgctxt "link:trail"
+msgid "Microsoft Exchange"
+msgstr "Microsoft Exchange"
+
 #. (itstool) path: page/title
-#: C/mail-account-manage-microsoft-exchange.page:22
+#: C/mail-account-manage-microsoft-exchange.page:23
 msgid "Microsoft Exchange account settings"
 msgstr "Configuració d'un compte d'Exchange"
 
 #. (itstool) path: note/p
-#: C/mail-account-manage-microsoft-exchange.page:24
+#: C/mail-account-manage-microsoft-exchange.page:25
 msgid ""
 "Depending on the version of the Microsoft Exchange server that you would "
 "like to connect to it is required to make sure that an additional package is "
@@ -6163,29 +6346,13 @@ msgstr ""
 "proporcioni aquesta funcionalitat."
 
 #. (itstool) path: note/p
-#: C/mail-account-manage-microsoft-exchange.page:26
-msgid ""
-"For Microsoft Exchange 2007, 2010 and newer it is recommended to use the "
-"package <sys>evolution-ews</sys>."
-msgstr ""
-"Per a Microsoft Exchange 2007, 2010 i més recents, es recomana utilitzar el "
-"paquet <sys>evolution-ews</sys>."
-
-#. (itstool) path: note/p
 #: C/mail-account-manage-microsoft-exchange.page:36
 msgid ""
 "For older versions of Microsoft Exchange, or if <sys>evolution-ews</sys> "
-"does not work well for you, try <sys>evolution-mapi</sys>. It uses "
-"Microsoft's Messaging API which is also used by Microsoft Outlook. However, "
-"<sys>evolution-mapi</sys> requires installing <sys>OpenChange</sys> and "
-"<sys>Samba 4</sys>, and is not as performant as <sys>evolution-ews</sys>."
+"does not work well for you, try <sys>evolution-mapi</sys>."
 msgstr ""
-"Per a versions antigues de Microsoft Exchange, o si no funciona correctament "
-"<sys>evolution-ews</sys>, proveu <sys>evolution-mapi</sys>. Que utilitza "
-"l'API de Microsoft's Messaging que també utilitza Microsoft Outlook. Malgrat "
-"tot, <sys>evolution-mapi</sys> necessita que s'instal·li <sys>OpenChange</"
-"sys> i <sys>Samba 4</sys>, i no té tan bon rendiment com <sys>evolution-ews</"
-"sys>."
+"Per a versions anteriors del Microsoft Exchange, o si <sys>evolution-ews</"
+"sys> no us funciona bé, proveu <sys>evolution-mapi</sys>."
 
 #. (itstool) path: note/p
 #: C/mail-account-manage-microsoft-exchange.page:46
@@ -6212,37 +6379,49 @@ msgstr ""
 msgid "Add and edit a POP mail account in <app>Evolution</app>."
 msgstr "Afegir i editar un compte de correu POP a <app>Evolution</app>."
 
+#. (itstool) path: info/title
+#: C/mail-account-manage-pop.page:8
+msgctxt "link:trail"
+msgid "POP"
+msgstr "POP"
+
 #. (itstool) path: page/title
-#: C/mail-account-manage-pop.page:20
+#: C/mail-account-manage-pop.page:21
 msgid "POP mail account settings"
 msgstr "Configuració del compte de correu POP"
 
 #. (itstool) path: info/title
-#: C/mail-account-manage-pop.page:36
+#: C/mail-account-manage-pop.page:31
+msgctxt "link"
+msgid "Identity (POP accounts)"
+msgstr "Identitat (comptes POP)"
+
+#. (itstool) path: info/title
+#: C/mail-account-manage-pop.page:41
 msgctxt "link"
 msgid "Receiving Email and Receiving options (POP accounts)"
 msgstr "Rebre correu electrònic i opcions de recepció (comptes POP)"
 
 #. (itstool) path: info/title
-#: C/mail-account-manage-pop.page:43
+#: C/mail-account-manage-pop.page:49
 msgctxt "link"
 msgid "Sending Email (POP accounts)"
 msgstr "Enviar correu electrònic (comptes POP)"
 
 #. (itstool) path: info/title
-#: C/mail-account-manage-pop.page:50
+#: C/mail-account-manage-pop.page:57
 msgctxt "link"
 msgid "Defaults (POP accounts)"
 msgstr "Opcions predeterminades (comptes POP)"
 
 #. (itstool) path: info/title
-#: C/mail-account-manage-pop.page:57
+#: C/mail-account-manage-pop.page:65
 msgctxt "link"
 msgid "Composing Messages (POP accounts)"
 msgstr "Redacció de missatges (comptes POP)"
 
 #. (itstool) path: info/title
-#: C/mail-account-manage-pop.page:64
+#: C/mail-account-manage-pop.page:73
 msgctxt "link"
 msgid "Security (POP accounts)"
 msgstr "Seguretat (comptes POP)"
@@ -6256,15 +6435,29 @@ msgstr ""
 "Afegir i Editar un compte de Standard Unix mbox Spool Directory a "
 "<app>Evolution</app>."
 
+#. (itstool) path: info/title
+#: C/mail-account-manage-unix-mbox-spool-directory.page:8
+msgctxt "link:trail"
+msgid "mbox Directory"
+msgstr "directori mbox"
+
 #. (itstool) path: page/title
-#: C/mail-account-manage-unix-mbox-spool-directory.page:20
+#: C/mail-account-manage-unix-mbox-spool-directory.page:21
 msgid "Standard Unix mbox Spool Directory account settings"
 msgstr ""
 "Configuració del compte per al directori mbox estàndard per a cues de correu "
 "de l'Unix"
 
 #. (itstool) path: info/title
-#: C/mail-account-manage-unix-mbox-spool-directory.page:36
+#: C/mail-account-manage-unix-mbox-spool-directory.page:31
+msgctxt "link"
+msgid "Identity (Standard Unix mbox Spool Directory accounts)"
+msgstr ""
+"Identitat (comptes del directori mbox estàndard per a cues de correu de "
+"l'Unix)"
+
+#. (itstool) path: info/title
+#: C/mail-account-manage-unix-mbox-spool-directory.page:41
 msgctxt "link"
 msgid ""
 "Receiving Email and Receiving options (Standard Unix mbox Spool Directory "
@@ -6274,7 +6467,7 @@ msgstr ""
 "estàndard per a cues de correu de l'Unix)"
 
 #. (itstool) path: info/title
-#: C/mail-account-manage-unix-mbox-spool-directory.page:43
+#: C/mail-account-manage-unix-mbox-spool-directory.page:49
 msgctxt "link"
 msgid "Sending Email (Standard Unix mbox Spool Directory accounts)"
 msgstr ""
@@ -6282,7 +6475,7 @@ msgstr ""
 "cues de correu de l'Unix)"
 
 #. (itstool) path: info/title
-#: C/mail-account-manage-unix-mbox-spool-directory.page:50
+#: C/mail-account-manage-unix-mbox-spool-directory.page:57
 msgctxt "link"
 msgid "Defaults (Standard Unix mbox Spool Directory accounts)"
 msgstr ""
@@ -6290,7 +6483,7 @@ msgstr ""
 "correu de l'Unix)"
 
 #. (itstool) path: info/title
-#: C/mail-account-manage-unix-mbox-spool-directory.page:57
+#: C/mail-account-manage-unix-mbox-spool-directory.page:65
 msgctxt "link"
 msgid "Composing Messages (Standard Unix mbox Spool Directory accounts)"
 msgstr ""
@@ -6298,7 +6491,7 @@ msgstr ""
 "correu de l'Unix)"
 
 #. (itstool) path: info/title
-#: C/mail-account-manage-unix-mbox-spool-directory.page:64
+#: C/mail-account-manage-unix-mbox-spool-directory.page:73
 msgctxt "link"
 msgid "Security (Standard Unix mbox Spool Directory accounts)"
 msgstr ""
@@ -6313,15 +6506,28 @@ msgstr ""
 "Afegir i editar comptes de fitxers mbox estàndard per a cues de correu de "
 "l'Unix q <app>Evolution</app>."
 
+#. (itstool) path: info/title
+#: C/mail-account-manage-unix-mbox-spool-file.page:8
+msgctxt "link:trail"
+msgid "mbox File"
+msgstr "fitxer mbox"
+
 #. (itstool) path: page/title
-#: C/mail-account-manage-unix-mbox-spool-file.page:20
+#: C/mail-account-manage-unix-mbox-spool-file.page:21
 msgid "Standard Unix mbox Spool File account settings"
 msgstr ""
 "Configuració del compte del fitxer mbox estàndard per a cues de correu de "
 "l'Unix"
 
 #. (itstool) path: info/title
-#: C/mail-account-manage-unix-mbox-spool-file.page:36
+#: C/mail-account-manage-unix-mbox-spool-file.page:31
+msgctxt "link"
+msgid "Identity (Standard Unix mbox Spool File accounts)"
+msgstr ""
+"Identitat (comptes del fitxer mbox estàndard per a cues de correu de l'Unix)"
+
+#. (itstool) path: info/title
+#: C/mail-account-manage-unix-mbox-spool-file.page:41
 msgctxt "link"
 msgid ""
 "Receiving Email and Receiving options (Standard Unix mbox Spool File "
@@ -6331,7 +6537,7 @@ msgstr ""
 "estàndard per a cues de correu de l'Unix)"
 
 #. (itstool) path: info/title
-#: C/mail-account-manage-unix-mbox-spool-file.page:43
+#: C/mail-account-manage-unix-mbox-spool-file.page:49
 msgctxt "link"
 msgid "Sending Email (Standard Unix mbox Spool File accounts)"
 msgstr ""
@@ -6339,7 +6545,7 @@ msgstr ""
 "de correu de l'Unix)"
 
 #. (itstool) path: info/title
-#: C/mail-account-manage-unix-mbox-spool-file.page:50
+#: C/mail-account-manage-unix-mbox-spool-file.page:57
 msgctxt "link"
 msgid "Defaults (Standard Unix mbox Spool File accounts)"
 msgstr ""
@@ -6347,7 +6553,7 @@ msgstr ""
 "correu de l'Unix)"
 
 #. (itstool) path: info/title
-#: C/mail-account-manage-unix-mbox-spool-file.page:57
+#: C/mail-account-manage-unix-mbox-spool-file.page:65
 msgctxt "link"
 msgid "Composing Messages (Standard Unix mbox Spool File accounts)"
 msgstr ""
@@ -6355,7 +6561,7 @@ msgstr ""
 "de l'Unix)"
 
 #. (itstool) path: info/title
-#: C/mail-account-manage-unix-mbox-spool-file.page:64
+#: C/mail-account-manage-unix-mbox-spool-file.page:73
 msgctxt "link"
 msgid "Security (Standard Unix mbox Spool File accounts)"
 msgstr ""
@@ -6366,46 +6572,64 @@ msgstr ""
 msgid "Add and edit a Usenet news account in <app>Evolution</app>."
 msgstr "Afegir i editar un compte de notícies Usenet a <app>Evolution</app>."
 
+#. (itstool) path: info/title
+#: C/mail-account-manage-usenet-news.page:8
+msgctxt "link:trail"
+msgid "Usenet"
+msgstr "Usenet"
+
 #. (itstool) path: page/title
-#: C/mail-account-manage-usenet-news.page:20
+#: C/mail-account-manage-usenet-news.page:21
 msgid "Usenet news account settings"
 msgstr "Configuració del compte de notícies d'Usenet"
 
 #. (itstool) path: info/title
-#: C/mail-account-manage-usenet-news.page:36
+#: C/mail-account-manage-usenet-news.page:31
+msgctxt "link"
+msgid "Identity (Usenet News accounts)"
+msgstr "Identitat (comptes de notícies d'Usenet)"
+
+#. (itstool) path: info/title
+#: C/mail-account-manage-usenet-news.page:41
 msgctxt "link"
 msgid "Receiving Email and Receiving options (Usenet News accounts)"
 msgstr "Rebre correu electrònic i opcions de recepció (comptes Usenet News)"
 
 #. (itstool) path: info/title
-#: C/mail-account-manage-usenet-news.page:43
+#: C/mail-account-manage-usenet-news.page:49
 msgctxt "link"
 msgid "Sending Email (Usenet News accounts)"
 msgstr "Enviar correu electrònic (comptes Usenet News)"
 
 #. (itstool) path: info/title
-#: C/mail-account-manage-usenet-news.page:50
+#: C/mail-account-manage-usenet-news.page:57
 msgctxt "link"
 msgid "Defaults (Usenet News accounts)"
 msgstr "Opcions predeterminades (comptes Usenet News)"
 
 #. (itstool) path: info/title
-#: C/mail-account-manage-usenet-news.page:57
+#: C/mail-account-manage-usenet-news.page:65
 msgctxt "link"
 msgid "Composing Messages (Usenet News accounts)"
 msgstr "Redacció de missatges (comptes Usenet News)"
 
 #. (itstool) path: info/title
-#: C/mail-account-manage-usenet-news.page:64
+#: C/mail-account-manage-usenet-news.page:73
 msgctxt "link"
 msgid "Security (Usenet News accounts)"
 msgstr "Seguretat (comptes Usenet News)"
 
 #. (itstool) path: info/title
-#: C/mail-account-manage-usenet-news.page:73
+#: C/mail-account-manage-usenet-news.page:83
 msgctxt "link"
 msgid "Other settings (Usenet News accounts)"
 msgstr "Altres configuracions (comptes Usenet News)"
+
+#. (itstool) path: info/title
+#: C/mail-account-manage-usenet-news.page:84
+msgctxt "link:trail"
+msgid "Other"
+msgstr "Altres"
 
 #. (itstool) path: info/desc
 #: C/mail-attachments.page:5
@@ -6734,7 +6958,7 @@ msgstr ""
 "Consulteu la vostra <link xref=\"mail-searching#search-many\">visualització "
 "de cerca a la barra de cerca</link> situada sobre la llista de missatges. "
 "Potser la llista desplegable <gui>Mostra</gui> està establerta en un filtre "
-"com a <gui>Missatges de lectura</gui>, o l'entrada de text introduïda conté "
+"com a <gui>Missatges llegits</gui>, o l'entrada de text introduïda conté "
 "algun valor. Feu clic a la icona amb l'escombra per a esborrar el camp de "
 "cerca."
 
@@ -6833,7 +7057,7 @@ msgstr ""
 
 #. (itstool) path: note/p
 #: C/mail-change-columns-in-message-list.page:27
-#: C/mail-sorting-message-list.page:57
+#: C/mail-sorting-message-list.page:67
 msgid ""
 "If you would like to have a different sort order and/or columns for specific "
 "mail folders, make sure that <guiseq><gui>Edit</gui><gui>Preferences</"
@@ -7002,7 +7226,7 @@ msgstr "Per a configurar el connector de capçalera personalitzat:"
 #. (itstool) path: item/p
 #: C/mail-composer-custom-header-lines.page:32
 msgid "Enable <gui>Custom Header</gui>."
-msgstr "Activar <gui>Encapçalament personalitzat</gui>."
+msgstr "Habilitar la <gui>Capçalera personalitzada</gui>."
 
 #. (itstool) path: item/p
 #: C/mail-composer-custom-header-lines.page:36
@@ -7014,7 +7238,7 @@ msgid ""
 msgstr ""
 "Podeu afegir, editar o eliminar els camps de l'encapçalament. Per cada camp "
 "de capçalera que afegiu, podeu especificar les claus i els valors. La clau "
-"s'utilitza com a títol de l'encapçalament personalitzat. Podeu introduir "
+"s'utilitza com a títol de la capçalera personalitzada. Podeu introduir "
 "diversos valors per a les claus. Heu d'utilitzar un punt i coma per a "
 "separar tots els valors que introduïu."
 
@@ -7669,86 +7893,87 @@ msgstr "Descripció"
 
 #. (itstool) path: td/p
 #: C/mail-composer-html-text.page:36
+msgid "Default"
+msgstr "Predeterminat"
+
+#. (itstool) path: td/p
+#: C/mail-composer-html-text.page:37
+msgid "Font name."
+msgstr "Nom del tipus de lletra."
+
+#. (itstool) path: td/p
+#: C/mail-composer-html-text.page:40
 msgid "+0"
 msgstr "+0"
 
 #. (itstool) path: td/p
-#: C/mail-composer-html-text.page:37
+#: C/mail-composer-html-text.page:41
 msgid "Font size."
 msgstr "Mida del tipus de lletra."
 
 #. (itstool) path: td/p
-#: C/mail-composer-html-text.page:41
-msgid ""
-"Color chooser for text. The box displays the current text color. To choose a "
-"new color, click the arrow button to the right. If you have text selected, "
-"the color applies to the selected text. If you do not have text selected, "
-"the color applies to whatever you type next. You can select a background "
-"color or image by right-clicking the message background, then selecting "
-"<guiseq><gui>Style</gui><gui>Page Style</gui></guiseq>."
-msgstr ""
-"Selector de color per al text. El quadre mostra el color del text actual. "
-"Per a triar un nou color, feu clic al botó de fletxa cap a la dreta. Si "
-"teniu text seleccionat, el color s'aplica al text seleccionat. Si no teniu "
-"text seleccionat, el color s'aplica al que escriviu a continuació. Podeu "
-"seleccionar un color o una imatge de fons fent clic amb el botó dret del "
-"ratolí en el fons del missatge i, a continuació, seleccionant "
-"<guiseq><gui>Estil</gui><gui>Estil de pàgina</gui></guiseq>."
-
-#. (itstool) path: td/p
-#: C/mail-composer-html-text.page:44
-msgid "TT"
-msgstr "TT"
-
-#. (itstool) path: td/p
 #: C/mail-composer-html-text.page:45
-msgid "Typewriter text, which is similar to a monospace font."
-msgstr ""
-"Text Typewriter (màquina d'escriure), que és similar al tipus de lletra "
-"monospace."
+msgid "Text color."
+msgstr "Color del text."
 
 #. (itstool) path: td/p
-#: C/mail-composer-html-text.page:48
+#: C/mail-composer-html-text.page:45 C/mail-composer-html-text.page:49
+msgid ""
+"The box displays the current text color. If you have text selected, the "
+"color applies to the selected text. If you do not have text selected, the "
+"color applies to whatever you type next."
+msgstr ""
+"El quadre mostra el color de text actual. Si teniu text seleccionat, el "
+"color s'aplicarà al text seleccionat. Si no teniu text seleccionat, el color "
+"s'aplica a qualsevol cosa que escriviu a continuació."
+
+#. (itstool) path: td/p
+#: C/mail-composer-html-text.page:49
+msgid "Background color of the text."
+msgstr "Color de fons del text."
+
+#. (itstool) path: td/p
+#: C/mail-composer-html-text.page:52
 msgid "Bold A"
 msgstr "Negreta A"
 
 #. (itstool) path: td/p
-#: C/mail-composer-html-text.page:49
+#: C/mail-composer-html-text.page:53
 msgid "Bolds the text."
 msgstr "Ressalta el text en negreta."
 
 #. (itstool) path: td/p
-#: C/mail-composer-html-text.page:52
+#: C/mail-composer-html-text.page:56
 msgid "Italic A"
 msgstr "Cursiva A"
 
 #. (itstool) path: td/p
-#: C/mail-composer-html-text.page:53
+#: C/mail-composer-html-text.page:57
 msgid "Italicizes the text."
 msgstr "Posa en cursiva el text."
 
 #. (itstool) path: td/p
-#: C/mail-composer-html-text.page:56
+#: C/mail-composer-html-text.page:60
 msgid "Underlined A"
 msgstr "Subratllat A"
 
 #. (itstool) path: td/p
-#: C/mail-composer-html-text.page:57
+#: C/mail-composer-html-text.page:61
 msgid "Underlines the text."
 msgstr "Subratlla el text."
 
 #. (itstool) path: td/p
-#: C/mail-composer-html-text.page:60
+#: C/mail-composer-html-text.page:64
 msgid "Strike through A"
 msgstr "A subratllada"
 
 #. (itstool) path: td/p
-#: C/mail-composer-html-text.page:61
+#: C/mail-composer-html-text.page:65
 msgid "Marks a line through the text."
 msgstr "Subratlla el text."
 
 #. (itstool) path: section/p
-#: C/mail-composer-html-text.page:65
+#: C/mail-composer-html-text.page:69
 msgid ""
 "The other buttons are explained under <link xref=\"mail-composer-"
 "html#formatting-options-html\"/>."
@@ -8137,12 +8362,12 @@ msgstr ""
 "es faran canvis."
 
 #. (itstool) path: section/title
-#: C/mail-composer-message-templates-variables.page:54
+#: C/mail-composer-message-templates-variables.page:53
 msgid "Using Elements From a Message in a Template When Replying"
 msgstr "Ús d'elements d'un missatge en una plantilla quan es respon"
 
 #. (itstool) path: section/p
-#: C/mail-composer-message-templates-variables.page:55
+#: C/mail-composer-message-templates-variables.page:54
 msgid ""
 "Templates can contain more than just the predefined set of <link xref="
 "\"#configure\">key-value pairs</link>. You can also get any message header "
@@ -8157,7 +8382,7 @@ msgstr ""
 #. (itstool) path: section/p
 #. TO TRANSLATORS: Do NOT translate $ORIG[subject] and $ORIG[body] in this
 #. sentence!
-#: C/mail-composer-message-templates-variables.page:57
+#: C/mail-composer-message-templates-variables.page:56
 msgid ""
 "In order to do this, use the format <code>$ORIG[header_name]</code> and "
 "replace the variable <code>header_name</code> by the actual header. For "
@@ -8174,7 +8399,7 @@ msgstr ""
 #. (itstool) path: section/p
 #. TO TRANSLATORS: Do NOT translate $ORIG[body] and $ORIG[reply-to] in
 #. this sentence!
-#: C/mail-composer-message-templates-variables.page:59
+#: C/mail-composer-message-templates-variables.page:58
 msgid ""
 "If no replacement for a variable is found, the variable is not removed "
 "(except for <code>$ORIG[body]</code>) but left in place so that you see that "
@@ -9243,6 +9468,17 @@ msgstr "Visualització dels missatges"
 #. (itstool) path: page/p
 #: C/mail-displaying-message.page:23
 msgid ""
+"Emails can be in two formats: <link href=\"https://en.wikipedia.org/wiki/"
+"Email#Plain_text_and_HTML\">Plain text or HTML</link>. Each format has its "
+"pros and cons."
+msgstr ""
+"Els correus electrònics poden ser en dos formats: <link href=\"https://en."
+"wikipedia.org/wiki/Email#Plain_text_and_HTML\">text sense format o HTML</"
+"link>. Cada format té els seus pros i contres."
+
+#. (itstool) path: page/p
+#: C/mail-displaying-message.page:25
+msgid ""
 "You can define how received HTML messages are displayed via "
 "<guiseq><gui>Edit</gui><gui>Preferences</gui><gui>Mail Preferences</"
 "gui><gui>HTML Messages</gui></guiseq>. For example, you can display them as "
@@ -9253,8 +9489,17 @@ msgstr ""
 "HTML</gui></guiseq>. Per exemple, podeu mostrar-los com a text pla o "
 "bloquejar la càrrega de contingut remot."
 
+#. (itstool) path: note/p
+#: C/mail-displaying-message.page:27
+msgid ""
+"For formatting emails in the composer, see <link xref=\"mail-composer-html\"/"
+">."
+msgstr ""
+"Per a formatar correus electrònics a l'editor, consulteu <link xref=\"mail-"
+"composer-html\"/>."
+
 #. (itstool) path: section/title
-#: C/mail-displaying-message.page:26
+#: C/mail-displaying-message.page:30
 msgid "Advanced"
 msgstr "Avançat"
 
@@ -9311,7 +9556,7 @@ msgstr ""
 "primera."
 
 #. (itstool) path: note/p
-#: C/mail-displaying-sender-photograph.page:36
+#: C/mail-displaying-sender-photograph.page:35
 msgid ""
 "You can also embed your own image in messages that you send under "
 "<guiseq><gui>Edit</gui><gui>Plugins</gui><gui>Face</gui></guiseq>. The image "
@@ -10196,7 +10441,7 @@ msgstr "Tancar <app>Evolution</app>."
 
 #. (itstool) path: item/p
 #: C/mail-filters-not-working.page:45 C/mail-localized-re-subjects.page:24
-#: C/mail-save-as-pdf.page:27 C/mail-sorting-message-list.page:40
+#: C/mail-save-as-pdf.page:27
 msgid "Open the <app>Terminal</app> application."
 msgstr "Obrir l'aplicació <app>Terminal</app>."
 
@@ -10294,9 +10539,9 @@ msgid ""
 msgstr ""
 "Els filtres s'aplicaran automàticament als missatges entrants dels comptes "
 "locals (com POP). Els servidors de correu per a comptes remots (com IMAP) "
-"sovint filtren correus directament al servidor, ja que és més ràpid. Si voleu "
-"aplicar els vostres filtres a comptes remots a <app>Evolution</app> , o "
-"podeu editar a <guiseq><gui>Edita</gui><gui>Preferències</gui><gui>Comptes "
+"sovint filtren correus directament al servidor, ja que és més ràpid. Si "
+"voleu aplicar els vostres filtres a comptes remots a <app>Evolution</app> , "
+"o podeu editar a <guiseq><gui>Edita</gui><gui>Preferències</gui><gui>Comptes "
 "de correu</gui><gui style=\"button\">Edita</gui><gui>Opcions de recepció</"
 "gui><gui>Opcions</gui><gui>Apliqueu els filtres als missatges nous de la "
 "carpeta d'entrada en aquest servidor</gui></guiseq>."
@@ -10950,15 +11195,14 @@ msgstr "Gestionar «Re:» traduït als assumptes"
 msgid ""
 "Traditionally a \"Re:\" prefix is added to a subject line when replying to "
 "an email. Some email applications use localized terms for this (like \"SV:\" "
-"in Danish or \"AW: in German). <app>Evolution</app> can recognize these "
+"in Danish or \"AW:\" in German). <app>Evolution</app> can recognize these "
 "terms to avoid subject lines getting longer as the conversation continues."
 msgstr ""
-"Tradicionalment, un prefix «Re:» s'afegeix a una línia d'assumpte quan es "
+"Tradicionalment, un prefix \"Re:\" s'afegeix a una línia d'assumpte quan es "
 "respon a un correu electrònic. Algunes aplicacions de correu electrònic "
-"utilitzen termes concrets (com «SV:» en danès o «AW:» en alemany). "
-"<app>Evolution</app> pot reconèixer aquests termes per a evitar que les "
-"línies d'assumpte siguin cada vegada més llargues a mesura que segueix la "
-"conversa."
+"utilitzen termes localitzats per a això (com ara \"SV:\" en danès o \"AW:\" "
+"en alemany). <app>Evolution</app> pot reconèixer aquests termes per a evitar "
+"que les línies de tema s'allarguin a mesura que la conversa continua."
 
 #. (itstool) path: item/p
 #: C/mail-localized-re-subjects.page:25
@@ -11370,7 +11614,7 @@ msgstr ""
 
 #. (itstool) path: item/p
 #: C/mail-receiving-options-exchange-ews.page:45
-#: C/mail-receiving-options-imap-plus.page:52
+#: C/mail-receiving-options-imap-plus.page:51
 msgid ""
 "Select if you want <link xref=\"mail-filters\">filters</link> to be "
 "automatically applied on mail that you receive, if <link xref=\"mail-spam-"
@@ -11474,7 +11718,7 @@ msgstr ""
 "link>."
 
 #. (itstool) path: item/p
-#: C/mail-receiving-options-imap-plus.page:49
+#: C/mail-receiving-options-imap-plus.page:48
 msgid ""
 "If the mail server does not allow multiple connections from <app>Evolution</"
 "app> to the server at the same time (for example when you have more than one "
@@ -11487,7 +11731,7 @@ msgstr ""
 "utilitzar</gui> a 1."
 
 #. (itstool) path: item/p
-#: C/mail-receiving-options-imap-plus.page:50
+#: C/mail-receiving-options-imap-plus.page:49
 msgid ""
 "You can also define if <app>Evolution</app> checks for new messages in all "
 "folders, or only in subscribed folders."
@@ -11496,7 +11740,7 @@ msgstr ""
 "a totes les carpetes o només a les carpetes subscrites."
 
 #. (itstool) path: item/p
-#: C/mail-receiving-options-imap-plus.page:51
+#: C/mail-receiving-options-imap-plus.page:50
 msgid ""
 "Select if you want <app>Evolution</app> to show only <link xref=\"mail-imap-"
 "subscriptions\">subscribed folders</link>."
@@ -11805,9 +12049,9 @@ msgid ""
 "For more information on the available conditions see <link xref=\"mail-"
 "search-folders-conditions\">Available Search Folder conditions</link>."
 msgstr ""
-"tenir més informació sobre les condicions disponibles, consulteu<link xref="
-"\"mail-search-folders-conditions\">Condicions disponibles per a la carpeta "
-"de cerca</link>."
+"Per a obtenir més informació sobre les condicions disponibles, consulteu "
+"<link xref=\"mail-search-folders-conditions\">Condicions de la carpeta de "
+"cerca disponible</link>."
 
 #. (itstool) path: item/p
 #: C/mail-search-folders-add.page:32
@@ -12117,26 +12361,15 @@ msgstr ""
 "exemple, destinataris o assumptes de missatges), la cerca s'executarà "
 "localment."
 
-#. (itstool) path: note/p
-#: C/mail-searching.page:45
-msgid ""
-"Advanced users can <link href=\"https://bugzilla.gnome.org/show_bug.cgi?"
-"id=550796#c10\">combine numerous conditions by using the <gui>Free form "
-"expression</gui> syntax</link>."
-msgstr ""
-"Els usuaris avançats poden <link href=\"https://bugzilla.gnome.org/show_bug."
-"cgi?id=550796#c10\">combinar nombroses condicions utilitzant la sintaxi "
-"<gui>Expressions de forma lliure</gui></link>."
-
 #. (itstool) path: item/p
-#: C/mail-searching.page:47
+#: C/mail-searching.page:46
 msgid "Select the scope from the drop-down list right to the text box."
 msgstr ""
 "Seleccioneu l'àmbit des de la llista desplegable a la dreta a la caixa de "
 "text."
 
 #. (itstool) path: note/p
-#: C/mail-searching.page:48
+#: C/mail-searching.page:47
 msgid ""
 "For the <gui>Current Account</gui> scope, the term \"account\" refers to top-"
 "level nodes in the <link xref=\"intro-main-window#e-mail\"> mail folder "
@@ -12148,7 +12381,7 @@ msgstr ""
 "de correu remots."
 
 #. (itstool) path: note/p
-#: C/mail-searching.page:53
+#: C/mail-searching.page:52
 msgid ""
 "If you start directly from the fourth step, text will be searched in mail's "
 "subjects and addresses and scope will be \"Current folder\"."
@@ -12157,7 +12390,7 @@ msgstr ""
 "adreces de correu, i l'abast serà la \"Carpeta actual\"."
 
 #. (itstool) path: note/p
-#: C/mail-searching.page:54
+#: C/mail-searching.page:53
 msgid ""
 "If you search for messages that are not in the same folder rather often you "
 "might want to create a search folder instead; see <link xref=\"mail-search-"
@@ -12166,6 +12399,582 @@ msgstr ""
 "Si cerqueu missatges que no es troben a la mateixa carpeta molt sovint, és "
 "possible que vulgueu crear una carpeta de cerca; per a més detalls "
 "consulteu<link xref=\"mail-search-folders\">Ús de carpetes de cerca</link>."
+
+#. (itstool) path: section/title
+#: C/mail-searching.page:64
+msgid "Free Form Expression"
+msgstr "Forma lliure d'expressió"
+
+#. (itstool) path: section/p
+#: C/mail-searching.page:65
+msgid ""
+"One of the search conditions is a <gui>Free Form Expression</gui>, which "
+"allows defining complex conditions. As the first step, the given Free Form "
+"Expression is divided into words. If the word doesn't have any (known) tag "
+"prefix, then the value is checked whether it is in headers To, CC or "
+"Subject. In case of a white-space or any other special character is needed, "
+"then enclose the word into double quotes. To get a double quote double it "
+"inside quoted text; example: <code>cite \"\"here\"\"</code> is parsed as one "
+"word <code>cite \"here\"</code>. For example, <code>f:John Smith</code> "
+"filters messages for the From containing <code>John</code> and the To, CC or "
+"Subject containing <code>Smith</code>, while <code>f:\"John Smith\"</code> "
+"filters messages for a sender <code>John Smith</code>."
+msgstr ""
+"Una de les condicions de cerca és una <gui>expressió de forma lliure</gui>, "
+"que permet definir condicions complexes. Com a primer pas, l'expressió de "
+"forma lliure donada es divideix en paraules. Si la paraula no té cap prefix "
+"d'etiqueta (conegut), el valor es comprova si es troba a les capçaleres A, "
+"CC o Assumpte. En cas que es necessiti un espai en blanc o qualsevol altre "
+"caràcter especial, a continuació, tanqueu la paraula en cometes dobles. Per "
+"a obtenir unes cometes dobles, el doble dins del text citat; exemple: "
+"<code>cite \"\"here\"\"</code> s'analitza com una paraula <code>cite \"here"
+"\"</code>. Per exemple, <code>f:John Smith</code> filtra els missatges on "
+"<code>John</code> és el remitent i el Per a, CC o Tema que contenen "
+"<code>Smith</code>, mentre <code>f:\"John Smith\"</code> filtra els "
+"missatges del remitent <code>John Smith</code>."
+
+#. (itstool) path: section/p
+#: C/mail-searching.page:66
+msgid ""
+"The syntax of the tags is <code>&lt;tag&gt;[-&lt;options&gt;]:value</code>. "
+"The tags are:"
+msgstr ""
+"La sintaxi de les etiquetes és <code>&lt;tag&gt;[-&lt;options&gt;]:value</"
+"code>. Les etiquetes són:"
+
+#. (itstool) path: td/p
+#: C/mail-searching.page:68
+msgid "Tag"
+msgstr "Etiqueta"
+
+#. (itstool) path: td/p
+#: C/mail-searching.page:68 C/mail-searching.page:100
+msgid "Abbreviation"
+msgstr "Abreviatura"
+
+#. (itstool) path: td/p
+#: C/mail-searching.page:68 C/mail-searching.page:100 C/mail-searching.page:124
+msgid "Meaning"
+msgstr "Significat"
+
+#. (itstool) path: td/p
+#. Translators: 'From' is a header name, do not translate it
+#: C/mail-searching.page:69
+msgid "From header should match (*)"
+msgstr "Des de la capçalera ha de coincidir (*)"
+
+#. (itstool) path: td/p
+#. Translators: 'To' is a header name, do not translate it
+#: C/mail-searching.page:70
+msgid "To header should match (*)"
+msgstr "La capçalera ha de coincidir (*)"
+
+#. (itstool) path: td/p
+#. Translators: 'CC' is a header name, do not translate it
+#: C/mail-searching.page:71
+msgid "CC header should match (*)"
+msgstr "La capçalera CC ha de coincidir (*)"
+
+#. (itstool) path: td/p
+#. Translators: 'To' and 'CC' are the header names, do not translate it
+#: C/mail-searching.page:72
+msgid "To or CC headers should match (*)"
+msgstr "Les capçaleres Per a o CC han de coincidir (*)"
+
+#. (itstool) path: td/p
+#. Translators: 'Subject' is a header name, do not translate it
+#: C/mail-searching.page:73
+msgid "Subject header should match (*)"
+msgstr "La capçalera del tema ha de coincidir (*)"
+
+#. (itstool) path: td/p
+#: C/mail-searching.page:74
+msgid "Mailing list header should match (*)"
+msgstr "La capçalera de la llista de correu ha de coincidir (*)"
+
+#. (itstool) path: td/p
+#: C/mail-searching.page:75
+msgid "given header should match (*)"
+msgstr "la capçalera indicada ha de coincidir (*)"
+
+#. (itstool) path: td/p
+#: C/mail-searching.page:76
+msgid ""
+"the syntax is: <code>h:headerName=value</code> while the equal sign is used "
+"only as a delimiter, not as a match rule"
+msgstr ""
+"la sintaxi és: <code>h:headerName=value</code> mentre que el signe igual "
+"només s'utilitza com a delimitador, no com a regla de concordança"
+
+#. (itstool) path: td/p
+#: C/mail-searching.page:77
+msgid "whether given header exists"
+msgstr "si existeix una capçalera donada"
+
+#. (itstool) path: td/p
+#: C/mail-searching.page:78
+msgid "given user tag is set on a message"
+msgstr "l'etiqueta d'usuari indicada està establerta en un missatge"
+
+#. (itstool) path: td/p
+#: C/mail-searching.page:79
+msgid "whether certain flag is set; known special values are:"
+msgstr ""
+"si s'ha definit una bandera determinada; Els valors especials coneguts són:"
+
+#. (itstool) path: td/p
+#. Translators: This is translated in a 'ffe' context
+#: C/mail-searching.page:80
+msgid "<code>Answered</code> - the message is marked as replied"
+msgstr "<code>Answered</code> - el missatge està marcat com a respost"
+
+#. (itstool) path: td/p
+#. Translators: This is translated in a 'ffe' context
+#: C/mail-searching.page:81
+msgid "<code>Deleted</code> - the message is marked as deleted"
+msgstr "<code>Deleted</code> - el missatge està marcat com a eliminat"
+
+#. (itstool) path: td/p
+#. Translators: This is translated in a 'ffe' context
+#: C/mail-searching.page:82
+msgid "<code>Draft</code> - the message is marked as draft"
+msgstr "<code>Draft</code> - el missatge està marcat com a esborrany"
+
+#. (itstool) path: td/p
+#. Translators: This is translated in a 'ffe' context
+#: C/mail-searching.page:83
+msgid "<code>Flagged</code> - the message is marked as important"
+msgstr "<code>Flagged</code> - el missatge està marcat com a important"
+
+#. (itstool) path: td/p
+#. Translators: This is translated in a 'ffe' context
+#: C/mail-searching.page:84
+msgid "<code>Seen</code> - the message is marked as seen (not unread)"
+msgstr ""
+"<code>Seen</code> - el missatge està marcat com a vist (no sense llegir)"
+
+#. (itstool) path: td/p
+#. Translators: This is translated in a 'ffe' context
+#: C/mail-searching.page:85
+msgid "<code>Attachment</code> - the message has an attachment"
+msgstr "<code>Attachment</code> - el missatge té un fitxer adjunt"
+
+#. (itstool) path: td/p
+#: C/mail-searching.page:86
+msgid "Any other value is checked for its non-emptiness."
+msgstr "Qualsevol altre valor es comprova per la seva no buidor."
+
+#. (itstool) path: td/p
+#: C/mail-searching.page:87
+msgid ""
+"whether certain <link xref=\"mail-labels\">label</link> is set on the message"
+msgstr ""
+"si s'estableix alguna <link xref=\"mail-labels\">etiqueta</link> determinada "
+"al missatge"
+
+#. (itstool) path: td/p
+#: C/mail-searching.page:88
+msgid "whether message size, in KB, is equal to the given value"
+msgstr "si la mida del missatge, en KB, és igual al valor donat"
+
+#. (itstool) path: td/p
+#: C/mail-searching.page:89
+msgid ""
+"Two options are recognized, <code>&lt;</code> to get messages with smaller "
+"size, and <code>&gt;</code> to get messages with bigger size than the given. "
+"Example: <code>size-&gt;:1024</code> filters messages which are more than "
+"1MB large."
+msgstr ""
+"Es reconeixen dues opcions, <code>&lt;</code> per a obtenir missatges de "
+"mida més petita i <code>&gt;</code> per a obtenir missatges amb una mida més "
+"gran que la donada. Exemple: <code>size-&gt;:1024</code> filtra els "
+"missatges de més d'1 MB."
+
+#. (itstool) path: td/p
+#: C/mail-searching.page:90
+msgid ""
+"compares <code>score</code> tag on the message against given value; default "
+"compare is equal, but, similar to <code>size</code> a <code>&lt;</code> and "
+"<code>&gt;</code> options can be used"
+msgstr ""
+"<code>score</code> compara l'etiqueta del missatge amb el valor donat; la "
+"comparació per defecte és igual, però, Es poden utilitzar opcions similars a "
+"<code>size</code> a <code>&lt;</code> i <code>&gt;</code>"
+
+#. (itstool) path: td/p
+#: C/mail-searching.page:91
+msgid ""
+"checks message body for an existence of the given word; default compare "
+"options is for <code>contains</code>, but a regular expression can be used "
+"if the option is one of the <code>regex</code>, <code>re</code> or <code>r</"
+"code>."
+msgstr ""
+"comprova el cos del missatge per a l'existència de la paraula donada; les "
+"opcions de comparació per defecte són per a <code>contains</code>, però es "
+"pot utilitzar una expressió regular si l'opció és una de les <code>regex</"
+"code>, <code>re</code> or <code>r</code>."
+
+#. (itstool) path: td/p
+#: C/mail-searching.page:92
+msgid "message's Sent date should match (**)"
+msgstr "la data d'enviament del missatge ha de coincidir (**)"
+
+#. (itstool) path: td/p
+#: C/mail-searching.page:93
+msgid "message's Received date should match (**)"
+msgstr "la data de Rebut del missatge ha de coincidir (**)"
+
+#. (itstool) path: td/p
+#: C/mail-searching.page:94
+msgid ""
+"message has (if the value is not any of <code>no</code>, <code>false</code>, "
+"<code>0</code>) an attachment. Similar to <code>flag:attachment</code> tag."
+msgstr ""
+"el missatge té (si el valor no és cap de <code>no</code>, <code>false</"
+"code>) <code>0</code>) un fitxer adjunt. Similar a l'etiqueta <code>flag:"
+"attachment</code> ."
+
+#. (itstool) path: td/p
+#: C/mail-searching.page:95
+msgid ""
+"Checks message location. The location value (URL) can be found in the folder "
+"<gui>Properties</gui>. Example: <code>location:\"On This Computer/Inbox\"</"
+"code>"
+msgstr ""
+"Comprova la ubicació del missatge. El valor d'ubicació (URL) es pot trobar a "
+"la carpeta <gui>Propietats</gui>. Exemple: <code>location:\"On This Computer/"
+"Inbox\"</code>"
+
+#. (itstool) path: td/p
+#: C/mail-searching.page:96
+msgid "Compares message ID."
+msgstr "Compara l'identificador del missatge."
+
+#. (itstool) path: section/p
+#: C/mail-searching.page:98
+msgid ""
+"(*) Header comparisons can have a matching type option. The default is to "
+"check for a <code>contains</code>. The available options are:"
+msgstr ""
+"(*) Les comparacions de capçalera poden tenir una opció de tipus coincident. "
+"El valor per defecte és comprovar si hi ha un <code>conté</code>. Les "
+"opcions disponibles són:"
+
+#. (itstool) path: td/p
+#: C/mail-searching.page:100
+msgid "Option"
+msgstr "Opció"
+
+#. (itstool) path: td/p
+#: C/mail-searching.page:101
+msgid "matches with contains"
+msgstr "coincidències amb conté"
+
+#. (itstool) path: td/p
+#: C/mail-searching.page:102
+msgid "matches if contains whole word"
+msgstr "coincideix si conté tota la paraula"
+
+#. (itstool) path: td/p
+#: C/mail-searching.page:103
+msgid "value's exact match"
+msgstr "coincidència exacta del valor"
+
+#. (itstool) path: td/p
+#: C/mail-searching.page:104
+msgid "header value starts with the given value"
+msgstr "el valor de capçalera comença amb el valor donat"
+
+#. (itstool) path: td/p
+#: C/mail-searching.page:105
+msgid "header value ends with the given value"
+msgstr "el valor de la capçalera acaba amb el valor donat"
+
+#. (itstool) path: td/p
+#: C/mail-searching.page:106
+msgid "header value sounds similar to given value"
+msgstr "el valor de la capçalera sona similar al valor donat"
+
+#. (itstool) path: td/p
+#: C/mail-searching.page:107
+msgid "the given value is a regular expression"
+msgstr "el valor donat és una expressió regular"
+
+#. (itstool) path: td/p
+#: C/mail-searching.page:108
+msgid "another type of a regular expression"
+msgstr "altre tipus d'expressió regular"
+
+#. (itstool) path: section/p
+#: C/mail-searching.page:110
+msgid ""
+"(**) Dates can be written relatively (positive number means <code>in the "
+"last X days</code>), while negative goes into the future. For example, to "
+"get messages received in the last 10 days use: <code>recv:10</code>. An "
+"exact date can be used as well, the format can be either <code>YYYY-MM-DD</"
+"code> (the preferred one), then ISO 8601 format or a date/date-time locale "
+"specific format. If the date/time parse fails, then the condition is "
+"skipped. The date compares can have extra options too, it's <code>&lt;</"
+"code>, <code>=</code> or <code>&gt;</code>, where the <code>&gt;</code> is "
+"the default compare option."
+msgstr ""
+"(**) Les dates es poden escriure relativament (nombre positiu significa "
+"<code>en els últims X dies</code>, mentre que negatiu va cap al futur. Per "
+"exemple, per a rebre missatges rebuts en els darrers 10 dies utilitzeu: "
+"<code>recv:10</code>. També es pot utilitzar una data exacta, el format pot "
+"ser <code>YYYY-MM-DD</code> (el preferit), després el format ISO 8601 o un "
+"format específic de configuració regional de data / data i hora. Si "
+"l'anàlisi de data i hora falla, s'omet la condició. Les comparacions de "
+"dates també poden tenir opcions addicionals, com <code>&lt;</code>, <code>=</"
+"code> o <code>&gt;</code>, on el <code>&gt;</code> és l'opció de comparació "
+"predeterminada."
+
+#. (itstool) path: section/p
+#: C/mail-searching.page:111
+msgid "There are three special tags, which require special notation. They are:"
+msgstr ""
+"Hi ha tres etiquetes especials, que requereixen una notació especial. Són:"
+
+#. (itstool) path: section/p
+#: C/mail-searching.page:117
+msgid ""
+"which allows to create specialized expressions. The default (the most outer) "
+"conjunction is <code>and</code>. To change it to <code>or</code> enclose the "
+"whole filter into <code>or:(....)</code>. For example: <code>f:Bugzilla t:"
+"John</code> filters all messages which contains <code>Bugzilla</code> in the "
+"From and <code>John</code> in the To, while <code>or:(f:Bugzilla t:John)</"
+"code> filters messages from Bugzilla or addressed to John."
+msgstr ""
+"que permet crear expressions especialitzades. La conjunció per defecte (la "
+"més externa) és <code>and</code>. Per canviar-lo per <code>or</code> tancar "
+"tot el filtre en <code>or:(....)</code>. Per exemple: <code>f:Bugzilla t:"
+"John</code> filtra tots els missatges que contenen <code>Bugzilla</code> de "
+"remitent i <code>John</code> a Per a, mentre que <code>or:(f:Bugzilla t:"
+"John)</code> filtra els missatges de Bugzilla o adreçats a John."
+
+#. (itstool) path: section/title
+#: C/mail-searching.page:121
+msgid "Free Form Expression examples"
+msgstr "Exemples d'expressió de forma lliure"
+
+#. (itstool) path: section/p
+#: C/mail-searching.page:122
+msgid "A list of some free form expressions follows:"
+msgstr "A continuació es mostra una llista d'algunes expressions lliures:"
+
+#. (itstool) path: td/p
+#: C/mail-searching.page:124
+msgid "Expression"
+msgstr "Expressió"
+
+#. (itstool) path: td/p
+#: C/mail-searching.page:125
+msgid "<code>f:John</code>"
+msgstr "<code>f:John</code>"
+
+#. (itstool) path: td/p
+#: C/mail-searching.page:125
+msgid "Messages from <code>John</code>"
+msgstr "Missatges de <code>John</code>"
+
+#. (itstool) path: td/p
+#: C/mail-searching.page:126
+msgid "<code>s-has-words:\"green blue\"</code>"
+msgstr "<code>s-has-words:\"green blue\"</code>"
+
+#. (itstool) path: td/p
+#: C/mail-searching.page:126
+msgid ""
+"Messages, which contain both <code>green</code> and <code>blue</code> words "
+"in the Subject"
+msgstr ""
+"Missatges, que contenen <code>blue</code> i <code>green</code> a l'assumpte"
+
+#. (itstool) path: td/p
+#: C/mail-searching.page:127
+msgid "<code>r-ew:example.com</code>"
+msgstr "<code>r-ew:example.com</code>"
+
+#. (itstool) path: td/p
+#: C/mail-searching.page:127
+msgid "Recipients' address (To/Cc headers) ends with <code>example.com</code>"
+msgstr ""
+"L'adreça dels destinataris (capçaleres A/Cc) acaba amb <code>example.com</"
+"code>"
+
+#. (itstool) path: td/p
+#: C/mail-searching.page:128
+msgid "<code>h-starts-with:Cc=Alice</code>"
+msgstr "<code>h-starts-with:Cc=Alice</code>"
+
+#. (itstool) path: td/p
+#: C/mail-searching.page:128
+msgid "The <code>Cc</code> starts with word <code>Alice</code>"
+msgstr "El <code>Cc</code> comença amb la paraula <code>Alice</code>"
+
+#. (itstool) path: td/p
+#: C/mail-searching.page:129
+msgid "<code>e:X-Secret-Header</code>"
+msgstr "<code>e:X-Secret-Header</code>"
+
+#. (itstool) path: td/p
+#: C/mail-searching.page:129
+msgid "An <code>X-Secret-Header</code> exists in the message"
+msgstr "Un <code>X-Secret-Header</code> existeix en el missatge"
+
+#. (itstool) path: td/p
+#: C/mail-searching.page:130
+msgid "<code>l:work</code>"
+msgstr "<code>l:work</code>"
+
+#. (itstool) path: td/p
+#: C/mail-searching.page:130
+msgid "Label <code>work</code> is set on the message"
+msgstr "L'etiqueta <code>work</code> està establerta al missatge"
+
+#. (itstool) path: td/p
+#: C/mail-searching.page:131
+msgid "<code>sz-&lt;:10</code>"
+msgstr "<code>sz-&lt;:10</code>"
+
+#. (itstool) path: td/p
+#: C/mail-searching.page:131
+msgid "Message size is less than 10KB"
+msgstr "La mida del missatge és inferior a 10 KB"
+
+#. (itstool) path: td/p
+#: C/mail-searching.page:132
+msgid "<code>sz-&gt;:100</code>"
+msgstr "<code>sz-&gt;:100</code>"
+
+#. (itstool) path: td/p
+#: C/mail-searching.page:132
+msgid "Message size is more than 100KB"
+msgstr "La mida del missatge és superior a 100 KB"
+
+#. (itstool) path: td/p
+#: C/mail-searching.page:133
+msgid "<code>b:important</code>"
+msgstr "<code>b:important</code>"
+
+#. (itstool) path: td/p
+#: C/mail-searching.page:133
+msgid "The body contains a word <code>important</code>"
+msgstr "El cos conté una paraula <code>important</code>"
+
+#. (itstool) path: td/p
+#: C/mail-searching.page:134
+msgid "<code>sent:7</code>"
+msgstr "<code>sent:7</code>"
+
+#. (itstool) path: td/p
+#: C/mail-searching.page:134
+msgid "Messages sent in the last 7 days"
+msgstr "Missatges enviats en els últims 7 dies"
+
+#. (itstool) path: td/p
+#: C/mail-searching.page:135
+msgid "<code>rcv-=:2020-02-02</code>"
+msgstr "<code>rcv-=:2020-02-02</code>"
+
+#. (itstool) path: td/p
+#: C/mail-searching.page:135
+msgid "Messages received on the February 2nd, 2020"
+msgstr "Missatges rebuts el 2 de febrer de 2020"
+
+#. (itstool) path: td/p
+#: C/mail-searching.page:136
+msgid "<code>a:1</code>"
+msgstr "<code>a:1</code>"
+
+#. (itstool) path: td/p
+#: C/mail-searching.page:136
+msgid "Messages with attachment"
+msgstr "Missatges amb fitxer adjunt"
+
+#. (itstool) path: td/p
+#: C/mail-searching.page:137
+msgid "<code>a:0</code>"
+msgstr "<code>a:0</code>"
+
+#. (itstool) path: td/p
+#: C/mail-searching.page:137
+msgid "Messages without attachments"
+msgstr "Missatges sense fitxers adjunts"
+
+#. (itstool) path: td/p
+#: C/mail-searching.page:138
+msgid "<code>and:(or:(r:Alice r:Bob) not:(r:Smith))</code>"
+msgstr "<code>and:(or:(r:Alice r:Bob) not:(r:Smith))</code>"
+
+#. (itstool) path: td/p
+#: C/mail-searching.page:138
+msgid ""
+"Messages whose recipient is <code>Alice</code> or <code>Bob</code>, but not "
+"<code>Smith</code>"
+msgstr ""
+"Missatges el destinatari dels quals és <code>Alice</code> o <code>Bob</"
+"code>, però no <code>Smith</code>"
+
+#. (itstool) path: td/p
+#: C/mail-searching.page:139
+msgid "<code>f:Bob rcv-&gt;:2020-01-01 rcv-&lt;:2020-12-31</code>"
+msgstr "<code>f:Bob rcv-&gt;:2020-01-01 rcv-&lt;:2020-12-31</code>"
+
+#. (itstool) path: td/p
+#: C/mail-searching.page:139
+msgid "Messages from <code>Bob</code>, received during the year 2020"
+msgstr "Missatges de <code>Bob</code>, rebuts durant l'any 2020"
+
+#. (itstool) path: td/p
+#: C/mail-searching.page:140
+msgid ""
+"<code>not:(flag:Seen) f:Bob rcv-&gt;:2020-01-01 rcv-&lt;:2020-12-31</code>"
+msgstr ""
+"<code>not:(flag:Seen) f:Bob rcv-&gt;:2020-01-01 rcv-&lt;:2020-12-31</code>"
+
+#. (itstool) path: td/p
+#: C/mail-searching.page:140
+msgid "Unread messages from <code>Bob</code>, received during the year 2020"
+msgstr "Missatges no llegits de <code>Bob</code>, rebuts durant l'any 2020"
+
+#. (itstool) path: td/p
+#: C/mail-searching.page:141
+msgid "<code>flag:Seen a:1 sz-&gt;:1024 f:Bob rcv:31</code>"
+msgstr "<code>flag:Seen a:1 sz-&gt;:1024 f:Bob rcv:31</code>"
+
+#. (itstool) path: td/p
+#: C/mail-searching.page:141
+msgid ""
+"Read messages with attachment larger than 1MB from <code>Bob</code>, "
+"received during the past 31 days"
+msgstr ""
+"Llegir missatges amb fitxer adjunt de més d'1 MB de <code>Bob</code>, rebuts "
+"durant els darrers 31 dies"
+
+#. (itstool) path: td/p
+#: C/mail-searching.page:142
+msgid "<code>m:\"On This Computer/Inbox\"</code>"
+msgstr "<code>m:\"On This Computer/Inbox\"</code>"
+
+#. (itstool) path: td/p
+#: C/mail-searching.page:142
+msgid "Messages stored in the <code>On This Computer/Inbox</code> folder"
+msgstr ""
+"Missatges emmagatzemats a la carpeta <code>On This Computer/Inbox</code>"
+
+#. (itstool) path: td/p
+#: C/mail-searching.page:143
+msgid "<code>location-no:\"On This Computer/Inbox\"</code>"
+msgstr "<code>location-no:\"On This Computer/Inbox\"</code>"
+
+#. (itstool) path: td/p
+#: C/mail-searching.page:143
+msgid ""
+"Messages stored in all but the <code>On This Computer/Inbox</code> folder"
+msgstr ""
+"Missatges emmagatzemats a tota la carpeta excepte a la carpeta <code>On This "
+"Computer/Inbox</code>"
 
 #. (itstool) path: info/desc
 #: C/mail-send-and-receive-automatically.page:5
@@ -12365,17 +13174,17 @@ msgstr ""
 "Ordenació de la llista de carpetes de correu de la subfinestra esquerra."
 
 #. (itstool) path: page/title
-#: C/mail-sorting-folder-list.page:21
+#: C/mail-sorting-folder-list.page:22
 msgid "Sorting the mail folder list"
 msgstr "Ordenació de la llista de carpetes de correu"
 
 #. (itstool) path: section/title
-#: C/mail-sorting-folder-list.page:24
+#: C/mail-sorting-folder-list.page:25
 msgid "Default sort order"
 msgstr "Ordenació per defecte"
 
 #. (itstool) path: section/p
-#: C/mail-sorting-folder-list.page:25
+#: C/mail-sorting-folder-list.page:26
 msgid ""
 "By default the <link xref=\"intro-main-window#e-mail\">mail folder list</"
 "link> in the left pane contains top-level nodes in the following order:"
@@ -12385,7 +13194,7 @@ msgstr ""
 "superior en l'ordre següent:"
 
 #. (itstool) path: item/p
-#: C/mail-sorting-folder-list.page:27
+#: C/mail-sorting-folder-list.page:28
 msgid ""
 "<gui>On This Computer</gui> - contains all mail for local account types (if "
 "configured)"
@@ -12394,13 +13203,13 @@ msgstr ""
 "local (si està configurat)"
 
 #. (itstool) path: item/p
-#: C/mail-sorting-folder-list.page:28
+#: C/mail-sorting-folder-list.page:29
 msgid "One or more remote email account types (if configured)"
 msgstr ""
 "Un o més tipus de compte de correu electrònic remot (si estan configurats)"
 
 #. (itstool) path: item/p
-#: C/mail-sorting-folder-list.page:29
+#: C/mail-sorting-folder-list.page:30
 msgid ""
 "<gui><link xref=\"mail-search-folders\">Search Folders</link></gui> (if "
 "enabled)"
@@ -12409,17 +13218,17 @@ msgstr ""
 "estan habilitades)"
 
 #. (itstool) path: section/p
-#: C/mail-sorting-folder-list.page:31
+#: C/mail-sorting-folder-list.page:32
 msgid "The folders under each top-level node are sorted in alphabetical order."
 msgstr "Les carpetes de cada node de nivell superior s'ordenen alfabèticament."
 
 #. (itstool) path: section/title
-#: C/mail-sorting-folder-list.page:35
+#: C/mail-sorting-folder-list.page:36
 msgid "Changing the sort order"
 msgstr "Canvi de l'ordenació"
 
-#. (itstool) path: section/p
-#: C/mail-sorting-folder-list.page:37
+#. (itstool) path: item/p
+#: C/mail-sorting-folder-list.page:39
 msgid ""
 "You can change the default sort order of the top-level nodes under "
 "<guiseq><gui>Edit</gui><gui>Preferences</gui><gui>Mail Accounts</gui></"
@@ -12429,8 +13238,8 @@ msgstr ""
 "<guiseq><gui>Edita</gui><gui>Preferències</gui><gui>Comptes de correu</gui></"
 "guiseq>, arrossegant un compte de la llista cap amunt o cap avall."
 
-#. (itstool) path: section/p
-#: C/mail-sorting-folder-list.page:39
+#. (itstool) path: item/p
+#: C/mail-sorting-folder-list.page:41
 msgid ""
 "You can revert your custom sort order by choosing <guiseq><gui>Edit</"
 "gui><gui>Preferences</gui><gui>Mail Accounts</gui><gui style=\"button"
@@ -12439,6 +13248,15 @@ msgstr ""
 "Podeu revertir l'ordenació personalitzada seleccionant <guiseq><gui>Edita</"
 "gui><gui>Preferències</gui><gui>Comptes de correu</gui><gui style=\"button"
 "\">Reinicialitza l'ordre</gui></guiseq>."
+
+#. (itstool) path: item/p
+#: C/mail-sorting-folder-list.page:44
+msgid ""
+"You can change the sort order of folders under <guiseq><gui>Folder</"
+"gui><gui>Edit Sort Order…</gui></guiseq>."
+msgstr ""
+"Podeu canviar l'ordre d'ordenació de carpetes a <guiseq><gui>FolderEdit</"
+"gui> <gui>Edita l'ordre d'ordenació...</gui></guiseq>."
 
 #. (itstool) path: info/desc
 #: C/mail-sorting-message-list.page:5
@@ -12516,28 +13334,40 @@ msgstr ""
 #. (itstool) path: note/p
 #: C/mail-sorting-message-list.page:38
 msgid ""
-"For Advanced Users: By default, all email threads are expanded. If you want "
-"all threads to be collapsed by default:"
+"Advanced users can change further thread settings by running commands in the "
+"<app>Terminal</app> application."
 msgstr ""
-"Per a usuaris avançats: per defecte, s'amplien tots els fils de correu. Si "
-"voleu reduir tots els fils per defecte:"
+"Els usuaris avançats poden canviar més la configuració del fil executant "
+"ordres a l'aplicació <app>Terminal</app> ."
 
 #. (itstool) path: item/p
 #: C/mail-sorting-message-list.page:41
-msgid ""
-"Run the command <cmd>gsettings set org.gnome.evolution.mail thread-expand "
-"false</cmd>"
+msgid "To sort each thread by latest message rather than by message date:"
 msgstr ""
-"Executeu l'ordre <cmd>gsettings set org.gnome.evolution.mail thread-expand "
-"false</cmd>"
+"Per a ordenar cada fil pel missatge més recent en lloc de per data de "
+"missatge:"
+
+#. (itstool) path: item/p
+#: C/mail-sorting-message-list.page:45
+msgid ""
+"To use ascending sort order of child messages in a thread rather than the "
+"sort order as in the thread root level:"
+msgstr ""
+"Per a utilitzar l'ordre ascendent de tipus de missatges secundaris en un fil "
+"en lloc de l'ordre d'ordenació com en el nivell arrel del fil:"
+
+#. (itstool) path: item/p
+#: C/mail-sorting-message-list.page:49
+msgid "To collapse all threads by default rather than expanding them:"
+msgstr "Per a reduir tots els fils per defecte en lloc d'expandir-los:"
 
 #. (itstool) path: section/title
-#: C/mail-sorting-message-list.page:47
+#: C/mail-sorting-message-list.page:57
 msgid "Sorting Mail with Column Headers"
 msgstr "Ordenació de correus amb els encapçalaments de columnes"
 
 #. (itstool) path: section/p
-#: C/mail-sorting-message-list.page:48
+#: C/mail-sorting-message-list.page:58
 msgid ""
 "The message list displays columns that indicate whether a message has been "
 "read, whether it has attachments, how important the message is, the sender, "
@@ -12550,17 +13380,17 @@ msgstr ""
 "missatges, podeu fer una de les accions següents:"
 
 #. (itstool) path: item/p
-#: C/mail-sorting-message-list.page:50
+#: C/mail-sorting-message-list.page:60
 msgid "Drag and drop the column header bars"
 msgstr "Arrossegar i deixar anar les barres de capçalera de la columna"
 
 #. (itstool) path: item/p
-#: C/mail-sorting-message-list.page:51
+#: C/mail-sorting-message-list.page:61
 msgid "Right-click on the header."
 msgstr "Fer clic amb el botó dret a la capçalera."
 
 #. (itstool) path: item/p
-#: C/mail-sorting-message-list.page:52
+#: C/mail-sorting-message-list.page:62
 msgid ""
 "Select the <gui>Remove This Column</gui> or <gui>Add a Column</gui> option."
 msgstr ""
@@ -12568,7 +13398,7 @@ msgstr ""
 "columna</gui>."
 
 #. (itstool) path: section/p
-#: C/mail-sorting-message-list.page:55
+#: C/mail-sorting-message-list.page:65
 msgid ""
 "<app>Evolution</app> allows you to sort your messages using these columns. "
 "Just click on the column label to sort the emails. The direction of the "
@@ -12580,7 +13410,7 @@ msgstr ""
 "d'ordenació."
 
 #. (itstool) path: section/p
-#: C/mail-sorting-message-list.page:55
+#: C/mail-sorting-message-list.page:65
 msgid ""
 "You can apply a secondary sort criterion by clicking a column label while "
 "pressing <key>Ctrl</key>."
@@ -12589,12 +13419,12 @@ msgstr ""
 "d'una columna mentre es prem <key>Ctrl</key>."
 
 #. (itstool) path: section/title
-#: C/mail-sorting-message-list.page:62
+#: C/mail-sorting-message-list.page:72
 msgid "Using Other Sorting Options"
 msgstr "Ús d'altres opcions de classificació"
 
 #. (itstool) path: section/p
-#: C/mail-sorting-message-list.page:63
+#: C/mail-sorting-message-list.page:73
 msgid ""
 "<app>Evolution</app> provides other ways for sorting email messages. You can "
 "use Sort By, Sort Ascending, Sort Descending, or Reset sort."
@@ -12604,176 +13434,176 @@ msgstr ""
 "Ordenació descendent o Restablir l'ordenació."
 
 #. (itstool) path: section/title
-#: C/mail-sorting-message-list.page:65
+#: C/mail-sorting-message-list.page:75
 msgid "Sort By"
 msgstr "Ordena per"
 
 #. (itstool) path: section/p
-#: C/mail-sorting-message-list.page:66
+#: C/mail-sorting-message-list.page:76
 msgid "You can also sort email messages using the <gui>Sort By</gui> list."
 msgstr ""
 "També podeu ordenar missatges de correu mitjançant la llista <gui>Ordena "
 "per</gui>."
 
 #. (itstool) path: item/p
-#: C/mail-sorting-message-list.page:68 C/mail-sorting-message-list.page:98
-#: C/mail-sorting-message-list.page:107 C/mail-sorting-message-list.page:116
+#: C/mail-sorting-message-list.page:78 C/mail-sorting-message-list.page:108
+#: C/mail-sorting-message-list.page:117 C/mail-sorting-message-list.page:126
 msgid "Right-click on the message list column headers."
 msgstr ""
 "Feu clic amb el botó dret sobre les capçaleres de columna de la llista de "
 "missatges."
 
 #. (itstool) path: item/p
-#: C/mail-sorting-message-list.page:69
+#: C/mail-sorting-message-list.page:79
 msgid "Select the <gui>Sort By</gui> option."
 msgstr "Seleccioneu l'opció <gui>Ordena per</gui>."
 
 #. (itstool) path: item/p
-#: C/mail-sorting-message-list.page:69
+#: C/mail-sorting-message-list.page:79
 msgid "This brings up this list of criteria for sorting email messages:"
 msgstr ""
 "Això ens mostra la llista de criteris d'ordenació de missatges de correu "
 "electrònic:"
 
 #. (itstool) path: item/p
-#: C/mail-sorting-message-list.page:71
+#: C/mail-sorting-message-list.page:81
 msgid "Subject - Trimmed"
 msgstr "Assumpte - retallat"
 
 #. (itstool) path: item/p
-#: C/mail-sorting-message-list.page:72
+#: C/mail-sorting-message-list.page:82
 msgid "Labels"
 msgstr "Etiquetes"
 
 #. (itstool) path: item/p
-#: C/mail-sorting-message-list.page:73
+#: C/mail-sorting-message-list.page:83
 msgid "Recipients"
 msgstr "Destinataris"
 
 #. (itstool) path: item/p
-#: C/mail-sorting-message-list.page:74
+#: C/mail-sorting-message-list.page:84
 msgid "Sender"
 msgstr "Remitent"
 
 #. (itstool) path: item/p
-#: C/mail-sorting-message-list.page:75
+#: C/mail-sorting-message-list.page:85
 msgid "Location"
 msgstr "Ubicació"
 
 #. (itstool) path: item/p
-#: C/mail-sorting-message-list.page:76
+#: C/mail-sorting-message-list.page:86
 msgid "Due By"
 msgstr "Venciment"
 
 #. (itstool) path: item/p
-#: C/mail-sorting-message-list.page:77
+#: C/mail-sorting-message-list.page:87
 msgid "<link xref=\"mail-follow-up-flag\">Follow Up Flag</link>"
 msgstr "<link xref=\"mail-follow-up-flag\">Marca de seguiment</link>"
 
 #. (itstool) path: item/p
-#: C/mail-sorting-message-list.page:78
+#: C/mail-sorting-message-list.page:88
 msgid "Flag Status"
 msgstr "Estat del senyalador"
 
 #. (itstool) path: item/p
-#: C/mail-sorting-message-list.page:79
+#: C/mail-sorting-message-list.page:89
 msgid "Size"
 msgstr "Mida"
 
 #. (itstool) path: item/p
-#: C/mail-sorting-message-list.page:80
+#: C/mail-sorting-message-list.page:90
 msgid "To"
 msgstr "A"
 
 #. (itstool) path: item/p
-#: C/mail-sorting-message-list.page:81
+#: C/mail-sorting-message-list.page:91
 msgid "Received"
 msgstr "Rebut"
 
 #. (itstool) path: item/p
-#: C/mail-sorting-message-list.page:82
+#: C/mail-sorting-message-list.page:92
 msgid "Date"
 msgstr "Data"
 
 #. (itstool) path: item/p
-#: C/mail-sorting-message-list.page:83
+#: C/mail-sorting-message-list.page:93
 msgid "Subject"
 msgstr "Assumpte"
 
 #. (itstool) path: item/p
-#: C/mail-sorting-message-list.page:84
+#: C/mail-sorting-message-list.page:94
 msgid "From"
 msgstr "De"
 
 #. (itstool) path: item/p
-#: C/mail-sorting-message-list.page:85
+#: C/mail-sorting-message-list.page:95
 msgid "Attachment"
 msgstr "Fitxer adjunt"
 
 #. (itstool) path: item/p
-#: C/mail-sorting-message-list.page:86
+#: C/mail-sorting-message-list.page:96
 msgid "Flagged"
 msgstr "Senyalat"
 
 #. (itstool) path: item/p
-#: C/mail-sorting-message-list.page:87
+#: C/mail-sorting-message-list.page:97
 msgid "Status"
 msgstr "Estat"
 
 #. (itstool) path: item/p
-#: C/mail-sorting-message-list.page:88
+#: C/mail-sorting-message-list.page:98
 msgid "Custom"
 msgstr "Personalitzat"
 
 #. (itstool) path: item/p
-#: C/mail-sorting-message-list.page:91
+#: C/mail-sorting-message-list.page:101
 msgid "Select the option you wish to use in sorting email messages."
 msgstr ""
 "Seleccioneu l'opció que voleu utilitzar per a ordenar els missatges de "
 "correu electrònic."
 
 #. (itstool) path: section/title
-#: C/mail-sorting-message-list.page:96
+#: C/mail-sorting-message-list.page:106
 msgid "Sort Ascending"
 msgstr "Ordena de manera ascendent"
 
 #. (itstool) path: item/p
-#: C/mail-sorting-message-list.page:99
+#: C/mail-sorting-message-list.page:109
 msgid "Select the <gui>Sort Ascending</gui> option."
 msgstr "Seleccioneu l'opció <gui>Ordena de manera ascendent</gui>."
 
 #. (itstool) path: section/p
-#: C/mail-sorting-message-list.page:101
+#: C/mail-sorting-message-list.page:111
 msgid "The messages will be displayed with the most recent at the bottom."
 msgstr "Els missatges es mostraran amb els més recents a la part inferior."
 
 #. (itstool) path: section/title
-#: C/mail-sorting-message-list.page:105
+#: C/mail-sorting-message-list.page:115
 msgid "Sort Descending"
 msgstr "Ordena de forma descendent"
 
 #. (itstool) path: item/p
-#: C/mail-sorting-message-list.page:108
+#: C/mail-sorting-message-list.page:118
 msgid "Select the <gui>Sort Descending</gui> option."
 msgstr "Seleccioneu l'opció <gui>Ordena de manera descendent</gui>."
 
 #. (itstool) path: section/p
-#: C/mail-sorting-message-list.page:110
+#: C/mail-sorting-message-list.page:120
 msgid "The messages will be displayed with the most recent at the top."
 msgstr "Els missatges es mostraran amb els més recents a la part superior."
 
 #. (itstool) path: section/title
-#: C/mail-sorting-message-list.page:114
+#: C/mail-sorting-message-list.page:124
 msgid "Reset sort"
 msgstr "Reinicialitzar l'ordre"
 
 #. (itstool) path: item/p
-#: C/mail-sorting-message-list.page:117
+#: C/mail-sorting-message-list.page:127
 msgid "Select the <gui>Reset sort</gui> option."
 msgstr "Seleccioneu l'opció <gui>Reinicialitza l'ordre</gui>."
 
 #. (itstool) path: section/p
-#: C/mail-sorting-message-list.page:119
+#: C/mail-sorting-message-list.page:129
 msgid ""
 "This removes sorting from the column, reverting to the order of messages as "
 "they were added to the folder."
@@ -13262,7 +14092,7 @@ msgstr ""
 "missatges."
 
 #. (itstool) path: note/p
-#: C/mail-working-offline.page:27 C/offline.page:40
+#: C/mail-working-offline.page:27 C/offline.page:39
 msgid ""
 "<app>Evolution</app>'s forced offline mode only refers to mail and does not "
 "apply to contacts and calendars."
@@ -13451,7 +14281,7 @@ msgstr ""
 #: C/memos-usage-add-memo.page:27
 msgid "Select a memo list in the <gui>List</gui> dropdown list."
 msgstr ""
-"Seleccioneu una llista de notes de la llista desplegable de <gui>Llistes</"
+"Seleccioneu una llista de notes de la llista desplegable de <gui>Llista</"
 "gui>."
 
 #. (itstool) path: item/p
@@ -13503,7 +14333,7 @@ msgstr ""
 #. (itstool) path: section/p
 #: C/memos-usage-add-memo.page:41
 msgid "To send a Shared Memo,"
-msgstr "Per a enviar una nota compartida"
+msgstr "Per a enviar una nota compartida,"
 
 #. (itstool) path: item/p
 #: C/memos-usage-add-memo.page:43
@@ -13683,7 +14513,7 @@ msgstr ""
 "ajuda als fòrums de suport a la distribució, llistes de correu, etc."
 
 #. (itstool) path: page/p
-#: C/offline.page:35
+#: C/offline.page:34
 msgid ""
 "If you want to force <app>Evolution</app> to be in online mode, make sure "
 "that <app>Evolution</app> is not running and open a <app>Terminal</app> "
@@ -13835,8 +14665,9 @@ msgstr ""
 "possible, incloeu informació com ara la versió de l'<app>Evolution</app> (a "
 "<guiseq><gui>Ajuda</gui><gui>Quant a</gui></guiseq>), la vostra distribució "
 "i els passos exactes per a reproduir el problema, clic per clic. Vegeu la "
-"<link href=\"https://wiki.gnome.org/Community/GettingInTouch/BugReportingGuidelines\">guia "
-"d'escriptura d'errors</link> per a més informació."
+"<link href=\"https://wiki.gnome.org/Community/GettingInTouch/"
+"BugReportingGuidelines\">guia d'escriptura d'errors</link> per a més "
+"informació."
 
 #. (itstool) path: info/desc
 #: C/searching-items.page:5
@@ -13847,6 +14678,91 @@ msgstr "Cerca de contingut i dades a <app>Evolution</app>."
 #: C/searching-items.page:18
 msgid "Searching items"
 msgstr "Cercar elements"
+
+#. (itstool) path: info/desc
+#: C/start-command-line-parameters.page:16
+msgid ""
+"How to make Evolution show a specific window or folder when starting the "
+"application."
+msgstr ""
+"Com fer que Evolution mostri una finestra o carpeta específica en iniciar "
+"l'aplicació."
+
+#. (itstool) path: page/title
+#: C/start-command-line-parameters.page:21
+msgid "Define what to display when starting <app>Evolution</app>"
+msgstr "Defineix què mostrar en iniciar <app>l'Evolution</app>"
+
+#. (itstool) path: page/p
+#: C/start-command-line-parameters.page:23
+msgid ""
+"When <app>Evolution</app> starts, it remembers the last view that you used."
+msgstr ""
+"Quan s'inicia <app>l'Evolution</app>, recorda l'última visualització que has "
+"utilitzat."
+
+#. (itstool) path: page/p
+#: C/start-command-line-parameters.page:25
+msgid ""
+"To make <app>Evolution</app> display something else after starting the "
+"application, you will have to run the application from the <app>Terminal</"
+"app> application and pass corresponding parameters."
+msgstr ""
+"Per a fer que <app>Evolution</app> mostri una altra cosa després d'iniciar "
+"l'aplicació, haureu d'executar l'aplicació des de <app>Terminal</app> i "
+"passar els paràmetres corresponents."
+
+#. (itstool) path: section/title
+#: C/start-command-line-parameters.page:30
+msgid "Windows"
+msgstr "Windows"
+
+#. (itstool) path: section/p
+#. TO TRANSLATORS: Do NOT translate 'component' here!
+#: C/start-command-line-parameters.page:32
+msgid ""
+"To start <app>Evolution</app> in a specific view, pass the \"component\" "
+"parameter."
+msgstr ""
+"Per a iniciar <app>l'Evolution</app> en una visualització específica, passeu "
+"el paràmetre «component»."
+
+#. (itstool) path: section/p
+#: C/start-command-line-parameters.page:35
+#: C/start-command-line-parameters.page:52
+#: C/start-command-line-parameters.page:66
+msgid "Examples:"
+msgstr "Exemples:"
+
+#. (itstool) path: section/title
+#: C/start-command-line-parameters.page:46
+msgid "Mail folders"
+msgstr "Carpetes de correu"
+
+#. (itstool) path: section/p
+#. TO TRANSLATORS: Do NOT translate 'folder' here!
+#: C/start-command-line-parameters.page:49
+msgid ""
+"To make <app>Evolution</app> open a specific mail folder, pass the \"folder"
+"\" parameter."
+msgstr ""
+"Per a fer que <app>Evolution</app> obri una carpeta de correu específica, "
+"passeu el paràmetre «carpeta»."
+
+#. (itstool) path: section/title
+#: C/start-command-line-parameters.page:61
+msgid "Mail composer"
+msgstr "Editor del correu electrònic"
+
+#. (itstool) path: section/p
+#. TO TRANSLATORS: Do NOT translate 'folder' here!
+#: C/start-command-line-parameters.page:63
+msgid ""
+"To make <app>Evolution</app> open a mail composer window with some "
+"predefined values and content:"
+msgstr ""
+"Per a fer que <app>Evolution</app> obri una finestra de l'editor de correu "
+"amb alguns valors i contingut predefinits:"
 
 #. (itstool) path: info/desc
 #: C/sync-with-other-devices.page:5
@@ -13974,32 +14890,32 @@ msgstr ""
 "gui><gui>Tasques</gui></guiseq>."
 
 #. (itstool) path: item/p
-#: C/tasks-display-settings.page:31
+#: C/tasks-display-settings.page:30
 msgid "Tasks due today:"
 msgstr "Tasques per avui:"
 
 #. (itstool) path: item/p
-#: C/tasks-display-settings.page:32
+#: C/tasks-display-settings.page:31
 msgid "Select the color for tasks due today."
 msgstr "Seleccioneu el color de les tasques per avui."
 
 #. (itstool) path: item/p
-#: C/tasks-display-settings.page:33
+#: C/tasks-display-settings.page:32
 msgid "Overdue tasks:"
 msgstr "Tasques vençudes:"
 
 #. (itstool) path: item/p
-#: C/tasks-display-settings.page:34
+#: C/tasks-display-settings.page:33
 msgid "Select the color for overdue tasks."
 msgstr "Seleccioneu el color per a tasques vençudes."
 
 #. (itstool) path: item/p
-#: C/tasks-display-settings.page:35
+#: C/tasks-display-settings.page:34
 msgid "Hide completed tasks after:"
 msgstr "Amaga les tasques completades després de:"
 
 #. (itstool) path: item/p
-#: C/tasks-display-settings.page:36
+#: C/tasks-display-settings.page:35
 msgid ""
 "Select this option to have completed tasks hidden after a period of time "
 "measured in days, hours, or minutes. If you do not select this option, "
@@ -14508,6 +15424,7 @@ msgstr "Qualsevol encapçalament inclòs <_:link-1/>."
 #. (itstool) path: p/app
 #: C/xinclude-filter-vfolder-conditions.xml:23
 #: C/xinclude-filter-vfolder-conditions.xml:29
+#: C/xinclude-filter-vfolder-conditions.xml:62
 msgid "Evolution"
 msgstr "Evolution"
 
@@ -14735,32 +15652,23 @@ msgstr "Regex Match:"
 msgid "regex"
 msgstr "regex"
 
-#. (itstool) path: link/cmd
-#: C/xinclude-filter-vfolder-conditions.xml:62
-msgid "grep"
-msgstr "grep"
-
-#. (itstool) path: p/link
-#: C/xinclude-filter-vfolder-conditions.xml:62
-msgid "the man page for the <_:cmd-1/>"
-msgstr "la pàgina del manual per al <_:cmd-1/>"
-
 #. (itstool) path: item/p
 #: C/xinclude-filter-vfolder-conditions.xml:62
 msgid ""
-"(For programmers only) If you know your way around a <_:link-1/>, or regular "
+"(For advanced users) If you know your way around a <_:link-1/>, or regular "
 "expression, this option allows you to search for complex patterns of "
 "letters, so that you can find, for example, all words that start with \"a\" "
 "and end with \"m\", and are between six and fifteen letters long, or all "
-"messages that declare a particular header twice. For information about how "
-"to use regular expressions, check <_:link-2/> command."
+"messages that declare a particular header twice. <_:app-2/> supports the "
+"Extended Regular Expression syntax (ERE)."
 msgstr ""
-"(Només per als programadors) Si sabeu sobre <_:link-1/>, expressions "
-"regulars, aquesta opció us permet cercar patrons complexos, de manera que "
-"podeu trobar, per exemple, totes les paraules que comencen per «a» i acaben "
-"amb \"m\" i tenen entre sis i quinze lletres de llarg, o tots els missatges "
-"que es declaren un encapçalament particular dues vegades. Per a obtenir "
-"informació sobre com utilitzar expressions regulars, consulteu <_:link-2/>."
+"(Per a usuaris avançats) Si coneixeu el vostre camí al voltant d'un <_:"
+"link-1/>, o expressió regular, aquesta opció us permet cercar patrons "
+"complexos de lletres, de manera que pugueu trobar, per exemple, totes les "
+"paraules que comencen per «a» i acaben amb «m», i tenen entre sis i quinze "
+"lletres de llarg, o tots els missatges que declaren una capçalera en "
+"particular dues vegades. <_:app-2/> admet la sintaxi d'expressió regular "
+"ampliada (ERE)."
 
 #. (itstool) path: section/title
 #. (itstool) path: guiseq/gui
@@ -14925,3 +15833,101 @@ msgstr "Editeu el títol o les condicions de cerca des del quadre de diàleg."
 #: C/xinclude-searching.xml:30
 msgid "Click <_:gui-1/>."
 msgstr "Clic <_:gui-1/>."
+
+#~ msgid "Click <gui style=\"button\">Apply</gui>."
+#~ msgstr "Feu clic a <gui style=\"button\">Aplica</gui>."
+
+#~ msgid "An introduction to <app>Evolution</app>."
+#~ msgstr "Introducció a <app>Evolution</app>."
+
+#~ msgid ""
+#~ "By default <app>Evolution</app> opens the mail view. This is where you "
+#~ "can view all your mail. You can change to other views of the application "
+#~ "by going to the bottom of the left pane in the window (the so-called "
+#~ "\"switcher\") and selecting the desired view. <link xref=\"intro-main-"
+#~ "window\">Learn more about the elements of the main window</link>."
+#~ msgstr ""
+#~ "Per defecte, l'<app>Evolution</app> obre la vista de correu. Aquí és on "
+#~ "podeu veure tot el vostre correu. Podeu canviar a altres visualitzacions "
+#~ "de l'aplicació anant a la part inferior del panell esquerre de la "
+#~ "finestra (anomenat «commutador») i seleccionat la visualització "
+#~ "desitjada. <link xref=\"intro-main-window\">Més informació sobre els "
+#~ "elements de la finestra principal</link>."
+
+#~ msgid ""
+#~ "When <app>Evolution</app> starts, it remembers the last view that you "
+#~ "used. However you can also explicitly start <app>Evolution</app> in a "
+#~ "specific view. For the calendar view, use the command <cmd>evolution --"
+#~ "component=calendar</cmd> in the <app>Terminal</app> application. Other "
+#~ "available options are \"mail\", \"contacts\", \"tasks\", and \"memos\"."
+#~ msgstr ""
+#~ "Quan s'inicia <app>Evolution</app>, recorda l'última vista que s'ha "
+#~ "utilitzat. Tanmateix, també podeu començar explícitament <app>Evolution</"
+#~ "app> en una vista concreta. Per a la vista del calendari, utilitzeu "
+#~ "l'ordre <cmd>evolution --component=calendar</cmd> a l'aplicatiu "
+#~ "<app>Terminal</app>. Altres opcions disponibles són \"correu\", "
+#~ "\"contactes\", \"tasques\" i \"notes\"."
+
+#~ msgid ""
+#~ "For connecting to a Microsoft Exchange 2007/2010 or OpenChange server. "
+#~ "Note that this is currently under development and will replace the "
+#~ "<gui>Exchange MAPI</gui> account type in the future. It might not be "
+#~ "available yet for your distribution."
+#~ msgstr ""
+#~ "Per a connectar-se a un servidor Microsoft Exchange 2007/2010 o "
+#~ "OpenChange. Tingueu en compte que actualment està en desenvolupament i en "
+#~ "el futur substituirà el tipus de compte <gui>Exchange MAPI</gui>. Pot ser "
+#~ "que encara no estigui disponible per a la vostra distribució."
+
+#~ msgid ""
+#~ "Color chooser for text. The box displays the current text color. To "
+#~ "choose a new color, click the arrow button to the right. If you have text "
+#~ "selected, the color applies to the selected text. If you do not have text "
+#~ "selected, the color applies to whatever you type next. You can select a "
+#~ "background color or image by right-clicking the message background, then "
+#~ "selecting <guiseq><gui>Style</gui><gui>Page Style</gui></guiseq>."
+#~ msgstr ""
+#~ "Selector de color per al text. El quadre mostra el color del text actual. "
+#~ "Per a triar un nou color, feu clic al botó de fletxa cap a la dreta. Si "
+#~ "teniu text seleccionat, el color s'aplica al text seleccionat. Si no "
+#~ "teniu text seleccionat, el color s'aplica al que escriviu a continuació. "
+#~ "Podeu seleccionar un color o una imatge de fons fent clic amb el botó "
+#~ "dret del ratolí en el fons del missatge i, a continuació, seleccionant "
+#~ "<guiseq><gui>Estil</gui><gui>Estil de pàgina</gui></guiseq>."
+
+#~ msgid "TT"
+#~ msgstr "TT"
+
+#~ msgid "Typewriter text, which is similar to a monospace font."
+#~ msgstr ""
+#~ "Text Typewriter (màquina d'escriure), que és similar al tipus de lletra "
+#~ "monospace."
+
+#~ msgid ""
+#~ "Advanced users can <link href=\"https://bugzilla.gnome.org/show_bug.cgi?"
+#~ "id=550796#c10\">combine numerous conditions by using the <gui>Free form "
+#~ "expression</gui> syntax</link>."
+#~ msgstr ""
+#~ "Els usuaris avançats poden <link href=\"https://bugzilla.gnome.org/"
+#~ "show_bug.cgi?id=550796#c10\">combinar nombroses condicions utilitzant la "
+#~ "sintaxi <gui>Expressions de forma lliure</gui></link>."
+
+#~ msgid ""
+#~ "For Advanced Users: By default, all email threads are expanded. If you "
+#~ "want all threads to be collapsed by default:"
+#~ msgstr ""
+#~ "Per a usuaris avançats: per defecte, s'amplien tots els fils de correu. "
+#~ "Si voleu reduir tots els fils per defecte:"
+
+#~ msgid ""
+#~ "Run the command <cmd>gsettings set org.gnome.evolution.mail thread-expand "
+#~ "false</cmd>"
+#~ msgstr ""
+#~ "Executeu l'ordre <cmd>gsettings set org.gnome.evolution.mail thread-"
+#~ "expand false</cmd>"
+
+#~ msgid "grep"
+#~ msgstr "grep"
+
+#~ msgid "the man page for the <_:cmd-1/>"
+#~ msgstr "la pàgina del manual per al <_:cmd-1/>"
