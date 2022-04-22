@@ -1,3 +1,35 @@
+Evolution 3.44.1 2022-04-22
+---------------------------
+
+Bug Fixes:
+	I#1568 - Cannot import PKCS12 certificate with non-ASCII or empty password
+	I#1811 - icons: emblem-new hard to spot with adwaita-icon-theme 42
+	I#1827 - itip-formatter: Properly update content on message preview reload
+	I#1835 - Mail: Preview uses wrong colors for HTML mail with dark theme
+	I#1837 - Meeting attendees should default to Required Participants
+	I#1847 - attachment-reminder: Existing keyword lost on editing cancel
+	I#1849 - markdown-utils: Ignore character encoding hints in HTML when converting to text
+	I#1850 - Flatpak: Attachments cannot be opened
+	I#1853 - Tasks: Cannot remove recurrence and Start date at the same time
+	I#1857 - Composer: Markdown should preserve soft line breaks
+	I#1858 - Calendar: Show recurring information near event time in preview/iTip
+	I#1870 - Show mailto: hyperlinks in the status bar percent-decoded
+
+Miscellaneous:
+	Calendar: Minicalendar shown after search in the List View
+	gal-view-instance: Do not crash on broken setup
+	Disable hardware acceleration for WebKitGTK
+
+Translations:
+	Asier Sarasua Garmendia (eu)
+	Fran Dieguez (gl)
+	Jordi Mas (ca)
+	Nathan Follens (nl)
+	Philipp Kiemle (de)
+	Rūdolfs Mazurs (lv)
+	Yosef Or Boczko (he)
+	Yuri Chornoivan (uk)
+
 Evolution 3.44.0 2022-03-18
 ---------------------------
 
