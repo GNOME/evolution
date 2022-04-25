@@ -88,7 +88,7 @@ enum {
 };
 
 typedef struct {
-	EContactEditor *editor;
+	GWeakRef *editor_weak_ref; /* EContactEditor * */
 	ESource *source;
 } ConnectClosure;
 
@@ -276,12 +276,8 @@ static GtkActionEntry undo_entries[] = {
 static void
 connect_closure_free (ConnectClosure *connect_closure)
 {
-	if (connect_closure->editor != NULL)
-		g_object_unref (connect_closure->editor);
-
-	if (connect_closure->source != NULL)
-		g_object_unref (connect_closure->source);
-
+	e_weak_ref_free (connect_closure->editor_weak_ref);
+	g_clear_object (&connect_closure->source);
 	g_slice_free (ConnectClosure, connect_closure);
 }
 
@@ -3966,31 +3962,36 @@ contact_editor_get_client_cb (GObject *source_object,
 	if (g_error_matches (error, G_IO_ERROR, G_IO_ERROR_CANCELLED)) {
 		g_warn_if_fail (client == NULL);
 		g_error_free (error);
-		goto exit;
+	} else {
+		EContactEditor *editor;
 
-	} else if (error != NULL) {
-		GtkWindow *parent;
+		editor = g_weak_ref_get (closure->editor_weak_ref);
 
-		parent = eab_editor_get_window (EAB_EDITOR (closure->editor));
+		if (editor) {
+			if (error != NULL) {
+				GtkWindow *parent;
 
-		eab_load_error_dialog (
-			GTK_WIDGET (parent), NULL,
-			closure->source, error);
+				parent = eab_editor_get_window (EAB_EDITOR (editor));
 
-		e_source_combo_box_set_active (
-			E_SOURCE_COMBO_BOX (combo_box),
-			e_client_get_source (E_CLIENT (closure->editor->priv->target_client)));
+				eab_load_error_dialog (
+					GTK_WIDGET (parent), NULL,
+					closure->source, error);
 
-		g_error_free (error);
-		goto exit;
+				e_source_combo_box_set_active (
+					E_SOURCE_COMBO_BOX (combo_box),
+					e_client_get_source (E_CLIENT (editor->priv->target_client)));
+
+				g_error_free (error);
+			} else {
+				/* FIXME Write a private contact_editor_set_target_client(). */
+				g_object_set (editor, "target_client", client, NULL);
+			}
+		}
+
+		g_clear_object (&client);
+		g_clear_object (&editor);
 	}
 
-	/* FIXME Write a private contact_editor_set_target_client(). */
-	g_object_set (closure->editor, "target_client", client, NULL);
-
-	g_object_unref (client);
-
-exit:
 	connect_closure_free (closure);
 }
 
@@ -4029,7 +4030,7 @@ source_changed (EClientComboBox *combo_box,
 	editor->priv->cancellable = g_cancellable_new ();
 
 	closure = g_slice_new0 (ConnectClosure);
-	closure->editor = g_object_ref (editor);
+	closure->editor_weak_ref = e_weak_ref_new (editor);
 	closure->source = g_object_ref (source);
 
 	e_client_combo_box_get_client (
