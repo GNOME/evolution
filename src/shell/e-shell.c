@@ -650,6 +650,21 @@ shell_allow_auth_prompt_cb (EClientCache *client_cache,
 	e_shell_allow_auth_prompt_for (shell, source);
 }
 
+static gboolean
+close_alert_idle_cb (gpointer user_data)
+{
+	GWeakRef *weak_ref = user_data;
+	EAlert *alert;
+
+	alert = g_weak_ref_get (weak_ref);
+	if (alert) {
+		e_alert_response (alert, GTK_RESPONSE_CLOSE);
+		g_object_unref (alert);
+	}
+
+	return FALSE;
+}
+
 static void
 shell_source_connection_status_notify_cb (ESource *source,
 					  GParamSpec *param,
@@ -659,8 +674,12 @@ shell_source_connection_status_notify_cb (ESource *source,
 
 	if (e_source_get_connection_status (source) == E_SOURCE_CONNECTION_STATUS_DISCONNECTED ||
 	    e_source_get_connection_status (source) == E_SOURCE_CONNECTION_STATUS_CONNECTING ||
-	    e_source_get_connection_status (source) == E_SOURCE_CONNECTION_STATUS_CONNECTED)
-		e_alert_response (alert, GTK_RESPONSE_CLOSE);
+	    e_source_get_connection_status (source) == E_SOURCE_CONNECTION_STATUS_CONNECTED) {
+		/* These notifications are received in the Source Registry thread,
+		   thus schedule it for the main/UI thread. */
+		g_idle_add_full (G_PRIORITY_DEFAULT_IDLE, close_alert_idle_cb,
+			e_weak_ref_new (alert), (GDestroyNotify) e_weak_ref_free);
+	}
 }
 
 static void
