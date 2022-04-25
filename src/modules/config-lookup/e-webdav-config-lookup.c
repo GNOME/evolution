@@ -132,6 +132,9 @@ webdav_config_lookup_to_result (EConfigLookup *config_lookup,
 	e_config_lookup_result_simple_add_string (lookup_result, E_SOURCE_EXTENSION_AUTHENTICATION,
 		"user", user);
 
+	e_config_lookup_result_simple_add_string (lookup_result, E_SOURCE_EXTENSION_AUTHENTICATION,
+		"method", "plain/password");
+
 	if (has_calendar) {
 		e_config_lookup_result_simple_add_string (lookup_result, E_SOURCE_EXTENSION_COLLECTION,
 			"calendar-url", url);
