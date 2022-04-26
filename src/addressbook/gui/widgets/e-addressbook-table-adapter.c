@@ -137,7 +137,7 @@ addressbook_append_row (ETableModel *etm,
 	registry = e_client_cache_ref_registry (client_cache);
 
 	eab_merging_book_add_contact (
-		registry, book_client, contact, NULL, NULL);
+		registry, book_client, contact, NULL, NULL, FALSE);
 
 	g_object_unref (registry);
 

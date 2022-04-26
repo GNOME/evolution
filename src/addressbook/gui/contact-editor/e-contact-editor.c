@@ -4551,12 +4551,12 @@ real_save_contact (EContactEditor *ce,
 		/* Two-step move; add to target, then remove from source */
 		eab_merging_book_add_contact (
 			registry, ce->priv->target_client,
-			ce->priv->contact, contact_added_cb, ecs);
+			ce->priv->contact, contact_added_cb, ecs, FALSE);
 	} else {
 		if (ce->priv->is_new_contact)
 			eab_merging_book_add_contact (
 				registry, ce->priv->target_client,
-				ce->priv->contact, contact_added_cb, ecs);
+				ce->priv->contact, contact_added_cb, ecs, FALSE);
 		else if (ce->priv->check_merge)
 			eab_merging_book_modify_contact (
 				registry, ce->priv->target_client,

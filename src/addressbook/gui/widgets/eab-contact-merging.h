@@ -46,7 +46,8 @@ gboolean	eab_merging_book_add_contact	(ESourceRegistry *registry,
 						 EBookClient *book_client,
 						 EContact *contact,
 						 EABMergingIdAsyncCallback cb,
-						 gpointer closure);
+						 gpointer closure,
+						 gboolean can_add_copy);
 
 gboolean	eab_merging_book_modify_contact	(ESourceRegistry *registry,
 						 EBookClient *book_client,

@@ -1588,7 +1588,7 @@ contact_list_editor_save_contact (EABEditor *eab_editor,
 	if (priv->is_new_list)
 		eab_merging_book_add_contact (
 			registry, priv->book_client, contact,
-			contact_list_editor_list_added_cb, ecs);
+			contact_list_editor_list_added_cb, ecs, FALSE);
 	else
 		eab_merging_book_modify_contact (
 			registry, priv->book_client, contact,

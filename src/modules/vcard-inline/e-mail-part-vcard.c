@@ -76,7 +76,7 @@ client_connect_cb (GObject *source_object,
 
 		contact = E_CONTACT (iter->data);
 		eab_merging_book_add_contact (
-			registry, book_client, contact, NULL, NULL);
+			registry, book_client, contact, NULL, NULL, FALSE);
 	}
 
 	g_object_unref (client);

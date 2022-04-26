@@ -524,7 +524,7 @@ do_copy (gpointer data,
 	process->count++;
 	eab_merging_book_add_contact (
 		process->registry, book_client,
-		contact, contact_added_cb, process);
+		contact, contact_added_cb, process, TRUE);
 }
 
 static void

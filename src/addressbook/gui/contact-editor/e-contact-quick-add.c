@@ -155,7 +155,7 @@ merge_cb (GObject *source_object,
 
 		eab_merging_book_add_contact (
 			registry, E_BOOK_CLIENT (client),
-			qa->contact, NULL, NULL);
+			qa->contact, NULL, NULL, FALSE);
 
 		g_object_unref (registry);
 	} else {

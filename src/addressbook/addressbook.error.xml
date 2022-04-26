@@ -152,4 +152,11 @@
     <button _label="Do _Not Unset" response="GTK_RESPONSE_CANCEL"/>
     <button _label="_Unset" response="GTK_RESPONSE_ACCEPT"/>
   </error>
+
+  <error id="ask-add-existing" type="question" default="GTK_RESPONSE_CANCEL">
+    <_primary>Contact already exists in the address book.</_primary>
+    <_secondary>Contact “{0}” already exists in the address book “{1}”. Do you want to add a copy of it instead?</_secondary>
+    <button _label="_Cancel" response="GTK_RESPONSE_CANCEL"/>
+    <button _label="_Add Copy" response="GTK_RESPONSE_ACCEPT"/>
+  </error>
 </error-list>

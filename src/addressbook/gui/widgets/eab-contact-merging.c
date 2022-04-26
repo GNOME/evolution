@@ -83,6 +83,8 @@ typedef struct {
 	gpointer closure;
 
 	MergeDialogData *merge_dialog_data;
+
+	gboolean can_add_copy;
 } EContactMergingLookup;
 
 typedef struct _dropdown_data {
@@ -239,6 +241,31 @@ final_cb (EBookClient *book_client,
 	finished_lookup ();
 }
 
+static gboolean
+ask_should_add (EContactMergingLookup *lookup)
+{
+	ESource *source;
+	gchar *contact_info;
+	gint response;
+
+	source = e_client_get_source (E_CLIENT (lookup->book_client));
+
+	contact_info = e_contact_get (lookup->contact, E_CONTACT_FILE_AS);
+	if (!contact_info || !*contact_info) {
+		g_free (contact_info);
+		contact_info = e_contact_get (lookup->contact, E_CONTACT_FULL_NAME);
+	}
+
+	response = e_alert_run_dialog_for_args (NULL,
+		"addressbook:ask-add-existing",
+		contact_info && *contact_info ? contact_info : _("Unnamed"),
+		e_source_get_display_name (source), NULL);
+
+	g_free (contact_info);
+
+	return response == GTK_RESPONSE_ACCEPT;
+}
+
 static void
 modify_contact_ready_cb (GObject *source_object,
                          GAsyncResult *result,
@@ -277,7 +304,24 @@ add_contact_ready_cb (GObject *source_object,
 
 	e_book_client_add_contact_finish (book_client, result, &uid, &error);
 
-	final_id_cb (book_client, error, uid, lookup);
+	if (lookup->can_add_copy && g_error_matches (error, E_BOOK_CLIENT_ERROR, E_BOOK_CLIENT_ERROR_CONTACT_ID_ALREADY_EXISTS)) {
+		lookup->can_add_copy = FALSE;
+
+		if (ask_should_add (lookup)) {
+			gchar *new_uid;
+
+			new_uid = e_util_generate_uid ();
+			e_contact_set (lookup->contact, E_CONTACT_UID, new_uid);
+			g_free (new_uid);
+
+			e_book_client_add_contact (lookup->book_client, lookup->contact, E_BOOK_OPERATION_FLAG_NONE, NULL, add_contact_ready_cb, lookup);
+		} else {
+			g_clear_error (&error);
+			final_id_cb (book_client, error, uid, lookup);
+		}
+	} else {
+		final_id_cb (book_client, error, uid, lookup);
+	}
 
 	if (error != NULL)
 		g_error_free (error);
@@ -972,7 +1016,7 @@ match_query_callback (EContact *contact,
 		&& g_str_equal (e_contact_get_const (contact, E_CONTACT_UID), e_contact_get_const (match, E_CONTACT_UID));
 
 	if ((gint) type <= (gint) EAB_CONTACT_MATCH_VAGUE || same_uids) {
-		doit (lookup, same_uids);
+		doit (lookup, same_uids && !lookup->can_add_copy);
 	} else {
 		GtkWidget *dialog;
 
@@ -1001,7 +1045,8 @@ eab_merging_book_add_contact (ESourceRegistry *registry,
                               EBookClient *book_client,
                               EContact *contact,
                               EABMergingIdAsyncCallback cb,
-                              gpointer closure)
+                              gpointer closure,
+			      gboolean can_add_copy)
 {
 	EContactMergingLookup *lookup;
 
@@ -1017,6 +1062,7 @@ eab_merging_book_add_contact (ESourceRegistry *registry,
 	lookup->closure = closure;
 	lookup->avoid = NULL;
 	lookup->match = NULL;
+	lookup->can_add_copy = TRUE;
 
 	add_lookup (lookup);
 
