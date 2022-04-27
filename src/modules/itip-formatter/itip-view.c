@@ -698,9 +698,14 @@ htmlize_text (const gchar *id,
 {
 	if (text && *text &&
 	    g_strcmp0 (id, TABLE_ROW_ATTENDEES) != 0) {
-		if (g_strcmp0 (id, TABLE_ROW_LOCATION) == 0 ||
-		    g_strcmp0 (id, TABLE_ROW_URL) == 0) {
+		if (g_strcmp0 (id, TABLE_ROW_LOCATION) == 0) {
 			*out_tmp = camel_text_to_html (text, CAMEL_MIME_FILTER_TOHTML_CONVERT_URLS | CAMEL_MIME_FILTER_TOHTML_CONVERT_ADDRESSES, 0);
+		} else if (g_strcmp0 (id, TABLE_ROW_URL) == 0) {
+			gchar *escaped = g_markup_escape_text (text, -1);
+			/* The URL can be used as-is, which can help when it ends with a text
+			   usually skipped when finding URL boundaries in a plain text. */
+			*out_tmp = g_strdup_printf ("<a href=\"%s\">%s</a>", escaped, escaped);
+			g_free (escaped);
 		} else {
 			*out_tmp = g_markup_escape_text (text, -1);
 		}
@@ -6781,6 +6786,8 @@ itip_view_init_view (ItipView *view)
 	g_free (string);
 
 	string = e_cal_component_get_url (view->priv->comp);
+	if (string)
+		g_strstrip (string);
 	itip_view_set_url (view, string);
 	g_free (string);
 
