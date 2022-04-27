@@ -43,6 +43,36 @@
 #define d(x)
 
 /**
+ * itip_email_addresses_equal:
+ * @email1: (nullable): the first email
+ * @email2: (nullable): the second email
+ *
+ * Compares two email addresses and returns whether they are equal.
+ * Each address can contain a "mailto:" prefix. The two addresses
+ * match only if they are non-NULL and non-empty. The address itself
+ * is compared case insensitively.
+ *
+ * Returns: %TRUE, when the @email1 equals to @email2
+ *
+ * Since: 3.46
+ **/
+gboolean
+itip_email_addresses_equal (const gchar *email1,
+			    const gchar *email2)
+{
+	if (!email1 || !email2)
+		return FALSE;
+
+	email1 = itip_strip_mailto (email1);
+	email2 = itip_strip_mailto (email2);
+
+	if (!email1 || !*email1 || !email2 || !*email2)
+		return FALSE;
+
+	return g_ascii_strcasecmp (email1, email2) == 0;
+}
+
+/**
  * itip_get_default_name_and_address:
  * @registry: an #ESourceRegistry
  * @name: return location for the user's real name, or %NULL
@@ -301,15 +331,15 @@ itip_organizer_is_user_ex (ESourceRegistry *registry,
 		return FALSE;
 
 	organizer = e_cal_component_get_organizer (comp);
-	if (organizer && e_cal_component_organizer_get_value (organizer)) {
+	if (organizer) {
 		gchar *email = NULL;
 
-		strip = itip_strip_mailto (e_cal_component_organizer_get_value (organizer));
+		strip = cal_comp_util_get_organizer_email (organizer);
 
 		if (e_client_get_backend_property_sync (E_CLIENT (cal_client),
 							E_CAL_BACKEND_PROPERTY_CAL_EMAIL_ADDRESS,
 							&email, NULL, NULL) &&
-				email && g_ascii_strcasecmp (email, strip) == 0) {
+				email && itip_email_addresses_equal (email, strip)) {
 			e_cal_component_organizer_free (organizer);
 			g_free (email);
 
@@ -364,6 +394,8 @@ itip_has_any_attendees (ECalComponent *comp)
 	ECalComponentOrganizer *organizer;
 	ECalComponentAttendee *attendee;
 	GSList *attendees = NULL;
+	const gchar *organizer_email;
+	const gchar *attendee_email;
 	gboolean res;
 
 	g_return_val_if_fail (E_IS_CAL_COMPONENT (comp), FALSE);
@@ -395,9 +427,11 @@ itip_has_any_attendees (ECalComponent *comp)
 
 	organizer = e_cal_component_get_organizer (comp);
 
-	res = e_cal_component_attendee_get_value (attendee) && (!organizer || !e_cal_component_organizer_get_value (organizer) ||
-	      g_ascii_strcasecmp (itip_strip_mailto (e_cal_component_attendee_get_value (attendee)),
-				  itip_strip_mailto (e_cal_component_organizer_get_value (organizer))) != 0);
+	organizer_email = cal_comp_util_get_organizer_email (organizer);
+	attendee_email = cal_comp_util_get_attendee_email (attendee);
+
+	res = attendee_email && (!organizer_email ||
+	      !itip_email_addresses_equal (attendee_email, organizer_email));
 
 	g_slist_free_full (attendees, e_cal_component_attendee_free);
 	e_cal_component_organizer_free (organizer);
@@ -419,11 +453,12 @@ get_attendee (GSList *attendees,
 		ECalComponentAttendee *attendee = l->data;
 		const gchar *nomailto;
 
-		nomailto = itip_strip_mailto (e_cal_component_attendee_get_value (attendee));
+		nomailto = cal_comp_util_get_attendee_email (attendee);
+
 		if (!nomailto || !*nomailto)
 			continue;
 
-		if ((address && g_ascii_strcasecmp (nomailto, address) == 0) ||
+		if ((address && itip_email_addresses_equal (nomailto, address)) ||
 		    (aliases && g_hash_table_contains (aliases, nomailto))) {
 			return attendee;
 		}
@@ -447,7 +482,7 @@ get_attendee_if_attendee_sentby_is_user (GSList *attendees,
 		if (!nomailto || !*nomailto)
 			continue;
 
-		if ((address && g_ascii_strcasecmp (nomailto, address) == 0) ||
+		if ((address && itip_email_addresses_equal (nomailto, address)) ||
 		    (aliases && g_hash_table_contains (aliases, nomailto))) {
 			return attendee;
 		}
@@ -594,7 +629,7 @@ itip_get_comp_attendee (ESourceRegistry *registry,
 		if (attendee) {
 			gchar *user_email;
 
-			user_email = g_strdup (itip_strip_mailto (e_cal_component_attendee_get_value (attendee)));
+			user_email = g_strdup (cal_comp_util_get_attendee_email (attendee));
 			g_slist_free_full (attendees, e_cal_component_attendee_free);
 			g_free (address);
 
@@ -637,7 +672,7 @@ itip_get_comp_attendee (ESourceRegistry *registry,
 		if (attendee != NULL) {
 			gchar *user_email;
 
-			user_email = g_strdup (itip_strip_mailto (e_cal_component_attendee_get_value (attendee)));
+			user_email = g_strdup (cal_comp_util_get_attendee_email (attendee));
 			g_slist_free_full (attendees, e_cal_component_attendee_free);
 
 			if (aliases)
@@ -869,7 +904,7 @@ users_has_attendee (const GSList *users,
 	const GSList *l;
 
 	for (l = users; l != NULL; l = l->next) {
-		if (!g_ascii_strcasecmp (address, l->data))
+		if (itip_email_addresses_equal (address, l->data))
 			return TRUE;
 	}
 
@@ -885,6 +920,7 @@ comp_from (ICalPropertyMethod method,
 	ECalComponentOrganizer *organizer;
 	ECalComponentAttendee *attendee;
 	GSList *attendees;
+	const gchar *email_address;
 	gchar *from;
 	gchar *sender = NULL;
 
@@ -907,7 +943,9 @@ comp_from (ICalPropertyMethod method,
 	case I_CAL_METHOD_ADD:
 
 		organizer = e_cal_component_get_organizer (comp);
-		if (!organizer || !e_cal_component_organizer_get_value (organizer)) {
+		email_address = cal_comp_util_get_organizer_email (organizer);
+
+		if (!email_address) {
 			e_cal_component_organizer_free (organizer);
 			e_notice (
 				NULL, GTK_MESSAGE_ERROR,
@@ -916,7 +954,7 @@ comp_from (ICalPropertyMethod method,
 		}
 		if (from_name)
 			*from_name = g_strdup (e_cal_component_organizer_get_cn (organizer));
-		from = g_strdup (itip_strip_mailto (e_cal_component_organizer_get_value (organizer)));
+		from = g_strdup (email_address);
 		e_cal_component_organizer_free (organizer);
 		return from;
 
@@ -926,8 +964,10 @@ comp_from (ICalPropertyMethod method,
 			return NULL;
 
 		attendee = attendees->data;
-		if (e_cal_component_attendee_get_value (attendee)) {
-			from = g_strdup (itip_strip_mailto (e_cal_component_attendee_get_value (attendee)));
+		email_address = cal_comp_util_get_attendee_email (attendee);
+
+		if (email_address) {
+			from = g_strdup (email_address);
 			if (from_name)
 				*from_name = g_strdup (e_cal_component_attendee_get_cn (attendee));
 		} else
@@ -952,6 +992,8 @@ comp_to_list (ESourceRegistry *registry,
 	EDestination *destination;
 	gint len;
 	gchar *sender = NULL;
+	const gchar *organizer_email;
+	const gchar *attendee_email;
 
 	union {
 		gpointer *pdata;
@@ -972,7 +1014,9 @@ comp_to_list (ESourceRegistry *registry,
 		}
 
 		organizer = e_cal_component_get_organizer (comp);
-		if (!organizer || !e_cal_component_organizer_get_value (organizer)) {
+		organizer_email = cal_comp_util_get_organizer_email (organizer);
+
+		if (!organizer_email) {
 			g_slist_free_full (attendees, e_cal_component_attendee_free);
 			e_cal_component_organizer_free (organizer);
 			e_notice (
@@ -989,7 +1033,9 @@ comp_to_list (ESourceRegistry *registry,
 			ECalComponentAttendee *att = l->data;
 			ICalParameterCutype cutype;
 
-			if (!e_cal_component_attendee_get_value (att))
+			attendee_email = cal_comp_util_get_attendee_email (att);
+
+			if (!attendee_email)
 				continue;
 
 			cutype = e_cal_component_attendee_get_cutype (att);
@@ -1005,18 +1051,18 @@ comp_to_list (ESourceRegistry *registry,
 			    cutype != I_CAL_CUTYPE_RESOURCE &&
 			    cutype != I_CAL_CUTYPE_UNKNOWN)
 				continue;
-			else if (users_has_attendee (users, e_cal_component_attendee_get_value (att)))
+			else if (users_has_attendee (users, attendee_email))
 				continue;
 			else if (e_cal_component_attendee_get_sentby (att) &&
 				users_has_attendee (users, e_cal_component_attendee_get_sentby (att)))
 				continue;
-			else if (!g_ascii_strcasecmp (e_cal_component_attendee_get_value (att), e_cal_component_organizer_get_value (organizer)))
+			else if (itip_email_addresses_equal (attendee_email, organizer_email))
 				continue;
 			else if (e_cal_component_attendee_get_sentby (att) &&
 				 e_cal_component_organizer_get_sentby (organizer) &&
-				 !g_ascii_strcasecmp (e_cal_component_attendee_get_sentby (att), e_cal_component_organizer_get_sentby (organizer)))
+				 itip_email_addresses_equal (e_cal_component_attendee_get_sentby (att), e_cal_component_organizer_get_sentby (organizer)))
 				continue;
-			else if (!g_ascii_strcasecmp (itip_strip_mailto (e_cal_component_attendee_get_value (att)), sender))
+			else if (itip_email_addresses_equal (attendee_email, sender))
 				continue;
 			else if (e_cal_component_attendee_get_partstat (att) == I_CAL_PARTSTAT_DELEGATED &&
 				 !e_cal_component_attendee_get_rsvp (att) &&
@@ -1027,13 +1073,13 @@ comp_to_list (ESourceRegistry *registry,
 					if (delegatedto && *delegatedto)
 						continue;
 			} else if (only_attendees &&
-				!cal_comp_util_have_in_new_attendees (only_attendees, itip_strip_mailto (e_cal_component_attendee_get_value (att))))
+				!cal_comp_util_have_in_new_attendees (only_attendees, attendee_email))
 				continue;
 
 			destination = e_destination_new ();
 			if (e_cal_component_attendee_get_cn (att))
 				e_destination_set_name (destination, e_cal_component_attendee_get_cn (att));
-			e_destination_set_email (destination, itip_strip_mailto (e_cal_component_attendee_get_value (att)));
+			e_destination_set_email (destination, attendee_email);
 			g_ptr_array_add (array, destination);
 		}
 		g_free (sender);
@@ -1055,12 +1101,12 @@ comp_to_list (ESourceRegistry *registry,
 			sender = itip_get_comp_attendee (registry, comp, NULL);
 
 			organizer = e_cal_component_get_organizer (comp);
-			if (organizer && e_cal_component_organizer_get_value (organizer) &&
-			    (!sender || g_ascii_strcasecmp (itip_strip_mailto (e_cal_component_organizer_get_value (organizer)), sender) != 0)) {
+			organizer_email = cal_comp_util_get_organizer_email (organizer);
+
+			if (organizer_email &&
+			    (!sender || !itip_email_addresses_equal (organizer_email, sender))) {
 				destination = e_destination_new ();
-				e_destination_set_email (
-					destination,
-					itip_strip_mailto (e_cal_component_organizer_get_value (organizer)));
+				e_destination_set_email (destination, organizer_email);
 				if (e_cal_component_organizer_get_cn (organizer))
 					e_destination_set_name (destination, e_cal_component_organizer_get_cn (organizer));
 				g_ptr_array_add (array, destination);
@@ -1070,7 +1116,9 @@ comp_to_list (ESourceRegistry *registry,
 				ECalComponentAttendee *att = l->data;
 				ICalParameterCutype cutype;
 
-				if (!e_cal_component_attendee_get_value (att))
+				attendee_email = cal_comp_util_get_attendee_email (att);
+
+				if (!attendee_email)
 					continue;
 
 				cutype = e_cal_component_attendee_get_cutype (att);
@@ -1080,20 +1128,18 @@ comp_to_list (ESourceRegistry *registry,
 				    cutype != I_CAL_CUTYPE_UNKNOWN)
 					continue;
 				else if (only_attendees &&
-					!cal_comp_util_have_in_new_attendees (only_attendees,
-						itip_strip_mailto (e_cal_component_attendee_get_value (att))))
+					!cal_comp_util_have_in_new_attendees (only_attendees, attendee_email))
 					continue;
-				else if (e_cal_component_organizer_get_value (organizer) &&
-					 g_ascii_strcasecmp (e_cal_component_attendee_get_value (att), e_cal_component_organizer_get_value (organizer)) == 0)
+				else if (organizer_email &&
+					 itip_email_addresses_equal (attendee_email, organizer_email))
 					continue;
-				else if (sender && g_ascii_strcasecmp (itip_strip_mailto (e_cal_component_attendee_get_value (att)), sender) == 0)
+				else if (sender && itip_email_addresses_equal (attendee_email, sender))
 					continue;
 
 				destination = e_destination_new ();
 				if (e_cal_component_attendee_get_cn (att))
 					e_destination_set_name (destination, e_cal_component_attendee_get_cn (att));
-				e_destination_set_email (
-					destination, itip_strip_mailto (e_cal_component_attendee_get_value (att)));
+				e_destination_set_email (destination, attendee_email);
 				g_ptr_array_add (array, destination);
 			}
 
@@ -1106,11 +1152,11 @@ comp_to_list (ESourceRegistry *registry,
 
 			destination = e_destination_new ();
 			organizer = e_cal_component_get_organizer (comp);
+			organizer_email = cal_comp_util_get_organizer_email (organizer);
 			if (organizer && e_cal_component_organizer_get_cn (organizer))
 				e_destination_set_name (destination, e_cal_component_organizer_get_cn (organizer));
-			if (e_cal_component_organizer_get_value (organizer))
-				e_destination_set_email (
-					destination, itip_strip_mailto (e_cal_component_organizer_get_value (organizer)));
+			if (organizer_email)
+				e_destination_set_email (destination, organizer_email);
 			g_ptr_array_add (array, destination);
 
 			e_cal_component_organizer_free (organizer);
@@ -1122,7 +1168,9 @@ comp_to_list (ESourceRegistry *registry,
 	case I_CAL_METHOD_COUNTER:
 	case I_CAL_METHOD_DECLINECOUNTER:
 		organizer = e_cal_component_get_organizer (comp);
-		if (!organizer || !e_cal_component_organizer_get_value (organizer)) {
+		organizer_email = cal_comp_util_get_organizer_email (organizer);
+
+		if (!organizer_email) {
 			e_cal_component_organizer_free (organizer);
 			e_notice (
 				NULL, GTK_MESSAGE_ERROR,
@@ -1135,8 +1183,7 @@ comp_to_list (ESourceRegistry *registry,
 		destination = e_destination_new ();
 		if (e_cal_component_organizer_get_cn (organizer))
 			e_destination_set_name (destination, e_cal_component_organizer_get_cn (organizer));
-		e_destination_set_email (
-			destination, itip_strip_mailto (e_cal_component_organizer_get_value (organizer)));
+		e_destination_set_email (destination, organizer_email);
 		g_ptr_array_add (array, destination);
 
 		/* send the status to delegatee to the delegate also*/
@@ -1147,7 +1194,9 @@ comp_to_list (ESourceRegistry *registry,
 			ECalComponentAttendee *att = l->data;
 			ICalParameterCutype cutype;
 
-			if (!e_cal_component_attendee_get_value (att))
+			attendee_email = cal_comp_util_get_attendee_email (att);
+
+			if (!attendee_email)
 				continue;
 
 			cutype = e_cal_component_attendee_get_cutype (att);
@@ -1158,9 +1207,9 @@ comp_to_list (ESourceRegistry *registry,
 				continue;
 
 			if (sender && (
-			    !g_ascii_strcasecmp (itip_strip_mailto (e_cal_component_attendee_get_value (att)), sender) ||
+			    itip_email_addresses_equal (attendee_email, sender) ||
 			    (e_cal_component_attendee_get_sentby (att) &&
-			    !g_ascii_strcasecmp (itip_strip_mailto (e_cal_component_attendee_get_sentby (att)), sender)))) {
+			    itip_email_addresses_equal (itip_strip_mailto (e_cal_component_attendee_get_sentby (att)), sender)))) {
 				const gchar *delegatedfrom;
 
 				delegatedfrom = e_cal_component_attendee_get_delegatedfrom (att);
@@ -1257,12 +1306,12 @@ comp_subject (ESourceRegistry *registry,
 				const gchar *value, *sentby;
 
 				a = l->data;
-				value = e_cal_component_attendee_get_value (a);
+				value = cal_comp_util_get_attendee_email (a);
 				sentby = e_cal_component_attendee_get_sentby (a);
 
 				if ((sender && *sender) && (
-				    (value && !g_ascii_strcasecmp (itip_strip_mailto (value), sender)) ||
-				    (sentby && !g_ascii_strcasecmp (itip_strip_mailto (sentby), sender))))
+				    (value && itip_email_addresses_equal (value, sender)) ||
+				    (sentby && itip_email_addresses_equal (sentby, sender))))
 					break;
 			}
 			g_free (sender);
@@ -1539,6 +1588,7 @@ comp_sentby (ECalComponent *comp,
 {
 	ECalComponentOrganizer *organizer;
 	GSList * attendees, *l;
+	const gchar *organizer_email;
 	gchar *name = NULL;
 	gchar *address = NULL;
 	gchar *user;
@@ -1546,7 +1596,9 @@ comp_sentby (ECalComponent *comp,
 	itip_get_default_name_and_address (registry, &name, &address);
 
 	organizer = e_cal_component_get_organizer (comp);
-	if ((!organizer || !e_cal_component_organizer_get_value (organizer)) && name != NULL && address != NULL) {
+	organizer_email = cal_comp_util_get_organizer_email (organizer);
+
+	if (!organizer_email && name != NULL && address != NULL) {
 		gchar *tmp;
 
 		e_cal_component_organizer_free (organizer);
@@ -1573,15 +1625,14 @@ comp_sentby (ECalComponent *comp,
 		if (!a)
 			continue;
 
-		value = e_cal_component_attendee_get_value (a);
-		if (value)
-			value = itip_strip_mailto (value);
+		value = cal_comp_util_get_attendee_email (a);
+
 		sentby = e_cal_component_attendee_get_sentby (a);
 		if (sentby)
 			sentby = itip_strip_mailto (sentby);
 
-		if ((value && !g_ascii_strcasecmp (value, user)) ||
-		    (sentby && !g_ascii_strcasecmp (sentby, user))) {
+		if ((value && itip_email_addresses_equal (value, user)) ||
+		    (sentby && itip_email_addresses_equal (sentby, user))) {
 			g_slist_free_full (attendees, e_cal_component_attendee_free);
 			e_cal_component_organizer_free (organizer);
 			g_free (user);
@@ -1601,11 +1652,9 @@ comp_sentby (ECalComponent *comp,
 		gchar *sentby;
 
 		sentby = g_strdup_printf ("mailto:%s", address);
-		sentbyorg = e_cal_component_organizer_new_full (
-			e_cal_component_organizer_get_value (organizer),
-			sentby,
-			e_cal_component_organizer_get_cn (organizer),
-			e_cal_component_organizer_get_language (organizer));
+		sentbyorg = e_cal_component_organizer_copy (organizer);
+
+		e_cal_component_organizer_set_sentby (sentbyorg, sentby);
 
 		e_cal_component_set_organizer (comp, sentbyorg);
 
@@ -1630,6 +1679,7 @@ comp_minimal (ESourceRegistry *registry,
 	ICalProperty *prop;
 	ICalTime *itt;
 	const gchar *uid;
+	const gchar *organizer_email;
 	GSList *comments;
 
 	clone = e_cal_component_new ();
@@ -1656,7 +1706,8 @@ comp_minimal (ESourceRegistry *registry,
 	g_clear_object (&itt);
 
 	organizer = e_cal_component_get_organizer (comp);
-	if (!organizer || !e_cal_component_organizer_get_value (organizer)) {
+	organizer_email = cal_comp_util_get_organizer_email (organizer);
+	if (!organizer_email) {
 		e_cal_component_organizer_free (organizer);
 		goto error;
 	}
@@ -2012,7 +2063,7 @@ find_enabled_identity (ESourceRegistry *registry,
 		extension = e_source_get_extension (source, extension_name);
 		address = e_source_mail_identity_get_address (extension);
 
-		if (address && g_ascii_strcasecmp (address, id_address) == 0) {
+		if (address && itip_email_addresses_equal (address, id_address)) {
 			mail_identity = g_object_ref (source);
 			break;
 		}
@@ -2052,18 +2103,18 @@ get_identity_uid_for_from (EShell *shell,
 	/* always use organizer's email when user is an organizer */
 	if (itip_organizer_is_user (registry, comp, cal_client)) {
 		ECalComponentOrganizer *organizer;
+		const gchar *organizer_email;
 
 		organizer = e_cal_component_get_organizer (comp);
-		if (organizer && e_cal_component_organizer_get_value (organizer)) {
-			source = find_enabled_identity (
-				registry,
-				itip_strip_mailto (e_cal_component_organizer_get_value (organizer)));
+		organizer_email = cal_comp_util_get_organizer_email (organizer);
+		if (organizer_email) {
+			source = find_enabled_identity (registry, organizer_email);
 
 			if (source) {
 				if (identity_name)
 					*identity_name = g_strdup (e_cal_component_organizer_get_cn (organizer));
 				if (identity_address)
-					*identity_address = g_strdup (itip_strip_mailto (e_cal_component_organizer_get_value (organizer)));
+					*identity_address = g_strdup (organizer_email);
 			}
 		}
 
@@ -2754,6 +2805,7 @@ reply_to_calendar_comp (ESourceRegistry *registry,
 		ECalComponentDateTime *dtstart;
 		ICalTimezone *start_zone = NULL;
 		time_t start;
+		const gchar *organizer_email;
 
 		text_list = e_cal_component_get_descriptions (comp);
 
@@ -2771,8 +2823,9 @@ reply_to_calendar_comp (ESourceRegistry *registry,
 		e_cal_component_text_free (text);
 
 		organizer = e_cal_component_get_organizer (comp);
-		if (organizer && e_cal_component_organizer_get_value (organizer))
-			orig_from = g_strdup (itip_strip_mailto (e_cal_component_organizer_get_value (organizer)));
+		organizer_email = cal_comp_util_get_organizer_email (organizer);
+		if (organizer_email)
+			orig_from = g_strdup (organizer_email);
 		e_cal_component_organizer_free (organizer);
 
 		location = e_cal_component_get_location (comp);
@@ -2953,15 +3006,18 @@ itip_component_has_recipients (ECalComponent *comp)
 	GSList *attendees, *link;
 	ECalComponentAttendee *attendee;
 	ECalComponentOrganizer *organizer;
+	const gchar *organizer_email;
 	gboolean res = FALSE;
 
 	g_return_val_if_fail (comp != NULL, FALSE);
 
 	organizer = e_cal_component_get_organizer (comp);
+	organizer_email = cal_comp_util_get_organizer_email (organizer);
+
 	attendees = e_cal_component_get_attendees (comp);
 
 	if (!attendees) {
-		if (organizer && e_cal_component_organizer_get_value (organizer) &&
+		if (organizer_email &&
 		    e_cal_component_get_vtype (comp) == E_CAL_COMPONENT_JOURNAL) {
 			/* memos store recipients in an extra property */
 			ICalComponent *icomp;
@@ -2979,7 +3035,7 @@ itip_component_has_recipients (ECalComponent *comp)
 				if (g_str_equal (x_name, "X-EVOLUTION-RECIPIENTS")) {
 					const gchar *str_recipients = i_cal_property_get_x (prop);
 
-					res = str_recipients && g_ascii_strcasecmp (e_cal_component_organizer_get_value (organizer), str_recipients) != 0;
+					res = str_recipients && !itip_email_addresses_equal (organizer_email, str_recipients);
 					g_object_unref (prop);
 					break;
 				}
@@ -2998,11 +3054,12 @@ itip_component_has_recipients (ECalComponent *comp)
 	}
 
 	for (link = attendees; link && !res; link = g_slist_next (link)) {
-		attendee = link->data;
+		const gchar *attendee_email;
 
-		res = organizer && e_cal_component_organizer_get_value (organizer) &&
-		      attendee && e_cal_component_attendee_get_value (attendee) &&
-		      g_ascii_strcasecmp (e_cal_component_organizer_get_value (organizer), e_cal_component_attendee_get_value (attendee)) != 0;
+		attendee = link->data;
+		attendee_email = cal_comp_util_get_attendee_email (attendee);
+
+		res = !itip_email_addresses_equal (organizer_email, attendee_email);
 	}
 
 	g_slist_free_full (attendees, e_cal_component_attendee_free);
@@ -3061,7 +3118,7 @@ itip_utils_find_attendee_property (ICalComponent *icomp,
 
 		text = g_strdup (itip_strip_mailto (attendee));
 		text = g_strstrip (text);
-		if (text && !g_ascii_strcasecmp (address, text)) {
+		if (text && itip_email_addresses_equal (address, text)) {
 			g_free (text);
 			g_free (attendee);
 			break;
@@ -3155,9 +3212,9 @@ itip_utils_remove_all_but_attendee (ICalComponent *icomp,
 	for (prop = i_cal_component_get_first_property (icomp, I_CAL_ATTENDEE_PROPERTY);
 	     prop;
 	     prop = i_cal_component_get_next_property (icomp, I_CAL_ATTENDEE_PROPERTY)) {
-		const gchar *address = i_cal_property_get_attendee (prop);
+		const gchar *address = cal_comp_util_get_property_email (prop);
 
-		if (found || g_ascii_strcasecmp (itip_strip_mailto (address), attendee) != 0) {
+		if (found || !itip_email_addresses_equal (address, attendee)) {
 			remove = g_slist_prepend (remove, prop);
 		} else {
 			found = TRUE;

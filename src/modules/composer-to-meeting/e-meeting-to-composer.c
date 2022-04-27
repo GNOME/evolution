@@ -24,6 +24,7 @@
 #include "e-util/e-util.h"
 #include "composer/e-msg-composer.h"
 #include "composer/e-composer-from-header.h"
+#include "calendar/gui/comp-util.h"
 #include "calendar/gui/e-comp-editor.h"
 #include "calendar/gui/e-comp-editor-page-attachments.h"
 #include "calendar/gui/itip-utils.h"
@@ -190,7 +191,7 @@ meeting_to_composer_composer_created_cb (GObject *source_object,
 		const gchar *organizer;
 
 		from_header = e_composer_header_table_get_header (header_table, E_COMPOSER_HEADER_FROM);
-		organizer = itip_strip_mailto (i_cal_property_get_organizer (prop));
+		organizer = cal_comp_util_get_property_email (prop);
 
 		if (organizer && *organizer && from_header) {
 			GtkComboBox *identities_combo;
@@ -243,7 +244,7 @@ meeting_to_composer_composer_created_cb (GObject *source_object,
 		const gchar *name = NULL, *address;
 		EDestination *dest;
 
-		address = itip_strip_mailto (i_cal_property_get_attendee (prop));
+		address = cal_comp_util_get_property_email (prop);
 		if (!address || !*address)
 			continue;
 

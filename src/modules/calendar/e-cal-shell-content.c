@@ -903,9 +903,9 @@ cal_shell_content_get_attendee_prop (ICalComponent *icomp,
 	     g_object_unref (prop), prop = i_cal_component_get_next_property (icomp, I_CAL_ATTENDEE_PROPERTY)) {
 		const gchar *attendee;
 
-		attendee = itip_strip_mailto (i_cal_property_get_attendee (prop));
+		attendee = cal_comp_util_get_property_email (prop);
 
-		if (attendee && g_ascii_strcasecmp (attendee, address) == 0)
+		if (itip_email_addresses_equal (attendee, address))
 			return prop;
 	}
 

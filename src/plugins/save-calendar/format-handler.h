@@ -24,6 +24,7 @@
 
 #include <e-util/e-util.h>
 #include <calendar/gui/itip-utils.h>
+#include <calendar/gui/comp-util.h>
 
 typedef struct _FormatHandler FormatHandler;
 

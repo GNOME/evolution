@@ -122,3 +122,6 @@
 
 /* Define if markdown support is enabled */
 #cmakedefine HAVE_MARKDOWN 1
+
+/* Define if libical-glib has I_CAL_EMAIL_PARAMETER */
+#cmakedefine HAVE_I_CAL_EMAIL_PARAMETER 1

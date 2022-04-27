@@ -410,20 +410,19 @@ cal_component_preview_write_html (ECalComponentPreview *preview,
 
 	if (e_cal_component_has_organizer (comp)) {
 		ECalComponentOrganizer *organizer;
+		const gchar *organizer_email;
 
 		organizer = e_cal_component_get_organizer (comp);
+		organizer_email = cal_comp_util_get_organizer_email (organizer);
 
-		if (organizer && e_cal_component_organizer_get_value (organizer) && e_cal_component_organizer_get_value (organizer)[0]) {
-			const gchar *email = itip_strip_mailto (e_cal_component_organizer_get_value (organizer));
-			if (!email)
-				email = "";
+		if (organizer_email) {
 			markup = g_markup_escape_text (_("Organizer:"), -1);
 			g_string_append_printf (buffer, "<tr><th>%s</th>", markup);
 			g_free (markup);
 			if (e_cal_component_organizer_get_cn (organizer) && e_cal_component_organizer_get_cn (organizer)[0]) {
 				gchar *html;
 
-				str = g_strconcat (e_cal_component_organizer_get_cn (organizer), " <", email, ">", NULL);
+				str = g_strconcat (e_cal_component_organizer_get_cn (organizer), " <", organizer_email, ">", NULL);
 				html = camel_text_to_html (str,
 					CAMEL_MIME_FILTER_TOHTML_CONVERT_NL |
 					CAMEL_MIME_FILTER_TOHTML_CONVERT_SPACES |
@@ -432,7 +431,7 @@ cal_component_preview_write_html (ECalComponentPreview *preview,
 				g_free (html);
 				g_free (str);
 			} else {
-				str = camel_text_to_html (email,
+				str = camel_text_to_html (organizer_email,
 					CAMEL_MIME_FILTER_TOHTML_CONVERT_NL |
 					CAMEL_MIME_FILTER_TOHTML_CONVERT_SPACES |
 					CAMEL_MIME_FILTER_TOHTML_CONVERT_ADDRESSES, 0);
@@ -452,9 +451,9 @@ cal_component_preview_write_html (ECalComponentPreview *preview,
 
 		for (a = attendees; a; a = a->next) {
 			ECalComponentAttendee *attnd = a->data;
-			const gchar *email;
+			const gchar *email = cal_comp_util_get_attendee_email (attnd);
 
-			if (!attnd || !e_cal_component_attendee_get_value (attnd) || !e_cal_component_attendee_get_value (attnd)[0])
+			if (!attnd || !email || !*email)
 				continue;
 
 			if (!have) {
@@ -465,7 +464,6 @@ cal_component_preview_write_html (ECalComponentPreview *preview,
 				g_string_append (buffer, "<br>");
 			}
 
-			email = itip_strip_mailto (e_cal_component_attendee_get_value (attnd));
 			if (!email)
 				email = "";
 

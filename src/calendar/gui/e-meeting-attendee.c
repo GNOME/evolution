@@ -23,6 +23,8 @@
 
 #include <stdlib.h>
 #include <gtk/gtk.h>
+
+#include "comp-util.h"
 #include "e-meeting-utils.h"
 #include "e-meeting-attendee.h"
 
@@ -236,7 +238,7 @@ e_meeting_attendee_new_from_e_cal_component_attendee (const ECalComponentAttende
 
 	ia = E_MEETING_ATTENDEE (g_object_new (E_TYPE_MEETING_ATTENDEE, NULL));
 
-	e_meeting_attendee_set_address (ia, e_cal_component_attendee_get_value (ca));
+	e_meeting_attendee_set_address (ia, cal_comp_util_get_attendee_email (ca));
 	e_meeting_attendee_set_member (ia, e_cal_component_attendee_get_member (ca));
 	e_meeting_attendee_set_cutype (ia, e_cal_component_attendee_get_cutype (ca));
 	e_meeting_attendee_set_role (ia, e_cal_component_attendee_get_role (ca));
@@ -310,7 +312,14 @@ e_meeting_attendee_set_address (EMeetingAttendee *ia,
 {
 	g_return_if_fail (E_IS_MEETING_ATTENDEE (ia));
 
-	set_string_value (ia, &ia->priv->address, address);
+	if (address && *address && g_ascii_strncasecmp (address, "mailto:", 7) != 0) {
+		/* Always with mailto: prefix */
+		gchar *tmp = g_strconcat ("mailto:", address, NULL);
+		set_string_value (ia, &ia->priv->address, tmp);
+		g_free (tmp);
+	} else {
+		set_string_value (ia, &ia->priv->address, address);
+	}
 }
 
 gboolean

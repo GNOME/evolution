@@ -24,6 +24,7 @@
 #include <libedataserverui/libedataserverui.h>
 #include <libecal/libecal.h>
 
+#include "comp-util.h"
 #include "e-cal-data-model.h"
 #include "e-cal-data-model-subscriber.h"
 #include "e-cal-dialogs.h"
@@ -1032,7 +1033,7 @@ etdp_add_component (EToDoPane *to_do_pane,
 					ECalComponentAttendee *ca = link->data;
 					const gchar *text;
 
-					text = itip_strip_mailto (e_cal_component_attendee_get_value (ca));
+					text = cal_comp_util_get_attendee_email (ca);
 					if (itip_address_is_user (registry, text)) {
 						if (e_cal_component_attendee_get_delegatedto (ca))
 							icon_name = "stock_task-assigned-to";

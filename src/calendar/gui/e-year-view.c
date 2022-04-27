@@ -427,7 +427,7 @@ year_view_get_component_icon_name (EYearView *self,
 					ECalComponentAttendee *ca = link->data;
 					const gchar *text;
 
-					text = itip_strip_mailto (e_cal_component_attendee_get_value (ca));
+					text = cal_comp_util_get_attendee_email (ca);
 					if (itip_address_is_user (registry, text)) {
 						if (e_cal_component_attendee_get_delegatedto (ca))
 							icon_name = "stock_task-assigned-to";

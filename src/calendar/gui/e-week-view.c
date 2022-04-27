@@ -2750,14 +2750,11 @@ set_style_from_attendee (EWeekViewEvent *event,
 		if (!attendee)
 			continue;
 
-		value = e_cal_component_attendee_get_value (attendee);
-		if (value)
-			value = itip_strip_mailto (value);
+		value = cal_comp_util_get_attendee_email (attendee);
 		sentby = e_cal_component_attendee_get_sentby (attendee);
-		if (sentby)
-			sentby = itip_strip_mailto (sentby);
-		if ((value && g_ascii_strcasecmp (value, address) == 0) ||
-		    (sentby && g_ascii_strcasecmp (sentby, address) == 0)) {
+
+		if (itip_email_addresses_equal (value, address) ||
+		    itip_email_addresses_equal (sentby, address)) {
 			partstat = e_cal_component_attendee_get_partstat (attendee);
 			break;
 		}

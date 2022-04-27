@@ -95,7 +95,7 @@ add_list_to_rdf (xmlNodePtr node,
 
 			switch (type) {
 			case ECALCOMPONENTATTENDEE:
-				str = itip_strip_mailto (e_cal_component_attendee_get_value ((ECalComponentAttendee *) list->data));
+				str = cal_comp_util_get_attendee_email ((ECalComponentAttendee *) list->data);
 				break;
 			case ECALCOMPONENTTEXT:
 				str = e_cal_component_text_get_value ((ECalComponentText *) list->data);

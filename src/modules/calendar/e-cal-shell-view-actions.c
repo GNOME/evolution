@@ -669,10 +669,9 @@ action_event_delegate_cb (GtkAction *action,
 	     g_object_unref (prop), prop = i_cal_component_get_next_property (clone, I_CAL_ATTENDEE_PROPERTY)) {
 		const gchar *candidate;
 
-		candidate = i_cal_property_get_attendee (prop);
-		candidate = itip_strip_mailto (candidate);
+		candidate = cal_comp_util_get_property_email (prop);
 
-		if (candidate && g_ascii_strcasecmp (candidate, attendee) == 0) {
+		if (itip_email_addresses_equal (candidate, attendee)) {
 			ICalParameter *param;
 
 			param = i_cal_parameter_new_role (I_CAL_ROLE_NONPARTICIPANT);

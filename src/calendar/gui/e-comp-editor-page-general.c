@@ -326,7 +326,7 @@ ecep_general_attendees_remove_clicked_cb (GtkButton *button,
 				errors = g_string_new ("");
 			else
 				g_string_append_c (errors, '\n');
-			g_string_append_printf (errors, _("Not enough rights to delete attendee “%s”"), e_meeting_attendee_get_address (attendee));
+			g_string_append_printf (errors, _("Not enough rights to delete attendee “%s”"), itip_strip_mailto (e_meeting_attendee_get_address (attendee)));
 			failures++;
 		} else {
 			ecep_general_remove_attendee (page_general, attendee);
@@ -885,7 +885,7 @@ ecep_general_fill_widgets (ECompEditorPage *page,
 	     g_object_unref (prop), prop = i_cal_component_get_next_property (component, I_CAL_ATTENDEE_PROPERTY)) {
 		const gchar *address;
 
-		address = itip_strip_mailto (i_cal_property_get_attendee (prop));
+		address = cal_comp_util_get_property_email (prop);
 		if (address)
 			page_general->priv->orig_attendees = g_slist_prepend (page_general->priv->orig_attendees, g_strdup (address));
 	}
@@ -897,7 +897,7 @@ ecep_general_fill_widgets (ECompEditorPage *page,
 		ICalParameter *param;
 		const gchar *organizer;
 
-		organizer = i_cal_property_get_organizer (prop);
+		organizer = cal_comp_util_get_property_email (prop);
 
 		if (organizer && *organizer) {
 			ECompEditor *comp_editor;
@@ -973,7 +973,7 @@ ecep_general_fill_widgets (ECompEditorPage *page,
 	     g_object_unref (prop), prop = i_cal_component_get_next_property (component, I_CAL_ATTENDEE_PROPERTY)) {
 		const gchar *address;
 
-		address = itip_strip_mailto (i_cal_property_get_attendee (prop));
+		address = cal_comp_util_get_property_email (prop);
 		if (address) {
 			EMeetingAttendee *attendee;
 			ECalComponentAttendee *comp_attendee;

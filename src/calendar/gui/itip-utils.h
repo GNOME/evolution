@@ -46,7 +46,8 @@ struct CalMimeAttach {
 };
 
 void		itip_cal_mime_attach_free	(gpointer ptr); /* struct CalMimeAttach * */
-
+gboolean	itip_email_addresses_equal	(const gchar *email1,
+						 const gchar *email2);
 gboolean	itip_get_default_name_and_address
 						(ESourceRegistry *registry,
 						 gchar **name,

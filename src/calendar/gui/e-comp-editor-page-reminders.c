@@ -31,6 +31,7 @@
 #include <e-util/e-util.h>
 
 #include "calendar-config.h"
+#include "comp-util.h"
 #include "e-alarm-list.h"
 #include "itip-utils.h"
 
@@ -580,14 +581,16 @@ ecep_reminders_selected_to_widgets (ECompEditorPageReminders *page_reminders)
 		for (link = attendees; link; link = g_slist_next (link)) {
 			ECalComponentAttendee *att = link->data;
 			EDestination *dest;
+			const gchar *att_email;
 
 			dest = e_destination_new ();
 
 			if (att && e_cal_component_attendee_get_cn (att) && e_cal_component_attendee_get_cn (att)[0])
 				e_destination_set_name (dest, e_cal_component_attendee_get_cn (att));
 
-			if (att && e_cal_component_attendee_get_value (att) && e_cal_component_attendee_get_value (att)[0])
-				e_destination_set_email (dest, itip_strip_mailto (e_cal_component_attendee_get_value (att)));
+			att_email = cal_comp_util_get_attendee_email (att);
+			if (att_email)
+				e_destination_set_email (dest, att_email);
 
 			e_destination_store_append_destination (destination_store, dest);
 

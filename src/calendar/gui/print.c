@@ -1312,7 +1312,7 @@ print_attendees (GtkPrintContext *context,
 		if (!attendee)
 			continue;
 
-		value = e_cal_component_attendee_get_value (attendee);
+		value = cal_comp_util_get_attendee_email (attendee);
 		if (value && *value) {
 			GString *text;
 			const gchar *tmp;
