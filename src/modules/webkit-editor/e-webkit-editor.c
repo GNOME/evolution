@@ -1982,6 +1982,8 @@ webkit_editor_set_mode (EWebKitEditor *wk_editor,
 
 	webkit_editor_update_styles (E_CONTENT_EDITOR (wk_editor));
 	webkit_editor_style_updated (wk_editor, FALSE);
+
+	g_object_notify (G_OBJECT (wk_editor), "mode");
 }
 
 static void
