@@ -558,6 +558,10 @@ e_weather_location_entry_set_city (EWeatherLocationEntry *entry,
 	return FALSE;
 }
 
+#if !GWEATHER_CHECK_VERSION(3, 39, 0)
+#define gweather_location_get_english_sort_name gweather_location_get_sort_name
+#endif
+
 static void
 fill_location_entry_model (GtkListStore *store,
 			   GWeatherLocation *loc,
@@ -569,6 +573,10 @@ fill_location_entry_model (GtkListStore *store,
 {
 	GWeatherLocation *child = NULL;
 	gchar *display_name, *local_sort_name, *local_compare_name, *english_compare_name;
+	#if !GWEATHER_CHECK_VERSION(3, 39, 0)
+	GWeatherLocation **children = gweather_location_get_children (loc);
+	gint ii;
+	#endif
 
 	switch (gweather_location_get_level (loc)) {
 	case GWEATHER_LOCATION_WORLD:
@@ -576,24 +584,42 @@ fill_location_entry_model (GtkListStore *store,
 		/* Ignore these levels of hierarchy; just recurse, passing on
 		 * the names from the parent node.
 		 */
+		#if GWEATHER_CHECK_VERSION(3, 39, 0)
 		while ((child = gweather_location_next_child (loc, child)))
+		#else
+		for (ii = 0; children[ii]; ii++) {
+			child = children[ii];
+		#endif
 			fill_location_entry_model (store, child,
 						   parent_display_name,
 						   parent_sort_local_name,
 						   parent_compare_local_name,
 						   parent_compare_english_name,
 						   show_named_timezones);
+		#if !GWEATHER_CHECK_VERSION(3, 39, 0)
+			child = NULL; /* Do not unref it at the end of this function */
+		}
+		#endif
 		break;
 
 	case GWEATHER_LOCATION_COUNTRY:
 		/* Recurse, initializing the names to the country name */
+		#if GWEATHER_CHECK_VERSION(3, 39, 0)
 		while ((child = gweather_location_next_child (loc, child)))
+		#else
+		for (ii = 0; children[ii]; ii++) {
+			child = children[ii];
+		#endif
 			fill_location_entry_model (store, child,
 						   gweather_location_get_name (loc),
 						   gweather_location_get_sort_name (loc),
 						   gweather_location_get_sort_name (loc),
 						   gweather_location_get_english_sort_name (loc),
 						   show_named_timezones);
+		#if !GWEATHER_CHECK_VERSION(3, 39, 0)
+			child = NULL; /* Do not unref it at the end of this function */
+		}
+		#endif
 		break;
 
 	case GWEATHER_LOCATION_ADM1:
@@ -607,10 +633,19 @@ fill_location_entry_model (GtkListStore *store,
 		local_compare_name = g_strdup_printf ("%s, %s", gweather_location_get_sort_name (loc), parent_compare_local_name);
 		english_compare_name = g_strdup_printf ("%s, %s", gweather_location_get_english_sort_name (loc), parent_compare_english_name);
 
+		#if GWEATHER_CHECK_VERSION(3, 39, 0)
 		while ((child = gweather_location_next_child (loc, child)))
+		#else
+		for (ii = 0; children[ii]; ii++) {
+			child = children[ii];
+		#endif
 			fill_location_entry_model (store, child,
 						   display_name, local_sort_name, local_compare_name, english_compare_name,
 						   show_named_timezones);
+		#if !GWEATHER_CHECK_VERSION(3, 39, 0)
+			child = NULL; /* Do not unref it at the end of this function */
+		}
+		#endif
 
 		g_free (display_name);
 		g_free (local_sort_name);
