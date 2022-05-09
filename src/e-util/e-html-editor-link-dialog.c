@@ -171,6 +171,8 @@ html_editor_link_dialog_show (GtkWidget *widget)
 
 	/* Chain up to parent implementation */
 	GTK_WIDGET_CLASS (e_html_editor_link_dialog_parent_class)->show (widget);
+
+	gtk_widget_grab_focus (dialog->priv->url_edit);
 }
 
 static void
