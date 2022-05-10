@@ -311,7 +311,7 @@ composer_actions_accel_activate_cb (GtkAccelGroup *accel_group,
 {
 	EMsgComposer *composer = user_data;
 
-	if (keyval == GDK_KEY_Return && (modifier & GDK_MODIFIER_MASK) == GDK_CONTROL_MASK &&
+	if ((keyval == GDK_KEY_Return || keyval == GDK_KEY_KP_Enter) && (modifier & GDK_MODIFIER_MASK) == GDK_CONTROL_MASK &&
 	    !e_util_prompt_user (GTK_WINDOW (composer), "org.gnome.evolution.mail",
 		"prompt-on-accel-send", "mail-composer:prompt-accel-send", NULL)) {
 		return TRUE;

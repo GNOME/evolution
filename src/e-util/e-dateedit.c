@@ -1929,7 +1929,7 @@ on_date_entry_key_press (GtkWidget *widget,
 
 	if (event_state & GDK_MOD1_MASK
 	    && (event_keyval == GDK_KEY_Up || event_keyval == GDK_KEY_Down
-		|| event_keyval == GDK_KEY_Return)) {
+		|| event_keyval == GDK_KEY_Return || event_keyval == GDK_KEY_KP_Enter)) {
 		g_signal_stop_emission_by_name (widget, "key_press_event");
 		e_date_edit_show_date_popup (dedit, key_event);
 		return TRUE;
@@ -1937,7 +1937,7 @@ on_date_entry_key_press (GtkWidget *widget,
 
 	/* If the user hits the return key emit a "date_changed" signal if
 	 * needed. But let the signal carry on. */
-	if (event_keyval == GDK_KEY_Return) {
+	if (event_keyval == GDK_KEY_Return || event_keyval == GDK_KEY_KP_Enter) {
 		e_date_edit_check_date_changed (dedit);
 		return FALSE;
 	}
@@ -1962,10 +1962,10 @@ on_time_entry_key_press (GtkWidget *widget,
 	/* I'd like to use Alt+Up/Down for popping up the list, like Win32,
 	 * but the combo steals any Up/Down keys, so we use Alt + Return. */
 #if 0
-	if (event_state & GDK_MOD1_MASK
+	if ((event_state & GDK_MOD1_MASK) != 0
 	    && (event_keyval == GDK_KEY_Up || event_keyval == GDK_KEY_Down)) {
 #else
-	if (event_state & GDK_MOD1_MASK && event_keyval == GDK_KEY_Return) {
+	if ((event_state & GDK_MOD1_MASK) != 0 && (event_keyval == GDK_KEY_Return || event_keyval == GDK_KEY_KP_Enter)) {
 #endif
 		g_signal_stop_emission_by_name (widget, "key_press_event");
 		g_signal_emit_by_name (child, "activate", 0);
@@ -1974,7 +1974,7 @@ on_time_entry_key_press (GtkWidget *widget,
 
 	/* Stop the return key from emitting the activate signal, and check
 	 * if we need to emit a "time_changed" signal. */
-	if (event_keyval == GDK_KEY_Return) {
+	if (event_keyval == GDK_KEY_Return || event_keyval == GDK_KEY_KP_Enter) {
 		g_signal_stop_emission_by_name (widget, "key_press_event");
 		e_date_edit_check_time_changed (dedit);
 		return TRUE;

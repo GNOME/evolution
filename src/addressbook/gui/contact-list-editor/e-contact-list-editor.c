@@ -799,7 +799,7 @@ contact_list_editor_email_entry_key_press_event_cb (GtkWidget *widget,
 		}
 	}
 
-	if (can_comma || event->keyval == GDK_KEY_Return) {
+	if (can_comma || event->keyval == GDK_KEY_Return || event->keyval == GDK_KEY_KP_Enter) {
 		g_signal_emit_by_name (WIDGET (EMAIL_ENTRY), "activate", 0);
 
 		return TRUE;
