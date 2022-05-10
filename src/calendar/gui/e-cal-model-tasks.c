@@ -339,25 +339,27 @@ get_due_status (ECalModelTasks *model,
 		} else {
 			ECalModelTasksDueStatus res;
 			ICalParameter *param;
-			const gchar *tzid;
 
-			if (!(param = i_cal_property_get_first_parameter (prop, I_CAL_TZID_PARAMETER))) {
-				g_object_unref (due_tt);
-				g_object_unref (prop);
-				return E_CAL_MODEL_TASKS_DUE_FUTURE;
+			param = i_cal_property_get_first_parameter (prop, I_CAL_TZID_PARAMETER);
+
+			if (param) {
+				const gchar *tzid;
+
+				/* Get the current time in the same timezone as the DUE date.*/
+				tzid = i_cal_parameter_get_tzid (param);
+				if (!e_cal_client_get_timezone_sync (comp_data->client, tzid, &zone, NULL, NULL))
+					zone = NULL;
+
+				g_object_unref (param);
 			}
 
-			/* Get the current time in the same timezone as the DUE date.*/
-			tzid = i_cal_parameter_get_tzid (param);
-			if (!e_cal_client_get_timezone_sync (comp_data->client, tzid, &zone, NULL, NULL))
-				zone = NULL;
-
-			g_object_unref (param);
 			g_object_unref (prop);
 
-			if (zone == NULL) {
-				g_object_unref (due_tt);
-				return E_CAL_MODEL_TASKS_DUE_FUTURE;
+			if (!zone) {
+				if (i_cal_time_is_utc (due_tt))
+					zone = i_cal_timezone_get_utc_timezone ();
+				else
+					zone = e_cal_model_get_timezone (E_CAL_MODEL (model));
 			}
 
 			now_tt = i_cal_time_new_current_with_zone (zone);
