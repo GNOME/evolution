@@ -1332,13 +1332,13 @@ ecep_general_constructed (GObject *object)
 	widget = e_ellipsized_combo_box_text_new (FALSE);
 	e_ellipsized_combo_box_text_set_max_natural_width (E_ELLIPSIZED_COMBO_BOX_TEXT (widget), 100);
 	g_object_set (G_OBJECT (widget),
-		"hexpand", TRUE,
+		"hexpand", FALSE,
 		"halign", GTK_ALIGN_FILL,
 		"vexpand", FALSE,
 		"valign", GTK_ALIGN_START,
 		"width-request", 100,
 		NULL);
-	gtk_box_pack_start (GTK_BOX (page_general->priv->organizer_hbox), widget, TRUE, TRUE, 0);
+	gtk_box_pack_start (GTK_BOX (page_general->priv->organizer_hbox), widget, FALSE, FALSE, 0);
 	gtk_widget_show (widget);
 
 	page_general->priv->organizer_combo_box = widget;
