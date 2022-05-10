@@ -2083,6 +2083,7 @@ e_calendar_item_key_press_event (ECalendarItem *calitem,
 		break;
 	case GDK_KEY_space:
 	case GDK_KEY_Return:
+	case GDK_KEY_KP_Enter:
 		e_calendar_item_stop_selecting (calitem, event->key.time);
 		break;
 	default:

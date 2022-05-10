@@ -268,7 +268,7 @@ contact_map_window_entry_key_pressed_cb (GtkWidget *entry,
                                          GdkEventKey *event,
                                          gpointer user_data)
 {
-	if (event->keyval == GDK_KEY_Return)
+	if (event->keyval == GDK_KEY_Return || event->keyval == GDK_KEY_KP_Enter)
 		contact_map_window_find_contact_cb (NULL, user_data);
 
 	return FALSE;

@@ -148,7 +148,7 @@ entry_key_release_event (GtkWidget *widget,
 	GdkEventKey *key = &event->key;
 	EHTMLEditorFindDialog *dialog = user_data;
 
-	if (key->keyval == GDK_KEY_Return) {
+	if (key->keyval == GDK_KEY_Return || key->keyval == GDK_KEY_KP_Enter) {
 		html_editor_find_dialog_find_cb (dialog);
 		return TRUE;
 	}

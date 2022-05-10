@@ -108,7 +108,7 @@ html_editor_link_dialog_entry_key_pressed (EHTMLEditorLinkDialog *dialog,
 {
 	/* We can't do things in key_released, because then you could not open
 	 * this dialog from main menu by pressing enter on Insert->Link action */
-	if (event->keyval == GDK_KEY_Return) {
+	if (event->keyval == GDK_KEY_Return || event->keyval == GDK_KEY_KP_Enter) {
 		html_editor_link_dialog_ok (dialog);
 		return TRUE;
 	}
