@@ -198,6 +198,8 @@ struct _ItipViewPrivate {
 	gboolean state_keep_alarm_check;
 	gboolean state_inherit_alarm_check;
 	gint state_response_id;
+
+	gboolean attendee_status_updated;
 };
 
 enum {
@@ -3891,9 +3893,12 @@ set_buttons_sensitive (ItipView *view)
 
 	if (enabled && itip_view_get_mode (view) == ITIP_VIEW_MODE_REPLY &&
 	    view->priv->comp && same_attendee_status (view, view->priv->comp)) {
-		itip_view_add_lower_info_item (
-			view, ITIP_VIEW_INFO_ITEM_TYPE_INFO,
-			_("Attendee status updated"));
+		if (!view->priv->attendee_status_updated) {
+			view->priv->attendee_status_updated = TRUE;
+			itip_view_add_lower_info_item (
+				view, ITIP_VIEW_INFO_ITEM_TYPE_INFO,
+				_("Attendee status updated"));
+		}
 
 		enable_button (view, BUTTON_UPDATE_ATTENDEE_STATUS, FALSE);
 	}
@@ -5592,6 +5597,7 @@ modify_object_cb (GObject *ecalclient,
 
 	} else {
 		update_item_progress_info (view, NULL);
+		view->priv->attendee_status_updated = TRUE;
 		itip_view_add_lower_info_item (
 			view, ITIP_VIEW_INFO_ITEM_TYPE_INFO,
 			_("Attendee status updated"));
