@@ -363,6 +363,7 @@ get_due_status (ECalModelTasks *model,
 			}
 
 			now_tt = i_cal_time_new_current_with_zone (zone);
+			i_cal_time_set_timezone (now_tt, zone);
 
 			if (i_cal_time_compare (due_tt, now_tt) <= 0)
 				res = E_CAL_MODEL_TASKS_DUE_OVERDUE;
