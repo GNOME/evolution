@@ -906,6 +906,7 @@ etdp_get_comp_colors (EToDoPane *to_do_pane,
 			etdp_itt_to_zone (itt, e_cal_component_datetime_get_tzid (dt), client, default_zone);
 
 			now = i_cal_time_new_current_with_zone (default_zone);
+			i_cal_time_set_timezone (now, default_zone);
 
 			if ((is_date && i_cal_time_compare_date_only (itt, now) <= 0) ||
 			    (!is_date && i_cal_time_compare (itt, now) <= 0)) {
@@ -1485,6 +1486,7 @@ etdp_check_time_changed (EToDoPane *to_do_pane,
 
 	zone = e_cal_data_model_get_timezone (to_do_pane->priv->events_data_model);
 	itt = i_cal_time_new_current_with_zone (zone);
+	i_cal_time_set_timezone (itt, zone);
 	new_today = etdp_create_date_mark (itt);
 
 	if (force_update || new_today != to_do_pane->priv->last_today) {
@@ -1924,6 +1926,7 @@ etdp_new_common (EToDoPane *to_do_pane,
 				time_divisions_secs = g_settings_get_int (settings, "time-divisions") * 60;
 				zone = e_cal_data_model_get_timezone (to_do_pane->priv->events_data_model);
 				now = i_cal_time_new_current_with_zone (zone);
+				i_cal_time_set_timezone (now, zone);
 
 				i_cal_time_set_year (now, date_mark / 10000);
 				i_cal_time_set_month (now, (date_mark / 100) % 100);
