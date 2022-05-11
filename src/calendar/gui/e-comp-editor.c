@@ -802,6 +802,10 @@ ece_save_component_thread (EAlertSinkThreadJobData *job_data,
 	SaveData *sd = user_data;
 	const gchar *create_alert_ident, *modify_alert_ident, *remove_alert_ident, *get_alert_ident;
 	gchar *orig_uid, *new_uid = NULL;
+	gboolean has_recurrences;
+	gboolean is_on_server;
+	gboolean different_clients;
+	gboolean already_moved = FALSE;
 
 	g_return_if_fail (sd != NULL);
 	g_return_if_fail (E_IS_CAL_CLIENT (sd->target_client));
@@ -844,17 +848,28 @@ ece_save_component_thread (EAlertSinkThreadJobData *job_data,
 	}
 
 	orig_uid = g_strdup (i_cal_component_get_uid (sd->component));
+	has_recurrences = e_cal_util_component_has_recurrences (sd->component);
+	is_on_server = cal_comp_is_icalcomp_on_server_sync (sd->component, sd->target_client, cancellable, error);
+	different_clients = sd->source_client &&
+		!e_source_equal (e_client_get_source (E_CLIENT (sd->target_client)),
+				 e_client_get_source (E_CLIENT (sd->source_client)));
 
-	if (cal_comp_is_icalcomp_on_server_sync (sd->component, sd->target_client, cancellable, error)) {
+	if (!is_on_server && has_recurrences && different_clients &&
+	    cal_comp_is_icalcomp_on_server_sync (sd->component, sd->source_client, cancellable, error)) {
+		/* First move the component to the target client, thus it contains all the detached instances
+		   and the main component, then modify it there. */
+		sd->success = cal_comp_transfer_item_to_sync (sd->source_client, sd->target_client, sd->component, FALSE, cancellable, error);
+		is_on_server = sd->success;
+		already_moved = sd->success;
+	}
+
+	if (sd->success && is_on_server) {
 		ECalComponent *comp;
-		gboolean has_recurrences;
 
 		e_alert_sink_thread_job_set_alert_ident (job_data, modify_alert_ident);
 
 		comp = e_cal_component_new_from_icalcomponent (i_cal_component_clone (sd->component));
 		g_return_if_fail (comp != NULL);
-
-		has_recurrences = e_cal_util_component_has_recurrences (sd->component);
 
 		if (has_recurrences && sd->recur_mod == E_CAL_OBJ_MOD_ALL)
 			sd->success = comp_util_sanitize_recurrence_master_sync (comp, sd->target_client, cancellable, error);
@@ -872,7 +887,7 @@ ece_save_component_thread (EAlertSinkThreadJobData *job_data,
 			sd->target_client, e_cal_component_get_icalcomponent (comp), sd->recur_mod, E_CAL_OPERATION_FLAG_NONE, cancellable, error);
 
 		g_clear_object (&comp);
-	} else {
+	} else if (sd->success) {
 		e_alert_sink_thread_job_set_alert_ident (job_data, create_alert_ident);
 
 		sd->success = e_cal_client_create_object_sync (sd->target_client, sd->component, E_CAL_OPERATION_FLAG_NONE, &new_uid, cancellable, error);
@@ -881,9 +896,7 @@ ece_save_component_thread (EAlertSinkThreadJobData *job_data,
 			sd->object_created = TRUE;
 	}
 
-	if (sd->success && sd->source_client &&
-	    !e_source_equal (e_client_get_source (E_CLIENT (sd->target_client)),
-			     e_client_get_source (E_CLIENT (sd->source_client))) &&
+	if (sd->success && different_clients && !already_moved &&
 	    cal_comp_is_icalcomp_on_server_sync (sd->component, sd->source_client, cancellable, NULL)) {
 		ECalObjModType recur_mod = E_CAL_OBJ_MOD_THIS;
 
