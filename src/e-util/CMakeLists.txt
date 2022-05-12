@@ -100,6 +100,7 @@ set(SOURCES
 	e-collection-account-wizard.c
 	e-color-chooser-widget.c
 	e-color-combo.c
+	e-color-scheme-watcher.c
 	e-config.c
 	e-config-lookup.c
 	e-config-lookup-result.c
@@ -380,6 +381,7 @@ set(HEADERS
 	e-collection-account-wizard.h
 	e-color-chooser-widget.h
 	e-color-combo.h
+	e-color-scheme-watcher.h
 	e-config.h
 	e-config-lookup.h
 	e-config-lookup-result.h
