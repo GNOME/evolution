@@ -54,6 +54,7 @@ struct _EShellPrivate {
 	EClientCache *client_cache;
 	GtkWidget *preferences_window;
 	GCancellable *cancellable;
+	EColorSchemeWatcher *color_scheme_watcher;
 
 	/* Shell Backends */
 	GList *loaded_backends;              /* not referenced */
@@ -1655,6 +1656,7 @@ shell_dispose (GObject *object)
 	g_clear_object (&priv->registry);
 	g_clear_object (&priv->credentials_prompter);
 	g_clear_object (&priv->client_cache);
+	g_clear_object (&priv->color_scheme_watcher);
 
 	g_clear_pointer (&priv->preferences_window, gtk_widget_destroy);
 
@@ -2205,6 +2207,7 @@ e_shell_init (EShell *shell)
 	shell->priv->auth_prompt_parents = g_hash_table_new_full (g_str_hash, g_str_equal, g_free, NULL);
 	shell->priv->safe_mode = e_file_lock_exists ();
 	shell->priv->requires_shutdown = FALSE;
+	shell->priv->color_scheme_watcher = e_color_scheme_watcher_new ();
 
 	/* Add our icon directory to the theme's search path
 	 * here instead of in main() so Anjal picks it up. */

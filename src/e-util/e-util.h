@@ -83,6 +83,7 @@
 #include <e-util/e-collection-account-wizard.h>
 #include <e-util/e-color-chooser-widget.h>
 #include <e-util/e-color-combo.h>
+#include <e-util/e-color-scheme-watcher.h>
 #include <e-util/e-config.h>
 #include <e-util/e-config-lookup.h>
 #include <e-util/e-config-lookup-result.h>
