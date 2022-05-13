@@ -3369,6 +3369,7 @@ ece_check_start_before_end (ECompEditor *comp_editor,
 			    ICalTime **pend_tt,
 			    gboolean adjust_end_time)
 {
+	ICalComponent *icomp;
 	ICalTime *start_tt, *end_tt, *end_tt_copy;
 	ICalTimezone *start_zone, *end_zone;
 	gint duration = -1;
@@ -3377,30 +3378,27 @@ ece_check_start_before_end (ECompEditor *comp_editor,
 	start_tt = *pstart_tt;
 	end_tt = *pend_tt;
 
-	if ((e_comp_editor_get_flags (comp_editor) & E_COMP_EDITOR_FLAG_IS_NEW) == 0) {
-		ICalComponent *icomp;
 
-		icomp = e_comp_editor_get_component (comp_editor);
-		if (icomp &&
-		    e_cal_util_component_has_property (icomp, I_CAL_DTSTART_PROPERTY) &&
-		    (e_cal_util_component_has_property (icomp, I_CAL_DTEND_PROPERTY) ||
-		     e_cal_util_component_has_property (icomp, I_CAL_DUE_PROPERTY))) {
-			ICalTime *orig_start, *orig_end;
+	icomp = e_comp_editor_get_component (comp_editor);
+	if (icomp &&
+	    e_cal_util_component_has_property (icomp, I_CAL_DTSTART_PROPERTY) &&
+	    (e_cal_util_component_has_property (icomp, I_CAL_DTEND_PROPERTY) ||
+	     e_cal_util_component_has_property (icomp, I_CAL_DUE_PROPERTY))) {
+		ICalTime *orig_start, *orig_end;
 
-			orig_start = i_cal_component_get_dtstart (icomp);
-			if (e_cal_util_component_has_property (icomp, I_CAL_DTEND_PROPERTY))
-				orig_end = i_cal_component_get_dtend (icomp);
-			else
-				orig_end = i_cal_component_get_due (icomp);
+		orig_start = i_cal_component_get_dtstart (icomp);
+		if (e_cal_util_component_has_property (icomp, I_CAL_DTEND_PROPERTY))
+			orig_end = i_cal_component_get_dtend (icomp);
+		else
+			orig_end = i_cal_component_get_due (icomp);
 
-			if (orig_start && i_cal_time_is_valid_time (orig_start) &&
-			    orig_end && i_cal_time_is_valid_time (orig_end)) {
-				duration = i_cal_time_as_timet (orig_end) - i_cal_time_as_timet (orig_start);
-			}
-
-			g_clear_object (&orig_start);
-			g_clear_object (&orig_end);
+		if (orig_start && i_cal_time_is_valid_time (orig_start) &&
+		    orig_end && i_cal_time_is_valid_time (orig_end)) {
+			duration = i_cal_time_as_timet (orig_end) - i_cal_time_as_timet (orig_start);
 		}
+
+		g_clear_object (&orig_start);
+		g_clear_object (&orig_end);
 	}
 
 	start_zone = i_cal_time_get_timezone (start_tt);
@@ -3440,6 +3438,23 @@ ece_check_start_before_end (ECompEditor *comp_editor,
 				} else {
 					/* Modify the end time, to be the start + 1 hour/day. */
 					i_cal_time_adjust (end_tt, 0, i_cal_time_is_date (start_tt) ? 24 : 1, 0, 0);
+
+					if (!i_cal_time_is_date (start_tt)) {
+						GSettings *settings;
+						gint shorten_end_time;
+
+						settings = e_util_ref_settings ("org.gnome.evolution.calendar");
+						shorten_end_time = g_settings_get_int (settings, "shorten-end-time");
+						g_clear_object (&settings);
+
+						if (shorten_end_time > 0 && shorten_end_time < 60) {
+							i_cal_time_adjust (end_tt, 0, 0, -shorten_end_time, 0);
+
+							/* Revert the change, when it would make the time order reverse */
+							if (i_cal_time_compare (start_tt, end_tt) >= 0)
+								i_cal_time_adjust (end_tt, 0, 0, shorten_end_time, 0);
+						}
+					}
 				}
 
 				if (start_zone && end_zone && start_zone != end_zone)
