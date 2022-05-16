@@ -1507,20 +1507,26 @@ em_folder_tree_model_set_folder_info (EMFolderTreeModel *model,
 			flags = (flags & ~CAMEL_FOLDER_TYPE_MASK) |
 				CAMEL_FOLDER_TYPE_INBOX;
 			display_name = _("Inbox");
+			folder_is_drafts = FALSE;
+			folder_is_sent = FALSE;
 		} else if (strcmp (fi->full_name, "Outbox") == 0) {
 			flags = (flags & ~CAMEL_FOLDER_TYPE_MASK) |
 				CAMEL_FOLDER_TYPE_OUTBOX;
 			display_name = _("Outbox");
+			folder_is_drafts = FALSE;
+			folder_is_sent = FALSE;
 		} else if (strcmp (fi->full_name, "Sent") == 0) {
 			folder_is_sent = TRUE;
 			display_name = _("Sent");
 		}
 	}
 
-	if (folder_is_drafts)
-		flags = (flags & ~CAMEL_FOLDER_TYPE_MASK) | CAMEL_FOLDER_TYPE_DRAFTS;
-	if (folder_is_sent)
-		flags = (flags & ~CAMEL_FOLDER_TYPE_MASK) | CAMEL_FOLDER_TYPE_SENT;
+	if ((flags & CAMEL_FOLDER_TYPE_MASK) != CAMEL_FOLDER_TYPE_INBOX) {
+		if (folder_is_drafts)
+			flags = (flags & ~CAMEL_FOLDER_TYPE_MASK) | CAMEL_FOLDER_TYPE_DRAFTS;
+		if (folder_is_sent)
+			flags = (flags & ~CAMEL_FOLDER_TYPE_MASK) | CAMEL_FOLDER_TYPE_SENT;
+	}
 
 	/* Choose an icon name for the folder. */
 	icon_name = em_folder_tree_model_get_icon_name_for_folder_uri (model, uri, store, fi->full_name, &flags);
