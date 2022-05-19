@@ -1854,7 +1854,8 @@ itip_view_dup_alternative_html (EMailPartItip *itip_part)
 					flags |= CAMEL_MIME_FILTER_TOHTML_FORMAT_FLOWED;
 
 				content = itip_view_util_extract_part_content (text_part, TRUE);
-				html = camel_text_to_html (content, flags, 0);
+				if (content && *content)
+					html = camel_text_to_html (content, flags, 0);
 
 				g_free (content);
 			}
