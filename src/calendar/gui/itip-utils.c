@@ -1031,27 +1031,13 @@ comp_to_list (ESourceRegistry *registry,
 
 		for (l = attendees; l != NULL; l = l->next) {
 			ECalComponentAttendee *att = l->data;
-			ICalParameterCutype cutype;
 
 			attendee_email = cal_comp_util_get_attendee_email (att);
 
 			if (!attendee_email)
 				continue;
 
-			cutype = e_cal_component_attendee_get_cutype (att);
-
-			/* Bugfix: 688711 - Varadhan
-			 * Resource is also considered as a "attendee". If the respective backend
-			 * is able to successfully book resources automagically, it will appear
-			 * in the users list and thereby won't get added to the list of destinations
-			 * to send the meeting invite, otherwise, as a safety measure, a meeting
-			 * invite will be sent to the resources as well. */
-			if (cutype != I_CAL_CUTYPE_INDIVIDUAL &&
-			    cutype != I_CAL_CUTYPE_GROUP &&
-			    cutype != I_CAL_CUTYPE_RESOURCE &&
-			    cutype != I_CAL_CUTYPE_UNKNOWN)
-				continue;
-			else if (users_has_attendee (users, attendee_email))
+			if (users_has_attendee (users, attendee_email))
 				continue;
 			else if (e_cal_component_attendee_get_sentby (att) &&
 				users_has_attendee (users, e_cal_component_attendee_get_sentby (att)))
