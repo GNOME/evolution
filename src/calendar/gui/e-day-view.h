@@ -484,6 +484,11 @@ const gchar *	e_day_view_marcus_bains_get_time_bar_color
 void		e_day_view_marcus_bains_set_time_bar_color
 						(EDayView *day_view,
 						 const gchar *time_bar_color);
+const gchar *	e_day_view_get_today_background_color
+						(EDayView *day_view);
+void		e_day_view_set_today_background_color
+						(EDayView *day_view,
+						 const gchar *color);
 
 /* Whether we display event end times in the main canvas. */
 gboolean	e_day_view_get_show_event_end_times

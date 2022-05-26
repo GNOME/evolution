@@ -85,6 +85,11 @@ settings_calendar_view_constructed (GObject *object)
 			settings, "marcus-bains-color-timebar",
 			extensible, "marcus-bains-time-bar-color",
 			G_SETTINGS_BIND_GET);
+
+		g_settings_bind (
+			settings, "today-background-color",
+			extensible, "today-background-color",
+			G_SETTINGS_BIND_GET);
 	}
 
 	/*** EWeekView ***/
@@ -114,6 +119,11 @@ settings_calendar_view_constructed (GObject *object)
 		g_settings_bind (
 			settings, "show-icons-month-view",
 			extensible, "show-icons-month-view",
+			G_SETTINGS_BIND_GET);
+
+		g_settings_bind (
+			settings, "today-background-color",
+			extensible, "today-background-color",
 			G_SETTINGS_BIND_GET);
 	}
 

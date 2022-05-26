@@ -509,6 +509,11 @@
       <_summary>Shorten event end time by minutes</_summary>
       <_description>By how many minutes to shorted new event end time</_description>
     </key>
+    <key name="today-background-color" type="s">
+      <default>''</default>
+      <_summary>Background color for the 'today' day</_summary>
+      <_description>Leave empty to use a yellow color derived from the current theme, otherwise use the color of form `#RRGGBB`</_description>
+    </key>
 
     <!-- The following keys are deprecated. -->
 

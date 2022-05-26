@@ -101,6 +101,8 @@ struct _EWeekViewPrivate {
 	gboolean show_icons_month_view;
 	gboolean draw_flat_events;
 	gboolean days_left_to_right;
+
+	gchar *today_background_color;
 };
 
 typedef struct {
@@ -202,6 +204,7 @@ enum {
 	PROP_DAYS_LEFT_TO_RIGHT,
 	PROP_SHOW_EVENT_END_TIMES,
 	PROP_SHOW_ICONS_MONTH_VIEW,
+	PROP_TODAY_BACKGROUND_COLOR,
 	PROP_IS_EDITING
 };
 
@@ -800,6 +803,12 @@ week_view_set_property (GObject *object,
 				E_WEEK_VIEW (object),
 				g_value_get_boolean (value));
 			return;
+
+		case PROP_TODAY_BACKGROUND_COLOR:
+			e_week_view_set_today_background_color (
+				E_WEEK_VIEW (object),
+				g_value_get_string (value));
+			return;
 	}
 
 	G_OBJECT_WARN_INVALID_PROPERTY_ID (object, property_id, pspec);
@@ -847,6 +856,13 @@ week_view_get_property (GObject *object,
 				E_WEEK_VIEW (object)));
 			return;
 
+		case PROP_TODAY_BACKGROUND_COLOR:
+			g_value_set_string (
+				value,
+				e_week_view_get_today_background_color (
+				E_WEEK_VIEW (object)));
+			return;
+
 		case PROP_IS_EDITING:
 			g_value_set_boolean (value, e_week_view_is_editing (E_WEEK_VIEW (object)));
 			return;
@@ -878,6 +894,7 @@ week_view_dispose (GObject *object)
 	}
 
 	g_clear_pointer (&week_view->small_font_desc, pango_font_description_free);
+	g_clear_pointer (&week_view->priv->today_background_color, g_free);
 	g_clear_object (&week_view->normal_cursor);
 	g_clear_object (&week_view->move_cursor);
 	g_clear_object (&week_view->resize_width_cursor);
@@ -1761,6 +1778,17 @@ e_week_view_class_init (EWeekViewClass *class)
 			G_PARAM_READWRITE |
 			G_PARAM_STATIC_STRINGS));
 
+	g_object_class_install_property (
+		object_class,
+		PROP_TODAY_BACKGROUND_COLOR,
+		g_param_spec_string (
+			"today-background-color",
+			"Today Background Color",
+			NULL,
+			NULL,
+			G_PARAM_READWRITE |
+			G_PARAM_STATIC_STRINGS));
+
 	g_object_class_override_property (
 		object_class,
 		PROP_IS_EDITING,
@@ -2004,7 +2032,8 @@ e_week_view_set_colors (EWeekView *week_view)
 	e_rgba_to_color (&selected_fg, &week_view->colors[E_WEEK_VIEW_COLOR_DATES_SELECTED]);
 	e_rgba_to_color (&selected_bg, &week_view->colors[E_WEEK_VIEW_COLOR_TODAY]);
 
-	week_view->colors[E_WEEK_VIEW_COLOR_TODAY_BACKGROUND] = get_today_background (week_view->colors[E_WEEK_VIEW_COLOR_EVENT_BACKGROUND]);
+	if (!week_view->priv->today_background_color)
+		week_view->colors[E_WEEK_VIEW_COLOR_TODAY_BACKGROUND] = get_today_background (week_view->colors[E_WEEK_VIEW_COLOR_EVENT_BACKGROUND]);
 	week_view->colors[E_WEEK_VIEW_COLOR_MONTH_NONWORKING_DAY] = color_inc (week_view->colors[E_WEEK_VIEW_COLOR_EVEN_MONTHS], -0x0A0A);
 }
 
@@ -5309,4 +5338,42 @@ e_week_view_is_editing (EWeekView *week_view)
 	g_return_val_if_fail (E_IS_WEEK_VIEW (week_view), FALSE);
 
 	return week_view->editing_event_num != -1;
+}
+
+const gchar *
+e_week_view_get_today_background_color (EWeekView *week_view)
+{
+	g_return_val_if_fail (E_IS_WEEK_VIEW (week_view), NULL);
+
+	return week_view->priv->today_background_color;
+}
+
+void
+e_week_view_set_today_background_color (EWeekView *week_view,
+					const gchar *color)
+{
+	GdkRGBA rgba;
+
+	g_return_if_fail (E_IS_WEEK_VIEW (week_view));
+
+	if (g_strcmp0 (color, week_view->priv->today_background_color) == 0)
+		return;
+
+	if (color && gdk_rgba_parse (&rgba, color)) {
+		g_free (week_view->priv->today_background_color);
+		week_view->priv->today_background_color = g_strdup (color);
+		week_view->colors[E_WEEK_VIEW_COLOR_TODAY_BACKGROUND].red = 0xFFFF * rgba.red;
+		week_view->colors[E_WEEK_VIEW_COLOR_TODAY_BACKGROUND].green = 0xFFFF * rgba.green;
+		week_view->colors[E_WEEK_VIEW_COLOR_TODAY_BACKGROUND].blue = 0xFFFF * rgba.blue;
+	} else if (week_view->priv->today_background_color) {
+		g_free (week_view->priv->today_background_color);
+		week_view->priv->today_background_color = NULL;
+		week_view->colors[E_WEEK_VIEW_COLOR_TODAY_BACKGROUND] = get_today_background (week_view->colors[E_WEEK_VIEW_COLOR_EVENT_BACKGROUND]);
+	} else {
+		return;
+	}
+
+	gtk_widget_queue_draw (week_view->main_canvas);
+
+	g_object_notify (G_OBJECT (week_view), "today-background-color");
 }

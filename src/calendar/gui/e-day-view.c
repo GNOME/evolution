@@ -171,6 +171,8 @@ struct _EDayViewPrivate {
 
 	GdkDragContext *drag_context;
 
+	gchar *today_background_color;
+
 	gboolean draw_flat_events;
 };
 
@@ -493,6 +495,7 @@ enum {
 	PROP_MARCUS_BAINS_SHOW_LINE,
 	PROP_MARCUS_BAINS_DAY_VIEW_COLOR,
 	PROP_MARCUS_BAINS_TIME_BAR_COLOR,
+	PROP_TODAY_BACKGROUND_COLOR,
 	PROP_IS_EDITING
 };
 
@@ -922,6 +925,12 @@ day_view_set_property (GObject *object,
 				E_DAY_VIEW (object),
 				g_value_get_string (value));
 			return;
+
+		case PROP_TODAY_BACKGROUND_COLOR:
+			e_day_view_set_today_background_color (
+				E_DAY_VIEW (object),
+				g_value_get_string (value));
+			return;
 	}
 
 	G_OBJECT_WARN_INVALID_PROPERTY_ID (object, property_id, pspec);
@@ -959,6 +968,13 @@ day_view_get_property (GObject *object,
 			g_value_set_string (
 				value,
 				e_day_view_marcus_bains_get_time_bar_color (
+				E_DAY_VIEW (object)));
+			return;
+
+		case PROP_TODAY_BACKGROUND_COLOR:
+			g_value_set_string (
+				value,
+				e_day_view_get_today_background_color (
 				E_DAY_VIEW (object)));
 			return;
 
@@ -1212,11 +1228,9 @@ day_view_dispose (GObject *object)
 	g_clear_object (&day_view->priv->model);
 	g_clear_object (&day_view->priv->drag_context);
 
-	g_free (day_view->priv->marcus_bains_day_view_color);
-	day_view->priv->marcus_bains_day_view_color = NULL;
-
-	g_free (day_view->priv->marcus_bains_time_bar_color);
-	day_view->priv->marcus_bains_time_bar_color = NULL;
+	g_clear_pointer (&day_view->priv->marcus_bains_day_view_color, g_free);
+	g_clear_pointer (&day_view->priv->marcus_bains_time_bar_color, g_free);
+	g_clear_pointer (&day_view->priv->today_background_color, g_free);
 
 	/* Chain up to parent's dispose() method. */
 	G_OBJECT_CLASS (e_day_view_parent_class)->dispose (object);
@@ -2164,6 +2178,17 @@ e_day_view_class_init (EDayViewClass *class)
 			G_PARAM_READWRITE |
 			G_PARAM_STATIC_STRINGS));
 
+	g_object_class_install_property (
+		object_class,
+		PROP_TODAY_BACKGROUND_COLOR,
+		g_param_spec_string (
+			"today-background-color",
+			"Today Background Color",
+			NULL,
+			NULL,
+			G_PARAM_READWRITE |
+			G_PARAM_STATIC_STRINGS));
+
 	g_object_class_override_property (
 		object_class,
 		PROP_IS_EDITING,
@@ -3047,7 +3072,8 @@ e_day_view_set_colors (EDayView *day_view)
 	e_rgba_to_color (&base_bg, &day_view->colors[E_DAY_VIEW_COLOR_LONG_EVENT_BACKGROUND]);
 	e_rgba_to_color (&dark_bg, &day_view->colors[E_DAY_VIEW_COLOR_LONG_EVENT_BORDER]);
 
-	day_view->colors[E_DAY_VIEW_COLOR_BG_MULTIDAY_TODAY] = get_today_background (day_view->colors[E_DAY_VIEW_COLOR_BG_WORKING]);
+	if (!day_view->priv->today_background_color)
+		day_view->colors[E_DAY_VIEW_COLOR_BG_MULTIDAY_TODAY] = get_today_background (day_view->colors[E_DAY_VIEW_COLOR_BG_WORKING]);
 
 	bg_bg.red = 0.5;
 	bg_bg.green = 1.0;
@@ -4083,6 +4109,44 @@ e_day_view_marcus_bains_set_time_bar_color (EDayView *day_view,
 	e_day_view_marcus_bains_update (day_view);
 
 	g_object_notify (G_OBJECT (day_view), "marcus-bains-time-bar-color");
+}
+
+const gchar *
+e_day_view_get_today_background_color (EDayView *day_view)
+{
+	g_return_val_if_fail (E_IS_DAY_VIEW (day_view), NULL);
+
+	return day_view->priv->today_background_color;
+}
+
+void
+e_day_view_set_today_background_color (EDayView *day_view,
+				       const gchar *color)
+{
+	GdkRGBA rgba;
+
+	g_return_if_fail (E_IS_DAY_VIEW (day_view));
+
+	if (g_strcmp0 (color, day_view->priv->today_background_color) == 0)
+		return;
+
+	if (color && gdk_rgba_parse (&rgba, color)) {
+		g_free (day_view->priv->today_background_color);
+		day_view->priv->today_background_color = g_strdup (color);
+		day_view->colors[E_DAY_VIEW_COLOR_BG_MULTIDAY_TODAY].red = 0xFFFF * rgba.red;
+		day_view->colors[E_DAY_VIEW_COLOR_BG_MULTIDAY_TODAY].green = 0xFFFF * rgba.green;
+		day_view->colors[E_DAY_VIEW_COLOR_BG_MULTIDAY_TODAY].blue = 0xFFFF * rgba.blue;
+	} else if (day_view->priv->today_background_color) {
+		g_free (day_view->priv->today_background_color);
+		day_view->priv->today_background_color = NULL;
+		day_view->colors[E_DAY_VIEW_COLOR_BG_MULTIDAY_TODAY] = get_today_background (day_view->colors[E_DAY_VIEW_COLOR_BG_WORKING]);
+	} else {
+		return;
+	}
+
+	gtk_widget_queue_draw (day_view->main_canvas);
+
+	g_object_notify (G_OBJECT (day_view), "today-background-color");
 }
 
 /* Whether we display event end times in the main canvas. */
