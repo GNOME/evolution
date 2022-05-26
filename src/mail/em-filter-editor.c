@@ -38,7 +38,7 @@ static void
 emfe_show_html (GtkWindow *parent,
 		const gchar *html)
 {
-	GtkWidget *dialog, *widget, *container;
+	GtkWidget *dialog, *widget, *container, *searchbar;
 
 	dialog = gtk_dialog_new_with_buttons (_("Description of Filters"), parent,
 		GTK_DIALOG_MODAL | GTK_DIALOG_DESTROY_WITH_PARENT,
@@ -70,6 +70,14 @@ emfe_show_html (GtkWindow *parent,
 		"editable", FALSE,
 		NULL);
 	gtk_container_add (GTK_CONTAINER (container), widget);
+
+	container = gtk_dialog_get_content_area (GTK_DIALOG (dialog));
+	searchbar = e_search_bar_new (E_WEB_VIEW (widget));
+	g_object_set (G_OBJECT (searchbar),
+		"can-hide", FALSE,
+		"visible", TRUE,
+		NULL);
+	gtk_container_add (GTK_CONTAINER (container), searchbar);
 
 	e_web_view_load_string (E_WEB_VIEW (widget), html);
 
