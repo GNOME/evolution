@@ -1,3 +1,28 @@
+Evolution 3.44.2 2022-05-27
+---------------------------
+
+Bug Fixes:
+	I#1871 - WebKitEditor: Convert to plain text incorrect on reply/forward open
+	I#1886 - itip-formatter: Use whole URL value as a link href
+	I#1891 - Fails to build with libgweather 3.36
+	I#1895 - Misc: Handle numpad Enter similarly as the Enter key
+	I#1896 - Composer: Ensure URL entry is focused in Link Properties
+	I#1898 - Better handle Dark Style GNOME 42 setting
+	I#1900 - iTIP formatter shows twice "Attendee status updated"
+	I#1902 - Tasks: Overdue calculation sometimes incorrect
+	I#1904 - CompEditor: Move whole component between calendars
+	I#1905 - DUE-today color in Tasks window not always applied
+	I#1913 - Calendar: iTip message not sent to a Room address
+	ews-I#159 - EMFolderTreeModel: Prefer Inbox over other folder types
+
+Miscellaneous:
+	EShell: Auto-close ESource connection alerts on idle
+	EContactEditor: Use a GWeakRef on the editor when opening target client
+	EWebDAVConfigLookup: Set also authentication method
+	EWebKitEditor: Mode change not propagated into the Editor widget
+	Tasks: Ensure ICalTime::zone is set for current time
+	itip-view: Ignore empty text/plain subpart in meeting invitation mail
+
 Evolution 3.44.1 2022-04-22
 ---------------------------
 
