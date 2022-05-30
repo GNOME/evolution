@@ -156,6 +156,7 @@
 #include <e-util/e-markdown-editor.h>
 #include <e-util/e-markdown-utils.h>
 #include <e-util/e-headerbar-button.h>
+#include <e-util/e-menu-bar.h>
 #include <e-util/e-misc-utils.h>
 #include <e-util/e-mktemp.h>
 #include <e-util/e-month-widget.h>

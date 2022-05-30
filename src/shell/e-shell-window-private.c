@@ -270,107 +270,6 @@ e_shell_window_private_init (EShellWindow *shell_window)
 }
 
 static gboolean
-delayed_menubar_show_cb (gpointer user_data)
-{
-	EShellWindow *shell_window = user_data;
-
-	g_return_val_if_fail (E_IS_SHELL_WINDOW (shell_window), FALSE);
-
-	shell_window->priv->delayed_menubar_show_id = 0;
-
-	if (!e_shell_window_get_menubar_visible (shell_window)) {
-		GtkWidget *main_menu;
-
-		main_menu = e_shell_window_get_managed_widget (shell_window, "/main-menu");
-
-		gtk_widget_show (main_menu);
-	}
-
-	return FALSE;
-}
-
-static gboolean
-delayed_menubar_hide_cb (gpointer user_data)
-{
-	EShellWindow *shell_window = user_data;
-
-	g_return_val_if_fail (E_IS_SHELL_WINDOW (shell_window), FALSE);
-
-	shell_window->priv->delayed_menubar_hide_id = 0;
-
-	if (!e_shell_window_get_menubar_visible (shell_window) &&
-	    !shell_window->priv->delayed_menubar_show_id) {
-		GtkWidget *main_menu;
-
-		main_menu = e_shell_window_get_managed_widget (shell_window, "/main-menu");
-
-		if (gtk_widget_get_visible (main_menu) &&
-		    !gtk_menu_shell_get_selected_item (GTK_MENU_SHELL (main_menu)))
-			gtk_widget_hide (main_menu);
-	}
-
-	return FALSE;
-}
-
-static void
-e_shell_window_event_after_cb (EShellWindow *shell_window,
-			       GdkEvent *event)
-{
-	GtkWidget *main_menu;
-
-	g_return_if_fail (event != NULL);
-
-	if (event->type != GDK_KEY_PRESS &&
-	    event->type != GDK_KEY_RELEASE &&
-	    event->type != GDK_BUTTON_RELEASE &&
-	    event->type != GDK_FOCUS_CHANGE)
-		return;
-
-	g_return_if_fail (E_IS_SHELL_WINDOW (shell_window));
-
-	if (e_shell_window_get_menubar_visible (shell_window))
-		return;
-
-	main_menu = e_shell_window_get_managed_widget (shell_window, "/main-menu");
-
-	if (event->type == GDK_KEY_PRESS) {
-		GdkEventKey *key_event;
-
-		key_event = (GdkEventKey *) event;
-
-		if ((key_event->keyval == GDK_KEY_Alt_L || key_event->keyval == GDK_KEY_Alt_R) &&
-		    !(key_event->state & (GDK_SHIFT_MASK | GDK_CONTROL_MASK | GDK_SUPER_MASK | GDK_HYPER_MASK | GDK_META_MASK))) {
-			if (shell_window->priv->delayed_menubar_hide_id) {
-				g_source_remove (shell_window->priv->delayed_menubar_hide_id);
-				shell_window->priv->delayed_menubar_hide_id = 0;
-			}
-
-			if (shell_window->priv->delayed_menubar_show_id) {
-				g_source_remove (shell_window->priv->delayed_menubar_show_id);
-				shell_window->priv->delayed_menubar_show_id = 0;
-
-				delayed_menubar_show_cb (shell_window);
-			} else {
-				/* To not flash when using Alt+Tab or similar system-wide shortcuts */
-				shell_window->priv->delayed_menubar_show_id =
-					e_named_timeout_add (250, delayed_menubar_show_cb, shell_window);
-			}
-		}
-	} else if (event->type != GDK_BUTTON_RELEASE || !(event->button.state & GDK_MOD1_MASK)) {
-		if (shell_window->priv->delayed_menubar_show_id) {
-			g_source_remove (shell_window->priv->delayed_menubar_show_id);
-			shell_window->priv->delayed_menubar_show_id = 0;
-		}
-
-		if (gtk_widget_get_visible (main_menu) &&
-		    !shell_window->priv->delayed_menubar_hide_id) {
-			shell_window->priv->delayed_menubar_hide_id =
-				e_named_timeout_add (500, delayed_menubar_hide_cb, shell_window);
-		}
-	}
-}
-
-static gboolean
 e_shell_window_key_press_event_cb (GtkWidget *widget,
 				   GdkEventKey *event)
 {
@@ -470,8 +369,10 @@ e_shell_window_private_constructed (EShellWindow *shell_window)
 	box = GTK_BOX (widget);
 
 	widget = shell_window_construct_menubar (shell_window);
-	if (widget != NULL)
+	if (widget != NULL) {
+		shell_window->priv->menu_bar = e_menu_bar_new (GTK_MENU_BAR (widget), window);
 		gtk_box_pack_start (box, widget, FALSE, FALSE, 0);
+	}
 
 	widget = shell_window_construct_toolbar (shell_window);
 	if (widget != NULL)
@@ -684,9 +585,6 @@ e_shell_window_private_constructed (EShellWindow *shell_window)
 
 	g_object_unref (settings);
 
-	g_signal_connect (shell_window, "event-after",
-		G_CALLBACK (e_shell_window_event_after_cb), NULL);
-
 	g_signal_connect (shell_window, "key-press-event",
 		G_CALLBACK (e_shell_window_key_press_event_cb), NULL);
 
@@ -715,16 +613,6 @@ void
 e_shell_window_private_dispose (EShellWindow *shell_window)
 {
 	EShellWindowPrivate *priv = shell_window->priv;
-
-	if (priv->delayed_menubar_show_id) {
-		g_source_remove (priv->delayed_menubar_show_id);
-		priv->delayed_menubar_show_id = 0;
-	}
-
-	if (priv->delayed_menubar_hide_id) {
-		g_source_remove (priv->delayed_menubar_hide_id);
-		priv->delayed_menubar_hide_id = 0;
-	}
 
 	/* Need to disconnect handlers before we unref the shell. */
 	if (priv->signal_handler_ids != NULL) {
@@ -759,6 +647,7 @@ e_shell_window_private_dispose (EShellWindow *shell_window)
 	g_clear_object (&priv->switcher);
 	g_clear_object (&priv->tooltip_label);
 	g_clear_object (&priv->status_notebook);
+	g_clear_object (&priv->menu_bar);
 
 	priv->destroyed = TRUE;
 }

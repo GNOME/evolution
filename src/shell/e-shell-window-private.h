@@ -82,6 +82,7 @@ struct _EShellWindowPrivate {
 	GtkWidget *tooltip_label;
 	GtkWidget *status_notebook;
 	GtkWidget *headerbar;
+	GtkWidget *menu_bar;
 
 	/* Shell signal handlers. */
 	GArray *signal_handler_ids;
@@ -90,15 +91,11 @@ struct _EShellWindowPrivate {
 
 	guint destroyed        : 1;  /* XXX Do we still need this? */
 	guint safe_mode : 1;
-	guint menubar_visible : 1;
 	guint sidebar_visible : 1;
 	guint switcher_visible : 1;
 	guint taskbar_visible : 1;
 	guint toolbar_visible : 1;
 	guint is_main_instance : 1;
-
-	gulong delayed_menubar_show_id;
-	gulong delayed_menubar_hide_id;
 
 	GSList *postponed_alerts; /* EAlert * */
 };

@@ -1564,7 +1564,8 @@ e_shell_window_get_menubar_visible (EShellWindow *shell_window)
 {
 	g_return_val_if_fail (E_IS_SHELL_WINDOW (shell_window), FALSE);
 
-	return shell_window->priv->menubar_visible;
+	return shell_window->priv->menu_bar &&
+		e_menu_bar_get_visible (E_MENU_BAR (shell_window->priv->menu_bar));
 }
 
 /**
@@ -1584,10 +1585,10 @@ e_shell_window_set_menubar_visible (EShellWindow *shell_window,
 
 	g_return_if_fail (E_IS_SHELL_WINDOW (shell_window));
 
-	if (shell_window->priv->menubar_visible == menubar_visible)
+	if (e_menu_bar_get_visible (E_MENU_BAR (shell_window->priv->menu_bar)) == menubar_visible)
 		return;
 
-	shell_window->priv->menubar_visible = menubar_visible;
+	e_menu_bar_set_visible (E_MENU_BAR (shell_window->priv->menu_bar), menubar_visible);
 
 	settings = e_util_ref_settings ("org.gnome.evolution.shell");
 	if (!menubar_visible &&
