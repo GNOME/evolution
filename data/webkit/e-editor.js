@@ -2325,7 +2325,17 @@ EvoEditor.convertTags = function()
 					var div = document.createElement("DIV");
 					EvoEditor.moveNodeContent(node, div);
 					node.parentElement.insertBefore(div, node.nextSibling);
-				} else {
+				} else if (node.tagName != "APPLET" &&
+					   node.tagName != "AUDIO" &&
+					   node.tagName != "EMBED" &&
+					   node.tagName != "NOFRAMES" &&
+					   node.tagName != "NOSCRIPT" &&
+					   node.tagName != "OBJECT" &&
+					   node.tagName != "STYLE" &&
+					   node.tagName != "SCRIPT" &&
+					   node.tagName != "TEMPLATE" &&
+					   node.tagName != "VAR" &&
+					   node.tagName != "VIDEO") {
 					next = EvoEditor.moveNodeContent(node);
 				}
 			}
