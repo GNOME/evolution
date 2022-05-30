@@ -272,8 +272,9 @@ e_composer_private_constructed (EMsgComposer *composer)
 	/* Construct the main menu and toolbar. */
 
 	widget = e_html_editor_get_managed_widget (editor, "/main-menu");
+
+	priv->menu_bar = e_menu_bar_new (GTK_MENU_BAR (widget), window);
 	gtk_box_pack_start (GTK_BOX (container), widget, FALSE, FALSE, 0);
-	gtk_widget_show (widget);
 
 	widget = e_html_editor_get_managed_widget (editor, "/main-toolbar");
 	gtk_box_pack_start (GTK_BOX (container), widget, FALSE, FALSE, 0);
@@ -476,6 +477,7 @@ e_composer_private_dispose (EMsgComposer *composer)
 	g_clear_object (&composer->priv->composer_actions);
 	g_clear_object (&composer->priv->gallery_scrolled_window);
 	g_clear_object (&composer->priv->redirect);
+	g_clear_object (&composer->priv->menu_bar);
 }
 
 void

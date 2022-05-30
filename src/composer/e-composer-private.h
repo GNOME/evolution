@@ -81,6 +81,8 @@ struct _EMsgComposerPrivate {
 
 	GtkWidget *address_dialog;
 
+	GtkWidget *menu_bar;
+
 	gchar *mime_type;
 	gchar *mime_body;
 	gchar *charset;
