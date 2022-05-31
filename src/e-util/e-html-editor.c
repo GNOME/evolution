@@ -793,6 +793,25 @@ e_html_editor_mode_to_bool_hide_in_markdown_cb (GBinding *binding,
 	return TRUE;
 }
 
+static gboolean
+e_html_editor_edit_html_toolbar_visible_cb (GBinding *binding,
+					    const GValue *from_value,
+					    GValue *to_value,
+					    gpointer user_data)
+{
+	gboolean visible;
+	EHTMLEditor *editor;
+
+	editor = user_data;
+	g_return_val_if_fail (E_IS_HTML_EDITOR (editor), TRUE);
+
+	visible = g_value_get_boolean (from_value);
+
+	g_value_set_boolean (to_value, visible && editor->priv->mode == E_CONTENT_EDITOR_MODE_HTML);
+
+	return TRUE;
+}
+
 static void
 html_editor_set_property (GObject *object,
                           guint property_id,
@@ -906,7 +925,6 @@ html_editor_constructed (GObject *object)
 	gtk_toolbar_set_style (GTK_TOOLBAR (widget), GTK_TOOLBAR_BOTH_HORIZ);
 	gtk_grid_attach (GTK_GRID (editor), widget, 0, 1, 1, 1);
 	priv->html_toolbar = g_object_ref (widget);
-	gtk_widget_show (widget);
 
 	/* Construct the activity bar. */
 
@@ -1033,6 +1051,14 @@ html_editor_constructed (GObject *object)
 		e_html_editor_mode_to_bool_hide_in_markdown_cb,
 		NULL, NULL, NULL);
 
+	e_binding_bind_property_full (
+		priv->edit_toolbar, "visible",
+		priv->html_toolbar, "visible",
+		G_BINDING_SYNC_CREATE,
+		e_html_editor_edit_html_toolbar_visible_cb,
+		NULL, editor, NULL);
+
+
 	g_signal_connect_after (object, "realize", G_CALLBACK (html_editor_realize), NULL);
 
 	settings = e_util_ref_settings ("org.gnome.evolution.mail");
@@ -1040,6 +1066,11 @@ html_editor_constructed (GObject *object)
 	g_settings_bind (
 		settings, "composer-paste-plain-prefer-pre",
 		editor, "paste-plain-prefer-pre",
+		G_SETTINGS_BIND_GET);
+
+	g_settings_bind (
+		settings, "composer-show-edit-toolbar",
+		priv->edit_toolbar, "visible",
 		G_SETTINGS_BIND_GET);
 
 	g_object_unref (settings);
@@ -1783,6 +1814,7 @@ e_html_editor_set_mode (EHTMLEditor *editor,
 				if (E_IS_MARKDOWN_EDITOR (editor->priv->use_content_editor)) {
 					EMarkdownEditor *markdown_editor;
 					GtkToolbar *toolbar;
+					GSettings *settings;
 
 					markdown_editor = E_MARKDOWN_EDITOR (editor->priv->use_content_editor);
 
@@ -1794,7 +1826,10 @@ e_html_editor_set_mode (EHTMLEditor *editor,
 					toolbar = GTK_TOOLBAR (editor->priv->edit_toolbar);
 					gtk_toolbar_insert (toolbar, editor->priv->mode_tool_item, 0);
 
-					gtk_widget_show (GTK_WIDGET (editor->priv->edit_toolbar));
+					settings = e_util_ref_settings ("org.gnome.evolution.mail");
+					if (g_settings_get_boolean (settings, "composer-show-edit-toolbar"))
+						gtk_widget_show (GTK_WIDGET (editor->priv->edit_toolbar));
+					g_object_unref (settings);
 				}
 			}
 

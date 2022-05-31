@@ -33,6 +33,7 @@
         <menuitem action='view-bcc'/>
         <separator/>
         <menuitem action='picture-gallery'/>
+        <menuitem action='toolbar-show-edit'/>
         <separator/>
         <menuitem action='visually-wrap-long-lines'/>
       </menu>

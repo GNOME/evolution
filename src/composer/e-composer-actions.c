@@ -413,6 +413,14 @@ static GtkActionEntry async_entries[] = {
 
 static GtkToggleActionEntry toggle_entries[] = {
 
+	{ "toolbar-show-edit",
+	  NULL,
+	  N_("Edit _toolbar"),
+	  NULL,
+	  N_("Edit toolbar"),
+	  NULL,
+	  FALSE },
+
 	{ "pgp-encrypt",
 	  NULL,
 	  N_("PGP _Encrypt"),
@@ -596,6 +604,8 @@ e_composer_actions_init (EMsgComposer *composer)
 	EHTMLEditor *editor;
 	EContentEditor *cnt_editor;
 	gboolean visible;
+	GSettings *settings;
+	GtkAction *action;
 	GIcon *gcr_gnupg_icon;
 
 	g_return_if_fail (E_IS_MSG_COMPOSER (composer));
@@ -675,13 +685,20 @@ e_composer_actions_init (EMsgComposer *composer)
 
 	#undef init_toolbar_option
 
+	settings = e_util_ref_settings ("org.gnome.evolution.mail");
+	action = ACTION (TOOLBAR_SHOW_EDIT);
+	g_settings_bind (
+		settings, "composer-show-edit-toolbar",
+		action, "active",
+		G_SETTINGS_BIND_DEFAULT);
+	g_object_unref (settings);
+
 	/* Borrow a GnuPG icon from gcr to distinguish between GPG and S/MIME Sign/Encrypt actions */
 	gcr_gnupg_icon = g_themed_icon_new ("gcr-gnupg");
 	if (gcr_gnupg_icon) {
 		GIcon *temp_icon;
 		GIcon *action_icon;
 		GEmblem *emblem;
-		GtkAction *action;
 
 		emblem = g_emblem_new (gcr_gnupg_icon);
 

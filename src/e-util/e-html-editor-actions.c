@@ -685,7 +685,7 @@ html_editor_actions_notify_mode_cb (EHTMLEditor *editor,
 	gtk_widget_set_sensitive (editor->priv->fg_color_combo_box, is_html);
 	gtk_widget_set_sensitive (editor->priv->bg_color_combo_box, is_html);
 
-	if (is_html) {
+	if (is_html && gtk_widget_get_visible (editor->priv->edit_toolbar)) {
 		gtk_widget_show (editor->priv->html_toolbar);
 	} else {
 		gtk_widget_hide (editor->priv->html_toolbar);

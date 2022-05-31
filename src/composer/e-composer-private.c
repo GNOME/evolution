@@ -448,6 +448,11 @@ e_composer_private_constructed (EMsgComposer *composer)
 		G_BINDING_SYNC_CREATE |
 		G_BINDING_INVERT_BOOLEAN);
 
+	e_binding_bind_property (
+		E_HTML_EDITOR_ACTION (editor, "paragraph-style-menu"), "visible",
+		ACTION (TOOLBAR_SHOW_EDIT), "sensitive",
+		G_BINDING_SYNC_CREATE);
+
 	g_object_unref (settings);
 }
 
