@@ -4804,13 +4804,6 @@ file_save_and_close_cb (GtkWidget *widget,
 	save_contact (ce, TRUE);
 }
 
-static void
-file_cancel_cb (GtkWidget *widget,
-                EContactEditor *ce)
-{
-	eab_editor_close (EAB_EDITOR (ce));
-}
-
 /* Callback used when the dialog box is destroyed */
 static gint
 app_delete_event_cb (GtkWidget *widget,
@@ -5053,8 +5046,6 @@ e_contact_editor_init (EContactEditor *e_contact_editor)
 
 	gtk_window_set_type_hint (
 		GTK_WINDOW (widget), GDK_WINDOW_TYPE_HINT_NORMAL);
-	container = gtk_dialog_get_action_area (GTK_DIALOG (widget));
-	gtk_container_set_border_width (GTK_CONTAINER (container), 12);
 	container = gtk_dialog_get_content_area (GTK_DIALOG (widget));
 	gtk_container_set_border_width (GTK_CONTAINER (container), 0);
 
@@ -5087,14 +5078,13 @@ e_contact_editor_init (EContactEditor *e_contact_editor)
 	gtk_label_set_mnemonic_widget (GTK_LABEL (label), widget);
 	widget = e_builder_get_widget (
 		e_contact_editor->priv->builder, "button-ok");
+	/* Already set in UI file but not working */
+	gtk_style_context_add_class (
+		gtk_widget_get_style_context (widget),
+		"suggested-action");
 	g_signal_connect (
 		widget, "clicked",
 		G_CALLBACK (file_save_and_close_cb), e_contact_editor);
-	widget = e_builder_get_widget (
-		e_contact_editor->priv->builder, "button-cancel");
-	g_signal_connect (
-		widget, "clicked",
-		G_CALLBACK (file_cancel_cb), e_contact_editor);
 	widget = e_builder_get_widget (
 		e_contact_editor->priv->builder, "button-help");
 	g_signal_connect (
