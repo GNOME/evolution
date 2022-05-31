@@ -51,6 +51,8 @@ struct _ECompEditorPrivate {
 	ICalComponent *component;
 	guint32 flags;
 
+	GtkWidget *menu_bar;
+
 	EFocusTracker *focus_tracker;
 	GtkUIManager *ui_manager;
 
@@ -2359,8 +2361,8 @@ e_comp_editor_constructed (GObject *object)
 	gtk_container_add (GTK_CONTAINER (comp_editor), widget);
 
 	widget = e_comp_editor_get_managed_widget (comp_editor, "/main-menu");
+	comp_editor->priv->menu_bar = e_menu_bar_new (GTK_MENU_BAR (widget), GTK_WINDOW (comp_editor));
 	gtk_box_pack_start (GTK_BOX (vbox), widget, FALSE, FALSE, 0);
-	gtk_widget_set_visible (widget, TRUE);
 
 	widget = e_comp_editor_get_managed_widget (comp_editor, "/main-toolbar");
 	gtk_box_pack_start (GTK_BOX (vbox), widget, FALSE, FALSE, 0);
@@ -2491,6 +2493,7 @@ e_comp_editor_dispose (GObject *object)
 	g_clear_object (&comp_editor->priv->target_client);
 	g_clear_object (&comp_editor->priv->calendar_settings);
 	g_clear_object (&comp_editor->priv->validation_alert);
+	g_clear_object (&comp_editor->priv->menu_bar);
 
 	comp_editor->priv->activity_bar = NULL;
 
