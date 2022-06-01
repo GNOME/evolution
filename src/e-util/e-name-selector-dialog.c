@@ -987,6 +987,8 @@ add_section (ENameSelectorDialog *name_selector_dialog,
 				&text, NULL, NULL))  {
 		atk_object_set_name (gtk_widget_get_accessible (
 					GTK_WIDGET (section.destination_view)), text);
+		atk_object_set_description (gtk_widget_get_accessible (GTK_WIDGET (section.transfer_button)), text);
+		atk_object_set_description (gtk_widget_get_accessible (GTK_WIDGET (section.remove_button)), text);
 		g_free (text);
 	}
 
