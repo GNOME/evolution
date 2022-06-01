@@ -2149,7 +2149,7 @@ tree_drag_data_get (GtkWidget *widget,
 
 			GPtrArray *uids = camel_folder_get_uids (folder);
 
-			em_utils_selection_set_urilist (selection, folder, uids);
+			em_utils_selection_set_urilist (context, selection, folder, uids);
 			camel_folder_free_uids (folder, uids);
 			g_object_unref (folder);
 		}

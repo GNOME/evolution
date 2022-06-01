@@ -964,6 +964,7 @@ em_utils_build_export_basename (CamelFolder *folder,
 
 /**
  * em_utils_selection_set_urilist:
+ * @context:
  * @data:
  * @folder:
  * @uids:
@@ -973,7 +974,8 @@ em_utils_build_export_basename (CamelFolder *folder,
  * up when the application quits.
  **/
 void
-em_utils_selection_set_urilist (GtkSelectionData *data,
+em_utils_selection_set_urilist (GdkDragContext *context,
+				GtkSelectionData *data,
                                 CamelFolder *folder,
                                 GPtrArray *uids)
 {
@@ -992,6 +994,20 @@ em_utils_selection_set_urilist (GtkSelectionData *data,
 	/* can be 0 with empty folders */
 	if (!uids->len)
 		return;
+
+	/* Use cached value from the last call, if exists */
+	tmpdir = g_object_get_data (G_OBJECT (context), "evo-urilist");
+	if (tmpdir) {
+		GdkAtom type;
+
+		type = gtk_selection_data_get_target (data);
+		gtk_selection_data_set (
+			data, type, 8,
+			(guchar *) tmpdir,
+			strlen (tmpdir));
+
+		return;
+	}
 
 	tmpdir = e_mkdtemp ("drag-n-drop-XXXXXX");
 	if (tmpdir == NULL)
@@ -1052,7 +1068,9 @@ em_utils_selection_set_urilist (GtkSelectionData *data,
 					data, type, 8,
 					(guchar *) uri_crlf,
 					strlen (uri_crlf));
-				g_free (uri_crlf);
+
+				/* Remember it, to not regenerate it, when the target widget asks for the data again */
+				g_object_set_data_full (G_OBJECT (context), "evo-urilist", uri_crlf, g_free);
 			}
 			g_object_unref (fstream);
 		} else
@@ -1102,7 +1120,12 @@ em_utils_selection_set_urilist (GtkSelectionData *data,
 			g_free (filename);
 		}
 
-		gtk_selection_data_set_uris (data, uris);
+		if (gtk_selection_data_set_uris (data, uris)) {
+			/* Remember it, to not regenerate it, when the target widget asks for the data again */
+			g_object_set_data_full (G_OBJECT (context), "evo-urilist",
+				g_strndup ((const gchar *) gtk_selection_data_get_data (data), gtk_selection_data_get_length (data)),
+				g_free);
+		}
 
 		g_strfreev (uris);
 	}
