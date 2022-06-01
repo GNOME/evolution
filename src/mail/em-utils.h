@@ -55,7 +55,7 @@ void em_utils_selection_get_mailbox (GtkSelectionData *data, CamelFolder *folder
 void em_utils_selection_get_message (GtkSelectionData *data, CamelFolder *folder);
 void em_utils_selection_set_uidlist (GtkSelectionData *data, CamelFolder *folder, GPtrArray *uids);
 void em_utils_selection_get_uidlist (GtkSelectionData *data, EMailSession *session, CamelFolder *dest, gint move, GCancellable *cancellable, GError **error);
-void em_utils_selection_set_urilist (GtkSelectionData *data, CamelFolder *folder, GPtrArray *uids);
+void em_utils_selection_set_urilist (GdkDragContext *context, GtkSelectionData *data, CamelFolder *folder, GPtrArray *uids);
 void em_utils_selection_get_urilist (GtkSelectionData *data, CamelFolder *folder);
 
 /* Return TRUE to continue, FALSE to stop further processing */

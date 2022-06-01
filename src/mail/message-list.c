@@ -2627,7 +2627,7 @@ ml_tree_drag_data_get (ETree *tree,
 			em_utils_selection_set_uidlist (data, folder, uids);
 			break;
 		case DND_TEXT_URI_LIST:
-			em_utils_selection_set_urilist (data, folder, uids);
+			em_utils_selection_set_urilist (context, data, folder, uids);
 			break;
 		}
 	}

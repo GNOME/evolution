@@ -1674,6 +1674,13 @@ e_attachment_view_drag_data_get (EAttachmentView *view,
 	g_return_if_fail (GDK_IS_DRAG_CONTEXT (context));
 	g_return_if_fail (selection != NULL);
 
+	status.uris = g_object_get_data (G_OBJECT (context), "evo-attach-urilist");
+
+	if (status.uris) {
+		gtk_selection_data_set_uris (selection, status.uris);
+		return;
+	}
+
 	status.uris = NULL;
 	status.done = FALSE;
 
@@ -1693,10 +1700,13 @@ e_attachment_view_drag_data_get (EAttachmentView *view,
 		if (gtk_main_iteration ())
 			break;
 
-	if (status.uris != NULL)
+	if (status.uris) {
 		gtk_selection_data_set_uris (selection, status.uris);
 
-	g_strfreev (status.uris);
+		/* Remember it, to not regenerate it, when the target widget asks for the data again */
+		g_object_set_data_full (G_OBJECT (context), "evo-attach-urilist",
+			status.uris, (GDestroyNotify) g_strfreev);
+	}
 }
 
 void
