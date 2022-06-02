@@ -34,6 +34,7 @@ span.navigable, div.navigable, p.navigable {
 img#__evo-contact-photo {
   max-width: 96px;
   max-height: 96px;
+  border-radius: 50%;
 }
 
 img.navigable {
