@@ -12,8 +12,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: evolution\n"
 "Report-Msgid-Bugs-To: https://gitlab.gnome.org/GNOME/evolution/issues\n"
-"POT-Creation-Date: 2022-05-26 07:30+0000\n"
-"PO-Revision-Date: 2022-05-26 14:40+0300\n"
+"POT-Creation-Date: 2022-06-03 06:01+0000\n"
+"PO-Revision-Date: 2022-06-03 09:17+0300\n"
 "Last-Translator: Yuri Chornoivan <yurchor@ukr.net>\n"
 "Language-Team: Ukrainian <trans-uk@lists.fedoraproject.org>\n"
 "Language: uk\n"
@@ -1101,8 +1101,8 @@ msgid ""
 "Leave empty to use a yellow color derived from the current theme, otherwise "
 "use the color of form `#RRGGBB`"
 msgstr ""
-"Залиште порожнім, якщо слід скористатися жовтим кольором на основі поточної"
-" теми. Якщо хочете вказати колір, скористайтеся форматом «#ЧЧЗЗСС»"
+"Залиште порожнім, якщо слід скористатися жовтим кольором на основі поточної "
+"теми. Якщо хочете вказати колір, скористайтеся форматом «#ЧЧЗЗСС»"
 
 #: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:176
 msgid "(Deprecated) First day of the week, from Sunday (0) to Saturday (6)"
@@ -4248,7 +4248,7 @@ msgstr ""
 #: ../src/calendar/gui/e-comp-editor-page-general.c:1497
 #: ../src/e-util/e-accounts-window.c:1563
 #: ../src/e-util/e-mail-signature-manager.c:324
-#: ../src/e-util/e-name-selector-dialog.c:1026 ../src/e-util/filter.ui.h:25
+#: ../src/e-util/e-name-selector-dialog.c:1028 ../src/e-util/filter.ui.h:25
 #: ../src/mail/e-mail-account-manager.c:721
 #: ../src/mail/e-mail-label-manager.c:355
 #: ../src/mail/em-folder-properties.c:1359
@@ -4774,7 +4774,7 @@ msgstr "Add _X.509"
 #: ../src/calendar/gui/e-comp-editor-page-general.c:1513
 #: ../src/e-util/e-attachment-view.c:355 ../src/e-util/e-filter-rule.c:409
 #: ../src/e-util/e-mail-signature-manager.c:364
-#: ../src/e-util/e-name-selector-dialog.c:1030
+#: ../src/e-util/e-name-selector-dialog.c:1032
 #: ../src/e-util/filter.error.xml.h:18 ../src/e-util/filter.ui.h:27
 #: ../src/mail/e-mail-config-identity-page.c:872
 #: ../src/mail/e-mail-label-manager.c:373 ../src/mail/em-filter-rule.c:678
@@ -12900,7 +12900,7 @@ msgstr "елемент календаря Evolution"
 
 #: ../src/e-util/e-accounts-window.c:557 ../src/e-util/e-accounts-window.c:674
 #: ../src/e-util/e-accounts-window.c:894
-#: ../src/modules/mail/e-mail-shell-backend.c:1117
+#: ../src/modules/mail/e-mail-shell-backend.c:1131
 msgid "Mail Accounts"
 msgstr "Облікові записи"
 
@@ -13529,7 +13529,7 @@ msgstr "_Шукати"
 
 #: ../src/e-util/e-collection-account-wizard.c:112
 #: ../src/e-util/e-collection-account-wizard.c:275
-#: ../src/e-util/e-search-bar.c:653
+#: ../src/e-util/e-search-bar.c:682
 #: ../src/modules/accounts-window/e-collection-wizard-page.c:85
 #: ../src/modules/accounts-window/e-collection-wizard-page.c:244
 msgid "_Next"
@@ -13540,7 +13540,7 @@ msgid "New Collection Account"
 msgstr "Новий обліковий запис-збірка"
 
 #: ../src/e-util/e-collection-account-wizard.c:260
-#: ../src/e-util/e-search-bar.c:641
+#: ../src/e-util/e-search-bar.c:670
 #: ../src/modules/accounts-window/e-collection-wizard-page.c:78
 msgid "_Previous"
 msgstr "П_опереднє"
@@ -15875,7 +15875,7 @@ msgid "_Search:"
 msgstr "По_шук :"
 
 #: ../src/e-util/e-name-selector-dialog.c:363
-#: ../src/e-util/e-name-selector-dialog.c:1322
+#: ../src/e-util/e-name-selector-dialog.c:1324
 #: ../src/modules/addressbook/e-book-shell-view-actions.c:1271
 #: ../src/modules/calendar/e-cal-shell-view-actions.c:1852
 #: ../src/modules/calendar/e-memo-shell-view-actions.c:783
@@ -16077,40 +16077,40 @@ msgstr "Додати правило"
 msgid "Edit Rule"
 msgstr "Змінити правило"
 
-#: ../src/e-util/e-search-bar.c:82
+#: ../src/e-util/e-search-bar.c:85
 #, c-format
 msgid "Matches: %u"
 msgstr "Збігів: %u"
 
-#: ../src/e-util/e-search-bar.c:597
+#: ../src/e-util/e-search-bar.c:625
 msgid "Close the find bar"
 msgstr "Закрити рядок пошуку"
 
-#: ../src/e-util/e-search-bar.c:605
+#: ../src/e-util/e-search-bar.c:634
 msgid "Fin_d:"
 msgstr "З_найти:"
 
-#: ../src/e-util/e-search-bar.c:617
+#: ../src/e-util/e-search-bar.c:646
 msgid "Clear the search"
 msgstr "Очистити пошук"
 
-#: ../src/e-util/e-search-bar.c:644
+#: ../src/e-util/e-search-bar.c:673
 msgid "Find the previous occurrence of the phrase"
 msgstr "Знайти попереднє входження фрази"
 
-#: ../src/e-util/e-search-bar.c:656
+#: ../src/e-util/e-search-bar.c:685
 msgid "Find the next occurrence of the phrase"
 msgstr "Знайти наступне входження фрази"
 
-#: ../src/e-util/e-search-bar.c:665
+#: ../src/e-util/e-search-bar.c:694
 msgid "Mat_ch case"
 msgstr "Збігається _регістр"
 
-#: ../src/e-util/e-search-bar.c:693
+#: ../src/e-util/e-search-bar.c:722
 msgid "Reached bottom of page, continued from top"
 msgstr "Досягнуто кінця сторінки, починаю згори"
 
-#: ../src/e-util/e-search-bar.c:715
+#: ../src/e-util/e-search-bar.c:744
 msgid "Reached top of page, continued from bottom"
 msgstr "Досягнуто верху сторінки, починаю знизу"
 
@@ -17109,7 +17109,7 @@ msgstr ""
 msgid "Show filters for mail:"
 msgstr "Показувати фільтри для пошти:"
 
-#: ../src/e-util/filter.ui.h:22 ../src/mail/em-filter-editor.c:401
+#: ../src/e-util/filter.ui.h:22 ../src/mail/em-filter-editor.c:409
 msgid "_Filter Rules"
 msgstr "Правила _фільтрування"
 
@@ -17992,7 +17992,7 @@ msgstr "%s — %s"
 #: ../src/modules/addressbook/autocompletion-config.c:115
 #: ../src/modules/calendar/e-calendar-preferences.c:622
 #: ../src/modules/calendar/e-calendar-preferences.ui.h:53
-#: ../src/modules/mail/e-mail-shell-backend.c:1009
+#: ../src/modules/mail/e-mail-shell-backend.c:1010
 #: ../src/plugins/publish-calendar/publish-calendar.ui.h:17
 msgid "General"
 msgstr "Загальне"
@@ -19449,40 +19449,40 @@ msgstr "Опис фільтрів"
 #. Translators: The first '%s' is replaced with the rule name;
 #. the second '%s' with 'enabled' or 'disabled' word;
 #. the third '%s' is replaced with the account name
-#: ../src/mail/em-filter-editor.c:167
+#: ../src/mail/em-filter-editor.c:175
 #, c-format
 msgid "%s (%s, for account %s)"
 msgstr "%s (%s для облікового запису %s)"
 
-#: ../src/mail/em-filter-editor.c:167 ../src/mail/em-filter-editor.c:171
+#: ../src/mail/em-filter-editor.c:175 ../src/mail/em-filter-editor.c:179
 msgid "enabled"
 msgstr "увімкнено"
 
-#: ../src/mail/em-filter-editor.c:167 ../src/mail/em-filter-editor.c:171
+#: ../src/mail/em-filter-editor.c:175 ../src/mail/em-filter-editor.c:179
 msgid "disabled"
 msgstr "вимкнено"
 
 #. Translators: The first '%s' is replaced with the rule name;
 #. the second '%s' with 'enabled' or 'disabled' word
-#: ../src/mail/em-filter-editor.c:171
+#: ../src/mail/em-filter-editor.c:179
 #, c-format
 msgid "%s (%s, for any account)"
 msgstr "%s (%s для будь-якого облікового запису)"
 
-#: ../src/mail/em-filter-editor.c:183
+#: ../src/mail/em-filter-editor.c:191
 msgid "If all the following conditions are met"
 msgstr "Якщо виконано усі наступні умови"
 
-#: ../src/mail/em-filter-editor.c:186
+#: ../src/mail/em-filter-editor.c:194
 msgid "If any of the following conditions are met"
 msgstr "Якщо виконано будь-яку з наступних умов"
 
 #. and now for the action area
-#: ../src/mail/em-filter-editor.c:203 ../src/mail/em-filter-rule.c:1006
+#: ../src/mail/em-filter-editor.c:211 ../src/mail/em-filter-rule.c:1006
 msgid "Then"
 msgstr "Потім"
 
-#: ../src/mail/em-filter-editor.c:408
+#: ../src/mail/em-filter-editor.c:416
 msgid "De_scribe Filters…"
 msgstr "_Описати фільтри…"
 
@@ -19872,24 +19872,24 @@ msgstr[3] "Відкрити %d повідомлення одночасно?"
 msgid "Message Filters"
 msgstr "Фільтри повідомлень"
 
-#: ../src/mail/em-utils.c:1022
+#: ../src/mail/em-utils.c:1038
 #, c-format
 msgid "Messages from %s"
 msgstr "Повідомлення від %s"
 
 #. Translators: This is a reply attribution in the message reply subject. Both 'Re'-s in the 'reply-attribution' translation context should translate into the same string.
-#: ../src/mail/em-utils.c:1626
+#: ../src/mail/em-utils.c:1649
 msgctxt "reply-attribution"
 msgid "Re"
 msgstr "На"
 
 #. Translators: This is a reply attribution separator in the message reply subject. This should match the ':' in 'Re: %s' in the 'reply-attribution' translation context.
-#: ../src/mail/em-utils.c:1629
+#: ../src/mail/em-utils.c:1652
 msgctxt "reply-attribution"
 msgid ":"
 msgstr ":"
 
-#: ../src/mail/em-utils.c:1929
+#: ../src/mail/em-utils.c:1952
 msgid "Deleting old messages"
 msgstr "Вилучення старих листів"
 
@@ -25639,76 +25639,80 @@ msgstr "Створити нову поштову теку"
 
 #. Translators: One of the known implementation names of the GNetworkMonitor. Either translate
 #. it to some user-friendly form, or keep it as is.
-#: ../src/modules/mail/e-mail-shell-backend.c:988
+#: ../src/modules/mail/e-mail-shell-backend.c:989
 msgctxt "NetworkMonitor"
 msgid "base"
 msgstr "base"
 
 #. Translators: One of the known implementation names of the GNetworkMonitor. Either translate
 #. it to some user-friendly form, or keep it as is.
-#: ../src/modules/mail/e-mail-shell-backend.c:991
+#: ../src/modules/mail/e-mail-shell-backend.c:992
 msgctxt "NetworkMonitor"
 msgid "netlink"
 msgstr "netlink"
 
 #. Translators: One of the known implementation names of the GNetworkMonitor. Either translate
 #. it to some user-friendly form, or keep it as is.
-#: ../src/modules/mail/e-mail-shell-backend.c:994
+#: ../src/modules/mail/e-mail-shell-backend.c:995
 msgctxt "NetworkMonitor"
 msgid "networkmanager"
 msgstr "networkmanager"
 
-#: ../src/modules/mail/e-mail-shell-backend.c:1025
+#: ../src/modules/mail/e-mail-shell-backend.c:1026
 msgctxt "NetworkMonitor"
 msgid "Method to detect _online state:"
 msgstr "Спосіб визначення стану _мережі:"
 
 #. Translators: The '%s' is replaced with the actual name of the GNetworkMonitor implementation
-#: ../src/modules/mail/e-mail-shell-backend.c:1036
+#: ../src/modules/mail/e-mail-shell-backend.c:1037
 #, c-format
 msgctxt "NetworkMonitor"
 msgid "Default (%s)"
 msgstr "Типове (%s)"
 
 #. Always as the first
-#: ../src/modules/mail/e-mail-shell-backend.c:1040
+#: ../src/modules/mail/e-mail-shell-backend.c:1041
 msgctxt "NetworkMonitor"
 msgid "Default"
 msgstr "Типовий"
 
 #. Always as the last
-#: ../src/modules/mail/e-mail-shell-backend.c:1057
+#: ../src/modules/mail/e-mail-shell-backend.c:1058
 msgctxt "NetworkMonitor"
 msgid "Always Online"
 msgstr "Завжди в мережі"
 
-#: ../src/modules/mail/e-mail-shell-backend.c:1126
+#: ../src/modules/mail/e-mail-shell-backend.c:1073
+msgid "_Limit operations in Power Saver mode"
+msgstr "_Обмежити дії у режимі заощадження енергії"
+
+#: ../src/modules/mail/e-mail-shell-backend.c:1140
 msgid "Mail Preferences"
 msgstr "Параметри пошти"
 
-#: ../src/modules/mail/e-mail-shell-backend.c:1135
+#: ../src/modules/mail/e-mail-shell-backend.c:1149
 msgid "Composer Preferences"
 msgstr "Параметри редактора"
 
-#: ../src/modules/mail/e-mail-shell-backend.c:1144
+#: ../src/modules/mail/e-mail-shell-backend.c:1158
 msgid "Network Preferences"
 msgstr "Параметри мережі"
 
 #. Translators: The first item in the list, to be
 #. * able to set rule: [Label] [is/is-not] [None]
-#: ../src/modules/mail/e-mail-shell-backend.c:1505
+#: ../src/modules/mail/e-mail-shell-backend.c:1519
 msgctxt "label"
 msgid "None"
 msgstr "Немає"
 
 #. Translators: Meaning "any configured addressbook included in autocompletion" in the filter dialog
-#: ../src/modules/mail/e-mail-shell-backend.c:1714
+#: ../src/modules/mail/e-mail-shell-backend.c:1728
 msgctxt "addrbook"
 msgid "Included in Autocompletion"
 msgstr "Включені до автодоповнення"
 
 #. Translators: Meaning "any configured addressbook" in the filter dialog
-#: ../src/modules/mail/e-mail-shell-backend.c:1720
+#: ../src/modules/mail/e-mail-shell-backend.c:1734
 msgctxt "addrbook"
 msgid "Any"
 msgstr "Будь-яка"
