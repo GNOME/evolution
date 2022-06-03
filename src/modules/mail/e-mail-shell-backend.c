@@ -977,6 +977,7 @@ mail_shell_backend_create_network_page (EPreferencesWindow *window)
 	ESourceRegistry *registry;
 	GtkBox *vbox, *hbox;
 	GtkWidget *widget, *label;
+	GSettings *eds_settings;
 	PangoAttrList *bold;
 	ENetworkMonitor *network_monitor;
 	GSList *gio_names, *link;
@@ -1066,6 +1067,19 @@ mail_shell_backend_create_network_page (EPreferencesWindow *window)
 
 	gtk_widget_show_all (GTK_WIDGET (hbox));
 	gtk_box_pack_start (vbox, GTK_WIDGET (hbox), FALSE, FALSE, 0);
+
+	eds_settings = e_util_ref_settings ("org.gnome.evolution-data-server");
+
+	widget = gtk_check_button_new_with_mnemonic (_("_Limit operations in Power Saver mode"));
+	g_settings_bind (
+		eds_settings, "limit-operations-in-power-saver-mode",
+		widget, "active",
+		G_SETTINGS_BIND_DEFAULT);
+	gtk_widget_set_margin_start (widget, 12);
+	gtk_widget_show (widget);
+	gtk_box_pack_start (vbox, widget, FALSE, FALSE, 0);
+
+	g_clear_object (&eds_settings);
 
 	widget = e_proxy_preferences_new (registry);
 	gtk_widget_show (widget);
