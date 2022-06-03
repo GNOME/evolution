@@ -32,7 +32,8 @@ G_DEFINE_TYPE (EMailStripSigFilter, e_mail_stripsig_filter, CAMEL_TYPE_MIME_FILT
 static gboolean
 is_html_newline_marker (const gchar *text,
 			gint len,
-			gint *advance_by_chars)
+			gint *advance_by_chars,
+			gboolean *out_need_more_chars)
 {
 	const gchar *cases[] = {
 		"<br>",
@@ -48,10 +49,11 @@ is_html_newline_marker (const gchar *text,
 		NULL };
 	gint ii;
 
-	if (!text || !*text || !advance_by_chars)
+	if (!text || !*text || !advance_by_chars || !out_need_more_chars)
 		return FALSE;
 
 	*advance_by_chars = 0;
+	*out_need_more_chars = FALSE;
 
 	for (ii = 0; cases[ii]; ii++) {
 		gint caselen = strlen (cases[ii]);
@@ -59,12 +61,17 @@ is_html_newline_marker (const gchar *text,
 		if (len >= caselen && g_ascii_strncasecmp (text, cases[ii], caselen) == 0) {
 			if (cases[ii][caselen - 1] != '>') {
 				/* Need to find the tag end, in a lazy way */
-				while (text[caselen] && text[caselen] != '>')
+				while (caselen < len && text[caselen] && text[caselen] != '>')
 					caselen++;
 
 				/* Advance after the '>' */
-				if (text[caselen])
+				if (caselen < len && text[caselen])
 					caselen++;
+
+				if (caselen >= len) {
+					*out_need_more_chars = TRUE;
+					return FALSE;
+				}
 			}
 
 			*advance_by_chars = caselen;
@@ -90,17 +97,23 @@ strip_signature (CamelMimeFilter *filter,
 	const gchar *inend = in + len;
 	const gchar *start = NULL;
 	gint advance_by_chars = 0;
+	gboolean need_more_chars = FALSE;
 
 	if (stripsig->midline) {
 		while (inptr < inend && *inptr != '\n' && (stripsig->text_plain_only ||
-		       !is_html_newline_marker (inptr, inend - inptr, &advance_by_chars)))
+		       !is_html_newline_marker (inptr, inend - inptr, &advance_by_chars, &need_more_chars))) {
+			if (need_more_chars && !flush)
+				goto read_more;
 			inptr++;
+		}
 
-		if (!stripsig->text_plain_only && is_html_newline_marker (inptr, inend - inptr, &advance_by_chars)) {
+		if (!stripsig->text_plain_only && is_html_newline_marker (inptr, inend - inptr, &advance_by_chars, &need_more_chars)) {
 			stripsig->midline = FALSE;
 			inptr += advance_by_chars;
 		} else if (inptr < inend) {
 			stripsig->midline = FALSE;
+			if (need_more_chars && !flush)
+				goto read_more;
 			inptr++;
 		}
 	}
@@ -116,16 +129,21 @@ strip_signature (CamelMimeFilter *filter,
 			inptr += 7;
 		} else {
 			while (inptr < inend && *inptr != '\n' && (stripsig->text_plain_only ||
-			       !is_html_newline_marker (inptr, inend - inptr, &advance_by_chars)))
+			       !is_html_newline_marker (inptr, inend - inptr, &advance_by_chars, &need_more_chars))) {
+				if (need_more_chars && !flush)
+					goto read_more;
 				inptr++;
+			}
 
 			if (inptr == inend) {
 				stripsig->midline = TRUE;
 				break;
 			}
 
-			if (!stripsig->text_plain_only && is_html_newline_marker (inptr, inend - inptr, &advance_by_chars))
+			if (!stripsig->text_plain_only && is_html_newline_marker (inptr, inend - inptr, &advance_by_chars, &need_more_chars))
 				inptr += advance_by_chars;
+			else if (need_more_chars && !flush)
+				goto read_more;
 			else
 				inptr++;
 		}
@@ -136,6 +154,7 @@ strip_signature (CamelMimeFilter *filter,
 		stripsig->midline = FALSE;
 	}
 
+ read_more:
 	if (!flush && inend > inptr)
 		camel_mime_filter_backup (filter, inptr, inend - inptr);
 	else if (!start)
