@@ -446,7 +446,7 @@ static GtkToggleActionEntry toggle_entries[] = {
 	  FALSE },
 
 	{ "prioritize-message",
-	  NULL,
+	  "mail-mark-important",
 	  N_("_Prioritize Message"),
 	  NULL,
 	  N_("Set the message priority to high"),
@@ -454,7 +454,7 @@ static GtkToggleActionEntry toggle_entries[] = {
 	  FALSE },
 
 	{ "request-read-receipt",
-	  NULL,
+	  "preferences-system-notifications",
 	  N_("Re_quest Read Receipt"),
 	  NULL,
 	  N_("Get delivery notification when your message is read"),
@@ -487,22 +487,6 @@ static GtkToggleActionEntry toggle_entries[] = {
 
 	{ "toolbar-pgp-sign",
 	  "stock_signature",
-	  NULL,
-	  NULL,
-	  NULL,
-	  NULL,
-	  FALSE },
-
-	{ "toolbar-prioritize-message",
-	  "emblem-important",
-	  NULL,
-	  NULL,
-	  NULL,
-	  NULL,
-	  FALSE },
-
-	{ "toolbar-request-read-receipt",
-	  "mail-forward",
 	  NULL,
 	  NULL,
 	  NULL,
@@ -678,8 +662,6 @@ e_composer_actions_init (EMsgComposer *composer)
 
 	init_toolbar_option (PGP_SIGN, FALSE);
 	init_toolbar_option (PGP_ENCRYPT, FALSE);
-	init_toolbar_option (PRIORITIZE_MESSAGE, TRUE);
-	init_toolbar_option (REQUEST_READ_RECEIPT, TRUE);
 	init_toolbar_option (SMIME_SIGN, FALSE);
 	init_toolbar_option (SMIME_ENCRYPT, FALSE);
 

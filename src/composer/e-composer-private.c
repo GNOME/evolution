@@ -81,6 +81,39 @@ composer_update_gallery_visibility (EMsgComposer *composer)
 	}
 }
 
+static GtkWidget *
+composer_construct_header_bar (EMsgComposer *composer)
+{
+	GtkWidget *widget;
+	GtkWidget *button;
+
+	widget = gtk_header_bar_new ();
+	gtk_widget_show (widget);
+	gtk_header_bar_set_show_close_button (GTK_HEADER_BAR (widget), TRUE);
+
+	button = e_header_bar_button_new (_("Send"), ACTION (SEND));
+	e_header_bar_button_css_add_class (E_HEADER_BAR_BUTTON (button), "suggested-action");
+	gtk_widget_show (button);
+	gtk_header_bar_pack_start (GTK_HEADER_BAR (widget), button);
+
+	button = e_header_bar_button_new (NULL, ACTION (SAVE_DRAFT));
+	e_header_bar_button_css_add_class (E_HEADER_BAR_BUTTON (button), "flat");
+	gtk_widget_show (button);
+	gtk_header_bar_pack_start (GTK_HEADER_BAR (widget), button);
+
+	button = e_header_bar_button_new (NULL, ACTION (PRIORITIZE_MESSAGE));
+	e_header_bar_button_css_add_class (E_HEADER_BAR_BUTTON (button), "flat");
+	gtk_widget_show (button);
+	gtk_header_bar_pack_end (GTK_HEADER_BAR (widget), button);
+
+	button = e_header_bar_button_new (NULL, ACTION (REQUEST_READ_RECEIPT));
+	e_header_bar_button_css_add_class (E_HEADER_BAR_BUTTON (button), "flat");
+	gtk_widget_show (button);
+	gtk_header_bar_pack_end (GTK_HEADER_BAR (widget), button);
+
+	return widget;
+}
+
 static gchar *
 e_composer_extract_lang_from_source (ESourceRegistry *registry,
 				     const gchar *uid)
@@ -194,10 +227,8 @@ e_composer_private_constructed (EMsgComposer *composer)
 	GtkAction *action;
 	GtkWidget *container;
 	GtkWidget *widget;
-	GtkWidget *send_widget;
 	GtkWindow *window;
 	GSettings *settings;
-	const gchar *path;
 	gchar *filename, *gallery_path;
 	gint ii;
 	GError *error = NULL;
@@ -242,11 +273,6 @@ e_composer_private_constructed (EMsgComposer *composer)
 	gtk_ui_manager_add_ui_from_file (ui_manager, filename, &error);
 	g_free (filename);
 
-	/* We set the send button as important to have a label */
-	path = "/main-toolbar/pre-main-toolbar/send";
-	send_widget = gtk_ui_manager_get_widget (ui_manager, path);
-	gtk_tool_item_set_is_important (GTK_TOOL_ITEM (send_widget), TRUE);
-
 	composer_setup_charset_menu (composer);
 
 	if (error != NULL) {
@@ -269,7 +295,10 @@ e_composer_private_constructed (EMsgComposer *composer)
 
 	container = widget;
 
-	/* Construct the main menu and toolbar. */
+	/* Construct the main menu and headerbar. */
+
+	widget = composer_construct_header_bar (composer);
+	gtk_window_set_titlebar (window, widget);
 
 	widget = e_html_editor_get_managed_widget (editor, "/main-menu");
 
