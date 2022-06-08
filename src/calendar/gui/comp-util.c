@@ -888,7 +888,7 @@ comp_util_suggest_filename (ICalComponent *icomp,
 	if (!icomp)
 		return g_strconcat (default_name, ".ics", NULL);
 
-	prop = i_cal_component_get_first_property (icomp, I_CAL_SUMMARY_PROPERTY);
+	prop = e_cal_util_component_find_property_for_locale (icomp, I_CAL_SUMMARY_PROPERTY, NULL);
 	if (prop)
 		summary = i_cal_property_get_summary (prop);
 
@@ -2204,6 +2204,7 @@ cal_comp_util_dup_tooltip (ECalComponent *comp,
 	ECalComponentOrganizer *organizer;
 	ECalComponentDateTime *dtstart, *dtend;
 	ICalComponent *icalcomp;
+	ICalProperty *prop;
 	ICalTimezone *zone;
 	GString *tooltip;
 	const gchar *description;
@@ -2385,7 +2386,8 @@ cal_comp_util_dup_tooltip (ECalComponent *comp,
 		g_clear_pointer (&tmp, g_free);
 	}
 
-	description = i_cal_component_get_description (icalcomp);
+	prop = e_cal_util_component_find_property_for_locale (icalcomp, I_CAL_DESCRIPTION_PROPERTY, NULL);
+	description = prop ? i_cal_property_get_description (prop) : NULL;
 	if (description && *description && g_utf8_validate (description, -1, NULL) &&
 	    !g_str_equal (description, "\r") &&
 	    !g_str_equal (description, "\n") &&
@@ -2410,6 +2412,8 @@ cal_comp_util_dup_tooltip (ECalComponent *comp,
 		e_util_markup_append_escaped_text (tooltip, tmp ? tmp : description);
 		g_clear_pointer (&tmp, g_free);
 	}
+
+	g_clear_object (&prop);
 
 	return g_string_free (tooltip, FALSE);
 }

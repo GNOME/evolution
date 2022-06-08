@@ -3483,6 +3483,7 @@ e_day_view_update_event_label (EDayView *day_view,
 	ESourceRegistry *registry;
 	ECalModel *model;
 	gboolean free_text = FALSE, editing_event = FALSE, short_event = FALSE;
+	ICalProperty *prop;
 	const gchar *summary;
 	gchar *text;
 	gint time_divisions;
@@ -3497,7 +3498,8 @@ e_day_view_update_event_label (EDayView *day_view,
 	if (!event->canvas_item || !is_comp_data_valid (event))
 		return;
 
-	summary = i_cal_component_get_summary (event->comp_data->icalcomp);
+	prop = e_cal_util_component_find_property_for_locale (event->comp_data->icalcomp, I_CAL_SUMMARY_PROPERTY, NULL);
+	summary = prop ? i_cal_property_get_summary (prop) : NULL;
 	text = summary ? (gchar *) summary : (gchar *) "";
 
 	if (day_view->editing_event_day == day
@@ -3524,11 +3526,13 @@ e_day_view_update_event_label (EDayView *day_view,
 
 	if (!editing_event) {
 		if (!short_event) {
+			ICalProperty *prop_description;
 			const gchar *description, *location;
 			gint days_shown;
 
 			days_shown = e_day_view_get_days_shown (day_view);
-			description = i_cal_component_get_description (event->comp_data->icalcomp);
+			prop_description = e_cal_util_component_find_property_for_locale (event->comp_data->icalcomp, I_CAL_DESCRIPTION_PROPERTY, NULL);
+			description = prop_description ? i_cal_property_get_description (prop_description) : NULL;
 			location = i_cal_component_get_location (event->comp_data->icalcomp);
 
 			if (description && *description) {
@@ -3542,6 +3546,8 @@ e_day_view_update_event_label (EDayView *day_view,
 				text = g_strdup_printf (" \n%s", text);
 
 			free_text = TRUE;
+
+			g_clear_object (&prop_description);
 		}
 	}
 
@@ -3557,6 +3563,7 @@ e_day_view_update_event_label (EDayView *day_view,
 
 	if (free_text)
 		g_free (text);
+	g_clear_object (&prop);
 }
 
 static void

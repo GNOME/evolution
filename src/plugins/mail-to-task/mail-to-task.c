@@ -753,9 +753,15 @@ do_manage_comp_idle (struct _manage_comp *mc)
 		const gchar *ask = get_question_edit_old (source_type);
 
 		if (ask) {
-			gchar *msg = g_strdup_printf (ask, i_cal_component_get_summary (mc->stored_comp) ? i_cal_component_get_summary (mc->stored_comp) : _("[No Summary]"));
+			ICalProperty *prop;
+			const gchar *summary;
+			gchar *msg;
 			gint chosen;
 
+			prop = e_cal_util_component_find_property_for_locale (mc->stored_comp, I_CAL_SUMMARY_PROPERTY, NULL);
+			summary = prop ? i_cal_property_get_summary (prop) : NULL;
+			msg = g_strdup_printf (ask, summary && *summary ? summary : _("[No Summary]"));
+			g_clear_object (&prop);
 			chosen = do_ask (msg, TRUE);
 
 			if (chosen == GTK_RESPONSE_YES) {

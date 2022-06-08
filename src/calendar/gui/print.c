@@ -2461,7 +2461,7 @@ print_todo_details (GtkPrintContext *context,
 		if (!comp)
 			continue;
 
-		summary = e_cal_component_get_summary (comp);
+		summary = e_cal_component_dup_summary_for_locale (comp, NULL);
 		if (!summary || !e_cal_component_text_get_value (summary)) {
 			e_cal_component_text_free (summary);
 			g_object_unref (comp);
@@ -3612,7 +3612,7 @@ print_comp_draw_real (GtkPrintOperation *operation,
 
 	/* Summary */
 	font = get_font_for_size (18, PANGO_WEIGHT_BOLD);
-	text = e_cal_component_get_summary (comp);
+	text = e_cal_component_dup_summary_for_locale (comp, NULL);
 	summary_string = g_strdup_printf (_("Summary: %s"), (text && e_cal_component_text_get_value (text)) ? e_cal_component_text_get_value (text) : "");
 	top = bound_text (
 		context, font, summary_string, -1, 0.0, top, width,
@@ -3797,27 +3797,51 @@ print_comp_draw_real (GtkPrintOperation *operation,
 	top += 16;
 
 	/* Description */
-	desc = e_cal_component_get_descriptions (comp);
-	for (elem = desc; elem; elem = g_slist_next (elem)) {
-		ECalComponentText *ptext = elem->data;
-		const gchar *line, *next_line;
+	if (e_cal_component_get_vtype (comp) == E_CAL_COMPONENT_JOURNAL) {
+		desc = e_cal_component_get_descriptions (comp);
+		for (elem = desc; elem; elem = g_slist_next (elem)) {
+			ECalComponentText *ptext = elem->data;
+			const gchar *line, *next_line;
 
-		for (line = e_cal_component_text_get_value (ptext); line != NULL; line = next_line) {
-			next_line = strchr (line, '\n');
+			for (line = e_cal_component_text_get_value (ptext); line != NULL; line = next_line) {
+				next_line = strchr (line, '\n');
 
-			top = bound_text (
-				context, font, line,
-				next_line ? next_line - line : -1,
-				0.0, top + 3, width, height, TRUE, NULL,
-				&page_start, &pages);
+				top = bound_text (
+					context, font, line,
+					next_line ? next_line - line : -1,
+					0.0, top + 3, width, height, TRUE, NULL,
+					&page_start, &pages);
 
-			if (next_line) {
-				next_line++;
-				if (!*next_line)
-					next_line = NULL;
+				if (next_line) {
+					next_line++;
+					if (!*next_line)
+						next_line = NULL;
+				}
 			}
 		}
+	} else {
+		text = e_cal_component_dup_description_for_locale (comp, NULL);
 
+		if (text) {
+			const gchar *line, *next_line;
+
+			for (line = e_cal_component_text_get_value (text); line != NULL; line = next_line) {
+				next_line = strchr (line, '\n');
+
+				top = bound_text (
+					context, font, line,
+					next_line ? next_line - line : -1,
+					0.0, top + 3, width, height, TRUE, NULL,
+					&page_start, &pages);
+
+				if (next_line) {
+					next_line++;
+					if (!*next_line)
+						next_line = NULL;
+				}
+			}
+		}
+		e_cal_component_text_free (text);
 	}
 
 	g_slist_free_full (desc, e_cal_component_text_free);

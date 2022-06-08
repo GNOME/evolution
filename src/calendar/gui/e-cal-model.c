@@ -323,12 +323,20 @@ get_description (ECalModelComponent *comp_data)
 	ICalProperty *prop;
 	GString *str = NULL;
 
-	for (prop = i_cal_component_get_first_property (comp_data->icalcomp, I_CAL_DESCRIPTION_PROPERTY);
-	     prop;
-	     g_object_unref (prop), prop = i_cal_component_get_next_property (comp_data->icalcomp, I_CAL_DESCRIPTION_PROPERTY)) {
-		if (!str)
-			str = g_string_new (NULL);
-		g_string_append (str, i_cal_property_get_description (prop));
+	if (i_cal_component_isa (comp_data->icalcomp) == I_CAL_VJOURNAL_COMPONENT) {
+		for (prop = i_cal_component_get_first_property (comp_data->icalcomp, I_CAL_DESCRIPTION_PROPERTY);
+		     prop;
+		     g_object_unref (prop), prop = i_cal_component_get_next_property (comp_data->icalcomp, I_CAL_DESCRIPTION_PROPERTY)) {
+			if (!str)
+				str = g_string_new (NULL);
+			g_string_append (str, i_cal_property_get_description (prop));
+		}
+	} else {
+		prop = e_cal_util_component_find_property_for_locale (comp_data->icalcomp, I_CAL_DESCRIPTION_PROPERTY, NULL);
+		if (prop) {
+			str = g_string_new (i_cal_property_get_description (prop));
+			g_clear_object (&prop);
+		}
 	}
 
 	return str ? g_string_free (str, FALSE) : g_strdup ("");
@@ -391,7 +399,7 @@ get_summary (ECalModelComponent *comp_data)
 	ICalProperty *prop;
 	gchar *res = NULL;
 
-	prop = i_cal_component_get_first_property (comp_data->icalcomp, I_CAL_SUMMARY_PROPERTY);
+	prop = e_cal_util_component_find_property_for_locale (comp_data->icalcomp, I_CAL_SUMMARY_PROPERTY, NULL);
 	if (prop)
 		res = g_strdup (i_cal_property_get_summary (prop));
 

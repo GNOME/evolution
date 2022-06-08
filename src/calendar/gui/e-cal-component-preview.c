@@ -32,6 +32,7 @@
 
 #include "calendar-config.h"
 #include "comp-util.h"
+#include "e-calendar-view.h"
 #include "itip-utils.h"
 
 #include "e-cal-component-preview.h"
@@ -230,18 +231,18 @@ cal_component_preview_write_html (ECalComponentPreview *preview,
 	default_zone = preview->priv->timezone;
 
 	/* write document header */
-	text = e_cal_component_get_summary (comp);
+	str = e_calendar_view_dup_component_summary (e_cal_component_get_icalcomponent (comp));
 
 	g_string_append (buffer, HTML_HEADER);
 	g_string_append (buffer, "<body class=\"-e-web-view-background-color -e-web-view-text-color calpreview\">");
 
-	markup = g_markup_escape_text (text && e_cal_component_text_get_value (text) ? e_cal_component_text_get_value (text) : _("Untitled"), -1);
-	if (text && e_cal_component_text_get_value (text))
+	markup = g_markup_escape_text (str ? str : _("Untitled"), -1);
+	if (str)
 		g_string_append_printf (buffer, "<h2>%s</h2>", markup);
 	else
 		g_string_append_printf (buffer, "<h2><i>%s</i></h2>", markup);
-	e_cal_component_text_free (text);
 	g_free (markup);
+	g_free (str);
 
 	g_string_append (buffer, "<table border=\"0\" cellspacing=\"5\">");
 
@@ -538,42 +539,68 @@ cal_component_preview_write_html (ECalComponentPreview *preview,
 
 	/* Write description as the last, using full width */
 
-	list = e_cal_component_get_descriptions (comp);
-	if (list) {
-		GSList *node;
-		gboolean has_header = FALSE;
+	if (e_cal_component_get_vtype (comp) == E_CAL_COMPONENT_JOURNAL) {
+		list = e_cal_component_get_descriptions (comp);
+		if (list) {
+			GSList *node;
+			gboolean has_header = FALSE;
 
-		for (node = list; node != NULL; node = node->next) {
-			gchar *html;
+			for (node = list; node != NULL; node = node->next) {
+				gchar *html;
 
-			text = node->data;
-			if (!text || !e_cal_component_text_get_value (text))
-				continue;
+				text = node->data;
+				if (!text || !e_cal_component_text_get_value (text))
+					continue;
 
-			html = camel_text_to_html (
-				e_cal_component_text_get_value (text),
-				CAMEL_MIME_FILTER_TOHTML_CONVERT_NL |
-				CAMEL_MIME_FILTER_TOHTML_CONVERT_SPACES |
-				CAMEL_MIME_FILTER_TOHTML_CONVERT_URLS |
-				CAMEL_MIME_FILTER_TOHTML_CONVERT_ADDRESSES, 0);
+				html = camel_text_to_html (
+					e_cal_component_text_get_value (text),
+					CAMEL_MIME_FILTER_TOHTML_CONVERT_NL |
+					CAMEL_MIME_FILTER_TOHTML_CONVERT_SPACES |
+					CAMEL_MIME_FILTER_TOHTML_CONVERT_URLS |
+					CAMEL_MIME_FILTER_TOHTML_CONVERT_ADDRESSES, 0);
 
-			if (html) {
-				if (!has_header) {
-					has_header = TRUE;
+				if (html) {
+					if (!has_header) {
+						has_header = TRUE;
 
-					g_string_append (buffer, "<tr><td colspan=\"2\" class=\"description\">");
+						g_string_append (buffer, "<tr><td colspan=\"2\" class=\"description\">");
+					}
+
+					g_string_append_printf (buffer, "%s", html);
 				}
 
-				g_string_append_printf (buffer, "%s", html);
+				g_free (html);
 			}
 
-			g_free (html);
+			if (has_header)
+				g_string_append (buffer, "</td></tr>");
+
+			g_slist_free_full (list, e_cal_component_text_free);
 		}
+	} else {
+		text = e_cal_component_dup_description_for_locale (comp, NULL);
+		if (text) {
+			if (e_cal_component_text_get_value (text)) {
+				gchar *html;
 
-		if (has_header)
-			g_string_append (buffer, "</td></tr>");
+				html = camel_text_to_html (
+					e_cal_component_text_get_value (text),
+					CAMEL_MIME_FILTER_TOHTML_CONVERT_NL |
+					CAMEL_MIME_FILTER_TOHTML_CONVERT_SPACES |
+					CAMEL_MIME_FILTER_TOHTML_CONVERT_URLS |
+					CAMEL_MIME_FILTER_TOHTML_CONVERT_ADDRESSES, 0);
 
-		g_slist_free_full (list, e_cal_component_text_free);
+				if (html) {
+					g_string_append (buffer, "<tr><td colspan=\"2\" class=\"description\">");
+					g_string_append_printf (buffer, "%s", html);
+					g_string_append (buffer, "</td></tr>");
+				}
+
+				g_free (html);
+			}
+
+			e_cal_component_text_free (text);
+		}
 	}
 
 	g_string_append (buffer, "</table>");

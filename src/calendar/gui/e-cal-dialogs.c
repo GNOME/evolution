@@ -394,7 +394,7 @@ e_cal_dialogs_delete_component (ECalComponent *comp,
 		if (!consider_as_untitled) {
 			ECalComponentText *summary;
 
-			summary = e_cal_component_get_summary (comp);
+			summary = e_cal_component_dup_summary_for_locale (comp, NULL);
 			if (summary) {
 				arg0 = g_strdup (e_cal_component_text_get_value (summary));
 				e_cal_component_text_free (summary);

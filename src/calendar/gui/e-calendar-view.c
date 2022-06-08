@@ -1824,11 +1824,13 @@ gchar *
 e_calendar_view_dup_component_summary (ICalComponent *icomp)
 {
 	const gchar *summary;
+	ICalProperty *prop;
 	gchar *res = NULL;
 
 	g_return_val_if_fail (icomp != NULL, NULL);
 
-	summary = i_cal_component_get_summary (icomp);
+	prop = e_cal_util_component_find_property_for_locale (icomp, I_CAL_SUMMARY_PROPERTY, NULL);
+	summary = prop ? i_cal_property_get_summary (prop) : NULL;
 
 	if (icomp_contains_category (icomp, _("Birthday")) ||
 	    icomp_contains_category (icomp, _("Anniversary"))) {
@@ -1860,6 +1862,8 @@ e_calendar_view_dup_component_summary (ICalComponent *icomp)
 
 	if (!res)
 		res = g_strdup (summary ? summary : "");
+
+	g_clear_object (&prop);
 
 	e_cal_model_until_sanitize_text_value (res, -1);
 

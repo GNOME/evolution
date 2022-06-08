@@ -456,6 +456,7 @@ year_view_add_to_list_store (EYearView *self,
 	GtkTreeIter iter;
 	GdkRGBA bgcolor, fgcolor;
 	ICalTimezone *default_zone;
+	ICalProperty *prop;
 	gboolean bgcolor_set = FALSE, fgcolor_set = FALSE;
 	gchar *summary, *tooltip, *sort_key;
 
@@ -464,9 +465,11 @@ year_view_add_to_list_store (EYearView *self,
 	default_zone = e_cal_data_model_get_timezone (self->priv->data_model);
 	summary = cal_comp_util_describe (cd->comp, cd->client, default_zone, year_view_get_describe_flags (self));
 	tooltip = cal_comp_util_dup_tooltip (cd->comp, cd->client, self->priv->registry, default_zone);
+	prop = e_cal_util_component_find_property_for_locale (e_cal_component_get_icalcomponent (cd->comp), I_CAL_SUMMARY_PROPERTY, NULL);
 	sort_key = g_strdup_printf ("%08u%06u-%s-%s-%s", cd->date_mark, cd->time_mark,
-		i_cal_component_get_summary (e_cal_component_get_icalcomponent (cd->comp)),
+		prop ? i_cal_property_get_summary (prop) : "",
 		cd->uid ? cd->uid : "", cd->rid ? cd->rid : "");
+	g_clear_object (&prop);
 
 	gtk_list_store_append (self->priv->list_store, &iter);
 	gtk_list_store_set (self->priv->list_store, &iter,

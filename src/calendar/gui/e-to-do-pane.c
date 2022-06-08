@@ -348,6 +348,7 @@ etdp_get_component_data (EToDoPane *to_do_pane,
 	const gchar *prefix, *location, *description, *uid_str, *rid_str;
 	gboolean task_has_due_date = TRUE, is_cancelled = FALSE; /* ignored for events, thus like being set */
 	ICalPropertyStatus status;
+	ICalProperty *prop;
 	gchar *comp_summary;
 	GString *tooltip;
 
@@ -579,7 +580,8 @@ etdp_get_component_data (EToDoPane *to_do_pane,
 
 	e_cal_component_id_free (id);
 
-	description = i_cal_component_get_description (icomp);
+	prop = e_cal_util_component_find_property_for_locale (icomp, I_CAL_DESCRIPTION_PROPERTY, NULL);
+	description = prop ? i_cal_property_get_description (prop) : NULL;
 	if (description && *description && g_utf8_validate (description, -1, NULL)) {
 		gchar *tmp = NULL;
 		glong len;
@@ -601,6 +603,8 @@ etdp_get_component_data (EToDoPane *to_do_pane,
 
 		g_free (tmp);
 	}
+
+	g_clear_object (&prop);
 
 	*out_date_mark = etdp_create_date_mark (itt);
 	*out_tooltip = g_string_free (tooltip, FALSE);

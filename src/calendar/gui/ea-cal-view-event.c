@@ -225,6 +225,8 @@ ea_cal_view_event_get_name (AtkObject *accessible)
 
 	alarm_string = recur_string = meeting_string = "";
 	if (event && event->comp_data) {
+		ICalProperty *prop;
+
 		if (e_cal_util_component_has_alarms (event->comp_data->icalcomp))
 			alarm_string = _("It has reminders.");
 
@@ -234,9 +236,11 @@ ea_cal_view_event_get_name (AtkObject *accessible)
 		if (e_cal_util_component_has_organizer (event->comp_data->icalcomp))
 			meeting_string = _("It is a meeting.");
 
-		summary = i_cal_component_get_summary (event->comp_data->icalcomp);
+		prop = e_cal_util_component_find_property_for_locale (event->comp_data->icalcomp, I_CAL_SUMMARY_PROPERTY, NULL);
+		summary = prop ? i_cal_property_get_summary (prop) : NULL;
 		if (summary)
 			summary_string = g_strdup_printf (_("Calendar Event: Summary is %s."), summary);
+		g_clear_object (&prop);
 	}
 
 	if (!summary_string)

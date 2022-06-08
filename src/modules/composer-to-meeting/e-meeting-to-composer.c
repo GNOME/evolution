@@ -180,9 +180,11 @@ meeting_to_composer_composer_created_cb (GObject *source_object,
 	e_comp_editor_set_updating (comp_editor, did_updating);
 
 	/* Subject */
-	text = i_cal_component_get_summary (icomp);
+	prop = e_cal_util_component_find_property_for_locale (icomp, I_CAL_SUMMARY_PROPERTY, NULL);
+	text = prop ? i_cal_property_get_summary (prop) : NULL;
 	if (text && *text)
 		e_composer_header_table_set_subject (header_table, text);
+	g_clear_object (&prop);
 
 	/* From */
 	prop = i_cal_component_get_first_property (icomp, I_CAL_ORGANIZER_PROPERTY);
@@ -292,7 +294,7 @@ meeting_to_composer_composer_created_cb (GObject *source_object,
 	g_ptr_array_free (cc_recips, TRUE);
 
 	/* Body */
-	prop = i_cal_component_get_first_property (icomp, I_CAL_DESCRIPTION_PROPERTY);
+	prop = e_cal_util_component_find_property_for_locale (icomp, I_CAL_DESCRIPTION_PROPERTY, NULL);
 	if (prop) {
 		text = i_cal_property_get_description (prop);
 

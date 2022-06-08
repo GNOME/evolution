@@ -1403,7 +1403,7 @@ preview_comp (EWebViewPreview *preview,
 		/* Translators: Appointment's classification section name */
 		e_web_view_preview_add_section (preview, C_("iCalImp", "Classification"), str);
 
-	text = e_cal_component_get_summary (comp);
+	text = e_cal_component_dup_summary_for_locale (comp, NULL);
 	if (text && (e_cal_component_text_get_value (text) || e_cal_component_text_get_altrep (text)))
 		/* Translators: Appointment's summary */
 		e_web_view_preview_add_section (preview, C_("iCalImp", "Summary"),
@@ -1545,17 +1545,27 @@ preview_comp (EWebViewPreview *preview,
 		g_slist_free_full (attendees, e_cal_component_attendee_free);
 	}
 
-	slist = e_cal_component_get_descriptions (comp);
-	for (l = slist; l; l = l->next) {
-		ECalComponentText *txt = l->data;
-		const gchar *value;
+	if (e_cal_component_get_vtype (comp) == E_CAL_COMPONENT_JOURNAL) {
+		slist = e_cal_component_get_descriptions (comp);
 
-		value = txt ? e_cal_component_text_get_value (txt) : NULL;
+		for (l = slist; l; l = l->next) {
+			ECalComponentText *txt = l->data;
+			const gchar *value;
 
-		e_web_view_preview_add_section (preview, l != slist ? NULL : C_("iCalImp", "Description"), value ? value : "");
+			value = txt ? e_cal_component_text_get_value (txt) : NULL;
+
+			e_web_view_preview_add_section (preview, l != slist ? NULL : C_("iCalImp", "Description"), value ? value : "");
+		}
+
+		g_slist_free_full (slist, e_cal_component_text_free);
+	} else {
+		text = e_cal_component_dup_description_for_locale (comp, NULL);
+		if (text) {
+			const gchar *value = e_cal_component_text_get_value (text);
+			e_web_view_preview_add_section (preview, C_("iCalImp", "Description"), value ? value : "");
+		}
+		e_cal_component_text_free (text);
 	}
-
-	g_slist_free_full (slist, e_cal_component_text_free);
 }
 
 static void
@@ -1662,7 +1672,7 @@ ical_get_preview (ICalComponent *icomp)
 			if (!comp)
 				continue;
 
-			summary = e_cal_component_get_summary (comp);
+			summary = e_cal_component_dup_summary_for_locale (comp, NULL);
 			if (summary) {
 				const gchar *value, *altrep;
 

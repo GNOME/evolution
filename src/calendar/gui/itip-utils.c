@@ -1253,7 +1253,7 @@ comp_subject (ESourceRegistry *registry,
 	gchar *sender;
 	ECalComponentAttendee *a = NULL;
 
-	caltext = e_cal_component_get_summary (comp);
+	caltext = e_cal_component_dup_summary_for_locale (comp, NULL);
 	if (caltext && e_cal_component_text_get_value (caltext)) {
 		description = e_cal_component_text_get_value (caltext);
 	} else {
@@ -2785,7 +2785,6 @@ reply_to_calendar_comp (ESourceRegistry *registry,
 		gchar *location;
 		gchar *time = NULL;
 		gchar *html_description = NULL;
-		GSList *text_list;
 		ECalComponentOrganizer *organizer;
 		ECalComponentText *text;
 		ECalComponentDateTime *dtstart;
@@ -2793,17 +2792,12 @@ reply_to_calendar_comp (ESourceRegistry *registry,
 		time_t start;
 		const gchar *organizer_email;
 
-		text_list = e_cal_component_get_descriptions (comp);
+		text = e_cal_component_dup_description_for_locale (comp, NULL);
+		if (text && e_cal_component_text_get_value (text))
+			description = g_strdup (e_cal_component_text_get_value (text));
+		e_cal_component_text_free (text);
 
-		if (text_list) {
-			text = text_list->data;
-			if (text && e_cal_component_text_get_value (text))
-				description = g_strdup (e_cal_component_text_get_value (text));
-		}
-
-		g_slist_free_full (text_list, e_cal_component_text_free);
-
-		text = e_cal_component_get_summary (comp);
+		text = e_cal_component_dup_summary_for_locale (comp, NULL);
 		if (text && e_cal_component_text_get_value (text))
 			subject = g_strdup (e_cal_component_text_get_value (text));
 		e_cal_component_text_free (text);

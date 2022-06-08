@@ -4124,6 +4124,11 @@ find_cal_update_ui (FormatItipFindData *fd,
 		ncomps = g_slist_length (icomps);
 		if (ncomps == 1 && icomps->data) {
 			ICalComponent *icomp = icomps->data;
+			ICalProperty *prop;
+			const gchar *summary;
+
+			prop = e_cal_util_component_find_property_for_locale (icomp, I_CAL_SUMMARY_PROPERTY, NULL);
+			summary = prop ? i_cal_property_get_summary (prop) : "";
 
 			switch (e_cal_client_get_source_type (cal_client)) {
 			case E_CAL_CLIENT_SOURCE_TYPE_EVENTS:
@@ -4131,24 +4136,26 @@ find_cal_update_ui (FormatItipFindData *fd,
 				itip_view_add_upper_info_item_printf (
 					view, ITIP_VIEW_INFO_ITEM_TYPE_WARNING,
 					_("An appointment “%s” in the calendar “%s” conflicts with this meeting"),
-					i_cal_component_get_summary (icomp),
+					summary,
 					source_display_name);
 				break;
 			case E_CAL_CLIENT_SOURCE_TYPE_TASKS:
 				itip_view_add_upper_info_item_printf (
 					view, ITIP_VIEW_INFO_ITEM_TYPE_WARNING,
 					_("A task “%s” in the task list “%s” conflicts with this task"),
-					i_cal_component_get_summary (icomp),
+					summary,
 					source_display_name);
 				break;
 			case E_CAL_CLIENT_SOURCE_TYPE_MEMOS:
 				itip_view_add_upper_info_item_printf (
 					view, ITIP_VIEW_INFO_ITEM_TYPE_WARNING,
 					_("A memo “%s” in the memo list “%s” conflicts with this memo"),
-					i_cal_component_get_summary (icomp),
+					summary,
 					source_display_name);
 				break;
 			}
+
+			g_clear_object (&prop);
 		} else {
 			switch (e_cal_client_get_source_type (cal_client)) {
 			case E_CAL_CLIENT_SOURCE_TYPE_EVENTS:
@@ -6784,7 +6791,7 @@ itip_view_init_view (ItipView *view)
 		}
 	}
 
-	text = e_cal_component_get_summary (view->priv->comp);
+	text = e_cal_component_dup_summary_for_locale (view->priv->comp, NULL);
 	itip_view_set_summary (view, text && e_cal_component_text_get_value (text) ? e_cal_component_text_get_value (text) : C_("cal-itip", "None"));
 	e_cal_component_text_free (text);
 
@@ -6928,20 +6935,27 @@ itip_view_init_view (ItipView *view)
 	}
 
 	if (!gstring) {
-		list = e_cal_component_get_descriptions (view->priv->comp);
-		for (l = list; l; l = l->next) {
-			text = l->data;
+		if (e_cal_component_get_vtype (view->priv->comp) == E_CAL_COMPONENT_JOURNAL) {
+			list = e_cal_component_get_descriptions (view->priv->comp);
+			for (l = list; l; l = l->next) {
+				text = l->data;
 
-			if (!text)
-				continue;
+				if (!text)
+					continue;
 
-			if (!gstring && e_cal_component_text_get_value (text))
+				if (!gstring && e_cal_component_text_get_value (text))
+					gstring = g_string_new (e_cal_component_text_get_value (text));
+				else if (e_cal_component_text_get_value (text))
+					g_string_append_printf (gstring, "\n\n%s", e_cal_component_text_get_value (text));
+			}
+
+			g_slist_free_full (list, e_cal_component_text_free);
+		} else {
+			text = e_cal_component_dup_description_for_locale (view->priv->comp, NULL);
+			if (text && e_cal_component_text_get_value (text))
 				gstring = g_string_new (e_cal_component_text_get_value (text));
-			else if (e_cal_component_text_get_value (text))
-				g_string_append_printf (gstring, "\n\n%s", e_cal_component_text_get_value (text));
+			e_cal_component_text_free (text);
 		}
-
-		g_slist_free_full (list, e_cal_component_text_free);
 	}
 
 	if (gstring) {
