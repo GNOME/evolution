@@ -31,6 +31,8 @@
 #include "calendar-config.h"
 #include "comp-util.h"
 #include "e-calendar-view.h"
+#include "e-cal-dialogs.h"
+#include "e-cal-ops.h"
 #include "itip-utils.h"
 
 #include "shell/e-shell-window.h"
@@ -2531,4 +2533,114 @@ cal_comp_util_get_attendee_email (const ECalComponentAttendee *attendee)
 	return cal_comp_util_get_property_value_email (
 		e_cal_component_attendee_get_value (attendee),
 		e_cal_component_attendee_get_parameter_bag (attendee));
+}
+
+/* moves the @comp by @days days, preserving its time and duration */
+gboolean
+cal_comp_util_move_component_by_days (GtkWindow *parent,
+				      ECalModel *model,
+				      ECalClient *client,
+				      ECalComponent *in_comp,
+				      gint days,
+				      gboolean is_move)
+{
+	ECalComponentDateTime *datetime;
+	ECalComponent *comp_copy;
+	ESourceRegistry *registry;
+	ICalTime *itt;
+	GtkResponseType send = GTK_RESPONSE_NO;
+	gboolean only_new_attendees = FALSE;
+	gboolean strip_alarms = TRUE;
+
+	g_return_val_if_fail (E_IS_CAL_MODEL (model), FALSE);
+	g_return_val_if_fail (E_IS_CAL_CLIENT (client), FALSE);
+	g_return_val_if_fail (E_IS_CAL_COMPONENT (in_comp), FALSE);
+	g_return_val_if_fail (days != 0, FALSE);
+
+	registry = e_cal_model_get_registry (model);
+
+	if (e_cal_component_has_attendees (in_comp) &&
+	    !itip_organizer_is_user (registry, in_comp, client)) {
+		/* Can continue with the next component */
+		return TRUE;
+	}
+
+	if (itip_has_any_attendees (in_comp) &&
+	    (itip_organizer_is_user (registry, in_comp, client) ||
+	     itip_sentby_is_user (registry, in_comp, client)))
+		send = e_cal_dialogs_send_dragged_or_resized_component (parent, client, in_comp, &strip_alarms, &only_new_attendees);
+
+	if (send == GTK_RESPONSE_CANCEL)
+		return FALSE;
+
+	comp_copy = e_cal_component_clone (in_comp);
+
+	datetime = e_cal_component_get_dtstart (comp_copy);
+	itt = e_cal_component_datetime_get_value (datetime);
+	i_cal_time_adjust (itt, days, 0, 0, 0);
+	cal_comp_set_dtstart_with_oldzone (client, comp_copy, datetime);
+	e_cal_component_datetime_free (datetime);
+
+	datetime = e_cal_component_get_dtend (comp_copy);
+	itt = e_cal_component_datetime_get_value (datetime);
+	i_cal_time_adjust (itt, days, 0, 0, 0);
+	cal_comp_set_dtend_with_oldzone (client, comp_copy, datetime);
+	e_cal_component_datetime_free (datetime);
+
+	e_cal_component_commit_sequence (comp_copy);
+
+	if (is_move) {
+		ECalObjModType mod = E_CAL_OBJ_MOD_ALL;
+
+		if (e_cal_component_has_recurrences (comp_copy)) {
+			if (!e_cal_dialogs_recur_component (client, comp_copy, &mod, NULL, FALSE)) {
+				g_clear_object (&comp_copy);
+				return FALSE;
+			}
+
+			if (mod == E_CAL_OBJ_MOD_THIS) {
+				e_cal_component_set_rdates (comp_copy, NULL);
+				e_cal_component_set_rrules (comp_copy, NULL);
+				e_cal_component_set_exdates (comp_copy, NULL);
+				e_cal_component_set_exrules (comp_copy, NULL);
+			}
+		} else if (e_cal_component_is_instance (comp_copy)) {
+			mod = E_CAL_OBJ_MOD_THIS;
+		}
+
+		e_cal_component_commit_sequence (comp_copy);
+
+		e_cal_ops_modify_component (model, client, e_cal_component_get_icalcomponent (comp_copy), mod,
+			(send == GTK_RESPONSE_YES ? E_CAL_OPS_SEND_FLAG_SEND : E_CAL_OPS_SEND_FLAG_DONT_SEND) |
+			(strip_alarms ? E_CAL_OPS_SEND_FLAG_STRIP_ALARMS : 0) |
+			(only_new_attendees ? E_CAL_OPS_SEND_FLAG_ONLY_NEW_ATTENDEES : 0));
+	} else {
+		gchar *new_uid;
+
+		if ((e_cal_component_has_recurrences (comp_copy) ||
+		    e_cal_component_is_instance (comp_copy)) &&
+		    !e_cal_dialogs_detach_and_copy (parent, e_cal_component_get_icalcomponent (comp_copy))) {
+			g_clear_object (&comp_copy);
+			return FALSE;
+		}
+
+		new_uid = e_util_generate_uid ();
+		e_cal_component_set_uid (comp_copy, new_uid);
+		g_free (new_uid);
+
+		/* Detach the instance from the series and make a new independent component for it */
+		e_cal_component_set_recurid (comp_copy, NULL);
+		e_cal_component_set_rdates (comp_copy, NULL);
+		e_cal_component_set_rrules (comp_copy, NULL);
+		e_cal_component_set_exdates (comp_copy, NULL);
+		e_cal_component_set_exrules (comp_copy, NULL);
+		e_cal_component_commit_sequence (comp_copy);
+
+		e_cal_ops_create_component (model, client, e_cal_component_get_icalcomponent (comp_copy),
+			NULL, NULL, NULL);
+	}
+
+	g_clear_object (&comp_copy);
+
+	return TRUE;
 }

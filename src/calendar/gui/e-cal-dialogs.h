@@ -72,5 +72,7 @@ GtkResponseType	e_cal_dialogs_send_dragged_or_resized_component
 gboolean	e_cal_dialogs_send_component_prompt_subject
 						(GtkWindow *parent,
 						 ICalComponent *icomp);
+gboolean	e_cal_dialogs_detach_and_copy	(GtkWindow *parent,
+						 ICalComponent *icomp);
 
 #endif /* E_CAL_DIALOGS_H */

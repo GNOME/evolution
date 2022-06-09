@@ -18,6 +18,10 @@
 
 /* #define WITH_PREV_NEXT_BUTTONS 1 */
 
+static GtkTargetEntry target_table[] = {
+	{ (gchar *) "application/x-e-calendar-event", 0, 0 }
+};
+
 typedef struct _ComponentData {
 	ECalClient *client;
 	ECalComponent *comp;
@@ -36,6 +40,11 @@ typedef struct _DayData {
 	guint n_italic;
 	GSList *comps_data; /* ComponentData * */
 } DayData;
+
+typedef struct _DragData {
+	ECalClient *client;
+	ECalComponent *comp;
+} DragData;
 
 struct _EYearViewPrivate {
 	ESourceRegistry *registry;
@@ -61,6 +70,11 @@ struct _EYearViewPrivate {
 	guint current_day;
 	guint current_month;
 	guint current_year;
+
+	GSList *drag_data; /* DragData * */
+	guint drag_day;
+	guint drag_month;
+	guint drag_year;
 
 	/* Track today */
 	gboolean highlight_today;
@@ -157,6 +171,31 @@ component_data_equal (gconstpointer ptr1,
 	return cd1->client == cd2->client &&
 		g_strcmp0 (cd1->uid, cd2->uid) == 0 &&
 		g_strcmp0 (cd1->rid, cd2->rid) == 0;
+}
+
+static DragData *
+drag_data_new (ECalClient *client,
+	       ECalComponent *comp)
+{
+	DragData *dd;
+
+	dd = g_slice_new (DragData);
+	dd->client = g_object_ref (client);
+	dd->comp = g_object_ref (comp);
+
+	return dd;
+}
+
+static void
+drag_data_free (gpointer ptr)
+{
+	DragData *dd = ptr;
+
+	if (dd) {
+		g_clear_object (&dd->client);
+		g_clear_object (&dd->comp);
+		g_slice_free (DragData, dd);
+	}
 }
 
 static void
@@ -1318,6 +1357,155 @@ year_view_tree_view_row_activated_cb (GtkTreeView *tree_view,
 }
 
 static void
+year_view_tree_view_drag_begin_cb (GtkWidget *tree_view,
+				   GdkDragContext *context,
+				   gpointer user_data)
+{
+	EYearView *self = user_data;
+	GtkTreeSelection *selection;
+	cairo_surface_t *surface = NULL;
+	GList *selected, *link;
+	GtkTreeModel *model = NULL;
+	GtkTreeIter iter;
+
+	g_slist_free_full (self->priv->drag_data, drag_data_free);
+	self->priv->drag_data = NULL;
+
+	selection = gtk_tree_view_get_selection (self->priv->tree_view);
+	selected = gtk_tree_selection_get_selected_rows (selection, &model);
+
+	for (link = selected; link; link = g_list_next (link)) {
+		if (gtk_tree_model_get_iter (model, &iter, link->data)) {
+			ComponentData *cd = NULL;
+
+			gtk_tree_model_get (model, &iter,
+				COLUMN_COMPONENT_DATA, &cd,
+				-1);
+
+			self->priv->drag_data = g_slist_prepend (self->priv->drag_data,
+				drag_data_new (cd->client, cd->comp));
+
+			if (!surface)
+				surface = gtk_tree_view_create_row_drag_icon (self->priv->tree_view, link->data);
+		}
+	}
+
+	g_list_free_full (selected, (GDestroyNotify) gtk_tree_path_free);
+
+	self->priv->drag_data = g_slist_reverse (self->priv->drag_data);
+	self->priv->drag_day = self->priv->current_day;
+	self->priv->drag_month = self->priv->current_month;
+	self->priv->drag_year = self->priv->current_year;
+
+	if (surface) {
+		gtk_drag_set_icon_surface (context, surface);
+		cairo_surface_destroy (surface);
+	}
+}
+
+static void
+year_view_tree_view_drag_end_cb (GtkWidget *widget,
+				 GdkDragContext *context,
+				 gpointer user_data)
+{
+	EYearView *self = user_data;
+
+	g_slist_free_full (self->priv->drag_data, drag_data_free);
+	self->priv->drag_data = NULL;
+	self->priv->drag_day = 0;
+	self->priv->drag_month = 0;
+	self->priv->drag_year = 0;
+}
+
+static gboolean
+year_view_month_drag_motion_cb (GtkWidget *widget,
+				GdkDragContext *context,
+				gint x,
+				gint y,
+				guint time,
+				gpointer user_data)
+{
+	EYearView *self = user_data;
+	guint day, year = 0;
+	GDateMonth month = 0;
+	gboolean can_drop;
+
+	day = e_month_widget_get_day_at_position (E_MONTH_WIDGET (widget), x, y);
+	e_month_widget_get_month (E_MONTH_WIDGET (widget), &month, &year);
+
+	can_drop = day != 0 && self->priv->drag_data && (
+		day != self->priv->drag_day ||
+		month != self->priv->drag_month ||
+		year != self->priv->drag_year);
+
+	gdk_drag_status (context,
+		can_drop ? gdk_drag_context_get_selected_action (context) : 0, time);
+
+	return TRUE;
+}
+
+static gboolean
+year_view_month_drag_drop_cb (GtkWidget *widget,
+			      GdkDragContext *context,
+			      gint x,
+			      gint y,
+			      guint time,
+			      gpointer user_data)
+{
+	EYearView *self = user_data;
+	guint day, year = 0;
+	GDateMonth month = 0;
+	gboolean can_drop;
+
+	day = e_month_widget_get_day_at_position (E_MONTH_WIDGET (widget), x, y);
+	e_month_widget_get_month (E_MONTH_WIDGET (widget), &month, &year);
+
+	can_drop = day != 0 && self->priv->drag_data && (
+		day != self->priv->drag_day ||
+		month != self->priv->drag_month ||
+		year != self->priv->drag_year);
+
+	if (can_drop) {
+		GDate *from, *to;
+		gint diff_days;
+
+		from = g_date_new_dmy (self->priv->drag_day, self->priv->drag_month, self->priv->drag_year);
+		to = g_date_new_dmy (day, month, year);
+
+		diff_days = g_date_days_between (from, to);
+
+		if (diff_days != 0) {
+			ECalModel *model = e_calendar_view_get_model (E_CALENDAR_VIEW (self));
+			GtkWidget *toplevel;
+			GtkWindow *parent;
+			GSList *drag_data, *link;
+			gboolean is_move;
+
+			drag_data = g_steal_pointer (&self->priv->drag_data);
+			toplevel = gtk_widget_get_toplevel (widget);
+			parent = GTK_IS_WINDOW (toplevel) ? GTK_WINDOW (toplevel) : NULL;
+			is_move = gdk_drag_context_get_selected_action (context) == GDK_ACTION_MOVE;
+
+			for (link = drag_data; link; link = g_slist_next (link)) {
+				DragData *dd = link->data;
+				if (!cal_comp_util_move_component_by_days (parent, model,
+					dd->client, dd->comp, diff_days, is_move))
+					break;
+			}
+
+			g_slist_free_full (drag_data, drag_data_free);
+		}
+
+		g_date_free (from);
+		g_date_free (to);
+	}
+
+	gdk_drag_status (context, 0, time);
+
+	return FALSE;
+}
+
+static void
 year_view_timezone_changed_cb (GObject *object,
 			       GParamSpec *param,
 			       gpointer user_data)
@@ -1569,6 +1757,17 @@ year_view_construct_year_widget (EYearView *self)
 
 		e_month_widget_set_month (E_MONTH_WIDGET (widget), ii + 1, self->priv->current_year);
 
+		gtk_drag_dest_set (
+			widget, GTK_DEST_DEFAULT_ALL,
+			target_table, G_N_ELEMENTS (target_table),
+			GDK_ACTION_COPY | GDK_ACTION_MOVE);
+
+		g_signal_connect_object (widget, "drag-motion",
+			G_CALLBACK (year_view_month_drag_motion_cb), self, 0);
+
+		g_signal_connect_object (widget, "drag-drop",
+			G_CALLBACK (year_view_month_drag_drop_cb), self, 0);
+
 		gtk_container_add (GTK_CONTAINER (container), vbox);
 
 		child = gtk_flow_box_get_child_at_index (GTK_FLOW_BOX (container), ii);
@@ -1819,6 +2018,10 @@ year_view_constructed (GObject *object)
 
 	gtk_tree_view_append_column (self->priv->tree_view, column);
 
+	gtk_drag_source_set (GTK_WIDGET (self->priv->tree_view), GDK_BUTTON1_MASK,
+		target_table, G_N_ELEMENTS (target_table),
+		GDK_ACTION_COPY | GDK_ACTION_MOVE);
+
 	selection = gtk_tree_view_get_selection (self->priv->tree_view);
 
 	g_signal_connect_object (selection, "changed",
@@ -1832,6 +2035,12 @@ year_view_constructed (GObject *object)
 
 	g_signal_connect_object (self->priv->tree_view, "row-activated",
 		G_CALLBACK (year_view_tree_view_row_activated_cb), self, 0);
+
+	g_signal_connect_object (self->priv->tree_view, "drag-begin",
+		G_CALLBACK (year_view_tree_view_drag_begin_cb), self, 0);
+
+	g_signal_connect_object (self->priv->tree_view, "drag-end",
+		G_CALLBACK (year_view_tree_view_drag_end_cb), self, 0);
 
 	g_signal_connect_object (self->priv->data_model, "notify::timezone",
 		G_CALLBACK (year_view_timezone_changed_cb), self, 0);
@@ -1902,6 +2111,7 @@ year_view_finalize (GObject *object)
 
 	year_view_clear_comps (self);
 
+	g_slist_free_full (self->priv->drag_data, drag_data_free);
 	g_hash_table_destroy (self->priv->client_colors);
 	g_hash_table_destroy (self->priv->comps);
 

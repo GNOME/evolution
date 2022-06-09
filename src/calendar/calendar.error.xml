@@ -582,4 +582,11 @@
     <_secondary>A WebKitWebProcess crashed when displaying the task. You can try again by moving to another task and back. If the issue persists, please file a bug report in GNOME Gitlab.</_secondary>
   </error>
 
+  <error id="prompt-detach-copy-event" type="question" default="GTK_RESPONSE_NO">
+    <_primary>Do you want to detach event from the series?</_primary>
+    <_secondary>The event “{0}” will be detached from its series and saved as a new standalone event.</_secondary>
+    <button _label="_Cancel" response="GTK_RESPONSE_NO"/>
+    <button _label="_Detach and Create Copy" response="GTK_RESPONSE_YES"/>
+  </error>
+
 </error-list>

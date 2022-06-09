@@ -29,6 +29,7 @@
 
 #include <e-util/e-util.h>
 #include <calendar/gui/e-cal-data-model.h>
+#include <calendar/gui/e-cal-model.h>
 
 struct _EShell;
 
@@ -218,5 +219,11 @@ const gchar *	cal_comp_util_get_organizer_email
 						(const ECalComponentOrganizer *organizer);
 const gchar *	cal_comp_util_get_attendee_email
 						(const ECalComponentAttendee *attendee);
-
+gboolean	cal_comp_util_move_component_by_days
+						(GtkWindow *parent,
+						 ECalModel *model,
+						 ECalClient *client,
+						 ECalComponent *in_comp,
+						 gint days,
+						 gboolean is_move);
 #endif

@@ -1304,3 +1304,35 @@ e_cal_dialogs_send_component_prompt_subject (GtkWindow *parent,
 	else
 		return FALSE;
 }
+
+gboolean
+e_cal_dialogs_detach_and_copy (GtkWindow *parent,
+			       ICalComponent *component)
+{
+	ICalComponentKind kind;
+	gchar *summary;
+	const gchar *id;
+	gboolean res;
+
+	kind = i_cal_component_isa (component);
+
+	switch (kind) {
+	case I_CAL_VEVENT_COMPONENT:
+		id = "calendar:prompt-detach-copy-event";
+		break;
+
+	case I_CAL_VTODO_COMPONENT:
+	case I_CAL_VJOURNAL_COMPONENT:
+		return TRUE;
+
+	default:
+		g_message ("%s: Cannot handle object of type %d", G_STRFUNC, kind);
+		return FALSE;
+	}
+
+	summary = e_calendar_view_dup_component_summary (component);
+	res = e_alert_run_dialog_for_args (parent, id, summary, NULL) == GTK_RESPONSE_YES;
+	g_free (summary);
+
+	return res;
+}
