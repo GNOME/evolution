@@ -69,6 +69,10 @@
  * we get from the server. */
 #define E_WEEK_VIEW_LAYOUT_TIMEOUT	100
 
+static 	GtkTargetEntry target_table[] = {
+	{ (gchar *) "application/x-e-calendar-event", 0, 0 }
+};
+
 struct _EWeekViewPrivate {
 	/* The first day shown in the view. */
 	GDate first_day_shown;
@@ -103,6 +107,9 @@ struct _EWeekViewPrivate {
 	gboolean days_left_to_right;
 
 	gchar *today_background_color;
+
+	gint drag_event_num;
+	gint drag_from_day;
 };
 
 typedef struct {
@@ -1683,6 +1690,101 @@ e_week_view_query_tooltip_cb (GtkWidget *widget,
 }
 
 static void
+e_week_view_drag_end_cb (GtkWidget *widget,
+			 GdkDragContext *context,
+			 gpointer user_data)
+{
+	EWeekView *self = user_data;
+
+	self->pressed_event_num = -1;
+	self->drag_event_x = -1;
+	self->drag_event_y = -1;
+	self->priv->drag_event_num = -1;
+	self->priv->drag_from_day = -1;
+}
+
+static gboolean
+e_week_view_drag_motion_cb (GtkWidget *widget,
+			    GdkDragContext *context,
+			    gint x,
+			    gint y,
+			    guint time,
+			    gpointer user_data)
+{
+	EWeekView *self = user_data;
+	gint day;
+	gboolean can_drop;
+
+	day = e_week_view_convert_position_to_day (self, x, y);
+	can_drop = day > -1 && day < G_N_ELEMENTS (self->day_starts) &&
+		self->priv->drag_event_num > -1 &&
+		self->priv->drag_from_day != day;
+
+	gdk_drag_status (context,
+		can_drop ? gdk_drag_context_get_selected_action (context) : 0, time);
+
+	return TRUE;
+}
+
+static gboolean
+e_week_view_drag_drop_cb (GtkWidget *widget,
+			  GdkDragContext *context,
+			  gint x,
+			  gint y,
+			  guint time,
+			  gpointer user_data)
+{
+	EWeekView *self = user_data;
+	gint day;
+	gboolean can_drop;
+
+	day = e_week_view_convert_position_to_day (self, x, y);
+	can_drop = day > -1 && day < G_N_ELEMENTS (self->day_starts) &&
+		self->priv->drag_event_num > -1 &&
+		self->priv->drag_from_day != day;
+
+	if (can_drop) {
+		time_t day_start = self->day_starts[day];
+		time_t from_start = self->day_starts[self->priv->drag_from_day];
+		gint diff_days = (day_start - from_start) / (60 * 60 * 24);
+
+		if (diff_days != 0 && is_array_index_in_bounds (self->events, self->priv->drag_event_num)) {
+			EWeekViewEvent *event;
+
+			event = &g_array_index (self->events, EWeekViewEvent, self->priv->drag_event_num);
+
+			if (is_comp_data_valid (event)) {
+				ECalClient *client;
+				ECalComponent *comp;
+
+				client = g_object_ref (event->comp_data->client);
+				comp = e_cal_component_new_from_icalcomponent (i_cal_component_clone (event->comp_data->icalcomp));
+
+				if (comp) {
+					ECalModel *model = e_calendar_view_get_model (E_CALENDAR_VIEW (self));
+					GtkWidget *toplevel;
+					GtkWindow *parent;
+					gboolean is_move;
+
+					toplevel = gtk_widget_get_toplevel (widget);
+					parent = GTK_IS_WINDOW (toplevel) ? GTK_WINDOW (toplevel) : NULL;
+					is_move = gdk_drag_context_get_selected_action (context) == GDK_ACTION_MOVE;
+
+					cal_comp_util_move_component_by_days (parent, model, client, comp, diff_days, is_move);
+				}
+
+				g_clear_object (&comp);
+				g_clear_object (&client);
+			}
+		}
+	}
+
+	gtk_drag_finish (context, can_drop, FALSE, time);
+
+	return FALSE;
+}
+
+static void
 e_week_view_class_init (EWeekViewClass *class)
 {
 	GObjectClass *object_class;
@@ -1845,6 +1947,8 @@ e_week_view_init (EWeekView *week_view)
 
 	week_view->pressed_event_num = -1;
 	week_view->editing_event_num = -1;
+	week_view->priv->drag_event_num = -1;
+	week_view->priv->drag_from_day = -1;
 
 	week_view->last_edited_comp_string = NULL;
 
@@ -1924,6 +2028,20 @@ e_week_view_init (EWeekView *week_view)
 	g_signal_connect_object (
 		week_view->main_canvas, "query-tooltip",
 		G_CALLBACK (e_week_view_query_tooltip_cb), week_view, 0);
+	g_signal_connect_object (
+		week_view->main_canvas, "drag-end",
+		G_CALLBACK (e_week_view_drag_end_cb), week_view, 0);
+	g_signal_connect_object (
+		week_view->main_canvas, "drag-motion",
+		G_CALLBACK (e_week_view_drag_motion_cb), week_view, 0);
+	g_signal_connect_object (
+		week_view->main_canvas, "drag-drop",
+		G_CALLBACK (e_week_view_drag_drop_cb), week_view, 0);
+
+	gtk_drag_dest_set (
+		week_view->main_canvas, GTK_DEST_DEFAULT_ALL,
+		target_table, G_N_ELEMENTS (target_table),
+		GDK_ACTION_COPY | GDK_ACTION_MOVE);
 
 	/* Create the buttons to jump to each days. */
 	pixbuf = gdk_pixbuf_new_from_xpm_data ((const gchar **) jump_xpm);
@@ -3372,6 +3490,8 @@ e_week_view_free_events (EWeekView *week_view)
 	week_view->editing_event_num = -1;
 	week_view->editing_span_num = -1;
 	week_view->popup_event_num = -1;
+	week_view->priv->drag_event_num = -1;
+	week_view->priv->drag_from_day = -1;
 
 	for (event_num = 0; event_num < week_view->events->len; event_num++) {
 		event = &g_array_index (week_view->events, EWeekViewEvent,
@@ -3642,6 +3762,47 @@ e_week_view_reshape_events (EWeekView *week_view)
 	}
 }
 
+static void
+e_week_view_maybe_start_event_drag_on_motion (EWeekView *week_view,
+					      GdkEvent *gdk_event,
+					      gint event_num)
+{
+	EWeekViewEvent *pevent;
+	gdouble event_x_root = 0;
+	gdouble event_y_root = 0;
+
+	g_return_if_fail (E_IS_WEEK_VIEW (week_view));
+	g_return_if_fail (gdk_event != NULL);
+
+	if (!gdk_event_get_root_coords (gdk_event, &event_x_root, &event_y_root))
+		return;
+
+	pevent = e_week_view_get_event (week_view, -1, event_num);
+	if (!pevent)
+		return;
+
+	if (week_view->pressed_event_num != -1 &&
+	    week_view->pressed_event_num == event_num &&
+	    week_view->priv->drag_event_num == -1 &&
+	    week_view->drag_event_x != -1 &&
+	    week_view->drag_event_y != -1 &&
+	    gtk_drag_check_threshold (GTK_WIDGET (week_view), week_view->drag_event_x, week_view->drag_event_y, event_x_root, event_y_root) &&
+	    !e_client_is_readonly (E_CLIENT (pevent->comp_data->client))) {
+		GtkTargetList *target_list;
+
+		week_view->priv->drag_event_num = event_num;
+		week_view->priv->drag_from_day = e_week_view_convert_position_to_day (week_view, week_view->drag_event_x, week_view->drag_event_y);
+
+		target_list = gtk_target_list_new (
+			target_table, G_N_ELEMENTS (target_table));
+		gtk_drag_begin_with_coordinates (
+			week_view->main_canvas, target_list,
+			GDK_ACTION_COPY | GDK_ACTION_MOVE,
+			1, gdk_event, event_x_root, event_y_root);
+		gtk_target_list_unref (target_list);
+	}
+}
+
 static gboolean
 background_item_event_cb (GnomeCanvasItem *item,
 			  GdkEvent *event,
@@ -3674,6 +3835,7 @@ background_item_event_cb (GnomeCanvasItem *item,
 			pevent->x = ((GdkEventMotion *) event)->x_root;
 			pevent->y = ((GdkEventMotion *) event)->y_root;
 
+			e_week_view_maybe_start_event_drag_on_motion (view, event, event_num);
 			return TRUE;
 		case GDK_LEAVE_NOTIFY:
 		case GDK_KEY_PRESS:
@@ -4341,6 +4503,8 @@ e_week_view_on_text_item_event (GnomeCanvasItem *item,
 					span_num,
 					NULL);
 				week_view->pressed_event_num = -1;
+				week_view->drag_event_x = -1;
+				week_view->drag_event_y = -1;
 			}
 
 			/* Stop the signal last or we will also stop any
@@ -4349,6 +4513,8 @@ e_week_view_on_text_item_event (GnomeCanvasItem *item,
 			return TRUE;
 		}
 		week_view->pressed_event_num = -1;
+		week_view->drag_event_x = -1;
+		week_view->drag_event_y = -1;
 		break;
 	case GDK_ENTER_NOTIFY:
 	{
@@ -4381,6 +4547,10 @@ e_week_view_on_text_item_event (GnomeCanvasItem *item,
 
 		pevent->x = (gint) event_x_root;
 		pevent->y = (gint) event_y_root;
+
+		if (!E_TEXT (item)->editing)
+			e_week_view_maybe_start_event_drag_on_motion (week_view, gdk_event, nevent);
+
 		return TRUE;
 	case GDK_FOCUS_CHANGE:
 		if (gdk_event->focus_change.in) {
