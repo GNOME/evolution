@@ -2093,6 +2093,7 @@ tree_drag_begin (GtkWidget *widget,
 
 	s = gtk_tree_view_create_row_drag_icon (tree_view, path);
 	gtk_drag_set_icon_surface (context, s);
+	cairo_surface_destroy (s);
 
 	gtk_tree_path_free (path);
 }

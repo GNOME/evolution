@@ -486,6 +486,7 @@ event_box_drag_begin (GtkWidget *widget,
 	cairo_surface_set_device_offset (surface, 0, 0);
 
 	gtk_drag_set_icon_surface (context, surface);
+	cairo_surface_destroy (surface);
 }
 
 static gboolean
