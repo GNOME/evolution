@@ -845,6 +845,20 @@ style_updated_cb (EWebView *web_view)
 }
 
 static void
+e_web_view_set_has_selection (EWebView *web_view,
+			      gboolean has_selection)
+{
+	g_return_if_fail (E_IS_WEB_VIEW (web_view));
+
+	if ((!web_view->priv->has_selection) == (!has_selection))
+		return;
+
+	web_view->priv->has_selection = has_selection;
+
+	g_object_notify (G_OBJECT (web_view), "has-selection");
+}
+
+static void
 web_view_load_changed_cb (WebKitWebView *webkit_web_view,
                           WebKitLoadEvent load_event,
                           gpointer user_data)
@@ -853,8 +867,10 @@ web_view_load_changed_cb (WebKitWebView *webkit_web_view,
 
 	web_view = E_WEB_VIEW (webkit_web_view);
 
-	if (load_event == WEBKIT_LOAD_STARTED)
+	if (load_event == WEBKIT_LOAD_STARTED) {
 		g_hash_table_remove_all (web_view->priv->element_clicked_cbs);
+		e_web_view_set_has_selection (web_view, FALSE);
+	}
 
 	if (load_event != WEBKIT_LOAD_FINISHED)
 		return;
@@ -1481,21 +1497,6 @@ e_web_view_content_loaded_cb (WebKitUserContentManager *manager,
 
 	g_free (iframe_id);
 }
-
-static void
-e_web_view_set_has_selection (EWebView *web_view,
-			      gboolean has_selection)
-{
-	g_return_if_fail (E_IS_WEB_VIEW (web_view));
-
-	if ((!web_view->priv->has_selection) == (!has_selection))
-		return;
-
-	web_view->priv->has_selection = has_selection;
-
-	g_object_notify (G_OBJECT (web_view), "has-selection");
-}
-
 
 static void
 e_web_view_has_selection_cb (WebKitUserContentManager *manager,
