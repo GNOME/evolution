@@ -1438,6 +1438,18 @@ year_view_month_drag_motion_cb (GtkWidget *widget,
 		month != self->priv->drag_month ||
 		year != self->priv->drag_year);
 
+	if (can_drop) {
+		GSList *link;
+
+		can_drop = FALSE;
+
+		for (link = self->priv->drag_data; link && !can_drop; link = g_slist_next (link)) {
+			DragData *dd = link->data;
+
+			can_drop = !e_client_is_readonly (E_CLIENT (dd->client));
+		}
+	}
+
 	gdk_drag_status (context,
 		can_drop ? gdk_drag_context_get_selected_action (context) : 0, time);
 

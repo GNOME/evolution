@@ -2557,6 +2557,10 @@ cal_comp_util_move_component_by_days (GtkWindow *parent,
 	g_return_val_if_fail (E_IS_CAL_COMPONENT (in_comp), FALSE);
 	g_return_val_if_fail (days != 0, FALSE);
 
+	/* Silently skip requests for read-only clients */
+	if (e_client_is_readonly (E_CLIENT (client)))
+		return TRUE;
+
 	registry = e_cal_model_get_registry (model);
 
 	if (e_cal_component_has_attendees (in_comp) &&
