@@ -3547,7 +3547,7 @@ print_comp_draw_real (GtkPrintOperation *operation,
 	ECalComponent *comp;
 	ECalComponentVType vtype;
 	ECalComponentText *text;
-	GSList *desc, *contact_list, *elem;
+	GSList *contact_list, *elem;
 	const gchar *title;
 	gchar *categories, *location;
 	gchar *categories_string, *location_string, *summary_string;
@@ -3798,6 +3798,8 @@ print_comp_draw_real (GtkPrintOperation *operation,
 
 	/* Description */
 	if (e_cal_component_get_vtype (comp) == E_CAL_COMPONENT_JOURNAL) {
+		GSList *desc;
+
 		desc = e_cal_component_get_descriptions (comp);
 		for (elem = desc; elem; elem = g_slist_next (elem)) {
 			ECalComponentText *ptext = elem->data;
@@ -3819,6 +3821,8 @@ print_comp_draw_real (GtkPrintOperation *operation,
 				}
 			}
 		}
+
+		g_slist_free_full (desc, e_cal_component_text_free);
 	} else {
 		text = e_cal_component_dup_description_for_locale (comp, NULL);
 
@@ -3844,7 +3848,6 @@ print_comp_draw_real (GtkPrintOperation *operation,
 		e_cal_component_text_free (text);
 	}
 
-	g_slist_free_full (desc, e_cal_component_text_free);
 	pango_font_description_free (font);
 
 	return pages;
