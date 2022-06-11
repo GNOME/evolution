@@ -147,7 +147,6 @@ static void
 e_category_editor_init (ECategoryEditor *editor)
 {
 	GtkWidget *dialog_content;
-	GtkWidget *dialog_action_area;
 	GtkGrid *grid_category_properties;
 	GtkWidget *label_name;
 	GtkWidget *label_icon;
@@ -248,10 +247,6 @@ e_category_editor_init (ECategoryEditor *editor)
 	gtk_grid_attach (grid_category_properties, chooser_button, 1, 1, 1, 1);
 	editor->priv->category_icon = chooser_button;
 
-	dialog_action_area = gtk_dialog_get_action_area (GTK_DIALOG (editor));
-	gtk_button_box_set_layout (
-		GTK_BUTTON_BOX (dialog_action_area), GTK_BUTTONBOX_END);
-
 	gtk_dialog_add_buttons (
 		GTK_DIALOG (editor),
 		_("_Cancel"), GTK_RESPONSE_CANCEL,
@@ -283,7 +278,9 @@ e_category_editor_init (ECategoryEditor *editor)
 ECategoryEditor *
 e_category_editor_new (void)
 {
-	return g_object_new (E_TYPE_CATEGORY_EDITOR, NULL);
+	return g_object_new (E_TYPE_CATEGORY_EDITOR,
+		"use-header-bar", TRUE,
+		NULL);
 }
 
 /**
