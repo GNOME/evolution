@@ -101,7 +101,9 @@ e_categories_dialog_new (const gchar *categories)
 {
 	ECategoriesDialog *dialog;
 
-	dialog = g_object_new (E_TYPE_CATEGORIES_DIALOG, NULL);
+	dialog = g_object_new (E_TYPE_CATEGORIES_DIALOG,
+		"use-header-bar", TRUE,
+		NULL);
 
 	if (categories)
 		e_categories_dialog_set_categories (dialog, categories);
