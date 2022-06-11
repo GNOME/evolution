@@ -244,6 +244,7 @@ e_contact_editor_fullname_new (GtkWindow *parent,
 {
 	GtkWidget *widget = g_object_new (E_TYPE_CONTACT_EDITOR_FULLNAME,
 		"transient-for", parent,
+		"use-header-bar", TRUE,
 		NULL);
 
 	g_object_set (
