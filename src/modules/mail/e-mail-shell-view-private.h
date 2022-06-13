@@ -26,6 +26,8 @@
 #include <glib/gi18n.h>
 #include <camel/camel-search-private.h>  /* for camel_search_word */
 
+#include "shell/e-shell-headerbar.h"
+
 #include <mail/e-mail-folder-create-dialog.h>
 #include <mail/e-mail-reader.h>
 #include <mail/e-mail-reader-utils.h>
@@ -132,9 +134,6 @@ struct _EMailShellViewPrivate {
 	CamelVeeFolder *search_account_all;
 	CamelVeeFolder *search_account_current;
 	GCancellable *search_account_cancel;
-
-	GtkToolItem *send_receive_tool_item;
-	GtkToolItem *send_receive_tool_separator;
 
 	gboolean vfolder_allow_expunge;
 	gboolean ignore_folder_popup_selection_done;

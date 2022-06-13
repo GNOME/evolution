@@ -172,8 +172,7 @@ set(SOURCES
 	e-markdown-editor.c
 	e-markdown-utils.c
 	e-marshal.c
-	e-menu-tool-action.c
-	e-menu-tool-button.c
+	e-headerbar-button.c
 	e-misc-utils.c
 	e-mktemp.c
 	e-month-widget.c
@@ -450,8 +449,7 @@ set(HEADERS
 	e-map.h
 	e-markdown-editor.h
 	e-markdown-utils.h
-	e-menu-tool-action.h
-	e-menu-tool-button.h
+	e-headerbar-button.h
 	e-misc-utils.h
 	e-mktemp.h
 	e-month-widget.h

@@ -30,6 +30,7 @@
 
 #include "shell/e-shell.h"
 #include "shell/e-shell-content.h"
+#include "shell/e-shell-headerbar.h"
 #include "shell/e-shell-view.h"
 #include "shell/e-shell-searchbar.h"
 #include "shell/e-shell-switcher.h"
@@ -80,9 +81,7 @@ struct _EShellWindowPrivate {
 	GtkWidget *switcher;
 	GtkWidget *tooltip_label;
 	GtkWidget *status_notebook;
-
-	/* Miscellaneous */
-	GtkWidget *menubar_box;
+	GtkWidget *headerbar;
 
 	/* Shell signal handlers. */
 	GArray *signal_handler_ids;

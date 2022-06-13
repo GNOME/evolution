@@ -29,6 +29,7 @@
 #include <X11/XF86keysym.h>
 #endif
 
+#include <shell/e-shell-headerbar.h>
 #include <shell/e-shell-utils.h>
 
 #include <libemail-engine/libemail-engine.h>
@@ -2636,6 +2637,13 @@ static GtkActionEntry mail_reader_entries[] = {
 	  N_("Flag the selected messages for follow-up"),
 	  G_CALLBACK (action_mail_flag_for_followup_cb) },
 
+	{ "mail-forward",
+	  "mail-forward",
+	  N_("_Forward"),
+	  "<Control>f",
+	  N_("Forward the selected message to someone"),
+	  G_CALLBACK (action_mail_forward_cb) },
+
 	{ "mail-forward-attached",
 	  NULL,
 	  N_("_Attached"),
@@ -2903,6 +2911,13 @@ static GtkActionEntry mail_reader_entries[] = {
 	  "<Alt><Control>r",
 	  N_("Choose reply options for the selected message"),
 	  G_CALLBACK (action_mail_reply_alternative_cb) },
+
+	{ "mail-reply-group",
+	  "mail-reply-all",
+	  N_("Group Reply"),
+	  "<Control>g",
+	  N_("Reply to the mailing list, or to all recipients"),
+	  G_CALLBACK (action_mail_reply_group_cb) },
 
 	{ "mail-reply-list",
 	  NULL,
@@ -5158,7 +5173,6 @@ e_mail_reader_init (EMailReader *reader,
                     gboolean init_actions,
                     gboolean connect_signals)
 {
-	EMenuToolAction *menu_tool_action;
 	GtkActionGroup *action_group;
 	GtkWidget *message_list;
 	GtkAction *action;
@@ -5190,44 +5204,6 @@ e_mail_reader_init (EMailReader *reader,
 	action_group = e_mail_reader_get_action_group (
 		reader, E_MAIL_READER_ACTION_GROUP_STANDARD);
 
-	/* The "mail-forward" action is special: it uses a GtkMenuToolButton
-	 * for its toolbar item type.  So we have to create it separately. */
-
-	menu_tool_action = e_menu_tool_action_new (
-		"mail-forward", _("_Forward"),
-		_("Forward the selected message to someone"));
-
-	gtk_action_set_icon_name (
-		GTK_ACTION (menu_tool_action), "mail-forward");
-
-	g_signal_connect (
-		menu_tool_action, "activate",
-		G_CALLBACK (action_mail_forward_cb), reader);
-
-	gtk_action_group_add_action_with_accel (
-		action_group, GTK_ACTION (menu_tool_action), "<Control>f");
-
-	/* Likewise the "mail-reply-group" action. */
-
-	menu_tool_action = e_menu_tool_action_new (
-		/* For Translators: "Group Reply" will reply either to a mailing list
-		 * (if possible and if that configuration option is enabled), or else
-		 * it will reply to all. The word "Group" was chosen because it covers
-		 * either of those, without too strongly implying one or the other. */
-		"mail-reply-group", _("Group Reply"),
-		_("Reply to the mailing list, or to all recipients"));
-
-	gtk_action_set_icon_name (
-		GTK_ACTION (menu_tool_action), "mail-reply-all");
-
-	g_signal_connect (
-		menu_tool_action, "activate",
-		G_CALLBACK (action_mail_reply_group_cb), reader);
-
-	gtk_action_group_add_action_with_accel (
-		action_group, GTK_ACTION (menu_tool_action), "<Control>g");
-
-	/* Add the other actions the normal way. */
 	gtk_action_group_add_actions (
 		action_group, mail_reader_entries,
 		G_N_ELEMENTS (mail_reader_entries), reader);
@@ -5285,11 +5261,9 @@ e_mail_reader_init (EMailReader *reader,
 
 	action_name = "mail-forward";
 	action = e_mail_reader_get_action (reader, action_name);
-	gtk_action_set_is_important (action, TRUE);
 
 	action_name = "mail-reply-group";
 	action = e_mail_reader_get_action (reader, action_name);
-	gtk_action_set_is_important (action, TRUE);
 
 	action_name = "mail-next";
 	action = e_mail_reader_get_action (reader, action_name);
@@ -5301,11 +5275,9 @@ e_mail_reader_init (EMailReader *reader,
 
 	action_name = "mail-reply-all";
 	action = e_mail_reader_get_action (reader, action_name);
-	gtk_action_set_is_important (action, TRUE);
 
 	action_name = "mail-reply-sender";
 	action = e_mail_reader_get_action (reader, action_name);
-	gtk_action_set_is_important (action, TRUE);
 	gtk_action_set_short_label (action, _("Reply"));
 
 	action_name = "add-to-address-book";
@@ -6306,4 +6278,122 @@ e_mail_reader_remove_ui (EMailReader *reader)
 	g_return_if_fail (iface->remove_ui != NULL);
 
 	iface->remove_ui (reader);
+}
+
+/**
+ * e_mail_reader_create_reply_menu:
+ * @reader: A #EMailReader
+ *
+ * Get reply menu
+ *
+ * Returns: (transfer full): A new #GtkMenu
+ *
+ * Since: 3.46
+ **/
+GtkWidget *
+e_mail_reader_create_reply_menu (EMailReader *reader)
+{
+	GtkWindow *window;
+	GtkWidget *menu;
+	GtkAction *action;
+	GtkAccelGroup *accel_group;
+	GtkUIManager *ui_manager;
+
+	menu = gtk_menu_new ();
+
+	window = e_mail_reader_get_window (reader);
+	g_return_val_if_fail (window != NULL, menu);
+
+	if (E_IS_SHELL_WINDOW (window))
+		ui_manager = e_shell_window_get_ui_manager (E_SHELL_WINDOW (window));
+	else if (E_IS_MAIL_BROWSER (window))
+		ui_manager = e_mail_browser_get_ui_manager (E_MAIL_BROWSER (window));
+	else
+		return menu;
+
+	accel_group = gtk_ui_manager_get_accel_group (ui_manager);
+
+	action = e_mail_reader_get_action (reader, "mail-reply-all");
+	gtk_action_set_accel_group (action, accel_group);
+	gtk_menu_shell_append (
+		GTK_MENU_SHELL (menu),
+		gtk_action_create_menu_item (action));
+
+	action = e_mail_reader_get_action (reader, "mail-reply-list");
+	gtk_action_set_accel_group (action, accel_group);
+	gtk_menu_shell_append (
+		GTK_MENU_SHELL (menu),
+		gtk_action_create_menu_item (action));
+
+	action = e_mail_reader_get_action (reader, "mail-reply-alternative");
+	gtk_action_set_accel_group (action, accel_group);
+	gtk_menu_shell_append (
+		GTK_MENU_SHELL (menu),
+		gtk_action_create_menu_item (action));
+
+	gtk_widget_show_all (menu);
+
+	return menu;
+}
+
+/**
+ * e_mail_reader_create_forward_menu:
+ * @reader: A #EMailReader
+ *
+ * Get forward menu
+ *
+ * Returns: (transfer full): A new #GtkMenu
+ *
+ * Since: 3.46
+ **/
+GtkWidget *
+e_mail_reader_create_forward_menu (EMailReader *reader)
+{
+	GtkWindow *window;
+	GtkWidget *menu;
+	GtkAction *action;
+	GtkAccelGroup *accel_group;
+	GtkUIManager *ui_manager;
+
+	menu = gtk_menu_new ();
+
+	window = e_mail_reader_get_window (reader);
+	g_return_val_if_fail (window != NULL, menu);
+
+	if (E_IS_SHELL_WINDOW (window))
+		ui_manager = e_shell_window_get_ui_manager (E_SHELL_WINDOW (window));
+	else if (E_IS_MAIL_BROWSER (window))
+		ui_manager = e_mail_browser_get_ui_manager (E_MAIL_BROWSER (window));
+	else
+		return menu;
+
+	accel_group = gtk_ui_manager_get_accel_group (ui_manager);
+
+	action = e_mail_reader_get_action (reader, "mail-forward-attached-full");
+	gtk_action_set_accel_group (action, accel_group);
+	gtk_menu_shell_append (
+		GTK_MENU_SHELL (menu),
+		gtk_action_create_menu_item (action));
+
+	action = e_mail_reader_get_action (reader, "mail-forward-inline-full");
+	gtk_action_set_accel_group (action, accel_group);
+	gtk_menu_shell_append (
+		GTK_MENU_SHELL (menu),
+		gtk_action_create_menu_item (action));
+
+	action = e_mail_reader_get_action (reader, "mail-forward-quoted-full");
+	gtk_action_set_accel_group (action, accel_group);
+	gtk_menu_shell_append (
+		GTK_MENU_SHELL (menu),
+		gtk_action_create_menu_item (action));
+
+	action = e_mail_reader_get_action (reader, "mail-redirect");
+	gtk_action_set_accel_group (action, accel_group);
+	gtk_menu_shell_append (
+		GTK_MENU_SHELL (menu),
+		gtk_action_create_menu_item (action));
+
+	gtk_widget_show_all (menu);
+
+	return menu;
 }

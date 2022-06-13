@@ -277,14 +277,13 @@
     <xi:include href="xml/e-ellipsized-combo-box-text.xml"/>
     <xi:include href="xml/e-file-utils.xml"/>
     <xi:include href="xml/e-focus-tracker.xml"/>
+    <xi:include href="xml/e-headerbar-button.xml"/>
     <xi:include href="xml/e-image-chooser.xml"/>
     <xi:include href="xml/e-import-assistant.xml"/>
     <xi:include href="xml/e-interval-chooser.xml"/>
     <xi:include href="xml/e-mail-identity-combo-box.xml"/>
     <xi:include href="xml/e-map.xml"/>
     <xi:include href="xml/e-markdown-editor.xml"/>
-    <xi:include href="xml/e-menu-tool-action.xml"/>
-    <xi:include href="xml/e-menu-tool-button.xml"/>
     <xi:include href="xml/e-mktemp.xml"/>
     <xi:include href="xml/e-month-widget.xml"/>
     <xi:include href="xml/e-name-selector-dialog.xml"/>

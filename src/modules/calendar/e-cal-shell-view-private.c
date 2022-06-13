@@ -309,6 +309,37 @@ cal_shell_view_taskpad_settings_changed_cb (GSettings *settings,
 	}
 }
 
+static void
+cal_shell_view_update_header_bar (ECalShellView *cal_shell_view)
+{
+	EShellWindow *shell_window;
+	EShellView *shell_view;
+	EShellHeaderBar *shell_headerbar;
+	GtkWidget *widget;
+	GtkAction *action;
+
+	shell_view = E_SHELL_VIEW (cal_shell_view);
+	shell_window = e_shell_view_get_shell_window (shell_view);
+	shell_headerbar = E_SHELL_HEADER_BAR (gtk_window_get_titlebar (GTK_WINDOW (shell_window)));
+
+	e_shell_header_bar_clear (shell_headerbar, "e-cal-shell-view");
+	if (!e_shell_view_is_active (shell_view))
+		return;
+
+	action = ACTION (CALENDAR_GO_BACK);
+	widget = e_header_bar_button_new (NULL, action);
+	gtk_widget_set_name (widget, "e-cal-shell-view-buttons");
+	gtk_widget_show (widget);
+
+	action = ACTION (CALENDAR_GO_TODAY);
+	e_header_bar_button_add_action (E_HEADER_BAR_BUTTON (widget), NULL, action);
+
+	action = ACTION (CALENDAR_GO_FORWARD);
+	e_header_bar_button_add_action (E_HEADER_BAR_BUTTON (widget), NULL, action);
+
+	e_shell_header_bar_pack_end (shell_headerbar, widget);
+}
+
 void
 e_cal_shell_view_private_init (ECalShellView *cal_shell_view)
 {
@@ -398,6 +429,12 @@ e_cal_shell_view_private_constructed (ECalShellView *cal_shell_view)
 	 * disconnect our signal handlers in dispose(). */
 	priv->client_cache = e_shell_get_client_cache (shell);
 	g_object_ref (priv->client_cache);
+
+	g_signal_connect_object (
+		cal_shell_view, "toggled",
+		G_CALLBACK (cal_shell_view_update_header_bar),
+		NULL,
+		G_CONNECT_AFTER);
 
 	handler_id = g_signal_connect (
 		priv->client_cache, "backend-error",

@@ -155,8 +155,7 @@
 #include <e-util/e-map.h>
 #include <e-util/e-markdown-editor.h>
 #include <e-util/e-markdown-utils.h>
-#include <e-util/e-menu-tool-action.h>
-#include <e-util/e-menu-tool-button.h>
+#include <e-util/e-headerbar-button.h>
 #include <e-util/e-misc-utils.h>
 #include <e-util/e-mktemp.h>
 #include <e-util/e-month-widget.h>

@@ -28,6 +28,7 @@
 
 #include <libecal/libecal.h>
 
+#include <shell/e-shell-headerbar.h>
 #include <shell/e-shell-utils.h>
 
 #include <calendar/gui/calendar-config.h>

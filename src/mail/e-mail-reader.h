@@ -214,6 +214,9 @@ void		e_mail_reader_composer_created	(EMailReader *reader,
 						 CamelMimeMessage *message);
 void		e_mail_reader_reload		(EMailReader *reader);
 void		e_mail_reader_remove_ui		(EMailReader *reader);
+GtkWidget *	e_mail_reader_create_reply_menu	(EMailReader *reader);
+GtkWidget *	e_mail_reader_create_forward_menu
+						(EMailReader *reader);
 
 G_END_DECLS
 

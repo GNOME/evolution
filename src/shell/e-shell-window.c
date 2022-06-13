@@ -109,42 +109,6 @@ shell_window_menubar_update_new_menu (EShellWindow *shell_window)
 }
 
 static void
-shell_window_toolbar_update_new_menu (GtkMenuToolButton *menu_tool_button,
-                                      GParamSpec *pspec,
-                                      EShellWindow *shell_window)
-{
-	GtkWidget *menu;
-
-	/* Update the "New" menu tool button submenu. */
-	menu = e_shell_window_create_new_menu (shell_window);
-	gtk_menu_tool_button_set_menu (menu_tool_button, menu);
-}
-
-static gboolean
-shell_window_active_view_to_prefer_item (GBinding *binding,
-                                         const GValue *source_value,
-                                         GValue *target_value,
-                                         gpointer user_data)
-{
-	GObject *source_object;
-	EShell *shell;
-	EShellBackend *shell_backend;
-	const gchar *active_view;
-	const gchar *prefer_item;
-
-	active_view = g_value_get_string (source_value);
-
-	source_object = g_binding_get_source (binding);
-	shell = e_shell_window_get_shell (E_SHELL_WINDOW (source_object));
-	shell_backend = e_shell_get_backend_by_name (shell, active_view);
-	prefer_item = e_shell_backend_get_prefer_new_item (shell_backend);
-
-	g_value_set_string (target_value, prefer_item);
-
-	return TRUE;
-}
-
-static void
 shell_window_set_notebook_page (EShellWindow *shell_window,
                                 GParamSpec *pspec,
                                 GtkNotebook *notebook)
@@ -473,12 +437,8 @@ shell_window_construct_menubar (EShellWindow *shell_window)
 static GtkWidget *
 shell_window_construct_toolbar (EShellWindow *shell_window)
 {
-	GtkUIManager *ui_manager;
 	GtkWidget *toolbar;
 	GtkWidget *box;
-	GtkToolItem *item;
-
-	ui_manager = e_shell_window_get_ui_manager (shell_window);
 
 	box = gtk_box_new (GTK_ORIENTATION_HORIZONTAL, 0);
 	gtk_widget_show (box);
@@ -490,69 +450,23 @@ shell_window_construct_toolbar (EShellWindow *shell_window)
 
 	toolbar = e_shell_window_get_managed_widget (
 		shell_window, "/main-toolbar");
+	gtk_toolbar_set_icon_size (GTK_TOOLBAR (toolbar), GTK_ICON_SIZE_BUTTON);
 
 	gtk_style_context_add_class (
 		gtk_widget_get_style_context (toolbar),
 		GTK_STYLE_CLASS_PRIMARY_TOOLBAR);
-
-	/* XXX Having this separator in the UI definition doesn't work
-	 *     because GtkUIManager is unaware of the "New" button, so
-	 *     it makes the separator invisible.  One possibility is to
-	 *     define a GtkAction subclass for which create_tool_item()
-	 *     return an EMenuToolButton.  Then both this separator
-	 *     and the "New" button could be added to the UI definition.
-	 *     Tempting, but the "New" button and its dynamically
-	 *     generated menu is already a complex beast, and I'm not
-	 *     convinced having it proxy some new type of GtkAction
-	 *     is worth the extra effort. */
-	item = gtk_separator_tool_item_new ();
-	gtk_toolbar_insert (GTK_TOOLBAR (toolbar), item, 0);
-	gtk_widget_show (GTK_WIDGET (item));
-
-	/* Translators: a 'New' toolbar button caption which is context sensitive and
-	   runs one of the actions under File->New menu */
-	item = e_menu_tool_button_new (C_("toolbar-button", "New"));
-	gtk_tool_item_set_is_important (GTK_TOOL_ITEM (item), TRUE);
-	gtk_widget_add_accelerator (
-		GTK_WIDGET (item), "clicked",
-		gtk_ui_manager_get_accel_group (ui_manager),
-		GDK_KEY_N, GDK_CONTROL_MASK, GTK_ACCEL_VISIBLE);
-	gtk_toolbar_insert (GTK_TOOLBAR (toolbar), item, 0);
-	gtk_widget_show (GTK_WIDGET (item));
-
-	/* XXX The ECalShellBackend has a hack where it forces the
-	 *     EMenuToolButton to update its button image by forcing
-	 *     a "notify::active-view" signal emission on the window.
-	 *     This will trigger the property binding, which will set
-	 *     EMenuToolButton's "prefer-item" property, which will
-	 *     invoke shell_window_toolbar_update_new_menu(), which
-	 *     will cause EMenuToolButton to update its button image.
-	 *
-	 *     It's a bit of a Rube Goldberg machine and should be
-	 *     reworked, but it's just serving one (now documented)
-	 *     corner case and works for now. */
-	e_binding_bind_property_full (
-		shell_window, "active-view",
-		item, "prefer-item",
-		G_BINDING_SYNC_CREATE,
-		shell_window_active_view_to_prefer_item,
-		(GBindingTransformFunc) NULL,
-		NULL, (GDestroyNotify) NULL);
-
-	g_signal_connect (
-		item, "notify::prefer-item",
-		G_CALLBACK (shell_window_toolbar_update_new_menu),
-		shell_window);
 
 	gtk_box_pack_start (GTK_BOX (box), toolbar, TRUE, TRUE, 0);
 
 	toolbar = e_shell_window_get_managed_widget (
 		shell_window, "/search-toolbar");
 	gtk_toolbar_set_show_arrow (GTK_TOOLBAR (toolbar), FALSE);
+	gtk_toolbar_set_icon_size (GTK_TOOLBAR (toolbar), GTK_ICON_SIZE_BUTTON);
 
 	toolbar = e_shell_window_get_managed_widget (
 		shell_window, "/close-toolbar");
 	gtk_toolbar_set_show_arrow (GTK_TOOLBAR (toolbar), FALSE);
+	gtk_toolbar_set_icon_size (GTK_TOOLBAR (toolbar), GTK_ICON_SIZE_BUTTON);
 
 	return box;
 }
