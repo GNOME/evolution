@@ -457,7 +457,8 @@ action_set_visible_and_sensitive (GtkAction *action,
 static void
 html_editor_update_actions (EHTMLEditor *editor,
 			    EContentEditorNodeFlags flags,
-			    const gchar *caret_word)
+			    const gchar *caret_word,
+			    const gchar *hover_uri)
 {
 	EContentEditor *cnt_editor;
 	ESpellChecker *spell_checker;
@@ -472,16 +473,22 @@ html_editor_update_actions (EHTMLEditor *editor,
 	cnt_editor = e_html_editor_get_content_editor (editor);
 
 	if (camel_debug ("webkit:editor"))
-		printf ("%s: flags:%d(%x)\n", G_STRFUNC, flags, flags);
+		printf ("%s: flags:%d(%x) caret-word:'%s' hover_uri:'%s'\n", G_STRFUNC, flags, flags, caret_word, hover_uri);
+
+	g_clear_pointer (&editor->priv->context_hover_uri, g_free);
+	editor->priv->context_hover_uri = hover_uri && *hover_uri ? g_strdup (hover_uri) : NULL;
 
 	visible = (flags & E_CONTENT_EDITOR_NODE_IS_IMAGE);
 	action_set_visible_and_sensitive (ACTION (CONTEXT_PROPERTIES_IMAGE), visible);
 	action_set_visible_and_sensitive (ACTION (CONTEXT_DELETE_IMAGE), visible);
 
 	visible = (flags & E_CONTENT_EDITOR_NODE_IS_ANCHOR);
-	if (visible)
-		action_set_visible_and_sensitive (ACTION (CONTEXT_INSERT_LINK), visible);
+	action_set_visible_and_sensitive (ACTION (CONTEXT_INSERT_LINK), !visible);
 	action_set_visible_and_sensitive (ACTION (CONTEXT_PROPERTIES_LINK), visible);
+
+	visible = hover_uri && *hover_uri;
+	action_set_visible_and_sensitive (ACTION (CONTEXT_COPY_LINK), visible);
+	action_set_visible_and_sensitive (ACTION (CONTEXT_OPEN_LINK), visible);
 
 	visible = (flags & E_CONTENT_EDITOR_NODE_IS_H_RULE);
 	action_set_visible_and_sensitive (ACTION (CONTEXT_PROPERTIES_RULE), visible);
@@ -619,6 +626,7 @@ typedef struct _ContextMenuData {
 	GWeakRef *editor_weakref; /* EHTMLEditor * */
 	EContentEditorNodeFlags flags;
 	gchar *caret_word;
+	gchar *hover_uri;
 	GdkEvent *event;
 } ContextMenuData;
 
@@ -631,6 +639,7 @@ context_menu_data_free (gpointer ptr)
 		g_clear_pointer (&cmd->event, gdk_event_free);
 		e_weak_ref_free (cmd->editor_weakref);
 		g_free (cmd->caret_word);
+		g_free (cmd->hover_uri);
 		g_slice_free (ContextMenuData, cmd);
 	}
 }
@@ -659,7 +668,7 @@ html_editor_show_context_menu_idle_cb (gpointer user_data)
 
 		menu = e_html_editor_get_managed_widget (editor, "/context-menu");
 
-		g_signal_emit (editor, signals[UPDATE_ACTIONS], 0, cmd->flags, cmd->caret_word);
+		g_signal_emit (editor, signals[UPDATE_ACTIONS], 0, cmd->flags, cmd->caret_word, cmd->hover_uri);
 
 		if (!gtk_menu_get_attach_widget (GTK_MENU (menu))) {
 			gtk_menu_attach_to_widget (GTK_MENU (menu), GTK_WIDGET (editor), NULL);
@@ -692,6 +701,7 @@ html_editor_context_menu_requested_cb (EContentEditor *cnt_editor,
 	cmd->editor_weakref = e_weak_ref_new (editor);
 	cmd->flags = flags;
 	cmd->caret_word = g_strdup (caret_word);
+	cmd->hover_uri = g_strdup (e_content_editor_get_hover_uri (cnt_editor));
 	cmd->event = gdk_event_copy (event);
 
 	g_idle_add_full (G_PRIORITY_LOW, html_editor_show_context_menu_idle_cb,
@@ -1074,6 +1084,9 @@ html_editor_dispose (GObject *object)
 
 	g_clear_object (&priv->mode_change_content_cancellable);
 
+	g_clear_pointer (&priv->filename, g_free);
+	g_clear_pointer (&priv->context_hover_uri, g_free);
+
 	/* Do not unbind/disconnect signal handlers here, just free/unset them */
 	g_slist_free_full (priv->content_editor_bindings, g_object_unref);
 	priv->content_editor_bindings = NULL;
@@ -1171,8 +1184,9 @@ e_html_editor_class_init (EHTMLEditorClass *class)
 		G_STRUCT_OFFSET (EHTMLEditorClass, update_actions),
 		NULL, NULL,
 		NULL,
-		G_TYPE_NONE, 2,
+		G_TYPE_NONE, 3,
 		G_TYPE_UINT,
+		G_TYPE_STRING,
 		G_TYPE_STRING);
 
 	signals[SPELL_LANGUAGES_CHANGED] = g_signal_new (

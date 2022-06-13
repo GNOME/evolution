@@ -16,6 +16,8 @@
 
 #include "evolution-config.h"
 
+#include <glib/gi18n-lib.h>
+
 #include "e-webkit-editor.h"
 
 #include "e-util/e-util.h"
@@ -734,9 +736,11 @@ context_menu_requested_cb (WebKitUserContentManager *manager,
 	g_return_if_fail (jsc_value_is_object (jsc_params));
 
 	g_clear_pointer (&wk_editor->priv->context_menu_caret_word, g_free);
+	g_clear_pointer (&wk_editor->priv->last_hover_uri, g_free);
 
 	wk_editor->priv->context_menu_node_flags = e_web_view_jsc_get_object_property_int32 (jsc_params, "nodeFlags", 0);
 	wk_editor->priv->context_menu_caret_word = e_web_view_jsc_get_object_property_string (jsc_params, "caretWord", NULL);
+	wk_editor->priv->last_hover_uri = e_web_view_jsc_get_object_property_string (jsc_params, "anchorHref", NULL);
 }
 
 static gboolean
@@ -4432,8 +4436,7 @@ webkit_editor_finalize (GObject *object)
 	g_clear_pointer (&priv->body_link_color, gdk_rgba_free);
 	g_clear_pointer (&priv->body_vlink_color, gdk_rgba_free);
 
-	g_free (priv->last_hover_uri);
-	priv->last_hover_uri = NULL;
+	g_clear_pointer (&priv->last_hover_uri, g_free);
 
 	g_clear_object (&priv->spell_checker);
 	g_clear_object (&priv->cancellable);
@@ -5178,11 +5181,14 @@ webkit_editor_mouse_target_changed_cb (EWebKitEditor *wk_editor,
 {
 	g_return_if_fail (E_IS_WEBKIT_EDITOR (wk_editor));
 
-	g_free (wk_editor->priv->last_hover_uri);
-	wk_editor->priv->last_hover_uri = NULL;
+	g_clear_pointer (&wk_editor->priv->last_hover_uri, g_free);
 
-	if (webkit_hit_test_result_context_is_link (hit_test_result))
-		wk_editor->priv->last_hover_uri = g_strdup (webkit_hit_test_result_get_link_uri (hit_test_result));
+	if (webkit_hit_test_result_context_is_link (hit_test_result)) {
+		if (wk_editor->priv->mode == E_CONTENT_EDITOR_MODE_HTML)
+			wk_editor->priv->last_hover_uri = g_strdup (webkit_hit_test_result_get_link_uri (hit_test_result));
+		else
+			wk_editor->priv->last_hover_uri = g_strdup (webkit_hit_test_result_get_link_label (hit_test_result));
+	}
 }
 
 static gboolean
@@ -5455,6 +5461,40 @@ e_webkit_editor_cid_resolver_ref_part (ECidResolver *resolver,
 	g_return_val_if_fail (E_IS_WEBKIT_EDITOR (resolver), NULL);
 
 	return e_content_editor_emit_ref_mime_part (E_CONTENT_EDITOR (resolver), cid_uri);
+}
+
+static const gchar *
+webkit_editor_get_hover_uri (EContentEditor *editor)
+{
+	EWebKitEditor *wk_editor = E_WEBKIT_EDITOR (editor);
+
+	return wk_editor->priv->last_hover_uri;
+}
+
+static gboolean
+webkit_editor_query_tooltip_cb (GtkWidget *widget,
+				gint xx,
+				gint yy,
+				gboolean keyboard_mode,
+				GtkTooltip *tooltip,
+				gpointer user_data)
+{
+	EWebKitEditor *wk_editor;
+	gchar *str;
+
+	g_return_val_if_fail (E_IS_WEBKIT_EDITOR (widget), FALSE);
+
+	wk_editor = E_WEBKIT_EDITOR (widget);
+
+	if (!wk_editor->priv->last_hover_uri || !*wk_editor->priv->last_hover_uri)
+		return FALSE;
+
+	/* Translators: The "%s" is replaced with a link, constructing a text like: "Ctrl-click to open a link “http://www.example.com”" */
+	str = g_strdup_printf (_("Ctrl-click to open a link “%s”"), wk_editor->priv->last_hover_uri);
+	gtk_tooltip_set_text (tooltip, str);
+	g_free (str);
+
+	return TRUE;
 }
 
 static gboolean
@@ -5799,6 +5839,12 @@ e_webkit_editor_init (EWebKitEditor *wk_editor)
 		wk_editor, "state-flags-changed",
 		G_CALLBACK (webkit_editor_style_updated_cb), NULL);
 
+	gtk_widget_set_has_tooltip (GTK_WIDGET (wk_editor), TRUE);
+
+	g_signal_connect (
+		wk_editor, "query-tooltip",
+		G_CALLBACK (webkit_editor_query_tooltip_cb), NULL);
+
 	g_settings = e_util_ref_settings ("org.gnome.desktop.interface");
 	g_signal_connect (
 		g_settings, "changed::font-name",
@@ -5965,6 +6011,7 @@ e_webkit_editor_content_editor_init (EContentEditorInterface *iface)
 	iface->spell_check_prev_word = webkit_editor_spell_check_prev_word;
 	iface->delete_h_rule = webkit_editor_delete_h_rule;
 	iface->delete_image = webkit_editor_delete_image;
+	iface->get_hover_uri = webkit_editor_get_hover_uri;
 }
 
 static void

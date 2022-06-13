@@ -3855,6 +3855,21 @@ e_content_editor_spell_check_prev_word (EContentEditor *editor,
 	return iface->spell_check_prev_word (editor, word);
 }
 
+const gchar *
+e_content_editor_get_hover_uri (EContentEditor *editor)
+{
+	EContentEditorInterface *iface;
+
+	g_return_val_if_fail (E_IS_CONTENT_EDITOR (editor), NULL);
+
+	iface = E_CONTENT_EDITOR_GET_IFACE (editor);
+	g_return_val_if_fail (iface != NULL, NULL);
+	if (!iface->get_hover_uri)
+		return NULL;
+
+	return iface->get_hover_uri (editor);
+}
+
 void
 e_content_editor_emit_load_finished (EContentEditor *editor)
 {

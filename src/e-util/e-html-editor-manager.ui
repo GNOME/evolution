@@ -158,6 +158,8 @@
     <menuitem action='paste-quote'/>
     <menuitem action='paste-as-text'/>
     <separator/>
+    <menuitem action='context-copy-link'/>
+    <menuitem action='context-open-link'/>
     <menuitem action='context-insert-link'/>
     <menuitem action='context-remove-link'/>
     <separator/>

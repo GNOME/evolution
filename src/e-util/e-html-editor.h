@@ -69,7 +69,8 @@ struct _EHTMLEditorClass {
 
 	void		(*update_actions)	(EHTMLEditor *editor,
 						 EContentEditorNodeFlags flags,
-						 const gchar *caret_word);
+						 const gchar *caret_word,
+						 const gchar *hover_uri);
 
 	void		(*spell_languages_changed)
 						(EHTMLEditor *editor);

@@ -6434,12 +6434,16 @@ EvoEditor.onContextMenu = function(event)
 
 	EvoEditor.contextMenuNode = node;
 
-	var nodeFlags = EvoEditor.E_CONTENT_EDITOR_NODE_UNKNOWN, res;
+	var nodeFlags = EvoEditor.E_CONTENT_EDITOR_NODE_UNKNOWN, res, anchorHref = "";
 
 	while (node && node.tagName != "BODY") {
-		if (node.tagName == "A")
+		if (node.tagName == "A") {
 			nodeFlags |= EvoEditor.E_CONTENT_EDITOR_NODE_IS_ANCHOR;
-		else if (node.tagName == "HR")
+			if (EvoEditor.mode == EvoEditor.MODE_PLAIN_TEXT)
+				anchorHref = node.innerText;
+			else
+				anchorHref = node.href;
+		} else if (node.tagName == "HR")
 			nodeFlags |= EvoEditor.E_CONTENT_EDITOR_NODE_IS_H_RULE;
 		else if (node.tagName == "IMG")
 			nodeFlags |= EvoEditor.E_CONTENT_EDITOR_NODE_IS_IMAGE;
@@ -6461,6 +6465,7 @@ EvoEditor.onContextMenu = function(event)
 
 	res["nodeFlags"] = nodeFlags;
 	res["caretWord"] = EvoEditor.GetCaretWord();
+	res["anchorHref"] = anchorHref;
 
 	window.webkit.messageHandlers.contextMenuRequested.postMessage(res);
 }

@@ -29,6 +29,8 @@
 
 #define E_HTML_EDITOR_ACTION_BOLD(editor) \
 	E_HTML_EDITOR_ACTION ((editor), "bold")
+#define E_HTML_EDITOR_ACTION_CONTEXT_COPY_LINK(editor) \
+	E_HTML_EDITOR_ACTION ((editor), "context-copy-link")
 #define E_HTML_EDITOR_ACTION_CONTEXT_DELETE_CELL(editor) \
 	E_HTML_EDITOR_ACTION ((editor), "context-delete-cell")
 #define E_HTML_EDITOR_ACTION_CONTEXT_DELETE_COLUMN(editor) \
@@ -51,6 +53,8 @@
 	E_HTML_EDITOR_ACTION ((editor), "context-insert-row-above")
 #define E_HTML_EDITOR_ACTION_CONTEXT_INSERT_ROW_BELOW(editor) \
 	E_HTML_EDITOR_ACTION ((editor), "context-insert-row-below")
+#define E_HTML_EDITOR_ACTION_CONTEXT_OPEN_LINK(editor) \
+	E_HTML_EDITOR_ACTION ((editor), "context-open-link")
 #define E_HTML_EDITOR_ACTION_CONTEXT_PROPERTIES_CELL(editor) \
 	E_HTML_EDITOR_ACTION ((editor), "context-properties-cell")
 #define E_HTML_EDITOR_ACTION_CONTEXT_PROPERTIES_IMAGE(editor) \

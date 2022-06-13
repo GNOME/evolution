@@ -141,8 +141,41 @@ insert_text_file_ready_cb (GFile *file,
  *****************************************************************************/
 
 static void
+action_copy_link_cb (GtkAction *action,
+		     EHTMLEditor *editor)
+{
+	GtkClipboard *clipboard;
+
+	if (!editor->priv->context_hover_uri)
+		return;
+
+	clipboard = gtk_clipboard_get (GDK_SELECTION_PRIMARY);
+	gtk_clipboard_set_text (clipboard, editor->priv->context_hover_uri, -1);
+	gtk_clipboard_store (clipboard);
+
+	clipboard = gtk_clipboard_get (GDK_SELECTION_CLIPBOARD);
+	gtk_clipboard_set_text (clipboard, editor->priv->context_hover_uri, -1);
+	gtk_clipboard_store (clipboard);
+}
+
+static void
+action_open_link_cb (GtkAction *action,
+		     EHTMLEditor *editor)
+{
+	gpointer parent;
+
+	if (!editor->priv->context_hover_uri)
+		return;
+
+	parent = gtk_widget_get_toplevel (GTK_WIDGET (editor));
+	parent = gtk_widget_is_toplevel (parent) ? parent : NULL;
+
+	e_show_uri (parent, editor->priv->context_hover_uri);
+}
+
+static void
 action_context_delete_cell_contents_cb (GtkAction *action,
-                               EHTMLEditor *editor)
+					EHTMLEditor *editor)
 {
 	EContentEditor *cnt_editor;
 
@@ -1666,6 +1699,20 @@ static GtkRadioActionEntry html_size_entries[] = {
  *****************************************************************************/
 
 static GtkActionEntry context_entries[] = {
+
+	{ "context-copy-link",
+	  "edit-copy",
+	  N_("Copy _Link Location"),
+	  NULL,
+	  N_("Copy the link to the clipboard"),
+	  G_CALLBACK (action_copy_link_cb) },
+
+	{ "context-open-link",
+	  "emblem-web",
+	  N_("_Open Link in Browser"),
+	  NULL,
+	  N_("Open the link in a web browser"),
+	  G_CALLBACK (action_open_link_cb) },
 
 	{ "context-delete-cell",
 	  NULL,

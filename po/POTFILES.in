@@ -494,6 +494,7 @@ src/modules/text-highlight/languages.c
 src/modules/vcard-inline/e-mail-formatter-vcard.c
 src/modules/vcard-inline/e-mail-parser-vcard.c
 src/modules/vcard-inline/e-mail-part-vcard.c
+src/modules/webkit-editor/e-webkit-editor.c
 src/modules/webkit-inspector/evolution-webkit-inspector.c
 src/plugins/attachment-reminder/attachment-reminder.c
 src/plugins/attachment-reminder/org-gnome-attachment-reminder.error.xml

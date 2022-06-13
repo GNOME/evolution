@@ -111,6 +111,8 @@ struct _EHTMLEditorPrivate {
 	gint editor_layout_row;
 
 	gboolean paste_plain_prefer_pre;
+
+	gchar *context_hover_uri;
 };
 
 void		e_html_editor_actions_init	(EHTMLEditor *editor);
