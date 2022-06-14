@@ -3386,7 +3386,7 @@ msgid ""
 msgstr ""
 "El format de la llista és «destinatari&lt;tabulació&gt;remitent», on el "
 "destinatari pot ser només una part de l'adreça i el destinatari és una "
-"adreça de correu electrònic completa, que ha de coincidir amb l'adreça «De»."
+"adreça electrònica completa, que ha de coincidir amb l'adreça «De»."
 
 #: ../data/org.gnome.evolution.plugin.templates.gschema.xml.in.h:1
 msgid ""
@@ -13785,7 +13785,7 @@ msgid ""
 "addition to the domain of the e-mail address."
 msgstr ""
 "Llista de servidors per a cercar informació separats per punt i coma («;»), "
-"a més del domini de l'adreça de correu electrònica."
+"a més del domini de l'adreça electrònica."
 
 #: ../src/e-util/e-collection-account-wizard.c:1968
 msgid "Select which parts should be configured:"
@@ -20575,7 +20575,7 @@ msgstr "Envia els missatges a través de la carpeta de _Sortida"
 
 #: ../src/mail/mail-config.ui.h:16
 msgid "Number of characters for word w_rapping:"
-msgstr "_Nombre de caràcter per a l'ajust de text:"
+msgstr "_Nombre de caràcters per a l'ajust de text:"
 
 #: ../src/mail/mail-config.ui.h:17
 msgid "Ch_aracter encoding:"
