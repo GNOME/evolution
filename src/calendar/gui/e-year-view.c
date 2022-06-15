@@ -1428,6 +1428,7 @@ year_view_month_drag_motion_cb (GtkWidget *widget,
 	EYearView *self = user_data;
 	guint day, year = 0;
 	GDateMonth month = 0;
+	GdkDragAction drag_action = GDK_ACTION_MOVE;
 	gboolean can_drop;
 
 	day = e_month_widget_get_day_at_position (E_MONTH_WIDGET (widget), x, y);
@@ -1450,8 +1451,16 @@ year_view_month_drag_motion_cb (GtkWidget *widget,
 		}
 	}
 
-	gdk_drag_status (context,
-		can_drop ? gdk_drag_context_get_selected_action (context) : 0, time);
+	if (can_drop) {
+		GdkModifierType mask;
+
+		gdk_window_get_pointer (gtk_widget_get_window (widget), NULL, NULL, &mask);
+
+		if ((mask & GDK_CONTROL_MASK) != 0)
+			drag_action = GDK_ACTION_COPY;
+	}
+
+	gdk_drag_status (context, can_drop ? drag_action : 0, time);
 
 	return TRUE;
 }

@@ -1712,6 +1712,7 @@ e_week_view_drag_motion_cb (GtkWidget *widget,
 			    gpointer user_data)
 {
 	EWeekView *self = user_data;
+	GdkDragAction drag_action = GDK_ACTION_MOVE;
 	gint day;
 	gboolean can_drop;
 
@@ -1720,8 +1721,16 @@ e_week_view_drag_motion_cb (GtkWidget *widget,
 		self->priv->drag_event_num > -1 &&
 		self->priv->drag_from_day != day;
 
-	gdk_drag_status (context,
-		can_drop ? gdk_drag_context_get_selected_action (context) : 0, time);
+	if (can_drop) {
+		GdkModifierType mask;
+
+		gdk_window_get_pointer (gtk_widget_get_window (widget), NULL, NULL, &mask);
+
+		if ((mask & GDK_CONTROL_MASK) != 0)
+			drag_action = GDK_ACTION_COPY;
+	}
+
+	gdk_drag_status (context, can_drop ? drag_action : 0, time);
 
 	return TRUE;
 }
