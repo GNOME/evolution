@@ -27,8 +27,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: evolution master\n"
 "Report-Msgid-Bugs-To: https://gitlab.gnome.org/GNOME/evolution/issues\n"
-"POT-Creation-Date: 2022-06-09 12:04+0000\n"
-"PO-Revision-Date: 2022-06-12 12:22+0800\n"
+"POT-Creation-Date: 2022-06-13 17:25+0000\n"
+"PO-Revision-Date: 2022-06-15 19:16+0800\n"
 "Last-Translator: lumingzh <lumingzh@qq.com>\n"
 "Language-Team: Chinese - China <i18n-zh@googlegroups.com>\n"
 "Language: zh_CN\n"
@@ -4069,9 +4069,9 @@ msgstr "联系人“{0}”已在地址簿“{1}”中。您想要添加它的副
 #: ../src/e-util/e-collection-account-wizard.c:2177
 #: ../src/e-util/e-color-chooser-widget.c:125
 #: ../src/e-util/e-filter-datespec.c:300
-#: ../src/e-util/e-html-editor-actions.c:362
-#: ../src/e-util/e-html-editor-actions.c:406
-#: ../src/e-util/e-html-editor-actions.c:509
+#: ../src/e-util/e-html-editor-actions.c:395
+#: ../src/e-util/e-html-editor-actions.c:439
+#: ../src/e-util/e-html-editor-actions.c:542
 #: ../src/e-util/e-image-chooser-dialog.c:179
 #: ../src/e-util/e-mail-signature-script-dialog.c:358
 #: ../src/e-util/e-passwords.c:468 ../src/e-util/e-rule-context.c:819
@@ -4470,7 +4470,7 @@ msgstr "证书"
 
 #: ../src/addressbook/gui/contact-editor/e-contact-editor.c:262
 #: ../src/calendar/gui/e-comp-editor.c:2182
-#: ../src/e-util/e-html-editor-actions.c:1128
+#: ../src/e-util/e-html-editor-actions.c:1161
 msgid "_Undo"
 msgstr "撤消(_U)"
 
@@ -4482,7 +4482,7 @@ msgstr "撤消"
 
 #: ../src/addressbook/gui/contact-editor/e-contact-editor.c:269
 #: ../src/calendar/gui/e-comp-editor.c:2189
-#: ../src/e-util/e-html-editor-actions.c:1114
+#: ../src/e-util/e-html-editor-actions.c:1147
 msgid "_Redo"
 msgstr "重做(_R)"
 
@@ -4520,7 +4520,7 @@ msgid "PGP keys"
 msgstr "PGP 密钥"
 
 #: ../src/addressbook/gui/contact-editor/e-contact-editor.c:3249
-#: ../src/e-util/e-html-editor-actions.c:415
+#: ../src/e-util/e-html-editor-actions.c:448
 #: ../src/e-util/e-image-chooser-dialog.c:193
 #: ../src/smime/gui/certificate-manager.c:674
 #: ../src/smime/gui/certificate-manager.c:959
@@ -4539,9 +4539,9 @@ msgstr "打开 X.509 证书"
 #: ../src/addressbook/gui/contact-editor/e-contact-editor.c:4338
 #: ../src/addressbook/gui/contact-editor/e-contact-editor.c:4345
 #: ../src/e-util/e-attachment-store.c:666 ../src/e-util/e-category-editor.c:177
-#: ../src/e-util/e-html-editor-actions.c:362
-#: ../src/e-util/e-html-editor-actions.c:406
-#: ../src/e-util/e-html-editor-actions.c:509
+#: ../src/e-util/e-html-editor-actions.c:395
+#: ../src/e-util/e-html-editor-actions.c:439
+#: ../src/e-util/e-html-editor-actions.c:542
 #: ../src/e-util/e-image-chooser-dialog.c:182 ../src/plugins/face/face.c:298
 #: ../src/shell/e-shell-utils.c:69 ../src/smime/gui/certificate-manager.c:949
 msgid "_Open"
@@ -5478,7 +5478,7 @@ msgstr "缩小(_O)"
 
 #. Search button
 #: ../src/addressbook/gui/widgets/e-contact-map-window.c:447
-#: ../src/e-util/e-html-editor-actions.c:2261
+#: ../src/e-util/e-html-editor-actions.c:2308
 #: ../src/e-util/e-html-editor-find-dialog.c:245
 #: ../src/shell/e-shell-window-actions.c:1038
 msgid "_Find"
@@ -6665,7 +6665,7 @@ msgstr "状态"
 #. String to use in 12-hour time format for times in the morning.
 #: ../src/calendar/gui/comp-util.c:2071 ../src/calendar/gui/e-day-view.c:2286
 #: ../src/calendar/gui/e-to-do-pane.c:249
-#: ../src/calendar/gui/e-week-view.c:1856 ../src/calendar/gui/print.c:1076
+#: ../src/calendar/gui/e-week-view.c:1960 ../src/calendar/gui/print.c:1076
 #: ../src/calendar/gui/print.c:1095 ../src/calendar/gui/print.c:2663
 #: ../src/calendar/gui/print.c:2683
 msgid "am"
@@ -6674,7 +6674,7 @@ msgstr "上午"
 #. String to use in 12-hour time format for times in the afternoon.
 #: ../src/calendar/gui/comp-util.c:2075 ../src/calendar/gui/e-day-view.c:2289
 #: ../src/calendar/gui/e-to-do-pane.c:253
-#: ../src/calendar/gui/e-week-view.c:1859 ../src/calendar/gui/print.c:1081
+#: ../src/calendar/gui/e-week-view.c:1963 ../src/calendar/gui/print.c:1081
 #: ../src/calendar/gui/print.c:1097 ../src/calendar/gui/print.c:2668
 #: ../src/calendar/gui/print.c:2685
 msgid "pm"
@@ -7972,7 +7972,7 @@ msgstr "出席者(_N)…"
 #: ../src/calendar/gui/e-comp-editor-page-recurrence.c:2312
 #: ../src/calendar/gui/e-comp-editor.c:2205
 #: ../src/e-util/e-accounts-window.c:1745
-#: ../src/e-util/e-html-editor-actions.c:1137
+#: ../src/e-util/e-html-editor-actions.c:1170
 #: ../src/e-util/e-mail-signature-manager.c:354
 #: ../src/e-util/e-webdav-browser.c:2848 ../src/e-util/filter.ui.h:26
 #: ../src/mail/e-mail-account-manager.c:730 ../src/mail/e-mail-browser.c:217
@@ -8671,7 +8671,7 @@ msgstr "关闭当前窗口"
 
 #. copy menu item
 #: ../src/calendar/gui/e-comp-editor.c:2126 ../src/e-util/e-focus-tracker.c:806
-#: ../src/e-util/e-html-editor-actions.c:1093 ../src/e-util/e-text.c:2065
+#: ../src/e-util/e-html-editor-actions.c:1126 ../src/e-util/e-text.c:2065
 #: ../src/e-util/e-web-view.c:467 ../src/mail/e-mail-browser.c:173
 #: ../src/mail/mail.error.xml.h:147 ../src/shell/e-shell-window-actions.c:947
 msgid "_Copy"
@@ -8687,7 +8687,7 @@ msgstr "复制选中内容"
 
 #. cut menu item
 #: ../src/calendar/gui/e-comp-editor.c:2133 ../src/e-util/e-focus-tracker.c:801
-#: ../src/e-util/e-html-editor-actions.c:1100 ../src/e-util/e-text.c:2051
+#: ../src/e-util/e-html-editor-actions.c:1133 ../src/e-util/e-text.c:2051
 #: ../src/mail/e-mail-browser.c:180 ../src/shell/e-shell-window-actions.c:954
 msgid "Cu_t"
 msgstr "剪切(_T)"
@@ -8711,7 +8711,7 @@ msgstr "查看帮助"
 
 #. paste menu item
 #: ../src/calendar/gui/e-comp-editor.c:2154 ../src/e-util/e-focus-tracker.c:811
-#: ../src/e-util/e-html-editor-actions.c:1107 ../src/e-util/e-text.c:2077
+#: ../src/e-util/e-html-editor-actions.c:1140 ../src/e-util/e-text.c:2077
 #: ../src/mail/e-mail-browser.c:187 ../src/shell/e-shell-window-actions.c:982
 msgid "_Paste"
 msgstr "粘贴(_P)"
@@ -8739,7 +8739,7 @@ msgid "Pre_view…"
 msgstr "预览(_V)…"
 
 #: ../src/calendar/gui/e-comp-editor.c:2175 ../src/e-util/e-focus-tracker.c:821
-#: ../src/e-util/e-html-editor-actions.c:1121 ../src/e-util/e-web-view.c:484
+#: ../src/e-util/e-html-editor-actions.c:1154 ../src/e-util/e-web-view.c:484
 #: ../src/mail/e-mail-browser.c:194 ../src/shell/e-shell-window-actions.c:1059
 msgid "Select _All"
 msgstr "全选(_A)"
@@ -8755,14 +8755,14 @@ msgid "_Classification"
 msgstr "分类(_C)"
 
 #: ../src/calendar/gui/e-comp-editor.c:2212
-#: ../src/e-util/e-html-editor-actions.c:1144
+#: ../src/e-util/e-html-editor-actions.c:1177
 #: ../src/e-util/e-mail-signature-editor.c:343 ../src/mail/e-mail-browser.c:210
 #: ../src/mail/e-mail-notes.c:1121 ../src/shell/e-shell-window-actions.c:1110
 msgid "_File"
 msgstr "文件(_F)"
 
 #: ../src/calendar/gui/e-comp-editor.c:2226
-#: ../src/e-util/e-html-editor-actions.c:1165
+#: ../src/e-util/e-html-editor-actions.c:1198
 msgid "_Insert"
 msgstr "插入(_I)"
 
@@ -8772,7 +8772,7 @@ msgid "_Options"
 msgstr "选项(_O)"
 
 #: ../src/calendar/gui/e-comp-editor.c:2240
-#: ../src/e-util/e-html-editor-actions.c:1186 ../src/mail/e-mail-browser.c:224
+#: ../src/e-util/e-html-editor-actions.c:1219 ../src/mail/e-mail-browser.c:224
 #: ../src/shell/e-shell-window-actions.c:1153
 #: ../src/smime/gui/certificate-manager.c:1644 ../src/smime/gui/smime-ui.ui.h:3
 msgid "_View"
@@ -9273,7 +9273,7 @@ msgstr "待办"
 #. Translators: the first '%s' is replaced with a component summary;
 #. the second '%s' is replaced with an event location.
 #. Example: "Meet John Doe (Central Park)"
-#: ../src/calendar/gui/e-week-view.c:3707
+#: ../src/calendar/gui/e-week-view.c:3869
 #, c-format
 msgctxt "SummaryWithLocation"
 msgid "%s (%s)"
@@ -13843,596 +13843,612 @@ msgstr "插入 HTML 文件失败。"
 msgid "Failed to insert text file."
 msgstr "插入文本文件失败。"
 
-#: ../src/e-util/e-html-editor-actions.c:360
+#: ../src/e-util/e-html-editor-actions.c:393
 msgid "Insert HTML File"
 msgstr "插入 HTML 文件"
 
-#: ../src/e-util/e-html-editor-actions.c:365
+#: ../src/e-util/e-html-editor-actions.c:398
 msgid "HTML file"
 msgstr "HTML 文件"
 
-#: ../src/e-util/e-html-editor-actions.c:403
-#: ../src/e-util/e-html-editor-actions.c:421
+#: ../src/e-util/e-html-editor-actions.c:436
+#: ../src/e-util/e-html-editor-actions.c:454
 msgctxt "dialog-title"
 msgid "Insert Image"
 msgstr "插入图像"
 
-#: ../src/e-util/e-html-editor-actions.c:410
-#: ../src/e-util/e-html-editor-actions.c:428
+#: ../src/e-util/e-html-editor-actions.c:443
+#: ../src/e-util/e-html-editor-actions.c:461
 #: ../src/e-util/e-image-chooser-dialog.c:188 ../src/plugins/face/face.c:301
 msgid "Image files"
 msgstr "图像文件"
 
-#: ../src/e-util/e-html-editor-actions.c:507
+#: ../src/e-util/e-html-editor-actions.c:540
 msgid "Insert text file"
 msgstr "插入文本文件"
 
-#: ../src/e-util/e-html-editor-actions.c:512
+#: ../src/e-util/e-html-editor-actions.c:545
 msgid "Text file"
 msgstr "文本文件"
 
-#: ../src/e-util/e-html-editor-actions.c:1095
+#: ../src/e-util/e-html-editor-actions.c:1128
 msgid "Copy selected text to the clipboard"
 msgstr "将选中文本复制到剪贴板"
 
-#: ../src/e-util/e-html-editor-actions.c:1102
+#: ../src/e-util/e-html-editor-actions.c:1135
 msgid "Cut selected text to the clipboard"
 msgstr "将选中文本剪切到剪贴板"
 
-#: ../src/e-util/e-html-editor-actions.c:1109
+#: ../src/e-util/e-html-editor-actions.c:1142
 msgid "Paste text from the clipboard"
 msgstr "从剪贴板中粘贴文本"
 
-#: ../src/e-util/e-html-editor-actions.c:1116
+#: ../src/e-util/e-html-editor-actions.c:1149
 msgid "Redo the last undone action"
 msgstr "重做上次操作"
 
-#: ../src/e-util/e-html-editor-actions.c:1130
+#: ../src/e-util/e-html-editor-actions.c:1163
 msgid "Undo the last action"
 msgstr "撤消上次操作"
 
-#: ../src/e-util/e-html-editor-actions.c:1151
+#: ../src/e-util/e-html-editor-actions.c:1184
 msgid "For_mat"
 msgstr "格式(_M)"
 
-#: ../src/e-util/e-html-editor-actions.c:1158
+#: ../src/e-util/e-html-editor-actions.c:1191
 msgid "_Paragraph Style"
 msgstr "段落样式(_P)"
 
-#: ../src/e-util/e-html-editor-actions.c:1172
+#: ../src/e-util/e-html-editor-actions.c:1205
 #: ../src/e-util/e-html-editor-image-dialog.c:678
 msgid "_Alignment"
 msgstr "对齐(_A)"
 
-#: ../src/e-util/e-html-editor-actions.c:1179
+#: ../src/e-util/e-html-editor-actions.c:1212
 msgid "Current _Languages"
 msgstr "当前语言(_L)"
 
-#: ../src/e-util/e-html-editor-actions.c:1196
+#: ../src/e-util/e-html-editor-actions.c:1229
 msgid "_Increase Indent"
 msgstr "增加缩进(_I)"
 
-#: ../src/e-util/e-html-editor-actions.c:1198
+#: ../src/e-util/e-html-editor-actions.c:1231
 msgid "Increase Indent"
 msgstr "增加缩进"
 
-#: ../src/e-util/e-html-editor-actions.c:1203
-#: ../src/e-util/e-html-editor-actions.c:2267
+#: ../src/e-util/e-html-editor-actions.c:1236
+#: ../src/e-util/e-html-editor-actions.c:2314
 msgid "E_moji"
 msgstr "表情符号"
 
-#: ../src/e-util/e-html-editor-actions.c:1205
-#: ../src/e-util/e-html-editor-actions.c:1212
+#: ../src/e-util/e-html-editor-actions.c:1238
+#: ../src/e-util/e-html-editor-actions.c:1245
 #: ../src/e-util/e-markdown-editor.c:1464
 msgid "Insert Emoji"
 msgstr "插入表情符号"
 
-#: ../src/e-util/e-html-editor-actions.c:1210
+#: ../src/e-util/e-html-editor-actions.c:1243
 msgid "Insert E_moji"
 msgstr "插入表情符号(_M)"
 
-#: ../src/e-util/e-html-editor-actions.c:1217
+#: ../src/e-util/e-html-editor-actions.c:1250
 msgid "_HTML File…"
 msgstr "HTML 文件(_H)…"
 
-#: ../src/e-util/e-html-editor-actions.c:1224
+#: ../src/e-util/e-html-editor-actions.c:1257
 msgid "Te_xt File…"
 msgstr "文本文件(_X)…"
 
-#: ../src/e-util/e-html-editor-actions.c:1231
+#: ../src/e-util/e-html-editor-actions.c:1264
 msgid "Paste _Quotation"
 msgstr "粘贴引用(_Q)"
 
-#: ../src/e-util/e-html-editor-actions.c:1238
+#: ../src/e-util/e-html-editor-actions.c:1271
 msgid "_Find…"
 msgstr "查找(_F)…"
 
-#: ../src/e-util/e-html-editor-actions.c:1240
+#: ../src/e-util/e-html-editor-actions.c:1273
 msgid "Search for text"
 msgstr "搜索文本"
 
-#: ../src/e-util/e-html-editor-actions.c:1245
+#: ../src/e-util/e-html-editor-actions.c:1278
 msgid "Find A_gain"
 msgstr "再查找一遍(_G)"
 
-#: ../src/e-util/e-html-editor-actions.c:1252
+#: ../src/e-util/e-html-editor-actions.c:1285
 msgid "Re_place…"
 msgstr "替换(_P)…"
 
-#: ../src/e-util/e-html-editor-actions.c:1254
+#: ../src/e-util/e-html-editor-actions.c:1287
 msgid "Search for and replace text"
 msgstr "搜索和替换文本"
 
-#: ../src/e-util/e-html-editor-actions.c:1259
+#: ../src/e-util/e-html-editor-actions.c:1292
 msgid "Check _Spelling…"
 msgstr "检查拼写(_S)…"
 
-#: ../src/e-util/e-html-editor-actions.c:1266
+#: ../src/e-util/e-html-editor-actions.c:1299
 msgid "_Decrease Indent"
 msgstr "减小缩进(_D)"
 
-#: ../src/e-util/e-html-editor-actions.c:1268
+#: ../src/e-util/e-html-editor-actions.c:1301
 msgid "Decrease Indent"
 msgstr "减小缩进"
 
-#: ../src/e-util/e-html-editor-actions.c:1273
+#: ../src/e-util/e-html-editor-actions.c:1306
 msgid "_Wrap Lines"
 msgstr "换行(_W)"
 
 #. Center
-#: ../src/e-util/e-html-editor-actions.c:1283
+#: ../src/e-util/e-html-editor-actions.c:1316
 #: ../src/e-util/e-html-editor-paragraph-dialog.c:109
 msgid "_Center"
 msgstr "中间(_C)"
 
-#: ../src/e-util/e-html-editor-actions.c:1285
+#: ../src/e-util/e-html-editor-actions.c:1318
 msgid "Center Alignment"
 msgstr "中间对齐"
 
 #. Justified
-#: ../src/e-util/e-html-editor-actions.c:1290
+#: ../src/e-util/e-html-editor-actions.c:1323
 #: ../src/e-util/e-html-editor-paragraph-dialog.c:127
 msgid "_Justified"
 msgstr "两端对齐(_J)"
 
-#: ../src/e-util/e-html-editor-actions.c:1292
+#: ../src/e-util/e-html-editor-actions.c:1325
 msgid "Align Justified"
 msgstr "两端对齐"
 
 #. Left
-#: ../src/e-util/e-html-editor-actions.c:1297
+#: ../src/e-util/e-html-editor-actions.c:1330
 #: ../src/e-util/e-html-editor-paragraph-dialog.c:100
 msgid "_Left"
 msgstr "左(_L)"
 
-#: ../src/e-util/e-html-editor-actions.c:1299
+#: ../src/e-util/e-html-editor-actions.c:1332
 msgid "Left Alignment"
 msgstr "左对齐"
 
 #. Right
-#: ../src/e-util/e-html-editor-actions.c:1304
+#: ../src/e-util/e-html-editor-actions.c:1337
 #: ../src/e-util/e-html-editor-paragraph-dialog.c:118
 msgid "_Right"
 msgstr "右(_R)"
 
-#: ../src/e-util/e-html-editor-actions.c:1306
+#: ../src/e-util/e-html-editor-actions.c:1339
 msgid "Right Alignment"
 msgstr "右对齐"
 
-#: ../src/e-util/e-html-editor-actions.c:1314
+#: ../src/e-util/e-html-editor-actions.c:1347
 #: ../src/modules/text-highlight/languages.c:70
 msgid "_HTML"
 msgstr "_HTML"
 
-#: ../src/e-util/e-html-editor-actions.c:1316
+#: ../src/e-util/e-html-editor-actions.c:1349
 msgid "HTML editing mode"
 msgstr "HTML 编辑模式"
 
-#: ../src/e-util/e-html-editor-actions.c:1321
+#: ../src/e-util/e-html-editor-actions.c:1354
 msgid "Plain _Text"
 msgstr "纯文字(_T)"
 
-#: ../src/e-util/e-html-editor-actions.c:1323
+#: ../src/e-util/e-html-editor-actions.c:1356
 msgid "Plain text editing mode"
 msgstr "纯文字编辑模式"
 
-#: ../src/e-util/e-html-editor-actions.c:1328
+#: ../src/e-util/e-html-editor-actions.c:1361
 #: ../src/modules/text-highlight/languages.c:96
 msgid "_Markdown"
 msgstr "_Markdown"
 
-#: ../src/e-util/e-html-editor-actions.c:1330
+#: ../src/e-util/e-html-editor-actions.c:1363
 msgid "Markdown editing mode"
 msgstr "Markdown 编辑模式"
 
-#: ../src/e-util/e-html-editor-actions.c:1335
+#: ../src/e-util/e-html-editor-actions.c:1368
 msgid "Ma_rkdown as Plain Text"
 msgstr "Ma_rkdown 作为纯文本"
 
-#: ../src/e-util/e-html-editor-actions.c:1337
+#: ../src/e-util/e-html-editor-actions.c:1370
 msgid "Markdown editing mode, exported as Plain Text"
 msgstr "Markdown 编辑模式，导出为纯文本"
 
-#: ../src/e-util/e-html-editor-actions.c:1342
+#: ../src/e-util/e-html-editor-actions.c:1375
 msgid "Mar_kdown as HTML"
 msgstr "Mar_kdown 作为 HTML"
 
-#: ../src/e-util/e-html-editor-actions.c:1344
+#: ../src/e-util/e-html-editor-actions.c:1377
 msgid "Markdown editing mode, exported as HTML"
 msgstr "Markdown 编辑模式，导出为 HTML"
 
-#: ../src/e-util/e-html-editor-actions.c:1352
+#: ../src/e-util/e-html-editor-actions.c:1385
 msgid "_Normal"
 msgstr "正常(_N)"
 
-#: ../src/e-util/e-html-editor-actions.c:1359
+#: ../src/e-util/e-html-editor-actions.c:1392
 msgid "Heading _1"
 msgstr "标题 _1"
 
-#: ../src/e-util/e-html-editor-actions.c:1366
+#: ../src/e-util/e-html-editor-actions.c:1399
 msgid "Heading _2"
 msgstr "标题 _2"
 
-#: ../src/e-util/e-html-editor-actions.c:1373
+#: ../src/e-util/e-html-editor-actions.c:1406
 msgid "Heading _3"
 msgstr "标题 _3"
 
-#: ../src/e-util/e-html-editor-actions.c:1380
+#: ../src/e-util/e-html-editor-actions.c:1413
 msgid "Heading _4"
 msgstr "标题 _4"
 
-#: ../src/e-util/e-html-editor-actions.c:1387
+#: ../src/e-util/e-html-editor-actions.c:1420
 msgid "Heading _5"
 msgstr "标题 _5"
 
-#: ../src/e-util/e-html-editor-actions.c:1394
+#: ../src/e-util/e-html-editor-actions.c:1427
 msgid "Heading _6"
 msgstr "标题 _6"
 
-#: ../src/e-util/e-html-editor-actions.c:1401
+#: ../src/e-util/e-html-editor-actions.c:1434
 msgid "_Preformatted"
 msgstr "预格式化(_P)"
 
-#: ../src/e-util/e-html-editor-actions.c:1408
+#: ../src/e-util/e-html-editor-actions.c:1441
 msgid "A_ddress"
 msgstr "地址(_D)"
 
-#: ../src/e-util/e-html-editor-actions.c:1415
+#: ../src/e-util/e-html-editor-actions.c:1448
 msgid "_Bulleted List"
 msgstr "项目符号列表(_B)"
 
-#: ../src/e-util/e-html-editor-actions.c:1422
+#: ../src/e-util/e-html-editor-actions.c:1455
 msgid "_Roman Numeral List"
 msgstr "罗马数字列表(_R)"
 
-#: ../src/e-util/e-html-editor-actions.c:1429
+#: ../src/e-util/e-html-editor-actions.c:1462
 msgid "Numbered _List"
 msgstr "编号列表(_L)"
 
-#: ../src/e-util/e-html-editor-actions.c:1436
+#: ../src/e-util/e-html-editor-actions.c:1469
 msgid "_Alphabetical List"
 msgstr "字母列表(_A)"
 
-#: ../src/e-util/e-html-editor-actions.c:1452
-#: ../src/e-util/e-html-editor-actions.c:1490
+#: ../src/e-util/e-html-editor-actions.c:1485
+#: ../src/e-util/e-html-editor-actions.c:1523
 msgid "_Image…"
 msgstr "图像(_I)…"
 
 #. Translators: This is an action tooltip
-#: ../src/e-util/e-html-editor-actions.c:1455
+#: ../src/e-util/e-html-editor-actions.c:1488
 msgid "Insert Image"
 msgstr "插入图像"
 
-#: ../src/e-util/e-html-editor-actions.c:1460
-#: ../src/e-util/e-html-editor-actions.c:1497
+#: ../src/e-util/e-html-editor-actions.c:1493
+#: ../src/e-util/e-html-editor-actions.c:1530
 msgid "_Link…"
 msgstr "链接(_L)…"
 
-#: ../src/e-util/e-html-editor-actions.c:1462
+#: ../src/e-util/e-html-editor-actions.c:1495
 msgid "Insert Link"
 msgstr "插入链接"
 
 #. Translators: 'Rule' here means a horizontal line in an HTML text
-#: ../src/e-util/e-html-editor-actions.c:1468
-#: ../src/e-util/e-html-editor-actions.c:1512
+#: ../src/e-util/e-html-editor-actions.c:1501
+#: ../src/e-util/e-html-editor-actions.c:1545
 msgid "_Rule…"
 msgstr "横线(_R)…"
 
 #. Translators: 'Rule' here means a horizontal line in an HTML text
-#: ../src/e-util/e-html-editor-actions.c:1471
+#: ../src/e-util/e-html-editor-actions.c:1504
 msgid "Insert Rule"
 msgstr "插入横线"
 
-#: ../src/e-util/e-html-editor-actions.c:1476
-#: ../src/e-util/e-html-editor-actions.c:1519
+#: ../src/e-util/e-html-editor-actions.c:1509
+#: ../src/e-util/e-html-editor-actions.c:1552
 msgid "_Table…"
 msgstr "表格(_T)…"
 
-#: ../src/e-util/e-html-editor-actions.c:1478
+#: ../src/e-util/e-html-editor-actions.c:1511
 msgid "Insert Table"
 msgstr "插入表格"
 
-#: ../src/e-util/e-html-editor-actions.c:1483
+#: ../src/e-util/e-html-editor-actions.c:1516
 msgid "_Cell…"
 msgstr "单元格(_C)…"
 
-#: ../src/e-util/e-html-editor-actions.c:1504
+#: ../src/e-util/e-html-editor-actions.c:1537
 msgid "Pa_ge…"
 msgstr "页面(_G)…"
 
-#: ../src/e-util/e-html-editor-actions.c:1528
+#: ../src/e-util/e-html-editor-actions.c:1561
 msgid "Font _Size"
 msgstr "字体大小(_S)"
 
-#: ../src/e-util/e-html-editor-actions.c:1535
+#: ../src/e-util/e-html-editor-actions.c:1568
 msgid "_Font Style"
 msgstr "字体样式(_F)"
 
-#: ../src/e-util/e-html-editor-actions.c:1542
+#: ../src/e-util/e-html-editor-actions.c:1575
 msgid "Paste As _Text"
 msgstr "以文本粘贴(_T)"
 
-#: ../src/e-util/e-html-editor-actions.c:1553
+#: ../src/e-util/e-html-editor-actions.c:1586
 #: ../src/e-util/e-html-editor-text-dialog.c:201
 msgid "_Bold"
 msgstr "粗体(_B)"
 
-#: ../src/e-util/e-html-editor-actions.c:1555
+#: ../src/e-util/e-html-editor-actions.c:1588
 msgid "Bold"
 msgstr "粗体"
 
-#: ../src/e-util/e-html-editor-actions.c:1561
+#: ../src/e-util/e-html-editor-actions.c:1594
 #: ../src/e-util/e-html-editor-text-dialog.c:212
 msgid "_Italic"
 msgstr "斜体(_I)"
 
-#: ../src/e-util/e-html-editor-actions.c:1563
+#: ../src/e-util/e-html-editor-actions.c:1596
 msgid "Italic"
 msgstr "斜体"
 
-#: ../src/e-util/e-html-editor-actions.c:1569
+#: ../src/e-util/e-html-editor-actions.c:1602
 #: ../src/e-util/e-html-editor-text-dialog.c:233
 msgid "_Strikethrough"
 msgstr "删除线(_S)"
 
-#: ../src/e-util/e-html-editor-actions.c:1571
+#: ../src/e-util/e-html-editor-actions.c:1604
 msgid "Strikethrough"
 msgstr "删除线"
 
-#: ../src/e-util/e-html-editor-actions.c:1577
+#: ../src/e-util/e-html-editor-actions.c:1610
 msgid "Subs_cript"
 msgstr "下标(_C)"
 
-#: ../src/e-util/e-html-editor-actions.c:1579
+#: ../src/e-util/e-html-editor-actions.c:1612
 msgid "Subscript"
 msgstr "下标"
 
-#: ../src/e-util/e-html-editor-actions.c:1585
+#: ../src/e-util/e-html-editor-actions.c:1618
 msgid "Su_perscript"
 msgstr "上标(_P)"
 
-#: ../src/e-util/e-html-editor-actions.c:1587
+#: ../src/e-util/e-html-editor-actions.c:1620
 msgid "Superscript"
 msgstr "上标"
 
-#: ../src/e-util/e-html-editor-actions.c:1593
+#: ../src/e-util/e-html-editor-actions.c:1626
 #: ../src/e-util/e-html-editor-text-dialog.c:223
 msgid "_Underline"
 msgstr "下划线(_U)"
 
-#: ../src/e-util/e-html-editor-actions.c:1595
+#: ../src/e-util/e-html-editor-actions.c:1628
 msgid "Underline"
 msgstr "下划线"
 
 #. Translators: This is a font size level. It is shown on a tool bar. Please keep it as short as possible.
-#: ../src/e-util/e-html-editor-actions.c:1605
+#: ../src/e-util/e-html-editor-actions.c:1638
 msgid "-2"
 msgstr "-2"
 
 #. Translators: This is a font size level. It is shown on a tool bar. Please keep it as short as possible.
-#: ../src/e-util/e-html-editor-actions.c:1613
+#: ../src/e-util/e-html-editor-actions.c:1646
 msgid "-1"
 msgstr "-1"
 
 #. Translators: This is a font size level. It is shown on a tool bar. Please keep it as short as possible.
-#: ../src/e-util/e-html-editor-actions.c:1621
+#: ../src/e-util/e-html-editor-actions.c:1654
 msgid "+0"
 msgstr "+0"
 
 #. Translators: This is a font size level. It is shown on a tool bar. Please keep it as short as possible.
-#: ../src/e-util/e-html-editor-actions.c:1629
+#: ../src/e-util/e-html-editor-actions.c:1662
 msgid "+1"
 msgstr "+1"
 
 #. Translators: This is a font size level. It is shown on a tool bar. Please keep it as short as possible.
-#: ../src/e-util/e-html-editor-actions.c:1637
+#: ../src/e-util/e-html-editor-actions.c:1670
 msgid "+2"
 msgstr "+2"
 
 #. Translators: This is a font size level. It is shown on a tool bar. Please keep it as short as possible.
-#: ../src/e-util/e-html-editor-actions.c:1645
+#: ../src/e-util/e-html-editor-actions.c:1678
 msgid "+3"
 msgstr "+3"
 
 #. Translators: This is a font size level. It is shown on a tool bar. Please keep it as short as possible.
-#: ../src/e-util/e-html-editor-actions.c:1653
+#: ../src/e-util/e-html-editor-actions.c:1686
 msgid "+4"
 msgstr "+4"
 
-#: ../src/e-util/e-html-editor-actions.c:1672
+#: ../src/e-util/e-html-editor-actions.c:1705
+msgid "Copy _Link Location"
+msgstr "复制链接位置(_L)"
+
+#: ../src/e-util/e-html-editor-actions.c:1707 ../src/e-util/e-web-view.c:408
+msgid "Copy the link to the clipboard"
+msgstr "将链接复制到剪贴板"
+
+#: ../src/e-util/e-html-editor-actions.c:1712 ../src/e-util/e-web-view.c:416
+msgid "_Open Link in Browser"
+msgstr "在浏览器中打开链接(_O)"
+
+#: ../src/e-util/e-html-editor-actions.c:1714 ../src/e-util/e-web-view.c:418
+msgid "Open the link in a web browser"
+msgstr "在浏览器中打开链接"
+
+#: ../src/e-util/e-html-editor-actions.c:1719
 msgid "Cell Contents"
 msgstr "单元格内容"
 
-#: ../src/e-util/e-html-editor-actions.c:1679
+#: ../src/e-util/e-html-editor-actions.c:1726
 msgid "Column"
 msgstr "列"
 
-#: ../src/e-util/e-html-editor-actions.c:1686
+#: ../src/e-util/e-html-editor-actions.c:1733
 msgid "Row"
 msgstr "行"
 
-#: ../src/e-util/e-html-editor-actions.c:1693
+#: ../src/e-util/e-html-editor-actions.c:1740
 msgid "Table"
 msgstr "表格"
 
 #. Translators: Popup menu item caption, containing all the Delete options for a table
-#: ../src/e-util/e-html-editor-actions.c:1703
+#: ../src/e-util/e-html-editor-actions.c:1750
 msgid "Table Delete"
 msgstr "表格删除"
 
 #. Translators: Popup menu item caption, containing all the Insert options for a table
-#: ../src/e-util/e-html-editor-actions.c:1711
+#: ../src/e-util/e-html-editor-actions.c:1758
 msgid "Table Insert"
 msgstr "表格插入"
 
-#: ../src/e-util/e-html-editor-actions.c:1718
+#: ../src/e-util/e-html-editor-actions.c:1765
 msgid "Properties"
 msgstr "属性"
 
-#: ../src/e-util/e-html-editor-actions.c:1736
+#: ../src/e-util/e-html-editor-actions.c:1783
 msgid "Delete Rule"
 msgstr "删除规则"
 
-#: ../src/e-util/e-html-editor-actions.c:1743
+#: ../src/e-util/e-html-editor-actions.c:1790
 msgid "Delete Image"
 msgstr "删除图像"
 
-#: ../src/e-util/e-html-editor-actions.c:1750
+#: ../src/e-util/e-html-editor-actions.c:1797
 msgid "Column After"
 msgstr "列后"
 
-#: ../src/e-util/e-html-editor-actions.c:1757
+#: ../src/e-util/e-html-editor-actions.c:1804
 msgid "Column Before"
 msgstr "列前"
 
-#: ../src/e-util/e-html-editor-actions.c:1764
+#: ../src/e-util/e-html-editor-actions.c:1811
 msgid "Insert _Link"
 msgstr "插入链接(_L)"
 
-#: ../src/e-util/e-html-editor-actions.c:1771
+#: ../src/e-util/e-html-editor-actions.c:1818
 msgid "Row Above"
 msgstr "行上"
 
-#: ../src/e-util/e-html-editor-actions.c:1778
+#: ../src/e-util/e-html-editor-actions.c:1825
 msgid "Row Below"
 msgstr "行下"
 
-#: ../src/e-util/e-html-editor-actions.c:1785
+#: ../src/e-util/e-html-editor-actions.c:1832
 msgid "Cell…"
 msgstr "单元格…"
 
-#: ../src/e-util/e-html-editor-actions.c:1792
+#: ../src/e-util/e-html-editor-actions.c:1839
 msgid "Image…"
 msgstr "图像…"
 
-#: ../src/e-util/e-html-editor-actions.c:1799
+#: ../src/e-util/e-html-editor-actions.c:1846
 msgid "Link…"
 msgstr "链接…"
 
-#: ../src/e-util/e-html-editor-actions.c:1806
+#: ../src/e-util/e-html-editor-actions.c:1853
 msgid "Page…"
 msgstr "页面…"
 
-#: ../src/e-util/e-html-editor-actions.c:1813
+#: ../src/e-util/e-html-editor-actions.c:1860
 msgid "Paragraph…"
 msgstr "段落…"
 
 #. Translators: 'Rule' here means a horizontal line in an HTML text
-#: ../src/e-util/e-html-editor-actions.c:1821
+#: ../src/e-util/e-html-editor-actions.c:1868
 msgid "Rule…"
 msgstr "横线…"
 
-#: ../src/e-util/e-html-editor-actions.c:1828
+#: ../src/e-util/e-html-editor-actions.c:1875
 msgid "Table…"
 msgstr "表格…"
 
-#: ../src/e-util/e-html-editor-actions.c:1835
+#: ../src/e-util/e-html-editor-actions.c:1882
 msgid "Text…"
 msgstr "文字…"
 
-#: ../src/e-util/e-html-editor-actions.c:1842
+#: ../src/e-util/e-html-editor-actions.c:1889
 msgid "Remove Link"
 msgstr "删除链接"
 
-#: ../src/e-util/e-html-editor-actions.c:1859
+#: ../src/e-util/e-html-editor-actions.c:1906
 msgid "Add Word to Dictionary"
 msgstr "添加词语到字典"
 
-#: ../src/e-util/e-html-editor-actions.c:1866
+#: ../src/e-util/e-html-editor-actions.c:1913
 msgid "Ignore Misspelled Word"
 msgstr "忽略拼错词语"
 
-#: ../src/e-util/e-html-editor-actions.c:1873
+#: ../src/e-util/e-html-editor-actions.c:1920
 msgid "Add Word To"
 msgstr "添加词语到"
 
-#: ../src/e-util/e-html-editor-actions.c:1882
+#: ../src/e-util/e-html-editor-actions.c:1929
 msgid "More Suggestions"
 msgstr "更多建议"
 
 #. Translators: %s will be replaced with the actual dictionary
 #. * name, where a user can add a word to. This is part of an
 #. * "Add Word To" submenu.
-#: ../src/e-util/e-html-editor-actions.c:2117
+#: ../src/e-util/e-html-editor-actions.c:2164
 #, c-format
 msgid "%s Dictionary"
 msgstr "%s 字典"
 
-#: ../src/e-util/e-html-editor-actions.c:2195
+#: ../src/e-util/e-html-editor-actions.c:2242
 msgid "_Emoticon"
 msgstr "表情(_E)"
 
-#: ../src/e-util/e-html-editor-actions.c:2196
+#: ../src/e-util/e-html-editor-actions.c:2243
 msgid "Insert Emoticon"
 msgstr "插入表情"
 
-#: ../src/e-util/e-html-editor-actions.c:2264
+#: ../src/e-util/e-html-editor-actions.c:2311
 msgid "Re_place"
 msgstr "替换(_P)"
 
-#: ../src/e-util/e-html-editor-actions.c:2270
+#: ../src/e-util/e-html-editor-actions.c:2317
 msgid "_Image"
 msgstr "图像(_I)"
 
-#: ../src/e-util/e-html-editor-actions.c:2273
+#: ../src/e-util/e-html-editor-actions.c:2320
 msgid "_Link"
 msgstr "链接(_L)"
 
 #. Translators: 'Rule' here means a horizontal line in an HTML text
-#: ../src/e-util/e-html-editor-actions.c:2277
+#: ../src/e-util/e-html-editor-actions.c:2324
 msgid "_Rule"
 msgstr "横线(_R)"
 
-#: ../src/e-util/e-html-editor-actions.c:2280
+#: ../src/e-util/e-html-editor-actions.c:2327
 #: ../src/e-util/e-html-editor-cell-dialog.c:448
 msgid "_Table"
 msgstr "表格(_T)"
 
-#: ../src/e-util/e-html-editor-actions.c:2392 ../src/e-util/e-html-editor.c:943
+#: ../src/e-util/e-html-editor-actions.c:2439 ../src/e-util/e-html-editor.c:953
 msgid "Editing Mode"
 msgstr "编辑模式"
 
-#: ../src/e-util/e-html-editor.c:929
+#: ../src/e-util/e-html-editor.c:939
 msgid "Paragraph Style"
 msgstr "段落样式"
 
-#: ../src/e-util/e-html-editor.c:956
+#: ../src/e-util/e-html-editor.c:966
 msgid "Font Color"
 msgstr "字体颜色"
 
-#: ../src/e-util/e-html-editor.c:967
+#: ../src/e-util/e-html-editor.c:977
 msgid "Background Color"
 msgstr "背景颜色"
 
-#: ../src/e-util/e-html-editor.c:977
+#: ../src/e-util/e-html-editor.c:987
 msgid "Font Size"
 msgstr "字体大小"
 
-#: ../src/e-util/e-html-editor.c:986
+#: ../src/e-util/e-html-editor.c:996
 msgid "Font Name"
 msgstr "字体名称"
 
-#: ../src/e-util/e-html-editor.c:2080
+#: ../src/e-util/e-html-editor.c:2094
 msgid "Failed to obtain content of editor"
 msgstr "获取编辑器内容失败"
 
@@ -16256,18 +16272,6 @@ msgstr "创建集合(_N)"
 #: ../src/e-util/e-web-view.c:406
 msgid "_Copy Link Location"
 msgstr "复制链接位置(_C)"
-
-#: ../src/e-util/e-web-view.c:408
-msgid "Copy the link to the clipboard"
-msgstr "将链接复制到剪贴板"
-
-#: ../src/e-util/e-web-view.c:416
-msgid "_Open Link in Browser"
-msgstr "在浏览器中打开链接(_O)"
-
-#: ../src/e-util/e-web-view.c:418
-msgid "Open the link in a web browser"
-msgstr "在浏览器中打开链接"
 
 #: ../src/e-util/e-web-view.c:426
 msgid "_Copy Email Address"
@@ -25872,6 +25876,12 @@ msgstr "地址簿联系人"
 msgid "Display the part as an addressbook contact"
 msgstr "将该部分显示为地址簿联系人"
 
+#. Translators: The "%s" is replaced with a link, constructing a text like: "Ctrl-click to open a link “http://www.example.com”"
+#: ../src/modules/webkit-editor/e-webkit-editor.c:5493
+#, c-format
+msgid "Ctrl-click to open a link “%s”"
+msgstr "Ctrl 加单击来打开链接“%s”"
+
 #: ../src/plugins/attachment-reminder/attachment-reminder.c:169
 msgid "_Do not show this message again."
 msgstr "不再显示此信息(_D)。"
@@ -28455,9 +28465,6 @@ msgstr "导入的证书"
 
 #~ msgid "A_dd Attachment..."
 #~ msgstr "添加附件(_D)..."
-
-#~ msgid "Ctrl-click to open a link"
-#~ msgstr "Ctrl 加单击来打开一个链接"
 
 #~ msgid "Other..."
 #~ msgstr "其它..."
