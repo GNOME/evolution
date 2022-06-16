@@ -13,8 +13,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: 3.12\n"
 "Report-Msgid-Bugs-To: https://gitlab.gnome.org/GNOME/evolution/issues\n"
-"POT-Creation-Date: 2022-06-09 12:04+0000\n"
-"PO-Revision-Date: 2022-06-10 00:03+0100\n"
+"POT-Creation-Date: 2022-06-13 12:12+0000\n"
+"PO-Revision-Date: 2022-06-16 22:15+0100\n"
 "Last-Translator: Hugo Carvalho <hugokarvalho@hotmail.com>\n"
 "Language-Team: Portuguese <https://l10n.gnome.org/teams/pt/>\n"
 "Language: pt\n"
@@ -4477,9 +4477,9 @@ msgstr ""
 #: ../src/e-util/e-collection-account-wizard.c:2177
 #: ../src/e-util/e-color-chooser-widget.c:125
 #: ../src/e-util/e-filter-datespec.c:300
-#: ../src/e-util/e-html-editor-actions.c:362
-#: ../src/e-util/e-html-editor-actions.c:406
-#: ../src/e-util/e-html-editor-actions.c:509
+#: ../src/e-util/e-html-editor-actions.c:395
+#: ../src/e-util/e-html-editor-actions.c:439
+#: ../src/e-util/e-html-editor-actions.c:542
 #: ../src/e-util/e-image-chooser-dialog.c:179
 #: ../src/e-util/e-mail-signature-script-dialog.c:358
 #: ../src/e-util/e-passwords.c:468 ../src/e-util/e-rule-context.c:819
@@ -4878,7 +4878,7 @@ msgstr "Certificados"
 
 #: ../src/addressbook/gui/contact-editor/e-contact-editor.c:262
 #: ../src/calendar/gui/e-comp-editor.c:2182
-#: ../src/e-util/e-html-editor-actions.c:1128
+#: ../src/e-util/e-html-editor-actions.c:1161
 msgid "_Undo"
 msgstr "_Desfazer"
 
@@ -4890,7 +4890,7 @@ msgstr "Desfazer"
 
 #: ../src/addressbook/gui/contact-editor/e-contact-editor.c:269
 #: ../src/calendar/gui/e-comp-editor.c:2189
-#: ../src/e-util/e-html-editor-actions.c:1114
+#: ../src/e-util/e-html-editor-actions.c:1147
 msgid "_Redo"
 msgstr "_Refazer"
 
@@ -4928,7 +4928,7 @@ msgid "PGP keys"
 msgstr "Chaves PGP"
 
 #: ../src/addressbook/gui/contact-editor/e-contact-editor.c:3249
-#: ../src/e-util/e-html-editor-actions.c:415
+#: ../src/e-util/e-html-editor-actions.c:448
 #: ../src/e-util/e-image-chooser-dialog.c:193
 #: ../src/smime/gui/certificate-manager.c:674
 #: ../src/smime/gui/certificate-manager.c:959
@@ -4947,9 +4947,9 @@ msgstr "Abrir certificado X.509"
 #: ../src/addressbook/gui/contact-editor/e-contact-editor.c:4338
 #: ../src/addressbook/gui/contact-editor/e-contact-editor.c:4345
 #: ../src/e-util/e-attachment-store.c:666 ../src/e-util/e-category-editor.c:177
-#: ../src/e-util/e-html-editor-actions.c:362
-#: ../src/e-util/e-html-editor-actions.c:406
-#: ../src/e-util/e-html-editor-actions.c:509
+#: ../src/e-util/e-html-editor-actions.c:395
+#: ../src/e-util/e-html-editor-actions.c:439
+#: ../src/e-util/e-html-editor-actions.c:542
 #: ../src/e-util/e-image-chooser-dialog.c:182 ../src/plugins/face/face.c:298
 #: ../src/shell/e-shell-utils.c:69 ../src/smime/gui/certificate-manager.c:949
 msgid "_Open"
@@ -5902,7 +5902,7 @@ msgstr "Red_uzir"
 
 #. Search button
 #: ../src/addressbook/gui/widgets/e-contact-map-window.c:447
-#: ../src/e-util/e-html-editor-actions.c:2261
+#: ../src/e-util/e-html-editor-actions.c:2308
 #: ../src/e-util/e-html-editor-find-dialog.c:245
 #: ../src/shell/e-shell-window-actions.c:1038
 msgid "_Find"
@@ -7146,7 +7146,7 @@ msgstr "Estado"
 #. String to use in 12-hour time format for times in the morning.
 #: ../src/calendar/gui/comp-util.c:2071 ../src/calendar/gui/e-day-view.c:2286
 #: ../src/calendar/gui/e-to-do-pane.c:249
-#: ../src/calendar/gui/e-week-view.c:1856 ../src/calendar/gui/print.c:1076
+#: ../src/calendar/gui/e-week-view.c:1960 ../src/calendar/gui/print.c:1076
 #: ../src/calendar/gui/print.c:1095 ../src/calendar/gui/print.c:2663
 #: ../src/calendar/gui/print.c:2683
 msgid "am"
@@ -7155,7 +7155,7 @@ msgstr "am"
 #. String to use in 12-hour time format for times in the afternoon.
 #: ../src/calendar/gui/comp-util.c:2075 ../src/calendar/gui/e-day-view.c:2289
 #: ../src/calendar/gui/e-to-do-pane.c:253
-#: ../src/calendar/gui/e-week-view.c:1859 ../src/calendar/gui/print.c:1081
+#: ../src/calendar/gui/e-week-view.c:1963 ../src/calendar/gui/print.c:1081
 #: ../src/calendar/gui/print.c:1097 ../src/calendar/gui/print.c:2668
 #: ../src/calendar/gui/print.c:2685
 msgid "pm"
@@ -8486,7 +8486,7 @@ msgstr "Participa_ntes…"
 #: ../src/calendar/gui/e-comp-editor-page-recurrence.c:2312
 #: ../src/calendar/gui/e-comp-editor.c:2205
 #: ../src/e-util/e-accounts-window.c:1745
-#: ../src/e-util/e-html-editor-actions.c:1137
+#: ../src/e-util/e-html-editor-actions.c:1170
 #: ../src/e-util/e-mail-signature-manager.c:354
 #: ../src/e-util/e-webdav-browser.c:2848 ../src/e-util/filter.ui.h:26
 #: ../src/mail/e-mail-account-manager.c:730 ../src/mail/e-mail-browser.c:217
@@ -9190,7 +9190,7 @@ msgstr "Fechar a janela atual"
 
 #. copy menu item
 #: ../src/calendar/gui/e-comp-editor.c:2126 ../src/e-util/e-focus-tracker.c:806
-#: ../src/e-util/e-html-editor-actions.c:1093 ../src/e-util/e-text.c:2065
+#: ../src/e-util/e-html-editor-actions.c:1126 ../src/e-util/e-text.c:2065
 #: ../src/e-util/e-web-view.c:467 ../src/mail/e-mail-browser.c:173
 #: ../src/mail/mail.error.xml.h:147 ../src/shell/e-shell-window-actions.c:947
 msgid "_Copy"
@@ -9206,7 +9206,7 @@ msgstr "Copiar a seleção"
 
 #. cut menu item
 #: ../src/calendar/gui/e-comp-editor.c:2133 ../src/e-util/e-focus-tracker.c:801
-#: ../src/e-util/e-html-editor-actions.c:1100 ../src/e-util/e-text.c:2051
+#: ../src/e-util/e-html-editor-actions.c:1133 ../src/e-util/e-text.c:2051
 #: ../src/mail/e-mail-browser.c:180 ../src/shell/e-shell-window-actions.c:954
 msgid "Cu_t"
 msgstr "Cor_tar"
@@ -9230,7 +9230,7 @@ msgstr "Ver a ajuda"
 
 #. paste menu item
 #: ../src/calendar/gui/e-comp-editor.c:2154 ../src/e-util/e-focus-tracker.c:811
-#: ../src/e-util/e-html-editor-actions.c:1107 ../src/e-util/e-text.c:2077
+#: ../src/e-util/e-html-editor-actions.c:1140 ../src/e-util/e-text.c:2077
 #: ../src/mail/e-mail-browser.c:187 ../src/shell/e-shell-window-actions.c:982
 msgid "_Paste"
 msgstr "_Colar"
@@ -9258,7 +9258,7 @@ msgid "Pre_view…"
 msgstr "_Antever…"
 
 #: ../src/calendar/gui/e-comp-editor.c:2175 ../src/e-util/e-focus-tracker.c:821
-#: ../src/e-util/e-html-editor-actions.c:1121 ../src/e-util/e-web-view.c:484
+#: ../src/e-util/e-html-editor-actions.c:1154 ../src/e-util/e-web-view.c:484
 #: ../src/mail/e-mail-browser.c:194 ../src/shell/e-shell-window-actions.c:1059
 msgid "Select _All"
 msgstr "Selecion_ar tudo"
@@ -9274,14 +9274,14 @@ msgid "_Classification"
 msgstr "_Classificação"
 
 #: ../src/calendar/gui/e-comp-editor.c:2212
-#: ../src/e-util/e-html-editor-actions.c:1144
+#: ../src/e-util/e-html-editor-actions.c:1177
 #: ../src/e-util/e-mail-signature-editor.c:343 ../src/mail/e-mail-browser.c:210
 #: ../src/mail/e-mail-notes.c:1121 ../src/shell/e-shell-window-actions.c:1110
 msgid "_File"
 msgstr "_Ficheiro"
 
 #: ../src/calendar/gui/e-comp-editor.c:2226
-#: ../src/e-util/e-html-editor-actions.c:1165
+#: ../src/e-util/e-html-editor-actions.c:1198
 msgid "_Insert"
 msgstr "_Inserir"
 
@@ -9291,7 +9291,7 @@ msgid "_Options"
 msgstr "_Opções"
 
 #: ../src/calendar/gui/e-comp-editor.c:2240
-#: ../src/e-util/e-html-editor-actions.c:1186 ../src/mail/e-mail-browser.c:224
+#: ../src/e-util/e-html-editor-actions.c:1219 ../src/mail/e-mail-browser.c:224
 #: ../src/shell/e-shell-window-actions.c:1153
 #: ../src/smime/gui/certificate-manager.c:1644 ../src/smime/gui/smime-ui.ui.h:3
 msgid "_View"
@@ -9794,7 +9794,7 @@ msgstr "A fazer"
 #. Translators: the first '%s' is replaced with a component summary;
 #. the second '%s' is replaced with an event location.
 #. Example: "Meet John Doe (Central Park)"
-#: ../src/calendar/gui/e-week-view.c:3707
+#: ../src/calendar/gui/e-week-view.c:3869
 #, c-format
 msgctxt "SummaryWithLocation"
 msgid "%s (%s)"
@@ -14459,596 +14459,612 @@ msgstr "Falha ao inserir ficheiro HTML."
 msgid "Failed to insert text file."
 msgstr "Falha ao inserir ficheiro de texto."
 
-#: ../src/e-util/e-html-editor-actions.c:360
+#: ../src/e-util/e-html-editor-actions.c:393
 msgid "Insert HTML File"
 msgstr "Inserir ficheiro HTML"
 
-#: ../src/e-util/e-html-editor-actions.c:365
+#: ../src/e-util/e-html-editor-actions.c:398
 msgid "HTML file"
 msgstr "Ficheiro HTML"
 
-#: ../src/e-util/e-html-editor-actions.c:403
-#: ../src/e-util/e-html-editor-actions.c:421
+#: ../src/e-util/e-html-editor-actions.c:436
+#: ../src/e-util/e-html-editor-actions.c:454
 msgctxt "dialog-title"
 msgid "Insert Image"
 msgstr "Inserir imagem"
 
-#: ../src/e-util/e-html-editor-actions.c:410
-#: ../src/e-util/e-html-editor-actions.c:428
+#: ../src/e-util/e-html-editor-actions.c:443
+#: ../src/e-util/e-html-editor-actions.c:461
 #: ../src/e-util/e-image-chooser-dialog.c:188 ../src/plugins/face/face.c:301
 msgid "Image files"
 msgstr "Ficheiros de imagens"
 
-#: ../src/e-util/e-html-editor-actions.c:507
+#: ../src/e-util/e-html-editor-actions.c:540
 msgid "Insert text file"
 msgstr "Inserir ficheiro de texto"
 
-#: ../src/e-util/e-html-editor-actions.c:512
+#: ../src/e-util/e-html-editor-actions.c:545
 msgid "Text file"
 msgstr "Ficheiro de texto"
 
-#: ../src/e-util/e-html-editor-actions.c:1095
+#: ../src/e-util/e-html-editor-actions.c:1128
 msgid "Copy selected text to the clipboard"
 msgstr "Copiar texto selecionado para a área de transferência"
 
-#: ../src/e-util/e-html-editor-actions.c:1102
+#: ../src/e-util/e-html-editor-actions.c:1135
 msgid "Cut selected text to the clipboard"
 msgstr "Cortar texto selecionado para a área de transferência"
 
-#: ../src/e-util/e-html-editor-actions.c:1109
+#: ../src/e-util/e-html-editor-actions.c:1142
 msgid "Paste text from the clipboard"
 msgstr "Colar texto da área de transferência"
 
-#: ../src/e-util/e-html-editor-actions.c:1116
+#: ../src/e-util/e-html-editor-actions.c:1149
 msgid "Redo the last undone action"
 msgstr "Refazer a última ação desfeita"
 
-#: ../src/e-util/e-html-editor-actions.c:1130
+#: ../src/e-util/e-html-editor-actions.c:1163
 msgid "Undo the last action"
 msgstr "Desfazer a última ação"
 
-#: ../src/e-util/e-html-editor-actions.c:1151
+#: ../src/e-util/e-html-editor-actions.c:1184
 msgid "For_mat"
 msgstr "For_matar"
 
-#: ../src/e-util/e-html-editor-actions.c:1158
+#: ../src/e-util/e-html-editor-actions.c:1191
 msgid "_Paragraph Style"
 msgstr "Estilo do _parágrafo"
 
-#: ../src/e-util/e-html-editor-actions.c:1172
+#: ../src/e-util/e-html-editor-actions.c:1205
 #: ../src/e-util/e-html-editor-image-dialog.c:678
 msgid "_Alignment"
 msgstr "_Alinhamento"
 
-#: ../src/e-util/e-html-editor-actions.c:1179
+#: ../src/e-util/e-html-editor-actions.c:1212
 msgid "Current _Languages"
 msgstr "_Idiomas atuais"
 
-#: ../src/e-util/e-html-editor-actions.c:1196
+#: ../src/e-util/e-html-editor-actions.c:1229
 msgid "_Increase Indent"
 msgstr "Aumentar _indentação"
 
-#: ../src/e-util/e-html-editor-actions.c:1198
+#: ../src/e-util/e-html-editor-actions.c:1231
 msgid "Increase Indent"
 msgstr "Aumentar indentação"
 
-#: ../src/e-util/e-html-editor-actions.c:1203
-#: ../src/e-util/e-html-editor-actions.c:2267
+#: ../src/e-util/e-html-editor-actions.c:1236
+#: ../src/e-util/e-html-editor-actions.c:2314
 msgid "E_moji"
 msgstr "E_moji"
 
-#: ../src/e-util/e-html-editor-actions.c:1205
-#: ../src/e-util/e-html-editor-actions.c:1212
+#: ../src/e-util/e-html-editor-actions.c:1238
+#: ../src/e-util/e-html-editor-actions.c:1245
 #: ../src/e-util/e-markdown-editor.c:1464
 msgid "Insert Emoji"
 msgstr "Inserir Emoji"
 
-#: ../src/e-util/e-html-editor-actions.c:1210
+#: ../src/e-util/e-html-editor-actions.c:1243
 msgid "Insert E_moji"
 msgstr "Inserir E_moji"
 
-#: ../src/e-util/e-html-editor-actions.c:1217
+#: ../src/e-util/e-html-editor-actions.c:1250
 msgid "_HTML File…"
 msgstr "Ficheiro _HTML…"
 
-#: ../src/e-util/e-html-editor-actions.c:1224
+#: ../src/e-util/e-html-editor-actions.c:1257
 msgid "Te_xt File…"
 msgstr "Ficheiro de te_xto…"
 
-#: ../src/e-util/e-html-editor-actions.c:1231
+#: ../src/e-util/e-html-editor-actions.c:1264
 msgid "Paste _Quotation"
 msgstr "Colar _citação"
 
-#: ../src/e-util/e-html-editor-actions.c:1238
+#: ../src/e-util/e-html-editor-actions.c:1271
 msgid "_Find…"
 msgstr "_Localizar…"
 
-#: ../src/e-util/e-html-editor-actions.c:1240
+#: ../src/e-util/e-html-editor-actions.c:1273
 msgid "Search for text"
 msgstr "Procurar por texto"
 
-#: ../src/e-util/e-html-editor-actions.c:1245
+#: ../src/e-util/e-html-editor-actions.c:1278
 msgid "Find A_gain"
 msgstr "Locali_zar novamente"
 
-#: ../src/e-util/e-html-editor-actions.c:1252
+#: ../src/e-util/e-html-editor-actions.c:1285
 msgid "Re_place…"
 msgstr "_Substituir…"
 
-#: ../src/e-util/e-html-editor-actions.c:1254
+#: ../src/e-util/e-html-editor-actions.c:1287
 msgid "Search for and replace text"
 msgstr "Procurar e substituir texto"
 
-#: ../src/e-util/e-html-editor-actions.c:1259
+#: ../src/e-util/e-html-editor-actions.c:1292
 msgid "Check _Spelling…"
 msgstr "Verificar _ortografia…"
 
-#: ../src/e-util/e-html-editor-actions.c:1266
+#: ../src/e-util/e-html-editor-actions.c:1299
 msgid "_Decrease Indent"
 msgstr "_Diminuir indentação"
 
-#: ../src/e-util/e-html-editor-actions.c:1268
+#: ../src/e-util/e-html-editor-actions.c:1301
 msgid "Decrease Indent"
 msgstr "Diminuir indentação"
 
-#: ../src/e-util/e-html-editor-actions.c:1273
+#: ../src/e-util/e-html-editor-actions.c:1306
 msgid "_Wrap Lines"
 msgstr "_Qebrar linhas"
 
 #. Center
-#: ../src/e-util/e-html-editor-actions.c:1283
+#: ../src/e-util/e-html-editor-actions.c:1316
 #: ../src/e-util/e-html-editor-paragraph-dialog.c:109
 msgid "_Center"
 msgstr "_Central"
 
-#: ../src/e-util/e-html-editor-actions.c:1285
+#: ../src/e-util/e-html-editor-actions.c:1318
 msgid "Center Alignment"
 msgstr "Alinhamento central"
 
 #. Justified
-#: ../src/e-util/e-html-editor-actions.c:1290
+#: ../src/e-util/e-html-editor-actions.c:1323
 #: ../src/e-util/e-html-editor-paragraph-dialog.c:127
 msgid "_Justified"
 msgstr "_Justificado"
 
-#: ../src/e-util/e-html-editor-actions.c:1292
+#: ../src/e-util/e-html-editor-actions.c:1325
 msgid "Align Justified"
 msgstr "Alinhamento justificado"
 
 #. Left
-#: ../src/e-util/e-html-editor-actions.c:1297
+#: ../src/e-util/e-html-editor-actions.c:1330
 #: ../src/e-util/e-html-editor-paragraph-dialog.c:100
 msgid "_Left"
 msgstr "_Esquerda"
 
-#: ../src/e-util/e-html-editor-actions.c:1299
+#: ../src/e-util/e-html-editor-actions.c:1332
 msgid "Left Alignment"
 msgstr "Alinhamento à esquerda"
 
 #. Right
-#: ../src/e-util/e-html-editor-actions.c:1304
+#: ../src/e-util/e-html-editor-actions.c:1337
 #: ../src/e-util/e-html-editor-paragraph-dialog.c:118
 msgid "_Right"
 msgstr "_Direita"
 
-#: ../src/e-util/e-html-editor-actions.c:1306
+#: ../src/e-util/e-html-editor-actions.c:1339
 msgid "Right Alignment"
 msgstr "Alinhamento à direita"
 
-#: ../src/e-util/e-html-editor-actions.c:1314
+#: ../src/e-util/e-html-editor-actions.c:1347
 #: ../src/modules/text-highlight/languages.c:70
 msgid "_HTML"
 msgstr "_HTML"
 
-#: ../src/e-util/e-html-editor-actions.c:1316
+#: ../src/e-util/e-html-editor-actions.c:1349
 msgid "HTML editing mode"
 msgstr "Modo de edição HTML"
 
-#: ../src/e-util/e-html-editor-actions.c:1321
+#: ../src/e-util/e-html-editor-actions.c:1354
 msgid "Plain _Text"
 msgstr "_Texto simples"
 
-#: ../src/e-util/e-html-editor-actions.c:1323
+#: ../src/e-util/e-html-editor-actions.c:1356
 msgid "Plain text editing mode"
 msgstr "Modo de edição de texto simples"
 
-#: ../src/e-util/e-html-editor-actions.c:1328
+#: ../src/e-util/e-html-editor-actions.c:1361
 #: ../src/modules/text-highlight/languages.c:96
 msgid "_Markdown"
 msgstr "_Markdown"
 
-#: ../src/e-util/e-html-editor-actions.c:1330
+#: ../src/e-util/e-html-editor-actions.c:1363
 msgid "Markdown editing mode"
 msgstr "Modo de edição Markdown"
 
-#: ../src/e-util/e-html-editor-actions.c:1335
+#: ../src/e-util/e-html-editor-actions.c:1368
 msgid "Ma_rkdown as Plain Text"
 msgstr "Ma_rkdown como Texto Simples"
 
-#: ../src/e-util/e-html-editor-actions.c:1337
+#: ../src/e-util/e-html-editor-actions.c:1370
 msgid "Markdown editing mode, exported as Plain Text"
 msgstr "Modo de edição de Markdown, exportado como Texto Simples"
 
-#: ../src/e-util/e-html-editor-actions.c:1342
+#: ../src/e-util/e-html-editor-actions.c:1375
 msgid "Mar_kdown as HTML"
 msgstr "Mar_kdown como HTML"
 
-#: ../src/e-util/e-html-editor-actions.c:1344
+#: ../src/e-util/e-html-editor-actions.c:1377
 msgid "Markdown editing mode, exported as HTML"
 msgstr "Modo de edição de Markdown, exportado como HTML"
 
-#: ../src/e-util/e-html-editor-actions.c:1352
+#: ../src/e-util/e-html-editor-actions.c:1385
 msgid "_Normal"
 msgstr "_Normal"
 
-#: ../src/e-util/e-html-editor-actions.c:1359
+#: ../src/e-util/e-html-editor-actions.c:1392
 msgid "Heading _1"
 msgstr "Cabeçalho _1"
 
-#: ../src/e-util/e-html-editor-actions.c:1366
+#: ../src/e-util/e-html-editor-actions.c:1399
 msgid "Heading _2"
 msgstr "Cabeçalho _2"
 
-#: ../src/e-util/e-html-editor-actions.c:1373
+#: ../src/e-util/e-html-editor-actions.c:1406
 msgid "Heading _3"
 msgstr "Cabeçalho _3"
 
-#: ../src/e-util/e-html-editor-actions.c:1380
+#: ../src/e-util/e-html-editor-actions.c:1413
 msgid "Heading _4"
 msgstr "Cabeçalho _4"
 
-#: ../src/e-util/e-html-editor-actions.c:1387
+#: ../src/e-util/e-html-editor-actions.c:1420
 msgid "Heading _5"
 msgstr "Cabeçalho _5"
 
-#: ../src/e-util/e-html-editor-actions.c:1394
+#: ../src/e-util/e-html-editor-actions.c:1427
 msgid "Heading _6"
 msgstr "Cabeçalho _6"
 
-#: ../src/e-util/e-html-editor-actions.c:1401
+#: ../src/e-util/e-html-editor-actions.c:1434
 msgid "_Preformatted"
 msgstr "_Pré-formatado"
 
-#: ../src/e-util/e-html-editor-actions.c:1408
+#: ../src/e-util/e-html-editor-actions.c:1441
 msgid "A_ddress"
 msgstr "En_dereço"
 
-#: ../src/e-util/e-html-editor-actions.c:1415
+#: ../src/e-util/e-html-editor-actions.c:1448
 msgid "_Bulleted List"
 msgstr "Lista com _marcas"
 
-#: ../src/e-util/e-html-editor-actions.c:1422
+#: ../src/e-util/e-html-editor-actions.c:1455
 msgid "_Roman Numeral List"
 msgstr "Lista _numerada em romanos"
 
-#: ../src/e-util/e-html-editor-actions.c:1429
+#: ../src/e-util/e-html-editor-actions.c:1462
 msgid "Numbered _List"
 msgstr "_Lista numerada"
 
-#: ../src/e-util/e-html-editor-actions.c:1436
+#: ../src/e-util/e-html-editor-actions.c:1469
 msgid "_Alphabetical List"
 msgstr "Lista _alfabética"
 
-#: ../src/e-util/e-html-editor-actions.c:1452
-#: ../src/e-util/e-html-editor-actions.c:1490
+#: ../src/e-util/e-html-editor-actions.c:1485
+#: ../src/e-util/e-html-editor-actions.c:1523
 msgid "_Image…"
 msgstr "_…Imagem…"
 
 #. Translators: This is an action tooltip
-#: ../src/e-util/e-html-editor-actions.c:1455
+#: ../src/e-util/e-html-editor-actions.c:1488
 msgid "Insert Image"
 msgstr "Inserir imagem"
 
-#: ../src/e-util/e-html-editor-actions.c:1460
-#: ../src/e-util/e-html-editor-actions.c:1497
+#: ../src/e-util/e-html-editor-actions.c:1493
+#: ../src/e-util/e-html-editor-actions.c:1530
 msgid "_Link…"
 msgstr "_Hiperligação…"
 
-#: ../src/e-util/e-html-editor-actions.c:1462
+#: ../src/e-util/e-html-editor-actions.c:1495
 msgid "Insert Link"
 msgstr "Inserir ligação"
 
 #. Translators: 'Rule' here means a horizontal line in an HTML text
-#: ../src/e-util/e-html-editor-actions.c:1468
-#: ../src/e-util/e-html-editor-actions.c:1512
+#: ../src/e-util/e-html-editor-actions.c:1501
+#: ../src/e-util/e-html-editor-actions.c:1545
 msgid "_Rule…"
 msgstr "_Régua…"
 
 #. Translators: 'Rule' here means a horizontal line in an HTML text
-#: ../src/e-util/e-html-editor-actions.c:1471
+#: ../src/e-util/e-html-editor-actions.c:1504
 msgid "Insert Rule"
 msgstr "Inserir régua"
 
-#: ../src/e-util/e-html-editor-actions.c:1476
-#: ../src/e-util/e-html-editor-actions.c:1519
+#: ../src/e-util/e-html-editor-actions.c:1509
+#: ../src/e-util/e-html-editor-actions.c:1552
 msgid "_Table…"
 msgstr "_Tabela…"
 
-#: ../src/e-util/e-html-editor-actions.c:1478
+#: ../src/e-util/e-html-editor-actions.c:1511
 msgid "Insert Table"
 msgstr "Inserir tabela"
 
-#: ../src/e-util/e-html-editor-actions.c:1483
+#: ../src/e-util/e-html-editor-actions.c:1516
 msgid "_Cell…"
 msgstr "_Célula…"
 
-#: ../src/e-util/e-html-editor-actions.c:1504
+#: ../src/e-util/e-html-editor-actions.c:1537
 msgid "Pa_ge…"
 msgstr "Pá_gina…"
 
-#: ../src/e-util/e-html-editor-actions.c:1528
+#: ../src/e-util/e-html-editor-actions.c:1561
 msgid "Font _Size"
 msgstr "Tamanho da _letra"
 
-#: ../src/e-util/e-html-editor-actions.c:1535
+#: ../src/e-util/e-html-editor-actions.c:1568
 msgid "_Font Style"
 msgstr "_Estilo da letra"
 
-#: ../src/e-util/e-html-editor-actions.c:1542
+#: ../src/e-util/e-html-editor-actions.c:1575
 msgid "Paste As _Text"
 msgstr "Colar como _texto"
 
-#: ../src/e-util/e-html-editor-actions.c:1553
+#: ../src/e-util/e-html-editor-actions.c:1586
 #: ../src/e-util/e-html-editor-text-dialog.c:201
 msgid "_Bold"
 msgstr "_Negrito"
 
-#: ../src/e-util/e-html-editor-actions.c:1555
+#: ../src/e-util/e-html-editor-actions.c:1588
 msgid "Bold"
 msgstr "Negrito"
 
-#: ../src/e-util/e-html-editor-actions.c:1561
+#: ../src/e-util/e-html-editor-actions.c:1594
 #: ../src/e-util/e-html-editor-text-dialog.c:212
 msgid "_Italic"
 msgstr "_Itálico"
 
-#: ../src/e-util/e-html-editor-actions.c:1563
+#: ../src/e-util/e-html-editor-actions.c:1596
 msgid "Italic"
 msgstr "Itálico"
 
-#: ../src/e-util/e-html-editor-actions.c:1569
+#: ../src/e-util/e-html-editor-actions.c:1602
 #: ../src/e-util/e-html-editor-text-dialog.c:233
 msgid "_Strikethrough"
 msgstr "_Rasurar"
 
-#: ../src/e-util/e-html-editor-actions.c:1571
+#: ../src/e-util/e-html-editor-actions.c:1604
 msgid "Strikethrough"
 msgstr "Rasurado"
 
-#: ../src/e-util/e-html-editor-actions.c:1577
+#: ../src/e-util/e-html-editor-actions.c:1610
 msgid "Subs_cript"
 msgstr "_Subscrever"
 
-#: ../src/e-util/e-html-editor-actions.c:1579
+#: ../src/e-util/e-html-editor-actions.c:1612
 msgid "Subscript"
 msgstr "Subscrito"
 
-#: ../src/e-util/e-html-editor-actions.c:1585
+#: ../src/e-util/e-html-editor-actions.c:1618
 msgid "Su_perscript"
 msgstr "S_obrescrever"
 
-#: ../src/e-util/e-html-editor-actions.c:1587
+#: ../src/e-util/e-html-editor-actions.c:1620
 msgid "Superscript"
 msgstr "Sobrescrito"
 
-#: ../src/e-util/e-html-editor-actions.c:1593
+#: ../src/e-util/e-html-editor-actions.c:1626
 #: ../src/e-util/e-html-editor-text-dialog.c:223
 msgid "_Underline"
 msgstr "S_ublinhar"
 
-#: ../src/e-util/e-html-editor-actions.c:1595
+#: ../src/e-util/e-html-editor-actions.c:1628
 msgid "Underline"
 msgstr "Sublinhado"
 
 #. Translators: This is a font size level. It is shown on a tool bar. Please keep it as short as possible.
-#: ../src/e-util/e-html-editor-actions.c:1605
+#: ../src/e-util/e-html-editor-actions.c:1638
 msgid "-2"
 msgstr "-2"
 
 #. Translators: This is a font size level. It is shown on a tool bar. Please keep it as short as possible.
-#: ../src/e-util/e-html-editor-actions.c:1613
+#: ../src/e-util/e-html-editor-actions.c:1646
 msgid "-1"
 msgstr "-1"
 
 #. Translators: This is a font size level. It is shown on a tool bar. Please keep it as short as possible.
-#: ../src/e-util/e-html-editor-actions.c:1621
+#: ../src/e-util/e-html-editor-actions.c:1654
 msgid "+0"
 msgstr "+0"
 
 #. Translators: This is a font size level. It is shown on a tool bar. Please keep it as short as possible.
-#: ../src/e-util/e-html-editor-actions.c:1629
+#: ../src/e-util/e-html-editor-actions.c:1662
 msgid "+1"
 msgstr "+1"
 
 #. Translators: This is a font size level. It is shown on a tool bar. Please keep it as short as possible.
-#: ../src/e-util/e-html-editor-actions.c:1637
+#: ../src/e-util/e-html-editor-actions.c:1670
 msgid "+2"
 msgstr "+2"
 
 #. Translators: This is a font size level. It is shown on a tool bar. Please keep it as short as possible.
-#: ../src/e-util/e-html-editor-actions.c:1645
+#: ../src/e-util/e-html-editor-actions.c:1678
 msgid "+3"
 msgstr "+3"
 
 #. Translators: This is a font size level. It is shown on a tool bar. Please keep it as short as possible.
-#: ../src/e-util/e-html-editor-actions.c:1653
+#: ../src/e-util/e-html-editor-actions.c:1686
 msgid "+4"
 msgstr "+4"
 
-#: ../src/e-util/e-html-editor-actions.c:1672
+#: ../src/e-util/e-html-editor-actions.c:1705
+msgid "Copy _Link Location"
+msgstr "Copiar a localização da _ligação"
+
+#: ../src/e-util/e-html-editor-actions.c:1707 ../src/e-util/e-web-view.c:408
+msgid "Copy the link to the clipboard"
+msgstr "Copiar a ligação para a área de transferência"
+
+#: ../src/e-util/e-html-editor-actions.c:1712 ../src/e-util/e-web-view.c:416
+msgid "_Open Link in Browser"
+msgstr "Abrir a ligação no _navegador"
+
+#: ../src/e-util/e-html-editor-actions.c:1714 ../src/e-util/e-web-view.c:418
+msgid "Open the link in a web browser"
+msgstr "Abrir a ligação num navegador web"
+
+#: ../src/e-util/e-html-editor-actions.c:1719
 msgid "Cell Contents"
 msgstr "Conteúdo da célula"
 
-#: ../src/e-util/e-html-editor-actions.c:1679
+#: ../src/e-util/e-html-editor-actions.c:1726
 msgid "Column"
 msgstr "Coluna"
 
-#: ../src/e-util/e-html-editor-actions.c:1686
+#: ../src/e-util/e-html-editor-actions.c:1733
 msgid "Row"
 msgstr "Linha"
 
-#: ../src/e-util/e-html-editor-actions.c:1693
+#: ../src/e-util/e-html-editor-actions.c:1740
 msgid "Table"
 msgstr "Tabela"
 
 #. Translators: Popup menu item caption, containing all the Delete options for a table
-#: ../src/e-util/e-html-editor-actions.c:1703
+#: ../src/e-util/e-html-editor-actions.c:1750
 msgid "Table Delete"
 msgstr "Eliminações da tabela"
 
 #. Translators: Popup menu item caption, containing all the Insert options for a table
-#: ../src/e-util/e-html-editor-actions.c:1711
+#: ../src/e-util/e-html-editor-actions.c:1758
 msgid "Table Insert"
 msgstr "Inserções da tabela"
 
-#: ../src/e-util/e-html-editor-actions.c:1718
+#: ../src/e-util/e-html-editor-actions.c:1765
 msgid "Properties"
 msgstr "Propriedades"
 
-#: ../src/e-util/e-html-editor-actions.c:1736
+#: ../src/e-util/e-html-editor-actions.c:1783
 msgid "Delete Rule"
 msgstr "Eliminar regra"
 
-#: ../src/e-util/e-html-editor-actions.c:1743
+#: ../src/e-util/e-html-editor-actions.c:1790
 msgid "Delete Image"
 msgstr "Eliminar imagem"
 
-#: ../src/e-util/e-html-editor-actions.c:1750
+#: ../src/e-util/e-html-editor-actions.c:1797
 msgid "Column After"
 msgstr "Coluna após"
 
-#: ../src/e-util/e-html-editor-actions.c:1757
+#: ../src/e-util/e-html-editor-actions.c:1804
 msgid "Column Before"
 msgstr "Coluna antes"
 
-#: ../src/e-util/e-html-editor-actions.c:1764
+#: ../src/e-util/e-html-editor-actions.c:1811
 msgid "Insert _Link"
 msgstr "Inserir _ligação"
 
-#: ../src/e-util/e-html-editor-actions.c:1771
+#: ../src/e-util/e-html-editor-actions.c:1818
 msgid "Row Above"
 msgstr "Linha acima"
 
-#: ../src/e-util/e-html-editor-actions.c:1778
+#: ../src/e-util/e-html-editor-actions.c:1825
 msgid "Row Below"
 msgstr "Linha abaixo"
 
-#: ../src/e-util/e-html-editor-actions.c:1785
+#: ../src/e-util/e-html-editor-actions.c:1832
 msgid "Cell…"
 msgstr "Célula…"
 
-#: ../src/e-util/e-html-editor-actions.c:1792
+#: ../src/e-util/e-html-editor-actions.c:1839
 msgid "Image…"
 msgstr "Imagem…"
 
-#: ../src/e-util/e-html-editor-actions.c:1799
+#: ../src/e-util/e-html-editor-actions.c:1846
 msgid "Link…"
 msgstr "Hiperligação…"
 
-#: ../src/e-util/e-html-editor-actions.c:1806
+#: ../src/e-util/e-html-editor-actions.c:1853
 msgid "Page…"
 msgstr "Página…"
 
-#: ../src/e-util/e-html-editor-actions.c:1813
+#: ../src/e-util/e-html-editor-actions.c:1860
 msgid "Paragraph…"
 msgstr "Parágrafo…"
 
 #. Translators: 'Rule' here means a horizontal line in an HTML text
-#: ../src/e-util/e-html-editor-actions.c:1821
+#: ../src/e-util/e-html-editor-actions.c:1868
 msgid "Rule…"
 msgstr "Régua…"
 
-#: ../src/e-util/e-html-editor-actions.c:1828
+#: ../src/e-util/e-html-editor-actions.c:1875
 msgid "Table…"
 msgstr "Tabela…"
 
-#: ../src/e-util/e-html-editor-actions.c:1835
+#: ../src/e-util/e-html-editor-actions.c:1882
 msgid "Text…"
 msgstr "Texto…"
 
-#: ../src/e-util/e-html-editor-actions.c:1842
+#: ../src/e-util/e-html-editor-actions.c:1889
 msgid "Remove Link"
 msgstr "Remover ligação"
 
-#: ../src/e-util/e-html-editor-actions.c:1859
+#: ../src/e-util/e-html-editor-actions.c:1906
 msgid "Add Word to Dictionary"
 msgstr "Adicionar palavra ao dicionário"
 
-#: ../src/e-util/e-html-editor-actions.c:1866
+#: ../src/e-util/e-html-editor-actions.c:1913
 msgid "Ignore Misspelled Word"
 msgstr "Ignorar palavra mal escrita"
 
-#: ../src/e-util/e-html-editor-actions.c:1873
+#: ../src/e-util/e-html-editor-actions.c:1920
 msgid "Add Word To"
 msgstr "Adicionar palavra a"
 
-#: ../src/e-util/e-html-editor-actions.c:1882
+#: ../src/e-util/e-html-editor-actions.c:1929
 msgid "More Suggestions"
 msgstr "Mais sugestões"
 
 #. Translators: %s will be replaced with the actual dictionary
 #. * name, where a user can add a word to. This is part of an
 #. * "Add Word To" submenu.
-#: ../src/e-util/e-html-editor-actions.c:2117
+#: ../src/e-util/e-html-editor-actions.c:2164
 #, c-format
 msgid "%s Dictionary"
 msgstr "Dicionário %s"
 
-#: ../src/e-util/e-html-editor-actions.c:2195
+#: ../src/e-util/e-html-editor-actions.c:2242
 msgid "_Emoticon"
 msgstr "_Risonho"
 
-#: ../src/e-util/e-html-editor-actions.c:2196
+#: ../src/e-util/e-html-editor-actions.c:2243
 msgid "Insert Emoticon"
 msgstr "Inserir risonho"
 
-#: ../src/e-util/e-html-editor-actions.c:2264
+#: ../src/e-util/e-html-editor-actions.c:2311
 msgid "Re_place"
 msgstr "_Substituir"
 
-#: ../src/e-util/e-html-editor-actions.c:2270
+#: ../src/e-util/e-html-editor-actions.c:2317
 msgid "_Image"
 msgstr "_Imagem"
 
-#: ../src/e-util/e-html-editor-actions.c:2273
+#: ../src/e-util/e-html-editor-actions.c:2320
 msgid "_Link"
 msgstr "_Ligação"
 
 #. Translators: 'Rule' here means a horizontal line in an HTML text
-#: ../src/e-util/e-html-editor-actions.c:2277
+#: ../src/e-util/e-html-editor-actions.c:2324
 msgid "_Rule"
 msgstr "_Régua"
 
-#: ../src/e-util/e-html-editor-actions.c:2280
+#: ../src/e-util/e-html-editor-actions.c:2327
 #: ../src/e-util/e-html-editor-cell-dialog.c:448
 msgid "_Table"
 msgstr "_Tabela"
 
-#: ../src/e-util/e-html-editor-actions.c:2392 ../src/e-util/e-html-editor.c:943
+#: ../src/e-util/e-html-editor-actions.c:2439 ../src/e-util/e-html-editor.c:953
 msgid "Editing Mode"
 msgstr "Modo de edição"
 
-#: ../src/e-util/e-html-editor.c:929
+#: ../src/e-util/e-html-editor.c:939
 msgid "Paragraph Style"
 msgstr "Estilo do parágrafo"
 
-#: ../src/e-util/e-html-editor.c:956
+#: ../src/e-util/e-html-editor.c:966
 msgid "Font Color"
 msgstr "Cor da fonte"
 
-#: ../src/e-util/e-html-editor.c:967
+#: ../src/e-util/e-html-editor.c:977
 msgid "Background Color"
 msgstr "Cor de fundo"
 
-#: ../src/e-util/e-html-editor.c:977
+#: ../src/e-util/e-html-editor.c:987
 msgid "Font Size"
 msgstr "Tamanho da fonte"
 
-#: ../src/e-util/e-html-editor.c:986
+#: ../src/e-util/e-html-editor.c:996
 msgid "Font Name"
 msgstr "Nome da fonte"
 
-#: ../src/e-util/e-html-editor.c:2080
+#: ../src/e-util/e-html-editor.c:2094
 msgid "Failed to obtain content of editor"
 msgstr "Falha ao obter detalhes do editor"
 
@@ -16920,18 +16936,6 @@ msgstr "Criar uma coleçã_o"
 #: ../src/e-util/e-web-view.c:406
 msgid "_Copy Link Location"
 msgstr "_Copiar a localização da ligação"
-
-#: ../src/e-util/e-web-view.c:408
-msgid "Copy the link to the clipboard"
-msgstr "Copiar a ligação para a área de transferência"
-
-#: ../src/e-util/e-web-view.c:416
-msgid "_Open Link in Browser"
-msgstr "Abrir a ligação no _navegador"
-
-#: ../src/e-util/e-web-view.c:418
-msgid "Open the link in a web browser"
-msgstr "Abrir a ligação num navegador web"
 
 #: ../src/e-util/e-web-view.c:426
 msgid "_Copy Email Address"
@@ -26779,6 +26783,12 @@ msgstr "Contacto do livro de endereços"
 msgid "Display the part as an addressbook contact"
 msgstr "Mostrar a parte como um contacto do livro de endereços"
 
+#. Translators: The "%s" is replaced with a link, constructing a text like: "Ctrl-click to open a link “http://www.example.com”"
+#: ../src/modules/webkit-editor/e-webkit-editor.c:5493
+#, c-format
+msgid "Ctrl-click to open a link “%s”"
+msgstr "Ctrl-clique para abrir uma ligação “%s”"
+
 #: ../src/plugins/attachment-reminder/attachment-reminder.c:169
 msgid "_Do not show this message again."
 msgstr "_Não mostrar esta mensagem novamente."
@@ -29111,9 +29121,6 @@ msgstr "Certificado importado"
 
 #~ msgid "This certificate is not viewable"
 #~ msgstr "Este certificado não é visível"
-
-#~ msgid "Ctrl-click to open a link"
-#~ msgstr "Ctrl-clique para abrir uma ligação"
 
 #, fuzzy
 #~| msgid "Image files"
