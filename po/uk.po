@@ -12,8 +12,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: evolution\n"
 "Report-Msgid-Bugs-To: https://gitlab.gnome.org/GNOME/evolution/issues\n"
-"POT-Creation-Date: 2022-06-13 12:12+0000\n"
-"PO-Revision-Date: 2022-06-13 17:17+0300\n"
+"POT-Creation-Date: 2022-06-17 10:36+0000\n"
+"PO-Revision-Date: 2022-06-17 16:13+0300\n"
 "Last-Translator: Yuri Chornoivan <yurchor@ukr.net>\n"
 "Language-Team: Ukrainian <trans-uk@lists.fedoraproject.org>\n"
 "Language: uk\n"
@@ -2982,10 +2982,22 @@ msgstr ""
 "розгорнуто."
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:310
+#| msgid "Whether to emit a beep."
+msgid "Whether to print attachments."
+msgstr "Чи слід друкувати долучення."
+
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:311
+msgid ""
+"If enabled, and possible, attachment content is printed with the message."
+msgstr ""
+"Якщо увімкнено і можливо, вміст долучення буде надруковано разом із"
+" повідомленням."
+
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:312
 msgid "Size limit for text attachments to show"
 msgstr "Обмеження на розмір показаних текстових долучень"
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:311
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:313
 msgid ""
 "Defines the size in KB, the limit to show text attachments in the message "
 "preview. Anything above this limit will not be possible to show inline."
@@ -2994,11 +3006,11 @@ msgstr ""
 "режимі попереднього перегляду повідомлень. Усі долучення, розмір яких "
 "перевищуватиме вказаний, не буде показано вбудованими у повідомлення."
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:312
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:314
 msgid "(Deprecated) Default forward style"
 msgstr "(Застаріло) Типовий стиль пересилання"
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:313
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:315
 msgid ""
 "This key was deprecated in version 3.10 and should no longer be used. Use "
 "“forward-style-name” instead."
@@ -3006,11 +3018,11 @@ msgstr ""
 "Цей ключ застарілий для версії 3.10 і більше не використовуватиметься. "
 "Використовуйте «forward-style-name» натомість."
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:314
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:316
 msgid "(Deprecated) Default reply style"
 msgstr "(Застаріло) Типовий стиль відповіді"
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:315
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:317
 msgid ""
 "This key was deprecated in version 3.10 and should no longer be used. Use "
 "“reply-style-name” instead."
@@ -3018,11 +3030,11 @@ msgstr ""
 "Цей ключ застарілий для версії 3.10 і більше не використовуватиметься. "
 "Використовуйте «reply-style-name» натомість."
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:316
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:318
 msgid "(Deprecated) List of custom headers and whether they are enabled."
 msgstr "(Застаріло) Список власних заголовків та їхній стан."
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:317
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:319
 msgid ""
 "This key was deprecated in version 3.10 and should no longer be used. Use "
 "“show-headers” instead."
@@ -3030,12 +3042,12 @@ msgstr ""
 "Цей ключ застарілий для версії 3.10 і більше не використовуватиметься. "
 "Використовуйте «show-headers» натомість."
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:318
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:320
 msgid "(Deprecated) Load images for HTML messages over HTTP"
 msgstr ""
 "(Застаріло) Автоматично завантажувати зображення у листах HTML через HTTP"
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:319
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:321
 msgid ""
 "This key was deprecated in version 3.10 and should no longer be used. Use "
 "“image-loading-policy” instead."
@@ -3043,7 +3055,7 @@ msgstr ""
 "Цей ключ застарілий для версії 3.10 і більше не використовуватиметься. "
 "Використовуйте «image-loading-policy» натомість."
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:320
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:322
 msgid ""
 "(Deprecated) Asks whether to close the message window when the user forwards "
 "or replies to the message shown in the window"
@@ -3051,7 +3063,7 @@ msgstr ""
 "(Застаріло) Запитує, чи закривати вікно листа, коли користувач пересилає або "
 "відповідає на показане лист у вікні"
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:321
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:323
 msgid ""
 "This key was deprecated in version 3.10 and should no longer be used. Use "
 "“browser-close-on-reply-policy” instead."
@@ -4500,7 +4512,7 @@ msgstr "Редактор контактів"
 
 #: ../src/addressbook/gui/contact-editor/contact-editor.ui.h:13
 #: ../src/calendar/gui/e-comp-editor-page-reminders.c:2497
-#: ../src/em-format/e-mail-formatter-attachment.c:314
+#: ../src/em-format/e-mail-formatter-attachment.c:322
 #: ../src/mail/mail-config.ui.h:41
 msgid "Options"
 msgstr "Параметри"
@@ -7068,7 +7080,7 @@ msgstr "Стан"
 #. String to use in 12-hour time format for times in the morning.
 #: ../src/calendar/gui/comp-util.c:2071 ../src/calendar/gui/e-day-view.c:2286
 #: ../src/calendar/gui/e-to-do-pane.c:249
-#: ../src/calendar/gui/e-week-view.c:1960 ../src/calendar/gui/print.c:1076
+#: ../src/calendar/gui/e-week-view.c:1969 ../src/calendar/gui/print.c:1076
 #: ../src/calendar/gui/print.c:1095 ../src/calendar/gui/print.c:2663
 #: ../src/calendar/gui/print.c:2683
 msgid "am"
@@ -7077,7 +7089,7 @@ msgstr "am"
 #. String to use in 12-hour time format for times in the afternoon.
 #: ../src/calendar/gui/comp-util.c:2075 ../src/calendar/gui/e-day-view.c:2289
 #: ../src/calendar/gui/e-to-do-pane.c:253
-#: ../src/calendar/gui/e-week-view.c:1963 ../src/calendar/gui/print.c:1081
+#: ../src/calendar/gui/e-week-view.c:1972 ../src/calendar/gui/print.c:1081
 #: ../src/calendar/gui/print.c:1097 ../src/calendar/gui/print.c:2668
 #: ../src/calendar/gui/print.c:2685
 msgid "pm"
@@ -8264,7 +8276,7 @@ msgstr "Примітка — %s"
 
 #: ../src/calendar/gui/e-comp-editor-page-attachments.c:123
 #: ../src/calendar/gui/e-comp-editor-page-attachments.c:128
-#: ../src/em-format/e-mail-formatter-attachment.c:373
+#: ../src/em-format/e-mail-formatter-attachment.c:381
 #: ../src/e-util/e-attachment-bar.c:101 ../src/e-util/e-attachment-bar.c:106
 #: ../src/e-util/e-attachment-paned.c:175
 #: ../src/e-util/e-attachment-paned.c:180 ../src/mail/message-list.etspec.h:4
@@ -9746,7 +9758,7 @@ msgstr "Зробити"
 #. Translators: the first '%s' is replaced with a component summary;
 #. the second '%s' is replaced with an event location.
 #. Example: "Meet John Doe (Central Park)"
-#: ../src/calendar/gui/e-week-view.c:3869
+#: ../src/calendar/gui/e-week-view.c:3878
 #, c-format
 msgctxt "SummaryWithLocation"
 msgid "%s (%s)"
@@ -12453,15 +12465,15 @@ msgstr ""
 msgid "An error occurred while creating message composer."
 msgstr "Виникла помилка при відкриванні редактора повідомлень."
 
-#: ../src/em-format/e-mail-formatter-attachment.c:309
+#: ../src/em-format/e-mail-formatter-attachment.c:317
 msgid "Toggle View Inline"
 msgstr "Перемкнути вбудований перегляд"
 
-#: ../src/em-format/e-mail-formatter-attachment.c:309
+#: ../src/em-format/e-mail-formatter-attachment.c:317
 msgid "Open in default application"
 msgstr "Відкрити у типовій програмі"
 
-#: ../src/em-format/e-mail-formatter-attachment.c:374
+#: ../src/em-format/e-mail-formatter-attachment.c:382
 msgid "Display as attachment"
 msgstr "Показати як долучення"
 
@@ -14866,7 +14878,6 @@ msgid "+4"
 msgstr "+4"
 
 #: ../src/e-util/e-html-editor-actions.c:1705
-#| msgid "_Copy Link Location"
 msgid "Copy _Link Location"
 msgstr "Копіювати адресу п_осилання"
 
@@ -26790,7 +26801,6 @@ msgstr "Показати частину як контакт адресної к�
 #. Translators: The "%s" is replaced with a link, constructing a text like: "Ctrl-click to open a link “http://www.example.com”"
 #: ../src/modules/webkit-editor/e-webkit-editor.c:5493
 #, c-format
-#| msgid "Click to open map for %s"
 msgid "Ctrl-click to open a link “%s”"
 msgstr "Клацніть з одночасним натисканням Ctrl, щоб відкрити посилання «%s»"
 
