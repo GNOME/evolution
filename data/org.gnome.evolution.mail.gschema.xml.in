@@ -876,6 +876,11 @@
       <_summary>Whether to preserve expand state of the folders when calling Copy/Move to Folder.</_summary>
       <_description>If enabled, the Copy/Move to Folder dialog will preserve the expand state of the folders in the dialog, otherwise all the folders will be expanded.</_description>
     </key>
+    <key name="print-attachments" type="b">
+      <default>false</default>
+      <_summary>Whether to print attachments.</_summary>
+      <_description>If enabled, and possible, attachment content is printed with the message.</_description>
+    </key>
     <key name="preview-text-size-limit" type="i">
       <default>512</default>
       <_summary>Size limit for text attachments to show</_summary>

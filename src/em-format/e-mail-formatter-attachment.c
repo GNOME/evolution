@@ -132,8 +132,16 @@ emfe_attachment_format (EMailFormatterExtension *extension,
 			gchar *name;
 			EAttachment *attachment;
 			GFileInfo *file_info;
+			GSettings *settings;
 			const gchar *display_name;
 			gchar *description;
+
+			settings = e_util_ref_settings ("org.gnome.evolution.mail");
+			if (!g_settings_get_boolean (settings, "print-attachments")) {
+				g_clear_object (&settings);
+				return TRUE;
+			}
+			g_clear_object (&settings);
 
 			attachment = e_mail_part_attachment_ref_attachment (
 				E_MAIL_PART_ATTACHMENT (part));
