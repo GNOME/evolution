@@ -204,6 +204,11 @@
       <_summary>Show type field in the event/task/meeting editor</_summary>
       <_description>Whether to show type field in the event/task/meeting editor</_description>
     </key>
+    <key name="editor-show-toolbar" type="b">
+      <default>true</default>
+      <_summary>Show toolbar in the event/task/memo editor</_summary>
+      <_description>Whether to show toolbar in the event/task/memo editor</_description>
+    </key>
     <key name="hide-completed-tasks" type="b">
       <default>false</default>
       <_summary>Hide completed tasks</_summary>

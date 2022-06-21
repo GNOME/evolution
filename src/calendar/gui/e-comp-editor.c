@@ -1910,6 +1910,33 @@ e_comp_editor_set_shell (ECompEditor *comp_editor,
 	comp_editor->priv->shell = g_object_ref (shell);
 }
 
+static GtkWidget *
+comp_editor_construct_header_bar (ECompEditor *comp_editor)
+{
+	GtkWidget *widget;
+	GtkWidget *button;
+	GtkAction *action;
+
+	widget = gtk_header_bar_new ();
+	gtk_widget_show (widget);
+	gtk_header_bar_set_show_close_button (GTK_HEADER_BAR (widget), TRUE);
+
+	action = e_comp_editor_get_action (comp_editor, "save");
+
+	button = e_header_bar_button_new (_("Save"), action);
+	e_header_bar_button_css_add_class (E_HEADER_BAR_BUTTON (button), "suggested-action");
+	gtk_widget_show (button);
+	gtk_header_bar_pack_start (GTK_HEADER_BAR (widget), button);
+
+	action = e_comp_editor_get_action (comp_editor, "save-and-close");
+
+	button = e_header_bar_button_new (NULL, action);
+	gtk_widget_show (button);
+	gtk_header_bar_pack_start (GTK_HEADER_BAR (widget), button);
+
+	return widget;
+}
+
 static void
 e_comp_editor_set_property (GObject *object,
 			    guint property_id,
@@ -2091,6 +2118,7 @@ e_comp_editor_constructed (GObject *object)
 		"      <menuitem action='select-all'/>"
 		"    </menu>"
 		"    <menu action='view-menu'>"
+		"      <menuitem action='show-toolbar'/>"
 		"      <placeholder name='parts'/>"
 		"      <separator />"
 		"      <placeholder name='columns'/>"
@@ -2105,8 +2133,6 @@ e_comp_editor_constructed (GObject *object)
 		"    </menu>"
 		"  </menubar>"
 		"  <toolbar name='main-toolbar'>"
-		"    <toolitem action='save-and-close'/>\n"
-		"    <toolitem action='save'/>"
 		"    <toolitem action='print'/>"
 		"    <separator/>"
 		"    <toolitem action='undo'/>"
@@ -2265,6 +2291,15 @@ e_comp_editor_constructed (GObject *object)
 		  G_CALLBACK (action_save_and_close_cb) }
 	};
 
+	GtkToggleActionEntry toggle_entries[] = {
+		{ "show-toolbar",
+		  NULL,
+		  N_("Show _toolbar"),
+		  NULL,
+		  NULL,
+		  NULL },
+	};
+
 	ECompEditor *comp_editor = E_COMP_EDITOR (object);
 	GtkWidget *widget;
 	GtkBox *vbox;
@@ -2341,6 +2376,22 @@ e_comp_editor_constructed (GObject *object)
 			G_BINDING_SYNC_CREATE);
 	}
 
+	action_group = gtk_action_group_new ("toggle");
+	gtk_action_group_add_toggle_actions (
+		action_group, toggle_entries,
+		G_N_ELEMENTS (toggle_entries), comp_editor);
+	gtk_ui_manager_insert_action_group (
+		comp_editor->priv->ui_manager, action_group, 0);
+	g_object_unref (action_group);
+
+	action = gtk_action_group_get_action (action_group, "show-toolbar");
+	if (action) {
+		g_settings_bind (
+		       comp_editor->priv->calendar_settings, "editor-show-toolbar",
+		       action, "active",
+		       G_SETTINGS_BIND_DEFAULT);
+	}
+
 	gtk_ui_manager_add_ui_from_string (comp_editor->priv->ui_manager, ui, -1, &error);
 	if (error != NULL) {
 		g_warning ("%s: %s", G_STRFUNC, error->message);
@@ -2360,6 +2411,10 @@ e_comp_editor_constructed (GObject *object)
 
 	gtk_container_add (GTK_CONTAINER (comp_editor), widget);
 
+	/* Construct the main menu and headerbar. */
+	widget = comp_editor_construct_header_bar (comp_editor);
+	gtk_window_set_titlebar (GTK_WINDOW (comp_editor), widget);
+
 	widget = e_comp_editor_get_managed_widget (comp_editor, "/main-menu");
 	comp_editor->priv->menu_bar = e_menu_bar_new (GTK_MENU_BAR (widget), GTK_WINDOW (comp_editor));
 	gtk_box_pack_start (GTK_BOX (vbox), widget, FALSE, FALSE, 0);
@@ -2368,9 +2423,16 @@ e_comp_editor_constructed (GObject *object)
 	gtk_box_pack_start (GTK_BOX (vbox), widget, FALSE, FALSE, 0);
 	gtk_widget_show (widget);
 
+	gtk_toolbar_set_icon_size (GTK_TOOLBAR (widget), GTK_ICON_SIZE_BUTTON);
+
 	gtk_style_context_add_class (
 		gtk_widget_get_style_context (widget),
 		GTK_STYLE_CLASS_PRIMARY_TOOLBAR);
+
+	g_settings_bind (
+		comp_editor->priv->calendar_settings, "editor-show-toolbar",
+		widget, "visible",
+		G_SETTINGS_BIND_GET);
 
 	widget = e_alert_bar_new ();
 	g_object_set (G_OBJECT (widget),
