@@ -139,7 +139,7 @@
 
   <error id="webkit-web-process-crashed" type="error">
     <_primary>Something has gone wrong when displaying the contact</_primary>
-    <_secondary>A WebKitWebProcess crashed when displaying the contact. You can try again by moving to another contact and back. If the issue persists, please file a bug report in GNOME Gitlab.</_secondary>
+    <_secondary>A WebKitWebProcess crashed when displaying the contact. You can try again by moving to another contact and back. If the issue persists, please file a bug report in GNOME GitLab.</_secondary>
   </error>
 
   <error id="refresh-backend-failed" type="error">
