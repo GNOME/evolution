@@ -13,8 +13,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: 3.12\n"
 "Report-Msgid-Bugs-To: https://gitlab.gnome.org/GNOME/evolution/issues\n"
-"POT-Creation-Date: 2022-06-17 10:36+0000\n"
-"PO-Revision-Date: 2022-06-17 12:07+0100\n"
+"POT-Creation-Date: 2022-06-22 19:48+0000\n"
+"PO-Revision-Date: 2022-06-23 22:50+0100\n"
 "Last-Translator: Hugo Carvalho <hugokarvalho@hotmail.com>\n"
 "Language-Team: Portuguese <https://l10n.gnome.org/teams/pt/>\n"
 "Language: pt\n"
@@ -3812,7 +3812,7 @@ msgstr "Contactos"
 #: ../data/org.gnome.Evolution.desktop.in.in.h:9
 #: ../src/addressbook/gui/widgets/eab-contact-formatter.c:1006
 #: ../src/e-util/e-collection-account-wizard.c:867
-#: ../src/e-util/e-send-options.c:544 ../src/e-util/e-webdav-browser.c:532
+#: ../src/e-util/e-send-options.c:544 ../src/e-util/e-webdav-browser.c:533
 #: ../src/modules/calendar/e-cal-shell-view-actions.c:200
 #: ../src/modules/calendar/e-cal-shell-view.c:635
 #: ../src/plugins/publish-calendar/publish-calendar.ui.h:22
@@ -3829,7 +3829,7 @@ msgid "Mail"
 msgstr "Correio"
 
 #: ../data/org.gnome.Evolution.desktop.in.in.h:11
-#: ../src/calendar/gui/e-memo-table.c:446 ../src/e-util/e-webdav-browser.c:522
+#: ../src/calendar/gui/e-memo-table.c:446 ../src/e-util/e-webdav-browser.c:523
 #: ../src/modules/calendar/e-cal-shell-content.c:1937
 #: ../src/modules/calendar/e-memo-shell-view-actions.c:196
 #: ../src/modules/calendar/e-memo-shell-view-actions.c:211
@@ -3841,7 +3841,7 @@ msgstr "Memorandos"
 #: ../src/calendar/gui/e-task-table.c:629 ../src/calendar/gui/print.c:2442
 #: ../src/calendar/importers/icalendar-importer.c:77
 #: ../src/calendar/importers/icalendar-importer.c:1151
-#: ../src/e-util/e-webdav-browser.c:523
+#: ../src/e-util/e-webdav-browser.c:524
 #: ../src/modules/calendar/e-calendar-preferences.ui.h:81
 #: ../src/modules/calendar/e-cal-shell-content.c:1897
 #: ../src/modules/calendar/e-task-shell-view-actions.c:220
@@ -4155,11 +4155,11 @@ msgstr "Para vista alar_gada"
 msgid "As Sent Folder for Wi_de View"
 msgstr "Segue pasta enviadas para vista alar_gada"
 
-#: ../data/views/memos/galview.xml.h:1 ../src/e-util/e-webdav-browser.c:2603
+#: ../data/views/memos/galview.xml.h:1 ../src/e-util/e-webdav-browser.c:2605
 msgid "_Memos"
 msgstr "_Memorandos"
 
-#: ../data/views/tasks/galview.xml.h:1 ../src/e-util/e-webdav-browser.c:2607
+#: ../data/views/tasks/galview.xml.h:1 ../src/e-util/e-webdav-browser.c:2609
 #: ../src/plugins/pst-import/pst-importer.c:571
 msgid "_Tasks"
 msgstr "_Tarefas"
@@ -4419,11 +4419,11 @@ msgstr "Algo falhou ao exibir o contacto"
 msgid ""
 "A WebKitWebProcess crashed when displaying the contact. You can try again by "
 "moving to another contact and back. If the issue persists, please file a bug "
-"report in GNOME Gitlab."
+"report in GNOME GitLab."
 msgstr ""
-"Um WebKitWebProcess falhou fatalmente ao exibir um contacto. Pode tentar "
-"novamente ao mover-se para outro contacto e então voltar. Caso a falha "
-"persista, relate o erro no GNOME Gitlab."
+"Um WebKitWebProcess falhou ao exibir um contacto. Pode tentar novamente ao "
+"mover para outro contacto e voltar. Caso a falha persista, relate o erro no "
+"Gitlab do GNOME."
 
 #: ../src/addressbook/addressbook.error.xml.h:49
 msgid "Failed to refresh list of account address books"
@@ -4491,7 +4491,7 @@ msgstr ""
 #: ../src/e-util/e-html-editor-actions.c:542
 #: ../src/e-util/e-image-chooser-dialog.c:179
 #: ../src/e-util/e-mail-signature-script-dialog.c:358
-#: ../src/e-util/e-passwords.c:468 ../src/e-util/e-rule-context.c:819
+#: ../src/e-util/e-passwords.c:474 ../src/e-util/e-rule-context.c:819
 #: ../src/e-util/e-rule-editor.c:184 ../src/e-util/e-rule-editor.c:295
 #: ../src/e-util/e-rule-editor.c:931 ../src/e-util/e-send-options.ui.h:16
 #: ../src/e-util/e-source-config-dialog.c:356
@@ -4598,7 +4598,7 @@ msgstr "Opções"
 #: ../src/e-util/e-attachment-store.c:848
 #: ../src/e-util/e-attachment-store.c:855
 #: ../src/e-util/e-mail-signature-script-dialog.c:362
-#: ../src/e-util/e-webdav-browser.c:2631 ../src/e-util/e-web-view.c:4006
+#: ../src/e-util/e-webdav-browser.c:2633 ../src/e-util/e-web-view.c:4006
 #: ../src/e-util/gal-view-instance-save-as-dialog.c:266
 #: ../src/shell/e-shell-content.c:642 ../src/shell/e-shell-utils.c:133
 #: ../src/smime/gui/certificate-manager.c:653
@@ -4616,7 +4616,7 @@ msgid "_Help"
 msgstr "A_juda"
 
 #: ../src/addressbook/gui/contact-editor/contact-editor.ui.h:17
-#: ../src/e-util/e-misc-utils.c:3629
+#: ../src/e-util/e-misc-utils.c:3725
 msgid "Image"
 msgstr "Imagem"
 
@@ -5050,7 +5050,7 @@ msgstr "Contacto inválido."
 #: ../src/e-util/e-color-chooser-widget.c:126
 #: ../src/e-util/e-filter-datespec.c:301
 #: ../src/e-util/e-html-editor-link-dialog.c:242
-#: ../src/e-util/e-passwords.c:469 ../src/e-util/e-rule-context.c:820
+#: ../src/e-util/e-passwords.c:475 ../src/e-util/e-rule-context.c:820
 #: ../src/e-util/e-rule-editor.c:185 ../src/e-util/e-rule-editor.c:296
 #: ../src/e-util/e-rule-editor.c:932 ../src/e-util/e-send-options.ui.h:17
 #: ../src/e-util/e-source-config-dialog.c:357
@@ -5284,12 +5284,12 @@ msgid "Send a mail message to this address"
 msgstr "Enviar uma mensagem para este endereço"
 
 #: ../src/addressbook/gui/widgets/eab-contact-display.c:318
-#: ../src/e-util/e-misc-utils.c:4659
+#: ../src/e-util/e-misc-utils.c:4755
 #, c-format
 msgid "Click to mail %s"
 msgstr "Clicar para enviar mensagem a %s"
 
-#: ../src/addressbook/gui/widgets/eab-contact-display.c:332
+#: ../src/addressbook/gui/widgets/eab-contact-display.c:333
 #, c-format
 msgid "Click to open map for %s"
 msgstr "Clique para abrir o mapa para %s"
@@ -5702,7 +5702,7 @@ msgstr "Tem a certeza que deseja eliminar este contacto (%s)?"
 #: ../src/calendar/gui/e-comp-editor.c:2140
 #: ../src/e-util/e-accounts-window.c:1753 ../src/e-util/e-focus-tracker.c:816
 #: ../src/e-util/evolution-source-viewer.c:800
-#: ../src/e-util/e-webdav-browser.c:2855
+#: ../src/e-util/e-webdav-browser.c:2857
 #: ../src/mail/e-mail-account-manager.c:739
 #: ../src/modules/addressbook/e-book-shell-view-actions.c:1173
 #: ../src/modules/calendar/e-cal-shell-view-actions.c:1640
@@ -6806,11 +6806,11 @@ msgstr "Algo falhou ao exibir este evento"
 msgid ""
 "A WebKitWebProcess crashed when displaying the event. You can try again by "
 "moving to another event and back. If the issue persists, please file a bug "
-"report in GNOME Gitlab."
+"report in GNOME GitLab."
 msgstr ""
-"Um WebKitWebProcess falhou fatalmente ao exibir este evento. Pode tentar "
-"novamente ao mover-se para outro evento e então voltar. Caso a falha "
-"persista, relate o erro no GNOME Gitlab."
+"Um WebKitWebProcess falhou ao exibir o evento. Pode tentar novamente ao "
+"mover para outro evento e voltar. Caso a falha persista, relate o erro no "
+"Gitlab do GNOME."
 
 #: ../src/calendar/calendar.error.xml.h:175
 msgid "Something has gone wrong when displaying the memo"
@@ -6820,11 +6820,11 @@ msgstr "Algo falhou ao exibir o memorando"
 msgid ""
 "A WebKitWebProcess crashed when displaying the memo. You can try again by "
 "moving to another memo and back. If the issue persists, please file a bug "
-"report in GNOME Gitlab."
+"report in GNOME GitLab."
 msgstr ""
-"Um WebKitWebProcess falhou fatalmente ao exibir este memorando. Pode tentar "
-"novamente ao mover-se para outro memorando e então voltar. Caso a falha "
-"persista, relate o erro no GNOME Gitlab."
+"Um WebKitWebProcess falhou ao exibir este memorando. Pode tentar novamente "
+"ao mover para outro memorando e voltar. Caso a falha persista, relate o erro "
+"no Gitlab do GNOME."
 
 #: ../src/calendar/calendar.error.xml.h:177
 msgid "Something has gone wrong when displaying the task"
@@ -6834,11 +6834,11 @@ msgstr "Algo falhou ao exibir a tarefa"
 msgid ""
 "A WebKitWebProcess crashed when displaying the task. You can try again by "
 "moving to another task and back. If the issue persists, please file a bug "
-"report in GNOME Gitlab."
+"report in GNOME GitLab."
 msgstr ""
-"Um WebKitWebProcess falhou fatalmente ao exibir esta tarefa. Pode tentar "
-"novamente ao mover-se para outra tarefa e então voltar. Caso a falha "
-"persista, relate o erro no GNOME Gitlab."
+"Um WebKitWebProcess falhou ao exibir esta tarefa. Pode tentar novamente ao "
+"mover para outra tarefa e voltar. Caso a falha persista, relate o erro no "
+"Gitlab do GNOME."
 
 #: ../src/calendar/calendar.error.xml.h:179
 msgid "Do you want to detach event from the series?"
@@ -7225,7 +7225,7 @@ msgid "Completed: %s"
 msgstr "Terminada: %s"
 
 #: ../src/calendar/gui/comp-util.c:2407 ../src/calendar/gui/e-to-do-pane.c:596
-#: ../src/e-util/e-misc-utils.c:4742 ../src/e-util/e-text.c:566
+#: ../src/e-util/e-misc-utils.c:4838 ../src/e-util/e-text.c:566
 #: ../src/e-util/e-web-view.c:4187
 msgid "…"
 msgstr "…"
@@ -7458,7 +7458,7 @@ msgid "Categories:"
 msgstr "Categorias:"
 
 #: ../src/calendar/gui/e-cal-component-preview.c:291
-#: ../src/modules/cal-config-weather/evolution-cal-config-weather.c:312
+#: ../src/modules/cal-config-weather/evolution-cal-config-weather.c:258
 #: ../src/modules/itip-formatter/itip-view.c:1919
 #: ../src/modules/itip-formatter/itip-view.c:2119
 msgid "Location:"
@@ -7830,7 +7830,7 @@ msgstr "Origem"
 #: ../src/e-util/e-accounts-window.c:1443
 #: ../src/e-util/e-attachment-tree-view.c:205
 #: ../src/e-util/e-collection-account-wizard.c:2069
-#: ../src/e-util/e-webdav-browser.c:2528
+#: ../src/e-util/e-webdav-browser.c:2530
 #: ../src/mail/e-mail-account-tree-view.c:158
 msgid "Type"
 msgstr "Tipo"
@@ -7850,7 +7850,7 @@ msgstr "Desconhecida"
 
 #: ../src/calendar/gui/e-cal-model.c:1374 ../src/calendar/gui/e-cal-ops.c:629
 #: ../src/calendar/gui/e-cal-ops.c:1270
-#: ../src/modules/calendar/e-cal-base-shell-backend.c:391
+#: ../src/modules/calendar/e-cal-base-shell-backend.c:390
 #, c-format
 msgid "Source with UID “%s” not found"
 msgstr "Fonte com a UID “%s” não encontrada"
@@ -8136,9 +8136,9 @@ msgstr "Hora de início incorreta"
 #: ../src/calendar/gui/e-comp-editor.c:340
 #: ../src/composer/e-composer-actions.c:180
 #: ../src/em-format/e-mail-part-secure-button.c:97
-#: ../src/e-util/e-misc-utils.c:4049 ../src/e-util/e-misc-utils.c:4084
-#: ../src/e-util/e-misc-utils.c:4097 ../src/e-util/e-misc-utils.c:4111
-#: ../src/mail/e-mail-autoconfig.c:1122 ../src/mail/e-mail-display.c:2473
+#: ../src/e-util/e-misc-utils.c:4145 ../src/e-util/e-misc-utils.c:4180
+#: ../src/e-util/e-misc-utils.c:4193 ../src/e-util/e-misc-utils.c:4207
+#: ../src/mail/e-mail-autoconfig.c:1129 ../src/mail/e-mail-display.c:2475
 #: ../src/mail/e-mail-notes.c:929 ../src/mail/e-mail-reader-utils.c:805
 #: ../src/mail/em-composer-utils.c:3932 ../src/mail/em-composer-utils.c:3955
 #: ../src/mail/mail-send-recv.c:598 ../src/mail/mail-send-recv.c:1493
@@ -8497,7 +8497,7 @@ msgstr "Participa_ntes…"
 #: ../src/e-util/e-accounts-window.c:1745
 #: ../src/e-util/e-html-editor-actions.c:1170
 #: ../src/e-util/e-mail-signature-manager.c:354
-#: ../src/e-util/e-webdav-browser.c:2848 ../src/e-util/filter.ui.h:26
+#: ../src/e-util/e-webdav-browser.c:2850 ../src/e-util/filter.ui.h:26
 #: ../src/mail/e-mail-account-manager.c:730 ../src/mail/e-mail-browser.c:217
 #: ../src/mail/e-mail-label-manager.c:364
 #: ../src/mail/em-folder-properties.c:1362 ../src/mail/mail-config.ui.h:69
@@ -9170,7 +9170,7 @@ msgid "Sending notifications to attendees…"
 msgstr "A enviar as notificações aos participantes…"
 
 #: ../src/calendar/gui/e-comp-editor.c:1038
-#: ../src/e-util/e-webdav-browser.c:1925
+#: ../src/e-util/e-webdav-browser.c:1927
 msgid "Saving changes…"
 msgstr "A guardar as alterações…"
 
@@ -9499,19 +9499,19 @@ msgstr "Terminada"
 msgid "In Process"
 msgstr "Em curso"
 
-#: ../src/calendar/gui/e-meeting-store.c:2015
+#: ../src/calendar/gui/e-meeting-store.c:2014
 #, c-format
 msgid "Enter password to access free/busy information on server %s as user %s"
 msgstr ""
 "Insira a palavra-passe para aceder à informação de livre/ocupado no servidor "
 "%s como utilizador %s"
 
-#: ../src/calendar/gui/e-meeting-store.c:2025
+#: ../src/calendar/gui/e-meeting-store.c:2024
 #, c-format
 msgid "Failure reason: %s"
 msgstr "Motivo da falha: %s"
 
-#: ../src/calendar/gui/e-meeting-store.c:2030
+#: ../src/calendar/gui/e-meeting-store.c:2029
 #: ../src/e-util/e-collection-account-wizard.c:501
 #: ../src/plugins/publish-calendar/publish-calendar.c:350
 #: ../src/smime/gui/component.c:61
@@ -10174,14 +10174,14 @@ msgstr "Compromissos e reuniões"
 #: ../src/calendar/importers/icalendar-importer.c:334
 #: ../src/modules/accounts-window/e-accounts-window-editors.c:480
 #: ../src/modules/calendar/e-cal-base-shell-backend.c:89
-#: ../src/modules/calendar/e-cal-base-shell-backend.c:280
+#: ../src/modules/calendar/e-cal-base-shell-backend.c:279
 #: ../src/modules/calendar/e-cal-shell-view-actions.c:181
 msgid "New Calendar"
 msgstr "Novo calendário"
 
 #: ../src/calendar/importers/icalendar-importer.c:337
 #: ../src/modules/accounts-window/e-accounts-window-editors.c:488
-#: ../src/modules/calendar/e-cal-base-shell-backend.c:288
+#: ../src/modules/calendar/e-cal-base-shell-backend.c:287
 #: ../src/modules/calendar/e-task-shell-view-actions.c:204
 msgid "New Task List"
 msgstr "Nova lista de tarefas"
@@ -12094,7 +12094,7 @@ msgstr "Guardar o rascunho"
 #: ../src/composer/e-composer-from-header.c:108
 #: ../src/e-util/e-collection-account-wizard.c:2101
 #: ../src/e-util/e-mail-signature-script-dialog.c:408
-#: ../src/e-util/e-webdav-browser.c:2555
+#: ../src/e-util/e-webdav-browser.c:2557
 #: ../src/e-util/gal-view-instance-save-as-dialog.ui.h:2
 #: ../src/mail/e-mail-config-identity-page.c:551
 #: ../src/mail/e-mail-config-summary-page.c:327
@@ -12482,11 +12482,11 @@ msgstr "Algo falhou ao editar a mensagem"
 msgid ""
 "A WebKitWebProcess crashed when editing the message. You can try again by "
 "closing the composer window and opening a new one. If the issue persists, "
-"please file a bug report in GNOME Gitlab."
+"please file a bug report in GNOME GitLab."
 msgstr ""
-"Um WebKitWebProcess falhou fatalmente ao editar a mensagem. Pode tentar "
-"novamente ao fechar a janela do compositor e voltar a abri-la. Caso a falha "
-"persista, relate o erro no GNOME Gitlab."
+"Um WebKitWebProcess falhou ao editar a mensagem. Pode tentar novamente ao "
+"fechar a janela do compositor e voltar a abri-la. Caso a falha persista, "
+"relate o erro no Gitlab do GNOME."
 
 #: ../src/composer/mail-composer.error.xml.h:58
 msgid "An error occurred while creating message composer."
@@ -12554,7 +12554,7 @@ msgid "Format part as an RFC822 message"
 msgstr "Formatar parte como uma mensagem RFC822"
 
 #: ../src/em-format/e-mail-formatter-print.c:50
-#: ../src/e-util/e-webdav-browser.c:2499
+#: ../src/e-util/e-webdav-browser.c:2501
 #: ../src/e-util/gal-view-instance-save-as-dialog.c:92
 #: ../src/mail/e-mail-label-tree-view.c:96
 #: ../src/modules/plugin-manager/evolution-plugin-manager.c:64
@@ -13035,7 +13035,7 @@ msgstr "Contas do Evolution"
 #. widget = gtk_button_new_with_mnemonic (_("_Permissions"));
 #. gtk_box_pack_start (GTK_BOX (container), widget, FALSE, FALSE, 0);
 #. webdav_browser->priv->permissions_button = widget;
-#: ../src/e-util/e-accounts-window.c:1761 ../src/e-util/e-webdav-browser.c:2866
+#: ../src/e-util/e-accounts-window.c:1761 ../src/e-util/e-webdav-browser.c:2868
 #: ../src/mail/em-subscription-editor.c:1945
 #: ../src/modules/mail/e-mail-shell-view-actions.c:1594
 #: ../src/modules/mail/e-mail-shell-view-actions.c:1672
@@ -13166,7 +13166,7 @@ msgstr "Nome do f_icheiro:"
 #: ../src/e-util/e-attachment-dialog.c:334
 #: ../src/e-util/e-html-editor-image-dialog.c:602
 #: ../src/e-util/e-html-editor-link-dialog.c:228
-#: ../src/e-util/e-webdav-browser.c:2611
+#: ../src/e-util/e-webdav-browser.c:2613
 msgid "_Description:"
 msgstr "_Descrição:"
 
@@ -13647,7 +13647,7 @@ msgstr[1] "Encontrado %d candidatos"
 #: ../src/e-util/e-collection-account-wizard.c:667
 #: ../src/modules/book-config-google/evolution-book-config-google.c:101
 #: ../src/modules/book-config-ldap/evolution-book-config-ldap.c:1070
-#: ../src/modules/cal-config-google/e-cal-config-google.c:188
+#: ../src/modules/cal-config-google/e-cal-config-google.c:187
 #: ../src/modules/cal-config-google/e-cal-config-gtasks.c:116
 #: ../src/modules/mail-config/e-mail-config-remote-accounts.c:445
 #: ../src/modules/mail-config/e-mail-config-smtp-backend.c:484
@@ -13675,7 +13675,7 @@ msgid "_Remember password"
 msgstr "_Recordar a palavra-passe"
 
 #: ../src/e-util/e-collection-account-wizard.c:863
-#: ../src/e-util/e-webdav-browser.c:536
+#: ../src/e-util/e-webdav-browser.c:537
 msgid "Collection"
 msgstr "Coleção"
 
@@ -14360,7 +14360,7 @@ msgstr "Localizar itens que respeitem as seguintes condições"
 #: ../src/e-util/e-mail-identity-combo-box.c:798
 #: ../src/e-util/e-mail-signature-combo-box.c:422
 #: ../src/libemail-engine/camel-null-store.c:29
-#: ../src/mail/e-mail-autoconfig.c:856
+#: ../src/mail/e-mail-autoconfig.c:863
 #: ../src/mail/e-mail-config-summary-page.c:143
 #: ../src/modules/book-config-ldap/evolution-book-config-ldap.c:684
 msgid "None"
@@ -15524,7 +15524,7 @@ msgstr "Es_paço:"
 
 #: ../src/e-util/e-html-editor-table-dialog.c:676
 #: ../src/e-util/e-html-editor-text-dialog.c:248
-#: ../src/e-util/e-webdav-browser.c:2565
+#: ../src/e-util/e-webdav-browser.c:2567
 msgid "_Color:"
 msgstr "_Cor:"
 
@@ -15816,12 +15816,12 @@ msgstr "A abrir a lista de tarefas “%s”"
 msgid "Opening address book “%s”"
 msgstr "A abrir o livro de endereços “%s”"
 
-#: ../src/e-util/e-misc-utils.c:3392
+#: ../src/e-util/e-misc-utils.c:3488
 #: ../src/modules/mailto-handler/evolution-mailto-handler.c:146
 msgid "_Do not show this message again"
 msgstr "_Não mostrar esta mensagem novamente"
 
-#: ../src/e-util/e-misc-utils.c:4036
+#: ../src/e-util/e-misc-utils.c:4132
 msgid ""
 "This address book server might be unreachable or the server name may be "
 "misspelled or your network connection could be down."
@@ -15829,22 +15829,22 @@ msgstr ""
 "Este servidor de livro de endereços pode estar indisponível, o nome do "
 "servidor mal escrito ou a sua ligação à rede pode estar em baixo."
 
-#: ../src/e-util/e-misc-utils.c:4048
+#: ../src/e-util/e-misc-utils.c:4144
 #, c-format
 msgid "Failed to set protocol version to LDAPv3 (%d): %s"
 msgstr "Falhou ao definir a versão de protocolar para o LDAPv3 (%d): %s"
 
-#: ../src/e-util/e-misc-utils.c:4083
+#: ../src/e-util/e-misc-utils.c:4179
 #, c-format
 msgid "Failed to use STARTTLS (%d): %s"
 msgstr "Falha ao usar o STARTTLS (%d): %s"
 
-#: ../src/e-util/e-misc-utils.c:4096
+#: ../src/e-util/e-misc-utils.c:4192
 #, c-format
 msgid "Failed to authenticate with LDAP server (%d): %s"
 msgstr "Falha ao autenticar com o servidor LDAP. (%d): %s"
 
-#: ../src/e-util/e-misc-utils.c:4110
+#: ../src/e-util/e-misc-utils.c:4206
 #, c-format
 msgid ""
 "This LDAP server may use an older version of LDAP, which does not support "
@@ -15859,7 +15859,7 @@ msgstr ""
 "\n"
 "Erro detalhado (%d): %s"
 
-#: ../src/e-util/e-misc-utils.c:4121
+#: ../src/e-util/e-misc-utils.c:4217
 msgid ""
 "This LDAP server may use an older version of LDAP, which does not support "
 "this functionality or it may be misconfigured. Ask your administrator for "
@@ -15869,12 +15869,12 @@ msgstr ""
 "suporta esta funcionalidade, ou estar mal configurado. Peça ao administrador "
 "por suporte para bases de procura."
 
-#: ../src/e-util/e-misc-utils.c:4154
+#: ../src/e-util/e-misc-utils.c:4250
 msgid "Evolution had not been compiled with LDAP support"
 msgstr "O Evolution não foi compilado com suporte a LDAP"
 
 #. Translators: %s is the language ISO code.
-#: ../src/e-util/e-misc-utils.c:4477
+#: ../src/e-util/e-misc-utils.c:4573
 #, c-format
 msgctxt "language"
 msgid "Unknown (%s)"
@@ -15882,31 +15882,31 @@ msgstr "Desconhecido (%s)"
 
 #. Translators: The first %s is the language name, and the
 #. * second is the country name. Example: "French (France)"
-#: ../src/e-util/e-misc-utils.c:4486
+#: ../src/e-util/e-misc-utils.c:4582
 #, c-format
 msgctxt "language"
 msgid "%s (%s)"
 msgstr "%s (%s)"
 
-#: ../src/e-util/e-misc-utils.c:4664
+#: ../src/e-util/e-misc-utils.c:4760
 #, c-format
 msgid "Click to call %s"
 msgstr "Clicar para realizar uma chamada para %s"
 
-#: ../src/e-util/e-misc-utils.c:4666
+#: ../src/e-util/e-misc-utils.c:4762
 msgid "Click to hide/unhide addresses"
 msgstr "Clicar para ocultar/mostrar os endereços"
 
-#: ../src/e-util/e-misc-utils.c:4679
+#: ../src/e-util/e-misc-utils.c:4775
 #, c-format
 msgid "Go to the section %s of the message"
 msgstr "Ir para a secção %s da mensagem"
 
-#: ../src/e-util/e-misc-utils.c:4681
+#: ../src/e-util/e-misc-utils.c:4777
 msgid "Go to the beginning of the message"
 msgstr "Ir para o início da mensagem"
 
-#: ../src/e-util/e-misc-utils.c:4687
+#: ../src/e-util/e-misc-utils.c:4783
 #, c-format
 msgid "Click to open %s"
 msgstr "Clique para abrir %s"
@@ -15993,27 +15993,27 @@ msgstr ""
 msgid "Evolution is currently offline because the network is unavailable."
 msgstr "Evolution de momento está offline porque a rede está indisponível."
 
-#: ../src/e-util/e-passwords.c:125
+#: ../src/e-util/e-passwords.c:131
 msgid "Keyring key is unusable: no user or host name"
 msgstr "Chave do chaveiro é inutilizável: sem utilizador ou nome de máquina"
 
-#: ../src/e-util/e-passwords.c:445
+#: ../src/e-util/e-passwords.c:451
 msgid "You have the Caps Lock key on."
 msgstr "Tem a tecla Caps Lock ativa."
 
-#: ../src/e-util/e-passwords.c:577
+#: ../src/e-util/e-passwords.c:583
 msgid "_Remember this passphrase"
 msgstr "_Recordar esta frase-passe"
 
-#: ../src/e-util/e-passwords.c:578
+#: ../src/e-util/e-passwords.c:584
 msgid "_Remember this passphrase for the remainder of this session"
 msgstr "_Recordar esta frase-passe durante o resto desta sessão"
 
-#: ../src/e-util/e-passwords.c:583
+#: ../src/e-util/e-passwords.c:589
 msgid "_Remember this password"
 msgstr "_Recordar esta palavra-passe"
 
-#: ../src/e-util/e-passwords.c:584
+#: ../src/e-util/e-passwords.c:590
 msgid "_Remember this password for the remainder of this session"
 msgstr "_Recordar esta palavra-passe durante o resto desta sessão"
 
@@ -16322,7 +16322,7 @@ msgstr "Tipo:"
 msgid "Name:"
 msgstr "Nome:"
 
-#: ../src/e-util/e-source-config.c:815 ../src/e-util/e-webdav-browser.c:1858
+#: ../src/e-util/e-source-config.c:815 ../src/e-util/e-webdav-browser.c:1860
 msgid "Name cannot be empty"
 msgstr "O nome não pode estar vazio"
 
@@ -16507,11 +16507,11 @@ msgstr "Algo correu mal"
 msgid ""
 "A WebKitWebProcess crashed when displaying the content. You can try again by "
 "reopening the window. If the issue persists, please file a bug report in "
-"GNOME Gitlab."
+"GNOME GitLab."
 msgstr ""
-"Um WebKitWebProcess falhou fatalmente ao exibir o conteúdo. Pode tentar "
-"novamente ao fechar a janela e voltar a abri-la. Caso a falha persista, "
-"relate o erro no GNOME Gitlab."
+"Um WebKitWebProcess falhou ao exibir o conteúdo. Pode tentar novamente ao "
+"fechar a janela e voltar a abri-la. Caso a falha persista, relate o erro no "
+"Gitlab do GNOME."
 
 #: ../src/e-util/e-system.error.xml.h:25
 msgid "Are you sure you want to delete remote collection “{0}”?"
@@ -16807,138 +16807,138 @@ msgstr "Parâmetros"
 msgid "Identity"
 msgstr "Identidade"
 
-#: ../src/e-util/e-webdav-browser.c:510 ../src/mail/filtertypes.xml.in.h:64
+#: ../src/e-util/e-webdav-browser.c:511 ../src/mail/filtertypes.xml.in.h:64
 #: ../src/mail/searchtypes.xml.in.h:56 ../src/mail/vfoldertypes.xml.in.h:58
 msgid "Address book"
 msgstr "Livro de endereços"
 
-#: ../src/e-util/e-webdav-browser.c:521
+#: ../src/e-util/e-webdav-browser.c:522
 msgid "Events"
 msgstr "Eventos"
 
-#: ../src/e-util/e-webdav-browser.c:594 ../src/mail/em-folder-tree-model.c:1593
+#: ../src/e-util/e-webdav-browser.c:595 ../src/mail/em-folder-tree-model.c:1593
 #: ../src/mail/em-folder-tree-model.c:1981
-#: ../src/modules/cal-config-weather/e-weather-location-entry.c:957
+#: ../src/modules/cal-config-weather/e-weather-location-entry.c:893
 msgid "Loading…"
 msgstr "A carregar…"
 
-#: ../src/e-util/e-webdav-browser.c:1447
+#: ../src/e-util/e-webdav-browser.c:1449
 msgid "Searching collection children…"
 msgstr "A procurar coleção filha…"
 
-#: ../src/e-util/e-webdav-browser.c:1449
+#: ../src/e-util/e-webdav-browser.c:1451
 msgid "Failed to search for collection children"
 msgstr "Falha ao procurar por coleção filha"
 
-#: ../src/e-util/e-webdav-browser.c:1483
+#: ../src/e-util/e-webdav-browser.c:1485
 msgid "Searching for user home, please wait…"
 msgstr "A procurar por calendários do utilizador, por favor, aguarde…"
 
-#: ../src/e-util/e-webdav-browser.c:1485
+#: ../src/e-util/e-webdav-browser.c:1487
 msgid "Failed to search for user home"
 msgstr "A procura falhou"
 
-#: ../src/e-util/e-webdav-browser.c:1874
+#: ../src/e-util/e-webdav-browser.c:1876
 msgid "At least one component type should be set"
 msgstr "Ao menos um tipo de elemento deveria ser definido"
 
-#: ../src/e-util/e-webdav-browser.c:1893
+#: ../src/e-util/e-webdav-browser.c:1895
 msgid "Failed to get selected collection HREF"
 msgstr "Falha ao obter o HREF da coleção selecionada"
 
-#: ../src/e-util/e-webdav-browser.c:1926
+#: ../src/e-util/e-webdav-browser.c:1928
 msgid "Failed to save changes"
 msgstr "Falha ao guardar as alterações"
 
-#: ../src/e-util/e-webdav-browser.c:1928
+#: ../src/e-util/e-webdav-browser.c:1930
 msgid "Creating new book…"
 msgstr "Criar novo memorando…"
 
-#: ../src/e-util/e-webdav-browser.c:1929
+#: ../src/e-util/e-webdav-browser.c:1931
 msgid "Failed to create new book"
 msgstr "Falha ao criar um novo memorando"
 
-#: ../src/e-util/e-webdav-browser.c:1931
+#: ../src/e-util/e-webdav-browser.c:1933
 msgid "Creating new calendar…"
 msgstr "Cri_ar novo calendário…"
 
-#: ../src/e-util/e-webdav-browser.c:1932
+#: ../src/e-util/e-webdav-browser.c:1934
 msgid "Failed to create new calendar"
 msgstr "Falha ao criar um novo calendário"
 
-#: ../src/e-util/e-webdav-browser.c:1934
+#: ../src/e-util/e-webdav-browser.c:1936
 msgid "Creating new collection…"
 msgstr "Criar uma nova coleção…"
 
-#: ../src/e-util/e-webdav-browser.c:1935
+#: ../src/e-util/e-webdav-browser.c:1937
 msgid "Failed to create new collection"
 msgstr "Falha ao criar uma nova coleção"
 
-#: ../src/e-util/e-webdav-browser.c:2085
+#: ../src/e-util/e-webdav-browser.c:2087
 msgid "It is not allowed to create book under another book or calendar"
 msgstr ""
 "Não é permitido criar um novo memorando dentro de outro ou num calendário"
 
 #. if (button == webdav_browser->priv->create_calendar_button)
-#: ../src/e-util/e-webdav-browser.c:2087
+#: ../src/e-util/e-webdav-browser.c:2089
 msgid "It is not allowed to create calendar under another book or calendar"
 msgstr ""
 "Não é permitido criar um novo calendário dentro de outro ou num memorando"
 
-#: ../src/e-util/e-webdav-browser.c:2334
+#: ../src/e-util/e-webdav-browser.c:2336
 msgid "Deleting book…"
 msgstr "A eliminar um memorando…"
 
-#: ../src/e-util/e-webdav-browser.c:2335
+#: ../src/e-util/e-webdav-browser.c:2337
 msgid "Failed to delete book"
 msgstr "Falha ao eliminar o memorando"
 
-#: ../src/e-util/e-webdav-browser.c:2338
+#: ../src/e-util/e-webdav-browser.c:2340
 msgid "Deleting calendar…"
 msgstr "A eliminar o calendário…"
 
-#: ../src/e-util/e-webdav-browser.c:2339
+#: ../src/e-util/e-webdav-browser.c:2341
 msgid "Failed to delete calendar"
 msgstr "Falha ao eliminar o calendário"
 
-#: ../src/e-util/e-webdav-browser.c:2342
+#: ../src/e-util/e-webdav-browser.c:2344
 msgid "Deleting collection…"
 msgstr "A eliminar a coleção…"
 
-#: ../src/e-util/e-webdav-browser.c:2343
+#: ../src/e-util/e-webdav-browser.c:2345
 msgid "Failed to delete collection"
 msgstr "Falha ao eliminar a coleção"
 
 #. Translators: It's 'order' as 'sorting order'
-#: ../src/e-util/e-webdav-browser.c:2577
+#: ../src/e-util/e-webdav-browser.c:2579
 msgid "_Order:"
 msgstr "_Ordem:"
 
-#: ../src/e-util/e-webdav-browser.c:2587
+#: ../src/e-util/e-webdav-browser.c:2589
 msgid "Use -1 to not set the sort order"
 msgstr "Usar -1 para não definir a ordem de classificação"
 
-#: ../src/e-util/e-webdav-browser.c:2593
+#: ../src/e-util/e-webdav-browser.c:2595
 msgid "For Components:"
 msgstr "Para elementos:"
 
-#: ../src/e-util/e-webdav-browser.c:2599
+#: ../src/e-util/e-webdav-browser.c:2601
 msgid "_Events"
 msgstr "_Eventos"
 
-#: ../src/e-util/e-webdav-browser.c:2792
+#: ../src/e-util/e-webdav-browser.c:2794
 msgid "WebDAV server:"
 msgstr "Servidor WebDAV:"
 
-#: ../src/e-util/e-webdav-browser.c:2827
+#: ../src/e-util/e-webdav-browser.c:2829
 msgid "Create _Book"
 msgstr "Criar um mem_orando"
 
-#: ../src/e-util/e-webdav-browser.c:2834
+#: ../src/e-util/e-webdav-browser.c:2836
 msgid "Create _Calendar"
 msgstr "Criar um calendá_rio"
 
-#: ../src/e-util/e-webdav-browser.c:2841
+#: ../src/e-util/e-webdav-browser.c:2843
 msgid "Create Collectio_n"
 msgstr "Criar uma coleçã_o"
 
@@ -17633,62 +17633,62 @@ msgstr "Pode arrastar e largar nomes de contas para as reordenar."
 msgid "De_fault"
 msgstr "Prede_finição"
 
-#: ../src/mail/e-mail-autoconfig.c:511
+#: ../src/mail/e-mail-autoconfig.c:512
 #, c-format
 msgid "Invalid URI: “%s”"
 msgstr "URI inválido: “%s”"
 
-#: ../src/mail/e-mail-autoconfig.c:846
+#: ../src/mail/e-mail-autoconfig.c:853
 #, c-format
 msgid "Host: %s:%d"
 msgstr "Hospedeiro: %s:%d"
 
-#: ../src/mail/e-mail-autoconfig.c:850
+#: ../src/mail/e-mail-autoconfig.c:857
 #, c-format
 msgid "User: %s"
 msgstr "Utilizador: %s"
 
-#: ../src/mail/e-mail-autoconfig.c:854
+#: ../src/mail/e-mail-autoconfig.c:861
 #, c-format
 msgid "Security method: %s"
 msgstr "Método de segurança: %s"
 
-#: ../src/mail/e-mail-autoconfig.c:855
+#: ../src/mail/e-mail-autoconfig.c:862
 #: ../src/mail/e-mail-config-summary-page.c:146
 msgid "TLS"
 msgstr "TLS"
 
-#: ../src/mail/e-mail-autoconfig.c:856
+#: ../src/mail/e-mail-autoconfig.c:863
 #: ../src/mail/e-mail-config-summary-page.c:149
 msgid "STARTTLS"
 msgstr "STARTTLS"
 
-#: ../src/mail/e-mail-autoconfig.c:860
+#: ../src/mail/e-mail-autoconfig.c:867
 #, c-format
 msgid "Authentication mechanism: %s"
 msgstr "Mecanismo de autenticação: %s"
 
-#: ../src/mail/e-mail-autoconfig.c:1043
+#: ../src/mail/e-mail-autoconfig.c:1050
 msgid "No email address provided"
 msgstr "Nenhum endereço eletrónico especificado"
 
-#: ../src/mail/e-mail-autoconfig.c:1052
+#: ../src/mail/e-mail-autoconfig.c:1059
 msgid "Missing domain in email address"
 msgstr "Falta o domínio no endereço eletrónico"
 
-#: ../src/mail/e-mail-autoconfig.c:1412
+#: ../src/mail/e-mail-autoconfig.c:1419
 #: ../src/modules/config-lookup/e-srv-config-lookup.c:87
 #: ../src/modules/config-lookup/e-srv-config-lookup.c:88
 msgid "IMAP server"
 msgstr "Servidor IMAP"
 
-#: ../src/mail/e-mail-autoconfig.c:1419
+#: ../src/mail/e-mail-autoconfig.c:1426
 #: ../src/modules/config-lookup/e-srv-config-lookup.c:89
 #: ../src/modules/config-lookup/e-srv-config-lookup.c:90
 msgid "POP3 server"
 msgstr "Servidor POP3"
 
-#: ../src/mail/e-mail-autoconfig.c:1426
+#: ../src/mail/e-mail-autoconfig.c:1433
 #: ../src/modules/config-lookup/e-srv-config-lookup.c:91
 #: ../src/modules/config-lookup/e-srv-config-lookup.c:92
 msgid "SMTP server"
@@ -21840,11 +21840,11 @@ msgstr "Algo correu mal ao exibir a mensagem"
 msgid ""
 "A WebKitWebProcess crashed when displaying the message. You can try again by "
 "moving to another message and back. If the issue persists, please file a bug "
-"report in GNOME Gitlab."
+"report in GNOME GitLab."
 msgstr ""
-"Um WebKitWebProcess falhou fatalmente ao exibir a mensagem. Pode tentar "
-"novamente ao para outra mensagem e voltar. Caso a falha persista, relate o "
-"erro no GNOME Gitlab."
+"Um WebKitWebProcess falhou ao exibir a mensagem. Pode tentar novamente ao "
+"para outra mensagem e voltar. Caso a falha persista, relate o erro no Gitlab "
+"do GNOME."
 
 #: ../src/mail/mail.error.xml.h:211
 msgid "Something has gone wrong when displaying the signature"
@@ -21854,11 +21854,11 @@ msgstr "Algo correu mal ao exibir a assinatura"
 msgid ""
 "A WebKitWebProcess crashed when displaying the signature. You can try again "
 "by moving to another signature and back. If the issue persists, please file "
-"a bug report in GNOME Gitlab."
+"a bug report in GNOME GitLab."
 msgstr ""
-"Um WebKitWebProcess falhou fatalmente ao exibir a assinatura. Pode tentar "
-"novamente ao para outra assinatura e voltar. Caso a falha persista, relate o "
-"erro no GNOME Gitlab."
+"Um WebKitWebProcess falhou ao exibir a assinatura. Pode tentar novamente ao "
+"mover para outra assinatura e voltar. Caso a falha persista, relate o erro "
+"no Gitlab do GNOME."
 
 #: ../src/mail/mail.error.xml.h:213
 msgid "Are you sure you want to delete all the messages in the Junk folder?"
@@ -22164,7 +22164,7 @@ msgid "New Address Book"
 msgstr "Novo livro de endereços"
 
 #: ../src/modules/accounts-window/e-accounts-window-editors.c:484
-#: ../src/modules/calendar/e-cal-base-shell-backend.c:284
+#: ../src/modules/calendar/e-cal-base-shell-backend.c:283
 #: ../src/modules/calendar/e-memo-shell-view-actions.c:180
 msgid "New Memo List"
 msgstr "Nova lista de memorandos"
@@ -22843,31 +22843,31 @@ msgstr "Filtrar não solicitado usando Bogofilter"
 msgid "Choose an Address Book"
 msgstr "Escolher um livro de endereços"
 
-#: ../src/modules/book-config-carddav/evolution-book-config-carddav.c:268
-#: ../src/modules/book-config-carddav/evolution-book-config-carddav.c:281
-#: ../src/modules/cal-config-caldav/evolution-cal-config-caldav.c:312
-#: ../src/modules/cal-config-caldav/evolution-cal-config-caldav.c:333
-#: ../src/modules/cal-config-webcal/evolution-cal-config-webcal.c:144
-#: ../src/modules/cal-config-webcal/evolution-cal-config-webcal.c:165
-#: ../src/modules/cal-config-webdav-notes/evolution-cal-config-webdav-notes.c:302
-#: ../src/modules/cal-config-webdav-notes/evolution-cal-config-webdav-notes.c:323
+#: ../src/modules/book-config-carddav/evolution-book-config-carddav.c:199
+#: ../src/modules/book-config-carddav/evolution-book-config-carddav.c:212
+#: ../src/modules/cal-config-caldav/evolution-cal-config-caldav.c:249
+#: ../src/modules/cal-config-caldav/evolution-cal-config-caldav.c:270
+#: ../src/modules/cal-config-webcal/evolution-cal-config-webcal.c:81
+#: ../src/modules/cal-config-webcal/evolution-cal-config-webcal.c:102
+#: ../src/modules/cal-config-webdav-notes/evolution-cal-config-webdav-notes.c:239
+#: ../src/modules/cal-config-webdav-notes/evolution-cal-config-webdav-notes.c:260
 #: ../src/modules/itip-formatter/itip-view.c:1920
 #: ../src/modules/itip-formatter/itip-view.c:2122
 msgid "URL:"
 msgstr "URL:"
 
-#: ../src/modules/book-config-carddav/evolution-book-config-carddav.c:292
+#: ../src/modules/book-config-carddav/evolution-book-config-carddav.c:223
 msgid "Find Address Books"
 msgstr "Encontrar livro de endereços"
 
-#: ../src/modules/book-config-carddav/evolution-book-config-carddav.c:303
+#: ../src/modules/book-config-carddav/evolution-book-config-carddav.c:234
 msgid "Avoid IfMatch (needed on Apache < 2.2.8)"
 msgstr "Evitar IfMatch (necessário no Apache < 2.2.8)"
 
-#: ../src/modules/book-config-carddav/evolution-book-config-carddav.c:356
-#: ../src/modules/cal-config-caldav/evolution-cal-config-caldav.c:452
-#: ../src/modules/cal-config-webcal/evolution-cal-config-webcal.c:230
-#: ../src/modules/cal-config-webdav-notes/evolution-cal-config-webdav-notes.c:434
+#: ../src/modules/book-config-carddav/evolution-book-config-carddav.c:289
+#: ../src/modules/cal-config-caldav/evolution-cal-config-caldav.c:391
+#: ../src/modules/cal-config-webcal/evolution-cal-config-webcal.c:169
+#: ../src/modules/cal-config-webdav-notes/evolution-cal-config-webdav-notes.c:373
 msgid "URL is not a valid http:// nor https:// URL"
 msgstr "O URL não é um http:// ou https:// válido"
 
@@ -22881,7 +22881,7 @@ msgstr "Livro de endereços:"
 
 #: ../src/modules/book-config-google/evolution-book-config-google.c:102
 #: ../src/modules/book-config-ldap/evolution-book-config-ldap.c:1071
-#: ../src/modules/cal-config-google/e-cal-config-google.c:189
+#: ../src/modules/cal-config-google/e-cal-config-google.c:188
 #: ../src/modules/cal-config-google/e-cal-config-gtasks.c:117
 #: ../src/modules/mail-config/e-mail-config-remote-accounts.c:446
 #: ../src/modules/mail-config/e-mail-config-smtp-backend.c:485
@@ -23058,24 +23058,24 @@ msgstr "Escolha uma lista de memorandos"
 msgid "Choose a Task List"
 msgstr "Escolha uma lista de tarefas"
 
-#: ../src/modules/cal-config-caldav/evolution-cal-config-caldav.c:348
+#: ../src/modules/cal-config-caldav/evolution-cal-config-caldav.c:285
 msgid "Find Calendars"
 msgstr "Procurar calendários"
 
-#: ../src/modules/cal-config-caldav/evolution-cal-config-caldav.c:351
+#: ../src/modules/cal-config-caldav/evolution-cal-config-caldav.c:288
 msgid "Find Memo Lists"
 msgstr "Procurar listas de memorandos"
 
-#: ../src/modules/cal-config-caldav/evolution-cal-config-caldav.c:354
+#: ../src/modules/cal-config-caldav/evolution-cal-config-caldav.c:291
 msgid "Find Task Lists"
 msgstr "Procurar listas de tarefas"
 
-#: ../src/modules/cal-config-caldav/evolution-cal-config-caldav.c:373
+#: ../src/modules/cal-config-caldav/evolution-cal-config-caldav.c:310
 #: ../src/modules/cal-config-local/evolution-cal-config-local.c:260
 msgid "Email:"
 msgstr "Correio eletrónico:"
 
-#: ../src/modules/cal-config-caldav/evolution-cal-config-caldav.c:379
+#: ../src/modules/cal-config-caldav/evolution-cal-config-caldav.c:316
 msgid "Server handles meeting invitations"
 msgstr "O servidor gere os convites de reunião"
 
@@ -23125,8 +23125,8 @@ msgstr "Permite ao Evolution atualizar o ficheiro"
 #. * 'London, United Kingdom'
 #. * You shouldn't need to translate this string unless the language has a different comma.
 #.
-#: ../src/modules/cal-config-weather/e-weather-location-entry.c:631
-#: ../src/modules/cal-config-weather/e-weather-location-entry.c:669
+#: ../src/modules/cal-config-weather/e-weather-location-entry.c:571
+#: ../src/modules/cal-config-weather/e-weather-location-entry.c:609
 #, c-format
 msgid "%s, %s"
 msgstr "%s, %s"
@@ -23137,33 +23137,33 @@ msgstr "%s, %s"
 #. *
 #. * This string is just a fallback mechanism for systems on
 #. * which _NL_MEASUREMENT_MEASUREMENT is not available.
-#: ../src/modules/cal-config-weather/evolution-cal-config-weather.c:253
+#: ../src/modules/cal-config-weather/evolution-cal-config-weather.c:199
 msgctxt "locale-metric"
 msgid "default:mm"
 msgstr "default:mm"
 
 #. Translators: This is the temperature in degrees
 #. * Fahrenheit. (\302\260 is U+00B0 DEGREE SIGN)
-#: ../src/modules/cal-config-weather/evolution-cal-config-weather.c:322
+#: ../src/modules/cal-config-weather/evolution-cal-config-weather.c:268
 msgid "Fahrenheit (°F)"
 msgstr "Fahrenheit (°F)"
 
 #. Translators: This is the temperature in degrees
 #. * Celsius. (\302\260 is U+00B0 DEGREE SIGN)
-#: ../src/modules/cal-config-weather/evolution-cal-config-weather.c:327
+#: ../src/modules/cal-config-weather/evolution-cal-config-weather.c:273
 msgid "Centigrade (°C)"
 msgstr "Centígrados (°C)"
 
 #. Translators: This is the temperature in kelvin.
-#: ../src/modules/cal-config-weather/evolution-cal-config-weather.c:331
+#: ../src/modules/cal-config-weather/evolution-cal-config-weather.c:277
 msgid "Kelvin (K)"
 msgstr "Kelvin (K)"
 
-#: ../src/modules/cal-config-weather/evolution-cal-config-weather.c:333
+#: ../src/modules/cal-config-weather/evolution-cal-config-weather.c:279
 msgid "Units:"
 msgstr "Unidades:"
 
-#: ../src/modules/cal-config-weather/evolution-cal-config-weather.c:396
+#: ../src/modules/cal-config-weather/evolution-cal-config-weather.c:333
 msgid "Location cannot be empty"
 msgstr "A localização não pode estar vazia"
 
@@ -23171,11 +23171,11 @@ msgstr "A localização não pode estar vazia"
 msgid "Choose Notes"
 msgstr "Escolher notas"
 
-#: ../src/modules/cal-config-webdav-notes/evolution-cal-config-webdav-notes.c:337
+#: ../src/modules/cal-config-webdav-notes/evolution-cal-config-webdav-notes.c:274
 msgid "Find Notes"
 msgstr "Procurar notas"
 
-#: ../src/modules/cal-config-webdav-notes/evolution-cal-config-webdav-notes.c:365
+#: ../src/modules/cal-config-webdav-notes/evolution-cal-config-webdav-notes.c:302
 msgid "File extension for new notes:"
 msgstr "Extensão de ficheiro para novas notas:"
 
@@ -26353,19 +26353,19 @@ msgstr "Extensão"
 msgid "Plugins"
 msgstr "Extensões"
 
-#: ../src/modules/prefer-plain/e-mail-display-popup-prefer-plain.c:138
+#: ../src/modules/prefer-plain/e-mail-display-popup-prefer-plain.c:140
 msgid "Display plain text version"
 msgstr "Mostrar a versão em texto simples"
 
-#: ../src/modules/prefer-plain/e-mail-display-popup-prefer-plain.c:140
+#: ../src/modules/prefer-plain/e-mail-display-popup-prefer-plain.c:142
 msgid "Display plain text version of multipart/alternative message"
 msgstr "Mostrar a versão em texto simples da mensagem multiparte/alternativa"
 
-#: ../src/modules/prefer-plain/e-mail-display-popup-prefer-plain.c:146
+#: ../src/modules/prefer-plain/e-mail-display-popup-prefer-plain.c:148
 msgid "Display HTML version"
 msgstr "Mostrar versão HTML"
 
-#: ../src/modules/prefer-plain/e-mail-display-popup-prefer-plain.c:148
+#: ../src/modules/prefer-plain/e-mail-display-popup-prefer-plain.c:150
 msgid "Display HTML version of multipart/alternative message"
 msgstr "Mostrar a versão HTML da mensagem multiparte/alternativa"
 
