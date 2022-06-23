@@ -1,7 +1,7 @@
 {
 	"app-id": "org.gnome.Evolution",
 	"runtime": "org.gnome.Platform",
-	"runtime-version": "40",
+	"runtime-version": "42",
 	"sdk": "org.gnome.Sdk",
 	"command": "evolution",
 	"rename-icon": "evolution",
@@ -107,6 +107,25 @@
 		},
 
 		{
+			"name": "libsoup3",
+			"buildsystem": "meson",
+			"config-opts": [
+				"-Dintrospection=disabled",
+				"-Dvapi=disabled",
+				"-Ddocs=disabled",
+				"-Dtests=false",
+				"-Dautobahn=disabled"
+			],
+			"sources": [
+				{
+					"type": "git",
+					"url": "https://gitlab.gnome.org/GNOME/libsoup.git",
+					"branch": "master"
+				}
+			]
+		},
+
+		{
 			"name": "liboauth",
 			"config-opts": [ "--enable-nss" ],
 			"cleanup": [ "/share/man" ],
@@ -120,47 +139,38 @@
 		},
 
 		{
-			"name": "gnome-online-accounts",
+			"name": "librest",
+			"buildsystem": "meson",
 			"config-opts": [
-				"--disable-Werror",
-				"--disable-telepathy",
-				"--disable-introspection",
-				"--disable-documentation",
-				"--disable-backend"
-			],
-			"cleanup": [
-				"/bin",
-				"/share/GConf",
-				"/share/gir-1.0"
+				"-Dexamples=false",
+				"-Dgtk_doc=false",
+				"-Dtests=false"
 			],
 			"sources": [
 				{
-					"type": "archive",
-					"url": "https://download.gnome.org/sources/gnome-online-accounts/3.40/gnome-online-accounts-3.40.1.tar.xz",
-					"sha256": "955a03128d0e87855d34d7c534e088f6286ed7ac01baa4ef824ef42a2cb39aad"
+					"type": "git",
+					"url": "https://gitlab.gnome.org/GNOME/librest.git",
+					"branch": "master"
 				}
 			]
 		},
 
 		{
-			"name": "libgdata",
+			"name": "gnome-online-accounts",
 			"buildsystem": "meson",
 			"config-opts": [
-				"-Dalways_build_tests=false",
-				"-Dgoa=disabled",
-				"-Dgtk_doc=false",
-				"-Dintrospection=false",
-				"-Dinstalled_tests=false",
-				"-Dvapi=false"
+				"-Dvapi=false",
+				"-Dgoabackend=false",
+				"-Dintrospection=false"
 			],
 			"cleanup": [
-				"/share/gtk-doc"
+				"/bin"
 			],
 			"sources": [
 				{
-					"type": "archive",
-					"url": "https://download.gnome.org/sources/libgdata/0.18/libgdata-0.18.1.tar.xz",
-					"sha256": "dd8592eeb6512ad0a8cf5c8be8c72e76f74bfe6b23e4dd93f0756ee0716804c7"
+					"type": "git",
+					"url": "https://gitlab.gnome.org/GNOME/gnome-online-accounts.git",
+					"branch": "master"
 				}
 			]
 		},
@@ -171,26 +181,30 @@
 			"config-opts": [
 				"-Denable-installed-tests=false",
 				"-Denable-introspection=false",
-				"-Denable-gtk-doc=false"
+				"-Denable-gtk-doc=false",
+				"-Dsoup2=false"
 			],
 			"cleanup": [
 				"/share/gtk-doc"
 			],
 			"sources": [
 				{
-					"type": "archive",
-					"url": "https://download.gnome.org/sources/geocode-glib/3.26/geocode-glib-3.26.2.tar.xz",
-					"sha256": "01fe84cfa0be50c6e401147a2bc5e2f1574326e2293b55c69879be3e82030fd1"
+					"type": "git",
+					"url": "https://gitlab.gnome.org/GNOME/geocode-glib.git",
+					"branch": "master"
 				}
 			]
 		},
 
 		{
-			"name": "libgweather",
+			"name": "libgweather4",
 			"buildsystem": "meson",
 			"config-opts": [
 				"-Dglade_catalog=false",
-				"-Denable_vala=false"
+				"-Denable_vala=false",
+				"-Dgtk_doc=false",
+				"-Dintrospection=false",
+				"-Dtests=false"
 			],
 			"cleanup": [
 				"/lib/girepository-1.0",
@@ -199,9 +213,9 @@
 			],
 			"sources": [
 				{
-					"type": "archive",
-					"url": "https://download.gnome.org/sources/libgweather/40/libgweather-40.0.tar.xz",
-					"sha256": "ca4e8f2a4baaa9fc6d75d8856adb57056ef1cd6e55c775ba878ae141b6276ee6"
+					"type": "git",
+					"url": "https://gitlab.gnome.org/GNOME/libgweather.git",
+					"branch": "main"
 				}
 			]
 		},
@@ -226,8 +240,8 @@
 			"sources": [
 				{
 					"type": "archive",
-					"url": "https://www.openldap.org/software/download/OpenLDAP/openldap-release/openldap-2.4.59.tgz",
-					"sha256": "99f37d6747d88206c470067eda624d5e48c1011e943ec0ab217bae8712e22f34"
+					"url": "https://www.openldap.org/software/download/OpenLDAP/openldap-release/openldap-2.6.2.tgz",
+					"sha256": "81d09345232eb62486ecf5acacd2c56c0c45b4a6c8c066612e7f421a23a1cf87"
 				},
 
 				{
@@ -313,6 +327,48 @@
 		},
 
 		{
+			"name": "gcr",
+			"buildsystem": "meson",
+			"config-opts": [
+				"-Dintrospection=false",
+				"-Dvapi=false",
+				"-Dgtk4=false",
+				"-Dgtk_doc=false"
+			],
+			"sources": [
+				{
+					"type": "git",
+					"url": "https://gitlab.gnome.org/GNOME/gcr.git",
+					"branch": "master"
+				}
+			]
+		},
+
+		{
+			"name": "webkit2gtk3",
+			"buildsystem": "cmake-ninja",
+			"config-opts": [
+				"-DCMAKE_BUILD_TYPE=Release",
+				"-DPORT=GTK",
+				"-DENABLE_BUBBLEWRAP_SANDBOX=OFF",
+				"-DENABLE_INTROSPECTION=OFF",
+				"-DUSE_LCMS=OFF"
+			],
+			"build-options" : {
+				"cflags": "-O2 -g -Wno-deprecated-declarations",
+				"cxxflags": "-O2 -g -Wno-deprecated-declarations",
+				"make-args": [ "-j2" ]
+			},
+			"sources": [
+				{
+					"type": "archive",
+					"url": "https://webkitgtk.org/releases/webkitgtk-2.36.3.tar.xz",
+					"sha256": "732fcf8c4ec644b8ed28b46ebbd7c1ebab9d9e0afea9bdf5e5d12786afc478d1"
+				}
+			]
+		},
+
+		{
 			"name": "evolution-data-server",
 			"buildsystem": "cmake-ninja",
 			"cleanup": [
@@ -325,7 +381,9 @@
 				"-DENABLE_DOT_LOCKING=OFF",
 				"-DENABLE_OAUTH2=ON",
 				"-DENABLE_GTK=ON",
+				"-DENABLE_GTK4=OFF",
 				"-DENABLE_GOA=ON",
+				"-DENABLE_GOOGLE=OFF",
 				"-DENABLE_EXAMPLES=OFF",
 				"-DENABLE_INTROSPECTION=OFF",
 				"-DENABLE_VALA_BINDINGS=OFF",
@@ -413,6 +471,7 @@
 				"mv /app/share/metainfo/org.gnome.Evolution.appdata.xml /app/share/"
 			]
 		},
+
 		{
 			"name": "flatpak-evolution-wrapper",
 			"buildsystem": "simple",
@@ -477,6 +536,7 @@
 				"cp flatpak-evolution-wrapper.sh /app/bin/evolution"
 			]
 		},
+
 		{
 			"name": "evolution-ews",
 			"buildsystem": "cmake-ninja",
@@ -491,6 +551,7 @@
 				"cp NEWS /app/share/NEWS.ews"
 			]
 		},
+
 		{
 			"name": "news-to-appdata",
 			"buildsystem": "simple",
@@ -525,6 +586,7 @@
 				"./update-appdata.sh development"
 			]
 		},
+
 		{
 			"name": "libsecret",
 			"buildsystem": "meson",
