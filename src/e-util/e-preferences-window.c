@@ -296,7 +296,7 @@ e_preferences_window_init (EPreferencesWindow *window)
 	gtk_container_add (GTK_CONTAINER (hbox), widget);
 	gtk_container_add (GTK_CONTAINER (hbox), window->priv->stack);
 
-	widget = gtk_button_new_from_icon_name ("help-browser", GTK_ICON_SIZE_LARGE_TOOLBAR);
+	widget = gtk_button_new_from_icon_name ("help-browser", GTK_ICON_SIZE_BUTTON);
 	gtk_widget_set_tooltip_text (widget, _("Help"));
 	gtk_widget_show (widget);
 	g_signal_connect_swapped (
