@@ -482,6 +482,7 @@ e_mail_folder_create_dialog_new (GtkWindow *parent,
 	dialog = g_object_new (
 		E_TYPE_MAIL_FOLDER_CREATE_DIALOG,
 		"transient-for", parent,
+		"use-header-bar", TRUE,
 		"model", model,
 		"session", session, NULL);
 
