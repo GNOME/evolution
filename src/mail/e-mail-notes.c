@@ -1095,11 +1095,6 @@ e_mail_notes_editor_new_with_editor (EHTMLEditor *html_editor,
 		"      </menu>\n"
 		"    </placeholder>\n"
 		"  </menubar>\n"
-		"  <toolbar name='main-toolbar'>\n"
-		"    <placeholder name='pre-main-toolbar'>\n"
-		"      <toolitem action='save-and-close'/>\n"
-		"    </placeholder>\n"
-		"  </toolbar>\n"
 		"</ui>";
 
 	GtkActionEntry entries[] = {
@@ -1131,7 +1126,7 @@ e_mail_notes_editor_new_with_editor (EHTMLEditor *html_editor,
 	EFocusTracker *focus_tracker;
 	EActivityBar *activity_bar;
 	GtkUIManager *ui_manager;
-	GtkWidget *widget, *content;
+	GtkWidget *widget, *content, *button;
 	GtkActionGroup *action_group;
 	GtkAction *action;
 	GSettings *settings;
@@ -1143,7 +1138,6 @@ e_mail_notes_editor_new_with_editor (EHTMLEditor *html_editor,
 		"transient-for", parent,
 		"destroy-with-parent", TRUE,
 		"window-position", GTK_WIN_POS_CENTER_ON_PARENT,
-		"title", _("Edit Message Note"),
 		NULL);
 
 	gtk_window_set_default_size (GTK_WINDOW (notes_editor), 600, 440);
@@ -1182,13 +1176,21 @@ e_mail_notes_editor_new_with_editor (EHTMLEditor *html_editor,
 
 	/* Construct the window content. */
 
-	widget = e_html_editor_get_managed_widget (notes_editor->editor, "/main-menu");
-	notes_editor->menu_bar = e_menu_bar_new (GTK_MENU_BAR (widget), GTK_WINDOW (GTK_WINDOW (notes_editor)));
-	gtk_box_pack_start (GTK_BOX (content), widget, FALSE, FALSE, 0);
-
-	widget = e_html_editor_get_managed_widget (notes_editor->editor, "/main-toolbar");
-	gtk_box_pack_start (GTK_BOX (content), widget, FALSE, FALSE, 0);
+	widget = gtk_header_bar_new ();
 	gtk_widget_show (widget);
+	gtk_header_bar_set_show_close_button (GTK_HEADER_BAR (widget), TRUE);
+	gtk_header_bar_set_title (GTK_HEADER_BAR (widget), _("Edit Message Note"));
+	gtk_window_set_titlebar (GTK_WINDOW (notes_editor), widget);
+
+	action = gtk_action_group_get_action (notes_editor->action_group, "save-and-close");
+	button = e_header_bar_button_new (_("Save"), action);
+	e_header_bar_button_css_add_class (E_HEADER_BAR_BUTTON (button), "suggested-action");
+	gtk_widget_show (button);
+	gtk_header_bar_pack_start (GTK_HEADER_BAR (widget), button);
+
+	widget = e_html_editor_get_managed_widget (notes_editor->editor, "/main-menu");
+	notes_editor->menu_bar = e_menu_bar_new (GTK_MENU_BAR (widget), GTK_WINDOW (notes_editor));
+	gtk_box_pack_start (GTK_BOX (content), widget, FALSE, FALSE, 0);
 
 	widget = GTK_WIDGET (notes_editor->editor);
 	g_object_set (G_OBJECT (widget),
