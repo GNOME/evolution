@@ -554,6 +554,7 @@ e_mail_signature_script_dialog_new (ESourceRegistry *registry,
 	return g_object_new (
 		E_TYPE_MAIL_SIGNATURE_SCRIPT_DIALOG,
 		"registry", registry,
+		"use-header-bar", TRUE,
 		"transient-for", parent,
 		"source", source, NULL);
 }
