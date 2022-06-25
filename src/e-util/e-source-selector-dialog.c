@@ -362,6 +362,7 @@ e_source_selector_dialog_new (GtkWindow *parent,
 
 	return g_object_new (
 		E_TYPE_SOURCE_SELECTOR_DIALOG,
+		"use-header-bar", TRUE,
 		"transient-for", parent,
 		"registry", registry,
 		"extension-name", extension_name,
