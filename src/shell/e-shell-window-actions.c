@@ -347,11 +347,15 @@ action_categories_cb (GtkAction *action,
 	e_categories_editor_set_entry_visible (
 		E_CATEGORIES_EDITOR (editor), FALSE);
 
-	dialog = gtk_dialog_new_with_buttons (
-		_("Categories Editor"),
-		GTK_WINDOW (shell_window),
-		GTK_DIALOG_DESTROY_WITH_PARENT,
-		_("_Close"), GTK_RESPONSE_CLOSE, NULL);
+	dialog = g_object_new (
+		GTK_TYPE_DIALOG,
+		"transient-for", GTK_WINDOW (shell_window),
+		"use-header-bar", TRUE,
+		"title", _("Categories Editor"),
+		NULL);
+
+	gtk_window_set_destroy_with_parent (GTK_WINDOW (dialog), TRUE);
+
 	gtk_container_set_border_width (GTK_CONTAINER (dialog), 12);
 	content_area = gtk_dialog_get_content_area (GTK_DIALOG (dialog));
 	gtk_box_pack_start (
