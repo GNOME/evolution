@@ -52,6 +52,7 @@ struct _EMailNotesEditor {
 	EFocusTracker *focus_tracker;
 	GtkActionGroup *action_group;
 	GBinding *attachment_paned_binding;
+	GtkWidget *menu_bar;
 
 	gboolean had_message;
 	CamelMimeMessage *message;
@@ -1023,6 +1024,7 @@ e_mail_notes_editor_dispose (GObject *object)
 	g_clear_object (&notes_editor->focus_tracker);
 	g_clear_object (&notes_editor->action_group);
 	g_clear_object (&notes_editor->attachment_paned_binding);
+	g_clear_object (&notes_editor->menu_bar);
 
 	/* Chain up to parent's method */
 	G_OBJECT_CLASS (e_mail_notes_editor_parent_class)->dispose (object);
@@ -1181,8 +1183,8 @@ e_mail_notes_editor_new_with_editor (EHTMLEditor *html_editor,
 	/* Construct the window content. */
 
 	widget = e_html_editor_get_managed_widget (notes_editor->editor, "/main-menu");
+	notes_editor->menu_bar = e_menu_bar_new (GTK_MENU_BAR (widget), GTK_WINDOW (GTK_WINDOW (notes_editor)));
 	gtk_box_pack_start (GTK_BOX (content), widget, FALSE, FALSE, 0);
-	gtk_widget_show (widget);
 
 	widget = e_html_editor_get_managed_widget (notes_editor->editor, "/main-toolbar");
 	gtk_box_pack_start (GTK_BOX (content), widget, FALSE, FALSE, 0);
