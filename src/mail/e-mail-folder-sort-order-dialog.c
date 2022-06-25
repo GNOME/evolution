@@ -749,8 +749,6 @@ e_mail_folder_sort_order_dialog_constructed (GObject *object)
 	g_clear_object (&session);
 	g_clear_object (&model);
 
-	gtk_dialog_add_buttons (GTK_DIALOG (dialog), _("_Close"), GTK_RESPONSE_CANCEL, NULL);
-
 	gtk_drag_source_set (dialog->priv->folder_tree, GDK_BUTTON1_MASK, row_targets, G_N_ELEMENTS (row_targets), GDK_ACTION_MOVE);
 	gtk_drag_dest_set (dialog->priv->folder_tree, GTK_DEST_DEFAULT_MOTION, row_targets, G_N_ELEMENTS (row_targets), GDK_ACTION_MOVE);
 
@@ -858,6 +856,7 @@ e_mail_folder_sort_order_dialog_new (GtkWindow *parent,
 
 	return g_object_new (E_TYPE_MAIL_FOLDER_SORT_ORDER_DIALOG,
 		"transient-for", parent,
+		"use-header-bar", TRUE,
 		"store", store,
 		"folder-uri", folder_uri,
 		NULL);
