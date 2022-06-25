@@ -230,7 +230,9 @@ e_mail_label_dialog_new (GtkWindow *parent)
 {
 	return g_object_new (
 		E_TYPE_MAIL_LABEL_DIALOG,
-		"transient-for", parent, NULL);
+		"transient-for", parent,
+		"use-header-bar", TRUE,
+		 NULL);
 }
 
 const gchar *
