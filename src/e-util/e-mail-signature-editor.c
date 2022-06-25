@@ -27,6 +27,8 @@
 
 #include "e-mail-signature-editor.h"
 
+#include "e-menu-bar.h"
+
 #define E_MAIL_SIGNATURE_EDITOR_GET_PRIVATE(obj) \
 	(G_TYPE_INSTANCE_GET_PRIVATE \
 	((obj), E_TYPE_MAIL_SIGNATURE_EDITOR, EMailSignatureEditorPrivate))
@@ -43,6 +45,8 @@ struct _EMailSignatureEditorPrivate {
 	gchar *original_name;
 
 	GtkWidget *entry;		/* not referenced */
+
+	GtkWidget *menu_bar;
 };
 
 struct _AsyncContext {
@@ -476,6 +480,7 @@ mail_signature_editor_dispose (GObject *object)
 	g_clear_object (&priv->editor);
 	g_clear_object (&priv->action_group);
 	g_clear_object (&priv->focus_tracker);
+	g_clear_object (&priv->menu_bar);
 
 	if (priv->cancellable != NULL) {
 		g_cancellable_cancel (priv->cancellable);
@@ -568,8 +573,8 @@ mail_signature_editor_constructed (GObject *object)
 	/* Construct the main menu and toolbar. */
 
 	widget = e_html_editor_get_managed_widget (editor, "/main-menu");
+	window->priv->menu_bar = e_menu_bar_new (GTK_MENU_BAR (widget), GTK_WINDOW (window));
 	gtk_box_pack_start (GTK_BOX (container), widget, FALSE, FALSE, 0);
-	gtk_widget_show (widget);
 
 	widget = e_html_editor_get_managed_widget (editor, "/main-toolbar");
 	gtk_box_pack_start (GTK_BOX (container), widget, FALSE, FALSE, 0);
