@@ -558,6 +558,7 @@ em_folder_selector_new (GtkWindow *parent,
 	return g_object_new (
 		EM_TYPE_FOLDER_SELECTOR,
 		"transient-for", parent,
+		"use-header-bar", TRUE,
 		"model", model, NULL);
 }
 
