@@ -376,7 +376,9 @@ e_attachment_dialog_new (GtkWindow *parent,
 
 	return g_object_new (
 		E_TYPE_ATTACHMENT_DIALOG,
-		"transient-for", parent, "attachment", attachment, NULL);
+		"transient-for", parent,
+		"use-header-bar", TRUE,
+		"attachment", attachment, NULL);
 }
 
 EAttachment *
