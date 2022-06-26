@@ -27,8 +27,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: evolution master\n"
 "Report-Msgid-Bugs-To: https://gitlab.gnome.org/GNOME/evolution/issues\n"
-"POT-Creation-Date: 2022-06-13 17:25+0000\n"
-"PO-Revision-Date: 2022-06-15 19:16+0800\n"
+"POT-Creation-Date: 2022-06-17 10:36+0000\n"
+"PO-Revision-Date: 2022-06-21 19:04+0800\n"
 "Last-Translator: lumingzh <lumingzh@qq.com>\n"
 "Language-Team: Chinese - China <i18n-zh@googlegroups.com>\n"
 "Language: zh_CN\n"
@@ -2731,10 +2731,19 @@ msgstr ""
 "有的文件夹。"
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:310
+msgid "Whether to print attachments."
+msgstr "是否显示附件内容。"
+
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:311
+msgid ""
+"If enabled, and possible, attachment content is printed with the message."
+msgstr "如果启用，可能的情况下将随消息显示附件的内容。"
+
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:312
 msgid "Size limit for text attachments to show"
 msgstr "显示文本附件的大小限制"
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:311
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:313
 msgid ""
 "Defines the size in KB, the limit to show text attachments in the message "
 "preview. Anything above this limit will not be possible to show inline."
@@ -2742,54 +2751,54 @@ msgstr ""
 "在消息预览中显示文本附件内容的大小限制；文件大小按照 KB 计算。任何大小超出该"
 "限制的文件将不会在行内显示其内容。"
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:312
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:314
 msgid "(Deprecated) Default forward style"
 msgstr "（已弃用）默认转发方式"
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:313
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:315
 msgid ""
 "This key was deprecated in version 3.10 and should no longer be used. Use "
 "“forward-style-name” instead."
 msgstr "该键已在 3.10 版本中弃用，不应再使用。请转用 \"forward-style-name\"。"
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:314
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:316
 msgid "(Deprecated) Default reply style"
 msgstr "（已弃用）默认回复样式"
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:315
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:317
 msgid ""
 "This key was deprecated in version 3.10 and should no longer be used. Use "
 "“reply-style-name” instead."
 msgstr "该键已在 3.10 版本中弃用，不应再使用。请转用 \"reply-style-name\"。"
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:316
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:318
 msgid "(Deprecated) List of custom headers and whether they are enabled."
 msgstr "（已弃用）自定义信头及是否启用。"
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:317
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:319
 msgid ""
 "This key was deprecated in version 3.10 and should no longer be used. Use "
 "“show-headers” instead."
 msgstr "该键已在 3.10 版本中弃用，不应再使用。请转用 \"show-headers\"。"
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:318
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:320
 msgid "(Deprecated) Load images for HTML messages over HTTP"
 msgstr "（已弃用）在 HTML 信息中载入 HTTP 图像"
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:319
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:321
 msgid ""
 "This key was deprecated in version 3.10 and should no longer be used. Use "
 "“image-loading-policy” instead."
 msgstr ""
 "该键已在 3.10 版本中弃用，不应再使用。请转用 \"image-loading-policy\"。"
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:320
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:322
 msgid ""
 "(Deprecated) Asks whether to close the message window when the user forwards "
 "or replies to the message shown in the window"
 msgstr "（已弃用）在用户转发或回复显示在窗口中的信息时，询问是否关闭信息窗口"
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:321
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:323
 msgid ""
 "This key was deprecated in version 3.10 and should no longer be used. Use "
 "“browser-close-on-reply-policy” instead."
@@ -4165,7 +4174,7 @@ msgstr "联系人编辑器"
 
 #: ../src/addressbook/gui/contact-editor/contact-editor.ui.h:13
 #: ../src/calendar/gui/e-comp-editor-page-reminders.c:2497
-#: ../src/em-format/e-mail-formatter-attachment.c:314
+#: ../src/em-format/e-mail-formatter-attachment.c:322
 #: ../src/mail/mail-config.ui.h:41
 msgid "Options"
 msgstr "选项"
@@ -6665,7 +6674,7 @@ msgstr "状态"
 #. String to use in 12-hour time format for times in the morning.
 #: ../src/calendar/gui/comp-util.c:2071 ../src/calendar/gui/e-day-view.c:2286
 #: ../src/calendar/gui/e-to-do-pane.c:249
-#: ../src/calendar/gui/e-week-view.c:1960 ../src/calendar/gui/print.c:1076
+#: ../src/calendar/gui/e-week-view.c:1969 ../src/calendar/gui/print.c:1076
 #: ../src/calendar/gui/print.c:1095 ../src/calendar/gui/print.c:2663
 #: ../src/calendar/gui/print.c:2683
 msgid "am"
@@ -6674,7 +6683,7 @@ msgstr "上午"
 #. String to use in 12-hour time format for times in the afternoon.
 #: ../src/calendar/gui/comp-util.c:2075 ../src/calendar/gui/e-day-view.c:2289
 #: ../src/calendar/gui/e-to-do-pane.c:253
-#: ../src/calendar/gui/e-week-view.c:1963 ../src/calendar/gui/print.c:1081
+#: ../src/calendar/gui/e-week-view.c:1972 ../src/calendar/gui/print.c:1081
 #: ../src/calendar/gui/print.c:1097 ../src/calendar/gui/print.c:2668
 #: ../src/calendar/gui/print.c:2685
 msgid "pm"
@@ -7810,7 +7819,7 @@ msgstr "备忘 — %s"
 
 #: ../src/calendar/gui/e-comp-editor-page-attachments.c:123
 #: ../src/calendar/gui/e-comp-editor-page-attachments.c:128
-#: ../src/em-format/e-mail-formatter-attachment.c:373
+#: ../src/em-format/e-mail-formatter-attachment.c:381
 #: ../src/e-util/e-attachment-bar.c:101 ../src/e-util/e-attachment-bar.c:106
 #: ../src/e-util/e-attachment-paned.c:175
 #: ../src/e-util/e-attachment-paned.c:180 ../src/mail/message-list.etspec.h:4
@@ -9273,7 +9282,7 @@ msgstr "待办"
 #. Translators: the first '%s' is replaced with a component summary;
 #. the second '%s' is replaced with an event location.
 #. Example: "Meet John Doe (Central Park)"
-#: ../src/calendar/gui/e-week-view.c:3869
+#: ../src/calendar/gui/e-week-view.c:3878
 #, c-format
 msgctxt "SummaryWithLocation"
 msgid "%s (%s)"
@@ -11918,15 +11927,15 @@ msgstr ""
 msgid "An error occurred while creating message composer."
 msgstr "创建信息编辑器时出现了错误。"
 
-#: ../src/em-format/e-mail-formatter-attachment.c:309
+#: ../src/em-format/e-mail-formatter-attachment.c:317
 msgid "Toggle View Inline"
 msgstr "切换内联视图"
 
-#: ../src/em-format/e-mail-formatter-attachment.c:309
+#: ../src/em-format/e-mail-formatter-attachment.c:317
 msgid "Open in default application"
 msgstr "用默认应用程序打开"
 
-#: ../src/em-format/e-mail-formatter-attachment.c:374
+#: ../src/em-format/e-mail-formatter-attachment.c:382
 msgid "Display as attachment"
 msgstr "以附件显示"
 
