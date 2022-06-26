@@ -8,8 +8,8 @@
 msgid ""
 msgstr "Project-Id-Version: evolution_help.HEAD\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2022-03-29 17:12+0000\n"
-"PO-Revision-Date: 2022-04-12 18:58+0100\n"
+"POT-Creation-Date: 2022-05-05 13:06+0000\n"
+"PO-Revision-Date: 2022-06-25 18:58+0100\n"
 "Last-Translator: Asier Sarasua Garmendia <asiersarasua@ni.eus>\n"
 "Language-Team: Basque <librezale@librezale.eus>\n"
 "Language: eu\n"
@@ -98,7 +98,7 @@ msgstr "Aukeratu fitxategia eta egin klik <gui style=\"button\">Ireki</gui> auke
 msgid ""
 "In the <link xref=\"intro-first-run\">first-run assistant</link>, you can "
 "restore <app>Evolution</app> data from a backup file."
-msgstr ""
+msgstr "<link xref=\"intro-first-run\">Lehen abioko morroian</link>, <app>Evolution</app> datuak berreskuratu daitezke babeskopia-fitxategi batetik."
 
 #. (itstool) path: info/desc
 #: C/calendar-alarms-and-reminders.page:23
@@ -158,7 +158,7 @@ msgstr "Egin klik <guiseq><gui>Aukerak</gui><gui>Oroigarriak</gui></guiseq> auke
 msgid ""
 "From the dropdown menu, choose either one of the available default options "
 "when to show a notification reminder, or choose <gui>Custom</gui>."
-msgstr ""
+msgstr "Goitibeherako menuan, aukeratu erabilgarri dauden aukera lehenetsietako bat jakinarazpen-oroigarri bat erakusteko, edo aukeratu <gui>Pertsonalizatua</gui>."
 
 #. (itstool) path: item/p
 #: C/calendar-alarms-and-reminders.page:66
@@ -166,7 +166,7 @@ msgid ""
 "In case of <gui>Custom</gui>, the reminder can be a popup, a sound played, a "
 "program ran, or an email sent. You can also define whether the reminder "
 "should be repeated."
-msgstr ""
+msgstr "<gui>Pertsonalizatua</gui> bada, oroigarria laster-menu bat, soinu bat, programa-exekuzio bat edo posta bat bidaltzea izan daiteke. Oroigarria errepikatuko den ala ez ere definitu daiteke."
 
 #. (itstool) path: note/p
 #: C/calendar-alarms-and-reminders.page:73
@@ -307,7 +307,7 @@ msgstr ""
 msgid ""
 "The different levels vary depending on your server settings; check with your "
 "system administrator or adjust your delegation settings."
-msgstr ""
+msgstr "Maila desberdinak zure zerbitzariaren ezarpenen araberakoak dira; kontsultatu zure sistema-administratzailearekin edo doitu zure ordezkaritza-ezarpenak."
 
 #. (itstool) path: page/p
 #: C/calendar-classifications.page:42
@@ -316,12 +316,12 @@ msgid ""
 "enable the preference under <guiseq><gui>Edit</gui><gui>Preferences</"
 "gui><gui>Calendar and Tasks</gui><gui>General</gui><gui>Miscellaneous</gui></"
 "guiseq>."
-msgstr ""
+msgstr "Gertaerak, zirkularrak eta zereginak modu lehenetsian pribatu gisa sailkatu daitezen nahi baduzu, gaitu hobespen hori <guiseq><gui>Editatu</gui><gui>Hobespenak</gui><gui>Egutegia eta zereginak</gui><gui>Orokorra</gui><gui>Bestelakoak</gui></guiseq> aukeran."
 
 #. (itstool) path: info/desc
 #: C/calendar-free-busy.page:24
 msgid "Using the Free/Busy view on a groupware server to set up meetings."
-msgstr ""
+msgstr "Libre/lanpetuta bista erabiltzea talde-lanerako zerbitzari batean bilerak konfiguratzeko."
 
 #. (itstool) path: page/title
 #: C/calendar-free-busy.page:29
@@ -524,7 +524,7 @@ msgstr "Erakutsi hitzorduen amaiera-orduak asteko eta hileko ikuspegietan:"
 msgid ""
 "If there is space, <app>Evolution</app> shows the end times in the week and "
 "month views for each appointment."
-msgstr ""
+msgstr "Zuriune bat badago, <app>Evolution</app> aplikazioak amaiera-orduak asteko eta hileko ikuspegietan erakutsiko ditu hitzordu bakoitzerako."
 
 #. (itstool) path: item/p
 #: C/calendar-layout-appointment-display.page:52
@@ -591,7 +591,7 @@ msgid ""
 "The following options are available under <guiseq><gui>Edit</"
 "gui><gui>Preferences</gui> <gui>Calendar and Tasks</gui><gui>General</gui></"
 "guiseq>."
-msgstr ""
+msgstr "<guiseq><gui>Editatu</gui><gui>Hobespenak</gui> <gui>Egutegia eta zereginak</gui><gui>Orokorra</gui></guiseq> atalean honako aukerak daude erabilgarri."
 
 #. (itstool) path: section/title
 #: C/calendar-layout-general-formatting.page:37
@@ -611,7 +611,7 @@ msgstr "Hamabi orduko (AM/PM) edo hogeita lau orduko formatua hauta dezakezu."
 #. (itstool) path: item/p
 #: C/calendar-layout-general-formatting.page:46
 msgid "<link xref=\"calendar-timezones\">Time zone</link> and Second zone:"
-msgstr ""
+msgstr "<link xref=\"calendar-timezones\">Ordu-zona</link> eta bigarren mailako zona:"
 
 #. (itstool) path: item/p
 #: C/calendar-layout-general-formatting.page:47
@@ -673,7 +673,7 @@ msgstr "Data/Orduaren formatua"
 msgid ""
 "You can change the format of the <gui>Date</gui> column by setting your "
 "preferred format."
-msgstr ""
+msgstr "<gui>Dataren</gui> zutabearen formatua aldatu egin daiteke, nahi den formatua ezartzeko."
 
 #. (itstool) path: section/p
 #. (itstool) path: page/p
@@ -745,14 +745,14 @@ msgstr "Zerrenda-ikuspegia"
 msgid ""
 "You can switch the view by either using the buttons in the toolbar, or by "
 "clicking <guiseq><gui>View</gui><gui>Current View</gui></guiseq>."
-msgstr ""
+msgstr "Ikuspegiz aldatzeko, erabili tresna-barrako botoia edo egin klik <guiseq><gui>Ikusi</gui><gui>Uneko ikuspegia</gui></guiseq> aukeran."
 
 #. (itstool) path: page/p
 #: C/calendar-layout-views.page:52
 msgid ""
 "You can also select an arbitrary range of days in the small calendar in the "
 "side bar. To do this, select the days that you want to view in your calendar."
-msgstr ""
+msgstr "Egunen ausazko barruti bat ere hautatu dezakezu alboko barrako egutegi txikian. Hori egiteko, hautatu zure egutegian erakutsiko diren egunak."
 
 #. (itstool) path: page/p
 #: C/calendar-layout-views.page:56
@@ -809,7 +809,7 @@ msgstr "Marcus Bains-en marra gorriak uneko ordua erakusten du."
 #. (itstool) path: page/title
 #: C/calendar-marcus-bains-line.page:20
 msgid "Time display in the Day view"
-msgstr ""
+msgstr "Orduaren bistaratzea eguneko ikuspegian"
 
 #. (itstool) path: page/p
 #: C/calendar-marcus-bains-line.page:22
@@ -880,7 +880,7 @@ msgstr "Bilera-eskari bati erantzutea"
 msgid ""
 "Meeting requests are sent as attachments and displayed as the body of an "
 "email. All the details about the event are shown, including time and dates."
-msgstr ""
+msgstr "Bilera-eskaerak eranskin gisa bidaltzen dira eta posta-mezuaren gorputzean bistaratzen dira. Gertaerari buruzko xehetasun guztiak erakusten dira, ordua eta data barne."
 
 #. (itstool) path: page/p
 #: C/calendar-meetings-replying-to-invitation.page:25
@@ -905,7 +905,7 @@ msgstr ""
 msgid ""
 "If you click <gui>Accept</gui> the event is added automatically to the "
 "calendar that you have chosen."
-msgstr ""
+msgstr "<gui>Onartu</gui> aukeran klik egiten bada, gertaera automatikoki gehitzen zaio aukeratutako egutegiari."
 
 #. (itstool) path: page/p
 #: C/calendar-meetings-replying-to-invitation.page:30
@@ -913,7 +913,7 @@ msgid ""
 "After you have added the meeting to your calendar, you can make changes to "
 "the meeting, but if the original organizer sends out an update, your changes "
 "might be overwritten."
-msgstr ""
+msgstr "Egutegian bilerak gehitu ondoren, horiek aldatu daitezke, baina jatorrizko antolatzaileak eguneratze bat bidaltzen badu, aldaketak gainidatzi egin daitezke."
 
 #. (itstool) path: note/p
 #: C/calendar-meetings-replying-to-invitation.page:32
@@ -921,7 +921,7 @@ msgid ""
 "Under <guiseq><gui>Edit</gui><gui>Preferences</gui><gui>Calendar and Tasks</"
 "gui><gui>Meeting Invitations</gui><gui>Conflict Search</gui></guiseq> you "
 "can define which calendars are used for warning you of meeting conflicts."
-msgstr ""
+msgstr "<guiseq><gui>Editatu</gui><gui>Hobespenak</gui> <gui>Egutegia eta zereginak</gui><gui>Bilera-gonbidapenak</gui><gui>Gatazken bilaketa</gui></guiseq> atalean bilera-gatazken abisuak jasotzeko zein egutegi erabiliko diren definitu daiteke."
 
 #. (itstool) path: info/desc
 #: C/calendar-meetings-sending-invitation.page:23
@@ -963,13 +963,13 @@ msgstr "Bilera bat antolatzeko:"
 msgid ""
 "If you have multiple email accounts, select the one to use by selecting an "
 "item in the <gui>Organizer</gui> field."
-msgstr ""
+msgstr "Posta-kontu anitz badituzu, hautatu erabiliko dena <gui>Antolatzailea</gui> eremuan bat aukeratuta."
 
 #. (itstool) path: item/p
 #: C/calendar-meetings-sending-invitation.page:52
 #: C/calendar-usage-add-appointment.page:36
 msgid "Select a calendar in the <gui>Calendar</gui> drop-down list."
-msgstr ""
+msgstr "Hautatu egutegi bat <gui>Egutegia</gui> goitibeherako zerrendan."
 
 #. (itstool) path: item/p
 #: C/calendar-meetings-sending-invitation.page:59
@@ -982,13 +982,13 @@ msgstr ""
 #: C/calendar-meetings-sending-invitation.page:64
 #: C/calendar-usage-add-appointment.page:39 C/memos-usage-add-memo.page:47
 msgid "Enter a brief summary in the <gui>Summary</gui> field."
-msgstr ""
+msgstr "Sartu laburpen bat <gui>Laburpena</gui> eremuan."
 
 #. (itstool) path: item/p
 #: C/calendar-meetings-sending-invitation.page:67
 #: C/calendar-usage-add-appointment.page:42
 msgid "(Optional) Type a location in the <gui>Location</gui> field."
-msgstr ""
+msgstr "(Aukerakoa) Idatzi kokaleku bat <gui>Kokalekua</gui> eremuan."
 
 #. (itstool) path: item/p
 #: C/calendar-meetings-sending-invitation.page:70
@@ -1036,7 +1036,7 @@ msgstr "Egin klik <gui>Gorde</gui> aukeran bilera gordetzeko."
 #: C/calendar-meetings-sending-invitation.page:96
 msgid ""
 "An email is sent out to all the recipients, inviting them to your event."
-msgstr ""
+msgstr "Posta-mezu bat bidaliko zaie hartzaile guztiei, hauek zure gertaerara gonbidatzeko."
 
 #. (itstool) path: page/p
 #: C/calendar-meetings-sending-invitation.page:99
@@ -1064,7 +1064,7 @@ msgstr ""
 #. (itstool) path: info/desc
 #: C/calendar-organizing.page:18
 msgid "On using several calendars, searching, and categories."
-msgstr ""
+msgstr "Egutegi anitz erabiltzea, bilaketak egitea, eta kategoriak."
 
 #. (itstool) path: page/title
 #: C/calendar-organizing.page:21
@@ -1555,7 +1555,7 @@ msgstr ""
 #: C/contacts-autocompletion.page:28
 msgid ""
 "Autocompletion of names and email addresses entered in the mail composer."
-msgstr ""
+msgstr "Posta-konposatzailean sartzen diren izenen eta posta-helbideen osatze automatikoa."
 
 #. (itstool) path: page/title
 #: C/contacts-autocompletion.page:31
@@ -1678,12 +1678,12 @@ msgstr "<gui>Xehetasunak</gui> fitxan honako ezarpenak definitu daitezke:"
 msgid ""
 "Search Base: The search base is the starting point for a directory search. "
 "Contact your system administrator for information about the correct settings."
-msgstr ""
+msgstr "Bilaketa-oinarria: Direktorio-bilaketa baterako hasierako puntua da. Hitz egin zure sistemaren administratzailearekin ezarpen zuzenak zeintzuk diren jakiteko."
 
 #. (itstool) path: item/p
 #: C/contacts-ldap.page:70
 msgid "Search Scope: The search scope is the breadth of a given search."
-msgstr ""
+msgstr "Bilaketaren esparrua: Bilaketa jakin baten irismena da."
 
 #. (itstool) path: item/p
 #: C/contacts-ldap.page:71
@@ -1693,7 +1693,7 @@ msgstr "Honako aukerak daude erabilgarri:"
 #. (itstool) path: item/p
 #: C/contacts-ldap.page:74
 msgid "One Level: Searches one entry below the Search Base."
-msgstr ""
+msgstr "Maila bat: Bilaketa-oinarriaren azpiko sarrera batean bilatzen du."
 
 #. (itstool) path: item/p
 #: C/contacts-ldap.page:77
@@ -2001,7 +2001,7 @@ msgid ""
 "<gui>Delete</gui> in the tool bar or press <keyseq><key>Ctrl</key><key>D</"
 "key></keyseq>, or click <guiseq><gui>Edit</gui><gui>Delete Contact</gui></"
 "guiseq>."
-msgstr ""
+msgstr "Zure helbide-liburuetako kontaktu bat ezabatu nahi baduzu, egin eskuineko klik kontaktuan eta hautatu <gui>Ezabatu</gui>, edo egin klik kontaktuan eta egin klik tresna-barrako <gui>Ezabatu</gui> aukeran edo sakatu <keyseq><key>Ctrl</key><key>D</key></keyseq>, edo egin klik <guiseq><gui>Editatu</gui><gui>Ezabatu kontaktua</gui></guiseq> aukeran."
 
 #. (itstool) path: info/desc
 #: C/contacts-usage-edit-contact.page:17
@@ -2125,7 +2125,7 @@ msgid ""
 "contact list as the recipient in the mail composer. You can also right-click "
 "the contact list in your address book and select <gui>Send Message to List</"
 "gui>."
-msgstr ""
+msgstr "Kontaktu-zerrendari mezu bat bidaltzeko, sartu kontaktu-zerrendaren izena hartzaile gisa posta-konposatzailean, edo egin eskuineko klik zure helbide-liburuko kontaktu-zerrendan eta hautatu <gui>Bidali mezua zerrendari</gui>."
 
 #. (itstool) path: info/desc
 #: C/contacts-using-several-addressbooks.page:17
@@ -2248,7 +2248,7 @@ msgstr "Tresna-barra eta menu-elementuak pertsonalizatzea"
 msgid ""
 "These steps are for tech savvy users. These steps are not suitable for "
 "average users."
-msgstr ""
+msgstr "Urrats hauek erabiltzaile aurreratuentzat dira. Ez dira egokiak erabiltzaile arruntentzat."
 
 #. (itstool) path: page/p
 #: C/customize-ui-items.page:27
@@ -2317,7 +2317,7 @@ msgstr "Datuen biltegiratzerako kokalekuak"
 #. (itstool) path: note/p
 #: C/data-storage.page:23
 msgid "This is only relevant for advanced users who want to debug problems."
-msgstr ""
+msgstr "Hau arazoak araztu nahi dituzten erabiltzaile aurreratuentzat soilik da esanguratsua."
 
 #. (itstool) path: page/p
 #: C/data-storage.page:26
@@ -2381,7 +2381,7 @@ msgstr ""
 #. (itstool) path: item/title
 #: C/data-storage.page:47
 msgid "Disposable data caches"
-msgstr ""
+msgstr "Datu-cache baztergarriak"
 
 #. (itstool) path: item/p
 #: C/data-storage.page:48
@@ -2398,19 +2398,19 @@ msgstr "Posta-mezu bateko estekak nabigatzaile batean irekitzea eta mezu-konposa
 #. (itstool) path: page/title
 #: C/default-browser.page:22
 msgid "Opening links in and from the web browser"
-msgstr ""
+msgstr "Web-nabigatzaileko estekak irekitzea"
 
 #. (itstool) path: section/title
 #: C/default-browser.page:27
 msgid "Change which web browser websites are opened in"
-msgstr ""
+msgstr "Aldatu zein web-nabigatzailetan irekitzen diren webguneak"
 
 #. (itstool) path: when/p
 #: C/default-browser.page:31
 msgid ""
 "In case you use <app>Evolution</app> under a different environment from "
 "GNOME,"
-msgstr ""
+msgstr "<app>Evolution</app> GNOME ez den beste ingurune batean erabiltzen baduzu,"
 
 #. (itstool) path: item/p
 #: C/default-browser.page:34
@@ -2461,7 +2461,7 @@ msgid ""
 "Please see <link xref=\"help:gnome-help/net-default-browser\" href=\"https://"
 "help.gnome.org/users/gnome-help/stable/net-default-browser\">the GNOME "
 "Desktop Help</link>."
-msgstr ""
+msgstr "Ikusi <link xref=\"help:gnome-help/net-default-browser\" href=\"https://help.gnome.org/users/gnome-help/stable/net-default-browser\">GNOME mahaiganaren laguntza</link>."
 
 #. (itstool) path: choose/p
 #: C/default-browser.page:66
@@ -2469,7 +2469,7 @@ msgid ""
 "If the preferred browser is set as default application but still does not "
 "work correctly please contact your distribution via their forum or bug "
 "tracker."
-msgstr ""
+msgstr "Hobetsitako nabigatzailea aplikazio lehenetsi gisa ezarrita badago baina ongi funtzionatzen ez badu, jarri harremanetan zure Linux banaketarekin bere foroaren edo auzien aztarnariaren bitartez."
 
 #. (itstool) path: note/p
 #: C/default-browser.page:69
@@ -2483,7 +2483,7 @@ msgstr ""
 msgid ""
 "<link action=\"install:gvfs\" href=\"https://ftp.gnome.org/pub/gnome/sources/"
 "gvfs/\" style=\"button\">Install gvfs</link>"
-msgstr ""
+msgstr "<link action=\"install:gvfs\" href=\"https://ftp.gnome.org/pub/gnome/sources/gvfs/\" style=\"button\">Instalatu gvfs</link>"
 
 #. (itstool) path: section/title
 #: C/default-browser.page:81
@@ -2574,14 +2574,14 @@ msgstr "Eranskinak"
 msgid ""
 "To delete the attachments of an email, select the message and click "
 "<guiseq><gui>Message</gui><gui>Remove Attachments</gui></guiseq>."
-msgstr ""
+msgstr "Posta-mezu baten eranskina ezabatzeko, hautatu mezua eta egin klik <guiseq><gui>Mezua</gui><gui>Kendu eranskinak</gui></guiseq> aukeran."
 
 #. (itstool) path: info/desc
 #: C/deleting-to-free-disk-space.page:5
 msgid ""
 "Deleting emails and calendar entries to reduce the size of the files used by "
 "<app>Evolution</app>."
-msgstr ""
+msgstr "Posta-mezuak eta egutegi-sarrerak ezabatzea <app>Evolution</app> aplikazioak erabiltzen dituen fitxategien tamaina murrizteko."
 
 #. (itstool) path: page/title
 #: C/deleting-to-free-disk-space.page:20
@@ -2636,7 +2636,7 @@ msgstr "Kontaktu-fitxategiak datu-base batean biltegiratzen dira, baina vCard fi
 msgid ""
 "To export a complete address book, click <guiseq><gui>File</gui><gui>Save "
 "Address Book As vCard</gui></guiseq>."
-msgstr ""
+msgstr "Helbide-liburu oso bat esportatzeko, egin klik <guiseq><gui>Fitxategia</gui><gui>Gorde helbide-liburua vCard gisa</gui></guiseq> aukeran."
 
 #. (itstool) path: page/p
 #: C/exporting-data-contacts.page:27
@@ -2670,7 +2670,7 @@ msgstr ""
 msgid ""
 "The same steps apply to save a complete mail folder, but you have to mark "
 "all messages in it first."
-msgstr ""
+msgstr "Urrats berak jarraitu behar dira posta-karpeta oso bat gordetzeko, baina bertako mezu guztiak markatu behar dira lehenengo."
 
 #. (itstool) path: page/p
 #: C/exporting-data-mail.page:25 C/mail-filters.page:30
@@ -2693,7 +2693,7 @@ msgstr "Datuak esportatzea <app>Evolution</app> aplikaziotik."
 #. (itstool) path: info/desc
 #: C/flatpak-limitations.page:5
 msgid "Limitations when using a Flatpak package of <app>Evolution</app>."
-msgstr ""
+msgstr "<app>Evolution</app> aplikazioaren Flatpak pakete bat erabiltzean dauden mugak."
 
 #. (itstool) path: page/title
 #: C/flatpak-limitations.page:20
@@ -2705,14 +2705,14 @@ msgstr "Ezin da posta-mezua inprimatu, eranskinak gehitu edo gorde, edo laguntza
 msgid ""
 "If you run a <link href=\"https://flathub.org/\">Flatpak</link> version of "
 "<app>Evolution</app>, then there are several limitations. Examples are:"
-msgstr ""
+msgstr "<app>Evolution</app> aplikazioaren <link href=\"https://flathub.org/\">Flatpak</link> bertsio bat exekutatzen baduzu, hainbat muga izango dituzu. Adibidez:"
 
 #. (itstool) path: item/p
 #: C/flatpak-limitations.page:26
 msgid ""
 "Adding attachments to an email or saving attachments from an email might not "
 "be possible."
-msgstr ""
+msgstr "Posta-mezu bati eranskinak gehitzea edo mezu batetik eranskinak erauztea agian ez da posible izango."
 
 #. (itstool) path: item/p
 #: C/flatpak-limitations.page:28
@@ -2733,7 +2733,7 @@ msgstr ""
 #: C/flatpak-limitations.page:33
 msgid ""
 "The local user documentation might not included, to make the package smaller."
-msgstr ""
+msgstr "Erabiltzaile-dokumentazio lokala agian ez da paketean sartuta egongo, hura txikiagoa izan dadin."
 
 #. (itstool) path: info/desc
 #: C/google-services.page:5
@@ -2899,14 +2899,14 @@ msgstr "Aurreskakizunak Window sisteman"
 #. (itstool) path: section/p
 #: C/import-apps-outlook.page:32
 msgid "First, while using Microsoft Windows, prepare your messages for import:"
-msgstr ""
+msgstr "Lehenengo, MIcrosoft Windows erabiltzean, prestatu zure mezuak inportatuak izan daitezen:"
 
 #. (itstool) path: item/p
 #: C/import-apps-outlook.page:34
 msgid ""
 "Find your Outlook files (they normally have the file ending <file>.pst</"
 "file> or <file>.ost</file>):"
-msgstr ""
+msgstr "Aurkitu zure Outlook fitxategiak (normalean <file>.pst</file> edo <file>.ost</file> luzapena duten fitxategiak dira):"
 
 #. (itstool) path: td/p
 #: C/import-apps-outlook.page:37
@@ -2970,7 +2970,7 @@ msgid ""
 "As your Windows hard drive is probably in the NTFS format, some Linux "
 "systems cannot read it without additional software. You might find it "
 "simpler to copy the mail folders to a USB drive or to burn a CD."
-msgstr ""
+msgstr "Zure Windows unitatea ziur aski NTFS formatuan egongo denez, zenbait Linux sistemak ezin dute irakurri software gehigarria instalatu gabe. Sinpleagoa izan daiteke posta-karpetak USB unitate batean kopiatzea."
 
 #. (itstool) path: section/title
 #: C/import-apps-outlook.page:55
@@ -2983,7 +2983,7 @@ msgid ""
 "Depending on your last step, either plug in the disk or USB drive with the "
 "data and wait until the file manager window opens, or mount your Windows "
 "drive."
-msgstr ""
+msgstr "Zure azken urratsaren arabera, txertatu datuak dituen USB gailua eta itxaron fitxategi-kudeatzailea ireki arte, edo muntatu zure Windows unitatea."
 
 #. (itstool) path: item/p
 #: C/import-apps-outlook.page:58
@@ -3056,7 +3056,7 @@ msgstr "Fitxategi bakarrak inportatzea"
 #. (itstool) path: page/p
 #: C/import-single-files.page:22
 msgid "To import single files (mail, calendar data or contacts):"
-msgstr ""
+msgstr "Fitxategi bakarrak (posta-mezuak, egutegi-datuak edo kontaktuak) inportatzeko:"
 
 #. (itstool) path: item/p
 #: C/import-single-files.page:26
@@ -3139,7 +3139,7 @@ msgstr "Outlook Express 5/6 karpeta pertsonalak (.dbx):"
 msgid ""
 "The email file format used by <app>Microsoft Outlook Express 5/6</app>. For "
 "newer versions PST import is recommended."
-msgstr ""
+msgstr "<app>Microsoft Outlook Express 5/6</app> aplikazioak erabiltzen duen postako fitxategi-formatua. Bertsio berrietarako, PST inportazioa gomendatzen da."
 
 #. (itstool) path: section/title
 #: C/import-supported-file-formats.page:46 C/intro-keyboard-shortcuts.page:254
@@ -3520,13 +3520,13 @@ msgstr "USENET berriak"
 #: C/intro-first-run.page:93
 msgid ""
 "Connects to a news server and downloads a list of available news digests."
-msgstr ""
+msgstr "Berri-zerbitzari batekin konektatzen da eta berri-laburpen erabilgarrien zerrenda bat deskargatzen du."
 
 #. (itstool) path: section/title
 #. (itstool) path: page/title
 #: C/intro-first-run.page:99 C/mail-receiving-options-usenet-news.page:23
 msgid "Usenet news receiving options"
-msgstr ""
+msgstr "Usenet berriak jasotzeko aukerak"
 
 #. (itstool) path: section/title
 #: C/intro-first-run.page:108
@@ -3545,7 +3545,7 @@ msgstr ""
 #. (itstool) path: note/p
 #: C/intro-first-run.page:111
 msgid "This requires having the <sys>evolution-ews</sys> package installed."
-msgstr ""
+msgstr "Horrek behar du <sys>evolution-ews</sys> paketea instalatuta egotea."
 
 #. (itstool) path: when/p
 #. (itstool) path: note/p
@@ -3553,7 +3553,7 @@ msgstr ""
 msgid ""
 "<link action=\"install:evolution-ews\" href=\"https://wiki.gnome.org/Apps/"
 "Evolution#Get_the_Source_Code\" style=\"button\">Install evolution-ews</link>"
-msgstr ""
+msgstr "<link action=\"install:evolution-ews\" href=\"https://wiki.gnome.org/Apps/Evolution#Get_the_Source_Code\" style=\"button\">Instalatu evolution-ews</link>"
 
 #. (itstool) path: section/title
 #. (itstool) path: page/title
@@ -3569,7 +3569,7 @@ msgstr "Exchange MAPI"
 #. (itstool) path: section/p
 #: C/intro-first-run.page:133
 msgid "For connecting to a Microsoft Exchange 2007/2010 or OpenChange server."
-msgstr ""
+msgstr "Microsoft Exchange 2007/2010 edo OpenChange zerbitzari batekin konektatzeko."
 
 #. (itstool) path: section/p
 #. (itstool) path: note/p
@@ -3583,7 +3583,7 @@ msgstr ""
 #. (itstool) path: note/p
 #: C/intro-first-run.page:136
 msgid "This requires having the <sys>evolution-mapi</sys> package installed."
-msgstr ""
+msgstr "Horrek behar du <sys>evolution-mapi</sys> paketea instalatuta egotea."
 
 #. (itstool) path: when/p
 #. (itstool) path: note/p
@@ -3592,7 +3592,7 @@ msgid ""
 "<link action=\"install:evolution-mapi\" href=\"https://wiki.gnome.org/Apps/"
 "Evolution#Get_the_Source_Code\" style=\"button\">Install evolution-mapi</"
 "link>"
-msgstr ""
+msgstr "<link action=\"install:evolution-mapi\" href=\"https://wiki.gnome.org/Apps/Evolution#Get_the_Source_Code\" style=\"button\">Instalatu evolution-mapi</link>"
 
 #. (itstool) path: section/title
 #. (itstool) path: page/title
@@ -3731,7 +3731,7 @@ msgstr ""
 #. (itstool) path: page/title
 #: C/intro-first-run.page:255 C/mail-sending-options-smtp.page:26
 msgid "SMTP sending options"
-msgstr ""
+msgstr "SMTP bidalketa-aukerak"
 
 #. (itstool) path: section/title
 #: C/intro-first-run.page:264
@@ -3744,7 +3744,7 @@ msgid ""
 "Uses the <app>Sendmail</app> application to send mail from your system. It "
 "is not easy to configure, so you should select this option only if you know "
 "how to set up a Sendmail service."
-msgstr ""
+msgstr "<app>Sendmail</app> aplikazioa erabiltzen du zure sistemako posta-mezuak bidaltzeko. Ez da erraz konfiguratzen, aukera hori hautatzen baduzu Sendmail zerbitzu bat konfiguratzen jakin behar duzu."
 
 #. (itstool) path: section/title
 #: C/intro-first-run.page:271
@@ -3771,7 +3771,7 @@ msgstr ""
 #. (itstool) path: info/desc
 #: C/intro-keyboard-shortcuts.page:5
 msgid "Keyboard shortcuts that can save you some time."
-msgstr ""
+msgstr "Lasterbideek denbora aurrezteko balio diezazukete."
 
 #. (itstool) path: page/title
 #. (itstool) path: td/p
@@ -3791,7 +3791,7 @@ msgstr ""
 msgid ""
 "In addition to the shortcuts listed below, you can also use accelerators to "
 "navigate with the keyboard."
-msgstr ""
+msgstr "Behean zerrendatutako lasterbideez gain, bizkortzaileak ere erabili ditzakezu teklatuarekin nabigatzeko."
 
 #. (itstool) path: note/p
 #: C/intro-keyboard-shortcuts.page:32
@@ -4015,7 +4015,7 @@ msgstr "<keyseq><key>Ctrl</key><key>F</key></keyseq>"
 #. (itstool) path: td/p
 #: C/intro-keyboard-shortcuts.page:172
 msgid "Forward selection."
-msgstr ""
+msgstr "Birbidali hautapena."
 
 #. (itstool) path: td/p
 #: C/intro-keyboard-shortcuts.page:175 C/intro-keyboard-shortcuts.page:305
@@ -4370,7 +4370,7 @@ msgstr "<_:media-1/> Aurrebista-panela"
 #: C/intro-main-window.page:60 C/intro-main-window.page:119
 #: C/intro-main-window.page:160
 msgid "<_:media-1/> Switcher"
-msgstr ""
+msgstr "<_:media-1/> Aldatzailea"
 
 #. (itstool) path: td/p
 #: C/intro-main-window.page:63 C/intro-main-window.page:122
@@ -4389,13 +4389,13 @@ msgid ""
 "The folder list gives you a list of the available folders for each account. "
 "To see the contents of a folder, click the folder name and its contents are "
 "displayed in the message list."
-msgstr ""
+msgstr "Karpeta-zerrendak kontu bakoitzak erabilgarri duen karpeten zerrenda bat ematen du. Karpeta baten edukiak ikusteko, egin klik karpetaren izenean eta bere edukiak mezu-zerrendan bistaratuko dira."
 
 #. (itstool) path: note/p
 #: C/intro-main-window.page:71
 msgid ""
 "For more information see <link xref=\"mail-folders\">Using Folders</link>."
-msgstr ""
+msgstr "Informazio gehiagorako, ikusi <link xref=\"mail-folders\">Karpetak erabiltzea</link>."
 
 #. (itstool) path: item/title
 #: C/intro-main-window.page:74
@@ -4413,7 +4413,7 @@ msgstr ""
 #. (itstool) path: item/title
 #: C/intro-main-window.page:78
 msgid "Switcher"
-msgstr ""
+msgstr "Aldatzailea"
 
 #. (itstool) path: item/p
 #: C/intro-main-window.page:79
@@ -4489,7 +4489,7 @@ msgstr "<_:media-1/> Egutegi-zerrenda"
 #. (itstool) path: td/p
 #: C/intro-main-window.page:111
 msgid "<_:media-1/> Appointment list"
-msgstr ""
+msgstr "<_:media-1/> Hitzorduen zerrenda"
 
 #. (itstool) path: td/p
 #: C/intro-main-window.page:112
@@ -4516,7 +4516,7 @@ msgstr "Hitzorduen zerrenda"
 msgid ""
 "The appointment list displays all your scheduled appointments in the time "
 "frame selected."
-msgstr ""
+msgstr "Hitzorduen zerrendak hautatutako denbora-tartean programatutako hitzordu guztiak erakusten ditu."
 
 #. (itstool) path: item/title
 #: C/intro-main-window.page:131
@@ -4535,7 +4535,7 @@ msgstr "Hileko panela egutegiaren hileko ikuspegi txiki bat da. Hilabete gehiago
 #. (itstool) path: item/title
 #: C/intro-main-window.page:135
 msgid "Task list and Memo list"
-msgstr ""
+msgstr "Zereginen zerrenda eta zirkularren zerrenda"
 
 #. (itstool) path: item/p
 #: C/intro-main-window.page:136
@@ -4585,12 +4585,12 @@ msgstr "Lan honen lizentzia <_:link-1/> da."
 #. (itstool) path: info/desc
 #: C/mail-access-gmail-imap-account.page:5
 msgid "How to set up a Gmail IMAP Account."
-msgstr ""
+msgstr "Nola konfiguratu Gmail IMAP kontu bat."
 
 #. (itstool) path: page/title
 #: C/mail-access-gmail-imap-account.page:24
 msgid "Access a Gmail IMAP Account via <app>Evolution</app>"
-msgstr ""
+msgstr "Sartu Gmail IMAP kontu batera <app>Evolution</app> bidez"
 
 #. (itstool) path: page/p
 #: C/mail-access-gmail-imap-account.page:26
@@ -4644,7 +4644,7 @@ msgstr "Nola konfiguratu Gmail POP kontu bat."
 #. (itstool) path: page/title
 #: C/mail-access-gmail-pop-account.page:28
 msgid "Access a Gmail POP Account via <app>Evolution</app>"
-msgstr ""
+msgstr "Sartu Gmail POP kontu batera <app>Evolution</app> bidez"
 
 #. (itstool) path: page/p
 #: C/mail-access-gmail-pop-account.page:30
@@ -4674,12 +4674,12 @@ msgstr ""
 #. (itstool) path: item/p
 #: C/mail-access-gmail-pop-account.page:37
 msgid "Enable POP for all mail (even mail that's already been downloaded)"
-msgstr ""
+msgstr "Gaitu POP posta osorako (baita jadanik deskargatu den postarako ere)"
 
 #. (itstool) path: item/p
 #: C/mail-access-gmail-pop-account.page:38
 msgid "Enable POP for mail that arrives from now on"
-msgstr ""
+msgstr "Gaitu POP aurrerantzean iritsiko den postarako"
 
 #. (itstool) path: item/p
 #: C/mail-access-gmail-pop-account.page:41
@@ -4815,7 +4815,7 @@ msgstr "Nortasuna"
 #: C/mail-account-manage-imap-plus.page:41
 msgctxt "link"
 msgid "Receiving Email and Receiving options (IMAP+ accounts)"
-msgstr ""
+msgstr "Posta-mezuak jasotzea eta jasotzeko aukerak (IMAP+ kontuak)"
 
 #. (itstool) path: info/title
 #: C/mail-account-manage-imap-plus.page:42
@@ -4830,7 +4830,7 @@ msgstr ""
 #: C/mail-account-manage-usenet-news.page:42
 msgctxt "link:trail"
 msgid "Receiving"
-msgstr ""
+msgstr "Jasotzea"
 
 #. (itstool) path: section/title
 #: C/mail-account-manage-imap-plus.page:44
@@ -4844,13 +4844,13 @@ msgstr ""
 #: C/mail-account-manage-unix-mbox-spool-file.page:44
 #: C/mail-account-manage-usenet-news.page:44
 msgid "Receiving Email and Receiving options"
-msgstr ""
+msgstr "Posta-mezuak jasotzea eta jasotzeko aukerak"
 
 #. (itstool) path: info/title
 #: C/mail-account-manage-imap-plus.page:49
 msgctxt "link"
 msgid "Sending Email (IMAP+ accounts)"
-msgstr ""
+msgstr "Posta-mezuak bidaltzea (IMAP+ kontuak)"
 
 #. (itstool) path: info/title
 #: C/mail-account-manage-imap-plus.page:50
@@ -4863,7 +4863,7 @@ msgstr ""
 #: C/mail-account-manage-usenet-news.page:50
 msgctxt "link:trail"
 msgid "Sending"
-msgstr ""
+msgstr "Bidaltzea"
 
 #. (itstool) path: section/title
 #: C/mail-account-manage-imap-plus.page:52
@@ -4875,13 +4875,13 @@ msgstr ""
 #: C/mail-account-manage-unix-mbox-spool-file.page:52
 #: C/mail-account-manage-usenet-news.page:52
 msgid "Sending Email"
-msgstr "Mezuak bidali"
+msgstr "Mezuak bidaltzea"
 
 #. (itstool) path: info/title
 #: C/mail-account-manage-imap-plus.page:57
 msgctxt "link"
 msgid "Defaults (IMAP+ accounts)"
-msgstr ""
+msgstr "Balio lehenetsiak (IMAP+ kontuak)"
 
 #. (itstool) path: info/title
 #: C/mail-account-manage-imap-plus.page:58
@@ -4896,7 +4896,7 @@ msgstr ""
 #: C/mail-account-manage-usenet-news.page:58
 msgctxt "link:trail"
 msgid "Defaults"
-msgstr ""
+msgstr "Balio lehenetsiak"
 
 #. (itstool) path: section/title
 #: C/mail-account-manage-imap-plus.page:60
@@ -4910,13 +4910,13 @@ msgstr ""
 #: C/mail-account-manage-unix-mbox-spool-file.page:60
 #: C/mail-account-manage-usenet-news.page:60
 msgid "Defaults"
-msgstr "Lehenespenak"
+msgstr "Balio lehenetsiak"
 
 #. (itstool) path: info/title
 #: C/mail-account-manage-imap-plus.page:65
 msgctxt "link"
 msgid "Composing Messages (IMAP+ accounts)"
-msgstr ""
+msgstr "Mezuak konposatzea (IMAP+ kontuak)"
 
 #. (itstool) path: info/title
 #: C/mail-account-manage-imap-plus.page:66
@@ -4931,7 +4931,7 @@ msgstr ""
 #: C/mail-account-manage-usenet-news.page:66
 msgctxt "link:trail"
 msgid "Composing"
-msgstr ""
+msgstr "Konposatzea"
 
 #. (itstool) path: section/title
 #: C/mail-account-manage-imap-plus.page:68
@@ -4945,13 +4945,13 @@ msgstr ""
 #: C/mail-account-manage-unix-mbox-spool-file.page:68
 #: C/mail-account-manage-usenet-news.page:68
 msgid "Composing Messages"
-msgstr ""
+msgstr "Mezua konposatzea"
 
 #. (itstool) path: info/title
 #: C/mail-account-manage-imap-plus.page:73
 msgctxt "link"
 msgid "Security (IMAP+ accounts)"
-msgstr ""
+msgstr "Segurtasuna (IMAP+ kontuak)"
 
 #. (itstool) path: info/title
 #: C/mail-account-manage-imap-plus.page:74
@@ -5236,7 +5236,7 @@ msgstr ""
 #: C/mail-account-manage-microsoft-exchange-evo-ews.page:8
 msgctxt "link:trail"
 msgid "Web Services"
-msgstr ""
+msgstr "Web-zerbitzuak"
 
 #. (itstool) path: page/title
 #: C/mail-account-manage-microsoft-exchange-evo-ews.page:21
@@ -5284,7 +5284,7 @@ msgstr ""
 #. (itstool) path: section/title
 #: C/mail-account-manage-microsoft-exchange-evo-ews.page:75
 msgid "Out of Office"
-msgstr ""
+msgstr "Bulegotik kanpo"
 
 #. (itstool) path: section/p
 #: C/mail-account-manage-microsoft-exchange-evo-ews.page:76
@@ -5313,12 +5313,12 @@ msgstr ""
 #: C/mail-account-manage-microsoft-exchange-evo-mapi.page:8
 msgctxt "link:trail"
 msgid "MAPI"
-msgstr ""
+msgstr "MAPI"
 
 #. (itstool) path: page/title
 #: C/mail-account-manage-microsoft-exchange-evo-mapi.page:21
 msgid "Exchange MAPI account settings"
-msgstr ""
+msgstr "Exchange MAPI kontu-ezarpenak"
 
 #. (itstool) path: info/title
 #: C/mail-account-manage-microsoft-exchange-evo-mapi.page:37
@@ -5426,25 +5426,25 @@ msgstr "Nortasuna (POP kontuak)"
 #: C/mail-account-manage-pop.page:41
 msgctxt "link"
 msgid "Receiving Email and Receiving options (POP accounts)"
-msgstr ""
+msgstr "Posta-mezuak jasotzea eta jasotzeko aukerak (POP kontuak)"
 
 #. (itstool) path: info/title
 #: C/mail-account-manage-pop.page:49
 msgctxt "link"
 msgid "Sending Email (POP accounts)"
-msgstr ""
+msgstr "Posta-mezuak bidaltzea (POP kontuak)"
 
 #. (itstool) path: info/title
 #: C/mail-account-manage-pop.page:57
 msgctxt "link"
 msgid "Defaults (POP accounts)"
-msgstr ""
+msgstr "Balio lehenetsiak (POP kontuak)"
 
 #. (itstool) path: info/title
 #: C/mail-account-manage-pop.page:65
 msgctxt "link"
 msgid "Composing Messages (POP accounts)"
-msgstr ""
+msgstr "Mezuak konposatzea (POP kontuak)"
 
 #. (itstool) path: info/title
 #: C/mail-account-manage-pop.page:73
@@ -5468,7 +5468,7 @@ msgstr "mbox direktorioa"
 #. (itstool) path: page/title
 #: C/mail-account-manage-unix-mbox-spool-directory.page:21
 msgid "Standard Unix mbox Spool Directory account settings"
-msgstr ""
+msgstr "Unix-eko mbox ilara-direktorio estandarraren kontu-ezarpenak"
 
 #. (itstool) path: info/title
 #: C/mail-account-manage-unix-mbox-spool-directory.page:31
@@ -5572,18 +5572,18 @@ msgstr ""
 #: C/mail-account-manage-usenet-news.page:8
 msgctxt "link:trail"
 msgid "Usenet"
-msgstr ""
+msgstr "Usenet"
 
 #. (itstool) path: page/title
 #: C/mail-account-manage-usenet-news.page:21
 msgid "Usenet news account settings"
-msgstr ""
+msgstr "Usenet berrien kontu-ezarpenak"
 
 #. (itstool) path: info/title
 #: C/mail-account-manage-usenet-news.page:31
 msgctxt "link"
 msgid "Identity (Usenet News accounts)"
-msgstr ""
+msgstr "Nortasuna (Usenet berrien kontuak)"
 
 #. (itstool) path: info/title
 #: C/mail-account-manage-usenet-news.page:41
@@ -5625,7 +5625,7 @@ msgstr ""
 #: C/mail-account-manage-usenet-news.page:84
 msgctxt "link:trail"
 msgid "Other"
-msgstr ""
+msgstr "Bestelakoak"
 
 #. (itstool) path: info/desc
 #: C/mail-attachments.page:5
@@ -6523,22 +6523,22 @@ msgstr ""
 #. (itstool) path: section/title
 #: C/mail-composer-html.page:33
 msgid "Plain Text Formatting Options"
-msgstr ""
+msgstr "Testu soileko formatu-aukerak"
 
 #. (itstool) path: section/title
 #: C/mail-composer-html.page:37
 msgid "HTML-only Formatting Options"
-msgstr ""
+msgstr "HTML formatu-aukerak"
 
 #. (itstool) path: info/desc
 #: C/mail-composer-html-rule.page:5
 msgid "Insert a horizontal line in the mail composer."
-msgstr ""
+msgstr "Txertatu marra horizontala posta-konposatzailean."
 
 #. (itstool) path: page/title
 #: C/mail-composer-html-rule.page:21
 msgid "Inserting a Rule in HTML"
-msgstr ""
+msgstr "Txertatu erregela bat HTMLan"
 
 #. (itstool) path: page/p
 #: C/mail-composer-html-rule.page:23
@@ -6556,7 +6556,7 @@ msgstr ""
 #. (itstool) path: item/p
 #: C/mail-composer-html-rule.page:26
 msgid "Select width, size, and alignment."
-msgstr ""
+msgstr "Hautatu zabalera, tamaina eta lerrokatzea."
 
 #. (itstool) path: item/p
 #: C/mail-composer-html-rule.page:27
@@ -6566,12 +6566,12 @@ msgstr ""
 #. (itstool) path: info/desc
 #: C/mail-composer-html-table.page:5
 msgid "Insert a table in the mail composer."
-msgstr ""
+msgstr "Txertatu taula bat posta-konposatzailean."
 
 #. (itstool) path: page/title
 #: C/mail-composer-html-table.page:21
 msgid "Inserting a Table in HTML"
-msgstr ""
+msgstr "Txertatu taula bat HTMLan"
 
 #. (itstool) path: page/p
 #: C/mail-composer-html-table.page:23
@@ -6772,7 +6772,7 @@ msgstr ""
 #. (itstool) path: page/title
 #: C/mail-composer-mail-signatures.page:21
 msgid "Working with email signatures"
-msgstr ""
+msgstr "Posta-sinadurekin lan egitea"
 
 #. (itstool) path: page/p
 #: C/mail-composer-mail-signatures.page:23
@@ -6797,7 +6797,7 @@ msgstr ""
 #. (itstool) path: page/title
 #: C/mail-composer-mail-signatures-per-account.page:29
 msgid "Default account signature"
-msgstr ""
+msgstr "Kontu-sinadura lehenetsia"
 
 #. (itstool) path: page/p
 #: C/mail-composer-mail-signatures-per-account.page:31
@@ -7640,12 +7640,12 @@ msgstr ""
 #. (itstool) path: page/title
 #: C/mail-delete-and-undelete.page:25
 msgid "Deleting and undeleting messages"
-msgstr ""
+msgstr "Mezuak ezabatzea eta desezabatzea"
 
 #. (itstool) path: section/title
 #: C/mail-delete-and-undelete.page:28
 msgid "Deleting Messages"
-msgstr ""
+msgstr "Mezuak ezabatzea"
 
 #. (itstool) path: section/p
 #: C/mail-delete-and-undelete.page:30
@@ -7713,12 +7713,12 @@ msgstr ""
 #. (itstool) path: page/title
 #: C/mail-displaying-character-encodings.page:21
 msgid "Character Encodings"
-msgstr ""
+msgstr "Karaktere-kodeketak"
 
 #. (itstool) path: section/title
 #: C/mail-displaying-character-encodings.page:24
 msgid "Received mail"
-msgstr ""
+msgstr "Jasotako posta"
 
 #. (itstool) path: section/p
 #: C/mail-displaying-character-encodings.page:26
@@ -7796,7 +7796,7 @@ msgstr ""
 #. (itstool) path: page/title
 #: C/mail-displaying-images-in-html.page:27
 msgid "Images in HTML messages"
-msgstr ""
+msgstr "Irudiak HTML mezuetan"
 
 #. (itstool) path: page/p
 #: C/mail-displaying-images-in-html.page:29
@@ -7809,7 +7809,7 @@ msgstr ""
 #. (itstool) path: section/title
 #: C/mail-displaying-images-in-html.page:32
 msgid "Loading images"
-msgstr ""
+msgstr "Irudiak kargatzea"
 
 #. (itstool) path: section/p
 #: C/mail-displaying-images-in-html.page:33
@@ -7861,24 +7861,24 @@ msgstr ""
 #. (itstool) path: section/title
 #: C/mail-displaying-images-in-html.page:49
 msgid "Saving images"
-msgstr ""
+msgstr "Irudiak gordetzea"
 
 #. (itstool) path: section/p
 #: C/mail-displaying-images-in-html.page:50
 msgid ""
 "To save an image that is embedded in an HTML email, right-click on the image "
 "and click <gui>Save Image…</gui>."
-msgstr ""
+msgstr "HTML posta batean kapsulatuta dagoen irudi bat gordetzeko, egin eskuineko klik irudian eta aukeratu <gui>Gorde irudia…</gui>."
 
 #. (itstool) path: info/desc
 #: C/mail-displaying-message.page:5
 msgid "Rendering an email and handling its attachments."
-msgstr ""
+msgstr "Posta-mezu bat errendatzea eta bere eranskinak maneiatzea."
 
 #. (itstool) path: page/title
 #: C/mail-displaying-message.page:21
 msgid "Display of a message"
-msgstr ""
+msgstr "Mezu baten bistaratzea"
 
 #. (itstool) path: page/p
 #: C/mail-displaying-message.page:23
@@ -7907,7 +7907,7 @@ msgstr ""
 #. (itstool) path: section/title
 #: C/mail-displaying-message.page:30
 msgid "Advanced"
-msgstr ""
+msgstr "Aurreratua"
 
 #. (itstool) path: info/desc
 #: C/mail-displaying-sender-photograph.page:5
@@ -8011,7 +8011,7 @@ msgstr ""
 #. (itstool) path: section/title
 #: C/mail-duplicates.page:33
 msgid "Reasons"
-msgstr ""
+msgstr "Arrazoiak"
 
 #. (itstool) path: section/p
 #: C/mail-duplicates.page:34
@@ -8044,7 +8044,7 @@ msgstr ""
 #. (itstool) path: page/title
 #: C/mail-encryption-gpg-create-key.page:20
 msgid "Creating a GPG key"
-msgstr ""
+msgstr "GPG gako bat sortzea"
 
 #. (itstool) path: page/p
 #: C/mail-encryption-gpg-create-key.page:24
@@ -8062,24 +8062,24 @@ msgstr ""
 #. (itstool) path: info/desc
 #: C/mail-encryption-gpg-decrypting.page:5
 msgid "Decrypting and checking the signature of received GPG messages."
-msgstr ""
+msgstr "Jasotako GPG mezuak deszifratzea eta sinadura egiaztatzea."
 
 #. (itstool) path: page/title
 #: C/mail-encryption-gpg-decrypting.page:23
 msgid "Receiving messages encrypted or signed via GPG"
-msgstr ""
+msgstr "GPG bidez zifratutako edo sinatutako mezuak jasotzea"
 
 #. (itstool) path: section/title
 #: C/mail-encryption-gpg-decrypting.page:26
 msgid "Decrypting a received message"
-msgstr ""
+msgstr "Jasotako mezu bat deszifratzea"
 
 #. (itstool) path: section/p
 #: C/mail-encryption-gpg-decrypting.page:27
 msgid ""
 "If you receive an encrypted message, you need to decrypt it before you can "
 "read it."
-msgstr ""
+msgstr "Zifratutako mezu bat jasotzen baduzu, hura deszifratu behar duzu irakurri ahal izateko."
 
 #. (itstool) path: section/p
 #: C/mail-encryption-gpg-decrypting.page:28
@@ -8098,7 +8098,7 @@ msgstr ""
 #. (itstool) path: section/title
 #: C/mail-encryption-gpg-decrypting.page:33
 msgid "Checking the signature of a received message"
-msgstr ""
+msgstr "Jasotako mezu baten sinadura egiaztatzea"
 
 #. (itstool) path: section/p
 #: C/mail-encryption-gpg-decrypting.page:34
@@ -8111,12 +8111,12 @@ msgstr ""
 #. (itstool) path: info/desc
 #: C/mail-encryption-gpg-getting-keys.page:5
 msgid "Getting and Using GPG Public Keys."
-msgstr ""
+msgstr "GPG gako publikoak eskuratzea eta erabiltzea."
 
 #. (itstool) path: page/title
 #: C/mail-encryption-gpg-getting-keys.page:23
 msgid "Getting and using GPG public keys"
-msgstr ""
+msgstr "GPG gako publikoak eskuratzea eta erabiltzea"
 
 #. (itstool) path: page/p
 #: C/mail-encryption-gpg-getting-keys.page:25
@@ -8168,7 +8168,7 @@ msgstr ""
 #: C/mail-encryption-gpg-signing-encrypting.page:38
 #: C/mail-encryption-s-mime-signing-encrypting.page:33
 msgid "Click the <gui>Security</gui> tab."
-msgstr ""
+msgstr "Egin klik <gui>Segurtasuna</gui> fitxan."
 
 #. (itstool) path: item/p
 #: C/mail-encryption-gpg-set-up.page:32
@@ -8186,7 +8186,7 @@ msgstr ""
 #: C/mail-encryption-gpg-set-up.page:36
 #: C/mail-encryption-gpg-signing-encrypting.page:41
 msgid "Click <gui style=\"button\">Close</gui>."
-msgstr ""
+msgstr "Egin klik <gui style=\"button\">Itxi</gui> aukeran."
 
 #. (itstool) path: page/p
 #: C/mail-encryption-gpg-set-up.page:38
@@ -8207,7 +8207,7 @@ msgstr ""
 #: C/mail-encryption-gpg-signing-encrypting.page:23
 #: C/mail-encryption-s-mime-signing-encrypting.page:23
 msgid "Signing or encrypting messages"
-msgstr ""
+msgstr "Mezuak sinatzea edo zifratzea"
 
 #. (itstool) path: page/p
 #: C/mail-encryption-gpg-signing-encrypting.page:30
@@ -8243,7 +8243,7 @@ msgstr ""
 #: C/mail-encryption-gpg-signing-encrypting.page:37
 #: C/mail-encryption-s-mime-signing-encrypting.page:32 C/mail-filters.page:60
 msgid "Click <gui style=\"button\">Edit</gui>."
-msgstr ""
+msgstr "Egin klik <gui style=\"button\">Editatu</gui> aukeran."
 
 #. (itstool) path: item/p
 #: C/mail-encryption-gpg-signing-encrypting.page:39
@@ -8254,12 +8254,12 @@ msgstr ""
 #. (itstool) path: info/desc
 #: C/mail-encryption.page:5
 msgid "Sending and receiving encrypted mail."
-msgstr ""
+msgstr "Zifratutako posta-mezuak bidaltzea eta jasotzea."
 
 #. (itstool) path: page/title
 #: C/mail-encryption.page:30
 msgid "Mail encryption and certificates"
-msgstr ""
+msgstr "Posta-zifratzea eta ziurtagiriak"
 
 #. (itstool) path: page/p
 #: C/mail-encryption.page:32
@@ -8272,22 +8272,22 @@ msgstr ""
 #. (itstool) path: section/title
 #: C/mail-encryption.page:35
 msgid "GPG"
-msgstr ""
+msgstr "GPG"
 
 #. (itstool) path: section/title
 #: C/mail-encryption.page:39
 msgid "S/MIME"
-msgstr ""
+msgstr "S/MIME"
 
 #. (itstool) path: info/desc
 #: C/mail-encryption-s-mime-manage.page:5
 msgid "Adding, editing, viewing and deleting S/MIME certificates."
-msgstr ""
+msgstr "S/MIME ziurtagiriak gehitzea, editatzea, ikustea eta ezabatzea."
 
 #. (itstool) path: page/title
 #: C/mail-encryption-s-mime-manage.page:23
 msgid "Managing S/MIME certificates"
-msgstr ""
+msgstr "S/MIME ziurtagiriak kudeatzea"
 
 #. (itstool) path: page/p
 #: C/mail-encryption-s-mime-manage.page:25
@@ -8376,7 +8376,7 @@ msgstr ""
 #. (itstool) path: page/title
 #: C/mail-filters-actions.page:23
 msgid "Available Filter actions"
-msgstr ""
+msgstr "Iragazki-aukera erabilgarriak"
 
 #. (itstool) path: item/p
 #: C/mail-filters-actions.page:26
@@ -8386,17 +8386,17 @@ msgstr "Eraman karpeta honetara:"
 #. (itstool) path: item/p
 #: C/mail-filters-actions.page:27
 msgid "Moves the message into a folder you specify."
-msgstr ""
+msgstr "Mezua zuk zehaztutako karpeta batera eramaten du."
 
 #. (itstool) path: item/p
 #: C/mail-filters-actions.page:29
 msgid "Copy to Folder:"
-msgstr "Kopiatu karpeta honetara:"
+msgstr "Kopiatu karpeta honetan:"
 
 #. (itstool) path: item/p
 #: C/mail-filters-actions.page:30
 msgid "Puts a copy of the message into a folder you specify."
-msgstr ""
+msgstr "Mezuaren kopia bat zurk zehaztutako karpetan uzten du."
 
 #. (itstool) path: item/p
 #: C/mail-filters-actions.page:32
@@ -9362,7 +9362,7 @@ msgstr ""
 #. (itstool) path: page/title
 #: C/mail-organizing.page:21
 msgid "Sorting and organizing mail"
-msgstr ""
+msgstr "Posta-mezuak ordenatzea eta antolatzea"
 
 #. (itstool) path: page/p
 #: C/mail-organizing.page:23
@@ -9374,7 +9374,7 @@ msgstr ""
 #. (itstool) path: section/title
 #: C/mail-organizing.page:26
 msgid "Advanced Options"
-msgstr ""
+msgstr "Aukera aurreratuak"
 
 #. (itstool) path: info/desc
 #: C/mail-read-receipts.page:5
@@ -9507,7 +9507,7 @@ msgstr ""
 #. (itstool) path: item/p
 #: C/mail-receiving-options-exchange-ews.page:28
 msgid "Enter your username for that server."
-msgstr ""
+msgstr "Sartu zerbitzari horretarako zure erabiltzaile-izena."
 
 #. (itstool) path: item/p
 #: C/mail-receiving-options-exchange-ews.page:29
@@ -9761,17 +9761,17 @@ msgstr ""
 #. (itstool) path: page/title
 #: C/mail-receiving-options.page:18
 msgid "Mail Receiving Options"
-msgstr ""
+msgstr "Posta jasotzeko aukerak"
 
 #. (itstool) path: section/title
 #: C/mail-receiving-options.page:21
 msgid "Mail receiving options for common server types"
-msgstr ""
+msgstr "Posta jasotzeko aukerak zerbitzari mota arruntetan"
 
 #. (itstool) path: section/title
 #: C/mail-receiving-options.page:24
 msgid "Mail receiving options for corporate server types"
-msgstr ""
+msgstr "Posta jasotzeko aukerak enpresako zerbitzari motetan"
 
 #. (itstool) path: section/title
 #: C/mail-receiving-options.page:27
@@ -9781,7 +9781,7 @@ msgstr ""
 #. (itstool) path: info/desc
 #: C/mail-receiving-options-pop.page:5
 msgid "Receiving options for POP accounts."
-msgstr ""
+msgstr "Jasotzeko aukerak POP kontuetarako."
 
 #. (itstool) path: item/p
 #: C/mail-receiving-options-pop.page:51
@@ -9880,12 +9880,12 @@ msgstr ""
 #. (itstool) path: info/desc
 #: C/mail-save-as-pdf.page:5
 msgid "Converting emails into PDF files."
-msgstr ""
+msgstr "Posta-mezuak PDF fitxategi bihurtzea."
 
 #. (itstool) path: page/title
 #: C/mail-save-as-pdf.page:20
 msgid "Save messages as PDF"
-msgstr ""
+msgstr "Gorde mezuak PDF gisa"
 
 #. (itstool) path: page/p
 #: C/mail-save-as-pdf.page:22
@@ -9914,7 +9914,7 @@ msgstr ""
 #. (itstool) path: info/desc
 #: C/mail-search-folders-add.page:5
 msgid "Setting up a search folder."
-msgstr ""
+msgstr "Bilaketa-karpeta bat konfiguratzea"
 
 #. (itstool) path: page/title
 #: C/mail-search-folders-add.page:23
@@ -10118,12 +10118,12 @@ msgstr ""
 #. (itstool) path: info/desc
 #: C/mail-searching-attachment-type.page:5
 msgid "Unfortunately this is not possible."
-msgstr ""
+msgstr "Zoritxarrez hori ez da posible."
 
 #. (itstool) path: page/title
 #: C/mail-searching-attachment-type.page:21
 msgid "Searching for emails with a specific attachment type"
-msgstr ""
+msgstr "Eranskin mota jakin bat duten posta-mezuak bilatzea"
 
 #. (itstool) path: page/p
 #: C/mail-searching-attachment-type.page:23
@@ -10135,17 +10135,17 @@ msgstr ""
 #. (itstool) path: info/desc
 #: C/mail-searching.page:5
 msgid "Searching messages."
-msgstr ""
+msgstr "Mezuak bilatzea."
 
 #. (itstool) path: page/title
 #: C/mail-searching.page:28
 msgid "Searching Mail"
-msgstr ""
+msgstr "Posta bilatzea"
 
 #. (itstool) path: section/title
 #: C/mail-searching.page:31
 msgid "Searching in a Single Message"
-msgstr ""
+msgstr "Mezu bakar baten barruan bilatzea"
 
 #. (itstool) path: section/p
 #: C/mail-searching.page:32
@@ -10157,7 +10157,7 @@ msgstr ""
 #. (itstool) path: section/title
 #: C/mail-searching.page:36
 msgid "Searching Across Messages"
-msgstr ""
+msgstr "Mezuen artean bilatzea"
 
 #. (itstool) path: section/p
 #: C/mail-searching.page:40
@@ -10243,17 +10243,17 @@ msgstr ""
 #. (itstool) path: td/p
 #: C/mail-searching.page:68
 msgid "Tag"
-msgstr ""
+msgstr "Etiketa"
 
 #. (itstool) path: td/p
 #: C/mail-searching.page:68 C/mail-searching.page:100
 msgid "Abbreviation"
-msgstr ""
+msgstr "Laburdura"
 
 #. (itstool) path: td/p
 #: C/mail-searching.page:68 C/mail-searching.page:100 C/mail-searching.page:124
 msgid "Meaning"
-msgstr ""
+msgstr "Esanahia"
 
 #. (itstool) path: td/p
 #. Translators: 'From' is a header name, do not translate it
@@ -10435,7 +10435,7 @@ msgstr ""
 #. (itstool) path: td/p
 #: C/mail-searching.page:100
 msgid "Option"
-msgstr ""
+msgstr "Aukera"
 
 #. (itstool) path: td/p
 #: C/mail-searching.page:101
@@ -10520,7 +10520,7 @@ msgstr ""
 #. (itstool) path: td/p
 #: C/mail-searching.page:124
 msgid "Expression"
-msgstr ""
+msgstr "Adierazpena"
 
 #. (itstool) path: td/p
 #: C/mail-searching.page:125
@@ -11842,7 +11842,7 @@ msgstr ""
 #. (itstool) path: page/title
 #: C/memos-usage-delete-memo.page:20
 msgid "Deleting a Memo"
-msgstr ""
+msgstr "Zirkular bat ezabatzea"
 
 #. (itstool) path: page/p
 #: C/memos-usage-delete-memo.page:22
@@ -11856,12 +11856,12 @@ msgstr ""
 #. (itstool) path: info/desc
 #: C/memos-usage-edit-memo.page:5
 msgid "Editing a memo in your memo list."
-msgstr ""
+msgstr "Zure zirkularren zerrendako zirkular bat editatzea."
 
 #. (itstool) path: page/title
 #: C/memos-usage-edit-memo.page:20
 msgid "Editing a Memo"
-msgstr ""
+msgstr "Zirkular bat editatzea"
 
 #. (itstool) path: page/p
 #: C/memos-usage-edit-memo.page:22
@@ -11878,17 +11878,17 @@ msgstr ""
 #. (itstool) path: item/p
 #: C/memos-usage-edit-memo.page:26
 msgid "Edit the memo information."
-msgstr ""
+msgstr "Editatu zirkularraren informazioa."
 
 #. (itstool) path: info/desc
 #: C/memos-usage.page:5
 msgid "On adding, editing, and deleting memos."
-msgstr ""
+msgstr "Zirkularrak gehitzea, editatzea eta ezabatzea."
 
 #. (itstool) path: page/title
 #: C/memos-usage.page:20
 msgid "Add, Edit and Delete Memos"
-msgstr ""
+msgstr "Gehitu, editatu eta ezabatu zirkularrak"
 
 #. (itstool) path: note/p
 #: C/memos-usage.page:22
@@ -11954,17 +11954,17 @@ msgstr ""
 #. (itstool) path: page/title
 #: C/organizing.page:18
 msgid "Sorting and organizing"
-msgstr ""
+msgstr "Ordenatzea eta antolatzea"
 
 #. (itstool) path: info/desc
 #: C/problems-debug-how-to.page:5
 msgid "How to provide good information when tracking down a problem."
-msgstr ""
+msgstr "Nola eman informazio egokia arazo baten aztarna bidaltzean"
 
 #. (itstool) path: page/title
 #: C/problems-debug-how-to.page:21
 msgid "How to track down a problem"
-msgstr ""
+msgstr "Nola zehaztu arazo bat"
 
 #. (itstool) path: page/p
 #: C/problems-debug-how-to.page:23
@@ -12337,7 +12337,7 @@ msgstr ""
 #. (itstool) path: page/title
 #: C/tasks-usage-add-task.page:23
 msgid "Adding a Task"
-msgstr ""
+msgstr "Zeregin bat gehitzea"
 
 #. (itstool) path: item/p
 #: C/tasks-usage-add-task.page:26
@@ -12354,7 +12354,7 @@ msgstr ""
 #. (itstool) path: item/p
 #: C/tasks-usage-add-task.page:28
 msgid "Enter the task information."
-msgstr ""
+msgstr "Sartu zereginaren informazioa."
 
 #. (itstool) path: page/p
 #: C/tasks-usage-add-task.page:32
@@ -12409,12 +12409,12 @@ msgstr ""
 #. (itstool) path: info/desc
 #: C/tasks-usage-delete-task.page:5
 msgid "Deleting a task from your task list."
-msgstr ""
+msgstr "Zeregin bat zereginen zerrendatik ezabatzea."
 
 #. (itstool) path: page/title
 #: C/tasks-usage-delete-task.page:20
 msgid "Deleting a Task"
-msgstr ""
+msgstr "Zeregin bat ezabatzea"
 
 #. (itstool) path: page/p
 #: C/tasks-usage-delete-task.page:22
@@ -12428,12 +12428,12 @@ msgstr ""
 #. (itstool) path: info/desc
 #: C/tasks-usage-edit-task.page:5
 msgid "Editing a task in your task list."
-msgstr ""
+msgstr "Zereginen zerrendako zeregin bat editatzea"
 
 #. (itstool) path: page/title
 #: C/tasks-usage-edit-task.page:20
 msgid "Editing a Task"
-msgstr ""
+msgstr "Zeregin bat editatzea"
 
 #. (itstool) path: page/p
 #: C/tasks-usage-edit-task.page:22
@@ -12450,17 +12450,17 @@ msgstr ""
 #. (itstool) path: item/p
 #: C/tasks-usage-edit-task.page:26
 msgid "Edit the task information."
-msgstr ""
+msgstr "Editatu zereginaren informazioa."
 
 #. (itstool) path: info/desc
 #: C/tasks-usage.page:5
 msgid "On adding, editing, and deleting tasks."
-msgstr ""
+msgstr "Zereginak gehitzea, editatzea eta ezabatzea."
 
 #. (itstool) path: page/title
 #: C/tasks-usage.page:20
 msgid "Add, Edit, and Delete Tasks"
-msgstr ""
+msgstr "Gehitu, editatu eta ezabatu zereginak"
 
 #. (itstool) path: info/desc
 #: C/tasks-using-several-tasklists.page:5
@@ -12547,7 +12547,7 @@ msgstr ""
 #. (itstool) path: section/title
 #: C/using-categories.page:32
 msgid "Setting categories for an object"
-msgstr ""
+msgstr "Objektu baten kategoriak ezartzea"
 
 #. (itstool) path: section/p
 #: C/using-categories.page:34
@@ -12576,7 +12576,7 @@ msgstr "Hautatu kategoria zerrendan. Nahi adina kategoria hauta ditzakezu."
 #. (itstool) path: section/title
 #: C/using-categories.page:44
 msgid "Adding and managing categories"
-msgstr ""
+msgstr "Kategoriak gehitzea eta kudeatzea"
 
 #. (itstool) path: section/p
 #: C/using-categories.page:46
@@ -12635,17 +12635,17 @@ msgstr "Mezuaren hartzaileak."
 #. (itstool) path: item/p
 #: C/xinclude-filter-vfolder-conditions.xml:9
 msgid "CC:"
-msgstr ""
+msgstr "CC:"
 
 #. (itstool) path: item/p
 #: C/xinclude-filter-vfolder-conditions.xml:10
 msgid "Only the CC recipients of the message."
-msgstr ""
+msgstr "Mezu honen CC hartzaileak soilik."
 
 #. (itstool) path: item/p
 #: C/xinclude-filter-vfolder-conditions.xml:12
 msgid "BCC:"
-msgstr ""
+msgstr "BCC:"
 
 #. (itstool) path: item/p
 #: C/xinclude-filter-vfolder-conditions.xml:13
@@ -12657,7 +12657,7 @@ msgstr ""
 #. (itstool) path: item/p
 #: C/xinclude-filter-vfolder-conditions.xml:15
 msgid "Sender or Recipients:"
-msgstr ""
+msgstr "Bidaltzailea edo hartzaileak:"
 
 #. (itstool) path: item/p
 #: C/xinclude-filter-vfolder-conditions.xml:16
@@ -12684,7 +12684,7 @@ msgstr "Goiburu espezifikoa:"
 #. (itstool) path: p/link
 #: C/xinclude-filter-vfolder-conditions.xml:22
 msgid "custom ones"
-msgstr ""
+msgstr "pertsonalizatuak"
 
 #. (itstool) path: item/p
 #: C/xinclude-filter-vfolder-conditions.xml:22
@@ -12727,7 +12727,7 @@ msgstr "Adierazpena:"
 #. (itstool) path: p/link
 #: C/xinclude-filter-vfolder-conditions.xml:29
 msgid "filters"
-msgstr ""
+msgstr "iragazkiak"
 
 #. (itstool) path: item/p
 #: C/xinclude-filter-vfolder-conditions.xml:29
@@ -12744,7 +12744,7 @@ msgstr ""
 #. (itstool) path: p/link
 #: C/xinclude-filter-vfolder-conditions.xml:32
 msgid "special syntax"
-msgstr ""
+msgstr "sintaxi berezia"
 
 #. (itstool) path: item/p
 #: C/xinclude-filter-vfolder-conditions.xml:32
@@ -12789,7 +12789,7 @@ msgstr "Etiketa:"
 #. (itstool) path: p/link
 #: C/xinclude-filter-vfolder-conditions.xml:41
 msgid "labels"
-msgstr ""
+msgstr "etiketak"
 
 #. (itstool) path: item/p
 #: C/xinclude-filter-vfolder-conditions.xml:41
@@ -12816,7 +12816,7 @@ msgstr "Mezuaren puntuazioan 0 baino handiagoak diren zenbakiak jartzen ditu. Ir
 #. (itstool) path: item/p
 #: C/xinclude-filter-vfolder-conditions.xml:46
 msgid "Size (kB):"
-msgstr ""
+msgstr "Tamaina (kB):"
 
 #. (itstool) path: item/p
 #: C/xinclude-filter-vfolder-conditions.xml:47
@@ -12907,7 +12907,7 @@ msgstr "Bilaketa aurreratua"
 #: C/xinclude-searching.xml:6 C/xinclude-searching.xml:15
 #: C/xinclude-searching.xml:21 C/xinclude-searching.xml:27
 msgid "Search"
-msgstr ""
+msgstr "Bilatu"
 
 #. (itstool) path: item/p
 #: C/xinclude-searching.xml:6
@@ -12917,7 +12917,7 @@ msgstr ""
 #. (itstool) path: p/gui
 #: C/xinclude-searching.xml:7
 msgid "Add Condition"
-msgstr ""
+msgstr "Gehitu baldintza"
 
 #. (itstool) path: item/p
 #: C/xinclude-searching.xml:7
@@ -12951,12 +12951,12 @@ msgstr ""
 #. (itstool) path: guiseq/gui
 #: C/xinclude-searching.xml:15
 msgid "Clear"
-msgstr ""
+msgstr "Garbitu"
 
 #. (itstool) path: keyseq/key
 #: C/xinclude-searching.xml:15
 msgid "Shift"
-msgstr ""
+msgstr "⇧"
 
 #. (itstool) path: keyseq/key
 #: C/xinclude-searching.xml:15
@@ -12979,7 +12979,7 @@ msgstr ""
 #. (itstool) path: section/title
 #: C/xinclude-searching.xml:19
 msgid "Saved Searches"
-msgstr ""
+msgstr "Gordetako bilaketak"
 
 #. (itstool) path: section/p
 #: C/xinclude-searching.xml:20
@@ -12991,7 +12991,7 @@ msgstr ""
 #. (itstool) path: p/gui
 #: C/xinclude-searching.xml:21
 msgid "Save"
-msgstr ""
+msgstr "Gorde"
 
 #. (itstool) path: guiseq/gui
 #: C/xinclude-searching.xml:21
@@ -13010,12 +13010,12 @@ msgstr ""
 #. (itstool) path: section/title
 #: C/xinclude-searching.xml:25
 msgid "Editing a Saved Search"
-msgstr ""
+msgstr "Gordetako bilaketa bat editatzea"
 
 #. (itstool) path: guiseq/gui
 #: C/xinclude-searching.xml:27
 msgid "Edit Saved Searches"
-msgstr ""
+msgstr "Editatu gordetako bilaketak"
 
 #. (itstool) path: item/p
 #: C/xinclude-searching.xml:27
@@ -13025,7 +13025,7 @@ msgstr ""
 #. (itstool) path: p/gui
 #: C/xinclude-searching.xml:28
 msgid "Edit"
-msgstr ""
+msgstr "Editatu"
 
 #. (itstool) path: p/gui
 #: C/xinclude-searching.xml:28
@@ -13035,7 +13035,7 @@ msgstr "Editatu araua"
 #. (itstool) path: item/p
 #: C/xinclude-searching.xml:28
 msgid "Click the <_:gui-1/> button to open the <_:gui-2/> window."
-msgstr ""
+msgstr "Egin klik <_:gui-1/> botoian <_:gui-2/> leihoa irekitzeko."
 
 #. (itstool) path: item/p
 #: C/xinclude-searching.xml:29
@@ -13045,7 +13045,7 @@ msgstr ""
 #. (itstool) path: item/p
 #: C/xinclude-searching.xml:30
 msgid "Click <_:gui-1/>."
-msgstr ""
+msgstr "Egin klik <_:gui-1/> aukeran."
 
 #~ msgid "Andre Klapper"
 #~ msgstr "Andre Klapper"
