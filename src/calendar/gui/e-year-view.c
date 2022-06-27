@@ -1128,7 +1128,7 @@ year_view_add_component (EYearView *self,
 	if (cd) {
 		guint day_of_year = year_view_get_current_day_of_year (self);
 
-		/* Updat the list view */
+		/* Update the list view */
 		if (day_of_year >= day_from && day_of_year <= day_to) {
 			GtkTreeModel *model;
 			GtkTreeIter iter;
@@ -1160,6 +1160,14 @@ year_view_add_component (EYearView *self,
 
 						g_free (summary);
 						g_free (tooltip);
+
+						if (self->priv->preview_visible) {
+							GtkTreeSelection *selection;
+
+							selection = gtk_tree_view_get_selection (self->priv->tree_view);
+							if (gtk_tree_selection_iter_is_selected (selection, &iter))
+								g_signal_emit_by_name (selection, "changed", 0, NULL);
+						}
 
 						break;
 					}
@@ -1250,6 +1258,8 @@ year_view_selection_changed_cb (GtkTreeSelection *in_selection, /* can be NULL *
 		return;
 	}
 
+	e_cal_component_preview_clear (self->priv->preview);
+
 	selection = gtk_tree_view_get_selection (self->priv->tree_view);
 
 	if (gtk_tree_selection_count_selected_rows (selection) == 1) {
@@ -1270,13 +1280,9 @@ year_view_selection_changed_cb (GtkTreeSelection *in_selection, /* can be NULL *
 			e_cal_component_preview_display (self->priv->preview,
 				cd->client, cd->comp, e_cal_data_model_get_timezone (self->priv->data_model),
 				self->priv->use_24hour_format);
-		} else {
-			e_cal_component_preview_clear (self->priv->preview);
 		}
 
 		g_list_free_full (selected, (GDestroyNotify) gtk_tree_path_free);
-	} else {
-		e_cal_component_preview_clear (self->priv->preview);
 	}
 
 	g_signal_emit_by_name (self, "selection-changed");
