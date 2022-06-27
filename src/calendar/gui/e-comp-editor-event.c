@@ -889,7 +889,7 @@ e_comp_editor_event_constructed (GObject *object)
 	part = e_comp_editor_property_part_location_new (focus_tracker);
 	e_comp_editor_page_add_property_part (page, part, 0, 3, 3, 1);
 
-	part = e_comp_editor_property_part_dtstart_new (C_("ECompEditor", "_Start time:"), FALSE, FALSE);
+	part = e_comp_editor_property_part_dtstart_new (C_("ECompEditor", "_Start time:"), FALSE, FALSE, TRUE);
 	e_comp_editor_page_add_property_part (page, part, 0, 4, 2, 1);
 	e_comp_editor_property_part_set_sensitize_handled (part, TRUE);
 	event_editor->priv->dtstart = part;

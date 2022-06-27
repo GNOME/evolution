@@ -249,6 +249,32 @@ calendar_preferences_map_gdk_color_to_string (const GValue *value,
 	return variant;
 }
 
+static gboolean
+calendar_preferences_shorten_time_kind_to_object_cb (GValue *value,
+						     GVariant *variant,
+						     gpointer user_data)
+{
+	gboolean shorten_time_end;
+
+	shorten_time_end = g_variant_get_boolean (variant);
+
+	g_value_set_string (value, shorten_time_end ? "end" : "start");
+
+	return TRUE;
+}
+
+static GVariant *
+calendar_preferences_shorten_time_kind_to_settings_cb (const GValue *value,
+						       const GVariantType *expected_type,
+						       gpointer user_data)
+{
+	const gchar *string;
+
+	string = g_value_get_string (value);
+
+	return g_variant_new_boolean (g_strcmp0 (string, "end") == 0);
+}
+
 static void
 calendar_preferences_dispose (GObject *object)
 {
@@ -856,11 +882,20 @@ calendar_preferences_construct (ECalendarPreferences *prefs,
 		widget, "active",
 		G_SETTINGS_BIND_DEFAULT);
 
-	widget = e_builder_get_widget (prefs->priv->builder, "shorten_end_time_interval");
+	widget = e_builder_get_widget (prefs->priv->builder, "shorten_time_interval");
 	g_settings_bind (
-		settings, "shorten-end-time",
+		settings, "shorten-time",
 		widget, "value",
 		G_SETTINGS_BIND_DEFAULT);
+
+	widget = e_builder_get_widget (prefs->priv->builder, "shorten_time_kind");
+	g_settings_bind_with_mapping (
+		settings, "shorten-time-end",
+		widget, "active-id",
+		G_SETTINGS_BIND_DEFAULT,
+		calendar_preferences_shorten_time_kind_to_object_cb,
+		calendar_preferences_shorten_time_kind_to_settings_cb,
+		NULL, NULL);
 
 	widget = e_builder_get_widget (prefs->priv->builder, "confirm_delete");
 	g_settings_bind (

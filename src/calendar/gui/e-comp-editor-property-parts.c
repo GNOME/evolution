@@ -1338,6 +1338,9 @@ typedef struct _ECompEditorPropertyPartDtstartClass ECompEditorPropertyPartDtsta
 
 struct _ECompEditorPropertyPartDtstart {
 	ECompEditorPropertyPartDatetimeLabeled parent;
+
+	gint shorten_time;
+	gboolean shorten_end;
 };
 
 struct _ECompEditorPropertyPartDtstartClass {
@@ -1348,27 +1351,127 @@ GType e_comp_editor_property_part_dtstart_get_type (void) G_GNUC_CONST;
 
 G_DEFINE_TYPE (ECompEditorPropertyPartDtstart, e_comp_editor_property_part_dtstart, E_TYPE_COMP_EDITOR_PROPERTY_PART_DATETIME_LABELED)
 
+enum {
+	PROP_DTSTART_0,
+	PROP_DTSTART_SHORTEN_TIME,
+	PROP_DTSTART_SHORTEN_END
+};
+
 static void
 e_comp_editor_property_part_dtstart_init (ECompEditorPropertyPartDtstart *part_dtstart)
 {
+	part_dtstart->shorten_time = 0;
+	part_dtstart->shorten_end = TRUE;
+}
+
+static void
+e_comp_editor_property_part_dtstart_get_property (GObject *object,
+						  guint property_id,
+						  GValue *value,
+						  GParamSpec *pspec)
+{
+	ECompEditorPropertyPartDtstart *part_dtstart = E_COMP_EDITOR_PROPERTY_PART_DTSTART (object);
+
+	g_return_if_fail (part_dtstart != NULL);
+
+	switch (property_id) {
+		case PROP_DTSTART_SHORTEN_TIME:
+			g_value_set_int (value, part_dtstart->shorten_time);
+			return;
+
+		case PROP_DTSTART_SHORTEN_END:
+			g_value_set_boolean (value, part_dtstart->shorten_end);
+			return;
+	}
+
+	G_OBJECT_WARN_INVALID_PROPERTY_ID (object, property_id, pspec);
+}
+
+static void
+e_comp_editor_property_part_dtstart_set_property (GObject *object,
+						  guint property_id,
+						  const GValue *value,
+						  GParamSpec *pspec)
+{
+	ECompEditorPropertyPartDtstart *part_dtstart = E_COMP_EDITOR_PROPERTY_PART_DTSTART (object);
+
+	g_return_if_fail (part_dtstart != NULL);
+
+	switch (property_id) {
+		case PROP_DTSTART_SHORTEN_TIME:
+			if (part_dtstart->shorten_time != g_value_get_int (value)) {
+				part_dtstart->shorten_time = g_value_get_int (value);
+
+				if (!part_dtstart->shorten_end) {
+					GtkWidget *edit_widget;
+
+					edit_widget = e_comp_editor_property_part_get_edit_widget (E_COMP_EDITOR_PROPERTY_PART (part_dtstart));
+
+					e_date_edit_set_shorten_time (E_DATE_EDIT (edit_widget), part_dtstart->shorten_time);
+				}
+
+				g_object_notify (object, "shorten-time");
+			}
+			return;
+		case PROP_DTSTART_SHORTEN_END:
+			if (!part_dtstart->shorten_end != !g_value_get_boolean (value)) {
+				GtkWidget *edit_widget;
+
+				part_dtstart->shorten_end = g_value_get_boolean (value);
+
+				edit_widget = e_comp_editor_property_part_get_edit_widget (E_COMP_EDITOR_PROPERTY_PART (part_dtstart));
+
+				if (part_dtstart->shorten_end)
+					e_date_edit_set_shorten_time (E_DATE_EDIT (edit_widget), 0);
+				else
+					e_date_edit_set_shorten_time (E_DATE_EDIT (edit_widget), part_dtstart->shorten_time);
+
+				g_object_notify (object, "shorten-end");
+			}
+			return;
+	}
+
+	G_OBJECT_WARN_INVALID_PROPERTY_ID (object, property_id, pspec);
 }
 
 static void
 e_comp_editor_property_part_dtstart_class_init (ECompEditorPropertyPartDtstartClass *klass)
 {
 	ECompEditorPropertyPartDatetimeClass *part_datetime_class;
+	GObjectClass *object_class;
 
 	part_datetime_class = E_COMP_EDITOR_PROPERTY_PART_DATETIME_CLASS (klass);
 	part_datetime_class->prop_kind = I_CAL_DTSTART_PROPERTY;
 	part_datetime_class->i_cal_new_func = i_cal_property_new_dtstart;
 	part_datetime_class->i_cal_set_func = i_cal_property_set_dtstart;
 	part_datetime_class->i_cal_get_func = i_cal_property_get_dtstart;
+
+	object_class = G_OBJECT_CLASS (klass);
+	object_class->get_property = e_comp_editor_property_part_dtstart_get_property;
+	object_class->set_property = e_comp_editor_property_part_dtstart_set_property;
+
+	g_object_class_install_property (
+		object_class,
+		PROP_DTSTART_SHORTEN_TIME,
+		g_param_spec_int (
+			"shorten-time", NULL, NULL,
+			0, 29, 0,
+			G_PARAM_READWRITE | G_PARAM_STATIC_STRINGS | G_PARAM_EXPLICIT_NOTIFY));
+
+	g_object_class_install_property (
+		object_class,
+		PROP_DTSTART_SHORTEN_END,
+		g_param_spec_boolean (
+			"shorten-end", NULL, NULL,
+			TRUE,
+			G_PARAM_READWRITE | G_PARAM_STATIC_STRINGS | G_PARAM_EXPLICIT_NOTIFY));
 }
 
 ECompEditorPropertyPart *
 e_comp_editor_property_part_dtstart_new (const gchar *label,
 					 gboolean date_only,
-					 gboolean allow_no_date_set)
+					 gboolean allow_no_date_set,
+					 gboolean allow_shorten_time)
 {
 	ECompEditorPropertyPart *part;
 
@@ -1379,6 +1482,31 @@ e_comp_editor_property_part_dtstart_new (const gchar *label,
 	e_comp_editor_property_part_datetime_labeled_setup (
 		E_COMP_EDITOR_PROPERTY_PART_DATETIME_LABELED (part),
 		date_only, allow_no_date_set);
+
+	if (allow_shorten_time) {
+		GtkWidget *edit_widget;
+
+		edit_widget = e_comp_editor_property_part_get_edit_widget (part);
+		if (E_IS_DATE_EDIT (edit_widget)) {
+			GSettings *settings;
+
+			e_date_edit_set_shorten_time_end (E_DATE_EDIT (edit_widget), FALSE);
+
+			settings = e_util_ref_settings ("org.gnome.evolution.calendar");
+
+			g_settings_bind (settings, "shorten-time",
+				part, "shorten-time",
+				G_SETTINGS_BIND_GET | G_SETTINGS_BIND_NO_SENSITIVITY);
+
+			g_settings_bind (settings, "shorten-time-end",
+				part, "shorten-end",
+				G_SETTINGS_BIND_GET | G_SETTINGS_BIND_NO_SENSITIVITY);
+
+			g_object_unref (settings);
+		} else {
+			g_warn_if_reached ();
+		}
+	}
 
 	return part;
 }
@@ -1399,6 +1527,9 @@ typedef struct _ECompEditorPropertyPartDtendClass ECompEditorPropertyPartDtendCl
 
 struct _ECompEditorPropertyPartDtend {
 	ECompEditorPropertyPartDatetimeLabeled parent;
+
+	gint shorten_time;
+	gboolean shorten_end;
 };
 
 struct _ECompEditorPropertyPartDtendClass {
@@ -1409,21 +1540,120 @@ GType e_comp_editor_property_part_dtend_get_type (void) G_GNUC_CONST;
 
 G_DEFINE_TYPE (ECompEditorPropertyPartDtend, e_comp_editor_property_part_dtend, E_TYPE_COMP_EDITOR_PROPERTY_PART_DATETIME_LABELED)
 
+enum {
+	PROP_DTEND_0,
+	PROP_DTEND_SHORTEN_TIME,
+	PROP_DTEND_SHORTEN_END
+};
+
 static void
 e_comp_editor_property_part_dtend_init (ECompEditorPropertyPartDtend *part_dtend)
 {
+	part_dtend->shorten_time = 0;
+	part_dtend->shorten_end = FALSE;
+}
+
+static void
+e_comp_editor_property_part_dtend_get_property (GObject *object,
+						guint property_id,
+						GValue *value,
+						GParamSpec *pspec)
+{
+	ECompEditorPropertyPartDtend *part_dtend = E_COMP_EDITOR_PROPERTY_PART_DTEND (object);
+
+	g_return_if_fail (part_dtend != NULL);
+
+	switch (property_id) {
+		case PROP_DTEND_SHORTEN_TIME:
+			g_value_set_int (value, part_dtend->shorten_time);
+			return;
+
+		case PROP_DTEND_SHORTEN_END:
+			g_value_set_boolean (value, part_dtend->shorten_end);
+			return;
+	}
+
+	G_OBJECT_WARN_INVALID_PROPERTY_ID (object, property_id, pspec);
+}
+
+static void
+e_comp_editor_property_part_dtend_set_property (GObject *object,
+						guint property_id,
+						const GValue *value,
+						GParamSpec *pspec)
+{
+	ECompEditorPropertyPartDtend *part_dtend = E_COMP_EDITOR_PROPERTY_PART_DTEND (object);
+
+	g_return_if_fail (part_dtend != NULL);
+
+	switch (property_id) {
+		case PROP_DTEND_SHORTEN_TIME:
+			if (part_dtend->shorten_time != g_value_get_int (value)) {
+				part_dtend->shorten_time = g_value_get_int (value);
+
+				if (part_dtend->shorten_end) {
+					GtkWidget *edit_widget;
+
+					edit_widget = e_comp_editor_property_part_get_edit_widget (E_COMP_EDITOR_PROPERTY_PART (part_dtend));
+
+					e_date_edit_set_shorten_time (E_DATE_EDIT (edit_widget), part_dtend->shorten_time);
+				}
+
+				g_object_notify (object, "shorten-time");
+			}
+			return;
+		case PROP_DTEND_SHORTEN_END:
+			if (!part_dtend->shorten_end != !g_value_get_boolean (value)) {
+				GtkWidget *edit_widget;
+
+				part_dtend->shorten_end = g_value_get_boolean (value);
+
+				edit_widget = e_comp_editor_property_part_get_edit_widget (E_COMP_EDITOR_PROPERTY_PART (part_dtend));
+
+				if (part_dtend->shorten_end)
+					e_date_edit_set_shorten_time (E_DATE_EDIT (edit_widget), part_dtend->shorten_time);
+				else
+					e_date_edit_set_shorten_time (E_DATE_EDIT (edit_widget), 0);
+
+				g_object_notify (object, "shorten-end");
+			}
+			return;
+	}
+
+	G_OBJECT_WARN_INVALID_PROPERTY_ID (object, property_id, pspec);
 }
 
 static void
 e_comp_editor_property_part_dtend_class_init (ECompEditorPropertyPartDtendClass *klass)
 {
 	ECompEditorPropertyPartDatetimeClass *part_datetime_class;
+	GObjectClass *object_class;
 
 	part_datetime_class = E_COMP_EDITOR_PROPERTY_PART_DATETIME_CLASS (klass);
 	part_datetime_class->prop_kind = I_CAL_DTEND_PROPERTY;
 	part_datetime_class->i_cal_new_func = i_cal_property_new_dtend;
 	part_datetime_class->i_cal_set_func = i_cal_property_set_dtend;
 	part_datetime_class->i_cal_get_func = i_cal_property_get_dtend;
+
+	object_class = G_OBJECT_CLASS (klass);
+	object_class->get_property = e_comp_editor_property_part_dtend_get_property;
+	object_class->set_property = e_comp_editor_property_part_dtend_set_property;
+
+	g_object_class_install_property (
+		object_class,
+		PROP_DTEND_SHORTEN_TIME,
+		g_param_spec_int (
+			"shorten-time", NULL, NULL,
+			0, 29, 0,
+			G_PARAM_READWRITE | G_PARAM_STATIC_STRINGS | G_PARAM_EXPLICIT_NOTIFY));
+
+	g_object_class_install_property (
+		object_class,
+		PROP_DTEND_SHORTEN_END,
+		g_param_spec_boolean (
+			"shorten-end", NULL, NULL,
+			TRUE,
+			G_PARAM_READWRITE | G_PARAM_STATIC_STRINGS | G_PARAM_EXPLICIT_NOTIFY));
 }
 
 ECompEditorPropertyPart *
@@ -1446,10 +1676,16 @@ e_comp_editor_property_part_dtend_new (const gchar *label,
 	if (E_IS_DATE_EDIT (edit_widget)) {
 		GSettings *settings;
 
+		e_date_edit_set_shorten_time_end (E_DATE_EDIT (edit_widget), TRUE);
+
 		settings = e_util_ref_settings ("org.gnome.evolution.calendar");
 
-		g_settings_bind (settings, "shorten-end-time",
-			edit_widget, "shorten-time",
+		g_settings_bind (settings, "shorten-time",
+			part, "shorten-time",
+			G_SETTINGS_BIND_GET | G_SETTINGS_BIND_NO_SENSITIVITY);
+
+		g_settings_bind (settings, "shorten-time-end",
+			part, "shorten-end",
 			G_SETTINGS_BIND_GET | G_SETTINGS_BIND_NO_SENSITIVITY);
 
 		g_object_unref (settings);

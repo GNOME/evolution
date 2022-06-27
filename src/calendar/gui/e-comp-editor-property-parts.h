@@ -37,7 +37,8 @@ ECompEditorPropertyPart *
 ECompEditorPropertyPart *
 		e_comp_editor_property_part_dtstart_new		(const gchar *label,
 								 gboolean date_only,
-								 gboolean allow_no_date_set);
+								 gboolean allow_no_date_set,
+								 gboolean allow_shorten_time);
 ECompEditorPropertyPart *
 		e_comp_editor_property_part_dtend_new		(const gchar *label,
 								 gboolean date_only,

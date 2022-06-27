@@ -216,6 +216,9 @@ gboolean	e_date_edit_has_focus		(EDateEdit *dedit);
 gint		e_date_edit_get_shorten_time	(EDateEdit *self);
 void		e_date_edit_set_shorten_time	(EDateEdit *self,
 						 gint minutes);
+gboolean	e_date_edit_get_shorten_time_end(EDateEdit *self);
+void		e_date_edit_set_shorten_time_end(EDateEdit *self,
+						 gboolean shorten_time_end);
 
 G_END_DECLS
 

@@ -324,7 +324,7 @@ e_comp_editor_memo_constructed (GObject *object)
 	e_comp_editor_page_add_property_part (page, part, 0, 2, 2, 1);
 	memo_editor->priv->summary = part;
 
-	part = e_comp_editor_property_part_dtstart_new (C_("ECompEditor", "Sta_rt date:"), TRUE, TRUE);
+	part = e_comp_editor_property_part_dtstart_new (C_("ECompEditor", "Sta_rt date:"), TRUE, TRUE, FALSE);
 	e_comp_editor_page_add_property_part (page, part, 0, 3, 2, 1);
 	memo_editor->priv->dtstart = part;
 

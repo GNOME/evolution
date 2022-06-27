@@ -3441,18 +3441,27 @@ ece_check_start_before_end (ECompEditor *comp_editor,
 
 					if (!i_cal_time_is_date (start_tt)) {
 						GSettings *settings;
-						gint shorten_end_time;
+						gint shorten_by;
+						gboolean shorten_end;
 
 						settings = e_util_ref_settings ("org.gnome.evolution.calendar");
-						shorten_end_time = g_settings_get_int (settings, "shorten-end-time");
+						shorten_by = g_settings_get_int (settings, "shorten-time");
+						shorten_end = g_settings_get_int (settings, "shorten-time");
 						g_clear_object (&settings);
 
-						if (shorten_end_time > 0 && shorten_end_time < 60) {
-							i_cal_time_adjust (end_tt, 0, 0, -shorten_end_time, 0);
+						if (shorten_by > 0 && shorten_by < 60) {
+							if (shorten_end)
+								i_cal_time_adjust (end_tt, 0, 0, -shorten_by, 0);
+							else
+								i_cal_time_adjust (start_tt, 0, 0, shorten_by, 0);
 
 							/* Revert the change, when it would make the time order reverse */
-							if (i_cal_time_compare (start_tt, end_tt) >= 0)
-								i_cal_time_adjust (end_tt, 0, 0, shorten_end_time, 0);
+							if (i_cal_time_compare (start_tt, end_tt) >= 0) {
+								if (shorten_end)
+									i_cal_time_adjust (end_tt, 0, 0, shorten_by, 0);
+								else
+									i_cal_time_adjust (start_tt, 0, 0, -shorten_by, 0);
+							}
 						}
 					}
 				}

@@ -1688,11 +1688,16 @@ e_cal_ops_new_component_ex (EShellWindow *shell_window,
 
 	if (!all_day && source_type == E_CAL_CLIENT_SOURCE_TYPE_EVENTS) {
 		GSettings *settings = e_util_ref_settings ("org.gnome.evolution.calendar");
-		gint shorten_by = g_settings_get_int (settings, "shorten-end-time");
+		gint shorten_by = g_settings_get_int (settings, "shorten-time");
+		gboolean shorten_end = g_settings_get_boolean (settings, "shorten-time-end");
 		g_clear_object (&settings);
 
-		if (shorten_by && (dtend - dtstart) / 60 > shorten_by)
-			dtend -= shorten_by * 60;
+		if (shorten_by > 0 && (dtend - dtstart) / 60 > shorten_by) {
+			if (shorten_end)
+				dtend -= shorten_by * 60;
+			else
+				dtstart += shorten_by * 60;
+		}
 	}
 
 	ncd = new_component_data_new ();

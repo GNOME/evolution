@@ -466,9 +466,18 @@ cal_comp_event_new_with_current_time_sync (ECalClient *client,
 	} else {
 		GSettings *settings;
 		gint shorten_by;
+		gboolean shorten_end;
+
+		settings = e_util_ref_settings ("org.gnome.evolution.calendar");
+		shorten_by = g_settings_get_int (settings, "shorten-time");
+		shorten_end = g_settings_get_boolean (settings, "shorten-time-end");
+		g_clear_object (&settings);
 
 		itt = i_cal_time_new_current_with_zone (zone);
 		i_cal_time_adjust (itt, 0, 1, -i_cal_time_get_minute (itt), -i_cal_time_get_second (itt));
+
+		if (!shorten_end && shorten_by > 0 && shorten_by < 60)
+			i_cal_time_adjust (itt, 0, 0, shorten_by, 0);
 
 		dt = e_cal_component_datetime_new_take (itt, zone ? g_strdup (i_cal_timezone_get_tzid (zone)) : NULL);
 
@@ -476,11 +485,11 @@ cal_comp_event_new_with_current_time_sync (ECalClient *client,
 
 		i_cal_time_adjust (e_cal_component_datetime_get_value (dt), 0, 1, 0, 0);
 
-		settings = e_util_ref_settings ("org.gnome.evolution.calendar");
-		shorten_by = g_settings_get_int (settings, "shorten-end-time");
-		g_clear_object (&settings);
+		/* Make the end time a rounded hour (with 0 minutes) */
+		if (!shorten_end && shorten_by > 0 && shorten_by < 60)
+			i_cal_time_adjust (e_cal_component_datetime_get_value (dt), 0, 0, -shorten_by, 0);
 
-		if (shorten_by > 0 && shorten_by < 60)
+		if (shorten_end && shorten_by > 0 && shorten_by < 60)
 			i_cal_time_adjust (e_cal_component_datetime_get_value (dt), 0, 0, -shorten_by, 0);
 
 		e_cal_component_set_dtend (comp, dt);

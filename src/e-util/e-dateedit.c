@@ -116,6 +116,7 @@ struct _EDateEditPrivate {
 	gboolean time_been_changed;
 
 	gboolean allow_no_date_set;
+	gboolean shorten_time_end;
 	gint shorten_time_minutes;
 };
 
@@ -129,6 +130,7 @@ enum {
 	PROP_WEEK_START_DAY,
 	PROP_TWODIGIT_YEAR_CAN_FUTURE,
 	PROP_SET_NONE,
+	PROP_SHORTEN_TIME_END,
 	PROP_SHORTEN_TIME
 };
 
@@ -272,6 +274,12 @@ date_edit_set_property (GObject *object,
 				e_date_edit_set_time (E_DATE_EDIT (object), -1);
 			return;
 
+		case PROP_SHORTEN_TIME_END:
+			e_date_edit_set_shorten_time_end (
+				E_DATE_EDIT (object),
+				g_value_get_boolean (value));
+			return;
+
 		case PROP_SHORTEN_TIME:
 			e_date_edit_set_shorten_time (
 				E_DATE_EDIT (object),
@@ -328,6 +336,12 @@ date_edit_get_property (GObject *object,
 		case PROP_TWODIGIT_YEAR_CAN_FUTURE:
 			g_value_set_boolean (
 				value, e_date_edit_get_twodigit_year_can_future (
+				E_DATE_EDIT (object)));
+			return;
+
+		case PROP_SHORTEN_TIME_END:
+			g_value_set_boolean (
+				value, e_date_edit_get_shorten_time_end (
 				E_DATE_EDIT (object)));
 			return;
 
@@ -473,6 +487,18 @@ e_date_edit_class_init (EDateEditClass *class)
 
 	g_object_class_install_property (
 		object_class,
+		PROP_SHORTEN_TIME_END,
+		g_param_spec_boolean (
+			"shorten-time-end",
+			"Shorten Time End",
+			NULL,
+			TRUE,
+			G_PARAM_READWRITE |
+			G_PARAM_STATIC_STRINGS |
+			G_PARAM_EXPLICIT_NOTIFY));
+
+	g_object_class_install_property (
+		object_class,
 		PROP_SHORTEN_TIME,
 		g_param_spec_int (
 			"shorten-time",
@@ -518,6 +544,7 @@ e_date_edit_init (EDateEdit *dedit)
 	dedit->priv->twodigit_year_can_future = TRUE;
 	dedit->priv->date_been_changed = FALSE;
 	dedit->priv->time_been_changed = FALSE;
+	dedit->priv->shorten_time_end = TRUE;
 	dedit->priv->shorten_time_minutes = 0;
 
 	gtk_orientable_set_orientation (GTK_ORIENTABLE (dedit), GTK_ORIENTATION_HORIZONTAL);
@@ -1819,8 +1846,12 @@ rebuild_time_popup (EDateEdit *dedit)
 			tmp_tm.tm_hour = hour;
 			tmp_tm.tm_min = min;
 
-			if (priv->shorten_time_minutes) {
-				tmp_tm.tm_min += 30 - priv->shorten_time_minutes;
+			if (priv->shorten_time_minutes > 0) {
+				if (priv->shorten_time_end)
+					tmp_tm.tm_min += 30 - priv->shorten_time_minutes;
+				else
+					tmp_tm.tm_min += priv->shorten_time_minutes;
+
 				if (tmp_tm.tm_min >= 60) {
 					tmp_tm.tm_min -= 60;
 					tmp_tm.tm_hour++;
@@ -2679,5 +2710,29 @@ e_date_edit_set_shorten_time (EDateEdit *self,
 		rebuild_time_popup (self);
 
 		g_object_notify (G_OBJECT (self), "shorten-time");
+	}
+}
+
+gboolean
+e_date_edit_get_shorten_time_end (EDateEdit *self)
+{
+	g_return_val_if_fail (E_IS_DATE_EDIT (self), FALSE);
+
+	return self->priv->shorten_time_end;
+}
+
+void
+e_date_edit_set_shorten_time_end (EDateEdit *self,
+				  gboolean shorten_time_end)
+{
+	g_return_if_fail (E_IS_DATE_EDIT (self));
+
+	if (!self->priv->shorten_time_end != !shorten_time_end) {
+		self->priv->shorten_time_end = shorten_time_end;
+
+		if (self->priv->shorten_time_minutes > 0)
+			rebuild_time_popup (self);
+
+		g_object_notify (G_OBJECT (self), "shorten-time-end");
 	}
 }

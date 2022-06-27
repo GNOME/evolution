@@ -921,7 +921,7 @@ e_comp_editor_task_constructed (GObject *object)
 	part = e_comp_editor_property_part_location_new (focus_tracker);
 	e_comp_editor_page_add_property_part (page, part, 0, 3, 4, 1);
 
-	part = e_comp_editor_property_part_dtstart_new (C_("ECompEditor", "Sta_rt date:"), TRUE, TRUE);
+	part = e_comp_editor_property_part_dtstart_new (C_("ECompEditor", "Sta_rt date:"), TRUE, TRUE, FALSE);
 	e_comp_editor_page_add_property_part (page, part, 0, 4, 2, 1);
 	task_editor->priv->dtstart = part;
 
