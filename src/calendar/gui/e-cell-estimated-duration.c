@@ -23,7 +23,7 @@ eced_get_text (ECellText *cell,
 
 	if (!pvalue || *pvalue == 0) {
 		e_table_model_free_value (model, col, pvalue);
-		return NULL;
+		return g_strdup ("");
 	}
 
 	res = e_cal_util_seconds_to_string (*pvalue);
