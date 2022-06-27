@@ -129,7 +129,9 @@ update_comp_info (ECalComponentPreview *preview,
 		changed = !priv->cal_uid || !priv->comp_uid || !cal_uid || !comp_uid ||
 			  !g_str_equal (priv->cal_uid, cal_uid) ||
 			  !g_str_equal (priv->comp_uid, comp_uid) ||
-			  priv->comp_sequence != comp_sequence;
+			  priv->comp_sequence != comp_sequence ||
+			  priv->comp != comp ||
+			  priv->client != client;
 
 		if (comp_last_modified && priv->comp_last_modified)
 			changed = changed || i_cal_time_compare (priv->comp_last_modified, comp_last_modified) != 0;
