@@ -57,12 +57,38 @@ struct PrintCompItem {
 	gboolean use_24_hour_format;
 };
 
+static void
+print_comp_item_free (gpointer ptr)
+{
+	PrintCompItem *pci = ptr;
+
+	if (pci) {
+		g_clear_object (&pci->client);
+		g_clear_object (&pci->comp);
+		g_clear_object (&pci->zone);
+		g_slice_free (PrintCompItem, pci);
+	}
+}
+
 struct PrintCalItem {
 	ECalendarView *cal_view;
 	ETable *tasks_table;
 	EPrintView print_view_type;
 	time_t start;
 };
+
+static void
+print_cal_item_free (gpointer ptr,
+		     GClosure *closure)
+{
+	PrintCalItem *pci = ptr;
+
+	if (pci) {
+		g_clear_object (&pci->cal_view);
+		g_clear_object (&pci->tasks_table);
+		g_slice_free (PrintCalItem, pci);
+	}
+}
 
 static gdouble
 evo_calendar_print_renderer_get_width (GtkPrintContext *context,
@@ -3479,7 +3505,7 @@ print_calendar (ECalendarView *cal_view,
                 time_t start)
 {
 	GtkPrintOperation *operation;
-	PrintCalItem pcali;
+	PrintCalItem *pci;
 
 	g_return_if_fail (cal_view != NULL);
 	g_return_if_fail (E_IS_CALENDAR_VIEW (cal_view));
@@ -3517,17 +3543,19 @@ print_calendar (ECalendarView *cal_view,
 		}
 	}
 
-	pcali.cal_view = cal_view;
-	pcali.tasks_table = tasks_table;
-	pcali.print_view_type = print_view_type;
-	pcali.start = start;
+	pci = g_slice_new0 (PrintCalItem);
+	pci->cal_view = g_object_ref (cal_view);
+	pci->tasks_table = g_object_ref (tasks_table);
+	pci->print_view_type = print_view_type;
+	pci->start = start;
 
 	operation = e_print_operation_new ();
 	gtk_print_operation_set_n_pages (operation, 1);
 
-	g_signal_connect (
+	g_signal_connect_data (
 		operation, "draw_page",
-		G_CALLBACK (print_calendar_draw_page), &pcali);
+		G_CALLBACK (print_calendar_draw_page), pci,
+		print_cal_item_free, 0);
 
 	gtk_print_operation_run (operation, action, NULL, NULL);
 
@@ -3882,25 +3910,28 @@ print_comp (ECalComponent *comp,
             GtkPrintOperationAction action)
 {
 	GtkPrintOperation *operation;
-	PrintCompItem pci;
+	PrintCompItem *pci;
 
 	g_return_if_fail (E_IS_CAL_COMPONENT (comp));
 
-	pci.comp = comp;
-	pci.client = cal_client;
-	pci.zone = zone;
-	pci.use_24_hour_format = use_24_hour_format;
+	pci = g_slice_new0 (PrintCompItem);
+	pci->comp = g_object_ref (comp);
+	pci->client = cal_client ? g_object_ref (cal_client) : NULL;
+	pci->zone = zone ? g_object_ref (zone) : NULL;
+	pci->use_24_hour_format = use_24_hour_format;
 
 	operation = e_print_operation_new ();
 	gtk_print_operation_set_n_pages (operation, 1);
 
+	g_object_set_data_full (G_OBJECT (operation), "e-print-context-data", pci, print_comp_item_free);
+
 	g_signal_connect (
 		operation, "begin-print",
-		G_CALLBACK (print_comp_begin_print), &pci);
+		G_CALLBACK (print_comp_begin_print), pci);
 
 	g_signal_connect (
 		operation, "draw-page",
-		G_CALLBACK (print_comp_draw_page), &pci);
+		G_CALLBACK (print_comp_draw_page), pci);
 
 	gtk_print_operation_run (operation, action, NULL, NULL);
 
@@ -3930,9 +3961,9 @@ print_title (GtkPrintContext *context,
 
 	cairo_move_to (cr, 0.0, 0.0);
 	pango_cairo_show_layout (cr, layout);
-	cairo_translate (cr, 0.0, 18);
-	cairo_save (cr);
 	cairo_restore (cr);
+
+	cairo_translate (cr, 0.0, 18);
 
 	g_object_unref (layout);
 
@@ -3940,9 +3971,22 @@ print_title (GtkPrintContext *context,
 }
 
 struct print_opts {
-  EPrintable *printable;
-  const gchar *print_header;
+	EPrintable *printable;
+	gchar *print_header;
 };
+
+static void
+print_opts_free (gpointer ptr,
+		 GClosure *closure)
+{
+	struct print_opts *opts = ptr;
+
+	if (opts) {
+		g_clear_object (&opts->printable);
+		g_free (opts->print_header);
+		g_slice_free (struct print_opts, opts);
+	}
+}
 
 static void
 print_table_draw_page (GtkPrintOperation *operation,
@@ -3952,12 +3996,16 @@ print_table_draw_page (GtkPrintOperation *operation,
 {
 	GtkPageSetup *setup;
 	gdouble width;
+	cairo_t *cr;
 
+	cr = gtk_print_context_get_cairo_context (context);
 	setup = gtk_print_context_get_page_setup (context);
 
 	width = gtk_page_setup_get_page_width (setup, GTK_UNIT_POINTS);
 
 	do {
+		cairo_save (cr);
+
 		/* TODO Allow the user to customize the title. */
 		print_title (context, opts->print_header, width);
 
@@ -3965,9 +4013,8 @@ print_table_draw_page (GtkPrintOperation *operation,
 			e_printable_print_page (
 				opts->printable, context, width, 24, TRUE);
 
+		cairo_restore (cr);
 	} while (e_printable_data_left (opts->printable));
-
-	g_free (opts);
 }
 
 void
@@ -3987,13 +4034,14 @@ print_table (ETable *table,
 	operation = e_print_operation_new ();
 	gtk_print_operation_set_n_pages (operation, 1);
 
-	opts = g_malloc (sizeof (struct print_opts));
-	opts->printable = printable;
-	opts->print_header = print_header;
+	opts = g_slice_new0 (struct print_opts);
+	opts->printable = g_object_ref (printable);
+	opts->print_header = g_strdup (print_header);
 
-	g_signal_connect (
+	g_signal_connect_data (
 		operation, "draw_page",
-		G_CALLBACK (print_table_draw_page), opts);
+		G_CALLBACK (print_table_draw_page), opts,
+		print_opts_free, 0);
 
 	gtk_print_operation_run (operation, action, NULL, NULL);
 
