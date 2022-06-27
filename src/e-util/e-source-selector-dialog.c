@@ -57,6 +57,16 @@ source_selector_dialog_row_activated_cb (GtkTreeView *tree_view,
                                          GtkTreeViewColumn *column,
                                          GtkWidget *dialog)
 {
+	GtkTreeSelection *selection;
+
+	if (!path)
+		return;
+
+	selection = gtk_tree_view_get_selection (tree_view);
+
+	if (!gtk_tree_selection_path_is_selected (selection, path))
+		return;
+
 	gtk_dialog_response (GTK_DIALOG (dialog), GTK_RESPONSE_OK);
 }
 
