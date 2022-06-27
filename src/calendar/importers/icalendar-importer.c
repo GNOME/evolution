@@ -1519,6 +1519,8 @@ preview_comp (EWebViewPreview *preview,
 
 		for (link = attendees; link; link = g_slist_next (link)) {
 			ECalComponentAttendee *attnd = link->data;
+			ECalComponentParameterBag *param_bag;
+			GString *str;
 			const gchar *value, *cn;
 
 			if (!attnd)
@@ -1530,14 +1532,64 @@ preview_comp (EWebViewPreview *preview,
 
 			cn = e_cal_component_attendee_get_cn (attnd);
 
+			str = g_string_new ("");
+
 			if (cn && *cn) {
-				tmp = g_strconcat (cn, " <", strip_mailto (value), ">", NULL);
-				/* Translators: Appointment's attendees */
-				e_web_view_preview_add_section (preview, have ? NULL : C_("iCalImp", "Attendees"), tmp);
-				g_free (tmp);
+				g_string_append_printf (str, "%s <%s>", cn, strip_mailto (value));
 			} else {
-				e_web_view_preview_add_section (preview, have ? NULL : C_("iCalImp", "Attendees"), strip_mailto (value));
+				g_string_append (str, strip_mailto (value));
 			}
+
+			param_bag = e_cal_component_attendee_get_parameter_bag (attnd);
+			if (param_bag) {
+				ICalParameter *num_guests = NULL;
+				ICalParameter *response_comment = NULL;
+				guint ii, count;
+
+				count = e_cal_component_parameter_bag_get_count (param_bag);
+				for (ii = 0; ii < count && (!num_guests || !response_comment); ii++) {
+					ICalParameter *param = e_cal_component_parameter_bag_get (param_bag, ii);
+
+					if (param && i_cal_parameter_isa (param) == I_CAL_X_PARAMETER) {
+						const gchar *xname = i_cal_parameter_get_xname (param);
+
+						if (!xname)
+							continue;
+
+						if (!num_guests && g_ascii_strcasecmp (xname, "X-NUM-GUESTS") == 0)
+							num_guests = param;
+
+						if (!response_comment && g_ascii_strcasecmp (xname, "X-RESPONSE-COMMENT") == 0)
+							response_comment = param;
+					}
+				}
+
+				if (num_guests && i_cal_parameter_get_xvalue (num_guests)) {
+					gint n_guests;
+
+					n_guests = (gint) g_ascii_strtoll (i_cal_parameter_get_xvalue (num_guests), NULL, 10);
+
+					if (n_guests > 0) {
+						g_string_append_c (str, ' ');
+						g_string_append_printf (str, g_dngettext (GETTEXT_PACKAGE, "with one guest", "with %d guests", n_guests), n_guests);
+					}
+				}
+
+				if (response_comment) {
+					const gchar *value = i_cal_parameter_get_xvalue (response_comment);
+
+					if (value && *value) {
+						g_string_append (str, " (");
+						g_string_append (str, value);
+						g_string_append_c (str, ')');
+					}
+				}
+			}
+
+			/* Translators: Appointment's attendees */
+			e_web_view_preview_add_section (preview, have ? NULL : C_("iCalImp", "Attendees"), str->str);
+
+			g_string_free (str, TRUE);
 
 			have = TRUE;
 		}

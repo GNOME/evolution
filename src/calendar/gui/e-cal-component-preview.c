@@ -452,6 +452,7 @@ cal_component_preview_write_html (ECalComponentPreview *preview,
 
 		for (a = attendees; a; a = a->next) {
 			ECalComponentAttendee *attnd = a->data;
+			ECalComponentParameterBag *param_bag;
 			const gchar *email = cal_comp_util_get_attendee_email (attnd);
 
 			if (!attnd || !email || !*email)
@@ -488,6 +489,66 @@ cal_component_preview_write_html (ECalComponentPreview *preview,
 					CAMEL_MIME_FILTER_TOHTML_CONVERT_ADDRESSES, 0);
 				g_string_append (buffer, str);
 				g_free (str);
+			}
+
+			param_bag = e_cal_component_attendee_get_parameter_bag (attnd);
+			if (param_bag) {
+				ICalParameter *num_guests = NULL;
+				ICalParameter *response_comment = NULL;
+				guint ii, count;
+
+				count = e_cal_component_parameter_bag_get_count (param_bag);
+				for (ii = 0; ii < count && (!num_guests || !response_comment); ii++) {
+					ICalParameter *param = e_cal_component_parameter_bag_get (param_bag, ii);
+
+					if (param && i_cal_parameter_isa (param) == I_CAL_X_PARAMETER) {
+						const gchar *xname = i_cal_parameter_get_xname (param);
+
+						if (!xname)
+							continue;
+
+						if (!num_guests && g_ascii_strcasecmp (xname, "X-NUM-GUESTS") == 0)
+							num_guests = param;
+
+						if (!response_comment && g_ascii_strcasecmp (xname, "X-RESPONSE-COMMENT") == 0)
+							response_comment = param;
+					}
+				}
+
+				if (num_guests && i_cal_parameter_get_xvalue (num_guests)) {
+					gint n_guests;
+
+					n_guests = (gint) g_ascii_strtoll (i_cal_parameter_get_xvalue (num_guests), NULL, 10);
+
+					if (n_guests > 0) {
+						gchar *str, *escaped;
+
+						str = g_strdup_printf (g_dngettext (GETTEXT_PACKAGE, "with one guest", "with %d guests", n_guests), n_guests);
+						escaped = g_markup_escape_text (str, -1);
+
+						g_string_append_c (buffer, ' ');
+						g_string_append (buffer, escaped);
+
+						g_free (escaped);
+						g_free (str);
+					}
+				}
+
+				if (response_comment) {
+					const gchar *value = i_cal_parameter_get_xvalue (response_comment);
+
+					if (value && *value) {
+						gchar *escaped;
+
+						escaped = g_markup_escape_text (value, -1);
+
+						g_string_append (buffer, " (");
+						g_string_append (buffer, escaped);
+						g_string_append_c (buffer, ')');
+
+						g_free (escaped);
+					}
+				}
 			}
 
 			have = TRUE;
