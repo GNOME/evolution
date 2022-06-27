@@ -455,7 +455,7 @@ shell_switcher_style_changed (EShellSwitcher *switcher,
 static GtkIconSize
 shell_switcher_get_icon_size (GtkToolShell *shell)
 {
-	return GTK_ICON_SIZE_LARGE_TOOLBAR;
+	return GTK_ICON_SIZE_BUTTON;
 }
 
 static GtkOrientation
@@ -479,7 +479,10 @@ shell_switcher_get_relief_style (GtkToolShell *shell)
 static gfloat
 shell_switcher_get_text_alignment (GtkToolShell *shell)
 {
-	return 0.0;
+	if (shell_switcher_get_style (shell) == GTK_TOOLBAR_ICONS)
+		return 0.5;
+	else
+		return 0.0;
 }
 
 static void

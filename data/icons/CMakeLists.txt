@@ -146,6 +146,11 @@ set(private_icons
 	hicolor_status_32x32_online.png
 	hicolor_status_32x32_aspect-ratio-lock.png
 	hicolor_status_32x32_aspect-ratio-unlock.png
+	hicolor_apps_scalable_evolution-mail-symbolic.svg
+	hicolor_apps_scalable_evolution-memos-symbolic.svg
+	hicolor_apps_scalable_evolution-tasks-symbolic.svg
+	hicolor_actions_scalable_stock_task-symbolic.svg
+	hicolor_actions_scalable_stock_insert-note-symbolic.svg
 )
 
 # These icons were in gnome-icon-theme prior to GNOME 2.30.

@@ -92,6 +92,11 @@ toolbar {\
 	border-top: 1px solid @borders;\
 }\
 ";
+static const char *css_icons =
+"* {\
+	-gtk-icon-style:symbolic;\
+}\
+";
 
 static void
 shell_window_menubar_update_new_menu (EShellWindow *shell_window)
@@ -1158,6 +1163,10 @@ e_shell_window_init (EShellWindow *shell_window)
 	gtk_style_context_add_provider_for_screen (gdk_screen_get_default (),
 		GTK_STYLE_PROVIDER (css_provider),
 		GTK_STYLE_PROVIDER_PRIORITY_APPLICATION);
+
+	/* If running on GNOME, force symbolic icons */
+	if (e_util_is_running_gnome ())
+		gtk_css_provider_load_from_data (css_provider, css_icons, -1, NULL);
 
 	g_signal_connect (shell_window, "delete-event",
 		G_CALLBACK (shell_window_delete_event_cb), NULL);
