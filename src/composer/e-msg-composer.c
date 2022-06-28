@@ -913,6 +913,7 @@ composer_build_message_pgp (AsyncContext *context,
 	gboolean always_trust;
 	gboolean encrypt_to_self;
 	gboolean prefer_inline;
+	gboolean locate_keys;
 
 	/* Return silently if we're not signing or encrypting with PGP. */
 	if (!context->pgp_sign && !context->pgp_encrypt)
@@ -924,6 +925,7 @@ composer_build_message_pgp (AsyncContext *context,
 	always_trust = e_source_openpgp_get_always_trust (extension);
 	encrypt_to_self = context->is_draft || e_source_openpgp_get_encrypt_to_self (extension);
 	prefer_inline = e_source_openpgp_get_prefer_inline (extension);
+	locate_keys = e_source_openpgp_get_locate_keys (extension);
 	pgp_key_id = e_source_openpgp_get_key_id (extension);
 	signing_algorithm = e_source_openpgp_get_signing_algorithm (extension);
 
@@ -988,6 +990,7 @@ composer_build_message_pgp (AsyncContext *context,
 		cipher = camel_gpg_context_new (context->session);
 		camel_gpg_context_set_always_trust (CAMEL_GPG_CONTEXT (cipher), always_trust);
 		camel_gpg_context_set_prefer_inline (CAMEL_GPG_CONTEXT (cipher), prefer_inline);
+		camel_gpg_context_set_locate_keys (CAMEL_GPG_CONTEXT (cipher), locate_keys);
 
 		handler_id = g_signal_connect (context->session, "get-recipient-certificate",
 			G_CALLBACK (composer_get_recipient_certificate_cb), context);
