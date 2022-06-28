@@ -470,6 +470,55 @@ mail_config_provider_page_add_placeholder (GtkBox *main_box,
 	mail_config_provider_page_handle_dependency (settings, entry, hbox);
 }
 
+static GtkBox *
+mail_config_provider_page_add_advanced_section (GtkBox *main_box,
+						CamelSettings *settings,
+						CamelProviderConfEntry *entry)
+{
+	GtkWidget *vbox, *expander, *widget;
+	const gchar *label;
+
+	vbox = gtk_box_new (GTK_ORIENTATION_VERTICAL, 0);
+	gtk_box_set_spacing (GTK_BOX (vbox), 6);
+	gtk_widget_set_margin_left (vbox, STANDARD_MARGIN);
+	gtk_widget_show (vbox);
+
+	label = entry->text;
+
+	if (!label || !*label)
+		label = _("Advanced Options");
+
+	expander = gtk_expander_new_with_mnemonic (label);
+	widget = gtk_expander_get_label_widget (GTK_EXPANDER (expander));
+	if (widget) {
+		PangoAttrList *bold;
+
+		bold = pango_attr_list_new ();
+		pango_attr_list_insert (bold, pango_attr_weight_new (PANGO_WEIGHT_BOLD));
+
+		gtk_label_set_attributes (GTK_LABEL (widget), bold);
+
+		pango_attr_list_unref (bold);
+	}
+	gtk_expander_set_expanded (GTK_EXPANDER (expander), FALSE);
+
+	gtk_widget_show (expander);
+
+	gtk_box_pack_start (main_box, expander, FALSE, FALSE, 0);
+	gtk_box_pack_start (main_box, vbox, FALSE, FALSE, 0);
+
+	/* Because some themes can show the box in different style than the rest of the options */
+	e_binding_bind_property (
+		expander, "expanded",
+		vbox, "visible",
+		G_BINDING_SYNC_CREATE);
+
+	mail_config_provider_page_handle_dependency (settings, entry, expander);
+	mail_config_provider_page_handle_dependency (settings, entry, vbox);
+
+	return GTK_BOX (vbox);
+}
+
 void
 e_mail_config_provider_add_widgets (CamelProvider *provider,
 				    CamelSettings *settings,
@@ -477,6 +526,7 @@ e_mail_config_provider_add_widgets (CamelProvider *provider,
 				    gboolean skip_first_section_name)
 {
 	CamelProviderConfEntry *entries;
+	GSList *section_boxes = NULL; /* GtkBox * */
 	gboolean first_section = skip_first_section_name;
 	gint ii;
 
@@ -495,7 +545,7 @@ e_mail_config_provider_add_widgets (CamelProvider *provider,
 	for (ii = 0; entries[ii].type != CAMEL_PROVIDER_CONF_END; ii++) {
 
 		/* Skip entries with no name. */
-		if (entries[ii].name == NULL)
+		if (entries[ii].name == NULL && entries[ii].type != CAMEL_PROVIDER_CONF_ADVANCED_SECTION_START)
 			continue;
 
 		switch (entries[ii].type) {
@@ -505,6 +555,7 @@ e_mail_config_provider_add_widgets (CamelProvider *provider,
 					first_section = FALSE;
 					continue;
 				}
+				section_boxes = g_slist_prepend (section_boxes, main_box);
 				mail_config_provider_page_add_section (
 					main_box, provider, &entries[ii], skip_first_section_name);
 				break;
@@ -539,10 +590,27 @@ e_mail_config_provider_add_widgets (CamelProvider *provider,
 					main_box, settings, &entries[ii]);
 				break;
 
+			case CAMEL_PROVIDER_CONF_ADVANCED_SECTION_START:
+				first_section = FALSE;
+
+				section_boxes = g_slist_prepend (section_boxes, main_box);
+
+				main_box = mail_config_provider_page_add_advanced_section (
+					main_box, settings, &entries[ii]);
+				break;
+
+			case CAMEL_PROVIDER_CONF_SECTION_END:
+				if (section_boxes) {
+					main_box = section_boxes->data;
+					section_boxes = g_slist_remove (section_boxes, main_box);
+				}
+				break;
 			default:
 				break;  /* skip it */
 		}
 	}
+
+	g_slist_free (section_boxes);
 }
 
 static void
