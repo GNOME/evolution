@@ -582,8 +582,6 @@ e_month_widget_constructed (GObject *object)
 			if (!ii && !jj)
 				continue;
 
-			attrs = pango_attr_list_new ();
-
 			if (ii == 0)
 				attrs = attrs_small_tnum;
 			else if (jj == 0)
