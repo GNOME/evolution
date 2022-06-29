@@ -471,6 +471,7 @@ mail_config_security_page_constructed (GObject *object)
 	e_binding_bind_property (
 		composition_ext, "sign-imip",
 		widget, "active",
+		G_BINDING_INVERT_BOOLEAN |
 		G_BINDING_BIDIRECTIONAL |
 		G_BINDING_SYNC_CREATE);
 
