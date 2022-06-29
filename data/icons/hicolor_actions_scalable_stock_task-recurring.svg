@@ -71,47 +71,28 @@
      id="layer1"
      inkscape:groupmode="layer"
      inkscape:label="Layer 1"
-     transform="translate(-650)">
+     transform="translate(-676)">
     <g
-       inkscape:label="task todo plan notes"
-       id="g276973"
+       inkscape:label="task todo plan notes recurring"
+       id="g291278"
        style="fill:#222222"
-       transform="translate(638.01758,-668.00458)">
+       transform="translate(664.01758,-668.00458)">
       <title
-         id="title276965">task</title>
+         id="title291262">task-recurring</title>
       <path
-         style="color:#000000;fill:#000000;-inkscape-stroke:none"
+         style="color:#000000;fill:#2e3436;fill-opacity:1;-inkscape-stroke:none"
          d="m 14.982422,668.00391 c -1.644701,0 -3,1.3553 -3,3 v 10 c 0,1.6447 1.355299,3 3,3 h 10 c 1.644701,0 3,-1.3553 3,-3 v -10 c 0,-1.6447 -1.355299,-3 -3,-3 z m 0,2 h 10 c 0.571297,0 1,0.4287 1,1 v 10 c 0,0.57129 -0.428703,1 -1,1 h -10 c -0.571297,0 -1,-0.42871 -1,-1 v -10 c 0,-0.5713 0.428703,-1 1,-1 z"
-         id="rect276975" />
+         id="path291266" />
       <path
-         style="color:#000000;fill:#000000;stroke-linecap:round;stroke-linejoin:round;-inkscape-stroke:none"
-         d="m 21.011719,675.08594 -2.503907,2.43554 -0.523437,-0.46093 a 0.75,0.75 0 0 0 -1.058594,0.0684 0.75,0.75 0 0 0 0.06836,1.05859 l 1.044921,0.91797 a 0.750075,0.750075 0 0 0 1.017579,-0.0254 l 3,-2.91797 a 0.75,0.75 0 0 0 0.01563,-1.06055 0.75,0.75 0 0 0 -1.060547,-0.0156 z"
-         id="path277511" />
+         style="fill:#2e3436;fill-opacity:1;fill-rule:nonzero;stroke:none;stroke-width:2;stroke-linecap:round;stroke-linejoin:round;stroke-opacity:1;stop-color:#000000"
+         d="m 24.933374,669.11294 -0.0081,5.90503 c -0.0015,1.09953 -0.90047,2 -2,2 h -0.0137 v -1.01367 -1 h -1 v 0.006 c -0.26436,-0.002 -0.51856,0.10172 -0.70703,0.28711 l -2,2 c -0.39037,0.39053 -0.39037,1.02353 0,1.41406 l 2,2 c 0.18847,0.18525 0.44267,0.28911 0.70703,0.28711 v 0.006 h 1 v -1 -0.98633 h 0.0137 c 2.21418,0 3.996979,-1.78582 4,-4 l 0.0081,-5.90503"
+         id="path295553"
+         sodipodi:nodetypes="cssccccccccccccccssc" />
       <path
-         style="color:#000000;fill:#000000;-inkscape-stroke:none"
-         d="m 19.980469,674.00195 -3.011719,0.0117 c -1.09336,0.004 -1.988281,0.90273 -1.988281,1.9961 v 3.01953 c 0,1.09314 0.895141,1.99023 1.988281,1.99023 h 2.986328 c 1.09314,0 1.990234,-0.89709 1.990234,-1.99023 v -0.4668 h -1 v 0.4668 c 0,0.5527 -0.437534,0.99023 -0.990234,0.99023 H 16.96875 c -0.5527,0 -0.988281,-0.43753 -0.988281,-0.99023 v -3.01953 c 0,-0.55419 0.436054,-0.99413 0.990234,-0.9961 l 3.013672,-0.0117 z"
-         id="path277520" />
-      <rect
-         style="fill:#000000;fill-opacity:1;stroke:none;stroke-width:1.5;stroke-linecap:round;stroke-linejoin:round;stroke-dasharray:none;stroke-opacity:1;stop-color:#000000"
-         id="rect277524"
-         width="6.0213404"
-         height="1.1077029"
-         x="14.97962"
-         y="670.95673" />
-      <rect
-         style="fill:#000000;fill-opacity:1;stroke:none;stroke-width:1.5;stroke-linecap:round;stroke-linejoin:round;stroke-dasharray:none;stroke-opacity:1;stop-color:#000000"
-         id="rect277526"
-         width="3.0042045"
-         height="1.1077029"
-         x="21.945013"
-         y="670.95673" />
-      <rect
-         style="fill:#000000;fill-opacity:1;stroke:none;stroke-width:1.5;stroke-linecap:round;stroke-linejoin:round;stroke-dasharray:none;stroke-opacity:1;stop-color:#000000"
-         id="rect277528"
-         width="3.0042045"
-         height="1.0437167"
-         x="21.945013"
-         y="672.95911" />
+         style="fill:#2e3436;fill-opacity:1;fill-rule:nonzero;stroke:none;stroke-width:2;stroke-linecap:round;stroke-linejoin:round;stroke-opacity:1;stop-color:#000000"
+         d="m 17.033016,671.01825 v 1 0.98633 h -0.0137 c -2.21418,0 -4,1.78582 -4,4 v 5.07178 c 0,1.33333 2,1.33333 2,0 v -5.07178 c 0,-1.09953 0.90047,-2 2,-2 h 0.0137 v 1.01367 1 h 1 v -0.006 c 0.26436,0.002 0.51856,-0.10172 0.70703,-0.28711 l 2,-2 c 0.39037,-0.39053 0.39037,-1.02353 0,-1.41406 l -2,-2 c -0.18847,-0.18525 -0.44267,-0.28911 -0.70703,-0.28711 v -0.006 z"
+         id="path291303"
+         sodipodi:nodetypes="cccsssssscccccccccccc" />
     </g>
   </g>
 </svg>

@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<svg
+   id="svg8"
+   version="1.1"
+   viewBox="0 0 16 16"
+   height="16"
+   width="16"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:svg="http://www.w3.org/2000/svg"
+   xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+   xmlns:cc="http://creativecommons.org/ns#"
+   xmlns:dc="http://purl.org/dc/elements/1.1/">
+  <defs
+     id="defs2" />
+  <metadata
+     id="metadata5">
+    <rdf:RDF>
+      <cc:Work
+         rdf:about="">
+        <dc:format>image/svg+xml</dc:format>
+        <dc:type
+           rdf:resource="http://purl.org/dc/dcmitype/StillImage" />
+        <cc:license
+           rdf:resource="http://creativecommons.org/licenses/by-sa/4.0/" />
+      </cc:Work>
+      <cc:License
+         rdf:about="http://creativecommons.org/licenses/by-sa/4.0/">
+        <cc:permits
+           rdf:resource="http://creativecommons.org/ns#Reproduction" />
+        <cc:permits
+           rdf:resource="http://creativecommons.org/ns#Distribution" />
+        <cc:requires
+           rdf:resource="http://creativecommons.org/ns#Notice" />
+        <cc:requires
+           rdf:resource="http://creativecommons.org/ns#Attribution" />
+        <cc:permits
+           rdf:resource="http://creativecommons.org/ns#DerivativeWorks" />
+        <cc:requires
+           rdf:resource="http://creativecommons.org/ns#ShareAlike" />
+      </cc:License>
+    </rdf:RDF>
+  </metadata>
+  <g
+     id="layer1"
+     transform="translate(-754)">
+    <g
+       id="g10173"
+       style="fill:#222222"
+       transform="translate(742.01745,-668.00474)">
+      <title
+         id="title10163">people</title>
+      <path
+         id="path11086-3"
+         d="m 16.98287,669.00474 a 2.5,2.5 0 0 0 -2.5,2.5 2.5,2.5 0 0 0 2.5,2.5 2.5,2.5 0 0 0 2.5,-2.5 2.5,2.5 0 0 0 -2.5,-2.5 z m 6,3 a 2.5,2.5 0 0 0 -2.5,2.5 2.5,2.5 0 0 0 2.5,2.5 2.5,2.5 0 0 0 2.5,-2.5 2.5,2.5 0 0 0 -2.5,-2.5 z m -8,3 c -1.662,0 -3,1.338 -3,3 v 2 c 0,0.554 0.446,1 1,1 h 4.07617 c 0,-2.04174 1.58175,-3.73269 3.58008,-3.9082 a 3.4998422,3.4998422 0 0 1 -1.10937,-2.04102 c -0.17719,-0.0324 -0.36005,-0.0508 -0.54688,-0.0508 z m 6,3 c -1.662,0 -3,1.338 -3,3 v 2 c 0,0.554 0.446,1 1,1 h 8 c 0.554,0 1,-0.446 1,-1 v -2 c 0,-1.662 -1.338,-3 -3,-3 z"
+         style="fill:#222222" />
+      <g
+         id="g10171"
+         transform="translate(-5.5887817e-5,0.50016236)">
+        <g
+           id="g4110"
+           style="fill:#222222"
+           transform="translate(-0.01758804,200.50442)">
+          <g
+             id="path11395" />
+        </g>
+      </g>
+    </g>
+  </g>
+</svg>
