@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<svg
+   id="svg8"
+   version="1.1"
+   viewBox="0 0 16 16"
+   height="16"
+   width="16"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:svg="http://www.w3.org/2000/svg"
+   xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+   xmlns:cc="http://creativecommons.org/ns#"
+   xmlns:dc="http://purl.org/dc/elements/1.1/">
+  <defs
+     id="defs2" />
+  <metadata
+     id="metadata5">
+    <rdf:RDF>
+      <cc:Work
+         rdf:about="">
+        <dc:format>image/svg+xml</dc:format>
+        <dc:type
+           rdf:resource="http://purl.org/dc/dcmitype/StillImage" />
+        <cc:license
+           rdf:resource="http://creativecommons.org/licenses/by-sa/4.0/" />
+      </cc:Work>
+      <cc:License
+         rdf:about="http://creativecommons.org/licenses/by-sa/4.0/">
+        <cc:permits
+           rdf:resource="http://creativecommons.org/ns#Reproduction" />
+        <cc:permits
+           rdf:resource="http://creativecommons.org/ns#Distribution" />
+        <cc:requires
+           rdf:resource="http://creativecommons.org/ns#Notice" />
+        <cc:requires
+           rdf:resource="http://creativecommons.org/ns#Attribution" />
+        <cc:permits
+           rdf:resource="http://creativecommons.org/ns#DerivativeWorks" />
+        <cc:requires
+           rdf:resource="http://creativecommons.org/ns#ShareAlike" />
+      </cc:License>
+    </rdf:RDF>
+  </metadata>
+  <g
+     id="layer1"
+     transform="translate(-728)">
+    <g
+       id="g299917"
+       style="fill:#222222"
+       transform="translate(716.01745,-668.00458)">
+      <title
+         id="title299905">task-assigned-to</title>
+      <path
+         style="color:#000000;fill:#2e3436;fill-opacity:1;-inkscape-stroke:none"
+         d="m 14.982422,668.00391 c -1.644701,0 -3,1.3553 -3,3 v 10 c 0,1.6447 1.355299,3 3,3 h 10 c 1.644701,0 3,-1.3553 3,-3 v -10 c 0,-1.6447 -1.355299,-3 -3,-3 z m 0,2 h 10 c 0.571297,0 1,0.4287 1,1 v 10 c 0,0.57129 -0.428703,1 -1,1 h -10 c -0.571297,0 -1,-0.42871 -1,-1 v -10 c 0,-0.5713 0.428703,-1 1,-1 z"
+         id="path299909" />
+      <path
+         style="fill:#2e3436;fill-opacity:1;fill-rule:nonzero;stroke:none;stroke-width:2;stroke-linecap:round;stroke-linejoin:round;stroke-opacity:1;stop-color:#000000"
+         d="m 19.982593,674.00458 v 1 0.98633 h -0.0137 -6.574204 v 2 c 0,0 6.340358,0.007 6.574204,0 h 0.0137 v 1.01367 1 h 1 v -0.006 c 0.26436,0.002 0.51856,-0.10172 0.70703,-0.28711 l 2,-2 c 0.39037,-0.39053 0.39037,-1.02353 0,-1.41406 l -2,-2 c -0.18847,-0.18525 -0.44267,-0.28911 -0.70703,-0.28711 v -0.006 z"
+         id="path299911" />
+    </g>
+  </g>
+</svg>

@@ -15,7 +15,7 @@ set(public_icons
 	hicolor_apps_48x48_evolution-memos.png
 	hicolor_apps_48x48_evolution-tasks.png
 	hicolor_apps_scalable_evolution.svg
-	hicolor_apps_symbolic_evolution-symbolic.svg
+	hicolor_apps_scalable_evolution-symbolic.svg
 )
 
 # hicolor_status_16x16_wrapped.png was copied from Firefox
@@ -55,6 +55,9 @@ set(private_icons
 	hicolor_apps_32x32_contact-editor.png
 	hicolor_apps_48x48_contact-editor.png
 	hicolor_apps_128x128_contact-editor.png
+	hicolor_apps_scalable_evolution-mail-symbolic.svg
+	hicolor_apps_scalable_evolution-memos-symbolic.svg
+	hicolor_apps_scalable_evolution-tasks-symbolic.svg
 	hicolor_apps_scalable_im-aim.svg
 	hicolor_apps_scalable_im-icq.svg
 	hicolor_apps_scalable_im-jabber.svg
@@ -96,6 +99,15 @@ set(private_icons
 	hicolor_actions_32x32_view-calendar-week.png
 	hicolor_actions_32x32_view-calendar-workweek.png
 	hicolor_actions_32x32_view-calendar-year.png
+	hicolor_actions_scalable_accessories-text-editor-symbolic.svg
+	hicolor_actions_scalable_folder-saved-search-symbolic.svg
+	hicolor_actions_scalable_go-today-symbolic.svg
+	hicolor_actions_scalable_mail-archive-symbolic.svg
+	hicolor_actions_scalable_mail-inbox-symbolic.svg
+	hicolor_actions_scalable_mail-mark-junk-symbolic.svg
+	hicolor_actions_scalable_mail-mark-not-junk-symbolic.svg
+	hicolor_actions_scalable_mail-outbox-symbolic.svg
+	hicolor_actions_scalable_mail-sent-symbolic.svg
 	hicolor_actions_scalable_markdown-bold.svg
 	hicolor_actions_scalable_markdown-bold-dark.svg
 	hicolor_actions_scalable_markdown-bullets.svg
@@ -116,12 +128,33 @@ set(private_icons
 	hicolor_actions_scalable_markdown-numbers-dark.svg
 	hicolor_actions_scalable_markdown-quote.svg
 	hicolor_actions_scalable_markdown-quote-dark.svg
+	hicolor_actions_scalable_stock_insert-note-symbolic.svg
+	hicolor_actions_scalable_stock_insert-rule-symbolic.svg
+	hicolor_actions_scalable_stock_insert-table-symbolic.svg
+	hicolor_actions_scalable_stock_people-symbolic.svg
+	hicolor_actions_scalable_stock_shared-by-me-symbolic.svg
+	hicolor_actions_scalable_stock_shared-to-me-symbolic.svg
+	hicolor_actions_scalable_stock_signature-symbolic.svg
+	hicolor_actions_scalable_stock_signature-bad-symbolic.svg
+	hicolor_actions_scalable_stock_signature-ok-symbolic.svg
+	hicolor_actions_scalable_stock_task-symbolic.svg
+	hicolor_actions_scalable_stock_task-assigned-symbolic.svg
+	hicolor_actions_scalable_stock_task-assigned-to-symbolic.svg
+	hicolor_actions_scalable_user-trash-symbolic.svg
 	hicolor_actions_scalable_view-calendar-day.svg
+	hicolor_actions_scalable_view-calendar-day-symbolic.svg
 	hicolor_actions_scalable_view-calendar-list.svg
+	hicolor_actions_scalable_view-calendar-list-symbolic.svg
 	hicolor_actions_scalable_view-calendar-month.svg
+	hicolor_actions_scalable_view-calendar-month-symbolic.svg
 	hicolor_actions_scalable_view-calendar-week.svg
+	hicolor_actions_scalable_view-calendar-week-symbolic.svg
 	hicolor_actions_scalable_view-calendar-workweek.svg
+	hicolor_actions_scalable_view-calendar-workweek-symbolic.svg
 	hicolor_actions_scalable_view-calendar-year.svg
+	hicolor_actions_scalable_view-calendar-year-symbolic.svg
+	hicolor_actions_scalable_x-office-address-book-symbolic.svg
+	hicolor_actions_scalable_x-office-calendar-symbolic.svg
 	hicolor_categories_24x24_preferences-calendar-and-tasks.svg
 	hicolor_categories_24x24_preferences-certificates.svg
 	hicolor_categories_24x24_preferences-composer.svg
@@ -151,11 +184,6 @@ set(private_icons
 	hicolor_status_32x32_online.png
 	hicolor_status_32x32_aspect-ratio-lock.png
 	hicolor_status_32x32_aspect-ratio-unlock.png
-	hicolor_apps_scalable_evolution-mail-symbolic.svg
-	hicolor_apps_scalable_evolution-memos-symbolic.svg
-	hicolor_apps_scalable_evolution-tasks-symbolic.svg
-	hicolor_actions_scalable_stock_task-symbolic.svg
-	hicolor_actions_scalable_stock_insert-note-symbolic.svg
 )
 
 # These icons were in gnome-icon-theme prior to GNOME 2.30.
@@ -823,6 +851,7 @@ set(noinst_icons
 	hicolor_status_32x32_online.svg
 	hicolor_status_scalable_aspect-ratio-lock.svg
 	hicolor_status_scalable_aspect-ratio-unlock.svg
+	source-symbols.svg
 )
 
 add_icon_cache_files("${SHARE_INSTALL_PREFIX}" public_icons)
