@@ -1,3 +1,22 @@
+Evolution 3.44.3 2022-07-01
+---------------------------
+
+Bug Fixes:
+	I#1848 - icons: Add symbolic variants for toolbar/folder tree icons (Jakub Steiner)
+	I#1918 - Composer: Skip STYLE and other tags in convert to Plain Text
+	I#1919 - Drag&Drop creates many identical temporary files
+	I#1930 - Update Task preview, when Task is updated
+	I#1941 - ESourceSelectorDialog: Close on double-click on source only
+	I#1944 - Crash when printing task list to pdf
+	I#1946 - Logic of "Do not sign meeting requests" is inverted
+	M!109 - EShell: Use symbolic icons on GNOME (Cédric Bellegarde)
+
+Miscellaneous:
+	EMailStripSigFilter: Make sure it doesn't read out of buffer bounds
+
+Translations:
+	Christian Kirbach (de)
+
 Evolution 3.44.2 2022-05-27
 ---------------------------
 
