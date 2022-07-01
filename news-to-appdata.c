@@ -149,12 +149,12 @@ extract_versions (GSList **pversions,
 							paragraph = NULL;
 						}
 					/* Starts a free paragraph section */
-					} else if (*line == '*') {
+					} else if (*line == '*' || (line[0] == ' ' && line[1] == '*')) {
 						if (paragraph) {
 							g_printerr ("news-to-appdata: Unexpected start of a free paragraph section when reading one at line %d of '%s'\n", ii, filename);
 							res = FALSE;
 						} else {
-							paragraph = g_string_new (g_strstrip (line + 1));
+							paragraph = g_string_new (g_strstrip (line + (*line == '*' ? 1 : 2)));
 						}
 					/* Continues the free paragraph section */
 					} else if (*line == ' ') {
