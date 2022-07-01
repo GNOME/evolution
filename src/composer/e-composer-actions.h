@@ -56,6 +56,8 @@
 	E_COMPOSER_ACTION ((composer), "smime-encrypt")
 #define E_COMPOSER_ACTION_SMIME_SIGN(composer) \
 	E_COMPOSER_ACTION ((composer), "smime-sign")
+#define E_COMPOSER_ACTION_TOOLBAR_SHOW_MAIN(composer) \
+	E_COMPOSER_ACTION ((composer), "toolbar-show-main")
 #define E_COMPOSER_ACTION_TOOLBAR_SHOW_EDIT(composer) \
 	E_COMPOSER_ACTION ((composer), "toolbar-show-edit")
 #define E_COMPOSER_ACTION_TOOLBAR_PGP_ENCRYPT(composer) \

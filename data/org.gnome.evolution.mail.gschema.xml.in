@@ -243,6 +243,11 @@
       <_summary>Number of To and CC recipients to ask “prompt-on-many-to-cc-recips” from</_summary>
       <_description>When to ask, when the number of To and CC recipients reaches this value.</_description>
     </key>
+     <key name="composer-show-main-toolbar" type="b">
+      <default>true</default>
+      <_summary>Whether to always show main toolbar</_summary>
+      <_description>If set to “true”, the main toolbar will be visible.</_description>
+    </key>
     <key name="composer-show-edit-toolbar" type="b">
       <default>true</default>
       <_summary>Whether to always show edit toolbar</_summary>

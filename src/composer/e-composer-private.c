@@ -309,6 +309,11 @@ e_composer_private_constructed (EMsgComposer *composer)
 	gtk_box_pack_start (GTK_BOX (container), widget, FALSE, FALSE, 0);
 	gtk_widget_show (widget);
 
+	e_binding_bind_property (
+		ACTION (TOOLBAR_SHOW_MAIN), "active",
+		widget, "visible",
+		G_BINDING_SYNC_CREATE);
+
 	/* Construct the header table. */
 
 	widget = e_composer_header_table_new (client_cache);

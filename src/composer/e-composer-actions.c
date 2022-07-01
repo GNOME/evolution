@@ -413,6 +413,14 @@ static GtkActionEntry async_entries[] = {
 
 static GtkToggleActionEntry toggle_entries[] = {
 
+	{ "toolbar-show-main",
+	  NULL,
+	  N_("_Main toolbar"),
+	  NULL,
+	  N_("Main toolbar"),
+	  NULL,
+	  FALSE },
+
 	{ "toolbar-show-edit",
 	  NULL,
 	  N_("Edit _toolbar"),
@@ -668,11 +676,19 @@ e_composer_actions_init (EMsgComposer *composer)
 	#undef init_toolbar_option
 
 	settings = e_util_ref_settings ("org.gnome.evolution.mail");
+
+	action = ACTION (TOOLBAR_SHOW_MAIN);
+	g_settings_bind (
+		settings, "composer-show-main-toolbar",
+		action, "active",
+		G_SETTINGS_BIND_DEFAULT);
+
 	action = ACTION (TOOLBAR_SHOW_EDIT);
 	g_settings_bind (
 		settings, "composer-show-edit-toolbar",
 		action, "active",
 		G_SETTINGS_BIND_DEFAULT);
+
 	g_object_unref (settings);
 
 	/* Borrow a GnuPG icon from gcr to distinguish between GPG and S/MIME Sign/Encrypt actions */
