@@ -1,3 +1,115 @@
+Evolution 3.45.1 2022-07-01
+---------------------------
+
+ * The Evolution had been ported to libsoup3, which means anything what uses
+   it, and all of its dependencies, should be libsoup3 too.
+
+Bug Fixes:
+	I#876 - Calendar: Display multi-lingual properties in current locale
+	I#1026 - alarm-notify: Add option to enable/disable desktop notifications
+	I#1306 - Calendar: Drag&drop events in Week/Month views
+	I#1568 - Cannot import PKCS12 certificate with non-ASCII or empty password
+	I#1811 - icons: emblem-new hard to spot with adwaita-icon-theme 42
+	I#1827 - itip-formatter: Properly update content on message preview reload
+	I#1831 - Correct GSettings schema strings for translation
+	I#1835 - Mail: Preview uses wrong colors for HTML mail with dark theme
+	I#1837 - Meeting attendees should default to Required Participants
+	I#1847 - attachment-reminder: Existing keyword lost on editing cancel
+	I#1848 - icons: Add symbolic variants for toolbar/folder tree icons (Jakub Steiner)
+	I#1849 - markdown-utils: Ignore character encoding hints in HTML when converting to text
+	I#1850 - Flatpak: Attachments cannot be opened
+	I#1853 - Tasks: Cannot remove recurrence and Start date at the same time
+	I#1857 - Composer: Markdown should prevent soft line breaks
+	I#1858 - Calendar: Show recurring information near event time in preview/iTip
+	I#1867 - itip-formatter: Colorize meeting summary with the event color
+	I#1870 - Show mailto: hyperlinks in the status bar percent-decoded
+	I#1871 - WebKitEditor: Convert to plain text incorrect on reply/forward open
+	I#1876 - Contacts: Add a way to create a contact copy
+	I#1883 - Calendar: Read Organizer/Attendee EMAIL parameter
+	I#1886 - itip-formatter: Use whole URL value as a link href
+	I#1891 - Fails to build with libgweather 3.36
+	I#1895 - Misc: Handle numpad Enter similarly as the Enter key
+	I#1896 - Composer: Ensure URL entry is focused in Link Properties
+	I#1898 - Better handle Dark Style GNOME 42 setting
+	I#1900 - iTIP formatter shows twice "Attendee status updated"
+	I#1901 - Calendars with very long names hide the organizer in the CompEditor
+	I#1902 - Tasks: Overdue calculation sometimes incorrect
+	I#1904 - CompEditor: Move whole component between calendars
+	I#1905 - DUE-today color in Tasks window not always applied
+	I#1913 - Calendar: iTip message not sent to a Room address
+	I#1916 - Allow to search in "Describe Filters"
+	I#1917 - Calendar: Add option to change 'today' background color
+	I#1918 - Composer: Skip STYLE and other tags in convert to Plain Text
+	I#1919 - Drag&Drop creates many identical temporary files
+	I#1923 - Composer: Add "Copy/Open Link" into the context menu
+	I#1930 - Update Task preview, when Task is updated
+	I#1935 - Mail: Add option to print attachment content
+	I#1941 - ESourceSelectorDialog: Close on double-click on source only
+	I#1942 - Calendar: Show extra Google attendee info in component preview
+	I#1944 - Crash when printing task list to pdf
+	I#1946 - Logic of "Do not sign meeting requests" is inverted
+	eds-I#39 - Add Web Key Directory (WKD) support for OpenPGP
+	eds-I#383 - Add option to respect Power Saver mode
+	ews-I#159 - EMFolderTreeModel: Prefer Inbox over other folder types
+	M!94 - Port to libsoup3
+	M!104 - icon-factory: update for new gnome-desktop API (Michael Catanzaro)
+	M!107 - em-format: Make contact photo rounded (Cédric Bellegarde)
+	M!109 - EShell: Use symbolic icons on GNOME (Cédric Bellegarde)
+
+Miscellaneous:
+	Calendar: Minicalendar shown after search in the List View
+	gal-view-instance: Do not crash on broken setup
+	Calendar: Implement 'Year View'
+	Calendar: Highlight today in the Year View
+	ECalComponentPreview: Linkify 'Location' value
+	Calendar: Unify tooltip query in calendar views
+	Calendar: Add option to shorten event end time for new events
+	Disable hardware acceleration for WebKitGTK
+	EShell: Auto-close ESource connection alerts on idle
+	EContactEditor: Use a GWeakRef on the editor when opening target client
+	EWebDAVConfigLookup: Set also authentication method
+	EWebKitEditor: Mode change not propagated into the Editor widget
+	Update the information in the AUTHORS file
+	ECompEditor: Change packing of the Organizer combo
+	Tasks: Ensure ICalTime::zone is set for current time
+	CompEditor: Consider 'shorten-end-time' when adjusting end time
+	itip-view: Ignore empty text/plain subpart in meeting invitation mail
+	ENameSelectorDialog: Set a11y description for the Add/Remove buttons
+	EMailStripSigFilter: Make sure it doesn't read out of buffer bounds
+	EWebView: Unset has-selection flag on content load start
+	Fix cairo_surface_t memory leaks after drag begin
+	Calendar: Implement event drag&drop for the Year view
+	Calendar: Ignore event drag&drop in read-only calendars in Year View
+	Calendar: Fix recently introduced "maybe used uninitialized" warning in the print code
+	Calendar: Default to event move on drag&drop in Week/Month/Year views
+	docs: Add some missing sections into the developer documentation
+	Correct spelling of word 'GitLab'
+	flatpak: Prepare manifest for the development version
+	Calendar: Option to shorten an event time from the end or from the start
+	Calendar: Update preview on a component change in the Year View
+	Mail: Handle CAMEL_PROVIDER_CONF_ADVANCED_SECTION_START in provider config page
+	EMonthWidget: Fix a memory leak
+	build: Update geocode-glib dependency
+
+Translations:
+	Aleksandr Melman (ru)
+	Asier Sarasua Garmendia (eu)
+	Aurimas Černius (lt)
+	Christian Kirbach (de)
+	Danial Behzadi (fa)
+	Daniel Mustieles (es)
+	Fabio Tomat (fur)
+	Fran Dieguez (gl)
+	Hugo Carvalho (pt)
+	Jordi Mas (ca)
+	Luming Zh (zh_CN)
+	Nathan Follens (nl)
+	Philipp Kiemle (de)
+	Rūdolfs Mazurs (lv)
+	Yosef Or Boczko (he)
+	Yuri Chornoivan (uk)
+	Zurab Kargareteli (ka)
+
 Evolution 3.44.0 2022-03-18
 ---------------------------
 
