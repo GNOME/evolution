@@ -11,8 +11,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: evolution\n"
 "Report-Msgid-Bugs-To: https://gitlab.gnome.org/GNOME/evolution/issues\n"
-"POT-Creation-Date: 2022-06-28 13:20+0000\n"
-"PO-Revision-Date: 2022-06-29 13:54+0430\n"
+"POT-Creation-Date: 2022-07-02 18:45+0000\n"
+"PO-Revision-Date: 2022-07-03 05:55+0430\n"
 "Last-Translator: Danial Behzadi <dani.behzi@ubuntu.com>\n"
 "Language-Team: Persian <>\n"
 "Language: fa\n"
@@ -763,10 +763,8 @@ msgid "Sunday is a work day"
 msgstr "یک‌شنبه یک روز کاری است"
 
 #: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:159
-#, fuzzy
-#| msgid "Shorten event end time by minutes"
 msgid "User-defined reminder times, in minutes"
-msgstr "کوتاه‌کردن زمان پایان رویداد به دقیقه"
+msgstr "زمان‌های یادآور تعریف شده به دست کاربر به دقیقه"
 
 #: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:160
 msgid "Whether to use markdown editor for the description in the component editor."
@@ -812,16 +810,12 @@ msgid "Position of the vertical event preview for the year view, in pixels"
 msgstr "موقعیت پیش‌نمایش رویداد عمودی نمای سال به پیکسل"
 
 #: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:172
-#, fuzzy
-#| msgid "Shorten event end time by minutes"
 msgid "Shorten event time by minutes"
-msgstr "کوتاه‌کردن زمان پایان رویداد به دقیقه"
+msgstr "زمان رویداد کوتاه شده به دقیقه"
 
 #: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:174
-#, fuzzy
-#| msgid "Whether to show the preview pane."
 msgid "Whether to shorten event end time"
-msgstr "این که قاب پیش‌نمایش نشان داده بشود یا نه."
+msgstr "این که زمان پایان رویداد کوتاه شود یا نه"
 
 #: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:178
 msgid "(Deprecated) First day of the week, from Sunday (0) to Saturday (6)"
@@ -1567,382 +1561,275 @@ msgid "Inherit theme colors in HTML format"
 msgstr "ارث‌بری رنگ‌های زمینه در قالب HTML"
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:263
-#, fuzzy
-#| msgid "Archive folder to use for On This Computer messages"
 msgid "An Archive folder for On This Computer folders."
-msgstr "شاخهٔ بایگانی برای استفاده روی پیام‌های این رایانه"
+msgstr "شاخهٔ بایگانی‌ای برای شاخه‌های روی این رایانه."
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:264
-#, fuzzy
-#| msgid "Archive folder to use for On This Computer messages"
 msgid ""
 "An Archive folder to use for Messages|Archive... feature when in an On This "
 "Computer folder."
-msgstr "شاخهٔ بایگانی برای استفاده روی پیام‌های این رایانه"
+msgstr ""
+"شاخهٔ بایگانی‌ای برای استفادهٔ ویژگی پیام|بایگانی… هنگام بودن در شاخه‌ای روی این "
+"رایانه."
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:265
-#, fuzzy
-#| msgid "Whether to show categories field in the event/meeting editor"
 msgid "Whether the To Do bar is visible in the main window"
-msgstr "این که فیلد مقولات در ویرایشگر رویداد/جلسه نشان داده شود یا نه"
+msgstr "این که نوار برای انجام در پنجرهٔ اصلی نمایان باشد یا نه"
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:266
-#, fuzzy
-#| msgid "Whether to show categories field in the event/meeting editor"
 msgid "Stores whether the To Do bar is visible in the main window."
-msgstr "این که فیلد مقولات در ویرایشگر رویداد/جلسه نشان داده شود یا نه"
+msgstr "این که نوار برای انجام در پنجرهٔ اصلی نمایان باشد یا نه را نگه می‌دارد."
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:267
-#, fuzzy
-#| msgid "Whether to show categories field in the event/meeting editor"
 msgid "Width of the To Do bar in the main window"
-msgstr "این که فیلد مقولات در ویرایشگر رویداد/جلسه نشان داده شود یا نه"
+msgstr "پهنای نوار برای انجام در پنجرهٔ اصلی"
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:268
-#, fuzzy
-#| msgid "Whether to show categories field in the event/meeting editor"
 msgid "Holds the width of the To Do bar for the main window."
-msgstr "این که فیلد مقولات در ویرایشگر رویداد/جلسه نشان داده شود یا نه"
+msgstr "پهنای نوار برای انجام در پنجرهٔ اصلی را نگه می‌دارد."
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:269
-#, fuzzy
-#| msgid "Whether the toolbar should be visible."
 msgid "Whether the To Do bar is visible in a sub-window"
-msgstr "این که نوار ابزار مرئی باشد یا نه."
+msgstr "این که نوار برای انجام در زیرپنجره‌ای نمایان باشد یا نه"
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:270
-#, fuzzy
-#| msgid "Whether the toolbar should be visible."
 msgid "Stores whether the To Do bar is visible in a sub-window."
-msgstr "این که نوار ابزار مرئی باشد یا نه."
+msgstr "این که نوار برای انجام در زیرپنجره‌ای نمایان باشد یا نه را نگه می‌دارد."
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:271
-#, fuzzy
-#| msgid "Whether the toolbar should be visible."
 msgid "Width of the To Do bar in a sub-window"
-msgstr "این که نوار ابزار مرئی باشد یا نه."
+msgstr "پهنای نوار برای انجام در یک زیرپنجره"
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:272
-#, fuzzy
-#| msgid "Whether the toolbar should be visible."
 msgid "Holds the width of the To Do bar for a sub-window."
-msgstr "این که نوار ابزار مرئی باشد یا نه."
+msgstr "پهنای نوار برای انجام در یک زیرپنجره را نگه می‌دارد."
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:273
-#, fuzzy
-#| msgid "Whether the toolbar should be visible."
 msgid "Whether the To Do bar should show also completed tasks"
-msgstr "این که نوار ابزار مرئی باشد یا نه."
+msgstr "این که نوار برای انجام باید وظایف کامل شده را نیز نمایش دهد یا نه"
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:274
-#, fuzzy
-#| msgid "Whether the toolbar should be visible."
 msgid "Stores whether the To Do bar should show also completed tasks."
-msgstr "این که نوار ابزار مرئی باشد یا نه."
+msgstr ""
+"این که نوار برای انجام باید وظایف کامل شده را نیز نمایش دهد یا نه را نگه می‌دارد."
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:275
-#, fuzzy
-#| msgid "Whether the toolbar should be visible."
 msgid "Whether the To Do bar should show also tasks without Due date"
-msgstr "این که نوار ابزار مرئی باشد یا نه."
+msgstr "این که نوار برای انجام باید وظایف بدون سررسید را نیز نمایش دهد یا نه"
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:276
-#, fuzzy
-#| msgid "Whether the toolbar should be visible."
 msgid "Stores whether the To Do bar should show also tasks without Due date."
-msgstr "این که نوار ابزار مرئی باشد یا نه."
+msgstr ""
+"این که نوار برای انجام باید وظایف بدون سررسید را نیز نمایش دهد یا نه را نگه می‌دارد."
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:279
 msgid "Show start up wizard"
 msgstr "نمایش جادوگر برپا سازی"
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:280
-#, fuzzy
-#| msgid "This message cannot be sent because you have not specified any recipients"
 msgid "Whether show start up wizard when there is no mail account configured."
-msgstr "این پیام را نمی‌توان ارسال کرد چون شما گیرنده‌ای مشخص نکرده‌اید"
+msgstr ""
+"این که نمایش جادوگر آغاز به کار هنگامی که هیچ حساب نامه‌ای پیکربندی نشده نشان داده "
+"شود یا نه."
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:281
-#, fuzzy
-#| msgid "Mark the selected messages for deletion"
 msgid "Whether go to the previous message after message deletion"
-msgstr "علامت‌گذاری پیام‌های گزیده برای حذف"
+msgstr "این که پس از حذف پیام به پیام پیشین برود یا نه"
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:285
-#, fuzzy
-#| msgid "Visually _Wrap Long Lines"
 msgid "Visually wrap long lines in composer"
-msgstr "_پیچش دیداری خط‌های طولانی"
+msgstr "پیچش دیداری خط‌های طولانی در ایجادگر"
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:287
 msgid "Alternative reply style"
 msgstr "گونهٔ پاسخ جایگزین"
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:288
-#, fuzzy
-#| msgid "Compose Message"
 msgid "Composer mode to use."
-msgstr "نگارش پیام"
+msgstr "حالت ایجادگر برای استفاده."
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:289
-#, fuzzy
-#| msgid "Enter the recipients of the message"
 msgid "Put the cursor at the bottom of alternative replies"
-msgstr "گیرنده‌های پیام را وارد کنید"
+msgstr "گذاشتن نشانگر در پایین پاسخ‌های جایگزین"
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:291
-#, fuzzy
-#| msgid "Enter the recipients of the message"
 msgid "Put the signature at the top of the message"
-msgstr "گیرنده‌های پیام را وارد کنید"
+msgstr "گذاشتن امضا در بالای پیام"
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:302
-#, fuzzy
-#| msgid "Marks the selected calendar for offline viewing."
 msgid "Whether Send/Receive should also download of messages for offline."
-msgstr "تقویم گزیده را برای نمایش برون‌خط علامت‌گذاری می‌کند."
+msgstr "این که فرستادن/گرفتن باید پیام‌ها را برای برون‌خط نیز بارگیری کند یا نه."
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:304
-#, fuzzy
-#| msgid "Show display alarms in notification tray"
 msgid "Whether display delivery notification parts inline."
-msgstr "نمایش هشدارهای نمایشی در سینی اطلاع"
+msgstr "این که بخش‌های آگاهی رساندن در خط نمایش داده شود یا نه."
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:306
-#, fuzzy
-#| msgid "Send the mail in HTML format"
 msgid "Whether unset colors provided in HTML mails."
-msgstr "ارسال نامه در قالب HTML"
+msgstr "این که رنگ‌های فراهم شده در نامه‌ّای HTML ناتنظیم شوند یا نه."
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:310
-#, fuzzy
-#| msgid "Whether to show the preview pane."
 msgid "Whether to print attachments."
-msgstr "این که قاب پیش‌نمایش نشان داده بشود یا نه."
+msgstr "این که پیوست‌هاچاپ شوند یا نه."
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:314
-#, fuzzy
-#| msgid "Default forward style"
 msgid "(Deprecated) Default forward style"
-msgstr "سبک ارجاع پیش‌گزیده"
+msgstr "(منقضی) سبک ارجاع پیش‌گزیده"
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:316
 msgid "(Deprecated) Default reply style"
 msgstr "(منقضی) گونهٔ پاسخ دادن پیش‌گزیده"
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:318
-#, fuzzy
-#| msgid "List of custom headers and whether they are enabled."
 msgid "(Deprecated) List of custom headers and whether they are enabled."
-msgstr "فهرست سرنامه‌های سفارشی و این که به کار افتاده‌اند یا نه."
+msgstr "(منقضی) سیاههٔ سرایندهای سفارشی و این که به کار افتاده‌اند یا نه."
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:320
-#, fuzzy
-#| msgid "Load images for HTML messages over http"
 msgid "(Deprecated) Load images for HTML messages over HTTP"
-msgstr "بار کردن تصاویر برای پیام‌های HTML از http"
+msgstr "(منقضی) بار کردن تصاویر برای پیام‌های HTML از http"
 
 #: ../data/org.gnome.evolution.plugin.autocontacts.gschema.xml.in.h:1
-#, fuzzy
 msgid "Address book source"
-msgstr "نشانی"
+msgstr "منبع دفترچه نشانی"
 
 #: ../data/org.gnome.evolution.plugin.autocontacts.gschema.xml.in.h:2
-#, fuzzy
-#| msgid "Automatic Contacts"
 msgid "Address book to use for storing automatically synced contacts."
-msgstr "آشنا‌های خودکار"
+msgstr "دفترچه نشانی مورد استفاده برای نگه‌داری آشنایان خودکار همگام شده."
 
 #: ../data/org.gnome.evolution.plugin.autocontacts.gschema.xml.in.h:3
-#, fuzzy
-#| msgid "Automatic contacts"
 msgid "Auto sync Pidgin contacts"
-msgstr "آشنا‌های خودکار"
+msgstr "همگام سازی خودکار آشنایان پیجن"
 
 #: ../data/org.gnome.evolution.plugin.autocontacts.gschema.xml.in.h:5
-#, fuzzy
-#| msgid "Select all contacts"
 msgid "Enable autocontacts"
-msgstr "انتخاب همهٔ آشنا‌ها"
+msgstr "به کار انداختن آشنایان خودکار"
 
 #: ../data/org.gnome.evolution.plugin.autocontacts.gschema.xml.in.h:9
-#, fuzzy
 msgid "Pidgin address book source"
-msgstr "نشانی"
+msgstr "منبع دفترچه نشانی پیجن"
 
 #: ../data/org.gnome.evolution.plugin.autocontacts.gschema.xml.in.h:10
-#, fuzzy
-#| msgid "Automatic Contacts"
 msgid "Address book to use for storing automatically synced contacts from Pidgin."
-msgstr "آشنا‌های خودکار"
+msgstr "دفترچه نشانی مورد استفاده برای نگه‌داری آشنایان خودکار همگام شده از پیجن."
 
 #: ../data/org.gnome.evolution.plugin.email-custom-header.gschema.xml.in.h:1
-#, fuzzy
-#| msgid "Custom _message"
 msgid "List of Custom Headers"
-msgstr "_پیغام سفارشی"
+msgstr "سیاههٔ سرایندهای سفارشی"
 
 #: ../data/org.gnome.evolution.plugin.external-editor.gschema.xml.in.h:1
-#, fuzzy
-#| msgid "Default Mail Client "
 msgid "Default External Editor"
-msgstr "کارخواه نامهٔ پیش‌گزیده "
+msgstr "ویرایشگر خارجی پیش‌گزیده"
 
 #: ../data/org.gnome.evolution.plugin.external-editor.gschema.xml.in.h:3
-#, fuzzy
-#| msgid "Automatically check for _new mail every"
 msgid "Automatically launch when a new mail is edited"
-msgstr "گشتن خودکار به دنبال نامهٔ _جدید در هر"
+msgstr "اجرای خودکار هنکام ویرایش نامه‌ای جدید"
 
 #: ../data/org.gnome.evolution.plugin.external-editor.gschema.xml.in.h:4
-#, fuzzy
-#| msgid "Automatically check for _new mail every"
 msgid "Automatically launch editor when key is pressed in the mail composer."
-msgstr "گشتن خودکار به دنبال نامهٔ _جدید در هر"
+msgstr "اجرای خودمار ویرایشگر هنگام فشردن کلید در ایجادگر نامه."
 
 #: ../data/org.gnome.evolution.plugin.itip.gschema.xml.in.h:1
-#, fuzzy
-#| msgid "_Delete Message"
 msgid "Delete processed"
-msgstr "_حذف پیام"
+msgstr "حذف انجام شد"
 
 #: ../data/org.gnome.evolution.plugin.itip.gschema.xml.in.h:2
-#, fuzzy
-#| msgid "Whether to show the preview pane."
 msgid "Whether to delete processed iTip objects"
-msgstr "این که قاب پیش‌نمایش نشان داده بشود یا نه."
+msgstr "این که اشیای iTip پردازش‌شده حذف شوند یا نه"
 
 #: ../data/org.gnome.evolution.plugin.itip.gschema.xml.in.h:5
-#, fuzzy
-#| msgid "_Show invitation description provided by the sender"
 msgid "Show invitation description provided by the sender"
-msgstr "_نمایش شرح دعوت فراهم شده به دست فرستنده"
+msgstr "نمایش شرح دعوت فراهم شده به دست فرستنده"
 
 #: ../data/org.gnome.evolution.plugin.itip.gschema.xml.in.h:6
-#, fuzzy
-#| msgid "_Show invitation description provided by the sender"
 msgid ""
 "Set to true to show invitation description as provided by the sender, if such is "
 "available"
-msgstr "_نمایش شرح دعوت فراهم شده به دست فرستنده"
+msgstr ""
+"برای نمایش شرح دعوت فراهم شده به دست فرستنده در صورت موجود بودن، روی درست تنظیم شود"
 
 #: ../data/org.gnome.evolution.plugin.mail-notification.gschema.xml.in.h:1
-#, fuzzy
-#| msgid "Notify new attendees _only"
 msgid "Notify new messages for Inbox only."
-msgstr "فقط شرکت‌کنندگان جدید را باخبر کن"
+msgstr "آگاهی پیام‌های جدید فقط برای صندوق ورودی."
 
 #: ../data/org.gnome.evolution.plugin.mail-notification.gschema.xml.in.h:2
-#, fuzzy
-#| msgid "There are no messages in this folder."
 msgid "Whether to notify new messages in Inbox folder only."
-msgstr "هیچ پیامی در این شاخه نیست."
+msgstr "این که پیام‌های جدید فقط برای صندوق ورودی آگاهی داشته باشند یا نه."
 
 #: ../data/org.gnome.evolution.plugin.mail-notification.gschema.xml.in.h:3
 msgid "Enable D-Bus messages."
 msgstr "به کار انداختن پیام‌های دی‌باس."
 
 #: ../data/org.gnome.evolution.plugin.mail-notification.gschema.xml.in.h:4
-#, fuzzy
-#| msgid "Generates a D-BUS message when new mail arrives."
 msgid "Generates a D-Bus message when new mail messages arrive."
-msgstr "هنگامی که نامهٔ جدیدی می‌رسد یک پیام D-BUS ایجاد می‌کند."
+msgstr "هنگامی که پیام جدیدی می‌رسد یک پیام D-BUS ایجاد می‌کند."
 
 #: ../data/org.gnome.evolution.plugin.mail-notification.gschema.xml.in.h:5
-#, fuzzy
-#| msgid "Calendar event notifications"
 msgid "Enable icon in notification area."
-msgstr "رویدادهای تقویم و هشدارها"
+msgstr "به کارانداختن نقشک در ناحیهٔ آگاهی."
 
 #: ../data/org.gnome.evolution.plugin.mail-notification.gschema.xml.in.h:6
-#, fuzzy
-#| msgid "Get delivery notification when your message is read"
 msgid "Show new mail icon in notification area when new messages arrive."
-msgstr "گرفتن اطلاع تحویل وقتی که پیام‌تان خوانده می‌شود"
+msgstr "نمایش نقشک نامهٔ جدید هنگام رسیدن پیامی جدید."
 
 #: ../data/org.gnome.evolution.plugin.mail-notification.gschema.xml.in.h:8
-#, fuzzy
-#| msgid "Generates a D-BUS message when new mail arrives."
 msgid "Whether show message over the icon when new messages arrive."
-msgstr "هنگامی که نامهٔ جدیدی می‌رسد یک پیام D-BUS ایجاد می‌کند."
+msgstr "این که هنگام رسیدن پیامی جدید، پیام روی نقشک نشان داده شود یا نه."
 
 #: ../data/org.gnome.evolution.plugin.mail-notification.gschema.xml.in.h:9
-#, fuzzy
-#| msgid "Get delivery notification when your message is read"
 msgid "Enable audible notifications when new messages arrive."
-msgstr "گرفتن اطلاع تحویل وقتی که پیام‌تان خوانده می‌شود"
+msgstr "به کار انداختن آگاهی‌های صوتی هنام رسیدن پیامی جدید."
 
 #: ../data/org.gnome.evolution.plugin.mail-notification.gschema.xml.in.h:11
-#, fuzzy
-#| msgid "Whether to show the preview pane."
 msgid "Whether to emit a beep."
-msgstr "این که قاب پیش‌نمایش نشان داده بشود یا نه."
+msgstr "این که بوق زده شود یا نه."
 
 #: ../data/org.gnome.evolution.plugin.mail-notification.gschema.xml.in.h:12
-#, fuzzy
-#| msgid "Generates a D-BUS message when new mail arrives."
 msgid "Whether to emit a beep when new messages arrive."
-msgstr "هنگامی که نامهٔ جدیدی می‌رسد یک پیام D-BUS ایجاد می‌کند."
+msgstr "این که هنگام رسیدن پیامی جدید، بوقی زده شود یا نه."
 
 #: ../data/org.gnome.evolution.plugin.mail-notification.gschema.xml.in.h:13
-#, fuzzy
-#| msgid "No filename provided."
 msgid "Sound filename to be played."
-msgstr "نام پرونده‌ای داده نشد."
+msgstr "نام پرونده‌ٔ صدا برای پخش."
 
 #: ../data/org.gnome.evolution.plugin.mail-notification.gschema.xml.in.h:14
-#, fuzzy
-#| msgid "Sound file to play when new mail arrives."
 msgid ""
 "Sound file to be played when new messages arrive, if “notify-sound-play-file” is "
 "“true”."
-msgstr "پروندهٔ صوتی که هنگام رسیدن نامهٔ جدید پخش می‌شود."
+msgstr ""
+"پروندهٔ صدا برای پخش هنگام رسیدن پیام جدید، در صورت درست بودن notify-sound-play-"
+"file."
 
 #: ../data/org.gnome.evolution.plugin.mail-notification.gschema.xml.in.h:15
-#, fuzzy
-#| msgid "Whether the toolbar should be visible."
 msgid "Whether to play a sound file."
-msgstr "این که نوار ابزار مرئی باشد یا نه."
+msgstr "این که پرونده‌ای صوتی پخش شود یا نه."
 
 #: ../data/org.gnome.evolution.plugin.mail-notification.gschema.xml.in.h:17
 msgid "Use sound theme"
 msgstr "استفاده از زمینهٔ صوتی"
 
 #: ../data/org.gnome.evolution.plugin.mail-notification.gschema.xml.in.h:18
-#, fuzzy
-#| msgid "Play sound file when new mail arri_ves"
 msgid "Play themed sound when new messages arrive, if not in beep mode."
-msgstr "پخش پروندهٔ صدا هنگامی که نامهٔ جدیدی می‌رسد"
+msgstr "اگر در حالت بوق نباشد، هنگام رسیدن پیامی جدید، صدای زمینه‌ای پخش شود."
 
 #: ../data/org.gnome.evolution.plugin.mail-notification.gschema.xml.in.h:19
-#, fuzzy
-#| msgid "Change the properties of this folder"
 msgid "Do not notify for these accounts"
-msgstr "تغییر ویژگی‌های این شاخه"
+msgstr "آگاه نکردن برای این حساب‌ها"
 
 #: ../data/org.gnome.evolution.plugin.mail-notification.gschema.xml.in.h:20
-#, fuzzy
-#| msgid "Select _accounts for which enable notifications:"
 msgid "Contains UIDs of accounts for which the notifications should be avoided."
-msgstr "گزینش حساب‌هایی که برایشان آگاهی‌ها به کار بیفتد"
+msgstr "شامل شناسه‌های کاربری حساب‌هایی که نباید آگاهی‌ها داشته باشند."
 
 #: ../data/org.gnome.evolution.plugin.prefer-plain.gschema.xml.in.h:1
-#, fuzzy
-#| msgid "Use custom fonts for displaying mail"
 msgid "Mode to use when displaying mails"
-msgstr "استفاده از قلم‌های سفارشی برای نمایش نامه"
+msgstr "حالت استفاده شده برای نمایش نامه‌ها"
 
 #: ../data/org.gnome.evolution.plugin.prefer-plain.gschema.xml.in.h:3
-#, fuzzy
-#| msgid "Whether to show the preview pane."
 msgid "Whether to show suppressed HTML output"
-msgstr "این که قاب پیش‌نمایش نشان داده بشود یا نه."
+msgstr "این که خروجی HTML سرکوب شده نشان داده شود یا نه"
 
 #: ../data/org.gnome.evolution.plugin.publish-calendar.gschema.xml.in.h:1
-#, fuzzy
-#| msgid "List of server URLs for free/busy publishing."
 msgid "List of Destinations for publishing"
-msgstr "فهرست نشانی‌های اینترنتی کارسازها برای انتشار آزاد/مشغول."
+msgstr "سیاههٔ مقصدها برای انتشار"
 
 #: ../data/org.gnome.evolution.shell.gschema.xml.in.h:1
 msgid "Skip development warning dialog"
@@ -1953,16 +1840,12 @@ msgid "Whether the warning dialog in development versions of Evolution is skippe
 msgstr "این که محاورهٔ اخطار در نسخه‌های در حال ساخت اوولوشن نشان داده نشود."
 
 #: ../data/org.gnome.evolution.shell.gschema.xml.in.h:3
-#, fuzzy
-#| msgid "Insert Attachment"
 msgid "Initial attachment view"
-msgstr "درج پیوست"
+msgstr "نمای پیوست نخستین"
 
 #: ../data/org.gnome.evolution.shell.gschema.xml.in.h:5
-#, fuzzy
-#| msgid "failed to open book"
 msgid "Initial file chooser folder"
-msgstr "گشودن دفترچه شکست خورد"
+msgstr "شاخهٔ گزینش پروندهٔ نخستین"
 
 #: ../data/org.gnome.evolution.shell.gschema.xml.in.h:11 ../src/shell/main.c:331
 msgid "Start in offline mode"
@@ -1973,22 +1856,16 @@ msgid "Whether Evolution will start up in offline mode instead of online mode."
 msgstr "این که اوولوشن به جای حالت برخط با حالت برون‌خط راه‌اندازی شود یا نه."
 
 #: ../data/org.gnome.evolution.shell.gschema.xml.in.h:13
-#, fuzzy
-#| msgid "Opening folder %s"
 msgid "Offline folder paths"
-msgstr "در حال گشودن شاخهٔ %s"
+msgstr "مسیرهای شاخهٔ برون‌خط"
 
 #: ../data/org.gnome.evolution.shell.gschema.xml.in.h:14
-#, fuzzy
-#| msgid "List of paths for the folders to be synchronized to disk for offline usage"
 msgid "List of paths for the folders to be synchronized to disk for offline usage."
-msgstr "فهرست مسیرهای شاخه‌هایی که برای استفادهٔ برون‌خط همگام‌سازی شوند"
+msgstr "سیاههٔ مسیرهای شاخه‌هایی که برای استفادهٔ برون‌خط همگام‌سازی شوند."
 
 #: ../data/org.gnome.evolution.shell.gschema.xml.in.h:15
-#, fuzzy
-#| msgid "Enable/disable caret mode"
 msgid "Enable express mode"
-msgstr "به‌کار انداخنم/از کار انداختن حالت مکان‌نمایی"
+msgstr "به کار انداختن حالت سریع"
 
 #: ../data/org.gnome.evolution.shell.gschema.xml.in.h:19
 msgid "Window buttons are visible"
@@ -2003,18 +1880,13 @@ msgid "Window button style"
 msgstr "سبک دکمهٔ پنجره"
 
 #: ../data/org.gnome.evolution.shell.gschema.xml.in.h:22
-#, fuzzy
-#| msgid ""
-#| "The style of the window buttons. Can be \"text\", \"icons\", \"both\", "
-#| "\"toolbar\". If \"toolbar\" is set, the style of the buttons is determined by "
-#| "the GNOME toolbar setting."
 msgid ""
 "The style of the window buttons. Can be “text”, “icons”, “both”, “toolbar”. If "
 "“toolbar” is set, the style of the buttons is determined by the GNOME toolbar "
 "setting."
 msgstr ""
-"سبک دکمه‌های پنجره. می‌توان «متنی»، «شمایلی»، «هر دو» یا «نوار ابزار» باشد. اگر روی "
-"«نوار ابزار» تنظیم شود، سبک دکمه‌ها از تنظیمات نوار ابزار گنوم تعیین می‌شود."
+"سبک دکمه‌های پنجره. می‌تواند text، icons، both یا toolbar باشد. اگر toolbar تنظیم "
+"شود، سبک دکمه‌ها از تنظیمات نوار ابزار گنوم تعیین می‌شود."
 
 #: ../data/org.gnome.evolution.shell.gschema.xml.in.h:23
 msgid "Menubar is visible"
@@ -2062,10 +1934,8 @@ msgid "The default width for the sidebar, in pixels."
 msgstr "عرض پیش‌گزیده نوار کناری،‌ به نقطه."
 
 #: ../data/org.gnome.evolution.shell.gschema.xml.in.h:38
-#, fuzzy
-#| msgid "Send a message to the selected contacts."
 msgid "Prefix of the URI to use to search the web with selected text."
-msgstr "ارسال پیام به آشنا‌های گزیده"
+msgstr "پیشوند نشانی استفاده شده برای جست‌وجوی وب با متن گزیده."
 
 #: ../data/org.gnome.evolution.spamassassin.gschema.xml.in.h:1
 msgid "Use only local spam tests."
@@ -2076,10 +1946,8 @@ msgid "Use only the local spam tests (no DNS)."
 msgstr "فقط استفاده از آزمایش‌های spam محلی (بدون DNS)."
 
 #: ../data/org.gnome.evolution.text-highlight.gschema.xml.in.h:1
-#, fuzzy
-#| msgid "Whether the toolbar should be visible."
 msgid "Whether the text-highlight module is enabled"
-msgstr "این که نوار ابزار مرئی باشد یا نه."
+msgstr "این که پیمانهٔ برجسته سازی متن به کار افتاده یا نه"
 
 #: ../data/org.gnome.Evolution.appdata.xml.in.in.h:1
 #: ../data/org.gnome.Evolution.desktop.in.in.h:1 ../src/mail/e-mail-browser.c:1293
@@ -2490,10 +2358,8 @@ msgid "For _Wide View"
 msgstr "برای نمای _پهن"
 
 #: ../data/views/mail/galview.xml.h:8
-#, fuzzy
-#| msgid "As _Sent Folder"
 msgid "As Sent Folder for Wi_de View"
-msgstr "به عنوان شاخهٔ ار_سالی"
+msgstr "به عنوان شاخهٔ ارسال شده برای نمای _پهن"
 
 #: ../data/views/memos/galview.xml.h:1 ../src/e-util/e-webdav-browser.c:2605
 msgid "_Memos"
@@ -2517,10 +2383,8 @@ msgid "This address book could not be opened."
 msgstr "این دفترچه تلفن نمی‌تواند باز شود."
 
 #: ../src/addressbook/addressbook.error.xml.h:2
-#, fuzzy
-#| msgid "Failed to authenticate with LDAP server."
 msgid "Failed to communicate with LDAP server."
-msgstr "تأیید هویت با کارساز LDAP شکست خورد."
+msgstr "شکست در ارتباط باکارساز LDAP."
 
 #: ../src/addressbook/addressbook.error.xml.h:3
 msgid "This address book server does not have any suggested search bases."
@@ -2543,10 +2407,8 @@ msgid "Could not remove address book."
 msgstr "برداشتن دفترچه تلفن ممکن نیست."
 
 #: ../src/addressbook/addressbook.error.xml.h:8
-#, fuzzy
-#| msgid "Are you sure you want to delete the memo '{0}'?"
 msgid "Are you sure you want to delete address book “{0}”?"
-msgstr "آیا مطمئنید که می‌خواهید تکلیف «{0}» را حذف کنید؟"
+msgstr "مطمئنید که می‌خواهید دفترچه نشانی «{0}» را حذف کنید؟"
 
 #: ../src/addressbook/addressbook.error.xml.h:9
 msgid "This address book will be removed permanently."
@@ -2559,10 +2421,8 @@ msgid "Do _Not Delete"
 msgstr "حذف نکن"
 
 #: ../src/addressbook/addressbook.error.xml.h:11
-#, fuzzy
-#| msgid "Delete &quot;{0}&quot;?"
 msgid "Delete remote address book “{0}”?"
-msgstr "«{0}» حذف شود؟"
+msgstr "حذف دفترچه نشانی دوردست «{0}»؟"
 
 #: ../src/addressbook/addressbook.error.xml.h:12
 msgid ""
@@ -2574,30 +2434,24 @@ msgstr ""
 
 #: ../src/addressbook/addressbook.error.xml.h:13
 #: ../src/calendar/calendar.error.xml.h:65 ../src/e-util/e-system.error.xml.h:28
-#, fuzzy
-#| msgid "Delegated From"
 msgid "_Delete From Server"
-msgstr "به نمایندگی از"
+msgstr "_حذف از کارساز"
 
 #: ../src/addressbook/addressbook.error.xml.h:14
 msgid "Category editor not available."
 msgstr "ویرایش‌گر مقوله موجود نیست."
 
 #: ../src/addressbook/addressbook.error.xml.h:15
-#, fuzzy
-#| msgid "Unable to open address book"
 msgid "Unable to open address book “{0}”"
-msgstr "ناتوان در گشودن دفترچه تلفن"
+msgstr "ناتوان در گشودن دفترچه نشانی «{0}»"
 
 #: ../src/addressbook/addressbook.error.xml.h:16
 msgid "Unable to perform search."
 msgstr "انجام جست‌وجو ممکن نیست."
 
 #: ../src/addressbook/addressbook.error.xml.h:17
-#, fuzzy
-#| msgid "Delete address book '{0}'?"
 msgid "Failed to refresh address book “{0}”"
-msgstr "دفترچه تلفن «{0}» حذف شود؟"
+msgstr "ناتوان در نوسازی دفترچه نشانی «{0}»"
 
 #: ../src/addressbook/addressbook.error.xml.h:18
 msgid "Would you like to save your changes?"
@@ -2654,10 +2508,8 @@ msgid "Error saving {0} to {1}: {2}"
 msgstr "خطا در ذخیرهٔ {0} در {1}: {2}‏"
 
 #: ../src/addressbook/addressbook.error.xml.h:30
-#, fuzzy
-#| msgid "Address '{0}' already exists."
 msgid "Address “{0}” already exists."
-msgstr "نشانی «{0}» از قبل وجود دارد."
+msgstr "دفترچه نشانی «{0}» از پیش وجود دارد."
 
 #: ../src/addressbook/addressbook.error.xml.h:31
 msgid ""
@@ -2688,7 +2540,7 @@ msgstr "ا_ضافه شود"
 
 #: ../src/addressbook/addressbook.error.xml.h:33
 msgid "Some addresses already exist in this contact list."
-msgstr "برخی نشانی‌ها از‌پیش در این فهرست آشنایان وجود دارند."
+msgstr "برخی نشانی‌ها از‌پیش در این سیاههٔ آشنایان وجود دارند."
 
 #: ../src/addressbook/addressbook.error.xml.h:34
 msgid ""
@@ -2707,22 +2559,16 @@ msgid "Add with duplicates"
 msgstr "افزودن با دوگانگی‌ها"
 
 #: ../src/addressbook/addressbook.error.xml.h:37
-#, fuzzy
-#| msgid "List '{0}' is already in this contact list."
 msgid "List “{0}” is already in this contact list."
-msgstr "فهرست ‏{0} از قبل در این فهرست آشنایان وجود دارد."
+msgstr "سیاههٔ ‏{0} از پیش در این سیاههٔ آشنایان وجود دارد."
 
 #: ../src/addressbook/addressbook.error.xml.h:38
-#, fuzzy
-#| msgid ""
-#| "A contact list named '{0}' is already in this contact list. Would you like to "
-#| "add it anyway?"
 msgid ""
 "A contact list named “{0}” is already in this contact list. Would you like to add "
 "it anyway?"
 msgstr ""
-"یک فهرست آشنایان به نام {0} ازپیش در این فهرست آشنایان وجود دارد. آیا می‌خواهید "
-"به‌هرحال آن را اضافه کنید؟"
+"سیاههٔ آشنایانی با نام {0} از پیش در این سیاههٔ آشنایان وجود دارد. می‌خواهید به‌هرحال "
+"بیفزاییدش؟"
 
 #: ../src/addressbook/addressbook.error.xml.h:39
 #: ../src/addressbook/gui/widgets/e-addressbook-view.c:1357
@@ -4203,7 +4049,7 @@ msgstr "گشودن"
 
 #: ../src/addressbook/gui/widgets/ea-minicard.c:157
 msgid "Contact List: "
-msgstr "فهرست آشنایان: "
+msgstr "سیاههٔ آشنایان: "
 
 #: ../src/addressbook/gui/widgets/ea-minicard.c:158
 msgid "Contact: "
@@ -5833,11 +5679,10 @@ msgstr "%s در %s"
 #. Translator: The %s refers to the base, which would be actions like
 #. * "Play a sound". "Trigger types" are absolute or relative dates
 #: ../src/calendar/gui/e-alarm-list.c:492
-#, fuzzy, c-format
-#| msgid "%s for an unknown trigger type"
+#, c-format
 msgctxt "cal-reminders"
 msgid "%s for an unknown trigger type"
-msgstr "‫%s برای یک نوع ضامن ناشناخته"
+msgstr "%s برای یک گونهٔ تحریک ناشناخته"
 
 #: ../src/calendar/gui/ea-week-view.c:112
 #, c-format
@@ -11281,7 +11126,7 @@ msgid "partially S/MIME encrypted"
 msgstr "رمزنگاری S/MIME"
 
 #: ../src/em-format/e-mail-formatter-utils.c:695
-#: ../src/mail/e-mail-config-security-page.c:864
+#: ../src/mail/e-mail-config-security-page.c:865
 #: ../src/modules/mail-config/e-mail-config-remote-accounts.c:273
 #: ../src/modules/mail-config/e-mail-config-smtp-backend.c:217
 msgid "Security"
@@ -12194,8 +12039,8 @@ msgstr "گزینش رنگ سفارشی"
 
 #: ../src/e-util/e-color-combo.c:476 ../src/e-util/e-html-editor.c:133
 #: ../src/mail/e-mail-account-tree-view.c:135
-#: ../src/mail/e-mail-config-security-page.c:540
-#: ../src/mail/e-mail-config-security-page.c:716 ../src/mail/e-mail-reader.c:5005
+#: ../src/mail/e-mail-config-security-page.c:541
+#: ../src/mail/e-mail-config-security-page.c:717 ../src/mail/e-mail-reader.c:5005
 #: ../src/mail/mail-config.ui.h:79
 msgid "Default"
 msgstr "پیش‌گزیده"
@@ -16733,112 +16578,112 @@ msgstr "عمومی"
 msgid "_Do not sign meeting requests (for Outlook compatibility)"
 msgstr "درخواست‌های جلسه امضا _نشود (برای سازگاری با آوت‌لوک)"
 
-#: ../src/mail/e-mail-config-security-page.c:487
+#: ../src/mail/e-mail-config-security-page.c:488
 msgid "Pretty Good Privacy (OpenPGP)"
 msgstr "محرمانگی خیلی خوب (OpenPGP)"
 
-#: ../src/mail/e-mail-config-security-page.c:496
+#: ../src/mail/e-mail-config-security-page.c:497
 #, fuzzy
 #| msgid "PGP/GPG _Key ID:"
 msgid "OpenPGP _Key ID:"
 msgstr "شناسهٔ _کلید PGP/GPG:"
 
-#: ../src/mail/e-mail-config-security-page.c:527
+#: ../src/mail/e-mail-config-security-page.c:528
 msgid "Si_gning algorithm:"
 msgstr "الگوریتم _امضا:"
 
-#: ../src/mail/e-mail-config-security-page.c:543
-#: ../src/mail/e-mail-config-security-page.c:719 ../src/mail/mail-config.ui.h:80
+#: ../src/mail/e-mail-config-security-page.c:544
+#: ../src/mail/e-mail-config-security-page.c:720 ../src/mail/mail-config.ui.h:80
 msgid "SHA1"
 msgstr "SHA1"
 
-#: ../src/mail/e-mail-config-security-page.c:546
-#: ../src/mail/e-mail-config-security-page.c:722 ../src/mail/mail-config.ui.h:81
+#: ../src/mail/e-mail-config-security-page.c:547
+#: ../src/mail/e-mail-config-security-page.c:723 ../src/mail/mail-config.ui.h:81
 msgid "SHA256"
 msgstr "SHA256"
 
-#: ../src/mail/e-mail-config-security-page.c:549
-#: ../src/mail/e-mail-config-security-page.c:725 ../src/mail/mail-config.ui.h:82
+#: ../src/mail/e-mail-config-security-page.c:550
+#: ../src/mail/e-mail-config-security-page.c:726 ../src/mail/mail-config.ui.h:82
 msgid "SHA384"
 msgstr "SHA384"
 
-#: ../src/mail/e-mail-config-security-page.c:552
-#: ../src/mail/e-mail-config-security-page.c:728 ../src/mail/mail-config.ui.h:83
+#: ../src/mail/e-mail-config-security-page.c:553
+#: ../src/mail/e-mail-config-security-page.c:729 ../src/mail/mail-config.ui.h:83
 msgid "SHA512"
 msgstr "SHA512"
 
-#: ../src/mail/e-mail-config-security-page.c:568
+#: ../src/mail/e-mail-config-security-page.c:569
 msgid "Al_ways sign outgoing messages when using this account"
 msgstr "امضای _همیشگی پیام‌های صادره هنگام استفاده از این حساب"
 
-#: ../src/mail/e-mail-config-security-page.c:580
+#: ../src/mail/e-mail-config-security-page.c:581
 #, fuzzy
 #| msgid "Al_ways sign outgoing messages when using this account"
 msgid "Always enc_rypt outgoing messages when using this account"
 msgstr "امضای _همیشگی پیام‌های صادره هنگام استفاده از این حساب"
 
-#: ../src/mail/e-mail-config-security-page.c:592
+#: ../src/mail/e-mail-config-security-page.c:593
 #, fuzzy
 #| msgid "Always encrypt to _myself when sending encrypted mail"
 msgid "Always encrypt to _myself when sending encrypted messages"
 msgstr "رمزنگاری همیشگی برای _خود هنگام ارسال نامه‌های رمزنگاری شده"
 
-#: ../src/mail/e-mail-config-security-page.c:604
+#: ../src/mail/e-mail-config-security-page.c:605
 msgid "Always _trust keys in my keyring when encrypting"
 msgstr "ا_عتماد همیشگی به کلیدهای موجود در دسته‌کلید هنگام رمزنگاری"
 
-#: ../src/mail/e-mail-config-security-page.c:616
+#: ../src/mail/e-mail-config-security-page.c:617
 msgid "Prefer _inline sign/encrypt for plain text messages"
 msgstr ""
 
-#: ../src/mail/e-mail-config-security-page.c:628
+#: ../src/mail/e-mail-config-security-page.c:629
 msgid "_Lookup keys for encryption in Web Key Directory (WKD)"
 msgstr ""
 
-#: ../src/mail/e-mail-config-security-page.c:652
+#: ../src/mail/e-mail-config-security-page.c:653
 msgid "Secure MIME (S/MIME)"
 msgstr "MIME امن (S/MIME)"
 
-#: ../src/mail/e-mail-config-security-page.c:661
+#: ../src/mail/e-mail-config-security-page.c:662
 msgid "Sig_ning certificate:"
 msgstr "گواهی ام_ضا:"
 
-#: ../src/mail/e-mail-config-security-page.c:685
-#: ../src/mail/e-mail-config-security-page.c:783
+#: ../src/mail/e-mail-config-security-page.c:686
+#: ../src/mail/e-mail-config-security-page.c:784
 #, fuzzy
 #| msgid "_Select"
 msgid "Select"
 msgstr "_انتخاب"
 
-#: ../src/mail/e-mail-config-security-page.c:694
-#: ../src/mail/e-mail-config-security-page.c:792
+#: ../src/mail/e-mail-config-security-page.c:695
+#: ../src/mail/e-mail-config-security-page.c:793
 #: ../src/shell/e-shell-window-actions.c:1024
 msgid "_Clear"
 msgstr "_پاک کردن"
 
-#: ../src/mail/e-mail-config-security-page.c:703
+#: ../src/mail/e-mail-config-security-page.c:704
 msgid "Signing _algorithm:"
 msgstr "_الگوریتم امضا:"
 
-#: ../src/mail/e-mail-config-security-page.c:744
+#: ../src/mail/e-mail-config-security-page.c:745
 #, fuzzy
 #| msgid "Al_ways sign outgoing messages when using this account"
 msgid "Always sign outgoing messages when using this account"
 msgstr "امضای _همیشگی پیام‌های صادره هنگام استفاده از این حساب"
 
-#: ../src/mail/e-mail-config-security-page.c:759
+#: ../src/mail/e-mail-config-security-page.c:760
 #, fuzzy
 #| msgid "Encry_ption certificate:"
 msgid "Encryption certificate:"
 msgstr "_گواهی رمزنگاری:"
 
-#: ../src/mail/e-mail-config-security-page.c:801
+#: ../src/mail/e-mail-config-security-page.c:802
 #, fuzzy
 #| msgid "Al_ways sign outgoing messages when using this account"
 msgid "Always encrypt outgoing messages when using this account"
 msgstr "امضای _همیشگی پیام‌های صادره هنگام استفاده از این حساب"
 
-#: ../src/mail/e-mail-config-security-page.c:813
+#: ../src/mail/e-mail-config-security-page.c:814
 #, fuzzy
 #| msgid "Always encrypt to _myself when sending encrypted mail"
 msgid "Always encrypt to myself when sending encrypted messages"
@@ -17058,12 +16903,9 @@ msgid "no"
 msgstr "خیر"
 
 #: ../src/mail/e-mail-free-form-exp.c:489
-#, fuzzy
-#| msgctxt "ffe"
-#| msgid "no"
 msgctxt "ffe"
 msgid "not"
-msgstr "خیر"
+msgstr "منفی"
 
 #: ../src/mail/e-mail-free-form-exp.c:490
 msgctxt "ffe"
@@ -22392,10 +22234,8 @@ msgstr "_۲۴ ساعتی"
 
 #. Translators: This is part of
 #: ../src/modules/calendar/e-calendar-preferences.ui.h:19
-#, fuzzy
-#| msgid "Shorten event end time by minutes"
 msgid "Sh_orten event time by"
-msgstr "کوتاه‌کردن زمان پایان رویداد به دقیقه"
+msgstr "کوتاه‌کردن زمان رویداد با"
 
 #: ../src/modules/calendar/e-calendar-preferences.ui.h:22
 msgid "End events earlier"
@@ -27968,7 +27808,7 @@ msgstr ""
 
 #. Translators: a 'New' toolbar button caption which is context sensitive and
 #. runs one of the actions under File->New menu
-#: ../src/shell/e-shell-window.c:514
+#: ../src/shell/e-shell-window.c:519
 msgctxt "toolbar-button"
 msgid "New"
 msgstr "جدید"
