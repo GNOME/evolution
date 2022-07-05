@@ -482,6 +482,14 @@ src/modules/prefer-plain/e-mail-display-popup-prefer-plain.c
 src/modules/prefer-plain/e-mail-parser-prefer-plain.c
 src/modules/prefer-plain/plugin/config-ui.c
 src/modules/prefer-plain/plugin/org-gnome-prefer-plain.eplug.xml
+src/modules/rss/camel/camel-rss-folder.c
+src/modules/rss/camel/camel-rss-folder-summary.c
+src/modules/rss/camel/camel-rss-provider.c
+src/modules/rss/camel/camel-rss-store.c
+src/modules/rss/e-rss-parser.c
+src/modules/rss/evolution/e-rss-preferences.c
+src/modules/rss/evolution/e-rss-shell-extension.c
+src/modules/rss/evolution/e-rss-shell-view-extension.c
 src/modules/spamassassin/evolution-spamassassin.c
 src/modules/spamassassin/org.gnome.Evolution-spamassassin.metainfo.xml.in
 src/modules/startup-wizard/e-mail-config-import-page.c

@@ -1,0 +1,32 @@
+set(extra_deps
+	evolution-mail
+	evolution-shell
+)
+set(sources
+	e-rss-preferences.c
+	e-rss-preferences.h
+	e-rss-folder-tree-model-extension.c
+	e-rss-shell-extension.c
+	e-rss-shell-view-extension.c
+	module-rss.c
+	module-rss.h
+	../camel-rss-store-summary.c
+	../camel-rss-store-summary.h
+	../e-rss-parser.c
+	../e-rss-parser.h
+)
+set(extra_defines)
+set(extra_cflags)
+set(extra_incdirs
+	${CMAKE_CURRENT_SOURCE_DIR}/..
+)
+set(extra_ldflags)
+
+add_evolution_module(module-rss
+	sources
+	extra_deps
+	extra_defines
+	extra_cflags
+	extra_incdirs
+	extra_ldflags
+)

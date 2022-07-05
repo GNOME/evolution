@@ -1,0 +1,110 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!-- Created with Inkscape (http://www.inkscape.org/) -->
+
+<svg
+   width="32"
+   height="32"
+   viewBox="0 0 8.4666665 8.4666669"
+   version="1.1"
+   id="svg5"
+   xmlns:xlink="http://www.w3.org/1999/xlink"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:svg="http://www.w3.org/2000/svg">
+  <defs
+     id="defs2">
+    <linearGradient
+       id="grad">
+      <stop
+         style="stop-color:#f6af7a;stop-opacity:1;"
+         offset="0"
+         id="stop6983" />
+      <stop
+         style="stop-color:#d94027;stop-opacity:1;"
+         offset="1"
+         id="stop6985" />
+    </linearGradient>
+    <linearGradient
+       xlink:href="#grad"
+       id="linearGradient7143"
+       x1="-10.318749"
+       y1="8.4666662"
+       x2="-3.7041667"
+       y2="14.816667"
+       gradientUnits="userSpaceOnUse"
+       gradientTransform="matrix(0.9,0,0,0.9,10.424574,-6.2441669)" />
+    <filter
+       style="color-interpolation-filters:sRGB"
+       id="filter9649"
+       x="-0.66035874"
+       y="-0.66035874"
+       width="2.3207175"
+       height="2.3207175">
+      <feGaussianBlur
+         stdDeviation="0.053035311"
+         id="feGaussianBlur9651" />
+    </filter>
+    <filter
+       style="color-interpolation-filters:sRGB"
+       id="filter9641-6"
+       x="-0.12872887"
+       y="-0.12287756"
+       width="1.2574583"
+       height="1.2457551">
+      <feGaussianBlur
+         stdDeviation="0.053035311"
+         id="feGaussianBlur9643-7" />
+    </filter>
+    <filter
+       style="color-interpolation-filters:sRGB"
+       id="filter9641-6-3"
+       x="-0.19927554"
+       y="-0.19021757"
+       width="1.3985535"
+       height="1.3804351">
+      <feGaussianBlur
+         stdDeviation="0.053035311"
+         id="feGaussianBlur9643-7-5" />
+    </filter>
+    <linearGradient
+       xlink:href="#grad"
+       id="linearGradient10019"
+       x1="0.59531248"
+       y1="4.2333331"
+       x2="7.8713541"
+       y2="4.2333331"
+       gradientUnits="userSpaceOnUse"
+       gradientTransform="matrix(0.9,0,0,0.9,0.42332501,0.42333333)" />
+  </defs>
+  <g
+     id="layer1">
+    <g
+       id="g1263">
+      <rect
+         style="opacity:1;fill:url(#linearGradient7143);fill-opacity:1;fill-rule:evenodd;stroke:url(#linearGradient10019);stroke-width:0.47625;stroke-linecap:round;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1;paint-order:markers stroke fill"
+         id="rect6981"
+         width="6.1911001"
+         height="6.1912498"
+         x="1.1377"
+         y="1.1377083"
+         rx="1.1691136"
+         ry="1.1611228" />
+      <path
+         style="fill:none;fill-rule:evenodd;stroke:#f9f9f9;stroke-width:1.17593;stroke-linecap:round;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1;filter:url(#filter9641-6)"
+         d="m -10.583333,-0.7937499 c 0.440964,0 0.8819353,0 1.4555821,0.13243357 0.5736469,0.13243356 1.2783243,0.39668758 1.8519057,0.79389359 0.5735815,0.39720602 1.0143588,0.92613874 1.3670214,1.49931474 0.3526627,0.5731761 0.6172246,1.190487 0.7494827,1.7638745 0.132258,0.5733874 0.1322581,1.1021462 0.1322581,1.6313167"
+         id="path1371-5"
+         transform="matrix(0.729,0,0,0.729,9.8048219,2.7623248)" />
+      <path
+         style="fill:none;fill-rule:evenodd;stroke:#f9f9f9;stroke-width:1.95988;stroke-linecap:round;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1;filter:url(#filter9641-6-3)"
+         d="m -10.583333,-0.7937499 c 0.440964,0 0.8819353,0 1.4555821,0.13243357 0.5736469,0.13243356 1.2783243,0.39668758 1.8519057,0.79389359 0.5735815,0.39720602 1.0143588,0.92613874 1.3670214,1.49931474 0.3526627,0.5731761 0.6172246,1.190487 0.7494827,1.7638745 0.132258,0.5733874 0.1322581,1.1021462 0.1322581,1.6313167"
+         id="path1371-5-6"
+         transform="matrix(0.4374,0,0,0.4374,6.6753693,4.2499621)" />
+      <circle
+         style="fill:#f9f9f9;stroke:#f9f9f9;stroke-width:0.79375;stroke-linecap:round;stroke-miterlimit:4;stroke-dasharray:none;paint-order:markers stroke fill;filter:url(#filter9649)"
+         id="path1690"
+         cx="1.911677"
+         cy="6.4105716"
+         r="0.39687499"
+         transform="matrix(0.81,0,0,0.81,0.74481282,0.91615312)" />
+    </g>
+  </g>
+</svg>

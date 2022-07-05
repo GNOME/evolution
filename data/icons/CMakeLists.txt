@@ -180,10 +180,12 @@ set(private_icons
 	hicolor_places_24x24_mail-outbox.png
 	hicolor_places_24x24_mail-sent.png
 	hicolor_status_16x16_wrapped.png
-	hicolor_status_32x32_offline.png
-	hicolor_status_32x32_online.png
 	hicolor_status_32x32_aspect-ratio-lock.png
 	hicolor_status_32x32_aspect-ratio-unlock.png
+	hicolor_status_32x32_offline.png
+	hicolor_status_32x32_online.png
+	hicolor_status_scalable_rss.svg
+	hicolor_status_scalable_rss-symbolic.svg
 )
 
 # These icons were in gnome-icon-theme prior to GNOME 2.30.
