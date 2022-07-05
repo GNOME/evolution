@@ -117,6 +117,8 @@ enum {
 enum {
 	LOADING_ROW,
 	LOADED_ROW,
+	FOLDER_CUSTOM_ICON,
+	COMPARE_FOLDERS,
 	LAST_SIGNAL
 };
 
@@ -152,7 +154,8 @@ static void	folder_tree_model_status_notify_cb
 
 static guint signals[LAST_SIGNAL];
 
-G_DEFINE_TYPE (EMFolderTreeModel, em_folder_tree_model, GTK_TYPE_TREE_STORE)
+G_DEFINE_TYPE_WITH_CODE (EMFolderTreeModel, em_folder_tree_model, GTK_TYPE_TREE_STORE,
+	G_IMPLEMENT_INTERFACE (E_TYPE_EXTENSIBLE, NULL))
 
 static StoreInfo *
 store_info_ref (StoreInfo *si)
@@ -469,6 +472,9 @@ folder_tree_model_sort (GtkTreeModel *model,
 		else if ((flags_b & CAMEL_FOLDER_TYPE_MASK) == CAMEL_FOLDER_TYPE_INBOX)
 			rv = 1;
 	}
+
+	if (rv == -2 && !a_is_store && !b_is_store)
+		g_signal_emit (model, signals[COMPARE_FOLDERS], 0, store_uid, a, b, &rv);
 
 	if (rv == -2) {
 		if (aname != NULL && bname != NULL)
@@ -847,6 +853,9 @@ em_folder_tree_model_update_folder_icon (EMFolderTreeModel *model,
 		e_event_emit (
 			(EEvent *) em_event_peek (), "folder.customicon",
 			(EEventTarget *) target);
+
+		g_signal_emit (model, signals[FOLDER_CUSTOM_ICON], 0,
+			&iter, store, full_name);
 	}
 
 	g_clear_object (&store);
@@ -1021,6 +1030,8 @@ folder_tree_model_constructed (GObject *object)
 
 	/* Chain up to parent's constructed() method. */
 	G_OBJECT_CLASS (em_folder_tree_model_parent_class)->constructed (object);
+
+	e_extensible_load_extensions (E_EXTENSIBLE (object));
 }
 
 static void
@@ -1076,6 +1087,29 @@ em_folder_tree_model_class_init (EMFolderTreeModelClass *class)
 		NULL, NULL,
 		e_marshal_VOID__POINTER_POINTER,
 		G_TYPE_NONE, 2,
+		G_TYPE_POINTER,
+		G_TYPE_POINTER);
+
+	signals[FOLDER_CUSTOM_ICON] = g_signal_new (
+		"folder-custom-icon",
+		G_OBJECT_CLASS_TYPE (object_class),
+		G_SIGNAL_RUN_FIRST,
+		G_STRUCT_OFFSET (EMFolderTreeModelClass, folder_custom_icon),
+		NULL, NULL, NULL,
+		G_TYPE_NONE, 3,
+		G_TYPE_POINTER,
+		CAMEL_TYPE_STORE,
+		G_TYPE_STRING);
+
+	/* Return -2 for "default sort order", otherwise expects only -1, 0 or 1. */
+	signals[COMPARE_FOLDERS] = g_signal_new (
+		"compare-folders",
+		G_OBJECT_CLASS_TYPE (object_class),
+		G_SIGNAL_RUN_FIRST,
+		G_STRUCT_OFFSET (EMFolderTreeModelClass, compare_folders),
+		NULL, NULL, NULL,
+		G_TYPE_INT, 3,
+		G_TYPE_STRING,
 		G_TYPE_POINTER,
 		G_TYPE_POINTER);
 }
@@ -1579,6 +1613,9 @@ em_folder_tree_model_set_folder_info (EMFolderTreeModel *model,
 	e_event_emit (
 		(EEvent *) em_event_peek (), "folder.customicon",
 		(EEventTarget *) target);
+
+	g_signal_emit (model, signals[FOLDER_CUSTOM_ICON], 0,
+		iter, store, fi->full_name);
 
 	if (unread != ~0)
 		gtk_tree_store_set (
