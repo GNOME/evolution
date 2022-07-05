@@ -676,9 +676,16 @@ accounts_window_fill_tree_view (EAccountsWindow *accounts_window)
 		for (slink = top_mail_accounts; slink; slink = g_slist_next (slink)) {
 			ESource *source = slink->data;
 			GtkTreeIter iter;
+			gboolean is_builtin = FALSE;
+
+			if (e_source_has_extension (source, E_SOURCE_EXTENSION_MAIL_ACCOUNT)) {
+				ESourceMailAccount *mail_account = e_source_get_extension (source, E_SOURCE_EXTENSION_MAIL_ACCOUNT);
+				is_builtin = e_source_mail_account_get_builtin (mail_account);
+			}
 
 			/* Skip 'On This Computer' and 'Search Folders' mail accounts */
-			if (g_strcmp0 (e_source_get_uid (source), "local") == 0 ||
+			if (is_builtin ||
+			    g_strcmp0 (e_source_get_uid (source), "local") == 0 ||
 			    g_strcmp0 (e_source_get_uid (source), "vfolder") == 0)
 				continue;
 
@@ -883,9 +890,12 @@ accounts_window_source_added_cb (ESourceRegistry *registry,
 		accounts_window_fill_children (accounts_window, tree_store, &iter, is_managed_collection, TRUE, children_and_siblings);
 	} else if (e_source_has_extension (source, E_SOURCE_EXTENSION_MAIL_ACCOUNT) && (
 		   !e_source_get_parent (source) || g_strcmp0 (e_source_get_parent (source), "") == 0)) {
+		ESourceMailAccount *mail_account = e_source_get_extension (source, E_SOURCE_EXTENSION_MAIL_ACCOUNT);
+		gboolean is_builtin = e_source_mail_account_get_builtin (mail_account);
 
 		/* Skip 'On This Computer' and 'Search Folders' mail accounts */
-		if (g_strcmp0 (e_source_get_uid (source), "local") != 0 &&
+		if (!is_builtin &&
+		    g_strcmp0 (e_source_get_uid (source), "local") != 0 &&
 		    g_strcmp0 (e_source_get_uid (source), "vfolder") != 0) {
 			if (!accounts_window_find_child_with_sort_hint (accounts_window, tree_store, NULL, MAIL_ACCOUNTS_SORT_HINT, &root)) {
 				gtk_tree_store_append (tree_store, &root, NULL);

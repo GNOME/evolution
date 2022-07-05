@@ -1204,7 +1204,7 @@ e_mail_account_store_add_service (EMailAccountStore *store,
 	const gchar *icon_name = NULL;
 	const gchar *uid;
 	gint intended_position;
-	gboolean builtin;
+	gboolean builtin = FALSE;
 	gboolean enabled;
 	gboolean online_account = FALSE;
 	gboolean enabled_visible = TRUE;
@@ -1218,7 +1218,10 @@ e_mail_account_store_add_service (EMailAccountStore *store,
 
 	uid = camel_service_get_uid (service);
 
-	builtin =
+	if (CAMEL_IS_STORE (service))
+		builtin = (camel_store_get_flags (CAMEL_STORE (service)) & CAMEL_STORE_IS_BUILTIN) != 0;
+
+	builtin = builtin ||
 		(g_strcmp0 (uid, E_MAIL_SESSION_LOCAL_UID) == 0) ||
 		(g_strcmp0 (uid, E_MAIL_SESSION_VFOLDER_UID) == 0);
 

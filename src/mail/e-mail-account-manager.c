@@ -471,7 +471,7 @@ mail_account_manager_selection_changed_cb (EMailAccountManager *manager,
 				source = collection;
 			}
 
-			removable = e_source_get_removable (source);
+			removable = !builtin && e_source_get_removable (source);
 
 			extension_name = E_SOURCE_EXTENSION_GOA;
 			if (e_source_has_extension (source, extension_name)) {
@@ -500,7 +500,7 @@ mail_account_manager_selection_changed_cb (EMailAccountManager *manager,
 	sensitive = (service != NULL && !builtin);
 	gtk_widget_set_sensitive (edit_button, sensitive);
 
-	sensitive = (service != NULL && removable);
+	sensitive = (service != NULL && !builtin && removable);
 	gtk_widget_set_sensitive (delete_button, sensitive);
 
 	sensitive = (service != NULL && !builtin && not_default);

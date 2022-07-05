@@ -889,6 +889,10 @@ filter_rule_fill_account_combo (GtkComboBox *source_combo,
 		    g_strcmp0 (uid, E_MAIL_SESSION_VFOLDER_UID) == 0)
 			continue;
 
+		if (is_incoming && CAMEL_IS_STORE (service) &&
+		    (camel_store_get_flags (CAMEL_STORE (service)) & CAMEL_STORE_IS_BUILTIN) != 0)
+			continue;
+
 		if ((is_incoming && CAMEL_IS_STORE (service)) ||
 		    (!is_incoming && CAMEL_IS_TRANSPORT (service))) {
 			ESource *source = e_source_registry_ref_source (registry, uid);

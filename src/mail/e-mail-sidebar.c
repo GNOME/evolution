@@ -433,6 +433,7 @@ mail_sidebar_check_state (EMailSidebar *sidebar)
 	CamelStore *store;
 	gchar *full_name;
 	const gchar *uid;
+	gboolean store_is_builtin;
 	gboolean store_is_local;
 	gboolean store_is_vfolder;
 	gboolean allows_children = TRUE;
@@ -460,6 +461,7 @@ mail_sidebar_check_state (EMailSidebar *sidebar)
 		COL_UINT_FLAGS, &folder_flags, -1);
 
 	uid = camel_service_get_uid (CAMEL_SERVICE (store));
+	store_is_builtin = (camel_store_get_flags (store) & CAMEL_STORE_IS_BUILTIN) != 0;
 	store_is_local = (g_strcmp0 (uid, E_MAIL_SESSION_LOCAL_UID) == 0);
 	store_is_vfolder = (g_strcmp0 (uid, E_MAIL_SESSION_VFOLDER_UID) == 0);
 
@@ -501,7 +503,7 @@ mail_sidebar_check_state (EMailSidebar *sidebar)
 	}
 
 	/* GOA and UOA-based accounts cannot be disabled from Evolution. */
-	if (is_store && !store_is_local && !store_is_vfolder) {
+	if (is_store && !store_is_local && !store_is_vfolder && !store_is_builtin) {
 		EMFolderTree *folder_tree;
 		EMailSession *session;
 		ESourceRegistry *registry;
@@ -530,6 +532,9 @@ mail_sidebar_check_state (EMailSidebar *sidebar)
 		g_object_unref (source);
 	}
 
+	if (store_is_builtin)
+		can_disable = FALSE;
+
 	if (allows_children)
 		state |= E_MAIL_SIDEBAR_FOLDER_ALLOWS_CHILDREN;
 	if (can_delete)
@@ -544,7 +549,7 @@ mail_sidebar_check_state (EMailSidebar *sidebar)
 		state |= E_MAIL_SIDEBAR_FOLDER_IS_TRASH;
 	if (is_virtual)
 		state |= E_MAIL_SIDEBAR_FOLDER_IS_VIRTUAL;
-	if (store_is_local || store_is_vfolder)
+	if (store_is_local || store_is_vfolder || store_is_builtin)
 		state |= E_MAIL_SIDEBAR_STORE_IS_BUILTIN;
 	if (CAMEL_IS_SUBSCRIBABLE (store))
 		state |= E_MAIL_SIDEBAR_STORE_IS_SUBSCRIBABLE;
