@@ -12,8 +12,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: evolution\n"
 "Report-Msgid-Bugs-To: https://gitlab.gnome.org/GNOME/evolution/issues\n"
-"POT-Creation-Date: 2022-06-28 13:20+0000\n"
-"PO-Revision-Date: 2022-06-28 19:12+0300\n"
+"POT-Creation-Date: 2022-07-05 19:25+0000\n"
+"PO-Revision-Date: 2022-07-06 09:55+0300\n"
 "Last-Translator: Yuri Chornoivan <yurchor@ukr.net>\n"
 "Language-Team: Ukrainian <trans-uk@lists.fedoraproject.org>\n"
 "Language: uk\n"
@@ -4280,7 +4280,7 @@ msgstr ""
 #: ../src/addressbook/gui/contact-list-editor/contact-list-editor.ui.h:9
 #: ../src/addressbook/gui/widgets/eab-contact-merging.c:811
 #: ../src/calendar/gui/e-comp-editor-page-general.c:1497
-#: ../src/e-util/e-accounts-window.c:1563
+#: ../src/e-util/e-accounts-window.c:1573
 #: ../src/e-util/e-mail-signature-manager.c:324
 #: ../src/e-util/e-name-selector-dialog.c:1028 ../src/e-util/filter.ui.h:25
 #: ../src/mail/e-mail-account-manager.c:721
@@ -4289,6 +4289,7 @@ msgstr ""
 #: ../src/mail/em-vfolder-editor-rule.c:405
 #: ../src/mail/em-vfolder-editor-rule.c:634 ../src/mail/mail-config.ui.h:64
 #: ../src/modules/mail/em-composer-prefs.c:420
+#: ../src/modules/rss/evolution/e-rss-preferences.c:1368
 #: ../src/plugins/attachment-reminder/attachment-reminder.c:559
 #: ../src/plugins/email-custom-header/email-custom-header.c:826
 #: ../src/plugins/publish-calendar/publish-calendar.ui.h:33
@@ -4552,6 +4553,7 @@ msgstr "Параметри"
 #: ../src/e-util/e-mail-signature-script-dialog.c:362
 #: ../src/e-util/e-webdav-browser.c:2633 ../src/e-util/e-web-view.c:4006
 #: ../src/e-util/gal-view-instance-save-as-dialog.c:266
+#: ../src/modules/rss/evolution/e-rss-preferences.c:839
 #: ../src/shell/e-shell-content.c:642 ../src/shell/e-shell-utils.c:133
 #: ../src/smime/gui/certificate-manager.c:653
 #: ../src/smime/gui/certificate-manager.c:722
@@ -4815,6 +4817,7 @@ msgstr "Add _X.509"
 #: ../src/mail/e-mail-label-manager.c:373 ../src/mail/em-filter-rule.c:679
 #: ../src/mail/em-folder-properties.c:1365
 #: ../src/mail/em-vfolder-editor-rule.c:639 ../src/mail/mail-config.ui.h:65
+#: ../src/modules/rss/evolution/e-rss-preferences.c:1387
 #: ../src/plugins/attachment-reminder/attachment-reminder.c:569
 #: ../src/plugins/email-custom-header/email-custom-header.c:836
 #: ../src/plugins/publish-calendar/publish-calendar.c:789
@@ -5650,7 +5653,7 @@ msgstr "Вилучити цей контакт (%s)?"
 
 #: ../src/addressbook/gui/widgets/e-addressbook-view.c:1438
 #: ../src/calendar/gui/e-comp-editor.c:2140
-#: ../src/e-util/e-accounts-window.c:1753 ../src/e-util/e-focus-tracker.c:816
+#: ../src/e-util/e-accounts-window.c:1763 ../src/e-util/e-focus-tracker.c:816
 #: ../src/e-util/evolution-source-viewer.c:800
 #: ../src/e-util/e-webdav-browser.c:2857
 #: ../src/mail/e-mail-account-manager.c:739
@@ -7781,7 +7784,7 @@ msgstr "Джерело"
 #: ../src/calendar/gui/e-meeting-time-sel.etspec.h:4
 #: ../src/calendar/gui/e-memo-table.etspec.h:3
 #: ../src/calendar/gui/e-task-table.etspec.h:3
-#: ../src/e-util/e-accounts-window.c:1443
+#: ../src/e-util/e-accounts-window.c:1453
 #: ../src/e-util/e-attachment-tree-view.c:205
 #: ../src/e-util/e-collection-account-wizard.c:2069
 #: ../src/e-util/e-webdav-browser.c:2530
@@ -8476,13 +8479,14 @@ msgstr "_Учасники…"
 #: ../src/calendar/gui/e-comp-editor-page-general.c:1505
 #: ../src/calendar/gui/e-comp-editor-page-recurrence.c:2312
 #: ../src/calendar/gui/e-comp-editor.c:2205
-#: ../src/e-util/e-accounts-window.c:1745
+#: ../src/e-util/e-accounts-window.c:1755
 #: ../src/e-util/e-html-editor-actions.c:1170
 #: ../src/e-util/e-mail-signature-manager.c:354
 #: ../src/e-util/e-webdav-browser.c:2850 ../src/e-util/filter.ui.h:26
 #: ../src/mail/e-mail-account-manager.c:730 ../src/mail/e-mail-browser.c:217
 #: ../src/mail/e-mail-label-manager.c:364
 #: ../src/mail/em-folder-properties.c:1362 ../src/mail/mail-config.ui.h:69
+#: ../src/modules/rss/evolution/e-rss-preferences.c:1374
 #: ../src/plugins/attachment-reminder/attachment-reminder.c:564
 #: ../src/plugins/email-custom-header/email-custom-header.c:831
 #: ../src/plugins/publish-calendar/publish-calendar.ui.h:34
@@ -9160,7 +9164,7 @@ msgstr "Збереження змін…"
 #. == Button box ==
 #: ../src/calendar/gui/e-comp-editor.c:2119
 #: ../src/composer/e-composer-actions.c:333
-#: ../src/e-util/e-accounts-window.c:1778
+#: ../src/e-util/e-accounts-window.c:1788
 #: ../src/e-util/e-html-editor-dialog.c:194
 #: ../src/e-util/e-mail-signature-editor.c:329
 #: ../src/e-util/e-name-selector-dialog.c:548
@@ -12091,6 +12095,7 @@ msgstr "Зберегти _чернетку"
 #: ../src/mail/e-mail-config-identity-page.c:551
 #: ../src/mail/e-mail-config-summary-page.c:327
 #: ../src/modules/accounts-window/e-accounts-window-editors.c:297
+#: ../src/modules/rss/evolution/e-rss-preferences.c:805
 msgid "_Name:"
 msgstr "_Назва:"
 
@@ -12559,6 +12564,7 @@ msgstr "Форматувати частину як лист RFC822"
 #: ../src/e-util/gal-view-instance-save-as-dialog.c:92
 #: ../src/mail/e-mail-label-tree-view.c:96
 #: ../src/modules/plugin-manager/evolution-plugin-manager.c:64
+#: ../src/modules/rss/evolution/e-rss-preferences.c:1316
 msgid "Name"
 msgstr "Ім'я"
 
@@ -12599,6 +12605,8 @@ msgstr "Показати частину як неформатований тек
 
 #: ../src/em-format/e-mail-formatter-quote-text-html.c:93
 #: ../src/em-format/e-mail-formatter-text-html.c:389
+#: ../src/modules/rss/evolution/e-rss-preferences.c:56
+#: ../src/modules/rss/evolution/e-rss-preferences.c:825
 msgid "HTML"
 msgstr "HTML"
 
@@ -12609,6 +12617,8 @@ msgstr "Форматувати частину як HTML"
 
 #: ../src/em-format/e-mail-formatter-quote-text-plain.c:130
 #: ../src/em-format/e-mail-formatter-text-plain.c:196
+#: ../src/modules/rss/evolution/e-rss-preferences.c:51
+#: ../src/modules/rss/evolution/e-rss-preferences.c:826
 msgid "Plain Text"
 msgstr "Звичайний текст"
 
@@ -12838,7 +12848,7 @@ msgid "partially S/MIME encrypted"
 msgstr "частково зашифровано за допомогою S/MIME"
 
 #: ../src/em-format/e-mail-formatter-utils.c:695
-#: ../src/mail/e-mail-config-security-page.c:864
+#: ../src/mail/e-mail-config-security-page.c:865
 #: ../src/modules/mail-config/e-mail-config-remote-accounts.c:273
 #: ../src/modules/mail-config/e-mail-config-smtp-backend.c:217
 msgid "Security"
@@ -12958,34 +12968,34 @@ msgid "evolution calendar item"
 msgstr "елемент календаря Evolution"
 
 #: ../src/e-util/e-accounts-window.c:557 ../src/e-util/e-accounts-window.c:674
-#: ../src/e-util/e-accounts-window.c:894
+#: ../src/e-util/e-accounts-window.c:904
 #: ../src/modules/mail/e-mail-shell-backend.c:1131
 msgid "Mail Accounts"
 msgstr "Облікові записи"
 
-#: ../src/e-util/e-accounts-window.c:564 ../src/e-util/e-accounts-window.c:703
-#: ../src/e-util/e-accounts-window.c:908
+#: ../src/e-util/e-accounts-window.c:564 ../src/e-util/e-accounts-window.c:710
+#: ../src/e-util/e-accounts-window.c:918
 msgid "Address Books"
 msgstr "Адресні книги"
 
-#: ../src/e-util/e-accounts-window.c:570 ../src/e-util/e-accounts-window.c:704
-#: ../src/e-util/e-accounts-window.c:909
+#: ../src/e-util/e-accounts-window.c:570 ../src/e-util/e-accounts-window.c:711
+#: ../src/e-util/e-accounts-window.c:919
 #: ../src/modules/calendar/e-calendar-preferences.ui.h:100
 msgid "Calendars"
 msgstr "Календарі"
 
-#: ../src/e-util/e-accounts-window.c:576 ../src/e-util/e-accounts-window.c:705
-#: ../src/e-util/e-accounts-window.c:910
+#: ../src/e-util/e-accounts-window.c:576 ../src/e-util/e-accounts-window.c:712
+#: ../src/e-util/e-accounts-window.c:920
 msgid "Memo Lists"
 msgstr "Списки приміток"
 
-#: ../src/e-util/e-accounts-window.c:582 ../src/e-util/e-accounts-window.c:706
-#: ../src/e-util/e-accounts-window.c:911
+#: ../src/e-util/e-accounts-window.c:582 ../src/e-util/e-accounts-window.c:713
+#: ../src/e-util/e-accounts-window.c:921
 #: ../src/modules/calendar/e-calendar-preferences.ui.h:101
 msgid "Task Lists"
 msgstr "Списки завдань"
 
-#: ../src/e-util/e-accounts-window.c:1399 ../src/e-util/filter.ui.h:23
+#: ../src/e-util/e-accounts-window.c:1409 ../src/e-util/filter.ui.h:23
 #: ../src/mail/e-mail-account-tree-view.c:84
 #: ../src/modules/mail/em-composer-prefs.c:1354
 #: ../src/modules/plugin-manager/evolution-plugin-manager.c:405
@@ -12994,51 +13004,51 @@ msgstr "Списки завдань"
 msgid "Enabled"
 msgstr "Активно"
 
-#: ../src/e-util/e-accounts-window.c:1415
+#: ../src/e-util/e-accounts-window.c:1425
 #: ../src/mail/e-mail-account-tree-view.c:108
 #: ../src/plugins/mail-notification/mail-notification.c:1195
 msgid "Account Name"
 msgstr "Назва облікового запису"
 
-#: ../src/e-util/e-accounts-window.c:1482
+#: ../src/e-util/e-accounts-window.c:1492
 msgid "Collection _Account"
 msgstr "_Обліковий запис-збірка"
 
-#: ../src/e-util/e-accounts-window.c:1483
+#: ../src/e-util/e-accounts-window.c:1493
 msgid "_Mail Account"
 msgstr "Обліковий запис _пошти"
 
-#: ../src/e-util/e-accounts-window.c:1484
+#: ../src/e-util/e-accounts-window.c:1494
 msgid "Address _Book"
 msgstr "Адресна _книга"
 
-#: ../src/e-util/e-accounts-window.c:1485
+#: ../src/e-util/e-accounts-window.c:1495
 msgid "_Calendar"
 msgstr "_Календар"
 
-#: ../src/e-util/e-accounts-window.c:1486
+#: ../src/e-util/e-accounts-window.c:1496
 msgid "M_emo List"
 msgstr "Список _приміток"
 
-#: ../src/e-util/e-accounts-window.c:1487
+#: ../src/e-util/e-accounts-window.c:1497
 msgid "_Task List"
 msgstr "Список _завдань"
 
-#: ../src/e-util/e-accounts-window.c:1684
+#: ../src/e-util/e-accounts-window.c:1694
 msgid "Evolution Accounts"
 msgstr "Облікові записи Evolution"
 
 #. widget = gtk_button_new_with_mnemonic (_("_Permissions"));
 #. gtk_box_pack_start (GTK_BOX (container), widget, FALSE, FALSE, 0);
 #. webdav_browser->priv->permissions_button = widget;
-#: ../src/e-util/e-accounts-window.c:1761 ../src/e-util/e-webdav-browser.c:2868
+#: ../src/e-util/e-accounts-window.c:1771 ../src/e-util/e-webdav-browser.c:2868
 #: ../src/mail/em-subscription-editor.c:1945
 #: ../src/modules/mail/e-mail-shell-view-actions.c:1594
 #: ../src/modules/mail/e-mail-shell-view-actions.c:1672
 msgid "_Refresh"
 msgstr "_Оновити"
 
-#: ../src/e-util/e-accounts-window.c:1762
+#: ../src/e-util/e-accounts-window.c:1772
 msgid "Initiates refresh of account sources"
 msgstr "Ініціює оновлення джерел облікових записів"
 
@@ -13754,8 +13764,8 @@ msgstr "Вибрати нетиповий колір"
 
 #: ../src/e-util/e-color-combo.c:476 ../src/e-util/e-html-editor.c:133
 #: ../src/mail/e-mail-account-tree-view.c:135
-#: ../src/mail/e-mail-config-security-page.c:540
-#: ../src/mail/e-mail-config-security-page.c:716
+#: ../src/mail/e-mail-config-security-page.c:541
+#: ../src/mail/e-mail-config-security-page.c:717
 #: ../src/mail/e-mail-reader.c:5005 ../src/mail/mail-config.ui.h:79
 msgid "Default"
 msgstr "Типовий"
@@ -14412,11 +14422,11 @@ msgid "A_dd Condition"
 msgstr "Додати _критерій"
 
 #: ../src/e-util/e-filter-rule.c:1515 ../src/e-util/filter.ui.h:1
-#: ../src/mail/em-filter-rule.c:982 ../src/mail/em-utils.c:166
+#: ../src/mail/em-filter-rule.c:986 ../src/mail/em-utils.c:166
 msgid "Incoming"
 msgstr "Вхідні"
 
-#: ../src/e-util/e-filter-rule.c:1515 ../src/mail/em-filter-rule.c:983
+#: ../src/e-util/e-filter-rule.c:1515 ../src/mail/em-filter-rule.c:987
 #: ../src/mail/em-utils.c:167
 msgid "Outgoing"
 msgstr "Вихідні"
@@ -16832,8 +16842,8 @@ msgstr "Адресна книга"
 msgid "Events"
 msgstr "Події"
 
-#: ../src/e-util/e-webdav-browser.c:595 ../src/mail/em-folder-tree-model.c:1593
-#: ../src/mail/em-folder-tree-model.c:1981
+#: ../src/e-util/e-webdav-browser.c:595 ../src/mail/em-folder-tree-model.c:1630
+#: ../src/mail/em-folder-tree-model.c:2018
 #: ../src/modules/cal-config-weather/e-weather-location-entry.c:893
 msgid "Loading…"
 msgstr "Завантаження…"
@@ -17330,8 +17340,8 @@ msgstr "Неправильний URI теки «%s»"
 #. Some local folders
 #: ../src/libemail-engine/e-mail-session.c:121
 #: ../src/mail/em-folder-properties.c:1473
-#: ../src/mail/em-folder-tree-model.c:1509
-#: ../src/mail/em-folder-tree-model.c:1539
+#: ../src/mail/em-folder-tree-model.c:1543
+#: ../src/mail/em-folder-tree-model.c:1573
 #: ../src/mail/importers/kmail-libs.c:138
 #: ../src/modules/mail/e-mail-shell-view-private.c:1036
 #: ../src/modules/mail/e-mail-shell-view-private.c:1047
@@ -17340,8 +17350,8 @@ msgstr "Вхідні"
 
 #. E_MAIL_LOCAL_FOLDER_INBOX
 #: ../src/libemail-engine/e-mail-session.c:122
-#: ../src/mail/em-folder-tree-model.c:1503
-#: ../src/mail/em-folder-tree-model.c:1543
+#: ../src/mail/em-folder-tree-model.c:1537
+#: ../src/mail/em-folder-tree-model.c:1577
 #: ../src/mail/importers/kmail-libs.c:144
 #: ../src/modules/mail/e-mail-shell-view-private.c:1034
 msgid "Drafts"
@@ -17349,7 +17359,7 @@ msgstr "Чернетки"
 
 #. E_MAIL_LOCAL_FOLDER_DRAFTS
 #: ../src/libemail-engine/e-mail-session.c:123
-#: ../src/mail/em-folder-tree-model.c:1515
+#: ../src/mail/em-folder-tree-model.c:1549
 #: ../src/mail/importers/kmail-libs.c:140
 #: ../src/modules/mail/e-mail-shell-view-private.c:1038
 msgid "Outbox"
@@ -17357,8 +17367,8 @@ msgstr "Вихідні"
 
 #. E_MAIL_LOCAL_FOLDER_OUTBOX
 #: ../src/libemail-engine/e-mail-session.c:124
-#: ../src/mail/em-folder-tree-model.c:1520
-#: ../src/mail/em-folder-tree-model.c:1542
+#: ../src/mail/em-folder-tree-model.c:1554
+#: ../src/mail/em-folder-tree-model.c:1576
 #: ../src/mail/importers/kmail-libs.c:142
 #: ../src/modules/mail/e-mail-shell-view-private.c:1040
 msgid "Sent"
@@ -17366,7 +17376,7 @@ msgstr "Надіслані"
 
 #. E_MAIL_LOCAL_FOLDER_SENT
 #: ../src/libemail-engine/e-mail-session.c:125
-#: ../src/mail/em-folder-tree-model.c:1505
+#: ../src/mail/em-folder-tree-model.c:1539
 #: ../src/mail/importers/kmail-libs.c:146
 #: ../src/modules/mail/e-mail-shell-view-private.c:1042
 #: ../src/plugins/templates/org-gnome-templates.eplug.xml.h:1
@@ -18032,7 +18042,6 @@ msgid "Looking up account details…"
 msgstr "Визначаємо параметри облікового запису…"
 
 #: ../src/mail/e-mail-config-provider-page.c:489
-#| msgid "_Advanced Options"
 msgid "Advanced Options"
 msgstr "Додаткові параметри"
 
@@ -18066,6 +18075,7 @@ msgstr "%s — %s"
 #: ../src/modules/calendar/e-calendar-preferences.c:648
 #: ../src/modules/calendar/e-calendar-preferences.ui.h:55
 #: ../src/modules/mail/e-mail-shell-backend.c:1010
+#: ../src/modules/rss/evolution/e-rss-preferences.c:1201
 #: ../src/plugins/publish-calendar/publish-calendar.ui.h:17
 msgid "General"
 msgstr "Загальне"
@@ -18074,104 +18084,104 @@ msgstr "Загальне"
 msgid "_Do not sign meeting requests (for Outlook compatibility)"
 msgstr "Н_е підписувати запрошення на зібрання (для сумісності з Outlook)"
 
-#: ../src/mail/e-mail-config-security-page.c:487
+#: ../src/mail/e-mail-config-security-page.c:488
 msgid "Pretty Good Privacy (OpenPGP)"
 msgstr "Pretty Good Privacy (OpenPGP)"
 
-#: ../src/mail/e-mail-config-security-page.c:496
+#: ../src/mail/e-mail-config-security-page.c:497
 msgid "OpenPGP _Key ID:"
 msgstr "Ідентифікатор _ключа OpenPGP:"
 
-#: ../src/mail/e-mail-config-security-page.c:527
+#: ../src/mail/e-mail-config-security-page.c:528
 msgid "Si_gning algorithm:"
 msgstr "Алгоритм підп_исування:"
 
-#: ../src/mail/e-mail-config-security-page.c:543
-#: ../src/mail/e-mail-config-security-page.c:719
+#: ../src/mail/e-mail-config-security-page.c:544
+#: ../src/mail/e-mail-config-security-page.c:720
 #: ../src/mail/mail-config.ui.h:80
 msgid "SHA1"
 msgstr "SHA1"
 
-#: ../src/mail/e-mail-config-security-page.c:546
-#: ../src/mail/e-mail-config-security-page.c:722
+#: ../src/mail/e-mail-config-security-page.c:547
+#: ../src/mail/e-mail-config-security-page.c:723
 #: ../src/mail/mail-config.ui.h:81
 msgid "SHA256"
 msgstr "SHA256"
 
-#: ../src/mail/e-mail-config-security-page.c:549
-#: ../src/mail/e-mail-config-security-page.c:725
+#: ../src/mail/e-mail-config-security-page.c:550
+#: ../src/mail/e-mail-config-security-page.c:726
 #: ../src/mail/mail-config.ui.h:82
 msgid "SHA384"
 msgstr "SHA384"
 
-#: ../src/mail/e-mail-config-security-page.c:552
-#: ../src/mail/e-mail-config-security-page.c:728
+#: ../src/mail/e-mail-config-security-page.c:553
+#: ../src/mail/e-mail-config-security-page.c:729
 #: ../src/mail/mail-config.ui.h:83
 msgid "SHA512"
 msgstr "SHA512"
 
-#: ../src/mail/e-mail-config-security-page.c:568
+#: ../src/mail/e-mail-config-security-page.c:569
 msgid "Al_ways sign outgoing messages when using this account"
 msgstr ""
 "Зав_жди підписувати повідомлення при використанні цього облікового запису"
 
-#: ../src/mail/e-mail-config-security-page.c:580
+#: ../src/mail/e-mail-config-security-page.c:581
 msgid "Always enc_rypt outgoing messages when using this account"
 msgstr ""
 "Завжди _шифрувати виходові листи, коли використовуєте цей обліковий запис"
 
-#: ../src/mail/e-mail-config-security-page.c:592
+#: ../src/mail/e-mail-config-security-page.c:593
 msgid "Always encrypt to _myself when sending encrypted messages"
 msgstr "Завжди ши_фрувати для себе при надсиланні шифрованої пошти"
 
-#: ../src/mail/e-mail-config-security-page.c:604
+#: ../src/mail/e-mail-config-security-page.c:605
 msgid "Always _trust keys in my keyring when encrypting"
 msgstr "Завжди _довіряти ключам в моєму сховищі ключів при шифруванні"
 
-#: ../src/mail/e-mail-config-security-page.c:616
+#: ../src/mail/e-mail-config-security-page.c:617
 msgid "Prefer _inline sign/encrypt for plain text messages"
 msgstr "Віддавати перевагу _вбудованим підписам/шифрам для текстових листів"
 
-#: ../src/mail/e-mail-config-security-page.c:628
+#: ../src/mail/e-mail-config-security-page.c:629
 msgid "_Lookup keys for encryption in Web Key Directory (WKD)"
 msgstr "_Шукати ключі для шифрування у Web Key Directory (WKD)"
 
-#: ../src/mail/e-mail-config-security-page.c:652
+#: ../src/mail/e-mail-config-security-page.c:653
 msgid "Secure MIME (S/MIME)"
 msgstr "Безпечний MIME (S/MIME)"
 
-#: ../src/mail/e-mail-config-security-page.c:661
+#: ../src/mail/e-mail-config-security-page.c:662
 msgid "Sig_ning certificate:"
 msgstr "Сертифікат _підпису:"
 
-#: ../src/mail/e-mail-config-security-page.c:685
-#: ../src/mail/e-mail-config-security-page.c:783
+#: ../src/mail/e-mail-config-security-page.c:686
+#: ../src/mail/e-mail-config-security-page.c:784
 msgid "Select"
 msgstr "Вибрати"
 
-#: ../src/mail/e-mail-config-security-page.c:694
-#: ../src/mail/e-mail-config-security-page.c:792
+#: ../src/mail/e-mail-config-security-page.c:695
+#: ../src/mail/e-mail-config-security-page.c:793
 #: ../src/shell/e-shell-window-actions.c:1024
 msgid "_Clear"
 msgstr "О_чистити"
 
-#: ../src/mail/e-mail-config-security-page.c:703
+#: ../src/mail/e-mail-config-security-page.c:704
 msgid "Signing _algorithm:"
 msgstr "_Алгоритм підписування:"
 
-#: ../src/mail/e-mail-config-security-page.c:744
+#: ../src/mail/e-mail-config-security-page.c:745
 msgid "Always sign outgoing messages when using this account"
 msgstr "Завжди підписувати листи, коли використовуєте цей обліковий запис"
 
-#: ../src/mail/e-mail-config-security-page.c:759
+#: ../src/mail/e-mail-config-security-page.c:760
 msgid "Encryption certificate:"
 msgstr "Сертифікат для шифрування:"
 
-#: ../src/mail/e-mail-config-security-page.c:801
+#: ../src/mail/e-mail-config-security-page.c:802
 msgid "Always encrypt outgoing messages when using this account"
 msgstr "Завжди шифрувати листи, коли використовуєте цей обліковий запис"
 
-#: ../src/mail/e-mail-config-security-page.c:813
+#: ../src/mail/e-mail-config-security-page.c:814
 msgid "Always encrypt to myself when sending encrypted messages"
 msgstr "Завжди шифрувати для себе, коли надсилаєте шифровані листи"
 
@@ -19556,7 +19566,7 @@ msgid "If any of the following conditions are met"
 msgstr "Якщо виконано будь-яку з наступних умов"
 
 #. and now for the action area
-#: ../src/mail/em-filter-editor.c:211 ../src/mail/em-filter-rule.c:1007
+#: ../src/mail/em-filter-editor.c:211 ../src/mail/em-filter-rule.c:1011
 msgid "Then"
 msgstr "Потім"
 
@@ -19578,15 +19588,15 @@ msgctxt "mail-filter-rule"
 msgid "Any"
 msgstr "Будь-який"
 
-#: ../src/mail/em-filter-rule.c:977
+#: ../src/mail/em-filter-rule.c:981
 msgid "Rul_e type:"
 msgstr "Тип прав_ила:"
 
-#: ../src/mail/em-filter-rule.c:995
+#: ../src/mail/em-filter-rule.c:999
 msgid "_For Account:"
 msgstr "_Для облікового запису:"
 
-#: ../src/mail/em-filter-rule.c:1080
+#: ../src/mail/em-filter-rule.c:1084
 msgid "Add Ac_tion"
 msgstr "Додати д_ію"
 
@@ -19783,18 +19793,18 @@ msgid "Cannot drop message(s) into toplevel store"
 msgstr "Не вдалося скинути повідомлення у сховище верхнього рівня"
 
 #. UNMATCHED is always last.
-#: ../src/mail/em-folder-tree-model.c:460
-#: ../src/mail/em-folder-tree-model.c:462
+#: ../src/mail/em-folder-tree-model.c:463
+#: ../src/mail/em-folder-tree-model.c:465
 msgid "UNMATCHED"
 msgstr "БЕЗВІДПОВІДНОСТІ"
 
-#: ../src/mail/em-folder-tree-model.c:1540
+#: ../src/mail/em-folder-tree-model.c:1574
 #: ../src/mail/importers/kmail-libs.c:149
 #: ../src/modules/mail/e-mail-shell-view-private.c:1044
 msgid "Trash"
 msgstr "Смітник"
 
-#: ../src/mail/em-folder-tree-model.c:1541 ../src/mail/filtertypes.xml.in.h:41
+#: ../src/mail/em-folder-tree-model.c:1575 ../src/mail/filtertypes.xml.in.h:41
 #: ../src/mail/mail-config.ui.h:146 ../src/mail/vfoldertypes.xml.in.h:44
 msgid "Junk"
 msgstr "Спам"
@@ -26508,6 +26518,170 @@ msgstr ""
 "Переглядати повідомлення як звичайний текст, навіть якщо вони містять "
 "гіпертекстову розмітку"
 
+#: ../src/modules/rss/camel/camel-rss-folder.c:133
+#, c-format
+#| msgid "Cannot find message in its folder summary"
+msgid "Cannot add message into News and Blogs folder"
+msgstr "Не вдалося додати повідомлення до теки новин і блогів"
+
+#: ../src/modules/rss/camel/camel-rss-folder.c:225
+#| msgid "Message is not available in offline mode."
+msgid "Message is not available"
+msgstr "Повідомлення є недоступним"
+
+#: ../src/modules/rss/camel/camel-rss-folder.c:274
+#, c-format
+#| msgid "Invalid URI: “%s”"
+msgid "Invalid Feed URL “%s”."
+msgstr "Некоректна адреса стрічки «%s»."
+
+#: ../src/modules/rss/camel/camel-rss-folder.c:408
+#, c-format
+msgid "Invalid Feed URL."
+msgstr "Некоректна адреса стрічки."
+
+#: ../src/modules/rss/camel/camel-rss-folder.c:663
+#| msgid "Apply the same _view settings to all folders"
+msgid "Apply message _filters to this folder"
+msgstr "Застосувати _фільтри повідомлень до цієї теки"
+
+#: ../src/modules/rss/camel/camel-rss-folder.c:676
+#: ../src/modules/rss/evolution/e-rss-preferences.c:831
+#: ../src/modules/rss/evolution/e-rss-preferences.c:1211
+msgid "_Download complete articles"
+msgstr "_Отримати статті повністю"
+
+#: ../src/modules/rss/camel/camel-rss-folder.c:689
+#: ../src/modules/rss/evolution/e-rss-preferences.c:835
+msgid "Download feed _enclosures"
+msgstr "Отримати з_амикання стрічки"
+
+#: ../src/modules/rss/camel/camel-rss-folder-summary.c:269
+msgid "Enclosures:"
+msgstr "Замикання:"
+
+#: ../src/modules/rss/camel/camel-rss-provider.c:17
+#: ../src/modules/rss/camel/camel-rss-store.c:48
+#: ../src/modules/rss/evolution/e-rss-preferences.c:1433
+#: ../src/modules/rss/evolution/e-rss-shell-extension.c:62
+#| msgid "Save and Close"
+msgid "News and Blogs"
+msgstr "Новини і блоги"
+
+#: ../src/modules/rss/camel/camel-rss-provider.c:19
+msgid "This is a provider for reading RSS news and blogs."
+msgstr "Це засіб надання даних для читання новин і блогів RSS."
+
+#: ../src/modules/rss/camel/camel-rss-store.c:77
+#: ../src/modules/rss/camel/camel-rss-store.c:123
+#: ../src/modules/rss/camel/camel-rss-store.c:176
+#: ../src/modules/rss/camel/camel-rss-store.c:232
+#, c-format
+#| msgid "Book '%s' not found"
+msgid "Folder '%s' not found"
+msgstr "Не знайдено теки «%s»"
+
+#: ../src/modules/rss/camel/camel-rss-store.c:138
+#, c-format
+msgid "Cannot create a folder in a News and Blogs store."
+msgstr "Не вдалося створити теку у сховищі новин і блогів."
+
+#: ../src/modules/rss/e-rss-parser.c:289
+#| msgid "Unknown error"
+msgid "Unknown author"
+msgstr "Невідомий автор"
+
+#: ../src/modules/rss/evolution/e-rss-preferences.c:53
+#: ../src/modules/rss/evolution/e-rss-preferences.c:827
+#| msgid "_Markdown"
+msgid "Markdown"
+msgstr "Markdown"
+
+#: ../src/modules/rss/evolution/e-rss-preferences.c:414
+#, c-format
+#| msgid "Failed to load certificate: %s"
+msgid "Failed to fetch feed icon: %s"
+msgstr "Не вдалося отримати піктограму стрічки: %s"
+
+#: ../src/modules/rss/evolution/e-rss-preferences.c:461
+#| msgid "Deleting collection…"
+msgid "Fetching feed icon…"
+msgstr "Отримуємо піктограму стрічки…"
+
+#: ../src/modules/rss/evolution/e-rss-preferences.c:475
+#| msgid "Failed to create new collection"
+msgid "Failed to read feed information."
+msgstr "Не вдалося прочитати дані стрічки."
+
+#: ../src/modules/rss/evolution/e-rss-preferences.c:494
+#, c-format
+#| msgid "Failed to save certificate: %s"
+msgid "Failed to fetch feed information: %s"
+msgstr "Не вдалося отримати відомості щодо стрічки: %s"
+
+#: ../src/modules/rss/evolution/e-rss-preferences.c:524
+#| msgid "Meeting information sent"
+msgid "Fetching feed information…"
+msgstr "Отримуємо відомості щодо стрічки…"
+
+#: ../src/modules/rss/evolution/e-rss-preferences.c:529
+msgid "Invalid Feed URL"
+msgstr "Некоректна адреса стрічки"
+
+#: ../src/modules/rss/evolution/e-rss-preferences.c:572
+#| msgid "Change Face Image"
+msgid "Choose Feed Image"
+msgstr "Виберіть зображення стрічки"
+
+#: ../src/modules/rss/evolution/e-rss-preferences.c:788
+#| msgid "_URL:"
+msgid "Feed _URL:"
+msgstr "_Адреса стрічки:"
+
+#: ../src/modules/rss/evolution/e-rss-preferences.c:801
+msgid "_Fetch"
+msgstr "_Отримати"
+
+#: ../src/modules/rss/evolution/e-rss-preferences.c:817
+#| msgid "_Contents"
+msgid "C_ontent:"
+msgstr "В_міст:"
+
+#: ../src/modules/rss/evolution/e-rss-preferences.c:1224
+msgid "_Download feed enclosures"
+msgstr "_Отримати замикання подач"
+
+#. Translators: This is part of "Do not download enclosures larger than [ nnn ] KB"
+#: ../src/modules/rss/evolution/e-rss-preferences.c:1243
+msgid "Do not download enclosures larger than"
+msgstr "Не отримувати замикання, розмір яких перевищує"
+
+#. Translators: This is part of "Do not download enclosures larger than [ nnn ] KB"
+#: ../src/modules/rss/evolution/e-rss-preferences.c:1266
+msgid "KB"
+msgstr "кБ"
+
+#: ../src/modules/rss/evolution/e-rss-preferences.c:1272
+msgid "Feeds"
+msgstr "Стрічки"
+
+#: ../src/modules/rss/evolution/e-rss-preferences.c:1337
+#| msgid "_Contents"
+msgid "Content"
+msgstr "Вміст"
+
+#: ../src/modules/rss/evolution/e-rss-shell-view-extension.c:210
+msgid "Re_load feed articles"
+msgstr "П_ерезавантажити статті стрічки"
+
+#: ../src/modules/rss/evolution/e-rss-shell-view-extension.c:212
+msgid ""
+"Reload all feed articles from the server, updating existing and adding any "
+"missing"
+msgstr ""
+"Перезавантажити з сервера усі статті стрічки, оновити наявні і додати"
+" пропущені"
+
 #: ../src/modules/spamassassin/evolution-spamassassin.c:188
 #, c-format
 msgid "Failed to spawn SpamAssassin (%s): "
@@ -26595,7 +26769,7 @@ msgctxt "wizard-ca-note"
 msgid "Alternatively, you can %s (email, contacts and calendaring) instead."
 msgstr "Крім того, ви можете %s (електронної пошти, контактів та календаря)."
 
-#: ../src/modules/startup-wizard/evolution-startup-wizard.c:212
+#: ../src/modules/startup-wizard/evolution-startup-wizard.c:194
 msgid "Loading accounts…"
 msgstr "Завантаження облікових записів…"
 
@@ -28370,7 +28544,7 @@ msgstr "Виконати ці параметри пошуку"
 
 #. Translators: a 'New' toolbar button caption which is context sensitive and
 #. runs one of the actions under File->New menu
-#: ../src/shell/e-shell-window.c:514
+#: ../src/shell/e-shell-window.c:519
 msgctxt "toolbar-button"
 msgid "New"
 msgstr "Створити"
