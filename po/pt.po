@@ -13,8 +13,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: 3.12\n"
 "Report-Msgid-Bugs-To: https://gitlab.gnome.org/GNOME/evolution/issues\n"
-"POT-Creation-Date: 2022-06-30 13:21+0000\n"
-"PO-Revision-Date: 2022-06-30 22:24+0100\n"
+"POT-Creation-Date: 2022-07-05 19:25+0000\n"
+"PO-Revision-Date: 2022-07-07 11:06+0100\n"
 "Last-Translator: Hugo Carvalho <hugokarvalho@hotmail.com>\n"
 "Language-Team: Portuguese <https://l10n.gnome.org/teams/pt/>\n"
 "Language: pt\n"
@@ -1915,9 +1915,10 @@ msgid ""
 "content, while the download is not allowed for the user or the site, then "
 "show a notification about it on top of the preview panel."
 msgstr ""
-"Quando a antevisão mostra uma mensagem que requer a transferência de "
-"conteúdo remoto,mostrar uma notificação sobre isso no topo do painel de "
-"antevisão enquanto esse conteúdo não está disponível."
+"Quando a pré-visualização da mensagem mostra uma mensagem que requer a "
+"transferência de conteúdo remoto, enquanto a transferência não é permitida "
+"para o utilizador ou para o site, então mostra uma notificação sobre o mesmo "
+"no topo do painel de pré-visualização."
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:112
 msgid "Show Animations"
@@ -4340,7 +4341,7 @@ msgstr ""
 #: ../src/addressbook/gui/contact-list-editor/contact-list-editor.ui.h:9
 #: ../src/addressbook/gui/widgets/eab-contact-merging.c:811
 #: ../src/calendar/gui/e-comp-editor-page-general.c:1497
-#: ../src/e-util/e-accounts-window.c:1563
+#: ../src/e-util/e-accounts-window.c:1573
 #: ../src/e-util/e-mail-signature-manager.c:324
 #: ../src/e-util/e-name-selector-dialog.c:1028 ../src/e-util/filter.ui.h:25
 #: ../src/mail/e-mail-account-manager.c:721
@@ -4349,6 +4350,7 @@ msgstr ""
 #: ../src/mail/em-vfolder-editor-rule.c:405
 #: ../src/mail/em-vfolder-editor-rule.c:634 ../src/mail/mail-config.ui.h:64
 #: ../src/modules/mail/em-composer-prefs.c:420
+#: ../src/modules/rss/evolution/e-rss-preferences.c:1368
 #: ../src/plugins/attachment-reminder/attachment-reminder.c:559
 #: ../src/plugins/email-custom-header/email-custom-header.c:826
 #: ../src/plugins/publish-calendar/publish-calendar.ui.h:33
@@ -4617,6 +4619,7 @@ msgstr "Opções"
 #: ../src/e-util/e-mail-signature-script-dialog.c:362
 #: ../src/e-util/e-webdav-browser.c:2633 ../src/e-util/e-web-view.c:4006
 #: ../src/e-util/gal-view-instance-save-as-dialog.c:266
+#: ../src/modules/rss/evolution/e-rss-preferences.c:839
 #: ../src/shell/e-shell-content.c:642 ../src/shell/e-shell-utils.c:133
 #: ../src/smime/gui/certificate-manager.c:653
 #: ../src/smime/gui/certificate-manager.c:722
@@ -4880,6 +4883,7 @@ msgstr "Adicionar _X.509"
 #: ../src/mail/e-mail-label-manager.c:373 ../src/mail/em-filter-rule.c:679
 #: ../src/mail/em-folder-properties.c:1365
 #: ../src/mail/em-vfolder-editor-rule.c:639 ../src/mail/mail-config.ui.h:65
+#: ../src/modules/rss/evolution/e-rss-preferences.c:1387
 #: ../src/plugins/attachment-reminder/attachment-reminder.c:569
 #: ../src/plugins/email-custom-header/email-custom-header.c:836
 #: ../src/plugins/publish-calendar/publish-calendar.c:789
@@ -5717,7 +5721,7 @@ msgstr "Tem a certeza que deseja eliminar este contacto (%s)?"
 
 #: ../src/addressbook/gui/widgets/e-addressbook-view.c:1438
 #: ../src/calendar/gui/e-comp-editor.c:2140
-#: ../src/e-util/e-accounts-window.c:1753 ../src/e-util/e-focus-tracker.c:816
+#: ../src/e-util/e-accounts-window.c:1763 ../src/e-util/e-focus-tracker.c:816
 #: ../src/e-util/evolution-source-viewer.c:800
 #: ../src/e-util/e-webdav-browser.c:2857
 #: ../src/mail/e-mail-account-manager.c:739
@@ -7846,7 +7850,7 @@ msgstr "Origem"
 #: ../src/calendar/gui/e-meeting-time-sel.etspec.h:4
 #: ../src/calendar/gui/e-memo-table.etspec.h:3
 #: ../src/calendar/gui/e-task-table.etspec.h:3
-#: ../src/e-util/e-accounts-window.c:1443
+#: ../src/e-util/e-accounts-window.c:1453
 #: ../src/e-util/e-attachment-tree-view.c:205
 #: ../src/e-util/e-collection-account-wizard.c:2069
 #: ../src/e-util/e-webdav-browser.c:2530
@@ -8513,13 +8517,14 @@ msgstr "Participa_ntes…"
 #: ../src/calendar/gui/e-comp-editor-page-general.c:1505
 #: ../src/calendar/gui/e-comp-editor-page-recurrence.c:2312
 #: ../src/calendar/gui/e-comp-editor.c:2205
-#: ../src/e-util/e-accounts-window.c:1745
+#: ../src/e-util/e-accounts-window.c:1755
 #: ../src/e-util/e-html-editor-actions.c:1170
 #: ../src/e-util/e-mail-signature-manager.c:354
 #: ../src/e-util/e-webdav-browser.c:2850 ../src/e-util/filter.ui.h:26
 #: ../src/mail/e-mail-account-manager.c:730 ../src/mail/e-mail-browser.c:217
 #: ../src/mail/e-mail-label-manager.c:364
 #: ../src/mail/em-folder-properties.c:1362 ../src/mail/mail-config.ui.h:69
+#: ../src/modules/rss/evolution/e-rss-preferences.c:1374
 #: ../src/plugins/attachment-reminder/attachment-reminder.c:564
 #: ../src/plugins/email-custom-header/email-custom-header.c:831
 #: ../src/plugins/publish-calendar/publish-calendar.ui.h:34
@@ -9196,7 +9201,7 @@ msgstr "A guardar as alterações…"
 #. == Button box ==
 #: ../src/calendar/gui/e-comp-editor.c:2119
 #: ../src/composer/e-composer-actions.c:333
-#: ../src/e-util/e-accounts-window.c:1778
+#: ../src/e-util/e-accounts-window.c:1788
 #: ../src/e-util/e-html-editor-dialog.c:194
 #: ../src/e-util/e-mail-signature-editor.c:329
 #: ../src/e-util/e-name-selector-dialog.c:548
@@ -12117,6 +12122,7 @@ msgstr "Guardar o rascunho"
 #: ../src/mail/e-mail-config-identity-page.c:551
 #: ../src/mail/e-mail-config-summary-page.c:327
 #: ../src/modules/accounts-window/e-accounts-window-editors.c:297
+#: ../src/modules/rss/evolution/e-rss-preferences.c:805
 msgid "_Name:"
 msgstr "_Nome:"
 
@@ -12576,6 +12582,7 @@ msgstr "Formatar parte como uma mensagem RFC822"
 #: ../src/e-util/gal-view-instance-save-as-dialog.c:92
 #: ../src/mail/e-mail-label-tree-view.c:96
 #: ../src/modules/plugin-manager/evolution-plugin-manager.c:64
+#: ../src/modules/rss/evolution/e-rss-preferences.c:1316
 msgid "Name"
 msgstr "Nome"
 
@@ -12616,6 +12623,8 @@ msgstr "Mostrar parte como texto formatado"
 
 #: ../src/em-format/e-mail-formatter-quote-text-html.c:93
 #: ../src/em-format/e-mail-formatter-text-html.c:389
+#: ../src/modules/rss/evolution/e-rss-preferences.c:56
+#: ../src/modules/rss/evolution/e-rss-preferences.c:825
 msgid "HTML"
 msgstr "HTML"
 
@@ -12626,6 +12635,8 @@ msgstr "Formatar parte como HTML"
 
 #: ../src/em-format/e-mail-formatter-quote-text-plain.c:130
 #: ../src/em-format/e-mail-formatter-text-plain.c:196
+#: ../src/modules/rss/evolution/e-rss-preferences.c:51
+#: ../src/modules/rss/evolution/e-rss-preferences.c:826
 msgid "Plain Text"
 msgstr "Texto simples"
 
@@ -12978,34 +12989,34 @@ msgid "evolution calendar item"
 msgstr "item de calendário do evolution"
 
 #: ../src/e-util/e-accounts-window.c:557 ../src/e-util/e-accounts-window.c:674
-#: ../src/e-util/e-accounts-window.c:894
+#: ../src/e-util/e-accounts-window.c:904
 #: ../src/modules/mail/e-mail-shell-backend.c:1131
 msgid "Mail Accounts"
 msgstr "Contas de correio eletrónico"
 
-#: ../src/e-util/e-accounts-window.c:564 ../src/e-util/e-accounts-window.c:703
-#: ../src/e-util/e-accounts-window.c:908
+#: ../src/e-util/e-accounts-window.c:564 ../src/e-util/e-accounts-window.c:710
+#: ../src/e-util/e-accounts-window.c:918
 msgid "Address Books"
 msgstr "Livro de endereços"
 
-#: ../src/e-util/e-accounts-window.c:570 ../src/e-util/e-accounts-window.c:704
-#: ../src/e-util/e-accounts-window.c:909
+#: ../src/e-util/e-accounts-window.c:570 ../src/e-util/e-accounts-window.c:711
+#: ../src/e-util/e-accounts-window.c:919
 #: ../src/modules/calendar/e-calendar-preferences.ui.h:100
 msgid "Calendars"
 msgstr "Calendário"
 
-#: ../src/e-util/e-accounts-window.c:576 ../src/e-util/e-accounts-window.c:705
-#: ../src/e-util/e-accounts-window.c:910
+#: ../src/e-util/e-accounts-window.c:576 ../src/e-util/e-accounts-window.c:712
+#: ../src/e-util/e-accounts-window.c:920
 msgid "Memo Lists"
 msgstr "Lista de memorandos"
 
-#: ../src/e-util/e-accounts-window.c:582 ../src/e-util/e-accounts-window.c:706
-#: ../src/e-util/e-accounts-window.c:911
+#: ../src/e-util/e-accounts-window.c:582 ../src/e-util/e-accounts-window.c:713
+#: ../src/e-util/e-accounts-window.c:921
 #: ../src/modules/calendar/e-calendar-preferences.ui.h:101
 msgid "Task Lists"
 msgstr "Lista de tarefas"
 
-#: ../src/e-util/e-accounts-window.c:1399 ../src/e-util/filter.ui.h:23
+#: ../src/e-util/e-accounts-window.c:1409 ../src/e-util/filter.ui.h:23
 #: ../src/mail/e-mail-account-tree-view.c:84
 #: ../src/modules/mail/em-composer-prefs.c:1354
 #: ../src/modules/plugin-manager/evolution-plugin-manager.c:405
@@ -13014,7 +13025,7 @@ msgstr "Lista de tarefas"
 msgid "Enabled"
 msgstr "Ativo"
 
-#: ../src/e-util/e-accounts-window.c:1415
+#: ../src/e-util/e-accounts-window.c:1425
 #: ../src/mail/e-mail-account-tree-view.c:108
 #: ../src/plugins/mail-notification/mail-notification.c:1195
 msgid "Account Name"
@@ -13022,45 +13033,45 @@ msgstr "Nome de conta"
 
 # When creating a mail account you only get mail, or when creating a calendar account you only get a calendar. A Collection account is an account which serves for multiple types of services (not email or not contacts only) and it can share log-in credentials.
 # https://bugzilla.gnome.org/show_bug.cgi?id=271481 has some background.
-#: ../src/e-util/e-accounts-window.c:1482
+#: ../src/e-util/e-accounts-window.c:1492
 msgid "Collection _Account"
 msgstr "Conta c_oleção"
 
-#: ../src/e-util/e-accounts-window.c:1483
+#: ../src/e-util/e-accounts-window.c:1493
 msgid "_Mail Account"
 msgstr "Conta de _correio eletrónico"
 
-#: ../src/e-util/e-accounts-window.c:1484
+#: ../src/e-util/e-accounts-window.c:1494
 msgid "Address _Book"
 msgstr "Livro de _endereços"
 
-#: ../src/e-util/e-accounts-window.c:1485
+#: ../src/e-util/e-accounts-window.c:1495
 msgid "_Calendar"
 msgstr "_Calendário"
 
-#: ../src/e-util/e-accounts-window.c:1486
+#: ../src/e-util/e-accounts-window.c:1496
 msgid "M_emo List"
 msgstr "Li_sta de memorandos"
 
-#: ../src/e-util/e-accounts-window.c:1487
+#: ../src/e-util/e-accounts-window.c:1497
 msgid "_Task List"
 msgstr "Lista de _tarefas"
 
-#: ../src/e-util/e-accounts-window.c:1684
+#: ../src/e-util/e-accounts-window.c:1694
 msgid "Evolution Accounts"
 msgstr "Contas do Evolution"
 
 #. widget = gtk_button_new_with_mnemonic (_("_Permissions"));
 #. gtk_box_pack_start (GTK_BOX (container), widget, FALSE, FALSE, 0);
 #. webdav_browser->priv->permissions_button = widget;
-#: ../src/e-util/e-accounts-window.c:1761 ../src/e-util/e-webdav-browser.c:2868
+#: ../src/e-util/e-accounts-window.c:1771 ../src/e-util/e-webdav-browser.c:2868
 #: ../src/mail/em-subscription-editor.c:1945
 #: ../src/modules/mail/e-mail-shell-view-actions.c:1594
 #: ../src/modules/mail/e-mail-shell-view-actions.c:1672
 msgid "_Refresh"
 msgstr "Atualiza_r"
 
-#: ../src/e-util/e-accounts-window.c:1762
+#: ../src/e-util/e-accounts-window.c:1772
 msgid "Initiates refresh of account sources"
 msgstr "Iniciar a atualização das fontes de contas"
 
@@ -14409,11 +14420,11 @@ msgid "A_dd Condition"
 msgstr "A_dicionar condição"
 
 #: ../src/e-util/e-filter-rule.c:1515 ../src/e-util/filter.ui.h:1
-#: ../src/mail/em-filter-rule.c:982 ../src/mail/em-utils.c:166
+#: ../src/mail/em-filter-rule.c:986 ../src/mail/em-utils.c:166
 msgid "Incoming"
 msgstr "Recebidas"
 
-#: ../src/e-util/e-filter-rule.c:1515 ../src/mail/em-filter-rule.c:983
+#: ../src/e-util/e-filter-rule.c:1515 ../src/mail/em-filter-rule.c:987
 #: ../src/mail/em-utils.c:167
 msgid "Outgoing"
 msgstr "Enviadas"
@@ -16834,8 +16845,8 @@ msgstr "Livro de endereços"
 msgid "Events"
 msgstr "Eventos"
 
-#: ../src/e-util/e-webdav-browser.c:595 ../src/mail/em-folder-tree-model.c:1593
-#: ../src/mail/em-folder-tree-model.c:1981
+#: ../src/e-util/e-webdav-browser.c:595 ../src/mail/em-folder-tree-model.c:1630
+#: ../src/mail/em-folder-tree-model.c:2018
 #: ../src/modules/cal-config-weather/e-weather-location-entry.c:893
 msgid "Loading…"
 msgstr "A carregar…"
@@ -17329,8 +17340,8 @@ msgstr "URI de pasta “%s” inválido"
 #. Some local folders
 #: ../src/libemail-engine/e-mail-session.c:121
 #: ../src/mail/em-folder-properties.c:1473
-#: ../src/mail/em-folder-tree-model.c:1509
-#: ../src/mail/em-folder-tree-model.c:1539
+#: ../src/mail/em-folder-tree-model.c:1543
+#: ../src/mail/em-folder-tree-model.c:1573
 #: ../src/mail/importers/kmail-libs.c:138
 #: ../src/modules/mail/e-mail-shell-view-private.c:1036
 #: ../src/modules/mail/e-mail-shell-view-private.c:1047
@@ -17339,8 +17350,8 @@ msgstr "Entrada"
 
 #. E_MAIL_LOCAL_FOLDER_INBOX
 #: ../src/libemail-engine/e-mail-session.c:122
-#: ../src/mail/em-folder-tree-model.c:1503
-#: ../src/mail/em-folder-tree-model.c:1543
+#: ../src/mail/em-folder-tree-model.c:1537
+#: ../src/mail/em-folder-tree-model.c:1577
 #: ../src/mail/importers/kmail-libs.c:144
 #: ../src/modules/mail/e-mail-shell-view-private.c:1034
 msgid "Drafts"
@@ -17348,7 +17359,7 @@ msgstr "Rascunhos"
 
 #. E_MAIL_LOCAL_FOLDER_DRAFTS
 #: ../src/libemail-engine/e-mail-session.c:123
-#: ../src/mail/em-folder-tree-model.c:1515
+#: ../src/mail/em-folder-tree-model.c:1549
 #: ../src/mail/importers/kmail-libs.c:140
 #: ../src/modules/mail/e-mail-shell-view-private.c:1038
 msgid "Outbox"
@@ -17356,8 +17367,8 @@ msgstr "Saída"
 
 #. E_MAIL_LOCAL_FOLDER_OUTBOX
 #: ../src/libemail-engine/e-mail-session.c:124
-#: ../src/mail/em-folder-tree-model.c:1520
-#: ../src/mail/em-folder-tree-model.c:1542
+#: ../src/mail/em-folder-tree-model.c:1554
+#: ../src/mail/em-folder-tree-model.c:1576
 #: ../src/mail/importers/kmail-libs.c:142
 #: ../src/modules/mail/e-mail-shell-view-private.c:1040
 msgid "Sent"
@@ -17365,7 +17376,7 @@ msgstr "Enviadas"
 
 #. E_MAIL_LOCAL_FOLDER_SENT
 #: ../src/libemail-engine/e-mail-session.c:125
-#: ../src/mail/em-folder-tree-model.c:1505
+#: ../src/mail/em-folder-tree-model.c:1539
 #: ../src/mail/importers/kmail-libs.c:146
 #: ../src/modules/mail/e-mail-shell-view-private.c:1042
 #: ../src/plugins/templates/org-gnome-templates.eplug.xml.h:1
@@ -18053,6 +18064,7 @@ msgstr "%s — %s"
 #: ../src/modules/calendar/e-calendar-preferences.c:648
 #: ../src/modules/calendar/e-calendar-preferences.ui.h:55
 #: ../src/modules/mail/e-mail-shell-backend.c:1010
+#: ../src/modules/rss/evolution/e-rss-preferences.c:1201
 #: ../src/plugins/publish-calendar/publish-calendar.ui.h:17
 msgid "General"
 msgstr "Geral"
@@ -19524,7 +19536,7 @@ msgid "If any of the following conditions are met"
 msgstr "Se são satisfeitas qualquer uma das seguintes condições"
 
 #. and now for the action area
-#: ../src/mail/em-filter-editor.c:211 ../src/mail/em-filter-rule.c:1007
+#: ../src/mail/em-filter-editor.c:211 ../src/mail/em-filter-rule.c:1011
 msgid "Then"
 msgstr "Depois"
 
@@ -19546,15 +19558,15 @@ msgctxt "mail-filter-rule"
 msgid "Any"
 msgstr "_Qualquer"
 
-#: ../src/mail/em-filter-rule.c:977
+#: ../src/mail/em-filter-rule.c:981
 msgid "Rul_e type:"
 msgstr "_Tipo de regra:"
 
-#: ../src/mail/em-filter-rule.c:995
+#: ../src/mail/em-filter-rule.c:999
 msgid "_For Account:"
 msgstr "Para a cont_a:"
 
-#: ../src/mail/em-filter-rule.c:1080
+#: ../src/mail/em-filter-rule.c:1084
 msgid "Add Ac_tion"
 msgstr "Adicio_nar ação"
 
@@ -19748,18 +19760,18 @@ msgstr ""
 "Impossível largar a(s) mensagem(ns) para o nível de topo do armazenamento"
 
 #. UNMATCHED is always last.
-#: ../src/mail/em-folder-tree-model.c:460
-#: ../src/mail/em-folder-tree-model.c:462
+#: ../src/mail/em-folder-tree-model.c:463
+#: ../src/mail/em-folder-tree-model.c:465
 msgid "UNMATCHED"
 msgstr "SEMEQUIVALÊNCIA"
 
-#: ../src/mail/em-folder-tree-model.c:1540
+#: ../src/mail/em-folder-tree-model.c:1574
 #: ../src/mail/importers/kmail-libs.c:149
 #: ../src/modules/mail/e-mail-shell-view-private.c:1044
 msgid "Trash"
 msgstr "Lixo"
 
-#: ../src/mail/em-folder-tree-model.c:1541 ../src/mail/filtertypes.xml.in.h:41
+#: ../src/mail/em-folder-tree-model.c:1575 ../src/mail/filtertypes.xml.in.h:41
 #: ../src/mail/mail-config.ui.h:146 ../src/mail/vfoldertypes.xml.in.h:44
 msgid "Junk"
 msgstr "Não solicitado"
@@ -21776,7 +21788,8 @@ msgstr "Falha ao remover os anexos das mensagens."
 #: ../src/mail/mail.error.xml.h:183
 msgid "Failed to download messages for offline viewing for account “{0}”."
 msgstr ""
-"Falha ao obter as mensagens para consulta em modo offline para a conta “{0}”."
+"Falha ao transferir mensagens para consulta em modo offline para a conta "
+"“{0}”."
 
 #: ../src/mail/mail.error.xml.h:184
 msgid "Failed to save messages to disk."
@@ -26476,6 +26489,155 @@ msgstr ""
 "Ver as mensagens de correio como texto simples, mesmo quando têm conteúdo "
 "HTML."
 
+#: ../src/modules/rss/camel/camel-rss-folder.c:133
+#, c-format
+msgid "Cannot add message into News and Blogs folder"
+msgstr "Não é possível adicionar mensagem na pasta de Notícias e Blogues"
+
+#: ../src/modules/rss/camel/camel-rss-folder.c:225
+msgid "Message is not available"
+msgstr "A mensagem não está disponível"
+
+#: ../src/modules/rss/camel/camel-rss-folder.c:274
+#, c-format
+msgid "Invalid Feed URL “%s”."
+msgstr "URL de fonte inválido “%s”."
+
+#: ../src/modules/rss/camel/camel-rss-folder.c:408
+#, c-format
+msgid "Invalid Feed URL."
+msgstr "URL de fonte inválido."
+
+#: ../src/modules/rss/camel/camel-rss-folder.c:663
+msgid "Apply message _filters to this folder"
+msgstr "Aplicar _filtros de mensagens a esta pasta"
+
+#: ../src/modules/rss/camel/camel-rss-folder.c:676
+#: ../src/modules/rss/evolution/e-rss-preferences.c:831
+#: ../src/modules/rss/evolution/e-rss-preferences.c:1211
+msgid "_Download complete articles"
+msgstr "_Descarregar artigos completos"
+
+#: ../src/modules/rss/camel/camel-rss-folder.c:689
+#: ../src/modules/rss/evolution/e-rss-preferences.c:835
+msgid "Download feed _enclosures"
+msgstr "Descarregar anexos de fontes"
+
+#: ../src/modules/rss/camel/camel-rss-folder-summary.c:269
+msgid "Enclosures:"
+msgstr "Anexos:"
+
+#: ../src/modules/rss/camel/camel-rss-provider.c:17
+#: ../src/modules/rss/camel/camel-rss-store.c:48
+#: ../src/modules/rss/evolution/e-rss-preferences.c:1433
+#: ../src/modules/rss/evolution/e-rss-shell-extension.c:62
+msgid "News and Blogs"
+msgstr "Notícias e Blogues"
+
+#: ../src/modules/rss/camel/camel-rss-provider.c:19
+msgid "This is a provider for reading RSS news and blogs."
+msgstr "Este é um fornecedor para a leitura de notícias RSS e blogues."
+
+#: ../src/modules/rss/camel/camel-rss-store.c:77
+#: ../src/modules/rss/camel/camel-rss-store.c:123
+#: ../src/modules/rss/camel/camel-rss-store.c:176
+#: ../src/modules/rss/camel/camel-rss-store.c:232
+#, c-format
+msgid "Folder '%s' not found"
+msgstr "Pasta '%s' não encontrada"
+
+#: ../src/modules/rss/camel/camel-rss-store.c:138
+#, c-format
+msgid "Cannot create a folder in a News and Blogs store."
+msgstr ""
+"Não é possível criar uma pasta num armazenamento de Notícias e Blogues."
+
+#: ../src/modules/rss/e-rss-parser.c:289
+msgid "Unknown author"
+msgstr "Autor desconhecido"
+
+#: ../src/modules/rss/evolution/e-rss-preferences.c:53
+#: ../src/modules/rss/evolution/e-rss-preferences.c:827
+#| msgid "_Markdown"
+msgid "Markdown"
+msgstr "Markdown"
+
+#: ../src/modules/rss/evolution/e-rss-preferences.c:414
+#, c-format
+msgid "Failed to fetch feed icon: %s"
+msgstr "Falha ao obter o ícone da fonte: %s"
+
+#: ../src/modules/rss/evolution/e-rss-preferences.c:461
+msgid "Fetching feed icon…"
+msgstr "A obter ícone da fonte…"
+
+#: ../src/modules/rss/evolution/e-rss-preferences.c:475
+msgid "Failed to read feed information."
+msgstr "Falha ao ler informação da fonte."
+
+#: ../src/modules/rss/evolution/e-rss-preferences.c:494
+#, c-format
+msgid "Failed to fetch feed information: %s"
+msgstr "Falha ao obter informação da fonte: %s"
+
+#: ../src/modules/rss/evolution/e-rss-preferences.c:524
+msgid "Fetching feed information…"
+msgstr "A obter informação da fonte…"
+
+#: ../src/modules/rss/evolution/e-rss-preferences.c:529
+msgid "Invalid Feed URL"
+msgstr "URL da fonte inválido"
+
+#: ../src/modules/rss/evolution/e-rss-preferences.c:572
+msgid "Choose Feed Image"
+msgstr "Escolher imagem da fonte"
+
+#: ../src/modules/rss/evolution/e-rss-preferences.c:788
+msgid "Feed _URL:"
+msgstr "_URL da fonte:"
+
+#: ../src/modules/rss/evolution/e-rss-preferences.c:801
+msgid "_Fetch"
+msgstr "_Busca"
+
+#: ../src/modules/rss/evolution/e-rss-preferences.c:817
+msgid "C_ontent:"
+msgstr "C_onteúdo:"
+
+#: ../src/modules/rss/evolution/e-rss-preferences.c:1224
+msgid "_Download feed enclosures"
+msgstr "_Descarregar anexos da fonte"
+
+#. Translators: This is part of "Do not download enclosures larger than [ nnn ] KB"
+#: ../src/modules/rss/evolution/e-rss-preferences.c:1243
+msgid "Do not download enclosures larger than"
+msgstr "Não descarregar anexos maiores do que"
+
+#. Translators: This is part of "Do not download enclosures larger than [ nnn ] KB"
+#: ../src/modules/rss/evolution/e-rss-preferences.c:1266
+msgid "KB"
+msgstr "KB"
+
+#: ../src/modules/rss/evolution/e-rss-preferences.c:1272
+msgid "Feeds"
+msgstr "Fontes"
+
+#: ../src/modules/rss/evolution/e-rss-preferences.c:1337
+msgid "Content"
+msgstr "Conteúdo"
+
+#: ../src/modules/rss/evolution/e-rss-shell-view-extension.c:210
+msgid "Re_load feed articles"
+msgstr "Recarregar artigos de fontes"
+
+#: ../src/modules/rss/evolution/e-rss-shell-view-extension.c:212
+msgid ""
+"Reload all feed articles from the server, updating existing and adding any "
+"missing"
+msgstr ""
+"Recarregar todos os artigos de fontes do servidor, a atualizar os existentes "
+"e acrescentando os que faltam"
+
 #: ../src/modules/spamassassin/evolution-spamassassin.c:188
 #, c-format
 msgid "Failed to spawn SpamAssassin (%s): "
@@ -26567,7 +26729,7 @@ msgid "Alternatively, you can %s (email, contacts and calendaring) instead."
 msgstr ""
 "Alternativamente, pode antes %s (correio eletrónico, contactos e calendário)."
 
-#: ../src/modules/startup-wizard/evolution-startup-wizard.c:212
+#: ../src/modules/startup-wizard/evolution-startup-wizard.c:194
 msgid "Loading accounts…"
 msgstr "A carregar as contas…"
 
@@ -28017,12 +28179,12 @@ msgstr "Todos os ficheiros (*)"
 #: ../src/shell/e-shell-utils.c:349
 msgid "translator-credits"
 msgstr ""
+"Hugo Carvalho <hugokarvalho@hotmail.com>\n"
 "Duarte Loreto <happyguy_pt@hotmail.com>\n"
 "Tiago Santos <tiagofsantos81@sapo.pt>\n"
 "Pedro Albuquerque <palbuquerque73@gmail.com>\n"
 "Manuela Silva <mmsrs@sky.com>\n"
-"Juliano de Souza Camargo <julianosc@pm.me>\n"
-"Hugo Carvalho <hugokarvalho@hotmail.com>"
+"Juliano de Souza Camargo <julianosc@pm.me>"
 
 #: ../src/shell/e-shell-utils.c:360
 msgid "Website"
@@ -28377,7 +28539,7 @@ msgid ""
 "We hope that you enjoy the results of our hard work, and we\n"
 "eagerly await your contributions!\n"
 msgstr ""
-"Obrigado por despender o seu tempo a instalar esta versão de teste do\n"
+"Obrigado por despender o seu tempo a descarregar esta versão de teste do\n"
 "pacote de colaboração Evolution.\n"
 "\n"
 "Esta versão do Evolution ainda não está terminada. Está quase, mas\n"
@@ -32817,9 +32979,6 @@ msgstr "Certificado importado"
 
 #~ msgid "Account Already Exists"
 #~ msgstr "Já Existe a Conta"
-
-#~ msgid "Invalid user"
-#~ msgstr "Utilizador inválido"
 
 #~ msgid ""
 #~ "Proxy login as &quot;{0}&quot; was unsuccessful. Please check your email "
