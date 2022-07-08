@@ -2160,7 +2160,7 @@ e_mail_folder_to_full_display_name (CamelFolder *folder,
 		    g_strcmp0 (folder_name, CAMEL_VJUNK_NAME) == 0))) {
 			full_display_name = g_strdup_printf ("%s : %s", service_display_name, camel_folder_get_display_name (folder));
 		} else {
-			full_display_name = g_strdup_printf ("%s : %s", service_display_name, folder_name);
+			full_display_name = g_strdup_printf ("%s : %s", service_display_name, camel_folder_get_full_display_name (folder));
 		}
 
 		g_free (folder_name);

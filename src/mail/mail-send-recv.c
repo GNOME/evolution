@@ -1504,7 +1504,7 @@ refresh_folders_exec (struct _refresh_folders_msg *m,
 
 				if (folder) {
 					store = camel_folder_get_parent_store (folder);
-					full_name = camel_folder_get_full_name (folder);
+					full_name = camel_folder_get_full_display_name (folder);
 				} else {
 					store = m->store;
 					full_name = (const gchar *) m->folders->pdata[i];

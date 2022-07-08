@@ -2081,27 +2081,35 @@ ml_tree_value_at_ex (ETreeModel *etm,
 		return GINT_TO_POINTER (camel_message_info_get_user_flag (msg_info, "ignore-thread") ? 1 : 0);
 	}
 	case COL_LOCATION: {
-		/* Fixme : freeing memory stuff (mem leaks) */
-		CamelStore *store;
 		CamelFolder *folder;
-		CamelService *service;
-		const gchar *store_name;
-		const gchar *folder_name;
+		gchar *full_display_name;
 
 		folder = message_list->priv->folder;
 
-		if (CAMEL_IS_VEE_FOLDER (folder))
+		if (CAMEL_IS_VEE_FOLDER (folder)) {
 			folder = camel_vee_folder_get_location (
 				CAMEL_VEE_FOLDER (folder),
 				(CamelVeeMessageInfo *) msg_info, NULL);
+		}
 
-		store = camel_folder_get_parent_store (folder);
-		folder_name = camel_folder_get_full_name (folder);
+		full_display_name = e_mail_folder_to_full_display_name (folder, NULL);
 
-		service = CAMEL_SERVICE (store);
-		store_name = camel_service_get_display_name (service);
+		if (!full_display_name) {
+			CamelStore *store;
+			CamelService *service;
+			const gchar *store_name;
+			const gchar *folder_name;
 
-		return g_strdup_printf ("%s : %s", store_name, folder_name);
+			store = camel_folder_get_parent_store (folder);
+			folder_name = camel_folder_get_full_name (folder);
+
+			service = CAMEL_SERVICE (store);
+			store_name = camel_service_get_display_name (service);
+
+			full_display_name = g_strdup_printf ("%s : %s", store_name, folder_name);
+		}
+
+		return full_display_name;
 	}
 	case COL_MIXED_RECIPIENTS:
 	case COL_RECIPIENTS:

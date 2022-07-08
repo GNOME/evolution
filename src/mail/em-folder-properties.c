@@ -513,7 +513,8 @@ emfp_get_folder_item (EConfig *ec,
 	if (store) {
 		gchar *path;
 
-		path = g_strconcat (camel_service_get_display_name (CAMEL_SERVICE (store)), "/", folder_name, NULL);
+		path = g_strconcat (camel_service_get_display_name (CAMEL_SERVICE (store)), "/",
+			camel_folder_get_full_display_name (context->folder), NULL);
 		row = add_text_row (GTK_TABLE (table), row, _("Path:"), path, TRUE);
 		g_free (path);
 	}

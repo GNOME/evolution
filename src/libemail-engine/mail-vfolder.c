@@ -147,7 +147,7 @@ vfolder_setup_desc (struct _setup_msg *m)
 {
 	return g_strdup_printf (
 		_("Setting up Search Folder: %s"),
-		camel_folder_get_full_name (m->folder));
+		camel_folder_get_full_display_name (m->folder));
 }
 
 static void

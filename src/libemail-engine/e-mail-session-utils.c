@@ -615,7 +615,7 @@ skip_send:
 
 		g_return_if_fail (CAMEL_IS_FOLDER (folder));
 
-		camel_operation_push_message (cancellable, _("Posting message to “%s”"), camel_folder_get_full_name (folder));
+		camel_operation_push_message (cancellable, _("Posting message to “%s”"), camel_folder_get_full_display_name (folder));
 
 		camel_folder_append_message_sync (
 			folder, context->message, context->info,
@@ -686,7 +686,7 @@ skip_send:
 
 	/* Append the message. */
 	if (folder != NULL) {
-		camel_operation_push_message (cancellable, _("Storing sent message to “%s”"), camel_folder_get_full_name (folder));
+		camel_operation_push_message (cancellable, _("Storing sent message to “%s”"), camel_folder_get_full_display_name (folder));
 
 		camel_folder_append_message_sync (
 			folder, context->message,
@@ -721,7 +721,7 @@ skip_send:
 
 		g_clear_error (&error);
 
-		camel_operation_push_message (cancellable, _("Storing sent message to “%s”"), camel_folder_get_full_name (local_sent_folder));
+		camel_operation_push_message (cancellable, _("Storing sent message to “%s”"), camel_folder_get_full_display_name (local_sent_folder));
 
 		camel_folder_append_message_sync (
 			local_sent_folder, context->message,

@@ -137,7 +137,7 @@ e_mail_reader_confirm_delete (EMailReader *reader)
 
 	dialog = e_alert_dialog_new_for_args (
 		window, "mail:ask-delete-vfolder-msg",
-		camel_folder_get_full_name (folder), NULL);
+		camel_folder_get_full_display_name (folder), NULL);
 
 	container = e_alert_dialog_get_content_area (E_ALERT_DIALOG (dialog));
 
@@ -189,7 +189,7 @@ mail_reader_delete_folder_cb (GObject *source_object,
 	} else if (local_error != NULL) {
 		e_alert_submit (
 			alert_sink, "mail:no-delete-folder",
-			camel_folder_get_full_name (folder),
+			camel_folder_get_full_display_name (folder),
 			local_error->message, NULL);
 		g_error_free (local_error);
 
@@ -1359,7 +1359,7 @@ e_mail_reader_mark_selected_ignore_thread (EMailReader *reader,
 			alert_sink = e_mail_reader_get_alert_sink (reader);
 
 			activity = e_alert_sink_submit_thread_job (alert_sink, description, alert_id,
-				camel_folder_get_full_name (folder), mail_reader_utils_mark_ignore_thread_thread,
+				camel_folder_get_full_display_name (folder), mail_reader_utils_mark_ignore_thread_thread,
 				mit, mark_ignore_thread_data_free);
 
 

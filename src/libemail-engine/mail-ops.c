@@ -702,7 +702,7 @@ mail_send_message (struct _send_queue_msg *m,
 		folder = e_mail_session_uri_to_folder_sync (
 			m->session, uri, 0, cancellable, &local_error);
 		if (folder != NULL) {
-			camel_operation_push_message (cancellable, _("Posting message to “%s”"), camel_folder_get_full_name (folder));
+			camel_operation_push_message (cancellable, _("Posting message to “%s”"), camel_folder_get_full_display_name (folder));
 
 			camel_folder_append_message_sync (
 				folder, message, info, NULL, cancellable, &local_error);
@@ -766,7 +766,7 @@ mail_send_message (struct _send_queue_msg *m,
 			((folder != NULL) && (local_error == NULL)));
 
 		if (local_error == NULL) {
-			camel_operation_push_message (cancellable, _("Storing sent message to “%s”"), camel_folder_get_full_name (folder));
+			camel_operation_push_message (cancellable, _("Storing sent message to “%s”"), camel_folder_get_full_display_name (folder));
 
 			camel_folder_append_message_sync (
 				folder, message, info, NULL,
@@ -801,7 +801,7 @@ mail_send_message (struct _send_queue_msg *m,
 			g_clear_error (&local_error);
 			folder = g_object_ref (local_sent_folder);
 
-			camel_operation_push_message (cancellable, _("Storing sent message to “%s”"), camel_folder_get_full_name (folder));
+			camel_operation_push_message (cancellable, _("Storing sent message to “%s”"), camel_folder_get_full_display_name (folder));
 
 			camel_folder_append_message_sync (
 				folder, message, info, NULL,
@@ -1333,7 +1333,7 @@ sync_folder_desc (struct _sync_folder_msg *m)
 {
 	return g_strdup_printf (
 		_("Storing folder “%s”"),
-		camel_folder_get_full_name (m->folder));
+		camel_folder_get_full_display_name (m->folder));
 }
 
 static void
@@ -1635,7 +1635,7 @@ static gchar *
 process_folder_changes_desc (struct _process_folder_changes_msg *m)
 {
 	return g_strdup_printf (
-		_("Processing folder changes in “%s”"), camel_folder_get_full_name (m->folder));
+		_("Processing folder changes in “%s”"), camel_folder_get_full_display_name (m->folder));
 }
 
 static void
