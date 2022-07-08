@@ -1,5 +1,5 @@
-pkg_check_modules(LIBEDATASERVER libedataserver-1.2)
-pkg_check_modules(CAMEL camel-1.2)
+pkg_check_modules(LIBEDATASERVER libedataserver-1.2 REQUIRED)
+pkg_check_modules(CAMEL camel-1.2 REQUIRED)
 pkg_check_variable(camel_providerdir camel-1.2 camel_providerdir)
 
 set(sources
