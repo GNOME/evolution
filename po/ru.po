@@ -18,8 +18,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: evolution master\n"
 "Report-Msgid-Bugs-To: https://gitlab.gnome.org/GNOME/evolution/issues\n"
-"POT-Creation-Date: 2022-06-28 13:20+0000\n"
-"PO-Revision-Date: 2022-06-28 22:29+0300\n"
+"POT-Creation-Date: 2022-07-05 19:25+0000\n"
+"PO-Revision-Date: 2022-07-06 21:00+0300\n"
 "Last-Translator: Aleksandr Melman <Alexmelman88@gmail.com>\n"
 "Language-Team: Russian <gnome-cyr@gnome.org>\n"
 "Language: ru\n"
@@ -4288,7 +4288,7 @@ msgstr ""
 #: ../src/addressbook/gui/contact-list-editor/contact-list-editor.ui.h:9
 #: ../src/addressbook/gui/widgets/eab-contact-merging.c:811
 #: ../src/calendar/gui/e-comp-editor-page-general.c:1497
-#: ../src/e-util/e-accounts-window.c:1563
+#: ../src/e-util/e-accounts-window.c:1573
 #: ../src/e-util/e-mail-signature-manager.c:324
 #: ../src/e-util/e-name-selector-dialog.c:1028 ../src/e-util/filter.ui.h:25
 #: ../src/mail/e-mail-account-manager.c:721
@@ -4297,6 +4297,7 @@ msgstr ""
 #: ../src/mail/em-vfolder-editor-rule.c:405
 #: ../src/mail/em-vfolder-editor-rule.c:634 ../src/mail/mail-config.ui.h:64
 #: ../src/modules/mail/em-composer-prefs.c:420
+#: ../src/modules/rss/evolution/e-rss-preferences.c:1368
 #: ../src/plugins/attachment-reminder/attachment-reminder.c:559
 #: ../src/plugins/email-custom-header/email-custom-header.c:826
 #: ../src/plugins/publish-calendar/publish-calendar.ui.h:33
@@ -4561,6 +4562,7 @@ msgstr "Параметры"
 #: ../src/e-util/e-mail-signature-script-dialog.c:362
 #: ../src/e-util/e-webdav-browser.c:2633 ../src/e-util/e-web-view.c:4006
 #: ../src/e-util/gal-view-instance-save-as-dialog.c:266
+#: ../src/modules/rss/evolution/e-rss-preferences.c:839
 #: ../src/shell/e-shell-content.c:642 ../src/shell/e-shell-utils.c:133
 #: ../src/smime/gui/certificate-manager.c:653
 #: ../src/smime/gui/certificate-manager.c:722
@@ -4824,6 +4826,7 @@ msgstr "До_бавить X.509"
 #: ../src/mail/e-mail-label-manager.c:373 ../src/mail/em-filter-rule.c:679
 #: ../src/mail/em-folder-properties.c:1365
 #: ../src/mail/em-vfolder-editor-rule.c:639 ../src/mail/mail-config.ui.h:65
+#: ../src/modules/rss/evolution/e-rss-preferences.c:1387
 #: ../src/plugins/attachment-reminder/attachment-reminder.c:569
 #: ../src/plugins/email-custom-header/email-custom-header.c:836
 #: ../src/plugins/publish-calendar/publish-calendar.c:789
@@ -5663,7 +5666,7 @@ msgstr "Действительно удалить этот контакт (%s)?"
 
 #: ../src/addressbook/gui/widgets/e-addressbook-view.c:1438
 #: ../src/calendar/gui/e-comp-editor.c:2140
-#: ../src/e-util/e-accounts-window.c:1753 ../src/e-util/e-focus-tracker.c:816
+#: ../src/e-util/e-accounts-window.c:1763 ../src/e-util/e-focus-tracker.c:816
 #: ../src/e-util/evolution-source-viewer.c:800
 #: ../src/e-util/e-webdav-browser.c:2857
 #: ../src/mail/e-mail-account-manager.c:739
@@ -7782,7 +7785,7 @@ msgstr "Код"
 #: ../src/calendar/gui/e-meeting-time-sel.etspec.h:4
 #: ../src/calendar/gui/e-memo-table.etspec.h:3
 #: ../src/calendar/gui/e-task-table.etspec.h:3
-#: ../src/e-util/e-accounts-window.c:1443
+#: ../src/e-util/e-accounts-window.c:1453
 #: ../src/e-util/e-attachment-tree-view.c:205
 #: ../src/e-util/e-collection-account-wizard.c:2069
 #: ../src/e-util/e-webdav-browser.c:2530
@@ -8467,13 +8470,14 @@ msgstr "_Участники…"
 #: ../src/calendar/gui/e-comp-editor-page-general.c:1505
 #: ../src/calendar/gui/e-comp-editor-page-recurrence.c:2312
 #: ../src/calendar/gui/e-comp-editor.c:2205
-#: ../src/e-util/e-accounts-window.c:1745
+#: ../src/e-util/e-accounts-window.c:1755
 #: ../src/e-util/e-html-editor-actions.c:1170
 #: ../src/e-util/e-mail-signature-manager.c:354
 #: ../src/e-util/e-webdav-browser.c:2850 ../src/e-util/filter.ui.h:26
 #: ../src/mail/e-mail-account-manager.c:730 ../src/mail/e-mail-browser.c:217
 #: ../src/mail/e-mail-label-manager.c:364
 #: ../src/mail/em-folder-properties.c:1362 ../src/mail/mail-config.ui.h:69
+#: ../src/modules/rss/evolution/e-rss-preferences.c:1374
 #: ../src/plugins/attachment-reminder/attachment-reminder.c:564
 #: ../src/plugins/email-custom-header/email-custom-header.c:831
 #: ../src/plugins/publish-calendar/publish-calendar.ui.h:34
@@ -9150,7 +9154,7 @@ msgstr "Сохранение изменений…"
 #. == Button box ==
 #: ../src/calendar/gui/e-comp-editor.c:2119
 #: ../src/composer/e-composer-actions.c:333
-#: ../src/e-util/e-accounts-window.c:1778
+#: ../src/e-util/e-accounts-window.c:1788
 #: ../src/e-util/e-html-editor-dialog.c:194
 #: ../src/e-util/e-mail-signature-editor.c:329
 #: ../src/e-util/e-name-selector-dialog.c:548
@@ -12079,6 +12083,7 @@ msgstr "Сохранить черновик"
 #: ../src/mail/e-mail-config-identity-page.c:551
 #: ../src/mail/e-mail-config-summary-page.c:327
 #: ../src/modules/accounts-window/e-accounts-window-editors.c:297
+#: ../src/modules/rss/evolution/e-rss-preferences.c:805
 msgid "_Name:"
 msgstr "_Имя:"
 
@@ -12537,6 +12542,7 @@ msgstr "Форматировать часть в виде сообщения RFC
 #: ../src/e-util/gal-view-instance-save-as-dialog.c:92
 #: ../src/mail/e-mail-label-tree-view.c:96
 #: ../src/modules/plugin-manager/evolution-plugin-manager.c:64
+#: ../src/modules/rss/evolution/e-rss-preferences.c:1316
 msgid "Name"
 msgstr "Имя"
 
@@ -12577,6 +12583,8 @@ msgstr "Показать часть в виде текста в формате R
 
 #: ../src/em-format/e-mail-formatter-quote-text-html.c:93
 #: ../src/em-format/e-mail-formatter-text-html.c:389
+#: ../src/modules/rss/evolution/e-rss-preferences.c:56
+#: ../src/modules/rss/evolution/e-rss-preferences.c:825
 msgid "HTML"
 msgstr "HTML"
 
@@ -12587,6 +12595,8 @@ msgstr "Форматировать часть в виде HTML"
 
 #: ../src/em-format/e-mail-formatter-quote-text-plain.c:130
 #: ../src/em-format/e-mail-formatter-text-plain.c:196
+#: ../src/modules/rss/evolution/e-rss-preferences.c:51
+#: ../src/modules/rss/evolution/e-rss-preferences.c:826
 msgid "Plain Text"
 msgstr "Обычный текст"
 
@@ -12815,7 +12825,7 @@ msgid "partially S/MIME encrypted"
 msgstr "частично зашифровано S/MIME"
 
 #: ../src/em-format/e-mail-formatter-utils.c:695
-#: ../src/mail/e-mail-config-security-page.c:864
+#: ../src/mail/e-mail-config-security-page.c:865
 #: ../src/modules/mail-config/e-mail-config-remote-accounts.c:273
 #: ../src/modules/mail-config/e-mail-config-smtp-backend.c:217
 msgid "Security"
@@ -12935,34 +12945,34 @@ msgid "evolution calendar item"
 msgstr "элемент календаря evolution"
 
 #: ../src/e-util/e-accounts-window.c:557 ../src/e-util/e-accounts-window.c:674
-#: ../src/e-util/e-accounts-window.c:894
+#: ../src/e-util/e-accounts-window.c:904
 #: ../src/modules/mail/e-mail-shell-backend.c:1131
 msgid "Mail Accounts"
 msgstr "Учётные записи"
 
-#: ../src/e-util/e-accounts-window.c:564 ../src/e-util/e-accounts-window.c:703
-#: ../src/e-util/e-accounts-window.c:908
+#: ../src/e-util/e-accounts-window.c:564 ../src/e-util/e-accounts-window.c:710
+#: ../src/e-util/e-accounts-window.c:918
 msgid "Address Books"
 msgstr "Адресные книги"
 
-#: ../src/e-util/e-accounts-window.c:570 ../src/e-util/e-accounts-window.c:704
-#: ../src/e-util/e-accounts-window.c:909
+#: ../src/e-util/e-accounts-window.c:570 ../src/e-util/e-accounts-window.c:711
+#: ../src/e-util/e-accounts-window.c:919
 #: ../src/modules/calendar/e-calendar-preferences.ui.h:100
 msgid "Calendars"
 msgstr "Календари"
 
-#: ../src/e-util/e-accounts-window.c:576 ../src/e-util/e-accounts-window.c:705
-#: ../src/e-util/e-accounts-window.c:910
+#: ../src/e-util/e-accounts-window.c:576 ../src/e-util/e-accounts-window.c:712
+#: ../src/e-util/e-accounts-window.c:920
 msgid "Memo Lists"
 msgstr "Списки заметок"
 
-#: ../src/e-util/e-accounts-window.c:582 ../src/e-util/e-accounts-window.c:706
-#: ../src/e-util/e-accounts-window.c:911
+#: ../src/e-util/e-accounts-window.c:582 ../src/e-util/e-accounts-window.c:713
+#: ../src/e-util/e-accounts-window.c:921
 #: ../src/modules/calendar/e-calendar-preferences.ui.h:101
 msgid "Task Lists"
 msgstr "Списки задач"
 
-#: ../src/e-util/e-accounts-window.c:1399 ../src/e-util/filter.ui.h:23
+#: ../src/e-util/e-accounts-window.c:1409 ../src/e-util/filter.ui.h:23
 #: ../src/mail/e-mail-account-tree-view.c:84
 #: ../src/modules/mail/em-composer-prefs.c:1354
 #: ../src/modules/plugin-manager/evolution-plugin-manager.c:405
@@ -12971,51 +12981,51 @@ msgstr "Списки задач"
 msgid "Enabled"
 msgstr "Включено"
 
-#: ../src/e-util/e-accounts-window.c:1415
+#: ../src/e-util/e-accounts-window.c:1425
 #: ../src/mail/e-mail-account-tree-view.c:108
 #: ../src/plugins/mail-notification/mail-notification.c:1195
 msgid "Account Name"
 msgstr "Имя учётной записи"
 
-#: ../src/e-util/e-accounts-window.c:1482
+#: ../src/e-util/e-accounts-window.c:1492
 msgid "Collection _Account"
 msgstr "Учётная запись коллекции"
 
-#: ../src/e-util/e-accounts-window.c:1483
+#: ../src/e-util/e-accounts-window.c:1493
 msgid "_Mail Account"
 msgstr "Учётная запись"
 
-#: ../src/e-util/e-accounts-window.c:1484
+#: ../src/e-util/e-accounts-window.c:1494
 msgid "Address _Book"
 msgstr "Адресная кн_ига"
 
-#: ../src/e-util/e-accounts-window.c:1485
+#: ../src/e-util/e-accounts-window.c:1495
 msgid "_Calendar"
 msgstr "_Календарь"
 
-#: ../src/e-util/e-accounts-window.c:1486
+#: ../src/e-util/e-accounts-window.c:1496
 msgid "M_emo List"
 msgstr "С_писки заметок"
 
-#: ../src/e-util/e-accounts-window.c:1487
+#: ../src/e-util/e-accounts-window.c:1497
 msgid "_Task List"
 msgstr "_Список задач"
 
-#: ../src/e-util/e-accounts-window.c:1684
+#: ../src/e-util/e-accounts-window.c:1694
 msgid "Evolution Accounts"
 msgstr "Учётные записи Evolution"
 
 #. widget = gtk_button_new_with_mnemonic (_("_Permissions"));
 #. gtk_box_pack_start (GTK_BOX (container), widget, FALSE, FALSE, 0);
 #. webdav_browser->priv->permissions_button = widget;
-#: ../src/e-util/e-accounts-window.c:1761 ../src/e-util/e-webdav-browser.c:2868
+#: ../src/e-util/e-accounts-window.c:1771 ../src/e-util/e-webdav-browser.c:2868
 #: ../src/mail/em-subscription-editor.c:1945
 #: ../src/modules/mail/e-mail-shell-view-actions.c:1594
 #: ../src/modules/mail/e-mail-shell-view-actions.c:1672
 msgid "_Refresh"
 msgstr "_Обновить"
 
-#: ../src/e-util/e-accounts-window.c:1762
+#: ../src/e-util/e-accounts-window.c:1772
 msgid "Initiates refresh of account sources"
 msgstr "Запускает обновление источников учётных записей"
 
@@ -13729,8 +13739,8 @@ msgstr "Выберите собственный цвет"
 
 #: ../src/e-util/e-color-combo.c:476 ../src/e-util/e-html-editor.c:133
 #: ../src/mail/e-mail-account-tree-view.c:135
-#: ../src/mail/e-mail-config-security-page.c:540
-#: ../src/mail/e-mail-config-security-page.c:716
+#: ../src/mail/e-mail-config-security-page.c:541
+#: ../src/mail/e-mail-config-security-page.c:717
 #: ../src/mail/e-mail-reader.c:5005 ../src/mail/mail-config.ui.h:79
 msgid "Default"
 msgstr "По умолчанию"
@@ -14373,11 +14383,11 @@ msgid "A_dd Condition"
 msgstr "Добавить _критерий"
 
 #: ../src/e-util/e-filter-rule.c:1515 ../src/e-util/filter.ui.h:1
-#: ../src/mail/em-filter-rule.c:982 ../src/mail/em-utils.c:166
+#: ../src/mail/em-filter-rule.c:986 ../src/mail/em-utils.c:166
 msgid "Incoming"
 msgstr "Входящие"
 
-#: ../src/e-util/e-filter-rule.c:1515 ../src/mail/em-filter-rule.c:983
+#: ../src/e-util/e-filter-rule.c:1515 ../src/mail/em-filter-rule.c:987
 #: ../src/mail/em-utils.c:167
 msgid "Outgoing"
 msgstr "Исходящие"
@@ -16791,8 +16801,8 @@ msgstr "Адресная книга"
 msgid "Events"
 msgstr "События"
 
-#: ../src/e-util/e-webdav-browser.c:595 ../src/mail/em-folder-tree-model.c:1593
-#: ../src/mail/em-folder-tree-model.c:1981
+#: ../src/e-util/e-webdav-browser.c:595 ../src/mail/em-folder-tree-model.c:1630
+#: ../src/mail/em-folder-tree-model.c:2018
 #: ../src/modules/cal-config-weather/e-weather-location-entry.c:893
 msgid "Loading…"
 msgstr "Загрузка…"
@@ -17286,8 +17296,8 @@ msgstr "Недопустимый URI папки «%s»"
 #. Some local folders
 #: ../src/libemail-engine/e-mail-session.c:121
 #: ../src/mail/em-folder-properties.c:1473
-#: ../src/mail/em-folder-tree-model.c:1509
-#: ../src/mail/em-folder-tree-model.c:1539
+#: ../src/mail/em-folder-tree-model.c:1543
+#: ../src/mail/em-folder-tree-model.c:1573
 #: ../src/mail/importers/kmail-libs.c:138
 #: ../src/modules/mail/e-mail-shell-view-private.c:1036
 #: ../src/modules/mail/e-mail-shell-view-private.c:1047
@@ -17296,8 +17306,8 @@ msgstr "Входящие"
 
 #. E_MAIL_LOCAL_FOLDER_INBOX
 #: ../src/libemail-engine/e-mail-session.c:122
-#: ../src/mail/em-folder-tree-model.c:1503
-#: ../src/mail/em-folder-tree-model.c:1543
+#: ../src/mail/em-folder-tree-model.c:1537
+#: ../src/mail/em-folder-tree-model.c:1577
 #: ../src/mail/importers/kmail-libs.c:144
 #: ../src/modules/mail/e-mail-shell-view-private.c:1034
 msgid "Drafts"
@@ -17305,7 +17315,7 @@ msgstr "Черновики"
 
 #. E_MAIL_LOCAL_FOLDER_DRAFTS
 #: ../src/libemail-engine/e-mail-session.c:123
-#: ../src/mail/em-folder-tree-model.c:1515
+#: ../src/mail/em-folder-tree-model.c:1549
 #: ../src/mail/importers/kmail-libs.c:140
 #: ../src/modules/mail/e-mail-shell-view-private.c:1038
 msgid "Outbox"
@@ -17313,8 +17323,8 @@ msgstr "Исходящие"
 
 #. E_MAIL_LOCAL_FOLDER_OUTBOX
 #: ../src/libemail-engine/e-mail-session.c:124
-#: ../src/mail/em-folder-tree-model.c:1520
-#: ../src/mail/em-folder-tree-model.c:1542
+#: ../src/mail/em-folder-tree-model.c:1554
+#: ../src/mail/em-folder-tree-model.c:1576
 #: ../src/mail/importers/kmail-libs.c:142
 #: ../src/modules/mail/e-mail-shell-view-private.c:1040
 msgid "Sent"
@@ -17322,7 +17332,7 @@ msgstr "Отправленные"
 
 #. E_MAIL_LOCAL_FOLDER_SENT
 #: ../src/libemail-engine/e-mail-session.c:125
-#: ../src/mail/em-folder-tree-model.c:1505
+#: ../src/mail/em-folder-tree-model.c:1539
 #: ../src/mail/importers/kmail-libs.c:146
 #: ../src/modules/mail/e-mail-shell-view-private.c:1042
 #: ../src/plugins/templates/org-gnome-templates.eplug.xml.h:1
@@ -18016,6 +18026,7 @@ msgstr "%s — %s"
 #: ../src/modules/calendar/e-calendar-preferences.c:648
 #: ../src/modules/calendar/e-calendar-preferences.ui.h:55
 #: ../src/modules/mail/e-mail-shell-backend.c:1010
+#: ../src/modules/rss/evolution/e-rss-preferences.c:1201
 #: ../src/plugins/publish-calendar/publish-calendar.ui.h:17
 msgid "General"
 msgstr "Общие"
@@ -18024,107 +18035,107 @@ msgstr "Общие"
 msgid "_Do not sign meeting requests (for Outlook compatibility)"
 msgstr "_Не подписывать запросы собраний (для совместимости с Outlook)"
 
-#: ../src/mail/e-mail-config-security-page.c:487
+#: ../src/mail/e-mail-config-security-page.c:488
 msgid "Pretty Good Privacy (OpenPGP)"
 msgstr "Pretty Good Privacy (OpenPGP)"
 
-#: ../src/mail/e-mail-config-security-page.c:496
+#: ../src/mail/e-mail-config-security-page.c:497
 msgid "OpenPGP _Key ID:"
 msgstr "Идентификатор _ключа OpenPGP:"
 
-#: ../src/mail/e-mail-config-security-page.c:527
+#: ../src/mail/e-mail-config-security-page.c:528
 msgid "Si_gning algorithm:"
 msgstr "А_лгоритм подписи:"
 
-#: ../src/mail/e-mail-config-security-page.c:543
-#: ../src/mail/e-mail-config-security-page.c:719
+#: ../src/mail/e-mail-config-security-page.c:544
+#: ../src/mail/e-mail-config-security-page.c:720
 #: ../src/mail/mail-config.ui.h:80
 msgid "SHA1"
 msgstr "SHA1"
 
-#: ../src/mail/e-mail-config-security-page.c:546
-#: ../src/mail/e-mail-config-security-page.c:722
+#: ../src/mail/e-mail-config-security-page.c:547
+#: ../src/mail/e-mail-config-security-page.c:723
 #: ../src/mail/mail-config.ui.h:81
 msgid "SHA256"
 msgstr "SHA256"
 
-#: ../src/mail/e-mail-config-security-page.c:549
-#: ../src/mail/e-mail-config-security-page.c:725
+#: ../src/mail/e-mail-config-security-page.c:550
+#: ../src/mail/e-mail-config-security-page.c:726
 #: ../src/mail/mail-config.ui.h:82
 msgid "SHA384"
 msgstr "SHA384"
 
-#: ../src/mail/e-mail-config-security-page.c:552
-#: ../src/mail/e-mail-config-security-page.c:728
+#: ../src/mail/e-mail-config-security-page.c:553
+#: ../src/mail/e-mail-config-security-page.c:729
 #: ../src/mail/mail-config.ui.h:83
 msgid "SHA512"
 msgstr "SHA512"
 
-#: ../src/mail/e-mail-config-security-page.c:568
+#: ../src/mail/e-mail-config-security-page.c:569
 msgid "Al_ways sign outgoing messages when using this account"
 msgstr ""
 "_Всегда подписывать исходящие сообщения, когда используется эта учётная "
 "запись"
 
-#: ../src/mail/e-mail-config-security-page.c:580
+#: ../src/mail/e-mail-config-security-page.c:581
 msgid "Always enc_rypt outgoing messages when using this account"
 msgstr ""
 "Всегда шиф_ровать исходящие сообщения при использовании этой учётной записи"
 
-#: ../src/mail/e-mail-config-security-page.c:592
+#: ../src/mail/e-mail-config-security-page.c:593
 msgid "Always encrypt to _myself when sending encrypted messages"
 msgstr "Всегда ш_ифровать для себя при отправке зашифрованных сообщений"
 
-#: ../src/mail/e-mail-config-security-page.c:604
+#: ../src/mail/e-mail-config-security-page.c:605
 msgid "Always _trust keys in my keyring when encrypting"
 msgstr "Всегда д_оверять ключам в моей связке ключей при шифровании"
 
-#: ../src/mail/e-mail-config-security-page.c:616
+#: ../src/mail/e-mail-config-security-page.c:617
 msgid "Prefer _inline sign/encrypt for plain text messages"
 msgstr ""
 "Отдавать предпочтение _встроенным подписи/шифрованию для текстовых сообщений"
 
-#: ../src/mail/e-mail-config-security-page.c:628
+#: ../src/mail/e-mail-config-security-page.c:629
 msgid "_Lookup keys for encryption in Web Key Directory (WKD)"
 msgstr "_Поиск ключей для шифрования в Каталоге веб-ключей (WKD)"
 
-#: ../src/mail/e-mail-config-security-page.c:652
+#: ../src/mail/e-mail-config-security-page.c:653
 msgid "Secure MIME (S/MIME)"
 msgstr "Безопасный MIME (S/MIME)"
 
-#: ../src/mail/e-mail-config-security-page.c:661
+#: ../src/mail/e-mail-config-security-page.c:662
 msgid "Sig_ning certificate:"
 msgstr "Се_ртификат подписи:"
 
-#: ../src/mail/e-mail-config-security-page.c:685
-#: ../src/mail/e-mail-config-security-page.c:783
+#: ../src/mail/e-mail-config-security-page.c:686
+#: ../src/mail/e-mail-config-security-page.c:784
 msgid "Select"
 msgstr "Выбрать"
 
-#: ../src/mail/e-mail-config-security-page.c:694
-#: ../src/mail/e-mail-config-security-page.c:792
+#: ../src/mail/e-mail-config-security-page.c:695
+#: ../src/mail/e-mail-config-security-page.c:793
 #: ../src/shell/e-shell-window-actions.c:1024
 msgid "_Clear"
 msgstr "О_чистить"
 
-#: ../src/mail/e-mail-config-security-page.c:703
+#: ../src/mail/e-mail-config-security-page.c:704
 msgid "Signing _algorithm:"
 msgstr "_Алгоритм подписи:"
 
-#: ../src/mail/e-mail-config-security-page.c:744
+#: ../src/mail/e-mail-config-security-page.c:745
 msgid "Always sign outgoing messages when using this account"
 msgstr "Всегда подписывать исходящие сообщения для этой учётной записи"
 
-#: ../src/mail/e-mail-config-security-page.c:759
+#: ../src/mail/e-mail-config-security-page.c:760
 msgid "Encryption certificate:"
 msgstr "Сертификат шифрования:"
 
-#: ../src/mail/e-mail-config-security-page.c:801
+#: ../src/mail/e-mail-config-security-page.c:802
 msgid "Always encrypt outgoing messages when using this account"
 msgstr ""
 "Всегда шифровать исходящие сообщения при использовании  этой учётной записи"
 
-#: ../src/mail/e-mail-config-security-page.c:813
+#: ../src/mail/e-mail-config-security-page.c:814
 msgid "Always encrypt to myself when sending encrypted messages"
 msgstr "Всегда шифровать для себя при отправке зашифрованных сообщений"
 
@@ -19502,7 +19513,7 @@ msgid "If any of the following conditions are met"
 msgstr "Если выполняется любой из критериев"
 
 #. and now for the action area
-#: ../src/mail/em-filter-editor.c:211 ../src/mail/em-filter-rule.c:1007
+#: ../src/mail/em-filter-editor.c:211 ../src/mail/em-filter-rule.c:1011
 msgid "Then"
 msgstr "Затем"
 
@@ -19524,15 +19535,15 @@ msgctxt "mail-filter-rule"
 msgid "Any"
 msgstr "Любое"
 
-#: ../src/mail/em-filter-rule.c:977
+#: ../src/mail/em-filter-rule.c:981
 msgid "Rul_e type:"
 msgstr "Ти_п правила:"
 
-#: ../src/mail/em-filter-rule.c:995
+#: ../src/mail/em-filter-rule.c:999
 msgid "_For Account:"
 msgstr "Дл_я учётной записи:"
 
-#: ../src/mail/em-filter-rule.c:1080
+#: ../src/mail/em-filter-rule.c:1084
 msgid "Add Ac_tion"
 msgstr "Добавить д_ействие"
 
@@ -19727,18 +19738,18 @@ msgid "Cannot drop message(s) into toplevel store"
 msgstr "Нельзя перетащить сообщение в хранилище верхнего уровня"
 
 #. UNMATCHED is always last.
-#: ../src/mail/em-folder-tree-model.c:460
-#: ../src/mail/em-folder-tree-model.c:462
+#: ../src/mail/em-folder-tree-model.c:463
+#: ../src/mail/em-folder-tree-model.c:465
 msgid "UNMATCHED"
 msgstr "UNMATCHED"
 
-#: ../src/mail/em-folder-tree-model.c:1540
+#: ../src/mail/em-folder-tree-model.c:1574
 #: ../src/mail/importers/kmail-libs.c:149
 #: ../src/modules/mail/e-mail-shell-view-private.c:1044
 msgid "Trash"
 msgstr "Корзина"
 
-#: ../src/mail/em-folder-tree-model.c:1541 ../src/mail/filtertypes.xml.in.h:41
+#: ../src/mail/em-folder-tree-model.c:1575 ../src/mail/filtertypes.xml.in.h:41
 #: ../src/mail/mail-config.ui.h:146 ../src/mail/vfoldertypes.xml.in.h:44
 msgid "Junk"
 msgstr "Спам"
@@ -26465,6 +26476,153 @@ msgstr ""
 "Просматривать почтовые сообщения в виде простого текста, даже если они "
 "содержат HTML."
 
+#: ../src/modules/rss/camel/camel-rss-folder.c:133
+#, c-format
+msgid "Cannot add message into News and Blogs folder"
+msgstr "Не удалось добавить сообщение в папку Новости и блоги"
+
+#: ../src/modules/rss/camel/camel-rss-folder.c:225
+msgid "Message is not available"
+msgstr "Сообщение недоступно"
+
+#: ../src/modules/rss/camel/camel-rss-folder.c:274
+#, c-format
+msgid "Invalid Feed URL “%s”."
+msgstr "Недопустимый URL Ленты \"%s\"."
+
+#: ../src/modules/rss/camel/camel-rss-folder.c:408
+#, c-format
+msgid "Invalid Feed URL."
+msgstr "Недопустимый URL Ленты."
+
+#: ../src/modules/rss/camel/camel-rss-folder.c:663
+msgid "Apply message _filters to this folder"
+msgstr "Применить _фильтры сообщений к этой папке"
+
+#: ../src/modules/rss/camel/camel-rss-folder.c:676
+#: ../src/modules/rss/evolution/e-rss-preferences.c:831
+#: ../src/modules/rss/evolution/e-rss-preferences.c:1211
+msgid "_Download complete articles"
+msgstr "_Загрузить полные версии статей"
+
+#: ../src/modules/rss/camel/camel-rss-folder.c:689
+#: ../src/modules/rss/evolution/e-rss-preferences.c:835
+msgid "Download feed _enclosures"
+msgstr "Загрузить _вложения ленты"
+
+#: ../src/modules/rss/camel/camel-rss-folder-summary.c:269
+msgid "Enclosures:"
+msgstr "Вложения:"
+
+#: ../src/modules/rss/camel/camel-rss-provider.c:17
+#: ../src/modules/rss/camel/camel-rss-store.c:48
+#: ../src/modules/rss/evolution/e-rss-preferences.c:1433
+#: ../src/modules/rss/evolution/e-rss-shell-extension.c:62
+msgid "News and Blogs"
+msgstr "Новости и блоги"
+
+#: ../src/modules/rss/camel/camel-rss-provider.c:19
+msgid "This is a provider for reading RSS news and blogs."
+msgstr "Это поставщик для чтения RSS новостей и блогов."
+
+#: ../src/modules/rss/camel/camel-rss-store.c:77
+#: ../src/modules/rss/camel/camel-rss-store.c:123
+#: ../src/modules/rss/camel/camel-rss-store.c:176
+#: ../src/modules/rss/camel/camel-rss-store.c:232
+#, c-format
+msgid "Folder '%s' not found"
+msgstr "Папка '%s' не найдена"
+
+#: ../src/modules/rss/camel/camel-rss-store.c:138
+#, c-format
+msgid "Cannot create a folder in a News and Blogs store."
+msgstr "Не удалось создать папку в разделе Новости и блоги."
+
+#: ../src/modules/rss/e-rss-parser.c:289
+msgid "Unknown author"
+msgstr "Неизвестный автор"
+
+#: ../src/modules/rss/evolution/e-rss-preferences.c:53
+#: ../src/modules/rss/evolution/e-rss-preferences.c:827
+msgid "Markdown"
+msgstr "Markdown"
+
+#: ../src/modules/rss/evolution/e-rss-preferences.c:414
+#, c-format
+msgid "Failed to fetch feed icon: %s"
+msgstr "Не удалось получить иконку ленты: %s"
+
+#: ../src/modules/rss/evolution/e-rss-preferences.c:461
+msgid "Fetching feed icon…"
+msgstr "Получение иконки ленты..."
+
+#: ../src/modules/rss/evolution/e-rss-preferences.c:475
+msgid "Failed to read feed information."
+msgstr "Не удалось прочитать информацию о ленте."
+
+#: ../src/modules/rss/evolution/e-rss-preferences.c:494
+#, c-format
+msgid "Failed to fetch feed information: %s"
+msgstr "Не удалось получить информацию о ленте: %s"
+
+#: ../src/modules/rss/evolution/e-rss-preferences.c:524
+msgid "Fetching feed information…"
+msgstr "Получение информации о ленте…"
+
+#: ../src/modules/rss/evolution/e-rss-preferences.c:529
+msgid "Invalid Feed URL"
+msgstr "Недопустимый URL Ленты"
+
+#: ../src/modules/rss/evolution/e-rss-preferences.c:572
+msgid "Choose Feed Image"
+msgstr "Выбрать изображение ленты"
+
+#: ../src/modules/rss/evolution/e-rss-preferences.c:788
+msgid "Feed _URL:"
+msgstr "_URL Ленты:"
+
+#: ../src/modules/rss/evolution/e-rss-preferences.c:801
+msgid "_Fetch"
+msgstr "_Получить"
+
+#: ../src/modules/rss/evolution/e-rss-preferences.c:817
+msgid "C_ontent:"
+msgstr "С_одержимое:"
+
+#: ../src/modules/rss/evolution/e-rss-preferences.c:1224
+msgid "_Download feed enclosures"
+msgstr "_Загрузить вложения ленты"
+
+#. Translators: This is part of "Do not download enclosures larger than [ nnn ] KB"
+#: ../src/modules/rss/evolution/e-rss-preferences.c:1243
+msgid "Do not download enclosures larger than"
+msgstr "Не загружать вложения размером более чем"
+
+#. Translators: This is part of "Do not download enclosures larger than [ nnn ] KB"
+#: ../src/modules/rss/evolution/e-rss-preferences.c:1266
+msgid "KB"
+msgstr "КБ"
+
+#: ../src/modules/rss/evolution/e-rss-preferences.c:1272
+msgid "Feeds"
+msgstr "Ленты"
+
+#: ../src/modules/rss/evolution/e-rss-preferences.c:1337
+msgid "Content"
+msgstr "Содержимое"
+
+#: ../src/modules/rss/evolution/e-rss-shell-view-extension.c:210
+msgid "Re_load feed articles"
+msgstr "Пере_загрузить статьи ленты"
+
+#: ../src/modules/rss/evolution/e-rss-shell-view-extension.c:212
+msgid ""
+"Reload all feed articles from the server, updating existing and adding any "
+"missing"
+msgstr ""
+"Перезагрузка всех статей ленты с сервера, обновление существующих и "
+"добавление отсутствующих статей."
+
 #: ../src/modules/spamassassin/evolution-spamassassin.c:188
 #, c-format
 msgid "Failed to spawn SpamAssassin (%s): "
@@ -26556,7 +26714,7 @@ msgstr ""
 "В качестве альтернативы вы можете использовать %s (электронная почта, "
 "контакты и календарь)."
 
-#: ../src/modules/startup-wizard/evolution-startup-wizard.c:212
+#: ../src/modules/startup-wizard/evolution-startup-wizard.c:194
 msgid "Loading accounts…"
 msgstr "Загрузка учётных записей…"
 
@@ -28331,7 +28489,7 @@ msgstr "Выполнить эти параметры поиска"
 
 #. Translators: a 'New' toolbar button caption which is context sensitive and
 #. runs one of the actions under File->New menu
-#: ../src/shell/e-shell-window.c:514
+#: ../src/shell/e-shell-window.c:519
 msgctxt "toolbar-button"
 msgid "New"
 msgstr "Создать"
