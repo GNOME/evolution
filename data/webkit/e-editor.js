@@ -2311,6 +2311,9 @@ EvoEditor.convertTags = function()
 
 		/* Keep the signature SPAN there, it's required */
 		if (node.nodeType == node.ELEMENT_NODE && (node.tagName != "SPAN" || node.className != "-x-evo-signature")) {
+			node.removeAttribute("class");
+			node.removeAttribute("style");
+
 			if (node.tagName != "DIV" &&
 			    node.tagName != "PRE" &&
 			    node.tagName != "BLOCKQUOTE" &&
@@ -2334,12 +2337,17 @@ EvoEditor.convertTags = function()
 					   node.tagName != "STYLE" &&
 					   node.tagName != "SCRIPT" &&
 					   node.tagName != "TEMPLATE" &&
+					   node.tagName != "TITLE" &&
 					   node.tagName != "VAR" &&
 					   node.tagName != "VIDEO") {
 					next = EvoEditor.moveNodeContent(node);
 				}
 			}
 		}
+
+		/* Do not traverse into the to-be-removed node */
+		if (!next && removeNode)
+			next = node.nextSibling;
 
 		if (!next)
 			next = EvoEditor.getNextNodeInHierarchy(node, document.body);
