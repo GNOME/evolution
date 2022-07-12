@@ -400,21 +400,25 @@ e_mail_formatter_format_header (EMailFormatter *formatter,
 			txt = value = html;
 		} else {
 			gchar *date_str;
+			gchar *date_html;
 
 			date_str = e_datetime_format_format (
 				"mail", "header",
 				DTFormatKindDateTime, msg_date);
 
+			date_html = camel_text_to_html (date_str, text_format_flags, 0);
+
 			if (hide_real_date) {
 				/* Show only the local-formatted date, losing
 				 * all timezone information like Outlook does.
 				 * Should we attempt to show it somehow? */
-				txt = value = date_str;
+				txt = value = date_html;
 			} else {
-				txt = value = g_strdup_printf (
-					"%s (<I>%s</I>)", html, date_str);
-				g_free (date_str);
+				txt = value = g_strdup_printf ("%s (<I>%s</I>)", html, date_html);
+				g_free (date_html);
 			}
+
+			g_free (date_str);
 			g_free (html);
 		}
 

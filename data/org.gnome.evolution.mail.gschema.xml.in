@@ -263,6 +263,11 @@
       <_summary>Convert UTC time in reply credits to local time</_summary>
       <_description>Whether the time in reply credits should be converted to local time when it’s in UTC in the message.</_description>
     </key>
+    <key name="composer-reply-credits-date-user-format" type="b">
+      <default>true</default>
+      <_summary>Use user date format in reply credits</_summary>
+      <_description>Whether the date in reply credits should be shown in the user date format. If unset, shows the header value from the original message.</_description>
+    </key>
     <key name="composer-mark-read-on-reply" type="b">
       <default>true</default>
       <_summary>Mark replied to messages as read</_summary>

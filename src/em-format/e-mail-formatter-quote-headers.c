@@ -209,6 +209,8 @@ emfqe_format_header (EMailFormatter *formatter,
 		   g_str_equal (canon_name, "Resent-Date")) {
 		CamelMedium *medium;
 		GSettings *settings;
+		time_t date;
+		gint offset = 0;
 
 		medium = CAMEL_MEDIUM (mime_part);
 		txt = camel_medium_get_header (medium, canon_name);
@@ -219,27 +221,31 @@ emfqe_format_header (EMailFormatter *formatter,
 
 		flags |= E_MAIL_FORMATTER_HEADER_FLAG_BOLD;
 
+		date = camel_header_decode_date (txt, &offset);
+
 		settings = e_util_ref_settings ("org.gnome.evolution.mail");
-		if (g_settings_get_boolean (settings, "composer-reply-credits-utc-to-localtime")) {
-			time_t date;
-			gint offset = 0;
+		if (date > 0 && !offset && g_settings_get_boolean (settings, "composer-reply-credits-utc-to-localtime")) {
+			struct tm local;
 
-			date = camel_header_decode_date (txt, &offset);
-			if (date > 0 && !offset) {
-				struct tm local;
+			e_localtime_with_offset (date, &local, &offset);
+
+			if (g_settings_get_boolean (settings, "composer-reply-credits-date-user-format")) {
+				value = e_datetime_format_format_tm ("mail", "header", DTFormatKindDateTime, &local);
+			} else {
 				gint tzone = 0;
-
-				e_localtime_with_offset (date, &local, &offset);
 
 				tzone = offset / 3600;
 				tzone = (tzone * 100) + ((offset / 60) % 60);
 
 				value = camel_header_format_date (date, tzone);
-
-				if (value && *value)
-					txt = value;
 			}
+		} else if (date > 0 && g_settings_get_boolean (settings, "composer-reply-credits-date-user-format")) {
+			value = e_datetime_format_format ("mail", "header", DTFormatKindDateTime, date);
 		}
+
+		if (value && *value)
+			txt = value;
+
 		g_object_unref (settings);
 	} else {
 		CamelMedium *medium;
