@@ -1787,12 +1787,8 @@ ecep_reminders_sort_predefined_alarms (ECompEditorPageReminders *page_reminders)
 		/* Just count those filled */
 	}
 
-	nelems -= N_PREDEFINED_ALARMS;
-
-	if (nelems > 1) {
-		g_qsort_with_data (&(page_reminders->priv->predefined_alarms[N_PREDEFINED_ALARMS]), nelems,
-			sizeof (gint), ecep_reminders_compare_predefined_alarm, NULL);
-	}
+	g_qsort_with_data (page_reminders->priv->predefined_alarms, nelems,
+		sizeof (gint), ecep_reminders_compare_predefined_alarm, NULL);
 }
 
 static gboolean
@@ -1805,6 +1801,8 @@ ecep_reminders_fill_alarms_combo (ECompEditorPageReminders *page_reminders,
 
 	g_return_val_if_fail (E_IS_COMP_EDITOR_PAGE_REMINDERS (page_reminders), FALSE);
 	g_return_val_if_fail (GTK_IS_COMBO_BOX_TEXT (page_reminders->priv->alarms_combo), FALSE);
+
+	ecep_reminders_sort_predefined_alarms (page_reminders);
 
 	text_combo = GTK_COMBO_BOX_TEXT (page_reminders->priv->alarms_combo);
 
@@ -1859,12 +1857,17 @@ ecep_reminders_fill_alarms_combo (ECompEditorPageReminders *page_reminders,
 }
 
 static void
-ecep_reminders_add_default_alarm_time (ECompEditorPageReminders *page_reminders)
+ecep_reminders_init_predefined_alarms (ECompEditorPageReminders *page_reminders)
 {
 	EDurationType alarm_units;
 	gint alarm_interval, minutes;
 
 	g_return_if_fail (E_IS_COMP_EDITOR_PAGE_REMINDERS (page_reminders));
+
+	page_reminders->priv->predefined_alarms[0] = ecep_reminders_interval_to_int (0, 0, 15);
+	page_reminders->priv->predefined_alarms[1] = ecep_reminders_interval_to_int (0, 1, 0);
+	page_reminders->priv->predefined_alarms[2] = ecep_reminders_interval_to_int (1, 0, 0);
+	page_reminders->priv->predefined_alarms[3] = -1;
 
 	alarm_interval = calendar_config_get_default_reminder_interval ();
 	alarm_units = calendar_config_get_default_reminder_units ();
@@ -1936,16 +1939,12 @@ ecep_reminders_add_custom_time_add_button_clicked_cb (GtkButton *button,
 
 		g_object_unref (settings);
 
-		page_reminders->priv->predefined_alarms[N_PREDEFINED_ALARMS] = -1;
-
-		ecep_reminders_add_default_alarm_time (page_reminders);
+		ecep_reminders_init_predefined_alarms (page_reminders);
 
 		for (ii = 0; ii < narray; ii++) {
 			if (ecep_reminders_add_predefined_alarm (page_reminders, array[ii]))
 				any_user_alarm_added = TRUE;
 		}
-
-		ecep_reminders_sort_predefined_alarms (page_reminders);
 
 		page_reminders->priv->any_custom_reminder_set = any_user_alarm_added;
 
@@ -2077,9 +2076,7 @@ ecep_reminders_remove_custom_times_clicked (ECompEditorPageReminders *page_remin
 	g_settings_reset (settings, "custom-reminders-minutes");
 	g_object_unref (settings);
 
-	page_reminders->priv->predefined_alarms[N_PREDEFINED_ALARMS] = -1;
-
-	ecep_reminders_add_default_alarm_time (page_reminders);
+	ecep_reminders_init_predefined_alarms (page_reminders);
 
 	page_reminders->priv->any_custom_reminder_set = FALSE;
 
@@ -2188,12 +2185,7 @@ ecep_reminders_constructed (GObject *object)
 
 	gtk_label_set_mnemonic_widget (GTK_LABEL (label), page_reminders->priv->alarms_combo);
 
-	page_reminders->priv->predefined_alarms[0] = ecep_reminders_interval_to_int (0, 0, 15);
-	page_reminders->priv->predefined_alarms[1] = ecep_reminders_interval_to_int (0, 1, 0);
-	page_reminders->priv->predefined_alarms[2] = ecep_reminders_interval_to_int (1, 0, 0);
-	page_reminders->priv->predefined_alarms[3] = -1;
-
-	ecep_reminders_add_default_alarm_time (page_reminders);
+	ecep_reminders_init_predefined_alarms (page_reminders);
 
 	settings = e_util_ref_settings ("org.gnome.evolution.calendar");
 	variant = g_settings_get_value (settings, "custom-reminders-minutes");
@@ -2220,7 +2212,6 @@ ecep_reminders_constructed (GObject *object)
 
 	g_object_unref (settings);
 
-	ecep_reminders_sort_predefined_alarms (page_reminders);
 	ecep_reminders_fill_alarms_combo (page_reminders, -1);
 
 	gtk_combo_box_set_active (GTK_COMBO_BOX (page_reminders->priv->alarms_combo), 0);
