@@ -95,6 +95,9 @@ enum {
 	TIMES_CHANGED,
 	OBJECT_CREATED,
 	EDITOR_CLOSED,
+	SANITIZE_WIDGETS,
+	FILL_WIDGETS,
+	FILL_COMPONENT,
 	LAST_SIGNAL
 };
 
@@ -2670,6 +2673,34 @@ e_comp_editor_class_init (ECompEditorClass *klass)
 		NULL, NULL,
 		g_cclosure_marshal_VOID__BOOLEAN,
 		G_TYPE_NONE, 1, G_TYPE_BOOLEAN);
+
+	signals[SANITIZE_WIDGETS] = g_signal_new (
+		"sanitize-widgets",
+		G_TYPE_FROM_CLASS (klass),
+		G_SIGNAL_RUN_LAST | G_SIGNAL_ACTION,
+		0,
+		NULL, NULL,
+		g_cclosure_marshal_VOID__BOOLEAN,
+		G_TYPE_NONE, 1, G_TYPE_BOOLEAN);
+
+	signals[FILL_WIDGETS] = g_signal_new (
+		"fill-widgets",
+		G_TYPE_FROM_CLASS (klass),
+		G_SIGNAL_RUN_LAST | G_SIGNAL_ACTION,
+		0,
+		NULL, NULL,
+		g_cclosure_marshal_VOID__OBJECT,
+		G_TYPE_NONE, 1,
+		I_CAL_TYPE_COMPONENT);
+
+	signals[FILL_COMPONENT] = g_signal_new (
+		"fill-component",
+		G_TYPE_FROM_CLASS (klass),
+		G_SIGNAL_RUN_LAST | G_SIGNAL_ACTION,
+		0,
+		NULL, NULL, NULL,
+		G_TYPE_BOOLEAN, 1,
+		I_CAL_TYPE_COMPONENT);
 }
 
 void
@@ -2714,6 +2745,8 @@ e_comp_editor_sensitize_widgets (ECompEditor *comp_editor)
 
 	comp_editor_class->sensitize_widgets (comp_editor, force_insensitive);
 
+	g_signal_emit (comp_editor, signals[SANITIZE_WIDGETS], 0, force_insensitive, NULL);
+
 	if (force_insensitive)
 		comp_editor->priv->restore_focus = current_focus;
 	else
@@ -2736,6 +2769,8 @@ e_comp_editor_fill_widgets (ECompEditor *comp_editor,
 	e_comp_editor_set_updating (comp_editor, TRUE);
 
 	comp_editor_class->fill_widgets (comp_editor, component);
+
+	g_signal_emit (comp_editor, signals[FILL_WIDGETS], 0, component, NULL);
 
 	e_comp_editor_set_updating (comp_editor, FALSE);
 }
@@ -2775,6 +2810,9 @@ e_comp_editor_fill_component (ECompEditor *comp_editor,
 	}
 
 	is_valid = comp_editor_class->fill_component (comp_editor, component);
+
+	if (is_valid)
+		g_signal_emit (comp_editor, signals[FILL_COMPONENT], 0, component, &is_valid);
 
 	if (focused_widget) {
 		if (GTK_IS_ENTRY (focused_widget))
