@@ -11,8 +11,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: evolution\n"
 "Report-Msgid-Bugs-To: https://gitlab.gnome.org/GNOME/evolution/issues\n"
-"POT-Creation-Date: 2022-07-05 19:25+0000\n"
-"PO-Revision-Date: 2022-07-07 13:52+0430\n"
+"POT-Creation-Date: 2022-07-16 08:40+0000\n"
+"PO-Revision-Date: 2022-07-16 18:41+0430\n"
 "Last-Translator: Danial Behzadi <dani.behzi@ubuntu.com>\n"
 "Language-Team: Persian <>\n"
 "Language: fa\n"
@@ -1066,27 +1066,27 @@ msgstr "پیچش متن نقل‌شده در پاسخ‌ها"
 msgid "Paste plain text as preformatted"
 msgstr "جایگذاری متن خام به شکل از پیش قالب‌بندی شده"
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:83
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:85
 msgid "Mark replied to messages as read"
 msgstr "علامت‌گذاری پیام‌های پاسخ داده شده به عنوان خوانده"
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:90
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:92
 msgid "Can be either “mbox” or “pdf”."
 msgstr "می‌تواند mbox یا pdf باشد."
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:91
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:93
 msgid "Show image animations"
 msgstr "نمایش پویانمایی‌های تصویر"
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:93
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:95
 msgid "Enable or disable type ahead search feature"
 msgstr "به یا کار انداختن ویژگی جست‌جوی فوری"
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:95
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:97
 msgid "Enable or disable magic space bar"
 msgstr "به یا از کار انداختن نوار فضای جادویی"
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:96
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:98
 msgid ""
 "Enable this to use Space bar key to scroll in message preview, message list and "
 "folders."
@@ -1094,290 +1094,290 @@ msgstr ""
 "برای استفاده از کلید فاصیه برای لغزش در پیش‌نمایش پیام، سیاههٔ پیام و شاخه‌ها، به "
 "کارش بیندازید."
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:97
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:99
 msgid "Enable to use a similar message list view settings for all folders"
 msgstr ""
 "برای استفاده از تنظیمات نمای سیاههٔ پیام مشابهی برای همهٔ شاخه‌ها، به کارش بیندازید"
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:98
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:100
 msgid "Enable to use a similar message list view settings for all folders."
 msgstr ""
 "برای استفاده از تنظیمات نمای سیاههٔ پیام مشابهی برای همهٔ شاخه‌ها، به کارش بیندازید."
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:99
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:101
 msgid "Enable to use the same search settings for all folders"
 msgstr "برای استفاده از تنظیمات جست‌وجوی مشابهی برای همهٔ شاخه‌ها، به کارش بیندازید"
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:101
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:103
 msgid "Mark citations in the message “Preview”"
 msgstr "علامت‌گذاری نقل قول‌ها در «پیش‌نمایش» پیام"
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:102
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:104
 msgid "Mark citations in the message “Preview”."
 msgstr "علامت‌گذاری نقل قول‌ها در پیام «پیش‌نمایش»."
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:103
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:105
 msgid "Citation highlight color"
 msgstr "رنگ پررنگ کردن نقل‌قول"
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:104
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:106
 msgid "Citation highlight color."
 msgstr "رنگ پررنگ کردن نقل‌قول."
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:105
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:107
 msgid "Enable/disable caret mode"
 msgstr "به‌کار انداخنم/از کار انداختن حالت مکان‌نمایی"
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:106
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:108
 msgid "Enable caret mode, so that you can see a cursor when reading mail."
 msgstr "به کار انداختن حالت مکان‌نمایی، تا هنگامخواندن نامه‌ها مکان‌نما را ببینید."
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:107
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:109
 msgid "Default charset in which to display messages"
 msgstr "مجموعه‌‌نویسهٔ پیش‌گزیده برای نمایش پیام‌ها"
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:108
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:110
 msgid "Default charset in which to display messages."
 msgstr "مجموعه‌‌نویسهٔ پیش‌گزیده برای نمایش پیام‌ها."
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:109
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:111
 msgid "Automatically load images for HTML messages over HTTP"
 msgstr "بار کردن خودکار تصاویر برای پیام‌های HTML روی http"
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:110
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:112
 msgid "Show notification about missing remote content"
 msgstr "نمایش آگاهی دربارهٔ محتوای دوردست ناموجود"
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:112
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:114
 msgid "Show Animations"
 msgstr "نمایش پویانمایی‌ها"
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:113
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:115
 msgid "Show animated images as animations."
 msgstr "نمایش تصاویر پویانمایی شده به صورت پویانمایی."
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:114
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:116
 msgid "Show all message headers"
 msgstr "نمایش تمامی سرایندهای پیام"
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:115
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:117
 msgid "Show all the headers when viewing a messages."
 msgstr "نمایش تمامی سرایندها هنگام دیدن یک پیام."
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:116
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:118
 msgid "List of headers to show when viewing a message."
 msgstr "فهرست سرایند برای نمایش هنگام دیدن یک پیام."
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:118
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:120
 msgid "Show photo of the sender"
 msgstr "نمایش عکس فرستنده"
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:119
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:121
 msgid "Show the photo of the sender in the message reading pane."
 msgstr "نمایش عکس فرستنده در قاب خواندن پیام."
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:120
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:122
 msgid "Search libravatar.org for photo of the sender"
 msgstr "جست‌وجو در libravatar.org برای عکس فرستنده"
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:121
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:123
 msgid "Allow searching also at libravatar.org for photo of the sender."
 msgstr "اجازه به جست‌وجو در libravatar.org برای عکس فرستنده."
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:122
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:124
 msgid "Mark as Seen after specified timeout"
 msgstr "علامت‌گذاری به عنوان دیده پس از انقضای مدت مشخص"
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:123
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:125
 msgid "Mark as Seen after specified timeout."
 msgstr "علامت‌گذاری به عنوان دیده پس از انقضای مدت مشخص."
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:124
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:126
 msgid "Mark as Seen always after specified timeout"
 msgstr "علامت‌گذاری به عنوان دیده همیشه پس از انقضای مدت مشخص"
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:126
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:128
 msgid "Timeout for marking messages as seen"
 msgstr "مدت لازم برای علامت‌گذاری پیام به دیده شده"
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:127
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:129
 msgid "Timeout in milliseconds for marking messages as seen."
 msgstr "زمان لازم به میلی‌ثانیه برای علامت‌گذاری پیام به دیده شده."
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:128
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:130
 msgid "Show Attachment Bar"
 msgstr "نمایش نوار پیوست"
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:129
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:131
 msgid ""
 "Show Attachment Bar below the message preview pane when the message has "
 "attachments."
 msgstr "نمایش نوار پیوست در زیر قاب پیش‌نمایش پیام هنگامی که پیام، پیوست دارد."
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:130
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:132
 msgid "Sender email-address column in the message list"
 msgstr "ستون نشانی رایانامهٔ فرستنده در فهرست پیام"
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:131
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:133
 msgid ""
 "Show the email-address of the sender in a separate column in the message list."
 msgstr "نمایش نشانی رایانامهٔ فرستند در ستونی جدا در فهرست پیام."
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:132
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:134
 msgid "Show deleted messages in the message-list"
 msgstr "نمایش پیام‌های حذف شده در فهرست پیام‌ها"
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:133
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:135
 msgid "Show deleted messages (with a strike-through) in the message-list."
 msgstr "نمایش پیام‌های حذف شده (به صورت خط خورده) در فهرست پیام‌ها."
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:134
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:136
 msgid "Show junk messages in the message-list"
 msgstr "نمایش پیام‌های هرز در فهرست پیام"
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:135
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:137
 msgid "Show junk messages (with a red strike-through) in the message-list."
 msgstr "نمایش پیام‌های هرز (به صورت خط خورده) در فهرست پیام."
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:136
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:138
 msgid "Enable Unmatched search folder"
 msgstr "به کار انداختن شاخهٔ جست‌وجوی نامطابق"
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:140
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:142
 msgid "Height of the message-list pane"
 msgstr "ارتفاع قاب فهرست پیام‌ها"
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:141
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:143
 msgid "Height of the message-list pane."
 msgstr "ارتفاع قاب فهرست پیام‌ها."
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:143
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:145
 msgid "Width of the message-list pane"
 msgstr "پهنای قاب فهرست پیام"
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:144
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:146
 msgid "Width of the message-list pane."
 msgstr "پهنای قاب فهرست پیام."
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:145
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:147
 msgid "Layout style"
 msgstr "سبک چینش"
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:147
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:149
 msgid "Variable width font"
 msgstr "قلم با پهنا متغیر"
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:148
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:150
 msgid "The variable width font for mail display."
 msgstr "قلم با پهنای متغیر برای نمایش نامه."
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:149
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:151
 msgid "Terminal font"
 msgstr "قلم پایانه"
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:150
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:152
 msgid "The terminal font for mail display."
 msgstr "قلم پایانه برای نمایش نامه."
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:151
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:153
 msgid "Use custom fonts"
 msgstr "استفاده از قلم‌های سفارشی"
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:152
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:154
 msgid "Use custom fonts for displaying mail."
 msgstr "استفاده از قلم‌های سفارشی برای نمایش نامه."
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:157
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:159
 msgid "Show mails in headers part of the message preview when name is available"
 msgstr "نمایش نامه‌ها در بخش سرایندهای پیش‌نمایش پیام هنگام موجود بودن نام"
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:159
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:161
 msgid "Thread the message-list based on Subject"
 msgstr "رشته کردن فهرست پیام بر حسب موضوع"
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:161
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:163
 msgid "Default value for thread expand state"
 msgstr "مقدار پیش‌گزیدهٔ وضعیت گستردهٔ رشته"
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:167
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:169
 msgid "Whether to compress thread level"
 msgstr "این که سطح رشته فشرده شود یا نه"
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:171
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:173
 msgid "Log filter actions"
 msgstr "ثبت اعمال صافی"
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:172
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:174
 msgid "Log filter actions to the specified log file."
 msgstr "ثبت اعمال صافی در یک پروندهٔ ثبت وقایع مشخص."
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:173
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:175
 msgid "Logfile to log filter actions"
 msgstr "پرونده‌ای که اعمال صافی در آن ثبت می‌شوند"
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:177
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:179
 msgid "Default forward style"
 msgstr "سبک ارجاع پیش‌گزیده"
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:178
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:180
 msgid "Default reply style"
 msgstr "گونهٔ پاسخ پیش‌گزیده"
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:180
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:182
 msgid "Prompt on send when using key accelerator (Ctrl+Enter)"
 msgstr "اعلان فرستادن هنگام استفاده از کلید شتاب‌ده (مهار+ورود)"
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:181
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:183
 msgid ""
 "Prompt the user when he or she tries to send a message with a key accelerator."
 msgstr "اعلان از کاربر هنگام تلاش برای فرستادن پیامی با یک کلید شتاب‌ده."
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:182
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:184
 msgid "Prompt on empty subject"
 msgstr "کسب تکلیف دربارهٔ موضوع خالی"
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:183
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:185
 msgid "Prompt the user when he or she tries to send a message without a Subject."
 msgstr "اعلان از کاربر هنگام تلاش برای فرستادن پیامی بدون موضوع."
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:184
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:186
 msgid "Prompt when emptying the trash"
 msgstr "اعلان هنگام تخلیهٔ زباله‌دان"
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:185
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:187
 msgid "Prompt the user when he or she tries to empty the trash."
 msgstr "اعلان از کاربر هنگام تلاش برای تخلیهٔ زباله‌دان."
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:186
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:188
 msgid "Prompt when user expunges"
 msgstr "سئوال وقتی کاربر پاک‌سازی می‌کند"
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:187
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:189
 msgid "Prompt the user when he or she tries to expunge a folder."
 msgstr "سؤال از کاربر زمانی که می‌خواهد شاخه‌ای را حذف کند."
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:188
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:190
 msgid "Prompt when user calls Empty Junk"
 msgstr "اعلان هنگام تخلیهٔ هرزنامه"
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:189
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:191
 msgid "Prompt the user when he or she tries to Empty a Junk folder."
 msgstr "اعلان از کاربر هنگام تلاش برای تخلیهٔ یک شاخهٔ هرز."
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:192
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:194
 msgid "Prompt when user only fills Bcc"
 msgstr "کسب تکلیف هنگامی که کاربر فقط رونوشت محرمانه را پر می‌کند"
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:193
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:195
 msgid "Prompt when user tries to send a message with no To or Cc recipients."
 msgstr ""
 "کسب تکلیف هنگامی که کاربر سعی می‌کند پیامی را بدون گیرنده یا رونوشت ارسال کند."
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:194
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:196
 msgid "Prompt when user tries to send unwanted HTML"
 msgstr "کسب تکلیف هنگامی که کاربر سعی می‌کند HTML ناخواسته ارسال کند"
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:195
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:197
 msgid ""
 "Prompt when user tries to send HTML mail to recipients that may not want to "
 "receive HTML mail."
@@ -1385,11 +1385,11 @@ msgstr ""
 "کسب تکلیف هنگامی که کاربر سعی می‌کند یک نامهٔ HTML را برای کاربرانی ارسال کند که "
 "شاید نخواهند نامهٔ HTML دریافت کنند."
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:196
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:198
 msgid "Prompt when user tries to open 10 or more messages at once"
 msgstr "اعلان هنگام تلاش کاربر برای گشودن هم‌زمان ۱۰ پیام یا بیش‌تر"
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:197
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:199
 msgid ""
 "If a user tries to open 10 or more messages at one time, ask the user if they "
 "really want to do it."
@@ -1397,72 +1397,72 @@ msgstr ""
 "اگر کاربری تلاش کرد ۱۰ پیام یا بیشتر را در آن واحد باز کند، از کاربر سؤال شود آیا "
 "واقعاً مایل به انجام این کار است."
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:198
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:200
 msgid "Prompt while marking multiple messages"
 msgstr "اعلان هنگام نشانه‌گذاری چندین پیام"
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:199
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:201
 msgid "Enable or disable the prompt whilst marking multiple messages."
 msgstr "به یا از کار انداختن اعلان نشانه‌گذاری چندین پیام."
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:200
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:202
 msgid "Prompt when deleting messages in search folder"
 msgstr "اعلان هنگام حذف پیام‌ها در یک شاخهٔ جست‌وجو"
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:206
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:208
 msgid "Prompt when replying privately to list messages"
 msgstr "اعلان هنگام پاسخ خصوصی به پیام‌های فهرستی"
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:208
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:210
 msgid "Prompt when mailing list hijacks private replies"
 msgstr "اعلان هنگام ربودن پاسخ‌های خصوصی از سیاههٔ پستی"
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:210
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:212
 msgid "Prompt when replying to many recipients"
 msgstr "اعلان هنگام پاسخ دادن به چندین گیرنده"
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:214
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:216
 msgid "Prompt when sending to many To and CC recipients"
 msgstr "اعلان هنگام فرستادن به چندین گیرنده"
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:217
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:219
 msgid "Empty Trash folders on exit"
 msgstr "خالی کردن شاخه‌های زباله‌دان هنگام خروج"
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:218
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:220
 msgid "Empty all Trash folders when exiting Evolution."
 msgstr "خالی کردن تمام شاخه‌های زباله‌دان هنگام خروج از اوولوشن."
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:219
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:221
 msgid "Minimum days between emptying the trash on exit"
 msgstr "حداقل روزها مابین خالی کردن‌های زباله‌دان هنگام خروج"
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:220
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:222
 msgid "Minimum time between emptying the trash on exit, in days."
 msgstr "حداقل زمان مابین خالی کردن‌های زباله‌دان هنگام خروج، به روز."
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:221
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:223
 msgid "Last time Empty Trash was run"
 msgstr "آخرین باری که زباله‌دان خالی شد"
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:222
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:224
 msgid "The last time Empty Trash was run, in days since January 1st, 1970 (Epoch)."
 msgstr ""
 "آخرین باری که فرمان خالی کردن زباله‌دان اجرا شد، به روز از ۱ ژانویه ۱۹۷۰ (اپوک)."
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:224
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:226
 msgid "Level beyond which the message should be logged."
 msgstr "سطحی که پیام پس از آن گزارش می‌شود."
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:226
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:228
 msgid "Show original “Date” header value."
 msgstr "نمایش اندازهٔ سرایند «زمان» اصلی."
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:228
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:230
 msgid "List of Labels and their associated colors"
 msgstr "فهرست برچسب‌ها و رنگ‌های وابسته به آنان"
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:229
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:231
 msgid ""
 "List of labels known to the mail component of Evolution. The list contains strings "
 "containing name:color where color uses the HTML hex encoding."
@@ -1470,102 +1470,102 @@ msgstr ""
 "فهرست برچسب‌های مؤلفه‌های نامهٔ اوولوشن. این فهرست حاوی رشته‌هایی است که نام:رنگ هستند "
 "که رنگ با استفاده از کدگذاری شانزده‌شانزدهی HTML نوشته می‌شود."
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:230
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:232
 msgid "Check incoming mail being junk"
 msgstr "بررسی آشغال بودن نامهٔ دریافتی"
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:231
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:233
 msgid "Run junk test on incoming mail."
 msgstr "اجرای آزمون هرزی روی نامهٔ ورودی."
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:232
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:234
 msgid "Empty Junk folders on exit"
 msgstr "تخلیهٔ شاخه‌های هرز هنگام خروج"
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:233
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:235
 msgid "Empty all Junk folders when exiting Evolution."
 msgstr "تخلیهٔ تمامی شاخه‌های هرز هنگام خروج از اوولوشن."
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:234
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:236
 msgid "Minimum days between emptying the junk on exit"
 msgstr "کمینهٔ روزها بین تخلیهٔ هرزنامه هنگام خروج"
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:235
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:237
 msgid "Minimum time between emptying the junk on exit, in days."
 msgstr "کمینهٔ زمان بین تخلیهٔ هرزنامه هنگام خروج، به روز."
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:236
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:238
 msgid "Last time Empty Junk was run"
 msgstr "آخرین اجرای تخلیهٔ هرزنامه"
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:237
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:239
 msgid "The last time Empty Junk was run, in days since January 1st, 1970 (Epoch)."
 msgstr "آخرین باری که فرمان تخلیهٔ هرزنامه اجرا شد، به روز از ۱ ژانویه ۱۹۷۰ (اپوک)."
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:240
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:242
 msgid "Determines whether to lookup in address book for sender email"
 msgstr "تصمیم به گشتن در دفترچه تلفن برای رایانامهٔ فرستنده"
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:242
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:244
 msgid ""
 "Determines whether to look up addresses for junk filtering in local address book "
 "only"
 msgstr "تصمیم به گشتن نشانی‌های برای پالایش زباله فقط در دفترچه تلفن محلّی"
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:244
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:246
 msgid "Determines whether to use custom headers to check for junk"
 msgstr "تصمیم به استفاده از سرایندهای شخصی برای بررسی زباله"
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:246
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:248
 msgid "Custom headers to use while checking for junk."
 msgstr "سرایندهای شخصی استفاده شده هنگام بررسی برای زباله."
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:248
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:250
 msgid "UID string of the default account."
 msgstr "رشتهٔ شناسهٔ کاربر حساب پیش‌گزیده."
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:249
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:251
 msgid "Save directory"
 msgstr "شاخهٔ ذخیره"
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:250
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:252
 msgid "Directory for saving mail component files."
 msgstr "شاخه برای ذخیرهٔ پرونده‌های مولّفهٔ نامه."
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:251
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:253
 msgid "Composer load/attach directory"
 msgstr "شاخهٔ بار و پیوست نویسنده"
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:252
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:254
 msgid "Directory for loading/attaching files to composer."
 msgstr "شاخه برای پیوست و بار کردن پرونده‌ها در نویسنده."
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:253
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:255
 msgid "Check for new messages on start"
 msgstr "بررسی برای پیام‌های جدید هنگام شروع"
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:255
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:257
 msgid "Check for new messages in all active accounts"
 msgstr "بررسی برای پیام‌های جدید در همهٔ حساب‌های فعّال"
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:257
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:259
 msgid "Server synchronization interval"
 msgstr "دورهٔ همگام‌سازی کارساز"
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:259
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:261
 msgid "Allow expunge in virtual folders"
 msgstr "اجازهٔ پاک‌سازی در شاخه‌های مجازی"
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:261
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:263
 #: ../src/mail/mail-config.ui.h:10
 msgid "Inherit theme colors in HTML format"
 msgstr "ارث‌بری رنگ‌های زمینه در قالب HTML"
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:263
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:265
 msgid "An Archive folder for On This Computer folders."
 msgstr "شاخهٔ بایگانی‌ای برای شاخه‌های روی این رایانه."
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:264
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:266
 msgid ""
 "An Archive folder to use for Messages|Archive... feature when in an On This "
 "Computer folder."
@@ -1573,119 +1573,126 @@ msgstr ""
 "شاخهٔ بایگانی‌ای برای استفادهٔ ویژگی پیام|بایگانی… هنگام بودن در شاخه‌ای روی این "
 "رایانه."
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:265
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:267
 msgid "Whether the To Do bar is visible in the main window"
 msgstr "این که نوار برای انجام در پنجرهٔ اصلی نمایان باشد یا نه"
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:266
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:268
 msgid "Stores whether the To Do bar is visible in the main window."
 msgstr "این که نوار برای انجام در پنجرهٔ اصلی نمایان باشد یا نه را نگه می‌دارد."
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:267
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:269
 msgid "Width of the To Do bar in the main window"
 msgstr "پهنای نوار برای انجام در پنجرهٔ اصلی"
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:268
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:270
 msgid "Holds the width of the To Do bar for the main window."
 msgstr "پهنای نوار برای انجام در پنجرهٔ اصلی را نگه می‌دارد."
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:269
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:271
 msgid "Whether the To Do bar is visible in a sub-window"
 msgstr "این که نوار برای انجام در زیرپنجره‌ای نمایان باشد یا نه"
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:270
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:272
 msgid "Stores whether the To Do bar is visible in a sub-window."
 msgstr "این که نوار برای انجام در زیرپنجره‌ای نمایان باشد یا نه را نگه می‌دارد."
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:271
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:273
 msgid "Width of the To Do bar in a sub-window"
 msgstr "پهنای نوار برای انجام در یک زیرپنجره"
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:272
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:274
 msgid "Holds the width of the To Do bar for a sub-window."
 msgstr "پهنای نوار برای انجام در یک زیرپنجره را نگه می‌دارد."
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:273
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:275
 msgid "Whether the To Do bar should show also completed tasks"
 msgstr "این که نوار برای انجام باید وظایف کامل شده را نیز نمایش دهد یا نه"
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:274
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:276
 msgid "Stores whether the To Do bar should show also completed tasks."
 msgstr ""
 "این که نوار برای انجام باید وظایف کامل شده را نیز نمایش دهد یا نه را نگه می‌دارد."
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:275
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:277
 msgid "Whether the To Do bar should show also tasks without Due date"
 msgstr "این که نوار برای انجام باید وظایف بدون سررسید را نیز نمایش دهد یا نه"
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:276
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:278
 msgid "Stores whether the To Do bar should show also tasks without Due date."
 msgstr ""
 "این که نوار برای انجام باید وظایف بدون سررسید را نیز نمایش دهد یا نه را نگه می‌دارد."
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:279
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:281
 msgid "Show start up wizard"
 msgstr "نمایش جادوگر برپا سازی"
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:280
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:282
 msgid "Whether show start up wizard when there is no mail account configured."
 msgstr ""
 "این که نمایش جادوگر آغاز به کار هنگامی که هیچ حساب نامه‌ای پیکربندی نشده نشان داده "
 "شود یا نه."
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:281
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:283
 msgid "Whether go to the previous message after message deletion"
 msgstr "این که پس از حذف پیام به پیام پیشین برود یا نه"
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:285
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:287
 msgid "Visually wrap long lines in composer"
 msgstr "پیچش دیداری خط‌های طولانی در ایجادگر"
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:287
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:289
 msgid "Alternative reply style"
 msgstr "گونهٔ پاسخ جایگزین"
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:288
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:290
 msgid "Composer mode to use."
 msgstr "حالت ایجادگر برای استفاده."
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:289
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:291
 msgid "Put the cursor at the bottom of alternative replies"
 msgstr "گذاشتن نشانگر در پایین پاسخ‌های جایگزین"
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:291
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:293
 msgid "Put the signature at the top of the message"
 msgstr "گذاشتن امضا در بالای پیام"
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:302
+#, fuzzy
+#| msgid "Looking up recipient S/MIME certificates in address books…"
+msgid ""
+"Where to lookup recipient S/MIME certificates or PGP keys when encrypting messages."
+msgstr "گشتن به دنبال گواهی‌های S/MIME مخاطب در دفترچه‌های نشانی…"
+
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:304
 msgid "Whether Send/Receive should also download of messages for offline."
 msgstr "این که فرستادن/گرفتن باید پیام‌ها را برای برون‌خط نیز بارگیری کند یا نه."
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:304
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:306
 msgid "Whether display delivery notification parts inline."
 msgstr "این که بخش‌های آگاهی رساندن در خط نمایش داده شود یا نه."
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:306
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:308
 msgid "Whether unset colors provided in HTML mails."
 msgstr "این که رنگ‌های فراهم شده در نامه‌ّای HTML ناتنظیم شوند یا نه."
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:310
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:312
 msgid "Whether to print attachments."
 msgstr "این که پیوست‌هاچاپ شوند یا نه."
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:314
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:316
 msgid "(Deprecated) Default forward style"
 msgstr "(منقضی) سبک ارجاع پیش‌گزیده"
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:316
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:318
 msgid "(Deprecated) Default reply style"
 msgstr "(منقضی) گونهٔ پاسخ دادن پیش‌گزیده"
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:318
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:320
 msgid "(Deprecated) List of custom headers and whether they are enabled."
 msgstr "(منقضی) سیاههٔ سرایندهای سفارشی و این که به کار افتاده‌اند یا نه."
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:320
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:322
 msgid "(Deprecated) Load images for HTML messages over HTTP"
 msgstr "(منقضی) بار کردن تصاویر برای پیام‌های HTML از http"
 
@@ -1867,6 +1874,12 @@ msgstr "سیاههٔ مسیرهای شاخه‌هایی که برای استفا
 #: ../data/org.gnome.evolution.shell.gschema.xml.in.h:15
 msgid "Enable express mode"
 msgstr "به کار انداختن حالت سریع"
+
+#: ../data/org.gnome.evolution.shell.gschema.xml.in.h:17
+#, fuzzy
+#| msgid "Zoom large images to not be wider than the window width"
+msgid "List of button names to hide in the window switcher"
+msgstr "موچک‌نمایی تصویرهای بزرگ برای پهن‌تر نشدن از پهنای پنجره"
 
 #: ../data/org.gnome.evolution.shell.gschema.xml.in.h:19
 msgid "Window buttons are visible"
@@ -2528,7 +2541,7 @@ msgstr ""
 #: ../src/e-util/e-mail-signature-manager.c:324
 #: ../src/e-util/e-name-selector-dialog.c:1028 ../src/e-util/filter.ui.h:25
 #: ../src/mail/e-mail-account-manager.c:721 ../src/mail/e-mail-label-manager.c:355
-#: ../src/mail/em-folder-properties.c:1359 ../src/mail/em-vfolder-editor-rule.c:405
+#: ../src/mail/em-folder-properties.c:1360 ../src/mail/em-vfolder-editor-rule.c:405
 #: ../src/mail/em-vfolder-editor-rule.c:634 ../src/mail/mail-config.ui.h:64
 #: ../src/modules/mail/em-composer-prefs.c:420
 #: ../src/modules/rss/evolution/e-rss-preferences.c:1368
@@ -2770,7 +2783,7 @@ msgid "Contact Editor"
 msgstr "ویرایش‌گر آشنا"
 
 #: ../src/addressbook/gui/contact-editor/contact-editor.ui.h:13
-#: ../src/calendar/gui/e-comp-editor-page-reminders.c:2497
+#: ../src/calendar/gui/e-comp-editor-page-reminders.c:2488
 #: ../src/em-format/e-mail-formatter-attachment.c:322 ../src/mail/mail-config.ui.h:41
 msgid "Options"
 msgstr "گزینه‌ها"
@@ -2779,7 +2792,7 @@ msgstr "گزینه‌ها"
 #: ../src/addressbook/gui/contact-editor/e-contact-editor.c:3501
 #: ../src/addressbook/gui/contact-list-editor/contact-list-editor.ui.h:3
 #: ../src/addressbook/gui/widgets/eab-contact-merging.c:809
-#: ../src/calendar/calendar.error.xml.h:47 ../src/calendar/gui/e-comp-editor.c:2250
+#: ../src/calendar/calendar.error.xml.h:47 ../src/calendar/gui/e-comp-editor.c:2253
 #: ../src/composer/e-composer-actions.c:242 ../src/composer/e-composer-actions.c:354
 #: ../src/e-util/e-attachment-store.c:848 ../src/e-util/e-attachment-store.c:855
 #: ../src/e-util/e-mail-signature-script-dialog.c:362
@@ -2793,7 +2806,7 @@ msgid "_Save"
 msgstr "ذخیره"
 
 #: ../src/addressbook/gui/contact-editor/contact-editor.ui.h:16
-#: ../src/calendar/gui/e-comp-editor.c:2147 ../src/calendar/gui/e-comp-editor.c:2219
+#: ../src/calendar/gui/e-comp-editor.c:2150 ../src/calendar/gui/e-comp-editor.c:2222
 #: ../src/e-util/e-send-options.ui.h:15
 #: ../src/plugins/email-custom-header/org-gnome-email-custom-header.ui.h:2
 #: ../src/shell/e-shell-window-actions.c:1117
@@ -3045,7 +3058,7 @@ msgstr "افزودن _X.509"
 #: ../src/e-util/e-name-selector-dialog.c:1032 ../src/e-util/filter.error.xml.h:18
 #: ../src/e-util/filter.ui.h:27 ../src/mail/e-mail-config-identity-page.c:872
 #: ../src/mail/e-mail-label-manager.c:373 ../src/mail/em-filter-rule.c:679
-#: ../src/mail/em-folder-properties.c:1365 ../src/mail/em-vfolder-editor-rule.c:639
+#: ../src/mail/em-folder-properties.c:1366 ../src/mail/em-vfolder-editor-rule.c:639
 #: ../src/mail/mail-config.ui.h:65
 #: ../src/modules/rss/evolution/e-rss-preferences.c:1387
 #: ../src/plugins/attachment-reminder/attachment-reminder.c:569
@@ -3071,25 +3084,25 @@ msgid "Certificates"
 msgstr "گواهی‌ها"
 
 #: ../src/addressbook/gui/contact-editor/e-contact-editor.c:262
-#: ../src/calendar/gui/e-comp-editor.c:2182
+#: ../src/calendar/gui/e-comp-editor.c:2185
 #: ../src/e-util/e-html-editor-actions.c:1161
 msgid "_Undo"
 msgstr "_برگردان"
 
 #: ../src/addressbook/gui/contact-editor/e-contact-editor.c:264
-#: ../src/calendar/gui/e-comp-editor.c:2184 ../src/e-util/e-focus-tracker.c:147
+#: ../src/calendar/gui/e-comp-editor.c:2187 ../src/e-util/e-focus-tracker.c:147
 #: ../src/e-util/e-focus-tracker.c:150
 msgid "Undo"
 msgstr "برگردان"
 
 #: ../src/addressbook/gui/contact-editor/e-contact-editor.c:269
-#: ../src/calendar/gui/e-comp-editor.c:2189
+#: ../src/calendar/gui/e-comp-editor.c:2192
 #: ../src/e-util/e-html-editor-actions.c:1147
 msgid "_Redo"
 msgstr "_انجام دوباره"
 
 #: ../src/addressbook/gui/contact-editor/e-contact-editor.c:271
-#: ../src/calendar/gui/e-comp-editor.c:2191 ../src/e-util/e-focus-tracker.c:163
+#: ../src/calendar/gui/e-comp-editor.c:2194 ../src/e-util/e-focus-tracker.c:163
 #: ../src/e-util/e-focus-tracker.c:166
 msgid "Redo"
 msgstr "انجام دوباره"
@@ -3873,7 +3886,7 @@ msgid "Are you sure you want to delete this contact (%s)?"
 msgstr "آیا مطمئنید که می‌خواهید این آشنا (%s) را حذف کنید؟"
 
 #: ../src/addressbook/gui/widgets/e-addressbook-view.c:1438
-#: ../src/calendar/gui/e-comp-editor.c:2140 ../src/e-util/e-accounts-window.c:1763
+#: ../src/calendar/gui/e-comp-editor.c:2143 ../src/e-util/e-accounts-window.c:1763
 #: ../src/e-util/e-focus-tracker.c:816 ../src/e-util/evolution-source-viewer.c:800
 #: ../src/e-util/e-webdav-browser.c:2857 ../src/mail/e-mail-account-manager.c:739
 #: ../src/modules/addressbook/e-book-shell-view-actions.c:1173
@@ -5281,7 +5294,7 @@ msgid "pm"
 msgstr "ب.ظ"
 
 #: ../src/calendar/gui/comp-util.c:2113 ../src/calendar/gui/comp-util.c:2117
-#: ../src/calendar/gui/comp-util.c:2231 ../src/calendar/gui/e-comp-editor.c:1309
+#: ../src/calendar/gui/comp-util.c:2231 ../src/calendar/gui/e-comp-editor.c:1312
 msgid "No Summary"
 msgstr "بدون خلاصه"
 
@@ -5441,28 +5454,28 @@ msgstr "اینجا کلیک کنید، می‌توانید رویدادهای ب
 
 #. Translators: Part of: [ Play a sound ] [ x ] [ minute(s) ] [ before ] [ start ]
 #: ../src/calendar/gui/e-alarm-list.c:387
-#: ../src/calendar/gui/e-comp-editor-page-reminders.c:2332
+#: ../src/calendar/gui/e-comp-editor-page-reminders.c:2323
 msgctxt "cal-reminders"
 msgid "Play a sound"
 msgstr "پخش یک صدا"
 
 #. Translators: Part of: [ Pop up an alert ] [ x ] [ minute(s) ] [ before ] [ start ]
 #: ../src/calendar/gui/e-alarm-list.c:391
-#: ../src/calendar/gui/e-comp-editor-page-reminders.c:2330
+#: ../src/calendar/gui/e-comp-editor-page-reminders.c:2321
 msgctxt "cal-reminders"
 msgid "Pop up an alert"
 msgstr "وا شدن یک هشدار"
 
 #. Translators: Part of: [ Send an email ] [ x ] [ minute(s) ] [ before ] [ start ]
 #: ../src/calendar/gui/e-alarm-list.c:395
-#: ../src/calendar/gui/e-comp-editor-page-reminders.c:2336
+#: ../src/calendar/gui/e-comp-editor-page-reminders.c:2327
 msgctxt "cal-reminders"
 msgid "Send an email"
 msgstr "ارسال یک رایانامه"
 
 #. Translators: Part of: [ Run a program ] [ x ] [ minute(s) ] [ before ] [ start ]
 #: ../src/calendar/gui/e-alarm-list.c:399
-#: ../src/calendar/gui/e-comp-editor-page-reminders.c:2334
+#: ../src/calendar/gui/e-comp-editor-page-reminders.c:2325
 msgctxt "cal-reminders"
 msgid "Run a program"
 msgstr "اجرای یک برنامه"
@@ -5679,7 +5692,7 @@ msgstr "رونوشت کردن تکلیف در سیاههٔ تکلیف %s"
 
 #: ../src/calendar/gui/e-cal-dialogs.c:528
 msgid "_Delete this item from all other recipient’s mailboxes?"
-msgstr "_حذف این مورد از تمام صندوق نامه‌های گیرنده‌های دیگر"
+msgstr "_حذف این مورد از تمام صندوق نامه‌های گیرنده‌های دیگر؟"
 
 #: ../src/calendar/gui/e-cal-dialogs.c:531
 msgid "_Retract comment"
@@ -6232,7 +6245,7 @@ msgstr "زمان آغاز اشتباه است"
 #: ../src/calendar/gui/e-comp-editor-event.c:516
 #: ../src/calendar/gui/e-comp-editor-event.c:532
 #: ../src/calendar/gui/e-comp-editor-page-attachments.c:206
-#: ../src/calendar/gui/e-comp-editor.c:340 ../src/composer/e-composer-actions.c:180
+#: ../src/calendar/gui/e-comp-editor.c:343 ../src/composer/e-composer-actions.c:180
 #: ../src/em-format/e-mail-part-secure-button.c:97 ../src/e-util/e-misc-utils.c:4145
 #: ../src/e-util/e-misc-utils.c:4180 ../src/e-util/e-misc-utils.c:4193
 #: ../src/e-util/e-misc-utils.c:4207 ../src/mail/e-mail-autoconfig.c:1129
@@ -6593,12 +6606,12 @@ msgstr "_شرکت‌کنندگان…"
 
 #: ../src/calendar/gui/e-comp-editor-page-general.c:1505
 #: ../src/calendar/gui/e-comp-editor-page-recurrence.c:2312
-#: ../src/calendar/gui/e-comp-editor.c:2205 ../src/e-util/e-accounts-window.c:1755
+#: ../src/calendar/gui/e-comp-editor.c:2208 ../src/e-util/e-accounts-window.c:1755
 #: ../src/e-util/e-html-editor-actions.c:1170
 #: ../src/e-util/e-mail-signature-manager.c:354 ../src/e-util/e-webdav-browser.c:2850
 #: ../src/e-util/filter.ui.h:26 ../src/mail/e-mail-account-manager.c:730
 #: ../src/mail/e-mail-browser.c:217 ../src/mail/e-mail-label-manager.c:364
-#: ../src/mail/em-folder-properties.c:1362 ../src/mail/mail-config.ui.h:69
+#: ../src/mail/em-folder-properties.c:1363 ../src/mail/mail-config.ui.h:69
 #: ../src/modules/rss/evolution/e-rss-preferences.c:1374
 #: ../src/plugins/attachment-reminder/attachment-reminder.c:564
 #: ../src/plugins/email-custom-header/email-custom-header.c:831
@@ -6874,13 +6887,13 @@ msgid "Exceptions"
 msgstr "استثناها"
 
 #: ../src/calendar/gui/e-comp-editor-page-recurrence.c:2304
-#: ../src/calendar/gui/e-comp-editor-page-reminders.c:2286
+#: ../src/calendar/gui/e-comp-editor-page-reminders.c:2277
 #: ../src/mail/e-mail-config-identity-page.c:854 ../src/mail/mail-config.ui.h:68
 msgid "A_dd"
 msgstr "افزودن"
 
 #: ../src/calendar/gui/e-comp-editor-page-recurrence.c:2320
-#: ../src/calendar/gui/e-comp-editor-page-reminders.c:2294
+#: ../src/calendar/gui/e-comp-editor-page-reminders.c:2285
 #: ../src/mail/mail-config.ui.h:70
 msgid "Re_move"
 msgstr "بر_داشتن"
@@ -6904,7 +6917,7 @@ msgid "Set or unset reminders"
 msgstr "تنظیم یا بازنشانی یادآوری‌ها برای این رویداد"
 
 #. Translators: "None" for "No reminder set"
-#: ../src/calendar/gui/e-comp-editor-page-reminders.c:1819
+#: ../src/calendar/gui/e-comp-editor-page-reminders.c:1817
 msgctxt "cal-reminders"
 msgid "None"
 msgstr "هیچ‌کدام"
@@ -6912,166 +6925,166 @@ msgstr "هیچ‌کدام"
 #. Translators: This constructs predefined reminder's description, for example "15 minutes before",
 #. "1 hour before", "1 day before", but, if user has set, also more complicated strings like
 #. "2 days 13 hours 1 minute before".
-#: ../src/calendar/gui/e-comp-editor-page-reminders.c:1829
+#: ../src/calendar/gui/e-comp-editor-page-reminders.c:1827
 #, c-format
 msgctxt "cal-reminders"
 msgid "%s before"
 msgstr "%s پیش"
 
-#: ../src/calendar/gui/e-comp-editor-page-reminders.c:1834
+#: ../src/calendar/gui/e-comp-editor-page-reminders.c:1832
 msgctxt "cal-reminders"
 msgid "at the start"
 msgstr "هنشگام شروع"
 
 #. Translators: "Custom" for "Custom reminder set"
-#: ../src/calendar/gui/e-comp-editor-page-reminders.c:1842
+#: ../src/calendar/gui/e-comp-editor-page-reminders.c:1840
 msgctxt "cal-reminders"
 msgid "Custom"
 msgstr "سفارشی"
 
-#: ../src/calendar/gui/e-comp-editor-page-reminders.c:1844
+#: ../src/calendar/gui/e-comp-editor-page-reminders.c:1842
 #, fuzzy
 #| msgid "Add custom predefined time"
 msgid "Add predefined time…"
 msgstr "افزودن زمان از‌پیش تعریف‌شدهٔ سفارشی"
 
-#: ../src/calendar/gui/e-comp-editor-page-reminders.c:1847
+#: ../src/calendar/gui/e-comp-editor-page-reminders.c:1845
 #, fuzzy
 #| msgid "Remove custom predefined times"
 msgid "Remove predefined times"
 msgstr "برداشتن زمان از‌پیش تعریف‌شدهٔ سفارشی"
 
-#: ../src/calendar/gui/e-comp-editor-page-reminders.c:1990
+#: ../src/calendar/gui/e-comp-editor-page-reminders.c:1989
 msgid "Set a custom predefined time to"
 msgstr "تنظیم یک زمان از‌پیش تعریف‌شدهٔ سفارشی به"
 
 #. Translators: this is part of: "Set a custom predefined time to [nnn] days [nnn] hours [nnn] minutes", where the text in "[]" means a separate widget
-#: ../src/calendar/gui/e-comp-editor-page-reminders.c:2003
+#: ../src/calendar/gui/e-comp-editor-page-reminders.c:2002
 msgctxt "cal-reminders"
 msgid "da_ys"
 msgstr "روز"
 
 #. Translators: this is part of: "Set a custom predefined time to [nnn] days [nnn] hours [nnn] minutes", where the text in "[]" means a separate widget
-#: ../src/calendar/gui/e-comp-editor-page-reminders.c:2019
+#: ../src/calendar/gui/e-comp-editor-page-reminders.c:2018
 msgctxt "cal-reminders"
 msgid "_hours"
 msgstr "_ساعت"
 
 #. Translators: this is part of: "Set a custom predefined time to [nnn] days [nnn] hours [nnn] minutes", where the text in "[]" means a separate widget
-#: ../src/calendar/gui/e-comp-editor-page-reminders.c:2035
+#: ../src/calendar/gui/e-comp-editor-page-reminders.c:2034
 msgctxt "cal-reminders"
 msgid "_minutes"
 msgstr "_دقیقه"
 
-#: ../src/calendar/gui/e-comp-editor-page-reminders.c:2041
+#: ../src/calendar/gui/e-comp-editor-page-reminders.c:2040
 msgid "_Add time"
 msgstr "ا_فزودن زمان"
 
-#: ../src/calendar/gui/e-comp-editor-page-reminders.c:2139
+#: ../src/calendar/gui/e-comp-editor-page-reminders.c:2136
 #: ../src/modules/calendar/e-calendar-preferences.ui.h:84
 msgid "Reminders"
 msgstr "یادآوری‌ها"
 
-#: ../src/calendar/gui/e-comp-editor-page-reminders.c:2164
+#: ../src/calendar/gui/e-comp-editor-page-reminders.c:2161
 msgid "_Reminder"
 msgstr "یادآوری"
 
 #. Translators: Part of: [ Pop up an alert ] [ x ] [ minute(s) ] [ before ] [ start ]
-#: ../src/calendar/gui/e-comp-editor-page-reminders.c:2367
+#: ../src/calendar/gui/e-comp-editor-page-reminders.c:2358
 msgctxt "cal-reminders"
 msgid "minute(s)"
 msgstr "دقیقه"
 
 #. Translators: Part of: [ Pop up an alert ] [ x ] [ hour(s) ] [ before ] [ start ]
-#: ../src/calendar/gui/e-comp-editor-page-reminders.c:2369
+#: ../src/calendar/gui/e-comp-editor-page-reminders.c:2360
 msgctxt "cal-reminders"
 msgid "hour(s)"
 msgstr "ساعت"
 
 #. Translators: Part of: [ Pop up an alert ] [ x ] [ day(s) ] [ before ] [ start ]
-#: ../src/calendar/gui/e-comp-editor-page-reminders.c:2371
+#: ../src/calendar/gui/e-comp-editor-page-reminders.c:2362
 msgctxt "cal-reminders"
 msgid "day(s)"
 msgstr "روز"
 
 #. Translators: Part of: [ Pop up an alert ] [ x ] [ minute(s) ] [ before ] [ start ]
-#: ../src/calendar/gui/e-comp-editor-page-reminders.c:2388
+#: ../src/calendar/gui/e-comp-editor-page-reminders.c:2379
 msgctxt "cal-reminders"
 msgid "before"
 msgstr "پیش از"
 
 #. Translators: Part of: [ Pop up an alert ] [ x ] [ minute(s) ] [ after ] [ start ]
-#: ../src/calendar/gui/e-comp-editor-page-reminders.c:2390
+#: ../src/calendar/gui/e-comp-editor-page-reminders.c:2381
 msgctxt "cal-reminders"
 msgid "after"
 msgstr "پس از"
 
 #. Translators: Part of: [ Pop up an alert ] [ x ] [ minute(s) ] [ before ] [ start ]
-#: ../src/calendar/gui/e-comp-editor-page-reminders.c:2406
+#: ../src/calendar/gui/e-comp-editor-page-reminders.c:2397
 msgctxt "cal-reminders"
 msgid "start"
 msgstr "آغاز"
 
 #. Translators: Part of: [ Pop up an alert ] [ x ] [ minute(s) ] [ before ] [ end ]
-#: ../src/calendar/gui/e-comp-editor-page-reminders.c:2408
+#: ../src/calendar/gui/e-comp-editor-page-reminders.c:2399
 msgctxt "cal-reminders"
 msgid "end"
 msgstr "پایان"
 
 #. Translators: Part of: Repeat the reminder [ x ] extra times every [ y ] [ minutes ]
-#: ../src/calendar/gui/e-comp-editor-page-reminders.c:2427
+#: ../src/calendar/gui/e-comp-editor-page-reminders.c:2418
 msgid "Re_peat the reminder"
 msgstr "تکرار _یادآوری"
 
 #. Translators: Part of: Repeat the reminder [ x ] extra times every [ y ] [ minutes ]
-#: ../src/calendar/gui/e-comp-editor-page-reminders.c:2452
+#: ../src/calendar/gui/e-comp-editor-page-reminders.c:2443
 msgctxt "cal-reminders"
 msgid "extra times every"
 msgstr "زمان اضافی هر"
 
 #. Translators: Part of: Repeat the reminder [ x ] extra times every [ y ] [ minutes ]
-#: ../src/calendar/gui/e-comp-editor-page-reminders.c:2489
+#: ../src/calendar/gui/e-comp-editor-page-reminders.c:2480
 msgctxt "cal-reminders"
 msgid "minutes"
 msgstr "دقیقه"
 
 #. Translators: Part of: Repeat the reminder [ x ] extra times every [ y ] [ hours ]
-#: ../src/calendar/gui/e-comp-editor-page-reminders.c:2491
+#: ../src/calendar/gui/e-comp-editor-page-reminders.c:2482
 msgctxt "cal-reminders"
 msgid "hours"
 msgstr "ساعت"
 
 #. Translators: Part of: Repeat the reminder [ x ] extra times every [ y ] [ days ]
-#: ../src/calendar/gui/e-comp-editor-page-reminders.c:2493
+#: ../src/calendar/gui/e-comp-editor-page-reminders.c:2484
 msgctxt "cal-reminders"
 msgid "days"
 msgstr "روز"
 
 #. page_reminders->priv->custom_email_entry is initialized on demand
-#: ../src/calendar/gui/e-comp-editor-page-reminders.c:2530
-#: ../src/calendar/gui/e-comp-editor-page-reminders.c:2687
+#: ../src/calendar/gui/e-comp-editor-page-reminders.c:2521
+#: ../src/calendar/gui/e-comp-editor-page-reminders.c:2678
 msgctxt "cal-reminders"
 msgid "Custom _message"
 msgstr "پیام سفارشی"
 
-#: ../src/calendar/gui/e-comp-editor-page-reminders.c:2574
+#: ../src/calendar/gui/e-comp-editor-page-reminders.c:2565
 msgctxt "cal-reminders"
 msgid "Custom reminder _sound"
 msgstr "_صدای یادآور سفارشی"
 
-#: ../src/calendar/gui/e-comp-editor-page-reminders.c:2585
+#: ../src/calendar/gui/e-comp-editor-page-reminders.c:2576
 msgid "Select a sound file"
 msgstr "پرونده‌ای صوتی برگزینید"
 
-#: ../src/calendar/gui/e-comp-editor-page-reminders.c:2613
+#: ../src/calendar/gui/e-comp-editor-page-reminders.c:2604
 msgid "_Program:"
 msgstr "برنامه:"
 
-#: ../src/calendar/gui/e-comp-editor-page-reminders.c:2638
+#: ../src/calendar/gui/e-comp-editor-page-reminders.c:2629
 msgid "_Arguments:"
 msgstr "_آرگومان‌ها:"
 
-#: ../src/calendar/gui/e-comp-editor-page-reminders.c:2670
+#: ../src/calendar/gui/e-comp-editor-page-reminders.c:2661
 msgid "_Send To:"
 msgstr "ارسال _به:"
 
@@ -7288,29 +7301,29 @@ msgstr "تکلیف تخصیص داده شده ـ %s"
 msgid "Task — %s"
 msgstr "تکلیف — %s"
 
-#: ../src/calendar/gui/e-comp-editor.c:255
+#: ../src/calendar/gui/e-comp-editor.c:258
 #: ../src/modules/prefer-plain/e-mail-parser-prefer-plain.c:133
 msgid "attachment"
 msgstr "پیوست"
 
-#: ../src/calendar/gui/e-comp-editor.c:613
+#: ../src/calendar/gui/e-comp-editor.c:616
 #, fuzzy
 #| msgid "Send u_pdates to attendees"
 msgid "Sending notifications to attendees…"
 msgstr "فرستادن به‌هنگام‌سازی‌ها به شرکت‌کنندگان"
 
-#: ../src/calendar/gui/e-comp-editor.c:1038 ../src/e-util/e-webdav-browser.c:1927
+#: ../src/calendar/gui/e-comp-editor.c:1041 ../src/e-util/e-webdav-browser.c:1927
 msgid "Saving changes…"
 msgstr "ذخیرهٔ تغییرات…"
 
 #. == Button box ==
-#: ../src/calendar/gui/e-comp-editor.c:2119 ../src/composer/e-composer-actions.c:333
+#: ../src/calendar/gui/e-comp-editor.c:2122 ../src/composer/e-composer-actions.c:333
 #: ../src/e-util/e-accounts-window.c:1788 ../src/e-util/e-html-editor-dialog.c:194
 #: ../src/e-util/e-mail-signature-editor.c:329
 #: ../src/e-util/e-name-selector-dialog.c:548
 #: ../src/e-util/e-table-field-chooser-dialog.c:197 ../src/mail/e-mail-browser.c:166
 #: ../src/mail/e-mail-folder-sort-order-dialog.c:752 ../src/mail/e-mail-notes.c:1107
-#: ../src/mail/em-filter-editor.c:45 ../src/mail/em-folder-properties.c:1487
+#: ../src/mail/em-filter-editor.c:45 ../src/mail/em-folder-properties.c:1488
 #: ../src/mail/em-subscription-editor.c:1734
 #: ../src/shell/e-shell-window-actions.c:354
 #: ../src/shell/e-shell-window-actions.c:926
@@ -7318,19 +7331,19 @@ msgstr "ذخیرهٔ تغییرات…"
 msgid "_Close"
 msgstr "بستن"
 
-#: ../src/calendar/gui/e-comp-editor.c:2121
+#: ../src/calendar/gui/e-comp-editor.c:2124
 msgid "Close the current window"
 msgstr "بستن پنجرهٔ جاری"
 
 #. copy menu item
-#: ../src/calendar/gui/e-comp-editor.c:2126 ../src/e-util/e-focus-tracker.c:806
+#: ../src/calendar/gui/e-comp-editor.c:2129 ../src/e-util/e-focus-tracker.c:806
 #: ../src/e-util/e-html-editor-actions.c:1126 ../src/e-util/e-text.c:2065
 #: ../src/e-util/e-web-view.c:467 ../src/mail/e-mail-browser.c:173
 #: ../src/mail/mail.error.xml.h:147 ../src/shell/e-shell-window-actions.c:947
 msgid "_Copy"
 msgstr "_رونوشت"
 
-#: ../src/calendar/gui/e-comp-editor.c:2128 ../src/e-util/e-focus-tracker.c:203
+#: ../src/calendar/gui/e-comp-editor.c:2131 ../src/e-util/e-focus-tracker.c:203
 #: ../src/e-util/e-focus-tracker.c:259 ../src/e-util/e-focus-tracker.c:312
 #: ../src/e-util/e-focus-tracker.c:807 ../src/e-util/e-web-view.c:469
 #: ../src/e-util/e-web-view.c:2056 ../src/mail/e-mail-browser.c:175
@@ -7339,51 +7352,51 @@ msgid "Copy the selection"
 msgstr "رونوشت از گزیده‌ها"
 
 #. cut menu item
-#: ../src/calendar/gui/e-comp-editor.c:2133 ../src/e-util/e-focus-tracker.c:801
+#: ../src/calendar/gui/e-comp-editor.c:2136 ../src/e-util/e-focus-tracker.c:801
 #: ../src/e-util/e-html-editor-actions.c:1133 ../src/e-util/e-text.c:2051
 #: ../src/mail/e-mail-browser.c:180 ../src/shell/e-shell-window-actions.c:954
 msgid "Cu_t"
 msgstr "_بریدن"
 
-#: ../src/calendar/gui/e-comp-editor.c:2135 ../src/e-util/e-focus-tracker.c:196
+#: ../src/calendar/gui/e-comp-editor.c:2138 ../src/e-util/e-focus-tracker.c:196
 #: ../src/e-util/e-focus-tracker.c:252 ../src/e-util/e-focus-tracker.c:306
 #: ../src/e-util/e-focus-tracker.c:802 ../src/e-util/e-web-view.c:2065
 #: ../src/mail/e-mail-browser.c:182 ../src/shell/e-shell-window-actions.c:956
 msgid "Cut the selection"
 msgstr "بریدن گزیده‌ها"
 
-#: ../src/calendar/gui/e-comp-editor.c:2142 ../src/e-util/e-focus-tracker.c:217
+#: ../src/calendar/gui/e-comp-editor.c:2145 ../src/e-util/e-focus-tracker.c:217
 #: ../src/e-util/e-focus-tracker.c:273 ../src/e-util/e-focus-tracker.c:817
 #: ../src/shell/e-shell-window-actions.c:963
 msgid "Delete the selection"
 msgstr "حذف گزیده‌ها"
 
-#: ../src/calendar/gui/e-comp-editor.c:2149
+#: ../src/calendar/gui/e-comp-editor.c:2152
 msgid "View help"
 msgstr "نمایش راهنما"
 
 #. paste menu item
-#: ../src/calendar/gui/e-comp-editor.c:2154 ../src/e-util/e-focus-tracker.c:811
+#: ../src/calendar/gui/e-comp-editor.c:2157 ../src/e-util/e-focus-tracker.c:811
 #: ../src/e-util/e-html-editor-actions.c:1140 ../src/e-util/e-text.c:2077
 #: ../src/mail/e-mail-browser.c:187 ../src/shell/e-shell-window-actions.c:982
 msgid "_Paste"
 msgstr "_جای‌گذاری"
 
-#: ../src/calendar/gui/e-comp-editor.c:2156 ../src/e-util/e-focus-tracker.c:210
+#: ../src/calendar/gui/e-comp-editor.c:2159 ../src/e-util/e-focus-tracker.c:210
 #: ../src/e-util/e-focus-tracker.c:266 ../src/e-util/e-focus-tracker.c:318
 #: ../src/e-util/e-focus-tracker.c:812 ../src/e-util/e-web-view.c:2074
 #: ../src/mail/e-mail-browser.c:189 ../src/shell/e-shell-window-actions.c:984
 msgid "Paste the clipboard"
 msgstr "چسباندن تخته‌گیره"
 
-#: ../src/calendar/gui/e-comp-editor.c:2161 ../src/composer/e-composer-actions.c:387
+#: ../src/calendar/gui/e-comp-editor.c:2164 ../src/composer/e-composer-actions.c:387
 #: ../src/mail/e-mail-reader.c:2860
 #: ../src/modules/addressbook/e-book-shell-view-actions.c:1319
 #: ../src/modules/addressbook/e-book-shell-view-actions.c:1333
 msgid "_Print…"
 msgstr "_چاپ…"
 
-#: ../src/calendar/gui/e-comp-editor.c:2168 ../src/mail/e-mail-reader.c:2867
+#: ../src/calendar/gui/e-comp-editor.c:2171 ../src/mail/e-mail-reader.c:2867
 #: ../src/modules/addressbook/e-book-shell-view-actions.c:1326
 #: ../src/modules/calendar/e-cal-shell-view-actions.c:1921
 #: ../src/modules/calendar/e-memo-shell-view-actions.c:838
@@ -7391,55 +7404,55 @@ msgstr "_چاپ…"
 msgid "Pre_view…"
 msgstr "_پیش‌نمایش…"
 
-#: ../src/calendar/gui/e-comp-editor.c:2175 ../src/e-util/e-focus-tracker.c:821
+#: ../src/calendar/gui/e-comp-editor.c:2178 ../src/e-util/e-focus-tracker.c:821
 #: ../src/e-util/e-html-editor-actions.c:1154 ../src/e-util/e-web-view.c:484
 #: ../src/mail/e-mail-browser.c:194 ../src/shell/e-shell-window-actions.c:1059
 msgid "Select _All"
 msgstr "انتخاب _همه"
 
-#: ../src/calendar/gui/e-comp-editor.c:2177 ../src/e-util/e-focus-tracker.c:224
+#: ../src/calendar/gui/e-comp-editor.c:2180 ../src/e-util/e-focus-tracker.c:224
 #: ../src/e-util/e-focus-tracker.c:280 ../src/e-util/e-focus-tracker.c:822
 #: ../src/mail/e-mail-browser.c:196 ../src/shell/e-shell-window-actions.c:1061
 msgid "Select all text"
 msgstr "انتخاب همهٔ متن"
 
-#: ../src/calendar/gui/e-comp-editor.c:2198
+#: ../src/calendar/gui/e-comp-editor.c:2201
 msgid "_Classification"
 msgstr "طبقه‌بندی"
 
-#: ../src/calendar/gui/e-comp-editor.c:2212
+#: ../src/calendar/gui/e-comp-editor.c:2215
 #: ../src/e-util/e-html-editor-actions.c:1177
 #: ../src/e-util/e-mail-signature-editor.c:343 ../src/mail/e-mail-browser.c:210
 #: ../src/mail/e-mail-notes.c:1121 ../src/shell/e-shell-window-actions.c:1110
 msgid "_File"
 msgstr "پرونده"
 
-#: ../src/calendar/gui/e-comp-editor.c:2226
+#: ../src/calendar/gui/e-comp-editor.c:2229
 #: ../src/e-util/e-html-editor-actions.c:1198
 msgid "_Insert"
 msgstr "درج"
 
-#: ../src/calendar/gui/e-comp-editor.c:2233 ../src/composer/e-composer-actions.c:377
+#: ../src/calendar/gui/e-comp-editor.c:2236 ../src/composer/e-composer-actions.c:377
 msgid "_Options"
 msgstr "گزینه‌ها"
 
-#: ../src/calendar/gui/e-comp-editor.c:2240
+#: ../src/calendar/gui/e-comp-editor.c:2243
 #: ../src/e-util/e-html-editor-actions.c:1219 ../src/mail/e-mail-browser.c:224
 #: ../src/shell/e-shell-window-actions.c:1153
 #: ../src/smime/gui/certificate-manager.c:1644 ../src/smime/gui/smime-ui.ui.h:3
 msgid "_View"
 msgstr "نما"
 
-#: ../src/calendar/gui/e-comp-editor.c:2252
+#: ../src/calendar/gui/e-comp-editor.c:2255
 msgid "Save current changes"
 msgstr "ذخیرهٔ تفییرات جاری"
 
-#: ../src/calendar/gui/e-comp-editor.c:2257
+#: ../src/calendar/gui/e-comp-editor.c:2260
 #: ../src/e-util/e-mail-signature-editor.c:338 ../src/mail/e-mail-notes.c:1116
 msgid "Save and Close"
 msgstr "ذخیره و بستن"
 
-#: ../src/calendar/gui/e-comp-editor.c:2259
+#: ../src/calendar/gui/e-comp-editor.c:2262
 msgid "Save current changes and close editor"
 msgstr "ذخیرهٔ تفییرات جاری و بستن ویرایشگر"
 
@@ -10316,7 +10329,10 @@ msgid_plural ""
 "There had been added %d attachments. Make sure they do not contain any sensitive "
 "information before sending the message."
 msgstr[0] ""
+"پیوستی افزوده شده. پیش از فرستادن پیام مطمئن شوید شامل هیچ اطّلاعات حسّاسی نیست."
 msgstr[1] ""
+"تعداد %Id پیوست افزوده شده. پیش از فرستادن پیام مطمئن شوید شامل هیچ اطّلاعات حسّاسی "
+"نیست."
 
 #: ../src/composer/e-msg-composer.c:5648
 msgid "The composer contains a non-text message body, which cannot be edited."
@@ -10823,6 +10839,10 @@ msgid ""
 "add it to your keyring. Until then, there is no guarantee that this message truly "
 "came from that person and that it arrived unaltered."
 msgstr ""
+"این پیام به صورت دیجیتالی امضا شده، ولی کلید عمومی مرتبط در دسته‌کلیدتان وجود "
+"ندارد. اگر می‌خواهید بتوانید هویت پیام‌ها را از این شخص تأیید کنید، باید کلید عمومی "
+"را از روشی مطمئن به دست آورده و به دسته‌کلیدتان بیفزایید. تا آن زمان، تضمینی بر "
+"آمدن حقیقی این پیام از آن فرد و دستکاری نشدنش وجود ندارد."
 
 #: ../src/em-format/e-mail-formatter-secure-button.c:77
 msgid "Unencrypted"
@@ -10937,47 +10957,47 @@ msgstr "رونوشت"
 msgid "Bcc"
 msgstr "رونوشت محرمانه"
 
-#: ../src/em-format/e-mail-formatter-utils.c:579
+#: ../src/em-format/e-mail-formatter-utils.c:583
 msgid "GPG signed"
 msgstr "امضاشده با GPG"
 
-#: ../src/em-format/e-mail-formatter-utils.c:579
+#: ../src/em-format/e-mail-formatter-utils.c:583
 #, fuzzy
 #| msgid "Assigned"
 msgid "partially GPG signed"
 msgstr "تخصیص داده شده"
 
-#: ../src/em-format/e-mail-formatter-utils.c:580
+#: ../src/em-format/e-mail-formatter-utils.c:584
 msgid "GPG encrypted"
 msgstr "رمزشده با GPG"
 
-#: ../src/em-format/e-mail-formatter-utils.c:580
+#: ../src/em-format/e-mail-formatter-utils.c:584
 #, fuzzy
 #| msgid "Unencrypted"
 msgid "partially GPG encrypted"
 msgstr "رمزنگاری نشده"
 
-#: ../src/em-format/e-mail-formatter-utils.c:581
+#: ../src/em-format/e-mail-formatter-utils.c:585
 msgid "S/MIME signed"
 msgstr "امضاشده با S/MIME"
 
-#: ../src/em-format/e-mail-formatter-utils.c:581
+#: ../src/em-format/e-mail-formatter-utils.c:585
 #, fuzzy
 #| msgid "S/MIME Sign"
 msgid "partially S/MIME signed"
 msgstr "امضای S/MIME"
 
-#: ../src/em-format/e-mail-formatter-utils.c:582
+#: ../src/em-format/e-mail-formatter-utils.c:586
 msgid "S/MIME encrypted"
 msgstr "رمزشده با S/MIME"
 
-#: ../src/em-format/e-mail-formatter-utils.c:582
+#: ../src/em-format/e-mail-formatter-utils.c:586
 #, fuzzy
 #| msgid "S/MIME Encrypt"
 msgid "partially S/MIME encrypted"
 msgstr "رمزنگاری S/MIME"
 
-#: ../src/em-format/e-mail-formatter-utils.c:695
+#: ../src/em-format/e-mail-formatter-utils.c:699
 #: ../src/mail/e-mail-config-security-page.c:865
 #: ../src/modules/mail-config/e-mail-config-remote-accounts.c:273
 #: ../src/modules/mail-config/e-mail-config-smtp-backend.c:217
@@ -11582,7 +11602,7 @@ msgid "popup list"
 msgstr "فهرست واشو"
 
 #: ../src/e-util/e-cell-date.c:49 ../src/e-util/e-cell-date.c:138
-#: ../src/e-util/e-cell-date.c:158 ../src/mail/message-list.c:2181
+#: ../src/e-util/e-cell-date.c:158 ../src/mail/message-list.c:2189
 msgid "?"
 msgstr "؟"
 
@@ -11770,6 +11790,9 @@ msgid ""
 "information about its configuration using the selected lookup methods. Enter the "
 "account manually instead or change above settings."
 msgstr ""
+"نامزدی پیدا نشد. این امر می‌تواند به معنای فراهم نشدن هیچ اطّلاعاتی دربارهٔ پیکربندی "
+"کارساز از طریق روش‌های جست‌وجوی گزیده باشد.به جایش حساب را به صورت دستی وارد کرده یا "
+"تنظیمات بالا را تغییر دهید."
 
 #: ../src/e-util/e-collection-account-wizard.c:568
 #, c-format
@@ -11789,6 +11812,8 @@ msgid ""
 "User name contains letters, which can prevent log in. Make sure the server accepts "
 "such written user name."
 msgstr ""
+"نام کاربری شامل حرف‌هاییست که می‌توانند مانع ورود شوند. مطمين شوید کارساز چنین "
+"نام‌های کاربری‌ای را می‌پذیرد."
 
 #: ../src/e-util/e-collection-account-wizard.c:688
 #: ../src/plugins/publish-calendar/publish-calendar.ui.h:29
@@ -11874,6 +11899,8 @@ msgid ""
 "Semicolon (“;”) separated list of servers to look up information for, in addition "
 "to the domain of the e-mail address."
 msgstr ""
+"سیاهه‌ای جداشده با نقطه‌ویرگول («;») از کارسازها برای جست‌وجو، به اضافهٔ دامنهٔ نشانی "
+"رایانامه."
 
 #: ../src/e-util/e-collection-account-wizard.c:1968
 msgid "Select which parts should be configured:"
@@ -12821,7 +12848,7 @@ msgstr "حالت متن ساده"
 
 #: ../src/e-util/e-html-editor-actions.c:1370
 msgid "Markdown editing mode, exported as Plain Text"
-msgstr ""
+msgstr "حالت ویرایش مارک‌دون. برون‌ریخته به شکل متن خام"
 
 #: ../src/e-util/e-html-editor-actions.c:1375
 #, fuzzy
@@ -12831,7 +12858,7 @@ msgstr "حالت متن ساده"
 
 #: ../src/e-util/e-html-editor-actions.c:1377
 msgid "Markdown editing mode, exported as HTML"
-msgstr ""
+msgstr "حالت ویرایش مارک‌دون. برون‌ریخته به شکل HTML"
 
 #: ../src/e-util/e-html-editor-actions.c:1385
 msgid "_Normal"
@@ -13322,11 +13349,11 @@ msgstr "_پهنا"
 
 #: ../src/e-util/e-html-editor-cell-dialog.c:591
 msgid "Row S_pan:"
-msgstr ""
+msgstr "فاصلهٔ _ردیف:"
 
 #: ../src/e-util/e-html-editor-cell-dialog.c:605
 msgid "Co_lumn Span:"
-msgstr ""
+msgstr "فاصلهٔ _ستون:"
 
 #: ../src/e-util/e-html-editor-cell-dialog.c:612
 #: ../src/e-util/e-html-editor-table-dialog.c:655
@@ -13420,7 +13447,7 @@ msgstr "_قرارگیری:"
 #. Shaded
 #: ../src/e-util/e-html-editor-hrule-dialog.c:324
 msgid "S_haded"
-msgstr ""
+msgstr "_سایه‌دار"
 
 #: ../src/e-util/e-html-editor-hrule-dialog.c:341
 msgid "Rule properties"
@@ -13442,7 +13469,7 @@ msgstr "_بلندا:"
 
 #: ../src/e-util/e-html-editor-image-dialog.c:659
 msgid "Preserve aspect ratio"
-msgstr ""
+msgstr "حفظ نسبت ابعاد"
 
 #: ../src/e-util/e-html-editor-image-dialog.c:691
 msgid "_X-Padding:"
@@ -13484,7 +13511,7 @@ msgstr "ویژگی‌های پیوند"
 
 #: ../src/e-util/e-html-editor-page-dialog.c:71
 msgid "Perforated Paper"
-msgstr ""
+msgstr "کاغذ سوراخ‌دار"
 
 #: ../src/e-util/e-html-editor-page-dialog.c:80
 msgid "Blue Ink"
@@ -13709,6 +13736,8 @@ msgid ""
 "Choose the file that you want to import into Evolution, and select what type of "
 "file it is from the list."
 msgstr ""
+"پرونده‌ای که می‌خواد در اولوشن درون‌ریزی کنید را گزیده و گونهٔ پرونده‌اش را از سیاهه "
+"برگزینید."
 
 #: ../src/e-util/e-import-assistant.c:327 ../src/e-util/e-import-assistant.c:526
 msgid "File _type:"
@@ -13747,6 +13776,9 @@ msgid ""
 "Netscape, Elm, iCalendar, KMail. No importable settings found. If you would like "
 "to try again, please click the “Back” button."
 msgstr ""
+"اولوشن برای درون‌ریزی تنظیمات از برنامه‌های زیر بررسی کرد: پاین، نت‌اسمیپ، اِلم، "
+"آی‌کلندر، کی‌میل. تنظمیات قابل درون‌ریزی‌ای پیدا نشد. اگر می‌خواهید دوباره تلاش کنید، "
+"لطفاً دکمهٔ «بازگشت» را بزنید."
 
 #: ../src/e-util/e-import-assistant.c:614
 #: ../src/modules/startup-wizard/e-mail-config-import-page.c:238
@@ -13950,7 +13982,7 @@ msgstr "افزودن یک سرصفحه"
 
 #: ../src/e-util/e-markdown-editor.c:1466
 msgid "Open online common mark documentation"
-msgstr ""
+msgstr "گشودن سند کامن‌مارک برخط"
 
 #: ../src/e-util/e-markdown-editor.c:1802
 msgid "_Write"
@@ -14013,7 +14045,7 @@ msgstr ""
 #: ../src/e-util/e-misc-utils.c:4144
 #, c-format
 msgid "Failed to set protocol version to LDAPv3 (%d): %s"
-msgstr ""
+msgstr "شکست در تنظیم نگارش شیوه‌نامه به LDAPv3 (%Id): %s"
 
 #: ../src/e-util/e-misc-utils.c:4179
 #, fuzzy, c-format
@@ -14227,11 +14259,11 @@ msgstr "هنگام چاپ خطایی رخ داد"
 
 #: ../src/e-util/e-print.c:171
 msgid "The printing system reported the following details about the error:"
-msgstr ""
+msgstr "سامانهٔ چاپ، جزییات زیر را دربارهٔ خطا گزارش داد:"
 
 #: ../src/e-util/e-print.c:177
 msgid "The printing system did not report any additional details about the error."
-msgstr ""
+msgstr "سامانهٔ چاپ هیچ جزییات اضافی‌ای دربارهٔ خطا گزارش نداد."
 
 #: ../src/e-util/e-proxy-editor.c:326
 msgid "_Method:"
@@ -14239,7 +14271,7 @@ msgstr "_روش:"
 
 #: ../src/e-util/e-proxy-editor.c:348
 msgid "Defer to Desktop Settings"
-msgstr ""
+msgstr "احترام به تنظیمات میزکار"
 
 #: ../src/e-util/e-proxy-editor.c:352
 msgid "_Open Desktop Settings"
@@ -14298,6 +14330,8 @@ msgid ""
 "<b>Advanced Proxy Preferences</b> lets you define alternate network proxies and "
 "apply them to specific accounts"
 msgstr ""
+"<b>ترجیحات پیش‌رفتهٔ پیشکار</b> می‌گذارد پیشکارهای شبکهٔ جایگزین تعریف کرده و به "
+"حساب‌های خاصی اعمالشان کنید"
 
 #: ../src/e-util/e-proxy-selector.c:86
 msgid "Custom Proxy"
@@ -14601,7 +14635,7 @@ msgstr ""
 
 #: ../src/e-util/e-system.error.xml.h:2
 msgid "The file already exists in “{0}”. Replacing it will overwrite its contents."
-msgstr ""
+msgstr "پرونده از پیش در «{0}» وجود دارد. جایگزینیش، محتویاتش را پایمال خواهد کرد."
 
 #: ../src/e-util/e-system.error.xml.h:4
 #, fuzzy
@@ -14743,10 +14777,12 @@ msgid ""
 "This will permanently remove the collection “{0}” from the server. Are you sure "
 "you want to proceed?"
 msgstr ""
+"این کار مجموعهٔ «{0}» را برای همیشه از کارساز بر خواهد داشت. مطمئنید که می‌خواهید "
+"ادامه دهید؟"
 
 #: ../src/e-util/e-system.error.xml.h:29
 msgid "Failed to refresh list of account sources"
-msgstr ""
+msgstr "شکست در تازه‌سازی سیاههٔ منبع‌های حساب"
 
 #: ../src/e-util/e-table-click-to-add.c:686
 #: ../src/e-util/gal-a11y-e-table-click-to-add.c:59
@@ -14879,6 +14915,8 @@ msgid ""
 "To add a column to your table, drag it into\n"
 "the location in which you want it to appear."
 msgstr ""
+"برای افزودن ستونی به جدولتان، آن را به\n"
+"مکانی که می‌خواهید ظاهر شود بکشید."
 
 #: ../src/e-util/e-table-field-chooser-dialog.c:216
 msgid "Add a Column"
@@ -15013,7 +15051,7 @@ msgstr "_گزینش"
 
 #: ../src/e-util/e-timezone-dialog.ui.h:8
 msgid "Timezone drop-down combination box"
-msgstr ""
+msgstr "جعبهٔ ترکیبی پایین‌افتادنی ناحیهٔ زمانی"
 
 #: ../src/e-util/e-url-entry.c:155
 #, fuzzy
@@ -15167,10 +15205,8 @@ msgstr "ناتوان در حذف آشنا"
 
 #. Translators: It's 'order' as 'sorting order'
 #: ../src/e-util/e-webdav-browser.c:2579
-#, fuzzy
-#| msgid "_Border:"
 msgid "_Order:"
-msgstr "_حاشیه:"
+msgstr "_ترتیب:"
 
 #: ../src/e-util/e-webdav-browser.c:2589
 msgid "Use -1 to not set the sort order"
@@ -15205,10 +15241,8 @@ msgid "_Copy Link Location"
 msgstr "_رونوشت از مکان پیوند"
 
 #: ../src/e-util/e-web-view.c:426
-#, fuzzy
-#| msgid "Copy _Email Address"
 msgid "_Copy Email Address"
-msgstr "رونوشت از نشانی _رایانامه"
+msgstr "_رونوشت از نشانی رایانامه"
 
 #: ../src/e-util/e-web-view.c:433
 #, fuzzy
@@ -15635,7 +15669,7 @@ msgstr "شاخهٔ نامعتبر: «%s»"
 
 #. Some local folders
 #: ../src/libemail-engine/e-mail-session.c:121
-#: ../src/mail/em-folder-properties.c:1473 ../src/mail/em-folder-tree-model.c:1543
+#: ../src/mail/em-folder-properties.c:1474 ../src/mail/em-folder-tree-model.c:1543
 #: ../src/mail/em-folder-tree-model.c:1573 ../src/mail/importers/kmail-libs.c:138
 #: ../src/modules/mail/e-mail-shell-view-private.c:1036
 #: ../src/modules/mail/e-mail-shell-view-private.c:1047
@@ -15683,25 +15717,25 @@ msgstr "کاربر از عملیات منصر شد"
 #, c-format
 msgid ""
 "No destination address provided, forwarding of the message has been cancelled."
-msgstr ""
+msgstr "هیچ نشانی مقصدی فراهم نشده. هدایت پیام لغو شد."
 
 #: ../src/libemail-engine/e-mail-session.c:1759
 #, c-format
 msgid "No identity found to use, forwarding of the message has been cancelled."
-msgstr ""
+msgstr "هویتی برای استفاده پیدا نشد. هدایت پیام لغو شد."
 
 #: ../src/libemail-engine/e-mail-session.c:1967
 #, c-format
 msgid "Corresponding source for service with UID “%s” not found"
-msgstr ""
+msgstr "منبع مربوط به خدمت با شناسهٔ یکتای «%s» پیدا نشد"
 
 #: ../src/libemail-engine/e-mail-session.c:2087
 msgid "Looking up recipient S/MIME certificates in address books…"
-msgstr ""
+msgstr "گشتن به دنبال گواهی‌های S/MIME مخاطب در دفترچه‌های نشانی…"
 
 #: ../src/libemail-engine/e-mail-session.c:2089
 msgid "Looking up recipient PGP keys in address books…"
-msgstr ""
+msgstr "گشتن به دنبال کلیدهای PGP مخاطب در دفترچه‌های نشانی…"
 
 #: ../src/libemail-engine/e-mail-session.c:3136
 #, fuzzy, c-format
@@ -15795,6 +15829,11 @@ msgid ""
 "Filters.\n"
 "Original error was: %s"
 msgstr ""
+"شکست در پالایش پیام‌های گزیده. یک دلیل می‌تواند نامعتبر بودن مکان شاخهٔ تنظیم شده در "
+"یک یا چند پالایه باشد. لطفاً پالایه‌هایتان را در ویرایش > پالایه‌های پیام بررسی "
+"کنید.\n"
+"\n"
+"خطای اصلی این بود: %s"
 
 #: ../src/libemail-engine/mail-ops.c:225
 #, fuzzy, c-format
@@ -15810,6 +15849,11 @@ msgid ""
 "Filters.\n"
 "Original error was: %s"
 msgstr ""
+"شکست در اعمال پالایه‌های خروجی. یک دلیل می‌تواند نامعتبر بودن مکان شاخهٔ تنظیم شده در "
+"یک یا چند پالایه باشد. لطفاً پالایه‌هایتان را در ویرایش > پالایه‌های پیام بررسی "
+"کنید.\n"
+"\n"
+"خطای اصلی این بود: %s"
 
 #: ../src/libemail-engine/mail-ops.c:1028
 #, c-format
@@ -15855,7 +15899,7 @@ msgstr "در حال مرتب‌سازی شاخهٔ «%s»"
 #: ../src/libemail-engine/mail-ops.c:1463
 #, c-format
 msgid "Expunging and storing account “%s”"
-msgstr ""
+msgstr "نابودی و ذخیرهٔ حساب «%s»"
 
 #: ../src/libemail-engine/mail-ops.c:1464
 #, fuzzy, c-format
@@ -15883,7 +15927,7 @@ msgstr "ایجاد شاخهٔ قرقرهٔ «%s» ممکن نیست: %s"
 #: ../src/libemail-engine/mail-tools.c:109
 #, c-format
 msgid "Trying to movemail a non-mbox source “%s”"
-msgstr ""
+msgstr "تلاش برای movemail یک منبع غیر mboxای «%s»"
 
 #. Translators: This is a subject attribution for forwarded messages. The %s is replaced with subject of the original message.
 #: ../src/libemail-engine/mail-tools.c:199
@@ -15953,7 +15997,7 @@ msgstr "_بازنشانی ترتیب"
 
 #: ../src/mail/e-mail-account-manager.c:705
 msgid "You can drag and drop account names to reorder them."
-msgstr ""
+msgstr "می‌توانید برای تغییر ترتیب نام‌های حساب، بکشید و رهایشان کنید."
 
 #: ../src/mail/e-mail-account-manager.c:748
 msgid "De_fault"
@@ -16123,7 +16167,7 @@ msgstr "_زبان:"
 #: ../src/mail/e-mail-config-composing-page.c:498
 #: ../src/mail/e-mail-config-composing-page.c:508 ../src/mail/mail-config.ui.h:22
 msgid "Language for Reply and Forward attribution text"
-msgstr ""
+msgstr "زبان متن نسبت پاسخ و هدایت"
 
 #: ../src/mail/e-mail-config-composing-page.c:524
 #: ../src/mail/em-composer-utils.c:4247 ../src/mail/mail-config.ui.h:23
@@ -16223,7 +16267,7 @@ msgstr "شاخه‌هایی را که پیام باید به آنان پست ش�
 
 #: ../src/mail/e-mail-config-defaults-page.c:751
 msgid "S_ave replies in the folder of the message being replied to"
-msgstr ""
+msgstr "ذخیرهٔ پاسخ‌ها در شاخهٔ پیامی که به آن پاسخ داده می‌شود"
 
 #: ../src/mail/e-mail-config-defaults-page.c:774
 msgid "Archi_ve Folder:"
@@ -16353,7 +16397,7 @@ msgstr "_ویرایش"
 
 #: ../src/mail/e-mail-config-identity-page.c:886
 msgid "_Look up mail server details based on the entered e-mail address"
-msgstr ""
+msgstr "_گشتن به دنبال جزییات کارساز نامه بر پایهٔ نشانی رایانامهٔ وارده"
 
 #. This is only a warning, not a blocker
 #. complete = complete && correct;
@@ -16417,7 +16461,7 @@ msgid "%s — %s"
 msgstr "%s — %s"
 
 #: ../src/mail/e-mail-config-security-page.c:456
-#: ../src/mail/em-folder-properties.c:1396 ../src/mail/mail-config.ui.h:35
+#: ../src/mail/em-folder-properties.c:1397 ../src/mail/mail-config.ui.h:35
 #: ../src/modules/addressbook/autocompletion-config.c:115
 #: ../src/modules/calendar/e-calendar-preferences.c:648
 #: ../src/modules/calendar/e-calendar-preferences.ui.h:55
@@ -16487,11 +16531,11 @@ msgstr "ا_عتماد همیشگی به کلیدهای موجود در دسته�
 
 #: ../src/mail/e-mail-config-security-page.c:617
 msgid "Prefer _inline sign/encrypt for plain text messages"
-msgstr ""
+msgstr "ترجیح امضا و رمزنگاری _درون‌خط برای پیام‌های متنی خام"
 
 #: ../src/mail/e-mail-config-security-page.c:629
 msgid "_Lookup keys for encryption in Web Key Directory (WKD)"
-msgstr ""
+msgstr "_گشتن به دنبال کلیدهای رمزنگاری در شاخهٔ کلید وب (WKD)"
 
 #: ../src/mail/e-mail-config-security-page.c:653
 msgid "Secure MIME (S/MIME)"
@@ -16556,7 +16600,7 @@ msgstr "شرح:"
 
 #: ../src/mail/e-mail-config-summary-page.c:301
 msgid "This is a summary of the settings which will be used to access your mail."
-msgstr ""
+msgstr "خلاصه‌ایست از تظنیمتی که برای دسترسی به نامه‌تان استفاده خواهد شد."
 
 #: ../src/mail/e-mail-config-summary-page.c:365
 msgid "Personal Details"
@@ -16598,7 +16642,7 @@ msgstr "امنیت:"
 
 #: ../src/mail/e-mail-config-summary-page.c:643
 msgid "Cannot have both receiving and sending parts set to None"
-msgstr ""
+msgstr "نمی‌توان هر دو بخش دریافت و فرستادن را به هیچ تنظیم کرد"
 
 #: ../src/mail/e-mail-config-summary-page.c:799
 msgid "Account Summary"
@@ -16680,7 +16724,7 @@ msgstr "_بزرگ‌نمایی به پنجره"
 
 #: ../src/mail/e-mail-display.c:754
 msgid "Zoom large images to not be wider than the window width"
-msgstr ""
+msgstr "موچک‌نمایی تصویرهای بزرگ برای پهن‌تر نشدن از پهنای پنجره"
 
 #: ../src/mail/e-mail-folder-create-dialog.c:328
 msgid "Create Folder"
@@ -16708,7 +16752,7 @@ msgstr "بازنشانی سطح کنونی"
 
 #: ../src/mail/e-mail-folder-sort-order-dialog.c:730
 msgid "Reset sort order in the current level to the defaults"
-msgstr ""
+msgstr "بازنشانی ترتیب در سطح کنونی به پیش‌گزیده"
 
 #: ../src/mail/e-mail-folder-sort-order-dialog.c:740
 msgid "Reset all levels"
@@ -16716,7 +16760,7 @@ msgstr "بازنشانی تمامی سطح‌ها"
 
 #: ../src/mail/e-mail-folder-sort-order-dialog.c:741
 msgid "Reset sort order in all levels to their defaults"
-msgstr ""
+msgstr "بازنشانی ترتیب در تمامی سطح‌ها به پیش‌گزیده"
 
 #. Translators: This is a name of a flag, the same as all strings in the 'ffe' context.
 #. The translated value should not contain spaces.
@@ -16798,11 +16842,11 @@ msgid "_Later"
 msgstr "_بعداً"
 
 #: ../src/mail/e-mail-label-manager.c:153 ../src/mail/e-mail-reader.c:913
-#: ../src/mail/em-folder-properties.c:1170
+#: ../src/mail/em-folder-properties.c:1171
 msgid "Add Label"
 msgstr "افزودن برچسب"
 
-#: ../src/mail/e-mail-label-manager.c:204 ../src/mail/em-folder-properties.c:1197
+#: ../src/mail/e-mail-label-manager.c:204 ../src/mail/em-folder-properties.c:1198
 msgid "Edit Label"
 msgstr "ویرایش برچسب"
 
@@ -16811,6 +16855,8 @@ msgid ""
 "Note: Underscore in the label name is used\n"
 "as mnemonic identifier in menu."
 msgstr ""
+"نکته: زیرخط در نام برچسب به عنوان شناسهٔ\n"
+"حفظی در فهرست استفاده می‌شود."
 
 #: ../src/mail/e-mail-label-tree-view.c:86
 msgid "Color"
@@ -16905,7 +16951,7 @@ msgstr "_دیگر پرسیده نشود."
 
 #: ../src/mail/e-mail-reader.c:2041
 msgid "_Always ignore Reply-To: for mailing lists."
-msgstr ""
+msgstr "_چشم‌پوشی همیشگی از پاسخ به: برای سیاه‌های پستی."
 
 #: ../src/mail/e-mail-reader.c:2245
 msgid "Failed to retrieve message:"
@@ -17154,7 +17200,7 @@ msgstr "_نادیده گرفتن زیررشته"
 
 #: ../src/mail/e-mail-reader.c:2708
 msgid "Mark new mails in a subthread as read automatically"
-msgstr ""
+msgstr "علامت زدن خودکار نامه‌های جدید در زیررشته به خوانده شده"
 
 #: ../src/mail/e-mail-reader.c:2713 ../src/mail/e-mail-reader.c:3136
 msgid "_Ignore Thread"
@@ -17162,7 +17208,7 @@ msgstr "_چشم‌پوشی از رشته"
 
 #: ../src/mail/e-mail-reader.c:2715
 msgid "Mark new mails in this thread as read automatically"
-msgstr ""
+msgstr "علامت زدن خودکار نامه‌های جدید در این رشته به خوانده شده"
 
 #: ../src/mail/e-mail-reader.c:2720
 msgid "_Important"
@@ -18009,30 +18055,30 @@ msgstr "استفاده از قلم‌های سفارشی"
 msgid "Use te_xt color"
 msgstr "ستون انتخاب نشده"
 
-#: ../src/mail/em-folder-properties.c:517
+#: ../src/mail/em-folder-properties.c:518
 msgid "Path:"
 msgstr "مسیر:"
 
-#: ../src/mail/em-folder-properties.c:526
+#: ../src/mail/em-folder-properties.c:527
 msgid "Unread messages:"
 msgid_plural "Unread messages:"
 msgstr[0] "پیام‌های خوانده نشده:"
 msgstr[1] "پیام‌های خوانده نشده:"
 
-#: ../src/mail/em-folder-properties.c:537
+#: ../src/mail/em-folder-properties.c:538
 msgid "Total messages:"
 msgid_plural "Total messages:"
 msgstr[0] "مجموع پیام‌ها:"
 msgstr[1] "مجموع پیام‌ها:"
 
-#: ../src/mail/em-folder-properties.c:558
+#: ../src/mail/em-folder-properties.c:559
 #, fuzzy, c-format
 #| msgid "Total messages:"
 #| msgid_plural "Total messages:"
 msgid "Quota usage (%s):"
 msgstr "مجموع پیام‌ها:"
 
-#: ../src/mail/em-folder-properties.c:560
+#: ../src/mail/em-folder-properties.c:561
 #, fuzzy, c-format
 #| msgid "Total messages:"
 #| msgid_plural "Total messages:"
@@ -18041,96 +18087,96 @@ msgstr "مجموع پیام‌ها:"
 
 #. Translators: Label of a combo with a list of configured accounts where a user can
 #. choose which account to use as the sender when composing a message in this folder
-#: ../src/mail/em-folder-properties.c:701
+#: ../src/mail/em-folder-properties.c:702
 msgid "_Send Account Override:"
 msgstr ""
 
-#: ../src/mail/em-folder-properties.c:941
+#: ../src/mail/em-folder-properties.c:942
 msgid "Archive this folder using these settings:"
 msgstr "بایگانی این شاخه با این تنظیمات:"
 
 #. Translators: This text is part of "Auto-cleanup messages older than [X] [days/weeks/months]"
-#: ../src/mail/em-folder-properties.c:953
+#: ../src/mail/em-folder-properties.c:954
 msgctxt "autoarchive"
 msgid "Auto-_cleanup messages older than"
 msgstr "_ پاک‌سازی خودکار پیام‌های قدیمی‌تر از"
 
 #. Translators: This text is part of "Auto-cleanup messages older than [X] [days/weeks/months]"
-#: ../src/mail/em-folder-properties.c:966
+#: ../src/mail/em-folder-properties.c:967
 msgctxt "autoarchive"
 msgid "days"
 msgstr "روز"
 
 #. Translators: This text is part of "Auto-cleanup messages older than [X] [days/weeks/months]"
-#: ../src/mail/em-folder-properties.c:968
+#: ../src/mail/em-folder-properties.c:969
 msgctxt "autoarchive"
 msgid "weeks"
 msgstr "هفته"
 
 #. Translators: This text is part of "Auto-cleanup messages older than [X] [days/weeks/months]"
-#: ../src/mail/em-folder-properties.c:970
+#: ../src/mail/em-folder-properties.c:971
 msgctxt "autoarchive"
 msgid "months"
 msgstr "ماه"
 
-#: ../src/mail/em-folder-properties.c:976
+#: ../src/mail/em-folder-properties.c:977
 #, fuzzy
 #| msgid "Move selected messages to another folder"
 msgid "Move messages to the default archive _folder"
 msgstr "جابه‌جایی پیام‌های گزیده به یک شاخهٔ دیگر"
 
-#: ../src/mail/em-folder-properties.c:983
+#: ../src/mail/em-folder-properties.c:984
 #, fuzzy
 #| msgid "Moving messages to %s"
 msgid "_Move messages to:"
 msgstr "در حال جابه‌جایی پیام‌ها به %s"
 
-#: ../src/mail/em-folder-properties.c:987
+#: ../src/mail/em-folder-properties.c:988
 msgid "Archive folder"
 msgstr "شاخهٔ بایگانی"
 
-#: ../src/mail/em-folder-properties.c:987
+#: ../src/mail/em-folder-properties.c:988
 #, fuzzy
 #| msgid "Select folder to import into"
 msgid "Select folder to use for Archive"
 msgstr "انتخاب شاخه برای وارد کردن به"
 
-#: ../src/mail/em-folder-properties.c:991
+#: ../src/mail/em-folder-properties.c:992
 #, fuzzy
 #| msgid "_Delete Message"
 msgid "_Delete messages"
 msgstr "_حذف پیام"
 
-#: ../src/mail/em-folder-properties.c:1346
+#: ../src/mail/em-folder-properties.c:1347
 #, fuzzy
 #| msgid "Server _Type: "
 msgid "Server Tag"
 msgstr "نوع کارساز_:"
 
-#: ../src/mail/em-folder-properties.c:1350 ../src/mail/filtertypes.xml.in.h:29
+#: ../src/mail/em-folder-properties.c:1351 ../src/mail/filtertypes.xml.in.h:29
 #: ../src/mail/searchtypes.xml.in.h:31 ../src/mail/vfoldertypes.xml.in.h:31
 msgid "Label"
 msgstr "برچسب"
 
-#: ../src/mail/em-folder-properties.c:1399
+#: ../src/mail/em-folder-properties.c:1400
 msgid "Appearance"
 msgstr "ظاهر"
 
 #. Translators: "Archive" is a noun (This is a tab heading in the mail folder properties)
-#: ../src/mail/em-folder-properties.c:1403
+#: ../src/mail/em-folder-properties.c:1404
 msgid "Archive"
 msgstr "بایگانی"
 
-#: ../src/mail/em-folder-properties.c:1406 ../src/mail/mail-config.ui.h:128
+#: ../src/mail/em-folder-properties.c:1407 ../src/mail/mail-config.ui.h:128
 #: ../src/mail/message-list.etspec.h:19
 msgid "Labels"
 msgstr "برچسب‌ها"
 
-#: ../src/mail/em-folder-properties.c:1484
+#: ../src/mail/em-folder-properties.c:1485
 msgid "Folder Properties"
 msgstr "ویژگی‌های شاخه"
 
-#: ../src/mail/em-folder-properties.c:1723
+#: ../src/mail/em-folder-properties.c:1724
 #, fuzzy
 #| msgid "Calendar Properties"
 msgid "Gathering folder properties"
@@ -18188,12 +18234,12 @@ msgstr "در حال جابه‌جایی شاخهٔ %s"
 msgid "Copying folder %s"
 msgstr "در حال رونوشت از شاخهٔ %s"
 
-#: ../src/mail/em-folder-tree.c:2386 ../src/mail/message-list.c:2668
+#: ../src/mail/em-folder-tree.c:2386 ../src/mail/message-list.c:2676
 #, c-format
 msgid "Moving messages into folder %s"
 msgstr "در حال جابه‌جایی پیام‌ها به شاخهٔ %s"
 
-#: ../src/mail/em-folder-tree.c:2390 ../src/mail/message-list.c:2670
+#: ../src/mail/em-folder-tree.c:2390 ../src/mail/message-list.c:2678
 #, c-format
 msgid "Copying messages into folder %s"
 msgstr "‌در حال رونوشت از پیام‌ها در شاخهٔ %s"
@@ -20087,7 +20133,7 @@ msgstr "_خروج از اوولوشن"
 
 #: ../src/mail/mail.error.xml.h:124
 msgid "_Migrate Now"
-msgstr ""
+msgstr "اکنون _مهاجرت شود"
 
 #: ../src/mail/mail.error.xml.h:125
 msgid "Unable to read license file."
@@ -20641,63 +20687,63 @@ msgstr "در حال تولید فهرست پیام‌ها"
 
 #. strftime format of a time,
 #. * in 12-hour format, without seconds.
-#: ../src/mail/message-list.c:2189 ../src/modules/itip-formatter/itip-view.c:286
+#: ../src/mail/message-list.c:2197 ../src/modules/itip-formatter/itip-view.c:286
 msgid "Today %l:%M %p"
 msgstr "امروز %OH:%OM"
 
-#: ../src/mail/message-list.c:2198
+#: ../src/mail/message-list.c:2206
 msgid "Yesterday %l:%M %p"
 msgstr "دیروز %OH:%OM"
 
-#: ../src/mail/message-list.c:2210
+#: ../src/mail/message-list.c:2218
 msgid "%a %l:%M %p"
 msgstr "%A %OH:%OM"
 
-#: ../src/mail/message-list.c:2218
+#: ../src/mail/message-list.c:2226
 msgid "%b %d %l:%M %p"
 msgstr "%Od %B %OH:%OM"
 
-#: ../src/mail/message-list.c:2220
+#: ../src/mail/message-list.c:2228
 msgid "%b %d %Y"
 msgstr "%Od %B %Oy"
 
-#: ../src/mail/message-list.c:3116 ../src/mail/message-list.etspec.h:24
+#: ../src/mail/message-list.c:3124 ../src/mail/message-list.etspec.h:24
 msgid "User Header 1"
 msgstr "استفاده از سرایند ۱"
 
-#: ../src/mail/message-list.c:3117 ../src/mail/message-list.etspec.h:25
+#: ../src/mail/message-list.c:3125 ../src/mail/message-list.etspec.h:25
 msgid "User Header 2"
 msgstr "استفاده از سرایند ۲"
 
-#: ../src/mail/message-list.c:3118 ../src/mail/message-list.etspec.h:26
+#: ../src/mail/message-list.c:3126 ../src/mail/message-list.etspec.h:26
 msgid "User Header 3"
 msgstr "استفاده از سرایند ۳"
 
-#: ../src/mail/message-list.c:3523
+#: ../src/mail/message-list.c:3531
 msgid "Select all visible messages"
 msgstr "انتخاب همهٔ پیام‌های مرئی"
 
-#: ../src/mail/message-list.c:4348 ../src/mail/message-list.etspec.h:17
+#: ../src/mail/message-list.c:4356 ../src/mail/message-list.etspec.h:17
 msgid "Messages"
 msgstr "پیام‌ها"
 
 #. default follow-up flag name to use when clicked in the message list column
-#: ../src/mail/message-list.c:5931
+#: ../src/mail/message-list.c:5939
 msgid "Follow-up"
 msgstr "پی‌گیری"
 
-#: ../src/mail/message-list.c:6680 ../src/mail/message-list.c:7126
+#: ../src/mail/message-list.c:6688 ../src/mail/message-list.c:7134
 msgid "Generating message list…"
 msgstr "در حال تولید فهرست پیام…"
 
-#: ../src/mail/message-list.c:6683
+#: ../src/mail/message-list.c:6691
 msgid ""
 "No message satisfies your search criteria. Change search criteria by selecting a "
 "new Show message filter from the drop down list above or by running a new search "
 "either by clearing it with Search→Clear menu item or by changing the query above."
 msgstr ""
 
-#: ../src/mail/message-list.c:6690
+#: ../src/mail/message-list.c:6698
 msgid "There are no messages in this folder."
 msgstr "هیچ پیامی در این شاخه نیست."
 
