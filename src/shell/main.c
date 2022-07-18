@@ -104,6 +104,100 @@ void e_convert_local_mail (EShell *shell);
 void e_migrate_base_dirs (EShell *shell);
 
 static void
+e_setup_theme_icons_theme_changed_cb (GtkSettings *settings)
+{
+	GtkCssProvider *symbolic_icons_css_provider;
+	GtkIconTheme *icon_theme;
+	gboolean use_symbolic_icons = FALSE;
+	gboolean using_symbolic_icons;
+	gchar **paths = NULL;
+	gchar *icon_theme_name = NULL;
+	guint n_symbolic = 0, n_non_symbolic = 0;
+	guint ii;
+
+	if (!settings)
+		return;
+
+	g_object_get (settings,
+		"gtk-icon-theme-name", &icon_theme_name,
+		NULL);
+
+	icon_theme = gtk_icon_theme_get_default ();
+	gtk_icon_theme_get_search_path (icon_theme, &paths, NULL);
+
+	for (ii = 0; paths && paths[ii]; ii++) {
+		GDir *dir;
+		gchar *dirname;
+
+		dirname = g_build_filename (paths[ii], icon_theme_name, "16x16", "actions", NULL);
+		dir = g_dir_open (dirname, 0, NULL);
+		if (dir) {
+			const gchar *filename;
+
+			for (filename = g_dir_read_name (dir);
+			     filename;
+			     filename = g_dir_read_name (dir)) {
+				/* pick few common action icons and check whether they are
+				   only symbolic in the current theme */
+				if (g_str_has_prefix (filename, "appointment-new") ||
+				    g_str_has_prefix (filename, "edit-cut") ||
+				    g_str_has_prefix (filename, "edit-copy")) {
+					if (strstr (filename, "-symbolic.") ||
+					    strstr (filename, ".symbolic.")) {
+						n_symbolic++;
+					} else {
+						n_non_symbolic++;
+					}
+				}
+			}
+			g_dir_close (dir);
+		}
+		g_free (dirname);
+	}
+
+	g_strfreev (paths);
+	g_free (icon_theme_name);
+
+	use_symbolic_icons = !n_non_symbolic && n_symbolic > 0;
+
+	/* using the same key on both objects, to save one quark */
+	#define KEY_NAME "e-symbolic-icons-css-provider"
+
+	symbolic_icons_css_provider = g_object_get_data (G_OBJECT (icon_theme), KEY_NAME);
+	using_symbolic_icons = symbolic_icons_css_provider && GINT_TO_POINTER (
+		g_object_get_data (G_OBJECT (symbolic_icons_css_provider), KEY_NAME)) != 0;
+
+	if (use_symbolic_icons && !using_symbolic_icons) {
+		if (!symbolic_icons_css_provider) {
+			symbolic_icons_css_provider = gtk_css_provider_new ();
+			g_object_set_data_full (G_OBJECT (icon_theme), KEY_NAME, symbolic_icons_css_provider, g_object_unref);
+
+			gtk_style_context_add_provider_for_screen (gdk_screen_get_default (),
+				GTK_STYLE_PROVIDER (symbolic_icons_css_provider),
+				GTK_STYLE_PROVIDER_PRIORITY_APPLICATION);
+		}
+		gtk_css_provider_load_from_data (symbolic_icons_css_provider, "* { -gtk-icon-style:symbolic; }", -1, NULL);
+		g_object_set_data (G_OBJECT (symbolic_icons_css_provider), KEY_NAME, GINT_TO_POINTER (1));
+	} else if (!use_symbolic_icons && using_symbolic_icons) {
+		gtk_css_provider_load_from_data (symbolic_icons_css_provider, "", -1, NULL);
+		g_object_set_data (G_OBJECT (symbolic_icons_css_provider), KEY_NAME, GINT_TO_POINTER (0));
+	}
+
+	#undef KEY_NAME
+}
+
+static void
+e_setup_theme_icons (void)
+{
+	GtkSettings *settings = gtk_settings_get_default ();
+
+	e_signal_connect_notify (settings, "notify::gtk-icon-theme-name",
+		G_CALLBACK (e_setup_theme_icons_theme_changed_cb), NULL);
+
+	e_setup_theme_icons_theme_changed_cb (settings);
+}
+
+static void
 categories_icon_theme_hack (void)
 {
 	GList *categories, *link;
@@ -679,6 +773,8 @@ main (gint argc,
 	/* Attempt migration -after- loading all modules and plugins,
 	 * as both shell backends and certain plugins hook into this. */
 	e_shell_migrate_attempt (shell);
+
+	e_setup_theme_icons ();
 
 	e_shell_event (shell, "ready-to-start", NULL);
 
