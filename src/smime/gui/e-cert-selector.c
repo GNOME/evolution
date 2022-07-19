@@ -39,7 +39,11 @@
 #define PKCS11_H 1
 
 #define GCR_API_SUBJECT_TO_CHANGE
-#include "gcr/gcr.h"
+#ifdef WITH_GCR3
+#include <gcr/gcr.h>
+#else
+#include <gcr-gtk3/gcr-gtk3.h>
+#endif
 
 #include "smime/lib/e-cert.h"
 
@@ -168,7 +172,7 @@ e_cert_selector_new (gint type,
 	e_load_ui_builder_definition (builder, "smime-ui.ui");
 
 	p->combobox = e_builder_get_widget (builder, "cert_combobox");
-	p->cert_widget = gcr_certificate_widget_new (NULL);
+	p->cert_widget = GCR_CERTIFICATE_WIDGET (gcr_certificate_widget_new (NULL));
 
 	w = e_builder_get_widget (builder, "cert_selector_vbox");
 	content_area = gtk_dialog_get_content_area (GTK_DIALOG (ecs));

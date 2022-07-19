@@ -122,3 +122,6 @@
 
 /* Define if libical-glib has I_CAL_EMAIL_PARAMETER */
 #cmakedefine HAVE_I_CAL_EMAIL_PARAMETER 1
+
+/* Defined, when using gcr3, not gcr4 */
+#cmakedefine WITH_GCR3 1

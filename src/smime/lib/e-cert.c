@@ -62,7 +62,11 @@
 /* XXX Yeah, yeah */
 #define GCR_API_SUBJECT_TO_CHANGE
 
+#ifdef WITH_GCR3
 #include <gcr/gcr-base.h>
+#else
+#include <gcr/gcr.h>
+#endif
 
 #define E_CERT_GET_PRIVATE(obj) \
 	(G_TYPE_INSTANCE_GET_PRIVATE \

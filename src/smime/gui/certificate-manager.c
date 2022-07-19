@@ -49,8 +49,11 @@
 
 /* XXX Yeah, yeah... */
 #define GCR_API_SUBJECT_TO_CHANGE
-
+#ifdef WITH_GCR3
 #include <gcr/gcr.h>
+#else
+#include <gcr-gtk3/gcr-gtk3.h>
+#endif
 
 #include "shell/e-shell.h"
 
@@ -1235,8 +1238,7 @@ cm_prepare_certificate_widget (GcrCertificate *certificate)
 {
 	GcrParser *parser;
 	GcrParsed *parsed = NULL;
-	GckAttributes *attributes;
-	GcrCertificateWidget *certificate_widget;
+	GtkWidget *widget;
 	const guchar *der_data = NULL;
 	gsize der_length;
 	GError *local_error = NULL;
@@ -1264,13 +1266,24 @@ cm_prepare_certificate_widget (GcrCertificate *certificate)
 		return NULL;
 	}
 
-	attributes = gcr_parsed_get_attributes (parsed);
-	certificate_widget = gcr_certificate_widget_new (certificate);
-	gcr_certificate_widget_set_attributes (certificate_widget, attributes);
+	#ifdef WITH_GCR3
+	{
+		GcrCertificateWidget *certificate_widget;
+		GckAttributes *attributes;
+
+		attributes = gcr_parsed_get_attributes (parsed);
+		certificate_widget = gcr_certificate_widget_new (certificate);
+		gcr_certificate_widget_set_attributes (certificate_widget, attributes);
+
+		widget = GTK_WIDGET (certificate_widget);
+	}
+	#else
+	widget = gcr_certificate_widget_new (certificate);
+	#endif
 
 	gcr_parsed_unref (parsed);
 
-	return GTK_WIDGET (certificate_widget);
+	return widget;
 }
 
 static void

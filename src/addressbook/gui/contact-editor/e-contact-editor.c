@@ -34,7 +34,11 @@
 #include <gdk-pixbuf/gdk-pixbuf.h>
 
 #define GCR_API_SUBJECT_TO_CHANGE
+#ifdef WITH_GCR3
 #include <gcr/gcr.h>
+#else
+#include <gcr-gtk3/gcr-gtk3.h>
+#endif
 #undef GCR_API_SUBJECT_TO_CHANGE
 
 #include "shell/e-shell.h"
@@ -3536,7 +3540,7 @@ init_certs (EContactEditor *editor)
 	GtkTreeViewColumn *column;
 	GtkTreeSelection *selection;
 	GtkCellRenderer *renderer;
-	GcrCertificateWidget *certificate_widget;
+	GtkWidget *certificate_widget;
 	GtkWidget *widget;
 
 	tree_view = GTK_TREE_VIEW (e_builder_get_widget (editor->priv->builder, "certs-treeview"));
@@ -3568,10 +3572,10 @@ init_certs (EContactEditor *editor)
 
 	gtk_tree_view_set_model (tree_view, GTK_TREE_MODEL (list_store));
 
-	certificate_widget = gcr_certificate_widget_new (NULL);
-	gtk_widget_show (GTK_WIDGET (certificate_widget));
+	certificate_widget = GTK_WIDGET (gcr_certificate_widget_new (NULL));
+	gtk_widget_show (certificate_widget);
 	widget = e_builder_get_widget (editor->priv->builder, "cert-preview-scw");
-	gtk_container_add (GTK_CONTAINER (widget), GTK_WIDGET (certificate_widget));
+	gtk_container_add (GTK_CONTAINER (widget), certificate_widget);
 
 	selection = gtk_tree_view_get_selection (tree_view);
 	gtk_tree_selection_set_mode (selection, GTK_SELECTION_SINGLE);
