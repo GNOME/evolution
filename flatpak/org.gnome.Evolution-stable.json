@@ -32,6 +32,7 @@
 		"--filesystem=xdg-config/gnupg:rw",
 		"--filesystem=~/.pki:rw",
 		"--filesystem=xdg-config/pki:rw",
+		"--filesystem=xdg-run/gvfsd:rw",
 		"--filesystem=/run/.heim_org.h5l.kcm-socket",
 		"--metadata=X-DConf=migrate-path=/org/gnome/evolution/",
 		"--talk-name=org.freedesktop.Notifications",
