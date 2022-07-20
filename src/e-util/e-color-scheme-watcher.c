@@ -215,6 +215,13 @@ e_color_scheme_watcher_sync_theme (EColorSchemeWatcher *self)
 			if (self->color_scheme == E_COLOR_SCHEME_PREFER_DARK &&
 			    e_color_scheme_watcher_check_theme_exists (theme_name, "dark")) {
 				new_theme_name = g_strconcat (theme_name, "-dark", NULL);
+				/* Verify whether the newly constructed name can be used; otherwise the theme
+				   supports the dark variant with the original name. */
+				if (!e_color_scheme_watcher_check_theme_exists (new_theme_name, NULL)) {
+					g_free (new_theme_name);
+					new_theme_name = theme_name;
+					theme_name = NULL;
+				}
 			} else if (suffix_cut && e_color_scheme_watcher_check_theme_exists (theme_name, NULL)) {
 				new_theme_name = theme_name;
 				theme_name = NULL;
