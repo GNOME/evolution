@@ -12,7 +12,7 @@ msgstr ""
 "Project-Id-Version: evolution\n"
 "Report-Msgid-Bugs-To: https://gitlab.gnome.org/GNOME/evolution/issues\n"
 "POT-Creation-Date: 2022-07-22 11:36+0000\n"
-"PO-Revision-Date: 2022-07-22 16:52+0430\n"
+"PO-Revision-Date: 2022-07-22 17:08+0430\n"
 "Last-Translator: Danial Behzadi <dani.behzi@ubuntu.com>\n"
 "Language-Team: Persian <>\n"
 "Language: fa\n"
@@ -10431,32 +10431,24 @@ msgid "An error occurred while saving to your Outbox folder."
 msgstr "هنگام ذخیره به شاخهٔ صندوق خروجی‌تان خطایی رخ داد."
 
 #: ../src/composer/mail-composer.error.xml.h:28
-#, fuzzy
-#| msgid "The reported error was &quot;{0}&quot;. The message has not been sent."
 msgid "The reported error was “{0}”. The message has not been sent."
-msgstr "خطای گزارش شده &quot;{0}&quot; بود. پیام ارسال نشد."
+msgstr "خطای گزارش شده «{0}» بود. پیام فرستاده نشد."
 
 #: ../src/composer/mail-composer.error.xml.h:29
 msgid "An error occurred while saving to your Drafts folder."
 msgstr "هنگام ذخیره به شاخهٔ پیش‌نویس‌هایتان خطایی رخ داد."
 
 #: ../src/composer/mail-composer.error.xml.h:30
-#, fuzzy
-#| msgid ""
-#| "The reported error was &quot;{0}&quot;. The message has most likely not been "
-#| "saved."
 msgid "The reported error was “{0}”. The message has most likely not been saved."
-msgstr "خطای گزارش شده &quot;{0}&quot; بود. پیام به احتمال زیاد ارسال نشد."
+msgstr "خطای گزارش شده «{0}» بود. پیام به احتمال زیاد فرستاده نشد."
 
 #: ../src/composer/mail-composer.error.xml.h:31
 msgid "An error occurred while sending. How do you want to proceed?"
 msgstr "در هنگام ارسال خطایی رخ داد. می‌خواهید چگونه ادامه دهید؟"
 
 #: ../src/composer/mail-composer.error.xml.h:32 ../src/mail/mail.error.xml.h:178
-#, fuzzy
-#| msgid "The reported error was &quot;{0}&quot;."
 msgid "The reported error was “{0}”."
-msgstr "نمی‌توان شاخهٔ &quot;{0}&quot; را ایجاد کرد."
+msgstr "خطای گزارش شده «0» بود."
 
 #: ../src/composer/mail-composer.error.xml.h:33
 msgid "_Save to Outbox"
@@ -10476,25 +10468,18 @@ msgid "Saving message to Outbox."
 msgstr "در حال ذخیرهٔ پیام‌ها در صندوق خروجی."
 
 #: ../src/composer/mail-composer.error.xml.h:37
-#, fuzzy
-#| msgid ""
-#| "Because you are working offline, the message will be saved to your local Outbox "
-#| "folder. When you are back online you can send the message by clicking the Send/"
-#| "Receive button in Evolution's toolbar."
 msgid ""
 "The message will be saved to your local Outbox folder, because the destination "
 "service is currently unavailable. You can send the message by clicking the Send/"
 "Receive button in Evolution’s toolbar."
 msgstr ""
-"از آن‌جا که به صورت برون‌خط کار می‌کنید، پیام در شاخهٔ صندوق خروجی محلّی‌تان ذخیره خواهد "
-"شد. هنگامی که دوباره برخط شدید می‌توانید پیام را با کلیک روی دکمهٔ ارسال/دریافت در "
-"نوارابزار اوولوشن ارسال کنید."
+"از آن‌جا که خدمت مقصد در حال حاضر موجود نیست، پیام در شاخهٔ صندوق خروجی محلّی‌تان "
+"ذخیره خواهد شد. می‌توانید با کلیک روی دکمهٔ ارسال/دریافت در نوارابزار اوولوشن پیام "
+"را ارسال کنید."
 
 #: ../src/composer/mail-composer.error.xml.h:38
-#, fuzzy
-#| msgid "Are you sure you want to open {0} messages at once?"
 msgid "Are you sure you want to send the message?"
-msgstr "آیا مطمينید که می‌خواهید {0} پیام را یک دفعه باز کنید؟"
+msgstr "مطمئنید می‌خواهید پیام را بفرستید؟"
 
 #: ../src/composer/mail-composer.error.xml.h:39
 msgid ""
@@ -10505,10 +10490,8 @@ msgstr ""
 "شده، فرستادن پیام را لغو کنید."
 
 #: ../src/composer/mail-composer.error.xml.h:41
-#, fuzzy
-#| msgid "Are you sure you want to delete these contacts?"
 msgid "Are you sure you want to change the composer format?"
-msgstr "آیا مطمئنید که می‌خواهید این آشنا‌یان را حذف کنید؟"
+msgstr "مطمئنید می‌خواهید قالب ایجادگر را تغییر دهید؟"
 
 #: ../src/composer/mail-composer.error.xml.h:42
 msgid ""
@@ -10523,16 +10506,12 @@ msgid "_Don’t lose formatting"
 msgstr "از دست ندادن _قالب‌بندی"
 
 #: ../src/composer/mail-composer.error.xml.h:44
-#, fuzzy
-#| msgid "Free/Busy Information"
 msgid "Lose _formatting"
-msgstr "اطلاعات آزاد/مشغول"
+msgstr "_قالب بندی آزاد"
 
 #: ../src/composer/mail-composer.error.xml.h:45
-#, fuzzy
-#| msgid "An error occurred while saving to your Drafts folder."
 msgid "An error occurred while saving to your Templates folder."
-msgstr "هنگام ذخیره به شاخهٔ پیش‌نویس‌هایتان خطایی رخ داد."
+msgstr "هنگام ذخیره به شاخهٔ قالب‌هایتان خطایی رخ داد."
 
 #: ../src/composer/mail-composer.error.xml.h:46
 msgid "Are you sure you want to convert the message into a meeting?"
@@ -10588,25 +10567,18 @@ msgid "Something has gone wrong when editing the message"
 msgstr "چیزی هنگام ویرایش پیام اشتباه پیش رفت"
 
 #: ../src/composer/mail-composer.error.xml.h:57
-#, fuzzy
-#| msgid ""
-#| "A WebKitWebProcess crashed when displaying the memo. You can try again by "
-#| "moving to another memo and back. If the issue persists, please file a bug "
-#| "report in GNOME Gitlab."
 msgid ""
 "A WebKitWebProcess crashed when editing the message. You can try again by closing "
 "the composer window and opening a new one. If the issue persists, please file a "
 "bug report in GNOME GitLab."
 msgstr ""
-"هنگام نمایش یادداشت، یک WebKitWebProcess فروپاشید. می‌توانید با رفتن به یادداشتی "
-"دیگر و بازگشت، دوباره تلاش کنید. اگر مشکل پابرجا بود، لطفاً در گیت‌لب گنوم، گزارش "
-"خطایی پر کنید."
+"هنگام نمایش پیام، یک WebKitWebProcess فروپاشید. می‌توانید با رفتن به یادداشتی دیگر "
+"و بازگشت، دوباره تلاش کنید. اگر مشکل پابرجا بود، لطفاً در گیت‌لب گنوم، گزارش خطایی "
+"پر کنید."
 
 #: ../src/composer/mail-composer.error.xml.h:58
-#, fuzzy
-#| msgid "An error occurred while saving to your Outbox folder."
 msgid "An error occurred while creating message composer."
-msgstr "هنگام ذخیره به شاخهٔ صندوق خروجی‌تان خطایی رخ داد."
+msgstr "هنگام ساخت ایجادگر پیام خطایی رخ داد."
 
 #: ../src/em-format/e-mail-formatter-attachment.c:317
 msgid "Toggle View Inline"
@@ -10661,16 +10633,12 @@ msgid "Display part as an image"
 msgstr "نمایش بخش به شکل یک تصویر"
 
 #: ../src/em-format/e-mail-formatter-message-rfc822.c:253
-#, fuzzy
-#| msgid "message"
 msgid "RFC822 message"
-msgstr "پیام"
+msgstr "پیام RFC822"
 
 #: ../src/em-format/e-mail-formatter-message-rfc822.c:254
-#, fuzzy
-#| msgid "Formatting message"
 msgid "Format part as an RFC822 message"
-msgstr "قالب‌بندی پیام"
+msgstr "قالب‌بندی بخش به شکل یک پیام RFC822"
 
 #: ../src/em-format/e-mail-formatter-print.c:50 ../src/e-util/e-webdav-browser.c:2501
 #: ../src/e-util/gal-view-instance-save-as-dialog.c:92
@@ -10722,10 +10690,8 @@ msgstr "HTML"
 
 #: ../src/em-format/e-mail-formatter-quote-text-html.c:94
 #: ../src/em-format/e-mail-formatter-text-html.c:390
-#, fuzzy
-#| msgid "Format messages in _HTML"
 msgid "Format part as HTML"
-msgstr "_قالب‌بندی پیام در HTML"
+msgstr "قالب‌بندی بخش به شکل HTML"
 
 #: ../src/em-format/e-mail-formatter-quote-text-plain.c:130
 #: ../src/em-format/e-mail-formatter-text-plain.c:196
@@ -10773,10 +10739,8 @@ msgid ""
 msgstr "نمی‌توان امضای این پیام را تأیید کرد، ممکن است در حین گذار تغییر کرده باشد."
 
 #: ../src/em-format/e-mail-formatter-secure-button.c:62
-#, fuzzy
-#| msgid "Valid signature but cannot verify sender"
 msgid "Valid signature, but cannot verify sender"
-msgstr "امضا معتبر است ولی تأیید فرستنده ممکن نیست"
+msgstr "امضا معتبر است؛ ولی نتوانست هویت فرستنده را تأیید کند"
 
 #: ../src/em-format/e-mail-formatter-secure-button.c:64
 msgid ""
@@ -10785,12 +10749,8 @@ msgid ""
 msgstr "پیام به امضای معتبری امضا شده است، اما تأیید فرستندهٔ پیام ممکن نیست."
 
 #: ../src/em-format/e-mail-formatter-secure-button.c:66
-#, fuzzy
-#| msgid ""
-#| "This message is signed with a valid signature, but the sender of the message "
-#| "cannot be verified."
 msgid "This message is signed, but the public key is not in your keyring"
-msgstr "پیام به امضای معتبری امضا شده است، اما تأیید فرستندهٔ پیام ممکن نیست."
+msgstr "پیام امضا شده؛ ولی کلید عمومی در دسته‌کلیدتان نیست"
 
 #: ../src/em-format/e-mail-formatter-secure-button.c:68
 msgid ""
@@ -10893,10 +10853,8 @@ msgid "Markdown Text"
 msgstr "متن مارک‌داون"
 
 #: ../src/em-format/e-mail-formatter-text-markdown.c:176
-#, fuzzy
-#| msgid "Format messages in _HTML"
 msgid "Format part as markdown text"
-msgstr "_قالب‌بندی پیام در HTML"
+msgstr "قالب‌بندی بخش به شکل متن مارک‌دون"
 
 #: ../src/em-format/e-mail-formatter-utils.c:214
 #: ../src/em-format/e-mail-formatter-utils.c:239
@@ -10923,40 +10881,32 @@ msgid "GPG signed"
 msgstr "امضاشده با GPG"
 
 #: ../src/em-format/e-mail-formatter-utils.c:583
-#, fuzzy
-#| msgid "Assigned"
 msgid "partially GPG signed"
-msgstr "تخصیص داده شده"
+msgstr "امضا شدهٔ جزیی با GPG"
 
 #: ../src/em-format/e-mail-formatter-utils.c:584
 msgid "GPG encrypted"
 msgstr "رمزشده با GPG"
 
 #: ../src/em-format/e-mail-formatter-utils.c:584
-#, fuzzy
-#| msgid "Unencrypted"
 msgid "partially GPG encrypted"
-msgstr "رمزنگاری نشده"
+msgstr "رمز شدهٔ جزیی با GPG"
 
 #: ../src/em-format/e-mail-formatter-utils.c:585
 msgid "S/MIME signed"
 msgstr "امضاشده با S/MIME"
 
 #: ../src/em-format/e-mail-formatter-utils.c:585
-#, fuzzy
-#| msgid "S/MIME Sign"
 msgid "partially S/MIME signed"
-msgstr "امضای S/MIME"
+msgstr "امضا شدهٔ جزیی با S/MIME"
 
 #: ../src/em-format/e-mail-formatter-utils.c:586
 msgid "S/MIME encrypted"
 msgstr "رمزشده با S/MIME"
 
 #: ../src/em-format/e-mail-formatter-utils.c:586
-#, fuzzy
-#| msgid "S/MIME Encrypt"
 msgid "partially S/MIME encrypted"
-msgstr "رمزنگاری S/MIME"
+msgstr "رمز شدهٔ جزیی با S/MIME"
 
 #: ../src/em-format/e-mail-formatter-utils.c:699
 #: ../src/mail/e-mail-config-security-page.c:865
@@ -10966,35 +10916,29 @@ msgid "Security"
 msgstr "امنیت"
 
 #: ../src/em-format/e-mail-parser-application-mbox.c:125
-#, fuzzy, c-format
-#| msgid "Error loading %s"
+#, c-format
 msgid "Error parsing MBOX part: %s"
-msgstr "خطا در بار کردن %s"
+msgstr "خطا در تجزیهٔ بخش MBOX: %s"
 
 #: ../src/em-format/e-mail-parser-application-smime.c:113
-#, fuzzy, c-format
-#| msgid "Could not parse S/MIME message: Unknown error"
+#, c-format
 msgid "Could not parse S/MIME message: %s"
-msgstr "تجزیهٔ پیام S/MIME ممکن نیست: خطای ناشناخته"
+msgstr "نتوانست پیام S/MIME را تجزیه کند: %s"
 
 #: ../src/em-format/e-mail-parser-inlinepgp-encrypted.c:76
-#, fuzzy, c-format
-#| msgid "Could not create message."
+#, c-format
 msgid "Could not parse PGP message: %s"
-msgstr "ایجاد پیام ممکن نیست."
+msgstr "نتوانست پیام PGP را تجزیه کند: %s"
 
 #: ../src/em-format/e-mail-parser-inlinepgp-signed.c:79
 #: ../src/em-format/e-mail-parser-multipart-signed.c:163
-#, fuzzy, c-format
-#| msgid "Error verifying signature"
+#, c-format
 msgid "Error verifying signature: %s"
-msgstr "خطا در تأیید امضا"
+msgstr "خطا در تأیید امضا: %s"
 
 #: ../src/em-format/e-mail-parser-message-external.c:66
-#, fuzzy
-#| msgid "Malformed header"
 msgid "Malformed external-body part"
-msgstr "سرنامهٔ معیوب"
+msgstr "بخش بدنهٔ خارجی بدریخت"
 
 #: ../src/em-format/e-mail-parser-message-external.c:99
 #, c-format
@@ -11002,8 +10946,7 @@ msgid "Pointer to FTP site (%s)"
 msgstr "اشاره‌گر به سایت FTP (%s)"
 
 #: ../src/em-format/e-mail-parser-message-external.c:110
-#, fuzzy, c-format
-#| msgid "Pointer to local file (%s) valid at site \"%s\""
+#, c-format
 msgid "Pointer to local file (%s) valid at site “%s”"
 msgstr "اشاره‌گر به پروندهٔ محلی (%s) معتبر در پایگاه «%s»"
 
@@ -11018,8 +10961,7 @@ msgid "Pointer to remote data (%s)"
 msgstr "اشاره‌گر به دادهٔ دوردست (%s)"
 
 #: ../src/em-format/e-mail-parser-message-external.c:149
-#, fuzzy, c-format
-#| msgid "Pointer to unknown external data (\"%s\" type)"
+#, c-format
 msgid "Pointer to unknown external data (“%s” type)"
 msgstr "اشاره‌گر به دادهٔ خارجی نامعلوم (نوع «%s»)"
 
@@ -11033,10 +10975,9 @@ msgid "Unsupported encryption type for multipart/encrypted"
 msgstr "رمزنگاری پشتیبانی نشده برای multipart/encrypted"
 
 #: ../src/em-format/e-mail-parser-multipart-encrypted.c:108
-#, fuzzy, c-format
-#| msgid "Could not parse S/MIME message: Unknown error"
+#, c-format
 msgid "Could not parse PGP/MIME message: %s"
-msgstr "تجزیهٔ پیام S/MIME ممکن نیست: خطای ناشناخته"
+msgstr "نتوانست پیام PGP/MIME را تجزیه کند: %s"
 
 #: ../src/em-format/e-mail-parser-multipart-signed.c:149
 msgid "Unsupported signature format"
@@ -11062,10 +11003,9 @@ msgid "Face"
 msgstr "صورت"
 
 #: ../src/em-format/e-mail-part-secure-button.c:96
-#, fuzzy, c-format
-#| msgid "Failed to authenticate.\n"
+#, c-format
 msgid "Failed to import certificate: %s"
-msgstr "تأیید هویت شکست خورد.\n"
+msgstr "شکست در دورن‌ریزی گواهی: %s"
 
 #: ../src/em-format/e-mail-part-utils.c:634
 #, c-format
@@ -11224,10 +11164,8 @@ msgid "_Dismiss"
 msgstr "رها کردن"
 
 #: ../src/e-util/e-alert-sink.c:244
-#, fuzzy
-#| msgid "Failed to create local mail storage `%s': %s"
 msgid "Failed to create a thread: "
-msgstr "ایجاد حافظهٔ نامهٔ محلی «%s» شکست خورد: %s"
+msgstr "شکست در ایجاد یک رشته: "
 
 #. To Translators: This text is set as a description of an attached
 #. * message when, for example, attaching it to a composer. When the
@@ -11266,22 +11204,18 @@ msgid "Could not open the attachment"
 msgstr "امکان گشودن پیوست وجود ندارد"
 
 #: ../src/e-util/e-attachment.c:3503
-#, fuzzy
-#| msgid "An attachment to add."
 msgid "Attachment contents not loaded"
-msgstr "پیوست برای افزودن."
+msgstr "محتوای پیوست بار نشد"
 
 #: ../src/e-util/e-attachment.c:3594
-#, fuzzy, c-format
-#| msgid "Could not lock '%s'"
+#, c-format
 msgid "Could not save “%s”"
-msgstr "قفل کردن «%s» ممکن نیست"
+msgstr "نتوانست «%s» را ذخیره کند"
 
 #: ../src/e-util/e-attachment.c:3597
-#, fuzzy, c-format
-#| msgid "Content type of the attachment."
+#, c-format
 msgid "Could not save the attachment"
-msgstr "نوع محتویات پیوست"
+msgstr "نتوانست پیوست را ذخیره کند"
 
 #: ../src/e-util/e-attachment-dialog.c:295
 msgid "Attachment Properties"
@@ -11303,16 +11237,12 @@ msgid "MIME Type:"
 msgstr "نوع MIME:"
 
 #: ../src/e-util/e-attachment-dialog.c:360 ../src/e-util/e-attachment-store.c:700
-#, fuzzy
-#| msgid "Suggest automatic display of attachment"
 msgid "_Suggest automatic display of attachment"
-msgstr "پیشنهاد نمایش خودکار پیوست"
+msgstr "_پیشنهاد نمایش خودکار پیوست"
 
 #: ../src/e-util/e-attachment-handler-image.c:96
-#, fuzzy
-#| msgid "Set as _Background"
 msgid "Could not set as background"
-msgstr "تنظیم به عنوان پس زمینه"
+msgstr "نتوانست به عنوان پس زمینه تنظیم کند"
 
 #: ../src/e-util/e-attachment-handler-image.c:146
 msgid "Set as _Background"
@@ -12462,16 +12392,12 @@ msgid "any of the following conditions"
 msgstr "هریک از شرایط زیر"
 
 #: ../src/e-util/e-filter-rule.c:1072
-#, fuzzy
-#| msgid "Find items:"
 msgid "_Find items which match:"
-msgstr "پیدا کردن موارد:"
+msgstr "_یافتن موارد مطابق:"
 
 #: ../src/e-util/e-filter-rule.c:1095
-#, fuzzy
-#| msgid "Please select among the following options"
 msgid "Find items that meet the following conditions"
-msgstr "لطفاً از گزینه‌های زیر انتخاب کنید"
+msgstr "یافتن موارد مطابق با شرایط زیر"
 
 #. Translators: "None" for not including threads;
 #. * part of "Include threads: None"
@@ -12503,10 +12429,8 @@ msgid "No reply or parent"
 msgstr "بدون پاسخ یا والد"
 
 #: ../src/e-util/e-filter-rule.c:1117
-#, fuzzy
-#| msgid "Include threads"
 msgid "I_nclude threads:"
-msgstr "حاوی رشته‌ها باشد"
+msgstr "_شامل رشته‌ها"
 
 #: ../src/e-util/e-filter-rule.c:1195
 msgid "A_dd Condition"
@@ -12583,16 +12507,12 @@ msgid "Try a different search"
 msgstr "یک جست‌وجوی دیگر را امتحان کنید"
 
 #: ../src/e-util/e-html-editor-actions.c:81
-#, fuzzy
-#| msgid "failed to open book"
 msgid "Failed to insert HTML file."
-msgstr "گشودن دفترچه شکست خورد"
+msgstr "شکست در درج پروندهٔ HTML"
 
 #: ../src/e-util/e-html-editor-actions.c:119
-#, fuzzy
-#| msgid "Failed to authenticate.\n"
 msgid "Failed to insert text file."
-msgstr "تأیید هویت شکست خورد.\n"
+msgstr "شکست در درج پروندهٔ متنی"
 
 #: ../src/e-util/e-html-editor-actions.c:393
 msgid "Insert HTML File"
@@ -12623,22 +12543,16 @@ msgid "Text file"
 msgstr "پروندهٔ متنی"
 
 #: ../src/e-util/e-html-editor-actions.c:1128
-#, fuzzy
-#| msgid "Copy selected events to the clipboard"
 msgid "Copy selected text to the clipboard"
-msgstr "رونوشت از رویدادهای گزیده در تخته‌گیره"
+msgstr "رونوشت متن گزیده در تخته‌گیره"
 
 #: ../src/e-util/e-html-editor-actions.c:1135
-#, fuzzy
-#| msgid "Cut selected events to the clipboard"
 msgid "Cut selected text to the clipboard"
-msgstr "بریدن رویدادهای گزیده و انتقال آن به تخته‌گیره"
+msgstr "برش متن گزیده در تخته‌گیره"
 
 #: ../src/e-util/e-html-editor-actions.c:1142
-#, fuzzy
-#| msgid "Paste events from the clipboard"
 msgid "Paste text from the clipboard"
-msgstr "چسباندن رویدادها از تخته‌گیره"
+msgstr "جای‌گذاری متن از تخته‌گیره"
 
 #: ../src/e-util/e-html-editor-actions.c:1149
 msgid "Redo the last undone action"
@@ -12802,20 +12716,16 @@ msgid "Markdown editing mode"
 msgstr "حالت ویرایش مارک‌داون"
 
 #: ../src/e-util/e-html-editor-actions.c:1368
-#, fuzzy
-#| msgid "Plain Text Mode"
 msgid "Ma_rkdown as Plain Text"
-msgstr "حالت متن ساده"
+msgstr "مارک‌دون به شکل _متن خام"
 
 #: ../src/e-util/e-html-editor-actions.c:1370
 msgid "Markdown editing mode, exported as Plain Text"
 msgstr "حالت ویرایش مارک‌دون. برون‌ریخته به شکل متن خام"
 
 #: ../src/e-util/e-html-editor-actions.c:1375
-#, fuzzy
-#| msgid "Plain Text Mode"
 msgid "Mar_kdown as HTML"
-msgstr "حالت متن ساده"
+msgstr "مارک‌دون به شکل _HTML"
 
 #: ../src/e-util/e-html-editor-actions.c:1377
 msgid "Markdown editing mode, exported as HTML"
@@ -12960,20 +12870,16 @@ msgid "Strikethrough"
 msgstr "خط‌خورده"
 
 #: ../src/e-util/e-html-editor-actions.c:1610
-#, fuzzy
-#| msgid "S_cript:"
 msgid "Subs_cript"
-msgstr "_کدنوشته:"
+msgstr "_زیرنوشته"
 
 #: ../src/e-util/e-html-editor-actions.c:1612
 msgid "Subscript"
 msgstr "زیرنویسه"
 
 #: ../src/e-util/e-html-editor-actions.c:1618
-#, fuzzy
-#| msgid "S_cript:"
 msgid "Su_perscript"
-msgstr "_کدنوشته:"
+msgstr "_بالانوشته"
 
 #: ../src/e-util/e-html-editor-actions.c:1620
 msgid "Superscript"
@@ -13024,26 +12930,20 @@ msgid "+4"
 msgstr "+۴"
 
 #: ../src/e-util/e-html-editor-actions.c:1705
-#, fuzzy
-#| msgid "_Copy Link Location"
 msgid "Copy _Link Location"
-msgstr "_رونوشت از مکان پیوند"
+msgstr "رونوشت از مکان _پیوند"
 
 #: ../src/e-util/e-html-editor-actions.c:1707 ../src/e-util/e-web-view.c:408
-#, fuzzy
-#| msgid "Copy selection to clipboard"
 msgid "Copy the link to the clipboard"
-msgstr "رونوشت از متن گزیده در تخته‌گیره"
+msgstr "رونوشت پیوند در تخته‌گیره"
 
 #: ../src/e-util/e-html-editor-actions.c:1712 ../src/e-util/e-web-view.c:416
 msgid "_Open Link in Browser"
 msgstr "_گشودن پیوند در مرورگر"
 
 #: ../src/e-util/e-html-editor-actions.c:1714 ../src/e-util/e-web-view.c:418
-#, fuzzy
-#| msgid "_Open Link in Browser"
 msgid "Open the link in a web browser"
-msgstr "_گشودن پیوند در مرورگر"
+msgstr "گشودن پیوند در یک مرورگر وب"
 
 #: ../src/e-util/e-html-editor-actions.c:1719
 msgid "Cell Contents"
