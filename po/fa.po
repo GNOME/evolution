@@ -12,7 +12,7 @@ msgstr ""
 "Project-Id-Version: evolution\n"
 "Report-Msgid-Bugs-To: https://gitlab.gnome.org/GNOME/evolution/issues\n"
 "POT-Creation-Date: 2022-07-22 11:36+0000\n"
-"PO-Revision-Date: 2022-07-22 17:08+0430\n"
+"PO-Revision-Date: 2022-07-23 02:03+0430\n"
 "Last-Translator: Danial Behzadi <dani.behzi@ubuntu.com>\n"
 "Language-Team: Persian <>\n"
 "Language: fa\n"
@@ -8039,7 +8039,7 @@ msgstr "گشودن دفترچه تلفن ممکن نیست، رویداد جدی
 
 #: ../src/calendar/gui/itip-utils.c:1491
 msgid "Unable to book a resource, error: "
-msgstr "ناتوان در رزرو یک منبع. خطا:"
+msgstr "ناتوان در رزرو یک منبع. خطا: "
 
 #: ../src/calendar/gui/itip-utils.c:1685
 msgid "You must be an attendee of the event."
@@ -10370,7 +10370,7 @@ msgstr "نتوانست در پروندهٔ ذخیرهٔ خودکار «{0}» ذ�
 
 #: ../src/composer/mail-composer.error.xml.h:12
 msgid "Error saving to autosave because “{1}”."
-msgstr "خطا در ذخیرهٔ خودکار به خاطر «{1}».‏"
+msgstr "خطا در ذخیرهٔ خودکار به خاطر «{1}»."
 
 #: ../src/composer/mail-composer.error.xml.h:13
 msgid ""
@@ -12430,7 +12430,7 @@ msgstr "بدون پاسخ یا والد"
 
 #: ../src/e-util/e-filter-rule.c:1117
 msgid "I_nclude threads:"
-msgstr "_شامل رشته‌ها"
+msgstr "_شامل رشته‌ها:"
 
 #: ../src/e-util/e-filter-rule.c:1195
 msgid "A_dd Condition"
@@ -12508,11 +12508,11 @@ msgstr "یک جست‌وجوی دیگر را امتحان کنید"
 
 #: ../src/e-util/e-html-editor-actions.c:81
 msgid "Failed to insert HTML file."
-msgstr "شکست در درج پروندهٔ HTML"
+msgstr "شکست در درج پروندهٔ HTML."
 
 #: ../src/e-util/e-html-editor-actions.c:119
 msgid "Failed to insert text file."
-msgstr "شکست در درج پروندهٔ متنی"
+msgstr "شکست در درج پروندهٔ متنی."
 
 #: ../src/e-util/e-html-editor-actions.c:393
 msgid "Insert HTML File"
@@ -13107,10 +13107,8 @@ msgid "Font Color"
 msgstr "رنگ قلم"
 
 #: ../src/e-util/e-html-editor.c:997
-#, fuzzy
-#| msgid "_Background:"
 msgid "Background Color"
-msgstr "_پس‌زمینه:"
+msgstr "رنگ پس‌زمینه"
 
 #: ../src/e-util/e-html-editor.c:1007
 msgid "Font Size"
@@ -13121,10 +13119,8 @@ msgid "Font Name"
 msgstr "نام قلم"
 
 #: ../src/e-util/e-html-editor.c:2131
-#, fuzzy
-#| msgid "Failed to authenticate.\n"
 msgid "Failed to obtain content of editor"
-msgstr "تأیید هویت شکست خورد.\n"
+msgstr "شکست در دریافت محتوای ویرایشگر"
 
 #: ../src/e-util/e-html-editor-cell-dialog.c:408
 msgid "<b>Scope</b>"
@@ -13605,10 +13601,8 @@ msgid "File _type:"
 msgstr "_گونهٔ پرونده:"
 
 #: ../src/e-util/e-import-assistant.c:355
-#, fuzzy
-#| msgid "Preview"
 msgid "Pre_view:"
-msgstr "پیش‌نمایش"
+msgstr "_پیش‌نمایش:"
 
 #: ../src/e-util/e-import-assistant.c:390 ../src/e-util/e-import-assistant.c:1008
 msgid "Choose the destination for this import"
@@ -13675,39 +13669,29 @@ msgid "Import Location"
 msgstr "وارد کردن مکان"
 
 #: ../src/e-util/e-import-assistant.c:1418
-#, fuzzy
-#| msgid ""
-#| "Welcome to the Evolution Import Assistant.\n"
-#| "With this assistant you will be guided through the process of\n"
-#| "importing external files into Evolution."
 msgid ""
 "Welcome to the Evolution Import Assistant.\n"
 "With this assistant you will be guided through the process of importing external "
 "files into Evolution."
 msgstr ""
-"به دستیار ورود اوولوشن خوش آمدید.\n"
-"این دستیار به شما کمک می‌کند داده‌های خارجی\n"
-"به اوولوشن وارد کنید."
+"به دستیار درون‌ریزی اوولوشن خوش آمدید.\n"
+"این دستیار در فرایند درون‌ریزی پرونده‌های خارجی به اولوشن کمکتان می‌کند."
 
 #: ../src/e-util/e-import-assistant.c:1435
 msgid "Importer Type"
 msgstr "گونهٔ درون‌ریز"
 
 #: ../src/e-util/e-import-assistant.c:1445
-#, fuzzy
-#| msgid "Select folder to import into"
 msgid "Select Information to Import"
-msgstr "انتخاب شاخه برای وارد کردن به"
+msgstr "گزینش اطّلاعات برای درون‌ریزی"
 
 #: ../src/e-util/e-import-assistant.c:1454
 msgid "Select a File"
 msgstr "گزینش یک پرونده"
 
 #: ../src/e-util/e-import-assistant.c:1471
-#, fuzzy
-#| msgid "Click \"Import\" to begin importing the file into Evolution. "
 msgid "Click “Apply” to begin importing the file into Evolution."
-msgstr "برای شروع وارد کردن پرونده در اوولوشن روی «وارد کردن» کلیک کنید. "
+msgstr "کلیک روی «اعمال» برتی آغاز درون‌ریزی پرونده در اولوشن."
 
 #. Translators: This is part of
 #: ../src/e-util/e-interval-chooser.c:140 ../src/e-util/filter.ui.h:6
@@ -13737,14 +13721,10 @@ msgid "Close"
 msgstr "بستن"
 
 #: ../src/e-util/e-mail-signature-editor.c:335 ../src/mail/e-mail-notes.c:1111
-#, fuzzy
-#| msgid "Save and Close"
 msgid "_Save and Close"
-msgstr "ذخیره و بستن"
+msgstr "_ذخیره و بستن"
 
 #: ../src/e-util/e-mail-signature-editor.c:573
-#, fuzzy
-#| msgid "Edit signature"
 msgid "Edit Signature"
 msgstr "ویرایش امضا"
 
@@ -13757,31 +13737,22 @@ msgid "Add _Script"
 msgstr "افزودن _کدنوشته"
 
 #: ../src/e-util/e-mail-signature-manager.c:438
-#, fuzzy
-#| msgid "Add signature script"
 msgid "Add Signature Script"
 msgstr "افزودن کدنوشتهٔ امضا"
 
 #: ../src/e-util/e-mail-signature-manager.c:532
-#, fuzzy
-#| msgid "Add signature script"
 msgid "Edit Signature Script"
-msgstr "افزودن کدنوشتهٔ امضا"
+msgstr "ویرایش کدنوشتهٔ امضا"
 
 #: ../src/e-util/e-mail-signature-script-dialog.c:386
-#, fuzzy
-#| msgid ""
-#| "The output of this script will be used as your\n"
-#| "signature. The name you specify will be used\n"
-#| "for display purposes only. "
 msgid ""
 "The output of this script will be used as your\n"
 "signature. The name you specify will be used\n"
 "for display purposes only."
 msgstr ""
-"خروجی این اسکریپت به عنوان امضای شما\n"
-"به کار خواهد رفت. نامی که مشخص می‌کنید تنها\n"
-"مصارف نمایشی خواهد داشت."
+"خروجی این کدنوشته به عنوان امضایتان استفاده\n"
+"واهد شد. نامی که مشخّص می‌کنید تنها مصارف\n"
+"نمایشی خواهد داشت."
 
 #: ../src/e-util/e-mail-signature-script-dialog.c:437
 msgid "S_cript:"
@@ -13796,16 +13767,12 @@ msgid "World Map"
 msgstr "تقشهٔ جهان"
 
 #: ../src/e-util/e-map.c:886
-#, fuzzy
-#| msgid ""
-#| "Mouse-based interactive map widget for selecting timezone. Keyboard users "
-#| "should select the timezone from the below combo box instead."
 msgid ""
 "Mouse-based interactive map widget for selecting timezone. Keyboard users should "
 "instead select the timezone from the drop-down combination box below."
 msgstr ""
-"ویجت نقشهٔ تعاملی بر اساس موشی برای انتخاب منطقهٔ زمانی. کاربرانی که فقط صفحه‌کلید "
-"دارند باید منطقهٔ زمانی را از فهرست زیر انتخاب کنند."
+"ابزارک نقشهٔ تعاملی مبتنی بر موشی برای گزینش ناحیهٔ زمانی. کاربران صفحه‌کلید دارند "
+"باید به جایش ناحیهٔ زمانی را از جعبهٔ ترکیبی پایین‌افتادنی زیر برگزینند."
 
 #: ../src/e-util/e-markdown-editor.c:1456
 msgid "Add bold text"
@@ -13828,10 +13795,8 @@ msgid "Add a link"
 msgstr "افزودن یک پیوند"
 
 #: ../src/e-util/e-markdown-editor.c:1461
-#, fuzzy
-#| msgid "Add Label"
 msgid "Add a bullet list"
-msgstr "افزودن برچسب"
+msgstr "افزودن یک سیاههٔ گلوله‌ای"
 
 #: ../src/e-util/e-markdown-editor.c:1462
 msgid "Add a numbered list"
@@ -13867,28 +13832,24 @@ msgid "Could not display help for Evolution."
 msgstr "نمی‌توان راهنما را برای اوولوشن نشان داد."
 
 #: ../src/e-util/e-misc-utils.c:2606
-#, fuzzy, c-format
-#| msgid "Opening calendar"
+#, c-format
 msgid "Opening calendar “%s”"
-msgstr "در حال گشودن تقویم"
+msgstr "گشودن تقویم «%s»"
 
 #: ../src/e-util/e-misc-utils.c:2609
-#, fuzzy, c-format
-#| msgid "Opening memos at %s"
+#, c-format
 msgid "Opening memo list “%s”"
-msgstr "در حال گشودن یادداشت‌ها %s"
+msgstr "گشودن سیاههٔ یادداشت‌های «%s»"
 
 #: ../src/e-util/e-misc-utils.c:2612
-#, fuzzy, c-format
-#| msgid "Opening tasks at %s"
+#, c-format
 msgid "Opening task list “%s”"
-msgstr "در حال بار کردن تکلیف‌ها %s"
+msgstr "گشودن سیاههٔ تکلیف «%s»"
 
 #: ../src/e-util/e-misc-utils.c:2615
-#, fuzzy, c-format
-#| msgid "evolution address book"
+#, c-format
 msgid "Opening address book “%s”"
-msgstr "دفترچه تلفن اوولوشن"
+msgstr "گشودن دفترچه نشانی «%s»"
 
 #: ../src/e-util/e-misc-utils.c:3488
 #: ../src/modules/mailto-handler/evolution-mailto-handler.c:146
@@ -13909,23 +13870,17 @@ msgid "Failed to set protocol version to LDAPv3 (%d): %s"
 msgstr "شکست در تنظیم نگارش شیوه‌نامه به LDAPv3 (%Id): %s"
 
 #: ../src/e-util/e-misc-utils.c:4179
-#, fuzzy, c-format
-#| msgid "Failed to execute gpg: %s"
+#, c-format
 msgid "Failed to use STARTTLS (%d): %s"
-msgstr "اجرای gpg شکست خورد: %s"
+msgstr "شکست در استفاده از STARTTLS (%Id): %s"
 
 #: ../src/e-util/e-misc-utils.c:4192
-#, fuzzy, c-format
-#| msgid "Failed to authenticate with LDAP server."
+#, c-format
 msgid "Failed to authenticate with LDAP server (%d): %s"
-msgstr "تأیید هویت با کارساز LDAP شکست خورد."
+msgstr "شکست در تأیید هویت با کارساز LDAP (%Id): %s"
 
 #: ../src/e-util/e-misc-utils.c:4206
-#, fuzzy, c-format
-#| msgid ""
-#| "This LDAP server may use an older version of LDAP, which does not support this "
-#| "functionality or it may be misconfigured. Ask your administrator for supported "
-#| "search bases."
+#, c-format
 msgid ""
 "This LDAP server may use an older version of LDAP, which does not support this "
 "functionality or it may be misconfigured. Ask your administrator for supported "
@@ -13933,8 +13888,11 @@ msgid ""
 "\n"
 "Detailed error (%d): %s"
 msgstr ""
-"این کارساز LDAP ممکن است نسخهٔ قدیمی‌تری از LDAP را به کار ببرد، که از این امکانات "
-"پشتیبانی نمی‌کند یا شاید غلط پیکربندی شده باشد. "
+"ممکن است این کارساز LDAP از نگارشی قدیمی‌تر از LDAP استفاده کند که از این ویژگی "
+"پشتیبانی نمی‌کند یا شاید اشتیاه پیکربندی شده باشد. پایه‌های جیت‌وجوی پشتیبانی شده را "
+"از مدیرتان بپرسیدو\n"
+"\n"
+"خطای با جزییات (%Id): %s"
 
 #: ../src/e-util/e-misc-utils.c:4217
 msgid ""
@@ -13966,26 +13924,22 @@ msgid "%s (%s)"
 msgstr "%s (%s)"
 
 #: ../src/e-util/e-misc-utils.c:4760
-#, fuzzy, c-format
-#| msgid "Click to mail %s"
+#, c-format
 msgid "Click to call %s"
-msgstr "برای فرستادن نامه به %s کلیک کنید"
+msgstr "کلیک برای تماس با %s"
 
 #: ../src/e-util/e-misc-utils.c:4762
 msgid "Click to hide/unhide addresses"
 msgstr "کلیک برای نهفتن/آشکارسازی نشانی‌ها"
 
 #: ../src/e-util/e-misc-utils.c:4775
-#, fuzzy, c-format
-#| msgid "Enter the recipients of the message"
+#, c-format
 msgid "Go to the section %s of the message"
-msgstr "گیرنده‌های پیام را وارد کنید"
+msgstr "رفتن به بخش %s پیام"
 
 #: ../src/e-util/e-misc-utils.c:4777
-#, fuzzy
-#| msgid "Enter the recipients of the message"
 msgid "Go to the beginning of the message"
-msgstr "گیرنده‌های پیام را وارد کنید"
+msgstr "رفتن به ابتدای پیام"
 
 #: ../src/e-util/e-misc-utils.c:4783
 #, c-format
@@ -14032,10 +13986,9 @@ msgstr "گزینش آشناها از دفترچه تلفن"
 
 #. To Translators: This would be similiar to "Expand MyList Inline" where MyList is a Contact List
 #: ../src/e-util/e-name-selector-entry.c:3222
-#, fuzzy, c-format
-#| msgid "E_xpand All Threads"
+#, c-format
 msgid "E_xpand %s Inline"
-msgstr "_گشودن همهٔ رشته‌ها"
+msgstr "_گسترش درخط %s"
 
 #. Copy Contact Item
 #: ../src/e-util/e-name-selector-entry.c:3238
@@ -14061,22 +14014,16 @@ msgid "_Delete %s"
 msgstr "_حذف %s"
 
 #: ../src/e-util/e-online-button.c:30
-#, fuzzy
-#| msgid "Evolution is currently online. Click on this button to work offline."
 msgid "Evolution is currently online.  Click this button to work offline."
-msgstr "اوولوشن در حال حاضر برخط است. برای برون‌خط کار کردن روی این دکمه کلیک کنید."
+msgstr "اوولوشن در حال حاضر برخط است.  برای برون‌خط کار کردن روی این دکمه کلیک کنید."
 
 #: ../src/e-util/e-online-button.c:33
-#, fuzzy
-#| msgid "Evolution is currently offline. Click on this button to work online."
 msgid "Evolution is currently offline.  Click this button to work online."
-msgstr "اوولوشن در حال حاضر برون‌خط است. برای برخط کار کردن روی این دکمه کلیک کنید."
+msgstr "اوولوشن در حال حاضر برون‌خط است.  برای برخط کار کردن روی این دکمه کلیک کنید."
 
 #: ../src/e-util/e-online-button.c:36
-#, fuzzy
-#| msgid "Evolution is currently offline. Click on this button to work online."
 msgid "Evolution is currently offline because the network is unavailable."
-msgstr "اوولوشن در حال حاضر برون‌خط است. برای برخط کار کردن روی این دکمه کلیک کنید."
+msgstr "اوولوشن در حال حاضر برون‌خط است؛ چرا که شبکه موجود نیست."
 
 #: ../src/e-util/e-passwords.c:131
 msgid "Keyring key is unusable: no user or host name"
@@ -14087,16 +14034,12 @@ msgid "You have the Caps Lock key on."
 msgstr "قفل تبدیلتان روشن است."
 
 #: ../src/e-util/e-passwords.c:583
-#, fuzzy
-#| msgid "_Remember this password"
 msgid "_Remember this passphrase"
-msgstr "به _خاطر سپردن این گذرواژه"
+msgstr "_به یاد سپردن این عبارت عبور"
 
 #: ../src/e-util/e-passwords.c:584
-#, fuzzy
-#| msgid "_Remember this password for the remainder of this session"
 msgid "_Remember this passphrase for the remainder of this session"
-msgstr "به _خاطر سپردن این گذرواژه برای بقیهٔ این نشست"
+msgstr "_به یاد سپردن این عبارت عبور برای بقیهٔ این نشست"
 
 #: ../src/e-util/e-passwords.c:589
 msgid "_Remember this password"
@@ -14423,10 +14366,8 @@ msgid "Use a secure connection"
 msgstr "استفاده از یک اتّصال امن"
 
 #: ../src/e-util/e-source-config.c:1513
-#, fuzzy
-#| msgid "Imported Certificate"
 msgid "Unset _trust for SSL/TLS certificate"
-msgstr "گواهی وارد شده"
+msgstr "ناتنظیم _اعتماد برای گواهی SSL/TLS"
 
 #: ../src/e-util/e-source-config.c:1549
 msgid "User:"
@@ -14485,147 +14426,97 @@ msgid "Spelling Suggestions"
 msgstr "پیشنهادهای نوشتاری"
 
 #: ../src/e-util/e-system.error.xml.h:1
-#, fuzzy
-#| msgid ""
-#| "%s already exists\n"
-#| "Do you want to overwrite it?"
 msgid "A file named “{0}” already exists. Do you want to replace it?"
-msgstr ""
-"%s از قبل وجود دارد\n"
-"آیا می‌خواهید آن را رونویسی کنید؟"
+msgstr "پرونده‌ای با نام «{0}» از پیش موجود است. می‌خواهید جایگزینش کنید؟"
 
 #: ../src/e-util/e-system.error.xml.h:2
 msgid "The file already exists in “{0}”. Replacing it will overwrite its contents."
 msgstr "پرونده از پیش در «{0}» وجود دارد. جایگزینیش، محتویاتش را پایمال خواهد کرد."
 
 #: ../src/e-util/e-system.error.xml.h:4
-#, fuzzy
-#| msgid "Cannot save file \"{0}\"."
 msgid "Cannot save file “{0}”."
 msgstr "نمی‌توان پروندهٔ «{0}» را ذخیره کرد."
 
 #: ../src/e-util/e-system.error.xml.h:6
-#, fuzzy
-#| msgid "Cannot open file \"{0}\"."
 msgid "Cannot open file “{0}”."
-msgstr "نمی‌توان پروندهٔ «{0}» را باز کرد."
+msgstr "نمی‌توان پروندهٔ «{0}» را گشود."
 
 #: ../src/e-util/e-system.error.xml.h:7
-#, fuzzy
-#| msgid "Cannot create folder &quot;{0}&quot;."
 msgid "Failed to remove data source “{0}”."
-msgstr "نمی‌توان شاخهٔ «{0}» را ایجاد کرد."
+msgstr "شکست در برداشتن منبع دادهٔ «{0}»."
 
 #: ../src/e-util/e-system.error.xml.h:8 ../src/mail/mail.error.xml.h:64
-#, fuzzy
-#| msgid "Because &quot;{1}&quot;."
 msgid "The reported error was “{1}”."
-msgstr "به دلیل «{1}»."
+msgstr "خطای اعلامی «{1}» بود."
 
 #: ../src/e-util/e-system.error.xml.h:9
-#, fuzzy
-#| msgid "Cannot create folder &quot;{0}&quot;."
 msgid "Failed to update data source “{0}”."
-msgstr "نمی‌توان شاخهٔ «{0}» را ایجاد کرد."
+msgstr "شکست در به‌روز رسانی منبع دادهٔ «{0}»."
 
 #: ../src/e-util/e-system.error.xml.h:10
-#, fuzzy
-#| msgid "Cannot create folder &quot;{0}&quot;."
 msgid "Failed to delete resource “{0}”."
-msgstr "نمی‌توان شاخهٔ «{0}» را ایجاد کرد."
+msgstr "شکست در حذف منبع «{0}»."
 
 #: ../src/e-util/e-system.error.xml.h:11
-#, fuzzy
-#| msgid "The Evolution address book has quit unexpectedly."
 msgid "The address book backend servicing “{0}” has quit unexpectedly."
-msgstr "دفترچه تلفن اوولوشن به طور غیرمنتظره‌ای پایان یافت."
+msgstr "خدمت‌دهی پسانهٔ دفترچه نشانی «{0}» به طور غیرمنتظره‌ای پایان یافت."
 
 #: ../src/e-util/e-system.error.xml.h:12
-#, fuzzy
-#| msgid "Your contacts for {0} will not be available until Evolution is restarted."
 msgid "Some of your contacts may not be available until Evolution is restarted."
-msgstr "آشنایان شما برای {0} تا راه‌اندازی مجدد اوولوشن قابل دسترسی نخواهند بود."
+msgstr "ممکن است برخی آشنایانتان تا آغاز دوبارهٔ اولوشن در دسترس نباشند."
 
 #: ../src/e-util/e-system.error.xml.h:13
-#, fuzzy
-#| msgid "The Evolution calendar has quit unexpectedly."
 msgid "The calendar backend servicing “{0}” has quit unexpectedly."
-msgstr "تقویم اوولوشن به شکل غیرمنتظره‌ای خارج شد."
+msgstr "خدمت‌دهی پسانهٔ تقویم «{0}» به طور غیرمنتظره‌ای پایان یافت."
 
 #: ../src/e-util/e-system.error.xml.h:14
-#, fuzzy
-#| msgid "Your memos will not be available until Evolution is restarted."
 msgid "Some of your appointments may not be available until Evolution is restarted."
-msgstr ""
-"یادداشت‌های شما تا هنگامی که اوولوشن مجدداً راه‌اندازی شود در دست‌رس نخواهند بود."
+msgstr "ممکن است برخی قرارهایتان تا آغاز دوبارهٔ اولوشن در دسترس نباشند."
 
 #: ../src/e-util/e-system.error.xml.h:15
-#, fuzzy
-#| msgid "The Evolution calendar has quit unexpectedly."
 msgid "The memo list backend servicing “{0}” has quit unexpectedly."
-msgstr "تقویم اوولوشن به شکل غیرمنتظره‌ای خارج شد."
+msgstr "خدمت‌دهی پسانهٔ سیاههٔ یادداشت «{0}» به طور غیرمنتظره‌ای پایان یافت."
 
 #: ../src/e-util/e-system.error.xml.h:16
-#, fuzzy
-#| msgid "Your memos will not be available until Evolution is restarted."
 msgid "Some of your memos may not be available until Evolution is restarted."
-msgstr ""
-"یادداشت‌های شما تا هنگامی که اوولوشن مجدداً راه‌اندازی شود در دست‌رس نخواهند بود."
+msgstr "ممکن است برخی یادداشت‌هایتان تا آغاز دوبارهٔ اولوشن در دسترس نباشند."
 
 #: ../src/e-util/e-system.error.xml.h:17
-#, fuzzy
-#| msgid "The Evolution calendar has quit unexpectedly."
 msgid "The task list backend servicing “{0}” has quit unexpectedly."
-msgstr "تقویم اوولوشن به شکل غیرمنتظره‌ای خارج شد."
+msgstr "خدمت‌دهی پسانهٔ سیاههٔ تکلیف «{0}» به طور غیرمنتظره‌ای پایان یافت."
 
 #: ../src/e-util/e-system.error.xml.h:18
-#, fuzzy
-#| msgid "Your tasks will not be available until Evolution is restarted."
 msgid "Some of your tasks may not be available until Evolution is restarted."
-msgstr "تکلیف‌های شما تا هنگامی که اوولوشن مجدداً راه‌اندازی شود در دسترس نخواهند بود."
+msgstr "ممکن است برخی وظیفه‌هایتان تا آغاز دوبارهٔ اولوشن در دسترس نباشند."
 
 #: ../src/e-util/e-system.error.xml.h:19
-#, fuzzy
-#| msgid "The Evolution address book has quit unexpectedly."
 msgid "The address book backend servicing “{0}” encountered an error."
-msgstr "دفترچه تلفن اوولوشن به طور غیرمنتظره‌ای پایان یافت."
+msgstr "خدمت‌دهی پسانهٔ دفترچه نشانی «{0}» به خطایی خورد."
 
 #: ../src/e-util/e-system.error.xml.h:20
-#, fuzzy
-#| msgid "The Evolution calendar has quit unexpectedly."
 msgid "The calendar backend servicing “{0}” encountered an error."
-msgstr "تقویم اوولوشن به شکل غیرمنتظره‌ای خارج شد."
+msgstr "خدمت‌دهی پسانهٔ تقویم «{0}» به خطایی خورد."
 
 #: ../src/e-util/e-system.error.xml.h:21
-#, fuzzy
-#| msgid "The Evolution calendar has quit unexpectedly."
 msgid "The memo list backend servicing “{0}” encountered an error."
-msgstr "تقویم اوولوشن به شکل غیرمنتظره‌ای خارج شد."
+msgstr "خدمت‌دهی پسانهٔ سیاههٔ یادداشت «{0}» به خطایی خورد."
 
 #: ../src/e-util/e-system.error.xml.h:22
-#, fuzzy
-#| msgid "The Evolution calendar has quit unexpectedly."
 msgid "The task list backend servicing “{0}” encountered an error."
-msgstr "تقویم اوولوشن به شکل غیرمنتظره‌ای خارج شد."
+msgstr "خدمت‌دهی پسانهٔ سیاههٔ تکلیف «{0}» به خطایی خورد."
 
 #: ../src/e-util/e-system.error.xml.h:23
 msgid "Something has gone wrong"
 msgstr "چیزی اشتباه پیش رفت"
 
 #: ../src/e-util/e-system.error.xml.h:24
-#, fuzzy
-#| msgid ""
-#| "A WebKitWebProcess crashed when displaying the contact. You can try again by "
-#| "moving to another contact and back. If the issue persists, please file a bug "
-#| "report in GNOME Gitlab."
 msgid ""
 "A WebKitWebProcess crashed when displaying the content. You can try again by "
 "reopening the window. If the issue persists, please file a bug report in GNOME "
 "GitLab."
 msgstr ""
-"هنگام نمایش آشنا، یک WebKitWebProcess فروپاشید. می‌توانید با رفتن به آشنایی دیگر و "
-"بازگشت، دوباره تلاش کنید. اگر مشکل پابرجا بود، لطفاً در گیت‌لب گنوم، گزارش خطایی پر "
-"کنید."
+"هنگام نمایش محتوا، یک WebKitWebProcess فروپاشید. می‌توانید با گشودن دوبارهٔ پنجره "
+"دوباره تلاش کنید. اگر مشکل پابرجا بود، لطفاً در گیت‌لب گنوم، گزارش خطایی پر کنید."
 
 #: ../src/e-util/e-system.error.xml.h:25
 #, fuzzy
