@@ -549,6 +549,7 @@ src/plugins/templates/templates.c
 src/shell/e-shell-backend.c
 src/shell/e-shell.c
 src/shell/e-shell-content.c
+src/shell/e-shell-headerbar.c
 src/shell/e-shell-migrate.c
 src/shell/e-shell-searchbar.c
 src/shell/e-shell-switcher.c
