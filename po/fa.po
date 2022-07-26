@@ -11,8 +11,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: evolution\n"
 "Report-Msgid-Bugs-To: https://gitlab.gnome.org/GNOME/evolution/issues\n"
-"POT-Creation-Date: 2022-07-23 22:07+0000\n"
-"PO-Revision-Date: 2022-07-24 22:17+0430\n"
+"POT-Creation-Date: 2022-07-24 17:49+0000\n"
+"PO-Revision-Date: 2022-07-26 12:59+0430\n"
 "Last-Translator: Danial Behzadi <dani.behzi@ubuntu.com>\n"
 "Language-Team: Persian <>\n"
 "Language: fa\n"
@@ -17316,14 +17316,11 @@ msgstr "تأیید هویت %s شکست خورد"
 
 #. Translators: The %d is replaced with the actual count of recipients, which is always more than one.
 #: ../src/mail/em-composer-utils.c:397
-#, fuzzy, c-format
-#| msgid "Are you sure you want to send a message with only BCC recipients?"
+#, c-format
 msgid "Are you sure you want to send a message with %d To and CC recipients?"
 msgid_plural "Are you sure you want to send a message with %d To and CC recipients?"
-msgstr[0] ""
-"آیا مطمئنید که می‌خواهید پیامی تنها با گیرندگان رونوشت محرمانه ارسال کنید؟"
-msgstr[1] ""
-"آیا مطمئنید که می‌خواهید پیامی تنها با گیرندگان رونوشت محرمانه ارسال کنید؟"
+msgstr[0] "مطمئنید می‌خواهید پیامی با %Id گیرندهٔ مستقیم و رونوشت بفرستید؟"
+msgstr[1] "مطمئنید می‌خواهید پیامی با %Id گیرندهٔ مستقیم و رونوشت بفرستید؟"
 
 #. Translators: The %d is replaced with the actual count of recipients, which is always more than one.
 #: ../src/mail/em-composer-utils.c:403
@@ -17421,20 +17418,16 @@ msgstr "نقل نشود"
 
 #. Translators: The text is followed by the format combo with values like 'Plain Text', 'HTML' and so on
 #: ../src/mail/em-composer-utils.c:4235
-#, fuzzy
-#| msgid "_Format message in HTML"
 msgid "_Format message in"
-msgstr "_قالب‌بندی پیام در HTML"
+msgstr "_قالب‌بندی پیام به"
 
 #: ../src/mail/em-composer-utils.c:4257
 msgid "Apply t_emplate"
 msgstr "اِ_عمال الگو"
 
 #: ../src/mail/em-composer-utils.c:4269
-#, fuzzy
-#| msgid "Quote original message"
 msgid "Preserve original message S_ubject"
-msgstr "نقل قول پیام اصلی"
+msgstr "نگه داشتن _موضوع اصلی پیام"
 
 #: ../src/mail/em-composer-utils.c:4335
 #, c-format
@@ -17460,10 +17453,9 @@ msgstr "شرح پالایه‌ها"
 #. the second '%s' with 'enabled' or 'disabled' word;
 #. the third '%s' is replaced with the account name
 #: ../src/mail/em-filter-editor.c:175
-#, fuzzy, c-format
-#| msgid "List of accounts"
+#, c-format
 msgid "%s (%s, for account %s)"
-msgstr "فهرست حساب‌ها"
+msgstr "%s (%s، برای حساب %s)"
 
 #: ../src/mail/em-filter-editor.c:175 ../src/mail/em-filter-editor.c:179
 msgid "enabled"
@@ -17481,16 +17473,12 @@ msgid "%s (%s, for any account)"
 msgstr ""
 
 #: ../src/mail/em-filter-editor.c:191
-#, fuzzy
-#| msgid "Please select among the following options"
 msgid "If all the following conditions are met"
-msgstr "لطفاً از گزینه‌های زیر انتخاب کنید"
+msgstr "اگر تمامی شرایط زیر برقرار بود"
 
 #: ../src/mail/em-filter-editor.c:194
-#, fuzzy
-#| msgid "Please select among the following options"
 msgid "If any of the following conditions are met"
-msgstr "لطفاً از گزینه‌های زیر انتخاب کنید"
+msgstr "اگر هر یک از شرایط زیر برقرار بود"
 
 #. and now for the action area
 #: ../src/mail/em-filter-editor.c:211 ../src/mail/em-filter-rule.c:1011
@@ -17506,10 +17494,8 @@ msgid "Select Folder"
 msgstr "انتخاب شاخه"
 
 #: ../src/mail/em-filter-mail-identity-element.c:236
-#, fuzzy
-#| msgid "Mail Accounts"
 msgid "Default Account"
-msgstr "حساب‌های نامه‌ای"
+msgstr "حساب پیش‌گزیده"
 
 #. Translators: This is in a Mail filter rule editor, part of "For account: [ Any   ]" section
 #: ../src/mail/em-filter-rule.c:880
@@ -17518,40 +17504,28 @@ msgid "Any"
 msgstr "هر"
 
 #: ../src/mail/em-filter-rule.c:981
-#, fuzzy
-#| msgid "File _type:"
 msgid "Rul_e type:"
-msgstr "نو_ع پرونده:"
+msgstr "گونهٔ _قاعده:"
 
 #: ../src/mail/em-filter-rule.c:999
-#, fuzzy
-#| msgid "_Account:"
 msgid "_For Account:"
-msgstr "_حساب:"
+msgstr "_برای حساب:"
 
 #: ../src/mail/em-filter-rule.c:1084
-#, fuzzy
-#| msgid "Needs Action"
 msgid "Add Ac_tion"
-msgstr "نیاز به کنش دارد"
+msgstr "افزودن _کنش"
 
 #: ../src/mail/em-folder-properties.c:170
-#, fuzzy
-#| msgid "Selected Column"
 msgid "Select Custom Icon"
-msgstr "ستون گزیده"
+msgstr "گزینش نقشک شخصی"
 
 #: ../src/mail/em-folder-properties.c:219
-#, fuzzy
-#| msgid "Use custom fonts"
 msgid "_Use custom icon"
-msgstr "استفاده از قلم‌های سفارشی"
+msgstr "_استفاده از نقشک شخصی"
 
 #: ../src/mail/em-folder-properties.c:312
-#, fuzzy
-#| msgid "Unselected Column"
 msgid "Use te_xt color"
-msgstr "ستون انتخاب نشده"
+msgstr "استفاده از _رنگ متن"
 
 #: ../src/mail/em-folder-properties.c:518
 msgid "Path:"
@@ -17570,18 +17544,14 @@ msgstr[0] "مجموع پیام‌ها:"
 msgstr[1] "مجموع پیام‌ها:"
 
 #: ../src/mail/em-folder-properties.c:559
-#, fuzzy, c-format
-#| msgid "Total messages:"
-#| msgid_plural "Total messages:"
+#, c-format
 msgid "Quota usage (%s):"
-msgstr "مجموع پیام‌ها:"
+msgstr "استفاده از سهمیه (%s):"
 
 #: ../src/mail/em-folder-properties.c:561
-#, fuzzy, c-format
-#| msgid "Total messages:"
-#| msgid_plural "Total messages:"
+#, c-format
 msgid "Quota usage"
-msgstr "مجموع پیام‌ها:"
+msgstr "استفاده از سهمیه"
 
 #. Translators: Label of a combo with a list of configured accounts where a user can
 #. choose which account to use as the sender when composing a message in this folder
@@ -17618,38 +17588,28 @@ msgid "months"
 msgstr "ماه"
 
 #: ../src/mail/em-folder-properties.c:977
-#, fuzzy
-#| msgid "Move selected messages to another folder"
 msgid "Move messages to the default archive _folder"
-msgstr "جابه‌جایی پیام‌های گزیده به یک شاخهٔ دیگر"
+msgstr "جابه‌جایی پیام‌ها به شاخهٔ پیش‌گزیدهٔ _بایگانی"
 
 #: ../src/mail/em-folder-properties.c:984
-#, fuzzy
-#| msgid "Moving messages to %s"
 msgid "_Move messages to:"
-msgstr "در حال جابه‌جایی پیام‌ها به %s"
+msgstr "_جابه‌جایی پیام‌ها به:"
 
 #: ../src/mail/em-folder-properties.c:988
 msgid "Archive folder"
 msgstr "شاخهٔ بایگانی"
 
 #: ../src/mail/em-folder-properties.c:988
-#, fuzzy
-#| msgid "Select folder to import into"
 msgid "Select folder to use for Archive"
-msgstr "انتخاب شاخه برای وارد کردن به"
+msgstr "گزینش شاخه برای استفاده به عنوان بایگانی"
 
 #: ../src/mail/em-folder-properties.c:992
-#, fuzzy
-#| msgid "_Delete Message"
 msgid "_Delete messages"
-msgstr "_حذف پیام"
+msgstr "_حذف پیام‌ها"
 
 #: ../src/mail/em-folder-properties.c:1347
-#, fuzzy
-#| msgid "Server _Type: "
 msgid "Server Tag"
-msgstr "نوع کارساز_:"
+msgstr "برچسب کارساز"
 
 #: ../src/mail/em-folder-properties.c:1351 ../src/mail/filtertypes.xml.in.h:29
 #: ../src/mail/searchtypes.xml.in.h:31 ../src/mail/vfoldertypes.xml.in.h:31
@@ -17675,10 +17635,8 @@ msgid "Folder Properties"
 msgstr "ویژگی‌های شاخه"
 
 #: ../src/mail/em-folder-properties.c:1724
-#, fuzzy
-#| msgid "Calendar Properties"
 msgid "Gathering folder properties"
-msgstr "ویژگی‌های تقویم"
+msgstr "جمع‌آوری مشخّصات شاخه"
 
 #: ../src/mail/em-folder-selection-button.c:80
 msgid "<click here to select a folder>"
@@ -17689,8 +17647,6 @@ msgid "Create a new folder"
 msgstr "ایجاد شاخه‌ای جدید"
 
 #: ../src/mail/em-folder-tree.c:685
-#, fuzzy
-#| msgid "Folder names cannot contain '/'"
 msgid "Folder names cannot contain “/”"
 msgstr "نام شاخه نمی‌تواند «/» داشته باشد"
 
@@ -17763,28 +17719,24 @@ msgid "Junk"
 msgstr "آشغال"
 
 #: ../src/mail/em-folder-utils.c:111
-#, fuzzy, c-format
-#| msgid "Moving folder %s"
+#, c-format
 msgid "Moving folder “%s”"
-msgstr "در حال جابه‌جایی شاخهٔ %s"
+msgstr "جابه‌جا کردن شاخهٔ %s"
 
 #: ../src/mail/em-folder-utils.c:113
-#, fuzzy, c-format
-#| msgid "Copying folder %s"
+#, c-format
 msgid "Copying folder “%s”"
-msgstr "در حال رونوشت از شاخهٔ %s"
+msgstr "رونوشت کردن شاخهٔ %s"
 
 #: ../src/mail/em-folder-utils.c:252
-#, fuzzy, c-format
-#| msgid "Moving folder %s"
+#, c-format
 msgid "Moving folder “%s” (%d/%d)"
-msgstr "در حال جابه‌جایی شاخهٔ %s"
+msgstr "جابه‌جا کردن شاخهٔ %s (%Id/%Id)"
 
 #: ../src/mail/em-folder-utils.c:252
-#, fuzzy, c-format
-#| msgid "Copying folder %s"
+#, c-format
 msgid "Copying folder “%s” (%d/%d)"
-msgstr "در حال رونوشت از شاخهٔ %s"
+msgstr "رونوشت کردن شاخهٔ %s (%Id/%Id)"
 
 #: ../src/mail/em-folder-utils.c:569
 msgid "Move Folder To"
@@ -17799,16 +17751,12 @@ msgid "_Subscribe"
 msgstr "ا_شتراک"
 
 #: ../src/mail/em-subscription-editor.c:822
-#, fuzzy
-#| msgid "_Subscribe to list"
 msgid "Su_bscribe To Shown"
-msgstr "آ_بونه شدن فهرست"
+msgstr "اشتراک _نمایان‌ها"
 
 #: ../src/mail/em-subscription-editor.c:830
-#, fuzzy
-#| msgid "_Subscribe to list"
 msgid "Subscribe To _All"
-msgstr "آ_بونه شدن فهرست"
+msgstr "اشتراک _همه"
 
 #: ../src/mail/em-subscription-editor.c:936
 #: ../src/mail/em-subscription-editor.c:1865 ../src/mail/mail.error.xml.h:73
@@ -17817,16 +17765,12 @@ msgid "_Unsubscribe"
 msgstr "_قطع اشتراک"
 
 #: ../src/mail/em-subscription-editor.c:945
-#, fuzzy
-#| msgid "Unsubscribe Folders"
 msgid "Unsu_bscribe From Hidden"
-msgstr "قطع اشتراک شاخه‌ها"
+msgstr "قطع اشتراک _نهفته‌ها"
 
 #: ../src/mail/em-subscription-editor.c:953
-#, fuzzy
-#| msgid "Unsubscribe from \"%s\""
 msgid "Unsubscribe From _All"
-msgstr "قطع اشتراک «%s»"
+msgstr "قطع اشتراک _همه"
 
 #: ../src/mail/em-subscription-editor.c:1315
 #: ../src/modules/mail/e-mail-shell-view-private.c:937
@@ -17863,35 +17807,25 @@ msgid "Sho_w items that contain:"
 msgstr "_نمایش موارد شامل:"
 
 #: ../src/mail/em-subscription-editor.c:1818
-#, fuzzy
-#| msgid "Subscribe to Other User's Folder"
 msgid "Subscribe to the selected folder"
-msgstr "مشترک شدن شاخهٔ کاربران دیگر"
+msgstr "اشتراک شاخهٔ گزیده"
 
 #: ../src/mail/em-subscription-editor.c:1819
-#, fuzzy
-#| msgid "Subscribe"
 msgid "Su_bscribe"
-msgstr "مشترک شدن"
+msgstr "_اشتراک"
 
 #: ../src/mail/em-subscription-editor.c:1864
 #: ../src/modules/mail/e-mail-shell-view-actions.c:1702
-#, fuzzy
-#| msgid "Rename the selected folder"
 msgid "Unsubscribe from the selected folder"
-msgstr "تغییر نام شاخهٔ گزیده"
+msgstr "قطع اشتراک شاخهٔ گزیده"
 
 #: ../src/mail/em-subscription-editor.c:1904
-#, fuzzy
-#| msgid "Collapse All _Threads"
 msgid "Collapse all folders"
-msgstr "جمع کردن همهٔ _رشته‌ها"
+msgstr "جمع کردن تمامی شاخه‌ها"
 
 #: ../src/mail/em-subscription-editor.c:1905
-#, fuzzy
-#| msgid "Collapse All _Threads"
 msgid "C_ollapse All"
-msgstr "جمع کردن همهٔ _رشته‌ها"
+msgstr "جمع کردن همه"
 
 #: ../src/mail/em-subscription-editor.c:1915
 msgid "Expand all folders"
@@ -17902,16 +17836,12 @@ msgid "E_xpand All"
 msgstr "_گستردن همه"
 
 #: ../src/mail/em-subscription-editor.c:1926
-#, fuzzy
-#| msgid "Refresh List of Folders"
 msgid "Refresh the folder list"
-msgstr "نوسازی فهرست شاخه‌ها"
+msgstr "نوسازی سیاههٔ شاخه"
 
 #: ../src/mail/em-subscription-editor.c:1938
-#, fuzzy
-#| msgid "Cancel the current mail operation"
 msgid "Stop the current operation"
-msgstr "انصراف از عملیات نامه‌ای فعلی"
+msgstr "توقّف عمل کنونی"
 
 #: ../src/mail/em-subscription-editor.c:1939
 #: ../src/modules/addressbook/e-book-shell-view-actions.c:1085
@@ -17951,10 +17881,8 @@ msgid ":"
 msgstr ":"
 
 #: ../src/mail/em-utils.c:1952
-#, fuzzy
-#| msgid "_Delete Message"
 msgid "Deleting old messages"
-msgstr "_حذف پیام"
+msgstr "حذف کردن پیام‌های قدیمی"
 
 #: ../src/mail/em-vfolder-editor.c:102
 msgid "Search _Folders"
@@ -18079,10 +18007,8 @@ msgstr "بدنهٔ پیام"
 
 #: ../src/mail/filtertypes.xml.in.h:24 ../src/mail/searchtypes.xml.in.h:26
 #: ../src/mail/vfoldertypes.xml.in.h:26
-#, fuzzy
-#| msgid "Expression"
 msgid "Free Form Expression"
-msgstr "اصطلاح"
+msgstr "عبارت آزادانه"
 
 #: ../src/mail/filtertypes.xml.in.h:25 ../src/mail/searchtypes.xml.in.h:27
 #: ../src/mail/vfoldertypes.xml.in.h:27
@@ -18222,17 +18148,13 @@ msgstr "مکان پیام‌"
 
 #: ../src/mail/filtertypes.xml.in.h:65 ../src/mail/searchtypes.xml.in.h:57
 #: ../src/mail/vfoldertypes.xml.in.h:59
-#, fuzzy
-#| msgid "contains"
 msgid "contains Sender"
-msgstr "شامل"
+msgstr "شامل فرستنده"
 
 #: ../src/mail/filtertypes.xml.in.h:66 ../src/mail/searchtypes.xml.in.h:58
 #: ../src/mail/vfoldertypes.xml.in.h:60
-#, fuzzy
-#| msgid "does not contain"
 msgid "does not contain Sender"
-msgstr "عاری از"
+msgstr "عاری از فرستنده"
 
 #: ../src/mail/filtertypes.xml.in.h:67 ../src/mail/searchtypes.xml.in.h:59
 #: ../src/mail/vfoldertypes.xml.in.h:61
@@ -18467,52 +18389,40 @@ msgstr "رفتار پیش‌گزیده"
 
 #. Translators: The text is followed by the format combo with values like
 #: ../src/mail/mail-config.ui.h:9
-#, fuzzy
-#| msgid "For_mat messages in HTML"
 msgid "For_mat messages in"
-msgstr "_قالب‌بندی پیام در HTML"
+msgstr "_قالب‌بندی پیام‌ها به"
 
 #: ../src/mail/mail-config.ui.h:11
-#, fuzzy
-#| msgid "Automatically insert _smiley images"
 msgid "Automatically insert _emoticons"
-msgstr "درج خودکار تصاویر _صورتک‌ها "
+msgstr "درج خودکار _صورتک‌ها"
 
 #: ../src/mail/mail-config.ui.h:12
 msgid "Use Un_icode characters for emoticons"
 msgstr ""
 
 #: ../src/mail/mail-config.ui.h:13
-#, fuzzy
-#| msgid "Always send back a read receipt"
 msgid "Always request rea_d receipt"
-msgstr "ارسال همیشگی رسید خواندن"
+msgstr "درخواست همیشگی _رسید خواندن"
 
 #: ../src/mail/mail-config.ui.h:14
 msgid "Encode filenames in an _Outlook/GMail way"
 msgstr ""
 
 #: ../src/mail/mail-config.ui.h:15
-#, fuzzy
-#| msgid "Saving message to Outbox."
 msgid "Send messages through Outbo_x folder"
-msgstr "در حال ذخیرهٔ پیام‌ها در صندوق خروجی"
+msgstr "فرستادن پیام‌ها از طریق شاخهٔ _خروجی"
 
 #: ../src/mail/mail-config.ui.h:16
 msgid "Number of characters for word w_rapping:"
 msgstr ""
 
 #: ../src/mail/mail-config.ui.h:17
-#, fuzzy
-#| msgid "Ch_aracter Encoding"
 msgid "Ch_aracter encoding:"
-msgstr "کد_گذاری نویسه‌ها"
+msgstr "_کدبندی نویسه‌ها:"
 
 #: ../src/mail/mail-config.ui.h:18
-#, fuzzy
-#| msgid "Replies and parents"
 msgid "Replies and Forwards"
-msgstr "پاسخ‌ها و والدها"
+msgstr "پاسخ‌ها و هدایت‌ها"
 
 #: ../src/mail/mail-config.ui.h:19
 msgid "_Reply style:"
@@ -18587,31 +18497,23 @@ msgstr ""
 
 #. This is in the context of: Ask for confirmation before...
 #: ../src/mail/mail-config.ui.h:46
-#, fuzzy
-#| msgid "_Prompt when sending messages with an empty subject line"
 msgid "Sending a message with an _empty subject line"
-msgstr "_کسب تکلیف هنگام ارسال پیام با خط موضوع خالی"
+msgstr "فرستادن پیامی با خط موضوع _خالی"
 
 #. This is in the context of: Ask for confirmation before...
 #: ../src/mail/mail-config.ui.h:48
-#, fuzzy
-#| msgid "Pr_ompt when sending messages with only Bcc recipients defined"
 msgid "Sending a message with only _Bcc recipients defined"
-msgstr "سؤال کردن هنگام ارسال پیام‌هایی که فقط گیرندهٔ رونوشت محرمانه دارند"
+msgstr "فرستادن پیامی با فقط گزیدنگان رونوشت _کور"
 
 #. This is in the context of: Ask for confirmation before...
 #: ../src/mail/mail-config.ui.h:50
-#, fuzzy
-#| msgid "Pr_ompt when sending messages with only Bcc recipients defined"
 msgid "Sending a message to many _To and CC recipients"
-msgstr "سؤال کردن هنگام ارسال پیام‌هایی که فقط گیرندهٔ رونوشت محرمانه دارند"
+msgstr "فرستادن پیامی به چندین گیرندهٔ اصلی و رونوشت"
 
 #. This is in the context of: Ask for confirmation before...
 #: ../src/mail/mail-config.ui.h:52
-#, fuzzy
-#| msgid "Compose a reply to the mailing list of the selected message"
 msgid "Sending a _private reply to a mailing list message"
-msgstr "نگارش پاسخ برای فهرست پستی پیام گزیده"
+msgstr "فرستادن پاسخی _خصوصی به یک پیام سیاههٔ پستی"
 
 #. This is in the context of: Ask for confirmation before...
 #: ../src/mail/mail-config.ui.h:54
@@ -18630,10 +18532,8 @@ msgstr ""
 
 #. This is in the context of: Ask for confirmation before...
 #: ../src/mail/mail-config.ui.h:60
-#, fuzzy
-#| msgid "_Prompt when sending messages with an empty subject line"
 msgid "Sending a message using _key accelerator (Ctrl+Enter)"
-msgstr "_کسب تکلیف هنگام ارسال پیام با خط موضوع خالی"
+msgstr "فرستادن پیامی با استفاده از کلید _شتاب‌ده (مهار+ورود)"
 
 #. Translators:
 #: ../src/mail/mail-config.ui.h:62
@@ -18680,10 +18580,8 @@ msgid "Send Account"
 msgstr "حساب فرستادن"
 
 #: ../src/mail/mail-config.ui.h:84 ../src/smime/gui/smime-ui.ui.h:27
-#, fuzzy
-#| msgid "am"
 msgid "a"
-msgstr "صبح"
+msgstr "ص"
 
 #: ../src/mail/mail-config.ui.h:85 ../src/smime/gui/smime-ui.ui.h:28
 msgid "b"
@@ -18694,10 +18592,8 @@ msgid "Start up"
 msgstr "آغاز"
 
 #: ../src/mail/mail-config.ui.h:87
-#, fuzzy
-#| msgid "Check folder permissions"
 msgid "Check for new _messages on start"
-msgstr "اجازه‌های شاخه را بررسی کنید"
+msgstr "بررسی _پیام‌های جدید هنگام آغاز"
 
 #: ../src/mail/mail-config.ui.h:88
 msgid "Check for new messa_ges in all active accounts"
@@ -18724,16 +18620,12 @@ msgid "Select HTML variable width font"
 msgstr "انتخاب قلم با پهنا متغیر  HTML"
 
 #: ../src/mail/mail-config.ui.h:94
-#, fuzzy
-#| msgid "Fi_xed width Font:"
 msgid "Fix_ed Width Font:"
-msgstr "قلم _متساوی‌العرض:"
+msgstr "قلم _تک‌عرض:"
 
 #: ../src/mail/mail-config.ui.h:95
-#, fuzzy
-#| msgid "Font _Size"
 msgid "Minimum Font _Size:"
-msgstr "اندازهٔ _قلم"
+msgstr "اندازهٔ _کمینهٔ قلم:"
 
 #. Translators: This is part of
 #: ../src/mail/mail-config.ui.h:97
@@ -18766,38 +18658,28 @@ msgid "Apply the same _view settings to all folders"
 msgstr "اعمال همین تنظیمات _نمابه تمامی شاخه‌ها"
 
 #: ../src/mail/mail-config.ui.h:105
-#, fuzzy
-#| msgid "Fall back to threading messages by sub_ject"
 msgid "F_all back to threading messages by subject"
-msgstr "برگشت به رشته کردن پیام‌ها از روی مو_ضوع"
+msgstr "_بازگشت به رشته کردن پیام‌ها از روی موضوع"
 
 #: ../src/mail/mail-config.ui.h:106
-#, fuzzy
-#| msgid "_Delete all"
 msgid "Delete Mail"
-msgstr "_حذف همه"
+msgstr "_حذف نامه"
 
 #: ../src/mail/mail-config.ui.h:107
-#, fuzzy
-#| msgid "Empty trash folders on e_xit"
 msgid "Empty _trash folders"
-msgstr "خالی کردن شاخه‌های زباله‌دان هنگام _خروج"
+msgstr "خالی کردن شاخه‌های _زباله‌دان"
 
 #: ../src/mail/mail-config.ui.h:108
 msgid "Confirm _when expunging a folder"
 msgstr "تأیید گرفتن _هنگام پاک‌سازی یک شاخه"
 
 #: ../src/mail/mail-config.ui.h:109
-#, fuzzy
-#| msgid "Confirm _when expunging a folder"
 msgid "Confirm when emptying a _Junk folder"
-msgstr "تأیید گرفتن _هنگام پاک‌سازی یک شاخه"
+msgstr "تأیید گرفتن هنگام خالی کردن یک شاخهٔ _هرزنامه"
 
 #: ../src/mail/mail-config.ui.h:110
-#, fuzzy
-#| msgid "Mark the selected messages for deletion"
 msgid "Go to the previ_ous message after message deletion"
-msgstr "علامت‌گذاری پیام‌های گزیده برای حذف"
+msgstr "رفتن به پیام پیشین پس از حذف پیام"
 
 #: ../src/mail/mail-config.ui.h:111
 msgid "Archive Mail"
@@ -18817,46 +18699,32 @@ msgid "_Show animated images"
 msgstr "_نمایش تصاویر متحرک‌"
 
 #: ../src/mail/mail-config.ui.h:116
-#, fuzzy
-#| msgid "Send the mail in HTML format"
 msgid "Unset colors provided in HTML mails in message previe_w"
-msgstr "ارسال نامه در قالب HTML"
+msgstr "ناتنظیم رنگ‌های فراهم شده در نامه‌های HTML در _پیش‌نمایش پیام"
 
 #: ../src/mail/mail-config.ui.h:117
-#, fuzzy
-#| msgid "_Prompt when sending HTML messages to contacts that do not want them"
 msgid "_Prompt on sending HTML mail to contacts that do not want them"
-msgstr "_کسب تکلیف هنگام ارسال پیام‌های HTML برای آشنایانی که نمی‌خواهند"
+msgstr "_اعلان هنگام فرستادن نامهٔ HTML به آشنایانی که نمی‌خواهندش"
 
 #: ../src/mail/mail-config.ui.h:118
-#, fuzzy
-#| msgid "Loading memos"
 msgid "Loading Remote Content"
-msgstr "در حال بار کردن یادداشت‌ها"
+msgstr "بار کردن محتوای دوردست"
 
 #: ../src/mail/mail-config.ui.h:119
-#, fuzzy
-#| msgid "_Never load images from the Internet"
 msgid "_Never load remote content from the Internet"
-msgstr "تصاویر _هیچ‌وقت از اینترنت بار نشوند"
+msgstr "محتوای دوردست _هرگز از اینترنت بار نشوند"
 
 #: ../src/mail/mail-config.ui.h:120
-#, fuzzy
-#| msgid "_Load images in mail from contacts"
 msgid "_Load remote content only in messages from contacts"
-msgstr "با_ر کردن تصاویر در نامه از آشنایان"
+msgstr "_بار کردن محتوای دوردست فقط در پیام‌ها از آشنایان"
 
 #: ../src/mail/mail-config.ui.h:121
-#, fuzzy
-#| msgid "_Always load images from the Internet"
 msgid "_Always load remote content from the Internet"
-msgstr "تصاویر _همیشه از اینترنت بار شوند"
+msgstr "بار کردن _همیشگی محتوای دوردست از اینترنت"
 
 #: ../src/mail/mail-config.ui.h:122
-#, fuzzy
-#| msgid "Show the raw email source of the message"
 msgid "Notify about _missing remote content in the message preview"
-msgstr "نمایش مبدأ خام رایانامهی"
+msgstr "آگاه‌سازی از محتوای دوردست _ناموجود در پیش‌نمایش پیام"
 
 #: ../src/mail/mail-config.ui.h:123
 msgid "Add"
@@ -18891,10 +18759,8 @@ msgid "Search libra_vatar.org for the photograph of sender"
 msgstr "جست‌وجوی libra_vatar.org برای عکس فرستنده"
 
 #: ../src/mail/mail-config.ui.h:132
-#, fuzzy
-#| msgid "All Message _Headers"
 msgid "Displayed Message Headers"
-msgstr "همهٔ _سرنامه‌های پیام"
+msgstr "سرایندهای پیام نمایشی"
 
 #: ../src/mail/mail-config.ui.h:133
 msgid "Show _full mail addresses in message preview"
@@ -18909,60 +18775,42 @@ msgid "Re_set"
 msgstr "_بازنشانی"
 
 #: ../src/mail/mail-config.ui.h:136
-#, fuzzy
-#| msgid "Message Header"
 msgid "Message List User Headers"
-msgstr "سرنامهٔ پیام"
+msgstr "سرایندهای کاربری سیاههٔ پیام"
 
 #: ../src/mail/mail-config.ui.h:137
-#, fuzzy
-#| msgid "Mail Headers Table"
 msgid "Message List User Headers Table"
-msgstr "‌جدول سرنامه‌ها"
+msgstr "‌جدول سرایندهای کاربری سیاههٔ پیام"
 
 #: ../src/mail/mail-config.ui.h:138
 #: ../src/modules/addressbook/autocompletion-config.c:118
 #: ../src/modules/calendar/e-calendar-preferences.ui.h:51
-#, fuzzy
-#| msgid "Date/Time"
 msgid "Date/Time Format"
-msgstr "تاریخ/زمان"
+msgstr "قالب تاریخ و زمان"
 
 #: ../src/mail/mail-config.ui.h:140
-#, fuzzy
-#| msgid "Check in_coming mail for junk"
 msgid "Check incoming _messages for junk"
-msgstr "گشتن در نامه‌های _وارده به دنبال آشغال"
+msgstr "بررسی _پیام‌های وارده برای هرزنامه"
 
 #: ../src/mail/mail-config.ui.h:141
-#, fuzzy
-#| msgid "_Delete Message"
 msgid "_Delete junk messages"
-msgstr "_حذف پیام"
+msgstr "_حذف پیام‌های هرز"
 
 #: ../src/mail/mail-config.ui.h:142
-#, fuzzy
-#| msgid "Junk Settings"
 msgid "Junk Test Options"
-msgstr "تنظیمات آشغال"
+msgstr "گزینه‌های آزمون هرزنامه"
 
 #: ../src/mail/mail-config.ui.h:143
-#, fuzzy
-#| msgid "_Load images if sender is in address book"
 msgid "Do not mar_k messages as junk if sender is in my address book"
-msgstr "بار کردن _تصاویر اگر فرستنده در دفترچه تلفن من هست"
+msgstr "_علامت نزدن پیام‌ها از آشنایان به عنوان هرزنامه"
 
 #: ../src/mail/mail-config.ui.h:144
-#, fuzzy
-#| msgid "List local addressbook folders"
 msgid "_Lookup in local address book only"
-msgstr "فهرست کردن شاخه‌های دفترچه تلفن محلی"
+msgstr "_گشتن فقط در دفترچه تلفن محلّی"
 
 #: ../src/mail/mail-config.ui.h:145
-#, fuzzy
-#| msgid "Check in_coming mail for junk"
 msgid "Check cu_stom headers for junk"
-msgstr "گشتن در نامه‌های _وارده به دنبال آشغال"
+msgstr "بررسی سرایندهای _شخصی برای هرزنامه"
 
 #: ../src/mail/mail-config.ui.h:147
 #: ../src/modules/mail-config/e-mail-config-remote-accounts.c:303
@@ -19007,16 +18855,12 @@ msgid "Review"
 msgstr "مرور"
 
 #: ../src/mail/mail-dialogs.ui.h:12
-#, fuzzy
-#| msgid ""
-#| "The messages you have selected for follow up are listed below.\n"
-#| "Please select a follow up action from the \"Flag\" menu."
 msgid ""
 "The messages you have selected for follow up are listed below.\n"
 "Please select a follow up action from the “Flag” menu."
 msgstr ""
-"پیفام‌هایی که برای پی‌گیری انتخاب کرده‌اید  در زیر فهرست شده‌اند.\n"
-"لطفاً یک کنش پی‌گیری از منوی «پرچم» انتخاب کنید."
+"پیام‌هایی که برای پی‌گیری گزیده‌اید در زیر سیاهه شده‌اند.\n"
+"لطفاً از فهرست «پرچم» کنشی برای پی‌گیری برگزینید."
 
 #: ../src/mail/mail-dialogs.ui.h:14
 msgid "_Flag:"
@@ -19060,10 +18904,8 @@ msgstr ""
 "پشتیبانی نکند."
 
 #: ../src/mail/mail.error.xml.h:3
-#, fuzzy
-#| msgid "Your login to your server &quot;{0}&quot; as &quot;{0}&quot; failed."
 msgid "Your login to your server “{0}” as “{0}” failed."
-msgstr "ورود شما به سامانه «{0}» با نام «{0}» شکست خورد."
+msgstr "ورودتان به کارساز «{0}» به عنوان «{0}» شکست خورد."
 
 #: ../src/mail/mail.error.xml.h:4
 msgid ""
@@ -19079,20 +18921,13 @@ msgid "Are you sure you want to send a message in HTML format?"
 msgstr "آیا مطمئنید که می‌خواهید پیامی در قالب HTML بفرستید؟"
 
 #: ../src/mail/mail.error.xml.h:6
-#, fuzzy
-#| msgid ""
-#| "Please make sure the following recipients are willing and able to receive HTML "
-#| "email:\n"
-#| "{0}\n"
-#| "Send anyway?"
 msgid ""
 "Please make sure the following recipients are willing and able to receive HTML "
 "email:\n"
 "{0}"
 msgstr ""
-"لطفاً اطمینان حاصل کنید که این گیرندگان مایل و قادر به دریافت نامهٔ HTML هستند:\n"
-"{0}\n"
-"به هر حال ارسال شود؟"
+"مطمئن شوید که گیرندگان زیر مایل و قادر به گرفتن رایانامهٔ HTML هستند:\n"
+"{0}"
 
 #: ../src/mail/mail.error.xml.h:9
 msgid "Are you sure you want to send a message without a subject?"
@@ -19127,10 +18962,8 @@ msgid ""
 msgstr ""
 
 #: ../src/mail/mail.error.xml.h:17
-#, fuzzy
-#| msgid "Are you sure you want to send a message with only BCC recipients?"
 msgid "Are you sure you want to send a message with invalid address?"
-msgstr "آیا مطمئنید که می‌خواهید پیامی تنها با گیرندگان رونوشت محرمانه ارسال کنید؟"
+msgstr "آیا مطمئنید که می‌خواهید پیامی با نشانی نامعتبر بفرستید؟"
 
 #: ../src/mail/mail.error.xml.h:18
 msgid ""
@@ -19139,10 +18972,8 @@ msgid ""
 msgstr ""
 
 #: ../src/mail/mail.error.xml.h:20
-#, fuzzy
-#| msgid "Are you sure you want to send a message with only BCC recipients?"
 msgid "Are you sure you want to send a message with invalid addresses?"
-msgstr "آیا مطمئنید که می‌خواهید پیامی تنها با گیرندگان رونوشت محرمانه ارسال کنید؟"
+msgstr "آیا مطمئنید که می‌خواهید پیام‌هایی با نشانی نامعتبر بفرستید؟"
 
 #: ../src/mail/mail.error.xml.h:21
 msgid ""
@@ -19199,28 +19030,22 @@ msgid "Use default drafts folder?"
 msgstr "از شاخهٔ پیش‌نویس پیش‌گزیده استفاده شود؟"
 
 #: ../src/mail/mail.error.xml.h:34
-#, fuzzy
-#| msgid ""
-#| "Unable to open the drafts folder for this account. Use the system drafts "
-#| "folder instead?"
 msgid ""
 "Unable to open the drafts folder for this account. Use the system drafts folder "
 "instead?\n"
 "\n"
 "The reported error was “{0}”."
 msgstr ""
-"گشودن شاخهٔ پیش‌نویس‌های این حساب ممکن نیست. به جای آن از شاخهٔ پیش‌نویس‌های سامانه "
-"استفاده بشود؟"
+"ناتوان در گشودن شاخهٔ پیش‌نویس‌های این حساب. به جایش از شاخهٔ پیش‌نویس‌های سامانه "
+"استفاده شود؟\n"
+"\n"
+"خطای گزارش شده این بود: {0}."
 
 #: ../src/mail/mail.error.xml.h:37
 msgid "Use _Default"
 msgstr "استفاده از _پیش‌گزیده"
 
 #: ../src/mail/mail.error.xml.h:38
-#, fuzzy
-#| msgid ""
-#| "Are you sure you want to permanently remove all the deleted message in folder "
-#| "\"{0}\"?"
 msgid ""
 "Are you sure you want to permanently remove all the deleted messages in folder "
 "“{0}”?"
@@ -19287,20 +19112,14 @@ msgid "Error loading filter definitions."
 msgstr "خطای بار کردن تعاریف پالایه."
 
 #: ../src/mail/mail.error.xml.h:54
-#, fuzzy
-#| msgid "Cannot save to file \"{0}\"."
 msgid "Cannot save to directory “{0}”."
-msgstr "ذخیره در پروندهٔ «{0}» ممکن نیست."
+msgstr "ذخیره در شاخهٔ «{0}» ممکن نیست."
 
 #: ../src/mail/mail.error.xml.h:55
-#, fuzzy
-#| msgid "Cannot save to file \"{0}\"."
 msgid "Cannot save to file “{0}”."
 msgstr "ذخیره در پروندهٔ «{0}» ممکن نیست."
 
 #: ../src/mail/mail.error.xml.h:56
-#, fuzzy
-#| msgid "Cannot create the save directory, because &quot;{1}&quot;"
 msgid "Cannot create the save directory, because “{1}”"
 msgstr "نمی‌توان شاخهٔ ذخیره‌سازی را ایجاد کرد، چون «{1}»"
 
@@ -19317,70 +19136,47 @@ msgid "File exists but is not a regular file."
 msgstr "پرونده وجود دارد ولی یک پروندهٔ متعارف نیست."
 
 #: ../src/mail/mail.error.xml.h:60
-#, fuzzy
-#| msgid "Cannot delete folder \"{0}\"."
 msgid "Cannot delete folder “{0}”."
 msgstr "نمی‌توان شاخهٔ «{0}» حذف کرد."
 
 #: ../src/mail/mail.error.xml.h:61
-#, fuzzy
-#| msgid "Cannot delete folder \"{0}\"."
 msgid "Cannot delete system folder “{0}”."
-msgstr "نمی‌توان شاخهٔ «{0}» حذف کرد."
+msgstr "نمی‌توان شاخهٔ سامانه‌ای «{0}» حذف کرد."
 
 #: ../src/mail/mail.error.xml.h:62
-#, fuzzy
-#| msgid ""
-#| "System folders are required for Ximian Evolution to function correctly and "
-#| "cannot be renamed, moved, or deleted."
 msgid ""
 "System folders are required for Evolution to function correctly and cannot be "
 "renamed, moved, or deleted."
 msgstr ""
-"شاخه‌های سامانه برای درست کار کردن اوولوشن ضروری هستند و نمی‌توان نامشان را تغییر "
-"داد یا آنان را جابه‌جا و یا حذف کرد."
+"شاخه‌های سامانه‌ای برای درست کار کردن اوولوشن ضروریند و نمی‌توان نامشان را تغییر داد "
+"یا آنان را جابه‌جا و یا حذف کرد."
 
 #: ../src/mail/mail.error.xml.h:63
-#, fuzzy
-#| msgid "Cannot create folder &quot;{0}&quot;."
 msgid "Failed to expunge folder “{0}”."
-msgstr "نمی‌توان شاخهٔ «{0}» را ایجاد کرد."
+msgstr "شکست در از بین بردن شاخهٔ «{0}»."
 
 #: ../src/mail/mail.error.xml.h:65
-#, fuzzy
-#| msgid "Cannot create folder &quot;{0}&quot;."
 msgid "Failed to refresh folder “{0}”."
-msgstr "نمی‌توان شاخهٔ «{0}» را ایجاد کرد."
+msgstr "شکست در تازه‌سازی شاخهٔ «{0}»."
 
 #: ../src/mail/mail.error.xml.h:66
-#, fuzzy
-#| msgid "Cannot rename or move system folder &quot;{0}&quot;."
 msgid "Cannot rename or move system folder “{0}”."
-msgstr "تغییر نام یا جابه‌جایی شاخهٔ سامانه «{0}» ممکن نیست."
+msgstr "نتوانست نام شاخهٔ سامانه‌ای «{0}» را تغییر داد یا جابه‌جایش کرد."
 
 #: ../src/mail/mail.error.xml.h:67
-#, fuzzy
-#| msgid "Really delete folder &quot;{0}&quot; and all of its subfolders?"
 msgid "Really delete folder “{0}” and all of its subfolders?"
 msgstr "واقعاً شاخهٔ «{0}» و همهٔ زیرشاخه‌هایش حذف شود؟"
 
 #: ../src/mail/mail.error.xml.h:68
-#, fuzzy
-#| msgid ""
-#| "If you delete the folder, all of its contents and its subfolders contents will "
-#| "be deleted permanently."
 msgid ""
 "If you delete the folder, all of its contents and its subfolders’ contents will "
 "be deleted permanently."
 msgstr ""
-"اگر این شاخه را حذف کنید، همهٔ محتویات آن و محتویات زیر‌شاخه‌هایش برای همیشه حذف "
-"خواهند شد."
+"اگر شاخه را حذف کنید، تمامی محتویات خودش و زیر‌شاخه‌هایش برای همیشه حذف خواهند شد."
 
 #: ../src/mail/mail.error.xml.h:70
-#, fuzzy
-#| msgid "Really unsubscribe from folder \"%s\"?"
 msgid "Really unsubscribe folder “{0}”?"
-msgstr "اشتراک شاخهٔ «%s» واقعاً قطع شود؟"
+msgstr "واقعاً اشتراک شاخهٔ «{0}» قطع شود؟"
 
 #: ../src/mail/mail.error.xml.h:71
 msgid ""
@@ -19390,26 +19186,16 @@ msgid ""
 msgstr ""
 
 #: ../src/mail/mail.error.xml.h:72
-#, fuzzy
-#| msgid "_Unsubscribe"
 msgid "Do _Not Unsubscribe"
-msgstr "_قطع اشتراک"
+msgstr "اشتراک قطع _نشود"
 
 #: ../src/mail/mail.error.xml.h:74
-#, fuzzy
-#| msgid "Cannot delete folder \"{0}\"."
 msgid "Really delete folder “{0}”?"
-msgstr "نمی‌توان شاخهٔ «{0}» حذف کرد."
+msgstr "واقعاً شاخهٔ «{0}» حذف شود؟"
 
 #: ../src/mail/mail.error.xml.h:75
-#, fuzzy
-#| msgid ""
-#| "If you delete the folder, all of its contents and its subfolders contents will "
-#| "be deleted permanently."
 msgid "If you delete the folder, all of its contents will be deleted permanently."
-msgstr ""
-"اگر این شاخه را حذف کنید، همهٔ محتویات آن و محتویات زیر‌شاخه‌هایش برای همیشه حذف "
-"خواهند شد."
+msgstr "اگر شاخه را حذف کنید، تمامی محتویاتش برای همیشه حذف خواهند شد."
 
 #: ../src/mail/mail.error.xml.h:76
 #, fuzzy
