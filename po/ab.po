@@ -1,16 +1,8 @@
-# Copyright (C) 2022 The Abkhazian language development fund named after Bagrat Shinkuba
-# This file is distributed under the same license as the evolution package.
-# Нанба Наала <naala-nanba@rambler.ru>, 2022.
-#
-
 msgid ""
 msgstr ""
-"Project-Id-Version: evolution\n"
 "Report-Msgid-Bugs-To: https://gitlab.gnome.org/GNOME/evolution/issues\n"
 "POT-Creation-Date: 2022-07-22 06:40+0000\n"
-"PO-Revision-Date: 2022-07-22 16:00+0000\n"
-"Last-Translator: Нанба Наала <naala-nanba@rambler.ru>\n"
-"Language-Team: Abkhazian <LL@li.org>\n"
+"Language-Team: Abkhazian <ab@li.org>\n"
 "Language: ab\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -1573,7 +1565,7 @@ msgstr ""
 msgid "Show image animations"
 msgstr ""
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:92
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:98
 msgid ""
 "Enable animated images in HTML mail. Many users find animated images "
 "annoying and prefer to see a static image instead."
@@ -1582,7 +1574,7 @@ msgstr ""
 "ианимациарку аԥшранҵақәа рыԥсахы еибадыркуеит, урҭ рцымхәрас рхы иадырхәоит "
 "астатикатә ԥшранҵақәа."
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:93
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:99
 msgid "Enable or disable type ahead search feature"
 msgstr "Аҭагалараан аԥшаара афункциа аҿакра, мамзар аҿыхра"
 
@@ -1592,7 +1584,7 @@ msgid ""
 "names."
 msgstr ""
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:95
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:101
 msgid "Enable or disable magic space bar"
 msgstr "Анашанара абжьажь' аҿакра , мамзар аҿыхра"
 
@@ -1610,7 +1602,7 @@ msgstr ""
 msgid "Enable to use a similar message list view settings for all folders."
 msgstr ""
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:99
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:105
 msgid "Enable to use the same search settings for all folders"
 msgstr "Аҭаӡқәа зегь рзы еиԥшу ахышәарақәа ахархәара рыҭара аҿакра"
 
@@ -1650,7 +1642,7 @@ msgstr ""
 msgid "Default charset in which to display messages."
 msgstr ""
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:109
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:115
 msgid "Automatically load images for HTML messages over HTTP"
 msgstr "Автоматикла аԥшранҵақәа рҭагалара ацҳамҭақәа HTML аформат змоу рзы "
 
@@ -3211,7 +3203,11 @@ msgid ""
 "message part to take into effect, like using right-click→Format As→...."
 msgstr ""
 
-#: ../data/org.gnome.Evolution.appdata.xml.in.in.h:1+../data/org.gnome.Evolution.desktop.in.in.h:1+../src/mail/e-mail-browser.c:1293+../src/modules/mailto-handler/evolution-mailto-handler.c:208+../src/shell/e-shell-window-private.c:241
+#: ../data/org.gnome.Evolution.appdata.xml.in.in.h:1
+#: ../data/org.gnome.Evolution.desktop.in.in.h:1
+#: ../src/mail/e-mail-browser.c:1347
+#: ../src/modules/mailto-handler/evolution-mailto-handler.c:208
+#: ../src/shell/e-shell-window-private.c:265
 msgid "Evolution"
 msgstr "Evolution"
 
@@ -4078,7 +4074,7 @@ msgstr ""
 msgid "Telephone"
 msgstr ""
 
-#: ../src/addressbook/gui/contact-editor/contact-editor.ui.h:26
+#: ../src/addressbook/gui/contact-editor/contact-editor.ui.h:24
 msgid "SIP Address"
 msgstr "Аҭыӡҭыԥ SIP"
 
@@ -4226,11 +4222,12 @@ msgstr ""
 msgid "_Country:"
 msgstr ""
 
-#: ../src/addressbook/gui/contact-editor/contact-editor.ui.h:60
+#: ../src/addressbook/gui/contact-editor/contact-editor.ui.h:58
 msgid "_PO Box:"
 msgstr "_Абоненттә иашьык:"
 
-#: ../src/addressbook/gui/contact-editor/contact-editor.ui.h:61+../src/composer/e-composer-from-header.c:122
+#: ../src/addressbook/gui/contact-editor/contact-editor.ui.h:59
+#: ../src/composer/e-composer-from-header.c:122
 msgid "_Address:"
 msgstr "_Аҭыӡҭыԥ"
 
@@ -4238,7 +4235,7 @@ msgstr "_Аҭыӡҭыԥ"
 #: ../src/addressbook/gui/widgets/eab-contact-formatter.c:85
 #: ../src/addressbook/gui/widgets/e-contact-map.c:419
 msgid "Home"
-msgstr ""
+msgstr "Home"
 
 #: ../src/addressbook/gui/contact-editor/contact-editor.ui.h:61
 #: ../src/addressbook/gui/widgets/eab-contact-formatter.c:84
@@ -4311,19 +4308,23 @@ msgstr ""
 #: ../src/calendar/gui/e-comp-editor.c:2213
 #: ../src/e-util/e-html-editor-actions.c:1161
 msgid "_Undo"
-msgstr ""
+msgstr "_архынҳәра"
 
 #: ../src/addressbook/gui/contact-editor/e-contact-editor.c:268
 #: ../src/calendar/gui/e-comp-editor.c:2215 ../src/e-util/e-focus-tracker.c:147
 #: ../src/e-util/e-focus-tracker.c:150
 msgid "Undo"
-msgstr ""
+msgstr "Архынҳәра"
 
-#: ../src/addressbook/gui/contact-editor/e-contact-editor.c:269+../src/calendar/gui/e-comp-editor.c:2189+../src/e-util/e-html-editor-actions.c:1147
+#: ../src/addressbook/gui/contact-editor/e-contact-editor.c:273
+#: ../src/calendar/gui/e-comp-editor.c:2220
+#: ../src/e-util/e-html-editor-actions.c:1147
 msgid "_Redo"
-msgstr "_архынҳәра"
+msgstr "Ар_хынҳәра"
 
-#: ../src/addressbook/gui/contact-editor/e-contact-editor.c:271+../src/calendar/gui/e-comp-editor.c:2191+../src/e-util/e-focus-tracker.c:163+../src/e-util/e-focus-tracker.c:166
+#: ../src/addressbook/gui/contact-editor/e-contact-editor.c:275
+#: ../src/calendar/gui/e-comp-editor.c:2222 ../src/e-util/e-focus-tracker.c:163
+#: ../src/e-util/e-focus-tracker.c:166
 msgid "Redo"
 msgstr "Архынҳәра"
 
@@ -4483,7 +4484,7 @@ msgstr ""
 #: ../src/shell/main.c:271 ../src/smime/gui/certificate-manager.c:1344
 #: ../src/smime/gui/e-cert-selector.c:240 ../src/smime/gui/smime-ui.ui.h:18
 msgid "_OK"
-msgstr ""
+msgstr "_OK"
 
 #: ../src/addressbook/gui/contact-editor/e-contact-quick-add.c:449
 msgid "Contact Quick-Add"
@@ -4673,7 +4674,9 @@ msgstr ""
 msgid "Any field contains"
 msgstr ""
 
-#: ../src/addressbook/gui/widgets/ea-addressbook-view.c:92+../src/addressbook/gui/widgets/ea-addressbook-view.c:101+../src/addressbook/gui/widgets/ea-minicard-view.c:223
+#: ../src/addressbook/gui/widgets/ea-addressbook-view.c:92
+#: ../src/addressbook/gui/widgets/ea-addressbook-view.c:101
+#: ../src/addressbook/gui/widgets/ea-minicard-view.c:223
 msgid "evolution address book"
 msgstr "аҭыӡҭыԥтәи ашәҟәы evolution"
 
@@ -4713,7 +4716,7 @@ msgstr ""
 
 #: ../src/addressbook/gui/widgets/eab-contact-formatter.c:453
 msgid "SIP"
-msgstr ""
+msgstr "SIP"
 
 #: ../src/addressbook/gui/widgets/eab-contact-formatter.c:685
 msgid "List Members:"
@@ -4743,39 +4746,39 @@ msgstr ""
 
 #: ../src/addressbook/gui/widgets/eab-contact-formatter.c:927
 msgid "AIM"
-msgstr ""
+msgstr "AIM"
 
 #: ../src/addressbook/gui/widgets/eab-contact-formatter.c:928
 msgid "GroupWise"
-msgstr ""
+msgstr "GroupWise"
 
 #: ../src/addressbook/gui/widgets/eab-contact-formatter.c:929
 msgid "ICQ"
-msgstr ""
+msgstr "ICQ"
 
 #: ../src/addressbook/gui/widgets/eab-contact-formatter.c:930
 msgid "Jabber"
-msgstr ""
+msgstr "Jabber"
 
 #: ../src/addressbook/gui/widgets/eab-contact-formatter.c:931
 msgid "MSN"
-msgstr ""
+msgstr "MSN"
 
 #: ../src/addressbook/gui/widgets/eab-contact-formatter.c:932
 msgid "Yahoo"
-msgstr ""
+msgstr "Yahoo"
 
 #: ../src/addressbook/gui/widgets/eab-contact-formatter.c:933
 msgid "Gadu-Gadu"
-msgstr ""
+msgstr "Gadu-Gadu"
 
 #: ../src/addressbook/gui/widgets/eab-contact-formatter.c:934
 msgid "Skype"
-msgstr ""
+msgstr "Skype"
 
 #: ../src/addressbook/gui/widgets/eab-contact-formatter.c:935
 msgid "Twitter"
-msgstr ""
+msgstr "Twitter"
 
 #: ../src/addressbook/gui/widgets/eab-contact-formatter.c:936
 msgid "Matrix"
@@ -4822,7 +4825,9 @@ msgstr ""
 msgid "Free/Busy"
 msgstr ""
 
-#: ../src/addressbook/gui/widgets/eab-contact-formatter.c:1010+../src/addressbook/gui/widgets/eab-contact-formatter.c:1050+../src/addressbook/gui/widgets/eab-contact-formatter.c:1076
+#: ../src/addressbook/gui/widgets/eab-contact-formatter.c:1010
+#: ../src/addressbook/gui/widgets/eab-contact-formatter.c:1050
+#: ../src/addressbook/gui/widgets/eab-contact-formatter.c:1076
 msgid "Address"
 msgstr "Аҭыӡҭыԥ"
 
@@ -4867,7 +4872,7 @@ msgstr ""
 #: ../src/addressbook/gui/widgets/eab-contact-merging.c:261
 #: ../src/e-util/e-mail-signature-editor.c:626
 msgid "Unnamed"
-msgstr ""
+msgstr "Ихьӡыдоу"
 
 #: ../src/addressbook/gui/widgets/eab-contact-merging.c:350
 #: ../src/calendar/gui/tasktypes.xml.in.h:14 ../src/mail/mail-send-recv.c:1143
@@ -4980,6 +4985,7 @@ msgstr ""
 msgid "This query did not complete successfully. %s"
 msgstr ""
 
+#. This is a filename. Translators take note.
 #: ../src/addressbook/gui/widgets/eab-gui-util.c:263
 msgid "card.vcf"
 msgstr "card.vcf"
@@ -5208,8 +5214,14 @@ msgstr ""
 
 #: ../src/addressbook/gui/widgets/e-addressbook-view.etspec.h:26
 msgid "Telex"
-msgstr ""
+msgstr "Telex"
 
+#. Translators: This is a vcard standard and stands for the type of
+#. phone used by the hearing impaired. TTY stands for "teletype"
+#. (familiar from Unix device names), and TDD is "Telecommunications
+#. Device for Deaf". However, you probably want to leave this
+#. abbreviation unchanged unless you know that there is actually a
+#. different and established translation for this in your language.
 #: ../src/addressbook/gui/widgets/e-addressbook-view.etspec.h:33
 msgid "TTYTDD"
 msgstr "TTYTDD"
@@ -5297,9 +5309,6 @@ msgid ""
 "\n"
 "Searching for the Contacts…"
 msgstr ""
-"\n"
-"\n"
-"Аимадарақәа рыԥшаара…"
 
 #: ../src/addressbook/gui/widgets/e-minicard-view.c:189
 msgid ""
@@ -5309,11 +5318,6 @@ msgid ""
 "\n"
 "or double-click here to create a new Contact."
 msgstr ""
-"\n"
-"\n"
-"Ишәыԥшаа аимадара\n"
-"\n"
-"мамзар абраҟа шәақәыӷәӷәа аҿыц аԥҵаразы"
 
 #: ../src/addressbook/gui/widgets/e-minicard-view.c:192
 msgid ""
@@ -5323,11 +5327,6 @@ msgid ""
 "\n"
 "Double-click here to create a new Contact."
 msgstr ""
-"\n"
-"\n"
-"Иҟаӡам аелементқәа ари аԥенџьыр аҟны иаарԥшразы.\n"
-"\n"
-"Ҩынтә абраҟа шәақәыӷәӷәа аимадара ҿыц аԥҵаразы."
 
 #: ../src/addressbook/gui/widgets/e-minicard-view.c:196
 msgid ""
@@ -5335,9 +5334,6 @@ msgid ""
 "\n"
 "Search for the Contact."
 msgstr ""
-"\n"
-"\n"
-"Аимадара аԥшаара."
 
 #: ../src/addressbook/gui/widgets/e-minicard-view.c:198
 msgid ""
@@ -5345,9 +5341,6 @@ msgid ""
 "\n"
 "There are no items to show in this view."
 msgstr ""
-"\n"
-"\n"
-"Иҟаӡам аелементқәа ари аԥенџьыр аҟны иаарԥшразы"
 
 #: ../src/addressbook/importers/evolution-csv-importer.c:796
 #: ../src/addressbook/importers/evolution-ldif-importer.c:547
@@ -6275,7 +6268,7 @@ msgstr ""
 #: ../src/plugins/publish-calendar/publish-calendar.ui.h:23
 #: ../src/plugins/save-calendar/csv-format.c:376
 msgid "Location"
-msgstr ""
+msgstr "Аҭыӡҭыԥ"
 
 #: ../src/calendar/gui/caltypes.xml.in.h:15
 #: ../src/calendar/gui/memotypes.xml.in.h:13
@@ -6502,7 +6495,12 @@ msgstr ""
 msgid "Organizer: %s"
 msgstr ""
 
-#: ../src/calendar/gui/comp-util.c:2260+../src/calendar/gui/e-meeting-time-sel.c:2580+../src/calendar/gui/e-to-do-pane.c:382+../src/calendar/gui/print.c:3655
+#. Translators: It will display "Location: PlaceOfTheMeeting"
+#. Translators: It will display "Location: LocationOfTheAppointment"
+#: ../src/calendar/gui/comp-util.c:2260
+#: ../src/calendar/gui/e-meeting-time-sel.c:2580
+#: ../src/calendar/gui/e-to-do-pane.c:382 ../src/calendar/gui/print.c:3655
+#, c-format
 msgid "Location: %s"
 msgstr "Аҭыӡҭыԥ:%s"
 
@@ -6533,7 +6531,9 @@ msgstr ""
 msgid "Completed: %s"
 msgstr ""
 
-#: ../src/calendar/gui/comp-util.c:2416+../src/calendar/gui/e-to-do-pane.c:596+../src/e-util/e-misc-utils.c:4838+../src/e-util/e-text.c:566+../src/e-util/e-web-view.c:4187
+#: ../src/calendar/gui/comp-util.c:2416 ../src/calendar/gui/e-to-do-pane.c:596
+#: ../src/e-util/e-misc-utils.c:4838 ../src/e-util/e-text.c:566
+#: ../src/e-util/e-web-view.c:4187
 msgid "…"
 msgstr "…"
 
@@ -6756,7 +6756,7 @@ msgstr ""
 #: ../src/calendar/gui/e-cal-component-preview.c:241
 #: ../src/e-util/e-filter-rule.c:1016 ../src/mail/e-mail-config-page.c:124
 msgid "Untitled"
-msgstr ""
+msgstr "Ихьӡыдоу"
 
 #: ../src/calendar/gui/e-cal-component-preview.c:255
 #: ../src/modules/itip-formatter/itip-view.c:1928
@@ -6764,7 +6764,10 @@ msgstr ""
 msgid "Categories:"
 msgstr ""
 
-#: ../src/calendar/gui/e-cal-component-preview.c:293+../src/modules/cal-config-weather/evolution-cal-config-weather.c:258+../src/modules/itip-formatter/itip-view.c:1919+../src/modules/itip-formatter/itip-view.c:2119
+#: ../src/calendar/gui/e-cal-component-preview.c:293
+#: ../src/modules/cal-config-weather/evolution-cal-config-weather.c:258
+#: ../src/modules/itip-formatter/itip-view.c:1919
+#: ../src/modules/itip-formatter/itip-view.c:2119
 msgid "Location:"
 msgstr "Аҭыӡҭыԥ:"
 
@@ -7037,7 +7040,15 @@ msgstr ""
 msgid "%d %b %Y"
 msgstr ""
 
-#: ../src/calendar/gui/e-calendar-view.c:1177+../src/calendar/gui/e-day-view.c:3222+../src/calendar/gui/e-day-view-top-item.c:856+../src/calendar/gui/e-week-view-main-item.c:230
+#. strftime format %d = day of month, %b = abbreviated month name.
+#. * Don't use any other specifiers.
+#. strftime format %d = day of month, %b = abbreviated
+#. * month name. You can change the order but don't
+#. * change the specifiers or add anything.
+#: ../src/calendar/gui/e-calendar-view.c:1177
+#: ../src/calendar/gui/e-day-view.c:3222
+#: ../src/calendar/gui/e-day-view-top-item.c:856
+#: ../src/calendar/gui/e-week-view-main-item.c:230
 msgid "%d %b"
 msgstr "%d %b"
 
@@ -7173,7 +7184,8 @@ msgstr ""
 msgid "Assigned"
 msgstr ""
 
-#: ../src/calendar/gui/e-cal-model.c:1895+../src/calendar/gui/e-cal-model-tasks.c:1154
+#: ../src/calendar/gui/e-cal-model.c:1895
+#: ../src/calendar/gui/e-cal-model-tasks.c:1154
 msgid "Yes"
 msgstr "Ааи"
 
@@ -7791,6 +7803,8 @@ msgstr ""
 msgid "Modify exception"
 msgstr ""
 
+#. TRANSLATORS: Entire string is for example: This appointment recurs/Every [x] week(s) on [Wednesday] [forever]'
+#. * (dropdown menu options are in [square brackets]). This means that after the 'on', name of a week day always follows.
 #: ../src/calendar/gui/e-comp-editor-page-recurrence.c:503
 msgid "on"
 msgstr "аҟны"
@@ -8708,7 +8722,10 @@ msgstr ""
 msgid "Individual"
 msgstr ""
 
-#: ../src/calendar/gui/e-meeting-list-view.c:177+../src/calendar/gui/e-meeting-store.c:112+../src/calendar/gui/e-meeting-store.c:129+../src/calendar/gui/print.c:1288+../src/e-util/e-table-config.ui.h:1
+#: ../src/calendar/gui/e-meeting-list-view.c:177
+#: ../src/calendar/gui/e-meeting-store.c:112
+#: ../src/calendar/gui/e-meeting-store.c:129 ../src/calendar/gui/print.c:1288
+#: ../src/e-util/e-table-config.ui.h:1
 msgid "Group"
 msgstr "Агәыԥ"
 
@@ -8923,7 +8940,12 @@ msgstr ""
 msgid "Undefined"
 msgstr ""
 
+#. Translators: "%d%%" is the percentage of a task done.
+#. * %d is the actual value, %% is replaced with a percent sign.
+#. * Result values will be 0%, 10%, 20%, ... 100%
+#.
 #: ../src/calendar/gui/e-task-table.c:507
+#, c-format
 msgid "%d%%"
 msgstr "%d%%"
 
@@ -9075,7 +9097,11 @@ msgctxt "SummaryWithLocation"
 msgid "%s (%s)"
 msgstr ""
 
-#: ../src/calendar/gui/e-week-view-main-item.c:224+../src/calendar/gui/print.c:2122
+#. strftime format %d = day of month, %B = full
+#. * month name. You can change the order but don't
+#. * change the specifiers or add anything.
+#: ../src/calendar/gui/e-week-view-main-item.c:224
+#: ../src/calendar/gui/print.c:2122
 msgid "%d %B"
 msgstr "%d %B"
 
@@ -9363,6 +9389,7 @@ msgid "Percent Complete: %i"
 msgstr ""
 
 #: ../src/calendar/gui/print.c:3781
+#, c-format
 msgid "URL: %s"
 msgstr "URL: %s"
 
@@ -9388,7 +9415,9 @@ msgstr ""
 msgid "% Completed"
 msgstr ""
 
-#: ../src/calendar/gui/tasktypes.xml.in.h:26+../src/mail/filtertypes.xml.in.h:31+../src/mail/searchtypes.xml.in.h:33+../src/mail/vfoldertypes.xml.in.h:33
+#: ../src/calendar/gui/tasktypes.xml.in.h:26
+#: ../src/mail/filtertypes.xml.in.h:31 ../src/mail/searchtypes.xml.in.h:33
+#: ../src/mail/vfoldertypes.xml.in.h:33
 msgid "is greater than"
 msgstr "Иҵегь ахышәарақәа..."
 
@@ -9636,6 +9665,29 @@ msgctxt "iCalImp"
 msgid "Type"
 msgstr ""
 
+#.
+#. *
+#. * This program is free software; you can redistribute it and/or modify it
+#. * under the terms of the GNU Lesser General Public License as published by
+#. * the Free Software Foundation.
+#. *
+#. * This program is distributed in the hope that it will be useful, but
+#. * WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY
+#. * or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
+#. * for more details.
+#. *
+#. * You should have received a copy of the GNU Lesser General Public License
+#. * along with this program; if not, see <http://www.gnu.org/licenses/>.
+#. *
+#. *
+#. * Copyright (C) 1999-2008 Novell, Inc. (www.novell.com)
+#. *
+#.
+#.
+#. * These are the timezone names from the Olson timezone data.
+#. * We only place them here so gettext picks them up for translation.
+#. * Don't include in any C files.
+#.
 #: ../src/calendar/zones.h:25
 msgid "Africa/Abidjan"
 msgstr "Африка/Абиджан"
@@ -11806,7 +11858,10 @@ msgstr ""
 msgid "Display part as enriched text"
 msgstr ""
 
-#: ../src/em-format/e-mail-formatter-quote-text-html.c:93+../src/em-format/e-mail-formatter-text-html.c:389
+#: ../src/em-format/e-mail-formatter-quote-text-html.c:93
+#: ../src/em-format/e-mail-formatter-text-html.c:389
+#: ../src/modules/rss/evolution/e-rss-preferences.c:56
+#: ../src/modules/rss/evolution/e-rss-preferences.c:825
 msgid "HTML"
 msgstr "HTML"
 
@@ -12023,7 +12078,10 @@ msgstr ""
 msgid "partially S/MIME encrypted"
 msgstr ""
 
-#: ../src/em-format/e-mail-formatter-utils.c:695+../src/mail/e-mail-config-security-page.c:865+../src/modules/mail-config/e-mail-config-remote-accounts.c:273+../src/modules/mail-config/e-mail-config-smtp-backend.c:217
+#: ../src/em-format/e-mail-formatter-utils.c:699
+#: ../src/mail/e-mail-config-security-page.c:865
+#: ../src/modules/mail-config/e-mail-config-remote-accounts.c:273
+#: ../src/modules/mail-config/e-mail-config-smtp-backend.c:217
 msgid "Security"
 msgstr "Ашәарҭадара"
 
@@ -12100,7 +12158,9 @@ msgstr ""
 msgid "Reply-To"
 msgstr ""
 
-#: ../src/em-format/e-mail-part-headers.c:52+../src/e-util/e-dateedit.c:612+../src/e-util/e-dateedit.c:635+../src/mail/message-list.etspec.h:7+../src/modules/mail/em-mailer-prefs.c:77
+#: ../src/em-format/e-mail-part-headers.c:52 ../src/e-util/e-dateedit.c:612
+#: ../src/e-util/e-dateedit.c:635 ../src/mail/message-list.etspec.h:7
+#: ../src/modules/mail/em-mailer-prefs.c:77
 msgid "Date"
 msgstr "Аамҭарба"
 
@@ -12144,7 +12204,8 @@ msgstr ""
 msgid "Mail Accounts"
 msgstr ""
 
-#: ../src/e-util/e-accounts-window.c:564+../src/e-util/e-accounts-window.c:703+../src/e-util/e-accounts-window.c:908
+#: ../src/e-util/e-accounts-window.c:564 ../src/e-util/e-accounts-window.c:710
+#: ../src/e-util/e-accounts-window.c:918
 msgid "Address Books"
 msgstr "Аҭыӡҭыԥтә шәҟәы"
 
@@ -12190,7 +12251,7 @@ msgstr ""
 
 #: ../src/e-util/e-accounts-window.c:1494
 msgid "Address _Book"
-msgstr ""
+msgstr "Аҭыӡҭыԥтәи ашә_ҟәы"
 
 #: ../src/e-util/e-accounts-window.c:1495
 msgid "_Calendar"
@@ -12248,6 +12309,7 @@ msgid "%s (cancelling)"
 msgstr ""
 
 #: ../src/e-util/e-activity.c:264
+#, c-format
 msgid "%s"
 msgstr "%s"
 
@@ -12291,7 +12353,9 @@ msgstr ""
 msgid "Operation was cancelled"
 msgstr ""
 
-#: ../src/e-util/e-attachment.c:2270+../src/e-util/e-attachment.c:2974+../src/e-util/e-attachment.c:3426+../src/e-util/e-attachment-store.c:914
+#. Translators: Default attachment filename.
+#: ../src/e-util/e-attachment.c:2270 ../src/e-util/e-attachment.c:2974
+#: ../src/e-util/e-attachment.c:3426 ../src/e-util/e-attachment-store.c:914
 msgid "attachment.dat"
 msgstr "attachment.dat"
 
@@ -12608,7 +12672,8 @@ msgstr ""
 msgid "popup list"
 msgstr ""
 
-#: ../src/e-util/e-cell-date.c:49+../src/e-util/e-cell-date.c:138+../src/e-util/e-cell-date.c:158+../src/mail/message-list.c:2181
+#: ../src/e-util/e-cell-date.c:49 ../src/e-util/e-cell-date.c:138
+#: ../src/e-util/e-cell-date.c:158 ../src/mail/message-list.c:2189
 msgid "?"
 msgstr "?"
 
@@ -12625,7 +12690,7 @@ msgstr ""
 
 #: ../src/e-util/e-cell-date-edit.c:356 ../src/mail/e-mail-label-dialog.c:190
 msgid "OK"
-msgstr ""
+msgstr "OK"
 
 #: ../src/e-util/e-cell-date-edit.c:908
 #, c-format
@@ -12674,7 +12739,7 @@ msgstr ""
 
 #: ../src/e-util/e-charset.c:59
 msgid "Thai"
-msgstr ""
+msgstr "Thai"
 
 #: ../src/e-util/e-charset.c:60
 msgid "Turkish"
@@ -12847,7 +12912,9 @@ msgstr ""
 msgid "Mail Send"
 msgstr ""
 
-#: ../src/e-util/e-collection-account-wizard.c:866+../src/e-util/e-name-selector-dialog.c:445+../src/mail/importers/pine-importer.c:430
+#: ../src/e-util/e-collection-account-wizard.c:866
+#: ../src/e-util/e-name-selector-dialog.c:445
+#: ../src/mail/importers/pine-importer.c:430
 msgid "Address Book"
 msgstr "Аҭыӡҭыԥтәи ашәҟәы"
 
@@ -13464,6 +13531,7 @@ msgstr[0] ""
 msgstr[1] ""
 
 #: ../src/e-util/e-filter-datespec.c:127
+#, c-format
 msgid "<click here to select a date>"
 msgstr "<шәақәыӷәӷәа аамҭарба алхразы>"
 
@@ -13799,7 +13867,8 @@ msgstr ""
 msgid "Right Alignment"
 msgstr ""
 
-#: ../src/e-util/e-html-editor-actions.c:1347+../src/modules/text-highlight/languages.c:70
+#: ../src/e-util/e-html-editor-actions.c:1347
+#: ../src/modules/text-highlight/languages.c:70
 msgid "_HTML"
 msgstr "_HTML"
 
@@ -13815,7 +13884,8 @@ msgstr ""
 msgid "Plain text editing mode"
 msgstr ""
 
-#: ../src/e-util/e-html-editor-actions.c:1361+../src/modules/text-highlight/languages.c:96
+#: ../src/e-util/e-html-editor-actions.c:1361
+#: ../src/modules/text-highlight/languages.c:96
 msgid "_Markdown"
 msgstr "_Markdown"
 
@@ -14002,10 +14072,12 @@ msgstr ""
 msgid "Underline"
 msgstr ""
 
+#. Translators: This is a font size level. It is shown on a tool bar. Please keep it as short as possible.
 #: ../src/e-util/e-html-editor-actions.c:1638
 msgid "-2"
 msgstr "-2"
 
+#. Translators: This is a font size level. It is shown on a tool bar. Please keep it as short as possible.
 #: ../src/e-util/e-html-editor-actions.c:1646
 msgid "-1"
 msgstr "-1"
@@ -14299,7 +14371,9 @@ msgstr ""
 msgid "_Header Style"
 msgstr ""
 
-#: ../src/e-util/e-html-editor-cell-dialog.c:540+../src/e-util/e-html-editor-image-dialog.c:609+../src/e-util/e-html-editor-table-dialog.c:551
+#: ../src/e-util/e-html-editor-cell-dialog.c:540
+#: ../src/e-util/e-html-editor-image-dialog.c:609
+#: ../src/e-util/e-html-editor-table-dialog.c:551
 msgid "<b>Layout</b>"
 msgstr "<b>Аҭыԥ аанкылара</b>"
 
@@ -14316,7 +14390,8 @@ msgstr ""
 msgid "Co_lumn Span:"
 msgstr ""
 
-#: ../src/e-util/e-html-editor-cell-dialog.c:612+../src/e-util/e-html-editor-table-dialog.c:655
+#: ../src/e-util/e-html-editor-cell-dialog.c:612
+#: ../src/e-util/e-html-editor-table-dialog.c:655
 msgid "<b>Background</b>"
 msgstr "<b>адыԥшылахә</b>"
 
@@ -14413,7 +14488,9 @@ msgstr ""
 msgid "Rule properties"
 msgstr ""
 
-#: ../src/e-util/e-html-editor-image-dialog.c:554+../src/e-util/e-html-editor-paragraph-dialog.c:65+../src/e-util/e-html-editor-table-dialog.c:505
+#: ../src/e-util/e-html-editor-image-dialog.c:554
+#: ../src/e-util/e-html-editor-paragraph-dialog.c:65
+#: ../src/e-util/e-html-editor-table-dialog.c:505
 msgid "<b>General</b>"
 msgstr "<b>Азеиԥш</b>"
 
@@ -14446,7 +14523,8 @@ msgstr ""
 msgid "<b>Link</b>"
 msgstr "<b>Азхьарԥш</b>"
 
-#: ../src/e-util/e-html-editor-image-dialog.c:751+../src/e-util/e-html-editor-link-dialog.c:212
+#: ../src/e-util/e-html-editor-image-dialog.c:751
+#: ../src/e-util/e-html-editor-link-dialog.c:212
 msgid "_URL:"
 msgstr "_URL:"
 
@@ -14603,6 +14681,7 @@ msgid "Replace"
 msgstr ""
 
 #: ../src/e-util/e-html-editor-spell-check-dialog.c:83
+#, c-format
 msgid "<b>Suggestions for “%s”</b>"
 msgstr "<b>Аварианқәа «%s»</b> азы"
 
@@ -14764,7 +14843,8 @@ msgstr ""
 msgid "Evolution Import Assistant"
 msgstr ""
 
-#: ../src/e-util/e-import-assistant.c:1406+../src/e-util/e-import-assistant.c:1463
+#: ../src/e-util/e-import-assistant.c:1406
+#: ../src/e-util/e-import-assistant.c:1463
 msgid "Import Location"
 msgstr "Аҭыӡҭыԥқәа аимпорт азы"
 
@@ -15187,7 +15267,7 @@ msgstr ""
 
 #: ../src/e-util/e-proxy-editor.c:516
 msgid "Automatic"
-msgstr "Автоматикла"
+msgstr "Автоматикала"
 
 #: ../src/e-util/e-proxy-editor.c:535
 msgid "Configuration _URL:"
@@ -15835,7 +15915,10 @@ msgstr ""
 msgid "Input Methods"
 msgstr ""
 
-#: ../src/e-util/e-timezone-dialog.c:270+../src/e-util/e-timezone-dialog.c:510+../src/e-util/e-timezone-dialog.c:514+../src/e-util/e-timezone-dialog.c:518+../src/e-util/e-timezone-dialog.c:1005
+#. Put the "UTC" entry at the top of the combo's list.
+#: ../src/e-util/e-timezone-dialog.c:270 ../src/e-util/e-timezone-dialog.c:510
+#: ../src/e-util/e-timezone-dialog.c:514 ../src/e-util/e-timezone-dialog.c:518
+#: ../src/e-util/e-timezone-dialog.c:1005
 msgid "UTC"
 msgstr "UTC"
 
@@ -15888,7 +15971,8 @@ msgstr ""
 msgid "Identity"
 msgstr ""
 
-#: ../src/e-util/e-webdav-browser.c:511+../src/mail/filtertypes.xml.in.h:64+../src/mail/searchtypes.xml.in.h:56+../src/mail/vfoldertypes.xml.in.h:58
+#: ../src/e-util/e-webdav-browser.c:511 ../src/mail/filtertypes.xml.in.h:64
+#: ../src/mail/searchtypes.xml.in.h:56 ../src/mail/vfoldertypes.xml.in.h:58
 msgid "Address book"
 msgstr "Аҭыӡҭыԥтәи ашәҟәы"
 
@@ -16616,10 +16700,14 @@ msgstr ""
 msgid "Trying to movemail a non-mbox source “%s”"
 msgstr ""
 
+#. Translators: This is a subject attribution for forwarded messages. The %s is replaced with subject of the original message.
 #: ../src/libemail-engine/mail-tools.c:199
+#, c-format
 msgid "Fwd: %s"
 msgstr "Fwd: %s"
 
+#. Translators: This is a subject attribution for forwarded messages, used when there could not be used any subject.
+#. It results in "[Fwd: No Subject]" being used as a subject of the forwarded message.
 #: ../src/libemail-engine/mail-tools.c:209
 msgid "No Subject"
 msgstr "(Темада)"
@@ -16702,11 +16790,13 @@ msgstr ""
 msgid "Security method: %s"
 msgstr ""
 
-#: ../src/mail/e-mail-autoconfig.c:862+../src/mail/e-mail-config-summary-page.c:146
+#: ../src/mail/e-mail-autoconfig.c:862
+#: ../src/mail/e-mail-config-summary-page.c:146
 msgid "TLS"
 msgstr "TLS"
 
-#: ../src/mail/e-mail-autoconfig.c:863+../src/mail/e-mail-config-summary-page.c:149
+#: ../src/mail/e-mail-autoconfig.c:863
+#: ../src/mail/e-mail-config-summary-page.c:149
 msgid "STARTTLS"
 msgstr "STARTTLS"
 
@@ -16754,7 +16844,7 @@ msgstr "(Темада)"
 #: ../src/mail/e-mail-browser.c:532 ../src/mail/mail-dialogs.ui.h:5
 #: ../src/modules/mail/e-mail-shell-view-private.c:1511
 msgid "Forward"
-msgstr ""
+msgstr "Ԥхьаҟа"
 
 #: ../src/mail/e-mail-browser.c:543 ../src/mail/e-mail-reader.c:2917
 #: ../src/modules/mail/e-mail-shell-view-private.c:1522
@@ -17107,19 +17197,27 @@ msgstr ""
 msgid "Si_gning algorithm:"
 msgstr "А_напаҵыҩра алгоритм:"
 
-#: ../src/mail/e-mail-config-security-page.c:544+../src/mail/e-mail-config-security-page.c:720+../src/mail/mail-config.ui.h:80
+#: ../src/mail/e-mail-config-security-page.c:544
+#: ../src/mail/e-mail-config-security-page.c:720
+#: ../src/mail/mail-config.ui.h:80
 msgid "SHA1"
 msgstr "SHA1"
 
-#: ../src/mail/e-mail-config-security-page.c:547+../src/mail/e-mail-config-security-page.c:723+../src/mail/mail-config.ui.h:81
+#: ../src/mail/e-mail-config-security-page.c:547
+#: ../src/mail/e-mail-config-security-page.c:723
+#: ../src/mail/mail-config.ui.h:81
 msgid "SHA256"
 msgstr "SHA256"
 
-#: ../src/mail/e-mail-config-security-page.c:550+../src/mail/e-mail-config-security-page.c:726+../src/mail/mail-config.ui.h:82
+#: ../src/mail/e-mail-config-security-page.c:550
+#: ../src/mail/e-mail-config-security-page.c:726
+#: ../src/mail/mail-config.ui.h:82
 msgid "SHA384"
 msgstr "SHA384"
 
-#: ../src/mail/e-mail-config-security-page.c:553+../src/mail/e-mail-config-security-page.c:729+../src/mail/mail-config.ui.h:83
+#: ../src/mail/e-mail-config-security-page.c:553
+#: ../src/mail/e-mail-config-security-page.c:729
+#: ../src/mail/mail-config.ui.h:83
 msgid "SHA512"
 msgstr "SHA512"
 
@@ -17239,7 +17337,7 @@ msgstr ""
 
 #: ../src/mail/e-mail-config-summary-page.c:489
 msgid "Security:"
-msgstr ""
+msgstr "Ашәарҭадара:"
 
 #: ../src/mail/e-mail-config-summary-page.c:643
 msgid "Cannot have both receiving and sending parts set to None"
@@ -17707,7 +17805,7 @@ msgstr ""
 #: ../src/mail/e-mail-reader.c:2642
 #: ../src/modules/mail/e-mail-attachment-handler.c:389
 msgid "_Forward"
-msgstr ""
+msgstr "_Ԥхьаҟа"
 
 #: ../src/mail/e-mail-reader.c:2644
 #: ../src/modules/mail/e-mail-attachment-handler.c:391
@@ -17770,7 +17868,7 @@ msgstr ""
 msgid "_Load Images"
 msgstr ""
 
-#: ../src/mail/e-mail-reader.c:2701
+#: ../src/mail/e-mail-reader.c:2709
 msgid "Force images in HTML mail to be loaded"
 msgstr "Аԥшранҵақәа  HTML аформат рыманы  аԥошьҭа ахь рҭагалара аҿакра "
 
@@ -17998,7 +18096,7 @@ msgstr ""
 msgid "Compose a reply to all the recipients of the selected message"
 msgstr ""
 
-#: ../src/mail/e-mail-reader.c:2902
+#: ../src/mail/e-mail-reader.c:2910
 msgid "Al_ternative Reply…"
 msgstr "Аль_тернатиавтә ҭак..."
 
@@ -18198,12 +18296,12 @@ msgstr ""
 
 #: ../src/mail/e-mail-reader.c:5260 ../src/mail/filtertypes.xml.in.h:70
 msgid "Delete"
-msgstr ""
+msgstr "Delete"
 
 #: ../src/mail/e-mail-reader.c:5270
 #: ../src/modules/calendar/e-cal-shell-view-actions.c:1327
 msgid "Next"
-msgstr ""
+msgstr "Ԥхьаҟа"
 
 #: ../src/mail/e-mail-reader.c:5274
 #: ../src/modules/calendar/e-cal-shell-view-actions.c:1320
@@ -18645,7 +18743,8 @@ msgstr ""
 msgid "Appearance"
 msgstr ""
 
-#: ../src/mail/em-folder-properties.c:1403
+#. Translators: "Archive" is a noun (This is a tab heading in the mail folder properties)
+#: ../src/mail/em-folder-properties.c:1404
 msgid "Archive"
 msgstr "Архивтәра"
 
@@ -18727,7 +18826,9 @@ msgstr ""
 msgid "Cannot drop message(s) into toplevel store"
 msgstr ""
 
-#: ../src/mail/em-folder-tree-model.c:460+../src/mail/em-folder-tree-model.c:462
+#. UNMATCHED is always last.
+#: ../src/mail/em-folder-tree-model.c:463
+#: ../src/mail/em-folder-tree-model.c:465
 msgid "UNMATCHED"
 msgstr "UNMATCHED"
 
@@ -18984,11 +19085,13 @@ msgstr ""
 msgid "Recipients"
 msgstr ""
 
-#: ../src/mail/filtertypes.xml.in.h:13+../src/mail/searchtypes.xml.in.h:14+../src/mail/vfoldertypes.xml.in.h:14
+#: ../src/mail/filtertypes.xml.in.h:13 ../src/mail/searchtypes.xml.in.h:14
+#: ../src/mail/vfoldertypes.xml.in.h:14
 msgid "CC"
 msgstr "CC"
 
-#: ../src/mail/filtertypes.xml.in.h:14+../src/mail/searchtypes.xml.in.h:15+../src/mail/vfoldertypes.xml.in.h:15
+#: ../src/mail/filtertypes.xml.in.h:14 ../src/mail/searchtypes.xml.in.h:15
+#: ../src/mail/vfoldertypes.xml.in.h:15
 msgid "BCC"
 msgstr "BCC"
 
@@ -19284,7 +19387,8 @@ msgctxt "mboxImp"
 msgid "From"
 msgstr ""
 
-#: ../src/mail/importers/evolution-mbox-importer.c:569+../src/shell/e-shell-utils.c:166
+#: ../src/mail/importers/evolution-mbox-importer.c:569
+#: ../src/shell/e-shell-utils.c:166
 msgid "Berkeley Mailbox (mbox)"
 msgstr "Berkeley Mailbox (mbox)"
 
@@ -19296,8 +19400,8 @@ msgstr ""
 #, c-format
 msgid "%d Address"
 msgid_plural "%d Addresses"
-msgstr[0] "%d ҭыӡҭыԥк"
-msgstr[1] "%d ҭыӡҭыԥк"
+msgstr[0] ""
+msgstr[1] ""
 
 #: ../src/mail/importers/kmail-importer.c:350
 msgid "Evolution KMail importer"
@@ -19598,11 +19702,11 @@ msgstr ""
 msgid "Send Account"
 msgstr ""
 
-#: ../src/mail/mail-config.ui.h:84+../src/smime/gui/smime-ui.ui.h:27
+#: ../src/mail/mail-config.ui.h:84 ../src/smime/gui/smime-ui.ui.h:27
 msgid "a"
 msgstr "a"
 
-#: ../src/mail/mail-config.ui.h:85+../src/smime/gui/smime-ui.ui.h:28
+#: ../src/mail/mail-config.ui.h:85 ../src/smime/gui/smime-ui.ui.h:28
 msgid "b"
 msgstr "b"
 
@@ -19980,8 +20084,6 @@ msgid ""
 "The following recipient was not recognized as a valid mail address:\n"
 "{0}"
 msgstr ""
-"Анаҩстәи адкылаҩ иԥошьҭа аиашашьа еилкаамхазеит :\n"
-"{0}"
 
 #: ../src/mail/mail.error.xml.h:20
 msgid "Are you sure you want to send a message with invalid addresses?"
@@ -19992,8 +20094,6 @@ msgid ""
 "The following recipients were not recognized as valid mail addresses:\n"
 "{0}"
 msgstr ""
-"Анаҩстәи адкылаҩцәа рԥошьҭақәа риашашьа еилкаамхазеит :\n"
-"{0}"
 
 #: ../src/mail/mail.error.xml.h:23
 msgid "Send private reply?"
@@ -20674,6 +20774,7 @@ msgstr ""
 msgid "{0}, Completed on {1}"
 msgstr ""
 
+#. Translators: This constructs a string like "Follow-up by Tuesday, January 13, 2009"
 #: ../src/mail/mail.error.xml.h:199
 msgid "{0} by {1}"
 msgstr "{0} аҟны {1}"
@@ -20859,7 +20960,7 @@ msgstr ""
 msgid "Yesterday %l:%M %p"
 msgstr ""
 
-#: ../src/mail/message-list.c:2210
+#: ../src/mail/message-list.c:2218
 msgid "%a %l:%M %p"
 msgstr "%a %l:%M %p"
 
@@ -20940,7 +21041,8 @@ msgstr ""
 msgid "Subject — Trimmed"
 msgstr "(Темада)"
 
-#: ../src/mail/message-list.etspec.h:21+../src/plugins/save-calendar/csv-format.c:361
+#: ../src/mail/message-list.etspec.h:21
+#: ../src/plugins/save-calendar/csv-format.c:361
 msgid "UID"
 msgstr "UID"
 
@@ -21650,7 +21752,8 @@ msgstr ""
 msgid "Convert message text to _Unicode"
 msgstr ""
 
-#: ../src/modules/bogofilter/evolution-bogofilter.c:537+../src/modules/bogofilter/org.gnome.Evolution-bogofilter.metainfo.xml.in.h:1
+#: ../src/modules/bogofilter/evolution-bogofilter.c:537
+#: ../src/modules/bogofilter/org.gnome.Evolution-bogofilter.metainfo.xml.in.h:1
 msgid "Bogofilter"
 msgstr "Bogofilter"
 
@@ -21663,7 +21766,16 @@ msgstr ""
 msgid "Choose an Address Book"
 msgstr ""
 
-#: ../src/modules/book-config-carddav/evolution-book-config-carddav.c:199+../src/modules/book-config-carddav/evolution-book-config-carddav.c:212+../src/modules/cal-config-caldav/evolution-cal-config-caldav.c:249+../src/modules/cal-config-caldav/evolution-cal-config-caldav.c:270+../src/modules/cal-config-webcal/evolution-cal-config-webcal.c:81+../src/modules/cal-config-webcal/evolution-cal-config-webcal.c:102+../src/modules/cal-config-webdav-notes/evolution-cal-config-webdav-notes.c:239+../src/modules/cal-config-webdav-notes/evolution-cal-config-webdav-notes.c:260+../src/modules/itip-formatter/itip-view.c:1920+../src/modules/itip-formatter/itip-view.c:2122
+#: ../src/modules/book-config-carddav/evolution-book-config-carddav.c:199
+#: ../src/modules/book-config-carddav/evolution-book-config-carddav.c:212
+#: ../src/modules/cal-config-caldav/evolution-cal-config-caldav.c:249
+#: ../src/modules/cal-config-caldav/evolution-cal-config-caldav.c:270
+#: ../src/modules/cal-config-webcal/evolution-cal-config-webcal.c:81
+#: ../src/modules/cal-config-webcal/evolution-cal-config-webcal.c:102
+#: ../src/modules/cal-config-webdav-notes/evolution-cal-config-webdav-notes.c:239
+#: ../src/modules/cal-config-webdav-notes/evolution-cal-config-webdav-notes.c:260
+#: ../src/modules/itip-formatter/itip-view.c:1920
+#: ../src/modules/itip-formatter/itip-view.c:2122
 msgid "URL:"
 msgstr "URL:"
 
@@ -21785,6 +21897,7 @@ msgstr ""
 msgid "This is the method Evolution will use to authenticate you."
 msgstr ""
 
+#. Page 2
 #: ../src/modules/book-config-ldap/evolution-book-config-ldap.c:787
 msgid "Using LDAP"
 msgstr "Ахархәара"
@@ -21921,7 +22034,19 @@ msgstr ""
 msgid "Allow Evolution to update the file"
 msgstr ""
 
-#: ../src/modules/cal-config-weather/e-weather-location-entry.c:571+../src/modules/cal-config-weather/e-weather-location-entry.c:609
+#. Recurse, adding the ADM1 name to the country name
+#. Translators: this is the name of a location followed by a region, for example:
+#. * 'London, United Kingdom'
+#. * You shouldn't need to translate this string unless the language has a different comma.
+#.
+#. <location> with no parent <city>
+#. Translators: this is the name of a location followed by a region, for example:
+#. * 'London, United Kingdom'
+#. * You shouldn't need to translate this string unless the language has a different comma.
+#.
+#: ../src/modules/cal-config-weather/e-weather-location-entry.c:571
+#: ../src/modules/cal-config-weather/e-weather-location-entry.c:609
+#, c-format
 msgid "%s, %s"
 msgstr "%s, %s"
 
@@ -22471,7 +22596,7 @@ msgstr ""
 
 #: ../src/modules/calendar/e-cal-shell-view-actions.c:200
 msgid "Print"
-msgstr ""
+msgstr "Print"
 
 #: ../src/modules/calendar/e-cal-shell-view-actions.c:316
 msgid ""
@@ -23390,10 +23515,12 @@ msgid "Look up in SRV records"
 msgstr ""
 
 #: ../src/modules/config-lookup/e-webdav-config-lookup.c:104
+#, c-format
 msgid "CalDAV: %s"
 msgstr "CalDAV: %s"
 
 #: ../src/modules/config-lookup/e-webdav-config-lookup.c:111
+#, c-format
 msgid "CardDAV: %s"
 msgstr "CardDAV: %s"
 
@@ -23459,22 +23586,32 @@ msgstr ""
 msgid "Tomorrow %l:%M:%S %p"
 msgstr ""
 
+#. strftime format of a weekday.
 #: ../src/modules/itip-formatter/itip-view.c:337
+#, c-format
 msgid "%A"
 msgstr "%A"
 
+#. strftime format of a weekday and a
+#. * time, in 24-hour format, without seconds.
 #: ../src/modules/itip-formatter/itip-view.c:342
 msgid "%A %H:%M"
 msgstr "%A %H:%M"
 
+#. strftime format of a weekday and a
+#. * time, in 24-hour format.
 #: ../src/modules/itip-formatter/itip-view.c:346
 msgid "%A %H:%M:%S"
 msgstr "%A %H:%M:%S"
 
+#. strftime format of a weekday and a
+#. * time, in 12-hour format, without seconds.
 #: ../src/modules/itip-formatter/itip-view.c:351
 msgid "%A %l:%M %p"
 msgstr "%A %l:%M %p"
 
+#. strftime format of a weekday and a
+#. * time, in 12-hour format.
 #: ../src/modules/itip-formatter/itip-view.c:355
 msgid "%A %l:%M:%S %p"
 msgstr "%A %l:%M:%S %p"
@@ -25341,7 +25478,8 @@ msgstr ""
 msgid "This will make SpamAssassin more reliable, but slower."
 msgstr ""
 
-#: ../src/modules/spamassassin/evolution-spamassassin.c:740+../src/modules/spamassassin/org.gnome.Evolution-spamassassin.metainfo.xml.in.h:1
+#: ../src/modules/spamassassin/evolution-spamassassin.c:740
+#: ../src/modules/spamassassin/org.gnome.Evolution-spamassassin.metainfo.xml.in.h:1
 msgid "SpamAssassin"
 msgstr "SpamAssassin"
 
@@ -25691,7 +25829,8 @@ msgstr ""
 msgid "Reminds you when you forgot to add an attachment to a mail message."
 msgstr ""
 
-#: ../src/plugins/bbdb/bbdb.c:715+../src/plugins/bbdb/bbdb.c:838+../src/plugins/bbdb/org-gnome-evolution-bbdb.eplug.xml.h:1
+#: ../src/plugins/bbdb/bbdb.c:715 ../src/plugins/bbdb/bbdb.c:838
+#: ../src/plugins/bbdb/org-gnome-evolution-bbdb.eplug.xml.h:1
 msgid "Automatic Contacts"
 msgstr "Автоматикатә еимадарақәа"
 
@@ -26514,6 +26653,9 @@ msgstr ""
 msgid "Edit Location"
 msgstr ""
 
+#. Translators: the %F %T is the third argument for a
+#. * strftime function.  It lets you define the formatting
+#. * of the date in the csv-file.
 #: ../src/plugins/save-calendar/csv-format.c:154
 msgid "%F %T"
 msgstr "%F %T"
@@ -26540,7 +26682,7 @@ msgstr ""
 
 #: ../src/plugins/save-calendar/csv-format.c:370
 msgid "End"
-msgstr ""
+msgstr "End"
 
 #: ../src/plugins/save-calendar/csv-format.c:371
 msgid "Due"
@@ -26552,7 +26694,7 @@ msgstr ""
 
 #: ../src/plugins/save-calendar/csv-format.c:374
 msgid "URL"
-msgstr ""
+msgstr "URL"
 
 #: ../src/plugins/save-calendar/csv-format.c:375
 msgid "Attendees List"
@@ -26586,7 +26728,8 @@ msgstr ""
 msgid "Comma separated values (.csv)"
 msgstr ""
 
-#: ../src/plugins/save-calendar/ical-format.c:181+../src/shell/e-shell-utils.c:172
+#: ../src/plugins/save-calendar/ical-format.c:181
+#: ../src/shell/e-shell-utils.c:172
 msgid "iCalendar (.ics)"
 msgstr "iCalendar (.ics)"
 
@@ -26598,6 +26741,11 @@ msgstr ""
 msgid "Save a calendar or task list to disk."
 msgstr ""
 
+#.
+#. * Translator: the %FT%T is the thirth argument for a strftime function.
+#. * It lets you define the formatting of the date in the rdf-file.
+#. * Also check out http://www.w3.org/2002/12/cal/tzd
+#. *
 #: ../src/plugins/save-calendar/rdf-format.c:145
 msgid "%FT%T"
 msgstr "%FT%T"
@@ -26727,6 +26875,8 @@ msgstr ""
 msgid "Sear_ch:"
 msgstr ""
 
+#. Translators: This is part of the quick search interface.
+#. * example: Search: [_______________] in [ Current Folder ]
 #: ../src/shell/e-shell-searchbar.c:1023
 msgid "i_n"
 msgstr "_аҟны"
@@ -26739,6 +26889,9 @@ msgstr "vCard (.vcf)"
 msgid "All Files (*)"
 msgstr ""
 
+#. The translator-credits string is for translators to list
+#. * per-language credits for translation, displayed in the
+#. * about dialog.
 #: ../src/shell/e-shell-utils.c:349
 msgid "translator-credits"
 msgstr "Нанба Наала <naala-nanba@rambler.ru>, 2022"
@@ -27172,10 +27325,6 @@ msgid ""
 "If you choose to continue, you may not have access to some of your old "
 "data.\n"
 msgstr ""
-"{0}\n"
-"\n"
-"Иацышәҵар шәҭахызар, ажәытә дыррақәа ԥыҭк  рахь  анеира азин шәцәыӡыр "
-"шәылшоит\n"
 
 #: ../src/shell/shell.error.xml.h:7
 msgid "Continue Anyway"
@@ -27387,7 +27536,8 @@ msgstr ""
 msgid "MD5 Fingerprint"
 msgstr ""
 
-#: ../src/smime/gui/certificate-manager.c:103+../src/smime/gui/certificate-manager.c:124
+#: ../src/smime/gui/certificate-manager.c:106
+#: ../src/smime/gui/certificate-manager.c:127
 msgid "Email Address"
 msgstr "Аел. ԥошьҭа аҭыӡҭыԥ"
 
@@ -27395,7 +27545,13 @@ msgstr "Аел. ԥошьҭа аҭыӡҭыԥ"
 msgid "Select a file to backup your key and certificate…"
 msgstr ""
 
-#: ../src/smime/gui/certificate-manager.c:660
+#. To Translators:
+#. * %s-backup.p12 is the default file name suggested by the file selection dialog,
+#. * when a user wants to backup one of her/his private keys/certificates.
+#. * For example: gnomedev-backup.p12
+#.
+#: ../src/smime/gui/certificate-manager.c:663
+#, c-format
 msgid "%s-backup.p12"
 msgstr "%s-backup.p12"
 
@@ -27739,276 +27895,3 @@ msgstr ""
 #: ../src/smime/lib/e-pkcs12.c:460
 msgid "Imported Certificate"
 msgstr ""
-
-#: ../src/addressbook/gui/contact-editor/e-contact-editor.c:3328
-msgid "X.509"
-msgstr "X.509"
-
-#: ../src/addressbook/gui/contact-editor/e-contact-editor.c:3328
-msgid "PGP"
-msgstr "PGP"
-
-#: ../src/addressbook/gui/widgets/eab-contact-formatter.c:453
-msgctxt "../src/addressbook/gui/widgets/eab-contact-formatter.c:453"
-msgid "SIP"
-msgstr "SIP"
-
-#: ../src/addressbook/gui/widgets/eab-contact-formatter.c:927
-msgctxt "../src/addressbook/gui/widgets/eab-contact-formatter.c:927"
-msgid "AIM"
-msgstr "AIM"
-
-#: ../src/addressbook/gui/widgets/eab-contact-formatter.c:928
-msgctxt "../src/addressbook/gui/widgets/eab-contact-formatter.c:928"
-msgid "GroupWise"
-msgstr "GroupWise"
-
-#: ../src/addressbook/gui/widgets/eab-contact-formatter.c:929
-msgctxt "../src/addressbook/gui/widgets/eab-contact-formatter.c:929"
-msgid "ICQ"
-msgstr "ICQ"
-
-#: ../src/addressbook/gui/widgets/eab-contact-formatter.c:930
-msgctxt "../src/addressbook/gui/widgets/eab-contact-formatter.c:930"
-msgid "Jabber"
-msgstr "Jabber"
-
-#: ../src/addressbook/gui/widgets/eab-contact-formatter.c:931
-msgctxt "../src/addressbook/gui/widgets/eab-contact-formatter.c:931"
-msgid "MSN"
-msgstr "MSN"
-
-#: ../src/addressbook/gui/widgets/eab-contact-formatter.c:932
-msgctxt "../src/addressbook/gui/widgets/eab-contact-formatter.c:932"
-msgid "Yahoo"
-msgstr "Yahoo"
-
-#: ../src/addressbook/gui/widgets/eab-contact-formatter.c:933
-msgctxt "../src/addressbook/gui/widgets/eab-contact-formatter.c:933"
-msgid "Gadu-Gadu"
-msgstr "Gadu-Gadu"
-
-#: ../src/addressbook/gui/widgets/eab-contact-formatter.c:934
-msgctxt "../src/addressbook/gui/widgets/eab-contact-formatter.c:934"
-msgid "Skype"
-msgstr "Skype"
-
-#: ../src/addressbook/gui/widgets/eab-contact-formatter.c:935
-msgctxt "../src/addressbook/gui/widgets/eab-contact-formatter.c:935"
-msgid "Twitter"
-msgstr "Twitter"
-
-#: ../src/addressbook/util/eab-book-util.c:72
-msgctxt "../src/addressbook/util/eab-book-util.c:72"
-msgid "AIM"
-msgstr "AIM"
-
-#: ../src/addressbook/util/eab-book-util.c:73
-msgctxt "../src/addressbook/util/eab-book-util.c:73"
-msgid "Jabber"
-msgstr "Jabber"
-
-#: ../src/addressbook/util/eab-book-util.c:74
-msgctxt "../src/addressbook/util/eab-book-util.c:74"
-msgid "Yahoo"
-msgstr "Yahoo"
-
-#: ../src/addressbook/util/eab-book-util.c:75
-msgctxt "../src/addressbook/util/eab-book-util.c:75"
-msgid "Gadu-Gadu"
-msgstr "Gadu-Gadu"
-
-#: ../src/addressbook/util/eab-book-util.c:76
-msgctxt "../src/addressbook/util/eab-book-util.c:76"
-msgid "MSN"
-msgstr "MSN"
-
-#: ../src/addressbook/util/eab-book-util.c:77
-msgctxt "../src/addressbook/util/eab-book-util.c:77"
-msgid "ICQ"
-msgstr "ICQ"
-
-#: ../src/addressbook/util/eab-book-util.c:78
-msgctxt "../src/addressbook/util/eab-book-util.c:78"
-msgid "GroupWise"
-msgstr "GroupWise"
-
-#: ../src/addressbook/util/eab-book-util.c:79
-msgctxt "../src/addressbook/util/eab-book-util.c:79"
-msgid "Skype"
-msgstr "Skype"
-
-#: ../src/addressbook/util/eab-book-util.c:80
-msgctxt "../src/addressbook/util/eab-book-util.c:80"
-msgid "Twitter"
-msgstr "Twitter"
-
-#: ../src/addressbook/util/eab-book-util.c:81
-msgid "Google Talk"
-msgstr "Google Talk"
-
-#: ../src/addressbook/util/eab-book-util.c:172
-msgctxt "../src/addressbook/util/eab-book-util.c:172"
-msgid "SIP"
-msgstr "SIP"
-
-#: ../src/addressbook/util/eab-book-util.c:215
-msgid "IM"
-msgstr "IM"
-
-#: ../src/calendar/gui/caltypes.xml.in.h:14+../src/calendar/gui/e-cal-list-view.etspec.h:5+../src/calendar/gui/e-task-table.etspec.h:13+../src/mail/message-list.etspec.h:14+../src/plugins/publish-calendar/publish-calendar.c:860+../src/plugins/publish-calendar/publish-calendar.ui.h:23+../src/plugins/save-calendar/csv-format.c:376
-msgctxt ""
-"../src/calendar/gui/caltypes.xml.in.h:14 ../src/calendar/gui/e-cal-list-view."
-"etspec.h:5 ../src/calendar/gui/e-task-table.etspec.h:13 ../src/mail/message-"
-"list.etspec.h:14 ../src/plugins/publish-calendar/publish-calendar.c:860 ../"
-"src/plugins/publish-calendar/publish-calendar.ui.h:23 ../src/plugins/save-"
-"calendar/csv-format.c:376"
-msgid "Location"
-msgstr "Аҭыӡҭыԥ"
-
-#: ../src/calendar/gui/e-alarm-list.c:484
-msgid "%s at %s"
-msgstr "%s аҟны %s"
-
-#: ../src/calendar/gui/e-calendar-view.c:1857
-msgid "%s (%d)"
-msgstr "%s (%d)"
-
-#: ../src/calendar/gui/e-comp-editor-page-recurrence.c:817
-msgid "on the"
-msgstr "аҟны"
-
-#: ../src/calendar/gui/e-week-view.c:3878
-msgctxt ""
-"../src/calendar/gui/e-week-view.c:3878../src/calendar/gui/e-week-view.c:3878"
-msgid "%s (%s)"
-msgstr "%s (%s)"
-
-#: ../src/calendar/importers/icalendar-importer.c:1416
-msgctxt "../src/calendar/importers/icalendar-importer.c:1416"
-msgid "Location"
-msgstr "Аҭыӡҭыԥ"
-
-#: ../src/calendar/importers/icalendar-importer.c:1486
-msgctxt "../src/calendar/importers/icalendar-importer.c:1486"
-msgid "URL"
-msgstr "URL"
-
-#: ../src/e-util/e-accounts-window.c:1484
-msgctxt "../src/e-util/e-accounts-window.c:1484"
-msgid "Address _Book"
-msgstr "Аҭыӡҭыԥтәи ашә_ҟәы"
-
-#: ../src/e-util/e-calendar-item.c:1368+../src/e-util/e-calendar-item.c:2262
-msgid "%B"
-msgstr "%B"
-
-#: ../src/e-util/e-calendar-item.c:1370
-msgid "%Y"
-msgstr "%Y"
-
-#: ../src/e-util/e-calendar-item.c:1407
-msgid "%B %Y"
-msgstr "%B %Y"
-
-#: ../src/e-util/e-client-selector.c:190+../src/mail/em-folder-tree.c:1035
-msgid "Offline"
-msgstr "Автономла"
-
-#: ../src/e-util/e-html-editor-actions.c:1654
-msgid "0"
-msgstr "0"
-
-#: ../src/e-util/e-html-editor-actions.c:1662
-msgid "1"
-msgstr "1"
-
-#: ../src/e-util/e-html-editor-actions.c:1670
-msgid "2"
-msgstr "2"
-
-#: ../src/e-util/e-html-editor-actions.c:1678
-msgid "3"
-msgstr "3"
-
-#: ../src/e-util/e-html-editor-actions.c:1686
-msgid "4"
-msgstr "4"
-
-#: ../src/e-util/e-misc-utils.c:4582
-msgctxt "../src/e-util/e-misc-utils.c:4582"
-msgid "%s (%s)"
-msgstr "%s (%s)"
-
-#: ../src/mail/e-mail-config-security-page.c:375
-msgid "%s — %s"
-msgstr "%s — %s"
-
-#: ../src/mail/e-mail-config-summary-page.c:489
-msgctxt "../src/mail/e-mail-config-summary-page.c:489"
-msgid "Security:"
-msgstr "Ашәарҭадара:"
-
-#: ../src/mail/em-folder-properties.c:953
-msgid "Auto-_cleanup messages older than"
-msgstr "Автоматикла _ еиҳа еиҳабу ацҳамҭақәа рныхра"
-
-#: ../src/mail/em-folder-tree.c:887
-msgid "%s (%u%s)"
-msgstr "%s (%u%s)"
-
-#: ../src/mail/em-utils.c:1652
-msgid ":"
-msgstr ":"
-
-#: ../src/modules/addressbook/autocompletion-config.c:159
-msgid "OpenStreetMap"
-msgstr "OpenStreetMap"
-
-#: ../src/modules/addressbook/autocompletion-config.c:162
-msgid "Google"
-msgstr "Google"
-
-#: ../src/modules/addressbook/e-book-shell-backend.c:295
-msgctxt "../src/modules/addressbook/e-book-shell-backend.c:295"
-msgid "Address _Book"
-msgstr "Аҭыӡҭыԥтәи ашә_ҟәы"
-
-#: ../src/modules/cal-config-weather/evolution-cal-config-weather.c:199
-msgid "default:mm"
-msgstr "default:mm"
-
-#: ../src/modules/itip-formatter/itip-view.c:438
-msgctxt "../src/modules/itip-formatter/itip-view.c:438"
-msgid "%s (%s)"
-msgstr "%s (%s)"
-
-#: ../src/modules/mail/e-mail-shell-backend.c:992
-msgid "netlink"
-msgstr "netlink"
-
-#: ../src/modules/mail/e-mail-shell-backend.c:995
-msgid "networkmanager"
-msgstr "networkmanager"
-
-#: ../src/plugins/email-custom-header/email-custom-header.c:292
-msgctxt "../src/plugins/email-custom-header/email-custom-header.c:292"
-msgid "Security:"
-msgstr "Ашәарҭадара:"
-
-#: ../src/plugins/save-calendar/csv-format.c:374
-msgctxt "../src/plugins/save-calendar/csv-format.c:374"
-msgid "URL"
-msgstr "URL"
-
-#: ../src/shell/e-shell-window-private.c:822
-msgid "%s — Evolution"
-msgstr "%s — Evolution"
-
-#: ../src/smime/gui/certificate-manager.c:1120
-msgid "Ultimately"
-msgstr "Зегь рыла"
-
-#: ../src/smime/gui/certificate-manager.c:1369
-msgid "_Ultimately trusted"
-msgstr "_Зегь рыла агәрагара змоу"
