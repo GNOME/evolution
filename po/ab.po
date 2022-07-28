@@ -2,6 +2,7 @@ msgid ""
 msgstr ""
 "Report-Msgid-Bugs-To: https://gitlab.gnome.org/GNOME/evolution/issues\n"
 "POT-Creation-Date: 2022-07-22 06:40+0000\n"
+"Last-Translator: Нанба Наала <naala-nanba@rambler.ru>\n"
 "Language-Team: Abkhazian <ab@li.org>\n"
 "Language: ab\n"
 "MIME-Version: 1.0\n"
@@ -5309,6 +5310,9 @@ msgid ""
 "\n"
 "Searching for the Contacts…"
 msgstr ""
+"\n"
+"\n"
+"Аимадарақәа рыԥшаара…"
 
 #: ../src/addressbook/gui/widgets/e-minicard-view.c:189
 msgid ""
@@ -5318,6 +5322,11 @@ msgid ""
 "\n"
 "or double-click here to create a new Contact."
 msgstr ""
+"\n"
+"\n"
+"Ишәыԥшаа аимадара,\n"
+"\n"
+"мамзар абраҟа шәақәыӷәӷәа аҿыц аԥҵаразы."
 
 #: ../src/addressbook/gui/widgets/e-minicard-view.c:192
 msgid ""
@@ -5327,6 +5336,11 @@ msgid ""
 "\n"
 "Double-click here to create a new Contact."
 msgstr ""
+"\n"
+"\n"
+"Иҟаӡам аелементқәа ари аԥенџьыр аҟны иаарԥшразы.\n"
+"\n"
+"Ҩынтә абраҟа шәақәыӷәӷәа аимадара ҿыц аԥҵаразы"
 
 #: ../src/addressbook/gui/widgets/e-minicard-view.c:196
 msgid ""
@@ -5334,6 +5348,9 @@ msgid ""
 "\n"
 "Search for the Contact."
 msgstr ""
+"\n"
+"\n"
+"Аимадара аԥшаара."
 
 #: ../src/addressbook/gui/widgets/e-minicard-view.c:198
 msgid ""
@@ -5341,6 +5358,9 @@ msgid ""
 "\n"
 "There are no items to show in this view."
 msgstr ""
+"\n"
+"\n"
+"Иҟаӡам аелементқәа ари аԥенџьыр аҟны иаарԥшразы."
 
 #: ../src/addressbook/importers/evolution-csv-importer.c:796
 #: ../src/addressbook/importers/evolution-ldif-importer.c:547
@@ -19400,8 +19420,8 @@ msgstr ""
 #, c-format
 msgid "%d Address"
 msgid_plural "%d Addresses"
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "%d ҭыӡҭыԥк"
+msgstr[1] "%d ҭыӡҭыԥк"
 
 #: ../src/mail/importers/kmail-importer.c:350
 msgid "Evolution KMail importer"
@@ -20084,6 +20104,8 @@ msgid ""
 "The following recipient was not recognized as a valid mail address:\n"
 "{0}"
 msgstr ""
+"Анаҩстәи адкылаҩ иԥошьҭа аиашашьа еилкаамхазеит:\n"
+"{0}"
 
 #: ../src/mail/mail.error.xml.h:20
 msgid "Are you sure you want to send a message with invalid addresses?"
@@ -20094,6 +20116,8 @@ msgid ""
 "The following recipients were not recognized as valid mail addresses:\n"
 "{0}"
 msgstr ""
+"Анаҩстәи адкылаҩцәа рԥошьҭақәа риашашьа еилкаамхазеит:\n"
+"{0}"
 
 #: ../src/mail/mail.error.xml.h:23
 msgid "Send private reply?"
@@ -27325,6 +27349,10 @@ msgid ""
 "If you choose to continue, you may not have access to some of your old "
 "data.\n"
 msgstr ""
+"{0}\n"
+"\n"
+"Иацышәҵар шәҭахызар, ажәытә дыррақәа ԥыҭк рахь анеира азин шәцәыӡыр "
+"шәылшоит.\n"
 
 #: ../src/shell/shell.error.xml.h:7
 msgid "Continue Anyway"
