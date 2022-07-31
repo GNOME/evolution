@@ -11,8 +11,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: evolution\n"
 "Report-Msgid-Bugs-To: https://gitlab.gnome.org/GNOME/evolution/issues\n"
-"POT-Creation-Date: 2022-07-24 17:49+0000\n"
-"PO-Revision-Date: 2022-07-26 12:59+0430\n"
+"POT-Creation-Date: 2022-07-28 06:43+0000\n"
+"PO-Revision-Date: 2022-07-31 13:11+0430\n"
 "Last-Translator: Danial Behzadi <dani.behzi@ubuntu.com>\n"
 "Language-Team: Persian <>\n"
 "Language: fa\n"
@@ -20,7 +20,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n!=1);\n"
-"X-Generator: Poedit 3.1\n"
+"X-Generator: Poedit 3.1.1\n"
 "X-DamnedLies-Scope: partial\n"
 
 #: ../data/org.gnome.evolution.addressbook.gschema.xml.in.h:1
@@ -1540,7 +1540,7 @@ msgstr "تصمیم به گشتن در دفترچه تلفن برای رایان�
 msgid ""
 "Determines whether to look up addresses for junk filtering in local address book "
 "only"
-msgstr "تصمیم به گشتن نشانی‌های برای پالایش زباله فقط در دفترچه تلفن محلّی"
+msgstr "تصمیم به گشتن نشانی‌های برای پالایش زباله فقط در دفترچه تلفن محلی"
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:250
 msgid "Determines whether to use custom headers to check for junk"
@@ -1984,7 +1984,7 @@ msgstr "پیشوند نشانی استفاده شده برای جست‌وجوی
 
 #: ../data/org.gnome.evolution.spamassassin.gschema.xml.in.h:1
 msgid "Use only local spam tests."
-msgstr "فقط استفاده از آزمون‌های هرزنامهٔ محلّی."
+msgstr "فقط استفاده از آزمون‌های هرزنامهٔ محلی."
 
 #: ../data/org.gnome.evolution.spamassassin.gschema.xml.in.h:2
 msgid "Use only the local spam tests (no DNS)."
@@ -3190,7 +3190,7 @@ msgstr "_گشودن"
 #: ../src/addressbook/gui/contact-editor/e-contact-editor.c:3290
 #: ../src/addressbook/gui/contact-editor/e-contact-editor.c:3518
 msgid "Chosen file is not a local file."
-msgstr "پروندهٔ گزیده،‌محلّی نیست."
+msgstr "پروندهٔ گزیده،‌محلی نیست."
 
 #: ../src/addressbook/gui/contact-editor/e-contact-editor.c:3303
 #, c-format
@@ -10498,7 +10498,7 @@ msgid ""
 "service is currently unavailable. You can send the message by clicking the Send/"
 "Receive button in Evolution’s toolbar."
 msgstr ""
-"از آن‌جا که خدمت مقصد در حال حاضر موجود نیست، پیام در شاخهٔ صندوق خروجی محلّی‌تان "
+"از آن‌جا که خدمت مقصد در حال حاضر موجود نیست، پیام در شاخهٔ صندوق خروجی محلی‌تان "
 "ذخیره خواهد شد. می‌توانید با کلیک روی دکمهٔ ارسال/دریافت در نوارابزار اوولوشن پیام "
 "را ارسال کنید."
 
@@ -11390,7 +11390,7 @@ msgstr "تکمیل خودکار با این دفترچه تلفن"
 
 #: ../src/e-util/e-book-source-config.c:269
 msgid "Copy book content locally for offline operation"
-msgstr "رونوشت محلّی از محتویات دفترچه برای عملیات برون‌خط"
+msgstr "رونوشت محلی از محتویات دفترچه برای عملیات برون‌خط"
 
 #: ../src/e-util/e-calendar.c:310
 msgid "Previous month"
@@ -12157,7 +12157,7 @@ msgstr "سال"
 #. Translators: This is part of: "Do not synchronize locally mails older than [ xxx ] [ days ]"
 #: ../src/e-util/e-dialog-widgets.c:245
 msgid "Do not synchronize locally mails older than"
-msgstr "هم‌گام نکردن محلّی نامه‌های قدیمی‌تر از"
+msgstr "هم‌گام نکردن محلی نامه‌های قدیمی‌تر از"
 
 #. Translators: The %s is replaced with a spin button; always keep it in the string at the right position
 #: ../src/e-util/e-dialog-widgets.c:437
@@ -15447,13 +15447,13 @@ msgid ""
 "Appending to local “Sent” folder instead."
 msgstr ""
 "شکست در الحاق به %s: %s\n"
-"الحاق کردن به شاخهٔ «فرستاده شده» محلّی به جایش."
+"الحاق کردن به شاخهٔ «فرستاده شده» محلی به جایش."
 
 #: ../src/libemail-engine/e-mail-session-utils.c:743
 #: ../src/libemail-engine/mail-ops.c:821
 #, c-format
 msgid "Failed to append to local “Sent” folder: %s"
-msgstr "شکست در الحاق به شاخهٔ «فرستاده شده» محلّی: %s"
+msgstr "شکست در الحاق به شاخهٔ «فرستاده شده» محلی: %s"
 
 #: ../src/libemail-engine/e-mail-session-utils.c:936
 #: ../src/libemail-engine/mail-ops.c:1017 ../src/libemail-engine/mail-ops.c:1129
@@ -17902,7 +17902,7 @@ msgstr ""
 
 #: ../src/mail/em-vfolder-editor-rule.c:574
 msgid "All local folders"
-msgstr "تمامی شاخه‌های محلّی"
+msgstr "تمامی شاخه‌های محلی"
 
 #: ../src/mail/em-vfolder-editor-rule.c:575
 msgid "All active remote folders"
@@ -18806,7 +18806,7 @@ msgstr "_علامت نزدن پیام‌ها از آشنایان به عنوان
 
 #: ../src/mail/mail-config.ui.h:144
 msgid "_Lookup in local address book only"
-msgstr "_گشتن فقط در دفترچه تلفن محلّی"
+msgstr "_گشتن فقط در دفترچه تلفن محلی"
 
 #: ../src/mail/mail-config.ui.h:145
 msgid "Check cu_stom headers for junk"
@@ -19198,10 +19198,8 @@ msgid "If you delete the folder, all of its contents will be deleted permanently
 msgstr "اگر شاخه را حذف کنید، تمامی محتویاتش برای همیشه حذف خواهند شد."
 
 #: ../src/mail/mail.error.xml.h:76
-#, fuzzy
-#| msgid "Cannot send message: service not connected."
 msgid "These messages are not copies."
-msgstr "ارسال پیام ممکن نیست: سرویس متصل نیست."
+msgstr "این پیام‌ها رونوشت نیستند."
 
 #: ../src/mail/mail.error.xml.h:77
 msgid ""
@@ -19211,53 +19209,36 @@ msgid ""
 msgstr ""
 
 #: ../src/mail/mail.error.xml.h:78
-#, fuzzy
-#| msgid "Cannot rename \"{0}\" to \"{1}\"."
 msgid "Cannot rename “{0}” to “{1}”."
 msgstr "نمی‌توان نام «{0}» را به «{1}» تغییر داد."
 
 #: ../src/mail/mail.error.xml.h:79
-#, fuzzy
-#| msgid ""
-#| "A folder named &quot;{1}&quot; already exists. Please use a different name."
 msgid "A folder named “{1}” already exists. Please use a different name."
-msgstr "شاخه‌ای به نام «{1}» از قبل وجود دارد. لطفاً نام دیگری به کار ببرید."
+msgstr "شاخه‌ای به نام «{1}» از پیش موجود است. لطفاً نام دیگری به کار ببرید."
 
 #: ../src/mail/mail.error.xml.h:80
-#, fuzzy
-#| msgid "Cannot move folder \"{0}\" to \"{1}\"."
 msgid "Cannot move folder “{0}” to “{1}”."
 msgstr "نمی‌توان شاخهٔ «{0}» را به «{1}» جابه‌جا کرد."
 
 #: ../src/mail/mail.error.xml.h:81
-#, fuzzy
-#| msgid "Cannot open source \"{2}\"."
 msgid "Cannot open source folder. Error: {2}"
-msgstr "نمی‌توان مبدأ «{2}» را باز کرد."
+msgstr "نمی‌توان شاخهٔ مبدأ را گشود. خطا: {2}"
 
 #: ../src/mail/mail.error.xml.h:82
-#, fuzzy
-#| msgid "Cannot open target \"{2}\"."
 msgid "Cannot open target folder. Error: {2}"
-msgstr "نمی‌توان مقصد «{2}» را باز کرد."
+msgstr "نمی‌توان شاخهٔ هدف را گشود. خطا: {2}"
 
 #: ../src/mail/mail.error.xml.h:83
-#, fuzzy
-#| msgid "Cannot copy folder \"{0}\" to \"{1}\"."
 msgid "Cannot copy folder “{0}” to “{1}”."
-msgstr "نمی‌توان از شاخهٔ «{0}» در «{1}» رونوشت کرد."
+msgstr "نمی‌توان شاخهٔ «{0}» را در «{1}» رونوشت کرد."
 
 #: ../src/mail/mail.error.xml.h:84
-#, fuzzy
-#| msgid "Cannot create folder \"{0}\"."
 msgid "Cannot create folder “{0}”."
 msgstr "نمی‌توان شاخهٔ «{0}» را ایجاد کرد."
 
 #: ../src/mail/mail.error.xml.h:85
-#, fuzzy
-#| msgid "Cannot move folder \"{0}\" to \"{1}\"."
 msgid "Cannot open folder. Error: {1}"
-msgstr "نمی‌توان شاخهٔ «{0}» را به «{1}» جابه‌جا کرد."
+msgstr "نمی‌توان شاخه را گشود. خطا: {1}"
 
 #: ../src/mail/mail.error.xml.h:86
 msgid "Cannot save changes to account."
@@ -19272,10 +19253,8 @@ msgid "You may not create two accounts with the same name."
 msgstr "نمی‌توانید دو حساب با یک نام ایجاد کنید."
 
 #: ../src/mail/mail.error.xml.h:89
-#, fuzzy
-#| msgid "Are you sure you want to delete this account?"
 msgid "Are you sure you want to delete account “{0}”?"
-msgstr "آیا مطمئنید که می‌خواهید این حساب را حذف کنید؟"
+msgstr "مطمئنید می‌خواهید حساب {0} را حذف کنید؟"
 
 #: ../src/mail/mail.error.xml.h:90
 msgid "If you proceed, the account information will be deleted permanently."
@@ -19311,10 +19290,8 @@ msgid "_Disable"
 msgstr "_از کار انداختن"
 
 #: ../src/mail/mail.error.xml.h:98
-#, fuzzy
-#| msgid "Cannot edit Search Folder &quot;{0}&quot; as it does not exist."
 msgid "Cannot edit Search Folder “{0}” as it does not exist."
-msgstr "نمی‌توان شاخهٔ جست‌وجوی «{0}» را ویرایش کرد؛ چون این شاخه وجود ندارد."
+msgstr "نمی‌توان شاخهٔ جست‌وجوی «{0}» را ویراست؛ چرا که وجود ندارد."
 
 #: ../src/mail/mail.error.xml.h:99
 msgid ""
@@ -19323,17 +19300,12 @@ msgid ""
 msgstr ""
 
 #: ../src/mail/mail.error.xml.h:101
-#, fuzzy
-#| msgid "Cannot add vFolder \"{0}\"."
 msgid "Cannot add Search Folder “{0}”."
-msgstr "نمی‌توان شاخهٔ مجازی «{0}» را اضافه کرد."
+msgstr "نمی‌توان شاخهٔ جست‌وجوی «{0}» را افزود."
 
 #: ../src/mail/mail.error.xml.h:102
-#, fuzzy
-#| msgid ""
-#| "A folder named &quot;{1}&quot; already exists. Please use a different name."
 msgid "A folder named “{0}” already exists. Please use a different name."
-msgstr "شاخه‌ای به نام «{1}» از قبل وجود دارد. لطفاً نام دیگری به کار ببرید."
+msgstr "شاخه‌ای به نام «{0}» از پیش موجود است. لطفاً نام دیگری به کار ببرید."
 
 #: ../src/mail/mail.error.xml.h:103
 msgid "Search Folders automatically updated."
@@ -19356,10 +19328,8 @@ msgid "You must name this Search Folder."
 msgstr "باید نامی بر روی این شاخهٔ جست‌وجو بگذارید."
 
 #: ../src/mail/mail.error.xml.h:109
-#, fuzzy
-#| msgid "No sources selected."
 msgid "No folder selected."
-msgstr "هیچ منبعی انتخاب نشده است."
+msgstr "هیچ شاخه‌ای گزیده نشده."
 
 #: ../src/mail/mail.error.xml.h:110
 msgid ""
@@ -19372,8 +19342,6 @@ msgstr ""
 "شاخه‌های دوردست و یا هردو انجام دهید."
 
 #: ../src/mail/mail.error.xml.h:112
-#, fuzzy
-#| msgid "Problem migrating old mail folder &quot;{0}&quot;."
 msgid "Problem migrating old mail folder “{0}”."
 msgstr "مشکل در کوچ دادن شاخهٔ نامهٔ قدیمی «{0}»."
 
@@ -19394,7 +19362,7 @@ msgstr "ال_حاق"
 
 #: ../src/mail/mail.error.xml.h:119
 msgid "Evolution’s local mail format has changed."
-msgstr "قالب نامهٔ محلّی اولوشن تغییر کرد."
+msgstr "قالب نامهٔ محلی اولوشن تغییر کرد."
 
 #: ../src/mail/mail.error.xml.h:120
 msgid ""
@@ -19434,20 +19402,16 @@ msgid "Querying server for a list of supported authentication mechanisms."
 msgstr "در حال جست‌وجوی کارساز برای فهرست سازوکارهای تأیید هویت پشتیبانی شده."
 
 #: ../src/mail/mail.error.xml.h:129
-#, fuzzy
-#| msgid "Querying server for a list of supported authentication mechanisms."
 msgid "Failed to query server for a list of supported authentication mechanisms."
-msgstr "در حال جست‌وجوی کارساز برای فهرست سازوکارهای تأیید هویت پشتیبانی شده."
+msgstr "شکست در پرس‌وجوی کارساز برای سیاهه‌ای از سازوکارهای تأیید هویت پشتیبانی شده."
 
 #: ../src/mail/mail.error.xml.h:130
 msgid "Failed to get server setup."
 msgstr "شکست در گرفتن برپایی کارساز."
 
 #: ../src/mail/mail.error.xml.h:131
-#, fuzzy
-#| msgid "The calendar is not marked for offline usage."
 msgid "Synchronize folders locally for offline usage?"
-msgstr "تقویم برای استفادهٔ برون‌خط علامت نخورده است."
+msgstr "همگام‌سازی محلی شاخه‌ها برای استفادهٔ برون‌خط؟"
 
 #: ../src/mail/mail.error.xml.h:132
 msgid ""
@@ -19467,27 +19431,20 @@ msgid "Do you want to mark all messages as read?"
 msgstr "آیا می‌خواهید همهٔ پیام‌های را به عنوان خوانده علامت‌گذاری کنید؟"
 
 #: ../src/mail/mail.error.xml.h:136
-#, fuzzy
-#| msgid "Mark all messages as read in the selected folder"
 msgid "This will mark all messages as read in the selected folder."
-msgstr "علامت‌گذاری  همهٔ پیام‌های شاخهٔ گزیده به عنوان خوانده"
+msgstr "این کار تمامی پیام‌های شاخهٔ گزیده را به خوانده علامت خواهد زد."
 
 #: ../src/mail/mail.error.xml.h:137
-#, fuzzy
-#| msgid "Moving messages into folder %s"
 msgid "Also mark messages in subfolders?"
-msgstr "در حال جابه‌جایی پیام‌ها به شاخهٔ %s"
+msgstr "هم‌چنین علامت زدن پیام‌ها در زیرشاخه‌ها؟"
 
 #: ../src/mail/mail.error.xml.h:138
-#, fuzzy
-#| msgid ""
-#| "This will mark all messages as read in the selected folder and its subfolders."
 msgid ""
 "Do you want to mark messages as read in the current folder only, or in the "
 "current folder as well as all subfolders?"
 msgstr ""
-"با این کار همهٔ پیام‌های شاخهٔ گزیده و زیرشاخه‌های آن به عنوان خوانده علامت‌گذاری "
-"خواهد شد."
+"می‌خواهید تمامی پیام‌ها را فقط در شاخهٔ کنونی به خوانده علامت بزنید یا در زیرشاخه‌ها "
+"هم علامت بخورد؟"
 
 #: ../src/mail/mail.error.xml.h:139
 msgid "In Current Folder and _Subfolders"
@@ -19566,10 +19523,8 @@ msgid "Please enable the account or send using another account."
 msgstr "لطفاً حساب‌تان را به کار بیندازید یا با استفاده از حساب دیگری ارسال کنید."
 
 #: ../src/mail/mail.error.xml.h:159
-#, fuzzy
-#| msgid "This message cannot be sent because you have not specified any recipients"
 msgid "This message cannot be sent because there is no mail account configured"
-msgstr "این پیام را نمی‌توان ارسال کرد چون شما گیرنده‌ای مشخص نکرده‌اید"
+msgstr "این پیام نمی‌تواند ارسال شود؛ چرا که حساب نامه‌ای پیکربندی نشده"
 
 #: ../src/mail/mail.error.xml.h:160
 msgid ""
@@ -19582,10 +19537,8 @@ msgid "Mail Deletion Failed"
 msgstr "حذف نامه شکست خورد"
 
 #: ../src/mail/mail.error.xml.h:162
-#, fuzzy
-#| msgid "Could not determine folder permissions for delegates."
 msgid "You do not have sufficient permissions to delete this mail."
-msgstr "تعیین اجازه‌های شاخه برای نمایندگان ممکن نیست."
+msgstr "اجازه‌های کافی برای حذف این پیام را ندارید."
 
 #: ../src/mail/mail.error.xml.h:163
 msgid "“Check Junk” Failed"
@@ -19600,57 +19553,41 @@ msgid "“Report Not Junk” Failed"
 msgstr "«گزارش غیرآشغال» شکست خورد"
 
 #: ../src/mail/mail.error.xml.h:166
-#, fuzzy
-#| msgid "Remove the delegate %s?"
 msgid "Remove duplicate messages?"
-msgstr "نمایندهٔ %s حذف شود؟"
+msgstr "برداشتن پیام‌های تکراری؟"
 
 #: ../src/mail/mail.error.xml.h:167
-#, fuzzy
-#| msgid "Unfinished messages found"
 msgid "No duplicate messages found."
-msgstr "پیام‌های‌ ناتمام پیدا شدند"
+msgstr "پیام تکراری پیدا نشد."
 
 #. Translators: {0} is replaced with a folder name
 #: ../src/mail/mail.error.xml.h:169
-#, fuzzy
-#| msgid "The attachment does not contain a valid calendar message"
 msgid "Folder “{0}” doesn’t contain any duplicate message."
-msgstr "پیوست حاوی پیام تقویم معتبر نیست."
+msgstr "شاخهٔ {0} هیچ پیام تکراری‌ای ندارد."
 
 #: ../src/mail/mail.error.xml.h:170
-#, fuzzy
-#| msgid "File exists &quot;{0}&quot;."
 msgid "Failed to connect account “{0}”."
-msgstr "فیلد وجود دارد «{0}»."
+msgstr "شکست در وصل شدن به حساب {0}."
 
 #: ../src/mail/mail.error.xml.h:171
-#, fuzzy
-#| msgid "File exists &quot;{0}&quot;."
 msgid "Failed to disconnect account “{0}”."
-msgstr "فیلد وجود دارد «{0}»."
+msgstr "شکست در قطع شدن از حساب {0}."
 
 #: ../src/mail/mail.error.xml.h:172
-#, fuzzy
-#| msgid "Cannot delete system folder &quot;{0}&quot;."
 msgid "Failed to unsubscribe from folder “{0}”."
-msgstr "نمی‌توان شاخهٔ سامانه «{0}» را حذف کرد."
+msgstr "شکست در قطع اشتراک شاخهٔ «{0}»."
 
 #: ../src/mail/mail.error.xml.h:173
-#, fuzzy
-#| msgid "Unable to retrieve message"
 msgid "Unable to retrieve message."
-msgstr "بازیابی پیام امکان پذیر نیست"
+msgstr "ناتوان در بازیابی پیام."
 
 #: ../src/mail/mail.error.xml.h:174
 msgid "{0}"
 msgstr "{0}"
 
 #: ../src/mail/mail.error.xml.h:175
-#, fuzzy
-#| msgid "Not available in offline mode"
 msgid "Message is not available in offline mode."
-msgstr "در حالت برون‌خط موجود نیست"
+msgstr "پیام در حالت برون‌خط موجود نیست."
 
 #: ../src/mail/mail.error.xml.h:176
 msgid ""
@@ -19662,46 +19599,32 @@ msgid ""
 msgstr ""
 
 #: ../src/mail/mail.error.xml.h:177
-#, fuzzy
-#| msgid "failed to open book"
 msgid "Failed to open folder."
-msgstr "گشودن دفترچه شکست خورد"
+msgstr "شکست در گشودن شاخه."
 
 #: ../src/mail/mail.error.xml.h:179
-#, fuzzy
-#| msgid "Failed to send %d of %d messages"
 msgid "Failed to find duplicate messages."
-msgstr "ارسال %Id پیام از %Idتا شکست خورد"
+msgstr "شکست در یافتن پیام‌های تکراری."
 
 #: ../src/mail/mail.error.xml.h:180
-#, fuzzy
-#| msgid "Failed to retrieve message"
 msgid "Failed to retrieve messages."
-msgstr "بازیابی پیام شکست خورد"
+msgstr "شکست در بازیابی پیام‌ها."
 
 #: ../src/mail/mail.error.xml.h:181
-#, fuzzy
-#| msgid "Failed to retrieve message"
 msgid "Failed to mark messages as read."
-msgstr "بازیابی پیام شکست خورد"
+msgstr "شکست در علامت زدن پیام‌ها به خوانده."
 
 #: ../src/mail/mail.error.xml.h:182
-#, fuzzy
-#| msgid "Failed to retrieve message"
 msgid "Failed to remove attachments from messages."
-msgstr "بازیابی پیام شکست خورد"
+msgstr "شکست در برداشتن پیوست‌ها از پیام‌ها."
 
 #: ../src/mail/mail.error.xml.h:183
-#, fuzzy
-#| msgid "Marks the selected calendar for offline viewing."
 msgid "Failed to download messages for offline viewing for account “{0}”."
-msgstr "تقویم گزیده را برای نمایش برون‌خط علامت‌گذاری می‌کند."
+msgstr "شکست در بارگیری پیام‌ها برای مشاهدهٔ برون خط برای حساب «{0}»."
 
 #: ../src/mail/mail.error.xml.h:184
-#, fuzzy
-#| msgid "Failed to retrieve message"
 msgid "Failed to save messages to disk."
-msgstr "بازیابی پیام شکست خورد"
+msgstr "شکست در ذخیرهٔ پیام‌ها به دیسک."
 
 #: ../src/mail/mail.error.xml.h:185
 msgid "Hidden file is attached."
@@ -19765,73 +19688,50 @@ msgid "Overdue: {0} by {1}"
 msgstr ""
 
 #: ../src/mail/mail.error.xml.h:203
-#, fuzzy
-#| msgid "This signature has been changed, but has not been saved."
 msgid "This message note has been changed, but has not been saved."
-msgstr "این امضا تغغیر کرده ولی ذخیره نشده است."
+msgstr "این یادداشت پیام تغییر کرده، ولی ذخیره نشده."
 
 #. Translators: {0} is the name of the folder where the delete of the message note failed.
 #: ../src/mail/mail.error.xml.h:206
-#, fuzzy
-#| msgid "Copy selected messages to another folder"
 msgid "Failed to delete message note in folder “{0}”"
-msgstr "رونوشت از پیام‌های گزیده در یک شاخهٔ دیگر"
+msgstr "شکست در حذف یادداشت پیام در شاخهٔ «{0}»"
 
 #. Translators: {0} is the name of the folder where the store of the message note failed.
 #: ../src/mail/mail.error.xml.h:208
-#, fuzzy
-#| msgid "Failed to retrieve message"
 msgid "Failed to store message note in folder “{0}”"
-msgstr "بازیابی پیام شکست خورد"
+msgstr "شکست در ذخیرهٔ یادداشت پیام در شاخهٔ «{0}»"
 
 #: ../src/mail/mail.error.xml.h:209
-#, fuzzy
-#| msgid "Search for text in the body of the displayed message"
 msgid "Something has gone wrong when displaying the message"
-msgstr "جست‌وجو به دنبال متن در بدنهٔ پیام نمایش داده شده"
+msgstr "چیزی هنگام نمایش پیام اشتباه پیش رفت"
 
 #: ../src/mail/mail.error.xml.h:210
-#, fuzzy
-#| msgid ""
-#| "A WebKitWebProcess crashed when displaying the memo. You can try again by "
-#| "moving to another memo and back. If the issue persists, please file a bug "
-#| "report in GNOME Gitlab."
 msgid ""
 "A WebKitWebProcess crashed when displaying the message. You can try again by "
 "moving to another message and back. If the issue persists, please file a bug "
 "report in GNOME GitLab."
 msgstr ""
-"هنگام نمایش یادداشت، یک WebKitWebProcess فروپاشید. می‌توانید با رفتن به یادداشتی "
-"دیگر و بازگشت، دوباره تلاش کنید. اگر مشکل پابرجا بود، لطفاً در گیت‌لب گنوم، گزارش "
-"خطایی پر کنید."
+"هنگام نمایش پیام، یک WebKitWebProcess فروپاشید. می‌توانید با رفتن به یادداشتی دیگر "
+"و بازگشت، دوباره تلاش کنید. اگر مشکل پابرجا بود، لطفاً در گیت‌لب گنوم، گزارش خطایی "
+"پر کنید."
 
 #: ../src/mail/mail.error.xml.h:211
 msgid "Something has gone wrong when displaying the signature"
 msgstr ""
 
 #: ../src/mail/mail.error.xml.h:212
-#, fuzzy
-#| msgid ""
-#| "A WebKitWebProcess crashed when displaying the contact. You can try again by "
-#| "moving to another contact and back. If the issue persists, please file a bug "
-#| "report in GNOME Gitlab."
 msgid ""
 "A WebKitWebProcess crashed when displaying the signature. You can try again by "
 "moving to another signature and back. If the issue persists, please file a bug "
 "report in GNOME GitLab."
 msgstr ""
-"هنگام نمایش آشنا، یک WebKitWebProcess فروپاشید. می‌توانید با رفتن به آشنایی دیگر و "
+"هنگام نمایش امضا، یک WebKitWebProcess فروپاشید. می‌توانید با رفتن به امضایی دیگر و "
 "بازگشت، دوباره تلاش کنید. اگر مشکل پابرجا بود، لطفاً در گیت‌لب گنوم، گزارش خطایی پر "
 "کنید."
 
 #: ../src/mail/mail.error.xml.h:213
-#, fuzzy
-#| msgid ""
-#| "Are you sure you want to permanently remove all the deleted messages in all "
-#| "folders?"
 msgid "Are you sure you want to delete all the messages in the Junk folder?"
-msgstr ""
-"آیا مطمئنید که می‌خواهید برای همیشه همهٔ پیام‌های حذف شده در همهٔ شاخه‌ها را پاک کنید؟"
+msgstr "مطمئنید می‌خواهید تمامی پیام‌ها در شاخهٔ هرزنامه را حذف کنید؟"
 
 #: ../src/mail/mail.error.xml.h:214
 msgid ""
@@ -19848,10 +19748,8 @@ msgid "Failed to empty Junk folder “{0}”"
 msgstr "شکست در تخلیهٔ شاخهٔ هرز «{0}»"
 
 #: ../src/mail/mail.error.xml.h:217
-#, fuzzy
-#| msgid "Cannot open message"
 msgid "Cannot archive messages"
-msgstr "باز کردن پیغام ممکن نیست"
+msgstr "نمی‌توان پیام‌ها را بایگانی کرد"
 
 #: ../src/mail/mail.error.xml.h:218
 msgid ""
@@ -19860,11 +19758,8 @@ msgid ""
 msgstr ""
 
 #: ../src/mail/mail.error.xml.h:219
-#, fuzzy
-#| msgid "Failed to send a message"
-#| msgid_plural "Failed to send %d of %d messages"
 msgid "Failed to generate message list"
-msgstr "شکست در فرستادن یک پیام"
+msgstr "شکست در ایجاد سیاههٔ پیام"
 
 #: ../src/mail/mail-send-recv.c:193
 msgid "Canceling…"
@@ -19895,10 +19790,9 @@ msgid "Waiting…"
 msgstr "منتظر…"
 
 #: ../src/mail/mail-send-recv.c:1433
-#, fuzzy, c-format
-#| msgid "Checking for new mail"
+#, c-format
 msgid "Checking for new mail at “%s”"
-msgstr "بررسی به دنبال نامهٔ جدید"
+msgstr "بررسی کردن برای نامهٔ جدید در «%s»"
 
 #: ../src/mail/mail-send-recv.c:1660
 #, c-format
@@ -19911,10 +19805,9 @@ msgid "Deleting junk at “%s”"
 msgstr "حذف کردن آشغال در «%s»"
 
 #: ../src/mail/mail-send-recv.c:1664
-#, fuzzy, c-format
-#| msgid "Emptying trash in '%s'"
+#, c-format
 msgid "Expunging trash at “%s”"
-msgstr "در حال خالی کردن زباله‌دان در «%s»"
+msgstr "نابود کردن زباله‌دان در «%s»"
 
 #: ../src/mail/mail-vfolder-ui.c:67
 msgid "Search Folders"
@@ -20073,10 +19966,8 @@ msgid "Any header"
 msgstr "هر سرایندی"
 
 #: ../src/mail/searchtypes.xml.in.h:60
-#, fuzzy
-#| msgid "Subject or Sender contains"
 msgid "Subject or Addresses contains"
-msgstr "موضوع یا فرستنده حاوی"
+msgstr "موضوع یا نشانی‌ها شامل"
 
 #: ../src/mail/searchtypes.xml.in.h:61
 #: ../src/modules/mail/e-mail-shell-view-actions.c:2105
@@ -20105,10 +19996,8 @@ msgstr "بدنه حاوی"
 
 #: ../src/mail/searchtypes.xml.in.h:66
 #: ../src/modules/mail/e-mail-shell-view-actions.c:2091
-#, fuzzy
-#| msgid "Expression"
 msgid "Free form expression"
-msgstr "اصطلاح"
+msgstr "عبارت آزادانه"
 
 #: ../src/modules/accounts-window/e-accounts-window-editors.c:275
 msgid "Edit Collection"
@@ -25494,7 +25383,7 @@ msgstr ""
 #, fuzzy, c-format
 #| msgid "Click to open %s"
 msgid "Ctrl-click to open a link “%s”"
-msgstr "برای باز کردن %s کلیک کنید"
+msgstr "برای گشودن %s کلیک کنید"
 
 #: ../src/plugins/attachment-reminder/attachment-reminder.c:169
 #, fuzzy
@@ -26199,7 +26088,7 @@ msgstr "هنگام پردازش، خطایی رخ داد: %s"
 #, fuzzy, c-format
 #| msgid "Can not open file"
 msgid "Cannot open calendar. %s"
-msgstr "نمی‌توان پرونده را باز کرد"
+msgstr "نمی‌توان پرونده را گشود"
 
 #: ../src/plugins/mail-to-task/mail-to-task.c:884
 msgid ""
