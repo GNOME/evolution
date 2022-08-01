@@ -787,7 +787,7 @@ em_folder_tree_model_get_icon_name_for_folder_uri (EMFolderTreeModel *model,
 		if (folder_is_drafts)
 			icon_name = "accessories-text-editor";
 		else if (folder_is_templates)
-			icon_name = "text-x-generic-template";
+			icon_name = "folder-templates";
 		else if (folder_is_archive)
 			icon_name = "mail-archive";
 	}

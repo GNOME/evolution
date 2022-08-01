@@ -272,6 +272,12 @@ set(stock_private_icons
 # these are removed from the adwaita-icon-theme
 set(legacy_private_icons
 	hicolor_emblems_scalable_emblem-new.svg
+	hicolor_places_16x16_folder-templates.png
+	hicolor_places_22x22_folder-templates.png
+	hicolor_places_24x24_folder-templates.png
+	hicolor_places_32x32_folder-templates.png
+	hicolor_places_48x48_folder-templates.png
+	hicolor_places_512x512_folder-templates.png
 	hicolor_status_8x8_emblem-default.png
 	hicolor_status_8x8_emblem-new.png
 	hicolor_status_16x16_accessories-text-editor.png
