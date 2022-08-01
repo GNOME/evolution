@@ -1921,14 +1921,14 @@ comp_editor_construct_header_bar (ECompEditor *comp_editor)
 	gtk_widget_show (widget);
 	gtk_header_bar_set_show_close_button (GTK_HEADER_BAR (widget), TRUE);
 
-	action = e_comp_editor_get_action (comp_editor, "save");
+	action = e_comp_editor_get_action (comp_editor, "save-and-close");
 
-	button = e_header_bar_button_new (_("Save"), action);
+	button = e_header_bar_button_new (_("Save and Close"), action);
 	e_header_bar_button_css_add_class (E_HEADER_BAR_BUTTON (button), "suggested-action");
 	gtk_widget_show (button);
 	gtk_header_bar_pack_start (GTK_HEADER_BAR (widget), button);
 
-	action = e_comp_editor_get_action (comp_editor, "save-and-close");
+	action = e_comp_editor_get_action (comp_editor, "save");
 
 	button = e_header_bar_button_new (NULL, action);
 	gtk_widget_show (button);
