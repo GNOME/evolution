@@ -165,10 +165,10 @@ header_bar_button_set_prefer_item (EHeaderBarButton *self,
 }
 
 static gboolean
-e_headerbar_button_transform_sensitive_cb (GBinding *binding,
-					   const GValue *from_value,
-					   GValue *to_value,
-					   gpointer user_data)
+header_bar_button_transform_sensitive_cb (GBinding *binding,
+					  const GValue *from_value,
+					  GValue *to_value,
+					  gpointer user_data)
 {
 	/* The GtkAction::sensitive property does not take into the consideration
 	   also the group's sensitivity, thus use the gtk_action_is_sensitive() function. */
@@ -176,6 +176,43 @@ e_headerbar_button_transform_sensitive_cb (GBinding *binding,
 	g_value_set_boolean (to_value, gtk_action_is_sensitive (GTK_ACTION (g_binding_get_source (binding))));
 
 	return TRUE;
+}
+
+static GtkWidget *
+header_bar_button_add_action (EHeaderBarButton *header_bar_button,
+			      const gchar *label,
+			      GtkAction *action)
+{
+	GtkWidget *button;
+
+	if (GTK_IS_TOGGLE_ACTION (action))
+		button = gtk_toggle_button_new_with_label (label);
+	else
+		button = gtk_button_new_with_label (label);
+
+	gtk_widget_show (button);
+
+	gtk_box_pack_start (GTK_BOX (header_bar_button), button, FALSE, FALSE, 0);
+
+	if (action) {
+		e_binding_bind_property_full (
+			action, "sensitive",
+			button, "sensitive",
+			G_BINDING_SYNC_CREATE,
+			header_bar_button_transform_sensitive_cb,
+			NULL, NULL, NULL);
+
+		if (GTK_IS_TOGGLE_ACTION (action)) {
+			e_binding_bind_property (
+				action, "active",
+				button, "active",
+				G_BINDING_SYNC_CREATE);
+		}
+
+		header_bar_button_update_button_for_action (GTK_BUTTON (button), action);
+	}
+
+	return button;
 }
 
 static void
@@ -239,37 +276,9 @@ header_bar_button_constructed (GObject *object)
 	/* Chain up to parent's method. */
 	G_OBJECT_CLASS (e_header_bar_button_parent_class)->constructed (object);
 
-	if (GTK_IS_TOGGLE_ACTION (header_bar_button->priv->action)) {
-		header_bar_button->priv->button = gtk_toggle_button_new_with_label (
-			header_bar_button->priv->label);
-	} else {
-		header_bar_button->priv->button = gtk_button_new_with_label (
-			header_bar_button->priv->label);
-	}
-	gtk_widget_show (header_bar_button->priv->button);
-
-	gtk_box_pack_start (
-		GTK_BOX (header_bar_button), header_bar_button->priv->button,
-		FALSE, FALSE, 0);
-
-	if (header_bar_button->priv->action != NULL) {
-		header_bar_button_update_button_for_action (
-			GTK_BUTTON (header_bar_button->priv->button),
-			header_bar_button->priv->action);
-
-		e_binding_bind_property_full (
-			header_bar_button->priv->action, "sensitive",
-			header_bar_button, "sensitive",
-			G_BINDING_SYNC_CREATE,
-			e_headerbar_button_transform_sensitive_cb,
-			NULL, NULL, NULL);
-
-		if (GTK_IS_TOGGLE_ACTION (header_bar_button->priv->action))
-			e_binding_bind_property (
-				header_bar_button->priv->action, "active",
-				header_bar_button->priv->button, "active",
-				G_BINDING_SYNC_CREATE);
-	}
+	header_bar_button->priv->button = header_bar_button_add_action (header_bar_button,
+		header_bar_button->priv->label,
+		header_bar_button->priv->action);
 
 	/* TODO: GTK4 port: do not use linked buttons
 	 * https://developer.gnome.org/hig/patterns/containers/header-bars.html#button-grouping */
@@ -389,30 +398,12 @@ e_header_bar_button_add_action (EHeaderBarButton *header_bar_button,
 	g_return_if_fail (E_IS_HEADER_BAR_BUTTON (header_bar_button));
 	g_return_if_fail (GTK_IS_ACTION (action));
 
-	if (GTK_IS_TOGGLE_ACTION (action))
-		button = gtk_toggle_button_new_with_label (label);
-	else
-		button = gtk_button_new_with_label (label);
+	button = header_bar_button_add_action (header_bar_button, label, action);
 
-	gtk_widget_show (button);
-	gtk_box_pack_start (GTK_BOX (header_bar_button), button, FALSE, FALSE, 0);
-
-	e_binding_bind_property (
-		action, "sensitive",
-		button, "sensitive",
-		G_BINDING_SYNC_CREATE);
-
-	if (GTK_IS_TOGGLE_ACTION (action))
-		e_binding_bind_property (
-			action, "active",
-			button, "active",
-			G_BINDING_SYNC_CREATE);
-
-	g_signal_connect_swapped (
+	g_signal_connect_object (
 		button, "clicked",
-		G_CALLBACK (gtk_action_activate), action);
-
-	header_bar_button_update_button_for_action (GTK_BUTTON (button), action);
+		G_CALLBACK (gtk_action_activate), action,
+		G_CONNECT_SWAPPED);
 }
 
 /**
