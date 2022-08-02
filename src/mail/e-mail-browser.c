@@ -556,11 +556,7 @@ mail_browser_construct_header_bar (EMailReader *reader)
 	gtk_widget_set_name (widget, "e-mail-shell-view-reply-sender");
 	gtk_widget_show (button);
 
-	e_header_bar_button_take_menu (
-		E_HEADER_BAR_BUTTON (button),
-		e_mail_reader_create_reply_menu (reader));
-
-	gtk_header_bar_pack_start (GTK_HEADER_BAR (widget), button);
+	gtk_header_bar_pack_end (GTK_HEADER_BAR (widget), button);
 
 	return widget;
 }
