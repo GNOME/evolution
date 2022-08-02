@@ -25,6 +25,7 @@ G_BEGIN_DECLS
 /* An array of known supported translations with corresponding locale codes */
 
 static ESupportedLocales e_supported_locales[] = {
+	{ "ab", "ab_AB" },
 	{ "af", "af_ZA" },
 	{ "am", "am_ET" },
 	{ "an", "an_ES" },
