@@ -164,6 +164,20 @@ header_bar_button_set_prefer_item (EHeaderBarButton *self,
 	header_bar_button_update_button (self);
 }
 
+static gboolean
+e_headerbar_button_transform_sensitive_cb (GBinding *binding,
+					   const GValue *from_value,
+					   GValue *to_value,
+					   gpointer user_data)
+{
+	/* The GtkAction::sensitive property does not take into the consideration
+	   also the group's sensitivity, thus use the gtk_action_is_sensitive() function. */
+
+	g_value_set_boolean (to_value, gtk_action_is_sensitive (GTK_ACTION (g_binding_get_source (binding))));
+
+	return TRUE;
+}
+
 static void
 header_bar_button_set_property (GObject *object,
 				guint property_id,
@@ -243,10 +257,12 @@ header_bar_button_constructed (GObject *object)
 			GTK_BUTTON (header_bar_button->priv->button),
 			header_bar_button->priv->action);
 
-		e_binding_bind_property (
+		e_binding_bind_property_full (
 			header_bar_button->priv->action, "sensitive",
 			header_bar_button, "sensitive",
-			G_BINDING_SYNC_CREATE);
+			G_BINDING_SYNC_CREATE,
+			e_headerbar_button_transform_sensitive_cb,
+			NULL, NULL, NULL);
 
 		if (GTK_IS_TOGGLE_ACTION (header_bar_button->priv->action))
 			e_binding_bind_property (
