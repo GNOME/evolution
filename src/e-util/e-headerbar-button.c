@@ -436,6 +436,11 @@ e_header_bar_button_take_menu (EHeaderBarButton *header_bar_button,
 		gtk_box_pack_end (
 			GTK_BOX (header_bar_button), header_bar_button->priv->dropdown_button,
 			FALSE, FALSE, 0);
+
+		e_binding_bind_property (
+			header_bar_button->priv->button, "sensitive",
+			header_bar_button->priv->dropdown_button, "sensitive",
+			G_BINDING_SYNC_CREATE);
 	}
 
 	gtk_menu_button_set_popup (GTK_MENU_BUTTON (header_bar_button->priv->dropdown_button), menu);
