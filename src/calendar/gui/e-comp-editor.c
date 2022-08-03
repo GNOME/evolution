@@ -1737,6 +1737,20 @@ ece_fill_component (ECompEditor *comp_editor,
 	return TRUE;
 }
 
+static gboolean
+comp_editor_signal_accumulator_false_returned (GSignalInvocationHint *ihint,
+					       GValue *return_accu,
+					       const GValue *handler_return,
+					       gpointer dummy)
+{
+	gboolean returned;
+
+	returned = g_value_get_boolean (handler_return);
+	g_value_set_boolean (return_accu, returned);
+
+	return returned;
+}
+
 static void
 comp_editor_realize_cb (ECompEditor *comp_editor)
 {
@@ -2763,7 +2777,8 @@ e_comp_editor_class_init (ECompEditorClass *klass)
 		G_TYPE_FROM_CLASS (klass),
 		G_SIGNAL_RUN_LAST | G_SIGNAL_ACTION,
 		0,
-		NULL, NULL, NULL,
+		comp_editor_signal_accumulator_false_returned, NULL,
+		NULL,
 		G_TYPE_BOOLEAN, 1,
 		I_CAL_TYPE_COMPONENT);
 }
@@ -2876,7 +2891,8 @@ e_comp_editor_fill_component (ECompEditor *comp_editor,
 
 	is_valid = comp_editor_class->fill_component (comp_editor, component);
 
-	if (is_valid)
+	/* Need to check whether there's any signal handler, otherwise glib sets the 'is_valid' to FALSE */
+	if (is_valid && g_signal_has_handler_pending (comp_editor, signals[FILL_COMPONENT], 0, FALSE))
 		g_signal_emit (comp_editor, signals[FILL_COMPONENT], 0, component, &is_valid);
 
 	if (focused_widget) {
