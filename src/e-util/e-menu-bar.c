@@ -231,10 +231,10 @@ e_menu_bar_new (GtkMenuBar *inner_menu_bar,
 	E_MENU_BAR (menu_bar)->priv->inner_menu_bar = GTK_WIDGET (inner_menu_bar);
 
 	settings = e_util_ref_settings ("org.gnome.evolution.shell");
-	g_signal_connect (
+	g_signal_connect_object (
 		settings, "changed::menubar-visible",
 		G_CALLBACK (menu_bar_visible_settings_changed_cb),
-		menu_bar);
+		menu_bar, 0);
 	e_menu_bar_set_visible (
 		E_MENU_BAR (menu_bar),
 		g_settings_get_boolean (settings, "menubar-visible"));
