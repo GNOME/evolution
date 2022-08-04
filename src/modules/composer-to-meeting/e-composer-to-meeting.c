@@ -24,6 +24,7 @@
 #include "e-util/e-util.h"
 #include "composer/e-msg-composer.h"
 #include "composer/e-composer-from-header.h"
+#include "calendar/gui/comp-util.h"
 #include "calendar/gui/e-comp-editor.h"
 #include "calendar/gui/e-comp-editor-page-attachments.h"
 
@@ -71,6 +72,7 @@ composer_to_meeting_component (EMsgComposer *composer,
 	EComposerHeaderTable *header_table;
 	EDestination **destinations_array[3];
 	ESource *source;
+	GSettings *settings;
 	gchar *alias_name = NULL, *alias_address = NULL, *uid, *text;
 	GSList *attendees = NULL;
 	const gchar *subject;
@@ -223,6 +225,16 @@ composer_to_meeting_component (EMsgComposer *composer,
 
 		g_slist_free_full (descr_list, e_cal_component_text_free);
 	}
+
+	settings = e_util_ref_settings ("org.gnome.evolution.calendar");
+
+	if (g_settings_get_boolean (settings, "use-default-reminder")) {
+		cal_comp_util_add_reminder (comp,
+			g_settings_get_int (settings, "default-reminder-interval"),
+			g_settings_get_enum (settings, "default-reminder-units"));
+	}
+
+	g_clear_object (&settings);
 
 	return comp;
 }

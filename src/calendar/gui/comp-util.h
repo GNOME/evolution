@@ -226,4 +226,7 @@ gboolean	cal_comp_util_move_component_by_days
 						 ECalComponent *in_comp,
 						 gint days,
 						 gboolean is_move);
+void		cal_comp_util_add_reminder	(ECalComponent *comp,
+						 gint reminder_interval,
+						 EDurationType reminder_units);
 #endif

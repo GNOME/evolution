@@ -38,6 +38,7 @@
 #include <mail/em-utils.h>
 #include <mail/message-list.h>
 
+#include "calendar/gui/comp-util.h"
 #include <calendar/gui/e-comp-editor.h>
 #include <calendar/gui/itip-utils.h>
 
@@ -485,7 +486,6 @@ set_attachments (ECalClient *client,
 
 	if (cb_data.uris == NULL) {
 		e_flag_free (cb_data.flag);
-		g_warning ("No attachment URIs retrieved.");
 		return;
 	}
 
@@ -894,6 +894,7 @@ do_mail_to_event (AsyncData *data)
 			break;
 		}
 	} else {
+		GSettings *settings;
 		gint i;
 		ECalComponentDateTime *dt, *dt2;
 		ICalTime *tt, *tt2;
@@ -912,6 +913,8 @@ do_mail_to_event (AsyncData *data)
 		e_client_get_capabilities (E_CLIENT (client));
 
 		#undef cache_backend_prop
+
+		settings = e_util_ref_settings ("org.gnome.evolution.calendar");
 
 		/* set start day of the event as today, without time - easier than looking for a calendar's time zone */
 		tt = i_cal_time_new_today ();
@@ -937,20 +940,15 @@ do_mail_to_event (AsyncData *data)
 				continue;
 			}
 
-			comp = e_cal_component_new ();
+			comp = cal_comp_event_new_with_defaults_sync (E_CAL_CLIENT (client), FALSE,
+				data->source_type == E_CAL_CLIENT_SOURCE_TYPE_EVENTS &&
+				g_settings_get_boolean (settings, "use-default-reminder"),
+				g_settings_get_int (settings, "default-reminder-interval"),
+				g_settings_get_enum (settings, "default-reminder-units"),
+				NULL, &error);
 
-			switch (data->source_type) {
-			case E_CAL_CLIENT_SOURCE_TYPE_EVENTS:
-				e_cal_component_set_new_vtype (comp, E_CAL_COMPONENT_EVENT);
-				break;
-			case E_CAL_CLIENT_SOURCE_TYPE_TASKS:
-				e_cal_component_set_new_vtype (comp, E_CAL_COMPONENT_TODO);
-				break;
-			case E_CAL_CLIENT_SOURCE_TYPE_MEMOS:
-				e_cal_component_set_new_vtype (comp, E_CAL_COMPONENT_JOURNAL);
-				break;
-			default:
-				g_warn_if_reached ();
+			if (!comp) {
+				report_error_idle (_("Cannot create component: %s"), error ? error->message : _("Unknown error"));
 				break;
 			}
 
@@ -1058,11 +1056,10 @@ do_mail_to_event (AsyncData *data)
 
 		e_cal_component_datetime_free (dt);
 		e_cal_component_datetime_free (dt2);
+		g_clear_object (&settings);
 	}
 
-	/* free memory */
-	if (client != NULL)
-		g_object_unref (client);
+	g_clear_object (&client);
 	g_ptr_array_unref (uids);
 	g_object_unref (folder);
 

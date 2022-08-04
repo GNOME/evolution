@@ -359,6 +359,59 @@ cal_comp_util_ref_default_object (ECalClient *client,
 	return comp;
 }
 
+void
+cal_comp_util_add_reminder (ECalComponent *comp,
+			    gint reminder_interval,
+			    EDurationType reminder_units)
+{
+	ECalComponentAlarm *alarm;
+	ICalProperty *prop;
+	ICalDuration *duration;
+	ECalComponentAlarmTrigger *trigger;
+
+	g_return_if_fail (E_IS_CAL_COMPONENT (comp));
+
+	alarm = e_cal_component_alarm_new ();
+
+	/* We don't set the description of the alarm; we'll copy it from the
+	 * summary when it gets committed to the server. For that, we add a
+	 * X-EVOLUTION-NEEDS-DESCRIPTION property to the alarm's component.
+	 */
+	prop = i_cal_property_new_x ("1");
+	i_cal_property_set_x_name (prop, "X-EVOLUTION-NEEDS-DESCRIPTION");
+	e_cal_component_property_bag_take (e_cal_component_alarm_get_property_bag (alarm), prop);
+
+	e_cal_component_alarm_set_action (alarm, E_CAL_COMPONENT_ALARM_DISPLAY);
+
+	duration = i_cal_duration_new_null_duration ();
+	i_cal_duration_set_is_neg (duration, TRUE);
+
+	switch (reminder_units) {
+	case E_DURATION_MINUTES:
+		i_cal_duration_set_minutes (duration, reminder_interval);
+		break;
+
+	case E_DURATION_HOURS:
+		i_cal_duration_set_hours (duration, reminder_interval);
+		break;
+
+	case E_DURATION_DAYS:
+		i_cal_duration_set_days (duration, reminder_interval);
+		break;
+
+	default:
+		g_warning ("wrong units %d\n", reminder_units);
+	}
+
+	trigger = e_cal_component_alarm_trigger_new_relative (E_CAL_COMPONENT_ALARM_TRIGGER_RELATIVE_START, duration);
+	g_clear_object (&duration);
+
+	e_cal_component_alarm_take_trigger (alarm, trigger);
+
+	e_cal_component_add_alarm (comp, alarm);
+	e_cal_component_alarm_free (alarm);
+}
+
 /**
  * cal_comp_event_new_with_defaults_sync:
  *
@@ -377,10 +430,6 @@ cal_comp_event_new_with_defaults_sync (ECalClient *client,
 				       GError **error)
 {
 	ECalComponent *comp;
-	ECalComponentAlarm *alarm;
-	ICalProperty *prop;
-	ICalDuration *duration;
-	ECalComponentAlarmTrigger *trigger;
 
 	comp = cal_comp_util_ref_default_object (client, I_CAL_VEVENT_COMPONENT, E_CAL_COMPONENT_EVENT, cancellable, error);
 
@@ -390,45 +439,7 @@ cal_comp_event_new_with_defaults_sync (ECalClient *client,
 	if (all_day || !use_default_reminder)
 		return comp;
 
-	alarm = e_cal_component_alarm_new ();
-
-	/* We don't set the description of the alarm; we'll copy it from the
-	 * summary when it gets committed to the server. For that, we add a
-	 * X-EVOLUTION-NEEDS-DESCRIPTION property to the alarm's component.
-	 */
-	prop = i_cal_property_new_x ("1");
-	i_cal_property_set_x_name (prop, "X-EVOLUTION-NEEDS-DESCRIPTION");
-	e_cal_component_property_bag_take (e_cal_component_alarm_get_property_bag (alarm), prop);
-
-	e_cal_component_alarm_set_action (alarm, E_CAL_COMPONENT_ALARM_DISPLAY);
-
-	duration = i_cal_duration_new_null_duration ();
-	i_cal_duration_set_is_neg (duration, TRUE);
-
-	switch (default_reminder_units) {
-	case E_DURATION_MINUTES:
-		i_cal_duration_set_minutes (duration, default_reminder_interval);
-		break;
-
-	case E_DURATION_HOURS:
-		i_cal_duration_set_hours (duration, default_reminder_interval);
-		break;
-
-	case E_DURATION_DAYS:
-		i_cal_duration_set_days (duration, default_reminder_interval);
-		break;
-
-	default:
-		g_warning ("wrong units %d\n", default_reminder_units);
-	}
-
-	trigger = e_cal_component_alarm_trigger_new_relative (E_CAL_COMPONENT_ALARM_TRIGGER_RELATIVE_START, duration);
-	g_clear_object (&duration);
-
-	e_cal_component_alarm_take_trigger (alarm, trigger);
-
-	e_cal_component_add_alarm (comp, alarm);
-	e_cal_component_alarm_free (alarm);
+	cal_comp_util_add_reminder (comp, default_reminder_interval, default_reminder_units);
 
 	return comp;
 }
