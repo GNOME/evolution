@@ -175,5 +175,7 @@ void		cal_comp_util_maybe_ensure_allday_timezone_properties
 void		cal_comp_util_format_itt	(ICalTime *itt,
 						 gchar *buffer,
 						 gint buffer_size);
-
+void		cal_comp_util_add_reminder	(ECalComponent *comp,
+						 gint reminder_interval,
+						 EDurationType reminder_units);
 #endif
