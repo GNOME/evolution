@@ -1,3 +1,15 @@
+Evolution 3.44.4 2022-08-05
+---------------------------
+
+Bug Fixes:
+	I#1961 - Missing divider lines and paddings under GNOME
+	I#1966 - EColorSchemeWatcher: Verify chosen dark variant theme name exists
+	I#1968 - ECompEditor: Reminders list is too small
+	I#1982 - Calendar: The default reminder not always added
+
+Miscellaneous:
+	Change when symbolic icons are forced in the application
+
 Evolution 3.44.3 2022-07-01
 ---------------------------
 
