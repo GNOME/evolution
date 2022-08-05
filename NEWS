@@ -1,3 +1,57 @@
+Evolution 3.45.2 2022-08-05
+---------------------------
+
+Bug Fixes:
+	I#1958 - Calendar: Sort reminder times in the component editor
+	I#1961 - Missing divider lines and paddings under GNOME
+	I#1962 - Mail: Option to use user-specified Date format in Inline reply style
+	I#1966 - EColorSchemeWatcher: Verify chosen dark variant theme name exists
+	I#1968 - ECompEditor: Reminders list is too small
+	I#1971 - EMailBrowser: Move 'Reply' to the right side of the header bar
+	I#1976 - Mail: Change Template folder icon to 'folder-templates'
+	I#1981 - ECompEditor: Cannot save changes
+	I#1982 - Calendar: The default reminder not always added
+	M!108 - Use Client Side Decoration (header bar) (Cédric Bellegarde)
+
+Miscellaneous:
+	Mail: Handle built-in accounts similar to 'On This Computer' and 'Search Folders'
+	e_mail_folder_to_full_display_name: Use display-name for folders with no parent
+	EMFolderTree: Add 'folder-custom-icon' and 'compare-folders' signals
+	Implement News & Blogs (RSS) reader
+	RSS: Require camel and libedataserer pkgconfig files
+	Use camel_folder_get_full_display_name() in user-visible strings
+	Composer: Some parts of HTML not always converted into Plain Text
+	ECompEditor: Add signals for core virtual methods
+	Change when symbolic icons are forced in the application
+	flatpak: Add access to gvfsd in the Flatpak manifests
+	Build with gcr4 by default
+	ECompEditor: Prefer "Save and Close" in the header bar
+	Add Abkhazian translation into the list of supported locales
+	EHeaderBarButton: Use gtk_action_is_sensitive() in "sensitivity" property binding
+	EHeaderBarButton: Uniform how a GtkAction is added into the header bar button
+	EHeaderBarButton: Disable the dropdown button with the main button
+	EMenuBar: Ensure GSettings signal handler is removed on menu bar free
+	Show a menu button in the header bar when the menu bar is hidden
+
+Translations:
+	Aleksandr Melman (ru)
+	Asier Sarasua Garmendia (eu)
+	Aurimas Černius (lt)
+	Danial Behzadi (fa)
+	Daniel Mustieles (es)
+	Emin Tufan Çetin (tr)
+	Fabio Tomat (fur)
+	Hugo Carvalho (pt)
+	Jordi Mas i Hernandez (ca)
+	Kukuh Syafaat (id)
+	Luming Zh (zh_CN)
+	Nart Tlisha (ab)
+	Quentin PAGÈS (oc)
+	Sabri Ünal (tr)
+	Yosef Or Boczko (he)
+	Yuri Chornoivan (uk)
+	Zurab Kargareteli (ka)
+
 Evolution 3.45.1 2022-07-01
 ---------------------------
 
