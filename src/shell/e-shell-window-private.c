@@ -326,7 +326,7 @@ e_shell_window_private_constructed (EShellWindow *shell_window)
 	GtkUIManager *ui_manager;
 	GtkBox *box;
 	GtkPaned *paned;
-	GtkWidget *widget;
+	GtkWidget *widget, *menubar, *menu_button = NULL;
 	GtkWindow *window;
 	guint merge_id;
 	const gchar *id;
@@ -358,7 +358,11 @@ e_shell_window_private_constructed (EShellWindow *shell_window)
 
 	/* Construct window widgets. */
 
-	priv->headerbar = e_shell_header_bar_new (shell_window);
+	menubar = shell_window_construct_menubar (shell_window);
+	if (menubar)
+		shell_window->priv->menu_bar = e_menu_bar_new (GTK_MENU_BAR (menubar), window, &menu_button);
+
+	priv->headerbar = e_shell_header_bar_new (shell_window, menu_button);
 	gtk_window_set_titlebar (window, priv->headerbar);
 	gtk_widget_show (priv->headerbar);
 
@@ -368,11 +372,8 @@ e_shell_window_private_constructed (EShellWindow *shell_window)
 
 	box = GTK_BOX (widget);
 
-	widget = shell_window_construct_menubar (shell_window);
-	if (widget != NULL) {
-		shell_window->priv->menu_bar = e_menu_bar_new (GTK_MENU_BAR (widget), window);
-		gtk_box_pack_start (box, widget, FALSE, FALSE, 0);
-	}
+	if (menubar)
+		gtk_box_pack_start (box, menubar, FALSE, FALSE, 0);
 
 	widget = shell_window_construct_toolbar (shell_window);
 	if (widget != NULL)

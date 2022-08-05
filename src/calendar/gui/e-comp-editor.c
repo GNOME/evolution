@@ -51,7 +51,7 @@ struct _ECompEditorPrivate {
 	ICalComponent *component;
 	guint32 flags;
 
-	GtkWidget *menu_bar;
+	EMenuBar *menu_bar;
 
 	EFocusTracker *focus_tracker;
 	GtkUIManager *ui_manager;
@@ -1925,28 +1925,34 @@ e_comp_editor_set_shell (ECompEditor *comp_editor,
 }
 
 static GtkWidget *
-comp_editor_construct_header_bar (ECompEditor *comp_editor)
+comp_editor_construct_header_bar (ECompEditor *comp_editor,
+				  GtkWidget *menu_button)
 {
 	GtkWidget *widget;
 	GtkWidget *button;
 	GtkAction *action;
+	GtkHeaderBar *header_bar;
 
 	widget = gtk_header_bar_new ();
 	gtk_widget_show (widget);
-	gtk_header_bar_set_show_close_button (GTK_HEADER_BAR (widget), TRUE);
+	header_bar = GTK_HEADER_BAR (widget);
+	gtk_header_bar_set_show_close_button (header_bar, TRUE);
+
+	if (menu_button)
+		gtk_header_bar_pack_end (header_bar, menu_button);
 
 	action = e_comp_editor_get_action (comp_editor, "save-and-close");
 
 	button = e_header_bar_button_new (_("Save and Close"), action);
 	e_header_bar_button_css_add_class (E_HEADER_BAR_BUTTON (button), "suggested-action");
 	gtk_widget_show (button);
-	gtk_header_bar_pack_start (GTK_HEADER_BAR (widget), button);
+	gtk_header_bar_pack_start (header_bar, button);
 
 	action = e_comp_editor_get_action (comp_editor, "save");
 
 	button = e_header_bar_button_new (NULL, action);
 	gtk_widget_show (button);
-	gtk_header_bar_pack_start (GTK_HEADER_BAR (widget), button);
+	gtk_header_bar_pack_start (header_bar, button);
 
 	return widget;
 }
@@ -2316,6 +2322,7 @@ e_comp_editor_constructed (GObject *object)
 
 	ECompEditor *comp_editor = E_COMP_EDITOR (object);
 	GtkWidget *widget;
+	GtkWidget *menu_button = NULL;
 	GtkBox *vbox;
 	GtkAction *action;
 	GtkActionGroup *action_group;
@@ -2426,12 +2433,12 @@ e_comp_editor_constructed (GObject *object)
 	gtk_container_add (GTK_CONTAINER (comp_editor), widget);
 
 	/* Construct the main menu and headerbar. */
-	widget = comp_editor_construct_header_bar (comp_editor);
-	gtk_window_set_titlebar (GTK_WINDOW (comp_editor), widget);
-
 	widget = e_comp_editor_get_managed_widget (comp_editor, "/main-menu");
-	comp_editor->priv->menu_bar = e_menu_bar_new (GTK_MENU_BAR (widget), GTK_WINDOW (comp_editor));
+	comp_editor->priv->menu_bar = e_menu_bar_new (GTK_MENU_BAR (widget), GTK_WINDOW (comp_editor), &menu_button);
 	gtk_box_pack_start (GTK_BOX (vbox), widget, FALSE, FALSE, 0);
+
+	widget = comp_editor_construct_header_bar (comp_editor, menu_button);
+	gtk_window_set_titlebar (GTK_WINDOW (comp_editor), widget);
 
 	widget = e_comp_editor_get_managed_widget (comp_editor, "/main-toolbar");
 	gtk_box_pack_start (GTK_BOX (vbox), widget, FALSE, FALSE, 0);

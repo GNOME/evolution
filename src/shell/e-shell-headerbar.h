@@ -46,7 +46,8 @@ struct _EShellHeaderBarClass {
 };
 
 GType			e_shell_header_bar_get_type			(void);
-GtkWidget *		e_shell_header_bar_new				(EShellWindow *shell_window);
+GtkWidget *		e_shell_header_bar_new				(EShellWindow *shell_window,
+									 GtkWidget *menu_button);
 GtkWidget *		e_shell_header_bar_get_new_button		(EShellHeaderBar *headerbar);
 void			e_shell_header_bar_pack_start			(EShellHeaderBar *headerbar,
 									 GtkWidget *widget);

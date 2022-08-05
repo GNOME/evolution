@@ -11,6 +11,7 @@
 
 struct _EMenuBarPrivate {
 	GtkWidget *inner_menu_bar;
+	GtkWidget *menu_button;
 
 	guint visible : 1;
 	gulong delayed_show_id;
@@ -19,7 +20,6 @@ struct _EMenuBarPrivate {
 
 G_DEFINE_TYPE_WITH_CODE (EMenuBar, e_menu_bar, G_TYPE_OBJECT,
 	G_ADD_PRIVATE (EMenuBar))
-
 
 enum {
 	PROP_0,
@@ -39,22 +39,66 @@ menu_bar_visible_settings_changed_cb (GSettings *settings,
 }
 
 static void
-menu_bar_dispose (GObject *menu_bar)
+menu_bar_move_items_to (GtkMenuShell *des,
+			GtkMenuShell *src)
 {
-	EMenuBar *self = E_MENU_BAR (menu_bar);
+	GList *children, *link;
+	GtkContainer *des_container;
+	GtkContainer *src_container;
 
-	if (self->priv->delayed_show_id) {
-		g_source_remove (self->priv->delayed_show_id);
-		self->priv->delayed_show_id = 0;
+	des_container = GTK_CONTAINER (des);
+	src_container = GTK_CONTAINER (src);
+
+	children = gtk_container_get_children (src_container);
+
+	for (link = children; link; link = g_list_next (link)) {
+		GtkWidget *widget = link->data;
+
+		g_object_ref (widget);
+		gtk_container_remove (src_container, widget);
+		gtk_container_add (des_container, widget);
+		g_object_unref (widget);
 	}
 
-	if (self->priv->delayed_hide_id) {
-		g_source_remove (self->priv->delayed_hide_id);
-		self->priv->delayed_hide_id = 0;
-	}
+	g_list_free (children);
+}
 
-	/* Chain up to parent's method. */
-	G_OBJECT_CLASS (e_menu_bar_parent_class)->dispose (menu_bar);
+static void
+menu_bar_menu_deactivate_cb (GtkMenuShell *menu,
+			     gpointer user_data)
+{
+	EMenuBar *menu_bar = user_data;
+
+	menu_bar_move_items_to (GTK_MENU_SHELL (menu_bar->priv->inner_menu_bar), menu);
+
+	gtk_menu_detach (GTK_MENU (menu));
+}
+
+static void
+e_menu_bar_popup_menu (EMenuBar *self)
+{
+	GtkMenu *menu;
+
+	g_return_if_fail (E_IS_MENU_BAR (self));
+
+	if (!self->priv->menu_button)
+		return;
+
+	menu = GTK_MENU (gtk_menu_new ());
+
+	menu_bar_move_items_to (GTK_MENU_SHELL (menu), GTK_MENU_SHELL (self->priv->inner_menu_bar));
+
+	g_signal_connect_object (menu, "deactivate", G_CALLBACK (menu_bar_menu_deactivate_cb), self, 0);
+
+	gtk_menu_attach_to_widget (menu, self->priv->menu_button, NULL);
+
+	g_object_set (menu,
+	              "anchor-hints", (GDK_ANCHOR_FLIP_Y |
+	                               GDK_ANCHOR_SLIDE |
+	                               GDK_ANCHOR_RESIZE),
+	              NULL);
+
+	gtk_menu_popup_at_widget (menu, self->priv->menu_button, GDK_GRAVITY_SOUTH_WEST, GDK_GRAVITY_NORTH_WEST, NULL);
 }
 
 static void
@@ -95,14 +139,35 @@ menu_bar_get_property (GObject *object,
 }
 
 static void
+menu_bar_dispose (GObject *menu_bar)
+{
+	EMenuBar *self = E_MENU_BAR (menu_bar);
+
+	if (self->priv->delayed_show_id) {
+		g_source_remove (self->priv->delayed_show_id);
+		self->priv->delayed_show_id = 0;
+	}
+
+	if (self->priv->delayed_hide_id) {
+		g_source_remove (self->priv->delayed_hide_id);
+		self->priv->delayed_hide_id = 0;
+	}
+
+	g_clear_object (&self->priv->menu_button);
+
+	/* Chain up to parent's method. */
+	G_OBJECT_CLASS (e_menu_bar_parent_class)->dispose (menu_bar);
+}
+
+static void
 e_menu_bar_class_init (EMenuBarClass *klass)
 {
 	GObjectClass *object_class;
 
 	object_class = G_OBJECT_CLASS (klass);
-	object_class->dispose = menu_bar_dispose;
 	object_class->set_property = menu_bar_set_property;
 	object_class->get_property = menu_bar_get_property;
+	object_class->dispose = menu_bar_dispose;
 
 	g_object_class_install_property (
 		object_class,
@@ -168,13 +233,15 @@ e_menu_bar_window_event_after_cb (GtkWindow *window,
 
 	if (event->type == GDK_KEY_PRESS) {
 		GdkEventKey *key_event;
+		gboolean has_modifier_pressed;
 
 		key_event = (GdkEventKey *) event;
+		has_modifier_pressed = (key_event->state & (GDK_SHIFT_MASK | GDK_CONTROL_MASK |
+					GDK_SUPER_MASK | GDK_HYPER_MASK |
+					GDK_META_MASK)) != 0;
 
 		if ((key_event->keyval == GDK_KEY_Alt_L || key_event->keyval == GDK_KEY_Alt_R) &&
-		    !(key_event->state & (GDK_SHIFT_MASK | GDK_CONTROL_MASK |
-				          GDK_SUPER_MASK | GDK_HYPER_MASK |
-				          GDK_META_MASK))) {
+		    !has_modifier_pressed) {
 			if (self->priv->delayed_hide_id) {
 				g_source_remove (self->priv->delayed_hide_id);
 				self->priv->delayed_hide_id = 0;
@@ -191,6 +258,9 @@ e_menu_bar_window_event_after_cb (GtkWindow *window,
 				self->priv->delayed_show_id =
 					g_timeout_add (250, delayed_show_cb, self);
 			}
+		} else if (key_event->keyval == GDK_KEY_F10 && !has_modifier_pressed && self->priv->menu_button &&
+			   gtk_widget_get_visible (self->priv->menu_button)) {
+			e_menu_bar_popup_menu (self);
 		}
 	} else if (event->type != GDK_BUTTON_RELEASE || !(event->button.state & GDK_MOD1_MASK)) {
 		if (self->priv->delayed_show_id) {
@@ -210,40 +280,64 @@ e_menu_bar_window_event_after_cb (GtkWindow *window,
  * e_menu_bar_new:
  * @inner_menu_bar: #GtkMenuBar to handle
  * @window: monitor #GtkWindow for &lt;Alt&gt; key event
+ * @out_menu_button: (out) (optional) (transfer full): an output argument to set the menu button instance to, or %NULL
  *
- * Creates a new #EMenuBar showing @inner_menu_bar on demand
+ * Creates a new #EMenuBar showing @inner_menu_bar on demand. The @out_menu_button
+ * is set to a menu button, which should be placed into the window's header bar.
+ * The menu button is shown when the menu bar is hidden.
  *
  * Returns: (transfer full): a new #EMenuBar
  *
  * Since: 3.46
  **/
-GtkWidget *
+EMenuBar *
 e_menu_bar_new (GtkMenuBar *inner_menu_bar,
-		GtkWindow *window)
+		GtkWindow *window,
+		GtkWidget **out_menu_button)
 {
-	GtkWidget *menu_bar;
+	EMenuBar *self;
 	GSettings *settings;
 
 	g_return_val_if_fail (GTK_IS_MENU_BAR (inner_menu_bar), NULL);
 	g_return_val_if_fail (GTK_IS_WINDOW (window), NULL);
 
-	menu_bar = g_object_new (E_TYPE_MENU_BAR, NULL);
-	E_MENU_BAR (menu_bar)->priv->inner_menu_bar = GTK_WIDGET (inner_menu_bar);
+	self = g_object_new (E_TYPE_MENU_BAR, NULL);
+	self->priv->inner_menu_bar = GTK_WIDGET (inner_menu_bar);
 
 	settings = e_util_ref_settings ("org.gnome.evolution.shell");
 	g_signal_connect_object (
 		settings, "changed::menubar-visible",
 		G_CALLBACK (menu_bar_visible_settings_changed_cb),
-		menu_bar, 0);
+		self, 0);
 	e_menu_bar_set_visible (
-		E_MENU_BAR (menu_bar),
+		self,
 		g_settings_get_boolean (settings, "menubar-visible"));
+
+	if (out_menu_button) {
+		GtkWidget *button;
+
+		button = gtk_button_new_from_icon_name ("open-menu", GTK_ICON_SIZE_MENU);
+		gtk_button_set_always_show_image (GTK_BUTTON (button), TRUE);
+
+		g_settings_bind (
+			settings, "menubar-visible",
+			button, "visible",
+			G_SETTINGS_BIND_GET | G_SETTINGS_BIND_INVERT_BOOLEAN | G_SETTINGS_BIND_NO_SENSITIVITY);
+
+		g_signal_connect_object (button, "clicked",
+			G_CALLBACK (e_menu_bar_popup_menu), self, G_CONNECT_SWAPPED);
+
+		self->priv->menu_button = g_object_ref_sink (button);
+
+		*out_menu_button = button;
+	}
+
 	g_object_unref (settings);
 
 	g_signal_connect_object (window, "event-after",
-		G_CALLBACK (e_menu_bar_window_event_after_cb), menu_bar, G_CONNECT_AFTER);
+		G_CALLBACK (e_menu_bar_window_event_after_cb), self, G_CONNECT_AFTER);
 
-	return menu_bar;
+	return self;
 }
 
 /**

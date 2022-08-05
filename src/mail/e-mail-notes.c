@@ -52,7 +52,7 @@ struct _EMailNotesEditor {
 	EFocusTracker *focus_tracker;
 	GtkActionGroup *action_group;
 	GBinding *attachment_paned_binding;
-	GtkWidget *menu_bar;
+	EMenuBar *menu_bar;
 
 	gboolean had_message;
 	CamelMimeMessage *message;
@@ -1126,9 +1126,10 @@ e_mail_notes_editor_new_with_editor (EHTMLEditor *html_editor,
 	EFocusTracker *focus_tracker;
 	EActivityBar *activity_bar;
 	GtkUIManager *ui_manager;
-	GtkWidget *widget, *content, *button;
+	GtkWidget *widget, *content, *button, *menu_button = NULL;
 	GtkActionGroup *action_group;
 	GtkAction *action;
+	GtkHeaderBar *header_bar;
 	GSettings *settings;
 	GError *local_error = NULL;
 
@@ -1178,19 +1179,23 @@ e_mail_notes_editor_new_with_editor (EHTMLEditor *html_editor,
 
 	widget = gtk_header_bar_new ();
 	gtk_widget_show (widget);
-	gtk_header_bar_set_show_close_button (GTK_HEADER_BAR (widget), TRUE);
-	gtk_header_bar_set_title (GTK_HEADER_BAR (widget), _("Edit Message Note"));
+	header_bar = GTK_HEADER_BAR (widget);
+	gtk_header_bar_set_show_close_button (header_bar, TRUE);
+	gtk_header_bar_set_title (header_bar, _("Edit Message Note"));
 	gtk_window_set_titlebar (GTK_WINDOW (notes_editor), widget);
 
 	action = gtk_action_group_get_action (notes_editor->action_group, "save-and-close");
 	button = e_header_bar_button_new (_("Save"), action);
 	e_header_bar_button_css_add_class (E_HEADER_BAR_BUTTON (button), "suggested-action");
 	gtk_widget_show (button);
-	gtk_header_bar_pack_start (GTK_HEADER_BAR (widget), button);
+	gtk_header_bar_pack_start (header_bar, button);
 
 	widget = e_html_editor_get_managed_widget (notes_editor->editor, "/main-menu");
-	notes_editor->menu_bar = e_menu_bar_new (GTK_MENU_BAR (widget), GTK_WINDOW (notes_editor));
+	notes_editor->menu_bar = e_menu_bar_new (GTK_MENU_BAR (widget), GTK_WINDOW (notes_editor), &menu_button);
 	gtk_box_pack_start (GTK_BOX (content), widget, FALSE, FALSE, 0);
+
+	if (menu_button)
+		gtk_header_bar_pack_end (header_bar, menu_button);
 
 	widget = GTK_WIDGET (notes_editor->editor);
 	g_object_set (G_OBJECT (widget),

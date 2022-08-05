@@ -49,8 +49,9 @@ struct _EMenuBarClass {
 };
 
 GType		e_menu_bar_get_type	(void);
-GtkWidget *	e_menu_bar_new		(GtkMenuBar *widget,
-					 GtkWindow *window);
+EMenuBar *	e_menu_bar_new		(GtkMenuBar *widget,
+					 GtkWindow *window,
+					 GtkWidget **out_menu_button);
 gboolean	e_menu_bar_get_visible  (EMenuBar *menu_bar);
 void		e_menu_bar_set_visible  (EMenuBar *menu_bar,
 					 gboolean visible);

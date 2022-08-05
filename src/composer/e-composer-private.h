@@ -31,6 +31,8 @@
 
 #include <libebackend/libebackend.h>
 
+#include "e-util/e-util.h"
+
 #include "e-composer-actions.h"
 #include "e-composer-header-table.h"
 
@@ -81,7 +83,7 @@ struct _EMsgComposerPrivate {
 
 	GtkWidget *address_dialog;
 
-	GtkWidget *menu_bar;
+	EMenuBar *menu_bar;
 
 	gchar *mime_type;
 	gchar *mime_body;

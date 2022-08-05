@@ -13,6 +13,7 @@
 
 struct _EShellHeaderBarPrivate {
 	GWeakRef shell_window;
+	GtkWidget *menu_button;
 
 	GtkWidget *new_button;
 	GtkWidget *start_buttons;
@@ -23,6 +24,7 @@ struct _EShellHeaderBarPrivate {
 
 enum {
 	PROP_0,
+	PROP_MENU_BUTTON,
 	PROP_SHELL_WINDOW
 };
 
@@ -53,6 +55,16 @@ shell_header_bar_dup_shell_window (EShellHeaderBar *headerbar)
 	g_return_val_if_fail (E_IS_SHELL_HEADER_BAR (headerbar), NULL);
 
 	return g_weak_ref_get (&headerbar->priv->shell_window);
+}
+
+static void
+shell_header_bar_set_menu_button (EShellHeaderBar *headerbar,
+				  GtkWidget *menu_button)
+{
+	g_return_if_fail (GTK_IS_WIDGET (menu_button));
+	g_return_if_fail (headerbar->priv->menu_button == NULL);
+
+	headerbar->priv->menu_button = g_object_ref_sink (menu_button);
 }
 
 static void
@@ -96,6 +108,12 @@ shell_header_bar_set_property (GObject *object,
 			       GParamSpec *pspec)
 {
 	switch (property_id) {
+		case PROP_MENU_BUTTON:
+			shell_header_bar_set_menu_button (
+				E_SHELL_HEADER_BAR (object),
+				g_value_get_object (value));
+			return;
+
 		case PROP_SHELL_WINDOW:
 			shell_header_bar_set_shell_window (
 				E_SHELL_HEADER_BAR (object),
@@ -126,23 +144,44 @@ shell_header_bar_get_property (GObject *object,
 static void
 shell_header_bar_constructed (GObject *object)
 {
-	EShellHeaderBar *headerbar = E_SHELL_HEADER_BAR (object);
-	EShellWindow *shell_window = shell_header_bar_dup_shell_window (headerbar);
-	GtkUIManager *ui_manager = e_shell_window_get_ui_manager (shell_window);
+	EShellHeaderBar *self = E_SHELL_HEADER_BAR (object);
+	EShellWindow *shell_window;
+	GtkUIManager *ui_manager;
+	GtkWidget *new_button;
 
 	/* Chain up to parent's method. */
 	G_OBJECT_CLASS (e_shell_header_bar_parent_class)->constructed (object);
 
+	shell_window = shell_header_bar_dup_shell_window (self);
+
 	g_return_if_fail (E_IS_SHELL_WINDOW (shell_window));
 
+	ui_manager = e_shell_window_get_ui_manager (shell_window);
+
+	new_button = e_header_bar_button_new (C_("toolbar-button", "New"), NULL);
+	gtk_header_bar_pack_start (GTK_HEADER_BAR (self), new_button);
+	gtk_widget_show (new_button);
+	self->priv->new_button = g_object_ref (new_button);
+
+	self->priv->start_buttons = gtk_box_new (GTK_ORIENTATION_HORIZONTAL, 5);
+	gtk_header_bar_pack_start (GTK_HEADER_BAR (self), self->priv->start_buttons);
+	gtk_widget_show (self->priv->start_buttons);
+
+	if (self->priv->menu_button)
+		gtk_header_bar_pack_end (GTK_HEADER_BAR (self), self->priv->menu_button);
+
+	self->priv->end_buttons = gtk_box_new (GTK_ORIENTATION_HORIZONTAL, 5);
+	gtk_header_bar_pack_end (GTK_HEADER_BAR (self), self->priv->end_buttons);
+	gtk_widget_show (self->priv->end_buttons);
+
 	e_header_bar_button_add_accelerator (
-		E_HEADER_BAR_BUTTON (headerbar->priv->new_button),
+		E_HEADER_BAR_BUTTON (self->priv->new_button),
 		gtk_ui_manager_get_accel_group (ui_manager),
 		GDK_KEY_N, GDK_CONTROL_MASK, GTK_ACCEL_VISIBLE);
 
-	headerbar->priv->prefered_item_notify_id = e_signal_connect_notify (
+	self->priv->prefered_item_notify_id = e_signal_connect_notify (
                shell_window, "notify::active-view",
-               G_CALLBACK (shell_header_bar_update_new_menu), headerbar);
+               G_CALLBACK (shell_header_bar_update_new_menu), self);
 
 	g_object_unref (shell_window);
 }
@@ -168,8 +207,21 @@ shell_header_bar_dispose (GObject *object)
 		headerbar->priv->prefered_item_notify_id = 0;
 	}
 
+	g_clear_object (&headerbar->priv->menu_button);
+
 	/* Chain up to parent's method. */
 	G_OBJECT_CLASS (e_shell_header_bar_parent_class)->dispose (object);
+}
+
+static void
+shell_header_bar_finalize (GObject *object)
+{
+	EShellHeaderBar *self = E_SHELL_HEADER_BAR (object);
+
+	g_weak_ref_clear (&self->priv->shell_window);
+
+	/* Chain up to parent's method. */
+	G_OBJECT_CLASS (e_shell_header_bar_parent_class)->finalize (object);
 }
 
 static void
@@ -180,8 +232,22 @@ e_shell_header_bar_class_init (EShellHeaderBarClass *klass)
 	object_class = G_OBJECT_CLASS (klass);
 	object_class->set_property = shell_header_bar_set_property;
 	object_class->get_property = shell_header_bar_get_property;
-	object_class->dispose = shell_header_bar_dispose;
 	object_class->constructed = shell_header_bar_constructed;
+	object_class->dispose = shell_header_bar_dispose;
+	object_class->finalize = shell_header_bar_finalize;
+
+	g_object_class_install_property (
+		object_class,
+		PROP_MENU_BUTTON,
+		g_param_spec_object (
+			"menu-button",
+			"Menu Button",
+			"Menu button to add to the header bar",
+			GTK_TYPE_WIDGET,
+			G_PARAM_WRITABLE |
+			G_PARAM_CONSTRUCT_ONLY |
+			G_PARAM_EXPLICIT_NOTIFY |
+			G_PARAM_STATIC_STRINGS));
 
 	/**
 	 * EShellHeaderbar:shell-window
@@ -205,28 +271,16 @@ e_shell_header_bar_class_init (EShellHeaderBarClass *klass)
 static void
 e_shell_header_bar_init (EShellHeaderBar *self)
 {
-	GtkWidget *new_button;
-
 	self->priv = e_shell_header_bar_get_instance_private (self);
+	g_weak_ref_init (&self->priv->shell_window, NULL);
+
 	gtk_header_bar_set_show_close_button (GTK_HEADER_BAR (self), TRUE);
-
-	new_button = e_header_bar_button_new (C_("toolbar-button", "New"), NULL);
-	gtk_header_bar_pack_start (GTK_HEADER_BAR (self), new_button);
-	gtk_widget_show (new_button);
-	self->priv->new_button = g_object_ref (new_button);
-
-	self->priv->start_buttons = gtk_box_new (GTK_ORIENTATION_HORIZONTAL, 5);
-	gtk_header_bar_pack_start (GTK_HEADER_BAR (self), self->priv->start_buttons);
-	gtk_widget_show (self->priv->start_buttons);
-
-	self->priv->end_buttons = gtk_box_new (GTK_ORIENTATION_HORIZONTAL, 5);
-	gtk_header_bar_pack_end (GTK_HEADER_BAR (self), self->priv->end_buttons);
-	gtk_widget_show (self->priv->end_buttons);
 }
 
 /**
  * e_shell_header_bar_new:
  * @shel_window: The #EShellWindow to which the headerbar belongs
+ * @menu_button: a menu button to add to the header bar
  *
  * Creates a new #EShellHeaderBar
  *
@@ -235,9 +289,13 @@ e_shell_header_bar_init (EShellHeaderBar *self)
  * Since: 3.46
  **/
 GtkWidget *
-e_shell_header_bar_new (EShellWindow *shell_window)
+e_shell_header_bar_new (EShellWindow *shell_window,
+			GtkWidget *menu_button)
 {
-	return g_object_new (E_TYPE_SHELL_HEADER_BAR, "shell-window", shell_window, NULL);
+	return g_object_new (E_TYPE_SHELL_HEADER_BAR,
+		"shell-window", shell_window,
+		"menu-button", menu_button,
+		NULL);
 }
 
 /**

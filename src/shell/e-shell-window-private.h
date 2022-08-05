@@ -28,6 +28,8 @@
 
 #include <libebackend/libebackend.h>
 
+#include "e-util/e-util.h"
+
 #include "shell/e-shell.h"
 #include "shell/e-shell-content.h"
 #include "shell/e-shell-headerbar.h"
@@ -82,7 +84,7 @@ struct _EShellWindowPrivate {
 	GtkWidget *tooltip_label;
 	GtkWidget *status_notebook;
 	GtkWidget *headerbar;
-	GtkWidget *menu_bar;
+	EMenuBar *menu_bar;
 
 	/* Shell signal handlers. */
 	GArray *signal_handler_ids;

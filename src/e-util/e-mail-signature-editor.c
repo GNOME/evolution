@@ -46,7 +46,7 @@ struct _EMailSignatureEditorPrivate {
 
 	GtkWidget *entry;		/* not referenced */
 
-	GtkWidget *menu_bar;
+	EMenuBar *menu_bar;
 };
 
 struct _AsyncContext {
@@ -520,6 +520,8 @@ mail_signature_editor_constructed (GObject *object)
 	GtkWidget *widget;
 	GtkWidget *button;
 	GtkWidget *hbox;
+	GtkWidget *menu_button = NULL;
+	GtkHeaderBar *header_bar;
 	const gchar *display_name;
 	GError *error = NULL;
 
@@ -569,19 +571,23 @@ mail_signature_editor_constructed (GObject *object)
 
 	widget = gtk_header_bar_new ();
 	gtk_widget_show (widget);
-	gtk_header_bar_set_show_close_button (GTK_HEADER_BAR (widget), TRUE);
-	gtk_header_bar_set_title (GTK_HEADER_BAR (widget), _("Edit Signature"));
+	header_bar = GTK_HEADER_BAR (widget);
+	gtk_header_bar_set_show_close_button (header_bar, TRUE);
+	gtk_header_bar_set_title (header_bar, _("Edit Signature"));
 	gtk_window_set_titlebar (GTK_WINDOW (window), widget);
 
 	action = gtk_action_group_get_action (window->priv->action_group, "save-and-close");
 	button = e_header_bar_button_new (_("Save"), action);
 	e_header_bar_button_css_add_class (E_HEADER_BAR_BUTTON (button), "suggested-action");
 	gtk_widget_show (button);
-	gtk_header_bar_pack_start (GTK_HEADER_BAR (widget), button);
+	gtk_header_bar_pack_start (header_bar, button);
 
 	widget = e_html_editor_get_managed_widget (editor, "/main-menu");
-	window->priv->menu_bar = e_menu_bar_new (GTK_MENU_BAR (widget), GTK_WINDOW (window));
+	window->priv->menu_bar = e_menu_bar_new (GTK_MENU_BAR (widget), GTK_WINDOW (window), &menu_button);
 	gtk_box_pack_start (GTK_BOX (container), widget, FALSE, FALSE, 0);
+
+	if (menu_button)
+		gtk_header_bar_pack_end (header_bar, menu_button);
 
 	/* Construct the signature name entry. */
 

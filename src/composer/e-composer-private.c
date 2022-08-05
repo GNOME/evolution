@@ -82,34 +82,40 @@ composer_update_gallery_visibility (EMsgComposer *composer)
 }
 
 static GtkWidget *
-composer_construct_header_bar (EMsgComposer *composer)
+composer_construct_header_bar (EMsgComposer *composer,
+			       GtkWidget *menu_button)
 {
 	GtkWidget *widget;
 	GtkWidget *button;
+	GtkHeaderBar *header_bar;
 
 	widget = gtk_header_bar_new ();
 	gtk_widget_show (widget);
-	gtk_header_bar_set_show_close_button (GTK_HEADER_BAR (widget), TRUE);
+	header_bar = GTK_HEADER_BAR (widget);
+	gtk_header_bar_set_show_close_button (header_bar, TRUE);
+
+	if (menu_button)
+		gtk_header_bar_pack_end (header_bar, menu_button);
 
 	button = e_header_bar_button_new (_("Send"), ACTION (SEND));
 	e_header_bar_button_css_add_class (E_HEADER_BAR_BUTTON (button), "suggested-action");
 	gtk_widget_show (button);
-	gtk_header_bar_pack_start (GTK_HEADER_BAR (widget), button);
+	gtk_header_bar_pack_start (header_bar, button);
 
 	button = e_header_bar_button_new (NULL, ACTION (SAVE_DRAFT));
 	e_header_bar_button_css_add_class (E_HEADER_BAR_BUTTON (button), "flat");
 	gtk_widget_show (button);
-	gtk_header_bar_pack_start (GTK_HEADER_BAR (widget), button);
+	gtk_header_bar_pack_start (header_bar, button);
 
 	button = e_header_bar_button_new (NULL, ACTION (PRIORITIZE_MESSAGE));
 	e_header_bar_button_css_add_class (E_HEADER_BAR_BUTTON (button), "flat");
 	gtk_widget_show (button);
-	gtk_header_bar_pack_end (GTK_HEADER_BAR (widget), button);
+	gtk_header_bar_pack_end (header_bar, button);
 
 	button = e_header_bar_button_new (NULL, ACTION (REQUEST_READ_RECEIPT));
 	e_header_bar_button_css_add_class (E_HEADER_BAR_BUTTON (button), "flat");
 	gtk_widget_show (button);
-	gtk_header_bar_pack_end (GTK_HEADER_BAR (widget), button);
+	gtk_header_bar_pack_end (header_bar, button);
 
 	return widget;
 }
@@ -227,6 +233,7 @@ e_composer_private_constructed (EMsgComposer *composer)
 	GtkAction *action;
 	GtkWidget *container;
 	GtkWidget *widget;
+	GtkWidget *menu_button = NULL;
 	GtkWindow *window;
 	GSettings *settings;
 	gchar *filename, *gallery_path;
@@ -297,13 +304,12 @@ e_composer_private_constructed (EMsgComposer *composer)
 
 	/* Construct the main menu and headerbar. */
 
-	widget = composer_construct_header_bar (composer);
-	gtk_window_set_titlebar (window, widget);
-
 	widget = e_html_editor_get_managed_widget (editor, "/main-menu");
-
-	priv->menu_bar = e_menu_bar_new (GTK_MENU_BAR (widget), window);
+	priv->menu_bar = e_menu_bar_new (GTK_MENU_BAR (widget), window, &menu_button);
 	gtk_box_pack_start (GTK_BOX (container), widget, FALSE, FALSE, 0);
+
+	widget = composer_construct_header_bar (composer, menu_button);
+	gtk_window_set_titlebar (window, widget);
 
 	widget = e_html_editor_get_managed_widget (editor, "/main-toolbar");
 	gtk_box_pack_start (GTK_BOX (container), widget, FALSE, FALSE, 0);
