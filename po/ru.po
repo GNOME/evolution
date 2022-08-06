@@ -18,8 +18,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: evolution master\n"
 "Report-Msgid-Bugs-To: https://gitlab.gnome.org/GNOME/evolution/issues\n"
-"POT-Creation-Date: 2022-07-22 12:39+0000\n"
-"PO-Revision-Date: 2022-07-22 15:54+0300\n"
+"POT-Creation-Date: 2022-08-04 09:52+0000\n"
+"PO-Revision-Date: 2022-08-04 13:38+0300\n"
 "Last-Translator: Aleksandr Melman <Alexmelman88@gmail.com>\n"
 "Language-Team: Russian <gnome-cyr@gnome.org>\n"
 "Language: ru\n"
@@ -3755,7 +3755,7 @@ msgstr ""
 
 #: ../data/org.gnome.Evolution.appdata.xml.in.in.h:1
 #: ../data/org.gnome.Evolution.desktop.in.in.h:1
-#: ../src/mail/e-mail-browser.c:1347
+#: ../src/mail/e-mail-browser.c:1343
 #: ../src/modules/mailto-handler/evolution-mailto-handler.c:208
 #: ../src/shell/e-shell-window-private.c:265
 msgid "Evolution"
@@ -4586,7 +4586,7 @@ msgstr "Редактор контактов"
 #: ../src/addressbook/gui/contact-list-editor/contact-list-editor.ui.h:3
 #: ../src/addressbook/gui/widgets/eab-contact-merging.c:809
 #: ../src/calendar/calendar.error.xml.h:47
-#: ../src/calendar/gui/e-comp-editor.c:2281
+#: ../src/calendar/gui/e-comp-editor.c:2295
 #: ../src/composer/e-composer-actions.c:242
 #: ../src/composer/e-composer-actions.c:354
 #: ../src/e-util/e-attachment-store.c:848
@@ -4602,7 +4602,7 @@ msgid "_Save"
 msgstr "_Сохранить"
 
 #: ../src/addressbook/gui/contact-editor/contact-editor.ui.h:14
-#: ../src/calendar/gui/e-comp-editor-page-reminders.c:2488
+#: ../src/calendar/gui/e-comp-editor-page-reminders.c:2489
 #: ../src/em-format/e-mail-formatter-attachment.c:322
 #: ../src/mail/mail-config.ui.h:41
 msgid "Options"
@@ -4823,7 +4823,7 @@ msgstr "Рабочий"
 #: ../src/addressbook/gui/widgets/eab-contact-formatter.c:86
 #: ../src/addressbook/gui/widgets/eab-contact-formatter.c:528
 #: ../src/addressbook/gui/widgets/eab-contact-formatter.c:1086
-#: ../src/calendar/gui/comp-util.c:1954
+#: ../src/calendar/gui/comp-util.c:1965
 msgid "Other"
 msgstr "Другой"
 
@@ -4880,25 +4880,25 @@ msgid "Certificates"
 msgstr "Сертификаты"
 
 #: ../src/addressbook/gui/contact-editor/e-contact-editor.c:266
-#: ../src/calendar/gui/e-comp-editor.c:2213
+#: ../src/calendar/gui/e-comp-editor.c:2227
 #: ../src/e-util/e-html-editor-actions.c:1161
 msgid "_Undo"
 msgstr "_Отменить"
 
 #: ../src/addressbook/gui/contact-editor/e-contact-editor.c:268
-#: ../src/calendar/gui/e-comp-editor.c:2215 ../src/e-util/e-focus-tracker.c:147
+#: ../src/calendar/gui/e-comp-editor.c:2229 ../src/e-util/e-focus-tracker.c:147
 #: ../src/e-util/e-focus-tracker.c:150
 msgid "Undo"
 msgstr "Отменить"
 
 #: ../src/addressbook/gui/contact-editor/e-contact-editor.c:273
-#: ../src/calendar/gui/e-comp-editor.c:2220
+#: ../src/calendar/gui/e-comp-editor.c:2234
 #: ../src/e-util/e-html-editor-actions.c:1147
 msgid "_Redo"
 msgstr "_Вернуть"
 
 #: ../src/addressbook/gui/contact-editor/e-contact-editor.c:275
-#: ../src/calendar/gui/e-comp-editor.c:2222 ../src/e-util/e-focus-tracker.c:163
+#: ../src/calendar/gui/e-comp-editor.c:2236 ../src/e-util/e-focus-tracker.c:163
 #: ../src/e-util/e-focus-tracker.c:166
 msgid "Redo"
 msgstr "Вернуть"
@@ -5695,7 +5695,7 @@ msgid "Are you sure you want to delete this contact (%s)?"
 msgstr "Действительно удалить этот контакт (%s)?"
 
 #: ../src/addressbook/gui/widgets/e-addressbook-view.c:1438
-#: ../src/calendar/gui/e-comp-editor.c:2171
+#: ../src/calendar/gui/e-comp-editor.c:2185
 #: ../src/e-util/e-accounts-window.c:1763 ../src/e-util/e-focus-tracker.c:816
 #: ../src/e-util/evolution-source-viewer.c:800
 #: ../src/e-util/e-webdav-browser.c:2857
@@ -7023,7 +7023,7 @@ msgstr "Сводка содержит"
 msgid "Description Contains"
 msgstr "Описание содержит"
 
-#: ../src/calendar/gui/comp-util.c:1605
+#: ../src/calendar/gui/comp-util.c:1616
 #: ../src/calendar/gui/e-cal-component-preview.c:528
 #: ../src/calendar/importers/icalendar-importer.c:1574
 #: ../src/modules/itip-formatter/itip-view.c:2709
@@ -7034,62 +7034,62 @@ msgstr[0] "с %d гостем"
 msgstr[1] "с %d гостями"
 msgstr[2] "с %d гостями"
 
-#: ../src/calendar/gui/comp-util.c:1664
+#: ../src/calendar/gui/comp-util.c:1675
 #, c-format
 msgid "Comments: %s"
 msgstr "Комментарии: %s"
 
-#: ../src/calendar/gui/comp-util.c:1678 ../src/calendar/gui/comp-util.c:1681
+#: ../src/calendar/gui/comp-util.c:1689 ../src/calendar/gui/comp-util.c:1692
 msgctxt "iCalendarStatus"
 msgid "None"
 msgstr "Нет"
 
-#: ../src/calendar/gui/comp-util.c:1679
+#: ../src/calendar/gui/comp-util.c:1690
 msgctxt "iCalendarStatus"
 msgid "Tentative"
 msgstr "Условно"
 
-#: ../src/calendar/gui/comp-util.c:1680
+#: ../src/calendar/gui/comp-util.c:1691
 msgctxt "iCalendarStatus"
 msgid "Confirmed"
 msgstr "Подтвержденный"
 
-#: ../src/calendar/gui/comp-util.c:1682
+#: ../src/calendar/gui/comp-util.c:1693
 msgctxt "iCalendarStatus"
 msgid "Draft"
 msgstr "Черновик"
 
-#: ../src/calendar/gui/comp-util.c:1683
+#: ../src/calendar/gui/comp-util.c:1694
 msgctxt "iCalendarStatus"
 msgid "Final"
 msgstr "Финальный"
 
-#: ../src/calendar/gui/comp-util.c:1684
+#: ../src/calendar/gui/comp-util.c:1695
 msgctxt "iCalendarStatus"
 msgid "Not Started"
 msgstr "Не началась"
 
-#: ../src/calendar/gui/comp-util.c:1685
+#: ../src/calendar/gui/comp-util.c:1696
 msgctxt "iCalendarStatus"
 msgid "Needs Action"
 msgstr "Необходимое действие"
 
-#: ../src/calendar/gui/comp-util.c:1686
+#: ../src/calendar/gui/comp-util.c:1697
 msgctxt "iCalendarStatus"
 msgid "In Progress"
 msgstr "Выполняется"
 
-#: ../src/calendar/gui/comp-util.c:1687
+#: ../src/calendar/gui/comp-util.c:1698
 msgctxt "iCalendarStatus"
 msgid "Completed"
 msgstr "Завершена"
 
-#: ../src/calendar/gui/comp-util.c:1688
+#: ../src/calendar/gui/comp-util.c:1699
 msgctxt "iCalendarStatus"
 msgid "Cancelled"
 msgstr "Отменено"
 
-#: ../src/calendar/gui/comp-util.c:1949
+#: ../src/calendar/gui/comp-util.c:1960
 #: ../src/calendar/gui/e-meeting-list-view.c:205
 #: ../src/calendar/gui/e-meeting-store.c:179
 #: ../src/calendar/gui/e-meeting-store.c:202
@@ -7097,7 +7097,7 @@ msgstr "Отменено"
 msgid "Accepted"
 msgstr "Принято"
 
-#: ../src/calendar/gui/comp-util.c:1950
+#: ../src/calendar/gui/comp-util.c:1961
 #: ../src/calendar/gui/e-meeting-list-view.c:206
 #: ../src/calendar/gui/e-meeting-store.c:181
 #: ../src/calendar/gui/e-meeting-store.c:204
@@ -7105,7 +7105,7 @@ msgstr "Принято"
 msgid "Declined"
 msgstr "Отклонено"
 
-#: ../src/calendar/gui/comp-util.c:1951
+#: ../src/calendar/gui/comp-util.c:1962
 #: ../src/calendar/gui/e-meeting-list-view.c:207
 #: ../src/calendar/gui/e-meeting-store.c:183
 #: ../src/calendar/gui/e-meeting-store.c:206
@@ -7113,7 +7113,7 @@ msgstr "Отклонено"
 msgid "Tentative"
 msgstr "Условно"
 
-#: ../src/calendar/gui/comp-util.c:1952
+#: ../src/calendar/gui/comp-util.c:1963
 #: ../src/calendar/gui/e-meeting-list-view.c:208
 #: ../src/calendar/gui/e-meeting-store.c:185
 #: ../src/calendar/gui/e-meeting-store.c:208
@@ -7121,13 +7121,13 @@ msgstr "Условно"
 msgid "Delegated"
 msgstr "Поручено"
 
-#: ../src/calendar/gui/comp-util.c:1953
+#: ../src/calendar/gui/comp-util.c:1964
 msgid "Needs action"
 msgstr "Требуется действие"
 
 #. Translators: 'Status' here means the state of the attendees, the resulting string will be in a form:
 #. * Status: Accepted: X   Declined: Y   ...
-#: ../src/calendar/gui/comp-util.c:2018
+#: ../src/calendar/gui/comp-util.c:2029
 #: ../src/calendar/gui/e-cal-list-view.etspec.h:10
 #: ../src/calendar/gui/e-meeting-list-view.c:689
 #: ../src/calendar/gui/e-meeting-time-sel.etspec.h:9
@@ -7140,7 +7140,7 @@ msgid "Status"
 msgstr "Состояние"
 
 #. String to use in 12-hour time format for times in the morning.
-#: ../src/calendar/gui/comp-util.c:2080 ../src/calendar/gui/e-day-view.c:2286
+#: ../src/calendar/gui/comp-util.c:2091 ../src/calendar/gui/e-day-view.c:2286
 #: ../src/calendar/gui/e-to-do-pane.c:249
 #: ../src/calendar/gui/e-week-view.c:1969 ../src/calendar/gui/print.c:1102
 #: ../src/calendar/gui/print.c:1121 ../src/calendar/gui/print.c:2689
@@ -7149,7 +7149,7 @@ msgid "am"
 msgstr "д.п."
 
 #. String to use in 12-hour time format for times in the afternoon.
-#: ../src/calendar/gui/comp-util.c:2084 ../src/calendar/gui/e-day-view.c:2289
+#: ../src/calendar/gui/comp-util.c:2095 ../src/calendar/gui/e-day-view.c:2289
 #: ../src/calendar/gui/e-to-do-pane.c:253
 #: ../src/calendar/gui/e-week-view.c:1972 ../src/calendar/gui/print.c:1107
 #: ../src/calendar/gui/print.c:1123 ../src/calendar/gui/print.c:2694
@@ -7157,27 +7157,27 @@ msgstr "д.п."
 msgid "pm"
 msgstr "п.п."
 
-#: ../src/calendar/gui/comp-util.c:2113 ../src/calendar/gui/comp-util.c:2117
-#: ../src/calendar/gui/comp-util.c:2231
+#: ../src/calendar/gui/comp-util.c:2124 ../src/calendar/gui/comp-util.c:2128
+#: ../src/calendar/gui/comp-util.c:2242
 #: ../src/calendar/gui/e-comp-editor.c:1314
 msgid "No Summary"
 msgstr "Нет сводки"
 
 #. Translators: It will display "Organizer: NameOfTheUser <email@ofuser.com>"
-#: ../src/calendar/gui/comp-util.c:2242
+#: ../src/calendar/gui/comp-util.c:2253
 #, c-format
 msgid "Organizer: %s <%s>"
 msgstr "Организатор: %s <%s>"
 
 #. Translators: It will display "Organizer: NameOfTheUser"
-#: ../src/calendar/gui/comp-util.c:2245
+#: ../src/calendar/gui/comp-util.c:2256
 #, c-format
 msgid "Organizer: %s"
 msgstr "Организатор: %s"
 
 #. Translators: It will display "Location: PlaceOfTheMeeting"
 #. Translators: It will display "Location: LocationOfTheAppointment"
-#: ../src/calendar/gui/comp-util.c:2260
+#: ../src/calendar/gui/comp-util.c:2271
 #: ../src/calendar/gui/e-meeting-time-sel.c:2580
 #: ../src/calendar/gui/e-to-do-pane.c:382 ../src/calendar/gui/print.c:3655
 #, c-format
@@ -7185,33 +7185,33 @@ msgid "Location: %s"
 msgstr "Адрес: %s"
 
 #. Translators: It will display "Start: ActualStartDateAndTime (DurationOfTheMeeting)"
-#: ../src/calendar/gui/comp-util.c:2315
+#: ../src/calendar/gui/comp-util.c:2326
 #, c-format
 msgid "Start: %s (%s)"
 msgstr "Начало: %s (%s)"
 
 #. Translators: It will display "Start: ActualStartDateAndTime"
 #. Translators: It will display "Start: StartDateAndTime"
-#: ../src/calendar/gui/comp-util.c:2319 ../src/calendar/gui/e-to-do-pane.c:411
+#: ../src/calendar/gui/comp-util.c:2330 ../src/calendar/gui/e-to-do-pane.c:411
 #, c-format
 msgid "Start: %s"
 msgstr "Начало: %s"
 
 #. Translators: It's for a task due date, it will display "Due: DateAndTime"
 #. Translators: It will display "Due: DueDateAndTime"
-#: ../src/calendar/gui/comp-util.c:2354 ../src/calendar/gui/e-to-do-pane.c:433
+#: ../src/calendar/gui/comp-util.c:2365 ../src/calendar/gui/e-to-do-pane.c:433
 #, c-format
 msgid "Due: %s"
 msgstr "Завершение: %s"
 
 #. Translators: It's for a task completed date, it will display "Completed: DateAndTime"
 #. Translators: It will display "Completed: DateAndTimeWhenCompleted"
-#: ../src/calendar/gui/comp-util.c:2379 ../src/calendar/gui/e-to-do-pane.c:447
+#: ../src/calendar/gui/comp-util.c:2390 ../src/calendar/gui/e-to-do-pane.c:447
 #, c-format
 msgid "Completed: %s"
 msgstr "Завершено: %s"
 
-#: ../src/calendar/gui/comp-util.c:2416 ../src/calendar/gui/e-to-do-pane.c:596
+#: ../src/calendar/gui/comp-util.c:2427 ../src/calendar/gui/e-to-do-pane.c:596
 #: ../src/e-util/e-misc-utils.c:4838 ../src/e-util/e-text.c:566
 #: ../src/e-util/e-web-view.c:4187
 msgid "…"
@@ -7321,28 +7321,28 @@ msgstr "Нажмите здесь, вы можете найти больше с�
 
 #. Translators: Part of: [ Play a sound ] [ x ] [ minute(s) ] [ before ] [ start ]
 #: ../src/calendar/gui/e-alarm-list.c:387
-#: ../src/calendar/gui/e-comp-editor-page-reminders.c:2323
+#: ../src/calendar/gui/e-comp-editor-page-reminders.c:2324
 msgctxt "cal-reminders"
 msgid "Play a sound"
 msgstr "Воспроизвести звук"
 
 #. Translators: Part of: [ Pop up an alert ] [ x ] [ minute(s) ] [ before ] [ start ]
 #: ../src/calendar/gui/e-alarm-list.c:391
-#: ../src/calendar/gui/e-comp-editor-page-reminders.c:2321
+#: ../src/calendar/gui/e-comp-editor-page-reminders.c:2322
 msgctxt "cal-reminders"
 msgid "Pop up an alert"
 msgstr "Вывести предупреждение"
 
 #. Translators: Part of: [ Send an email ] [ x ] [ minute(s) ] [ before ] [ start ]
 #: ../src/calendar/gui/e-alarm-list.c:395
-#: ../src/calendar/gui/e-comp-editor-page-reminders.c:2327
+#: ../src/calendar/gui/e-comp-editor-page-reminders.c:2328
 msgctxt "cal-reminders"
 msgid "Send an email"
 msgstr "Отправить эл. письмо"
 
 #. Translators: Part of: [ Run a program ] [ x ] [ minute(s) ] [ before ] [ start ]
 #: ../src/calendar/gui/e-alarm-list.c:399
-#: ../src/calendar/gui/e-comp-editor-page-reminders.c:2325
+#: ../src/calendar/gui/e-comp-editor-page-reminders.c:2326
 msgctxt "cal-reminders"
 msgid "Run a program"
 msgstr "Запустить программу"
@@ -8145,7 +8145,8 @@ msgstr "Время начала не является допустимым вр�
 #: ../src/mail/em-composer-utils.c:3932 ../src/mail/em-composer-utils.c:3955
 #: ../src/mail/mail-send-recv.c:598 ../src/mail/mail-send-recv.c:1493
 #: ../src/modules/accounts-window/e-accounts-window-editors.c:172
-#: ../src/plugins/face/face.c:175 ../src/shell/e-shell.c:1258
+#: ../src/plugins/face/face.c:175
+#: ../src/plugins/mail-to-task/mail-to-task.c:951 ../src/shell/e-shell.c:1258
 #: ../src/shell/e-shell.c:1283 ../src/smime/gui/certificate-manager.c:363
 #, c-format
 msgid "Unknown error"
@@ -8499,7 +8500,7 @@ msgstr "_Участники…"
 
 #: ../src/calendar/gui/e-comp-editor-page-general.c:1505
 #: ../src/calendar/gui/e-comp-editor-page-recurrence.c:2312
-#: ../src/calendar/gui/e-comp-editor.c:2236
+#: ../src/calendar/gui/e-comp-editor.c:2250
 #: ../src/e-util/e-accounts-window.c:1755
 #: ../src/e-util/e-html-editor-actions.c:1170
 #: ../src/e-util/e-mail-signature-manager.c:354
@@ -8774,14 +8775,14 @@ msgid "Exceptions"
 msgstr "Исключения"
 
 #: ../src/calendar/gui/e-comp-editor-page-recurrence.c:2304
-#: ../src/calendar/gui/e-comp-editor-page-reminders.c:2277
+#: ../src/calendar/gui/e-comp-editor-page-reminders.c:2278
 #: ../src/mail/e-mail-config-identity-page.c:854
 #: ../src/mail/mail-config.ui.h:68
 msgid "A_dd"
 msgstr "_Добавить"
 
 #: ../src/calendar/gui/e-comp-editor-page-recurrence.c:2320
-#: ../src/calendar/gui/e-comp-editor-page-reminders.c:2285
+#: ../src/calendar/gui/e-comp-editor-page-reminders.c:2286
 #: ../src/mail/mail-config.ui.h:70
 msgid "Re_move"
 msgstr "_Удалить"
@@ -8872,101 +8873,101 @@ msgid "_Reminder"
 msgstr "_Напоминание"
 
 #. Translators: Part of: [ Pop up an alert ] [ x ] [ minute(s) ] [ before ] [ start ]
-#: ../src/calendar/gui/e-comp-editor-page-reminders.c:2358
+#: ../src/calendar/gui/e-comp-editor-page-reminders.c:2359
 msgctxt "cal-reminders"
 msgid "minute(s)"
 msgstr "минуты"
 
 #. Translators: Part of: [ Pop up an alert ] [ x ] [ hour(s) ] [ before ] [ start ]
-#: ../src/calendar/gui/e-comp-editor-page-reminders.c:2360
+#: ../src/calendar/gui/e-comp-editor-page-reminders.c:2361
 msgctxt "cal-reminders"
 msgid "hour(s)"
 msgstr "часы"
 
 #. Translators: Part of: [ Pop up an alert ] [ x ] [ day(s) ] [ before ] [ start ]
-#: ../src/calendar/gui/e-comp-editor-page-reminders.c:2362
+#: ../src/calendar/gui/e-comp-editor-page-reminders.c:2363
 msgctxt "cal-reminders"
 msgid "day(s)"
 msgstr "дни"
 
 #. Translators: Part of: [ Pop up an alert ] [ x ] [ minute(s) ] [ before ] [ start ]
-#: ../src/calendar/gui/e-comp-editor-page-reminders.c:2379
+#: ../src/calendar/gui/e-comp-editor-page-reminders.c:2380
 msgctxt "cal-reminders"
 msgid "before"
 msgstr "до"
 
 #. Translators: Part of: [ Pop up an alert ] [ x ] [ minute(s) ] [ after ] [ start ]
-#: ../src/calendar/gui/e-comp-editor-page-reminders.c:2381
+#: ../src/calendar/gui/e-comp-editor-page-reminders.c:2382
 msgctxt "cal-reminders"
 msgid "after"
 msgstr "после"
 
 #. Translators: Part of: [ Pop up an alert ] [ x ] [ minute(s) ] [ before ] [ start ]
-#: ../src/calendar/gui/e-comp-editor-page-reminders.c:2397
+#: ../src/calendar/gui/e-comp-editor-page-reminders.c:2398
 msgctxt "cal-reminders"
 msgid "start"
 msgstr "начало"
 
 #. Translators: Part of: [ Pop up an alert ] [ x ] [ minute(s) ] [ before ] [ end ]
-#: ../src/calendar/gui/e-comp-editor-page-reminders.c:2399
+#: ../src/calendar/gui/e-comp-editor-page-reminders.c:2400
 msgctxt "cal-reminders"
 msgid "end"
 msgstr "конец"
 
 #. Translators: Part of: Repeat the reminder [ x ] extra times every [ y ] [ minutes ]
-#: ../src/calendar/gui/e-comp-editor-page-reminders.c:2418
+#: ../src/calendar/gui/e-comp-editor-page-reminders.c:2419
 msgid "Re_peat the reminder"
 msgstr "По_вторить напоминание"
 
 #. Translators: Part of: Repeat the reminder [ x ] extra times every [ y ] [ minutes ]
-#: ../src/calendar/gui/e-comp-editor-page-reminders.c:2443
+#: ../src/calendar/gui/e-comp-editor-page-reminders.c:2444
 msgctxt "cal-reminders"
 msgid "extra times every"
 msgstr "раз(а) каждые"
 
 #. Translators: Part of: Repeat the reminder [ x ] extra times every [ y ] [ minutes ]
-#: ../src/calendar/gui/e-comp-editor-page-reminders.c:2480
+#: ../src/calendar/gui/e-comp-editor-page-reminders.c:2481
 msgctxt "cal-reminders"
 msgid "minutes"
 msgstr "минуты"
 
 #. Translators: Part of: Repeat the reminder [ x ] extra times every [ y ] [ hours ]
-#: ../src/calendar/gui/e-comp-editor-page-reminders.c:2482
+#: ../src/calendar/gui/e-comp-editor-page-reminders.c:2483
 msgctxt "cal-reminders"
 msgid "hours"
 msgstr "часы"
 
 #. Translators: Part of: Repeat the reminder [ x ] extra times every [ y ] [ days ]
-#: ../src/calendar/gui/e-comp-editor-page-reminders.c:2484
+#: ../src/calendar/gui/e-comp-editor-page-reminders.c:2485
 msgctxt "cal-reminders"
 msgid "days"
 msgstr "дни"
 
 #. page_reminders->priv->custom_email_entry is initialized on demand
-#: ../src/calendar/gui/e-comp-editor-page-reminders.c:2521
-#: ../src/calendar/gui/e-comp-editor-page-reminders.c:2678
+#: ../src/calendar/gui/e-comp-editor-page-reminders.c:2522
+#: ../src/calendar/gui/e-comp-editor-page-reminders.c:2680
 msgctxt "cal-reminders"
 msgid "Custom _message"
 msgstr "Настраиваемое _сообщение"
 
-#: ../src/calendar/gui/e-comp-editor-page-reminders.c:2565
+#: ../src/calendar/gui/e-comp-editor-page-reminders.c:2567
 msgctxt "cal-reminders"
 msgid "Custom reminder _sound"
 msgstr "Настраиваемый _звук напоминания"
 
-#: ../src/calendar/gui/e-comp-editor-page-reminders.c:2576
+#: ../src/calendar/gui/e-comp-editor-page-reminders.c:2578
 msgid "Select a sound file"
 msgstr "Укажите звуковой файл"
 
-#: ../src/calendar/gui/e-comp-editor-page-reminders.c:2604
+#: ../src/calendar/gui/e-comp-editor-page-reminders.c:2606
 msgid "_Program:"
 msgstr "_Программа:"
 
-#: ../src/calendar/gui/e-comp-editor-page-reminders.c:2629
+#: ../src/calendar/gui/e-comp-editor-page-reminders.c:2631
 msgid "_Arguments:"
 msgstr "_Аргументы:"
 
-#: ../src/calendar/gui/e-comp-editor-page-reminders.c:2661
+#: ../src/calendar/gui/e-comp-editor-page-reminders.c:2663
 msgid "_Send To:"
 msgstr "Отправить:"
 
@@ -9181,13 +9182,14 @@ msgstr "Отправка уведомлений участникам…"
 msgid "Saving changes…"
 msgstr "Сохранение изменений…"
 
-#: ../src/calendar/gui/e-comp-editor.c:1926
-#: ../src/e-util/e-mail-signature-editor.c:577 ../src/mail/e-mail-notes.c:1186
-msgid "Save"
-msgstr "Сохранить"
+#: ../src/calendar/gui/e-comp-editor.c:1940
+#: ../src/calendar/gui/e-comp-editor.c:2302
+#: ../src/e-util/e-mail-signature-editor.c:337 ../src/mail/e-mail-notes.c:1113
+msgid "Save and Close"
+msgstr "Сохранить и закрыть"
 
 #. == Button box ==
-#: ../src/calendar/gui/e-comp-editor.c:2150
+#: ../src/calendar/gui/e-comp-editor.c:2164
 #: ../src/composer/e-composer-actions.c:333
 #: ../src/e-util/e-accounts-window.c:1788
 #: ../src/e-util/e-html-editor-dialog.c:194
@@ -9201,19 +9203,19 @@ msgstr "Сохранить"
 msgid "_Close"
 msgstr "_Закрыть"
 
-#: ../src/calendar/gui/e-comp-editor.c:2152
+#: ../src/calendar/gui/e-comp-editor.c:2166
 msgid "Close the current window"
 msgstr "Закрыть текущее окно"
 
 #. copy menu item
-#: ../src/calendar/gui/e-comp-editor.c:2157 ../src/e-util/e-focus-tracker.c:806
+#: ../src/calendar/gui/e-comp-editor.c:2171 ../src/e-util/e-focus-tracker.c:806
 #: ../src/e-util/e-html-editor-actions.c:1126 ../src/e-util/e-text.c:2065
 #: ../src/e-util/e-web-view.c:467 ../src/mail/e-mail-browser.c:173
 #: ../src/mail/mail.error.xml.h:147 ../src/shell/e-shell-window-actions.c:951
 msgid "_Copy"
 msgstr "_Копировать"
 
-#: ../src/calendar/gui/e-comp-editor.c:2159 ../src/e-util/e-focus-tracker.c:203
+#: ../src/calendar/gui/e-comp-editor.c:2173 ../src/e-util/e-focus-tracker.c:203
 #: ../src/e-util/e-focus-tracker.c:259 ../src/e-util/e-focus-tracker.c:312
 #: ../src/e-util/e-focus-tracker.c:807 ../src/e-util/e-web-view.c:469
 #: ../src/e-util/e-web-view.c:2056 ../src/mail/e-mail-browser.c:175
@@ -9222,59 +9224,59 @@ msgid "Copy the selection"
 msgstr "Копировать выделение"
 
 #. cut menu item
-#: ../src/calendar/gui/e-comp-editor.c:2164 ../src/e-util/e-focus-tracker.c:801
+#: ../src/calendar/gui/e-comp-editor.c:2178 ../src/e-util/e-focus-tracker.c:801
 #: ../src/e-util/e-html-editor-actions.c:1133 ../src/e-util/e-text.c:2051
 #: ../src/mail/e-mail-browser.c:180 ../src/shell/e-shell-window-actions.c:958
 msgid "Cu_t"
 msgstr "В_ырезать"
 
-#: ../src/calendar/gui/e-comp-editor.c:2166 ../src/e-util/e-focus-tracker.c:196
+#: ../src/calendar/gui/e-comp-editor.c:2180 ../src/e-util/e-focus-tracker.c:196
 #: ../src/e-util/e-focus-tracker.c:252 ../src/e-util/e-focus-tracker.c:306
 #: ../src/e-util/e-focus-tracker.c:802 ../src/e-util/e-web-view.c:2065
 #: ../src/mail/e-mail-browser.c:182 ../src/shell/e-shell-window-actions.c:960
 msgid "Cut the selection"
 msgstr "Вырезать выделение"
 
-#: ../src/calendar/gui/e-comp-editor.c:2173 ../src/e-util/e-focus-tracker.c:217
+#: ../src/calendar/gui/e-comp-editor.c:2187 ../src/e-util/e-focus-tracker.c:217
 #: ../src/e-util/e-focus-tracker.c:273 ../src/e-util/e-focus-tracker.c:817
 #: ../src/shell/e-shell-window-actions.c:967
 msgid "Delete the selection"
 msgstr "Удалить выделение"
 
-#: ../src/calendar/gui/e-comp-editor.c:2178
-#: ../src/calendar/gui/e-comp-editor.c:2250
+#: ../src/calendar/gui/e-comp-editor.c:2192
+#: ../src/calendar/gui/e-comp-editor.c:2264
 #: ../src/e-util/e-send-options.ui.h:15
 #: ../src/plugins/email-custom-header/org-gnome-email-custom-header.ui.h:2
 #: ../src/shell/e-shell-window-actions.c:1121
 msgid "_Help"
 msgstr "_Справка"
 
-#: ../src/calendar/gui/e-comp-editor.c:2180
+#: ../src/calendar/gui/e-comp-editor.c:2194
 msgid "View help"
 msgstr "Показать справку"
 
 #. paste menu item
-#: ../src/calendar/gui/e-comp-editor.c:2185 ../src/e-util/e-focus-tracker.c:811
+#: ../src/calendar/gui/e-comp-editor.c:2199 ../src/e-util/e-focus-tracker.c:811
 #: ../src/e-util/e-html-editor-actions.c:1140 ../src/e-util/e-text.c:2077
 #: ../src/mail/e-mail-browser.c:187 ../src/shell/e-shell-window-actions.c:986
 msgid "_Paste"
 msgstr "_Вставить"
 
-#: ../src/calendar/gui/e-comp-editor.c:2187 ../src/e-util/e-focus-tracker.c:210
+#: ../src/calendar/gui/e-comp-editor.c:2201 ../src/e-util/e-focus-tracker.c:210
 #: ../src/e-util/e-focus-tracker.c:266 ../src/e-util/e-focus-tracker.c:318
 #: ../src/e-util/e-focus-tracker.c:812 ../src/e-util/e-web-view.c:2074
 #: ../src/mail/e-mail-browser.c:189 ../src/shell/e-shell-window-actions.c:988
 msgid "Paste the clipboard"
 msgstr "Вставить из буфера обмена"
 
-#: ../src/calendar/gui/e-comp-editor.c:2192
+#: ../src/calendar/gui/e-comp-editor.c:2206
 #: ../src/composer/e-composer-actions.c:387 ../src/mail/e-mail-reader.c:2868
 #: ../src/modules/addressbook/e-book-shell-view-actions.c:1319
 #: ../src/modules/addressbook/e-book-shell-view-actions.c:1333
 msgid "_Print…"
 msgstr "_Печать…"
 
-#: ../src/calendar/gui/e-comp-editor.c:2199 ../src/mail/e-mail-reader.c:2875
+#: ../src/calendar/gui/e-comp-editor.c:2213 ../src/mail/e-mail-reader.c:2875
 #: ../src/modules/addressbook/e-book-shell-view-actions.c:1326
 #: ../src/modules/calendar/e-cal-shell-view-actions.c:1921
 #: ../src/modules/calendar/e-memo-shell-view-actions.c:838
@@ -9282,60 +9284,55 @@ msgstr "_Печать…"
 msgid "Pre_view…"
 msgstr "Предварительный _просмотр…"
 
-#: ../src/calendar/gui/e-comp-editor.c:2206 ../src/e-util/e-focus-tracker.c:821
+#: ../src/calendar/gui/e-comp-editor.c:2220 ../src/e-util/e-focus-tracker.c:821
 #: ../src/e-util/e-html-editor-actions.c:1154 ../src/e-util/e-web-view.c:484
 #: ../src/mail/e-mail-browser.c:194 ../src/shell/e-shell-window-actions.c:1063
 msgid "Select _All"
 msgstr "Выделить _всё"
 
-#: ../src/calendar/gui/e-comp-editor.c:2208 ../src/e-util/e-focus-tracker.c:224
+#: ../src/calendar/gui/e-comp-editor.c:2222 ../src/e-util/e-focus-tracker.c:224
 #: ../src/e-util/e-focus-tracker.c:280 ../src/e-util/e-focus-tracker.c:822
 #: ../src/mail/e-mail-browser.c:196 ../src/shell/e-shell-window-actions.c:1065
 msgid "Select all text"
 msgstr "Выделить весь текст"
 
-#: ../src/calendar/gui/e-comp-editor.c:2229
+#: ../src/calendar/gui/e-comp-editor.c:2243
 msgid "_Classification"
 msgstr "_Классификация"
 
-#: ../src/calendar/gui/e-comp-editor.c:2243
+#: ../src/calendar/gui/e-comp-editor.c:2257
 #: ../src/e-util/e-html-editor-actions.c:1177
 #: ../src/e-util/e-mail-signature-editor.c:342 ../src/mail/e-mail-browser.c:210
 #: ../src/mail/e-mail-notes.c:1118 ../src/shell/e-shell-window-actions.c:1114
 msgid "_File"
 msgstr "_Файл"
 
-#: ../src/calendar/gui/e-comp-editor.c:2257
+#: ../src/calendar/gui/e-comp-editor.c:2271
 #: ../src/e-util/e-html-editor-actions.c:1198
 msgid "_Insert"
 msgstr "_Вставка"
 
-#: ../src/calendar/gui/e-comp-editor.c:2264
+#: ../src/calendar/gui/e-comp-editor.c:2278
 #: ../src/composer/e-composer-actions.c:377
 msgid "_Options"
 msgstr "_Параметры"
 
-#: ../src/calendar/gui/e-comp-editor.c:2271
+#: ../src/calendar/gui/e-comp-editor.c:2285
 #: ../src/e-util/e-html-editor-actions.c:1219 ../src/mail/e-mail-browser.c:224
 #: ../src/shell/e-shell-window-actions.c:1157
 #: ../src/smime/gui/certificate-manager.c:1657 ../src/smime/gui/smime-ui.ui.h:3
 msgid "_View"
 msgstr "_Вид"
 
-#: ../src/calendar/gui/e-comp-editor.c:2283
+#: ../src/calendar/gui/e-comp-editor.c:2297
 msgid "Save current changes"
 msgstr "Сохранить текущие изменения"
 
-#: ../src/calendar/gui/e-comp-editor.c:2288
-#: ../src/e-util/e-mail-signature-editor.c:337 ../src/mail/e-mail-notes.c:1113
-msgid "Save and Close"
-msgstr "Сохранить и закрыть"
-
-#: ../src/calendar/gui/e-comp-editor.c:2290
+#: ../src/calendar/gui/e-comp-editor.c:2304
 msgid "Save current changes and close editor"
 msgstr "Сохранить текущие изменения и закрыть редактор"
 
-#: ../src/calendar/gui/e-comp-editor.c:2297
+#: ../src/calendar/gui/e-comp-editor.c:2311
 msgid "Show _toolbar"
 msgstr "Показывать _панель инструментов"
 
@@ -12229,7 +12226,7 @@ msgid "Compose Message"
 msgstr "Новое сообщение"
 
 #: ../src/composer/e-msg-composer.c:4700
-#: ../src/modules/composer-to-meeting/e-composer-to-meeting.c:352
+#: ../src/modules/composer-to-meeting/e-composer-to-meeting.c:364
 msgid "Reading text content…"
 msgstr "Чтение содержания текста…"
 
@@ -15745,6 +15742,10 @@ msgstr "Со_хранить и закрыть"
 #: ../src/e-util/e-mail-signature-editor.c:573
 msgid "Edit Signature"
 msgstr "Изменить подпись"
+
+#: ../src/e-util/e-mail-signature-editor.c:577 ../src/mail/e-mail-notes.c:1186
+msgid "Save"
+msgstr "Сохранить"
 
 #: ../src/e-util/e-mail-signature-editor.c:600
 msgid "_Signature Name:"
@@ -24621,11 +24622,11 @@ msgstr[0] "%d задача"
 msgstr[1] "%d задачи"
 msgstr[2] "%d задач"
 
-#: ../src/modules/composer-to-meeting/e-composer-to-meeting.c:380
+#: ../src/modules/composer-to-meeting/e-composer-to-meeting.c:392
 msgid "Convert to M_eeting"
 msgstr "Преобразовать в _собрание"
 
-#: ../src/modules/composer-to-meeting/e-composer-to-meeting.c:382
+#: ../src/modules/composer-to-meeting/e-composer-to-meeting.c:394
 msgid "Convert the message to a meeting request"
 msgstr "Преобразовать в приглашение на собрание"
 
@@ -26617,7 +26618,7 @@ msgstr "Не удалось получить иконку ленты: %s"
 
 #: ../src/modules/rss/evolution/e-rss-preferences.c:461
 msgid "Fetching feed icon…"
-msgstr "Получение иконки ленты..."
+msgstr "Получение иконки ленты…"
 
 #: ../src/modules/rss/evolution/e-rss-preferences.c:475
 msgid "Failed to read feed information."
@@ -26684,7 +26685,7 @@ msgid ""
 "missing"
 msgstr ""
 "Перезагрузка всех статей ленты с сервера, обновление существующих и "
-"добавление отсутствующих статей."
+"добавление отсутствующих статей"
 
 #: ../src/modules/spamassassin/evolution-spamassassin.c:188
 #, c-format
@@ -27615,7 +27616,7 @@ msgid "Notifies you when new mail messages arrive."
 msgstr "Уведомляет о получении новых почтовых сообщений."
 
 #. To Translators: The full sentence looks like: "Created from a mail by John Doe <john.doe@myco.example>"
-#: ../src/plugins/mail-to-task/mail-to-task.c:198
+#: ../src/plugins/mail-to-task/mail-to-task.c:199
 #, c-format
 msgid "Created from a mail by %s"
 msgstr "Создано из сообщения от %s"
@@ -27757,35 +27758,40 @@ msgstr ""
 "Выбранный список заметок доступен только для чтения, для него нельзя "
 "создавать заметки. Выберите другой список."
 
-#: ../src/plugins/mail-to-task/mail-to-task.c:1331
+#: ../src/plugins/mail-to-task/mail-to-task.c:951
+#, c-format
+msgid "Cannot create component: %s"
+msgstr "Не удалось создать компонент: %s"
+
+#: ../src/plugins/mail-to-task/mail-to-task.c:1328
 msgid "Create an _Appointment"
 msgstr "Создать новую _встречу"
 
-#: ../src/plugins/mail-to-task/mail-to-task.c:1333
+#: ../src/plugins/mail-to-task/mail-to-task.c:1330
 msgid "Create a new event from the selected message"
 msgstr "Создать новое событие из выделенного сообщения"
 
-#: ../src/plugins/mail-to-task/mail-to-task.c:1338
+#: ../src/plugins/mail-to-task/mail-to-task.c:1335
 msgid "Create a Mem_o"
 msgstr "Создать за_метку"
 
-#: ../src/plugins/mail-to-task/mail-to-task.c:1340
+#: ../src/plugins/mail-to-task/mail-to-task.c:1337
 msgid "Create a new memo from the selected message"
 msgstr "Создать новую заметку из выделенного сообщения"
 
-#: ../src/plugins/mail-to-task/mail-to-task.c:1345
+#: ../src/plugins/mail-to-task/mail-to-task.c:1342
 msgid "Create a _Task"
 msgstr "Создать _задачу"
 
-#: ../src/plugins/mail-to-task/mail-to-task.c:1347
+#: ../src/plugins/mail-to-task/mail-to-task.c:1344
 msgid "Create a new task from the selected message"
 msgstr "Создать новую задачу из выделенного сообщения"
 
-#: ../src/plugins/mail-to-task/mail-to-task.c:1355
+#: ../src/plugins/mail-to-task/mail-to-task.c:1352
 msgid "Create a _Meeting"
 msgstr "Создать _собрание"
 
-#: ../src/plugins/mail-to-task/mail-to-task.c:1357
+#: ../src/plugins/mail-to-task/mail-to-task.c:1354
 msgid "Create a new meeting from the selected message"
 msgstr "Создать новое собрание из выделенного сообщения"
 
