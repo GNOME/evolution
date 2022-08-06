@@ -11,8 +11,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: evolution\n"
 "Report-Msgid-Bugs-To: https://gitlab.gnome.org/GNOME/evolution/issues\n"
-"POT-Creation-Date: 2022-07-28 06:43+0000\n"
-"PO-Revision-Date: 2022-07-31 13:11+0430\n"
+"POT-Creation-Date: 2022-08-06 14:45+0000\n"
+"PO-Revision-Date: 2022-08-07 03:50+0430\n"
 "Last-Translator: Danial Behzadi <dani.behzi@ubuntu.com>\n"
 "Language-Team: Persian <>\n"
 "Language: fa\n"
@@ -93,7 +93,7 @@ msgstr "این که نقشه‌ها در قاب پیش‌نمایش دیده ش�
 
 #: ../data/org.gnome.evolution.addressbook.gschema.xml.in.h:17
 msgid "Primary address book"
-msgstr "دفترچه تلفن اصلی"
+msgstr "دفترچه نشانی اصلی"
 
 #: ../data/org.gnome.evolution.addressbook.gschema.xml.in.h:19
 msgid "Show preview pane"
@@ -1534,13 +1534,13 @@ msgstr "آخرین باری که فرمان تخلیهٔ هرزنامه اجرا
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:246
 msgid "Determines whether to lookup in address book for sender email"
-msgstr "تصمیم به گشتن در دفترچه تلفن برای رایانامهٔ فرستنده"
+msgstr "تصمیم به گشتن در دفترچه نشانی برای رایانامهٔ فرستنده"
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:248
 msgid ""
 "Determines whether to look up addresses for junk filtering in local address book "
 "only"
-msgstr "تصمیم به گشتن نشانی‌های برای پالایش زباله فقط در دفترچه تلفن محلی"
+msgstr "تصمیم به گشتن نشانی‌های برای پالایش زباله فقط در دفترچه نشانی محلی"
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:250
 msgid "Determines whether to use custom headers to check for junk"
@@ -1995,7 +1995,7 @@ msgid "Whether the text-highlight module is enabled"
 msgstr "این که پیمانهٔ برجسته سازی متن به کار افتاده یا نه"
 
 #: ../data/org.gnome.Evolution.appdata.xml.in.in.h:1
-#: ../data/org.gnome.Evolution.desktop.in.in.h:1 ../src/mail/e-mail-browser.c:1347
+#: ../data/org.gnome.Evolution.desktop.in.in.h:1 ../src/mail/e-mail-browser.c:1349
 #: ../src/modules/mailto-handler/evolution-mailto-handler.c:208
 #: ../src/shell/e-shell-window-private.c:265
 msgid "Evolution"
@@ -2012,7 +2012,7 @@ msgid ""
 "integrated mail, calendaring and address book functionality."
 msgstr ""
 "اوولوشن یک برنامهٔ مدیریت اطّلعات شخصی است که امکانات نامهٔ یکپارچه، تقویم و دفترچه "
-"تلفن را فراهم می‌کند."
+"نشانی را فراهم می‌کند."
 
 #: ../data/org.gnome.Evolution.appdata.xml.in.in.h:4
 msgid ""
@@ -2425,7 +2425,7 @@ msgstr "با _وضعیت"
 
 #: ../src/addressbook/addressbook.error.xml.h:1
 msgid "This address book could not be opened."
-msgstr "این دفترچه تلفن نمی‌تواند باز شود."
+msgstr "این دفترچه نشانی نمی‌تواند باز شود."
 
 #: ../src/addressbook/addressbook.error.xml.h:2
 msgid "Failed to communicate with LDAP server."
@@ -2433,7 +2433,7 @@ msgstr "شکست در ارتباط باکارساز LDAP."
 
 #: ../src/addressbook/addressbook.error.xml.h:3
 msgid "This address book server does not have any suggested search bases."
-msgstr "این کارساز دفترچه تلفن هیچ‌کدام از پایه‌های جست‌وجوی پیشنهادی را ندارد."
+msgstr "این کارساز دفترچه نشانی هیچ‌کدام از پایه‌های جست‌وجوی پیشنهادی را ندارد."
 
 #: ../src/addressbook/addressbook.error.xml.h:4
 msgid "This server does not support LDAPv3 schema information."
@@ -2449,7 +2449,7 @@ msgstr "کارساز LDAP با اطلاعات شمای معتبری پاسخ ن�
 
 #: ../src/addressbook/addressbook.error.xml.h:7
 msgid "Could not remove address book."
-msgstr "برداشتن دفترچه تلفن ممکن نیست."
+msgstr "برداشتن دفترچه نشانی ممکن نیست."
 
 #: ../src/addressbook/addressbook.error.xml.h:8
 msgid "Are you sure you want to delete address book “{0}”?"
@@ -2457,7 +2457,7 @@ msgstr "مطمئنید که می‌خواهید دفترچه نشانی «{0}» 
 
 #: ../src/addressbook/addressbook.error.xml.h:9
 msgid "This address book will be removed permanently."
-msgstr "این دفترچه تلفن برای همیشه حذف خواهد شد."
+msgstr "این دفترچه نشانی برای همیشه حذف خواهد شد."
 
 #: ../src/addressbook/addressbook.error.xml.h:10
 #: ../src/calendar/calendar.error.xml.h:7 ../src/e-util/e-system.error.xml.h:27
@@ -2474,7 +2474,7 @@ msgid ""
 "This will permanently remove the address book “{0}” from the server. Are you sure "
 "you want to proceed?"
 msgstr ""
-"این کار، دفترچه تلفن {0} را برای همیشه از کارساز برمی‌دارد. مطمئنید که می‌خواهید "
+"این کار، دفترچه نشانی {0} را برای همیشه از کارساز برمی‌دارد. مطمئنید که می‌خواهید "
 "ادامه دهید؟"
 
 #: ../src/addressbook/addressbook.error.xml.h:13
@@ -2520,7 +2520,7 @@ msgid ""
 "You are attempting to move a contact from one address book to another but it "
 "cannot be removed from the source. Do you want to save a copy instead?"
 msgstr ""
-"شما سعی می‌کنید آشنایی را از یک دفترچه تلفن به دفترچهٔ دیگری جابه‌جا کنید که "
+"شما سعی می‌کنید آشنایی را از یک دفترچه نشانی به دفترچهٔ دیگری جابه‌جا کنید که "
 "نمی‌تواند از مبدأ حذف شود. آیا می‌خواهید در عوض یک نسخه از آن را ذخیره کنید؟"
 
 #: ../src/addressbook/addressbook.error.xml.h:23
@@ -2624,7 +2624,7 @@ msgstr "ناتوان در حذف آشنا"
 
 #: ../src/addressbook/addressbook.error.xml.h:40
 msgid "You do not have permission to delete contacts in this address book."
-msgstr "شما اجازهٔ حذف آشنایان را در این دفترچه تلفن ندارید."
+msgstr "شما اجازهٔ حذف آشنایان را در این دفترچه نشانی ندارید."
 
 #: ../src/addressbook/addressbook.error.xml.h:41
 msgid "Cannot add new contact"
@@ -2636,8 +2636,8 @@ msgid ""
 "“{0}” is a read-only address book and cannot be modified. Please select a "
 "different address book from the side bar in the Contacts view."
 msgstr ""
-"{0} یک دفترچه تلفن فقط خواندنی است و نمی‌تواند تغییر یابد. لطفاً دفترچه تلفن دیگری "
-"را از نوار کناری در نمای آشنایان انتخاب کنید."
+"{0} یک دفترچه نشانی فقط خواندنی است و نمی‌تواند تغییر یابد. لطفاً دفترچه نشانی "
+"دیگری را از نوار کناری در نمای آشنایان انتخاب کنید."
 
 #: ../src/addressbook/addressbook.error.xml.h:44
 msgid "Cannot save a contact, address book is still opening"
@@ -2649,8 +2649,8 @@ msgid ""
 "Cannot save a contact to the address book “{0}”, because it is still opening. "
 "Either wait till it’s opened, or select a different address book."
 msgstr ""
-"نمی‌توان آشنایی را در دفترچه تلفن {0} ذخیره کرد،‌چرا که هنوز در حال گشایش است. تا "
-"گشوده شدنش شکیبایی کرده یا دفترچه تلفن دیگری را برگزینید."
+"نمی‌توان آشنایی را در دفترچه نشانی {0} ذخیره کرد،‌چرا که هنوز در حال گشایش است. تا "
+"گشوده شدنش شکیبایی کرده یا دفترچه نشانی دیگری را برگزینید."
 
 #: ../src/addressbook/addressbook.error.xml.h:47
 msgid "Something has gone wrong when displaying the contact"
@@ -2685,7 +2685,7 @@ msgstr "_ناتنظیم"
 
 #: ../src/addressbook/addressbook.error.xml.h:53
 msgid "Contact already exists in the address book."
-msgstr "آشنا از پیش در دفترچه تلفن وجود دارد."
+msgstr "آشنا از پیش در دفترچه نشانی وجود دارد."
 
 #: ../src/addressbook/addressbook.error.xml.h:54
 msgid ""
@@ -2818,7 +2818,7 @@ msgstr "ویرایش‌گر آشنا"
 #: ../src/addressbook/gui/contact-editor/e-contact-editor.c:3505
 #: ../src/addressbook/gui/contact-list-editor/contact-list-editor.ui.h:3
 #: ../src/addressbook/gui/widgets/eab-contact-merging.c:809
-#: ../src/calendar/calendar.error.xml.h:47 ../src/calendar/gui/e-comp-editor.c:2281
+#: ../src/calendar/calendar.error.xml.h:47 ../src/calendar/gui/e-comp-editor.c:2301
 #: ../src/composer/e-composer-actions.c:242 ../src/composer/e-composer-actions.c:354
 #: ../src/e-util/e-attachment-store.c:848 ../src/e-util/e-attachment-store.c:855
 #: ../src/e-util/e-mail-signature-script-dialog.c:362
@@ -2832,7 +2832,7 @@ msgid "_Save"
 msgstr "ذخیره"
 
 #: ../src/addressbook/gui/contact-editor/contact-editor.ui.h:14
-#: ../src/calendar/gui/e-comp-editor-page-reminders.c:2488
+#: ../src/calendar/gui/e-comp-editor-page-reminders.c:2489
 #: ../src/em-format/e-mail-formatter-attachment.c:322
 #: ../src/mail/mail-config.ui.h:41
 msgid "Options"
@@ -3053,7 +3053,7 @@ msgstr "کاری"
 #: ../src/addressbook/gui/widgets/eab-contact-formatter.c:86
 #: ../src/addressbook/gui/widgets/eab-contact-formatter.c:528
 #: ../src/addressbook/gui/widgets/eab-contact-formatter.c:1086
-#: ../src/calendar/gui/comp-util.c:1954
+#: ../src/calendar/gui/comp-util.c:1965
 msgid "Other"
 msgstr "دیگر"
 
@@ -3109,25 +3109,25 @@ msgid "Certificates"
 msgstr "گواهی‌ها"
 
 #: ../src/addressbook/gui/contact-editor/e-contact-editor.c:266
-#: ../src/calendar/gui/e-comp-editor.c:2213
+#: ../src/calendar/gui/e-comp-editor.c:2233
 #: ../src/e-util/e-html-editor-actions.c:1161
 msgid "_Undo"
 msgstr "_برگردان"
 
 #: ../src/addressbook/gui/contact-editor/e-contact-editor.c:268
-#: ../src/calendar/gui/e-comp-editor.c:2215 ../src/e-util/e-focus-tracker.c:147
+#: ../src/calendar/gui/e-comp-editor.c:2235 ../src/e-util/e-focus-tracker.c:147
 #: ../src/e-util/e-focus-tracker.c:150
 msgid "Undo"
 msgstr "برگردان"
 
 #: ../src/addressbook/gui/contact-editor/e-contact-editor.c:273
-#: ../src/calendar/gui/e-comp-editor.c:2220
+#: ../src/calendar/gui/e-comp-editor.c:2240
 #: ../src/e-util/e-html-editor-actions.c:1147
 msgid "_Redo"
 msgstr "_انجام دوباره"
 
 #: ../src/addressbook/gui/contact-editor/e-contact-editor.c:275
-#: ../src/calendar/gui/e-comp-editor.c:2222 ../src/e-util/e-focus-tracker.c:163
+#: ../src/calendar/gui/e-comp-editor.c:2242 ../src/e-util/e-focus-tracker.c:163
 #: ../src/e-util/e-focus-tracker.c:166
 msgid "Redo"
 msgstr "انجام دوباره"
@@ -3306,7 +3306,7 @@ msgstr "رایانامه"
 
 #: ../src/addressbook/gui/contact-editor/e-contact-quick-add.c:529
 msgid "_Select Address Book"
-msgstr "انتخاب دفترچه تلفن"
+msgstr "انتخاب دفترچه نشانی"
 
 #: ../src/addressbook/gui/contact-editor/fullname.ui.h:1
 msgid "Mr."
@@ -3413,7 +3413,7 @@ msgstr "_گزینش…"
 
 #: ../src/addressbook/gui/contact-list-editor/contact-list-editor.ui.h:14
 msgid "Insert email addresses from Address Book"
-msgstr "درج نشانی‌های رایانامه از دفترچه تلفن"
+msgstr "درج نشانی‌های رایانامه از دفترچه نشانی"
 
 #: ../src/addressbook/gui/contact-list-editor/contact-list-editor.ui.h:15
 #: ../src/e-util/filter.ui.h:28
@@ -3480,7 +3480,7 @@ msgstr "همهٔ فیلدهای حاوی"
 #: ../src/addressbook/gui/widgets/ea-addressbook-view.c:101
 #: ../src/addressbook/gui/widgets/ea-minicard-view.c:223
 msgid "evolution address book"
-msgstr "دفترچه تلفن اوولوشن"
+msgstr "دفترچه نشانی اوولوشن"
 
 #: ../src/addressbook/gui/widgets/eab-contact-display.c:186
 msgid "Copy _Email Address"
@@ -3672,7 +3672,7 @@ msgid "Blog"
 msgstr "بلاگ"
 
 #: ../src/addressbook/gui/widgets/eab-contact-merging.c:261
-#: ../src/e-util/e-mail-signature-editor.c:626
+#: ../src/e-util/e-mail-signature-editor.c:632
 msgid "Unnamed"
 msgstr "بی‌نام"
 
@@ -3732,9 +3732,9 @@ msgid ""
 "offline usage or not yet downloaded for offline usage. Please load the address "
 "book once in online mode to download its contents."
 msgstr ""
-"این دفترچه تلفن نمی‌تواند باز شود. این یعنی این دفترچه برای استفادهٔ برون خطّی یا "
-"علامت‌گذاری نشده، یا هنوز بارگیری نشده است. لطفاً یک‌بار دفترچه تلفن را در حالت برخط "
-"بار کنید تا محتویاتش بارگیری شوند."
+"این دفترچه نشانی نمی‌تواند باز شود. این یعنی این دفترچه برای استفادهٔ برون خطّی یا "
+"علامت‌گذاری نشده، یا هنوز بارگیری نشده است. لطفاً یک‌بار دفترچه نشانی را در حالت "
+"برخط بار کنید تا محتویاتش بارگیری شوند."
 
 #: ../src/addressbook/gui/widgets/eab-gui-util.c:138
 #, c-format
@@ -3742,8 +3742,8 @@ msgid ""
 "This address book cannot be opened.  Please check that the path %s exists and "
 "that permissions are set to access it."
 msgstr ""
-"گشودن این دفترچه تلفن امکان پذیر نبود. لطفاً بررسی کنید که مسیر ‎%s وجود دارد و شما "
-"اجازهٔ دسترسی به آن را دارید."
+"گشودن این دفترچه نشانی امکان پذیر نبود. لطفاً بررسی کنید که مسیر ‎%s وجود دارد و "
+"شما اجازهٔ دسترسی به آن را دارید."
 
 #: ../src/addressbook/gui/widgets/eab-gui-util.c:151
 msgid ""
@@ -3758,7 +3758,7 @@ msgid ""
 "This address book cannot be opened.  This either means that an incorrect URI was "
 "entered, or the server is unreachable."
 msgstr ""
-"این دفترچه تلفن نمی‌تواند باز شود. این یعنی یا یک URI نادرست وارد شده، یا کارساز "
+"این دفترچه نشانی نمی‌تواند باز شود. این یعنی یا یک URI نادرست وارد شده، یا کارساز "
 "خارج از دست‌رس است."
 
 #: ../src/addressbook/gui/widgets/eab-gui-util.c:170
@@ -3775,7 +3775,7 @@ msgstr ""
 "تعداد کارت‌هایی که با این پرس و جو مطابقت می‌کنند از تعدادی که کارساز\n"
 " برای برگرداندن یا اوولوشن برای نمایش آن پیکربندی شده بیشتر است.\n"
 "لطفاً جست‌وجویتان را مشخص‌تر کنید یا محدودیت نتایج را برای این \n"
-"دفترچه تلفن در ترجیحات کارساز شاخه افزایش دهید."
+"دفترچه نشانی در ترجیحات کارساز شاخه افزایش دهید."
 
 #: ../src/addressbook/gui/widgets/eab-gui-util.c:216
 msgid ""
@@ -3785,7 +3785,7 @@ msgid ""
 "preferences for this address book."
 msgstr ""
 "زمان اجرای این پرس‌وجو از محدودیت کارساز یا محدودیت پیکربندی شده\n"
-"برای این دفترچه تلفن تجاوز کرد. لطفاً جست‌وجویتان رامشخّص‌تر\n"
+"برای این دفترچه نشانی تجاوز کرد. لطفاً جست‌وجویتان رامشخّص‌تر\n"
 "کنید یا محدودیت زمانی را برای این دفترچهٔ آدرس در ترجیحات \n"
 "کارساز شاخه افزایش دهید."
 
@@ -3793,13 +3793,13 @@ msgstr ""
 #: ../src/addressbook/gui/widgets/eab-gui-util.c:224
 #, c-format
 msgid "The backend for this address book was unable to parse this query. %s"
-msgstr "پسانهٔ این دفترچه تلفن در تجزیهٔ این پرس‌وجو ناتوان بود. %s"
+msgstr "پسانهٔ این دفترچه نشانی در تجزیهٔ این پرس‌وجو ناتوان بود. %s"
 
 #. Translators: %s is replaced with a detailed error message, or an empty string, if not provided
 #: ../src/addressbook/gui/widgets/eab-gui-util.c:229
 #, c-format
 msgid "The backend for this address book refused to perform this query. %s"
-msgstr "پسانهٔ این دفترچه تلفن از اجرای این پرس‌وجو سر باز زد. %s"
+msgstr "پسانهٔ این دفترچه نشانی از اجرای این پرس‌وجو سر باز زد. %s"
 
 #. Translators: %s is replaced with a detailed error message, or an empty string, if not provided
 #: ../src/addressbook/gui/widgets/eab-gui-util.c:235
@@ -3815,7 +3815,7 @@ msgstr "card.vcf"
 
 #: ../src/addressbook/gui/widgets/eab-gui-util.c:314
 msgid "Select Address Book"
-msgstr "انتخاب دفترچه تلفن"
+msgstr "انتخاب دفترچه نشانی"
 
 #: ../src/addressbook/gui/widgets/eab-gui-util.c:396
 msgid "list"
@@ -3912,7 +3912,7 @@ msgid "Are you sure you want to delete this contact (%s)?"
 msgstr "آیا مطمئنید که می‌خواهید این آشنا (%s) را حذف کنید؟"
 
 #: ../src/addressbook/gui/widgets/e-addressbook-view.c:1438
-#: ../src/calendar/gui/e-comp-editor.c:2171 ../src/e-util/e-accounts-window.c:1763
+#: ../src/calendar/gui/e-comp-editor.c:2191 ../src/e-util/e-accounts-window.c:1763
 #: ../src/e-util/e-focus-tracker.c:816 ../src/e-util/evolution-source-viewer.c:800
 #: ../src/e-util/e-webdav-browser.c:2857 ../src/mail/e-mail-account-manager.c:739
 #: ../src/modules/addressbook/e-book-shell-view-actions.c:1173
@@ -4102,8 +4102,8 @@ msgstr "فهرست آشنای جدید"
 #, c-format
 msgid "current address book folder %s has %d card"
 msgid_plural "current address book folder %s has %d cards"
-msgstr[0] "شاخهٔ دفترچه تلفن فعلی %s %d کارت دارد"
-msgstr[1] "شاخهٔ دفترچه تلفن فعلی %s %d کارت دارد"
+msgstr[0] "شاخهٔ دفترچه نشانی فعلی %s %d کارت دارد"
+msgstr[1] "شاخهٔ دفترچه نشانی فعلی %s %d کارت دارد"
 
 #: ../src/addressbook/gui/widgets/e-contact-map-window.c:374
 msgid "Contacts Map"
@@ -5200,7 +5200,7 @@ msgstr "خلاصه حاوی"
 msgid "Description Contains"
 msgstr "شرح‌ها حاوی"
 
-#: ../src/calendar/gui/comp-util.c:1605
+#: ../src/calendar/gui/comp-util.c:1616
 #: ../src/calendar/gui/e-cal-component-preview.c:528
 #: ../src/calendar/importers/icalendar-importer.c:1574
 #: ../src/modules/itip-formatter/itip-view.c:2709
@@ -5210,62 +5210,62 @@ msgid_plural "with %d guests"
 msgstr[0] "با یک مهمان"
 msgstr[1] "با %Id مهمان"
 
-#: ../src/calendar/gui/comp-util.c:1664
+#: ../src/calendar/gui/comp-util.c:1675
 #, c-format
 msgid "Comments: %s"
 msgstr "یادداشت‌ها: %s"
 
-#: ../src/calendar/gui/comp-util.c:1678 ../src/calendar/gui/comp-util.c:1681
+#: ../src/calendar/gui/comp-util.c:1689 ../src/calendar/gui/comp-util.c:1692
 msgctxt "iCalendarStatus"
 msgid "None"
 msgstr "هیچ‌کدام"
 
-#: ../src/calendar/gui/comp-util.c:1679
+#: ../src/calendar/gui/comp-util.c:1690
 msgctxt "iCalendarStatus"
 msgid "Tentative"
 msgstr "احتمالی"
 
-#: ../src/calendar/gui/comp-util.c:1680
+#: ../src/calendar/gui/comp-util.c:1691
 msgctxt "iCalendarStatus"
 msgid "Confirmed"
 msgstr "تأییدشده"
 
-#: ../src/calendar/gui/comp-util.c:1682
+#: ../src/calendar/gui/comp-util.c:1693
 msgctxt "iCalendarStatus"
 msgid "Draft"
 msgstr "پیش‌نویس"
 
-#: ../src/calendar/gui/comp-util.c:1683
+#: ../src/calendar/gui/comp-util.c:1694
 msgctxt "iCalendarStatus"
 msgid "Final"
 msgstr "نهایی"
 
-#: ../src/calendar/gui/comp-util.c:1684
+#: ../src/calendar/gui/comp-util.c:1695
 msgctxt "iCalendarStatus"
 msgid "Not Started"
 msgstr "آغازنشده"
 
-#: ../src/calendar/gui/comp-util.c:1685
+#: ../src/calendar/gui/comp-util.c:1696
 msgctxt "iCalendarStatus"
 msgid "Needs Action"
 msgstr "نیازمند کنش"
 
-#: ../src/calendar/gui/comp-util.c:1686
+#: ../src/calendar/gui/comp-util.c:1697
 msgctxt "iCalendarStatus"
 msgid "In Progress"
 msgstr "در حال پیشرفت"
 
-#: ../src/calendar/gui/comp-util.c:1687
+#: ../src/calendar/gui/comp-util.c:1698
 msgctxt "iCalendarStatus"
 msgid "Completed"
 msgstr "کامل‌شده"
 
-#: ../src/calendar/gui/comp-util.c:1688
+#: ../src/calendar/gui/comp-util.c:1699
 msgctxt "iCalendarStatus"
 msgid "Cancelled"
 msgstr "لغوشده"
 
-#: ../src/calendar/gui/comp-util.c:1949
+#: ../src/calendar/gui/comp-util.c:1960
 #: ../src/calendar/gui/e-meeting-list-view.c:205
 #: ../src/calendar/gui/e-meeting-store.c:179
 #: ../src/calendar/gui/e-meeting-store.c:202
@@ -5273,7 +5273,7 @@ msgstr "لغوشده"
 msgid "Accepted"
 msgstr "پذیرفته شد"
 
-#: ../src/calendar/gui/comp-util.c:1950
+#: ../src/calendar/gui/comp-util.c:1961
 #: ../src/calendar/gui/e-meeting-list-view.c:206
 #: ../src/calendar/gui/e-meeting-store.c:181
 #: ../src/calendar/gui/e-meeting-store.c:204
@@ -5281,7 +5281,7 @@ msgstr "پذیرفته شد"
 msgid "Declined"
 msgstr "رد شد"
 
-#: ../src/calendar/gui/comp-util.c:1951
+#: ../src/calendar/gui/comp-util.c:1962
 #: ../src/calendar/gui/e-meeting-list-view.c:207
 #: ../src/calendar/gui/e-meeting-store.c:183
 #: ../src/calendar/gui/e-meeting-store.c:206
@@ -5289,7 +5289,7 @@ msgstr "رد شد"
 msgid "Tentative"
 msgstr "احتمالی"
 
-#: ../src/calendar/gui/comp-util.c:1952
+#: ../src/calendar/gui/comp-util.c:1963
 #: ../src/calendar/gui/e-meeting-list-view.c:208
 #: ../src/calendar/gui/e-meeting-store.c:185
 #: ../src/calendar/gui/e-meeting-store.c:208
@@ -5297,13 +5297,13 @@ msgstr "احتمالی"
 msgid "Delegated"
 msgstr "واگذار شد"
 
-#: ../src/calendar/gui/comp-util.c:1953
+#: ../src/calendar/gui/comp-util.c:1964
 msgid "Needs action"
 msgstr "نیاز به عمل دارد"
 
 #. Translators: 'Status' here means the state of the attendees, the resulting string will be in a form:
 #. * Status: Accepted: X   Declined: Y   ...
-#: ../src/calendar/gui/comp-util.c:2018
+#: ../src/calendar/gui/comp-util.c:2029
 #: ../src/calendar/gui/e-cal-list-view.etspec.h:10
 #: ../src/calendar/gui/e-meeting-list-view.c:689
 #: ../src/calendar/gui/e-meeting-time-sel.etspec.h:9
@@ -5316,7 +5316,7 @@ msgid "Status"
 msgstr "وضعیت"
 
 #. String to use in 12-hour time format for times in the morning.
-#: ../src/calendar/gui/comp-util.c:2080 ../src/calendar/gui/e-day-view.c:2286
+#: ../src/calendar/gui/comp-util.c:2091 ../src/calendar/gui/e-day-view.c:2286
 #: ../src/calendar/gui/e-to-do-pane.c:249 ../src/calendar/gui/e-week-view.c:1969
 #: ../src/calendar/gui/print.c:1102 ../src/calendar/gui/print.c:1121
 #: ../src/calendar/gui/print.c:2689 ../src/calendar/gui/print.c:2709
@@ -5324,33 +5324,33 @@ msgid "am"
 msgstr "صبح"
 
 #. String to use in 12-hour time format for times in the afternoon.
-#: ../src/calendar/gui/comp-util.c:2084 ../src/calendar/gui/e-day-view.c:2289
+#: ../src/calendar/gui/comp-util.c:2095 ../src/calendar/gui/e-day-view.c:2289
 #: ../src/calendar/gui/e-to-do-pane.c:253 ../src/calendar/gui/e-week-view.c:1972
 #: ../src/calendar/gui/print.c:1107 ../src/calendar/gui/print.c:1123
 #: ../src/calendar/gui/print.c:2694 ../src/calendar/gui/print.c:2711
 msgid "pm"
 msgstr "ب.ظ"
 
-#: ../src/calendar/gui/comp-util.c:2113 ../src/calendar/gui/comp-util.c:2117
-#: ../src/calendar/gui/comp-util.c:2231 ../src/calendar/gui/e-comp-editor.c:1314
+#: ../src/calendar/gui/comp-util.c:2124 ../src/calendar/gui/comp-util.c:2128
+#: ../src/calendar/gui/comp-util.c:2242 ../src/calendar/gui/e-comp-editor.c:1314
 msgid "No Summary"
 msgstr "بدون خلاصه"
 
 #. Translators: It will display "Organizer: NameOfTheUser <email@ofuser.com>"
-#: ../src/calendar/gui/comp-util.c:2242
+#: ../src/calendar/gui/comp-util.c:2253
 #, c-format
 msgid "Organizer: %s <%s>"
 msgstr "سازمان‌دهنده: %s <%s>"
 
 #. Translators: It will display "Organizer: NameOfTheUser"
-#: ../src/calendar/gui/comp-util.c:2245
+#: ../src/calendar/gui/comp-util.c:2256
 #, c-format
 msgid "Organizer: %s"
 msgstr "سازمان‌دهنده: %s"
 
 #. Translators: It will display "Location: PlaceOfTheMeeting"
 #. Translators: It will display "Location: LocationOfTheAppointment"
-#: ../src/calendar/gui/comp-util.c:2260
+#: ../src/calendar/gui/comp-util.c:2271
 #: ../src/calendar/gui/e-meeting-time-sel.c:2580
 #: ../src/calendar/gui/e-to-do-pane.c:382 ../src/calendar/gui/print.c:3655
 #, c-format
@@ -5358,33 +5358,33 @@ msgid "Location: %s"
 msgstr "مکان: %s"
 
 #. Translators: It will display "Start: ActualStartDateAndTime (DurationOfTheMeeting)"
-#: ../src/calendar/gui/comp-util.c:2315
+#: ../src/calendar/gui/comp-util.c:2326
 #, c-format
 msgid "Start: %s (%s)"
 msgstr "آغاز: %s (%s)"
 
 #. Translators: It will display "Start: ActualStartDateAndTime"
 #. Translators: It will display "Start: StartDateAndTime"
-#: ../src/calendar/gui/comp-util.c:2319 ../src/calendar/gui/e-to-do-pane.c:411
+#: ../src/calendar/gui/comp-util.c:2330 ../src/calendar/gui/e-to-do-pane.c:411
 #, c-format
 msgid "Start: %s"
 msgstr "شروع: %s"
 
 #. Translators: It's for a task due date, it will display "Due: DateAndTime"
 #. Translators: It will display "Due: DueDateAndTime"
-#: ../src/calendar/gui/comp-util.c:2354 ../src/calendar/gui/e-to-do-pane.c:433
+#: ../src/calendar/gui/comp-util.c:2365 ../src/calendar/gui/e-to-do-pane.c:433
 #, c-format
 msgid "Due: %s"
 msgstr "سررسید: %s"
 
 #. Translators: It's for a task completed date, it will display "Completed: DateAndTime"
 #. Translators: It will display "Completed: DateAndTimeWhenCompleted"
-#: ../src/calendar/gui/comp-util.c:2379 ../src/calendar/gui/e-to-do-pane.c:447
+#: ../src/calendar/gui/comp-util.c:2390 ../src/calendar/gui/e-to-do-pane.c:447
 #, c-format
 msgid "Completed: %s"
 msgstr "تکمیل: %s"
 
-#: ../src/calendar/gui/comp-util.c:2416 ../src/calendar/gui/e-to-do-pane.c:596
+#: ../src/calendar/gui/comp-util.c:2427 ../src/calendar/gui/e-to-do-pane.c:596
 #: ../src/e-util/e-misc-utils.c:4838 ../src/e-util/e-text.c:566
 #: ../src/e-util/e-web-view.c:4187
 msgid "…"
@@ -5493,28 +5493,28 @@ msgstr "اینجا کلیک کنید، می‌توانید رویدادهای ب
 
 #. Translators: Part of: [ Play a sound ] [ x ] [ minute(s) ] [ before ] [ start ]
 #: ../src/calendar/gui/e-alarm-list.c:387
-#: ../src/calendar/gui/e-comp-editor-page-reminders.c:2323
+#: ../src/calendar/gui/e-comp-editor-page-reminders.c:2324
 msgctxt "cal-reminders"
 msgid "Play a sound"
 msgstr "پخش یک صدا"
 
 #. Translators: Part of: [ Pop up an alert ] [ x ] [ minute(s) ] [ before ] [ start ]
 #: ../src/calendar/gui/e-alarm-list.c:391
-#: ../src/calendar/gui/e-comp-editor-page-reminders.c:2321
+#: ../src/calendar/gui/e-comp-editor-page-reminders.c:2322
 msgctxt "cal-reminders"
 msgid "Pop up an alert"
 msgstr "وا شدن یک هشدار"
 
 #. Translators: Part of: [ Send an email ] [ x ] [ minute(s) ] [ before ] [ start ]
 #: ../src/calendar/gui/e-alarm-list.c:395
-#: ../src/calendar/gui/e-comp-editor-page-reminders.c:2327
+#: ../src/calendar/gui/e-comp-editor-page-reminders.c:2328
 msgctxt "cal-reminders"
 msgid "Send an email"
 msgstr "ارسال یک رایانامه"
 
 #. Translators: Part of: [ Run a program ] [ x ] [ minute(s) ] [ before ] [ start ]
 #: ../src/calendar/gui/e-alarm-list.c:399
-#: ../src/calendar/gui/e-comp-editor-page-reminders.c:2325
+#: ../src/calendar/gui/e-comp-editor-page-reminders.c:2326
 msgctxt "cal-reminders"
 msgid "Run a program"
 msgstr "اجرای یک برنامه"
@@ -6287,8 +6287,9 @@ msgstr "زمان آغاز نامعتبر است"
 #: ../src/mail/em-composer-utils.c:3955 ../src/mail/mail-send-recv.c:598
 #: ../src/mail/mail-send-recv.c:1493
 #: ../src/modules/accounts-window/e-accounts-window-editors.c:172
-#: ../src/plugins/face/face.c:175 ../src/shell/e-shell.c:1258
-#: ../src/shell/e-shell.c:1283 ../src/smime/gui/certificate-manager.c:363
+#: ../src/plugins/face/face.c:175 ../src/plugins/mail-to-task/mail-to-task.c:951
+#: ../src/shell/e-shell.c:1258 ../src/shell/e-shell.c:1283
+#: ../src/smime/gui/certificate-manager.c:363
 #, c-format
 msgid "Unknown error"
 msgstr "خطای ناشناخته"
@@ -6621,7 +6622,7 @@ msgstr "_شرکت‌کنندگان…"
 
 #: ../src/calendar/gui/e-comp-editor-page-general.c:1505
 #: ../src/calendar/gui/e-comp-editor-page-recurrence.c:2312
-#: ../src/calendar/gui/e-comp-editor.c:2236 ../src/e-util/e-accounts-window.c:1755
+#: ../src/calendar/gui/e-comp-editor.c:2256 ../src/e-util/e-accounts-window.c:1755
 #: ../src/e-util/e-html-editor-actions.c:1170
 #: ../src/e-util/e-mail-signature-manager.c:354
 #: ../src/e-util/e-webdav-browser.c:2850 ../src/e-util/filter.ui.h:26
@@ -6895,13 +6896,13 @@ msgid "Exceptions"
 msgstr "استثناها"
 
 #: ../src/calendar/gui/e-comp-editor-page-recurrence.c:2304
-#: ../src/calendar/gui/e-comp-editor-page-reminders.c:2277
+#: ../src/calendar/gui/e-comp-editor-page-reminders.c:2278
 #: ../src/mail/e-mail-config-identity-page.c:854 ../src/mail/mail-config.ui.h:68
 msgid "A_dd"
 msgstr "افزودن"
 
 #: ../src/calendar/gui/e-comp-editor-page-recurrence.c:2320
-#: ../src/calendar/gui/e-comp-editor-page-reminders.c:2285
+#: ../src/calendar/gui/e-comp-editor-page-reminders.c:2286
 #: ../src/mail/mail-config.ui.h:70
 msgid "Re_move"
 msgstr "بر_داشتن"
@@ -6992,101 +6993,101 @@ msgid "_Reminder"
 msgstr "یادآوری"
 
 #. Translators: Part of: [ Pop up an alert ] [ x ] [ minute(s) ] [ before ] [ start ]
-#: ../src/calendar/gui/e-comp-editor-page-reminders.c:2358
+#: ../src/calendar/gui/e-comp-editor-page-reminders.c:2359
 msgctxt "cal-reminders"
 msgid "minute(s)"
 msgstr "دقیقه"
 
 #. Translators: Part of: [ Pop up an alert ] [ x ] [ hour(s) ] [ before ] [ start ]
-#: ../src/calendar/gui/e-comp-editor-page-reminders.c:2360
+#: ../src/calendar/gui/e-comp-editor-page-reminders.c:2361
 msgctxt "cal-reminders"
 msgid "hour(s)"
 msgstr "ساعت"
 
 #. Translators: Part of: [ Pop up an alert ] [ x ] [ day(s) ] [ before ] [ start ]
-#: ../src/calendar/gui/e-comp-editor-page-reminders.c:2362
+#: ../src/calendar/gui/e-comp-editor-page-reminders.c:2363
 msgctxt "cal-reminders"
 msgid "day(s)"
 msgstr "روز"
 
 #. Translators: Part of: [ Pop up an alert ] [ x ] [ minute(s) ] [ before ] [ start ]
-#: ../src/calendar/gui/e-comp-editor-page-reminders.c:2379
+#: ../src/calendar/gui/e-comp-editor-page-reminders.c:2380
 msgctxt "cal-reminders"
 msgid "before"
 msgstr "پیش از"
 
 #. Translators: Part of: [ Pop up an alert ] [ x ] [ minute(s) ] [ after ] [ start ]
-#: ../src/calendar/gui/e-comp-editor-page-reminders.c:2381
+#: ../src/calendar/gui/e-comp-editor-page-reminders.c:2382
 msgctxt "cal-reminders"
 msgid "after"
 msgstr "پس از"
 
 #. Translators: Part of: [ Pop up an alert ] [ x ] [ minute(s) ] [ before ] [ start ]
-#: ../src/calendar/gui/e-comp-editor-page-reminders.c:2397
+#: ../src/calendar/gui/e-comp-editor-page-reminders.c:2398
 msgctxt "cal-reminders"
 msgid "start"
 msgstr "آغاز"
 
 #. Translators: Part of: [ Pop up an alert ] [ x ] [ minute(s) ] [ before ] [ end ]
-#: ../src/calendar/gui/e-comp-editor-page-reminders.c:2399
+#: ../src/calendar/gui/e-comp-editor-page-reminders.c:2400
 msgctxt "cal-reminders"
 msgid "end"
 msgstr "پایان"
 
 #. Translators: Part of: Repeat the reminder [ x ] extra times every [ y ] [ minutes ]
-#: ../src/calendar/gui/e-comp-editor-page-reminders.c:2418
+#: ../src/calendar/gui/e-comp-editor-page-reminders.c:2419
 msgid "Re_peat the reminder"
 msgstr "تکرار _یادآوری"
 
 #. Translators: Part of: Repeat the reminder [ x ] extra times every [ y ] [ minutes ]
-#: ../src/calendar/gui/e-comp-editor-page-reminders.c:2443
+#: ../src/calendar/gui/e-comp-editor-page-reminders.c:2444
 msgctxt "cal-reminders"
 msgid "extra times every"
 msgstr "زمان اضافی هر"
 
 #. Translators: Part of: Repeat the reminder [ x ] extra times every [ y ] [ minutes ]
-#: ../src/calendar/gui/e-comp-editor-page-reminders.c:2480
+#: ../src/calendar/gui/e-comp-editor-page-reminders.c:2481
 msgctxt "cal-reminders"
 msgid "minutes"
 msgstr "دقیقه"
 
 #. Translators: Part of: Repeat the reminder [ x ] extra times every [ y ] [ hours ]
-#: ../src/calendar/gui/e-comp-editor-page-reminders.c:2482
+#: ../src/calendar/gui/e-comp-editor-page-reminders.c:2483
 msgctxt "cal-reminders"
 msgid "hours"
 msgstr "ساعت"
 
 #. Translators: Part of: Repeat the reminder [ x ] extra times every [ y ] [ days ]
-#: ../src/calendar/gui/e-comp-editor-page-reminders.c:2484
+#: ../src/calendar/gui/e-comp-editor-page-reminders.c:2485
 msgctxt "cal-reminders"
 msgid "days"
 msgstr "روز"
 
 #. page_reminders->priv->custom_email_entry is initialized on demand
-#: ../src/calendar/gui/e-comp-editor-page-reminders.c:2521
-#: ../src/calendar/gui/e-comp-editor-page-reminders.c:2678
+#: ../src/calendar/gui/e-comp-editor-page-reminders.c:2522
+#: ../src/calendar/gui/e-comp-editor-page-reminders.c:2680
 msgctxt "cal-reminders"
 msgid "Custom _message"
 msgstr "پیام سفارشی"
 
-#: ../src/calendar/gui/e-comp-editor-page-reminders.c:2565
+#: ../src/calendar/gui/e-comp-editor-page-reminders.c:2567
 msgctxt "cal-reminders"
 msgid "Custom reminder _sound"
 msgstr "_صدای یادآور سفارشی"
 
-#: ../src/calendar/gui/e-comp-editor-page-reminders.c:2576
+#: ../src/calendar/gui/e-comp-editor-page-reminders.c:2578
 msgid "Select a sound file"
 msgstr "پرونده‌ای صوتی برگزینید"
 
-#: ../src/calendar/gui/e-comp-editor-page-reminders.c:2604
+#: ../src/calendar/gui/e-comp-editor-page-reminders.c:2606
 msgid "_Program:"
 msgstr "برنامه:"
 
-#: ../src/calendar/gui/e-comp-editor-page-reminders.c:2629
+#: ../src/calendar/gui/e-comp-editor-page-reminders.c:2631
 msgid "_Arguments:"
 msgstr "_آرگومان‌ها:"
 
-#: ../src/calendar/gui/e-comp-editor-page-reminders.c:2661
+#: ../src/calendar/gui/e-comp-editor-page-reminders.c:2663
 msgid "_Send To:"
 msgstr "ارسال _به:"
 
@@ -7295,13 +7296,13 @@ msgstr "فرستادن آگاهی‌ها به شرکت‌کنندگان…"
 msgid "Saving changes…"
 msgstr "ذخیرهٔ تغییرات…"
 
-#: ../src/calendar/gui/e-comp-editor.c:1926
-#: ../src/e-util/e-mail-signature-editor.c:577 ../src/mail/e-mail-notes.c:1186
-msgid "Save"
-msgstr "ذخیره"
+#: ../src/calendar/gui/e-comp-editor.c:1946 ../src/calendar/gui/e-comp-editor.c:2308
+#: ../src/e-util/e-mail-signature-editor.c:337 ../src/mail/e-mail-notes.c:1113
+msgid "Save and Close"
+msgstr "ذخیره و بستن"
 
 #. == Button box ==
-#: ../src/calendar/gui/e-comp-editor.c:2150 ../src/composer/e-composer-actions.c:333
+#: ../src/calendar/gui/e-comp-editor.c:2170 ../src/composer/e-composer-actions.c:333
 #: ../src/e-util/e-accounts-window.c:1788 ../src/e-util/e-html-editor-dialog.c:194
 #: ../src/e-util/e-mail-signature-editor.c:328
 #: ../src/e-util/e-name-selector-dialog.c:548
@@ -7312,19 +7313,19 @@ msgstr "ذخیره"
 msgid "_Close"
 msgstr "بستن"
 
-#: ../src/calendar/gui/e-comp-editor.c:2152
+#: ../src/calendar/gui/e-comp-editor.c:2172
 msgid "Close the current window"
 msgstr "بستن پنجرهٔ جاری"
 
 #. copy menu item
-#: ../src/calendar/gui/e-comp-editor.c:2157 ../src/e-util/e-focus-tracker.c:806
+#: ../src/calendar/gui/e-comp-editor.c:2177 ../src/e-util/e-focus-tracker.c:806
 #: ../src/e-util/e-html-editor-actions.c:1126 ../src/e-util/e-text.c:2065
 #: ../src/e-util/e-web-view.c:467 ../src/mail/e-mail-browser.c:173
 #: ../src/mail/mail.error.xml.h:147 ../src/shell/e-shell-window-actions.c:951
 msgid "_Copy"
 msgstr "_رونوشت"
 
-#: ../src/calendar/gui/e-comp-editor.c:2159 ../src/e-util/e-focus-tracker.c:203
+#: ../src/calendar/gui/e-comp-editor.c:2179 ../src/e-util/e-focus-tracker.c:203
 #: ../src/e-util/e-focus-tracker.c:259 ../src/e-util/e-focus-tracker.c:312
 #: ../src/e-util/e-focus-tracker.c:807 ../src/e-util/e-web-view.c:469
 #: ../src/e-util/e-web-view.c:2056 ../src/mail/e-mail-browser.c:175
@@ -7333,58 +7334,58 @@ msgid "Copy the selection"
 msgstr "رونوشت از گزیده‌ها"
 
 #. cut menu item
-#: ../src/calendar/gui/e-comp-editor.c:2164 ../src/e-util/e-focus-tracker.c:801
+#: ../src/calendar/gui/e-comp-editor.c:2184 ../src/e-util/e-focus-tracker.c:801
 #: ../src/e-util/e-html-editor-actions.c:1133 ../src/e-util/e-text.c:2051
 #: ../src/mail/e-mail-browser.c:180 ../src/shell/e-shell-window-actions.c:958
 msgid "Cu_t"
 msgstr "_بریدن"
 
-#: ../src/calendar/gui/e-comp-editor.c:2166 ../src/e-util/e-focus-tracker.c:196
+#: ../src/calendar/gui/e-comp-editor.c:2186 ../src/e-util/e-focus-tracker.c:196
 #: ../src/e-util/e-focus-tracker.c:252 ../src/e-util/e-focus-tracker.c:306
 #: ../src/e-util/e-focus-tracker.c:802 ../src/e-util/e-web-view.c:2065
 #: ../src/mail/e-mail-browser.c:182 ../src/shell/e-shell-window-actions.c:960
 msgid "Cut the selection"
 msgstr "بریدن گزیده‌ها"
 
-#: ../src/calendar/gui/e-comp-editor.c:2173 ../src/e-util/e-focus-tracker.c:217
+#: ../src/calendar/gui/e-comp-editor.c:2193 ../src/e-util/e-focus-tracker.c:217
 #: ../src/e-util/e-focus-tracker.c:273 ../src/e-util/e-focus-tracker.c:817
 #: ../src/shell/e-shell-window-actions.c:967
 msgid "Delete the selection"
 msgstr "حذف گزیده‌ها"
 
-#: ../src/calendar/gui/e-comp-editor.c:2178 ../src/calendar/gui/e-comp-editor.c:2250
+#: ../src/calendar/gui/e-comp-editor.c:2198 ../src/calendar/gui/e-comp-editor.c:2270
 #: ../src/e-util/e-send-options.ui.h:15
 #: ../src/plugins/email-custom-header/org-gnome-email-custom-header.ui.h:2
 #: ../src/shell/e-shell-window-actions.c:1121
 msgid "_Help"
 msgstr "راهنما"
 
-#: ../src/calendar/gui/e-comp-editor.c:2180
+#: ../src/calendar/gui/e-comp-editor.c:2200
 msgid "View help"
 msgstr "نمایش راهنما"
 
 #. paste menu item
-#: ../src/calendar/gui/e-comp-editor.c:2185 ../src/e-util/e-focus-tracker.c:811
+#: ../src/calendar/gui/e-comp-editor.c:2205 ../src/e-util/e-focus-tracker.c:811
 #: ../src/e-util/e-html-editor-actions.c:1140 ../src/e-util/e-text.c:2077
 #: ../src/mail/e-mail-browser.c:187 ../src/shell/e-shell-window-actions.c:986
 msgid "_Paste"
 msgstr "_جای‌گذاری"
 
-#: ../src/calendar/gui/e-comp-editor.c:2187 ../src/e-util/e-focus-tracker.c:210
+#: ../src/calendar/gui/e-comp-editor.c:2207 ../src/e-util/e-focus-tracker.c:210
 #: ../src/e-util/e-focus-tracker.c:266 ../src/e-util/e-focus-tracker.c:318
 #: ../src/e-util/e-focus-tracker.c:812 ../src/e-util/e-web-view.c:2074
 #: ../src/mail/e-mail-browser.c:189 ../src/shell/e-shell-window-actions.c:988
 msgid "Paste the clipboard"
 msgstr "چسباندن تخته‌گیره"
 
-#: ../src/calendar/gui/e-comp-editor.c:2192 ../src/composer/e-composer-actions.c:387
+#: ../src/calendar/gui/e-comp-editor.c:2212 ../src/composer/e-composer-actions.c:387
 #: ../src/mail/e-mail-reader.c:2868
 #: ../src/modules/addressbook/e-book-shell-view-actions.c:1319
 #: ../src/modules/addressbook/e-book-shell-view-actions.c:1333
 msgid "_Print…"
 msgstr "_چاپ…"
 
-#: ../src/calendar/gui/e-comp-editor.c:2199 ../src/mail/e-mail-reader.c:2875
+#: ../src/calendar/gui/e-comp-editor.c:2219 ../src/mail/e-mail-reader.c:2875
 #: ../src/modules/addressbook/e-book-shell-view-actions.c:1326
 #: ../src/modules/calendar/e-cal-shell-view-actions.c:1921
 #: ../src/modules/calendar/e-memo-shell-view-actions.c:838
@@ -7392,59 +7393,54 @@ msgstr "_چاپ…"
 msgid "Pre_view…"
 msgstr "_پیش‌نمایش…"
 
-#: ../src/calendar/gui/e-comp-editor.c:2206 ../src/e-util/e-focus-tracker.c:821
+#: ../src/calendar/gui/e-comp-editor.c:2226 ../src/e-util/e-focus-tracker.c:821
 #: ../src/e-util/e-html-editor-actions.c:1154 ../src/e-util/e-web-view.c:484
 #: ../src/mail/e-mail-browser.c:194 ../src/shell/e-shell-window-actions.c:1063
 msgid "Select _All"
 msgstr "انتخاب _همه"
 
-#: ../src/calendar/gui/e-comp-editor.c:2208 ../src/e-util/e-focus-tracker.c:224
+#: ../src/calendar/gui/e-comp-editor.c:2228 ../src/e-util/e-focus-tracker.c:224
 #: ../src/e-util/e-focus-tracker.c:280 ../src/e-util/e-focus-tracker.c:822
 #: ../src/mail/e-mail-browser.c:196 ../src/shell/e-shell-window-actions.c:1065
 msgid "Select all text"
 msgstr "انتخاب همهٔ متن"
 
-#: ../src/calendar/gui/e-comp-editor.c:2229
+#: ../src/calendar/gui/e-comp-editor.c:2249
 msgid "_Classification"
 msgstr "طبقه‌بندی"
 
-#: ../src/calendar/gui/e-comp-editor.c:2243
+#: ../src/calendar/gui/e-comp-editor.c:2263
 #: ../src/e-util/e-html-editor-actions.c:1177
 #: ../src/e-util/e-mail-signature-editor.c:342 ../src/mail/e-mail-browser.c:210
 #: ../src/mail/e-mail-notes.c:1118 ../src/shell/e-shell-window-actions.c:1114
 msgid "_File"
 msgstr "پرونده"
 
-#: ../src/calendar/gui/e-comp-editor.c:2257
+#: ../src/calendar/gui/e-comp-editor.c:2277
 #: ../src/e-util/e-html-editor-actions.c:1198
 msgid "_Insert"
 msgstr "درج"
 
-#: ../src/calendar/gui/e-comp-editor.c:2264 ../src/composer/e-composer-actions.c:377
+#: ../src/calendar/gui/e-comp-editor.c:2284 ../src/composer/e-composer-actions.c:377
 msgid "_Options"
 msgstr "گزینه‌ها"
 
-#: ../src/calendar/gui/e-comp-editor.c:2271
+#: ../src/calendar/gui/e-comp-editor.c:2291
 #: ../src/e-util/e-html-editor-actions.c:1219 ../src/mail/e-mail-browser.c:224
 #: ../src/shell/e-shell-window-actions.c:1157
 #: ../src/smime/gui/certificate-manager.c:1657 ../src/smime/gui/smime-ui.ui.h:3
 msgid "_View"
 msgstr "نما"
 
-#: ../src/calendar/gui/e-comp-editor.c:2283
+#: ../src/calendar/gui/e-comp-editor.c:2303
 msgid "Save current changes"
 msgstr "ذخیرهٔ تفییرات جاری"
 
-#: ../src/calendar/gui/e-comp-editor.c:2288
-#: ../src/e-util/e-mail-signature-editor.c:337 ../src/mail/e-mail-notes.c:1113
-msgid "Save and Close"
-msgstr "ذخیره و بستن"
-
-#: ../src/calendar/gui/e-comp-editor.c:2290
+#: ../src/calendar/gui/e-comp-editor.c:2310
 msgid "Save current changes and close editor"
 msgstr "ذخیرهٔ تفییرات جاری و بستن ویرایشگر"
 
-#: ../src/calendar/gui/e-comp-editor.c:2297
+#: ../src/calendar/gui/e-comp-editor.c:2317
 msgid "Show _toolbar"
 msgstr "نمایش _نوار ابزار"
 
@@ -8058,7 +8054,7 @@ msgstr "اطلاعات iCalendar"
 #: ../src/calendar/gui/itip-utils.c:1486
 #, c-format
 msgid "Unable to book a resource, the new event collides with some other."
-msgstr "گشودن دفترچه تلفن ممکن نیست، رویداد جدید با یکی دیگر برخورد دارد."
+msgstr "گشودن دفترچه نشانی ممکن نیست، رویداد جدید با یکی دیگر برخورد دارد."
 
 #: ../src/calendar/gui/itip-utils.c:1491
 msgid "Unable to book a resource, error: "
@@ -10286,13 +10282,13 @@ msgstr "امضا:"
 
 #: ../src/composer/e-composer-name-header.c:233
 msgid "Click here for the address book"
-msgstr "برای دفترچه تلفن اینجا کلیک کنید"
+msgstr "برای دفترچه نشانی اینجا کلیک کنید"
 
 #: ../src/composer/e-composer-post-header.c:176
 msgid "Click here to select folders to post to"
 msgstr "برای انتخاب شاخه‌ها برای پست کردن به آن‌ها اینجا کلیک کنید"
 
-#: ../src/composer/e-composer-private.c:94
+#: ../src/composer/e-composer-private.c:100
 msgid "Send"
 msgstr "فرستادن"
 
@@ -10313,7 +10309,7 @@ msgid "Compose Message"
 msgstr "نگارش پیام"
 
 #: ../src/composer/e-msg-composer.c:4700
-#: ../src/modules/composer-to-meeting/e-composer-to-meeting.c:352
+#: ../src/modules/composer-to-meeting/e-composer-to-meeting.c:364
 msgid "Reading text content…"
 msgstr "خواندن بافتار متن…"
 
@@ -11066,7 +11062,7 @@ msgstr "حساب‌های نامه‌ای"
 #: ../src/e-util/e-accounts-window.c:564 ../src/e-util/e-accounts-window.c:710
 #: ../src/e-util/e-accounts-window.c:918
 msgid "Address Books"
-msgstr "دفترچه تلفن"
+msgstr "دفترچه نشانی"
 
 #: ../src/e-util/e-accounts-window.c:570 ../src/e-util/e-accounts-window.c:711
 #: ../src/e-util/e-accounts-window.c:919
@@ -11109,7 +11105,7 @@ msgstr "حساب _نامه"
 
 #: ../src/e-util/e-accounts-window.c:1494
 msgid "Address _Book"
-msgstr "_دفترچه تلفن"
+msgstr "_دفترچه نشانی"
 
 #: ../src/e-util/e-accounts-window.c:1495
 msgid "_Calendar"
@@ -11382,11 +11378,11 @@ msgstr "گشودن این پیوست در برنامهٔ پیش‌گزیده"
 
 #: ../src/e-util/e-book-source-config.c:90
 msgid "Mark as default address book"
-msgstr "علامت زدن به عنوان دفترچه تلفن پیش‌گزیده"
+msgstr "علامت زدن به عنوان دفترچه نشانی پیش‌گزیده"
 
 #: ../src/e-util/e-book-source-config.c:95
 msgid "Autocomplete with this address book"
-msgstr "تکمیل خودکار با این دفترچه تلفن"
+msgstr "تکمیل خودکار با این دفترچه نشانی"
 
 #: ../src/e-util/e-book-source-config.c:269
 msgid "Copy book content locally for offline operation"
@@ -11771,7 +11767,7 @@ msgstr "فرستان نامه"
 #: ../src/e-util/e-name-selector-dialog.c:445
 #: ../src/mail/importers/pine-importer.c:430
 msgid "Address Book"
-msgstr "دفترچه تلفن"
+msgstr "دفترچه نشانی"
 
 #: ../src/e-util/e-collection-account-wizard.c:868
 msgid "Memo List"
@@ -13756,11 +13752,15 @@ msgstr "بستن"
 msgid "_Save and Close"
 msgstr "_ذخیره و بستن"
 
-#: ../src/e-util/e-mail-signature-editor.c:573
+#: ../src/e-util/e-mail-signature-editor.c:576
 msgid "Edit Signature"
 msgstr "ویرایش امضا"
 
-#: ../src/e-util/e-mail-signature-editor.c:600
+#: ../src/e-util/e-mail-signature-editor.c:580 ../src/mail/e-mail-notes.c:1188
+msgid "Save"
+msgstr "ذخیره"
+
+#: ../src/e-util/e-mail-signature-editor.c:606
 msgid "_Signature Name:"
 msgstr "نام _امضا:"
 
@@ -13893,7 +13893,7 @@ msgid ""
 "This address book server might be unreachable or the server name may be "
 "misspelled or your network connection could be down."
 msgstr ""
-"ممکن است این کارساز دفترچه تلفن غیر قابل دسترسی باشد یا نام کارساز اشتباه نوشته "
+"ممکن است این کارساز دفترچه نشانی غیر قابل دسترسی باشد یا نام کارساز اشتباه نوشته "
 "شده باشد یا اتّصال شبکهٔ شما قطع باشد."
 
 #: ../src/e-util/e-misc-utils.c:4144
@@ -13984,7 +13984,7 @@ msgstr "نمایش آشناها"
 
 #: ../src/e-util/e-name-selector-dialog.c:306
 msgid "Address B_ook:"
-msgstr "دفترچه تلفن:"
+msgstr "دفترچه نشانی:"
 
 #: ../src/e-util/e-name-selector-dialog.c:313
 msgid "Cat_egory:"
@@ -14014,7 +14014,7 @@ msgstr "جست‌وجو"
 
 #: ../src/e-util/e-name-selector-dialog.c:573
 msgid "Select Contacts from Address Book"
-msgstr "گزینش آشناها از دفترچه تلفن"
+msgstr "گزینش آشناها از دفترچه نشانی"
 
 #. To Translators: This would be similiar to "Expand MyList Inline" where MyList is a Contact List
 #: ../src/e-util/e-name-selector-entry.c:3222
@@ -14846,7 +14846,7 @@ msgstr "هویّت"
 #: ../src/e-util/e-webdav-browser.c:511 ../src/mail/filtertypes.xml.in.h:64
 #: ../src/mail/searchtypes.xml.in.h:56 ../src/mail/vfoldertypes.xml.in.h:58
 msgid "Address book"
-msgstr "دفترچه تلفن"
+msgstr "دفترچه نشانی"
 
 #: ../src/e-util/e-webdav-browser.c:522
 msgid "Events"
@@ -15718,17 +15718,17 @@ msgstr "بستن این پنجره"
 msgid "(No Subject)"
 msgstr "(بدون موضوع)"
 
-#: ../src/mail/e-mail-browser.c:532 ../src/mail/mail-dialogs.ui.h:5
+#: ../src/mail/e-mail-browser.c:537 ../src/mail/mail-dialogs.ui.h:5
 #: ../src/modules/mail/e-mail-shell-view-private.c:1511
 msgid "Forward"
 msgstr "ارجاع"
 
-#: ../src/mail/e-mail-browser.c:543 ../src/mail/e-mail-reader.c:2917
+#: ../src/mail/e-mail-browser.c:548 ../src/mail/e-mail-reader.c:2917
 #: ../src/modules/mail/e-mail-shell-view-private.c:1522
 msgid "Group Reply"
 msgstr "پاسخ گروهی"
 
-#: ../src/mail/e-mail-browser.c:555 ../src/mail/e-mail-reader.c:5281
+#: ../src/mail/e-mail-browser.c:560 ../src/mail/e-mail-reader.c:5281
 #: ../src/mail/mail-dialogs.ui.h:9
 #: ../src/modules/mail/e-mail-shell-view-private.c:1534
 msgid "Reply"
@@ -16244,7 +16244,7 @@ msgstr "ویرایش‌گر حساب"
 
 #: ../src/mail/e-mail-display.c:141
 msgid "_Add to Address Book…"
-msgstr "_افزودن به دفترچه تلفن…"
+msgstr "_افزودن به دفترچه نشانی…"
 
 #: ../src/mail/e-mail-display.c:148
 msgid "_To This Address"
@@ -16446,11 +16446,11 @@ msgstr "شکست در تبدیل متن به پیام"
 msgid "Storing changes…"
 msgstr "در حال ذخیرهٔ تغییرات…"
 
-#: ../src/mail/e-mail-notes.c:1182
+#: ../src/mail/e-mail-notes.c:1184
 msgid "Edit Message Note"
 msgstr "ویرایش یادداشت پیام"
 
-#: ../src/mail/e-mail-notes.c:1295
+#: ../src/mail/e-mail-notes.c:1300
 msgid "Retrieving message…"
 msgstr "در حال گرفتن پیام‌ها…"
 
@@ -16532,11 +16532,11 @@ msgstr "بازیابی کردن پیام %s"
 
 #: ../src/mail/e-mail-reader.c:2509
 msgid "A_dd Sender to Address Book"
-msgstr "ا_ضافه کردن فرستنده به دفترچه تلفن"
+msgstr "ا_ضافه کردن فرستنده به دفترچه نشانی"
 
 #: ../src/mail/e-mail-reader.c:2511
 msgid "Add sender to address book"
-msgstr "افزودن فرستنده به دفترچه تلفن"
+msgstr "افزودن فرستنده به دفترچه نشانی"
 
 #: ../src/mail/e-mail-reader.c:2516
 msgid "_Archive…"
@@ -18806,7 +18806,7 @@ msgstr "_علامت نزدن پیام‌ها از آشنایان به عنوان
 
 #: ../src/mail/mail-config.ui.h:144
 msgid "_Lookup in local address book only"
-msgstr "_گشتن فقط در دفترچه تلفن محلی"
+msgstr "_گشتن فقط در دفترچه نشانی محلی"
 
 #: ../src/mail/mail-config.ui.h:145
 msgid "Check cu_stom headers for junk"
@@ -20020,7 +20020,7 @@ msgstr "_تقویم"
 #: ../src/modules/addressbook/e-book-shell-backend.c:269
 #: ../src/modules/addressbook/e-book-shell-view-actions.c:139
 msgid "New Address Book"
-msgstr "دفترچه تلفن جدید"
+msgstr "دفترچه نشانی جدید"
 
 #: ../src/modules/accounts-window/e-accounts-window-editors.c:484
 #: ../src/modules/calendar/e-cal-base-shell-backend.c:283
@@ -20031,7 +20031,7 @@ msgstr "سیاههٔ یادداشت جدید"
 #: ../src/modules/accounts-window/e-accounts-window-editors.c:532
 #: ../src/modules/addressbook/e-book-shell-view-actions.c:212
 msgid "Address Book Properties"
-msgstr "ویژگی‌های دفترچه تلفن"
+msgstr "ویژگی‌های دفترچه نشانی"
 
 #: ../src/modules/accounts-window/e-accounts-window-editors.c:536
 #: ../src/modules/calendar/e-cal-shell-view-actions.c:287
@@ -20040,10 +20040,8 @@ msgstr "ویژگی‌های تقویم"
 
 #: ../src/modules/accounts-window/e-accounts-window-editors.c:540
 #: ../src/modules/calendar/e-memo-shell-view-actions.c:252
-#, fuzzy
-#| msgid "Task List Properties"
 msgid "Memo List Properties"
-msgstr "ویژگی‌های سیاههٔ تکلیف"
+msgstr "ویژگی‌های سیاههٔ یادداشت"
 
 #: ../src/modules/accounts-window/e-accounts-window-editors.c:544
 #: ../src/modules/calendar/e-task-shell-view-actions.c:276
@@ -20107,14 +20105,11 @@ msgid "Always _show address of the autocompleted contact"
 msgstr "_نمایش همیشگی نشانی آشنای کامل شده به صورت خودکار"
 
 #: ../src/modules/addressbook/eab-composer-util.c:98
-#, fuzzy
-#| msgid "Multiple VCards"
 msgid "Multiple vCards"
 msgstr "کارت‌های مجازی چندگانه"
 
 #: ../src/modules/addressbook/eab-composer-util.c:106
-#, fuzzy, c-format
-#| msgid "VCard for %s"
+#, c-format
 msgid "vCard for %s"
 msgstr "کارت مجازی برای %s"
 
@@ -20152,12 +20147,12 @@ msgstr "ایجاد یک فهرست آشنای جدید"
 #: ../src/modules/addressbook/e-book-shell-backend.c:295
 msgctxt "New"
 msgid "Address _Book"
-msgstr "_دفترچه تلفن"
+msgstr "_دفترچه نشانی"
 
 #: ../src/modules/addressbook/e-book-shell-backend.c:297
 #: ../src/modules/addressbook/e-book-shell-view-actions.c:1045
 msgid "Create a new address book"
-msgstr "ایجاد یک دفترچه تلفن جدید"
+msgstr "ایجاد یک دفترچه نشانی جدید"
 
 #. Translators: This is a save dialog title
 #: ../src/modules/addressbook/e-book-shell-view-actions.c:607
@@ -20170,26 +20165,20 @@ msgid "Co_py All Contacts To…"
 msgstr "_رونوشت از تمامی آشنایان به…"
 
 #: ../src/modules/addressbook/e-book-shell-view-actions.c:1017
-#, fuzzy
-#| msgid "Copy the contacts of the selected folder into another folder"
 msgid "Copy the contacts of the selected address book to another"
-msgstr "رونوشت از آشنایان شاخهٔ گزیده در یک شاخهٔ دیگر"
+msgstr "رونوشت از آشنایان دفترچه نشانی گزیده در دفترچه‌ای دیگر"
 
 #: ../src/modules/addressbook/e-book-shell-view-actions.c:1022
-#, fuzzy
-#| msgid "Del_ete Address Book"
 msgid "D_elete Address Book"
-msgstr "ح_ذف دفترچه تلفن"
+msgstr "ح_ذف دفترچه نشانی"
 
 #: ../src/modules/addressbook/e-book-shell-view-actions.c:1024
-#, fuzzy
-#| msgid "Delete the selected folder"
 msgid "Delete the selected address book"
-msgstr "حذف شاخهٔ گزیده"
+msgstr "حذف دفترچه نشانی گزیده"
 
 #: ../src/modules/addressbook/e-book-shell-view-actions.c:1029
 msgid "_Manage Address Book groups…"
-msgstr "_مدیریت گروه‌های دفترچه تلفن…"
+msgstr "_مدیریت گروه‌های دفترچه نشانی…"
 
 #: ../src/modules/addressbook/e-book-shell-view-actions.c:1031
 #: ../src/modules/calendar/e-task-shell-view-actions.c:733
@@ -20201,24 +20190,20 @@ msgid "Mo_ve All Contacts To…"
 msgstr "_جابه‌جایی تمامی آشنایان به…"
 
 #: ../src/modules/addressbook/e-book-shell-view-actions.c:1038
-#, fuzzy
-#| msgid "Move the contacts of the selected folder into another folder"
 msgid "Move the contacts of the selected address book to another"
-msgstr "جابه‌جایی آشنایان شاخه‌های گزیده به یک شاخهٔ دیگر"
+msgstr "جابه‌جایی آشنایان دفترچه نشانی گزیده به دفترچه‌ای دیگر"
 
 #: ../src/modules/addressbook/e-book-shell-view-actions.c:1043
 msgid "_New Address Book"
-msgstr "دفترچه تلفن _جدید"
+msgstr "دفترچه نشانی _جدید"
 
 #: ../src/modules/addressbook/e-book-shell-view-actions.c:1050
 msgid "Address _Book Properties"
-msgstr "ویژگی‌های _دفترچه تلفن"
+msgstr "ویژگی‌های _دفترچه نشانی"
 
 #: ../src/modules/addressbook/e-book-shell-view-actions.c:1052
-#, fuzzy
-#| msgid "Change the properties of the selected folder"
 msgid "Show properties of the selected address book"
-msgstr "تغییر ویژگی‌های شاخهٔ گزیده"
+msgstr "نمایش ویژگی‌های دفترچه نشانی گزیده"
 
 #: ../src/modules/addressbook/e-book-shell-view-actions.c:1057
 #: ../src/modules/calendar/e-cal-shell-view-actions.c:1376
@@ -20228,28 +20213,20 @@ msgid "Re_fresh"
 msgstr "_نوسازی"
 
 #: ../src/modules/addressbook/e-book-shell-view-actions.c:1059
-#, fuzzy
-#| msgid "Rename the selected folder"
 msgid "Refresh the selected address book"
-msgstr "تغییر نام شاخهٔ گزیده"
+msgstr "نوسازی دفترچه نشانی گزیده"
 
 #: ../src/modules/addressbook/e-book-shell-view-actions.c:1064
-#, fuzzy
-#| msgid "Error loading default addressbook."
 msgid "Re_fresh list of account address books"
-msgstr "خطا در بار کردن دفترچه تلفن پیش‌گزیده"
+msgstr "_نوسازی سیاههٔ حساب‌های دفترچه نشانی پیش‌گزیده"
 
 #: ../src/modules/addressbook/e-book-shell-view-actions.c:1071
-#, fuzzy
-#| msgid "Address Book"
 msgid "Address Book _Map"
-msgstr "دفترچه تلفن"
+msgstr "_نقشهٔ دفترچه نشانی"
 
 #: ../src/modules/addressbook/e-book-shell-view-actions.c:1073
-#, fuzzy
-#| msgid "Select Contacts from Address Book"
 msgid "Show map with all contacts from selected address book"
-msgstr "آشنا‌ها را از دفترچه تلفن انتخاب کنید"
+msgstr "نمایش نقشه با تمامی آشنایان از دفترچه نشانی گزیده"
 
 #: ../src/modules/addressbook/e-book-shell-view-actions.c:1078
 #: ../src/modules/calendar/e-cal-shell-view-actions.c:1390
@@ -20260,10 +20237,8 @@ msgid "_Rename…"
 msgstr "_تغییر نام…"
 
 #: ../src/modules/addressbook/e-book-shell-view-actions.c:1080
-#, fuzzy
-#| msgid "Rename the selected folder"
 msgid "Rename the selected address book"
-msgstr "تغییر نام شاخهٔ گزیده"
+msgstr "تغییر نام دفترچه نشانی گزیده"
 
 #: ../src/modules/addressbook/e-book-shell-view-actions.c:1087
 msgid "Stop loading"
@@ -20274,10 +20249,8 @@ msgid "_Copy Contact To…"
 msgstr "_رونوشت از آشنا به…"
 
 #: ../src/modules/addressbook/e-book-shell-view-actions.c:1094
-#, fuzzy
-#| msgid "Send selected contacts to another person."
 msgid "Copy selected contacts to another address book"
-msgstr "ارسال آشنا‌های گزیده به شخصی دیگر"
+msgstr "رونوشت از آشنایان گزیده به دفترچه نشانی‌ای دیگر"
 
 #: ../src/modules/addressbook/e-book-shell-view-actions.c:1099
 msgid "_Delete Contact"
@@ -20288,30 +20261,24 @@ msgid "_Find in Contact…"
 msgstr "_یافتن در آشنا…"
 
 #: ../src/modules/addressbook/e-book-shell-view-actions.c:1108
-#, fuzzy
-#| msgid "Search for text in the body of the displayed message"
 msgid "Search for text in the displayed contact"
-msgstr "جست‌وجو به دنبال متن در بدنهٔ پیام نمایش داده شده"
+msgstr "جست‌وجو به دنبال متن در آشنای نمایان"
 
 #: ../src/modules/addressbook/e-book-shell-view-actions.c:1113
 msgid "_Forward Contact…"
 msgstr "__هدایت آشنا…"
 
 #: ../src/modules/addressbook/e-book-shell-view-actions.c:1115
-#, fuzzy
-#| msgid "Send selected contacts to another person."
 msgid "Send selected contacts to another person"
-msgstr "ارسال آشنا‌های گزیده به شخصی دیگر"
+msgstr "فرستادن آشنا‌یان گزیده به فردی دیگر"
 
 #: ../src/modules/addressbook/e-book-shell-view-actions.c:1120
 msgid "_Move Contact To…"
 msgstr "_جابه‌جایی آشنا به…"
 
 #: ../src/modules/addressbook/e-book-shell-view-actions.c:1122
-#, fuzzy
-#| msgid "Send selected contacts to another person."
 msgid "Move selected contacts to another address book"
-msgstr "ارسال آشنا‌های گزیده به شخصی دیگر"
+msgstr "فرستادن آشنا‌یان گزیده به فردی دیگر"
 
 #: ../src/modules/addressbook/e-book-shell-view-actions.c:1127
 msgid "_New Contact…"
@@ -20334,10 +20301,8 @@ msgid "_Send Message to Contact…"
 msgstr "فرستادن _پیام به آشنا…"
 
 #: ../src/modules/addressbook/e-book-shell-view-actions.c:1150
-#, fuzzy
-#| msgid "Send a message to the selected contacts."
 msgid "Send a message to the selected contacts"
-msgstr "ارسال پیام به آشنا‌های گزیده"
+msgstr "ارسال پیامی به آشنا‌یان گزیده"
 
 #: ../src/modules/addressbook/e-book-shell-view-actions.c:1157
 #: ../src/modules/calendar/e-cal-shell-view-actions.c:1616
@@ -20353,10 +20318,8 @@ msgid "_Manage groups…"
 msgstr "_مدیریت گروه‌ها…"
 
 #: ../src/modules/addressbook/e-book-shell-view-actions.c:1193
-#, fuzzy
-#| msgid "Address Book"
 msgid "Address Book Map"
-msgstr "دفترچه تلفن"
+msgstr "نقشهٔ دفترچه نشانی"
 
 #: ../src/modules/addressbook/e-book-shell-view-actions.c:1225
 msgid "Contact _Preview"
@@ -20371,10 +20334,8 @@ msgid "Show _Maps"
 msgstr "_نمایش نقشه‌ها"
 
 #: ../src/modules/addressbook/e-book-shell-view-actions.c:1235
-#, fuzzy
-#| msgid "Show contact preview window"
 msgid "Show maps in contact preview window"
-msgstr "نمایش پنجرهٔ پیش‌نمایش آشنا"
+msgstr "نمایش نقشه در پنجرهٔ پیش‌نمایش آشنا"
 
 #: ../src/modules/addressbook/e-book-shell-view-actions.c:1254
 #: ../src/modules/calendar/e-memo-shell-view-actions.c:766
@@ -20384,10 +20345,8 @@ msgid "_Classic View"
 msgstr "_نمای _کلاسیک"
 
 #: ../src/modules/addressbook/e-book-shell-view-actions.c:1256
-#, fuzzy
-#| msgid "Show contact preview window"
 msgid "Show contact preview below the contact list"
-msgstr "نمایش پنجرهٔ پیش‌نمایش آشنا"
+msgstr "نمایش پیش‌نمایش آشنا زیر سیاههٔ آشنایان"
 
 #: ../src/modules/addressbook/e-book-shell-view-actions.c:1261
 #: ../src/modules/calendar/e-cal-shell-view-actions.c:1835
@@ -20398,10 +20357,8 @@ msgid "_Vertical View"
 msgstr "نمای _عمودی"
 
 #: ../src/modules/addressbook/e-book-shell-view-actions.c:1263
-#, fuzzy
-#| msgid "Show contact preview window"
 msgid "Show contact preview alongside the contact list"
-msgstr "نمایش پنجرهٔ پیش‌نمایش آشنا"
+msgstr "نمایش پیش‌نمایش آشنا کنار سیاههٔ آشنایان"
 
 #: ../src/modules/addressbook/e-book-shell-view-actions.c:1278
 #: ../src/modules/calendar/e-cal-shell-view-actions.c:1873
@@ -20420,14 +20377,10 @@ msgid "Advanced Search"
 msgstr "جست‌وجوی پیشرفته"
 
 #: ../src/modules/addressbook/e-book-shell-view-actions.c:1321
-#, fuzzy
-#| msgid "Print contacts"
 msgid "Print all shown contacts"
-msgstr "چاپ آشنا‌ها"
+msgstr "چاپ تمامی آشنا‌یان نمایان"
 
 #: ../src/modules/addressbook/e-book-shell-view-actions.c:1328
-#, fuzzy
-#| msgid "Previews the contacts to be printed"
 msgid "Preview the contacts to be printed"
 msgstr "پیش‌نمایش آشنایانی که قرار است چاپ شوند"
 
@@ -20436,10 +20389,8 @@ msgid "Print selected contacts"
 msgstr "چاپ آشنا‌های گزیده"
 
 #: ../src/modules/addressbook/e-book-shell-view-actions.c:1350
-#, fuzzy
-#| msgid "S_ave Address Book As VCard"
 msgid "S_ave Address Book as vCard"
-msgstr "ذ_خیرهٔ دفترچه تلفن به شکل کارت مجازی"
+msgstr "_ذخیرهٔ دفترچه نشانی به شکل کارت مجازی"
 
 #: ../src/modules/addressbook/e-book-shell-view-actions.c:1352
 msgid "Save the contacts of the selected address book as a vCard"
@@ -20464,22 +20415,16 @@ msgid "_Forward Contact"
 msgstr "_ارجاع آشنا"
 
 #: ../src/modules/addressbook/e-book-shell-view.c:388
-#, fuzzy
-#| msgid "Send _Message to Contacts"
 msgid "_Send Message to Contacts"
-msgstr "ارسال _پیام برای آشنایان"
+msgstr "_فرستادن پیام به آشنایان"
 
 #: ../src/modules/addressbook/e-book-shell-view.c:390
-#, fuzzy
-#| msgid "Send _Message to List"
 msgid "_Send Message to List"
-msgstr "ارسال _پیام برای فهرست"
+msgstr "_فرستادن پیام به سیاهه"
 
 #: ../src/modules/addressbook/e-book-shell-view.c:392
-#, fuzzy
-#| msgid "Send _Message to Contact"
 msgid "_Send Message to Contact"
-msgstr "ارسال _پیام برای آشنا"
+msgstr "_فرستادن پیام به آشنا"
 
 #: ../src/modules/alarm-notify/alarm-notify.c:163
 #, c-format
@@ -20512,26 +20457,20 @@ msgid "Restore from Backup"
 msgstr "بازگردانی از یک پشتیبان"
 
 #: ../src/modules/backup-restore/evolution-backup-restore.c:306
-#, fuzzy
-#| msgid "Select name of Evolution archive"
 msgid "Select name of the Evolution backup file"
-msgstr "نام آرشیو اوولوشن را انتخاب کنید"
+msgstr "گزینش نام پروندهٔ پشتیبان اوولوشن"
 
 #: ../src/modules/backup-restore/evolution-backup-restore.c:351
 msgid "_Restart Evolution after backup"
 msgstr "_راه‌اندازی مجدد اوولوشن بعد از پشتیبان‌سازی"
 
 #: ../src/modules/backup-restore/evolution-backup-restore.c:386
-#, fuzzy
-#| msgid "_Restart Evolution after restore"
 msgid "Re_start Evolution after restore"
-msgstr "_راه‌اندازی مجدد اوولوشن بعد از بازیابی"
+msgstr "آغاز _دوبارهٔ اوولوشن پس از بازیابی"
 
 #: ../src/modules/backup-restore/evolution-backup-restore.c:428
-#, fuzzy
-#| msgid "Select Evolution archive to restore"
 msgid "Select name of the Evolution backup file to restore"
-msgstr "آرشیو اوولوشن که بازیابی شود را انتخاب کنید"
+msgstr "گزینش نام پروندهٔ پشتیبان اوولوشن برای بازیابی"
 
 #: ../src/modules/backup-restore/evolution-backup-restore.c:437
 #, c-format
@@ -20699,20 +20638,17 @@ msgid "Close and _Restore Evolution"
 msgstr "_بستن و بازیابی دوبارهٔ اوولوشن"
 
 #: ../src/modules/backup-restore/org-gnome-backup-restore.error.xml.h:9
-#, fuzzy
-#| msgid "Delegate Permissions"
 msgid "Insufficient Permissions"
-msgstr "واگذاری اجازه‌ها"
+msgstr "اجازه‌های ناکافی"
 
 #: ../src/modules/backup-restore/org-gnome-backup-restore.error.xml.h:10
 msgid "The selected folder is not writable."
 msgstr "شاخهٔ گزیده قابل نوشتن نیست."
 
 #: ../src/modules/bogofilter/evolution-bogofilter.c:158
-#, fuzzy, c-format
-#| msgid "Failed to apply outgoing filters: %s"
+#, c-format
 msgid "Failed to spawn Bogofilter (%s): "
-msgstr "اعمال صافی‌های صادره شکست خورد: %s"
+msgstr "شکست در ایجاد Bogofilter (%s): "
 
 #: ../src/modules/bogofilter/evolution-bogofilter.c:176
 msgid "Failed to stream mail message content to Bogofilter: "
@@ -20723,10 +20659,8 @@ msgid "Bogofilter either crashed or failed to process a mail message"
 msgstr ""
 
 #: ../src/modules/bogofilter/evolution-bogofilter.c:370
-#, fuzzy
-#| msgid "Log filter actions"
 msgid "Bogofilter Options"
-msgstr "ثبت اعمال صافی"
+msgstr "گزینه‌های Bogofilter"
 
 #: ../src/modules/bogofilter/evolution-bogofilter.c:379
 msgid "Convert message text to _Unicode"
@@ -20743,10 +20677,8 @@ msgstr ""
 
 #: ../src/modules/book-config-carddav/evolution-book-config-carddav.c:93
 #: ../src/modules/book-config-google/e-google-book-chooser-button.c:207
-#, fuzzy
-#| msgid "New Address Book"
 msgid "Choose an Address Book"
-msgstr "دفترچه تلفن جدید"
+msgstr "'گزینش یک دفترچه نشانی"
 
 #: ../src/modules/book-config-carddav/evolution-book-config-carddav.c:199
 #: ../src/modules/book-config-carddav/evolution-book-config-carddav.c:212
@@ -20777,16 +20709,12 @@ msgid "URL is not a valid http:// nor https:// URL"
 msgstr "نشانی یک نشانی معتبر ‪http://‬ یا ‪https://‬ نیست"
 
 #: ../src/modules/book-config-google/e-google-book-chooser-button.c:134
-#, fuzzy
-#| msgid "Del_ete Address Book"
 msgid "Default User Address Book"
-msgstr "ح_ذف دفترچه تلفن"
+msgstr "دفترچه نشانی کاربر پیش‌گزیده"
 
 #: ../src/modules/book-config-google/evolution-book-config-google.c:75
-#, fuzzy
-#| msgid "Address B_ook:"
 msgid "Address Book:"
-msgstr "دفترچه تلفن:"
+msgstr "دفترچه نشانی:"
 
 #: ../src/modules/book-config-google/evolution-book-config-google.c:102
 #: ../src/modules/book-config-ldap/evolution-book-config-ldap.c:1071
@@ -20915,12 +20843,6 @@ msgid "Search Scope:"
 msgstr "حوزهٔ جست‌وجو:"
 
 #: ../src/modules/book-config-ldap/evolution-book-config-ldap.c:861
-#, fuzzy
-#| msgid ""
-#| "The search scope defines how deep you would like the search to extend down the "
-#| "directory tree. A search scope of \"sub\" will include all entries below your "
-#| "search base. A search scope of \"one\" will only include the entries one level "
-#| "beneath your base."
 msgid ""
 "The search scope defines how deep you would like the search to extend down the "
 "directory tree.  A search scope of “Subtree” will include all entries below your "
@@ -20928,8 +20850,8 @@ msgid ""
 "level beneath your search base."
 msgstr ""
 "محدودهٔ جست‌وجو معین می‌کند که می‌خواهید جست‌وجویتان تا چه عمقی در شاخه‌های درخت پایین "
-"برود. حوزهٔ جست‌وجوی «زیرشاخه» همهٔ ورودی‌های زیر پایهٔ جست‌وجوی شما را در بر خواهد "
-"گرفت. حوزهٔ جست‌وجوی «یک» تنها ورودی‌های یکی پایین‌تر از پایهٔ جست‌وجویتان را در بر "
+"برود.  حوزهٔ جست‌وجوی «زیرشاخه» همهٔ ورودی‌های زیر پایهٔ جست‌وجوی شما را در بر خواهد "
+"گرفت.  حوزهٔ جست‌وجوی «یک» تنها ورودی‌های یکی پایین‌تر از پایهٔ جست‌وجویتان را در بر "
 "خواهد گرفت."
 
 #: ../src/modules/book-config-ldap/evolution-book-config-ldap.c:870
@@ -20996,7 +20918,7 @@ msgstr "کارساز دعوت‌های جلسه را مدیریت می‌کند"
 
 #: ../src/modules/cal-config-contacts/evolution-cal-config-contacts.c:71
 msgid "Choose which address books to use."
-msgstr "گزینش دفترچه تلفن برای استفاده."
+msgstr "گزینش دفترچه نشانی برای استفاده."
 
 #: ../src/modules/cal-config-contacts/evolution-cal-config-contacts.c:201
 msgid "Use in Birthdays & Anniversaries calendar"
@@ -21124,34 +21046,26 @@ msgid "Select a Task List"
 msgstr "گزینش یک سیاههٔ تکلیف"
 
 #: ../src/modules/calendar/e-cal-attachment-handler.c:420
-#, fuzzy
-#| msgid "_Import to Calendar"
 msgid "I_mport to Calendar"
-msgstr "_وارد کردن به تقویم"
+msgstr "_درون‌ریزی در تقویم"
 
 #: ../src/modules/calendar/e-cal-attachment-handler.c:427
-#, fuzzy
-#| msgid "_Import to Tasks"
 msgid "I_mport to Memo List"
-msgstr "_وارد کردن به تکلیف‌ها"
+msgstr "_درون‌ریزی در سیاههٔ یادداشت"
 
 #: ../src/modules/calendar/e-cal-attachment-handler.c:434
-#, fuzzy
-#| msgid "_Import to Tasks"
 msgid "I_mport to Task List"
-msgstr "_وارد کردن به تکلیف‌ها"
+msgstr "_درون‌ریزی در سیاههٔ تکلیف"
 
 #: ../src/modules/calendar/e-cal-base-shell-sidebar.c:579
-#, fuzzy, c-format
-#| msgid "Found the appointment in the calendar '%s'"
+#, c-format
 msgid "Copying an event into the calendar “%s”"
-msgstr "قرار در تقویم «%s» پیدا شد"
+msgstr "رونوشت کردن رویدادی در تقویم «%s»"
 
 #: ../src/modules/calendar/e-cal-base-shell-sidebar.c:580
-#, fuzzy, c-format
-#| msgid "Found the appointment in the calendar '%s'"
+#, c-format
 msgid "Moving an event into the calendar “%s”"
-msgstr "قرار در تقویم «%s» پیدا شد"
+msgstr "جابه‌جا کردن رویدادی به تقویم «%s»"
 
 #: ../src/modules/calendar/e-cal-base-shell-sidebar.c:585
 #, c-format
@@ -21174,28 +21088,20 @@ msgid "Moving a task into the task list “%s”"
 msgstr "جابه‌جا کردن تکلیفی به سیاههٔ تکلیف «%s»"
 
 #: ../src/modules/calendar/e-cal-base-shell-sidebar.c:707
-#, fuzzy
-#| msgid "Calendar Source Selector"
 msgid "Calendar Selector"
-msgstr "انتخاب‌گر مبدأ تقویم"
+msgstr "گزینشگر تقویم"
 
 #: ../src/modules/calendar/e-cal-base-shell-sidebar.c:713
-#, fuzzy
-#| msgid "Memo Source Selector"
 msgid "Memo List Selector"
-msgstr "انتخاب‌کنندهٔ منبع یادداشت"
+msgstr "گزینشگر سیاههٔ یادداشت"
 
 #: ../src/modules/calendar/e-cal-base-shell-sidebar.c:718
-#, fuzzy
-#| msgid "Task Source Selector"
 msgid "Task List Selector"
-msgstr "انتخاب‌کنندهٔ منبع تکلیف"
+msgstr "گزینشگر سیاههٔ تکلیف"
 
 #: ../src/modules/calendar/e-calendar-preferences.c:548
-#, fuzzy
-#| msgid "Select the calendars for alarm notification"
 msgid "Selected Calendars for Notifications of Reminders"
-msgstr "تقویم‌های مورد استفاده برای اعلان هشدار را انتخاب کنید"
+msgstr "تقویم‌های گزیده برای آگاهی‌های یادآورها"
 
 #: ../src/modules/calendar/e-calendar-preferences.c:555
 msgid "Selected Task Lists for Notifications of Reminders"
@@ -21228,16 +21134,12 @@ msgid "Select the calendars to search for meeting conflicts"
 msgstr "انتخاب تقویم‌ها برای جست‌وجو به دنبال تداخل جسله‌ها"
 
 #: ../src/modules/calendar/e-calendar-preferences.c:1194
-#, fuzzy
-#| msgid "_Due date:"
 msgid "Ti_me and date:"
-msgstr "تاریخ _سررسید:"
+msgstr "_زمان و تاریخ"
 
 #: ../src/modules/calendar/e-calendar-preferences.c:1195
-#, fuzzy
-#| msgid "_Date completed:"
 msgid "_Date only:"
-msgstr "_تاریخ انجام:"
+msgstr "فقط _تاریخ:"
 
 #: ../src/modules/calendar/e-calendar-preferences.ui.h:1
 msgid "Minutes"
@@ -21272,10 +21174,8 @@ msgid "05 minutes"
 msgstr "۰۵ دقیقه"
 
 #: ../src/modules/calendar/e-calendar-preferences.ui.h:10
-#, fuzzy
-#| msgid "Time zone:"
 msgid "Se_cond zone:"
-msgstr "منطقهٔ زمانی:"
+msgstr "ناحیهٔ‌_ثانیه:"
 
 #: ../src/modules/calendar/e-calendar-preferences.ui.h:12
 msgid "(Shown in a Day View)"
@@ -21311,10 +21211,8 @@ msgid "End events earlier"
 msgstr ""
 
 #: ../src/modules/calendar/e-calendar-preferences.ui.h:23
-#, fuzzy
-#| msgid "Start Date"
 msgid "Start events later"
-msgstr "تاریخ آغاز"
+msgstr "آغاز دیرتر رویدادها"
 
 #: ../src/modules/calendar/e-calendar-preferences.ui.h:24
 #: ../src/modules/calendar/e-cal-shell-view-actions.c:1801
@@ -21337,7 +21235,7 @@ msgstr "_شروع روز:"
 #. Monday
 #: ../src/modules/calendar/e-calendar-preferences.ui.h:30
 msgid "_Mon"
-msgstr "_دوشنبه"
+msgstr "_د"
 
 #: ../src/modules/calendar/e-calendar-preferences.ui.h:31
 msgid "Monday"
@@ -21346,7 +21244,7 @@ msgstr "دوشنبه"
 #. Tuesday
 #: ../src/modules/calendar/e-calendar-preferences.ui.h:33
 msgid "_Tue"
-msgstr "_سه‌شنبه"
+msgstr "_س"
 
 #: ../src/modules/calendar/e-calendar-preferences.ui.h:34
 msgid "Tuesday"
@@ -21355,7 +21253,7 @@ msgstr "سه‌شنبه"
 #. Wednesday
 #: ../src/modules/calendar/e-calendar-preferences.ui.h:36
 msgid "_Wed"
-msgstr "_چهارشنبه"
+msgstr "_چ"
 
 #: ../src/modules/calendar/e-calendar-preferences.ui.h:37
 msgid "Wednesday"
@@ -21364,25 +21262,25 @@ msgstr "چهارشنبه"
 #. Thursday
 #: ../src/modules/calendar/e-calendar-preferences.ui.h:39
 msgid "T_hu"
-msgstr "_پنجشنبه"
+msgstr "_پ"
 
 #: ../src/modules/calendar/e-calendar-preferences.ui.h:40
 msgid "Thursday"
-msgstr "پنجشنبه"
+msgstr "پنج‌شنبه"
 
 #. Friday
 #: ../src/modules/calendar/e-calendar-preferences.ui.h:42
 msgid "_Fri"
-msgstr "_جمعه"
+msgstr "_آ"
 
 #: ../src/modules/calendar/e-calendar-preferences.ui.h:43
 msgid "Friday"
-msgstr "جمعه"
+msgstr "آدینه"
 
 #. Saturday
 #: ../src/modules/calendar/e-calendar-preferences.ui.h:45
 msgid "_Sat"
-msgstr "_شنبه"
+msgstr "_ش"
 
 #: ../src/modules/calendar/e-calendar-preferences.ui.h:46
 msgid "Saturday"
@@ -21391,11 +21289,11 @@ msgstr "شنبه"
 #. Sunday
 #: ../src/modules/calendar/e-calendar-preferences.ui.h:48
 msgid "S_un"
-msgstr "_یکشنبه"
+msgstr "_ی"
 
 #: ../src/modules/calendar/e-calendar-preferences.ui.h:49
 msgid "Sunday"
-msgstr "یکشنبه"
+msgstr "یک‌شنبه"
 
 #: ../src/modules/calendar/e-calendar-preferences.ui.h:50
 msgid "Day _ends:"
@@ -22682,13 +22580,13 @@ msgid_plural "%d tasks"
 msgstr[0] "‫%d تکلیف"
 msgstr[1] "‫%d تکلیف"
 
-#: ../src/modules/composer-to-meeting/e-composer-to-meeting.c:380
+#: ../src/modules/composer-to-meeting/e-composer-to-meeting.c:392
 #, fuzzy
 #| msgid "Con_vert to Meeting"
 msgid "Convert to M_eeting"
 msgstr "_تبدیل به جلسه"
 
-#: ../src/modules/composer-to-meeting/e-composer-to-meeting.c:382
+#: ../src/modules/composer-to-meeting/e-composer-to-meeting.c:394
 #, fuzzy
 #| msgid "Create a new meeting request"
 msgid "Convert the message to a meeting request"
@@ -25351,7 +25249,7 @@ msgstr "نمایش کارت مجازی فشرده"
 #, fuzzy
 #| msgid "Save in addressbook"
 msgid "Save _To Addressbook"
-msgstr "ذخیره در دفترچه تلفن"
+msgstr "ذخیره در دفترچه نشانی"
 
 #: ../src/modules/vcard-inline/e-mail-formatter-vcard.c:228
 #, fuzzy
@@ -25372,7 +25270,7 @@ msgstr[1] "%Id آشنای دیگر هستند."
 #, fuzzy
 #| msgid "Addressbook"
 msgid "Addressbook Contact"
-msgstr "دفترچه تلفن"
+msgstr "دفترچه نشانی"
 
 #: ../src/modules/vcard-inline/e-mail-formatter-vcard.c:260
 msgid "Display the part as an addressbook contact"
@@ -25466,7 +25364,7 @@ msgstr "همگام‌سازی ادواری اطلاعات و تصاویر آشن
 #, fuzzy
 #| msgid "Select Address Book"
 msgid "Select Address book for Pidgin buddy list"
-msgstr "انتخاب دفترچه تلفن"
+msgstr "انتخاب دفترچه نشانی"
 
 #. Synchronize now button.
 #: ../src/plugins/bbdb/bbdb.c:813
@@ -25489,7 +25387,7 @@ msgid ""
 "to messages.  Also fills in IM contact information from your buddy lists."
 msgstr ""
 "هر وقت به پیامی پاسخ می‌دهید به طور خودکار نام و نشانی رایانامه گیرنده را در "
-"دفترچه تلفن شما پر می‌کند. همچنین اطلاعات مربوط به اطلاعات تماس پیام فوری را از "
+"دفترچه نشانی شما پر می‌کند. همچنین اطلاعات مربوط به اطلاعات تماس پیام فوری را از "
 "فهرست رفقای شما می‌گیرد."
 
 #: ../src/plugins/dbx-import/dbx-importer.c:274
@@ -25985,7 +25883,7 @@ msgid "Notifies you when new mail messages arrive."
 msgstr "پروندهٔ صوتی که هنگام رسیدن نامهٔ جدید پخش می‌شود."
 
 #. To Translators: The full sentence looks like: "Created from a mail by John Doe <john.doe@myco.example>"
-#: ../src/plugins/mail-to-task/mail-to-task.c:198
+#: ../src/plugins/mail-to-task/mail-to-task.c:199
 #, c-format
 msgid "Created from a mail by %s"
 msgstr "ایجاد شده از نامه‌ای به دست %s"
@@ -26108,49 +26006,55 @@ msgid ""
 "list, please."
 msgstr ""
 
-#: ../src/plugins/mail-to-task/mail-to-task.c:1331
+#: ../src/plugins/mail-to-task/mail-to-task.c:951
+#, fuzzy, c-format
+#| msgid "Cannot create object"
+msgid "Cannot create component: %s"
+msgstr "نمی‌توان شیء را ایجاد کرد"
+
+#: ../src/plugins/mail-to-task/mail-to-task.c:1328
 #, fuzzy
 #| msgid "Create a new appointment"
 msgid "Create an _Appointment"
 msgstr "ایجاد یک قرار جدید"
 
-#: ../src/plugins/mail-to-task/mail-to-task.c:1333
+#: ../src/plugins/mail-to-task/mail-to-task.c:1330
 #, fuzzy
 #| msgid "Compose a reply to the sender of the selected message"
 msgid "Create a new event from the selected message"
 msgstr "نگارش پاسخ برای فرستندهٔ پیام گزیده"
 
-#: ../src/plugins/mail-to-task/mail-to-task.c:1338
+#: ../src/plugins/mail-to-task/mail-to-task.c:1335
 #, fuzzy
 #| msgid "Create a new memo"
 msgid "Create a Mem_o"
 msgstr "ایجاد یک یادداشت جدید"
 
-#: ../src/plugins/mail-to-task/mail-to-task.c:1340
+#: ../src/plugins/mail-to-task/mail-to-task.c:1337
 #, fuzzy
 #| msgid "Compose a reply to the sender of the selected message"
 msgid "Create a new memo from the selected message"
 msgstr "نگارش پاسخ برای فرستندهٔ پیام گزیده"
 
-#: ../src/plugins/mail-to-task/mail-to-task.c:1345
+#: ../src/plugins/mail-to-task/mail-to-task.c:1342
 #, fuzzy
 #| msgid "Create a new task"
 msgid "Create a _Task"
 msgstr "ایجاد یک تکلیف جدید"
 
-#: ../src/plugins/mail-to-task/mail-to-task.c:1347
+#: ../src/plugins/mail-to-task/mail-to-task.c:1344
 #, fuzzy
 #| msgid "Compose a reply to the sender of the selected message"
 msgid "Create a new task from the selected message"
 msgstr "نگارش پاسخ برای فرستندهٔ پیام گزیده"
 
-#: ../src/plugins/mail-to-task/mail-to-task.c:1355
+#: ../src/plugins/mail-to-task/mail-to-task.c:1352
 #, fuzzy
 #| msgid "New _Meeting"
 msgid "Create a _Meeting"
 msgstr "_جلسهٔ جدید"
 
-#: ../src/plugins/mail-to-task/mail-to-task.c:1357
+#: ../src/plugins/mail-to-task/mail-to-task.c:1354
 #, fuzzy
 #| msgid "Create a new meeting request"
 msgid "Create a new meeting from the selected message"
@@ -26192,7 +26096,7 @@ msgstr "شاخهٔ مقصد:"
 #, fuzzy
 #| msgid "Address Book"
 msgid "_Address Book"
-msgstr "دفترچه تلفن"
+msgstr "دفترچه نشانی"
 
 #: ../src/plugins/pst-import/pst-importer.c:566
 #, fuzzy
@@ -26524,7 +26428,7 @@ msgstr ""
 #, fuzzy
 #| msgid "Add Sender to Address Book"
 msgid "Confirm sender address"
-msgstr "افزودن فرستنده به دفترچه تلفن"
+msgstr "افزودن فرستنده به دفترچه نشانی"
 
 #: ../src/plugins/sender-validation/org-gnome-sender-validation.error.xml.h:2
 msgid ""
@@ -26613,7 +26517,7 @@ msgstr "جست‌وجوها"
 msgid "Save Search"
 msgstr "ذخیرهٔ جست‌وجو"
 
-#: ../src/shell/e-shell-headerbar.c:213
+#: ../src/shell/e-shell-headerbar.c:161
 msgctxt "toolbar-button"
 msgid "New"
 msgstr "جدید"
@@ -27274,7 +27178,7 @@ msgstr "بازیابی"
 #, fuzzy
 #| msgid "Unable to open address book"
 msgid "Failed to connect address book “{0}”"
-msgstr "ناتوان در گشودن دفترچه تلفن"
+msgstr "ناتوان در گشودن دفترچه نشانی"
 
 #: ../src/shell/shell.error.xml.h:20
 #, fuzzy
@@ -27867,13 +27771,13 @@ msgstr "ایجاد شاخهٔ جدید «%s» امکان پذیر نیست: %s"
 #, fuzzy, c-format
 #| msgid "Unable to book a resource, error: "
 msgid "Unable to add key/cert to the store, err_code: %i"
-msgstr "گشودن دفترچه تلفن ممکن نیست، خطا:"
+msgstr "گشودن دفترچه نشانی ممکن نیست، خطا:"
 
 #: ../src/smime/lib/e-pkcs12.c:433
 #, fuzzy, c-format
 #| msgid "Unable to book a resource, error: "
 msgid "Unable to write store to disk, err_code: %i"
-msgstr "گشودن دفترچه تلفن ممکن نیست، خطا:"
+msgstr "گشودن دفترچه نشانی ممکن نیست، خطا:"
 
 #: ../src/smime/lib/e-pkcs12.c:460
 msgid "Imported Certificate"
@@ -28153,9 +28057,6 @@ msgstr "گواهی وارد شده"
 
 #~ msgid "Could not open destination"
 #~ msgstr "باز کردن مقصد ممکن نیست"
-
-#~ msgid "Cannot create object"
-#~ msgstr "نمی‌توان شیء را ایجاد کرد"
 
 #~ msgid "Could not open source"
 #~ msgstr "باز کردن مبدأ ممکن نیست"
