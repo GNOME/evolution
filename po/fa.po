@@ -11,8 +11,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: evolution\n"
 "Report-Msgid-Bugs-To: https://gitlab.gnome.org/GNOME/evolution/issues\n"
-"POT-Creation-Date: 2022-08-06 14:45+0000\n"
-"PO-Revision-Date: 2022-08-07 03:50+0430\n"
+"POT-Creation-Date: 2022-08-06 23:21+0000\n"
+"PO-Revision-Date: 2022-08-07 17:24+0430\n"
 "Last-Translator: Danial Behzadi <dani.behzi@ubuntu.com>\n"
 "Language-Team: Persian <>\n"
 "Language: fa\n"
@@ -14917,7 +14917,7 @@ msgstr "اجازهٔ ایجاد دفترچه زیر تقویم یا دفترچه
 #. if (button == webdav_browser->priv->create_calendar_button)
 #: ../src/e-util/e-webdav-browser.c:2089
 msgid "It is not allowed to create calendar under another book or calendar"
-msgstr "اجازهٔ ایجاد تثویم زیر تقویم یا دفترچهٔ دیگری وجود ندارد"
+msgstr "اجازهٔ ایجاد تقویم زیر تقویم یا دفترچهٔ دیگری وجود ندارد"
 
 #: ../src/e-util/e-webdav-browser.c:2336
 msgid "Deleting book…"
@@ -21135,7 +21135,7 @@ msgstr "انتخاب تقویم‌ها برای جست‌وجو به دنبال 
 
 #: ../src/modules/calendar/e-calendar-preferences.c:1194
 msgid "Ti_me and date:"
-msgstr "_زمان و تاریخ"
+msgstr "_زمان و تاریخ:"
 
 #: ../src/modules/calendar/e-calendar-preferences.c:1195
 msgid "_Date only:"
@@ -21308,10 +21308,8 @@ msgid "Use ma_rkdown for Description in the component editor"
 msgstr ""
 
 #: ../src/modules/calendar/e-calendar-preferences.ui.h:56
-#, fuzzy
-#| msgid "Send Options"
 msgid "View Options"
-msgstr "گزینه‌ها ارسال"
+msgstr "گزینه‌های نما"
 
 #: ../src/modules/calendar/e-calendar-preferences.ui.h:57
 msgid "_Time divisions:"
@@ -21322,20 +21320,16 @@ msgid "_Show appointment end times in week and month view"
 msgstr "_نمایش زمان پایان قرارها در نمای هفته و ماه"
 
 #: ../src/modules/calendar/e-calendar-preferences.ui.h:59
-#, fuzzy
-#| msgid "Show appointment end times in week and month views"
 msgid "Show appointment _icons in the month view"
-msgstr "نمایش زمان پایان قرارها در نمای هفته و ماه"
+msgstr "نمایش _نقشک قرارها در نمای ماه"
 
 #: ../src/modules/calendar/e-calendar-preferences.ui.h:60
 msgid "_Compress weekends in month view"
 msgstr "_فشرده کردن آخرهفته‌ها در نمای ماه"
 
 #: ../src/modules/calendar/e-calendar-preferences.ui.h:61
-#, fuzzy
-#| msgid "Show week _numbers in date navigator"
 msgid "Show week _numbers"
-msgstr "نمایش _شمارهٔ هفته در ناوشگر تاریخ"
+msgstr "نمایش _شمارهٔ هفته"
 
 #: ../src/modules/calendar/e-calendar-preferences.ui.h:62
 msgid "Show r_ecurring events in italic in bottom left calendar"
@@ -21358,10 +21352,8 @@ msgid "Allo_w direct edit of event Summary"
 msgstr ""
 
 #: ../src/modules/calendar/e-calendar-preferences.ui.h:67
-#, fuzzy
-#| msgid "User canceled operation."
 msgid "Hi_de cancelled events"
-msgstr "کاربر از عملیات منصر شد"
+msgstr "_نهفتن رویدادهای لغو شده"
 
 #: ../src/modules/calendar/e-calendar-preferences.ui.h:68
 msgid "Alerts"
@@ -21380,26 +21372,20 @@ msgid "Highlight t_asks due today"
 msgstr "نشانه‌گذاری _تکلیف‌های امروز"
 
 #: ../src/modules/calendar/e-calendar-preferences.ui.h:74
-#, fuzzy
-#| msgid "_Overdue tasks:"
 msgid "Highlight _overdue tasks"
-msgstr "تکلیف‌های _عقب افتاده"
+msgstr "برجسته کردن تکلیف‌های _عقب‌ افتاده"
 
 #: ../src/modules/calendar/e-calendar-preferences.ui.h:75
 msgid "_Hide completed tasks after"
 msgstr "_نهفتن تکلیف‌های انجام شده پس از"
 
 #: ../src/modules/calendar/e-calendar-preferences.ui.h:76
-#, fuzzy
-#| msgid "Hide completed tasks"
 msgid "Hid_e cancelled tasks"
-msgstr "نهفتن تکلیف‌های انجام شده"
+msgstr "نهفتن تکلیف‌های _لغو شده"
 
 #: ../src/modules/calendar/e-calendar-preferences.ui.h:77
-#, fuzzy
-#| msgid "To Do"
 msgid "To Do bar"
-msgstr "رسیدگی شود"
+msgstr "نوار برای انجام"
 
 #: ../src/modules/calendar/e-calendar-preferences.ui.h:78
 msgid "Show Tasks without _Due date"
@@ -21418,61 +21404,43 @@ msgid "da_ys"
 msgstr "رو_ز"
 
 #: ../src/modules/calendar/e-calendar-preferences.ui.h:85
-#, fuzzy
-#| msgid "Show display alarms in notification tray"
 msgid "Display Reminders window with _notifications"
-msgstr "نمایش هشدارهای نمایشی در سینی اطلاع"
+msgstr "نمایش پنجرهٔ یادآور با _آگاهی‌ها"
 
 #: ../src/modules/calendar/e-calendar-preferences.ui.h:86
-#, fuzzy
-#| msgid "Show display alarms in notification tray"
 msgid "Keep reminder notification _window always on top"
-msgstr "نمایش هشدارهای نمایشی در سینی اطلاع"
+msgstr "همواره بالا نگه داشتن _پنجرهٔ آگاهی یادآور"
 
 #: ../src/modules/calendar/e-calendar-preferences.ui.h:87
-#, fuzzy
-#| msgid "Calendar event notifications"
 msgid "Enable de_sktop notifications"
-msgstr "رویدادهای تقویم و هشدارها"
+msgstr "به کار انداختن آگاهی‌‌های _میزکار"
 
 #: ../src/modules/calendar/e-calendar-preferences.ui.h:88
-#, fuzzy
-#| msgid "Calendar event notifications"
 msgid "Enable _audio notifications"
-msgstr "رویدادهای تقویم و هشدارها"
+msgstr "به کار انداختن آگاهی‌‌های _صوتی"
 
 #: ../src/modules/calendar/e-calendar-preferences.ui.h:89
-#, fuzzy
-#| msgid "Delete completed tasks"
 msgid "Display reminders for completed _tasks"
-msgstr "حذف تکلیف‌های انجام شده"
+msgstr "نمایش یادآور برای _تکلیف‌های انجام شده"
 
 #: ../src/modules/calendar/e-calendar-preferences.ui.h:90
-#, fuzzy
-#| msgid "Set or unset reminders for this event"
 msgid "Display reminders for _past events"
-msgstr "تنظیم یا بازنشانی یادآوری‌ها برای این رویداد"
+msgstr "نمایش یادآور برای رویدادهای _گذشته"
 
 #. This is the first half of a user preference. "Set default reminder [time-period] before every new appointment"
 #: ../src/modules/calendar/e-calendar-preferences.ui.h:92
-#, fuzzy
-#| msgid "Default reminder value"
 msgid "Set _default reminder"
-msgstr "مقدار یادآور پیش‌گزیده"
+msgstr "تنظیم یادآور _پیش‌گزیده"
 
 #. This is the last half of a user preference. "Set default reminder [time-period] before every new appointment"
 #: ../src/modules/calendar/e-calendar-preferences.ui.h:94
-#, fuzzy
-#| msgid "before every appointment"
 msgid "before every new appointment"
-msgstr "پیش از هر قرار"
+msgstr "پیش از هر قرار جدید"
 
 #. This is the first half of a user preference. "Show a reminder [time-period] before every anniversary/birthday"
 #: ../src/modules/calendar/e-calendar-preferences.ui.h:96
-#, fuzzy
-#| msgid "Sh_ow a reminder"
 msgid "Show a _reminder"
-msgstr "نمای_ش یک یادآور"
+msgstr "نمایش یک _یادآور"
 
 #. This is the last half of a user preference. "Show a reminder [time-period] before every anniversary/birthday"
 #: ../src/modules/calendar/e-calendar-preferences.ui.h:98
@@ -21484,10 +21452,8 @@ msgid "Select the sources for reminder notification:"
 msgstr "گزینش منبع‌ها برای آگاهی یادآوری:"
 
 #: ../src/modules/calendar/e-calendar-preferences.ui.h:102
-#, fuzzy
-#| msgid "<b>Default Free/Busy Server</b>"
 msgid "Default Free/Busy Server"
-msgstr "<b>کارساز پیش‌گزیده آزاد/مشغول</b>"
+msgstr "کارساز آزاد/مشغول پیش‌گزیده"
 
 #: ../src/modules/calendar/e-calendar-preferences.ui.h:105
 #, no-c-format
@@ -21501,10 +21467,8 @@ msgid ""
 msgstr ""
 
 #: ../src/modules/calendar/e-calendar-preferences.ui.h:107
-#, fuzzy
-#| msgid "Publishing Location"
 msgid "Publishing Information"
-msgstr "مکان انتشار"
+msgstr "اطَلاعات انتشار"
 
 #: ../src/modules/calendar/e-cal-shell-backend.c:118
 msgctxt "New"
@@ -21567,10 +21531,8 @@ msgid "Purge events older than"
 msgstr "محو رویدادهای قدیمی‌تر از"
 
 #: ../src/modules/calendar/e-cal-shell-view-actions.c:1005
-#, fuzzy
-#| msgid "Make this Occurrence _Movable"
 msgid "Making an occurrence movable"
-msgstr "قابل جابه‌جایی کردن این دفعه"
+msgstr "قابل جابه‌جایی کردن یک تکرار"
 
 #. Translators: Default filename part saving an event to a file when
 #. * no summary is filed, the '.ics' extension is concatenated to it.
@@ -21583,10 +21545,8 @@ msgstr "رویداد"
 #: ../src/modules/calendar/e-cal-shell-view-taskpad.c:278
 #: ../src/modules/calendar/e-memo-shell-view-actions.c:510
 #: ../src/modules/calendar/e-task-shell-view-actions.c:629
-#, fuzzy
-#| msgid "New Calendar"
 msgid "Save as iCalendar"
-msgstr "تقویم جدید"
+msgstr "ذخیره به شکل iCalendar"
 
 #: ../src/modules/calendar/e-cal-shell-view-actions.c:1306
 #: ../src/modules/calendar/e-memo-shell-view-actions.c:591
@@ -21595,16 +21555,12 @@ msgid "_Copy…"
 msgstr "_رونوشت…"
 
 #: ../src/modules/calendar/e-cal-shell-view-actions.c:1313
-#, fuzzy
-#| msgid "Select Calendar"
 msgid "D_elete Calendar"
-msgstr "انتخاب تقویم"
+msgstr "_حذف تقویم"
 
 #: ../src/modules/calendar/e-cal-shell-view-actions.c:1315
-#, fuzzy
-#| msgid "Delete the selected folder"
 msgid "Delete the selected calendar"
-msgstr "حذف شاخهٔ گزیده"
+msgstr "حذف تقویم گزیده"
 
 #: ../src/modules/calendar/e-cal-shell-view-actions.c:1322
 msgid "Go Back"
@@ -21648,22 +21604,16 @@ msgid "Purge old appointments and meetings"
 msgstr "پاک‌سازی جلسات و قرارهای قدیمی"
 
 #: ../src/modules/calendar/e-cal-shell-view-actions.c:1378
-#, fuzzy
-#| msgid "Rename the selected folder"
 msgid "Refresh the selected calendar"
-msgstr "تغییر نام شاخهٔ گزیده"
+msgstr "نوسازی تقویم گزیده"
 
 #: ../src/modules/calendar/e-cal-shell-view-actions.c:1383
-#, fuzzy
-#| msgid "Rename the selected folder"
 msgid "Re_fresh list of account calendars"
-msgstr "تغییر نام شاخهٔ گزیده"
+msgstr "_نوسازی سیاههٔ حساب‌های تقویم"
 
 #: ../src/modules/calendar/e-cal-shell-view-actions.c:1392
-#, fuzzy
-#| msgid "Rename the selected folder"
 msgid "Rename the selected calendar"
-msgstr "تغییر نام شاخهٔ گزیده"
+msgstr "تغییر نام تقویم گزیده"
 
 #: ../src/modules/calendar/e-cal-shell-view-actions.c:1397
 msgid "Find _Next"
@@ -21690,14 +21640,10 @@ msgid "Stop currently running search"
 msgstr "توقّف جست‌وجوی در حال اجرای کنونی"
 
 #: ../src/modules/calendar/e-cal-shell-view-actions.c:1418
-#, fuzzy
-#| msgid "Local Calendars"
 msgid "Sho_w All Calendars"
-msgstr "تقویم‌های محلی"
+msgstr "_نمایش تمامی تقویم‌ها"
 
 #: ../src/modules/calendar/e-cal-shell-view-actions.c:1425
-#, fuzzy
-#| msgid "Show _only this Calendar"
 msgid "Show _Only This Calendar"
 msgstr "نمایش _فقط این تقویم"
 
@@ -21706,50 +21652,36 @@ msgid "Cop_y to Calendar…"
 msgstr "_رونوشت به تقویم…"
 
 #: ../src/modules/calendar/e-cal-shell-view-actions.c:1439
-#, fuzzy
-#| msgid "_Delegate Meeting..."
 msgid "_Delegate Meeting…"
-msgstr "_واگذاری جلسه..."
+msgstr "_واگذاری جلسه…"
 
 #: ../src/modules/calendar/e-cal-shell-view-actions.c:1446
-#, fuzzy
-#| msgid "Delete the appointment"
 msgid "_Delete Appointment"
-msgstr "حذف قرار"
+msgstr "_واگذاری قرار"
 
 #: ../src/modules/calendar/e-cal-shell-view-actions.c:1448
-#, fuzzy
-#| msgid "Delete the appointment"
 msgid "Delete selected appointments"
-msgstr "حذف قرار"
+msgstr "حذف قرارهای گزیده"
 
 #: ../src/modules/calendar/e-cal-shell-view-actions.c:1453
-#, fuzzy
-#| msgid "Delete this _Occurrence"
 msgid "Delete This _Occurrence"
-msgstr "حذف این _دفعه"
+msgstr "حذف این _رخداد"
 
 #: ../src/modules/calendar/e-cal-shell-view-actions.c:1455
 msgid "Delete this occurrence"
 msgstr "حذف این مورد"
 
 #: ../src/modules/calendar/e-cal-shell-view-actions.c:1460
-#, fuzzy
-#| msgid "Delete this _Occurrence"
 msgid "Delete This and F_uture Occurrences"
-msgstr "حذف این _دفعه"
+msgstr "حذف این رخداد و رخدادهای _آینده"
 
 #: ../src/modules/calendar/e-cal-shell-view-actions.c:1462
-#, fuzzy
-#| msgid "Delete this occurrence"
 msgid "Delete this and any future occurrences"
-msgstr "حذف این مورد"
+msgstr "حذف این رخداد و تمامی رخدادهای آینده"
 
 #: ../src/modules/calendar/e-cal-shell-view-actions.c:1467
-#, fuzzy
-#| msgid "Delete _All Occurrences"
 msgid "Delete All Occ_urrences"
-msgstr "حذف _همهٔ دفعات"
+msgstr "حذف _تمامی رخدادها"
 
 #: ../src/modules/calendar/e-cal-shell-view-actions.c:1469
 msgid "Delete all occurrences"
@@ -21760,20 +21692,16 @@ msgid "Edit as Ne_w…"
 msgstr "ویرایش به عنوان _جدید…"
 
 #: ../src/modules/calendar/e-cal-shell-view-actions.c:1476
-#, fuzzy
-#| msgid "View the current appointment"
 msgid "Edit the current appointment as new"
-msgstr "نمایش قرار فعلی"
+msgstr "ویرایش قرار کنونی به عنوان جدید"
 
 #: ../src/modules/calendar/e-cal-shell-view-actions.c:1481
 msgid "New All Day _Event…"
 msgstr "_رویداد تمام‌روز جدید…"
 
 #: ../src/modules/calendar/e-cal-shell-view-actions.c:1483
-#, fuzzy
-#| msgid "Create a new all-day appointment"
 msgid "Create a new all day event"
-msgstr "ایجاد یک قرار تمام روز جدید"
+msgstr "ایجاد یک رخداد تمام روز جدید"
 
 #: ../src/modules/calendar/e-cal-shell-view-actions.c:1488
 #: ../src/modules/calendar/e-cal-shell-view-memopad.c:238
@@ -21784,40 +21712,28 @@ msgid "_Forward as iCalendar…"
 msgstr "_هدایت به شکل iCalendar…"
 
 #: ../src/modules/calendar/e-cal-shell-view-actions.c:1497
-#, fuzzy
-#| msgid "Create a new meeting request"
 msgid "Create a new meeting"
-msgstr "ایجاد یک درخواست جلسهٔ جدید"
+msgstr "ایجاد یک جلسهٔ جدید"
 
 #: ../src/modules/calendar/e-cal-shell-view-actions.c:1502
-#, fuzzy
-#| msgid "_RSVP"
 msgid "Send _RSVP"
-msgstr "_لطفاً پاسخ دهید"
+msgstr "فرستادن _لطفاً پاسخ دهید"
 
 #: ../src/modules/calendar/e-cal-shell-view-actions.c:1504
-#, fuzzy
-#| msgid "Signing message"
 msgid "Send a meeting response"
-msgstr "در حال امضا کردن پیام"
+msgstr "فرستادن یک پاسخ جلسه"
 
 #: ../src/modules/calendar/e-cal-shell-view-actions.c:1509
-#, fuzzy
-#| msgid "Accept"
 msgid "_Accept"
-msgstr "پذیرش"
+msgstr "_پذیرش"
 
 #: ../src/modules/calendar/e-cal-shell-view-actions.c:1511
-#, fuzzy
-#| msgid "Create a new meeting request"
 msgid "Accept meeting request"
-msgstr "ایجاد یک درخواست جلسهٔ جدید"
+msgstr "پذیرش درخواست جلسه"
 
 #: ../src/modules/calendar/e-cal-shell-view-actions.c:1516
-#, fuzzy
-#| msgid "Delete this _Occurrence"
 msgid "A_ccept this instance"
-msgstr "حذف این _دفعه"
+msgstr "_پذیرش این نمونه"
 
 #: ../src/modules/calendar/e-cal-shell-view-actions.c:1518
 msgid "Accept meeting request for selected instance only"
@@ -21829,38 +21745,28 @@ msgid "_Decline"
 msgstr "_رد"
 
 #: ../src/modules/calendar/e-cal-shell-view-actions.c:1525
-#, fuzzy
-#| msgid "Create a new meeting request"
 msgid "Decline meeting request"
-msgstr "ایجاد یک درخواست جلسهٔ جدید"
+msgstr "رد درخواست جلسه"
 
 #: ../src/modules/calendar/e-cal-shell-view-actions.c:1530
-#, fuzzy
-#| msgid "Delete this _Occurrence"
 msgid "D_ecline this instance"
-msgstr "حذف این _دفعه"
+msgstr "_رد این نمونه"
 
 #: ../src/modules/calendar/e-cal-shell-view-actions.c:1532
 msgid "Decline meeting request for selected instance only"
 msgstr ""
 
 #: ../src/modules/calendar/e-cal-shell-view-actions.c:1537
-#, fuzzy
-#| msgid "Tentatively accept"
 msgid "_Tentatively accept"
-msgstr "پذیرش احتمالی"
+msgstr "پذیرش _احتمالی"
 
 #: ../src/modules/calendar/e-cal-shell-view-actions.c:1539
-#, fuzzy
-#| msgid "Create a new meeting request"
 msgid "Tentatively accept meeting request"
-msgstr "ایجاد یک درخواست جلسهٔ جدید"
+msgstr "پذیرش احتمالی درخواست جلسه"
 
 #: ../src/modules/calendar/e-cal-shell-view-actions.c:1544
-#, fuzzy
-#| msgid "Tentatively accept"
 msgid "Te_ntatively accept this instance"
-msgstr "پذیرش احتمالی"
+msgstr "پذیرش احتمالی این _نمونه"
 
 #: ../src/modules/calendar/e-cal-shell-view-actions.c:1546
 msgid "Tentatively accept meeting request for selected instance only"
@@ -21887,48 +21793,36 @@ msgid "_Schedule Meeting…"
 msgstr "_زمان‌بندی جلسه…"
 
 #: ../src/modules/calendar/e-cal-shell-view-actions.c:1595
-#, fuzzy
-#| msgid "Purge old appointments and meetings"
 msgid "Converts an appointment to a meeting"
-msgstr "پاک‌سازی جلسات و قرارهای قدیمی"
+msgstr "تبدیل قرار به جلسه"
 
 #: ../src/modules/calendar/e-cal-shell-view-actions.c:1600
 msgid "Conv_ert to Appointment…"
 msgstr "_تبدیل به قرار ملاقات…"
 
 #: ../src/modules/calendar/e-cal-shell-view-actions.c:1602
-#, fuzzy
-#| msgid "%s at the end of the appointment"
 msgid "Converts a meeting to an appointment"
-msgstr "%s در پایان قرار"
+msgstr "تبدیل جلسه به قرار"
 
 #: ../src/modules/calendar/e-cal-shell-view-actions.c:1607
 msgid "Quit"
 msgstr "_خروج"
 
 #: ../src/modules/calendar/e-cal-shell-view-actions.c:1744
-#, fuzzy
-#| msgid "Message _Preview"
 msgid "Show Event _Preview"
-msgstr "_پیش‌نمایش پیام"
+msgstr "نمایش _پیش‌نمایش رویداد"
 
 #: ../src/modules/calendar/e-cal-shell-view-actions.c:1746
-#, fuzzy
-#| msgid "Show preview pane"
 msgid "Show event preview pane"
-msgstr "نمایش قاب پیش‌نمایش"
+msgstr "نمایش قاب پیش‌نمایش رویداد"
 
 #: ../src/modules/calendar/e-cal-shell-view-actions.c:1752
-#, fuzzy
-#| msgid "Show preview pane"
 msgid "Show T_asks and Memos pane"
-msgstr "نمایش قاب پیش‌نمایش"
+msgstr "نمایش قاب _تکلیف‌ها و یادداشت ‌ها"
 
 #: ../src/modules/calendar/e-cal-shell-view-actions.c:1754
-#, fuzzy
-#| msgid "Show preview pane"
 msgid "Show Tasks and Memos pane"
-msgstr "نمایش قاب پیش‌نمایش"
+msgstr "نمایش قاب تکلیف‌ها و یادداشت ‌ها"
 
 #: ../src/modules/calendar/e-cal-shell-view-actions.c:1773
 msgid "Day"
@@ -21963,50 +21857,36 @@ msgid "Show one week"
 msgstr "نمایش یک هفته"
 
 #: ../src/modules/calendar/e-cal-shell-view-actions.c:1803
-#, fuzzy
-#| msgid "Show one week"
 msgid "Show one work week"
-msgstr "نمایش یک هفته"
+msgstr "نمایش یک هفتهٔ کاری"
 
 #: ../src/modules/calendar/e-cal-shell-view-actions.c:1808
 msgid "Year"
 msgstr "سال"
 
 #: ../src/modules/calendar/e-cal-shell-view-actions.c:1810
-#, fuzzy
-#| msgid "Status _Bar"
 msgid "Show as year"
-msgstr "_نوار وضعیت"
+msgstr "نمایش به شکل سال"
 
 #: ../src/modules/calendar/e-cal-shell-view-actions.c:1828
-#, fuzzy
-#| msgid "_Horizontal:"
 msgid "_Horizontal View"
-msgstr "_افقی:"
+msgstr "نمای _افقی"
 
 #: ../src/modules/calendar/e-cal-shell-view-actions.c:1830
-#, fuzzy
-#| msgid "Show task preview window"
 msgid "Show event preview below the calendar"
-msgstr "نمایش پنجرهٔ پیش‌نمایش تکلیف"
+msgstr "نمایش پیش‌نمایش رویداد زیر تقویم"
 
 #: ../src/modules/calendar/e-cal-shell-view-actions.c:1837
-#, fuzzy
-#| msgid "Show task preview window"
 msgid "Show event preview alongside the calendar"
-msgstr "نمایش پنجرهٔ پیش‌نمایش تکلیف"
+msgstr "نمایش پیش‌نمایش رویداد کنار تقویم"
 
 #: ../src/modules/calendar/e-cal-shell-view-actions.c:1845
-#, fuzzy
-#| msgid "Save Appointment"
 msgid "Active Appointments"
-msgstr "ذخیرهٔ قرار"
+msgstr "قرارهای فعّال"
 
 #: ../src/modules/calendar/e-cal-shell-view-actions.c:1859
-#, fuzzy
-#| msgid "All Day A_ppointment"
 msgid "Next 7 Days’ Appointments"
-msgstr "قرار تمام روز"
+msgstr "قرارهای ۷ روز آینده"
 
 #: ../src/modules/calendar/e-cal-shell-view-actions.c:1866
 msgid "Occurs Less Than 5 Times"
@@ -22040,8 +21920,6 @@ msgid "Print this calendar"
 msgstr "چاپ این تقویم"
 
 #: ../src/modules/calendar/e-cal-shell-view-actions.c:1923
-#, fuzzy
-#| msgid "Previews the calendar to be printed"
 msgid "Preview the calendar to be printed"
 msgstr "پیش‌نمایش تقویمی که قرار است چاپ شود"
 
@@ -22061,18 +21939,13 @@ msgstr "رفتن به"
 #. * no summary is filed, the '.ics' extension is concatenated to it.
 #: ../src/modules/calendar/e-cal-shell-view-memopad.c:202
 #: ../src/modules/calendar/e-memo-shell-view-actions.c:508
-#, fuzzy
-#| msgid "%d memo"
-#| msgid_plural "%d memos"
 msgid "memo"
-msgstr "%Id یادداشت"
+msgstr "یادداشت"
 
 #: ../src/modules/calendar/e-cal-shell-view-memopad.c:245
 #: ../src/modules/calendar/e-memo-shell-view-actions.c:661
-#, fuzzy
-#| msgid "New memo"
 msgid "New _Memo"
-msgstr "یادداشت جدید"
+msgstr "_یادداشت جدید"
 
 #: ../src/modules/calendar/e-cal-shell-view-memopad.c:247
 #: ../src/modules/calendar/e-memo-shell-backend.c:79
@@ -22099,10 +21972,8 @@ msgstr "گشودن صفحهٔ وب"
 
 #: ../src/modules/calendar/e-cal-shell-view-memopad.c:271
 #: ../src/modules/calendar/e-memo-shell-view-actions.c:847
-#, fuzzy
-#| msgid "View the selected memo"
 msgid "Print the selected memo"
-msgstr "نمایش یادداشت‌های گزیده"
+msgstr "چاپ یادداشت گزیده"
 
 #: ../src/modules/calendar/e-cal-shell-view-private.c:1075
 msgid "Searching next matching event"
@@ -22136,11 +22007,8 @@ msgstr ""
 #. * no summary is filed, the '.ics' extension is concatenated to it
 #: ../src/modules/calendar/e-cal-shell-view-taskpad.c:276
 #: ../src/modules/calendar/e-task-shell-view-actions.c:627
-#, fuzzy
-#| msgid "%d task"
-#| msgid_plural "%d tasks"
 msgid "task"
-msgstr "%Id تکلیف"
+msgstr "تکلیف"
 
 #: ../src/modules/calendar/e-cal-shell-view-taskpad.c:311
 #: ../src/modules/calendar/e-task-shell-view-actions.c:689
@@ -22158,17 +22026,13 @@ msgid "Mark selected tasks as complete"
 msgstr "علامت‌گذاری تکلیف‌های گزیده به عنوان انجام شده"
 
 #: ../src/modules/calendar/e-cal-shell-view-taskpad.c:332
-#, fuzzy
-#| msgid "_Mark as Complete"
 msgid "_Mark as Incomplete"
-msgstr "علامت گذاری به عنوان انجام شده"
+msgstr "_علامت به ناقص"
 
 #: ../src/modules/calendar/e-cal-shell-view-taskpad.c:334
 #: ../src/modules/calendar/e-task-shell-view-actions.c:796
-#, fuzzy
-#| msgid "Mark selected tasks as complete"
 msgid "Mark selected tasks as incomplete"
-msgstr "علامت‌گذاری تکلیف‌های گزیده به عنوان انجام شده"
+msgstr "علامت‌گذاری تکلیف‌های گزیده به عنوان ناقص"
 
 #: ../src/modules/calendar/e-cal-shell-view-taskpad.c:339
 #: ../src/modules/calendar/e-task-shell-view-actions.c:801
@@ -22193,10 +22057,8 @@ msgstr "نمایش تکلیف‌های گزیده"
 
 #: ../src/modules/calendar/e-cal-shell-view-taskpad.c:365
 #: ../src/modules/calendar/e-task-shell-view-actions.c:1076
-#, fuzzy
-#| msgid "View the selected task"
 msgid "Print the selected task"
-msgstr "نمایش تکلیف‌های گزیده"
+msgstr "چاپ تکلیف گزیده"
 
 #: ../src/modules/calendar/e-memo-shell-backend.c:77
 msgctxt "New"
@@ -22209,10 +22071,8 @@ msgid "_Shared Memo"
 msgstr "_یادداشت هم‌رسانده"
 
 #: ../src/modules/calendar/e-memo-shell-backend.c:86
-#, fuzzy
-#| msgid "Create a new memo"
 msgid "Create a new shared memo"
-msgstr "ایجاد یک یادداشت جدید"
+msgstr "ایجاد یک یادداشت اشتراکی جدید"
 
 #: ../src/modules/calendar/e-memo-shell-backend.c:94
 msgctxt "New"
@@ -22230,32 +22090,24 @@ msgid "Print Memos"
 msgstr "چاپ یادداشت‌ها"
 
 #: ../src/modules/calendar/e-memo-shell-view-actions.c:570
-#, fuzzy
-#| msgid "_Delete Message"
 msgid "_Delete Memo"
-msgstr "_حذف پیام"
+msgstr "_حذف یادداشت"
 
 #: ../src/modules/calendar/e-memo-shell-view-actions.c:577
 msgid "_Find in Memo…"
 msgstr "_یافتن در یادداشت…"
 
 #: ../src/modules/calendar/e-memo-shell-view-actions.c:579
-#, fuzzy
-#| msgid "Search for text in the body of the displayed message"
 msgid "Search for text in the displayed memo"
-msgstr "جست‌وجو به دنبال متن در بدنهٔ پیام نمایش داده شده"
+msgstr "جست‌وجو به دنبال متن در یادداشت نمایان"
 
 #: ../src/modules/calendar/e-memo-shell-view-actions.c:598
-#, fuzzy
-#| msgid "New Memo List"
 msgid "D_elete Memo List"
-msgstr "سیاههٔ یادداشت جدید"
+msgstr "_حذف سیاههٔ یادداشت"
 
 #: ../src/modules/calendar/e-memo-shell-view-actions.c:600
-#, fuzzy
-#| msgid "Delete selected memos"
 msgid "Delete the selected memo list"
-msgstr "حذف یادداشت‌های گزیده"
+msgstr "حذف سیاههٔ یادداشت گزیده"
 
 #: ../src/modules/calendar/e-memo-shell-view-actions.c:605
 msgid "_Manage Memo List groups…"
@@ -22266,52 +22118,36 @@ msgid "Manage Memo List groups order and visibility"
 msgstr ""
 
 #: ../src/modules/calendar/e-memo-shell-view-actions.c:612
-#, fuzzy
-#| msgid "New Memo List"
 msgid "_New Memo List"
-msgstr "سیاههٔ یادداشت جدید"
+msgstr "سیاههٔ یادداشت _جدید"
 
 #: ../src/modules/calendar/e-memo-shell-view-actions.c:628
-#, fuzzy
-#| msgid "Delete selected memos"
 msgid "Refresh the selected memo list"
-msgstr "حذف یادداشت‌های گزیده"
+msgstr "نوسازی سیاههٔ یادداشت‌ گزیده"
 
 #: ../src/modules/calendar/e-memo-shell-view-actions.c:633
-#, fuzzy
-#| msgid "Delete selected memos"
 msgid "Re_fresh list of account memo lists"
-msgstr "حذف یادداشت‌های گزیده"
+msgstr "_نوسازی سیاهه‌های یادداشت حساب"
 
 #: ../src/modules/calendar/e-memo-shell-view-actions.c:642
-#, fuzzy
-#| msgid "Rename the selected folder"
 msgid "Rename the selected memo list"
-msgstr "تغییر نام شاخهٔ گزیده"
+msgstr "تغییر نام سیاههٔ یادداشت گزیده"
 
 #: ../src/modules/calendar/e-memo-shell-view-actions.c:647
-#, fuzzy
-#| msgid "Show _only this Task List"
 msgid "Show _Only This Memo List"
-msgstr "نمایش _فقط این سیاههٔ تکلیف"
+msgstr "نمایش _فقط این سیاههٔ یادداشت"
 
 #: ../src/modules/calendar/e-memo-shell-view-actions.c:654
-#, fuzzy
-#| msgid "Show _only this Task List"
 msgid "Sho_w All Memo Lists"
-msgstr "نمایش _فقط این سیاههٔ تکلیف"
+msgstr "_نمایش تمامی سیاهه‌های یادداشت"
 
 #: ../src/modules/calendar/e-memo-shell-view-actions.c:745
-#, fuzzy
-#| msgid "Message _Preview"
 msgid "Memo _Preview"
-msgstr "_پیش‌نمایش پیام"
+msgstr "_پیش‌نمایش یادداشت"
 
 #: ../src/modules/calendar/e-memo-shell-view-actions.c:747
-#, fuzzy
-#| msgid "Show preview pane"
 msgid "Show memo preview pane"
-msgstr "نمایش قاب پیش‌نمایش"
+msgstr "نمایش قاب پیش‌نمایش یادداشت"
 
 #: ../src/modules/calendar/e-memo-shell-view-actions.c:768
 msgid "Show memo preview below the memo list"
@@ -22326,22 +22162,16 @@ msgid "Print the list of memos"
 msgstr "چاپ سیاههٔ یادداشت‌ها"
 
 #: ../src/modules/calendar/e-memo-shell-view-actions.c:840
-#, fuzzy
-#| msgid "Previews the list of memos to be printed"
 msgid "Preview the list of memos to be printed"
-msgstr "سیاههٔ یادداشت‌هایی که باید چاپ شوند را پیش‌نمایش می‌دهد"
+msgstr "پیش‌نمایش سیاههٔ یادداشت‌هایی که قرار است چاپ شود"
 
 #: ../src/modules/calendar/e-memo-shell-view.c:227
-#, fuzzy
-#| msgid "_Delete Message"
 msgid "Delete Memos"
-msgstr "_حذف پیام"
+msgstr "حذف یادداشت‌ها"
 
 #: ../src/modules/calendar/e-memo-shell-view.c:229
-#, fuzzy
-#| msgid "Delegate To"
 msgid "Delete Memo"
-msgstr "واگذاری به"
+msgstr "حذف یادداشت"
 
 #: ../src/modules/calendar/e-memo-shell-view-private.c:361
 #, c-format
@@ -22392,32 +22222,24 @@ msgid "Do not ask me again"
 msgstr "دیگر نپرس"
 
 #: ../src/modules/calendar/e-task-shell-view-actions.c:696
-#, fuzzy
-#| msgid "_Delete all"
 msgid "_Delete Task"
-msgstr "_حذف همه"
+msgstr "_حذف تکلیف"
 
 #: ../src/modules/calendar/e-task-shell-view-actions.c:703
 msgid "_Find in Task…"
 msgstr "_یافتن در تکلیف…"
 
 #: ../src/modules/calendar/e-task-shell-view-actions.c:705
-#, fuzzy
-#| msgid "Search for text in the body of the displayed message"
 msgid "Search for text in the displayed task"
-msgstr "جست‌وجو به دنبال متن در بدنهٔ پیام نمایش داده شده"
+msgstr "جست‌وجو به دنبال متن در تکلیف نمایان"
 
 #: ../src/modules/calendar/e-task-shell-view-actions.c:724
-#, fuzzy
-#| msgid "Select Task List"
 msgid "D_elete Task List"
-msgstr "انتخاب سیاههٔ تکلیف"
+msgstr "_حذف سیاههٔ تکلیف"
 
 #: ../src/modules/calendar/e-task-shell-view-actions.c:726
-#, fuzzy
-#| msgid "Delete selected tasks"
 msgid "Delete the selected task list"
-msgstr "حذف تکلیف‌های گزیده"
+msgstr "حذف سیاههٔ تکلیف گزیده"
 
 #: ../src/modules/calendar/e-task-shell-view-actions.c:731
 msgid "_Manage Task List groups…"
@@ -22428,40 +22250,28 @@ msgid "_New Task List"
 msgstr "سیاههٔ تکلیف _جدید"
 
 #: ../src/modules/calendar/e-task-shell-view-actions.c:754
-#, fuzzy
-#| msgid "Delete selected tasks"
 msgid "Refresh the selected task list"
-msgstr "حذف تکلیف‌های گزیده"
+msgstr "نوسازی سیاههٔ تکلیف گزیده"
 
 #: ../src/modules/calendar/e-task-shell-view-actions.c:759
-#, fuzzy
-#| msgid "Delete selected tasks"
 msgid "Re_fresh list of account task lists"
-msgstr "حذف تکلیف‌های گزیده"
+msgstr "_نوسازی سیاهه‌های تکلیف حساب"
 
 #: ../src/modules/calendar/e-task-shell-view-actions.c:768
-#, fuzzy
-#| msgid "Rename the selected folder"
 msgid "Rename the selected task list"
-msgstr "تغییر نام شاخهٔ گزیده"
+msgstr "تغییر نام سیاههٔ تکلیف گزیده"
 
 #: ../src/modules/calendar/e-task-shell-view-actions.c:773
-#, fuzzy
-#| msgid "Show _only this Task List"
 msgid "Sho_w All Task Lists"
-msgstr "نمایش _فقط این سیاههٔ تکلیف"
+msgstr "_نمایش تمامی سیاهه‌های تکلیف"
 
 #: ../src/modules/calendar/e-task-shell-view-actions.c:780
-#, fuzzy
-#| msgid "Show _only this Task List"
 msgid "Show _Only This Task List"
 msgstr "نمایش _فقط این سیاههٔ تکلیف"
 
 #: ../src/modules/calendar/e-task-shell-view-actions.c:794
-#, fuzzy
-#| msgid "Mar_k as Complete"
 msgid "Mar_k as Incomplete"
-msgstr "_علامت‌گذاری به عنوان انجام شده"
+msgstr "_علامت‌گذاری به ناقص"
 
 #: ../src/modules/calendar/e-task-shell-view-actions.c:824
 msgid "Delete completed tasks"
@@ -22472,44 +22282,32 @@ msgid "Task _Preview"
 msgstr "_پیش‌نمایش تکلیف"
 
 #: ../src/modules/calendar/e-task-shell-view-actions.c:913
-#, fuzzy
-#| msgid "Show preview pane"
 msgid "Show task preview pane"
-msgstr "نمایش قاب پیش‌نمایش"
+msgstr "نمایش قاب پیش‌نمایش تکلیف"
 
 #: ../src/modules/calendar/e-task-shell-view-actions.c:934
-#, fuzzy
-#| msgid "Show task preview window"
 msgid "Show task preview below the task list"
-msgstr "نمایش پنجرهٔ پیش‌نمایش تکلیف"
+msgstr "نمایش پیش‌نمایش تکلیف زیر سیاههٔ تکلیف‌ها"
 
 #: ../src/modules/calendar/e-task-shell-view-actions.c:941
-#, fuzzy
-#| msgid "Show task preview window"
 msgid "Show task preview alongside the task list"
-msgstr "نمایش پنجرهٔ پیش‌نمایش تکلیف"
+msgstr "نمایش پیش‌نمایش تکلیف کنار سیاههٔ تکلیف‌ها"
 
 #: ../src/modules/calendar/e-task-shell-view-actions.c:949
-#, fuzzy
-#| msgid "Save Task"
 msgid "Active Tasks"
-msgstr "ذخیرهٔ تکلیف"
+msgstr "تکلیف‌های فعّال"
 
 #: ../src/modules/calendar/e-task-shell-view-actions.c:963
-#, fuzzy
-#| msgid "Cancel Task"
 msgid "Cancelled Tasks"
-msgstr "لغو تکلیف"
+msgstr "تکلیف‌های لغو شده"
 
 #: ../src/modules/calendar/e-task-shell-view-actions.c:970
 msgid "Completed Tasks"
 msgstr "تکلیف‌های کامل‌شده"
 
 #: ../src/modules/calendar/e-task-shell-view-actions.c:977
-#, fuzzy
-#| msgid "Completed Tasks"
 msgid "Uncompleted Tasks"
-msgstr "تکلیف‌های کامل‌شده"
+msgstr "تکلیف‌های کامل نشده"
 
 #: ../src/modules/calendar/e-task-shell-view-actions.c:984
 #, fuzzy
