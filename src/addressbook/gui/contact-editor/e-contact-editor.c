@@ -3573,7 +3573,7 @@ init_certs (EContactEditor *editor)
 	gtk_tree_view_set_model (tree_view, GTK_TREE_MODEL (list_store));
 
 	certificate_widget = GTK_WIDGET (gcr_certificate_widget_new (NULL));
-	gtk_widget_show (certificate_widget);
+	gtk_widget_show_all (certificate_widget);
 	widget = e_builder_get_widget (editor->priv->builder, "cert-preview-scw");
 	gtk_container_add (GTK_CONTAINER (widget), certificate_widget);
 

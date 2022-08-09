@@ -1278,7 +1278,27 @@ cm_prepare_certificate_widget (GcrCertificate *certificate)
 		widget = GTK_WIDGET (certificate_widget);
 	}
 	#else
-	widget = gcr_certificate_widget_new (certificate);
+	{
+		GtkWidget *scrolled_window;
+
+		widget = gcr_certificate_widget_new (certificate);
+
+		scrolled_window = gtk_scrolled_window_new (NULL, NULL);
+		g_object_set (scrolled_window,
+			"halign", GTK_ALIGN_FILL,
+			"hexpand", TRUE,
+			"valign", GTK_ALIGN_FILL,
+			"vexpand", TRUE,
+			"hscrollbar-policy", GTK_POLICY_NEVER,
+			"vscrollbar-policy", GTK_POLICY_AUTOMATIC,
+			"propagate-natural-height", TRUE,
+			"shadow-type", GTK_SHADOW_NONE,
+			NULL);
+
+		gtk_container_add (GTK_CONTAINER (scrolled_window), widget);
+
+		widget = scrolled_window;
+	}
 	#endif
 
 	gcr_parsed_unref (parsed);
@@ -2196,7 +2216,7 @@ e_cert_manager_new_certificate_viewer (GtkWindow *parent,
 	widget = GTK_WIDGET (certificate_widget);
 	gtk_container_set_border_width (GTK_CONTAINER (widget), 5);
 	gtk_box_pack_start (GTK_BOX (content_area), widget, TRUE, TRUE, 0);
-	gtk_widget_show (widget);
+	gtk_widget_show_all (widget);
 
 	g_free (subject_name);
 

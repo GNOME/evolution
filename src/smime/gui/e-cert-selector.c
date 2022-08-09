@@ -161,6 +161,9 @@ e_cert_selector_new (gint type,
 	GtkBuilder *builder;
 	GtkWidget *content_area;
 	GtkWidget *w;
+	#ifndef WITH_GCR3
+	GtkWidget *scrolled_window;
+	#endif
 	GtkListStore *store;
 	GtkTreeIter iter;
 	gint n = 0, active = 0;
@@ -176,8 +179,26 @@ e_cert_selector_new (gint type,
 
 	w = e_builder_get_widget (builder, "cert_selector_vbox");
 	content_area = gtk_dialog_get_content_area (GTK_DIALOG (ecs));
+	#ifdef WITH_GCR3
 	gtk_container_add (GTK_CONTAINER (w), GTK_WIDGET (p->cert_widget));
-	gtk_widget_show (GTK_WIDGET (p->cert_widget));
+	#else
+	scrolled_window = gtk_scrolled_window_new (NULL, NULL);
+	g_object_set (scrolled_window,
+		"halign", GTK_ALIGN_FILL,
+		"hexpand", TRUE,
+		"valign", GTK_ALIGN_FILL,
+		"vexpand", TRUE,
+		"hscrollbar-policy", GTK_POLICY_NEVER,
+		"vscrollbar-policy", GTK_POLICY_AUTOMATIC,
+		"propagate-natural-height", TRUE,
+		"shadow-type", GTK_SHADOW_NONE,
+		NULL);
+
+	gtk_container_add (GTK_CONTAINER (scrolled_window), GTK_WIDGET (p->cert_widget));
+
+	gtk_container_add (GTK_CONTAINER (w), scrolled_window);
+	#endif
+	gtk_widget_show_all (w);
 	gtk_box_pack_start (GTK_BOX (content_area), w, TRUE, TRUE, 3);
 	gtk_window_set_title (GTK_WINDOW (ecs), _("Select certificate"));
 
