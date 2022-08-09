@@ -13,7 +13,7 @@ msgstr ""
 "Project-Id-Version: evolution\n"
 "Report-Msgid-Bugs-To: https://gitlab.gnome.org/GNOME/evolution/issues\n"
 "POT-Creation-Date: 2022-08-09 08:48+0000\n"
-"PO-Revision-Date: 2022-08-09 14:27+0430\n"
+"PO-Revision-Date: 2022-08-09 14:36+0430\n"
 "Last-Translator: Danial Behzadi <dani.behzi@ubuntu.com>\n"
 "Language-Team: Persian <haghighi.ahmad@gmail.com>\n"
 "Language: fa\n"
@@ -23860,34 +23860,24 @@ msgid "Current Account"
 msgstr "حساب کنونی"
 
 #: ../src/modules/mail/e-mail-shell-view-actions.c:2150
-#, fuzzy
-#| msgid "Create _vFolder"
 msgid "Current Folder"
-msgstr "ایجاد شاخهٔ _مجازی"
+msgstr "شاخهٔ کنونی"
 
 #: ../src/modules/mail/e-mail-shell-view-actions.c:2157
-#, fuzzy
-#| msgid "Create subfolders"
 msgid "Current Folder and Subfolders"
-msgstr "ایجاد زیرشاخه‌ها"
+msgstr "شاخهٔ کنونی و زیرشاخه‌ها"
 
 #: ../src/modules/mail/e-mail-shell-view.c:1039
-#, fuzzy
-#| msgid "Create subfolders"
 msgid "Current Folder and Subfolders Search"
-msgstr "ایجاد زیرشاخه‌ها"
+msgstr "جست‌وجوی شاخهٔ کنونی و زیرشاخه‌ها"
 
 #: ../src/modules/mail/e-mail-shell-view.c:1159
-#, fuzzy
-#| msgid "Hula Account Setup"
 msgid "All Account Search"
-msgstr "برپاسازی حساب Hula"
+msgstr "جست‌وجوی تمامی حساب"
 
 #: ../src/modules/mail/e-mail-shell-view.c:1267
-#, fuzzy
-#| msgid "Account name"
 msgid "Account Search"
-msgstr "نام حساب"
+msgstr "جست‌وجوی حساب"
 
 #: ../src/modules/mail/e-mail-shell-view-private.c:930
 #, c-format
@@ -23934,23 +23924,19 @@ msgstr[0] "‫%d ارسال شده"
 msgstr[1] "‫%d ارسال شده"
 
 #: ../src/modules/mail/e-mail-shell-view-private.c:1018
-#, fuzzy, c-format
-#| msgid "%d unread, "
-#| msgid_plural "%d unread, "
+#, c-format
 msgid "%d unread"
 msgid_plural "%d unread"
-msgstr[0] "‫%d خوانده نشده"
-msgstr[1] "‫%d خوانده نشده"
+msgstr[0] "۱ نخوانده"
+msgstr[1] "%Id نخوانده"
 
 #: ../src/modules/mail/e-mail-shell-view-private.c:1500
 msgid "Send / Receive"
 msgstr "ارسال / دریافت"
 
 #: ../src/modules/mail/em-composer-prefs.c:417
-#, fuzzy
-#| msgid "Select Folder"
 msgid "Select Folder to Add"
-msgstr "انتخاب شاخه"
+msgstr "گزینش شاخه برای افزودن"
 
 #: ../src/modules/mail/em-composer-prefs.c:893
 msgid "Folder"
@@ -23961,22 +23947,16 @@ msgid "Recipient"
 msgstr "گیرنده"
 
 #: ../src/modules/mail/em-composer-prefs.c:1271
-#, fuzzy
-#| msgid "_Save to Outbox"
 msgid "Keep in Outbox"
-msgstr "ذخیره در صندوق خروجی"
+msgstr "نگه داری در صندوق خروجی"
 
 #: ../src/modules/mail/em-composer-prefs.c:1272
-#, fuzzy
-#| msgid "_Send message"
 msgid "Send immediately"
-msgstr "_ارسال پیام"
+msgstr "فرستادن بی‌درنگ"
 
 #: ../src/modules/mail/em-composer-prefs.c:1273
-#, fuzzy
-#| msgid "15 minutes"
 msgid "Send after 5 minutes"
-msgstr "۱۵ دقیقه"
+msgstr "فرستادن پس از ۵ دقیقه"
 
 #: ../src/modules/mail/em-composer-prefs.c:1358
 msgid "Language(s)"
@@ -23987,44 +23967,32 @@ msgid "Same as user interface"
 msgstr "مشابه رابط کاربری"
 
 #: ../src/modules/mail/em-mailer-prefs.c:88
-#, fuzzy
-#| msgid "Every time"
 msgid "On exit, every time"
-msgstr "هر بار"
+msgstr "هر بار هنگام خروج"
 
 #: ../src/modules/mail/em-mailer-prefs.c:89
-#, fuzzy
-#| msgid "Once per day"
 msgid "Once per day"
 msgstr "روزی یک بار"
 
 #: ../src/modules/mail/em-mailer-prefs.c:90
-#, fuzzy
-#| msgid "Once per week"
 msgid "Once per week"
 msgstr "هفته‌ای یک بار"
 
 #: ../src/modules/mail/em-mailer-prefs.c:91
-#, fuzzy
-#| msgid "Once per month"
 msgid "Once per month"
 msgstr "ماهی یک بار"
 
 #: ../src/modules/mail/em-mailer-prefs.c:92
-#, fuzzy
-#| msgid "Immediately follow each other"
 msgid "Immediately, on folder leave"
-msgstr "بلافاصله پشت سر هم"
+msgstr "بی‌درنگ هنگام خروج از شاخه"
 
 #: ../src/modules/mail/em-mailer-prefs.c:466 ../src/modules/mail/em-mailer-prefs.c:2050
 msgid "Header"
 msgstr "سرصفحه"
 
 #: ../src/modules/mail/em-mailer-prefs.c:470
-#, fuzzy
-#| msgid "Continue"
 msgid "Contains Value"
-msgstr "ادامه"
+msgstr "شامل مقدار"
 
 #. To Translators: 'Date header' is a label for configurable date/time format for 'Date' header in mail message window/preview
 #: ../src/modules/mail/em-mailer-prefs.c:2079
@@ -24032,26 +24000,20 @@ msgid "_Date header:"
 msgstr "سرایند _تاریخ:"
 
 #: ../src/modules/mail/em-mailer-prefs.c:2080
-#, fuzzy
-#| msgid "Show _Original Size"
 msgid "Show _original header value"
-msgstr "نمایش اندازهٔ ا_صلی"
+msgstr "نمایش مقدار سرایند _اصلی"
 
 #: ../src/modules/mailto-handler/evolution-mailto-handler.c:112
-#, fuzzy
-#| msgid "Exchange Settings"
 msgid "Do _not change settings"
-msgstr "تنظیمات Exchange"
+msgstr "تفییر _ندادن تنظیمات"
 
 #: ../src/modules/mailto-handler/evolution-mailto-handler.c:113
 msgid "_Set as default email client"
 msgstr "_تنظیم به عنوان کارخواه پیش‌گزیدهٔ رایانامه"
 
 #: ../src/modules/mailto-handler/evolution-mailto-handler.c:138
-#, fuzzy
-#| msgid "Do you want to make Evolution your default e-mail client?"
 msgid "Do you want to make Evolution your default email client?"
-msgstr "آیا مایلید Evolution را کارساز رایانامهی پیش‌گزیده‌تان بکنید؟"
+msgstr "می‌خواهید اولوشن را کارخواه رایانامهٔ پیش‌گزیده‌تان کنید؟"
 
 #. Translators: First %s is an email address, second %s
 #. * is the subject of the email, third %s is the date.
@@ -24066,23 +24028,19 @@ msgstr ""
 #. a subject of a delivery notification email (basically a notification, that
 #. the user did read (or better displayed) the message).
 #: ../src/modules/mdn/evolution-mdn.c:376
-#, fuzzy, c-format
-#| msgid "URL: %s"
+#, c-format
 msgid "Read: %s"
-msgstr "نشانی اینترنتی: %s"
+msgstr "خوانده شد: %s"
 
 #: ../src/modules/mdn/evolution-mdn.c:542
-#, fuzzy, c-format
-#| msgid "Send message receipts:"
+#, c-format
 msgid "Send a read receipt to “%s”"
-msgstr "در حال ارسال رسید‌های پیام:"
+msgstr "فرستادن رو رسید خواندن به «%s»"
 
 #. name doesn't matter
 #: ../src/modules/mdn/evolution-mdn.c:547
-#, fuzzy
-#| msgid "By Se_nder"
 msgid "_Notify Sender"
-msgstr "با _فرستنده"
+msgstr "_آگاهی فرستنده"
 
 #: ../src/modules/mdn/evolution-mdn.error.xml.h:1
 msgid "Sender wants to be notified when you have read this message."
@@ -24093,20 +24051,16 @@ msgid "Sender has been notified that you have read this message."
 msgstr ""
 
 #: ../src/modules/offline-alert/evolution-offline-alert.error.xml.h:1
-#, fuzzy
-#| msgid "Evolution is in the process of going offline."
 msgid "Evolution is currently offline."
-msgstr "اوولوشن در حال برون‌خط شدن است."
+msgstr "اوولوشن در حال حاضر برون‌خط است."
 
 #: ../src/modules/offline-alert/evolution-offline-alert.error.xml.h:2
 msgid "Click “Work Online” to return to online mode."
 msgstr ""
 
 #: ../src/modules/offline-alert/evolution-offline-alert.error.xml.h:3
-#, fuzzy
-#| msgid "Evolution is currently offline. Click on this button to work online."
 msgid "Evolution is currently offline due to a network outage."
-msgstr "اوولوشن در حال حاضر برون‌خط است. برای برخط کار کردن روی این دکمه کلیک کنید."
+msgstr "اوولوشن در حال حاضر به خاطر یک قطعی شبکه برون‌خط است."
 
 #: ../src/modules/offline-alert/evolution-offline-alert.error.xml.h:4
 msgid "Evolution will return to online mode once a network connection is established."
@@ -24121,10 +24075,8 @@ msgid "Note: Some changes will not take effect until restart"
 msgstr "توجه: بعضی از تغییرات تا زمان راه‌اندازی مجدد مؤثر نخواهند بود"
 
 #: ../src/modules/plugin-manager/evolution-plugin-manager.c:342
-#, fuzzy
-#| msgid "Review"
 msgid "Overview"
-msgstr "مرور"
+msgstr "نمای کلّی"
 
 #: ../src/modules/plugin-manager/evolution-plugin-manager.c:413
 #: ../src/modules/plugin-manager/evolution-plugin-manager.c:501
@@ -24132,32 +24084,24 @@ msgid "Plugin"
 msgstr "متصل شونده"
 
 #: ../src/modules/plugin-manager/evolution-plugin-manager.c:527
-#, fuzzy
-#| msgid "_Plugins"
 msgid "Plugins"
-msgstr "_متصل شونده‌ها"
+msgstr "افزایه‌ها"
 
 #: ../src/modules/prefer-plain/e-mail-display-popup-prefer-plain.c:140
-#, fuzzy
-#| msgid "Display the next message"
 msgid "Display plain text version"
-msgstr "نمایش پیام بعدی"
+msgstr "نمایش نگارش متن خام"
 
 #: ../src/modules/prefer-plain/e-mail-display-popup-prefer-plain.c:142
-#, fuzzy
-#| msgid "Display the next important message"
 msgid "Display plain text version of multipart/alternative message"
-msgstr "نمایش پیام مهم بعدی"
+msgstr "نمایش نگارش متن خام پیام چندبخشی یا جایگزین"
 
 #: ../src/modules/prefer-plain/e-mail-display-popup-prefer-plain.c:148
 msgid "Display HTML version"
 msgstr "نمایش نگارش HTML"
 
 #: ../src/modules/prefer-plain/e-mail-display-popup-prefer-plain.c:150
-#, fuzzy
-#| msgid "Display the previous important message"
 msgid "Display HTML version of multipart/alternative message"
-msgstr "نمایش پیام مهم قبلی"
+msgstr "نمایش نگارش HTML پیام چندبخشی یا جایگزین"
 
 #: ../src/modules/prefer-plain/e-mail-parser-prefer-plain.c:69
 #: ../src/modules/prefer-plain/plugin/config-ui.c:35
@@ -24171,10 +24115,8 @@ msgstr ""
 
 #: ../src/modules/prefer-plain/e-mail-parser-prefer-plain.c:73
 #: ../src/modules/prefer-plain/plugin/config-ui.c:39
-#, fuzzy
-#| msgid "Show HTML if present"
 msgid "Show plain text if present"
-msgstr "نمایش HTML در صورت وجود"
+msgstr "نمایش متن خام در صورت وجود"
 
 #: ../src/modules/prefer-plain/e-mail-parser-prefer-plain.c:74
 #: ../src/modules/prefer-plain/plugin/config-ui.c:40
@@ -24184,10 +24126,8 @@ msgstr ""
 
 #: ../src/modules/prefer-plain/e-mail-parser-prefer-plain.c:78
 #: ../src/modules/prefer-plain/plugin/config-ui.c:44
-#, fuzzy
-#| msgid "Show HTML if present"
 msgid "Show plain text if present, or HTML source"
-msgstr "نمایش HTML در صورت وجود"
+msgstr "نمایش متن خام در صورت وجود یا منبع HTML"
 
 #: ../src/modules/prefer-plain/e-mail-parser-prefer-plain.c:79
 #: ../src/modules/prefer-plain/plugin/config-ui.c:45
@@ -24196,10 +24136,8 @@ msgstr ""
 
 #: ../src/modules/prefer-plain/e-mail-parser-prefer-plain.c:83
 #: ../src/modules/prefer-plain/plugin/config-ui.c:49
-#, fuzzy
-#| msgid "Only ever show PLAIN"
 msgid "Only ever show plain text"
-msgstr "نمایش فقط و فقط متن ساده"
+msgstr "نمایش فقط و فقط متن خام"
 
 #: ../src/modules/prefer-plain/e-mail-parser-prefer-plain.c:84
 #: ../src/modules/prefer-plain/plugin/config-ui.c:50
@@ -24211,16 +24149,12 @@ msgid "Show s_uppressed HTML parts as attachments"
 msgstr ""
 
 #: ../src/modules/prefer-plain/plugin/config-ui.c:123
-#, fuzzy
-#| msgid "HTML Mode"
 msgid "HTML _Mode"
-msgstr "حالت HTML"
+msgstr "_حالت HTML"
 
 #: ../src/modules/prefer-plain/plugin/org-gnome-prefer-plain.eplug.xml.h:1
-#, fuzzy
-#| msgid "Prefer plain-text"
 msgid "Prefer Plain Text"
-msgstr "ترجیح متن ساده"
+msgstr "ترجیح متن خام"
 
 #. but then we also need to create our own section frame
 #: ../src/modules/prefer-plain/plugin/org-gnome-prefer-plain.eplug.xml.h:3
@@ -24232,34 +24166,27 @@ msgid "View mail messages as plain text, even if they contain HTML content."
 msgstr ""
 
 #: ../src/modules/rss/camel/camel-rss-folder.c:133
-#, fuzzy, c-format
-#| msgid "Cannot copy messages to the Trash folder"
+#, c-format
 msgid "Cannot add message into News and Blogs folder"
-msgstr "نسخه‌برداری از پیغام‌ها در پوشه‌ی زباله‌دان ممکن نیست"
+msgstr "نمی‌توان پیام‌ها را به شاخهٔ اخبار و وبلاگ‌ها افزود"
 
 #: ../src/modules/rss/camel/camel-rss-folder.c:225
-#, fuzzy
-#| msgid "Not available in offline mode"
 msgid "Message is not available"
-msgstr "در حالت برون‌خط موجود نیست"
+msgstr "پیام موجود نیست"
 
 #: ../src/modules/rss/camel/camel-rss-folder.c:274
-#, fuzzy, c-format
-#| msgid "Invalid folder: `%s'"
+#, c-format
 msgid "Invalid Feed URL “%s”."
-msgstr "شاخهٔ نامعتبر: «%s»"
+msgstr "شاخهٔ خوراک نامعتبر «%s»."
 
 #: ../src/modules/rss/camel/camel-rss-folder.c:408
-#, fuzzy, c-format
-#| msgid "Invalid user"
+#, c-format
 msgid "Invalid Feed URL."
-msgstr "کاربر نامعتبر"
+msgstr "شاخهٔ خوراک نامعتبر."
 
 #: ../src/modules/rss/camel/camel-rss-folder.c:663
-#, fuzzy
-#| msgid "Cannot copy messages to the Trash folder"
 msgid "Apply message _filters to this folder"
-msgstr "نسخه‌برداری از پیغام‌ها در پوشه‌ی زباله‌دان ممکن نیست"
+msgstr "اعمال _پالایه‌های پیام به این شاخه"
 
 #: ../src/modules/rss/camel/camel-rss-folder.c:676
 #: ../src/modules/rss/evolution/e-rss-preferences.c:831
@@ -24280,10 +24207,8 @@ msgstr ""
 #: ../src/modules/rss/camel/camel-rss-store.c:48
 #: ../src/modules/rss/evolution/e-rss-preferences.c:1433
 #: ../src/modules/rss/evolution/e-rss-shell-extension.c:62
-#, fuzzy
-#| msgid "Save and Close"
 msgid "News and Blogs"
-msgstr "ذخیره و بستن"
+msgstr "اخبار و وبلاگ‌ها"
 
 #: ../src/modules/rss/camel/camel-rss-provider.c:19
 msgid "This is a provider for reading RSS news and blogs."
