@@ -12,8 +12,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: evolution\n"
 "Report-Msgid-Bugs-To: https://gitlab.gnome.org/GNOME/evolution/issues\n"
-"POT-Creation-Date: 2022-08-09 10:07+0000\n"
-"PO-Revision-Date: 2022-08-09 14:43+0430\n"
+"POT-Creation-Date: 2022-08-09 10:14+0000\n"
+"PO-Revision-Date: 2022-08-11 03:50+0430\n"
 "Last-Translator: Danial Behzadi <dani.behzi@ubuntu.com>\n"
 "Language-Team: Persian <haghighi.ahmad@gmail.com>\n"
 "Language: fa\n"
@@ -677,45 +677,30 @@ msgid "Primary calendar"
 msgstr "تقویم اصلی"
 
 #: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:99
-#, fuzzy
-#| msgid ""
-#| "The UID of the selected (or “primary”) address book in the sidebar of the "
-#| "“Contacts” view"
 msgid ""
 "The UID of the selected (or “primary”) calendar in the sidebar of the “Calendar” "
 "view"
-msgstr ""
-"شناسهٔ کاربر از دفترچهٔ نشانی انتخاب شده (یا \"اصلی\") در نوار کناری از نمای آشنایان"
+msgstr "شناسهٔ یکتای تقویم گزیده (یا «اصلی») در نوار کناری نمای «تقویم»"
 
 #: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:100
 msgid "Primary memo list"
 msgstr "سیاههٔ یادداشت اصلی"
 
 #: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:101
-#, fuzzy
-#| msgid ""
-#| "The UID of the selected (or “primary”) address book in the sidebar of the "
-#| "“Contacts” view"
 msgid ""
 "The UID of the selected (or “primary”) memo list in the sidebar of the “Memos” "
 "view"
-msgstr ""
-"شناسهٔ کاربر از دفترچهٔ نشانی انتخاب شده (یا \"اصلی\") در نوار کناری از نمای آشنایان"
+msgstr "شناسهٔ یکتای سیاههٔ یادداشت گزیده (یا «اصلی») در نوار کناری نمای «یادداشت‌ها»"
 
 #: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:102
 msgid "Primary task list"
 msgstr "سیاههٔ تکلیف اصلی"
 
 #: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:103
-#, fuzzy
-#| msgid ""
-#| "The UID of the selected (or “primary”) address book in the sidebar of the "
-#| "“Contacts” view"
 msgid ""
 "The UID of the selected (or “primary”) task list in the sidebar of the “Tasks” "
 "view"
-msgstr ""
-"شناسهٔ کاربر از دفترچهٔ نشانی انتخاب شده (یا \"اصلی\") در نوار کناری از نمای آشنایان"
+msgstr "شناسهٔ یکتای سیاههٔ تکلیف گزیده (یا «اصلی») در نوار کناری نمای «تکلیف‌ها»"
 
 #: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:104
 msgid "Free/busy template URL"
@@ -802,19 +787,14 @@ msgid "Task layout style"
 msgstr "سبک چینش وظیفه"
 
 #: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:130
-#, fuzzy
-#| msgid ""
-#| "The layout style determines where to place the preview pane in relation to the "
-#| "contact list. “0” (Classic View) places the preview pane below the contact "
-#| "list. “1” (Vertical View) places the preview pane next to the contact list."
 msgid ""
 "The layout style determines where to place the preview pane in relation to the "
 "task list. “0” (Classic View) places the preview pane below the task list. "
 "“1” (Vertical View) places the preview pane next to the task list"
 msgstr ""
-"سبک چینش مشخص می‌کند که مکان قاب پیش‌نمایش به نسبت لیست مخاطب‌ها در کجا قرار گیرد. "
-"“۰” (نمای کلاسیک) پنل پیش‌نمایش را زیر لیست مخاطب‌ها می‌گذارد. “۰” (نمای عمودی) پنل "
-"پیش‌نمایش را کنار لیست مخاطب‌ها می‌گذارد."
+"سبک چینش مشخص می‌کند که قاب پیش‌نمایش کجای سیاههٔ تکلیف‌ها قرار گیرد. “۰” (نمای "
+"کلاسیک) قاب پیش‌نمایش را زیر سیاههٔ تکلیف‌ها می‌گذارد. “۰” (نمای عمودی) قاب پیش‌نمایش "
+"را کنار سیاههٔ تکلیف‌ها می‌گذارد"
 
 #: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:131
 msgid "Task preview pane position (vertical)"
@@ -957,19 +937,13 @@ msgid "Layout style for the Year View"
 msgstr "سبک چینش برای نمای سال"
 
 #: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:169
-#, fuzzy
-#| msgid ""
-#| "The layout style determines where to place the preview pane in relation to the "
-#| "contact list. “0” (Classic View) places the preview pane below the contact "
-#| "list. “1” (Vertical View) places the preview pane next to the contact list."
 msgid ""
 "The layout style determines where to place the preview pane. “0” (Horizontal "
 "View) places the preview pane below the calendar. “1” (Vertical View) places the "
 "preview pane next to the calendar."
 msgstr ""
-"سبک چینش مشخص می‌کند که مکان قاب پیش‌نمایش به نسبت لیست مخاطب‌ها در کجا قرار گیرد. "
-"“۰” (نمای کلاسیک) پنل پیش‌نمایش را زیر لیست مخاطب‌ها می‌گذارد. “۰” (نمای عمودی) پنل "
-"پیش‌نمایش را کنار لیست مخاطب‌ها می‌گذارد."
+"سبک چینش مشخص می‌کند که قاب پیش‌نمایش کجا قرار گیرد. “۰” (نمای افقی) قاب پیش‌نمایش "
+"را زیر تقویم می‌گذارد. “۰” (نمای عمودی) قاب پیش‌نمایش را کنار تقویم می‌گذارد."
 
 #: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:170
 msgid "Year view horizontal preview position"
@@ -1466,19 +1440,14 @@ msgid "Layout style"
 msgstr "سبک چینش"
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:152
-#, fuzzy
-#| msgid ""
-#| "The layout style determines where to place the preview pane in relation to the "
-#| "memo list. “0” (Classic View) places the preview pane below the memo list. "
-#| "“1” (Vertical View) places the preview pane next to the memo list"
 msgid ""
 "The layout style determines where to place the preview pane in relation to the "
 "message list. “0” (Classic View) places the preview pane below the message list. "
 "“1” (Vertical View) places the preview pane next to the message list."
 msgstr ""
-"سبک چینش مشخّص می‌کند قاب پیش‌نمایش کجای سیاههٔ یادداشت قرار گیرد. «۰» (نمای کلاسیک) "
-"قاب پیش‌نمایش را زیر سیاههٔ یادداشت می‌گذارد. “1” (نمای عمودی) قاب پیش‌نمایش را کنار "
-"سیاههٔ یادداشت می‌گذارد"
+"سبک چینش مشخص می‌کند که قاب پیش‌نمایش کجای سیاههٔ پیام‌ها قرار گیرد. “۰” (نمای "
+"کلاسیک) قاب پیش‌نمایش را زیر سیاههٔ پیام‌ها می‌گذارد. “۰” (نمای عمودی) قاب پیش‌نمایش "
+"را کنار سیاههٔ پیام‌ها می‌گذارد."
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:153
 msgid "Variable width font"
@@ -2210,43 +2179,29 @@ msgid "Use only the local spam tests (no DNS)."
 msgstr "فقط استفاده از آزمایش‌های spam محلی (بدون DNS)."
 
 #: ../data/org.gnome.evolution.spamassassin.gschema.xml.in.h:3
-#, fuzzy
-#| msgid "Full path command to run Bogofilter"
 msgid "Full path command to run spamassassin"
-msgstr "مسیر کامل جهت اجرای فرمان Bogofilter"
+msgstr "مسیر کامل فرمان اجرای spamassassin"
 
 #: ../data/org.gnome.evolution.spamassassin.gschema.xml.in.h:4
-#, fuzzy
-#| msgid ""
-#| "Full path to a Bogofilter command. If not set, then a compile-time path is "
-#| "used, usually /usr/bin/bogofilter. The command should not contain any other "
-#| "arguments."
 msgid ""
 "Full path to a spamassassin command. If not set, then a compile-time path is "
 "used, usually /usr/bin/spamassassin. The command should not contain any other "
 "arguments."
 msgstr ""
-"مسیر کامل به فرمان Bogofilter. اکر تعیین نشود، یک آدرس حین کامپایل استفاده خواهد "
-"شد که معمولا /usr/bin/bogofilter. است. فرمان نباید شامل هیچ شناسه دیگری باشد."
+"مسیر کامل به فرمان spamassassin. اگر تنظیم نشود، یک مسیر زمان ترجمه استفاده خواهد "
+"شد که معمولاً‪ /usr/bin/spamassassin‬است. فرمان نباید شامل هیچ آرگومان دیگری باشد."
 
 #: ../data/org.gnome.evolution.spamassassin.gschema.xml.in.h:5
-#, fuzzy
-#| msgid "Full path command to run Bogofilter"
 msgid "Full path command to run sa-learn"
-msgstr "مسیر کامل جهت اجرای فرمان Bogofilter"
+msgstr "مسیر کامل فرمان اجرای sa-learn"
 
 #: ../data/org.gnome.evolution.spamassassin.gschema.xml.in.h:6
-#, fuzzy
-#| msgid ""
-#| "Full path to a Bogofilter command. If not set, then a compile-time path is "
-#| "used, usually /usr/bin/bogofilter. The command should not contain any other "
-#| "arguments."
 msgid ""
 "Full path to a sa-learn command. If not set, then a compile-time path is used, "
 "usually /usr/bin/sa-learn. The command should not contain any other arguments."
 msgstr ""
-"مسیر کامل به فرمان Bogofilter. اکر تعیین نشود، یک آدرس حین کامپایل استفاده خواهد "
-"شد که معمولا /usr/bin/bogofilter. است. فرمان نباید شامل هیچ شناسه دیگری باشد."
+"مسیر کامل به فرمان  sa-learn. اگر تنظیم نشود، یک مسیر زمان ترجمه استفاده خواهد شد "
+"که معمولاً ‪/usr/bin/ sa-learn‬ است. فرمان نباید شامل هیچ آرگومان دیگری باشد."
 
 #: ../data/org.gnome.evolution.text-highlight.gschema.xml.in.h:1
 msgid "Whether the text-highlight module is enabled"
@@ -2742,7 +2697,7 @@ msgstr "_حذف از کارساز"
 
 #: ../src/addressbook/addressbook.error.xml.h:14
 msgid "Category editor not available."
-msgstr "ویرایش‌گر مقوله موجود نیست."
+msgstr "ویرایشگر مقوله موجود نیست."
 
 #: ../src/addressbook/addressbook.error.xml.h:15
 msgid "Unable to open address book “{0}”"
@@ -3070,7 +3025,7 @@ msgstr "نمایش گواهی‌ها"
 #: ../src/addressbook/gui/contact-editor/e-contact-editor.c:747
 #: ../src/addressbook/gui/contact-editor/e-contact-editor.c:3112
 msgid "Contact Editor"
-msgstr "ویرایش‌گر آشنا"
+msgstr "ویرایشگر آشنا"
 
 #: ../src/addressbook/gui/contact-editor/contact-editor.ui.h:13
 #: ../src/addressbook/gui/contact-editor/e-contact-editor.c:3505
@@ -3407,7 +3362,7 @@ msgstr "خطا در حذف آشنا"
 #: ../src/addressbook/gui/contact-editor/e-contact-editor.c:3106
 #, c-format
 msgid "Contact Editor — %s"
-msgstr "ویرایش‌گر آشنا — %s"
+msgstr "ویرایشگر آشنا — %s"
 
 #: ../src/addressbook/gui/contact-editor/e-contact-editor.c:3242
 msgid "X.509 certificates"
@@ -3639,7 +3594,7 @@ msgstr "پسوند:"
 #: ../src/addressbook/gui/contact-list-editor/contact-list-editor.ui.h:1
 #: ../src/addressbook/gui/contact-list-editor/e-contact-list-editor.c:825
 msgid "Contact List Editor"
-msgstr "ویرایش‌گر فهرست آشنا"
+msgstr "ویرایشگر فهرست آشنا"
 
 #: ../src/addressbook/gui/contact-list-editor/contact-list-editor.ui.h:4
 msgid "_List name:"
@@ -16497,7 +16452,7 @@ msgstr "خوش‌آمد"
 
 #: ../src/mail/e-mail-config-window.c:305
 msgid "Account Editor"
-msgstr "ویرایش‌گر حساب"
+msgstr "ویرایشگر حساب"
 
 #: ../src/mail/e-mail-display.c:141
 msgid "_Add to Address Book…"
@@ -22884,16 +22839,14 @@ msgid "Received on behalf of %s"
 msgstr ""
 
 #: ../src/modules/itip-formatter/itip-view.c:488
-#, fuzzy, c-format
-#| msgid "<b>%s</b> through %s has published the following meeting information:"
+#, c-format
 msgid "%s through %s has published the following meeting information:"
-msgstr "<b>%s</b> از طریق %s اطلاعات جلسهٔ زیر را منتشر کرده است:"
+msgstr "%s از طریق %s اطّلاعات جلسهٔ زیر را منتشر کرده:"
 
 #: ../src/modules/itip-formatter/itip-view.c:490
-#, fuzzy, c-format
-#| msgid "<b>%s</b> has published the following meeting information:"
+#, c-format
 msgid "%s has published the following meeting information:"
-msgstr "<b>%s</b> اطلاعات جلسهٔ زیر را منتشر کرده است:"
+msgstr "%s اطّلاعات جلسهٔ زیر را منتشر کرده:"
 
 #: ../src/modules/itip-formatter/itip-view.c:495
 #, fuzzy, c-format
@@ -24612,26 +24565,20 @@ msgid "Invalid Feed URL"
 msgstr "نشانی خوراک نامعتبر"
 
 #: ../src/modules/rss/evolution/e-rss-preferences.c:572
-#, fuzzy
-#| msgid "Choose Image"
 msgid "Choose Feed Image"
-msgstr "انتخاب تصویر"
+msgstr "گزینش تصویر خوراک"
 
 #: ../src/modules/rss/evolution/e-rss-preferences.c:788
-#, fuzzy
-#| msgid "_URL:"
 msgid "Feed _URL:"
-msgstr "_نشانی اینترنتی:"
+msgstr "_نشانی خوراک:"
 
 #: ../src/modules/rss/evolution/e-rss-preferences.c:801
 msgid "_Fetch"
 msgstr ""
 
 #: ../src/modules/rss/evolution/e-rss-preferences.c:817
-#, fuzzy
-#| msgid "_Contents"
 msgid "C_ontent:"
-msgstr "_محتویات"
+msgstr "_محتوا:"
 
 #: ../src/modules/rss/evolution/e-rss-preferences.c:1224
 msgid "_Download feed enclosures"
@@ -24652,10 +24599,8 @@ msgid "Feeds"
 msgstr "خوراک‌ها"
 
 #: ../src/modules/rss/evolution/e-rss-preferences.c:1337
-#, fuzzy
-#| msgid "_Contents"
 msgid "Content"
-msgstr "_محتویات"
+msgstr "محتوا"
 
 #: ../src/modules/rss/evolution/e-rss-shell-view-extension.c:210
 msgid "Re_load feed articles"
@@ -24676,10 +24621,9 @@ msgid "Failed to stream mail message content to SpamAssassin: "
 msgstr ""
 
 #: ../src/modules/spamassassin/evolution-spamassassin.c:230
-#, fuzzy, c-format
-#| msgid "Failed to send %d of %d messages"
+#, c-format
 msgid "Failed to write “%s” to SpamAssassin: "
-msgstr "ارسال %Id پیام از %Idتا شکست خورد"
+msgstr "شکست در نوشتن «%s» روی SpamAssassin: "
 
 #: ../src/modules/spamassassin/evolution-spamassassin.c:258
 msgid "Failed to read output from SpamAssassin: "
@@ -24690,27 +24634,21 @@ msgid "SpamAssassin either crashed or failed to process a mail message"
 msgstr ""
 
 #: ../src/modules/spamassassin/evolution-spamassassin.c:536
-#, fuzzy
-#| msgid "Spamassassin (built-in)"
 msgid "SpamAssassin Options"
-msgstr "‏Spamassassin (توکار)"
+msgstr "گزینه‌های ‏اسپم‌اسسین"
 
 #: ../src/modules/spamassassin/evolution-spamassassin.c:551
 msgid "I_nclude remote tests"
 msgstr "_شامل آزمایش‌های دوردست"
 
 #: ../src/modules/spamassassin/evolution-spamassassin.c:565
-#, fuzzy
-#| msgid "<small>This will make the the filter more reliable, but slower</small>"
 msgid "This will make SpamAssassin more reliable, but slower."
-msgstr "<small>باعث قابل اطمینان‌تر شدن، ولی کندتر شدن صافی خواهد شد</small>"
+msgstr "این کار اسپم‌اسسین را قابل اتکّاتر، ولی کندتر خواهد کرد."
 
 #: ../src/modules/spamassassin/evolution-spamassassin.c:740
 #: ../src/modules/spamassassin/org.gnome.Evolution-spamassassin.metainfo.xml.in.h:1
-#, fuzzy
-#| msgid "Spamassassin (built-in)"
 msgid "SpamAssassin"
-msgstr "‏Spamassassin (توکار)"
+msgstr "اسپم‌اسسین"
 
 #: ../src/modules/spamassassin/org.gnome.Evolution-spamassassin.metainfo.xml.in.h:2
 msgid "Junk filter using SpamAssassin"
@@ -24732,22 +24670,15 @@ msgid "Import complete."
 msgstr "درون‌ریزی کامل‌شد."
 
 #: ../src/modules/startup-wizard/e-startup-assistant.c:174
-#, fuzzy
-#| msgid ""
-#| "Welcome to Evolution. The next few screens will allow Evolution to connect to "
-#| "your email accounts, and to import files from other applications. \n"
-#| "\n"
-#| "Please click the \"Forward\" button to continue. "
 msgid ""
 "Welcome to Evolution.\n"
 "\n"
 "The next few screens will allow Evolution to connect to your email accounts, and "
 "to import files from other applications."
 msgstr ""
-"به اوولوشن خوش آمدید. چند صفحهٔ بعد اوولوشن را قادر خواهد ساخت به حساب‌های رایانامه "
-"شما متصل شود، و پرونده‌هایی از برنامه‌های دیگر وارد اوولوشن کند. \n"
-"\n"
-"لطفاً برای ادامه روی دکمهٔ «جلو» کلیک کنید."
+"به اوولوشن خوش آمدید.\n"
+"چند صفحهٔ پیش رو می‌گذار اوولوشن به حساب‌های رایانامه‌تان وصل شده و پرونده‌ها را از "
+"دیگر برنامه‌های درون‌ریزی کند."
 
 #: ../src/modules/startup-wizard/e-startup-assistant.c:181
 msgid "Do not _show this wizard again"
@@ -24775,16 +24706,12 @@ msgid "_Format as…"
 msgstr "_قالب‌بندی به شکل…"
 
 #: ../src/modules/text-highlight/e-mail-display-popup-text-highlight.c:102
-#, fuzzy
-#| msgid "Language"
 msgid "_Other languages"
-msgstr "زبان"
+msgstr "_دیگر زبان‌ها"
 
 #: ../src/modules/text-highlight/e-mail-formatter-text-highlight.c:493
-#, fuzzy
-#| msgid "Text height"
 msgid "Text Highlight"
-msgstr "ارتفاع متن"
+msgstr "برجسته سازی متن"
 
 #: ../src/modules/text-highlight/e-mail-formatter-text-highlight.c:494
 msgid "Syntax highlighting of mail parts"
@@ -24999,29 +24926,20 @@ msgid "_VHDL"
 msgstr "_وی‌اچ‌دی‌ال"
 
 #: ../src/modules/vcard-inline/e-mail-formatter-vcard.c:153
-#, fuzzy
-#| msgid "Show Full VCard"
 msgid "Show F_ull vCard"
-msgstr "نمایش کارت مجازی کامل"
+msgstr "نمایش کارت مجازی _کامل"
 
 #: ../src/modules/vcard-inline/e-mail-formatter-vcard.c:183
-#, fuzzy
-#| msgid "Show Compact VCard"
 msgid "Show Com_pact vCard"
-msgstr "نمایش کارت مجازی فشرده"
+msgstr "نمایش کارت مجازی _فشرده"
 
 #: ../src/modules/vcard-inline/e-mail-formatter-vcard.c:205
-#, fuzzy
-#| msgid "Save in addressbook"
 msgid "Save _To Addressbook"
-msgstr "ذخیره در دفترچه نشانی"
+msgstr "ذخیره در _دفترچه نشانی"
 
 #: ../src/modules/vcard-inline/e-mail-formatter-vcard.c:228
-#, fuzzy
-#| msgid "There is one other contact."
-#| msgid_plural "There are %d other contacts."
 msgid "There is one other contact."
-msgstr "%Id آشنای دیگر هستند."
+msgstr "آشنای دیگری وجود ندارد."
 
 #. Translators: This will always be two or more.
 #: ../src/modules/vcard-inline/e-mail-formatter-vcard.c:233
@@ -25032,10 +24950,8 @@ msgstr[0] "%Id آشنای دیگر هست."
 msgstr[1] "%Id آشنای دیگر هستند."
 
 #: ../src/modules/vcard-inline/e-mail-formatter-vcard.c:259
-#, fuzzy
-#| msgid "Addressbook"
 msgid "Addressbook Contact"
-msgstr "دفترچه نشانی"
+msgstr "آشنای دفترچه نشانی"
 
 #: ../src/modules/vcard-inline/e-mail-formatter-vcard.c:260
 msgid "Display the part as an addressbook contact"
@@ -25043,16 +24959,13 @@ msgstr ""
 
 #. Translators: The "%s" is replaced with a link, constructing a text like: "Ctrl-click to open a link “http://www.example.com”"
 #: ../src/modules/webkit-editor/e-webkit-editor.c:5493
-#, fuzzy, c-format
-#| msgid "Click to open %s"
+#, c-format
 msgid "Ctrl-click to open a link “%s”"
-msgstr "برای گشودن %s کلیک کنید"
+msgstr "برای گشودن یک پیوند «%s» مهار را گرفته و کلیک کنید"
 
 #: ../src/plugins/attachment-reminder/attachment-reminder.c:169
-#, fuzzy
-#| msgid "Do not show this message again."
 msgid "_Do not show this message again."
-msgstr "این پیام دیگر نشان داده نشود."
+msgstr "_دیگر این پیام نشان داده نشود."
 
 #: ../src/plugins/attachment-reminder/attachment-reminder.c:586
 #: ../src/plugins/templates/templates.c:495
@@ -25060,10 +24973,8 @@ msgid "Keywords"
 msgstr "کلیدواژگان"
 
 #: ../src/plugins/attachment-reminder/org-gnome-attachment-reminder.error.xml.h:1
-#, fuzzy
-#| msgid "Save all attachments"
 msgid "Message has no attachments"
-msgstr "ذخیرهٔ همهٔ پیوست‌ها"
+msgstr "پیام هیچ پیوستی ندارد"
 
 #: ../src/plugins/attachment-reminder/org-gnome-attachment-reminder.error.xml.h:2
 msgid ""
@@ -25081,10 +24992,8 @@ msgid "_Edit Message"
 msgstr "_ویرایش پیام"
 
 #: ../src/plugins/attachment-reminder/org-gnome-evolution-attachment-reminder.eplug.xml.h:1
-#, fuzzy
-#| msgid "Attachment Bar"
 msgid "Attachment Reminder"
-msgstr "نوار پیوست"
+msgstr "یادآور پیوست"
 
 #: ../src/plugins/attachment-reminder/org-gnome-evolution-attachment-reminder.eplug.xml.h:2
 msgid "Reminds you when you forgot to add an attachment to a mail message."
@@ -25097,10 +25006,8 @@ msgstr "آشنا‌های خودکار"
 
 #. Enable BBDB checkbox
 #: ../src/plugins/bbdb/bbdb.c:730
-#, fuzzy
-#| msgid "_Hide addresses when sending mail to this list"
 msgid "Create _address book entries when sending mails"
-msgstr "_نهفتن نشانی‌ها هنگام ارسال نامه به این فهرست"
+msgstr "ایجاد ورودی‌های _دفترچه نشانی هنگام فرستادن نامه‌ها"
 
 #. File Under setting
 #: ../src/plugins/bbdb/bbdb.c:741
@@ -25108,10 +25015,8 @@ msgid "Set File _under as “First Last”, instead of “Last, First”"
 msgstr ""
 
 #: ../src/plugins/bbdb/bbdb.c:752
-#, fuzzy
-#| msgid "Automatic Contacts"
 msgid "Select Address book for Automatic Contacts"
-msgstr "آشنا‌های خودکار"
+msgstr "گزینش دفترچه نشانی برای آشناهای خودکار"
 
 #: ../src/plugins/bbdb/bbdb.c:772
 msgid "Instant Messaging Contacts"
@@ -25119,17 +25024,12 @@ msgstr "آشنایان پیام فوری"
 
 #. Enable Gaim Checkbox
 #: ../src/plugins/bbdb/bbdb.c:787
-#, fuzzy
-#| msgid ""
-#| "Periodically synchronize contact information and images from gaim buddy list"
 msgid "_Synchronize contact info and images from Pidgin buddy list"
-msgstr "همگام‌سازی ادواری اطلاعات و تصاویر آشنایان از فهرست رفقای گیم"
+msgstr "همگام‌سازی اطّلاعات و تصاویر آشنایان از سیاههٔ رفقای پیجن"
 
 #: ../src/plugins/bbdb/bbdb.c:797
-#, fuzzy
-#| msgid "Select Address Book"
 msgid "Select Address book for Pidgin buddy list"
-msgstr "انتخاب دفترچه نشانی"
+msgstr "گزینش دفترچه نشانی برای سیاههٔ رفقای پیجن"
 
 #. Synchronize now button.
 #: ../src/plugins/bbdb/bbdb.c:813
@@ -25156,22 +25056,16 @@ msgstr ""
 "فهرست رفقای شما می‌گیرد."
 
 #: ../src/plugins/dbx-import/dbx-importer.c:274
-#, fuzzy
-#| msgid "Importing Netscape data"
 msgid "Importing Outlook Express data"
-msgstr "در حال وارد کردن داده‌های نت‌اسکیپ"
+msgstr "درون ریزی کردن داده‌های اکسپرس اوت‌لوک"
 
 #: ../src/plugins/dbx-import/org-gnome-dbx-import.eplug.xml.h:1
-#, fuzzy
-#| msgid "Outlook CSV and Tab Importer"
 msgid "Outlook DBX import"
-msgstr "واردکنندهٔ پرونده‌های CSV و Tab آوت‌لوک"
+msgstr "درون‌ریزی DBX اوت‌لوک"
 
 #: ../src/plugins/dbx-import/org-gnome-dbx-import.eplug.xml.h:2
-#, fuzzy
-#| msgid "Outlook Express 4 (.mbx)"
 msgid "Outlook Express 5/6 personal folders (.dbx)"
-msgstr "آوتلوک اکسپرس 4 (‎.mbx)"
+msgstr "شاخه‌های شخصی اکسپرس اوت‌لوک ۵/۶ (‪.dbx‬)"
 
 #: ../src/plugins/dbx-import/org-gnome-dbx-import.eplug.xml.h:3
 msgid "Import Outlook Express messages from DBX file"
@@ -25240,10 +25134,8 @@ msgid "Values"
 msgstr "مقدارها"
 
 #: ../src/plugins/email-custom-header/org-gnome-email-custom-header.eplug.xml.h:1
-#, fuzzy
-#| msgid "Custom _message"
 msgid "Custom Header"
-msgstr "_پیام سفارشی"
+msgstr "سرایند سفارشی"
 
 #. For Translators: 'custom header' string is used while adding a new message header to outgoing message, to specify what value for the message header would be added
 #: ../src/plugins/email-custom-header/org-gnome-email-custom-header.eplug.xml.h:3
@@ -25265,10 +25157,8 @@ msgid ""
 msgstr ""
 
 #: ../src/plugins/external-editor/external-editor.c:119
-#, fuzzy
-#| msgid "Automatically check for _new mail every"
 msgid "_Automatically launch when a new mail is edited"
-msgstr "گشتن خودکار به دنبال نامهٔ _جدید در هر"
+msgstr "اجرای _خودکار هنگام ویرایش شدن نامه‌ای جدید"
 
 #: ../src/plugins/external-editor/external-editor.c:489
 #: ../src/plugins/external-editor/external-editor.c:491
@@ -25276,10 +25166,8 @@ msgid "Compose in External Editor"
 msgstr "ایجاد در ویرایشگر خارجی"
 
 #: ../src/plugins/external-editor/org-gnome-external-editor.eplug.xml.h:1
-#, fuzzy
-#| msgid "Contact Editor"
 msgid "External Editor"
-msgstr "ویرایش‌گر آشنا"
+msgstr "ویرایشگر خارجی"
 
 #: ../src/plugins/external-editor/org-gnome-external-editor.eplug.xml.h:2
 msgid "Use an external editor to compose plain-text mail messages."
@@ -25315,10 +25203,8 @@ msgid ""
 msgstr ""
 
 #: ../src/plugins/face/face.c:295
-#, fuzzy
-#| msgid "Select a File"
 msgid "Select a Face Picture"
-msgstr "انتخاب یک پرونده"
+msgstr "گزینش یک عکس صورت"
 
 #: ../src/plugins/face/face.c:389
 msgid "_Insert Face picture by default"
@@ -25329,10 +25215,8 @@ msgid "Load new _Face picture"
 msgstr "بار کردن تصویر _صورت جدید"
 
 #: ../src/plugins/face/face.c:446
-#, fuzzy
-#| msgid "Choose Image"
 msgid "Change Face Image"
-msgstr "انتخاب تصویر"
+msgstr "تغییر تصویر صورت"
 
 #: ../src/plugins/face/face.c:534
 msgid "Include _Face"
@@ -25351,10 +25235,8 @@ msgid "The file cannot be read"
 msgstr "پرونده نمی‌تواند خوانده شود"
 
 #: ../src/plugins/face/org-gnome-face.error.xml.h:3
-#, fuzzy
-#| msgid "Invalid message contents"
 msgid "Invalid Image Size"
-msgstr "محتویات پیام نامعتبر است"
+msgstr "اندازهٔ تصویر نامعتبر"
 
 #: ../src/plugins/face/org-gnome-face.error.xml.h:4
 msgid ""
@@ -25374,42 +25256,32 @@ msgid ""
 msgstr ""
 
 #: ../src/plugins/face/org-gnome-face.error.xml.h:7
-#, fuzzy
-#| msgid "No image"
 msgid "Not an image"
-msgstr "بدون تصویر"
+msgstr "یک تصویر نیست"
 
 #: ../src/plugins/face/org-gnome-face.error.xml.h:8
 msgid "The file you selected does not look like a valid PNG image. Error: {0}"
 msgstr ""
 
 #: ../src/plugins/mailing-list-actions/mailing-list-actions.c:417
-#, fuzzy
-#| msgid "Get list _archive"
 msgid "Get List _Archive"
-msgstr "_گرفتن آرشیو فهرست"
+msgstr "گرفتن _بایگانی فهرست"
 
 #: ../src/plugins/mailing-list-actions/mailing-list-actions.c:419
 msgid "Get an archive of the list this message belongs to"
 msgstr ""
 
 #: ../src/plugins/mailing-list-actions/mailing-list-actions.c:424
-#, fuzzy
-#| msgid "_Message Source"
 msgid "Copy _Message Archive URL"
-msgstr "منبع _پیام"
+msgstr "رونوشت از نشانی بایگانی _پیام"
 
 #: ../src/plugins/mailing-list-actions/mailing-list-actions.c:426
-#, fuzzy
-#| msgid "Redirect (bounce) the selected message to someone"
 msgid "Copy direct URL for the selected message in its archive"
-msgstr "ارسال پیام گزیده به کسی دیگر (برگشت زدن)"
+msgstr "رونوشت از نشانی مستقیم پیام گزیده در بایگانیش"
 
 #: ../src/plugins/mailing-list-actions/mailing-list-actions.c:431
-#, fuzzy
-#| msgid "Get list _usage information"
 msgid "Get List _Usage Information"
-msgstr "گرفتن _اطلاعات استفادهٔ فهرست"
+msgstr "گرفتن اطّلاعات استفادهٔ _سیاهه"
 
 #: ../src/plugins/mailing-list-actions/mailing-list-actions.c:433
 msgid "Get information about the usage of the list this message belongs to"
