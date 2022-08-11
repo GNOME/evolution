@@ -6,7 +6,7 @@ msgstr ""
 "Project-Id-Version: evolution 0\n"
 "Report-Msgid-Bugs-To: https://gitlab.gnome.org/GNOME/evolution/issues\n"
 "POT-Creation-Date: 2022-08-04 09:52+0000\n"
-"PO-Revision-Date: 2022-08-11 19:55+0200\n"
+"PO-Revision-Date: 2022-08-11 20:08+0200\n"
 "Last-Translator: gogo <trebelnik2@gmail.com>\n"
 "Language-Team: Croatian <lokalizacija@linux.hr>\n"
 "Language: hr\n"
@@ -26479,11 +26479,11 @@ msgstr "Preuzimanje informacija kanala…"
 
 #: ../src/modules/rss/evolution/e-rss-preferences.c:529
 msgid "Invalid Feed URL"
-msgstr "Nevaljan URL kanala."
+msgstr "Nevaljan URL kanala"
 
 #: ../src/modules/rss/evolution/e-rss-preferences.c:572
 msgid "Choose Feed Image"
-msgstr "Promijeni sliku kanala"
+msgstr "Odaberi sliku kanala"
 
 #: ../src/modules/rss/evolution/e-rss-preferences.c:788
 msgid "Feed _URL:"
