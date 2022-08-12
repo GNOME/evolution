@@ -13,7 +13,7 @@ msgstr ""
 "Project-Id-Version: evolution\n"
 "Report-Msgid-Bugs-To: https://gitlab.gnome.org/GNOME/evolution/issues\n"
 "POT-Creation-Date: 2022-08-10 23:21+0000\n"
-"PO-Revision-Date: 2022-08-12 23:09+0430\n"
+"PO-Revision-Date: 2022-08-12 23:33+0430\n"
 "Last-Translator: Danial Behzadi <dani.behzi@ubuntu.com>\n"
 "Language-Team: Persian <haghighi.ahmad@gmail.com>\n"
 "Language: fa\n"
@@ -25966,10 +25966,8 @@ msgid ""
 msgstr ""
 
 #: ../src/plugins/sender-validation/org-gnome-sender-validation.error.xml.h:1
-#, fuzzy
-#| msgid "Add Sender to Address Book"
 msgid "Confirm sender address"
-msgstr "افزودن فرستنده به دفترچه نشانی"
+msgstr "تأیید نشانی فرستنده"
 
 #: ../src/plugins/sender-validation/org-gnome-sender-validation.error.xml.h:2
 msgid ""
@@ -25978,22 +25976,16 @@ msgid ""
 msgstr ""
 
 #: ../src/plugins/sender-validation/org-gnome-sender-validation.error.xml.h:4
-#, fuzzy
-#| msgid "_Send All"
 msgid "_Send Anyway"
-msgstr "_فرستادن همه"
+msgstr "_فرستادن به هر حال"
 
 #: ../src/plugins/sender-validation/sender-validation.c:520
-#, fuzzy
-#| msgid "Recipients contain"
 msgid "Recipient Contains"
-msgstr "گیرنده‌ حاوی"
+msgstr "گیرنده‌ شامل"
 
 #: ../src/plugins/sender-validation/sender-validation.c:530
-#, fuzzy
-#| msgid "Accounts"
 msgid "Account to Use"
-msgstr "حساب"
+msgstr "حساب برای استفاده"
 
 #: ../src/plugins/templates/org-gnome-templates.eplug.xml.h:2
 msgid ""
@@ -26003,34 +25995,24 @@ msgid ""
 msgstr ""
 
 #: ../src/plugins/templates/templates.c:887
-#, fuzzy
-#| msgid "Saving message to Outbox."
 msgid "Saving message template"
-msgstr "در حال ذخیرهٔ پیام‌ها در صندوق خروجی"
+msgstr "ذخیره کردن قالب پیام"
 
 #: ../src/plugins/templates/templates.c:908
-#, fuzzy
-#| msgid "Save as draft"
 msgid "Save as _Template"
-msgstr "ذخیره به عنوان پیش‌نویس"
+msgstr "ذخیره به شکل _قالب"
 
 #: ../src/plugins/templates/templates.c:910
-#, fuzzy
-#| msgid "Save as draft"
 msgid "Save as Template"
-msgstr "ذخیره به عنوان پیش‌نویس"
+msgstr "ذخیره به شکل قالب"
 
 #: ../src/shell/e-shell.c:383
-#, fuzzy
-#| msgid "Exchange Account is offline."
 msgid "Preparing to go offline…"
-msgstr "حساب اِکس‌چنج برون‌خط است."
+msgstr "آمادگی برای برون‌خط شدن…"
 
 #: ../src/shell/e-shell.c:412
-#, fuzzy
-#| msgid "Exchange Account is offline."
 msgid "Preparing to go online…"
-msgstr "حساب اِکس‌چنج برون‌خط است."
+msgstr "آمادگی برای برون‌خط شدن…"
 
 #: ../src/shell/e-shell.c:523
 msgid "Preparing to quit"
@@ -26041,10 +26023,8 @@ msgid "Preparing to quit…"
 msgstr "در حال آماده‌سازی برای خروج…"
 
 #: ../src/shell/e-shell.c:1111
-#, fuzzy
-#| msgid "Junk Settings"
 msgid "Open _Settings"
-msgstr "تنظیمات آشغال"
+msgstr "گشودن _تنظیمات"
 
 #: ../src/shell/e-shell.c:1320
 msgid "Credentials are required to connect to the destination host."
@@ -26074,8 +26054,6 @@ msgstr "_نمایش:"
 #. Translators: This is part of the quick search interface.
 #. * example: Search: [_______________] in [ Current Folder ]
 #: ../src/shell/e-shell-searchbar.c:955
-#, fuzzy
-#| msgid "_Search:"
 msgid "Sear_ch:"
 msgstr "_جست‌وجو:"
 
@@ -26113,28 +26091,20 @@ msgid "Categories Editor"
 msgstr "فهرست دسته‌ها"
 
 #: ../src/shell/e-shell-window-actions.c:658
-#, fuzzy
-#| msgid "Bug buddy is not installed."
 msgid "Bug Buddy is not installed."
-msgstr "‏Bug buddy نصب نشده است."
+msgstr "Bug buddy نصب نشده."
 
 #: ../src/shell/e-shell-window-actions.c:659
-#, fuzzy
-#| msgid "Bug buddy could not be run."
 msgid "Bug Buddy could not be run."
-msgstr "اجرای Bug buddy ممکن نیست."
+msgstr "Bug Buddy نتوانست اجرا شود."
 
 #: ../src/shell/e-shell-window-actions.c:899
-#, fuzzy
-#| msgid "Collection"
 msgid "Collect_ion Account"
-msgstr "مجموعه"
+msgstr "حساب _مجموعه"
 
 #: ../src/shell/e-shell-window-actions.c:901
-#, fuzzy
-#| msgid "Create a new mail folder"
 msgid "Create a new collection account"
-msgstr "ایجاد یک شاخهٔ نامهٔ جدید"
+msgstr "ایجاد یک حساب مجموعهٔ جدید"
 
 #: ../src/shell/e-shell-window-actions.c:909
 msgid "_About"
@@ -26145,16 +26115,12 @@ msgid "Show information about Evolution"
 msgstr "نمایش اطلاعاتی دربارهٔ اوولوشن"
 
 #: ../src/shell/e-shell-window-actions.c:916
-#, fuzzy
-#| msgid "_Account:"
 msgid "_Accounts"
-msgstr "_حساب:"
+msgstr "_حساب‌ها"
 
 #: ../src/shell/e-shell-window-actions.c:918
-#, fuzzy
-#| msgid "Configure Evolution"
 msgid "Configure Evolution Accounts"
-msgstr "پیکربندی اوولوشن"
+msgstr "پیکربندی حساب‌های اوولوشن"
 
 #: ../src/shell/e-shell-window-actions.c:923
 #: ../src/shell/e-shell-window-actions.c:937
@@ -26166,10 +26132,8 @@ msgid "_Contents"
 msgstr "_محتویات"
 
 #: ../src/shell/e-shell-window-actions.c:946
-#, fuzzy
-#| msgid "Check Evolution archive"
 msgid "Open the Evolution User Guide"
-msgstr "بررسی آرشیو اوولوشن"
+msgstr "گشودن راهنمای کاربری اوولوشن"
 
 #: ../src/shell/e-shell-window-actions.c:972
 msgid "I_mport…"
@@ -26184,22 +26148,16 @@ msgid "New _Window"
 msgstr "_پنجرهٔ جدید"
 
 #: ../src/shell/e-shell-window-actions.c:981
-#, fuzzy
-#| msgid "Create a new window displaying this folder"
 msgid "Create a new window displaying this view"
-msgstr "ایجاد پنجرهٔ جدیدی که این شاخه را نمایش می‌دهد"
+msgstr "ایجاد پنجرهٔ جدیدی که این نما را نمایش می‌دهد"
 
 #: ../src/shell/e-shell-window-actions.c:993
-#, fuzzy
-#| msgid "_Available Categories:"
 msgid "Available Cate_gories"
-msgstr "م_قولات موجود:"
+msgstr "_دسته‌های موجود"
 
 #: ../src/shell/e-shell-window-actions.c:995
-#, fuzzy
-#| msgid "_Available Categories:"
 msgid "Manage available categories"
-msgstr "م_قولات موجود:"
+msgstr "مدیریت دسته‌های موجود"
 
 #: ../src/shell/e-shell-window-actions.c:1007
 msgid "_Quit"
@@ -26210,92 +26168,68 @@ msgid "Exit the program"
 msgstr "خروج از برنامه"
 
 #: ../src/shell/e-shell-window-actions.c:1014
-#, fuzzy
-#| msgid "Save Search"
 msgid "_Saved Searches"
-msgstr "ذخیرهٔ جست‌وجو"
+msgstr "جست‌وجوهای _ذخیره شده"
 
 #: ../src/shell/e-shell-window-actions.c:1021
-#, fuzzy
-#| msgid "Advanced Search"
 msgid "_Advanced Search…"
-msgstr "جست‌وجوی پیشرفته"
+msgstr "جست‌وجوی _پیش‌رفته…"
 
 #: ../src/shell/e-shell-window-actions.c:1023
 msgid "Construct a more advanced search"
 msgstr "شکل دادن جست‌وجویی پیش‌رفته‌تر"
 
 #: ../src/shell/e-shell-window-actions.c:1030
-#, fuzzy
-#| msgid "Cancel the current mail operation"
 msgid "Clear the current search parameters"
-msgstr "انصراف از عملیات نامه‌ای فعلی"
+msgstr "پاک‌سازی پارامترهای جست‌وجوی کنونی"
 
 #: ../src/shell/e-shell-window-actions.c:1035
-#, fuzzy
-#| msgid "_Edit Saved Searches..."
 msgid "_Edit Saved Searches…"
-msgstr "ویرایش جست‌وجوهای ذخیره شده..."
+msgstr "_ویرایش جست‌وجوهای ذخیره شده..."
 
 #: ../src/shell/e-shell-window-actions.c:1037
 msgid "Manage your saved searches"
 msgstr "مدیریت جست‌وجوهای ذخیره‌شده‌تان"
 
 #: ../src/shell/e-shell-window-actions.c:1044
-#, fuzzy
-#| msgid "Click here to attach a file"
 msgid "Click here to change the search type"
-msgstr "<برای پیوست پرونده اینجا کلیک کنید>"
+msgstr "کلیک در این‌جا برای تغییر گونهٔ جست‌وجو"
 
 #: ../src/shell/e-shell-window-actions.c:1049
 msgid "_Find Now"
 msgstr "_پیدا کردن فوری"
 
 #: ../src/shell/e-shell-window-actions.c:1051
-#, fuzzy
-#| msgid "Cancel the current mail operation"
 msgid "Execute the current search parameters"
-msgstr "انصراف از عملیات نامه‌ای فعلی"
+msgstr "اجرای پارامترهای جست‌وجوی کنونی"
 
 #: ../src/shell/e-shell-window-actions.c:1056
-#, fuzzy
-#| msgid "Save Search"
 msgid "_Save Search…"
-msgstr "ذخیرهٔ جست‌وجو"
+msgstr "_ذخیرهٔ جست‌وجو…"
 
 #: ../src/shell/e-shell-window-actions.c:1058
-#, fuzzy
-#| msgid "Save the current file"
 msgid "Save the current search parameters"
-msgstr "ذخیرهٔ پروندهٔ فعلی"
+msgstr "ذخیرهٔ پارامترهای جست‌وجوی کنونی"
 
 #: ../src/shell/e-shell-window-actions.c:1070
-#, fuzzy
-#| msgid "_Forward Contacts"
 msgid "_Keyboard Shortcuts"
-msgstr "_ارجاع آشنایان"
+msgstr "_میان‌برهای صفحه‌کلید"
 
 #: ../src/shell/e-shell-window-actions.c:1072
-#, fuzzy
-#| msgid "Change Evolution's settings"
 msgid "Show keyboard shortcuts"
-msgstr "تغییر تنظیمات اوولوشن"
+msgstr "نمایش میان‌برهای صفحه‌کلید"
 
 #: ../src/shell/e-shell-window-actions.c:1077
-#, fuzzy
-#| msgid "Security Information"
 msgid "Show _WebKit GPU information"
-msgstr "اطلاعات امنیت"
+msgstr "نمایش اطّلاعات گرافیکی _وب‌کیت"
 
 #: ../src/shell/e-shell-window-actions.c:1079
 msgid "Show WebKit GPU information page in the preview panel"
 msgstr "نمایش صفحهٔ اطّلاعات پردازش گرافیکی وب‌کیت در تابلوی پیش‌نمایش"
 
 #: ../src/shell/e-shell-window-actions.c:1084
-#, fuzzy
-#| msgid "Submit Bug Report"
 msgid "Submit _Bug Report…"
-msgstr "ارسال گزارش اشکال"
+msgstr "ثبت گزارش _اشکال…"
 
 #: ../src/shell/e-shell-window-actions.c:1086
 msgid "Submit a bug report using Bug Buddy"
@@ -26306,20 +26240,16 @@ msgid "_Work Offline"
 msgstr "_کار برون‌خط"
 
 #: ../src/shell/e-shell-window-actions.c:1093
-#, fuzzy
-#| msgid "Start in offline mode"
 msgid "Put Evolution into offline mode"
-msgstr "شروع با حالت برون‌خط"
+msgstr "گذااشتن اولوشن در حالت برون‌خط"
 
 #: ../src/shell/e-shell-window-actions.c:1098
 msgid "_Work Online"
 msgstr "_کار برخط"
 
 #: ../src/shell/e-shell-window-actions.c:1100
-#, fuzzy
-#| msgid "Start in online mode"
 msgid "Put Evolution into online mode"
-msgstr "آغاز در حالت برخط"
+msgstr "گذااشتن اولوشن در حالت برخط"
 
 #: ../src/shell/e-shell-window-actions.c:1128
 msgid "Lay_out"
@@ -26343,98 +26273,70 @@ msgid "_Window"
 msgstr "_پنجره"
 
 #: ../src/shell/e-shell-window-actions.c:1193
-#, fuzzy
-#| msgid "Status _Bar"
 msgid "Show _Menu Bar"
-msgstr "_نوار وضعیت"
+msgstr "نمایش نوار _فهرست"
 
 #: ../src/shell/e-shell-window-actions.c:1195
-#, fuzzy
-#| msgid "Show the \"Preview\" pane"
 msgid "Show the menu bar"
-msgstr "نمایش قاب «پیش‌نمایش»"
+msgstr "نمایش نوار فهرست"
 
 #: ../src/shell/e-shell-window-actions.c:1201
-#, fuzzy
-#| msgid "Side _Bar"
 msgid "Show Side _Bar"
-msgstr "_نوار کناری"
+msgstr "نمایش نوار _کناری"
 
 #: ../src/shell/e-shell-window-actions.c:1203
-#, fuzzy
-#| msgid "Show the \"Preview\" pane"
 msgid "Show the side bar"
-msgstr "نمایش قاب «پیش‌نمایش»"
+msgstr "نمایش نوار کناری"
 
 #: ../src/shell/e-shell-window-actions.c:1209
-#, fuzzy
-#| msgid "Window B_uttons"
 msgid "Show _Buttons"
-msgstr "_دکمه‌های پنجره"
+msgstr "نمایش _دکمه‌ها"
 
 #: ../src/shell/e-shell-window-actions.c:1211
-#, fuzzy
-#| msgid "Show time as _busy"
 msgid "Show the switcher buttons"
-msgstr "نمایش زمان به شکل _مشغول"
+msgstr "نمایش دکمه‌های تعویضگر"
 
 #: ../src/shell/e-shell-window-actions.c:1217
-#, fuzzy
-#| msgid "Status _Bar"
 msgid "Show _Status Bar"
-msgstr "_نوار وضعیت"
+msgstr "نمایش نوار _وضعیت"
 
 #: ../src/shell/e-shell-window-actions.c:1219
-#, fuzzy
-#| msgid "View/Hide the Status Bar"
 msgid "Show the status bar"
-msgstr "نمایش/نهفتن نوار وضعیت"
+msgstr "نمایش نوار وضعیت"
 
 #: ../src/shell/e-shell-window-actions.c:1225
-#, fuzzy
-#| msgid "Show Full VCard"
 msgid "Show _Tool Bar"
-msgstr "نمایش کارت مجازی کامل"
+msgstr "نمایش نوار _ابزار"
 
 #: ../src/shell/e-shell-window-actions.c:1227
-#, fuzzy
-#| msgid "Show Attachment _Bar"
 msgid "Show the tool bar"
-msgstr "_نوار پیوست نمایش داده شود"
+msgstr "نمایش نوار ابزار"
 
 #: ../src/shell/e-shell-window-actions.c:1249
-#, fuzzy
-#| msgid "_Icons only"
 msgid "_Icons Only"
-msgstr "فقط _شمایل‌ها"
+msgstr "فقط _نقشک‌ها"
 
 #: ../src/shell/e-shell-window-actions.c:1251
 msgid "Display window buttons with icons only"
 msgstr "نمایش دکمه‌های پنجره فقط با شمایل"
 
 #: ../src/shell/e-shell-window-actions.c:1256
-#, fuzzy
-#| msgid "_Text only"
 msgid "_Text Only"
-msgstr "_فقط متنی"
+msgstr "فقط _متن"
 
 #: ../src/shell/e-shell-window-actions.c:1258
 msgid "Display window buttons with text only"
 msgstr "نمایش دکمه‌های پنجره فقط با متن"
 
 #: ../src/shell/e-shell-window-actions.c:1263
-#, fuzzy
-#| msgid "Icons _and text"
 msgid "Icons _and Text"
-msgstr "شمایل _و متن"
+msgstr "نقشک _و متن"
 
 #: ../src/shell/e-shell-window-actions.c:1265
 msgid "Display window buttons with icons and text"
 msgstr "نمایش دکمه‌های پنجره با شمایل و متن"
 
 #: ../src/shell/e-shell-window-actions.c:1270
-#, fuzzy
-#| msgid "Tool_bar style"
 msgid "Tool_bar Style"
 msgstr "سبک _نوار ابزار"
 
@@ -26443,10 +26345,8 @@ msgid "Display window buttons using the desktop toolbar setting"
 msgstr "نمایش دکمه‌های پنجره با استفاده از تنظیمات نوار ابزار رومیزی"
 
 #: ../src/shell/e-shell-window-actions.c:1280
-#, fuzzy
-#| msgid "Save Current View"
 msgid "Delete Current View"
-msgstr "ذخیرهٔ نمای فعلی"
+msgstr "حذف نمای کنونی"
 
 #: ../src/shell/e-shell-window-actions.c:1287
 #, fuzzy
