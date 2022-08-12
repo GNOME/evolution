@@ -12,8 +12,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: evolution\n"
 "Report-Msgid-Bugs-To: https://gitlab.gnome.org/GNOME/evolution/issues\n"
-"POT-Creation-Date: 2022-08-09 10:14+0000\n"
-"PO-Revision-Date: 2022-08-11 03:50+0430\n"
+"POT-Creation-Date: 2022-08-10 23:21+0000\n"
+"PO-Revision-Date: 2022-08-12 23:09+0430\n"
 "Last-Translator: Danial Behzadi <dani.behzi@ubuntu.com>\n"
 "Language-Team: Persian <haghighi.ahmad@gmail.com>\n"
 "Language: fa\n"
@@ -25042,9 +25042,6 @@ msgstr "BBDB"
 
 #: ../src/plugins/bbdb/org-gnome-evolution-bbdb.eplug.xml.h:3
 #, fuzzy
-#| msgid ""
-#| "Automatically fills your addressbook with names and email addresses as you "
-#| "reply to messages. Also fills in IM contact information from your buddy lists."
 msgid ""
 "Takes the gruntwork out of managing your address book.\n"
 "\n"
@@ -25288,46 +25285,36 @@ msgid "Get information about the usage of the list this message belongs to"
 msgstr ""
 
 #: ../src/plugins/mailing-list-actions/mailing-list-actions.c:438
-#, fuzzy
-#| msgid "Contact list _owner"
 msgid "Contact List _Owner"
-msgstr "_مالک فهرست آشنا"
+msgstr "_مالک سیاههٔ آشنا"
 
 #: ../src/plugins/mailing-list-actions/mailing-list-actions.c:440
 msgid "Contact the owner of the mailing list this message belongs to"
 msgstr "تماس با صاحب فهرست پستی‌ای که این پیام به آن تعلق دارد"
 
 #: ../src/plugins/mailing-list-actions/mailing-list-actions.c:445
-#, fuzzy
-#| msgid "_Post message to list"
 msgid "_Post Message to List"
-msgstr "_پست پیام به فهرست"
+msgstr "_ارسال پیام به سیاهه"
 
 #: ../src/plugins/mailing-list-actions/mailing-list-actions.c:447
 msgid "Post a message to the mailing list this message belongs to"
 msgstr "پست پیام برای فهرست پستی‌ای که این پیام به آن تعلق دارد"
 
 #: ../src/plugins/mailing-list-actions/mailing-list-actions.c:452
-#, fuzzy
-#| msgid "_Subscribe to list"
 msgid "_Subscribe to List"
-msgstr "آ_بونه شدن فهرست"
+msgstr "ا_شتراک به فهرست"
 
 #: ../src/plugins/mailing-list-actions/mailing-list-actions.c:454
 msgid "Subscribe to the mailing list this message belongs to"
 msgstr "مشترک شدن فهرست پستی‌ای که این پیام به آن تعلق دارد"
 
 #: ../src/plugins/mailing-list-actions/mailing-list-actions.c:459
-#, fuzzy
-#| msgid "Unsubscribe from \"%s\""
 msgid "_Unsubscribe from List"
-msgstr "قطع اشتراک «%s»"
+msgstr "_قطع اشتراک از سیاهه"
 
 #: ../src/plugins/mailing-list-actions/mailing-list-actions.c:461
-#, fuzzy
-#| msgid "Unsubscribe to the mailing list this message belongs to"
 msgid "Unsubscribe from the mailing list this message belongs to"
-msgstr "قطع اشتراک فهرست پستی‌ای که این پیام به آن تعلق دارد"
+msgstr "قطع اشتراک سیاههٔ پستی‌ای که این پیام به آن تعلق دارد"
 
 #: ../src/plugins/mailing-list-actions/mailing-list-actions.c:468
 msgid "Mailing _List"
@@ -25424,18 +25411,16 @@ msgstr "از: %s"
 #. Translators: "Subject:" is preceding a new mail
 #. * subject, like "Subject: It happened again"
 #: ../src/plugins/mail-notification/mail-notification.c:517
-#, fuzzy, c-format
-#| msgid "Subject is %s"
+#, c-format
 msgid "Subject: %s"
-msgstr "موضوع %s باشد"
+msgstr "موضوع: %s"
 
 #. Translators: The '%s' is replaced by the folder name, where a new
 #. * mail message arrived. Example: "Folder: On This Computer : Inbox"
 #: ../src/plugins/mail-notification/mail-notification.c:525
-#, fuzzy, c-format
-#| msgid "vFolders"
+#, c-format
 msgid "Folder: %s"
-msgstr "پوشه‌های مجازی"
+msgstr "شاخه: %s"
 
 #. Translators: %d is the count of mails received in addition
 #. * to the one displayed in this notification.
@@ -25447,42 +25432,31 @@ msgstr[0] "(و %Id بیش‌تر)"
 msgstr[1] "(و %Id بیش‌تر)"
 
 #: ../src/plugins/mail-notification/mail-notification.c:546
-#, fuzzy
-#| msgid "New mail notify"
 msgid "New email in Evolution"
-msgstr "اعلان نامهٔ جدید"
+msgstr "رایانامهٔ جدید در اولوشن"
 
 #. Translators: The '%s' is a mail
 #. * folder name.  (e.g. "Show Inbox")
 #: ../src/plugins/mail-notification/mail-notification.c:587
-#, fuzzy, c-format
-#| msgid "Show Fields"
+#, c-format
 msgid "Show %s"
-msgstr "نمایش فیلدها"
+msgstr "نمایش %s"
 
 #: ../src/plugins/mail-notification/mail-notification.c:847
-#, fuzzy
-#| msgid "Play sound file when new mail arri_ves"
 msgid "_Play sound when a new message arrives"
-msgstr "پخش پروندهٔ صدا هنگامی که نامهٔ جدیدی می‌رسد"
+msgstr "_پخش صدا هنگام رسیدن پیام جدید"
 
 #: ../src/plugins/mail-notification/mail-notification.c:879
-#, fuzzy
-#| msgid "Beep"
 msgid "_Beep"
-msgstr "بوق"
+msgstr "_بوق"
 
 #: ../src/plugins/mail-notification/mail-notification.c:892
-#, fuzzy
-#| msgid "Use underline"
 msgid "Use sound _theme"
-msgstr "استفاده از زیرخط"
+msgstr "استفاده _زمینهٔ صوتی"
 
 #: ../src/plugins/mail-notification/mail-notification.c:911
-#, fuzzy
-#| msgid "Search _filter:"
 msgid "Play _file:"
-msgstr "_صافی جست‌وجو:"
+msgstr "پخش _پرونده:"
 
 #: ../src/plugins/mail-notification/mail-notification.c:920
 msgid "Select sound file"
@@ -25494,30 +25468,24 @@ msgstr "گزینش حساب‌هایی که برایشان آگاهی‌ها ب�
 
 #: ../src/plugins/mail-notification/mail-notification.c:1231
 #: ../src/plugins/mail-notification/org-gnome-mail-notification.eplug.xml.h:1
-#, fuzzy
-#| msgid "New Mail Notification"
 msgid "Mail Notification"
-msgstr "اطلاع نامهٔ جدید"
+msgstr "آگاهی نامه"
 
 #: ../src/plugins/mail-notification/mail-notification.c:1245
 msgid "Notify new messages for _Inbox only"
 msgstr "آگاهی فقط برای پیام‌های جدید در صندوق _ورودی"
 
 #: ../src/plugins/mail-notification/mail-notification.c:1261
-#, fuzzy
-#| msgid "_Do not notify me when new mail arrives"
 msgid "Show _notification when a new message arrives"
-msgstr "هنگامی که نامهٔ جدیدی می‌رسد به من اعلام _نشود"
+msgstr "نمایش آگاهی هنگام رسیدن نامهٔ جدید"
 
 #: ../src/plugins/mail-notification/mail-notification.c:1279
 msgid "Accounts"
 msgstr "حساب"
 
 #: ../src/plugins/mail-notification/org-gnome-mail-notification.eplug.xml.h:2
-#, fuzzy
-#| msgid "Sound file to play when new mail arrives."
 msgid "Notifies you when new mail messages arrive."
-msgstr "پروندهٔ صوتی که هنگام رسیدن نامهٔ جدید پخش می‌شود."
+msgstr "آگاه کردنتان هنگام رسیدن پیام‌های نامهٔ جدید."
 
 #. To Translators: The full sentence looks like: "Created from a mail by John Doe <john.doe@myco.example>"
 #: ../src/plugins/mail-to-task/mail-to-task.c:199
@@ -25601,10 +25569,8 @@ msgstr[0] ""
 msgstr[1] ""
 
 #: ../src/plugins/mail-to-task/mail-to-task.c:681
-#, fuzzy
-#| msgid "Do you wish to overwrite it?"
 msgid "Do you wish to continue converting remaining mails?"
-msgstr "آیا می‌خواهید آن را رونویسی کنید؟"
+msgstr "می‌خواهید تبدیل نامه‌های مانده را ادامه دهید؟"
 
 #: ../src/plugins/mail-to-task/mail-to-task.c:763
 msgid "[No Summary]"
@@ -25620,10 +25586,9 @@ msgid "An error occurred during processing: %s"
 msgstr "هنگام پردازش، خطایی رخ داد: %s"
 
 #: ../src/plugins/mail-to-task/mail-to-task.c:880
-#, fuzzy, c-format
-#| msgid "Can not open file"
+#, c-format
 msgid "Cannot open calendar. %s"
-msgstr "نمی‌توان پرونده را گشود"
+msgstr "نمی‌توان تقویم را گشود. %s"
 
 #: ../src/plugins/mail-to-task/mail-to-task.c:884
 msgid ""
@@ -25644,62 +25609,43 @@ msgid ""
 msgstr ""
 
 #: ../src/plugins/mail-to-task/mail-to-task.c:951
-#, fuzzy, c-format
-#| msgid "Cannot create object"
+#, c-format
 msgid "Cannot create component: %s"
-msgstr "نمی‌توان شیء را ایجاد کرد"
+msgstr "نمی‌توان مولّفه را ایجاد کرد: %s"
 
 #: ../src/plugins/mail-to-task/mail-to-task.c:1328
-#, fuzzy
-#| msgid "Create a new appointment"
 msgid "Create an _Appointment"
-msgstr "ایجاد یک قرار جدید"
+msgstr "ایجاد یک -قرار"
 
 #: ../src/plugins/mail-to-task/mail-to-task.c:1330
-#, fuzzy
-#| msgid "Compose a reply to the sender of the selected message"
 msgid "Create a new event from the selected message"
-msgstr "نگارش پاسخ برای فرستندهٔ پیام گزیده"
+msgstr "ایجاد رویدادی جدید از پیام گزیده"
 
 #: ../src/plugins/mail-to-task/mail-to-task.c:1335
-#, fuzzy
-#| msgid "Create a new memo"
 msgid "Create a Mem_o"
-msgstr "ایجاد یک یادداشت جدید"
+msgstr "ایجاد یک _یادداشت"
 
 #: ../src/plugins/mail-to-task/mail-to-task.c:1337
-#, fuzzy
-#| msgid "Compose a reply to the sender of the selected message"
 msgid "Create a new memo from the selected message"
-msgstr "نگارش پاسخ برای فرستندهٔ پیام گزیده"
+msgstr "ایجاد یادداشتی جدید از پیام گزیده"
 
 #: ../src/plugins/mail-to-task/mail-to-task.c:1342
-#, fuzzy
-#| msgid "Create a new task"
 msgid "Create a _Task"
-msgstr "ایجاد یک تکلیف جدید"
+msgstr "ایجاد یک _تکلیف"
 
 #: ../src/plugins/mail-to-task/mail-to-task.c:1344
-#, fuzzy
-#| msgid "Compose a reply to the sender of the selected message"
 msgid "Create a new task from the selected message"
-msgstr "نگارش پاسخ برای فرستندهٔ پیام گزیده"
+msgstr "ایجاد تکلیفی جدید از پیام گزیده"
 
 #: ../src/plugins/mail-to-task/mail-to-task.c:1352
-#, fuzzy
-#| msgid "New _Meeting"
 msgid "Create a _Meeting"
-msgstr "_جلسهٔ جدید"
+msgstr "ایجاد یک _جلسه"
 
 #: ../src/plugins/mail-to-task/mail-to-task.c:1354
-#, fuzzy
-#| msgid "Create a new meeting request"
 msgid "Create a new meeting from the selected message"
-msgstr "ایجاد یک درخواست جلسهٔ جدید"
+msgstr "ایجاد جلسه‌ای جدید از پیام گزیده"
 
 #: ../src/plugins/mail-to-task/org-gnome-mail-to-task.eplug.xml.h:1
-#, fuzzy
-#| msgid "Mail to task"
 msgid "Mail-to-Task"
 msgstr "نامه به تکلیف"
 
@@ -25709,17 +25655,13 @@ msgstr "تبدیل یک نامه به یک تکلیف."
 
 #: ../src/plugins/pst-import/org.gnome.Evolution-pst.metainfo.xml.in.h:1
 #: ../src/plugins/pst-import/org-gnome-pst-import.eplug.xml.h:1
-#, fuzzy
-#| msgid "Outlook CSV and Tab Importer"
 msgid "Outlook PST import"
-msgstr "واردکنندهٔ پرونده‌های CSV و Tab آوت‌لوک"
+msgstr "درون‌ریزی PST اوت‌لوک"
 
 #: ../src/plugins/pst-import/org.gnome.Evolution-pst.metainfo.xml.in.h:2
 #: ../src/plugins/pst-import/org-gnome-pst-import.eplug.xml.h:3
-#, fuzzy
-#| msgid "Import mail from Pine."
 msgid "Import Outlook messages from PST file"
-msgstr "وارد کردن نامه از پاین."
+msgstr "درون‌ریزی پیام‌های اوت‌لوک از پروندهٔ PST"
 
 #: ../src/plugins/pst-import/org-gnome-pst-import.eplug.xml.h:2
 msgid "Outlook personal folders (.pst)"
@@ -25730,28 +25672,20 @@ msgid "Destination folder:"
 msgstr "شاخهٔ مقصد:"
 
 #: ../src/plugins/pst-import/pst-importer.c:561
-#, fuzzy
-#| msgid "Address Book"
 msgid "_Address Book"
-msgstr "دفترچه نشانی"
+msgstr "_دفترچه نشانی"
 
 #: ../src/plugins/pst-import/pst-importer.c:566
-#, fuzzy
-#| msgid "Appointments"
 msgid "A_ppointments"
-msgstr "قرارها"
+msgstr "_قرارها"
 
 #: ../src/plugins/pst-import/pst-importer.c:576
-#, fuzzy
-#| msgid "Journal entry - %s"
 msgid "_Journal entries"
-msgstr "مدخل یادداشت روزانه ‐ %s"
+msgstr "ورودی‌های _دفتر"
 
 #: ../src/plugins/pst-import/pst-importer.c:693
-#, fuzzy
-#| msgid "Importing Elm data"
 msgid "Importing Outlook data"
-msgstr "در حال وارد کردن داده‌های Elm"
+msgstr "درون ریزی کردن داده‌های اوت‌لوک"
 
 #: ../src/plugins/publish-calendar/org-gnome-publish-calendar.eplug.xml.h:1
 #: ../src/plugins/publish-calendar/publish-calendar.c:138
@@ -25764,17 +25698,14 @@ msgid "Locations"
 msgstr "مکان‌ها"
 
 #: ../src/plugins/publish-calendar/org-gnome-publish-calendar.eplug.xml.h:3
-#, fuzzy
-#| msgid "Allows calendars to be published to the web"
 msgid "Publish calendars to the web."
-msgstr "تقویم‌ها را قادر می‌سازد روی وب منتشر شوند"
+msgstr "انتشار تقویم‌ها به وب."
 
 #: ../src/plugins/publish-calendar/publish-calendar.c:215
 #: ../src/plugins/publish-calendar/publish-calendar.c:483
-#, fuzzy, c-format
-#| msgid "Could not open source"
+#, c-format
 msgid "Could not open %s:"
-msgstr "گشودن مبدأ ممکن نیست"
+msgstr "نتوانست %s را بگشاید:"
 
 #: ../src/plugins/publish-calendar/publish-calendar.c:235
 #, c-format
@@ -25792,19 +25723,15 @@ msgid "Mount of %s failed:"
 msgstr "سوار کردن %s شکست خورد:"
 
 #: ../src/plugins/publish-calendar/publish-calendar.c:787
-#, fuzzy
-#| msgid "Are you sure you want to remove this URL?"
 msgid "Are you sure you want to remove this location?"
-msgstr "آیا مطمئنید که می‌خواهید این URL را حذف کنید؟"
+msgstr "مطمئنید می‌خواهید این مکان را بردارید؟"
 
 #. To Translators: This is shown to a user when creation of a new thread,
 #. * where the publishing should be done, fails. Basically, this shouldn't
 #. * ever happen, and if so, then something is really wrong.
 #: ../src/plugins/publish-calendar/publish-calendar.c:1097
-#, fuzzy
-#| msgid "Could not create pipe: %s"
 msgid "Could not create publish thread."
-msgstr "ایجاد لوله مفدور نیست: %s"
+msgstr "نتوانست رشتهٔ انتشار را ایجاد کند."
 
 #: ../src/plugins/publish-calendar/publish-calendar.c:1107
 msgid "_Publish Calendar Information"
@@ -25815,10 +25742,8 @@ msgid "iCal"
 msgstr "iCal"
 
 #: ../src/plugins/publish-calendar/publish-calendar.ui.h:3
-#, fuzzy
-#| msgid "Free/Busy Publishing Settings"
 msgid "Free/Busy with Details"
-msgstr "تنظیمات انتشار آزاد/مشغول"
+msgstr "آزاد/مشغول با جزییات"
 
 #: ../src/plugins/publish-calendar/publish-calendar.ui.h:4
 msgid "Daily"
@@ -25869,10 +25794,8 @@ msgid "Publishing _Frequency:"
 msgstr "_بسامد انتشار:"
 
 #: ../src/plugins/publish-calendar/publish-calendar.ui.h:20
-#, fuzzy
-#| msgid "Time _zone:"
 msgid "Time _duration:"
-msgstr "منطقهٔ _زمانی:"
+msgstr "طول _زمان:"
 
 #: ../src/plugins/publish-calendar/publish-calendar.ui.h:21
 msgid "Sources"
@@ -25896,10 +25819,9 @@ msgstr "مکان انتشار"
 
 #: ../src/plugins/publish-calendar/publish-format-fb.c:83
 #: ../src/plugins/publish-calendar/publish-format-ical.c:102
-#, fuzzy, c-format
-#| msgid "Invalid folder: `%s'"
+#, c-format
 msgid "Invalid source UID “%s”"
-msgstr "شاخهٔ نامعتبر: «%s»"
+msgstr "شناسهٔ یکتای منبع نامعتبر «%s»"
 
 #: ../src/plugins/publish-calendar/url-editor-dialog.c:540
 msgid "New Location"
@@ -25961,28 +25883,20 @@ msgid "Modified"
 msgstr "تغییر داده شد"
 
 #: ../src/plugins/save-calendar/csv-format.c:537
-#, fuzzy
-#| msgid "Advanced options for the CSV format"
 msgid "A_dvanced options for the CSV format"
-msgstr "گزینه‌های پیشرفته برای قالب CVS"
+msgstr "گزینه‌های _پیشرفته برای قالب CVS"
 
 #: ../src/plugins/save-calendar/csv-format.c:545
-#, fuzzy
-#| msgid "Malformed header"
 msgid "Prepend a _header"
-msgstr "سرنامهٔ معیوب"
+msgstr "آماده‌سازی یک _سرایند"
 
 #: ../src/plugins/save-calendar/csv-format.c:554
-#, fuzzy
-#| msgid "Value delimiter:"
 msgid "_Value delimiter:"
-msgstr "جداساز مقادیر:"
+msgstr "جداساز _مقدار:"
 
 #: ../src/plugins/save-calendar/csv-format.c:565
-#, fuzzy
-#| msgid "Record delimiter:"
 msgid "_Record delimiter:"
-msgstr "جداساز رکوردها:"
+msgstr "جداساز _رکورد:"
 
 #: ../src/plugins/save-calendar/csv-format.c:576
 msgid "_Encapsulate values with:"
@@ -26001,10 +25915,8 @@ msgid "Save Selected"
 msgstr "ذخیرهٔ گزیده‌ها"
 
 #: ../src/plugins/save-calendar/org-gnome-save-calendar.eplug.xml.h:2
-#, fuzzy
-#| msgid "Saves selected calendar or tasks list to disk."
 msgid "Save a calendar or task list to disk."
-msgstr "ذخیرهٔ تقویم را فرست تکلیف‌های گزیده روی دیسک."
+msgstr "ذخیرهٔ یک تقویم یا سیاههٔ تکلیف روی دیسک."
 
 #.
 #. * Translator: the %FT%T is the thirth argument for a strftime function.
@@ -26032,28 +25944,20 @@ msgid "_Save As"
 msgstr "_ذخیره با نام"
 
 #: ../src/plugins/save-calendar/save-calendar.c:343
-#, fuzzy
-#| msgid "Saves selected calendar or tasks list to disk."
 msgid "Save the selected calendar to disk"
-msgstr "ذخیرهٔ تقویم را فرست تکلیف‌های گزیده روی دیسک."
+msgstr "ذخیرهٔ تقویم گزیده روی دیسک"
 
 #: ../src/plugins/save-calendar/save-calendar.c:382
-#, fuzzy
-#| msgid "Saves selected calendar or tasks list to disk."
 msgid "Save the selected memo list to disk"
-msgstr "ذخیرهٔ تقویم را فرست تکلیف‌های گزیده روی دیسک."
+msgstr "ذخیرهٔ سیاههٔ یادداشت گزیده روی دیسک"
 
 #: ../src/plugins/save-calendar/save-calendar.c:421
-#, fuzzy
-#| msgid "Saves selected calendar or tasks list to disk."
 msgid "Save the selected task list to disk"
-msgstr "ذخیرهٔ تقویم را فرست تکلیف‌های گزیده روی دیسک."
+msgstr "ذخیرهٔ سیاههٔ تکلیف گزیده روی دیسک"
 
 #: ../src/plugins/sender-validation/org-gnome-evolution-sender-validation.eplug.xml.h:1
-#, fuzzy
-#| msgid "Select a location"
 msgid "Sender Validation"
-msgstr "یک مکان انتخاب کنید"
+msgstr "اعتبارسنجی فرستنده"
 
 #: ../src/plugins/sender-validation/org-gnome-evolution-sender-validation.eplug.xml.h:2
 msgid ""
