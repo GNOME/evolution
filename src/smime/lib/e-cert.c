@@ -136,10 +136,9 @@ e_cert_finalize (GObject *object)
 	if (priv->issuer_cn)
 		PORT_Free (priv->issuer_cn);
 
-	if (priv->issued_on_string)
-		PORT_Free (priv->issued_on_string);
-	if (priv->expires_on_string)
-		PORT_Free (priv->expires_on_string);
+	g_free (priv->issued_on_string);
+	g_free (priv->expires_on_string);
+
 	if (priv->serial_number)
 		PORT_Free (priv->serial_number);
 
