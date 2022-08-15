@@ -12,8 +12,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: evolution\n"
 "Report-Msgid-Bugs-To: https://gitlab.gnome.org/GNOME/evolution/issues\n"
-"POT-Creation-Date: 2022-08-10 23:21+0000\n"
-"PO-Revision-Date: 2022-08-12 23:33+0430\n"
+"POT-Creation-Date: 2022-08-12 19:06+0000\n"
+"PO-Revision-Date: 2022-08-15 12:12+0430\n"
 "Last-Translator: Danial Behzadi <dani.behzi@ubuntu.com>\n"
 "Language-Team: Persian <haghighi.ahmad@gmail.com>\n"
 "Language: fa\n"
@@ -22849,241 +22849,197 @@ msgid "%s has published the following meeting information:"
 msgstr "%s اطّلاعات جلسهٔ زیر را منتشر کرده:"
 
 #: ../src/modules/itip-formatter/itip-view.c:495
-#, fuzzy, c-format
-#| msgid "<b>%s</b> has delegated the following meeting to you:"
+#, c-format
 msgid "%s has delegated the following meeting to you:"
-msgstr "<b>%s</b> جلسهٔ زیر را به شما واگذار کرده است:"
+msgstr "%s جلسهٔ زیر را به شما واگذار کرده:"
 
 #: ../src/modules/itip-formatter/itip-view.c:498
-#, fuzzy, c-format
-#| msgid "<b>%s</b> through %s requests your presence at the following meeting:"
+#, c-format
 msgid "%s through %s requests your presence at the following meeting:"
-msgstr "<b>%s</b>از طریق %s خواستار حضور شما در جلسهٔ زیر است:"
+msgstr "%s از طریق %s خواستار حضور شما در جلسهٔ زیر است:"
 
 #: ../src/modules/itip-formatter/itip-view.c:500
-#, fuzzy, c-format
-#| msgid "<b>%s</b> requests your presence at the following meeting:"
+#, c-format
 msgid "%s requests your presence at the following meeting:"
-msgstr "<b>%s</b> خواستار حضور شما در جلسهٔ زیر است:"
+msgstr "%s خواستار حضور شما در جلسهٔ زیر است:"
 
 #: ../src/modules/itip-formatter/itip-view.c:506
-#, fuzzy, c-format
-#| msgid "<b>%s</b> through %s wishes to add to an existing meeting:"
+#, c-format
 msgid "%s through %s wishes to add to an existing meeting:"
-msgstr "<b>%s</b> از طریق %s می‌خواهد به جلسهٔ موجود افزوده شود:"
+msgstr "%s از طریق %s می‌خواهد به جلسهٔ موجود افزوده شود:"
 
 #: ../src/modules/itip-formatter/itip-view.c:508
-#, fuzzy, c-format
-#| msgid "<b>%s</b> wishes to add to an existing meeting:"
+#, c-format
 msgid "%s wishes to add to an existing meeting:"
-msgstr "<b>%s</b> می‌خواهد به جلسهٔ موجود افزوده شود:"
+msgstr "%s می‌خواهد به جلسهٔ موجود افزوده شود:"
 
 #: ../src/modules/itip-formatter/itip-view.c:512
-#, fuzzy, c-format
-#| msgid ""
-#| "<b>%s</b> wishes to receive the latest information for the following meeting:"
+#, c-format
 msgid ""
 "%s through %s wishes to receive the latest information for the following meeting:"
-msgstr "<b>%s</b> مایل است آخرین اطلاعات جلسهٔ زیر را دریافت کند:"
+msgstr "%s از طریق %s مایل است آخرین اطلاعات جلسهٔ زیر را دریافت کند:"
 
 #: ../src/modules/itip-formatter/itip-view.c:514
-#, fuzzy, c-format
-#| msgid ""
-#| "<b>%s</b> wishes to receive the latest information for the following meeting:"
+#, c-format
 msgid "%s wishes to receive the latest information for the following meeting:"
-msgstr "<b>%s</b> مایل است آخرین اطلاعات جلسهٔ زیر را دریافت کند:"
+msgstr "%s مایل است آخرین اطلاعات جلسهٔ زیر را دریافت کند:"
 
 #: ../src/modules/itip-formatter/itip-view.c:518
-#, fuzzy, c-format
-#| msgid "<b>%s</b> has sent back the following meeting response:"
+#, c-format
 msgid "%s through %s has sent back the following meeting response:"
-msgstr "<b>%s</b> پاسخ جلسهٔ زیر را  فرستاده است:"
+msgstr "%s از طریق %s پاسخ جلسهٔ زیر را پس فرستاده:"
 
 #: ../src/modules/itip-formatter/itip-view.c:520
-#, fuzzy, c-format
-#| msgid "<b>%s</b> has sent back the following meeting response:"
+#, c-format
 msgid "%s has sent back the following meeting response:"
-msgstr "<b>%s</b> پاسخ جلسهٔ زیر را  فرستاده است:"
+msgstr "%s پاسخ جلسهٔ زیر را پس فرستاده:"
 
 #: ../src/modules/itip-formatter/itip-view.c:524
-#, fuzzy, c-format
-#| msgid "<b>%s</b> through %s has canceled the following meeting:"
+#, c-format
 msgid "%s through %s has cancelled the following meeting:"
-msgstr "<b>%s</b> از طریق %s جلسهٔ زیر را لغو کرده است:"
+msgstr "%s از طریق %s جلسهٔ زیر را لغو کرده:"
 
 #: ../src/modules/itip-formatter/itip-view.c:526
-#, fuzzy, c-format
-#| msgid "<b>%s</b> has canceled the following meeting."
+#, c-format
 msgid "%s has cancelled the following meeting:"
-msgstr "<b>%s</b> جلسهٔ زیر را لغو کرده است."
+msgstr "%s جلسهٔ زیر را لغو کرده:"
 
 #: ../src/modules/itip-formatter/itip-view.c:530
-#, fuzzy, c-format
-#| msgid "<b>%s</b> has proposed the following meeting changes."
+#, c-format
 msgid "%s through %s has proposed the following meeting changes."
-msgstr "<b>%s</b> تغییرات جلسهٔ زیر را پیشنهاد کرده است."
+msgstr "%s از طریق %s تغییرات جلسهٔ زیر را پیشنهاد داده."
 
 #: ../src/modules/itip-formatter/itip-view.c:532
-#, fuzzy, c-format
-#| msgid "<b>%s</b> has proposed the following meeting changes."
+#, c-format
 msgid "%s has proposed the following meeting changes:"
-msgstr "<b>%s</b> تغییرات جلسهٔ زیر را پیشنهاد کرده است."
+msgstr "%s تغییرات جلسهٔ زیر را پیشنهاد داده:"
 
 #: ../src/modules/itip-formatter/itip-view.c:536
-#, fuzzy, c-format
-#| msgid "<b>%s</b> through %s has declined the following meeting changes:"
+#, c-format
 msgid "%s through %s has declined the following meeting changes:"
-msgstr "<b>%s</b> از طریق %s تغییرات جلسهٔ زیر را پیشنهاد کرده است:"
+msgstr "%s از طریق %s تغییرات جلسهٔ زیر را رد کرده:"
 
 #: ../src/modules/itip-formatter/itip-view.c:538
-#, fuzzy, c-format
-#| msgid "<b>%s</b> has declined the following meeting changes."
+#, c-format
 msgid "%s has declined the following meeting changes:"
-msgstr "<b>%s</b> تغییرات جلسهٔ زیر را رد کرده است."
+msgstr "%s تغییرات جلسهٔ زیر را رد کرده:"
 
 #: ../src/modules/itip-formatter/itip-view.c:578
-#, fuzzy, c-format
-#| msgid "<b>%s</b> through %s has published the following task:"
+#, c-format
 msgid "%s through %s has published the following task:"
-msgstr "<b>%s</b>از طریق %s تکلیف زیر را منتشر کرده است:"
+msgstr "%s از طریق %s تکلیف زیر را منتشر کرده:"
 
 #: ../src/modules/itip-formatter/itip-view.c:580
-#, fuzzy, c-format
-#| msgid "<b>%s</b> has published the following task:"
+#, c-format
 msgid "%s has published the following task:"
-msgstr "<b>%s</b> تکلیف زیر را منتشر کرده است:"
+msgstr "%s تکلیف زیر را منتشر کرده:"
 
 #: ../src/modules/itip-formatter/itip-view.c:585
-#, fuzzy, c-format
-#| msgid "<b>%s</b> requests the assignment of %s to the following task:"
+#, c-format
 msgid "%s requests the assignment of %s to the following task:"
-msgstr "<b>%s</b> خواستار تخصیص %s به تکلیف زیر شده است:"
+msgstr "%s خواستار تخصیص %s به تکلیف زیر شده:"
 
 #: ../src/modules/itip-formatter/itip-view.c:588
-#, fuzzy, c-format
-#| msgid "<b>%s</b> through %s has assigned you a task:"
+#, c-format
 msgid "%s through %s has assigned you a task:"
-msgstr "<b>%s</b> از طریق %s تکلیفی به شما تخصیص داده است:"
+msgstr "%s از طریق %s تکلیفی را به شما تخصیص داد:"
 
 #: ../src/modules/itip-formatter/itip-view.c:590
-#, fuzzy, c-format
-#| msgid "<b>%s</b> has assigned you a task:"
+#, c-format
 msgid "%s has assigned you a task:"
-msgstr "<b>%s</b> تکلیفی به شما تخصیص داده است:"
+msgstr "%s تکلیفی را به شما تخصیص داد:"
 
 #: ../src/modules/itip-formatter/itip-view.c:596
-#, fuzzy, c-format
-#| msgid "<b>%s</b> through %s wishes to add to an existing task:"
+#, c-format
 msgid "%s through %s wishes to add to an existing task:"
-msgstr "<b>%s</b> از طریق %s میل دارد به یک تکلیف موجود اضافه شود:"
+msgstr "%s از طریق %s می‌خواهد به تکلیف موجودی اضافه شود:"
 
 #: ../src/modules/itip-formatter/itip-view.c:598
-#, fuzzy, c-format
-#| msgid "<b>%s</b> wishes to add to an existing task:"
+#, c-format
 msgid "%s wishes to add to an existing task:"
-msgstr "<b>%s</b> میل دارد به یک تکلیف موجود اضافه شود:"
+msgstr "%s می‌خواهد به تکلیف موجودی اضافه شود:"
 
 #: ../src/modules/itip-formatter/itip-view.c:602
-#, fuzzy, c-format
-#| msgid ""
-#| "<b>%s</b> wishes to receive the latest information for the following assigned "
-#| "task:"
+#, c-format
 msgid ""
 "%s through %s wishes to receive the latest information for the following assigned "
 "task:"
-msgstr "<b>%s</b> مایل است آخرین اطلاعات تکلیف تخصیص داده شدهٔ زیر را دریافت کند"
+msgstr "%s از طریق %s مایل است آخرین اطلاعات تکلیف تخصیص داده شدهٔ زیر را دریافت کند"
 
 #: ../src/modules/itip-formatter/itip-view.c:604
-#, fuzzy, c-format
-#| msgid ""
-#| "<b>%s</b> wishes to receive the latest information for the following assigned "
-#| "task:"
+#, c-format
 msgid "%s wishes to receive the latest information for the following assigned task:"
-msgstr "<b>%s</b> مایل است آخرین اطلاعات تکلیف تخصیص داده شدهٔ زیر را دریافت کند"
+msgstr "%s مایل است آخرین اطلاعات تکلیف تخصیص داده شدهٔ زیر را دریافت کند"
 
 #: ../src/modules/itip-formatter/itip-view.c:608
-#, fuzzy, c-format
-#| msgid "<b>%s</b> has sent back the following assigned task response:"
+#, c-format
 msgid "%s through %s has sent back the following assigned task response:"
-msgstr "<b>%s</b> پیام تکلیف تخصیص داده شدهٔ زیر را فرستاده کرده است:"
+msgstr "%s از طریق %s پاسخ تکلیف تخصیصی زیر را پس فرستاده:"
 
 #: ../src/modules/itip-formatter/itip-view.c:610
-#, fuzzy, c-format
-#| msgid "<b>%s</b> has sent back the following assigned task response:"
+#, c-format
 msgid "%s has sent back the following assigned task response:"
-msgstr "<b>%s</b> پیام تکلیف تخصیص داده شدهٔ زیر را فرستاده کرده است:"
+msgstr "%s پاسخ تکلیف تخصیصی زیر را پس فرستاده:"
 
 #: ../src/modules/itip-formatter/itip-view.c:614
-#, fuzzy, c-format
-#| msgid "<b>%s</b> through %s has canceled the following assigned task:"
+#, c-format
 msgid "%s through %s has cancelled the following assigned task:"
-msgstr "<b>%s</b> از طریق %s تکلیف تخصیص داده شدهٔ زیر را لغو کرده است:"
+msgstr "%s از طریق %s تکلیف تخصیص داده شدهٔ زیر را لغو کرده است:"
 
 #: ../src/modules/itip-formatter/itip-view.c:616
-#, fuzzy, c-format
-#| msgid "<b>%s</b> has canceled the following assigned task:"
+#, c-format
 msgid "%s has cancelled the following assigned task:"
-msgstr "<b>%s</b> تکلیف تخصیص داده شدهٔ زیر را لغو کرده است:"
+msgstr "%s تکلیف تخصیص داده شدهٔ زیر را لغو کرده است:"
 
 #: ../src/modules/itip-formatter/itip-view.c:620
-#, fuzzy, c-format
-#| msgid "<b>%s</b> has proposed the following task assignment changes:"
+#, c-format
 msgid "%s through %s has proposed the following task assignment changes:"
-msgstr "<b>%s</b> تغییرات تخصیص تکلیف زیر را پیشنهاد کرده است:"
+msgstr "%s از طریق %s تغییرات تکلیف تخصیصی زیر را پیشنهاد داده:"
 
 #: ../src/modules/itip-formatter/itip-view.c:622
-#, fuzzy, c-format
-#| msgid "<b>%s</b> has proposed the following task assignment changes:"
+#, c-format
 msgid "%s has proposed the following task assignment changes:"
-msgstr "<b>%s</b> تغییرات تخصیص تکلیف زیر را پیشنهاد کرده است:"
+msgstr "%s تغییرات تکلیف تخصیصی زیر را پیشنهاد داده:"
 
 #: ../src/modules/itip-formatter/itip-view.c:626
-#, fuzzy, c-format
-#| msgid "<b>%s</b> through %s has declined the following assigned task:"
+#, c-format
 msgid "%s through %s has declined the following assigned task:"
-msgstr "<b>%s</b> از طریق %s تکلیف تخصیص داده‌ شدهٔ زیر را رد کرده است:"
+msgstr "%s از طریق %s تکلیف تخصیصی زیر را رد کرده:"
 
 #: ../src/modules/itip-formatter/itip-view.c:628
-#, fuzzy, c-format
-#| msgid "<b>%s</b> has declined the following assigned task:"
+#, c-format
 msgid "%s has declined the following assigned task:"
-msgstr "<b>%s</b> تکلیف تخصیص داده‌ شدهٔ زیر را رد کرده است:"
+msgstr "%s تکلیف تخصیصی زیر را رد کرده:"
 
 #: ../src/modules/itip-formatter/itip-view.c:667
-#, fuzzy, c-format
-#| msgid "<b>%s</b> through %s has published the following task:"
+#, c-format
 msgid "%s through %s has published the following memo:"
-msgstr "<b>%s</b>از طریق %s تکلیف زیر را منتشر کرده است:"
+msgstr "%s از طریق %s یادداشت زیر را منتشر کرده است:"
 
 #: ../src/modules/itip-formatter/itip-view.c:669
-#, fuzzy, c-format
-#| msgid "<b>%s</b> has published the following task:"
+#, c-format
 msgid "%s has published the following memo:"
-msgstr "<b>%s</b> تکلیف زیر را منتشر کرده است:"
+msgstr "%s یادداشت زیر را منتشر کرده است:"
 
 #: ../src/modules/itip-formatter/itip-view.c:674
-#, fuzzy, c-format
-#| msgid "<b>%s</b> through %s wishes to add to an existing meeting:"
+#, c-format
 msgid "%s through %s wishes to add to an existing memo:"
-msgstr "<b>%s</b> از طریق %s می‌خواهد به جلسهٔ موجود افزوده شود:"
+msgstr "%s از طریق %s می‌خواهد یادداشت جدید بیفزاید:"
 
 #: ../src/modules/itip-formatter/itip-view.c:676
-#, fuzzy, c-format
-#| msgid "<b>%s</b> wishes to add to an existing meeting:"
+#, c-format
 msgid "%s wishes to add to an existing memo:"
-msgstr "<b>%s</b> می‌خواهد به جلسهٔ موجود افزوده شود:"
+msgstr "%s می‌خواهد یادداشت جدید بیفزاید:"
 
 #: ../src/modules/itip-formatter/itip-view.c:680
-#, fuzzy, c-format
-#| msgid "<b>%s</b> through %s has canceled the following meeting:"
+#, c-format
 msgid "%s through %s has cancelled the following shared memo:"
-msgstr "<b>%s</b> از طریق %s جلسهٔ زیر را لغو کرده است:"
+msgstr "%s از طریق %s یادداشت هم‌رساندهٔ زیر را لغو کرده:"
 
 #: ../src/modules/itip-formatter/itip-view.c:682
-#, fuzzy, c-format
-#| msgid "<b>%s</b> has canceled the following assigned task:"
+#, c-format
 msgid "%s has cancelled the following shared memo:"
-msgstr "<b>%s</b> تکلیف تخصیص داده شدهٔ زیر را لغو کرده است:"
+msgstr "%s یادداشت هم‌رساندهٔ زیر را لغو کرده:"
 
 #: ../src/modules/itip-formatter/itip-view.c:880
 msgid "All day:"
@@ -26185,7 +26141,7 @@ msgstr "پاک‌سازی پارامترهای جست‌وجوی کنونی"
 
 #: ../src/shell/e-shell-window-actions.c:1035
 msgid "_Edit Saved Searches…"
-msgstr "_ویرایش جست‌وجوهای ذخیره شده..."
+msgstr "_ویرایش جست‌وجوهای ذخیره شده…"
 
 #: ../src/shell/e-shell-window-actions.c:1037
 msgid "Manage your saved searches"
@@ -26349,16 +26305,12 @@ msgid "Delete Current View"
 msgstr "حذف نمای کنونی"
 
 #: ../src/shell/e-shell-window-actions.c:1287
-#, fuzzy
-#| msgid "Save Custom View"
 msgid "Save Custom View…"
-msgstr "ذخیرهٔ نمای سفارشی"
+msgstr "ذخیرهٔ نمای سفارشی…"
 
 #: ../src/shell/e-shell-window-actions.c:1289
-#, fuzzy
-#| msgid "Save Current View"
 msgid "Save current custom view"
-msgstr "ذخیرهٔ نمای فعلی"
+msgstr "ذخیرهٔ نمای سفارشی کنونی"
 
 #: ../src/shell/e-shell-window-actions.c:1303
 msgid "C_urrent View"
@@ -26373,16 +26325,12 @@ msgid "Current view is a customized view"
 msgstr "نمای جاری،‌ نمایی شخصی شده است"
 
 #: ../src/shell/e-shell-window-actions.c:1323
-#, fuzzy
-#| msgid "Page Setup:"
 msgid "Page Set_up…"
-msgstr "تنظیمات صفحه:"
+msgstr "_برپاسازی صفحه…"
 
 #: ../src/shell/e-shell-window-actions.c:1325
-#, fuzzy
-#| msgid "Set up the page settings for your current printer"
 msgid "Change the page settings for your current printer"
-msgstr "برپاسازی تنظیمات صفحه برای چاپگر فعلی"
+msgstr "تغییر تنظیمات صفحه برای چاپگر فعلیتان"
 
 #: ../src/shell/e-shell-window-actions.c:1700
 #, c-format
@@ -26390,16 +26338,14 @@ msgid "Switch to %s"
 msgstr "تعویض به %s"
 
 #: ../src/shell/e-shell-window-actions.c:1824
-#, fuzzy, c-format
-#| msgid "Select a file"
+#, c-format
 msgid "Select view: %s"
-msgstr "یک پرونده انتخاب کنید"
+msgstr "گزینش نما: %s"
 
 #: ../src/shell/e-shell-window-actions.c:1841
-#, fuzzy, c-format
-#| msgid "Select a file"
+#, c-format
 msgid "Delete view: %s"
-msgstr "یک پرونده انتخاب کنید"
+msgstr "حذف نما: %s"
 
 #: ../src/shell/e-shell-window-actions.c:1956
 msgid "Execute these search parameters"
@@ -26456,16 +26402,12 @@ msgid "Start in online mode"
 msgstr "آغاز در حالت برخط"
 
 #: ../src/shell/main.c:429
-#, fuzzy
-#| msgid "No store available"
 msgid "Ignore network availability"
-msgstr "فضایی برای ذخیره موجود نیست."
+msgstr "چشم‌پوشی از موجودیت شبکه"
 
 #: ../src/shell/main.c:432
-#, fuzzy
-#| msgid "Forcibly shut down all Evolution components"
 msgid "Forcibly shut down Evolution"
-msgstr "خاموش کردن همهٔ مؤلفه‌های اوولوشن به اجبار"
+msgstr "خاموش کردن اجباری اوولوشن"
 
 #: ../src/shell/main.c:435
 msgid "Disable loading of any plugins."
@@ -26491,44 +26433,34 @@ msgid ""
 msgstr ""
 
 #: ../src/shell/main.c:591 ../src/shell/main.c:596
-#, fuzzy
-#| msgid "The Evolution PIM and Email Client"
 msgid "— The Evolution PIM and Email Client"
-msgstr "کارخواه PIM و رایانامهی اوولوشن"
+msgstr "— کارخواه رایانامه و PIM و اوولوشن"
 
 #: ../src/shell/main.c:652
-#, fuzzy, c-format
-#| msgid ""
-#| "%s: --online and --offline cannot be used together.\n"
-#| "  Use %s --help for more information.\n"
+#, c-format
 msgid ""
 "%s: --online and --offline cannot be used together.\n"
 "  Run “%s --help” for more information.\n"
 msgstr ""
-"%s: --online and --offline cannot be used together.\n"
-"  Use %s --help for more information.\n"
+"%s: ‫نمی‌توان ‪--online‬ و ‪--offline‬ را با هم استفاده کرد.\n"
+"  ‫برای اطّلاعات بیش‌تر «‪%s --help‬» را اجرا کنید.\n"
 
 #: ../src/shell/main.c:658
-#, fuzzy, c-format
-#| msgid ""
-#| "%s: --online and --offline cannot be used together.\n"
-#| "  Use %s --help for more information.\n"
+#, c-format
 msgid ""
 "%s: --force-online and --offline cannot be used together.\n"
 "  Run “%s --help” for more information.\n"
 msgstr ""
-"%s: --online and --offline cannot be used together.\n"
-"  Use %s --help for more information.\n"
+"%s: ‫نمی‌توان ‪--force-online‬ و ‪--force-offline‬ را با هم استفاده کرد.\n"
+"  ‫برای اطّلاعات بیش‌تر «‪%s --help‬» را اجرا کنید.\n"
 
 #: ../src/shell/shell.error.xml.h:1
 msgid "Importing..."
 msgstr "در حال وارد کردن…"
 
 #: ../src/shell/shell.error.xml.h:2
-#, fuzzy
-#| msgid "Upgrade from previous version failed: {0}"
 msgid "Upgrade from previous version failed:"
-msgstr "ارتقا از نسخهٔ قبلی شکست خورد: {0}"
+msgstr "ارتقا از نگارش پیشین شکست خورد:"
 
 #: ../src/shell/shell.error.xml.h:3
 #, fuzzy
