@@ -33,13 +33,7 @@
 #include <gdk/gdkkeysyms.h>
 #include <gdk-pixbuf/gdk-pixbuf.h>
 
-#define GCR_API_SUBJECT_TO_CHANGE
-#ifdef WITH_GCR3
-#include <gcr/gcr.h>
-#else
-#include <gcr-gtk3/gcr-gtk3.h>
-#endif
-#undef GCR_API_SUBJECT_TO_CHANGE
+#include <libedataserverui/libedataserverui.h>
 
 #include "shell/e-shell.h"
 #include "e-util/e-util.h"
@@ -52,6 +46,10 @@
 
 #include "e-contact-editor-fullname.h"
 #include "e-contact-editor-dyntable.h"
+
+#ifdef ENABLE_SMIME
+#include "smime/lib/e-cert.h"
+#endif
 
 #define SLOTS_PER_LINE 2
 #define SLOTS_IN_COLLAPSED_STATE SLOTS_PER_LINE
@@ -3177,8 +3175,7 @@ enum CertColumns {
 	CERT_COLUMN_SUBJECT_STRING,
 	CERT_COLUMN_KIND_STRING,
 	CERT_COLUMN_KIND_INT,
-	CERT_COLUMN_DATA_ECONTACTCERT,
-	CERT_COLUMN_CERT_GCRCERTIFICATE,
+	CERT_COLUMN_CERT_BYTES,
 	N_CERT_COLUMNS
 };
 
@@ -3213,18 +3210,18 @@ cert_tab_selection_changed_cb (GtkTreeSelection *selection,
 	if (GTK_IS_VIEWPORT (widget))
 		widget = gtk_bin_get_child (GTK_BIN (widget));
 
-	g_return_if_fail (GCR_IS_CERTIFICATE_WIDGET (widget));
+	g_return_if_fail (E_IS_CERTIFICATE_WIDGET (widget));
 
 	if (has_selected) {
-		GcrCertificate *cert = NULL;
+		GBytes *cert_bytes = NULL;
 
-		gtk_tree_model_get (model, &iter, CERT_COLUMN_CERT_GCRCERTIFICATE, &cert, -1);
+		gtk_tree_model_get (model, &iter, CERT_COLUMN_CERT_BYTES, &cert_bytes, -1);
 
-		gcr_certificate_widget_set_certificate (GCR_CERTIFICATE_WIDGET (widget), cert);
+		e_certificate_widget_set_der (E_CERTIFICATE_WIDGET (widget), g_bytes_get_data (cert_bytes, NULL), g_bytes_get_size (cert_bytes));
 
-		g_clear_object (&cert);
+		g_clear_pointer (&cert_bytes, g_bytes_unref);
 	} else {
-		gcr_certificate_widget_set_certificate (GCR_CERTIFICATE_WIDGET (widget), NULL);
+		e_certificate_widget_set_der (E_CERTIFICATE_WIDGET (widget), NULL, 0);
 	}
 }
 
@@ -3313,7 +3310,7 @@ cert_update_row_with_cert (GtkListStore *list_store,
 			   EContactCert *cert,
 			   enum CertKind kind)
 {
-	GcrCertificate *gcr_cert = NULL;
+	GBytes *cert_bytes;
 	gchar *subject = NULL;
 
 	g_return_if_fail (GTK_IS_LIST_STORE (list_store));
@@ -3321,21 +3318,65 @@ cert_update_row_with_cert (GtkListStore *list_store,
 	g_return_if_fail (cert != NULL);
 	g_return_if_fail (kind == CERT_KIND_PGP || kind == CERT_KIND_X509);
 
-	if (kind == CERT_KIND_X509) {
-		gcr_cert = gcr_simple_certificate_new ((const guchar *) cert->data, cert->length);
-		if (gcr_cert)
-			subject = gcr_certificate_get_subject_name (gcr_cert);
+	if (kind == CERT_KIND_X509 && cert->data && cert->length) {
+		#ifdef ENABLE_SMIME
+		ECert *ecert;
+
+		ecert = e_cert_new_from_der (cert->data, cert->length);
+		if (ecert) {
+			const gchar *ident;
+
+			ident = e_cert_get_cn (ecert);
+			if (!ident || !*ident)
+				ident = e_cert_get_email (ecert);
+			if (!ident || !*ident)
+				ident = e_cert_get_subject_name (ecert);
+
+			subject = g_strdup (ident);
+
+			g_object_unref (ecert);
+		}
+		#else
+		GTlsCertificate *tls_cert;
+
+		tls_cert = g_tls_certificate_new_from_pem (cert->data, cert->length, NULL);
+		if (!tls_cert) {
+			gchar *encoded;
+
+			encoded = g_base64_encode ((const guchar *) cert->data, cert->length);
+			if (encoded) {
+				GString *pem = g_string_sized_new (cert->length + 60);
+
+				g_string_append (pem, "-----BEGIN CERTIFICATE-----\n");
+				g_string_append (pem, encoded);
+				g_string_append (pem, "\n-----END CERTIFICATE-----\n");
+
+				tls_cert = g_tls_certificate_new_from_pem (pem->str, pem->len, NULL);
+
+				g_string_free (pem, TRUE);
+			}
+
+			g_free (encoded);
+		}
+
+		if (tls_cert) {
+			subject = g_tls_certificate_get_subject_name (tls_cert);
+
+			g_clear_object (&tls_cert);
+		}
+		#endif
 	}
+
+	cert_bytes = g_bytes_new (cert->data, cert->length);
 
 	gtk_list_store_set (list_store, iter,
 		CERT_COLUMN_SUBJECT_STRING, subject,
 		CERT_COLUMN_KIND_STRING, kind == CERT_KIND_X509 ? C_("cert-kind", "X.509") : C_("cert-kind", "PGP"),
 		CERT_COLUMN_KIND_INT, kind,
-		CERT_COLUMN_DATA_ECONTACTCERT, cert,
-		CERT_COLUMN_CERT_GCRCERTIFICATE, gcr_cert,
+		CERT_COLUMN_CERT_BYTES, cert_bytes,
 		-1);
 
-	g_clear_object (&gcr_cert);
+	g_clear_pointer (&cert_bytes, g_bytes_unref);
 	g_free (subject);
 }
 
@@ -3475,7 +3516,7 @@ cert_save_btn_clicked_cb (GtkWidget *button,
 	GtkTreeSelection *selection;
 	GtkTreeModel *model;
 	GtkTreeIter iter;
-	EContactCert *cert = NULL;
+	GBytes *cert_bytes = NULL;
 	gint kind = -1;
 	GtkWindow *parent;
 	GtkFileChooserNative *native;
@@ -3492,11 +3533,11 @@ cert_save_btn_clicked_cb (GtkWidget *button,
 
 	gtk_tree_model_get (model, &iter,
 		CERT_COLUMN_KIND_INT, &kind,
-		CERT_COLUMN_DATA_ECONTACTCERT, &cert,
+		CERT_COLUMN_CERT_BYTES, &cert_bytes,
 		-1);
 
 	g_return_if_fail (kind == CERT_KIND_X509 || kind == CERT_KIND_PGP);
-	g_return_if_fail (cert != NULL);
+	g_return_if_fail (cert_bytes != NULL);
 
 	parent = eab_editor_get_window (EAB_EDITOR (editor));
 	native = gtk_file_chooser_native_new (
@@ -3517,14 +3558,14 @@ cert_save_btn_clicked_cb (GtkWidget *button,
 		if (!filename) {
 			g_set_error_literal (&error, G_IO_ERROR, G_IO_ERROR_NOT_SUPPORTED, _("Chosen file is not a local file."));
 		} else {
-			g_file_set_contents (filename, cert->data, cert->length, &error);
+			g_file_set_contents (filename, g_bytes_get_data (cert_bytes, NULL), g_bytes_get_size (cert_bytes), &error);
 		}
 
 		g_free (filename);
 	}
 
 	g_object_unref (native);
-	e_contact_cert_free (cert);
+	g_bytes_unref (cert_bytes);
 
 	if (error) {
 		e_notice (parent, GTK_MESSAGE_ERROR, _("Failed to save certificate: %s"), error->message);
@@ -3567,13 +3608,12 @@ init_certs (EContactEditor *editor)
 		G_TYPE_STRING,		/* CERT_COLUMN_SUBJECT_STRING */
 		G_TYPE_STRING,		/* CERT_COLUMN_KIND_STRING */
 		G_TYPE_INT,		/* CERT_COLUMN_KIND_INT */
-		E_TYPE_CONTACT_CERT,	/* CERT_COLUMN_DATA_ECONTACTCERT */
-		GCR_TYPE_CERTIFICATE);	/* CERT_COLUMN_CERT_GCRCERTIFICATE */
+		G_TYPE_BYTES);		/* CERT_COLUMN_CERT_BYTES */
 
 	gtk_tree_view_set_model (tree_view, GTK_TREE_MODEL (list_store));
 
-	certificate_widget = GTK_WIDGET (gcr_certificate_widget_new (NULL));
-	gtk_widget_show_all (certificate_widget);
+	certificate_widget = e_certificate_widget_new ();
+	gtk_widget_show (certificate_widget);
 	widget = e_builder_get_widget (editor->priv->builder, "cert-preview-scw");
 	gtk_container_add (GTK_CONTAINER (widget), certificate_widget);
 
@@ -3676,15 +3716,15 @@ extract_certs_for_kind (EContactEditor *editor,
 	if (is_field_supported (editor, field)) {
 		valid = gtk_tree_model_get_iter_first (model, &iter);
 		while (valid) {
-			EContactCert *cert = NULL;
+			GBytes *cert_bytes = NULL;
 			gint set_kind = -1;
 
 			gtk_tree_model_get (model, &iter,
 					    CERT_COLUMN_KIND_INT, &set_kind,
-					    CERT_COLUMN_DATA_ECONTACTCERT, &cert,
+					    CERT_COLUMN_CERT_BYTES, &cert_bytes,
 					   -1);
 
-			if (cert && set_kind == kind) {
+			if (cert_bytes && set_kind == kind) {
 				EVCardAttribute *attr;
 
 				attr = e_vcard_attribute_new ("", e_contact_vcard_attribute (field));
@@ -3696,12 +3736,12 @@ extract_certs_for_kind (EContactEditor *editor,
 					e_vcard_attribute_param_new (EVC_ENCODING),
 					"b");
 
-				e_vcard_attribute_add_value_decoded (attr, cert->data, cert->length);
+				e_vcard_attribute_add_value_decoded (attr, g_bytes_get_data (cert_bytes, NULL), g_bytes_get_size (cert_bytes));
 
 				attrs = g_list_prepend (attrs, attr);
 			}
 
-			e_contact_cert_free (cert);
+			g_clear_pointer (&cert_bytes, g_bytes_unref);
 
 			valid = gtk_tree_model_iter_next (model, &iter);
 		}

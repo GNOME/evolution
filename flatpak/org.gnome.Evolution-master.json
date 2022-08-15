@@ -328,24 +328,6 @@
 		},
 
 		{
-			"name": "gcr",
-			"buildsystem": "meson",
-			"config-opts": [
-				"-Dintrospection=false",
-				"-Dvapi=false",
-				"-Dgtk4=false",
-				"-Dgtk_doc=false"
-			],
-			"sources": [
-				{
-					"type": "git",
-					"url": "https://gitlab.gnome.org/GNOME/gcr.git",
-					"branch": "master"
-				}
-			]
-		},
-
-		{
 			"name": "webkit2gtk3",
 			"buildsystem": "cmake-ninja",
 			"config-opts": [

@@ -24,6 +24,8 @@
 
 #include <glib/gi18n.h>
 
+#include <libedataserverui/libedataserverui.h>
+
 #include "nss.h"
 #include "pk11func.h"
 #include "certdb.h"
@@ -33,17 +35,6 @@
 
 #include "e-util/e-util.h"
 #include "e-util/e-util-private.h"
-
-/* XXX Hack to disable p11-kit's pkcs11.h header, since
- *     NSS headers supply the same PKCS #11 definitions. */
-#define PKCS11_H 1
-
-#define GCR_API_SUBJECT_TO_CHANGE
-#ifdef WITH_GCR3
-#include <gcr/gcr.h>
-#else
-#include <gcr-gtk3/gcr-gtk3.h>
-#endif
 
 #include "smime/lib/e-cert.h"
 
@@ -55,7 +46,7 @@ struct _ECertSelectorPrivate {
 	CERTCertList *certlist;
 
 	GtkWidget *combobox;
-	GcrCertificateWidget *cert_widget;
+	GtkWidget *cert_widget;
 };
 
 enum {
@@ -125,11 +116,10 @@ ecs_cert_changed (GtkWidget *w,
 	CERTCertListNode *node;
 
 	node = ecs_find_current (ecs);
-	if (node) {
-		ECert *ecert = e_cert_new (CERT_DupCertificate ((CERTCertificate *) node->cert));
-		gcr_certificate_widget_set_certificate (p->cert_widget, GCR_CERTIFICATE (ecert));
-		g_object_unref (ecert);
-	}
+	if (node && node->cert)
+		e_certificate_widget_set_der (E_CERTIFICATE_WIDGET (p->cert_widget), node->cert->derCert.data, node->cert->derCert.len);
+	else
+		e_certificate_widget_set_der (E_CERTIFICATE_WIDGET (p->cert_widget), NULL, 0);
 }
 
 /**
@@ -161,9 +151,6 @@ e_cert_selector_new (gint type,
 	GtkBuilder *builder;
 	GtkWidget *content_area;
 	GtkWidget *w;
-	#ifndef WITH_GCR3
-	GtkWidget *scrolled_window;
-	#endif
 	GtkListStore *store;
 	GtkTreeIter iter;
 	gint n = 0, active = 0;
@@ -175,29 +162,11 @@ e_cert_selector_new (gint type,
 	e_load_ui_builder_definition (builder, "smime-ui.ui");
 
 	p->combobox = e_builder_get_widget (builder, "cert_combobox");
-	p->cert_widget = GCR_CERTIFICATE_WIDGET (gcr_certificate_widget_new (NULL));
+	p->cert_widget = e_certificate_widget_new ();
 
 	w = e_builder_get_widget (builder, "cert_selector_vbox");
 	content_area = gtk_dialog_get_content_area (GTK_DIALOG (ecs));
-	#ifdef WITH_GCR3
-	gtk_container_add (GTK_CONTAINER (w), GTK_WIDGET (p->cert_widget));
-	#else
-	scrolled_window = gtk_scrolled_window_new (NULL, NULL);
-	g_object_set (scrolled_window,
-		"halign", GTK_ALIGN_FILL,
-		"hexpand", TRUE,
-		"valign", GTK_ALIGN_FILL,
-		"vexpand", TRUE,
-		"hscrollbar-policy", GTK_POLICY_NEVER,
-		"vscrollbar-policy", GTK_POLICY_AUTOMATIC,
-		"propagate-natural-height", TRUE,
-		"shadow-type", GTK_SHADOW_NONE,
-		NULL);
-
-	gtk_container_add (GTK_CONTAINER (scrolled_window), GTK_WIDGET (p->cert_widget));
-
-	gtk_container_add (GTK_CONTAINER (w), scrolled_window);
-	#endif
+	gtk_container_add (GTK_CONTAINER (w), p->cert_widget);
 	gtk_widget_show_all (w);
 	gtk_box_pack_start (GTK_BOX (content_area), w, TRUE, TRUE, 3);
 	gtk_window_set_title (GTK_WINDOW (ecs), _("Select certificate"));
@@ -255,12 +224,13 @@ e_cert_selector_new (gint type,
 static void
 e_cert_selector_init (ECertSelector *ecs)
 {
+	ecs->priv = E_CERT_SELECTOR_GET_PRIVATE (ecs);
+	gtk_window_set_default_size (GTK_WINDOW (ecs), 400, 300);
+
 	gtk_dialog_add_buttons (
 		GTK_DIALOG (ecs),
 		_("_Cancel"), GTK_RESPONSE_CANCEL,
 		_("_OK"), GTK_RESPONSE_OK, NULL);
-
-	ecs->priv = E_CERT_SELECTOR_GET_PRIVATE (ecs);
 }
 
 static void

@@ -43,17 +43,7 @@
 #include <pkcs11.h>
 #include <pk11func.h>
 
-/* XXX Hack to disable p11-kit's pkcs11.h header, since
- *     NSS headers supply the same PKCS #11 definitions. */
-#define PKCS11_H 1
-
-/* XXX Yeah, yeah... */
-#define GCR_API_SUBJECT_TO_CHANGE
-#ifdef WITH_GCR3
-#include <gcr/gcr.h>
-#else
-#include <gcr-gtk3/gcr-gtk3.h>
-#endif
+#include <libedataserverui/libedataserverui.h>
 
 #include "shell/e-shell.h"
 
@@ -1221,87 +1211,14 @@ load_mail_certs (ECertManagerConfig *ecmc)
 	g_slist_free_full (camel_certs, (GDestroyNotify) camel_cert_unref);
 }
 
-static void
-cert_manager_parser_parsed_cb (GcrParser *parser,
-                               GcrParsed **out_parsed)
-{
-	GcrParsed *parsed;
-
-	parsed = gcr_parser_get_parsed (parser);
-	g_return_if_fail (parsed != NULL);
-
-	*out_parsed = gcr_parsed_ref (parsed);
-}
-
 static GtkWidget *
-cm_prepare_certificate_widget (GcrCertificate *certificate)
+cm_prepare_certificate_widget (gconstpointer data,
+			       gsize length)
 {
-	GcrParser *parser;
-	GcrParsed *parsed = NULL;
 	GtkWidget *widget;
-	const guchar *der_data = NULL;
-	gsize der_length;
-	GError *local_error = NULL;
 
-	g_return_val_if_fail (GCR_IS_CERTIFICATE (certificate), NULL);
-
-	der_data = gcr_certificate_get_der_data (certificate, &der_length);
-
-	parser = gcr_parser_new ();
-	g_signal_connect (
-		parser, "parsed",
-		G_CALLBACK (cert_manager_parser_parsed_cb), &parsed);
-	gcr_parser_parse_data (
-		parser, der_data, der_length, &local_error);
-	g_object_unref (parser);
-
-	/* Sanity check. */
-	g_return_val_if_fail (
-		((parsed != NULL) && (local_error == NULL)) ||
-		((parsed == NULL) && (local_error != NULL)), NULL);
-
-	if (local_error != NULL) {
-		g_warning ("%s: %s", G_STRFUNC, local_error->message);
-		g_clear_error (&local_error);
-		return NULL;
-	}
-
-	#ifdef WITH_GCR3
-	{
-		GcrCertificateWidget *certificate_widget;
-		GckAttributes *attributes;
-
-		attributes = gcr_parsed_get_attributes (parsed);
-		certificate_widget = gcr_certificate_widget_new (certificate);
-		gcr_certificate_widget_set_attributes (certificate_widget, attributes);
-
-		widget = GTK_WIDGET (certificate_widget);
-	}
-	#else
-	{
-		GtkWidget *scrolled_window;
-
-		widget = gcr_certificate_widget_new (certificate);
-
-		scrolled_window = gtk_scrolled_window_new (NULL, NULL);
-		g_object_set (scrolled_window,
-			"halign", GTK_ALIGN_FILL,
-			"hexpand", TRUE,
-			"valign", GTK_ALIGN_FILL,
-			"vexpand", TRUE,
-			"hscrollbar-policy", GTK_POLICY_NEVER,
-			"vscrollbar-policy", GTK_POLICY_AUTOMATIC,
-			"propagate-natural-height", TRUE,
-			"shadow-type", GTK_SHADOW_NONE,
-			NULL);
-
-		gtk_container_add (GTK_CONTAINER (scrolled_window), widget);
-
-		widget = scrolled_window;
-	}
-	#endif
-
-	gcr_parsed_unref (parsed);
+	widget = e_certificate_widget_new ();
+	e_certificate_widget_set_der (E_CERTIFICATE_WIDGET (widget), data, length);
 
 	return widget;
 }
@@ -1343,7 +1260,6 @@ mail_cert_edit_trust (GtkWidget *parent,
 	GtkWidget *dialog, *label, *expander, *content_area, *certificate_widget;
 	GtkWidget *runknown, *rtemporary, *rnever, *rmarginal, *rfully, *rultimate;
 	GtkGrid *grid;
-	GcrCertificate *certificate;
 	gchar *text;
 	gboolean changed = FALSE;
 	gint row;
@@ -1351,9 +1267,7 @@ mail_cert_edit_trust (GtkWidget *parent,
 	g_return_val_if_fail (camel_cert != NULL, FALSE);
 	g_return_val_if_fail (camel_cert->rawcert != NULL, FALSE);
 
-	certificate = gcr_simple_certificate_new (g_bytes_get_data (camel_cert->rawcert, NULL), g_bytes_get_size (camel_cert->rawcert));
-	certificate_widget = cm_prepare_certificate_widget (certificate);
-	g_clear_object (&certificate);
+	certificate_widget = cm_prepare_certificate_widget (g_bytes_get_data (camel_cert->rawcert, NULL), g_bytes_get_size (camel_cert->rawcert));
 
 	g_return_val_if_fail (certificate_widget != NULL, FALSE);
 
@@ -1365,6 +1279,7 @@ mail_cert_edit_trust (GtkWidget *parent,
 		NULL);
 
 	gtk_container_set_border_width (GTK_CONTAINER (dialog), 5);
+	gtk_window_set_default_size (GTK_WINDOW (dialog), 400, 300);
 
 	content_area = gtk_dialog_get_content_area (GTK_DIALOG (dialog));
 
@@ -2189,27 +2104,36 @@ GtkWidget *
 e_cert_manager_new_certificate_viewer (GtkWindow *parent,
                                        ECert *cert)
 {
-	GcrCertificate *certificate;
 	GtkWidget *content_area;
 	GtkWidget *dialog;
 	GtkWidget *widget, *certificate_widget;
-	gchar *subject_name;
+	gchar *data = NULL;
+	guint32 len = 0;
+	const gchar *title;
 
 	g_return_val_if_fail (cert != NULL, NULL);
 
-	certificate = GCR_CERTIFICATE (cert);
+	if (!e_cert_get_raw_der (cert, &data, &len)) {
+		data = NULL;
+		len = 0;
+	}
 
-	certificate_widget = cm_prepare_certificate_widget (certificate);
+	certificate_widget = cm_prepare_certificate_widget (data, (gsize) len);
 
-	subject_name = gcr_certificate_get_subject_name (certificate);
+	title = e_cert_get_cn (cert);
+	if (!title || !*title)
+		title = e_cert_get_email (cert);
+	if (!title || !*title)
+		title = e_cert_get_subject_name (cert);
 
 	dialog = gtk_dialog_new_with_buttons (
-		subject_name, parent,
+		title, parent,
 		GTK_DIALOG_DESTROY_WITH_PARENT,
 		_("_Close"), GTK_RESPONSE_CLOSE,
 		NULL);
 
 	gtk_container_set_border_width (GTK_CONTAINER (dialog), 5);
+	gtk_window_set_default_size (GTK_WINDOW (dialog), 400, 300);
 
 	content_area = gtk_dialog_get_content_area (GTK_DIALOG (dialog));
 
@@ -2217,8 +2141,6 @@ e_cert_manager_new_certificate_viewer (GtkWindow *parent,
 	gtk_container_set_border_width (GTK_CONTAINER (widget), 5);
 	gtk_box_pack_start (GTK_BOX (content_area), widget, TRUE, TRUE, 0);
 	gtk_widget_show_all (widget);
-
-	g_free (subject_name);
 
 	return dialog;
 }

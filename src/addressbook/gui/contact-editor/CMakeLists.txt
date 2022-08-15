@@ -9,6 +9,10 @@ set(DEPENDENCIES
 	evolution-util
 )
 
+if(ENABLE_SMIME)
+	list(APPEND DEPENDENCIES essmime)
+endif(ENABLE_SMIME)
+
 set(SOURCES
 	eab-editor.c
 	eab-editor.h

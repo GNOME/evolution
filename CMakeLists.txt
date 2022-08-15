@@ -75,8 +75,6 @@ add_definitions(-DSOUP_VERSION_MIN_REQUIRED=${soup_encoded_version})
 set(eds_minimum_version ${PROJECT_VERSION_MAJOR}.${PROJECT_VERSION_MINOR}.${PROJECT_VERSION_PATCH})
 set(enchant1_minimum_version 1.6.0)
 set(enchant2_minimum_version 2.2.0)
-set(gcr3_minimum_version 3.4)
-set(gcr4_minimum_version 3.90.0)
 set(gdk_pixbuf_minimum_version 2.24.0)
 set(gnome_desktop_minimum_version 2.91.3)
 set(gsettings_desktop_schemas_minimum_version 2.91.92)
@@ -253,20 +251,9 @@ else(ENABLE_GNOME_DESKTOP)
 	set(HAVE_GNOME_DESKTOP OFF)
 endif(ENABLE_GNOME_DESKTOP)
 
-add_printable_option(WITH_GCR3 "Use gcr3, instead of gcr4" OFF)
-
-if(WITH_GCR3)
-	set(GCR_DEPENDENCY gcr-3)
-	set(gcr_minimum_version ${gcr3_minimum_version})
-else(WITH_GCR3)
-	set(GCR_DEPENDENCY gcr-4-gtk3)
-	set(gcr_minimum_version ${gcr4_minimum_version})
-endif(WITH_GCR3)
-
 pkg_check_modules(GNOME_PLATFORM REQUIRED
 	cairo-gobject
 	gail-3.0>=${gdk_minimum_version}
-	${GCR_DEPENDENCY}>=${gcr_minimum_version}
 	gdk-pixbuf-2.0>=${gdk_pixbuf_minimum_version}
 	gio-2.0>=${glib_minimum_version}
 	${GIO_UNIX_REQUIREMENT}
