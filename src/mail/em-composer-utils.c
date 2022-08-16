@@ -608,6 +608,7 @@ composer_send_completed (GObject *source_object,
                          gpointer user_data)
 {
 	EActivity *activity;
+	const gchar *outbox_uid;
 	gboolean service_unavailable;
 	gboolean set_changed = FALSE;
 	AsyncContext *async_context;
@@ -705,6 +706,28 @@ composer_send_completed (GObject *source_object,
 		}
 		set_changed = TRUE;
 		goto exit;
+	}
+
+	/* Remove the Outbox message after successful send */
+	outbox_uid = e_msg_composer_get_header (async_context->composer, "X-Evolution-Outbox-UID", 0);
+	if (outbox_uid && *outbox_uid) {
+		CamelSession *session;
+		CamelFolder *outbox;
+
+		session = e_msg_composer_ref_session (async_context->composer);
+		outbox = e_mail_session_get_local_folder (E_MAIL_SESSION (session), E_MAIL_LOCAL_FOLDER_OUTBOX);
+		if (outbox) {
+			CamelMessageInfo *info;
+
+			info = camel_folder_get_message_info (outbox, outbox_uid);
+			if (info) {
+				camel_message_info_set_flags (info, CAMEL_MESSAGE_DELETED, CAMEL_MESSAGE_DELETED);
+
+				g_clear_object (&info);
+			}
+		}
+
+		g_clear_object (&session);
 	}
 
 	e_activity_set_state (activity, E_ACTIVITY_COMPLETED);
@@ -2362,6 +2385,13 @@ em_utils_edit_message (EMsgComposer *composer,
 
 			g_object_set_data_full (G_OBJECT (composer), MAIL_USER_KEY_EDITING, od, outbox_data_free);
 		}
+	}
+
+	if (message_uid != NULL && folder_is_outbox) {
+		/* To remove the message after send */
+		e_msg_composer_set_header (
+			composer, "X-Evolution-Outbox-UID",
+			message_uid);
 	}
 
 	composer_set_no_change (composer);
