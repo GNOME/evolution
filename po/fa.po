@@ -12,8 +12,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: evolution\n"
 "Report-Msgid-Bugs-To: https://gitlab.gnome.org/GNOME/evolution/issues\n"
-"POT-Creation-Date: 2022-08-20 12:14+0000\n"
-"PO-Revision-Date: 2022-08-20 18:26+0430\n"
+"POT-Creation-Date: 2022-08-20 13:57+0000\n"
+"PO-Revision-Date: 2022-08-20 18:33+0430\n"
 "Last-Translator: Danial Behzadi <dani.behzi@ubuntu.com>\n"
 "Language-Team: Persian <haghighi.ahmad@gmail.com>\n"
 "Language: fa\n"
@@ -1186,6 +1186,10 @@ msgstr ""
 msgid "Digitally sign replies when the original message is signed"
 msgstr "امصای دیجیتالی پاسخ‌ها هنگام امضا شده بودن پیام اصلی"
 
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:49
+msgid "Encode filenames in an Outlook/GMail way"
+msgstr "کدبندی نام پرونده‌ها به روش جی‌میل و اوت‌لوک"
+
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:51
 msgid "Send messages through Outbox folder"
 msgstr "فرستادن پیام‌ها از طریق صندوق خروجی"
@@ -1193,6 +1197,10 @@ msgstr "فرستادن پیام‌ها از طریق صندوق خروجی"
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:53
 msgid "How long to delay Outbox flush when sending messages through Outbox folder"
 msgstr "طول وقفهٔ تخلیهٔ صندوق خروجی هنگام فرستادن پیام‌ها از شاخهٔ صندوق خروجی"
+
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:55
+msgid "Include signature in new messages only"
+msgstr "گذاشتن امضا فقط در پیام‌های جدید"
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:57
 msgid "Put personalized signatures at the top of replies"
@@ -1550,6 +1558,16 @@ msgstr "اعلان هنگام تخلیهٔ هرزنامه"
 msgid "Prompt the user when he or she tries to Empty a Junk folder."
 msgstr "اعلان از کاربر هنگام تلاش برای تخلیهٔ یک شاخهٔ هرز."
 
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:196
+msgid "Prompt before sending to recipients not entered as mail addresses"
+msgstr "فرستادن پیامی با گیرندگانی که به شکل نشانی نامه وارد نشده‌اند"
+
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:197
+msgid ""
+"It disables/enables the repeated prompts to warn that you are trying to send a "
+"message to recipients not entered as mail addresses"
+msgstr "فرستادن پیامی با گیرندگانی که به شکل نشانی نامه وارد نشده‌اند"
+
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:198
 msgid "Prompt when user only fills Bcc"
 msgstr "کسب تکلیف هنگامی که کاربر فقط رونوشت محرمانه را پر می‌کند"
@@ -1602,6 +1620,16 @@ msgstr "اعلان هنگام پاسخ خصوصی به پیام‌های فهر�
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:214
 msgid "Prompt when mailing list hijacks private replies"
 msgstr "اعلان هنگام ربودن پاسخ‌های خصوصی از سیاههٔ پستی"
+
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:215
+msgid ""
+"It disables/enables the repeated prompts to warn that you are trying sending a "
+"private reply to a message which arrived via a mailing list, but the list sets a "
+"Reply-To: header which redirects your reply back to the list"
+msgstr ""
+"اعلان‌های تکراری در مورد این که دارید به پیامی که از یک سیاههٔ پستی رسیده، پاسخ "
+"خصوصی می‌دهید؛ ولی سیاهه یک سرایند پاسخ به: تنظیم کرده مه به پاسخ به سیاهه "
+"هدایتتان می‌کند را به یا از کار می‌اندازد"
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:216
 msgid "Prompt when replying to many recipients"
@@ -1867,6 +1895,10 @@ msgstr "این که رنگ‌های فراهم شده در نامه‌های HTM
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:316
 msgid "Whether to print attachments."
 msgstr "این که پیوست‌هاچاپ شوند یا نه."
+
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:318
+msgid "Size limit for text attachments to show"
+msgstr "کران اندازه برای نمایش پیوست‌های متنی"
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:320
 msgid "(Deprecated) Default forward style"
