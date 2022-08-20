@@ -12,8 +12,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: evolution\n"
 "Report-Msgid-Bugs-To: https://gitlab.gnome.org/GNOME/evolution/issues\n"
-"POT-Creation-Date: 2022-08-20 14:03+0000\n"
-"PO-Revision-Date: 2022-08-20 18:43+0430\n"
+"POT-Creation-Date: 2022-08-20 14:13+0000\n"
+"PO-Revision-Date: 2022-08-20 18:45+0430\n"
 "Last-Translator: Danial Behzadi <dani.behzi@ubuntu.com>\n"
 "Language-Team: Persian <haghighi.ahmad@gmail.com>\n"
 "Language: fa\n"
@@ -1660,6 +1660,11 @@ msgid ""
 "many people."
 msgstr ""
 "اعلان‌های تکراری برای هشدار فرستادن پاسخی به افراد زیاد را به یا از کار می‌اندازد."
+
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:218
+msgid ""
+"Prompt when switching composer format and the content needs to lose its formatting"
+msgstr "اعلان هنگام تغییر قالب اجراگر و نیاز محتوا به از دست دادن قالب"
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:219
 msgid ""
