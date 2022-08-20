@@ -12,8 +12,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: evolution\n"
 "Report-Msgid-Bugs-To: https://gitlab.gnome.org/GNOME/evolution/issues\n"
-"POT-Creation-Date: 2022-08-12 19:06+0000\n"
-"PO-Revision-Date: 2022-08-15 12:12+0430\n"
+"POT-Creation-Date: 2022-08-15 18:29+0000\n"
+"PO-Revision-Date: 2022-08-20 16:43+0430\n"
 "Last-Translator: Danial Behzadi <dani.behzi@ubuntu.com>\n"
 "Language-Team: Persian <haghighi.ahmad@gmail.com>\n"
 "Language: fa\n"
@@ -2287,7 +2287,7 @@ msgstr "تقویم"
 #: ../src/mail/importers/kmail-importer.c:249
 #: ../src/mail/importers/pine-importer.c:423
 #: ../src/modules/mail/e-mail-shell-view.c:1608
-#: ../src/smime/gui/certificate-manager.c:1697
+#: ../src/smime/gui/certificate-manager.c:1612
 msgid "Mail"
 msgstr "نامه"
 
@@ -2910,10 +2910,10 @@ msgstr ""
 #. This is only shown if the EActivity has a GCancellable.
 #. no flags
 #: ../src/addressbook/addressbook.error.xml.h:55
-#: ../src/addressbook/gui/contact-editor/e-contact-editor.c:3275
-#: ../src/addressbook/gui/contact-editor/e-contact-editor.c:3505
-#: ../src/addressbook/gui/contact-editor/e-contact-editor.c:4342
-#: ../src/addressbook/gui/contact-editor/e-contact-editor.c:4348
+#: ../src/addressbook/gui/contact-editor/e-contact-editor.c:3272
+#: ../src/addressbook/gui/contact-editor/e-contact-editor.c:3546
+#: ../src/addressbook/gui/contact-editor/e-contact-editor.c:4382
+#: ../src/addressbook/gui/contact-editor/e-contact-editor.c:4388
 #: ../src/addressbook/gui/contact-editor/e-contact-editor-fullname.c:212
 #: ../src/addressbook/gui/contact-editor/e-contact-quick-add.c:453
 #: ../src/addressbook/gui/contact-editor/fullname.ui.h:14
@@ -2964,11 +2964,11 @@ msgstr ""
 #: ../src/plugins/save-calendar/save-calendar.c:184
 #: ../src/shell/e-shell-content.c:641 ../src/shell/e-shell-content.c:748
 #: ../src/shell/e-shell-utils.c:69 ../src/shell/e-shell-utils.c:133
-#: ../src/smime/gui/certificate-manager.c:656
-#: ../src/smime/gui/certificate-manager.c:724
-#: ../src/smime/gui/certificate-manager.c:952
-#: ../src/smime/gui/certificate-manager.c:1363
-#: ../src/smime/gui/e-cert-selector.c:260 ../src/smime/gui/smime-ui.ui.h:17
+#: ../src/smime/gui/certificate-manager.c:646
+#: ../src/smime/gui/certificate-manager.c:714
+#: ../src/smime/gui/certificate-manager.c:942
+#: ../src/smime/gui/certificate-manager.c:1277
+#: ../src/smime/gui/e-cert-selector.c:232 ../src/smime/gui/smime-ui.ui.h:17
 msgid "_Cancel"
 msgstr "_لغو"
 
@@ -3021,14 +3021,14 @@ msgid "Show Certificates"
 msgstr "نمایش گواهی‌ها"
 
 #: ../src/addressbook/gui/contact-editor/contact-editor.ui.h:12
-#: ../src/addressbook/gui/contact-editor/e-contact-editor.c:725
-#: ../src/addressbook/gui/contact-editor/e-contact-editor.c:747
-#: ../src/addressbook/gui/contact-editor/e-contact-editor.c:3112
+#: ../src/addressbook/gui/contact-editor/e-contact-editor.c:723
+#: ../src/addressbook/gui/contact-editor/e-contact-editor.c:745
+#: ../src/addressbook/gui/contact-editor/e-contact-editor.c:3110
 msgid "Contact Editor"
 msgstr "ویرایشگر آشنا"
 
 #: ../src/addressbook/gui/contact-editor/contact-editor.ui.h:13
-#: ../src/addressbook/gui/contact-editor/e-contact-editor.c:3505
+#: ../src/addressbook/gui/contact-editor/e-contact-editor.c:3546
 #: ../src/addressbook/gui/contact-list-editor/contact-list-editor.ui.h:3
 #: ../src/addressbook/gui/widgets/eab-contact-merging.c:809
 #: ../src/calendar/calendar.error.xml.h:47 ../src/calendar/gui/e-comp-editor.c:2301
@@ -3039,8 +3039,8 @@ msgstr "ویرایشگر آشنا"
 #: ../src/e-util/gal-view-instance-save-as-dialog.c:266
 #: ../src/modules/rss/evolution/e-rss-preferences.c:839
 #: ../src/shell/e-shell-content.c:642 ../src/shell/e-shell-utils.c:133
-#: ../src/smime/gui/certificate-manager.c:656
-#: ../src/smime/gui/certificate-manager.c:725
+#: ../src/smime/gui/certificate-manager.c:646
+#: ../src/smime/gui/certificate-manager.c:715
 msgid "_Save"
 msgstr "ذخیره"
 
@@ -3321,128 +3321,128 @@ msgstr "_بار کردن X.509"
 msgid "Certificates"
 msgstr "گواهی‌ها"
 
-#: ../src/addressbook/gui/contact-editor/e-contact-editor.c:266
+#: ../src/addressbook/gui/contact-editor/e-contact-editor.c:264
 #: ../src/calendar/gui/e-comp-editor.c:2233
 #: ../src/e-util/e-html-editor-actions.c:1161
 msgid "_Undo"
 msgstr "_برگردان"
 
-#: ../src/addressbook/gui/contact-editor/e-contact-editor.c:268
+#: ../src/addressbook/gui/contact-editor/e-contact-editor.c:266
 #: ../src/calendar/gui/e-comp-editor.c:2235 ../src/e-util/e-focus-tracker.c:147
 #: ../src/e-util/e-focus-tracker.c:150
 msgid "Undo"
 msgstr "برگردان"
 
-#: ../src/addressbook/gui/contact-editor/e-contact-editor.c:273
+#: ../src/addressbook/gui/contact-editor/e-contact-editor.c:271
 #: ../src/calendar/gui/e-comp-editor.c:2240
 #: ../src/e-util/e-html-editor-actions.c:1147
 msgid "_Redo"
 msgstr "_انجام دوباره"
 
-#: ../src/addressbook/gui/contact-editor/e-contact-editor.c:275
+#: ../src/addressbook/gui/contact-editor/e-contact-editor.c:273
 #: ../src/calendar/gui/e-comp-editor.c:2242 ../src/e-util/e-focus-tracker.c:163
 #: ../src/e-util/e-focus-tracker.c:166
 msgid "Redo"
 msgstr "انجام دوباره"
 
-#: ../src/addressbook/gui/contact-editor/e-contact-editor.c:303
+#: ../src/addressbook/gui/contact-editor/e-contact-editor.c:301
 #: ../src/addressbook/gui/widgets/eab-gui-util.c:501
 msgid "Error adding contact"
 msgstr "خطا در افزودن آشنا"
 
-#: ../src/addressbook/gui/contact-editor/e-contact-editor.c:323
+#: ../src/addressbook/gui/contact-editor/e-contact-editor.c:321
 msgid "Error modifying contact"
 msgstr "خطا در تغییر دادن آشنا"
 
-#: ../src/addressbook/gui/contact-editor/e-contact-editor.c:343
+#: ../src/addressbook/gui/contact-editor/e-contact-editor.c:341
 msgid "Error removing contact"
 msgstr "خطا در حذف آشنا"
 
-#: ../src/addressbook/gui/contact-editor/e-contact-editor.c:741
-#: ../src/addressbook/gui/contact-editor/e-contact-editor.c:3106
+#: ../src/addressbook/gui/contact-editor/e-contact-editor.c:739
+#: ../src/addressbook/gui/contact-editor/e-contact-editor.c:3104
 #, c-format
 msgid "Contact Editor — %s"
 msgstr "ویرایشگر آشنا — %s"
 
-#: ../src/addressbook/gui/contact-editor/e-contact-editor.c:3242
+#: ../src/addressbook/gui/contact-editor/e-contact-editor.c:3239
 msgid "X.509 certificates"
 msgstr "گواهی‌های X.509"
 
-#: ../src/addressbook/gui/contact-editor/e-contact-editor.c:3247
+#: ../src/addressbook/gui/contact-editor/e-contact-editor.c:3244
 msgid "PGP keys"
 msgstr "کلیدهای PGP"
 
-#: ../src/addressbook/gui/contact-editor/e-contact-editor.c:3253
+#: ../src/addressbook/gui/contact-editor/e-contact-editor.c:3250
 #: ../src/e-util/e-html-editor-actions.c:448
 #: ../src/e-util/e-image-chooser-dialog.c:193
-#: ../src/smime/gui/certificate-manager.c:677
-#: ../src/smime/gui/certificate-manager.c:962
+#: ../src/smime/gui/certificate-manager.c:667
+#: ../src/smime/gui/certificate-manager.c:952
 msgid "All files"
 msgstr "تمام پرونده‌ها"
 
-#: ../src/addressbook/gui/contact-editor/e-contact-editor.c:3273
+#: ../src/addressbook/gui/contact-editor/e-contact-editor.c:3270
 msgid "Open PGP key"
 msgstr "گشودن کلید PGP"
 
-#: ../src/addressbook/gui/contact-editor/e-contact-editor.c:3273
+#: ../src/addressbook/gui/contact-editor/e-contact-editor.c:3270
 msgid "Open X.509 certificate"
 msgstr "گشودن گواهی X.509"
 
-#: ../src/addressbook/gui/contact-editor/e-contact-editor.c:3275
-#: ../src/addressbook/gui/contact-editor/e-contact-editor.c:4342
-#: ../src/addressbook/gui/contact-editor/e-contact-editor.c:4349
+#: ../src/addressbook/gui/contact-editor/e-contact-editor.c:3272
+#: ../src/addressbook/gui/contact-editor/e-contact-editor.c:4382
+#: ../src/addressbook/gui/contact-editor/e-contact-editor.c:4389
 #: ../src/e-util/e-attachment-store.c:666 ../src/e-util/e-category-editor.c:176
 #: ../src/e-util/e-html-editor-actions.c:395
 #: ../src/e-util/e-html-editor-actions.c:439
 #: ../src/e-util/e-html-editor-actions.c:542
 #: ../src/e-util/e-image-chooser-dialog.c:182 ../src/plugins/face/face.c:298
-#: ../src/shell/e-shell-utils.c:69 ../src/smime/gui/certificate-manager.c:952
+#: ../src/shell/e-shell-utils.c:69 ../src/smime/gui/certificate-manager.c:942
 msgid "_Open"
 msgstr "_گشودن"
 
-#: ../src/addressbook/gui/contact-editor/e-contact-editor.c:3290
-#: ../src/addressbook/gui/contact-editor/e-contact-editor.c:3518
+#: ../src/addressbook/gui/contact-editor/e-contact-editor.c:3287
+#: ../src/addressbook/gui/contact-editor/e-contact-editor.c:3559
 msgid "Chosen file is not a local file."
 msgstr "پروندهٔ گزیده،‌محلی نیست."
 
-#: ../src/addressbook/gui/contact-editor/e-contact-editor.c:3303
+#: ../src/addressbook/gui/contact-editor/e-contact-editor.c:3300
 #, c-format
 msgid "Failed to load certificate: %s"
 msgstr "شکست در بار کردن گواهی: %s"
 
-#: ../src/addressbook/gui/contact-editor/e-contact-editor.c:3332
+#: ../src/addressbook/gui/contact-editor/e-contact-editor.c:3374
 msgctxt "cert-kind"
 msgid "X.509"
 msgstr "X.509"
 
-#: ../src/addressbook/gui/contact-editor/e-contact-editor.c:3332
+#: ../src/addressbook/gui/contact-editor/e-contact-editor.c:3374
 msgctxt "cert-kind"
 msgid "PGP"
 msgstr "PGP"
 
-#: ../src/addressbook/gui/contact-editor/e-contact-editor.c:3503
+#: ../src/addressbook/gui/contact-editor/e-contact-editor.c:3544
 msgid "Save PGP key"
 msgstr "ذخیرهٔ کلید PGP"
 
-#: ../src/addressbook/gui/contact-editor/e-contact-editor.c:3503
+#: ../src/addressbook/gui/contact-editor/e-contact-editor.c:3544
 msgid "Save X.509 certificate"
 msgstr "ذخیرهٔ گواهی X.509"
 
-#: ../src/addressbook/gui/contact-editor/e-contact-editor.c:3530
+#: ../src/addressbook/gui/contact-editor/e-contact-editor.c:3571
 #, c-format
 msgid "Failed to save certificate: %s"
 msgstr "شکست در ذخیرهٔ کردن گواهی: %s"
 
-#: ../src/addressbook/gui/contact-editor/e-contact-editor.c:4339
-#: ../src/addressbook/gui/contact-editor/e-contact-editor.c:4345
+#: ../src/addressbook/gui/contact-editor/e-contact-editor.c:4379
+#: ../src/addressbook/gui/contact-editor/e-contact-editor.c:4385
 msgid "Please select an image for this contact"
 msgstr "لطفاً تصویری برای این آشنا انتخاب کنید"
 
-#: ../src/addressbook/gui/contact-editor/e-contact-editor.c:4350
+#: ../src/addressbook/gui/contact-editor/e-contact-editor.c:4390
 msgid "_No image"
 msgstr "بدون تصویر"
 
-#: ../src/addressbook/gui/contact-editor/e-contact-editor.c:4714
+#: ../src/addressbook/gui/contact-editor/e-contact-editor.c:4754
 msgid ""
 "The contact data is invalid:\n"
 "\n"
@@ -3450,28 +3450,28 @@ msgstr ""
 "داده‌های آشنا نامعتبر است:\n"
 "\n"
 
-#: ../src/addressbook/gui/contact-editor/e-contact-editor.c:4720
+#: ../src/addressbook/gui/contact-editor/e-contact-editor.c:4760
 #, c-format
 msgid "“%s” has an invalid format"
 msgstr "«%s» قالبی نامعتبر دارد"
 
-#: ../src/addressbook/gui/contact-editor/e-contact-editor.c:4728
+#: ../src/addressbook/gui/contact-editor/e-contact-editor.c:4768
 #, c-format
 msgid "“%s” cannot be a future date"
 msgstr "«%s» نمی‌تواند تاریخی در آینده باشد"
 
-#: ../src/addressbook/gui/contact-editor/e-contact-editor.c:4736
+#: ../src/addressbook/gui/contact-editor/e-contact-editor.c:4776
 #, c-format
 msgid "%s“%s” has an invalid format"
 msgstr "%s«%s» قالبی نامعتبر دارد"
 
-#: ../src/addressbook/gui/contact-editor/e-contact-editor.c:4749
-#: ../src/addressbook/gui/contact-editor/e-contact-editor.c:4763
+#: ../src/addressbook/gui/contact-editor/e-contact-editor.c:4789
+#: ../src/addressbook/gui/contact-editor/e-contact-editor.c:4803
 #, c-format
 msgid "%s“%s” is empty"
 msgstr "%s«%s» خالی است"
 
-#: ../src/addressbook/gui/contact-editor/e-contact-editor.c:4778
+#: ../src/addressbook/gui/contact-editor/e-contact-editor.c:4818
 msgid "Invalid contact."
 msgstr "آشنای نامعتبر."
 
@@ -3496,8 +3496,8 @@ msgstr "آشنای نامعتبر."
 #: ../src/plugins/email-custom-header/org-gnome-email-custom-header.ui.h:4
 #: ../src/plugins/publish-calendar/url-editor-dialog.c:418
 #: ../src/shell/e-shell-content.c:643 ../src/shell/e-shell-content.c:749
-#: ../src/shell/main.c:271 ../src/smime/gui/certificate-manager.c:1364
-#: ../src/smime/gui/e-cert-selector.c:261 ../src/smime/gui/smime-ui.ui.h:18
+#: ../src/shell/main.c:271 ../src/smime/gui/certificate-manager.c:1278
+#: ../src/smime/gui/e-cert-selector.c:233 ../src/smime/gui/smime-ui.ui.h:18
 msgid "_OK"
 msgstr "_تأیید"
 
@@ -4134,7 +4134,7 @@ msgstr "آیا مطمئنید که می‌خواهید این آشنا (%s) را
 #: ../src/modules/calendar/e-task-shell-view-actions.c:851
 #: ../src/modules/mail/e-mail-shell-view-actions.c:1622
 #: ../src/shell/e-shell-window-actions.c:965
-#: ../src/smime/gui/certificate-manager.c:1687 ../src/smime/gui/smime-ui.ui.h:8
+#: ../src/smime/gui/certificate-manager.c:1602 ../src/smime/gui/smime-ui.ui.h:8
 msgid "_Delete"
 msgstr "_حذف شود"
 
@@ -6501,7 +6501,7 @@ msgstr "زمان آغاز نامعتبر است"
 #: ../src/modules/accounts-window/e-accounts-window-editors.c:172
 #: ../src/plugins/face/face.c:175 ../src/plugins/mail-to-task/mail-to-task.c:951
 #: ../src/shell/e-shell.c:1258 ../src/shell/e-shell.c:1283
-#: ../src/smime/gui/certificate-manager.c:363
+#: ../src/smime/gui/certificate-manager.c:353
 #, c-format
 msgid "Unknown error"
 msgstr "خطای ناشناخته"
@@ -7521,7 +7521,7 @@ msgstr "ذخیره و بستن"
 #: ../src/e-util/e-table-field-chooser-dialog.c:197 ../src/mail/e-mail-browser.c:166
 #: ../src/mail/e-mail-notes.c:1104 ../src/mail/em-filter-editor.c:45
 #: ../src/mail/em-folder-properties.c:1488 ../src/shell/e-shell-window-actions.c:930
-#: ../src/smime/gui/certificate-manager.c:2209
+#: ../src/smime/gui/certificate-manager.c:2132
 msgid "_Close"
 msgstr "بستن"
 
@@ -7640,7 +7640,7 @@ msgstr "گزینه‌ها"
 #: ../src/calendar/gui/e-comp-editor.c:2291
 #: ../src/e-util/e-html-editor-actions.c:1219 ../src/mail/e-mail-browser.c:224
 #: ../src/shell/e-shell-window-actions.c:1157
-#: ../src/smime/gui/certificate-manager.c:1677 ../src/smime/gui/smime-ui.ui.h:3
+#: ../src/smime/gui/certificate-manager.c:1592 ../src/smime/gui/smime-ui.ui.h:3
 msgid "_View"
 msgstr "نما"
 
@@ -10893,7 +10893,7 @@ msgstr "اندازه"
 #: ../src/mail/filtertypes.xml.in.h:16 ../src/mail/message-list.etspec.h:6
 #: ../src/mail/searchtypes.xml.in.h:17 ../src/mail/vfoldertypes.xml.in.h:17
 #: ../src/modules/mail/em-mailer-prefs.c:76
-#: ../src/smime/gui/certificate-manager.c:1658
+#: ../src/smime/gui/certificate-manager.c:1573
 msgid "Subject"
 msgstr "موضوع"
 
@@ -11953,7 +11953,7 @@ msgstr "نام _کاربر:"
 
 #: ../src/e-util/e-collection-account-wizard.c:703
 #: ../src/plugins/publish-calendar/publish-calendar.ui.h:30
-#: ../src/smime/gui/certificate-manager.c:767
+#: ../src/smime/gui/certificate-manager.c:757
 msgid "_Password:"
 msgstr "کلمهٔ _عبور:"
 
@@ -22964,12 +22964,13 @@ msgstr "%s می‌خواهد به تکلیف موجودی اضافه شود:"
 msgid ""
 "%s through %s wishes to receive the latest information for the following assigned "
 "task:"
-msgstr "%s از طریق %s مایل است آخرین اطلاعات تکلیف تخصیص داده شدهٔ زیر را دریافت کند"
+msgstr ""
+"%s از طریق %s مایل است آخرین اطلاعات تکلیف تخصیص داده شدهٔ زیر را دریافت کند:"
 
 #: ../src/modules/itip-formatter/itip-view.c:604
 #, c-format
 msgid "%s wishes to receive the latest information for the following assigned task:"
-msgstr "%s مایل است آخرین اطلاعات تکلیف تخصیص داده شدهٔ زیر را دریافت کند"
+msgstr "%s مایل است آخرین اطلاعات تکلیف تخصیص داده شدهٔ زیر را دریافت کند:"
 
 #: ../src/modules/itip-formatter/itip-view.c:608
 #, c-format
@@ -23096,7 +23097,7 @@ msgid "_Update Attendee Status"
 msgstr "_به‌هنگام‌سازی وضعیت شرکت‌کنندگان"
 
 #: ../src/modules/itip-formatter/itip-view.c:1298
-#: ../src/smime/gui/certificate-manager.c:1692
+#: ../src/smime/gui/certificate-manager.c:1607
 msgid "_Update"
 msgstr "_به‌هنگام سازی"
 
@@ -24997,16 +24998,16 @@ msgid "BBDB"
 msgstr "BBDB"
 
 #: ../src/plugins/bbdb/org-gnome-evolution-bbdb.eplug.xml.h:3
-#, fuzzy
 msgid ""
 "Takes the gruntwork out of managing your address book.\n"
 "\n"
 "Automatically fills your address book with names and email addresses as you reply "
 "to messages.  Also fills in IM contact information from your buddy lists."
 msgstr ""
-"هر وقت به پیامی پاسخ می‌دهید به طور خودکار نام و نشانی رایانامه گیرنده را در "
-"دفترچه نشانی شما پر می‌کند. همچنین اطلاعات مربوط به اطلاعات تماس پیام فوری را از "
-"فهرست رفقای شما می‌گیرد."
+"حذف کار گِل از مدیریت دفترچه نشانیتان\n"
+"\n"
+"هر گاه به پیامی پاسخ دهید، نام و نشانی رایانامهٔ گیرنده را به طور خودکار در دفترچه "
+"نشانیتان پر می‌کند.  همچنین اطّلاعات تماس را از سیاههٔ رفقایتان پر می‌کند."
 
 #: ../src/plugins/dbx-import/dbx-importer.c:274
 msgid "Importing Outlook Express data"
@@ -26463,37 +26464,26 @@ msgid "Upgrade from previous version failed:"
 msgstr "ارتقا از نگارش پیشین شکست خورد:"
 
 #: ../src/shell/shell.error.xml.h:3
-#, fuzzy
-#| msgid ""
-#| "{1}\n"
-#| "\n"
-#| "If you choose to continue, you may not have access to some of your old data.\n"
 msgid ""
 "{0}\n"
 "\n"
 "If you choose to continue, you may not have access to some of your old data.\n"
 msgstr ""
-"{1}\n"
+"{0}\n"
 "\n"
-"If you choose to continue, you may not have access to some of your old data.\n"
+"اگر بخواهید ادامه دهید، ممکن است به برخی داده‌های قدیمیتان دسترسی نداشته باشید.\n"
 
 #: ../src/shell/shell.error.xml.h:7
-#, fuzzy
-#| msgid "Continue"
 msgid "Continue Anyway"
-msgstr "ادامه"
+msgstr "به هر حال ادامه داده شود"
 
 #: ../src/shell/shell.error.xml.h:8
-#, fuzzy
-#| msgid "_Quit"
 msgid "Quit Now"
-msgstr "_ترک"
+msgstr "اکنون خارج شود"
 
 #: ../src/shell/shell.error.xml.h:9
-#, fuzzy
-#| msgid "Delete old data from version {0}?"
 msgid "Cannot upgrade directly from version {0}"
-msgstr "داده‌های قدیمی از نسخهٔ {0} حذف شوند؟"
+msgstr "نمی‌توان مستقیماً‌ از نگارش {0} ارتقا داد"
 
 #: ../src/shell/shell.error.xml.h:10
 msgid ""
@@ -26503,10 +26493,8 @@ msgid ""
 msgstr ""
 
 #: ../src/shell/shell.error.xml.h:11
-#, fuzzy
-#| msgid "Unknown action to be performed"
 msgid "Close Evolution with pending background operations?"
-msgstr "عملی ناشناخته در آستانهٔ اجراست"
+msgstr "بستن اولوشن با عملیات پس‌زمینهٔ منتظر؟"
 
 #: ../src/shell/shell.error.xml.h:12
 msgid ""
@@ -26516,66 +26504,48 @@ msgid ""
 msgstr ""
 
 #: ../src/shell/shell.error.xml.h:13
-#, fuzzy
-#| msgid "Choose Image"
 msgid "_Close Immediately"
-msgstr "انتخاب تصویر"
+msgstr "_بستن فوری"
 
 #: ../src/shell/shell.error.xml.h:14
-#, fuzzy
-#| msgid "Waiting..."
 msgid "Keep _Waiting"
-msgstr "در حال انتظار..."
+msgstr "_منتظر ماندن"
 
 #: ../src/shell/shell.error.xml.h:15
 msgid "Failed to get values from “{0}”"
 msgstr "شکست در گرفتن مقدارها از {0}"
 
 #: ../src/shell/shell.error.xml.h:16
-#, fuzzy
-#| msgid "Failed to authenticate on POP server %s: %s"
 msgid "Failed to invoke authenticate for “{0}”"
-msgstr "تأیید هویت در کارساز POP %s شکست خورد: %s"
+msgstr "شکست در استناد به تأیید هویت برای «{0}»"
 
 #: ../src/shell/shell.error.xml.h:17
 msgid "Failed to connect “{0}”"
 msgstr "شکست در وصل شدن به {0}"
 
 #: ../src/shell/shell.error.xml.h:18
-#, fuzzy
-#| msgid "_Recover"
 msgid "_Reconnect"
-msgstr "بازیابی"
+msgstr "اتّصال _دوباره"
 
 #: ../src/shell/shell.error.xml.h:19
-#, fuzzy
-#| msgid "Unable to open address book"
 msgid "Failed to connect address book “{0}”"
-msgstr "ناتوان در گشودن دفترچه نشانی"
+msgstr "شکست در اتّصال دفترچه نشانی {0}."
 
 #: ../src/shell/shell.error.xml.h:20
-#, fuzzy
-#| msgid "Failed to load the calendar '%s'"
 msgid "Failed to connect calendar “{0}”"
-msgstr "بار کردن تقویم «%s» شکست خورد"
+msgstr "شکست در اتّصال تقویم {0}."
 
 #: ../src/shell/shell.error.xml.h:21
-#, fuzzy
-#| msgid "File exists &quot;{0}&quot;."
 msgid "Failed to connect mail account “{0}”"
-msgstr "فیلد وجود دارد «{0}»."
+msgstr "شکست در اتّصال حساب نامهٔ {0}."
 
 #: ../src/shell/shell.error.xml.h:22
-#, fuzzy
-#| msgid "Delete memo list '{0}'?"
 msgid "Failed to connect memo list “{0}”"
-msgstr "سیاههٔ یادداشت «{0}» حذف شود؟"
+msgstr "شکست در اتّصال سیاههٔ یادداشت «{0}»"
 
 #: ../src/shell/shell.error.xml.h:23
-#, fuzzy
-#| msgid "Delete task list '{0}'?"
 msgid "Failed to connect task list “{0}”"
-msgstr "سیاههٔ تکلیف «{0}» حذف شود؟"
+msgstr "شکست در اتّصال سیاههٔ تکلیف «{0}»"
 
 #: ../src/shell/shell.error.xml.h:24
 msgid "Failed to prompt for credentials for “{0}”"
@@ -26626,17 +26596,11 @@ msgid "Press the “Alt” key to access the Menu Bar again."
 msgstr "برای دسترسی دوباره به نوار فهرست، کلید «دگرساز» را بزنید."
 
 #: ../src/shell/shell.error.xml.h:36
-#, fuzzy
-#| msgid "Side _Bar"
 msgid "_Show Menu Bar"
-msgstr "_نوار کناری"
+msgstr "نمایش نوار _فهرست"
 
 #: ../src/smime/gui/ca-trust-dialog.c:104
-#, fuzzy, c-format
-#| msgid ""
-#| "Certificate '%s' is a CA certificate.\n"
-#| "\n"
-#| "Edit trust settings:"
+#, c-format
 msgid ""
 "Certificate “%s” is a CA certificate.\n"
 "\n"
@@ -26646,102 +26610,88 @@ msgstr ""
 "\n"
 "ویرایش تنظیمات اعتماد:"
 
-#: ../src/smime/gui/certificate-manager.c:85
-#: ../src/smime/gui/certificate-manager.c:105
-#: ../src/smime/gui/certificate-manager.c:126
+#: ../src/smime/gui/certificate-manager.c:75
+#: ../src/smime/gui/certificate-manager.c:95
+#: ../src/smime/gui/certificate-manager.c:116
 msgid "Certificate Name"
 msgstr "نام گواهی"
 
-#: ../src/smime/gui/certificate-manager.c:86
-#: ../src/smime/gui/certificate-manager.c:107
-#, fuzzy
-#| msgid "Organization"
+#: ../src/smime/gui/certificate-manager.c:76
+#: ../src/smime/gui/certificate-manager.c:97
 msgid "Issued To Organization"
-msgstr "سازمان"
+msgstr "صادر شده به سازمان"
 
-#: ../src/smime/gui/certificate-manager.c:87
-#: ../src/smime/gui/certificate-manager.c:108
-#, fuzzy
-#| msgid "Organizational Unit (OU)"
+#: ../src/smime/gui/certificate-manager.c:77
+#: ../src/smime/gui/certificate-manager.c:98
 msgid "Issued To Organizational Unit"
-msgstr "واحد سازمانی (وس)‏"
+msgstr "صادر شده به واحد سازمانی"
 
-#: ../src/smime/gui/certificate-manager.c:88
-#: ../src/smime/gui/certificate-manager.c:109
-#: ../src/smime/gui/certificate-manager.c:128
+#: ../src/smime/gui/certificate-manager.c:78
+#: ../src/smime/gui/certificate-manager.c:99
+#: ../src/smime/gui/certificate-manager.c:118
 msgid "Serial Number"
 msgstr "شمارهٔ سریال"
 
-#: ../src/smime/gui/certificate-manager.c:89
-#: ../src/smime/gui/certificate-manager.c:110
-#: ../src/smime/gui/certificate-manager.c:129
+#: ../src/smime/gui/certificate-manager.c:79
+#: ../src/smime/gui/certificate-manager.c:100
+#: ../src/smime/gui/certificate-manager.c:119
 msgid "Purposes"
 msgstr "مقاصد"
 
-#: ../src/smime/gui/certificate-manager.c:90
-#: ../src/smime/gui/certificate-manager.c:111
-#: ../src/smime/gui/certificate-manager.c:130
-#, fuzzy
-#| msgid "Issued On"
+#: ../src/smime/gui/certificate-manager.c:80
+#: ../src/smime/gui/certificate-manager.c:101
+#: ../src/smime/gui/certificate-manager.c:120
 msgid "Issued By"
-msgstr "صادر شده در تاریخ"
+msgstr "صادر شده به دست"
 
-#: ../src/smime/gui/certificate-manager.c:91
-#: ../src/smime/gui/certificate-manager.c:112
-#: ../src/smime/gui/certificate-manager.c:131
-#, fuzzy
-#| msgid "Organization"
+#: ../src/smime/gui/certificate-manager.c:81
+#: ../src/smime/gui/certificate-manager.c:102
+#: ../src/smime/gui/certificate-manager.c:121
 msgid "Issued By Organization"
-msgstr "سازمان"
+msgstr "صادر شده از سازمان"
 
-#: ../src/smime/gui/certificate-manager.c:92
-#: ../src/smime/gui/certificate-manager.c:113
-#: ../src/smime/gui/certificate-manager.c:132
-#, fuzzy
-#| msgid "Organizational Unit (OU)"
+#: ../src/smime/gui/certificate-manager.c:82
+#: ../src/smime/gui/certificate-manager.c:103
+#: ../src/smime/gui/certificate-manager.c:122
 msgid "Issued By Organizational Unit"
-msgstr "واحد سازمانی (وس)‏"
+msgstr "صادر شده از واحد سازمانی"
 
-#: ../src/smime/gui/certificate-manager.c:93
-#: ../src/smime/gui/certificate-manager.c:114
-#: ../src/smime/gui/certificate-manager.c:133
-#, fuzzy
-#| msgid "Issuer"
+#: ../src/smime/gui/certificate-manager.c:83
+#: ../src/smime/gui/certificate-manager.c:104
+#: ../src/smime/gui/certificate-manager.c:123
 msgid "Issued"
-msgstr "صادرکننده"
+msgstr "صادر شده"
 
-#: ../src/smime/gui/certificate-manager.c:94
-#: ../src/smime/gui/certificate-manager.c:115
-#: ../src/smime/gui/certificate-manager.c:134
+#: ../src/smime/gui/certificate-manager.c:84
+#: ../src/smime/gui/certificate-manager.c:105
+#: ../src/smime/gui/certificate-manager.c:124
 msgid "Expires"
 msgstr "زمان انقضا"
 
-#: ../src/smime/gui/certificate-manager.c:95
-#: ../src/smime/gui/certificate-manager.c:116
-#: ../src/smime/gui/certificate-manager.c:135
-#, fuzzy
-#| msgid "SHA1 Fingerprint"
+#: ../src/smime/gui/certificate-manager.c:85
+#: ../src/smime/gui/certificate-manager.c:106
+#: ../src/smime/gui/certificate-manager.c:125
 msgid "SHA256 Fingerprint"
-msgstr "اثر انگشت SHA1"
+msgstr "اثر انگشت SHA256"
 
-#: ../src/smime/gui/certificate-manager.c:96
-#: ../src/smime/gui/certificate-manager.c:117
-#: ../src/smime/gui/certificate-manager.c:136
+#: ../src/smime/gui/certificate-manager.c:86
+#: ../src/smime/gui/certificate-manager.c:107
+#: ../src/smime/gui/certificate-manager.c:126
 msgid "SHA1 Fingerprint"
 msgstr "اثر انگشت SHA1"
 
-#: ../src/smime/gui/certificate-manager.c:97
-#: ../src/smime/gui/certificate-manager.c:118
-#: ../src/smime/gui/certificate-manager.c:137
+#: ../src/smime/gui/certificate-manager.c:87
+#: ../src/smime/gui/certificate-manager.c:108
+#: ../src/smime/gui/certificate-manager.c:127
 msgid "MD5 Fingerprint"
 msgstr "اثر انگشت MD5"
 
-#: ../src/smime/gui/certificate-manager.c:106
-#: ../src/smime/gui/certificate-manager.c:127
+#: ../src/smime/gui/certificate-manager.c:96
+#: ../src/smime/gui/certificate-manager.c:117
 msgid "Email Address"
 msgstr "نشانی رایانامه"
 
-#: ../src/smime/gui/certificate-manager.c:653
+#: ../src/smime/gui/certificate-manager.c:643
 msgid "Select a file to backup your key and certificate…"
 msgstr "برای پشیبان گیری از گواهی‌نامه‌ و کلیدتان، پرونده‌ای برگزینید…"
 
@@ -26750,35 +26700,31 @@ msgstr "برای پشیبان گیری از گواهی‌نامه‌ و کلید
 #. * when a user wants to backup one of her/his private keys/certificates.
 #. * For example: gnomedev-backup.p12
 #.
-#: ../src/smime/gui/certificate-manager.c:663
+#: ../src/smime/gui/certificate-manager.c:653
 #, c-format
 msgid "%s-backup.p12"
 msgstr "پشتیبان-%s.p12"
 
-#: ../src/smime/gui/certificate-manager.c:722
-#, fuzzy
-#| msgid "Certificate"
+#: ../src/smime/gui/certificate-manager.c:712
 msgid "Backup Certificate"
-msgstr "گواهی"
+msgstr "گواهی پشتیبان"
 
 #. filename selection
-#: ../src/smime/gui/certificate-manager.c:737
-#, fuzzy
-#| msgid "File name:"
+#: ../src/smime/gui/certificate-manager.c:727
 msgid "_File name:"
-msgstr "نام پرونده:"
+msgstr "_نام پرونده:"
 
 #. FIXME when gtk_file_chooser_button allows GTK_FILE_CHOOSER_ACTION_SAVE use it
-#: ../src/smime/gui/certificate-manager.c:742
+#: ../src/smime/gui/certificate-manager.c:732
 msgid "Please select a file…"
 msgstr "لطفاً پرونده‌ای برگزینید…"
 
-#: ../src/smime/gui/certificate-manager.c:756
+#: ../src/smime/gui/certificate-manager.c:746
 msgid "_Include certificate chain in the backup"
 msgstr "_شامل شدن زنجیرهٔ گواهی‌نامه در پشتیبان"
 
 #. To Translators: this text was copied from Firefox
-#: ../src/smime/gui/certificate-manager.c:762
+#: ../src/smime/gui/certificate-manager.c:752
 msgid ""
 "The certificate backup password you set here protects the backup file that you "
 "are about to create.\n"
@@ -26788,18 +26734,16 @@ msgstr ""
 "ایجاد می‌کنید محافظت می‌کند.\n"
 "برای ادامهٔ پشتیبان‌گیری باید این گذرواژه را تنظیم کنید."
 
-#: ../src/smime/gui/certificate-manager.c:781
-#, fuzzy
-#| msgid "_Password:"
+#: ../src/smime/gui/certificate-manager.c:771
 msgid "_Repeat Password:"
-msgstr "کلمهٔ _عبور:"
+msgstr "_تکرار گذرواژه:"
 
-#: ../src/smime/gui/certificate-manager.c:800
+#: ../src/smime/gui/certificate-manager.c:790
 msgid "Passwords do not match"
 msgstr "گذرواژه‌ها مطابق نیستند"
 
 #. To Translators: this text was copied from Firefox
-#: ../src/smime/gui/certificate-manager.c:808
+#: ../src/smime/gui/certificate-manager.c:798
 msgid ""
 "Important:\n"
 "If you forget your certificate backup password, you will not be able to restore "
@@ -26810,164 +26754,138 @@ msgstr ""
 "اگر گذرواژهٔ پشتیبان گواهی‌نامه‌تان را فراموش کنید، قادر به بازگردانیش نخواهید بود.\n"
 "لطفاً آن را در جای امنی نگه دارید."
 
-#: ../src/smime/gui/certificate-manager.c:853
+#: ../src/smime/gui/certificate-manager.c:843
 msgid "No file name provided"
 msgstr "هیچ نام پرونده‌ای داده نشده"
 
-#: ../src/smime/gui/certificate-manager.c:857
-#, fuzzy
-#| msgid "Failed to authenticate.\n"
+#: ../src/smime/gui/certificate-manager.c:847
 msgid "Failed to backup key and certificate"
-msgstr "تأیید هویت شکست خورد.\n"
+msgstr "شکست در پشتیبان‌گیری از کلید و گواهی"
 
-#: ../src/smime/gui/certificate-manager.c:949
-#, fuzzy
-#| msgid "Select a certificate to import..."
+#: ../src/smime/gui/certificate-manager.c:939
 msgid "Select a certificate to import…"
-msgstr "یک گواهی برای وارد کردن انتخاب کنید..."
+msgstr "گزینش گواهی برای درون‌ریزی…"
 
-#: ../src/smime/gui/certificate-manager.c:998
-#, fuzzy
-#| msgid "Failed to authenticate.\n"
+#: ../src/smime/gui/certificate-manager.c:988
 msgid "Failed to import certificate"
-msgstr "تأیید هویت شکست خورد.\n"
+msgstr "شکست در دورن‌ریزی گواهی"
 
-#: ../src/smime/gui/certificate-manager.c:1115
+#: ../src/smime/gui/certificate-manager.c:1105
 msgctxt "CamelTrust"
 msgid "Ask when used"
 msgstr "پرسش هنگام استفاده"
 
-#: ../src/smime/gui/certificate-manager.c:1117
+#: ../src/smime/gui/certificate-manager.c:1107
 msgctxt "CamelTrust"
 msgid "Never"
 msgstr "هرگز‌"
 
-#: ../src/smime/gui/certificate-manager.c:1119
+#: ../src/smime/gui/certificate-manager.c:1109
 msgctxt "CamelTrust"
 msgid "Marginally"
 msgstr "حدوداً"
 
-#: ../src/smime/gui/certificate-manager.c:1121
+#: ../src/smime/gui/certificate-manager.c:1111
 msgctxt "CamelTrust"
 msgid "Fully"
 msgstr "کاملاً"
 
-#: ../src/smime/gui/certificate-manager.c:1123
+#: ../src/smime/gui/certificate-manager.c:1113
 msgctxt "CamelTrust"
 msgid "Ultimately"
 msgstr "شدیداً"
 
-#: ../src/smime/gui/certificate-manager.c:1125
+#: ../src/smime/gui/certificate-manager.c:1115
 msgctxt "CamelTrust"
 msgid "Temporarily"
 msgstr "موقّتاً"
 
-#: ../src/smime/gui/certificate-manager.c:1361
-#, fuzzy
-#| msgid "Certificate Authority Trust"
+#: ../src/smime/gui/certificate-manager.c:1275
 msgid "Change certificate trust"
-msgstr "اعتماد به مرجع صدور گواهی"
+msgstr "تغییر اعتماد گواهی"
 
-#: ../src/smime/gui/certificate-manager.c:1373
+#: ../src/smime/gui/certificate-manager.c:1288
 #, c-format
 msgid "Change trust for the host “%s”:"
 msgstr "تغییر اطمینان برای میزبان «%s»:"
 
-#: ../src/smime/gui/certificate-manager.c:1397
+#: ../src/smime/gui/certificate-manager.c:1312
 msgctxt "CamelTrust"
 msgid "_Ask when used"
 msgstr "_پرسش هنگام استفاده"
 
-#: ../src/smime/gui/certificate-manager.c:1398
+#: ../src/smime/gui/certificate-manager.c:1313
 msgctxt "CamelTrust"
 msgid "_Never trust this certificate"
 msgstr "_هرگز به این گواهینامه اطمینان نشود"
 
-#: ../src/smime/gui/certificate-manager.c:1399
+#: ../src/smime/gui/certificate-manager.c:1314
 msgctxt "CamelTrust"
 msgid "_Temporarily trusted (this session only)"
 msgstr "_موقّتاً مورد اطمینان (فقط این نشست)"
 
-#: ../src/smime/gui/certificate-manager.c:1400
+#: ../src/smime/gui/certificate-manager.c:1315
 msgctxt "CamelTrust"
 msgid "_Marginally trusted"
 msgstr "_تقریباً مورد اطمینان"
 
-#: ../src/smime/gui/certificate-manager.c:1401
+#: ../src/smime/gui/certificate-manager.c:1316
 msgctxt "CamelTrust"
 msgid "_Fully trusted"
 msgstr "_کاملاً مورد اطمینان"
 
-#: ../src/smime/gui/certificate-manager.c:1402
+#: ../src/smime/gui/certificate-manager.c:1317
 msgctxt "CamelTrust"
 msgid "_Ultimately trusted"
 msgstr "_شدیداً مورد اطمینان"
 
-#: ../src/smime/gui/certificate-manager.c:1406
-#, fuzzy
-#| msgid ""
-#| "Before trusting this CA for any purpose, you should examine its certificate "
-#| "and its policy and procedures (if available)."
+#: ../src/smime/gui/certificate-manager.c:1321
 msgid ""
 "Before trusting this site, you should examine its certificate and its policy and "
 "procedures (if available)."
 msgstr ""
-"پیش از اعتماد به این مرجع صدور گواهی به هر منظوری، باید گواهی، سیاست و رویه‌های آن "
-"(در صورت وجود) را  بررسی کنید."
+"پیش از اعتماد به این پایگاه باید گواهی، سیاست و رویه‌هایش را (در صورت وجود) "
+"بیازمایید."
 
-#: ../src/smime/gui/certificate-manager.c:1421
-#, fuzzy
-#| msgid "_View Certificate"
+#: ../src/smime/gui/certificate-manager.c:1336
 msgid "_Display certificate"
 msgstr "_نمایش گواهی"
 
-#: ../src/smime/gui/certificate-manager.c:1626
-#, fuzzy
-#| msgid "You have certificates on file that identify these people:"
+#: ../src/smime/gui/certificate-manager.c:1541
 msgid "You have certificates on file that identify these mail servers:"
-msgstr "شما گواهی‌هایی در پرونده دارید که هویت این افراد را تأیید می‌کنند:"
+msgstr "گواهی‌هایی در پرونده دارید که این کاسازهای نامه را می‌شناسند:"
 
-#: ../src/smime/gui/certificate-manager.c:1657
+#: ../src/smime/gui/certificate-manager.c:1572
 msgid "Host name"
 msgstr "نام میزبان"
 
-#: ../src/smime/gui/certificate-manager.c:1659
+#: ../src/smime/gui/certificate-manager.c:1574
 msgid "Issuer"
 msgstr "صادرکننده"
 
-#: ../src/smime/gui/certificate-manager.c:1660
-#, fuzzy
-#| msgid "MD5 Fingerprint"
+#: ../src/smime/gui/certificate-manager.c:1575
 msgid "Fingerprint"
-msgstr "اثر انگشت MD5"
+msgstr "اثر انگشت"
 
-#: ../src/smime/gui/certificate-manager.c:1661
+#: ../src/smime/gui/certificate-manager.c:1576
 msgid "Trust"
 msgstr "اطمینان"
 
-#: ../src/smime/gui/certificate-manager.c:1682
-#, fuzzy
-#| msgid "_Edit CA Trust"
+#: ../src/smime/gui/certificate-manager.c:1597
 msgid "_Edit Trust"
-msgstr "_ویرایش مراجع صدور مورد اعتماد"
+msgstr "_ویرایش اعتماد"
 
-#: ../src/smime/gui/certificate-manager.c:2118
-#, fuzzy
-#| msgid "PKCS12 File Password"
+#: ../src/smime/gui/certificate-manager.c:2033
 msgid "All PKCS12 files"
-msgstr "'گذرواژهٔ پروندهٔ PKCS12"
+msgstr "تمامی پرونده‌های PKCS12"
 
-#: ../src/smime/gui/certificate-manager.c:2135
-#, fuzzy
-#| msgid "Email Certificate Authority"
+#: ../src/smime/gui/certificate-manager.c:2050
 msgid "All email certificate files"
-msgstr "مرجع صدور گواهی رایانامه"
+msgstr "تمامی پرونده‌های گواهی رایانامه"
 
-#: ../src/smime/gui/certificate-manager.c:2152
-#, fuzzy
-#| msgid "Certificate details"
+#: ../src/smime/gui/certificate-manager.c:2067
 msgid "All CA certificate files"
-msgstr "جزییات گواهی"
+msgstr "تمامی پرونده‌های گواهی CA"
 
 #: ../src/smime/gui/cert-trust-dialog.c:150
 msgid ""
@@ -26987,16 +26905,14 @@ msgstr ""
 "قبول ندارید مگر آن که اینجا خلاف آن را بیان کنید"
 
 #: ../src/smime/gui/component.c:53
-#, fuzzy, c-format
-#| msgid "Enter the password for %s"
+#, c-format
 msgid "Enter the password for “%s”, token “%s”"
-msgstr "گذرواژهٔ برای %s را وارد کنید"
+msgstr "ورود گذرواژه برای «%s» با ژتون «%s»"
 
 #: ../src/smime/gui/component.c:55
-#, fuzzy, c-format
-#| msgid "Enter the password for %s"
+#, c-format
 msgid "Enter the password for “%s”"
-msgstr "گذرواژهٔ برای %s را وارد کنید"
+msgstr "ورود گذرواژه برای «%s»"
 
 #. we're setting the password initially
 #: ../src/smime/gui/component.c:83
@@ -27007,7 +26923,7 @@ msgstr "گذرواژهٔ جدید برای پایگاه‌دادهٔ گواهی 
 msgid "Enter new password"
 msgstr "گذرواژهٔ جدید را وارد کنید"
 
-#: ../src/smime/gui/e-cert-selector.c:203
+#: ../src/smime/gui/e-cert-selector.c:172
 msgid "Select certificate"
 msgstr "انتخاب گواهی"
 
@@ -27021,16 +26937,12 @@ msgstr "جدول گواهی‌ها"
 
 #. This is a verb, as in "make a backup".
 #: ../src/smime/gui/smime-ui.ui.h:5
-#, fuzzy
-#| msgid "Backup"
 msgid "_Backup"
-msgstr "ساختن پشتیبان"
+msgstr "_پشتیبان‌گیری"
 
 #: ../src/smime/gui/smime-ui.ui.h:6
-#, fuzzy
-#| msgid "Backup All"
 msgid "Backup _All"
-msgstr "ساختن پشتیبان برای همه"
+msgstr "پشتیبان‌گیری از _همه"
 
 #: ../src/smime/gui/smime-ui.ui.h:9
 msgid "Your Certificates"
@@ -27057,22 +26969,16 @@ msgid "Certificate Authority Trust"
 msgstr "اعتماد به مرجع صدور گواهی"
 
 #: ../src/smime/gui/smime-ui.ui.h:19
-#, fuzzy
-#| msgid "Trust this CA to identify web sites."
 msgid "Trust this CA to identify _websites."
-msgstr "اعتماد به این مرجع صدور گواهی برای تعیین هویت وب‌گاه‌ها"
+msgstr "اعتماد به این CA برای شناسایی _پایگاه‌های وب."
 
 #: ../src/smime/gui/smime-ui.ui.h:20
-#, fuzzy
-#| msgid "Trust this CA to identify email users."
 msgid "Trust this CA to identify _email users."
-msgstr "اعتماد به این مرجع صدور گواهی برای تعیین هویت کاربران رایانامه."
+msgstr "اعتماد به این CA برای شناسایی _کاربران رایانامه."
 
 #: ../src/smime/gui/smime-ui.ui.h:21
-#, fuzzy
-#| msgid "Trust this CA to identify software developers."
 msgid "Trust this CA to identify _software developers."
-msgstr "اعتماد به این مرجع صدور گواهی برای تعیین هویت برنامه‌سازان."
+msgstr "اعتماد به این CA برای شناسایی _توسعه‌دهندگان نرم‌افزار."
 
 #: ../src/smime/gui/smime-ui.ui.h:22
 msgid ""
@@ -27103,11 +27009,11 @@ msgid "C_ertificate:"
 msgstr "_گواهی‌نامه:"
 
 #. x509 certificate usage types
-#: ../src/smime/lib/e-cert.c:418
+#: ../src/smime/lib/e-cert.c:373
 msgid "Sign"
 msgstr "امضا"
 
-#: ../src/smime/lib/e-cert.c:419
+#: ../src/smime/lib/e-cert.c:374
 msgid "Encrypt"
 msgstr "رمزنگاری"
 
@@ -27124,10 +27030,9 @@ msgid "Enter password for PKCS12 file:"
 msgstr "وارد کردن گذرواژه برای پروندهٔ PKCS12:"
 
 #: ../src/smime/lib/e-pkcs12.c:380
-#, fuzzy, c-format
-#| msgid "Unable to create new folder `%s': %s"
+#, c-format
 msgid "Unable to create export context, err_code: %i"
-msgstr "ایجاد شاخهٔ جدید «%s» امکان پذیر نیست: %s"
+msgstr "ناتوان در ایجاد محتوای برون‌ریزی. رمز خطا: %i"
 
 #: ../src/smime/lib/e-pkcs12.c:387
 #, c-format
@@ -27135,22 +27040,19 @@ msgid "Unable to setup password integrity, err_code: %i"
 msgstr "ناتوان در برپایی تمامیت گذرواژه. رمز خطا: %i"
 
 #: ../src/smime/lib/e-pkcs12.c:397
-#, fuzzy, c-format
-#| msgid "Unable to create new folder `%s': %s"
+#, c-format
 msgid "Unable to create safe bag, err_code: %i"
-msgstr "ایجاد شاخهٔ جدید «%s» امکان پذیر نیست: %s"
+msgstr "ناتوان در ایجاد کیف امن. رمز خطا: %i"
 
 #: ../src/smime/lib/e-pkcs12.c:415
-#, fuzzy, c-format
-#| msgid "Unable to book a resource, error: "
+#, c-format
 msgid "Unable to add key/cert to the store, err_code: %i"
-msgstr "گشودن دفترچه نشانی ممکن نیست، خطا:"
+msgstr "ناتوان در افزودن کلید یا گواهی به ذخیره. رمز خطا: %i"
 
 #: ../src/smime/lib/e-pkcs12.c:433
-#, fuzzy, c-format
-#| msgid "Unable to book a resource, error: "
+#, c-format
 msgid "Unable to write store to disk, err_code: %i"
-msgstr "گشودن دفترچه نشانی ممکن نیست، خطا:"
+msgstr "ناتوان در نوشتن ذخیره روی دیسک. رمز خطا: %i"
 
 #: ../src/smime/lib/e-pkcs12.c:460
 msgid "Imported Certificate"
