@@ -12,8 +12,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: evolution\n"
 "Report-Msgid-Bugs-To: https://gitlab.gnome.org/GNOME/evolution/issues\n"
-"POT-Creation-Date: 2022-08-20 13:57+0000\n"
-"PO-Revision-Date: 2022-08-20 18:33+0430\n"
+"POT-Creation-Date: 2022-08-20 14:03+0000\n"
+"PO-Revision-Date: 2022-08-20 18:43+0430\n"
 "Last-Translator: Danial Behzadi <dani.behzi@ubuntu.com>\n"
 "Language-Team: Persian <haghighi.ahmad@gmail.com>\n"
 "Language: fa\n"
@@ -1566,7 +1566,9 @@ msgstr "فرستادن پیامی با گیرندگانی که به شکل نش�
 msgid ""
 "It disables/enables the repeated prompts to warn that you are trying to send a "
 "message to recipients not entered as mail addresses"
-msgstr "فرستادن پیامی با گیرندگانی که به شکل نشانی نامه وارد نشده‌اند"
+msgstr ""
+"اعلان‌های تکراری برای هشدار فرستادن پیایم به گیرندگانی که به شکل نشانی‌های نامه "
+"وارد نشده‌اند را به یا از کار می‌اندازد"
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:198
 msgid "Prompt when user only fills Bcc"
@@ -1613,9 +1615,26 @@ msgstr "به یا از کار انداختن اعلان نشانه‌گذاری 
 msgid "Prompt when deleting messages in search folder"
 msgstr "اعلان هنگام حذف پیام‌ها در یک شاخهٔ جست‌وجو"
 
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:207
+msgid ""
+"It disables/enables the repeated prompts to warn that deleting messages from a "
+"search folder permanently deletes the message, not simply removing it from the "
+"search results."
+msgstr ""
+"اعلان‌های تکراری برای هشدار حذف شدن دائمی پیام‌هایی که از یک شاخهٔ جست‌وجو حذف می‌شوند "
+"را به یا از کار می‌اندازد."
+
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:212
 msgid "Prompt when replying privately to list messages"
 msgstr "اعلان هنگام پاسخ خصوصی به پیام‌های فهرستی"
+
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:213
+msgid ""
+"It disables/enables the repeated prompts to warn that you are sending a private "
+"reply to a message which arrived via a mailing list."
+msgstr ""
+"اعلان‌های تکراری برای هشدار فرستادن پاسخی خصوصی به پیامی که از سیاهه‌های پستی رسیده "
+"را به یا از کار می‌اندازد."
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:214
 msgid "Prompt when mailing list hijacks private replies"
@@ -1634,6 +1653,21 @@ msgstr ""
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:216
 msgid "Prompt when replying to many recipients"
 msgstr "اعلان هنگام پاسخ دادن به چندین گیرنده"
+
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:217
+msgid ""
+"It disables/enables the repeated prompts to warn that you are sending a reply to "
+"many people."
+msgstr ""
+"اعلان‌های تکراری برای هشدار فرستادن پاسخی به افراد زیاد را به یا از کار می‌اندازد."
+
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:219
+msgid ""
+"It disables/enables the repeated prompts to warn that you are switching composer "
+"format and the content needs to lose its formatting."
+msgstr ""
+"اعلان‌های تکراری برای هشدار تغییر قالب اجراگر و نیاز محتوا به از دست دادن قالب را "
+"به یا از کار می‌اندازد."
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:220
 msgid "Prompt when sending to many To and CC recipients"
