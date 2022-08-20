@@ -12,8 +12,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: evolution\n"
 "Report-Msgid-Bugs-To: https://gitlab.gnome.org/GNOME/evolution/issues\n"
-"POT-Creation-Date: 2022-08-15 18:29+0000\n"
-"PO-Revision-Date: 2022-08-20 16:43+0430\n"
+"POT-Creation-Date: 2022-08-20 12:14+0000\n"
+"PO-Revision-Date: 2022-08-20 18:26+0430\n"
 "Last-Translator: Danial Behzadi <dani.behzi@ubuntu.com>\n"
 "Language-Team: Persian <haghighi.ahmad@gmail.com>\n"
 "Language: fa\n"
@@ -2948,7 +2948,7 @@ msgstr ""
 #: ../src/e-util/evolution-source-viewer.c:829 ../src/e-util/e-web-view.c:4006
 #: ../src/e-util/gal-view-instance-save-as-dialog.c:265
 #: ../src/mail/e-mail-config-window.c:310 ../src/mail/e-mail-label-dialog.c:186
-#: ../src/mail/e-mail-tag-editor.c:160 ../src/mail/em-composer-utils.c:4136
+#: ../src/mail/e-mail-tag-editor.c:160 ../src/mail/em-composer-utils.c:4166
 #: ../src/mail/em-folder-selector.c:333 ../src/mail/mail-config.ui.h:2
 #: ../src/mail/mail.error.xml.h:16 ../src/mail/mail-send-recv.c:874
 #: ../src/mail/mail-send-recv.c:955 ../src/mail/mail-vfolder-ui.c:149
@@ -6495,8 +6495,8 @@ msgstr "زمان آغاز نامعتبر است"
 #: ../src/e-util/e-misc-utils.c:4180 ../src/e-util/e-misc-utils.c:4193
 #: ../src/e-util/e-misc-utils.c:4207 ../src/mail/e-mail-autoconfig.c:1129
 #: ../src/mail/e-mail-display.c:2475 ../src/mail/e-mail-notes.c:930
-#: ../src/mail/e-mail-reader-utils.c:805 ../src/mail/em-composer-utils.c:3932
-#: ../src/mail/em-composer-utils.c:3955 ../src/mail/mail-send-recv.c:598
+#: ../src/mail/e-mail-reader-utils.c:805 ../src/mail/em-composer-utils.c:3962
+#: ../src/mail/em-composer-utils.c:3985 ../src/mail/mail-send-recv.c:598
 #: ../src/mail/mail-send-recv.c:1493
 #: ../src/modules/accounts-window/e-accounts-window-editors.c:172
 #: ../src/plugins/face/face.c:175 ../src/plugins/mail-to-task/mail-to-task.c:951
@@ -15839,7 +15839,13 @@ msgid_plural ""
 "%s have been modified to account for the deleted folder\n"
 "“%s”."
 msgstr[0] ""
+"شاخهٔ جست‌وجوی «%s» برای حساب به عنوان شاخهٔ حذف‌شده تغییر یافت\n"
+"\n"
+"«%s»."
 msgstr[1] ""
+"شاخه‌های جست‌وجوی زیر\n"
+" «%s» برای حساب به عنوان شاخهٔ حذف‌شده تغییر یافتند\n"
+"«%s»."
 
 #: ../src/mail/e-mail-account-manager.c:118 ../src/mail/e-mail-account-manager.c:206
 msgid "Open _Online Accounts"
@@ -15998,7 +16004,7 @@ msgid "Do Not Quote"
 msgstr "نقل نشود"
 
 #: ../src/mail/e-mail-config-composing-page.c:157
-#: ../src/mail/em-composer-utils.c:4243
+#: ../src/mail/em-composer-utils.c:4273
 msgid "Use global setting"
 msgstr "استفاده از تنظیمات عمومی"
 
@@ -16029,12 +16035,12 @@ msgid "Language for Reply and Forward attribution text"
 msgstr "زبان متن نسبت پاسخ و هدایت"
 
 #: ../src/mail/e-mail-config-composing-page.c:524
-#: ../src/mail/em-composer-utils.c:4247 ../src/mail/mail-config.ui.h:23
+#: ../src/mail/em-composer-utils.c:4277 ../src/mail/mail-config.ui.h:23
 msgid "Start _typing at the bottom"
 msgstr "آغاز به _نوشتن در پایین"
 
 #: ../src/mail/e-mail-config-composing-page.c:531
-#: ../src/mail/em-composer-utils.c:4250 ../src/mail/mail-config.ui.h:24
+#: ../src/mail/em-composer-utils.c:4280 ../src/mail/mail-config.ui.h:24
 msgid "_Keep signature above the original message"
 msgstr "_نگه داشتن امضا بالای پیام اصلی"
 
@@ -17018,7 +17024,7 @@ msgstr "−چشم‌پوشی نکردن از زیررشته"
 
 #: ../src/mail/e-mail-reader.c:2758
 msgid "Do not mark new mails in a subthread as read automatically"
-msgstr ""
+msgstr "علامت نزدن خودکار نامه‌های جدید در یک زیررشته به خوانده شده"
 
 #: ../src/mail/e-mail-reader.c:2763 ../src/mail/e-mail-reader.c:3175
 msgid "Do not _Ignore Thread"
@@ -17026,7 +17032,7 @@ msgstr "نادیده _نگرفتن رشته"
 
 #: ../src/mail/e-mail-reader.c:2765
 msgid "Do not mark new mails in this thread as read automatically"
-msgstr ""
+msgstr "علامت نزدن خودکار نامه‌های جدید در این رشته به خوانده شده"
 
 #: ../src/mail/e-mail-reader.c:2770
 msgid "Uni_mportant"
@@ -17176,7 +17182,7 @@ msgstr "برداشتن پیام‌های تکراری"
 msgid "Checks selected messages for duplicates"
 msgstr "پیام‌های گزیده را برای موارد تکراری بررسی می‌کند"
 
-#: ../src/mail/e-mail-reader.c:2903 ../src/mail/em-composer-utils.c:4188
+#: ../src/mail/e-mail-reader.c:2903 ../src/mail/em-composer-utils.c:4218
 #: ../src/mail/mail.error.xml.h:28
 #: ../src/modules/calendar/e-cal-shell-view-actions.c:1586
 #: ../src/modules/mail/e-mail-attachment-handler.c:396
@@ -17200,7 +17206,7 @@ msgstr "گزینش گزینه‌های پاسخ برای پیام گزیده"
 msgid "Reply to the mailing list, or to all recipients"
 msgstr "پاسخ به سیاههٔ پستی یا به تمام گیرندگان"
 
-#: ../src/mail/e-mail-reader.c:2924 ../src/mail/em-composer-utils.c:4183
+#: ../src/mail/e-mail-reader.c:2924 ../src/mail/em-composer-utils.c:4213
 #: ../src/mail/mail.error.xml.h:26
 #: ../src/modules/mail/e-mail-attachment-handler.c:403
 msgid "Reply to _List"
@@ -17420,7 +17426,7 @@ msgstr "علامت رشته به چشم‌پوشیده"
 
 #: ../src/mail/e-mail-reader-utils.c:1338
 msgid "Unmarking thread from being ignored"
-msgstr ""
+msgstr "علامت نزدن رشته به چشم‌پوشیده"
 
 #: ../src/mail/e-mail-reader-utils.c:1342
 msgid "Marking subthread to be ignored"
@@ -17442,8 +17448,8 @@ msgid ""
 "Folder “%s” contains %u duplicate message. Are you sure you want to delete it?"
 msgid_plural ""
 "Folder “%s” contains %u duplicate messages. Are you sure you want to delete them?"
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "شاخهٔ «%s» دارای %Iu پیام تکراریست. می‌خواهید حذفش کنید؟"
+msgstr[1] "شاخهٔ «%s» دارای %Iu پیام تکراریست. می‌خواهید حذفشان کنید؟"
 
 #: ../src/mail/e-mail-reader-utils.c:3004
 msgid "Save Message"
@@ -17469,7 +17475,7 @@ msgstr "تجزیهٔ پیام"
 #: ../src/mail/e-mail-remote-content-popover.c:232
 #, c-format
 msgid "Allow remote content for anyone from %s"
-msgstr ""
+msgstr "اجازه به محتوای دوردست برای هرکسی از %s"
 
 #: ../src/mail/e-mail-remote-content-popover.c:234
 #, c-format
@@ -17494,6 +17500,8 @@ msgid ""
 "You can download remote content manually, or set to remember to download remote "
 "content for this sender or used sites."
 msgstr ""
+"می‌توانید محتوای دوردست را به صورت دستی بارگیری کرده یا برای به خاطر سپردن بارگیری "
+"محتوای دوردست برای برای این فرستنده یا پایگاه‌های استفاده شده تنظیم کنید."
 
 #: ../src/mail/e-mail-request.c:289
 msgid "The message has no text content."
@@ -17519,7 +17527,7 @@ msgstr "دفترچهٔ «%s» پیدا نشد"
 #: ../src/mail/e-mail-ui-session.c:962 ../src/mail/e-mail-ui-session.c:1034
 #, c-format
 msgid "No data source found for UID “%s”"
-msgstr ""
+msgstr "منبع داده‌ای برای شناسهٔ یکتای «%s» پیدا نشد."
 
 #: ../src/mail/e-mail-ui-session.c:984
 #, c-format
@@ -17548,19 +17556,27 @@ msgid_plural ""
 "this behaviour is undesired, especially if they do not know each other or if "
 "privacy is a concern. Consider adding recipients to the BCC field instead."
 msgstr[0] ""
+"دارید برای فرستادن پیام به ۱ گیرنده در زمینه‌های به و رونوشت تلاش می‌کنید. این کار "
+"موجب دیده شده همهٔ نشانی‌های رایانامه برای تمامی گیرندگان خواهد شد. این رفتار در "
+"برخی موارد ناخوشایند است؛ مخصوصاً اگر یک‌دیگر را نشاسند یا محرمانگی دغدغه باشد. "
+"افزودن گیرندگان در زمینهٔ رونوشت کور را در نظر داشته باشید."
 msgstr[1] ""
+"دارید برای فرستادن پیام به %Id گیرنده در زمینه‌های به و رونوشت تلاش می‌کنید. این "
+"کار موجب دیده شده همهٔ نشانی‌های رایانامه برای تمامی گیرندگان خواهد شد. این رفتار "
+"در برخی موارد ناخوشایند است؛ مخصوصاً اگر یک‌دیگر را نشاسند یا محرمانگی دغدغه باشد. "
+"افزودن گیرندگان در زمینهٔ رونوشت کور را در نظر داشته باشید."
 
 #. This message is never removed from the camel operation, otherwise the GtkInfoBar
 #. hides itself and the user sees no feedback.
-#: ../src/mail/em-composer-utils.c:857
+#: ../src/mail/em-composer-utils.c:880
 msgid "Waiting for attachments to load…"
-msgstr ""
+msgstr "منتظر بار شدن پیوست‌ها…"
 
 #. Note to translators: this is the attribution string used
 #. * when quoting messages.  Each ${Variable} gets replaced
 #. * with a value.  To see a full list of available variables,
 #. * see mail/em-composer-utils.c:attribvars array.
-#: ../src/mail/em-composer-utils.c:2062
+#: ../src/mail/em-composer-utils.c:2085
 msgid ""
 "On ${AbbrevWeekdayName}, ${Year}-${Month}-${Day} at ${24Hour}:${Minute} "
 "${TimeZone}, ${Sender} wrote:"
@@ -17568,80 +17584,80 @@ msgstr ""
 "روز ${AbbrevWeekdayName}، ${Year}-${Month}-${Day} ساعت ${24Hour}:${Minute} "
 "${TimeZone}، ${Sender} نوشت:"
 
-#: ../src/mail/em-composer-utils.c:2068
+#: ../src/mail/em-composer-utils.c:2091
 msgid "-------- Forwarded Message --------"
 msgstr "-------- پیام ارجاع داده شده --------"
 
-#: ../src/mail/em-composer-utils.c:2073
+#: ../src/mail/em-composer-utils.c:2096
 msgid "-----Original Message-----"
 msgstr "-----پیام اصلی-----"
 
 #. Translators: This is a reply attribution in the message reply subject. The %s is replaced with the subject of the original message. Both 'Re'-s in the 'reply-attribution' translation context should translate into the same string, the same as the ':' separator.
-#: ../src/mail/em-composer-utils.c:2879
+#: ../src/mail/em-composer-utils.c:2909
 #, c-format
 msgctxt "reply-attribution"
 msgid "Re: %s"
 msgstr "پاسخ: %s"
 
-#: ../src/mail/em-composer-utils.c:3498
+#: ../src/mail/em-composer-utils.c:3528
 msgid "an unknown sender"
 msgstr "فرستدهٔ نامعلوم"
 
-#: ../src/mail/em-composer-utils.c:4134
+#: ../src/mail/em-composer-utils.c:4164
 msgid "Alternative Reply"
 msgstr "پاسخ جایگزین"
 
-#: ../src/mail/em-composer-utils.c:4137
+#: ../src/mail/em-composer-utils.c:4167
 #: ../src/modules/calendar/e-cal-shell-view-actions.c:1579
 msgid "_Reply"
 msgstr "_پاسخ"
 
-#: ../src/mail/em-composer-utils.c:4150
+#: ../src/mail/em-composer-utils.c:4180
 msgid "Recipients:"
 msgstr "گیرندگان:"
 
-#: ../src/mail/em-composer-utils.c:4178
+#: ../src/mail/em-composer-utils.c:4208
 msgid "Reply to _Sender"
 msgstr "پاسخ به _فرستنده"
 
-#: ../src/mail/em-composer-utils.c:4200
+#: ../src/mail/em-composer-utils.c:4230
 msgid "Reply style:"
 msgstr "گونهٔ پاسخ:"
 
-#: ../src/mail/em-composer-utils.c:4208
+#: ../src/mail/em-composer-utils.c:4238
 msgid "_Default"
 msgstr "_پیش‌گزیده"
 
-#: ../src/mail/em-composer-utils.c:4212
+#: ../src/mail/em-composer-utils.c:4242
 msgid "Attach_ment"
 msgstr "پیو_ست"
 
-#: ../src/mail/em-composer-utils.c:4216
+#: ../src/mail/em-composer-utils.c:4246
 msgid "Inline (_Outlook style)"
 msgstr "درون‌خط (سبک اوت‌_لوک)"
 
-#: ../src/mail/em-composer-utils.c:4220
+#: ../src/mail/em-composer-utils.c:4250
 msgid "_Quote"
 msgstr "_نقل‌قول"
 
-#: ../src/mail/em-composer-utils.c:4224
+#: ../src/mail/em-composer-utils.c:4254
 msgid "Do _Not Quote"
 msgstr "نقل نشود"
 
 #. Translators: The text is followed by the format combo with values like 'Plain Text', 'HTML' and so on
-#: ../src/mail/em-composer-utils.c:4235
+#: ../src/mail/em-composer-utils.c:4265
 msgid "_Format message in"
 msgstr "_قالب‌بندی پیام به"
 
-#: ../src/mail/em-composer-utils.c:4257
+#: ../src/mail/em-composer-utils.c:4287
 msgid "Apply t_emplate"
 msgstr "اِ_عمال الگو"
 
-#: ../src/mail/em-composer-utils.c:4269
+#: ../src/mail/em-composer-utils.c:4299
 msgid "Preserve original message S_ubject"
 msgstr "نگه داشتن _موضوع اصلی پیام"
 
-#: ../src/mail/em-composer-utils.c:4335
+#: ../src/mail/em-composer-utils.c:4365
 #, c-format
 msgid "one recipient"
 msgid_plural "%d recipients"
@@ -17649,11 +17665,11 @@ msgstr[0] "یک گیرنده"
 msgstr[1] "%Id گیرنده"
 
 #. FIXME GTK_WINDOW (composer)
-#: ../src/mail/em-composer-utils.c:4820
+#: ../src/mail/em-composer-utils.c:4850
 msgid "Posting destination"
 msgstr "مقصد پست"
 
-#: ../src/mail/em-composer-utils.c:4825
+#: ../src/mail/em-composer-utils.c:4855
 msgid "Choose folders to post the message to."
 msgstr "شاخه‌هایی را که پیام باید به آنان پست شود انتخاب کنید."
 
@@ -17682,7 +17698,7 @@ msgstr "از کار افتاده"
 #: ../src/mail/em-filter-editor.c:179
 #, c-format
 msgid "%s (%s, for any account)"
-msgstr ""
+msgstr "%s (%s برای هر حسابی)"
 
 #: ../src/mail/em-filter-editor.c:191
 msgid "If all the following conditions are met"
@@ -17769,7 +17785,7 @@ msgstr "استفاده از سهمیه"
 #. choose which account to use as the sender when composing a message in this folder
 #: ../src/mail/em-folder-properties.c:702
 msgid "_Send Account Override:"
-msgstr ""
+msgstr "_فرستادن پایمالی حساب:"
 
 #: ../src/mail/em-folder-properties.c:942
 msgid "Archive this folder using these settings:"
@@ -18110,7 +18126,7 @@ msgstr "منبع‌های شاخهٔ جست‌وجو"
 
 #: ../src/mail/em-vfolder-editor-rule.c:562
 msgid "Automatically update on any _source folder change"
-msgstr ""
+msgstr "به‌روز رسانی خودکار برای هر تغییر شاخهٔ _مبدأ"
 
 #: ../src/mail/em-vfolder-editor-rule.c:574
 msgid "All local folders"
@@ -18571,7 +18587,12 @@ msgid_plural ""
 "%s have been modified to account for the deleted folder\n"
 "“%s”."
 msgstr[0] ""
+"قاعدهٔ پالایش «%s» برای حساب به عنوان شاخهٔ حذف شده تغییر یافت\n"
+"«%s»."
 msgstr[1] ""
+"قاعده‌های پالایش زیر\n"
+" «%s» برای حساب به عنوان شاخهٔ حذف شده تغییر یافتند\n"
+"«%s»."
 
 #: ../src/mail/mail-autofilter.c:560
 msgid "Open Message Filters"
@@ -18579,13 +18600,15 @@ msgstr "گشودن پالایه‌های پیام"
 
 #: ../src/mail/mail-config.ui.h:1
 msgid "Set custom junk header"
-msgstr ""
+msgstr "تنظیم سرایند هرزنامهٔ سفارشی"
 
 #: ../src/mail/mail-config.ui.h:4
 msgid ""
 "All new emails with header that matches given content will be automatically "
 "filtered as junk"
 msgstr ""
+"تمامی رایانامه‌های جدید با سرایندی که مطابق محتوای داده باشند به صورت خودکار به "
+"هرزنامه پالوده می‌شوند"
 
 #: ../src/mail/mail-config.ui.h:5
 msgid "Header name"
@@ -18610,7 +18633,7 @@ msgstr "درج خودکار _صورتک‌ها"
 
 #: ../src/mail/mail-config.ui.h:12
 msgid "Use Un_icode characters for emoticons"
-msgstr ""
+msgstr "استفاده از نویسه‌های _یونی‌کد برای شکلک‌ها"
 
 #: ../src/mail/mail-config.ui.h:13
 msgid "Always request rea_d receipt"
@@ -18618,7 +18641,7 @@ msgstr "درخواست همیشگی _رسید خواندن"
 
 #: ../src/mail/mail-config.ui.h:14
 msgid "Encode filenames in an _Outlook/GMail way"
-msgstr ""
+msgstr "کدبندی نام پرونده‌ها به روش _جی‌میل و اوت‌لوک"
 
 #: ../src/mail/mail-config.ui.h:15
 msgid "Send messages through Outbo_x folder"
@@ -18626,7 +18649,7 @@ msgstr "فرستادن پیام‌ها از طریق شاخهٔ _خروجی"
 
 #: ../src/mail/mail-config.ui.h:16
 msgid "Number of characters for word w_rapping:"
-msgstr ""
+msgstr "تعداد نویسه‌ها برای _پیچش واژه:"
 
 #: ../src/mail/mail-config.ui.h:17
 msgid "Ch_aracter encoding:"
@@ -18650,19 +18673,19 @@ msgstr "_زبان:"
 
 #: ../src/mail/mail-config.ui.h:25
 msgid "Include si_gnature in new messages only"
-msgstr ""
+msgstr "گذاشتن ام_ضا فقط در پیام‌های جدید"
 
 #: ../src/mail/mail-config.ui.h:26
 msgid "Ig_nore Reply-To: for mailing lists"
-msgstr ""
+msgstr "−چشم‌پوشی از پاسخ به: برای سیاهه‌های پستی"
 
 #: ../src/mail/mail-config.ui.h:27
 msgid "Gro_up Reply goes only to mailing list, if possible"
-msgstr ""
+msgstr "پاسخ _گروهی در صورت امکان، فقط به سیاههٔ پستی می‌رود"
 
 #: ../src/mail/mail-config.ui.h:28
 msgid "Digitally _sign messages when original message signed (PGP or S/MIME)"
-msgstr ""
+msgstr "امضای _دیجیتالی پیام‌های هنگامی که پیام اصلی امضا شده (PGP یا S/MIME)"
 
 #: ../src/mail/mail-config.ui.h:29
 msgid "_Wrap quoted text in replies"
@@ -18706,6 +18729,8 @@ msgid ""
 "To help avoid email accidents and embarrassments, ask for confirmation before "
 "taking the following checkmarked actions:"
 msgstr ""
+"برای کمک به جلوگیری از تصادف‌های رایانامه‌ای، پیش از انجام کنش‌های تیک خوردهٔ زیر، "
+"تأیید بگیرید:"
 
 #. This is in the context of: Ask for confirmation before...
 #: ../src/mail/mail-config.ui.h:46
@@ -18730,17 +18755,17 @@ msgstr "فرستادن پاسخی _خصوصی به یک پیام سیاههٔ پ
 #. This is in the context of: Ask for confirmation before...
 #: ../src/mail/mail-config.ui.h:54
 msgid "Sending a reply to a large _number of recipients"
-msgstr ""
+msgstr "فرستادن پاسخی به _تعداد زیادی گیرنده"
 
 #. This is in the context of: Ask for confirmation before...
 #: ../src/mail/mail-config.ui.h:56
 msgid "Allowing a _mailing list to redirect a private reply to the list"
-msgstr ""
+msgstr "اجازه به _سیاهه‌ای پستی برای هدایت پاسخی خصوصی به سیاهه"
 
 #. This is in the context of: Ask for confirmation before...
 #: ../src/mail/mail-config.ui.h:58
 msgid "Sending a message with _recipients not entered as mail addresses"
-msgstr ""
+msgstr "فرستادن پیامی با _گیرندگانی که به شکل نشانی نامه وارد نشده‌اند"
 
 #. This is in the context of: Ask for confirmation before...
 #: ../src/mail/mail-config.ui.h:60
@@ -18750,7 +18775,7 @@ msgstr "فرستادن پیامی با استفاده از کلید _شتاب‌
 #. Translators:
 #: ../src/mail/mail-config.ui.h:62
 msgid "Before composer _format changes from HTML to Plain Text"
-msgstr ""
+msgstr "پیش از تغییر _قالب ایجادگر از HTML به متن خام"
 
 #: ../src/mail/mail-config.ui.h:63
 msgid "Confirmations"
@@ -18773,7 +18798,7 @@ msgstr "حساب"
 
 #: ../src/mail/mail-config.ui.h:75
 msgid "Send account overrides"
-msgstr ""
+msgstr "فرستادن پایمالی‌های حساب"
 
 #: ../src/mail/mail-config.ui.h:76
 msgid ""
@@ -18782,6 +18807,9 @@ msgid ""
 "contain partial addresses or names. The name and the address parts are compared "
 "separately."
 msgstr ""
+"تخصیص حسابی که باید به عنوان حساب فرستادن برای گیرندگان یا شاخه‌ها مربوطه استفاده "
+"شود. پایمالی‌ای برای تشخیص حساب فرستادن معمول. سیاههٔ گیرندگان می‌تواند شامل نام‌ها "
+"یا نشانی‌های جزیی باشد. بخش‌های نشانی و نام جداگانه مقایسه می‌شوند."
 
 #: ../src/mail/mail-config.ui.h:77
 msgid "_Folder override has precedence over Recipient override"
@@ -18797,7 +18825,7 @@ msgstr "ص"
 
 #: ../src/mail/mail-config.ui.h:85 ../src/smime/gui/smime-ui.ui.h:28
 msgid "b"
-msgstr ""
+msgstr "ب"
 
 #: ../src/mail/mail-config.ui.h:86
 msgid "Start up"
@@ -19165,6 +19193,13 @@ msgid ""
 "recipients. This header, if added, will list all of your recipients in your "
 "message. To avoid this, you should add at least one To: or CC: recipient. "
 msgstr ""
+"سیاههٔ آشنایانی که دارید به آن می‌فرستید پیکربندی شده تا گیرندگان سیاهه را پنهان "
+"کند.\n"
+"\n"
+"بسیاری از سامانه‌های رایانامه، سرایند ظاهراً به‌ای به پیام‌هایی که فقط گیرندگان "
+"رونوشت کور دارد می‌افزایند. اگر این سرایند افزوده شود، تمامی گیرندگان در پیامتان "
+"را سیاهه خواهد کرد. برای جلوگیری از این امر، باید کمینه یک گیرندهٔ به: یا رونوشت: "
+"بیفزایید. "
 
 #: ../src/mail/mail.error.xml.h:15
 msgid ""
@@ -19172,6 +19207,10 @@ msgid ""
 "recipients. This header, if added, will list all of your recipients to your "
 "message anyway. To avoid this, you should add at least one To: or CC: recipient."
 msgstr ""
+"بسیاری از سامانه‌های رایانامه، سرایند ظاهراً به‌ای به پیام‌هایی که فقط گیرندگان "
+"رونوشت کور دارد می‌افزایند. اگر این سرایند افزوده شود، تمامی گیرندگان در پیامتان "
+"را سیاهه خواهد کرد. برای جلوگیری از این امر، باید کمینه یک گیرندهٔ به: یا رونوشت: "
+"بیفزایید."
 
 #: ../src/mail/mail.error.xml.h:17
 msgid "Are you sure you want to send a message with invalid address?"
@@ -19182,6 +19221,8 @@ msgid ""
 "The following recipient was not recognized as a valid mail address:\n"
 "{0}"
 msgstr ""
+"گیرندهٔ زیر به عنوان یک نشانی نامهٔ معتبر شناخته نشد:\n"
+"{0}"
 
 #: ../src/mail/mail.error.xml.h:20
 msgid "Are you sure you want to send a message with invalid addresses?"
@@ -19192,6 +19233,8 @@ msgid ""
 "The following recipients were not recognized as valid mail addresses:\n"
 "{0}"
 msgstr ""
+"گیرندگان زیر به عنوان نشانی‌های نامهٔ معتبر شناخته نشدند:\n"
+"{0}"
 
 #: ../src/mail/mail.error.xml.h:23
 msgid "Send private reply?"
@@ -19203,6 +19246,8 @@ msgid ""
 "list is trying to redirect your reply to go back to the list. Are you sure you "
 "want to proceed?"
 msgstr ""
+"دارید به پیامی که از یک سیاههٔ پستی رسیده، پاسخ خصوصی می‌دهید؛ ولی سیاهه در تلاش "
+"برای هدایت پاسختان به سیاهه است. مطمئنید که می‌خواهید ادامه دهید؟"
 
 #: ../src/mail/mail.error.xml.h:25
 msgid "Reply _Privately"
@@ -19214,6 +19259,8 @@ msgid ""
 "replying privately to the sender; not to the list. Are you sure you want to "
 "proceed?"
 msgstr ""
+"دارید به پیامی که از یک سیاههٔ پستی رسیده، پاسخ می‌دهید؛ ولی دارید به طور خصوصی به "
+"فرستنده پاسخ می‌دهید. مطمئنید که می‌خواهید ادامه دهید؟"
 
 #: ../src/mail/mail.error.xml.h:29
 msgid "Send reply to all recipients?"
@@ -19224,6 +19271,8 @@ msgid ""
 "You are replying to a message which was sent to many recipients. Are you sure you "
 "want to reply to ALL of them?"
 msgstr ""
+"دارید به پیامی‌که به گیرندگان بسیاری فرستاده شده پاسخ می‌دهید. مطمئنید که می‌خواهید "
+"به تمامیشان پاسخ دهید؟"
 
 #: ../src/mail/mail.error.xml.h:31
 msgid "This message cannot be sent because you have not specified any recipients"
@@ -19396,6 +19445,8 @@ msgid ""
 "still being available on the server. You can re-subscribe in "
 "Folder→Subscriptions... menu."
 msgstr ""
+"اگر اشتراک شاخه را لغو کنید، ممکن است با این که روی کارساز هست، در اولوشن نمایان "
+"نباشد. می‌توانید در فهرست شاخه←اشتراک‌ها… دوباره مشترک شوید."
 
 #: ../src/mail/mail.error.xml.h:72
 msgid "Do _Not Unsubscribe"
@@ -19419,6 +19470,9 @@ msgid ""
 "Folder will delete the actual messages from the folder or folders in which they "
 "physically reside. Do you really want to delete these messages?"
 msgstr ""
+"پیام‌های نمایان در شاخه‌های جست‌وجو رونوشت نیستند. حذفشان از یک شاخهٔ جست‌وجو، پیام‌های "
+"اصلی را از شاخه یا شاخه‌هایی که در آن هستند حذف می‌کند. واقعاً می‌خواهید این پیام‌ها "
+"را حذف کنید؟"
 
 #: ../src/mail/mail.error.xml.h:78
 msgid "Cannot rename “{0}” to “{1}”."
@@ -19563,6 +19617,9 @@ msgid ""
 "\n"
 "You can choose to ignore this folder, overwrite or append its contents, or quit."
 msgstr ""
+"شاخه‌ای ناخالی از پیش روی «{1}» وجود دارد.\n"
+"\n"
+"می‌توانید چشم‌پوشی از این شاخه، رونویسی،‌افزودن محتوا یا خروج را برگزینید."
 
 #: ../src/mail/mail.error.xml.h:117
 msgid "_Overwrite"
@@ -19586,6 +19643,12 @@ msgid ""
 "the account after ensuring the data is safely migrated. Please make sure there is "
 "enough disk space if you choose to migrate now."
 msgstr ""
+"قالب نامهٔ محلی اولوشن از mbox به Maildir تغییر کرد. نامهٔ محلیتان باید پیش از این "
+"که اولوشن بتواند ادامه دهد، مهاجرت داده شود. می‌خواهید اکنون مهاجرت کنید؟\n"
+"\n"
+"برای نگه‌داری شاخه‌های mbox قدیمی یک حساب mbox ساخته خواهد شد. می‌توانید پس از "
+"اطمینان از مهاجرت امن داده‌ّا،‌حساب را حذف کنید. اگر می‌گزینید که مهاجرت اکنون انجام "
+"شود، لطفاً مطمئن شوید که فضای دیسک کافی وجود دارد."
 
 #: ../src/mail/mail.error.xml.h:123
 msgid "_Exit Evolution"
@@ -19604,6 +19667,8 @@ msgid ""
 "Cannot read the license file “{0}”, due to an installation problem. You will not "
 "be able to use this provider until you can accept its license."
 msgstr ""
+"به خاطر مشکلات نصب نتوانست پروانهٔ پروندهٔ «{0}» را بخواند. تا نتوانید این پروانه "
+"را بپذیرید، نخواهید توانست از این فراهم‌کننده استفاده کنید."
 
 #: ../src/mail/mail.error.xml.h:127
 msgid "Please wait."
@@ -19629,6 +19694,8 @@ msgstr "همگام‌سازی محلی شاخه‌ها برای استفادهٔ
 msgid ""
 "Do you want to locally synchronize the folders that are marked for offline usage?"
 msgstr ""
+"می‌خواهید شاخه‌هایی که برای استفادهٔ برون‌حط علامت خورده‌اند را به صورت محلی همگام "
+"کنید؟"
 
 #: ../src/mail/mail.error.xml.h:133
 msgid "Do _Not Synchronize"
@@ -19672,7 +19739,7 @@ msgstr "_همواره فقط در شاخهٔ کنونی"
 
 #: ../src/mail/mail.error.xml.h:142
 msgid "Should Evolution close this window when replying or forwarding?"
-msgstr ""
+msgstr "آیا اولوشن باید هنگام پاسخ یا هدایت این پنجره را ببندد؟"
 
 #: ../src/mail/mail.error.xml.h:143
 msgid "_Yes, Always"
@@ -19743,6 +19810,8 @@ msgid ""
 "There had not been found any active mail account to send the message. Create or "
 "enable one first, please."
 msgstr ""
+"هیج حساب نامهٔ فعّالی برای فرستادن پیام پیدا نشد. لطفاً نخست یکی ساخته یا به کار "
+"بیندازید."
 
 #: ../src/mail/mail.error.xml.h:161
 msgid "Mail Deletion Failed"
@@ -19809,6 +19878,10 @@ msgid ""
 "selected, to make sure that all the messages in the folder will be available in "
 "offline mode."
 msgstr ""
+"این امر می‌تواند به دلیل هنوز بارگیری نشدن پیام‌ها باشد. شاخه یا حساب می‌توانند برای "
+"همگام‌سازی برون‌خط علامت خورده باشند. پس به محض دوباره برخط شدن حساب، هنگام گزیده "
+"بودن این شاخه، از پرونده←بارگیری پیام‌ها برا استفادهٔ برون‌خط استفاده کنید تا مطمئن "
+"شوید که تمامی پیام‌ها در این شاخه در حالت برون‌خط در دسترسند."
 
 #: ../src/mail/mail.error.xml.h:177
 msgid "Failed to open folder."
@@ -19847,6 +19920,8 @@ msgid ""
 "The attachment named {0} is a hidden file and may contain sensitive data. Please "
 "review it before sending."
 msgstr ""
+"پیوست با نام {0} پرونده‌ای مخفیست و ممکن است دارای داده‌هایی حسّاس باشد. لطفاً پیش از "
+"فرستادن، بازبینیش کنید."
 
 #: ../src/mail/mail.error.xml.h:187
 msgid "Printing failed."
@@ -19892,12 +19967,12 @@ msgstr "{0}، کامل شده در {1}"
 #. Translators: This constructs a string like "Follow-up by Tuesday, January 13, 2009"
 #: ../src/mail/mail.error.xml.h:199
 msgid "{0} by {1}"
-msgstr ""
+msgstr "{0} در {1}"
 
 #. Translators: This constructs a string like "Overdue: Follow-up by Tuesday, January 13, 2009"
 #: ../src/mail/mail.error.xml.h:201
 msgid "Overdue: {0} by {1}"
-msgstr ""
+msgstr "سررسیده: {0} در {1}"
 
 #: ../src/mail/mail.error.xml.h:203
 msgid "This message note has been changed, but has not been saved."
