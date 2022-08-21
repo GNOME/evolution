@@ -27,16 +27,16 @@ msgid ""
 msgstr ""
 "Project-Id-Version: evolution master\n"
 "Report-Msgid-Bugs-To: https://gitlab.gnome.org/GNOME/evolution/issues\n"
-"POT-Creation-Date: 2022-08-06 14:45+0000\n"
-"PO-Revision-Date: 2022-08-15 14:28-0400\n"
-"Last-Translator: Boyuan Yang <073plan@gmail.com>\n"
+"POT-Creation-Date: 2022-08-15 18:29+0000\n"
+"PO-Revision-Date: 2022-08-21 14:30+0800\n"
+"Last-Translator: lumingzh <lumingzh@qq.com>\n"
 "Language-Team: Chinese - China <i18n-zh@googlegroups.com>\n"
 "Language: zh_CN\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Plural-Forms: nplurals=1; plural=0;\n"
-"X-Generator: Poedit 3.1.1\n"
+"Plural-Forms: nplurals=1; plural=0\n"
+"X-Generator: Gtranslator 42.0\n"
 "X-DamnedLies-Scope: partial\n"
 
 #: ../data/org.gnome.evolution.addressbook.gschema.xml.in.h:1
@@ -2852,8 +2852,8 @@ msgid ""
 "This key was deprecated in version 3.10 and should no longer be used. Use "
 "“browser-close-on-reply-policy” instead."
 msgstr ""
-"该键已在 3.10 版本中弃用，不应再使用。请转用 \"browser-close-on-reply-"
-"policy\"。"
+"该键已在 3.10 版本中弃用，不应再使用。请转用 \"browser-close-on-reply-policy"
+"\"。"
 
 #. Translators: This is a list of words for the attach reminder plugin to look
 #. for in a message body. Please use any number of words here in your language that might
@@ -3485,7 +3485,7 @@ msgstr "日历"
 #: ../src/mail/importers/kmail-importer.c:249
 #: ../src/mail/importers/pine-importer.c:423
 #: ../src/modules/mail/e-mail-shell-view.c:1608
-#: ../src/smime/gui/certificate-manager.c:1677
+#: ../src/smime/gui/certificate-manager.c:1612
 msgid "Mail"
 msgstr "邮件"
 
@@ -4099,10 +4099,10 @@ msgstr "联系人“{0}”已在地址簿“{1}”中。您想要添加它的副
 #. This is only shown if the EActivity has a GCancellable.
 #. no flags
 #: ../src/addressbook/addressbook.error.xml.h:55
-#: ../src/addressbook/gui/contact-editor/e-contact-editor.c:3275
-#: ../src/addressbook/gui/contact-editor/e-contact-editor.c:3505
-#: ../src/addressbook/gui/contact-editor/e-contact-editor.c:4342
-#: ../src/addressbook/gui/contact-editor/e-contact-editor.c:4348
+#: ../src/addressbook/gui/contact-editor/e-contact-editor.c:3272
+#: ../src/addressbook/gui/contact-editor/e-contact-editor.c:3546
+#: ../src/addressbook/gui/contact-editor/e-contact-editor.c:4382
+#: ../src/addressbook/gui/contact-editor/e-contact-editor.c:4388
 #: ../src/addressbook/gui/contact-editor/e-contact-editor-fullname.c:212
 #: ../src/addressbook/gui/contact-editor/e-contact-quick-add.c:453
 #: ../src/addressbook/gui/contact-editor/fullname.ui.h:14
@@ -4158,11 +4158,11 @@ msgstr "联系人“{0}”已在地址簿“{1}”中。您想要添加它的副
 #: ../src/plugins/save-calendar/save-calendar.c:184
 #: ../src/shell/e-shell-content.c:641 ../src/shell/e-shell-content.c:748
 #: ../src/shell/e-shell-utils.c:69 ../src/shell/e-shell-utils.c:133
-#: ../src/smime/gui/certificate-manager.c:656
-#: ../src/smime/gui/certificate-manager.c:724
-#: ../src/smime/gui/certificate-manager.c:952
-#: ../src/smime/gui/certificate-manager.c:1343
-#: ../src/smime/gui/e-cert-selector.c:239 ../src/smime/gui/smime-ui.ui.h:17
+#: ../src/smime/gui/certificate-manager.c:646
+#: ../src/smime/gui/certificate-manager.c:714
+#: ../src/smime/gui/certificate-manager.c:942
+#: ../src/smime/gui/certificate-manager.c:1277
+#: ../src/smime/gui/e-cert-selector.c:232 ../src/smime/gui/smime-ui.ui.h:17
 msgid "_Cancel"
 msgstr "取消(_C)"
 
@@ -4215,14 +4215,14 @@ msgid "Show Certificates"
 msgstr "显示证书"
 
 #: ../src/addressbook/gui/contact-editor/contact-editor.ui.h:12
-#: ../src/addressbook/gui/contact-editor/e-contact-editor.c:725
-#: ../src/addressbook/gui/contact-editor/e-contact-editor.c:747
-#: ../src/addressbook/gui/contact-editor/e-contact-editor.c:3112
+#: ../src/addressbook/gui/contact-editor/e-contact-editor.c:723
+#: ../src/addressbook/gui/contact-editor/e-contact-editor.c:745
+#: ../src/addressbook/gui/contact-editor/e-contact-editor.c:3110
 msgid "Contact Editor"
 msgstr "联系人编辑器"
 
 #: ../src/addressbook/gui/contact-editor/contact-editor.ui.h:13
-#: ../src/addressbook/gui/contact-editor/e-contact-editor.c:3505
+#: ../src/addressbook/gui/contact-editor/e-contact-editor.c:3546
 #: ../src/addressbook/gui/contact-list-editor/contact-list-editor.ui.h:3
 #: ../src/addressbook/gui/widgets/eab-contact-merging.c:809
 #: ../src/calendar/calendar.error.xml.h:47
@@ -4236,8 +4236,8 @@ msgstr "联系人编辑器"
 #: ../src/e-util/gal-view-instance-save-as-dialog.c:266
 #: ../src/modules/rss/evolution/e-rss-preferences.c:839
 #: ../src/shell/e-shell-content.c:642 ../src/shell/e-shell-utils.c:133
-#: ../src/smime/gui/certificate-manager.c:656
-#: ../src/smime/gui/certificate-manager.c:725
+#: ../src/smime/gui/certificate-manager.c:646
+#: ../src/smime/gui/certificate-manager.c:715
 msgid "_Save"
 msgstr "保存(_S)"
 
@@ -4519,128 +4519,128 @@ msgstr "加载 X.509 (_L)"
 msgid "Certificates"
 msgstr "证书"
 
-#: ../src/addressbook/gui/contact-editor/e-contact-editor.c:266
+#: ../src/addressbook/gui/contact-editor/e-contact-editor.c:264
 #: ../src/calendar/gui/e-comp-editor.c:2233
 #: ../src/e-util/e-html-editor-actions.c:1161
 msgid "_Undo"
 msgstr "撤消(_U)"
 
-#: ../src/addressbook/gui/contact-editor/e-contact-editor.c:268
+#: ../src/addressbook/gui/contact-editor/e-contact-editor.c:266
 #: ../src/calendar/gui/e-comp-editor.c:2235 ../src/e-util/e-focus-tracker.c:147
 #: ../src/e-util/e-focus-tracker.c:150
 msgid "Undo"
 msgstr "撤消"
 
-#: ../src/addressbook/gui/contact-editor/e-contact-editor.c:273
+#: ../src/addressbook/gui/contact-editor/e-contact-editor.c:271
 #: ../src/calendar/gui/e-comp-editor.c:2240
 #: ../src/e-util/e-html-editor-actions.c:1147
 msgid "_Redo"
 msgstr "重做(_R)"
 
-#: ../src/addressbook/gui/contact-editor/e-contact-editor.c:275
+#: ../src/addressbook/gui/contact-editor/e-contact-editor.c:273
 #: ../src/calendar/gui/e-comp-editor.c:2242 ../src/e-util/e-focus-tracker.c:163
 #: ../src/e-util/e-focus-tracker.c:166
 msgid "Redo"
 msgstr "重做"
 
-#: ../src/addressbook/gui/contact-editor/e-contact-editor.c:303
+#: ../src/addressbook/gui/contact-editor/e-contact-editor.c:301
 #: ../src/addressbook/gui/widgets/eab-gui-util.c:501
 msgid "Error adding contact"
 msgstr "添加联系人出错"
 
-#: ../src/addressbook/gui/contact-editor/e-contact-editor.c:323
+#: ../src/addressbook/gui/contact-editor/e-contact-editor.c:321
 msgid "Error modifying contact"
 msgstr "修改联系人出错"
 
-#: ../src/addressbook/gui/contact-editor/e-contact-editor.c:343
+#: ../src/addressbook/gui/contact-editor/e-contact-editor.c:341
 msgid "Error removing contact"
 msgstr "删除联系人出错"
 
-#: ../src/addressbook/gui/contact-editor/e-contact-editor.c:741
-#: ../src/addressbook/gui/contact-editor/e-contact-editor.c:3106
+#: ../src/addressbook/gui/contact-editor/e-contact-editor.c:739
+#: ../src/addressbook/gui/contact-editor/e-contact-editor.c:3104
 #, c-format
 msgid "Contact Editor — %s"
 msgstr "联系人编辑器 — %s"
 
-#: ../src/addressbook/gui/contact-editor/e-contact-editor.c:3242
+#: ../src/addressbook/gui/contact-editor/e-contact-editor.c:3239
 msgid "X.509 certificates"
 msgstr "X.509 证书"
 
-#: ../src/addressbook/gui/contact-editor/e-contact-editor.c:3247
+#: ../src/addressbook/gui/contact-editor/e-contact-editor.c:3244
 msgid "PGP keys"
 msgstr "PGP 密钥"
 
-#: ../src/addressbook/gui/contact-editor/e-contact-editor.c:3253
+#: ../src/addressbook/gui/contact-editor/e-contact-editor.c:3250
 #: ../src/e-util/e-html-editor-actions.c:448
 #: ../src/e-util/e-image-chooser-dialog.c:193
-#: ../src/smime/gui/certificate-manager.c:677
-#: ../src/smime/gui/certificate-manager.c:962
+#: ../src/smime/gui/certificate-manager.c:667
+#: ../src/smime/gui/certificate-manager.c:952
 msgid "All files"
 msgstr "全部文件"
 
-#: ../src/addressbook/gui/contact-editor/e-contact-editor.c:3273
+#: ../src/addressbook/gui/contact-editor/e-contact-editor.c:3270
 msgid "Open PGP key"
 msgstr "打开 PGP 密钥"
 
-#: ../src/addressbook/gui/contact-editor/e-contact-editor.c:3273
+#: ../src/addressbook/gui/contact-editor/e-contact-editor.c:3270
 msgid "Open X.509 certificate"
 msgstr "打开 X.509 证书"
 
-#: ../src/addressbook/gui/contact-editor/e-contact-editor.c:3275
-#: ../src/addressbook/gui/contact-editor/e-contact-editor.c:4342
-#: ../src/addressbook/gui/contact-editor/e-contact-editor.c:4349
+#: ../src/addressbook/gui/contact-editor/e-contact-editor.c:3272
+#: ../src/addressbook/gui/contact-editor/e-contact-editor.c:4382
+#: ../src/addressbook/gui/contact-editor/e-contact-editor.c:4389
 #: ../src/e-util/e-attachment-store.c:666 ../src/e-util/e-category-editor.c:176
 #: ../src/e-util/e-html-editor-actions.c:395
 #: ../src/e-util/e-html-editor-actions.c:439
 #: ../src/e-util/e-html-editor-actions.c:542
 #: ../src/e-util/e-image-chooser-dialog.c:182 ../src/plugins/face/face.c:298
-#: ../src/shell/e-shell-utils.c:69 ../src/smime/gui/certificate-manager.c:952
+#: ../src/shell/e-shell-utils.c:69 ../src/smime/gui/certificate-manager.c:942
 msgid "_Open"
 msgstr "打开(_O)"
 
-#: ../src/addressbook/gui/contact-editor/e-contact-editor.c:3290
-#: ../src/addressbook/gui/contact-editor/e-contact-editor.c:3518
+#: ../src/addressbook/gui/contact-editor/e-contact-editor.c:3287
+#: ../src/addressbook/gui/contact-editor/e-contact-editor.c:3559
 msgid "Chosen file is not a local file."
 msgstr "已选取的文件不是本地文件。"
 
-#: ../src/addressbook/gui/contact-editor/e-contact-editor.c:3303
+#: ../src/addressbook/gui/contact-editor/e-contact-editor.c:3300
 #, c-format
 msgid "Failed to load certificate: %s"
 msgstr "无法加载证书：%s"
 
-#: ../src/addressbook/gui/contact-editor/e-contact-editor.c:3332
+#: ../src/addressbook/gui/contact-editor/e-contact-editor.c:3374
 msgctxt "cert-kind"
 msgid "X.509"
 msgstr "X.509"
 
-#: ../src/addressbook/gui/contact-editor/e-contact-editor.c:3332
+#: ../src/addressbook/gui/contact-editor/e-contact-editor.c:3374
 msgctxt "cert-kind"
 msgid "PGP"
 msgstr "PGP"
 
-#: ../src/addressbook/gui/contact-editor/e-contact-editor.c:3503
+#: ../src/addressbook/gui/contact-editor/e-contact-editor.c:3544
 msgid "Save PGP key"
 msgstr "保存 PGP 密钥"
 
-#: ../src/addressbook/gui/contact-editor/e-contact-editor.c:3503
+#: ../src/addressbook/gui/contact-editor/e-contact-editor.c:3544
 msgid "Save X.509 certificate"
 msgstr "保存 X.509 证书"
 
-#: ../src/addressbook/gui/contact-editor/e-contact-editor.c:3530
+#: ../src/addressbook/gui/contact-editor/e-contact-editor.c:3571
 #, c-format
 msgid "Failed to save certificate: %s"
 msgstr "保存证书失败：%s"
 
-#: ../src/addressbook/gui/contact-editor/e-contact-editor.c:4339
-#: ../src/addressbook/gui/contact-editor/e-contact-editor.c:4345
+#: ../src/addressbook/gui/contact-editor/e-contact-editor.c:4379
+#: ../src/addressbook/gui/contact-editor/e-contact-editor.c:4385
 msgid "Please select an image for this contact"
 msgstr "请选择此联系人的图像"
 
-#: ../src/addressbook/gui/contact-editor/e-contact-editor.c:4350
+#: ../src/addressbook/gui/contact-editor/e-contact-editor.c:4390
 msgid "_No image"
 msgstr "无图像(_N)"
 
-#: ../src/addressbook/gui/contact-editor/e-contact-editor.c:4714
+#: ../src/addressbook/gui/contact-editor/e-contact-editor.c:4754
 msgid ""
 "The contact data is invalid:\n"
 "\n"
@@ -4648,28 +4648,28 @@ msgstr ""
 "联系人数据无效：\n"
 "\n"
 
-#: ../src/addressbook/gui/contact-editor/e-contact-editor.c:4720
+#: ../src/addressbook/gui/contact-editor/e-contact-editor.c:4760
 #, c-format
 msgid "“%s” has an invalid format"
 msgstr "“%s”的格式无效"
 
-#: ../src/addressbook/gui/contact-editor/e-contact-editor.c:4728
+#: ../src/addressbook/gui/contact-editor/e-contact-editor.c:4768
 #, c-format
 msgid "“%s” cannot be a future date"
 msgstr "“%s”不能是未来的日期"
 
-#: ../src/addressbook/gui/contact-editor/e-contact-editor.c:4736
+#: ../src/addressbook/gui/contact-editor/e-contact-editor.c:4776
 #, c-format
 msgid "%s“%s” has an invalid format"
 msgstr "%s“%s”的格式无效"
 
-#: ../src/addressbook/gui/contact-editor/e-contact-editor.c:4749
-#: ../src/addressbook/gui/contact-editor/e-contact-editor.c:4763
+#: ../src/addressbook/gui/contact-editor/e-contact-editor.c:4789
+#: ../src/addressbook/gui/contact-editor/e-contact-editor.c:4803
 #, c-format
 msgid "%s“%s” is empty"
 msgstr "%s“%s”为空"
 
-#: ../src/addressbook/gui/contact-editor/e-contact-editor.c:4778
+#: ../src/addressbook/gui/contact-editor/e-contact-editor.c:4818
 msgid "Invalid contact."
 msgstr "无效的联系人。"
 
@@ -4698,8 +4698,8 @@ msgstr "无效的联系人。"
 #: ../src/plugins/email-custom-header/org-gnome-email-custom-header.ui.h:4
 #: ../src/plugins/publish-calendar/url-editor-dialog.c:418
 #: ../src/shell/e-shell-content.c:643 ../src/shell/e-shell-content.c:749
-#: ../src/shell/main.c:271 ../src/smime/gui/certificate-manager.c:1344
-#: ../src/smime/gui/e-cert-selector.c:240 ../src/smime/gui/smime-ui.ui.h:18
+#: ../src/shell/main.c:271 ../src/smime/gui/certificate-manager.c:1278
+#: ../src/smime/gui/e-cert-selector.c:233 ../src/smime/gui/smime-ui.ui.h:18
 msgid "_OK"
 msgstr "确定(_O)"
 
@@ -5332,7 +5332,7 @@ msgstr "您确定要删除联系人(%s)吗？"
 #: ../src/modules/calendar/e-task-shell-view-actions.c:851
 #: ../src/modules/mail/e-mail-shell-view-actions.c:1622
 #: ../src/shell/e-shell-window-actions.c:965
-#: ../src/smime/gui/certificate-manager.c:1667 ../src/smime/gui/smime-ui.ui.h:8
+#: ../src/smime/gui/certificate-manager.c:1602 ../src/smime/gui/smime-ui.ui.h:8
 msgid "_Delete"
 msgstr "删除(_D)"
 
@@ -7690,7 +7690,7 @@ msgstr "开始时间无效"
 #: ../src/modules/accounts-window/e-accounts-window-editors.c:172
 #: ../src/plugins/face/face.c:175
 #: ../src/plugins/mail-to-task/mail-to-task.c:951 ../src/shell/e-shell.c:1258
-#: ../src/shell/e-shell.c:1283 ../src/smime/gui/certificate-manager.c:363
+#: ../src/shell/e-shell.c:1283 ../src/smime/gui/certificate-manager.c:353
 #, c-format
 msgid "Unknown error"
 msgstr "未知错误"
@@ -8718,7 +8718,7 @@ msgstr "保存并关闭"
 #: ../src/mail/e-mail-browser.c:166 ../src/mail/e-mail-notes.c:1104
 #: ../src/mail/em-filter-editor.c:45 ../src/mail/em-folder-properties.c:1488
 #: ../src/shell/e-shell-window-actions.c:930
-#: ../src/smime/gui/certificate-manager.c:2189
+#: ../src/smime/gui/certificate-manager.c:2132
 msgid "_Close"
 msgstr "关闭(_C)"
 
@@ -8839,7 +8839,7 @@ msgstr "选项(_O)"
 #: ../src/calendar/gui/e-comp-editor.c:2291
 #: ../src/e-util/e-html-editor-actions.c:1219 ../src/mail/e-mail-browser.c:224
 #: ../src/shell/e-shell-window-actions.c:1157
-#: ../src/smime/gui/certificate-manager.c:1657 ../src/smime/gui/smime-ui.ui.h:3
+#: ../src/smime/gui/certificate-manager.c:1592 ../src/smime/gui/smime-ui.ui.h:3
 msgid "_View"
 msgstr "查看(_V)"
 
@@ -12084,7 +12084,7 @@ msgstr "大小"
 #: ../src/mail/message-list.etspec.h:6 ../src/mail/searchtypes.xml.in.h:17
 #: ../src/mail/vfoldertypes.xml.in.h:17
 #: ../src/modules/mail/em-mailer-prefs.c:76
-#: ../src/smime/gui/certificate-manager.c:1638
+#: ../src/smime/gui/certificate-manager.c:1573
 msgid "Subject"
 msgstr "主题"
 
@@ -13145,7 +13145,7 @@ msgstr "用户名(_U)："
 
 #: ../src/e-util/e-collection-account-wizard.c:703
 #: ../src/plugins/publish-calendar/publish-calendar.ui.h:30
-#: ../src/smime/gui/certificate-manager.c:767
+#: ../src/smime/gui/certificate-manager.c:757
 msgid "_Password:"
 msgstr "密码(_P)："
 
@@ -24315,7 +24315,7 @@ msgid "_Update Attendee Status"
 msgstr "更新与会者状态(_U)"
 
 #: ../src/modules/itip-formatter/itip-view.c:1298
-#: ../src/smime/gui/certificate-manager.c:1672
+#: ../src/smime/gui/certificate-manager.c:1607
 msgid "_Update"
 msgstr "更新(_U)"
 
@@ -26795,10 +26795,9 @@ msgid ""
 msgstr "选中的备忘录是只读的，因此不能在此创建备忘。请选择其它的备忘录。"
 
 #: ../src/plugins/mail-to-task/mail-to-task.c:951
-#, fuzzy, c-format
-#| msgid "Cannot create object"
+#, c-format
 msgid "Cannot create component: %s"
-msgstr "无法创建对象"
+msgstr "无法创建组件：%s"
 
 #: ../src/plugins/mail-to-task/mail-to-task.c:1328
 msgid "Create an _Appointment"
@@ -27880,88 +27879,88 @@ msgstr ""
 "\n"
 "编辑信任设置："
 
-#: ../src/smime/gui/certificate-manager.c:85
-#: ../src/smime/gui/certificate-manager.c:105
-#: ../src/smime/gui/certificate-manager.c:126
+#: ../src/smime/gui/certificate-manager.c:75
+#: ../src/smime/gui/certificate-manager.c:95
+#: ../src/smime/gui/certificate-manager.c:116
 msgid "Certificate Name"
 msgstr "证书名称"
 
-#: ../src/smime/gui/certificate-manager.c:86
-#: ../src/smime/gui/certificate-manager.c:107
+#: ../src/smime/gui/certificate-manager.c:76
+#: ../src/smime/gui/certificate-manager.c:97
 msgid "Issued To Organization"
 msgstr "授予组织"
 
-#: ../src/smime/gui/certificate-manager.c:87
-#: ../src/smime/gui/certificate-manager.c:108
+#: ../src/smime/gui/certificate-manager.c:77
+#: ../src/smime/gui/certificate-manager.c:98
 msgid "Issued To Organizational Unit"
 msgstr "授予组织单元"
 
-#: ../src/smime/gui/certificate-manager.c:88
-#: ../src/smime/gui/certificate-manager.c:109
-#: ../src/smime/gui/certificate-manager.c:128
+#: ../src/smime/gui/certificate-manager.c:78
+#: ../src/smime/gui/certificate-manager.c:99
+#: ../src/smime/gui/certificate-manager.c:118
 msgid "Serial Number"
 msgstr "序列号"
 
-#: ../src/smime/gui/certificate-manager.c:89
-#: ../src/smime/gui/certificate-manager.c:110
-#: ../src/smime/gui/certificate-manager.c:129
+#: ../src/smime/gui/certificate-manager.c:79
+#: ../src/smime/gui/certificate-manager.c:100
+#: ../src/smime/gui/certificate-manager.c:119
 msgid "Purposes"
 msgstr "用途"
 
-#: ../src/smime/gui/certificate-manager.c:90
-#: ../src/smime/gui/certificate-manager.c:111
-#: ../src/smime/gui/certificate-manager.c:130
+#: ../src/smime/gui/certificate-manager.c:80
+#: ../src/smime/gui/certificate-manager.c:101
+#: ../src/smime/gui/certificate-manager.c:120
 msgid "Issued By"
 msgstr "颁发者"
 
-#: ../src/smime/gui/certificate-manager.c:91
-#: ../src/smime/gui/certificate-manager.c:112
-#: ../src/smime/gui/certificate-manager.c:131
+#: ../src/smime/gui/certificate-manager.c:81
+#: ../src/smime/gui/certificate-manager.c:102
+#: ../src/smime/gui/certificate-manager.c:121
 msgid "Issued By Organization"
 msgstr "颁发组织"
 
-#: ../src/smime/gui/certificate-manager.c:92
-#: ../src/smime/gui/certificate-manager.c:113
-#: ../src/smime/gui/certificate-manager.c:132
+#: ../src/smime/gui/certificate-manager.c:82
+#: ../src/smime/gui/certificate-manager.c:103
+#: ../src/smime/gui/certificate-manager.c:122
 msgid "Issued By Organizational Unit"
 msgstr "颁发组织单元"
 
-#: ../src/smime/gui/certificate-manager.c:93
-#: ../src/smime/gui/certificate-manager.c:114
-#: ../src/smime/gui/certificate-manager.c:133
+#: ../src/smime/gui/certificate-manager.c:83
+#: ../src/smime/gui/certificate-manager.c:104
+#: ../src/smime/gui/certificate-manager.c:123
 msgid "Issued"
 msgstr "已颁发"
 
-#: ../src/smime/gui/certificate-manager.c:94
-#: ../src/smime/gui/certificate-manager.c:115
-#: ../src/smime/gui/certificate-manager.c:134
+#: ../src/smime/gui/certificate-manager.c:84
+#: ../src/smime/gui/certificate-manager.c:105
+#: ../src/smime/gui/certificate-manager.c:124
 msgid "Expires"
 msgstr "到期时间"
 
-#: ../src/smime/gui/certificate-manager.c:95
-#: ../src/smime/gui/certificate-manager.c:116
-#: ../src/smime/gui/certificate-manager.c:135
+#: ../src/smime/gui/certificate-manager.c:85
+#: ../src/smime/gui/certificate-manager.c:106
+#: ../src/smime/gui/certificate-manager.c:125
 msgid "SHA256 Fingerprint"
 msgstr "SHA256 指纹"
 
-#: ../src/smime/gui/certificate-manager.c:96
-#: ../src/smime/gui/certificate-manager.c:117
-#: ../src/smime/gui/certificate-manager.c:136
+#: ../src/smime/gui/certificate-manager.c:86
+#: ../src/smime/gui/certificate-manager.c:107
+#: ../src/smime/gui/certificate-manager.c:126
 msgid "SHA1 Fingerprint"
 msgstr "SHA1 指纹"
 
-#: ../src/smime/gui/certificate-manager.c:97
-#: ../src/smime/gui/certificate-manager.c:118
-#: ../src/smime/gui/certificate-manager.c:137
+#: ../src/smime/gui/certificate-manager.c:87
+#: ../src/smime/gui/certificate-manager.c:108
+#: ../src/smime/gui/certificate-manager.c:127
 msgid "MD5 Fingerprint"
 msgstr "MD5 指纹"
 
-#: ../src/smime/gui/certificate-manager.c:106
-#: ../src/smime/gui/certificate-manager.c:127
+#: ../src/smime/gui/certificate-manager.c:96
+#: ../src/smime/gui/certificate-manager.c:117
 msgid "Email Address"
 msgstr "电子邮件地址"
 
-#: ../src/smime/gui/certificate-manager.c:653
+#: ../src/smime/gui/certificate-manager.c:643
 msgid "Select a file to backup your key and certificate…"
 msgstr "选择一个文件来备份您的密钥和证书…"
 
@@ -27970,31 +27969,31 @@ msgstr "选择一个文件来备份您的密钥和证书…"
 #. * when a user wants to backup one of her/his private keys/certificates.
 #. * For example: gnomedev-backup.p12
 #.
-#: ../src/smime/gui/certificate-manager.c:663
+#: ../src/smime/gui/certificate-manager.c:653
 #, c-format
 msgid "%s-backup.p12"
 msgstr "%s-备份.p12"
 
-#: ../src/smime/gui/certificate-manager.c:722
+#: ../src/smime/gui/certificate-manager.c:712
 msgid "Backup Certificate"
 msgstr "备份证书"
 
 #. filename selection
-#: ../src/smime/gui/certificate-manager.c:737
+#: ../src/smime/gui/certificate-manager.c:727
 msgid "_File name:"
 msgstr "文件名(_F)："
 
 #. FIXME when gtk_file_chooser_button allows GTK_FILE_CHOOSER_ACTION_SAVE use it
-#: ../src/smime/gui/certificate-manager.c:742
+#: ../src/smime/gui/certificate-manager.c:732
 msgid "Please select a file…"
 msgstr "请选择一个文件…"
 
-#: ../src/smime/gui/certificate-manager.c:756
+#: ../src/smime/gui/certificate-manager.c:746
 msgid "_Include certificate chain in the backup"
 msgstr "在备份里包含证书链(_I)"
 
 #. To Translators: this text was copied from Firefox
-#: ../src/smime/gui/certificate-manager.c:762
+#: ../src/smime/gui/certificate-manager.c:752
 msgid ""
 "The certificate backup password you set here protects the backup file that "
 "you are about to create.\n"
@@ -28003,16 +28002,16 @@ msgstr ""
 "您在这里设置的证书备份密码保护您将要创建的备份文件。\n"
 "继续进行备份必须要你设置这个密码。"
 
-#: ../src/smime/gui/certificate-manager.c:781
+#: ../src/smime/gui/certificate-manager.c:771
 msgid "_Repeat Password:"
 msgstr "重复密码(_P)："
 
-#: ../src/smime/gui/certificate-manager.c:800
+#: ../src/smime/gui/certificate-manager.c:790
 msgid "Passwords do not match"
 msgstr "密码不匹配"
 
 #. To Translators: this text was copied from Firefox
-#: ../src/smime/gui/certificate-manager.c:808
+#: ../src/smime/gui/certificate-manager.c:798
 msgid ""
 "Important:\n"
 "If you forget your certificate backup password, you will not be able to "
@@ -28023,134 +28022,134 @@ msgstr ""
 "如果您忘记您的证书备份密码，你今后就不能还原备份。\n"
 "请将它记录在安全的地方。"
 
-#: ../src/smime/gui/certificate-manager.c:853
+#: ../src/smime/gui/certificate-manager.c:843
 msgid "No file name provided"
 msgstr "没有提供文件名"
 
-#: ../src/smime/gui/certificate-manager.c:857
+#: ../src/smime/gui/certificate-manager.c:847
 msgid "Failed to backup key and certificate"
 msgstr "备份密钥和证书失败"
 
-#: ../src/smime/gui/certificate-manager.c:949
+#: ../src/smime/gui/certificate-manager.c:939
 msgid "Select a certificate to import…"
 msgstr "选择要导入的证书…"
 
-#: ../src/smime/gui/certificate-manager.c:998
+#: ../src/smime/gui/certificate-manager.c:988
 msgid "Failed to import certificate"
 msgstr "导入证书失败"
 
-#: ../src/smime/gui/certificate-manager.c:1115
+#: ../src/smime/gui/certificate-manager.c:1105
 msgctxt "CamelTrust"
 msgid "Ask when used"
 msgstr "使用时询问"
 
-#: ../src/smime/gui/certificate-manager.c:1117
+#: ../src/smime/gui/certificate-manager.c:1107
 msgctxt "CamelTrust"
 msgid "Never"
 msgstr "从不"
 
-#: ../src/smime/gui/certificate-manager.c:1119
+#: ../src/smime/gui/certificate-manager.c:1109
 msgctxt "CamelTrust"
 msgid "Marginally"
 msgstr "勉强的"
 
-#: ../src/smime/gui/certificate-manager.c:1121
+#: ../src/smime/gui/certificate-manager.c:1111
 msgctxt "CamelTrust"
 msgid "Fully"
 msgstr "完整"
 
-#: ../src/smime/gui/certificate-manager.c:1123
+#: ../src/smime/gui/certificate-manager.c:1113
 msgctxt "CamelTrust"
 msgid "Ultimately"
 msgstr "彻底的"
 
-#: ../src/smime/gui/certificate-manager.c:1125
+#: ../src/smime/gui/certificate-manager.c:1115
 msgctxt "CamelTrust"
 msgid "Temporarily"
 msgstr "暂时的"
 
-#: ../src/smime/gui/certificate-manager.c:1341
+#: ../src/smime/gui/certificate-manager.c:1275
 msgid "Change certificate trust"
 msgstr "变更证书信任"
 
-#: ../src/smime/gui/certificate-manager.c:1353
+#: ../src/smime/gui/certificate-manager.c:1288
 #, c-format
 msgid "Change trust for the host “%s”:"
 msgstr "变更对主机“%s”的信任："
 
-#: ../src/smime/gui/certificate-manager.c:1377
+#: ../src/smime/gui/certificate-manager.c:1312
 msgctxt "CamelTrust"
 msgid "_Ask when used"
 msgstr "使用时询问(_A)"
 
-#: ../src/smime/gui/certificate-manager.c:1378
+#: ../src/smime/gui/certificate-manager.c:1313
 msgctxt "CamelTrust"
 msgid "_Never trust this certificate"
 msgstr "永不信任此证书(_N)"
 
-#: ../src/smime/gui/certificate-manager.c:1379
+#: ../src/smime/gui/certificate-manager.c:1314
 msgctxt "CamelTrust"
 msgid "_Temporarily trusted (this session only)"
 msgstr "暂时信任(仅此会话)(_T)"
 
-#: ../src/smime/gui/certificate-manager.c:1380
+#: ../src/smime/gui/certificate-manager.c:1315
 msgctxt "CamelTrust"
 msgid "_Marginally trusted"
 msgstr "勉强信任(_M)"
 
-#: ../src/smime/gui/certificate-manager.c:1381
+#: ../src/smime/gui/certificate-manager.c:1316
 msgctxt "CamelTrust"
 msgid "_Fully trusted"
 msgstr "完全信任(_F)"
 
-#: ../src/smime/gui/certificate-manager.c:1382
+#: ../src/smime/gui/certificate-manager.c:1317
 msgctxt "CamelTrust"
 msgid "_Ultimately trusted"
 msgstr "绝对信任(_U)"
 
-#: ../src/smime/gui/certificate-manager.c:1386
+#: ../src/smime/gui/certificate-manager.c:1321
 msgid ""
 "Before trusting this site, you should examine its certificate and its policy "
 "and procedures (if available)."
 msgstr "在信任此网站之前，您应该先检查该证书及其策略和过程(若可用)。"
 
-#: ../src/smime/gui/certificate-manager.c:1401
+#: ../src/smime/gui/certificate-manager.c:1336
 msgid "_Display certificate"
 msgstr "查看证书(_D)"
 
-#: ../src/smime/gui/certificate-manager.c:1606
+#: ../src/smime/gui/certificate-manager.c:1541
 msgid "You have certificates on file that identify these mail servers:"
 msgstr "您拥有证明这些邮件服务器的证书："
 
-#: ../src/smime/gui/certificate-manager.c:1637
+#: ../src/smime/gui/certificate-manager.c:1572
 msgid "Host name"
 msgstr "主机名称"
 
-#: ../src/smime/gui/certificate-manager.c:1639
+#: ../src/smime/gui/certificate-manager.c:1574
 msgid "Issuer"
 msgstr "发行者"
 
-#: ../src/smime/gui/certificate-manager.c:1640
+#: ../src/smime/gui/certificate-manager.c:1575
 msgid "Fingerprint"
 msgstr "指纹"
 
-#: ../src/smime/gui/certificate-manager.c:1641
+#: ../src/smime/gui/certificate-manager.c:1576
 msgid "Trust"
 msgstr "信任"
 
-#: ../src/smime/gui/certificate-manager.c:1662
+#: ../src/smime/gui/certificate-manager.c:1597
 msgid "_Edit Trust"
 msgstr "编辑信任(_E)"
 
-#: ../src/smime/gui/certificate-manager.c:2098
+#: ../src/smime/gui/certificate-manager.c:2033
 msgid "All PKCS12 files"
 msgstr "全部 PKCS12 文件"
 
-#: ../src/smime/gui/certificate-manager.c:2115
+#: ../src/smime/gui/certificate-manager.c:2050
 msgid "All email certificate files"
 msgstr "所有电子邮件证书文件"
 
-#: ../src/smime/gui/certificate-manager.c:2132
+#: ../src/smime/gui/certificate-manager.c:2067
 msgid "All CA certificate files"
 msgstr "全部颁证机构文件"
 
@@ -28187,7 +28186,7 @@ msgstr "输入证书数据库的新密码"
 msgid "Enter new password"
 msgstr "输入新密码"
 
-#: ../src/smime/gui/e-cert-selector.c:182
+#: ../src/smime/gui/e-cert-selector.c:172
 msgid "Select certificate"
 msgstr "选择证书"
 
@@ -28272,11 +28271,11 @@ msgid "C_ertificate:"
 msgstr "证书(_E)："
 
 #. x509 certificate usage types
-#: ../src/smime/lib/e-cert.c:418
+#: ../src/smime/lib/e-cert.c:373
 msgid "Sign"
 msgstr "签名"
 
-#: ../src/smime/lib/e-cert.c:419
+#: ../src/smime/lib/e-cert.c:374
 msgid "Encrypt"
 msgstr "加密"
 
@@ -29445,13 +29444,13 @@ msgstr "导入的证书"
 #~ msgstr "极限"
 
 #~ msgid ""
-#~ "Determines whether to use the same fonts for both \"From\" and "
-#~ "\"Subject\" lines in the \"Messages\" column in vertical view"
+#~ "Determines whether to use the same fonts for both \"From\" and \"Subject"
+#~ "\" lines in the \"Messages\" column in vertical view"
 #~ msgstr "决定是否在竖直视图中对“信息”列的“发件人”和“主题”行使用相同的字体。"
 
 #~ msgid ""
-#~ "Determines whether to use the same fonts for both \"From\" and "
-#~ "\"Subject\" lines in the \"Messages\" column in vertical view."
+#~ "Determines whether to use the same fonts for both \"From\" and \"Subject"
+#~ "\" lines in the \"Messages\" column in vertical view."
 #~ msgstr "决定是否在竖直视图中对“信息”列的“发件人”和“主题”行使用相同的字体。"
 
 #~ msgid "Itip Formatter"
@@ -30738,9 +30737,9 @@ msgstr "导入的证书"
 #~ msgid ""
 #~ "Initial maximize state of the \"Folder Subscriptions\" window. The value "
 #~ "updates when the user maximizes or unmaximizes the window. Note, this "
-#~ "particular value is not used by Evolution since the \"Folder "
-#~ "Subscriptions\" window cannot be maximized. This key exists only as an "
-#~ "implementation detail."
+#~ "particular value is not used by Evolution since the \"Folder Subscriptions"
+#~ "\" window cannot be maximized. This key exists only as an implementation "
+#~ "detail."
 #~ msgstr ""
 #~ "“文件夹订阅”窗口的最大化初始状态。当用户最大化或取消最大化窗口时会更新该"
 #~ "值，这个值是不会被 Evolution 使用的，因为“过滤器编辑器”窗口无法最大化。这"
@@ -30864,9 +30863,9 @@ msgstr "导入的证书"
 #~ msgid ""
 #~ "Initial maximize state of the \"Search Folder Editor\" window. The value "
 #~ "updates when the user maximizes or unmaximizes the window. Note, this "
-#~ "particular value is not used by Evolution since the \"Search Folder "
-#~ "Editor\" window cannot be maximized. This key exists only as an "
-#~ "implementation detail."
+#~ "particular value is not used by Evolution since the \"Search Folder Editor"
+#~ "\" window cannot be maximized. This key exists only as an implementation "
+#~ "detail."
 #~ msgstr ""
 #~ "“搜索文件夹编辑器”窗口的最大化初始状态。当用户最大化或取消最大化窗口时会更"
 #~ "新该值，这个值是不会被 Evolution 使用的，因为“搜索文件夹编辑器”窗口无法最"
@@ -31148,8 +31147,8 @@ msgstr "导入的证书"
 #~ msgstr "是否在任务视图中隐藏已完成的任务。"
 
 #~ msgid ""
-#~ "Units for determining when to hide tasks, \"minutes\", \"hours\" or "
-#~ "\"days\"."
+#~ "Units for determining when to hide tasks, \"minutes\", \"hours\" or \"days"
+#~ "\"."
 #~ msgstr "决定是否隐藏任务的单位，可为“minutes”，“hours”或“days”。"
 
 #~ msgid "Number of units for determining when to hide tasks."
