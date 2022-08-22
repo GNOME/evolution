@@ -60,8 +60,8 @@ e_mail_formatter_format_text_header (EMailFormatter *formatter,
 	if (!(flags & E_MAIL_FORMATTER_HEADER_FLAG_HTML)) {
 		CamelMimeFilterToHTMLFlags text_format_flags;
 
-		text_format_flags =
-			e_mail_formatter_get_text_format_flags (formatter);
+		text_format_flags = e_mail_formatter_get_text_format_flags (formatter) &
+			(~CAMEL_MIME_FILTER_TOHTML_MARK_CITATION);
 		html = mhtml = camel_text_to_html (
 			value, text_format_flags, 0);
 	} else {
@@ -380,8 +380,8 @@ e_mail_formatter_format_header (EMailFormatter *formatter,
 		while (*txt == ' ' || *txt == '\t')
 			txt++;
 
-		text_format_flags =
-			e_mail_formatter_get_text_format_flags (formatter);
+		text_format_flags = e_mail_formatter_get_text_format_flags (formatter) &
+			(~CAMEL_MIME_FILTER_TOHTML_MARK_CITATION);
 
 		html = camel_text_to_html (txt, text_format_flags, 0);
 
