@@ -19,8 +19,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: evolution\n"
 "Report-Msgid-Bugs-To: https://gitlab.gnome.org/GNOME/evolution/issues\n"
-"POT-Creation-Date: 2022-07-21 11:49+0000\n"
-"PO-Revision-Date: 2022-07-21 23:02+0300\n"
+"POT-Creation-Date: 2022-07-28 06:43+0000\n"
+"PO-Revision-Date: 2022-07-31 20:07+0300\n"
 "Last-Translator: Sabri Ünal <libreajans@gmail.com>\n"
 "Language-Team: Turkish <gnome-turk@gnome.org>\n"
 "Language: tr\n"
@@ -553,16 +553,12 @@ msgid "Whether to show type field in the event/task/meeting editor"
 msgstr "Olay/görev/toplantı düzenleyicide tür alanının gösterilmesi"
 
 #: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:62
-#, fuzzy
-#| msgid "Show type field in the event/task/meeting editor"
 msgid "Show toolbar in the event/task/memo editor"
-msgstr "Olay/görev/toplantı düzenleyicide tür alanını göster"
+msgstr "Olay/görev/not düzenleyicide araç çubuğunu göster"
 
 #: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:63
-#, fuzzy
-#| msgid "Whether to show type field in the event/task/meeting editor"
 msgid "Whether to show toolbar in the event/task/memo editor"
-msgstr "Olay/görev/toplantı düzenleyicide tür alanının gösterilmesi"
+msgstr "Olay/görev/not düzenleyicide araç çubuğunun gösterilmesi"
 
 #: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:64
 msgid "Hide completed tasks"
@@ -1668,32 +1664,20 @@ msgstr ""
 "Alıcı ve Bilgi alıcıları sayısı bu değere ulaştığında ne zaman sorulacağı."
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:75
-#, fuzzy
-#| msgid "Whether to always show Sign and Encrypt buttons on the toolbar"
 msgid "Whether to always show main toolbar"
-msgstr ""
-"Araç çubuğunda İmzala ve Şifrele düğmelerinin her zaman gösterilip "
-"gösterilmeyeceği"
+msgstr "Ana araç çubuğunun her zaman gösterilip gösterilmeyeceği"
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:76
-#, fuzzy
-#| msgid "If set to “true” quoted text in replies will be wrapped."
 msgid "If set to “true”, the main toolbar will be visible."
-msgstr "“Evet”e ayarlanmışsa yanıtlardaki alıntı metinler sarılacak."
+msgstr "“Evet”e ayarlanmışsa ana araç çubuğu görünür olacak."
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:77
-#, fuzzy
-#| msgid "Whether to always show Sign and Encrypt buttons on the toolbar"
 msgid "Whether to always show edit toolbar"
-msgstr ""
-"Araç çubuğunda İmzala ve Şifrele düğmelerinin her zaman gösterilip "
-"gösterilmeyeceği"
+msgstr "Düzenleme araç çubuğunun her zaman gösterilip gösterilmeyeceği"
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:78
-#, fuzzy
-#| msgid "If set to “true” quoted text in replies will be wrapped."
 msgid "If set to “true”, the edit toolbar will be visible."
-msgstr "“Evet”e ayarlanmışsa yanıtlardaki alıntı metinler sarılacak."
+msgstr "“Evet”e ayarlanmışsa düzenleme araç çubuğu görünür olacak."
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:79
 msgid "Whether to always show Sign and Encrypt buttons on the toolbar"
@@ -4387,11 +4371,6 @@ msgid "Something has gone wrong when displaying the contact"
 msgstr "Bağlantı görüntülenirken bir şey yanlış gitti"
 
 #: ../src/addressbook/addressbook.error.xml.h:48
-#, fuzzy
-#| msgid ""
-#| "A WebKitWebProcess crashed when displaying the contact. You can try again "
-#| "by moving to another contact and back. If the issue persists, please file "
-#| "a bug report in GNOME Gitlab."
 msgid ""
 "A WebKitWebProcess crashed when displaying the contact. You can try again by "
 "moving to another contact and back. If the issue persists, please file a bug "
@@ -6769,11 +6748,6 @@ msgid "Something has gone wrong when displaying the event"
 msgstr "Olay görüntülenirken bir şey yanlış gitti"
 
 #: ../src/calendar/calendar.error.xml.h:174
-#, fuzzy
-#| msgid ""
-#| "A WebKitWebProcess crashed when displaying the event. You can try again "
-#| "by moving to another event and back. If the issue persists, please file a "
-#| "bug report in GNOME Gitlab."
 msgid ""
 "A WebKitWebProcess crashed when displaying the event. You can try again by "
 "moving to another event and back. If the issue persists, please file a bug "
@@ -6788,11 +6762,6 @@ msgid "Something has gone wrong when displaying the memo"
 msgstr "Not görüntülenirken bir şey yanlış gitti"
 
 #: ../src/calendar/calendar.error.xml.h:176
-#, fuzzy
-#| msgid ""
-#| "A WebKitWebProcess crashed when displaying the memo. You can try again by "
-#| "moving to another memo and back. If the issue persists, please file a bug "
-#| "report in GNOME Gitlab."
 msgid ""
 "A WebKitWebProcess crashed when displaying the memo. You can try again by "
 "moving to another memo and back. If the issue persists, please file a bug "
@@ -6807,11 +6776,6 @@ msgid "Something has gone wrong when displaying the task"
 msgstr "Görev görüntülenirken bir şey yanlış gitti"
 
 #: ../src/calendar/calendar.error.xml.h:178
-#, fuzzy
-#| msgid ""
-#| "A WebKitWebProcess crashed when displaying the task. You can try again by "
-#| "moving to another task and back. If the issue persists, please file a bug "
-#| "report in GNOME Gitlab."
 msgid ""
 "A WebKitWebProcess crashed when displaying the task. You can try again by "
 "moving to another task and back. If the issue persists, please file a bug "
@@ -9133,10 +9097,8 @@ msgstr "Değişiklikler kaydediliyor…"
 
 #: ../src/calendar/gui/e-comp-editor.c:1926
 #: ../src/e-util/e-mail-signature-editor.c:577 ../src/mail/e-mail-notes.c:1186
-#, fuzzy
-#| msgid "_Save"
 msgid "Save"
-msgstr "_Kaydet"
+msgstr "Kaydet"
 
 #. == Button box ==
 #: ../src/calendar/gui/e-comp-editor.c:2150
@@ -9288,10 +9250,8 @@ msgid "Save current changes and close editor"
 msgstr "Değişiklikleri kaydet düzenleyiciyi kapat"
 
 #: ../src/calendar/gui/e-comp-editor.c:2297
-#, fuzzy
-#| msgid "Show _Tool Bar"
 msgid "Show _toolbar"
-msgstr "Araç Çubuğu_nu Göster"
+msgstr "Araç çubuğu_nu göster"
 
 #. strftime format %A = full weekday name, %d = day of month,
 #. * %B = full month name. Don't use any other specifiers.
@@ -11957,23 +11917,19 @@ msgstr "Bu iletiyi gönder"
 
 #: ../src/composer/e-composer-actions.c:418
 msgid "_Main toolbar"
-msgstr ""
+msgstr "_Ana araç çubuğu"
 
 #: ../src/composer/e-composer-actions.c:420
 msgid "Main toolbar"
-msgstr ""
+msgstr "Ana araç çubuğu"
 
 #: ../src/composer/e-composer-actions.c:426
-#, fuzzy
-#| msgid "Show the tool bar"
 msgid "Edit _toolbar"
-msgstr "Araç çubuğunu göster"
+msgstr "Araç çubuğunu _düzenle"
 
 #: ../src/composer/e-composer-actions.c:428
-#, fuzzy
-#| msgid "Show the tool bar"
 msgid "Edit toolbar"
-msgstr "Araç çubuğunu göster"
+msgstr "Araç çubuğunu düzenle"
 
 #: ../src/composer/e-composer-actions.c:434
 msgid "PGP _Encrypt"
@@ -12148,10 +12104,8 @@ msgid "Click here to select folders to post to"
 msgstr "Gönderilecek klasörleri seçmek için buraya tıklayın"
 
 #: ../src/composer/e-composer-private.c:94
-#, fuzzy
-#| msgid "_Send"
 msgid "Send"
-msgstr "_Gönder"
+msgstr "Gönder"
 
 #: ../src/composer/e-msg-composer.c:1077
 #, c-format
@@ -12464,11 +12418,6 @@ msgid "Something has gone wrong when editing the message"
 msgstr "İleti düzenlenirken bir şey yanlış gitti"
 
 #: ../src/composer/mail-composer.error.xml.h:57
-#, fuzzy
-#| msgid ""
-#| "A WebKitWebProcess crashed when editing the message. You can try again by "
-#| "closing the composer window and opening a new one. If the issue persists, "
-#| "please file a bug report in GNOME Gitlab."
 msgid ""
 "A WebKitWebProcess crashed when editing the message. You can try again by "
 "closing the composer window and opening a new one. If the issue persists, "
@@ -16454,11 +16403,6 @@ msgid "Something has gone wrong"
 msgstr "Bir şey yanlış gitti"
 
 #: ../src/e-util/e-system.error.xml.h:24
-#, fuzzy
-#| msgid ""
-#| "A WebKitWebProcess crashed when displaying the content. You can try again "
-#| "by reopening the window. If the issue persists, please file a bug report "
-#| "in GNOME Gitlab."
 msgid ""
 "A WebKitWebProcess crashed when displaying the content. You can try again by "
 "reopening the window. If the issue persists, please file a bug report in "
@@ -21733,11 +21677,6 @@ msgid "Something has gone wrong when displaying the message"
 msgstr "İleti görüntülenirken bir şey yanlış gitti"
 
 #: ../src/mail/mail.error.xml.h:210
-#, fuzzy
-#| msgid ""
-#| "A WebKitWebProcess crashed when displaying the message. You can try again "
-#| "by moving to another message and back. If the issue persists, please file "
-#| "a bug report in GNOME Gitlab."
 msgid ""
 "A WebKitWebProcess crashed when displaying the message. You can try again by "
 "moving to another message and back. If the issue persists, please file a bug "
@@ -21752,11 +21691,6 @@ msgid "Something has gone wrong when displaying the signature"
 msgstr "İmza görüntülenirken bir şey yanlış gitti"
 
 #: ../src/mail/mail.error.xml.h:212
-#, fuzzy
-#| msgid ""
-#| "A WebKitWebProcess crashed when displaying the signature. You can try "
-#| "again by moving to another signature and back. If the issue persists, "
-#| "please file a bug report in GNOME Gitlab."
 msgid ""
 "A WebKitWebProcess crashed when displaying the signature. You can try again "
 "by moving to another signature and back. If the issue persists, please file "
@@ -27913,6 +27847,11 @@ msgstr "Aramalar"
 msgid "Save Search"
 msgstr "Aramayı Kaydet"
 
+#: ../src/shell/e-shell-headerbar.c:213
+msgctxt "toolbar-button"
+msgid "New"
+msgstr "Yeni"
+
 #. Translators: The "Show:" label precedes a combo box that
 #. * allows the user to filter the current view.  Examples of
 #. * items that appear in the combo box are "Unread Messages",
@@ -29007,736 +28946,3 @@ msgstr "Deponun diske yazılması başarısız, hata_kodu: %i"
 #: ../src/smime/lib/e-pkcs12.c:460
 msgid "Imported Certificate"
 msgstr "Aktarılmış Sertifika"
-
-#~ msgctxt "toolbar-button"
-#~ msgid "New"
-#~ msgstr "Yeni"
-
-#, c-format
-#~ msgid "%s — Evolution"
-#~ msgstr "%s — Evolution"
-
-#~ msgid "true"
-#~ msgstr "doğru"
-
-#~ msgid "false"
-#~ msgstr "yanlış"
-
-#~ msgid "* No Summary *"
-#~ msgstr "* Özet Yok *"
-
-#~ msgid "Start: "
-#~ msgstr "Başlangıç: "
-
-#~ msgid "Due: "
-#~ msgstr "Tamamlanma:  "
-
-#~ msgid ""
-#~ "Set to true to show invitation description as provided by the sender, if "
-#~ "such is available; otherwise generate the invitation description from the "
-#~ "iCalendar component"
-#~ msgstr ""
-#~ "Eğer varsa gönderence sağlanan davet açıklamasını göstermek için doğru "
-#~ "olarak belirle; yoksa davet açıklamasını iCalendar bileşeninden oluştur"
-
-#~ msgid ""
-#~ "If the name doesn’t correspond to any known editor, then the built-in "
-#~ "WebKit editor is used."
-#~ msgstr ""
-#~ "Ad bilinen herhangi bir düzenleyiciyle uyuşmuyorsa, yerleşik WebKit "
-#~ "düzenleyici kullanılır."
-
-#~ msgid "Send HTML mail by default"
-#~ msgstr "Öntanımlı olarak HTML posta gönder"
-
-#~ msgid "Send HTML mail by default."
-#~ msgstr "Öntanımlı olarak HTML posta gönder."
-
-#~ msgid "Format message in HTML"
-#~ msgstr "İletiyi HTML olarak biçimlendir"
-
-#~ msgid "Multiple Unseen Messages"
-#~ msgstr "Birden Çok Okunmayan İleti"
-
-#~ msgid "Multiple Messages"
-#~ msgstr "Birden Çok İleti"
-
-#~ msgid "Plugin Manager"
-#~ msgstr "Eklenti Yöneticisi"
-
-#~ msgid "Enable and disable plugins"
-#~ msgstr "Eklentileri etkinleştirme ve kapatma"
-
-#~ msgid "Add Google Con_tacts to this account"
-#~ msgstr "Bu hesaba Google Ki_şilerini ekle"
-
-#~ msgid "Event cannot be fully edited, because you are not the organizer"
-#~ msgstr "Olay tümüyle düzenlenemez, çünkü düzenleyici değilsiniz"
-
-#~ msgid "Task cannot be fully edited, because you are not the organizer"
-#~ msgstr "Görev tümüyle düzenlenemez, çünkü düzenleyici değilsiniz"
-
-#~ msgid "_Destination"
-#~ msgstr "_Hedef"
-
-#~ msgid "<b>Colors</b>"
-#~ msgstr "<b>Renkler</b>"
-
-#~ msgid "<b>Background Image</b>"
-#~ msgstr "<b>Arka Plan Resmi</b>"
-
-#~ msgid "Attendee                          "
-#~ msgstr "Katılımcı                         "
-
-#~ msgid "This certificate is not viewable"
-#~ msgstr "Bu sertifika görüntülenemiyor"
-
-#~ msgctxt "collection-account-wizard"
-#~ msgid "%s %s."
-#~ msgstr "%s %s."
-
-#~ msgid "Image file"
-#~ msgstr "Görüntü dosyası"
-
-#~ msgid "Delivery Notification for “%s”"
-#~ msgstr "“%s” için Teslim Bildirimi"
-
-#~ msgid "%d week"
-#~ msgid_plural "%d weeks"
-#~ msgstr[0] "%d hafta"
-
-#~ msgctxt "cal-task-status"
-#~ msgid "None"
-#~ msgstr "Hiç"
-
-#~ msgid "_Attachment..."
-#~ msgstr "_Ek..."
-
-#~ msgctxt "ECompEditor"
-#~ msgid "Atte_ndees..."
-#~ msgstr "_Katılımcılar…"
-
-#~ msgid "%d day before"
-#~ msgid_plural "%d days before"
-#~ msgstr[0] "%d gün önce"
-
-#~ msgid "%d hour before"
-#~ msgid_plural "%d hours before"
-#~ msgstr[0] "%d saat önce"
-
-#~ msgid "%d minute before"
-#~ msgid_plural "%d minutes before"
-#~ msgstr[0] "%d dakika önce"
-
-#~ msgctxt "cal-reminders"
-#~ msgid "15 minutes before"
-#~ msgstr "15 dakika önce"
-
-#~ msgctxt "cal-reminders"
-#~ msgid "1 hour before"
-#~ msgstr "1 saat önce"
-
-#~ msgctxt "cal-reminders"
-#~ msgid "1 day before"
-#~ msgstr "1 gün önce"
-
-#~ msgctxt "ECompEditor"
-#~ msgid "_Categories..."
-#~ msgstr "_Kategoriler..."
-
-#~ msgctxt "ECompEditor"
-#~ msgid "Not Started"
-#~ msgstr "Başlamadı"
-
-#~ msgctxt "ECompEditor"
-#~ msgid "In Progress"
-#~ msgstr "Devam Ediyor"
-
-#~ msgctxt "ECompEditor"
-#~ msgid "Completed"
-#~ msgstr "Tamamlandı"
-
-#~ msgctxt "ECompEditor"
-#~ msgid "Cancelled"
-#~ msgstr "İptal Edilmiş"
-
-#~ msgid "Saving changes..."
-#~ msgstr "Değişiklikler kaydediliyor..."
-
-#~ msgid "_Print..."
-#~ msgstr "_Yazdır..."
-
-#~ msgid "Pre_view..."
-#~ msgstr "Ö_nizleme..."
-
-#~ msgid "Select..."
-#~ msgstr "Seç..."
-
-#~ msgid "Atte_ndees..."
-#~ msgstr "_Katılımcılar..."
-
-#~ msgid "New _Appointment..."
-#~ msgstr "Yeni _Randevu..."
-
-#~ msgid "New _Meeting..."
-#~ msgstr "Yeni _Toplantı..."
-
-#~ msgid "New _Task..."
-#~ msgstr "Yeni _Görev..."
-
-#~ msgid "_Open..."
-#~ msgstr "_Aç..."
-
-#~ msgid "_Delete..."
-#~ msgstr "_Sil..."
-
-#~ msgid "Save _As..."
-#~ msgstr "_Farklı Kaydet..."
-
-#~ msgid "A_dd Attachment..."
-#~ msgstr "_Dosya Ekle..."
-
-#~ msgid "Other..."
-#~ msgstr "Diğer..."
-
-#~ msgid "_Find..."
-#~ msgstr "_Bul..."
-
-#~ msgid "Re_place..."
-#~ msgstr "_Değiştir..."
-
-#~ msgid "_Image..."
-#~ msgstr "_Resim..."
-
-#~ msgid "_Link..."
-#~ msgstr "_Bağ..."
-
-#~ msgid "_Rule..."
-#~ msgstr "_Kural..."
-
-#~ msgid "_Table..."
-#~ msgstr "_Tablo..."
-
-#~ msgid "Cell..."
-#~ msgstr "Hücre..."
-
-#~ msgid "Image..."
-#~ msgstr "Resim..."
-
-#~ msgid "Link..."
-#~ msgstr "Bağ..."
-
-#~ msgid "Page..."
-#~ msgstr "Sayfa..."
-
-#~ msgid "Rule..."
-#~ msgstr "Kural..."
-
-#~ msgid "Table..."
-#~ msgstr "Tablo..."
-
-#~ msgid "Text..."
-#~ msgstr "Metin..."
-
-#~ msgid "More..."
-#~ msgstr "Daha çok..."
-
-#~ msgid "Add a C_olumn..."
-#~ msgstr "Bir _Sütun Ekle..."
-
-#~ msgid "Custo_mize Current View..."
-#~ msgstr "Geçerli _Görünümü Özelleştir..."
-
-#~ msgid "Save _Image..."
-#~ msgstr "_Görüntüyü Kaydet..."
-
-#~ msgid "Storing changes..."
-#~ msgstr "Değişiklikler kaydediliyor..."
-
-#~ msgid "Retrieving message..."
-#~ msgstr "İleti alınıyor..."
-
-#~ msgid "_Archive..."
-#~ msgstr "_Arşiv..."
-
-#~ msgid "_Copy to Folder..."
-#~ msgstr "Klasöre _Kopyala..."
-
-#~ msgid "Follow _Up..."
-#~ msgstr "_Takip..."
-
-#~ msgid "_Move to Folder..."
-#~ msgstr "_Klasöre Taşı..."
-
-#~ msgid "Loading..."
-#~ msgstr "Yükleniyor..."
-
-#~ msgid "_Forward Contact..."
-#~ msgstr "_Bağlantıyı Yönlendir..."
-
-#~ msgid "_New Contact..."
-#~ msgstr "_Yeni Bağlantı..."
-
-#~ msgid "New Contact _List..."
-#~ msgstr "Yeni Bağlantı _Listesi..."
-
-#~ msgid "_Send Message to Contact..."
-#~ msgstr "B_ağlantıya İleti Gönder..."
-
-#~ msgid "_Save as vCard..."
-#~ msgstr "_vCard Olarak Kaydet..."
-
-#~ msgid "Selected Memo Lists for Notifications of Reminders"
-#~ msgstr "Hatırlatıcı Bildirimleri İçin Seçilen Not Listeleri"
-
-#~ msgid "_Copy..."
-#~ msgstr "_Kopyala..."
-
-#~ msgid "New All Day _Event..."
-#~ msgstr "Y_eni Tüm Gün Olayı..."
-
-#~ msgid "Print..."
-#~ msgstr "Yazdır..."
-
-#~ msgid "_Save as iCalendar..."
-#~ msgstr "_iCalendar olarak Kaydet..."
-
-#~ msgid "_Copy Folder To..."
-#~ msgstr "Klasöre _Kopyala..."
-
-#~ msgid "_Move Folder To..."
-#~ msgstr "_Klasöre Taşı..."
-
-#~ msgid "_New..."
-#~ msgstr "_Yeni..."
-
-#~ msgid "Preparing to quit..."
-#~ msgstr "Çıkış için hazırlanılıyor..."
-
-#~ msgid "Evolution Website"
-#~ msgstr "Evolution Web Sitesi"
-
-#~ msgid "I_mport..."
-#~ msgstr "_Aktar..."
-
-#~ msgid "_Advanced Search..."
-#~ msgstr "_Gelişmiş Arama..."
-
-#~ msgid "_Save Search..."
-#~ msgstr "_Aramayı Kaydet..."
-
-#~ msgid "%d/%m/%Y"
-#~ msgstr "%d/%m/%Y"
-
-#~ msgid "Summary:"
-#~ msgstr "Özet:"
-
-#~ msgid ""
-#~ "Default reminder snooze interval, in minutes, to be filled in the "
-#~ "reminder notification dialog"
-#~ msgstr ""
-#~ "Dakika cinsinden öntanımlı hatırlatıcı erteleme süresi, hatırlatıcı "
-#~ "bildirimi iletişim penceresinde belirlenecektir"
-
-#~ msgid "Allow past reminders"
-#~ msgstr "Geçmiş hatırlatıcılara izin ver"
-
-#~ msgid ""
-#~ "Whether can show reminders for events/tasks/memos which already happened"
-#~ msgstr ""
-#~ "Zaten gerçekleşmiş olaylar/görevler/notlar için hatırlatıcı gösterilip "
-#~ "gösterilemeyeceği"
-
-#~ msgid "Reminder programs"
-#~ msgstr "Hatılatıcı programlar"
-
-#~ msgid "Programs that are allowed to be run by reminders"
-#~ msgstr "Hatırlatıcılar tarafından çalıştırılmasına izin verilen programlar"
-
-#~ msgid "Show display reminders in notification tray"
-#~ msgstr "Hatırlatıcıları ileti tepsisinde göster"
-
-#~ msgid "Whether or not to use the notification tray for display reminders"
-#~ msgstr ""
-#~ "Hatırlatıcıların ileti tepsisi kullanılarak gösterilip gösterilmeyeceği"
-
-#~ msgid "Show reminder notification dialog always on top"
-#~ msgstr "Hatırlatıcı bildirim penceresini her zaman üstte göster"
-
-#~ msgid ""
-#~ "Whether or not to show reminder notification dialog always on top. Note "
-#~ "this works only as a hint for the window manager, which may or may not "
-#~ "obey it."
-#~ msgstr ""
-#~ "Hatırlatıcı bildirim penceresinin her zaman üstte gösterilip "
-#~ "gösterilmeyeceği. Bu, pencere yöneticisi için yalnızca bir ipucu olarak "
-#~ "çalışmaktadır, uyup uymamak pencere yöneticisine bağlıdır."
-
-#~ msgid "Show reminders for completed tasks"
-#~ msgstr "Tamamlanan görevlerin hatırlatıcılarını göster"
-
-#~ msgid ""
-#~ "Whether to show reminders for completed tasks. When set to false, "
-#~ "reminders for completed tasks are suppressed."
-#~ msgstr ""
-#~ "Tamamlanan görevlerin hatırlatıcılarının gösterilip gösterilmeyeceği. "
-#~ "Olumsuz değere ayarlandığında, tamamlanan görevlerin hatırlatıcıları "
-#~ "baskılanır."
-
-#~ msgid "Evolution Alarm Notify"
-#~ msgstr "Evolution Alarm Bildirimi"
-
-#~ msgid "Calendar event notifications"
-#~ msgstr "Takvim olay bildirimleri"
-
-#~ msgid "minute"
-#~ msgid_plural "minutes"
-#~ msgstr[0] "dakika"
-
-#~ msgid "hour"
-#~ msgid_plural "hours"
-#~ msgstr[0] "saat"
-
-#~ msgid "day"
-#~ msgid_plural "days"
-#~ msgstr[0] "gün"
-
-#~ msgid "Start time"
-#~ msgstr "Başlangıç zamanı"
-
-#~ msgid "Appointments"
-#~ msgstr "Randevular"
-
-#~ msgid "Dismiss _All"
-#~ msgstr "Tümünü İ_ptal Et"
-
-#~ msgid "_Snooze"
-#~ msgstr "_Dinlenme"
-
-#~ msgid "location of appointment"
-#~ msgstr "randevunun konumu"
-
-#~ msgid "Snooze _time:"
-#~ msgstr "Dinlenme _zamanı:"
-
-#~ msgid "No summary available."
-#~ msgstr "Hiçbir özet yok."
-
-#~ msgid "No description available."
-#~ msgstr "Açıklama yok."
-
-#~ msgid "No location information available."
-#~ msgstr "Hiçbir konum bilgisi yok."
-
-#~ msgid "Evolution Reminders"
-#~ msgstr "Evolution Anımsatıcıları"
-
-#~ msgid "You have %d reminder"
-#~ msgid_plural "You have %d reminders"
-#~ msgstr[0] "%d hatırlatıcı var"
-
-#~ msgid "Warning"
-#~ msgstr "Uyarı"
-
-#~ msgid "_Yes"
-#~ msgstr "_Evet"
-
-#~ msgid ""
-#~ "An Evolution Calendar reminder is about to trigger. This reminder is "
-#~ "configured to run the following program:\n"
-#~ "\n"
-#~ "        %s\n"
-#~ "\n"
-#~ "Are you sure you want to run this program?"
-#~ msgstr ""
-#~ "Bir Evolution Takvim hatırlatıcısı oluşmak üzere. Bu hatırlatıcı "
-#~ "aşağıdaki uygulamayı çalıştırmak üzere yapılandırılmış:\n"
-#~ "\n"
-#~ "        %s\n"
-#~ "\n"
-#~ "Bu programı çalıştırmak istediğinizden emin misiniz?"
-
-#~ msgid "Do not ask me about this program again."
-#~ msgstr "Bu program hakkında bir daha sorma."
-
-#~ msgid "invalid time"
-#~ msgstr "geçersiz zaman"
-
-#~ msgid "_Delete old messages"
-#~ msgstr "Eski iletileri _sil"
-
-#~ msgid "AutoArchive"
-#~ msgstr "OtomatikArşivleme"
-
-#~ msgid ""
-#~ "This is the method Evolution will use to authenticate you.  Note that "
-#~ "setting this to “Using email address” requires anonymous access to your "
-#~ "LDAP server."
-#~ msgstr ""
-#~ "Bu evolution’ın kimlik doğrulamasında kullanacağı yöntemdir. Bunu “eposta "
-#~ "adresi kullan” olarak ayarlayabilmeniz için LDAP sunucusunda anomin "
-#~ "erişim olması gerekir."
-
-#~ msgid "Default _snooze time (in minutes)"
-#~ msgstr "Öntanımlı _erteleme zamanı (dakika cinsinden)"
-
-#~ msgid "Look up e-mail domain on the GNOME server"
-#~ msgstr "E-posta alan adına GNOME sunucusundan bak"
-
-#~ msgid "Quick _Reference"
-#~ msgstr "Hızlı _Başvuru"
-
-#~ msgid "_Quick Reference"
-#~ msgstr "_Hızlı Referans"
-
-#~ msgid "Show Evolution’s shortcut keys"
-#~ msgstr "Evolution’un kısayol tuşlarını göster"
-
-#~ msgid "This meeting recurs"
-#~ msgstr "Bu toplantı tekrarlanır"
-
-#~ msgid "This task recurs"
-#~ msgstr "Bu görev tekrarlanır"
-
-#~ msgid "This memo recurs"
-#~ msgstr "Bu not tekrarlanır"
-
-#~ msgid ""
-#~ "Check to make sure your password is spelled correctly and that you are "
-#~ "using a supported login method. Remember that many passwords are case "
-#~ "sensitive; your caps lock might be on."
-#~ msgstr ""
-#~ "Parolanızın doğru yazıldığından ve desteklenen bir giriş yöntemi "
-#~ "kullandığınızdan emin olun. Unutmayın ki çoğu parola büyük küçük harfe "
-#~ "duyarlıdır, caps lock tuşunuz açık olabilir."
-
-#~ msgid "1st"
-#~ msgstr "1."
-
-#~ msgid "2nd"
-#~ msgstr "2."
-
-#~ msgid "3rd"
-#~ msgstr "3."
-
-#~ msgid "4th"
-#~ msgstr "4."
-
-#~ msgid "5th"
-#~ msgstr "5."
-
-#~ msgid "6th"
-#~ msgstr "6."
-
-#~ msgid "7th"
-#~ msgstr "7."
-
-#~ msgid "8th"
-#~ msgstr "8."
-
-#~ msgid "9th"
-#~ msgstr "9."
-
-#~ msgid "10th"
-#~ msgstr "10."
-
-#~ msgid "11th"
-#~ msgstr "11."
-
-#~ msgid "12th"
-#~ msgstr "12."
-
-#~ msgid "13th"
-#~ msgstr "13."
-
-#~ msgid "14th"
-#~ msgstr "14."
-
-#~ msgid "15th"
-#~ msgstr "15."
-
-#~ msgid "16th"
-#~ msgstr "16."
-
-#~ msgid "17th"
-#~ msgstr "17."
-
-#~ msgid "18th"
-#~ msgstr "18."
-
-#~ msgid "19th"
-#~ msgstr "19."
-
-#~ msgid "20th"
-#~ msgstr "20."
-
-#~ msgid "21st"
-#~ msgstr "21."
-
-#~ msgid "22nd"
-#~ msgstr "22."
-
-#~ msgid "23rd"
-#~ msgstr "23."
-
-#~ msgid "24th"
-#~ msgstr "24."
-
-#~ msgid "25th"
-#~ msgstr "25."
-
-#~ msgid "26th"
-#~ msgstr "26."
-
-#~ msgid "27th"
-#~ msgstr "27."
-
-#~ msgid "28th"
-#~ msgstr "28."
-
-#~ msgid "29th"
-#~ msgstr "29."
-
-#~ msgid "30th"
-#~ msgstr "30."
-
-#~ msgid "31st"
-#~ msgstr "31."
-
-#~ msgid "OAuth2 Google"
-#~ msgstr "OAuth2 Google"
-
-#~ msgid ""
-#~ "This option will use an OAuth 2.0 access token to connect to the Google "
-#~ "server"
-#~ msgstr ""
-#~ "Bu seçenek ile Google sunucusuna bağlanmak için OAuth 2.0 erişim fişi "
-#~ "kullanılacak"
-
-#~ msgid "OAuth2"
-#~ msgstr "OAuth2"
-
-#~ msgid ""
-#~ "This option will use an OAuth 2.0 access token to connect to the server"
-#~ msgstr ""
-#~ "Bu seçenek ile sunucuya bağlanmak için OAuth 2.0 erişim jetonu "
-#~ "kullanılacak"
-
-#~ msgid "Delete address book '{0}'?"
-#~ msgstr "'{0}' adres defterini sil?"
-
-#~ msgid "Specify the output file instead of standard output"
-#~ msgstr "Standart çıktı yerine bir çıktı dosyası belirtin"
-
-#~ msgid "OUTPUTFILE"
-#~ msgstr "ÇIKTIDOSYASI"
-
-#~ msgid "List local address book folders"
-#~ msgstr "Yerel adres defteri klasörlerini listele"
-
-#~ msgid "Show cards as vcard or csv file"
-#~ msgstr "Kartları vcard ya da csv dosyası olarak göster"
-
-#~ msgid "[vcard|csv]"
-#~ msgstr "[vcard|csv]"
-
-#~ msgid ""
-#~ "Command line arguments error, please use --help option to see the usage."
-#~ msgstr ""
-#~ "Komut satırı parametre hatası, lütfen kullanımı görmek için --help "
-#~ "seçeneğini kullanın."
-
-#~ msgid "Only support csv or vcard format."
-#~ msgstr "Sadece csv ya da vcard biçimi desteği."
-
-#~ msgid "Unhandled error"
-#~ msgstr "Düzeltilemeyen hata"
-
-#~ msgid "Failed to open client '%s': %s"
-#~ msgstr "'%s' istemcisini açma işlemi başarısız oldu: %s"
-
-#~ msgid "Delete calendar '{0}'?"
-#~ msgstr "\"{0}\" takvimi silinsin mi?"
-
-#~ msgid "Delete task list '{0}'?"
-#~ msgstr "'{0}' görev listesi silinsin mi?"
-
-#~ msgid "Delete memo list '{0}'?"
-#~ msgstr "'{0}' not listesi silinsin mi?"
-
-#~ msgid "Delete remote calendar '{0}'?"
-#~ msgstr "\"{0}\" uzak takvimi silinsin mi?"
-
-#~ msgid "Delete remote task list '{0}'?"
-#~ msgstr "'{0}' uzak görev listesi silinsin mi?"
-
-#~ msgid "Delete remote memo list '{0}'?"
-#~ msgstr "'{0}' uzak not listesi silinsin mi?"
-
-#~ msgid "Canceled"
-#~ msgstr "İptal Edildi"
-
-#~ msgctxt "ECompEditor"
-#~ msgid "Canceled"
-#~ msgstr "İptal Edildi"
-
-#~ msgid "Because &quot;{1}&quot;."
-#~ msgstr "Çünkü &quot;{1}&quot;."
-
-#~ msgid "Enable developer mode"
-#~ msgstr "Geliştirici kipini etkinleştir"
-
-#~ msgid ""
-#~ "Enables some hidden actions and tools aimed for development and debugging."
-#~ msgstr ""
-#~ "Geliştirme ve hata ayıklama amaçlı gizli eylemleri ve araçları "
-#~ "etkinleştirir."
-
-#~ msgid "Logfile to log filter actions."
-#~ msgstr "Filtre eylemlerinin yazılacağı günlük dosyası."
-
-#~ msgid "Signature exists, but need public key"
-#~ msgstr "İmza mevcut, ancak genel anahtara ihtiyaç var"
-
-#~ msgid "Could not open '%s'"
-#~ msgstr "'%s' açılamadı"
-
-#~ msgid "Open Inspector"
-#~ msgstr "Denetleyiciyi Aç"
-
-#~ msgid "_Blockquote"
-#~ msgstr "_Blok alıntı"
-
-#~ msgid "Changed property"
-#~ msgstr "Değişmiş özellik"
-
-#~ msgid "Whether editor changed"
-#~ msgstr "Hava durumu düzenleyici değişti"
-
-#~ msgid "Canceled."
-#~ msgstr "İptal edildi."
-
-#~ msgctxt "PGPKeyDescription"
-#~ msgid "%s - %s"
-#~ msgstr "%s - %s"
-
-#~ msgid "SSL"
-#~ msgstr "SSL"
-
-#~ msgid "Use Unicode characters for smile_ys"
-#~ msgstr "Gülme sim_geleri için evrensel karakterler kullan"
-
-#~ msgid "Failed to connect account &quot;{0}&quot;."
-#~ msgstr "&quot;{0}&quot; hesabının bağlanması başarısız. "
-
-#~ msgid "Address formatting"
-#~ msgstr "Adres biçimlendirme"
-
-#~ msgid "Selected Calendars for Alarms"
-#~ msgstr "Uyarılar için Seçilen Takvimler"
-
-#~ msgid "Sh_ow a reminder"
-#~ msgstr "_Her randevudan önce"
-
-#~ msgid "Evolution Web Inspector"
-#~ msgstr "Evolution Web Denetçisi"
