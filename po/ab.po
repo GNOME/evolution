@@ -3,7 +3,7 @@ msgstr ""
 "Report-Msgid-Bugs-To: https://gitlab.gnome.org/GNOME/evolution/issues\n"
 "POT-Creation-Date: 2022-07-22 06:40+0000\n"
 "Last-Translator: Нанба Наала <naala-nanba@rambler.ru>\n"
-"Language-Team: Abkhazian <ab@li.org>\n"
+"Language-Team: Abkhazian <daniel.abzakh@gmail.com>\n"
 "Language: ab\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -400,7 +400,7 @@ msgstr ""
 
 #: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:40
 msgid "The second timezone for a Day View"
-msgstr ""
+msgstr "Аҩынтәтәи асааҭзона амш ахҳәааҟны"
 
 #: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:41
 msgid ""
@@ -878,7 +878,7 @@ msgstr ""
 
 #: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:151
 msgid "Tuesday is a work day"
-msgstr ""
+msgstr "Аҩаша - аусура амш"
 
 #: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:152
 msgid "Wednesday is a work day"
@@ -1062,7 +1062,7 @@ msgstr ""
 
 #: ../data/org.gnome.evolution.gschema.xml.in.h:8
 msgid "The window’s height in pixels"
-msgstr ""
+msgstr "Аԥенџьыр аҳаракыра пиксельла"
 
 #: ../data/org.gnome.evolution.gschema.xml.in.h:9
 msgid "Whether the window is maximized"
@@ -2684,7 +2684,7 @@ msgstr ""
 #. indicate that an attachment should have been attached to the message.
 #: ../data/org.gnome.evolution.plugin.attachment-reminder.gschema.xml.in.h:4
 msgid "['attachment','attaching','attached','enclosed']"
-msgstr ""
+msgstr "['аттач','аҭаҵа','attachment','attaching','attached','enclosed']"
 
 #: ../data/org.gnome.evolution.plugin.attachment-reminder.gschema.xml.in.h:5
 msgid ""
@@ -3082,7 +3082,7 @@ msgstr ""
 
 #: ../data/org.gnome.evolution.shell.gschema.xml.in.h:27
 msgid "Sidebar is visible"
-msgstr ""
+msgstr "Иубарҭоу аваратәи апанель"
 
 #: ../data/org.gnome.evolution.shell.gschema.xml.in.h:28
 msgid "Whether the sidebar should be visible."
@@ -3191,7 +3191,7 @@ msgstr ""
 
 #: ../data/org.gnome.evolution.text-highlight.gschema.xml.in.h:1
 msgid "Whether the text-highlight module is enabled"
-msgstr ""
+msgstr "Иаҿакума атекст алкаара амодуль"
 
 #: ../data/org.gnome.evolution.text-highlight.gschema.xml.in.h:2
 msgid "Theme name to use, defaults to “bclear”"
@@ -3551,7 +3551,7 @@ msgstr ""
 #: ../data/views/addressbook/galview.xml.h:2
 #: ../data/views/calendar/galview.xml.h:6
 msgid "_List View"
-msgstr ""
+msgstr "Ахьӡынҵа_аԥшра аҭаны"
 
 #: ../data/views/addressbook/galview.xml.h:3
 msgid "By _Company"
@@ -4125,12 +4125,12 @@ msgstr ""
 
 #: ../src/addressbook/gui/contact-editor/contact-editor.ui.h:35
 msgid "_Blog:"
-msgstr ""
+msgstr "_Аблог:"
 
 #. Translators: an accessibility name
 #: ../src/addressbook/gui/contact-editor/contact-editor.ui.h:37
 msgid "Blog:"
-msgstr ""
+msgstr "Аблог:"
 
 #: ../src/addressbook/gui/contact-editor/contact-editor.ui.h:38
 msgid "Web Addresses"
@@ -4362,7 +4362,7 @@ msgstr ""
 #: ../src/smime/gui/certificate-manager.c:677
 #: ../src/smime/gui/certificate-manager.c:962
 msgid "All files"
-msgstr ""
+msgstr "Афаилқәа зегьы"
 
 #: ../src/addressbook/gui/contact-editor/e-contact-editor.c:3273
 msgid "Open PGP key"
@@ -4868,12 +4868,12 @@ msgstr ""
 
 #: ../src/addressbook/gui/widgets/eab-contact-formatter.c:1383
 msgid "Blog"
-msgstr ""
+msgstr "Аблог"
 
 #: ../src/addressbook/gui/widgets/eab-contact-merging.c:261
 #: ../src/e-util/e-mail-signature-editor.c:626
 msgid "Unnamed"
-msgstr "Ихьӡыдоу"
+msgstr "Хьӡыда"
 
 #: ../src/addressbook/gui/widgets/eab-contact-merging.c:350
 #: ../src/calendar/gui/tasktypes.xml.in.h:14 ../src/mail/mail-send-recv.c:1143
@@ -5596,7 +5596,7 @@ msgstr ""
 
 #: ../src/calendar/calendar.error.xml.h:11
 msgid "Would you like to send a cancellation notice for this memo?"
-msgstr ""
+msgstr "Ари азгәаҭа аԥыхра иазкны адырра шәышьҭыр шәҭахума?"
 
 #: ../src/calendar/calendar.error.xml.h:12
 msgid ""
@@ -6169,7 +6169,7 @@ msgstr ""
 
 #: ../src/calendar/calendar.error.xml.h:179
 msgid "Do you want to detach event from the series?"
-msgstr ""
+msgstr "Ишәҭахума шәара ахҭыс асериа аҟынтә аҿыгара ? "
 
 #: ../src/calendar/calendar.error.xml.h:180
 msgid ""
@@ -6342,7 +6342,7 @@ msgstr ""
 
 #: ../src/calendar/gui/caltypes.xml.in.h:23
 msgid "More Than"
-msgstr "Иҵегь ахышәарақәа..."
+msgstr " Еиҳа еиҳауп"
 
 #: ../src/calendar/gui/caltypes.xml.in.h:24
 #: ../src/calendar/gui/memotypes.xml.in.h:17
@@ -6863,7 +6863,7 @@ msgstr ""
 
 #: ../src/calendar/gui/e-cal-component-preview.c:588
 msgid "Web Page:"
-msgstr ""
+msgstr "Веб-адаҟьа:"
 
 #: ../src/calendar/gui/e-cal-data-model.c:1733
 #, c-format
@@ -6930,7 +6930,7 @@ msgstr ""
 
 #: ../src/calendar/gui/e-cal-dialogs.c:711
 msgid "April"
-msgstr "Мшаԥы"
+msgstr "Мшаԥымза"
 
 #: ../src/calendar/gui/e-cal-dialogs.c:712
 msgid "May"
@@ -6967,7 +6967,7 @@ msgstr ""
 #: ../src/calendar/gui/e-cal-dialogs.c:871
 #, c-format
 msgid "You are modifying a recurring event. What would you like to modify?"
-msgstr ""
+msgstr "Шәара еиҭаҟало ахҭыс шәыԥсахоит. Иарбан ишәыԥсахҵәҟьар ишәҭаху?"
 
 #: ../src/calendar/gui/e-cal-dialogs.c:873
 #, c-format
@@ -6977,12 +6977,12 @@ msgstr ""
 #: ../src/calendar/gui/e-cal-dialogs.c:877
 #, c-format
 msgid "You are modifying a recurring task. What would you like to modify?"
-msgstr ""
+msgstr "Шәара еиҭаҟало аҳасабтә шәыԥсахоит. Иарбан ишәыԥсахҵәҟьар ишәҭаху?"
 
 #: ../src/calendar/gui/e-cal-dialogs.c:881
 #, c-format
 msgid "You are modifying a recurring memo. What would you like to modify?"
-msgstr ""
+msgstr "Шәара еиҭаҟало азгәаҭа шәыԥсахоит. Иарбан ишәыԥсахҵәҟьар ишәҭаху?"
 
 #: ../src/calendar/gui/e-cal-dialogs.c:908
 msgid "This Instance Only"
@@ -7058,7 +7058,7 @@ msgstr ""
 #: ../src/calendar/gui/e-calendar-view.c:1181
 #: ../src/calendar/gui/e-calendar-view.c:1182
 msgid "%d %b %Y"
-msgstr ""
+msgstr "%d %b. %Y"
 
 #. strftime format %d = day of month, %b = abbreviated month name.
 #. * Don't use any other specifiers.
@@ -7074,7 +7074,7 @@ msgstr "%d %b"
 
 #: ../src/calendar/gui/e-calendar-view.c:1188
 msgid "%A %d %b %Y"
-msgstr ""
+msgstr "%A, %d %b. %Y"
 
 #. strftime format %a = abbreviated weekday name, %d = day of month,
 #. * %b = abbreviated month name. Don't use any other specifiers.
@@ -7087,13 +7087,13 @@ msgstr ""
 #: ../src/calendar/gui/e-day-view-top-item.c:852
 #: ../src/calendar/gui/e-week-view-main-item.c:216
 msgid "%a %d %b"
-msgstr ""
+msgstr "%a, %d %b"
 
 #: ../src/calendar/gui/e-calendar-view.c:1191
 #: ../src/calendar/gui/e-calendar-view.c:1193
 #: ../src/calendar/gui/e-calendar-view.c:1194
 msgid "%a %d %b %Y"
-msgstr ""
+msgstr "%a, %d %b. %Y"
 
 #. Translators: the '%s' stands for a component summary, the '%d' for the years.
 #. The string is used for Birthday & Anniversary events where the first year is
@@ -7234,7 +7234,7 @@ msgstr ""
 
 #: ../src/calendar/gui/e-cal-model-tasks.c:557
 msgid "In Progress"
-msgstr ""
+msgstr "Апроцесс аҟны"
 
 #: ../src/calendar/gui/e-cal-ops.c:317
 msgid "Modifying an event"
@@ -7405,12 +7405,12 @@ msgstr[1] ""
 #. strftime format of a weekday, a date and a time, 24-hour.
 #: ../src/calendar/gui/e-cell-date-edit-text.c:177
 msgid "%a %m/%d/%Y %H:%M:%S"
-msgstr ""
+msgstr "%a, %d.%m.%Y %H:%M:%S"
 
 #. strftime format of a weekday, a date and a time, 12-hour.
 #: ../src/calendar/gui/e-cell-date-edit-text.c:180
 msgid "%a %m/%d/%Y %I:%M:%S %p"
-msgstr ""
+msgstr "%a, %d.%m.%Y %I:%M:%S %p"
 
 #: ../src/calendar/gui/e-cell-date-edit-text.c:188
 #, c-format
@@ -7694,12 +7694,12 @@ msgstr ""
 #: ../src/calendar/gui/e-comp-editor-page-attachments.c:802
 #: ../src/e-util/e-attachment-bar.c:716 ../src/e-util/e-attachment-paned.c:690
 msgid "Icon View"
-msgstr ""
+msgstr "Адыргаҷақәа рыԥшра рыҭаны"
 
 #: ../src/calendar/gui/e-comp-editor-page-attachments.c:804
 #: ../src/e-util/e-attachment-bar.c:718 ../src/e-util/e-attachment-paned.c:692
 msgid "List View"
-msgstr ""
+msgstr "Ахьӡынҵа аԥшра аҭаны"
 
 #: ../src/calendar/gui/e-comp-editor-page-general.c:322
 #, c-format
@@ -7827,7 +7827,7 @@ msgstr ""
 #. * (dropdown menu options are in [square brackets]). This means that after the 'on', name of a week day always follows.
 #: ../src/calendar/gui/e-comp-editor-page-recurrence.c:503
 msgid "on"
-msgstr "аҟны"
+msgstr "иаҿакуп"
 
 #. TRANSLATORS: Entire string is for example: This appointment recurs/Every [x] month(s) on the [first] [Monday] [forever]'
 #. * (dropdown menu options are in [square brackets]). This means that after 'first', either the string 'day' or
@@ -8262,7 +8262,7 @@ msgstr ""
 
 #: ../src/calendar/gui/e-comp-editor-page-reminders.c:2629
 msgid "_Arguments:"
-msgstr ""
+msgstr "_Аҵаҵӷәқәа:"
 
 #: ../src/calendar/gui/e-comp-editor-page-reminders.c:2661
 msgid "_Send To:"
@@ -8612,7 +8612,7 @@ msgstr ""
 #: ../src/shell/e-shell-window-actions.c:1157
 #: ../src/smime/gui/certificate-manager.c:1657 ../src/smime/gui/smime-ui.ui.h:3
 msgid "_View"
-msgstr ""
+msgstr "_Аԥшра"
 
 #: ../src/calendar/gui/e-comp-editor.c:2283
 msgid "Save current changes"
@@ -8642,7 +8642,7 @@ msgstr ""
 #: ../src/calendar/gui/e-week-view-main-item.c:207
 #: ../src/calendar/gui/print.c:2143
 msgid "%A %d %B"
-msgstr ""
+msgstr "%A, %d %b"
 
 #. To Translators: the %d stands for a week number, it's value between 1 and 52/53
 #: ../src/calendar/gui/e-day-view.c:3926
@@ -8809,7 +8809,7 @@ msgstr ""
 #: ../src/calendar/gui/e-meeting-store.c:189
 #: ../src/calendar/gui/e-meeting-store.c:212
 msgid "In Process"
-msgstr ""
+msgstr "Апроцесс аҟны"
 
 #: ../src/calendar/gui/e-meeting-store.c:2014
 #, c-format
@@ -9313,7 +9313,7 @@ msgstr ""
 #. G_DATE_TUESDAY
 #: ../src/calendar/gui/print.c:757
 msgid "Tu"
-msgstr ""
+msgstr "Аҩ"
 
 #. G_DATE_WEDNESDAY
 #: ../src/calendar/gui/print.c:758
@@ -9338,7 +9338,7 @@ msgstr ""
 #. G_DATE_SUNDAY
 #: ../src/calendar/gui/print.c:762
 msgid "Su"
-msgstr ""
+msgstr "Амҽ"
 
 #. Translators: This is part of "START to END" text,
 #. * where START and END are date/times.
@@ -9439,7 +9439,7 @@ msgstr ""
 #: ../src/mail/filtertypes.xml.in.h:31 ../src/mail/searchtypes.xml.in.h:33
 #: ../src/mail/vfoldertypes.xml.in.h:33
 msgid "is greater than"
-msgstr "Иҵегь ахышәарақәа..."
+msgstr " Еиҳа еиҳауп"
 
 #: ../src/calendar/gui/tasktypes.xml.in.h:27
 #: ../src/mail/filtertypes.xml.in.h:32 ../src/mail/searchtypes.xml.in.h:34
@@ -10394,7 +10394,7 @@ msgstr "Америка/Иеллоунаиф"
 
 #: ../src/calendar/zones.h:196
 msgid "Antarctica/Casey"
-msgstr ""
+msgstr "Антарктида/Кеиси"
 
 #: ../src/calendar/zones.h:197
 msgid "Antarctica/Davis"
@@ -10430,7 +10430,7 @@ msgstr "Антарктика/Восток"
 
 #: ../src/calendar/zones.h:205
 msgid "Arctic/Longyearbyen"
-msgstr ""
+msgstr "Арктика/Лонгир"
 
 #: ../src/calendar/zones.h:206
 msgid "Asia/Aden"
@@ -10746,47 +10746,47 @@ msgstr "Азиа/Ереван"
 
 #: ../src/calendar/zones.h:284
 msgid "Atlantic/Azores"
-msgstr ""
+msgstr "Атлантика/Азоры"
 
 #: ../src/calendar/zones.h:285
 msgid "Atlantic/Bermuda"
-msgstr ""
+msgstr "Атлантика/Бермудақәа"
 
 #: ../src/calendar/zones.h:286
 msgid "Atlantic/Canary"
-msgstr ""
+msgstr "Атлантика/Канарақәа"
 
 #: ../src/calendar/zones.h:287
 msgid "Atlantic/Cape_Verde"
-msgstr ""
+msgstr "Атлантика/Кеип Верде"
 
 #: ../src/calendar/zones.h:288
 msgid "Atlantic/Faeroe"
-msgstr ""
+msgstr "Атлантика/Фаеро"
 
 #: ../src/calendar/zones.h:289
 msgid "Atlantic/Jan_Mayen"
-msgstr ""
+msgstr "Атлантикатә океан/о-в Иан-Маиен"
 
 #: ../src/calendar/zones.h:290
 msgid "Atlantic/Madeira"
-msgstr ""
+msgstr "Атлантика/Мадера"
 
 #: ../src/calendar/zones.h:291
 msgid "Atlantic/Reykjavik"
-msgstr ""
+msgstr "Атлантика/Реикиавик"
 
 #: ../src/calendar/zones.h:292
 msgid "Atlantic/South_Georgia"
-msgstr ""
+msgstr "Атлантикатә океан/о-в Аладатәи Георгиа"
 
 #: ../src/calendar/zones.h:293
 msgid "Atlantic/St_Helena"
-msgstr ""
+msgstr "Атлантика/Св.Елена"
 
 #: ../src/calendar/zones.h:294
 msgid "Atlantic/Stanley"
-msgstr ""
+msgstr "Атлантикатә океан/Стенли"
 
 #: ../src/calendar/zones.h:295
 msgid "Australia/Adelaide"
@@ -11583,7 +11583,7 @@ msgstr ""
 msgid ""
 "Are you sure you want to discard the message, titled “{0}”, you are "
 "composing?"
-msgstr ""
+msgstr "Аус здыжәуло ацҳамҭа «{0}» анышәхыр шышәҭаху агәра ганы шәыҟоума?"
 
 #: ../src/composer/mail-composer.error.xml.h:14
 msgid ""
@@ -11603,7 +11603,7 @@ msgstr ""
 
 #: ../src/composer/mail-composer.error.xml.h:19
 msgid "Are you sure you want to discard the message you are composing?"
-msgstr ""
+msgstr "Аус здыжәуло ацҳамҭа анышәхыр шышәҭаху агәра ганы шәыҟоума?"
 
 #: ../src/composer/mail-composer.error.xml.h:20
 msgid "Could not create message."
@@ -11615,6 +11615,9 @@ msgid ""
 "\n"
 "Detailed error: {0}"
 msgstr ""
+"Шәара аԥошьҭа егьырҭ ахышәарақәа азалшәхыр акәхоит.\n"
+"\n"
+"Амзыз: {0}"
 
 #: ../src/composer/mail-composer.error.xml.h:24
 msgid "Could not read signature file “{0}”."
@@ -11712,7 +11715,7 @@ msgstr ""
 
 #: ../src/composer/mail-composer.error.xml.h:46
 msgid "Are you sure you want to convert the message into a meeting?"
-msgstr ""
+msgstr "Шәара агәра ганы шәыҟоума ацҳамҭа аизара ахь еиҭашәкыр шышәҭаху?"
 
 #: ../src/composer/mail-composer.error.xml.h:47
 msgid ""
@@ -11726,7 +11729,7 @@ msgstr ""
 
 #: ../src/composer/mail-composer.error.xml.h:49
 msgid "Are you sure you want to convert the event into a message?"
-msgstr ""
+msgstr "Шәара агәра ганы шәыҟоума ахҭыс ацҳамҭа ахь еиҭашәкыр шышәҭаху?"
 
 #: ../src/composer/mail-composer.error.xml.h:50
 msgid ""
@@ -11740,7 +11743,7 @@ msgstr ""
 
 #: ../src/composer/mail-composer.error.xml.h:52
 msgid "Are you sure you want to convert the memo into a message?"
-msgstr ""
+msgstr "Шәара агәра ганы шәыҟоума азгәаҭа ацҳамҭа ахь еиҭашәкыр шышәҭаху?"
 
 #: ../src/composer/mail-composer.error.xml.h:53
 msgid ""
@@ -11750,7 +11753,7 @@ msgstr ""
 
 #: ../src/composer/mail-composer.error.xml.h:54
 msgid "Are you sure you want to convert the task into a message?"
-msgstr ""
+msgstr "Шәара агәра ганы шәыҟоума аҳасабтә ацҳамҭа ахь еиҭашәкыр шышәҭаху?"
 
 #: ../src/composer/mail-composer.error.xml.h:55
 msgid ""
@@ -11787,7 +11790,7 @@ msgstr ""
 
 #: ../src/em-format/e-mail-formatter-audio.c:151
 msgid "Audio Player"
-msgstr ""
+msgstr "Аудиорҳәага"
 
 #: ../src/em-format/e-mail-formatter-audio.c:152
 msgid "Play the attachment in embedded audio player"
@@ -12207,7 +12210,7 @@ msgstr ""
 
 #: ../src/e-util/ea-calendar-item.c:312 ../src/e-util/ea-calendar-item.c:321
 msgid "%d %B %Y"
-msgstr ""
+msgstr "%d %b. %Y"
 
 #: ../src/e-util/ea-calendar-item.c:324
 #, c-format
@@ -12253,7 +12256,7 @@ msgstr ""
 #: ../src/plugins/mail-notification/mail-notification.c:1179
 #: ../src/plugins/publish-calendar/publish-calendar.c:853
 msgid "Enabled"
-msgstr ""
+msgstr "Иаҿакуп"
 
 #: ../src/e-util/e-accounts-window.c:1425
 #: ../src/mail/e-mail-account-tree-view.c:108
@@ -12331,7 +12334,7 @@ msgstr ""
 #: ../src/e-util/e-activity.c:264
 #, c-format
 msgid "%s"
-msgstr "%s"
+msgstr " %s"
 
 #. Translators: This is a running activity whose
 #. *              percent complete is known.
@@ -12476,7 +12479,7 @@ msgstr ""
 
 #: ../src/e-util/e-attachment-store.c:721
 msgid "Archive selected directories using this format:"
-msgstr ""
+msgstr "Иалху аҭаӡқәа ари аформат алхны архивтәра:"
 
 #: ../src/e-util/e-attachment-store.c:838
 msgid "Save Attachment"
@@ -12663,7 +12666,7 @@ msgstr ""
 
 #: ../src/e-util/e-category-editor.c:170
 msgid "_No Image"
-msgstr ""
+msgstr "_Сахьада"
 
 #: ../src/e-util/e-category-editor.c:204
 msgid "Category _Name"
@@ -12723,7 +12726,7 @@ msgstr ""
 
 #: ../src/e-util/e-charset.c:50
 msgid "Arabic"
-msgstr "Арабтәи"
+msgstr "Арабтә"
 
 #: ../src/e-util/e-charset.c:51
 msgid "Baltic"
@@ -13124,7 +13127,7 @@ msgstr ""
 
 #: ../src/e-util/e-color-combo.c:595
 msgid "cyan"
-msgstr ""
+msgstr "ахаҳәиаҵәатә"
 
 #: ../src/e-util/e-color-combo.c:596
 msgid "bright blue"
@@ -13193,7 +13196,7 @@ msgstr ""
 #: ../src/e-util/e-dateedit.c:695
 #: ../src/modules/calendar/e-calendar-preferences.ui.h:9
 msgid "Time"
-msgstr ""
+msgstr "Аамҭа"
 
 #: ../src/e-util/e-dateedit.c:772
 msgid "No_w"
@@ -13226,7 +13229,7 @@ msgstr ""
 
 #: ../src/e-util/e-datetime-format.c:220
 msgid "Yesterday"
-msgstr ""
+msgstr "Иацы"
 
 #. Translators: This is used for abbreviated days in the future.
 #. *         You can use strftime modifiers here too, like "Next %a", to avoid
@@ -13386,7 +13389,7 @@ msgstr ""
 #. Translators: :-S
 #: ../src/e-util/e-emoticon-chooser.c:60
 msgid "W_orried"
-msgstr ""
+msgstr "Згәы ҭ_ынчым"
 
 #. Translators: :-*
 #: ../src/e-util/e-emoticon-chooser.c:62
@@ -13406,7 +13409,7 @@ msgstr ""
 #. Translators: O:-)
 #: ../src/e-util/e-emoticon-chooser.c:68
 msgid "Ange_l"
-msgstr ""
+msgstr "_Амаалықь"
 
 #. Translators: :'(
 #: ../src/e-util/e-emoticon-chooser.c:70
@@ -13416,7 +13419,7 @@ msgstr ""
 #. Translators: :-Q
 #: ../src/e-util/e-emoticon-chooser.c:72
 msgid "S_ick"
-msgstr ""
+msgstr "И_чмазаҩу"
 
 #. Translators: |-)
 #: ../src/e-util/e-emoticon-chooser.c:74
@@ -13426,7 +13429,7 @@ msgstr ""
 #. Translators: >:-)
 #: ../src/e-util/e-emoticon-chooser.c:76
 msgid "De_vilish"
-msgstr ""
+msgstr "Иа_апку"
 
 #. Translators: :-(|)
 #: ../src/e-util/e-emoticon-chooser.c:78
@@ -13564,7 +13567,7 @@ msgstr ""
 #. strftime for date filter display, only needs to show a day date (i.e. no time)
 #: ../src/e-util/e-filter-datespec.c:139
 msgid "%d-%b-%Y"
-msgstr ""
+msgstr "%d-%b.-%Y"
 
 #: ../src/e-util/e-filter-datespec.c:297
 msgid "Select a time to compare against"
@@ -13636,7 +13639,7 @@ msgstr ""
 #: ../src/e-util/e-filter-rule.c:1515 ../src/e-util/filter.ui.h:1
 #: ../src/mail/em-filter-rule.c:986 ../src/mail/em-utils.c:166
 msgid "Incoming"
-msgstr ""
+msgstr "Иаашьҭу"
 
 #: ../src/e-util/e-filter-rule.c:1515 ../src/mail/em-filter-rule.c:987
 #: ../src/mail/em-utils.c:167
@@ -14356,7 +14359,7 @@ msgstr ""
 #: ../src/e-util/e-html-editor-hrule-dialog.c:310
 #: ../src/e-util/e-html-editor-table-dialog.c:641
 msgid "Right"
-msgstr ""
+msgstr "Арӷьарахь"
 
 #: ../src/e-util/e-html-editor-cell-dialog.c:494
 msgid "_Horizontal:"
@@ -14365,7 +14368,7 @@ msgstr ""
 #: ../src/e-util/e-html-editor-cell-dialog.c:502
 #: ../src/e-util/e-html-editor-image-dialog.c:668
 msgid "Top"
-msgstr ""
+msgstr "Хыхь"
 
 #: ../src/e-util/e-html-editor-cell-dialog.c:503
 #: ../src/e-util/e-html-editor-image-dialog.c:669
@@ -14520,7 +14523,7 @@ msgstr ""
 
 #: ../src/e-util/e-html-editor-image-dialog.c:640
 msgid "_Height:"
-msgstr ""
+msgstr "_Аҳаракыра:"
 
 #: ../src/e-util/e-html-editor-image-dialog.c:659
 msgid "Preserve aspect ratio"
@@ -14574,7 +14577,7 @@ msgstr ""
 
 #: ../src/e-util/e-html-editor-page-dialog.c:89
 msgid "Paper"
-msgstr ""
+msgstr "Ақьаад"
 
 #: ../src/e-util/e-html-editor-page-dialog.c:98
 msgid "Ribbon"
@@ -15214,7 +15217,7 @@ msgstr ""
 
 #: ../src/e-util/e-passwords.c:451
 msgid "You have the Caps Lock key on."
-msgstr ""
+msgstr "Caps Lock аҿакуп."
 
 #: ../src/e-util/e-passwords.c:583
 msgid "_Remember this passphrase"
@@ -15267,7 +15270,7 @@ msgstr ""
 
 #: ../src/e-util/e-proxy-editor.c:378
 msgid "Manual"
-msgstr ""
+msgstr "Напыла"
 
 #: ../src/e-util/e-proxy-editor.c:397
 msgid "_HTTP Proxy:"
@@ -15295,7 +15298,7 @@ msgstr ""
 
 #: ../src/e-util/e-proxy-editor.c:561
 msgid "No proxy"
-msgstr ""
+msgstr "Прокси ада"
 
 #: ../src/e-util/e-proxy-editor.c:564
 msgid "Use a direct connection, no proxying required."
@@ -15754,11 +15757,11 @@ msgstr ""
 
 #: ../src/e-util/e-table-config.c:387
 msgid "Not sorted"
-msgstr ""
+msgstr "Аилыԥшаарада"
 
 #: ../src/e-util/e-table-config.c:432
 msgid "No grouping"
-msgstr ""
+msgstr "аидыргәыԥларада"
 
 #: ../src/e-util/e-table-config.c:537
 msgid "Show Fields"
@@ -16493,7 +16496,7 @@ msgstr ""
 #: ../src/modules/mail/e-mail-shell-view-private.c:1036
 #: ../src/modules/mail/e-mail-shell-view-private.c:1047
 msgid "Inbox"
-msgstr ""
+msgstr "Иаашьҭу"
 
 #. E_MAIL_LOCAL_FOLDER_INBOX
 #: ../src/libemail-engine/e-mail-session.c:122
@@ -16988,7 +16991,7 @@ msgstr ""
 
 #: ../src/mail/e-mail-config-composing-page.c:588
 msgid "Always"
-msgstr ""
+msgstr "Еснагь"
 
 #: ../src/mail/e-mail-config-composing-page.c:594
 msgid "Ask for each message"
@@ -17037,7 +17040,7 @@ msgstr ""
 
 #: ../src/mail/e-mail-config-defaults-page.c:774
 msgid "Archi_ve Folder:"
-msgstr ""
+msgstr "Архив_тә ҭаӡ:"
 
 #: ../src/mail/e-mail-config-defaults-page.c:784
 #: ../src/modules/mail/em-mailer-prefs.c:1837
@@ -17680,7 +17683,7 @@ msgstr ""
 
 #: ../src/mail/e-mail-reader.c:2516
 msgid "_Archive…"
-msgstr ""
+msgstr "_Архивтәра…"
 
 #: ../src/mail/e-mail-reader.c:2518
 msgid "Move selected messages to the Archive folder for the account"
@@ -18413,7 +18416,7 @@ msgstr ""
 
 #: ../src/mail/e-mail-remote-content-popover.c:268
 msgid "Do not show this message again"
-msgstr ""
+msgstr "Ари ацҳамҭа уаҳа иаарԥштәым"
 
 #: ../src/mail/e-mail-remote-content-popover.c:320
 msgid "Load remote content"
@@ -18602,7 +18605,7 @@ msgstr ""
 
 #: ../src/mail/em-filter-editor.c:175 ../src/mail/em-filter-editor.c:179
 msgid "enabled"
-msgstr ""
+msgstr "Иаҿакуп"
 
 #: ../src/mail/em-filter-editor.c:175 ../src/mail/em-filter-editor.c:179
 msgid "disabled"
@@ -18704,7 +18707,7 @@ msgstr ""
 
 #: ../src/mail/em-folder-properties.c:942
 msgid "Archive this folder using these settings:"
-msgstr ""
+msgstr "Уажәтәи аҭаӡ архивтәра абарҭ архиаракәа шәхы иархәаны:"
 
 #. Translators: This text is part of "Auto-cleanup messages older than [X] [days/weeks/months]"
 #: ../src/mail/em-folder-properties.c:954
@@ -18761,12 +18764,12 @@ msgstr ""
 
 #: ../src/mail/em-folder-properties.c:1400
 msgid "Appearance"
-msgstr ""
+msgstr "Аԥшра"
 
 #. Translators: "Archive" is a noun (This is a tab heading in the mail folder properties)
 #: ../src/mail/em-folder-properties.c:1404
 msgid "Archive"
-msgstr "Архивтәра"
+msgstr "Архив"
 
 #: ../src/mail/em-folder-properties.c:1407 ../src/mail/mail-config.ui.h:128
 #: ../src/mail/message-list.etspec.h:19
@@ -19178,7 +19181,7 @@ msgstr ""
 #: ../src/mail/filtertypes.xml.in.h:30 ../src/mail/message-list.etspec.h:3
 #: ../src/mail/searchtypes.xml.in.h:32 ../src/mail/vfoldertypes.xml.in.h:32
 msgid "Score"
-msgstr ""
+msgstr "Акапан"
 
 #: ../src/mail/filtertypes.xml.in.h:33 ../src/mail/searchtypes.xml.in.h:35
 #: ../src/mail/vfoldertypes.xml.in.h:35
@@ -19188,7 +19191,7 @@ msgstr ""
 #: ../src/mail/filtertypes.xml.in.h:34 ../src/mail/searchtypes.xml.in.h:36
 #: ../src/mail/vfoldertypes.xml.in.h:36
 msgid "is greater than or equal to"
-msgstr ""
+msgstr "Еиҳаны ма еиҟараны"
 
 #: ../src/mail/filtertypes.xml.in.h:35 ../src/mail/searchtypes.xml.in.h:37
 #: ../src/mail/vfoldertypes.xml.in.h:37
@@ -19203,7 +19206,7 @@ msgstr ""
 #: ../src/mail/filtertypes.xml.in.h:39 ../src/mail/searchtypes.xml.in.h:42
 #: ../src/mail/vfoldertypes.xml.in.h:42
 msgid "Important"
-msgstr ""
+msgstr "Ихадоу"
 
 #. Past tense, as in "has been read".
 #: ../src/mail/filtertypes.xml.in.h:40 ../src/mail/mail-dialogs.ui.h:8
@@ -19826,7 +19829,7 @@ msgstr ""
 
 #: ../src/mail/mail-config.ui.h:111
 msgid "Archive Mail"
-msgstr ""
+msgstr "Аԥошьҭа архивтәра"
 
 #: ../src/mail/mail-config.ui.h:112
 msgid "Archive folder to use for On This Computer messages"
@@ -19834,7 +19837,7 @@ msgstr ""
 
 #: ../src/mail/mail-config.ui.h:113
 msgid "On This Computer A_rchive folder:"
-msgstr ""
+msgstr "Архивтә ҭаӡ 'Ари акомпиутер аҟны'"
 
 #. If enabled, show animation; if disabled, only display a static image without any animation
 #: ../src/mail/mail-config.ui.h:115
@@ -19959,7 +19962,7 @@ msgstr ""
 #: ../src/modules/mail-config/e-mail-config-remote-accounts.c:303
 #: ../src/modules/mail-config/e-mail-config-smtp-backend.c:247
 msgid "No encryption"
-msgstr ""
+msgstr "Ашифрркрада"
 
 #: ../src/mail/mail-config.ui.h:148
 msgid "TLS encryption"
@@ -20982,7 +20985,7 @@ msgstr ""
 
 #: ../src/mail/message-list.c:2206
 msgid "Yesterday %l:%M %p"
-msgstr ""
+msgstr "Иацы%l:%M %p"
 
 #: ../src/mail/message-list.c:2218
 msgid "%a %l:%M %p"
@@ -20990,11 +20993,11 @@ msgstr "%a %l:%M %p"
 
 #: ../src/mail/message-list.c:2226
 msgid "%b %d %l:%M %p"
-msgstr ""
+msgstr "%b. %d %l:%M %p"
 
 #: ../src/mail/message-list.c:2228
 msgid "%b %d %Y"
-msgstr ""
+msgstr "%e %b. %Y"
 
 #: ../src/mail/message-list.c:3124 ../src/mail/message-list.etspec.h:24
 msgid "User Header 1"
@@ -21887,11 +21890,11 @@ msgstr ""
 #: ../src/modules/mail-config/e-mail-config-remote-accounts.c:324
 #: ../src/modules/mail-config/e-mail-config-smtp-backend.c:268
 msgid "Authentication"
-msgstr ""
+msgstr "Ахаҭареилкаара"
 
 #: ../src/modules/book-config-ldap/evolution-book-config-ldap.c:748
 msgid "Anonymous"
-msgstr ""
+msgstr "Ихьӡыдоу"
 
 #: ../src/modules/book-config-ldap/evolution-book-config-ldap.c:749
 msgid "Username can be left empty"
@@ -21934,7 +21937,7 @@ msgstr ""
 
 #: ../src/modules/book-config-ldap/evolution-book-config-ldap.c:826
 msgid "Search Base:"
-msgstr ""
+msgstr "Аԥшаара абаза:"
 
 #: ../src/modules/book-config-ldap/evolution-book-config-ldap.c:830
 msgid "Find Possible Search Bases"
@@ -22281,7 +22284,7 @@ msgstr ""
 
 #: ../src/modules/calendar/e-calendar-preferences.ui.h:10
 msgid "Se_cond zone:"
-msgstr ""
+msgstr "Аҩбатәи_асааҭзона:"
 
 #: ../src/modules/calendar/e-calendar-preferences.ui.h:12
 msgid "(Shown in a Day View)"
@@ -22350,11 +22353,11 @@ msgstr ""
 #. Tuesday
 #: ../src/modules/calendar/e-calendar-preferences.ui.h:33
 msgid "_Tue"
-msgstr ""
+msgstr "_Аҩ"
 
 #: ../src/modules/calendar/e-calendar-preferences.ui.h:34
 msgid "Tuesday"
-msgstr ""
+msgstr "Аҩаша"
 
 #. Wednesday
 #: ../src/modules/calendar/e-calendar-preferences.ui.h:36
@@ -22471,7 +22474,7 @@ msgstr ""
 
 #: ../src/modules/calendar/e-calendar-preferences.ui.h:70
 msgid "Display"
-msgstr ""
+msgstr "Аԥшра"
 
 #: ../src/modules/calendar/e-calendar-preferences.ui.h:72
 msgid "Highlight t_asks due today"
@@ -22911,7 +22914,7 @@ msgstr ""
 
 #: ../src/modules/calendar/e-cal-shell-view-actions.c:1607
 msgid "Quit"
-msgstr ""
+msgstr "Аҭыҵра"
 
 #: ../src/modules/calendar/e-cal-shell-view-actions.c:1744
 msgid "Show Event _Preview"
@@ -23644,61 +23647,61 @@ msgstr "%A %l:%M:%S %p"
 #. * without a year.
 #: ../src/modules/itip-formatter/itip-view.c:366
 msgid "%A, %B %e"
-msgstr ""
+msgstr "%A, %e %b"
 
 #. strftime format of a weekday, a date
 #. * without a year and a time,
 #. * in 24-hour format, without seconds.
 #: ../src/modules/itip-formatter/itip-view.c:372
 msgid "%A, %B %e %H:%M"
-msgstr ""
+msgstr "%A, %e %b. %H:%M"
 
 #. strftime format of a weekday, a date without a year
 #. * and a time, in 24-hour format.
 #: ../src/modules/itip-formatter/itip-view.c:376
 msgid "%A, %B %e %H:%M:%S"
-msgstr ""
+msgstr "%A, %e %b. %H:%M:%S"
 
 #. strftime format of a weekday, a date without a year
 #. * and a time, in 12-hour format, without seconds.
 #: ../src/modules/itip-formatter/itip-view.c:381
 msgid "%A, %B %e %l:%M %p"
-msgstr ""
+msgstr "%A, %e %b. %I:%M:%p"
 
 #. strftime format of a weekday, a date without a year
 #. * and a time, in 12-hour format.
 #: ../src/modules/itip-formatter/itip-view.c:385
 msgid "%A, %B %e %l:%M:%S %p"
-msgstr ""
+msgstr "%A, %e %b. %I:%M:%S %p"
 
 #. strftime format of a weekday and a date.
 #: ../src/modules/itip-formatter/itip-view.c:393
 msgid "%A, %B %e, %Y"
-msgstr ""
+msgstr "%A, %e %b. %Y"
 
 #. strftime format of a weekday, a date and a
 #. * time, in 24-hour format, without seconds.
 #: ../src/modules/itip-formatter/itip-view.c:398
 msgid "%A, %B %e, %Y %H:%M"
-msgstr ""
+msgstr "%A, %e %b. %Y %H:%M"
 
 #. strftime format of a weekday, a date and a
 #. * time, in 24-hour format.
 #: ../src/modules/itip-formatter/itip-view.c:402
 msgid "%A, %B %e, %Y %H:%M:%S"
-msgstr ""
+msgstr "%A, %e %b. %Y %H:%M:%S"
 
 #. strftime format of a weekday, a date and a
 #. * time, in 12-hour format, without seconds.
 #: ../src/modules/itip-formatter/itip-view.c:407
 msgid "%A, %B %e, %Y %l:%M %p"
-msgstr ""
+msgstr "%A, %e %b. %Y %I:%M %p"
 
 #. strftime format of a weekday, a date and a
 #. * time, in 12-hour format.
 #: ../src/modules/itip-formatter/itip-view.c:411
 msgid "%A, %B %e, %Y %l:%M:%S %p"
-msgstr ""
+msgstr "%A, %e %b. %Y %I:%M:%S %p"
 
 #. Translators: The first '%s' is replaced with an abbreviated date/time of an appointment start or end, like "Tomorrow" or "Tomorrow 10:30";
 #. the second '%s' is replaced with the actual date, to know what the 'Tomorrow' means. What the date looks like depends on the user settings.
@@ -23786,7 +23789,7 @@ msgstr ""
 #: ../src/modules/itip-formatter/itip-view.c:520
 #, c-format
 msgid "%s has sent back the following meeting response:"
-msgstr ""
+msgstr "%s ирхынҳәит анеҩстәи аҭак аизара ахь:"
 
 #: ../src/modules/itip-formatter/itip-view.c:524
 #, c-format
@@ -23874,7 +23877,7 @@ msgstr ""
 #: ../src/modules/itip-formatter/itip-view.c:610
 #, c-format
 msgid "%s has sent back the following assigned task response:"
-msgstr ""
+msgstr "%s ирхынҳәит анеҩстәи аҭак иарбоу адҵа ахь:"
 
 #: ../src/modules/itip-formatter/itip-view.c:614
 #, c-format
@@ -23938,7 +23941,7 @@ msgstr ""
 
 #: ../src/modules/itip-formatter/itip-view.c:880
 msgid "All day:"
-msgstr ""
+msgstr "Амш зегьы:"
 
 #: ../src/modules/itip-formatter/itip-view.c:886
 msgid "Start day:"
@@ -24516,6 +24519,9 @@ msgid ""
 "   %F — stands for the From address\n"
 "   %R — stands for the recipient addresses"
 msgstr ""
+"Аҵаҵӷәқәа ишыҟоу еиԥш: «-i -f %F -- %R», уаҟа\n"
+"   %F — ашьҭҩы иҭыӡҭыԥ\n"
+"   %R — аиуаа рҭыӡҭыԥ"
 
 #: ../src/modules/mail-config/e-mail-config-sendmail-backend.c:135
 msgid "Send mail also when in offline _mode"
@@ -24718,7 +24724,7 @@ msgstr ""
 
 #: ../src/modules/mail/e-mail-shell-view-actions.c:1624
 msgid "Permanently remove this folder"
-msgstr ""
+msgstr "Ари аҭаӡ ихнымҳәуа аныхра"
 
 #: ../src/modules/mail/e-mail-shell-view-actions.c:1629
 msgid "Edit Sort _Order…"
@@ -24965,7 +24971,7 @@ msgstr ""
 
 #: ../src/modules/mail/e-mail-shell-view-actions.c:2010
 msgid "Important Messages"
-msgstr ""
+msgstr "Ихадоу"
 
 #: ../src/modules/mail/e-mail-shell-view-actions.c:2017
 msgid "Last 5 Days’ Messages"
@@ -24985,7 +24991,7 @@ msgstr ""
 
 #: ../src/modules/mail/e-mail-shell-view-actions.c:2045
 msgid "No Label"
-msgstr ""
+msgstr "Дыргада"
 
 #: ../src/modules/mail/e-mail-shell-view-actions.c:2052
 msgid "Read Messages"
@@ -24997,7 +25003,7 @@ msgstr ""
 
 #: ../src/modules/mail/e-mail-shell-view-actions.c:2066
 msgid "Message Thread"
-msgstr ""
+msgstr "Анҵамҭа амахә"
 
 #: ../src/modules/mail/e-mail-shell-view-actions.c:2126
 msgid "Subject or Addresses contain"
@@ -25536,7 +25542,7 @@ msgstr ""
 
 #: ../src/modules/startup-wizard/e-startup-assistant.c:181
 msgid "Do not _show this wizard again"
-msgstr ""
+msgstr "Ари ацхырааҩ уаҳа даарԥштәым"
 
 #. Translators: This is part of "Alternatively, you can %s (email, contacts and calendaring) instead." sentence from the same translation context.
 #: ../src/modules/startup-wizard/e-startup-assistant.c:194
@@ -26249,8 +26255,8 @@ msgstr ""
 #, c-format
 msgid "You have received %d new message."
 msgid_plural "You have received %d new messages."
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "Шәара ишәоуит %d цҳамҭа ҿыцк."
+msgstr[1] "Шәара ишәоуит %d цҳамҭа ҿыцк."
 
 #. Translators: "From:" is preceding a new mail
 #. * sender address, like "From: user@example.com"
@@ -26601,7 +26607,7 @@ msgstr ""
 
 #: ../src/plugins/publish-calendar/publish-calendar.ui.h:6
 msgid "Manual (via Actions menu)"
-msgstr ""
+msgstr "Напыла (амениу Аҟаҵара аҟынтә)"
 
 #: ../src/plugins/publish-calendar/publish-calendar.ui.h:10
 msgid "Secure FTP (SFTP)"
@@ -26804,7 +26810,7 @@ msgstr ""
 
 #: ../src/plugins/sender-validation/org-gnome-evolution-sender-validation.eplug.xml.h:1
 msgid "Sender Validation"
-msgstr ""
+msgstr "Ашьҭҩы ивалидациа"
 
 #: ../src/plugins/sender-validation/org-gnome-evolution-sender-validation.eplug.xml.h:2
 msgid ""
@@ -26911,7 +26917,7 @@ msgstr "vCard (.vcf)"
 
 #: ../src/shell/e-shell-utils.c:195
 msgid "All Files (*)"
-msgstr ""
+msgstr "Афаилқәа зегьы(*)"
 
 #. The translator-credits string is for translators to list
 #. * per-language credits for translation, displayed in the
@@ -26922,7 +26928,7 @@ msgstr "Нанба Наала <naala-nanba@rambler.ru>, 2022"
 
 #: ../src/shell/e-shell-utils.c:360
 msgid "Website"
-msgstr ""
+msgstr "Веб-асаит"
 
 #: ../src/shell/e-shell-view.c:296
 msgid "Saving user interface state"
@@ -27747,7 +27753,7 @@ msgstr ""
 
 #: ../src/smime/gui/certificate-manager.c:2098
 msgid "All PKCS12 files"
-msgstr ""
+msgstr "Афаилқәа зегьы PKCS12"
 
 #: ../src/smime/gui/certificate-manager.c:2115
 msgid "All email certificate files"
