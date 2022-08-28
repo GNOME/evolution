@@ -12,8 +12,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: evolution\n"
 "Report-Msgid-Bugs-To: https://gitlab.gnome.org/GNOME/evolution/issues\n"
-"POT-Creation-Date: 2022-08-20 14:13+0000\n"
-"PO-Revision-Date: 2022-08-20 18:45+0430\n"
+"POT-Creation-Date: 2022-08-20 14:16+0000\n"
+"PO-Revision-Date: 2022-08-28 18:03+0430\n"
 "Last-Translator: Danial Behzadi <dani.behzi@ubuntu.com>\n"
 "Language-Team: Persian <haghighi.ahmad@gmail.com>\n"
 "Language: fa\n"
@@ -20016,19 +20016,19 @@ msgstr "پیام از حساب «{0}»:"
 
 #: ../src/mail/mail.error.xml.h:192
 msgid "Failed to mark thread to be ignored in folder “{0}”"
-msgstr ""
+msgstr "شکست در علامت گذاری رشته برای چشم‌پوشی شدن در شاخهٔ «{0}»"
 
 #: ../src/mail/mail.error.xml.h:193
 msgid "Failed to unmark thread from being ignored in folder “{0}”"
-msgstr ""
+msgstr "شکست در علامت گذاری رشته برای چشم‌پوشی نشدن در شاخهٔ «{0}»"
 
 #: ../src/mail/mail.error.xml.h:194
 msgid "Failed to mark subthread to be ignored in folder “{0}”"
-msgstr ""
+msgstr "شکست در علامت گذاری زیررشته برای چشم‌پوشی شدن در شاخهٔ «{0}»"
 
 #: ../src/mail/mail.error.xml.h:195
 msgid "Failed to unmark subthread from being ignored in folder “{0}”"
-msgstr ""
+msgstr "شکست در علامت گذاری زیررشته برای چشم‌پوشی نشدن در شاخهٔ «{0}»"
 
 #. Translators: This constructs a string like "Follow-up, Completed on Tuesday, January 13, 2009"
 #: ../src/mail/mail.error.xml.h:197
@@ -20075,7 +20075,7 @@ msgstr ""
 
 #: ../src/mail/mail.error.xml.h:211
 msgid "Something has gone wrong when displaying the signature"
-msgstr ""
+msgstr "چیزی هنگام نمایش امضا اشتباه پیش رفت"
 
 #: ../src/mail/mail.error.xml.h:212
 msgid ""
@@ -20096,6 +20096,8 @@ msgid ""
 "These messages will be shown in the Trash folder, where they can be permanently "
 "deleted later."
 msgstr ""
+"این پیام‌ها در شاخهٔ زباله نشان داده خواهند شد که بعدها می‌توانند برای همیشه حذف "
+"شوند."
 
 #: ../src/mail/mail.error.xml.h:215
 msgid "_Empty Junk"
@@ -20114,6 +20116,8 @@ msgid ""
 "No Archive folder is configured. Please configure one for the account in order to "
 "be able to archive messages."
 msgstr ""
+"هیچ شاخهٔ بایگانی‌ای پیکربندی نشده. لطفاً برای قادر به بایگانی پیام‌ها بودن، یکی در "
+"حساب پیکربندی کنید."
 
 #: ../src/mail/mail.error.xml.h:219
 msgid "Failed to generate message list"
@@ -20155,7 +20159,7 @@ msgstr "بررسی کردن برای نامهٔ جدید در «%s»"
 #: ../src/mail/mail-send-recv.c:1660
 #, c-format
 msgid "Deleting junk and expunging trash at “%s”"
-msgstr ""
+msgstr "حذف هرزنامه و نابودی زباله در «%s»"
 
 #: ../src/mail/mail-send-recv.c:1662
 #, c-format
@@ -20421,6 +20425,8 @@ msgid ""
 "Browse a WebDAV (CalDAV or CardDAV) server and create, edit or delete address "
 "books, calendars, memo lists or task lists there"
 msgstr ""
+"مرور یک کارساز WebDAV (CalDAV یا CardDAV) و ایجاد، ویرایش یا حذف دفترچه‌ّای نشانی، "
+"تقویم‌ها، سیاهه‌های یادداشت یا سیاهه‌های تکلیف آن‌جا"
 
 #. To Translators: 'Table column' is a label for configurable date/time format for table columns showing a date in message list
 #: ../src/modules/addressbook/autocompletion-config.c:124
@@ -20434,7 +20440,7 @@ msgstr "_قالب‌بندی نشانی بر اساس استاندارد کشو�
 
 #: ../src/modules/addressbook/autocompletion-config.c:139
 msgid "_Preview Personal information before Work information"
-msgstr ""
+msgstr "_پیش‌نمایش اطّلاعات شخصی پیش از اطّلاعات کاری"
 
 #. Translators: This is part of a sentence "Open maps with OpenStreetMap" and "Open maps with Google"
 #: ../src/modules/addressbook/autocompletion-config.c:152
@@ -21057,7 +21063,7 @@ msgstr "یافتن دفترچه‌های نشانی"
 
 #: ../src/modules/book-config-carddav/evolution-book-config-carddav.c:234
 msgid "Avoid IfMatch (needed on Apache < 2.2.8)"
-msgstr ""
+msgstr "دوری از IfMatch (خواسته روی آپاچی < ۲٫۲٫۸)"
 
 #: ../src/modules/book-config-carddav/evolution-book-config-carddav.c:289
 #: ../src/modules/cal-config-caldav/evolution-cal-config-caldav.c:391
@@ -21566,7 +21572,7 @@ msgstr "کوتاه‌کردن زمان رویداد با"
 
 #: ../src/modules/calendar/e-calendar-preferences.ui.h:22
 msgid "End events earlier"
-msgstr ""
+msgstr "پایان دادن زودتر به رویدادها"
 
 #: ../src/modules/calendar/e-calendar-preferences.ui.h:23
 msgid "Start events later"
@@ -21659,11 +21665,11 @@ msgstr "_پایان روزها:"
 
 #: ../src/modules/calendar/e-calendar-preferences.ui.h:53
 msgid "Create events, memos and tasks as _Private by default"
-msgstr ""
+msgstr "ایجاد پیش‌گزیدهٔ رویدادها، یادداشت‌ها و تکلیف‌ها به صورت _خصوصی"
 
 #: ../src/modules/calendar/e-calendar-preferences.ui.h:54
 msgid "Use ma_rkdown for Description in the component editor"
-msgstr ""
+msgstr "استفاده از _مارک‌دون برای شرح در ویرایشگر مولّفه"
 
 #: ../src/modules/calendar/e-calendar-preferences.ui.h:56
 msgid "View Options"
@@ -21691,23 +21697,23 @@ msgstr "نمایش _شمارهٔ هفته"
 
 #: ../src/modules/calendar/e-calendar-preferences.ui.h:62
 msgid "Show r_ecurring events in italic in bottom left calendar"
-msgstr ""
+msgstr "نمایش رویدادهای _تکرار شونده به صورت کج در پایین راست تقویم"
 
 #: ../src/modules/calendar/e-calendar-preferences.ui.h:63
 msgid "Sc_roll Month View by a week"
-msgstr ""
+msgstr "_لغزش نمای ماه بر حسب هفته"
 
 #: ../src/modules/calendar/e-calendar-preferences.ui.h:64
 msgid "Start Month View with the c_urrent week"
-msgstr ""
+msgstr "آغاز نمای ماه با هفتهٔ _کنونی"
 
 #: ../src/modules/calendar/e-calendar-preferences.ui.h:65
 msgid "Order days in Week View from _left to right"
-msgstr ""
+msgstr "چینش روزها در هفته از _راست به چپ"
 
 #: ../src/modules/calendar/e-calendar-preferences.ui.h:66
 msgid "Allo_w direct edit of event Summary"
-msgstr ""
+msgstr "اجازه به ویرایش مستقیم _چکیدهٔ رویداد"
 
 #: ../src/modules/calendar/e-calendar-preferences.ui.h:67
 msgid "Hi_de cancelled events"
@@ -21747,7 +21753,7 @@ msgstr "نوار برای انجام"
 
 #: ../src/modules/calendar/e-calendar-preferences.ui.h:78
 msgid "Show Tasks without _Due date"
-msgstr ""
+msgstr "نمایش تکلیف‌ها بدون تاریخ _سررسید"
 
 #. Translators: This constructs: Show [spinner] days
 #: ../src/modules/calendar/e-calendar-preferences.ui.h:80
@@ -21803,7 +21809,7 @@ msgstr "نمایش یک _یادآور"
 #. This is the last half of a user preference. "Show a reminder [time-period] before every anniversary/birthday"
 #: ../src/modules/calendar/e-calendar-preferences.ui.h:98
 msgid "before every anniversary/birthday"
-msgstr ""
+msgstr "پیش از هر سالگرد/تولّد"
 
 #: ../src/modules/calendar/e-calendar-preferences.ui.h:99
 msgid "Select the sources for reminder notification:"
@@ -21823,6 +21829,8 @@ msgid ""
 "Specify login user name as part of the URL in case the server requires "
 "authentication, like: https://USER@example.com/"
 msgstr ""
+"در صورتی که کارساز نیاز به تأیید هویت داشت، نام‌های کاربری به عنوان بخشی از نشانی "
+"اینترنتی مشخّص شوند. مثال: ‪https://USER@example.com/"
 
 #: ../src/modules/calendar/e-calendar-preferences.ui.h:107
 msgid "Publishing Information"
@@ -21946,7 +21954,7 @@ msgstr "_مدیریت گروه‌های تقویم…"
 
 #: ../src/modules/calendar/e-cal-shell-view-actions.c:1350
 msgid "Manage Calendar groups order and visibility"
-msgstr ""
+msgstr "مدیریت ترتیب و نمایانی گروه‌های تقویم"
 
 #: ../src/modules/calendar/e-cal-shell-view-actions.c:1355
 msgid "_New Calendar"
@@ -21979,7 +21987,7 @@ msgstr "یافتن _بعدی"
 
 #: ../src/modules/calendar/e-cal-shell-view-actions.c:1399
 msgid "Find next occurrence of the current search string"
-msgstr ""
+msgstr "یافتن رخداد بعدی رشتهٔ جست‌وجوی کنونی"
 
 #: ../src/modules/calendar/e-cal-shell-view-actions.c:1404
 msgid "Find _Previous"
@@ -21987,7 +21995,7 @@ msgstr "یافتن _پیشین"
 
 #: ../src/modules/calendar/e-cal-shell-view-actions.c:1406
 msgid "Find previous occurrence of the current search string"
-msgstr ""
+msgstr "یافتن رخداد پیشین رشتهٔ جست‌وجوی کنونی"
 
 #: ../src/modules/calendar/e-cal-shell-view-actions.c:1411
 msgid "Stop _Running Search"
@@ -22095,7 +22103,7 @@ msgstr "_پذیرش این نمونه"
 
 #: ../src/modules/calendar/e-cal-shell-view-actions.c:1518
 msgid "Accept meeting request for selected instance only"
-msgstr ""
+msgstr "پذیرش درخواست جلسه فقط برای نمونهٔ گزیده"
 
 #: ../src/modules/calendar/e-cal-shell-view-actions.c:1523
 #: ../src/modules/itip-formatter/itip-view.c:1277
@@ -22112,7 +22120,7 @@ msgstr "_رد این نمونه"
 
 #: ../src/modules/calendar/e-cal-shell-view-actions.c:1532
 msgid "Decline meeting request for selected instance only"
-msgstr ""
+msgstr "رد درخواست جلسه فقط برای نمونهٔ گزیده"
 
 #: ../src/modules/calendar/e-cal-shell-view-actions.c:1537
 msgid "_Tentatively accept"
@@ -22128,7 +22136,7 @@ msgstr "پذیرش احتمالی این _نمونه"
 
 #: ../src/modules/calendar/e-cal-shell-view-actions.c:1546
 msgid "Tentatively accept meeting request for selected instance only"
-msgstr ""
+msgstr "پذیرش احتمالی درخواست جلسه فقط برای نمونهٔ گزیده"
 
 #: ../src/modules/calendar/e-cal-shell-view-actions.c:1551
 msgid "Mo_ve to Calendar…"
@@ -22248,7 +22256,7 @@ msgstr "قرارهای ۷ روز آینده"
 
 #: ../src/modules/calendar/e-cal-shell-view-actions.c:1866
 msgid "Occurs Less Than 5 Times"
-msgstr ""
+msgstr "کم‌تر از ۵ بار رخ می‌دهد"
 
 #: ../src/modules/calendar/e-cal-shell-view-actions.c:1897
 #: ../src/modules/calendar/e-memo-shell-view-actions.c:814
@@ -22335,29 +22343,29 @@ msgstr "چاپ یادداشت گزیده"
 
 #: ../src/modules/calendar/e-cal-shell-view-private.c:1075
 msgid "Searching next matching event"
-msgstr ""
+msgstr "جست‌وجو کردن رویداد مطابق بعدی"
 
 #: ../src/modules/calendar/e-cal-shell-view-private.c:1076
 msgid "Searching previous matching event"
-msgstr ""
+msgstr "جست‌وجو کردن رویداد مطابق پیشین"
 
 #: ../src/modules/calendar/e-cal-shell-view-private.c:1097
 #, c-format
 msgid "Cannot find matching event in the next %d year"
 msgid_plural "Cannot find matching event in the next %d years"
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "نمی‌توان تا سال آینده رویداد مطابقی یافت"
+msgstr[1] "نمی‌توان تا %Id سال آینده رویداد مطابقی یافت"
 
 #: ../src/modules/calendar/e-cal-shell-view-private.c:1101
 #, c-format
 msgid "Cannot find matching event in the previous %d year"
 msgid_plural "Cannot find matching event in the previous %d years"
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "نمی‌توان تا پارسال رویداد مطابقی یافت"
+msgstr[1] "نمی‌توان تا %Id سال پیش رویداد مطابقی یافت"
 
 #: ../src/modules/calendar/e-cal-shell-view-private.c:1124
 msgid "Cannot search with no active calendar"
-msgstr ""
+msgstr "نمی‌توان بدون هیچ تقویم فعّالی جست‌وجو کرد"
 
 #. Translators: Default filename part saving a task to a file when
 #. * no summary is filed, the '.ics' extension is concatenated to it.
@@ -22469,11 +22477,11 @@ msgstr "حذف سیاههٔ یادداشت گزیده"
 
 #: ../src/modules/calendar/e-memo-shell-view-actions.c:605
 msgid "_Manage Memo List groups…"
-msgstr ""
+msgstr "_مدیریت گروه‌های سیاههٔ یادداشت…"
 
 #: ../src/modules/calendar/e-memo-shell-view-actions.c:607
 msgid "Manage Memo List groups order and visibility"
-msgstr ""
+msgstr "مدیریت ترتیب و نمایانی گروه‌های سیاههٔ یادداشت"
 
 #: ../src/modules/calendar/e-memo-shell-view-actions.c:612
 msgid "_New Memo List"
@@ -22509,11 +22517,11 @@ msgstr "نمایش قاب پیش‌نمایش یادداشت"
 
 #: ../src/modules/calendar/e-memo-shell-view-actions.c:768
 msgid "Show memo preview below the memo list"
-msgstr ""
+msgstr "نمایش پیش‌نمایش یادداشت زیر سیاههٔ یادداشت"
 
 #: ../src/modules/calendar/e-memo-shell-view-actions.c:775
 msgid "Show memo preview alongside the memo list"
-msgstr ""
+msgstr "نمایش پیش‌نمایش یادداشت کنار سیاههٔ یادداشت"
 
 #: ../src/modules/calendar/e-memo-shell-view-actions.c:833
 msgid "Print the list of memos"
@@ -22574,6 +22582,10 @@ msgid ""
 "\n"
 "Really erase these tasks?"
 msgstr ""
+"این عملیات تمامی تکلیف‌های علامت خورده به کامل شده را برای همیشه پاک خواهد کرد. "
+"اگر ادامه دهید، فادر به بازیابی این تکلیف‌ها نیستید.\n"
+"\n"
+"واقعاً این تکلیف‌ها پاک شوند؟"
 
 #: ../src/modules/calendar/e-task-shell-view-actions.c:578
 msgid "Do not ask me again"
@@ -22696,6 +22708,8 @@ msgid ""
 "Filters for tasks that either do not have a start date or the start date is "
 "earlier than the time the filter is selected at"
 msgstr ""
+"پالایش تکلیف‌هایی که تاریخ آغاز ندارند یا تاریخ آغازشان زودتر از تاریخی است که "
+"پالایه رویش تنظیم شده"
 
 #: ../src/modules/calendar/e-task-shell-view-actions.c:1062
 msgid "Print the list of tasks"
@@ -22819,7 +22833,7 @@ msgstr "ITIP"
 
 #: ../src/modules/itip-formatter/e-mail-formatter-itip.c:206
 msgid "Display part as an invitation"
-msgstr ""
+msgstr "نمایش بخش به عنوان یک دعوت"
 
 #. strftime format of a time,
 #. * in 24-hour format, without seconds.
@@ -22975,14 +22989,14 @@ msgstr "یک شخص نامعلوم"
 #: ../src/modules/itip-formatter/itip-view.c:660
 #, c-format
 msgid "Please respond on behalf of %s"
-msgstr ""
+msgstr "لطفاً از جانب %s پاسخ دهید"
 
 #: ../src/modules/itip-formatter/itip-view.c:483
 #: ../src/modules/itip-formatter/itip-view.c:573
 #: ../src/modules/itip-formatter/itip-view.c:662
 #, c-format
 msgid "Received on behalf of %s"
-msgstr ""
+msgstr "به نیابت از %s درسافت شد"
 
 #: ../src/modules/itip-formatter/itip-view.c:488
 #, c-format
@@ -23319,7 +23333,7 @@ msgstr "قرار «%s» در تقویم «%s» با این جلسه تداخل �
 #: ../src/modules/itip-formatter/itip-view.c:4145
 #, c-format
 msgid "A task “%s” in the task list “%s” conflicts with this task"
-msgstr ""
+msgstr "تکلیف «%s» در سیاههٔ تکلیف «%s» با این تکلیف تداخل دارد"
 
 #: ../src/modules/itip-formatter/itip-view.c:4152
 #, c-format
@@ -23338,15 +23352,15 @@ msgstr[1] "تقویم «%s» %Id قرار دارد که با این جلسه ت�
 #, c-format
 msgid "The task list “%s” contains a task which conflicts with this task"
 msgid_plural "The task list “%s” contains %d tasks which conflict with this task"
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "سیاههٔ تکلیف «%s» دارای تکلیفیست که با این تکلیف تداخل دارد"
+msgstr[1] "سیاههٔ تکلیف «%s» دارای %Id تکلیف است که با این تکلیف تداخل دارند"
 
 #: ../src/modules/itip-formatter/itip-view.c:4183
 #, c-format
 msgid "The memo list “%s” contains a memo which conflicts with this memo"
 msgid_plural "The memo list “%s” contains %d memos which conflict with this memo"
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "سیاههٔ یادداشت «%s» دارای یادداشتیست که با این یادداشت تداخل دارد"
+msgstr[1] "سیاههٔ یادداشت «%s» دارای %Id یادداشت است که با این یادداشت تداخل دارد"
 
 #: ../src/modules/itip-formatter/itip-view.c:4221
 #, c-format
@@ -23480,11 +23494,11 @@ msgstr "ذخیره کردن تغییرات در تقویم. لطفاً شکیب�
 
 #: ../src/modules/itip-formatter/itip-view.c:5263
 msgid "Saving changes to the task list. Please wait…"
-msgstr ""
+msgstr "ذخیره کردن تغییرات در سیاههٔ تکلیف. لطفاً شکیبا باشید…"
 
 #: ../src/modules/itip-formatter/itip-view.c:5266
 msgid "Saving changes to the memo list. Please wait…"
-msgstr ""
+msgstr "ذخیره کردن تغییرات در سیاههٔ یادداشت. لطفاً شکیبا باشید…"
 
 #: ../src/modules/itip-formatter/itip-view.c:5337
 msgid "Unable to parse item"
@@ -23535,7 +23549,7 @@ msgstr "اطّلاعات یادداشت فرستاده شده"
 
 #: ../src/modules/itip-formatter/itip-view.c:5918
 msgid "Unable to send meeting information, the meeting does not exist"
-msgstr ""
+msgstr "ناتوان در فرستادن اطّلاعات جلسه. جلسه وجود ندارد"
 
 #: ../src/modules/itip-formatter/itip-view.c:5923
 msgid "Unable to send task information, the task does not exist"
@@ -23543,7 +23557,7 @@ msgstr "ناتوان در فرستادن اطّلاعات تکلیف. تکلیف
 
 #: ../src/modules/itip-formatter/itip-view.c:5928
 msgid "Unable to send memo information, the memo does not exist"
-msgstr ""
+msgstr "ناتوان در فرستادن اطّلاعات یادداشت. یادداشت وجود ندارد"
 
 #. Translators: This is a default filename for a calendar.
 #: ../src/modules/itip-formatter/itip-view.c:5973
