@@ -12,8 +12,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: evolution\n"
 "Report-Msgid-Bugs-To: https://gitlab.gnome.org/GNOME/evolution/issues\n"
-"POT-Creation-Date: 2022-08-20 14:16+0000\n"
-"PO-Revision-Date: 2022-08-28 18:03+0430\n"
+"POT-Creation-Date: 2022-08-28 13:34+0000\n"
+"PO-Revision-Date: 2022-08-28 18:09+0430\n"
 "Last-Translator: Danial Behzadi <dani.behzi@ubuntu.com>\n"
 "Language-Team: Persian <haghighi.ahmad@gmail.com>\n"
 "Language: fa\n"
@@ -31,7 +31,7 @@ msgstr ""
 
 #: ../data/org.gnome.evolution.addressbook.gschema.xml.in.h:1
 msgid "Enable address formatting"
-msgstr "فعّال‌سازی قالب‌بندی نشانی"
+msgstr "به کار انداختن قالب‌بندی نشانی"
 
 #: ../data/org.gnome.evolution.addressbook.gschema.xml.in.h:2
 msgid ""
@@ -710,6 +710,10 @@ msgstr "نشانی اینترنتی قالب آزاد/مشغول"
 msgid "Recurrent Events in Italic"
 msgstr "تاریخ تکرار مورب"
 
+#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:108
+msgid "Show days with recurrent events in italic font in bottom left calendar"
+msgstr "نمایش رویدادهای تکرار شونده به صورت کج در پایین راست تقویم"
+
 #: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:111
 msgid "Show appointment end times in week and month views"
 msgstr "نمایش زمان پایان قرارها در نمای هفته و ماه"
@@ -900,6 +904,16 @@ msgstr "شنبه یک روز کاری است"
 #: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:156
 msgid "Sunday is a work day"
 msgstr "یک‌شنبه یک روز کاری است"
+
+#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:157
+msgid "Create events, memos and tasks as Private by default"
+msgstr "ایجاد پیش‌گزیدهٔ رویدادها، یادداشت‌ها و تکلیف‌ها به صورت خصوصی"
+
+#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:159
+msgid ""
+"Whether to order days in the Week View from left to right, rather than from top "
+"to bottom."
+msgstr "این که روزها در نمای هفته به حای بالا به پایین، راست به چپ چیده شوند."
 
 #: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:161
 msgid "User-defined reminder times, in minutes"
