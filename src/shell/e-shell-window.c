@@ -47,6 +47,7 @@ enum {
 enum {
 	CLOSE_ALERT,
 	SHELL_VIEW_CREATED,
+	UPDATE_NEW_MENU,
 	LAST_SIGNAL
 };
 
@@ -124,6 +125,8 @@ shell_window_set_notebook_page (EShellWindow *shell_window,
 	g_return_if_fail (page_num >= 0);
 
 	gtk_notebook_set_current_page (notebook, page_num);
+
+	g_signal_emit (shell_window, signals[UPDATE_NEW_MENU], 0, NULL);
 }
 
 static void
@@ -427,8 +430,8 @@ shell_window_construct_menubar (EShellWindow *shell_window)
 		main_menu, "visible",
 		G_BINDING_SYNC_CREATE);
 
-	e_signal_connect_notify (
-		shell_window, "notify::active-view",
+	g_signal_connect (
+		shell_window, "update-new-menu",
 		G_CALLBACK (shell_window_menubar_update_new_menu), NULL);
 
 	return main_menu;
@@ -1046,6 +1049,24 @@ e_shell_window_class_init (EShellWindowClass *class)
 		g_cclosure_marshal_VOID__OBJECT,
 		G_TYPE_NONE, 1,
 		E_TYPE_SHELL_VIEW);
+
+	/**
+	 * EShellWindow::update-new-menu
+	 * @shell_window: the #EShellWindow
+	 *
+	 * Emitted when the 'New' menu should be updated.
+	 *
+	 * Since: 3.46
+	 **/
+	signals[UPDATE_NEW_MENU] = g_signal_new (
+		"update-new-menu",
+		G_OBJECT_CLASS_TYPE (object_class),
+		G_SIGNAL_RUN_LAST | G_SIGNAL_ACTION,
+		0,
+		NULL, NULL,
+		g_cclosure_marshal_VOID__VOID,
+		G_TYPE_NONE, 0,
+		G_TYPE_NONE);
 
 	binding_set = gtk_binding_set_by_class (class);
 	gtk_binding_entry_add_signal (
@@ -1964,6 +1985,8 @@ e_shell_window_register_new_item_actions (EShellWindow *shell_window,
 				G_OBJECT (action),
 				"primary", GINT_TO_POINTER (TRUE));
 	}
+
+	g_signal_emit (shell_window, signals[UPDATE_NEW_MENU], 0, NULL);
 }
 
 /**
@@ -2041,6 +2064,8 @@ e_shell_window_register_new_source_actions (EShellWindow *shell_window,
 			G_OBJECT (action),
 			"backend-name", (gpointer) backend_name);
 	}
+
+	g_signal_emit (shell_window, signals[UPDATE_NEW_MENU], 0, NULL);
 }
 
 /**

@@ -89,7 +89,6 @@ shell_header_bar_set_shell_window (EShellHeaderBar *headerbar,
 
 static void
 shell_header_bar_update_new_menu (EShellWindow *shell_window,
-				  GParamSpec *pspec,
 				  gpointer user_data)
 {
 	EShellHeaderBar *headerbar = user_data;
@@ -179,8 +178,8 @@ shell_header_bar_constructed (GObject *object)
 		gtk_ui_manager_get_accel_group (ui_manager),
 		GDK_KEY_N, GDK_CONTROL_MASK, GTK_ACCEL_VISIBLE);
 
-	self->priv->prefered_item_notify_id = e_signal_connect_notify (
-               shell_window, "notify::active-view",
+	self->priv->prefered_item_notify_id = g_signal_connect (
+               shell_window, "update-new-menu",
                G_CALLBACK (shell_header_bar_update_new_menu), self);
 
 	g_object_unref (shell_window);
