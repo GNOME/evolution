@@ -2164,7 +2164,7 @@ ml_tree_value_at_ex (ETreeModel *etm,
 	case COL_USER_HEADER_3: {
 		const gchar *name = NULL;
 		guint index = col - COL_USER_HEADER_1;
-		if (message_list->priv->user_headers && index < message_list->priv->user_headers_count)
+		if (index < message_list->priv->user_headers_count)
 			name = message_list->priv->user_headers[index];
 		if (name && *name)
 			return (gpointer) camel_message_info_dup_user_header (msg_info, name);
