@@ -12,8 +12,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: evolution\n"
 "Report-Msgid-Bugs-To: https://gitlab.gnome.org/GNOME/evolution/issues\n"
-"POT-Creation-Date: 2022-08-29 05:40+0000\n"
-"PO-Revision-Date: 2022-08-31 18:17+0430\n"
+"POT-Creation-Date: 2022-08-31 13:49+0000\n"
+"PO-Revision-Date: 2022-08-31 18:21+0430\n"
 "Last-Translator: Danial Behzadi <dani.behzi@ubuntu.com>\n"
 "Language-Team: Persian <haghighi.ahmad@gmail.com>\n"
 "Language: fa\n"
@@ -1985,6 +1985,10 @@ msgstr "همگام سازی خودکار آشنایان پیجن"
 msgid "Enable autocontacts"
 msgstr "به کار انداختن آشنایان خودکار"
 
+#: ../data/org.gnome.evolution.plugin.autocontacts.gschema.xml.in.h:8
+msgid "Set File under as “First Last”, instead of “Last, First”."
+msgstr "تنظیم پروندهٔ زیر به شکل «نام نام خانوادگی» به جای «نام خانوادگی، نام»."
+
 #: ../data/org.gnome.evolution.plugin.autocontacts.gschema.xml.in.h:9
 msgid "Pidgin address book source"
 msgstr "منبع دفترچه نشانی پیجن"
@@ -2040,6 +2044,14 @@ msgstr "حذف انجام شد"
 #: ../data/org.gnome.evolution.plugin.itip.gschema.xml.in.h:2
 msgid "Whether to delete processed iTip objects"
 msgstr "این که اشیای iTip پردازش‌شده حذف شوند یا نه"
+
+#: ../data/org.gnome.evolution.plugin.itip.gschema.xml.in.h:3
+msgid "Preserve existing reminder by default"
+msgstr "نگه داشتن یادآور موجود به شکل پیش‌گزیده"
+
+#: ../data/org.gnome.evolution.plugin.itip.gschema.xml.in.h:4
+msgid "Whether to preset option to preserve existing reminder by default"
+msgstr "این که گزینهٔ نگه داشتن یادآور موجود به شکل پیش‌گزیده از پیش تنظیم شود یا نه"
 
 #: ../data/org.gnome.evolution.plugin.itip.gschema.xml.in.h:5
 msgid "Show invitation description provided by the sender"
@@ -26228,7 +26240,7 @@ msgstr "جست‌وجوها"
 msgid "Save Search"
 msgstr "ذخیرهٔ جست‌وجو"
 
-#: ../src/shell/e-shell-headerbar.c:161
+#: ../src/shell/e-shell-headerbar.c:160
 msgctxt "toolbar-button"
 msgid "New"
 msgstr "جدید"
