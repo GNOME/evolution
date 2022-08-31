@@ -12,8 +12,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: evolution\n"
 "Report-Msgid-Bugs-To: https://gitlab.gnome.org/GNOME/evolution/issues\n"
-"POT-Creation-Date: 2022-08-28 13:40+0000\n"
-"PO-Revision-Date: 2022-08-29 10:08+0430\n"
+"POT-Creation-Date: 2022-08-29 05:40+0000\n"
+"PO-Revision-Date: 2022-08-31 18:17+0430\n"
 "Last-Translator: Danial Behzadi <dani.behzi@ubuntu.com>\n"
 "Language-Team: Persian <haghighi.ahmad@gmail.com>\n"
 "Language: fa\n"
@@ -6527,7 +6527,7 @@ msgstr[1] "رونوشت از %Id وظیفه"
 #. strftime format of a weekday, a date and a time, 24-hour.
 #: ../src/calendar/gui/e-cell-date-edit-text.c:177
 msgid "%a %m/%d/%Y %H:%M:%S"
-msgstr ""
+msgstr "%a %Om/%Od/%Y %OH:%OM:%OS"
 
 #. strftime format of a weekday, a date and a time, 12-hour.
 #: ../src/calendar/gui/e-cell-date-edit-text.c:180
@@ -18898,7 +18898,7 @@ msgstr ""
 
 #: ../src/mail/mail-config.ui.h:77
 msgid "_Folder override has precedence over Recipient override"
-msgstr ""
+msgstr "پایمالی _شاخه بر پایمالی گیرنده ارجح است"
 
 #: ../src/mail/mail-config.ui.h:78
 msgid "Send Account"
@@ -19649,6 +19649,8 @@ msgid ""
 "This folder may have been added implicitly,\n"
 "go to the Search Folder editor to add it explicitly, if required."
 msgstr ""
+"ممکن است این شاخه به صورت ضمنی افزوده شده باشد.\n"
+"در صورت نیاز برای افزودن صریحش به ویرایشگر شاخهٔ جست‌وجو بروید."
 
 #: ../src/mail/mail.error.xml.h:101
 msgid "Cannot add Search Folder “{0}”."
@@ -20291,6 +20293,9 @@ msgid ""
 "new Show message filter from the drop down list above or by running a new search "
 "either by clearing it with Search→Clear menu item or by changing the query above."
 msgstr ""
+"هیچ پیامی با معیارهای جست‌وجویتان پیدا نشد. با گزینش یک پالایهٔ نمایش پیام جدید از "
+"سیاههٔ افتادنی بالا یا با اجرا کردن جست‌وجویی جدید با پاک کردنش یا مورد فهرست "
+"جست‌وجو←پاک‌سازی یا با تغییر پرس‌وجوی فوق، معیارهای جست‌وجو را تغییر دهید."
 
 #: ../src/mail/message-list.c:6698
 msgid "There are no messages in this folder."
@@ -21030,11 +21035,11 @@ msgstr "شکست در ایجاد Bogofilter (%s): "
 
 #: ../src/modules/bogofilter/evolution-bogofilter.c:176
 msgid "Failed to stream mail message content to Bogofilter: "
-msgstr ""
+msgstr "شکست در جریان محتوای پیام نامه به Bogofilter: "
 
 #: ../src/modules/bogofilter/evolution-bogofilter.c:225
 msgid "Bogofilter either crashed or failed to process a mail message"
-msgstr ""
+msgstr "فروپاشی Bogofilter یا شکست در پردازش یک پیام نامه"
 
 #: ../src/modules/bogofilter/evolution-bogofilter.c:370
 msgid "Bogofilter Options"
@@ -21047,11 +21052,11 @@ msgstr "تبدیل متن پیام به _یونی‌کد"
 #: ../src/modules/bogofilter/evolution-bogofilter.c:537
 #: ../src/modules/bogofilter/org.gnome.Evolution-bogofilter.metainfo.xml.in.h:1
 msgid "Bogofilter"
-msgstr ""
+msgstr "Bogofilter"
 
 #: ../src/modules/bogofilter/org.gnome.Evolution-bogofilter.metainfo.xml.in.h:2
 msgid "Junk filter using Bogofilter"
-msgstr ""
+msgstr "پالایش هرزنامه با استفاده از Bogofilter"
 
 #: ../src/modules/book-config-carddav/evolution-book-config-carddav.c:93
 #: ../src/modules/book-config-google/e-google-book-chooser-button.c:207
@@ -21495,7 +21500,7 @@ msgstr "_حذف پیام بعد از کنش"
 
 #: ../src/modules/calendar/e-calendar-preferences.c:672
 msgid "_Preserve existing reminder by default"
-msgstr ""
+msgstr "_نگه داشتن یادآور موجود به شکل پیش‌گزیده"
 
 #: ../src/modules/calendar/e-calendar-preferences.c:679
 msgid "_Show invitation description provided by the sender"
@@ -23316,7 +23321,7 @@ msgstr "نمایش زمان به شکل _آزاد"
 
 #: ../src/modules/itip-formatter/itip-view.c:2068
 msgid "_Preserve my reminder"
-msgstr ""
+msgstr "_نگه داشتن یادآورم"
 
 #: ../src/modules/itip-formatter/itip-view.c:2069
 msgid "_Inherit reminder"
@@ -23686,7 +23691,7 @@ msgstr "گزینش یک شاخهٔ نامهٔ MH"
 
 #: ../src/modules/mail-config/e-mail-config-local-accounts.c:271
 msgid "MH mail directory cannot be empty"
-msgstr ""
+msgstr "شاخهٔ نامهٔ MH نمی‌تواند خالی باشد"
 
 #: ../src/modules/mail-config/e-mail-config-local-accounts.c:292
 msgid "Local Delivery _File:"
@@ -24586,7 +24591,7 @@ msgstr "نمایش همیشگی بخش متنی خام و در صورت درخو
 
 #: ../src/modules/prefer-plain/plugin/config-ui.c:101
 msgid "Show s_uppressed HTML parts as attachments"
-msgstr ""
+msgstr "نمایش بخش‌های HTML _سرکوب شده به شکل پیوست"
 
 #: ../src/modules/prefer-plain/plugin/config-ui.c:123
 msgid "HTML _Mode"
@@ -24637,11 +24642,11 @@ msgstr "_بارگیری مقاله‌های کامل"
 #: ../src/modules/rss/camel/camel-rss-folder.c:689
 #: ../src/modules/rss/evolution/e-rss-preferences.c:835
 msgid "Download feed _enclosures"
-msgstr ""
+msgstr "بارگیری _ضمیمه‌های خوراک"
 
 #: ../src/modules/rss/camel/camel-rss-folder-summary.c:269
 msgid "Enclosures:"
-msgstr ""
+msgstr "ضمیمه‌ها:"
 
 #: ../src/modules/rss/camel/camel-rss-provider.c:17
 #: ../src/modules/rss/camel/camel-rss-store.c:48
@@ -24720,12 +24725,12 @@ msgstr "_محتوا:"
 
 #: ../src/modules/rss/evolution/e-rss-preferences.c:1224
 msgid "_Download feed enclosures"
-msgstr ""
+msgstr "_بارگیری ضمیمه‌های خوراک"
 
 #. Translators: This is part of "Do not download enclosures larger than [ nnn ] KB"
 #: ../src/modules/rss/evolution/e-rss-preferences.c:1243
 msgid "Do not download enclosures larger than"
-msgstr ""
+msgstr "بارگیری نکردن ضمیمه‌های بزرگ‌تر از"
 
 #. Translators: This is part of "Do not download enclosures larger than [ nnn ] KB"
 #: ../src/modules/rss/evolution/e-rss-preferences.c:1266
@@ -24754,11 +24759,11 @@ msgstr ""
 #: ../src/modules/spamassassin/evolution-spamassassin.c:188
 #, c-format
 msgid "Failed to spawn SpamAssassin (%s): "
-msgstr ""
+msgstr "شکست در راه‌اندازی SpamAssassin (%s): "
 
 #: ../src/modules/spamassassin/evolution-spamassassin.c:211
 msgid "Failed to stream mail message content to SpamAssassin: "
-msgstr ""
+msgstr "شکست در جریان محتوای پیام نامه به SpamAssassin: "
 
 #: ../src/modules/spamassassin/evolution-spamassassin.c:230
 #, c-format
@@ -24767,11 +24772,11 @@ msgstr "شکست در نوشتن «%s» روی SpamAssassin: "
 
 #: ../src/modules/spamassassin/evolution-spamassassin.c:258
 msgid "Failed to read output from SpamAssassin: "
-msgstr ""
+msgstr "شکست در خواندن خروجی از SpamAssassin: "
 
 #: ../src/modules/spamassassin/evolution-spamassassin.c:313
 msgid "SpamAssassin either crashed or failed to process a mail message"
-msgstr ""
+msgstr "فروپاشی SpamAssassin یا شکست در پردازش یک پیام نامه"
 
 #: ../src/modules/spamassassin/evolution-spamassassin.c:536
 msgid "SpamAssassin Options"
@@ -24792,7 +24797,7 @@ msgstr "اسپم‌اسسین"
 
 #: ../src/modules/spamassassin/org.gnome.Evolution-spamassassin.metainfo.xml.in.h:2
 msgid "Junk filter using SpamAssassin"
-msgstr ""
+msgstr "پالایش هرزنامه با استفاده از SpamAssassin"
 
 #. Keep the title identical to EMailConfigImportPage
 #. * so it's only shown once in the assistant sidebar.
@@ -25154,7 +25159,7 @@ msgstr "ایجاد ورودی‌های _دفترچه نشانی هنگام فر�
 #. File Under setting
 #: ../src/plugins/bbdb/bbdb.c:741
 msgid "Set File _under as “First Last”, instead of “Last, First”"
-msgstr ""
+msgstr "تنظیم پروندهٔ _زیر به شکل «نام نام خانوادگی» به جای «نام خانوادگی، نام»"
 
 #: ../src/plugins/bbdb/bbdb.c:752
 msgid "Select Address book for Automatic Contacts"
@@ -25481,7 +25486,7 @@ msgstr "کنش‌های فهرست پستی"
 
 #: ../src/plugins/mailing-list-actions/org-gnome-mailing-list-actions.eplug.xml.h:2
 msgid "Perform common mailing list actions (subscribe, unsubscribe, etc.)."
-msgstr ""
+msgstr "انجام کنش‌های معمول سیاههٔ پستی (اشتراک، لغو اشتراک و…)"
 
 #: ../src/plugins/mailing-list-actions/org-gnome-mailing-list-actions.error.xml.h:1
 msgid "Action not available"
@@ -25490,7 +25495,7 @@ msgstr "کنش موجود نیست"
 #: ../src/plugins/mailing-list-actions/org-gnome-mailing-list-actions.error.xml.h:2
 msgid ""
 "This message does not contain the header information required for this action."
-msgstr ""
+msgstr "این پیام دارای اطّلاعات سرایند لازم برای این کنش نیست."
 
 #: ../src/plugins/mailing-list-actions/org-gnome-mailing-list-actions.error.xml.h:3
 msgid "Posting not allowed"
@@ -25516,6 +25521,10 @@ msgid ""
 "You should receive an answer from the mailing list shortly after the message has "
 "been sent."
 msgstr ""
+"رایانامه‌ای به نشانی «{0}» فرستاده خواهد شد. می‌توانید پیام را به طور خودکار "
+"فرستاده یا نخست، تغییرش دهید.\n"
+"\n"
+"باید چندی کوتاه پس از فرستاده شدن پیام، پاسخی از سیاههٔ پستی بگیرید."
 
 #: ../src/plugins/mailing-list-actions/org-gnome-mailing-list-actions.error.xml.h:9
 msgid "_Send message"
@@ -25535,6 +25544,9 @@ msgid ""
 "\n"
 "Header: {1}"
 msgstr ""
+"سرایند {0} این پیام بدریخت است و نتوانست پردازش شود.\n"
+"\n"
+"سرایند: {1}"
 
 #: ../src/plugins/mailing-list-actions/org-gnome-mailing-list-actions.error.xml.h:15
 msgid "No e-mail action"
@@ -25547,6 +25559,9 @@ msgid ""
 "\n"
 "Header: {0}"
 msgstr ""
+"کنش نتوانست انجام شود. سرایند برای این کنش دارای هیج کنش قابل پردازشی نیست.\n"
+"\n"
+"سرایند: {0}"
 
 #. Translators: '%d' is the count of mails received.
 #: ../src/plugins/mail-notification/mail-notification.c:500
@@ -25672,6 +25687,7 @@ msgid ""
 "Selected calendar contains event “%s” already. Would you like to edit the old "
 "event?"
 msgstr ""
+"تقویم گزیده از پیش رویداد «%s» را دارد. می‌خواهید رویداد قدیمی را ویرایش کنید؟"
 
 #: ../src/plugins/mail-to-task/mail-to-task.c:623
 #, c-format
@@ -25679,6 +25695,7 @@ msgid ""
 "Selected task list contains task “%s” already. Would you like to edit the old "
 "task?"
 msgstr ""
+"سیاههٔ تکلیف گزیده از پیش تکلیف «%s» را دارد. می‌خواهید تکلیف قدیمی را ویرایش کنید؟"
 
 #: ../src/plugins/mail-to-task/mail-to-task.c:626
 #, c-format
@@ -25686,6 +25703,8 @@ msgid ""
 "Selected memo list contains memo “%s” already. Would you like to edit the old "
 "memo?"
 msgstr ""
+"سیاههٔ یادداشت گزیده از پیش یادداشت «%s» را دارد. می‌خواهید یادداشت قدیمی را ویرایش "
+"کنید؟"
 
 #. Translators: Note there are always more than 10 mails selected
 #: ../src/plugins/mail-to-task/mail-to-task.c:646
@@ -25696,8 +25715,9 @@ msgid ""
 msgid_plural ""
 "You have selected %d mails to be converted to events. Do you really want to add "
 "them all?"
-msgstr[0] ""
+msgstr[0] "۱ نامه را برای تبدیل به رویداد گزیده‌اید. واقعاً می‌خواهید بیفزاییدش؟"
 msgstr[1] ""
+"تعداد %Id نامه را برای تبدیل به رویداد گزیده‌اید. واقعاً می‌خواهید بیفزاییدشان؟"
 
 #. Translators: Note there are always more than 10 mails selected
 #: ../src/plugins/mail-to-task/mail-to-task.c:653
@@ -25708,8 +25728,9 @@ msgid ""
 msgid_plural ""
 "You have selected %d mails to be converted to tasks. Do you really want to add "
 "them all?"
-msgstr[0] ""
+msgstr[0] "۱ نامه را برای تبدیل به تکلیف گزیده‌اید. واقعاً می‌خواهید بیفزاییدش؟"
 msgstr[1] ""
+"تعداد %Id نامه را برای تبدیل به تکلیف گزیده‌اید. واقعاً می‌خواهید بیفزاییدشان؟"
 
 #. Translators: Note there are always more than 10 mails selected
 #: ../src/plugins/mail-to-task/mail-to-task.c:660
@@ -25720,8 +25741,9 @@ msgid ""
 msgid_plural ""
 "You have selected %d mails to be converted to memos. Do you really want to add "
 "them all?"
-msgstr[0] ""
+msgstr[0] "۱ نامه را برای تبدیل به یادداشت گزیده‌اید. واقعاً می‌خواهید بیفزاییدش؟"
 msgstr[1] ""
+"تعداد %Id نامه را برای تبدیل به یادداشت گزیده‌اید. واقعاً می‌خواهید بیفزاییدشان؟"
 
 #: ../src/plugins/mail-to-task/mail-to-task.c:681
 msgid "Do you wish to continue converting remaining mails?"
@@ -25750,18 +25772,24 @@ msgid ""
 "Selected calendar is read only, thus cannot create event there. Select other "
 "calendar, please."
 msgstr ""
+"تقویم گزیده فقط خواندنیست، پس نمی‌توان در آن رویدادی ایجاد کرد. لطفاً تقویمی دیگر "
+"را برگزینید."
 
 #: ../src/plugins/mail-to-task/mail-to-task.c:887
 msgid ""
 "Selected task list is read only, thus cannot create task there. Select other task "
 "list, please."
 msgstr ""
+"سیاههٔ تکلیف گزیده فقط خواندنیست، پس نمی‌توان در آن تکلیفی ایجاد کرد. لطفاً سیاههٔ "
+"تکلیفی دیگر را برگزینید."
 
 #: ../src/plugins/mail-to-task/mail-to-task.c:890
 msgid ""
 "Selected memo list is read only, thus cannot create memo there. Select other memo "
 "list, please."
 msgstr ""
+"سیاههٔ یادداشت گزیده فقط خواندنیست، پس نمی‌توان در آن یادداشتی ایجاد کرد. لطفاً "
+"سیاههٔ یادداشتی دیگر را برگزینید."
 
 #: ../src/plugins/mail-to-task/mail-to-task.c:951
 #, c-format
@@ -26055,7 +26083,7 @@ msgstr "جداساز _رکورد:"
 
 #: ../src/plugins/save-calendar/csv-format.c:576
 msgid "_Encapsulate values with:"
-msgstr ""
+msgstr "_کپسوله کردن مقدارها با:"
 
 #: ../src/plugins/save-calendar/csv-format.c:602
 msgid "Comma separated values (.csv)"
@@ -26080,7 +26108,7 @@ msgstr "ذخیرهٔ یک تقویم یا سیاههٔ تکلیف روی دیس�
 #. *
 #: ../src/plugins/save-calendar/rdf-format.c:145
 msgid "%FT%T"
-msgstr ""
+msgstr "%FT%OT"
 
 #: ../src/plugins/save-calendar/rdf-format.c:373
 msgid "RDF (.rdf)"
@@ -26119,6 +26147,8 @@ msgid ""
 "Validates sender before sending an e-mail against a list of recipients and for "
 "them assigned expected send account."
 msgstr ""
+"تأیید اعتبار فرستنده پیش از فرستادن رایانامه به سیاهه‌ای از گیرندگان و تخصیص حساب "
+"ارسال مورد انتظار برایشان."
 
 #: ../src/plugins/sender-validation/org-gnome-sender-validation.error.xml.h:1
 msgid "Confirm sender address"
@@ -26129,6 +26159,8 @@ msgid ""
 "The message contains recipient “{0}” for which it is set up to use sender account "
 "“{1}”, but the account “{2}” is used instead."
 msgstr ""
+"پیام دارای گیرندهٔ «{0}» است که برای استفاده از حساب «{1}» برپا شده؛ ولی به جایش "
+"از حساب «{2}» استفاده شده."
 
 #: ../src/plugins/sender-validation/org-gnome-sender-validation.error.xml.h:4
 msgid "_Send Anyway"
@@ -26148,6 +26180,9 @@ msgid ""
 "$ORIG[from], $ORIG[to], $ORIG[body], $ORIG[quoted-body] or $ORIG[reply-credits], "
 "which will be replaced by values from an email you are replying to."
 msgstr ""
+"افزایهٔ پیش‌نویس‌های مبتنی بر قالب. می‌توانید از متغیّرهایی چون ‪$ORIG[subject], "
+"$ORIG[from], $ORIG[to], $ORIG[body], $ORIG[quoted-body]‬ یا ‪$ORIG[reply-credits]‬ "
+"استفاده کنیدکه با مقدارهایی از رایانامه‌ای که به آن پاسخ می‌دهید جایگزین خواهد شد."
 
 #: ../src/plugins/templates/templates.c:887
 msgid "Saving message template"
@@ -26183,7 +26218,7 @@ msgstr "گشودن _تنظیمات"
 
 #: ../src/shell/e-shell.c:1320
 msgid "Credentials are required to connect to the destination host."
-msgstr ""
+msgstr "برای وصل شدن به میزبان مقصد نیاز به گواهی‌نامه است."
 
 #: ../src/shell/e-shell-content.c:702 ../src/shell/e-shell-content.c:703
 msgid "Searches"
@@ -26548,7 +26583,7 @@ msgstr "حذف نما: %s"
 
 #: ../src/shell/e-shell-window-actions.c:1956
 msgid "Execute these search parameters"
-msgstr ""
+msgstr "اجرای این پارامترهای جست‌وجو"
 
 #. Preview/Alpha/Beta version warning message
 #: ../src/shell/main.c:286
@@ -26571,6 +26606,19 @@ msgid ""
 "We hope that you enjoy the results of our hard work, and we\n"
 "eagerly await your contributions!\n"
 msgstr ""
+"سلام. ممنون از وقتی که برای بارگیری این ارائه پیش‌نمایش\n"
+"از مجموعهٔ کار گروهی اوولوشن گذاشتید.\n"
+"\n"
+"این نگارش از اوولوشن هنوز کامل نیست. دارد کامل می‌شود؛\n"
+"ولی برخی ویژگی‌ها ناقص یا خرابند.\n"
+"\n"
+"اگر اشکالی یافتید لطفاً در این‌جا گزارشش کنید:\n"
+"https://gitlab.gnome.org/GNOME/evolution/issues\n"
+"این محصول بدون هیچ ضمانتی آمده و مناسب\n"
+"افرادی که مستعد حملات خشمگینند نیست.\n"
+"\n"
+"امیدواریم از نتایج مار سختمام لذّت برده و\n"
+"مشتاقانه منتظر مشارکت‌هایتان هستیم!\n"
 
 #: ../src/shell/main.c:311
 msgid ""
@@ -26591,6 +26639,8 @@ msgid ""
 "Start Evolution showing the specified component. Available options are “mail”, "
 "“calendar”, “contacts”, “tasks”, and “memos”"
 msgstr ""
+"آغاز اوولوشن با نمایش مولّفه‌های مشخّص شده. گزینه‌های موجود عبارتند از «mail»، "
+"«calendar»، «contacts»، «tasks» و «memos»"
 
 #: ../src/shell/main.c:423
 msgid "Apply the given geometry to the main window"
@@ -26618,11 +26668,11 @@ msgstr "از کارانداختن قاب پیش‌نمایش نامه، آشنا
 
 #: ../src/shell/main.c:441
 msgid "Import URIs or filenames given as rest of arguments."
-msgstr ""
+msgstr "درون‌ریزی نشانی‌های نام‌های پرونده‌‌های داده شده به عنوان باقی آرکومان‌ها."
 
 #: ../src/shell/main.c:443
 msgid "Request a running Evolution process to quit"
-msgstr ""
+msgstr "درخواست از یک فرایند اوولوشن در حال اجرا برای خروج"
 
 #: ../src/shell/main.c:525
 #, c-format
@@ -26630,6 +26680,8 @@ msgid ""
 "Cannot start Evolution.  Another Evolution instance may be unresponsive. System "
 "error: %s"
 msgstr ""
+"نتوانست اوولوشن را آغاز کند.  شاید نمونهٔ دیگری از اوولوشن ناپاسخگو باشد. خطای "
+"سامانه: %s"
 
 #: ../src/shell/main.c:591 ../src/shell/main.c:596
 msgid "— The Evolution PIM and Email Client"
@@ -26689,6 +26741,8 @@ msgid ""
 "workaround you might try first upgrading to Evolution 2, and then upgrading to "
 "Evolution 3."
 msgstr ""
+"اوولوشن دیگر از ارتقای مستقیم از نگارش {0} پشتیبانی نمی‌کند. با این حال به عنوان "
+"یک راه دررو می‌توانید نخست به اوولوشن ۲ ارتقا داده و سپس به اوولوشن ۳ ارتقا دهید."
 
 #: ../src/shell/shell.error.xml.h:11
 msgid "Close Evolution with pending background operations?"
@@ -26700,6 +26754,8 @@ msgid ""
 "connectivity issues. Would you like to cancel all pending operations and close "
 "immediately, or keep waiting?"
 msgstr ""
+"احتمالاً به خاطر مشکلات اتّصال شبکه، زمان زیادی برای خاموش شدن اوولوشن سپری شده. "
+"می‌خواهید تمامی عملیات منتظر را لغو کرده و سریعاً بسته شود یا منتظر می‌مانید؟"
 
 #: ../src/shell/shell.error.xml.h:13
 msgid "_Close Immediately"
