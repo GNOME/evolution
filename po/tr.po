@@ -19,9 +19,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: evolution\n"
 "Report-Msgid-Bugs-To: https://gitlab.gnome.org/GNOME/evolution/issues\n"
-"POT-Creation-Date: 2022-07-28 06:43+0000\n"
-"PO-Revision-Date: 2022-07-31 20:07+0300\n"
-"Last-Translator: Sabri Ünal <libreajans@gmail.com>\n"
+"POT-Creation-Date: 2022-08-22 02:24+0000\n"
+"PO-Revision-Date: 2022-09-01 01:22+0300\n"
+"Last-Translator: Emin Tufan Çetin <etcetin@gmail.com>\n"
 "Language-Team: Turkish <gnome-turk@gnome.org>\n"
 "Language: tr\n"
 "MIME-Version: 1.0\n"
@@ -157,30 +157,24 @@ msgid "Whether to show IM addresses in the editor"
 msgstr "Düzenleyicide IM adreslerinin gösterilip gösterilmeyeceği"
 
 #: ../data/org.gnome.evolution.addressbook.gschema.xml.in.h:27
-#, fuzzy
-#| msgid "Show Home Mailing Address"
 msgid "Show mailing Home addresses"
-msgstr "Ev Posta Adresini Göster"
+msgstr "Posta Ev adreslerini göster"
 
 #: ../data/org.gnome.evolution.addressbook.gschema.xml.in.h:28
 msgid "Whether to show mailing Home addresses in the editor"
 msgstr "Düzenleyicide posta Ev adreslerinin gösterilip gösterilmeyeceği"
 
 #: ../data/org.gnome.evolution.addressbook.gschema.xml.in.h:29
-#, fuzzy
-#| msgid "Show Home Mailing Address"
 msgid "Show mailing Work addresses"
-msgstr "Ev Posta Adresini Göster"
+msgstr "Posta İş adreslerini göster"
 
 #: ../data/org.gnome.evolution.addressbook.gschema.xml.in.h:30
 msgid "Whether to show mailing addresses Work in the editor"
 msgstr "Düzenleyicide posta İş adreslerinin gösterilip gösterilmeyeceği"
 
 #: ../data/org.gnome.evolution.addressbook.gschema.xml.in.h:31
-#, fuzzy
-#| msgid "Show Home Mailing Address"
 msgid "Show mailing Other addresses"
-msgstr "Ev Posta Adresini Göster"
+msgstr "Posta Diğer adresleri göster"
 
 #: ../data/org.gnome.evolution.addressbook.gschema.xml.in.h:32
 msgid "Whether to show mailing addresses Other in the editor"
@@ -1059,16 +1053,12 @@ msgid "Year view horizontal pane position"
 msgstr "Yıl görünümündeki yatay bölmenin konumu"
 
 #: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:167
-#, fuzzy
-#| msgid ""
-#| "Position of the horizontal pane, between the date navigator calendar and "
-#| "the task list when not in the month view, in pixels"
 msgid ""
 "Position of the horizontal pane, between the year calendar and the list of "
 "events for the selected day in the year view, in pixels"
 msgstr ""
-"Yatay bölmenin, günlük gezinti takvimi ve görev listesi arasında, aylık "
-"görünüşte olmadığı durumdaki konumu, piksel olarak"
+"Yatay bölmenin, yıl takvimi ve yıl görünümünde seçilen gün için olaylar listesi "
+"arasındaki konumu, piksel olarak"
 
 #: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:168
 msgid "Layout style for the Year View"
@@ -1101,28 +1091,27 @@ msgid "Position of the vertical event preview for the year view, in pixels"
 msgstr "Yatay olay ön izlemesinin yıl görünümündeki konumu, piksel olarak"
 
 #: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:174
-#, fuzzy
-#| msgid "Send after 5 minutes"
 msgid "Shorten event time by minutes"
-msgstr "5 dakika sonra gönder"
+msgstr "Olayı dakika olarak kısalt"
 
 #: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:175
 msgid ""
 "By how many minutes to shorted new event time. Whether event end or start is "
 "changed is determined by \"shorten-time-end\" setting"
 msgstr ""
+"Yeni olay saatinin kaç dakika kısaltılacağı. Olayın bitişinin veya başlangıcının "
+"değişmesi \"shorten-time-end\" ayarıyla belirlenir."
 
 #: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:176
-#, fuzzy
-#| msgid "Whether to show the preview pane."
 msgid "Whether to shorten event end time"
-msgstr "Ön izleme bölmesinin nerede gösterileceği göster."
+msgstr "Olay bitiş saatinin kısaltılması"
 
 #: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:177
 msgid ""
 "A pair option for \"shorten-time\" setting, to change the end time or the "
 "start time"
 msgstr ""
+"Bitiş veya başlangıç saatini değiştirmek için \"shorten-time\" çift seçeneği"
 
 #: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:178
 msgid "Background color for the 'today' day"
@@ -1133,6 +1122,8 @@ msgid ""
 "Leave empty to use a yellow color derived from the current theme, otherwise "
 "use the color of form `#RRGGBB`"
 msgstr ""
+"Geçerli gövdeden türetilen sarı rengi kullanmak için boş bırakın, yoksa "
+"`#RRGGBB` biçimindeki rengi kullanın."
 
 #: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:180
 msgid "(Deprecated) First day of the week, from Sunday (0) to Saturday (6)"
@@ -1519,17 +1510,19 @@ msgstr ""
 "gönderirken her zaman Giden kutusuna kaydet."
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:53
-#, fuzzy
-#| msgid "Send messages through Outbox folder"
 msgid ""
 "How long to delay Outbox flush when sending messages through Outbox folder"
-msgstr "Giden kutusundan iletileri gönder"
+msgstr ""
+"İletileri Giden kutusundan gönderirken Giden kutusu boşaltımının ne kadar "
+"geciktirileceği."
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:54
 msgid ""
 "A delay, in minutes, to wait for the Outbox folder flush. Less than 0 means "
 "never flush, 0 means immediately, the rest is the delay interval in minutes."
 msgstr ""
+"Giden kutusu boşaltımı için beklenecek dakika türünde gecikme. 0’ın altı "
+"boşaltmaz, 0 hemen demektir, gerisiyse beklenecek dakikadır."
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:55
 msgid "Include signature in new messages only"
@@ -1733,16 +1726,12 @@ msgid "Use user date format in reply credits"
 msgstr "Yanıt jeneriğinde kullanıcı tarih biçimini kullan"
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:88
-#, fuzzy
-#| msgid ""
-#| "Whether the time in reply credits should be converted to local time when "
-#| "it’s in UTC in the message."
 msgid ""
 "Whether the date in reply credits should be shown in the user date format. "
 "If unset, shows the header value from the original message."
 msgstr ""
-"İletideki zaman UTC ise yanıt tanıtımındaki zamanın yerel zamana "
-"dönüştürülüp dönüştürülmeyeceği."
+"Yanıt bilgilerindeki tarihin kullanıcı tarih biçiminde gösterilmesi. "
+"Belirlenmezse, başlık değerini özgün iletiden gösterir."
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:89
 msgid "Mark replied to messages as read"
@@ -3706,7 +3695,7 @@ msgstr ""
 
 #: ../data/org.gnome.Evolution.appdata.xml.in.in.h:1
 #: ../data/org.gnome.Evolution.desktop.in.in.h:1
-#: ../src/mail/e-mail-browser.c:1347
+#: ../src/mail/e-mail-browser.c:1349
 #: ../src/modules/mailto-handler/evolution-mailto-handler.c:208
 #: ../src/shell/e-shell-window-private.c:265
 msgid "Evolution"
@@ -3784,7 +3773,7 @@ msgstr "Takvim"
 #: ../src/mail/importers/kmail-importer.c:249
 #: ../src/mail/importers/pine-importer.c:423
 #: ../src/modules/mail/e-mail-shell-view.c:1608
-#: ../src/smime/gui/certificate-manager.c:1677
+#: ../src/smime/gui/certificate-manager.c:1612
 msgid "Mail"
 msgstr "Posta"
 
@@ -4412,10 +4401,10 @@ msgstr ""
 #. This is only shown if the EActivity has a GCancellable.
 #. no flags
 #: ../src/addressbook/addressbook.error.xml.h:55
-#: ../src/addressbook/gui/contact-editor/e-contact-editor.c:3275
-#: ../src/addressbook/gui/contact-editor/e-contact-editor.c:3505
-#: ../src/addressbook/gui/contact-editor/e-contact-editor.c:4342
-#: ../src/addressbook/gui/contact-editor/e-contact-editor.c:4348
+#: ../src/addressbook/gui/contact-editor/e-contact-editor.c:3272
+#: ../src/addressbook/gui/contact-editor/e-contact-editor.c:3546
+#: ../src/addressbook/gui/contact-editor/e-contact-editor.c:4382
+#: ../src/addressbook/gui/contact-editor/e-contact-editor.c:4388
 #: ../src/addressbook/gui/contact-editor/e-contact-editor-fullname.c:212
 #: ../src/addressbook/gui/contact-editor/e-contact-quick-add.c:453
 #: ../src/addressbook/gui/contact-editor/fullname.ui.h:14
@@ -4455,7 +4444,7 @@ msgstr ""
 #: ../src/e-util/evolution-source-viewer.c:829 ../src/e-util/e-web-view.c:4006
 #: ../src/e-util/gal-view-instance-save-as-dialog.c:265
 #: ../src/mail/e-mail-config-window.c:310 ../src/mail/e-mail-label-dialog.c:186
-#: ../src/mail/e-mail-tag-editor.c:160 ../src/mail/em-composer-utils.c:4136
+#: ../src/mail/e-mail-tag-editor.c:160 ../src/mail/em-composer-utils.c:4166
 #: ../src/mail/em-folder-selector.c:333 ../src/mail/mail-config.ui.h:2
 #: ../src/mail/mail.error.xml.h:16 ../src/mail/mail-send-recv.c:874
 #: ../src/mail/mail-send-recv.c:955 ../src/mail/mail-vfolder-ui.c:149
@@ -4471,11 +4460,11 @@ msgstr ""
 #: ../src/plugins/save-calendar/save-calendar.c:184
 #: ../src/shell/e-shell-content.c:641 ../src/shell/e-shell-content.c:748
 #: ../src/shell/e-shell-utils.c:69 ../src/shell/e-shell-utils.c:133
-#: ../src/smime/gui/certificate-manager.c:656
-#: ../src/smime/gui/certificate-manager.c:724
-#: ../src/smime/gui/certificate-manager.c:952
-#: ../src/smime/gui/certificate-manager.c:1343
-#: ../src/smime/gui/e-cert-selector.c:239 ../src/smime/gui/smime-ui.ui.h:17
+#: ../src/smime/gui/certificate-manager.c:646
+#: ../src/smime/gui/certificate-manager.c:714
+#: ../src/smime/gui/certificate-manager.c:942
+#: ../src/smime/gui/certificate-manager.c:1277
+#: ../src/smime/gui/e-cert-selector.c:232 ../src/smime/gui/smime-ui.ui.h:17
 msgid "_Cancel"
 msgstr "_İptal"
 
@@ -4528,18 +4517,18 @@ msgid "Show Certificates"
 msgstr "Sertifikaları Göster"
 
 #: ../src/addressbook/gui/contact-editor/contact-editor.ui.h:12
-#: ../src/addressbook/gui/contact-editor/e-contact-editor.c:725
-#: ../src/addressbook/gui/contact-editor/e-contact-editor.c:747
-#: ../src/addressbook/gui/contact-editor/e-contact-editor.c:3112
+#: ../src/addressbook/gui/contact-editor/e-contact-editor.c:723
+#: ../src/addressbook/gui/contact-editor/e-contact-editor.c:745
+#: ../src/addressbook/gui/contact-editor/e-contact-editor.c:3110
 msgid "Contact Editor"
 msgstr "Bağlantı Düzenleyici"
 
 #: ../src/addressbook/gui/contact-editor/contact-editor.ui.h:13
-#: ../src/addressbook/gui/contact-editor/e-contact-editor.c:3505
+#: ../src/addressbook/gui/contact-editor/e-contact-editor.c:3546
 #: ../src/addressbook/gui/contact-list-editor/contact-list-editor.ui.h:3
 #: ../src/addressbook/gui/widgets/eab-contact-merging.c:809
 #: ../src/calendar/calendar.error.xml.h:47
-#: ../src/calendar/gui/e-comp-editor.c:2281
+#: ../src/calendar/gui/e-comp-editor.c:2301
 #: ../src/composer/e-composer-actions.c:242
 #: ../src/composer/e-composer-actions.c:354
 #: ../src/e-util/e-attachment-store.c:848
@@ -4549,13 +4538,13 @@ msgstr "Bağlantı Düzenleyici"
 #: ../src/e-util/gal-view-instance-save-as-dialog.c:266
 #: ../src/modules/rss/evolution/e-rss-preferences.c:839
 #: ../src/shell/e-shell-content.c:642 ../src/shell/e-shell-utils.c:133
-#: ../src/smime/gui/certificate-manager.c:656
-#: ../src/smime/gui/certificate-manager.c:725
+#: ../src/smime/gui/certificate-manager.c:646
+#: ../src/smime/gui/certificate-manager.c:715
 msgid "_Save"
 msgstr "_Kaydet"
 
 #: ../src/addressbook/gui/contact-editor/contact-editor.ui.h:14
-#: ../src/calendar/gui/e-comp-editor-page-reminders.c:2488
+#: ../src/calendar/gui/e-comp-editor-page-reminders.c:2489
 #: ../src/em-format/e-mail-formatter-attachment.c:322
 #: ../src/mail/mail-config.ui.h:41
 msgid "Options"
@@ -4776,7 +4765,7 @@ msgstr "İş"
 #: ../src/addressbook/gui/widgets/eab-contact-formatter.c:86
 #: ../src/addressbook/gui/widgets/eab-contact-formatter.c:528
 #: ../src/addressbook/gui/widgets/eab-contact-formatter.c:1086
-#: ../src/calendar/gui/comp-util.c:1954
+#: ../src/calendar/gui/comp-util.c:1965
 msgid "Other"
 msgstr "Diğer"
 
@@ -4832,128 +4821,128 @@ msgstr "X.509 _Yükle"
 msgid "Certificates"
 msgstr "Sertifikalar"
 
-#: ../src/addressbook/gui/contact-editor/e-contact-editor.c:266
-#: ../src/calendar/gui/e-comp-editor.c:2213
+#: ../src/addressbook/gui/contact-editor/e-contact-editor.c:264
+#: ../src/calendar/gui/e-comp-editor.c:2233
 #: ../src/e-util/e-html-editor-actions.c:1161
 msgid "_Undo"
 msgstr "_Geri Al"
 
-#: ../src/addressbook/gui/contact-editor/e-contact-editor.c:268
-#: ../src/calendar/gui/e-comp-editor.c:2215 ../src/e-util/e-focus-tracker.c:147
+#: ../src/addressbook/gui/contact-editor/e-contact-editor.c:266
+#: ../src/calendar/gui/e-comp-editor.c:2235 ../src/e-util/e-focus-tracker.c:147
 #: ../src/e-util/e-focus-tracker.c:150
 msgid "Undo"
 msgstr "Geri Al"
 
-#: ../src/addressbook/gui/contact-editor/e-contact-editor.c:273
-#: ../src/calendar/gui/e-comp-editor.c:2220
+#: ../src/addressbook/gui/contact-editor/e-contact-editor.c:271
+#: ../src/calendar/gui/e-comp-editor.c:2240
 #: ../src/e-util/e-html-editor-actions.c:1147
 msgid "_Redo"
 msgstr "_Yinele"
 
-#: ../src/addressbook/gui/contact-editor/e-contact-editor.c:275
-#: ../src/calendar/gui/e-comp-editor.c:2222 ../src/e-util/e-focus-tracker.c:163
+#: ../src/addressbook/gui/contact-editor/e-contact-editor.c:273
+#: ../src/calendar/gui/e-comp-editor.c:2242 ../src/e-util/e-focus-tracker.c:163
 #: ../src/e-util/e-focus-tracker.c:166
 msgid "Redo"
 msgstr "Yinele"
 
-#: ../src/addressbook/gui/contact-editor/e-contact-editor.c:303
+#: ../src/addressbook/gui/contact-editor/e-contact-editor.c:301
 #: ../src/addressbook/gui/widgets/eab-gui-util.c:501
 msgid "Error adding contact"
 msgstr "Bağlantı eklenirken hata oluştu"
 
-#: ../src/addressbook/gui/contact-editor/e-contact-editor.c:323
+#: ../src/addressbook/gui/contact-editor/e-contact-editor.c:321
 msgid "Error modifying contact"
 msgstr "Bağlantı düzenlenirken hata oluştu"
 
-#: ../src/addressbook/gui/contact-editor/e-contact-editor.c:343
+#: ../src/addressbook/gui/contact-editor/e-contact-editor.c:341
 msgid "Error removing contact"
 msgstr "Bağlantıyı silerken hata oluştu"
 
-#: ../src/addressbook/gui/contact-editor/e-contact-editor.c:741
-#: ../src/addressbook/gui/contact-editor/e-contact-editor.c:3106
+#: ../src/addressbook/gui/contact-editor/e-contact-editor.c:739
+#: ../src/addressbook/gui/contact-editor/e-contact-editor.c:3104
 #, c-format
 msgid "Contact Editor — %s"
 msgstr "Bağlantı Düzenleyici — %s"
 
-#: ../src/addressbook/gui/contact-editor/e-contact-editor.c:3242
+#: ../src/addressbook/gui/contact-editor/e-contact-editor.c:3239
 msgid "X.509 certificates"
 msgstr "X.509 Sertifikaları"
 
-#: ../src/addressbook/gui/contact-editor/e-contact-editor.c:3247
+#: ../src/addressbook/gui/contact-editor/e-contact-editor.c:3244
 msgid "PGP keys"
 msgstr "PGP anahtarları"
 
-#: ../src/addressbook/gui/contact-editor/e-contact-editor.c:3253
+#: ../src/addressbook/gui/contact-editor/e-contact-editor.c:3250
 #: ../src/e-util/e-html-editor-actions.c:448
 #: ../src/e-util/e-image-chooser-dialog.c:193
-#: ../src/smime/gui/certificate-manager.c:677
-#: ../src/smime/gui/certificate-manager.c:962
+#: ../src/smime/gui/certificate-manager.c:667
+#: ../src/smime/gui/certificate-manager.c:952
 msgid "All files"
 msgstr "Tüm dosyalar"
 
-#: ../src/addressbook/gui/contact-editor/e-contact-editor.c:3273
+#: ../src/addressbook/gui/contact-editor/e-contact-editor.c:3270
 msgid "Open PGP key"
 msgstr "PGP anahtarını aç"
 
-#: ../src/addressbook/gui/contact-editor/e-contact-editor.c:3273
+#: ../src/addressbook/gui/contact-editor/e-contact-editor.c:3270
 msgid "Open X.509 certificate"
 msgstr "X.509 sertifikasını aç"
 
-#: ../src/addressbook/gui/contact-editor/e-contact-editor.c:3275
-#: ../src/addressbook/gui/contact-editor/e-contact-editor.c:4342
-#: ../src/addressbook/gui/contact-editor/e-contact-editor.c:4349
+#: ../src/addressbook/gui/contact-editor/e-contact-editor.c:3272
+#: ../src/addressbook/gui/contact-editor/e-contact-editor.c:4382
+#: ../src/addressbook/gui/contact-editor/e-contact-editor.c:4389
 #: ../src/e-util/e-attachment-store.c:666 ../src/e-util/e-category-editor.c:176
 #: ../src/e-util/e-html-editor-actions.c:395
 #: ../src/e-util/e-html-editor-actions.c:439
 #: ../src/e-util/e-html-editor-actions.c:542
 #: ../src/e-util/e-image-chooser-dialog.c:182 ../src/plugins/face/face.c:298
-#: ../src/shell/e-shell-utils.c:69 ../src/smime/gui/certificate-manager.c:952
+#: ../src/shell/e-shell-utils.c:69 ../src/smime/gui/certificate-manager.c:942
 msgid "_Open"
 msgstr "_Aç"
 
-#: ../src/addressbook/gui/contact-editor/e-contact-editor.c:3290
-#: ../src/addressbook/gui/contact-editor/e-contact-editor.c:3518
+#: ../src/addressbook/gui/contact-editor/e-contact-editor.c:3287
+#: ../src/addressbook/gui/contact-editor/e-contact-editor.c:3559
 msgid "Chosen file is not a local file."
 msgstr "Seçilen dosya, yerel dosya değil."
 
-#: ../src/addressbook/gui/contact-editor/e-contact-editor.c:3303
+#: ../src/addressbook/gui/contact-editor/e-contact-editor.c:3300
 #, c-format
 msgid "Failed to load certificate: %s"
 msgstr "Sertifika yükleme başarısız: %s"
 
-#: ../src/addressbook/gui/contact-editor/e-contact-editor.c:3332
+#: ../src/addressbook/gui/contact-editor/e-contact-editor.c:3374
 msgctxt "cert-kind"
 msgid "X.509"
 msgstr "X.509"
 
-#: ../src/addressbook/gui/contact-editor/e-contact-editor.c:3332
+#: ../src/addressbook/gui/contact-editor/e-contact-editor.c:3374
 msgctxt "cert-kind"
 msgid "PGP"
 msgstr "PGP"
 
-#: ../src/addressbook/gui/contact-editor/e-contact-editor.c:3503
+#: ../src/addressbook/gui/contact-editor/e-contact-editor.c:3544
 msgid "Save PGP key"
 msgstr "PGP anahtarını kaydet"
 
-#: ../src/addressbook/gui/contact-editor/e-contact-editor.c:3503
+#: ../src/addressbook/gui/contact-editor/e-contact-editor.c:3544
 msgid "Save X.509 certificate"
 msgstr "X.509 sertifikasını kaydet"
 
-#: ../src/addressbook/gui/contact-editor/e-contact-editor.c:3530
+#: ../src/addressbook/gui/contact-editor/e-contact-editor.c:3571
 #, c-format
 msgid "Failed to save certificate: %s"
 msgstr "Sertifika kaydetme başarısız: %s"
 
-#: ../src/addressbook/gui/contact-editor/e-contact-editor.c:4339
-#: ../src/addressbook/gui/contact-editor/e-contact-editor.c:4345
+#: ../src/addressbook/gui/contact-editor/e-contact-editor.c:4379
+#: ../src/addressbook/gui/contact-editor/e-contact-editor.c:4385
 msgid "Please select an image for this contact"
 msgstr "Lütfen bu bağlantı için resim seçin"
 
-#: ../src/addressbook/gui/contact-editor/e-contact-editor.c:4350
+#: ../src/addressbook/gui/contact-editor/e-contact-editor.c:4390
 msgid "_No image"
 msgstr "_Resim yok"
 
-#: ../src/addressbook/gui/contact-editor/e-contact-editor.c:4714
+#: ../src/addressbook/gui/contact-editor/e-contact-editor.c:4754
 msgid ""
 "The contact data is invalid:\n"
 "\n"
@@ -4961,28 +4950,28 @@ msgstr ""
 "Bağlantı verisi geçersiz:\n"
 "\n"
 
-#: ../src/addressbook/gui/contact-editor/e-contact-editor.c:4720
+#: ../src/addressbook/gui/contact-editor/e-contact-editor.c:4760
 #, c-format
 msgid "“%s” has an invalid format"
 msgstr "“%s” geçersiz biçime sahip"
 
-#: ../src/addressbook/gui/contact-editor/e-contact-editor.c:4728
+#: ../src/addressbook/gui/contact-editor/e-contact-editor.c:4768
 #, c-format
 msgid "“%s” cannot be a future date"
 msgstr "“%s” gelecekteki tarih olamaz"
 
-#: ../src/addressbook/gui/contact-editor/e-contact-editor.c:4736
+#: ../src/addressbook/gui/contact-editor/e-contact-editor.c:4776
 #, c-format
 msgid "%s“%s” has an invalid format"
 msgstr "%s“%s” geçersiz biçime sahip"
 
-#: ../src/addressbook/gui/contact-editor/e-contact-editor.c:4749
-#: ../src/addressbook/gui/contact-editor/e-contact-editor.c:4763
+#: ../src/addressbook/gui/contact-editor/e-contact-editor.c:4789
+#: ../src/addressbook/gui/contact-editor/e-contact-editor.c:4803
 #, c-format
 msgid "%s“%s” is empty"
 msgstr "%s“%s” boş"
 
-#: ../src/addressbook/gui/contact-editor/e-contact-editor.c:4778
+#: ../src/addressbook/gui/contact-editor/e-contact-editor.c:4818
 msgid "Invalid contact."
 msgstr "Geçersiz bağlantı."
 
@@ -5011,8 +5000,8 @@ msgstr "Geçersiz bağlantı."
 #: ../src/plugins/email-custom-header/org-gnome-email-custom-header.ui.h:4
 #: ../src/plugins/publish-calendar/url-editor-dialog.c:418
 #: ../src/shell/e-shell-content.c:643 ../src/shell/e-shell-content.c:749
-#: ../src/shell/main.c:271 ../src/smime/gui/certificate-manager.c:1344
-#: ../src/smime/gui/e-cert-selector.c:240 ../src/smime/gui/smime-ui.ui.h:18
+#: ../src/shell/main.c:271 ../src/smime/gui/certificate-manager.c:1278
+#: ../src/smime/gui/e-cert-selector.c:233 ../src/smime/gui/smime-ui.ui.h:18
 msgid "_OK"
 msgstr "_Tamam"
 
@@ -5400,7 +5389,7 @@ msgid "Blog"
 msgstr "Blog"
 
 #: ../src/addressbook/gui/widgets/eab-contact-merging.c:261
-#: ../src/e-util/e-mail-signature-editor.c:626
+#: ../src/e-util/e-mail-signature-editor.c:632
 msgid "Unnamed"
 msgstr "Adsız"
 
@@ -5645,7 +5634,7 @@ msgid "Are you sure you want to delete this contact (%s)?"
 msgstr "Bu bağlantıyı (%s) silmek istediğinizden emin misiniz?"
 
 #: ../src/addressbook/gui/widgets/e-addressbook-view.c:1438
-#: ../src/calendar/gui/e-comp-editor.c:2171
+#: ../src/calendar/gui/e-comp-editor.c:2191
 #: ../src/e-util/e-accounts-window.c:1763 ../src/e-util/e-focus-tracker.c:816
 #: ../src/e-util/evolution-source-viewer.c:800
 #: ../src/e-util/e-webdav-browser.c:2857
@@ -5656,7 +5645,7 @@ msgstr "Bu bağlantıyı (%s) silmek istediğinizden emin misiniz?"
 #: ../src/modules/calendar/e-task-shell-view-actions.c:851
 #: ../src/modules/mail/e-mail-shell-view-actions.c:1622
 #: ../src/shell/e-shell-window-actions.c:965
-#: ../src/smime/gui/certificate-manager.c:1667 ../src/smime/gui/smime-ui.ui.h:8
+#: ../src/smime/gui/certificate-manager.c:1602 ../src/smime/gui/smime-ui.ui.h:8
 msgid "_Delete"
 msgstr "_Sil"
 
@@ -6786,10 +6775,8 @@ msgstr ""
 "Gitlab’de hata bildirimi yapın."
 
 #: ../src/calendar/calendar.error.xml.h:179
-#, fuzzy
-#| msgid "Do you want to recover unfinished messages?"
 msgid "Do you want to detach event from the series?"
-msgstr "Tamamlanmamış iletileri kurtarmak istiyor musunuz?"
+msgstr "Olayı diziden ayırmak istiyor musunuz?"
 
 #: ../src/calendar/calendar.error.xml.h:180
 msgid ""
@@ -6986,7 +6973,7 @@ msgstr "Özet İçerir"
 msgid "Description Contains"
 msgstr "Tanım İçerir"
 
-#: ../src/calendar/gui/comp-util.c:1605
+#: ../src/calendar/gui/comp-util.c:1616
 #: ../src/calendar/gui/e-cal-component-preview.c:528
 #: ../src/calendar/importers/icalendar-importer.c:1574
 #: ../src/modules/itip-formatter/itip-view.c:2709
@@ -6995,62 +6982,62 @@ msgid "with one guest"
 msgid_plural "with %d guests"
 msgstr[0] "%d misafirle"
 
-#: ../src/calendar/gui/comp-util.c:1664
+#: ../src/calendar/gui/comp-util.c:1675
 #, c-format
 msgid "Comments: %s"
 msgstr "Yorumlar: %s"
 
-#: ../src/calendar/gui/comp-util.c:1678 ../src/calendar/gui/comp-util.c:1681
+#: ../src/calendar/gui/comp-util.c:1689 ../src/calendar/gui/comp-util.c:1692
 msgctxt "iCalendarStatus"
 msgid "None"
 msgstr "Yok"
 
-#: ../src/calendar/gui/comp-util.c:1679
+#: ../src/calendar/gui/comp-util.c:1690
 msgctxt "iCalendarStatus"
 msgid "Tentative"
 msgstr "Girişimli"
 
-#: ../src/calendar/gui/comp-util.c:1680
+#: ../src/calendar/gui/comp-util.c:1691
 msgctxt "iCalendarStatus"
 msgid "Confirmed"
 msgstr "Onaylanmış"
 
-#: ../src/calendar/gui/comp-util.c:1682
+#: ../src/calendar/gui/comp-util.c:1693
 msgctxt "iCalendarStatus"
 msgid "Draft"
 msgstr "Taslak"
 
-#: ../src/calendar/gui/comp-util.c:1683
+#: ../src/calendar/gui/comp-util.c:1694
 msgctxt "iCalendarStatus"
 msgid "Final"
 msgstr "Son"
 
-#: ../src/calendar/gui/comp-util.c:1684
+#: ../src/calendar/gui/comp-util.c:1695
 msgctxt "iCalendarStatus"
 msgid "Not Started"
 msgstr "Başlamadı"
 
-#: ../src/calendar/gui/comp-util.c:1685
+#: ../src/calendar/gui/comp-util.c:1696
 msgctxt "iCalendarStatus"
 msgid "Needs Action"
 msgstr "Eylem Gerektiriyor"
 
-#: ../src/calendar/gui/comp-util.c:1686
+#: ../src/calendar/gui/comp-util.c:1697
 msgctxt "iCalendarStatus"
 msgid "In Progress"
 msgstr "Süreçte"
 
-#: ../src/calendar/gui/comp-util.c:1687
+#: ../src/calendar/gui/comp-util.c:1698
 msgctxt "iCalendarStatus"
 msgid "Completed"
 msgstr "Tamamlandı"
 
-#: ../src/calendar/gui/comp-util.c:1688
+#: ../src/calendar/gui/comp-util.c:1699
 msgctxt "iCalendarStatus"
 msgid "Cancelled"
 msgstr "İptal Edilmiş"
 
-#: ../src/calendar/gui/comp-util.c:1949
+#: ../src/calendar/gui/comp-util.c:1960
 #: ../src/calendar/gui/e-meeting-list-view.c:205
 #: ../src/calendar/gui/e-meeting-store.c:179
 #: ../src/calendar/gui/e-meeting-store.c:202
@@ -7058,7 +7045,7 @@ msgstr "İptal Edilmiş"
 msgid "Accepted"
 msgstr "Onaylandı"
 
-#: ../src/calendar/gui/comp-util.c:1950
+#: ../src/calendar/gui/comp-util.c:1961
 #: ../src/calendar/gui/e-meeting-list-view.c:206
 #: ../src/calendar/gui/e-meeting-store.c:181
 #: ../src/calendar/gui/e-meeting-store.c:204
@@ -7066,7 +7053,7 @@ msgstr "Onaylandı"
 msgid "Declined"
 msgstr "Reddedildi"
 
-#: ../src/calendar/gui/comp-util.c:1951
+#: ../src/calendar/gui/comp-util.c:1962
 #: ../src/calendar/gui/e-meeting-list-view.c:207
 #: ../src/calendar/gui/e-meeting-store.c:183
 #: ../src/calendar/gui/e-meeting-store.c:206
@@ -7074,7 +7061,7 @@ msgstr "Reddedildi"
 msgid "Tentative"
 msgstr "Girişimli"
 
-#: ../src/calendar/gui/comp-util.c:1952
+#: ../src/calendar/gui/comp-util.c:1963
 #: ../src/calendar/gui/e-meeting-list-view.c:208
 #: ../src/calendar/gui/e-meeting-store.c:185
 #: ../src/calendar/gui/e-meeting-store.c:208
@@ -7082,13 +7069,13 @@ msgstr "Girişimli"
 msgid "Delegated"
 msgstr "Temsilci"
 
-#: ../src/calendar/gui/comp-util.c:1953
+#: ../src/calendar/gui/comp-util.c:1964
 msgid "Needs action"
 msgstr "Eylem gerekiyor"
 
 #. Translators: 'Status' here means the state of the attendees, the resulting string will be in a form:
 #. * Status: Accepted: X   Declined: Y   ...
-#: ../src/calendar/gui/comp-util.c:2018
+#: ../src/calendar/gui/comp-util.c:2029
 #: ../src/calendar/gui/e-cal-list-view.etspec.h:10
 #: ../src/calendar/gui/e-meeting-list-view.c:689
 #: ../src/calendar/gui/e-meeting-time-sel.etspec.h:9
@@ -7101,7 +7088,7 @@ msgid "Status"
 msgstr "Durum"
 
 #. String to use in 12-hour time format for times in the morning.
-#: ../src/calendar/gui/comp-util.c:2080 ../src/calendar/gui/e-day-view.c:2286
+#: ../src/calendar/gui/comp-util.c:2091 ../src/calendar/gui/e-day-view.c:2286
 #: ../src/calendar/gui/e-to-do-pane.c:249
 #: ../src/calendar/gui/e-week-view.c:1969 ../src/calendar/gui/print.c:1102
 #: ../src/calendar/gui/print.c:1121 ../src/calendar/gui/print.c:2689
@@ -7110,7 +7097,7 @@ msgid "am"
 msgstr "öö"
 
 #. String to use in 12-hour time format for times in the afternoon.
-#: ../src/calendar/gui/comp-util.c:2084 ../src/calendar/gui/e-day-view.c:2289
+#: ../src/calendar/gui/comp-util.c:2095 ../src/calendar/gui/e-day-view.c:2289
 #: ../src/calendar/gui/e-to-do-pane.c:253
 #: ../src/calendar/gui/e-week-view.c:1972 ../src/calendar/gui/print.c:1107
 #: ../src/calendar/gui/print.c:1123 ../src/calendar/gui/print.c:2694
@@ -7118,27 +7105,27 @@ msgstr "öö"
 msgid "pm"
 msgstr "ös"
 
-#: ../src/calendar/gui/comp-util.c:2113 ../src/calendar/gui/comp-util.c:2117
-#: ../src/calendar/gui/comp-util.c:2231
+#: ../src/calendar/gui/comp-util.c:2124 ../src/calendar/gui/comp-util.c:2128
+#: ../src/calendar/gui/comp-util.c:2242
 #: ../src/calendar/gui/e-comp-editor.c:1314
 msgid "No Summary"
 msgstr "Özet Yok"
 
 #. Translators: It will display "Organizer: NameOfTheUser <email@ofuser.com>"
-#: ../src/calendar/gui/comp-util.c:2242
+#: ../src/calendar/gui/comp-util.c:2253
 #, c-format
 msgid "Organizer: %s <%s>"
 msgstr "Organizatör: %s <%s>"
 
 #. Translators: It will display "Organizer: NameOfTheUser"
-#: ../src/calendar/gui/comp-util.c:2245
+#: ../src/calendar/gui/comp-util.c:2256
 #, c-format
 msgid "Organizer: %s"
 msgstr "Organizatör: %s"
 
 #. Translators: It will display "Location: PlaceOfTheMeeting"
 #. Translators: It will display "Location: LocationOfTheAppointment"
-#: ../src/calendar/gui/comp-util.c:2260
+#: ../src/calendar/gui/comp-util.c:2271
 #: ../src/calendar/gui/e-meeting-time-sel.c:2580
 #: ../src/calendar/gui/e-to-do-pane.c:382 ../src/calendar/gui/print.c:3655
 #, c-format
@@ -7146,33 +7133,33 @@ msgid "Location: %s"
 msgstr "Konum: %s"
 
 #. Translators: It will display "Start: ActualStartDateAndTime (DurationOfTheMeeting)"
-#: ../src/calendar/gui/comp-util.c:2315
+#: ../src/calendar/gui/comp-util.c:2326
 #, c-format
 msgid "Start: %s (%s)"
 msgstr "Başlama: %s (%s)"
 
 #. Translators: It will display "Start: ActualStartDateAndTime"
 #. Translators: It will display "Start: StartDateAndTime"
-#: ../src/calendar/gui/comp-util.c:2319 ../src/calendar/gui/e-to-do-pane.c:411
+#: ../src/calendar/gui/comp-util.c:2330 ../src/calendar/gui/e-to-do-pane.c:411
 #, c-format
 msgid "Start: %s"
 msgstr "Başlama: %s"
 
 #. Translators: It's for a task due date, it will display "Due: DateAndTime"
 #. Translators: It will display "Due: DueDateAndTime"
-#: ../src/calendar/gui/comp-util.c:2354 ../src/calendar/gui/e-to-do-pane.c:433
+#: ../src/calendar/gui/comp-util.c:2365 ../src/calendar/gui/e-to-do-pane.c:433
 #, c-format
 msgid "Due: %s"
 msgstr "Teslim: %s"
 
 #. Translators: It's for a task completed date, it will display "Completed: DateAndTime"
 #. Translators: It will display "Completed: DateAndTimeWhenCompleted"
-#: ../src/calendar/gui/comp-util.c:2379 ../src/calendar/gui/e-to-do-pane.c:447
+#: ../src/calendar/gui/comp-util.c:2390 ../src/calendar/gui/e-to-do-pane.c:447
 #, c-format
 msgid "Completed: %s"
 msgstr "Tamamlanan: %s"
 
-#: ../src/calendar/gui/comp-util.c:2416 ../src/calendar/gui/e-to-do-pane.c:596
+#: ../src/calendar/gui/comp-util.c:2427 ../src/calendar/gui/e-to-do-pane.c:596
 #: ../src/e-util/e-misc-utils.c:4838 ../src/e-util/e-text.c:566
 #: ../src/e-util/e-web-view.c:4187
 msgid "…"
@@ -7280,28 +7267,28 @@ msgstr "Buraya tıklayın, daha çok olay bulabilirsiniz."
 
 #. Translators: Part of: [ Play a sound ] [ x ] [ minute(s) ] [ before ] [ start ]
 #: ../src/calendar/gui/e-alarm-list.c:387
-#: ../src/calendar/gui/e-comp-editor-page-reminders.c:2323
+#: ../src/calendar/gui/e-comp-editor-page-reminders.c:2324
 msgctxt "cal-reminders"
 msgid "Play a sound"
 msgstr "Ses çal"
 
 #. Translators: Part of: [ Pop up an alert ] [ x ] [ minute(s) ] [ before ] [ start ]
 #: ../src/calendar/gui/e-alarm-list.c:391
-#: ../src/calendar/gui/e-comp-editor-page-reminders.c:2321
+#: ../src/calendar/gui/e-comp-editor-page-reminders.c:2322
 msgctxt "cal-reminders"
 msgid "Pop up an alert"
 msgstr "Uyarı göster"
 
 #. Translators: Part of: [ Send an email ] [ x ] [ minute(s) ] [ before ] [ start ]
 #: ../src/calendar/gui/e-alarm-list.c:395
-#: ../src/calendar/gui/e-comp-editor-page-reminders.c:2327
+#: ../src/calendar/gui/e-comp-editor-page-reminders.c:2328
 msgctxt "cal-reminders"
 msgid "Send an email"
 msgstr "E-posta gönder"
 
 #. Translators: Part of: [ Run a program ] [ x ] [ minute(s) ] [ before ] [ start ]
 #: ../src/calendar/gui/e-alarm-list.c:399
-#: ../src/calendar/gui/e-comp-editor-page-reminders.c:2325
+#: ../src/calendar/gui/e-comp-editor-page-reminders.c:2326
 msgctxt "cal-reminders"
 msgid "Run a program"
 msgstr "Program çalıştır"
@@ -8073,11 +8060,12 @@ msgstr "Başlangıç saati geçerli zaman değil"
 #: ../src/e-util/e-misc-utils.c:4193 ../src/e-util/e-misc-utils.c:4207
 #: ../src/mail/e-mail-autoconfig.c:1129 ../src/mail/e-mail-display.c:2475
 #: ../src/mail/e-mail-notes.c:930 ../src/mail/e-mail-reader-utils.c:805
-#: ../src/mail/em-composer-utils.c:3932 ../src/mail/em-composer-utils.c:3955
+#: ../src/mail/em-composer-utils.c:3962 ../src/mail/em-composer-utils.c:3985
 #: ../src/mail/mail-send-recv.c:598 ../src/mail/mail-send-recv.c:1493
 #: ../src/modules/accounts-window/e-accounts-window-editors.c:172
-#: ../src/plugins/face/face.c:175 ../src/shell/e-shell.c:1258
-#: ../src/shell/e-shell.c:1283 ../src/smime/gui/certificate-manager.c:363
+#: ../src/plugins/face/face.c:175
+#: ../src/plugins/mail-to-task/mail-to-task.c:951 ../src/shell/e-shell.c:1258
+#: ../src/shell/e-shell.c:1283 ../src/smime/gui/certificate-manager.c:353
 #, c-format
 msgid "Unknown error"
 msgstr "Bilinmeyen hata"
@@ -8417,7 +8405,7 @@ msgstr "Katılı_mcılar…"
 
 #: ../src/calendar/gui/e-comp-editor-page-general.c:1505
 #: ../src/calendar/gui/e-comp-editor-page-recurrence.c:2312
-#: ../src/calendar/gui/e-comp-editor.c:2236
+#: ../src/calendar/gui/e-comp-editor.c:2256
 #: ../src/e-util/e-accounts-window.c:1755
 #: ../src/e-util/e-html-editor-actions.c:1170
 #: ../src/e-util/e-mail-signature-manager.c:354
@@ -8692,14 +8680,14 @@ msgid "Exceptions"
 msgstr "İstisnalar"
 
 #: ../src/calendar/gui/e-comp-editor-page-recurrence.c:2304
-#: ../src/calendar/gui/e-comp-editor-page-reminders.c:2277
+#: ../src/calendar/gui/e-comp-editor-page-reminders.c:2278
 #: ../src/mail/e-mail-config-identity-page.c:854
 #: ../src/mail/mail-config.ui.h:68
 msgid "A_dd"
 msgstr "_Ekle"
 
 #: ../src/calendar/gui/e-comp-editor-page-recurrence.c:2320
-#: ../src/calendar/gui/e-comp-editor-page-reminders.c:2285
+#: ../src/calendar/gui/e-comp-editor-page-reminders.c:2286
 #: ../src/mail/mail-config.ui.h:70
 msgid "Re_move"
 msgstr "Çı_kart"
@@ -8790,101 +8778,101 @@ msgid "_Reminder"
 msgstr "_Hatırlatma"
 
 #. Translators: Part of: [ Pop up an alert ] [ x ] [ minute(s) ] [ before ] [ start ]
-#: ../src/calendar/gui/e-comp-editor-page-reminders.c:2358
+#: ../src/calendar/gui/e-comp-editor-page-reminders.c:2359
 msgctxt "cal-reminders"
 msgid "minute(s)"
 msgstr "dakika"
 
 #. Translators: Part of: [ Pop up an alert ] [ x ] [ hour(s) ] [ before ] [ start ]
-#: ../src/calendar/gui/e-comp-editor-page-reminders.c:2360
+#: ../src/calendar/gui/e-comp-editor-page-reminders.c:2361
 msgctxt "cal-reminders"
 msgid "hour(s)"
 msgstr "saat"
 
 #. Translators: Part of: [ Pop up an alert ] [ x ] [ day(s) ] [ before ] [ start ]
-#: ../src/calendar/gui/e-comp-editor-page-reminders.c:2362
+#: ../src/calendar/gui/e-comp-editor-page-reminders.c:2363
 msgctxt "cal-reminders"
 msgid "day(s)"
 msgstr "gün"
 
 #. Translators: Part of: [ Pop up an alert ] [ x ] [ minute(s) ] [ before ] [ start ]
-#: ../src/calendar/gui/e-comp-editor-page-reminders.c:2379
+#: ../src/calendar/gui/e-comp-editor-page-reminders.c:2380
 msgctxt "cal-reminders"
 msgid "before"
 msgstr "önce"
 
 #. Translators: Part of: [ Pop up an alert ] [ x ] [ minute(s) ] [ after ] [ start ]
-#: ../src/calendar/gui/e-comp-editor-page-reminders.c:2381
+#: ../src/calendar/gui/e-comp-editor-page-reminders.c:2382
 msgctxt "cal-reminders"
 msgid "after"
 msgstr "sonra"
 
 #. Translators: Part of: [ Pop up an alert ] [ x ] [ minute(s) ] [ before ] [ start ]
-#: ../src/calendar/gui/e-comp-editor-page-reminders.c:2397
+#: ../src/calendar/gui/e-comp-editor-page-reminders.c:2398
 msgctxt "cal-reminders"
 msgid "start"
 msgstr "başlangıç"
 
 #. Translators: Part of: [ Pop up an alert ] [ x ] [ minute(s) ] [ before ] [ end ]
-#: ../src/calendar/gui/e-comp-editor-page-reminders.c:2399
+#: ../src/calendar/gui/e-comp-editor-page-reminders.c:2400
 msgctxt "cal-reminders"
 msgid "end"
 msgstr "bitiş"
 
 #. Translators: Part of: Repeat the reminder [ x ] extra times every [ y ] [ minutes ]
-#: ../src/calendar/gui/e-comp-editor-page-reminders.c:2418
+#: ../src/calendar/gui/e-comp-editor-page-reminders.c:2419
 msgid "Re_peat the reminder"
 msgstr "Hatırlatıcıyı _yinele"
 
 #. Translators: Part of: Repeat the reminder [ x ] extra times every [ y ] [ minutes ]
-#: ../src/calendar/gui/e-comp-editor-page-reminders.c:2443
+#: ../src/calendar/gui/e-comp-editor-page-reminders.c:2444
 msgctxt "cal-reminders"
 msgid "extra times every"
 msgstr "ek sefer her"
 
 #. Translators: Part of: Repeat the reminder [ x ] extra times every [ y ] [ minutes ]
-#: ../src/calendar/gui/e-comp-editor-page-reminders.c:2480
+#: ../src/calendar/gui/e-comp-editor-page-reminders.c:2481
 msgctxt "cal-reminders"
 msgid "minutes"
 msgstr "dakika"
 
 #. Translators: Part of: Repeat the reminder [ x ] extra times every [ y ] [ hours ]
-#: ../src/calendar/gui/e-comp-editor-page-reminders.c:2482
+#: ../src/calendar/gui/e-comp-editor-page-reminders.c:2483
 msgctxt "cal-reminders"
 msgid "hours"
 msgstr "saat"
 
 #. Translators: Part of: Repeat the reminder [ x ] extra times every [ y ] [ days ]
-#: ../src/calendar/gui/e-comp-editor-page-reminders.c:2484
+#: ../src/calendar/gui/e-comp-editor-page-reminders.c:2485
 msgctxt "cal-reminders"
 msgid "days"
 msgstr "gün"
 
 #. page_reminders->priv->custom_email_entry is initialized on demand
-#: ../src/calendar/gui/e-comp-editor-page-reminders.c:2521
-#: ../src/calendar/gui/e-comp-editor-page-reminders.c:2678
+#: ../src/calendar/gui/e-comp-editor-page-reminders.c:2522
+#: ../src/calendar/gui/e-comp-editor-page-reminders.c:2680
 msgctxt "cal-reminders"
 msgid "Custom _message"
 msgstr "Özel _ileti"
 
-#: ../src/calendar/gui/e-comp-editor-page-reminders.c:2565
+#: ../src/calendar/gui/e-comp-editor-page-reminders.c:2567
 msgctxt "cal-reminders"
 msgid "Custom reminder _sound"
 msgstr "Özel hatırlatıcı _sesi"
 
-#: ../src/calendar/gui/e-comp-editor-page-reminders.c:2576
+#: ../src/calendar/gui/e-comp-editor-page-reminders.c:2578
 msgid "Select a sound file"
 msgstr "Ses dosyası seç"
 
-#: ../src/calendar/gui/e-comp-editor-page-reminders.c:2604
+#: ../src/calendar/gui/e-comp-editor-page-reminders.c:2606
 msgid "_Program:"
 msgstr "_Program:"
 
-#: ../src/calendar/gui/e-comp-editor-page-reminders.c:2629
+#: ../src/calendar/gui/e-comp-editor-page-reminders.c:2631
 msgid "_Arguments:"
 msgstr "_Parametreler:"
 
-#: ../src/calendar/gui/e-comp-editor-page-reminders.c:2661
+#: ../src/calendar/gui/e-comp-editor-page-reminders.c:2663
 msgid "_Send To:"
 msgstr "_Şuna Gönder:"
 
@@ -9095,13 +9083,14 @@ msgstr "Katılımcılara bildirim gönderiliyor…"
 msgid "Saving changes…"
 msgstr "Değişiklikler kaydediliyor…"
 
-#: ../src/calendar/gui/e-comp-editor.c:1926
-#: ../src/e-util/e-mail-signature-editor.c:577 ../src/mail/e-mail-notes.c:1186
-msgid "Save"
-msgstr "Kaydet"
+#: ../src/calendar/gui/e-comp-editor.c:1946
+#: ../src/calendar/gui/e-comp-editor.c:2308
+#: ../src/e-util/e-mail-signature-editor.c:337 ../src/mail/e-mail-notes.c:1113
+msgid "Save and Close"
+msgstr "Kaydet ve Kapat"
 
 #. == Button box ==
-#: ../src/calendar/gui/e-comp-editor.c:2150
+#: ../src/calendar/gui/e-comp-editor.c:2170
 #: ../src/composer/e-composer-actions.c:333
 #: ../src/e-util/e-accounts-window.c:1788
 #: ../src/e-util/e-html-editor-dialog.c:194
@@ -9111,23 +9100,23 @@ msgstr "Kaydet"
 #: ../src/mail/e-mail-browser.c:166 ../src/mail/e-mail-notes.c:1104
 #: ../src/mail/em-filter-editor.c:45 ../src/mail/em-folder-properties.c:1488
 #: ../src/shell/e-shell-window-actions.c:930
-#: ../src/smime/gui/certificate-manager.c:2189
+#: ../src/smime/gui/certificate-manager.c:2132
 msgid "_Close"
 msgstr "_Kapat"
 
-#: ../src/calendar/gui/e-comp-editor.c:2152
+#: ../src/calendar/gui/e-comp-editor.c:2172
 msgid "Close the current window"
 msgstr "Geçerli pencereyi kapat"
 
 #. copy menu item
-#: ../src/calendar/gui/e-comp-editor.c:2157 ../src/e-util/e-focus-tracker.c:806
+#: ../src/calendar/gui/e-comp-editor.c:2177 ../src/e-util/e-focus-tracker.c:806
 #: ../src/e-util/e-html-editor-actions.c:1126 ../src/e-util/e-text.c:2065
 #: ../src/e-util/e-web-view.c:467 ../src/mail/e-mail-browser.c:173
 #: ../src/mail/mail.error.xml.h:147 ../src/shell/e-shell-window-actions.c:951
 msgid "_Copy"
 msgstr "_Kopyala"
 
-#: ../src/calendar/gui/e-comp-editor.c:2159 ../src/e-util/e-focus-tracker.c:203
+#: ../src/calendar/gui/e-comp-editor.c:2179 ../src/e-util/e-focus-tracker.c:203
 #: ../src/e-util/e-focus-tracker.c:259 ../src/e-util/e-focus-tracker.c:312
 #: ../src/e-util/e-focus-tracker.c:807 ../src/e-util/e-web-view.c:469
 #: ../src/e-util/e-web-view.c:2056 ../src/mail/e-mail-browser.c:175
@@ -9136,59 +9125,59 @@ msgid "Copy the selection"
 msgstr "Seçimi kopyala"
 
 #. cut menu item
-#: ../src/calendar/gui/e-comp-editor.c:2164 ../src/e-util/e-focus-tracker.c:801
+#: ../src/calendar/gui/e-comp-editor.c:2184 ../src/e-util/e-focus-tracker.c:801
 #: ../src/e-util/e-html-editor-actions.c:1133 ../src/e-util/e-text.c:2051
 #: ../src/mail/e-mail-browser.c:180 ../src/shell/e-shell-window-actions.c:958
 msgid "Cu_t"
 msgstr "K_es"
 
-#: ../src/calendar/gui/e-comp-editor.c:2166 ../src/e-util/e-focus-tracker.c:196
+#: ../src/calendar/gui/e-comp-editor.c:2186 ../src/e-util/e-focus-tracker.c:196
 #: ../src/e-util/e-focus-tracker.c:252 ../src/e-util/e-focus-tracker.c:306
 #: ../src/e-util/e-focus-tracker.c:802 ../src/e-util/e-web-view.c:2065
 #: ../src/mail/e-mail-browser.c:182 ../src/shell/e-shell-window-actions.c:960
 msgid "Cut the selection"
 msgstr "Seçimi kes"
 
-#: ../src/calendar/gui/e-comp-editor.c:2173 ../src/e-util/e-focus-tracker.c:217
+#: ../src/calendar/gui/e-comp-editor.c:2193 ../src/e-util/e-focus-tracker.c:217
 #: ../src/e-util/e-focus-tracker.c:273 ../src/e-util/e-focus-tracker.c:817
 #: ../src/shell/e-shell-window-actions.c:967
 msgid "Delete the selection"
 msgstr "Seçimi sil"
 
-#: ../src/calendar/gui/e-comp-editor.c:2178
-#: ../src/calendar/gui/e-comp-editor.c:2250
+#: ../src/calendar/gui/e-comp-editor.c:2198
+#: ../src/calendar/gui/e-comp-editor.c:2270
 #: ../src/e-util/e-send-options.ui.h:15
 #: ../src/plugins/email-custom-header/org-gnome-email-custom-header.ui.h:2
 #: ../src/shell/e-shell-window-actions.c:1121
 msgid "_Help"
 msgstr "_Yardım"
 
-#: ../src/calendar/gui/e-comp-editor.c:2180
+#: ../src/calendar/gui/e-comp-editor.c:2200
 msgid "View help"
 msgstr "Yardımı görüntüle"
 
 #. paste menu item
-#: ../src/calendar/gui/e-comp-editor.c:2185 ../src/e-util/e-focus-tracker.c:811
+#: ../src/calendar/gui/e-comp-editor.c:2205 ../src/e-util/e-focus-tracker.c:811
 #: ../src/e-util/e-html-editor-actions.c:1140 ../src/e-util/e-text.c:2077
 #: ../src/mail/e-mail-browser.c:187 ../src/shell/e-shell-window-actions.c:986
 msgid "_Paste"
 msgstr "_Yapıştır"
 
-#: ../src/calendar/gui/e-comp-editor.c:2187 ../src/e-util/e-focus-tracker.c:210
+#: ../src/calendar/gui/e-comp-editor.c:2207 ../src/e-util/e-focus-tracker.c:210
 #: ../src/e-util/e-focus-tracker.c:266 ../src/e-util/e-focus-tracker.c:318
 #: ../src/e-util/e-focus-tracker.c:812 ../src/e-util/e-web-view.c:2074
 #: ../src/mail/e-mail-browser.c:189 ../src/shell/e-shell-window-actions.c:988
 msgid "Paste the clipboard"
 msgstr "Panodan yapıştır"
 
-#: ../src/calendar/gui/e-comp-editor.c:2192
+#: ../src/calendar/gui/e-comp-editor.c:2212
 #: ../src/composer/e-composer-actions.c:387 ../src/mail/e-mail-reader.c:2868
 #: ../src/modules/addressbook/e-book-shell-view-actions.c:1319
 #: ../src/modules/addressbook/e-book-shell-view-actions.c:1333
 msgid "_Print…"
 msgstr "_Yazdır…"
 
-#: ../src/calendar/gui/e-comp-editor.c:2199 ../src/mail/e-mail-reader.c:2875
+#: ../src/calendar/gui/e-comp-editor.c:2219 ../src/mail/e-mail-reader.c:2875
 #: ../src/modules/addressbook/e-book-shell-view-actions.c:1326
 #: ../src/modules/calendar/e-cal-shell-view-actions.c:1921
 #: ../src/modules/calendar/e-memo-shell-view-actions.c:838
@@ -9196,60 +9185,55 @@ msgstr "_Yazdır…"
 msgid "Pre_view…"
 msgstr "Ön İz_le…"
 
-#: ../src/calendar/gui/e-comp-editor.c:2206 ../src/e-util/e-focus-tracker.c:821
+#: ../src/calendar/gui/e-comp-editor.c:2226 ../src/e-util/e-focus-tracker.c:821
 #: ../src/e-util/e-html-editor-actions.c:1154 ../src/e-util/e-web-view.c:484
 #: ../src/mail/e-mail-browser.c:194 ../src/shell/e-shell-window-actions.c:1063
 msgid "Select _All"
 msgstr "Tümünü _Seç"
 
-#: ../src/calendar/gui/e-comp-editor.c:2208 ../src/e-util/e-focus-tracker.c:224
+#: ../src/calendar/gui/e-comp-editor.c:2228 ../src/e-util/e-focus-tracker.c:224
 #: ../src/e-util/e-focus-tracker.c:280 ../src/e-util/e-focus-tracker.c:822
 #: ../src/mail/e-mail-browser.c:196 ../src/shell/e-shell-window-actions.c:1065
 msgid "Select all text"
 msgstr "Tüm metni seç"
 
-#: ../src/calendar/gui/e-comp-editor.c:2229
+#: ../src/calendar/gui/e-comp-editor.c:2249
 msgid "_Classification"
 msgstr "_Sınıflandırma"
 
-#: ../src/calendar/gui/e-comp-editor.c:2243
+#: ../src/calendar/gui/e-comp-editor.c:2263
 #: ../src/e-util/e-html-editor-actions.c:1177
 #: ../src/e-util/e-mail-signature-editor.c:342 ../src/mail/e-mail-browser.c:210
 #: ../src/mail/e-mail-notes.c:1118 ../src/shell/e-shell-window-actions.c:1114
 msgid "_File"
 msgstr "_Dosya"
 
-#: ../src/calendar/gui/e-comp-editor.c:2257
+#: ../src/calendar/gui/e-comp-editor.c:2277
 #: ../src/e-util/e-html-editor-actions.c:1198
 msgid "_Insert"
 msgstr "Araya _Ekle"
 
-#: ../src/calendar/gui/e-comp-editor.c:2264
+#: ../src/calendar/gui/e-comp-editor.c:2284
 #: ../src/composer/e-composer-actions.c:377
 msgid "_Options"
 msgstr "_Seçenekler"
 
-#: ../src/calendar/gui/e-comp-editor.c:2271
+#: ../src/calendar/gui/e-comp-editor.c:2291
 #: ../src/e-util/e-html-editor-actions.c:1219 ../src/mail/e-mail-browser.c:224
 #: ../src/shell/e-shell-window-actions.c:1157
-#: ../src/smime/gui/certificate-manager.c:1657 ../src/smime/gui/smime-ui.ui.h:3
+#: ../src/smime/gui/certificate-manager.c:1592 ../src/smime/gui/smime-ui.ui.h:3
 msgid "_View"
 msgstr "_Görünüm"
 
-#: ../src/calendar/gui/e-comp-editor.c:2283
+#: ../src/calendar/gui/e-comp-editor.c:2303
 msgid "Save current changes"
 msgstr "Geçerli değişiklikleri kaydet"
 
-#: ../src/calendar/gui/e-comp-editor.c:2288
-#: ../src/e-util/e-mail-signature-editor.c:337 ../src/mail/e-mail-notes.c:1113
-msgid "Save and Close"
-msgstr "Kaydet ve Kapat"
-
-#: ../src/calendar/gui/e-comp-editor.c:2290
+#: ../src/calendar/gui/e-comp-editor.c:2310
 msgid "Save current changes and close editor"
 msgstr "Değişiklikleri kaydet düzenleyiciyi kapat"
 
-#: ../src/calendar/gui/e-comp-editor.c:2297
+#: ../src/calendar/gui/e-comp-editor.c:2317
 msgid "Show _toolbar"
 msgstr "Araç çubuğu_nu göster"
 
@@ -12103,7 +12087,7 @@ msgstr "Adres defteri için buraya tıklayın"
 msgid "Click here to select folders to post to"
 msgstr "Gönderilecek klasörleri seçmek için buraya tıklayın"
 
-#: ../src/composer/e-composer-private.c:94
+#: ../src/composer/e-composer-private.c:100
 msgid "Send"
 msgstr "Gönder"
 
@@ -12129,7 +12113,7 @@ msgid "Compose Message"
 msgstr "İleti Yaz"
 
 #: ../src/composer/e-msg-composer.c:4700
-#: ../src/modules/composer-to-meeting/e-composer-to-meeting.c:352
+#: ../src/modules/composer-to-meeting/e-composer-to-meeting.c:364
 msgid "Reading text content…"
 msgstr "Metin içeriği okunuyor…"
 
@@ -12513,7 +12497,7 @@ msgstr "Boyut"
 #: ../src/mail/message-list.etspec.h:6 ../src/mail/searchtypes.xml.in.h:17
 #: ../src/mail/vfoldertypes.xml.in.h:17
 #: ../src/modules/mail/em-mailer-prefs.c:76
-#: ../src/smime/gui/certificate-manager.c:1638
+#: ../src/smime/gui/certificate-manager.c:1573
 msgid "Subject"
 msgstr "Konu"
 
@@ -13592,7 +13576,7 @@ msgstr "_Kullanıcı adı:"
 
 #: ../src/e-util/e-collection-account-wizard.c:703
 #: ../src/plugins/publish-calendar/publish-calendar.ui.h:30
-#: ../src/smime/gui/certificate-manager.c:767
+#: ../src/smime/gui/certificate-manager.c:757
 msgid "_Password:"
 msgstr "_Parola:"
 
@@ -15600,11 +15584,15 @@ msgstr "Kapat"
 msgid "_Save and Close"
 msgstr "_Kaydet ve Kapat"
 
-#: ../src/e-util/e-mail-signature-editor.c:573
+#: ../src/e-util/e-mail-signature-editor.c:576
 msgid "Edit Signature"
 msgstr "İmzayi Düzenle"
 
-#: ../src/e-util/e-mail-signature-editor.c:600
+#: ../src/e-util/e-mail-signature-editor.c:580 ../src/mail/e-mail-notes.c:1188
+msgid "Save"
+msgstr "Kaydet"
+
+#: ../src/e-util/e-mail-signature-editor.c:606
 msgid "_Signature Name:"
 msgstr "İ_mza Adı:"
 
@@ -17589,17 +17577,17 @@ msgstr "Bu pencereyi kapat"
 msgid "(No Subject)"
 msgstr "(Konu Yok)"
 
-#: ../src/mail/e-mail-browser.c:532 ../src/mail/mail-dialogs.ui.h:5
+#: ../src/mail/e-mail-browser.c:537 ../src/mail/mail-dialogs.ui.h:5
 #: ../src/modules/mail/e-mail-shell-view-private.c:1511
 msgid "Forward"
 msgstr "Yönlendir"
 
-#: ../src/mail/e-mail-browser.c:543 ../src/mail/e-mail-reader.c:2917
+#: ../src/mail/e-mail-browser.c:548 ../src/mail/e-mail-reader.c:2917
 #: ../src/modules/mail/e-mail-shell-view-private.c:1522
 msgid "Group Reply"
 msgstr "Toplu Yanıt"
 
-#: ../src/mail/e-mail-browser.c:555 ../src/mail/e-mail-reader.c:5281
+#: ../src/mail/e-mail-browser.c:560 ../src/mail/e-mail-reader.c:5281
 #: ../src/mail/mail-dialogs.ui.h:9
 #: ../src/modules/mail/e-mail-shell-view-private.c:1534
 msgid "Reply"
@@ -17661,7 +17649,7 @@ msgid "Do Not Quote"
 msgstr "Alıntı Yapma"
 
 #: ../src/mail/e-mail-config-composing-page.c:157
-#: ../src/mail/em-composer-utils.c:4243
+#: ../src/mail/em-composer-utils.c:4273
 msgid "Use global setting"
 msgstr "Genel ayarı kullan"
 
@@ -17693,12 +17681,12 @@ msgid "Language for Reply and Forward attribution text"
 msgstr "Yanıtla ve İlet öznitelik metni için dil"
 
 #: ../src/mail/e-mail-config-composing-page.c:524
-#: ../src/mail/em-composer-utils.c:4247 ../src/mail/mail-config.ui.h:23
+#: ../src/mail/em-composer-utils.c:4277 ../src/mail/mail-config.ui.h:23
 msgid "Start _typing at the bottom"
 msgstr "_Yazmaya aşağıdan başla"
 
 #: ../src/mail/e-mail-config-composing-page.c:531
-#: ../src/mail/em-composer-utils.c:4250 ../src/mail/mail-config.ui.h:24
+#: ../src/mail/em-composer-utils.c:4280 ../src/mail/mail-config.ui.h:24
 msgid "_Keep signature above the original message"
 msgstr "Yanıtlarken imzayı özgün iletinin üzerinde _tut"
 
@@ -18331,11 +18319,11 @@ msgstr "Metin, iletiye çevrilemedi"
 msgid "Storing changes…"
 msgstr "Değişiklikler kaydediliyor…"
 
-#: ../src/mail/e-mail-notes.c:1182
+#: ../src/mail/e-mail-notes.c:1184
 msgid "Edit Message Note"
 msgstr "İleti Notunu Düzenle"
 
-#: ../src/mail/e-mail-notes.c:1295
+#: ../src/mail/e-mail-notes.c:1300
 msgid "Retrieving message…"
 msgstr "İleti alınıyor…"
 
@@ -18849,7 +18837,7 @@ msgstr "_Yinelenen İletileri Sil"
 msgid "Checks selected messages for duplicates"
 msgstr "Seçili iletilerin aynılarını arar"
 
-#: ../src/mail/e-mail-reader.c:2903 ../src/mail/em-composer-utils.c:4188
+#: ../src/mail/e-mail-reader.c:2903 ../src/mail/em-composer-utils.c:4218
 #: ../src/mail/mail.error.xml.h:28
 #: ../src/modules/calendar/e-cal-shell-view-actions.c:1586
 #: ../src/modules/mail/e-mail-attachment-handler.c:396
@@ -18873,7 +18861,7 @@ msgstr "Seçilen iletiye yanıt seçeneklerini seç"
 msgid "Reply to the mailing list, or to all recipients"
 msgstr "E-posta listesine, ya da tüm alıcılara yanıtla"
 
-#: ../src/mail/e-mail-reader.c:2924 ../src/mail/em-composer-utils.c:4183
+#: ../src/mail/e-mail-reader.c:2924 ../src/mail/em-composer-utils.c:4213
 #: ../src/mail/mail.error.xml.h:26
 #: ../src/modules/mail/e-mail-attachment-handler.c:403
 msgid "Reply to _List"
@@ -19234,7 +19222,7 @@ msgstr[0] ""
 
 #. This message is never removed from the camel operation, otherwise the GtkInfoBar
 #. hides itself and the user sees no feedback.
-#: ../src/mail/em-composer-utils.c:857
+#: ../src/mail/em-composer-utils.c:880
 msgid "Waiting for attachments to load…"
 msgstr "Eklerin yüklenmesi bekleniyor…"
 
@@ -19242,7 +19230,7 @@ msgstr "Eklerin yüklenmesi bekleniyor…"
 #. * when quoting messages.  Each ${Variable} gets replaced
 #. * with a value.  To see a full list of available variables,
 #. * see mail/em-composer-utils.c:attribvars array.
-#: ../src/mail/em-composer-utils.c:2062
+#: ../src/mail/em-composer-utils.c:2085
 msgid ""
 "On ${AbbrevWeekdayName}, ${Year}-${Month}-${Day} at ${24Hour}:${Minute} "
 "${TimeZone}, ${Sender} wrote:"
@@ -19250,91 +19238,91 @@ msgstr ""
 "${AbbrevWeekdayName}, ${Year}-${Month}-${Day} tarihinde ${24Hour}:${Minute} "
 "${TimeZone} saatinde, ${Sender} yazdı:"
 
-#: ../src/mail/em-composer-utils.c:2068
+#: ../src/mail/em-composer-utils.c:2091
 msgid "-------- Forwarded Message --------"
 msgstr "-------- Yönlendirilmiş İleti --------"
 
-#: ../src/mail/em-composer-utils.c:2073
+#: ../src/mail/em-composer-utils.c:2096
 msgid "-----Original Message-----"
 msgstr "-------- Özgün İleti --------"
 
 #. Translators: This is a reply attribution in the message reply subject. The %s is replaced with the subject of the original message. Both 'Re'-s in the 'reply-attribution' translation context should translate into the same string, the same as the ':' separator.
-#: ../src/mail/em-composer-utils.c:2879
+#: ../src/mail/em-composer-utils.c:2909
 #, c-format
 msgctxt "reply-attribution"
 msgid "Re: %s"
 msgstr "Ynt: %s"
 
-#: ../src/mail/em-composer-utils.c:3498
+#: ../src/mail/em-composer-utils.c:3528
 msgid "an unknown sender"
 msgstr "bilinmeyen gönderici"
 
-#: ../src/mail/em-composer-utils.c:4134
+#: ../src/mail/em-composer-utils.c:4164
 msgid "Alternative Reply"
 msgstr "Alternatif Yanıt"
 
-#: ../src/mail/em-composer-utils.c:4137
+#: ../src/mail/em-composer-utils.c:4167
 #: ../src/modules/calendar/e-cal-shell-view-actions.c:1579
 msgid "_Reply"
 msgstr "_Yanıtla"
 
-#: ../src/mail/em-composer-utils.c:4150
+#: ../src/mail/em-composer-utils.c:4180
 msgid "Recipients:"
 msgstr "Alıcılar:"
 
-#: ../src/mail/em-composer-utils.c:4178
+#: ../src/mail/em-composer-utils.c:4208
 msgid "Reply to _Sender"
 msgstr "_Gönderene Yanıtla"
 
-#: ../src/mail/em-composer-utils.c:4200
+#: ../src/mail/em-composer-utils.c:4230
 msgid "Reply style:"
 msgstr "Yanıtlama biçemi:"
 
-#: ../src/mail/em-composer-utils.c:4208
+#: ../src/mail/em-composer-utils.c:4238
 msgid "_Default"
 msgstr "_Öntanımlı"
 
-#: ../src/mail/em-composer-utils.c:4212
+#: ../src/mail/em-composer-utils.c:4242
 msgid "Attach_ment"
 msgstr "_Ek"
 
-#: ../src/mail/em-composer-utils.c:4216
+#: ../src/mail/em-composer-utils.c:4246
 msgid "Inline (_Outlook style)"
 msgstr "Satır Arası (_Outlook biçimi)"
 
-#: ../src/mail/em-composer-utils.c:4220
+#: ../src/mail/em-composer-utils.c:4250
 msgid "_Quote"
 msgstr "_Alıntı"
 
-#: ../src/mail/em-composer-utils.c:4224
+#: ../src/mail/em-composer-utils.c:4254
 msgid "Do _Not Quote"
 msgstr "Alıntı Yap_ma"
 
 #. Translators: The text is followed by the format combo with values like 'Plain Text', 'HTML' and so on
-#: ../src/mail/em-composer-utils.c:4235
+#: ../src/mail/em-composer-utils.c:4265
 msgid "_Format message in"
 msgstr "İletiyi şununla biçimle"
 
-#: ../src/mail/em-composer-utils.c:4257
+#: ../src/mail/em-composer-utils.c:4287
 msgid "Apply t_emplate"
 msgstr "Şabl_on uygula"
 
-#: ../src/mail/em-composer-utils.c:4269
+#: ../src/mail/em-composer-utils.c:4299
 msgid "Preserve original message S_ubject"
 msgstr "Özgün ileti Kon_usunu koru"
 
-#: ../src/mail/em-composer-utils.c:4335
+#: ../src/mail/em-composer-utils.c:4365
 #, c-format
 msgid "one recipient"
 msgid_plural "%d recipients"
 msgstr[0] "%d alıcı"
 
 #. FIXME GTK_WINDOW (composer)
-#: ../src/mail/em-composer-utils.c:4820
+#: ../src/mail/em-composer-utils.c:4850
 msgid "Posting destination"
 msgstr "Gönderme konumu"
 
-#: ../src/mail/em-composer-utils.c:4825
+#: ../src/mail/em-composer-utils.c:4855
 msgid "Choose folders to post the message to."
 msgstr "İletinin gönderileceği klasörleri seç."
 
@@ -23192,7 +23180,7 @@ msgstr "_24 saat"
 #. Translators: This is part of
 #: ../src/modules/calendar/e-calendar-preferences.ui.h:19
 msgid "Sh_orten event time by"
-msgstr ""
+msgstr "Olay saatini _kısalt"
 
 #: ../src/modules/calendar/e-calendar-preferences.ui.h:22
 msgid "End events earlier"
@@ -24358,11 +24346,11 @@ msgid "%d task"
 msgid_plural "%d tasks"
 msgstr[0] "%d görev"
 
-#: ../src/modules/composer-to-meeting/e-composer-to-meeting.c:380
+#: ../src/modules/composer-to-meeting/e-composer-to-meeting.c:392
 msgid "Convert to M_eeting"
 msgstr "_Toplantıya Dönüştür"
 
-#: ../src/modules/composer-to-meeting/e-composer-to-meeting.c:382
+#: ../src/modules/composer-to-meeting/e-composer-to-meeting.c:394
 msgid "Convert the message to a meeting request"
 msgstr "İletiyi toplantı isteğine dönüştür"
 
@@ -24885,7 +24873,7 @@ msgid "_Update Attendee Status"
 msgstr "_Katılımcı Durumunu Güncelle"
 
 #: ../src/modules/itip-formatter/itip-view.c:1298
-#: ../src/smime/gui/certificate-manager.c:1672
+#: ../src/smime/gui/certificate-manager.c:1607
 msgid "_Update"
 msgstr "_Güncelle"
 
@@ -27279,7 +27267,7 @@ msgid "Notifies you when new mail messages arrive."
 msgstr "Yeni e-posta iletileri geldiğinde sizi uyarır."
 
 #. To Translators: The full sentence looks like: "Created from a mail by John Doe <john.doe@myco.example>"
-#: ../src/plugins/mail-to-task/mail-to-task.c:198
+#: ../src/plugins/mail-to-task/mail-to-task.c:199
 #, c-format
 msgid "Created from a mail by %s"
 msgstr "%s tarafından e-postadan oluşturuldu"
@@ -27413,35 +27401,40 @@ msgstr ""
 "Seçilen not listesi yalnızca okunabilir, bu yüzden not oluştuturulamıyor. "
 "Lütfen, başka not listesi seçin."
 
-#: ../src/plugins/mail-to-task/mail-to-task.c:1331
+#: ../src/plugins/mail-to-task/mail-to-task.c:951
+#, c-format
+msgid "Cannot create component: %s"
+msgstr "Bileşen oluşturulamadı: %s"
+
+#: ../src/plugins/mail-to-task/mail-to-task.c:1328
 msgid "Create an _Appointment"
 msgstr "Yeni Randevu _Oluştur"
 
-#: ../src/plugins/mail-to-task/mail-to-task.c:1333
+#: ../src/plugins/mail-to-task/mail-to-task.c:1330
 msgid "Create a new event from the selected message"
 msgstr "Seçili iletiyi kullanarak yeni olay oluştur"
 
-#: ../src/plugins/mail-to-task/mail-to-task.c:1338
+#: ../src/plugins/mail-to-task/mail-to-task.c:1335
 msgid "Create a Mem_o"
 msgstr "Yeni not _oluştur"
 
-#: ../src/plugins/mail-to-task/mail-to-task.c:1340
+#: ../src/plugins/mail-to-task/mail-to-task.c:1337
 msgid "Create a new memo from the selected message"
 msgstr "Seçilen iletiden yeni not oluştur"
 
-#: ../src/plugins/mail-to-task/mail-to-task.c:1345
+#: ../src/plugins/mail-to-task/mail-to-task.c:1342
 msgid "Create a _Task"
 msgstr "_Görev Oluştur"
 
-#: ../src/plugins/mail-to-task/mail-to-task.c:1347
+#: ../src/plugins/mail-to-task/mail-to-task.c:1344
 msgid "Create a new task from the selected message"
 msgstr "Seçili iletiden yeni görev oluştur"
 
-#: ../src/plugins/mail-to-task/mail-to-task.c:1355
+#: ../src/plugins/mail-to-task/mail-to-task.c:1352
 msgid "Create a _Meeting"
 msgstr "Yeni _toplantı oluştur"
 
-#: ../src/plugins/mail-to-task/mail-to-task.c:1357
+#: ../src/plugins/mail-to-task/mail-to-task.c:1354
 msgid "Create a new meeting from the selected message"
 msgstr "Seçilen iletiden yeni toplantı oluştur"
 
@@ -27847,7 +27840,7 @@ msgstr "Aramalar"
 msgid "Save Search"
 msgstr "Aramayı Kaydet"
 
-#: ../src/shell/e-shell-headerbar.c:213
+#: ../src/shell/e-shell-headerbar.c:161
 msgctxt "toolbar-button"
 msgid "New"
 msgstr "Yeni"
@@ -28492,88 +28485,88 @@ msgstr ""
 "\n"
 "Güven ayarlarını düzenle:"
 
-#: ../src/smime/gui/certificate-manager.c:85
-#: ../src/smime/gui/certificate-manager.c:105
-#: ../src/smime/gui/certificate-manager.c:126
+#: ../src/smime/gui/certificate-manager.c:75
+#: ../src/smime/gui/certificate-manager.c:95
+#: ../src/smime/gui/certificate-manager.c:116
 msgid "Certificate Name"
 msgstr "Sertifika Adı"
 
-#: ../src/smime/gui/certificate-manager.c:86
-#: ../src/smime/gui/certificate-manager.c:107
+#: ../src/smime/gui/certificate-manager.c:76
+#: ../src/smime/gui/certificate-manager.c:97
 msgid "Issued To Organization"
 msgstr "Verilen Kurum"
 
-#: ../src/smime/gui/certificate-manager.c:87
-#: ../src/smime/gui/certificate-manager.c:108
+#: ../src/smime/gui/certificate-manager.c:77
+#: ../src/smime/gui/certificate-manager.c:98
 msgid "Issued To Organizational Unit"
 msgstr "Verilen Kurumsal Birimi"
 
-#: ../src/smime/gui/certificate-manager.c:88
-#: ../src/smime/gui/certificate-manager.c:109
-#: ../src/smime/gui/certificate-manager.c:128
+#: ../src/smime/gui/certificate-manager.c:78
+#: ../src/smime/gui/certificate-manager.c:99
+#: ../src/smime/gui/certificate-manager.c:118
 msgid "Serial Number"
 msgstr "Seri Numarası"
 
-#: ../src/smime/gui/certificate-manager.c:89
-#: ../src/smime/gui/certificate-manager.c:110
-#: ../src/smime/gui/certificate-manager.c:129
+#: ../src/smime/gui/certificate-manager.c:79
+#: ../src/smime/gui/certificate-manager.c:100
+#: ../src/smime/gui/certificate-manager.c:119
 msgid "Purposes"
 msgstr "Amaçlar"
 
-#: ../src/smime/gui/certificate-manager.c:90
-#: ../src/smime/gui/certificate-manager.c:111
-#: ../src/smime/gui/certificate-manager.c:130
+#: ../src/smime/gui/certificate-manager.c:80
+#: ../src/smime/gui/certificate-manager.c:101
+#: ../src/smime/gui/certificate-manager.c:120
 msgid "Issued By"
 msgstr "Düzenleyen"
 
-#: ../src/smime/gui/certificate-manager.c:91
-#: ../src/smime/gui/certificate-manager.c:112
-#: ../src/smime/gui/certificate-manager.c:131
+#: ../src/smime/gui/certificate-manager.c:81
+#: ../src/smime/gui/certificate-manager.c:102
+#: ../src/smime/gui/certificate-manager.c:121
 msgid "Issued By Organization"
 msgstr "Düzenleyen Kurum"
 
-#: ../src/smime/gui/certificate-manager.c:92
-#: ../src/smime/gui/certificate-manager.c:113
-#: ../src/smime/gui/certificate-manager.c:132
+#: ../src/smime/gui/certificate-manager.c:82
+#: ../src/smime/gui/certificate-manager.c:103
+#: ../src/smime/gui/certificate-manager.c:122
 msgid "Issued By Organizational Unit"
 msgstr "Düzenleyen Kurumsal Birim"
 
-#: ../src/smime/gui/certificate-manager.c:93
-#: ../src/smime/gui/certificate-manager.c:114
-#: ../src/smime/gui/certificate-manager.c:133
+#: ../src/smime/gui/certificate-manager.c:83
+#: ../src/smime/gui/certificate-manager.c:104
+#: ../src/smime/gui/certificate-manager.c:123
 msgid "Issued"
 msgstr "Düzenlenen"
 
-#: ../src/smime/gui/certificate-manager.c:94
-#: ../src/smime/gui/certificate-manager.c:115
-#: ../src/smime/gui/certificate-manager.c:134
+#: ../src/smime/gui/certificate-manager.c:84
+#: ../src/smime/gui/certificate-manager.c:105
+#: ../src/smime/gui/certificate-manager.c:124
 msgid "Expires"
 msgstr "Son Kullanım"
 
-#: ../src/smime/gui/certificate-manager.c:95
-#: ../src/smime/gui/certificate-manager.c:116
-#: ../src/smime/gui/certificate-manager.c:135
+#: ../src/smime/gui/certificate-manager.c:85
+#: ../src/smime/gui/certificate-manager.c:106
+#: ../src/smime/gui/certificate-manager.c:125
 msgid "SHA256 Fingerprint"
 msgstr "SHA256 Parmak İzi"
 
-#: ../src/smime/gui/certificate-manager.c:96
-#: ../src/smime/gui/certificate-manager.c:117
-#: ../src/smime/gui/certificate-manager.c:136
+#: ../src/smime/gui/certificate-manager.c:86
+#: ../src/smime/gui/certificate-manager.c:107
+#: ../src/smime/gui/certificate-manager.c:126
 msgid "SHA1 Fingerprint"
 msgstr "SHA1 Parmak İzi"
 
-#: ../src/smime/gui/certificate-manager.c:97
-#: ../src/smime/gui/certificate-manager.c:118
-#: ../src/smime/gui/certificate-manager.c:137
+#: ../src/smime/gui/certificate-manager.c:87
+#: ../src/smime/gui/certificate-manager.c:108
+#: ../src/smime/gui/certificate-manager.c:127
 msgid "MD5 Fingerprint"
 msgstr "MD5 Parmak İzi"
 
-#: ../src/smime/gui/certificate-manager.c:106
-#: ../src/smime/gui/certificate-manager.c:127
+#: ../src/smime/gui/certificate-manager.c:96
+#: ../src/smime/gui/certificate-manager.c:117
 msgid "Email Address"
 msgstr "E-posta Adresi"
 
-#: ../src/smime/gui/certificate-manager.c:653
+#: ../src/smime/gui/certificate-manager.c:643
 msgid "Select a file to backup your key and certificate…"
 msgstr "Anahtar ve sertifikanızı yedeklemek için dosya seçin…"
 
@@ -28582,31 +28575,31 @@ msgstr "Anahtar ve sertifikanızı yedeklemek için dosya seçin…"
 #. * when a user wants to backup one of her/his private keys/certificates.
 #. * For example: gnomedev-backup.p12
 #.
-#: ../src/smime/gui/certificate-manager.c:663
+#: ../src/smime/gui/certificate-manager.c:653
 #, c-format
 msgid "%s-backup.p12"
 msgstr "%s -yedek.p12"
 
-#: ../src/smime/gui/certificate-manager.c:722
+#: ../src/smime/gui/certificate-manager.c:712
 msgid "Backup Certificate"
 msgstr "Sertifika Yedekle"
 
 #. filename selection
-#: ../src/smime/gui/certificate-manager.c:737
+#: ../src/smime/gui/certificate-manager.c:727
 msgid "_File name:"
 msgstr "_Dosya adı:"
 
 #. FIXME when gtk_file_chooser_button allows GTK_FILE_CHOOSER_ACTION_SAVE use it
-#: ../src/smime/gui/certificate-manager.c:742
+#: ../src/smime/gui/certificate-manager.c:732
 msgid "Please select a file…"
 msgstr "Lütfen dosya seç…"
 
-#: ../src/smime/gui/certificate-manager.c:756
+#: ../src/smime/gui/certificate-manager.c:746
 msgid "_Include certificate chain in the backup"
 msgstr "Sertifika zincirini yedeğe _göm"
 
 #. To Translators: this text was copied from Firefox
-#: ../src/smime/gui/certificate-manager.c:762
+#: ../src/smime/gui/certificate-manager.c:752
 msgid ""
 "The certificate backup password you set here protects the backup file that "
 "you are about to create.\n"
@@ -28616,16 +28609,16 @@ msgstr ""
 "korur.\n"
 "Yedeklemek için bu parolayı ayarlamalısınız."
 
-#: ../src/smime/gui/certificate-manager.c:781
+#: ../src/smime/gui/certificate-manager.c:771
 msgid "_Repeat Password:"
 msgstr "Parolayı _Yinele:"
 
-#: ../src/smime/gui/certificate-manager.c:800
+#: ../src/smime/gui/certificate-manager.c:790
 msgid "Passwords do not match"
 msgstr "Parolalar uyuşmuyor"
 
 #. To Translators: this text was copied from Firefox
-#: ../src/smime/gui/certificate-manager.c:808
+#: ../src/smime/gui/certificate-manager.c:798
 msgid ""
 "Important:\n"
 "If you forget your certificate backup password, you will not be able to "
@@ -28637,92 +28630,92 @@ msgstr ""
 "getiremezsiniz.\n"
 "Lütfen güvenli yerde saklayın."
 
-#: ../src/smime/gui/certificate-manager.c:853
+#: ../src/smime/gui/certificate-manager.c:843
 msgid "No file name provided"
 msgstr "Dosya adı belirtilmedi"
 
-#: ../src/smime/gui/certificate-manager.c:857
+#: ../src/smime/gui/certificate-manager.c:847
 msgid "Failed to backup key and certificate"
 msgstr "Anahtar ve sertifika yedeklenemedi"
 
-#: ../src/smime/gui/certificate-manager.c:949
+#: ../src/smime/gui/certificate-manager.c:939
 msgid "Select a certificate to import…"
 msgstr "Aktarılacak sertifika seç…"
 
-#: ../src/smime/gui/certificate-manager.c:998
+#: ../src/smime/gui/certificate-manager.c:988
 msgid "Failed to import certificate"
 msgstr "Sertifika içe aktarma başarısız"
 
-#: ../src/smime/gui/certificate-manager.c:1115
+#: ../src/smime/gui/certificate-manager.c:1105
 msgctxt "CamelTrust"
 msgid "Ask when used"
 msgstr "Kullanıldığında sor"
 
-#: ../src/smime/gui/certificate-manager.c:1117
+#: ../src/smime/gui/certificate-manager.c:1107
 msgctxt "CamelTrust"
 msgid "Never"
 msgstr "Hiçbir zaman"
 
-#: ../src/smime/gui/certificate-manager.c:1119
+#: ../src/smime/gui/certificate-manager.c:1109
 msgctxt "CamelTrust"
 msgid "Marginally"
 msgstr "Değişken"
 
-#: ../src/smime/gui/certificate-manager.c:1121
+#: ../src/smime/gui/certificate-manager.c:1111
 msgctxt "CamelTrust"
 msgid "Fully"
 msgstr "Tümüyle"
 
-#: ../src/smime/gui/certificate-manager.c:1123
+#: ../src/smime/gui/certificate-manager.c:1113
 msgctxt "CamelTrust"
 msgid "Ultimately"
 msgstr "Sınırsız"
 
-#: ../src/smime/gui/certificate-manager.c:1125
+#: ../src/smime/gui/certificate-manager.c:1115
 msgctxt "CamelTrust"
 msgid "Temporarily"
 msgstr "Geçici olarak"
 
-#: ../src/smime/gui/certificate-manager.c:1341
+#: ../src/smime/gui/certificate-manager.c:1275
 msgid "Change certificate trust"
 msgstr "Sertifika güvenilirliğini değiştir"
 
-#: ../src/smime/gui/certificate-manager.c:1353
+#: ../src/smime/gui/certificate-manager.c:1288
 #, c-format
 msgid "Change trust for the host “%s”:"
 msgstr "“%s” makinesi için güveni değiştir:"
 
-#: ../src/smime/gui/certificate-manager.c:1377
+#: ../src/smime/gui/certificate-manager.c:1312
 msgctxt "CamelTrust"
 msgid "_Ask when used"
 msgstr "Kullanıldığında _sor"
 
-#: ../src/smime/gui/certificate-manager.c:1378
+#: ../src/smime/gui/certificate-manager.c:1313
 msgctxt "CamelTrust"
 msgid "_Never trust this certificate"
 msgstr "Bu sertifikaya _asla güvenme"
 
-#: ../src/smime/gui/certificate-manager.c:1379
+#: ../src/smime/gui/certificate-manager.c:1314
 msgctxt "CamelTrust"
 msgid "_Temporarily trusted (this session only)"
 msgstr "_Geçici olarak güvenilir (yalnızca bu oturum)"
 
-#: ../src/smime/gui/certificate-manager.c:1380
+#: ../src/smime/gui/certificate-manager.c:1315
 msgctxt "CamelTrust"
 msgid "_Marginally trusted"
 msgstr "_Değişken olarak güvenilir"
 
-#: ../src/smime/gui/certificate-manager.c:1381
+#: ../src/smime/gui/certificate-manager.c:1316
 msgctxt "CamelTrust"
 msgid "_Fully trusted"
 msgstr "_Tümüyle güvenilir"
 
-#: ../src/smime/gui/certificate-manager.c:1382
+#: ../src/smime/gui/certificate-manager.c:1317
 msgctxt "CamelTrust"
 msgid "_Ultimately trusted"
 msgstr "_Sınırsız güvenilir"
 
-#: ../src/smime/gui/certificate-manager.c:1386
+#: ../src/smime/gui/certificate-manager.c:1321
 msgid ""
 "Before trusting this site, you should examine its certificate and its policy "
 "and procedures (if available)."
@@ -28730,43 +28723,43 @@ msgstr ""
 "Bu siteye güvenmeden önce, sertifikasını ve ilke ve yöntemlerini "
 "incelemelisiniz (eğer varsa)."
 
-#: ../src/smime/gui/certificate-manager.c:1401
+#: ../src/smime/gui/certificate-manager.c:1336
 msgid "_Display certificate"
 msgstr "_Sertifikayı görüntüle"
 
-#: ../src/smime/gui/certificate-manager.c:1606
+#: ../src/smime/gui/certificate-manager.c:1541
 msgid "You have certificates on file that identify these mail servers:"
 msgstr "Dosyada bu e-posta sunucularını tanımlayan sertifikalarınız var:"
 
-#: ../src/smime/gui/certificate-manager.c:1637
+#: ../src/smime/gui/certificate-manager.c:1572
 msgid "Host name"
 msgstr "Makine adı"
 
-#: ../src/smime/gui/certificate-manager.c:1639
+#: ../src/smime/gui/certificate-manager.c:1574
 msgid "Issuer"
 msgstr "Düzenleyen"
 
-#: ../src/smime/gui/certificate-manager.c:1640
+#: ../src/smime/gui/certificate-manager.c:1575
 msgid "Fingerprint"
 msgstr "Parmak izi"
 
-#: ../src/smime/gui/certificate-manager.c:1641
+#: ../src/smime/gui/certificate-manager.c:1576
 msgid "Trust"
 msgstr "Güven"
 
-#: ../src/smime/gui/certificate-manager.c:1662
+#: ../src/smime/gui/certificate-manager.c:1597
 msgid "_Edit Trust"
 msgstr "_Güvenilirliği Düzenle"
 
-#: ../src/smime/gui/certificate-manager.c:2098
+#: ../src/smime/gui/certificate-manager.c:2033
 msgid "All PKCS12 files"
 msgstr "Tüm PKCS12 dosyaları"
 
-#: ../src/smime/gui/certificate-manager.c:2115
+#: ../src/smime/gui/certificate-manager.c:2050
 msgid "All email certificate files"
 msgstr "Tüm e-posta sertifika dosyaları"
 
-#: ../src/smime/gui/certificate-manager.c:2132
+#: ../src/smime/gui/certificate-manager.c:2067
 msgid "All CA certificate files"
 msgstr "Tüm CA sertifika dosyaları"
 
@@ -28809,7 +28802,7 @@ msgstr "Sertifika veritabanı için yeni parolayı girin"
 msgid "Enter new password"
 msgstr "Yeni parolayı girin"
 
-#: ../src/smime/gui/e-cert-selector.c:182
+#: ../src/smime/gui/e-cert-selector.c:172
 msgid "Select certificate"
 msgstr "Sertifika seç"
 
@@ -28898,11 +28891,11 @@ msgid "C_ertificate:"
 msgstr "S_ertifika:"
 
 #. x509 certificate usage types
-#: ../src/smime/lib/e-cert.c:418
+#: ../src/smime/lib/e-cert.c:373
 msgid "Sign"
 msgstr "İmzala"
 
-#: ../src/smime/lib/e-cert.c:419
+#: ../src/smime/lib/e-cert.c:374
 msgid "Encrypt"
 msgstr "Şifrele"
 
