@@ -1,3 +1,36 @@
+Evolution 3.45.3 2022-09-02
+---------------------------
+
+Bug Fixes:
+	I#1969 - EShellWindow: The 'New' menu is not filled after start
+	I#1985 - Composer: Send of Outbox message doesn't remove it
+	I#1995 - EMFormat: Do not "mark citation" in header values
+
+Miscellaneous:
+	ECert: Correct free function of two private members
+	Use certificate widget provided by libedataserverui
+	MessageList: Remove unneeded condition in an 'if' statement
+
+Translations:
+	Ahmad Haghighi (fa)
+	Alan Mortensen (da)
+	Aleksandr Melman (ru)
+	Anders Jonsson (sv)
+	Asier Sarasua Garmendia (eu)
+	Aurimas Černius (lt)
+	Balázs Úr (hu)
+	Boyuan Yang (zh_CN)
+	Danial Behzadi (fa)
+	Daniel Mustieles (es)
+	Emin Tufan Çetin (tr)
+	Fran Dieguez (gl)
+	Goran Vidović (hr)
+	Hugo Carvalho (pt)
+	Kukuh Syafaat (id)
+	Luming Zh (zh_CN)
+	Nart Tlisha (ab)
+	Sabri Ünal (tr)
+
 Evolution 3.45.2 2022-08-05
 ---------------------------
 
