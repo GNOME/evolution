@@ -28,20 +28,21 @@
 # Bernd Homuth <dev@hmt.im>, 2015.
 # Tim Sabsch <tim@sabsch.com>, 2018.
 # Mario Blättermann <mario.blaettermann@gmail.com>, 2009-2013, 2016-2021.
+# Jürgen Benvenuti <gastornis@posteo.org>, 2022.
 msgid ""
 msgstr ""
 "Project-Id-Version: manual_evolution\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2022-06-03 08:13+0000\n"
-"PO-Revision-Date: 2022-06-06 00:24+0200\n"
-"Last-Translator: Christian Kirbach <christian.kirbach@gmail.com>\n"
+"POT-Creation-Date: 2022-08-15 18:22+0000\n"
+"PO-Revision-Date: 2022-09-04 22:01+0200\n"
+"Last-Translator: Jürgen Benvenuti <gastornis@posteo.org>\n"
 "Language-Team: German <gnome-de@gnome.org>\n"
 "Language: de\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
-"X-Generator: Poedit 3.0.1\n"
+"X-Generator: Poedit 3.1.1\n"
 
 #. Put one translator per line, in the form NAME <EMAIL>, YEAR1, YEAR2
 msgctxt "_"
@@ -53,7 +54,8 @@ msgstr ""
 "Christian Kirbach <Christian.Kirbach@gmail.com>, 2009-2013, 2015-2022\n"
 "Gabor Karsay <gabor.karsay@gmx.at>, 2011-2012\n"
 "Bernd Homuth <dev@hmt.im>, 2015\n"
-"Tim Sabsch <tim@sabsch.com>, 2018"
+"Tim Sabsch <tim@sabsch.com>, 2018\n"
+"Jürgen Benvenuti <gastornis@posteo.org>, 2022"
 
 #. (itstool) path: info/desc
 #: C/backup-restore.page:18
@@ -1487,7 +1489,7 @@ msgstr ""
 #: C/mail-searching.page:50 C/memos-searching.page:46 C/memos-searching.page:52
 #: C/tasks-searching.page:46 C/tasks-searching.page:52
 msgid "<app>Evolution</app> displays the search results."
-msgstr "<app>Evolution</app> zeigt die Suchergebnisse an."
+msgstr "<app>Evolution</app> zeigt daraufhin die Suchergebnisse an."
 
 #. (itstool) path: section/p
 #: C/calendar-searching.page:57 C/contacts-searching.page:66
@@ -5812,12 +5814,9 @@ msgstr ""
 
 #. (itstool) path: info/title
 #: C/mail-account-manage-imap-plus.page:31
-#, fuzzy
-#| msgctxt "link"
-#| msgid "Security (IMAP+ accounts)"
 msgctxt "link"
 msgid "Identity (IMAP+ accounts)"
-msgstr "Sicherheit (IMAP+-Konten)"
+msgstr "Identität (IMAP+-Konten)"
 
 #. (itstool) path: info/title
 #: C/mail-account-manage-imap-plus.page:32
@@ -5951,8 +5950,6 @@ msgstr "Nachrichten verfassen (IMAP+-Konten)"
 #: C/mail-account-manage-unix-mbox-spool-directory.page:66
 #: C/mail-account-manage-unix-mbox-spool-file.page:66
 #: C/mail-account-manage-usenet-news.page:66
-#, fuzzy
-#| msgid "Mail Composing"
 msgctxt "link:trail"
 msgid "Composing"
 msgstr "Verfassen von Nachrichten"
@@ -6070,12 +6067,9 @@ msgstr ""
 
 #. (itstool) path: info/title
 #: C/mail-account-manage-local-delivery.page:31
-#, fuzzy
-#| msgctxt "link"
-#| msgid "Security (Local Delivery accounts)"
 msgctxt "link"
 msgid "Identity (Local Delivery accounts)"
-msgstr "Sicherheit (Konten mit lokaler Zustellung)"
+msgstr "Identität (Konten mit lokaler Zustellung)"
 
 #. (itstool) path: info/title
 #: C/mail-account-manage-local-delivery.page:41
@@ -6119,11 +6113,9 @@ msgstr ""
 
 #. (itstool) path: info/title
 #: C/mail-account-manage-maildir-format-directories.page:8
-#, fuzzy
-#| msgid "Mail"
 msgctxt "link:trail"
 msgid "Maildir"
-msgstr "E-Mail"
+msgstr "Maildir"
 
 #. (itstool) path: page/title
 #: C/mail-account-manage-maildir-format-directories.page:21
@@ -6137,12 +6129,9 @@ msgstr "<app>Evolution</app> unterstützt die Maildir++-Spezifikation."
 
 #. (itstool) path: info/title
 #: C/mail-account-manage-maildir-format-directories.page:32
-#, fuzzy
-#| msgctxt "link"
-#| msgid "Security (Maildir Format Mail Directories accounts)"
 msgctxt "link"
 msgid "Identity (Maildir Format Mail Directories accounts)"
-msgstr "Sicherheit (für Konten mit E-Mail-Ordnern im Maildir-Format)"
+msgstr "Identität (für Konten mit E-Mail-Ordnern im Maildir-Format)"
 
 #. (itstool) path: info/title
 #: C/mail-account-manage-maildir-format-directories.page:42
@@ -6228,7 +6217,7 @@ msgstr ""
 #: C/mail-account-manage-mh-format-directories.page:8
 msgctxt "link:trail"
 msgid "MH Format"
-msgstr ""
+msgstr "MH-Format"
 
 #. (itstool) path: page/title
 #: C/mail-account-manage-mh-format-directories.page:21
@@ -6237,12 +6226,9 @@ msgstr "Konteneinstellungen für E-Mail-Ordner im MH-Format"
 
 #. (itstool) path: info/title
 #: C/mail-account-manage-mh-format-directories.page:31
-#, fuzzy
-#| msgctxt "link"
-#| msgid "Security (MH Format Mail Directories accounts)"
 msgctxt "link"
 msgid "Identity (MH Format Mail Directories accounts)"
-msgstr "Sicherheit (für Konten mit E-Mail-Ordnern im MH-Format)"
+msgstr "Identität (für Konten mit E-Mail-Ordnern im MH-Format)"
 
 #. (itstool) path: info/title
 #: C/mail-account-manage-mh-format-directories.page:41
@@ -6307,12 +6293,9 @@ msgstr ""
 
 #. (itstool) path: info/title
 #: C/mail-account-manage-microsoft-exchange-evo-ews.page:34
-#, fuzzy
-#| msgctxt "link"
-#| msgid "Security (Exchange Web Services accounts)"
 msgctxt "link"
 msgid "Identity (Exchange Web Services accounts)"
-msgstr "Sicherheit (für Konten mit Exchange Web-Diensten)"
+msgstr "Identität (für Konten mit Exchange Web-Diensten)"
 
 #. (itstool) path: info/title
 #: C/mail-account-manage-microsoft-exchange-evo-ews.page:44
@@ -6495,12 +6478,9 @@ msgstr "Einstellungen für POP-Mail-Konten"
 
 #. (itstool) path: info/title
 #: C/mail-account-manage-pop.page:31
-#, fuzzy
-#| msgctxt "link"
-#| msgid "Security (POP accounts)"
 msgctxt "link"
 msgid "Identity (POP accounts)"
-msgstr "Sicherheit (POP-Konten)"
+msgstr "Identität (POP-Konten)"
 
 #. (itstool) path: info/title
 #: C/mail-account-manage-pop.page:41
@@ -6554,12 +6534,9 @@ msgstr "Einstellungen für Konto mit Standard-Unix-mbox-Spool-Ordner"
 
 #. (itstool) path: info/title
 #: C/mail-account-manage-unix-mbox-spool-directory.page:31
-#, fuzzy
-#| msgctxt "link"
-#| msgid "Security (Standard Unix mbox Spool Directory accounts)"
 msgctxt "link"
 msgid "Identity (Standard Unix mbox Spool Directory accounts)"
-msgstr "Sicherheit (Konten mit Standard Unix mbox Spool-Ordner)"
+msgstr "Identität (Konten mit Standard Unix mbox Spool-Ordner)"
 
 #. (itstool) path: info/title
 #: C/mail-account-manage-unix-mbox-spool-directory.page:41
@@ -6616,12 +6593,9 @@ msgstr "Einstellungen für Konto mit Standard-Unix-mbox-Spool-Datei"
 
 #. (itstool) path: info/title
 #: C/mail-account-manage-unix-mbox-spool-file.page:31
-#, fuzzy
-#| msgctxt "link"
-#| msgid "Security (Standard Unix mbox Spool File accounts)"
 msgctxt "link"
 msgid "Identity (Standard Unix mbox Spool File accounts)"
-msgstr "Sicherheit (Konten mit Standard Unix mbox Spool-Datei)"
+msgstr "Identität (Konten mit Standard Unix mbox Spool-Datei)"
 
 #. (itstool) path: info/title
 #: C/mail-account-manage-unix-mbox-spool-file.page:41
@@ -6675,12 +6649,9 @@ msgstr "Einstellungen für Usenet-Konten"
 
 #. (itstool) path: info/title
 #: C/mail-account-manage-usenet-news.page:31
-#, fuzzy
-#| msgctxt "link"
-#| msgid "Security (Usenet News accounts)"
 msgctxt "link"
 msgid "Identity (Usenet News accounts)"
-msgstr "Sicherheit (für Usenet News-Konten)"
+msgstr "Identität (für Usenet News-Konten)"
 
 #. (itstool) path: info/title
 #: C/mail-account-manage-usenet-news.page:41
@@ -7149,7 +7120,7 @@ msgstr ""
 "Einstellungen</gui><gui>Allgemein</gui><gui>Ansichtseinstellungen auf alle "
 "Ordner anwenden</gui></guiseq>. Beachten Sie, dass diese Einstellung "
 "ebenfalls die Sichtbarkeit von <link xref=\"mail-sorting-message-list#email-"
-"threads\"><gui>Nach Threads gruppieren</gui></link> und der "
+"threads\"><gui>Nach Konversationen gruppieren</gui></link> und der "
 "<gui>Nachrichtenvorschau</gui> in allen Ordnern betrifft."
 
 #. (itstool) path: note/p
@@ -12585,7 +12556,7 @@ msgstr ""
 #. (itstool) path: td/p
 #: C/mail-searching.page:68
 msgid "Tag"
-msgstr ""
+msgstr "Schlüsselwort"
 
 #. (itstool) path: td/p
 #: C/mail-searching.page:68 C/mail-searching.page:100
@@ -12643,6 +12614,8 @@ msgid ""
 "the syntax is: <code>h:headerName=value</code> while the equal sign is used "
 "only as a delimiter, not as a match rule"
 msgstr ""
+"Die Syntax lautet: <code>h:KopfzeilenName=Wert</code>, wobei das "
+"Gleichzeichen als Trenner dient und nicht als Trefferregel"
 
 #. (itstool) path: td/p
 #: C/mail-searching.page:77
@@ -12706,6 +12679,8 @@ msgstr "Jeder andere Wert wird auf Belegung geprüft"
 msgid ""
 "whether certain <link xref=\"mail-labels\">label</link> is set on the message"
 msgstr ""
+"Ob eine bestimmte <link xref=\"mail-labels\">Beschriftung</link> für die "
+"Nachricht vergeben ist"
 
 #. (itstool) path: td/p
 #: C/mail-searching.page:88
@@ -12766,6 +12741,9 @@ msgid ""
 "message has (if the value is not any of <code>no</code>, <code>false</code>, "
 "<code>0</code>) an attachment. Similar to <code>flag:attachment</code> tag."
 msgstr ""
+"Nachricht enthält einen Anhang (wenn der Wert nicht <code>no</code>, "
+"<code>false</code> oder <code>0</code> ist). Vergleichbar mit dem "
+"Schlüsselwort <code>flag:attachment</code>."
 
 #. (itstool) path: td/p
 #: C/mail-searching.page:95
@@ -12803,7 +12781,7 @@ msgstr "Treffer durch Übereinstimmung"
 #. (itstool) path: td/p
 #: C/mail-searching.page:102
 msgid "matches if contains whole word"
-msgstr ""
+msgstr "Treffer bei Übereinstimmung von ganzem Wort"
 
 #. (itstool) path: td/p
 #: C/mail-searching.page:103
@@ -12823,7 +12801,7 @@ msgstr "Die Kopfzeile endet mit dem angegebenen Wert"
 #. (itstool) path: td/p
 #: C/mail-searching.page:106
 msgid "header value sounds similar to given value"
-msgstr ""
+msgstr "Die Kopfzeile ist ähnlich dem angegebenen Wert"
 
 #. (itstool) path: td/p
 #: C/mail-searching.page:107
@@ -12935,12 +12913,12 @@ msgstr "Ein <code>X-Secret-Header</code> ist in der Nachricht vorhanden"
 #. (itstool) path: td/p
 #: C/mail-searching.page:130
 msgid "<code>l:work</code>"
-msgstr ""
+msgstr "<code>l:Arbeit</code>"
 
 #. (itstool) path: td/p
 #: C/mail-searching.page:130
 msgid "Label <code>work</code> is set on the message"
-msgstr ""
+msgstr "Die Beschriftung <code>Arbeit</code> ist der Nachricht zugewiesen"
 
 #. (itstool) path: td/p
 #: C/mail-searching.page:131
@@ -12975,22 +12953,22 @@ msgstr "Der Rumpf enthält das Wort <code>wichtig</code>"
 #. (itstool) path: td/p
 #: C/mail-searching.page:134
 msgid "<code>sent:7</code>"
-msgstr ""
+msgstr "<code>sent:7</code>"
 
 #. (itstool) path: td/p
 #: C/mail-searching.page:134
 msgid "Messages sent in the last 7 days"
-msgstr ""
+msgstr "Gesendete Nachrichten der letzten sieben Tage"
 
 #. (itstool) path: td/p
 #: C/mail-searching.page:135
 msgid "<code>rcv-=:2020-02-02</code>"
-msgstr ""
+msgstr "<code>rcv-=:2020-02-02</code>"
 
 #. (itstool) path: td/p
 #: C/mail-searching.page:135
 msgid "Messages received on the February 2nd, 2020"
-msgstr ""
+msgstr "Nachrichten, die am 2.Februar 2020 empfangen wurden"
 
 #. (itstool) path: td/p
 #: C/mail-searching.page:136
@@ -13362,16 +13340,12 @@ msgstr ""
 
 #. (itstool) path: item/p
 #: C/mail-sorting-folder-list.page:44
-#, fuzzy
-#| msgid ""
-#| "You can disable the to do bar by toggling <guiseq><gui>View</"
-#| "gui><gui>Layout</gui><gui>Show To Do Bar</gui></guiseq>."
 msgid ""
 "You can change the sort order of folders under <guiseq><gui>Folder</"
 "gui><gui>Edit Sort Order…</gui></guiseq>."
 msgstr ""
-"Sie können die To-Do-Leiste über <guiseq><gui>Ansicht</gui><gui>Anordnung</"
-"gui><gui>To-Do-Leiste anzeigen</gui></guiseq> ein- oder ausblenden."
+"Sie können die Sortierreihenfolge für Ordner über <guiseq><gui>Ordner</"
+"gui><gui>Sortierreihenfolge bearbeiten …</gui></guiseq> anpassen."
 
 #. (itstool) path: info/desc
 #: C/mail-sorting-message-list.page:5
@@ -13396,7 +13370,7 @@ msgstr ""
 #. (itstool) path: section/title
 #: C/mail-sorting-message-list.page:33
 msgid "Sorting Mail in Email Threads"
-msgstr "E-Mails in E-Mail-Threads sortieren"
+msgstr "E-Mails in E-Mail-Konversationen sortieren"
 
 #. (itstool) path: section/p
 #: C/mail-sorting-message-list.page:34
@@ -13406,7 +13380,7 @@ msgid ""
 "press <keyseq><key>Ctrl</key><key>T</key></keyseq>."
 msgstr ""
 "Aktivieren Sie eine gruppierte Nachrichtenansicht, indem Sie auf "
-"<guiseq><gui>Ansicht</gui><gui>Nach Threads gruppieren</gui></guiseq> "
+"<guiseq><gui>Ansicht</gui><gui>Nach Konversationen gruppieren</gui></guiseq> "
 "klicken oder <keyseq><key>Strg</key><key>T</key></keyseq> drücken."
 
 #. (itstool) path: section/p
@@ -13443,8 +13417,8 @@ msgid ""
 "message received."
 msgstr ""
 "Sobald eine neue Nachricht eingeht, wird diese unter die übergeordnete "
-"Nachricht hinzugefügt. Threads werden nach Datum der zuletzt erhaltenen "
-"Nachricht sortiert und angezeigt."
+"Nachricht hinzugefügt. Konversationen werden nach Datum der zuletzt "
+"erhaltenen Nachricht sortiert und angezeigt."
 
 #. (itstool) path: note/p
 #: C/mail-sorting-message-list.page:38
@@ -13452,11 +13426,16 @@ msgid ""
 "Advanced users can change further thread settings by running commands in the "
 "<app>Terminal</app> application."
 msgstr ""
+"Fortgeschrittene Benutzer können weitere Konversationseinstellungen "
+"anpassen, indem Befehle in der <app>Terminal</app>-Anwendung ausgeführt "
+"werden."
 
 #. (itstool) path: item/p
 #: C/mail-sorting-message-list.page:41
 msgid "To sort each thread by latest message rather than by message date:"
 msgstr ""
+"So sortieren Sie jede Konversation nach der neuesten Nachricht anstatt nach "
+"Nachrichtendatum:"
 
 #. (itstool) path: item/p
 #: C/mail-sorting-message-list.page:45
@@ -13464,11 +13443,16 @@ msgid ""
 "To use ascending sort order of child messages in a thread rather than the "
 "sort order as in the thread root level:"
 msgstr ""
+"So stellen Sie aufsteigende Sortierreihenfolge von Unternachrichten in einer "
+"Konversation ein anstatt der Sortierreihenfolge wie in der obersten Ebene "
+"der Konversation:"
 
 #. (itstool) path: item/p
 #: C/mail-sorting-message-list.page:49
 msgid "To collapse all threads by default rather than expanding them:"
 msgstr ""
+"So klappen Sie alle Konversationen standardmäßig ein anstatt sie "
+"auszuklappen:"
 
 #. (itstool) path: section/title
 #: C/mail-sorting-message-list.page:57
