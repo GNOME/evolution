@@ -19,8 +19,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: evolution.master\n"
 "Report-Msgid-Bugs-To: https://gitlab.gnome.org/GNOME/evolution/issues\n"
-"POT-Creation-Date: 2022-08-15 18:29+0000\n"
-"PO-Revision-Date: 2022-08-29 10:13+0200\n"
+"POT-Creation-Date: 2022-08-29 08:57+0000\n"
+"PO-Revision-Date: 2022-09-05 14:29+0200\n"
 "Last-Translator: Daniel Mustieles García <daniel.mustieles@gmail.com>\n"
 "Language-Team: Spanish - Spain <gnome-es-list@gnome.org>\n"
 "Language: es_ES\n"
@@ -520,83 +520,73 @@ msgstr ""
 #: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:50
 msgid "Show categories field in the event/meeting/task editor"
 msgstr ""
-"Mostrar el campo de categorías en el editor de acontecimientos/reuniones/"
-"tareas"
+"Mostrar el campo de categorías en el editor de eventos/reuniones/tareas"
 
 #: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:51
 msgid "Whether to show categories field in the event/meeting editor"
 msgstr ""
-"Indica si debe mostrar el campo «Categorías» en el editor de acontecimientos/"
+"Indica si debe mostrar el campo «Categorías» en el editor de eventos/"
 "reuniones"
 
 #: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:52
 msgid "Show Role field in the event/task/meeting editor"
-msgstr ""
-"Mostrar el campo «Rol» en el editor de acontecimientos/tareas/reuniones"
+msgstr "Mostrar el campo «Rol» en el editor de eventos/tareas/reuniones"
 
 #: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:53
 msgid "Whether to show role field in the event/task/meeting editor"
 msgstr ""
-"Indica si debe mostrar el campo «Rol» en el editor de acontecimientos/tareas/"
+"Indica si debe mostrar el campo «Rol» en el editor de eventos/tareas/"
 "reuniones"
 
 #: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:54
 msgid "Show RSVP field in the event/task/meeting editor"
-msgstr ""
-"Mostrar el campo «Confirmar» en el editor de acontecimientos/tareas/reuniones"
+msgstr "Mostrar el campo «Confirmar» en el editor de eventos/tareas/reuniones"
 
 #: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:55
 msgid "Whether to show RSVP field in the event/task/meeting editor"
 msgstr ""
-"Indica si debe mostrar el campo «Confirmar» en el editor de acontecimiento/"
-"tareas/reuniones"
+"Indica si debe mostrar el campo «Confirmar» en el editor de evento/tareas/"
+"reuniones"
 
 #: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:56
 msgid "Show status field in the event/task/meeting editor"
-msgstr ""
-"Mostrar el campo de estado en el editor de acontecimientos/tareas/reuniones"
+msgstr "Mostrar el campo de estado en el editor de eventos/tareas/reuniones"
 
 #: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:57
 msgid "Whether to show status field in the event/task/meeting editor"
 msgstr ""
-"Indica si debe mostrar el campo «Estado» en el editor de acontecimientos/"
-"tareas/reuniones"
+"Indica si debe mostrar el campo «Estado» en el editor de eventos/tareas/"
+"reuniones"
 
 #: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:58
 msgid "Show timezone field in the event/meeting editor"
-msgstr ""
-"Mostrar el campo de zona horaria en el editor de acontecimientos/reuniones"
+msgstr "Mostrar el campo de zona horaria en el editor de eventos/reuniones"
 
 #: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:59
 msgid "Whether to show timezone field in the event/meeting editor"
 msgstr ""
-"Indica si debe mostrar el campo «Zona horaria» en el editor de "
-"acontecimientos/reuniones"
+"Indica si debe mostrar el campo «Zona horaria» en el editor de eventos/"
+"reuniones"
 
 #: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:60
 msgid "Show type field in the event/task/meeting editor"
-msgstr ""
-"Mostrar el campo de tipo en el editor de acontecimientos/tareas/reuniones"
+msgstr "Mostrar el campo de tipo en el editor de eventos/tareas/reuniones"
 
 #: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:61
 msgid "Whether to show type field in the event/task/meeting editor"
 msgstr ""
-"Indica si debe mostrar el campo «Tipo» en el editor de acontecimientos/"
-"tareas/reuniones"
+"Indica si debe mostrar el campo «Tipo» en el editor de eventos/tareas/"
+"reuniones"
 
 #: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:62
 msgid "Show toolbar in the event/task/memo editor"
-msgstr ""
-"Mostrar barra de herramientas en el editor de acontecimientos/tareas/"
-"reuniones"
+msgstr "Mostrar barra de herramientas en el editor de eventos/tareas/reuniones"
 
 #: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:63
-#, fuzzy
-#| msgid "Whether to show type field in the event/task/meeting editor"
 msgid "Whether to show toolbar in the event/task/memo editor"
 msgstr ""
-"Indica si debe mostrar el campo «Tipo» en el editor de acontecimientos/"
-"tareas/reuniones"
+"Indica si debe mostrar la barra de herramientas en el editor de eventos/"
+"tareas/recordatorios"
 
 #: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:64
 msgid "Hide completed tasks"
@@ -816,13 +806,13 @@ msgstr ""
 
 #: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:107
 msgid "Recurrent Events in Italic"
-msgstr "Los acontecimientos que se repiten en cursiva"
+msgstr "Los eventos que se repiten en cursiva"
 
 #: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:108
 msgid "Show days with recurrent events in italic font in bottom left calendar"
 msgstr ""
-"Mostrar los días con acontecimientos que se repiten con una tipografía "
-"cursiva en la parte inferior izquierda del calendario"
+"Mostrar los días con eventos que se repiten con una tipografía cursiva en la "
+"parte inferior izquierda del calendario"
 
 #: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:109
 msgid "Search range for time-based searching in years"
@@ -847,8 +837,8 @@ msgstr ""
 #: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:112
 msgid "Whether to display the end time of events in the week and month views"
 msgstr ""
-"Indica si debe mostrar la hora de finalización de los acontecimientos en las "
-"vistas semanales y mensuales"
+"Indica si debe mostrar la hora de finalización de los eventos en las vistas "
+"semanales y mensuales"
 
 #: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:113
 msgid "Show appointment icons in the month view"
@@ -1125,37 +1115,26 @@ msgid "Year view horizontal pane position"
 msgstr "Posición del panel horizontal de la vista anual"
 
 #: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:167
-#, fuzzy
-#| msgid ""
-#| "Position of the horizontal pane, between the date navigator calendar and "
-#| "the task list when not in the month view, in pixels"
 msgid ""
 "Position of the horizontal pane, between the year calendar and the list of "
 "events for the selected day in the year view, in pixels"
 msgstr ""
-"Posición del panel horizontal, entre la vista y la fecha del navegador del "
-"calendario y lista de tareas cuando no está en la vista mensual, en píxeles"
+"Posición del panel horizontal, entre la vista de año del calendario y la "
+"lista de eventos para el día seleccionado, en píxeles"
 
 #: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:168
 msgid "Layout style for the Year View"
 msgstr "Estilo de la distribución para la vista anual"
 
 #: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:169
-#, fuzzy
-#| msgid ""
-#| "The layout style determines where to place the preview pane in relation "
-#| "to the task list. “0” (Classic View) places the preview pane below the "
-#| "task list. “1” (Vertical View) places the preview pane next to the task "
-#| "list"
 msgid ""
 "The layout style determines where to place the preview pane. “0” (Horizontal "
 "View) places the preview pane below the calendar. “1” (Vertical View) places "
 "the preview pane next to the calendar."
 msgstr ""
-"El estilo de la distribución determina dónde ubicar el panel de vista previa "
-"en relación con la lista de tareas. «0» (vista clásica) ubica el panel de "
-"vista previa debajo de la lista de tareas. «1» (vista vertical) ubica el "
-"panel de vista previa junto a la lista de tareas"
+"El estilo de la distribución determina dónde ubicar el panel de vista. "
+"«0» (vista horizontal) ubica el panel de vista previa debajo del calendario. "
+"«1» (vista vertical) ubica el panel de vista previa junto al calendario."
 
 #: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:170
 msgid "Year view horizontal preview position"
@@ -1174,28 +1153,29 @@ msgid "Position of the vertical event preview for the year view, in pixels"
 msgstr "Posición de la vista previa horizontal de la vista mensual, en píxeles"
 
 #: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:174
-#, fuzzy
-#| msgid "User-defined reminder times, in minutes"
 msgid "Shorten event time by minutes"
-msgstr "Horas de recordatorio definidas por el usuario, en minutos"
+msgstr "Acortar tiempo del evento, en minutos"
 
 #: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:175
 msgid ""
 "By how many minutes to shorted new event time. Whether event end or start is "
 "changed is determined by \"shorten-time-end\" setting"
 msgstr ""
+"Cuántos minutos para acortar el tiempo del nuevo evento. Si se cambia el "
+"final o el inicio del evento, se determina mediante la configuración de "
+"\"shorten-time-end\"."
 
 #: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:176
-#, fuzzy
-#| msgid "Whether to show the preview pane."
 msgid "Whether to shorten event end time"
-msgstr "Indica si se muestra el panel de vista previa."
+msgstr "Indica si se debe acortar la fecha de fin del evento"
 
 #: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:177
 msgid ""
 "A pair option for \"shorten-time\" setting, to change the end time or the "
 "start time"
 msgstr ""
+"Una pareja de opciones para la opción \"shorten-time\", para cambiar la "
+"fecha de fin o de inicio"
 
 #: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:178
 msgid "Background color for the 'today' day"
@@ -1206,6 +1186,8 @@ msgid ""
 "Leave empty to use a yellow color derived from the current theme, otherwise "
 "use the color of form `#RRGGBB`"
 msgstr ""
+"Dejar vacío para usar un color amarillo derivado del tema actual. En otro "
+"caso usar el color en formato «#RRGGBB»"
 
 #: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:180
 msgid "(Deprecated) First day of the week, from Sunday (0) to Saturday (6)"
@@ -1614,17 +1596,20 @@ msgstr ""
 "permitir al usuario elegir cuándo se deben enviar los mensajes."
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:53
-#, fuzzy
-#| msgid "Send messages through Outbox folder"
 msgid ""
 "How long to delay Outbox flush when sending messages through Outbox folder"
-msgstr "Enviar mensajes mediante la Bandeja de salida"
+msgstr ""
+"cuanto esperar para que Outlook vacíe la carpeta al enviar mensajes mediante "
+"la bandeja de salida"
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:54
 msgid ""
 "A delay, in minutes, to wait for the Outbox folder flush. Less than 0 means "
 "never flush, 0 means immediately, the rest is the delay interval in minutes."
 msgstr ""
+"Retardo, en minutos, que esperar para que se vacíen las carpetas de Outlook. "
+"Menos de cero significa no vaciar nunca, cero inmediatamente y el resto es "
+"el retardo en minutos."
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:55
 msgid "Include signature in new messages only"
@@ -1773,18 +1758,12 @@ msgid "If set to “true”, the main toolbar will be visible."
 msgstr "Si es cierto, la barra de herramientas principal será visible."
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:77
-#, fuzzy
-#| msgid "Whether to always show Sign and Encrypt buttons on the toolbar"
 msgid "Whether to always show edit toolbar"
-msgstr ""
-"Indica si deben mostrar siempre los botones Firmar y Cifrar en la barra de "
-"herramientas"
+msgstr "Indica si debe mostrar siempre la barra de herramientas de edición"
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:78
-#, fuzzy
-#| msgid "If set to “true” quoted text in replies will be wrapped."
 msgid "If set to “true”, the edit toolbar will be visible."
-msgstr "Si es cierto, el texto citado se ajustará en las respuestas."
+msgstr "Si es cierto, la barra de herramienta de edición será visible."
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:79
 msgid "Whether to always show Sign and Encrypt buttons on the toolbar"
@@ -1839,16 +1818,13 @@ msgid "Use user date format in reply credits"
 msgstr "Usar formato de usuario fecha en los créditos de respuesta"
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:88
-#, fuzzy
-#| msgid ""
-#| "Whether the time in reply credits should be converted to local time when "
-#| "it’s in UTC in the message."
 msgid ""
 "Whether the date in reply credits should be shown in the user date format. "
 "If unset, shows the header value from the original message."
 msgstr ""
-"Indica si la hora en los créditos de la respuesta se debe convertir a hora "
-"local cuando en el mensaje está en UTC."
+"Indica si la fecha en los créditos de la respuesta se debe mostrar en el "
+"formato de fecha del usuario. Si no se establece, uestra el valor de la "
+"cabecera del mensje original."
 
 # Mark ««replied to» messages» as read
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:89
@@ -3178,6 +3154,8 @@ msgstr "Indica si se deben imprimir los adjuntos."
 msgid ""
 "If enabled, and possible, attachment content is printed with the message."
 msgstr ""
+"Si está activada, y es posible, el adjunto del evento se imprime con el "
+"mensaje."
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:318
 msgid "Size limit for text attachments to show"
@@ -4631,7 +4609,7 @@ msgstr ""
 #: ../src/e-util/evolution-source-viewer.c:829 ../src/e-util/e-web-view.c:4006
 #: ../src/e-util/gal-view-instance-save-as-dialog.c:265
 #: ../src/mail/e-mail-config-window.c:310 ../src/mail/e-mail-label-dialog.c:186
-#: ../src/mail/e-mail-tag-editor.c:160 ../src/mail/em-composer-utils.c:4136
+#: ../src/mail/e-mail-tag-editor.c:160 ../src/mail/em-composer-utils.c:4166
 #: ../src/mail/em-folder-selector.c:333 ../src/mail/mail-config.ui.h:2
 #: ../src/mail/mail.error.xml.h:16 ../src/mail/mail-send-recv.c:874
 #: ../src/mail/mail-send-recv.c:955 ../src/mail/mail-vfolder-ui.c:149
@@ -6668,7 +6646,7 @@ msgstr "El calendario no está marcado para usarse sin conexión."
 
 #: ../src/calendar/calendar.error.xml.h:78
 msgid "Cannot save event"
-msgstr "No se puede guardar el acontecimiento"
+msgstr "No se puede guardar el evento"
 
 #. Translators: {0} is the name of the calendar source
 #: ../src/calendar/calendar.error.xml.h:80
@@ -6961,16 +6939,16 @@ msgstr ""
 "envíe un informe de error al Gitlab de GNOME."
 
 #: ../src/calendar/calendar.error.xml.h:179
-#, fuzzy
-#| msgid "Do you want to recover unfinished messages?"
 msgid "Do you want to detach event from the series?"
-msgstr "¿Quiere recuperar los mensajes no terminados?"
+msgstr "¿Quiere quitar el evento de la serie?"
 
 #: ../src/calendar/calendar.error.xml.h:180
 msgid ""
 "The event “{0}” will be detached from its series and saved as a new "
 "standalone event."
 msgstr ""
+"El evento «{0}» se quitará de su serie y se guardará como un evento "
+"independiente."
 
 #: ../src/calendar/calendar.error.xml.h:182
 msgid "_Detach and Create Copy"
@@ -7358,7 +7336,7 @@ msgstr "Cita nueva"
 
 #: ../src/calendar/gui/ea-cal-view.c:278
 msgid "New All Day Event"
-msgstr "Acontecimiento nuevo para todo el día"
+msgstr "Evento nuevo para todo el día"
 
 #: ../src/calendar/gui/ea-cal-view.c:279
 msgid "New Meeting"
@@ -7387,15 +7365,15 @@ msgstr "Es una reunión."
 #: ../src/calendar/gui/ea-cal-view-event.c:242
 #, c-format
 msgid "Calendar Event: Summary is %s."
-msgstr "Acontecimiento de calendario: El resumen es %s."
+msgstr "Evento de calendario: El resumen es %s."
 
 #: ../src/calendar/gui/ea-cal-view-event.c:247
 msgid "Calendar Event: It has no summary."
-msgstr "Acontecimiento de calendario: Sin resumen."
+msgstr "Evento de calendario: Sin resumen."
 
 #: ../src/calendar/gui/ea-cal-view-event.c:270
 msgid "calendar view event"
-msgstr "vista de acontecimientos del calendario"
+msgstr "vista de eventos del calendario"
 
 #: ../src/calendar/gui/ea-cal-view-event.c:502
 msgid "Grab Focus"
@@ -7407,14 +7385,14 @@ msgstr "Obtener el foco"
 #, c-format
 msgid "It has %d event."
 msgid_plural "It has %d events."
-msgstr[0] "Tiene %d acontecimiento."
-msgstr[1] "Tiene %d acontecimientos."
+msgstr[0] "Tiene %d evento."
+msgstr[1] "Tiene %d eventos."
 
 #. To translators: Here, "It" is either like "Work Week View: July
 #. 10th - July 14th, 2006." or "Day View: Thursday July 13th, 2006."
 #: ../src/calendar/gui/ea-day-view.c:112 ../src/calendar/gui/ea-week-view.c:108
 msgid "It has no events."
-msgstr "No tiene acontecimientos."
+msgstr "No tiene eventos."
 
 #. To translators: First %s is the week, for example "July 10th -
 #. July 14th, 2006". Second %s is the number of events in this work
@@ -7451,7 +7429,7 @@ msgstr "Botón de salto"
 
 #: ../src/calendar/gui/ea-jump-button.c:157
 msgid "Click here, you can find more events."
-msgstr "Pulse aquí para buscar más acontecimientos."
+msgstr "Pulse aquí para buscar más eventos."
 
 #. Translators: Part of: [ Play a sound ] [ x ] [ minute(s) ] [ before ] [ start ]
 #: ../src/calendar/gui/e-alarm-list.c:387
@@ -7762,13 +7740,12 @@ msgstr "Diciembre"
 #: ../src/calendar/gui/e-cal-dialogs.c:871
 #, c-format
 msgid "You are modifying a recurring event. What would you like to modify?"
-msgstr ""
-"Está modificando un acontecimiento que se repite. ¿Qué quiere modificar?"
+msgstr "Está modificando un evento que se repite. ¿Qué quiere modificar?"
 
 #: ../src/calendar/gui/e-cal-dialogs.c:873
 #, c-format
 msgid "You are delegating a recurring event. What would you like to delegate?"
-msgstr "Está delegando un acontecimiento que se repite. ¿Qué quiere delegar?"
+msgstr "Está delegando un evento que se repite. ¿Qué quiere delegar?"
 
 #: ../src/calendar/gui/e-cal-dialogs.c:877
 #, c-format
@@ -7808,19 +7785,19 @@ msgstr "Notificar sól_o a los participantes"
 
 #: ../src/calendar/gui/e-calendar-view.c:507
 msgid "Cut selected events to the clipboard"
-msgstr "Cortar los acontecimientos seleccionados al portapapeles"
+msgstr "Cortar los eventos seleccionados al portapapeles"
 
 #: ../src/calendar/gui/e-calendar-view.c:513
 msgid "Copy selected events to the clipboard"
-msgstr "Copiar los acontecimientos seleccionados al portapapeles"
+msgstr "Copiar los eventos seleccionados al portapapeles"
 
 #: ../src/calendar/gui/e-calendar-view.c:519
 msgid "Paste events from the clipboard"
-msgstr "Pega los acontecimientos desde el portapapeles"
+msgstr "Pega los eventos desde el portapapeles"
 
 #: ../src/calendar/gui/e-calendar-view.c:525
 msgid "Delete selected events"
-msgstr "Eliminar los acontecimientos seleccionados"
+msgstr "Eliminar los eventos seleccionados"
 
 #: ../src/calendar/gui/e-calendar-view.c:940
 msgid "Pasted text doesn’t contain valid iCalendar data"
@@ -8222,18 +8199,18 @@ msgstr ""
 
 #: ../src/calendar/gui/e-comp-editor-event.c:103
 msgid "Event’s time is in the past"
-msgstr "La hora del acontecimiento está en el pasado"
+msgstr "La hora del evento está en el pasado"
 
 #: ../src/calendar/gui/e-comp-editor-event.c:214
 msgid ""
 "Event cannot be edited, because the selected calendar could not be opened"
 msgstr ""
-"El acontecimiento no se puede editar porque no se pudo abrir el calendario "
+"El evento no se puede editar porque no se pudo abrir el calendario "
 "seleccionado"
 
 #: ../src/calendar/gui/e-comp-editor-event.c:216
 msgid "Event cannot be edited, because the selected calendar is read only"
-msgstr "El acontecimiento no se puede editar porque es de sólo lectura"
+msgstr "El evento no se puede editar porque es de sólo lectura"
 
 #: ../src/calendar/gui/e-comp-editor-event.c:218
 msgid ""
@@ -8262,7 +8239,7 @@ msgstr "La hora de inicio no es una hora válida"
 #: ../src/e-util/e-misc-utils.c:4193 ../src/e-util/e-misc-utils.c:4207
 #: ../src/mail/e-mail-autoconfig.c:1129 ../src/mail/e-mail-display.c:2475
 #: ../src/mail/e-mail-notes.c:930 ../src/mail/e-mail-reader-utils.c:805
-#: ../src/mail/em-composer-utils.c:3932 ../src/mail/em-composer-utils.c:3955
+#: ../src/mail/em-composer-utils.c:3962 ../src/mail/em-composer-utils.c:3985
 #: ../src/mail/mail-send-recv.c:598 ../src/mail/mail-send-recv.c:1493
 #: ../src/modules/accounts-window/e-accounts-window-editors.c:172
 #: ../src/plugins/face/face.c:175
@@ -8304,11 +8281,11 @@ msgstr "Conmuta cuando se muestra la «Zona horaria»"
 
 #: ../src/calendar/gui/e-comp-editor-event.c:739
 msgid "All _Day Event"
-msgstr "Acontecimiento para todo el _día"
+msgstr "Evento para todo el _día"
 
 #: ../src/calendar/gui/e-comp-editor-event.c:741
 msgid "Toggles whether to have All Day Event"
-msgstr "Se activa cuando se tiene un «Acontecimiento para todo el día»"
+msgstr "Se activa cuando se tiene un «Evento para todo el día»"
 
 #: ../src/calendar/gui/e-comp-editor-event.c:747
 msgid "Show Time as _Busy"
@@ -8355,7 +8332,7 @@ msgstr "Hora de _fin:"
 #: ../src/calendar/gui/e-comp-editor-event.c:907
 msgctxt "ECompEditor"
 msgid "All da_y event"
-msgstr "Acontecimiento para todo el _día"
+msgstr "Evento para todo el _día"
 
 #: ../src/calendar/gui/e-comp-editor-event.c:975
 #: ../src/calendar/gui/e-comp-editor-memo.c:359
@@ -9270,7 +9247,7 @@ msgstr "Tarea para todo el _día"
 
 #: ../src/calendar/gui/e-comp-editor-task.c:820
 msgid "Toggles whether to have All Day Task"
-msgstr "Cambia cuando se tiene un acontecimiento para todo el día"
+msgstr "Cambia cuando se tiene un evento para todo el día"
 
 #: ../src/calendar/gui/e-comp-editor-task.c:1051
 #, c-format
@@ -9967,7 +9944,7 @@ msgstr "Es necesario por lo menos un participante"
 
 #: ../src/calendar/gui/itip-utils.c:1262 ../src/calendar/gui/itip-utils.c:1428
 msgid "Event information"
-msgstr "Información del acontecimiento"
+msgstr "Información del evento"
 
 #: ../src/calendar/gui/itip-utils.c:1265 ../src/calendar/gui/itip-utils.c:1431
 msgid "Task information"
@@ -10069,8 +10046,7 @@ msgstr "Información de iCalendar"
 #, c-format
 msgid "Unable to book a resource, the new event collides with some other."
 msgstr ""
-"No se pudo reservar un recurso, el nuevo acontecimiento coincide con algún "
-"otro."
+"No se pudo reservar un recurso, el nuevo evento coincide con algún otro."
 
 #: ../src/calendar/gui/itip-utils.c:1491
 msgid "Unable to book a resource, error: "
@@ -10078,7 +10054,7 @@ msgstr "No se pudo reservar un recurso, error: "
 
 #: ../src/calendar/gui/itip-utils.c:1685
 msgid "You must be an attendee of the event."
-msgstr "Debe ser un participante en el acontecimiento."
+msgstr "Debe ser un participante en el evento."
 
 #: ../src/calendar/gui/itip-utils.c:2565
 msgid "Sending an event"
@@ -10354,7 +10330,7 @@ msgstr "Importador de vCalendar de Evolution"
 
 #: ../src/calendar/importers/icalendar-importer.c:1144
 msgid "Calendar Events"
-msgstr "Acontecimientos de calendario"
+msgstr "Eventos de calendario"
 
 #: ../src/calendar/importers/icalendar-importer.c:1187
 msgid "GNOME Calendar"
@@ -10374,7 +10350,7 @@ msgstr "Reunión"
 #: ../src/calendar/importers/icalendar-importer.c:1743
 msgctxt "iCalImp"
 msgid "Event"
-msgstr "Acontecimiento"
+msgstr "Evento"
 
 #: ../src/calendar/importers/icalendar-importer.c:1357
 #: ../src/calendar/importers/icalendar-importer.c:1744
@@ -17945,7 +17921,7 @@ msgid "Do Not Quote"
 msgstr "No entrecomillar"
 
 #: ../src/mail/e-mail-config-composing-page.c:157
-#: ../src/mail/em-composer-utils.c:4243
+#: ../src/mail/em-composer-utils.c:4273
 msgid "Use global setting"
 msgstr "Usar configuración global"
 
@@ -17977,12 +17953,12 @@ msgid "Language for Reply and Forward attribution text"
 msgstr "El idioma que atribuir en el texto al Responder y Reenviar"
 
 #: ../src/mail/e-mail-config-composing-page.c:524
-#: ../src/mail/em-composer-utils.c:4247 ../src/mail/mail-config.ui.h:23
+#: ../src/mail/em-composer-utils.c:4277 ../src/mail/mail-config.ui.h:23
 msgid "Start _typing at the bottom"
 msgstr "Comenzar a _escribir en la parte final"
 
 #: ../src/mail/e-mail-config-composing-page.c:531
-#: ../src/mail/em-composer-utils.c:4250 ../src/mail/mail-config.ui.h:24
+#: ../src/mail/em-composer-utils.c:4280 ../src/mail/mail-config.ui.h:24
 msgid "_Keep signature above the original message"
 msgstr "_Mantener la firma por encima del mensaje original"
 
@@ -18289,7 +18265,7 @@ msgstr "Preferir firma/cifrado _en línea para mensajes de texto sin formato"
 
 #: ../src/mail/e-mail-config-security-page.c:629
 msgid "_Lookup keys for encryption in Web Key Directory (WKD)"
-msgstr ""
+msgstr "_Buscar claves para cifrado en Web Key Directory (WKD)"
 
 #: ../src/mail/e-mail-config-security-page.c:653
 msgid "Secure MIME (S/MIME)"
@@ -19150,7 +19126,7 @@ msgstr "Quitar correos _duplicados"
 msgid "Checks selected messages for duplicates"
 msgstr "Comprobar los mensajes seleccionados para buscar duplicados"
 
-#: ../src/mail/e-mail-reader.c:2903 ../src/mail/em-composer-utils.c:4188
+#: ../src/mail/e-mail-reader.c:2903 ../src/mail/em-composer-utils.c:4218
 #: ../src/mail/mail.error.xml.h:28
 #: ../src/modules/calendar/e-cal-shell-view-actions.c:1586
 #: ../src/modules/mail/e-mail-attachment-handler.c:396
@@ -19174,7 +19150,7 @@ msgstr "Elija las opciones de respuesta para el mensaje seleccionado"
 msgid "Reply to the mailing list, or to all recipients"
 msgstr "Responder a la lista de correo o a todos los destinatarios"
 
-#: ../src/mail/e-mail-reader.c:2924 ../src/mail/em-composer-utils.c:4183
+#: ../src/mail/e-mail-reader.c:2924 ../src/mail/em-composer-utils.c:4213
 #: ../src/mail/mail.error.xml.h:26
 #: ../src/modules/mail/e-mail-attachment-handler.c:403
 msgid "Reply to _List"
@@ -19549,7 +19525,7 @@ msgstr[1] ""
 
 #. This message is never removed from the camel operation, otherwise the GtkInfoBar
 #. hides itself and the user sees no feedback.
-#: ../src/mail/em-composer-utils.c:857
+#: ../src/mail/em-composer-utils.c:880
 msgid "Waiting for attachments to load…"
 msgstr "Esperando a que carguen los adjuntos…"
 
@@ -19557,7 +19533,7 @@ msgstr "Esperando a que carguen los adjuntos…"
 #. * when quoting messages.  Each ${Variable} gets replaced
 #. * with a value.  To see a full list of available variables,
 #. * see mail/em-composer-utils.c:attribvars array.
-#: ../src/mail/em-composer-utils.c:2062
+#: ../src/mail/em-composer-utils.c:2085
 msgid ""
 "On ${AbbrevWeekdayName}, ${Year}-${Month}-${Day} at ${24Hour}:${Minute} "
 "${TimeZone}, ${Sender} wrote:"
@@ -19565,80 +19541,80 @@ msgstr ""
 "El ${AbbrevWeekdayName}, ${Day}-${Month}-${Year} a las ${24Hour}:${Minute} "
 "${TimeZone}, ${Sender} escribió:"
 
-#: ../src/mail/em-composer-utils.c:2068
+#: ../src/mail/em-composer-utils.c:2091
 msgid "-------- Forwarded Message --------"
 msgstr "--------- Mensaje reenviado --------"
 
-#: ../src/mail/em-composer-utils.c:2073
+#: ../src/mail/em-composer-utils.c:2096
 msgid "-----Original Message-----"
 msgstr "-----Mensaje original-----"
 
 #. Translators: This is a reply attribution in the message reply subject. The %s is replaced with the subject of the original message. Both 'Re'-s in the 'reply-attribution' translation context should translate into the same string, the same as the ':' separator.
-#: ../src/mail/em-composer-utils.c:2879
+#: ../src/mail/em-composer-utils.c:2909
 #, c-format
 msgctxt "reply-attribution"
 msgid "Re: %s"
 msgstr "Re: %s"
 
-#: ../src/mail/em-composer-utils.c:3498
+#: ../src/mail/em-composer-utils.c:3528
 msgid "an unknown sender"
 msgstr "un remitente desconocido"
 
-#: ../src/mail/em-composer-utils.c:4134
+#: ../src/mail/em-composer-utils.c:4164
 msgid "Alternative Reply"
 msgstr "Respuesta alternativa"
 
-#: ../src/mail/em-composer-utils.c:4137
+#: ../src/mail/em-composer-utils.c:4167
 #: ../src/modules/calendar/e-cal-shell-view-actions.c:1579
 msgid "_Reply"
 msgstr "_Responder"
 
-#: ../src/mail/em-composer-utils.c:4150
+#: ../src/mail/em-composer-utils.c:4180
 msgid "Recipients:"
 msgstr "Destinatarios:"
 
-#: ../src/mail/em-composer-utils.c:4178
+#: ../src/mail/em-composer-utils.c:4208
 msgid "Reply to _Sender"
 msgstr "Responder al _remitente"
 
-#: ../src/mail/em-composer-utils.c:4200
+#: ../src/mail/em-composer-utils.c:4230
 msgid "Reply style:"
 msgstr "Estilo de _respuesta:"
 
-#: ../src/mail/em-composer-utils.c:4208
+#: ../src/mail/em-composer-utils.c:4238
 msgid "_Default"
 msgstr "_Predeterminado"
 
-#: ../src/mail/em-composer-utils.c:4212
+#: ../src/mail/em-composer-utils.c:4242
 msgid "Attach_ment"
 msgstr "Adj_unto"
 
-#: ../src/mail/em-composer-utils.c:4216
+#: ../src/mail/em-composer-utils.c:4246
 msgid "Inline (_Outlook style)"
 msgstr "En línea (estilo _Outlook)"
 
-#: ../src/mail/em-composer-utils.c:4220
+#: ../src/mail/em-composer-utils.c:4250
 msgid "_Quote"
 msgstr "_Citar"
 
-#: ../src/mail/em-composer-utils.c:4224
+#: ../src/mail/em-composer-utils.c:4254
 msgid "Do _Not Quote"
 msgstr "_No entrecomillar"
 
 #. Translators: The text is followed by the format combo with values like 'Plain Text', 'HTML' and so on
-#: ../src/mail/em-composer-utils.c:4235
+#: ../src/mail/em-composer-utils.c:4265
 msgid "_Format message in"
 msgstr "_Formatear mensaje en"
 
-#: ../src/mail/em-composer-utils.c:4257
+#: ../src/mail/em-composer-utils.c:4287
 msgid "Apply t_emplate"
 msgstr "Aplicar p_lantilla"
 
-#: ../src/mail/em-composer-utils.c:4269
+#: ../src/mail/em-composer-utils.c:4299
 msgid "Preserve original message S_ubject"
 msgstr "Conservar el as_unto del mensaje original"
 
-#: ../src/mail/em-composer-utils.c:4335
+#: ../src/mail/em-composer-utils.c:4365
 #, c-format
 msgid "one recipient"
 msgid_plural "%d recipients"
@@ -19646,11 +19622,11 @@ msgstr[0] "un destinatario"
 msgstr[1] "%d destinatarios"
 
 #. FIXME GTK_WINDOW (composer)
-#: ../src/mail/em-composer-utils.c:4820
+#: ../src/mail/em-composer-utils.c:4850
 msgid "Posting destination"
 msgstr "Destino de publicación"
 
-#: ../src/mail/em-composer-utils.c:4825
+#: ../src/mail/em-composer-utils.c:4855
 msgid "Choose folders to post the message to."
 msgstr "Elija las carpetas en las que publicar el mensaje."
 
@@ -23555,20 +23531,16 @@ msgstr "_24 horas"
 
 #. Translators: This is part of
 #: ../src/modules/calendar/e-calendar-preferences.ui.h:19
-#, fuzzy
-#| msgid "User-defined reminder times, in minutes"
 msgid "Sh_orten event time by"
-msgstr "Horas de recordatorio definidas por el usuario, en minutos"
+msgstr "A_cortar tiempo de evento"
 
 #: ../src/modules/calendar/e-calendar-preferences.ui.h:22
 msgid "End events earlier"
-msgstr ""
+msgstr "Terminar eventos antes"
 
 #: ../src/modules/calendar/e-calendar-preferences.ui.h:23
-#, fuzzy
-#| msgid "Start Date"
 msgid "Start events later"
-msgstr "Fecha de inicio"
+msgstr "Empezar eventos después"
 
 #: ../src/modules/calendar/e-calendar-preferences.ui.h:24
 #: ../src/modules/calendar/e-cal-shell-view-actions.c:1801
@@ -23692,8 +23664,7 @@ msgstr "Mostrar _números de semanas"
 #: ../src/modules/calendar/e-calendar-preferences.ui.h:62
 msgid "Show r_ecurring events in italic in bottom left calendar"
 msgstr ""
-"Mostrar acontecimientos repeti_dos en cursiva en el calendario inferior "
-"izquierdo"
+"Mostrar eventos repeti_dos en cursiva en el calendario inferior izquierdo"
 
 #: ../src/modules/calendar/e-calendar-preferences.ui.h:63
 msgid "Sc_roll Month View by a week"
@@ -23891,15 +23862,15 @@ msgid ""
 "amount of time. If you continue, you will not be able to recover these "
 "events."
 msgstr ""
-"Esta operación eliminará permanentemente todos los acontecimientos marcados "
-"más antiguos que el tiempo seleccionado. Si continúa, no podrá recuperar "
-"esos acontecimientos."
+"Esta operación eliminará permanentemente todos los eventos marcados más "
+"antiguos que el tiempo seleccionado. Si continúa, no podrá recuperar esos "
+"eventos."
 
 #. Translators: This is the first part of the sentence:
 #. * "Purge events older than <<spin-button>> days"
 #: ../src/modules/calendar/e-cal-shell-view-actions.c:333
 msgid "Purge events older than"
-msgstr "Purgar acontecimientos anteriores a"
+msgstr "Purgar eventos anteriores a"
 
 #: ../src/modules/calendar/e-cal-shell-view-actions.c:1005
 msgid "Making an occurrence movable"
@@ -23909,7 +23880,7 @@ msgstr "Haciendo una ocurrencia movible"
 #. * no summary is filed, the '.ics' extension is concatenated to it.
 #: ../src/modules/calendar/e-cal-shell-view-actions.c:1185
 msgid "event"
-msgstr "acontecimiento"
+msgstr "evento"
 
 #: ../src/modules/calendar/e-cal-shell-view-actions.c:1187
 #: ../src/modules/calendar/e-cal-shell-view-memopad.c:204
@@ -23972,7 +23943,7 @@ msgstr "Purg_ar"
 
 #: ../src/modules/calendar/e-cal-shell-view-actions.c:1371
 msgid "Purge old appointments and meetings"
-msgstr "Purgar reuniones y acontecimientos antiguos"
+msgstr "Purgar reuniones y eventos antiguos"
 
 #: ../src/modules/calendar/e-cal-shell-view-actions.c:1378
 msgid "Refresh the selected calendar"
@@ -24068,11 +24039,11 @@ msgstr "Editar la cita actual como nueva"
 
 #: ../src/modules/calendar/e-cal-shell-view-actions.c:1481
 msgid "New All Day _Event…"
-msgstr "Acontecimi_ento nuevo para todo el día…"
+msgstr "_Evento nuevo para todo el día…"
 
 #: ../src/modules/calendar/e-cal-shell-view-actions.c:1483
 msgid "Create a new all day event"
-msgstr "Crear un acontecimiento nuevo para todo el día"
+msgstr "Crear un evento nuevo para todo el día"
 
 #: ../src/modules/calendar/e-cal-shell-view-actions.c:1488
 #: ../src/modules/calendar/e-cal-shell-view-memopad.c:238
@@ -24182,16 +24153,12 @@ msgid "Quit"
 msgstr "Salir"
 
 #: ../src/modules/calendar/e-cal-shell-view-actions.c:1744
-#, fuzzy
-#| msgid "Show Message _Preview"
 msgid "Show Event _Preview"
-msgstr "Mostrar vista _previa del correo"
+msgstr "Mostrar vista _previa del evento"
 
 #: ../src/modules/calendar/e-cal-shell-view-actions.c:1746
-#, fuzzy
-#| msgid "Show preview pane"
 msgid "Show event preview pane"
-msgstr "Mostrar el panel de vista previa"
+msgstr "Mostrar el panel de vista previa del evento"
 
 #: ../src/modules/calendar/e-cal-shell-view-actions.c:1752
 msgid "Show T_asks and Memos pane"
@@ -24250,16 +24217,12 @@ msgid "_Horizontal View"
 msgstr "Vista _horizontal"
 
 #: ../src/modules/calendar/e-cal-shell-view-actions.c:1830
-#, fuzzy
-#| msgid "Show task preview below the task list"
 msgid "Show event preview below the calendar"
-msgstr "Mostrar la vista previa de tareas bajo la lista de tareas"
+msgstr "Mostrar la vista previa del evento bajo el calendario"
 
 #: ../src/modules/calendar/e-cal-shell-view-actions.c:1837
-#, fuzzy
-#| msgid "Show task preview alongside the task list"
 msgid "Show event preview alongside the calendar"
-msgstr "Mostrar la vista previa de tareas junto a la lista de tareas"
+msgstr "Mostrar la vista previa del evento junto al calendario"
 
 #: ../src/modules/calendar/e-cal-shell-view-actions.c:1845
 msgid "Active Appointments"
@@ -25638,7 +25601,7 @@ msgid ""
 "tasks or free/busy information"
 msgstr ""
 "El mensaje contiene un calendario, pero el calendario no contiene ningún "
-"acontecimiento, tarea o información de disponibilidad"
+"evento, tarea o información de disponibilidad"
 
 #: ../src/modules/itip-formatter/itip-view.c:6216
 msgid "The calendar attached contains multiple items"
@@ -26659,10 +26622,9 @@ msgstr ""
 "Ver los mensajes de correo en texto sin formato, incluso si contienen HTML."
 
 #: ../src/modules/rss/camel/camel-rss-folder.c:133
-#, fuzzy, c-format
-#| msgid "Cannot find message in its folder summary"
+#, c-format
 msgid "Cannot add message into News and Blogs folder"
-msgstr "No se puede encontrar el mensaje en su carpeta del resumen"
+msgstr "No se puede añadir el mensaje en las carpetas Noticias y Blogs"
 
 #: ../src/modules/rss/camel/camel-rss-folder.c:225
 msgid "Message is not available"
@@ -26719,7 +26681,7 @@ msgstr "Carpeta «%s» no encontrada"
 #: ../src/modules/rss/camel/camel-rss-store.c:138
 #, c-format
 msgid "Cannot create a folder in a News and Blogs store."
-msgstr ""
+msgstr "No se puede crear una carpeta en el almacén Noticias y Blogs."
 
 #: ../src/modules/rss/e-rss-parser.c:289
 msgid "Unknown author"
@@ -26740,22 +26702,17 @@ msgid "Fetching feed icon…"
 msgstr "Obteniendo icono del proveedor…"
 
 #: ../src/modules/rss/evolution/e-rss-preferences.c:475
-#, fuzzy
-#| msgid "Failed to create new collection"
 msgid "Failed to read feed information."
-msgstr "Falló al crear la colección nueva"
+msgstr "Falló al leer la información del proveedor"
 
 #: ../src/modules/rss/evolution/e-rss-preferences.c:494
-#, fuzzy, c-format
-#| msgid "Failed to save certificate: %s"
+#, c-format
 msgid "Failed to fetch feed information: %s"
-msgstr "Falló al guardar el certificado: %s"
+msgstr "Falló al obtener la información del proveedor: %s"
 
 #: ../src/modules/rss/evolution/e-rss-preferences.c:524
-#, fuzzy
-#| msgid "Meeting information sent"
 msgid "Fetching feed information…"
-msgstr "Información de reunión enviada"
+msgstr "Obteniendo información del proveedor…"
 
 #: ../src/modules/rss/evolution/e-rss-preferences.c:529
 msgid "Invalid Feed URL"
@@ -26808,6 +26765,8 @@ msgid ""
 "Reload all feed articles from the server, updating existing and adding any "
 "missing"
 msgstr ""
+"Volver a cargar todos los artículos del servidor, actualizando los "
+"existentes y añadiendo los que falten"
 
 #: ../src/modules/spamassassin/evolution-spamassassin.c:188
 #, c-format
@@ -27767,8 +27726,8 @@ msgid ""
 "Selected calendar contains event “%s” already. Would you like to edit the "
 "old event?"
 msgstr ""
-"El calendario seleccionado ya contiene el acontecimiento «%s». ¿Quiere "
-"editar el acontecimiento antiguo?"
+"El calendario seleccionado ya contiene el evento «%s». ¿Quiere editar el "
+"evento antiguo?"
 
 #: ../src/plugins/mail-to-task/mail-to-task.c:623
 #, c-format
@@ -27893,7 +27852,7 @@ msgstr "Crea una cit_a"
 
 #: ../src/plugins/mail-to-task/mail-to-task.c:1330
 msgid "Create a new event from the selected message"
-msgstr "Crear un acontecimiento nuevo del mensaje seleccionado"
+msgstr "Crear un evento nuevo del mensaje seleccionado"
 
 #: ../src/plugins/mail-to-task/mail-to-task.c:1335
 msgid "Create a Mem_o"
@@ -29493,8 +29452,7 @@ msgstr "Certificado importado"
 
 #~ msgid "Event cannot be fully edited, because you are not the organizer"
 #~ msgstr ""
-#~ "El acontecimiento no se puede editar completamente porque no es el "
-#~ "organizador"
+#~ "El evento no se puede editar completamente porque no es el organizador"
 
 #~ msgid "Task cannot be fully edited, because you are not the organizer"
 #~ msgstr ""
@@ -29849,7 +29807,7 @@ msgstr "Certificado importado"
 #~ msgstr "Notificador de alertas de Evolution"
 
 #~ msgid "Calendar event notifications"
-#~ msgstr "Notificaciones de acontecimientos del calendario"
+#~ msgstr "Notificaciones de eventos del calendario"
 
 #~ msgid "minute"
 #~ msgid_plural "minutes"
