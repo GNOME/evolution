@@ -16,19 +16,19 @@
 # Felipe Braga <fbobraga@gmail.com>, 2015.
 # Gustavo Marques <gutodisse@gmail.com>, 2015, 2016.
 # rafagazonit <rafael.moreira@ifms.edu.br>, 2016.
-# Enrico Nicoletto <hiko@duck.com>, 2013-2015, 2020-2022.
 # Rafael Fontenelle <rafaelff@gnome.org>, 2012-2022.
 # Matheus Barbosa <mdpb.matheus@gmail.com>, 2022.
 # Paulo Rodrigues <paulo@rodrigues.pw>, 2022.
 # Leônidas Araújo <leorusvellt@hotmail.com>, 2022.
+# Enrico Nicoletto <hiko@duck.com>, 2013-2015, 2020-2022.
 #
 msgid ""
 msgstr ""
 "Project-Id-Version: evolution\n"
 "Report-Msgid-Bugs-To: https://gitlab.gnome.org/GNOME/evolution/issues\n"
-"POT-Creation-Date: 2022-08-30 17:38+0000\n"
-"PO-Revision-Date: 2022-09-05 22:03-0300\n"
-"Last-Translator: Leônidas Araújo <leorusvellt@hotmail.com>\n"
+"POT-Creation-Date: 2022-09-06 01:05+0000\n"
+"PO-Revision-Date: 2022-09-06 07:57-0300\n"
+"Last-Translator: Enrico Nicoletto <hiko@duck.com>\n"
 "Language-Team: Brazilian Portuguese <gnome-pt_br-list@gnome.org>\n"
 "Language: pt_BR\n"
 "MIME-Version: 1.0\n"
@@ -408,7 +408,7 @@ msgid ""
 "day-start-hour and day-start-minute"
 msgstr ""
 "Hora em que o dia de trabalho termina, em formato de vinte e quatro horas HHMM, 0000 a "
-"2359, ou -1 para usar hora inicial do dia ou minuto inicial do dia,"
+"2359, ou -1 para usar hora inicial do dia ou minuto inicial do dia"
 
 #: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:29
 msgid "Workday end time for Tuesday"
@@ -1040,6 +1040,10 @@ msgstr ""
 "Posição do painel horizontal, entre o calendário anual e a lista de eventos para o dia "
 "selecionado na visualização do ano, em pixels"
 
+#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:168
+msgid "Layout style for the Year View"
+msgstr "Estilo de disposição de visualização por ano"
+
 #: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:169
 msgid ""
 "The layout style determines where to place the preview pane. “0” (Horizontal View) "
@@ -1071,9 +1075,36 @@ msgstr "Posição da visualização vertical do evento para a visualização do 
 msgid "Shorten event time by minutes"
 msgstr "Reduza o tempo do evento em minutos"
 
+#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:175
+msgid ""
+"By how many minutes to shorted new event time. Whether event end or start is changed "
+"is determined by \"shorten-time-end\" setting"
+msgstr ""
+"Por quantos minutos a se encurtar o novo tempo do evento. Se a alteração de quando o "
+"evento termina ou começa é determinada pela configuração de \"encurtar-tempo-final\""
+
 #: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:176
 msgid "Whether to shorten event end time"
 msgstr "Se deve encurtar o término do evento"
+
+#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:177
+msgid ""
+"A pair option for \"shorten-time\" setting, to change the end time or the start time"
+msgstr ""
+"Uma opção pareada de configuração de \"encurtar-tempo\", seja para alterar o término "
+"ou início"
+
+#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:178
+msgid "Background color for the 'today' day"
+msgstr "Cor de fundo para o dia de \"hoje\""
+
+#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:179
+msgid ""
+"Leave empty to use a yellow color derived from the current theme, otherwise use the "
+"color of form `#RRGGBB`"
+msgstr ""
+"Deixe vazio para usar uma cor amarela derivada do tema atual, caso contrário use a cor "
+"da forma \"#RRGGBB\""
 
 #: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:180
 msgid "(Deprecated) First day of the week, from Sunday (0) to Saturday (6)"
@@ -1461,6 +1492,15 @@ msgstr ""
 "Quanto tempo atrasar a liberação da Caixa de saída ao enviar mensagens pela pasta "
 "Caixa de Saída"
 
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:54
+msgid ""
+"A delay, in minutes, to wait for the Outbox folder flush. Less than 0 means never "
+"flush, 0 means immediately, the rest is the delay interval in minutes."
+msgstr ""
+"Um atraso, em minutos, para aguardar a liberação da pasta de Caixa de Saída. Menos que "
+"0 significa nunca descarregar, 0 indica imediatamente e o resto é o intervalo de "
+"atraso em minutos."
+
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:55
 msgid "Include signature in new messages only"
 msgstr "Inclui assinatura apenas em novas mensagens"
@@ -1514,7 +1554,7 @@ msgstr ""
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:63
 msgid "Ignore list Reply-To:"
-msgstr "Ignorar lista “Responder para:”"
+msgstr "Ignorar lista “Responder para”:"
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:64
 msgid ""
@@ -1654,13 +1694,17 @@ msgstr ""
 "Se o horário em créditos de resposta deve ser convertido para horário local quando "
 "estiver em UTC na mensagem."
 
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:87
+msgid "Use user date format in reply credits"
+msgstr "Usar formato de data do usuário em créditos de resposta"
+
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:88
 msgid ""
 "Whether the date in reply credits should be shown in the user date format. If unset, "
 "shows the header value from the original message."
 msgstr ""
 "Se a data nos créditos de resposta deve ser mostrada no formato de data do usuário. Se "
-"não definido, mostra o valor do cabeçalho da mensagem original.\t"
+"não definido, mostra o valor do cabeçalho da mensagem original."
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:89
 msgid "Mark replied to messages as read"
@@ -2905,6 +2949,11 @@ msgstr ""
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:316
 msgid "Whether to print attachments."
 msgstr "Se deseja imprimir anexos."
+
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:317
+msgid "If enabled, and possible, attachment content is printed with the message."
+msgstr ""
+"Se habilitado e caso seja possível, o conteúdo do anexo será impresso com a mensagem."
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:318
 msgid "Size limit for text attachments to show"
@@ -6713,15 +6762,15 @@ msgstr "Ocorre"
 
 #: ../src/calendar/gui/caltypes.xml.in.h:21
 msgid "Less Than"
-msgstr "é menor que"
+msgstr "É menor que"
 
 #: ../src/calendar/gui/caltypes.xml.in.h:22
 msgid "Exactly"
-msgstr "exatamente"
+msgstr "Exatamente"
 
 #: ../src/calendar/gui/caltypes.xml.in.h:23
 msgid "More Than"
-msgstr "é maior que"
+msgstr "É maior que"
 
 #: ../src/calendar/gui/caltypes.xml.in.h:24 ../src/calendar/gui/memotypes.xml.in.h:17
 #: ../src/calendar/gui/tasktypes.xml.in.h:35 ../src/mail/filtertypes.xml.in.h:23
@@ -21144,7 +21193,7 @@ msgstr "A pasta “{0}” não contém nenhuma mensagem duplicada."
 
 #: ../src/mail/mail.error.xml.h:170
 msgid "Failed to connect account “{0}”."
-msgstr "Falha ao conectar à conta de correio “{0}”"
+msgstr "Falha ao conectar à conta de correio “{0}”."
 
 #: ../src/mail/mail.error.xml.h:171
 msgid "Failed to disconnect account “{0}”."
@@ -23524,7 +23573,7 @@ msgstr "Imprime esta agenda"
 
 #: ../src/modules/calendar/e-cal-shell-view-actions.c:1923
 msgid "Preview the calendar to be printed"
-msgstr "visualiza a agenda a ser impressa"
+msgstr "Visualiza a agenda a ser impressa"
 
 #: ../src/modules/calendar/e-cal-shell-view-actions.c:1945
 #: ../src/modules/calendar/e-cal-shell-view-memopad.c:279
@@ -24883,14 +24932,14 @@ msgstr "Adicionar c_ontatos a esta conta"
 #: ../src/modules/mail-config/e-mail-config-google-summary.c:326
 msgctxt "GoggleSummary"
 msgid "IMAP access"
-msgstr "acesso IMAP"
+msgstr "Acesso IMAP"
 
 #. Translators: This is part of a sentence "You may need to enable IMAP access and Calendars to synchronize",
 #. where the 'IMAP access' and 'Calendars to synchronize' are clickable.
 #: ../src/modules/mail-config/e-mail-config-google-summary.c:329
 msgctxt "GoggleSummary"
 msgid "Calendars to synchronize"
-msgstr "agendas para sincronização"
+msgstr "Agendas para sincronização"
 
 #. Translators: This is part of a sentence "You may need to enable IMAP access and Calendars to synchronize",
 #. where the 'IMAP access' and 'Calendars to synchronize' are clickable.
@@ -25911,7 +25960,7 @@ msgstr "Falha ao buscar o ícone do feed: %s"
 
 #: ../src/modules/rss/evolution/e-rss-preferences.c:461
 msgid "Fetching feed icon…"
-msgstr "Falha ao buscar o ícone do feed: %s"
+msgstr "Obtendo ícone do feed…"
 
 #: ../src/modules/rss/evolution/e-rss-preferences.c:475
 msgid "Failed to read feed information."
