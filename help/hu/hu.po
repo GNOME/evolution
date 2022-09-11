@@ -1911,7 +1911,7 @@ msgid ""
 msgstr ""
 "Jelölje be a <gui>Mindig jelenjen meg az automatikusan kiegészített partner "
 "címe</gui> négyzetet az e-mail-cím megjelenítéséhez a névvel együtt. Ez "
-"akkor hasznos, ha egy névjegyhez több e-mail cím is tartozik."
+"akkor hasznos, ha egy névjegyhez több e-mail-cím is tartozik."
 
 #. (itstool) path: page/p
 #: C/contacts-autocompletion.page:46
@@ -1922,7 +1922,7 @@ msgid ""
 "address columns."
 msgstr ""
 "Ennek alternatívájaként rá is kattinthat a <gui>Címzett:</gui>, <gui>Másolat:"
-"</gui> vagy <gui>Rejtett másolat:</gui> gombokra a névjegyekben lévő e-mail "
+"</gui> vagy <gui>Rejtett másolat:</gui> gombokra a névjegyekben lévő e-mail-"
 "címek listájának megjelenítéséhez. Válassza ki a címeket, és kattintson a "
 "nyílgombokra a megfelelő címoszlopokba való mozgatásukhoz."
 
@@ -8846,7 +8846,7 @@ msgid ""
 msgstr ""
 "A címzettek neveinek beírása helyett rá is kattinthat a <gui style=\"button"
 "\">Címzett:</gui>, <gui style=\"button\">Másolat:</gui> vagy <gui style="
-"\"button\">Rejtett másolat:</gui> gombokra a címjegyzékében lévő e-mail "
+"\"button\">Rejtett másolat:</gui> gombokra a címjegyzékében lévő e-mail-"
 "címek listájának megjelenítéséhez. Válassza ki a címeket, és kattintson a "
 "nyílgombokra a megfelelő címoszlopokba (Címzett:, Másolat:, Rejtett "
 "másolat:) való mozgatásukhoz."
@@ -13958,7 +13958,7 @@ msgstr ""
 "A függőleges nézetben az üzenetlista két sorban jeleníti meg a tömörített "
 "fejléceket, amely lehetővé teszi az előnézet oszlop extra szélességének "
 "felhasználását. A tömörített oszlopok második sorában a feladó címe és e-"
-"mail címe, a melléklet ikon, a dátum és a tárgy jelenik meg."
+"mail-címe, a melléklet ikon, a dátum és a tárgy jelenik meg."
 
 #. (itstool) path: page/p
 #: C/mail-vertical-view.page:30
