@@ -157,7 +157,7 @@ shell_header_bar_constructed (GObject *object)
 
 	ui_manager = e_shell_window_get_ui_manager (shell_window);
 
-	new_button = e_header_bar_button_new (C_("toolbar-button", "New"), NULL);
+	new_button = e_header_bar_button_new (NULL, NULL);
 	gtk_header_bar_pack_start (GTK_HEADER_BAR (self), new_button);
 	gtk_widget_show (new_button);
 	self->priv->new_button = g_object_ref (new_button);

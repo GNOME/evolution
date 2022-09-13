@@ -1497,7 +1497,7 @@ e_mail_shell_view_update_send_receive_menus (EMailShellView *mail_shell_view)
 			GTK_MENU_ITEM (widget),
 			create_send_receive_submenu (mail_shell_view));
 
-	widget = e_header_bar_button_new (_("Send / Receive"), ACTION (MAIL_SEND_RECEIVE));
+	widget = e_header_bar_button_new (NULL, ACTION (MAIL_SEND_RECEIVE));
 	gtk_widget_set_name (widget, "e-mail-shell-view-send-receive");
 	e_header_bar_button_take_menu (
 		E_HEADER_BAR_BUTTON (widget),
@@ -1508,7 +1508,7 @@ e_mail_shell_view_update_send_receive_menus (EMailShellView *mail_shell_view)
 
 	action_name = "mail-forward";
 	action = e_mail_reader_get_action (E_MAIL_READER (mail_view), action_name);
-	widget = e_header_bar_button_new (_("Forward"), action);
+	widget = e_header_bar_button_new (NULL, action);
 	gtk_widget_set_name (widget, "e-mail-shell-view-forward");
 	e_header_bar_button_take_menu (
 		E_HEADER_BAR_BUTTON (widget),
@@ -1519,7 +1519,7 @@ e_mail_shell_view_update_send_receive_menus (EMailShellView *mail_shell_view)
 
 	action_name = "mail-reply-group";
 	action = e_mail_reader_get_action (E_MAIL_READER (mail_view), action_name);
-	widget = e_header_bar_button_new (_("Group Reply"), action);
+	widget = e_header_bar_button_new (NULL, action);
 	gtk_widget_set_name (widget, "e-mail-shell-view-reply-group");
 	gtk_widget_show (widget);
 
@@ -1531,7 +1531,7 @@ e_mail_shell_view_update_send_receive_menus (EMailShellView *mail_shell_view)
 
 	action_name = "mail-reply-sender";
 	action = e_mail_reader_get_action (E_MAIL_READER (mail_view), action_name);
-	widget = e_header_bar_button_new (_("Reply"), action);
+	widget = e_header_bar_button_new (NULL, action);
 	gtk_widget_set_name (widget, "e-mail-shell-view-reply-sender");
 	gtk_widget_show (widget);
 
