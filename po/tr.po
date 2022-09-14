@@ -19,8 +19,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: evolution\n"
 "Report-Msgid-Bugs-To: https://gitlab.gnome.org/GNOME/evolution/issues\n"
-"POT-Creation-Date: 2022-08-22 02:24+0000\n"
-"PO-Revision-Date: 2022-09-01 01:22+0300\n"
+"POT-Creation-Date: 2022-09-13 17:23+0000\n"
+"PO-Revision-Date: 2022-09-14 11:04+0300\n"
 "Last-Translator: Emin Tufan Çetin <etcetin@gmail.com>\n"
 "Language-Team: Turkish <gnome-turk@gnome.org>\n"
 "Language: tr\n"
@@ -1057,8 +1057,8 @@ msgid ""
 "Position of the horizontal pane, between the year calendar and the list of "
 "events for the selected day in the year view, in pixels"
 msgstr ""
-"Yatay bölmenin, yıl takvimi ve yıl görünümünde seçilen gün için olaylar listesi "
-"arasındaki konumu, piksel olarak"
+"Yatay bölmenin, yıl takvimi ve yıl görünümünde seçilen gün için olaylar "
+"listesi arasındaki konumu, piksel olarak"
 
 #: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:168
 msgid "Layout style for the Year View"
@@ -1076,7 +1076,7 @@ msgstr ""
 
 #: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:170
 msgid "Year view horizontal preview position"
-msgstr "Yıl görünümündeki yatay bölmenin konumu"
+msgstr "Yıl görünümü yatay ön izleme konumu"
 
 #: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:171
 msgid "Position of the horizontal event preview for the year view, in pixels"
@@ -1084,7 +1084,7 @@ msgstr "Dikey olay ön izlemesinin yıl görünümündeki konumu, piksel olarak"
 
 #: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:172
 msgid "Year view vertical preview position"
-msgstr "Yıl görünümündeki dikey bölmenin konumu"
+msgstr "Yıl görünümü dikey ön izleme konumu"
 
 #: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:173
 msgid "Position of the vertical event preview for the year view, in pixels"
@@ -1099,8 +1099,8 @@ msgid ""
 "By how many minutes to shorted new event time. Whether event end or start is "
 "changed is determined by \"shorten-time-end\" setting"
 msgstr ""
-"Yeni olay saatinin kaç dakika kısaltılacağı. Olayın bitişinin veya başlangıcının "
-"değişmesi \"shorten-time-end\" ayarıyla belirlenir."
+"Yeni olay saatinin kaç dakika kısaltılacağı. Olayın bitişinin veya "
+"başlangıcının değişmesi \"shorten-time-end\" ayarıyla belirlenir."
 
 #: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:176
 msgid "Whether to shorten event end time"
@@ -3472,7 +3472,7 @@ msgstr ""
 #: ../data/org.gnome.evolution.shell.gschema.xml.in.h:11
 #: ../src/shell/main.c:425
 msgid "Start in offline mode"
-msgstr "Çevrimdışı kipte başla"
+msgstr "Çevrim dışı kipte başla"
 
 #: ../data/org.gnome.evolution.shell.gschema.xml.in.h:12
 msgid "Whether Evolution will start up in offline mode instead of online mode."
@@ -7874,19 +7874,19 @@ msgstr "Görev kaldırılıyor"
 #, c-format
 msgid "Deleting an event"
 msgid_plural "Deleting %d events"
-msgstr[0] "%d olay kaldırılıyor"
+msgstr[0] "%d olay siliniyor"
 
 #: ../src/calendar/gui/e-cal-ops.c:526
 #, c-format
 msgid "Deleting a memo"
 msgid_plural "Deleting %d memos"
-msgstr[0] "%d not kaldırılıyor"
+msgstr[0] "%d not siliniyor"
 
 #: ../src/calendar/gui/e-cal-ops.c:530
 #, c-format
 msgid "Deleting a task"
 msgid_plural "Deleting %d tasks"
-msgstr[0] "%d görev kaldırılıyor"
+msgstr[0] "%d görev siliniyor"
 
 #: ../src/calendar/gui/e-cal-ops.c:741
 #, c-format
@@ -13281,7 +13281,7 @@ msgstr "Çevirimdışı işlem için takvim içeriğini yerele kopyala"
 
 #: ../src/e-util/e-cal-source-config.c:424
 msgid "Copy task list contents locally for offline operation"
-msgstr "Çevrimdışı işlem için görev listesi içeriğini yerele kopyala"
+msgstr "Çevrim dışı işlem için görev listesi içeriğini yerele kopyala"
 
 #: ../src/e-util/e-cal-source-config.c:428
 msgid "Copy memo list contents locally for offline operation"
@@ -14196,7 +14196,7 @@ msgstr[0] "gelecekte %d ay"
 #, c-format
 msgid "1 year ago"
 msgid_plural "%d years ago"
-msgstr[0] "%d sene önce"
+msgstr[0] "%d yıl önce"
 
 #: ../src/e-util/e-filter-datespec.c:77
 #, c-format
@@ -15881,7 +15881,7 @@ msgstr "_Sil %s"
 #: ../src/e-util/e-online-button.c:30
 msgid "Evolution is currently online.  Click this button to work offline."
 msgstr ""
-"Evolution şu anda çevrimiçi çalışıyor.  Çevirim dışı çalışmak için bu "
+"Evolution şu anda çevrim içi çalışıyor.  Çevirim dışı çalışmak için bu "
 "düğmeye tıklayın."
 
 #: ../src/e-util/e-online-button.c:33
@@ -17481,18 +17481,18 @@ msgid_plural ""
 "%s have been modified to account for the deleted folder\n"
 "“%s”."
 msgstr[0] ""
-"“%s” Arama Dizini silinmiş şu dizinden sorumlu olacak biçimde değiştirildi\n"
+"“%s” Arama Klasörü silinmiş şu dizinden sorumlu olacak biçimde değiştirildi:\n"
 "“%s”."
 
 #: ../src/mail/e-mail-account-manager.c:118
 #: ../src/mail/e-mail-account-manager.c:206
 msgid "Open _Online Accounts"
-msgstr "_Çevrimiçi Hesapları Aç"
+msgstr "_Çevrim İçi Hesapları Aç"
 
 #: ../src/mail/e-mail-account-manager.c:144
 #: ../src/mail/e-mail-account-manager.c:232
 msgid "This account was created through the Online Accounts service."
-msgstr "Bu hesap Çevrimiçi Hesaplar servisi ile oluşturulmuştur."
+msgstr "Bu hesap Çevrim İçi Hesaplar servisi ile oluşturulmuştur."
 
 #: ../src/mail/e-mail-account-manager.c:692
 msgid "_Reset Order"
@@ -17578,18 +17578,15 @@ msgid "(No Subject)"
 msgstr "(Konu Yok)"
 
 #: ../src/mail/e-mail-browser.c:537 ../src/mail/mail-dialogs.ui.h:5
-#: ../src/modules/mail/e-mail-shell-view-private.c:1511
 msgid "Forward"
 msgstr "Yönlendir"
 
 #: ../src/mail/e-mail-browser.c:548 ../src/mail/e-mail-reader.c:2917
-#: ../src/modules/mail/e-mail-shell-view-private.c:1522
 msgid "Group Reply"
 msgstr "Toplu Yanıt"
 
 #: ../src/mail/e-mail-browser.c:560 ../src/mail/e-mail-reader.c:5281
 #: ../src/mail/mail-dialogs.ui.h:9
-#: ../src/modules/mail/e-mail-shell-view-private.c:1534
 msgid "Reply"
 msgstr "Yanıtla"
 
@@ -21357,7 +21354,7 @@ msgstr "Sunucu kurulumu alınamadı."
 
 #: ../src/mail/mail.error.xml.h:131
 msgid "Synchronize folders locally for offline usage?"
-msgstr "Çevrimdışı kullanım için klasörler yerelle eşzamanlandırılsın mı?"
+msgstr "Çevrim dışı kullanım için klasörler yerelle eşzamanlandırılsın mı?"
 
 #: ../src/mail/mail.error.xml.h:132
 msgid ""
@@ -25963,10 +25960,6 @@ msgid "%d unread"
 msgid_plural "%d unread"
 msgstr[0] "%d okunmamış"
 
-#: ../src/modules/mail/e-mail-shell-view-private.c:1500
-msgid "Send / Receive"
-msgstr "Gönder / Al"
-
 #: ../src/modules/mail/em-composer-prefs.c:417
 msgid "Select Folder to Add"
 msgstr "Eklemek için klasör seç"
@@ -26310,7 +26303,7 @@ msgstr "Geçersiz Besleme URL’si"
 
 #: ../src/modules/rss/evolution/e-rss-preferences.c:572
 msgid "Choose Feed Image"
-msgstr "Besleme Görüntüsünü Değiştir"
+msgstr "Besleme Görüntüsü Seç"
 
 #: ../src/modules/rss/evolution/e-rss-preferences.c:788
 msgid "Feed _URL:"
@@ -26710,7 +26703,7 @@ msgstr "Bölmeyi adres defteri bağlantısı olarak göster"
 #: ../src/modules/webkit-editor/e-webkit-editor.c:5493
 #, c-format
 msgid "Ctrl-click to open a link “%s”"
-msgstr "Bağlantıyı açmak için Ctrl+tıklama yapın “%s”"
+msgstr "“%s” bağlantısını Ctrl+tık ile aç"
 
 #: ../src/plugins/attachment-reminder/attachment-reminder.c:169
 msgid "_Do not show this message again."
@@ -27840,11 +27833,6 @@ msgstr "Aramalar"
 msgid "Save Search"
 msgstr "Aramayı Kaydet"
 
-#: ../src/shell/e-shell-headerbar.c:161
-msgctxt "toolbar-button"
-msgid "New"
-msgstr "Yeni"
-
 #. Translators: The "Show:" label precedes a combo box that
 #. * allows the user to filter the current view.  Examples of
 #. * items that appear in the combo box are "Unread Messages",
@@ -28264,7 +28252,7 @@ msgstr "Verilen geometriyi ana pencereye uygula"
 
 #: ../src/shell/main.c:427
 msgid "Start in online mode"
-msgstr "Çevrimiçi kipte başla"
+msgstr "Çevrim içi kipte başla"
 
 #: ../src/shell/main.c:429
 msgid "Ignore network availability"
@@ -28939,3 +28927,10 @@ msgstr "Deponun diske yazılması başarısız, hata_kodu: %i"
 #: ../src/smime/lib/e-pkcs12.c:460
 msgid "Imported Certificate"
 msgstr "Aktarılmış Sertifika"
+
+#~ msgid "Send / Receive"
+#~ msgstr "Gönder / Al"
+
+#~ msgctxt "toolbar-button"
+#~ msgid "New"
+#~ msgstr "Yeni"
