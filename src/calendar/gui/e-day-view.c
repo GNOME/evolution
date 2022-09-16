@@ -163,6 +163,8 @@ struct _EDayViewPrivate {
 	/* Whether we show the Marcus Bains Line in the main
 	 * canvas and time canvas, and the colors for each. */
 	gboolean marcus_bains_show_line;
+	gboolean marcus_bains_fix_timeout;
+	gint marcus_bains_update_id;
 	gchar *marcus_bains_day_view_color;
 	gchar *marcus_bains_time_bar_color;
 
@@ -500,6 +502,45 @@ enum {
 };
 
 G_DEFINE_TYPE (EDayView, e_day_view, E_TYPE_CALENDAR_VIEW)
+
+static gboolean
+day_view_refresh_marcus_bains_line (gpointer user_data)
+{
+	EDayView *day_view = user_data;
+	ICalTime *now;
+	gint hh, mm, seconds = 0;
+
+	if (!day_view->priv->marcus_bains_show_line ||
+	    !E_CALENDAR_VIEW (day_view)->in_focus) {
+		if (day_view->priv->marcus_bains_update_id) {
+			g_source_remove (day_view->priv->marcus_bains_update_id);
+			day_view->priv->marcus_bains_update_id = 0;
+			day_view->priv->marcus_bains_fix_timeout = FALSE;
+		}
+		return FALSE;
+	}
+
+	e_day_view_marcus_bains_update (day_view);
+
+	now = i_cal_time_new_current_with_zone (e_cal_model_get_timezone (day_view->priv->model));
+	i_cal_time_get_time (now, &hh, &mm, &seconds);
+	g_clear_object (&now);
+
+	if (seconds > 1) {
+		if (day_view->priv->marcus_bains_update_id)
+			g_source_remove (day_view->priv->marcus_bains_update_id);
+
+		day_view->priv->marcus_bains_fix_timeout = TRUE;
+		day_view->priv->marcus_bains_update_id = g_timeout_add_seconds (60 - seconds, day_view_refresh_marcus_bains_line, day_view);
+	} else if (day_view->priv->marcus_bains_fix_timeout || !day_view->priv->marcus_bains_update_id) {
+		day_view->priv->marcus_bains_fix_timeout = FALSE;
+		day_view->priv->marcus_bains_update_id = g_timeout_add_seconds (60, day_view_refresh_marcus_bains_line, day_view);
+	} else {
+		return TRUE;
+	}
+
+	return FALSE;
+}
 
 static void
 e_day_view_set_popup_event (EDayView *day_view,
@@ -993,6 +1034,11 @@ day_view_dispose (GObject *object)
 	gint day;
 
 	day_view = E_DAY_VIEW (object);
+
+	if (day_view->priv->marcus_bains_update_id) {
+		g_source_remove (day_view->priv->marcus_bains_update_id);
+		day_view->priv->marcus_bains_update_id = 0;
+	}
 
 	e_day_view_cancel_layout (day_view);
 
@@ -1756,6 +1802,9 @@ day_view_focus_in (GtkWidget *widget,
 	gtk_widget_queue_draw (day_view->top_canvas);
 	gtk_widget_queue_draw (day_view->main_canvas);
 
+	if (!day_view->priv->marcus_bains_update_id)
+		day_view_refresh_marcus_bains_line (day_view);
+
 	return FALSE;
 }
 
@@ -1919,6 +1968,9 @@ day_view_set_selected_time_range (ECalendarView *cal_view,
 
 		e_day_view_ensure_rows_visible (day_view, day_view->selection_start_row, day_view->selection_end_row);
 	}
+
+	if (!day_view->priv->marcus_bains_update_id)
+		day_view_refresh_marcus_bains_line (day_view);
 }
 
 /* Gets the visible time range. Returns FALSE if no time range has been set. */
@@ -4045,6 +4097,9 @@ e_day_view_marcus_bains_set_show_line (EDayView *day_view,
 
 	e_day_view_marcus_bains_update (day_view);
 
+	if (!day_view->priv->marcus_bains_update_id)
+		day_view_refresh_marcus_bains_line (day_view);
+
 	g_object_notify (G_OBJECT (day_view), "marcus-bains-show-line");
 }
 
@@ -5046,6 +5101,9 @@ e_day_view_update_query (EDayView *day_view)
 		day_view->requires_update = TRUE;
 		return;
 	}
+
+	if (!day_view->priv->marcus_bains_update_id)
+		day_view_refresh_marcus_bains_line (day_view);
 
 	day_view->requires_update = FALSE;
 
