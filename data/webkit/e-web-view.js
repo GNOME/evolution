@@ -772,6 +772,38 @@ Evo.EnsureMainDocumentInitialized = function()
 	Evo.initializeAndPostContentLoaded(null);
 }
 
+Evo.mailDisplayUpdateIFramesHeightRecursive = function(doc)
+{
+	if (!doc)
+		return;
+
+	var ii, iframes;
+
+	iframes = doc.getElementsByTagName("iframe");
+
+	/* Update from bottom to top */
+	for (ii = 0; ii < iframes.length; ii++) {
+		Evo.mailDisplayUpdateIFramesHeightRecursive(iframes[ii].contentDocument);
+	}
+
+	if (!doc.body || !doc.defaultView || !doc.defaultView.frameElement)
+		return;
+
+	if (doc.defaultView.frameElement.height == doc.body.scrollHeight)
+		doc.defaultView.frameElement.height = 10;
+	doc.defaultView.frameElement.height = doc.body.scrollHeight + 2 + (doc.body.scrollWidth > doc.body.clientWidth ? 20 : 0);
+}
+
+Evo.MailDisplayUpdateIFramesHeight = function()
+{
+	var scrolly = document.defaultView ? document.defaultView.scrollY : -1;
+
+	Evo.mailDisplayUpdateIFramesHeightRecursive(document);
+
+	if (scrolly != -1 && document.defaultView.scrollY != scrolly)
+		document.defaultView.scrollTo(0, scrolly);
+}
+
 if (this instanceof Window && this.document) {
 	this.document.onload = function() { Evo.initializeAndPostContentLoaded(this); };
 
@@ -857,9 +889,8 @@ Evo.mailDisplayResizeContentToPreviewWidth = function()
 				local_width -= 2; /* 1 + 1 frame borders */
 			} else if (!iframes.length) {
 				/* Message main body */
-				local_width -= 8; /* 8 + 8 margins of body without iframes */
-				if (level > 1)
-					local_width -= 8;
+				local_width -= level * 20; /* 10 + 10 margins of body without iframes */
+				local_width -= 4;
 
 				Evo.addRuleIntoStyleSheetDocument(doc, "-e-mail-formatter-style-sheet", "body", "width: " + local_width + "px;");
 				Evo.addRuleIntoStyleSheetDocument(doc, "-e-mail-formatter-style-sheet", ".part-container", "width: " + local_width + "px;");
@@ -869,7 +900,7 @@ Evo.mailDisplayResizeContentToPreviewWidth = function()
 				Evo.addRuleIntoStyleSheetDocument(doc, "-e-mail-formatter-style-sheet", "body",
 					"width: " + local_width + "px;");
 
-				local_width -= 2; /* 1 + 1 frame borders */
+				local_width -= 4; /* 2 + 2 frame borders */
 
 				Evo.addRuleIntoStyleSheetDocument(doc, "-e-mail-formatter-style-sheet", ".part-container-nostyle iframe",
 					"width: " + local_width + "px;");
@@ -881,19 +912,15 @@ Evo.mailDisplayResizeContentToPreviewWidth = function()
 				Evo.addRuleIntoStyleSheetDocument(doc, "-e-mail-formatter-style-sheet", ".part-container iframe",
 					"width: " + (local_width - 10) + "px;");
 			} else {
-				local_width -= 20; /* 10 + 10 margins of body with iframes */
-				local_width -= 8; /* attachment margin */
-				local_width -= 2; /* 1 + 1 frame borders */
+				local_width -= (level - 1) * 20; /* 10 + 10 margins of body with iframes */
+				local_width -= 4; /* 2 + 2 frame borders */
+				local_width -= 10; /* attachment margin */
 
-				/* We need to subtract another 10 pixels from the iframe width to
-				 * have the iframe's borders on the correct place. We can't subtract
-				 * it from local_width as we don't want to propagate this change
-				 * further. */
 				Evo.addRuleIntoStyleSheetDocument(doc, "-e-mail-formatter-style-sheet", ".part-container-nostyle iframe",
-					"width: " + (local_width - 10) + "px;");
+					"width: " + local_width + "px;");
 
 				Evo.addRuleIntoStyleSheetDocument(doc, "-e-mail-formatter-style-sheet", "body > .part-container-nostyle iframe",
-					"width: " + (local_width - 10) + "px;");
+					"width: " + local_width + "px;");
 			}
 
 			/* Add rules to every sub document */
@@ -904,7 +931,7 @@ Evo.mailDisplayResizeContentToPreviewWidth = function()
 				var tmp_local_width = local_width;
 
 				if (level == 0) {
-					tmp_local_width -= 8; /* attachment's margin */
+					tmp_local_width -= 10; /* attachment's margin */
 
 					Evo.addRuleIntoStyleSheetDocument(doc, "-e-mail-formatter-style-sheet", ".attachment-wrapper iframe:not([src*=\"__formatas=\"])",
 						"width: " + tmp_local_width + "px;");
@@ -913,7 +940,7 @@ Evo.mailDisplayResizeContentToPreviewWidth = function()
 						"width: " + tmp_local_width + "px;");
 
 					Evo.addRuleIntoStyleSheetDocument(doc, "-e-mail-formatter-style-sheet", "body > .part-container-nostyle iframe",
-						"width: " + local_width + "px;");
+						"width: " + tmp_local_width + "px;");
 				}
 
 				this.set_iframe_and_body_width (iframes[ii].contentDocument, tmp_local_width, original_width, level + 1);
@@ -926,6 +953,7 @@ Evo.mailDisplayResizeContentToPreviewWidth = function()
 	width -= 20; /* 10 + 10 margins of body */
 
 	traversar.set_iframe_and_body_width(document, width, width, 0);
+	window.webkit.messageHandlers.scheduleIFramesHeightUpdate.postMessage(0);
 }
 
 Evo.mailDisplayUpdateMagicSpacebarState = function()
@@ -1294,6 +1322,8 @@ Evo.MailDisplayShowAttachment = function(element_id, show)
 			window.webkit.messageHandlers.contentLoaded.postMessage(iframe_id);
 			Evo.mailDisplayUpdateMagicSpacebarState();
 		}
+	} else if (elem.ownerDocument.defaultView.frameElement) {
+		window.webkit.messageHandlers.scheduleIFramesHeightUpdate.postMessage(0);
 	}
 }
 
