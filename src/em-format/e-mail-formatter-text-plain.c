@@ -111,7 +111,7 @@ emfe_text_plain_format (EMailFormatterExtension *extension,
 		string =
 			"<div class=\"part-container pre "
 			"-e-web-view-background-color -e-web-view-text-color\" "
-			"style=\"border: none; padding: 8px; margin: 0;\">";
+			"style=\"border: none; padding: 0; margin: 0;\">";
 
 		g_output_stream_write_all (
 			stream, string, strlen (string),

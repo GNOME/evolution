@@ -135,16 +135,26 @@ text_hightlight_read_data_thread (gpointer user_data)
 {
 	TextHighlightClosure *closure = user_data;
 	gint nbuffer = 10240;
+	gssize read;
+	gsize wrote = 0;
 	gchar *buffer;
 
 	g_return_val_if_fail (closure != NULL, NULL);
 
 	buffer = g_new (gchar, nbuffer);
 
+	strcpy (buffer, "<style>body{margin:0; padding:8px;}</style>");
+	read = strlen (buffer);
+
+	if (!g_output_stream_write_all (closure->output_stream, buffer, read, &wrote, closure->cancellable, &closure->error) ||
+	    (gssize) wrote != read || closure->error) {
+		g_free (buffer);
+		return NULL;
+	}
+
 	while (!camel_stream_eos (closure->read_stream) &&
 	       !g_cancellable_set_error_if_cancelled (closure->cancellable, &closure->error)) {
-		gssize read;
-		gsize wrote = 0;
+		wrote = 0;
 
 		read = camel_stream_read (closure->read_stream, buffer, nbuffer, closure->cancellable, &closure->error);
 		if (read < 0 || closure->error)

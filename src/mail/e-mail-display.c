@@ -83,6 +83,7 @@ struct _EMailDisplayPrivate {
 	GSettings *settings;
 
 	guint scheduled_reload;
+	guint iframes_height_update_id;
 
 	GHashTable *old_settings;
 
@@ -535,6 +536,43 @@ initialize_web_view_colors (EMailDisplay *display,
 		".-e-mail-formatter-frame-security-need-key",
 		style,
 		e_web_view_get_cancellable (E_WEB_VIEW (display)));
+}
+
+static gboolean
+mail_display_can_use_frame_flattening (void)
+{
+	guint wk_major, wk_minor;
+
+	wk_major = webkit_get_major_version ();
+	wk_minor = webkit_get_minor_version ();
+
+	/* The 2.38 is the last version, which supports frame-flattening;
+	   prefer it over the manual and expensive calculations. */
+	return (wk_major < 2) || (wk_major == 2 && wk_minor <= 38);
+}
+
+static gboolean
+mail_display_iframes_height_update_cb (gpointer user_data)
+{
+	EMailDisplay *mail_display = user_data;
+
+	mail_display->priv->iframes_height_update_id = 0;
+
+	e_web_view_jsc_run_script (WEBKIT_WEB_VIEW (mail_display), e_web_view_get_cancellable (E_WEB_VIEW (mail_display)),
+		"Evo.MailDisplayUpdateIFramesHeight();");
+
+	return G_SOURCE_REMOVE;
+}
+
+static void
+mail_display_schedule_iframes_height_update (EMailDisplay *mail_display)
+{
+	if (mail_display_can_use_frame_flattening ())
+		return;
+
+	if (mail_display->priv->iframes_height_update_id)
+		g_source_remove (mail_display->priv->iframes_height_update_id);
+	mail_display->priv->iframes_height_update_id = g_timeout_add (100, mail_display_iframes_height_update_cb, mail_display);
 }
 
 static void
@@ -1353,6 +1391,8 @@ mail_display_content_loaded_cb (EWebView *web_view,
 			gtk_widget_grab_focus (widget);
 		}
 	}
+
+	mail_display_schedule_iframes_height_update (mail_display);
 }
 
 static void
@@ -1473,6 +1513,11 @@ mail_display_dispose (GObject *object)
 	if (priv->scheduled_reload > 0) {
 		g_source_remove (priv->scheduled_reload);
 		priv->scheduled_reload = 0;
+	}
+
+	if (priv->iframes_height_update_id > 0) {
+		g_source_remove (priv->iframes_height_update_id);
+		priv->iframes_height_update_id = 0;
 	}
 
 	if (priv->settings != NULL) {
@@ -1600,6 +1645,18 @@ mail_display_magic_spacebar_state_changed_cb (WebKitUserContentManager *manager,
 }
 
 static void
+mail_display_schedule_iframes_height_update_cb (WebKitUserContentManager *manager,
+						WebKitJavascriptResult *js_result,
+						gpointer user_data)
+{
+	EMailDisplay *mail_display = user_data;
+
+	g_return_if_fail (mail_display != NULL);
+
+	mail_display_schedule_iframes_height_update (mail_display);
+}
+
+static void
 mail_display_constructed (GObject *object)
 {
 	EContentRequest *content_request;
@@ -1611,9 +1668,11 @@ mail_display_constructed (GObject *object)
 	/* Chain up to parent's constructed() method. */
 	G_OBJECT_CLASS (e_mail_display_parent_class)->constructed (object);
 
-	g_object_set (webkit_web_view_get_settings (WEBKIT_WEB_VIEW (object)),
-		"enable-frame-flattening", TRUE,
-		NULL);
+	if (mail_display_can_use_frame_flattening ()) {
+		g_object_set (webkit_web_view_get_settings (WEBKIT_WEB_VIEW (object)),
+			"enable-frame-flattening", TRUE,
+			NULL);
+	}
 
 	display = E_MAIL_DISPLAY (object);
 	web_view = E_WEB_VIEW (object);
@@ -1661,8 +1720,12 @@ mail_display_constructed (GObject *object)
 	g_signal_connect_object (manager, "script-message-received::mailDisplayMagicSpacebarStateChanged",
 		G_CALLBACK (mail_display_magic_spacebar_state_changed_cb), display, 0);
 
+	g_signal_connect_object (manager, "script-message-received::scheduleIFramesHeightUpdate",
+		G_CALLBACK (mail_display_schedule_iframes_height_update_cb), display, 0);
+
 	webkit_user_content_manager_register_script_message_handler (manager, "mailDisplayHeadersCollapsed");
 	webkit_user_content_manager_register_script_message_handler (manager, "mailDisplayMagicSpacebarStateChanged");
+	webkit_user_content_manager_register_script_message_handler (manager, "scheduleIFramesHeightUpdate");
 
 	e_extensible_load_extensions (E_EXTENSIBLE (object));
 }
