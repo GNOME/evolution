@@ -205,6 +205,26 @@ etdp_itt_to_zone (ICalTime *itt,
 	}
 }
 
+static gboolean
+etdp_task_is_overdue (ICalTime *itt,
+		      guint today_date_mark)
+{
+	gboolean is_overdue;
+
+	if (!i_cal_time_is_date (itt))
+		return etdp_create_date_mark (itt) < today_date_mark;
+
+	/* The DATE value means it's overdue at the beginning of the day */
+	i_cal_time_adjust (itt, -1, 0, 0, 0);
+
+	is_overdue = etdp_create_date_mark (itt) < today_date_mark;
+
+	/* Restore the original date */
+	i_cal_time_adjust (itt, 1, 0, 0, 0);
+
+	return is_overdue;
+}
+
 static gchar *
 etdp_date_time_to_string (const ECalComponentDateTime *dt,
 			  ECalClient *client,
@@ -225,8 +245,7 @@ etdp_date_time_to_string (const ECalComponentDateTime *dt,
 
 	etdp_itt_to_zone (*out_itt, e_cal_component_datetime_get_tzid (dt), client, default_zone);
 
-	is_overdue = is_task && (etdp_create_date_mark (*out_itt) < today_date_mark ||
-		(i_cal_time_is_date (*out_itt) && etdp_create_date_mark (*out_itt) <= today_date_mark));
+	is_overdue = is_task && etdp_task_is_overdue (*out_itt, today_date_mark);
 
 	if (i_cal_time_is_date (*out_itt) && !is_overdue)
 		return NULL;
@@ -396,6 +415,7 @@ etdp_get_component_data (EToDoPane *to_do_pane,
 		prefix = "1";
 
 		dtstart = e_cal_component_get_dtstart (comp);
+		/* Do not use etdp_get_task_due() here, to show the set date in the GUI */
 		dt = e_cal_component_get_due (comp);
 		completed = e_cal_component_get_completed (comp);
 
@@ -626,6 +646,26 @@ etdp_get_fgcolor_for_bgcolor (const GdkRGBA *bgcolor)
 	return fgcolor;
 }
 
+static ECalComponentDateTime *
+etdp_get_task_due (ECalComponent *comp)
+{
+	ECalComponentDateTime *dt;
+
+	dt = e_cal_component_get_due (comp);
+
+	if (dt && e_cal_component_datetime_get_value (dt)) {
+		ICalTime *itt;
+
+		itt = e_cal_component_datetime_get_value (dt);
+		if (i_cal_time_is_date (itt)) {
+			/* The DATE value means it's overdue at the beginning of the day */
+			i_cal_time_adjust (itt, -1, 0, 0, 0);
+		}
+	}
+
+	return dt;
+}
+
 static GSList * /* GtkTreePath * */
 etdp_get_component_root_paths (EToDoPane *to_do_pane,
 			       ECalClient *client,
@@ -645,7 +685,7 @@ etdp_get_component_root_paths (EToDoPane *to_do_pane,
 	g_return_val_if_fail (E_IS_CAL_COMPONENT (comp), NULL);
 
 	if (e_cal_component_get_vtype (comp) == E_CAL_COMPONENT_TODO) {
-		dt = e_cal_component_get_due (comp);
+		dt = etdp_get_task_due (comp);
 
 		if (dt && e_cal_component_datetime_get_value (dt)) {
 			itt = e_cal_component_datetime_get_value (dt);
@@ -896,7 +936,7 @@ etdp_get_comp_colors (EToDoPane *to_do_pane,
 	    to_do_pane->priv->overdue_color) {
 		ECalComponentDateTime *dt;
 
-		dt = e_cal_component_get_due (comp);
+		dt = etdp_get_task_due (comp);
 
 		if (dt && e_cal_component_datetime_get_value (dt)) {
 			ICalTimezone *default_zone;
@@ -912,7 +952,7 @@ etdp_get_comp_colors (EToDoPane *to_do_pane,
 			now = i_cal_time_new_current_with_zone (default_zone);
 			i_cal_time_set_timezone (now, default_zone);
 
-			if ((is_date && i_cal_time_compare_date_only (itt, now) <= 0) ||
+			if ((is_date && i_cal_time_compare_date_only_tz (itt, now, default_zone) < 0) ||
 			    (!is_date && i_cal_time_compare (itt, now) <= 0)) {
 				bgcolor = to_do_pane->priv->overdue_color;
 			} else if (out_nearest_due) {

@@ -323,17 +323,23 @@ get_due_status (ECalModelTasks *model,
 		/* Third, are we overdue as of right now? */
 		due_tt = i_cal_property_get_due (prop);
 		if (i_cal_time_is_date (due_tt)) {
+			ICalTimezone *zone = e_cal_model_get_timezone (E_CAL_MODEL (model));
 			gint cmp;
 
-			now_tt = i_cal_time_new_current_with_zone (e_cal_model_get_timezone (E_CAL_MODEL (model)));
-			cmp = i_cal_time_compare_date_only (due_tt, now_tt);
+			/* The DATE value means it's overdue at the beginning of the day */
+			i_cal_time_adjust (due_tt, -1, 0, 0, 0);
+
+			now_tt = i_cal_time_new_current_with_zone (zone);
+			cmp = i_cal_time_compare_date_only_tz (due_tt, now_tt, zone);
 
 			g_object_unref (now_tt);
 			g_object_unref (due_tt);
 			g_object_unref (prop);
 
-			if (cmp <= 0)
+			if (cmp < 0)
 				return E_CAL_MODEL_TASKS_DUE_OVERDUE;
+			else if (cmp == 0)
+				return E_CAL_MODEL_TASKS_DUE_TODAY;
 			else
 				return E_CAL_MODEL_TASKS_DUE_FUTURE;
 		} else {
