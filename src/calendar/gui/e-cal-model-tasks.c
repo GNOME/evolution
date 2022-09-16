@@ -374,7 +374,7 @@ get_due_status (ECalModelTasks *model,
 
 			if (i_cal_time_compare (due_tt, now_tt) <= 0)
 				res = E_CAL_MODEL_TASKS_DUE_OVERDUE;
-			else if (i_cal_time_compare_date_only (due_tt, now_tt) == 0)
+			else if (i_cal_time_compare_date_only_tz (due_tt, now_tt, zone) == 0)
 				res = E_CAL_MODEL_TASKS_DUE_TODAY;
 			else
 				res = E_CAL_MODEL_TASKS_DUE_FUTURE;

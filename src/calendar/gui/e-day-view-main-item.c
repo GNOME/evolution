@@ -1020,6 +1020,7 @@ day_view_main_item_draw (GnomeCanvasItem *canvas_item,
 	gint start_row, end_row, rect_x, rect_y, rect_width, rect_height;
 	gint days_shown;
 	ICalTime *day_start_tt, *today_tt;
+	ICalTimezone *zone;
 	gboolean today = FALSE;
 	cairo_region_t *draw_region;
 	GdkRectangle rect;
@@ -1050,16 +1051,13 @@ day_view_main_item_draw (GnomeCanvasItem *canvas_item,
 
 	/* Paint the background colors. */
 
-	today_tt = i_cal_time_new_from_timet_with_zone (
-		time (NULL), FALSE,
-		e_calendar_view_get_timezone (E_CALENDAR_VIEW (day_view)));
+	zone = e_calendar_view_get_timezone (E_CALENDAR_VIEW (day_view));
+	today_tt = i_cal_time_new_current_with_zone (zone);
 
 	for (day = 0; day < days_shown; day++) {
 		GDateWeekday weekday;
 
-		day_start_tt = i_cal_time_new_from_timet_with_zone (
-			day_view->day_starts[day], FALSE,
-			e_calendar_view_get_timezone (E_CALENDAR_VIEW (day_view)));
+		day_start_tt = i_cal_time_new_from_timet_with_zone (day_view->day_starts[day], FALSE, zone);
 
 		switch (i_cal_time_day_of_week (day_start_tt)) {
 			case 1:
@@ -1118,7 +1116,7 @@ day_view_main_item_draw (GnomeCanvasItem *canvas_item,
 
 			if (days_shown > 1) {
 				/* Check if we are drawing today */
-				today = i_cal_time_compare_date_only (day_start_tt, today_tt) == 0;
+				today = i_cal_time_compare_date_only_tz (day_start_tt, today_tt, zone) == 0;
 			} else {
 				today = FALSE;
 			}
@@ -1284,7 +1282,7 @@ day_view_main_item_draw (GnomeCanvasItem *canvas_item,
 		for (day = 0; day < days_shown; day++) {
 			day_start = i_cal_time_new_from_timet_with_zone (day_view->day_starts[day], FALSE, zone);
 
-			if (i_cal_time_compare_date_only (day_start, time_now) == 0) {
+			if (i_cal_time_compare_date_only_tz (day_start, time_now, zone) == 0) {
 				grid_x1 = day_view->day_offsets[day] - x + E_DAY_VIEW_BAR_WIDTH;
 				grid_x2 = day_view->day_offsets[day + 1] - x - 1;
 				marcus_bains_y = (i_cal_time_get_hour (time_now) * 60 + i_cal_time_get_minute (time_now)) * day_view->row_height / time_divisions - y;
