@@ -28,6 +28,70 @@
 
 #include "e-mail-parser-prefer-plain.h"
 
+/* ------------------------------------------------------------------------ */
+
+#define E_TYPE_NULL_REQUEST e_null_request_get_type ()
+G_DECLARE_FINAL_TYPE (ENullRequest, e_null_request, E, NULL_REQUEST, GObject)
+
+struct _ENullRequest {
+	GObject parent;
+};
+
+static void e_null_request_content_request_init (EContentRequestInterface *iface);
+
+G_DEFINE_TYPE_WITH_CODE (ENullRequest, e_null_request, G_TYPE_OBJECT,
+	G_IMPLEMENT_INTERFACE (E_TYPE_CONTENT_REQUEST, e_null_request_content_request_init))
+
+static gboolean
+e_null_request_can_process_uri (EContentRequest *request,
+				const gchar *uri)
+{
+	return TRUE;
+}
+
+static gboolean
+e_null_request_process_sync (EContentRequest *request,
+			     const gchar *uri,
+			     GObject *requester,
+			     GInputStream **out_stream,
+			     gint64 *out_stream_length,
+			     gchar **out_mime_type,
+			     GCancellable *cancellable,
+			     GError **error)
+{
+	if (g_cancellable_set_error_if_cancelled (cancellable, error))
+		return FALSE;
+
+	g_set_error_literal (error, G_IO_ERROR, G_IO_ERROR_NOT_SUPPORTED, "not supported");
+
+	return FALSE;
+}
+
+static void
+e_null_request_content_request_init (EContentRequestInterface *iface)
+{
+	iface->can_process_uri = e_null_request_can_process_uri;
+	iface->process_sync = e_null_request_process_sync;
+}
+
+static void
+e_null_request_class_init (ENullRequestClass *klass)
+{
+}
+
+static void
+e_null_request_init (ENullRequest *request)
+{
+}
+
+static EContentRequest *
+e_null_request_new (void)
+{
+	return g_object_new (E_TYPE_NULL_REQUEST, NULL);
+}
+
+/* ------------------------------------------------------------------------ */
+
 typedef struct _EMailParserPreferPlain EMailParserPreferPlain;
 typedef struct _EMailParserPreferPlainClass EMailParserPreferPlainClass;
 
@@ -274,13 +338,26 @@ static gboolean
 mail_parser_prefer_plain_convert_text (gpointer user_data)
 {
 	AsyncContext *async_context = user_data;
+	EContentRequest *content_request;
+	EWebView *web_view;
 	gchar *script;
 
 	g_return_val_if_fail (async_context != NULL, FALSE);
 
-	async_context->web_view = WEBKIT_WEB_VIEW (g_object_ref_sink (e_web_view_new ()));
+	web_view = E_WEB_VIEW (g_object_ref_sink (e_web_view_new ()));
+	async_context->web_view = WEBKIT_WEB_VIEW (web_view);
 
-	e_web_view_load_uri (E_WEB_VIEW (async_context->web_view), "evo://disable-remote-content");
+	/* Register schemes used by the EMailDisplay, but do not process them.
+	   It avoids a runtime warning from the EWebView when it cannot find
+	   the scheme handler. */
+	content_request = e_null_request_new ();
+	e_web_view_register_content_request_for_scheme (web_view, "evo-http", content_request);
+	e_web_view_register_content_request_for_scheme (web_view, "evo-https", content_request);
+	e_web_view_register_content_request_for_scheme (web_view, "mail", content_request);
+	e_web_view_register_content_request_for_scheme (web_view, "cid", content_request);
+	g_object_unref (content_request);
+
+	e_web_view_load_uri (web_view, "evo://disable-remote-content");
 
 	script = e_web_view_jsc_printf_script (
 		"var elem;\n"
