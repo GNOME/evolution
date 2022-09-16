@@ -107,6 +107,7 @@ set_dtend (ECalModel *model,
            gconstpointer value)
 {
 	e_cal_model_update_comp_time (model, comp_data, value, I_CAL_DTEND_PROPERTY, i_cal_property_set_dtend, i_cal_property_new_dtend);
+	e_cal_util_component_remove_property_by_kind (comp_data->icalcomp, I_CAL_DURATION_PROPERTY, TRUE);
 }
 
 static void
