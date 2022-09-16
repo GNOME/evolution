@@ -155,6 +155,9 @@ void		e_comp_editor_add_page		(ECompEditor *comp_editor,
 ECompEditorPage *
 		e_comp_editor_get_page		(ECompEditor *comp_editor,
 						 GType page_type);
+ECompEditorPropertyPart *
+		e_comp_editor_get_property_part	(ECompEditor *comp_editor,
+						 ICalPropertyKind prop_kind);
 GSList *	e_comp_editor_get_pages		(ECompEditor *comp_editor);
 void		e_comp_editor_select_page	(ECompEditor *comp_editor,
 						 ECompEditorPage *page);

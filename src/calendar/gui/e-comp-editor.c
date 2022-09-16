@@ -3413,6 +3413,28 @@ e_comp_editor_get_page (ECompEditor *comp_editor,
 	return NULL;
 }
 
+/* The returned pointer is owned by the @comp_editor; returns the first found part,
+   in order of the addition. */
+ECompEditorPropertyPart *
+e_comp_editor_get_property_part (ECompEditor *comp_editor,
+				 ICalPropertyKind prop_kind)
+{
+	GSList *link;
+
+	g_return_val_if_fail (E_IS_COMP_EDITOR (comp_editor), NULL);
+
+	for (link = comp_editor->priv->pages; link; link = g_slist_next (link)) {
+		ECompEditorPage *page = link->data;
+		ECompEditorPropertyPart *part;
+
+		part = e_comp_editor_page_get_property_part (page, prop_kind);
+		if (part)
+			return part;
+	}
+
+	return NULL;
+}
+
 /* Free the returned GSList with g_slist_free(), the memebers are owned by the comp_editor */
 GSList *
 e_comp_editor_get_pages (ECompEditor *comp_editor)
