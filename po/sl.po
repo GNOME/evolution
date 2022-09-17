@@ -11,7 +11,7 @@ msgstr ""
 "Project-Id-Version: evolution master\n"
 "Report-Msgid-Bugs-To: https://gitlab.gnome.org/GNOME/evolution/issues\n"
 "POT-Creation-Date: 2022-09-16 14:55+0000\n"
-"PO-Revision-Date: 2022-09-16 22:32+0200\n"
+"PO-Revision-Date: 2022-09-17 23:19+0200\n"
 "Last-Translator: Matej Urbančič <mateju@src.gnome.org>\n"
 "Language-Team: Slovenščina <gnome-si@googlegroups.com>\n"
 "Language: sl\n"
@@ -518,10 +518,8 @@ msgid "Show toolbar in the event/task/memo editor"
 msgstr "Pokaži polje vrsta v urejevalniku dogodkov/nalog/srečanj"
 
 #: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:63
-#, fuzzy
-#| msgid "Whether to show type field in the event/task/meeting editor"
 msgid "Whether to show toolbar in the event/task/memo editor"
-msgstr "Ali naj se v urejevalniku dogodkov/nalog/srečanj prikaže polje vrsta"
+msgstr "Ali naj bo v urejevalniku dogodkov/nalog/opomnikov prikazana tudi orodna vrstica"
 
 #: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:64
 msgid "Hide completed tasks"
@@ -1037,10 +1035,8 @@ msgid "Year view vertical preview position"
 msgstr "Položaj navpičnega pladnja v mesečnem pogledu"
 
 #: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:173
-#, fuzzy
-#| msgid "Position of the task preview pane when oriented vertically"
 msgid "Position of the vertical event preview for the year view, in pixels"
-msgstr "Položaj pladnja predogleda nalog, kadar je ta usmerjen navpično."
+msgstr "Položaj navpičnega pladnja predogleda dogodkov v letnem pogledu, določen v točkah"
 
 #: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:174
 msgid "Shorten event time by minutes"
@@ -1055,10 +1051,8 @@ msgstr ""
 "določeno z nastavitvijo »shorten-time-end«."
 
 #: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:176
-#, fuzzy
-#| msgid "Whether to show the preview pane."
 msgid "Whether to shorten event end time"
-msgstr "Ali naj bo prikazan pladenj predogleda."
+msgstr "Ali naj se končni čas dogodka skrajša"
 
 #: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:177
 msgid "A pair option for \"shorten-time\" setting, to change the end time or the start time"
@@ -1574,28 +1568,20 @@ msgid "When to ask, when the number of To and CC recipients reaches this value."
 msgstr "Po koliko dodanih stikih naj se pokaže opozorilo o številu prejemnikov."
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:75
-#, fuzzy
-#| msgid "Whether to always show Sign and Encrypt buttons on the toolbar"
 msgid "Whether to always show main toolbar"
-msgstr "Ali naj bosta v orodni vrstici prikazana gumba Podpiši in Šifriraj"
+msgstr "Ali naj bo vedno prikazana glavna orodna vrstic"
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:76
-#, fuzzy
-#| msgid "If set to “true” quoted text in replies will be wrapped."
 msgid "If set to “true”, the main toolbar will be visible."
-msgstr "Izbrana možnost omogoča, da bo izvorno besedilo v odgovoru vedno prelomljeno."
+msgstr "Izbrana možnost določa, da bo glavna orodna vrstica vidna."
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:77
-#, fuzzy
-#| msgid "Whether to always show Sign and Encrypt buttons on the toolbar"
 msgid "Whether to always show edit toolbar"
-msgstr "Ali naj bosta v orodni vrstici prikazana gumba Podpiši in Šifriraj"
+msgstr "Ali naj bo vedno prikazana možnost urejanja orodne vrstice"
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:78
-#, fuzzy
-#| msgid "If set to “true” quoted text in replies will be wrapped."
 msgid "If set to “true”, the edit toolbar will be visible."
-msgstr "Izbrana možnost omogoča, da bo izvorno besedilo v odgovoru vedno prelomljeno."
+msgstr "Izbrana možnost določa, da bo možnost urejanja vedno vidna."
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:79
 msgid "Whether to always show Sign and Encrypt buttons on the toolbar"
@@ -1642,18 +1628,15 @@ msgstr ""
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:87
 msgid "Use user date format in reply credits"
-msgstr ""
+msgstr "Uporabi datumski zapis uporabnika v odgovoru"
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:88
-#, fuzzy
-#| msgid ""
-#| "Whether the time in reply credits should be converted to local time when it’s in UTC in the "
-#| "message."
 msgid ""
 "Whether the date in reply credits should be shown in the user date format. If unset, shows the "
 "header value from the original message."
 msgstr ""
-"Ali naj bo čas pri odgovarjanju pretvorjen na krajevni čas, če je v prejetem sporočilu čas UTC."
+"Ali naj bo datum v odgovorih prikazan v uporabnikovem zapisu. Nedoločena možnost pokaže glavno "
+"vrednost iz izvornega sporočila."
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:89
 msgid "Mark replied to messages as read"
@@ -2810,14 +2793,12 @@ msgstr ""
 "mapo, sicer so mape do konca razširjene."
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:316
-#, fuzzy
-#| msgid "Whether to emit a beep."
 msgid "Whether to print attachments."
-msgstr "Ali naj program zapiska."
+msgstr "Ali naj program tiska tudi priloge."
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:317
 msgid "If enabled, and possible, attachment content is printed with the message."
-msgstr ""
+msgstr "Izbrana možnost določa, da bo s sporočilom, če je to mogoče, natisnjena tudi priloga."
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:318
 msgid "Size limit for text attachments to show"
@@ -4114,7 +4095,7 @@ msgstr "Stik v imeniku že obstaja."
 msgid ""
 "Contact “{0}” already exists in the address book “{1}”. Do you want to add a copy of it "
 "instead?"
-msgstr ""
+msgstr "Stik »{0}« v imeniku »{1}« že obstaja. ALi želite raje dodati kopijo?"
 
 #. This is only shown if the EActivity has a GCancellable.
 #. no flags
@@ -6413,7 +6394,7 @@ msgstr "Ali želite odpeti dogodke iz vrste?"
 
 #: ../src/calendar/calendar.error.xml.h:180
 msgid "The event “{0}” will be detached from its series and saved as a new standalone event."
-msgstr ""
+msgstr "Dogodek »{0}« bo odpet iz načrtovanega niza in bo shranjen kot samostojni dogodek."
 
 #: ../src/calendar/calendar.error.xml.h:182
 msgid "_Detach and Create Copy"
@@ -22451,7 +22432,7 @@ msgstr "_24 urna"
 #. Translators: This is part of
 #: ../src/modules/calendar/e-calendar-preferences.ui.h:19
 msgid "Sh_orten event time by"
-msgstr ""
+msgstr "_Skrajšaj čas dogodka"
 
 #: ../src/modules/calendar/e-calendar-preferences.ui.h:22
 msgid "End events earlier"
@@ -25528,7 +25509,7 @@ msgstr "Mape »%s« ni mogoče najti."
 #: ../src/modules/rss/camel/camel-rss-store.c:138
 #, c-format
 msgid "Cannot create a folder in a News and Blogs store."
-msgstr ""
+msgstr "Mape  ni mogoče ustvariti v mapi Novice in Spletniki"
 
 #: ../src/modules/rss/e-rss-parser.c:289
 msgid "Unknown author"
