@@ -19,9 +19,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: evolution\n"
 "Report-Msgid-Bugs-To: https://gitlab.gnome.org/GNOME/evolution/issues\n"
-"POT-Creation-Date: 2022-09-13 17:23+0000\n"
-"PO-Revision-Date: 2022-09-14 11:04+0300\n"
-"Last-Translator: Emin Tufan Çetin <etcetin@gmail.com>\n"
+"POT-Creation-Date: 2022-09-16 09:50+0000\n"
+"PO-Revision-Date: 2022-09-16 16:21+0300\n"
+"Last-Translator: Sabri Ünal <libreajans@gmail.com>\n"
 "Language-Team: Turkish <gnome-turk@gnome.org>\n"
 "Language: tr\n"
 "MIME-Version: 1.0\n"
@@ -4609,7 +4609,7 @@ msgid "_Home Page:"
 msgstr "_Ev Sayfası:"
 
 #: ../src/addressbook/gui/contact-editor/contact-editor.ui.h:28
-#: ../src/calendar/gui/e-comp-editor-event.c:881
+#: ../src/calendar/gui/e-comp-editor-event.c:925
 #: ../src/modules/itip-formatter/itip-view.c:2298
 msgid "_Calendar:"
 msgstr "_Takvim:"
@@ -7088,8 +7088,8 @@ msgid "Status"
 msgstr "Durum"
 
 #. String to use in 12-hour time format for times in the morning.
-#: ../src/calendar/gui/comp-util.c:2091 ../src/calendar/gui/e-day-view.c:2286
-#: ../src/calendar/gui/e-to-do-pane.c:249
+#: ../src/calendar/gui/comp-util.c:2091 ../src/calendar/gui/e-day-view.c:2338
+#: ../src/calendar/gui/e-to-do-pane.c:268
 #: ../src/calendar/gui/e-week-view.c:1969 ../src/calendar/gui/print.c:1102
 #: ../src/calendar/gui/print.c:1121 ../src/calendar/gui/print.c:2689
 #: ../src/calendar/gui/print.c:2709
@@ -7097,8 +7097,8 @@ msgid "am"
 msgstr "öö"
 
 #. String to use in 12-hour time format for times in the afternoon.
-#: ../src/calendar/gui/comp-util.c:2095 ../src/calendar/gui/e-day-view.c:2289
-#: ../src/calendar/gui/e-to-do-pane.c:253
+#: ../src/calendar/gui/comp-util.c:2095 ../src/calendar/gui/e-day-view.c:2341
+#: ../src/calendar/gui/e-to-do-pane.c:272
 #: ../src/calendar/gui/e-week-view.c:1972 ../src/calendar/gui/print.c:1107
 #: ../src/calendar/gui/print.c:1123 ../src/calendar/gui/print.c:2694
 #: ../src/calendar/gui/print.c:2711
@@ -7127,7 +7127,7 @@ msgstr "Organizatör: %s"
 #. Translators: It will display "Location: LocationOfTheAppointment"
 #: ../src/calendar/gui/comp-util.c:2271
 #: ../src/calendar/gui/e-meeting-time-sel.c:2580
-#: ../src/calendar/gui/e-to-do-pane.c:382 ../src/calendar/gui/print.c:3655
+#: ../src/calendar/gui/e-to-do-pane.c:401 ../src/calendar/gui/print.c:3655
 #, c-format
 msgid "Location: %s"
 msgstr "Konum: %s"
@@ -7140,26 +7140,26 @@ msgstr "Başlama: %s (%s)"
 
 #. Translators: It will display "Start: ActualStartDateAndTime"
 #. Translators: It will display "Start: StartDateAndTime"
-#: ../src/calendar/gui/comp-util.c:2330 ../src/calendar/gui/e-to-do-pane.c:411
+#: ../src/calendar/gui/comp-util.c:2330 ../src/calendar/gui/e-to-do-pane.c:431
 #, c-format
 msgid "Start: %s"
 msgstr "Başlama: %s"
 
 #. Translators: It's for a task due date, it will display "Due: DateAndTime"
 #. Translators: It will display "Due: DueDateAndTime"
-#: ../src/calendar/gui/comp-util.c:2365 ../src/calendar/gui/e-to-do-pane.c:433
+#: ../src/calendar/gui/comp-util.c:2365 ../src/calendar/gui/e-to-do-pane.c:453
 #, c-format
 msgid "Due: %s"
 msgstr "Teslim: %s"
 
 #. Translators: It's for a task completed date, it will display "Completed: DateAndTime"
 #. Translators: It will display "Completed: DateAndTimeWhenCompleted"
-#: ../src/calendar/gui/comp-util.c:2390 ../src/calendar/gui/e-to-do-pane.c:447
+#: ../src/calendar/gui/comp-util.c:2390 ../src/calendar/gui/e-to-do-pane.c:467
 #, c-format
 msgid "Completed: %s"
 msgstr "Tamamlanan: %s"
 
-#: ../src/calendar/gui/comp-util.c:2427 ../src/calendar/gui/e-to-do-pane.c:596
+#: ../src/calendar/gui/comp-util.c:2427 ../src/calendar/gui/e-to-do-pane.c:616
 #: ../src/e-util/e-misc-utils.c:4838 ../src/e-util/e-text.c:566
 #: ../src/e-util/e-web-view.c:4187
 msgid "…"
@@ -7674,7 +7674,7 @@ msgstr "%d %b %Y"
 #. * month name. You can change the order but don't
 #. * change the specifiers or add anything.
 #: ../src/calendar/gui/e-calendar-view.c:1177
-#: ../src/calendar/gui/e-day-view.c:3222
+#: ../src/calendar/gui/e-day-view.c:3274
 #: ../src/calendar/gui/e-day-view-top-item.c:856
 #: ../src/calendar/gui/e-week-view-main-item.c:230
 msgid "%d %b"
@@ -7691,7 +7691,7 @@ msgstr "%d %b %Y %A"
 #. * You can change the order but don't change the
 #. * specifiers or add anything.
 #: ../src/calendar/gui/e-calendar-view.c:1190
-#: ../src/calendar/gui/e-day-view.c:3206
+#: ../src/calendar/gui/e-day-view.c:3258
 #: ../src/calendar/gui/e-day-view-top-item.c:852
 #: ../src/calendar/gui/e-week-view-main-item.c:216
 msgid "%a %d %b"
@@ -7812,12 +7812,12 @@ msgid "Assigned"
 msgstr "Görevlendirildi"
 
 #: ../src/calendar/gui/e-cal-model.c:1895
-#: ../src/calendar/gui/e-cal-model-tasks.c:1154
+#: ../src/calendar/gui/e-cal-model-tasks.c:1160
 msgid "Yes"
 msgstr "Evet"
 
 #: ../src/calendar/gui/e-cal-model.c:1895
-#: ../src/calendar/gui/e-cal-model-tasks.c:1154
+#: ../src/calendar/gui/e-cal-model-tasks.c:1160
 msgid "No"
 msgstr "Hayır"
 
@@ -7832,7 +7832,7 @@ msgstr "Müsait"
 msgid "Busy"
 msgstr "Meşgul"
 
-#: ../src/calendar/gui/e-cal-model-tasks.c:460
+#: ../src/calendar/gui/e-cal-model-tasks.c:466
 msgid ""
 "The geographical position must be entered in the format: \n"
 "\n"
@@ -7842,7 +7842,7 @@ msgstr ""
 "\n"
 "45.436845,125.862501"
 
-#: ../src/calendar/gui/e-cal-model-tasks.c:557
+#: ../src/calendar/gui/e-cal-model-tasks.c:563
 msgid "In Progress"
 msgstr "İşlemde"
 
@@ -7858,15 +7858,15 @@ msgstr "Not değiştiriliyor"
 msgid "Modifying a task"
 msgstr "Görev değiştiriliyor"
 
-#: ../src/calendar/gui/e-cal-ops.c:426 ../src/calendar/gui/e-to-do-pane.c:2097
+#: ../src/calendar/gui/e-cal-ops.c:426 ../src/calendar/gui/e-to-do-pane.c:2137
 msgid "Removing an event"
 msgstr "Olay kaldırılıyor"
 
-#: ../src/calendar/gui/e-cal-ops.c:430 ../src/calendar/gui/e-to-do-pane.c:2101
+#: ../src/calendar/gui/e-cal-ops.c:430 ../src/calendar/gui/e-to-do-pane.c:2141
 msgid "Removing a memo"
 msgstr "Not kaldırılıyor"
 
-#: ../src/calendar/gui/e-cal-ops.c:434 ../src/calendar/gui/e-to-do-pane.c:2105
+#: ../src/calendar/gui/e-cal-ops.c:434 ../src/calendar/gui/e-to-do-pane.c:2145
 msgid "Removing a task"
 msgstr "Görev kaldırılıyor"
 
@@ -8041,24 +8041,24 @@ msgstr ""
 "Bu olaya yapılacak değişiklikler katılımcılara gönderilmeyecek çünkü "
 "düzenleyici değilsiniz"
 
-#: ../src/calendar/gui/e-comp-editor-event.c:510
+#: ../src/calendar/gui/e-comp-editor-event.c:552
 #: ../src/calendar/gui/e-comp-editor-task.c:619
 msgid "Start date is not a valid date"
 msgstr "Başlangıç tarihi geçerli tarih değil"
 
-#: ../src/calendar/gui/e-comp-editor-event.c:512
+#: ../src/calendar/gui/e-comp-editor-event.c:554
 msgid "Start time is not a valid time"
 msgstr "Başlangıç saati geçerli zaman değil"
 
-#: ../src/calendar/gui/e-comp-editor-event.c:516
-#: ../src/calendar/gui/e-comp-editor-event.c:532
+#: ../src/calendar/gui/e-comp-editor-event.c:558
+#: ../src/calendar/gui/e-comp-editor-event.c:574
 #: ../src/calendar/gui/e-comp-editor-page-attachments.c:206
 #: ../src/calendar/gui/e-comp-editor.c:345
 #: ../src/composer/e-composer-actions.c:180
 #: ../src/em-format/e-mail-part-secure-button.c:97
 #: ../src/e-util/e-misc-utils.c:4145 ../src/e-util/e-misc-utils.c:4180
 #: ../src/e-util/e-misc-utils.c:4193 ../src/e-util/e-misc-utils.c:4207
-#: ../src/mail/e-mail-autoconfig.c:1129 ../src/mail/e-mail-display.c:2475
+#: ../src/mail/e-mail-autoconfig.c:1129 ../src/mail/e-mail-display.c:2538
 #: ../src/mail/e-mail-notes.c:930 ../src/mail/e-mail-reader-utils.c:805
 #: ../src/mail/em-composer-utils.c:3962 ../src/mail/em-composer-utils.c:3985
 #: ../src/mail/mail-send-recv.c:598 ../src/mail/mail-send-recv.c:1493
@@ -8070,128 +8070,128 @@ msgstr "Başlangıç saati geçerli zaman değil"
 msgid "Unknown error"
 msgstr "Bilinmeyen hata"
 
-#: ../src/calendar/gui/e-comp-editor-event.c:526
+#: ../src/calendar/gui/e-comp-editor-event.c:568
 msgid "End date is not a valid date"
 msgstr "Bitiş tarihi geçerli tarih değil"
 
-#: ../src/calendar/gui/e-comp-editor-event.c:528
+#: ../src/calendar/gui/e-comp-editor-event.c:570
 msgid "End time is not a valid time"
 msgstr "Bitiş saati geçerli zaman değil"
 
-#: ../src/calendar/gui/e-comp-editor-event.c:723
+#: ../src/calendar/gui/e-comp-editor-event.c:767
 #: ../src/calendar/gui/e-comp-editor-memo.c:258
 #: ../src/calendar/gui/e-comp-editor-task.c:802
 msgid "_Categories"
 msgstr "_Kategoriler"
 
-#: ../src/calendar/gui/e-comp-editor-event.c:725
+#: ../src/calendar/gui/e-comp-editor-event.c:769
 #: ../src/calendar/gui/e-comp-editor-memo.c:260
 #: ../src/calendar/gui/e-comp-editor-task.c:804
 msgid "Toggles whether to display categories"
 msgstr "Kategorilerin görüntülenip görüntülenmemesini seçer"
 
-#: ../src/calendar/gui/e-comp-editor-event.c:731
+#: ../src/calendar/gui/e-comp-editor-event.c:775
 #: ../src/calendar/gui/e-comp-editor-task.c:810
 msgid "Time _Zone"
 msgstr "Zaman _Dilimi"
 
-#: ../src/calendar/gui/e-comp-editor-event.c:733
+#: ../src/calendar/gui/e-comp-editor-event.c:777
 #: ../src/calendar/gui/e-comp-editor-task.c:812
 msgid "Toggles whether the time zone is displayed"
 msgstr "Zaman dilimi alanının görüntülenip görüntülenmemesini seçer"
 
-#: ../src/calendar/gui/e-comp-editor-event.c:739
+#: ../src/calendar/gui/e-comp-editor-event.c:783
 msgid "All _Day Event"
 msgstr "_Tüm Gün Olayı"
 
-#: ../src/calendar/gui/e-comp-editor-event.c:741
+#: ../src/calendar/gui/e-comp-editor-event.c:785
 msgid "Toggles whether to have All Day Event"
 msgstr "Tüm Gün Olaylarıʼna sahip olup olamayacağını seçer"
 
-#: ../src/calendar/gui/e-comp-editor-event.c:747
+#: ../src/calendar/gui/e-comp-editor-event.c:791
 msgid "Show Time as _Busy"
 msgstr "Zamanı _Meşgul Olarak Göster"
 
-#: ../src/calendar/gui/e-comp-editor-event.c:749
+#: ../src/calendar/gui/e-comp-editor-event.c:793
 msgid "Toggles whether to show time as busy"
 msgstr "Zamanın meşgul olarak gösterilip gösterilmeyeceğini seçer"
 
-#: ../src/calendar/gui/e-comp-editor-event.c:758
+#: ../src/calendar/gui/e-comp-editor-event.c:802
 msgid "Pu_blic"
 msgstr "_Genel"
 
-#: ../src/calendar/gui/e-comp-editor-event.c:760
+#: ../src/calendar/gui/e-comp-editor-event.c:804
 msgid "Classify as public"
 msgstr "Genel olarak sınıflandır"
 
-#: ../src/calendar/gui/e-comp-editor-event.c:765
+#: ../src/calendar/gui/e-comp-editor-event.c:809
 msgid "_Private"
 msgstr "Ö_zel"
 
-#: ../src/calendar/gui/e-comp-editor-event.c:767
+#: ../src/calendar/gui/e-comp-editor-event.c:811
 msgid "Classify as private"
 msgstr "Özel olarak sınıflandır"
 
-#: ../src/calendar/gui/e-comp-editor-event.c:772
+#: ../src/calendar/gui/e-comp-editor-event.c:816
 msgid "_Confidential"
 msgstr "_Gizli"
 
-#: ../src/calendar/gui/e-comp-editor-event.c:774
+#: ../src/calendar/gui/e-comp-editor-event.c:818
 msgid "Classify as confidential"
 msgstr "Gizli olarak sınıflandır"
 
-#: ../src/calendar/gui/e-comp-editor-event.c:892
+#: ../src/calendar/gui/e-comp-editor-event.c:936
 msgctxt "ECompEditor"
 msgid "_Start time:"
 msgstr "B_aşlangıç zamanı:"
 
-#: ../src/calendar/gui/e-comp-editor-event.c:897
+#: ../src/calendar/gui/e-comp-editor-event.c:941
 msgctxt "ECompEditor"
 msgid "_End time:"
 msgstr "B_itiş zamanı:"
 
-#: ../src/calendar/gui/e-comp-editor-event.c:907
+#: ../src/calendar/gui/e-comp-editor-event.c:951
 msgctxt "ECompEditor"
 msgid "All da_y event"
 msgstr "Tüm gü_n olayı"
 
-#: ../src/calendar/gui/e-comp-editor-event.c:975
+#: ../src/calendar/gui/e-comp-editor-event.c:1019
 #: ../src/calendar/gui/e-comp-editor-memo.c:359
 #: ../src/calendar/gui/e-comp-editor-task.c:987
 msgctxt "ECompEditorPage"
 msgid "General"
 msgstr "Genel"
 
-#: ../src/calendar/gui/e-comp-editor-event.c:978
+#: ../src/calendar/gui/e-comp-editor-event.c:1022
 #: ../src/calendar/gui/e-comp-editor-task.c:1010
 msgctxt "ECompEditorPage"
 msgid "Reminders"
 msgstr "Hatırlatıcılar"
 
-#: ../src/calendar/gui/e-comp-editor-event.c:981
+#: ../src/calendar/gui/e-comp-editor-event.c:1025
 #: ../src/calendar/gui/e-comp-editor-task.c:1014
 msgctxt "ECompEditorPage"
 msgid "Recurrence"
 msgstr "Yineleme"
 
-#: ../src/calendar/gui/e-comp-editor-event.c:984
+#: ../src/calendar/gui/e-comp-editor-event.c:1028
 #: ../src/calendar/gui/e-comp-editor-memo.c:362
 #: ../src/calendar/gui/e-comp-editor-task.c:1018
 msgctxt "ECompEditorPage"
 msgid "Attachments"
 msgstr "Ekler"
 
-#: ../src/calendar/gui/e-comp-editor-event.c:994
+#: ../src/calendar/gui/e-comp-editor-event.c:1038
 msgctxt "ECompEditorPage"
 msgid "Schedule"
 msgstr "Zamanla"
 
-#: ../src/calendar/gui/e-comp-editor-event.c:1029
+#: ../src/calendar/gui/e-comp-editor-event.c:1073
 #, c-format
 msgid "Meeting — %s"
 msgstr "Toplantı — %s"
 
-#: ../src/calendar/gui/e-comp-editor-event.c:1030
+#: ../src/calendar/gui/e-comp-editor-event.c:1074
 #, c-format
 msgid "Appointment — %s"
 msgstr "Randevu — %s"
@@ -8921,88 +8921,88 @@ msgctxt "ECompEditor"
 msgid "_Web page:"
 msgstr "_Web sayfası:"
 
-#: ../src/calendar/gui/e-comp-editor-property-parts.c:1749
+#: ../src/calendar/gui/e-comp-editor-property-parts.c:1768
 msgctxt "ECompEditor"
 msgid "D_ue date:"
 msgstr "T_amamlanma tarihi:"
 
-#: ../src/calendar/gui/e-comp-editor-property-parts.c:1843
+#: ../src/calendar/gui/e-comp-editor-property-parts.c:1862
 msgctxt "ECompEditor"
 msgid "Date _completed:"
 msgstr "Ta_mamlanma tarihi:"
 
-#: ../src/calendar/gui/e-comp-editor-property-parts.c:1859
+#: ../src/calendar/gui/e-comp-editor-property-parts.c:1878
 msgctxt "ECompEditor"
 msgid "Public"
 msgstr "Herkese Açık"
 
-#: ../src/calendar/gui/e-comp-editor-property-parts.c:1860
+#: ../src/calendar/gui/e-comp-editor-property-parts.c:1879
 msgctxt "ECompEditor"
 msgid "Private"
 msgstr "Özel"
 
-#: ../src/calendar/gui/e-comp-editor-property-parts.c:1861
+#: ../src/calendar/gui/e-comp-editor-property-parts.c:1880
 msgctxt "ECompEditor"
 msgid "Confidential"
 msgstr "Kişiye Özel"
 
-#: ../src/calendar/gui/e-comp-editor-property-parts.c:1877
+#: ../src/calendar/gui/e-comp-editor-property-parts.c:1896
 msgctxt "ECompEditor"
 msgid "C_lassification:"
 msgstr "_Sınıflandırma:"
 
-#: ../src/calendar/gui/e-comp-editor-property-parts.c:1940
+#: ../src/calendar/gui/e-comp-editor-property-parts.c:1959
 msgctxt "ECompEditor"
 msgid "_Status:"
 msgstr "_Durum:"
 
-#: ../src/calendar/gui/e-comp-editor-property-parts.c:1970
+#: ../src/calendar/gui/e-comp-editor-property-parts.c:1989
 msgctxt "ECompEditor"
 msgid "Undefined"
 msgstr "Tanımsız"
 
-#: ../src/calendar/gui/e-comp-editor-property-parts.c:1971
+#: ../src/calendar/gui/e-comp-editor-property-parts.c:1990
 msgctxt "ECompEditor"
 msgid "High"
 msgstr "Yüksek"
 
-#: ../src/calendar/gui/e-comp-editor-property-parts.c:1972
+#: ../src/calendar/gui/e-comp-editor-property-parts.c:1991
 msgctxt "ECompEditor"
 msgid "Normal"
 msgstr "Olağan"
 
-#: ../src/calendar/gui/e-comp-editor-property-parts.c:1973
+#: ../src/calendar/gui/e-comp-editor-property-parts.c:1992
 msgctxt "ECompEditor"
 msgid "Low"
 msgstr "Düşük"
 
-#: ../src/calendar/gui/e-comp-editor-property-parts.c:1982
+#: ../src/calendar/gui/e-comp-editor-property-parts.c:2001
 msgctxt "ECompEditor"
 msgid "Priorit_y:"
 msgstr "Önce_lik:"
 
-#: ../src/calendar/gui/e-comp-editor-property-parts.c:2036
+#: ../src/calendar/gui/e-comp-editor-property-parts.c:2055
 msgctxt "ECompEditor"
 msgid "Percent complete:"
 msgstr "Tamamlanma yüzdesi:"
 
-#: ../src/calendar/gui/e-comp-editor-property-parts.c:2117
+#: ../src/calendar/gui/e-comp-editor-property-parts.c:2136
 msgctxt "ECompEditor"
 msgid "Time _zone:"
 msgstr "Saat _dilimi:"
 
-#: ../src/calendar/gui/e-comp-editor-property-parts.c:2213
+#: ../src/calendar/gui/e-comp-editor-property-parts.c:2232
 msgctxt "ECompEditor"
 msgid "Show time as _busy"
 msgstr "Saati _meşgul olarak göster"
 
 #. Translators: This 'None' is meant for 'Color' in calendar component editor, like 'None color'
-#: ../src/calendar/gui/e-comp-editor-property-parts.c:2634
+#: ../src/calendar/gui/e-comp-editor-property-parts.c:2653
 msgctxt "ECompEditor"
 msgid "None"
 msgstr "Hiçbiri"
 
-#: ../src/calendar/gui/e-comp-editor-property-parts.c:2795
+#: ../src/calendar/gui/e-comp-editor-property-parts.c:2814
 msgid "Esti_mated duration:"
 msgstr "Ö_ngörülen süre:"
 
@@ -9070,7 +9070,7 @@ msgid "Task — %s"
 msgstr "Görev — %s"
 
 #: ../src/calendar/gui/e-comp-editor.c:260
-#: ../src/modules/prefer-plain/e-mail-parser-prefer-plain.c:133
+#: ../src/modules/prefer-plain/e-mail-parser-prefer-plain.c:197
 msgid "attachment"
 msgstr "ek"
 
@@ -9243,7 +9243,7 @@ msgstr "Araç çubuğu_nu göster"
 #. * month, %B = full month name. You can change the
 #. * order but don't change the specifiers or add
 #. * anything.
-#: ../src/calendar/gui/e-day-view.c:3189
+#: ../src/calendar/gui/e-day-view.c:3241
 #: ../src/calendar/gui/e-day-view-top-item.c:848
 #: ../src/calendar/gui/e-week-view-main-item.c:207
 #: ../src/calendar/gui/print.c:2143
@@ -9251,7 +9251,7 @@ msgid "%A %d %B"
 msgstr "%d %B %A"
 
 #. To Translators: the %d stands for a week number, it's value between 1 and 52/53
-#: ../src/calendar/gui/e-day-view.c:3926
+#: ../src/calendar/gui/e-day-view.c:3978
 #, c-format
 msgid "Week %d"
 msgstr "Hafta %d"
@@ -9648,13 +9648,13 @@ msgid "Select Timezone"
 msgstr "Zaman Dilimi Seç"
 
 #. Translators: It will display "Time: StartDateAndTime (Duration)"
-#: ../src/calendar/gui/e-to-do-pane.c:485
+#: ../src/calendar/gui/e-to-do-pane.c:505
 #, c-format
 msgid "Time: %s %s"
 msgstr "Zaman: %s %s"
 
 #. strftime format of a weekday and a date.
-#: ../src/calendar/gui/e-to-do-pane.c:1598 ../src/e-util/e-cell-date-edit.c:338
+#: ../src/calendar/gui/e-to-do-pane.c:1638 ../src/e-util/e-cell-date-edit.c:338
 #: ../src/e-util/e-datetime-format.c:207
 #: ../src/modules/calendar/e-cal-shell-view-actions.c:2036
 #: ../src/modules/itip-formatter/itip-view.c:272
@@ -9662,59 +9662,59 @@ msgid "Today"
 msgstr "Bugün"
 
 #. strftime format of a weekday and a date.
-#: ../src/calendar/gui/e-to-do-pane.c:1600
+#: ../src/calendar/gui/e-to-do-pane.c:1640
 #: ../src/e-util/e-datetime-format.c:218
 #: ../src/modules/itip-formatter/itip-view.c:300
 msgid "Tomorrow"
 msgstr "Yarın"
 
-#: ../src/calendar/gui/e-to-do-pane.c:1610
+#: ../src/calendar/gui/e-to-do-pane.c:1650
 msgid "Tasks without Due date"
 msgstr "Tamamlanma tarihi olmayan görevler"
 
-#: ../src/calendar/gui/e-to-do-pane.c:2199
+#: ../src/calendar/gui/e-to-do-pane.c:2239
 #: ../src/modules/calendar/e-cal-shell-view-actions.c:1558
 msgid "New _Appointment…"
 msgstr "Yeni _Randevu…"
 
-#: ../src/calendar/gui/e-to-do-pane.c:2207
+#: ../src/calendar/gui/e-to-do-pane.c:2247
 #: ../src/modules/calendar/e-cal-shell-view-actions.c:1495
 msgid "New _Meeting…"
 msgstr "Yeni _Toplantı…"
 
-#: ../src/calendar/gui/e-to-do-pane.c:2215
+#: ../src/calendar/gui/e-to-do-pane.c:2255
 msgid "New _Task…"
 msgstr "Yeni _Görev…"
 
-#: ../src/calendar/gui/e-to-do-pane.c:2223
+#: ../src/calendar/gui/e-to-do-pane.c:2263
 msgid "_New Assigned Task…"
 msgstr "_Yeni Atanmış Görev…"
 
-#: ../src/calendar/gui/e-to-do-pane.c:2236
+#: ../src/calendar/gui/e-to-do-pane.c:2276
 msgid "_Open…"
 msgstr "_Aç…"
 
-#: ../src/calendar/gui/e-to-do-pane.c:2251
+#: ../src/calendar/gui/e-to-do-pane.c:2291
 msgid "_Delete This Instance…"
 msgstr "Bu Yinelemeyi _Sil…"
 
-#: ../src/calendar/gui/e-to-do-pane.c:2260
+#: ../src/calendar/gui/e-to-do-pane.c:2300
 msgid "Delete This and F_uture Occurrences…"
 msgstr "Bunu ve _Gelecek Yinelemeleri Sil…"
 
-#: ../src/calendar/gui/e-to-do-pane.c:2269
+#: ../src/calendar/gui/e-to-do-pane.c:2309
 msgid "D_elete All Instances…"
 msgstr "Tüm Yinelemeleri _Sil…"
 
-#: ../src/calendar/gui/e-to-do-pane.c:2277
+#: ../src/calendar/gui/e-to-do-pane.c:2317
 msgid "_Delete…"
 msgstr "_Sil…"
 
-#: ../src/calendar/gui/e-to-do-pane.c:2295
+#: ../src/calendar/gui/e-to-do-pane.c:2335
 msgid "_Show Tasks without Due date"
 msgstr "Tamamlanma tarihi olmayan Görevleri _göster"
 
-#: ../src/calendar/gui/e-to-do-pane.c:2574
+#: ../src/calendar/gui/e-to-do-pane.c:2614
 msgid "To Do"
 msgstr "Yapılacaklar"
 
@@ -11851,7 +11851,7 @@ msgstr "Yeni İ_leti"
 
 #: ../src/composer/e-composer-actions.c:342
 msgid "Open New Message window"
-msgstr "Yeni İ_leti Penceresi aç"
+msgstr "Yeni İleti Penceresi aç"
 
 #: ../src/composer/e-composer-actions.c:347
 #: ../src/shell/e-shell-window-actions.c:1000
@@ -12017,7 +12017,7 @@ msgstr "Ekle"
 
 #: ../src/composer/e-composer-actions.c:648
 msgid "Save Draft"
-msgstr "_Taslağı Kaydet"
+msgstr "Taslağı Kaydet"
 
 #: ../src/composer/e-composer-from-header.c:108
 #: ../src/e-util/e-collection-account-wizard.c:2101
@@ -16251,7 +16251,7 @@ msgstr "Göster"
 msgid "Group name"
 msgstr "Küme adı"
 
-#: ../src/e-util/e-source-selector.c:3578 ../src/mail/e-mail-display.c:717
+#: ../src/e-util/e-source-selector.c:3578 ../src/mail/e-mail-display.c:755
 msgid "_Hide"
 msgstr "_Gizle"
 
@@ -17481,7 +17481,8 @@ msgid_plural ""
 "%s have been modified to account for the deleted folder\n"
 "“%s”."
 msgstr[0] ""
-"“%s” Arama Klasörü silinmiş şu dizinden sorumlu olacak biçimde değiştirildi:\n"
+"“%s” Arama Klasörü silinmiş şu dizinden sorumlu olacak biçimde "
+"değiştirildi:\n"
 "“%s”."
 
 #: ../src/mail/e-mail-account-manager.c:118
@@ -17577,34 +17578,24 @@ msgstr "Bu pencereyi kapat"
 msgid "(No Subject)"
 msgstr "(Konu Yok)"
 
-#: ../src/mail/e-mail-browser.c:537 ../src/mail/mail-dialogs.ui.h:5
-msgid "Forward"
-msgstr "Yönlendir"
-
-#: ../src/mail/e-mail-browser.c:548 ../src/mail/e-mail-reader.c:2917
-msgid "Group Reply"
-msgstr "Toplu Yanıt"
-
-#: ../src/mail/e-mail-browser.c:560 ../src/mail/e-mail-reader.c:5281
-#: ../src/mail/mail-dialogs.ui.h:9
-msgid "Reply"
-msgstr "Yanıtla"
-
 #. GtkAssistant's back button label.
 #: ../src/mail/e-mail-config-assistant.c:48
-msgid "Go _Back"
-msgstr "_Geri Git"
+#: ../src/modules/accounts-window/e-collection-wizard-page.c:80
+#: ../src/modules/accounts-window/e-collection-wizard-page.c:229
+#: ../src/modules/accounts-window/e-webdav-browser-page.c:192
+msgid "_Back"
+msgstr "_Geri"
 
 #. GtkAssistant sinks the floating button reference.
 #: ../src/mail/e-mail-config-assistant.c:130
 msgid "_Skip Lookup"
 msgstr "Aramayı Ge_ç"
 
-#: ../src/mail/e-mail-config-assistant.c:710
+#: ../src/mail/e-mail-config-assistant.c:712
 msgid "Evolution Account Assistant"
 msgstr "Evolution Hesap Asistanı"
 
-#: ../src/mail/e-mail-config-assistant.c:1021
+#: ../src/mail/e-mail-config-assistant.c:1025
 msgid "_Revise Details"
 msgstr "Ayrıntıları gö_zden geçir"
 
@@ -17987,7 +17978,7 @@ msgstr "Düz metin iletiler için metin _içi imzalamayı/şifrelemeyi yeğle"
 
 #: ../src/mail/e-mail-config-security-page.c:629
 msgid "_Lookup keys for encryption in Web Key Directory (WKD)"
-msgstr "Şifreleme için Web Anahtar Dizini’nde (WKD) anahtarlara bak"
+msgstr "Şifreleme için Web _Anahtar Dizini’nde (WKD) anahtarlara bak"
 
 #: ../src/mail/e-mail-config-security-page.c:653
 msgid "Secure MIME (S/MIME)"
@@ -18110,55 +18101,55 @@ msgstr "Hoş Geldiniz"
 msgid "Account Editor"
 msgstr "Hesap Düzenleyici"
 
-#: ../src/mail/e-mail-display.c:141
+#: ../src/mail/e-mail-display.c:142
 msgid "_Add to Address Book…"
 msgstr "Adres Defterine _Ekle…"
 
-#: ../src/mail/e-mail-display.c:148
+#: ../src/mail/e-mail-display.c:149
 msgid "_To This Address"
 msgstr "_Bu Adrese"
 
-#: ../src/mail/e-mail-display.c:155
+#: ../src/mail/e-mail-display.c:156
 msgid "_From This Address"
 msgstr "_Bu Adresten"
 
-#: ../src/mail/e-mail-display.c:162
+#: ../src/mail/e-mail-display.c:163
 msgid "Send _Reply To…"
 msgstr "_Yanıt Gönder…"
 
-#: ../src/mail/e-mail-display.c:164
+#: ../src/mail/e-mail-display.c:165
 msgid "Send a reply message to this address"
 msgstr "Bu adrese yanıt iletisi gönder"
 
-#: ../src/mail/e-mail-display.c:171
+#: ../src/mail/e-mail-display.c:172
 msgid "Create Search _Folder"
 msgstr "_Arama Klasörü Oluştur"
 
-#: ../src/mail/e-mail-display.c:724
+#: ../src/mail/e-mail-display.c:762
 msgid "Hid_e All"
 msgstr "T_ümünü Gizle"
 
-#: ../src/mail/e-mail-display.c:731
+#: ../src/mail/e-mail-display.c:769
 msgid "_View Inline"
 msgstr "_Metin İçi Görüntüle"
 
-#: ../src/mail/e-mail-display.c:738
+#: ../src/mail/e-mail-display.c:776
 msgid "Vie_w All Inline"
 msgstr "Tümünü Satır arası _Görüntüle"
 
-#: ../src/mail/e-mail-display.c:745
+#: ../src/mail/e-mail-display.c:783
 msgid "_Zoom to 100%"
 msgstr "%100 _Yakınlaştır"
 
-#: ../src/mail/e-mail-display.c:747
+#: ../src/mail/e-mail-display.c:785
 msgid "Zoom the image to its natural size"
 msgstr "Resmi asıl boyutunda göster"
 
-#: ../src/mail/e-mail-display.c:752
+#: ../src/mail/e-mail-display.c:790
 msgid "_Zoom to window"
 msgstr "_Pencereye sığdır"
 
-#: ../src/mail/e-mail-display.c:754
+#: ../src/mail/e-mail-display.c:792
 msgid "Zoom large images to not be wider than the window width"
 msgstr ""
 "Büyük resimleri pencere genişliğini aşmayacak biçimde yakınlaştır/uzaklaştır"
@@ -18854,6 +18845,10 @@ msgstr "Al_ternatif Yanıt…"
 msgid "Choose reply options for the selected message"
 msgstr "Seçilen iletiye yanıt seçeneklerini seç"
 
+#: ../src/mail/e-mail-reader.c:2917
+msgid "Group Reply"
+msgstr "Toplu Yanıt"
+
 #: ../src/mail/e-mail-reader.c:2919
 msgid "Reply to the mailing list, or to all recipients"
 msgstr "E-posta listesine, ya da tüm alıcılara yanıtla"
@@ -19057,6 +19052,10 @@ msgstr "İleri"
 #: ../src/modules/calendar/e-cal-shell-view-actions.c:1320
 msgid "Previous"
 msgstr "Geri"
+
+#: ../src/mail/e-mail-reader.c:5281 ../src/mail/mail-dialogs.ui.h:9
+msgid "Reply"
+msgstr "Yanıtla"
 
 #: ../src/mail/e-mail-reader-utils.c:144
 msgid "Do not warn me again"
@@ -19298,7 +19297,7 @@ msgstr "Alıntı Yap_ma"
 #. Translators: The text is followed by the format combo with values like 'Plain Text', 'HTML' and so on
 #: ../src/mail/em-composer-utils.c:4265
 msgid "_Format message in"
-msgstr "İletiyi şununla biçimle"
+msgstr "İletiyi şununla _biçimle"
 
 #: ../src/mail/em-composer-utils.c:4287
 msgid "Apply t_emplate"
@@ -19399,7 +19398,7 @@ msgstr "Özel Simge Seç"
 
 #: ../src/mail/em-folder-properties.c:219
 msgid "_Use custom icon"
-msgstr "Özel simge kullan"
+msgstr "Özel simge _kullan"
 
 #: ../src/mail/em-folder-properties.c:312
 msgid "Use te_xt color"
@@ -19736,7 +19735,7 @@ msgstr[0] "%d iletiyi birden açmak istediğinize emin misiniz?"
 
 #: ../src/mail/em-utils.c:178
 msgid "Message Filters"
-msgstr "İleti _Süzgeçleri"
+msgstr "İleti Süzgeçleri"
 
 #: ../src/mail/em-utils.c:1038
 #, c-format
@@ -20325,7 +20324,7 @@ msgstr "E-posta listeleri için Yanıt-Adresi:ʼni g_özardı et"
 
 #: ../src/mail/mail-config.ui.h:27
 msgid "Gro_up Reply goes only to mailing list, if possible"
-msgstr "Eğer mümkünse, Gr_up Yanıtlama yalnızca eposta listesine gider"
+msgstr "Eğer mümkünse, K_üme Yanıtlama yalnızca eposta listesine gider"
 
 #: ../src/mail/mail-config.ui.h:28
 msgid "Digitally _sign messages when original message signed (PGP or S/MIME)"
@@ -20727,6 +20726,10 @@ msgstr "Takip"
 #: ../src/mail/mail-dialogs.ui.h:4
 msgid "For Your Information"
 msgstr "Bilginiz İçin"
+
+#: ../src/mail/mail-dialogs.ui.h:5
+msgid "Forward"
+msgstr "Yönlendir"
 
 #: ../src/mail/mail-dialogs.ui.h:6
 msgid "No Response Necessary"
@@ -22014,12 +22017,6 @@ msgstr "Not Listesi Özellikleri"
 msgid "Task List Properties"
 msgstr "Görev Listesi Özellikleri"
 
-#: ../src/modules/accounts-window/e-collection-wizard-page.c:80
-#: ../src/modules/accounts-window/e-collection-wizard-page.c:229
-#: ../src/modules/accounts-window/e-webdav-browser-page.c:192
-msgid "_Back"
-msgstr "_Geri"
-
 #: ../src/modules/accounts-window/e-webdav-browser-page.c:213
 msgid "_Browse"
 msgstr "_Gözat"
@@ -22704,7 +22701,7 @@ msgstr "Sunucu arama veri tabanları aranıyor, lütfen bekleyin…"
 
 #: ../src/modules/book-config-ldap/evolution-book-config-ldap.c:494
 msgid "Standard LDAP Port"
-msgstr "_Standart LDAP Portu"
+msgstr "Standart LDAP Portu"
 
 #: ../src/modules/book-config-ldap/evolution-book-config-ldap.c:500
 #: ../src/modules/book-config-ldap/evolution-book-config-ldap.c:687
@@ -23326,7 +23323,7 @@ msgstr "Olay özetinin doğrudan düzenlenmesine izin _ver"
 
 #: ../src/modules/calendar/e-calendar-preferences.ui.h:67
 msgid "Hi_de cancelled events"
-msgstr "İptal edilmiş olayları gizle"
+msgstr "İptal _edilmiş olayları gizle"
 
 #: ../src/modules/calendar/e-calendar-preferences.ui.h:68
 msgid "Alerts"
@@ -23369,7 +23366,7 @@ msgstr "_Tamamlanma tarihi olmayan Görevleri göster"
 #: ../src/modules/calendar/e-calendar-preferences.ui.h:80
 msgctxt "to-do-bar-n-days"
 msgid "Show"
-msgstr "Şunca _gün gör:"
+msgstr "Şunca gün gör:"
 
 # Çevirme
 #. Translators: This constructs: Show [spinner] days
@@ -26134,22 +26131,22 @@ msgstr "HTML biçiminde göster"
 msgid "Display HTML version of multipart/alternative message"
 msgstr "Multipart/alternative iletinin HTML biçimini göster"
 
-#: ../src/modules/prefer-plain/e-mail-parser-prefer-plain.c:69
+#: ../src/modules/prefer-plain/e-mail-parser-prefer-plain.c:133
 #: ../src/modules/prefer-plain/plugin/config-ui.c:35
 msgid "Show HTML if present"
 msgstr "Eğer varsa HTML göster"
 
-#: ../src/modules/prefer-plain/e-mail-parser-prefer-plain.c:70
+#: ../src/modules/prefer-plain/e-mail-parser-prefer-plain.c:134
 #: ../src/modules/prefer-plain/plugin/config-ui.c:36
 msgid "Let Evolution choose the best part to show."
 msgstr "Evolutionʼun gösterilecek en uygun bölümü seçmesine izin ver."
 
-#: ../src/modules/prefer-plain/e-mail-parser-prefer-plain.c:73
+#: ../src/modules/prefer-plain/e-mail-parser-prefer-plain.c:137
 #: ../src/modules/prefer-plain/plugin/config-ui.c:39
 msgid "Show plain text if present"
 msgstr "Varsa düz metin göster"
 
-#: ../src/modules/prefer-plain/e-mail-parser-prefer-plain.c:74
+#: ../src/modules/prefer-plain/e-mail-parser-prefer-plain.c:138
 #: ../src/modules/prefer-plain/plugin/config-ui.c:40
 msgid ""
 "Show plain text part, if present, otherwise let Evolution choose the best "
@@ -26158,22 +26155,22 @@ msgstr ""
 "Varsa düz metin bölümünü göster, değilse gösterilecek en iyi bölümü seçmesi "
 "için Evolutionʼa izin ver."
 
-#: ../src/modules/prefer-plain/e-mail-parser-prefer-plain.c:78
+#: ../src/modules/prefer-plain/e-mail-parser-prefer-plain.c:142
 #: ../src/modules/prefer-plain/plugin/config-ui.c:44
 msgid "Show plain text if present, or HTML source"
 msgstr "Eğer varsa düz metni göster, veya HTML kaynağını"
 
-#: ../src/modules/prefer-plain/e-mail-parser-prefer-plain.c:79
+#: ../src/modules/prefer-plain/e-mail-parser-prefer-plain.c:143
 #: ../src/modules/prefer-plain/plugin/config-ui.c:45
 msgid "Show plain text part, if present, otherwise the HTML part source."
 msgstr "Varsa düz metin bölümünü, değilse HTML bölümü kaynağını göster."
 
-#: ../src/modules/prefer-plain/e-mail-parser-prefer-plain.c:83
+#: ../src/modules/prefer-plain/e-mail-parser-prefer-plain.c:147
 #: ../src/modules/prefer-plain/plugin/config-ui.c:49
 msgid "Only ever show plain text"
 msgstr "Yalnızca düz metin göster"
 
-#: ../src/modules/prefer-plain/e-mail-parser-prefer-plain.c:84
+#: ../src/modules/prefer-plain/e-mail-parser-prefer-plain.c:148
 #: ../src/modules/prefer-plain/plugin/config-ui.c:50
 msgid ""
 "Always show plain text part and make attachments from other parts, if "
@@ -26452,11 +26449,11 @@ msgstr "_Şöyle biçimlendir…"
 msgid "_Other languages"
 msgstr "_Diğer diller"
 
-#: ../src/modules/text-highlight/e-mail-formatter-text-highlight.c:493
+#: ../src/modules/text-highlight/e-mail-formatter-text-highlight.c:503
 msgid "Text Highlight"
 msgstr "Metin Vurgusu"
 
-#: ../src/modules/text-highlight/e-mail-formatter-text-highlight.c:494
+#: ../src/modules/text-highlight/e-mail-formatter-text-highlight.c:504
 msgid "Syntax highlighting of mail parts"
 msgstr "E-posta bölümlerinin sözdizim vurgulamaları"
 
@@ -27795,11 +27792,11 @@ msgstr "İleti şablonu kaydediliyor"
 
 #: ../src/plugins/templates/templates.c:908
 msgid "Save as _Template"
-msgstr "Ş_ablom Olarak Kaydet"
+msgstr "Ş_ablon Olarak Kaydet"
 
 #: ../src/plugins/templates/templates.c:910
 msgid "Save as Template"
-msgstr "Ş_ablom Olarak Kaydet"
+msgstr "Şablon Olarak Kaydet"
 
 #: ../src/shell/e-shell.c:383
 msgid "Preparing to go offline…"
@@ -28927,10 +28924,3 @@ msgstr "Deponun diske yazılması başarısız, hata_kodu: %i"
 #: ../src/smime/lib/e-pkcs12.c:460
 msgid "Imported Certificate"
 msgstr "Aktarılmış Sertifika"
-
-#~ msgid "Send / Receive"
-#~ msgstr "Gönder / Al"
-
-#~ msgctxt "toolbar-button"
-#~ msgid "New"
-#~ msgstr "Yeni"
