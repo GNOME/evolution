@@ -11,7 +11,7 @@ msgstr ""
 "Project-Id-Version: evolution master\n"
 "Report-Msgid-Bugs-To: https://gitlab.gnome.org/GNOME/evolution/issues\n"
 "POT-Creation-Date: 2022-09-16 14:55+0000\n"
-"PO-Revision-Date: 2022-09-17 23:19+0200\n"
+"PO-Revision-Date: 2022-09-19 21:31+0200\n"
 "Last-Translator: Matej Urbančič <mateju@src.gnome.org>\n"
 "Language-Team: Slovenščina <gnome-si@googlegroups.com>\n"
 "Language: sl\n"
@@ -214,10 +214,8 @@ msgstr ""
 "možnost »openstreetmap«."
 
 #: ../data/org.gnome.evolution.addressbook.gschema.xml.in.h:45
-#, fuzzy
-#| msgid "_Preview Personal information before Work information"
 msgid "Preview Personal before Work information"
-msgstr "_Pokaži osebne podatke pred delovnimi podatki"
+msgstr "Pokaži osebne podatke pred delovnimi"
 
 #: ../data/org.gnome.evolution.addressbook.gschema.xml.in.h:46
 msgid "Show the Personal information before the Work information in the contact preview"
@@ -512,10 +510,8 @@ msgid "Whether to show type field in the event/task/meeting editor"
 msgstr "Ali naj se v urejevalniku dogodkov/nalog/srečanj prikaže polje vrsta"
 
 #: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:62
-#, fuzzy
-#| msgid "Show type field in the event/task/meeting editor"
 msgid "Show toolbar in the event/task/memo editor"
-msgstr "Pokaži polje vrsta v urejevalniku dogodkov/nalog/srečanj"
+msgstr "Pokaži orodno vrstico v urejevalniku dogodkov/nalog/srečanj"
 
 #: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:63
 msgid "Whether to show toolbar in the event/task/memo editor"
@@ -769,10 +765,10 @@ msgid "If “true”, show the task preview pane in the main window"
 msgstr "Izbrana možnost omogoča prikaz pladnja predogleda nalog v glavnem oknu."
 
 #: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:119
-#, fuzzy
-#| msgid "Show week numbers in Day View, Work Week View, and Date Navigator"
 msgid "Show week numbers in Day View, Work Week View, Year view and Date Navigator"
-msgstr "Pokaži številke tednov v dnevnem pogledu, pogledu delovnega tedna in krmarju koledarja"
+msgstr ""
+"Pokaži številke tednov v dnevnem in letnem pogledu, pogledu delovnega tedna in krmarju "
+"koledarja"
 
 #: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:120
 msgid "Whether to show week numbers in various places in the Calendar"
@@ -978,26 +974,20 @@ msgid "Show the preview pane in the Year View"
 msgstr "Pokaži pladenj predogleda v letnem pogledu"
 
 #: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:165
-#, fuzzy
-#| msgid "If “true”, show the memo preview pane in the main window"
 msgid "If “true”, show the preview pane in the Year View"
-msgstr "Izbrana možnost omogoča prikaz pladnja predogleda opomnikov v glavnem oknu."
+msgstr "Izbrana možnost omogoča prikaz pladnja predogleda v letnem pogledu"
 
 #: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:166
 msgid "Year view horizontal pane position"
 msgstr "Položaj vodoravnega pladnja v letnem pogledu"
 
 #: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:167
-#, fuzzy
-#| msgid ""
-#| "Position of the horizontal pane, between the date navigator calendar and the task list when "
-#| "not in the month view, in pixels"
 msgid ""
 "Position of the horizontal pane, between the year calendar and the list of events for the "
 "selected day in the year view, in pixels"
 msgstr ""
-"Položaj vodoravnega pladnja med krmarjem datumov koledarja in seznamom nalog, kadar ni v "
-"mesečnem pogledu v točkah."
+"Položaj vodoravnega pladnja med letnim koledarjem in seznamom nalog za izbran dan v letnem "
+"pogledu, v točkah."
 
 #: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:168
 msgid "Layout style for the Year View"
@@ -1013,26 +1003,16 @@ msgstr ""
 "pogled pod koledarjem, »1« pa določa navpični slog, kjer je pladenj ob koledarju."
 
 #: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:170
-#, fuzzy
-#| msgid "Month view horizontal pane position"
 msgid "Year view horizontal preview position"
-msgstr "Položaj vodoravnega pladnja v mesečnem pogledu"
+msgstr "Položaj vodoravnega pladnja v letnem pogledu"
 
 #: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:171
-#, fuzzy
-#| msgid ""
-#| "Position of the horizontal pane, between the view and the date navigator calendar and task "
-#| "list in the month view, in pixels"
 msgid "Position of the horizontal event preview for the year view, in pixels"
-msgstr ""
-"Položaj vodoravnega pladnja med pogledom in krmarjem datumov koledarja ter seznamom nalog v "
-"mesečnemu pogledu v točkah."
+msgstr "Položaj vodoravnega pladnja med predogledom v letnem pogledu, v točkah."
 
 #: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:172
-#, fuzzy
-#| msgid "Month view vertical pane position"
 msgid "Year view vertical preview position"
-msgstr "Položaj navpičnega pladnja v mesečnem pogledu"
+msgstr "Položaj navpičnega pladnja v letnem pogledu"
 
 #: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:173
 msgid "Position of the vertical event preview for the year view, in pixels"
@@ -1435,10 +1415,8 @@ msgstr ""
 "sporočilo poslano."
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:53
-#, fuzzy
-#| msgid "Send messages through Outbox folder"
 msgid "How long to delay Outbox flush when sending messages through Outbox folder"
-msgstr "Pošlji sporočilo prek odhodne mape"
+msgstr "Kako dolg naj bo časovni zamik pred pošiljanjem sporočila iz odhodne mape"
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:54
 msgid ""
@@ -4058,10 +4036,6 @@ msgid "Something has gone wrong when displaying the contact"
 msgstr "Prišlo je do napake med prikazovanjem stika"
 
 #: ../src/addressbook/addressbook.error.xml.h:48
-#, fuzzy
-#| msgid ""
-#| "A WebKitWebProcess crashed when displaying the contact. You can try again by moving to "
-#| "another contact and back. If the issue persists, please file a bug report in GNOME Gitlab."
 msgid ""
 "A WebKitWebProcess crashed when displaying the contact. You can try again by moving to another "
 "contact and back. If the issue persists, please file a bug report in GNOME GitLab."
@@ -17313,7 +17287,7 @@ msgstr "Prednostno uporabi _medvrstično podpisovanje/šifriranje besedilnih spo
 
 #: ../src/mail/e-mail-config-security-page.c:629
 msgid "_Lookup keys for encryption in Web Key Directory (WKD)"
-msgstr ""
+msgstr "_Iskanje ključev za šifriranje v imeniku spletnih ključev (WKD)"
 
 #: ../src/mail/e-mail-config-security-page.c:653
 msgid "Secure MIME (S/MIME)"
@@ -25498,7 +25472,7 @@ msgstr "Novice in spletniki"
 
 #: ../src/modules/rss/camel/camel-rss-provider.c:19
 msgid "This is a provider for reading RSS news and blogs."
-msgstr ""
+msgstr "Navedeni ponudnik novic in blogov RSS."
 
 #: ../src/modules/rss/camel/camel-rss-store.c:77 ../src/modules/rss/camel/camel-rss-store.c:123
 #: ../src/modules/rss/camel/camel-rss-store.c:176 ../src/modules/rss/camel/camel-rss-store.c:232
@@ -25569,7 +25543,7 @@ msgstr "Prejmi _priloge vira"
 #. Translators: This is part of "Do not download enclosures larger than [ nnn ] KB"
 #: ../src/modules/rss/evolution/e-rss-preferences.c:1243
 msgid "Do not download enclosures larger than"
-msgstr ""
+msgstr "Ne prejmi priloženih virov, ki presegajo"
 
 #. Translators: This is part of "Do not download enclosures larger than [ nnn ] KB"
 #: ../src/modules/rss/evolution/e-rss-preferences.c:1266
@@ -25586,11 +25560,11 @@ msgstr "Vsebina"
 
 #: ../src/modules/rss/evolution/e-rss-shell-view-extension.c:210
 msgid "Re_load feed articles"
-msgstr ""
+msgstr "_Ponovno nalaganje prispevkov vira"
 
 #: ../src/modules/rss/evolution/e-rss-shell-view-extension.c:212
 msgid "Reload all feed articles from the server, updating existing and adding any missing"
-msgstr ""
+msgstr "Ponovno naloži vse prispevke iz strežnika, posodobi obstoječe in doda manjkajoče"
 
 #: ../src/modules/spamassassin/evolution-spamassassin.c:188
 #, c-format
