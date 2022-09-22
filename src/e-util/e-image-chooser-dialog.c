@@ -228,7 +228,7 @@ e_image_chooser_dialog_new (const gchar *title,
 		E_TYPE_IMAGE_CHOOSER_DIALOG,
 		"action", GTK_FILE_CHOOSER_ACTION_OPEN,
 		"title", title,
-		"use-header-bar", TRUE,
+		"use-header-bar", e_util_get_use_header_bar (),
 		"transient-for", parent, NULL);
 }
 

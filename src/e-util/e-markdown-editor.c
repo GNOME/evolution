@@ -1854,7 +1854,7 @@ e_markdown_editor_constructed (GObject *object)
 	#endif /* HAVE_MARKDOWN */
 
 	widget = gtk_toolbar_new ();
-	gtk_toolbar_set_icon_size (GTK_TOOLBAR (widget), GTK_ICON_SIZE_SMALL_TOOLBAR);
+	e_util_setup_toolbar_icon_size (GTK_TOOLBAR (widget), GTK_ICON_SIZE_SMALL_TOOLBAR);
 	gtk_widget_show (widget);
 	gtk_notebook_set_action_widget (self->priv->notebook, widget, GTK_PACK_END);
 

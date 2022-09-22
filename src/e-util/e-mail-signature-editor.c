@@ -23,6 +23,7 @@
 #include "e-alert-dialog.h"
 #include "e-alert-sink.h"
 #include "e-alert-bar.h"
+#include "e-misc-utils.h"
 #include "e-simple-async-result.h"
 
 #include "e-mail-signature-editor.h"
@@ -79,6 +80,11 @@ static const gchar *ui =
 "      </menu>\n"
 "    </placeholder>\n"
 "  </menubar>\n"
+"  <toolbar name='main-toolbar'>\n"
+"    <placeholder name='pre-main-toolbar'>\n"
+"      <toolitem action='save-and-close'/>\n"
+"    </placeholder>\n"
+"  </toolbar>\n"
 "</ui>";
 
 G_DEFINE_TYPE (
@@ -567,27 +573,43 @@ mail_signature_editor_constructed (GObject *object)
 
 	container = widget;
 
-	/* Construct the main menu and toolbar. */
-
-	widget = gtk_header_bar_new ();
-	gtk_widget_show (widget);
-	header_bar = GTK_HEADER_BAR (widget);
-	gtk_header_bar_set_show_close_button (header_bar, TRUE);
-	gtk_header_bar_set_title (header_bar, _("Edit Signature"));
-	gtk_window_set_titlebar (GTK_WINDOW (window), widget);
-
-	action = gtk_action_group_get_action (window->priv->action_group, "save-and-close");
-	button = e_header_bar_button_new (_("Save"), action);
-	e_header_bar_button_css_add_class (E_HEADER_BAR_BUTTON (button), "suggested-action");
-	gtk_widget_show (button);
-	gtk_header_bar_pack_start (header_bar, button);
-
 	widget = e_html_editor_get_managed_widget (editor, "/main-menu");
 	window->priv->menu_bar = e_menu_bar_new (GTK_MENU_BAR (widget), GTK_WINDOW (window), &menu_button);
 	gtk_box_pack_start (GTK_BOX (container), widget, FALSE, FALSE, 0);
 
-	if (menu_button)
-		gtk_header_bar_pack_end (header_bar, menu_button);
+	/* Construct the main menu and toolbar. */
+
+	if (e_util_get_use_header_bar ()) {
+		widget = gtk_header_bar_new ();
+		gtk_widget_show (widget);
+		header_bar = GTK_HEADER_BAR (widget);
+		gtk_header_bar_set_show_close_button (header_bar, TRUE);
+		gtk_header_bar_set_title (header_bar, _("Edit Signature"));
+		gtk_window_set_titlebar (GTK_WINDOW (window), widget);
+
+		action = gtk_action_group_get_action (window->priv->action_group, "save-and-close");
+		button = e_header_bar_button_new (_("Save"), action);
+		e_header_bar_button_css_add_class (E_HEADER_BAR_BUTTON (button), "suggested-action");
+		gtk_widget_show (button);
+		gtk_header_bar_pack_start (header_bar, button);
+
+		if (menu_button)
+			gtk_header_bar_pack_end (header_bar, menu_button);
+
+		widget = e_html_editor_get_managed_widget (editor, "/main-toolbar/pre-main-toolbar/save-and-close");
+		gtk_widget_destroy (widget);
+	} else {
+		gtk_window_set_title (GTK_WINDOW (window), _("Edit Signature"));
+
+		widget = e_html_editor_get_managed_widget (editor, "/main-toolbar");
+		gtk_box_pack_start (GTK_BOX (container), widget, FALSE, FALSE, 0);
+		gtk_widget_show (widget);
+
+		if (menu_button) {
+			g_object_ref_sink (menu_button);
+			gtk_widget_destroy (menu_button);
+		}
+	}
 
 	/* Construct the signature name entry. */
 

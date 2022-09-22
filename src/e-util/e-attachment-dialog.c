@@ -20,6 +20,7 @@
 
 #include "evolution-config.h"
 
+#include "e-misc-utils.h"
 #include "e-attachment-dialog.h"
 
 #include <glib/gi18n.h>
@@ -377,7 +378,7 @@ e_attachment_dialog_new (GtkWindow *parent,
 	return g_object_new (
 		E_TYPE_ATTACHMENT_DIALOG,
 		"transient-for", parent,
-		"use-header-bar", TRUE,
+		"use-header-bar", e_util_get_use_header_bar (),
 		"attachment", attachment, NULL);
 }
 

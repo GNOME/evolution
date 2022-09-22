@@ -120,6 +120,7 @@
 #include <e-util/e-filter-part.h>
 #include <e-util/e-filter-rule.h>
 #include <e-util/e-focus-tracker.h>
+#include <e-util/e-headerbar-button.h>
 #ifndef E_UTIL_INCLUDE_WITHOUT_WEBKIT
 #include <e-util/e-html-editor-actions.h>
 #include <e-util/e-html-editor-cell-dialog.h>
@@ -155,8 +156,9 @@
 #include <e-util/e-map.h>
 #include <e-util/e-markdown-editor.h>
 #include <e-util/e-markdown-utils.h>
-#include <e-util/e-headerbar-button.h>
 #include <e-util/e-menu-bar.h>
+#include <e-util/e-menu-tool-action.h>
+#include <e-util/e-menu-tool-button.h>
 #include <e-util/e-misc-utils.h>
 #include <e-util/e-mktemp.h>
 #include <e-util/e-month-widget.h>

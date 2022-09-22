@@ -501,6 +501,22 @@ static GtkToggleActionEntry toggle_entries[] = {
 	  NULL,
 	  FALSE },
 
+	{ "toolbar-prioritize-message",
+	  "emblem-important",
+	  NULL,
+	  NULL,
+	  NULL,
+	  NULL,
+	  FALSE },
+
+	{ "toolbar-request-read-receipt",
+	  "mail-forward",
+	  NULL,
+	  NULL,
+	  NULL,
+	  NULL,
+	  FALSE },
+
 	{ "toolbar-smime-encrypt",
 	  "security-high",
 	  NULL,
@@ -670,6 +686,8 @@ e_composer_actions_init (EMsgComposer *composer)
 
 	init_toolbar_option (PGP_SIGN, FALSE);
 	init_toolbar_option (PGP_ENCRYPT, FALSE);
+	init_toolbar_option (PRIORITIZE_MESSAGE, TRUE);
+	init_toolbar_option (REQUEST_READ_RECEIPT, TRUE);
 	init_toolbar_option (SMIME_SIGN, FALSE);
 	init_toolbar_option (SMIME_ENCRYPT, FALSE);
 

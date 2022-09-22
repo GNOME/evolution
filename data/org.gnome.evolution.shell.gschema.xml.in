@@ -1,4 +1,10 @@
 <schemalist>
+  <!-- Keep this synchronized with EToolbarIconSize. -->
+  <enum id="org.gnome.evolution.shell.ToolbarIconSize">
+    <value nick='default' value='0'/>
+    <value nick='small'   value='1'/>
+    <value nick='large'   value='2'/>
+  </enum>
   <schema gettext-domain="evolution" id="org.gnome.evolution.shell" path="/org/gnome/evolution/shell/">
     <key name="skip-warning-dialog" type="b">
       <default>false</default>
@@ -139,6 +145,16 @@
       <default>'\'&quot;&amp;`();|&lt;&gt;$%{}!'</default>
       <_summary>Set of additional illegal characters in the filename</_summary>
       <_description>When generating file names from custom strings some non-printable or reserved characters are replaced with an underscore. Here's a set of additional characters to be replaced.</_description>
+    </key>
+    <key name="toolbar-icon-size" enum="org.gnome.evolution.shell.ToolbarIconSize">
+      <default>'default'</default>
+      <_summary>Override toolbar icon size</_summary>
+      <_description>Controls the toolbar icon size. The 'default' value lets the system/code decide what is the best icon size for the toolbar. Changing the option requires application restart.</_description>
+    </key>
+    <key name="use-header-bar" type="b">
+      <default>true</default>
+      <_summary>Whether to use header bar in the application</_summary>
+      <_description>When enabled, adds buttons to the header bar and uses it also for the dialogs. Changing the option requires application restart.</_description>
     </key>
     <child name="window" schema="org.gnome.evolution.window"/>
   </schema>

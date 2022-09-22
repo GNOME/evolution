@@ -3945,8 +3945,7 @@ init_all (EContactEditor *editor)
 		GdkRectangle monitor_area;
 		gint x = 0, y = 0, monitor, width, height;
 
-		window = e_builder_get_widget (
-			editor->priv->builder, "contact editor");
+		window = editor->priv->app;
 
 		gtk_widget_get_preferred_size (window, &tab_req, NULL);
 		width = tab_req.width - 320 + 24;
@@ -4844,6 +4843,13 @@ file_save_and_close_cb (GtkWidget *widget,
 	save_contact (ce, TRUE);
 }
 
+static void
+file_cancel_cb (GtkWidget *widget,
+                EContactEditor *ce)
+{
+	eab_editor_close (EAB_EDITOR (ce));
+}
+
 /* Callback used when the dialog box is destroyed */
 static gint
 app_delete_event_cb (GtkWidget *widget,
@@ -5044,6 +5050,7 @@ e_contact_editor_init (EContactEditor *e_contact_editor)
 	GtkWidget *container;
 	GtkWidget *widget, *label, *dyntable;
 	GtkEntryCompletion *completion;
+	GtkAccelGroup *accel_group;
 
 	e_contact_editor->priv = G_TYPE_INSTANCE_GET_PRIVATE (
 		e_contact_editor, E_TYPE_CONTACT_EDITOR, EContactEditorPrivate);
@@ -5080,14 +5087,62 @@ e_contact_editor_init (EContactEditor *e_contact_editor)
 
 	setup_tab_order (builder);
 
-	e_contact_editor->priv->app =
-		e_builder_get_widget (builder, "contact editor");
-	widget = e_contact_editor->priv->app;
+	e_contact_editor->priv->app = g_object_new (GTK_TYPE_DIALOG,
+		"window-position", GTK_WIN_POS_CENTER,
+		"can-focus", FALSE,
+		"title", _("Contact Editor"),
+		"use-header-bar", e_util_get_use_header_bar (),
+		NULL);
 
-	gtk_window_set_type_hint (
-		GTK_WINDOW (widget), GDK_WINDOW_TYPE_HINT_NORMAL);
-	container = gtk_dialog_get_content_area (GTK_DIALOG (widget));
+	gtk_window_set_type_hint (GTK_WINDOW (e_contact_editor->priv->app), GDK_WINDOW_TYPE_HINT_NORMAL);
+	container = gtk_dialog_get_action_area (GTK_DIALOG (e_contact_editor->priv->app));
+	gtk_container_set_border_width (GTK_CONTAINER (container), 12);
+	container = gtk_dialog_get_content_area (GTK_DIALOG (e_contact_editor->priv->app));
 	gtk_container_set_border_width (GTK_CONTAINER (container), 0);
+	widget = e_builder_get_widget (builder, "contact-editor-box");
+	gtk_container_add (GTK_CONTAINER (container), widget);
+
+	if (e_util_get_use_header_bar ()) {
+		container = gtk_dialog_get_header_bar (GTK_DIALOG (e_contact_editor->priv->app));
+
+		widget = e_builder_get_widget (builder, "button-ok");
+		gtk_header_bar_pack_start (GTK_HEADER_BAR (container), widget);
+
+		widget = e_builder_get_widget (builder, "button-config");
+		gtk_header_bar_pack_end (GTK_HEADER_BAR (container), widget);
+
+		widget = e_builder_get_widget (builder, "button-help");
+		gtk_header_bar_pack_end (GTK_HEADER_BAR (container), widget);
+	} else {
+		container = gtk_dialog_get_action_area (GTK_DIALOG (e_contact_editor->priv->app));
+
+		widget = e_builder_get_widget (builder, "button-config");
+		gtk_box_pack_end (GTK_BOX (container), widget, FALSE, FALSE, 0);
+		gtk_widget_set_valign (widget, GTK_ALIGN_FILL);
+
+		widget = e_builder_get_widget (builder, "button-cancel");
+		gtk_dialog_add_action_widget (GTK_DIALOG (e_contact_editor->priv->app), widget, GTK_RESPONSE_CANCEL);
+		gtk_widget_set_valign (widget, GTK_ALIGN_FILL);
+
+		widget = e_builder_get_widget (builder, "button-ok");
+		gtk_dialog_add_action_widget (GTK_DIALOG (e_contact_editor->priv->app), widget, GTK_RESPONSE_OK);
+		gtk_widget_set_valign (widget, GTK_ALIGN_FILL);
+
+		widget = e_builder_get_widget (builder, "button-help");
+		gtk_button_set_label (GTK_BUTTON (widget), _("_Help"));
+		gtk_style_context_remove_class (gtk_widget_get_style_context (widget), "image-button");
+		gtk_dialog_add_action_widget (GTK_DIALOG (e_contact_editor->priv->app), widget, GTK_RESPONSE_HELP);
+		gtk_widget_set_valign (widget, GTK_ALIGN_FILL);
+	}
+
+	accel_group = gtk_accel_group_new ();
+	widget = e_builder_get_widget (builder, "button-ok");
+	gtk_widget_grab_default (widget);
+	gtk_widget_add_accelerator (
+		widget, "clicked", accel_group,
+		's', GDK_CONTROL_MASK, 0);
+	gtk_window_add_accel_group (GTK_WINDOW (e_contact_editor->priv->app), accel_group);
+	g_clear_object (&accel_group);
 
 	init_all (e_contact_editor);
 
@@ -5118,13 +5173,20 @@ e_contact_editor_init (EContactEditor *e_contact_editor)
 	gtk_label_set_mnemonic_widget (GTK_LABEL (label), widget);
 	widget = e_builder_get_widget (
 		e_contact_editor->priv->builder, "button-ok");
-	/* Already set in UI file but not working */
-	gtk_style_context_add_class (
-		gtk_widget_get_style_context (widget),
-		"suggested-action");
+	if (e_util_get_use_header_bar ()) {
+		/* Already set in the .ui file, but does not work */
+		gtk_style_context_add_class (
+			gtk_widget_get_style_context (widget),
+			"suggested-action");
+	}
 	g_signal_connect (
 		widget, "clicked",
 		G_CALLBACK (file_save_and_close_cb), e_contact_editor);
+	widget = e_builder_get_widget (
+		e_contact_editor->priv->builder, "button-cancel");
+	g_signal_connect (
+		widget, "clicked",
+		G_CALLBACK (file_cancel_cb), e_contact_editor);
 	widget = e_builder_get_widget (
 		e_contact_editor->priv->builder, "button-help");
 	g_signal_connect (

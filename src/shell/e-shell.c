@@ -1868,6 +1868,14 @@ shell_initable_init (GInitable *initable,
 	g_object_unref (proxy_source);
 	g_object_unref (registry);
 
+	if (!e_util_get_use_header_bar ()) {
+		/* Forbid header bars in stock GTK+ dialogs.
+		 * They look very out of place in Evolution. */
+		g_object_set (
+			gtk_settings_get_default (),
+			"gtk-dialogs-use-header", FALSE, NULL);
+	}
+
 	return TRUE;
 }
 

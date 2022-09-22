@@ -5178,6 +5178,7 @@ e_mail_reader_init (EMailReader *reader,
 	GtkAction *action;
 	const gchar *action_name;
 	EMailDisplay *display;
+	EMenuToolAction *menu_tool_action;
 	GSettings *settings;
 
 	g_return_if_fail (E_IS_MAIL_READER (reader));
@@ -5215,6 +5216,44 @@ e_mail_reader_init (EMailReader *reader,
 		G_N_ELEMENTS (mail_reader_toggle_entries), reader);
 
 	mail_reader_init_charset_actions (reader, action_group);
+
+
+	/* The "mail-forward" action is special: it uses a GtkMenuToolButton
+	 * for its toolbar item type.  So we have to create it separately. */
+
+	menu_tool_action = e_menu_tool_action_new (
+		"toolbar-mail-forward", _("_Forward"),
+		_("Forward the selected message to someone"));
+
+	gtk_action_set_icon_name (GTK_ACTION (menu_tool_action), "mail-forward");
+	gtk_action_set_visible (GTK_ACTION (menu_tool_action), !e_util_get_use_header_bar ());
+
+	g_signal_connect (
+		menu_tool_action, "activate",
+		G_CALLBACK (action_mail_forward_cb), reader);
+
+	gtk_action_group_add_action_with_accel (
+		action_group, GTK_ACTION (menu_tool_action), "<Control>f");
+
+	/* Likewise the "mail-reply-group" action. */
+
+	menu_tool_action = e_menu_tool_action_new (
+		/* Translators: "Group Reply" will reply either to a mailing list
+		 * (if possible and if that configuration option is enabled), or else
+		 * it will reply to all. The word "Group" was chosen because it covers
+		 * either of those, without too strongly implying one or the other. */
+		"toolbar-mail-reply-group", _("Group Reply"),
+		_("Reply to the mailing list, or to all recipients"));
+
+	gtk_action_set_icon_name (GTK_ACTION (menu_tool_action), "mail-reply-all");
+	gtk_action_set_visible (GTK_ACTION (menu_tool_action), !e_util_get_use_header_bar ());
+
+	g_signal_connect (
+		menu_tool_action, "activate",
+		G_CALLBACK (action_mail_reply_group_cb), reader);
+
+	gtk_action_group_add_action_with_accel (
+		action_group, GTK_ACTION (menu_tool_action), "<Control>g");
 
 	/* Add EMailReader actions for Search Folders.  The action group
 	 * should be made invisible if Search Folders are disabled. */
@@ -5259,11 +5298,13 @@ e_mail_reader_init (EMailReader *reader,
 	action = e_mail_reader_get_action (reader, action_name);
 	gtk_action_set_short_label (action, _("Delete"));
 
-	action_name = "mail-forward";
+	action_name = "toolbar-mail-forward";
 	action = e_mail_reader_get_action (reader, action_name);
+	gtk_action_set_is_important (action, TRUE);
 
-	action_name = "mail-reply-group";
+	action_name = "toolbar-mail-reply-group";
 	action = e_mail_reader_get_action (reader, action_name);
+	gtk_action_set_is_important (action, TRUE);
 
 	action_name = "mail-next";
 	action = e_mail_reader_get_action (reader, action_name);
@@ -5275,9 +5316,11 @@ e_mail_reader_init (EMailReader *reader,
 
 	action_name = "mail-reply-all";
 	action = e_mail_reader_get_action (reader, action_name);
+	gtk_action_set_is_important (action, TRUE);
 
 	action_name = "mail-reply-sender";
 	action = e_mail_reader_get_action (reader, action_name);
+	gtk_action_set_is_important (action, TRUE);
 	gtk_action_set_short_label (action, _("Reply"));
 
 	action_name = "add-to-address-book";

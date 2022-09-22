@@ -1441,6 +1441,16 @@ subscription_editor_add_store (EMSubscriptionEditor *editor,
 	g_ptr_array_add (editor->priv->stores, data);
 }
 
+static void
+emse_notebook_sensitive_changed_cb (GtkWidget *notebook,
+                                    GParamSpec *param,
+                                    GtkDialog *editor)
+{
+	gtk_dialog_set_response_sensitive (
+		editor, GTK_RESPONSE_CLOSE,
+		gtk_widget_get_sensitive (notebook));
+}
+
 static gboolean
 subscription_editor_delete_event_cb (EMSubscriptionEditor *editor,
                                      GdkEvent *event,
@@ -1719,6 +1729,12 @@ em_subscription_editor_init (EMSubscriptionEditor *editor)
 		"/org/gnome/evolution/mail/subscription-window/",
 		E_RESTORE_WINDOW_SIZE);
 
+	if (!e_util_get_use_header_bar ()) {
+		gtk_dialog_add_button (
+			GTK_DIALOG (editor),
+			_("_Close"), GTK_RESPONSE_CLOSE);
+	}
+
 	container = gtk_dialog_get_content_area (GTK_DIALOG (editor));
 
 	widget = gtk_box_new (GTK_ORIENTATION_VERTICAL, 12);
@@ -1799,6 +1815,12 @@ em_subscription_editor_init (EMSubscriptionEditor *editor)
 		editor->priv->notebook, "page",
 		G_BINDING_BIDIRECTIONAL |
 		G_BINDING_SYNC_CREATE);
+
+	if (!e_util_get_use_header_bar ()) {
+		e_signal_connect_notify (
+			widget, "notify::sensitive",
+			G_CALLBACK (emse_notebook_sensitive_changed_cb), editor);
+	}
 
 	widget = gtk_button_box_new (GTK_ORIENTATION_VERTICAL);
 	gtk_box_set_spacing (GTK_BOX (widget), 6);
@@ -1960,7 +1982,7 @@ em_subscription_editor_new (GtkWindow *parent,
 		EM_TYPE_SUBSCRIPTION_EDITOR,
 		"session", session,
 		"store", initial_store,
-		"use-header-bar", TRUE,
+		"use-header-bar", e_util_get_use_header_bar (),
 		"transient-for", parent,
 		NULL);
 }
