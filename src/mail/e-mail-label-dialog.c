@@ -20,6 +20,7 @@
 
 #include "evolution-config.h"
 
+#include "e-util/e-util.h"
 #include "e-mail-label-dialog.h"
 
 #include <glib/gi18n.h>
@@ -231,7 +232,7 @@ e_mail_label_dialog_new (GtkWindow *parent)
 	return g_object_new (
 		E_TYPE_MAIL_LABEL_DIALOG,
 		"transient-for", parent,
-		"use-header-bar", TRUE,
+		"use-header-bar", e_util_get_use_header_bar (),
 		 NULL);
 }
 

@@ -1469,7 +1469,7 @@ e_mail_shell_view_update_send_receive_menus (EMailShellView *mail_shell_view)
 	EShellWindow *shell_window;
 	EShellView *shell_view;
 	EMailView *mail_view;
-	EShellHeaderBar *shell_headerbar;
+	EShellHeaderBar *shell_headerbar = NULL;
 	GtkWidget *widget;
 	GtkAction *action;
 	const gchar *action_name;
@@ -1479,11 +1479,33 @@ e_mail_shell_view_update_send_receive_menus (EMailShellView *mail_shell_view)
 
 	shell_view = E_SHELL_VIEW (mail_shell_view);
 	shell_window = e_shell_view_get_shell_window (shell_view);
-	shell_headerbar = E_SHELL_HEADER_BAR (gtk_window_get_titlebar (GTK_WINDOW (shell_window)));
+	widget = gtk_window_get_titlebar (GTK_WINDOW (shell_window));
+	if (E_IS_SHELL_HEADER_BAR (widget))
+		shell_headerbar = E_SHELL_HEADER_BAR (widget);
 
-	e_shell_header_bar_clear (shell_headerbar, "e-mail-shell-view");
-	if (!e_shell_view_is_active (shell_view))
+	if (shell_headerbar)
+		e_shell_header_bar_clear (shell_headerbar, "e-mail-shell-view");
+
+	if (!e_shell_view_is_active (shell_view)) {
+		if (mail_shell_view->priv->send_receive_tool_item) {
+			GtkWidget *toolbar;
+
+			toolbar = e_shell_window_get_managed_widget (
+				shell_window, "/main-toolbar");
+			g_return_if_fail (toolbar != NULL);
+
+			gtk_container_remove (
+				GTK_CONTAINER (toolbar),
+				GTK_WIDGET (mail_shell_view->priv->send_receive_tool_item));
+			gtk_container_remove (
+				GTK_CONTAINER (toolbar),
+				GTK_WIDGET (mail_shell_view->priv->send_receive_tool_separator));
+
+			mail_shell_view->priv->send_receive_tool_item = NULL;
+			mail_shell_view->priv->send_receive_tool_separator = NULL;
+		}
 		return;
+	}
 
 	mail_shell_content = mail_shell_view->priv->mail_shell_content;
 	mail_view = e_mail_shell_content_get_mail_view (mail_shell_content);
@@ -1497,45 +1519,90 @@ e_mail_shell_view_update_send_receive_menus (EMailShellView *mail_shell_view)
 			GTK_MENU_ITEM (widget),
 			create_send_receive_submenu (mail_shell_view));
 
-	widget = e_header_bar_button_new (NULL, ACTION (MAIL_SEND_RECEIVE));
-	gtk_widget_set_name (widget, "e-mail-shell-view-send-receive");
-	e_header_bar_button_take_menu (
-		E_HEADER_BAR_BUTTON (widget),
-		create_send_receive_submenu (mail_shell_view));
-	gtk_widget_show (widget);
+	if (e_util_get_use_header_bar ()) {
+		widget = e_header_bar_button_new (NULL, ACTION (MAIL_SEND_RECEIVE));
+		gtk_widget_set_name (widget, "e-mail-shell-view-send-receive");
+		e_header_bar_button_take_menu (
+			E_HEADER_BAR_BUTTON (widget),
+			create_send_receive_submenu (mail_shell_view));
+		gtk_widget_show (widget);
 
-	e_shell_header_bar_pack_start (shell_headerbar, widget);
+		e_shell_header_bar_pack_start (shell_headerbar, widget);
 
-	action_name = "mail-forward";
-	action = e_mail_reader_get_action (E_MAIL_READER (mail_view), action_name);
-	widget = e_header_bar_button_new (NULL, action);
-	gtk_widget_set_name (widget, "e-mail-shell-view-forward");
-	e_header_bar_button_take_menu (
-		E_HEADER_BAR_BUTTON (widget),
-		e_mail_reader_create_forward_menu (E_MAIL_READER (mail_view)));
-	gtk_widget_show (widget);
+		action_name = "mail-forward";
+		action = e_mail_reader_get_action (E_MAIL_READER (mail_view), action_name);
+		widget = e_header_bar_button_new (NULL, action);
+		gtk_widget_set_name (widget, "e-mail-shell-view-forward");
+		e_header_bar_button_take_menu (
+			E_HEADER_BAR_BUTTON (widget),
+			e_mail_reader_create_forward_menu (E_MAIL_READER (mail_view)));
+		gtk_widget_show (widget);
 
-	e_shell_header_bar_pack_end (shell_headerbar, widget);
+		e_shell_header_bar_pack_end (shell_headerbar, widget);
 
-	action_name = "mail-reply-group";
-	action = e_mail_reader_get_action (E_MAIL_READER (mail_view), action_name);
-	widget = e_header_bar_button_new (NULL, action);
-	gtk_widget_set_name (widget, "e-mail-shell-view-reply-group");
-	gtk_widget_show (widget);
+		action_name = "mail-reply-group";
+		action = e_mail_reader_get_action (E_MAIL_READER (mail_view), action_name);
+		widget = e_header_bar_button_new (NULL, action);
+		gtk_widget_set_name (widget, "e-mail-shell-view-reply-group");
+		gtk_widget_show (widget);
 
-	e_header_bar_button_take_menu (
-		E_HEADER_BAR_BUTTON (widget),
-		e_mail_reader_create_reply_menu (E_MAIL_READER (mail_view)));
+		e_header_bar_button_take_menu (
+			E_HEADER_BAR_BUTTON (widget),
+			e_mail_reader_create_reply_menu (E_MAIL_READER (mail_view)));
 
-	e_shell_header_bar_pack_end (shell_headerbar, widget);
+		e_shell_header_bar_pack_end (shell_headerbar, widget);
 
-	action_name = "mail-reply-sender";
-	action = e_mail_reader_get_action (E_MAIL_READER (mail_view), action_name);
-	widget = e_header_bar_button_new (NULL, action);
-	gtk_widget_set_name (widget, "e-mail-shell-view-reply-sender");
-	gtk_widget_show (widget);
+		action_name = "mail-reply-sender";
+		action = e_mail_reader_get_action (E_MAIL_READER (mail_view), action_name);
+		widget = e_header_bar_button_new (NULL, action);
+		gtk_widget_set_name (widget, "e-mail-shell-view-reply-sender");
+		gtk_widget_show (widget);
 
-	e_shell_header_bar_pack_end (shell_headerbar, widget);
+		e_shell_header_bar_pack_end (shell_headerbar, widget);
+
+		widget = e_shell_window_get_managed_widget (shell_window, "/main-toolbar/mail-toolbar-common/mail-reply-sender");
+		if (widget)
+			gtk_widget_destroy (widget);
+	} else {
+		if (!mail_shell_view->priv->send_receive_tool_item) {
+			GtkWidget *toolbar;
+			GtkToolItem *tool_item;
+			gint index;
+
+			toolbar = e_shell_window_get_managed_widget (shell_window, "/main-toolbar");
+			g_return_if_fail (toolbar != NULL);
+
+			widget_path = "/main-toolbar/toolbar-actions/mail-send-receiver";
+			widget = e_shell_window_get_managed_widget (shell_window, widget_path);
+			g_return_if_fail (widget != NULL);
+
+			index = gtk_toolbar_get_item_index (
+				GTK_TOOLBAR (toolbar), GTK_TOOL_ITEM (widget));
+
+			tool_item = gtk_separator_tool_item_new ();
+			gtk_toolbar_insert (GTK_TOOLBAR (toolbar), tool_item, index);
+			gtk_widget_show (GTK_WIDGET (tool_item));
+			mail_shell_view->priv->send_receive_tool_separator = tool_item;
+
+			tool_item = GTK_TOOL_ITEM (
+				e_menu_tool_button_new (_("Send / Receive")));
+			gtk_tool_item_set_is_important (tool_item, TRUE);
+			gtk_toolbar_insert (GTK_TOOLBAR (toolbar), tool_item, index);
+			gtk_widget_show (GTK_WIDGET (tool_item));
+			mail_shell_view->priv->send_receive_tool_item = tool_item;
+
+			e_binding_bind_property (
+				ACTION (MAIL_SEND_RECEIVE), "sensitive",
+				tool_item, "sensitive",
+				G_BINDING_SYNC_CREATE);
+		}
+
+		if (mail_shell_view->priv->send_receive_tool_item) {
+			gtk_menu_tool_button_set_menu (
+				GTK_MENU_TOOL_BUTTON (mail_shell_view->priv->send_receive_tool_item),
+				create_send_receive_submenu (mail_shell_view));
+		}
+	}
 }
 
 static void

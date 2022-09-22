@@ -584,7 +584,7 @@ tree_view_frame_constructed (GObject *object)
 	widget = gtk_toolbar_new ();
 	gtk_toolbar_set_show_arrow (GTK_TOOLBAR (widget), FALSE);
 	gtk_toolbar_set_style (GTK_TOOLBAR (widget), GTK_TOOLBAR_ICONS);
-	gtk_toolbar_set_icon_size (GTK_TOOLBAR (widget), GTK_ICON_SIZE_MENU);
+	e_util_setup_toolbar_icon_size (GTK_TOOLBAR (widget), GTK_ICON_SIZE_MENU);
 	gtk_box_pack_start (GTK_BOX (tree_view_frame), widget, FALSE, FALSE, 0);
 	tree_view_frame->priv->inline_toolbar = g_object_ref (widget);
 	gtk_widget_show (widget);

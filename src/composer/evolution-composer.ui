@@ -60,6 +60,16 @@
     </menu>
   </menubar>
   <toolbar name='main-toolbar'>
+    <placeholder name='pre-main-toolbar'>
+      <toolitem action='send'/>
+      <separator/>
+      <toolitem action='save-draft'/>
+      <separator/>
+    </placeholder>
+    <separator/>
+    <toolitem action='toolbar-prioritize-message'/>
+    <toolitem action='toolbar-request-read-receipt'/>
+    <separator/>
     <toolitem action='toolbar-pgp-sign'/>
     <toolitem action='toolbar-pgp-encrypt'/>
     <toolitem action='toolbar-smime-sign'/>

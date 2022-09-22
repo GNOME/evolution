@@ -250,19 +250,22 @@ e_preferences_window_class_init (EPreferencesWindowClass *class)
 static void
 e_preferences_window_init (EPreferencesWindow *window)
 {
-	GtkWidget *header;
+	GtkWidget *header = NULL;
 	GtkWidget *widget;
 	GtkWidget *hbox;
+	GtkWidget *vbox;
 
 	window->priv = E_PREFERENCES_WINDOW_GET_PRIVATE (window);
 
-	widget = gtk_header_bar_new ();
-	g_object_set (G_OBJECT (widget),
-		"show-close-button", TRUE,
-		"visible", TRUE,
-		NULL);
-	gtk_window_set_titlebar (GTK_WINDOW (window), widget);
-	header = widget;
+	if (e_util_get_use_header_bar ()) {
+		widget = gtk_header_bar_new ();
+		g_object_set (G_OBJECT (widget),
+			"show-close-button", TRUE,
+			"visible", TRUE,
+			NULL);
+		gtk_window_set_titlebar (GTK_WINDOW (window), widget);
+		header = widget;
+	}
 
 	widget = gtk_stack_new ();
 	gtk_widget_show (widget);
@@ -288,11 +291,16 @@ e_preferences_window_init (EPreferencesWindow *window)
 		NULL);
 	gtk_container_add (GTK_CONTAINER (widget), window->priv->listbox);
 
+	vbox = g_object_new (GTK_TYPE_BOX,
+		"orientation", GTK_ORIENTATION_VERTICAL,
+		"visible", TRUE,
+		NULL);
 	hbox = g_object_new (GTK_TYPE_BOX,
 		"orientation", GTK_ORIENTATION_HORIZONTAL,
 		"visible", TRUE,
 		NULL);
-	gtk_container_add (GTK_CONTAINER (window), hbox);
+	gtk_container_add (GTK_CONTAINER (window), vbox);
+	gtk_container_add (GTK_CONTAINER (vbox), hbox);
 	gtk_container_add (GTK_CONTAINER (hbox), widget);
 	gtk_container_add (GTK_CONTAINER (hbox), window->priv->stack);
 
@@ -302,7 +310,42 @@ e_preferences_window_init (EPreferencesWindow *window)
 	g_signal_connect_swapped (
 		widget, "clicked",
 		G_CALLBACK (preferences_window_help_clicked_cb), window);
-	gtk_header_bar_pack_end (GTK_HEADER_BAR (header), widget);
+	if (header) {
+		gtk_header_bar_pack_end (GTK_HEADER_BAR (header), widget);
+	} else {
+		GtkAccelGroup *accel_group;
+		GtkWidget *bbox;
+
+		bbox = gtk_button_box_new (GTK_ORIENTATION_HORIZONTAL);
+		g_object_set (bbox,
+			"layout-style", GTK_BUTTONBOX_END,
+			"visible", TRUE,
+			"margin-start", 6,
+			"margin-end", 6,
+			"margin-top", 6,
+			"margin-bottom", 6,
+			NULL);
+		gtk_button_box_set_layout (GTK_BUTTON_BOX (bbox), GTK_BUTTONBOX_END);
+		gtk_container_add (GTK_CONTAINER (vbox), bbox);
+
+		gtk_box_pack_start (GTK_BOX (bbox), widget, FALSE, FALSE, 0);
+		gtk_button_box_set_child_secondary (GTK_BUTTON_BOX (bbox), widget, TRUE);
+
+		widget = e_dialog_button_new_with_icon ("window-close", _("_Close"));
+		g_signal_connect_swapped (
+			widget, "clicked",
+			G_CALLBACK (gtk_widget_hide), window);
+		gtk_widget_set_can_default (widget, TRUE);
+		gtk_box_pack_start (GTK_BOX (bbox), widget, FALSE, FALSE, 0);
+		accel_group = gtk_accel_group_new ();
+		gtk_widget_add_accelerator (
+			widget, "activate", accel_group,
+			GDK_KEY_Escape, (GdkModifierType) 0,
+			GTK_ACCEL_VISIBLE);
+		gtk_window_add_accel_group (GTK_WINDOW (window), accel_group);
+		gtk_widget_grab_default (widget);
+		gtk_widget_show (widget);
+	}
 
 	gtk_window_set_title (GTK_WINDOW (window), _("Evolution Preferences"));
 	gtk_window_set_resizable (GTK_WINDOW (window), TRUE);

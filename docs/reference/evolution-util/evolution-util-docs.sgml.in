@@ -285,6 +285,8 @@
     <xi:include href="xml/e-map.xml"/>
     <xi:include href="xml/e-markdown-editor.xml"/>
     <xi:include href="xml/e-menu-bar.xml"/>
+    <xi:include href="xml/e-menu-tool-action.xml"/>
+    <xi:include href="xml/e-menu-tool-button.xml"/>
     <xi:include href="xml/e-mktemp.xml"/>
     <xi:include href="xml/e-month-widget.xml"/>
     <xi:include href="xml/e-name-selector-dialog.xml"/>

@@ -350,7 +350,7 @@ action_categories_cb (GtkAction *action,
 	dialog = g_object_new (
 		GTK_TYPE_DIALOG,
 		"transient-for", GTK_WINDOW (shell_window),
-		"use-header-bar", TRUE,
+		"use-header-bar", e_util_get_use_header_bar (),
 		"title", _("Categories Editor"),
 		NULL);
 

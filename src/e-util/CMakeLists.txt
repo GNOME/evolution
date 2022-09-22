@@ -139,6 +139,7 @@ set(SOURCES
 	e-focus-tracker.c
 	e-gtkemojichooser.h
 	e-gtkemojichooser.c
+	e-headerbar-button.c
 	e-html-editor-actions.c
 	e-html-editor-cell-dialog.c
 	e-html-editor-dialog.c
@@ -172,8 +173,9 @@ set(SOURCES
 	e-markdown-editor.c
 	e-markdown-utils.c
 	e-marshal.c
-	e-headerbar-button.c
 	e-menu-bar.c
+	e-menu-tool-action.c
+	e-menu-tool-button.c
 	e-misc-utils.c
 	e-mktemp.c
 	e-month-widget.c
@@ -419,6 +421,7 @@ set(HEADERS
 	e-filter-part.h
 	e-filter-rule.h
 	e-focus-tracker.h
+	e-headerbar-button.h
 	e-html-editor-actions.h
 	e-html-editor-cell-dialog.h
 	e-html-editor-dialog.h
@@ -450,8 +453,9 @@ set(HEADERS
 	e-map.h
 	e-markdown-editor.h
 	e-markdown-utils.h
-	e-headerbar-button.h
 	e-menu-bar.h
+	e-menu-tool-action.h
+	e-menu-tool-button.h
 	e-misc-utils.h
 	e-mktemp.h
 	e-month-widget.h

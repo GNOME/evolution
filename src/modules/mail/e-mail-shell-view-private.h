@@ -135,6 +135,9 @@ struct _EMailShellViewPrivate {
 	CamelVeeFolder *search_account_current;
 	GCancellable *search_account_cancel;
 
+	GtkToolItem *send_receive_tool_item;
+	GtkToolItem *send_receive_tool_separator;
+
 	gboolean vfolder_allow_expunge;
 	gboolean ignore_folder_popup_selection_done;
 

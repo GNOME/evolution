@@ -354,6 +354,9 @@ const ESupportedLocales *
 void		e_util_ensure_scrolled_window_height
 						(GtkScrolledWindow *scrolled_window);
 void		e_util_make_safe_filename	(gchar *filename);
+gboolean	e_util_setup_toolbar_icon_size	(GtkToolbar *toolbar,
+						 GtkIconSize default_size);
+gboolean	e_util_get_use_header_bar	(void);
 
 G_END_DECLS
 

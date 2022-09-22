@@ -22,6 +22,7 @@
 
 #include <glib/gi18n-lib.h>
 
+#include "e-misc-utils.h"
 #include "e-tree-view-frame.h"
 #include "e-source-selector.h"
 #include "e-source-selector-dialog.h"
@@ -362,7 +363,7 @@ e_source_selector_dialog_new (GtkWindow *parent,
 
 	return g_object_new (
 		E_TYPE_SOURCE_SELECTOR_DIALOG,
-		"use-header-bar", TRUE,
+		"use-header-bar", e_util_get_use_header_bar (),
 		"transient-for", parent,
 		"registry", registry,
 		"extension-name", extension_name,

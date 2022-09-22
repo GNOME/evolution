@@ -29,6 +29,7 @@
 #include "e-categories-selector.h"
 #include "e-category-completion.h"
 #include "e-category-editor.h"
+#include "e-misc-utils.h"
 
 #define E_CATEGORIES_DIALOG_GET_PRIVATE(obj) \
 	(G_TYPE_INSTANCE_GET_PRIVATE \
@@ -102,7 +103,7 @@ e_categories_dialog_new (const gchar *categories)
 	ECategoriesDialog *dialog;
 
 	dialog = g_object_new (E_TYPE_CATEGORIES_DIALOG,
-		"use-header-bar", TRUE,
+		"use-header-bar", e_util_get_use_header_bar (),
 		NULL);
 
 	if (categories)
