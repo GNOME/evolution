@@ -154,7 +154,7 @@
     <key name="use-header-bar" type="b">
       <default>true</default>
       <_summary>Whether to use header bar in the application</_summary>
-      <_description>When enabled, adds buttons to the header bar and uses it also for the dialogs. Changing the option requires application restart.</_description>
+      <_description>When enabled, adds buttons to the header bar. This applies to dialogs as well. Changing the option requires application restart.</_description>
     </key>
     <child name="window" schema="org.gnome.evolution.window"/>
   </schema>
