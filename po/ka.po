@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: evolution\n"
 "Report-Msgid-Bugs-To: https://gitlab.gnome.org/GNOME/evolution/issues\n"
 "POT-Creation-Date: 2022-07-25 15:43+0000\n"
-"PO-Revision-Date: 2022-07-25 18:35+0200\n"
+"PO-Revision-Date: 2022-09-23 19:43+0200\n"
 "Last-Translator: Temuri Doghonadze <temuri.doghonadze@gmail.com>\n"
 "Language-Team: Georgian <(nothing)>\n"
 "Language: ka\n"
@@ -1939,7 +1939,7 @@ msgstr ""
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:177
 msgid "Log filter actions"
-msgstr ""
+msgstr "ჟურნალის ფილტრის ქმდებები"
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:178
 msgid "Log filter actions to the specified log file."
@@ -3210,7 +3210,7 @@ msgstr ""
 #: ../src/modules/mailto-handler/evolution-mailto-handler.c:208
 #: ../src/shell/e-shell-window-private.c:265
 msgid "Evolution"
-msgstr ""
+msgstr "Evolution"
 
 #: ../data/org.gnome.Evolution.appdata.xml.in.in.h:2
 #: ../data/org.gnome.Evolution.desktop.in.in.h:4
@@ -3377,7 +3377,7 @@ msgstr "გამართვა"
 #: ../data/ui/evolution-shortcuts.ui.h:15
 msgctxt "shortcut window"
 msgid "Open new window"
-msgstr ""
+msgstr "ახალ ფანჯრის გახსნა"
 
 #: ../data/ui/evolution-shortcuts.ui.h:16
 msgctxt "shortcut window"
@@ -3507,7 +3507,7 @@ msgstr ""
 #: ../data/ui/evolution-shortcuts.ui.h:41
 msgctxt "shortcut window"
 msgid "Day View"
-msgstr ""
+msgstr "დღის ხედი"
 
 #: ../data/ui/evolution-shortcuts.ui.h:42
 msgctxt "shortcut window"
@@ -3517,12 +3517,12 @@ msgstr ""
 #: ../data/ui/evolution-shortcuts.ui.h:43
 msgctxt "shortcut window"
 msgid "Week View"
-msgstr ""
+msgstr "კვირის ხედი"
 
 #: ../data/ui/evolution-shortcuts.ui.h:44
 msgctxt "shortcut window"
 msgid "Month View"
-msgstr ""
+msgstr "თვის ხედი"
 
 #: ../data/ui/evolution-shortcuts.ui.h:45
 msgctxt "shortcut window"
@@ -3537,7 +3537,7 @@ msgstr "კონტაქტები"
 #: ../data/ui/evolution-shortcuts.ui.h:47
 msgctxt "shortcut window"
 msgid "Create a new contact"
-msgstr ""
+msgstr "ახალი კონტაქტის შექმნა"
 
 #: ../data/ui/evolution-shortcuts.ui.h:48
 msgctxt "shortcut window"
@@ -4108,12 +4108,12 @@ msgstr ""
 
 #: ../src/addressbook/gui/contact-editor/contact-editor.ui.h:31
 msgid "Home Page:"
-msgstr ""
+msgstr "პირადი ვებგვერდი:"
 
 #: ../src/addressbook/gui/contact-editor/contact-editor.ui.h:32
 #: ../src/modules/cal-config-google/e-cal-config-google.c:94
 msgid "Calendar:"
-msgstr ""
+msgstr "კალენდარი:"
 
 #: ../src/addressbook/gui/contact-editor/contact-editor.ui.h:33
 msgid "Free/Busy:"
@@ -4657,7 +4657,7 @@ msgstr ""
 #: ../src/addressbook/gui/widgets/addresstypes.xml.h:1
 #: ../src/modules/addressbook/e-book-shell-view-actions.c:1309
 msgid "Name contains"
-msgstr ""
+msgstr "სახელი შეიცავს"
 
 #: ../src/addressbook/gui/widgets/addresstypes.xml.h:2
 #: ../src/modules/addressbook/e-book-shell-view-actions.c:1302
@@ -4717,7 +4717,7 @@ msgstr ""
 
 #: ../src/addressbook/gui/widgets/eab-contact-formatter.c:453
 msgid "SIP"
-msgstr ""
+msgstr "SIP"
 
 #: ../src/addressbook/gui/widgets/eab-contact-formatter.c:685
 msgid "List Members:"
@@ -4747,11 +4747,11 @@ msgstr "კატეგორიები"
 
 #: ../src/addressbook/gui/widgets/eab-contact-formatter.c:927
 msgid "AIM"
-msgstr ""
+msgstr "AIM"
 
 #: ../src/addressbook/gui/widgets/eab-contact-formatter.c:928
 msgid "GroupWise"
-msgstr ""
+msgstr "GroupWise"
 
 #: ../src/addressbook/gui/widgets/eab-contact-formatter.c:929
 msgid "ICQ"
@@ -4763,7 +4763,7 @@ msgstr "Jabber"
 
 #: ../src/addressbook/gui/widgets/eab-contact-formatter.c:931
 msgid "MSN"
-msgstr ""
+msgstr "MSN"
 
 #: ../src/addressbook/gui/widgets/eab-contact-formatter.c:932
 msgid "Yahoo"
@@ -4771,11 +4771,11 @@ msgstr "Yahoo"
 
 #: ../src/addressbook/gui/widgets/eab-contact-formatter.c:933
 msgid "Gadu-Gadu"
-msgstr ""
+msgstr "Gadu-Gadu"
 
 #: ../src/addressbook/gui/widgets/eab-contact-formatter.c:934
 msgid "Skype"
-msgstr ""
+msgstr "Skype"
 
 #: ../src/addressbook/gui/widgets/eab-contact-formatter.c:935
 msgid "Twitter"
@@ -4815,7 +4815,7 @@ msgstr "მმართველი"
 #: ../src/addressbook/gui/widgets/eab-contact-formatter.c:1004
 #: ../src/addressbook/gui/widgets/e-addressbook-view.etspec.h:40
 msgid "Assistant"
-msgstr ""
+msgstr "დამხმარე"
 
 #: ../src/addressbook/gui/widgets/eab-contact-formatter.c:1005
 msgid "Video Chat"
@@ -4843,7 +4843,7 @@ msgstr ""
 #: ../src/addressbook/gui/widgets/eab-contact-formatter.c:1053
 #: ../src/addressbook/gui/widgets/e-addressbook-view.etspec.h:44
 msgid "Spouse"
-msgstr ""
+msgstr "მეუღლე"
 
 #: ../src/addressbook/gui/widgets/eab-contact-formatter.c:1063
 msgid "Personal"
@@ -5149,7 +5149,7 @@ msgstr ""
 
 #: ../src/addressbook/gui/widgets/e-addressbook-view.etspec.h:10
 msgid "Business Phone"
-msgstr ""
+msgstr "სამსახურის ტელეფონი"
 
 #: ../src/addressbook/gui/widgets/e-addressbook-view.etspec.h:11
 msgid "Business Phone 2"
@@ -5157,7 +5157,7 @@ msgstr ""
 
 #: ../src/addressbook/gui/widgets/e-addressbook-view.etspec.h:12
 msgid "Business Fax"
-msgstr ""
+msgstr "სამსახურის ფაქსი"
 
 #: ../src/addressbook/gui/widgets/e-addressbook-view.etspec.h:13
 msgid "Callback Phone"
@@ -5165,7 +5165,7 @@ msgstr ""
 
 #: ../src/addressbook/gui/widgets/e-addressbook-view.etspec.h:14
 msgid "Car Phone"
-msgstr ""
+msgstr "მანქანის ტელეფონი"
 
 #: ../src/addressbook/gui/widgets/e-addressbook-view.etspec.h:15
 msgid "Company Phone"
@@ -5173,7 +5173,7 @@ msgstr ""
 
 #: ../src/addressbook/gui/widgets/e-addressbook-view.etspec.h:16
 msgid "Home Phone"
-msgstr ""
+msgstr "სახლის ტელეფონი"
 
 #: ../src/addressbook/gui/widgets/e-addressbook-view.etspec.h:17
 msgid "Home Phone 2"
@@ -5181,7 +5181,7 @@ msgstr ""
 
 #: ../src/addressbook/gui/widgets/e-addressbook-view.etspec.h:18
 msgid "Home Fax"
-msgstr ""
+msgstr "სახლის ფაქსი"
 
 #: ../src/addressbook/gui/widgets/e-addressbook-view.etspec.h:19
 msgid "ISDN Phone"
@@ -5213,7 +5213,7 @@ msgstr "რადიო"
 
 #: ../src/addressbook/gui/widgets/e-addressbook-view.etspec.h:26
 msgid "Telex"
-msgstr ""
+msgstr "Telex"
 
 #. Translators: This is a vcard standard and stands for the type of
 #. phone used by the hearing impaired. TTY stands for "teletype"
@@ -5437,7 +5437,7 @@ msgstr ""
 #: ../src/addressbook/util/eab-book-util.c:72
 msgctxt "addressbook-label"
 msgid "AIM"
-msgstr ""
+msgstr "AIM"
 
 #: ../src/addressbook/util/eab-book-util.c:73
 msgctxt "addressbook-label"
@@ -5452,12 +5452,12 @@ msgstr "Yahoo"
 #: ../src/addressbook/util/eab-book-util.c:75
 msgctxt "addressbook-label"
 msgid "Gadu-Gadu"
-msgstr ""
+msgstr "Gadu-Gadu"
 
 #: ../src/addressbook/util/eab-book-util.c:76
 msgctxt "addressbook-label"
 msgid "MSN"
-msgstr ""
+msgstr "MSN"
 
 #: ../src/addressbook/util/eab-book-util.c:77
 msgctxt "addressbook-label"
@@ -5467,12 +5467,12 @@ msgstr "ICQ"
 #: ../src/addressbook/util/eab-book-util.c:78
 msgctxt "addressbook-label"
 msgid "GroupWise"
-msgstr ""
+msgstr "GroupWise"
 
 #: ../src/addressbook/util/eab-book-util.c:79
 msgctxt "addressbook-label"
 msgid "Skype"
-msgstr ""
+msgstr "Skype"
 
 #: ../src/addressbook/util/eab-book-util.c:80
 msgctxt "addressbook-label"
@@ -5482,7 +5482,7 @@ msgstr "Twitter"
 #: ../src/addressbook/util/eab-book-util.c:81
 msgctxt "addressbook-label"
 msgid "Google Talk"
-msgstr ""
+msgstr "Google Talk"
 
 #: ../src/addressbook/util/eab-book-util.c:82
 msgctxt "addressbook-label"
@@ -5506,7 +5506,7 @@ msgstr "ელ-ფოსტა"
 #: ../src/addressbook/util/eab-book-util.c:172
 msgctxt "addressbook-label"
 msgid "SIP"
-msgstr ""
+msgstr "SIP"
 
 #. To Translators:
 #. * if an IM address type is not one of the predefined types,
@@ -6256,7 +6256,7 @@ msgstr "ორგანიზატორი"
 #: ../src/calendar/gui/e-meeting-time-sel.etspec.h:2
 #: ../src/calendar/gui/tasktypes.xml.in.h:6
 msgid "Attendee"
-msgstr ""
+msgstr "მონაწილე"
 
 #: ../src/calendar/gui/caltypes.xml.in.h:14
 #: ../src/calendar/gui/e-cal-list-view.etspec.h:5
@@ -6364,12 +6364,12 @@ msgstr "არცერთი"
 #: ../src/calendar/gui/comp-util.c:1679
 msgctxt "iCalendarStatus"
 msgid "Tentative"
-msgstr ""
+msgstr "სავარაუდო"
 
 #: ../src/calendar/gui/comp-util.c:1680
 msgctxt "iCalendarStatus"
 msgid "Confirmed"
-msgstr ""
+msgstr "დადასტურდა"
 
 #: ../src/calendar/gui/comp-util.c:1682
 msgctxt "iCalendarStatus"
@@ -6420,7 +6420,7 @@ msgstr "მიღებულია"
 #: ../src/calendar/gui/e-meeting-store.c:204
 #: ../src/modules/itip-formatter/itip-view.c:6822
 msgid "Declined"
-msgstr ""
+msgstr "უარყოფილია"
 
 #: ../src/calendar/gui/comp-util.c:1951
 #: ../src/calendar/gui/e-meeting-list-view.c:207
@@ -6428,7 +6428,7 @@ msgstr ""
 #: ../src/calendar/gui/e-meeting-store.c:206
 #: ../src/calendar/gui/e-meeting-time-sel.c:523
 msgid "Tentative"
-msgstr ""
+msgstr "სავარაუდო"
 
 #: ../src/calendar/gui/comp-util.c:1952
 #: ../src/calendar/gui/e-meeting-list-view.c:208
@@ -7558,7 +7558,7 @@ msgstr ""
 #: ../src/calendar/gui/e-comp-editor-memo.c:59
 #: ../src/calendar/gui/e-comp-editor-memo.c:88
 msgid "New note"
-msgstr ""
+msgstr "ახალი შენიშვნა"
 
 #: ../src/calendar/gui/e-comp-editor-memo.c:220
 msgid ""
@@ -7604,7 +7604,7 @@ msgstr ""
 #: ../src/e-util/e-attachment-paned.c:180 ../src/mail/message-list.etspec.h:4
 msgid "Attachment"
 msgid_plural "Attachments"
-msgstr[0] ""
+msgstr[0] "დანართი"
 
 #: ../src/calendar/gui/e-comp-editor-page-attachments.c:201
 #: ../src/e-util/e-attachment.c:2469
@@ -7816,7 +7816,7 @@ msgstr "წამი"
 #: ../src/calendar/gui/e-comp-editor-page-recurrence.c:595
 msgctxt "ECompEditorPageRecur"
 msgid "third"
-msgstr ""
+msgstr "მესამე"
 
 #. TRANSLATORS: Entire string is for example: This appointment recurs/Every [x] month(s) on the [fourth] [Monday] [forever]'
 #. * (dropdown menu options are in [square brackets]). This means that after 'fourth', either the string 'day' or
@@ -7825,7 +7825,7 @@ msgstr ""
 #: ../src/calendar/gui/e-comp-editor-page-recurrence.c:600
 msgctxt "ECompEditorPageRecur"
 msgid "fourth"
-msgstr ""
+msgstr "მეოთხე"
 
 #. TRANSLATORS: Entire string is for example: This appointment recurs/Every [x] month(s) on the [fifth] [Monday] [forever]'
 #. * (dropdown menu options are in [square brackets]). This means that after 'fifth', either the string 'day' or
@@ -7834,7 +7834,7 @@ msgstr ""
 #: ../src/calendar/gui/e-comp-editor-page-recurrence.c:605
 msgctxt "ECompEditorPageRecur"
 msgid "fifth"
-msgstr ""
+msgstr "მეხუთე"
 
 #. TRANSLATORS: Entire string is for example: This appointment recurs/Every [x] month(s) on the [last] [Monday] [forever]'
 #. * (dropdown menu options are in [square brackets]). This means that after 'last', either the string 'day' or
@@ -8115,7 +8115,7 @@ msgstr ""
 #: ../src/calendar/gui/e-comp-editor-page-reminders.c:2034
 msgctxt "cal-reminders"
 msgid "_minutes"
-msgstr ""
+msgstr "_წუთი"
 
 #: ../src/calendar/gui/e-comp-editor-page-reminders.c:2040
 msgid "_Add time"
@@ -8245,7 +8245,7 @@ msgstr ""
 #: ../src/calendar/gui/e-comp-editor-property-parts.c:388
 msgctxt "ECompEditor"
 msgid "_Location:"
-msgstr ""
+msgstr "_მდებარეობა:"
 
 #: ../src/calendar/gui/e-comp-editor-property-parts.c:522
 msgctxt "ECompEditor"
@@ -8666,7 +8666,7 @@ msgstr ""
 #: ../src/calendar/gui/e-estimated-duration-entry.c:247
 msgctxt "estimated-duration"
 msgid "_minutes"
-msgstr ""
+msgstr "_წუთი"
 
 #: ../src/calendar/gui/e-estimated-duration-entry.c:268
 msgid "_Set"
@@ -9150,7 +9150,7 @@ msgstr ""
 #: ../src/calendar/gui/itip-utils.c:1328 ../src/calendar/gui/itip-utils.c:1376
 msgctxt "Meeting"
 msgid "Declined"
-msgstr ""
+msgstr "უარყოფილია"
 
 #. Translators: This is part of the subject
 #. * line of a meeting request or update email.
@@ -9352,7 +9352,7 @@ msgstr ""
 #: ../src/calendar/gui/print.c:3735
 #, c-format
 msgid "Status: %s"
-msgstr ""
+msgstr "სტატუსი: %s"
 
 #: ../src/calendar/gui/print.c:3751
 #, c-format
@@ -9441,7 +9441,7 @@ msgstr ""
 #: ../src/modules/calendar/e-cal-base-shell-backend.c:279
 #: ../src/modules/calendar/e-cal-shell-view-actions.c:181
 msgid "New Calendar"
-msgstr ""
+msgstr "ახალი კალენდარი"
 
 #: ../src/calendar/importers/icalendar-importer.c:337
 #: ../src/modules/accounts-window/e-accounts-window-editors.c:488
@@ -11915,7 +11915,7 @@ msgstr ""
 
 #: ../src/em-format/e-mail-formatter-secure-button.c:77
 msgid "Unencrypted"
-msgstr ""
+msgstr "დაუშიფრავი"
 
 #: ../src/em-format/e-mail-formatter-secure-button.c:77
 msgid ""
@@ -12010,14 +12010,14 @@ msgstr ""
 #: ../src/em-format/e-mail-part-headers.c:49
 #: ../src/modules/mail/em-mailer-prefs.c:74
 msgid "Cc"
-msgstr ""
+msgstr "ასლი"
 
 #: ../src/em-format/e-mail-formatter-utils.c:216
 #: ../src/em-format/e-mail-formatter-utils.c:241
 #: ../src/em-format/e-mail-part-headers.c:50
 #: ../src/modules/mail/em-mailer-prefs.c:75
 msgid "Bcc"
-msgstr ""
+msgstr "ფარულიასლი"
 
 #: ../src/em-format/e-mail-formatter-utils.c:583
 msgid "GPG signed"
@@ -12146,7 +12146,7 @@ msgstr ""
 #: ../src/modules/mail/em-mailer-prefs.c:79
 #: ../src/plugins/face/org-gnome-face.eplug.xml.h:1
 msgid "Face"
-msgstr ""
+msgstr "სახე"
 
 #: ../src/em-format/e-mail-part-secure-button.c:96
 #, c-format
@@ -12197,7 +12197,7 @@ msgstr ""
 #: ../src/e-util/e-accounts-window.c:921
 #: ../src/modules/calendar/e-calendar-preferences.ui.h:101
 msgid "Task Lists"
-msgstr ""
+msgstr "ამოცანების სიები"
 
 #: ../src/e-util/e-accounts-window.c:1409 ../src/e-util/filter.ui.h:23
 #: ../src/mail/e-mail-account-tree-view.c:84
@@ -12343,7 +12343,7 @@ msgstr ""
 #: ../src/e-util/e-attachment.c:2757
 #, c-format
 msgid "Could not open “%s”"
-msgstr ""
+msgstr "%s-ის გახსნის შეცდომა"
 
 #: ../src/e-util/e-attachment.c:2760
 #, c-format
@@ -12749,7 +12749,7 @@ msgstr "უკრაინული"
 #. Translators: Character set "Hebrew, Visual"
 #: ../src/e-util/e-charset.c:102
 msgid "Visual"
-msgstr ""
+msgstr "ვიზუალი"
 
 #: ../src/e-util/e-charset-combo-box.c:97
 msgid "Character Encoding"
@@ -14227,7 +14227,7 @@ msgstr ""
 #: ../src/e-util/e-html-editor-actions.c:2327
 #: ../src/e-util/e-html-editor-cell-dialog.c:448
 msgid "_Table"
-msgstr ""
+msgstr "_ცხრილი"
 
 #: ../src/e-util/e-html-editor-actions.c:2439 ../src/e-util/e-html-editor.c:973
 msgid "Editing Mode"
@@ -14359,7 +14359,7 @@ msgstr "გამჭვირვალე"
 
 #: ../src/e-util/e-html-editor-cell-dialog.c:633
 msgid "C_olor:"
-msgstr ""
+msgstr "ფერი:"
 
 #: ../src/e-util/e-html-editor-cell-dialog.c:640
 #: ../src/e-util/e-html-editor-image-dialog.c:565
@@ -14388,7 +14388,7 @@ msgstr ""
 
 #: ../src/e-util/e-html-editor-cell-dialog.c:689
 msgid "Cell Properties"
-msgstr ""
+msgstr "უჯრედის თვისებები"
 
 #: ../src/e-util/e-html-editor-find-dialog.c:67
 #: ../src/e-util/e-html-editor-replace-dialog.c:68
@@ -14461,7 +14461,7 @@ msgstr "_სიმაღლე:"
 
 #: ../src/e-util/e-html-editor-image-dialog.c:659
 msgid "Preserve aspect ratio"
-msgstr ""
+msgstr "პროპორციების შენარჩუნება"
 
 #: ../src/e-util/e-html-editor-image-dialog.c:691
 msgid "_X-Padding:"
@@ -14515,7 +14515,7 @@ msgstr "ქაღალდი"
 
 #: ../src/e-util/e-html-editor-page-dialog.c:98
 msgid "Ribbon"
-msgstr ""
+msgstr "ლენტა"
 
 #: ../src/e-util/e-html-editor-page-dialog.c:107
 msgid "Midnight"
@@ -14582,7 +14582,7 @@ msgstr ""
 
 #: ../src/e-util/e-html-editor-page-dialog.c:567
 msgid "Page Properties"
-msgstr ""
+msgstr "გვერდის თვისებები"
 
 #: ../src/e-util/e-html-editor-paragraph-dialog.c:82
 msgid "_Style:"
@@ -14713,7 +14713,7 @@ msgstr "გამოსახულება:"
 
 #: ../src/e-util/e-html-editor-table-dialog.c:734
 msgid "Table Properties"
-msgstr ""
+msgstr "ცხრილის თვისებები"
 
 #: ../src/e-util/e-html-editor-text-dialog.c:268
 msgid "Si_ze:"
@@ -14721,7 +14721,7 @@ msgstr "ზო_მა:"
 
 #: ../src/e-util/e-html-editor-text-dialog.c:283
 msgid "Text Properties"
-msgstr ""
+msgstr "ტექსტის თვისებები"
 
 #: ../src/e-util/e-import-assistant.c:285
 msgid ""
@@ -14895,7 +14895,7 @@ msgstr ""
 
 #: ../src/e-util/e-map.c:883
 msgid "World Map"
-msgstr ""
+msgstr "მსოფლიო რუკა"
 
 #: ../src/e-util/e-map.c:886
 msgid ""
@@ -15079,7 +15079,7 @@ msgstr ""
 
 #: ../src/e-util/e-name-selector-dialog.c:337
 msgid "_Search:"
-msgstr ""
+msgstr "ძებნა:"
 
 #: ../src/e-util/e-name-selector-dialog.c:363
 #: ../src/e-util/e-name-selector-dialog.c:1324
@@ -15865,7 +15865,7 @@ msgstr "ყველაფრის მონიშვნა"
 
 #: ../src/e-util/e-text.c:2103
 msgid "Input Methods"
-msgstr ""
+msgstr "შეტანის მეთოდები"
 
 #. Put the "UTC" entry at the top of the combo's list.
 #: ../src/e-util/e-timezone-dialog.c:270 ../src/e-util/e-timezone-dialog.c:510
@@ -16432,7 +16432,7 @@ msgstr "საფოსტო ყუთი"
 #: ../src/mail/importers/kmail-libs.c:144
 #: ../src/modules/mail/e-mail-shell-view-private.c:1034
 msgid "Drafts"
-msgstr ""
+msgstr "მონახაზები"
 
 #. E_MAIL_LOCAL_FOLDER_DRAFTS
 #: ../src/libemail-engine/e-mail-session.c:123
@@ -16440,7 +16440,7 @@ msgstr ""
 #: ../src/mail/importers/kmail-libs.c:140
 #: ../src/modules/mail/e-mail-shell-view-private.c:1038
 msgid "Outbox"
-msgstr ""
+msgstr "გამავლები"
 
 #. E_MAIL_LOCAL_FOLDER_OUTBOX
 #: ../src/libemail-engine/e-mail-session.c:124
@@ -16840,7 +16840,7 @@ msgstr ""
 #: ../src/mail/mail-config.ui.h:30
 msgctxt "ReplyForward"
 msgid "Attachment"
-msgstr ""
+msgstr "დანართი"
 
 #: ../src/mail/e-mail-config-composing-page.c:121
 #: ../src/mail/mail-config.ui.h:31
@@ -16982,7 +16982,7 @@ msgstr ""
 
 #: ../src/mail/e-mail-config-defaults-page.c:827
 msgid "_Restore Defaults"
-msgstr ""
+msgstr "_ნაგულისხმევი მნიშვნელობების აღდგენა"
 
 #: ../src/mail/e-mail-config-defaults-page.c:844
 msgid "_Lookup Folders"
@@ -17255,7 +17255,7 @@ msgstr ""
 
 #: ../src/mail/e-mail-config-summary-page.c:374
 msgid "Full Name:"
-msgstr ""
+msgstr "სრული სახელი:"
 
 #: ../src/mail/e-mail-config-summary-page.c:388
 msgid "Email Address:"
@@ -17429,7 +17429,7 @@ msgstr ""
 #: ../src/mail/e-mail-free-form-exp.c:238
 msgctxt "ffe"
 msgid "Attachment"
-msgstr ""
+msgstr "დანართი"
 
 #: ../src/mail/e-mail-free-form-exp.c:488
 msgctxt "ffe"
@@ -17557,7 +17557,7 @@ msgstr "სათაურები"
 #: ../src/mail/e-mail-printer.c:145
 #, c-format
 msgid "Page %d of %d"
-msgstr ""
+msgstr "%d-ე გვერდი %d-დან"
 
 #: ../src/mail/e-mail-reader.c:360 ../src/mail/filtertypes.xml.in.h:68
 msgid "Move to Folder"
@@ -18464,7 +18464,7 @@ msgstr ""
 
 #: ../src/mail/em-composer-utils.c:4208
 msgid "_Default"
-msgstr ""
+msgstr "_ნაგულისხმები"
 
 #: ../src/mail/em-composer-utils.c:4212
 msgid "Attach_ment"
@@ -18952,7 +18952,7 @@ msgstr ""
 
 #: ../src/mail/em-vfolder-editor-rule.c:401
 msgid "Add Folder"
-msgstr ""
+msgstr "საქაღალდის დამატება"
 
 #: ../src/mail/em-vfolder-editor-rule.c:530
 msgid "Search Folder Sources"
@@ -19020,7 +19020,7 @@ msgstr ""
 #: ../src/mail/filtertypes.xml.in.h:12 ../src/mail/message-list.etspec.h:16
 #: ../src/mail/searchtypes.xml.in.h:10 ../src/mail/vfoldertypes.xml.in.h:10
 msgid "Recipients"
-msgstr ""
+msgstr "მიმღები"
 
 #: ../src/mail/filtertypes.xml.in.h:13 ../src/mail/searchtypes.xml.in.h:14
 #: ../src/mail/vfoldertypes.xml.in.h:14
@@ -19527,7 +19527,7 @@ msgstr ""
 
 #: ../src/mail/mail-config.ui.h:37
 msgid "Signatures"
-msgstr ""
+msgstr "ხელმოწერები"
 
 #: ../src/mail/mail-config.ui.h:38
 msgid "_Languages"
@@ -19600,7 +19600,7 @@ msgstr ""
 
 #: ../src/mail/mail-config.ui.h:63
 msgid "Confirmations"
-msgstr ""
+msgstr "დადასტურებები"
 
 #. Translators: Label of a frame with a list of folders for which to use selected account in Send account overrides
 #: ../src/mail/mail-config.ui.h:67
@@ -19874,7 +19874,7 @@ msgstr ""
 #: ../src/modules/mail-config/e-mail-config-remote-accounts.c:303
 #: ../src/modules/mail-config/e-mail-config-smtp-backend.c:247
 msgid "No encryption"
-msgstr ""
+msgstr "დაშიფვრის გარეშე"
 
 #: ../src/mail/mail-config.ui.h:148
 msgid "TLS encryption"
@@ -21042,7 +21042,7 @@ msgstr "_ფოსტა"
 
 #: ../src/modules/accounts-window/e-accounts-window-editors.c:327
 msgid "C_alendar"
-msgstr ""
+msgstr "_კალენდარი"
 
 #: ../src/modules/accounts-window/e-accounts-window-editors.c:476
 #: ../src/modules/addressbook/e-book-shell-backend.c:269
@@ -21160,7 +21160,7 @@ msgstr ""
 #: ../src/modules/addressbook/e-book-shell-backend.c:280
 #: ../src/modules/addressbook/e-book-shell-view-actions.c:1129
 msgid "Create a new contact"
-msgstr ""
+msgstr "ახალი კონტაქტის შექმნა"
 
 #: ../src/modules/addressbook/e-book-shell-backend.c:285
 msgctxt "New"
@@ -21270,7 +21270,7 @@ msgstr ""
 
 #: ../src/modules/addressbook/e-book-shell-view-actions.c:1087
 msgid "Stop loading"
-msgstr ""
+msgstr "ჩატვირთვის შეჩერება"
 
 #: ../src/modules/addressbook/e-book-shell-view-actions.c:1092
 msgid "_Copy Contact To…"
@@ -21336,7 +21336,7 @@ msgstr ""
 #: ../src/modules/calendar/e-cal-shell-view-actions.c:1616
 #: ../src/modules/calendar/e-task-shell-view-actions.c:831
 msgid "_Actions"
-msgstr ""
+msgstr "მოქმედებები"
 
 #: ../src/modules/addressbook/e-book-shell-view-actions.c:1177
 #: ../src/modules/calendar/e-cal-shell-view-actions.c:1652
@@ -21744,7 +21744,7 @@ msgstr ""
 #: ../src/modules/mail-config/e-mail-config-remote-accounts.c:446
 #: ../src/modules/mail-config/e-mail-config-smtp-backend.c:485
 msgid "User name cannot be empty"
-msgstr ""
+msgstr "მომხმარებლის სახელი ცარიელი არ შეიძლება იყოს"
 
 #: ../src/modules/book-config-ldap/evolution-book-config-ldap.c:418
 msgid "Looking up server search bases, please wait…"
@@ -23022,7 +23022,7 @@ msgstr ""
 #: ../src/modules/calendar/e-cal-shell-view-taskpad.c:276
 #: ../src/modules/calendar/e-task-shell-view-actions.c:627
 msgid "task"
-msgstr ""
+msgstr "ამოცანა"
 
 #: ../src/modules/calendar/e-cal-shell-view-taskpad.c:311
 #: ../src/modules/calendar/e-task-shell-view-actions.c:689
@@ -23232,7 +23232,7 @@ msgstr ""
 
 #: ../src/modules/calendar/e-task-shell-view-actions.c:578
 msgid "Do not ask me again"
-msgstr ""
+msgstr "აღარ მკითხო"
 
 #: ../src/modules/calendar/e-task-shell-view-actions.c:696
 msgid "_Delete Task"
@@ -23362,7 +23362,7 @@ msgstr ""
 
 #: ../src/modules/calendar/e-task-shell-view.c:368
 msgid "Delete Tasks"
-msgstr ""
+msgstr "ამოცანების წაშლა"
 
 #: ../src/modules/calendar/e-task-shell-view.c:370
 msgid "Delete Task"
@@ -24484,7 +24484,7 @@ msgstr ""
 #: ../src/modules/mail/e-mail-shell-backend.c:989
 msgctxt "NetworkMonitor"
 msgid "base"
-msgstr ""
+msgstr "ფუძე"
 
 #. Translators: One of the known implementation names of the GNetworkMonitor. Either translate
 #. it to some user-friendly form, or keep it as is.
@@ -26565,7 +26565,7 @@ msgstr "ახალი მდებარეობა"
 
 #: ../src/plugins/publish-calendar/url-editor-dialog.c:542
 msgid "Edit Location"
-msgstr ""
+msgstr "მდებარეობის ჩასწორება"
 
 #. Translators: the %F %T is the third argument for a
 #. * strftime function.  It lets you define the formatting
@@ -26588,7 +26588,7 @@ msgstr ""
 
 #: ../src/plugins/save-calendar/csv-format.c:368
 msgid "Contact List"
-msgstr ""
+msgstr "კონტაქტების სია"
 
 #: ../src/plugins/save-calendar/csv-format.c:369
 msgid "Start"
@@ -26649,7 +26649,7 @@ msgstr ""
 
 #: ../src/plugins/save-calendar/org-gnome-save-calendar.eplug.xml.h:1
 msgid "Save Selected"
-msgstr ""
+msgstr "მონიშნულის შენახვა"
 
 #: ../src/plugins/save-calendar/org-gnome-save-calendar.eplug.xml.h:2
 msgid "Save a calendar or task list to disk."
@@ -26825,7 +26825,7 @@ msgstr ""
 
 #: ../src/shell/e-shell-window-actions.c:354
 msgid "Categories Editor"
-msgstr ""
+msgstr "კატეგორიების რედაქტორი"
 
 #: ../src/shell/e-shell-window-actions.c:658
 msgid "Bug Buddy is not installed."
@@ -26954,7 +26954,7 @@ msgstr "კლავიატურის მალსახმობები"
 
 #: ../src/shell/e-shell-window-actions.c:1072
 msgid "Show keyboard shortcuts"
-msgstr ""
+msgstr "კლავიატურის მალსახმობების ჩვენება"
 
 #: ../src/shell/e-shell-window-actions.c:1077
 msgid "Show _WebKit GPU information"
@@ -27411,7 +27411,7 @@ msgstr ""
 #: ../src/smime/gui/certificate-manager.c:111
 #: ../src/smime/gui/certificate-manager.c:130
 msgid "Issued By"
-msgstr ""
+msgstr "გამომცემელი"
 
 #: ../src/smime/gui/certificate-manager.c:91
 #: ../src/smime/gui/certificate-manager.c:112
@@ -27551,12 +27551,12 @@ msgstr ""
 #: ../src/smime/gui/certificate-manager.c:1121
 msgctxt "CamelTrust"
 msgid "Fully"
-msgstr ""
+msgstr "სრულად"
 
 #: ../src/smime/gui/certificate-manager.c:1123
 msgctxt "CamelTrust"
 msgid "Ultimately"
-msgstr ""
+msgstr "მთლიანად"
 
 #: ../src/smime/gui/certificate-manager.c:1125
 msgctxt "CamelTrust"
