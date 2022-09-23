@@ -136,8 +136,10 @@ header_bar_button_update_button (EHeaderBarButton *header_bar_button)
 }
 
 static void
-header_bar_button_clicked (EHeaderBarButton *header_bar_button)
+header_bar_button_clicked (GtkWidget *button,
+			   gpointer user_data)
 {
+	EHeaderBarButton *header_bar_button = user_data;
 	GtkAction *action;
 
 	if (header_bar_button->priv->action == NULL)
@@ -147,6 +149,15 @@ header_bar_button_clicked (EHeaderBarButton *header_bar_button)
 
 	if (action != NULL)
 		gtk_action_activate (action);
+}
+
+static void
+header_bar_button_action_activate_cb (GObject *button,
+				      gpointer user_data)
+{
+	GtkAction *action = user_data;
+
+	gtk_action_activate (action);
 }
 
 static void
@@ -178,12 +189,63 @@ header_bar_button_transform_sensitive_cb (GBinding *binding,
 	return TRUE;
 }
 
+typedef struct _ToggleActionData {
+	GWeakRef *button_weakref;
+	gulong handler_id;
+} ToggleActionData;
+
+static void
+toggle_action_data_free (gpointer ptr,
+			 GClosure *closure)
+{
+	ToggleActionData *tad = ptr;
+
+	if (tad) {
+		e_weak_ref_free (tad->button_weakref);
+		g_free (tad);
+	}
+}
+
+static void
+header_button_action_notify_active_cb (GObject *action,
+				       GParamSpec *param,
+				       gpointer user_data)
+{
+	ToggleActionData *tad = user_data;
+	GtkToggleButton *button;
+	gboolean active = FALSE;
+
+	button = g_weak_ref_get (tad->button_weakref);
+	if (!button)
+		return;
+
+	g_object_get (action, "active", &active, NULL);
+
+	/* The "clicked" callback calls gtk_action_activate(), which, in case
+	   of the toggle action, means to flip the option, thus it calls a notification
+	   about action's 'active' property change, which leads back here, causing
+	   a busy loop though the signal handlers. Blocking the handler breaks the loop. */
+	if (tad->handler_id)
+		g_signal_handler_block (button, tad->handler_id);
+
+	if ((gtk_toggle_button_get_active (button) ? 1 : 0) != (active ? 1 : 0))
+		gtk_toggle_button_set_active (button, active);
+
+	if (tad->handler_id)
+		g_signal_handler_unblock (button, tad->handler_id);
+
+	g_clear_object (&button);
+}
+
 static GtkWidget *
 header_bar_button_add_action (EHeaderBarButton *header_bar_button,
 			      const gchar *label,
-			      GtkAction *action)
+			      GtkAction *action,
+			      GCallback clicked_cb,
+			      gpointer clicked_cb_user_data)
 {
 	GtkWidget *button;
+	gulong clicked_handler = 0;
 
 	if (GTK_IS_TOGGLE_ACTION (action))
 		button = gtk_toggle_button_new_with_label (label);
@@ -194,6 +256,11 @@ header_bar_button_add_action (EHeaderBarButton *header_bar_button,
 
 	gtk_box_pack_start (GTK_BOX (header_bar_button), button, FALSE, FALSE, 0);
 
+	if (clicked_cb) {
+		clicked_handler = g_signal_connect_object (
+			button, "clicked", clicked_cb, clicked_cb_user_data, 0);
+	}
+
 	if (action) {
 		e_binding_bind_property_full (
 			action, "sensitive",
@@ -203,10 +270,17 @@ header_bar_button_add_action (EHeaderBarButton *header_bar_button,
 			NULL, NULL, NULL);
 
 		if (GTK_IS_TOGGLE_ACTION (action)) {
-			e_binding_bind_property (
-				action, "active",
-				button, "active",
-				G_BINDING_SYNC_CREATE);
+			ToggleActionData *tad;
+
+			gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (button),
+				gtk_toggle_action_get_active (GTK_TOGGLE_ACTION (action)));
+
+			tad = g_new0 (ToggleActionData, 1);
+			tad->button_weakref = e_weak_ref_new (button);
+			tad->handler_id = clicked_handler;
+
+			g_signal_connect_data (action, "notify::active",
+				G_CALLBACK (header_button_action_notify_active_cb), tad, toggle_action_data_free, 0);
 		}
 
 		header_bar_button_update_button_for_action (GTK_BUTTON (button), action);
@@ -278,16 +352,14 @@ header_bar_button_constructed (GObject *object)
 
 	header_bar_button->priv->button = header_bar_button_add_action (header_bar_button,
 		header_bar_button->priv->label,
-		header_bar_button->priv->action);
+		header_bar_button->priv->action,
+		G_CALLBACK (header_bar_button_clicked),
+		header_bar_button);
 
 	/* TODO: GTK4 port: do not use linked buttons
 	 * https://developer.gnome.org/hig/patterns/containers/header-bars.html#button-grouping */
 	style_context = gtk_widget_get_style_context (GTK_WIDGET (header_bar_button));
 	gtk_style_context_add_class (style_context, "linked");
-
-	g_signal_connect_swapped (
-		header_bar_button->priv->button, "clicked",
-		G_CALLBACK (header_bar_button_clicked), header_bar_button);
 }
 
 static void
@@ -393,17 +465,11 @@ e_header_bar_button_add_action (EHeaderBarButton *header_bar_button,
 				const gchar *label,
 				GtkAction *action)
 {
-	GtkWidget *button;
-
 	g_return_if_fail (E_IS_HEADER_BAR_BUTTON (header_bar_button));
 	g_return_if_fail (GTK_IS_ACTION (action));
 
-	button = header_bar_button_add_action (header_bar_button, label, action);
-
-	g_signal_connect_object (
-		button, "clicked",
-		G_CALLBACK (gtk_action_activate), action,
-		G_CONNECT_SWAPPED);
+	header_bar_button_add_action (header_bar_button, label, action,
+		G_CALLBACK (header_bar_button_action_activate_cb), action);
 }
 
 /**
