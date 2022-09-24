@@ -33,8 +33,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: manual_evolution\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2022-08-15 18:22+0000\n"
-"PO-Revision-Date: 2022-09-04 22:01+0200\n"
+"POT-Creation-Date: 2022-09-23 09:42+0000\n"
+"PO-Revision-Date: 2022-09-24 11:28+0200\n"
 "Last-Translator: Jürgen Benvenuti <gastornis@posteo.org>\n"
 "Language-Team: German <gnome-de@gnome.org>\n"
 "Language: de\n"
@@ -2868,6 +2868,16 @@ msgid ""
 "attribute may need to be added to all items in a group to achieve the "
 "overall desired item order."
 msgstr ""
+"Das Ändern der Anordnung von Werkzeugleisten- oder Menü-Elementen in einigen "
+"<file>.ui</file>-Dateien hat möglicherweise keinen Einfluss auf die "
+"angezeigte Anordnung in <app>Evolution</app>. Als Behelfslösung kann das "
+"Attribut <code>position='top'</code> einigen Elementen hinzugefügt werden (z."
+"B. <code>toolitem</code> und nicht-leeren <code>placeholder</code>-"
+"Elementen), wodurch diese vor anderen Elementen in der Gruppe platziert "
+"werden. Dadurch entspricht ihre Anordnung der Anordnung in der <file>.ui</"
+"file>-Datei. Dieses Attribut muss möglicherweise allen Elementen in einer "
+"Gruppe hinzugefügt werden, um die erwünschte Anordnung der Elemente "
+"durchgängig zu erreichen."
 
 #. (itstool) path: page/p
 #: C/customize-ui-items.page:36
@@ -6290,6 +6300,9 @@ msgid ""
 "OAuth2\">documentation how to set up and troubleshoot OAuth2</link> "
 "authentication."
 msgstr ""
+"Lesen Sie bitte auch die <link href=\"https://wiki.gnome.org/Apps/Evolution/"
+"EWS/OAuth2\">Dokumentation zur Einrichtung und Fehlerbehandlung der OAuth2</"
+"link>-Legitimierung."
 
 #. (itstool) path: info/title
 #: C/mail-account-manage-microsoft-exchange-evo-ews.page:34
@@ -12752,6 +12765,9 @@ msgid ""
 "<gui>Properties</gui>. Example: <code>location:\"On This Computer/Inbox\"</"
 "code>"
 msgstr ""
+"Prüft den Nachrichtenort. Der Wert (Adresse) für den Ort steht in den "
+"<gui>Eigenschaften</gui> des Ordners. Ein Beispiel: <code>location:\"Auf "
+"diesem Rechner/Inbox\"</code>"
 
 #. (itstool) path: td/p
 #: C/mail-searching.page:96
@@ -12826,11 +12842,23 @@ msgid ""
 "code>, <code>=</code> or <code>&gt;</code>, where the <code>&gt;</code> is "
 "the default compare option."
 msgstr ""
+"(**) Zeiträume können relativ geschrieben werden (positive Zahlen bedeuten "
+"<code>in den letzten X Tagen</code>). Negative Zahlen bedeuten Tage in der "
+"Zukunft. So werden beispielsweise die empfangenen Nachrichten aus den "
+"letzten 10 Tagen ermittelt: <code>recv:10</code>. Ein genaues Datum wird im "
+"Format <code>JJJJ-MM-TT</code> (ISO 8601 Format, bevorzugt) angegeben, oder "
+"in einem Datums/Zeit-Datums-Format der lokalen Spracheinstellungen. Wenn das "
+"Verarbeiten der Angabe fehlschlägt, so wird die Bedingung übersprungen. Ein "
+"Datumsvergleich darf zusätzliche Optionen haben. Diese sind <code>&lt;</"
+"code>, <code>=</code> und <code>&gt;</code>. Die Vorgabeoption ist <code>&gt;"
+"</code>."
 
 #. (itstool) path: section/p
 #: C/mail-searching.page:111
 msgid "There are three special tags, which require special notation. They are:"
 msgstr ""
+"Es gibt drei spezielle Schlüsselwörter, die eine besondere Notation "
+"erfordern. Diese sind folgende:"
 
 #. (itstool) path: section/p
 #: C/mail-searching.page:117
@@ -12842,6 +12870,13 @@ msgid ""
 "From and <code>John</code> in the To, while <code>or:(f:Bugzilla t:John)</"
 "code> filters messages from Bugzilla or addressed to John."
 msgstr ""
+"womit das Erstellen von speziellen Ausdrücken ermöglicht wird. Die Standard-"
+"Verknüpfung (und äußerste) ist <code>UND</code>. Um sie in <code>ODER</code> "
+"zu ändern, umschließen Sie den gesamten Filter so: <code>or:(....)</code>. "
+"Zum Beispiel: <code>f:Bugzilla t:John</code> filtert alle Nachrichten, die "
+"<code>Bugzilla</code> im Von-Feld und <code>John</code> im An:-Feld "
+"enthalten. <code>or:(f:Bugzilla t:John)</code> filtert nach Nachrichten von "
+"Bugzilla und nach Nachrichten, welche an John adressiert sind."
 
 #. (itstool) path: section/title
 #: C/mail-searching.page:121
@@ -12871,7 +12906,7 @@ msgstr "Nachrichten von <code>Max</code>"
 #. (itstool) path: td/p
 #: C/mail-searching.page:126
 msgid "<code>s-has-words:\"green blue\"</code>"
-msgstr ""
+msgstr "<code>s-has-words:\"green blue\"</code>"
 
 #. (itstool) path: td/p
 #: C/mail-searching.page:126
@@ -12879,31 +12914,35 @@ msgid ""
 "Messages, which contain both <code>green</code> and <code>blue</code> words "
 "in the Subject"
 msgstr ""
+"Nachrichten, welche beide Wörter <code>grün</code> und <code>blau</code> im "
+"Betreff enthalten"
 
 #. (itstool) path: td/p
 #: C/mail-searching.page:127
 msgid "<code>r-ew:example.com</code>"
-msgstr ""
+msgstr "<code>r-ew:example.com</code>"
 
 #. (itstool) path: td/p
 #: C/mail-searching.page:127
 msgid "Recipients' address (To/Cc headers) ends with <code>example.com</code>"
 msgstr ""
+"Die Empfängeradresse (in den An/Kopie:-Kopfzeilen) endet mit <code>example."
+"com</code>"
 
 #. (itstool) path: td/p
 #: C/mail-searching.page:128
 msgid "<code>h-starts-with:Cc=Alice</code>"
-msgstr ""
+msgstr "<code>h-starts-with:Cc=Alice</code>"
 
 #. (itstool) path: td/p
 #: C/mail-searching.page:128
 msgid "The <code>Cc</code> starts with word <code>Alice</code>"
-msgstr ""
+msgstr "Das Feld <code>Kopie</code> beginnt mit dem Wort <code>Alice</code>"
 
 #. (itstool) path: td/p
 #: C/mail-searching.page:129
 msgid "<code>e:X-Secret-Header</code>"
-msgstr ""
+msgstr "<code>e:X-Secret-Header</code>"
 
 #. (itstool) path: td/p
 #: C/mail-searching.page:129
@@ -12993,7 +13032,7 @@ msgstr "Nachrichten ohne Anlage"
 #. (itstool) path: td/p
 #: C/mail-searching.page:138
 msgid "<code>and:(or:(r:Alice r:Bob) not:(r:Smith))</code>"
-msgstr ""
+msgstr "<code>and:(or:(r:Alice r:Bob) not:(r:Schmitt))</code>"
 
 #. (itstool) path: td/p
 #: C/mail-searching.page:138
@@ -13001,32 +13040,37 @@ msgid ""
 "Messages whose recipient is <code>Alice</code> or <code>Bob</code>, but not "
 "<code>Smith</code>"
 msgstr ""
+"Nachrichten mit den Empfängern <code>Alice</code> oder <code>Bob</code>, "
+"aber nicht mit <code>Schmitt</code>"
 
 #. (itstool) path: td/p
 #: C/mail-searching.page:139
 msgid "<code>f:Bob rcv-&gt;:2020-01-01 rcv-&lt;:2020-12-31</code>"
-msgstr ""
+msgstr "<code>f:Bob rcv-&gt;:2020-01-01 rcv-&lt;:2020-12-31</code>"
 
 #. (itstool) path: td/p
 #: C/mail-searching.page:139
 msgid "Messages from <code>Bob</code>, received during the year 2020"
-msgstr ""
+msgstr "Nachrichten von <code>Bob</code>, die im Jahr 2020 empfangen wurden"
 
 #. (itstool) path: td/p
 #: C/mail-searching.page:140
 msgid ""
 "<code>not:(flag:Seen) f:Bob rcv-&gt;:2020-01-01 rcv-&lt;:2020-12-31</code>"
 msgstr ""
+"<code>not:(flag:Seen) f:Bob rcv-&gt;:2020-01-01 rcv-&lt;:2020-12-31</code>"
 
 #. (itstool) path: td/p
 #: C/mail-searching.page:140
 msgid "Unread messages from <code>Bob</code>, received during the year 2020"
 msgstr ""
+"Ungelesene Nachrichten von <code>Bob</code>, die im Jahr 2020 empfangen "
+"wurden"
 
 #. (itstool) path: td/p
 #: C/mail-searching.page:141
 msgid "<code>flag:Seen a:1 sz-&gt;:1024 f:Bob rcv:31</code>"
-msgstr ""
+msgstr "<code>flag:Seen a:1 sz-&gt;:1024 f:Bob rcv:31</code>"
 
 #. (itstool) path: td/p
 #: C/mail-searching.page:141
@@ -13034,6 +13078,8 @@ msgid ""
 "Read messages with attachment larger than 1MB from <code>Bob</code>, "
 "received during the past 31 days"
 msgstr ""
+"Nachrichten von <code>Bob</code> mit Anhängen größer als 1MB, die in den "
+"letzten 31 Tagen empfangen wurden"
 
 #. (itstool) path: td/p
 #: C/mail-searching.page:142
