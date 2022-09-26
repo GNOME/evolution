@@ -562,9 +562,9 @@ empe_prefer_plain_parse (EMailParserExtension *extension,
 		/* Multiparts can represent a text/html message
 		 * with other things like embedded images, etc. */
 		} else if (camel_content_type_is (ct, "multipart", "*")) {
+			EMailPart *html_mail_part = NULL;
 			GQueue inner_queue = G_QUEUE_INIT;
 			GList *head, *link;
-			gboolean multipart_has_html = FALSE;
 
 			e_mail_parser_parse_part (
 				parser, sp, part_id, cancellable, &inner_queue);
@@ -575,21 +575,33 @@ empe_prefer_plain_parse (EMailParserExtension *extension,
 			for (link = head; link != NULL; link = g_list_next (link)) {
 				EMailPart *mail_part = link->data;
 
-				if (e_mail_part_id_has_substr (mail_part, ".text_html")) {
-					multipart_has_html = TRUE;
+				if (e_mail_part_id_has_substr (mail_part, ".text_html") ||
+				    /* The HTML part as an HTML source code */
+				    (emp_pp->mode == PREFER_SOURCE && e_mail_part_id_has_suffix (mail_part, ".alternative-prefer-plain.-1")) ||
+				    /* The HTML part converted into text/plain */
+				    (emp_pp->mode == ONLY_PLAIN && e_mail_part_id_has_suffix (mail_part, ".alternative-prefer-plain.-1.converted"))) {
+					html_mail_part = mail_part;
 					break;
 				}
 			}
 
-			if (multipart_has_html && !prefer_html) {
+			if (html_mail_part && !prefer_html) {
 				if (emp_pp->show_suppressed) {
 					GQueue suppressed_queue = G_QUEUE_INIT;
+					CamelMimePart *inner_part;
 
-					e_mail_parser_wrap_as_attachment (
-						parser, sp, part_id,
-						&suppressed_queue);
+					html_mail_part->is_hidden = TRUE;
+					inner_part = e_mail_part_ref_mime_part (html_mail_part);
 
-					mark_parts_not_printable (&suppressed_queue);
+					if (inner_part) {
+						e_mail_parser_wrap_as_attachment (
+							parser, inner_part, part_id,
+							&suppressed_queue);
+
+						mark_parts_not_printable (&suppressed_queue);
+
+						g_clear_object (&inner_part);
+					}
 
 					e_queue_transfer (&suppressed_queue, &inner_queue);
 				} else {
@@ -599,7 +611,7 @@ empe_prefer_plain_parse (EMailParserExtension *extension,
 
 			e_queue_transfer (&inner_queue, &work_queue);
 
-			has_html |= multipart_has_html;
+			has_html |= html_mail_part != NULL;
 
 		/* Parse other than 'X' (those are custom types) as an attachment */
 		} else if (ct && ct->subtype && ct->subtype[0] && ct->subtype[0] != 'x' && ct->subtype[0] != 'X') {
