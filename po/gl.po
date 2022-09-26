@@ -20,7 +20,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: evolution-master-po-gl-53747.merged\n"
 "Report-Msgid-Bugs-To: https://gitlab.gnome.org/GNOME/evolution/issues\n"
-"POT-Creation-Date: 2022-09-25 19:31+0000\n"
+"POT-Creation-Date: 2022-09-24 23:09+0000\n"
 "PO-Revision-Date: 2022-09-26 08:03+0200\n"
 "Last-Translator: Fran Dieguez <frandieguez@gnome.org>\n"
 "Language-Team: Galician <Proxecto Trasno <proxecto@trasno.gal>>\n"
@@ -3778,6 +3778,7 @@ msgstr ""
 "de icona para a barra de ferramentas. Cambiar esta opción require reiniciar."
 
 #: ../data/org.gnome.evolution.shell.gschema.xml.in.h:46
+#| msgid "Whether to show phone numbers in the editor"
 msgid "Whether to use header bar in the application"
 msgstr "Indica se usar a barra de cabeceira na aplicación"
 
