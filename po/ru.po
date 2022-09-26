@@ -18,8 +18,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: evolution master\n"
 "Report-Msgid-Bugs-To: https://gitlab.gnome.org/GNOME/evolution/issues\n"
-"POT-Creation-Date: 2022-08-04 09:52+0000\n"
-"PO-Revision-Date: 2022-08-04 13:38+0300\n"
+"POT-Creation-Date: 2022-09-22 10:38+0000\n"
+"PO-Revision-Date: 2022-09-22 21:22+0300\n"
 "Last-Translator: Aleksandr Melman <Alexmelman88@gmail.com>\n"
 "Language-Team: Russian <gnome-cyr@gnome.org>\n"
 "Language: ru\n"
@@ -2903,7 +2903,7 @@ msgid "Visually wrap long lines in composer"
 msgstr "Визуально переносить длинные строки в окне редактирования"
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:292
-#: ../src/composer/e-composer-actions.c:556
+#: ../src/composer/e-composer-actions.c:572
 msgid ""
 "Whether to visually wrap long lines of text to avoid horizontal scrolling"
 msgstr ""
@@ -3698,6 +3698,32 @@ msgstr ""
 "или зарезервированные символы заменяются символом подчеркивания. Вот набор "
 "дополнительных символов, подлежащих замене."
 
+#: ../data/org.gnome.evolution.shell.gschema.xml.in.h:44
+msgid "Override toolbar icon size"
+msgstr "Определение размера значков панели инструментов"
+
+#: ../data/org.gnome.evolution.shell.gschema.xml.in.h:45
+msgid ""
+"Controls the toolbar icon size. The 'default' value lets the system/code "
+"decide what is the best icon size for the toolbar. Changing the option "
+"requires application restart."
+msgstr ""
+"Управляет размером значков панели инструментов. Значение \"по умолчанию\" "
+"позволяет системе/коду решать, какой размер значков лучше всего подходит для "
+"панели инструментов. Изменение параметра требует перезапуска приложения."
+
+#: ../data/org.gnome.evolution.shell.gschema.xml.in.h:46
+msgid "Whether to use header bar in the application"
+msgstr "Должно ли приложение использовать панель заголовков"
+
+#: ../data/org.gnome.evolution.shell.gschema.xml.in.h:47
+msgid ""
+"When enabled, adds buttons to the header bar. This applies to dialogs as "
+"well. Changing the option requires application restart."
+msgstr ""
+"Если включено, добавляет кнопки в панель заголовка. Это относится и к "
+"диалоговым окнам. Изменение опции требует перезапуска приложения."
+
 #: ../data/org.gnome.evolution.spamassassin.gschema.xml.in.h:1
 msgid "Use only local spam tests."
 msgstr "Использовать только локальные спам-тесты."
@@ -3755,7 +3781,7 @@ msgstr ""
 
 #: ../data/org.gnome.Evolution.appdata.xml.in.in.h:1
 #: ../data/org.gnome.Evolution.desktop.in.in.h:1
-#: ../src/mail/e-mail-browser.c:1343
+#: ../src/mail/e-mail-browser.c:1358
 #: ../src/modules/mailto-handler/evolution-mailto-handler.c:208
 #: ../src/shell/e-shell-window-private.c:265
 msgid "Evolution"
@@ -3833,7 +3859,7 @@ msgstr "Календарь"
 #: ../src/mail/importers/kmail-importer.c:249
 #: ../src/mail/importers/pine-importer.c:423
 #: ../src/modules/mail/e-mail-shell-view.c:1608
-#: ../src/smime/gui/certificate-manager.c:1677
+#: ../src/smime/gui/certificate-manager.c:1612
 msgid "Mail"
 msgstr "Почта"
 
@@ -4459,10 +4485,11 @@ msgstr ""
 #. This is only shown if the EActivity has a GCancellable.
 #. no flags
 #: ../src/addressbook/addressbook.error.xml.h:55
-#: ../src/addressbook/gui/contact-editor/e-contact-editor.c:3275
-#: ../src/addressbook/gui/contact-editor/e-contact-editor.c:3505
-#: ../src/addressbook/gui/contact-editor/e-contact-editor.c:4342
-#: ../src/addressbook/gui/contact-editor/e-contact-editor.c:4348
+#: ../src/addressbook/gui/contact-editor/contact-editor.ui.h:13
+#: ../src/addressbook/gui/contact-editor/e-contact-editor.c:3272
+#: ../src/addressbook/gui/contact-editor/e-contact-editor.c:3546
+#: ../src/addressbook/gui/contact-editor/e-contact-editor.c:4381
+#: ../src/addressbook/gui/contact-editor/e-contact-editor.c:4387
 #: ../src/addressbook/gui/contact-editor/e-contact-editor-fullname.c:212
 #: ../src/addressbook/gui/contact-editor/e-contact-quick-add.c:453
 #: ../src/addressbook/gui/contact-editor/fullname.ui.h:14
@@ -4475,12 +4502,12 @@ msgstr ""
 #: ../src/calendar/gui/e-cal-dialogs.c:690
 #: ../src/calendar/gui/e-comp-editor-page-recurrence.c:305
 #: ../src/composer/e-composer-actions.c:242 ../src/e-util/e-activity-bar.c:370
-#: ../src/e-util/e-attachment-dialog.c:289
+#: ../src/e-util/e-attachment-dialog.c:290
 #: ../src/e-util/e-attachment-store.c:658
 #: ../src/e-util/e-attachment-store.c:668
 #: ../src/e-util/e-attachment-store.c:848
 #: ../src/e-util/e-attachment-store.c:854 ../src/e-util/e-attachment-view.c:301
-#: ../src/e-util/e-categories-dialog.c:80 ../src/e-util/e-category-editor.c:168
+#: ../src/e-util/e-categories-dialog.c:81 ../src/e-util/e-category-editor.c:168
 #: ../src/e-util/e-category-editor.c:252 ../src/e-util/e-charset-combo-box.c:99
 #: ../src/e-util/e-collection-account-wizard.c:240
 #: ../src/e-util/e-collection-account-wizard.c:1930
@@ -4491,18 +4518,18 @@ msgstr ""
 #: ../src/e-util/e-html-editor-actions.c:439
 #: ../src/e-util/e-html-editor-actions.c:542
 #: ../src/e-util/e-image-chooser-dialog.c:179
-#: ../src/e-util/e-mail-signature-script-dialog.c:358
+#: ../src/e-util/e-mail-signature-script-dialog.c:360
 #: ../src/e-util/e-passwords.c:474 ../src/e-util/e-rule-context.c:819
 #: ../src/e-util/e-rule-editor.c:184 ../src/e-util/e-rule-editor.c:295
 #: ../src/e-util/e-rule-editor.c:931 ../src/e-util/e-send-options.ui.h:16
 #: ../src/e-util/e-source-config-dialog.c:356
-#: ../src/e-util/e-source-selector-dialog.c:335
+#: ../src/e-util/e-source-selector-dialog.c:336
 #: ../src/e-util/e-table-config.c:540 ../src/e-util/e-table-config.ui.h:3
 #: ../src/e-util/e-timezone-dialog.ui.h:2
 #: ../src/e-util/evolution-source-viewer.c:829 ../src/e-util/e-web-view.c:4006
 #: ../src/e-util/gal-view-instance-save-as-dialog.c:265
-#: ../src/mail/e-mail-config-window.c:310 ../src/mail/e-mail-label-dialog.c:186
-#: ../src/mail/e-mail-tag-editor.c:160 ../src/mail/em-composer-utils.c:4136
+#: ../src/mail/e-mail-config-window.c:310 ../src/mail/e-mail-label-dialog.c:187
+#: ../src/mail/e-mail-tag-editor.c:160 ../src/mail/em-composer-utils.c:4166
 #: ../src/mail/em-folder-selector.c:333 ../src/mail/mail-config.ui.h:2
 #: ../src/mail/mail.error.xml.h:16 ../src/mail/mail-send-recv.c:874
 #: ../src/mail/mail-send-recv.c:955 ../src/mail/mail-vfolder-ui.c:149
@@ -4518,11 +4545,11 @@ msgstr ""
 #: ../src/plugins/save-calendar/save-calendar.c:184
 #: ../src/shell/e-shell-content.c:641 ../src/shell/e-shell-content.c:748
 #: ../src/shell/e-shell-utils.c:69 ../src/shell/e-shell-utils.c:133
-#: ../src/smime/gui/certificate-manager.c:656
-#: ../src/smime/gui/certificate-manager.c:724
-#: ../src/smime/gui/certificate-manager.c:952
-#: ../src/smime/gui/certificate-manager.c:1343
-#: ../src/smime/gui/e-cert-selector.c:239 ../src/smime/gui/smime-ui.ui.h:17
+#: ../src/smime/gui/certificate-manager.c:646
+#: ../src/smime/gui/certificate-manager.c:714
+#: ../src/smime/gui/certificate-manager.c:942
+#: ../src/smime/gui/certificate-manager.c:1277
+#: ../src/smime/gui/e-cert-selector.c:232 ../src/smime/gui/smime-ui.ui.h:17
 msgid "_Cancel"
 msgstr "_Отменить"
 
@@ -4575,38 +4602,31 @@ msgid "Show Certificates"
 msgstr "Показать сертификаты"
 
 #: ../src/addressbook/gui/contact-editor/contact-editor.ui.h:12
-#: ../src/addressbook/gui/contact-editor/e-contact-editor.c:725
-#: ../src/addressbook/gui/contact-editor/e-contact-editor.c:747
-#: ../src/addressbook/gui/contact-editor/e-contact-editor.c:3112
-msgid "Contact Editor"
-msgstr "Редактор контактов"
-
-#: ../src/addressbook/gui/contact-editor/contact-editor.ui.h:13
-#: ../src/addressbook/gui/contact-editor/e-contact-editor.c:3505
-#: ../src/addressbook/gui/contact-list-editor/contact-list-editor.ui.h:3
-#: ../src/addressbook/gui/widgets/eab-contact-merging.c:809
-#: ../src/calendar/calendar.error.xml.h:47
-#: ../src/calendar/gui/e-comp-editor.c:2295
-#: ../src/composer/e-composer-actions.c:242
-#: ../src/composer/e-composer-actions.c:354
-#: ../src/e-util/e-attachment-store.c:848
-#: ../src/e-util/e-attachment-store.c:855
-#: ../src/e-util/e-mail-signature-script-dialog.c:362
-#: ../src/e-util/e-webdav-browser.c:2633 ../src/e-util/e-web-view.c:4006
-#: ../src/e-util/gal-view-instance-save-as-dialog.c:266
-#: ../src/modules/rss/evolution/e-rss-preferences.c:839
-#: ../src/shell/e-shell-content.c:642 ../src/shell/e-shell-utils.c:133
-#: ../src/smime/gui/certificate-manager.c:656
-#: ../src/smime/gui/certificate-manager.c:725
-msgid "_Save"
-msgstr "_Сохранить"
-
-#: ../src/addressbook/gui/contact-editor/contact-editor.ui.h:14
 #: ../src/calendar/gui/e-comp-editor-page-reminders.c:2489
 #: ../src/em-format/e-mail-formatter-attachment.c:322
 #: ../src/mail/mail-config.ui.h:41
 msgid "Options"
 msgstr "Параметры"
+
+#: ../src/addressbook/gui/contact-editor/contact-editor.ui.h:14
+#: ../src/addressbook/gui/contact-editor/e-contact-editor.c:3546
+#: ../src/addressbook/gui/contact-list-editor/contact-list-editor.ui.h:3
+#: ../src/addressbook/gui/widgets/eab-contact-merging.c:809
+#: ../src/calendar/calendar.error.xml.h:47
+#: ../src/calendar/gui/e-comp-editor.c:2303
+#: ../src/composer/e-composer-actions.c:242
+#: ../src/composer/e-composer-actions.c:354
+#: ../src/e-util/e-attachment-store.c:848
+#: ../src/e-util/e-attachment-store.c:855
+#: ../src/e-util/e-mail-signature-script-dialog.c:364
+#: ../src/e-util/e-webdav-browser.c:2633 ../src/e-util/e-web-view.c:4006
+#: ../src/e-util/gal-view-instance-save-as-dialog.c:266
+#: ../src/modules/rss/evolution/e-rss-preferences.c:839
+#: ../src/shell/e-shell-content.c:642 ../src/shell/e-shell-utils.c:133
+#: ../src/smime/gui/certificate-manager.c:646
+#: ../src/smime/gui/certificate-manager.c:715
+msgid "_Save"
+msgstr "_Сохранить"
 
 #: ../src/addressbook/gui/contact-editor/contact-editor.ui.h:15
 #: ../src/e-util/e-misc-utils.c:3725
@@ -4667,7 +4687,7 @@ msgid "_Home Page:"
 msgstr "_Домашняя страница:"
 
 #: ../src/addressbook/gui/contact-editor/contact-editor.ui.h:28
-#: ../src/calendar/gui/e-comp-editor-event.c:881
+#: ../src/calendar/gui/e-comp-editor-event.c:925
 #: ../src/modules/itip-formatter/itip-view.c:2298
 msgid "_Calendar:"
 msgstr "_Календарь:"
@@ -4879,128 +4899,135 @@ msgstr "За_грузить X.509"
 msgid "Certificates"
 msgstr "Сертификаты"
 
-#: ../src/addressbook/gui/contact-editor/e-contact-editor.c:266
-#: ../src/calendar/gui/e-comp-editor.c:2227
+#: ../src/addressbook/gui/contact-editor/e-contact-editor.c:264
+#: ../src/calendar/gui/e-comp-editor.c:2235
 #: ../src/e-util/e-html-editor-actions.c:1161
 msgid "_Undo"
 msgstr "_Отменить"
 
-#: ../src/addressbook/gui/contact-editor/e-contact-editor.c:268
-#: ../src/calendar/gui/e-comp-editor.c:2229 ../src/e-util/e-focus-tracker.c:147
+#: ../src/addressbook/gui/contact-editor/e-contact-editor.c:266
+#: ../src/calendar/gui/e-comp-editor.c:2237 ../src/e-util/e-focus-tracker.c:147
 #: ../src/e-util/e-focus-tracker.c:150
 msgid "Undo"
 msgstr "Отменить"
 
-#: ../src/addressbook/gui/contact-editor/e-contact-editor.c:273
-#: ../src/calendar/gui/e-comp-editor.c:2234
+#: ../src/addressbook/gui/contact-editor/e-contact-editor.c:271
+#: ../src/calendar/gui/e-comp-editor.c:2242
 #: ../src/e-util/e-html-editor-actions.c:1147
 msgid "_Redo"
 msgstr "_Вернуть"
 
-#: ../src/addressbook/gui/contact-editor/e-contact-editor.c:275
-#: ../src/calendar/gui/e-comp-editor.c:2236 ../src/e-util/e-focus-tracker.c:163
+#: ../src/addressbook/gui/contact-editor/e-contact-editor.c:273
+#: ../src/calendar/gui/e-comp-editor.c:2244 ../src/e-util/e-focus-tracker.c:163
 #: ../src/e-util/e-focus-tracker.c:166
 msgid "Redo"
 msgstr "Вернуть"
 
-#: ../src/addressbook/gui/contact-editor/e-contact-editor.c:303
+#: ../src/addressbook/gui/contact-editor/e-contact-editor.c:301
 #: ../src/addressbook/gui/widgets/eab-gui-util.c:501
 msgid "Error adding contact"
 msgstr "Ошибка добавления контакта"
 
-#: ../src/addressbook/gui/contact-editor/e-contact-editor.c:323
+#: ../src/addressbook/gui/contact-editor/e-contact-editor.c:321
 msgid "Error modifying contact"
 msgstr "Ошибка изменения контакта"
 
-#: ../src/addressbook/gui/contact-editor/e-contact-editor.c:343
+#: ../src/addressbook/gui/contact-editor/e-contact-editor.c:341
 msgid "Error removing contact"
 msgstr "Ошибка удаления контакта"
 
-#: ../src/addressbook/gui/contact-editor/e-contact-editor.c:741
-#: ../src/addressbook/gui/contact-editor/e-contact-editor.c:3106
+#: ../src/addressbook/gui/contact-editor/e-contact-editor.c:723
+#: ../src/addressbook/gui/contact-editor/e-contact-editor.c:745
+#: ../src/addressbook/gui/contact-editor/e-contact-editor.c:3110
+#: ../src/addressbook/gui/contact-editor/e-contact-editor.c:5093
+msgid "Contact Editor"
+msgstr "Редактор контактов"
+
+#: ../src/addressbook/gui/contact-editor/e-contact-editor.c:739
+#: ../src/addressbook/gui/contact-editor/e-contact-editor.c:3104
 #, c-format
 msgid "Contact Editor — %s"
 msgstr "Редактор контактов — %s"
 
-#: ../src/addressbook/gui/contact-editor/e-contact-editor.c:3242
+#: ../src/addressbook/gui/contact-editor/e-contact-editor.c:3239
 msgid "X.509 certificates"
 msgstr "Сертификаты X.509"
 
-#: ../src/addressbook/gui/contact-editor/e-contact-editor.c:3247
+#: ../src/addressbook/gui/contact-editor/e-contact-editor.c:3244
 msgid "PGP keys"
 msgstr "Ключи PGP"
 
-#: ../src/addressbook/gui/contact-editor/e-contact-editor.c:3253
+#: ../src/addressbook/gui/contact-editor/e-contact-editor.c:3250
 #: ../src/e-util/e-html-editor-actions.c:448
 #: ../src/e-util/e-image-chooser-dialog.c:193
-#: ../src/smime/gui/certificate-manager.c:677
-#: ../src/smime/gui/certificate-manager.c:962
+#: ../src/smime/gui/certificate-manager.c:667
+#: ../src/smime/gui/certificate-manager.c:952
 msgid "All files"
 msgstr "Все файлы"
 
-#: ../src/addressbook/gui/contact-editor/e-contact-editor.c:3273
+#: ../src/addressbook/gui/contact-editor/e-contact-editor.c:3270
 msgid "Open PGP key"
 msgstr "Открыть ключ PGP"
 
-#: ../src/addressbook/gui/contact-editor/e-contact-editor.c:3273
+#: ../src/addressbook/gui/contact-editor/e-contact-editor.c:3270
 msgid "Open X.509 certificate"
 msgstr "Открыть сертификат X.509"
 
-#: ../src/addressbook/gui/contact-editor/e-contact-editor.c:3275
-#: ../src/addressbook/gui/contact-editor/e-contact-editor.c:4342
-#: ../src/addressbook/gui/contact-editor/e-contact-editor.c:4349
+#: ../src/addressbook/gui/contact-editor/e-contact-editor.c:3272
+#: ../src/addressbook/gui/contact-editor/e-contact-editor.c:4381
+#: ../src/addressbook/gui/contact-editor/e-contact-editor.c:4388
 #: ../src/e-util/e-attachment-store.c:666 ../src/e-util/e-category-editor.c:176
 #: ../src/e-util/e-html-editor-actions.c:395
 #: ../src/e-util/e-html-editor-actions.c:439
 #: ../src/e-util/e-html-editor-actions.c:542
 #: ../src/e-util/e-image-chooser-dialog.c:182 ../src/plugins/face/face.c:298
-#: ../src/shell/e-shell-utils.c:69 ../src/smime/gui/certificate-manager.c:952
+#: ../src/shell/e-shell-utils.c:69 ../src/smime/gui/certificate-manager.c:942
 msgid "_Open"
 msgstr "_Открыть"
 
-#: ../src/addressbook/gui/contact-editor/e-contact-editor.c:3290
-#: ../src/addressbook/gui/contact-editor/e-contact-editor.c:3518
+#: ../src/addressbook/gui/contact-editor/e-contact-editor.c:3287
+#: ../src/addressbook/gui/contact-editor/e-contact-editor.c:3559
 msgid "Chosen file is not a local file."
 msgstr "Выбранный файл не является локальным."
 
-#: ../src/addressbook/gui/contact-editor/e-contact-editor.c:3303
+#: ../src/addressbook/gui/contact-editor/e-contact-editor.c:3300
 #, c-format
 msgid "Failed to load certificate: %s"
 msgstr "Не удалось загрузить сертификат: %s"
 
-#: ../src/addressbook/gui/contact-editor/e-contact-editor.c:3332
+#: ../src/addressbook/gui/contact-editor/e-contact-editor.c:3374
 msgctxt "cert-kind"
 msgid "X.509"
 msgstr "X.509"
 
-#: ../src/addressbook/gui/contact-editor/e-contact-editor.c:3332
+#: ../src/addressbook/gui/contact-editor/e-contact-editor.c:3374
 msgctxt "cert-kind"
 msgid "PGP"
 msgstr "PGP"
 
-#: ../src/addressbook/gui/contact-editor/e-contact-editor.c:3503
+#: ../src/addressbook/gui/contact-editor/e-contact-editor.c:3544
 msgid "Save PGP key"
 msgstr "Сохранить ключ PGP"
 
-#: ../src/addressbook/gui/contact-editor/e-contact-editor.c:3503
+#: ../src/addressbook/gui/contact-editor/e-contact-editor.c:3544
 msgid "Save X.509 certificate"
 msgstr "Сохранить сертификат X.509"
 
-#: ../src/addressbook/gui/contact-editor/e-contact-editor.c:3530
+#: ../src/addressbook/gui/contact-editor/e-contact-editor.c:3571
 #, c-format
 msgid "Failed to save certificate: %s"
 msgstr "Не удалось сохранить сертификат: %s"
 
-#: ../src/addressbook/gui/contact-editor/e-contact-editor.c:4339
-#: ../src/addressbook/gui/contact-editor/e-contact-editor.c:4345
+#: ../src/addressbook/gui/contact-editor/e-contact-editor.c:4378
+#: ../src/addressbook/gui/contact-editor/e-contact-editor.c:4384
 msgid "Please select an image for this contact"
 msgstr "Выберите изображение для этого контакта"
 
-#: ../src/addressbook/gui/contact-editor/e-contact-editor.c:4350
+#: ../src/addressbook/gui/contact-editor/e-contact-editor.c:4389
 msgid "_No image"
 msgstr "_Нет изображения"
 
-#: ../src/addressbook/gui/contact-editor/e-contact-editor.c:4714
+#: ../src/addressbook/gui/contact-editor/e-contact-editor.c:4753
 msgid ""
 "The contact data is invalid:\n"
 "\n"
@@ -5008,38 +5035,47 @@ msgstr ""
 "Данные контакта неверны:\n"
 "\n"
 
-#: ../src/addressbook/gui/contact-editor/e-contact-editor.c:4720
+#: ../src/addressbook/gui/contact-editor/e-contact-editor.c:4759
 #, c-format
 msgid "“%s” has an invalid format"
 msgstr "«%s» имеет неверный формат"
 
-#: ../src/addressbook/gui/contact-editor/e-contact-editor.c:4728
+#: ../src/addressbook/gui/contact-editor/e-contact-editor.c:4767
 #, c-format
 msgid "“%s” cannot be a future date"
 msgstr "«%s» не может быть датой в будущем"
 
-#: ../src/addressbook/gui/contact-editor/e-contact-editor.c:4736
+#: ../src/addressbook/gui/contact-editor/e-contact-editor.c:4775
 #, c-format
 msgid "%s“%s” has an invalid format"
 msgstr "%s«%s» имеет неверный формат"
 
-#: ../src/addressbook/gui/contact-editor/e-contact-editor.c:4749
-#: ../src/addressbook/gui/contact-editor/e-contact-editor.c:4763
+#: ../src/addressbook/gui/contact-editor/e-contact-editor.c:4788
+#: ../src/addressbook/gui/contact-editor/e-contact-editor.c:4802
 #, c-format
 msgid "%s“%s” is empty"
 msgstr "%s«%s» пуст"
 
-#: ../src/addressbook/gui/contact-editor/e-contact-editor.c:4778
+#: ../src/addressbook/gui/contact-editor/e-contact-editor.c:4817
 msgid "Invalid contact."
 msgstr "Неверный контакт."
+
+#: ../src/addressbook/gui/contact-editor/e-contact-editor.c:5132
+#: ../src/calendar/gui/e-comp-editor.c:2200
+#: ../src/calendar/gui/e-comp-editor.c:2272
+#: ../src/e-util/e-send-options.ui.h:15
+#: ../src/plugins/email-custom-header/org-gnome-email-custom-header.ui.h:2
+#: ../src/shell/e-shell-window-actions.c:1121
+msgid "_Help"
+msgstr "_Справка"
 
 #: ../src/addressbook/gui/contact-editor/e-contact-editor-fullname.c:213
 #: ../src/addressbook/gui/contact-editor/e-contact-quick-add.c:454
 #: ../src/addressbook/gui/contact-editor/fullname.ui.h:13
 #: ../src/addressbook/gui/widgets/eab-gui-util.c:317
 #: ../src/calendar/gui/e-comp-editor-page-recurrence.c:306
-#: ../src/e-util/e-attachment-dialog.c:291
-#: ../src/e-util/e-categories-dialog.c:81 ../src/e-util/e-category-editor.c:253
+#: ../src/e-util/e-attachment-dialog.c:292
+#: ../src/e-util/e-categories-dialog.c:82 ../src/e-util/e-category-editor.c:253
 #: ../src/e-util/e-charset-combo-box.c:100
 #: ../src/e-util/e-color-chooser-widget.c:126
 #: ../src/e-util/e-filter-datespec.c:301
@@ -5048,7 +5084,7 @@ msgstr "Неверный контакт."
 #: ../src/e-util/e-rule-editor.c:185 ../src/e-util/e-rule-editor.c:296
 #: ../src/e-util/e-rule-editor.c:932 ../src/e-util/e-send-options.ui.h:17
 #: ../src/e-util/e-source-config-dialog.c:357
-#: ../src/e-util/e-source-selector-dialog.c:336
+#: ../src/e-util/e-source-selector-dialog.c:337
 #: ../src/e-util/e-table-config.c:541 ../src/e-util/e-table-config.ui.h:4
 #: ../src/e-util/e-timezone-dialog.ui.h:3
 #: ../src/mail/e-mail-config-window.c:311 ../src/mail/e-mail-tag-editor.c:162
@@ -5058,8 +5094,8 @@ msgstr "Неверный контакт."
 #: ../src/plugins/email-custom-header/org-gnome-email-custom-header.ui.h:4
 #: ../src/plugins/publish-calendar/url-editor-dialog.c:418
 #: ../src/shell/e-shell-content.c:643 ../src/shell/e-shell-content.c:749
-#: ../src/shell/main.c:271 ../src/smime/gui/certificate-manager.c:1344
-#: ../src/smime/gui/e-cert-selector.c:240 ../src/smime/gui/smime-ui.ui.h:18
+#: ../src/shell/main.c:271 ../src/smime/gui/certificate-manager.c:1278
+#: ../src/smime/gui/e-cert-selector.c:233 ../src/smime/gui/smime-ui.ui.h:18
 msgid "_OK"
 msgstr "_ОК"
 
@@ -5318,7 +5354,7 @@ msgstr "Псевдоним"
 #: ../src/calendar/gui/e-cal-list-view.etspec.h:6
 #: ../src/calendar/gui/e-memo-table.etspec.h:4
 #: ../src/calendar/gui/e-task-table.etspec.h:12
-#: ../src/e-util/e-categories-dialog.c:85
+#: ../src/e-util/e-categories-dialog.c:86
 msgid "Categories"
 msgstr "Категории"
 
@@ -5448,7 +5484,7 @@ msgid "Blog"
 msgstr "Блог"
 
 #: ../src/addressbook/gui/widgets/eab-contact-merging.c:261
-#: ../src/e-util/e-mail-signature-editor.c:626
+#: ../src/e-util/e-mail-signature-editor.c:654
 msgid "Unnamed"
 msgstr "Без названия"
 
@@ -5695,7 +5731,7 @@ msgid "Are you sure you want to delete this contact (%s)?"
 msgstr "Действительно удалить этот контакт (%s)?"
 
 #: ../src/addressbook/gui/widgets/e-addressbook-view.c:1438
-#: ../src/calendar/gui/e-comp-editor.c:2185
+#: ../src/calendar/gui/e-comp-editor.c:2193
 #: ../src/e-util/e-accounts-window.c:1763 ../src/e-util/e-focus-tracker.c:816
 #: ../src/e-util/evolution-source-viewer.c:800
 #: ../src/e-util/e-webdav-browser.c:2857
@@ -5706,7 +5742,7 @@ msgstr "Действительно удалить этот контакт (%s)?"
 #: ../src/modules/calendar/e-task-shell-view-actions.c:851
 #: ../src/modules/mail/e-mail-shell-view-actions.c:1622
 #: ../src/shell/e-shell-window-actions.c:965
-#: ../src/smime/gui/certificate-manager.c:1667 ../src/smime/gui/smime-ui.ui.h:8
+#: ../src/smime/gui/certificate-manager.c:1602 ../src/smime/gui/smime-ui.ui.h:8
 msgid "_Delete"
 msgstr "_Удалить"
 
@@ -7140,8 +7176,8 @@ msgid "Status"
 msgstr "Состояние"
 
 #. String to use in 12-hour time format for times in the morning.
-#: ../src/calendar/gui/comp-util.c:2091 ../src/calendar/gui/e-day-view.c:2286
-#: ../src/calendar/gui/e-to-do-pane.c:249
+#: ../src/calendar/gui/comp-util.c:2091 ../src/calendar/gui/e-day-view.c:2338
+#: ../src/calendar/gui/e-to-do-pane.c:268
 #: ../src/calendar/gui/e-week-view.c:1969 ../src/calendar/gui/print.c:1102
 #: ../src/calendar/gui/print.c:1121 ../src/calendar/gui/print.c:2689
 #: ../src/calendar/gui/print.c:2709
@@ -7149,8 +7185,8 @@ msgid "am"
 msgstr "д.п."
 
 #. String to use in 12-hour time format for times in the afternoon.
-#: ../src/calendar/gui/comp-util.c:2095 ../src/calendar/gui/e-day-view.c:2289
-#: ../src/calendar/gui/e-to-do-pane.c:253
+#: ../src/calendar/gui/comp-util.c:2095 ../src/calendar/gui/e-day-view.c:2341
+#: ../src/calendar/gui/e-to-do-pane.c:272
 #: ../src/calendar/gui/e-week-view.c:1972 ../src/calendar/gui/print.c:1107
 #: ../src/calendar/gui/print.c:1123 ../src/calendar/gui/print.c:2694
 #: ../src/calendar/gui/print.c:2711
@@ -7179,7 +7215,7 @@ msgstr "Организатор: %s"
 #. Translators: It will display "Location: LocationOfTheAppointment"
 #: ../src/calendar/gui/comp-util.c:2271
 #: ../src/calendar/gui/e-meeting-time-sel.c:2580
-#: ../src/calendar/gui/e-to-do-pane.c:382 ../src/calendar/gui/print.c:3655
+#: ../src/calendar/gui/e-to-do-pane.c:401 ../src/calendar/gui/print.c:3655
 #, c-format
 msgid "Location: %s"
 msgstr "Адрес: %s"
@@ -7192,26 +7228,26 @@ msgstr "Начало: %s (%s)"
 
 #. Translators: It will display "Start: ActualStartDateAndTime"
 #. Translators: It will display "Start: StartDateAndTime"
-#: ../src/calendar/gui/comp-util.c:2330 ../src/calendar/gui/e-to-do-pane.c:411
+#: ../src/calendar/gui/comp-util.c:2330 ../src/calendar/gui/e-to-do-pane.c:431
 #, c-format
 msgid "Start: %s"
 msgstr "Начало: %s"
 
 #. Translators: It's for a task due date, it will display "Due: DateAndTime"
 #. Translators: It will display "Due: DueDateAndTime"
-#: ../src/calendar/gui/comp-util.c:2365 ../src/calendar/gui/e-to-do-pane.c:433
+#: ../src/calendar/gui/comp-util.c:2365 ../src/calendar/gui/e-to-do-pane.c:453
 #, c-format
 msgid "Due: %s"
 msgstr "Завершение: %s"
 
 #. Translators: It's for a task completed date, it will display "Completed: DateAndTime"
 #. Translators: It will display "Completed: DateAndTimeWhenCompleted"
-#: ../src/calendar/gui/comp-util.c:2390 ../src/calendar/gui/e-to-do-pane.c:447
+#: ../src/calendar/gui/comp-util.c:2390 ../src/calendar/gui/e-to-do-pane.c:467
 #, c-format
 msgid "Completed: %s"
 msgstr "Завершено: %s"
 
-#: ../src/calendar/gui/comp-util.c:2427 ../src/calendar/gui/e-to-do-pane.c:596
+#: ../src/calendar/gui/comp-util.c:2427 ../src/calendar/gui/e-to-do-pane.c:616
 #: ../src/e-util/e-misc-utils.c:4838 ../src/e-util/e-text.c:566
 #: ../src/e-util/e-web-view.c:4187
 msgid "…"
@@ -7727,7 +7763,7 @@ msgstr "%d %b. %Y"
 #. * month name. You can change the order but don't
 #. * change the specifiers or add anything.
 #: ../src/calendar/gui/e-calendar-view.c:1177
-#: ../src/calendar/gui/e-day-view.c:3222
+#: ../src/calendar/gui/e-day-view.c:3274
 #: ../src/calendar/gui/e-day-view-top-item.c:856
 #: ../src/calendar/gui/e-week-view-main-item.c:230
 msgid "%d %b"
@@ -7744,7 +7780,7 @@ msgstr "%A, %d %b. %Y"
 #. * You can change the order but don't change the
 #. * specifiers or add anything.
 #: ../src/calendar/gui/e-calendar-view.c:1190
-#: ../src/calendar/gui/e-day-view.c:3206
+#: ../src/calendar/gui/e-day-view.c:3258
 #: ../src/calendar/gui/e-day-view-top-item.c:852
 #: ../src/calendar/gui/e-week-view-main-item.c:216
 msgid "%a %d %b"
@@ -7867,12 +7903,12 @@ msgid "Assigned"
 msgstr "Назначенная"
 
 #: ../src/calendar/gui/e-cal-model.c:1895
-#: ../src/calendar/gui/e-cal-model-tasks.c:1154
+#: ../src/calendar/gui/e-cal-model-tasks.c:1160
 msgid "Yes"
 msgstr "Да"
 
 #: ../src/calendar/gui/e-cal-model.c:1895
-#: ../src/calendar/gui/e-cal-model-tasks.c:1154
+#: ../src/calendar/gui/e-cal-model-tasks.c:1160
 msgid "No"
 msgstr "Нет"
 
@@ -7887,7 +7923,7 @@ msgstr "Свободен"
 msgid "Busy"
 msgstr "Занят"
 
-#: ../src/calendar/gui/e-cal-model-tasks.c:460
+#: ../src/calendar/gui/e-cal-model-tasks.c:466
 msgid ""
 "The geographical position must be entered in the format: \n"
 "\n"
@@ -7897,7 +7933,7 @@ msgstr ""
 "\n"
 "45.436845,125.862501"
 
-#: ../src/calendar/gui/e-cal-model-tasks.c:557
+#: ../src/calendar/gui/e-cal-model-tasks.c:563
 msgid "In Progress"
 msgstr "Выполняется"
 
@@ -7913,15 +7949,15 @@ msgstr "Изменение заметки"
 msgid "Modifying a task"
 msgstr "Изменение задачи"
 
-#: ../src/calendar/gui/e-cal-ops.c:426 ../src/calendar/gui/e-to-do-pane.c:2097
+#: ../src/calendar/gui/e-cal-ops.c:426 ../src/calendar/gui/e-to-do-pane.c:2137
 msgid "Removing an event"
 msgstr "Удаление события"
 
-#: ../src/calendar/gui/e-cal-ops.c:430 ../src/calendar/gui/e-to-do-pane.c:2101
+#: ../src/calendar/gui/e-cal-ops.c:430 ../src/calendar/gui/e-to-do-pane.c:2141
 msgid "Removing a memo"
 msgstr "Удаление заметки"
 
-#: ../src/calendar/gui/e-cal-ops.c:434 ../src/calendar/gui/e-to-do-pane.c:2105
+#: ../src/calendar/gui/e-cal-ops.c:434 ../src/calendar/gui/e-to-do-pane.c:2145
 msgid "Removing a task"
 msgstr "Удаление задачи"
 
@@ -8123,157 +8159,157 @@ msgstr ""
 "Изменения, внесенные в мероприятие, не будут отправлены участникам, "
 "поскольку вы не являетесь организатором"
 
-#: ../src/calendar/gui/e-comp-editor-event.c:510
+#: ../src/calendar/gui/e-comp-editor-event.c:552
 #: ../src/calendar/gui/e-comp-editor-task.c:619
 msgid "Start date is not a valid date"
 msgstr "Дата начала не является допустимой датой"
 
-#: ../src/calendar/gui/e-comp-editor-event.c:512
+#: ../src/calendar/gui/e-comp-editor-event.c:554
 msgid "Start time is not a valid time"
 msgstr "Время начала не является допустимым временем"
 
-#: ../src/calendar/gui/e-comp-editor-event.c:516
-#: ../src/calendar/gui/e-comp-editor-event.c:532
+#: ../src/calendar/gui/e-comp-editor-event.c:558
+#: ../src/calendar/gui/e-comp-editor-event.c:574
 #: ../src/calendar/gui/e-comp-editor-page-attachments.c:206
 #: ../src/calendar/gui/e-comp-editor.c:345
 #: ../src/composer/e-composer-actions.c:180
 #: ../src/em-format/e-mail-part-secure-button.c:97
 #: ../src/e-util/e-misc-utils.c:4145 ../src/e-util/e-misc-utils.c:4180
 #: ../src/e-util/e-misc-utils.c:4193 ../src/e-util/e-misc-utils.c:4207
-#: ../src/mail/e-mail-autoconfig.c:1129 ../src/mail/e-mail-display.c:2475
+#: ../src/mail/e-mail-autoconfig.c:1129 ../src/mail/e-mail-display.c:2538
 #: ../src/mail/e-mail-notes.c:930 ../src/mail/e-mail-reader-utils.c:805
-#: ../src/mail/em-composer-utils.c:3932 ../src/mail/em-composer-utils.c:3955
+#: ../src/mail/em-composer-utils.c:3962 ../src/mail/em-composer-utils.c:3985
 #: ../src/mail/mail-send-recv.c:598 ../src/mail/mail-send-recv.c:1493
 #: ../src/modules/accounts-window/e-accounts-window-editors.c:172
 #: ../src/plugins/face/face.c:175
 #: ../src/plugins/mail-to-task/mail-to-task.c:951 ../src/shell/e-shell.c:1258
-#: ../src/shell/e-shell.c:1283 ../src/smime/gui/certificate-manager.c:363
+#: ../src/shell/e-shell.c:1283 ../src/smime/gui/certificate-manager.c:353
 #, c-format
 msgid "Unknown error"
 msgstr "Неизвестная ошибка"
 
-#: ../src/calendar/gui/e-comp-editor-event.c:526
+#: ../src/calendar/gui/e-comp-editor-event.c:568
 msgid "End date is not a valid date"
 msgstr "Дата окончания не является допустимой датой"
 
-#: ../src/calendar/gui/e-comp-editor-event.c:528
+#: ../src/calendar/gui/e-comp-editor-event.c:570
 msgid "End time is not a valid time"
 msgstr "Время окончания не является допустимым временем"
 
-#: ../src/calendar/gui/e-comp-editor-event.c:723
+#: ../src/calendar/gui/e-comp-editor-event.c:767
 #: ../src/calendar/gui/e-comp-editor-memo.c:258
 #: ../src/calendar/gui/e-comp-editor-task.c:802
 msgid "_Categories"
 msgstr "_Категории"
 
-#: ../src/calendar/gui/e-comp-editor-event.c:725
+#: ../src/calendar/gui/e-comp-editor-event.c:769
 #: ../src/calendar/gui/e-comp-editor-memo.c:260
 #: ../src/calendar/gui/e-comp-editor-task.c:804
 msgid "Toggles whether to display categories"
 msgstr "Переключает отображение категорий"
 
-#: ../src/calendar/gui/e-comp-editor-event.c:731
+#: ../src/calendar/gui/e-comp-editor-event.c:775
 #: ../src/calendar/gui/e-comp-editor-task.c:810
 msgid "Time _Zone"
 msgstr "Часовой _пояс"
 
-#: ../src/calendar/gui/e-comp-editor-event.c:733
+#: ../src/calendar/gui/e-comp-editor-event.c:777
 #: ../src/calendar/gui/e-comp-editor-task.c:812
 msgid "Toggles whether the time zone is displayed"
 msgstr "Переключает отображение часового пояса"
 
-#: ../src/calendar/gui/e-comp-editor-event.c:739
+#: ../src/calendar/gui/e-comp-editor-event.c:783
 msgid "All _Day Event"
 msgstr "_Событие на весь день"
 
-#: ../src/calendar/gui/e-comp-editor-event.c:741
+#: ../src/calendar/gui/e-comp-editor-event.c:785
 msgid "Toggles whether to have All Day Event"
 msgstr "Переключает, является ли событие событием на весь день"
 
-#: ../src/calendar/gui/e-comp-editor-event.c:747
+#: ../src/calendar/gui/e-comp-editor-event.c:791
 msgid "Show Time as _Busy"
 msgstr "Показать время как _Занят"
 
-#: ../src/calendar/gui/e-comp-editor-event.c:749
+#: ../src/calendar/gui/e-comp-editor-event.c:793
 msgid "Toggles whether to show time as busy"
 msgstr "Переключить отображение времени как «занят»"
 
-#: ../src/calendar/gui/e-comp-editor-event.c:758
+#: ../src/calendar/gui/e-comp-editor-event.c:802
 msgid "Pu_blic"
 msgstr "Пу_бличное"
 
-#: ../src/calendar/gui/e-comp-editor-event.c:760
+#: ../src/calendar/gui/e-comp-editor-event.c:804
 msgid "Classify as public"
 msgstr "Классифицировать как публичное"
 
-#: ../src/calendar/gui/e-comp-editor-event.c:765
+#: ../src/calendar/gui/e-comp-editor-event.c:809
 msgid "_Private"
 msgstr "_Личное"
 
-#: ../src/calendar/gui/e-comp-editor-event.c:767
+#: ../src/calendar/gui/e-comp-editor-event.c:811
 msgid "Classify as private"
 msgstr "Классифицировать как личное"
 
-#: ../src/calendar/gui/e-comp-editor-event.c:772
+#: ../src/calendar/gui/e-comp-editor-event.c:816
 msgid "_Confidential"
 msgstr "_Конфиденциальное"
 
-#: ../src/calendar/gui/e-comp-editor-event.c:774
+#: ../src/calendar/gui/e-comp-editor-event.c:818
 msgid "Classify as confidential"
 msgstr "Классифицировать как конфиденциальное"
 
-#: ../src/calendar/gui/e-comp-editor-event.c:892
+#: ../src/calendar/gui/e-comp-editor-event.c:936
 msgctxt "ECompEditor"
 msgid "_Start time:"
 msgstr "_Время запуска:"
 
-#: ../src/calendar/gui/e-comp-editor-event.c:897
+#: ../src/calendar/gui/e-comp-editor-event.c:941
 msgctxt "ECompEditor"
 msgid "_End time:"
 msgstr "Время _завершения:"
 
-#: ../src/calendar/gui/e-comp-editor-event.c:907
+#: ../src/calendar/gui/e-comp-editor-event.c:951
 msgctxt "ECompEditor"
 msgid "All da_y event"
 msgstr "Событие на весь _день"
 
-#: ../src/calendar/gui/e-comp-editor-event.c:975
+#: ../src/calendar/gui/e-comp-editor-event.c:1019
 #: ../src/calendar/gui/e-comp-editor-memo.c:359
 #: ../src/calendar/gui/e-comp-editor-task.c:987
 msgctxt "ECompEditorPage"
 msgid "General"
 msgstr "Общие"
 
-#: ../src/calendar/gui/e-comp-editor-event.c:978
+#: ../src/calendar/gui/e-comp-editor-event.c:1022
 #: ../src/calendar/gui/e-comp-editor-task.c:1010
 msgctxt "ECompEditorPage"
 msgid "Reminders"
 msgstr "Напоминания"
 
-#: ../src/calendar/gui/e-comp-editor-event.c:981
+#: ../src/calendar/gui/e-comp-editor-event.c:1025
 #: ../src/calendar/gui/e-comp-editor-task.c:1014
 msgctxt "ECompEditorPage"
 msgid "Recurrence"
 msgstr "Повторение"
 
-#: ../src/calendar/gui/e-comp-editor-event.c:984
+#: ../src/calendar/gui/e-comp-editor-event.c:1028
 #: ../src/calendar/gui/e-comp-editor-memo.c:362
 #: ../src/calendar/gui/e-comp-editor-task.c:1018
 msgctxt "ECompEditorPage"
 msgid "Attachments"
 msgstr "Вложения"
 
-#: ../src/calendar/gui/e-comp-editor-event.c:994
+#: ../src/calendar/gui/e-comp-editor-event.c:1038
 msgctxt "ECompEditorPage"
 msgid "Schedule"
 msgstr "Расписание"
 
-#: ../src/calendar/gui/e-comp-editor-event.c:1029
+#: ../src/calendar/gui/e-comp-editor-event.c:1073
 #, c-format
 msgid "Meeting — %s"
 msgstr "Собрание — %s"
 
-#: ../src/calendar/gui/e-comp-editor-event.c:1030
+#: ../src/calendar/gui/e-comp-editor-event.c:1074
 #, c-format
 msgid "Appointment — %s"
 msgstr "Встреча — %s"
@@ -8500,7 +8536,7 @@ msgstr "_Участники…"
 
 #: ../src/calendar/gui/e-comp-editor-page-general.c:1505
 #: ../src/calendar/gui/e-comp-editor-page-recurrence.c:2312
-#: ../src/calendar/gui/e-comp-editor.c:2250
+#: ../src/calendar/gui/e-comp-editor.c:2258
 #: ../src/e-util/e-accounts-window.c:1755
 #: ../src/e-util/e-html-editor-actions.c:1170
 #: ../src/e-util/e-mail-signature-manager.c:354
@@ -9016,88 +9052,88 @@ msgctxt "ECompEditor"
 msgid "_Web page:"
 msgstr "_Веб-страница:"
 
-#: ../src/calendar/gui/e-comp-editor-property-parts.c:1749
+#: ../src/calendar/gui/e-comp-editor-property-parts.c:1768
 msgctxt "ECompEditor"
 msgid "D_ue date:"
 msgstr "С_рок:"
 
-#: ../src/calendar/gui/e-comp-editor-property-parts.c:1843
+#: ../src/calendar/gui/e-comp-editor-property-parts.c:1862
 msgctxt "ECompEditor"
 msgid "Date _completed:"
 msgstr "Дата _завершения:"
 
-#: ../src/calendar/gui/e-comp-editor-property-parts.c:1859
+#: ../src/calendar/gui/e-comp-editor-property-parts.c:1878
 msgctxt "ECompEditor"
 msgid "Public"
 msgstr "Публичный"
 
-#: ../src/calendar/gui/e-comp-editor-property-parts.c:1860
+#: ../src/calendar/gui/e-comp-editor-property-parts.c:1879
 msgctxt "ECompEditor"
 msgid "Private"
 msgstr "Приватный"
 
-#: ../src/calendar/gui/e-comp-editor-property-parts.c:1861
+#: ../src/calendar/gui/e-comp-editor-property-parts.c:1880
 msgctxt "ECompEditor"
 msgid "Confidential"
 msgstr "Конфиденциальное"
 
-#: ../src/calendar/gui/e-comp-editor-property-parts.c:1877
+#: ../src/calendar/gui/e-comp-editor-property-parts.c:1896
 msgctxt "ECompEditor"
 msgid "C_lassification:"
 msgstr "К_лассификация:"
 
-#: ../src/calendar/gui/e-comp-editor-property-parts.c:1940
+#: ../src/calendar/gui/e-comp-editor-property-parts.c:1959
 msgctxt "ECompEditor"
 msgid "_Status:"
 msgstr "_Состояние:"
 
-#: ../src/calendar/gui/e-comp-editor-property-parts.c:1970
+#: ../src/calendar/gui/e-comp-editor-property-parts.c:1989
 msgctxt "ECompEditor"
 msgid "Undefined"
 msgstr "Неопределённый"
 
-#: ../src/calendar/gui/e-comp-editor-property-parts.c:1971
+#: ../src/calendar/gui/e-comp-editor-property-parts.c:1990
 msgctxt "ECompEditor"
 msgid "High"
 msgstr "Высокий"
 
-#: ../src/calendar/gui/e-comp-editor-property-parts.c:1972
+#: ../src/calendar/gui/e-comp-editor-property-parts.c:1991
 msgctxt "ECompEditor"
 msgid "Normal"
 msgstr "Нормальный"
 
-#: ../src/calendar/gui/e-comp-editor-property-parts.c:1973
+#: ../src/calendar/gui/e-comp-editor-property-parts.c:1992
 msgctxt "ECompEditor"
 msgid "Low"
 msgstr "Низкий"
 
-#: ../src/calendar/gui/e-comp-editor-property-parts.c:1982
+#: ../src/calendar/gui/e-comp-editor-property-parts.c:2001
 msgctxt "ECompEditor"
 msgid "Priorit_y:"
 msgstr "Приорите_т:"
 
-#: ../src/calendar/gui/e-comp-editor-property-parts.c:2036
+#: ../src/calendar/gui/e-comp-editor-property-parts.c:2055
 msgctxt "ECompEditor"
 msgid "Percent complete:"
 msgstr "Процент завершения:"
 
-#: ../src/calendar/gui/e-comp-editor-property-parts.c:2117
+#: ../src/calendar/gui/e-comp-editor-property-parts.c:2136
 msgctxt "ECompEditor"
 msgid "Time _zone:"
 msgstr "_Часовой пояс:"
 
-#: ../src/calendar/gui/e-comp-editor-property-parts.c:2213
+#: ../src/calendar/gui/e-comp-editor-property-parts.c:2232
 msgctxt "ECompEditor"
 msgid "Show time as _busy"
 msgstr "_Показать время как «занят»"
 
 #. Translators: This 'None' is meant for 'Color' in calendar component editor, like 'None color'
-#: ../src/calendar/gui/e-comp-editor-property-parts.c:2634
+#: ../src/calendar/gui/e-comp-editor-property-parts.c:2653
 msgctxt "ECompEditor"
 msgid "None"
 msgstr "Нет"
 
-#: ../src/calendar/gui/e-comp-editor-property-parts.c:2795
+#: ../src/calendar/gui/e-comp-editor-property-parts.c:2814
 msgid "Esti_mated duration:"
 msgstr "Пред_полагаемая продолжительность:"
 
@@ -9169,7 +9205,7 @@ msgid "Task — %s"
 msgstr "Задача — %s"
 
 #: ../src/calendar/gui/e-comp-editor.c:260
-#: ../src/modules/prefer-plain/e-mail-parser-prefer-plain.c:133
+#: ../src/modules/prefer-plain/e-mail-parser-prefer-plain.c:197
 msgid "attachment"
 msgstr "вложение"
 
@@ -9182,40 +9218,44 @@ msgstr "Отправка уведомлений участникам…"
 msgid "Saving changes…"
 msgstr "Сохранение изменений…"
 
-#: ../src/calendar/gui/e-comp-editor.c:1940
-#: ../src/calendar/gui/e-comp-editor.c:2302
-#: ../src/e-util/e-mail-signature-editor.c:337 ../src/mail/e-mail-notes.c:1113
+#: ../src/calendar/gui/e-comp-editor.c:1946
+#: ../src/calendar/gui/e-comp-editor.c:2310
+#: ../src/e-util/e-mail-signature-editor.c:343 ../src/mail/e-mail-notes.c:1118
 msgid "Save and Close"
 msgstr "Сохранить и закрыть"
 
 #. == Button box ==
-#: ../src/calendar/gui/e-comp-editor.c:2164
+#: ../src/calendar/gui/e-comp-editor.c:2172
 #: ../src/composer/e-composer-actions.c:333
 #: ../src/e-util/e-accounts-window.c:1788
 #: ../src/e-util/e-html-editor-dialog.c:194
-#: ../src/e-util/e-mail-signature-editor.c:328
+#: ../src/e-util/e-mail-signature-editor.c:334
 #: ../src/e-util/e-name-selector-dialog.c:548
+#: ../src/e-util/e-preferences-window.c:334
 #: ../src/e-util/e-table-field-chooser-dialog.c:197
-#: ../src/mail/e-mail-browser.c:166 ../src/mail/e-mail-notes.c:1104
-#: ../src/mail/em-filter-editor.c:45 ../src/mail/em-folder-properties.c:1488
+#: ../src/mail/e-mail-browser.c:166
+#: ../src/mail/e-mail-folder-sort-order-dialog.c:753
+#: ../src/mail/e-mail-notes.c:1109 ../src/mail/em-filter-editor.c:45
+#: ../src/mail/em-folder-properties.c:1488
+#: ../src/mail/em-subscription-editor.c:1735
 #: ../src/shell/e-shell-window-actions.c:930
-#: ../src/smime/gui/certificate-manager.c:2189
+#: ../src/smime/gui/certificate-manager.c:2132
 msgid "_Close"
 msgstr "_Закрыть"
 
-#: ../src/calendar/gui/e-comp-editor.c:2166
+#: ../src/calendar/gui/e-comp-editor.c:2174
 msgid "Close the current window"
 msgstr "Закрыть текущее окно"
 
 #. copy menu item
-#: ../src/calendar/gui/e-comp-editor.c:2171 ../src/e-util/e-focus-tracker.c:806
+#: ../src/calendar/gui/e-comp-editor.c:2179 ../src/e-util/e-focus-tracker.c:806
 #: ../src/e-util/e-html-editor-actions.c:1126 ../src/e-util/e-text.c:2065
 #: ../src/e-util/e-web-view.c:467 ../src/mail/e-mail-browser.c:173
 #: ../src/mail/mail.error.xml.h:147 ../src/shell/e-shell-window-actions.c:951
 msgid "_Copy"
 msgstr "_Копировать"
 
-#: ../src/calendar/gui/e-comp-editor.c:2173 ../src/e-util/e-focus-tracker.c:203
+#: ../src/calendar/gui/e-comp-editor.c:2181 ../src/e-util/e-focus-tracker.c:203
 #: ../src/e-util/e-focus-tracker.c:259 ../src/e-util/e-focus-tracker.c:312
 #: ../src/e-util/e-focus-tracker.c:807 ../src/e-util/e-web-view.c:469
 #: ../src/e-util/e-web-view.c:2056 ../src/mail/e-mail-browser.c:175
@@ -9224,59 +9264,51 @@ msgid "Copy the selection"
 msgstr "Копировать выделение"
 
 #. cut menu item
-#: ../src/calendar/gui/e-comp-editor.c:2178 ../src/e-util/e-focus-tracker.c:801
+#: ../src/calendar/gui/e-comp-editor.c:2186 ../src/e-util/e-focus-tracker.c:801
 #: ../src/e-util/e-html-editor-actions.c:1133 ../src/e-util/e-text.c:2051
 #: ../src/mail/e-mail-browser.c:180 ../src/shell/e-shell-window-actions.c:958
 msgid "Cu_t"
 msgstr "В_ырезать"
 
-#: ../src/calendar/gui/e-comp-editor.c:2180 ../src/e-util/e-focus-tracker.c:196
+#: ../src/calendar/gui/e-comp-editor.c:2188 ../src/e-util/e-focus-tracker.c:196
 #: ../src/e-util/e-focus-tracker.c:252 ../src/e-util/e-focus-tracker.c:306
 #: ../src/e-util/e-focus-tracker.c:802 ../src/e-util/e-web-view.c:2065
 #: ../src/mail/e-mail-browser.c:182 ../src/shell/e-shell-window-actions.c:960
 msgid "Cut the selection"
 msgstr "Вырезать выделение"
 
-#: ../src/calendar/gui/e-comp-editor.c:2187 ../src/e-util/e-focus-tracker.c:217
+#: ../src/calendar/gui/e-comp-editor.c:2195 ../src/e-util/e-focus-tracker.c:217
 #: ../src/e-util/e-focus-tracker.c:273 ../src/e-util/e-focus-tracker.c:817
 #: ../src/shell/e-shell-window-actions.c:967
 msgid "Delete the selection"
 msgstr "Удалить выделение"
 
-#: ../src/calendar/gui/e-comp-editor.c:2192
-#: ../src/calendar/gui/e-comp-editor.c:2264
-#: ../src/e-util/e-send-options.ui.h:15
-#: ../src/plugins/email-custom-header/org-gnome-email-custom-header.ui.h:2
-#: ../src/shell/e-shell-window-actions.c:1121
-msgid "_Help"
-msgstr "_Справка"
-
-#: ../src/calendar/gui/e-comp-editor.c:2194
+#: ../src/calendar/gui/e-comp-editor.c:2202
 msgid "View help"
 msgstr "Показать справку"
 
 #. paste menu item
-#: ../src/calendar/gui/e-comp-editor.c:2199 ../src/e-util/e-focus-tracker.c:811
+#: ../src/calendar/gui/e-comp-editor.c:2207 ../src/e-util/e-focus-tracker.c:811
 #: ../src/e-util/e-html-editor-actions.c:1140 ../src/e-util/e-text.c:2077
 #: ../src/mail/e-mail-browser.c:187 ../src/shell/e-shell-window-actions.c:986
 msgid "_Paste"
 msgstr "_Вставить"
 
-#: ../src/calendar/gui/e-comp-editor.c:2201 ../src/e-util/e-focus-tracker.c:210
+#: ../src/calendar/gui/e-comp-editor.c:2209 ../src/e-util/e-focus-tracker.c:210
 #: ../src/e-util/e-focus-tracker.c:266 ../src/e-util/e-focus-tracker.c:318
 #: ../src/e-util/e-focus-tracker.c:812 ../src/e-util/e-web-view.c:2074
 #: ../src/mail/e-mail-browser.c:189 ../src/shell/e-shell-window-actions.c:988
 msgid "Paste the clipboard"
 msgstr "Вставить из буфера обмена"
 
-#: ../src/calendar/gui/e-comp-editor.c:2206
+#: ../src/calendar/gui/e-comp-editor.c:2214
 #: ../src/composer/e-composer-actions.c:387 ../src/mail/e-mail-reader.c:2868
 #: ../src/modules/addressbook/e-book-shell-view-actions.c:1319
 #: ../src/modules/addressbook/e-book-shell-view-actions.c:1333
 msgid "_Print…"
 msgstr "_Печать…"
 
-#: ../src/calendar/gui/e-comp-editor.c:2213 ../src/mail/e-mail-reader.c:2875
+#: ../src/calendar/gui/e-comp-editor.c:2221 ../src/mail/e-mail-reader.c:2875
 #: ../src/modules/addressbook/e-book-shell-view-actions.c:1326
 #: ../src/modules/calendar/e-cal-shell-view-actions.c:1921
 #: ../src/modules/calendar/e-memo-shell-view-actions.c:838
@@ -9284,55 +9316,55 @@ msgstr "_Печать…"
 msgid "Pre_view…"
 msgstr "Предварительный _просмотр…"
 
-#: ../src/calendar/gui/e-comp-editor.c:2220 ../src/e-util/e-focus-tracker.c:821
+#: ../src/calendar/gui/e-comp-editor.c:2228 ../src/e-util/e-focus-tracker.c:821
 #: ../src/e-util/e-html-editor-actions.c:1154 ../src/e-util/e-web-view.c:484
 #: ../src/mail/e-mail-browser.c:194 ../src/shell/e-shell-window-actions.c:1063
 msgid "Select _All"
 msgstr "Выделить _всё"
 
-#: ../src/calendar/gui/e-comp-editor.c:2222 ../src/e-util/e-focus-tracker.c:224
+#: ../src/calendar/gui/e-comp-editor.c:2230 ../src/e-util/e-focus-tracker.c:224
 #: ../src/e-util/e-focus-tracker.c:280 ../src/e-util/e-focus-tracker.c:822
 #: ../src/mail/e-mail-browser.c:196 ../src/shell/e-shell-window-actions.c:1065
 msgid "Select all text"
 msgstr "Выделить весь текст"
 
-#: ../src/calendar/gui/e-comp-editor.c:2243
+#: ../src/calendar/gui/e-comp-editor.c:2251
 msgid "_Classification"
 msgstr "_Классификация"
 
-#: ../src/calendar/gui/e-comp-editor.c:2257
+#: ../src/calendar/gui/e-comp-editor.c:2265
 #: ../src/e-util/e-html-editor-actions.c:1177
-#: ../src/e-util/e-mail-signature-editor.c:342 ../src/mail/e-mail-browser.c:210
-#: ../src/mail/e-mail-notes.c:1118 ../src/shell/e-shell-window-actions.c:1114
+#: ../src/e-util/e-mail-signature-editor.c:348 ../src/mail/e-mail-browser.c:210
+#: ../src/mail/e-mail-notes.c:1123 ../src/shell/e-shell-window-actions.c:1114
 msgid "_File"
 msgstr "_Файл"
 
-#: ../src/calendar/gui/e-comp-editor.c:2271
+#: ../src/calendar/gui/e-comp-editor.c:2279
 #: ../src/e-util/e-html-editor-actions.c:1198
 msgid "_Insert"
 msgstr "_Вставка"
 
-#: ../src/calendar/gui/e-comp-editor.c:2278
+#: ../src/calendar/gui/e-comp-editor.c:2286
 #: ../src/composer/e-composer-actions.c:377
 msgid "_Options"
 msgstr "_Параметры"
 
-#: ../src/calendar/gui/e-comp-editor.c:2285
+#: ../src/calendar/gui/e-comp-editor.c:2293
 #: ../src/e-util/e-html-editor-actions.c:1219 ../src/mail/e-mail-browser.c:224
 #: ../src/shell/e-shell-window-actions.c:1157
-#: ../src/smime/gui/certificate-manager.c:1657 ../src/smime/gui/smime-ui.ui.h:3
+#: ../src/smime/gui/certificate-manager.c:1592 ../src/smime/gui/smime-ui.ui.h:3
 msgid "_View"
 msgstr "_Вид"
 
-#: ../src/calendar/gui/e-comp-editor.c:2297
+#: ../src/calendar/gui/e-comp-editor.c:2305
 msgid "Save current changes"
 msgstr "Сохранить текущие изменения"
 
-#: ../src/calendar/gui/e-comp-editor.c:2304
+#: ../src/calendar/gui/e-comp-editor.c:2312
 msgid "Save current changes and close editor"
 msgstr "Сохранить текущие изменения и закрыть редактор"
 
-#: ../src/calendar/gui/e-comp-editor.c:2311
+#: ../src/calendar/gui/e-comp-editor.c:2319
 msgid "Show _toolbar"
 msgstr "Показывать _панель инструментов"
 
@@ -9342,7 +9374,7 @@ msgstr "Показывать _панель инструментов"
 #. * month, %B = full month name. You can change the
 #. * order but don't change the specifiers or add
 #. * anything.
-#: ../src/calendar/gui/e-day-view.c:3189
+#: ../src/calendar/gui/e-day-view.c:3241
 #: ../src/calendar/gui/e-day-view-top-item.c:848
 #: ../src/calendar/gui/e-week-view-main-item.c:207
 #: ../src/calendar/gui/print.c:2143
@@ -9350,7 +9382,7 @@ msgid "%A %d %B"
 msgstr "%A, %d %b"
 
 #. To Translators: the %d stands for a week number, it's value between 1 and 52/53
-#: ../src/calendar/gui/e-day-view.c:3926
+#: ../src/calendar/gui/e-day-view.c:3978
 #, c-format
 msgid "Week %d"
 msgstr "%d неделя"
@@ -9747,13 +9779,13 @@ msgid "Select Timezone"
 msgstr "Выбор часового пояса"
 
 #. Translators: It will display "Time: StartDateAndTime (Duration)"
-#: ../src/calendar/gui/e-to-do-pane.c:485
+#: ../src/calendar/gui/e-to-do-pane.c:505
 #, c-format
 msgid "Time: %s %s"
 msgstr "Время: %s %s"
 
 #. strftime format of a weekday and a date.
-#: ../src/calendar/gui/e-to-do-pane.c:1598 ../src/e-util/e-cell-date-edit.c:338
+#: ../src/calendar/gui/e-to-do-pane.c:1638 ../src/e-util/e-cell-date-edit.c:338
 #: ../src/e-util/e-datetime-format.c:207
 #: ../src/modules/calendar/e-cal-shell-view-actions.c:2036
 #: ../src/modules/itip-formatter/itip-view.c:272
@@ -9761,59 +9793,59 @@ msgid "Today"
 msgstr "Сегодня"
 
 #. strftime format of a weekday and a date.
-#: ../src/calendar/gui/e-to-do-pane.c:1600
+#: ../src/calendar/gui/e-to-do-pane.c:1640
 #: ../src/e-util/e-datetime-format.c:218
 #: ../src/modules/itip-formatter/itip-view.c:300
 msgid "Tomorrow"
 msgstr "Завтра"
 
-#: ../src/calendar/gui/e-to-do-pane.c:1610
+#: ../src/calendar/gui/e-to-do-pane.c:1650
 msgid "Tasks without Due date"
 msgstr "Задачи без даты выполнения"
 
-#: ../src/calendar/gui/e-to-do-pane.c:2199
+#: ../src/calendar/gui/e-to-do-pane.c:2239
 #: ../src/modules/calendar/e-cal-shell-view-actions.c:1558
 msgid "New _Appointment…"
 msgstr "Новое _мероприятие…"
 
-#: ../src/calendar/gui/e-to-do-pane.c:2207
+#: ../src/calendar/gui/e-to-do-pane.c:2247
 #: ../src/modules/calendar/e-cal-shell-view-actions.c:1495
 msgid "New _Meeting…"
 msgstr "Новая _встреча…"
 
-#: ../src/calendar/gui/e-to-do-pane.c:2215
+#: ../src/calendar/gui/e-to-do-pane.c:2255
 msgid "New _Task…"
 msgstr "Новая _задача…"
 
-#: ../src/calendar/gui/e-to-do-pane.c:2223
+#: ../src/calendar/gui/e-to-do-pane.c:2263
 msgid "_New Assigned Task…"
 msgstr "_Новое задание…"
 
-#: ../src/calendar/gui/e-to-do-pane.c:2236
+#: ../src/calendar/gui/e-to-do-pane.c:2276
 msgid "_Open…"
 msgstr "_Открыть…"
 
-#: ../src/calendar/gui/e-to-do-pane.c:2251
+#: ../src/calendar/gui/e-to-do-pane.c:2291
 msgid "_Delete This Instance…"
 msgstr "_Удалить эту запись…"
 
-#: ../src/calendar/gui/e-to-do-pane.c:2260
+#: ../src/calendar/gui/e-to-do-pane.c:2300
 msgid "Delete This and F_uture Occurrences…"
 msgstr "Удалить эту и последующие повторения…"
 
-#: ../src/calendar/gui/e-to-do-pane.c:2269
+#: ../src/calendar/gui/e-to-do-pane.c:2309
 msgid "D_elete All Instances…"
 msgstr "_Удалить все повторы…"
 
-#: ../src/calendar/gui/e-to-do-pane.c:2277
+#: ../src/calendar/gui/e-to-do-pane.c:2317
 msgid "_Delete…"
 msgstr "У_далите…"
 
-#: ../src/calendar/gui/e-to-do-pane.c:2295
+#: ../src/calendar/gui/e-to-do-pane.c:2335
 msgid "_Show Tasks without Due date"
 msgstr "_Показывать задачи без времени завершения"
 
-#: ../src/calendar/gui/e-to-do-pane.c:2574
+#: ../src/calendar/gui/e-to-do-pane.c:2614
 msgid "To Do"
 msgstr "Дела"
 
@@ -12083,27 +12115,27 @@ msgstr "Подписать с по_мощью S/MIME"
 msgid "Sign this message with your S/MIME Signature Certificate"
 msgstr "Подписать это сообщение вашим сертификатом шифрования S/MIME"
 
-#: ../src/composer/e-composer-actions.c:522
+#: ../src/composer/e-composer-actions.c:538
 msgid "_Bcc Field"
 msgstr "_Поле «Скрытая копия»"
 
-#: ../src/composer/e-composer-actions.c:524
+#: ../src/composer/e-composer-actions.c:540
 msgid "Toggles whether the BCC field is displayed"
 msgstr "Переключить отображение поля скрытой копии"
 
-#: ../src/composer/e-composer-actions.c:530
+#: ../src/composer/e-composer-actions.c:546
 msgid "_Cc Field"
 msgstr "Поле «Копия»"
 
-#: ../src/composer/e-composer-actions.c:532
+#: ../src/composer/e-composer-actions.c:548
 msgid "Toggles whether the CC field is displayed"
 msgstr "Переключить отображение поля копии"
 
-#: ../src/composer/e-composer-actions.c:538
+#: ../src/composer/e-composer-actions.c:554
 msgid "_From Override Field"
 msgstr "_Переназначение поля «От»"
 
-#: ../src/composer/e-composer-actions.c:540
+#: ../src/composer/e-composer-actions.c:556
 msgid ""
 "Toggles whether the From override field to change name or email address is "
 "displayed"
@@ -12111,29 +12143,29 @@ msgstr ""
 "Переключает переназначение поля «От» для изменения отображаемого имени или "
 "адреса эл. почты"
 
-#: ../src/composer/e-composer-actions.c:546
+#: ../src/composer/e-composer-actions.c:562
 msgid "_Reply-To Field"
 msgstr "Поле «Об_ратный адрес»"
 
-#: ../src/composer/e-composer-actions.c:548
+#: ../src/composer/e-composer-actions.c:564
 msgid "Toggles whether the Reply-To field is displayed"
 msgstr "Показывать или нет поле «Обратный адрес»"
 
-#: ../src/composer/e-composer-actions.c:554
+#: ../src/composer/e-composer-actions.c:570
 msgid "Visually _Wrap Long Lines"
 msgstr "Визуально _переносить длинные строки"
 
-#: ../src/composer/e-composer-actions.c:642
+#: ../src/composer/e-composer-actions.c:658
 msgid "Attach"
 msgstr "Вложить"
 
-#: ../src/composer/e-composer-actions.c:648
+#: ../src/composer/e-composer-actions.c:664
 msgid "Save Draft"
 msgstr "Сохранить черновик"
 
 #: ../src/composer/e-composer-from-header.c:108
 #: ../src/e-util/e-collection-account-wizard.c:2101
-#: ../src/e-util/e-mail-signature-script-dialog.c:408
+#: ../src/e-util/e-mail-signature-script-dialog.c:410
 #: ../src/e-util/e-webdav-browser.c:2557
 #: ../src/e-util/gal-view-instance-save-as-dialog.ui.h:2
 #: ../src/mail/e-mail-config-identity-page.c:551
@@ -12200,7 +12232,7 @@ msgstr "Нажмите, чтобы создать адресную книгу"
 msgid "Click here to select folders to post to"
 msgstr "Нажмите, чтобы выбрать папки для помещения в них сообщений"
 
-#: ../src/composer/e-composer-private.c:94
+#: ../src/composer/e-composer-private.c:100
 msgid "Send"
 msgstr "Отправить"
 
@@ -12618,7 +12650,7 @@ msgstr "Размер"
 #: ../src/mail/message-list.etspec.h:6 ../src/mail/searchtypes.xml.in.h:17
 #: ../src/mail/vfoldertypes.xml.in.h:17
 #: ../src/modules/mail/em-mailer-prefs.c:76
-#: ../src/smime/gui/certificate-manager.c:1638
+#: ../src/smime/gui/certificate-manager.c:1573
 msgid "Subject"
 msgstr "Тема"
 
@@ -13079,7 +13111,7 @@ msgstr "Учётные записи Evolution"
 #. gtk_box_pack_start (GTK_BOX (container), widget, FALSE, FALSE, 0);
 #. webdav_browser->priv->permissions_button = widget;
 #: ../src/e-util/e-accounts-window.c:1771 ../src/e-util/e-webdav-browser.c:2868
-#: ../src/mail/em-subscription-editor.c:1927
+#: ../src/mail/em-subscription-editor.c:1949
 #: ../src/modules/mail/e-mail-shell-view-actions.c:1594
 #: ../src/modules/mail/e-mail-shell-view-actions.c:1672
 msgid "_Refresh"
@@ -13197,27 +13229,27 @@ msgstr "Не удалось сохранить изображение «%s»"
 msgid "Could not save the attachment"
 msgstr "Не удалось сохранить вложение"
 
-#: ../src/e-util/e-attachment-dialog.c:295
+#: ../src/e-util/e-attachment-dialog.c:296
 msgid "Attachment Properties"
 msgstr "Свойства вложения"
 
-#: ../src/e-util/e-attachment-dialog.c:317
+#: ../src/e-util/e-attachment-dialog.c:318
 #: ../src/e-util/e-import-assistant.c:303
 msgid "F_ilename:"
 msgstr "_Имя файла:"
 
-#: ../src/e-util/e-attachment-dialog.c:334
+#: ../src/e-util/e-attachment-dialog.c:335
 #: ../src/e-util/e-html-editor-image-dialog.c:602
 #: ../src/e-util/e-html-editor-link-dialog.c:228
 #: ../src/e-util/e-webdav-browser.c:2613
 msgid "_Description:"
 msgstr "_Описание:"
 
-#: ../src/e-util/e-attachment-dialog.c:352
+#: ../src/e-util/e-attachment-dialog.c:353
 msgid "MIME Type:"
 msgstr "Тип MIME:"
 
-#: ../src/e-util/e-attachment-dialog.c:360
+#: ../src/e-util/e-attachment-dialog.c:361
 #: ../src/e-util/e-attachment-store.c:700
 msgid "_Suggest automatic display of attachment"
 msgstr "_Предполагать автоматическое отображение вложения"
@@ -13495,7 +13527,7 @@ msgctxt "table-date"
 msgid "None"
 msgstr "Нет"
 
-#: ../src/e-util/e-cell-date-edit.c:356 ../src/mail/e-mail-label-dialog.c:190
+#: ../src/e-util/e-cell-date-edit.c:356 ../src/mail/e-mail-label-dialog.c:191
 msgid "OK"
 msgstr "ОК"
 
@@ -13703,7 +13735,7 @@ msgstr "_Имя пользователя:"
 
 #: ../src/e-util/e-collection-account-wizard.c:703
 #: ../src/plugins/publish-calendar/publish-calendar.ui.h:30
-#: ../src/smime/gui/certificate-manager.c:767
+#: ../src/smime/gui/certificate-manager.c:757
 msgid "_Password:"
 msgstr "_Пароль:"
 
@@ -15731,23 +15763,24 @@ msgstr "дни"
 msgid "Autogenerated"
 msgstr "Автоматически сгенерированная"
 
-#: ../src/e-util/e-mail-signature-editor.c:330 ../src/mail/e-mail-notes.c:1106
+#: ../src/e-util/e-mail-signature-editor.c:336 ../src/mail/e-mail-notes.c:1111
 msgid "Close"
 msgstr "Закрыть"
 
-#: ../src/e-util/e-mail-signature-editor.c:335 ../src/mail/e-mail-notes.c:1111
+#: ../src/e-util/e-mail-signature-editor.c:341 ../src/mail/e-mail-notes.c:1116
 msgid "_Save and Close"
 msgstr "Со_хранить и закрыть"
 
-#: ../src/e-util/e-mail-signature-editor.c:573
+#: ../src/e-util/e-mail-signature-editor.c:587
+#: ../src/e-util/e-mail-signature-editor.c:602
 msgid "Edit Signature"
 msgstr "Изменить подпись"
 
-#: ../src/e-util/e-mail-signature-editor.c:577 ../src/mail/e-mail-notes.c:1186
+#: ../src/e-util/e-mail-signature-editor.c:591 ../src/mail/e-mail-notes.c:1198
 msgid "Save"
 msgstr "Сохранить"
 
-#: ../src/e-util/e-mail-signature-editor.c:600
+#: ../src/e-util/e-mail-signature-editor.c:628
 msgid "_Signature Name:"
 msgstr "_Имя подписи:"
 
@@ -15763,7 +15796,7 @@ msgstr "Добавление скрипта подписи"
 msgid "Edit Signature Script"
 msgstr "Редактирование скрипта подписи"
 
-#: ../src/e-util/e-mail-signature-script-dialog.c:386
+#: ../src/e-util/e-mail-signature-script-dialog.c:388
 msgid ""
 "The output of this script will be used as your\n"
 "signature. The name you specify will be used\n"
@@ -15773,11 +15806,11 @@ msgstr ""
 "в качестве вашей подписи. Имя, указанное вами,\n"
 "будет использоваться только для отображения."
 
-#: ../src/e-util/e-mail-signature-script-dialog.c:437
+#: ../src/e-util/e-mail-signature-script-dialog.c:439
 msgid "S_cript:"
 msgstr "С_крипт:"
 
-#: ../src/e-util/e-mail-signature-script-dialog.c:468
+#: ../src/e-util/e-mail-signature-script-dialog.c:470
 msgid "Script file must be executable."
 msgstr "Файл скрипта должен быть исполняемым."
 
@@ -16075,11 +16108,11 @@ msgstr "_Запомнить пароль"
 msgid "_Remember this password for the remainder of this session"
 msgstr "_Запомнить этот пароль для напоминателя этого сеанса"
 
-#: ../src/e-util/e-preferences-window.c:300
+#: ../src/e-util/e-preferences-window.c:308
 msgid "Help"
 msgstr "Справка"
 
-#: ../src/e-util/e-preferences-window.c:307
+#: ../src/e-util/e-preferences-window.c:350
 msgid "Evolution Preferences"
 msgstr "Параметры Evolution"
 
@@ -16408,7 +16441,7 @@ msgstr "Показать"
 msgid "Group name"
 msgstr "Имя группы"
 
-#: ../src/e-util/e-source-selector.c:3578 ../src/mail/e-mail-display.c:717
+#: ../src/e-util/e-source-selector.c:3578 ../src/mail/e-mail-display.c:755
 msgid "_Hide"
 msgstr "_Скрыть"
 
@@ -16425,7 +16458,7 @@ msgstr "Управление группами"
 msgid "Available Groups:"
 msgstr "Доступные группы:"
 
-#: ../src/e-util/e-source-selector-dialog.c:327
+#: ../src/e-util/e-source-selector-dialog.c:328
 msgid "Select destination"
 msgstr "Выберите назначение"
 
@@ -17761,25 +17794,12 @@ msgstr "Закрыть это окно"
 msgid "(No Subject)"
 msgstr "(Без темы)"
 
-#: ../src/mail/e-mail-browser.c:532 ../src/mail/mail-dialogs.ui.h:5
-#: ../src/modules/mail/e-mail-shell-view-private.c:1511
-msgid "Forward"
-msgstr "Перенаправить"
-
-#: ../src/mail/e-mail-browser.c:543 ../src/mail/e-mail-reader.c:2917
-#: ../src/modules/mail/e-mail-shell-view-private.c:1522
-msgid "Group Reply"
-msgstr "Ответить всем"
-
-#: ../src/mail/e-mail-browser.c:555 ../src/mail/e-mail-reader.c:5281
-#: ../src/mail/mail-dialogs.ui.h:9
-#: ../src/modules/mail/e-mail-shell-view-private.c:1534
-msgid "Reply"
-msgstr "Ответить"
-
 #. GtkAssistant's back button label.
 #: ../src/mail/e-mail-config-assistant.c:48
-msgid "Go _Back"
+#: ../src/modules/accounts-window/e-collection-wizard-page.c:80
+#: ../src/modules/accounts-window/e-collection-wizard-page.c:229
+#: ../src/modules/accounts-window/e-webdav-browser-page.c:192
+msgid "_Back"
 msgstr "_Назад"
 
 #. GtkAssistant sinks the floating button reference.
@@ -17787,11 +17807,11 @@ msgstr "_Назад"
 msgid "_Skip Lookup"
 msgstr "_Не выполнять поиск"
 
-#: ../src/mail/e-mail-config-assistant.c:710
+#: ../src/mail/e-mail-config-assistant.c:712
 msgid "Evolution Account Assistant"
 msgstr "Мастер учётных записей Evolution"
 
-#: ../src/mail/e-mail-config-assistant.c:1021
+#: ../src/mail/e-mail-config-assistant.c:1025
 msgid "_Revise Details"
 msgstr "_Просмотреть"
 
@@ -17833,7 +17853,7 @@ msgid "Do Not Quote"
 msgstr "Не цитировать"
 
 #: ../src/mail/e-mail-config-composing-page.c:157
-#: ../src/mail/em-composer-utils.c:4243
+#: ../src/mail/em-composer-utils.c:4273
 msgid "Use global setting"
 msgstr "Использовать глобальные настройки"
 
@@ -17865,12 +17885,12 @@ msgid "Language for Reply and Forward attribution text"
 msgstr "Язык для ответа и переадресации"
 
 #: ../src/mail/e-mail-config-composing-page.c:524
-#: ../src/mail/em-composer-utils.c:4247 ../src/mail/mail-config.ui.h:23
+#: ../src/mail/em-composer-utils.c:4277 ../src/mail/mail-config.ui.h:23
 msgid "Start _typing at the bottom"
 msgstr "При ответе начинать _ввод после цитаты"
 
 #: ../src/mail/e-mail-config-composing-page.c:531
-#: ../src/mail/em-composer-utils.c:4250 ../src/mail/mail-config.ui.h:24
+#: ../src/mail/em-composer-utils.c:4280 ../src/mail/mail-config.ui.h:24
 msgid "_Keep signature above the original message"
 msgstr "Помещать подпись _над исходным сообщением при ответе"
 
@@ -18301,55 +18321,55 @@ msgstr "Добро пожаловать"
 msgid "Account Editor"
 msgstr "Редактор учётной записи"
 
-#: ../src/mail/e-mail-display.c:141
+#: ../src/mail/e-mail-display.c:142
 msgid "_Add to Address Book…"
 msgstr "_Добавить в адресную книгу…"
 
-#: ../src/mail/e-mail-display.c:148
+#: ../src/mail/e-mail-display.c:149
 msgid "_To This Address"
 msgstr "_По этому адресу"
 
-#: ../src/mail/e-mail-display.c:155
+#: ../src/mail/e-mail-display.c:156
 msgid "_From This Address"
 msgstr "_С этого адреса"
 
-#: ../src/mail/e-mail-display.c:162
+#: ../src/mail/e-mail-display.c:163
 msgid "Send _Reply To…"
 msgstr "_Отправить ответ…"
 
-#: ../src/mail/e-mail-display.c:164
+#: ../src/mail/e-mail-display.c:165
 msgid "Send a reply message to this address"
 msgstr "Отправить ответ на этот адрес"
 
-#: ../src/mail/e-mail-display.c:171
+#: ../src/mail/e-mail-display.c:172
 msgid "Create Search _Folder"
 msgstr "_Создать папку поиска"
 
-#: ../src/mail/e-mail-display.c:724
+#: ../src/mail/e-mail-display.c:762
 msgid "Hid_e All"
 msgstr "Скрыть _все"
 
-#: ../src/mail/e-mail-display.c:731
+#: ../src/mail/e-mail-display.c:769
 msgid "_View Inline"
 msgstr "_Встроенный просмотр"
 
-#: ../src/mail/e-mail-display.c:738
+#: ../src/mail/e-mail-display.c:776
 msgid "Vie_w All Inline"
 msgstr "В_строенный просмотр для всех"
 
-#: ../src/mail/e-mail-display.c:745
+#: ../src/mail/e-mail-display.c:783
 msgid "_Zoom to 100%"
 msgstr "_Масштабировать до 100%"
 
-#: ../src/mail/e-mail-display.c:747
+#: ../src/mail/e-mail-display.c:785
 msgid "Zoom the image to its natural size"
 msgstr "Масштабировать изображение в натуральный размер"
 
-#: ../src/mail/e-mail-display.c:752
+#: ../src/mail/e-mail-display.c:790
 msgid "_Zoom to window"
 msgstr "_Масштабировать в рамках окна"
 
-#: ../src/mail/e-mail-display.c:754
+#: ../src/mail/e-mail-display.c:792
 msgid "Zoom large images to not be wider than the window width"
 msgstr ""
 "Масштабировать крупные изображения таким образом, чтобы они не были шире "
@@ -18442,7 +18462,7 @@ msgstr "ложный"
 msgid "Junk filtering software:"
 msgstr "ПО для фильтрации спама:"
 
-#: ../src/mail/e-mail-label-dialog.c:214
+#: ../src/mail/e-mail-label-dialog.c:215
 msgid "_Label name:"
 msgstr "_Название метки:"
 
@@ -18508,11 +18528,11 @@ msgstr "Не удалось преобразовать текст в сообщ�
 msgid "Storing changes…"
 msgstr "Сохранение изменений…"
 
-#: ../src/mail/e-mail-notes.c:1182
+#: ../src/mail/e-mail-notes.c:1194 ../src/mail/e-mail-notes.c:1209
 msgid "Edit Message Note"
 msgstr "Редактировать примечание"
 
-#: ../src/mail/e-mail-notes.c:1295
+#: ../src/mail/e-mail-notes.c:1321
 msgid "Retrieving message…"
 msgstr "Получение сообщения…"
 
@@ -18748,12 +18768,12 @@ msgstr "К _исполнению…"
 msgid "Flag the selected messages for follow-up"
 msgstr "Отметить выделенные сообщения к исполнению"
 
-#: ../src/mail/e-mail-reader.c:2642
+#: ../src/mail/e-mail-reader.c:2642 ../src/mail/e-mail-reader.c:5225
 #: ../src/modules/mail/e-mail-attachment-handler.c:389
 msgid "_Forward"
 msgstr "Пе_реслать"
 
-#: ../src/mail/e-mail-reader.c:2644
+#: ../src/mail/e-mail-reader.c:2644 ../src/mail/e-mail-reader.c:5226
 #: ../src/modules/mail/e-mail-attachment-handler.c:391
 msgid "Forward the selected message to someone"
 msgstr "Перенаправить выбранное сообщение кому-либо"
@@ -19030,7 +19050,7 @@ msgstr "Удалить _дублируемые сообщения"
 msgid "Checks selected messages for duplicates"
 msgstr "Проверить выделенные сообщения на наличие дубликатов"
 
-#: ../src/mail/e-mail-reader.c:2903 ../src/mail/em-composer-utils.c:4188
+#: ../src/mail/e-mail-reader.c:2903 ../src/mail/em-composer-utils.c:4218
 #: ../src/mail/mail.error.xml.h:28
 #: ../src/modules/calendar/e-cal-shell-view-actions.c:1586
 #: ../src/modules/mail/e-mail-attachment-handler.c:396
@@ -19050,11 +19070,19 @@ msgstr "Аль_тернативный ответ…"
 msgid "Choose reply options for the selected message"
 msgstr "Выберите параметры ответа для выбранного сообщения"
 
-#: ../src/mail/e-mail-reader.c:2919
+#. Translators: "Group Reply" will reply either to a mailing list
+#. * (if possible and if that configuration option is enabled), or else
+#. * it will reply to all. The word "Group" was chosen because it covers
+#. * either of those, without too strongly implying one or the other.
+#: ../src/mail/e-mail-reader.c:2917 ../src/mail/e-mail-reader.c:5245
+msgid "Group Reply"
+msgstr "Ответить всем"
+
+#: ../src/mail/e-mail-reader.c:2919 ../src/mail/e-mail-reader.c:5246
 msgid "Reply to the mailing list, or to all recipients"
 msgstr "Ответить в список рассылки или всем получателям"
 
-#: ../src/mail/e-mail-reader.c:2924 ../src/mail/em-composer-utils.c:4183
+#: ../src/mail/e-mail-reader.c:2924 ../src/mail/em-composer-utils.c:4213
 #: ../src/mail/mail.error.xml.h:26
 #: ../src/modules/mail/e-mail-attachment-handler.c:403
 msgid "Reply to _List"
@@ -19240,19 +19268,23 @@ msgstr "Отображать сообщения со всеми заголовк
 msgid "Retrieving message"
 msgstr "Загрузка сообщения"
 
-#: ../src/mail/e-mail-reader.c:5260 ../src/mail/filtertypes.xml.in.h:70
+#: ../src/mail/e-mail-reader.c:5299 ../src/mail/filtertypes.xml.in.h:70
 msgid "Delete"
 msgstr "Удалить"
 
-#: ../src/mail/e-mail-reader.c:5270
+#: ../src/mail/e-mail-reader.c:5311
 #: ../src/modules/calendar/e-cal-shell-view-actions.c:1327
 msgid "Next"
 msgstr "Следующее"
 
-#: ../src/mail/e-mail-reader.c:5274
+#: ../src/mail/e-mail-reader.c:5315
 #: ../src/modules/calendar/e-cal-shell-view-actions.c:1320
 msgid "Previous"
 msgstr "Предыдущее"
+
+#: ../src/mail/e-mail-reader.c:5324 ../src/mail/mail-dialogs.ui.h:9
+msgid "Reply"
+msgstr "Ответить"
 
 #: ../src/mail/e-mail-reader-utils.c:144
 msgid "Do not warn me again"
@@ -19439,7 +19471,7 @@ msgstr[2] ""
 
 #. This message is never removed from the camel operation, otherwise the GtkInfoBar
 #. hides itself and the user sees no feedback.
-#: ../src/mail/em-composer-utils.c:857
+#: ../src/mail/em-composer-utils.c:880
 msgid "Waiting for attachments to load…"
 msgstr "Ожидание загрузки вложений…"
 
@@ -19447,7 +19479,7 @@ msgstr "Ожидание загрузки вложений…"
 #. * when quoting messages.  Each ${Variable} gets replaced
 #. * with a value.  To see a full list of available variables,
 #. * see mail/em-composer-utils.c:attribvars array.
-#: ../src/mail/em-composer-utils.c:2062
+#: ../src/mail/em-composer-utils.c:2085
 msgid ""
 "On ${AbbrevWeekdayName}, ${Year}-${Month}-${Day} at ${24Hour}:${Minute} "
 "${TimeZone}, ${Sender} wrote:"
@@ -19455,80 +19487,80 @@ msgstr ""
 "В ${AbbrevWeekdayName}, ${Day}/${Month}/${Year} в ${24Hour}:${Minute} "
 "${TimeZone}, ${Sender} пишет:"
 
-#: ../src/mail/em-composer-utils.c:2068
+#: ../src/mail/em-composer-utils.c:2091
 msgid "-------- Forwarded Message --------"
 msgstr "-------- Пересылаемое сообщение --------"
 
-#: ../src/mail/em-composer-utils.c:2073
+#: ../src/mail/em-composer-utils.c:2096
 msgid "-----Original Message-----"
 msgstr "-------- Исходное сообщение --------"
 
 #. Translators: This is a reply attribution in the message reply subject. The %s is replaced with the subject of the original message. Both 'Re'-s in the 'reply-attribution' translation context should translate into the same string, the same as the ':' separator.
-#: ../src/mail/em-composer-utils.c:2879
+#: ../src/mail/em-composer-utils.c:2909
 #, c-format
 msgctxt "reply-attribution"
 msgid "Re: %s"
 msgstr "Ответ: %s"
 
-#: ../src/mail/em-composer-utils.c:3498
+#: ../src/mail/em-composer-utils.c:3528
 msgid "an unknown sender"
 msgstr "неизвестный отправитель"
 
-#: ../src/mail/em-composer-utils.c:4134
+#: ../src/mail/em-composer-utils.c:4164
 msgid "Alternative Reply"
 msgstr "Альтернативный ответ"
 
-#: ../src/mail/em-composer-utils.c:4137
+#: ../src/mail/em-composer-utils.c:4167
 #: ../src/modules/calendar/e-cal-shell-view-actions.c:1579
 msgid "_Reply"
 msgstr "_Ответить"
 
-#: ../src/mail/em-composer-utils.c:4150
+#: ../src/mail/em-composer-utils.c:4180
 msgid "Recipients:"
 msgstr "Получатели:"
 
-#: ../src/mail/em-composer-utils.c:4178
+#: ../src/mail/em-composer-utils.c:4208
 msgid "Reply to _Sender"
 msgstr "Ответить _отправителю"
 
-#: ../src/mail/em-composer-utils.c:4200
+#: ../src/mail/em-composer-utils.c:4230
 msgid "Reply style:"
 msgstr "Стиль ответа:"
 
-#: ../src/mail/em-composer-utils.c:4208
+#: ../src/mail/em-composer-utils.c:4238
 msgid "_Default"
 msgstr "По _умолчанию"
 
-#: ../src/mail/em-composer-utils.c:4212
+#: ../src/mail/em-composer-utils.c:4242
 msgid "Attach_ment"
 msgstr "Вложение"
 
-#: ../src/mail/em-composer-utils.c:4216
+#: ../src/mail/em-composer-utils.c:4246
 msgid "Inline (_Outlook style)"
 msgstr "Встроенный (в стиле _Outlook)"
 
-#: ../src/mail/em-composer-utils.c:4220
+#: ../src/mail/em-composer-utils.c:4250
 msgid "_Quote"
 msgstr "_Цитировать"
 
-#: ../src/mail/em-composer-utils.c:4224
+#: ../src/mail/em-composer-utils.c:4254
 msgid "Do _Not Quote"
 msgstr "Не цитировать"
 
 #. Translators: The text is followed by the format combo with values like 'Plain Text', 'HTML' and so on
-#: ../src/mail/em-composer-utils.c:4235
+#: ../src/mail/em-composer-utils.c:4265
 msgid "_Format message in"
 msgstr "_Форматировать сообщение в"
 
-#: ../src/mail/em-composer-utils.c:4257
+#: ../src/mail/em-composer-utils.c:4287
 msgid "Apply t_emplate"
 msgstr "Применить _шаблон"
 
-#: ../src/mail/em-composer-utils.c:4269
+#: ../src/mail/em-composer-utils.c:4299
 msgid "Preserve original message S_ubject"
 msgstr "Сохранить тему исходного сообщения"
 
-#: ../src/mail/em-composer-utils.c:4335
+#: ../src/mail/em-composer-utils.c:4365
 #, c-format
 msgid "one recipient"
 msgid_plural "%d recipients"
@@ -19537,11 +19569,11 @@ msgstr[1] "%d получателя"
 msgstr[2] "%d получателей"
 
 #. FIXME GTK_WINDOW (composer)
-#: ../src/mail/em-composer-utils.c:4820
+#: ../src/mail/em-composer-utils.c:4850
 msgid "Posting destination"
 msgstr "Назначение"
 
-#: ../src/mail/em-composer-utils.c:4825
+#: ../src/mail/em-composer-utils.c:4855
 msgid "Choose folders to post the message to."
 msgstr "Выберите папки для помещения в них сообщений."
 
@@ -19863,7 +19895,7 @@ msgid "Subscribe To _All"
 msgstr "Подписаться на _все"
 
 #: ../src/mail/em-subscription-editor.c:936
-#: ../src/mail/em-subscription-editor.c:1865 ../src/mail/mail.error.xml.h:73
+#: ../src/mail/em-subscription-editor.c:1887 ../src/mail/mail.error.xml.h:73
 #: ../src/modules/mail/e-mail-shell-view-actions.c:1700
 msgid "_Unsubscribe"
 msgstr "_Отказаться от подписки"
@@ -19896,60 +19928,60 @@ msgstr[0] "%d всего"
 msgstr[1] "%d всего"
 msgstr[2] "%d всего"
 
-#: ../src/mail/em-subscription-editor.c:1714
+#: ../src/mail/em-subscription-editor.c:1724
 msgid "Folder Subscriptions"
 msgstr "Подписка на папки"
 
-#: ../src/mail/em-subscription-editor.c:1745
+#: ../src/mail/em-subscription-editor.c:1761
 msgid "_Account:"
 msgstr "_Учётная запись:"
 
-#: ../src/mail/em-subscription-editor.c:1758
+#: ../src/mail/em-subscription-editor.c:1774
 msgid "Clear Search"
 msgstr "Очистить поиск"
 
-#: ../src/mail/em-subscription-editor.c:1775
+#: ../src/mail/em-subscription-editor.c:1791
 msgid "Sho_w items that contain:"
 msgstr "По_казывать элементы, содержащие:"
 
-#: ../src/mail/em-subscription-editor.c:1818
+#: ../src/mail/em-subscription-editor.c:1840
 msgid "Subscribe to the selected folder"
 msgstr "Подписаться на выбранную папку"
 
-#: ../src/mail/em-subscription-editor.c:1819
+#: ../src/mail/em-subscription-editor.c:1841
 msgid "Su_bscribe"
 msgstr "_Подписаться"
 
-#: ../src/mail/em-subscription-editor.c:1864
+#: ../src/mail/em-subscription-editor.c:1886
 #: ../src/modules/mail/e-mail-shell-view-actions.c:1702
 msgid "Unsubscribe from the selected folder"
 msgstr "Отписаться от выделенной папки"
 
-#: ../src/mail/em-subscription-editor.c:1904
+#: ../src/mail/em-subscription-editor.c:1926
 msgid "Collapse all folders"
 msgstr "Свернуть все папки"
 
-#: ../src/mail/em-subscription-editor.c:1905
+#: ../src/mail/em-subscription-editor.c:1927
 msgid "C_ollapse All"
 msgstr "_Свернуть все"
 
-#: ../src/mail/em-subscription-editor.c:1915
+#: ../src/mail/em-subscription-editor.c:1937
 msgid "Expand all folders"
 msgstr "Развернуть все папки"
 
-#: ../src/mail/em-subscription-editor.c:1916
+#: ../src/mail/em-subscription-editor.c:1938
 msgid "E_xpand All"
 msgstr "_Развернуть все"
 
-#: ../src/mail/em-subscription-editor.c:1926
+#: ../src/mail/em-subscription-editor.c:1948
 msgid "Refresh the folder list"
 msgstr "Обновить список папок"
 
-#: ../src/mail/em-subscription-editor.c:1938
+#: ../src/mail/em-subscription-editor.c:1960
 msgid "Stop the current operation"
 msgstr "Остановить текущую операцию"
 
-#: ../src/mail/em-subscription-editor.c:1939
+#: ../src/mail/em-subscription-editor.c:1961
 #: ../src/modules/addressbook/e-book-shell-view-actions.c:1085
 msgid "_Stop"
 msgstr "_Остановить"
@@ -20981,6 +21013,10 @@ msgstr "К исполнению"
 #: ../src/mail/mail-dialogs.ui.h:4
 msgid "For Your Information"
 msgstr "Для сведения"
+
+#: ../src/mail/mail-dialogs.ui.h:5
+msgid "Forward"
+msgstr "Перенаправить"
 
 #: ../src/mail/mail-dialogs.ui.h:6
 msgid "No Response Necessary"
@@ -22276,12 +22312,6 @@ msgstr "Свойства списка заметок"
 #: ../src/modules/calendar/e-task-shell-view-actions.c:276
 msgid "Task List Properties"
 msgstr "Свойства списка задач"
-
-#: ../src/modules/accounts-window/e-collection-wizard-page.c:80
-#: ../src/modules/accounts-window/e-collection-wizard-page.c:229
-#: ../src/modules/accounts-window/e-webdav-browser-page.c:192
-msgid "_Back"
-msgstr "_Назад"
 
 #: ../src/modules/accounts-window/e-webdav-browser-page.c:213
 msgid "_Browse"
@@ -24222,15 +24252,15 @@ msgstr "Открыть _веб-страницу"
 msgid "Print the selected memo"
 msgstr "Печать выделенной заметки"
 
-#: ../src/modules/calendar/e-cal-shell-view-private.c:1075
+#: ../src/modules/calendar/e-cal-shell-view-private.c:1092
 msgid "Searching next matching event"
 msgstr "Поиск следующего совпадающего события"
 
-#: ../src/modules/calendar/e-cal-shell-view-private.c:1076
+#: ../src/modules/calendar/e-cal-shell-view-private.c:1093
 msgid "Searching previous matching event"
 msgstr "Поиск предыдущего совпадающего события"
 
-#: ../src/modules/calendar/e-cal-shell-view-private.c:1097
+#: ../src/modules/calendar/e-cal-shell-view-private.c:1114
 #, c-format
 msgid "Cannot find matching event in the next %d year"
 msgid_plural "Cannot find matching event in the next %d years"
@@ -24238,7 +24268,7 @@ msgstr[0] "Не удалось найти совпадающего событи�
 msgstr[1] "Не удалось найти совпадающего события в %d будущих годах"
 msgstr[2] "Не удалось найти совпадающего события в %d будущих годах"
 
-#: ../src/modules/calendar/e-cal-shell-view-private.c:1101
+#: ../src/modules/calendar/e-cal-shell-view-private.c:1118
 #, c-format
 msgid "Cannot find matching event in the previous %d year"
 msgid_plural "Cannot find matching event in the previous %d years"
@@ -24246,7 +24276,7 @@ msgstr[0] "Не удалось найти совпадающего событи�
 msgstr[1] "Не удалось найти совпадающего события в %d предыдущих годах"
 msgstr[2] "Не удалось найти совпадающего события в %d предыдущих годах"
 
-#: ../src/modules/calendar/e-cal-shell-view-private.c:1124
+#: ../src/modules/calendar/e-cal-shell-view-private.c:1141
 msgid "Cannot search with no active calendar"
 msgstr "Невозможно выполнить поиск без выбранного календаря"
 
@@ -25149,7 +25179,7 @@ msgid "_Update Attendee Status"
 msgstr "_Обновить состояние участника"
 
 #: ../src/modules/itip-formatter/itip-view.c:1298
-#: ../src/smime/gui/certificate-manager.c:1672
+#: ../src/smime/gui/certificate-manager.c:1607
 msgid "_Update"
 msgstr "_Обновить"
 
@@ -26286,7 +26316,7 @@ msgstr[0] "%d непрочитанное"
 msgstr[1] "%d непрочитанных"
 msgstr[2] "%d непрочитанных"
 
-#: ../src/modules/mail/e-mail-shell-view-private.c:1500
+#: ../src/modules/mail/e-mail-shell-view-private.c:1588
 msgid "Send / Receive"
 msgstr "Отправить / Получить"
 
@@ -26467,22 +26497,22 @@ msgstr "Показывать в виде HTML"
 msgid "Display HTML version of multipart/alternative message"
 msgstr "Показывать сообщение multipart/alternative в виде HTML"
 
-#: ../src/modules/prefer-plain/e-mail-parser-prefer-plain.c:69
+#: ../src/modules/prefer-plain/e-mail-parser-prefer-plain.c:133
 #: ../src/modules/prefer-plain/plugin/config-ui.c:35
 msgid "Show HTML if present"
 msgstr "Показывать HTML, если есть"
 
-#: ../src/modules/prefer-plain/e-mail-parser-prefer-plain.c:70
+#: ../src/modules/prefer-plain/e-mail-parser-prefer-plain.c:134
 #: ../src/modules/prefer-plain/plugin/config-ui.c:36
 msgid "Let Evolution choose the best part to show."
 msgstr "Evolution выбирает лучшую часть для отображения."
 
-#: ../src/modules/prefer-plain/e-mail-parser-prefer-plain.c:73
+#: ../src/modules/prefer-plain/e-mail-parser-prefer-plain.c:137
 #: ../src/modules/prefer-plain/plugin/config-ui.c:39
 msgid "Show plain text if present"
 msgstr "Показывать простой текст, если есть"
 
-#: ../src/modules/prefer-plain/e-mail-parser-prefer-plain.c:74
+#: ../src/modules/prefer-plain/e-mail-parser-prefer-plain.c:138
 #: ../src/modules/prefer-plain/plugin/config-ui.c:40
 msgid ""
 "Show plain text part, if present, otherwise let Evolution choose the best "
@@ -26491,24 +26521,24 @@ msgstr ""
 "Показывать часть с простым текстом, если она есть, иначе Evolution выберет "
 "лучшую часть для отображения."
 
-#: ../src/modules/prefer-plain/e-mail-parser-prefer-plain.c:78
+#: ../src/modules/prefer-plain/e-mail-parser-prefer-plain.c:142
 #: ../src/modules/prefer-plain/plugin/config-ui.c:44
 msgid "Show plain text if present, or HTML source"
 msgstr "Показывать простой текст, иначе HTML источник"
 
-#: ../src/modules/prefer-plain/e-mail-parser-prefer-plain.c:79
+#: ../src/modules/prefer-plain/e-mail-parser-prefer-plain.c:143
 #: ../src/modules/prefer-plain/plugin/config-ui.c:45
 msgid "Show plain text part, if present, otherwise the HTML part source."
 msgstr ""
 "Показывать часть с простым текстом, если она есть, иначе Evolution выберет "
 "HTML часть."
 
-#: ../src/modules/prefer-plain/e-mail-parser-prefer-plain.c:83
+#: ../src/modules/prefer-plain/e-mail-parser-prefer-plain.c:147
 #: ../src/modules/prefer-plain/plugin/config-ui.c:49
 msgid "Only ever show plain text"
 msgstr "Всегда показывать простой текст"
 
-#: ../src/modules/prefer-plain/e-mail-parser-prefer-plain.c:84
+#: ../src/modules/prefer-plain/e-mail-parser-prefer-plain.c:148
 #: ../src/modules/prefer-plain/plugin/config-ui.c:50
 msgid ""
 "Always show plain text part and make attachments from other parts, if "
@@ -26790,11 +26820,11 @@ msgstr "_Форматировать как…"
 msgid "_Other languages"
 msgstr "_Другие языки"
 
-#: ../src/modules/text-highlight/e-mail-formatter-text-highlight.c:493
+#: ../src/modules/text-highlight/e-mail-formatter-text-highlight.c:503
 msgid "Text Highlight"
 msgstr "Подсветка текста"
 
-#: ../src/modules/text-highlight/e-mail-formatter-text-highlight.c:494
+#: ../src/modules/text-highlight/e-mail-formatter-text-highlight.c:504
 msgid "Syntax highlighting of mail parts"
 msgstr "Синтаксическая подсветка письма"
 
@@ -28198,11 +28228,6 @@ msgstr "Поиски"
 msgid "Save Search"
 msgstr "Сохранить результаты поиска"
 
-#: ../src/shell/e-shell-headerbar.c:213
-msgctxt "toolbar-button"
-msgid "New"
-msgstr "Создать"
-
 #. Translators: The "Show:" label precedes a combo box that
 #. * allows the user to filter the current view.  Examples of
 #. * items that appear in the combo box are "Unread Messages",
@@ -28561,6 +28586,19 @@ msgstr "Удалить вид: %s"
 msgid "Execute these search parameters"
 msgstr "Выполнить эти параметры поиска"
 
+#. Translators: a 'New' toolbar button caption which is context sensitive and
+#. runs one of the actions under File->New menu
+#: ../src/shell/e-shell-window.c:526
+msgctxt "toolbar-button"
+msgid "New"
+msgstr "Создать"
+
+#. Translators: This is used for the main window title.
+#: ../src/shell/e-shell-window-private.c:771
+#, c-format
+msgid "%s — Evolution"
+msgstr "%s — Evolution"
+
 #. Preview/Alpha/Beta version warning message
 #: ../src/shell/main.c:286
 #, no-c-format
@@ -28851,88 +28889,88 @@ msgstr ""
 "\n"
 "Изменить доверие сертификата:"
 
-#: ../src/smime/gui/certificate-manager.c:85
-#: ../src/smime/gui/certificate-manager.c:105
-#: ../src/smime/gui/certificate-manager.c:126
+#: ../src/smime/gui/certificate-manager.c:75
+#: ../src/smime/gui/certificate-manager.c:95
+#: ../src/smime/gui/certificate-manager.c:116
 msgid "Certificate Name"
 msgstr "Имя сертификата"
 
-#: ../src/smime/gui/certificate-manager.c:86
-#: ../src/smime/gui/certificate-manager.c:107
+#: ../src/smime/gui/certificate-manager.c:76
+#: ../src/smime/gui/certificate-manager.c:97
 msgid "Issued To Organization"
 msgstr "Выдан организации"
 
-#: ../src/smime/gui/certificate-manager.c:87
-#: ../src/smime/gui/certificate-manager.c:108
+#: ../src/smime/gui/certificate-manager.c:77
+#: ../src/smime/gui/certificate-manager.c:98
 msgid "Issued To Organizational Unit"
 msgstr "Выдан подразделению организации"
 
-#: ../src/smime/gui/certificate-manager.c:88
-#: ../src/smime/gui/certificate-manager.c:109
-#: ../src/smime/gui/certificate-manager.c:128
+#: ../src/smime/gui/certificate-manager.c:78
+#: ../src/smime/gui/certificate-manager.c:99
+#: ../src/smime/gui/certificate-manager.c:118
 msgid "Serial Number"
 msgstr "Серийный номер"
 
-#: ../src/smime/gui/certificate-manager.c:89
-#: ../src/smime/gui/certificate-manager.c:110
-#: ../src/smime/gui/certificate-manager.c:129
+#: ../src/smime/gui/certificate-manager.c:79
+#: ../src/smime/gui/certificate-manager.c:100
+#: ../src/smime/gui/certificate-manager.c:119
 msgid "Purposes"
 msgstr "Назначения"
 
-#: ../src/smime/gui/certificate-manager.c:90
-#: ../src/smime/gui/certificate-manager.c:111
-#: ../src/smime/gui/certificate-manager.c:130
+#: ../src/smime/gui/certificate-manager.c:80
+#: ../src/smime/gui/certificate-manager.c:101
+#: ../src/smime/gui/certificate-manager.c:120
 msgid "Issued By"
 msgstr "Выдан"
 
-#: ../src/smime/gui/certificate-manager.c:91
-#: ../src/smime/gui/certificate-manager.c:112
-#: ../src/smime/gui/certificate-manager.c:131
+#: ../src/smime/gui/certificate-manager.c:81
+#: ../src/smime/gui/certificate-manager.c:102
+#: ../src/smime/gui/certificate-manager.c:121
 msgid "Issued By Organization"
 msgstr "Выдан организацией"
 
-#: ../src/smime/gui/certificate-manager.c:92
-#: ../src/smime/gui/certificate-manager.c:113
-#: ../src/smime/gui/certificate-manager.c:132
+#: ../src/smime/gui/certificate-manager.c:82
+#: ../src/smime/gui/certificate-manager.c:103
+#: ../src/smime/gui/certificate-manager.c:122
 msgid "Issued By Organizational Unit"
 msgstr "Выдан подразделением организации"
 
-#: ../src/smime/gui/certificate-manager.c:93
-#: ../src/smime/gui/certificate-manager.c:114
-#: ../src/smime/gui/certificate-manager.c:133
+#: ../src/smime/gui/certificate-manager.c:83
+#: ../src/smime/gui/certificate-manager.c:104
+#: ../src/smime/gui/certificate-manager.c:123
 msgid "Issued"
 msgstr "Выдан"
 
-#: ../src/smime/gui/certificate-manager.c:94
-#: ../src/smime/gui/certificate-manager.c:115
-#: ../src/smime/gui/certificate-manager.c:134
+#: ../src/smime/gui/certificate-manager.c:84
+#: ../src/smime/gui/certificate-manager.c:105
+#: ../src/smime/gui/certificate-manager.c:124
 msgid "Expires"
 msgstr "Годен до"
 
-#: ../src/smime/gui/certificate-manager.c:95
-#: ../src/smime/gui/certificate-manager.c:116
-#: ../src/smime/gui/certificate-manager.c:135
+#: ../src/smime/gui/certificate-manager.c:85
+#: ../src/smime/gui/certificate-manager.c:106
+#: ../src/smime/gui/certificate-manager.c:125
 msgid "SHA256 Fingerprint"
 msgstr "Отпечаток SHA256"
 
-#: ../src/smime/gui/certificate-manager.c:96
-#: ../src/smime/gui/certificate-manager.c:117
-#: ../src/smime/gui/certificate-manager.c:136
+#: ../src/smime/gui/certificate-manager.c:86
+#: ../src/smime/gui/certificate-manager.c:107
+#: ../src/smime/gui/certificate-manager.c:126
 msgid "SHA1 Fingerprint"
 msgstr "Отпечаток SHA1"
 
-#: ../src/smime/gui/certificate-manager.c:97
-#: ../src/smime/gui/certificate-manager.c:118
-#: ../src/smime/gui/certificate-manager.c:137
+#: ../src/smime/gui/certificate-manager.c:87
+#: ../src/smime/gui/certificate-manager.c:108
+#: ../src/smime/gui/certificate-manager.c:127
 msgid "MD5 Fingerprint"
 msgstr "Отпечаток MD5"
 
-#: ../src/smime/gui/certificate-manager.c:106
-#: ../src/smime/gui/certificate-manager.c:127
+#: ../src/smime/gui/certificate-manager.c:96
+#: ../src/smime/gui/certificate-manager.c:117
 msgid "Email Address"
 msgstr "Адрес эл. почты"
 
-#: ../src/smime/gui/certificate-manager.c:653
+#: ../src/smime/gui/certificate-manager.c:643
 msgid "Select a file to backup your key and certificate…"
 msgstr "Выберите файл для резервного копирования ключа и сертификата…"
 
@@ -28941,31 +28979,31 @@ msgstr "Выберите файл для резервного копирован
 #. * when a user wants to backup one of her/his private keys/certificates.
 #. * For example: gnomedev-backup.p12
 #.
-#: ../src/smime/gui/certificate-manager.c:663
+#: ../src/smime/gui/certificate-manager.c:653
 #, c-format
 msgid "%s-backup.p12"
 msgstr "%s-backup.p12"
 
-#: ../src/smime/gui/certificate-manager.c:722
+#: ../src/smime/gui/certificate-manager.c:712
 msgid "Backup Certificate"
 msgstr "Резервное копирование сертификата"
 
 #. filename selection
-#: ../src/smime/gui/certificate-manager.c:737
+#: ../src/smime/gui/certificate-manager.c:727
 msgid "_File name:"
 msgstr "_Имя файла:"
 
 #. FIXME when gtk_file_chooser_button allows GTK_FILE_CHOOSER_ACTION_SAVE use it
-#: ../src/smime/gui/certificate-manager.c:742
+#: ../src/smime/gui/certificate-manager.c:732
 msgid "Please select a file…"
 msgstr "Выберите файл…"
 
-#: ../src/smime/gui/certificate-manager.c:756
+#: ../src/smime/gui/certificate-manager.c:746
 msgid "_Include certificate chain in the backup"
 msgstr "Включить цепочку сертификатов в резервную копию"
 
 #. To Translators: this text was copied from Firefox
-#: ../src/smime/gui/certificate-manager.c:762
+#: ../src/smime/gui/certificate-manager.c:752
 msgid ""
 "The certificate backup password you set here protects the backup file that "
 "you are about to create.\n"
@@ -28975,16 +29013,16 @@ msgstr ""
 "резервной копии, которую вы хотите создать.\n"
 "Назначьте этот пароль, чтобы продолжить резервное копирование."
 
-#: ../src/smime/gui/certificate-manager.c:781
+#: ../src/smime/gui/certificate-manager.c:771
 msgid "_Repeat Password:"
 msgstr "_Повторите пароль:"
 
-#: ../src/smime/gui/certificate-manager.c:800
+#: ../src/smime/gui/certificate-manager.c:790
 msgid "Passwords do not match"
 msgstr "Пароли не совпадают"
 
 #. To Translators: this text was copied from Firefox
-#: ../src/smime/gui/certificate-manager.c:808
+#: ../src/smime/gui/certificate-manager.c:798
 msgid ""
 "Important:\n"
 "If you forget your certificate backup password, you will not be able to "
@@ -28996,92 +29034,92 @@ msgstr ""
 "произвести восстановление резервной копии.\n"
 "Запишите его в безопасное место."
 
-#: ../src/smime/gui/certificate-manager.c:853
+#: ../src/smime/gui/certificate-manager.c:843
 msgid "No file name provided"
 msgstr "Имя файла не предоставлено"
 
-#: ../src/smime/gui/certificate-manager.c:857
+#: ../src/smime/gui/certificate-manager.c:847
 msgid "Failed to backup key and certificate"
 msgstr "Ошибка резервного копирования ключа и сертификата"
 
-#: ../src/smime/gui/certificate-manager.c:949
+#: ../src/smime/gui/certificate-manager.c:939
 msgid "Select a certificate to import…"
 msgstr "Выберите сертификат для импорта…"
 
-#: ../src/smime/gui/certificate-manager.c:998
+#: ../src/smime/gui/certificate-manager.c:988
 msgid "Failed to import certificate"
 msgstr "Сбой при импортировании сертификата"
 
-#: ../src/smime/gui/certificate-manager.c:1115
+#: ../src/smime/gui/certificate-manager.c:1105
 msgctxt "CamelTrust"
 msgid "Ask when used"
 msgstr "Спрашивать при использовании"
 
-#: ../src/smime/gui/certificate-manager.c:1117
+#: ../src/smime/gui/certificate-manager.c:1107
 msgctxt "CamelTrust"
 msgid "Never"
 msgstr "Никогда"
 
-#: ../src/smime/gui/certificate-manager.c:1119
+#: ../src/smime/gui/certificate-manager.c:1109
 msgctxt "CamelTrust"
 msgid "Marginally"
 msgstr "Незначительно"
 
-#: ../src/smime/gui/certificate-manager.c:1121
+#: ../src/smime/gui/certificate-manager.c:1111
 msgctxt "CamelTrust"
 msgid "Fully"
 msgstr "Полностью"
 
-#: ../src/smime/gui/certificate-manager.c:1123
+#: ../src/smime/gui/certificate-manager.c:1113
 msgctxt "CamelTrust"
 msgid "Ultimately"
 msgstr "Абсолютно"
 
-#: ../src/smime/gui/certificate-manager.c:1125
+#: ../src/smime/gui/certificate-manager.c:1115
 msgctxt "CamelTrust"
 msgid "Temporarily"
 msgstr "Временно"
 
-#: ../src/smime/gui/certificate-manager.c:1341
+#: ../src/smime/gui/certificate-manager.c:1275
 msgid "Change certificate trust"
 msgstr "Изменить доверие сертификату"
 
-#: ../src/smime/gui/certificate-manager.c:1353
+#: ../src/smime/gui/certificate-manager.c:1288
 #, c-format
 msgid "Change trust for the host “%s”:"
 msgstr "Изменить доверие для хоста «%s»:"
 
-#: ../src/smime/gui/certificate-manager.c:1377
+#: ../src/smime/gui/certificate-manager.c:1312
 msgctxt "CamelTrust"
 msgid "_Ask when used"
 msgstr "_Спрашивать при использовании"
 
-#: ../src/smime/gui/certificate-manager.c:1378
+#: ../src/smime/gui/certificate-manager.c:1313
 msgctxt "CamelTrust"
 msgid "_Never trust this certificate"
 msgstr "_Никогда не доверять этому сертификату"
 
-#: ../src/smime/gui/certificate-manager.c:1379
+#: ../src/smime/gui/certificate-manager.c:1314
 msgctxt "CamelTrust"
 msgid "_Temporarily trusted (this session only)"
 msgstr "_Временно доверенный (только на текущий сеанс)"
 
-#: ../src/smime/gui/certificate-manager.c:1380
+#: ../src/smime/gui/certificate-manager.c:1315
 msgctxt "CamelTrust"
 msgid "_Marginally trusted"
 msgstr "_Незначительно доверенный"
 
-#: ../src/smime/gui/certificate-manager.c:1381
+#: ../src/smime/gui/certificate-manager.c:1316
 msgctxt "CamelTrust"
 msgid "_Fully trusted"
 msgstr "_Полностью доверенный"
 
-#: ../src/smime/gui/certificate-manager.c:1382
+#: ../src/smime/gui/certificate-manager.c:1317
 msgctxt "CamelTrust"
 msgid "_Ultimately trusted"
 msgstr "_Абсолютно доверенный"
 
-#: ../src/smime/gui/certificate-manager.c:1386
+#: ../src/smime/gui/certificate-manager.c:1321
 msgid ""
 "Before trusting this site, you should examine its certificate and its policy "
 "and procedures (if available)."
@@ -29089,43 +29127,43 @@ msgstr ""
 "Перед подтверждением доверия к этому сайту, вам необходимо проверить его "
 "сертификат, его политику и процедуры (если доступно)."
 
-#: ../src/smime/gui/certificate-manager.c:1401
+#: ../src/smime/gui/certificate-manager.c:1336
 msgid "_Display certificate"
 msgstr "_Показать сертификат"
 
-#: ../src/smime/gui/certificate-manager.c:1606
+#: ../src/smime/gui/certificate-manager.c:1541
 msgid "You have certificates on file that identify these mail servers:"
 msgstr "У вас есть сертификаты в файле, идентифицирующие эти почтовые серверы:"
 
-#: ../src/smime/gui/certificate-manager.c:1637
+#: ../src/smime/gui/certificate-manager.c:1572
 msgid "Host name"
 msgstr "Имя узла"
 
-#: ../src/smime/gui/certificate-manager.c:1639
+#: ../src/smime/gui/certificate-manager.c:1574
 msgid "Issuer"
 msgstr "Поставщик"
 
-#: ../src/smime/gui/certificate-manager.c:1640
+#: ../src/smime/gui/certificate-manager.c:1575
 msgid "Fingerprint"
 msgstr "Отпечаток"
 
-#: ../src/smime/gui/certificate-manager.c:1641
+#: ../src/smime/gui/certificate-manager.c:1576
 msgid "Trust"
 msgstr "Доверие"
 
-#: ../src/smime/gui/certificate-manager.c:1662
+#: ../src/smime/gui/certificate-manager.c:1597
 msgid "_Edit Trust"
 msgstr "_Изменить доверие"
 
-#: ../src/smime/gui/certificate-manager.c:2098
+#: ../src/smime/gui/certificate-manager.c:2033
 msgid "All PKCS12 files"
 msgstr "Все файлы PKCS12"
 
-#: ../src/smime/gui/certificate-manager.c:2115
+#: ../src/smime/gui/certificate-manager.c:2050
 msgid "All email certificate files"
 msgstr "Все файлы с сертификатами почты"
 
-#: ../src/smime/gui/certificate-manager.c:2132
+#: ../src/smime/gui/certificate-manager.c:2067
 msgid "All CA certificate files"
 msgstr "Все файлы сертификатов CA"
 
@@ -29166,7 +29204,7 @@ msgstr "Введите новый пароль для базы данных се
 msgid "Enter new password"
 msgstr "Введите новый пароль"
 
-#: ../src/smime/gui/e-cert-selector.c:182
+#: ../src/smime/gui/e-cert-selector.c:172
 msgid "Select certificate"
 msgstr "Выберите сертификат"
 
@@ -29257,11 +29295,11 @@ msgid "C_ertificate:"
 msgstr "С_ертификат:"
 
 #. x509 certificate usage types
-#: ../src/smime/lib/e-cert.c:418
+#: ../src/smime/lib/e-cert.c:373
 msgid "Sign"
 msgstr "Подписать"
 
-#: ../src/smime/lib/e-cert.c:419
+#: ../src/smime/lib/e-cert.c:374
 msgid "Encrypt"
 msgstr "Зашифровать"
 
@@ -29306,9 +29344,8 @@ msgstr "Не удалось записать хранилище на диск, �
 msgid "Imported Certificate"
 msgstr "Импортированный сертификат"
 
-#, c-format
-#~ msgid "%s — Evolution"
-#~ msgstr "%s — Evolution"
+#~ msgid "Go _Back"
+#~ msgstr "_Назад"
 
 #~ msgid "By how many minutes to shorted new event end time"
 #~ msgstr "На сколько минут сократить время окончания нового события"
