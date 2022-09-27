@@ -605,7 +605,7 @@ e_rss_preferences_maybe_copy_icon (const gchar *feed_id,
 		return NULL;
 	}
 
-	ext = strrchr (basename, '.');
+	ext = basename ? strrchr (basename, '.') : NULL;
 	if (!ext || !ext[1])
 		ext = ".png";
 
