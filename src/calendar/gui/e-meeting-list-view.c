@@ -955,7 +955,9 @@ process_section (EMeetingListView *view,
 
 			email_addr = g_strdup (e_destination_get_email (dest));
 			if (email_addr && *email_addr) {
-				name = g_strdup (e_destination_get_name (dest));
+				name = camel_header_decode_string (e_destination_get_name (dest), "UTF-8");
+				if (!name)
+					name = g_strdup (e_destination_get_name (dest));
 				if (name && !*name) {
 					g_free (name);
 					name = NULL;
