@@ -2210,6 +2210,11 @@ e_mail_shell_view_actions_init (EMailShellView *mail_shell_view)
 		action_group, mail_popup_entries,
 		G_N_ELEMENTS (mail_popup_entries));
 
+	/* WebKitGTK does not support print preview, thus hide the option from the menu;
+	   maybe it'll be supported in the future */
+	action = ACTION (MAIL_PRINT_PREVIEW);
+	gtk_action_set_visible (action, FALSE);
+
 	/* Search Folder Actions */
 	action_group = ACTION_GROUP (SEARCH_FOLDERS);
 	gtk_action_group_add_actions (
