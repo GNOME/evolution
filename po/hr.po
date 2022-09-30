@@ -5,8 +5,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: evolution 0\n"
 "Report-Msgid-Bugs-To: https://gitlab.gnome.org/GNOME/evolution/issues\n"
-"POT-Creation-Date: 2022-09-22 15:16+0000\n"
-"PO-Revision-Date: 2022-09-22 19:59+0200\n"
+"POT-Creation-Date: 2022-09-29 16:55+0000\n"
+"PO-Revision-Date: 2022-09-30 13:35+0200\n"
 "Last-Translator: gogo <trebelnik2@gmail.com>\n"
 "Language-Team: Croatian <lokalizacija@linux.hr>\n"
 "Language: hr\n"
@@ -5997,7 +5997,7 @@ msgstr "Evolution vCard uvoznik"
 
 #. Uncomment next if it is successful to get total number if pages in list view
 #. * g_object_get (operation, "n-pages", &n_pages, NULL)
-#: ../src/addressbook/printing/e-contact-print.c:872
+#: ../src/addressbook/printing/e-contact-print.c:911
 #, c-format
 msgid "Page %d"
 msgstr "Stranica %d"
@@ -14537,17 +14537,17 @@ msgstr "Povećaj odlomak"
 #: ../src/e-util/e-html-editor-actions.c:1236
 #: ../src/e-util/e-html-editor-actions.c:2314
 msgid "E_moji"
-msgstr "E_moji"
+msgstr "E_motikon"
 
 #: ../src/e-util/e-html-editor-actions.c:1238
 #: ../src/e-util/e-html-editor-actions.c:1245
 #: ../src/e-util/e-markdown-editor.c:1464
 msgid "Insert Emoji"
-msgstr "Umetni emoji"
+msgstr "Umetni emotikoin"
 
 #: ../src/e-util/e-html-editor-actions.c:1243
 msgid "Insert E_moji"
-msgstr "Umetni e_moji"
+msgstr "Umetni e_motikon"
 
 #: ../src/e-util/e-html-editor-actions.c:1250
 msgid "_HTML File…"
