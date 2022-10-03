@@ -3463,6 +3463,55 @@ create_tree (ESourceSelector *selector,
 }
 
 static void
+deselect_sources_in_hidden_groups (ESourceSelector *selector)
+{
+	ESourceRegistry *registry;
+	const gchar *extension_name;
+	GNode *root;
+
+	/* No group to hide */
+	if (!g_hash_table_size (selector->priv->hidden_groups))
+		return;
+
+	/* Address books are not selectable */
+	if (g_strcmp0 (e_source_selector_get_extension_name (selector), E_SOURCE_EXTENSION_ADDRESS_BOOK) == 0)
+		return;
+
+	extension_name = e_source_selector_get_extension_name (selector);
+	registry = e_source_selector_get_registry (selector);
+	root = e_source_registry_build_display_tree (registry, extension_name);
+
+	if (root) {
+		GNode *node;
+
+		for (node = g_node_first_child (root); node; node = g_node_next_sibling (node)) {
+			ESource *source;
+
+			source = node->data;
+
+			if (source && g_hash_table_contains (selector->priv->hidden_groups, e_source_get_uid (source))) {
+				GNode *child_node;
+
+				for (child_node = g_node_first_child (node); child_node; child_node = g_node_next_sibling (child_node)) {
+					ESource *child = child_node->data;
+
+					if (child && e_source_has_extension (child, extension_name)) {
+						gpointer extension = e_source_get_extension (child, extension_name);
+
+						if (E_IS_SOURCE_SELECTABLE (extension) &&
+						    e_source_selectable_get_selected (extension)) {
+							e_source_selector_unselect_source (selector, child);
+						}
+					}
+				}
+			}
+		}
+	}
+
+	e_source_registry_free_display_tree (root);
+}
+
+static void
 process_move_button (GtkButton *button,
 		     GtkTreeView *tree,
 		     gboolean is_up,
@@ -3710,6 +3759,7 @@ e_source_selector_manage_groups (ESourceSelector *selector)
 
 		selector->priv->groups_order = g_slist_reverse (selector->priv->groups_order);
 
+		deselect_sources_in_hidden_groups (selector);
 		source_selector_build_model (selector);
 
 		confirmed = TRUE;
