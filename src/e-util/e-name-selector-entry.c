@@ -115,6 +115,20 @@ static void setup_default_contact_store (ENameSelectorEntry *name_selector_entry
 static void deep_free_list (GList *list);
 
 static void
+remove_completion_timeout_sources (ENameSelectorEntry *self)
+{
+	if (self->priv->type_ahead_complete_cb_id) {
+		g_source_remove (self->priv->type_ahead_complete_cb_id);
+		self->priv->type_ahead_complete_cb_id = 0;
+	}
+
+	if (self->priv->update_completions_cb_id) {
+		g_source_remove (self->priv->update_completions_cb_id);
+		self->priv->update_completions_cb_id = 0;
+	}
+}
+
+static void
 name_selector_entry_set_property (GObject *object,
                                   guint property_id,
                                   const GValue *value,
@@ -182,6 +196,7 @@ name_selector_entry_dispose (GObject *object)
 
 	priv = E_NAME_SELECTOR_ENTRY_GET_PRIVATE (object);
 
+	remove_completion_timeout_sources (E_NAME_SELECTOR_ENTRY (object));
 	gtk_editable_set_position (GTK_EDITABLE (object), 0);
 
 	g_clear_object (&priv->client_cache);
@@ -2127,16 +2142,7 @@ user_focus_out (ENameSelectorEntry *name_selector_entry,
 		entry_activate (name_selector_entry);
 	}
 
-	if (name_selector_entry->priv->type_ahead_complete_cb_id) {
-		g_source_remove (name_selector_entry->priv->type_ahead_complete_cb_id);
-		name_selector_entry->priv->type_ahead_complete_cb_id = 0;
-	}
-
-	if (name_selector_entry->priv->update_completions_cb_id) {
-		g_source_remove (name_selector_entry->priv->update_completions_cb_id);
-		name_selector_entry->priv->update_completions_cb_id = 0;
-	}
-
+	remove_completion_timeout_sources (name_selector_entry);
 	clear_completion_model (name_selector_entry);
 
 	if (!event_focus->in) {
@@ -2160,16 +2166,7 @@ user_key_press_event_cb (ENameSelectorEntry *name_selector_entry,
 	    gtk_editable_get_selection_bounds (GTK_EDITABLE (name_selector_entry), NULL, &end)) {
 		entry_activate (name_selector_entry);
 
-		if (name_selector_entry->priv->type_ahead_complete_cb_id) {
-			g_source_remove (name_selector_entry->priv->type_ahead_complete_cb_id);
-			name_selector_entry->priv->type_ahead_complete_cb_id = 0;
-		}
-
-		if (name_selector_entry->priv->update_completions_cb_id) {
-			g_source_remove (name_selector_entry->priv->update_completions_cb_id);
-			name_selector_entry->priv->update_completions_cb_id = 0;
-		}
-
+		remove_completion_timeout_sources (name_selector_entry);
 		clear_completion_model (name_selector_entry);
 
 		sanitize_entry (name_selector_entry);
