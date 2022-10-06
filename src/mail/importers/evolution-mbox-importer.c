@@ -424,7 +424,8 @@ mbox_get_preview (EImport *ei,
 	GtkListStore *store = NULL;
 	GtkTreeIter iter;
 	GtkWidget *preview_widget = NULL;
-	gboolean any_read = FALSE;
+	gint n_read = 0;
+	gboolean shortened_list = FALSE;
 
 	if (!create_preview_func || !fill_preview_func)
 		return NULL;
@@ -453,7 +454,13 @@ mbox_get_preview (EImport *ei,
 	while (camel_mime_parser_step (mp, NULL, NULL) == CAMEL_MIME_PARSER_STATE_FROM) {
 		CamelMimeMessage *msg;
 
-		any_read = TRUE;
+		n_read++;
+
+		/* Read only first few messages, not the whole mbox */
+		if (n_read > 10) {
+			shortened_list = TRUE;
+			break;
+		}
 
 		msg = camel_mime_message_new ();
 		if (!camel_mime_part_construct_from_parser_sync (
@@ -469,7 +476,7 @@ mbox_get_preview (EImport *ei,
 		camel_mime_parser_step (mp, NULL, NULL);
 	}
 
-	if (!any_read) {
+	if (!n_read) {
 		CamelStream *stream;
 
 		stream = camel_stream_fs_new_with_name (filename, O_RDONLY, 0, NULL);
@@ -515,9 +522,20 @@ mbox_get_preview (EImport *ei,
 			tree_view, -1, C_("mboxImp", "From"),
 			gtk_cell_renderer_text_new (), "text", 1, NULL);
 
-		if (gtk_tree_model_iter_n_children (GTK_TREE_MODEL (store), NULL) > 1)
-			e_web_view_preview_show_tree_view (
-				E_WEB_VIEW_PREVIEW (preview));
+		if (gtk_tree_model_iter_n_children (GTK_TREE_MODEL (store), NULL) > 1) {
+			e_web_view_preview_show_tree_view (E_WEB_VIEW_PREVIEW (preview));
+
+			if (shortened_list) {
+				GtkTreeIter iter;
+
+				gtk_list_store_append (store, &iter);
+				gtk_list_store_set (store, &iter,
+					0, _("Showing only first few messages, more will be imported"),
+					1, "",
+					2, NULL,
+					-1);
+			}
+		}
 
 		create_preview_func (G_OBJECT (preview), &preview_widget);
 		if (!preview_widget) {
