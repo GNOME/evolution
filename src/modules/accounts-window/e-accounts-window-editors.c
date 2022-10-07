@@ -382,9 +382,9 @@ accounts_window_editors_get_editing_flags_cb (EAccountsWindow *accounts_window,
 		if (e_source_has_extension (source, E_SOURCE_EXTENSION_GOA) ||
 		    e_source_has_extension (source, E_SOURCE_EXTENSION_UOA)) {
 			if (editors->gcc_program_path)
-				*out_flags = E_SOURCE_EDITING_FLAG_CAN_EDIT;
+				*out_flags = E_SOURCE_EDITING_FLAG_CAN_ENABLE | E_SOURCE_EDITING_FLAG_CAN_EDIT;
 			else
-				*out_flags = E_SOURCE_EDITING_FLAG_NONE;
+				*out_flags = E_SOURCE_EDITING_FLAG_CAN_ENABLE;
 		} else {
 			*out_flags = E_SOURCE_EDITING_FLAG_CAN_ENABLE | E_SOURCE_EDITING_FLAG_CAN_EDIT | E_SOURCE_EDITING_FLAG_CAN_DELETE;
 		}
