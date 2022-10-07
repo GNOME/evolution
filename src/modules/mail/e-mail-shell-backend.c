@@ -870,6 +870,14 @@ mail_shell_backend_changes_committed_cb (EMailConfigWindow *window,
 	service = camel_session_ref_service (CAMEL_SESSION (session), uid);
 	g_return_if_fail (service != NULL);
 
+	if (CAMEL_IS_STORE (service)) {
+		EMFolderTreeModel *model;
+
+		model = em_folder_tree_model_get_default ();
+		if (model)
+			em_folder_tree_model_update_folder_icons_for_store (model, CAMEL_STORE (service));
+	}
+
 	shell_backend = E_SHELL_BACKEND (mail_shell_backend);
 
 	shell = e_shell_backend_get_shell (shell_backend);
