@@ -32,16 +32,16 @@ msgid ""
 msgstr ""
 "Project-Id-Version: manual_evolution\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2022-03-15 11:24+0000\n"
-"PO-Revision-Date: 2022-03-19 22:42+0100\n"
-"Last-Translator: Tim Sabsch <tim@sabsch.com>\n"
+"POT-Creation-Date: 2022-09-19 16:58+0000\n"
+"PO-Revision-Date: 2022-10-08 21:12+0200\n"
+"Last-Translator: Christian Kirbach <christian.kirbach@gmail.com>\n"
 "Language-Team: German <gnome-de@gnome.org>\n"
 "Language: de\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
-"X-Generator: Poedit 3.0.1\n"
+"X-Generator: Poedit 3.1.1\n"
 
 #. Put one translator per line, in the form NAME <EMAIL>, YEAR1, YEAR2
 msgctxt "_"
@@ -6111,6 +6111,9 @@ msgid ""
 "OAuth2\">documentation how to set up and troubleshoot OAuth2</link> "
 "authentication."
 msgstr ""
+"Lesen Sie bitte auch die <link href=\"https://wiki.gnome.org/Apps/Evolution/"
+"EWS/OAuth2\">Dokumentation zur Einrichtung und Fehlerbehandlung der OAuth2</"
+"link>-Legitimierung."
 
 #. (itstool) path: info/title
 #: C/mail-account-manage-microsoft-exchange-evo-ews.page:39
@@ -12355,6 +12358,8 @@ msgid ""
 "the syntax is: <code>h:headerName=value</code> while the equal sign is used "
 "only as a delimiter, not as a match rule"
 msgstr ""
+"Die Syntax lautet: <code>h:KopfzeilenName=Wert</code>, wobei das "
+"Gleichzeichen als Trenner dient und nicht als Trefferregel"
 
 #. (itstool) path: td/p
 #: C/mail-searching.page:77
@@ -12418,6 +12423,8 @@ msgstr "Jeder andere Wert wird auf Belegung geprüft."
 msgid ""
 "whether certain <link xref=\"mail-labels\">label</link> is set on the message"
 msgstr ""
+"Ob eine bestimmte <link xref=\"mail-labels\">Beschriftung</link> für die "
+"Nachricht vergeben ist"
 
 #. (itstool) path: td/p
 #: C/mail-searching.page:88
@@ -12478,6 +12485,9 @@ msgid ""
 "message has (if the value is not any of <code>no</code>, <code>false</code>, "
 "<code>0</code>) an attachment. Similar to <code>flag:attachment</code> tag."
 msgstr ""
+"Nachricht enthält einen Anhang (wenn der Wert nicht <code>no</code>, "
+"<code>false</code> oder <code>0</code> ist). Vergleichbar mit dem "
+"Schlüsselwort <code>flag:attachment</code>."
 
 #. (itstool) path: td/p
 #: C/mail-searching.page:95
@@ -12486,6 +12496,9 @@ msgid ""
 "<gui>Properties</gui>. Example: <code>location:\"On This Computer/Inbox\"</"
 "code>"
 msgstr ""
+"Prüft den Nachrichtenort. Der Wert (Adresse) für den Ort steht in den "
+"<gui>Eigenschaften</gui> des Ordners. Ein Beispiel: <code>location:\"Auf "
+"diesem Rechner/Inbox\"</code>"
 
 #. (itstool) path: td/p
 #: C/mail-searching.page:96
@@ -12535,7 +12548,7 @@ msgstr "Die Kopfzeile endet mit dem angegebenen Wert"
 #. (itstool) path: td/p
 #: C/mail-searching.page:106
 msgid "header value sounds similar to given value"
-msgstr ""
+msgstr "Die Kopfzeile ist ähnlich dem angegebenen Wert"
 
 #. (itstool) path: td/p
 #: C/mail-searching.page:107
@@ -12560,6 +12573,16 @@ msgid ""
 "code>, <code>=</code> or <code>&gt;</code>, where the <code>&gt;</code> is "
 "the default compare option."
 msgstr ""
+"(**) Zeiträume können relativ geschrieben werden (positive Zahlen bedeuten "
+"<code>in den letzten X Tagen</code>). Negative Zahlen bedeuten Tage in der "
+"Zukunft. So werden beispielsweise die empfangenen Nachrichten aus den "
+"letzten 10 Tagen ermittelt: <code>recv:10</code>. Ein genaues Datum wird im "
+"Format <code>JJJJ-MM-TT</code> (ISO 8601 Format, bevorzugt) angegeben, oder "
+"in einem Datums/Zeit-Datums-Format der lokalen Spracheinstellungen. Wenn das "
+"Verarbeiten der Angabe fehlschlägt, so wird die Bedingung übersprungen. Ein "
+"Datumsvergleich darf zusätzliche Optionen haben. Diese sind <code>&lt;</"
+"code>, <code>=</code> und <code>&gt;</code>. Die Vorgabeoption ist <code>&gt;"
+"</code>."
 
 #. (itstool) path: section/p
 #: C/mail-searching.page:111
@@ -12578,6 +12601,13 @@ msgid ""
 "From and <code>John</code> in the To, while <code>or:(f:Bugzilla t:John)</"
 "code> filters messages from Bugzilla or addressed to John."
 msgstr ""
+"womit das Erstellen von speziellen Ausdrücken ermöglicht wird. Die Standard-"
+"Verknüpfung (und äußerste) ist <code>UND</code>. Um sie in <code>ODER</code> "
+"zu ändern, umschließen Sie den gesamten Filter so: <code>or:(....)</code>. "
+"Zum Beispiel: <code>f:Bugzilla t:John</code> filtert alle Nachrichten, die "
+"<code>Bugzilla</code> im Von-Feld und <code>John</code> im An:-Feld "
+"enthalten. <code>or:(f:Bugzilla t:John)</code> filtert nach Nachrichten von "
+"Bugzilla und nach Nachrichten, welche an John adressiert sind."
 
 #. (itstool) path: section/title
 #: C/mail-searching.page:121
@@ -13089,16 +13119,12 @@ msgstr ""
 
 #. (itstool) path: item/p
 #: C/mail-sorting-folder-list.page:44
-#, fuzzy
-#| msgid ""
-#| "You can disable the to do bar by toggling <guiseq><gui>View</"
-#| "gui><gui>Layout</gui><gui>Show To Do Bar</gui></guiseq>."
 msgid ""
 "You can change the sort order of folders under <guiseq><gui>Folder</"
 "gui><gui>Edit Sort Order…</gui></guiseq>."
 msgstr ""
-"Sie können die To-Do-Leiste über <guiseq><gui>Ansicht</gui><gui>Anordnung</"
-"gui><gui>To-Do-Leiste anzeigen</gui></guiseq> ein- oder ausblenden."
+"Sie können die Sortierreihenfolge für Ordner über <guiseq><gui>Ordner</"
+"gui><gui>Sortierreihenfolge bearbeiten …</gui></guiseq> anpassen."
 
 #. (itstool) path: info/desc
 #: C/mail-sorting-message-list.page:5
@@ -13179,13 +13205,15 @@ msgid ""
 "Advanced users can change further thread settings by running commands in the "
 "<app>Terminal</app> application."
 msgstr ""
+"Fortgeschrittene Benutzer können weitere Konversationseinstellungen "
+"anpassen, indem Befehle in der <app>Terminal</app>-Anwendung ausgeführt "
+"werden."
 
 #. (itstool) path: item/p
 #: C/mail-sorting-message-list.page:41
-#, fuzzy
 msgid "To sort each thread by latest message rather than by message date:"
 msgstr ""
-"So sortieren Sie jede Konversation nach der neuesten Nachricht anstelle nach "
+"So sortieren Sie jede Konversation nach der neuesten Nachricht anstatt nach "
 "Nachrichtendatum:"
 
 #. (itstool) path: item/p
@@ -13194,6 +13222,9 @@ msgid ""
 "To use ascending sort order of child messages in a thread rather than the "
 "sort order as in the thread root level:"
 msgstr ""
+"So stellen Sie aufsteigende Sortierreihenfolge von Unternachrichten in einer "
+"Konversation ein anstatt der Sortierreihenfolge wie in der obersten Ebene "
+"der Konversation:"
 
 #. (itstool) path: item/p
 #: C/mail-sorting-message-list.page:49
