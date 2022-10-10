@@ -98,7 +98,6 @@ inline_filter_add_part (EMailInlineFilter *emif,
 	CamelTransferEncoding encoding;
 	CamelContentType *content_type;
 	CamelDataWrapper *dw;
-	const gchar *mimetype;
 	CamelMimePart *part;
 	CamelStream *mem;
 	gchar *type;
@@ -180,13 +179,20 @@ inline_filter_add_part (EMailInlineFilter *emif,
 		camel_mime_part_set_filename (part, emif->filename);
 
 	/* pre-snoop the mime type of unknown objects, and poke and hack it into place */
-	if (camel_content_type_is (camel_data_wrapper_get_mime_type_field (dw), "application", "octet-stream")
-	    && (mimetype = e_mail_part_snoop_type (part))
-	    && strcmp (mimetype, "application/octet-stream") != 0) {
-		camel_data_wrapper_set_mime_type (dw, mimetype);
-		camel_mime_part_set_content_type (part, mimetype);
-		if (emif->filename)
-			camel_mime_part_set_filename (part, emif->filename);
+	if (camel_content_type_is (camel_data_wrapper_get_mime_type_field (dw), "application", "octet-stream")) {
+		gchar *guessed_mime_type;
+
+		guessed_mime_type = e_mail_part_guess_mime_type (part);
+
+		if (guessed_mime_type &&
+		    strcmp (guessed_mime_type, "application/octet-stream") != 0) {
+			camel_data_wrapper_set_mime_type (dw, guessed_mime_type);
+			camel_mime_part_set_content_type (part, guessed_mime_type);
+			if (emif->filename)
+				camel_mime_part_set_filename (part, emif->filename);
+		}
+
+		g_free (guessed_mime_type);
 	}
 
 	g_free (emif->filename);

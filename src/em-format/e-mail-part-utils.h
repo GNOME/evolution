@@ -31,7 +31,7 @@ gboolean	e_mail_part_is_secured		(CamelMimePart *part);
 const gchar *	e_mail_part_get_frame_security_style
 						(EMailPart *part);
 
-const gchar *	e_mail_part_snoop_type		(CamelMimePart *part);
+gchar *		e_mail_part_guess_mime_type	(CamelMimePart *part);
 
 gboolean	e_mail_part_is_attachment	(CamelMimePart *part);
 

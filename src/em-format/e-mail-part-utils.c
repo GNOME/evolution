@@ -173,21 +173,18 @@ e_mail_part_get_frame_security_style (EMailPart *part)
 }
 
 /**
- * e_mail_part_snoop_type:
+ * e_mail_part_guess_mime_type:
  * @part: a #CamelMimePart
  *
- * Tries to snoop the mime type of a part.
+ * Tries to guess the mime type of a part.
  *
- * Return value: %NULL if unknown (more likely application/octet-stream).
+ * Returns: (transfer full): %NULL if unknown (more likely application/octet-stream).
  **/
-const gchar *
-e_mail_part_snoop_type (CamelMimePart *part)
+gchar *
+e_mail_part_guess_mime_type (CamelMimePart *part)
 {
-	/* cache is here only to be able still return const gchar * */
-	static GHashTable *types_cache = NULL;
-
 	const gchar *filename;
-	gchar *name_type = NULL, *magic_type = NULL, *res, *tmp;
+	gchar *name_type = NULL, *magic_type = NULL, *res;
 	CamelDataWrapper *dw;
 
 	filename = camel_mime_part_get_filename (part);
@@ -240,22 +237,6 @@ e_mail_part_snoop_type (CamelMimePart *part)
 
 	if (res != magic_type)
 		g_free (magic_type);
-
-	if (!types_cache)
-		types_cache = g_hash_table_new_full (
-			g_str_hash, g_str_equal,
-			(GDestroyNotify) g_free,
-			(GDestroyNotify) NULL);
-
-	if (res) {
-		tmp = g_hash_table_lookup (types_cache, res);
-		if (tmp) {
-			g_free (res);
-			res = tmp;
-		} else {
-			g_hash_table_insert (types_cache, res, res);
-		}
-	}
 
 	d (printf ("Snooped mime type %s\n", res));
 	return res;

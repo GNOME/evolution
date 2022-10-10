@@ -55,7 +55,6 @@ struct _EMailPartAttachment {
 	gchar *part_id_with_attachment;
 
 	gboolean shown;
-	const gchar *snoop_mime_type;
 };
 
 struct _EMailPartAttachmentClass {
@@ -72,6 +71,11 @@ void		e_mail_part_attachment_set_expandable
 						(EMailPartAttachment *part,
 						 gboolean expandable);
 gboolean	e_mail_part_attachment_get_expandable
+						(EMailPartAttachment *part);
+void		e_mail_part_attachment_take_guessed_mime_type
+						(EMailPartAttachment *part,
+						 gchar *guessed_mime_type);
+const gchar *	e_mail_part_attachment_get_guessed_mime_type
 						(EMailPartAttachment *part);
 
 G_END_DECLS

@@ -540,8 +540,9 @@ e_mail_part_should_show_inline (EMailPart *part)
 
 	if (E_IS_MAIL_PART_ATTACHMENT (part)) {
 		EMailPartAttachment *empa = E_MAIL_PART_ATTACHMENT (part);
+		const gchar *guessed_mime_type = e_mail_part_attachment_get_guessed_mime_type (empa);
 
-		if (g_strcmp0 (empa->snoop_mime_type, "message/rfc822") == 0)
+		if (guessed_mime_type && g_ascii_strcasecmp (guessed_mime_type, "message/rfc822") == 0)
 			return TRUE;
 	}
 

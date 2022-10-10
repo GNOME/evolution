@@ -23,6 +23,7 @@
 
 struct _EMailPartAttachmentPrivate {
 	EAttachment *attachment;
+	gchar *guessed_mime_type;
 	gboolean expandable;
 };
 
@@ -99,6 +100,7 @@ mail_part_attachment_finalize (GObject *object)
 	EMailPartAttachment *part = E_MAIL_PART_ATTACHMENT (object);
 
 	g_free (part->part_id_with_attachment);
+	g_free (part->priv->guessed_mime_type);
 
 	/* Chain up to parent's finalize() method. */
 	G_OBJECT_CLASS (e_mail_part_attachment_parent_class)->
@@ -225,4 +227,26 @@ e_mail_part_attachment_get_expandable (EMailPartAttachment *part)
 	g_return_val_if_fail (E_IS_MAIL_PART_ATTACHMENT (part), FALSE);
 
 	return part->priv->expandable;
+}
+
+void
+e_mail_part_attachment_take_guessed_mime_type (EMailPartAttachment *part,
+					       gchar *guessed_mime_type)
+{
+	g_return_if_fail (E_IS_MAIL_PART_ATTACHMENT (part));
+
+	if (g_strcmp0 (guessed_mime_type, part->priv->guessed_mime_type) != 0) {
+		g_free (part->priv->guessed_mime_type);
+		part->priv->guessed_mime_type = guessed_mime_type;
+	} else if (guessed_mime_type != part->priv->guessed_mime_type) {
+		g_free (guessed_mime_type);
+	}
+}
+
+const gchar *
+e_mail_part_attachment_get_guessed_mime_type (EMailPartAttachment *part)
+{
+	g_return_val_if_fail (E_IS_MAIL_PART_ATTACHMENT (part), NULL);
+
+	return part->priv->guessed_mime_type;
 }

@@ -113,7 +113,7 @@ empe_text_plain_parse (EMailParserExtension *extension,
 	gint ii, count;
 	EMailInlineFilter *inline_filter;
 	gboolean charset_added = FALSE;
-	const gchar *snoop_type = NULL;
+	gchar *guessed_mime_type = NULL;
 	gboolean is_attachment;
 	gboolean handled = FALSE;
 
@@ -127,15 +127,17 @@ empe_text_plain_parse (EMailParserExtension *extension,
 	/* FIXME: We should discard this multipart if it only contains
 	 * the original text, but it makes this hash lookup more complex */
 	if (!camel_data_wrapper_get_mime_type_field (dw))
-		snoop_type = e_mail_part_snoop_type (part);
+		guessed_mime_type = e_mail_part_guess_mime_type (part);
 
-	/* if we had to snoop the part type to get here, then
+	/* if we had to guess the part type to get here, then
 	 * use that as the base type, yuck */
-	if (snoop_type == NULL
-		|| (type = camel_content_type_decode (snoop_type)) == NULL) {
+	if (guessed_mime_type == NULL ||
+	    (type = camel_content_type_decode (guessed_mime_type)) == NULL) {
 		type = camel_data_wrapper_get_mime_type_field (dw);
 		camel_content_type_ref (type);
 	}
+
+	g_clear_pointer (&guessed_mime_type, g_free);
 
 	if (camel_data_wrapper_get_mime_type_field (dw) && type != camel_data_wrapper_get_mime_type_field (dw) &&
 	    camel_content_type_param (camel_data_wrapper_get_mime_type_field (dw), "charset")) {

@@ -185,7 +185,7 @@ empe_tnef_attachment_parse (EMailParserExtension *extension,
 		CamelDataWrapper *content;
 		CamelStream *stream;
 		gchar *path;
-		const gchar *type;
+		gchar *guessed_mime_type;
 
 		if (!strcmp (d->d_name, ".")
 		    || !strcmp (d->d_name, "..")
@@ -206,9 +206,11 @@ empe_tnef_attachment_parse (EMailParserExtension *extension,
 		camel_medium_set_content ((CamelMedium *) part, content);
 		g_object_unref (content);
 
-		type = e_mail_part_snoop_type (part);
-		if (type)
-		    camel_data_wrapper_set_mime_type ((CamelDataWrapper *) part, type);
+		guessed_mime_type = e_mail_part_guess_mime_type (part);
+		if (guessed_mime_type) {
+			camel_data_wrapper_set_mime_type ((CamelDataWrapper *) part, guessed_mime_type);
+			g_free (guessed_mime_type);
+		}
 
 		camel_mime_part_set_filename (part, d->d_name);
 

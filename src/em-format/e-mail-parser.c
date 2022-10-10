@@ -791,10 +791,9 @@ e_mail_parser_wrap_as_attachment (EMailParser *parser,
 	EMailPartAttachment *empa;
 	EAttachment *attachment;
 	EMailPart *first_part;
-	const gchar *snoop_mime_type;
+	gchar *guessed_mime_type = NULL;
 	GQueue *extensions;
 	CamelContentType *ct;
-	gchar *mime_type;
 	CamelDataWrapper *dw;
 	GByteArray *ba;
 	gsize size;
@@ -802,9 +801,10 @@ e_mail_parser_wrap_as_attachment (EMailParser *parser,
 
 	ct = camel_mime_part_get_content_type (part);
 	extensions = NULL;
-	snoop_mime_type = NULL;
 	if (ct) {
 		EMailExtensionRegistry *reg;
+		gchar *mime_type;
+
 		mime_type = camel_content_type_simple (ct);
 
 		reg = e_mail_parser_get_extension_registry (parser);
@@ -813,25 +813,22 @@ e_mail_parser_wrap_as_attachment (EMailParser *parser,
 
 		if (camel_content_type_is (ct, "text", "*") ||
 		    camel_content_type_is (ct, "message", "*"))
-			snoop_mime_type = mime_type;
+			guessed_mime_type = mime_type;
 		else
 			g_free (mime_type);
 	}
 
-	if (!snoop_mime_type)
-		snoop_mime_type = e_mail_part_snoop_type (part);
+	if (!guessed_mime_type)
+		guessed_mime_type = e_mail_part_guess_mime_type (part);
 
 	if (!extensions) {
 		EMailExtensionRegistry *reg;
 
 		reg = e_mail_parser_get_extension_registry (parser);
-		extensions = e_mail_extension_registry_get_for_mime_type (
-			reg, snoop_mime_type);
+		extensions = e_mail_extension_registry_get_for_mime_type (reg, guessed_mime_type);
 
-		if (!extensions) {
-			extensions = e_mail_extension_registry_get_fallback (
-				reg, snoop_mime_type);
-		}
+		if (!extensions)
+			extensions = e_mail_extension_registry_get_fallback (reg, guessed_mime_type);
 	}
 
 	part_id_len = part_id->len;
@@ -840,7 +837,7 @@ e_mail_parser_wrap_as_attachment (EMailParser *parser,
 	empa = e_mail_part_attachment_new (part, part_id->str);
 	empa->shown = extensions && (!g_queue_is_empty (extensions) &&
 		e_mail_part_is_inline (part, extensions));
-	empa->snoop_mime_type = snoop_mime_type;
+	e_mail_part_attachment_take_guessed_mime_type (empa, guessed_mime_type);
 
 	first_part = g_queue_peek_head (parts_queue);
 	if (first_part != NULL && !E_IS_MAIL_PART_ATTACHMENT (first_part)) {
@@ -883,8 +880,7 @@ e_mail_parser_wrap_as_attachment (EMailParser *parser,
 
 		if (file_info == NULL) {
 			file_info = g_file_info_new ();
-			g_file_info_set_content_type (
-				file_info, empa->snoop_mime_type);
+			g_file_info_set_content_type (file_info, e_mail_part_attachment_get_guessed_mime_type (empa));
 		}
 
 		g_file_info_set_size (file_info, size);
