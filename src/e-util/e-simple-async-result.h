@@ -107,6 +107,9 @@ void		e_simple_async_result_take_error
 gboolean	e_simple_async_result_propagate_error
 						(ESimpleAsyncResult *result,
 						 GError **error);
+void		e_simple_async_result_set_check_cancellable
+						(ESimpleAsyncResult *result,
+						 GCancellable *cancellable);
 void		e_simple_async_result_free_global_memory
 						(void);
 
