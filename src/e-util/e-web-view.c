@@ -100,6 +100,7 @@ struct _EWebViewPrivate {
 };
 
 struct _AsyncContext {
+	GTask *task;
 	EActivity *activity;
 	GFile *destination;
 	GInputStream *input_stream;
@@ -191,6 +192,7 @@ async_context_free (gpointer ptr)
 	if (!async_context)
 		return;
 
+	g_clear_object (&async_context->task);
 	g_clear_object (&async_context->activity);
 	g_clear_object (&async_context->destination);
 	g_clear_object (&async_context->input_stream);
@@ -4059,27 +4061,26 @@ e_web_view_cursor_image_save (EWebView *web_view)
 	}
 }
 
-/* Helper for e_web_view_request() */
 static void
-web_view_request_process_thread (GTask *task,
-				 gpointer source_object,
-				 gpointer task_data,
-				 GCancellable *cancellable)
+web_view_content_request_processed_cb (GObject *source_object,
+				       GAsyncResult *result,
+				       gpointer user_data)
 {
-	AsyncContext *async_context = task_data;
+	AsyncContext *async_context = user_data;
+	GTask *task = g_steal_pointer (&async_context->task);
 	gint64 stream_length = -1;
 	gchar *mime_type = NULL;
 	GError *local_error = NULL;
 
-	if (!e_content_request_process_sync (async_context->content_request,
-		async_context->uri, source_object, &async_context->input_stream,
-		&stream_length, &mime_type, cancellable, &local_error)) {
+	if (!e_content_request_process_finish (E_CONTENT_REQUEST (source_object), result,
+		&async_context->input_stream, &stream_length, &mime_type, &local_error)) {
 		g_task_return_error (task, local_error);
 	} else {
 		g_task_return_boolean (task, TRUE);
 	}
 
 	g_free (mime_type);
+	g_clear_object (&task);
 }
 
 /**
@@ -4134,7 +4135,13 @@ e_web_view_request (EWebView *web_view,
 
 	if (content_request) {
 		async_context->content_request = g_object_ref (content_request);
-		g_task_run_in_thread (task, web_view_request_process_thread);
+		async_context->task = g_object_ref (task);
+		e_content_request_process (async_context->content_request,
+			async_context->uri,
+			G_OBJECT (web_view),
+			cancellable,
+			web_view_content_request_processed_cb,
+			async_context);
 		is_processed = TRUE;
 
 	/* Handle base64-encoded "data:" URIs manually */
