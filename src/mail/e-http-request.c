@@ -369,16 +369,16 @@ e_http_request_process_sync (EContentRequest *request,
 			cancelled_id = g_cancellable_connect (cancellable, G_CALLBACK (http_request_cancelled_cb), temp_session, NULL);
 
 		soup_message_headers_append (soup_message_get_request_headers (message), "Connection", "close");
-		input_stream = soup_session_send (temp_session, message, cancellable, NULL);
+		input_stream = soup_session_send (temp_session, message, cancellable, error);
 
 		if (cancellable && cancelled_id)
 			g_cancellable_disconnect (cancellable, cancelled_id);
 
 		if (!input_stream || !SOUP_STATUS_IS_SUCCESSFUL (soup_message_get_status (message))) {
 			g_debug ("Failed to request %s (code %d)", use_uri, soup_message_get_status (message));
+			g_clear_object (&input_stream);
 			g_object_unref (message);
 			g_object_unref (temp_session);
-			g_clear_object (&input_stream);
 			goto cleanup;
 		}
 
@@ -406,9 +406,9 @@ e_http_request_process_sync (EContentRequest *request,
 					if (!g_error_matches (local_error, G_IO_ERROR, G_IO_ERROR_CANCELLED))
 						g_warning ("Failed to write data to cache stream: %s", local_error->message);
 					g_clear_error (&local_error);
+					g_clear_object (&input_stream);
 					g_object_unref (message);
 					g_object_unref (temp_session);
-					g_clear_object (&input_stream);
 					goto cleanup;
 				}
 
@@ -445,9 +445,9 @@ e_http_request_process_sync (EContentRequest *request,
 			}
 		}
 
+		g_clear_object (&input_stream);
 		g_object_unref (message);
 		g_object_unref (temp_session);
-		g_clear_object (&input_stream);
 
 		d (printf ("Received image from %s\n"
 			"Content-Type: %s\n"
@@ -459,6 +459,9 @@ e_http_request_process_sync (EContentRequest *request,
 
  cleanup:
 	g_clear_object (&cache);
+
+	if (!success && error && !*error)
+		g_set_error (error, G_IO_ERROR, G_IO_ERROR_FAILED, "Failed to get resource '%s'", use_uri);
 
 	g_free (use_uri);
 	g_free (uri_md5);
