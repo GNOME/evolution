@@ -2771,7 +2771,8 @@ reply_to_calendar_comp (ESourceRegistry *registry,
 	ccd->identity_name = identity_name;
 	ccd->identity_address = identity_address;
 	ccd->destinations = comp_to_list (registry, method, ecomps->data, NULL, reply_all, NULL);
-	ccd->subject = comp_subject (registry, method, ecomps->data);
+	/* Using I_CAL_METHOD_NONE to not get attendee's response as a prefix */
+	ccd->subject = comp_subject (registry, I_CAL_METHOD_NONE, ecomps->data);
 	ccd->ical_string = i_cal_component_as_ical_string (top_level);
 	ccd->send_comps = ecomps;
 	ccd->show_only = TRUE;
