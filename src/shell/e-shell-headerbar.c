@@ -294,6 +294,7 @@ e_shell_header_bar_new (EShellWindow *shell_window,
 	return g_object_new (E_TYPE_SHELL_HEADER_BAR,
 		"shell-window", shell_window,
 		"menu-button", menu_button,
+		"has-subtitle", FALSE,
 		NULL);
 }
 
