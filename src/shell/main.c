@@ -569,9 +569,12 @@ main (gint argc,
 		return 0;
 	}
 
-	/* Disable sandboxing to enable printing, until WebKitGTK is fixed:
-	   https://bugs.webkit.org/show_bug.cgi?id=202363 */
-	g_setenv ("WEBKIT_FORCE_SANDBOX", "0", FALSE);
+	/* The bug is fixed in 2.38.0, thus disable sandboxing only for previous versions */
+	if (webkit_get_major_version () < 2 || (webkit_get_major_version () == 2 && webkit_get_minor_version () < 38)) {
+		/* Disable sandboxing to enable printing, until WebKitGTK is fixed:
+		   https://bugs.webkit.org/show_bug.cgi?id=202363 */
+		g_setenv ("WEBKIT_FORCE_SANDBOX", "0", FALSE);
+	}
 
 	/* Pre-cache list of supported locales */
 	e_util_enum_supported_locales ();
