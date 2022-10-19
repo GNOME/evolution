@@ -62,11 +62,11 @@
   <toolbar name='main-toolbar'>
     <placeholder name='pre-main-toolbar'>
       <toolitem action='send'/>
-      <separator/>
+      <separator name='send-separator'/>
       <toolitem action='save-draft'/>
-      <separator/>
+      <separator name='save-draft-separator'/>
     </placeholder>
-    <separator/>
+    <separator name='prioritize-message-separator'/>
     <toolitem action='toolbar-prioritize-message'/>
     <toolitem action='toolbar-request-read-receipt'/>
     <separator/>

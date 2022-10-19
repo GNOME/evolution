@@ -309,21 +309,24 @@ e_composer_private_constructed (EMsgComposer *composer)
 	gtk_box_pack_start (GTK_BOX (container), widget, FALSE, FALSE, 0);
 
 	if (e_util_get_use_header_bar ()) {
+		const gchar *items[] = {
+			"/main-toolbar/pre-main-toolbar/send",
+			"/main-toolbar/pre-main-toolbar/send-separator",
+			"/main-toolbar/pre-main-toolbar/save-draft",
+			"/main-toolbar/pre-main-toolbar/save-draft-separator",
+			"/main-toolbar/prioritize-message-separator",
+			"/main-toolbar/toolbar-prioritize-message",
+			"/main-toolbar/toolbar-request-read-receipt"
+		};
+		guint ii;
 		widget = composer_construct_header_bar (composer, menu_button);
 		gtk_window_set_titlebar (window, widget);
 
 		/* Destroy items from the toolbar, which are in the header bar */
-		widget = gtk_ui_manager_get_widget (ui_manager, "/main-toolbar/pre-main-toolbar/send");
-		gtk_widget_destroy (widget);
-
-		widget = gtk_ui_manager_get_widget (ui_manager, "/main-toolbar/pre-main-toolbar/save-draft");
-		gtk_widget_destroy (widget);
-
-		widget = gtk_ui_manager_get_widget (ui_manager, "/main-toolbar/toolbar-prioritize-message");
-		gtk_widget_destroy (widget);
-
-		widget = gtk_ui_manager_get_widget (ui_manager, "/main-toolbar/toolbar-request-read-receipt");
-		gtk_widget_destroy (widget);
+		for (ii = 0; ii < G_N_ELEMENTS (items); ii++) {
+			widget = gtk_ui_manager_get_widget (ui_manager, items[ii]);
+			gtk_widget_destroy (widget);
+		}
 	} else {
 		/* We set the send button as important to have a label */
 		widget = gtk_ui_manager_get_widget (ui_manager, "/main-toolbar/pre-main-toolbar/send");
