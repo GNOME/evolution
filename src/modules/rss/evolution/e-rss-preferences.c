@@ -1221,7 +1221,7 @@ e_rss_preferences_new (EPreferencesWindow *window)
 	gtk_grid_attach (grid, widget, 0, row, 2, 1);
 	row++;
 
-	widget = gtk_check_button_new_with_mnemonic (_("_Download feed enclosures"));
+	widget = gtk_check_button_new_with_mnemonic (_("Download _feed enclosures"));
 	g_object_set (G_OBJECT (widget),
 		"margin-start", 12,
 		NULL);
@@ -1240,7 +1240,7 @@ e_rss_preferences_new (EPreferencesWindow *window)
 		NULL);
 
 	/* Translators: This is part of "Do not download enclosures larger than [ nnn ] KB" */
-	widget = gtk_check_button_new_with_mnemonic (_("Do not download enclosures larger than"));
+	widget = gtk_check_button_new_with_mnemonic (_("Do not download e_nclosures larger than"));
 	gtk_box_pack_start (GTK_BOX (hbox), widget, FALSE, FALSE, 0);
 
 	spin = gtk_spin_button_new_with_range (1, 999999, 100);
