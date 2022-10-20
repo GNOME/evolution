@@ -35,8 +35,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: evolution master\n"
 "Report-Msgid-Bugs-To: https://gitlab.gnome.org/GNOME/evolution/issues\n"
-"POT-Creation-Date: 2022-10-17 08:33+0000\n"
-"PO-Revision-Date: 2022-10-17 10:54+0200\n"
+"POT-Creation-Date: 2022-10-17 11:37+0000\n"
+"PO-Revision-Date: 2022-10-18 12:14+0200\n"
 "Last-Translator: Jürgen Benvenuti <gastornis@posteo.org>\n"
 "Language-Team: German <gnome-de@gnome.org>\n"
 "Language: de\n"
@@ -1779,6 +1779,10 @@ msgid ""
 msgstr ""
 "Legt fest, ob die Zeit in Antworten in lokale Zeit umgewandelt werden soll, wenn "
 "sie in Weltzeit dargestellt wird."
+
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:87
+msgid "Use user date format in reply credits"
+msgstr "Benutzerdefiniertes Datumsformat in Antworten verwenden"
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:88
 msgid ""
@@ -3730,9 +3734,31 @@ msgstr ""
 "ersetzt. Im Folgenden wird eine Liste der zusätzlich zu ersetzenden Zeichen "
 "angegeben."
 
+#: ../data/org.gnome.evolution.shell.gschema.xml.in.h:44
+msgid "Override toolbar icon size"
+msgstr "Symbolgröße der Werkzeugleiste überschreiben"
+
+#: ../data/org.gnome.evolution.shell.gschema.xml.in.h:45
+msgid ""
+"Controls the toolbar icon size. The 'default' value lets the system/code decide "
+"what is the best icon size for the toolbar. Changing the option requires "
+"application restart."
+msgstr ""
+"Steuert die Symbolgröße der Werkzeugleiste. Der »Vorgabe«-Wert lässt das System/"
+"das Programm über die beste Symbolgröße für die Werkzeugleiste entscheiden. Das "
+"Ändern dieser Option erfordert einen Neustart der Anwendung."
+
 #: ../data/org.gnome.evolution.shell.gschema.xml.in.h:46
 msgid "Whether to use header bar in the application"
 msgstr "Legt fest, ob die Kopfleiste in der Anwendung verwendet wird"
+
+#: ../data/org.gnome.evolution.shell.gschema.xml.in.h:47
+msgid ""
+"When enabled, adds buttons to the header bar. This applies to dialogs as well. "
+"Changing the option requires application restart."
+msgstr ""
+"Wenn eingeschaltet, werden Knöpfe zur Kopfleiste hinzugefügt. Dies gilt auch für "
+"Dialoge. Das Ändern dieser Option erfordert einen Neustart der Anwendung."
 
 #: ../data/org.gnome.evolution.spamassassin.gschema.xml.in.h:1
 msgid "Use only local spam tests."
