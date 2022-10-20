@@ -122,9 +122,9 @@ e_rss_preferences_create_icon_pixbuf (const gchar *icon_filename)
 }
 
 static void
-e_rss_preferences_add_feed (GtkListStore *list_store,
-			    CamelRssStoreSummary *store_summary,
-			    const gchar *id)
+e_rss_preferences_add_feed_to_list_store (GtkListStore *list_store,
+					  CamelRssStoreSummary *store_summary,
+					  const gchar *id)
 {
 	const gchar *href, *display_name, *icon_filename;
 	CamelRssContentType content_type;
@@ -166,7 +166,7 @@ e_rss_preferences_fill_list_store (GtkListStore *list_store,
 	for (link = feeds; link; link = g_slist_next (link)) {
 		const gchar *id = link->data;
 
-		e_rss_preferences_add_feed (list_store, store_summary, id);
+		e_rss_preferences_add_feed_to_list_store (list_store, store_summary, id);
 	}
 
 	g_slist_free_full (feeds, g_free);
@@ -629,6 +629,52 @@ e_rss_preferences_maybe_copy_icon (const gchar *feed_id,
 }
 
 static void
+e_rss_preferences_create_feed (CamelService *service,
+			       CamelRssStoreSummary *store_summary,
+			       const gchar *href,
+			       const gchar *display_name,
+			       const gchar *icon_filename,
+			       CamelRssContentType content_type,
+			       const gchar *user_data_dir,
+			       gchar **out_new_id,
+			       GError **error)
+{
+	const gchar *new_id;
+
+	new_id = camel_rss_store_summary_add (store_summary,
+		href,
+		display_name,
+		icon_filename,
+		content_type);
+
+	if (new_id) {
+		gchar *new_id_copy = g_strdup (new_id);
+		gchar *real_icon_filename;
+
+		real_icon_filename = e_rss_preferences_maybe_copy_icon (new_id_copy, icon_filename, user_data_dir);
+		if (real_icon_filename) {
+			camel_rss_store_summary_set_icon_filename (store_summary, new_id_copy, real_icon_filename);
+			g_free (real_icon_filename);
+		}
+
+		if (camel_rss_store_summary_save (store_summary, error)) {
+			CamelFolderInfo *fi;
+
+			fi = camel_rss_store_summary_dup_folder_info (store_summary, new_id_copy);
+
+			camel_store_folder_created (CAMEL_STORE (service), fi);
+
+			camel_folder_info_free (fi);
+		}
+
+		if (out_new_id)
+			*out_new_id = new_id_copy;
+		else
+			g_free (new_id_copy);
+	}
+}
+
+static void
 e_rss_preferences_save_clicked_cb (GtkWidget *button,
 				   gpointer user_data)
 {
@@ -690,35 +736,14 @@ e_rss_preferences_save_clicked_cb (GtkWidget *button,
 		g_free (real_icon_filename);
 		g_free (old_display_name);
 	} else {
-		const gchar *new_id;
-
-		new_id = camel_rss_store_summary_add (store_summary,
+		e_rss_preferences_create_feed (service, store_summary,
 			gtk_entry_get_text (pd->href),
 			gtk_entry_get_text (pd->name),
 			icon_filename,
-			content_type);
-
-		if (new_id) {
-			gchar *real_icon_filename;
-
-			pd->id = g_strdup (new_id);
-
-			real_icon_filename = e_rss_preferences_maybe_copy_icon (pd->id, icon_filename, user_data_dir);
-			if (real_icon_filename) {
-				camel_rss_store_summary_set_icon_filename (store_summary, pd->id, real_icon_filename);
-				g_free (real_icon_filename);
-			}
-
-			if (camel_rss_store_summary_save (store_summary, &error)) {
-				CamelFolderInfo *fi;
-
-				fi = camel_rss_store_summary_dup_folder_info (store_summary, pd->id);
-
-				camel_store_folder_created (CAMEL_STORE (service), fi);
-
-				camel_folder_info_free (fi);
-			}
-		}
+			content_type,
+			user_data_dir,
+			&pd->id,
+			&error);
 	}
 
 	fo = g_slice_new0 (FolderOpts);
@@ -1053,6 +1078,329 @@ e_rss_pereferences_selection_changed_cb (GtkTreeSelection *selection,
 	gtk_widget_set_sensitive (button, gtk_tree_selection_get_selected (selection, NULL, NULL));
 }
 
+static GFile *
+e_rss_choose_file (gpointer parent,
+		   gboolean is_import)
+{
+	GtkFileChooserNative *native;
+	GtkFileFilter *filter;
+	GFile *file = NULL;
+
+	native = gtk_file_chooser_native_new (
+		is_import ? _("Import RSS Feeds") : _("Export RSS Feeds"),
+		GTK_IS_WINDOW (parent) ? GTK_WINDOW (parent) : NULL,
+		is_import ? GTK_FILE_CHOOSER_ACTION_OPEN : GTK_FILE_CHOOSER_ACTION_SAVE,
+		is_import ? _("_Import") : _("Export"),
+		_("_Cancel"));
+
+	filter = gtk_file_filter_new ();
+	gtk_file_filter_set_name (filter, _("OPML files"));
+	gtk_file_filter_add_mime_type (filter, "text/x-opml+xml");
+	gtk_file_chooser_add_filter (GTK_FILE_CHOOSER (native), filter);
+
+	e_util_load_file_chooser_folder (GTK_FILE_CHOOSER (native));
+
+	if (!is_import) {
+		/* Translators: This is a default file name for exported RSS feeds.
+		   Keep the extension (".opml") as is, translate only the "feeds" word, if needed. */
+		gtk_file_chooser_set_current_name (GTK_FILE_CHOOSER (native), _("feeds.opml"));
+	}
+
+	if (gtk_native_dialog_run (GTK_NATIVE_DIALOG (native)) == GTK_RESPONSE_ACCEPT) {
+		e_util_save_file_chooser_folder (GTK_FILE_CHOOSER (native));
+		file = gtk_file_chooser_get_file (GTK_FILE_CHOOSER (native));
+	}
+
+	g_object_unref (native);
+
+	return file;
+}
+
+static void
+e_rss_report_text (GtkWindow *parent,
+		   const gchar *text)
+{
+	g_return_if_fail (text != NULL);
+
+	e_notice (parent, GTK_MESSAGE_ERROR, "%s", text);
+}
+
+static void
+e_rss_report_error (GtkWindow *parent,
+		    const GError *local_error)
+{
+	g_return_if_fail (local_error != NULL);
+
+	e_rss_report_text (parent, local_error->message);
+}
+
+#define EVO_RSS_NS_HREF PACKAGE_URL
+
+static void
+e_rss_export_to_file (GtkWindow *parent,
+		      CamelRssStoreSummary *store_summary,
+		      GFile *file)
+{
+	EXmlDocument *xml;
+	GSList *feeds, *link;
+	gchar *content;
+	GError *local_error = NULL;
+
+	g_return_if_fail (CAMEL_IS_RSS_STORE_SUMMARY (store_summary));
+	g_return_if_fail (G_IS_FILE (file));
+
+	xml = e_xml_document_new (NULL, "opml");
+	e_xml_document_add_attribute (xml, NULL, "version", "2.0");
+	e_xml_document_add_namespaces (xml, "e", EVO_RSS_NS_HREF, NULL);
+
+	e_xml_document_start_element (xml, NULL, "head");
+	e_xml_document_start_text_element (xml, NULL, "title");
+	if (strlen (VERSION_COMMENT) > 0)
+		e_xml_document_write_string (xml, "Evolution RSS Feeds (" VERSION VERSION_SUBSTRING " " VERSION_COMMENT ")");
+	else
+		e_xml_document_write_string (xml, "Evolution RSS Feeds (" VERSION VERSION_SUBSTRING ")");
+	e_xml_document_end_element (xml); /* title */
+	e_xml_document_start_text_element (xml, NULL, "dateCreated");
+	e_xml_document_write_time (xml, time (NULL));
+	e_xml_document_end_element (xml); /* dateCreated */
+	e_xml_document_end_element (xml); /* head */
+
+	e_xml_document_start_element (xml, NULL, "body");
+
+	feeds = camel_rss_store_summary_dup_feeds (store_summary);
+	for (link = feeds; link; link = g_slist_next (link)) {
+		const gchar *id = link->data;
+		const gchar *href;
+		const gchar *display_name;
+		CamelRssContentType content_type;
+
+		href = camel_rss_store_summary_get_href (store_summary, id);
+		display_name = camel_rss_store_summary_get_display_name (store_summary, id);
+		content_type = camel_rss_store_summary_get_content_type (store_summary, id);
+
+		e_xml_document_start_element (xml, NULL, "outline");
+		e_xml_document_add_attribute (xml, NULL, "type", "rss");
+		e_xml_document_add_attribute (xml, NULL, "text", display_name);
+		e_xml_document_add_attribute (xml, NULL, "xmlUrl", href);
+		e_xml_document_add_attribute (xml, EVO_RSS_NS_HREF, "contentType", e_rss_preferences_content_type_to_string (content_type));
+		e_xml_document_end_element (xml); /* outline */
+	}
+
+	e_xml_document_end_element (xml); /* body */
+
+	content = e_xml_document_get_content (xml, NULL);
+
+	if (!g_file_set_contents (g_file_peek_path (file), content, -1, &local_error)) {
+		g_prefix_error_literal (&local_error, _("Failed to export RSS feeds: "));
+		e_rss_report_error (parent, local_error);
+		g_clear_error (&local_error);
+	}
+
+	g_slist_free_full (feeds, g_free);
+	g_clear_object (&xml);
+	g_free (content);
+}
+
+static void
+e_rss_import_from_file (GtkWindow *parent,
+			CamelService *service,
+			CamelRssStoreSummary *store_summary,
+			GFile *file)
+{
+	gchar *content = NULL;
+	gsize length = 0;
+	xmlDoc *doc;
+	GError *local_error = NULL;
+
+	g_return_if_fail (CAMEL_IS_STORE (service));
+	g_return_if_fail (CAMEL_IS_RSS_STORE_SUMMARY (store_summary));
+	g_return_if_fail (G_IS_FILE (file));
+
+	if (!g_file_get_contents (g_file_peek_path (file), &content, &length, &local_error)) {
+		g_prefix_error_literal (&local_error, _("Failed to read file content: "));
+		e_rss_report_error (parent, local_error);
+		g_clear_error (&local_error);
+		return;
+	}
+
+	doc = e_xml_parse_data (content, length);
+	if (doc) {
+		xmlNode *root;
+
+		root = xmlDocGetRootElement (doc);
+		if (root && e_xml_is_element_name (root, NULL, "opml")) {
+			GHashTable *known_feeds;
+			GSList *feeds, *link;
+			xmlNode *node, *next;
+			gsize n_found = 0, n_imported = 0;
+
+			known_feeds = g_hash_table_new_full (g_str_hash, g_str_equal, g_free, NULL);
+			feeds = camel_rss_store_summary_dup_feeds (store_summary);
+			for (link = feeds; link; link = g_slist_next (link)) {
+				const gchar *id = link->data;
+				const gchar *href;
+
+				href = camel_rss_store_summary_get_href (store_summary, id);
+				if (href && *href)
+					g_hash_table_add (known_feeds, g_strdup (href));
+			}
+
+			g_slist_free_full (feeds, g_free);
+
+			/* Find the 'body' element */
+			node = root->children;
+			if (node) {
+				node = e_xml_find_sibling (node, NULL, "body");
+				if (node) {
+					root = node;
+					node = node->children;
+				}
+			}
+
+			while (node != NULL && node != root) {
+				if (e_xml_is_element_name (node, NULL, "outline")) {
+					xmlChar *value;
+
+					value = xmlGetNsProp (node, (const xmlChar *) "type", NULL);
+					if (g_strcmp0 ((const gchar *) value, "rss") == 0) {
+						xmlChar *text, *xml_url, *content_type_str;
+
+						n_found++;
+
+						text = xmlGetNsProp (node, (const xmlChar *) "text", NULL);
+						xml_url = xmlGetNsProp (node, (const xmlChar *) "xmlUrl", NULL);
+						content_type_str = xmlGetNsProp (node, (const xmlChar *) "contentType", (const xmlChar *) EVO_RSS_NS_HREF);
+
+						if (text && *text && xml_url && *xml_url &&
+						    !g_hash_table_contains (known_feeds, xml_url)) {
+							CamelRssContentType content_type;
+
+							content_type = e_rss_preferences_content_type_from_string ((const gchar *) content_type_str);
+
+							g_hash_table_add (known_feeds, g_strdup ((const gchar *) xml_url));
+
+							e_rss_preferences_create_feed (service, store_summary,
+								(const gchar *) xml_url, (const gchar *) text,
+								NULL, content_type, NULL, NULL, &local_error);
+
+							if (local_error) {
+								g_prefix_error_literal (&local_error, _("Failed to add feed: "));
+								break;
+							}
+
+							n_imported++;
+						}
+
+						g_clear_pointer (&text, xmlFree);
+						g_clear_pointer (&xml_url, xmlFree);
+						g_clear_pointer (&content_type_str, xmlFree);
+					}
+
+					g_clear_pointer (&value, xmlFree);
+				}
+
+				/* traverse the XML structure */
+				next = node->children;
+				if (!next)
+					next = node->next;
+				if (!next) {
+					next = node->parent;
+					if (next == root)
+						next = NULL;
+
+					while (next) {
+						xmlNode *sibl = next->next;
+						if (sibl) {
+							next = sibl;
+							break;
+						} else {
+							next = next->parent;
+							if (next == root)
+								next = NULL;
+						}
+					}
+				}
+				node = next;
+			}
+
+			g_hash_table_destroy (known_feeds);
+
+			if (local_error) {
+				e_rss_report_error (parent, local_error);
+				g_clear_error (&local_error);
+			} else if (!n_found) {
+				e_notice (parent, GTK_MESSAGE_ERROR, "%s", _("No RSS feeds found"));
+			} else if (!n_imported) {
+				e_notice (parent, GTK_MESSAGE_INFO, "%s", _("No new RSS feeds imported"));
+			} else {
+				e_notice (parent, GTK_MESSAGE_INFO, g_dngettext (GETTEXT_PACKAGE,
+					"Imported %" G_GSIZE_FORMAT " feed",
+					"Imported %" G_GSIZE_FORMAT " feeds", n_imported), n_imported);
+			}
+		} else {
+			e_rss_report_text (parent, _("Failed to import data, the file does not contain valid OPML data."));
+		}
+
+		xmlFreeDoc (doc);
+	} else {
+		e_rss_report_text (parent, _("Failed to parse file content. Expected is an OPML file."));
+	}
+
+	g_free (content);
+}
+
+static void
+e_rss_preferences_export_import (GtkWidget *button,
+				 gboolean is_import)
+{
+	CamelService *service;
+	CamelRssStoreSummary *store_summary = NULL;
+	gpointer toplevel;
+	GFile *file;
+
+	service = e_rss_preferences_ref_store (e_shell_get_default ());
+	if (!service) {
+		g_warn_if_reached ();
+		return;
+	}
+
+	g_object_get (service, "summary", &store_summary, NULL);
+
+	if (!store_summary) {
+		g_clear_object (&service);
+		g_warn_if_reached ();
+		return;
+	}
+
+	toplevel = gtk_widget_get_toplevel (button);
+	if (!GTK_IS_WINDOW (toplevel))
+		toplevel = NULL;
+
+	file = e_rss_choose_file (toplevel, is_import);
+	if (file) {
+		if (is_import)
+			e_rss_import_from_file (toplevel, service, store_summary, file);
+		else
+			e_rss_export_to_file (toplevel, store_summary, file);
+	}
+
+	g_clear_object (&store_summary);
+	g_clear_object (&service);
+	g_clear_object (&file);
+}
+
+static void
+e_rss_preferences_export_clicked_cb (GtkWidget *button)
+{
+	e_rss_preferences_export_import (button, FALSE);
+}
+
+static void
+e_rss_preferences_import_clicked_cb (GtkWidget *button)
+{
+	e_rss_preferences_export_import (button, TRUE);
+}
+
 static void
 e_rss_preferences_map_cb (GtkTreeView *tree_view,
 			  gpointer user_data)
@@ -1128,7 +1476,7 @@ e_rss_preferences_feed_changed_cb (CamelRssStoreSummary *store_summary,
 			gtk_list_store_remove (list_store, &iter);
 		}
 	} else if (camel_rss_store_summary_contains (store_summary, id)) {
-		e_rss_preferences_add_feed (list_store, store_summary, id);
+		e_rss_preferences_add_feed_to_list_store (list_store, store_summary, id);
 	}
 }
 
@@ -1141,6 +1489,28 @@ e_rss_preferences_row_activated_cb (GtkTreeView *tree_view,
 	GtkWidget *button = user_data;
 
 	e_rss_preferences_edit_clicked_cb (button, tree_view);
+}
+
+static void
+e_rss_preferences_row_deleted_cb (GtkTreeModel *model,
+				  GtkTreePath *path,
+				  gpointer user_data)
+{
+	GtkWidget *button = user_data;
+	GtkTreeIter iter;
+
+	gtk_widget_set_sensitive (button, gtk_tree_model_get_iter_first (model, &iter));
+}
+
+static void
+e_rss_preferences_row_inserted_cb (GtkTreeModel *model,
+				   GtkTreePath *path,
+				   GtkTreeIter *iter,
+				   gpointer user_data)
+{
+	GtkWidget *button = user_data;
+
+	gtk_widget_set_sensitive (button, TRUE);
 }
 
 static GtkWidget *
@@ -1393,6 +1763,25 @@ e_rss_preferences_new (EPreferencesWindow *window)
 
 	g_signal_connect_object (selection, "changed",
 		G_CALLBACK (e_rss_pereferences_selection_changed_cb), widget, 0);
+
+	widget = e_dialog_button_new_with_icon (NULL, _("E_xport"));
+	gtk_widget_set_sensitive (widget, FALSE);
+	gtk_container_add (GTK_CONTAINER (button_box), widget);
+
+	g_signal_connect_object (list_store, "row-deleted",
+		G_CALLBACK (e_rss_preferences_row_deleted_cb), widget, 0);
+
+	g_signal_connect_object (list_store, "row-inserted",
+		G_CALLBACK (e_rss_preferences_row_inserted_cb), widget, 0);
+
+	g_signal_connect (widget, "clicked",
+		G_CALLBACK (e_rss_preferences_export_clicked_cb), NULL);
+
+	widget = e_dialog_button_new_with_icon (NULL, _("_Import"));
+	gtk_container_add (GTK_CONTAINER (button_box), widget);
+
+	g_signal_connect (widget, "clicked",
+		G_CALLBACK (e_rss_preferences_import_clicked_cb), NULL);
 
 	gtk_grid_attach (grid, scrolled_window, 0, row, 1, 1);
 	gtk_grid_attach (grid, button_box, 1, row, 1, 1);
