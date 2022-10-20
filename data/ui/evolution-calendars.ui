@@ -62,7 +62,7 @@
     <toolitem action='calendar-go-back'/>
     <toolitem action='calendar-go-today'/>
     <toolitem action='calendar-go-forward'/>
-    <separator/>
+    <separator name='calendar-go-forward-separator'/>
     <toolitem action='calendar-jump-to'/>
     <separator/>
     <toolitem action='calendar-view-day'/>

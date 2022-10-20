@@ -312,11 +312,18 @@ cal_shell_view_taskpad_settings_changed_cb (GSettings *settings,
 static void
 cal_shell_view_update_header_bar (ECalShellView *cal_shell_view)
 {
+	const gchar *items[] = {
+		"/main-toolbar/calendar-go-back",
+		"/main-toolbar/calendar-go-today",
+		"/main-toolbar/calendar-go-forward",
+		"/main-toolbar/calendar-go-forward-separator"
+	};
 	EShellWindow *shell_window;
 	EShellView *shell_view;
 	EShellHeaderBar *shell_headerbar = NULL;
 	GtkWidget *widget;
 	GtkAction *action;
+	gint ii;
 
 	shell_view = E_SHELL_VIEW (cal_shell_view);
 	shell_window = e_shell_view_get_shell_window (shell_view);
@@ -344,17 +351,11 @@ cal_shell_view_update_header_bar (ECalShellView *cal_shell_view)
 
 	e_shell_header_bar_pack_end (shell_headerbar, widget);
 
-	widget = e_shell_window_get_managed_widget (shell_window, "/main-toolbar/calendar-go-back");
-	if (widget)
-		gtk_widget_destroy (widget);
-
-	widget = e_shell_window_get_managed_widget (shell_window, "/main-toolbar/calendar-go-today");
-	if (widget)
-		gtk_widget_destroy (widget);
-
-	widget = e_shell_window_get_managed_widget (shell_window, "/main-toolbar/calendar-go-forward");
-	if (widget)
-		gtk_widget_destroy (widget);
+	for (ii = 0; ii < G_N_ELEMENTS (items); ii++) {
+		widget = e_shell_window_get_managed_widget (shell_window, items[ii]);
+		if (widget)
+			gtk_widget_destroy (widget);
+	}
 }
 
 void

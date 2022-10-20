@@ -155,7 +155,7 @@
           <menuitem action='mail-redirect'/>
         </menu>
       </toolitem>
-      <separator/>
+      <separator name='toolbar-mail-forward-separator'/>
       <toolitem action='mail-print'/>
       <toolitem action='mail-delete'/>
       <toolitem action='mail-mark-junk'/>
