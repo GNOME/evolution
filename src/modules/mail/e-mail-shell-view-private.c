@@ -1563,6 +1563,10 @@ e_mail_shell_view_update_send_receive_menus (EMailShellView *mail_shell_view)
 		widget = e_shell_window_get_managed_widget (shell_window, "/main-toolbar/mail-toolbar-common/mail-reply-sender");
 		if (widget)
 			gtk_widget_destroy (widget);
+
+		widget = e_shell_window_get_managed_widget (shell_window, "/main-toolbar/mail-toolbar-common/toolbar-mail-forward-separator");
+		if (widget)
+			gtk_widget_destroy (widget);
 	} else {
 		if (!mail_shell_view->priv->send_receive_tool_item) {
 			GtkWidget *toolbar;

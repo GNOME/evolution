@@ -325,7 +325,8 @@ e_composer_private_constructed (EMsgComposer *composer)
 		/* Destroy items from the toolbar, which are in the header bar */
 		for (ii = 0; ii < G_N_ELEMENTS (items); ii++) {
 			widget = gtk_ui_manager_get_widget (ui_manager, items[ii]);
-			gtk_widget_destroy (widget);
+			if (widget)
+				gtk_widget_destroy (widget);
 		}
 	} else {
 		/* We set the send button as important to have a label */
