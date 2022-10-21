@@ -2851,9 +2851,9 @@ reply_to_calendar_comp (ESourceRegistry *registry,
 		e_cal_component_datetime_free (dtstart);
 
 		body = g_string_new (
-			"<br><br><hr><br><b>"
+			"<div><br></div><div><br></div><hr><div><br></div><div><b>"
 			"______ Original Appointment ______ "
-			"</b><br><br><table>");
+			"</b><br></div><div><br></div><table>");
 
 		if (orig_from && *orig_from)
 			g_string_append_printf (
@@ -2882,7 +2882,7 @@ reply_to_calendar_comp (ESourceRegistry *registry,
 				"<td>:</td><td>%s</td></tr>", time);
 		g_free (time);
 
-		g_string_append_printf (body, "</table><br>");
+		g_string_append_printf (body, "</table><div><br></div>");
 
 		html_description = html_new_lines_for (description ? description : "");
 		g_string_append (body, html_description);
