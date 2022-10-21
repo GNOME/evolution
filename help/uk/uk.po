@@ -6,15 +6,16 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: evolution master\n"
-"POT-Creation-Date: 2022-02-16 13:39+0000\n"
-"PO-Revision-Date: 2022-02-17 18:39+0200\n"
+"POT-Creation-Date: 2022-10-20 18:22+0000\n"
+"PO-Revision-Date: 2022-10-21 17:48+0300\n"
 "Last-Translator: Yuri Chornoivan <yurchor@ukr.net>\n"
 "Language-Team: Ukrainian <trans-uk@lists.fedoraproject.org>\n"
 "Language: uk\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Plural-Forms: nplurals=4; plural=n==1 ? 3 : n%10==1 && n%100!=11 ? 0 : n%10>=2 && n%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2;\n"
+"Plural-Forms: nplurals=4; plural=n==1 ? 3 : n%10==1 && n%100!=11 ? 0 : n"
+"%10>=2 && n%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2;\n"
 "X-Generator: Lokalize 20.12.0\n"
 
 #. Put one translator per line, in the form NAME <EMAIL>, YEAR1, YEAR2
@@ -111,7 +112,8 @@ msgstr ""
 #. (itstool) path: item/p
 #: C/backup-restore.page:66
 msgid "Choose the file, and click <gui style=\"button\">Open</gui>."
-msgstr "Виберіть файл і натисніть кнопку <gui style=\"button\">Відкрити</gui>."
+msgstr ""
+"Виберіть файл і натисніть кнопку <gui style=\"button\">Відкрити</gui>."
 
 #. (itstool) path: note/p
 #: C/backup-restore.page:75
@@ -234,7 +236,8 @@ msgstr "Користування календарем CalDAV"
 #: C/calendar-weather.page:24 C/calendar-webdav.page:23
 msgid ""
 "To add such a calendar to <app>Evolution</app>, perform the following steps:"
-msgstr "Щоб додати такий календар до <app>Evolution</app>, виконайте такі дії:"
+msgstr ""
+"Щоб додати такий календар до <app>Evolution</app>, виконайте такі дії:"
 
 #. (itstool) path: item/p
 #: C/calendar-caldav.page:32 C/calendar-google.page:34 C/calendar-local.page:27
@@ -434,7 +437,8 @@ msgstr "Щоб отримати доступу до панелі даних за
 
 #. (itstool) path: item/p
 #: C/calendar-free-busy.page:48 C/calendar-meetings-sending-invitation.page:44
-msgid "Click <guiseq><gui>File</gui><gui>New</gui><gui>Meeting</gui></guiseq>."
+msgid ""
+"Click <guiseq><gui>File</gui><gui>New</gui><gui>Meeting</gui></guiseq>."
 msgstr ""
 "Виберіть пункт меню <guiseq><gui>Файл</gui><gui>Створити</"
 "gui><gui>Засідання</gui></guiseq>."
@@ -593,7 +597,8 @@ msgstr "Введіть ваше ім'я користувача Google."
 
 #. (itstool) path: item/p
 #: C/calendar-google.page:52
-msgid "If you have more than one Google calendar, define which of them to use."
+msgid ""
+"If you have more than one Google calendar, define which of them to use."
 msgstr ""
 "Якщо у вас декілька календарів Google, визначте той з них, яким ви хочете "
 "скористатися."
@@ -850,7 +855,8 @@ msgstr "Доступні панелі перегляду"
 
 #. (itstool) path: page/p
 #: C/calendar-layout-views.page:28
-msgid "<app>Evolution</app> offers five different views of your calendar data:"
+msgid ""
+"<app>Evolution</app> offers five different views of your calendar data:"
 msgstr ""
 "У <app>Evolution</app> передбачено п'ять різних панелей перегляду даних "
 "вашого календаря:"
@@ -2717,7 +2723,8 @@ msgstr "Проєкт з документування GNOME:"
 #: C/credits.page:91
 msgid ""
 "<link href=\"https://wiki.gnome.org/DocumentationProject\">Website</link>"
-msgstr "<link href=\"https://wiki.gnome.org/DocumentationProject\">Сайт</link>"
+msgstr ""
+"<link href=\"https://wiki.gnome.org/DocumentationProject\">Сайт</link>"
 
 #. (itstool) path: item/p
 #: C/credits.page:94
@@ -3569,7 +3576,8 @@ msgstr "Попередні вимоги у Windows"
 
 #. (itstool) path: section/p
 #: C/import-apps-outlook.page:32
-msgid "First, while using Microsoft Windows, prepare your messages for import:"
+msgid ""
+"First, while using Microsoft Windows, prepare your messages for import:"
 msgstr ""
 "Спочатку, у Microsoft Windows, підготуйте ваші повідомлення для імпортування:"
 
@@ -4307,7 +4315,8 @@ msgstr "Новини USENET"
 #: C/intro-first-run.page:93
 msgid ""
 "Connects to a news server and downloads a list of available news digests."
-msgstr "З'єднується із сервером новин і отримує список доступних збірок новин."
+msgstr ""
+"З'єднується із сервером новин і отримує список доступних збірок новин."
 
 #. (itstool) path: section/title
 #. (itstool) path: page/title
@@ -4362,7 +4371,8 @@ msgstr "Exchange MAPI"
 #. (itstool) path: section/p
 #: C/intro-first-run.page:133
 msgid "For connecting to a Microsoft Exchange 2007/2010 or OpenChange server."
-msgstr "Для з'єднання із сервером Microsoft Exchange 2007/2010 або OpenChange."
+msgstr ""
+"Для з'єднання із сервером Microsoft Exchange 2007/2010 або OpenChange."
 
 #. (itstool) path: section/p
 #. (itstool) path: note/p
@@ -5668,7 +5678,6 @@ msgstr ""
 
 #. (itstool) path: info/title
 #: C/mail-account-manage-imap-plus.page:8
-#| msgid "IMAP+"
 msgctxt "link:trail"
 msgid "IMAP+"
 msgstr "IMAP+"
@@ -5754,8 +5763,6 @@ msgstr ""
 
 #. (itstool) path: info/title
 #: C/mail-account-manage-imap-plus.page:31
-#| msgctxt "link"
-#| msgid "Security (IMAP+ accounts)"
 msgctxt "link"
 msgid "Identity (IMAP+ accounts)"
 msgstr "Профіль (облікові записи IMAP+)"
@@ -5770,7 +5777,6 @@ msgstr "Профіль (облікові записи IMAP+)"
 #: C/mail-account-manage-unix-mbox-spool-directory.page:32
 #: C/mail-account-manage-unix-mbox-spool-file.page:32
 #: C/mail-account-manage-usenet-news.page:32
-#| msgid "Identity"
 msgctxt "link:trail"
 msgid "Identity"
 msgstr "Профіль"
@@ -5792,7 +5798,6 @@ msgstr "Параметри отримання електронної пошти 
 #: C/mail-account-manage-unix-mbox-spool-directory.page:42
 #: C/mail-account-manage-unix-mbox-spool-file.page:42
 #: C/mail-account-manage-usenet-news.page:42
-#| msgid "Receiving Email"
 msgctxt "link:trail"
 msgid "Receiving"
 msgstr "Отримання"
@@ -5826,7 +5831,6 @@ msgstr "Надсилання електронної пошти (облікові
 #: C/mail-account-manage-unix-mbox-spool-directory.page:50
 #: C/mail-account-manage-unix-mbox-spool-file.page:50
 #: C/mail-account-manage-usenet-news.page:50
-#| msgid "Sending mail"
 msgctxt "link:trail"
 msgid "Sending"
 msgstr "Надсилання"
@@ -5860,7 +5864,6 @@ msgstr "Типові параметри (облікові записи IMAP+)"
 #: C/mail-account-manage-unix-mbox-spool-directory.page:58
 #: C/mail-account-manage-unix-mbox-spool-file.page:58
 #: C/mail-account-manage-usenet-news.page:58
-#| msgid "Defaults"
 msgctxt "link:trail"
 msgid "Defaults"
 msgstr "Типове"
@@ -5896,7 +5899,6 @@ msgstr "Створення повідомлень (облікові записи
 #: C/mail-account-manage-unix-mbox-spool-directory.page:66
 #: C/mail-account-manage-unix-mbox-spool-file.page:66
 #: C/mail-account-manage-usenet-news.page:66
-#| msgid "Mail Composing"
 msgctxt "link:trail"
 msgid "Composing"
 msgstr "Створення"
@@ -5932,7 +5934,6 @@ msgstr "Безпека (облікові записи IMAP+)"
 #: C/mail-account-manage-unix-mbox-spool-directory.page:74
 #: C/mail-account-manage-unix-mbox-spool-file.page:74
 #: C/mail-account-manage-usenet-news.page:74
-#| msgid "Security"
 msgctxt "link:trail"
 msgid "Security"
 msgstr "Безпека"
@@ -5959,7 +5960,6 @@ msgstr "Інші параметри (облікові записи IMAP+)"
 
 #. (itstool) path: info/title
 #: C/mail-account-manage-imap-plus.page:86
-#| msgid "Other settings"
 msgctxt "link:trail"
 msgid "Other settings"
 msgstr "Інші параметри"
@@ -5990,7 +5990,6 @@ msgstr ""
 #. (itstool) path: info/title
 #: C/mail-account-manage-local-delivery.page:8
 #: C/mail-account-management.page:31
-#| msgid "Location"
 msgctxt "link:trail"
 msgid "Local"
 msgstr "Локальний"
@@ -6017,8 +6016,6 @@ msgstr ""
 
 #. (itstool) path: info/title
 #: C/mail-account-manage-local-delivery.page:31
-#| msgctxt "link"
-#| msgid "Security (Local Delivery accounts)"
 msgctxt "link"
 msgid "Identity (Local Delivery accounts)"
 msgstr "Профіль (облікові записи локального доставлення)"
@@ -6066,7 +6063,6 @@ msgstr ""
 
 #. (itstool) path: info/title
 #: C/mail-account-manage-maildir-format-directories.page:8
-#| msgid "Mail"
 msgctxt "link:trail"
 msgid "Maildir"
 msgstr "Maildir"
@@ -6083,8 +6079,6 @@ msgstr "У <app>Evolution</app> передбачено підтримку спе
 
 #. (itstool) path: info/title
 #: C/mail-account-manage-maildir-format-directories.page:32
-#| msgctxt "link"
-#| msgid "Security (Maildir Format Mail Directories accounts)"
 msgctxt "link"
 msgid "Identity (Maildir Format Mail Directories accounts)"
 msgstr "Профіль (облікові записи поштових каталогів у форматі Maildir)"
@@ -6142,8 +6136,7 @@ msgstr "Керування обліковими записами"
 #: C/mail-account-management.page:24
 msgctxt "link:trail"
 msgid "Common"
-msgstr ""
-"Загальний"
+msgstr "Загальний"
 
 #. (itstool) path: section/title
 #: C/mail-account-management.page:26
@@ -6159,8 +6152,7 @@ msgstr "Типи локальних облікових записів"
 #: C/mail-account-management.page:38
 msgctxt "link:trail"
 msgid "Corporate"
-msgstr ""
-"Корпоративний"
+msgstr "Корпоративний"
 
 #. (itstool) path: section/title
 #: C/mail-account-management.page:40
@@ -6179,8 +6171,7 @@ msgstr ""
 #: C/mail-account-manage-mh-format-directories.page:8
 msgctxt "link:trail"
 msgid "MH Format"
-msgstr ""
-"Формат MH"
+msgstr "Формат MH"
 
 #. (itstool) path: page/title
 #: C/mail-account-manage-mh-format-directories.page:21
@@ -6189,8 +6180,6 @@ msgstr "Параметри облікових записів поштових к
 
 #. (itstool) path: info/title
 #: C/mail-account-manage-mh-format-directories.page:31
-#| msgctxt "link"
-#| msgid "Security (MH Format Mail Directories accounts)"
 msgctxt "link"
 msgid "Identity (MH Format Mail Directories accounts)"
 msgstr "Профіль (облікові записи поштових каталогів у форматі MH)"
@@ -6242,8 +6231,7 @@ msgstr ""
 #: C/mail-account-manage-microsoft-exchange-evo-ews.page:8
 msgctxt "link:trail"
 msgid "Web Services"
-msgstr ""
-"Вебслужби"
+msgstr "Вебслужби"
 
 #. (itstool) path: page/title
 #: C/mail-account-manage-microsoft-exchange-evo-ews.page:21
@@ -6263,8 +6251,6 @@ msgstr ""
 
 #. (itstool) path: info/title
 #: C/mail-account-manage-microsoft-exchange-evo-ews.page:34
-#| msgctxt "link"
-#| msgid "Security (Exchange Web Services accounts)"
 msgctxt "link"
 msgid "Identity (Exchange Web Services accounts)"
 msgstr "Профіль (облікові записи Web Services Exchange)"
@@ -6323,7 +6309,8 @@ msgstr ""
 
 #. (itstool) path: info/desc
 #: C/mail-account-manage-microsoft-exchange-evo-mapi.page:5
-msgid "Add and edit a Microsoft Exchange MAPI account in <app>Evolution</app>."
+msgid ""
+"Add and edit a Microsoft Exchange MAPI account in <app>Evolution</app>."
 msgstr ""
 "Додавання і редагування облікового запису MAPI Microsoft Exchange в "
 "<app>Evolution</app>."
@@ -6332,8 +6319,7 @@ msgstr ""
 #: C/mail-account-manage-microsoft-exchange-evo-mapi.page:8
 msgctxt "link:trail"
 msgid "MAPI"
-msgstr ""
-"MAPI"
+msgstr "MAPI"
 
 #. (itstool) path: page/title
 #: C/mail-account-manage-microsoft-exchange-evo-mapi.page:21
@@ -6383,7 +6369,6 @@ msgstr ""
 
 #. (itstool) path: info/title
 #: C/mail-account-manage-microsoft-exchange.page:10
-#| msgid "Microsoft Exchange account settings"
 msgctxt "link:trail"
 msgid "Microsoft Exchange"
 msgstr "Microsoft Exchange"
@@ -6443,7 +6428,6 @@ msgstr ""
 
 #. (itstool) path: info/title
 #: C/mail-account-manage-pop.page:8
-#| msgid "POP"
 msgctxt "link:trail"
 msgid "POP"
 msgstr "POP"
@@ -6455,8 +6439,6 @@ msgstr "Параметри облікового запису пошти POP"
 
 #. (itstool) path: info/title
 #: C/mail-account-manage-pop.page:31
-#| msgctxt "link"
-#| msgid "Security (POP accounts)"
 msgctxt "link"
 msgid "Identity (POP accounts)"
 msgstr "Профіль (облікові записи POP)"
@@ -6504,18 +6486,16 @@ msgstr ""
 #: C/mail-account-manage-unix-mbox-spool-directory.page:8
 msgctxt "link:trail"
 msgid "mbox Directory"
-msgstr ""
-"Каталог mbox"
+msgstr "Каталог mbox"
 
 #. (itstool) path: page/title
 #: C/mail-account-manage-unix-mbox-spool-directory.page:21
 msgid "Standard Unix mbox Spool Directory account settings"
-msgstr "Параметри облікового запису стандартного для Unix каталогу буфера mbox"
+msgstr ""
+"Параметри облікового запису стандартного для Unix каталогу буфера mbox"
 
 #. (itstool) path: info/title
 #: C/mail-account-manage-unix-mbox-spool-directory.page:31
-#| msgctxt "link"
-#| msgid "Security (Standard Unix mbox Spool Directory accounts)"
 msgctxt "link"
 msgid "Identity (Standard Unix mbox Spool Directory accounts)"
 msgstr "Профіль (облікові записи стандартного для Unix каталогу буфера mbox)"
@@ -6571,8 +6551,7 @@ msgstr ""
 #: C/mail-account-manage-unix-mbox-spool-file.page:8
 msgctxt "link:trail"
 msgid "mbox File"
-msgstr ""
-"Файл mbox"
+msgstr "Файл mbox"
 
 #. (itstool) path: page/title
 #: C/mail-account-manage-unix-mbox-spool-file.page:21
@@ -6581,8 +6560,6 @@ msgstr "Параметри облікового запису стандартн�
 
 #. (itstool) path: info/title
 #: C/mail-account-manage-unix-mbox-spool-file.page:31
-#| msgctxt "link"
-#| msgid "Security (Standard Unix mbox Spool File accounts)"
 msgctxt "link"
 msgid "Identity (Standard Unix mbox Spool File accounts)"
 msgstr "Профіль (облікові записи стандартного для Unix файла буфера mbox)"
@@ -6637,8 +6614,7 @@ msgstr ""
 #: C/mail-account-manage-usenet-news.page:8
 msgctxt "link:trail"
 msgid "Usenet"
-msgstr ""
-"Usenet"
+msgstr "Usenet"
 
 #. (itstool) path: page/title
 #: C/mail-account-manage-usenet-news.page:21
@@ -6647,8 +6623,6 @@ msgstr "Параметри облікового запису новин Usenet"
 
 #. (itstool) path: info/title
 #: C/mail-account-manage-usenet-news.page:31
-#| msgctxt "link"
-#| msgid "Security (Usenet News accounts)"
 msgctxt "link"
 msgid "Identity (Usenet News accounts)"
 msgstr "Профіль (облікові записи новин Usenet)"
@@ -6693,8 +6667,7 @@ msgstr "Інші параметри (облікові записи новин Us
 #: C/mail-account-manage-usenet-news.page:84
 msgctxt "link:trail"
 msgid "Other"
-msgstr ""
-"Інше"
+msgstr "Інше"
 
 #. (itstool) path: info/desc
 #: C/mail-attachments.page:5
@@ -6865,7 +6838,8 @@ msgstr ""
 #. (itstool) path: section/p
 #: C/mail-attachments-sending.page:44
 msgid "To enable the Attachment Reminder:"
-msgstr "Щоб увімкнути додаток «Нагадування про долучення», виконайте такі дії:"
+msgstr ""
+"Щоб увімкнути додаток «Нагадування про долучення», виконайте такі дії:"
 
 #. (itstool) path: item/p
 #: C/mail-attachments-sending.page:47
@@ -8107,7 +8081,8 @@ msgstr ""
 #. (itstool) path: info/desc
 #: C/mail-composer-mail-signatures.page:5
 msgid "Using email signatures at the bottom of a message you send."
-msgstr "Користування підписами у нижній частині надісланого вами повідомлення."
+msgstr ""
+"Користування підписами у нижній частині надісланого вами повідомлення."
 
 #. (itstool) path: page/title
 #: C/mail-composer-mail-signatures.page:21
@@ -8137,7 +8112,8 @@ msgstr ""
 #. (itstool) path: info/desc
 #: C/mail-composer-mail-signatures-per-account.page:5
 msgid "Setting a default signature for an email account."
-msgstr "Встановлення типового підпису для облікового запису електронної пошти."
+msgstr ""
+"Встановлення типового підпису для облікового запису електронної пошти."
 
 #. (itstool) path: page/title
 #: C/mail-composer-mail-signatures-per-account.page:29
@@ -10323,7 +10299,8 @@ msgstr "Відтворити звук:"
 #. (itstool) path: item/p
 #: C/mail-filters-actions.page:60
 msgid "Select a sound file for <app>Evolution</app> to play."
-msgstr "Виберіть звуковий файл, який має бути відтворено <app>Evolution</app>."
+msgstr ""
+"Виберіть звуковий файл, який має бути відтворено <app>Evolution</app>."
 
 #. (itstool) path: item/p
 #: C/mail-filters-actions.page:62
@@ -11574,7 +11551,8 @@ msgstr ""
 #. (itstool) path: info/desc
 #: C/mail-receiving-options-exchange-ews.page:5
 msgid "Receiving options for Exchange Web Services accounts."
-msgstr "Параметри отримання пошти для облікових записів Exchange Web Services."
+msgstr ""
+"Параметри отримання пошти для облікових записів Exchange Web Services."
 
 #. (itstool) path: section/p
 #: C/mail-receiving-options-exchange-ews.page:25
@@ -11771,7 +11749,8 @@ msgstr ""
 
 #. (itstool) path: item/p
 #: C/mail-receiving-options-exchange-mapi.page:33
-msgid "Click <gui style=\"button\">Authenticate</gui> and enter your password."
+msgid ""
+"Click <gui style=\"button\">Authenticate</gui> and enter your password."
 msgstr ""
 "Натисніть кнопку <gui style=\"button\">Автентифікація</gui> і введіть ваш "
 "пароль."
@@ -11810,7 +11789,8 @@ msgstr ""
 #: C/mail-receiving-options-pop.page:39
 #: C/mail-receiving-options-usenet-news.page:35
 msgid "Select if you want <app>Evolution</app> to remember your password."
-msgstr "Вкажіть, чи слід <app>Evolution</app> запам'ятовувати введений пароль."
+msgstr ""
+"Вкажіть, чи слід <app>Evolution</app> запам'ятовувати введений пароль."
 
 #. (itstool) path: item/p
 #: C/mail-receiving-options-imap-plus.page:47
@@ -12839,7 +12819,8 @@ msgstr ""
 
 #. (itstool) path: section/p
 #: C/mail-searching.page:111
-msgid "There are three special tags, which require special notation. They are:"
+msgid ""
+"There are three special tags, which require special notation. They are:"
 msgstr ""
 "Передбачено три спеціальних теґи, які потребують особливого позначення. Ось "
 "вони:"
@@ -13332,7 +13313,8 @@ msgstr ""
 
 #. (itstool) path: section/p
 #: C/mail-sorting-folder-list.page:32
-msgid "The folders under each top-level node are sorted in alphabetical order."
+msgid ""
+"The folders under each top-level node are sorted in alphabetical order."
 msgstr "Теки під кожним вузлом верхнього рівня упорядковано за абеткою."
 
 #. (itstool) path: section/title
@@ -13958,7 +13940,8 @@ msgstr ""
 msgid ""
 "Deleting junk messages upon exit, and how often junk messages are to be "
 "deleted."
-msgstr "Вилучення спаму при виході та частота вилучення повідомлень зі спамом."
+msgstr ""
+"Вилучення спаму при виході та частота вилучення повідомлень зі спамом."
 
 #. (itstool) path: item/p
 #: C/mail-spam-settings.page:71
@@ -14717,17 +14700,26 @@ msgstr "Як отримати допомогу"
 
 #. (itstool) path: page/p
 #: C/problems-getting-help.page:24
+#| msgid ""
+#| "To receive help on problems you can send an email to the <link href="
+#| "\"http://mail.gnome.org/mailman/listinfo/evolution-list\"><app>Evolution</"
+#| "app> mailing list</link> or talk to developers and other users in the IRC "
+#| "chat channel #evolution on the server irc.gimp.net. To connect to an IRC "
+#| "server you can for example <link xref=\"help:polari/\" href=\"https://"
+#| "help.gnome.org/users/polari/stable/\">use the application <app>Polari</"
+#| "app></link>."
 msgid ""
-"To receive help on problems you can send an email to the <link href=\"http://"
-"mail.gnome.org/mailman/listinfo/evolution-list\"><app>Evolution</app> "
-"mailing list</link> or talk to developers and other users in the IRC chat "
+"To receive help on problems you can open a thread on <link href=\"https://"
+"discourse.gnome.org/tag/evolution\"><app>GNOME Discourse</app> with the "
+"evolution tag</link> or talk to developers and other users in the IRC chat "
 "channel #evolution on the server irc.gimp.net. To connect to an IRC server "
 "you can for example <link xref=\"help:polari/\" href=\"https://help.gnome."
 "org/users/polari/stable/\">use the application <app>Polari</app></link>."
 msgstr ""
-"Щоб отримати допомогу із вирішенням проблем, ви можете надіслати "
-"повідомлення електронної пошти до <link href=\"http://mail.gnome.org/mailman/"
-"listinfo/evolution-list\">списку листування <app>Evolution</app></link> або "
+"Щоб отримати допомогу із вирішенням проблем, ви можете створити гілку"
+" обговорення у <link href=\"https://"
+"discourse.gnome.org/tag/evolution\"><app>GNOME Discourse</app> з міткою"
+" «evolution»</link> або "
 "поспілкуватися із розробниками та іншими користувачами на каналі спілкування "
 "IRC #evolution на сервері irc.gimp.net. Щоб з'єднатися із сервером IRC ви "
 "можете, наприклад, <link xref=\"help:polari/\" href=\"https://help.gnome.org/"
@@ -15320,7 +15312,8 @@ msgstr ""
 
 #. (itstool) path: page/p
 #: C/tasks-using-several-tasklists.page:24
-msgid "Tasks and memos from each task or memo list appear as different colors."
+msgid ""
+"Tasks and memos from each task or memo list appear as different colors."
 msgstr ""
 "Завдання і примітки з кожного зі списків завдань або приміток буде показано "
 "різними кольорами."
