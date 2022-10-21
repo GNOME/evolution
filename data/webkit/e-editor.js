@@ -2286,10 +2286,25 @@ EvoEditor.convertTags = function()
 	list = document.getElementsByTagName("TABLE");
 
 	for (ii = list.length - 1; ii >= 0; ii--) {
-		var table = list[ii], textNode;
+		var table = list[ii], lines, jj;
 
-		textNode = document.createTextNode(table.innerText);
-		table.parentElement.insertBefore(textNode, table);
+		lines = table.innerText.split("\n");
+
+		for (jj = 0; jj < lines.length; jj++) {
+			var line, divNode;
+
+			line = lines[jj];
+			divNode = document.createElement("DIV");
+
+			table.parentElement.insertBefore(divNode, table);
+
+			if (!line.length) {
+				divNode.appendChild(document.createElement("BR"));
+			} else {
+				divNode.innerText = line;
+			}
+		}
+
 		table.remove();
 	}
 
