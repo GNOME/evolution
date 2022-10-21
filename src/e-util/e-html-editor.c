@@ -1638,7 +1638,7 @@ e_html_editor_get_content_editor_name (EHTMLEditor *editor)
 		return NULL;
 
 	g_hash_table_iter_init (&iter, editor->priv->content_editors);
-	if (g_hash_table_iter_next (&iter, &key, &value)) {
+	while (g_hash_table_iter_next (&iter, &key, &value)) {
 		if (value == cnt_editor)
 			return key;
 	}
