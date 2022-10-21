@@ -1,3 +1,62 @@
+Evolution 3.46.1 2022-10-21
+---------------------------
+
+Bug Fixes:
+	I#2001 - Mail: Update preview's iframe height to match its content
+	I#2013 - Tasks: Correct interpretation of Due DATE value
+	I#2014 - Calendar: Periodically refresh Marcus Bains line
+	I#2029 - prefer-plain: Runtime warnings for "Only ever show plain text"
+	I#2030 - New-Mail-Account: 'Skip Lookup' button not removed
+	I#2031 - VEVENT components should not contain both DTEND and DURATION
+	I#2037 - EHeaderBarButton: Avoid busy loop on toggle action's 'active' change
+	I#2039 - Add option to disable use of header bars
+	I#2043 - prefer-plain: 'related' under 'alternative' shows 'html' part
+	I#2044 - Calendar: Decode attendee names in meeting editor
+	I#2047 - Fix possible memory leak in e_table_state_load_from_node()
+	I#2051 - Mail: Hide print Preview in the menu
+	I#2053 - Contacts: Correct print of multiline text
+	I#2059 - Group Manager: Auto-deselect sources in to be hidden groups
+	I#2062 - Limit number of previewed messages on mbox file import
+	I#2063 - Make it possible to disable GOA accounts
+	I#2064 - EShellHeaderBar: Disable subtitle for the header bar (Glen Whitney)
+	I#2073 - Calendar: Meeting's Reply-To-All should not use attendee response in Subject
+	I#2083 - Enable sandboxing for WebKitGTK 2.38.0+
+	I#2087 - Hide extra separators in Composer, Mail and Calendar view toolbars
+
+Miscellaneous:
+	Calendar: Compare date with correct zone
+	publish-calendar: Correct type of a 'port' variable to match GUri's port type
+	Fix possible crash under type_ahead_complete_on_timeout_cb()
+	EWebView: Make sure an error is set when passing it to webkit_uri_scheme_request_finish_error()
+	EHTTPRequest: Rearrange free functions and set error on failure
+	help: Replace to-be-retired mailing list with GNOME Discourse link (Andre Klapper)
+
+Translations:
+	Aleksandr Melman (ru)
+	Alexander Shopov (bg)
+	Anders Jonsson (sv)
+	Asier Sarasua Garmendia (eu)
+	Aurimas Černius (lt)
+	Balázs Úr (hu)
+	Baurzhan Muftakhidinov (kk)
+	Charles Monzat (fr)
+	Christian Kirbach (de)
+	Danial Behzadi (fa)
+	Fabio Tomat (fur)
+	Fran Dieguez (gl)
+	Goran Vidović (hr)
+	Hugo Carvalho (pt)
+	Jürgen Benvenuti (de)
+	Kukuh Syafaat (id)
+	Matej Urbančič (sl)
+	Nart Tlisha (ab)
+	Pawan Chitrakar (ne)
+	Piotr Drąg (pl)
+	Rafael Fontenelle (pt_BR)
+	Sabri Ünal (tr)
+	Yuri Chornoivan (uk)
+	Zurab Kargareteli (ka)
+
 Evolution 3.46.0 2022-09-16
 ---------------------------
 
