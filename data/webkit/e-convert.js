@@ -982,7 +982,7 @@ EvoConvert.processNode = function(node, normalDivWidth, quoteLevel)
 			}
 
 			if ((!isBlockquote || !str.endsWith("\n")) &&
-			    str != "\n" && ((style && style.display == "block") || node.tagName == "ADDRESS")) {
+			    str != "\n" && ((style && style.display == "block") || node.tagName == "ADDRESS" || node.tagName == "TR")) {
 				str += "\n";
 			}
 		}
