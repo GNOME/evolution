@@ -112,8 +112,6 @@ typedef enum {
 	MAIL_CALL_p_ppippp
 } mail_call_t;
 
-typedef gpointer (*MailMainFunc)();
-
-gpointer mail_call_main (mail_call_t type, MailMainFunc func, ...);
+gpointer mail_call_main (mail_call_t type, GCallback func, ...);
 
 #endif /* _MAIL_MT */

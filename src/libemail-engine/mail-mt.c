@@ -493,7 +493,7 @@ struct _call_msg {
 	MailMsg base;
 
 	mail_call_t type;
-	MailMainFunc func;
+	GCallback func;
 	gpointer ret;
 	va_list ap;
 	EFlag *done;
@@ -504,7 +504,13 @@ do_call (struct _call_msg *m,
          GCancellable *cancellable,
          GError **error)
 {
-	gpointer p1, *p2, *p3, *p4, *p5;
+	typedef gpointer (* t_func1) (gpointer p1);
+	typedef gpointer (* t_func2) (gpointer p1, gpointer p2);
+	typedef gpointer (* t_func3) (gpointer p1, gpointer p2, gpointer p3);
+	typedef gpointer (* t_func4) (gpointer p1, gpointer p2, gpointer p3, gpointer p4);
+	typedef gpointer (* t_func5) (gpointer p1, gpointer p2, gpointer p3, gpointer p4, gpointer p5);
+	typedef gpointer (* t_func6) (gpointer p1, gpointer p2, gint i1, gpointer p3, gpointer p4, gpointer p5);
+	gpointer p1, p2, p3, p4, p5;
 	gint i1;
 	va_list ap;
 
@@ -513,25 +519,25 @@ do_call (struct _call_msg *m,
 	switch (m->type) {
 	case MAIL_CALL_p_p:
 		p1 = va_arg (ap, gpointer);
-		m->ret = m->func (p1);
+		m->ret = ((t_func1) (m->func)) (p1);
 		break;
 	case MAIL_CALL_p_pp:
 		p1 = va_arg (ap, gpointer);
 		p2 = va_arg (ap, gpointer);
-		m->ret = m->func (p1, p2);
+		m->ret = ((t_func2) (m->func)) (p1, p2);
 		break;
 	case MAIL_CALL_p_ppp:
 		p1 = va_arg (ap, gpointer);
 		p2 = va_arg (ap, gpointer);
 		p3 = va_arg (ap, gpointer);
-		m->ret = m->func (p1, p2, p3);
+		m->ret = ((t_func3) (m->func)) (p1, p2, p3);
 		break;
 	case MAIL_CALL_p_pppp:
 		p1 = va_arg (ap, gpointer);
 		p2 = va_arg (ap, gpointer);
 		p3 = va_arg (ap, gpointer);
 		p4 = va_arg (ap, gpointer);
-		m->ret = m->func (p1, p2, p3, p4);
+		m->ret = ((t_func4) (m->func)) (p1, p2, p3, p4);
 		break;
 	case MAIL_CALL_p_ppppp:
 		p1 = va_arg (ap, gpointer);
@@ -539,7 +545,7 @@ do_call (struct _call_msg *m,
 		p3 = va_arg (ap, gpointer);
 		p4 = va_arg (ap, gpointer);
 		p5 = va_arg (ap, gpointer);
-		m->ret = m->func (p1, p2, p3, p4, p5);
+		m->ret = ((t_func5) (m->func)) (p1, p2, p3, p4, p5);
 		break;
 	case MAIL_CALL_p_ppippp:
 		p1 = va_arg (ap, gpointer);
@@ -548,7 +554,7 @@ do_call (struct _call_msg *m,
 		p3 = va_arg (ap, gpointer);
 		p4 = va_arg (ap, gpointer);
 		p5 = va_arg (ap, gpointer);
-		m->ret = m->func (p1, p2, i1, p3, p4, p5);
+		m->ret = ((t_func6) (m->func)) (p1, p2, i1, p3, p4, p5);
 		break;
 	}
 
@@ -582,7 +588,7 @@ static MailMsgInfo mail_call_info = {
 
 gpointer
 mail_call_main (mail_call_t type,
-                MailMainFunc func,
+                GCallback func,
                 ...)
 {
 	GCancellable *cancellable;
