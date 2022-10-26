@@ -1334,8 +1334,8 @@ e_rss_import_from_file (GtkWindow *parent,
 				e_notice (parent, GTK_MESSAGE_INFO, "%s", _("No new RSS feeds imported"));
 			} else {
 				e_notice (parent, GTK_MESSAGE_INFO, g_dngettext (GETTEXT_PACKAGE,
-					"Imported %" G_GSIZE_FORMAT " feed",
-					"Imported %" G_GSIZE_FORMAT " feeds", n_imported), n_imported);
+					"Imported %d feed",
+					"Imported %d feeds", n_imported), (gint) n_imported);
 			}
 		} else {
 			e_rss_report_text (parent, _("Failed to import data, the file does not contain valid OPML data."));
