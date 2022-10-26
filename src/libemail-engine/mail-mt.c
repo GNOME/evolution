@@ -66,7 +66,7 @@ mail_msg_register_activities (MailMsgCreateActivityFunc acreate,
 }
 
 EAlertSink *
-mail_msg_get_alert_sink ()
+mail_msg_get_alert_sink (void)
 {
 	if (get_alert_sink)
 		return get_alert_sink ();

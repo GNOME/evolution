@@ -1281,7 +1281,7 @@ mail_mt_alert_error (GCancellable *cancellable,
 }
 
 static EAlertSink *
-mail_mt_get_alert_sink ()
+mail_mt_get_alert_sink (void)
 {
 	EShell *shell;
 	EShellBackend *shell_backend;
