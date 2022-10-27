@@ -155,10 +155,12 @@ e_setup_theme_icons_theme_changed_cb (GtkSettings *settings)
 		g_free (dirname);
 	}
 
+	use_symbolic_icons = (!n_non_symbolic && n_symbolic > 0) ||
+		g_strcmp0 (icon_theme_name, "HighContrast") == 0 ||
+		g_strcmp0 (icon_theme_name, "ContrastHigh") == 0;
+
 	g_strfreev (paths);
 	g_free (icon_theme_name);
-
-	use_symbolic_icons = !n_non_symbolic && n_symbolic > 0;
 
 	/* using the same key on both objects, to save one quark */
 	#define KEY_NAME "e-symbolic-icons-css-provider"
