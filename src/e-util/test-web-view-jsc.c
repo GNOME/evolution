@@ -1891,8 +1891,6 @@ test_get_element_from_point (TestFixture *fixture)
 
 	test_utils_wait_noop (fixture);
 
-	scroll_x = test_utils_jsc_call_int32_sync (fixture, "window.scrollX;");
-	scroll_y = test_utils_jsc_call_int32_sync (fixture, "window.scrollY;");
 	client_width = test_utils_jsc_call_int32_sync (fixture, "document.body.clientWidth;");
 	client_height = test_utils_jsc_call_int32_sync (fixture, "document.body.clientHeight;");
 

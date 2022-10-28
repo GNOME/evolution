@@ -145,7 +145,6 @@ kuri_to_euri (const gchar *k_uri)
 				folder = (gchar *)"Drafts";
 			} else if ((strcasecmp (folder, "templates") == 0) || (strcmp (folder, _("Templates")) == 0)) {
 				folder = (gchar *)"Templates";
-				break;
 			} else if ((strcasecmp (folder, "trash") == 0) || (strcmp (folder, _("Trash")) == 0)) {
 				dropped = TRUE;
 				break;

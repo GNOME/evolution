@@ -1843,7 +1843,6 @@ user_delete_text (ENameSelectorEntry *name_selector_entry,
 	if (str_b_context[1] == '"') {
 		const gchar *p;
 		gint j;
-		p = text + end_pos;
 		for (p = text + (end_pos - 1), j = end_pos - 1; *p && *p != '"' ; p = g_utf8_next_char (p), j++) {
 			gunichar c = g_utf8_get_char (p);
 			if (c == ',') {
@@ -2652,10 +2651,8 @@ destination_row_deleted (ENameSelectorEntry *name_selector_entry,
 		gunichar c = g_utf8_get_char (p0);
 
 		if (c == ',') {
-			if (!deleted_comma) {
-				deleted_comma = TRUE;
+			if (!deleted_comma)
 				break;
-			}
 
 			range_start++;
 

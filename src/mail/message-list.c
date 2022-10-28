@@ -1790,8 +1790,6 @@ get_trimmed_subject (CamelMessageInfo *info,
 		found_mlist = FALSE;
 
 		while (found_re) {
-			found_re = FALSE;
-
 			g_mutex_lock (&message_list->priv->re_prefixes_lock);
 			found_re = em_utils_is_re_in_subject (
 				subject, &skip_len, (const gchar * const *) message_list->priv->re_prefixes,

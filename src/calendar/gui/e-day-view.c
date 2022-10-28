@@ -6202,9 +6202,9 @@ e_day_view_reshape_long_event (EDayView *day_view,
 {
 	EDayViewEvent *event;
 	gint start_day, end_day, item_x, item_y, item_w, item_h;
-	gint text_x, text_w, num_icons, icons_width, width, time_width;
+	gint text_x, num_icons, icons_width, width, time_width;
 	ECalComponent *comp;
-	gint min_text_x, max_text_w, text_width, line_len;
+	gint min_text_x, text_width, line_len;
 	gchar *text, *end_of_line;
 	gboolean show_icons = TRUE, use_max_width = FALSE;
 	PangoContext *pango_context;
@@ -6314,7 +6314,6 @@ e_day_view_reshape_long_event (EDayView *day_view,
 
 	if (use_max_width) {
 		text_x = item_x;
-		text_w = item_w;
 	} else {
 		gdouble item_text_width = 0;
 
@@ -6347,18 +6346,10 @@ e_day_view_reshape_long_event (EDayView *day_view,
 
 		text_x = MAX (text_x, min_text_x);
 
-		max_text_w = item_x + item_w - text_x;
-		if (event->end < day_view->day_starts[end_day + 1])
-			max_text_w -= time_width + E_DAY_VIEW_LONG_EVENT_TIME_X_PAD;
-
-		text_w = MIN (width, max_text_w);
-
 		/* Now take out the space for the icons. */
 		text_x += icons_width;
-		text_w -= icons_width;
 	}
 
-	text_w = MAX (text_w, 0);
 	gnome_canvas_item_set (
 		event->canvas_item,
 		"x_offset", (gdouble) MAX (0, text_x - item_x),
@@ -8957,7 +8948,7 @@ e_day_view_update_main_canvas_drag (EDayView *day_view,
 	EDayViewEvent *event = NULL;
 	ECalendarView *cal_view;
 	gint time_divisions;
-	gint cols_in_row, start_col, num_columns, num_rows, start_row, end_row;
+	gint cols_in_row, start_col, num_columns, num_rows, end_row;
 	gdouble item_x, item_y, item_w, item_h;
 	gchar *text;
 
@@ -8976,7 +8967,6 @@ e_day_view_update_main_canvas_drag (EDayView *day_view,
 	/* Calculate the event's position. If the event is in the same
 	 * position we started in, we use the same columns. */
 	cols_in_row = 1;
-	start_row = 0;
 	start_col = 0;
 	num_columns = 1;
 	num_rows = 1;
@@ -8988,6 +8978,8 @@ e_day_view_update_main_canvas_drag (EDayView *day_view,
 		event = &g_array_index (day_view->long_events, EDayViewEvent,
 					day_view->drag_event_num);
 	} else if (day_view->drag_event_day != -1) {
+		gint start_row;
+
 		if (!is_array_index_in_bounds (day_view->events[day_view->drag_event_day], day_view->drag_event_num))
 			return;
 
