@@ -1,4 +1,4 @@
-<ui evolution-ui-version="1.1">
+<ui evolution-ui-version="1.2">
   <menubar name='main-menu'>
     <menu action='file-menu'>
       <placeholder name='file-actions'>
@@ -59,6 +59,10 @@
     <toolitem action='calendar-print'/>
     <toolitem action='delete-selection'/>
     <separator/>
+    <toolitem action='calendar-go-back'/>
+    <toolitem action='calendar-go-today'/>
+    <toolitem action='calendar-go-forward'/>
+    <separator name='calendar-go-forward-separator'/>
     <toolitem action='calendar-jump-to'/>
     <separator/>
     <toolitem action='calendar-view-day'/>

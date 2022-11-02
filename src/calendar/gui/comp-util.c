@@ -2079,7 +2079,7 @@ cal_comp_util_describe (ECalComponent *comp,
 	itt_end = cal_comp_util_date_time_to_zone (dtend, client, default_zone);
 
 	if ((flags & E_CAL_COMP_UTIL_DESCRIBE_FLAG_ONLY_TIME) != 0 &&
-	    (itt_start && (!itt_end || i_cal_time_compare_date_only (itt_start, itt_end) == 0))) {
+	    (itt_start && (!itt_end || i_cal_time_compare_date_only_tz (itt_start, itt_end, default_zone) == 0))) {
 		if ((flags & E_CAL_COMP_UTIL_DESCRIBE_FLAG_24HOUR_FORMAT) != 0) {
 			g_snprintf (timestr, sizeof (timestr), "%d:%02d", i_cal_time_get_hour (itt_start), i_cal_time_get_minute (itt_start));
 		} else {

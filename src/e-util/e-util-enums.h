@@ -658,6 +658,12 @@ typedef enum { /*< flags >*/
 	E_MARKDOWN_HTML_TO_TEXT_FLAG_COMPOSER_QUIRKS	= 1 << 1
 } EMarkdownHTMLToTextFlags;
 
+typedef enum {
+	E_TOOLBAR_ICON_SIZE_DEFAULT	= 0,
+	E_TOOLBAR_ICON_SIZE_SMALL	= 1,
+	E_TOOLBAR_ICON_SIZE_LARGE	= 2
+} EToolbarIconSize;
+
 G_END_DECLS
 
 #endif /* E_UTIL_ENUMS_H */

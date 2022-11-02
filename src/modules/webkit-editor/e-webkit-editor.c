@@ -935,13 +935,11 @@ formatting_changed_cb (WebKitUserContentManager *manager,
 	if (jsc_value && jsc_value_is_number (jsc_value)) {
 		gint value = jsc_value_to_int32 (jsc_value);
 
-		changed = FALSE;
 		update_style_flag (E_WEBKIT_EDITOR_STYLE_IS_SUBSCRIPT, value < 0);
 
 		if (changed || forced)
 			g_object_notify (object, "subscript");
 
-		changed = FALSE;
 		update_style_flag (E_WEBKIT_EDITOR_STYLE_IS_SUPERSCRIPT, value > 0);
 
 		if (changed || forced)

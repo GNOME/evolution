@@ -1,3 +1,25 @@
+Evolution 3.46.0 2022-09-16
+---------------------------
+
+Bug Fixes:
+	I#2022 - Use icon-only buttons in the header bar
+
+Translations:
+	Balázs Úr (hu)
+	Changwoo Ryu (ko)
+	Christian Kirbach (de)
+	Daniel Mustieles (es)
+	Enrico Nicoletto (pt_BR)
+	Jean-Marc Tissières (fr)
+	Jiri Eischmann (cs)
+	Jordi Mas (ca)
+	Jürgen Benvenuti (de)
+	Marek Černocký (cs)
+	Piotr Drąg (pl)
+	Rūdolfs Mazurs (lv)
+	Sabri Ünal (tr)
+	Марко Костић (sr)
+
 Evolution 3.45.3 2022-09-02
 ---------------------------
 

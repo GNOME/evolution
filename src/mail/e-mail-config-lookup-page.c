@@ -102,7 +102,7 @@ e_mail_config_lookup_page_init (EMailConfigLookupPage *page)
 }
 
 EMailConfigPage *
-e_mail_config_lookup_page_new ()
+e_mail_config_lookup_page_new (void)
 {
 	return g_object_new (E_TYPE_MAIL_CONFIG_LOOKUP_PAGE, NULL);
 }

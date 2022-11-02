@@ -19,6 +19,8 @@
 
 #include <glib/gi18n-lib.h>
 
+#include "e-misc-utils.h"
+
 #include "e-mail-signature-script-dialog.h"
 
 #define E_MAIL_SIGNATURE_SCRIPT_DIALOG_GET_PRIVATE(obj) \
@@ -554,7 +556,7 @@ e_mail_signature_script_dialog_new (ESourceRegistry *registry,
 	return g_object_new (
 		E_TYPE_MAIL_SIGNATURE_SCRIPT_DIALOG,
 		"registry", registry,
-		"use-header-bar", TRUE,
+		"use-header-bar", e_util_get_use_header_bar (),
 		"transient-for", parent,
 		"source", source, NULL);
 }

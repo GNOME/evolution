@@ -4303,10 +4303,20 @@ e_cal_model_util_get_datetime_value (ECalModel *model,
 	g_return_val_if_fail (get_time_func != NULL, NULL);
 
 	prop = i_cal_component_get_first_property (comp_data->icalcomp, kind);
-	if (!prop)
-		return NULL;
-
-	tt = get_time_func (prop);
+	if (!prop) {
+		if (kind == I_CAL_DTEND_PROPERTY &&
+		    e_cal_util_component_has_property (comp_data->icalcomp, I_CAL_DURATION_PROPERTY) &&
+		    e_cal_util_component_has_property (comp_data->icalcomp, I_CAL_DTSTART_PROPERTY)) {
+			/* Get the TZID from the DTSTART */
+			prop = i_cal_component_get_first_property (comp_data->icalcomp, I_CAL_DTSTART_PROPERTY);
+			/* The libical calculates the DTEND from the DTSTART+DURATION */
+			tt = i_cal_component_get_dtend (comp_data->icalcomp);
+		} else {
+			return NULL;
+		}
+	} else {
+		tt = get_time_func (prop);
+	}
 
 	if (!tt || !i_cal_time_is_valid_time (tt) || i_cal_time_is_null_time (tt)) {
 		g_clear_object (&prop);

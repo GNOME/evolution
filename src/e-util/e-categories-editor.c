@@ -157,7 +157,7 @@ edit_button_clicked_cb (GtkButton *button,
 
 	cat_editor = g_object_new (E_TYPE_CATEGORY_EDITOR,
 		"transient-for", parent,
-		"use-header-bar", TRUE,
+		"use-header-bar", e_util_get_use_header_bar (),
 		NULL);
 
 	category = e_categories_selector_get_selected (

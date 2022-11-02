@@ -28,6 +28,70 @@
 
 #include "e-mail-parser-prefer-plain.h"
 
+/* ------------------------------------------------------------------------ */
+
+#define E_TYPE_NULL_REQUEST e_null_request_get_type ()
+G_DECLARE_FINAL_TYPE (ENullRequest, e_null_request, E, NULL_REQUEST, GObject)
+
+struct _ENullRequest {
+	GObject parent;
+};
+
+static void e_null_request_content_request_init (EContentRequestInterface *iface);
+
+G_DEFINE_TYPE_WITH_CODE (ENullRequest, e_null_request, G_TYPE_OBJECT,
+	G_IMPLEMENT_INTERFACE (E_TYPE_CONTENT_REQUEST, e_null_request_content_request_init))
+
+static gboolean
+e_null_request_can_process_uri (EContentRequest *request,
+				const gchar *uri)
+{
+	return TRUE;
+}
+
+static gboolean
+e_null_request_process_sync (EContentRequest *request,
+			     const gchar *uri,
+			     GObject *requester,
+			     GInputStream **out_stream,
+			     gint64 *out_stream_length,
+			     gchar **out_mime_type,
+			     GCancellable *cancellable,
+			     GError **error)
+{
+	if (g_cancellable_set_error_if_cancelled (cancellable, error))
+		return FALSE;
+
+	g_set_error_literal (error, G_IO_ERROR, G_IO_ERROR_NOT_SUPPORTED, "not supported");
+
+	return FALSE;
+}
+
+static void
+e_null_request_content_request_init (EContentRequestInterface *iface)
+{
+	iface->can_process_uri = e_null_request_can_process_uri;
+	iface->process_sync = e_null_request_process_sync;
+}
+
+static void
+e_null_request_class_init (ENullRequestClass *klass)
+{
+}
+
+static void
+e_null_request_init (ENullRequest *request)
+{
+}
+
+static EContentRequest *
+e_null_request_new (void)
+{
+	return g_object_new (E_TYPE_NULL_REQUEST, NULL);
+}
+
+/* ------------------------------------------------------------------------ */
+
 typedef struct _EMailParserPreferPlain EMailParserPreferPlain;
 typedef struct _EMailParserPreferPlainClass EMailParserPreferPlainClass;
 
@@ -274,13 +338,26 @@ static gboolean
 mail_parser_prefer_plain_convert_text (gpointer user_data)
 {
 	AsyncContext *async_context = user_data;
+	EContentRequest *content_request;
+	EWebView *web_view;
 	gchar *script;
 
 	g_return_val_if_fail (async_context != NULL, FALSE);
 
-	async_context->web_view = WEBKIT_WEB_VIEW (g_object_ref_sink (e_web_view_new ()));
+	web_view = E_WEB_VIEW (g_object_ref_sink (e_web_view_new ()));
+	async_context->web_view = WEBKIT_WEB_VIEW (web_view);
 
-	e_web_view_load_uri (E_WEB_VIEW (async_context->web_view), "evo://disable-remote-content");
+	/* Register schemes used by the EMailDisplay, but do not process them.
+	   It avoids a runtime warning from the EWebView when it cannot find
+	   the scheme handler. */
+	content_request = e_null_request_new ();
+	e_web_view_register_content_request_for_scheme (web_view, "evo-http", content_request);
+	e_web_view_register_content_request_for_scheme (web_view, "evo-https", content_request);
+	e_web_view_register_content_request_for_scheme (web_view, "mail", content_request);
+	e_web_view_register_content_request_for_scheme (web_view, "cid", content_request);
+	g_object_unref (content_request);
+
+	e_web_view_load_uri (web_view, "evo://disable-remote-content");
 
 	script = e_web_view_jsc_printf_script (
 		"var elem;\n"
@@ -485,9 +562,9 @@ empe_prefer_plain_parse (EMailParserExtension *extension,
 		/* Multiparts can represent a text/html message
 		 * with other things like embedded images, etc. */
 		} else if (camel_content_type_is (ct, "multipart", "*")) {
+			EMailPart *html_mail_part = NULL;
 			GQueue inner_queue = G_QUEUE_INIT;
 			GList *head, *link;
-			gboolean multipart_has_html = FALSE;
 
 			e_mail_parser_parse_part (
 				parser, sp, part_id, cancellable, &inner_queue);
@@ -498,21 +575,33 @@ empe_prefer_plain_parse (EMailParserExtension *extension,
 			for (link = head; link != NULL; link = g_list_next (link)) {
 				EMailPart *mail_part = link->data;
 
-				if (e_mail_part_id_has_substr (mail_part, ".text_html")) {
-					multipart_has_html = TRUE;
+				if (e_mail_part_id_has_substr (mail_part, ".text_html") ||
+				    /* The HTML part as an HTML source code */
+				    (emp_pp->mode == PREFER_SOURCE && e_mail_part_id_has_suffix (mail_part, ".alternative-prefer-plain.-1")) ||
+				    /* The HTML part converted into text/plain */
+				    (emp_pp->mode == ONLY_PLAIN && e_mail_part_id_has_suffix (mail_part, ".alternative-prefer-plain.-1.converted"))) {
+					html_mail_part = mail_part;
 					break;
 				}
 			}
 
-			if (multipart_has_html && !prefer_html) {
+			if (html_mail_part && !prefer_html) {
 				if (emp_pp->show_suppressed) {
 					GQueue suppressed_queue = G_QUEUE_INIT;
+					CamelMimePart *inner_part;
 
-					e_mail_parser_wrap_as_attachment (
-						parser, sp, part_id,
-						&suppressed_queue);
+					html_mail_part->is_hidden = TRUE;
+					inner_part = e_mail_part_ref_mime_part (html_mail_part);
 
-					mark_parts_not_printable (&suppressed_queue);
+					if (inner_part) {
+						e_mail_parser_wrap_as_attachment (
+							parser, inner_part, part_id,
+							&suppressed_queue);
+
+						mark_parts_not_printable (&suppressed_queue);
+
+						g_clear_object (&inner_part);
+					}
 
 					e_queue_transfer (&suppressed_queue, &inner_queue);
 				} else {
@@ -522,7 +611,7 @@ empe_prefer_plain_parse (EMailParserExtension *extension,
 
 			e_queue_transfer (&inner_queue, &work_queue);
 
-			has_html |= multipart_has_html;
+			has_html |= html_mail_part != NULL;
 
 		/* Parse other than 'X' (those are custom types) as an attachment */
 		} else if (ct && ct->subtype && ct->subtype[0] && ct->subtype[0] != 'x' && ct->subtype[0] != 'X') {

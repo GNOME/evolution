@@ -82,6 +82,9 @@ void		e_comp_editor_page_add_property_part	(ECompEditorPage *page,
 							 gint attach_top,
 							 gint attach_width,
 							 gint attach_height);
+ECompEditorPropertyPart *
+		e_comp_editor_page_get_property_part	(ECompEditorPage *page,
+							 ICalPropertyKind prop_kind);
 void		e_comp_editor_page_sensitize_widgets	(ECompEditorPage *page,
 							 gboolean force_insensitive);
 void		e_comp_editor_page_fill_widgets		(ECompEditorPage *page,

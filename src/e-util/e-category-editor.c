@@ -279,7 +279,7 @@ ECategoryEditor *
 e_category_editor_new (void)
 {
 	return g_object_new (E_TYPE_CATEGORY_EDITOR,
-		"use-header-bar", TRUE,
+		"use-header-bar", e_util_get_use_header_bar (),
 		NULL);
 }
 

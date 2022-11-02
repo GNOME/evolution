@@ -224,7 +224,10 @@ markdown_utils_sax_start_element_cb (gpointer ctx,
 			if (data->quote_prefix->len)
 				g_string_append (data->buffer, data->quote_prefix->str);
 		} else if (!data->composer_quirks.enabled || !was_in_div_begin) {
-			g_string_append (data->buffer, "<br>");
+			if (data->in_pre)
+				g_string_append_c (data->buffer, '\n');
+			else
+				g_string_append (data->buffer, "<br>");
 		}
 
 		return;
@@ -426,9 +429,9 @@ markdown_utils_sax_end_element_cb (gpointer ctx,
 
 		if (data->in_pre > 0) {
 			data->in_pre--;
-			if (data->in_pre == 0 && !data->plain_text)
-				g_string_append (data->buffer, "```");
 			g_string_append_c (data->buffer, '\n');
+			if (data->in_pre == 0 && !data->plain_text)
+				g_string_append (data->buffer, "```\n");
 		}
 		return;
 	}
@@ -444,6 +447,7 @@ markdown_utils_sax_end_element_cb (gpointer ctx,
 
 	if (g_ascii_strcasecmp (name, "p") == 0 ||
 	    g_ascii_strcasecmp (name, "div") == 0 ||
+	    g_ascii_strcasecmp (name, "tr") == 0 ||
 	    g_ascii_strcasecmp (name, "h1") == 0 ||
 	    g_ascii_strcasecmp (name, "h2") == 0 ||
 	    g_ascii_strcasecmp (name, "h3") == 0 ||
@@ -460,10 +464,13 @@ markdown_utils_sax_end_element_cb (gpointer ctx,
 				g_string_append (data->buffer, "<br>");
 		}
 
-		data->in_paragraph_end = TRUE;
+		if (g_ascii_strcasecmp (name, "tr") != 0) {
+			data->in_paragraph_end = TRUE;
 
-		if (data->in_paragraph > 0)
-			data->in_paragraph--;
+			if (data->in_paragraph > 0)
+				data->in_paragraph--;
+		}
+
 		return;
 	}
 

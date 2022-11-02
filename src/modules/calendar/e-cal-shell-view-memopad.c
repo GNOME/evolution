@@ -320,7 +320,6 @@ e_cal_shell_view_memopad_actions_update (ECalShellView *cal_shell_view)
 	EMemoTable *memo_table;
 	GtkAction *action;
 	GSList *list, *iter;
-	gboolean editable = TRUE;
 	gboolean has_url = FALSE;
 	gboolean sensitive;
 	gint n_selected;
@@ -334,12 +333,8 @@ e_cal_shell_view_memopad_actions_update (ECalShellView *cal_shell_view)
 	n_selected = e_table_selected_count (E_TABLE (memo_table));
 
 	list = e_memo_table_get_selected (memo_table);
-	for (iter = list; iter != NULL; iter = iter->next) {
+	for (iter = list; iter != NULL && !has_url; iter = iter->next) {
 		ECalModelComponent *comp_data = iter->data;
-		gboolean read_only;
-
-		read_only = e_client_is_readonly (E_CLIENT (comp_data->client));
-		editable &= !read_only;
 
 		has_url |= e_cal_util_component_has_property (comp_data->icalcomp, I_CAL_URL_PROPERTY);
 	}

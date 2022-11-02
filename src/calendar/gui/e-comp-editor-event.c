@@ -424,9 +424,51 @@ ece_event_fill_widgets (ECompEditor *comp_editor,
 
 	if (dtstart && i_cal_time_is_valid_time (dtstart) && !i_cal_time_is_null_time (dtstart) &&
 	    (!dtend || !i_cal_time_is_valid_time (dtend) || i_cal_time_is_null_time (dtend))) {
+		gboolean dtend_set = FALSE;
 		g_clear_object (&dtend);
 		dtend = i_cal_time_clone (dtstart);
-		if (i_cal_time_is_date (dtstart))
+
+		if (e_cal_util_component_has_property (component, I_CAL_DURATION_PROPERTY)) {
+			ICalProperty *prop;
+
+			prop = i_cal_component_get_first_property (component, I_CAL_DURATION_PROPERTY);
+			if (prop) {
+				ICalDuration *duration;
+
+				g_clear_object (&prop);
+
+				duration = i_cal_component_get_duration (component);
+				if (!duration || i_cal_duration_is_null_duration (duration) || i_cal_duration_is_bad_duration (duration)) {
+					g_clear_object (&duration);
+				/* The DURATION shouldn't be negative, but just return DTSTART if it
+				 * is, i.e. assume it is 0. */
+				} else if (!i_cal_duration_is_neg (duration)) {
+					guint dur_days, dur_hours, dur_minutes, dur_seconds;
+
+					/* If DTSTART is a DATE value, then we need to check if the DURATION
+					 * includes any hours, minutes or seconds. If it does, we need to
+					 * make the DTEND/DUE a DATE-TIME value. */
+					dur_days = i_cal_duration_get_days (duration) + (7 * i_cal_duration_get_weeks (duration));
+					dur_hours = i_cal_duration_get_hours (duration);
+					dur_minutes = i_cal_duration_get_minutes (duration);
+					dur_seconds = i_cal_duration_get_seconds (duration);
+
+					if (i_cal_time_is_date (dtend) && (
+					    dur_hours != 0 || dur_minutes != 0 || dur_seconds != 0)) {
+						i_cal_time_set_is_date (dtend, FALSE);
+					}
+
+					/* Add on the DURATION. */
+					i_cal_time_adjust (dtend, dur_days, dur_hours, dur_minutes, dur_seconds);
+
+					dtend_set = TRUE;
+				}
+
+				g_clear_object (&duration);
+			}
+		}
+
+		if (!dtend_set && i_cal_time_is_date (dtstart))
 			i_cal_time_adjust (dtend, 1, 0, 0, 0);
 	}
 
@@ -579,6 +621,8 @@ ece_event_fill_component (ECompEditor *comp_editor,
 
 			i_cal_property_set_dtend (dtend_prop, dtend);
 			cal_comp_util_update_tzid_parameter (dtend_prop, dtend);
+
+			e_cal_util_component_remove_property_by_kind (component, I_CAL_DURATION_PROPERTY, TRUE);
 		}
 
 		g_clear_object (&dtstart);

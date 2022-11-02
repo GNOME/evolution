@@ -372,7 +372,6 @@ accounts_window_fill_row_with_source (EAccountsWindow *accounts_window,
 	const gchar *icon_name = NULL;
 	GdkRGBA rgba;
 	gboolean rgba_set = FALSE;
-	gboolean enabled_visible = TRUE;
 	guint editing_flags = E_SOURCE_EDITING_FLAG_NONE;
 
 	g_return_if_fail (E_IS_ACCOUNTS_WINDOW (accounts_window));
@@ -389,11 +388,9 @@ accounts_window_fill_row_with_source (EAccountsWindow *accounts_window,
 		if (e_source_has_extension (source, E_SOURCE_EXTENSION_GOA)) {
 			use_type = g_strconcat ("GOA:", backend_name, NULL);
 			icon_name = "goa-panel";
-			enabled_visible = FALSE;
 		} else if (e_source_has_extension (source, E_SOURCE_EXTENSION_UOA)) {
 			use_type = g_strconcat ("UOA:", backend_name, NULL);
 			icon_name = "credentials-preferences";
-			enabled_visible = FALSE;
 		} else if (g_strcmp0 (backend_name, "none") != 0) {
 			use_type = backend_name;
 			backend_name = NULL;
@@ -504,7 +501,7 @@ accounts_window_fill_row_with_source (EAccountsWindow *accounts_window,
 
 	gtk_tree_store_set (tree_store, iter,
 		COLUMN_BOOL_ENABLED, e_source_get_enabled (source),
-		COLUMN_BOOL_ENABLED_VISIBLE, can_show_enabled && enabled_visible && (editing_flags & E_SOURCE_EDITING_FLAG_CAN_ENABLE) != 0,
+		COLUMN_BOOL_ENABLED_VISIBLE, can_show_enabled && (editing_flags & E_SOURCE_EDITING_FLAG_CAN_ENABLE) != 0,
 		COLUMN_STRING_DISPLAY_NAME, e_source_get_display_name (source),
 		COLUMN_STRING_ICON_NAME, icon_name,
 		COLUMN_BOOL_ICON_VISIBLE, icon_name != NULL,
@@ -1290,11 +1287,11 @@ accounts_window_get_editing_flags_default (EAccountsWindow *accounts_window,
 	g_return_val_if_fail (out_flags != NULL, FALSE);
 
 	if (e_source_has_extension (source, E_SOURCE_EXTENSION_COLLECTION)) {
-		*out_flags = E_SOURCE_EDITING_FLAG_NONE;
+		*out_flags = E_SOURCE_EDITING_FLAG_CAN_ENABLE;
 
 		if (!e_source_has_extension (source, E_SOURCE_EXTENSION_GOA) &&
 		    !e_source_has_extension (source, E_SOURCE_EXTENSION_UOA)) {
-			*out_flags = (*out_flags) | E_SOURCE_EDITING_FLAG_CAN_ENABLE | E_SOURCE_EDITING_FLAG_CAN_DELETE;
+			*out_flags = (*out_flags) | E_SOURCE_EDITING_FLAG_CAN_DELETE;
 		}
 
 		return TRUE;

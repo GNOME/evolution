@@ -553,6 +553,13 @@ backup (const gchar *filename,
 
 	run_cmd ("rm $HOME/" EVOLUTION_DIR_FILE);
 
+	txt = _("Checking validity of the archive");
+
+	if (!check (filename, NULL)) {
+		g_message ("Failed to validate content of '%s', the archive is broken", filename);
+		return;
+	}
+
 	txt = _("Back up complete");
 
 	if (restart_arg) {
@@ -1098,6 +1105,19 @@ pbar_update (gpointer user_data)
 static gboolean
 finish_job (gpointer user_data)
 {
+	if (backup_op && result != 0) {
+		GtkWidget *widget;
+
+		widget = gtk_message_dialog_new (progress_dialog ? GTK_WINDOW (progress_dialog) : NULL,
+			GTK_DIALOG_MODAL | GTK_DIALOG_DESTROY_WITH_PARENT,
+			GTK_MESSAGE_ERROR,
+			GTK_BUTTONS_CLOSE,
+			_("Failed to verify the backup file “%s”, the archive is broken."),
+			bk_file);
+		gtk_dialog_run (GTK_DIALOG (widget));
+		gtk_widget_destroy (widget);
+	}
+
 	gtk_main_quit ();
 
 	return FALSE;
@@ -1335,6 +1355,7 @@ main (gint argc,
 			"halign", GTK_ALIGN_FILL,
 			"hexpand", TRUE,
 			"valign", GTK_ALIGN_FILL,
+			"show-text", TRUE,
 			NULL);
 
 		g_signal_connect (

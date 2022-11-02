@@ -27,12 +27,15 @@
  * to change.
  **/
 
-#include "e-photo-cache.h"
+#include "evolution-config.h"
 
 #include <string.h>
 #include <libebackend/libebackend.h>
 
 #include <e-util/e-data-capture.h>
+
+#include "e-simple-async-result.h"
+#include "e-photo-cache.h"
 
 #define E_PHOTO_CACHE_GET_PRIVATE(obj) \
 	(G_TYPE_INSTANCE_GET_PRIVATE \
@@ -83,7 +86,7 @@ struct _AsyncContext {
 struct _AsyncSubtask {
 	volatile gint ref_count;
 	EPhotoSource *photo_source;
-	GSimpleAsyncResult *simple;
+	ESimpleAsyncResult *simple;
 	GCancellable *cancellable;
 	GInputStream *stream;
 	gint priority;
@@ -118,7 +121,7 @@ G_DEFINE_TYPE_WITH_CODE (
 
 static AsyncSubtask *
 async_subtask_new (EPhotoSource *photo_source,
-                   GSimpleAsyncResult *simple)
+                   ESimpleAsyncResult *simple)
 {
 	AsyncSubtask *async_subtask;
 
@@ -213,13 +216,13 @@ async_subtask_compare (gconstpointer a,
 static void
 async_subtask_complete (AsyncSubtask *async_subtask)
 {
-	GSimpleAsyncResult *simple;
+	ESimpleAsyncResult *simple;
 	AsyncContext *async_context;
 	gboolean cancel_subtasks = FALSE;
 	gdouble seconds_elapsed;
 
 	simple = async_subtask->simple;
-	async_context = g_simple_async_result_get_op_res_gpointer (simple);
+	async_context = e_simple_async_result_get_op_pointer (simple);
 
 	g_mutex_lock (&async_context->lock);
 
@@ -270,7 +273,7 @@ async_subtask_complete (AsyncSubtask *async_subtask)
 		}
 
 		if (async_subtask->error != NULL) {
-			g_simple_async_result_take_error (
+			e_simple_async_result_take_error (
 				simple, async_subtask->error);
 			async_subtask->error = NULL;
 		}
@@ -278,7 +281,7 @@ async_subtask_complete (AsyncSubtask *async_subtask)
 		async_subtask_unref (async_subtask);
 	}
 
-	g_simple_async_result_complete_in_idle (simple);
+	e_simple_async_result_complete_idle (simple);
 
 exit:
 	g_mutex_unlock (&async_context->lock);
@@ -365,7 +368,7 @@ async_context_cancel_subtasks (AsyncContext *async_context)
 	list = g_hash_table_get_keys (async_context->subtasks);
 
 	/* XXX Cancel subtasks from idle callbacks to make sure we don't
-	 *     finalize the GSimpleAsyncResult during a "cancelled" signal
+	 *     finalize the ESimpleAsyncResult during a "cancelled" signal
 	 *     emission from the main task's GCancellable.  That will make
 	 *     g_cancellable_disconnect() in async_context_free() deadlock. */
 	for (link = list; link != NULL; link = g_list_next (link)) {
@@ -1057,6 +1060,9 @@ e_photo_cache_get_photo_sync (EPhotoCache *photo_cache,
 	GAsyncResult *result;
 	gboolean success;
 
+	if (g_cancellable_set_error_if_cancelled (cancellable, error))
+		return FALSE;
+
 	closure = e_async_closure_new ();
 
 	e_photo_cache_get_photo (
@@ -1094,7 +1100,7 @@ e_photo_cache_get_photo (EPhotoCache *photo_cache,
                          GAsyncReadyCallback callback,
                          gpointer user_data)
 {
-	GSimpleAsyncResult *simple;
+	ESimpleAsyncResult *simple;
 	AsyncContext *async_context;
 	EDataCapture *data_capture;
 	GInputStream *stream = NULL;
@@ -1115,26 +1121,26 @@ e_photo_cache_get_photo (EPhotoCache *photo_cache,
 
 	async_context = async_context_new (data_capture, cancellable);
 
-	simple = g_simple_async_result_new (
+	simple = e_simple_async_result_new (
 		G_OBJECT (photo_cache), callback,
 		user_data, e_photo_cache_get_photo);
 
-	g_simple_async_result_set_check_cancellable (simple, cancellable);
+	e_simple_async_result_set_check_cancellable (simple, cancellable);
 
-	g_simple_async_result_set_op_res_gpointer (
+	e_simple_async_result_set_op_pointer (
 		simple, async_context, (GDestroyNotify) async_context_free);
 
 	/* Check if we have this email address already cached. */
 	if (photo_ht_lookup (photo_cache, email_address, &stream)) {
 		async_context->stream = stream;  /* takes ownership */
-		g_simple_async_result_complete_in_idle (simple);
+		e_simple_async_result_complete_idle (simple);
 		goto exit;
 	}
 
 	list = e_photo_cache_list_photo_sources (photo_cache);
 
 	if (list == NULL) {
-		g_simple_async_result_complete_in_idle (simple);
+		e_simple_async_result_complete_idle (simple);
 		goto exit;
 	}
 
@@ -1199,18 +1205,18 @@ e_photo_cache_get_photo_finish (EPhotoCache *photo_cache,
                                 GInputStream **out_stream,
                                 GError **error)
 {
-	GSimpleAsyncResult *simple;
+	ESimpleAsyncResult *simple;
 	AsyncContext *async_context;
 
 	g_return_val_if_fail (
-		g_simple_async_result_is_valid (
+		e_simple_async_result_is_valid (
 		result, G_OBJECT (photo_cache),
 		e_photo_cache_get_photo), FALSE);
 
-	simple = G_SIMPLE_ASYNC_RESULT (result);
-	async_context = g_simple_async_result_get_op_res_gpointer (simple);
+	simple = E_SIMPLE_ASYNC_RESULT (result);
+	async_context = e_simple_async_result_get_op_pointer (simple);
 
-	if (g_simple_async_result_propagate_error (simple, error))
+	if (e_simple_async_result_propagate_error (simple, error))
 		return FALSE;
 
 	if (out_stream != NULL) {

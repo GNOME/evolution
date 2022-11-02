@@ -1,4 +1,4 @@
-<ui evolution-ui-version="1.2">
+<ui evolution-ui-version="1.3">
   <accelerator action='mail-smart-backward'/>
   <accelerator action='mail-smart-forward'/>
 
@@ -137,6 +137,25 @@
   </menubar>
   <toolbar name='main-toolbar'>
     <placeholder name='mail-toolbar-common'>
+      <toolitem action='mail-reply-sender'/>
+      <toolitem action='toolbar-mail-reply-group'>
+        <menu action='mail-reply-group-menu'>
+          <menuitem action='mail-reply-all'/>
+          <menuitem action='mail-reply-list'/>
+          <menu action='mail-reply-template'/>
+          <menuitem action='mail-reply-alternative'/>
+        </menu>
+      </toolitem>
+      <toolitem action='toolbar-mail-forward'>
+        <menu action='mail-forward-as-menu'>
+          <menuitem action='mail-forward-attached-full'/>
+          <menuitem action='mail-forward-inline-full'/>
+          <menuitem action='mail-forward-quoted-full'/>
+          <separator/>
+          <menuitem action='mail-redirect'/>
+        </menu>
+      </toolitem>
+      <separator name='toolbar-mail-forward-separator'/>
       <toolitem action='mail-print'/>
       <toolitem action='mail-delete'/>
       <toolitem action='mail-mark-junk'/>

@@ -305,7 +305,7 @@ set_from_uri (UrlEditorDialog *dialog)
 	const gchar *user;
 	const gchar *host;
 	const gchar *path;
-	guint port;
+	gint port;
 
 	uri = dialog->uri;
 

@@ -93,30 +93,69 @@ get_font_width (GtkPrintContext *context,
 	return pango_units_to_double (width);
 }
 
+/* (transfer full) */
+static PangoLayout *
+contact_print_setup_layout (GtkPrintContext *context,
+			    PangoFontDescription *font,
+			    gdouble for_width,
+			    const gchar *text)
+{
+	PangoLayout *layout;
+	gdouble indent;
+	gchar *tmp_text = NULL;
+
+	layout = gtk_print_context_create_pango_layout (context);
+
+	if (for_width == -1 || (get_font_width (context, font, text) <= for_width && !strchr (text, '\n'))) {
+		indent = .0;
+	} else {
+		#define INDENT_TEXT "     "
+
+		indent = get_font_width (context, font, INDENT_TEXT);
+
+		if (strchr (text, '\n')) {
+			GString *tmp;
+
+			tmp = e_str_replace_string (text, "\n", "\n" INDENT_TEXT);
+			tmp_text = g_string_free (tmp, FALSE);
+			text = tmp_text;
+		}
+
+		#undef INDENT_TEXT
+	}
+
+	pango_layout_set_font_description (layout, font);
+	pango_layout_set_text (layout, text, -1);
+	pango_layout_set_width (layout, pango_units_from_double (for_width));
+	pango_layout_set_indent (layout, -pango_units_from_double (indent));
+	pango_layout_set_wrap (layout, PANGO_WRAP_WORD_CHAR);
+
+	g_free (tmp_text);
+
+	return layout;
+}
+
 static void
 e_contact_output (GtkPrintContext *context,
                   PangoFontDescription *font,
                   gdouble x,
                   gdouble y,
                   gdouble width,
-                  const gchar *text)
+                  const gchar *text,
+		  gdouble *out_height)
 {
 	PangoLayout *layout;
-	gdouble indent;
 	cairo_t *cr;
 
-	layout = gtk_print_context_create_pango_layout (context);
+	layout = contact_print_setup_layout (context, font, width, text);
 
-	if (width == -1 || get_font_width (context, font, text) <= width)
-		indent = .0;
-	else
-		indent = get_font_width (context, font, "     ");
+	if (out_height) {
+		gint height = 0;
 
-	pango_layout_set_font_description (layout, font);
-	pango_layout_set_text (layout, text, -1);
-	pango_layout_set_width (layout, pango_units_from_double (width));
-	pango_layout_set_indent (layout, pango_units_from_double (indent));
-	pango_layout_set_wrap (layout, PANGO_WRAP_WORD_CHAR);
+		pango_layout_get_size (layout, NULL, &height);
+
+		*out_height = pango_units_to_double (height);
+	}
 
 	cr = gtk_print_context_get_cairo_context (context);
 
@@ -130,16 +169,14 @@ e_contact_output (GtkPrintContext *context,
 
 static gdouble
 e_contact_text_height (GtkPrintContext *context,
-                       PangoFontDescription *desc,
-                       const gchar *text)
+		       PangoFontDescription *desc,
+		       gdouble for_width,
+		       const gchar *text)
 {
 	PangoLayout *layout;
 	gint width, height;
 
-	layout = gtk_print_context_create_pango_layout (context);
-
-	pango_layout_set_font_description (layout, desc);
-	pango_layout_set_text (layout, text, -1);
+	layout = contact_print_setup_layout (context, desc, for_width, text);
 
 	pango_layout_get_size (layout, &width, &height);
 
@@ -284,7 +321,7 @@ e_contact_get_contact_height (EContact *contact,
 	file_as = e_contact_get (contact, E_CONTACT_FILE_AS);
 
 	cntct_height += e_contact_text_height (
-		ctxt->context, ctxt->style->headings_font, file_as);
+		ctxt->context, ctxt->style->headings_font, ctxt->column_width, file_as);
 
 	g_free (file_as);
 
@@ -311,6 +348,7 @@ e_contact_get_contact_height (EContact *contact,
 			cntct_height += n * e_contact_text_height (
 						ctxt->context,
 						ctxt->style->body_font,
+						ctxt->column_width,
 						text);
 			g_list_free_full (emails, (GDestroyNotify) e_vcard_attribute_free);
 		} else if (field > E_CONTACT_FIRST_EMAIL_ID &&
@@ -322,6 +360,7 @@ e_contact_get_contact_height (EContact *contact,
 			cntct_height += n * e_contact_text_height (
 						ctxt->context,
 						ctxt->style->body_font,
+						ctxt->column_width,
 						text);
 			g_list_free_full (phones, (GDestroyNotify) e_vcard_attribute_free);
 		} else if (field > E_CONTACT_FIRST_PHONE_ID &&
@@ -331,6 +370,7 @@ e_contact_get_contact_height (EContact *contact,
 			cntct_height += e_contact_text_height (
 					ctxt->context,
 					ctxt->style->body_font,
+					ctxt->column_width,
 					text);
 		}
 
@@ -351,7 +391,7 @@ print_line (EContactPrintContext *ctxt,
 {
 	GtkPageSetup *setup;
 	gdouble page_height;
-	gint wrapped_lines = 0;
+	gdouble text_height = 0.0;
 	gchar *text;
 
 	setup = gtk_print_context_get_page_setup (ctxt->context);
@@ -365,23 +405,19 @@ print_line (EContactPrintContext *ctxt,
 	if (ctxt->y > page_height)
 		e_contact_start_new_column (ctxt);
 
-	if (ctxt->pages == ctxt->page_nr)
+	if (ctxt->pages == ctxt->page_nr) {
 		e_contact_output (
 			ctxt->context, ctxt->style->body_font,
-			ctxt->x, ctxt->y, ctxt->column_width + 4, text);
-
-	if (get_font_width (ctxt->context,
-		ctxt->style->body_font, text) > ctxt->column_width)
-		wrapped_lines =
-			(get_font_width (ctxt->context,
-			ctxt->style->body_font, text) /
-			(ctxt->column_width + 4)) + 1;
-	ctxt->y =
-		ctxt->y + ((wrapped_lines + 1) *
-		e_contact_text_height (
+			ctxt->x, ctxt->y, ctxt->column_width + 4, text, &text_height);
+	} else {
+		text_height = e_contact_text_height (
 			ctxt->context,
 			ctxt->style->body_font,
-			text));
+			ctxt->column_width + 4,
+			text);
+	}
+
+	ctxt->y = ctxt->y + text_height;
 
 	ctxt->y += .2 * get_font_height (ctxt->style->body_font);
 
@@ -446,7 +482,7 @@ e_contact_print_contact (EContact *contact,
 	gchar *file_as;
 	cairo_t *cr;
 	gint field;
-
+	gdouble text_height = 0.0;
 
 	cr = gtk_print_context_get_cairo_context (ctxt->context);
 	cairo_save (cr);
@@ -460,17 +496,20 @@ e_contact_print_contact (EContact *contact,
 		cairo_rectangle (
 			cr, ctxt->x, ctxt->y, ctxt->column_width,
 			e_contact_text_height (ctxt->context,
-				ctxt->style->headings_font, file_as));
+				ctxt->style->headings_font, ctxt->column_width, file_as));
 		cairo_fill (cr);
 		cairo_restore (cr);
 	}
 
-	if (ctxt->pages == ctxt->page_nr)
+	if (ctxt->pages == ctxt->page_nr) {
 		e_contact_output (
 			ctxt->context, ctxt->style->headings_font,
-			ctxt->x, ctxt->y, ctxt->column_width + 4, file_as);
-	ctxt->y += e_contact_text_height (
-		ctxt->context, ctxt->style->headings_font, file_as);
+			ctxt->x, ctxt->y, ctxt->column_width + 4, file_as, &text_height);
+	} else {
+		text_height = e_contact_text_height (
+			ctxt->context, ctxt->style->headings_font, ctxt->column_width + 4, file_as);
+	}
+	ctxt->y += text_height;
 
 	g_free (file_as);
 

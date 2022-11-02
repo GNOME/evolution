@@ -45,7 +45,7 @@
 	((obj), E_TYPE_MAIL_CONFIG_ASSISTANT, EMailConfigAssistantPrivate))
 
 /* GtkAssistant's back button label. */
-#define BACK_BUTTON_LABEL N_("Go _Back")
+#define BACK_BUTTON_LABEL g_dgettext ("gtk30", "_Back")
 
 typedef struct _ConfigLookupContext ConfigLookupContext;
 
@@ -144,8 +144,10 @@ config_lookup_context_new (GtkAssistant *assistant,
 static void
 config_lookup_context_free (ConfigLookupContext *context)
 {
-	gtk_assistant_remove_action_widget (
-		context->assistant, context->skip_button);
+	/* Cannot use gtk_assistant_remove_action_widget(), because
+	   it doesn't work with the header bar. See:
+	   https://gitlab.gnome.org/GNOME/gtk/-/issues/5185 */
+	gtk_widget_destroy (context->skip_button);
 
 	g_object_unref (context->assistant);
 	g_object_unref (context->cancellable);
@@ -715,16 +717,6 @@ mail_config_assistant_constructed (GObject *object)
 	session = e_mail_config_assistant_get_session (assistant);
 	registry = e_mail_session_get_registry (session);
 
-	/* XXX Locate the GtkAssistant's internal "Go Back" button so
-	 *     we can temporarily rename it for autoconfigure results.
-	 *     Walking the container like this is an extremely naughty
-	 *     and brittle hack, but GtkAssistant does not provide API
-	 *     to access it directly. */
-	gtk_container_forall (
-		GTK_CONTAINER (assistant),
-		mail_config_assistant_find_back_button_cb,
-		assistant);
-
 	/* Configure a new identity source. */
 
 	identity_source = e_source_new (NULL, NULL, NULL);
@@ -1004,6 +996,18 @@ mail_config_assistant_prepare (GtkAssistant *assistant,
 				E_MAIL_CONFIG_PAGE (page));
 		g_hash_table_add (priv->visited_pages, page);
 		first_visit = TRUE;
+	}
+
+	if (!priv->back_button) {
+		/* XXX Locate the GtkAssistant's internal "Go Back" button so
+		 *     we can temporarily rename it for autoconfigure results.
+		 *     Walking the container like this is an extremely naughty
+		 *     and brittle hack, but GtkAssistant does not provide API
+		 *     to access it directly. */
+		gtk_container_forall (
+			GTK_CONTAINER (assistant),
+			mail_config_assistant_find_back_button_cb,
+			assistant);
 	}
 
 	/* Are we viewing autoconfiguration results?  If so, temporarily

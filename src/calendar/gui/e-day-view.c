@@ -163,6 +163,8 @@ struct _EDayViewPrivate {
 	/* Whether we show the Marcus Bains Line in the main
 	 * canvas and time canvas, and the colors for each. */
 	gboolean marcus_bains_show_line;
+	gboolean marcus_bains_fix_timeout;
+	gint marcus_bains_update_id;
 	gchar *marcus_bains_day_view_color;
 	gchar *marcus_bains_time_bar_color;
 
@@ -500,6 +502,45 @@ enum {
 };
 
 G_DEFINE_TYPE (EDayView, e_day_view, E_TYPE_CALENDAR_VIEW)
+
+static gboolean
+day_view_refresh_marcus_bains_line (gpointer user_data)
+{
+	EDayView *day_view = user_data;
+	ICalTime *now;
+	gint hh, mm, seconds = 0;
+
+	if (!day_view->priv->marcus_bains_show_line ||
+	    !E_CALENDAR_VIEW (day_view)->in_focus) {
+		if (day_view->priv->marcus_bains_update_id) {
+			g_source_remove (day_view->priv->marcus_bains_update_id);
+			day_view->priv->marcus_bains_update_id = 0;
+			day_view->priv->marcus_bains_fix_timeout = FALSE;
+		}
+		return FALSE;
+	}
+
+	e_day_view_marcus_bains_update (day_view);
+
+	now = i_cal_time_new_current_with_zone (e_cal_model_get_timezone (day_view->priv->model));
+	i_cal_time_get_time (now, &hh, &mm, &seconds);
+	g_clear_object (&now);
+
+	if (seconds > 1) {
+		if (day_view->priv->marcus_bains_update_id)
+			g_source_remove (day_view->priv->marcus_bains_update_id);
+
+		day_view->priv->marcus_bains_fix_timeout = TRUE;
+		day_view->priv->marcus_bains_update_id = g_timeout_add_seconds (60 - seconds, day_view_refresh_marcus_bains_line, day_view);
+	} else if (day_view->priv->marcus_bains_fix_timeout || !day_view->priv->marcus_bains_update_id) {
+		day_view->priv->marcus_bains_fix_timeout = FALSE;
+		day_view->priv->marcus_bains_update_id = g_timeout_add_seconds (60, day_view_refresh_marcus_bains_line, day_view);
+	} else {
+		return TRUE;
+	}
+
+	return FALSE;
+}
 
 static void
 e_day_view_set_popup_event (EDayView *day_view,
@@ -993,6 +1034,11 @@ day_view_dispose (GObject *object)
 	gint day;
 
 	day_view = E_DAY_VIEW (object);
+
+	if (day_view->priv->marcus_bains_update_id) {
+		g_source_remove (day_view->priv->marcus_bains_update_id);
+		day_view->priv->marcus_bains_update_id = 0;
+	}
 
 	e_day_view_cancel_layout (day_view);
 
@@ -1756,6 +1802,9 @@ day_view_focus_in (GtkWidget *widget,
 	gtk_widget_queue_draw (day_view->top_canvas);
 	gtk_widget_queue_draw (day_view->main_canvas);
 
+	if (!day_view->priv->marcus_bains_update_id)
+		day_view_refresh_marcus_bains_line (day_view);
+
 	return FALSE;
 }
 
@@ -1919,6 +1968,9 @@ day_view_set_selected_time_range (ECalendarView *cal_view,
 
 		e_day_view_ensure_rows_visible (day_view, day_view->selection_start_row, day_view->selection_end_row);
 	}
+
+	if (!day_view->priv->marcus_bains_update_id)
+		day_view_refresh_marcus_bains_line (day_view);
 }
 
 /* Gets the visible time range. Returns FALSE if no time range has been set. */
@@ -4045,6 +4097,9 @@ e_day_view_marcus_bains_set_show_line (EDayView *day_view,
 
 	e_day_view_marcus_bains_update (day_view);
 
+	if (!day_view->priv->marcus_bains_update_id)
+		day_view_refresh_marcus_bains_line (day_view);
+
 	g_object_notify (G_OBJECT (day_view), "marcus-bains-show-line");
 }
 
@@ -5046,6 +5101,9 @@ e_day_view_update_query (EDayView *day_view)
 		day_view->requires_update = TRUE;
 		return;
 	}
+
+	if (!day_view->priv->marcus_bains_update_id)
+		day_view_refresh_marcus_bains_line (day_view);
 
 	day_view->requires_update = FALSE;
 
@@ -6144,9 +6202,9 @@ e_day_view_reshape_long_event (EDayView *day_view,
 {
 	EDayViewEvent *event;
 	gint start_day, end_day, item_x, item_y, item_w, item_h;
-	gint text_x, text_w, num_icons, icons_width, width, time_width;
+	gint text_x, num_icons, icons_width, width, time_width;
 	ECalComponent *comp;
-	gint min_text_x, max_text_w, text_width, line_len;
+	gint min_text_x, text_width, line_len;
 	gchar *text, *end_of_line;
 	gboolean show_icons = TRUE, use_max_width = FALSE;
 	PangoContext *pango_context;
@@ -6256,7 +6314,6 @@ e_day_view_reshape_long_event (EDayView *day_view,
 
 	if (use_max_width) {
 		text_x = item_x;
-		text_w = item_w;
 	} else {
 		gdouble item_text_width = 0;
 
@@ -6289,18 +6346,10 @@ e_day_view_reshape_long_event (EDayView *day_view,
 
 		text_x = MAX (text_x, min_text_x);
 
-		max_text_w = item_x + item_w - text_x;
-		if (event->end < day_view->day_starts[end_day + 1])
-			max_text_w -= time_width + E_DAY_VIEW_LONG_EVENT_TIME_X_PAD;
-
-		text_w = MIN (width, max_text_w);
-
 		/* Now take out the space for the icons. */
 		text_x += icons_width;
-		text_w -= icons_width;
 	}
 
-	text_w = MAX (text_w, 0);
 	gnome_canvas_item_set (
 		event->canvas_item,
 		"x_offset", (gdouble) MAX (0, text_x - item_x),
@@ -8899,7 +8948,7 @@ e_day_view_update_main_canvas_drag (EDayView *day_view,
 	EDayViewEvent *event = NULL;
 	ECalendarView *cal_view;
 	gint time_divisions;
-	gint cols_in_row, start_col, num_columns, num_rows, start_row, end_row;
+	gint cols_in_row, start_col, num_columns, num_rows, end_row;
 	gdouble item_x, item_y, item_w, item_h;
 	gchar *text;
 
@@ -8918,7 +8967,6 @@ e_day_view_update_main_canvas_drag (EDayView *day_view,
 	/* Calculate the event's position. If the event is in the same
 	 * position we started in, we use the same columns. */
 	cols_in_row = 1;
-	start_row = 0;
 	start_col = 0;
 	num_columns = 1;
 	num_rows = 1;
@@ -8930,6 +8978,8 @@ e_day_view_update_main_canvas_drag (EDayView *day_view,
 		event = &g_array_index (day_view->long_events, EDayViewEvent,
 					day_view->drag_event_num);
 	} else if (day_view->drag_event_day != -1) {
+		gint start_row;
+
 		if (!is_array_index_in_bounds (day_view->events[day_view->drag_event_day], day_view->drag_event_num))
 			return;
 

@@ -1876,8 +1876,6 @@ cal_shell_content_constructed (GObject *object)
 	cal_shell_content->priv->vpaned = g_object_ref (widget);
 	gtk_widget_show (widget);
 
-	container = cal_shell_content->priv->calendar_notebook;
-
 	e_cal_shell_content_create_calendar_views (cal_shell_content);
 
 	e_binding_bind_property (

@@ -325,7 +325,6 @@ rss_store_initable_init (GInitable *initable,
 
 	self = CAMEL_RSS_STORE (initable);
 	store = CAMEL_STORE (initable);
-	service = CAMEL_SERVICE (initable);
 
 	camel_store_set_flags (store, camel_store_get_flags (store) | CAMEL_STORE_VTRASH | CAMEL_STORE_VJUNK | CAMEL_STORE_IS_BUILTIN);
 

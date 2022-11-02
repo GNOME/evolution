@@ -2771,7 +2771,8 @@ reply_to_calendar_comp (ESourceRegistry *registry,
 	ccd->identity_name = identity_name;
 	ccd->identity_address = identity_address;
 	ccd->destinations = comp_to_list (registry, method, ecomps->data, NULL, reply_all, NULL);
-	ccd->subject = comp_subject (registry, method, ecomps->data);
+	/* Using I_CAL_METHOD_NONE to not get attendee's response as a prefix */
+	ccd->subject = comp_subject (registry, I_CAL_METHOD_NONE, ecomps->data);
 	ccd->ical_string = i_cal_component_as_ical_string (top_level);
 	ccd->send_comps = ecomps;
 	ccd->show_only = TRUE;
@@ -2850,9 +2851,9 @@ reply_to_calendar_comp (ESourceRegistry *registry,
 		e_cal_component_datetime_free (dtstart);
 
 		body = g_string_new (
-			"<br><br><hr><br><b>"
+			"<div><br></div><div><br></div><hr><div><br></div><div><b>"
 			"______ Original Appointment ______ "
-			"</b><br><br><table>");
+			"</b><br></div><div><br></div><table>");
 
 		if (orig_from && *orig_from)
 			g_string_append_printf (
@@ -2881,7 +2882,7 @@ reply_to_calendar_comp (ESourceRegistry *registry,
 				"<td>:</td><td>%s</td></tr>", time);
 		g_free (time);
 
-		g_string_append_printf (body, "</table><br>");
+		g_string_append_printf (body, "</table><div><br></div>");
 
 		html_description = html_new_lines_for (description ? description : "");
 		g_string_append (body, html_description);

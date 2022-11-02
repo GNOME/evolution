@@ -180,6 +180,9 @@ void		em_folder_tree_model_user_marked_unread
 void		em_folder_tree_model_update_row_tweaks
 					(EMFolderTreeModel *model,
 					 GtkTreeIter *iter);
+void		em_folder_tree_model_update_folder_icons_for_store
+					(EMFolderTreeModel *model,
+					 CamelStore *store);
 
 G_END_DECLS
 

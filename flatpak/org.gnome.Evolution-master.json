@@ -1,7 +1,7 @@
 {
 	"app-id": "org.gnome.Evolution",
 	"runtime": "org.gnome.Platform",
-	"runtime-version": "42",
+	"runtime-version": "43",
 	"sdk": "org.gnome.Sdk",
 	"command": "evolution",
 	"rename-icon": "evolution",
@@ -108,25 +108,6 @@
 		},
 
 		{
-			"name": "libsoup3",
-			"buildsystem": "meson",
-			"config-opts": [
-				"-Dintrospection=disabled",
-				"-Dvapi=disabled",
-				"-Ddocs=disabled",
-				"-Dtests=false",
-				"-Dautobahn=disabled"
-			],
-			"sources": [
-				{
-					"type": "git",
-					"url": "https://gitlab.gnome.org/GNOME/libsoup.git",
-					"branch": "master"
-				}
-			]
-		},
-
-		{
 			"name": "liboauth",
 			"config-opts": [ "--enable-nss" ],
 			"cleanup": [ "/share/man" ],
@@ -201,7 +182,6 @@
 			"name": "libgweather4",
 			"buildsystem": "meson",
 			"config-opts": [
-				"-Dglade_catalog=false",
 				"-Denable_vala=false",
 				"-Dgtk_doc=false",
 				"-Dintrospection=false",
@@ -328,30 +308,6 @@
 		},
 
 		{
-			"name": "webkit2gtk3",
-			"buildsystem": "cmake-ninja",
-			"config-opts": [
-				"-DCMAKE_BUILD_TYPE=Release",
-				"-DPORT=GTK",
-				"-DENABLE_BUBBLEWRAP_SANDBOX=OFF",
-				"-DENABLE_INTROSPECTION=OFF",
-				"-DUSE_LCMS=OFF"
-			],
-			"build-options" : {
-				"cflags": "-O2 -g -Wno-deprecated-declarations",
-				"cxxflags": "-O2 -g -Wno-deprecated-declarations",
-				"make-args": [ "-j2" ]
-			},
-			"sources": [
-				{
-					"type": "archive",
-					"url": "https://webkitgtk.org/releases/webkitgtk-2.36.3.tar.xz",
-					"sha256": "732fcf8c4ec644b8ed28b46ebbd7c1ebab9d9e0afea9bdf5e5d12786afc478d1"
-				}
-			]
-		},
-
-		{
 			"name": "evolution-data-server",
 			"buildsystem": "cmake-ninja",
 			"cleanup": [
@@ -362,11 +318,9 @@
 				"-DDBUS_SERVICES_PREFIX=org.gnome.Evolution",
 				"-DENABLE_FILE_LOCKING=fcntl",
 				"-DENABLE_DOT_LOCKING=OFF",
-				"-DENABLE_OAUTH2=ON",
 				"-DENABLE_GTK=ON",
 				"-DENABLE_GTK4=OFF",
 				"-DENABLE_GOA=ON",
-				"-DENABLE_GOOGLE=OFF",
 				"-DENABLE_EXAMPLES=OFF",
 				"-DENABLE_INTROSPECTION=OFF",
 				"-DENABLE_VALA_BINDINGS=OFF",

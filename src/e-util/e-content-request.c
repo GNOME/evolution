@@ -138,7 +138,7 @@ e_content_request_process (EContentRequest *request,
 {
 	ThreadData *td;
 	ESimpleAsyncResult *result;
-	gboolean is_http;
+	gboolean is_http, is_contact;
 
 	g_return_if_fail (E_IS_CONTENT_REQUEST (request));
 	g_return_if_fail (uri != NULL);
@@ -146,6 +146,7 @@ e_content_request_process (EContentRequest *request,
 
 	is_http = g_ascii_strncasecmp (uri, "http", 4) == 0 ||
 		  g_ascii_strncasecmp (uri, "evo-http", 8) == 0;
+	is_contact = g_ascii_strncasecmp (uri, "mail://contact-photo", 20) == 0;
 
 	td = g_slice_new0 (ThreadData);
 	td->uri = g_strdup (uri);
@@ -154,7 +155,8 @@ e_content_request_process (EContentRequest *request,
 	result = e_simple_async_result_new (G_OBJECT (request), callback, user_data, e_content_request_process);
 
 	e_simple_async_result_set_user_data (result, td, thread_data_free);
-	e_simple_async_result_run_in_thread (result, is_http ? G_PRIORITY_LOW : G_PRIORITY_DEFAULT, content_request_process_thread, cancellable);
+	e_simple_async_result_set_check_cancellable (result, cancellable);
+	e_simple_async_result_run_in_thread (result, (is_http || is_contact) ? G_PRIORITY_LOW : G_PRIORITY_DEFAULT, content_request_process_thread, cancellable);
 
 	g_object_unref (result);
 }

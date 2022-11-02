@@ -1547,6 +1547,21 @@ enum {
 };
 
 static void
+e_comp_editor_property_part_dtend_fill_component (ECompEditorPropertyPart *property_part,
+						  ICalComponent *component)
+{
+	ECompEditorPropertyPartClass *part_class;
+
+	part_class = E_COMP_EDITOR_PROPERTY_PART_CLASS (e_comp_editor_property_part_dtend_parent_class);
+	g_return_if_fail (part_class != NULL);
+	g_return_if_fail (part_class->fill_component != NULL);
+
+	part_class->fill_component (property_part, component);
+
+	e_cal_util_component_remove_property_by_kind (component, I_CAL_DURATION_PROPERTY, TRUE);
+}
+
+static void
 e_comp_editor_property_part_dtend_init (ECompEditorPropertyPartDtend *part_dtend)
 {
 	part_dtend->shorten_time = 0;
@@ -1627,6 +1642,7 @@ static void
 e_comp_editor_property_part_dtend_class_init (ECompEditorPropertyPartDtendClass *klass)
 {
 	ECompEditorPropertyPartDatetimeClass *part_datetime_class;
+	ECompEditorPropertyPartClass *property_part_class;
 	GObjectClass *object_class;
 
 	part_datetime_class = E_COMP_EDITOR_PROPERTY_PART_DATETIME_CLASS (klass);
@@ -1634,6 +1650,9 @@ e_comp_editor_property_part_dtend_class_init (ECompEditorPropertyPartDtendClass 
 	part_datetime_class->i_cal_new_func = i_cal_property_new_dtend;
 	part_datetime_class->i_cal_set_func = i_cal_property_set_dtend;
 	part_datetime_class->i_cal_get_func = i_cal_property_get_dtend;
+
+	property_part_class = E_COMP_EDITOR_PROPERTY_PART_CLASS (klass);
+	property_part_class->fill_component = e_comp_editor_property_part_dtend_fill_component;
 
 	object_class = G_OBJECT_CLASS (klass);
 	object_class->get_property = e_comp_editor_property_part_dtend_get_property;

@@ -1040,7 +1040,6 @@ cal_ops_purge_components_thread (EAlertSinkThreadJobData *job_data,
 		}
 
 		g_free (display_name);
-		pushed_message = TRUE;
 		nobjects = g_slist_length (objects);
 
 		for (olink = objects, ii = 0; olink; olink = g_slist_next (olink), ii++) {
@@ -1090,7 +1089,6 @@ cal_ops_purge_components_thread (EAlertSinkThreadJobData *job_data,
 
 		camel_operation_progress (cancellable, 0);
 		camel_operation_pop_message (cancellable);
-		pushed_message = FALSE;
 
 		if (!success)
 			break;
@@ -2017,10 +2015,8 @@ transfer_components_thread (EAlertSinkThreadJobData *job_data,
 		GSList *icomps = value;
 
 		from_client = e_util_open_client_sync (job_data, client_cache, extension_name, source, 30, cancellable, error);
-		if (!from_client) {
-			success = FALSE;
+		if (!from_client)
 			goto out;
-		}
 
 		from_cal_client = E_CAL_CLIENT (from_client);
 

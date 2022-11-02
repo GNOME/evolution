@@ -1297,6 +1297,9 @@ append_buttons_table (GString *buffer,
 	buttons_table_write_button (
 		buffer, itip_part_ptr, BUTTON_UPDATE,  _("_Update"),
 		NULL, ITIP_VIEW_RESPONSE_CANCEL);
+	buttons_table_write_button (
+		buffer, itip_part_ptr, BUTTON_IMPORT, _("Im_port"),
+		NULL, ITIP_VIEW_RESPONSE_IMPORT);
 
 	g_string_append (buffer, "</tr></table>");
 }
@@ -2230,10 +2233,13 @@ itip_view_set_mode (ItipView *view,
 
 	switch (mode) {
 	case ITIP_VIEW_MODE_PUBLISH:
-		if (view->priv->needs_decline) {
-			show_button (view, BUTTON_DECLINE);
+		if (e_cal_util_component_has_property (view->priv->ical_comp, I_CAL_ATTENDEE_PROPERTY)) {
+			if (view->priv->needs_decline)
+				show_button (view, BUTTON_DECLINE);
+			show_button (view, BUTTON_ACCEPT);
+		} else {
+			show_button (view, BUTTON_IMPORT);
 		}
-		show_button (view, BUTTON_ACCEPT);
 		break;
 	case ITIP_VIEW_MODE_REQUEST:
 		show_button (view, view->priv->is_recur_set ? BUTTON_DECLINE_ALL : BUTTON_DECLINE);
@@ -5242,6 +5248,26 @@ receive_objects_ready_cb (GObject *ecalclient,
 			break;
 		}
 		break;
+	case ITIP_VIEW_RESPONSE_IMPORT:
+		switch (e_cal_client_get_source_type (client)) {
+		case E_CAL_CLIENT_SOURCE_TYPE_EVENTS:
+		default:
+			itip_view_add_lower_info_item_printf (
+				view, ITIP_VIEW_INFO_ITEM_TYPE_INFO,
+				_("Imported to calendar “%s”"), source_display_name);
+			break;
+		case E_CAL_CLIENT_SOURCE_TYPE_TASKS:
+			itip_view_add_lower_info_item_printf (
+				view, ITIP_VIEW_INFO_ITEM_TYPE_INFO,
+				_("Imported to task list “%s”"), source_display_name);
+			break;
+		case E_CAL_CLIENT_SOURCE_TYPE_MEMOS:
+			itip_view_add_lower_info_item_printf (
+				view, ITIP_VIEW_INFO_ITEM_TYPE_INFO,
+				_("Imported to memo list “%s”"), source_display_name);
+			break;
+		}
+		break;
 	default:
 		g_warn_if_reached ();
 		break;
@@ -5287,6 +5313,73 @@ remove_alarms_in_component (ICalComponent *clone)
 	}
 
 	g_object_unref (iter);
+}
+
+static void
+itip_view_add_attachments_from_message (ItipView *view,
+					ECalComponent *comp)
+{
+	GSList *attachments = NULL, *new_attachments = NULL, *link;
+	CamelMimeMessage *msg = view->priv->message;
+
+	attachments = e_cal_component_get_attachments (comp);
+
+	for (link = attachments; link; link = g_slist_next (link)) {
+		GSList *parts = NULL, *m;
+		const gchar *uri;
+		gchar *new_uri;
+		CamelMimePart *part;
+		ICalAttach *attach = link->data;
+
+		if (!attach)
+			continue;
+
+		if (!i_cal_attach_get_is_url (attach)) {
+			/* Preserve existing non-URL attachments */
+			new_attachments = g_slist_prepend (new_attachments, g_object_ref (attach));
+			continue;
+		}
+
+		uri = i_cal_attach_get_url (attach);
+
+		if (!g_ascii_strncasecmp (uri, "cid:...", 7)) {
+			message_foreach_part ((CamelMimePart *) msg, &parts);
+
+			for (m = parts; m; m = m->next) {
+				part = m->data;
+
+				/* Skip the actual message and the text/calendar part */
+				/* FIXME Do we need to skip anything else? */
+				if (part == (CamelMimePart *) msg || part == view->priv->itip_mime_part)
+					continue;
+
+				new_uri = get_uri_for_part (part);
+				if (new_uri != NULL)
+					new_attachments = g_slist_prepend (new_attachments, i_cal_attach_new_from_url (new_uri));
+				g_free (new_uri);
+			}
+
+			g_slist_free (parts);
+
+		} else if (!g_ascii_strncasecmp (uri, "cid:", 4)) {
+			part = camel_mime_message_get_part_by_content_id (msg, uri + 4);
+			if (part) {
+				new_uri = get_uri_for_part (part);
+				if (new_uri != NULL)
+					new_attachments = g_slist_prepend (new_attachments, i_cal_attach_new_from_url (new_uri));
+				g_free (new_uri);
+			}
+		} else {
+			/* Preserve existing non-cid ones */
+			new_attachments = g_slist_prepend (new_attachments, g_object_ref (attach));
+		}
+	}
+
+	g_slist_free_full (attachments, g_object_unref);
+
+	e_cal_component_set_attachments (comp, new_attachments);
+
+	g_slist_free_full (new_attachments, g_object_unref);
 }
 
 static void
@@ -5371,67 +5464,7 @@ update_item (ItipView *view,
 
 	if (response != ITIP_VIEW_RESPONSE_CANCEL &&
 	    response != ITIP_VIEW_RESPONSE_DECLINE) {
-		GSList *attachments = NULL, *new_attachments = NULL, *link;
-		CamelMimeMessage *msg = view->priv->message;
-
-		attachments = e_cal_component_get_attachments (clone_comp);
-
-		for (link = attachments; link; link = g_slist_next (link)) {
-			GSList *parts = NULL, *m;
-			const gchar *uri;
-			gchar *new_uri;
-			CamelMimePart *part;
-			ICalAttach *attach = link->data;
-
-			if (!attach)
-				continue;
-
-			if (!i_cal_attach_get_is_url (attach)) {
-				/* Preserve existing non-URL attachments */
-				new_attachments = g_slist_prepend (new_attachments, g_object_ref (attach));
-				continue;
-			}
-
-			uri = i_cal_attach_get_url (attach);
-
-			if (!g_ascii_strncasecmp (uri, "cid:...", 7)) {
-				message_foreach_part ((CamelMimePart *) msg, &parts);
-
-				for (m = parts; m; m = m->next) {
-					part = m->data;
-
-					/* Skip the actual message and the text/calendar part */
-					/* FIXME Do we need to skip anything else? */
-					if (part == (CamelMimePart *) msg || part == view->priv->itip_mime_part)
-						continue;
-
-					new_uri = get_uri_for_part (part);
-					if (new_uri != NULL)
-						new_attachments = g_slist_prepend (new_attachments, i_cal_attach_new_from_url (new_uri));
-					g_free (new_uri);
-				}
-
-				g_slist_free (parts);
-
-			} else if (!g_ascii_strncasecmp (uri, "cid:", 4)) {
-				part = camel_mime_message_get_part_by_content_id (msg, uri + 4);
-				if (part) {
-					new_uri = get_uri_for_part (part);
-					if (new_uri != NULL)
-						new_attachments = g_slist_prepend (new_attachments, i_cal_attach_new_from_url (new_uri));
-					g_free (new_uri);
-				}
-			} else {
-				/* Preserve existing non-cid ones */
-				new_attachments = g_slist_prepend (new_attachments, g_object_ref (attach));
-			}
-		}
-
-		g_slist_free_full (attachments, g_object_unref);
-
-		e_cal_component_set_attachments (clone_comp, new_attachments);
-
-		g_slist_free_full (new_attachments, g_object_unref);
+		itip_view_add_attachments_from_message (view, clone_comp);
 	}
 
 	view->priv->update_item_response = response;
@@ -5447,6 +5480,56 @@ update_item (ItipView *view,
  cleanup:
 	g_object_unref (clone_comp);
 	g_object_unref (toplevel_clone);
+}
+
+static void
+import_item (ItipView *view)
+{
+	ICalComponent *main_comp_clone;
+	ICalComponent *subcomp;
+	ICalCompIter *iter;
+
+	claim_progress_saving_changes (view);
+
+	main_comp_clone = i_cal_component_clone (view->priv->main_comp);
+	iter = i_cal_component_begin_component (main_comp_clone, I_CAL_ANY_COMPONENT);
+	subcomp = i_cal_comp_iter_deref (iter);
+	while (subcomp) {
+		ICalComponent *next_subcomp;
+		ICalComponentKind child_kind = i_cal_component_isa (subcomp);
+
+		next_subcomp = i_cal_comp_iter_next (iter);
+
+		if ((child_kind == I_CAL_VEVENT_COMPONENT ||
+		    child_kind == I_CAL_VJOURNAL_COMPONENT ||
+		    child_kind == I_CAL_VTODO_COMPONENT) &&
+		    e_cal_util_component_has_property (subcomp, I_CAL_ATTACH_PROPERTY)) {
+			ECalComponent *comp;
+
+			comp = e_cal_component_new_from_icalcomponent (g_object_ref (subcomp));
+			if (comp) {
+				itip_view_add_attachments_from_message (view, comp);
+				g_clear_object (&comp);
+			}
+		}
+
+		g_clear_object (&subcomp);
+		subcomp = next_subcomp;
+	}
+
+	g_clear_object (&iter);
+
+	view->priv->update_item_response = ITIP_VIEW_RESPONSE_IMPORT;
+
+	e_cal_client_receive_objects (
+		view->priv->current_client,
+		main_comp_clone,
+		E_CAL_OPERATION_FLAG_NONE,
+		view->priv->cancellable,
+		receive_objects_ready_cb,
+		view);
+
+	g_clear_object (&main_comp_clone);
 }
 
 /* TODO These operations should be available in e-cal-component.c */
@@ -6441,12 +6524,14 @@ view_response_cb (ItipView *view,
 
 	switch (response) {
 		case ITIP_VIEW_RESPONSE_ACCEPT:
-			if (view->priv->type != E_CAL_CLIENT_SOURCE_TYPE_MEMOS)
+			if (view->priv->type != E_CAL_CLIENT_SOURCE_TYPE_MEMOS &&
+			    e_cal_util_component_has_property (view->priv->ical_comp, I_CAL_ATTENDEE_PROPERTY)) {
 				itip_utils_prepare_attendee_response (
 					view->priv->registry,
 					view->priv->ical_comp,
 					view->priv->to_address,
 					I_CAL_PARTSTAT_ACCEPTED);
+			}
 			update_item (view, response);
 			break;
 		case ITIP_VIEW_RESPONSE_TENTATIVE:
@@ -6487,6 +6572,9 @@ view_response_cb (ItipView *view,
 				G_PRIORITY_HIGH_IDLE,
 				idle_open_cb, g_object_ref (view), g_object_unref);
 			return;
+		case ITIP_VIEW_RESPONSE_IMPORT:
+			import_item (view);
+			break;
 		default:
 			break;
 	}

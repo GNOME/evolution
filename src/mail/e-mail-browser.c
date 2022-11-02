@@ -534,7 +534,7 @@ mail_browser_construct_header_bar (EMailReader *reader,
 
 	action_name = "mail-forward";
 	action = e_mail_reader_get_action (reader, action_name);
-	widget = e_header_bar_button_new (_("Forward"), action);
+	widget = e_header_bar_button_new (NULL, action);
 	gtk_widget_set_name (widget, "e-mail-shell-view-forward");
 	e_header_bar_button_take_menu (
 		E_HEADER_BAR_BUTTON (widget),
@@ -545,7 +545,7 @@ mail_browser_construct_header_bar (EMailReader *reader,
 
 	action_name = "mail-reply-group";
 	action = e_mail_reader_get_action (reader, action_name);
-	widget = e_header_bar_button_new (_("Group Reply"), action);
+	widget = e_header_bar_button_new (NULL, action);
 	gtk_widget_set_name (widget, "e-mail-shell-view-reply-group");
 	gtk_widget_show (widget);
 
@@ -557,7 +557,7 @@ mail_browser_construct_header_bar (EMailReader *reader,
 
 	action_name = "mail-reply-sender";
 	action = e_mail_reader_get_action (reader, action_name);
-	widget = e_header_bar_button_new (_("Reply"), action);
+	widget = e_header_bar_button_new (NULL, action);
 	gtk_widget_set_name (widget, "e-mail-shell-view-reply-sender");
 	gtk_widget_show (widget);
 
@@ -952,8 +952,17 @@ mail_browser_constructed (GObject *object)
 	gtk_box_pack_start (GTK_BOX (container), widget, FALSE, FALSE, 0);
 	browser->priv->menu_bar = e_menu_bar_new (GTK_MENU_BAR (widget), GTK_WINDOW (browser), &menu_button);
 
-	widget = mail_browser_construct_header_bar (reader, menu_button);
-	gtk_window_set_titlebar (GTK_WINDOW (object), widget);
+	if (e_util_get_use_header_bar ()) {
+		widget = mail_browser_construct_header_bar (reader, menu_button);
+		gtk_window_set_titlebar (GTK_WINDOW (object), widget);
+
+		widget = gtk_ui_manager_get_widget (ui_manager, "/main-toolbar/mail-toolbar-common/mail-reply-sender");
+		if (widget)
+			gtk_widget_destroy (widget);
+	} else if (menu_button) {
+		g_object_ref_sink (menu_button);
+		gtk_widget_destroy (menu_button);
+	}
 
 	widget = gtk_ui_manager_get_widget (ui_manager, "/main-toolbar");
 	gtk_box_pack_start (GTK_BOX (container), widget, FALSE, FALSE, 0);
@@ -964,7 +973,7 @@ mail_browser_constructed (GObject *object)
 		gtk_widget_get_style_context (widget),
 		GTK_STYLE_CLASS_PRIMARY_TOOLBAR);
 
-	gtk_toolbar_set_icon_size (GTK_TOOLBAR (widget), GTK_ICON_SIZE_BUTTON);
+	e_util_setup_toolbar_icon_size (GTK_TOOLBAR (widget), GTK_ICON_SIZE_BUTTON);
 
 	gtk_box_pack_start (
 		GTK_BOX (container),

@@ -15,6 +15,9 @@
  *
  */
 
+#include "evolution-config.h"
+
+#include "e-util/e-util.h"
 #include "e-contact-photo-source.h"
 
 #define E_CONTACT_PHOTO_SOURCE_GET_PRIVATE(obj) \
@@ -84,8 +87,8 @@ contact_photo_source_extract_photo (EContact *contact,
 }
 
 static void
-contact_photo_source_get_photo_thread (GSimpleAsyncResult *simple,
-                                       GObject *source_object,
+contact_photo_source_get_photo_thread (ESimpleAsyncResult *simple,
+                                       gpointer source_object,
                                        GCancellable *cancellable)
 {
 	AsyncContext *async_context;
@@ -93,7 +96,7 @@ contact_photo_source_get_photo_thread (GSimpleAsyncResult *simple,
 	GSList *slink;
 	GError *error = NULL;
 
-	async_context = g_simple_async_result_get_op_res_gpointer (simple);
+	async_context = e_simple_async_result_get_op_pointer (simple);
 
 	e_book_client_get_contacts_sync (
 		async_context->client,
@@ -102,7 +105,7 @@ contact_photo_source_get_photo_thread (GSimpleAsyncResult *simple,
 
 	if (error != NULL) {
 		g_warn_if_fail (slist == NULL);
-		g_simple_async_result_take_error (simple, error);
+		e_simple_async_result_take_error (simple, error);
 		return;
 	}
 
@@ -162,13 +165,13 @@ contact_photo_source_get_client_cb (GObject *source_object,
                                     GAsyncResult *result,
                                     gpointer user_data)
 {
-	GSimpleAsyncResult *simple;
+	ESimpleAsyncResult *simple;
 	AsyncContext *async_context;
 	EClient *client;
 	GError *error = NULL;
 
-	simple = G_SIMPLE_ASYNC_RESULT (user_data);
-	async_context = g_simple_async_result_get_op_res_gpointer (simple);
+	simple = E_SIMPLE_ASYNC_RESULT (user_data);
+	async_context = e_simple_async_result_get_op_pointer (simple);
 
 	client = e_client_cache_get_client_finish (
 		E_CLIENT_CACHE (source_object), result, &error);
@@ -183,15 +186,15 @@ contact_photo_source_get_client_cb (GObject *source_object,
 
 		/* The rest of the operation we can run from a
 		 * worker thread to keep the logic flow simple. */
-		g_simple_async_result_run_in_thread (
-			simple, contact_photo_source_get_photo_thread,
-			G_PRIORITY_DEFAULT, async_context->cancellable);
+		e_simple_async_result_run_in_thread (
+			simple, G_PRIORITY_LOW,
+			contact_photo_source_get_photo_thread, async_context->cancellable);
 
 		g_object_unref (client);
 
 	} else {
-		g_simple_async_result_take_error (simple, error);
-		g_simple_async_result_complete_in_idle (simple);
+		e_simple_async_result_take_error (simple, error);
+		e_simple_async_result_complete_idle (simple);
 	}
 
 	g_object_unref (simple);
@@ -286,7 +289,7 @@ contact_photo_source_get_photo (EPhotoSource *photo_source,
                                 GAsyncReadyCallback callback,
                                 gpointer user_data)
 {
-	GSimpleAsyncResult *simple;
+	ESimpleAsyncResult *simple;
 	AsyncContext *async_context;
 	EClientCache *client_cache;
 	ESourceRegistry *registry;
@@ -304,13 +307,13 @@ contact_photo_source_get_photo (EPhotoSource *photo_source,
 
 	e_book_query_unref (book_query);
 
-	simple = g_simple_async_result_new (
+	simple = e_simple_async_result_new (
 		G_OBJECT (photo_source), callback,
 		user_data, contact_photo_source_get_photo);
 
-	g_simple_async_result_set_check_cancellable (simple, cancellable);
+	e_simple_async_result_set_check_cancellable (simple, cancellable);
 
-	g_simple_async_result_set_op_res_gpointer (
+	e_simple_async_result_set_op_pointer (
 		simple, async_context, (GDestroyNotify) async_context_free);
 
 	client_cache = e_contact_photo_source_ref_client_cache (
@@ -332,7 +335,7 @@ contact_photo_source_get_photo (EPhotoSource *photo_source,
 			g_object_ref (simple));
 	} else {
 		/* Return no result if the source is disabled. */
-		g_simple_async_result_complete_in_idle (simple);
+		e_simple_async_result_complete_idle (simple);
 	}
 
 	g_object_unref (client_cache);
@@ -349,18 +352,18 @@ contact_photo_source_get_photo_finish (EPhotoSource *photo_source,
                                        gint *out_priority,
                                        GError **error)
 {
-	GSimpleAsyncResult *simple;
+	ESimpleAsyncResult *simple;
 	AsyncContext *async_context;
 
 	g_return_val_if_fail (
-		g_simple_async_result_is_valid (
+		e_simple_async_result_is_valid (
 		result, G_OBJECT (photo_source),
 		contact_photo_source_get_photo), FALSE);
 
-	simple = G_SIMPLE_ASYNC_RESULT (result);
-	async_context = g_simple_async_result_get_op_res_gpointer (simple);
+	simple = E_SIMPLE_ASYNC_RESULT (result);
+	async_context = e_simple_async_result_get_op_pointer (simple);
 
-	if (g_simple_async_result_propagate_error (simple, error))
+	if (e_simple_async_result_propagate_error (simple, error))
 		return FALSE;
 
 	if (async_context->stream != NULL) {

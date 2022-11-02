@@ -213,7 +213,7 @@ em_filter_folder_element_init (EMFilterFolderElement *element)
 }
 
 EFilterElement *
-em_filter_folder_element_new ()
+em_filter_folder_element_new (void)
 {
 	return g_object_new (
 		EM_TYPE_FILTER_FOLDER_ELEMENT,

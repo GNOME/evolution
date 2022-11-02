@@ -521,11 +521,15 @@ get_email_location (EVCardAttribute *attr)
 	gint i;
 
 	for (i = 0; i < G_N_ELEMENTS (common_location); i++) {
-		if (e_vcard_attribute_has_type (attr, common_location[i].name))
+		if (e_vcard_attribute_has_type (attr, common_location[i].name)) {
+			if (g_ascii_strcasecmp (common_location[i].name, "OTHER") == 0)
+				return NULL;
+
 			return _(common_location[i].pretty_name);
+		}
 	}
 
-	return _("Other");
+	return NULL;
 }
 
 static void
@@ -887,22 +891,24 @@ render_contact_column (EABContactFormatter *formatter,
 
 	for (l = email_list, al = email_attr_list; l && al; l = l->next, al = al->next) {
 		gchar *name = NULL, *mail = NULL;
-		gchar *attr_str = (gchar *) get_email_location ((EVCardAttribute *) al->data);
+		const gchar *attr_str = get_email_location ((EVCardAttribute *) al->data);
 
 		if (!eab_parse_qp_email (l->data, &name, &mail))
 			mail = e_text_to_html (l->data, 0);
 
 		g_string_append_printf (
 			email,
-			"%s%s%s<a href=\"internal-mailto:%d\">%s</a>%s "
-			"<span class=\"header\">(%s)</span>",
+			"%s%s%s<a href=\"internal-mailto:%d\">%s</a>%s"
+			"%s%s%s",
 			nl,
 			name ? name : "",
 			name ? " &lt;" : "",
 			email_num,
 			mail,
 			name ? "&gt;" : "",
-			attr_str ? attr_str : "");
+			attr_str ? "<span class=\"header\"> (" : "",
+			attr_str ? attr_str : "",
+			attr_str ? ")</span>" : "");
 		email_num++;
 		nl = "<br>";
 

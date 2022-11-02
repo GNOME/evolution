@@ -94,19 +94,20 @@ empe_inlinepgp_encrypted_parse (EMailParserExtension *extension,
 
 	/* this ensures to show the 'opart' as inlined, if possible */
 	if (mime_type && g_ascii_strcasecmp (mime_type, "application/octet-stream") == 0) {
-		const gchar *snoop;
+		gchar *guessed_mime_type;
 
-		snoop = e_mail_part_snoop_type (opart);
+		guessed_mime_type = e_mail_part_guess_mime_type (opart);
 
-		if (snoop != NULL) {
-			camel_data_wrapper_set_mime_type (dw, snoop);
+		if (guessed_mime_type) {
+			camel_data_wrapper_set_mime_type (dw, guessed_mime_type);
 
 			/* Set the MIME type on the 'opart' itself as well.
 			 * If it's "text/plain", then we want the TextPlain
 			 * parser extension to treat it as "text/plain" and
 			 * NOT wrap it as an attachment. */
-			camel_data_wrapper_set_mime_type (
-				CAMEL_DATA_WRAPPER (opart), snoop);
+			camel_data_wrapper_set_mime_type (CAMEL_DATA_WRAPPER (opart), guessed_mime_type);
+
+			g_free (guessed_mime_type);
 		}
 	}
 

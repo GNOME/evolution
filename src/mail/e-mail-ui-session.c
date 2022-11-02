@@ -577,7 +577,7 @@ mail_ui_session_get_filter_driver (CamelSession *session,
 				   GError **error)
 {
 	return (CamelFilterDriver *) mail_call_main (
-		MAIL_CALL_p_pppp, (MailMainFunc) main_get_filter_driver,
+		MAIL_CALL_p_pppp, G_CALLBACK (main_get_filter_driver),
 		session, type, for_folder, error);
 }
 
@@ -810,7 +810,7 @@ mail_ui_session_trust_prompt (CamelSession *session,
 		source_extension = E_SOURCE_EXTENSION_MAIL_ACCOUNT;
 
 	prompt_response = GPOINTER_TO_INT (mail_call_main (MAIL_CALL_p_ppppp,
-                (MailMainFunc) mail_ui_session_call_trust_prompt_in_main_thread_cb,
+                G_CALLBACK (mail_ui_session_call_trust_prompt_in_main_thread_cb),
                 source_extension, camel_service_get_display_name (service), host, certificate_pem, GUINT_TO_POINTER (errors)));
 
 	g_free (certificate_pem);

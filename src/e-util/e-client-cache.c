@@ -38,6 +38,7 @@
 #include <libebook/libebook.h>
 #include <libebackend/libebackend.h>
 
+#include "e-simple-async-result.h"
 #include "e-client-cache.h"
 
 #define E_CLIENT_CACHE_GET_PRIVATE(obj) \
@@ -603,16 +604,16 @@ client_cache_process_results (ClientData *client_data,
 	g_mutex_unlock (&client_data->lock);
 
 	while (!g_queue_is_empty (&queue)) {
-		GSimpleAsyncResult *simple;
+		ESimpleAsyncResult *simple;
 
 		simple = g_queue_pop_head (&queue);
 		if (client != NULL)
-			g_simple_async_result_set_op_res_gpointer (
+			e_simple_async_result_set_op_pointer (
 				simple, g_object_ref (client),
 				(GDestroyNotify) g_object_unref);
 		if (error != NULL)
-			g_simple_async_result_set_from_error (simple, error);
-		g_simple_async_result_complete_in_idle (simple);
+			e_simple_async_result_take_error (simple, g_error_copy (error));
+		e_simple_async_result_complete_idle (simple);
 		g_object_unref (simple);
 	}
 }
@@ -1253,7 +1254,7 @@ e_client_cache_get_client (EClientCache *client_cache,
                            GAsyncReadyCallback callback,
                            gpointer user_data)
 {
-	GSimpleAsyncResult *simple;
+	ESimpleAsyncResult *simple;
 	ClientData *client_data;
 	EClient *client = NULL;
 	gboolean connect_in_progress = FALSE;
@@ -1262,21 +1263,21 @@ e_client_cache_get_client (EClientCache *client_cache,
 	g_return_if_fail (E_IS_SOURCE (source));
 	g_return_if_fail (extension_name != NULL);
 
-	simple = g_simple_async_result_new (
+	simple = e_simple_async_result_new (
 		G_OBJECT (client_cache), callback,
 		user_data, e_client_cache_get_client);
 
-	g_simple_async_result_set_check_cancellable (simple, cancellable);
+	e_simple_async_result_set_check_cancellable (simple, cancellable);
 
 	client_data = client_ht_lookup (client_cache, source, extension_name);
 
 	if (client_data == NULL) {
-		g_simple_async_result_set_error (
-			simple, G_IO_ERROR,
+		e_simple_async_result_take_error (
+			simple, g_error_new (G_IO_ERROR,
 			G_IO_ERROR_INVALID_ARGUMENT,
 			_("Cannot create a client object from "
-			"extension name “%s”"), extension_name);
-		g_simple_async_result_complete_in_idle (simple);
+			"extension name “%s”"), extension_name));
+		e_simple_async_result_complete_idle (simple);
 		goto exit;
 	}
 
@@ -1294,9 +1295,9 @@ e_client_cache_get_client (EClientCache *client_cache,
 
 	/* If a cached EClient already exists, we're done. */
 	if (client != NULL) {
-		g_simple_async_result_set_op_res_gpointer (
+		e_simple_async_result_set_op_pointer (
 			simple, client, (GDestroyNotify) g_object_unref);
-		g_simple_async_result_complete_in_idle (simple);
+		e_simple_async_result_complete_idle (simple);
 		goto exit;
 	}
 
@@ -1368,20 +1369,20 @@ e_client_cache_get_client_finish (EClientCache *client_cache,
                                   GAsyncResult *result,
                                   GError **error)
 {
-	GSimpleAsyncResult *simple;
+	ESimpleAsyncResult *simple;
 	EClient *client;
 
 	g_return_val_if_fail (
-		g_simple_async_result_is_valid (
+		e_simple_async_result_is_valid (
 		result, G_OBJECT (client_cache),
 		e_client_cache_get_client), NULL);
 
-	simple = G_SIMPLE_ASYNC_RESULT (result);
+	simple = E_SIMPLE_ASYNC_RESULT (result);
 
-	if (g_simple_async_result_propagate_error (simple, error))
+	if (e_simple_async_result_propagate_error (simple, error))
 		return NULL;
 
-	client = g_simple_async_result_get_op_res_gpointer (simple);
+	client = e_simple_async_result_get_op_pointer (simple);
 	g_return_val_if_fail (client != NULL, NULL);
 
 	return g_object_ref (client);

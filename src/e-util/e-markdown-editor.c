@@ -1522,6 +1522,70 @@ e_markdown_editor_style_updated_cb (GtkWidget *widget,
 }
 
 static void
+e_markdown_editor_clipboard_owner_change_cb (GtkClipboard *clipboard,
+					     GdkEvent *event,
+					     gpointer user_data)
+{
+	EMarkdownEditor *self = user_data;
+	gboolean has_text;
+
+	has_text = gtk_clipboard_wait_is_text_available (clipboard);
+
+	if ((self->priv->can_paste ? 1 : 0) != (has_text ? 1 : 0)) {
+		self->priv->can_paste = has_text;
+		g_object_notify (G_OBJECT (self), "can-paste");
+	}
+}
+
+static void
+e_markdown_editor_has_selection_cb (GtkTextBuffer *buffer,
+				    GParamSpec *param,
+				    gpointer user_data)
+{
+	EMarkdownEditor *self = user_data;
+	GObject *object = G_OBJECT (self);
+	gboolean has_selection;
+
+	has_selection = gtk_text_buffer_get_has_selection (buffer);
+
+	g_object_freeze_notify (object);
+
+	if ((self->priv->can_copy ? 1 : 0) != (has_selection ? 1 : 0)) {
+		self->priv->can_copy = has_selection;
+		g_object_notify (object, "can-copy");
+	}
+
+	if ((self->priv->can_cut ? 1 : 0) != (has_selection ? 1 : 0)) {
+		self->priv->can_cut = has_selection;
+		g_object_notify (object, "can-cut");
+	}
+
+	g_object_thaw_notify (object);
+}
+
+static void
+e_markdown_editor_realize_cb (GtkWidget *widget,
+			      gpointer user_data)
+{
+	EMarkdownEditor *self = E_MARKDOWN_EDITOR (widget);
+	GtkClipboard *clipboard;
+	GtkTextBuffer *buffer;
+
+	/* Disconnect the handler, it's enough to add the below signal handlers once */
+	g_signal_handlers_disconnect_by_func (self, G_CALLBACK (e_markdown_editor_realize_cb), NULL);
+
+	clipboard = gtk_widget_get_clipboard (GTK_WIDGET (self->priv->text_view), GDK_SELECTION_CLIPBOARD);
+	g_signal_connect_object (clipboard, "owner-change",
+		G_CALLBACK (e_markdown_editor_clipboard_owner_change_cb), self, 0);
+	e_markdown_editor_clipboard_owner_change_cb (clipboard, NULL, self);
+
+	buffer = gtk_text_view_get_buffer (self->priv->text_view);
+	e_signal_connect_notify_object (buffer, "notify::has-selection",
+		G_CALLBACK (e_markdown_editor_has_selection_cb), self, 0);
+	e_markdown_editor_has_selection_cb (buffer, NULL, self);
+}
+
+static void
 e_markdown_editor_notify_editable_cb (GObject *object,
 				      GParamSpec *param,
 				      gpointer user_data)
@@ -1854,7 +1918,7 @@ e_markdown_editor_constructed (GObject *object)
 	#endif /* HAVE_MARKDOWN */
 
 	widget = gtk_toolbar_new ();
-	gtk_toolbar_set_icon_size (GTK_TOOLBAR (widget), GTK_ICON_SIZE_SMALL_TOOLBAR);
+	e_util_setup_toolbar_icon_size (GTK_TOOLBAR (widget), GTK_ICON_SIZE_SMALL_TOOLBAR);
 	gtk_widget_show (widget);
 	gtk_notebook_set_action_widget (self->priv->notebook, widget, GTK_PACK_END);
 
@@ -1888,6 +1952,7 @@ e_markdown_editor_constructed (GObject *object)
 	#endif
 
 	g_signal_connect (self, "style-updated", G_CALLBACK (e_markdown_editor_style_updated_cb), NULL);
+	g_signal_connect (self, "realize", G_CALLBACK (e_markdown_editor_realize_cb), NULL);
 	g_signal_connect_object (gtk_text_view_get_buffer (self->priv->text_view), "changed", G_CALLBACK (e_markdown_editor_text_view_changed_cb), self, 0);
 	e_signal_connect_notify_object (self->priv->text_view, "notify::editable", G_CALLBACK (e_markdown_editor_notify_editable_cb), self, 0);
 }

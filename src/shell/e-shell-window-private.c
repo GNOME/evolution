@@ -362,9 +362,14 @@ e_shell_window_private_constructed (EShellWindow *shell_window)
 	if (menubar)
 		shell_window->priv->menu_bar = e_menu_bar_new (GTK_MENU_BAR (menubar), window, &menu_button);
 
-	priv->headerbar = e_shell_header_bar_new (shell_window, menu_button);
-	gtk_window_set_titlebar (window, priv->headerbar);
-	gtk_widget_show (priv->headerbar);
+	if (e_util_get_use_header_bar ()) {
+		priv->headerbar = e_shell_header_bar_new (shell_window, menu_button);
+		gtk_window_set_titlebar (window, priv->headerbar);
+		gtk_widget_show (priv->headerbar);
+	} else if (menu_button) {
+		g_object_ref_sink (menu_button);
+		gtk_widget_destroy (menu_button);
+	}
 
 	widget = gtk_box_new (GTK_ORIENTATION_VERTICAL, 0);
 	gtk_container_add (GTK_CONTAINER (shell_window), widget);
@@ -589,25 +594,27 @@ e_shell_window_private_constructed (EShellWindow *shell_window)
 	g_signal_connect (shell_window, "key-press-event",
 		G_CALLBACK (e_shell_window_key_press_event_cb), NULL);
 
-	/* XXX The ECalShellBackend has a hack where it forces the
-	 *     EMenuButton to update its button image by forcing
-	 *     a "notify::active-view" signal emission on the window.
-	 *     This will trigger the property binding, which will set
-	 *     EMenuButton's "prefer-item" property, which will
-	 *     invoke header_bar_update_new_menu(), which
-	 *     will cause EMenuButton to update its button image.
-	 *
-	 *     It's a bit of a Rube Goldberg machine and should be
-	 *     reworked, but it's just serving one (now documented)
-	 *     corner case and works for now. */
-	e_binding_bind_property_full (
-		shell_window, "active-view",
-		e_shell_header_bar_get_new_button (E_SHELL_HEADER_BAR (priv->headerbar)),
-		"prefer-item",
-		G_BINDING_SYNC_CREATE,
-		shell_window_active_view_to_prefer_item,
-		(GBindingTransformFunc) NULL,
-		NULL, (GDestroyNotify) NULL);
+	if (e_util_get_use_header_bar ()) {
+		/* XXX The ECalShellBackend has a hack where it forces the
+		 *     EMenuButton to update its button image by forcing
+		 *     a "notify::active-view" signal emission on the window.
+		 *     This will trigger the property binding, which will set
+		 *     EMenuButton's "prefer-item" property, which will
+		 *     invoke header_bar_update_new_menu(), which
+		 *     will cause EMenuButton to update its button image.
+		 *
+		 *     It's a bit of a Rube Goldberg machine and should be
+		 *     reworked, but it's just serving one (now documented)
+		 *     corner case and works for now. */
+		e_binding_bind_property_full (
+			shell_window, "active-view",
+			e_shell_header_bar_get_new_button (E_SHELL_HEADER_BAR (priv->headerbar)),
+			"prefer-item",
+			G_BINDING_SYNC_CREATE,
+			shell_window_active_view_to_prefer_item,
+			(GBindingTransformFunc) NULL,
+			NULL, (GDestroyNotify) NULL);
+	}
 }
 
 void
@@ -755,5 +762,14 @@ e_shell_window_update_title (EShellWindow *shell_window)
 	shell_view = e_shell_window_get_shell_view (shell_window, view_name);
 	view_title = e_shell_view_get_title (shell_view);
 
-	gtk_window_set_title (GTK_WINDOW (shell_window), view_title);
+	if (e_util_get_use_header_bar ()) {
+		gtk_window_set_title (GTK_WINDOW (shell_window), view_title);
+	} else {
+		gchar *window_title;
+
+		/* Translators: This is used for the main window title. */
+		window_title = g_strdup_printf (_("%s — Evolution"), view_title);
+		gtk_window_set_title (GTK_WINDOW (shell_window), window_title);
+		g_free (window_title);
+	}
 }

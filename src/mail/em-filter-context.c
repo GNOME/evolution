@@ -121,7 +121,6 @@ filter_context_rename_uri (ERuleContext *context,
 	GList *l, *el;
 	EFilterPart *action;
 	EFilterElement *element;
-	gint count = 0;
 	GList *changed = NULL;
 
 	/* For all rules, for all actions, for all elements, rename any
@@ -156,8 +155,6 @@ filter_context_rename_uri (ERuleContext *context,
 			changed = g_list_append (changed, g_strdup (rule->name));
 			e_filter_rule_emit_changed (rule);
 		}
-
-		count += rulecount;
 	}
 
 	return changed;
@@ -176,7 +173,6 @@ filter_context_delete_uri (ERuleContext *context,
 	GList *l, *el;
 	EFilterPart *action;
 	EFilterElement *element;
-	gint count = 0;
 	GList *deleted = NULL;
 
 	/* For all rules, for all actions, for all elements, check
@@ -201,7 +197,6 @@ filter_context_delete_uri (ERuleContext *context,
 					l = l->next;
 					em_filter_rule_remove_action ((EMFilterRule *) rule, action);
 					g_object_unref (action);
-					count++;
 					if (!recorded)
 						deleted = g_list_append (deleted, g_strdup (rule->name));
 					goto next_action;

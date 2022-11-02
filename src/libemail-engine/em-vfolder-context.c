@@ -100,7 +100,7 @@ em_vfolder_context_init (EMVFolderContext *context)
 }
 
 EMVFolderContext *
-em_vfolder_context_new ()
+em_vfolder_context_new (void)
 {
 	return g_object_new (
 		EM_TYPE_VFOLDER_CONTEXT, NULL);

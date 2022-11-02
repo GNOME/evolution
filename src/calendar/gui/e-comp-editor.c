@@ -2153,6 +2153,8 @@ e_comp_editor_constructed (GObject *object)
 		"    </menu>"
 		"  </menubar>"
 		"  <toolbar name='main-toolbar'>"
+		"    <toolitem action='save-and-close'/>"
+		"    <toolitem action='save'/>"
 		"    <toolitem action='print'/>"
 		"    <separator/>"
 		"    <toolitem action='undo'/>"
@@ -2437,14 +2439,26 @@ e_comp_editor_constructed (GObject *object)
 	comp_editor->priv->menu_bar = e_menu_bar_new (GTK_MENU_BAR (widget), GTK_WINDOW (comp_editor), &menu_button);
 	gtk_box_pack_start (GTK_BOX (vbox), widget, FALSE, FALSE, 0);
 
-	widget = comp_editor_construct_header_bar (comp_editor, menu_button);
-	gtk_window_set_titlebar (GTK_WINDOW (comp_editor), widget);
+	if (e_util_get_use_header_bar ()) {
+		widget = comp_editor_construct_header_bar (comp_editor, menu_button);
+		gtk_window_set_titlebar (GTK_WINDOW (comp_editor), widget);
+
+		/* Destroy items from the toolbar, which are in the header bar */
+		widget = e_comp_editor_get_managed_widget (comp_editor, "/main-toolbar/save-and-close");
+		gtk_widget_destroy (widget);
+
+		widget = e_comp_editor_get_managed_widget (comp_editor, "/main-toolbar/save");
+		gtk_widget_destroy (widget);
+	} else if (menu_button) {
+		g_object_ref_sink (menu_button);
+		gtk_widget_destroy (menu_button);
+	}
 
 	widget = e_comp_editor_get_managed_widget (comp_editor, "/main-toolbar");
 	gtk_box_pack_start (GTK_BOX (vbox), widget, FALSE, FALSE, 0);
 	gtk_widget_show (widget);
 
-	gtk_toolbar_set_icon_size (GTK_TOOLBAR (widget), GTK_ICON_SIZE_BUTTON);
+	e_util_setup_toolbar_icon_size (GTK_TOOLBAR (widget), GTK_ICON_SIZE_BUTTON);
 
 	gtk_style_context_add_class (
 		gtk_widget_get_style_context (widget),
@@ -3408,6 +3422,28 @@ e_comp_editor_get_page (ECompEditor *comp_editor,
 
 		if (G_TYPE_CHECK_INSTANCE_TYPE (page, page_type))
 			return page;
+	}
+
+	return NULL;
+}
+
+/* The returned pointer is owned by the @comp_editor; returns the first found part,
+   in order of the addition. */
+ECompEditorPropertyPart *
+e_comp_editor_get_property_part (ECompEditor *comp_editor,
+				 ICalPropertyKind prop_kind)
+{
+	GSList *link;
+
+	g_return_val_if_fail (E_IS_COMP_EDITOR (comp_editor), NULL);
+
+	for (link = comp_editor->priv->pages; link; link = g_slist_next (link)) {
+		ECompEditorPage *page = link->data;
+		ECompEditorPropertyPart *part;
+
+		part = e_comp_editor_page_get_property_part (page, prop_kind);
+		if (part)
+			return part;
 	}
 
 	return NULL;

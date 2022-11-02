@@ -4925,3 +4925,43 @@ e_util_make_safe_filename (gchar *filename)
 
 	g_free (illegal_chars);
 }
+
+gboolean
+e_util_setup_toolbar_icon_size (GtkToolbar *toolbar,
+				GtkIconSize default_size)
+{
+	GSettings *settings;
+	EToolbarIconSize icon_size;
+
+	g_return_val_if_fail (GTK_IS_TOOLBAR (toolbar), FALSE);
+
+	settings = e_util_ref_settings ("org.gnome.evolution.shell");
+	icon_size = g_settings_get_enum (settings, "toolbar-icon-size");
+	g_object_unref (settings);
+
+	if (icon_size == E_TOOLBAR_ICON_SIZE_SMALL)
+		gtk_toolbar_set_icon_size (toolbar, GTK_ICON_SIZE_SMALL_TOOLBAR);
+	else if (icon_size == E_TOOLBAR_ICON_SIZE_LARGE)
+		gtk_toolbar_set_icon_size (toolbar, GTK_ICON_SIZE_LARGE_TOOLBAR);
+	else if (default_size != GTK_ICON_SIZE_INVALID && e_util_get_use_header_bar ())
+		gtk_toolbar_set_icon_size (toolbar, default_size);
+
+	return icon_size == E_TOOLBAR_ICON_SIZE_SMALL ||
+	       icon_size == E_TOOLBAR_ICON_SIZE_LARGE;
+}
+
+gboolean
+e_util_get_use_header_bar (void)
+{
+	static gchar use_header_bar = -1;
+
+	if (use_header_bar == -1) {
+		GSettings *settings;
+
+		settings = e_util_ref_settings ("org.gnome.evolution.shell");
+		use_header_bar = g_settings_get_boolean (settings, "use-header-bar") ? 1 : 0;
+		g_object_unref (settings);
+	}
+
+	return use_header_bar != 0;
+}
