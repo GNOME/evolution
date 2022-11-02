@@ -369,8 +369,8 @@ create_layout (EText *text)
 		GTK_WIDGET (item->canvas), text->text);
 	if (text->line_wrap)
 		pango_layout_set_width (
-			text->layout, text->clip_width < 0
-			? -1 : text->clip_width * PANGO_SCALE);
+			text->layout, (text->clip_width - text->xofs) < 0
+			? -1 : (text->clip_width - text->xofs) * PANGO_SCALE);
 	reset_layout_attrs (text);
 }
 
@@ -691,8 +691,8 @@ e_text_set_property (GObject *object,
 		if (text->line_wrap) {
 			if (text->layout)
 				pango_layout_set_width (
-					text->layout, text->clip_width < 0
-					? -1 : text->clip_width * PANGO_SCALE);
+					text->layout, (text->clip_width - text->xofs) < 0
+					? -1 : (text->clip_width - text->xofs) * PANGO_SCALE);
 			text->needs_split_into_lines = 1;
 		} else {
 			text->needs_calc_height = 1;
@@ -798,8 +798,8 @@ e_text_set_property (GObject *object,
 		if (text->line_wrap) {
 			if (text->layout) {
 				pango_layout_set_width (
-					text->layout, text->width < 0
-					? -1 : text->width * PANGO_SCALE);
+					text->layout, (text->width - text->xofs) < 0
+					? -1 : (text->width - text->xofs) * PANGO_SCALE);
 			}
 		}
 		text->needs_split_into_lines = 1;
@@ -826,8 +826,8 @@ e_text_set_property (GObject *object,
 		if (text->line_wrap) {
 			if (text->layout) {
 				pango_layout_set_width (
-					text->layout, text->width < 0 ?
-					-1 : text->width * PANGO_SCALE);
+					text->layout, (text->width - text->xofs) < 0 ?
+					-1 : (text->width - text->xofs) * PANGO_SCALE);
 			}
 			text->needs_split_into_lines = 1;
 		}
