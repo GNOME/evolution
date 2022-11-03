@@ -530,19 +530,16 @@ year_view_add_to_list_store (EYearView *self,
 static void
 year_view_update_tree_view (EYearView *self)
 {
-	ICalTimezone *zone;
 	GDate date;
 	GtkTreeViewColumn *column;
 	GSList *link;
 	gchar buffer[128] = { 0, };
 	guint day_of_year;
 
-	zone = e_cal_data_model_get_timezone (self->priv->data_model);
-
 	g_date_clear (&date, 1);
 	g_date_set_dmy (&date, self->priv->current_day, self->priv->current_month, self->priv->current_year);
 
-	e_datetime_format_format_inline ("calendar", "table", DTFormatKindDate, cal_comp_gdate_to_timet (&date, zone), buffer, sizeof (buffer));
+	e_datetime_format_format_inline ("calendar", "table", DTFormatKindDate, cal_comp_gdate_to_timet (&date, i_cal_timezone_get_utc_timezone ()), buffer, sizeof (buffer));
 
 	column = gtk_tree_view_get_column (self->priv->tree_view, 0);
 	gtk_tree_view_column_set_title (column, buffer);
