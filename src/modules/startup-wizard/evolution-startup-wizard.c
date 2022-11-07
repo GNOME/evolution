@@ -109,7 +109,7 @@ startup_wizard_have_mail_account (EStartupWizard *extension)
 	list = e_source_registry_list_sources (registry, extension_name);
 
 	for (link = list; link; link = g_list_next (link)) {
-		ESource *source = list->data;
+		ESource *source = link->data;
 		ESourceMailAccount *mail_account = e_source_get_extension (source, extension_name);
 
 		/* Exclude the built-in, 'On This Computer' and 'Search Folders' sources. */
@@ -270,8 +270,14 @@ startup_wizard_window_added_cb (EStartupWizard *extension,
 	}
 
 	if (E_IS_SHELL_WINDOW (window)) {
-		g_signal_connect (window, "notify::active-view",
-			G_CALLBACK (startup_wizard_notify_active_view_cb), extension);
+		EShellWindow *shell_window = E_SHELL_WINDOW (window);
+
+		if (g_strcmp0 ("mail", e_shell_window_get_active_view (shell_window)) == 0) {
+			startup_wizard_notify_active_view_cb (shell_window, NULL, extension);
+		} else {
+			g_signal_connect (window, "notify::active-view",
+				G_CALLBACK (startup_wizard_notify_active_view_cb), extension);
+		}
 	}
 }
 
