@@ -2242,16 +2242,24 @@ itip_view_set_mode (ItipView *view,
 		}
 		break;
 	case ITIP_VIEW_MODE_REQUEST:
-		show_button (view, view->priv->is_recur_set ? BUTTON_DECLINE_ALL : BUTTON_DECLINE);
-		show_button (view, view->priv->is_recur_set ? BUTTON_TENTATIVE_ALL : BUTTON_TENTATIVE);
-		show_button (view, view->priv->is_recur_set ? BUTTON_ACCEPT_ALL : BUTTON_ACCEPT);
+		if (e_cal_util_component_has_property (view->priv->ical_comp, I_CAL_ATTENDEE_PROPERTY)) {
+			show_button (view, view->priv->is_recur_set ? BUTTON_DECLINE_ALL : BUTTON_DECLINE);
+			show_button (view, view->priv->is_recur_set ? BUTTON_TENTATIVE_ALL : BUTTON_TENTATIVE);
+			show_button (view, view->priv->is_recur_set ? BUTTON_ACCEPT_ALL : BUTTON_ACCEPT);
+		} else {
+			show_button (view, BUTTON_IMPORT);
+		}
 		break;
 	case ITIP_VIEW_MODE_ADD:
-		if (view->priv->type != E_CAL_CLIENT_SOURCE_TYPE_MEMOS) {
-			show_button (view, BUTTON_DECLINE);
-			show_button (view, BUTTON_TENTATIVE);
+		if (e_cal_util_component_has_property (view->priv->ical_comp, I_CAL_ATTENDEE_PROPERTY)) {
+			if (view->priv->type != E_CAL_CLIENT_SOURCE_TYPE_MEMOS) {
+				show_button (view, BUTTON_DECLINE);
+				show_button (view, BUTTON_TENTATIVE);
+			}
+			show_button (view, BUTTON_ACCEPT);
+		} else {
+			show_button (view, BUTTON_IMPORT);
 		}
-		show_button (view, BUTTON_ACCEPT);
 		break;
 	case ITIP_VIEW_MODE_REFRESH:
 		show_button (view, BUTTON_SEND_INFORMATION);
