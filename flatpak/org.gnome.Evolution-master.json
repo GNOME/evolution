@@ -14,10 +14,6 @@
 		"cxxflags": "-O2 -g -Wno-deprecated-declarations"
 	},
 	"cleanup": [
-		"/include",
-		"/lib/pkgconfig",
-		"/share/pkgconfig",
-		"/share/aclocal",
 		"*.la",
 		"*.a"
 	],
@@ -41,6 +37,16 @@
 		"--talk-name=org.gnome.keyring.SystemPrompter",
 		"--talk-name=org.gnome.OnlineAccounts"
 	],
+	"add-extensions": {
+		"org.gnome.Evolution.Extension": {
+			"directory": "evolution/extensions",
+			"add-ld-path": "lib",
+			"merge-dirs": "lib;share",
+			"subdirectories": true,
+			"no-autodownload": true,
+			"autodelete": true
+		}
+	},
 	"modules": [
 		{
 			"name": "intltool",
@@ -316,6 +322,7 @@
 			],
 			"config-opts": [
 				"-DDBUS_SERVICES_PREFIX=org.gnome.Evolution",
+				"-DEXTENSIONS_DIR=/app/evolution/extensions",
 				"-DENABLE_FILE_LOCKING=fcntl",
 				"-DENABLE_DOT_LOCKING=OFF",
 				"-DENABLE_GTK=ON",
@@ -339,6 +346,7 @@
 				}
 			],
 			"post-install": [
+				"install -d /app/evolution/extensions",
 				"cp NEWS /app/share/NEWS.eds"
 			]
 		},
