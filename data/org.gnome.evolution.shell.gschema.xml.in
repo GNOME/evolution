@@ -156,6 +156,11 @@
       <_summary>Whether to use header bar in the application</_summary>
       <_description>When enabled, adds buttons to the header bar. This applies to dialogs as well. Changing the option requires application restart.</_description>
     </key>
+    <key name="markdown-preview-beside-text" type="b">
+      <default>false</default>
+      <_summary>Whether the markdown editor show have live preview</_summary>
+      <_description>When enabled, the markdown editor shows a preview beside the editing text and updates it as the user types.</_description>
+    </key>
     <child name="window" schema="org.gnome.evolution.window"/>
   </schema>
 </schemalist>

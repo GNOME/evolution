@@ -126,6 +126,8 @@ set(private_icons
 	hicolor_actions_scalable_markdown-link-dark.svg
 	hicolor_actions_scalable_markdown-numbers.svg
 	hicolor_actions_scalable_markdown-numbers-dark.svg
+	hicolor_actions_scalable_markdown-preview.svg
+	hicolor_actions_scalable_markdown-preview-dark.svg
 	hicolor_actions_scalable_markdown-quote.svg
 	hicolor_actions_scalable_markdown-quote-dark.svg
 	hicolor_actions_scalable_stock_insert-note-symbolic.svg

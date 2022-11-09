@@ -14,6 +14,7 @@
 #include "e-content-editor.h"
 #include "e-markdown-utils.h"
 #include "e-misc-utils.h"
+#include "e-paned.h"
 #include "e-spell-text-view.h"
 #include "e-web-view.h"
 #include "e-widget-undo.h"
@@ -30,6 +31,8 @@ struct _EMarkdownEditorPrivate {
 	EWebView *web_view;
 	GtkToolbar *action_toolbar;
 	gboolean is_dark_theme;
+	gboolean is_preview_beside_text;
+	guint preview_update_id;
 
 	/* EContentEditor properties */
 	gboolean can_copy;
@@ -1380,14 +1383,31 @@ e_markdown_editor_markdown_syntax_cb (EMarkdownEditor *self)
 
 #ifdef HAVE_MARKDOWN
 static void
+e_markdown_editor_update_preview (EMarkdownEditor *self)
+{
+	gchar *converted;
+	gchar *html;
+
+	converted = e_markdown_editor_dup_html (self);
+
+	html = g_strconcat ("<div class=\"-e-web-view-background-color -e-web-view-text-color\" style=\"border: none; padding: 0px; margin: 0;\">",
+		converted ? converted : "",
+		"</div>",
+		NULL);
+
+	e_web_view_load_string (self->priv->web_view, html);
+
+	g_free (converted);
+	g_free (html);
+}
+
+static void
 e_markdown_editor_switch_page_cb (GtkNotebook *notebook,
 				  GtkWidget *page,
 				  guint page_num,
 				  gpointer user_data)
 {
 	EMarkdownEditor *self = user_data;
-	gchar *converted;
-	gchar *html;
 	gint n_items, ii;
 
 	g_return_if_fail (E_IS_MARKDOWN_EDITOR (self));
@@ -1410,18 +1430,126 @@ e_markdown_editor_switch_page_cb (GtkNotebook *notebook,
 	if (page_num != 1)
 		return;
 
-	converted = e_markdown_editor_dup_html (self);
+	e_markdown_editor_update_preview (self);
+}
 
-	html = g_strconcat ("<div class=\"-e-web-view-background-color -e-web-view-text-color\" style=\"border: none; padding: 0px; margin: 0;\">",
-		converted ? converted : "",
-		"</div>",
+static gboolean
+e_markdown_editor_update_preview_timeout_cb (gpointer user_data)
+{
+	EMarkdownEditor *self = user_data;
+
+	self->priv->preview_update_id = 0;
+
+	e_markdown_editor_update_preview (self);
+
+	return FALSE;
+}
+
+static void
+e_markdown_editor_buffer_changed_to_preview_cb (EMarkdownEditor *self)
+{
+	if (!self->priv->preview_update_id) {
+		/* Update up to 4 times per second */
+		self->priv->preview_update_id = e_named_timeout_add (250,
+			e_markdown_editor_update_preview_timeout_cb, self);
+	}
+}
+
+static void
+e_markdown_editor_toggle_preview (EMarkdownEditor *self,
+				  gboolean active)
+{
+	GtkTextBuffer *buffer;
+	GtkWidget *text_scrolled_window;
+	GtkWidget *preview_scrolled_window;
+
+	if ((self->priv->is_preview_beside_text ? 1 : 0) == (active ? 1 : 0))
+		return;
+
+	self->priv->is_preview_beside_text = active;
+
+	text_scrolled_window = gtk_scrolled_window_new (NULL, NULL);
+	g_object_set (G_OBJECT (text_scrolled_window),
+		"halign", GTK_ALIGN_FILL,
+		"hexpand", TRUE,
+		"valign", GTK_ALIGN_FILL,
+		"vexpand", TRUE,
+		"visible", TRUE,
+		"hscrollbar-policy", GTK_POLICY_AUTOMATIC,
+		"vscrollbar-policy", GTK_POLICY_AUTOMATIC,
 		NULL);
 
-	e_web_view_load_string (self->priv->web_view, html);
+	preview_scrolled_window = gtk_scrolled_window_new (NULL, NULL);
+	g_object_set (G_OBJECT (preview_scrolled_window),
+		"halign", GTK_ALIGN_FILL,
+		"hexpand", TRUE,
+		"valign", GTK_ALIGN_FILL,
+		"vexpand", TRUE,
+		"visible", TRUE,
+		"hscrollbar-policy", GTK_POLICY_AUTOMATIC,
+		"vscrollbar-policy", GTK_POLICY_AUTOMATIC,
+		NULL);
 
-	g_free (converted);
-	g_free (html);
+	g_object_ref (self->priv->text_view);
+	g_object_ref (self->priv->web_view);
+	gtk_container_remove (GTK_CONTAINER (gtk_widget_get_parent (GTK_WIDGET (self->priv->text_view))), GTK_WIDGET (self->priv->text_view));
+	gtk_container_remove (GTK_CONTAINER (gtk_widget_get_parent (GTK_WIDGET (self->priv->web_view))), GTK_WIDGET (self->priv->web_view));
+
+	gtk_container_add (GTK_CONTAINER (text_scrolled_window), GTK_WIDGET (self->priv->text_view));
+	gtk_container_add (GTK_CONTAINER (preview_scrolled_window), GTK_WIDGET (self->priv->web_view));
+
+	while (gtk_notebook_get_n_pages (self->priv->notebook) > 0)
+		gtk_notebook_remove_page (self->priv->notebook, -1);
+
+	buffer = gtk_text_view_get_buffer (self->priv->text_view);
+
+	if (active) {
+		GtkPaned *paned;
+
+		paned = GTK_PANED (e_paned_new (GTK_ORIENTATION_HORIZONTAL));
+
+		g_object_set (paned,
+			"halign", GTK_ALIGN_FILL,
+			"hexpand", TRUE,
+			"valign", GTK_ALIGN_FILL,
+			"vexpand", TRUE,
+			"visible", TRUE,
+			NULL);
+
+		gtk_paned_pack1 (paned, text_scrolled_window, TRUE, TRUE);
+		gtk_paned_pack2 (paned, preview_scrolled_window, TRUE, TRUE);
+
+		gtk_notebook_append_page (self->priv->notebook, GTK_WIDGET (paned), gtk_label_new_with_mnemonic (_("_Write")));
+
+		g_signal_connect_object (buffer, "changed",
+			G_CALLBACK (e_markdown_editor_buffer_changed_to_preview_cb), self, G_CONNECT_SWAPPED);
+
+		e_paned_set_proportion (E_PANED (paned), 0.5);
+
+		e_markdown_editor_update_preview (self);
+	} else {
+		gtk_notebook_append_page (self->priv->notebook,
+			text_scrolled_window, gtk_label_new_with_mnemonic (_("_Write")));
+		gtk_notebook_append_page (self->priv->notebook,
+			preview_scrolled_window, gtk_label_new_with_mnemonic (_("_Preview")));
+
+		g_signal_handlers_disconnect_by_func (buffer,
+			G_CALLBACK (e_markdown_editor_buffer_changed_to_preview_cb), self);
+	}
+
+	g_object_unref (self->priv->text_view);
+	g_object_unref (self->priv->web_view);
+
+	gtk_notebook_set_current_page (self->priv->notebook, 0);
 }
+
+static void
+e_markdown_editor_markdown_preview_toggled_cb (EMarkdownEditor *self,
+					       GtkToggleToolButton *button)
+{
+	e_markdown_editor_toggle_preview (self, gtk_toggle_tool_button_get_active (button));
+}
+
 #endif /* HAVE_MARKDOWN */
 
 static gboolean
@@ -1449,10 +1577,12 @@ struct _toolbar_items {
 	const gchar *icon_name;
 	const gchar *icon_name_dark;
 	GCallback callback;
+	const gchar *toggle_key;
 };
 
 static struct _toolbar_items toolbar_items[] = {
-	#define ITEM(lbl, icn, cbk) { lbl, icn, icn "-dark", G_CALLBACK (cbk) }
+	#define ITEM(lbl, icn, cbk) { lbl, icn, icn "-dark", G_CALLBACK (cbk), NULL }
+	#define ITEM_TOGGLE(lbl, icn, cbk, tgl) { lbl, icn, icn "-dark", G_CALLBACK (cbk), tgl }
 	ITEM (N_("Add bold text"), "markdown-bold", e_markdown_editor_format_bold_text_cb),
 	ITEM (N_("Add italic text"), "markdown-italic", e_markdown_editor_format_italic_text_cb),
 	ITEM (N_("Insert a quote"), "markdown-quote", e_markdown_editor_format_quote_cb),
@@ -1464,6 +1594,10 @@ static struct _toolbar_items toolbar_items[] = {
 	ITEM (N_("Insert Emoji"), "markdown-emoji", e_markdown_editor_insert_emoji_cb),
 	ITEM (NULL, "", NULL),
 	ITEM (N_("Open online common mark documentation"), "markdown-help", G_CALLBACK (e_markdown_editor_markdown_syntax_cb))
+	#ifdef HAVE_MARKDOWN
+	, ITEM_TOGGLE (N_("Show preview beside text"), "markdown-preview", G_CALLBACK (e_markdown_editor_markdown_preview_toggled_cb), "markdown-preview-beside-text")
+	#endif
+	#undef ITEM_TOGGLE
 	#undef ITEM
 };
 
@@ -1831,8 +1965,7 @@ static void
 e_markdown_editor_constructed (GObject *object)
 {
 	EMarkdownEditor *self = E_MARKDOWN_EDITOR (object);
-	GtkWidget *widget;
-	GtkScrolledWindow *scrolled_window;
+	GtkWidget *widget, *scrolled_window;
 	guint ii;
 
 	/* Chain up to parent's method. */
@@ -1865,7 +1998,7 @@ e_markdown_editor_constructed (GObject *object)
 
 	gtk_notebook_append_page (self->priv->notebook, widget, gtk_label_new_with_mnemonic (_("_Write")));
 
-	scrolled_window = GTK_SCROLLED_WINDOW (widget);
+	scrolled_window = widget;
 
 	widget = gtk_text_view_new ();
 	g_object_set (G_OBJECT (widget),
@@ -1900,7 +2033,7 @@ e_markdown_editor_constructed (GObject *object)
 
 	gtk_notebook_append_page (self->priv->notebook, widget, gtk_label_new_with_mnemonic (_("_Preview")));
 
-	scrolled_window = GTK_SCROLLED_WINDOW (widget);
+	scrolled_window = widget;
 
 	widget = e_web_view_new ();
 	g_object_set (G_OBJECT (widget),
@@ -1935,10 +2068,25 @@ e_markdown_editor_constructed (GObject *object)
 			icon_name = self->priv->is_dark_theme ? toolbar_items[ii].icon_name_dark : toolbar_items[ii].icon_name;
 			icon = gtk_image_new_from_icon_name (icon_name, GTK_ICON_SIZE_SMALL_TOOLBAR);
 			gtk_widget_show (GTK_WIDGET (icon));
-			item = gtk_tool_button_new (icon, _(toolbar_items[ii].label));
+			if (toolbar_items[ii].toggle_key) {
+				GSettings *settings;
+
+				settings = e_util_ref_settings ("org.gnome.evolution.shell");
+
+				item = gtk_toggle_tool_button_new ();
+				gtk_tool_button_set_icon_widget (GTK_TOOL_BUTTON (item), icon);
+				gtk_tool_button_set_label (GTK_TOOL_BUTTON (item), _(toolbar_items[ii].label));
+				g_signal_connect_object (item, "toggled", toolbar_items[ii].callback, self, G_CONNECT_SWAPPED);
+				g_settings_bind (settings, toolbar_items[ii].toggle_key,
+					item, "active", G_SETTINGS_BIND_DEFAULT);
+
+				g_clear_object (&settings);
+			} else {
+				item = gtk_tool_button_new (icon, _(toolbar_items[ii].label));
+				g_signal_connect_object (item, "clicked", toolbar_items[ii].callback, self, G_CONNECT_SWAPPED);
+			}
 			gtk_widget_set_name (GTK_WIDGET (item), toolbar_items[ii].icon_name);
 			gtk_tool_item_set_tooltip_text (item, _(toolbar_items[ii].label));
-			g_signal_connect_object (item, "clicked", toolbar_items[ii].callback, self, G_CONNECT_SWAPPED);
 		} else {
 			item = gtk_separator_tool_item_new ();
 		}
@@ -1955,6 +2103,20 @@ e_markdown_editor_constructed (GObject *object)
 	g_signal_connect (self, "realize", G_CALLBACK (e_markdown_editor_realize_cb), NULL);
 	g_signal_connect_object (gtk_text_view_get_buffer (self->priv->text_view), "changed", G_CALLBACK (e_markdown_editor_text_view_changed_cb), self, 0);
 	e_signal_connect_notify_object (self->priv->text_view, "notify::editable", G_CALLBACK (e_markdown_editor_notify_editable_cb), self, 0);
+}
+
+static void
+e_markdown_editor_dispose (GObject *object)
+{
+	EMarkdownEditor *self = E_MARKDOWN_EDITOR (object);
+
+	if (self->priv->preview_update_id) {
+		g_source_remove (self->priv->preview_update_id);
+		self->priv->preview_update_id = 0;
+	}
+
+	/* Chain up to parent's method. */
+	G_OBJECT_CLASS (e_markdown_editor_parent_class)->dispose (object);
 }
 
 static void
@@ -1989,6 +2151,7 @@ e_markdown_editor_class_init (EMarkdownEditorClass *klass)
 	object_class->get_property = e_markdown_editor_get_property;
 	object_class->set_property = e_markdown_editor_set_property;
 	object_class->constructed = e_markdown_editor_constructed;
+	object_class->dispose = e_markdown_editor_dispose;
 	object_class->finalize = e_markdown_editor_finalize;
 
 	g_object_class_override_property (object_class, PROP_IS_MALFUNCTION, "is-malfunction");
