@@ -4329,6 +4329,7 @@ webkit_editor_constructor (GType type,
 				#ifdef ENABLE_MAINTAINER_MODE
 				const gchar *source_webkitdatadir;
 				#endif
+				gchar *plugins_path;
 				const gchar *schemes[] = {
 					"cid",
 					"evo-file",
@@ -4343,6 +4344,11 @@ webkit_editor_constructor (GType type,
 				webkit_web_context_set_web_extensions_directory (web_context, EVOLUTION_WEB_EXTENSIONS_WEBKIT_EDITOR_DIR);
 				webkit_web_context_set_sandbox_enabled (web_context, TRUE);
 				webkit_web_context_add_path_to_sandbox (web_context, EVOLUTION_WEBKITDATADIR, TRUE);
+
+				plugins_path = g_build_filename (e_get_user_data_dir (), "webkit-editor-plugins", NULL);
+				webkit_web_context_add_path_to_sandbox (web_context, plugins_path, TRUE);
+				g_free (plugins_path);
+
 				#ifdef ENABLE_MAINTAINER_MODE
 				source_webkitdatadir = g_getenv ("EVOLUTION_SOURCE_WEBKITDATADIR");
 				if (source_webkitdatadir && *source_webkitdatadir)

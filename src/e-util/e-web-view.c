@@ -1066,6 +1066,7 @@ web_view_constructor (GType type,
 
 			if (!web_context) {
 				GSList *link;
+				gchar *plugins_path;
 				#ifdef ENABLE_MAINTAINER_MODE
 				const gchar *source_webkitdatadir;
 				#endif
@@ -1076,6 +1077,10 @@ web_view_constructor (GType type,
 				webkit_web_context_set_web_extensions_directory (web_context, EVOLUTION_WEB_EXTENSIONS_DIR);
 				webkit_web_context_set_sandbox_enabled (web_context, TRUE);
 				webkit_web_context_add_path_to_sandbox (web_context, EVOLUTION_WEBKITDATADIR, TRUE);
+
+				plugins_path = g_build_filename (e_get_user_data_dir (), "preview-plugins", NULL);
+				webkit_web_context_add_path_to_sandbox (web_context, plugins_path, TRUE);
+				g_free (plugins_path);
 
 				#ifdef ENABLE_MAINTAINER_MODE
 				source_webkitdatadir = g_getenv ("EVOLUTION_SOURCE_WEBKITDATADIR");
