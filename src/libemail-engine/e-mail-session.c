@@ -636,9 +636,15 @@ mail_session_add_from_source (EMailSession *session,
 		g_object_unref (service);
 
 	if (error != NULL) {
-		g_warning (
-			"Failed to add service '%s' (%s): %s",
-			display_name, uid, error->message);
+		/* Do not claim "No provider available for protocol ..." error in Flatpak
+		   for "sendmail", because the protocol is not supported there currently. */
+		if (!e_util_is_running_flatpak () ||
+		    !g_error_matches (error, CAMEL_SERVICE_ERROR, CAMEL_SERVICE_ERROR_URL_INVALID) ||
+		    g_strcmp0 (uid, "sendmail") != 0) {
+			g_warning (
+				"Failed to add service '%s' (%s): %s",
+				display_name, uid, error->message);
+		}
 		g_error_free (error);
 	}
 
