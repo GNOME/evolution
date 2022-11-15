@@ -473,7 +473,7 @@ static GtkToggleActionEntry toggle_entries[] = {
 	  NULL,
 	  N_("S/MIME En_crypt"),
 	  NULL,
-	  N_("Encrypt this message with your S/MIME Encryption Certificate"),
+	  N_("Encrypt this message with S/MIME"),
 	  G_CALLBACK (action_smime_encrypt_cb),
 	  FALSE },
 
