@@ -3470,12 +3470,16 @@ e_web_view_update_fonts_settings (GSettings *font_settings,
 
 		g_string_append_printf (
 			stylesheet,
+			"span.navigable, div.navigable, p.navigable {\n"
+			"  color: #%06x;\n"
+			"}\n"
 			"a {\n"
 			"  color: #%06x;\n"
 			"}\n"
 			"a:visited {\n"
 			"  color: #%06x;\n"
 			"}\n",
+			e_color_to_value (link),
 			e_color_to_value (link),
 			e_color_to_value (visited));
 

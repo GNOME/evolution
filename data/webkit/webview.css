@@ -28,7 +28,6 @@ th {
 span.navigable, div.navigable, p.navigable {
   cursor: pointer;
   text-decoration: underline;
-  color: #003399;
 }
 
 img#__evo-contact-photo {
