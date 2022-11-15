@@ -484,10 +484,14 @@ set_calendar_sender_text (ItipView *view)
 
 	switch (priv->mode) {
 	case ITIP_VIEW_MODE_PUBLISH:
-		if (priv->organizer_sentby)
-			sender = dupe_first_bold (_("%s through %s has published the following meeting information:"), organizer, priv->organizer_sentby);
-		else
-			sender = dupe_first_bold (_("%s has published the following meeting information:"), organizer, NULL);
+		if (priv->has_organizer) {
+			if (priv->organizer_sentby)
+				sender = dupe_first_bold (_("%s through %s has published the following meeting information:"), organizer, priv->organizer_sentby);
+			else
+				sender = dupe_first_bold (_("%s has published the following meeting information:"), organizer, NULL);
+		} else {
+			sender = g_strdup (_("The following meeting information has been published:"));
+		}
 		break;
 	case ITIP_VIEW_MODE_REQUEST:
 		/* FIXME is the delegator stuff handled correctly here? */
@@ -6744,13 +6748,13 @@ itip_view_init_view (ItipView *view)
 
 		switch (view->priv->method) {
 			case I_CAL_METHOD_PUBLISH:
+				itip_view_set_mode (view, ITIP_VIEW_MODE_PUBLISH);
+				break;
 			case I_CAL_METHOD_REQUEST:
                                 /*
-                                 * Treat meeting request (sent by organizer directly) and
-                                 * published events (forwarded by organizer or attendee) alike:
                                  * if the event has an organizer, then it can be replied to and
                                  * we show the "accept/tentative/decline" choice.
-                                 * Otherwise only show "accept".
+                                 * Otherwise only show "import".
                                  */
 				itip_view_set_mode (
 					view,
