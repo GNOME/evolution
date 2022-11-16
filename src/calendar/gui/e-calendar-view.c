@@ -716,14 +716,6 @@ e_calendar_view_add_event_sync (ECalModel *model,
 	gchar *uid;
 	gint start_offset, end_offset;
 	gboolean all_day_event = FALSE;
-	GSettings *settings;
-	gint shorten_by;
-	gboolean shorten_end;
-
-	settings = e_util_ref_settings ("org.gnome.evolution.calendar");
-	shorten_by = g_settings_get_int (settings, "shorten-time");
-	shorten_end = g_settings_get_boolean (settings, "shorten-time-end");
-	g_clear_object (&settings);
 
 	start_offset = 0;
 	end_offset = 0;
@@ -787,17 +779,9 @@ e_calendar_view_add_event_sync (ECalModel *model,
 	i_cal_time_set_timezone (itime, old_dtstart_zone);
 	if (all_day_event)
 		i_cal_time_set_is_date (itime, TRUE);
-	else if (!shorten_end && shorten_by > 0 && i_cal_duration_as_int (ic_dur) / 60 > shorten_by)
-		i_cal_time_adjust (itime, 0, 0, shorten_by, 0);
 	i_cal_component_set_dtstart (icomp, itime);
 
 	i_cal_time_set_is_date (itime, FALSE);
-	/* The duration can be shortened always, not only when changing the end time */
-	if (!all_day_event && shorten_by > 0 && i_cal_duration_as_int (ic_dur) / 60 > shorten_by) {
-		gint dur = i_cal_duration_as_int (ic_dur) - (shorten_by * 60);
-		g_clear_object (&ic_dur);
-		ic_dur = i_cal_duration_new_from_int (dur);
-	}
 	btime = i_cal_time_add (itime, ic_dur);
 	if (all_day_event)
 		i_cal_time_set_is_date (btime, TRUE);
