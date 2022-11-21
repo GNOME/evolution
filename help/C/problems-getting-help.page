@@ -21,5 +21,5 @@
 
 <title>How to get help</title>
 
-<p>To receive help on problems you can open a thread on <link href="https://discourse.gnome.org/tag/evolution"><app>GNOME Discourse</app> with the evolution tag</link> or talk to developers and other users in the IRC chat channel #evolution on the server irc.gimp.net. To connect to an IRC server you can for example <link xref="help:polari/" href="https://help.gnome.org/users/polari/stable/">use the application <app>Polari</app></link>.</p>
+<p>To receive help on problems you can send an email to the <link href="https://lists.osuosl.org/mailman/listinfo/evolution-users"><app>Evolution</app> mailing list</link>, open a thread on <link href="https://discourse.gnome.org/tag/evolution"><app>GNOME Discourse</app> with the evolution tag</link> or talk to developers and other users in the IRC chat channel #evolution on the server irc.gimp.net. To connect to an IRC server you can for example <link xref="help:polari/" href="https://help.gnome.org/users/polari/stable/">use the application <app>Polari</app></link>.</p>
 </page>
