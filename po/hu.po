@@ -14,8 +14,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: evolution master\n"
 "Report-Msgid-Bugs-To: https://gitlab.gnome.org/GNOME/evolution/issues\n"
-"POT-Creation-Date: 2022-11-09 18:58+0000\n"
-"PO-Revision-Date: 2022-11-13 13:12+0100\n"
+"POT-Creation-Date: 2022-11-20 14:53+0000\n"
+"PO-Revision-Date: 2022-11-23 00:49+0100\n"
 "Last-Translator: Balázs Úr <ur.balazs at fsf dot hu>\n"
 "Language-Team: Hungarian <gnome-hu-list at gnome dot org>\n"
 "Language: hu\n"
@@ -3704,7 +3704,6 @@ msgstr ""
 "újraindítását igényli."
 
 #: ../data/org.gnome.evolution.shell.gschema.xml.in.h:48
-#| msgid "Whether to show maps in preview pane"
 msgid "Whether the markdown editor show have live preview"
 msgstr "Megjelenítse-e a markdown szerkesztő, hogy van előnézete"
 
@@ -3713,8 +3712,8 @@ msgid ""
 "When enabled, the markdown editor shows a preview beside the editing text "
 "and updates it as the user types."
 msgstr ""
-"Ha engedélyezve van, akkor a markdown szerkesztő előnézetet jelenít meg a"
-" szerkesztett szöveg mellett, és frissíti azt a felhasználó gépelése közben."
+"Ha engedélyezve van, akkor a markdown szerkesztő előnézetet jelenít meg a "
+"szerkesztett szöveg mellett, és frissíti azt a felhasználó gépelése közben."
 
 #: ../data/org.gnome.evolution.spamassassin.gschema.xml.in.h:1
 msgid "Use only local spam tests."
@@ -4520,7 +4519,7 @@ msgstr ""
 #: ../src/e-util/e-source-selector-dialog.c:336
 #: ../src/e-util/e-table-config.c:540 ../src/e-util/e-table-config.ui.h:3
 #: ../src/e-util/e-timezone-dialog.ui.h:2
-#: ../src/e-util/evolution-source-viewer.c:829 ../src/e-util/e-web-view.c:4015
+#: ../src/e-util/evolution-source-viewer.c:829 ../src/e-util/e-web-view.c:4019
 #: ../src/e-util/gal-view-instance-save-as-dialog.c:265
 #: ../src/mail/e-mail-config-window.c:310 ../src/mail/e-mail-label-dialog.c:187
 #: ../src/mail/e-mail-tag-editor.c:160 ../src/mail/em-composer-utils.c:4166
@@ -4614,7 +4613,7 @@ msgstr "Beállítások"
 #: ../src/e-util/e-attachment-store.c:848
 #: ../src/e-util/e-attachment-store.c:855
 #: ../src/e-util/e-mail-signature-script-dialog.c:364
-#: ../src/e-util/e-webdav-browser.c:2633 ../src/e-util/e-web-view.c:4015
+#: ../src/e-util/e-webdav-browser.c:2633 ../src/e-util/e-web-view.c:4019
 #: ../src/e-util/gal-view-instance-save-as-dialog.c:266
 #: ../src/modules/rss/evolution/e-rss-preferences.c:864
 #: ../src/shell/e-shell-content.c:642 ../src/shell/e-shell-utils.c:133
@@ -4683,7 +4682,7 @@ msgstr "_Honlap:"
 
 #: ../src/addressbook/gui/contact-editor/contact-editor.ui.h:28
 #: ../src/calendar/gui/e-comp-editor-event.c:925
-#: ../src/modules/itip-formatter/itip-view.c:2312
+#: ../src/modules/itip-formatter/itip-view.c:2316
 msgid "_Calendar:"
 msgstr "_Naptár:"
 
@@ -4773,14 +4772,14 @@ msgstr "É_vforduló:"
 #: ../src/addressbook/gui/contact-editor/contact-editor.ui.h:50
 #: ../src/addressbook/gui/widgets/eab-contact-formatter.c:1058
 #: ../src/addressbook/gui/widgets/e-addressbook-view.etspec.h:47
-#: ../src/calendar/gui/e-calendar-view.c:1838
+#: ../src/calendar/gui/e-calendar-view.c:1822
 msgid "Anniversary"
 msgstr "Évforduló"
 
 #: ../src/addressbook/gui/contact-editor/contact-editor.ui.h:51
 #: ../src/addressbook/gui/widgets/eab-contact-formatter.c:1057
 #: ../src/addressbook/gui/widgets/e-addressbook-view.etspec.h:46
-#: ../src/calendar/gui/e-calendar-view.c:1837
+#: ../src/calendar/gui/e-calendar-view.c:1821
 msgid "Birthday"
 msgstr "Születésnap"
 
@@ -7057,7 +7056,7 @@ msgstr "Leírás tartalma"
 #: ../src/calendar/gui/comp-util.c:1616
 #: ../src/calendar/gui/e-cal-component-preview.c:528
 #: ../src/calendar/importers/icalendar-importer.c:1574
-#: ../src/modules/itip-formatter/itip-view.c:2723
+#: ../src/modules/itip-formatter/itip-view.c:2727
 #, c-format
 msgid "with one guest"
 msgid_plural "with %d guests"
@@ -7123,7 +7122,7 @@ msgstr "Megszakítva"
 #: ../src/calendar/gui/e-meeting-list-view.c:205
 #: ../src/calendar/gui/e-meeting-store.c:179
 #: ../src/calendar/gui/e-meeting-store.c:202
-#: ../src/modules/itip-formatter/itip-view.c:6912
+#: ../src/modules/itip-formatter/itip-view.c:6916
 msgid "Accepted"
 msgstr "Elfogadva"
 
@@ -7131,7 +7130,7 @@ msgstr "Elfogadva"
 #: ../src/calendar/gui/e-meeting-list-view.c:206
 #: ../src/calendar/gui/e-meeting-store.c:181
 #: ../src/calendar/gui/e-meeting-store.c:204
-#: ../src/modules/itip-formatter/itip-view.c:6918
+#: ../src/modules/itip-formatter/itip-view.c:6922
 msgid "Declined"
 msgstr "Elutasítva"
 
@@ -7147,7 +7146,7 @@ msgstr "Feltételes"
 #: ../src/calendar/gui/e-meeting-list-view.c:208
 #: ../src/calendar/gui/e-meeting-store.c:185
 #: ../src/calendar/gui/e-meeting-store.c:208
-#: ../src/modules/itip-formatter/itip-view.c:6921
+#: ../src/modules/itip-formatter/itip-view.c:6925
 msgid "Delegated"
 msgstr "Átruházva"
 
@@ -7243,7 +7242,7 @@ msgstr "Befejezve: %s"
 
 #: ../src/calendar/gui/comp-util.c:2427 ../src/calendar/gui/e-to-do-pane.c:616
 #: ../src/e-util/e-misc-utils.c:4838 ../src/e-util/e-text.c:566
-#: ../src/e-util/e-web-view.c:4201
+#: ../src/e-util/e-web-view.c:4205
 msgid "…"
 msgstr "…"
 
@@ -7469,15 +7468,15 @@ msgid "Untitled"
 msgstr "Névtelen"
 
 #: ../src/calendar/gui/e-cal-component-preview.c:255
-#: ../src/modules/itip-formatter/itip-view.c:1931
-#: ../src/modules/itip-formatter/itip-view.c:2149
+#: ../src/modules/itip-formatter/itip-view.c:1935
+#: ../src/modules/itip-formatter/itip-view.c:2153
 msgid "Categories:"
 msgstr "Kategóriák:"
 
 #: ../src/calendar/gui/e-cal-component-preview.c:293
 #: ../src/modules/cal-config-weather/evolution-cal-config-weather.c:258
-#: ../src/modules/itip-formatter/itip-view.c:1922
-#: ../src/modules/itip-formatter/itip-view.c:2122
+#: ../src/modules/itip-formatter/itip-view.c:1926
+#: ../src/modules/itip-formatter/itip-view.c:2126
 msgid "Location:"
 msgstr "Hely:"
 
@@ -7490,8 +7489,8 @@ msgid "End Date:"
 msgstr "Befejezési dátum:"
 
 #: ../src/calendar/gui/e-cal-component-preview.c:334
-#: ../src/modules/itip-formatter/itip-view.c:1926
-#: ../src/modules/itip-formatter/itip-view.c:2134
+#: ../src/modules/itip-formatter/itip-view.c:1930
+#: ../src/modules/itip-formatter/itip-view.c:2138
 msgid "Recurs:"
 msgstr "Ismétlődő:"
 
@@ -7500,14 +7499,14 @@ msgid "Due Date:"
 msgstr "Határidő:"
 
 #: ../src/calendar/gui/e-cal-component-preview.c:360
-#: ../src/modules/itip-formatter/itip-view.c:1928
-#: ../src/modules/itip-formatter/itip-view.c:2140
+#: ../src/modules/itip-formatter/itip-view.c:1932
+#: ../src/modules/itip-formatter/itip-view.c:2144
 msgid "Estimated duration:"
 msgstr "Becsült időtartam:"
 
 #: ../src/calendar/gui/e-cal-component-preview.c:376
-#: ../src/modules/itip-formatter/itip-view.c:1929
-#: ../src/modules/itip-formatter/itip-view.c:2143
+#: ../src/modules/itip-formatter/itip-view.c:1933
+#: ../src/modules/itip-formatter/itip-view.c:2147
 msgid "Status:"
 msgstr "Állapot:"
 
@@ -7546,8 +7545,8 @@ msgid "Organizer:"
 msgstr "Szervező:"
 
 #: ../src/calendar/gui/e-cal-component-preview.c:464
-#: ../src/modules/itip-formatter/itip-view.c:1932
-#: ../src/modules/itip-formatter/itip-view.c:2152
+#: ../src/modules/itip-formatter/itip-view.c:1936
+#: ../src/modules/itip-formatter/itip-view.c:2156
 msgid "Attendees:"
 msgstr "Résztvevők:"
 
@@ -7716,37 +7715,37 @@ msgstr "Események beillesztése a vágólapról"
 msgid "Delete selected events"
 msgstr "Kijelölt események törlése"
 
-#: ../src/calendar/gui/e-calendar-view.c:940
+#: ../src/calendar/gui/e-calendar-view.c:924
 msgid "Pasted text doesn’t contain valid iCalendar data"
 msgstr "A beillesztett szöveg nem tartalmaz érvényes iCalendar adatot"
 
-#: ../src/calendar/gui/e-calendar-view.c:951
+#: ../src/calendar/gui/e-calendar-view.c:935
 #: ../src/calendar/gui/e-cal-ops.c:1583
 msgid "Default calendar not found"
 msgstr "Az alapértelmezett naptár nem található"
 
-#: ../src/calendar/gui/e-calendar-view.c:956
+#: ../src/calendar/gui/e-calendar-view.c:940
 #: ../src/calendar/gui/e-cal-ops.c:1586
 msgid "Default memo list not found"
 msgstr "Az alapértelmezett feljegyzéslista nem található"
 
-#: ../src/calendar/gui/e-calendar-view.c:961
+#: ../src/calendar/gui/e-calendar-view.c:945
 #: ../src/calendar/gui/e-cal-ops.c:1589
 msgid "Default task list not found"
 msgstr "Az alapértelmezett feladatlista nem található"
 
-#: ../src/calendar/gui/e-calendar-view.c:1053
+#: ../src/calendar/gui/e-calendar-view.c:1037
 msgid "No suitable component found"
 msgstr "Nem található megfelelő komponens"
 
-#: ../src/calendar/gui/e-calendar-view.c:1118
+#: ../src/calendar/gui/e-calendar-view.c:1102
 msgid "Pasting iCalendar data"
 msgstr "iCalendar adatok beillesztése"
 
-#: ../src/calendar/gui/e-calendar-view.c:1175
-#: ../src/calendar/gui/e-calendar-view.c:1178
-#: ../src/calendar/gui/e-calendar-view.c:1181
-#: ../src/calendar/gui/e-calendar-view.c:1182
+#: ../src/calendar/gui/e-calendar-view.c:1159
+#: ../src/calendar/gui/e-calendar-view.c:1162
+#: ../src/calendar/gui/e-calendar-view.c:1165
+#: ../src/calendar/gui/e-calendar-view.c:1166
 msgid "%d %b %Y"
 msgstr "%Y. %b. %-d."
 
@@ -7755,14 +7754,14 @@ msgstr "%Y. %b. %-d."
 #. strftime format %d = day of month, %b = abbreviated
 #. * month name. You can change the order but don't
 #. * change the specifiers or add anything.
-#: ../src/calendar/gui/e-calendar-view.c:1177
+#: ../src/calendar/gui/e-calendar-view.c:1161
 #: ../src/calendar/gui/e-day-view.c:3274
 #: ../src/calendar/gui/e-day-view-top-item.c:856
 #: ../src/calendar/gui/e-week-view-main-item.c:230
 msgid "%d %b"
 msgstr "%b %d"
 
-#: ../src/calendar/gui/e-calendar-view.c:1188
+#: ../src/calendar/gui/e-calendar-view.c:1172
 msgid "%A %d %b %Y"
 msgstr "%Y. %b. %-d. %A"
 
@@ -7772,16 +7771,16 @@ msgstr "%Y. %b. %-d. %A"
 #. * %d = day of month, %b = abbreviated month name.
 #. * You can change the order but don't change the
 #. * specifiers or add anything.
-#: ../src/calendar/gui/e-calendar-view.c:1190
+#: ../src/calendar/gui/e-calendar-view.c:1174
 #: ../src/calendar/gui/e-day-view.c:3258
 #: ../src/calendar/gui/e-day-view-top-item.c:852
 #: ../src/calendar/gui/e-week-view-main-item.c:216
 msgid "%a %d %b"
 msgstr "%b %d %a"
 
-#: ../src/calendar/gui/e-calendar-view.c:1191
-#: ../src/calendar/gui/e-calendar-view.c:1193
-#: ../src/calendar/gui/e-calendar-view.c:1194
+#: ../src/calendar/gui/e-calendar-view.c:1175
+#: ../src/calendar/gui/e-calendar-view.c:1177
+#: ../src/calendar/gui/e-calendar-view.c:1178
 msgid "%a %d %b %Y"
 msgstr "%Y. %b. %-d. %a."
 
@@ -7789,7 +7788,7 @@ msgstr "%Y. %b. %-d. %a."
 #. The string is used for Birthday & Anniversary events where the first year is
 #. know, constructing a summary which also shows how many years the birthday or
 #. anniversary is for. Example: "Birthday: John Doe (13)"
-#: ../src/calendar/gui/e-calendar-view.c:1857
+#: ../src/calendar/gui/e-calendar-view.c:1841
 #, c-format
 msgctxt "BirthdaySummary"
 msgid "%s (%d)"
@@ -7858,8 +7857,8 @@ msgstr "Típus"
 #: ../src/calendar/gui/e-meeting-store.c:170
 #: ../src/calendar/gui/e-meeting-store.c:215 ../src/calendar/gui/print.c:1291
 #: ../src/calendar/gui/print.c:1308 ../src/e-util/e-charset.c:49
-#: ../src/modules/itip-formatter/itip-view.c:3839
-#: ../src/modules/itip-formatter/itip-view.c:6924
+#: ../src/modules/itip-formatter/itip-view.c:3843
+#: ../src/modules/itip-formatter/itip-view.c:6928
 #: ../src/modules/plugin-manager/evolution-plugin-manager.c:97
 msgid "Unknown"
 msgstr "Ismeretlen"
@@ -12071,8 +12070,9 @@ msgid "S/MIME En_crypt"
 msgstr "_S/MIME-titkosítás"
 
 #: ../src/composer/e-composer-actions.c:476
-msgid "Encrypt this message with your S/MIME Encryption Certificate"
-msgstr "Ezen üzenet titkosítása az Ön S/MIME titkosítási tanúsítványával"
+#| msgid "Encrypt this message with PGP"
+msgid "Encrypt this message with S/MIME"
+msgstr "Üzenet titkosítása S/MIME-mal"
 
 #: ../src/composer/e-composer-actions.c:482
 msgid "S/MIME Sig_n"
@@ -15830,7 +15830,6 @@ msgid "Open online common mark documentation"
 msgstr "Az interneten lévő közös jelölés dokumentációjának megnyitása"
 
 #: ../src/e-util/e-markdown-editor.c:1598
-#| msgid "Show preview pane"
 msgid "Show preview beside text"
 msgstr "Előnézet megjelenítése a szöveg mellett"
 
@@ -17040,20 +17039,20 @@ msgstr "A kijelölt szöveg keresése a világhálón"
 msgid "Select all text and images"
 msgstr "Az összes szöveg és kép kijelölése az üzenetben"
 
-#: ../src/e-util/e-web-view.c:3825
+#: ../src/e-util/e-web-view.c:3829
 msgid "Copying image to clipboard"
 msgstr "Kép másolása a vágólapra"
 
-#: ../src/e-util/e-web-view.c:4013
+#: ../src/e-util/e-web-view.c:4017
 msgid "Save Image"
 msgstr "Kép mentése"
 
-#: ../src/e-util/e-web-view.c:4050
+#: ../src/e-util/e-web-view.c:4054
 #, c-format
 msgid "Saving image to “%s”"
 msgstr "Kép mentése ide: „%s”"
 
-#: ../src/e-util/e-web-view.c:4205
+#: ../src/e-util/e-web-view.c:4209
 #, c-format
 msgid "Cannot get URI “%s”, do not know how to download it."
 msgstr ""
@@ -17407,40 +17406,40 @@ msgstr "Elküldött"
 msgid "Templates"
 msgstr "Sablonok"
 
-#: ../src/libemail-engine/e-mail-session.c:1505
+#: ../src/libemail-engine/e-mail-session.c:1511
 #, c-format
 msgid "User cancelled operation"
 msgstr "A felhasználó megszakította a műveletet"
 
-#: ../src/libemail-engine/e-mail-session.c:1739
+#: ../src/libemail-engine/e-mail-session.c:1745
 #, c-format
 msgid ""
 "No destination address provided, forwarding of the message has been "
 "cancelled."
 msgstr "Nincs megadva a cél cím, az üzenet továbbítása megszakítva."
 
-#: ../src/libemail-engine/e-mail-session.c:1759
+#: ../src/libemail-engine/e-mail-session.c:1765
 #, c-format
 msgid "No identity found to use, forwarding of the message has been cancelled."
 msgstr ""
 "Nem található használható személyazonosság, az üzenet továbbítása "
 "megszakítva."
 
-#: ../src/libemail-engine/e-mail-session.c:1967
+#: ../src/libemail-engine/e-mail-session.c:1973
 #, c-format
 msgid "Corresponding source for service with UID “%s” not found"
 msgstr ""
 "Nem található a(z) „%s” UID-val rendelkező szolgáltatáshoz megfelelő forrás"
 
-#: ../src/libemail-engine/e-mail-session.c:2087
+#: ../src/libemail-engine/e-mail-session.c:2093
 msgid "Looking up recipient S/MIME certificates in address books…"
 msgstr "A címzett S/MIME tanúsítványainak kikeresése a címjegyzékekből…"
 
-#: ../src/libemail-engine/e-mail-session.c:2089
+#: ../src/libemail-engine/e-mail-session.c:2095
 msgid "Looking up recipient PGP keys in address books…"
 msgstr "A címzett PGP kulcsainak kikeresése a címjegyzékekből…"
 
-#: ../src/libemail-engine/e-mail-session.c:3136
+#: ../src/libemail-engine/e-mail-session.c:3142
 #, c-format
 msgid "Waiting for “%s”"
 msgstr "Várakozás a következőre: „%s”"
@@ -22909,8 +22908,8 @@ msgstr "Válasszon egy címjegyzéket"
 #: ../src/modules/cal-config-webcal/evolution-cal-config-webcal.c:102
 #: ../src/modules/cal-config-webdav-notes/evolution-cal-config-webdav-notes.c:239
 #: ../src/modules/cal-config-webdav-notes/evolution-cal-config-webdav-notes.c:260
-#: ../src/modules/itip-formatter/itip-view.c:1923
-#: ../src/modules/itip-formatter/itip-view.c:2125
+#: ../src/modules/itip-formatter/itip-view.c:1927
+#: ../src/modules/itip-formatter/itip-view.c:2129
 msgid "URL:"
 msgstr "URL:"
 
@@ -23972,7 +23971,7 @@ msgid "Accept meeting request for selected instance only"
 msgstr "Találkozó-összehívás elfogadása csak a kijelölt előfordulásnál"
 
 #: ../src/modules/calendar/e-cal-shell-view-actions.c:1523
-#: ../src/modules/itip-formatter/itip-view.c:1277
+#: ../src/modules/itip-formatter/itip-view.c:1281
 msgid "_Decline"
 msgstr "_Elutasítás"
 
@@ -24845,63 +24844,68 @@ msgstr "%s (%s)"
 
 #: ../src/modules/itip-formatter/itip-view.c:476
 #: ../src/modules/itip-formatter/itip-view.c:477
-#: ../src/modules/itip-formatter/itip-view.c:566
-#: ../src/modules/itip-formatter/itip-view.c:567
-#: ../src/modules/itip-formatter/itip-view.c:656
+#: ../src/modules/itip-formatter/itip-view.c:570
+#: ../src/modules/itip-formatter/itip-view.c:571
+#: ../src/modules/itip-formatter/itip-view.c:660
 msgid "An unknown person"
 msgstr "Ismeretlen személy"
 
 #: ../src/modules/itip-formatter/itip-view.c:481
-#: ../src/modules/itip-formatter/itip-view.c:571
-#: ../src/modules/itip-formatter/itip-view.c:660
+#: ../src/modules/itip-formatter/itip-view.c:575
+#: ../src/modules/itip-formatter/itip-view.c:664
 #, c-format
 msgid "Please respond on behalf of %s"
 msgstr "Válaszoljon %s nevében"
 
 #: ../src/modules/itip-formatter/itip-view.c:483
-#: ../src/modules/itip-formatter/itip-view.c:573
-#: ../src/modules/itip-formatter/itip-view.c:662
+#: ../src/modules/itip-formatter/itip-view.c:577
+#: ../src/modules/itip-formatter/itip-view.c:666
 #, c-format
 msgid "Received on behalf of %s"
 msgstr "Fogadva %s nevében"
 
-#: ../src/modules/itip-formatter/itip-view.c:488
+#: ../src/modules/itip-formatter/itip-view.c:489
 #, c-format
 msgid "%s through %s has published the following meeting information:"
 msgstr "%s %s közvetítésével a következő találkozóinformációkat tette közzé:"
 
-#: ../src/modules/itip-formatter/itip-view.c:490
+#: ../src/modules/itip-formatter/itip-view.c:491
 #, c-format
 msgid "%s has published the following meeting information:"
 msgstr "%s a következő találkozóinformációkat tette közzé:"
 
-#: ../src/modules/itip-formatter/itip-view.c:495
+#: ../src/modules/itip-formatter/itip-view.c:493
+#| msgid "%s has published the following meeting information:"
+msgid "The following meeting information has been published:"
+msgstr "A következő találkozóinformációk közzé lettek téve:"
+
+#: ../src/modules/itip-formatter/itip-view.c:499
 #, c-format
 msgid "%s has delegated the following meeting to you:"
 msgstr "%s átruházta Önre a következő találkozót:"
 
-#: ../src/modules/itip-formatter/itip-view.c:498
+#: ../src/modules/itip-formatter/itip-view.c:502
 #, c-format
 msgid "%s through %s requests your presence at the following meeting:"
 msgstr ""
 "%s %s közvetítésével arra kéri, hogy vegyen részt a következő találkozón:"
 
-#: ../src/modules/itip-formatter/itip-view.c:500
+#: ../src/modules/itip-formatter/itip-view.c:504
 #, c-format
 msgid "%s requests your presence at the following meeting:"
 msgstr "%s arra kéri, hogy vegyen részt a következő találkozón:"
 
-#: ../src/modules/itip-formatter/itip-view.c:506
+#: ../src/modules/itip-formatter/itip-view.c:510
 #, c-format
 msgid "%s through %s wishes to add to an existing meeting:"
 msgstr "%s %s közvetítésével szeretné Önt hozzáadni egy létező találkozóhoz:"
 
-#: ../src/modules/itip-formatter/itip-view.c:508
+#: ../src/modules/itip-formatter/itip-view.c:512
 #, c-format
 msgid "%s wishes to add to an existing meeting:"
 msgstr "%s szeretné Önt hozzáadni egy létező találkozóhoz:"
 
-#: ../src/modules/itip-formatter/itip-view.c:512
+#: ../src/modules/itip-formatter/itip-view.c:516
 #, c-format
 msgid ""
 "%s through %s wishes to receive the latest information for the following "
@@ -24910,89 +24914,89 @@ msgstr ""
 "%s %s közvetítésével szeretné megkapni a legújabb információkat a következő "
 "találkozóról:"
 
-#: ../src/modules/itip-formatter/itip-view.c:514
+#: ../src/modules/itip-formatter/itip-view.c:518
 #, c-format
 msgid "%s wishes to receive the latest information for the following meeting:"
 msgstr ""
 "%s szeretné megkapni a legújabb információkat a következő találkozóról:"
 
-#: ../src/modules/itip-formatter/itip-view.c:518
+#: ../src/modules/itip-formatter/itip-view.c:522
 #, c-format
 msgid "%s through %s has sent back the following meeting response:"
 msgstr "%s %s közvetítésével a következő találkozóválaszt küldte vissza:"
 
-#: ../src/modules/itip-formatter/itip-view.c:520
+#: ../src/modules/itip-formatter/itip-view.c:524
 #, c-format
 msgid "%s has sent back the following meeting response:"
 msgstr "%s a következő találkozóválaszt küldte vissza:"
 
-#: ../src/modules/itip-formatter/itip-view.c:524
+#: ../src/modules/itip-formatter/itip-view.c:528
 #, c-format
 msgid "%s through %s has cancelled the following meeting:"
 msgstr "%s %s közvetítésével lemondta a következő találkozót:"
 
-#: ../src/modules/itip-formatter/itip-view.c:526
+#: ../src/modules/itip-formatter/itip-view.c:530
 #, c-format
 msgid "%s has cancelled the following meeting:"
 msgstr "%s lemondta a következő találkozót:"
 
-#: ../src/modules/itip-formatter/itip-view.c:530
+#: ../src/modules/itip-formatter/itip-view.c:534
 #, c-format
 msgid "%s through %s has proposed the following meeting changes."
 msgstr "%s %s közvetítésével a következő találkozóváltoztatásokat javasolja."
 
-#: ../src/modules/itip-formatter/itip-view.c:532
+#: ../src/modules/itip-formatter/itip-view.c:536
 #, c-format
 msgid "%s has proposed the following meeting changes:"
 msgstr "%s a következő találkozóváltoztatásokat javasolja:"
 
-#: ../src/modules/itip-formatter/itip-view.c:536
+#: ../src/modules/itip-formatter/itip-view.c:540
 #, c-format
 msgid "%s through %s has declined the following meeting changes:"
 msgstr ""
 "%s %s közvetítésével elutasította a következő találkozóváltoztatásokat:"
 
-#: ../src/modules/itip-formatter/itip-view.c:538
+#: ../src/modules/itip-formatter/itip-view.c:542
 #, c-format
 msgid "%s has declined the following meeting changes:"
 msgstr "%s elutasította a következő találkozóváltoztatásokat:"
 
-#: ../src/modules/itip-formatter/itip-view.c:578
+#: ../src/modules/itip-formatter/itip-view.c:582
 #, c-format
 msgid "%s through %s has published the following task:"
 msgstr "%s %s közvetítésével a következő feladatot tette közzé:"
 
-#: ../src/modules/itip-formatter/itip-view.c:580
+#: ../src/modules/itip-formatter/itip-view.c:584
 #, c-format
 msgid "%s has published the following task:"
 msgstr "%s a következő feladatot tette közzé:"
 
-#: ../src/modules/itip-formatter/itip-view.c:585
+#: ../src/modules/itip-formatter/itip-view.c:589
 #, c-format
 msgid "%s requests the assignment of %s to the following task:"
 msgstr "%s kéri %s megbízását a következő feladattal:"
 
-#: ../src/modules/itip-formatter/itip-view.c:588
+#: ../src/modules/itip-formatter/itip-view.c:592
 #, c-format
 msgid "%s through %s has assigned you a task:"
 msgstr "%s %s közvetítésével megbízta Önt egy feladattal:"
 
-#: ../src/modules/itip-formatter/itip-view.c:590
+#: ../src/modules/itip-formatter/itip-view.c:594
 #, c-format
 msgid "%s has assigned you a task:"
 msgstr "%s megbízta Önt egy feladattal:"
 
-#: ../src/modules/itip-formatter/itip-view.c:596
+#: ../src/modules/itip-formatter/itip-view.c:600
 #, c-format
 msgid "%s through %s wishes to add to an existing task:"
 msgstr "%s %s közvetítésével szeretné hozzáadni egy létező feladathoz:"
 
-#: ../src/modules/itip-formatter/itip-view.c:598
+#: ../src/modules/itip-formatter/itip-view.c:602
 #, c-format
 msgid "%s wishes to add to an existing task:"
 msgstr "%s szeretné hozzáadni egy létező feladathoz:"
 
-#: ../src/modules/itip-formatter/itip-view.c:602
+#: ../src/modules/itip-formatter/itip-view.c:606
 #, c-format
 msgid ""
 "%s through %s wishes to receive the latest information for the following "
@@ -25001,7 +25005,7 @@ msgstr ""
 "%s %s közvetítésével szeretné megkapni a legújabb információkat a következő "
 "kiosztott feladatról:"
 
-#: ../src/modules/itip-formatter/itip-view.c:604
+#: ../src/modules/itip-formatter/itip-view.c:608
 #, c-format
 msgid ""
 "%s wishes to receive the latest information for the following assigned task:"
@@ -25009,223 +25013,223 @@ msgstr ""
 "%s szeretné megkapni a legújabb információkat a következő kiosztott "
 "feladatról:"
 
-#: ../src/modules/itip-formatter/itip-view.c:608
+#: ../src/modules/itip-formatter/itip-view.c:612
 #, c-format
 msgid "%s through %s has sent back the following assigned task response:"
 msgstr ""
 "%s %s közvetítésével a következő választ küldte vissza a kiosztott "
 "feladatról:"
 
-#: ../src/modules/itip-formatter/itip-view.c:610
+#: ../src/modules/itip-formatter/itip-view.c:614
 #, c-format
 msgid "%s has sent back the following assigned task response:"
 msgstr "%s a következő választ küldte vissza a kiosztott feladatról:"
 
-#: ../src/modules/itip-formatter/itip-view.c:614
+#: ../src/modules/itip-formatter/itip-view.c:618
 #, c-format
 msgid "%s through %s has cancelled the following assigned task:"
 msgstr "%s %s közvetítésével törölte a következő kiosztott feladatot:"
 
-#: ../src/modules/itip-formatter/itip-view.c:616
+#: ../src/modules/itip-formatter/itip-view.c:620
 #, c-format
 msgid "%s has cancelled the following assigned task:"
 msgstr "%s törölte a következő kiosztott feladatot:"
 
-#: ../src/modules/itip-formatter/itip-view.c:620
+#: ../src/modules/itip-formatter/itip-view.c:624
 #, c-format
 msgid "%s through %s has proposed the following task assignment changes:"
 msgstr ""
 "%s %s közvetítésével a következő változtatásokat javasolja a feladatok "
 "kiosztásában:"
 
-#: ../src/modules/itip-formatter/itip-view.c:622
+#: ../src/modules/itip-formatter/itip-view.c:626
 #, c-format
 msgid "%s has proposed the following task assignment changes:"
 msgstr "%s a következő változtatásokat javasolja a feladatok kiosztásában:"
 
-#: ../src/modules/itip-formatter/itip-view.c:626
+#: ../src/modules/itip-formatter/itip-view.c:630
 #, c-format
 msgid "%s through %s has declined the following assigned task:"
 msgstr "%s %s közvetítésével elutasította a következő kiosztott feladatot:"
 
-#: ../src/modules/itip-formatter/itip-view.c:628
+#: ../src/modules/itip-formatter/itip-view.c:632
 #, c-format
 msgid "%s has declined the following assigned task:"
 msgstr "%s elutasította a következő kiosztott feladatot:"
 
-#: ../src/modules/itip-formatter/itip-view.c:667
+#: ../src/modules/itip-formatter/itip-view.c:671
 #, c-format
 msgid "%s through %s has published the following memo:"
 msgstr "%s %s közvetítésével a következő feljegyzést tette közzé:"
 
-#: ../src/modules/itip-formatter/itip-view.c:669
+#: ../src/modules/itip-formatter/itip-view.c:673
 #, c-format
 msgid "%s has published the following memo:"
 msgstr "%s a következő feljegyzést tette közzé:"
 
-#: ../src/modules/itip-formatter/itip-view.c:674
+#: ../src/modules/itip-formatter/itip-view.c:678
 #, c-format
 msgid "%s through %s wishes to add to an existing memo:"
 msgstr "%s %s közvetítésével szeretné Önt hozzáadni egy létező feljegyzéshez:"
 
-#: ../src/modules/itip-formatter/itip-view.c:676
+#: ../src/modules/itip-formatter/itip-view.c:680
 #, c-format
 msgid "%s wishes to add to an existing memo:"
 msgstr "%s szeretné Önt hozzáadni egy létező feljegyzéshez:"
 
-#: ../src/modules/itip-formatter/itip-view.c:680
+#: ../src/modules/itip-formatter/itip-view.c:684
 #, c-format
 msgid "%s through %s has cancelled the following shared memo:"
 msgstr "%s %s közvetítésével törölte a következő megosztott feljegyzést:"
 
-#: ../src/modules/itip-formatter/itip-view.c:682
+#: ../src/modules/itip-formatter/itip-view.c:686
 #, c-format
 msgid "%s has cancelled the following shared memo:"
 msgstr "%s törölte a következő megosztott feljegyzést:"
 
-#: ../src/modules/itip-formatter/itip-view.c:880
+#: ../src/modules/itip-formatter/itip-view.c:884
 msgid "All day:"
 msgstr "Egész nap:"
 
-#: ../src/modules/itip-formatter/itip-view.c:886
+#: ../src/modules/itip-formatter/itip-view.c:890
 msgid "Start day:"
 msgstr "Kezdés napja:"
 
-#: ../src/modules/itip-formatter/itip-view.c:886
-#: ../src/modules/itip-formatter/itip-view.c:1924
+#: ../src/modules/itip-formatter/itip-view.c:890
+#: ../src/modules/itip-formatter/itip-view.c:1928
 msgid "Start time:"
 msgstr "Kezdés időpontja:"
 
-#: ../src/modules/itip-formatter/itip-view.c:895
+#: ../src/modules/itip-formatter/itip-view.c:899
 msgid "End day:"
 msgstr "Befejezés napja:"
 
-#: ../src/modules/itip-formatter/itip-view.c:895
-#: ../src/modules/itip-formatter/itip-view.c:1925
+#: ../src/modules/itip-formatter/itip-view.c:899
+#: ../src/modules/itip-formatter/itip-view.c:1929
 msgid "End time:"
 msgstr "Befejezés időpontja:"
 
-#: ../src/modules/itip-formatter/itip-view.c:1271
+#: ../src/modules/itip-formatter/itip-view.c:1275
 msgid "Ope_n Calendar"
 msgstr "Na_ptár megnyitása"
 
-#: ../src/modules/itip-formatter/itip-view.c:1274
+#: ../src/modules/itip-formatter/itip-view.c:1278
 msgid "_Decline all"
 msgstr "Összes el_utasítása"
 
-#: ../src/modules/itip-formatter/itip-view.c:1280
+#: ../src/modules/itip-formatter/itip-view.c:1284
 msgid "_Tentative all"
 msgstr "Összes f_eltételes"
 
-#: ../src/modules/itip-formatter/itip-view.c:1283
+#: ../src/modules/itip-formatter/itip-view.c:1287
 msgid "_Tentative"
 msgstr "_Feltételes"
 
-#: ../src/modules/itip-formatter/itip-view.c:1286
+#: ../src/modules/itip-formatter/itip-view.c:1290
 msgid "Acce_pt all"
 msgstr "Összes _elfogadása"
 
-#: ../src/modules/itip-formatter/itip-view.c:1289
+#: ../src/modules/itip-formatter/itip-view.c:1293
 msgid "Acce_pt"
 msgstr "Elf_ogadás"
 
-#: ../src/modules/itip-formatter/itip-view.c:1292
+#: ../src/modules/itip-formatter/itip-view.c:1296
 msgid "Send _Information"
 msgstr "Információk kül_dése"
 
-#: ../src/modules/itip-formatter/itip-view.c:1295
+#: ../src/modules/itip-formatter/itip-view.c:1299
 msgid "_Update Attendee Status"
 msgstr "_Résztvevő állapotának frissítése"
 
-#: ../src/modules/itip-formatter/itip-view.c:1298
+#: ../src/modules/itip-formatter/itip-view.c:1302
 #: ../src/smime/gui/certificate-manager.c:1607
 msgid "_Update"
 msgstr "_Frissítés"
 
-#: ../src/modules/itip-formatter/itip-view.c:1301
+#: ../src/modules/itip-formatter/itip-view.c:1305
 msgid "Im_port"
 msgstr "Im_portálás"
 
-#: ../src/modules/itip-formatter/itip-view.c:1927
-#: ../src/modules/itip-formatter/itip-view.c:2137
-#: ../src/modules/itip-formatter/itip-view.c:7241
+#: ../src/modules/itip-formatter/itip-view.c:1931
+#: ../src/modules/itip-formatter/itip-view.c:2141
+#: ../src/modules/itip-formatter/itip-view.c:7245
 msgid "Due date:"
 msgstr "Határidő:"
 
-#: ../src/modules/itip-formatter/itip-view.c:1930
-#: ../src/modules/itip-formatter/itip-view.c:2063
-#: ../src/modules/itip-formatter/itip-view.c:2146
+#: ../src/modules/itip-formatter/itip-view.c:1934
+#: ../src/modules/itip-formatter/itip-view.c:2067
+#: ../src/modules/itip-formatter/itip-view.c:2150
 msgid "Comment:"
 msgstr "Megjegyzés:"
 
-#: ../src/modules/itip-formatter/itip-view.c:1962
+#: ../src/modules/itip-formatter/itip-view.c:1966
 msgid "Show description provided by the sender"
 msgstr "A küldő által biztosított leírás megjelenítése"
 
-#: ../src/modules/itip-formatter/itip-view.c:1963
+#: ../src/modules/itip-formatter/itip-view.c:1967
 msgid "Hide description provided by the sender"
 msgstr "A küldő által biztosított leírás elrejtése"
 
 #. RSVP area
-#: ../src/modules/itip-formatter/itip-view.c:2051
+#: ../src/modules/itip-formatter/itip-view.c:2055
 msgid "Send reply to sender"
 msgstr "Válasz küldése a feladónak"
 
 #. Updates
-#: ../src/modules/itip-formatter/itip-view.c:2066
+#: ../src/modules/itip-formatter/itip-view.c:2070
 msgid "Send _updates to attendees"
 msgstr "_Frissítések küldése a résztvevőknek"
 
 #. The recurrence check button
-#: ../src/modules/itip-formatter/itip-view.c:2069
+#: ../src/modules/itip-formatter/itip-view.c:2073
 msgid "_Apply to all instances"
 msgstr "Alkalmazás min_den előfordulásra"
 
-#: ../src/modules/itip-formatter/itip-view.c:2070
+#: ../src/modules/itip-formatter/itip-view.c:2074
 msgid "Show time as _free"
 msgstr "Megjelenítés _szabadként"
 
-#: ../src/modules/itip-formatter/itip-view.c:2071
+#: ../src/modules/itip-formatter/itip-view.c:2075
 msgid "_Preserve my reminder"
 msgstr "_Emlékeztető megőrzése"
 
-#: ../src/modules/itip-formatter/itip-view.c:2072
+#: ../src/modules/itip-formatter/itip-view.c:2076
 msgid "_Inherit reminder"
 msgstr "E_mlékeztető öröklése"
 
-#: ../src/modules/itip-formatter/itip-view.c:2315
+#: ../src/modules/itip-formatter/itip-view.c:2319
 msgid "_Tasks:"
 msgstr "Felada_tok:"
 
-#: ../src/modules/itip-formatter/itip-view.c:2318
+#: ../src/modules/itip-formatter/itip-view.c:2322
 msgid "_Memos:"
 msgstr "_Feljegyzések:"
 
-#: ../src/modules/itip-formatter/itip-view.c:3387
+#: ../src/modules/itip-formatter/itip-view.c:3391
 msgid "Sa_ve"
 msgstr "_Mentés"
 
-#: ../src/modules/itip-formatter/itip-view.c:3915
-#: ../src/modules/itip-formatter/itip-view.c:5702
+#: ../src/modules/itip-formatter/itip-view.c:3919
+#: ../src/modules/itip-formatter/itip-view.c:5706
 msgid "Attendee status updated"
 msgstr "A résztvevő állapota frissítve"
 
-#: ../src/modules/itip-formatter/itip-view.c:4152
+#: ../src/modules/itip-formatter/itip-view.c:4156
 #, c-format
 msgid "An appointment “%s” in the calendar “%s” conflicts with this meeting"
 msgstr "A(z) „%2$s” naptár „%1$s” értekezlete ütközik ezzel a találkozóval"
 
-#: ../src/modules/itip-formatter/itip-view.c:4159
+#: ../src/modules/itip-formatter/itip-view.c:4163
 #, c-format
 msgid "A task “%s” in the task list “%s” conflicts with this task"
 msgstr "A(z) „%2$s” naptár „%1$s” feladata ütközik ezzel a feladattal"
 
-#: ../src/modules/itip-formatter/itip-view.c:4166
+#: ../src/modules/itip-formatter/itip-view.c:4170
 #, c-format
 msgid "A memo “%s” in the memo list “%s” conflicts with this memo"
 msgstr "A(z) „%2$s” naptár „%1$s” feljegyzése ütközik ezzel a feljegyzéssel"
 
-#: ../src/modules/itip-formatter/itip-view.c:4179
+#: ../src/modules/itip-formatter/itip-view.c:4183
 #, c-format
 msgid ""
 "The calendar “%s” contains an appointment which conflicts with this meeting"
@@ -25234,7 +25238,7 @@ msgid_plural ""
 msgstr[0] "A(z) „%s” naptár egyik értekezlete ütközik ezzel a találkozóval"
 msgstr[1] "A(z) „%s” naptár %d értekezlete ütközik ezzel a találkozóval"
 
-#: ../src/modules/itip-formatter/itip-view.c:4188
+#: ../src/modules/itip-formatter/itip-view.c:4192
 #, c-format
 msgid "The task list “%s” contains a task which conflicts with this task"
 msgid_plural ""
@@ -25242,7 +25246,7 @@ msgid_plural ""
 msgstr[0] "A(z) „%s” feladatlista egyik feladata ütközik ezzel a feladattal"
 msgstr[1] "A(z) „%s” feladatlista %d feladata ütközik ezzel a feladattal"
 
-#: ../src/modules/itip-formatter/itip-view.c:4197
+#: ../src/modules/itip-formatter/itip-view.c:4201
 #, c-format
 msgid "The memo list “%s” contains a memo which conflicts with this memo"
 msgid_plural ""
@@ -25252,236 +25256,236 @@ msgstr[0] ""
 msgstr[1] ""
 "A(z) „%s” feljegyzéslista %d feljegyzése ütközik ezzel a feljegyzéssel"
 
-#: ../src/modules/itip-formatter/itip-view.c:4235
+#: ../src/modules/itip-formatter/itip-view.c:4239
 #, c-format
 msgid "Found the appointment in the calendar “%s”"
 msgstr "Az értekezlet megtalálható a(z) „%s” naptárban"
 
-#: ../src/modules/itip-formatter/itip-view.c:4240
+#: ../src/modules/itip-formatter/itip-view.c:4244
 #, c-format
 msgid "Found the task in the task list “%s”"
 msgstr "A feladat megtalálható a(z) „%s” feladatlistában"
 
-#: ../src/modules/itip-formatter/itip-view.c:4245
+#: ../src/modules/itip-formatter/itip-view.c:4249
 #, c-format
 msgid "Found the memo in the memo list “%s”"
 msgstr "A feljegyzés megtalálható a(z) „%s” feljegyzéslistában"
 
-#: ../src/modules/itip-formatter/itip-view.c:4256
+#: ../src/modules/itip-formatter/itip-view.c:4260
 msgid "This meeting invitation is obsolete. It had been updated."
 msgstr "A találkozómeghívó elavult. Frissítve lett."
 
-#: ../src/modules/itip-formatter/itip-view.c:4401
+#: ../src/modules/itip-formatter/itip-view.c:4405
 msgid "Unable to find any calendars"
 msgstr "Nem található egyetlen naptár sem"
 
-#: ../src/modules/itip-formatter/itip-view.c:4409
+#: ../src/modules/itip-formatter/itip-view.c:4413
 msgid "Unable to find this meeting in any calendar"
 msgstr "Ez a találkozó nem található egyik naptárban sem"
 
-#: ../src/modules/itip-formatter/itip-view.c:4414
+#: ../src/modules/itip-formatter/itip-view.c:4418
 msgid "Unable to find this task in any task list"
 msgstr "A feladat nem található meg egyetlen feladatlistában sem"
 
-#: ../src/modules/itip-formatter/itip-view.c:4419
+#: ../src/modules/itip-formatter/itip-view.c:4423
 msgid "Unable to find this memo in any memo list"
 msgstr "A feljegyzés nem található meg egyetlen feljegyzéslistában sem"
 
-#: ../src/modules/itip-formatter/itip-view.c:4732
+#: ../src/modules/itip-formatter/itip-view.c:4736
 msgid "Searching for an existing version of this appointment"
 msgstr "Ezen értekezlet egy létező változatának keresése"
 
-#: ../src/modules/itip-formatter/itip-view.c:4736
+#: ../src/modules/itip-formatter/itip-view.c:4740
 msgid "Searching for an existing version of this task"
 msgstr "Ezen találkozó egy meglévő változatának keresése"
 
-#: ../src/modules/itip-formatter/itip-view.c:4740
+#: ../src/modules/itip-formatter/itip-view.c:4744
 msgid "Searching for an existing version of this memo"
 msgstr "Ezen feljegyzés egy meglévő változatának keresése"
 
-#: ../src/modules/itip-formatter/itip-view.c:4798
+#: ../src/modules/itip-formatter/itip-view.c:4802
 msgid "Opening the calendar. Please wait…"
 msgstr "Naptár megnyitása, kis türelmet…"
 
-#: ../src/modules/itip-formatter/itip-view.c:5148
+#: ../src/modules/itip-formatter/itip-view.c:5152
 #, c-format
 msgid "Unable to send item to calendar “%s”. %s"
 msgstr "Nem küldhető el az elem a(z) „%s” naptárnak. %s"
 
-#: ../src/modules/itip-formatter/itip-view.c:5156
+#: ../src/modules/itip-formatter/itip-view.c:5160
 #, c-format
 msgid "Unable to send item to task list “%s”. %s"
 msgstr "Nem küldhető el az elem a(z) „%s” feladatlistának. %s"
 
-#: ../src/modules/itip-formatter/itip-view.c:5164
+#: ../src/modules/itip-formatter/itip-view.c:5168
 #, c-format
 msgid "Unable to send item to memo list “%s”. %s"
 msgstr "Nem küldhető el az elem a(z) „%s” feljegyzéslistának. %s"
 
-#: ../src/modules/itip-formatter/itip-view.c:5185
+#: ../src/modules/itip-formatter/itip-view.c:5189
 #, c-format
 msgid "Sent to calendar “%s” as accepted"
 msgstr "Elküldve a(z) „%s” naptárnak elfogadottként"
 
-#: ../src/modules/itip-formatter/itip-view.c:5190
+#: ../src/modules/itip-formatter/itip-view.c:5194
 #, c-format
 msgid "Sent to task list “%s” as accepted"
 msgstr "Elküldve a(z) „%s” feladatlistának elfogadottként"
 
-#: ../src/modules/itip-formatter/itip-view.c:5195
+#: ../src/modules/itip-formatter/itip-view.c:5199
 #, c-format
 msgid "Sent to memo list “%s” as accepted"
 msgstr "Elküldve a(z) „%s” feljegyzéslistának elfogadottként"
 
-#: ../src/modules/itip-formatter/itip-view.c:5205
+#: ../src/modules/itip-formatter/itip-view.c:5209
 #, c-format
 msgid "Sent to calendar “%s” as tentative"
 msgstr "Elküldve a(z) „%s” naptárnak feltételesként"
 
-#: ../src/modules/itip-formatter/itip-view.c:5210
+#: ../src/modules/itip-formatter/itip-view.c:5214
 #, c-format
 msgid "Sent to task list “%s” as tentative"
 msgstr "Elküldve a(z) „%s” feladatlistának feltételesként"
 
-#: ../src/modules/itip-formatter/itip-view.c:5215
+#: ../src/modules/itip-formatter/itip-view.c:5219
 #, c-format
 msgid "Sent to memo list “%s” as tentative"
 msgstr "Elküldve a(z) „%s” feljegyzéslistának feltételesként"
 
-#: ../src/modules/itip-formatter/itip-view.c:5225
+#: ../src/modules/itip-formatter/itip-view.c:5229
 #, c-format
 msgid "Sent to calendar “%s” as declined"
 msgstr "Elküldve a(z) „%s” naptárnak elutasítottként"
 
-#: ../src/modules/itip-formatter/itip-view.c:5230
+#: ../src/modules/itip-formatter/itip-view.c:5234
 #, c-format
 msgid "Sent to task list “%s” as declined"
 msgstr "Elküldve a(z) „%s” feladatlistának elutasítottként"
 
-#: ../src/modules/itip-formatter/itip-view.c:5235
+#: ../src/modules/itip-formatter/itip-view.c:5239
 #, c-format
 msgid "Sent to memo list “%s” as declined"
 msgstr "Elküldve a(z) „%s” feljegyzéslistának elutasítottként"
 
-#: ../src/modules/itip-formatter/itip-view.c:5245
+#: ../src/modules/itip-formatter/itip-view.c:5249
 #, c-format
 msgid "Sent to calendar “%s” as cancelled"
 msgstr "Elküldve a(z) „%s” naptárnak lemondottként"
 
-#: ../src/modules/itip-formatter/itip-view.c:5250
+#: ../src/modules/itip-formatter/itip-view.c:5254
 #, c-format
 msgid "Sent to task list “%s” as cancelled"
 msgstr "Elküldve a(z) „%s” feladatlistának lemondottként"
 
-#: ../src/modules/itip-formatter/itip-view.c:5255
+#: ../src/modules/itip-formatter/itip-view.c:5259
 #, c-format
 msgid "Sent to memo list “%s” as cancelled"
 msgstr "Elküldve a(z) „%s” feljegyzéslistának lemondottként"
 
-#: ../src/modules/itip-formatter/itip-view.c:5265
+#: ../src/modules/itip-formatter/itip-view.c:5269
 #, c-format
 msgid "Imported to calendar “%s”"
 msgstr "Importálva a(z) „%s” naptárba"
 
-#: ../src/modules/itip-formatter/itip-view.c:5270
+#: ../src/modules/itip-formatter/itip-view.c:5274
 #, c-format
 msgid "Imported to task list “%s”"
 msgstr "Importálva a(z) „%s” feladatlistába"
 
-#: ../src/modules/itip-formatter/itip-view.c:5275
+#: ../src/modules/itip-formatter/itip-view.c:5279
 #, c-format
 msgid "Imported to memo list “%s”"
 msgstr "Importálva a(z) „%s” feljegyzéslistába"
 
-#: ../src/modules/itip-formatter/itip-view.c:5294
+#: ../src/modules/itip-formatter/itip-view.c:5298
 msgid "Saving changes to the calendar. Please wait…"
 msgstr "Változtatások mentése a naptárba, kis türelmet…"
 
-#: ../src/modules/itip-formatter/itip-view.c:5297
+#: ../src/modules/itip-formatter/itip-view.c:5301
 msgid "Saving changes to the task list. Please wait…"
 msgstr "Változtatások mentése a feladatlistába, kis türelmet…"
 
-#: ../src/modules/itip-formatter/itip-view.c:5300
+#: ../src/modules/itip-formatter/itip-view.c:5304
 msgid "Saving changes to the memo list. Please wait…"
 msgstr "Változtatások mentése a feljegyzéslistába, kis türelmet…"
 
-#: ../src/modules/itip-formatter/itip-view.c:5438
+#: ../src/modules/itip-formatter/itip-view.c:5442
 msgid "Unable to parse item"
 msgstr "Nem dolgozható fel az elem"
 
-#: ../src/modules/itip-formatter/itip-view.c:5626
+#: ../src/modules/itip-formatter/itip-view.c:5630
 #, c-format
 msgid "Organizer has removed the delegate %s "
 msgstr "A szervező eltávolította %s meghatalmazottat "
 
-#: ../src/modules/itip-formatter/itip-view.c:5643
+#: ../src/modules/itip-formatter/itip-view.c:5647
 msgid "Sent a cancellation notice to the delegate"
 msgstr "Lemondási értesítés elküldve a meghatalmazottnak"
 
-#: ../src/modules/itip-formatter/itip-view.c:5647
+#: ../src/modules/itip-formatter/itip-view.c:5651
 msgid "Could not send the cancellation notice to the delegate"
 msgstr "Nem sikerült elküldeni a lemondási értesítést a meghatalmazottnak"
 
-#: ../src/modules/itip-formatter/itip-view.c:5693
+#: ../src/modules/itip-formatter/itip-view.c:5697
 #, c-format
 msgid "Unable to update attendee. %s"
 msgstr "Nem frissíthető a résztvevő: %s"
 
-#: ../src/modules/itip-formatter/itip-view.c:5727
+#: ../src/modules/itip-formatter/itip-view.c:5731
 msgid "The meeting is invalid and cannot be updated"
 msgstr "A találkozó érvénytelen, és nem frissíthető"
 
-#: ../src/modules/itip-formatter/itip-view.c:5813
+#: ../src/modules/itip-formatter/itip-view.c:5817
 msgid "Attendee status could not be updated because the status is invalid"
 msgstr ""
 "A résztvevő állapotát nem lehetett frissíteni, mert az állapot érvénytelen"
 
-#: ../src/modules/itip-formatter/itip-view.c:5889
-#: ../src/modules/itip-formatter/itip-view.c:5927
+#: ../src/modules/itip-formatter/itip-view.c:5893
+#: ../src/modules/itip-formatter/itip-view.c:5931
 msgid "Attendee status can not be updated because the item no longer exists"
 msgstr ""
 "A résztvevő állapotát nem lehetett frissíteni, mert az elem nem létezik többé"
 
-#: ../src/modules/itip-formatter/itip-view.c:5988
+#: ../src/modules/itip-formatter/itip-view.c:5992
 msgid "Meeting information sent"
 msgstr "A találkozóinformációk elküldve"
 
-#: ../src/modules/itip-formatter/itip-view.c:5993
+#: ../src/modules/itip-formatter/itip-view.c:5997
 msgid "Task information sent"
 msgstr "A feladatinformációk elküldve"
 
-#: ../src/modules/itip-formatter/itip-view.c:5998
+#: ../src/modules/itip-formatter/itip-view.c:6002
 msgid "Memo information sent"
 msgstr "A feljegyzésinformációk elküldve"
 
-#: ../src/modules/itip-formatter/itip-view.c:6009
+#: ../src/modules/itip-formatter/itip-view.c:6013
 msgid "Unable to send meeting information, the meeting does not exist"
 msgstr "A találkozóinformációk nem küldhetők el, a találkozó nem létezik"
 
-#: ../src/modules/itip-formatter/itip-view.c:6014
+#: ../src/modules/itip-formatter/itip-view.c:6018
 msgid "Unable to send task information, the task does not exist"
 msgstr "A feladatinformációk nem küldhetők el, a feladat nem létezik"
 
-#: ../src/modules/itip-formatter/itip-view.c:6019
+#: ../src/modules/itip-formatter/itip-view.c:6023
 msgid "Unable to send memo information, the memo does not exist"
 msgstr "A feljegyzésinformációk nem küldhetők el, a feljegyzés nem létezik"
 
 #. Translators: This is a default filename for a calendar.
-#: ../src/modules/itip-formatter/itip-view.c:6064
+#: ../src/modules/itip-formatter/itip-view.c:6068
 msgid "calendar.ics"
 msgstr "naptár.ics"
 
-#: ../src/modules/itip-formatter/itip-view.c:6069
+#: ../src/modules/itip-formatter/itip-view.c:6073
 msgid "Save Calendar"
 msgstr "Naptár mentése"
 
-#: ../src/modules/itip-formatter/itip-view.c:6117
-#: ../src/modules/itip-formatter/itip-view.c:6130
+#: ../src/modules/itip-formatter/itip-view.c:6121
+#: ../src/modules/itip-formatter/itip-view.c:6134
 msgid "The calendar attached is not valid"
 msgstr "A csatolt naptár érvénytelen"
 
-#: ../src/modules/itip-formatter/itip-view.c:6118
-#: ../src/modules/itip-formatter/itip-view.c:6131
+#: ../src/modules/itip-formatter/itip-view.c:6122
+#: ../src/modules/itip-formatter/itip-view.c:6135
 msgid ""
 "The message claims to contain a calendar, but the calendar is not a valid "
 "iCalendar."
@@ -25489,15 +25493,15 @@ msgstr ""
 "Az üzenet azt állítja, hogy egy naptárt tartalmaz, de a naptár nem egy "
 "érvényes iCalendar."
 
-#: ../src/modules/itip-formatter/itip-view.c:6213
-#: ../src/modules/itip-formatter/itip-view.c:6297
-#: ../src/modules/itip-formatter/itip-view.c:6401
+#: ../src/modules/itip-formatter/itip-view.c:6217
+#: ../src/modules/itip-formatter/itip-view.c:6301
+#: ../src/modules/itip-formatter/itip-view.c:6405
 msgid "The item in the calendar is not valid"
 msgstr "Az elem a naptárban érvénytelen"
 
-#: ../src/modules/itip-formatter/itip-view.c:6214
-#: ../src/modules/itip-formatter/itip-view.c:6298
-#: ../src/modules/itip-formatter/itip-view.c:6402
+#: ../src/modules/itip-formatter/itip-view.c:6218
+#: ../src/modules/itip-formatter/itip-view.c:6302
+#: ../src/modules/itip-formatter/itip-view.c:6406
 msgid ""
 "The message does contain a calendar, but the calendar contains no events, "
 "tasks or free/busy information"
@@ -25505,11 +25509,11 @@ msgstr ""
 "Az üzenet tartalmaz egy naptárt, de az nem tartalmaz eseményeket, "
 "feladatokat vagy időbeosztásokat"
 
-#: ../src/modules/itip-formatter/itip-view.c:6307
+#: ../src/modules/itip-formatter/itip-view.c:6311
 msgid "The calendar attached contains multiple items"
 msgstr "A csatolt naptár több elemet tartalmaz"
 
-#: ../src/modules/itip-formatter/itip-view.c:6308
+#: ../src/modules/itip-formatter/itip-view.c:6312
 msgid ""
 "To process all of these items, the file should be saved and the calendar "
 "imported"
@@ -25517,12 +25521,12 @@ msgstr ""
 "Ezen elemek mindegyikének feldolgozásához a fájlt el kell menteni és a "
 "naptárt importálni"
 
-#: ../src/modules/itip-formatter/itip-view.c:6891
+#: ../src/modules/itip-formatter/itip-view.c:6895
 msgctxt "cal-itip"
 msgid "None"
 msgstr "Nincs"
 
-#: ../src/modules/itip-formatter/itip-view.c:6915
+#: ../src/modules/itip-formatter/itip-view.c:6919
 msgid "Tentatively Accepted"
 msgstr "Feltételesen elfogadva"
 
