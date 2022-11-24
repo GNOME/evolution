@@ -55,6 +55,25 @@ typedef struct _ESourceSelector ESourceSelector;
 typedef struct _ESourceSelectorClass ESourceSelectorClass;
 typedef struct _ESourceSelectorPrivate ESourceSelectorPrivate;
 
+/**
+ * ESourceSelectorForeachSourceChildFunc:
+ * @selector: an #ESourceSelector
+ * @display_name: child's display name
+ * @child_data: child's data
+ * @user_data: callback user data
+ *
+ * Callback called for each source's child added by e_source_selector_add_source_child().
+ * The callback is used by e_source_selector_foreach_source_child_remove().
+ *
+ * Returns: %TRUE to remove the child, or %FALSE to keep it
+ *
+ * Since: 3.48
+ **/
+typedef gboolean (* ESourceSelectorForeachSourceChildFunc)	(ESourceSelector *selector,
+								 const gchar *display_name,
+								 const gchar *child_data,
+								 gpointer user_data);
+
 struct _ESourceSelector {
 	GtkTreeView parent;
 	ESourceSelectorPrivate *priv;
@@ -88,8 +107,11 @@ struct _ESourceSelectorClass {
 						 ESource *source);
 	gboolean	(*filter_source)	(ESourceSelector *selector,
 						 ESource *source);
+	void		(*source_child_selected)(ESourceSelector *selector,
+						 ESource *source,
+						 const gchar *child_data);
 
-	gpointer padding[2];
+	gpointer padding[1];
 };
 
 GType		e_source_selector_get_type	(void) G_GNUC_CONST;
@@ -136,6 +158,11 @@ ESource *	e_source_selector_ref_primary_selection
 void		e_source_selector_set_primary_selection
 						(ESourceSelector *selector,
 						 ESource *source);
+gboolean	e_source_selector_get_source_iter
+						(ESourceSelector *selector,
+						 ESource *source,
+						 GtkTreeIter *iter,
+						 GtkTreeModel **out_model);
 ESource *	e_source_selector_ref_source_by_iter
 						(ESourceSelector *selector,
 						 GtkTreeIter *iter);
@@ -176,6 +203,21 @@ gboolean	e_source_selector_save_groups_setup
 void		e_source_selector_load_groups_setup
 						(ESourceSelector *selector,
 						 GKeyFile *key_file);
+void		e_source_selector_add_source_child
+						(ESourceSelector *selector,
+						 ESource *source,
+						 const gchar *display_name,
+						 const gchar *child_data);
+void		e_source_selector_remove_source_children
+						(ESourceSelector *selector,
+						 ESource *source);
+void		e_source_selector_foreach_source_child_remove
+						(ESourceSelector *selector,
+						 ESource *source,
+						 ESourceSelectorForeachSourceChildFunc func,
+						 gpointer user_data);
+gchar *		e_source_selector_dup_selected_child_data
+						(ESourceSelector *selector);
 
 G_END_DECLS
 

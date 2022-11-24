@@ -357,6 +357,7 @@ book_shell_view_activate_selected_source (EBookShellView *book_shell_view,
 	GHashTable *hash_table;
 	GtkWidget *widget;
 	const gchar *uid;
+	gchar *selected_category;
 	gchar *view_id;
 
 	shell_view = E_SHELL_VIEW (book_shell_view);
@@ -367,7 +368,23 @@ book_shell_view_activate_selected_source (EBookShellView *book_shell_view,
 	if (source == NULL)
 		return;
 
+	selected_category = e_addressbook_selector_dup_selected_category (
+		E_ADDRESSBOOK_SELECTOR (selector));
+
 	uid = e_source_get_uid (source);
+
+	if (g_strcmp0 (book_shell_view->priv->selected_source_uid, uid) == 0) {
+		if (!selected_category || !*selected_category)
+			e_shell_view_execute_search (shell_view);
+
+		g_free (selected_category);
+		g_object_unref (source);
+		return;
+	}
+
+	g_clear_pointer (&book_shell_view->priv->selected_source_uid, g_free);
+	book_shell_view->priv->selected_source_uid = g_strdup (uid);
+
 	hash_table = book_shell_view->priv->uid_to_view;
 	widget = g_hash_table_lookup (hash_table, uid);
 
@@ -464,6 +481,12 @@ book_shell_view_activate_selected_source (EBookShellView *book_shell_view,
 	e_addressbook_model_force_folder_bar_message (model);
 	selection_change (book_shell_view, view);
 
+	/* Make sure change to no-category re-filters the view, like when switching
+	   from another book to the source node, not the source child node. */
+	if (!selected_category || !*selected_category)
+		e_shell_view_execute_search (shell_view);
+
+	g_free (selected_category);
 	g_object_unref (source);
 }
 
@@ -629,12 +652,19 @@ e_book_shell_view_private_constructed (EBookShellView *book_shell_view)
 		G_CALLBACK (book_shell_view_activate_selected_source),
 		book_shell_view, G_CONNECT_SWAPPED);
 
+	g_signal_connect_object (
+		selector, "source-child-selected",
+		G_CALLBACK (e_shell_view_execute_search),
+		book_shell_view, G_CONNECT_SWAPPED);
+
 	e_categories_add_change_hook (
 		(GHookFunc) e_book_shell_view_update_search_filter,
 		book_shell_view);
 
 	e_book_shell_view_actions_init (book_shell_view);
+	e_shell_view_block_execute_search (shell_view);
 	book_shell_view_activate_selected_source (book_shell_view, selector);
+	e_shell_view_unblock_execute_search (shell_view);
 	e_book_shell_view_update_search_filter (book_shell_view);
 }
 
@@ -673,5 +703,6 @@ e_book_shell_view_private_finalize (EBookShellView *book_shell_view)
 {
 	EBookShellViewPrivate *priv = book_shell_view->priv;
 
+	g_clear_pointer (&priv->selected_source_uid, g_free);
 	g_hash_table_destroy (priv->uid_to_view);
 }

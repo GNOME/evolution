@@ -174,6 +174,191 @@ addressbook_selector_merge_next_cb (EBookClient *book_client,
 		merge_context->pending_adds = FALSE;
 }
 
+typedef struct _SortCategoriesData {
+	gint old_pos;
+	gchar *sort_key;
+} SortCategoriesData;
+
+static gint
+addressbook_selector_compare_sort_categories_data_cb (gconstpointer aa,
+						      gconstpointer bb,
+						      gpointer user_data)
+{
+	const SortCategoriesData *scda = aa;
+	const SortCategoriesData *scdb = bb;
+
+	return g_strcmp0 (scda->sort_key, scdb->sort_key);
+}
+
+typedef struct _GatherCategoriesData {
+	SortCategoriesData *scd;
+	gint index;
+} GatherCategoriesData;
+
+static gboolean
+addressbook_selector_gather_sort_categories_cb (ESourceSelector *selector,
+						const gchar *display_name,
+						const gchar *child_data,
+						gpointer user_data)
+{
+	GatherCategoriesData *gcd = user_data;
+
+	g_return_val_if_fail (gcd != NULL, FALSE);
+	g_return_val_if_fail (display_name != NULL, FALSE);
+
+	gcd->scd[gcd->index].old_pos = gcd->index;
+	gcd->scd[gcd->index].sort_key = g_utf8_collate_key (display_name, -1);
+
+	gcd->index++;
+
+	return FALSE;
+}
+
+static void
+addressbook_selector_sort_categories (ESourceSelector *selector,
+				      ESource *source,
+				      GtkTreeModel *model,
+				      GtkTreeIter *source_iter)
+{
+	GatherCategoriesData gcd;
+	gint *order;
+	gint n_children, ii;
+
+	n_children = gtk_tree_model_iter_n_children (model, source_iter);
+	if (n_children <= 1)
+		return;
+
+	gcd.scd = g_new0 (SortCategoriesData, n_children + 1);
+	gcd.index = 0;
+
+	e_source_selector_foreach_source_child_remove (selector, source,
+		addressbook_selector_gather_sort_categories_cb, &gcd);
+
+	g_warn_if_fail (gcd.index == n_children);
+
+	g_qsort_with_data (gcd.scd, n_children, sizeof (SortCategoriesData),
+		addressbook_selector_compare_sort_categories_data_cb, NULL);
+
+	order = g_new0 (gint, n_children + 1);
+
+	for (ii = 0; ii < n_children; ii++) {
+		order[ii] = gcd.scd[ii].old_pos;
+	}
+
+	gtk_tree_store_reorder (GTK_TREE_STORE (model), source_iter, order);
+
+	g_free (gcd.scd);
+	g_free (order);
+}
+
+static gboolean
+addressbook_selector_merge_categories_cb (ESourceSelector *selector,
+					  const gchar *display_name,
+					  const gchar *child_data,
+					  gpointer user_data)
+{
+	GHashTable *ht = user_data;
+
+	g_return_val_if_fail (ht != NULL, FALSE);
+	g_return_val_if_fail (child_data != NULL, FALSE);
+
+	return !g_hash_table_remove (ht, child_data);
+}
+
+static void
+addressbook_selector_merge_client_categories (ESourceSelector *selector,
+					      EClient *client,
+					      const gchar *categories)
+{
+	ESource *source = e_client_get_source (client);
+	GtkTreeModel *model = NULL;
+	GtkTreeIter tree_iter;
+	GHashTable *ht;
+	gchar **strv;
+	guint ii;
+
+	if (!e_source_selector_get_source_iter (selector, source, &tree_iter, &model))
+		return;
+
+	if (!categories || !*categories) {
+		e_source_selector_remove_source_children (selector, source);
+		return;
+	}
+
+	ht = g_hash_table_new (g_str_hash, g_str_equal);
+	strv = g_strsplit (categories, ",", -1);
+
+	for (ii = 0; strv && strv[ii]; ii++) {
+		g_hash_table_add (ht, strv[ii]);
+	}
+
+	e_source_selector_foreach_source_child_remove (selector, source,
+		addressbook_selector_merge_categories_cb, ht);
+
+	if (g_hash_table_size (ht) > 0) {
+		GHashTableIter iter;
+		gpointer key;
+
+		g_hash_table_iter_init (&iter, ht);
+
+		while (g_hash_table_iter_next (&iter, &key, NULL)) {
+			const gchar *category = key;
+
+			e_source_selector_add_source_child (selector, source, category, category);
+		}
+	}
+
+	g_hash_table_destroy (ht);
+	g_strfreev (strv);
+
+	if (gtk_tree_model_iter_has_child (model, &tree_iter))
+		addressbook_selector_sort_categories (selector, source, model, &tree_iter);
+}
+
+static void
+addressbook_selector_backend_property_changed_cb (EClient *client,
+						  const gchar *prop_name,
+						  const gchar *prop_value,
+						  gpointer user_data)
+{
+	ESourceSelector *selector = user_data;
+
+	g_return_if_fail (E_IS_ADDRESSBOOK_SELECTOR (selector));
+	g_return_if_fail (E_IS_CLIENT (client));
+
+	if (g_strcmp0 (prop_name, E_BOOK_BACKEND_PROPERTY_CATEGORIES) != 0)
+		return;
+
+	addressbook_selector_merge_client_categories (selector, client, prop_value);
+}
+
+static void
+addressbook_selector_client_created_cb (EClientCache *client_cache,
+					EClient *client,
+					gpointer user_data)
+{
+	EAddressbookSelector *selector = user_data;
+	gchar *categories = NULL;
+
+	g_return_if_fail (E_IS_ADDRESSBOOK_SELECTOR (selector));
+	g_return_if_fail (E_IS_CLIENT (client));
+
+	if (!E_IS_BOOK_CLIENT (client))
+		return;
+
+	g_signal_connect_object (client, "backend-property-changed",
+		G_CALLBACK (addressbook_selector_backend_property_changed_cb), selector, 0);
+
+	/* the 'sync' variant does no D-Bus call, it only reads proxy's cached property */
+	if (e_client_get_backend_property_sync (client, E_BOOK_BACKEND_PROPERTY_CATEGORIES, &categories, NULL, NULL)) {
+		if (categories && *categories)
+			addressbook_selector_merge_client_categories (E_SOURCE_SELECTOR (selector), client, categories);
+
+	}
+
+	g_free (categories);
+}
+
 static void
 addressbook_selector_set_property (GObject *object,
                                    guint property_id,
@@ -227,6 +412,10 @@ addressbook_selector_constructed (GObject *object)
 	ESourceSelector *selector;
 	ESourceRegistry *registry;
 	ESource *source;
+	EClientCache *client_cache;
+
+	/* Chain up to parent's constructed() method. */
+	G_OBJECT_CLASS (e_addressbook_selector_parent_class)->constructed (object);
 
 	selector = E_SOURCE_SELECTOR (object);
 	registry = e_source_selector_get_registry (selector);
@@ -234,8 +423,35 @@ addressbook_selector_constructed (GObject *object)
 	e_source_selector_set_primary_selection (selector, source);
 	g_object_unref (source);
 
-	/* Chain up to parent's constructed() method. */
-	G_OBJECT_CLASS (e_addressbook_selector_parent_class)->constructed (object);
+	client_cache = e_client_selector_ref_client_cache (E_CLIENT_SELECTOR (object));
+	if (client_cache) {
+		GSList *clients, *link;
+
+		clients = e_client_cache_list_cached_clients (client_cache, E_SOURCE_EXTENSION_ADDRESS_BOOK);
+
+		for (link = clients; link; link = g_slist_next (link)) {
+			EClient *client = link->data;
+			gchar *categories = NULL;
+
+			/* the 'sync' variant does no D-Bus call, it only reads proxy's cached property */
+			if (e_client_get_backend_property_sync (client, E_BOOK_BACKEND_PROPERTY_CATEGORIES, &categories, NULL, NULL)) {
+				if (categories && *categories)
+					addressbook_selector_merge_client_categories (selector, client, categories);
+
+				g_free (categories);
+			}
+
+			g_signal_connect_object (client, "backend-property-changed",
+				G_CALLBACK (addressbook_selector_backend_property_changed_cb), selector, 0);
+		}
+
+		g_slist_free_full (clients, g_object_unref);
+
+		g_signal_connect_object (client_cache, "client-created",
+			G_CALLBACK (addressbook_selector_client_created_cb), object, 0);
+
+	}
+	g_clear_object (&client_cache);
 }
 
 static void
@@ -446,4 +662,12 @@ e_addressbook_selector_set_current_view (EAddressbookSelector *selector,
 	selector->priv->current_view = current_view;
 
 	g_object_notify (G_OBJECT (selector), "current-view");
+}
+
+gchar *
+e_addressbook_selector_dup_selected_category (EAddressbookSelector *selector)
+{
+	g_return_val_if_fail (E_IS_ADDRESSBOOK_SELECTOR (selector), NULL);
+
+	return e_source_selector_dup_selected_child_data (E_SOURCE_SELECTOR (selector));
 }

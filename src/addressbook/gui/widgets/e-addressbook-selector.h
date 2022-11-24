@@ -63,6 +63,8 @@ EAddressbookView *
 void		e_addressbook_selector_set_current_view
 						(EAddressbookSelector *selector,
 						 EAddressbookView *current_view);
+gchar *		e_addressbook_selector_dup_selected_category
+						(EAddressbookSelector *selector);
 
 G_END_DECLS
 

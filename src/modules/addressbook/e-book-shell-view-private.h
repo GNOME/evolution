@@ -98,6 +98,8 @@ struct _EBookShellViewPrivate {
 	gint search_locked;
 
 	ESource *clicked_source;
+
+	gchar *selected_source_uid;
 };
 
 void		e_book_shell_view_private_init

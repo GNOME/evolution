@@ -101,6 +101,7 @@ book_shell_view_execute_search (EShellView *shell_view)
 	EAddressbookModel *model;
 	gchar *query;
 	gchar *temp;
+	gchar *selected_category;
 	gint filter_id, search_id;
 	gchar *search_text = NULL;
 	EFilterRule *advanced_search = NULL;
@@ -200,6 +201,18 @@ book_shell_view_execute_search (EShellView *shell_view)
 			break;
 		}
 	}
+
+	selected_category = e_addressbook_selector_dup_selected_category (E_ADDRESSBOOK_SELECTOR (
+		e_book_shell_sidebar_get_selector (E_BOOK_SHELL_SIDEBAR (e_shell_view_get_shell_sidebar (shell_view)))));
+
+	if (selected_category && *selected_category) {
+		temp = g_strdup_printf (
+			"(and (is \"category_list\" \"%s\") %s)",
+			selected_category, query);
+		g_free (query);
+		query = temp;
+	}
+	g_free (selected_category);
 
 	/* Submit the query. */
 	view = e_book_shell_content_get_current_view (book_shell_content);

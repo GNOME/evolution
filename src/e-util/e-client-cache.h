@@ -107,6 +107,10 @@ EClient *	e_client_cache_ref_cached_client
 						(EClientCache *client_cache,
 						 ESource *source,
 						 const gchar *extension_name);
+GSList * /* EClient * */
+		e_client_cache_list_cached_clients
+						(EClientCache *client_cache,
+						 const gchar *extension_name);
 gboolean	e_client_cache_is_backend_dead	(EClientCache *client_cache,
 						 ESource *source,
 						 const gchar *extension_name);

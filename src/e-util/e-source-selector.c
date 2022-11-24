@@ -86,6 +86,7 @@ enum {
 	SOURCE_SELECTED,
 	SOURCE_UNSELECTED,
 	FILTER_SOURCE,
+	SOURCE_CHILD_SELECTED,
 	NUM_SIGNALS
 };
 
@@ -103,6 +104,7 @@ enum {
 	COLUMN_IS_BUSY,
 	COLUMN_CONNECTION_STATUS,
 	COLUMN_SORT_ORDER,
+	COLUMN_CHILD_DATA,
 	NUM_COLUMNS
 };
 
@@ -537,13 +539,48 @@ source_selector_save_expanded (GtkTreeView *tree_view,
 	model = gtk_tree_view_get_model (tree_view);
 	gtk_tree_model_get_iter (model, &iter, path);
 	gtk_tree_model_get (model, &iter, COLUMN_SOURCE, &source, -1);
-	g_queue_push_tail (queue, source);
+	if (source)
+		g_queue_push_tail (queue, source);
+}
+
+typedef struct _SavedChildData {
+	gchar *display_name;
+	gchar *child_data;
+	gboolean selected;
+} SavedChildData;
+
+static SavedChildData *
+saved_child_data_new (gchar *display_name, /* (transfer full) */
+		      gchar *child_data, /* (transfer full) */
+		      gboolean selected)
+{
+	SavedChildData *scd;
+
+	scd = g_slice_new (SavedChildData);
+	scd->display_name = display_name;
+	scd->child_data = child_data;
+	scd->selected = selected;
+
+	return scd;
+}
+
+static void
+saved_child_data_free (gpointer ptr)
+{
+	SavedChildData *scd = ptr;
+
+	if (scd) {
+		g_free (scd->display_name);
+		g_free (scd->child_data);
+		g_slice_free (SavedChildData, scd);
+	}
 }
 
 typedef struct _SavedStatus
 {
 	gboolean is_busy;
 	gchar *tooltip;
+	GSList *children; /* SavedChildData * */
 } SavedStatusData;
 
 static void
@@ -553,6 +590,7 @@ saved_status_data_free (gpointer ptr)
 
 	if (data) {
 		g_free (data->tooltip);
+		g_slist_free_full (data->children, saved_child_data_free);
 		g_slice_free (SavedStatusData, data);
 	}
 }
@@ -576,6 +614,7 @@ source_selector_save_sources_status (ESourceSelector *selector)
 
 		if (reference && gtk_tree_row_reference_valid (reference)) {
 			SavedStatusData *data;
+			GtkTreeIter child;
 
 			model = gtk_tree_row_reference_get_model (reference);
 			path = gtk_tree_row_reference_get_path (reference);
@@ -593,6 +632,46 @@ source_selector_save_sources_status (ESourceSelector *selector)
 				source_selector_dec_busy_sources (selector);
 
 			gtk_tree_path_free (path);
+
+			if (gtk_tree_model_iter_children (model, &child, &tree_iter)) {
+				gchar *child_data = NULL;
+
+				gtk_tree_model_get (model, &child, COLUMN_CHILD_DATA, &child_data, -1);
+
+				if (child_data) {
+					GtkTreeSelection *selection = gtk_tree_view_get_selection (GTK_TREE_VIEW (selector));
+					gchar *display_name = NULL;
+
+					gtk_tree_model_get (model, &child, COLUMN_NAME, &display_name, -1);
+
+					data->children = g_slist_prepend (data->children,
+						saved_child_data_new (display_name, child_data,
+							gtk_tree_selection_iter_is_selected (selection, &child)));
+
+					display_name = NULL;
+					child_data = NULL;
+
+					while (gtk_tree_model_iter_next (model, &child)) {
+						gtk_tree_model_get (model, &child,
+							COLUMN_NAME, &display_name,
+							COLUMN_CHILD_DATA, &child_data,
+							-1);
+
+						if (child_data) {
+							data->children = g_slist_prepend (data->children,
+								saved_child_data_new (display_name, child_data,
+									gtk_tree_selection_iter_is_selected (selection, &child)));
+
+							display_name = NULL;
+							child_data = NULL;
+						} else {
+							g_clear_pointer (&display_name, g_free);
+						}
+					}
+
+					data->children = g_slist_reverse (data->children);
+				}
+			}
 
 			g_hash_table_insert (status, g_strdup (e_source_get_uid (source)), data);
 		}
@@ -618,25 +697,49 @@ source_selector_load_sources_status (ESourceSelector *selector,
 
 		if (reference && gtk_tree_row_reference_valid (reference)) {
 			SavedStatusData *data;
+			GtkTreeStore *tree_store;
+			GSList *link;
 
 			model = gtk_tree_row_reference_get_model (reference);
 			path = gtk_tree_row_reference_get_path (reference);
 			gtk_tree_model_get_iter (model, &tree_iter, path);
 
-			gtk_tree_path_free (path);
-
 			data = g_hash_table_lookup (status, e_source_get_uid (source));
-			if (!data)
+			if (!data) {
+				gtk_tree_path_free (path);
 				continue;
+			}
+
+			tree_store = GTK_TREE_STORE (model);
 
 			gtk_tree_store_set (
-				GTK_TREE_STORE (model), &tree_iter,
+				tree_store, &tree_iter,
 				COLUMN_IS_BUSY, data->is_busy,
 				COLUMN_TOOLTIP, data->tooltip,
 				-1);
 
 			if (data->is_busy)
 				source_selector_inc_busy_sources (selector);
+
+			for (link = data->children; link; link = g_slist_next (link)) {
+				SavedChildData *sdc = link->data;
+				GtkTreeIter child;
+
+				gtk_tree_store_append (tree_store, &child, &tree_iter);
+				gtk_tree_store_set (tree_store, &child,
+					COLUMN_NAME, sdc->display_name,
+					COLUMN_CHILD_DATA, sdc->child_data,
+					-1);
+
+				if (sdc->selected) {
+					GtkTreeSelection *selection = gtk_tree_view_get_selection (GTK_TREE_VIEW (selector));
+
+					gtk_tree_view_expand_row (GTK_TREE_VIEW (selector), path, TRUE);
+					gtk_tree_selection_select_iter (selection, &child);
+				}
+			}
+
+			gtk_tree_path_free (path);
 		}
 	}
 }
@@ -983,6 +1086,7 @@ selection_func (GtkTreeSelection *selection,
 {
 	ESource *source;
 	GtkTreeIter iter;
+	gchar *child_data = NULL;
 	const gchar *extension_name;
 
 	if (selector->priv->toggled_last) {
@@ -997,11 +1101,15 @@ selection_func (GtkTreeSelection *selection,
 		return FALSE;
 
 	extension_name = e_source_selector_get_extension_name (selector);
-	gtk_tree_model_get (model, &iter, COLUMN_SOURCE, &source, -1);
+	gtk_tree_model_get (model, &iter,
+		COLUMN_SOURCE, &source,
+		COLUMN_CHILD_DATA, &child_data,
+		-1);
 
-	if (!e_source_has_extension (source, extension_name)) {
-		g_object_unref (source);
-		return FALSE;
+	if (!source || !e_source_has_extension (source, extension_name)) {
+		g_clear_object (&source);
+		g_free (child_data);
+		return child_data != NULL;
 	}
 
 	clear_saved_primary_selection (selector);
@@ -1036,6 +1144,9 @@ text_cell_edited_cb (ESourceSelector *selector,
 	gtk_tree_model_get (model, &iter, COLUMN_SOURCE, &source, -1);
 	gtk_tree_path_free (path);
 
+	if (!source)
+		return;
+
 	e_source_set_display_name (source, new_name);
 
 	e_source_selector_queue_write (selector, source);
@@ -1063,14 +1174,17 @@ cell_toggled_callback (GtkCellRendererToggle *renderer,
 
 	gtk_tree_model_get (model, &iter, COLUMN_SOURCE, &source, -1);
 
+	gtk_tree_path_free (path);
+
+	if (!source)
+		return;
+
 	if (e_source_selector_source_is_selected (selector, source))
 		e_source_selector_unselect_source (selector, source);
 	else
 		e_source_selector_select_source (selector, source);
 
 	selector->priv->toggled_last = TRUE;
-
-	gtk_tree_path_free (path);
 
 	g_object_unref (source);
 }
@@ -1079,8 +1193,43 @@ static void
 selection_changed_callback (GtkTreeSelection *selection,
                             ESourceSelector *selector)
 {
-	g_signal_emit (selector, signals[PRIMARY_SELECTION_CHANGED], 0);
-	g_object_notify (G_OBJECT (selector), "primary-selection");
+	GtkTreeModel *model = NULL;
+	GtkTreeIter iter;
+
+	if (gtk_tree_selection_get_selected (selection, &model, &iter)) {
+		ESource *source = NULL;
+
+		gtk_tree_model_get (model, &iter, COLUMN_SOURCE, &source, -1);
+
+		if (source) {
+			g_signal_emit (selector, signals[PRIMARY_SELECTION_CHANGED], 0);
+			g_object_notify (G_OBJECT (selector), "primary-selection");
+		} else {
+			gchar *child_data = NULL;
+
+			gtk_tree_model_get (model, &iter, COLUMN_CHILD_DATA, &child_data, -1);
+
+			if (child_data) {
+				GtkTreeIter parent;
+
+				if (gtk_tree_model_iter_parent (model, &parent, &iter)) {
+					gtk_tree_model_get (model, &parent, COLUMN_SOURCE, &source, -1);
+
+					if (source) {
+						clear_saved_primary_selection (selector);
+						g_signal_emit (selector, signals[PRIMARY_SELECTION_CHANGED], 0);
+						g_object_notify (G_OBJECT (selector), "primary-selection");
+
+						g_signal_emit (selector, signals[SOURCE_CHILD_SELECTED], 0, source, child_data);
+					}
+				}
+
+				g_free (child_data);
+			}
+		}
+
+		g_clear_object (&source);
+	}
 }
 
 static void
@@ -1369,6 +1518,21 @@ source_selector_button_press_event (GtkWidget *widget,
 
 		gtk_tree_model_get_iter (model, &iter, path);
 		gtk_tree_model_get (model, &iter, COLUMN_SOURCE, &source, -1);
+
+		if (!source) {
+			gchar *child_data = NULL;
+
+			gtk_tree_model_get (model, &iter, COLUMN_CHILD_DATA, &child_data, -1);
+
+			if (child_data) {
+				GtkTreeIter parent;
+
+				if (gtk_tree_model_iter_parent (model, &parent, &iter))
+					gtk_tree_model_get (model, &parent, COLUMN_SOURCE, &source, -1);
+
+				g_free (child_data);
+			}
+		}
 	}
 
 	if (path != NULL)
@@ -1443,7 +1607,7 @@ source_selector_drag_motion (GtkWidget *widget,
 
 	gtk_tree_model_get (model, &iter, COLUMN_SOURCE, &source, -1);
 
-	if (!e_source_get_writable (source))
+	if (!source || !e_source_get_writable (source))
 		goto exit;
 
 	pos = GTK_TREE_VIEW_DROP_INTO_OR_BEFORE;
@@ -1496,6 +1660,9 @@ source_selector_drag_drop (GtkWidget *widget,
 
 	gtk_tree_model_get (model, &iter, COLUMN_SOURCE, &source, -1);
 
+	if (!source)
+		return FALSE;
+
 	selector = E_SOURCE_SELECTOR (widget);
 	extension_name = e_source_selector_get_extension_name (selector);
 	drop_zone = e_source_has_extension (source, extension_name);
@@ -1537,7 +1704,7 @@ source_selector_drag_data_received (GtkWidget *widget,
 
 	gtk_tree_model_get (model, &iter, COLUMN_SOURCE, &source, -1);
 
-	if (!e_source_get_writable (source))
+	if (!source || !e_source_get_writable (source))
 		goto exit;
 
 	g_signal_emit (
@@ -1868,6 +2035,14 @@ e_source_selector_class_init (ESourceSelectorClass *class)
 		G_STRUCT_OFFSET (ESourceSelectorClass, filter_source),
 		NULL, NULL, NULL,
 		G_TYPE_BOOLEAN, 1, E_TYPE_SOURCE);
+
+	signals[SOURCE_CHILD_SELECTED] = g_signal_new (
+		"source-child-selected",
+		G_OBJECT_CLASS_TYPE (object_class),
+		G_SIGNAL_RUN_LAST,
+		G_STRUCT_OFFSET (ESourceSelectorClass, source_child_selected),
+		NULL, NULL, NULL,
+		G_TYPE_NONE, 2, E_TYPE_SOURCE, G_TYPE_STRING);
 }
 
 static void
@@ -1924,7 +2099,8 @@ e_source_selector_init (ESourceSelector *selector)
 		G_TYPE_STRING,		/* COLUMN_TOOLTIP */
 		G_TYPE_BOOLEAN,		/* COLUMN_IS_BUSY */
 		G_TYPE_UINT,		/* COLUMN_CONNECTION_STATUS */
-		G_TYPE_UINT);		/* COLUMN_SORT_ORDER */
+		G_TYPE_UINT,		/* COLUMN_SORT_ORDER */
+		G_TYPE_STRING);		/* COLUMN_CHILD_DATA */
 
 	gtk_tree_view_set_model (tree_view, GTK_TREE_MODEL (tree_store));
 
@@ -2211,10 +2387,10 @@ source_selector_check_selected (GtkTreeModel *model,
 
 	gtk_tree_model_get (model, iter, COLUMN_SOURCE, &source, -1);
 
-	if (e_source_selector_source_is_selected (closure->selector, source))
+	if (source && e_source_selector_source_is_selected (closure->selector, source))
 		g_queue_push_tail (&closure->queue, g_object_ref (source));
 
-	g_object_unref (source);
+	g_clear_object (&source);
 
 	return FALSE;
 }
@@ -2277,7 +2453,7 @@ source_selector_count_sources (GtkTreeModel *model,
 
 	gtk_tree_model_get (model, iter, COLUMN_SOURCE, &source, -1);
 
-	if (e_source_has_extension (source, e_source_selector_get_extension_name (cd->selector))) {
+	if (source && e_source_has_extension (source, e_source_selector_get_extension_name (cd->selector))) {
 		if (cd->selected) {
 			if (e_source_selector_source_is_selected (cd->selector, source))
 				cd->count++;
@@ -2286,7 +2462,7 @@ source_selector_count_sources (GtkTreeModel *model,
 		}
 	}
 
-	g_object_unref (source);
+	g_clear_object (&source);
 
 	return FALSE;
 }
@@ -2649,6 +2825,24 @@ e_source_selector_ref_primary_selection (ESourceSelector *selector)
 		return NULL;
 
 	gtk_tree_model_get (model, &iter, COLUMN_SOURCE, &source, -1);
+
+	if (!source) {
+		gchar *child_data = NULL;
+
+		gtk_tree_model_get (model, &iter, COLUMN_CHILD_DATA, &child_data, -1);
+
+		if (child_data) {
+			GtkTreeIter parent;
+
+			if (gtk_tree_model_iter_parent (model, &parent, &iter))
+				gtk_tree_model_get (model, &parent, COLUMN_SOURCE, &source, -1);
+
+			g_free (child_data);
+		}
+
+		if (!source)
+			return NULL;
+	}
 
 	extension_name = e_source_selector_get_extension_name (selector);
 
@@ -3100,7 +3294,20 @@ e_source_selector_update_all_rows (ESourceSelector *selector)
 	g_list_free_full (list, (GDestroyNotify) g_object_unref);
 }
 
-static gboolean
+/**
+ * e_source_selector_get_source_iter:
+ * @selector: an #ESourceSelector
+ * @source: an #ESource
+ * @iter: (out): a #GtkTreeIter to store the iterator to
+ * @out_model: (out) (optional) (transfer none): a #GtkTreeModel to set to, or %NULL when not needed
+ *
+ * Gets an iterator for the @source, optionally also the model.
+ *
+ * Returns: whether the @source was found
+ *
+ * Since: 3.48
+ **/
+gboolean
 e_source_selector_get_source_iter (ESourceSelector *selector,
 				   ESource *source,
 				   GtkTreeIter *iter,
@@ -3947,4 +4154,170 @@ e_source_selector_load_groups_setup (ESourceSelector *selector,
 	selector->priv->groups_order = g_slist_reverse (selector->priv->groups_order);
 
 	source_selector_build_model (selector);
+}
+
+/**
+ * e_source_selector_add_source_child:
+ * @selector: an #ESourceSelector
+ * @source: a parent #ESource
+ * @display_name: user-visible text for the child
+ * @child_data: custom child data
+ *
+ * Adds a child node under the @source node, identified by @child_data
+ * in functions e_source_selector_remove_source_child() and
+ * e_source_selector_foreach_source_child(), the same as in the signal
+ * callbacks. It's the caller's responsibility to choose a unique
+ * @child_data.
+ *
+ * Listen to #ESourceSelector::after-rebuild signal to re-add the child
+ * data after the content is rebuilt.
+ *
+ * Since: 3.48
+ **/
+void
+e_source_selector_add_source_child (ESourceSelector *selector,
+				    ESource *source,
+				    const gchar *display_name,
+				    const gchar *child_data)
+{
+	GtkTreeModel *model = NULL;
+	GtkTreeStore *tree_store;
+	GtkTreeIter iter, child;
+
+	g_return_if_fail (E_IS_SOURCE_SELECTOR (selector));
+	g_return_if_fail (E_IS_SOURCE (source));
+	g_return_if_fail (display_name != NULL);
+	g_return_if_fail (child_data != NULL);
+
+	if (!e_source_selector_get_source_iter (selector, source, &iter, &model))
+		return;
+
+	tree_store = GTK_TREE_STORE (model);
+
+	gtk_tree_store_append (tree_store, &child, &iter);
+	gtk_tree_store_set (tree_store, &child,
+		COLUMN_NAME, display_name,
+		COLUMN_CHILD_DATA, child_data,
+		-1);
+}
+
+static gboolean
+e_source_selector_remove_all_children_cb (ESourceSelector *selector,
+					  const gchar *display_name,
+					  const gchar *child_data,
+					  gpointer user_data)
+{
+	return TRUE;
+}
+
+/**
+ * e_source_selector_remove_source_children:
+ * @selector: an #ESourceSelector
+ * @source: an #ESource
+ *
+ * Removes all children of the @source, previously added
+ * by e_source_selector_add_source_child(). It does not remove
+ * real ESource references.
+ *
+ * Since: 3.48
+ **/
+void
+e_source_selector_remove_source_children (ESourceSelector *selector,
+					  ESource *source)
+{
+	g_return_if_fail (E_IS_SOURCE_SELECTOR (selector));
+	g_return_if_fail (E_IS_SOURCE (source));
+
+	e_source_selector_foreach_source_child_remove (selector, source,
+		e_source_selector_remove_all_children_cb, NULL);
+}
+
+/**
+ * e_source_selector_foreach_source_child_remove:
+ * @selector: an #ESourceSelector
+ * @source: a parent #ESource
+ * @func: (scope call): function to call for each child
+ * @user_data: user data passed to the @func
+ *
+ * Traverses all @source children previously added by e_source_selector_add_source_child()
+ * and removes those, for which the @func returns %TRUE.
+ *
+ * Since: 3.48
+ **/
+void
+e_source_selector_foreach_source_child_remove (ESourceSelector *selector,
+					       ESource *source,
+					       ESourceSelectorForeachSourceChildFunc func,
+					       gpointer user_data)
+{
+	GtkTreeModel *model = NULL;
+	GtkTreeStore *tree_store;
+	GtkTreeIter iter, child;
+	gboolean has_more;
+
+	g_return_if_fail (E_IS_SOURCE_SELECTOR (selector));
+	g_return_if_fail (E_IS_SOURCE (source));
+	g_return_if_fail (func != NULL);
+
+	if (!e_source_selector_get_source_iter (selector, source, &iter, &model))
+		return;
+
+	tree_store = GTK_TREE_STORE (model);
+
+	has_more = gtk_tree_model_iter_children (model, &child, &iter);
+
+	while (has_more) {
+		gchar *display_name = NULL, *child_data = NULL;
+
+		gtk_tree_model_get (model, &child,
+			COLUMN_NAME, &display_name,
+			COLUMN_CHILD_DATA, &child_data,
+			-1);
+
+		if (child_data) {
+			if (func (selector, display_name, child_data, user_data))
+				has_more = gtk_tree_store_remove (tree_store, &child);
+			else
+				has_more = gtk_tree_model_iter_next (model, &child);
+		} else {
+			has_more = gtk_tree_model_iter_next (model, &child);
+		}
+
+		g_free (display_name);
+		g_free (child_data);
+	}
+}
+
+/**
+ * e_source_selector_dup_selected_child_data:
+ * @selector: an #ESourceSelector
+ *
+ * Returns child data for the selected source child, as set
+ * by e_source_selector_add_source_child().
+ *
+ * Free the returned string with g_free(), when no longer needed.
+ *
+ * Returns: (transfer full) (nullable): source child data of
+ *    the selected node, or %NULL, when none set
+ *
+ * Since: 3.48
+ **/
+gchar *
+e_source_selector_dup_selected_child_data (ESourceSelector *selector)
+{
+	GtkTreeSelection *selection;
+	GtkTreeModel *model = NULL;
+	GtkTreeIter iter;
+	gchar *child_data = NULL;
+
+	g_return_val_if_fail (E_IS_SOURCE_SELECTOR (selector), NULL);
+
+	selection = gtk_tree_view_get_selection (GTK_TREE_VIEW (selector));
+
+	if (!gtk_tree_selection_get_selected (selection, &model, &iter))
+		return NULL;
+
+	gtk_tree_model_get (model, &iter, COLUMN_CHILD_DATA, &child_data, -1);
+
+	return child_data;
 }

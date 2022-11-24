@@ -1431,6 +1431,75 @@ e_client_cache_ref_cached_client (EClientCache *client_cache,
 	return client;
 }
 
+static void
+e_client_cache_append_clients (GSList **pclients,
+			       GHashTable *inner_ht)
+{
+	GHashTableIter iter;
+	gpointer value;
+
+	g_hash_table_iter_init (&iter, inner_ht);
+
+	while (g_hash_table_iter_next (&iter, NULL, &value)) {
+		ClientData *client_data = value;
+
+		if (client_data && client_data->client)
+			*pclients = g_slist_prepend (*pclients, g_object_ref (client_data->client));
+	}
+}
+
+/**
+ * e_client_cache_list_cached_clients:
+ * @client_cache: an #EClientCache
+ * @extension_name: (nullable): an extension name the client should serve, or %NULL for all
+ *
+ * Lists currently cached clients for extension @extension_name, or all
+ * cached clients, when the @extension_name is %NULL.
+ *
+ * Free the returned #GSList with g_slist_free_full (slist, g_object_unref);,
+ * when no longer needed.
+ *
+ * Returns: (transfer full) (nullable) (element-type EClient): a newly allocated #GSList
+ *    with currently cached clients, or %NULL, when none is cached
+ *
+ * Since: 3.48
+ **/
+GSList * /* EClient * */
+e_client_cache_list_cached_clients (EClientCache *client_cache,
+				    const gchar *extension_name)
+{
+	GSList *clients = NULL;
+	GHashTable *client_ht;
+	GHashTable *inner_ht;
+
+	g_return_val_if_fail (E_IS_CLIENT_CACHE (client_cache), NULL);
+
+	client_ht = client_cache->priv->client_ht;
+
+	g_mutex_lock (&client_cache->priv->client_ht_lock);
+
+	if (extension_name) {
+		inner_ht = g_hash_table_lookup (client_ht, extension_name);
+		if (inner_ht)
+			e_client_cache_append_clients (&clients, inner_ht);
+	} else {
+		GHashTableIter iter;
+		gpointer value;
+
+		g_hash_table_iter_init (&iter, client_ht);
+
+		while (g_hash_table_iter_next (&iter, NULL, &value)) {
+			inner_ht = value;
+			if (inner_ht)
+				e_client_cache_append_clients (&clients, inner_ht);
+		}
+	}
+
+	g_mutex_unlock (&client_cache->priv->client_ht_lock);
+
+	return clients;
+}
+
 /**
  * e_client_cache_is_backend_dead:
  * @client_cache: an #EClientCache
