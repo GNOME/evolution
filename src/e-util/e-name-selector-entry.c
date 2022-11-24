@@ -749,13 +749,13 @@ name_style_query (const gchar *field,
 		comma_str = NULL;
 	}
 
-	g_string_append (out, " (beginswith ");
+	g_string_append (out, " (contains ");
 	e_sexp_encode_string (out, field);
 	e_sexp_encode_string (out, spaced_str);
 	g_string_append_c (out, ')');
 
 	if (comma_str) {
-		g_string_append (out, " (beginswith ");
+		g_string_append (out, " (contains ");
 
 		e_sexp_encode_string (out, field);
 		g_strstrip (comma_str);
@@ -856,15 +856,12 @@ set_completion_query (ENameSelectorEntry *name_selector_entry,
 
 	query_str = g_strdup_printf (
 		"(or "
-		" (beginswith \"nickname\"  %s) "
-		" (beginswith \"email\"     %s) "
 		" (contains \"nickname\"  %s) "
 		" (contains \"email\"     %s) "
 		" %s "
 		" %s "
 		" %s "
 		")",
-		encoded_cue_str, encoded_cue_str,
 		encoded_cue_str, encoded_cue_str,
 		full_name_query_str, file_as_query_str,
 		user_fields_str ? user_fields_str : "");
