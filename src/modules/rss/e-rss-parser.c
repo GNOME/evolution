@@ -196,6 +196,7 @@ e_rss_read_item (xmlNodePtr item,
 {
 	ERssFeed *feed = e_rss_feed_new ();
 	xmlNodePtr node;
+	gboolean has_author = FALSE;
 
 	for (node = item->children; node; node = node->next) {
 		xmlChar *value = NULL;
@@ -246,7 +247,8 @@ e_rss_read_item (xmlNodePtr item,
 
 			if (enclosure)
 				feed->enclosures = g_slist_prepend (feed->enclosures, enclosure);
-		} else if (g_strcmp0 ((const gchar *) node->name, "author") == 0) {
+		} else if (g_strcmp0 ((const gchar *) node->name, "author") == 0 ||
+			   (!has_author && g_strcmp0 ((const gchar *) node->name, "creator") == 0)) {
 			xmlChar *name = NULL, *email = NULL;
 
 			e_rss_read_feed_person (node, &name, &email);
@@ -254,6 +256,8 @@ e_rss_read_item (xmlNodePtr item,
 			if (name || email) {
 				g_clear_pointer (&feed->author, g_free);
 				feed->author = e_rss_parser_encode_address (name, email);
+
+				has_author = g_strcmp0 ((const gchar *) node->name, "author") == 0;
 
 				g_clear_pointer (&name, xmlFree);
 				g_clear_pointer (&email, xmlFree);
@@ -263,7 +267,8 @@ e_rss_read_item (xmlNodePtr item,
 
 			if (value && *value)
 				feed->last_modified = camel_header_decode_date ((const gchar *) value, NULL);
-		} else if (g_strcmp0 ((const gchar *) node->name, "updated") == 0) {
+		} else if (g_strcmp0 ((const gchar *) node->name, "updated") == 0 ||
+			   g_strcmp0 ((const gchar *) node->name, "date") == 0) {
 			value = xmlNodeGetContent (node);
 
 			if (value && *value) {
@@ -312,9 +317,9 @@ e_rss_read_defaults_rdf (xmlNodePtr root,
 	for (node = root->children; node; node = node->next) {
 		if (g_strcmp0 ((const gchar *) node->name, "channel") == 0) {
 			xmlNodePtr subnode;
-			gboolean has_author = FALSE, has_link = FALSE, has_title = FALSE, has_image = FALSE;
+			gboolean has_author = FALSE, has_link = FALSE, has_title = FALSE, has_image = FALSE, has_date = FALSE;
 
-			for (subnode = node->children; subnode && (!has_author || !has_link || !has_title || !has_image); subnode = subnode->next) {
+			for (subnode = node->children; subnode && (!has_author || !has_link || !has_title || !has_image || !has_date); subnode = subnode->next) {
 				if (!has_author && g_strcmp0 ((const gchar *) subnode->name, "creator") == 0) {
 					g_clear_pointer (&defaults->author_name, xmlFree);
 					defaults->author_name = xmlNodeGetContent (subnode);
@@ -338,6 +343,24 @@ e_rss_read_defaults_rdf (xmlNodePtr root,
 				if (!has_image && g_strcmp0 ((const gchar *) subnode->name, "image") == 0) {
 					defaults->icon = xmlGetProp (subnode, (const xmlChar *) "resource");
 					has_image = TRUE;
+				}
+
+				if (!has_date && g_strcmp0 ((const gchar *) subnode->name, "date") == 0) {
+					xmlChar *value = xmlNodeGetContent (subnode);
+
+					if (value && *value) {
+						GDateTime *dt;
+
+						dt = g_date_time_new_from_iso8601 ((const gchar *) value, NULL);
+
+						if (dt)
+							defaults->publish_date = g_date_time_to_unix (dt);
+
+						g_clear_pointer (&dt, g_date_time_unref);
+					}
+
+					g_clear_pointer (&value, xmlFree);
+					has_date = TRUE;
 				}
 			}
 
@@ -577,7 +600,7 @@ e_rss_parser_parse (const gchar *xml,
 				   const FeedDefaults *defaults,
 				   GSList **out_feeds) = NULL;
 
-		if (g_strcmp0 ((const gchar *) root->name, "rdf") == 0) {
+		if (g_strcmp0 ((const gchar *) root->name, "RDF") == 0) {
 			/* RSS 1.0 - https://web.resource.org/rss/1.0/ */
 			e_rss_read_defaults_rdf (root, &defaults);
 			read_func = e_rss_read_rdf;
@@ -590,6 +613,9 @@ e_rss_parser_parse (const gchar *xml,
 			e_rss_read_defaults_feed (root, &defaults);
 			read_func = e_rss_read_feed;
 		}
+
+		if (!defaults.publish_date)
+			defaults.publish_date = g_get_real_time ();
 
 		if (defaults.base || defaults.link || defaults.alt_link) {
 			const gchar *base;
