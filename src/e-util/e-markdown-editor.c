@@ -833,7 +833,7 @@ e_markdown_editor_insert_signature (EContentEditor *cnt_editor,
 	EMarkdownEditor *self = E_MARKDOWN_EDITOR (cnt_editor);
 	GtkTextMark *sig_start_mark, *sig_end_mark;
 	GtkTextBuffer *buffer;
-	GtkTextIter start, end;
+	GtkTextIter start, end, selection_start = { 0, };
 	gchar *plain_text = NULL;
 
 	g_clear_pointer (&self->priv->signature_uid, g_free);
@@ -873,6 +873,7 @@ e_markdown_editor_insert_signature (EContentEditor *cnt_editor,
 
 	buffer = gtk_text_view_get_buffer (self->priv->text_view);
 	gtk_text_buffer_get_bounds (buffer, &start, &end);
+	gtk_text_buffer_get_iter_at_mark (buffer, &selection_start, gtk_text_buffer_get_insert (buffer));
 
 	sig_start_mark = gtk_text_buffer_get_mark (buffer, EVO_SIGNATURE_START_MARK);
 	sig_end_mark = gtk_text_buffer_get_mark (buffer, EVO_SIGNATURE_END_MARK);
@@ -913,14 +914,22 @@ e_markdown_editor_insert_signature (EContentEditor *cnt_editor,
 
 			gtk_text_buffer_create_mark (buffer, EVO_SIGNATURE_START_MARK, &start, TRUE);
 
-			gtk_text_buffer_insert (buffer, &start, "\n", 1);
+			gtk_text_buffer_insert (buffer, &start, "\n\n", 2);
 			gtk_text_buffer_get_start_iter (buffer, &start);
 		} else {
 			GtkTextIter iter = end;
 
-			if (gtk_text_iter_backward_char (&iter) &&
-			    gtk_text_iter_get_char (&iter) != '\n') {
-				gtk_text_buffer_insert (buffer, &end, "\n", 1);
+			if (gtk_text_iter_backward_char (&iter)) {
+				if (gtk_text_iter_get_char (&iter) != '\n') {
+					gtk_text_buffer_insert (buffer, &end, "\n\n", 2);
+					gtk_text_buffer_get_end_iter (buffer, &end);
+				} else if (!gtk_text_iter_backward_char (&iter) ||
+					   gtk_text_iter_get_char (&iter) != '\n') {
+					gtk_text_buffer_insert (buffer, &end, "\n", 1);
+					gtk_text_buffer_get_end_iter (buffer, &end);
+				}
+			} else {
+				gtk_text_buffer_insert (buffer, &end, "\n\n", 2);
 				gtk_text_buffer_get_end_iter (buffer, &end);
 			}
 
@@ -956,11 +965,29 @@ e_markdown_editor_insert_signature (EContentEditor *cnt_editor,
 
 	if (can_reposition_caret) {
 		if (e_content_editor_util_three_state_to_bool (e_content_editor_get_start_bottom (cnt_editor), "composer-reply-start-bottom")) {
+			if (!e_content_editor_util_three_state_to_bool (e_content_editor_get_top_signature (cnt_editor), "composer-top-signature")) {
+				sig_start_mark = gtk_text_buffer_get_mark (buffer, EVO_SIGNATURE_START_MARK);
+				if (sig_start_mark) {
+					gtk_text_buffer_get_iter_at_mark (buffer, &end, sig_start_mark);
+					gtk_text_buffer_insert (buffer, &end, "\n\n", 2);
+					gtk_text_iter_backward_char (&end);
+					gtk_text_iter_backward_char (&end);
+				}
+			}
+
 			gtk_text_buffer_select_range (buffer, &end, &end);
 		} else {
 			gtk_text_buffer_get_start_iter (buffer, &start);
 			gtk_text_buffer_select_range (buffer, &start, &start);
 		}
+
+		gtk_text_view_scroll_to_mark (self->priv->text_view, gtk_text_buffer_get_insert (buffer), 0.0, TRUE, 0.5, 0.5);
+	} else {
+		gtk_text_buffer_get_start_iter (buffer, &start);
+		/* Return cursor back to the top, if it was there; this catches new mail message
+		   with added signature, which moves the cursor below the signature. */
+		if (gtk_text_iter_equal (&start, &selection_start))
+			gtk_text_buffer_select_range (buffer, &start, &start);
 	}
 
 	g_free (plain_text);
