@@ -17,6 +17,7 @@
 #include "e-paned.h"
 #include "e-spell-text-view.h"
 #include "e-web-view.h"
+#include "e-web-view-jsc-utils.h"
 #include "e-widget-undo.h"
 
 #include "e-markdown-editor.h"
@@ -1408,21 +1409,109 @@ e_markdown_editor_markdown_syntax_cb (EMarkdownEditor *self)
 	e_show_uri (GTK_IS_WINDOW (toplevel) ? GTK_WINDOW (toplevel) : NULL, "https://commonmark.org/help/");
 }
 
+#define CURSOR_POS_TEXT "\x02evo-cursor-evo\0x2"
+#define CURSOR_POS_HTML "<span id=\"evo-cursor-pos\"></span>"
+
+static gchar *
+e_markdown_editor_dup_text_internal (EMarkdownEditor *self,
+				     gboolean mark_cursor)
+{
+	GtkTextBuffer *buffer;
+	GtkTextIter start, end;
+	gchar *text;
+
+	g_return_val_if_fail (E_IS_MARKDOWN_EDITOR (self), NULL);
+
+	buffer = gtk_text_view_get_buffer (self->priv->text_view);
+	gtk_text_buffer_get_bounds (buffer, &start, &end);
+
+	text = gtk_text_buffer_get_text (buffer, &start, &end, FALSE);
+
+	if (mark_cursor && text && !strstr (text, CURSOR_POS_TEXT)) {
+		GtkTextIter iter;
+		GtkTextMark *mark;
+		gint offset;
+
+		mark = gtk_text_buffer_get_insert (buffer);
+		gtk_text_buffer_get_iter_at_mark (buffer, &iter, mark);
+
+		offset = gtk_text_iter_get_offset (&iter);
+		if (offset > 0 && offset <= g_utf8_strlen (text, -1)) {
+			GString *str;
+			guint pos;
+
+			str = g_string_sized_new (strlen (text) + strlen (CURSOR_POS_TEXT) + 1);
+			g_string_append (str, text);
+			pos = g_utf8_offset_to_pointer (str->str, offset) - str->str;
+			/* Find line or word boundary, to not place the mark in the middle of the tag */
+			while (pos < str->len && str->str[pos] != '\n' && !g_ascii_isspace (str->str[pos]))
+				pos++;
+			g_string_insert (str, pos, CURSOR_POS_TEXT);
+			g_free (text);
+			text = g_string_free (str, FALSE);
+		}
+	}
+
+	return text;
+}
+
+static gchar *
+e_markdown_editor_dup_html_internal (EMarkdownEditor *self,
+				     gboolean mark_cursor)
+{
+	#ifdef HAVE_MARKDOWN
+	gchar *text, *html;
+	#endif
+
+	g_return_val_if_fail (E_IS_MARKDOWN_EDITOR (self), NULL);
+
+	#ifdef HAVE_MARKDOWN
+	text = e_markdown_editor_dup_text_internal (self, mark_cursor);
+	html = e_markdown_utils_text_to_html (text, -1);
+
+	if (mark_cursor && html && strstr (html, CURSOR_POS_TEXT)) {
+		GString *str;
+
+		str = e_str_replace_string (html, CURSOR_POS_TEXT, CURSOR_POS_HTML);
+		g_free (html);
+		html = g_string_free (str, FALSE);
+	}
+
+	g_free (text);
+
+	return html;
+	#else
+	return NULL;
+	#endif
+}
+
 #ifdef HAVE_MARKDOWN
 static void
-e_markdown_editor_update_preview (EMarkdownEditor *self)
+e_markdown_editor_update_preview (EMarkdownEditor *self,
+				  gboolean mark_cursor)
 {
 	gchar *converted;
 	gchar *html;
 
-	converted = e_markdown_editor_dup_html (self);
+	converted = e_markdown_editor_dup_html_internal (self, mark_cursor);
 
 	html = g_strconcat ("<div class=\"-e-web-view-background-color -e-web-view-text-color\" style=\"border: none; padding: 0px; margin: 0;\">",
 		converted ? converted : "",
 		"</div>",
 		NULL);
 
-	e_web_view_load_string (self->priv->web_view, html);
+	if (mark_cursor) {
+		e_web_view_jsc_run_script (WEBKIT_WEB_VIEW (self->priv->web_view),
+			e_web_view_get_cancellable (self->priv->web_view),
+			"{ document.body.innerHTML = %s; "
+			"var elem = document.getElementById(%s); "
+			"if (elem) elem.scrollIntoView({behavior:\"smooth\", block:\"center\", inline:\"center\"}); "
+			"};",
+			html,
+			"evo-cursor-pos");
+	} else {
+		e_web_view_load_string (self->priv->web_view, html);
+	}
 
 	g_free (converted);
 	g_free (html);
@@ -1457,7 +1546,7 @@ e_markdown_editor_switch_page_cb (GtkNotebook *notebook,
 	if (page_num != 1)
 		return;
 
-	e_markdown_editor_update_preview (self);
+	e_markdown_editor_update_preview (self, FALSE);
 }
 
 static gboolean
@@ -1467,7 +1556,7 @@ e_markdown_editor_update_preview_timeout_cb (gpointer user_data)
 
 	self->priv->preview_update_id = 0;
 
-	e_markdown_editor_update_preview (self);
+	e_markdown_editor_update_preview (self, TRUE);
 
 	return FALSE;
 }
@@ -1553,7 +1642,7 @@ e_markdown_editor_toggle_preview (EMarkdownEditor *self,
 
 		e_paned_set_proportion (E_PANED (paned), 0.5);
 
-		e_markdown_editor_update_preview (self);
+		e_markdown_editor_update_preview (self, FALSE);
 	} else {
 		gtk_notebook_append_page (self->priv->notebook,
 			text_scrolled_window, gtk_label_new_with_mnemonic (_("_Write")));
@@ -2537,15 +2626,9 @@ e_markdown_editor_set_text (EMarkdownEditor *self,
 gchar *
 e_markdown_editor_dup_text (EMarkdownEditor *self)
 {
-	GtkTextBuffer *buffer;
-	GtkTextIter start, end;
-
 	g_return_val_if_fail (E_IS_MARKDOWN_EDITOR (self), NULL);
 
-	buffer = gtk_text_view_get_buffer (self->priv->text_view);
-	gtk_text_buffer_get_bounds (buffer, &start, &end);
-
-	return gtk_text_buffer_get_text (buffer, &start, &end, FALSE);
+	return e_markdown_editor_dup_text_internal (self, FALSE);
 }
 
 /**
@@ -2567,22 +2650,9 @@ e_markdown_editor_dup_text (EMarkdownEditor *self)
 gchar *
 e_markdown_editor_dup_html (EMarkdownEditor *self)
 {
-	#ifdef HAVE_MARKDOWN
-	gchar *text, *html;
-	#endif
-
 	g_return_val_if_fail (E_IS_MARKDOWN_EDITOR (self), NULL);
 
-	#ifdef HAVE_MARKDOWN
-	text = e_markdown_editor_dup_text (self);
-	html = e_markdown_utils_text_to_html (text, -1);
-
-	g_free (text);
-
-	return html;
-	#else
-	return NULL;
-	#endif
+	return e_markdown_editor_dup_html_internal (self, FALSE);
 }
 
 /**
