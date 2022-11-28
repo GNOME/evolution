@@ -1409,6 +1409,7 @@ e_web_view_element_clicked_cb (WebKitUserContentManager *manager,
 	GPtrArray *listeners;
 	JSCValue *jsc_object;
 	gchar *iframe_id, *elem_id, *elem_class, *elem_value;
+	gdouble zoom_level;
 
 	g_return_if_fail (web_view != NULL);
 	g_return_if_fail (js_result != NULL);
@@ -1424,6 +1425,12 @@ e_web_view_element_clicked_cb (WebKitUserContentManager *manager,
 	elem_position.y = e_web_view_jsc_get_object_property_int32 (jsc_object, "top", 0);
 	elem_position.width = e_web_view_jsc_get_object_property_int32 (jsc_object, "width", 0);
 	elem_position.height = e_web_view_jsc_get_object_property_int32 (jsc_object, "height", 0);
+
+	zoom_level = webkit_web_view_get_zoom_level (WEBKIT_WEB_VIEW (web_view));
+	elem_position.x *= zoom_level;
+	elem_position.y *= zoom_level;
+	elem_position.width *= zoom_level;
+	elem_position.height *= zoom_level;
 
 	listeners = g_hash_table_lookup (web_view->priv->element_clicked_cbs, elem_class);
 
