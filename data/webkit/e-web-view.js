@@ -83,6 +83,9 @@ Evo.foreachIFrameDocument = function(doc, traversar_obj, call_also_for_doc, leve
 	iframes = doc.getElementsByTagName("iframe");
 
 	for (ii = 0; ii < iframes.length; ii++) {
+		if (!iframes[ii].contentDocument)
+			continue;
+
 		if (!traversar_obj.exec(iframes[ii].contentDocument, iframes[ii].id, level + 1))
 			return false;
 
