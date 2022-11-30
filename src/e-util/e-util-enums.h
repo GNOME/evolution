@@ -152,6 +152,7 @@ typedef enum {
  * @E_CONTENT_EDITOR_INSERT_TEXT_PLAIN:
  * @E_CONTENT_EDITOR_INSERT_CONVERT_PREFER_PRE: Set when should convert plain text into &lt;pre&gt; instead of &lt;div&gt;. Since 3.40
  * @E_CONTENT_EDITOR_INSERT_CLEANUP_SIGNATURE_ID: Set when should cleanup signature ID in the body. Since 3.42
+ * @E_CONTENT_EDITOR_INSERT_FROM_PLAIN_TEXT: Set when the HTML source is a plain text editor. Since: 3.46.2
  *
  * Since: 3.22
  **/
@@ -163,7 +164,8 @@ typedef enum {
 	E_CONTENT_EDITOR_INSERT_TEXT_HTML		= 1 << 3,
 	E_CONTENT_EDITOR_INSERT_TEXT_PLAIN		= 1 << 4,
 	E_CONTENT_EDITOR_INSERT_CONVERT_PREFER_PRE	= 1 << 5,
-	E_CONTENT_EDITOR_INSERT_CLEANUP_SIGNATURE_ID	= 1 << 6
+	E_CONTENT_EDITOR_INSERT_CLEANUP_SIGNATURE_ID	= 1 << 6,
+	E_CONTENT_EDITOR_INSERT_FROM_PLAIN_TEXT 	= 1 << 7
 } EContentEditorInsertContentFlags;
 
 /**
@@ -647,6 +649,8 @@ typedef enum {
  * @E_MARKDOWN_HTML_TO_TEXT_FLAG_NONE: no flag set
  * @E_MARKDOWN_HTML_TO_TEXT_FLAG_PLAIN_TEXT: disallow any HTML, save in pure plain text
  * @E_MARKDOWN_HTML_TO_TEXT_FLAG_COMPOSER_QUIRKS: enable composer quirks to post-process the text
+ * @E_MARKDOWN_HTML_TO_TEXT_FLAG_SIGNIFICANT_NL: whether new lines in the text are significant,
+ *    aka whether they work the same as the &lt;br&gt; elements. Since: 3.46.2
  *
  * Flags used in e_markdown_util_html_to_text().
  *
@@ -655,7 +659,8 @@ typedef enum {
 typedef enum { /*< flags >*/
 	E_MARKDOWN_HTML_TO_TEXT_FLAG_NONE		= 0,
 	E_MARKDOWN_HTML_TO_TEXT_FLAG_PLAIN_TEXT		= 1 << 0,
-	E_MARKDOWN_HTML_TO_TEXT_FLAG_COMPOSER_QUIRKS	= 1 << 1
+	E_MARKDOWN_HTML_TO_TEXT_FLAG_COMPOSER_QUIRKS	= 1 << 1,
+	E_MARKDOWN_HTML_TO_TEXT_FLAG_SIGNIFICANT_NL	= 1 << 2
 } EMarkdownHTMLToTextFlags;
 
 typedef enum {
