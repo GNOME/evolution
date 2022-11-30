@@ -830,6 +830,7 @@ add_private_programs_simple(
 	test-dateedit
 	test-html-editor
 	test-mail-signatures
+	test-markdown
 	test-markdown-editor
 	test-month-widget
 	test-name-selector

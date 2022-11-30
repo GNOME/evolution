@@ -104,11 +104,11 @@ markdown_utils_apply_composer_quirks (GString *buffer,
 	}
 
 	if (quirks->to_body_credits) {
-		g_string_insert (buffer, 0, "\n");
-
 		/* For Inline/Outlook style replies */
-		if (!quirks->cite_body)
-			g_string_insert (buffer, 0, "<br>");
+		if (quirks->cite_body)
+			g_string_insert (buffer, 0, "\n");
+		else
+			g_string_insert (buffer, 0, "  \n");
 
 		g_string_insert (buffer, 0, quirks->to_body_credits);
 	}
@@ -120,17 +120,135 @@ typedef struct _HTMLToTextData {
 	gint in_code;
 	gint in_pre;
 	gint in_paragraph;
-	gboolean in_paragraph_end;
-	gboolean in_div_begin;
+	guint paragraph_index;
+	guint pending_nl_paragraph_index;
 	gboolean in_li;
-	gboolean last_was_br; /* To avoid double "<br>" in "<div>...<br></div>" */
+	gboolean in_ulol_start;
+	gboolean line_start;
 	GString *quote_prefix;
 	gchar *href;
 	GString *link_text;
 	GSList *list_index; /* gint; -1 for unordered list */
 	gboolean plain_text;
+	gboolean significant_nl;
 	struct _ComposerQuirks composer_quirks;
 } HTMLToTextData;
+
+#define markdown_utils_append_tag(_dt, _txt) markdown_utils_append_text (_dt, _txt, -1, FALSE)
+
+static void
+markdown_utils_append_text (HTMLToTextData *data,
+			    const gchar *text,
+			    gssize text_len,
+			    gboolean can_convert_nl)
+{
+	if (data->pending_nl_paragraph_index) {
+		if (!data->in_pre && !data->in_li && !data->quote_prefix->len) {
+			/* Trim trailing spaces before new line */
+			while (data->buffer->len > 0 && data->buffer->str[data->buffer->len - 1] == ' ') {
+				g_string_truncate (data->buffer, data->buffer->len - 1);
+			}
+		}
+
+		if (data->plain_text)
+			g_string_append_c (data->buffer, '\n');
+		else if (!data->in_pre && !data->list_index && data->pending_nl_paragraph_index == data->paragraph_index)
+			g_string_append (data->buffer, "  \n");
+		else
+			g_string_append_c (data->buffer, '\n');
+
+		if (data->quote_prefix->len)
+			g_string_append (data->buffer, data->quote_prefix->str);
+
+		data->line_start = !data->quote_prefix->len;
+		data->pending_nl_paragraph_index = 0;
+	}
+
+	if (text && (text_len == -1 || text_len > 0)) {
+		if (data->line_start && !data->in_pre && !data->in_li && !data->quote_prefix->len) {
+			if (*text == '\n' && !data->significant_nl) {
+				text++;
+				if (text_len > 0)
+					text_len--;
+			} else {
+				while (*text == ' ' && (text_len == -1 || text_len > 0)) {
+					text++;
+					if (text_len > 0)
+						text_len--;
+				}
+			}
+		}
+
+		if ((text_len == -1 || text_len > 0) && *text) {
+			gint ii, from_index = data->buffer->len;
+
+			if (data->line_start && !data->in_pre && !data->in_li && data->buffer->len > 1 &&
+			    data->buffer->str[data->buffer->len - 1] == '\n' &&
+			    data->buffer->str[data->buffer->len - 2] != '\n' && (data->buffer->len < 3 ||
+			    (data->buffer->str[data->buffer->len - 2] != ' ' || data->buffer->str[data->buffer->len - 3] != ' '))) {
+				g_string_insert (data->buffer, data->buffer->len - 1, "  ");
+				from_index = data->buffer->len;
+			}
+
+			if (data->line_start && data->quote_prefix->len && !data->in_li)
+				g_string_append (data->buffer, data->quote_prefix->str);
+
+			data->line_start = FALSE;
+
+			g_string_append_len (data->buffer, text, text_len);
+
+			if (can_convert_nl && !data->in_pre && !data->in_li) {
+				for (ii = from_index; ii < data->buffer->len; ii++) {
+					if (data->buffer->str[ii] == '\n') {
+						if (data->significant_nl) {
+							gint jj;
+
+							for (jj = ii; jj > 0 && data->buffer->str[jj - 1] == ' '; jj--) {
+								/* Count trailing spaces before the end of line */
+							}
+
+							/* Trim the spaces */
+							if (jj != ii) {
+								g_string_erase (data->buffer, jj, ii - jj);
+								ii = jj;
+							}
+
+							g_string_insert (data->buffer, ii, "  ");
+							ii += 2;
+
+							for (jj = ii + 1; jj < data->buffer->len && data->buffer->str[jj] == ' '; jj++) {
+								/* Count trailing spaces after the end of line */
+							}
+
+							/* Trim the spaces */
+							if (jj != ii + 1)
+								g_string_erase (data->buffer, ii + 1, jj - ii - 1);
+
+							if (ii + 1 < data->buffer->len && data->quote_prefix->len && !data->in_li) {
+								g_string_insert (data->buffer, ii + 1, data->quote_prefix->str);
+								ii += data->quote_prefix->len;
+							}
+						} else {
+							data->buffer->str[ii] = ' ';
+						}
+					}
+				}
+			} else if (data->quote_prefix->len && !data->in_li) {
+				for (ii = from_index; ii < data->buffer->len - 1; ii++) {
+					if (data->buffer->str[ii] == '\n') {
+						g_string_insert (data->buffer, ii + 1, data->quote_prefix->str);
+						ii += data->quote_prefix->len;
+					}
+				}
+			}
+		} else if (data->line_start) {
+			if (data->quote_prefix->len && !data->in_li)
+				g_string_append (data->buffer, data->quote_prefix->str);
+
+			data->line_start = FALSE;
+		}
+	}
+}
 
 static void
 markdown_utils_sax_start_element_cb (gpointer ctx,
@@ -139,8 +257,6 @@ markdown_utils_sax_start_element_cb (gpointer ctx,
 {
 	HTMLToTextData *data = ctx;
 	const gchar *name = (const gchar *) xcname;
-	gboolean was_in_div_begin;
-	gboolean last_was_br;
 	#if dd(1)+0
 	{
 		gint ii;
@@ -182,11 +298,6 @@ markdown_utils_sax_start_element_cb (gpointer ctx,
 	if (!data->in_body)
 		return;
 
-	was_in_div_begin = data->in_div_begin;
-	last_was_br = data->last_was_br;
-	data->in_div_begin = FALSE;
-	data->last_was_br = FALSE;
-
 	if (g_ascii_strcasecmp (name, "a") == 0) {
 		if (!data->plain_text && !data->href) {
 			const gchar *href;
@@ -202,33 +313,25 @@ markdown_utils_sax_start_element_cb (gpointer ctx,
 	}
 
 	if (g_ascii_strcasecmp (name, "blockquote") == 0) {
-		if (data->in_paragraph_end) {
-			if (data->quote_prefix->len)
-				g_string_append (data->buffer, data->quote_prefix->str);
+		markdown_utils_append_tag (data, NULL);
+		data->pending_nl_paragraph_index = data->paragraph_index - 1;
 
-			g_string_append_c (data->buffer, '\n');
-
-			data->in_paragraph_end = FALSE;
+		if (data->quote_prefix->len) {
+			g_string_append (data->quote_prefix, "> ");
+			markdown_utils_append_tag (data, NULL);
+		} else {
+			markdown_utils_append_tag (data, NULL);
+			g_string_append (data->quote_prefix, "> ");
 		}
 
-		g_string_append (data->quote_prefix, "> ");
 		return;
 	}
 
 	if (g_ascii_strcasecmp (name, "br") == 0) {
-		data->last_was_br = TRUE;
+		if (data->pending_nl_paragraph_index)
+			markdown_utils_append_tag (data, NULL);
 
-		if (data->plain_text) {
-			g_string_append (data->buffer, "\n");
-
-			if (data->quote_prefix->len)
-				g_string_append (data->buffer, data->quote_prefix->str);
-		} else if (!data->composer_quirks.enabled || !was_in_div_begin) {
-			if (data->in_pre)
-				g_string_append_c (data->buffer, '\n');
-			else
-				g_string_append (data->buffer, "<br>");
-		}
+		data->pending_nl_paragraph_index = data->paragraph_index;
 
 		return;
 	}
@@ -236,23 +339,28 @@ markdown_utils_sax_start_element_cb (gpointer ctx,
 	if (g_ascii_strcasecmp (name, "b") == 0 ||
 	    g_ascii_strcasecmp (name, "strong") == 0) {
 		if (!data->plain_text)
-			g_string_append (data->buffer, "**");
+			markdown_utils_append_tag (data, "**");
 		return;
 	}
 
 	if (g_ascii_strcasecmp (name, "i") == 0 ||
 	    g_ascii_strcasecmp (name, "em") == 0) {
 		if (!data->plain_text)
-			g_string_append (data->buffer, "*");
+			markdown_utils_append_tag (data, "*");
 		return;
 	}
 
 	if (g_ascii_strcasecmp (name, "pre") == 0) {
+		if (!data->in_paragraph)
+			data->paragraph_index++;
+
 		data->in_paragraph++;
 		data->in_pre++;
 		if (data->in_pre == 1) {
-			if (!data->plain_text)
-				g_string_append (data->buffer, "```\n");
+			if (data->plain_text)
+				markdown_utils_append_tag (data, NULL);
+			else
+				markdown_utils_append_tag (data, "```\n");
 		}
 		return;
 	}
@@ -260,7 +368,9 @@ markdown_utils_sax_start_element_cb (gpointer ctx,
 	if (g_ascii_strcasecmp (name, "code") == 0) {
 		data->in_code++;
 		if (data->in_code == 1 && !data->in_pre && !data->plain_text)
-			g_string_append (data->buffer, "`");
+			markdown_utils_append_tag (data, "`");
+		else
+			markdown_utils_append_tag (data, NULL);
 		return;
 	}
 
@@ -270,34 +380,31 @@ markdown_utils_sax_start_element_cb (gpointer ctx,
 	    g_ascii_strcasecmp (name, "h4") == 0 ||
 	    g_ascii_strcasecmp (name, "h5") == 0 ||
 	    g_ascii_strcasecmp (name, "h6") == 0) {
-		if (data->in_paragraph_end) {
-			g_string_append_c (data->buffer, '\n');
-			data->in_paragraph_end = FALSE;
-		}
+		markdown_utils_append_tag (data, NULL);
 
+		if (!data->in_paragraph)
+			data->paragraph_index++;
 		data->in_paragraph++;
-		if (data->quote_prefix->len)
-			g_string_append (data->buffer, data->quote_prefix->str);
 
 		if (!data->plain_text) {
 			switch (name[1]) {
 			case '1':
-				g_string_append (data->buffer, "# ");
+				markdown_utils_append_tag (data, "# ");
 				break;
 			case '2':
-				g_string_append (data->buffer, "## ");
+				markdown_utils_append_tag (data, "## ");
 				break;
 			case '3':
-				g_string_append (data->buffer, "### ");
+				markdown_utils_append_tag (data, "### ");
 				break;
 			case '4':
-				g_string_append (data->buffer, "#### ");
+				markdown_utils_append_tag (data, "#### ");
 				break;
 			case '5':
-				g_string_append (data->buffer, "##### ");
+				markdown_utils_append_tag (data, "##### ");
 				break;
 			case '6':
-				g_string_append (data->buffer, "###### ");
+				markdown_utils_append_tag (data, "###### ");
 				break;
 			}
 		}
@@ -306,52 +413,42 @@ markdown_utils_sax_start_element_cb (gpointer ctx,
 
 	if (g_ascii_strcasecmp (name, "p") == 0 ||
 	    g_ascii_strcasecmp (name, "div") == 0) {
-		if (data->in_paragraph_end) {
-			data->in_paragraph_end = FALSE;
+		markdown_utils_append_tag (data, NULL);
 
-			if (!last_was_br && data->quote_prefix->len)
-				g_string_append (data->buffer, data->quote_prefix->str);
-
-			g_string_append_c (data->buffer, '\n');
-		}
-
+		if (!data->in_paragraph)
+			data->paragraph_index++;
 		data->in_paragraph++;
-		data->in_div_begin = g_ascii_strcasecmp (name, "div") == 0;
-		if (data->quote_prefix->len)
-			g_string_append (data->buffer, data->quote_prefix->str);
 		return;
 	}
 
-	if (g_ascii_strcasecmp (name, "ul") == 0) {
-		if (data->in_paragraph_end) {
-			g_string_append_c (data->buffer, '\n');
-			data->in_paragraph_end = FALSE;
-		}
-		data->list_index = g_slist_prepend (data->list_index, GINT_TO_POINTER (-1));
-		data->in_li = FALSE;
-		return;
-	}
+	if (g_ascii_strcasecmp (name, "ul") == 0 ||
+	    g_ascii_strcasecmp (name, "ol") == 0) {
+		if (!data->in_ulol_start && !data->pending_nl_paragraph_index)
+			data->pending_nl_paragraph_index = data->paragraph_index - 1;
 
-	if (g_ascii_strcasecmp (name, "ol") == 0) {
-		if (data->in_paragraph_end) {
-			g_string_append_c (data->buffer, '\n');
-			data->in_paragraph_end = FALSE;
-		}
-		data->list_index = g_slist_prepend (data->list_index, GINT_TO_POINTER (1));
+		markdown_utils_append_tag (data, NULL);
+
+		if (g_ascii_strcasecmp (name, "ul") == 0)
+			data->list_index = g_slist_prepend (data->list_index, GINT_TO_POINTER (-1));
+		else
+			data->list_index = g_slist_prepend (data->list_index, GINT_TO_POINTER (1));
+
+		data->in_ulol_start = TRUE;
 		data->in_li = FALSE;
+		data->pending_nl_paragraph_index = data->paragraph_index;
+		data->paragraph_index++;
 		return;
 	}
 
 	if (g_ascii_strcasecmp (name, "li") == 0) {
-		data->in_paragraph_end = FALSE;
 		data->in_li = TRUE;
+		data->in_ulol_start = FALSE;
 
 		if (data->list_index) {
 			gint index = GPOINTER_TO_INT (data->list_index->data);
 			gint level = g_slist_length (data->list_index) - 1;
 
-			if (data->quote_prefix->len)
-				g_string_append (data->buffer, data->quote_prefix->str);
+			markdown_utils_append_tag (data, NULL);
 
 			if (level > 0)
 				g_string_append_printf (data->buffer, "%*s", level * 3, "");
@@ -386,6 +483,7 @@ markdown_utils_sax_end_element_cb (gpointer ctx,
 
 	if (g_ascii_strcasecmp (name, "a") == 0) {
 		if (!data->plain_text && data->href && data->link_text) {
+			markdown_utils_append_tag (data, NULL);
 			g_string_append_printf (data->buffer, "[%s](%s)", data->link_text->str, data->href);
 
 			g_free (data->href);
@@ -401,10 +499,14 @@ markdown_utils_sax_end_element_cb (gpointer ctx,
 		if (data->quote_prefix->len > 1)
 			g_string_truncate (data->quote_prefix, data->quote_prefix->len - 2);
 
-		data->in_paragraph_end = data->quote_prefix->len > 1;
+		data->paragraph_index++;
 
-		if (!data->in_paragraph_end)
-			g_string_append_c (data->buffer, '\n');
+		if (data->pending_nl_paragraph_index != data->paragraph_index - 1) {
+			markdown_utils_append_tag (data, NULL);
+
+			if (!data->pending_nl_paragraph_index)
+				data->pending_nl_paragraph_index = data->paragraph_index - 1;
+		}
 
 		return;
 	}
@@ -412,26 +514,28 @@ markdown_utils_sax_end_element_cb (gpointer ctx,
 	if (g_ascii_strcasecmp (name, "b") == 0 ||
 	    g_ascii_strcasecmp (name, "strong") == 0) {
 		if (!data->plain_text)
-			g_string_append (data->buffer, "**");
+			markdown_utils_append_tag (data, "**");
 		return;
 	}
 
 	if (g_ascii_strcasecmp (name, "i") == 0 ||
 	    g_ascii_strcasecmp (name, "em") == 0) {
 		if (!data->plain_text)
-			g_string_append (data->buffer, "*");
+			markdown_utils_append_tag (data, "*");
 		return;
 	}
 
 	if (g_ascii_strcasecmp (name, "pre") == 0) {
+		data->paragraph_index++;
+
 		if (data->in_paragraph > 0)
 			data->in_paragraph--;
 
 		if (data->in_pre > 0) {
 			data->in_pre--;
-			g_string_append_c (data->buffer, '\n');
+			markdown_utils_append_tag (data, "\n");
 			if (data->in_pre == 0 && !data->plain_text)
-				g_string_append (data->buffer, "```\n");
+				markdown_utils_append_tag (data, "```\n");
 		}
 		return;
 	}
@@ -440,7 +544,7 @@ markdown_utils_sax_end_element_cb (gpointer ctx,
 		if (data->in_code > 0) {
 			data->in_code--;
 			if (data->in_code == 0 && !data->in_pre && !data->plain_text)
-				g_string_append (data->buffer, "`");
+				markdown_utils_append_tag (data, "`");
 		}
 		return;
 	}
@@ -454,18 +558,9 @@ markdown_utils_sax_end_element_cb (gpointer ctx,
 	    g_ascii_strcasecmp (name, "h4") == 0 ||
 	    g_ascii_strcasecmp (name, "h5") == 0 ||
 	    g_ascii_strcasecmp (name, "h6") == 0) {
-		/* To avoid double-line ends when parsing composer HTML */
-		if (data->composer_quirks.enabled) {
-			if (data->plain_text && !(
-			    g_ascii_strcasecmp (name, "p") == 0 ||
-			    g_ascii_strcasecmp (name, "div") == 0))
-				g_string_append_c (data->buffer, '\n');
-			else if (!data->plain_text && !data->last_was_br)
-				g_string_append (data->buffer, "<br>");
-		}
-
 		if (g_ascii_strcasecmp (name, "tr") != 0) {
-			data->in_paragraph_end = TRUE;
+			data->pending_nl_paragraph_index = data->paragraph_index;
+			data->paragraph_index++;
 
 			if (data->in_paragraph > 0)
 				data->in_paragraph--;
@@ -476,20 +571,30 @@ markdown_utils_sax_end_element_cb (gpointer ctx,
 
 	if (g_ascii_strcasecmp (name, "ul") == 0 ||
 	    g_ascii_strcasecmp (name, "ol") == 0) {
+		/* end the <li> */
+		markdown_utils_append_tag (data, NULL);
+
+		data->paragraph_index++;
+
+		if (data->pending_nl_paragraph_index != data->paragraph_index - 1) {
+			/* add extra line to split the list from the next paragraph */
+			if (!data->pending_nl_paragraph_index)
+				data->pending_nl_paragraph_index = data->paragraph_index - 1;
+
+			markdown_utils_append_tag (data, NULL);
+		}
+
 		if (data->list_index)
 			data->list_index = g_slist_remove (data->list_index, data->list_index->data);
-		data->in_paragraph_end = data->list_index == NULL;
-
-		if (!data->in_paragraph_end && data->buffer->len && data->buffer->str[data->buffer->len - 1] == '\n')
-			g_string_truncate (data->buffer, data->buffer->len - 1);
+		data->in_ulol_start = FALSE;
 
 		return;
 	}
 
 	if (g_ascii_strcasecmp (name, "li") == 0) {
-		g_string_append_c (data->buffer, '\n');
+		markdown_utils_append_tag (data, NULL);
 
-		data->in_paragraph_end = FALSE;
+		data->pending_nl_paragraph_index = data->paragraph_index;
 		data->in_li = FALSE;
 
 		return;
@@ -521,27 +626,10 @@ markdown_utils_sax_characters_cb (gpointer ctx,
 	dd (printf ("%s: text:'%.*s' in_body:%d in_paragraph:%d in_li:%d\n", G_STRFUNC, len, text, data->in_body, data->in_paragraph, data->in_li);)
 
 	if (data->in_body && (data->in_paragraph || data->in_li || !markdown_utils_only_whitespace (text, len))) {
-		data->in_div_begin = FALSE;
-		data->last_was_br = FALSE;
-
-		if (data->link_text) {
+		if (data->link_text)
 			g_string_append_len (data->link_text, text, len);
-		} else {
-			gsize from_index = data->buffer->len;
-
-			g_string_append_len (data->buffer, text, len);
-
-			if (data->quote_prefix->len && !data->in_li && strchr (data->buffer->str + from_index, '\n')) {
-				gint ii;
-
-				for (ii = from_index; ii < data->buffer->len; ii++) {
-					if (data->buffer->str[ii] == '\n') {
-						g_string_insert (data->buffer, ii + 1, data->quote_prefix->str);
-						ii += data->quote_prefix->len + 1;
-					}
-				}
-			}
-		}
+		else
+			markdown_utils_append_text (data, text, len, TRUE);
 	}
 }
 
@@ -587,11 +675,19 @@ e_markdown_utils_html_to_text (const gchar *html,
 	if (length < 0)
 		length = html ? strlen (html) : 0;
 
+	dd (printf ("%s: flags:%s%s%s%shtml:'%.*s'\n", G_STRFUNC,
+		flags == E_MARKDOWN_HTML_TO_TEXT_FLAG_NONE ? "none " : "",
+		(flags & E_MARKDOWN_HTML_TO_TEXT_FLAG_PLAIN_TEXT) != 0 ? "plain-text " : "",
+		(flags & E_MARKDOWN_HTML_TO_TEXT_FLAG_COMPOSER_QUIRKS) != 0 ? "composer-quirks " : "",
+		(flags & E_MARKDOWN_HTML_TO_TEXT_FLAG_SIGNIFICANT_NL) != 0 ? "significant-nl " : "",
+		(int) length, html);)
+
 	memset (&data, 0, sizeof (HTMLToTextData));
 
 	data.buffer = g_string_new (NULL);
 	data.quote_prefix = g_string_new (NULL);
 	data.plain_text = (flags & E_MARKDOWN_HTML_TO_TEXT_FLAG_PLAIN_TEXT) != 0;
+	data.significant_nl = (flags & E_MARKDOWN_HTML_TO_TEXT_FLAG_SIGNIFICANT_NL) != 0;
 	data.composer_quirks.enabled = (flags & E_MARKDOWN_HTML_TO_TEXT_FLAG_COMPOSER_QUIRKS) != 0;
 
 	memset (&sax, 0, sizeof (htmlSAXHandler));
@@ -624,6 +720,9 @@ e_markdown_utils_html_to_text (const gchar *html,
 	}
 
 	htmlFreeParserCtxt (ctxt);
+
+	/* To add ending new-lines, if any */
+	markdown_utils_append_tag (&data, NULL);
 
 	markdown_utils_apply_composer_quirks (data.buffer, &data.composer_quirks);
 

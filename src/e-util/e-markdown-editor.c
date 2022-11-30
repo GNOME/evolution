@@ -252,7 +252,8 @@ e_markdown_editor_insert_content (EContentEditor *cnt_editor,
 	self = E_MARKDOWN_EDITOR (cnt_editor);
 
 	if ((flags & E_CONTENT_EDITOR_INSERT_TEXT_HTML) != 0) {
-		text = e_markdown_utils_html_to_text (content, -1, E_MARKDOWN_HTML_TO_TEXT_FLAG_COMPOSER_QUIRKS);
+		text = e_markdown_utils_html_to_text (content, -1, E_MARKDOWN_HTML_TO_TEXT_FLAG_COMPOSER_QUIRKS |
+			((flags & E_CONTENT_EDITOR_INSERT_FROM_PLAIN_TEXT) != 0 ? E_MARKDOWN_HTML_TO_TEXT_FLAG_SIGNIFICANT_NL : 0));
 		content = text;
 	}
 

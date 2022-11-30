@@ -1686,22 +1686,31 @@ e_html_editor_register_content_editor (EHTMLEditor *editor,
 	}
 }
 
+typedef struct _ModeChangeData {
+	GWeakRef *editor_weak_ref;
+	EContentEditorMode source_mode;
+} ModeChangeData;
+
 static void
 e_html_editor_update_content_on_mode_change_cb (GObject *source_object,
 						GAsyncResult *result,
 						gpointer user_data)
 {
-	GWeakRef *weak_ref = user_data;
+	ModeChangeData *mcd = user_data;
 	EContentEditorContentHash *content_hash;
+	EContentEditorMode source_mode;
 	EContentEditor *cnt_editor;
 	EHTMLEditor *editor;
 
 	g_return_if_fail (E_IS_CONTENT_EDITOR (source_object));
-	g_return_if_fail (weak_ref != NULL);
+	g_return_if_fail (mcd != NULL);
 
-	editor = g_weak_ref_get (weak_ref);
+	editor = g_weak_ref_get (mcd->editor_weak_ref);
+	source_mode = mcd->source_mode;
 
-	e_weak_ref_free (weak_ref);
+	e_weak_ref_free (mcd->editor_weak_ref);
+	g_slice_free (ModeChangeData, mcd);
+	mcd = NULL;
 
 	if (!editor)
 		return;
@@ -1720,7 +1729,8 @@ e_html_editor_update_content_on_mode_change_cb (GObject *source_object,
 			e_content_editor_insert_content (editor->priv->use_content_editor, text,
 				E_CONTENT_EDITOR_INSERT_CONVERT |
 				E_CONTENT_EDITOR_INSERT_TEXT_HTML |
-				E_CONTENT_EDITOR_INSERT_REPLACE_ALL);
+				E_CONTENT_EDITOR_INSERT_REPLACE_ALL |
+				((source_mode == E_CONTENT_EDITOR_MODE_PLAIN_TEXT) ? E_CONTENT_EDITOR_INSERT_FROM_PLAIN_TEXT : 0));
 		} else {
 			text = e_content_editor_util_get_content_data (content_hash, E_CONTENT_EDITOR_GET_TO_SEND_PLAIN);
 
@@ -1795,6 +1805,8 @@ e_html_editor_set_mode (EHTMLEditor *editor,
 			gboolean is_focused = FALSE;
 
 			if (editor->priv->use_content_editor) {
+				ModeChangeData *mcd;
+
 				e_html_editor_actions_unbind (editor);
 
 				is_focused = e_content_editor_is_focus (editor->priv->use_content_editor);
@@ -1804,12 +1816,16 @@ e_html_editor_set_mode (EHTMLEditor *editor,
 				g_signal_connect_object (cnt_editor, "content-changed",
 					G_CALLBACK (e_html_editor_content_changed_cb), editor, 0);
 
+				mcd = g_slice_new (ModeChangeData);
+				mcd->editor_weak_ref = e_weak_ref_new (editor);
+				mcd->source_mode = editor->priv->mode;
+
 				/* Transfer also the content between editors */
 				e_content_editor_get_content (editor->priv->use_content_editor,
 					E_CONTENT_EDITOR_GET_TO_SEND_HTML | E_CONTENT_EDITOR_GET_TO_SEND_PLAIN,
 					"localhost", editor->priv->mode_change_content_cancellable,
 					e_html_editor_update_content_on_mode_change_cb,
-					e_weak_ref_new (editor));
+					mcd);
 
 				gtk_widget_hide (GTK_WIDGET (editor->priv->use_content_editor));
 
