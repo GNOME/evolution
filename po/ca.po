@@ -20,7 +20,7 @@ msgstr ""
 "Project-Id-Version: evolution\n"
 "Report-Msgid-Bugs-To: https://gitlab.gnome.org/GNOME/evolution/issues\n"
 "POT-Creation-Date: 2022-08-15 18:29+0000\n"
-"PO-Revision-Date: 2022-09-04 13:08+0200\n"
+"PO-Revision-Date: 2022-12-01 13:08+0200\n"
 "Last-Translator: Jordi Mas i Hernàndez <jmas@softcatala.org>\n"
 "Language-Team: Catalan <info@softcatala.org>\n"
 "Language: ca\n"
@@ -4319,7 +4319,7 @@ msgstr "No s'ha pogut obrir aquesta llibreta d'adreces."
 
 #: ../src/addressbook/addressbook.error.xml.h:2
 msgid "Failed to communicate with LDAP server."
-msgstr "No s’ha pogut comunicar amb el servidor LDAP."
+msgstr "No s'ha pogut comunicar amb el servidor LDAP."
 
 #: ../src/addressbook/addressbook.error.xml.h:3
 msgid "This address book server does not have any suggested search bases."
@@ -6736,7 +6736,7 @@ msgstr ""
 #. Translators: {0} is the name of the calendar/memo list/task list.
 #: ../src/calendar/calendar.error.xml.h:91
 msgid "Failed to add timezone to “{0}”"
-msgstr "No s’ha pogut afegir la zona horària a «{0}»"
+msgstr "No s'ha pogut afegir la zona horària a «{0}»"
 
 #. The {0} is a calendar/memo list/task list name, which is useless here
 #: ../src/calendar/calendar.error.xml.h:93
@@ -6761,23 +6761,23 @@ msgstr "No s'ha pogut obrir la llista de tasques «{0}»"
 #. Translators: {0} is the name of the calendar.
 #: ../src/calendar/calendar.error.xml.h:101
 msgid "Failed to create an event in the calendar “{0}”"
-msgstr "No s’ha pogut crear un esdeveniment al calendari «{0}»"
+msgstr "No s'ha pogut crear un esdeveniment al calendari «{0}»"
 
 #. Translators: {0} is the name of the memo list.
 #: ../src/calendar/calendar.error.xml.h:103
 msgid "Failed to create a memo in the memo list “{0}”"
-msgstr "No s’ha pogut crear una anotació a la llista d'anotacions «{0}»"
+msgstr "No s'ha pogut crear una anotació a la llista d'anotacions «{0}»"
 
 #. Translators: {0} is the name of the task list.
 #: ../src/calendar/calendar.error.xml.h:105
 msgid "Failed to create a task in the task list “{0}”"
-msgstr "No s’ha pogut crear una tasca a la llista de tasques «{0}»"
+msgstr "No s'ha pogut crear una tasca a la llista de tasques «{0}»"
 
 #. Translators: {0} is the name of the calendar.
 # c-format
 #: ../src/calendar/calendar.error.xml.h:107
 msgid "Failed to modify an event in the calendar “{0}”"
-msgstr "No s’ha pogut modificar un esdeveniment al calendari «{0}»"
+msgstr "No s'ha pogut modificar un esdeveniment al calendari «{0}»"
 
 #. Translators: {0} is the name of the memo list.
 #: ../src/calendar/calendar.error.xml.h:109
@@ -12355,7 +12355,7 @@ msgstr "Commuta la visualització del camp «CC»"
 
 #: ../src/composer/e-composer-actions.c:538
 msgid "_From Override Field"
-msgstr "_Del camp de sobreescriptura"
+msgstr "_Sobreescriptura del camp «_De»"
 
 #: ../src/composer/e-composer-actions.c:540
 msgid ""
@@ -19951,7 +19951,7 @@ msgstr "_Utilitza una icona personalitzada"
 
 #: ../src/mail/em-folder-properties.c:312
 msgid "Use te_xt color"
-msgstr "_Useu el color del text"
+msgstr "U_tilitza el color del text"
 
 #: ../src/mail/em-folder-properties.c:518
 msgid "Path:"
@@ -22093,7 +22093,7 @@ msgstr "La carpeta «{0}» no conté cap missatge duplicat."
 
 #: ../src/mail/mail.error.xml.h:170
 msgid "Failed to connect account “{0}”."
-msgstr "No s’ha pogut connectar el compte «{0}»."
+msgstr "No s'ha pogut connectar el compte «{0}»."
 
 #: ../src/mail/mail.error.xml.h:171
 msgid "Failed to disconnect account “{0}”."
@@ -24010,7 +24010,7 @@ msgstr ""
 
 #: ../src/modules/calendar/e-calendar-preferences.ui.h:87
 msgid "Enable de_sktop notifications"
-msgstr "Habilita les notificacions d_escriptori"
+msgstr "_Habilita les notificacions d'escriptori"
 
 #: ../src/modules/calendar/e-calendar-preferences.ui.h:88
 msgid "Enable _audio notifications"
@@ -24270,7 +24270,7 @@ msgstr "Suprimeix les cites seleccionades"
 
 #: ../src/modules/calendar/e-cal-shell-view-actions.c:1453
 msgid "Delete This _Occurrence"
-msgstr "Suprimeix aquesta a_parició"
+msgstr "S_uprimeix aquesta coincidència"
 
 #: ../src/modules/calendar/e-cal-shell-view-actions.c:1455
 msgid "Delete this occurrence"
@@ -29150,7 +29150,7 @@ msgstr "Ha fallat la invocació d'autenticació per a «{0}»"
 
 #: ../src/shell/shell.error.xml.h:17
 msgid "Failed to connect “{0}”"
-msgstr "No s’ha pogut connectar el «{0}»"
+msgstr "No s'ha pogut connectar el «{0}»"
 
 #: ../src/shell/shell.error.xml.h:18
 msgid "_Reconnect"
@@ -29166,7 +29166,7 @@ msgstr "No s'ha pogut connectar el calendari «{0}»"
 
 #: ../src/shell/shell.error.xml.h:21
 msgid "Failed to connect mail account “{0}”"
-msgstr "No s’ha pogut connectar el compte de correu «{0}»"
+msgstr "No s'ha pogut connectar el compte de correu «{0}»"
 
 #: ../src/shell/shell.error.xml.h:22
 msgid "Failed to connect memo list “{0}”"
@@ -29388,7 +29388,7 @@ msgstr "No s'ha proporcionat cap nom de fitxer"
 
 #: ../src/smime/gui/certificate-manager.c:847
 msgid "Failed to backup key and certificate"
-msgstr "No s’ha pogut fer la còpia de seguretat de la clau i del certificat"
+msgstr "No s'ha pogut fer la còpia de seguretat de la clau i del certificat"
 
 #: ../src/smime/gui/certificate-manager.c:939
 msgid "Select a certificate to import…"
