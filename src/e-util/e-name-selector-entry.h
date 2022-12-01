@@ -111,10 +111,6 @@ void		e_name_selector_entry_set_contact_editor_func
 void		e_name_selector_entry_set_contact_list_editor_func
 						(ENameSelectorEntry *name_selector_entry,
 						 gpointer func);
-gchar *		ens_util_populate_user_query_fields
-						(GSList *user_query_fields,
-						 const gchar *cue_str,
-						 const gchar *encoded_cue_str);
 
 G_END_DECLS
 

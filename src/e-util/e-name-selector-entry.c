@@ -60,7 +60,6 @@ struct _ENameSelectorEntryPrivate {
 						 gboolean);
 
 	gboolean is_completing;
-	GSList *user_query_fields;
 
 	/* For asynchronous operations. */
 	GQueue cancellables;
@@ -206,10 +205,6 @@ name_selector_entry_dispose (GObject *object)
 	g_clear_object (&priv->email_generator);
 	g_clear_object (&priv->contact_store);
 	g_clear_pointer (&priv->known_contacts, g_hash_table_destroy);
-
-	g_slist_foreach (priv->user_query_fields, (GFunc) g_free, NULL);
-	g_slist_free (priv->user_query_fields);
-	priv->user_query_fields = NULL;
 
 	/* Cancel any stuck book loading operations. */
 	while (!g_queue_is_empty (&priv->cancellables)) {
@@ -781,64 +776,15 @@ escape_sexp_string (const gchar *string)
 	return g_string_free (gstring, FALSE);
 }
 
-/**
- * ens_util_populate_user_query_fields:
- *
- * Populates list of user query fields to string usable in query string.
- * Returned pointer is either newly allocated string, supposed to be freed with g_free,
- * or NULL if no fields defined.
- *
- * Since: 2.24
- **/
-gchar *
-ens_util_populate_user_query_fields (GSList *user_query_fields,
-                                     const gchar *cue_str,
-                                     const gchar *encoded_cue_str)
-{
-	GString *user_fields;
-	GSList *s;
-
-	g_return_val_if_fail (cue_str != NULL, NULL);
-	g_return_val_if_fail (encoded_cue_str != NULL, NULL);
-
-	user_fields = g_string_new ("");
-
-	for (s = user_query_fields; s; s = s->next) {
-		const gchar *field = s->data;
-
-		if (!field || !*field)
-			continue;
-
-		if (*field == '$') {
-			g_string_append_printf (user_fields, " (beginswith \"%s\" %s) ", field + 1, encoded_cue_str);
-		} else if (*field == '@') {
-			g_string_append_printf (user_fields, " (is \"%s\" %s) ", field + 1, encoded_cue_str);
-		} else {
-			gchar *tmp = name_style_query (field, cue_str);
-
-			g_string_append_c (user_fields, ' ');
-			g_string_append (user_fields, tmp);
-			g_string_append_c (user_fields, ' ');
-			g_free (tmp);
-		}
-	}
-
-	return g_string_free (user_fields, !user_fields->str || !*user_fields->str);
-}
-
 static void
 set_completion_query (ENameSelectorEntry *name_selector_entry,
                       const gchar *cue_str)
 {
-	ENameSelectorEntryPrivate *priv;
 	EBookQuery *book_query;
 	gchar      *query_str;
 	gchar      *encoded_cue_str;
 	gchar      *full_name_query_str;
 	gchar      *file_as_query_str;
-	gchar      *user_fields_str;
-
-	priv = E_NAME_SELECTOR_ENTRY_GET_PRIVATE (name_selector_entry);
 
 	if (!name_selector_entry->priv->contact_store)
 		return;
@@ -852,7 +798,6 @@ set_completion_query (ENameSelectorEntry *name_selector_entry,
 	encoded_cue_str = escape_sexp_string (cue_str);
 	full_name_query_str = name_style_query ("full_name", cue_str);
 	file_as_query_str = name_style_query ("file_as",   cue_str);
-	user_fields_str = ens_util_populate_user_query_fields (priv->user_query_fields, cue_str, encoded_cue_str);
 
 	query_str = g_strdup_printf (
 		"(or "
@@ -860,13 +805,10 @@ set_completion_query (ENameSelectorEntry *name_selector_entry,
 		" (contains \"email\"     %s) "
 		" %s "
 		" %s "
-		" %s "
 		")",
 		encoded_cue_str, encoded_cue_str,
-		full_name_query_str, file_as_query_str,
-		user_fields_str ? user_fields_str : "");
+		full_name_query_str, file_as_query_str);
 
-	g_free (user_fields_str);
 	g_free (file_as_query_str);
 	g_free (full_name_query_str);
 	g_free (encoded_cue_str);

@@ -1307,7 +1307,6 @@ search_changed (ENameSelectorDialog *name_selector_dialog)
 	gchar         *query_string;
 	gchar         *category;
 	gchar         *category_escaped;
-	gchar         *user_fields_str;
 
 	combo_box = priv->category_combobox;
 	if (gtk_combo_box_get_active (GTK_COMBO_BOX (combo_box)) == -1)
@@ -1319,8 +1318,6 @@ search_changed (ENameSelectorDialog *name_selector_dialog)
 	text = gtk_entry_get_text (name_selector_dialog->priv->search_entry);
 	text_escaped = escape_sexp_string (text);
 
-	user_fields_str = ens_util_populate_user_query_fields (priv->user_query_fields, text, text_escaped);
-
 	if (g_strcmp0 (category, _("Any Category")) == 0)
 		query_string = g_strdup_printf (
 			"(or (beginswith \"file_as\" %s) "
@@ -1330,12 +1327,11 @@ search_changed (ENameSelectorDialog *name_selector_dialog)
 			"    (contains \"file_as\" %s) "
 			"    (contains \"full_name\" %s) "
 			"    (contains \"email\" %s) "
-			"    (contains \"nickname\" %s)%s))",
+			"    (contains \"nickname\" %s)))",
 			text_escaped, text_escaped,
 			text_escaped, text_escaped,
 			text_escaped, text_escaped,
-			text_escaped, text_escaped,
-			user_fields_str ? user_fields_str : "");
+			text_escaped, text_escaped);
 	else
 		query_string = g_strdup_printf (
 			"(and (is \"category_list\" %s) "
@@ -1346,12 +1342,11 @@ search_changed (ENameSelectorDialog *name_selector_dialog)
 			"    (contains \"file_as\" %s) "
 			"    (contains \"full_name\" %s) "
 			"    (contains \"email\" %s) "
-			"    (contains \"nickname\" %s)%s))",
+			"    (contains \"nickname\" %s)))",
 			category_escaped, text_escaped, text_escaped,
 			text_escaped, text_escaped,
 			text_escaped, text_escaped,
-			text_escaped, text_escaped,
-			user_fields_str ? user_fields_str : "");
+			text_escaped, text_escaped);
 
 	book_query = e_book_query_from_string (query_string);
 
@@ -1364,7 +1359,6 @@ search_changed (ENameSelectorDialog *name_selector_dialog)
 	g_free (text_escaped);
 	g_free (category_escaped);
 	g_free (category);
-	g_free (user_fields_str);
 }
 
 static void
