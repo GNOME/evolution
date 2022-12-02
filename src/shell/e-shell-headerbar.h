@@ -37,12 +37,12 @@ typedef struct _EShellHeaderBarClass EShellHeaderBarClass;
 typedef struct _EShellHeaderBarPrivate EShellHeaderBarPrivate;
 
 struct _EShellHeaderBar {
-	GtkHeaderBar parent;
+	EHeaderBar parent;
 	EShellHeaderBarPrivate *priv;
 };
 
 struct _EShellHeaderBarClass {
-	GtkHeaderBarClass parent_class;
+	EHeaderBarClass parent_class;
 };
 
 GType			e_shell_header_bar_get_type			(void);

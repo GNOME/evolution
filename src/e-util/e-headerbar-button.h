@@ -63,6 +63,13 @@ void		e_header_bar_button_add_accelerator	(EHeaderBarButton* header_bar_button,
 							 guint accel_key,
 							 GdkModifierType accel_mods,
 							 GtkAccelFlags accel_flags);
+void		e_header_bar_button_get_widths		(EHeaderBarButton *self,
+							 gint *out_labeled_width,
+							 gint *out_icon_only_width);
+gboolean	e_header_bar_button_get_show_icon_only	(EHeaderBarButton *self);
+void		e_header_bar_button_set_show_icon_only	(EHeaderBarButton *self,
+							 gboolean show_icon_only);
+
 G_END_DECLS
 
 #endif /* E_HEADER_BAR_BUTTON_H */

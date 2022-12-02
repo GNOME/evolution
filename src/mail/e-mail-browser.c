@@ -524,28 +524,27 @@ mail_browser_construct_header_bar (EMailReader *reader,
 	GtkHeaderBar *header_bar;
 	const gchar *action_name;
 
-	widget = gtk_header_bar_new ();
+	widget = e_header_bar_new ();
 	gtk_widget_show (widget);
 	header_bar = GTK_HEADER_BAR (widget);
-	gtk_header_bar_set_show_close_button (header_bar, TRUE);
 
 	if (menu_button)
 		gtk_header_bar_pack_end (header_bar, menu_button);
 
 	action_name = "mail-forward";
 	action = e_mail_reader_get_action (reader, action_name);
-	widget = e_header_bar_button_new (NULL, action);
+	widget = e_header_bar_button_new (_("Forward"), action);
 	gtk_widget_set_name (widget, "e-mail-shell-view-forward");
 	e_header_bar_button_take_menu (
 		E_HEADER_BAR_BUTTON (widget),
 		e_mail_reader_create_forward_menu (reader));
 	gtk_widget_show (widget);
 
-	gtk_header_bar_pack_end (header_bar, widget);
+	e_header_bar_pack_end (E_HEADER_BAR (header_bar), widget, 2);
 
 	action_name = "mail-reply-group";
 	action = e_mail_reader_get_action (reader, action_name);
-	widget = e_header_bar_button_new (NULL, action);
+	widget = e_header_bar_button_new (_("Group Reply"), action);
 	gtk_widget_set_name (widget, "e-mail-shell-view-reply-group");
 	gtk_widget_show (widget);
 
@@ -553,15 +552,15 @@ mail_browser_construct_header_bar (EMailReader *reader,
 		E_HEADER_BAR_BUTTON (widget),
 		e_mail_reader_create_reply_menu (reader));
 
-	gtk_header_bar_pack_end (header_bar, widget);
+	e_header_bar_pack_end (E_HEADER_BAR (header_bar), widget, 1);
 
 	action_name = "mail-reply-sender";
 	action = e_mail_reader_get_action (reader, action_name);
-	widget = e_header_bar_button_new (NULL, action);
+	widget = e_header_bar_button_new (_("Reply"), action);
 	gtk_widget_set_name (widget, "e-mail-shell-view-reply-sender");
 	gtk_widget_show (widget);
 
-	gtk_header_bar_pack_end (header_bar, widget);
+	e_header_bar_pack_end (E_HEADER_BAR (header_bar), widget, 1);
 
 	return GTK_WIDGET (header_bar);
 }

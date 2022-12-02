@@ -139,6 +139,7 @@ set(SOURCES
 	e-focus-tracker.c
 	e-gtkemojichooser.h
 	e-gtkemojichooser.c
+	e-headerbar.c
 	e-headerbar-button.c
 	e-html-editor-actions.c
 	e-html-editor-cell-dialog.c
@@ -421,6 +422,7 @@ set(HEADERS
 	e-filter-part.h
 	e-filter-rule.h
 	e-focus-tracker.h
+	e-headerbar.h
 	e-headerbar-button.h
 	e-html-editor-actions.h
 	e-html-editor-cell-dialog.h

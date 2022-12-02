@@ -99,6 +99,7 @@ composer_construct_header_bar (EMsgComposer *composer,
 
 	button = e_header_bar_button_new (_("Send"), ACTION (SEND));
 	e_header_bar_button_css_add_class (E_HEADER_BAR_BUTTON (button), "suggested-action");
+	e_header_bar_button_set_show_icon_only (E_HEADER_BAR_BUTTON (button), FALSE);
 	gtk_widget_show (button);
 	gtk_header_bar_pack_start (header_bar, button);
 
