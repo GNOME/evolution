@@ -1,7 +1,7 @@
 msgid ""
 msgstr ""
 "Report-Msgid-Bugs-To: https://gitlab.gnome.org/GNOME/evolution/issues\n"
-"POT-Creation-Date: 2022-10-27 09:10+0000\n"
+"POT-Creation-Date: 2022-11-25 08:51+0000\n"
 "Last-Translator: Нанба Наала <naala-nanba@rambler.ru>\n"
 "Language-Team: Abkhazian <daniel.abzakh@gmail.com>\n"
 "Language: ab\n"
@@ -10,6 +10,378 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 "X-DamnedLies-Scope: partial\n"
+
+#: ../data/org.gnome.evolution.addressbook.gschema.xml.in.h:1
+#, fuzzy
+#| msgid "Calendar information"
+msgid "Enable address formatting"
+msgstr "Амзар аинформациа"
+
+#: ../data/org.gnome.evolution.addressbook.gschema.xml.in.h:2
+msgid ""
+"Whether addresses should be formatted according to standard in their "
+"destination country"
+msgstr ""
+
+#: ../data/org.gnome.evolution.addressbook.gschema.xml.in.h:3
+#, fuzzy
+#| msgid "Autocompletion"
+msgid "Autocomplete length"
+msgstr "Автоматикла ахарҭәаара"
+
+#: ../data/org.gnome.evolution.addressbook.gschema.xml.in.h:4
+msgid ""
+"The number of characters that must be typed before Evolution will attempt to "
+"autocomplete."
+msgstr ""
+
+#: ../data/org.gnome.evolution.addressbook.gschema.xml.in.h:5
+#, fuzzy
+#| msgid "Autocomplete with this address book"
+msgid "Show autocompleted name with an address"
+msgstr "Абри аҭыӡҭыԥшәҟәы ацхыраарала автоматикла ахарҭәаара"
+
+#: ../data/org.gnome.evolution.addressbook.gschema.xml.in.h:6
+msgid ""
+"Whether force showing the mail address with the name of the autocompleted "
+"contact in the entry."
+msgstr ""
+
+#: ../data/org.gnome.evolution.addressbook.gschema.xml.in.h:7
+msgid "URI for the folder last used in the select names dialog"
+msgstr ""
+
+#: ../data/org.gnome.evolution.addressbook.gschema.xml.in.h:8
+msgid "URI for the folder last used in the select names dialog."
+msgstr ""
+
+#: ../data/org.gnome.evolution.addressbook.gschema.xml.in.h:9
+msgid "Contact layout style"
+msgstr ""
+
+#: ../data/org.gnome.evolution.addressbook.gschema.xml.in.h:10
+msgid ""
+"The layout style determines where to place the preview pane in relation to "
+"the contact list. “0” (Classic View) places the preview pane below the "
+"contact list. “1” (Vertical View) places the preview pane next to the "
+"contact list."
+msgstr ""
+
+#: ../data/org.gnome.evolution.addressbook.gschema.xml.in.h:11
+msgid "Contact preview pane position (horizontal)"
+msgstr ""
+
+#: ../data/org.gnome.evolution.addressbook.gschema.xml.in.h:12
+msgid "Position of the contact preview pane when oriented horizontally."
+msgstr ""
+
+#: ../data/org.gnome.evolution.addressbook.gschema.xml.in.h:13
+msgid "Contact preview pane position (vertical)"
+msgstr ""
+
+#: ../data/org.gnome.evolution.addressbook.gschema.xml.in.h:14
+msgid "Position of the contact preview pane when oriented vertically."
+msgstr ""
+
+#: ../data/org.gnome.evolution.addressbook.gschema.xml.in.h:15
+#, fuzzy
+#| msgid "Show"
+msgid "Show maps"
+msgstr "Агәарҿыхарақәа"
+
+#: ../data/org.gnome.evolution.addressbook.gschema.xml.in.h:16
+msgid "Whether to show maps in preview pane"
+msgstr ""
+
+#: ../data/org.gnome.evolution.addressbook.gschema.xml.in.h:17
+#, fuzzy
+#| msgid "Address book"
+msgid "Primary address book"
+msgstr "Аҭыӡҭыԥтәи ашәҟәы"
+
+#: ../data/org.gnome.evolution.addressbook.gschema.xml.in.h:18
+msgid ""
+"The UID of the selected (or “primary”) address book in the sidebar of the "
+"“Contacts” view"
+msgstr ""
+
+#: ../data/org.gnome.evolution.addressbook.gschema.xml.in.h:19
+msgid "Show preview pane"
+msgstr ""
+
+#: ../data/org.gnome.evolution.addressbook.gschema.xml.in.h:20
+msgid "Whether to show the preview pane."
+msgstr ""
+
+#: ../data/org.gnome.evolution.addressbook.gschema.xml.in.h:21
+msgid "Show phone numbers"
+msgstr ""
+
+#: ../data/org.gnome.evolution.addressbook.gschema.xml.in.h:22
+msgid "Whether to show phone numbers in the editor"
+msgstr ""
+
+#: ../data/org.gnome.evolution.addressbook.gschema.xml.in.h:23
+#, fuzzy
+#| msgid "SIP Address"
+msgid "Show SIP addresses"
+msgstr "Аҭыӡҭыԥ SIP"
+
+#: ../data/org.gnome.evolution.addressbook.gschema.xml.in.h:24
+msgid "Whether to show SIP addresses in the editor"
+msgstr ""
+
+#: ../data/org.gnome.evolution.addressbook.gschema.xml.in.h:25
+#, fuzzy
+#| msgid "SIP Address"
+msgid "Show IM addresses"
+msgstr "Аҭыӡҭыԥ SIP"
+
+#: ../data/org.gnome.evolution.addressbook.gschema.xml.in.h:26
+msgid "Whether to show IM addresses in the editor"
+msgstr ""
+
+#: ../data/org.gnome.evolution.addressbook.gschema.xml.in.h:27
+msgid "Show mailing Home addresses"
+msgstr ""
+
+#: ../data/org.gnome.evolution.addressbook.gschema.xml.in.h:28
+msgid "Whether to show mailing Home addresses in the editor"
+msgstr ""
+
+#: ../data/org.gnome.evolution.addressbook.gschema.xml.in.h:29
+msgid "Show mailing Work addresses"
+msgstr ""
+
+#: ../data/org.gnome.evolution.addressbook.gschema.xml.in.h:30
+msgid "Whether to show mailing addresses Work in the editor"
+msgstr ""
+
+#: ../data/org.gnome.evolution.addressbook.gschema.xml.in.h:31
+msgid "Show mailing Other addresses"
+msgstr ""
+
+#: ../data/org.gnome.evolution.addressbook.gschema.xml.in.h:32
+msgid "Whether to show mailing addresses Other in the editor"
+msgstr ""
+
+#: ../data/org.gnome.evolution.addressbook.gschema.xml.in.h:33
+msgid "Show web addresses"
+msgstr ""
+
+#: ../data/org.gnome.evolution.addressbook.gschema.xml.in.h:34
+msgid "Whether to show Web Addresses in the editor"
+msgstr ""
+
+#: ../data/org.gnome.evolution.addressbook.gschema.xml.in.h:35
+#, fuzzy
+#| msgid "Memo information"
+msgid "Show job information"
+msgstr "Азгәаҭа иазкны аинформациа"
+
+#: ../data/org.gnome.evolution.addressbook.gschema.xml.in.h:36
+msgid "Whether to show job information in the editor"
+msgstr ""
+
+#: ../data/org.gnome.evolution.addressbook.gschema.xml.in.h:37
+#, fuzzy
+#| msgid "Memo information"
+msgid "Show Miscellaneous information"
+msgstr "Азгәаҭа иазкны аинформациа"
+
+#: ../data/org.gnome.evolution.addressbook.gschema.xml.in.h:38
+msgid "Whether to show Miscellaneous information in the editor"
+msgstr ""
+
+#: ../data/org.gnome.evolution.addressbook.gschema.xml.in.h:39
+msgid "Show notes-tab"
+msgstr ""
+
+#: ../data/org.gnome.evolution.addressbook.gschema.xml.in.h:40
+msgid "Whether to show notes in the editor"
+msgstr ""
+
+#: ../data/org.gnome.evolution.addressbook.gschema.xml.in.h:41
+msgid "Show Certificates tab"
+msgstr ""
+
+#: ../data/org.gnome.evolution.addressbook.gschema.xml.in.h:42
+msgid "Whether to show Certificates tab in the editor"
+msgstr ""
+
+#: ../data/org.gnome.evolution.addressbook.gschema.xml.in.h:43
+msgid "Where to open contact locations"
+msgstr ""
+
+#: ../data/org.gnome.evolution.addressbook.gschema.xml.in.h:44
+msgid ""
+"Currently supported values are “openstreetmap” and “google”; if unknown set, "
+"uses “openstreetmap”"
+msgstr ""
+
+#: ../data/org.gnome.evolution.addressbook.gschema.xml.in.h:45
+msgid "Preview Personal before Work information"
+msgstr ""
+
+#: ../data/org.gnome.evolution.addressbook.gschema.xml.in.h:46
+msgid ""
+"Show the Personal information before the Work information in the contact "
+"preview"
+msgstr ""
+
+#: ../data/org.gnome.evolution.bogofilter.gschema.xml.in.h:1
+msgid "Convert mail messages to Unicode"
+msgstr ""
+
+#: ../data/org.gnome.evolution.bogofilter.gschema.xml.in.h:2
+msgid ""
+"Convert message text to Unicode UTF-8 to unify spam/ham tokens coming from "
+"different character sets."
+msgstr ""
+
+#: ../data/org.gnome.evolution.bogofilter.gschema.xml.in.h:3
+msgid "Full path command to run Bogofilter"
+msgstr ""
+
+#: ../data/org.gnome.evolution.bogofilter.gschema.xml.in.h:4
+msgid ""
+"Full path to a Bogofilter command. If not set, then a compile-time path is "
+"used, usually /usr/bin/bogofilter. The command should not contain any other "
+"arguments."
+msgstr ""
+
+#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:1
+msgid "Save directory for reminder audio"
+msgstr ""
+
+#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:2
+msgid "Directory for saving reminder audio files"
+msgstr ""
+
+#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:3
+msgid "Birthday and anniversary reminder value"
+msgstr ""
+
+#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:4
+msgid "Number of units for determining a birthday or anniversary reminder"
+msgstr ""
+
+#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:5
+msgid "Birthday and anniversary reminder units"
+msgstr ""
+
+#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:6
+msgid ""
+"Units for a birthday or anniversary reminder, “minutes”, “hours” or “days”"
+msgstr ""
+
+#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:7
+msgid "Compress weekends in month view"
+msgstr ""
+
+#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:8
+msgid ""
+"Whether to compress weekends in the month view, which puts Saturday and "
+"Sunday in the space of one weekday"
+msgstr ""
+
+#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:9
+#, fuzzy
+#| msgid "_Ask for confirmation when deleting items"
+msgid "Ask for confirmation when deleting items"
+msgstr "Аелементқәа рныхраан  арҵабыргра адҵаалара "
+
+#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:10
+#, fuzzy
+#| msgid "_Ask for confirmation when deleting items"
+msgid "Whether to ask for confirmation when deleting an appointment or task"
+msgstr "Аелементқәа рныхраан  арҵабыргра адҵаалара "
+
+#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:11
+#, fuzzy
+#| msgid "Confirm _when expunging a folder"
+msgid "Confirm expunge"
+msgstr "_Аҭаӡ ианыху ацҳамҭақәа рҟынтә арыцқьаразы адҵаалара "
+
+#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:12
+#, fuzzy
+#| msgid "_Ask for confirmation when deleting items"
+msgid "Whether to ask for confirmation when expunging appointments and tasks"
+msgstr "Аелементқәа рныхраан  арҵабыргра адҵаалара "
+
+#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:13
+msgid "Month view vertical pane position"
+msgstr ""
+
+#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:14
+msgid ""
+"Position of the vertical pane, between the calendar lists and the date "
+"navigator calendar"
+msgstr ""
+
+#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:15
+#, fuzzy
+#| msgid "Workday end time for Thursday"
+msgid "Workday end hour"
+msgstr "Абшьашазы аусура амш анхырқәшахо аамҭа"
+
+#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:16
+#, fuzzy
+#| msgid ""
+#| "Time the workday ends on, in twenty four hour format HHMM, 0000 to 2359, "
+#| "or -1 to use day-end-hour and day-end-minute"
+msgid "Hour the workday ends on, in twenty four hour format, 0 to 23"
+msgstr ""
+"Аусура амш ахырқәшара аамҭа 24 сааҭ аформат ала ААММ 0000 2359 аҟынӡа, "
+"мамзар «-1» амш зланҵәо асааҭи аминуҭи рхархәаразы."
+
+#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:17
+#, fuzzy
+#| msgid "Workday end time for Tuesday"
+msgid "Workday end minute"
+msgstr "Аҩашазы аусура амш анхырқәшахо аамҭа"
+
+#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:18
+msgid "Minute the workday ends on, 0 to 59."
+msgstr ""
+
+#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:19
+#, fuzzy
+#| msgid "Workday start time for Sunday"
+msgid "Workday start hour"
+msgstr "Аусура амш алагара аамҭа амҽыш азы"
+
+#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:20
+msgid "Hour the workday starts on, in twenty four hour format, 0 to 23."
+msgstr ""
+
+#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:21
+#, fuzzy
+#| msgid "Workday start time for Sunday"
+msgid "Workday start minute"
+msgstr "Аусура амш алагара аамҭа амҽыш азы"
+
+#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:22
+msgid "Minute the workday starts on, 0 to 59."
+msgstr ""
+
+#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:23
+#, fuzzy
+#| msgid "Workday start time for Sunday"
+msgid "Workday start time for Monday"
+msgstr "Аусура амш алагара аамҭа амҽыш азы"
+
+#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:24
+#, fuzzy
+#| msgid ""
+#| "Time the workday ends on, in twenty four hour format HHMM, 0000 to 2359, "
+#| "or -1 to use day-start-hour and day-start-minute"
+msgid ""
+"Time the workday starts on, in twenty four hour format HHMM, 0000 to 2359, "
+"or -1 to use day-start-hour and day-start-minute"
+msgstr ""
+"Аусура амш ахырқәшара аамҭа 24 сааҭ аформат ала ААММ 0000 2359 аҟынӡа, "
+"мамзар «-1» амш зланҵәо асааҭи аминуҭи рхархәаразы."
 
 #: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:25
 msgid "Workday end time for Monday"
@@ -23,6 +395,12 @@ msgstr ""
 "Аусура амш ахырқәшара аамҭа 24 сааҭ аформат ала ААММ 0000 2359 аҟынӡа, "
 "мамзар «-1» амш зланҵәо асааҭи аминуҭи рхархәаразы."
 
+#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:27
+#, fuzzy
+#| msgid "Workday start time for Sunday"
+msgid "Workday start time for Tuesday"
+msgstr "Аусура амш алагара аамҭа амҽыш азы"
+
 #: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:28
 msgid ""
 "Time the workday ends on, in twenty four hour format HHMM, 0000 to 2359, or "
@@ -35,17 +413,41 @@ msgstr ""
 msgid "Workday end time for Tuesday"
 msgstr "Аҩашазы аусура амш анхырқәшахо аамҭа"
 
+#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:30
+#, fuzzy
+#| msgid "Workday start time for Sunday"
+msgid "Workday start time for Wednesday"
+msgstr "Аусура амш алагара аамҭа амҽыш азы"
+
 #: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:31
 msgid "Workday end time for Wednesday"
 msgstr "Ахашазы аусура амш анхырқәшахо аамҭа"
+
+#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:32
+#, fuzzy
+#| msgid "Workday start time for Sunday"
+msgid "Workday start time for Thursday"
+msgstr "Аусура амш алагара аамҭа амҽыш азы"
 
 #: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:33
 msgid "Workday end time for Thursday"
 msgstr "Абшьашазы аусура амш анхырқәшахо аамҭа"
 
+#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:34
+#, fuzzy
+#| msgid "Workday start time for Sunday"
+msgid "Workday start time for Friday"
+msgstr "Аусура амш алагара аамҭа амҽыш азы"
+
 #: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:35
 msgid "Workday end time for Friday"
 msgstr "Ахәашазы аусура амш анхырқәшахо аамҭа"
+
+#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:36
+#, fuzzy
+#| msgid "Workday start time for Sunday"
+msgid "Workday start time for Saturday"
+msgstr "Аусура амш алагара аамҭа амҽыш азы"
 
 #: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:37
 msgid "Workday end time for Saturday"
@@ -63,6 +465,250 @@ msgstr "Амҽышазы аусура амш анхырқәшахо аамҭа"
 msgid "The second timezone for a Day View"
 msgstr "Аҩынтәтәи асааҭзона амш ахҳәааҟны"
 
+#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:41
+msgid ""
+"Shows the second time zone in a Day View, if set. Value is similar to one "
+"used in a “timezone” key"
+msgstr ""
+
+#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:42
+#, fuzzy
+#| msgid "The second timezone for a Day View"
+msgid "Recently used second time zones in a Day View"
+msgstr "Аҩынтәтәи асааҭзона амш ахҳәааҟны"
+
+#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:43
+#, fuzzy
+#| msgid "The second timezone for a Day View"
+msgid "List of recently used second time zones in a Day View"
+msgstr "Аҩынтәтәи асааҭзона амш ахҳәааҟны"
+
+#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:44
+msgid "Maximum number of recently used timezones to remember"
+msgstr ""
+
+#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:45
+msgid ""
+"Maximum number of recently used timezones to remember in a “day-second-"
+"zones” list"
+msgstr ""
+
+#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:46
+#, fuzzy
+#| msgid "Default Free/Busy Server"
+msgid "Default reminder value"
+msgstr "Асервер «зхы иақәиҭу/инкылоу» ишыҟоу еиҧш"
+
+#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:47
+msgid "Number of units for determining a default reminder"
+msgstr ""
+
+#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:48
+msgid "Default reminder units"
+msgstr ""
+
+#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:49
+msgid "Units for a default reminder, “minutes”, “hours” or “days”"
+msgstr ""
+
+#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:50
+msgid "Show categories field in the event/meeting/task editor"
+msgstr ""
+
+#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:51
+msgid "Whether to show categories field in the event/meeting editor"
+msgstr ""
+
+#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:52
+msgid "Show Role field in the event/task/meeting editor"
+msgstr ""
+
+#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:53
+msgid "Whether to show role field in the event/task/meeting editor"
+msgstr ""
+
+#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:54
+msgid "Show RSVP field in the event/task/meeting editor"
+msgstr ""
+
+#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:55
+msgid "Whether to show RSVP field in the event/task/meeting editor"
+msgstr ""
+
+#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:56
+msgid "Show status field in the event/task/meeting editor"
+msgstr ""
+
+#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:57
+msgid "Whether to show status field in the event/task/meeting editor"
+msgstr ""
+
+#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:58
+msgid "Show timezone field in the event/meeting editor"
+msgstr ""
+
+#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:59
+msgid "Whether to show timezone field in the event/meeting editor"
+msgstr ""
+
+#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:60
+msgid "Show type field in the event/task/meeting editor"
+msgstr ""
+
+#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:61
+msgid "Whether to show type field in the event/task/meeting editor"
+msgstr ""
+
+#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:62
+msgid "Show toolbar in the event/task/memo editor"
+msgstr ""
+
+#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:63
+msgid "Whether to show toolbar in the event/task/memo editor"
+msgstr ""
+
+#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:64
+#, fuzzy
+#| msgid "Expunging completed tasks"
+msgid "Hide completed tasks"
+msgstr "Иҟаҵоу адҵақәа рҵәахра"
+
+#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:65
+msgid "Whether to hide completed tasks in the tasks view"
+msgstr ""
+
+#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:66
+msgid "Hide task units"
+msgstr ""
+
+#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:67
+msgid "Units for determining when to hide tasks, “minutes”, “hours” or “days”"
+msgstr ""
+
+#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:68
+msgid "Hide task value"
+msgstr ""
+
+#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:69
+msgid "Number of units for determining when to hide tasks"
+msgstr ""
+
+#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:70
+#, fuzzy
+#| msgid "Delete selected events"
+msgid "Hide cancelled events"
+msgstr "Иалкаау ахҭысқәа рныхра"
+
+#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:71
+msgid "Whether to hide cancelled events in the calendar view"
+msgstr ""
+
+#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:72
+msgid "Hide cancelled tasks"
+msgstr ""
+
+#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:73
+msgid "Whether to hide cancelled tasks in the tasks view"
+msgstr ""
+
+#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:74
+#, fuzzy
+#| msgid "_Horizontal View"
+msgid "Horizontal pane position"
+msgstr "_Ииаалоу  аԥшра"
+
+#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:75
+msgid ""
+"Position of the horizontal pane, between the date navigator calendar and the "
+"task list when not in the month view, in pixels"
+msgstr ""
+
+#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:76
+#, fuzzy
+#| msgid "It has reminders."
+msgid "Last reminder time"
+msgstr "Агәаларшәагақәа ыҟоуп"
+
+#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:77
+msgid "Time the last reminder ran, in time_t"
+msgstr ""
+
+#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:78
+msgid "Marcus Bains Line Color — Day View"
+msgstr ""
+
+#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:79
+msgid "Color to draw the Marcus Bains line in the Day View"
+msgstr ""
+
+#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:80
+msgid "Marcus Bains Line Color — Time bar"
+msgstr ""
+
+#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:81
+msgid "Color to draw the Marcus Bains Line in the Time bar (empty for default)"
+msgstr ""
+
+#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:82
+msgid "Marcus Bains Line"
+msgstr ""
+
+#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:83
+msgid ""
+"Whether to draw the Marcus Bains Line (line at current time) in the calendar"
+msgstr ""
+
+#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:84
+msgid "Memo preview pane position (horizontal)"
+msgstr ""
+
+#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:85
+msgid "Position of the task preview pane when oriented horizontally"
+msgstr ""
+
+#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:86
+#, fuzzy
+#| msgid "Reply style:"
+msgid "Memo layout style"
+msgstr "Аҭак астиль:"
+
+#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:87
+msgid ""
+"The layout style determines where to place the preview pane in relation to "
+"the memo list. “0” (Classic View) places the preview pane below the memo "
+"list. “1” (Vertical View) places the preview pane next to the memo list"
+msgstr ""
+
+#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:88
+msgid "Memo preview pane position (vertical)"
+msgstr ""
+
+#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:89
+msgid "Position of the memo preview pane when oriented vertically"
+msgstr ""
+
+#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:90
+msgid "Month view horizontal pane position"
+msgstr ""
+
+#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:91
+msgid ""
+"Position of the horizontal pane, between the view and the date navigator "
+"calendar and task list in the month view, in pixels"
+msgstr ""
+
+#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:92
+msgid "Scroll Month View by a week, not by a month"
+msgstr ""
+
+#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:93
+msgid "Whether to scroll a Month View by a week, not by a month"
+msgstr ""
+
+#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:94
+msgid "Let the Month View start with the current week"
+msgstr ""
+
 #: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:95
 msgid ""
 "Whether the month view should show weeks starting with the current week "
@@ -71,37 +717,724 @@ msgstr ""
 "Ишәнарбароума амз ахкы амчыбжьқәа, амз раҧхьатәи амчабжь инаркны акәымкәа "
 "изаамҭанытәиу амчыбжь инаркны"
 
+#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:96
+msgid "Preferred New button item"
+msgstr ""
+
+#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:97
+msgid "Name of the preferred New toolbar button item"
+msgstr ""
+
+#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:98
+#, fuzzy
+#| msgid "Opening calendar"
+msgid "Primary calendar"
+msgstr "Амзар аартра"
+
+#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:99
+msgid ""
+"The UID of the selected (or “primary”) calendar in the sidebar of the "
+"“Calendar” view"
+msgstr ""
+
+#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:100
+#, fuzzy
+#| msgid "Purging memos"
+msgid "Primary memo list"
+msgstr "Азгәаҭақәа рныхра"
+
+#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:101
+msgid ""
+"The UID of the selected (or “primary”) memo list in the sidebar of the "
+"“Memos” view"
+msgstr ""
+
+#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:102
+#, fuzzy
+#| msgid "Cre_ate new task list"
+msgid "Primary task list"
+msgstr "Адҵақәа рыхьӡынҵа ҿыц аԥҵара"
+
+#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:103
+msgid ""
+"The UID of the selected (or “primary”) task list in the sidebar of the "
+"“Tasks” view"
+msgstr ""
+
+#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:104
+msgid "Free/busy template URL"
+msgstr ""
+
+#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:106
+#, no-c-format
+msgid ""
+"The URL template to use as a free/busy data fallback, %u is replaced by the "
+"user part of the mail address and %d is replaced by the domain"
+msgstr ""
+
+#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:107
+msgid "Recurrent Events in Italic"
+msgstr ""
+
+#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:108
+msgid "Show days with recurrent events in italic font in bottom left calendar"
+msgstr ""
+
+#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:109
+msgid "Search range for time-based searching in years"
+msgstr ""
+
+#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:110
+msgid ""
+"How many years can the time-based search go forward or backward from "
+"currently selected day when searching for another occurrence; default is ten "
+"years"
+msgstr ""
+
+#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:111
+msgid "Show appointment end times in week and month views"
+msgstr ""
+
+#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:112
+msgid "Whether to display the end time of events in the week and month views"
+msgstr ""
+
+#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:113
+msgid "Show appointment icons in the month view"
+msgstr ""
+
+#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:114
+msgid "Whether to show icons of events in the month view"
+msgstr ""
+
+#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:115
+#, fuzzy
+#| msgid "Show the second time zone"
+msgid "Show the memo preview pane"
+msgstr "Аҩбатәи асааҭзона арбара"
+
+#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:116
+msgid "If “true”, show the memo preview pane in the main window"
+msgstr ""
+
+#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:117
+#, fuzzy
+#| msgid "Show the second time zone"
+msgid "Show the task preview pane"
+msgstr "Аҩбатәи асааҭзона арбара"
+
+#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:118
+msgid "If “true”, show the task preview pane in the main window"
+msgstr ""
+
+#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:119
+msgid ""
+"Show week numbers in Day View, Work Week View, Year view and Date Navigator"
+msgstr ""
+
+#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:120
+msgid "Whether to show week numbers in various places in the Calendar"
+msgstr ""
+
+#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:121
+msgid "Vertical position for the tag pane"
+msgstr ""
+
+#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:122
+msgid "Show Tasks and Memos pane in the Calendar view"
+msgstr ""
+
+#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:123
+msgid "Whether to show Tasks and Memos pane in the Calendar view"
+msgstr ""
+
+#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:124
+msgid "Highlight tasks due today"
+msgstr ""
+
+#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:125
+msgid ""
+"Whether highlight tasks due today with a special color (task-due-today-color)"
+msgstr ""
+
+#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:126
+msgid "Tasks due today color"
+msgstr ""
+
+#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:127
+msgid ""
+"Background color of tasks that are due today, in “#rrggbb” format. Used "
+"together with task-due-today-highlight"
+msgstr ""
+
+#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:128
+msgid "Task preview pane position (horizontal)"
+msgstr ""
+
+#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:129
+msgid "Task layout style"
+msgstr ""
+
+#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:130
+msgid ""
+"The layout style determines where to place the preview pane in relation to "
+"the task list. “0” (Classic View) places the preview pane below the task "
+"list. “1” (Vertical View) places the preview pane next to the task list"
+msgstr ""
+
+#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:131
+msgid "Task preview pane position (vertical)"
+msgstr ""
+
+#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:132
+msgid "Position of the task preview pane when oriented vertically"
+msgstr ""
+
+#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:133
+msgid "Highlight overdue tasks"
+msgstr ""
+
+#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:134
+msgid ""
+"Whether highlight overdue tasks with a special color (task-overdue-color)"
+msgstr ""
+
+#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:135
+msgid "Overdue tasks color"
+msgstr ""
+
+#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:136
+msgid ""
+"Background color of tasks that are overdue, in “#rrggbb” format. Used "
+"together with task-overdue-highlight."
+msgstr ""
+
+#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:137
+#, fuzzy
+#| msgid "_Time divisions:"
+msgid "Time divisions"
+msgstr "_Аамҭа ашарақәа"
+
+#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:138
+msgid "Intervals shown in Day and Work Week views, in minutes"
+msgstr ""
+
+#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:139
+#, fuzzy
+#| msgid "Time _zone:"
+msgid "Timezone"
+msgstr "_Асааҭзона:"
+
+#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:140
+msgid ""
+"The default timezone to use for dates and times in the calendar, as an "
+"untranslated Olson timezone database location like “America/New York”"
+msgstr ""
+
+#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:141
+msgid "Twenty four hour time format"
+msgstr ""
+
+#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:142
+msgid "Whether to show times in twenty four hour format instead of using am/pm"
+msgstr ""
+
+#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:143
+msgid "Birthday and anniversary reminder"
+msgstr ""
+
+#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:144
+msgid "Whether to set a reminder for birthdays and anniversaries"
+msgstr ""
+
+#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:145
+#, fuzzy
+#| msgid "_Delete Appointment"
+msgid "Default appointment reminder"
+msgstr "_Аиқәшәара аныхра"
+
+#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:146
+msgid "Whether to set a default reminder for appointments"
+msgstr ""
+
+#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:147
+msgid "Use system timezone"
+msgstr ""
+
+#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:148
+msgid "Use the system timezone instead of the timezone selected in Evolution"
+msgstr ""
+
+#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:149
+msgid "First day of the week"
+msgstr ""
+
+#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:150
+#, fuzzy
+#| msgid "Tuesday is a work day"
+msgid "Monday is a work day"
+msgstr "Аҩаша - аусура амш"
+
 #: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:151
 msgid "Tuesday is a work day"
 msgstr "Аҩаша - аусура амш"
+
+#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:152
+#, fuzzy
+#| msgid "Tuesday is a work day"
+msgid "Wednesday is a work day"
+msgstr "Аҩаша - аусура амш"
+
+#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:153
+#, fuzzy
+#| msgid "Tuesday is a work day"
+msgid "Thursday is a work day"
+msgstr "Аҩаша - аусура амш"
+
+#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:154
+#, fuzzy
+#| msgid "Tuesday is a work day"
+msgid "Friday is a work day"
+msgstr "Аҩаша - аусура амш"
+
+#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:155
+#, fuzzy
+#| msgid "Tuesday is a work day"
+msgid "Saturday is a work day"
+msgstr "Аҩаша - аусура амш"
+
+#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:156
+#, fuzzy
+#| msgid "Tuesday is a work day"
+msgid "Sunday is a work day"
+msgstr "Аҩаша - аусура амш"
+
+#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:157
+msgid "Create events, memos and tasks as Private by default"
+msgstr ""
+
+#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:158
+msgid "Draw events as flat, not shaded."
+msgstr ""
+
+#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:159
+msgid ""
+"Whether to order days in the Week View from left to right, rather than from "
+"top to bottom."
+msgstr ""
+
+#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:160
+msgid ""
+"Allow direct edit of event Summary when clicking on it in the Day, Work "
+"Week, Week or Month view."
+msgstr ""
+
+#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:161
+msgid "User-defined reminder times, in minutes"
+msgstr ""
+
+#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:162
+msgid ""
+"Whether to use markdown editor for the description in the component editor."
+msgstr ""
+
+#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:163
+msgid "Show week day names in the Year View"
+msgstr ""
+
+#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:164
+msgid "Show the preview pane in the Year View"
+msgstr ""
+
+#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:165
+msgid "If “true”, show the preview pane in the Year View"
+msgstr ""
+
+#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:166
+msgid "Year view horizontal pane position"
+msgstr ""
+
+#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:167
+msgid ""
+"Position of the horizontal pane, between the year calendar and the list of "
+"events for the selected day in the year view, in pixels"
+msgstr ""
+
+#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:168
+msgid "Layout style for the Year View"
+msgstr ""
+
+#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:169
+msgid ""
+"The layout style determines where to place the preview pane. “0” (Horizontal "
+"View) places the preview pane below the calendar. “1” (Vertical View) places "
+"the preview pane next to the calendar."
+msgstr ""
+
+#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:170
+msgid "Year view horizontal preview position"
+msgstr ""
+
+#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:171
+msgid "Position of the horizontal event preview for the year view, in pixels"
+msgstr ""
+
+#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:172
+msgid "Year view vertical preview position"
+msgstr ""
+
+#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:173
+msgid "Position of the vertical event preview for the year view, in pixels"
+msgstr ""
+
+#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:174
+msgid "Shorten event time by minutes"
+msgstr ""
+
+#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:175
+msgid ""
+"By how many minutes to shorted new event time. Whether event end or start is "
+"changed is determined by \"shorten-time-end\" setting"
+msgstr ""
+
+#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:176
+msgid "Whether to shorten event end time"
+msgstr ""
+
+#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:177
+msgid ""
+"A pair option for \"shorten-time\" setting, to change the end time or the "
+"start time"
+msgstr ""
+
+#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:178
+msgid "Background color for the 'today' day"
+msgstr ""
+
+#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:179
+msgid ""
+"Leave empty to use a yellow color derived from the current theme, otherwise "
+"use the color of form `#RRGGBB`"
+msgstr ""
+
+#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:180
+msgid "(Deprecated) First day of the week, from Sunday (0) to Saturday (6)"
+msgstr ""
+
+#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:181
+msgid ""
+"This key was deprecated in version 3.10 and should no longer be used. Use "
+"“week-start-day-name” instead."
+msgstr ""
+
+#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:182
+msgid "(Deprecated) Work days"
+msgstr ""
+
+#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:183
+msgid ""
+"Days on which the start and end of work hours should be indicated. (This key "
+"was deprecated in version 3.10 and should no longer be used. Use the “work-"
+"day-monday”, “work-day-tuesday”, etc. keys instead.)"
+msgstr ""
+
+#: ../data/org.gnome.evolution.gschema.xml.in.h:1
+msgid "Previous Evolution version"
+msgstr ""
+
+#: ../data/org.gnome.evolution.gschema.xml.in.h:2
+msgid ""
+"The most recently used version of Evolution, expressed as “major.minor."
+"micro”. This is used for data and settings migration from older to newer "
+"versions."
+msgstr ""
+
+#: ../data/org.gnome.evolution.gschema.xml.in.h:3
+msgid "List of disabled plugins"
+msgstr ""
+
+#: ../data/org.gnome.evolution.gschema.xml.in.h:4
+msgid "The list of disabled plugins in Evolution"
+msgstr ""
+
+#: ../data/org.gnome.evolution.gschema.xml.in.h:5
+#, fuzzy
+#| msgid "The window’s height in pixels"
+msgid "The window’s X coordinate"
+msgstr "Аԥенџьыр аҳаракыра пиксельла"
+
+#: ../data/org.gnome.evolution.gschema.xml.in.h:6
+#, fuzzy
+#| msgid "The window’s height in pixels"
+msgid "The window’s Y coordinate"
+msgstr "Аԥенџьыр аҳаракыра пиксельла"
+
+#: ../data/org.gnome.evolution.gschema.xml.in.h:7
+#, fuzzy
+#| msgid "The window’s height in pixels"
+msgid "The window’s width in pixels"
+msgstr "Аԥенџьыр аҳаракыра пиксельла"
 
 #: ../data/org.gnome.evolution.gschema.xml.in.h:8
 msgid "The window’s height in pixels"
 msgstr "Аԥенџьыр аҳаракыра пиксельла"
 
+#: ../data/org.gnome.evolution.gschema.xml.in.h:9
+msgid "Whether the window is maximized"
+msgstr ""
+
+#: ../data/org.gnome.evolution.importer.gschema.xml.in.h:1
+msgid "GNOME Calendar’s calendar import done"
+msgstr ""
+
 #: ../data/org.gnome.evolution.importer.gschema.xml.in.h:2
 msgid "Whether calendar from GNOME Calendar has been imported or not"
 msgstr "Иазузма аимпорт амзар GNOME"
+
+#: ../data/org.gnome.evolution.importer.gschema.xml.in.h:3
+msgid "GNOME Calendar’s tasks import done"
+msgstr ""
 
 #: ../data/org.gnome.evolution.importer.gschema.xml.in.h:4
 msgid "Whether tasks from GNOME Calendar have been imported or not"
 msgstr "Ирызузма аимпорт адҵақәа амзар GNOME аҟынтә"
 
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:1
+msgid "Check whether Evolution is the default mailer"
+msgstr ""
+
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:2
+msgid ""
+"Every time Evolution starts, check whether or not it is the default mailer."
+msgstr ""
+
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:3
+msgid "Default charset in which to compose messages"
+msgstr ""
+
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:4
+msgid "Default charset in which to compose messages. Uses UTF-8, if not set."
+msgstr ""
+
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:5
+msgid "Comma-separated names of the editor to prefer in the message composer"
+msgstr ""
+
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:6
+msgid ""
+"If the name doesn’t correspond to any known editor, then the built-in WebKit "
+"editor is used. The mode is optional, in which case the editor is used for "
+"all the modes it supports. Modes are “plain”, “html”, \"markdown-plain\", "
+"\"markdown-html\" and \"markdown\". Example values: “webkit” (to use WebKit "
+"for plain and html), “plain:first-editor,html:second-editor” (to use “first-"
+"editor” for the “plain” and “second-editor” for “html”)"
+msgstr ""
+
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:7
+msgid "Path where picture gallery should search for its content"
+msgstr ""
+
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:8
+msgid ""
+"This value can be an empty string, which means it’ll use the system Picture "
+"folder, usually set to ~/Pictures. This folder will be also used when the "
+"set path is not pointing to the existent folder"
+msgstr ""
+
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:9
+#, fuzzy
+#| msgid "Spell Checking"
+msgid "Spell check inline"
+msgstr "Аиашаҩыра агәаҭара"
+
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:10
+msgid "Draw spelling error indicators on words as you type."
+msgstr ""
+
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:11
 msgid "Automatic link recognition"
 msgstr "Автоматикла гиперазхьарԥшқәа  реҩдыраара"
+
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:12
+msgid "Recognize links in text and replace them."
+msgstr ""
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:13
 msgid "Automatic emoticon recognition"
 msgstr "Автоматикла аемоциақәа реҩдыраара"
 
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:14
+msgid ""
+"Recognize emoticons in text and replace them with images or Unicode "
+"characters."
+msgstr ""
+
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:15
+#, fuzzy
+#| msgid "Insert Emoticon"
+msgid "Unicode emoticons"
+msgstr "Аҿапаҟьа абжьаргылара"
+
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:16
+msgid "Use Unicode characters for emoticons."
+msgstr ""
+
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:17
 msgid "Attribute message"
 msgstr "Иагәылаҵоу ацҳамҭа"
 
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:18
+msgid ""
+"The text that is inserted when replying to a message, attributing the "
+"message to the original author"
+msgstr ""
+
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:19
+#, fuzzy
+#| msgid "_Format message in"
+msgid "Forward message"
+msgstr "_Ацҳамҭа аформатркра"
+
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:20
+msgid ""
+"The text that is inserted when forwarding a message, saying that the "
+"forwarded message follows"
+msgstr ""
+
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:21
+#, fuzzy
+#| msgid "_Edit message"
+msgid "Original message"
+msgstr "_Ацҳамҭа аҧсахра"
+
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:22
+msgid ""
+"The text that is inserted when replying to a message (top posting), saying "
+"that the original message follows"
+msgstr ""
+
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:23
+msgid "Group Reply replies to list"
+msgstr ""
+
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:24
+msgid ""
+"Instead of the normal “Reply to All” behaviour, this option will make the "
+"“Group Reply” toolbar button try to reply only to the mailing list through "
+"which you happened to receive the copy of the message to which you’re "
+"replying."
+msgstr ""
+
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:25
+msgid "Put the cursor at the bottom of replies"
+msgstr ""
+
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:26
+msgid ""
+"Users get all up in arms over where the cursor should go when replying to a "
+"message. This determines whether the cursor is placed at the top of the "
+"message or the bottom."
+msgstr ""
+
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:27
 msgid "Always request read receipt"
 msgstr "Еснагь шәадҵаалала аԥхьара аҳасабырба"
+
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:28
+msgid "Whether a read receipt request gets added to every message by default."
+msgstr ""
+
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:29
+msgid "What mode open the composer with"
+msgstr ""
+
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:30
+#, fuzzy
+#| msgid "Spell Checking"
+msgid "Spell checking languages"
+msgstr "Аиашаҩыра агәаҭара"
+
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:31
+msgid "List of dictionary language codes used for spell checking."
+msgstr ""
+
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:32
+msgid "List of recently used spell checking languages"
+msgstr ""
+
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:33
+msgid ""
+"List of dictionary language codes used for spell checking, which had been "
+"used recently."
+msgstr ""
+
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:34
+msgid "How many recently used spell checking languages to remember"
+msgstr ""
+
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:35
+msgid "Show “Bcc” field when sending a mail message"
+msgstr ""
+
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:36
+msgid ""
+"Show the “Bcc” field when sending a mail message. This is controlled from "
+"the View menu when a mail account is chosen."
+msgstr ""
+
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:37
+msgid "Show “Cc” field when sending a mail message"
+msgstr ""
+
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:38
+msgid ""
+"Show the “Cc” field when sending a mail message. This is controlled from the "
+"View menu when a mail account is chosen."
+msgstr ""
+
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:39
+msgid "Show “From” override field when sending a mail message"
+msgstr ""
+
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:40
+msgid ""
+"Show the “From” override field when sending a mail message. This is "
+"controlled from the View menu when a mail account is chosen."
+msgstr ""
+
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:41
+msgid "Show “Reply To” field when sending a mail message"
+msgstr ""
+
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:42
+msgid ""
+"Show the “Reply To” field when sending a mail message. This is controlled "
+"from the View menu when a mail account is chosen."
+msgstr ""
+
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:43
+msgid "Show “From” field when posting to a newsgroup"
+msgstr ""
+
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:44
+msgid ""
+"Show the “From” field when posting to a newsgroup. This is controlled from "
+"the View menu when a news account is chosen."
+msgstr ""
+
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:45
+msgid "Show “Reply To” field when posting to a newsgroup"
+msgstr ""
+
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:46
+msgid ""
+"Show the “Reply To” field when posting to a newsgroup. This is controlled "
+"from the View menu when a news account is chosen."
+msgstr ""
+
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:47
+msgid "Digitally sign replies when the original message is signed"
+msgstr ""
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:48
 msgid ""
@@ -111,6 +1444,43 @@ msgstr ""
 "Автоматла анапаҵыҩрақәа GP мамзар S/MIME рҿакра, ацҳамҭа анапаҵыҩра GP "
 "мамзар S/MIME змоу рҭак аҟаҵараан"
 
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:49
+msgid "Encode filenames in an Outlook/GMail way"
+msgstr ""
+
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:50
+msgid ""
+"Encode filenames in the mail headers same as Outlook or GMail do, to let "
+"them display correctly filenames with UTF-8 letters sent by Evolution, "
+"because they do not follow the RFC 2231, but use the incorrect RFC 2047 "
+"standard."
+msgstr ""
+
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:51
+msgid "Send messages through Outbox folder"
+msgstr ""
+
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:52
+msgid ""
+"Always save messages to Outbox folder when sending, to let a user choose "
+"when the messages should be sent."
+msgstr ""
+
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:53
+msgid ""
+"How long to delay Outbox flush when sending messages through Outbox folder"
+msgstr ""
+
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:54
+msgid ""
+"A delay, in minutes, to wait for the Outbox folder flush. Less than 0 means "
+"never flush, 0 means immediately, the rest is the delay interval in minutes."
+msgstr ""
+
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:55
+msgid "Include signature in new messages only"
+msgstr ""
+
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:56
 msgid ""
 "Include selected signature only for new messages, but have no signature "
@@ -118,6 +1488,214 @@ msgid ""
 msgstr ""
 "Иалкаау анапынҵамҭа иҿыцу ацҳамҭақәа ирыцҵалатәуп, урҭ аҭакқәа рахь "
 "ирыцҵатәым, мамзар даҽаџьара ишьҭтәым."
+
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:57
+msgid "Put personalized signatures at the top of replies"
+msgstr ""
+
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:58
+msgid ""
+"Users get all up in arms over where their signature should go when replying "
+"to a message. This determines whether the signature is placed at the top of "
+"the message or the bottom."
+msgstr ""
+
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:59
+msgid "Do not add signature delimiter"
+msgstr ""
+
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:60
+msgid ""
+"Set to TRUE in case you do not want to add signature delimiter before your "
+"signature when composing a mail."
+msgstr ""
+
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:61
+msgid "Keep original message signature in replies"
+msgstr ""
+
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:62
+msgid ""
+"When set to TRUE, keep original message signature in replies, otherwise "
+"strip the signature and everything below it when replying to the message."
+msgstr ""
+
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:63
+msgid "Ignore list Reply-To:"
+msgstr ""
+
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:64
+msgid ""
+"Some mailing lists set a Reply-To: header to trick users into sending "
+"replies to the list, even when they ask Evolution to make a private reply. "
+"Setting this option to TRUE will attempt to ignore such Reply-To: headers, "
+"so that Evolution will do as you ask it. If you use the private reply "
+"action, it will reply privately, while if you use the “Reply to List” action "
+"it will do that. It works by comparing the Reply-To: header with a List-"
+"Post: header, if there is one."
+msgstr ""
+
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:65
+msgid "List of localized “Re”"
+msgstr ""
+
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:66
+msgid ""
+"Comma-separated list of localized “Re” abbreviations to skip in a subject "
+"text when replying to a message, as an addition to the standard “Re” prefix. "
+"An example is “SV,AV”."
+msgstr ""
+
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:67
+msgid "List of localized “Re” separators"
+msgstr ""
+
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:68
+msgid ""
+"A list of localized “Re” separators, used to skip in a subject text when "
+"replying to a message, as an addition to the standard “:” and the Unicode "
+"“︰” separators."
+msgstr ""
+
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:69
+msgid "Use localized “Fwd”/“Re” in message Subject"
+msgstr ""
+
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:70
+msgid ""
+"When set to true, uses localized “Fwd”/“Re” in message Subject on reply and "
+"forward as provided by current locale translation, otherwise uses "
+"unlocalized version."
+msgstr ""
+
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:71
+msgid "Number of characters for wrapping"
+msgstr ""
+
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:72
+msgid "Will autowrap lines after given number of characters."
+msgstr ""
+
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:73
+msgid ""
+"Number of To and CC recipients to ask “prompt-on-many-to-cc-recips” from"
+msgstr ""
+
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:74
+msgid ""
+"When to ask, when the number of To and CC recipients reaches this value."
+msgstr ""
+
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:75
+msgid "Whether to always show main toolbar"
+msgstr ""
+
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:76
+#, fuzzy
+#| msgid "Whether the toolbar should be visible."
+msgid "If set to “true”, the main toolbar will be visible."
+msgstr "Амаругақәа рпанель убарҭазароума."
+
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:77
+msgid "Whether to always show edit toolbar"
+msgstr ""
+
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:78
+#, fuzzy
+#| msgid "Whether the toolbar should be visible."
+msgid "If set to “true”, the edit toolbar will be visible."
+msgstr "Амаругақәа рпанель убарҭазароума."
+
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:79
+msgid "Whether to always show Sign and Encrypt buttons on the toolbar"
+msgstr ""
+
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:80
+msgid ""
+"If set to “true”, the Sign and Encrypt buttons for either PGP or S/MIME are "
+"always shown in the composer’s toolbar. Otherwise they are shown only when "
+"being used."
+msgstr ""
+
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:81
+msgid "Wrap quoted text in replies"
+msgstr ""
+
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:82
+msgid "If set to “true” quoted text in replies will be wrapped."
+msgstr ""
+
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:83
+msgid "Paste plain text as preformatted"
+msgstr ""
+
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:84
+msgid ""
+"When set, paste a plain text into the composer body as Preformatted "
+"paragraph. When not set, paste it as Normal paragraph."
+msgstr ""
+
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:85
+msgid "Convert UTC time in reply credits to local time"
+msgstr ""
+
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:86
+msgid ""
+"Whether the time in reply credits should be converted to local time when "
+"it’s in UTC in the message."
+msgstr ""
+
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:87
+msgid "Use user date format in reply credits"
+msgstr ""
+
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:88
+msgid ""
+"Whether the date in reply credits should be shown in the user date format. "
+"If unset, shows the header value from the original message."
+msgstr ""
+
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:89
+msgid "Mark replied to messages as read"
+msgstr ""
+
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:90
+msgid ""
+"When replying to a message and marking it as being replied to, then whether "
+"also mark it as read."
+msgstr ""
+
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:91
+msgid "Whether start Plain Text composer with Preformatted paragraph mode"
+msgstr ""
+
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:92
+msgid ""
+"When set to true, new Plain Text messages will have preselected Preformatted "
+"paragraph mode. The Normal paragraph mode will be used when set to false."
+msgstr ""
+
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:93
+msgid "Whether to obey Content-Disposition:inline message header hint"
+msgstr ""
+
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:94
+msgid ""
+"Set to “false” to block automatic display of attachments with Content-"
+"Disposition: inline."
+msgstr ""
+
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:95
+msgid "Save file format for drag-and-drop operation"
+msgstr ""
+
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:96
+msgid "Can be either “mbox” or “pdf”."
+msgstr ""
+
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:97
+msgid "Show image animations"
+msgstr ""
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:98
 msgid ""
@@ -132,17 +1710,477 @@ msgstr ""
 msgid "Enable or disable type ahead search feature"
 msgstr "Аҭагалараан аԥшаара афункциа аҿакра, мамзар аҿыхра"
 
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:100
+msgid ""
+"Enable the side bar search feature to allow interactive searching of folder "
+"names."
+msgstr ""
+
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:101
 msgid "Enable or disable magic space bar"
 msgstr "Анашанара абжьажь' аҿакра , мамзар аҿыхра"
+
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:102
+msgid ""
+"Enable this to use Space bar key to scroll in message preview, message list "
+"and folders."
+msgstr ""
+
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:103
+#, fuzzy
+#| msgid "Enable to use the same search settings for all folders"
+msgid "Enable to use a similar message list view settings for all folders"
+msgstr "Аҭаӡқәа зегь рзы еиԥшу ахышәарақәа ахархәара рыҭара аҿакра"
+
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:104
+#, fuzzy
+#| msgid "Enable to use the same search settings for all folders"
+msgid "Enable to use a similar message list view settings for all folders."
+msgstr "Аҭаӡқәа зегь рзы еиԥшу ахышәарақәа ахархәара рыҭара аҿакра"
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:105
 msgid "Enable to use the same search settings for all folders"
 msgstr "Аҭаӡқәа зегь рзы еиԥшу ахышәарақәа ахархәара рыҭара аҿакра"
 
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:106
+msgid "This is considered only in combination with the 'global-view-setting'."
+msgstr ""
+
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:107
+msgid "Mark citations in the message “Preview”"
+msgstr ""
+
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:108
+msgid "Mark citations in the message “Preview”."
+msgstr ""
+
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:109
+msgid "Citation highlight color"
+msgstr ""
+
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:110
+msgid "Citation highlight color."
+msgstr ""
+
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:111
+#, fuzzy
+#| msgid "Enable or disable magic space bar"
+msgid "Enable/disable caret mode"
+msgstr "Анашанара абжьажь' аҿакра , мамзар аҿыхра"
+
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:112
+msgid "Enable caret mode, so that you can see a cursor when reading mail."
+msgstr ""
+
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:113
+msgid "Default charset in which to display messages"
+msgstr ""
+
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:114
+msgid "Default charset in which to display messages."
+msgstr ""
+
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:115
 msgid "Automatically load images for HTML messages over HTTP"
 msgstr "Автоматикла аԥшранҵақәа рҭагалара ацҳамҭақәа HTML аформат змоу рзы"
+
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:116
+msgid "Show notification about missing remote content"
+msgstr ""
+
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:117
+msgid ""
+"When the message preview shows a message which requires to download remote "
+"content, while the download is not allowed for the user or the site, then "
+"show a notification about it on top of the preview panel."
+msgstr ""
+
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:118
+#, fuzzy
+#| msgid "No Information"
+msgid "Show Animations"
+msgstr "Аинформациа ыҟаӡам"
+
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:119
+msgid "Show animated images as animations."
+msgstr ""
+
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:120
+#, fuzzy
+#| msgid "Collapse all message threads"
+msgid "Show all message headers"
+msgstr "Ахцәажәарақәа зегьы р_еиҟәырҳәра"
+
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:121
+msgid "Show all the headers when viewing a messages."
+msgstr ""
+
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:122
+msgid "List of headers to show when viewing a message."
+msgstr ""
+
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:123
+msgid ""
+"Each header is represented as a pair: the header name, and a boolean "
+"indicating whether the header is enabled. Disabled headers are not shown "
+"when viewing a message, but are still listed in Preferences."
+msgstr ""
+
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:124
+msgid "Show photo of the sender"
+msgstr ""
+
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:125
+msgid "Show the photo of the sender in the message reading pane."
+msgstr ""
+
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:126
+msgid "Search libravatar.org for photo of the sender"
+msgstr ""
+
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:127
+msgid "Allow searching also at libravatar.org for photo of the sender."
+msgstr ""
+
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:128
+msgid "Mark as Seen after specified timeout"
+msgstr ""
+
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:129
+msgid "Mark as Seen after specified timeout."
+msgstr ""
+
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:130
+msgid "Mark as Seen always after specified timeout"
+msgstr ""
+
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:131
+msgid ""
+"If set to true, the selected message will be set as unread after the timeout "
+"also after the folder change."
+msgstr ""
+
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:132
+msgid "Timeout for marking messages as seen"
+msgstr ""
+
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:133
+msgid "Timeout in milliseconds for marking messages as seen."
+msgstr ""
+
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:134
+#, fuzzy
+msgid "Show Attachment Bar"
+msgstr "Агәылаҵа"
+
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:135
+msgid ""
+"Show Attachment Bar below the message preview pane when the message has "
+"attachments."
+msgstr ""
+
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:136
+msgid "Sender email-address column in the message list"
+msgstr ""
+
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:137
+msgid ""
+"Show the email-address of the sender in a separate column in the message "
+"list."
+msgstr ""
+
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:138
+msgid "Show deleted messages in the message-list"
+msgstr ""
+
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:139
+msgid "Show deleted messages (with a strike-through) in the message-list."
+msgstr ""
+
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:140
+msgid "Show junk messages in the message-list"
+msgstr ""
+
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:141
+msgid "Show junk messages (with a red strike-through) in the message-list."
+msgstr ""
+
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:142
+#, fuzzy
+#| msgid "Enable or disable type ahead search feature"
+msgid "Enable Unmatched search folder"
+msgstr "Аҭагалараан аԥшаара афункциа аҿакра, мамзар аҿыхра"
+
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:143
+msgid ""
+"Enable Unmatched search folder within Search Folders. It does nothing if "
+"Search Folders are disabled."
+msgstr ""
+
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:144
+msgid "Hides the per-folder preview and removes the selection"
+msgstr ""
+
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:145
+msgid ""
+"This key is read only once and reset to “false” after read. This unselects "
+"the mail in the list and removes the preview for that folder."
+msgstr ""
+
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:146
+msgid "Height of the message-list pane"
+msgstr ""
+
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:147
+msgid "Height of the message-list pane."
+msgstr ""
+
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:148
+msgid "Whether message headers are collapsed in the user interface"
+msgstr ""
+
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:149
+msgid "Width of the message-list pane"
+msgstr ""
+
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:150
+msgid "Width of the message-list pane."
+msgstr ""
+
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:151
+#, fuzzy
+#| msgid "_Font Style"
+msgid "Layout style"
+msgstr "Ашрифт _астиль"
+
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:152
+msgid ""
+"The layout style determines where to place the preview pane in relation to "
+"the message list. “0” (Classic View) places the preview pane below the "
+"message list. “1” (Vertical View) places the preview pane next to the "
+"message list."
+msgstr ""
+
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:153
+msgid "Variable width font"
+msgstr ""
+
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:154
+msgid "The variable width font for mail display."
+msgstr ""
+
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:155
+msgid "Terminal font"
+msgstr ""
+
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:156
+msgid "The terminal font for mail display."
+msgstr ""
+
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:157
+msgid "Use custom fonts"
+msgstr ""
+
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:158
+msgid "Use custom fonts for displaying mail."
+msgstr ""
+
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:159
+msgid "Compress display of addresses in TO/CC/BCC"
+msgstr ""
+
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:160
+msgid ""
+"Compress display of addresses in TO/CC/BCC to the number specified in "
+"address_count."
+msgstr ""
+
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:161
+msgid "Number of addresses to display in TO/CC/BCC"
+msgstr ""
+
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:162
+msgid ""
+"This sets the number of addresses to show in default message list view, "
+"beyond which a “...” is shown."
+msgstr ""
+
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:163
+msgid ""
+"Show mails in headers part of the message preview when name is available"
+msgstr ""
+
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:164
+msgid ""
+"When set to false, the mail addresses which contain both the name and the "
+"email parts in headers like To/Cc/Bcc will be shown only with the name part, "
+"without the actual email, with the name made clickable."
+msgstr ""
+
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:165
+msgid "Thread the message-list based on Subject"
+msgstr ""
+
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:166
+msgid ""
+"Whether or not to fall back on threading by subjects when the messages do "
+"not contain In-Reply-To or References headers."
+msgstr ""
+
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:167
+msgid "Default value for thread expand state"
+msgstr ""
+
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:168
+msgid ""
+"This setting specifies whether the threads should be in expanded or "
+"collapsed state by default. Evolution requires a restart."
+msgstr ""
+
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:169
+msgid "Whether sort threads based on latest message in that thread"
+msgstr ""
+
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:170
+msgid ""
+"This setting specifies whether the threads should be sorted based on latest "
+"message in each thread, rather than by message’s date. Evolution requires a "
+"restart."
+msgstr ""
+
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:171
+msgid "Whether sort thread children always ascending"
+msgstr ""
+
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:172
+msgid ""
+"This setting specifies whether the thread children should be sorted always "
+"ascending, rather than using the same sort order as in the thread root level."
+msgstr ""
+
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:173
+msgid "Whether to compress thread level"
+msgstr ""
+
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:174
+msgid ""
+"Set to true to compress thread levels for flat conversations, to make the "
+"level not so deep."
+msgstr ""
+
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:175
+msgid "Sort accounts alphabetically in a folder tree"
+msgstr ""
+
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:176
+msgid ""
+"Tells how to sort accounts in a folder tree used in a Mail view. When set to "
+"true accounts are sorted alphabetically, with an exception of On This "
+"Computer and Search folders, otherwise accounts are sorted based on an order "
+"given by a user"
+msgstr ""
+
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:177
+#, fuzzy
+#| msgid "Bogofilter Options"
+msgid "Log filter actions"
+msgstr "АхышәарақәаBogofilter"
+
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:178
+msgid "Log filter actions to the specified log file."
+msgstr ""
+
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:179
+#, fuzzy
+#| msgid "Bogofilter Options"
+msgid "Logfile to log filter actions"
+msgstr "АхышәарақәаBogofilter"
+
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:180
+msgid ""
+"If not set, or being “stdout”, then the logging is done to stdout, instead "
+"to a file."
+msgstr ""
+
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:181
+msgid "Flush Outbox after filtering"
+msgstr ""
+
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:182
+msgid ""
+"Whether to flush Outbox after filtering is done. Outbox flush will happen "
+"only when there was used any “Forward to” filter action and approximately "
+"one minute after the last action invocation."
+msgstr ""
+
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:183
+msgid "Default forward style"
+msgstr ""
+
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:184
+#, fuzzy
+#| msgid "Reply style:"
+msgid "Default reply style"
+msgstr "Аҭак астиль:"
+
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:185
+msgid ""
+"Forward and reply attribution language tag, like en_US. Empty string means "
+"to use the same language as the user interface."
+msgstr ""
+
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:186
+msgid "Prompt on send when using key accelerator (Ctrl+Enter)"
+msgstr ""
+
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:187
+msgid ""
+"Prompt the user when he or she tries to send a message with a key "
+"accelerator."
+msgstr ""
+
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:188
+msgid "Prompt on empty subject"
+msgstr ""
+
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:189
+msgid ""
+"Prompt the user when he or she tries to send a message without a Subject."
+msgstr ""
+
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:190
+msgid "Prompt when emptying the trash"
+msgstr ""
+
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:191
+msgid "Prompt the user when he or she tries to empty the trash."
+msgstr ""
+
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:192
+msgid "Prompt when user expunges"
+msgstr ""
+
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:193
+msgid "Prompt the user when he or she tries to expunge a folder."
+msgstr ""
+
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:194
+msgid "Prompt when user calls Empty Junk"
+msgstr ""
+
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:195
+msgid "Prompt the user when he or she tries to Empty a Junk folder."
+msgstr ""
+
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:196
+#, fuzzy
+#| msgid ""
+#| "The following recipients were not recognized as valid mail addresses:\n"
+#| "{0}"
+msgid "Prompt before sending to recipients not entered as mail addresses"
+msgstr ""
+"Анаҩстәи адкылаҩцәа рԥошьҭақәа риашашьа еилкаамхазеит:\n"
+"{0}"
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:197
 msgid ""
@@ -152,11 +2190,364 @@ msgstr ""
 "Иаҿанакуеит/иаҿнахуеит агәҽанҵарақәа ахатәы цҳамҭақәа аиуаа рыхьӡынҵаҟны "
 "иарбам ауаа рахь ианышьҭхо."
 
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:198
+msgid "Prompt when user only fills Bcc"
+msgstr ""
+
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:199
+msgid "Prompt when user tries to send a message with no To or Cc recipients."
+msgstr ""
+
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:200
+msgid "Prompt when user tries to send unwanted HTML"
+msgstr ""
+
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:201
+msgid ""
+"Prompt when user tries to send HTML mail to recipients that may not want to "
+"receive HTML mail."
+msgstr ""
+
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:202
+msgid "Prompt when user tries to open 10 or more messages at once"
+msgstr ""
+
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:203
+msgid ""
+"If a user tries to open 10 or more messages at one time, ask the user if "
+"they really want to do it."
+msgstr ""
+
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:204
+msgid "Prompt while marking multiple messages"
+msgstr ""
+
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:205
+msgid "Enable or disable the prompt whilst marking multiple messages."
+msgstr ""
+
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:206
+msgid "Prompt when deleting messages in search folder"
+msgstr ""
+
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:207
+#, fuzzy
+#| msgid ""
+#| "It disables/enables the repeated prompts to warn that you are trying to "
+#| "send a message to recipients not entered as mail addresses"
+msgid ""
+"It disables/enables the repeated prompts to warn that deleting messages from "
+"a search folder permanently deletes the message, not simply removing it from "
+"the search results."
+msgstr ""
+"Иаҿанакуеит/иаҿнахуеит агәҽанҵарақәа ахатәы цҳамҭақәа аиуаа рыхьӡынҵаҟны "
+"иарбам ауаа рахь ианышьҭхо."
+
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:208
+msgid "Asks whether to copy a folder by drag &amp; drop in the folder tree"
+msgstr ""
+
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:209
+msgid ""
+"Possible values are: “never” — do not allow copy with drag &amp; drop of "
+"folders in folder tree, “always” — allow copy with drag &amp; drop of "
+"folders in folder tree without asking, or “ask” — (or any other value) will "
+"ask user."
+msgstr ""
+
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:210
+msgid "Asks whether to move a folder by drag &amp; drop in the folder tree"
+msgstr ""
+
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:211
+msgid ""
+"Possible values are: “never” — do not allow move with drag &amp; drop of "
+"folders in folder tree, “always” — allow move with drag &amp; drop of "
+"folders in folder tree without asking, or “ask” — (or any other value) will "
+"ask user."
+msgstr ""
+
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:212
+msgid "Prompt when replying privately to list messages"
+msgstr ""
+
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:213
+#, fuzzy
+#| msgid ""
+#| "It disables/enables the repeated prompts to warn that you are sending a "
+#| "reply to many people."
+msgid ""
+"It disables/enables the repeated prompts to warn that you are sending a "
+"private reply to a message which arrived via a mailing list."
+msgstr "Иаҿанакуеит/иаҿнахуеит агәҽанҵарақәа"
+
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:214
+msgid "Prompt when mailing list hijacks private replies"
+msgstr ""
+
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:215
+#, fuzzy
+#| msgid ""
+#| "It disables/enables the repeated prompts to warn that you are trying to "
+#| "send a message to recipients not entered as mail addresses"
+msgid ""
+"It disables/enables the repeated prompts to warn that you are trying sending "
+"a private reply to a message which arrived via a mailing list, but the list "
+"sets a Reply-To: header which redirects your reply back to the list"
+msgstr ""
+"Иаҿанакуеит/иаҿнахуеит агәҽанҵарақәа ахатәы цҳамҭақәа аиуаа рыхьӡынҵаҟны "
+"иарбам ауаа рахь ианышьҭхо."
+
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:216
+msgid "Prompt when replying to many recipients"
+msgstr ""
+
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:217
 msgid ""
 "It disables/enables the repeated prompts to warn that you are sending a "
 "reply to many people."
 msgstr "Иаҿанакуеит/иаҿнахуеит агәҽанҵарақәа"
+
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:218
+msgid ""
+"Prompt when switching composer format and the content needs to lose its "
+"formatting"
+msgstr ""
+
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:219
+#, fuzzy
+#| msgid ""
+#| "It disables/enables the repeated prompts to warn that you are trying to "
+#| "send a message to recipients not entered as mail addresses"
+msgid ""
+"It disables/enables the repeated prompts to warn that you are switching "
+"composer format and the content needs to lose its formatting."
+msgstr ""
+"Иаҿанакуеит/иаҿнахуеит агәҽанҵарақәа ахатәы цҳамҭақәа аиуаа рыхьӡынҵаҟны "
+"иарбам ауаа рахь ианышьҭхо."
+
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:220
+msgid "Prompt when sending to many To and CC recipients"
+msgstr ""
+
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:221
+msgid ""
+"Enable or disable the prompt when sending to many To and CC recipients. The "
+"“composer-many-to-cc-recips-num” defines the threshold."
+msgstr ""
+
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:222
+msgid ""
+"Policy for automatically closing the message browser window when forwarding "
+"or replying to the displayed message."
+msgstr ""
+
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:223
+msgid "Empty Trash folders on exit"
+msgstr ""
+
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:224
+msgid "Empty all Trash folders when exiting Evolution."
+msgstr ""
+
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:225
+msgid "Minimum days between emptying the trash on exit"
+msgstr ""
+
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:226
+msgid "Minimum time between emptying the trash on exit, in days."
+msgstr ""
+
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:227
+msgid "Last time Empty Trash was run"
+msgstr ""
+
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:228
+msgid ""
+"The last time Empty Trash was run, in days since January 1st, 1970 (Epoch)."
+msgstr ""
+
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:229
+msgid "Amount of time in seconds the error should be shown on the status bar."
+msgstr ""
+
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:230
+msgid "Level beyond which the message should be logged."
+msgstr ""
+
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:231
+msgid ""
+"This can have three possible values. “0” for errors. “1” for warnings. “2” "
+"for debug messages."
+msgstr ""
+
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:232
+msgid "Show original “Date” header value."
+msgstr ""
+
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:233
+msgid ""
+"Show the original “Date” header (with a local time only if the time zone "
+"differs). Otherwise always show “Date” header value in a user preferred "
+"format and local time zone."
+msgstr ""
+
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:234
+msgid "List of Labels and their associated colors"
+msgstr ""
+
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:235
+msgid ""
+"List of labels known to the mail component of Evolution. The list contains "
+"strings containing name:color where color uses the HTML hex encoding."
+msgstr ""
+
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:236
+msgid "Check incoming mail being junk"
+msgstr ""
+
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:237
+msgid "Run junk test on incoming mail."
+msgstr ""
+
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:238
+msgid "Empty Junk folders on exit"
+msgstr ""
+
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:239
+msgid "Empty all Junk folders when exiting Evolution."
+msgstr ""
+
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:240
+msgid "Minimum days between emptying the junk on exit"
+msgstr ""
+
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:241
+msgid "Minimum time between emptying the junk on exit, in days."
+msgstr ""
+
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:242
+msgid "Last time Empty Junk was run"
+msgstr ""
+
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:243
+msgid ""
+"The last time Empty Junk was run, in days since January 1st, 1970 (Epoch)."
+msgstr ""
+
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:244
+msgid "The default plugin for Junk hook"
+msgstr ""
+
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:245
+msgid ""
+"This is the default junk plugin, even though there are multiple plugins "
+"enabled. If the default listed plugin is disabled, then it won’t fall back "
+"to the other available plugins."
+msgstr ""
+
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:246
+msgid "Determines whether to lookup in address book for sender email"
+msgstr ""
+
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:247
+msgid ""
+"Determines whether to lookup the sender email in address book. If found, it "
+"shouldn’t be a spam. It looks up in the books marked for autocompletion. It "
+"can be slow, if remote address books (like LDAP) are marked for "
+"autocompletion."
+msgstr ""
+
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:248
+msgid ""
+"Determines whether to look up addresses for junk filtering in local address "
+"book only"
+msgstr ""
+
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:249
+msgid ""
+"This option is related to the key lookup_addressbook and is used to "
+"determine whether to look up addresses in local address book only to exclude "
+"mail sent by known contacts from junk filtering."
+msgstr ""
+
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:250
+msgid "Determines whether to use custom headers to check for junk"
+msgstr ""
+
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:251
+msgid ""
+"Determines whether to use custom headers to check for junk. If this option "
+"is enabled and the headers are mentioned, it will be improve the junk "
+"checking speed."
+msgstr ""
+
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:252
+msgid "Custom headers to use while checking for junk."
+msgstr ""
+
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:253
+msgid ""
+"Custom headers to use while checking for junk. The list elements are string "
+"in the format “headername=value”."
+msgstr ""
+
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:254
+msgid "UID string of the default account."
+msgstr ""
+
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:255
+msgid "Save directory"
+msgstr ""
+
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:256
+msgid "Directory for saving mail component files."
+msgstr ""
+
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:257
+msgid "Composer load/attach directory"
+msgstr ""
+
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:258
+msgid "Directory for loading/attaching files to composer."
+msgstr ""
+
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:259
+msgid "Check for new messages on start"
+msgstr ""
+
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:260
+msgid ""
+"Whether to check for new messages when Evolution is started. This includes "
+"also sending messages from Outbox."
+msgstr ""
+
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:261
+msgid "Check for new messages in all active accounts"
+msgstr ""
+
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:262
+msgid ""
+"Whether to check for new messages in all active accounts regardless of the "
+"account “Check for new messages every X minutes” option when Evolution is "
+"started. This option is used only together with “send_recv_on_start” option."
+msgstr ""
+
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:263
+msgid "Server synchronization interval"
+msgstr ""
+
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:264
+msgid ""
+"Controls how frequently local changes are synchronized with the remote mail "
+"server. The interval must be at least 30 seconds."
+msgstr ""
+
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:265
+#, fuzzy
+#| msgid "Confirm _when expunging a folder"
+msgid "Allow expunge in virtual folders"
+msgstr "_Аҭаӡ ианыху ацҳамҭақәа рҟынтә арыцқьаразы адҵаалара "
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:266
 msgid ""
@@ -170,9 +2561,335 @@ msgstr ""
 "ианыху ацҳамҭақәа рымацара рзыҳәан акәымкәа , иагьарыцқьоит авиртуалтә "
 "ҭаӡқәа рҟны ианыху ацҳамҭақәа зегьы ,"
 
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:267
+#: ../src/mail/mail-config.ui.h:10
+msgid "Inherit theme colors in HTML format"
+msgstr ""
+
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:268
+msgid ""
+"When enabled the theme colors for background, text and links are sent in "
+"resulting HTML formatted message."
+msgstr ""
+
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:269
+msgid "An Archive folder for On This Computer folders."
+msgstr ""
+
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:270
+msgid ""
+"An Archive folder to use for Messages|Archive... feature when in an On This "
+"Computer folder."
+msgstr ""
+
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:271
+#, fuzzy
+#| msgid "Whether the To Do bar is visible in a sub-window"
+msgid "Whether the To Do bar is visible in the main window"
+msgstr "Апанель убарҭазароума"
+
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:272
+#, fuzzy
+#| msgid "Whether the To Do bar is visible in a sub-window"
+msgid "Stores whether the To Do bar is visible in the main window."
+msgstr "Апанель убарҭазароума"
+
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:273
+#, fuzzy
+#| msgid "Whether the To Do bar is visible in a sub-window"
+msgid "Width of the To Do bar in the main window"
+msgstr "Апанель убарҭазароума"
+
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:274
+#, fuzzy
+#| msgid "Whether the To Do bar is visible in a sub-window"
+msgid "Holds the width of the To Do bar for the main window."
+msgstr "Апанель убарҭазароума"
+
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:275
 msgid "Whether the To Do bar is visible in a sub-window"
 msgstr "Апанель убарҭазароума"
+
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:276
+#, fuzzy
+#| msgid "Whether the To Do bar is visible in a sub-window"
+msgid "Stores whether the To Do bar is visible in a sub-window."
+msgstr "Апанель убарҭазароума"
+
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:277
+#, fuzzy
+#| msgid "Whether the To Do bar is visible in a sub-window"
+msgid "Width of the To Do bar in a sub-window"
+msgstr "Апанель убарҭазароума"
+
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:278
+#, fuzzy
+#| msgid "Whether the To Do bar is visible in a sub-window"
+msgid "Holds the width of the To Do bar for a sub-window."
+msgstr "Апанель убарҭазароума"
+
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:279
+#, fuzzy
+#| msgid "Whether the toolbar should be visible."
+msgid "Whether the To Do bar should show also completed tasks"
+msgstr "Амаругақәа рпанель убарҭазароума."
+
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:280
+msgid "Stores whether the To Do bar should show also completed tasks."
+msgstr ""
+
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:281
+msgid "Whether the To Do bar should show also tasks without Due date"
+msgstr ""
+
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:282
+msgid "Stores whether the To Do bar should show also tasks without Due date."
+msgstr ""
+
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:283
+msgid "How many days to show in the To Do bar"
+msgstr ""
+
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:284
+msgid "Values out of range are clamped to the boundary."
+msgstr ""
+
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:285
+msgid "Show start up wizard"
+msgstr ""
+
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:286
+msgid "Whether show start up wizard when there is no mail account configured."
+msgstr ""
+
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:287
+#, fuzzy
+#| msgid "Go to the previ_ous message after message deletion"
+msgid "Whether go to the previous message after message deletion"
+msgstr "Ацҳамҭа аныхра ашьҭахь  иаҧхьааиуа ацҳамҭа ахь аиасра"
+
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:288
+msgid ""
+"If set to true, goes to the previous message when the selected is deleted; "
+"or to the next message, when it’s set to false."
+msgstr ""
+
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:289
+msgid "Show Subject above Sender in Messages column"
+msgstr ""
+
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:290
+msgid ""
+"Whether to show Subject above Sender (From/To) in the Messages column, "
+"usually shown in the Vertical/Wide view of the message list"
+msgstr ""
+
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:291
+msgid "Visually wrap long lines in composer"
+msgstr ""
+
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:292
+#: ../src/composer/e-composer-actions.c:572
+msgid ""
+"Whether to visually wrap long lines of text to avoid horizontal scrolling"
+msgstr ""
+
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:293
+#, fuzzy
+#| msgid "Alternative Reply"
+msgid "Alternative reply style"
+msgstr "Альтернативтә ҭак"
+
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:294
+msgid "Composer mode to use."
+msgstr ""
+
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:295
+msgid "Put the cursor at the bottom of alternative replies"
+msgstr ""
+
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:296
+msgid ""
+"This determines whether the cursor is placed at the top of the message or "
+"the bottom when using Alternative Reply."
+msgstr ""
+
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:297
+#, fuzzy
+#| msgid "Go to the section %s of the message"
+msgid "Put the signature at the top of the message"
+msgstr "Ацҳамҭа аҟәша %s ахь аиасра"
+
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:298
+msgid ""
+"This determines whether the signature is placed at the top of the message or "
+"the bottom when using Alternative Reply."
+msgstr ""
+
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:299
+msgid "Apply chosen template when using Alternative Reply"
+msgstr ""
+
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:300
+msgid "Last chosen template’s folder URI for Alternative Reply"
+msgstr ""
+
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:301
+msgid "Last chosen template’s message UID for Alternative Reply"
+msgstr ""
+
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:302
+msgid ""
+"Whether preserve original message subject when applying template for "
+"Alternative Reply"
+msgstr ""
+
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:303
+msgid ""
+"Whether set “body” in mailto: URI as Preformatted paragraph style. If set to "
+"“false”, then Normal paragraph style will be used."
+msgstr ""
+
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:304
+msgid ""
+"Close the message browser window when the selected message is deleted or "
+"marked as Junk."
+msgstr ""
+
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:305
+msgid ""
+"Collapse archive folders in Move/Copy message to Folder and Go to Folder "
+"selectors."
+msgstr ""
+
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:306
+msgid ""
+"Where to lookup recipient S/MIME certificates or PGP keys when encrypting "
+"messages."
+msgstr ""
+
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:307
+msgid ""
+"The “off” value completely disables certificate lookup; the “autocompleted” "
+"value provides certificates only for auto-completed contacts; the “books” "
+"value uses certificates from auto-completed contacts and searches in books "
+"marked for auto-completion."
+msgstr ""
+
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:308
+msgid "Whether Send/Receive should also download of messages for offline."
+msgstr ""
+
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:309
+msgid ""
+"If enabled, whenever Send/Receive is run it also runs synchronization of "
+"messages for offline use. The option is disabled by default."
+msgstr ""
+
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:310
+msgid "Whether display delivery notification parts inline."
+msgstr ""
+
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:311
+msgid ""
+"If enabled, the message/delivery-status and message/disposition-notification "
+"parts are shown automatically inline."
+msgstr ""
+
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:312
+msgid "Whether unset colors provided in HTML mails."
+msgstr ""
+
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:313
+msgid ""
+"If enabled, unset colors in HTML messages, forcing use of desktop theme "
+"colors instead."
+msgstr ""
+
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:314
+msgid ""
+"Whether to preserve expand state of the folders when calling Copy/Move to "
+"Folder."
+msgstr ""
+
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:315
+msgid ""
+"If enabled, the Copy/Move to Folder dialog will preserve the expand state of "
+"the folders in the dialog, otherwise all the folders will be expanded."
+msgstr ""
+
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:316
+msgid "Whether to print attachments."
+msgstr ""
+
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:317
+msgid ""
+"If enabled, and possible, attachment content is printed with the message."
+msgstr ""
+
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:318
+msgid "Size limit for text attachments to show"
+msgstr ""
+
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:319
+msgid ""
+"Defines the size in KB, the limit to show text attachments in the message "
+"preview. Anything above this limit will not be possible to show inline."
+msgstr ""
+
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:320
+msgid "(Deprecated) Default forward style"
+msgstr ""
+
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:321
+msgid ""
+"This key was deprecated in version 3.10 and should no longer be used. Use "
+"“forward-style-name” instead."
+msgstr ""
+
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:322
+msgid "(Deprecated) Default reply style"
+msgstr ""
+
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:323
+msgid ""
+"This key was deprecated in version 3.10 and should no longer be used. Use "
+"“reply-style-name” instead."
+msgstr ""
+
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:324
+msgid "(Deprecated) List of custom headers and whether they are enabled."
+msgstr ""
+
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:325
+msgid ""
+"This key was deprecated in version 3.10 and should no longer be used. Use "
+"“show-headers” instead."
+msgstr ""
+
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:326
+#, fuzzy
+#| msgid "Automatically load images for HTML messages over HTTP"
+msgid "(Deprecated) Load images for HTML messages over HTTP"
+msgstr "Автоматикла аԥшранҵақәа рҭагалара ацҳамҭақәа HTML аформат змоу рзы"
+
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:327
+msgid ""
+"This key was deprecated in version 3.10 and should no longer be used. Use "
+"“image-loading-policy” instead."
+msgstr ""
+
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:328
+msgid ""
+"(Deprecated) Asks whether to close the message window when the user forwards "
+"or replies to the message shown in the window"
+msgstr ""
+
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:329
+msgid ""
+"This key was deprecated in version 3.10 and should no longer be used. Use "
+"“browser-close-on-reply-policy” instead."
+msgstr ""
 
 #. Translators: This is a list of words for the attach reminder plugin to look
 #. for in a message body. Please use any number of words here in your language that might
@@ -180,6 +2897,24 @@ msgstr "Апанель убарҭазароума"
 #: ../data/org.gnome.evolution.plugin.attachment-reminder.gschema.xml.in.h:4
 msgid "['attachment','attaching','attached','enclosed']"
 msgstr "['аттач','аҭаҵа','attachment','attaching','attached','enclosed']"
+
+#: ../data/org.gnome.evolution.plugin.attachment-reminder.gschema.xml.in.h:5
+msgid ""
+"List of clues for the attachment reminder plugin to look for in a message "
+"body"
+msgstr ""
+
+#: ../data/org.gnome.evolution.plugin.attachment-reminder.gschema.xml.in.h:6
+msgid ""
+"List of clues for the attachment reminder plugin to look for in a message "
+"body."
+msgstr ""
+
+#: ../data/org.gnome.evolution.plugin.autocontacts.gschema.xml.in.h:1
+#, fuzzy
+#| msgid "Address book"
+msgid "Address book source"
+msgstr "Аҭыӡҭыԥтәи ашәҟәы"
 
 #: ../data/org.gnome.evolution.plugin.autocontacts.gschema.xml.in.h:2
 msgid "Address book to use for storing automatically synced contacts."
@@ -190,14 +2925,91 @@ msgstr ""
 msgid "Auto sync Pidgin contacts"
 msgstr "Pidgin аимадарақәа автоматикла асинронтәра рзура"
 
+#: ../data/org.gnome.evolution.plugin.autocontacts.gschema.xml.in.h:4
+msgid "Whether Pidgin contacts should be automatically synced."
+msgstr ""
+
 #: ../data/org.gnome.evolution.plugin.autocontacts.gschema.xml.in.h:5
 msgid "Enable autocontacts"
 msgstr "Автоматикатә еимадарақәа рҿакра"
+
+#: ../data/org.gnome.evolution.plugin.autocontacts.gschema.xml.in.h:6
+msgid ""
+"Whether contacts should be automatically added to the user’s address book."
+msgstr ""
+
+#: ../data/org.gnome.evolution.plugin.autocontacts.gschema.xml.in.h:7
+msgid "Whether to set “File under” field as “First Last”"
+msgstr ""
+
+#: ../data/org.gnome.evolution.plugin.autocontacts.gschema.xml.in.h:8
+msgid "Set File under as “First Last”, instead of “Last, First”."
+msgstr ""
+
+#: ../data/org.gnome.evolution.plugin.autocontacts.gschema.xml.in.h:9
+#, fuzzy
+#| msgid "evolution address book"
+msgid "Pidgin address book source"
+msgstr "аҭыӡҭыԥтәи ашәҟәы evolution"
 
 #: ../data/org.gnome.evolution.plugin.autocontacts.gschema.xml.in.h:10
 msgid ""
 "Address book to use for storing automatically synced contacts from Pidgin."
 msgstr "Аҭыӡҭыԥтә шәҟәы Pidgin асинхронизациа зызу аимадарақәа реиқәырхаразы"
+
+#: ../data/org.gnome.evolution.plugin.autocontacts.gschema.xml.in.h:11
+msgid "Pidgin check interval"
+msgstr ""
+
+#: ../data/org.gnome.evolution.plugin.autocontacts.gschema.xml.in.h:12
+msgid "Check interval for Pidgin syncing of contacts."
+msgstr ""
+
+#: ../data/org.gnome.evolution.plugin.autocontacts.gschema.xml.in.h:13
+msgid "Pidgin last sync MD5"
+msgstr ""
+
+#: ../data/org.gnome.evolution.plugin.autocontacts.gschema.xml.in.h:14
+msgid "Pidgin last sync MD5."
+msgstr ""
+
+#: ../data/org.gnome.evolution.plugin.autocontacts.gschema.xml.in.h:15
+msgid "Pidgin last sync time"
+msgstr ""
+
+#: ../data/org.gnome.evolution.plugin.autocontacts.gschema.xml.in.h:16
+msgid "Pidgin last sync time."
+msgstr ""
+
+#: ../data/org.gnome.evolution.plugin.email-custom-header.gschema.xml.in.h:1
+#, fuzzy
+#| msgid "_Custom Header"
+msgid "List of Custom Headers"
+msgstr "_Иацҵоу ахы"
+
+#: ../data/org.gnome.evolution.plugin.email-custom-header.gschema.xml.in.h:2
+msgid ""
+"The key specifies the list of custom headers that you can add to an outgoing "
+"message. The format for specifying a Header and Header value is: Name of the "
+"custom header followed by “=” and the values separated by “;”"
+msgstr ""
+
+#: ../data/org.gnome.evolution.plugin.external-editor.gschema.xml.in.h:1
+msgid "Default External Editor"
+msgstr ""
+
+#: ../data/org.gnome.evolution.plugin.external-editor.gschema.xml.in.h:2
+msgid "The default command that must be used as the editor."
+msgstr ""
+
+#: ../data/org.gnome.evolution.plugin.external-editor.gschema.xml.in.h:3
+#, fuzzy
+#| msgid ""
+#| "Automatically launch editor when key is pressed in the mail composer."
+msgid "Automatically launch when a new mail is edited"
+msgstr ""
+"Автоматикла аредактор аус арура арыд ақәыӷәӷәараан  ацҳамҭа аредакциазуратә "
+"ԥенџьыр аҟны"
 
 #: ../data/org.gnome.evolution.plugin.external-editor.gschema.xml.in.h:4
 msgid "Automatically launch editor when key is pressed in the mail composer."
@@ -205,17 +3017,309 @@ msgstr ""
 "Автоматикла аредактор аус арура арыд ақәыӷәӷәараан  ацҳамҭа аредакциазуратә "
 "ԥенџьыр аҟны"
 
+#: ../data/org.gnome.evolution.plugin.face-picture.gschema.xml.in.h:1
+#, fuzzy
+#| msgid "_Insert Face picture by default"
+msgid "Insert Face picture by default"
+msgstr "_Ахатә фотосахьа ишыҟоу еиԥш аҭагалара"
+
+#: ../data/org.gnome.evolution.plugin.face-picture.gschema.xml.in.h:2
+msgid ""
+"Whether insert Face picture to outgoing messages by default. The picture "
+"should be set before checking this, otherwise nothing happens."
+msgstr ""
+
+#: ../data/org.gnome.evolution.plugin.itip.gschema.xml.in.h:1
+#, fuzzy
+#| msgid "_Delete Message"
+msgid "Delete processed"
+msgstr "_Ацҳамҭа аныхра"
+
+#: ../data/org.gnome.evolution.plugin.itip.gschema.xml.in.h:2
+msgid "Whether to delete processed iTip objects"
+msgstr ""
+
+#: ../data/org.gnome.evolution.plugin.itip.gschema.xml.in.h:3
+msgid "Preserve existing reminder by default"
+msgstr ""
+
+#: ../data/org.gnome.evolution.plugin.itip.gschema.xml.in.h:4
+msgid "Whether to preset option to preserve existing reminder by default"
+msgstr ""
+
+#: ../data/org.gnome.evolution.plugin.itip.gschema.xml.in.h:5
+msgid "Show invitation description provided by the sender"
+msgstr ""
+
+#: ../data/org.gnome.evolution.plugin.itip.gschema.xml.in.h:6
+msgid ""
+"Set to true to show invitation description as provided by the sender, if "
+"such is available"
+msgstr ""
+
+#: ../data/org.gnome.evolution.plugin.mail-notification.gschema.xml.in.h:1
+#, fuzzy
+#| msgid "Notify new attendees _only"
+msgid "Notify new messages for Inbox only."
+msgstr "Алахәаҩцәа ҿыцқәа рымацара_ адырра рыҭара"
+
+#: ../data/org.gnome.evolution.plugin.mail-notification.gschema.xml.in.h:2
+msgid "Whether to notify new messages in Inbox folder only."
+msgstr ""
+
+#: ../data/org.gnome.evolution.plugin.mail-notification.gschema.xml.in.h:3
+#, fuzzy
+#| msgid "_Delete junk messages"
+msgid "Enable D-Bus messages."
+msgstr "_Аспам аныхра"
+
+#: ../data/org.gnome.evolution.plugin.mail-notification.gschema.xml.in.h:4
+msgid "Generates a D-Bus message when new mail messages arrive."
+msgstr ""
+
 #: ../data/org.gnome.evolution.plugin.mail-notification.gschema.xml.in.h:5
 msgid "Enable icon in notification area."
 msgstr "Ардырра аҵакыраҟны адыргаҷ аҿакра"
+
+#: ../data/org.gnome.evolution.plugin.mail-notification.gschema.xml.in.h:6
+#, fuzzy
+#| msgid "Enable icon in notification area."
+msgid "Show new mail icon in notification area when new messages arrive."
+msgstr "Ардырра аҵакыраҟны адыргаҷ аҿакра"
+
+#: ../data/org.gnome.evolution.plugin.mail-notification.gschema.xml.in.h:7
+msgid "Popup message together with the icon."
+msgstr ""
+
+#: ../data/org.gnome.evolution.plugin.mail-notification.gschema.xml.in.h:8
+msgid "Whether show message over the icon when new messages arrive."
+msgstr ""
+
+#: ../data/org.gnome.evolution.plugin.mail-notification.gschema.xml.in.h:9
+#, fuzzy
+#| msgid "Enable _audio notifications"
+msgid "Enable audible notifications when new messages arrive."
+msgstr "Абжьытә_дырраҭарақәа рҿакра"
+
+#: ../data/org.gnome.evolution.plugin.mail-notification.gschema.xml.in.h:10
+msgid ""
+"Whether to make a sound of any kind when new messages arrive. If “false”, "
+"the “notify-sound-beep”, “notify-sound-file”, “notify-sound-play-file” and "
+"“notify-sound-use-theme” keys are disregarded."
+msgstr ""
+
+#: ../data/org.gnome.evolution.plugin.mail-notification.gschema.xml.in.h:11
+msgid "Whether to emit a beep."
+msgstr ""
+
+#: ../data/org.gnome.evolution.plugin.mail-notification.gschema.xml.in.h:12
+msgid "Whether to emit a beep when new messages arrive."
+msgstr ""
+
+#: ../data/org.gnome.evolution.plugin.mail-notification.gschema.xml.in.h:13
+msgid "Sound filename to be played."
+msgstr ""
+
+#: ../data/org.gnome.evolution.plugin.mail-notification.gschema.xml.in.h:14
+msgid ""
+"Sound file to be played when new messages arrive, if “notify-sound-play-"
+"file” is “true”."
+msgstr ""
+
+#: ../data/org.gnome.evolution.plugin.mail-notification.gschema.xml.in.h:15
+#, fuzzy
+#| msgid "Whether the status bar should be visible."
+msgid "Whether to play a sound file."
+msgstr "Аҭагылазаашьа апанель убарҭазароума"
+
+#: ../data/org.gnome.evolution.plugin.mail-notification.gschema.xml.in.h:16
+msgid ""
+"Whether to play a sound file when new messages arrive. The name of the sound "
+"file is given by the “notify-sound-file” key."
+msgstr ""
+
+#: ../data/org.gnome.evolution.plugin.mail-notification.gschema.xml.in.h:17
+msgid "Use sound theme"
+msgstr ""
+
+#: ../data/org.gnome.evolution.plugin.mail-notification.gschema.xml.in.h:18
+msgid "Play themed sound when new messages arrive, if not in beep mode."
+msgstr ""
+
+#: ../data/org.gnome.evolution.plugin.mail-notification.gschema.xml.in.h:19
+msgid "Do not notify for these accounts"
+msgstr ""
+
+#: ../data/org.gnome.evolution.plugin.mail-notification.gschema.xml.in.h:20
+msgid ""
+"Contains UIDs of accounts for which the notifications should be avoided."
+msgstr ""
+
+#: ../data/org.gnome.evolution.plugin.prefer-plain.gschema.xml.in.h:1
+msgid "Mode to use when displaying mails"
+msgstr ""
+
+#: ../data/org.gnome.evolution.plugin.prefer-plain.gschema.xml.in.h:2
+msgid ""
+"The mode to use for displaying mails. “normal” makes Evolution choose the "
+"best part to show, “prefer_plain” makes it use the text part, if present, "
+"“prefer_source” makes it use the text part, if present, otherwise shows HTML "
+"source, and “only_plain” forces Evolution to only show plain text"
+msgstr ""
+
+#: ../data/org.gnome.evolution.plugin.prefer-plain.gschema.xml.in.h:3
+msgid "Whether to show suppressed HTML output"
+msgstr ""
+
+#: ../data/org.gnome.evolution.plugin.publish-calendar.gschema.xml.in.h:1
+msgid "List of Destinations for publishing"
+msgstr ""
+
+#: ../data/org.gnome.evolution.plugin.publish-calendar.gschema.xml.in.h:2
+msgid ""
+"The key specifies the list of destinations to where publish calendars. Each "
+"values specifies an XML with setup for publishing to one destination."
+msgstr ""
 
 #: ../data/org.gnome.evolution.plugin.sender-validator.gschema.xml.in.h:1
 msgid "[]"
 msgstr "[]"
 
+#: ../data/org.gnome.evolution.plugin.sender-validator.gschema.xml.in.h:2
+msgid "List of assignments for recipient and the address to be used with it"
+msgstr ""
+
+#: ../data/org.gnome.evolution.plugin.sender-validator.gschema.xml.in.h:3
+msgid ""
+"The list is of format 'recipient&lt;tab&gt;sender', where the recipient can "
+"be part of the address only and the sender is a full email address, which "
+"should match the From address precisely."
+msgstr ""
+
+#: ../data/org.gnome.evolution.plugin.templates.gschema.xml.in.h:1
+msgid ""
+"List of keyword/value pairs for the Templates plugin to substitute in a "
+"message body."
+msgstr ""
+
+#: ../data/org.gnome.evolution.shell.gschema.xml.in.h:1
+msgid "Skip development warning dialog"
+msgstr ""
+
+#: ../data/org.gnome.evolution.shell.gschema.xml.in.h:2
+msgid ""
+"Whether the warning dialog in development versions of Evolution is skipped."
+msgstr ""
+
+#: ../data/org.gnome.evolution.shell.gschema.xml.in.h:3
+#, fuzzy
+#| msgid "%s attachment"
+msgid "Initial attachment view"
+msgstr "агәылаҵа %s"
+
+#: ../data/org.gnome.evolution.shell.gschema.xml.in.h:4
+msgid ""
+"Initial view for attachment bar widgets. “0” is Icon View, “1” is List View."
+msgstr ""
+
+#: ../data/org.gnome.evolution.shell.gschema.xml.in.h:5
+msgid "Initial file chooser folder"
+msgstr ""
+
+#: ../data/org.gnome.evolution.shell.gschema.xml.in.h:6
+msgid "Initial folder for GtkFileChooser dialogs."
+msgstr ""
+
+#: ../data/org.gnome.evolution.shell.gschema.xml.in.h:7
+msgid "Compression format used by autoar"
+msgstr ""
+
+#: ../data/org.gnome.evolution.shell.gschema.xml.in.h:8
+msgid ""
+"Compression format used when compressing attached directories with autoar."
+msgstr ""
+
+#: ../data/org.gnome.evolution.shell.gschema.xml.in.h:9
+msgid "Compression filter used by autoar"
+msgstr ""
+
+#: ../data/org.gnome.evolution.shell.gschema.xml.in.h:10
+msgid ""
+"Compression filter used when compressing attached directories with autoar."
+msgstr ""
+
+#: ../data/org.gnome.evolution.shell.gschema.xml.in.h:11
+#: ../src/shell/main.c:427
+msgid "Start in offline mode"
+msgstr ""
+
+#: ../data/org.gnome.evolution.shell.gschema.xml.in.h:12
+msgid "Whether Evolution will start up in offline mode instead of online mode."
+msgstr ""
+
+#: ../data/org.gnome.evolution.shell.gschema.xml.in.h:13
+msgid "Offline folder paths"
+msgstr ""
+
+#: ../data/org.gnome.evolution.shell.gschema.xml.in.h:14
+msgid ""
+"List of paths for the folders to be synchronized to disk for offline usage."
+msgstr ""
+
+#: ../data/org.gnome.evolution.shell.gschema.xml.in.h:15
+msgid "Enable express mode"
+msgstr ""
+
+#: ../data/org.gnome.evolution.shell.gschema.xml.in.h:16
+msgid "Flag that enables a much simplified user interface."
+msgstr ""
+
+#: ../data/org.gnome.evolution.shell.gschema.xml.in.h:17
+msgid "List of button names to hide in the window switcher"
+msgstr ""
+
+#: ../data/org.gnome.evolution.shell.gschema.xml.in.h:18
+msgid ""
+"Valid values are “mail”, “addressbook”, “calendar”, “tasks” and “memos”. "
+"Change of this requires restart of the application."
+msgstr ""
+
+#: ../data/org.gnome.evolution.shell.gschema.xml.in.h:19
+msgid "Window buttons are visible"
+msgstr ""
+
+#: ../data/org.gnome.evolution.shell.gschema.xml.in.h:20
+#, fuzzy
+#| msgid "Whether the sidebar should be visible."
+msgid "Whether the window buttons should be visible."
+msgstr "Агантәи апанель убарҭазароума"
+
+#: ../data/org.gnome.evolution.shell.gschema.xml.in.h:21
+msgid "Window button style"
+msgstr ""
+
+#: ../data/org.gnome.evolution.shell.gschema.xml.in.h:22
+msgid ""
+"The style of the window buttons. Can be “text”, “icons”, “both”, “toolbar”. "
+"If “toolbar” is set, the style of the buttons is determined by the GNOME "
+"toolbar setting."
+msgstr ""
+
+#: ../data/org.gnome.evolution.shell.gschema.xml.in.h:23
+#, fuzzy
+#| msgid "Sidebar is visible"
+msgid "Menubar is visible"
+msgstr "Иубарҭоу аваратәи апанель"
+
 #: ../data/org.gnome.evolution.shell.gschema.xml.in.h:24
 msgid "Whether the menubar should be visible."
 msgstr "Амениу апанель убарҭазароума"
+
+#: ../data/org.gnome.evolution.shell.gschema.xml.in.h:25
+#, fuzzy
+#| msgid "Sidebar is visible"
+msgid "Toolbar is visible"
+msgstr "Иубарҭоу аваратәи апанель"
 
 #: ../data/org.gnome.evolution.shell.gschema.xml.in.h:26
 msgid "Whether the toolbar should be visible."
@@ -229,13 +3333,144 @@ msgstr "Иубарҭоу аваратәи апанель"
 msgid "Whether the sidebar should be visible."
 msgstr "Агантәи апанель убарҭазароума"
 
+#: ../data/org.gnome.evolution.shell.gschema.xml.in.h:29
+#, fuzzy
+#| msgid "Sidebar is visible"
+msgid "Statusbar is visible"
+msgstr "Иубарҭоу аваратәи апанель"
+
 #: ../data/org.gnome.evolution.shell.gschema.xml.in.h:30
 msgid "Whether the status bar should be visible."
 msgstr "Аҭагылазаашьа апанель убарҭазароума"
 
+#: ../data/org.gnome.evolution.shell.gschema.xml.in.h:31
+msgid "ID or alias of the component to be shown by default at start-up."
+msgstr ""
+
+#: ../data/org.gnome.evolution.shell.gschema.xml.in.h:32
+msgid "Default sidebar width"
+msgstr ""
+
+#: ../data/org.gnome.evolution.shell.gschema.xml.in.h:33
+msgid "The default width for the sidebar, in pixels."
+msgstr ""
+
+#: ../data/org.gnome.evolution.shell.gschema.xml.in.h:34
+msgid "Enable special WebKit developer features"
+msgstr ""
+
+#: ../data/org.gnome.evolution.shell.gschema.xml.in.h:35
+msgid "Any change of this option requires restart of Evolution."
+msgstr ""
+
+#: ../data/org.gnome.evolution.shell.gschema.xml.in.h:36
+msgid "The last extension being used when backing up Evolution data."
+msgstr ""
+
+#: ../data/org.gnome.evolution.shell.gschema.xml.in.h:37
+msgid ""
+"It can be either “.gz” or “.xz” and it influences what extension will be "
+"preselected in the file chooser."
+msgstr ""
+
+#: ../data/org.gnome.evolution.shell.gschema.xml.in.h:38
+msgid "Prefix of the URI to use to search the web with selected text."
+msgstr ""
+
+#: ../data/org.gnome.evolution.shell.gschema.xml.in.h:39
+msgid ""
+"The prefix of a URL to be used for searches on the web. The actual text "
+"selection is escaped and appended to this string. The URI should start with "
+"https://."
+msgstr ""
+
+#: ../data/org.gnome.evolution.shell.gschema.xml.in.h:40
+msgid "Minimum font size to be used by WebKitGTK"
+msgstr ""
+
+#: ../data/org.gnome.evolution.shell.gschema.xml.in.h:41
+msgid ""
+"The minimum font size in pixels used to display text in WebKitGTK. This "
+"setting controls the absolute smallest size. Values other than 0 can "
+"potentially break page layouts. Negative values are treated as 0."
+msgstr ""
+
+#: ../data/org.gnome.evolution.shell.gschema.xml.in.h:42
+msgid "Set of additional illegal characters in the filename"
+msgstr ""
+
+#: ../data/org.gnome.evolution.shell.gschema.xml.in.h:43
+msgid ""
+"When generating file names from custom strings some non-printable or "
+"reserved characters are replaced with an underscore. Here's a set of "
+"additional characters to be replaced."
+msgstr ""
+
+#: ../data/org.gnome.evolution.shell.gschema.xml.in.h:44
+msgid "Override toolbar icon size"
+msgstr ""
+
+#: ../data/org.gnome.evolution.shell.gschema.xml.in.h:45
+msgid ""
+"Controls the toolbar icon size. The 'default' value lets the system/code "
+"decide what is the best icon size for the toolbar. Changing the option "
+"requires application restart."
+msgstr ""
+
+#: ../data/org.gnome.evolution.shell.gschema.xml.in.h:46
+msgid "Whether to use header bar in the application"
+msgstr ""
+
+#: ../data/org.gnome.evolution.shell.gschema.xml.in.h:47
+msgid ""
+"When enabled, adds buttons to the header bar. This applies to dialogs as "
+"well. Changing the option requires application restart."
+msgstr ""
+
+#: ../data/org.gnome.evolution.spamassassin.gschema.xml.in.h:1
+msgid "Use only local spam tests."
+msgstr ""
+
+#: ../data/org.gnome.evolution.spamassassin.gschema.xml.in.h:2
+msgid "Use only the local spam tests (no DNS)."
+msgstr ""
+
+#: ../data/org.gnome.evolution.spamassassin.gschema.xml.in.h:3
+msgid "Full path command to run spamassassin"
+msgstr ""
+
+#: ../data/org.gnome.evolution.spamassassin.gschema.xml.in.h:4
+msgid ""
+"Full path to a spamassassin command. If not set, then a compile-time path is "
+"used, usually /usr/bin/spamassassin. The command should not contain any "
+"other arguments."
+msgstr ""
+
+#: ../data/org.gnome.evolution.spamassassin.gschema.xml.in.h:5
+msgid "Full path command to run sa-learn"
+msgstr ""
+
+#: ../data/org.gnome.evolution.spamassassin.gschema.xml.in.h:6
+msgid ""
+"Full path to a sa-learn command. If not set, then a compile-time path is "
+"used, usually /usr/bin/sa-learn. The command should not contain any other "
+"arguments."
+msgstr ""
+
 #: ../data/org.gnome.evolution.text-highlight.gschema.xml.in.h:1
 msgid "Whether the text-highlight module is enabled"
 msgstr "Иаҿакума атекст алкаара амодуль"
+
+#: ../data/org.gnome.evolution.text-highlight.gschema.xml.in.h:2
+msgid "Theme name to use, defaults to “bclear”"
+msgstr ""
+
+#: ../data/org.gnome.evolution.text-highlight.gschema.xml.in.h:3
+msgid ""
+"Use “highlight --list-scripts=themes” to get the list of installed themes "
+"and then the value to one of them. The change requires only re-format of the "
+"message part to take into effect, like using right-click→Format As→...."
+msgstr ""
 
 #: ../data/org.gnome.Evolution.appdata.xml.in.in.h:1
 #: ../data/org.gnome.Evolution.desktop.in.in.h:1
@@ -283,7 +3518,7 @@ msgstr ""
 
 #: ../data/org.gnome.Evolution.desktop.in.in.h:6
 msgid "New Window"
-msgstr ""
+msgstr "Аҧенџьыр ҿыц"
 
 #: ../data/org.gnome.Evolution.desktop.in.in.h:7
 msgid "Compose a Message"
@@ -959,7 +4194,7 @@ msgstr ""
 #: ../src/e-util/e-source-selector-dialog.c:336
 #: ../src/e-util/e-table-config.c:540 ../src/e-util/e-table-config.ui.h:3
 #: ../src/e-util/e-timezone-dialog.ui.h:2
-#: ../src/e-util/evolution-source-viewer.c:829 ../src/e-util/e-web-view.c:4008
+#: ../src/e-util/evolution-source-viewer.c:829 ../src/e-util/e-web-view.c:4017
 #: ../src/e-util/gal-view-instance-save-as-dialog.c:265
 #: ../src/mail/e-mail-config-window.c:310 ../src/mail/e-mail-label-dialog.c:187
 #: ../src/mail/e-mail-tag-editor.c:160 ../src/mail/em-composer-utils.c:4166
@@ -1052,7 +4287,7 @@ msgstr "Ахышәарақәа"
 #: ../src/e-util/e-attachment-store.c:848
 #: ../src/e-util/e-attachment-store.c:855
 #: ../src/e-util/e-mail-signature-script-dialog.c:364
-#: ../src/e-util/e-webdav-browser.c:2633 ../src/e-util/e-web-view.c:4008
+#: ../src/e-util/e-webdav-browser.c:2633 ../src/e-util/e-web-view.c:4017
 #: ../src/e-util/gal-view-instance-save-as-dialog.c:266
 #: ../src/modules/rss/evolution/e-rss-preferences.c:839
 #: ../src/shell/e-shell-content.c:642 ../src/shell/e-shell-utils.c:133
@@ -1211,16 +4446,16 @@ msgstr ""
 #: ../src/addressbook/gui/contact-editor/contact-editor.ui.h:50
 #: ../src/addressbook/gui/widgets/eab-contact-formatter.c:1052
 #: ../src/addressbook/gui/widgets/e-addressbook-view.etspec.h:47
-#: ../src/calendar/gui/e-calendar-view.c:1838
+#: ../src/calendar/gui/e-calendar-view.c:1822
 msgid "Anniversary"
 msgstr ""
 
 #: ../src/addressbook/gui/contact-editor/contact-editor.ui.h:51
 #: ../src/addressbook/gui/widgets/eab-contact-formatter.c:1051
 #: ../src/addressbook/gui/widgets/e-addressbook-view.etspec.h:46
-#: ../src/calendar/gui/e-calendar-view.c:1837
+#: ../src/calendar/gui/e-calendar-view.c:1821
 msgid "Birthday"
-msgstr ""
+msgstr "Аирамш"
 
 #. Other options
 #: ../src/addressbook/gui/contact-editor/contact-editor.ui.h:52
@@ -1270,7 +4505,7 @@ msgstr "Home"
 #: ../src/addressbook/gui/widgets/eab-contact-formatter.c:1020
 #: ../src/addressbook/gui/widgets/e-contact-map.c:432
 msgid "Work"
-msgstr ""
+msgstr "Аусура"
 
 #: ../src/addressbook/gui/contact-editor/contact-editor.ui.h:62
 #: ../src/addressbook/gui/widgets/eab-contact-formatter.c:86
@@ -1768,7 +5003,7 @@ msgstr ""
 
 #: ../src/addressbook/gui/widgets/eab-contact-formatter.c:779
 msgid "Fax"
-msgstr ""
+msgstr "Афакс"
 
 #: ../src/addressbook/gui/widgets/eab-contact-formatter.c:781
 msgid "Phone"
@@ -1777,7 +5012,7 @@ msgstr ""
 #: ../src/addressbook/gui/widgets/eab-contact-formatter.c:925
 #: ../src/addressbook/gui/widgets/e-addressbook-view.etspec.h:5
 msgid "Nickname"
-msgstr ""
+msgstr "Ахьӡырҩашьа"
 
 #: ../src/addressbook/gui/widgets/eab-contact-formatter.c:926
 #: ../src/addressbook/gui/widgets/e-addressbook-view.etspec.h:43
@@ -1831,7 +5066,7 @@ msgstr ""
 #: ../src/addressbook/gui/widgets/eab-contact-formatter.c:998
 #: ../src/addressbook/gui/widgets/e-addressbook-view.etspec.h:34
 msgid "Company"
-msgstr ""
+msgstr "Ахеилак"
 
 #: ../src/addressbook/gui/widgets/eab-contact-formatter.c:999
 msgid "Department"
@@ -1848,7 +5083,7 @@ msgstr ""
 
 #: ../src/addressbook/gui/widgets/eab-contact-formatter.c:1002
 msgid "Position"
-msgstr ""
+msgstr "Аҭагылазаашьа"
 
 #: ../src/addressbook/gui/widgets/eab-contact-formatter.c:1003
 #: ../src/addressbook/gui/widgets/e-addressbook-view.etspec.h:39
@@ -1858,7 +5093,7 @@ msgstr ""
 #: ../src/addressbook/gui/widgets/eab-contact-formatter.c:1004
 #: ../src/addressbook/gui/widgets/e-addressbook-view.etspec.h:40
 msgid "Assistant"
-msgstr ""
+msgstr "Ацхырааҩ"
 
 #: ../src/addressbook/gui/widgets/eab-contact-formatter.c:1005
 msgid "Video Chat"
@@ -1890,7 +5125,7 @@ msgstr ""
 
 #: ../src/addressbook/gui/widgets/eab-contact-formatter.c:1063
 msgid "Personal"
-msgstr ""
+msgstr "Ахатәы"
 
 #: ../src/addressbook/gui/widgets/eab-contact-formatter.c:1108
 #: ../src/addressbook/gui/widgets/e-addressbook-view.etspec.h:45
@@ -1907,7 +5142,7 @@ msgstr ""
 
 #: ../src/addressbook/gui/widgets/eab-contact-formatter.c:1373
 msgid "Home page"
-msgstr ""
+msgstr "_Ахалагалатә даҟьа"
 
 #: ../src/addressbook/gui/widgets/eab-contact-formatter.c:1383
 msgid "Blog"
@@ -2226,7 +5461,7 @@ msgstr ""
 
 #: ../src/addressbook/gui/widgets/e-addressbook-view.etspec.h:18
 msgid "Home Fax"
-msgstr ""
+msgstr "Аҩнытәи афакс"
 
 #: ../src/addressbook/gui/widgets/e-addressbook-view.etspec.h:19
 msgid "ISDN Phone"
@@ -2246,7 +5481,7 @@ msgstr ""
 
 #: ../src/addressbook/gui/widgets/e-addressbook-view.etspec.h:23
 msgid "Pager"
-msgstr ""
+msgstr "Пеиджер"
 
 #: ../src/addressbook/gui/widgets/e-addressbook-view.etspec.h:24
 msgid "Primary Phone"
@@ -2254,7 +5489,7 @@ msgstr ""
 
 #: ../src/addressbook/gui/widgets/e-addressbook-view.etspec.h:25
 msgid "Radio"
-msgstr ""
+msgstr "Арадио"
 
 #: ../src/addressbook/gui/widgets/e-addressbook-view.etspec.h:26
 msgid "Telex"
@@ -2283,7 +5518,7 @@ msgstr ""
 #: ../src/calendar/gui/e-meeting-list-view.c:660
 #: ../src/calendar/gui/e-meeting-time-sel.etspec.h:5
 msgid "Role"
-msgstr ""
+msgstr "Ароль"
 
 #: ../src/addressbook/gui/widgets/e-addressbook-view.etspec.h:41
 msgid "Web Site"
@@ -2311,7 +5546,7 @@ msgstr ""
 
 #: ../src/addressbook/gui/widgets/ea-minicard-view.c:33
 msgid "New Contact"
-msgstr ""
+msgstr "Аимадара аԥҵара"
 
 #: ../src/addressbook/gui/widgets/ea-minicard-view.c:34
 msgid "New Contact List"
@@ -2337,7 +5572,7 @@ msgstr ""
 #: ../src/addressbook/gui/widgets/e-contact-map-window.c:417
 #: ../src/mail/e-mail-reader.c:2994
 msgid "Zoom _Out"
-msgstr ""
+msgstr "А_рхәычра"
 
 #. Search button
 #: ../src/addressbook/gui/widgets/e-contact-map-window.c:447
@@ -3596,7 +6831,7 @@ msgstr "Ихырқәшоуп :%s"
 
 #: ../src/calendar/gui/comp-util.c:2427 ../src/calendar/gui/e-to-do-pane.c:616
 #: ../src/e-util/e-misc-utils.c:4838 ../src/e-util/e-text.c:566
-#: ../src/e-util/e-web-view.c:4189
+#: ../src/e-util/e-web-view.c:4198
 msgid "…"
 msgstr "…"
 
@@ -4069,37 +7304,37 @@ msgstr ""
 msgid "Delete selected events"
 msgstr "Иалкаау ахҭысқәа рныхра"
 
-#: ../src/calendar/gui/e-calendar-view.c:940
+#: ../src/calendar/gui/e-calendar-view.c:924
 msgid "Pasted text doesn’t contain valid iCalendar data"
 msgstr ""
 
-#: ../src/calendar/gui/e-calendar-view.c:951
+#: ../src/calendar/gui/e-calendar-view.c:935
 #: ../src/calendar/gui/e-cal-ops.c:1585
 msgid "Default calendar not found"
 msgstr ""
 
-#: ../src/calendar/gui/e-calendar-view.c:956
+#: ../src/calendar/gui/e-calendar-view.c:940
 #: ../src/calendar/gui/e-cal-ops.c:1588
 msgid "Default memo list not found"
 msgstr ""
 
-#: ../src/calendar/gui/e-calendar-view.c:961
+#: ../src/calendar/gui/e-calendar-view.c:945
 #: ../src/calendar/gui/e-cal-ops.c:1591
 msgid "Default task list not found"
 msgstr ""
 
-#: ../src/calendar/gui/e-calendar-view.c:1053
+#: ../src/calendar/gui/e-calendar-view.c:1037
 msgid "No suitable component found"
 msgstr ""
 
-#: ../src/calendar/gui/e-calendar-view.c:1118
+#: ../src/calendar/gui/e-calendar-view.c:1102
 msgid "Pasting iCalendar data"
 msgstr ""
 
-#: ../src/calendar/gui/e-calendar-view.c:1175
-#: ../src/calendar/gui/e-calendar-view.c:1178
-#: ../src/calendar/gui/e-calendar-view.c:1181
-#: ../src/calendar/gui/e-calendar-view.c:1182
+#: ../src/calendar/gui/e-calendar-view.c:1159
+#: ../src/calendar/gui/e-calendar-view.c:1162
+#: ../src/calendar/gui/e-calendar-view.c:1165
+#: ../src/calendar/gui/e-calendar-view.c:1166
 msgid "%d %b %Y"
 msgstr "%d %b. %Y"
 
@@ -4108,14 +7343,14 @@ msgstr "%d %b. %Y"
 #. strftime format %d = day of month, %b = abbreviated
 #. * month name. You can change the order but don't
 #. * change the specifiers or add anything.
-#: ../src/calendar/gui/e-calendar-view.c:1177
+#: ../src/calendar/gui/e-calendar-view.c:1161
 #: ../src/calendar/gui/e-day-view.c:3274
 #: ../src/calendar/gui/e-day-view-top-item.c:856
 #: ../src/calendar/gui/e-week-view-main-item.c:230
 msgid "%d %b"
 msgstr "%d %b"
 
-#: ../src/calendar/gui/e-calendar-view.c:1188
+#: ../src/calendar/gui/e-calendar-view.c:1172
 msgid "%A %d %b %Y"
 msgstr "%A, %d %b. %Y"
 
@@ -4125,16 +7360,16 @@ msgstr "%A, %d %b. %Y"
 #. * %d = day of month, %b = abbreviated month name.
 #. * You can change the order but don't change the
 #. * specifiers or add anything.
-#: ../src/calendar/gui/e-calendar-view.c:1190
+#: ../src/calendar/gui/e-calendar-view.c:1174
 #: ../src/calendar/gui/e-day-view.c:3258
 #: ../src/calendar/gui/e-day-view-top-item.c:852
 #: ../src/calendar/gui/e-week-view-main-item.c:216
 msgid "%a %d %b"
 msgstr "%a, %d %b"
 
-#: ../src/calendar/gui/e-calendar-view.c:1191
-#: ../src/calendar/gui/e-calendar-view.c:1193
-#: ../src/calendar/gui/e-calendar-view.c:1194
+#: ../src/calendar/gui/e-calendar-view.c:1175
+#: ../src/calendar/gui/e-calendar-view.c:1177
+#: ../src/calendar/gui/e-calendar-view.c:1178
 msgid "%a %d %b %Y"
 msgstr "%a, %d %b. %Y"
 
@@ -4142,7 +7377,7 @@ msgstr "%a, %d %b. %Y"
 #. The string is used for Birthday & Anniversary events where the first year is
 #. know, constructing a summary which also shows how many years the birthday or
 #. anniversary is for. Example: "Birthday: John Doe (13)"
-#: ../src/calendar/gui/e-calendar-view.c:1857
+#: ../src/calendar/gui/e-calendar-view.c:1841
 #, c-format
 msgctxt "BirthdaySummary"
 msgid "%s (%d)"
@@ -4255,7 +7490,7 @@ msgstr "Ааи"
 #: ../src/calendar/gui/e-cal-model.c:1895
 #: ../src/calendar/gui/e-cal-model-tasks.c:1160
 msgid "No"
-msgstr ""
+msgstr "Мап"
 
 #: ../src/calendar/gui/e-cal-model-calendar.c:91
 #: ../src/calendar/gui/e-task-table.c:534
@@ -4508,7 +7743,7 @@ msgstr ""
 #: ../src/shell/e-shell.c:1283 ../src/smime/gui/certificate-manager.c:353
 #, c-format
 msgid "Unknown error"
-msgstr ""
+msgstr "Еилкаам агха"
 
 #: ../src/calendar/gui/e-comp-editor-event.c:568
 msgid "End date is not a valid date"
@@ -5131,7 +8366,7 @@ msgstr "_Аныхра"
 
 #: ../src/calendar/gui/e-comp-editor-page-recurrence.c:2328
 msgid "Preview"
-msgstr ""
+msgstr "Акьыԥхьра ахәаԥшра"
 
 #: ../src/calendar/gui/e-comp-editor-page-reminders.c:40
 msgid "Send To"
@@ -5208,7 +8443,7 @@ msgstr "Иацҵоу аамҭа"
 #: ../src/calendar/gui/e-comp-editor-page-reminders.c:2136
 #: ../src/modules/calendar/e-calendar-preferences.ui.h:84
 msgid "Reminders"
-msgstr ""
+msgstr "Агәаларшәарақәа"
 
 #: ../src/calendar/gui/e-comp-editor-page-reminders.c:2161
 msgid "_Reminder"
@@ -5545,7 +8780,7 @@ msgstr "_Аркра"
 
 #: ../src/calendar/gui/e-comp-editor.c:2174
 msgid "Close the current window"
-msgstr ""
+msgstr "Шәызҭоу аԥенџьыр аркра"
 
 #. copy menu item
 #: ../src/calendar/gui/e-comp-editor.c:2179 ../src/e-util/e-focus-tracker.c:806
@@ -5558,7 +8793,7 @@ msgstr "_Ахкьыҧхьаара"
 #: ../src/calendar/gui/e-comp-editor.c:2181 ../src/e-util/e-focus-tracker.c:203
 #: ../src/e-util/e-focus-tracker.c:259 ../src/e-util/e-focus-tracker.c:312
 #: ../src/e-util/e-focus-tracker.c:807 ../src/e-util/e-web-view.c:469
-#: ../src/e-util/e-web-view.c:2058 ../src/mail/e-mail-browser.c:175
+#: ../src/e-util/e-web-view.c:2063 ../src/mail/e-mail-browser.c:175
 #: ../src/shell/e-shell-window-actions.c:953
 msgid "Copy the selection"
 msgstr "Алкаара ахкьыԥхьаара"
@@ -5572,7 +8807,7 @@ msgstr "_Агәылԥҟара "
 
 #: ../src/calendar/gui/e-comp-editor.c:2188 ../src/e-util/e-focus-tracker.c:196
 #: ../src/e-util/e-focus-tracker.c:252 ../src/e-util/e-focus-tracker.c:306
-#: ../src/e-util/e-focus-tracker.c:802 ../src/e-util/e-web-view.c:2067
+#: ../src/e-util/e-focus-tracker.c:802 ../src/e-util/e-web-view.c:2072
 #: ../src/mail/e-mail-browser.c:182 ../src/shell/e-shell-window-actions.c:960
 msgid "Cut the selection"
 msgstr "Алкаара агәылԥҟара"
@@ -5596,7 +8831,7 @@ msgstr "_Абжьаргылара"
 
 #: ../src/calendar/gui/e-comp-editor.c:2209 ../src/e-util/e-focus-tracker.c:210
 #: ../src/e-util/e-focus-tracker.c:266 ../src/e-util/e-focus-tracker.c:318
-#: ../src/e-util/e-focus-tracker.c:812 ../src/e-util/e-web-view.c:2076
+#: ../src/e-util/e-focus-tracker.c:812 ../src/e-util/e-web-view.c:2081
 #: ../src/mail/e-mail-browser.c:189 ../src/shell/e-shell-window-actions.c:988
 msgid "Paste the clipboard"
 msgstr "Аԥсахратә буфер аҟынтә абжьаргылара"
@@ -6162,8 +9397,8 @@ msgstr ""
 msgid "%d %B"
 msgstr "%d %B"
 
-#: ../src/calendar/gui/e-year-view.c:1005
-#: ../src/calendar/gui/e-year-view.c:1054
+#: ../src/calendar/gui/e-year-view.c:1002
+#: ../src/calendar/gui/e-year-view.c:1051
 #, c-format
 msgid "%u event"
 msgid_plural "%u events"
@@ -9024,7 +12259,7 @@ msgstr ""
 
 #: ../src/em-format/e-mail-formatter-secure-button.c:79
 msgid "Encrypted"
-msgstr ""
+msgstr "Ишифрркуп"
 
 #: ../src/em-format/e-mail-formatter-secure-button.c:79
 msgid ""
@@ -9053,7 +12288,7 @@ msgstr ""
 
 #: ../src/em-format/e-mail-formatter-secure-button.c:320
 msgid "Details"
-msgstr ""
+msgstr "Аԥкаарақәа"
 
 #: ../src/em-format/e-mail-formatter-secure-button.c:412
 msgid "Digital Signature"
@@ -9489,7 +12724,7 @@ msgstr ""
 #: ../src/e-util/e-attachment-icon-view.c:171
 #: ../src/e-util/e-attachment-tree-view.c:168
 msgid "Loading"
-msgstr ""
+msgstr "Аҭагалара"
 
 #: ../src/e-util/e-attachment-icon-view.c:183
 #: ../src/e-util/e-attachment-tree-view.c:180
@@ -9555,7 +12790,7 @@ msgstr ""
 #: ../src/plugins/save-calendar/save-calendar.c:384
 #: ../src/plugins/save-calendar/save-calendar.c:423
 msgid "Save _As"
-msgstr ""
+msgstr "Аиқәырхара абас еиԥш:"
 
 #: ../src/e-util/e-attachment-view.c:341
 msgid "A_dd Attachment…"
@@ -10106,7 +13341,7 @@ msgstr ""
 
 #: ../src/e-util/e-color-combo.c:578
 msgid "blue"
-msgstr ""
+msgstr "аиаҵәа"
 
 #: ../src/e-util/e-color-combo.c:579
 msgid "dull purple"
@@ -10118,7 +13353,7 @@ msgstr ""
 
 #: ../src/e-util/e-color-combo.c:582
 msgid "red"
-msgstr ""
+msgstr "аҟаҧшь"
 
 #: ../src/e-util/e-color-combo.c:583
 msgid "orange"
@@ -10142,11 +13377,11 @@ msgstr ""
 
 #: ../src/e-util/e-color-combo.c:588
 msgid "purple"
-msgstr ""
+msgstr "адәыкрынҧштәы"
 
 #: ../src/e-util/e-color-combo.c:589
 msgid "gray"
-msgstr ""
+msgstr "Ахәаԥштәы аихшазаара"
 
 #: ../src/e-util/e-color-combo.c:591
 msgid "magenta"
@@ -10158,11 +13393,11 @@ msgstr ""
 
 #: ../src/e-util/e-color-combo.c:593
 msgid "yellow"
-msgstr ""
+msgstr "аҩежь"
 
 #: ../src/e-util/e-color-combo.c:594
 msgid "green"
-msgstr ""
+msgstr "ашьацҧштәы"
 
 #: ../src/e-util/e-color-combo.c:595
 msgid "cyan"
@@ -10649,7 +13884,7 @@ msgstr ""
 #: ../src/mail/e-mail-config-summary-page.c:143
 #: ../src/modules/book-config-ldap/evolution-book-config-ldap.c:684
 msgid "None"
-msgstr ""
+msgstr "Мап"
 
 #: ../src/e-util/e-filter-rule.c:1111
 msgid "All related"
@@ -10833,7 +14068,7 @@ msgstr ""
 
 #: ../src/e-util/e-html-editor-actions.c:1238
 #: ../src/e-util/e-html-editor-actions.c:1245
-#: ../src/e-util/e-markdown-editor.c:1464
+#: ../src/e-util/e-markdown-editor.c:1491
 msgid "Insert Emoji"
 msgstr ""
 
@@ -11132,7 +14367,7 @@ msgstr "А_ҵшьра"
 
 #: ../src/e-util/e-html-editor-actions.c:1628
 msgid "Underline"
-msgstr ""
+msgstr "Изыҵшьоу"
 
 #. Translators: This is a font size level. It is shown on a tool bar. Please keep it as short as possible.
 #: ../src/e-util/e-html-editor-actions.c:1638
@@ -11392,7 +14627,7 @@ msgstr "Армарахь"
 #: ../src/e-util/e-html-editor-hrule-dialog.c:308
 #: ../src/e-util/e-html-editor-table-dialog.c:640
 msgid "Center"
-msgstr ""
+msgstr "Агәҭала"
 
 #: ../src/e-util/e-html-editor-cell-dialog.c:486
 #: ../src/e-util/e-html-editor-hrule-dialog.c:310
@@ -11515,7 +14750,7 @@ msgstr "Аиагара"
 
 #: ../src/e-util/e-html-editor-find-dialog.c:263
 msgid "Find"
-msgstr ""
+msgstr "Аҧшаара"
 
 #: ../src/e-util/e-html-editor-hrule-dialog.c:241
 msgid "<b>Size</b>"
@@ -11526,7 +14761,7 @@ msgstr "<b>Ашәагаа</b>"
 #: ../src/e-util/e-html-editor-image-dialog.c:627
 #: ../src/e-util/e-html-editor-table-dialog.c:562
 msgid "_Width:"
-msgstr ""
+msgstr "_Аҭбаара"
 
 #: ../src/e-util/e-html-editor-hrule-dialog.c:286
 msgid "_Size:"
@@ -11775,7 +15010,7 @@ msgstr "Абжьажьра"
 #. Back
 #: ../src/e-util/e-html-editor-spell-check-dialog.c:458
 msgid "Back"
-msgstr ""
+msgstr "Шьҭахьҟа"
 
 #: ../src/e-util/e-html-editor-spell-check-dialog.c:467
 msgid "<b>Dictionary</b>"
@@ -12014,47 +15249,47 @@ msgid ""
 "should instead select the timezone from the drop-down combination box below."
 msgstr ""
 
-#: ../src/e-util/e-markdown-editor.c:1456
+#: ../src/e-util/e-markdown-editor.c:1483
 msgid "Add bold text"
 msgstr ""
 
-#: ../src/e-util/e-markdown-editor.c:1457
+#: ../src/e-util/e-markdown-editor.c:1484
 msgid "Add italic text"
 msgstr ""
 
-#: ../src/e-util/e-markdown-editor.c:1458
+#: ../src/e-util/e-markdown-editor.c:1485
 msgid "Insert a quote"
 msgstr ""
 
-#: ../src/e-util/e-markdown-editor.c:1459
+#: ../src/e-util/e-markdown-editor.c:1486
 msgid "Insert code"
 msgstr ""
 
-#: ../src/e-util/e-markdown-editor.c:1460
+#: ../src/e-util/e-markdown-editor.c:1487
 msgid "Add a link"
 msgstr ""
 
-#: ../src/e-util/e-markdown-editor.c:1461
+#: ../src/e-util/e-markdown-editor.c:1488
 msgid "Add a bullet list"
 msgstr ""
 
-#: ../src/e-util/e-markdown-editor.c:1462
+#: ../src/e-util/e-markdown-editor.c:1489
 msgid "Add a numbered list"
 msgstr ""
 
-#: ../src/e-util/e-markdown-editor.c:1463
+#: ../src/e-util/e-markdown-editor.c:1490
 msgid "Add a header"
 msgstr ""
 
-#: ../src/e-util/e-markdown-editor.c:1466
+#: ../src/e-util/e-markdown-editor.c:1493
 msgid "Open online common mark documentation"
 msgstr "Онлаин документациа азеиԥш дыргала аартра"
 
-#: ../src/e-util/e-markdown-editor.c:1802
+#: ../src/e-util/e-markdown-editor.c:1893
 msgid "_Write"
 msgstr "_Анҵара"
 
-#: ../src/e-util/e-markdown-editor.c:1837
+#: ../src/e-util/e-markdown-editor.c:1928
 #: ../src/modules/addressbook/e-book-shell-view-actions.c:1164
 #: ../src/modules/calendar/e-cal-shell-view-actions.c:1623
 #: ../src/modules/calendar/e-memo-shell-view-actions.c:684
@@ -13213,24 +16448,24 @@ msgstr ""
 msgid "Search the Web with the selected text"
 msgstr ""
 
-#: ../src/e-util/e-web-view.c:486 ../src/e-util/e-web-view.c:2080
+#: ../src/e-util/e-web-view.c:486 ../src/e-util/e-web-view.c:2085
 msgid "Select all text and images"
 msgstr ""
 
-#: ../src/e-util/e-web-view.c:3818
+#: ../src/e-util/e-web-view.c:3827
 msgid "Copying image to clipboard"
 msgstr ""
 
-#: ../src/e-util/e-web-view.c:4006
+#: ../src/e-util/e-web-view.c:4015
 msgid "Save Image"
-msgstr ""
+msgstr "Асахьа аиқәырхара"
 
-#: ../src/e-util/e-web-view.c:4043
+#: ../src/e-util/e-web-view.c:4052
 #, c-format
 msgid "Saving image to “%s”"
 msgstr ""
 
-#: ../src/e-util/e-web-view.c:4193
+#: ../src/e-util/e-web-view.c:4202
 #, c-format
 msgid "Cannot get URI “%s”, do not know how to download it."
 msgstr ""
@@ -13575,39 +16810,39 @@ msgstr ""
 #: ../src/modules/mail/e-mail-shell-view-private.c:1042
 #: ../src/plugins/templates/org-gnome-templates.eplug.xml.h:1
 msgid "Templates"
-msgstr ""
+msgstr "Ахсаалаақәа"
 
-#: ../src/libemail-engine/e-mail-session.c:1505
+#: ../src/libemail-engine/e-mail-session.c:1511
 #, c-format
 msgid "User cancelled operation"
 msgstr ""
 
-#: ../src/libemail-engine/e-mail-session.c:1739
+#: ../src/libemail-engine/e-mail-session.c:1745
 #, c-format
 msgid ""
 "No destination address provided, forwarding of the message has been "
 "cancelled."
 msgstr ""
 
-#: ../src/libemail-engine/e-mail-session.c:1759
+#: ../src/libemail-engine/e-mail-session.c:1765
 #, c-format
 msgid "No identity found to use, forwarding of the message has been cancelled."
 msgstr ""
 
-#: ../src/libemail-engine/e-mail-session.c:1967
+#: ../src/libemail-engine/e-mail-session.c:1973
 #, c-format
 msgid "Corresponding source for service with UID “%s” not found"
 msgstr ""
 
-#: ../src/libemail-engine/e-mail-session.c:2087
+#: ../src/libemail-engine/e-mail-session.c:2093
 msgid "Looking up recipient S/MIME certificates in address books…"
 msgstr ""
 
-#: ../src/libemail-engine/e-mail-session.c:2089
+#: ../src/libemail-engine/e-mail-session.c:2095
 msgid "Looking up recipient PGP keys in address books…"
 msgstr ""
 
-#: ../src/libemail-engine/e-mail-session.c:3136
+#: ../src/libemail-engine/e-mail-session.c:3142
 #, c-format
 msgid "Waiting for “%s”"
 msgstr ""
@@ -14018,7 +17253,7 @@ msgstr ""
 
 #: ../src/mail/e-mail-config-composing-page.c:582
 msgid "Never"
-msgstr ""
+msgstr "Ахаан"
 
 #: ../src/mail/e-mail-config-composing-page.c:588
 msgid "Always"
@@ -14039,7 +17274,7 @@ msgstr ""
 
 #: ../src/mail/e-mail-config-confirm-page.c:167
 msgid "Done"
-msgstr ""
+msgstr "Ихиоуп"
 
 #: ../src/mail/e-mail-config-defaults-page.c:314
 msgid "Checking server settings…"
@@ -14348,7 +17583,7 @@ msgstr ""
 
 #: ../src/mail/e-mail-config-service-page.c:522
 msgid "Description:"
-msgstr ""
+msgstr "Ахҳәаа:"
 
 #: ../src/mail/e-mail-config-summary-page.c:301
 msgid ""
@@ -15222,7 +18457,7 @@ msgstr ""
 
 #: ../src/mail/e-mail-reader.c:2980
 msgid "_Normal Size"
-msgstr ""
+msgstr "А_бжьааԥнытәи ашәагаа"
 
 #: ../src/mail/e-mail-reader.c:2982
 msgid "Reset the text to its original size"
@@ -15230,7 +18465,7 @@ msgstr ""
 
 #: ../src/mail/e-mail-reader.c:2987
 msgid "_Zoom In"
-msgstr ""
+msgstr "А_рдура"
 
 #: ../src/mail/e-mail-reader.c:2989
 msgid "Increase the text size"
@@ -16747,7 +19982,7 @@ msgstr ""
 #. Translators: Label of a frame with a list of configured accounts in Send account overrides
 #: ../src/mail/mail-config.ui.h:74 ../src/modules/mail/em-composer-prefs.c:873
 msgid "Account"
-msgstr ""
+msgstr "Аҳасабрбатә нҵамҭа"
 
 #: ../src/mail/mail-config.ui.h:75
 msgid "Send account overrides"
@@ -18186,7 +21421,7 @@ msgstr ""
 
 #: ../src/modules/accounts-window/e-accounts-window-editors.c:327
 msgid "C_alendar"
-msgstr ""
+msgstr "А_мзар"
 
 #: ../src/modules/accounts-window/e-accounts-window-editors.c:476
 #: ../src/modules/addressbook/e-book-shell-backend.c:269
@@ -18298,7 +21533,7 @@ msgstr ""
 #: ../src/modules/addressbook/e-book-shell-backend.c:280
 #: ../src/modules/addressbook/e-book-shell-view-actions.c:1129
 msgid "Create a new contact"
-msgstr ""
+msgstr "Аимадара ҿыц аҧҵара"
 
 #: ../src/modules/addressbook/e-book-shell-backend.c:285
 msgctxt "New"
@@ -19306,7 +22541,7 @@ msgstr "Асааҭақәа"
 
 #: ../src/modules/calendar/e-calendar-preferences.ui.h:3
 msgid "Days"
-msgstr ""
+msgstr "амшқәа"
 
 #: ../src/modules/calendar/e-calendar-preferences.ui.h:4
 msgid "60 minutes"
@@ -19314,15 +22549,15 @@ msgstr ""
 
 #: ../src/modules/calendar/e-calendar-preferences.ui.h:5
 msgid "30 minutes"
-msgstr ""
+msgstr "30 минуҭ"
 
 #: ../src/modules/calendar/e-calendar-preferences.ui.h:6
 msgid "15 minutes"
-msgstr ""
+msgstr "15 минуҭ"
 
 #: ../src/modules/calendar/e-calendar-preferences.ui.h:7
 msgid "10 minutes"
-msgstr ""
+msgstr "10 минуҭк"
 
 #: ../src/modules/calendar/e-calendar-preferences.ui.h:8
 msgid "05 minutes"
@@ -19512,7 +22747,7 @@ msgstr ""
 
 #: ../src/modules/calendar/e-calendar-preferences.ui.h:68
 msgid "Alerts"
-msgstr ""
+msgstr "Агәҽанҵарақәа"
 
 #: ../src/modules/calendar/e-calendar-preferences.ui.h:69
 msgid "_Ask for confirmation when deleting items"
@@ -19718,7 +22953,7 @@ msgstr ""
 
 #: ../src/modules/calendar/e-cal-shell-view-actions.c:1322
 msgid "Go Back"
-msgstr ""
+msgstr "Шьҭахьҟа"
 
 #: ../src/modules/calendar/e-cal-shell-view-actions.c:1329
 msgid "Go Forward"
@@ -19980,7 +23215,7 @@ msgstr ""
 
 #: ../src/modules/calendar/e-cal-shell-view-actions.c:1773
 msgid "Day"
-msgstr ""
+msgstr "Амш"
 
 #: ../src/modules/calendar/e-cal-shell-view-actions.c:1775
 msgid "Show one day"
@@ -19996,7 +23231,7 @@ msgstr ""
 
 #: ../src/modules/calendar/e-cal-shell-view-actions.c:1787
 msgid "Month"
-msgstr ""
+msgstr "Амз"
 
 #: ../src/modules/calendar/e-cal-shell-view-actions.c:1789
 msgid "Show one month"
@@ -20004,7 +23239,7 @@ msgstr ""
 
 #: ../src/modules/calendar/e-cal-shell-view-actions.c:1794
 msgid "Week"
-msgstr ""
+msgstr "Амчыбжь"
 
 #: ../src/modules/calendar/e-cal-shell-view-actions.c:1796
 msgid "Show one week"
@@ -20016,7 +23251,7 @@ msgstr ""
 
 #: ../src/modules/calendar/e-cal-shell-view-actions.c:1808
 msgid "Year"
-msgstr ""
+msgstr "Ашықәс"
 
 #: ../src/modules/calendar/e-cal-shell-view-actions.c:1810
 msgid "Show as year"
@@ -20067,7 +23302,7 @@ msgstr ""
 #: ../src/modules/calendar/e-task-shell-view-actions.c:1060
 #: ../src/modules/calendar/e-task-shell-view-actions.c:1074
 msgid "Print…"
-msgstr ""
+msgstr "Акьыҧхьра…"
 
 #: ../src/modules/calendar/e-cal-shell-view-actions.c:1916
 msgid "Print this calendar"
@@ -22437,7 +25672,7 @@ msgstr ""
 msgid "Cannot create a folder in a News and Blogs store."
 msgstr ""
 
-#: ../src/modules/rss/e-rss-parser.c:289
+#: ../src/modules/rss/e-rss-parser.c:294
 msgid "Unknown author"
 msgstr ""
 
@@ -22864,7 +26099,7 @@ msgid "Display the part as an addressbook contact"
 msgstr ""
 
 #. Translators: The "%s" is replaced with a link, constructing a text like: "Ctrl-click to open a link “http://www.example.com”"
-#: ../src/modules/webkit-editor/e-webkit-editor.c:5493
+#: ../src/modules/webkit-editor/e-webkit-editor.c:5499
 #, c-format
 msgid "Ctrl-click to open a link “%s”"
 msgstr ""
@@ -23654,7 +26889,7 @@ msgstr "Есыҽнытәи"
 
 #: ../src/plugins/publish-calendar/publish-calendar.ui.h:5
 msgid "Weekly"
-msgstr ""
+msgstr "Есымчыбжьатәи"
 
 #: ../src/plugins/publish-calendar/publish-calendar.ui.h:6
 msgid "Manual (via Actions menu)"
@@ -24044,7 +27279,7 @@ msgstr ""
 
 #: ../src/shell/e-shell-window-actions.c:979
 msgid "New _Window"
-msgstr ""
+msgstr "_Аԥенџьыр ашьақәыргылара"
 
 #: ../src/shell/e-shell-window-actions.c:981
 msgid "Create a new window displaying this view"
@@ -24994,539 +28229,3 @@ msgstr ""
 #: ../src/smime/lib/e-pkcs12.c:460
 msgid "Imported Certificate"
 msgstr ""
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-#, fuzzy
