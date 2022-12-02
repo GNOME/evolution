@@ -1,3 +1,39 @@
+Evolution 3.46.2 2022-12-02
+---------------------------
+
+Bug Fixes:
+	I#2096 - Use symbolic icons for high contrast icon themes
+	I#2097 - Calendar: Current time is off by one day for work week view
+	I#2101 - Markdown Editor: Paste Quotation always disabled
+	I#2105 - MarkdownEditor: Correct conversion from HTML
+	I#2107 - EDayView: Event text clipped too early with icons
+	I#2112 - StartupWizard: Shown even with configured mail account
+	I#2138 - Calendar: Do not shorten time of pasted events
+	I#2144 - EWebView: Use system link color for "expand recipients" dots
+	I#2146 - EShellHeaderBar: Show button labels adaptively
+	I#2162 - MarkdownEditor: Correct cursor placement on composer open
+	I#2164 - RSS: Fails to read RDF feeds
+	I#2166 - Use 'contains' for autocompletion query (Dacoda Strack)
+	I#2167 - e-web-view.js: Check for instantiated iframe document
+	I#2169 - EWebView: Apply zoom level to element position in "element-clicked" signal
+
+Miscellaneous:
+	Composer: Correct conversion of TABLE into Plain Text
+	EHTMLEditor: Traverse between all editors when looking for the editor name
+	itip-utils: Change provided HTML transcript of a replied-to meeting
+	EYearView: Correct calculation of the shown date
+	Add WebKit user plugin paths into the sandbox
+	Mute "No provider available for protocol “sendmail”" under Flatpak
+	EMailBrowser: Correct placement of the menu button in the header bar
+
+Translations:
+	Anders Jonsson (sv)
+	Gianvito Cavasoli (it)
+	Nart Tlisha (ab)
+	Nathan Follens (nl)
+	Yuri Chornoivan (uk)
+	Мирослав Николић (sr)
+
 Evolution 3.46.1 2022-10-21
 ---------------------------
 
