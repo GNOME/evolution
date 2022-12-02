@@ -300,42 +300,6 @@ e_shell_header_bar_get_new_button (EShellHeaderBar *headerbar)
 }
 
 /**
- * e_shell_header_bar_pack_start:
- * @headerbar: an #EShellHeaderBar
- * @widget: widget to pack
- *
- * Adds child to bar, packed with reference to the start of the bar.
- *
- * Since: 3.46
- **/
-void
-e_shell_header_bar_pack_start (EShellHeaderBar *headerbar,
-			       GtkWidget *widget)
-{
-	g_return_if_fail (E_IS_SHELL_HEADER_BAR (headerbar));
-
-	e_header_bar_pack_start (E_HEADER_BAR (headerbar), widget, G_MAXUINT);
-}
-
-/**
- * e_shell_header_bar_pack_end:
- * @headerbar: an #EShellHeaderBar
- * @widget: widget to pack
- *
- * Adds child to bar, packed with reference to the end of the bar.
- *
- * Since: 3.46
- **/
-void
-e_shell_header_bar_pack_end (EShellHeaderBar *headerbar,
-			     GtkWidget *widget)
-{
-	g_return_if_fail (E_IS_SHELL_HEADER_BAR (headerbar));
-
-	e_header_bar_pack_end (E_HEADER_BAR (headerbar), widget, G_MAXUINT);
-}
-
-/**
  * e_shell_header_bar_clear:
  * @headerbar: an #EShellHeaderBar
  * @name: widget name starts with
