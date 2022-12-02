@@ -243,6 +243,7 @@ addressbook_selector_sort_categories (ESourceSelector *selector,
 
 	for (ii = 0; ii < n_children; ii++) {
 		order[ii] = gcd.scd[ii].old_pos;
+		g_free (gcd.scd[ii].sort_key);
 	}
 
 	gtk_tree_store_reorder (GTK_TREE_STORE (model), source_iter, order);
