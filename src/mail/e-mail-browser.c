@@ -529,7 +529,7 @@ mail_browser_construct_header_bar (EMailReader *reader,
 	header_bar = GTK_HEADER_BAR (widget);
 
 	if (menu_button)
-		gtk_header_bar_pack_end (header_bar, menu_button);
+		e_header_bar_pack_end (E_HEADER_BAR (header_bar), menu_button, G_MAXUINT);
 
 	action_name = "mail-forward";
 	action = e_mail_reader_get_action (reader, action_name);
