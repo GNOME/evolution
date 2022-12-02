@@ -6,6 +6,7 @@
 
 #include "evolution-config.h"
 
+#include "e-util/e-util.h"
 #include "e-shell-headerbar.h"
 #include "e-shell-window-private.h"
 
@@ -14,10 +15,7 @@
 struct _EShellHeaderBarPrivate {
 	GWeakRef shell_window;
 	GtkWidget *menu_button;
-
 	GtkWidget *new_button;
-	GtkWidget *start_buttons;
-	GtkWidget *end_buttons;
 
 	gulong prefered_item_notify_id;
 };
@@ -28,25 +26,23 @@ enum {
 	PROP_SHELL_WINDOW
 };
 
-G_DEFINE_TYPE_WITH_CODE (EShellHeaderBar, e_shell_header_bar, GTK_TYPE_HEADER_BAR,
+G_DEFINE_TYPE_WITH_CODE (EShellHeaderBar, e_shell_header_bar, E_TYPE_HEADER_BAR,
 	G_ADD_PRIVATE (EShellHeaderBar))
 
 static void
-shell_header_bar_clear_box (GtkWidget *widget,
+shell_header_bar_clear_box (GList *children,
 			    const gchar *name)
 {
-	GList *children, *iter;
+	GList *iter;
 	const gchar *widget_name;
 
-	children = gtk_container_get_children (GTK_CONTAINER (widget));
-
 	for (iter = children; iter != NULL; iter = g_list_next (iter)) {
-		widget_name = gtk_widget_get_name (iter->data);
-		if (widget_name != NULL && g_str_has_prefix (widget_name, name))
-			gtk_widget_destroy (iter->data);
-	}
+		GtkWidget *widget = iter->data;
 
-	g_list_free (children);
+		widget_name = gtk_widget_get_name (widget);
+		if (widget_name != NULL && g_str_has_prefix (widget_name, name))
+			gtk_widget_destroy (widget);
+	}
 }
 
 static EShellWindow *
@@ -98,7 +94,6 @@ shell_header_bar_update_new_menu (EShellWindow *shell_window,
 	menu = e_shell_window_create_new_menu (shell_window);
 	e_header_bar_button_take_menu (E_HEADER_BAR_BUTTON (headerbar->priv->new_button), menu);
 }
-
 
 static void
 shell_header_bar_set_property (GObject *object,
@@ -157,21 +152,14 @@ shell_header_bar_constructed (GObject *object)
 
 	ui_manager = e_shell_window_get_ui_manager (shell_window);
 
-	new_button = e_header_bar_button_new (NULL, NULL);
-	gtk_header_bar_pack_start (GTK_HEADER_BAR (self), new_button);
+	new_button = e_header_bar_button_new (C_("toolbar-button", "New"), NULL);
+	/* show label also on the New button, but only if all other buttons have space for their label */
+	e_header_bar_pack_start (E_HEADER_BAR (self), new_button, G_MAXUINT);
 	gtk_widget_show (new_button);
 	self->priv->new_button = g_object_ref (new_button);
 
-	self->priv->start_buttons = gtk_box_new (GTK_ORIENTATION_HORIZONTAL, 5);
-	gtk_header_bar_pack_start (GTK_HEADER_BAR (self), self->priv->start_buttons);
-	gtk_widget_show (self->priv->start_buttons);
-
 	if (self->priv->menu_button)
-		gtk_header_bar_pack_end (GTK_HEADER_BAR (self), self->priv->menu_button);
-
-	self->priv->end_buttons = gtk_box_new (GTK_ORIENTATION_HORIZONTAL, 5);
-	gtk_header_bar_pack_end (GTK_HEADER_BAR (self), self->priv->end_buttons);
-	gtk_widget_show (self->priv->end_buttons);
+		e_header_bar_pack_end (E_HEADER_BAR (self), self->priv->menu_button, G_MAXUINT);
 
 	e_header_bar_button_add_accelerator (
 		E_HEADER_BAR_BUTTON (self->priv->new_button),
@@ -272,8 +260,6 @@ e_shell_header_bar_init (EShellHeaderBar *self)
 {
 	self->priv = e_shell_header_bar_get_instance_private (self);
 	g_weak_ref_init (&self->priv->shell_window, NULL);
-
-	gtk_header_bar_set_show_close_button (GTK_HEADER_BAR (self), TRUE);
 }
 
 /**
@@ -294,7 +280,6 @@ e_shell_header_bar_new (EShellWindow *shell_window,
 	return g_object_new (E_TYPE_SHELL_HEADER_BAR,
 		"shell-window", shell_window,
 		"menu-button", menu_button,
-		"has-subtitle", FALSE,
 		NULL);
 }
 
@@ -329,7 +314,7 @@ e_shell_header_bar_pack_start (EShellHeaderBar *headerbar,
 {
 	g_return_if_fail (E_IS_SHELL_HEADER_BAR (headerbar));
 
-	gtk_box_pack_start (GTK_BOX (headerbar->priv->start_buttons), widget, FALSE, FALSE, 0);
+	e_header_bar_pack_start (E_HEADER_BAR (headerbar), widget, G_MAXUINT);
 }
 
 /**
@@ -341,12 +326,13 @@ e_shell_header_bar_pack_start (EShellHeaderBar *headerbar,
  *
  * Since: 3.46
  **/
-void e_shell_header_bar_pack_end (EShellHeaderBar *headerbar,
-				  GtkWidget *widget)
+void
+e_shell_header_bar_pack_end (EShellHeaderBar *headerbar,
+			     GtkWidget *widget)
 {
 	g_return_if_fail (E_IS_SHELL_HEADER_BAR (headerbar));
 
-	gtk_box_pack_end (GTK_BOX (headerbar->priv->end_buttons), widget, FALSE, FALSE, 0);
+	e_header_bar_pack_end (E_HEADER_BAR (headerbar), widget, G_MAXUINT);
 }
 
 /**
@@ -358,11 +344,19 @@ void e_shell_header_bar_pack_end (EShellHeaderBar *headerbar,
  *
  * Since: 3.46
  **/
-void e_shell_header_bar_clear (EShellHeaderBar *headerbar,
-			       const gchar *name)
+void
+e_shell_header_bar_clear (EShellHeaderBar *headerbar,
+			  const gchar *name)
 {
+	GList *children;
+
 	g_return_if_fail (E_IS_SHELL_HEADER_BAR (headerbar));
 
-	shell_header_bar_clear_box (headerbar->priv->start_buttons, name);
-	shell_header_bar_clear_box (headerbar->priv->end_buttons, name);
+	children = e_header_bar_get_start_widgets (E_HEADER_BAR (headerbar));
+	shell_header_bar_clear_box (children, name);
+	g_list_free (children);
+
+	children = e_header_bar_get_end_widgets (E_HEADER_BAR (headerbar));
+	shell_header_bar_clear_box (children, name);
+	g_list_free (children);
 }

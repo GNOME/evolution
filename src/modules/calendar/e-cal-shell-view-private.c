@@ -349,7 +349,7 @@ cal_shell_view_update_header_bar (ECalShellView *cal_shell_view)
 	action = ACTION (CALENDAR_GO_FORWARD);
 	e_header_bar_button_add_action (E_HEADER_BAR_BUTTON (widget), NULL, action);
 
-	e_shell_header_bar_pack_end (shell_headerbar, widget);
+	e_header_bar_pack_end (E_HEADER_BAR (shell_headerbar), widget, 0);
 
 	for (ii = 0; ii < G_N_ELEMENTS (items); ii++) {
 		widget = e_shell_window_get_managed_widget (shell_window, items[ii]);

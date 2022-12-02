@@ -120,6 +120,7 @@
 #include <e-util/e-filter-part.h>
 #include <e-util/e-filter-rule.h>
 #include <e-util/e-focus-tracker.h>
+#include <e-util/e-headerbar.h>
 #include <e-util/e-headerbar-button.h>
 #ifndef E_UTIL_INCLUDE_WITHOUT_WEBKIT
 #include <e-util/e-html-editor-actions.h>

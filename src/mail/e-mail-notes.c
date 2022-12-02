@@ -1197,6 +1197,7 @@ e_mail_notes_editor_new_with_editor (EHTMLEditor *html_editor,
 		action = gtk_action_group_get_action (notes_editor->action_group, "save-and-close");
 		button = e_header_bar_button_new (_("Save"), action);
 		e_header_bar_button_css_add_class (E_HEADER_BAR_BUTTON (button), "suggested-action");
+		e_header_bar_button_set_show_icon_only (E_HEADER_BAR_BUTTON (button), FALSE);
 		gtk_widget_show (button);
 		gtk_header_bar_pack_start (header_bar, button);
 

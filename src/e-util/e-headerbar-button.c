@@ -20,7 +20,8 @@
 #include <glib/gi18n.h>
 
 struct _EHeaderBarButtonPrivate {
-	GtkWidget *button;
+	GtkWidget *labeled_button;
+	GtkWidget *icon_only_button;
 	GtkWidget *dropdown_button;
 
 	GtkAction *action;
@@ -130,8 +131,13 @@ header_bar_button_update_button (EHeaderBarButton *header_bar_button)
 
 	if (action != NULL) {
 		header_bar_button_update_button_for_action (
-			GTK_BUTTON (header_bar_button->priv->button),
+			GTK_BUTTON (header_bar_button->priv->labeled_button),
 			action);
+		if (header_bar_button->priv->icon_only_button) {
+			header_bar_button_update_button_for_action (
+				GTK_BUTTON (header_bar_button->priv->icon_only_button),
+				action);
+		}
 	}
 }
 
@@ -238,11 +244,11 @@ header_button_action_notify_active_cb (GObject *action,
 }
 
 static GtkWidget *
-header_bar_button_add_action (EHeaderBarButton *header_bar_button,
-			      const gchar *label,
-			      GtkAction *action,
-			      GCallback clicked_cb,
-			      gpointer clicked_cb_user_data)
+header_bar_button_add_action_button (EHeaderBarButton *header_bar_button,
+				     const gchar *label,
+				     GtkAction *action,
+				     GCallback clicked_cb,
+				     gpointer clicked_cb_user_data)
 {
 	GtkWidget *button;
 	gulong clicked_handler = 0;
@@ -251,8 +257,6 @@ header_bar_button_add_action (EHeaderBarButton *header_bar_button,
 		button = gtk_toggle_button_new_with_label (label);
 	else
 		button = gtk_button_new_with_label (label);
-
-	gtk_widget_show (button);
 
 	gtk_box_pack_start (GTK_BOX (header_bar_button), button, FALSE, FALSE, 0);
 
@@ -287,6 +291,40 @@ header_bar_button_add_action (EHeaderBarButton *header_bar_button,
 	}
 
 	return button;
+}
+
+static void
+header_bar_button_add_action (EHeaderBarButton *header_bar_button,
+			      const gchar *label,
+			      GtkAction *action,
+			      GCallback clicked_cb,
+			      gpointer clicked_cb_user_data,
+			      GtkWidget **out_labeled_button,
+			      GtkWidget **out_icon_only_button)
+{
+	GtkWidget *labeled_button;
+	GtkWidget *icon_only_button;
+
+	labeled_button = header_bar_button_add_action_button (header_bar_button, label, action, clicked_cb, clicked_cb_user_data);
+
+	if (label) {
+		icon_only_button = header_bar_button_add_action_button (header_bar_button, NULL, action, clicked_cb, clicked_cb_user_data);
+		gtk_widget_show (icon_only_button);
+
+		e_binding_bind_property (
+			labeled_button, "sensitive",
+			icon_only_button, "sensitive",
+			G_BINDING_SYNC_CREATE);
+	} else {
+		icon_only_button = NULL;
+		gtk_widget_show (labeled_button);
+	}
+
+	if (out_labeled_button)
+		*out_labeled_button = labeled_button;
+
+	if (out_icon_only_button)
+		*out_icon_only_button = icon_only_button;
 }
 
 static void
@@ -350,11 +388,13 @@ header_bar_button_constructed (GObject *object)
 	/* Chain up to parent's method. */
 	G_OBJECT_CLASS (e_header_bar_button_parent_class)->constructed (object);
 
-	header_bar_button->priv->button = header_bar_button_add_action (header_bar_button,
+	header_bar_button_add_action (header_bar_button,
 		header_bar_button->priv->label,
 		header_bar_button->priv->action,
 		G_CALLBACK (header_bar_button_clicked),
-		header_bar_button);
+		header_bar_button,
+		&header_bar_button->priv->labeled_button,
+		&header_bar_button->priv->icon_only_button);
 
 	/* TODO: GTK4 port: do not use linked buttons
 	 * https://developer.gnome.org/hig/patterns/containers/header-bars.html#button-grouping */
@@ -469,7 +509,7 @@ e_header_bar_button_add_action (EHeaderBarButton *header_bar_button,
 	g_return_if_fail (GTK_IS_ACTION (action));
 
 	header_bar_button_add_action (header_bar_button, label, action,
-		G_CALLBACK (header_bar_button_action_activate_cb), action);
+		G_CALLBACK (header_bar_button_action_activate_cb), action, NULL, NULL);
 }
 
 /**
@@ -504,7 +544,7 @@ e_header_bar_button_take_menu (EHeaderBarButton *header_bar_button,
 			FALSE, FALSE, 0);
 
 		e_binding_bind_property (
-			header_bar_button->priv->button, "sensitive",
+			header_bar_button->priv->labeled_button, "sensitive",
 			header_bar_button->priv->dropdown_button, "sensitive",
 			G_BINDING_SYNC_CREATE);
 	}
@@ -525,15 +565,21 @@ e_header_bar_button_take_menu (EHeaderBarButton *header_bar_button,
  *
  * Since: 3.46
  **/
-void e_header_bar_button_css_add_class (EHeaderBarButton *header_bar_button,
-					const gchar *class_name)
+void
+e_header_bar_button_css_add_class (EHeaderBarButton *header_bar_button,
+				   const gchar *class_name)
 {
 	GtkStyleContext *style_context;
 
 	g_return_if_fail (E_IS_HEADER_BAR_BUTTON (header_bar_button));
 
-	style_context = gtk_widget_get_style_context (header_bar_button->priv->button);
+	style_context = gtk_widget_get_style_context (header_bar_button->priv->labeled_button);
 	gtk_style_context_add_class (style_context, class_name);
+
+	if (header_bar_button->priv->icon_only_button) {
+		style_context = gtk_widget_get_style_context (header_bar_button->priv->icon_only_button);
+		gtk_style_context_add_class (style_context, class_name);
+	}
 }
 
 /**
@@ -548,15 +594,137 @@ void e_header_bar_button_css_add_class (EHeaderBarButton *header_bar_button,
  *
  * Since: 3.46
  **/
-void e_header_bar_button_add_accelerator (EHeaderBarButton *header_bar_button,
-					  GtkAccelGroup* accel_group,
-					  guint accel_key,
-					  GdkModifierType accel_mods,
-					  GtkAccelFlags accel_flags)
+void
+e_header_bar_button_add_accelerator (EHeaderBarButton *header_bar_button,
+				     GtkAccelGroup* accel_group,
+				     guint accel_key,
+				     GdkModifierType accel_mods,
+				     GtkAccelFlags accel_flags)
 {
 	g_return_if_fail (E_IS_HEADER_BAR_BUTTON (header_bar_button));
 
 	gtk_widget_add_accelerator (
-		GTK_WIDGET (header_bar_button->priv->button), "clicked",
+		header_bar_button->priv->labeled_button, "clicked",
 		accel_group, accel_key, accel_mods, accel_flags);
+
+	if (header_bar_button->priv->icon_only_button) {
+		gtk_widget_add_accelerator (
+			header_bar_button->priv->icon_only_button, "clicked",
+			accel_group, accel_key, accel_mods, accel_flags);
+	}
+}
+
+/**
+ * e_header_bar_button_get_widths:
+ * @self: an #EHeaderBarButton
+ * @out_labeled_width: (out): return location for width of the button with the label
+ * @out_icon_only_width: (out): return location for width of the button with the icon only
+ *
+ * Returns expected width of the button when it has set a label
+ * and when only icon is shown. When either of the two is -1,
+ * the width could not be calculated, like when the button
+ * cannot have (un)set the label, then the out_icon_only_width
+ * is set to -1.
+ *
+ * Since: 3.48
+ **/
+void
+e_header_bar_button_get_widths (EHeaderBarButton *self,
+				gint *out_labeled_width,
+				gint *out_icon_only_width)
+{
+	gint labeled_width = -1;
+	gint icon_only_width = -1;
+	gint current_width = -1;
+
+	g_return_if_fail (E_IS_HEADER_BAR_BUTTON (self));
+	g_return_if_fail (out_labeled_width != NULL);
+	g_return_if_fail (out_icon_only_width != NULL);
+
+	gtk_widget_get_preferred_width (GTK_WIDGET (self), &current_width, NULL);
+
+	if (!self->priv->icon_only_button) {
+		*out_labeled_width = current_width;
+		*out_icon_only_width = -1;
+		return;
+	}
+
+	if (gtk_widget_get_visible (self->priv->labeled_button)) {
+		gtk_widget_get_preferred_width (self->priv->labeled_button, &labeled_width, NULL);
+	} else {
+		gtk_widget_show (self->priv->labeled_button);
+		gtk_widget_get_preferred_width (self->priv->labeled_button, &labeled_width, NULL);
+		gtk_widget_hide (self->priv->labeled_button);
+	}
+
+	if (gtk_widget_get_visible (self->priv->icon_only_button)) {
+		gtk_widget_get_preferred_width (self->priv->icon_only_button, &icon_only_width, NULL);
+	} else {
+		gtk_widget_show (self->priv->icon_only_button);
+		gtk_widget_get_preferred_width (self->priv->icon_only_button, &icon_only_width, NULL);
+		gtk_widget_hide (self->priv->icon_only_button);
+	}
+
+	if (gtk_widget_get_visible (self->priv->labeled_button)) {
+		*out_labeled_width = current_width;
+		*out_icon_only_width = current_width - labeled_width + icon_only_width;
+	} else {
+		*out_labeled_width = current_width - icon_only_width + labeled_width;
+		*out_icon_only_width = current_width;
+	}
+}
+
+/**
+ * e_header_bar_button_get_show_icon_only:
+ * @self: an #EHeaderBarButton
+ *
+ * Returns whether the button shows only icon, without label.
+ * Returns %FALSE, when the label cannot be (un)set.
+ *
+ * Returns: whether the button shows only icon, without label
+ *
+ * Since: 3.48
+ **/
+gboolean
+e_header_bar_button_get_show_icon_only (EHeaderBarButton *self)
+{
+	g_return_val_if_fail (E_IS_HEADER_BAR_BUTTON (self), FALSE);
+
+	if (!self->priv->icon_only_button)
+		return FALSE;
+
+	return gtk_widget_get_visible (self->priv->icon_only_button);
+}
+
+/**
+ * e_header_bar_button_set_show_icon_only:
+ * @self: an #EHeaderBarButton
+ * @show_icon_only: value to set
+ *
+ * Changes button's appearance between showing only icon and showing
+ * label with an icon. The function does nothing, when the label
+ * cannot be (un)set.
+ *
+ * Since: 3.48
+ **/
+void
+e_header_bar_button_set_show_icon_only (EHeaderBarButton *self,
+					gboolean show_icon_only)
+{
+	g_return_if_fail (E_IS_HEADER_BAR_BUTTON (self));
+
+	if (!self->priv->icon_only_button)
+		return;
+
+	if ((gtk_widget_get_visible (self->priv->icon_only_button) ? 1 : 0) == (show_icon_only ? 1 : 0))
+		return;
+
+	/* Hide first, to not change window width */
+	if (show_icon_only) {
+		gtk_widget_hide (self->priv->labeled_button);
+		gtk_widget_show (self->priv->icon_only_button);
+	} else {
+		gtk_widget_hide (self->priv->icon_only_button);
+		gtk_widget_show (self->priv->labeled_button);
+	}
 }
