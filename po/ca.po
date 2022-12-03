@@ -15,12 +15,14 @@
 # David Medina <rbndavid@gmail.com>, 2015, 2016.
 # Gil Forcada <gilforcada@guifi.net>, 2006-2020.
 #
+# «Enclosure» en el context de «RSS enclosure» és «adjunció»
+#
 msgid ""
 msgstr ""
 "Project-Id-Version: evolution\n"
 "Report-Msgid-Bugs-To: https://gitlab.gnome.org/GNOME/evolution/issues\n"
 "POT-Creation-Date: 2022-08-15 18:29+0000\n"
-"PO-Revision-Date: 2022-12-01 13:08+0200\n"
+"PO-Revision-Date: 2022-12-03 10:08+0200\n"
 "Last-Translator: Jordi Mas i Hernàndez <jmas@softcatala.org>\n"
 "Language-Team: Catalan <info@softcatala.org>\n"
 "Language: ca\n"
@@ -24067,7 +24069,7 @@ msgid ""
 "Specify login user name as part of the URL in case the server requires "
 "authentication, like: https://USER@example.com/"
 msgstr ""
-"Especifica el nom d'usuari com a part de l'URL en el cas que el servidor "
+"Especifiqueu el nom d'usuari com a part de l'URL en el cas que el servidor "
 "requereixi autenticació, semblant a: https://USUARI@exemple.com/"
 
 #: ../src/modules/calendar/e-calendar-preferences.ui.h:107
@@ -26948,11 +26950,11 @@ msgstr "_Baixa articles complets"
 #: ../src/modules/rss/camel/camel-rss-folder.c:689
 #: ../src/modules/rss/evolution/e-rss-preferences.c:835
 msgid "Download feed _enclosures"
-msgstr "Baixa _tancaments de canal de continguts"
+msgstr "Baixa _adjuncions de canal de continguts"
 
 #: ../src/modules/rss/camel/camel-rss-folder-summary.c:269
 msgid "Enclosures:"
-msgstr "Tancaments:"
+msgstr "Adjuncions:"
 
 #: ../src/modules/rss/camel/camel-rss-provider.c:17
 #: ../src/modules/rss/camel/camel-rss-store.c:48
@@ -26985,7 +26987,7 @@ msgstr "Autor desconegut"
 #: ../src/modules/rss/evolution/e-rss-preferences.c:53
 #: ../src/modules/rss/evolution/e-rss-preferences.c:827
 msgid "Markdown"
-msgstr "_Markdown"
+msgstr "Markdown"
 
 #: ../src/modules/rss/evolution/e-rss-preferences.c:414
 #, c-format
@@ -27031,13 +27033,13 @@ msgstr "C_ontingut:"
 
 #: ../src/modules/rss/evolution/e-rss-preferences.c:1224
 msgid "_Download feed enclosures"
-msgstr "_Baixa tancaments de canal de continguts"
+msgstr "_Baixa adjuncions de canal de continguts"
 
 #. Translators: This is part of "Do not download enclosures larger than [ nnn
 #. ] KB"
 #: ../src/modules/rss/evolution/e-rss-preferences.c:1243
 msgid "Do not download enclosures larger than"
-msgstr "No baixis tancaments més grans que"
+msgstr "No baixis adjuncions més grans que"
 
 #. Translators: This is part of "Do not download enclosures larger than [ nnn
 #. ] KB"
