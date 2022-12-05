@@ -1742,7 +1742,7 @@ static GtkToggleActionEntry calendar_toggle_entries[] = {
 	{ "calendar-preview",
 	  NULL,
 	  N_("Show Event _Preview"),
-	  "<Control>m",
+	  NULL,
 	  N_("Show event preview pane"),
 	  NULL,  /* Handled by property bindings */
 	  TRUE },
