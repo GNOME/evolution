@@ -43,6 +43,8 @@ struct _EMarkdownEditorPrivate {
 	EThreeState start_bottom;
 	EThreeState top_signature;
 	gchar *signature_uid;
+	gboolean fix_selection_start_mark;
+	gboolean can_move_signature_start_mark;
 	gboolean selection_saved;
 	GtkTextIter selection_start; /* valid only if selection_saved is TRUE */
 	GtkTextIter selection_end; /* valid only if selection_saved is TRUE */
@@ -872,6 +874,8 @@ e_markdown_editor_insert_signature (EContentEditor *cnt_editor,
 		content = plain_text;
 	}
 
+	self->priv->can_move_signature_start_mark = FALSE;
+
 	buffer = gtk_text_view_get_buffer (self->priv->text_view);
 	gtk_text_buffer_get_bounds (buffer, &start, &end);
 	gtk_text_buffer_get_iter_at_mark (buffer, &selection_start, gtk_text_buffer_get_insert (buffer));
@@ -992,6 +996,8 @@ e_markdown_editor_insert_signature (EContentEditor *cnt_editor,
 	}
 
 	g_free (plain_text);
+
+	self->priv->can_move_signature_start_mark = TRUE;
 
 	return g_strdup (self->priv->signature_uid);
 }
@@ -1592,6 +1598,75 @@ e_markdown_editor_has_selection_cb (GtkTextBuffer *buffer,
 }
 
 static void
+e_markdown_editor_insert_text_cb (GtkTextBuffer *textbuffer,
+				  GtkTextIter *location,
+				  const gchar *text,
+				  gint len,
+				  gpointer user_data)
+{
+	EMarkdownEditor *self = user_data;
+	GSList *marks, *link;
+
+	if (!self->priv->can_move_signature_start_mark) {
+		self->priv->fix_selection_start_mark = FALSE;
+		return;
+	}
+
+	marks = gtk_text_iter_get_marks (location);
+
+	for (link = marks; link; link = g_slist_next (link)) {
+		GtkTextMark *mark = link->data;
+
+		if (g_strcmp0 (gtk_text_mark_get_name (mark), EVO_SIGNATURE_START_MARK) == 0)
+			break;
+	}
+
+	self->priv->fix_selection_start_mark = link != NULL;
+
+	g_slist_free (marks);
+}
+
+static void
+e_markdown_editor_insert_text_after_cb (GtkTextBuffer *textbuffer,
+					GtkTextIter *location,
+					const gchar *text,
+					gint len,
+					gpointer user_data)
+{
+	EMarkdownEditor *self = user_data;
+	GSList *marks, *link;
+
+	if (!self->priv->fix_selection_start_mark ||
+	    !self->priv->can_move_signature_start_mark)
+		return;
+
+	self->priv->fix_selection_start_mark = FALSE;
+
+	marks = gtk_text_iter_get_marks (location);
+
+	for (link = marks; link; link = g_slist_next (link)) {
+		GtkTextMark *mark = link->data;
+
+		if (g_strcmp0 (gtk_text_mark_get_name (mark), EVO_SIGNATURE_START_MARK) == 0)
+			break;
+	}
+
+	/* The mark was not moved, then move it after the inserted text */
+	if (!link) {
+		GtkTextMark *sig_start_mark;
+
+		sig_start_mark = gtk_text_buffer_get_mark (textbuffer, EVO_SIGNATURE_START_MARK);
+
+		if (sig_start_mark)
+			gtk_text_buffer_delete_mark_by_name (textbuffer, EVO_SIGNATURE_START_MARK);
+
+		gtk_text_buffer_create_mark (textbuffer, EVO_SIGNATURE_START_MARK, location, TRUE);
+	}
+
+	g_slist_free (marks);
+}
+
+static void
 e_markdown_editor_realize_cb (GtkWidget *widget,
 			      gpointer user_data)
 {
@@ -1611,6 +1686,12 @@ e_markdown_editor_realize_cb (GtkWidget *widget,
 	e_signal_connect_notify_object (buffer, "notify::has-selection",
 		G_CALLBACK (e_markdown_editor_has_selection_cb), self, 0);
 	e_markdown_editor_has_selection_cb (buffer, NULL, self);
+
+	g_signal_connect_object (buffer, "insert-text",
+		G_CALLBACK (e_markdown_editor_insert_text_cb), self, 0);
+
+	g_signal_connect_object (buffer, "insert-text",
+		G_CALLBACK (e_markdown_editor_insert_text_after_cb), self, G_CONNECT_AFTER);
 }
 
 static void
@@ -2265,6 +2346,7 @@ e_markdown_editor_init (EMarkdownEditor *self)
 {
 	self->priv = e_markdown_editor_get_instance_private (self);
 
+	self->priv->can_move_signature_start_mark = TRUE;
 	self->priv->spell_checker = e_spell_checker_new ();
 	self->priv->mode = E_CONTENT_EDITOR_MODE_MARKDOWN_PLAIN_TEXT;
 	self->priv->start_bottom = E_THREE_STATE_INCONSISTENT;
