@@ -191,7 +191,7 @@ filter_input_xml_create (EFilterElement *element,
 	xmlFree (allow_empty);
 
 	for (n = node->children; n; n = n->next) {
-		if (g_str_equal (n->name, "code")) {
+		if (g_str_equal ((const gchar *) n->name, "code")) {
 			xmlChar *func = xmlGetProp (n, (xmlChar *) "func");
 
 			if (func && *func) {
