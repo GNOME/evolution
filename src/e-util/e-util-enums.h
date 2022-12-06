@@ -663,6 +663,20 @@ typedef enum { /*< flags >*/
 	E_MARKDOWN_HTML_TO_TEXT_FLAG_SIGNIFICANT_NL	= 1 << 2
 } EMarkdownHTMLToTextFlags;
 
+/**
+ * EMarkdownTextToHTMLFlags:
+ * @E_MARKDOWN_TEXT_TO_HTML_FLAG_NONE: no flag set
+ * @E_MARKDOWN_TEXT_TO_HTML_FLAG_INCLUDE_SOURCEPOS: include source position in the generated HTML
+ *
+ * Flags used in e_markdown_util_text_to_html_full().
+ *
+ * Since: 3.48
+ **/
+typedef enum { /*< flags >*/
+	E_MARKDOWN_TEXT_TO_HTML_FLAG_NONE		= 0,
+	E_MARKDOWN_TEXT_TO_HTML_FLAG_INCLUDE_SOURCEPOS	= 1 << 0
+} EMarkdownTextToHTMLFlags;
+
 typedef enum {
 	E_TOOLBAR_ICON_SIZE_DEFAULT	= 0,
 	E_TOOLBAR_ICON_SIZE_SMALL	= 1,

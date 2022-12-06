@@ -39,6 +39,32 @@ gchar *
 e_markdown_utils_text_to_html (const gchar *plain_text,
 			       gssize length)
 {
+	return e_markdown_utils_text_to_html_full (plain_text, length, E_MARKDOWN_TEXT_TO_HTML_FLAG_NONE);
+}
+
+/**
+ * e_markdown_utils_text_to_html_full:
+ * @plain_text: plain text with markdown to convert to HTML
+ * @length: length of the @plain_text, or -1 when it's nul-terminated
+ * @flags: a bit-or of %EMarkdownTextToHTMLFlags flags
+ *
+ * Convert @plain_text, possibly with markdown, into the HTML, influencing
+ * the result HTML code with the @flags.
+ *
+ * Note: The function can return %NULL when was not built
+ *    with the markdown support.
+ *
+ * Returns: (transfer full) (nullable): text converted into HTML,
+ *    or %NULL, when was not built with the markdown support.
+ *    Free the string with g_free(), when no longer needed.
+ *
+ * Since: 3.48
+ **/
+gchar *
+e_markdown_utils_text_to_html_full (const gchar *plain_text,
+				    gssize length,
+				    EMarkdownTextToHTMLFlags flags)
+{
 	#ifdef HAVE_MARKDOWN
 	GString *html;
 	gchar *converted;
@@ -47,7 +73,8 @@ e_markdown_utils_text_to_html (const gchar *plain_text,
 		length = plain_text ? strlen (plain_text) : 0;
 
 	converted = cmark_markdown_to_html (plain_text ? plain_text : "", length,
-		CMARK_OPT_VALIDATE_UTF8 | CMARK_OPT_UNSAFE);
+		CMARK_OPT_VALIDATE_UTF8 | CMARK_OPT_UNSAFE |
+		((flags & E_MARKDOWN_TEXT_TO_HTML_FLAG_INCLUDE_SOURCEPOS) != 0 ? CMARK_OPT_SOURCEPOS : 0));
 
 	html = e_str_replace_string (converted, "<blockquote>", "<blockquote type=\"cite\">");
 

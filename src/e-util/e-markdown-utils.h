@@ -19,6 +19,9 @@ G_BEGIN_DECLS
 
 gchar *		e_markdown_utils_text_to_html		(const gchar *plain_text,
 							 gssize length);
+gchar *		e_markdown_utils_text_to_html_full	(const gchar *plain_text,
+							 gssize length,
+							 EMarkdownTextToHTMLFlags flags);
 gchar *		e_markdown_utils_html_to_text		(const gchar *html,
 							 gssize length,
 							 EMarkdownHTMLToTextFlags flags);

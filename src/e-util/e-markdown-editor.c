@@ -34,6 +34,7 @@ struct _EMarkdownEditorPrivate {
 	gboolean is_dark_theme;
 	gboolean is_preview_beside_text;
 	guint preview_update_id;
+	gulong cursor_position_id;
 
 	/* EContentEditor properties */
 	gboolean can_copy;
@@ -1416,52 +1417,6 @@ e_markdown_editor_markdown_syntax_cb (EMarkdownEditor *self)
 	e_show_uri (GTK_IS_WINDOW (toplevel) ? GTK_WINDOW (toplevel) : NULL, "https://commonmark.org/help/");
 }
 
-#define CURSOR_POS_TEXT "\x02evo-cursor-evo\0x2"
-#define CURSOR_POS_HTML "<span id=\"evo-cursor-pos\"></span>"
-
-static gchar *
-e_markdown_editor_dup_text_internal (EMarkdownEditor *self,
-				     gboolean mark_cursor)
-{
-	GtkTextBuffer *buffer;
-	GtkTextIter start, end;
-	gchar *text;
-
-	g_return_val_if_fail (E_IS_MARKDOWN_EDITOR (self), NULL);
-
-	buffer = gtk_text_view_get_buffer (self->priv->text_view);
-	gtk_text_buffer_get_bounds (buffer, &start, &end);
-
-	text = gtk_text_buffer_get_text (buffer, &start, &end, FALSE);
-
-	if (mark_cursor && text && !strstr (text, CURSOR_POS_TEXT)) {
-		GtkTextIter iter;
-		GtkTextMark *mark;
-		gint offset;
-
-		mark = gtk_text_buffer_get_insert (buffer);
-		gtk_text_buffer_get_iter_at_mark (buffer, &iter, mark);
-
-		offset = gtk_text_iter_get_offset (&iter);
-		if (offset > 0 && offset <= g_utf8_strlen (text, -1)) {
-			GString *str;
-			guint pos;
-
-			str = g_string_sized_new (strlen (text) + strlen (CURSOR_POS_TEXT) + 1);
-			g_string_append (str, text);
-			pos = g_utf8_offset_to_pointer (str->str, offset) - str->str;
-			/* Find line or word boundary, to not place the mark in the middle of the tag */
-			while (pos < str->len && str->str[pos] != '\n' && !g_ascii_isspace (str->str[pos]))
-				pos++;
-			g_string_insert (str, pos, CURSOR_POS_TEXT);
-			g_free (text);
-			text = g_string_free (str, FALSE);
-		}
-	}
-
-	return text;
-}
-
 static gchar *
 e_markdown_editor_dup_html_internal (EMarkdownEditor *self,
 				     gboolean mark_cursor)
@@ -1473,16 +1428,10 @@ e_markdown_editor_dup_html_internal (EMarkdownEditor *self,
 	g_return_val_if_fail (E_IS_MARKDOWN_EDITOR (self), NULL);
 
 	#ifdef HAVE_MARKDOWN
-	text = e_markdown_editor_dup_text_internal (self, mark_cursor);
-	html = e_markdown_utils_text_to_html (text, -1);
-
-	if (mark_cursor && html && strstr (html, CURSOR_POS_TEXT)) {
-		GString *str;
-
-		str = e_str_replace_string (html, CURSOR_POS_TEXT, CURSOR_POS_HTML);
-		g_free (html);
-		html = g_string_free (str, FALSE);
-	}
+	text = e_markdown_editor_dup_text (self);
+	html = e_markdown_utils_text_to_html_full (text, -1, mark_cursor ?
+		E_MARKDOWN_TEXT_TO_HTML_FLAG_INCLUDE_SOURCEPOS :
+		E_MARKDOWN_TEXT_TO_HTML_FLAG_NONE);
 
 	g_free (text);
 
@@ -1508,14 +1457,100 @@ e_markdown_editor_update_preview (EMarkdownEditor *self,
 		NULL);
 
 	if (mark_cursor) {
+		GtkTextBuffer *buffer;
+		GtkTextIter iter;
+		GtkTextMark *mark;
+		gint n_lines, nth_line, line_byte_index;
+
+		buffer = gtk_text_view_get_buffer (self->priv->text_view);
+		mark = gtk_text_buffer_get_insert (buffer);
+		gtk_text_buffer_get_iter_at_mark (buffer, &iter, mark);
+
+		n_lines = gtk_text_buffer_get_line_count (buffer);
+		/* both count from 0, while data-sourcepos is from 1 */
+		nth_line = gtk_text_iter_get_line (&iter);
+		line_byte_index = gtk_text_iter_get_line_index (&iter);
+
+		/* The 'data-sourcepos' value looks like '1:1-1:5', which
+		   is 'line:column-line:column' */
+
 		e_web_view_jsc_run_script (WEBKIT_WEB_VIEW (self->priv->web_view),
 			e_web_view_get_cancellable (self->priv->web_view),
+			"function valueNodeInRange(node, nth_line, line_byte_index, best)\n"
+			"{\n"
+			"   var attr = node.getAttribute(\"data-sourcepos\");\n"
+			"   if (!attr)\n"
+			"      return -1;\n"
+			"   var startLine, startColumn, endLine, endColumn, splt, splt2;\n"
+			"   splt = attr.split(\"-\");\n"
+			"   if (!splt || splt.length != 2)\n"
+			"      return -1;\n"
+			"   splt2 = splt[0].split(\":\");"
+			"   if (!splt2 || splt2.length != 2)\n"
+			"      return -1;\n"
+			"   startLine = parseInt(splt2[0], 10);\n"
+			"   startColumn = parseInt(splt2[1], 10);\n"
+			"   splt2 = splt[1].split(\":\");"
+			"   if (!splt2 || splt2.length != 2)\n"
+			"      return -1;\n"
+			"   endLine = parseInt(splt2[0], 10);\n"
+			"   endColumn = parseInt(splt2[1], 10);\n"
+			"   var value = -1;\n"
+			"   if (startLine <= nth_line && endLine >= nth_line) {\n"
+			"      value = (endLine - startLine) + (nth_line - startLine);\n"
+			"      if (startColumn <= line_byte_index && endColumn >= line_byte_index) {\n"
+			"         if (endColumn - line_byte_index < line_byte_index - startColumn)\n"
+			"            value += endColumn - line_byte_index;\n"
+			"         else\n"
+			"            value += line_byte_index - startColumn;\n"
+			"      } else {\n"
+			"         if (endColumn < startColumn)\n"
+			"            endColumn = startColumn;\n"
+			"         value = value * 10000 + (endColumn - startColumn);\n"
+			"      }\n"
+			"   }\n"
+			"   return value;\n"
+			"}\n"
+			"function findBestElemForSourcepos(nth_line, line_byte_index)\n"
+			"{\n"
+			"   var n_lines = %d;\n"
+			"   var nodes = document.querySelectorAll(\"[data-sourcepos]\"), ii, elem = null, best = -1;\n"
+			"   if (nth_line > n_lines / 2) { \n"
+			"      for (ii = nodes.length - 1; ii >= 0; ii--) {\n"
+			"         var node = nodes[ii];\n"
+			"         var adept = valueNodeInRange(node, nth_line, line_byte_index, best);\n"
+			"         if (adept != -1 && (best == -1 || adept < best)) {\n"
+			"            best = adept;\n"
+			"            elem = node;\n"
+			"         } else if (best != -1 && adept == -1) {\n"
+			"            break;\n"
+			"         }\n"
+			"      }\n"
+			"   } else {\n"
+			"      for (ii = 0; ii < nodes.length; ii++) {\n"
+			"         var node = nodes[ii];\n"
+			"         var adept = valueNodeInRange(node, nth_line, line_byte_index, best);\n"
+			"         if (adept != -1 && (best == -1 || adept < best)) {\n"
+			"            best = adept;\n"
+			"            elem = node;\n"
+			"         } else if (best != -1 && adept == -1) {\n"
+			"            break;\n"
+			"         }\n"
+			"      }\n"
+			"   }\n"
+			"   return elem;\n"
+			"}\n"
 			"{ document.body.innerHTML = %s; "
-			"var elem = document.getElementById(%s); "
-			"if (elem) elem.scrollIntoView({behavior:\"smooth\", block:\"center\", inline:\"center\"}); "
+			"var nth_line = %d, line_byte_index = %d;\n"
+			"var elem = findBestElemForSourcepos(nth_line, line_byte_index);\n"
+			"if (elem) {\n"
+			"   elem.scrollIntoView({behavior:\"smooth\", block:\"center\", inline:\"center\"});\n"
+			"}\n"
 			"};",
+			n_lines,
 			html,
-			"evo-cursor-pos");
+			nth_line + 1,
+			line_byte_index);
 	} else {
 		e_web_view_load_string (self->priv->web_view, html);
 	}
@@ -1646,6 +1681,8 @@ e_markdown_editor_toggle_preview (EMarkdownEditor *self,
 
 		g_signal_connect_object (buffer, "changed",
 			G_CALLBACK (e_markdown_editor_buffer_changed_to_preview_cb), self, G_CONNECT_SWAPPED);
+		self->priv->cursor_position_id = e_signal_connect_notify_object (buffer, "notify::cursor-position",
+			G_CALLBACK (e_markdown_editor_buffer_changed_to_preview_cb), self, G_CONNECT_SWAPPED);
 
 		e_paned_set_proportion (E_PANED (paned), 0.5);
 
@@ -1658,6 +1695,7 @@ e_markdown_editor_toggle_preview (EMarkdownEditor *self,
 
 		g_signal_handlers_disconnect_by_func (buffer,
 			G_CALLBACK (e_markdown_editor_buffer_changed_to_preview_cb), self);
+		e_signal_disconnect_notify_handler (buffer, &self->priv->cursor_position_id);
 	}
 
 	g_object_unref (self->priv->text_view);
@@ -2709,9 +2747,15 @@ e_markdown_editor_set_text (EMarkdownEditor *self,
 gchar *
 e_markdown_editor_dup_text (EMarkdownEditor *self)
 {
+	GtkTextBuffer *buffer;
+	GtkTextIter start, end;
+
 	g_return_val_if_fail (E_IS_MARKDOWN_EDITOR (self), NULL);
 
-	return e_markdown_editor_dup_text_internal (self, FALSE);
+	buffer = gtk_text_view_get_buffer (self->priv->text_view);
+	gtk_text_buffer_get_bounds (buffer, &start, &end);
+
+	return gtk_text_buffer_get_text (buffer, &start, &end, FALSE);
 }
 
 /**
