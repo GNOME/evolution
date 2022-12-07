@@ -3343,6 +3343,7 @@ e_msg_composer_add_attachments_from_part_list (EMsgComposer *composer,
 	GHashTable *added_mime_parts;
 	GQueue queue = G_QUEUE_INIT;
 	GList *link;
+	guint in_message_attachment = 0;
 
 	g_return_if_fail (E_IS_MSG_COMPOSER (composer));
 
@@ -3359,6 +3360,21 @@ e_msg_composer_add_attachments_from_part_list (EMsgComposer *composer,
 		EMailPart *part = link->data;
 		CamelMimePart *mime_part;
 		CamelContentType *content_type;
+
+		if (e_mail_part_id_has_suffix (part, ".rfc822")) {
+			in_message_attachment++;
+			continue;
+		}
+
+		if (e_mail_part_id_has_suffix (part, ".rfc822.end")) {
+			if (in_message_attachment)
+				in_message_attachment--;
+			continue;
+		}
+
+		/* Do not attach attachments from attached messages */
+		if (in_message_attachment)
+			continue;
 
 		if (!e_mail_part_get_is_attachment (part))
 			continue;
