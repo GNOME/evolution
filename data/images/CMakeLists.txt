@@ -3,6 +3,8 @@ set(images
 	draft-paper.png
 	draft-stamp.jpg
 	midnight-stars.jpg
+	mode-with-headerbar.png
+	mode-without-headerbar.png
 	paper.png
 	rect.png
 	ribbon.jpg

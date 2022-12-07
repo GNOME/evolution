@@ -393,6 +393,7 @@ src/mail/vfoldertypes.xml.in
 src/modules/accounts-window/e-accounts-window-editors.c
 src/modules/accounts-window/e-collection-wizard-page.c
 src/modules/accounts-window/e-webdav-browser-page.c
+src/modules/appearance-settings/evolution-appearance-settings.c
 src/modules/addressbook/autocompletion-config.c
 src/modules/addressbook/eab-composer-util.c
 src/modules/addressbook/e-book-shell-backend.c

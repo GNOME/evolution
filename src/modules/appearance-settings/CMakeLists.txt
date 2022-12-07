@@ -1,0 +1,21 @@
+set(extra_deps
+	evolution-shell
+)
+set(sources
+	evolution-appearance-settings.c
+)
+set(extra_defines
+	-DEVOLUTION_IMAGESDIR=\"${imagesdir}\"
+)
+set(extra_cflags)
+set(extra_incdirs)
+set(extra_ldflags)
+
+add_evolution_module(module-appearance-settings
+	sources
+	extra_deps
+	extra_defines
+	extra_cflags
+	extra_incdirs
+	extra_ldflags
+)
