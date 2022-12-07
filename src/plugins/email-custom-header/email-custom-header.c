@@ -270,6 +270,8 @@ epech_load_from_settings (GSettings *settings,
 
 		temp_header_details.number_of_subtype_header = index;
 		g_array_append_val (priv->email_custom_header_details, temp_header_details);
+
+		g_strfreev (parse_header_list);
 	}
 
 	temp_header_details.number_of_header = pos;
@@ -918,6 +920,8 @@ e_plugin_lib_get_configure_widget (EPlugin *epl)
 			for (index = 0; parse_header_list[index + 1] ; ++index) {
 				gtk_list_store_set (cd->store, &iter, HEADER_VALUE_COLUMN, parse_header_list[index + 1], -1);
 			}
+
+			g_strfreev (parse_header_list);
 		}
 
 		g_strfreev (headers);

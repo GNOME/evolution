@@ -418,6 +418,8 @@ e_preferences_window_show_page (EPreferencesWindow *window,
 			break;
 		}
 	}
+
+	g_list_free (children);
 }
 
 /*
@@ -460,5 +462,6 @@ e_preferences_window_setup (EPreferencesWindow *window)
 
 	e_util_resize_window_for_screen (GTK_WINDOW (window), -1, -1, slist_children);
 	g_slist_free (slist_children);
+	g_list_free (children);
 	priv->setup = TRUE;
 }
