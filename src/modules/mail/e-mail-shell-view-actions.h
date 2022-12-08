@@ -190,6 +190,8 @@
 	E_SHELL_WINDOW_ACTION ((window), "mail-show-deleted")
 #define E_SHELL_WINDOW_ACTION_MAIL_SHOW_JUNK(window) \
 	E_SHELL_WINDOW_ACTION ((window), "mail-show-junk")
+#define E_SHELL_WINDOW_ACTION_MAIL_SHOW_PREVIEW_TOOLBAR(window) \
+	E_SHELL_WINDOW_ACTION ((window), "mail-show-preview-toolbar")
 #define E_SHELL_WINDOW_ACTION_MAIL_SHOW_SOURCE(window) \
 	E_SHELL_WINDOW_ACTION ((window), "mail-show-source")
 #define E_SHELL_WINDOW_ACTION_MAIL_SMART_BACKWARD(window) \

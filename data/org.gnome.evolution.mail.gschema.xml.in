@@ -901,6 +901,11 @@
       <_summary>Size limit for text attachments to show</_summary>
       <_description>Defines the size in KB, the limit to show text attachments in the message preview. Anything above this limit will not be possible to show inline.</_description>
     </key>
+    <key name="show-preview-toolbar" type="b">
+      <default>true</default>
+      <_summary>Show Preview Toolbar</_summary>
+      <_description>Show toolbar above preview panel in the Mail view.</_description>
+    </key>
 
     <!-- The following keys are deprecated. -->
 

@@ -5178,7 +5178,7 @@ e_mail_reader_init (EMailReader *reader,
 	GtkAction *action;
 	const gchar *action_name;
 	EMailDisplay *display;
-	EMenuToolAction *menu_tool_action;
+	EMenuToolAction *menu_tool_action, *menu_tool_action_first;
 	GSettings *settings;
 
 	g_return_if_fail (E_IS_MAIL_READER (reader));
@@ -5235,6 +5235,26 @@ e_mail_reader_init (EMailReader *reader,
 	gtk_action_group_add_action_with_accel (
 		action_group, GTK_ACTION (menu_tool_action), "<Control>f");
 
+	menu_tool_action_first = menu_tool_action;
+
+	menu_tool_action = e_menu_tool_action_new (
+		"toolbar-mail-preview-forward", _("_Forward"),
+		_("Forward the selected message to someone"));
+
+	gtk_action_set_icon_name (GTK_ACTION (menu_tool_action), "mail-forward");
+	gtk_action_set_is_important (GTK_ACTION (menu_tool_action), TRUE);
+
+	g_signal_connect (
+		menu_tool_action, "activate",
+		G_CALLBACK (action_mail_forward_cb), reader);
+
+	gtk_action_group_add_action (action_group, GTK_ACTION (menu_tool_action));
+
+	e_binding_bind_property (
+		menu_tool_action_first, "sensitive",
+		menu_tool_action, "sensitive",
+		G_BINDING_SYNC_CREATE);
+
 	/* Likewise the "mail-reply-group" action. */
 
 	menu_tool_action = e_menu_tool_action_new (
@@ -5254,6 +5274,30 @@ e_mail_reader_init (EMailReader *reader,
 
 	gtk_action_group_add_action_with_accel (
 		action_group, GTK_ACTION (menu_tool_action), "<Control>g");
+
+	menu_tool_action_first = menu_tool_action;
+
+	menu_tool_action = e_menu_tool_action_new (
+		/* Translators: "Group Reply" will reply either to a mailing list
+		 * (if possible and if that configuration option is enabled), or else
+		 * it will reply to all. The word "Group" was chosen because it covers
+		 * either of those, without too strongly implying one or the other. */
+		"toolbar-mail-preview-reply-group", _("Group Reply"),
+		_("Reply to the mailing list, or to all recipients"));
+
+	gtk_action_set_icon_name (GTK_ACTION (menu_tool_action), "mail-reply-all");
+	gtk_action_set_is_important (GTK_ACTION (menu_tool_action), TRUE);
+
+	g_signal_connect (
+		menu_tool_action, "activate",
+		G_CALLBACK (action_mail_reply_group_cb), reader);
+
+	gtk_action_group_add_action (action_group, GTK_ACTION (menu_tool_action));
+
+	e_binding_bind_property (
+		menu_tool_action_first, "sensitive",
+		menu_tool_action, "sensitive",
+		G_BINDING_SYNC_CREATE);
 
 	/* Add EMailReader actions for Search Folders.  The action group
 	 * should be made invisible if Search Folders are disabled. */

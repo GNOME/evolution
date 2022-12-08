@@ -279,6 +279,22 @@ action_mail_attachment_bar_cb (GtkAction *action,
 }
 
 static void
+action_mail_show_preview_toolbar_cb (GtkAction *action,
+				     EShellView *shell_view)
+{
+	EShellWindow *shell_window;
+	GtkWidget *toolbar;
+
+	g_return_if_fail (E_IS_MAIL_SHELL_VIEW (shell_view));
+
+	shell_window = e_shell_view_get_shell_window (shell_view);
+	toolbar = e_shell_window_get_managed_widget (shell_window, "/mail-preview-toolbar");
+
+	if (toolbar)
+		gtk_widget_set_visible (toolbar, gtk_toggle_action_get_active (GTK_TOGGLE_ACTION (action)));
+}
+
+static void
 action_mail_to_do_bar_cb (GtkAction *action,
 			  EShellView *shell_view)
 {
@@ -1945,6 +1961,14 @@ static GtkToggleActionEntry mail_toggle_entries[] = {
 	  NULL,  /* Handled by property bindings */
 	  FALSE },
 
+	{ "mail-show-preview-toolbar",
+	  NULL,
+	  N_("Show _Preview Tool Bar"),
+	  NULL,
+	  N_("Show tool bar above the preview panel"),
+	  G_CALLBACK (action_mail_show_preview_toolbar_cb),
+	  TRUE },
+
 	{ "mail-threads-group-by",
 	  NULL,
 	  N_("_Group By Threads"),
@@ -2246,6 +2270,11 @@ e_mail_shell_view_actions_init (EMailShellView *mail_shell_view)
 	g_settings_bind (
 		settings, "show-junk",
 		ACTION (MAIL_SHOW_JUNK), "active",
+		G_SETTINGS_BIND_DEFAULT);
+
+	g_settings_bind (
+		settings, "show-preview-toolbar",
+		ACTION (MAIL_SHOW_PREVIEW_TOOLBAR), "active",
 		G_SETTINGS_BIND_DEFAULT);
 
 	g_settings_bind (

@@ -1,4 +1,4 @@
-<ui evolution-ui-version="1.0">
+<ui evolution-ui-version="1.1">
   <menubar name='main-menu'>
     <menu action='file-menu'>
       <placeholder name='mail-send-receiver'>
@@ -18,6 +18,7 @@
     <menu action='view-menu'>
       <menu action='layout-menu'>
         <placeholder name='view-layout-custom-menus'>
+          <menuitem action='mail-show-preview-toolbar'/>
           <menuitem action='mail-to-do-bar'/>
         </placeholder>
       </menu>
@@ -80,6 +81,39 @@
     <toolitem action='mail-stop'/>
     <separator/>
     <placeholder name='mail-toolbar-navigation'/>
+  </toolbar>
+  <toolbar name='mail-preview-toolbar'>
+    <placeholder name='mail-toolbar-common'>
+      <toolitem action='mail-reply-sender'/>
+      <toolitem action='toolbar-mail-preview-reply-group'>
+        <menu action='mail-reply-group-menu'>
+          <menuitem action='mail-reply-all'/>
+          <menuitem action='mail-reply-list'/>
+          <menu action='mail-reply-template'/>
+          <menuitem action='mail-reply-alternative'/>
+        </menu>
+      </toolitem>
+      <toolitem action='toolbar-mail-preview-forward'>
+        <menu action='mail-forward-as-menu'>
+          <menuitem action='mail-forward-attached-full'/>
+          <menuitem action='mail-forward-inline-full'/>
+          <menuitem action='mail-forward-quoted-full'/>
+          <separator/>
+          <menuitem action='mail-redirect'/>
+        </menu>
+      </toolitem>
+      <separator/>
+      <toolitem action='mail-delete'/>
+      <toolitem action='mail-mark-junk'/>
+      <toolitem action='mail-mark-notjunk'/>
+      <toolitem action='mail-archive'/>
+      <toolitem action='mail-load-images'/>
+    </placeholder>
+    <separator/>
+    <placeholder name='mail-toolbar-navigation'>
+      <toolitem action='mail-previous'/>
+      <toolitem action='mail-next'/>
+    </placeholder>
   </toolbar>
   <popup name='mail-folder-popup'>
     <placeholder name='mail-folder-popup-actions'/>

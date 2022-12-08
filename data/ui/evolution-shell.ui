@@ -1,4 +1,4 @@
-<ui evolution-ui-version="1.0">
+<ui evolution-ui-version="1.1">
   <menubar name='main-menu'>
     <menu action='file-menu'>
       <menu action='new-menu'/>
@@ -91,4 +91,5 @@
   </toolbar>
   <toolbar name='search-toolbar'/>
   <toolbar name='close-toolbar'/>
+  <toolbar name='mail-preview-toolbar'/>
 </ui>
