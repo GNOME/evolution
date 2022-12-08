@@ -5228,6 +5228,11 @@ e_mail_reader_init (EMailReader *reader,
 	gtk_action_set_icon_name (GTK_ACTION (menu_tool_action), "mail-forward");
 	gtk_action_set_visible (GTK_ACTION (menu_tool_action), !e_util_get_use_header_bar ());
 
+	e_binding_bind_property (
+		e_mail_reader_get_action (reader, "mail-forward"), "sensitive",
+		menu_tool_action, "sensitive",
+		G_BINDING_SYNC_CREATE);
+
 	g_signal_connect (
 		menu_tool_action, "activate",
 		G_CALLBACK (action_mail_forward_cb), reader);
@@ -5267,6 +5272,11 @@ e_mail_reader_init (EMailReader *reader,
 
 	gtk_action_set_icon_name (GTK_ACTION (menu_tool_action), "mail-reply-all");
 	gtk_action_set_visible (GTK_ACTION (menu_tool_action), !e_util_get_use_header_bar ());
+
+	e_binding_bind_property (
+		e_mail_reader_get_action (reader, "mail-reply-group"), "sensitive",
+		menu_tool_action, "sensitive",
+		G_BINDING_SYNC_CREATE);
 
 	g_signal_connect (
 		menu_tool_action, "activate",
