@@ -217,6 +217,11 @@ e_appearance_settings_page_new (EPreferencesWindow *window)
 
 	gtk_radio_button_join_group (GTK_RADIO_BUTTON (widget), GTK_RADIO_BUTTON (main_radio));
 
+	g_settings_bind (
+		settings, "use-header-bar",
+		widget, "active",
+		G_SETTINGS_BIND_DEFAULT | G_SETTINGS_BIND_INVERT_BOOLEAN);
+
 	gtk_grid_attach (grid, widget, 0, row, 2, 1);
 	row++;
 
