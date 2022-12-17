@@ -5,9 +5,9 @@
 #
 msgid ""
 msgstr ""
-"Project-Id-Version: evolution-help gnome-43\n"
-"POT-Creation-Date: 2022-10-20 18:22+0000\n"
-"PO-Revision-Date: 2022-12-16 15:06+0700\n"
+"Project-Id-Version: evolution-help gnome-42\n"
+"POT-Creation-Date: 2022-10-20 18:23+0000\n"
+"PO-Revision-Date: 2022-12-17 08:38+0700\n"
 "Last-Translator: Andika Triwidada <andika@gmail.com>\n"
 "Language-Team: Indonesian <gnome-l10n-id@googlegroups.com>\n"
 "Language: id\n"
@@ -2737,7 +2737,6 @@ msgstr ""
 
 #. (itstool) path: page/p
 #: C/customize-ui-items.page:34
-#, fuzzy
 msgid ""
 "Changing the order of tool bar/menu items in some <file>.ui</file> files may "
 "not affect their displayed order in <app>Evolution</app>. As a workaround, "
@@ -2748,14 +2747,14 @@ msgid ""
 "attribute may need to be added to all items in a group to achieve the "
 "overall desired item order."
 msgstr ""
-"Mengubah urutan item bilah alat/menu di beberapa file .ui mungkin tidak "
-"memengaruhi urutan yang ditampilkan di <app>Evolution</app><file>.</file> "
+"Mengubah urutan butir bilah alat/menu di beberapa berkas <file>.ui</file> "
+"mungkin tidak memengaruhi urutan yang ditampilkan di <app>Evolution</app>. "
 "Sebagai solusinya, atribut <code>position='top'</code> dapat ditambahkan ke "
-"beberapa elemen (misalnya <code>toolitem</code> dan elemen tidak "
-"kosong<code>placeholder</code>), yang akan menempatkannya sebelum item lain "
-"dalam grup dan menyebabkannya ditampilkan sesuai dengan urutannya dalam "
-"file .<file>ui.</file> Atribut ini mungkin perlu ditambahkan ke semua item "
-"dalam grup untuk mencapai urutan item yang diinginkan secara keseluruhan."
+"beberapa elemen (misalnya <code>toolitem</code> dan elemen tidak kosong "
+"<code>placeholder</code>), yang akan menempatkannya sebelum butir lain dalam "
+"grup dan menyebabkannya ditampilkan sesuai dengan urutannya dalam berkas "
+"<file>.ui</file>. Atribut ini mungkin perlu ditambahkan ke semua butir dalam "
+"grup untuk mencapai urutan butir yang diinginkan secara keseluruhan."
 
 #. (itstool) path: page/p
 #: C/customize-ui-items.page:36
@@ -3384,7 +3383,6 @@ msgstr ""
 
 #. (itstool) path: item/p
 #: C/import-apps-mozilla.page:33
-#, fuzzy
 msgid ""
 "If you would like to import <app>Thunderbird</app> mail, go to <file>Mail/"
 "Local Folders</file> (for local mail accounts) or <file>ImapMail/servername</"
@@ -3396,7 +3394,7 @@ msgstr ""
 "Local Folders</file> (untuk akun surel lokal) atau <file>ImapMail/"
 "nama_server</file> (untuk akun surel jarak jauh). <file>nama_server</file> "
 "akan menjadi alamat server surat jauh Anda. Berkas tanpa akhiran file "
-"menyertakan pesan Anda (bukan <file>berkas .msf).</file>"
+"menyertakan pesan Anda (bukan berkas <file>.msf</file>)."
 
 #. (itstool) path: item/p
 #: C/import-apps-mozilla.page:34
@@ -3643,7 +3641,6 @@ msgstr "Pilih berkas folder pribadi Outlook (.pst) yang ingin Anda impor."
 
 #. (itstool) path: note/p
 #: C/import-apps-outlook.page:65
-#, fuzzy
 msgid ""
 "If the option to import Outlook personal folders (.pst files) is not "
 "available under <guiseq><gui>File</gui><gui>Import</gui><gui>Import single "
@@ -3651,20 +3648,19 @@ msgid ""
 "enabled this functionality in Evolution. Please ask in a support forum of "
 "your distribution."
 msgstr ""
-"Jika opsi untuk mengimpor folder pribadi Outlook (file.pst) tidak tersedia "
-"di <guiseq> <gui>bawah Impor File</gui><gui>Import</gui><gui>satu jenis</"
-"gui><gui>file,</gui></guiseq>distribusi Anda mungkin belum mengaktifkan "
-"fungsionalitas ini di Evolution. Silakan tanyakan di forum dukungan "
-"distribusi Anda."
+"Jika opsi untuk mengimpor folder pribadi Outlook (berkas .pst) tidak "
+"tersedia di bawah <guiseq><gui>Berkas</gui><gui>Impor</gui><gui>Impor satu "
+"Berkas</gui><gui>Tipe berkas</gui></guiseq>, distribusi Anda mungkin belum "
+"mengaktifkan fungsionalitas ini di Evolution. Silakan tanyakan di forum "
+"dukungan distribusi Anda."
 
 #. (itstool) path: item/p
 #: C/import-apps-outlook.page:67 C/import-single-files.page:27
-#, fuzzy
 msgid ""
 "Choose the destination (e.g. the folder in <app>Evolution</app>) for the "
 "imported data."
 msgstr ""
-"Pilih tujuan (misalnya folder di <app>Evolution)</app>untuk data yang "
+"Pilih tujuan (misalnya folder di <app>Evolution</app>) untuk data yang "
 "diimpor."
 
 #. (itstool) path: info/desc
@@ -3704,7 +3700,6 @@ msgstr "Pilih berkas."
 
 #. (itstool) path: note/p
 #: C/import-single-files.page:30
-#, fuzzy
 msgid ""
 "You can also import contacts that you have received as a vCard attachment of "
 "an email from its attachment menu."
@@ -4571,7 +4566,6 @@ msgstr ""
 
 #. (itstool) path: note/p
 #: C/intro-keyboard-shortcuts.page:32
-#, fuzzy
 msgid ""
 "Hold down the <key>Alt</key> key to reveal <em>accelerators</em>: underlined "
 "letters on menu items, buttons, and other controls. Press <key>Alt</key> "
@@ -6165,9 +6159,10 @@ msgstr ""
 
 #. (itstool) path: info/title
 #: C/mail-account-manage-microsoft-exchange-evo-ews.page:8
+#, fuzzy
 msgctxt "link:trail"
 msgid "Web Services"
-msgstr "Layanan Web"
+msgstr "Menyusun Pesan (akun Exchange Web Services)"
 
 #. (itstool) path: page/title
 #: C/mail-account-manage-microsoft-exchange-evo-ews.page:21
@@ -6370,7 +6365,6 @@ msgstr "Tambahkan dan edit akun surel POP di <app>Evolution</app>."
 
 #. (itstool) path: info/title
 #: C/mail-account-manage-pop.page:8
-#| msgid "POP"
 msgctxt "link:trail"
 msgid "POP"
 msgstr "POP"
@@ -6429,10 +6423,9 @@ msgstr ""
 
 #. (itstool) path: info/title
 #: C/mail-account-manage-unix-mbox-spool-directory.page:8
-#, fuzzy
 msgctxt "link:trail"
 msgid "mbox Directory"
-msgstr "direktori mbox"
+msgstr "Direktori mbox"
 
 #. (itstool) path: page/title
 #: C/mail-account-manage-unix-mbox-spool-directory.page:21
@@ -6495,7 +6488,6 @@ msgstr ""
 
 #. (itstool) path: info/title
 #: C/mail-account-manage-unix-mbox-spool-file.page:8
-#, fuzzy
 msgctxt "link:trail"
 msgid "mbox File"
 msgstr "Berkas mbox"
@@ -6570,10 +6562,9 @@ msgstr "Setelan akun berita Usenet"
 
 #. (itstool) path: info/title
 #: C/mail-account-manage-usenet-news.page:31
-#, fuzzy
 msgctxt "link"
 msgid "Identity (Usenet News accounts)"
-msgstr "Keamanan (akun Usenet News)"
+msgstr "Identitas (akun Usenet News)"
 
 #. (itstool) path: info/title
 #: C/mail-account-manage-usenet-news.page:41
@@ -6584,38 +6575,33 @@ msgstr "Menerima opsi Email dan Penerimaan (akun Usenet News)"
 
 #. (itstool) path: info/title
 #: C/mail-account-manage-usenet-news.page:49
-#, fuzzy
 msgctxt "link"
 msgid "Sending Email (Usenet News accounts)"
-msgstr "Mengirim Email (akun Usenet News)"
+msgstr "Mengirim Surel (akun Usenet News)"
 
 #. (itstool) path: info/title
 #: C/mail-account-manage-usenet-news.page:57
-#, fuzzy
 msgctxt "link"
 msgid "Defaults (Usenet News accounts)"
-msgstr "Asali (akun Berita Usenet)"
+msgstr "Baku (akun Usenet News)"
 
 #. (itstool) path: info/title
 #: C/mail-account-manage-usenet-news.page:65
-#, fuzzy
 msgctxt "link"
 msgid "Composing Messages (Usenet News accounts)"
-msgstr "Membuat Pesan (akun Berita Usenet)"
+msgstr "Menyusun Pesan (akun Usenet News)"
 
 #. (itstool) path: info/title
 #: C/mail-account-manage-usenet-news.page:73
-#, fuzzy
 msgctxt "link"
 msgid "Security (Usenet News accounts)"
 msgstr "Keamanan (akun Usenet News)"
 
 #. (itstool) path: info/title
 #: C/mail-account-manage-usenet-news.page:83
-#, fuzzy
 msgctxt "link"
 msgid "Other settings (Usenet News accounts)"
-msgstr "Setelan lainnya (akun Berita Usenet)"
+msgstr "Setelan lainnya (akun Usenet News)"
 
 #. (itstool) path: info/title
 #: C/mail-account-manage-usenet-news.page:84
@@ -10971,9 +10957,8 @@ msgstr "Tentukan nama dan lokasi folder."
 
 #. (itstool) path: item/p
 #: C/mail-folders.page:39
-#, fuzzy
 msgid "Click on the <gui>Create</gui> button."
-msgstr "Klik tombol <gui>Buat.</gui>"
+msgstr "Klik tombol <gui>Buat</gui>."
 
 #. (itstool) path: section/p
 #: C/mail-folders.page:41
@@ -11699,9 +11684,8 @@ msgstr "Untuk juga diberi tahu pesan baru di pemberitahuan desktop GNOME:"
 
 #. (itstool) path: item/p
 #: C/mail-received-notification.page:31
-#, fuzzy
 msgid "Enable <gui>Mail Notification</gui>."
-msgstr "Aktifkan <gui>Pemberitahuan Email</gui>."
+msgstr "Aktifkan <gui>Pemberitahuan Surat</gui>."
 
 #. (itstool) path: item/p
 #: C/mail-received-notification.page:34
