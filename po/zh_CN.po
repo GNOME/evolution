@@ -27,8 +27,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: evolution master\n"
 "Report-Msgid-Bugs-To: https://gitlab.gnome.org/GNOME/evolution/issues\n"
-"POT-Creation-Date: 2022-08-15 18:29+0000\n"
-"PO-Revision-Date: 2022-08-21 14:30+0800\n"
+"POT-Creation-Date: 2022-10-03 08:35+0000\n"
+"PO-Revision-Date: 2022-10-12 09:16+0800\n"
 "Last-Translator: lumingzh <lumingzh@qq.com>\n"
 "Language-Team: Chinese - China <i18n-zh@googlegroups.com>\n"
 "Language: zh_CN\n"
@@ -2645,7 +2645,7 @@ msgid "Visually wrap long lines in composer"
 msgstr "在编辑器内视觉上对长行折行"
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:292
-#: ../src/composer/e-composer-actions.c:556
+#: ../src/composer/e-composer-actions.c:572
 msgid ""
 "Whether to visually wrap long lines of text to avoid horizontal scrolling"
 msgstr "是否可视地换行以避免水平滚动"
@@ -3357,6 +3357,31 @@ msgstr ""
 "当从自定义字符串生成文件名时，一些不可打印显示或保留的字符会被替换为下划线。"
 "这里可以设置要被替换的额外字符集合。"
 
+#: ../data/org.gnome.evolution.shell.gschema.xml.in.h:44
+msgid "Override toolbar icon size"
+msgstr "覆盖工具栏图标大小"
+
+#: ../data/org.gnome.evolution.shell.gschema.xml.in.h:45
+msgid ""
+"Controls the toolbar icon size. The 'default' value lets the system/code "
+"decide what is the best icon size for the toolbar. Changing the option "
+"requires application restart."
+msgstr ""
+"控制工具栏图标大小。“default”设定值会让系统/代码决定最适合工具栏的图标大小。"
+"更改该选项需要重启应用程序。"
+
+#: ../data/org.gnome.evolution.shell.gschema.xml.in.h:46
+msgid "Whether to use header bar in the application"
+msgstr "是否在应用程序中使用 headerbar"
+
+#: ../data/org.gnome.evolution.shell.gschema.xml.in.h:47
+msgid ""
+"When enabled, adds buttons to the header bar. This applies to dialogs as "
+"well. Changing the option requires application restart."
+msgstr ""
+"启用时，将按钮添加至 headerbar。该选项同样应用于对话框。更改该选项需要重启应"
+"用程序。"
+
 #: ../data/org.gnome.evolution.spamassassin.gschema.xml.in.h:1
 msgid "Use only local spam tests."
 msgstr "只使用本地垃圾信息测试。"
@@ -3410,7 +3435,7 @@ msgstr ""
 
 #: ../data/org.gnome.Evolution.appdata.xml.in.in.h:1
 #: ../data/org.gnome.Evolution.desktop.in.in.h:1
-#: ../src/mail/e-mail-browser.c:1349
+#: ../src/mail/e-mail-browser.c:1358
 #: ../src/modules/mailto-handler/evolution-mailto-handler.c:208
 #: ../src/shell/e-shell-window-private.c:265
 msgid "Evolution"
@@ -4099,10 +4124,11 @@ msgstr "联系人“{0}”已在地址簿“{1}”中。您想要添加它的副
 #. This is only shown if the EActivity has a GCancellable.
 #. no flags
 #: ../src/addressbook/addressbook.error.xml.h:55
+#: ../src/addressbook/gui/contact-editor/contact-editor.ui.h:13
 #: ../src/addressbook/gui/contact-editor/e-contact-editor.c:3272
 #: ../src/addressbook/gui/contact-editor/e-contact-editor.c:3546
-#: ../src/addressbook/gui/contact-editor/e-contact-editor.c:4382
-#: ../src/addressbook/gui/contact-editor/e-contact-editor.c:4388
+#: ../src/addressbook/gui/contact-editor/e-contact-editor.c:4381
+#: ../src/addressbook/gui/contact-editor/e-contact-editor.c:4387
 #: ../src/addressbook/gui/contact-editor/e-contact-editor-fullname.c:212
 #: ../src/addressbook/gui/contact-editor/e-contact-quick-add.c:453
 #: ../src/addressbook/gui/contact-editor/fullname.ui.h:14
@@ -4115,12 +4141,12 @@ msgstr "联系人“{0}”已在地址簿“{1}”中。您想要添加它的副
 #: ../src/calendar/gui/e-cal-dialogs.c:690
 #: ../src/calendar/gui/e-comp-editor-page-recurrence.c:305
 #: ../src/composer/e-composer-actions.c:242 ../src/e-util/e-activity-bar.c:370
-#: ../src/e-util/e-attachment-dialog.c:289
+#: ../src/e-util/e-attachment-dialog.c:290
 #: ../src/e-util/e-attachment-store.c:658
 #: ../src/e-util/e-attachment-store.c:668
 #: ../src/e-util/e-attachment-store.c:848
 #: ../src/e-util/e-attachment-store.c:854 ../src/e-util/e-attachment-view.c:301
-#: ../src/e-util/e-categories-dialog.c:80 ../src/e-util/e-category-editor.c:168
+#: ../src/e-util/e-categories-dialog.c:81 ../src/e-util/e-category-editor.c:168
 #: ../src/e-util/e-category-editor.c:252 ../src/e-util/e-charset-combo-box.c:99
 #: ../src/e-util/e-collection-account-wizard.c:240
 #: ../src/e-util/e-collection-account-wizard.c:1930
@@ -4131,18 +4157,18 @@ msgstr "联系人“{0}”已在地址簿“{1}”中。您想要添加它的副
 #: ../src/e-util/e-html-editor-actions.c:439
 #: ../src/e-util/e-html-editor-actions.c:542
 #: ../src/e-util/e-image-chooser-dialog.c:179
-#: ../src/e-util/e-mail-signature-script-dialog.c:358
+#: ../src/e-util/e-mail-signature-script-dialog.c:360
 #: ../src/e-util/e-passwords.c:474 ../src/e-util/e-rule-context.c:819
 #: ../src/e-util/e-rule-editor.c:184 ../src/e-util/e-rule-editor.c:295
 #: ../src/e-util/e-rule-editor.c:931 ../src/e-util/e-send-options.ui.h:16
 #: ../src/e-util/e-source-config-dialog.c:356
-#: ../src/e-util/e-source-selector-dialog.c:335
+#: ../src/e-util/e-source-selector-dialog.c:336
 #: ../src/e-util/e-table-config.c:540 ../src/e-util/e-table-config.ui.h:3
 #: ../src/e-util/e-timezone-dialog.ui.h:2
 #: ../src/e-util/evolution-source-viewer.c:829 ../src/e-util/e-web-view.c:4006
 #: ../src/e-util/gal-view-instance-save-as-dialog.c:265
-#: ../src/mail/e-mail-config-window.c:310 ../src/mail/e-mail-label-dialog.c:186
-#: ../src/mail/e-mail-tag-editor.c:160 ../src/mail/em-composer-utils.c:4136
+#: ../src/mail/e-mail-config-window.c:310 ../src/mail/e-mail-label-dialog.c:187
+#: ../src/mail/e-mail-tag-editor.c:160 ../src/mail/em-composer-utils.c:4166
 #: ../src/mail/em-folder-selector.c:333 ../src/mail/mail-config.ui.h:2
 #: ../src/mail/mail.error.xml.h:16 ../src/mail/mail-send-recv.c:874
 #: ../src/mail/mail-send-recv.c:955 ../src/mail/mail-vfolder-ui.c:149
@@ -4215,23 +4241,23 @@ msgid "Show Certificates"
 msgstr "显示证书"
 
 #: ../src/addressbook/gui/contact-editor/contact-editor.ui.h:12
-#: ../src/addressbook/gui/contact-editor/e-contact-editor.c:723
-#: ../src/addressbook/gui/contact-editor/e-contact-editor.c:745
-#: ../src/addressbook/gui/contact-editor/e-contact-editor.c:3110
-msgid "Contact Editor"
-msgstr "联系人编辑器"
+#: ../src/calendar/gui/e-comp-editor-page-reminders.c:2489
+#: ../src/em-format/e-mail-formatter-attachment.c:322
+#: ../src/mail/mail-config.ui.h:41
+msgid "Options"
+msgstr "选项"
 
-#: ../src/addressbook/gui/contact-editor/contact-editor.ui.h:13
+#: ../src/addressbook/gui/contact-editor/contact-editor.ui.h:14
 #: ../src/addressbook/gui/contact-editor/e-contact-editor.c:3546
 #: ../src/addressbook/gui/contact-list-editor/contact-list-editor.ui.h:3
 #: ../src/addressbook/gui/widgets/eab-contact-merging.c:809
 #: ../src/calendar/calendar.error.xml.h:47
-#: ../src/calendar/gui/e-comp-editor.c:2301
+#: ../src/calendar/gui/e-comp-editor.c:2303
 #: ../src/composer/e-composer-actions.c:242
 #: ../src/composer/e-composer-actions.c:354
 #: ../src/e-util/e-attachment-store.c:848
 #: ../src/e-util/e-attachment-store.c:855
-#: ../src/e-util/e-mail-signature-script-dialog.c:362
+#: ../src/e-util/e-mail-signature-script-dialog.c:364
 #: ../src/e-util/e-webdav-browser.c:2633 ../src/e-util/e-web-view.c:4006
 #: ../src/e-util/gal-view-instance-save-as-dialog.c:266
 #: ../src/modules/rss/evolution/e-rss-preferences.c:839
@@ -4240,13 +4266,6 @@ msgstr "联系人编辑器"
 #: ../src/smime/gui/certificate-manager.c:715
 msgid "_Save"
 msgstr "保存(_S)"
-
-#: ../src/addressbook/gui/contact-editor/contact-editor.ui.h:14
-#: ../src/calendar/gui/e-comp-editor-page-reminders.c:2489
-#: ../src/em-format/e-mail-formatter-attachment.c:322
-#: ../src/mail/mail-config.ui.h:41
-msgid "Options"
-msgstr "选项"
 
 #: ../src/addressbook/gui/contact-editor/contact-editor.ui.h:15
 #: ../src/e-util/e-misc-utils.c:3725
@@ -4307,7 +4326,7 @@ msgid "_Home Page:"
 msgstr "主页(_H)："
 
 #: ../src/addressbook/gui/contact-editor/contact-editor.ui.h:28
-#: ../src/calendar/gui/e-comp-editor-event.c:881
+#: ../src/calendar/gui/e-comp-editor-event.c:925
 #: ../src/modules/itip-formatter/itip-view.c:2298
 msgid "_Calendar:"
 msgstr "日历(_C)："
@@ -4520,25 +4539,25 @@ msgid "Certificates"
 msgstr "证书"
 
 #: ../src/addressbook/gui/contact-editor/e-contact-editor.c:264
-#: ../src/calendar/gui/e-comp-editor.c:2233
+#: ../src/calendar/gui/e-comp-editor.c:2235
 #: ../src/e-util/e-html-editor-actions.c:1161
 msgid "_Undo"
 msgstr "撤消(_U)"
 
 #: ../src/addressbook/gui/contact-editor/e-contact-editor.c:266
-#: ../src/calendar/gui/e-comp-editor.c:2235 ../src/e-util/e-focus-tracker.c:147
+#: ../src/calendar/gui/e-comp-editor.c:2237 ../src/e-util/e-focus-tracker.c:147
 #: ../src/e-util/e-focus-tracker.c:150
 msgid "Undo"
 msgstr "撤消"
 
 #: ../src/addressbook/gui/contact-editor/e-contact-editor.c:271
-#: ../src/calendar/gui/e-comp-editor.c:2240
+#: ../src/calendar/gui/e-comp-editor.c:2242
 #: ../src/e-util/e-html-editor-actions.c:1147
 msgid "_Redo"
 msgstr "重做(_R)"
 
 #: ../src/addressbook/gui/contact-editor/e-contact-editor.c:273
-#: ../src/calendar/gui/e-comp-editor.c:2242 ../src/e-util/e-focus-tracker.c:163
+#: ../src/calendar/gui/e-comp-editor.c:2244 ../src/e-util/e-focus-tracker.c:163
 #: ../src/e-util/e-focus-tracker.c:166
 msgid "Redo"
 msgstr "重做"
@@ -4555,6 +4574,13 @@ msgstr "修改联系人出错"
 #: ../src/addressbook/gui/contact-editor/e-contact-editor.c:341
 msgid "Error removing contact"
 msgstr "删除联系人出错"
+
+#: ../src/addressbook/gui/contact-editor/e-contact-editor.c:723
+#: ../src/addressbook/gui/contact-editor/e-contact-editor.c:745
+#: ../src/addressbook/gui/contact-editor/e-contact-editor.c:3110
+#: ../src/addressbook/gui/contact-editor/e-contact-editor.c:5093
+msgid "Contact Editor"
+msgstr "联系人编辑器"
 
 #: ../src/addressbook/gui/contact-editor/e-contact-editor.c:739
 #: ../src/addressbook/gui/contact-editor/e-contact-editor.c:3104
@@ -4587,8 +4613,8 @@ msgid "Open X.509 certificate"
 msgstr "打开 X.509 证书"
 
 #: ../src/addressbook/gui/contact-editor/e-contact-editor.c:3272
-#: ../src/addressbook/gui/contact-editor/e-contact-editor.c:4382
-#: ../src/addressbook/gui/contact-editor/e-contact-editor.c:4389
+#: ../src/addressbook/gui/contact-editor/e-contact-editor.c:4381
+#: ../src/addressbook/gui/contact-editor/e-contact-editor.c:4388
 #: ../src/e-util/e-attachment-store.c:666 ../src/e-util/e-category-editor.c:176
 #: ../src/e-util/e-html-editor-actions.c:395
 #: ../src/e-util/e-html-editor-actions.c:439
@@ -4631,16 +4657,16 @@ msgstr "保存 X.509 证书"
 msgid "Failed to save certificate: %s"
 msgstr "保存证书失败：%s"
 
-#: ../src/addressbook/gui/contact-editor/e-contact-editor.c:4379
-#: ../src/addressbook/gui/contact-editor/e-contact-editor.c:4385
+#: ../src/addressbook/gui/contact-editor/e-contact-editor.c:4378
+#: ../src/addressbook/gui/contact-editor/e-contact-editor.c:4384
 msgid "Please select an image for this contact"
 msgstr "请选择此联系人的图像"
 
-#: ../src/addressbook/gui/contact-editor/e-contact-editor.c:4390
+#: ../src/addressbook/gui/contact-editor/e-contact-editor.c:4389
 msgid "_No image"
 msgstr "无图像(_N)"
 
-#: ../src/addressbook/gui/contact-editor/e-contact-editor.c:4754
+#: ../src/addressbook/gui/contact-editor/e-contact-editor.c:4753
 msgid ""
 "The contact data is invalid:\n"
 "\n"
@@ -4648,38 +4674,47 @@ msgstr ""
 "联系人数据无效：\n"
 "\n"
 
-#: ../src/addressbook/gui/contact-editor/e-contact-editor.c:4760
+#: ../src/addressbook/gui/contact-editor/e-contact-editor.c:4759
 #, c-format
 msgid "“%s” has an invalid format"
 msgstr "“%s”的格式无效"
 
-#: ../src/addressbook/gui/contact-editor/e-contact-editor.c:4768
+#: ../src/addressbook/gui/contact-editor/e-contact-editor.c:4767
 #, c-format
 msgid "“%s” cannot be a future date"
 msgstr "“%s”不能是未来的日期"
 
-#: ../src/addressbook/gui/contact-editor/e-contact-editor.c:4776
+#: ../src/addressbook/gui/contact-editor/e-contact-editor.c:4775
 #, c-format
 msgid "%s“%s” has an invalid format"
 msgstr "%s“%s”的格式无效"
 
-#: ../src/addressbook/gui/contact-editor/e-contact-editor.c:4789
-#: ../src/addressbook/gui/contact-editor/e-contact-editor.c:4803
+#: ../src/addressbook/gui/contact-editor/e-contact-editor.c:4788
+#: ../src/addressbook/gui/contact-editor/e-contact-editor.c:4802
 #, c-format
 msgid "%s“%s” is empty"
 msgstr "%s“%s”为空"
 
-#: ../src/addressbook/gui/contact-editor/e-contact-editor.c:4818
+#: ../src/addressbook/gui/contact-editor/e-contact-editor.c:4817
 msgid "Invalid contact."
 msgstr "无效的联系人。"
+
+#: ../src/addressbook/gui/contact-editor/e-contact-editor.c:5132
+#: ../src/calendar/gui/e-comp-editor.c:2200
+#: ../src/calendar/gui/e-comp-editor.c:2272
+#: ../src/e-util/e-send-options.ui.h:15
+#: ../src/plugins/email-custom-header/org-gnome-email-custom-header.ui.h:2
+#: ../src/shell/e-shell-window-actions.c:1121
+msgid "_Help"
+msgstr "帮助(_H)"
 
 #: ../src/addressbook/gui/contact-editor/e-contact-editor-fullname.c:213
 #: ../src/addressbook/gui/contact-editor/e-contact-quick-add.c:454
 #: ../src/addressbook/gui/contact-editor/fullname.ui.h:13
 #: ../src/addressbook/gui/widgets/eab-gui-util.c:317
 #: ../src/calendar/gui/e-comp-editor-page-recurrence.c:306
-#: ../src/e-util/e-attachment-dialog.c:291
-#: ../src/e-util/e-categories-dialog.c:81 ../src/e-util/e-category-editor.c:253
+#: ../src/e-util/e-attachment-dialog.c:292
+#: ../src/e-util/e-categories-dialog.c:82 ../src/e-util/e-category-editor.c:253
 #: ../src/e-util/e-charset-combo-box.c:100
 #: ../src/e-util/e-color-chooser-widget.c:126
 #: ../src/e-util/e-filter-datespec.c:301
@@ -4688,7 +4723,7 @@ msgstr "无效的联系人。"
 #: ../src/e-util/e-rule-editor.c:185 ../src/e-util/e-rule-editor.c:296
 #: ../src/e-util/e-rule-editor.c:932 ../src/e-util/e-send-options.ui.h:17
 #: ../src/e-util/e-source-config-dialog.c:357
-#: ../src/e-util/e-source-selector-dialog.c:336
+#: ../src/e-util/e-source-selector-dialog.c:337
 #: ../src/e-util/e-table-config.c:541 ../src/e-util/e-table-config.ui.h:4
 #: ../src/e-util/e-timezone-dialog.ui.h:3
 #: ../src/mail/e-mail-config-window.c:311 ../src/mail/e-mail-tag-editor.c:162
@@ -4836,12 +4871,12 @@ msgid "_Top"
 msgstr "顶部(_T)"
 
 #: ../src/addressbook/gui/contact-list-editor/contact-list-editor.ui.h:16
-#: ../src/e-util/e-source-selector.c:3673 ../src/e-util/filter.ui.h:29
+#: ../src/e-util/e-source-selector.c:3722 ../src/e-util/filter.ui.h:29
 msgid "_Up"
 msgstr "上(_U)"
 
 #: ../src/addressbook/gui/contact-list-editor/contact-list-editor.ui.h:17
-#: ../src/e-util/e-source-selector.c:3674 ../src/e-util/filter.ui.h:30
+#: ../src/e-util/e-source-selector.c:3723 ../src/e-util/filter.ui.h:30
 msgid "_Down"
 msgstr "下(_D)"
 
@@ -4957,7 +4992,7 @@ msgstr "昵称"
 #: ../src/calendar/gui/e-cal-list-view.etspec.h:6
 #: ../src/calendar/gui/e-memo-table.etspec.h:4
 #: ../src/calendar/gui/e-task-table.etspec.h:12
-#: ../src/e-util/e-categories-dialog.c:85
+#: ../src/e-util/e-categories-dialog.c:86
 msgid "Categories"
 msgstr "类别"
 
@@ -5087,7 +5122,7 @@ msgid "Blog"
 msgstr "博客"
 
 #: ../src/addressbook/gui/widgets/eab-contact-merging.c:261
-#: ../src/e-util/e-mail-signature-editor.c:632
+#: ../src/e-util/e-mail-signature-editor.c:654
 msgid "Unnamed"
 msgstr "未命名"
 
@@ -5321,7 +5356,7 @@ msgid "Are you sure you want to delete this contact (%s)?"
 msgstr "您确定要删除联系人(%s)吗？"
 
 #: ../src/addressbook/gui/widgets/e-addressbook-view.c:1438
-#: ../src/calendar/gui/e-comp-editor.c:2191
+#: ../src/calendar/gui/e-comp-editor.c:2193
 #: ../src/e-util/e-accounts-window.c:1763 ../src/e-util/e-focus-tracker.c:816
 #: ../src/e-util/evolution-source-viewer.c:800
 #: ../src/e-util/e-webdav-browser.c:2857
@@ -5652,7 +5687,7 @@ msgstr "Evolution vCard 导入器"
 
 #. Uncomment next if it is successful to get total number if pages in list view
 #. * g_object_get (operation, "n-pages", &n_pages, NULL)
-#: ../src/addressbook/printing/e-contact-print.c:872
+#: ../src/addressbook/printing/e-contact-print.c:911
 #, c-format
 msgid "Page %d"
 msgstr "第 %d 页"
@@ -6716,8 +6751,8 @@ msgid "Status"
 msgstr "状态"
 
 #. String to use in 12-hour time format for times in the morning.
-#: ../src/calendar/gui/comp-util.c:2091 ../src/calendar/gui/e-day-view.c:2286
-#: ../src/calendar/gui/e-to-do-pane.c:249
+#: ../src/calendar/gui/comp-util.c:2091 ../src/calendar/gui/e-day-view.c:2338
+#: ../src/calendar/gui/e-to-do-pane.c:268
 #: ../src/calendar/gui/e-week-view.c:1969 ../src/calendar/gui/print.c:1102
 #: ../src/calendar/gui/print.c:1121 ../src/calendar/gui/print.c:2689
 #: ../src/calendar/gui/print.c:2709
@@ -6725,8 +6760,8 @@ msgid "am"
 msgstr "上午"
 
 #. String to use in 12-hour time format for times in the afternoon.
-#: ../src/calendar/gui/comp-util.c:2095 ../src/calendar/gui/e-day-view.c:2289
-#: ../src/calendar/gui/e-to-do-pane.c:253
+#: ../src/calendar/gui/comp-util.c:2095 ../src/calendar/gui/e-day-view.c:2341
+#: ../src/calendar/gui/e-to-do-pane.c:272
 #: ../src/calendar/gui/e-week-view.c:1972 ../src/calendar/gui/print.c:1107
 #: ../src/calendar/gui/print.c:1123 ../src/calendar/gui/print.c:2694
 #: ../src/calendar/gui/print.c:2711
@@ -6755,7 +6790,7 @@ msgstr "组织者：%s"
 #. Translators: It will display "Location: LocationOfTheAppointment"
 #: ../src/calendar/gui/comp-util.c:2271
 #: ../src/calendar/gui/e-meeting-time-sel.c:2580
-#: ../src/calendar/gui/e-to-do-pane.c:382 ../src/calendar/gui/print.c:3655
+#: ../src/calendar/gui/e-to-do-pane.c:401 ../src/calendar/gui/print.c:3655
 #, c-format
 msgid "Location: %s"
 msgstr "位置：%s"
@@ -6768,26 +6803,26 @@ msgstr "开始：%s（%s）"
 
 #. Translators: It will display "Start: ActualStartDateAndTime"
 #. Translators: It will display "Start: StartDateAndTime"
-#: ../src/calendar/gui/comp-util.c:2330 ../src/calendar/gui/e-to-do-pane.c:411
+#: ../src/calendar/gui/comp-util.c:2330 ../src/calendar/gui/e-to-do-pane.c:431
 #, c-format
 msgid "Start: %s"
 msgstr "开始：%s"
 
 #. Translators: It's for a task due date, it will display "Due: DateAndTime"
 #. Translators: It will display "Due: DueDateAndTime"
-#: ../src/calendar/gui/comp-util.c:2365 ../src/calendar/gui/e-to-do-pane.c:433
+#: ../src/calendar/gui/comp-util.c:2365 ../src/calendar/gui/e-to-do-pane.c:453
 #, c-format
 msgid "Due: %s"
 msgstr "截止：%s"
 
 #. Translators: It's for a task completed date, it will display "Completed: DateAndTime"
 #. Translators: It will display "Completed: DateAndTimeWhenCompleted"
-#: ../src/calendar/gui/comp-util.c:2390 ../src/calendar/gui/e-to-do-pane.c:447
+#: ../src/calendar/gui/comp-util.c:2390 ../src/calendar/gui/e-to-do-pane.c:467
 #, c-format
 msgid "Completed: %s"
 msgstr "完成：%s"
 
-#: ../src/calendar/gui/comp-util.c:2427 ../src/calendar/gui/e-to-do-pane.c:596
+#: ../src/calendar/gui/comp-util.c:2427 ../src/calendar/gui/e-to-do-pane.c:616
 #: ../src/e-util/e-misc-utils.c:4838 ../src/e-util/e-text.c:566
 #: ../src/e-util/e-web-view.c:4187
 msgid "…"
@@ -7302,7 +7337,7 @@ msgstr "%Y年%-m月%-d日"
 #. * month name. You can change the order but don't
 #. * change the specifiers or add anything.
 #: ../src/calendar/gui/e-calendar-view.c:1177
-#: ../src/calendar/gui/e-day-view.c:3222
+#: ../src/calendar/gui/e-day-view.c:3274
 #: ../src/calendar/gui/e-day-view-top-item.c:856
 #: ../src/calendar/gui/e-week-view-main-item.c:230
 msgid "%d %b"
@@ -7319,7 +7354,7 @@ msgstr "%Y年%-m月%-d日%A"
 #. * You can change the order but don't change the
 #. * specifiers or add anything.
 #: ../src/calendar/gui/e-calendar-view.c:1190
-#: ../src/calendar/gui/e-day-view.c:3206
+#: ../src/calendar/gui/e-day-view.c:3258
 #: ../src/calendar/gui/e-day-view-top-item.c:852
 #: ../src/calendar/gui/e-week-view-main-item.c:216
 msgid "%a %d %b"
@@ -7440,12 +7475,12 @@ msgid "Assigned"
 msgstr "已分配"
 
 #: ../src/calendar/gui/e-cal-model.c:1895
-#: ../src/calendar/gui/e-cal-model-tasks.c:1154
+#: ../src/calendar/gui/e-cal-model-tasks.c:1160
 msgid "Yes"
 msgstr "是"
 
 #: ../src/calendar/gui/e-cal-model.c:1895
-#: ../src/calendar/gui/e-cal-model-tasks.c:1154
+#: ../src/calendar/gui/e-cal-model-tasks.c:1160
 msgid "No"
 msgstr "否"
 
@@ -7460,7 +7495,7 @@ msgstr "空闲"
 msgid "Busy"
 msgstr "繁忙"
 
-#: ../src/calendar/gui/e-cal-model-tasks.c:460
+#: ../src/calendar/gui/e-cal-model-tasks.c:466
 msgid ""
 "The geographical position must be entered in the format: \n"
 "\n"
@@ -7470,7 +7505,7 @@ msgstr ""
 "\n"
 "45.436845,125.862501"
 
-#: ../src/calendar/gui/e-cal-model-tasks.c:557
+#: ../src/calendar/gui/e-cal-model-tasks.c:563
 msgid "In Progress"
 msgstr "进行中"
 
@@ -7486,15 +7521,15 @@ msgstr "修改备忘"
 msgid "Modifying a task"
 msgstr "修改任务"
 
-#: ../src/calendar/gui/e-cal-ops.c:426 ../src/calendar/gui/e-to-do-pane.c:2097
+#: ../src/calendar/gui/e-cal-ops.c:426 ../src/calendar/gui/e-to-do-pane.c:2137
 msgid "Removing an event"
 msgstr "正在移除事件"
 
-#: ../src/calendar/gui/e-cal-ops.c:430 ../src/calendar/gui/e-to-do-pane.c:2101
+#: ../src/calendar/gui/e-cal-ops.c:430 ../src/calendar/gui/e-to-do-pane.c:2141
 msgid "Removing a memo"
 msgstr "正在移除备忘"
 
-#: ../src/calendar/gui/e-cal-ops.c:434 ../src/calendar/gui/e-to-do-pane.c:2105
+#: ../src/calendar/gui/e-cal-ops.c:434 ../src/calendar/gui/e-to-do-pane.c:2145
 msgid "Removing a task"
 msgstr "正在移除任务"
 
@@ -7666,26 +7701,26 @@ msgid ""
 "not the organizer"
 msgstr "您并非组织者，因此对事件所作的更改不会发送给出席者"
 
-#: ../src/calendar/gui/e-comp-editor-event.c:510
+#: ../src/calendar/gui/e-comp-editor-event.c:552
 #: ../src/calendar/gui/e-comp-editor-task.c:619
 msgid "Start date is not a valid date"
 msgstr "开始日期无效"
 
-#: ../src/calendar/gui/e-comp-editor-event.c:512
+#: ../src/calendar/gui/e-comp-editor-event.c:554
 msgid "Start time is not a valid time"
 msgstr "开始时间无效"
 
-#: ../src/calendar/gui/e-comp-editor-event.c:516
-#: ../src/calendar/gui/e-comp-editor-event.c:532
+#: ../src/calendar/gui/e-comp-editor-event.c:558
+#: ../src/calendar/gui/e-comp-editor-event.c:574
 #: ../src/calendar/gui/e-comp-editor-page-attachments.c:206
 #: ../src/calendar/gui/e-comp-editor.c:345
 #: ../src/composer/e-composer-actions.c:180
 #: ../src/em-format/e-mail-part-secure-button.c:97
 #: ../src/e-util/e-misc-utils.c:4145 ../src/e-util/e-misc-utils.c:4180
 #: ../src/e-util/e-misc-utils.c:4193 ../src/e-util/e-misc-utils.c:4207
-#: ../src/mail/e-mail-autoconfig.c:1129 ../src/mail/e-mail-display.c:2475
+#: ../src/mail/e-mail-autoconfig.c:1129 ../src/mail/e-mail-display.c:2538
 #: ../src/mail/e-mail-notes.c:930 ../src/mail/e-mail-reader-utils.c:805
-#: ../src/mail/em-composer-utils.c:3932 ../src/mail/em-composer-utils.c:3955
+#: ../src/mail/em-composer-utils.c:3962 ../src/mail/em-composer-utils.c:3985
 #: ../src/mail/mail-send-recv.c:598 ../src/mail/mail-send-recv.c:1493
 #: ../src/modules/accounts-window/e-accounts-window-editors.c:172
 #: ../src/plugins/face/face.c:175
@@ -7695,128 +7730,128 @@ msgstr "开始时间无效"
 msgid "Unknown error"
 msgstr "未知错误"
 
-#: ../src/calendar/gui/e-comp-editor-event.c:526
+#: ../src/calendar/gui/e-comp-editor-event.c:568
 msgid "End date is not a valid date"
 msgstr "结束日期无效"
 
-#: ../src/calendar/gui/e-comp-editor-event.c:528
+#: ../src/calendar/gui/e-comp-editor-event.c:570
 msgid "End time is not a valid time"
 msgstr "结束时间无效"
 
-#: ../src/calendar/gui/e-comp-editor-event.c:723
+#: ../src/calendar/gui/e-comp-editor-event.c:767
 #: ../src/calendar/gui/e-comp-editor-memo.c:258
 #: ../src/calendar/gui/e-comp-editor-task.c:802
 msgid "_Categories"
 msgstr "类别(_C)"
 
-#: ../src/calendar/gui/e-comp-editor-event.c:725
+#: ../src/calendar/gui/e-comp-editor-event.c:769
 #: ../src/calendar/gui/e-comp-editor-memo.c:260
 #: ../src/calendar/gui/e-comp-editor-task.c:804
 msgid "Toggles whether to display categories"
 msgstr "切换是否显示类别"
 
-#: ../src/calendar/gui/e-comp-editor-event.c:731
+#: ../src/calendar/gui/e-comp-editor-event.c:775
 #: ../src/calendar/gui/e-comp-editor-task.c:810
 msgid "Time _Zone"
 msgstr "时区(_Z)"
 
-#: ../src/calendar/gui/e-comp-editor-event.c:733
+#: ../src/calendar/gui/e-comp-editor-event.c:777
 #: ../src/calendar/gui/e-comp-editor-task.c:812
 msgid "Toggles whether the time zone is displayed"
 msgstr "切换是否显示时区"
 
-#: ../src/calendar/gui/e-comp-editor-event.c:739
+#: ../src/calendar/gui/e-comp-editor-event.c:783
 msgid "All _Day Event"
 msgstr "全天事件(_D)"
 
-#: ../src/calendar/gui/e-comp-editor-event.c:741
+#: ../src/calendar/gui/e-comp-editor-event.c:785
 msgid "Toggles whether to have All Day Event"
 msgstr "切换是否有全天事件"
 
-#: ../src/calendar/gui/e-comp-editor-event.c:747
+#: ../src/calendar/gui/e-comp-editor-event.c:791
 msgid "Show Time as _Busy"
 msgstr "将时间显示为忙(_B)"
 
-#: ../src/calendar/gui/e-comp-editor-event.c:749
+#: ../src/calendar/gui/e-comp-editor-event.c:793
 msgid "Toggles whether to show time as busy"
 msgstr "切换是否将时间显示为忙"
 
-#: ../src/calendar/gui/e-comp-editor-event.c:758
+#: ../src/calendar/gui/e-comp-editor-event.c:802
 msgid "Pu_blic"
 msgstr "公开(_B)"
 
-#: ../src/calendar/gui/e-comp-editor-event.c:760
+#: ../src/calendar/gui/e-comp-editor-event.c:804
 msgid "Classify as public"
 msgstr "分类为公开"
 
-#: ../src/calendar/gui/e-comp-editor-event.c:765
+#: ../src/calendar/gui/e-comp-editor-event.c:809
 msgid "_Private"
 msgstr "私人(_P)"
 
-#: ../src/calendar/gui/e-comp-editor-event.c:767
+#: ../src/calendar/gui/e-comp-editor-event.c:811
 msgid "Classify as private"
 msgstr "分类为私人"
 
-#: ../src/calendar/gui/e-comp-editor-event.c:772
+#: ../src/calendar/gui/e-comp-editor-event.c:816
 msgid "_Confidential"
 msgstr "机密(_C)"
 
-#: ../src/calendar/gui/e-comp-editor-event.c:774
+#: ../src/calendar/gui/e-comp-editor-event.c:818
 msgid "Classify as confidential"
 msgstr "分类为机密"
 
-#: ../src/calendar/gui/e-comp-editor-event.c:892
+#: ../src/calendar/gui/e-comp-editor-event.c:936
 msgctxt "ECompEditor"
 msgid "_Start time:"
 msgstr "开始时间(_S)："
 
-#: ../src/calendar/gui/e-comp-editor-event.c:897
+#: ../src/calendar/gui/e-comp-editor-event.c:941
 msgctxt "ECompEditor"
 msgid "_End time:"
 msgstr "结束时间(_E)："
 
-#: ../src/calendar/gui/e-comp-editor-event.c:907
+#: ../src/calendar/gui/e-comp-editor-event.c:951
 msgctxt "ECompEditor"
 msgid "All da_y event"
 msgstr "全天事件(_Y)"
 
-#: ../src/calendar/gui/e-comp-editor-event.c:975
+#: ../src/calendar/gui/e-comp-editor-event.c:1019
 #: ../src/calendar/gui/e-comp-editor-memo.c:359
 #: ../src/calendar/gui/e-comp-editor-task.c:987
 msgctxt "ECompEditorPage"
 msgid "General"
 msgstr "常规"
 
-#: ../src/calendar/gui/e-comp-editor-event.c:978
+#: ../src/calendar/gui/e-comp-editor-event.c:1022
 #: ../src/calendar/gui/e-comp-editor-task.c:1010
 msgctxt "ECompEditorPage"
 msgid "Reminders"
 msgstr "提醒"
 
-#: ../src/calendar/gui/e-comp-editor-event.c:981
+#: ../src/calendar/gui/e-comp-editor-event.c:1025
 #: ../src/calendar/gui/e-comp-editor-task.c:1014
 msgctxt "ECompEditorPage"
 msgid "Recurrence"
 msgstr "再现"
 
-#: ../src/calendar/gui/e-comp-editor-event.c:984
+#: ../src/calendar/gui/e-comp-editor-event.c:1028
 #: ../src/calendar/gui/e-comp-editor-memo.c:362
 #: ../src/calendar/gui/e-comp-editor-task.c:1018
 msgctxt "ECompEditorPage"
 msgid "Attachments"
 msgstr "附件"
 
-#: ../src/calendar/gui/e-comp-editor-event.c:994
+#: ../src/calendar/gui/e-comp-editor-event.c:1038
 msgctxt "ECompEditorPage"
 msgid "Schedule"
 msgstr "日程"
 
-#: ../src/calendar/gui/e-comp-editor-event.c:1029
+#: ../src/calendar/gui/e-comp-editor-event.c:1073
 #, c-format
 msgid "Meeting — %s"
 msgstr "会议 — %s"
 
-#: ../src/calendar/gui/e-comp-editor-event.c:1030
+#: ../src/calendar/gui/e-comp-editor-event.c:1074
 #, c-format
 msgid "Appointment — %s"
 msgstr "约会 — %s"
@@ -8024,7 +8059,7 @@ msgstr "出席者(_N)…"
 
 #: ../src/calendar/gui/e-comp-editor-page-general.c:1505
 #: ../src/calendar/gui/e-comp-editor-page-recurrence.c:2312
-#: ../src/calendar/gui/e-comp-editor.c:2256
+#: ../src/calendar/gui/e-comp-editor.c:2258
 #: ../src/e-util/e-accounts-window.c:1755
 #: ../src/e-util/e-html-editor-actions.c:1170
 #: ../src/e-util/e-mail-signature-manager.c:354
@@ -8541,88 +8576,88 @@ msgctxt "ECompEditor"
 msgid "_Web page:"
 msgstr "网页(_W)："
 
-#: ../src/calendar/gui/e-comp-editor-property-parts.c:1749
+#: ../src/calendar/gui/e-comp-editor-property-parts.c:1768
 msgctxt "ECompEditor"
 msgid "D_ue date:"
 msgstr "截止日期(_U)："
 
-#: ../src/calendar/gui/e-comp-editor-property-parts.c:1843
+#: ../src/calendar/gui/e-comp-editor-property-parts.c:1862
 msgctxt "ECompEditor"
 msgid "Date _completed:"
 msgstr "完成日期(_C)："
 
-#: ../src/calendar/gui/e-comp-editor-property-parts.c:1859
+#: ../src/calendar/gui/e-comp-editor-property-parts.c:1878
 msgctxt "ECompEditor"
 msgid "Public"
 msgstr "公开"
 
-#: ../src/calendar/gui/e-comp-editor-property-parts.c:1860
+#: ../src/calendar/gui/e-comp-editor-property-parts.c:1879
 msgctxt "ECompEditor"
 msgid "Private"
 msgstr "保密"
 
-#: ../src/calendar/gui/e-comp-editor-property-parts.c:1861
+#: ../src/calendar/gui/e-comp-editor-property-parts.c:1880
 msgctxt "ECompEditor"
 msgid "Confidential"
 msgstr "机密"
 
-#: ../src/calendar/gui/e-comp-editor-property-parts.c:1877
+#: ../src/calendar/gui/e-comp-editor-property-parts.c:1896
 msgctxt "ECompEditor"
 msgid "C_lassification:"
 msgstr "分类(_L)："
 
-#: ../src/calendar/gui/e-comp-editor-property-parts.c:1940
+#: ../src/calendar/gui/e-comp-editor-property-parts.c:1959
 msgctxt "ECompEditor"
 msgid "_Status:"
 msgstr "状态(_S)："
 
-#: ../src/calendar/gui/e-comp-editor-property-parts.c:1970
+#: ../src/calendar/gui/e-comp-editor-property-parts.c:1989
 msgctxt "ECompEditor"
 msgid "Undefined"
 msgstr "未定义"
 
-#: ../src/calendar/gui/e-comp-editor-property-parts.c:1971
+#: ../src/calendar/gui/e-comp-editor-property-parts.c:1990
 msgctxt "ECompEditor"
 msgid "High"
 msgstr "高"
 
-#: ../src/calendar/gui/e-comp-editor-property-parts.c:1972
+#: ../src/calendar/gui/e-comp-editor-property-parts.c:1991
 msgctxt "ECompEditor"
 msgid "Normal"
 msgstr "中"
 
-#: ../src/calendar/gui/e-comp-editor-property-parts.c:1973
+#: ../src/calendar/gui/e-comp-editor-property-parts.c:1992
 msgctxt "ECompEditor"
 msgid "Low"
 msgstr "低"
 
-#: ../src/calendar/gui/e-comp-editor-property-parts.c:1982
+#: ../src/calendar/gui/e-comp-editor-property-parts.c:2001
 msgctxt "ECompEditor"
 msgid "Priorit_y:"
 msgstr "优先级(_Y)："
 
-#: ../src/calendar/gui/e-comp-editor-property-parts.c:2036
+#: ../src/calendar/gui/e-comp-editor-property-parts.c:2055
 msgctxt "ECompEditor"
 msgid "Percent complete:"
 msgstr "完成百分比："
 
-#: ../src/calendar/gui/e-comp-editor-property-parts.c:2117
+#: ../src/calendar/gui/e-comp-editor-property-parts.c:2136
 msgctxt "ECompEditor"
 msgid "Time _zone:"
 msgstr "时区(_Z)："
 
-#: ../src/calendar/gui/e-comp-editor-property-parts.c:2213
+#: ../src/calendar/gui/e-comp-editor-property-parts.c:2232
 msgctxt "ECompEditor"
 msgid "Show time as _busy"
 msgstr "将时间显示为忙(_B)"
 
 #. Translators: This 'None' is meant for 'Color' in calendar component editor, like 'None color'
-#: ../src/calendar/gui/e-comp-editor-property-parts.c:2634
+#: ../src/calendar/gui/e-comp-editor-property-parts.c:2653
 msgctxt "ECompEditor"
 msgid "None"
 msgstr "无"
 
-#: ../src/calendar/gui/e-comp-editor-property-parts.c:2795
+#: ../src/calendar/gui/e-comp-editor-property-parts.c:2814
 msgid "Esti_mated duration:"
 msgstr "预计时长(_M)："
 
@@ -8688,7 +8723,7 @@ msgid "Task — %s"
 msgstr "任务 — %s"
 
 #: ../src/calendar/gui/e-comp-editor.c:260
-#: ../src/modules/prefer-plain/e-mail-parser-prefer-plain.c:133
+#: ../src/modules/prefer-plain/e-mail-parser-prefer-plain.c:197
 msgid "attachment"
 msgstr "附件"
 
@@ -8702,39 +8737,43 @@ msgid "Saving changes…"
 msgstr "正在保存更改……"
 
 #: ../src/calendar/gui/e-comp-editor.c:1946
-#: ../src/calendar/gui/e-comp-editor.c:2308
-#: ../src/e-util/e-mail-signature-editor.c:337 ../src/mail/e-mail-notes.c:1113
+#: ../src/calendar/gui/e-comp-editor.c:2310
+#: ../src/e-util/e-mail-signature-editor.c:343 ../src/mail/e-mail-notes.c:1118
 msgid "Save and Close"
 msgstr "保存并关闭"
 
 #. == Button box ==
-#: ../src/calendar/gui/e-comp-editor.c:2170
+#: ../src/calendar/gui/e-comp-editor.c:2172
 #: ../src/composer/e-composer-actions.c:333
 #: ../src/e-util/e-accounts-window.c:1788
 #: ../src/e-util/e-html-editor-dialog.c:194
-#: ../src/e-util/e-mail-signature-editor.c:328
+#: ../src/e-util/e-mail-signature-editor.c:334
 #: ../src/e-util/e-name-selector-dialog.c:548
+#: ../src/e-util/e-preferences-window.c:334
 #: ../src/e-util/e-table-field-chooser-dialog.c:197
-#: ../src/mail/e-mail-browser.c:166 ../src/mail/e-mail-notes.c:1104
-#: ../src/mail/em-filter-editor.c:45 ../src/mail/em-folder-properties.c:1488
+#: ../src/mail/e-mail-browser.c:166
+#: ../src/mail/e-mail-folder-sort-order-dialog.c:753
+#: ../src/mail/e-mail-notes.c:1109 ../src/mail/em-filter-editor.c:45
+#: ../src/mail/em-folder-properties.c:1488
+#: ../src/mail/em-subscription-editor.c:1735
 #: ../src/shell/e-shell-window-actions.c:930
 #: ../src/smime/gui/certificate-manager.c:2132
 msgid "_Close"
 msgstr "关闭(_C)"
 
-#: ../src/calendar/gui/e-comp-editor.c:2172
+#: ../src/calendar/gui/e-comp-editor.c:2174
 msgid "Close the current window"
 msgstr "关闭当前窗口"
 
 #. copy menu item
-#: ../src/calendar/gui/e-comp-editor.c:2177 ../src/e-util/e-focus-tracker.c:806
+#: ../src/calendar/gui/e-comp-editor.c:2179 ../src/e-util/e-focus-tracker.c:806
 #: ../src/e-util/e-html-editor-actions.c:1126 ../src/e-util/e-text.c:2065
 #: ../src/e-util/e-web-view.c:467 ../src/mail/e-mail-browser.c:173
 #: ../src/mail/mail.error.xml.h:147 ../src/shell/e-shell-window-actions.c:951
 msgid "_Copy"
 msgstr "复制(_C)"
 
-#: ../src/calendar/gui/e-comp-editor.c:2179 ../src/e-util/e-focus-tracker.c:203
+#: ../src/calendar/gui/e-comp-editor.c:2181 ../src/e-util/e-focus-tracker.c:203
 #: ../src/e-util/e-focus-tracker.c:259 ../src/e-util/e-focus-tracker.c:312
 #: ../src/e-util/e-focus-tracker.c:807 ../src/e-util/e-web-view.c:469
 #: ../src/e-util/e-web-view.c:2056 ../src/mail/e-mail-browser.c:175
@@ -8743,59 +8782,51 @@ msgid "Copy the selection"
 msgstr "复制选中内容"
 
 #. cut menu item
-#: ../src/calendar/gui/e-comp-editor.c:2184 ../src/e-util/e-focus-tracker.c:801
+#: ../src/calendar/gui/e-comp-editor.c:2186 ../src/e-util/e-focus-tracker.c:801
 #: ../src/e-util/e-html-editor-actions.c:1133 ../src/e-util/e-text.c:2051
 #: ../src/mail/e-mail-browser.c:180 ../src/shell/e-shell-window-actions.c:958
 msgid "Cu_t"
 msgstr "剪切(_T)"
 
-#: ../src/calendar/gui/e-comp-editor.c:2186 ../src/e-util/e-focus-tracker.c:196
+#: ../src/calendar/gui/e-comp-editor.c:2188 ../src/e-util/e-focus-tracker.c:196
 #: ../src/e-util/e-focus-tracker.c:252 ../src/e-util/e-focus-tracker.c:306
 #: ../src/e-util/e-focus-tracker.c:802 ../src/e-util/e-web-view.c:2065
 #: ../src/mail/e-mail-browser.c:182 ../src/shell/e-shell-window-actions.c:960
 msgid "Cut the selection"
 msgstr "剪切选中内容"
 
-#: ../src/calendar/gui/e-comp-editor.c:2193 ../src/e-util/e-focus-tracker.c:217
+#: ../src/calendar/gui/e-comp-editor.c:2195 ../src/e-util/e-focus-tracker.c:217
 #: ../src/e-util/e-focus-tracker.c:273 ../src/e-util/e-focus-tracker.c:817
 #: ../src/shell/e-shell-window-actions.c:967
 msgid "Delete the selection"
 msgstr "删除选中内容"
 
-#: ../src/calendar/gui/e-comp-editor.c:2198
-#: ../src/calendar/gui/e-comp-editor.c:2270
-#: ../src/e-util/e-send-options.ui.h:15
-#: ../src/plugins/email-custom-header/org-gnome-email-custom-header.ui.h:2
-#: ../src/shell/e-shell-window-actions.c:1121
-msgid "_Help"
-msgstr "帮助(_H)"
-
-#: ../src/calendar/gui/e-comp-editor.c:2200
+#: ../src/calendar/gui/e-comp-editor.c:2202
 msgid "View help"
 msgstr "查看帮助"
 
 #. paste menu item
-#: ../src/calendar/gui/e-comp-editor.c:2205 ../src/e-util/e-focus-tracker.c:811
+#: ../src/calendar/gui/e-comp-editor.c:2207 ../src/e-util/e-focus-tracker.c:811
 #: ../src/e-util/e-html-editor-actions.c:1140 ../src/e-util/e-text.c:2077
 #: ../src/mail/e-mail-browser.c:187 ../src/shell/e-shell-window-actions.c:986
 msgid "_Paste"
 msgstr "粘贴(_P)"
 
-#: ../src/calendar/gui/e-comp-editor.c:2207 ../src/e-util/e-focus-tracker.c:210
+#: ../src/calendar/gui/e-comp-editor.c:2209 ../src/e-util/e-focus-tracker.c:210
 #: ../src/e-util/e-focus-tracker.c:266 ../src/e-util/e-focus-tracker.c:318
 #: ../src/e-util/e-focus-tracker.c:812 ../src/e-util/e-web-view.c:2074
 #: ../src/mail/e-mail-browser.c:189 ../src/shell/e-shell-window-actions.c:988
 msgid "Paste the clipboard"
 msgstr "粘贴剪贴板"
 
-#: ../src/calendar/gui/e-comp-editor.c:2212
+#: ../src/calendar/gui/e-comp-editor.c:2214
 #: ../src/composer/e-composer-actions.c:387 ../src/mail/e-mail-reader.c:2868
 #: ../src/modules/addressbook/e-book-shell-view-actions.c:1319
 #: ../src/modules/addressbook/e-book-shell-view-actions.c:1333
 msgid "_Print…"
 msgstr "打印(_P)…"
 
-#: ../src/calendar/gui/e-comp-editor.c:2219 ../src/mail/e-mail-reader.c:2875
+#: ../src/calendar/gui/e-comp-editor.c:2221 ../src/mail/e-mail-reader.c:2875
 #: ../src/modules/addressbook/e-book-shell-view-actions.c:1326
 #: ../src/modules/calendar/e-cal-shell-view-actions.c:1921
 #: ../src/modules/calendar/e-memo-shell-view-actions.c:838
@@ -8803,55 +8834,55 @@ msgstr "打印(_P)…"
 msgid "Pre_view…"
 msgstr "预览(_V)…"
 
-#: ../src/calendar/gui/e-comp-editor.c:2226 ../src/e-util/e-focus-tracker.c:821
+#: ../src/calendar/gui/e-comp-editor.c:2228 ../src/e-util/e-focus-tracker.c:821
 #: ../src/e-util/e-html-editor-actions.c:1154 ../src/e-util/e-web-view.c:484
 #: ../src/mail/e-mail-browser.c:194 ../src/shell/e-shell-window-actions.c:1063
 msgid "Select _All"
 msgstr "全选(_A)"
 
-#: ../src/calendar/gui/e-comp-editor.c:2228 ../src/e-util/e-focus-tracker.c:224
+#: ../src/calendar/gui/e-comp-editor.c:2230 ../src/e-util/e-focus-tracker.c:224
 #: ../src/e-util/e-focus-tracker.c:280 ../src/e-util/e-focus-tracker.c:822
 #: ../src/mail/e-mail-browser.c:196 ../src/shell/e-shell-window-actions.c:1065
 msgid "Select all text"
 msgstr "选中所有文字"
 
-#: ../src/calendar/gui/e-comp-editor.c:2249
+#: ../src/calendar/gui/e-comp-editor.c:2251
 msgid "_Classification"
 msgstr "分类(_C)"
 
-#: ../src/calendar/gui/e-comp-editor.c:2263
+#: ../src/calendar/gui/e-comp-editor.c:2265
 #: ../src/e-util/e-html-editor-actions.c:1177
-#: ../src/e-util/e-mail-signature-editor.c:342 ../src/mail/e-mail-browser.c:210
-#: ../src/mail/e-mail-notes.c:1118 ../src/shell/e-shell-window-actions.c:1114
+#: ../src/e-util/e-mail-signature-editor.c:348 ../src/mail/e-mail-browser.c:210
+#: ../src/mail/e-mail-notes.c:1123 ../src/shell/e-shell-window-actions.c:1114
 msgid "_File"
 msgstr "文件(_F)"
 
-#: ../src/calendar/gui/e-comp-editor.c:2277
+#: ../src/calendar/gui/e-comp-editor.c:2279
 #: ../src/e-util/e-html-editor-actions.c:1198
 msgid "_Insert"
 msgstr "插入(_I)"
 
-#: ../src/calendar/gui/e-comp-editor.c:2284
+#: ../src/calendar/gui/e-comp-editor.c:2286
 #: ../src/composer/e-composer-actions.c:377
 msgid "_Options"
 msgstr "选项(_O)"
 
-#: ../src/calendar/gui/e-comp-editor.c:2291
+#: ../src/calendar/gui/e-comp-editor.c:2293
 #: ../src/e-util/e-html-editor-actions.c:1219 ../src/mail/e-mail-browser.c:224
 #: ../src/shell/e-shell-window-actions.c:1157
 #: ../src/smime/gui/certificate-manager.c:1592 ../src/smime/gui/smime-ui.ui.h:3
 msgid "_View"
 msgstr "查看(_V)"
 
-#: ../src/calendar/gui/e-comp-editor.c:2303
+#: ../src/calendar/gui/e-comp-editor.c:2305
 msgid "Save current changes"
 msgstr "保存当前更改"
 
-#: ../src/calendar/gui/e-comp-editor.c:2310
+#: ../src/calendar/gui/e-comp-editor.c:2312
 msgid "Save current changes and close editor"
 msgstr "保存当前更改并关闭编辑器"
 
-#: ../src/calendar/gui/e-comp-editor.c:2317
+#: ../src/calendar/gui/e-comp-editor.c:2319
 msgid "Show _toolbar"
 msgstr "显示工具栏(_T)"
 
@@ -8861,7 +8892,7 @@ msgstr "显示工具栏(_T)"
 #. * month, %B = full month name. You can change the
 #. * order but don't change the specifiers or add
 #. * anything.
-#: ../src/calendar/gui/e-day-view.c:3189
+#: ../src/calendar/gui/e-day-view.c:3241
 #: ../src/calendar/gui/e-day-view-top-item.c:848
 #: ../src/calendar/gui/e-week-view-main-item.c:207
 #: ../src/calendar/gui/print.c:2143
@@ -8869,7 +8900,7 @@ msgid "%A %d %B"
 msgstr "%B%d日%A"
 
 #. To Translators: the %d stands for a week number, it's value between 1 and 52/53
-#: ../src/calendar/gui/e-day-view.c:3926
+#: ../src/calendar/gui/e-day-view.c:3978
 #, c-format
 msgid "Week %d"
 msgstr "第%d周"
@@ -9264,13 +9295,13 @@ msgid "Select Timezone"
 msgstr "选择时区"
 
 #. Translators: It will display "Time: StartDateAndTime (Duration)"
-#: ../src/calendar/gui/e-to-do-pane.c:485
+#: ../src/calendar/gui/e-to-do-pane.c:505
 #, c-format
 msgid "Time: %s %s"
 msgstr "时间：%s %s"
 
 #. strftime format of a weekday and a date.
-#: ../src/calendar/gui/e-to-do-pane.c:1598 ../src/e-util/e-cell-date-edit.c:338
+#: ../src/calendar/gui/e-to-do-pane.c:1638 ../src/e-util/e-cell-date-edit.c:338
 #: ../src/e-util/e-datetime-format.c:207
 #: ../src/modules/calendar/e-cal-shell-view-actions.c:2036
 #: ../src/modules/itip-formatter/itip-view.c:272
@@ -9278,59 +9309,59 @@ msgid "Today"
 msgstr "今天"
 
 #. strftime format of a weekday and a date.
-#: ../src/calendar/gui/e-to-do-pane.c:1600
+#: ../src/calendar/gui/e-to-do-pane.c:1640
 #: ../src/e-util/e-datetime-format.c:218
 #: ../src/modules/itip-formatter/itip-view.c:300
 msgid "Tomorrow"
 msgstr "明天"
 
-#: ../src/calendar/gui/e-to-do-pane.c:1610
+#: ../src/calendar/gui/e-to-do-pane.c:1650
 msgid "Tasks without Due date"
 msgstr "无到期日期的任务"
 
-#: ../src/calendar/gui/e-to-do-pane.c:2199
+#: ../src/calendar/gui/e-to-do-pane.c:2239
 #: ../src/modules/calendar/e-cal-shell-view-actions.c:1558
 msgid "New _Appointment…"
 msgstr "新建约会(_A)…"
 
-#: ../src/calendar/gui/e-to-do-pane.c:2207
+#: ../src/calendar/gui/e-to-do-pane.c:2247
 #: ../src/modules/calendar/e-cal-shell-view-actions.c:1495
 msgid "New _Meeting…"
 msgstr "新会议(_M)…"
 
-#: ../src/calendar/gui/e-to-do-pane.c:2215
+#: ../src/calendar/gui/e-to-do-pane.c:2255
 msgid "New _Task…"
 msgstr "新建任务(_T)…"
 
-#: ../src/calendar/gui/e-to-do-pane.c:2223
+#: ../src/calendar/gui/e-to-do-pane.c:2263
 msgid "_New Assigned Task…"
 msgstr "新分配的任务(_N)…"
 
-#: ../src/calendar/gui/e-to-do-pane.c:2236
+#: ../src/calendar/gui/e-to-do-pane.c:2276
 msgid "_Open…"
 msgstr "打开(_O)…"
 
-#: ../src/calendar/gui/e-to-do-pane.c:2251
+#: ../src/calendar/gui/e-to-do-pane.c:2291
 msgid "_Delete This Instance…"
 msgstr "删除此实例(_D)…"
 
-#: ../src/calendar/gui/e-to-do-pane.c:2260
+#: ../src/calendar/gui/e-to-do-pane.c:2300
 msgid "Delete This and F_uture Occurrences…"
 msgstr "删除此次和未来的发生…"
 
-#: ../src/calendar/gui/e-to-do-pane.c:2269
+#: ../src/calendar/gui/e-to-do-pane.c:2309
 msgid "D_elete All Instances…"
 msgstr "删除所有实例(_E)…"
 
-#: ../src/calendar/gui/e-to-do-pane.c:2277
+#: ../src/calendar/gui/e-to-do-pane.c:2317
 msgid "_Delete…"
 msgstr "删除(_D)…"
 
-#: ../src/calendar/gui/e-to-do-pane.c:2295
+#: ../src/calendar/gui/e-to-do-pane.c:2335
 msgid "_Show Tasks without Due date"
 msgstr "显示无到期日期的人物(_S)"
 
-#: ../src/calendar/gui/e-to-do-pane.c:2574
+#: ../src/calendar/gui/e-to-do-pane.c:2614
 msgid "To Do"
 msgstr "待办"
 
@@ -11587,55 +11618,55 @@ msgstr "S/MIME 签名(_N)"
 msgid "Sign this message with your S/MIME Signature Certificate"
 msgstr "用您的 S/MIME 签名认证签名该信息"
 
-#: ../src/composer/e-composer-actions.c:522
+#: ../src/composer/e-composer-actions.c:538
 msgid "_Bcc Field"
 msgstr "密件抄送域(_B)"
 
-#: ../src/composer/e-composer-actions.c:524
+#: ../src/composer/e-composer-actions.c:540
 msgid "Toggles whether the BCC field is displayed"
 msgstr "是否显示密件抄送域"
 
-#: ../src/composer/e-composer-actions.c:530
+#: ../src/composer/e-composer-actions.c:546
 msgid "_Cc Field"
 msgstr "抄送域(_C)"
 
-#: ../src/composer/e-composer-actions.c:532
+#: ../src/composer/e-composer-actions.c:548
 msgid "Toggles whether the CC field is displayed"
 msgstr "是否显示抄送域"
 
-#: ../src/composer/e-composer-actions.c:538
+#: ../src/composer/e-composer-actions.c:554
 msgid "_From Override Field"
 msgstr "发件人覆盖字段(_F)"
 
-#: ../src/composer/e-composer-actions.c:540
+#: ../src/composer/e-composer-actions.c:556
 msgid ""
 "Toggles whether the From override field to change name or email address is "
 "displayed"
 msgstr "切换发件人覆盖字段是否改变姓名或电子邮件的显示"
 
-#: ../src/composer/e-composer-actions.c:546
+#: ../src/composer/e-composer-actions.c:562
 msgid "_Reply-To Field"
 msgstr "回复至域(_R)"
 
-#: ../src/composer/e-composer-actions.c:548
+#: ../src/composer/e-composer-actions.c:564
 msgid "Toggles whether the Reply-To field is displayed"
 msgstr "是否显示回复域"
 
-#: ../src/composer/e-composer-actions.c:554
+#: ../src/composer/e-composer-actions.c:570
 msgid "Visually _Wrap Long Lines"
 msgstr "对长行视觉上折行(_W)"
 
-#: ../src/composer/e-composer-actions.c:642
+#: ../src/composer/e-composer-actions.c:658
 msgid "Attach"
 msgstr "附件"
 
-#: ../src/composer/e-composer-actions.c:648
+#: ../src/composer/e-composer-actions.c:664
 msgid "Save Draft"
 msgstr "保存草稿"
 
 #: ../src/composer/e-composer-from-header.c:108
 #: ../src/e-util/e-collection-account-wizard.c:2101
-#: ../src/e-util/e-mail-signature-script-dialog.c:408
+#: ../src/e-util/e-mail-signature-script-dialog.c:410
 #: ../src/e-util/e-webdav-browser.c:2557
 #: ../src/e-util/gal-view-instance-save-as-dialog.ui.h:2
 #: ../src/mail/e-mail-config-identity-page.c:551
@@ -12528,7 +12559,7 @@ msgstr "Evolution 帐号"
 #. gtk_box_pack_start (GTK_BOX (container), widget, FALSE, FALSE, 0);
 #. webdav_browser->priv->permissions_button = widget;
 #: ../src/e-util/e-accounts-window.c:1771 ../src/e-util/e-webdav-browser.c:2868
-#: ../src/mail/em-subscription-editor.c:1927
+#: ../src/mail/em-subscription-editor.c:1949
 #: ../src/modules/mail/e-mail-shell-view-actions.c:1594
 #: ../src/modules/mail/e-mail-shell-view-actions.c:1672
 msgid "_Refresh"
@@ -12646,27 +12677,27 @@ msgstr "无法保存“%s”"
 msgid "Could not save the attachment"
 msgstr "无法保存附件"
 
-#: ../src/e-util/e-attachment-dialog.c:295
+#: ../src/e-util/e-attachment-dialog.c:296
 msgid "Attachment Properties"
 msgstr "附件属性"
 
-#: ../src/e-util/e-attachment-dialog.c:317
+#: ../src/e-util/e-attachment-dialog.c:318
 #: ../src/e-util/e-import-assistant.c:303
 msgid "F_ilename:"
 msgstr "文件名(_I)："
 
-#: ../src/e-util/e-attachment-dialog.c:334
+#: ../src/e-util/e-attachment-dialog.c:335
 #: ../src/e-util/e-html-editor-image-dialog.c:602
 #: ../src/e-util/e-html-editor-link-dialog.c:228
 #: ../src/e-util/e-webdav-browser.c:2613
 msgid "_Description:"
 msgstr "描述(_D)："
 
-#: ../src/e-util/e-attachment-dialog.c:352
+#: ../src/e-util/e-attachment-dialog.c:353
 msgid "MIME Type:"
 msgstr "MIME  类型："
 
-#: ../src/e-util/e-attachment-dialog.c:360
+#: ../src/e-util/e-attachment-dialog.c:361
 #: ../src/e-util/e-attachment-store.c:700
 msgid "_Suggest automatic display of attachment"
 msgstr "建议自动显示附件(_S)"
@@ -12942,7 +12973,7 @@ msgctxt "table-date"
 msgid "None"
 msgstr "无"
 
-#: ../src/e-util/e-cell-date-edit.c:356 ../src/mail/e-mail-label-dialog.c:190
+#: ../src/e-util/e-cell-date-edit.c:356 ../src/mail/e-mail-label-dialog.c:191
 msgid "OK"
 msgstr "确定"
 
@@ -15138,23 +15169,24 @@ msgstr "天"
 msgid "Autogenerated"
 msgstr "自动生成的"
 
-#: ../src/e-util/e-mail-signature-editor.c:330 ../src/mail/e-mail-notes.c:1106
+#: ../src/e-util/e-mail-signature-editor.c:336 ../src/mail/e-mail-notes.c:1111
 msgid "Close"
 msgstr "关闭"
 
-#: ../src/e-util/e-mail-signature-editor.c:335 ../src/mail/e-mail-notes.c:1111
+#: ../src/e-util/e-mail-signature-editor.c:341 ../src/mail/e-mail-notes.c:1116
 msgid "_Save and Close"
 msgstr "保存并关闭(_S)"
 
-#: ../src/e-util/e-mail-signature-editor.c:576
+#: ../src/e-util/e-mail-signature-editor.c:587
+#: ../src/e-util/e-mail-signature-editor.c:602
 msgid "Edit Signature"
 msgstr "编辑签名"
 
-#: ../src/e-util/e-mail-signature-editor.c:580 ../src/mail/e-mail-notes.c:1188
+#: ../src/e-util/e-mail-signature-editor.c:591 ../src/mail/e-mail-notes.c:1198
 msgid "Save"
 msgstr "保存"
 
-#: ../src/e-util/e-mail-signature-editor.c:606
+#: ../src/e-util/e-mail-signature-editor.c:628
 msgid "_Signature Name:"
 msgstr "签名(_S)："
 
@@ -15170,7 +15202,7 @@ msgstr "添加签名脚本"
 msgid "Edit Signature Script"
 msgstr "编辑签名脚本"
 
-#: ../src/e-util/e-mail-signature-script-dialog.c:386
+#: ../src/e-util/e-mail-signature-script-dialog.c:388
 msgid ""
 "The output of this script will be used as your\n"
 "signature. The name you specify will be used\n"
@@ -15179,11 +15211,11 @@ msgstr ""
 "此脚本的输出将用于您的签名。您指定的名称将只会\n"
 "用于显示。"
 
-#: ../src/e-util/e-mail-signature-script-dialog.c:437
+#: ../src/e-util/e-mail-signature-script-dialog.c:439
 msgid "S_cript:"
 msgstr "脚本(_C)："
 
-#: ../src/e-util/e-mail-signature-script-dialog.c:468
+#: ../src/e-util/e-mail-signature-script-dialog.c:470
 msgid "Script file must be executable."
 msgstr "脚本文件必须可执行。"
 
@@ -15470,11 +15502,11 @@ msgstr "记住该密码(_R)"
 msgid "_Remember this password for the remainder of this session"
 msgstr "在该会话内记住该提醒器的密码(_R)"
 
-#: ../src/e-util/e-preferences-window.c:300
+#: ../src/e-util/e-preferences-window.c:308
 msgid "Help"
 msgstr "帮助"
 
-#: ../src/e-util/e-preferences-window.c:307
+#: ../src/e-util/e-preferences-window.c:350
 msgid "Evolution Preferences"
 msgstr "Evolution 首选项"
 
@@ -15801,24 +15833,24 @@ msgstr "显示"
 msgid "Group name"
 msgstr "组名"
 
-#: ../src/e-util/e-source-selector.c:3578 ../src/mail/e-mail-display.c:717
+#: ../src/e-util/e-source-selector.c:3627 ../src/mail/e-mail-display.c:755
 msgid "_Hide"
 msgstr "隐藏(_H)"
 
-#: ../src/e-util/e-source-selector.c:3578
-#: ../src/e-util/e-source-selector.c:3676
+#: ../src/e-util/e-source-selector.c:3627
+#: ../src/e-util/e-source-selector.c:3725
 msgid "_Show"
 msgstr "显示(_S)"
 
-#: ../src/e-util/e-source-selector.c:3630
+#: ../src/e-util/e-source-selector.c:3679
 msgid "Manage Groups"
 msgstr "管理群组"
 
-#: ../src/e-util/e-source-selector.c:3642
+#: ../src/e-util/e-source-selector.c:3691
 msgid "Available Groups:"
 msgstr "可用组："
 
-#: ../src/e-util/e-source-selector-dialog.c:327
+#: ../src/e-util/e-source-selector-dialog.c:328
 msgid "Select destination"
 msgstr "选择目标位置"
 
@@ -17112,25 +17144,12 @@ msgstr "关闭此窗口"
 msgid "(No Subject)"
 msgstr "(无主题)"
 
-#: ../src/mail/e-mail-browser.c:537 ../src/mail/mail-dialogs.ui.h:5
-#: ../src/modules/mail/e-mail-shell-view-private.c:1511
-msgid "Forward"
-msgstr "转发"
-
-#: ../src/mail/e-mail-browser.c:548 ../src/mail/e-mail-reader.c:2917
-#: ../src/modules/mail/e-mail-shell-view-private.c:1522
-msgid "Group Reply"
-msgstr "回复全部"
-
-#: ../src/mail/e-mail-browser.c:560 ../src/mail/e-mail-reader.c:5281
-#: ../src/mail/mail-dialogs.ui.h:9
-#: ../src/modules/mail/e-mail-shell-view-private.c:1534
-msgid "Reply"
-msgstr "回复"
-
 #. GtkAssistant's back button label.
 #: ../src/mail/e-mail-config-assistant.c:48
-msgid "Go _Back"
+#: ../src/modules/accounts-window/e-collection-wizard-page.c:80
+#: ../src/modules/accounts-window/e-collection-wizard-page.c:229
+#: ../src/modules/accounts-window/e-webdav-browser-page.c:192
+msgid "_Back"
 msgstr "后退(_B)"
 
 #. GtkAssistant sinks the floating button reference.
@@ -17138,11 +17157,11 @@ msgstr "后退(_B)"
 msgid "_Skip Lookup"
 msgstr "跳过查找(_S)"
 
-#: ../src/mail/e-mail-config-assistant.c:710
+#: ../src/mail/e-mail-config-assistant.c:712
 msgid "Evolution Account Assistant"
 msgstr "Evolution 帐号助手"
 
-#: ../src/mail/e-mail-config-assistant.c:1021
+#: ../src/mail/e-mail-config-assistant.c:1025
 msgid "_Revise Details"
 msgstr "核实详细信息(_R)"
 
@@ -17184,7 +17203,7 @@ msgid "Do Not Quote"
 msgstr "不引用"
 
 #: ../src/mail/e-mail-config-composing-page.c:157
-#: ../src/mail/em-composer-utils.c:4243
+#: ../src/mail/em-composer-utils.c:4273
 msgid "Use global setting"
 msgstr "使用全局设置"
 
@@ -17216,12 +17235,12 @@ msgid "Language for Reply and Forward attribution text"
 msgstr "回复和转发属性文本的语言"
 
 #: ../src/mail/e-mail-config-composing-page.c:524
-#: ../src/mail/em-composer-utils.c:4247 ../src/mail/mail-config.ui.h:23
+#: ../src/mail/em-composer-utils.c:4277 ../src/mail/mail-config.ui.h:23
 msgid "Start _typing at the bottom"
 msgstr "在底部开始打字(_T)"
 
 #: ../src/mail/e-mail-config-composing-page.c:531
-#: ../src/mail/em-composer-utils.c:4250 ../src/mail/mail-config.ui.h:24
+#: ../src/mail/em-composer-utils.c:4280 ../src/mail/mail-config.ui.h:24
 msgid "_Keep signature above the original message"
 msgstr "保留原始信息的签名(_K)"
 
@@ -17646,55 +17665,55 @@ msgstr "欢迎"
 msgid "Account Editor"
 msgstr "帐号编辑器"
 
-#: ../src/mail/e-mail-display.c:141
+#: ../src/mail/e-mail-display.c:142
 msgid "_Add to Address Book…"
 msgstr "添加到地址簿(_A)…"
 
-#: ../src/mail/e-mail-display.c:148
+#: ../src/mail/e-mail-display.c:149
 msgid "_To This Address"
 msgstr "到此地址(_T)"
 
-#: ../src/mail/e-mail-display.c:155
+#: ../src/mail/e-mail-display.c:156
 msgid "_From This Address"
 msgstr "自此地址(_F)"
 
-#: ../src/mail/e-mail-display.c:162
+#: ../src/mail/e-mail-display.c:163
 msgid "Send _Reply To…"
 msgstr "发送回复至(_R)…"
 
-#: ../src/mail/e-mail-display.c:164
+#: ../src/mail/e-mail-display.c:165
 msgid "Send a reply message to this address"
 msgstr "发送一条回复信息到这个地址"
 
-#: ../src/mail/e-mail-display.c:171
+#: ../src/mail/e-mail-display.c:172
 msgid "Create Search _Folder"
 msgstr "创建搜索文件夹(_F)"
 
-#: ../src/mail/e-mail-display.c:724
+#: ../src/mail/e-mail-display.c:762
 msgid "Hid_e All"
 msgstr "全部隐藏(_E)"
 
-#: ../src/mail/e-mail-display.c:731
+#: ../src/mail/e-mail-display.c:769
 msgid "_View Inline"
 msgstr "嵌入查看(_V)"
 
-#: ../src/mail/e-mail-display.c:738
+#: ../src/mail/e-mail-display.c:776
 msgid "Vie_w All Inline"
 msgstr "嵌入查看(_W)"
 
-#: ../src/mail/e-mail-display.c:745
+#: ../src/mail/e-mail-display.c:783
 msgid "_Zoom to 100%"
 msgstr "放到到 100% (_Z)"
 
-#: ../src/mail/e-mail-display.c:747
+#: ../src/mail/e-mail-display.c:785
 msgid "Zoom the image to its natural size"
 msgstr "缩放图像到原始尺寸"
 
-#: ../src/mail/e-mail-display.c:752
+#: ../src/mail/e-mail-display.c:790
 msgid "_Zoom to window"
 msgstr "缩放到窗口(_Z)"
 
-#: ../src/mail/e-mail-display.c:754
+#: ../src/mail/e-mail-display.c:792
 msgid "Zoom large images to not be wider than the window width"
 msgstr "缩小较大图像以免宽于窗口宽度"
 
@@ -17785,7 +17804,7 @@ msgstr "false"
 msgid "Junk filtering software:"
 msgstr "垃圾过滤软件："
 
-#: ../src/mail/e-mail-label-dialog.c:214
+#: ../src/mail/e-mail-label-dialog.c:215
 msgid "_Label name:"
 msgstr "标签名称(_L)："
 
@@ -17849,11 +17868,11 @@ msgstr "无法将文本转换为信息"
 msgid "Storing changes…"
 msgstr "正在存储更改……"
 
-#: ../src/mail/e-mail-notes.c:1184
+#: ../src/mail/e-mail-notes.c:1194 ../src/mail/e-mail-notes.c:1209
 msgid "Edit Message Note"
 msgstr "编辑消息附带的便笺"
 
-#: ../src/mail/e-mail-notes.c:1300
+#: ../src/mail/e-mail-notes.c:1321
 msgid "Retrieving message…"
 msgstr "正在获取信息……"
 
@@ -18085,12 +18104,12 @@ msgstr "跟随(_U)…"
 msgid "Flag the selected messages for follow-up"
 msgstr "为选中信息添加跟随标志"
 
-#: ../src/mail/e-mail-reader.c:2642
+#: ../src/mail/e-mail-reader.c:2642 ../src/mail/e-mail-reader.c:5225
 #: ../src/modules/mail/e-mail-attachment-handler.c:389
 msgid "_Forward"
 msgstr "转发(_F)"
 
-#: ../src/mail/e-mail-reader.c:2644
+#: ../src/mail/e-mail-reader.c:2644 ../src/mail/e-mail-reader.c:5226
 #: ../src/modules/mail/e-mail-attachment-handler.c:391
 msgid "Forward the selected message to someone"
 msgstr "把选中信息转发给某人"
@@ -18367,7 +18386,7 @@ msgstr "移除重复的信息(_P)"
 msgid "Checks selected messages for duplicates"
 msgstr "检查所选信息中的重复信息"
 
-#: ../src/mail/e-mail-reader.c:2903 ../src/mail/em-composer-utils.c:4188
+#: ../src/mail/e-mail-reader.c:2903 ../src/mail/em-composer-utils.c:4218
 #: ../src/mail/mail.error.xml.h:28
 #: ../src/modules/calendar/e-cal-shell-view-actions.c:1586
 #: ../src/modules/mail/e-mail-attachment-handler.c:396
@@ -18387,11 +18406,19 @@ msgstr "备用回复(_T)…"
 msgid "Choose reply options for the selected message"
 msgstr "为所选邮件选择答复选项"
 
-#: ../src/mail/e-mail-reader.c:2919
+#. Translators: "Group Reply" will reply either to a mailing list
+#. * (if possible and if that configuration option is enabled), or else
+#. * it will reply to all. The word "Group" was chosen because it covers
+#. * either of those, without too strongly implying one or the other.
+#: ../src/mail/e-mail-reader.c:2917 ../src/mail/e-mail-reader.c:5245
+msgid "Group Reply"
+msgstr "回复全部"
+
+#: ../src/mail/e-mail-reader.c:2919 ../src/mail/e-mail-reader.c:5246
 msgid "Reply to the mailing list, or to all recipients"
 msgstr "为选中信息的邮件列表或全部收件人撰写回复"
 
-#: ../src/mail/e-mail-reader.c:2924 ../src/mail/em-composer-utils.c:4183
+#: ../src/mail/e-mail-reader.c:2924 ../src/mail/em-composer-utils.c:4213
 #: ../src/mail/mail.error.xml.h:26
 #: ../src/modules/mail/e-mail-attachment-handler.c:403
 msgid "Reply to _List"
@@ -18577,19 +18604,23 @@ msgstr "显示信息时显示所有信头"
 msgid "Retrieving message"
 msgstr "正在获取信息"
 
-#: ../src/mail/e-mail-reader.c:5260 ../src/mail/filtertypes.xml.in.h:70
+#: ../src/mail/e-mail-reader.c:5299 ../src/mail/filtertypes.xml.in.h:70
 msgid "Delete"
 msgstr "删除"
 
-#: ../src/mail/e-mail-reader.c:5270
+#: ../src/mail/e-mail-reader.c:5311
 #: ../src/modules/calendar/e-cal-shell-view-actions.c:1327
 msgid "Next"
 msgstr "下一项"
 
-#: ../src/mail/e-mail-reader.c:5274
+#: ../src/mail/e-mail-reader.c:5315
 #: ../src/modules/calendar/e-cal-shell-view-actions.c:1320
 msgid "Previous"
 msgstr "上一项"
+
+#: ../src/mail/e-mail-reader.c:5324 ../src/mail/mail-dialogs.ui.h:9
+msgid "Reply"
+msgstr "回复"
 
 #: ../src/mail/e-mail-reader-utils.c:144
 msgid "Do not warn me again"
@@ -18747,7 +18778,7 @@ msgstr[0] ""
 
 #. This message is never removed from the camel operation, otherwise the GtkInfoBar
 #. hides itself and the user sees no feedback.
-#: ../src/mail/em-composer-utils.c:857
+#: ../src/mail/em-composer-utils.c:880
 msgid "Waiting for attachments to load…"
 msgstr "正在等待附件载入…"
 
@@ -18755,7 +18786,7 @@ msgstr "正在等待附件载入…"
 #. * when quoting messages.  Each ${Variable} gets replaced
 #. * with a value.  To see a full list of available variables,
 #. * see mail/em-composer-utils.c:attribvars array.
-#: ../src/mail/em-composer-utils.c:2062
+#: ../src/mail/em-composer-utils.c:2085
 msgid ""
 "On ${AbbrevWeekdayName}, ${Year}-${Month}-${Day} at ${24Hour}:${Minute} "
 "${TimeZone}, ${Sender} wrote:"
@@ -18763,91 +18794,91 @@ msgstr ""
 "在 ${Year}-${Month}-${Day}${WeekdayName}的 ${24Hour}:${Minute} "
 "${TimeZone}，${Sender}写道："
 
-#: ../src/mail/em-composer-utils.c:2068
+#: ../src/mail/em-composer-utils.c:2091
 msgid "-------- Forwarded Message --------"
 msgstr "-------- 转发的信息 --------"
 
-#: ../src/mail/em-composer-utils.c:2073
+#: ../src/mail/em-composer-utils.c:2096
 msgid "-----Original Message-----"
 msgstr "-------- 原始信息 --------"
 
 #. Translators: This is a reply attribution in the message reply subject. The %s is replaced with the subject of the original message. Both 'Re'-s in the 'reply-attribution' translation context should translate into the same string, the same as the ':' separator.
-#: ../src/mail/em-composer-utils.c:2879
+#: ../src/mail/em-composer-utils.c:2909
 #, c-format
 msgctxt "reply-attribution"
 msgid "Re: %s"
 msgstr "Re: %s"
 
-#: ../src/mail/em-composer-utils.c:3498
+#: ../src/mail/em-composer-utils.c:3528
 msgid "an unknown sender"
 msgstr "未知发件人"
 
-#: ../src/mail/em-composer-utils.c:4134
+#: ../src/mail/em-composer-utils.c:4164
 msgid "Alternative Reply"
 msgstr "备选回复"
 
-#: ../src/mail/em-composer-utils.c:4137
+#: ../src/mail/em-composer-utils.c:4167
 #: ../src/modules/calendar/e-cal-shell-view-actions.c:1579
 msgid "_Reply"
 msgstr "回复(_R)"
 
-#: ../src/mail/em-composer-utils.c:4150
+#: ../src/mail/em-composer-utils.c:4180
 msgid "Recipients:"
 msgstr "收件人："
 
-#: ../src/mail/em-composer-utils.c:4178
+#: ../src/mail/em-composer-utils.c:4208
 msgid "Reply to _Sender"
 msgstr "回复发件人(_S)"
 
-#: ../src/mail/em-composer-utils.c:4200
+#: ../src/mail/em-composer-utils.c:4230
 msgid "Reply style:"
 msgstr "回复风格："
 
-#: ../src/mail/em-composer-utils.c:4208
+#: ../src/mail/em-composer-utils.c:4238
 msgid "_Default"
 msgstr "默认(_D)"
 
-#: ../src/mail/em-composer-utils.c:4212
+#: ../src/mail/em-composer-utils.c:4242
 msgid "Attach_ment"
 msgstr "附件(_M)"
 
-#: ../src/mail/em-composer-utils.c:4216
+#: ../src/mail/em-composer-utils.c:4246
 msgid "Inline (_Outlook style)"
 msgstr "内嵌（_Outlook 风格）"
 
-#: ../src/mail/em-composer-utils.c:4220
+#: ../src/mail/em-composer-utils.c:4250
 msgid "_Quote"
 msgstr "引用(_Q)"
 
-#: ../src/mail/em-composer-utils.c:4224
+#: ../src/mail/em-composer-utils.c:4254
 msgid "Do _Not Quote"
 msgstr "不引用(_N)"
 
 #. Translators: The text is followed by the format combo with values like 'Plain Text', 'HTML' and so on
-#: ../src/mail/em-composer-utils.c:4235
+#: ../src/mail/em-composer-utils.c:4265
 msgid "_Format message in"
 msgstr "格式化信息为(_F)"
 
-#: ../src/mail/em-composer-utils.c:4257
+#: ../src/mail/em-composer-utils.c:4287
 msgid "Apply t_emplate"
 msgstr "应用模板(_E)"
 
-#: ../src/mail/em-composer-utils.c:4269
+#: ../src/mail/em-composer-utils.c:4299
 msgid "Preserve original message S_ubject"
 msgstr "保留原始邮件主题(_U)"
 
-#: ../src/mail/em-composer-utils.c:4335
+#: ../src/mail/em-composer-utils.c:4365
 #, c-format
 msgid "one recipient"
 msgid_plural "%d recipients"
 msgstr[0] "%d 个接收者"
 
 #. FIXME GTK_WINDOW (composer)
-#: ../src/mail/em-composer-utils.c:4820
+#: ../src/mail/em-composer-utils.c:4850
 msgid "Posting destination"
 msgstr "投递目的"
 
-#: ../src/mail/em-composer-utils.c:4825
+#: ../src/mail/em-composer-utils.c:4855
 msgid "Choose folders to post the message to."
 msgstr "选择要将信息投递到哪个文件夹。"
 
@@ -19165,7 +19196,7 @@ msgid "Subscribe To _All"
 msgstr "订阅全部(_A)"
 
 #: ../src/mail/em-subscription-editor.c:936
-#: ../src/mail/em-subscription-editor.c:1865 ../src/mail/mail.error.xml.h:73
+#: ../src/mail/em-subscription-editor.c:1887 ../src/mail/mail.error.xml.h:73
 #: ../src/modules/mail/e-mail-shell-view-actions.c:1700
 msgid "_Unsubscribe"
 msgstr "退订(_U)"
@@ -19194,60 +19225,60 @@ msgid "%d total"
 msgid_plural "%d total"
 msgstr[0] "总共 %d 封"
 
-#: ../src/mail/em-subscription-editor.c:1714
+#: ../src/mail/em-subscription-editor.c:1724
 msgid "Folder Subscriptions"
 msgstr "文件夹订阅"
 
-#: ../src/mail/em-subscription-editor.c:1745
+#: ../src/mail/em-subscription-editor.c:1761
 msgid "_Account:"
 msgstr "帐号(_A)："
 
-#: ../src/mail/em-subscription-editor.c:1758
+#: ../src/mail/em-subscription-editor.c:1774
 msgid "Clear Search"
 msgstr "清除搜索"
 
-#: ../src/mail/em-subscription-editor.c:1775
+#: ../src/mail/em-subscription-editor.c:1791
 msgid "Sho_w items that contain:"
 msgstr "显示包含以下内容的项目(_W)："
 
-#: ../src/mail/em-subscription-editor.c:1818
+#: ../src/mail/em-subscription-editor.c:1840
 msgid "Subscribe to the selected folder"
 msgstr "订阅选定的文件夹"
 
-#: ../src/mail/em-subscription-editor.c:1819
+#: ../src/mail/em-subscription-editor.c:1841
 msgid "Su_bscribe"
 msgstr "订阅(_B)"
 
-#: ../src/mail/em-subscription-editor.c:1864
+#: ../src/mail/em-subscription-editor.c:1886
 #: ../src/modules/mail/e-mail-shell-view-actions.c:1702
 msgid "Unsubscribe from the selected folder"
 msgstr "取消对选定文件夹的订阅"
 
-#: ../src/mail/em-subscription-editor.c:1904
+#: ../src/mail/em-subscription-editor.c:1926
 msgid "Collapse all folders"
 msgstr "折叠所有文件夹"
 
-#: ../src/mail/em-subscription-editor.c:1905
+#: ../src/mail/em-subscription-editor.c:1927
 msgid "C_ollapse All"
 msgstr "全部折叠(_O)"
 
-#: ../src/mail/em-subscription-editor.c:1915
+#: ../src/mail/em-subscription-editor.c:1937
 msgid "Expand all folders"
 msgstr "展开所有文件夹"
 
-#: ../src/mail/em-subscription-editor.c:1916
+#: ../src/mail/em-subscription-editor.c:1938
 msgid "E_xpand All"
 msgstr "全部展开(_X)"
 
-#: ../src/mail/em-subscription-editor.c:1926
+#: ../src/mail/em-subscription-editor.c:1948
 msgid "Refresh the folder list"
 msgstr "刷新文件夹列表"
 
-#: ../src/mail/em-subscription-editor.c:1938
+#: ../src/mail/em-subscription-editor.c:1960
 msgid "Stop the current operation"
 msgstr "停止当前操作"
 
-#: ../src/mail/em-subscription-editor.c:1939
+#: ../src/mail/em-subscription-editor.c:1961
 #: ../src/modules/addressbook/e-book-shell-view-actions.c:1085
 msgid "_Stop"
 msgstr "停止(_S)"
@@ -20245,6 +20276,10 @@ msgstr "跟随"
 #: ../src/mail/mail-dialogs.ui.h:4
 msgid "For Your Information"
 msgstr "给您的信息"
+
+#: ../src/mail/mail-dialogs.ui.h:5
+msgid "Forward"
+msgstr "转发"
 
 #: ../src/mail/mail-dialogs.ui.h:6
 msgid "No Response Necessary"
@@ -21474,12 +21509,6 @@ msgstr "备忘录属性"
 #: ../src/modules/calendar/e-task-shell-view-actions.c:276
 msgid "Task List Properties"
 msgstr "任务列表属性"
-
-#: ../src/modules/accounts-window/e-collection-wizard-page.c:80
-#: ../src/modules/accounts-window/e-collection-wizard-page.c:229
-#: ../src/modules/accounts-window/e-webdav-browser-page.c:192
-msgid "_Back"
-msgstr "后退(_B)"
 
 #: ../src/modules/accounts-window/e-webdav-browser-page.c:213
 msgid "_Browse"
@@ -23405,27 +23434,27 @@ msgstr "打开网页(_W)"
 msgid "Print the selected memo"
 msgstr "打印选中的备忘"
 
-#: ../src/modules/calendar/e-cal-shell-view-private.c:1075
+#: ../src/modules/calendar/e-cal-shell-view-private.c:1092
 msgid "Searching next matching event"
 msgstr "正在搜索下一个匹配的事件"
 
-#: ../src/modules/calendar/e-cal-shell-view-private.c:1076
+#: ../src/modules/calendar/e-cal-shell-view-private.c:1093
 msgid "Searching previous matching event"
 msgstr "正在搜索上一个匹配的事件"
 
-#: ../src/modules/calendar/e-cal-shell-view-private.c:1097
+#: ../src/modules/calendar/e-cal-shell-view-private.c:1114
 #, c-format
 msgid "Cannot find matching event in the next %d year"
 msgid_plural "Cannot find matching event in the next %d years"
 msgstr[0] "无法在接下来的 %d 年中找到匹配的事件"
 
-#: ../src/modules/calendar/e-cal-shell-view-private.c:1101
+#: ../src/modules/calendar/e-cal-shell-view-private.c:1118
 #, c-format
 msgid "Cannot find matching event in the previous %d year"
 msgid_plural "Cannot find matching event in the previous %d years"
 msgstr[0] "无法在过去的 %d 年中找到匹配的事件"
 
-#: ../src/modules/calendar/e-cal-shell-view-private.c:1124
+#: ../src/modules/calendar/e-cal-shell-view-private.c:1141
 msgid "Cannot search with no active calendar"
 msgstr "无活动日历，无法搜索"
 
@@ -25398,7 +25427,7 @@ msgid "%d unread"
 msgid_plural "%d unread"
 msgstr[0] "%d 封未读"
 
-#: ../src/modules/mail/e-mail-shell-view-private.c:1500
+#: ../src/modules/mail/e-mail-shell-view-private.c:1588
 msgid "Send / Receive"
 msgstr "发送/接收"
 
@@ -25576,44 +25605,44 @@ msgstr "显示 HTML 版本"
 msgid "Display HTML version of multipart/alternative message"
 msgstr "显示多部分/可选信息的 HTML 版本"
 
-#: ../src/modules/prefer-plain/e-mail-parser-prefer-plain.c:69
+#: ../src/modules/prefer-plain/e-mail-parser-prefer-plain.c:133
 #: ../src/modules/prefer-plain/plugin/config-ui.c:35
 msgid "Show HTML if present"
 msgstr "首选 HTML"
 
-#: ../src/modules/prefer-plain/e-mail-parser-prefer-plain.c:70
+#: ../src/modules/prefer-plain/e-mail-parser-prefer-plain.c:134
 #: ../src/modules/prefer-plain/plugin/config-ui.c:36
 msgid "Let Evolution choose the best part to show."
 msgstr "让Evolution选择最好的部分显示。"
 
-#: ../src/modules/prefer-plain/e-mail-parser-prefer-plain.c:73
+#: ../src/modules/prefer-plain/e-mail-parser-prefer-plain.c:137
 #: ../src/modules/prefer-plain/plugin/config-ui.c:39
 msgid "Show plain text if present"
 msgstr "如果可用则显示纯文本"
 
-#: ../src/modules/prefer-plain/e-mail-parser-prefer-plain.c:74
+#: ../src/modules/prefer-plain/e-mail-parser-prefer-plain.c:138
 #: ../src/modules/prefer-plain/plugin/config-ui.c:40
 msgid ""
 "Show plain text part, if present, otherwise let Evolution choose the best "
 "part to show."
 msgstr "如果存在则显示纯文本部分，否则让 volution 选择最佳的展示部分。"
 
-#: ../src/modules/prefer-plain/e-mail-parser-prefer-plain.c:78
+#: ../src/modules/prefer-plain/e-mail-parser-prefer-plain.c:142
 #: ../src/modules/prefer-plain/plugin/config-ui.c:44
 msgid "Show plain text if present, or HTML source"
 msgstr "如果可用则显示纯文本，或是 HTML 源码"
 
-#: ../src/modules/prefer-plain/e-mail-parser-prefer-plain.c:79
+#: ../src/modules/prefer-plain/e-mail-parser-prefer-plain.c:143
 #: ../src/modules/prefer-plain/plugin/config-ui.c:45
 msgid "Show plain text part, if present, otherwise the HTML part source."
 msgstr "如果存在则显示纯文本部分，否则显示 HTML 部分的源码。"
 
-#: ../src/modules/prefer-plain/e-mail-parser-prefer-plain.c:83
+#: ../src/modules/prefer-plain/e-mail-parser-prefer-plain.c:147
 #: ../src/modules/prefer-plain/plugin/config-ui.c:49
 msgid "Only ever show plain text"
 msgstr "仅显示纯文本"
 
-#: ../src/modules/prefer-plain/e-mail-parser-prefer-plain.c:84
+#: ../src/modules/prefer-plain/e-mail-parser-prefer-plain.c:148
 #: ../src/modules/prefer-plain/plugin/config-ui.c:50
 msgid ""
 "Always show plain text part and make attachments from other parts, if "
@@ -25884,11 +25913,11 @@ msgstr "格式化为(_F)…"
 msgid "_Other languages"
 msgstr "其他语言(_O)"
 
-#: ../src/modules/text-highlight/e-mail-formatter-text-highlight.c:493
+#: ../src/modules/text-highlight/e-mail-formatter-text-highlight.c:503
 msgid "Text Highlight"
 msgstr "文字高度"
 
-#: ../src/modules/text-highlight/e-mail-formatter-text-highlight.c:494
+#: ../src/modules/text-highlight/e-mail-formatter-text-highlight.c:504
 msgid "Syntax highlighting of mail parts"
 msgstr "邮件部分的语法高亮"
 
@@ -27231,11 +27260,6 @@ msgstr "搜索"
 msgid "Save Search"
 msgstr "保存搜索"
 
-#: ../src/shell/e-shell-headerbar.c:161
-msgctxt "toolbar-button"
-msgid "New"
-msgstr "新建"
-
 #. Translators: The "Show:" label precedes a combo box that
 #. * allows the user to filter the current view.  Examples of
 #. * items that appear in the combo box are "Unread Messages",
@@ -27600,6 +27624,19 @@ msgstr "删除视图：%s"
 #: ../src/shell/e-shell-window-actions.c:1956
 msgid "Execute these search parameters"
 msgstr "执行这些搜索参数"
+
+#. Translators: a 'New' toolbar button caption which is context sensitive and
+#. runs one of the actions under File->New menu
+#: ../src/shell/e-shell-window.c:526
+msgctxt "toolbar-button"
+msgid "New"
+msgstr "新建"
+
+#. Translators: This is used for the main window title.
+#: ../src/shell/e-shell-window-private.c:771
+#, c-format
+msgid "%s — Evolution"
+msgstr "%s — Evolution"
 
 #. Preview/Alpha/Beta version warning message
 #: ../src/shell/main.c:286
@@ -28321,9 +28358,8 @@ msgstr "无法写存储到磁盘，错误码：%i"
 msgid "Imported Certificate"
 msgstr "导入的证书"
 
-#, c-format
-#~ msgid "%s — Evolution"
-#~ msgstr "%s — Evolution"
+#~ msgid "Go _Back"
+#~ msgstr "后退(_B)"
 
 #~ msgid "By how many minutes to shorted new event end time"
 #~ msgstr "按多少分钟来缩短新建事件的结束时间"
