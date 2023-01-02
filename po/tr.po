@@ -18,16 +18,16 @@ msgid ""
 msgstr ""
 "Project-Id-Version: evolution\n"
 "Report-Msgid-Bugs-To: https://gitlab.gnome.org/GNOME/evolution/issues\n"
-"POT-Creation-Date: 2022-11-16 15:01+0000\n"
-"PO-Revision-Date: 2022-11-19 20:05+0300\n"
-"Last-Translator: Emin Tufan Çetin <etcetin@gmail.com>\n"
+"POT-Creation-Date: 2022-11-25 09:47+0000\n"
+"PO-Revision-Date: 2022-12-21 13:54+0300\n"
+"Last-Translator: Sabri Ünal <libreajans@gmail.com>\n"
 "Language-Team: Turkish <gnome-turk@gnome.org>\n"
 "Language: tr\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=1; plural=0;\n"
-"X-Generator: Poedit 3.0.1\n"
+"X-Generator: Poedit 3.1.1\n"
 
 #: ../data/org.gnome.evolution.addressbook.gschema.xml.in.h:1
 msgid "Enable address formatting"
@@ -3792,7 +3792,7 @@ msgstr "İleti Yaz"
 #: ../data/org.gnome.Evolution.desktop.in.in.h:8
 #: ../src/e-util/e-name-selector-dialog.c:448
 #: ../src/modules/addressbook/e-book-shell-backend.c:314
-#: ../src/modules/addressbook/e-book-shell-view.c:421
+#: ../src/modules/addressbook/e-book-shell-view.c:434
 msgid "Contacts"
 msgstr "Bağlantılar"
 
@@ -5186,12 +5186,12 @@ msgid "_Top"
 msgstr "_Üst"
 
 #: ../src/addressbook/gui/contact-list-editor/contact-list-editor.ui.h:16
-#: ../src/e-util/e-source-selector.c:3722 ../src/e-util/filter.ui.h:29
+#: ../src/e-util/e-source-selector.c:3929 ../src/e-util/filter.ui.h:29
 msgid "_Up"
 msgstr "_Yukarı"
 
 #: ../src/addressbook/gui/contact-list-editor/contact-list-editor.ui.h:17
-#: ../src/e-util/e-source-selector.c:3723 ../src/e-util/filter.ui.h:30
+#: ../src/e-util/e-source-selector.c:3930 ../src/e-util/filter.ui.h:30
 msgid "_Down"
 msgstr "_Aşağı"
 
@@ -14489,7 +14489,7 @@ msgstr "E_moji"
 
 #: ../src/e-util/e-html-editor-actions.c:1238
 #: ../src/e-util/e-html-editor-actions.c:1245
-#: ../src/e-util/e-markdown-editor.c:1594
+#: ../src/e-util/e-markdown-editor.c:1710
 msgid "Insert Emoji"
 msgstr "Emoji Ekle"
 
@@ -15684,14 +15684,14 @@ msgstr ""
 "kullanıcıları bunun yerine aşağıdaki aşağı açılan çoklu kutudan zaman "
 "dilimini seçebilirler."
 
-#: ../src/e-util/e-markdown-editor.c:1522
-#: ../src/e-util/e-markdown-editor.c:1532
-#: ../src/e-util/e-markdown-editor.c:1999
+#: ../src/e-util/e-markdown-editor.c:1638
+#: ../src/e-util/e-markdown-editor.c:1648
+#: ../src/e-util/e-markdown-editor.c:2115
 msgid "_Write"
 msgstr "_Yaz"
 
-#: ../src/e-util/e-markdown-editor.c:1534
-#: ../src/e-util/e-markdown-editor.c:2034
+#: ../src/e-util/e-markdown-editor.c:1650
+#: ../src/e-util/e-markdown-editor.c:2150
 #: ../src/modules/addressbook/e-book-shell-view-actions.c:1164
 #: ../src/modules/calendar/e-cal-shell-view-actions.c:1623
 #: ../src/modules/calendar/e-memo-shell-view-actions.c:684
@@ -15700,43 +15700,43 @@ msgstr "_Yaz"
 msgid "_Preview"
 msgstr "Ö_n İzle"
 
-#: ../src/e-util/e-markdown-editor.c:1586
+#: ../src/e-util/e-markdown-editor.c:1702
 msgid "Add bold text"
 msgstr "Kalın metin ekle"
 
-#: ../src/e-util/e-markdown-editor.c:1587
+#: ../src/e-util/e-markdown-editor.c:1703
 msgid "Add italic text"
 msgstr "Eğik metin ekle"
 
-#: ../src/e-util/e-markdown-editor.c:1588
+#: ../src/e-util/e-markdown-editor.c:1704
 msgid "Insert a quote"
 msgstr "Alıntı ekle"
 
-#: ../src/e-util/e-markdown-editor.c:1589
+#: ../src/e-util/e-markdown-editor.c:1705
 msgid "Insert code"
 msgstr "Kod ekle"
 
-#: ../src/e-util/e-markdown-editor.c:1590
+#: ../src/e-util/e-markdown-editor.c:1706
 msgid "Add a link"
 msgstr "Bağlantı ekle"
 
-#: ../src/e-util/e-markdown-editor.c:1591
+#: ../src/e-util/e-markdown-editor.c:1707
 msgid "Add a bullet list"
 msgstr "Maddeli liste ekle"
 
-#: ../src/e-util/e-markdown-editor.c:1592
+#: ../src/e-util/e-markdown-editor.c:1708
 msgid "Add a numbered list"
 msgstr "Numaralı liste ekle"
 
-#: ../src/e-util/e-markdown-editor.c:1593
+#: ../src/e-util/e-markdown-editor.c:1709
 msgid "Add a header"
 msgstr "Başlık ekle"
 
-#: ../src/e-util/e-markdown-editor.c:1596
+#: ../src/e-util/e-markdown-editor.c:1712
 msgid "Open online common mark documentation"
 msgstr "Çevrim içi ortak im belgelendirmesini aç"
 
-#: ../src/e-util/e-markdown-editor.c:1598
+#: ../src/e-util/e-markdown-editor.c:1714
 msgid "Show preview beside text"
 msgstr "Metnin yanında ön izleme göster"
 
@@ -16295,28 +16295,28 @@ msgstr "SSL/TLS sertifikasına _güvenme bilgisini kaldır"
 msgid "User:"
 msgstr "Kullanıcı:"
 
-#: ../src/e-util/e-source-selector.c:3417
+#: ../src/e-util/e-source-selector.c:3624
 msgid "Show"
 msgstr "Göster"
 
-#: ../src/e-util/e-source-selector.c:3423
+#: ../src/e-util/e-source-selector.c:3630
 msgid "Group name"
 msgstr "Küme adı"
 
-#: ../src/e-util/e-source-selector.c:3627 ../src/mail/e-mail-display.c:755
+#: ../src/e-util/e-source-selector.c:3834 ../src/mail/e-mail-display.c:755
 msgid "_Hide"
 msgstr "_Gizle"
 
-#: ../src/e-util/e-source-selector.c:3627
-#: ../src/e-util/e-source-selector.c:3725
+#: ../src/e-util/e-source-selector.c:3834
+#: ../src/e-util/e-source-selector.c:3932
 msgid "_Show"
 msgstr "_Göster"
 
-#: ../src/e-util/e-source-selector.c:3679
+#: ../src/e-util/e-source-selector.c:3886
 msgid "Manage Groups"
 msgstr "Kümeleri Yönet"
 
-#: ../src/e-util/e-source-selector.c:3691
+#: ../src/e-util/e-source-selector.c:3898
 msgid "Available Groups:"
 msgstr "Kullanılabilir Kümeler:"
 
@@ -21273,7 +21273,7 @@ msgstr "De_vre Dışı Bırakma"
 
 #: ../src/mail/mail.error.xml.h:97
 msgid "_Disable"
-msgstr "_Kapat"
+msgstr "_Devre Dışı Bırak"
 
 #: ../src/mail/mail.error.xml.h:98
 msgid "Cannot edit Search Folder “{0}” as it does not exist."
@@ -22431,23 +22431,23 @@ msgstr "vCard olarak _kaydet…"
 msgid "Save selected contacts as a vCard"
 msgstr "Seçili bağlantıları VCard olarak kaydet"
 
-#: ../src/modules/addressbook/e-book-shell-view.c:355
+#: ../src/modules/addressbook/e-book-shell-view.c:368
 msgid "_Forward Contacts"
 msgstr "Bağlantıları _Yönlendir"
 
-#: ../src/modules/addressbook/e-book-shell-view.c:357
+#: ../src/modules/addressbook/e-book-shell-view.c:370
 msgid "_Forward Contact"
 msgstr "Bağlantıyı _Yönlendir"
 
-#: ../src/modules/addressbook/e-book-shell-view.c:388
+#: ../src/modules/addressbook/e-book-shell-view.c:401
 msgid "_Send Message to Contacts"
 msgstr "Bağlantılara İleti _Gönder"
 
-#: ../src/modules/addressbook/e-book-shell-view.c:390
+#: ../src/modules/addressbook/e-book-shell-view.c:403
 msgid "_Send Message to List"
 msgstr "Listeye İleti _Gönder"
 
-#: ../src/modules/addressbook/e-book-shell-view.c:392
+#: ../src/modules/addressbook/e-book-shell-view.c:405
 msgid "_Send Message to Contact"
 msgstr "Bağlantıya İleti _Gönder"
 
@@ -25642,7 +25642,7 @@ msgstr "_Seç"
 
 #: ../src/modules/mail/e-mail-shell-view-actions.c:1566
 msgid "_Disable Account"
-msgstr "Hesabı _Devre dışı Bırak"
+msgstr "Hesabı _Devre Dışı Bırak"
 
 #: ../src/modules/mail/e-mail-shell-view-actions.c:1568
 msgid "Disable this account"
@@ -26359,7 +26359,7 @@ msgstr "'%s' klasörü bulunamadı"
 msgid "Cannot create a folder in a News and Blogs store."
 msgstr "Haberler ve Bloglar deposunda klasör oluşturulamaz."
 
-#: ../src/modules/rss/e-rss-parser.c:289
+#: ../src/modules/rss/e-rss-parser.c:294
 msgid "Unknown author"
 msgstr "Bilinmeyen yazar"
 
