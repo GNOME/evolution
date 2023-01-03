@@ -789,12 +789,12 @@ Evo.mailDisplayUpdateIFramesHeightRecursive = function(doc)
 		Evo.mailDisplayUpdateIFramesHeightRecursive(iframes[ii].contentDocument);
 	}
 
-	if (!doc.body || !doc.defaultView || !doc.defaultView.frameElement)
+	if (!doc.scrollingElement || !doc.defaultView || !doc.defaultView.frameElement)
 		return;
 
-	if (doc.defaultView.frameElement.height == doc.body.scrollHeight)
+	if (doc.defaultView.frameElement.height == doc.scrollingElement.scrollHeight)
 		doc.defaultView.frameElement.height = 10;
-	doc.defaultView.frameElement.height = doc.body.scrollHeight + 2 + (doc.body.scrollWidth > doc.body.clientWidth ? 20 : 0);
+	doc.defaultView.frameElement.height = doc.scrollingElement.scrollHeight + 2 + (doc.scrollingElement.scrollWidth > doc.scrollingElement.clientWidth ? 20 : 0);
 }
 
 Evo.MailDisplayUpdateIFramesHeight = function()
@@ -1421,8 +1421,10 @@ EvoItip.SetElementInnerHTML = function(iframe_id, element_id, html_content)
 {
 	var elem = Evo.FindElement(iframe_id, element_id);
 
-	if (elem)
+	if (elem) {
 		elem.innerHTML = html_content;
+		window.webkit.messageHandlers.scheduleIFramesHeightUpdate.postMessage(0);
+	}
 }
 
 EvoItip.SetShowCheckbox = function(iframe_id, element_id, show, update_second)
@@ -1448,6 +1450,8 @@ EvoItip.SetShowCheckbox = function(iframe_id, element_id, show, update_second)
 		if (elem) {
 			elem.hidden = !show;
 		}
+
+		window.webkit.messageHandlers.scheduleIFramesHeightUpdate.postMessage(0);
 	}
 }
 
@@ -1461,6 +1465,8 @@ EvoItip.SetAreaText = function(iframe_id, element_id, text)
 		if (row.lastElementChild) {
 			row.lastElementChild.innerHTML = text;
 		}
+
+		window.webkit.messageHandlers.scheduleIFramesHeightUpdate.postMessage(0);
 	}
 }
 
@@ -1478,6 +1484,8 @@ EvoItip.UpdateTimes = function(iframe_id, element_id, header, label)
 		if (elem.lastElementChild) {
 			elem.lastElementChild.innerHTML = label;
 		}
+
+		window.webkit.messageHandlers.scheduleIFramesHeightUpdate.postMessage(0);
 	}
 }
 
@@ -1505,6 +1513,8 @@ EvoItip.AppendInfoRow = function(iframe_id, table_id, row_id, icon_name, message
 
 	cell = row.insertCell(-1);
 	cell.innerHTML = message;
+
+	window.webkit.messageHandlers.scheduleIFramesHeightUpdate.postMessage(0);
 }
 
 EvoItip.RemoveInfoRow = function(iframe_id, row_id)
@@ -1513,6 +1523,7 @@ EvoItip.RemoveInfoRow = function(iframe_id, row_id)
 
 	if (row && row.parentNode) {
 		row.parentNode.removeChild(row);
+		window.webkit.messageHandlers.scheduleIFramesHeightUpdate.postMessage(0);
 	}
 }
 
@@ -1524,6 +1535,8 @@ EvoItip.RemoveChildNodes = function(iframe_id, element_id)
 		while (elem.lastChild) {
 			elem.removeChild(elem.lastChild);
 		}
+
+		window.webkit.messageHandlers.scheduleIFramesHeightUpdate.postMessage(0);
 	}
 }
 
@@ -1576,6 +1589,8 @@ EvoItip.HideButtons = function(iframe_id, element_id)
 			if (button)
 				button.hidden = true;
 		}
+
+		window.webkit.messageHandlers.scheduleIFramesHeightUpdate.postMessage(0);
 	}
 }
 
