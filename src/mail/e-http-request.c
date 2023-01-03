@@ -228,7 +228,7 @@ e_http_request_process_sync (EContentRequest *request,
 
 		g_object_unref (cache_stream);
 
-		/* When succesfully read some data from cache then
+		/* When successfully read some data from cache then
 		 * get mimetype and return the stream to WebKit.
 		 * Otherwise try to fetch the resource again from the network. */
 		if (len != -1 && *out_stream_length > 0) {

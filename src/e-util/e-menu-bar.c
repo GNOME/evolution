@@ -342,7 +342,7 @@ e_menu_bar_new (GtkMenuBar *inner_menu_bar,
 
 /**
  * e_menu_bar_get_visible:
- * @self: a #EMenuBar
+ * @self: an #EMenuBar
  *
  * Determines whether the inner menu bar is visible.
  *
@@ -360,7 +360,7 @@ e_menu_bar_get_visible (EMenuBar *self)
 
 /**
  * e_menu_bar_set_visible:
- * @self: a #EMenuBar
+ * @self: an #EMenuBar
  * @visible: whether the inner menu bar should be shown or not
  *
  * Sets the visibility state of the inner menu bar.

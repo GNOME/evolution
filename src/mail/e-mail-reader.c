@@ -6379,7 +6379,7 @@ e_mail_reader_remove_ui (EMailReader *reader)
 
 /**
  * e_mail_reader_create_reply_menu:
- * @reader: A #EMailReader
+ * @reader: An #EMailReader
  *
  * Get reply menu
  *
@@ -6435,7 +6435,7 @@ e_mail_reader_create_reply_menu (EMailReader *reader)
 
 /**
  * e_mail_reader_create_forward_menu:
- * @reader: A #EMailReader
+ * @reader: An #EMailReader
  *
  * Get forward menu
  *

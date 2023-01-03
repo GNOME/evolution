@@ -285,7 +285,7 @@ e_shell_header_bar_new (EShellWindow *shell_window,
 
 /**
  * e_shell_header_bar_get_new_button:
- * @headerbar: a #EShellHeaderBar
+ * @headerbar: an #EShellHeaderBar
  *
  * Returns: (transfer none): the 'New' button widget, which is #EHeaderBarButton
  *

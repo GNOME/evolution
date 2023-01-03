@@ -349,7 +349,7 @@ set_location_internal (EWeatherLocationEntry *entry,
 
 /*
  * e_weather_location_entry_set_location:
- * @entry: a #EWeatherLocationEntry
+ * @entry: an #EWeatherLocationEntry
  * @loc: (allow-none): a #GWeatherLocation in @entry, or %NULL to
  * clear @entry
  *
@@ -396,7 +396,7 @@ e_weather_location_entry_set_location (EWeatherLocationEntry *entry,
 
 /*
  * e_weather_location_entry_get_location:
- * @entry: a #EWeatherLocationEntry
+ * @entry: an #EWeatherLocationEntry
  *
  * Gets the location that was set by a previous call to
  * e_weather_location_entry_set_location() or was selected by the user.
@@ -418,7 +418,7 @@ e_weather_location_entry_get_location (EWeatherLocationEntry *entry)
 
 /*
  * e_weather_location_entry_has_custom_text:
- * @entry: a #EWeatherLocationEntry
+ * @entry: an #EWeatherLocationEntry
  *
  * Checks whether or not @entry's text has been modified by the user.
  * Note that this does not mean that no location is associated with @entry.
@@ -437,7 +437,7 @@ e_weather_location_entry_has_custom_text (EWeatherLocationEntry *entry)
 
 /*
  * e_weather_location_entry_set_city:
- * @entry: a #EWeatherLocationEntry
+ * @entry: an #EWeatherLocationEntry
  * @city_name: (allow-none): the city name, or %NULL
  * @code: the METAR station code
  *

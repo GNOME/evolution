@@ -163,7 +163,7 @@ cal_ops_create_component_thread (EAlertSinkThreadJobData *job_data,
  * @user_data_free: a function to free @user_data; ignored when @callback is #NULL
  *
  * Creates a new @icomp in the @client. The @callback, if not #NULL,
- * is called with a new uid of the @icomp on sucessful component save.
+ * is called with a new uid of the @icomp on successful component save.
  * The @callback is called in the main thread.
  *
  * Since: 3.16

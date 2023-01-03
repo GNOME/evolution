@@ -2217,7 +2217,7 @@ e_plugin_lib_enable (EPlugin *ep,
  *
  * Open PST file and determine root folder name
  *
- * Returns: 0 for sucess, -1 for failure
+ * Returns: 0 for success, -1 for failure
  */
 gint
 pst_init (pst_file *pst,
