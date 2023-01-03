@@ -80,7 +80,7 @@ e_rss_read_feed_person (xmlNodePtr author,
 	if (!*out_name && !*out_email) {
 		*out_name = xmlNodeGetContent (author);
 		if (*out_name && !**out_name)
-			g_clear_pointer (&out_name, xmlFree);
+			g_clear_pointer (out_name, xmlFree);
 	}
 }
 
