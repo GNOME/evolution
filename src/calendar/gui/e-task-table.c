@@ -1312,10 +1312,9 @@ struct get_selected_uids_closure {
 	GSList *objects;
 };
 
-/* Used from e_table_selected_row_foreach(), builds a list of the selected UIDs */
 static void
-add_uid_cb (gint model_row,
-            gpointer data)
+add_comp_data_cb (gint model_row,
+		  gpointer data)
 {
 	struct get_selected_uids_closure *closure = data;
 	ECalModelComponent *comp_data;
@@ -1324,7 +1323,8 @@ add_uid_cb (gint model_row,
 	model = e_task_table_get_model (closure->task_table);
 	comp_data = e_cal_model_get_component_at (model, model_row);
 
-	closure->objects = g_slist_prepend (closure->objects, comp_data);
+	if (comp_data)
+		closure->objects = g_slist_prepend (closure->objects, comp_data);
 }
 
 /**
@@ -1344,8 +1344,7 @@ e_task_table_get_selected (ETaskTable *task_table)
 	closure.task_table = task_table;
 	closure.objects = NULL;
 
-	e_table_selected_row_foreach (
-		E_TABLE (task_table), add_uid_cb, &closure);
+	e_table_selected_row_foreach (E_TABLE (task_table), add_comp_data_cb, &closure);
 
 	return closure.objects;
 }
