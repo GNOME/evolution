@@ -596,7 +596,8 @@ html_editor_update_actions (EHTMLEditor *editor,
 }
 
 static void
-html_editor_spell_languages_changed (EHTMLEditor *editor)
+html_editor_update_spell_languages (EHTMLEditor *editor,
+				    gboolean autoenable_spelling)
 {
 	EContentEditor *cnt_editor;
 	ESpellChecker *spell_checker;
@@ -607,7 +608,8 @@ html_editor_spell_languages_changed (EHTMLEditor *editor)
 
 	languages = e_spell_checker_list_active_languages (spell_checker, NULL);
 
-	e_content_editor_set_spell_check_enabled (cnt_editor, languages && *languages);
+	if (autoenable_spelling)
+		e_content_editor_set_spell_check_enabled (cnt_editor, languages && *languages);
 
 	/* Set the languages for webview to highlight misspelled words */
 	e_content_editor_set_spell_checking_languages (cnt_editor, (const gchar **) languages);
@@ -620,6 +622,12 @@ html_editor_spell_languages_changed (EHTMLEditor *editor)
 	e_html_editor_actions_update_spellcheck_languages_menu (editor, (const gchar * const *) languages);
 	g_clear_object (&spell_checker);
 	g_strfreev (languages);
+}
+
+static void
+html_editor_spell_languages_changed (EHTMLEditor *editor)
+{
+	html_editor_update_spell_languages (editor, TRUE);
 }
 
 typedef struct _ContextMenuData {
@@ -751,7 +759,7 @@ html_editor_parent_changed (GtkWidget *widget,
 static void
 html_editor_realize (GtkWidget *widget)
 {
-	html_editor_spell_languages_changed (E_HTML_EDITOR (widget));
+	html_editor_update_spell_languages (E_HTML_EDITOR (widget), FALSE);
 }
 
 static void
@@ -1876,6 +1884,13 @@ e_html_editor_set_mode (EHTMLEditor *editor,
 				iface && iface->spell_check_next_word && iface->spell_check_prev_word);
 
 			e_content_editor_clear_undo_redo_history (cnt_editor);
+
+			if (editor->priv->use_content_editor) {
+				/* Inherit whether the inline spelling is enabled, because when there are
+				   any selected languages, then it auto-enables inline spelling. */
+				e_content_editor_set_spell_check_enabled (cnt_editor,
+					e_content_editor_get_spell_check_enabled (editor->priv->use_content_editor));
+			}
 		}
 
 		editor->priv->mode = mode;
