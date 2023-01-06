@@ -1,3 +1,31 @@
+Evolution 3.46.3 2023-01-06
+---------------------------
+
+Bug Fixes:
+	I#1684 - e_task_table_get_selected: Skip non-existent comp_data
+	I#2109 - Calendar: Unset "Show Event Preview" shortcut
+	I#2176 - Duplicate attachments when forwarding
+	I#2180 - MarkdownEditor: Correct signature boundary start on text insert
+	I#2193 - RSS: Crash when reading feed with empty author
+	I#2204 - itip-formatter: iframe height miscalculated without frame flattening
+	I#2205 - Composer: Spell checking is auto-enabled on mode change
+
+Miscellaneous:
+	Fix few memory leaks
+	EMailReader: Correct sensitivity of toolbar buttons
+	Add Interlingue translation into the list of supported locales
+
+Translations:
+	Andika Triwidada (id)
+	Bruce Cowan (en_GB)
+	Daniel Mustieles (es)
+	Jiri Grönroos (fi)
+	Jordi Mas (ca)
+	Jürgen Benvenuti (de)
+	Luming Zh (zh_CN)
+	Nart Tlisha (ab)
+	Olga Smirnova (ie)
+
 Evolution 3.46.2 2022-12-02
 ---------------------------
 
