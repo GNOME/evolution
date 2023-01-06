@@ -1,3 +1,135 @@
+Evolution 3.47.1 2023-01-06
+---------------------------
+
+Bug Fixes:
+	I#1245 - Show available categories in Contacts view
+	I#1684 - e_task_table_get_selected: Skip non-existent comp_data
+	I#1691 - itip-view: Correct text for PUBLISH and REQUEST without organizer
+	I#1965 - Mail: Special folder icon not udpated after change
+	I#2001 - Mail: Update preview's iframe height to match its content
+	I#2011 - backup-restore: Verify backup file integrity after backup
+	I#2013 - Tasks: Correct interpretation of Due DATE value
+	I#2014 - Calendar: Periodically refresh Marcus Bains line
+	I#2029 - prefer-plain: Runtime warnings for "Only ever show plain text"
+	I#2030 - New-Mail-Account: 'Skip Lookup' button not removed
+	I#2031 - VEVENT components should not contain both DTEND and DURATION
+	I#2037 - EHeaderBarButton: Avoid busy loop on toggle action's 'active' change
+	I#2039 - Add option to disable use of header bars
+	I#2043 - prefer-plain: 'related' under 'alternative' shows 'html' part
+	I#2044 - Calendar: Decode attendee names in meeting editor
+	I#2046 - Remove some unused variables in the code
+	I#2047 - Fix possible memory leak in e_table_state_load_from_node()
+	I#2048 - e_rss_preferences_maybe_copy_icon() suggests call of strrchr(NULL, '.')
+	I#2051 - Mail: Hide print Preview in the menu
+	I#2053 - Contacts: Correct print of multiline text
+	I#2059 - Group Manager: Auto-deselect sources in to be hidden groups
+	I#2062 - Limit number of previewed messages on mbox file import
+	I#2063 - Make it possible to disable GOA accounts
+	I#2064 - EShellHeaderBar: Disable subtitle for the header bar (Glen Whitney)
+	I#2066 - Contacts: Do not show "(Other)" after Emails in Preview
+	I#2073 - Calendar: Meeting's Reply-To-All should not use attendee response in Subject
+	I#2083 - Enable sandboxing for WebKitGTK 2.38.0+
+	I#2087 - Composer: Extra separators shown on the toolbar
+	I#2088 - Import/Export RSS feeds from/to OPML file
+	I#2090 - Split sentence in e-rss-preferences.c file
+	I#2094 - itip-formatter: Offer Import for components without attendees
+	I#2096 - Use symbolic icons for high contrast icon themes
+	I#2097 - Calendar: Current time is off by one day for work week view
+	I#2101 - Markdown Editor: Paste Quotation always disabled
+	I#2102 - Markdown Editor: Add option for side-by-side preview
+	I#2105 - MarkdownEditor: Correct conversion from HTML
+	I#2107 - EDayView: Event text clipped too early with icons
+	I#2109 - Calendar: Unset "Show Event Preview" shortcut
+	I#2111 - Add Appearance settings into Preferences
+	I#2112 - StartupWizard: Shown even with configured mail account
+	I#2133 - Composer: Correct tooltip for "S/MIME Encrypt"
+	I#2138 - Calendar: Do not shorten time of pasted events
+	I#2140 - Relocate mail message toolbar close to the preview panel
+	I#2144 - EWebView: Use system link color for "expand recipients" dots
+	I#2146 - EShellHeaderBar: Show button labels adaptively
+	I#2147 - Hide menu bar by default
+	I#2162 - MarkdownEditor: Correct cursor placement on composer open
+	I#2164 - RSS: Fails to read RDF feeds
+	I#2166 - Use 'contains' for autocompletion query (Dacoda Strack)
+	I#2167 - e-web-view.js: Check for instantiated iframe document
+	I#2169 - EWebView: Apply zoom level to element position in "element-clicked" signal
+	I#2176 - Duplicate attachments when forwarding
+	I#2180 - MarkdownEditor: Correct signature boundary start on text insert
+	I#2193 - RSS: Crash when reading feed with empty author
+	I#2204 - itip-formatter: iframe height miscalculated without frame flattening
+	I#2205 - Composer: Spell checking is auto-enabled on mode change
+	M!111 - desktop: Remove obsolete Bugzilla entries (Jake Dane)
+	M!112 - Remove unused assignments (Дилян Палаузов)
+	M!115 - Fix several typos in the code (Дилян Палаузов)
+	ews-I#153 - ECompEditor: Add API to get property parts
+
+Miscellaneous:
+	Calendar: Compare date with correct zone
+	org.gnome.evolution.shell.gschema.xml.in: Rephrase description of use-header-bar option
+	publish-calendar: Correct type of a 'port' variable to match GUri's port type
+	Fix possible crash under type_ahead_complete_on_timeout_cb()
+	Replace e_mail_part_snoop_type() with e_mail_part_guess_mime_type()
+	EWebView: Do not use GTask thread pool for content requests
+	Mail: Use lower priority pool for contact photo requests
+	EWebView: Make sure an error is set when passing it to webkit_uri_scheme_request_finish_error()
+	EHTTPRequest: Rearrange free functions and set error on failure
+	rss: Correct mnemonic letters in Preferences
+	Composer: Correct conversion of TABLE into Plain Text
+	EHTMLEditor: Traverse between all editors when looking for the editor name
+	itip-utils: Change provided HTML transcript of a replied-to meeting
+	misc: Declare functions with no argument as `(void)`, not `()`
+	mail-mt: Use GCallback instead of its own type in mail_call_main()
+	EYearView: Correct calculation of the shown date
+	flatpak: Enable extension point for the development version
+	Add WebKit user plugin paths into the sandbox
+	Mute "No provider available for protocol “sendmail”" under Flatpak
+	Markdown Editor: Auto-scroll preview near the entered text
+	EShellHeaderBar: Remove unused pack_start/_end functions
+	Fix a memory leak in addressbook_selector_sort_categories()
+	EMailBrowser: Correct placement of the menu button in the header bar
+	Fix a compiler warning from e-filter-input.c
+	MarkdownEditor: Change how cursor position is tracked in side-by-side preview
+	Update mode-with-headerbar.png image
+	Fix few memory leaks
+	appearance-settings: Title bar mode shown incorrectly
+	EMailReader: Correct sensitivity of toolbar buttons
+	Add Interlingue translation into the list of supported locales
+	help: Replace to-be-retired mailing list with GNOME Discourse link (Andre Klapper)
+	help: Mention the evolution-users mailing list in the help
+
+Translations:
+	Aleksandr Melman (ru)
+	Alexander Shopov (bg)
+	Anders Jonsson (sv)
+	Asier Sarasua Garmendia (eu)
+	Aurimas Černius (lt)
+	Balázs Úr (hu)
+	Baurzhan Muftakhidinov (kk)
+	Bruce Cowan (en_GB)
+	Charles Monzat (fr)
+	Christian Kirbach (de)
+	Danial Behzadi (fa)
+	Daniel Mustieles (es)
+	Fabio Tomat (fur)
+	Fran Dieguez (gl)
+	Gianvito Cavasoli (it)
+	Goran Vidović (hr)
+	Hugo Carvalho (pt)
+	Jean-Marc Tissières (fr)
+	Jiri Grönroos (fi)
+	Jordi Mas (ca)
+	Jürgen Benvenuti (de)
+	Kukuh Syafaat (id)
+	Мирослав Николић (sr)
+	Nathan Follens (nl)
+	Olga Smirnova (ie)
+	Pawan Chitrakar (ne)
+	Piotr Drąg (pl)
+	Rafael Fontenelle (pt_BR)
+	Sabri Ünal (tr)
+	Yuri Chornoivan (uk)
+	Zurab Kargareteli (ka)
+
 Evolution 3.46.0 2022-09-16
 ---------------------------
 
