@@ -20,7 +20,7 @@ msgstr ""
 "Project-Id-Version: evolution\n"
 "Report-Msgid-Bugs-To: https://gitlab.gnome.org/GNOME/evolution/issues\n"
 "POT-Creation-Date: 2022-11-25 08:51+0000\n"
-"PO-Revision-Date: 2022-12-20 12:33+0200\n"
+"PO-Revision-Date: 2023-01-01 19:13+0200\n"
 "Last-Translator: Kimmo Kujansuu <mrkujansuu@gmail.com>\n"
 "Language-Team: suomi <lokalisointi-lista@googlegroups.com>\n"
 "Language: fi\n"
@@ -182,11 +182,11 @@ msgstr "Näytetäänkö muokkaimessa postituksen muut osoitteet"
 
 #: ../data/org.gnome.evolution.addressbook.gschema.xml.in.h:33
 msgid "Show web addresses"
-msgstr "Näytä osoitteet kotisivuille"
+msgstr "Näytä kotisivun osoite"
 
 #: ../data/org.gnome.evolution.addressbook.gschema.xml.in.h:34
 msgid "Whether to show Web Addresses in the editor"
-msgstr "Näytetäänkö muokkaimessa osoitteet kotisivuille"
+msgstr "Näytetäänkö muokkaimessa osoite kotisivuille"
 
 #: ../data/org.gnome.evolution.addressbook.gschema.xml.in.h:35
 msgid "Show job information"
@@ -194,7 +194,7 @@ msgstr "Näytä työpaikan tiedot"
 
 #: ../data/org.gnome.evolution.addressbook.gschema.xml.in.h:36
 msgid "Whether to show job information in the editor"
-msgstr "Näytetäänkö muokkaimessa työpaikan ja tehtävän tiedot"
+msgstr "Näytetäänkö muokkaimessa työpaikan tiedot"
 
 #: ../data/org.gnome.evolution.addressbook.gschema.xml.in.h:37
 msgid "Show Miscellaneous information"
@@ -202,7 +202,7 @@ msgstr "Sekalaiset tiedot"
 
 #: ../data/org.gnome.evolution.addressbook.gschema.xml.in.h:38
 msgid "Whether to show Miscellaneous information in the editor"
-msgstr "Näytetäänkö muokkaimessa muut ja sekalaiset tiedot"
+msgstr "Näytetäänkö muokkaimessa sekalaisia tietoja"
 
 #: ../data/org.gnome.evolution.addressbook.gschema.xml.in.h:39
 msgid "Show notes-tab"
@@ -214,7 +214,7 @@ msgstr "Näytetäänkö muistiot muokkaimessa"
 
 #: ../data/org.gnome.evolution.addressbook.gschema.xml.in.h:41
 msgid "Show Certificates tab"
-msgstr "Näytä varmenteet"
+msgstr "Näytä varmenteet välilehti"
 
 #: ../data/org.gnome.evolution.addressbook.gschema.xml.in.h:42
 msgid "Whether to show Certificates tab in the editor"
@@ -234,7 +234,7 @@ msgstr ""
 
 #: ../data/org.gnome.evolution.addressbook.gschema.xml.in.h:45
 msgid "Preview Personal before Work information"
-msgstr "Näytä henkilökohtaiset ennen työtietoja"
+msgstr "Näytä henkilökohtainen tieto ennen työtietoja"
 
 #: ../data/org.gnome.evolution.addressbook.gschema.xml.in.h:46
 msgid ""
@@ -267,7 +267,7 @@ msgstr ""
 
 #: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:1
 msgid "Save directory for reminder audio"
-msgstr "Tallenna muistutusäänelle kansio"
+msgstr "Tallennuskansio muistutusäänelle"
 
 #: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:2
 msgid "Directory for saving reminder audio files"
@@ -299,15 +299,17 @@ msgstr "Tiivistä viikonloput kuukausinäkymässä"
 msgid ""
 "Whether to compress weekends in the month view, which puts Saturday and Sunday in "
 "the space of one weekday"
-msgstr "Tämä tiivistää lauantain ja sunnuntain yhden arkipäivän väliin"
+msgstr ""
+"Pakataanko viikonloput kuukausinäkymässä, mikä asettaa lauantain ja sunnuntain "
+"arkipäiväksi"
 
 #: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:9
 msgid "Ask for confirmation when deleting items"
-msgstr "Pyydä vahvistusta, kun poistat kohteita"
+msgstr "Pyydä vahvistusta poistettaessa"
 
 #: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:10
 msgid "Whether to ask for confirmation when deleting an appointment or task"
-msgstr "Pyydetäänkö vahvistusta tapaamisen tai tehtävän poistamisen yhteydessä"
+msgstr "Pyydetäänkö vahvistusta tapaamisen tai tehtävän poistamisessa"
 
 #: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:11
 msgid "Confirm expunge"
@@ -361,77 +363,83 @@ msgstr "Minuutti, jona työpäivä alkaa, väliltä 0-59."
 
 #: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:23
 msgid "Workday start time for Monday"
-msgstr "Työpäivän aloitusaika maanantaille"
+msgstr "Työpäivä alkaa maanantaina"
 
 #: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:24
 msgid ""
 "Time the workday starts on, in twenty four hour format HHMM, 0000 to 2359, or -1 "
 "to use day-start-hour and day-start-minute"
-msgstr "Tunti jona työpäivä alkaa 24-tunnin muodossa, väliltä 0-23"
+msgstr ""
+"Aika, jolloin työpäivä alkaa 24 tunnin muodossa HHMM, 0000 - 2359 tai -1 päivän "
+"aloituksen tunti tai minuutti"
 
 #: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:25
 msgid "Workday end time for Monday"
-msgstr "Työpäivän päättymisaika maanantaille"
+msgstr "Työpäivä päättyy maanantaina"
 
 #: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:26
 msgid ""
 "Time the workday ends on, in twenty four hour format HHMM, 0000 to 2359, or -1 to "
 "use day-end-hour and day-end-minute"
-msgstr "Tunti jona työpäivä päättyy 24-tunnin muodossa, väliltä 0-23"
+msgstr ""
+"Aika, jolloin työpäivä päättyy 24 tunnin muodossa HHMM, 0000 - 2359 tai -1 päivän "
+"päättymisen tunti tai minuutti"
 
 #: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:27
 msgid "Workday start time for Tuesday"
-msgstr "Työpäivän aloitusaika tiistaille"
+msgstr "Työpäivä alkaa tiistaina"
 
 #: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:28
 msgid ""
 "Time the workday ends on, in twenty four hour format HHMM, 0000 to 2359, or -1 to "
 "use day-start-hour and day-start-minute"
-msgstr "Tunti jona työpäivä päättyy 24-tunnin muodossa, väliltä 0-23"
+msgstr ""
+"Aika, jolloin työpäivä päättyy 24 tunnin muodossa HHMM, 0000 - 2359 tai -1 päivän "
+"aloituksen tunti tai minuutti"
 
 #: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:29
 msgid "Workday end time for Tuesday"
-msgstr "Työpäivän päättymisaika tiistaille"
+msgstr "Työpäivä päättyy tiistaina"
 
 #: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:30
 msgid "Workday start time for Wednesday"
-msgstr "Työpäivän aloitusaika keskiviikolle"
+msgstr "Työpäivä alkaa keskiviikkona"
 
 #: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:31
 msgid "Workday end time for Wednesday"
-msgstr "Työpäivän päättymisaika keskiviikolle"
+msgstr "Työpäivä päättyy keskiviikkona"
 
 #: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:32
 msgid "Workday start time for Thursday"
-msgstr "Työpäivän aloitusaika torstaille"
+msgstr "Työpäivä alkaa torstaina"
 
 #: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:33
 msgid "Workday end time for Thursday"
-msgstr "Työpäivän päättymisaika torstaille"
+msgstr "Työpäivä päättyy torstaina"
 
 #: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:34
 msgid "Workday start time for Friday"
-msgstr "Työpäivän aloitusaika perjantaille"
+msgstr "Työpäivä alkaa perjantaina"
 
 #: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:35
 msgid "Workday end time for Friday"
-msgstr "Työpäivän päättymisaika perjantaille"
+msgstr "Työpäivä päättyy perjantaina"
 
 #: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:36
 msgid "Workday start time for Saturday"
-msgstr "Työpäivän aloitusaika lauantaille"
+msgstr "Työpäivä alkaa lauantaina"
 
 #: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:37
 msgid "Workday end time for Saturday"
-msgstr "Työpäivän päättymisaika lauantaille"
+msgstr "Työpäivä päättyy lauantaina"
 
 #: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:38
 msgid "Workday start time for Sunday"
-msgstr "Työpäivän aloitusaika sunnuntaille"
+msgstr "Työpäivä alkaa sunnuntaina"
 
 #: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:39
 msgid "Workday end time for Sunday"
-msgstr "Työpäivän päättymisaika sunnuntaille"
+msgstr "Työpäivä päättyy sunnuntaina"
 
 #: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:40
 msgid "The second timezone for a Day View"
@@ -455,7 +463,7 @@ msgstr "Luettelo käytetyistä toisista aikavyöhykkeistä päivänäkymässä"
 
 #: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:44
 msgid "Maximum number of recently used timezones to remember"
-msgstr "Kuinka monta valittua aikavyöhykettä muistetaan"
+msgstr "Kuinka monta käytettyä aikavyöhykettä muistetaan"
 
 #: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:45
 msgid ""
@@ -468,7 +476,7 @@ msgstr "Muistutuksen oletusarvo"
 
 #: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:47
 msgid "Number of units for determining a default reminder"
-msgstr "Yksiköiden määrä oletusmuistutuksen määrittämiseksi"
+msgstr "Määrä oletusmuistutuksen määrittämiseksi"
 
 #: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:48
 msgid "Default reminder units"
@@ -476,7 +484,7 @@ msgstr "Muistutusten oletusyksikkö"
 
 #: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:49
 msgid "Units for a default reminder, “minutes”, “hours” or “days”"
-msgstr "Muistutuksen oletus yksiköt ovat, \"minuuttia\", \"tuntia\" tai \"päivää\""
+msgstr "Muistutuksen oletukset ovat, \"minuuttia\", \"tuntia\" tai \"päivää\""
 
 #: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:50
 msgid "Show categories field in the event/meeting/task editor"
@@ -537,11 +545,11 @@ msgstr "Näytetäänkö työkalupalkki tapahtuman, tehtävän ja muistion muokka
 
 #: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:64
 msgid "Hide completed tasks"
-msgstr "Piilota valmistuneet tehtävät"
+msgstr "Piilota valmiit tehtävät"
 
 #: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:65
 msgid "Whether to hide completed tasks in the tasks view"
-msgstr "Piilotetaanko valmistuneet tehtävät tehtävänäkymästä"
+msgstr "Piilotetaanko valmiit tehtävät tehtävänäkymässä"
 
 #: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:66
 msgid "Hide task units"
@@ -550,8 +558,7 @@ msgstr "Piilota tehtävän yksiköt"
 #: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:67
 msgid "Units for determining when to hide tasks, “minutes”, “hours” or “days”"
 msgstr ""
-"Yksiköt, joilla määritetään, milloin tehtävät piilotetaan, \"minuuttia\", \"tuntia"
-"\" tai \"päivää\""
+"Yksiköt, milloin tehtävät piilotetaan \"minuutit\", \"tunnit\" tai \"päivät\""
 
 #: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:68
 msgid "Hide task value"
@@ -575,7 +582,7 @@ msgstr "Piilota peruutetut tehtävät"
 
 #: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:73
 msgid "Whether to hide cancelled tasks in the tasks view"
-msgstr "Piilotetaanko valmistuneet tehtävät tehtävänäkymästä"
+msgstr "Piilotetaanko peruutetut tehtävät tehtänäkymässä"
 
 #: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:74
 msgid "Horizontal pane position"
@@ -595,7 +602,7 @@ msgstr "Viimeinen muistutusaika"
 
 #: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:77
 msgid "Time the last reminder ran, in time_t"
-msgstr "Viimeinen muistutusaika, yksikkönä time_t"
+msgstr "Aika, jolloin viimeinen muistutus suoritettiin"
 
 #: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:78
 msgid "Marcus Bains Line Color — Day View"
@@ -800,7 +807,7 @@ msgstr "Näytetäänkö viikkonumerot eri paikoissa kalenterissa"
 
 #: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:121
 msgid "Vertical position for the tag pane"
-msgstr "Tunnisteet (tag) paneelin pystysuuntainen paikka"
+msgstr "Tunnistepaneelin pystysuuntainen paikka"
 
 #: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:122
 msgid "Show Tasks and Memos pane in the Calendar view"
@@ -878,7 +885,7 @@ msgstr "Aikajaot"
 
 #: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:138
 msgid "Intervals shown in Day and Work Week views, in minutes"
-msgstr "Päivä- ja viikkonäkymissä näytettävät aikavälit minuutteina"
+msgstr "Päivä- ja työviikkonäkymässä näkyvä aika minuutteina"
 
 #: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:139
 msgid "Timezone"
@@ -889,8 +896,8 @@ msgid ""
 "The default timezone to use for dates and times in the calendar, as an "
 "untranslated Olson timezone database location like “America/New York”"
 msgstr ""
-"Aikavyöhyke, jota käytetään kalenterissa päivämäärille ja kellonajoille, "
-"kääntämättä \"Olson timezone database\" sijaintina, kuten \"Finland/Helsinki\""
+"Aikavyöhykettä käytetään kalenteriin päivämäärään ja aikaan, muuttamatta esim. "
+"Olson sijaintia, kuten \"Finland/Helsinki\""
 
 #: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:141
 msgid "Twenty four hour time format"
@@ -898,7 +905,7 @@ msgstr "24 tunnin kello"
 
 #: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:142
 msgid "Whether to show times in twenty four hour format instead of using am/pm"
-msgstr "Näytetäänkö kello 24 tunnin vai am/pm-muodossa"
+msgstr "Näytetäänkö kello 24h vai muodossa am/pm"
 
 #: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:143
 msgid "Birthday and anniversary reminder"
@@ -927,7 +934,7 @@ msgstr ""
 
 #: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:149
 msgid "First day of the week"
-msgstr "Työviikko alkaa"
+msgstr "Viikon ensimmäinen päivä"
 
 #: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:150
 msgid "Monday is a work day"
@@ -963,7 +970,7 @@ msgstr "Luo tapahtumat, muistiot ja tehtävät oletuksena yksityisenä"
 
 #: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:158
 msgid "Draw events as flat, not shaded."
-msgstr "Piirrä tapahtumat tasaisina, ei varjostettuina."
+msgstr "Piirrä tapahtumat ilman varjostusta."
 
 #: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:159
 msgid ""
@@ -1174,8 +1181,8 @@ msgstr "Viestien kirjoittamisessa oletuksena käytetty merkistö"
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:4
 msgid "Default charset in which to compose messages. Uses UTF-8, if not set."
 msgstr ""
-"Viestien kirjoittamiseen käytettävä merkistö oletuksena. UTF-8, jos muuta ei ole "
-"asetettu."
+"Oletusmerkkistö, jossa viestejä kirjoitetaan. Käyttää oletuksena UTF-8, ellei "
+"toisin asetettu."
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:5
 msgid "Comma-separated names of the editor to prefer in the message composer"
@@ -1234,7 +1241,7 @@ msgstr "Tunnista hymiöt automaattisesti"
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:14
 msgid ""
 "Recognize emoticons in text and replace them with images or Unicode characters."
-msgstr "Tunnista hymiöt tekstissä ja korvaa ne kuvilla tai Unicode-merkeillä."
+msgstr "Tunnista hymiöt tekstistä ja vaihda ne kuviin tai Unicode-merkkeihin."
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:15
 msgid "Unicode emoticons"
@@ -1242,7 +1249,7 @@ msgstr "Unicode-hymiöt"
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:16
 msgid "Use Unicode characters for emoticons."
-msgstr "Käytä Unicode-merkkejä hymiöitä varten."
+msgstr "Käytä hymiöitä varten Unicode-merkkejä."
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:17
 msgid "Attribute message"
@@ -1429,7 +1436,7 @@ msgstr ""
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:49
 msgid "Encode filenames in an Outlook/GMail way"
-msgstr "Muotoile tiedostonimet Outlook ja GMail tavalla"
+msgstr "Muunna tiedostonimet Outlook/Gmail tavalla"
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:50
 msgid ""
@@ -1437,10 +1444,9 @@ msgid ""
 "display correctly filenames with UTF-8 letters sent by Evolution, because they do "
 "not follow the RFC 2231, but use the incorrect RFC 2047 standard."
 msgstr ""
-"Koodaa tiedostonimet sähköpostin postiotsikoihin samalla tavalla kuin Outlook tai "
-"GMail, jotta ne näyttävät oikein Evolutionin lähettämät UTF-8-kirjaimet ja "
-"tiedostonimet, koska ne eivät noudata RFC 2231 -standardia, vaan käyttävät väärää "
-"RFC 2047 -standardia."
+"Koodaa tiedostonimet postiotsikoihin samalla tavalla kuin Outlook tai GMail, jotta "
+"ne näkevät Evolutionin lähettämät UTF-8-kirjaimet oikein. Outlook ja Gmail eivät "
+"noudata RFC 2231 -standardia, vaan käyttävät väärää RFC 2047 -standardia."
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:51
 msgid "Send messages through Outbox folder"
@@ -1695,7 +1701,7 @@ msgstr ""
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:93
 msgid "Whether to obey Content-Disposition:inline message header hint"
-msgstr "Noudatetaanko sisällön järjestelyä: viestin otsikkovihjeen mukaan"
+msgstr "Käytetäänkö sisällön järjestelyä, viestin aiheen mukaan"
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:94
 msgid ""
@@ -1703,11 +1709,11 @@ msgid ""
 "inline."
 msgstr ""
 "Aseta arvoksi \"epätosi\", jos haluat estää liitteiden automaattisen näytön "
-"sisällön sijoittelulla."
+"sisällössä."
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:95
 msgid "Save file format for drag-and-drop operation"
-msgstr "Tallenna tiedostomuoto \"vedä ja pudota\" -toimintoa varten"
+msgstr "Tallenna tiedostomuoto \"vedä ja pudota\" -toimintoon"
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:96
 msgid "Can be either “mbox” or “pdf”."
@@ -1936,8 +1942,8 @@ msgid ""
 "Enable Unmatched search folder within Search Folders. It does nothing if Search "
 "Folders are disabled."
 msgstr ""
-"Ota Kohdistamaton hakukansio käyttöön Hakukansioissa. Tämä ei tee mitään, jos "
-"hakukansiot on poistettu käytöstä."
+"Käytä \"Kohdistamaton\" kansiota hakukansiossa. Tämä ei tee mitään, jos hakukansio "
+"on poistettu käytöstä."
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:144
 msgid "Hides the per-folder preview and removes the selection"
@@ -2190,7 +2196,7 @@ msgstr "Ilmoittaa käyttäjälle, kun hän yrittää lähettää viestin ilman a
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:190
 msgid "Prompt when emptying the trash"
-msgstr "Kysy,roskakoria tyhjennettäessä"
+msgstr "Kysy vahvistus roskakoria tyhjennettäessä"
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:191
 msgid "Prompt the user when he or she tries to empty the trash."
@@ -2977,12 +2983,12 @@ msgstr "['attachment','attaching','attached','enclosed,'liite','liitteenä','lii
 #: ../data/org.gnome.evolution.plugin.attachment-reminder.gschema.xml.in.h:5
 msgid ""
 "List of clues for the attachment reminder plugin to look for in a message body"
-msgstr "Luettelo vihjeistä, joita liitemuistuttaja etsii viestin tekstistä"
+msgstr "Luettelo vihjeistä, joita liitemuistuttaja etsii viestin sisällöstä"
 
 #: ../data/org.gnome.evolution.plugin.attachment-reminder.gschema.xml.in.h:6
 msgid ""
 "List of clues for the attachment reminder plugin to look for in a message body."
-msgstr "Luettelo vihjeistä, joita liitemuistuttaja etsii viestin rungosta."
+msgstr "Luettelo vihjeistä, joita liitemuistuttaja etsii viestin sisällöstä."
 
 #: ../data/org.gnome.evolution.plugin.autocontacts.gschema.xml.in.h:1
 msgid "Address book source"
@@ -3707,7 +3713,7 @@ msgstr "Vaihda eri paneelien välillä"
 #: ../data/ui/evolution-shortcuts.ui.h:10
 msgctxt "shortcut window"
 msgid "Open the Evolution user guide"
-msgstr "Avaa Evolutionin käyttäjäohje"
+msgstr "Avaa Evolution käyttöohje"
 
 #: ../data/ui/evolution-shortcuts.ui.h:11
 msgctxt "shortcut window"
@@ -3777,7 +3783,7 @@ msgstr "Siirry kansioon"
 #: ../data/ui/evolution-shortcuts.ui.h:24
 msgctxt "shortcut window"
 msgid "Mark selected messages as read"
-msgstr "Merkitse valitut viestit luetuiksi"
+msgstr "Merkitse valitut viestit luetuksi"
 
 #: ../data/ui/evolution-shortcuts.ui.h:25
 msgctxt "shortcut window"
@@ -4221,7 +4227,7 @@ msgstr ""
 
 #: ../src/addressbook/addressbook.error.xml.h:49
 msgid "Failed to refresh list of account address books"
-msgstr "Tilin osoitekirjojen luettelon päivittäminen epäonnistui"
+msgstr "Tilin osoitekirjan päivittäminen epäonnistui"
 
 #: ../src/addressbook/addressbook.error.xml.h:50
 msgid "Do you want to unset contact image?"
@@ -4331,7 +4337,7 @@ msgstr "Näytä pikaviestit"
 
 #: ../src/addressbook/gui/contact-editor/contact-editor.ui.h:4
 msgid "Show Web Addresses"
-msgstr "Näytä Web-osoitteet"
+msgstr "Näytä verkko-osoitteet"
 
 #: ../src/addressbook/gui/contact-editor/contact-editor.ui.h:5
 msgid "Show Job section"
@@ -5070,7 +5076,7 @@ msgstr "Napsauta lähettääksesi %s"
 #: ../src/addressbook/gui/widgets/eab-contact-display.c:333
 #, c-format
 msgid "Click to open map for %s"
-msgstr "Napsauta avataksesi %s kartan"
+msgstr "Napsauta ja avaa kartta %s"
 
 #: ../src/addressbook/gui/widgets/eab-contact-formatter.c:156
 msgid "Open map"
@@ -5765,7 +5771,7 @@ msgstr "Outlookin CSV tai Tab (.csv, .tab)"
 
 #: ../src/addressbook/importers/evolution-csv-importer.c:1152
 msgid "Outlook Contacts CSV and Tab Importer"
-msgstr "Outlookin CSV- ja Tab-tuoja"
+msgstr "Outlookin CSV ja Tab tuonti"
 
 #: ../src/addressbook/importers/evolution-csv-importer.c:1160
 msgid "Mozilla Contacts CSV or Tab (.csv, .tab)"
@@ -5773,7 +5779,7 @@ msgstr "Mozillan CVS tai Tab (.cvs, .tab)"
 
 #: ../src/addressbook/importers/evolution-csv-importer.c:1161
 msgid "Mozilla Contacts CSV and Tab Importer"
-msgstr "Mozillan CVS- ja Tab-tuoja"
+msgstr "Mozillan CVS ja Tab tuonti"
 
 #: ../src/addressbook/importers/evolution-csv-importer.c:1169
 msgid "Evolution Contacts CSV or Tab (.csv, .tab)"
@@ -5781,7 +5787,7 @@ msgstr "Evolutionin CSV tai Tab (.csv, .tab)"
 
 #: ../src/addressbook/importers/evolution-csv-importer.c:1170
 msgid "Evolution Contacts CSV and Tab Importer"
-msgstr "Evolutionin CSV- ja Tab-tuoja"
+msgstr "Evolutionin CSV  ja Tab tuonti"
 
 #: ../src/addressbook/importers/evolution-ldif-importer.c:717
 msgid "Can’t open .ldif file"
@@ -5793,7 +5799,7 @@ msgstr "LDAP-tiedostonvaihtomuoto (.ldif)"
 
 #: ../src/addressbook/importers/evolution-ldif-importer.c:820
 msgid "Evolution LDIF importer"
-msgstr "Evolutionin LDIF-tuoja"
+msgstr "Evolutionin LDIF tuonti"
 
 #: ../src/addressbook/importers/evolution-vcard-importer.c:489
 msgid "vCard (.vcf, .gcrd)"
@@ -7727,7 +7733,7 @@ msgstr "Poistetaan tehtävät"
 
 #: ../src/calendar/gui/e-cal-ops.c:1239
 msgid "Expunging completed tasks"
-msgstr "Suoritettujen tehtävien poistaminen"
+msgstr "Valmiiden tehtävien poistaminen"
 
 #: ../src/calendar/gui/e-cal-ops.c:2101
 #, c-format
@@ -7987,7 +7993,7 @@ msgstr ""
 #: ../src/calendar/gui/e-comp-editor-memo.c:320
 #: ../src/calendar/gui/e-comp-editor-task.c:914
 msgid "_List:"
-msgstr "_Lista:"
+msgstr "_Luettelo:"
 
 #: ../src/calendar/gui/e-comp-editor-memo.c:327
 #: ../src/calendar/gui/e-comp-editor-task.c:924
@@ -11801,15 +11807,15 @@ msgstr "Vastaan_ottaja:"
 
 #: ../src/composer/e-composer-header-table.c:849
 msgid "_Cc:"
-msgstr "_Kopiona:"
+msgstr "_Kopio:"
 
 #: ../src/composer/e-composer-header-table.c:855
 msgid "_Bcc:"
-msgstr "_Piilokopiona:"
+msgstr "_Piilokopio:"
 
 #: ../src/composer/e-composer-header-table.c:860
 msgid "_Post To:"
-msgstr "_Postita:"
+msgstr "_Lähetä:"
 
 #: ../src/composer/e-composer-header-table.c:864
 msgid "S_ubject:"
@@ -11878,7 +11884,7 @@ msgstr[1] ""
 
 #: ../src/composer/e-msg-composer.c:5648
 msgid "The composer contains a non-text message body, which cannot be edited."
-msgstr "Viesti-ikkuna sisältää viestin rungon, jota ei voi muokata."
+msgstr "Viesti-ikkuna sisältää muutakin kuin tekstisisältöä, jota ei voi muokata."
 
 #: ../src/composer/mail-composer.error.xml.h:1
 msgid "You cannot attach the file “{0}” to this message."
@@ -11992,7 +11998,7 @@ msgstr "Käyttäjätili täytyy määritellä ennen kuin sähköpostia voidaan l
 
 #: ../src/composer/mail-composer.error.xml.h:27
 msgid "An error occurred while saving to your Outbox folder."
-msgstr "Lähtevät-kansioon tallennettaessa tapahtui virhe."
+msgstr "Virhe tallennettaessa viestiä lähtevien viestien kansioon."
 
 #: ../src/composer/mail-composer.error.xml.h:28
 msgid "The reported error was “{0}”. The message has not been sent."
@@ -12000,7 +12006,7 @@ msgstr "Ilmoitettu virhe oli “{0}”. Viestiä ei lähetetty."
 
 #: ../src/composer/mail-composer.error.xml.h:29
 msgid "An error occurred while saving to your Drafts folder."
-msgstr "Tapahtui virhe tallennettaessa Luonnokset-kansioon."
+msgstr "Virhe tallennettaessa viestiä luonnokset kansioon."
 
 #: ../src/composer/mail-composer.error.xml.h:30
 msgid "The reported error was “{0}”. The message has most likely not been saved."
@@ -12521,7 +12527,7 @@ msgstr "Virhe vahvistaessa allekirjoitusta: %s"
 
 #: ../src/em-format/e-mail-parser-message-external.c:66
 msgid "Malformed external-body part"
-msgstr "Väärin muotoilut rungon ulkopuolinen viestin osa"
+msgstr "Virheellinen ulkoinen osa"
 
 #: ../src/em-format/e-mail-parser-message-external.c:99
 #, c-format
@@ -15555,7 +15561,7 @@ msgstr "Et_si:"
 #: ../src/modules/calendar/e-memo-shell-view-actions.c:783
 #: ../src/modules/calendar/e-task-shell-view-actions.c:956
 msgid "Any Category"
-msgstr "Mikä tahansa luokka"
+msgstr "Kaikki luokat"
 
 #: ../src/e-util/e-name-selector-dialog.c:365
 #: ../src/modules/accounts-window/e-accounts-window-editors.c:338
@@ -16204,7 +16210,7 @@ msgstr "Näytä _kenttä näkymässä"
 
 #: ../src/e-util/e-table-config.ui.h:10
 msgid "Then By"
-msgstr "sitten"
+msgstr "Sen jälkeen"
 
 #: ../src/e-util/e-table-config.ui.h:11
 msgid "Show field i_n View"
@@ -17672,7 +17678,8 @@ msgstr "_Luota salattaessa aina avaimiin avainrenkaassani"
 
 #: ../src/mail/e-mail-config-security-page.c:617
 msgid "Prefer _inline sign/encrypt for plain text messages"
-msgstr "Suos_i tekstissä upotettua allekirjoitusta/salausta"
+msgstr ""
+"Suosi pelkkää tekstiä käyttävissä viesteissä _upotettua allekirjoitusta/salausta"
 
 #: ../src/mail/e-mail-config-security-page.c:629
 msgid "_Lookup keys for encryption in Web Key Directory (WKD)"
@@ -18168,7 +18175,7 @@ msgstr "Muokkaa valitun viestin huomautusta"
 
 #: ../src/mail/e-mail-reader.c:2579
 msgid "Create a Filter Rule for Mailing _List…"
-msgstr "Luo suodatussääntö postitus_listan mukaan…"
+msgstr "Luo sääntö posti_listan mukaan…"
 
 #: ../src/mail/e-mail-reader.c:2581
 msgid "Create a rule to filter messages to this mailing list"
@@ -18176,7 +18183,7 @@ msgstr "Luo sääntö, jolla suodatetaan viestejä tälle postilistalle"
 
 #: ../src/mail/e-mail-reader.c:2586
 msgid "Create a Filter Rule for _Recipients…"
-msgstr "Luo suodatussääntö _vastaanottajien mukaan…"
+msgstr "Luo sääntö vastaanottajille…"
 
 #: ../src/mail/e-mail-reader.c:2588
 msgid "Create a rule to filter messages to these recipients"
@@ -18184,7 +18191,7 @@ msgstr "Luo sääntö, jolla suodatetaan viestejä näille vastaanottajille"
 
 #: ../src/mail/e-mail-reader.c:2593
 msgid "Create a Filter Rule for Se_nder…"
-msgstr "Luo suodatussääntö _lähettäjän mukaan…"
+msgstr "Luo sääntö _lähettäjälle…"
 
 #: ../src/mail/e-mail-reader.c:2595
 msgid "Create a rule to filter messages from this sender"
@@ -18192,7 +18199,7 @@ msgstr "Luo sääntö, jolla suodatetaan viestejä tältä lähettäjältä"
 
 #: ../src/mail/e-mail-reader.c:2600
 msgid "Create a Filter Rule for _Subject…"
-msgstr "Luo suodatusääntö _aiheen mukaan…"
+msgstr "Luo sääntö _aiheen mukaan…"
 
 #: ../src/mail/e-mail-reader.c:2602
 msgid "Create a rule to filter messages with this subject"
@@ -18256,7 +18263,7 @@ msgstr "_Liitetty"
 #: ../src/mail/e-mail-reader.c:2651 ../src/mail/e-mail-reader.c:2658
 #: ../src/modules/mail/e-mail-attachment-handler.c:433
 msgid "Forward the selected message to someone as an attachment"
-msgstr "Välitä edelleen valitut viestit liitteenä"
+msgstr "Välitä edelleen valittu viesti sähköpostin liitteenä"
 
 #: ../src/mail/e-mail-reader.c:2656
 msgid "Forward As _Attached"
@@ -18265,16 +18272,18 @@ msgstr "Välitä _liitteenä"
 #: ../src/mail/e-mail-reader.c:2663
 #: ../src/modules/mail/e-mail-attachment-handler.c:438
 msgid "_Inline"
-msgstr "S_isäkkäisesti"
+msgstr "_Upotettu"
 
 #: ../src/mail/e-mail-reader.c:2665 ../src/mail/e-mail-reader.c:2672
 #: ../src/modules/mail/e-mail-attachment-handler.c:440
 msgid "Forward the selected message in the body of a new message"
-msgstr "Välitä edelleen valitut viestit uuden viestin rungossa"
+msgstr ""
+"Välitä edelleen upotettuna uuden sähköpostin yhteydessä alkuperäisen muotoilun "
+"mukaan"
 
 #: ../src/mail/e-mail-reader.c:2670
 msgid "Forward As _Inline"
-msgstr "Välitä _rungossa"
+msgstr "Välitä _tekstillä"
 
 #: ../src/mail/e-mail-reader.c:2677
 #: ../src/modules/mail/e-mail-attachment-handler.c:445
@@ -18284,7 +18293,7 @@ msgstr "_Lainattuna"
 #: ../src/mail/e-mail-reader.c:2679 ../src/mail/e-mail-reader.c:2686
 #: ../src/modules/mail/e-mail-attachment-handler.c:447
 msgid "Forward the selected message quoted like a reply"
-msgstr "Välitä edelleen valitut viestit lainattuna vastauksen tapaan"
+msgstr "Välitä edelleen merkittynä tekstissä lainattuna vastauksen tapaan"
 
 #: ../src/mail/e-mail-reader.c:2684
 msgid "Forward As _Quoted"
@@ -18497,12 +18506,12 @@ msgstr "Esikatsele tulostettavaa viestiä"
 #: ../src/mail/e-mail-reader.c:2882
 #: ../src/modules/mail/e-mail-attachment-handler.c:452
 msgid "Re_direct"
-msgstr "_Uudelleenohjaa"
+msgstr "Ohjaa _uudelleen"
 
 #: ../src/mail/e-mail-reader.c:2884
 #: ../src/modules/mail/e-mail-attachment-handler.c:454
 msgid "Redirect (bounce) the selected message to someone"
-msgstr "Uudelleenohjaa (siirrä) valitut viestit jollekulle"
+msgstr "Ohjaa uudelleen (siirtää) viestin jollekulle toiselle alkuperäisenä"
 
 #: ../src/mail/e-mail-reader.c:2889
 msgid "Remo_ve Attachments"
@@ -18700,11 +18709,11 @@ msgstr "Merkitse _tärkeäksi"
 
 #: ../src/mail/e-mail-reader.c:3159
 msgid "Mark as _Junk"
-msgstr "Luokittele _roskapostiksi"
+msgstr "Merkitse _roskapostiksi"
 
 #: ../src/mail/e-mail-reader.c:3163
 msgid "Mark as _Not Junk"
-msgstr "Luokittele _ei-roskapostiksi"
+msgstr "Tämä _ei ole roskaposti"
 
 #: ../src/mail/e-mail-reader.c:3167
 msgid "Mar_k as Read"
@@ -19065,7 +19074,7 @@ msgstr "Jos jokin seuraavista ehdoista täyttyy"
 #. and now for the action area
 #: ../src/mail/em-filter-editor.c:211 ../src/mail/em-filter-rule.c:1011
 msgid "Then"
-msgstr "sitten"
+msgstr "Sitten"
 
 #: ../src/mail/em-filter-editor.c:416
 msgid "De_scribe Filters…"
@@ -19585,7 +19594,7 @@ msgstr "ei ole olemassa"
 #: ../src/mail/filtertypes.xml.in.h:22 ../src/mail/searchtypes.xml.in.h:24
 #: ../src/mail/vfoldertypes.xml.in.h:24
 msgid "Message Body"
-msgstr "Viestin runko"
+msgstr "Viestin sisältö"
 
 #: ../src/mail/filtertypes.xml.in.h:24 ../src/mail/searchtypes.xml.in.h:26
 #: ../src/mail/vfoldertypes.xml.in.h:26
@@ -19924,7 +19933,7 @@ msgstr "%s postilista"
 
 #: ../src/mail/mail-autofilter.c:401
 msgid "Add Filter Rule"
-msgstr "Lisää suodatussääntö"
+msgstr "Lisää sääntö"
 
 #. Translators: The first %s is name of the affected
 #. * filter rule(s), the second %s is URI of the removed
@@ -19941,10 +19950,10 @@ msgid_plural ""
 "%s have been modified to account for the deleted folder\n"
 "“%s”."
 msgstr[0] ""
-"Suodatussääntöä ”%s” on muokattu huomioimaan poistettu kansio \n"
+"Sääntöä ”%s” on muutettu huomioimaan poistettu kansio \n"
 "”%s”."
 msgstr[1] ""
-"Seuraavat suodatinsäännöt ”%s” on muokattu huomioimaan poistettu kansio \n"
+"Seuraavat säännöt ”%s” on muuettu huomioimaan poistettu kansio \n"
 "”%s”."
 
 #: ../src/mail/mail-autofilter.c:560
@@ -19953,7 +19962,7 @@ msgstr "Avaa viestisuodattimet"
 
 #: ../src/mail/mail-config.ui.h:1
 msgid "Set custom junk header"
-msgstr "Aseta mukautettu roskapostin tunniste"
+msgstr "Aseta oma roskapostiotsake"
 
 #: ../src/mail/mail-config.ui.h:4
 msgid ""
@@ -20095,7 +20104,7 @@ msgstr "Viestin lähettäminen, jonka aiherivi on _tyhjä"
 #. This is in the context of: Ask for confirmation before...
 #: ../src/mail/mail-config.ui.h:48
 msgid "Sending a message with only _Bcc recipients defined"
-msgstr "Viestin lähettäminen, jossa on määritetty vain piilokopin saajat"
+msgstr "Viestin lähettäminen, jossa on määritetty vain piilokopion saajat"
 
 #. This is in the context of: Ask for confirmation before...
 #: ../src/mail/mail-config.ui.h:50
@@ -20408,7 +20417,7 @@ msgstr "_Etsi vain paikallisesta osoitekirjasta"
 
 #: ../src/mail/mail-config.ui.h:145
 msgid "Check cu_stom headers for junk"
-msgstr "Käytä _omia roskapostin otsakkeita"
+msgstr "Käytä _omia roskapostiotsakkeita"
 
 #: ../src/mail/mail-config.ui.h:147
 #: ../src/modules/mail-config/e-mail-config-remote-accounts.c:303
@@ -20461,7 +20470,7 @@ msgid ""
 "The messages you have selected for follow up are listed below.\n"
 "Please select a follow up action from the “Flag” menu."
 msgstr ""
-"Viestit, jotka olet valinnut seurantaan, on listattu alle.\n"
+"Viestit, jotka olet valinnut seurantaan, ovat lueteltu alla.\n"
 "Valitse jatkotoiminto \"Merkki\"-valikosta."
 
 #: ../src/mail/mail-dialogs.ui.h:14
@@ -22559,7 +22568,7 @@ msgstr "Etsi muistiot"
 
 #: ../src/modules/cal-config-caldav/evolution-cal-config-caldav.c:291
 msgid "Find Task Lists"
-msgstr "Etsi Tehtävät"
+msgstr "Etsi tehtävälistat"
 
 #: ../src/modules/cal-config-caldav/evolution-cal-config-caldav.c:310
 #: ../src/modules/cal-config-local/evolution-cal-config-local.c:260
@@ -22584,7 +22593,7 @@ msgstr "Ota synkronointi kalentereille käyttöön"
 
 #: ../src/modules/cal-config-google/e-google-chooser-button.c:145
 msgid "Default User Calendar"
-msgstr "Käyttäjän kalenterin oletus"
+msgstr "Käyttäjän oletuskalenteri"
 
 #: ../src/modules/cal-config-local/evolution-cal-config-local.c:177
 msgid "Use an existing iCalendar (ics) file"
@@ -23084,7 +23093,7 @@ msgstr "Näytä _muistutukset menneistä tapahtumista"
 #. This is the first half of a user preference. "Set default reminder [time-period] before every new appointment"
 #: ../src/modules/calendar/e-calendar-preferences.ui.h:92
 msgid "Set _default reminder"
-msgstr "_Aseta muistutus"
+msgstr "_Aseta oletusmuistutus"
 
 #. This is the last half of a user preference. "Set default reminder [time-period] before every new appointment"
 #: ../src/modules/calendar/e-calendar-preferences.ui.h:94
@@ -23490,7 +23499,7 @@ msgstr "Näytä yksi päivä"
 
 #: ../src/modules/calendar/e-cal-shell-view-actions.c:1780
 msgid "List"
-msgstr "Lista"
+msgstr "Luettelo"
 
 #: ../src/modules/calendar/e-cal-shell-view-actions.c:1782
 msgid "Show as list"
@@ -25291,7 +25300,7 @@ msgstr "Poista tämä kansio pysyvästi"
 
 #: ../src/modules/mail/e-mail-shell-view-actions.c:1629
 msgid "Edit Sort _Order…"
-msgstr "Muokkaa _lajittelujärjestys"
+msgstr "Muuta _lajittelujärjestystä"
 
 #: ../src/modules/mail/e-mail-shell-view-actions.c:1631
 msgid "Change sort order of the folders in the folder tree"
@@ -25308,7 +25317,7 @@ msgstr "Poista pysyvästi kaikki poistetut viestit tästä kansiosta"
 #: ../src/modules/mail/e-mail-shell-view-actions.c:1643
 #: ../src/modules/mail/e-mail-shell-view-actions.c:1735
 msgid "Mar_k All Messages as Read"
-msgstr "Mer_kitse kaikki viestit luetuiksi"
+msgstr "Mer_kitse kaikki viestit luetuksi"
 
 #: ../src/modules/mail/e-mail-shell-view-actions.c:1645
 #: ../src/modules/mail/e-mail-shell-view-actions.c:1737
@@ -25489,11 +25498,11 @@ msgstr "Näytä poistetut viestit yliviivattuna"
 
 #: ../src/modules/mail/e-mail-shell-view-actions.c:1942
 msgid "Show _Junk Messages"
-msgstr "Näytä _roskapostiviestit"
+msgstr "Näytä _roskapostit"
 
 #: ../src/modules/mail/e-mail-shell-view-actions.c:1944
 msgid "Show junk messages with a red line through them"
-msgstr "Näytä roskapostit punaisella viivalla yliviivattuna"
+msgstr "Näytä roskapostit punaisella yliviivattuna"
 
 #: ../src/modules/mail/e-mail-shell-view-actions.c:1950
 msgid "_Group By Threads"
@@ -25537,7 +25546,7 @@ msgstr "Tärkeät viestit"
 
 #: ../src/modules/mail/e-mail-shell-view-actions.c:2017
 msgid "Last 5 Days’ Messages"
-msgstr "Viimeisten viiden päivän viestit"
+msgstr "Viestit, viisi päivää"
 
 #: ../src/modules/mail/e-mail-shell-view-actions.c:2024
 msgid "Messages Not Junk"
@@ -25565,7 +25574,7 @@ msgstr "Lukemattomat viestit"
 
 #: ../src/modules/mail/e-mail-shell-view-actions.c:2066
 msgid "Message Thread"
-msgstr "Viestinketju"
+msgstr "Viestiketju"
 
 #: ../src/modules/mail/e-mail-shell-view-actions.c:2126
 msgid "Subject or Addresses contain"
@@ -25835,7 +25844,7 @@ msgstr "Näytä html, jos mahdollista"
 #: ../src/modules/prefer-plain/e-mail-parser-prefer-plain.c:134
 #: ../src/modules/prefer-plain/plugin/config-ui.c:36
 msgid "Let Evolution choose the best part to show."
-msgstr "Anna Evolutionin päättää valita."
+msgstr "Evolution päättää valinnan."
 
 #: ../src/modules/prefer-plain/e-mail-parser-prefer-plain.c:137
 #: ../src/modules/prefer-plain/plugin/config-ui.c:39
@@ -26490,7 +26499,7 @@ msgstr "Tuodaan Outlook Expressin tietoja"
 
 #: ../src/plugins/dbx-import/org-gnome-dbx-import.eplug.xml.h:1
 msgid "Outlook DBX import"
-msgstr "Outlook tuonti DBX"
+msgstr "Outlookin DBX tuonti"
 
 #: ../src/plugins/dbx-import/org-gnome-dbx-import.eplug.xml.h:2
 msgid "Outlook Express 5/6 personal folders (.dbx)"
@@ -27555,13 +27564,13 @@ msgstr "Kaikki tiedostot (*)"
 #: ../src/shell/e-shell-utils.c:349
 msgid "translator-credits"
 msgstr ""
-"Kimmo Kujansuu, 2022\n"
+"Kimmo Kujansuu, 2022-2023\n"
 "Jiri Grönroos, 2012-2021\n"
+"Ville-Pekka Vainio, 2010\n"
 "Ilkka Tuohela, 2002-2009\n"
 "Timo Jyrinki, 2008\n"
 "Sami Pesonen, 2001-2003\n"
 "Jarkko Ranta, 2000-2001\n"
-"Ville-Pekka Vainio, 2010\n"
 "\n"
 "https://l10n.gnome.org/teams/fi/\n"
 "\n"
@@ -27636,7 +27645,7 @@ msgstr "_Sisältö"
 
 #: ../src/shell/e-shell-window-actions.c:946
 msgid "Open the Evolution User Guide"
-msgstr "Avaa Evolutionin käyttäjäopas"
+msgstr "Avaa Evolution käyttöohje"
 
 #: ../src/shell/e-shell-window-actions.c:972
 msgid "I_mport…"
