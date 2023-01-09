@@ -2477,7 +2477,8 @@ mail_reader_reply_to_message_composer_created_cb (GObject *source_object,
 	} else {
 		em_utils_reply_to_message (
 			composer, ccd->message, ccd->folder, ccd->message_uid,
-			ccd->reply_type, ccd->reply_style, ccd->is_selection ? NULL : ccd->part_list, ccd->address, E_MAIL_REPLY_FLAG_NONE);
+			ccd->reply_type, ccd->reply_style, ccd->is_selection ? NULL : ccd->part_list, ccd->address,
+			ccd->reply_type == E_MAIL_REPLY_TO_SENDER ? E_MAIL_REPLY_FLAG_FORCE_SENDER_REPLY : E_MAIL_REPLY_FLAG_NONE);
 
 		em_composer_utils_update_security (composer, ccd->validity_pgp_sum, ccd->validity_smime_sum);
 
