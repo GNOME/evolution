@@ -535,16 +535,21 @@ cal_shell_content_datepicker_selection_changed_cb (ECalendarItem *calitem,
 			e_cal_shell_content_change_view (cal_shell_content, E_CAL_VIEW_KIND_DAY, &sel_start, &sel_end, FALSE);
 	} else if (selected_days == 7) {
 		GDateWeekday sel_start_wday;
+		ECalViewKind set_kind = E_CAL_VIEW_KIND_WEEK;
 
 		sel_start_wday = g_date_get_weekday (&sel_start);
 
 		if (sel_start_wday == calitem->week_start_day &&
 		    cal_shell_content->priv->current_view == E_CAL_VIEW_KIND_DAY &&
 		    e_day_view_get_days_shown (E_DAY_VIEW (cal_shell_content->priv->views[E_CAL_VIEW_KIND_DAY])) == 7) {
-			e_cal_shell_content_change_view (cal_shell_content, E_CAL_VIEW_KIND_DAY, &sel_start, &sel_end, FALSE);
-		} else {
-			e_cal_shell_content_change_view (cal_shell_content, E_CAL_VIEW_KIND_WEEK, &sel_start, &sel_end, FALSE);
+			set_kind = E_CAL_VIEW_KIND_DAY;
+		} else if (sel_start_wday == calitem->week_start_day &&
+			   cal_shell_content->priv->current_view == E_CAL_VIEW_KIND_WORKWEEK &&
+			   e_day_view_get_days_shown (E_DAY_VIEW (cal_shell_content->priv->views[E_CAL_VIEW_KIND_WORKWEEK])) == 7) {
+			set_kind = E_CAL_VIEW_KIND_WORKWEEK;
 		}
+
+		e_cal_shell_content_change_view (cal_shell_content, set_kind, &sel_start, &sel_end, FALSE);
 	} else {
 		if (cal_shell_content->priv->current_view == E_CAL_VIEW_KIND_LIST) {
 			/* whole month */
