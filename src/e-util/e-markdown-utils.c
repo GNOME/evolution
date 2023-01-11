@@ -357,10 +357,16 @@ markdown_utils_sax_start_element_cb (gpointer ctx,
 		data->in_paragraph++;
 		data->in_pre++;
 		if (data->in_pre == 1) {
-			if (data->plain_text)
+			if (data->plain_text) {
 				markdown_utils_append_tag (data, NULL);
-			else
+			} else if (g_str_has_suffix (data->buffer->str, "```\n")) {
+				/* Merge consecutive <pre></pre> into one code block */
+				g_string_truncate (data->buffer, data->buffer->len - 4);
+				if (data->in_paragraph == 1)
+					data->paragraph_index--;
+			} else {
 				markdown_utils_append_tag (data, "```\n");
+			}
 		}
 		return;
 	}
@@ -532,8 +538,14 @@ markdown_utils_sax_end_element_cb (gpointer ctx,
 			data->in_paragraph--;
 
 		if (data->in_pre > 0) {
+			/* The composer creates the signature delimiter with a forced <BR>,
+			   aka "<pre>-- <br></pre>", which causes unnecessary doubled "\n\n"
+			   in the markdown, which this tries to avoid. */
+			if (!data->composer_quirks.enabled || !g_str_has_suffix (data->buffer->str, "```\n-- "))
+				markdown_utils_append_tag (data, "\n");
+			else
+				markdown_utils_append_tag (data, "");
 			data->in_pre--;
-			markdown_utils_append_tag (data, "\n");
 			if (data->in_pre == 0 && !data->plain_text)
 				markdown_utils_append_tag (data, "```\n");
 		}

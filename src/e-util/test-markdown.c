@@ -397,7 +397,10 @@ test_markdown_convert_pre (void)
 		HTML_PREFIX
 		"<div>text</div>"
 		"<pre>pre text start\n"
+		" line with one surrounding space \n"
+		"  line with two surrounding spaces \n"
 		"   indented line with two end spaces  \n"
+		"   line with three surrounding spaces   \n"
 		"\ttab\n"
 		"pre text end</pre>"
 		"<div>text 2</div>"
@@ -406,7 +409,10 @@ test_markdown_convert_pre (void)
 		"text\n"
 		"```\n"
 		"pre text start\n"
+		" line with one surrounding space \n"
+		"  line with two surrounding spaces \n"
 		"   indented line with two end spaces  \n"
+		"   line with three surrounding spaces   \n"
 		"\ttab\n"
 		"pre text end\n"
 		"```\n"
@@ -753,6 +759,27 @@ test_markdown_convert_to_plain_text (void)
 		"\n", E_MARKDOWN_HTML_TO_TEXT_FLAG_PLAIN_TEXT);
 }
 
+static void
+test_markdown_convert_signature (void)
+{
+	test_markdown_convert (
+		HTML_PREFIX
+		"<div style=\"width: 71ch;\">text</div>"
+		"<div style=\"width: 71ch;\"><br></div>"
+		"<div style=\"width: 71ch;\"><span>"
+		"<pre>-- <br></pre>"
+		"<pre>User &lt;user@no.where&gt;</pre>"
+		"</span></div>"
+		HTML_SUFFIX,
+		"text\n"
+		"\n"
+		"```\n"
+		"-- \n"
+		"User <user@no.where>\n"
+		"```\n"
+		"\n", E_MARKDOWN_HTML_TO_TEXT_FLAG_COMPOSER_QUIRKS | E_MARKDOWN_HTML_TO_TEXT_FLAG_SIGNIFICANT_NL);
+}
+
 typedef void (* ETestFixtureFunc) (TestFixture *fixture, gconstpointer user_data);
 
 gint
@@ -830,6 +857,7 @@ main (gint argc,
 	add_test ("/MarkdownConvert/ComposerQuirksCiteBodyComplex", test_markdown_convert_composer_quirks_cite_body_complex);
 	add_test ("/MarkdownConvert/ComposerQuirksToBodyAndCiteBody", test_markdown_convert_composer_quirks_to_body_and_cite_body);
 	add_test ("/MarkdownConvert/ToPlainText", test_markdown_convert_to_plain_text);
+	add_test ("/MarkdownConvert/Signature", test_markdown_convert_signature);
 
 	#undef add_test
 
