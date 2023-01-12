@@ -13,7 +13,7 @@ set(HELP_MEDIA
 	${HELP_FIGURES_DIR}/color-c4a000.png
 	${HELP_FIGURES_DIR}/color-ccccccffffff.png
 	${HELP_FIGURES_DIR}/color-ce5c00.png
-	${HELP_FIGURES_DIR}/evolutionlogo.png
+	${HELP_FIGURES_DIR}/evolution.svg
 	${HELP_FIGURES_DIR}/html-composer-insert-image.png
 	${HELP_FIGURES_DIR}/html-composer-insert-link.png
 	${HELP_FIGURES_DIR}/html-composer-insert-rule.png
