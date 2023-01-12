@@ -66,7 +66,9 @@ struct _EMailDisplayPrivate {
 	EAttachmentStore *attachment_store;
 	EAttachmentView *attachment_view;
 	GHashTable *attachment_flags; /* EAttachment * ~> guint bit-or of EAttachmentFlags */
+	GHashTable *cid_attachments; /* gchar *cid ~> EAttachemnt *; these are not part of the attachment store */
 	guint attachment_inline_ui_id;
+	guint open_with_ui_id;
 
 	GtkActionGroup *attachment_inline_group;
 	GtkActionGroup *attachment_accel_action_group;
@@ -131,6 +133,7 @@ static const gchar *ui =
 "        <menuitem action='search-folder-recipient'/>"
 "        <menuitem action='search-folder-sender'/>"
 "      </menu>"
+"      <placeholder name='open-actions'/>"
 "    </placeholder>"
 "  </popup>"
 "</ui>";
@@ -1296,6 +1299,7 @@ mail_display_load_changed_cb (WebKitWebView *wk_web_view,
 		display->priv->magic_spacebar_state = 0;
 		e_mail_display_cleanup_skipped_uris (display);
 		e_attachment_store_remove_all (display->priv->attachment_store);
+		g_hash_table_remove_all (display->priv->cid_attachments);
 	}
 }
 
@@ -1561,6 +1565,7 @@ mail_display_finalize (GObject *object)
 	g_mutex_lock (&priv->remote_content_lock);
 	g_clear_pointer (&priv->skipped_remote_content_sites, g_hash_table_destroy);
 	g_hash_table_destroy (priv->attachment_flags);
+	g_hash_table_destroy (priv->cid_attachments);
 	g_clear_object (&priv->remote_content);
 	g_mutex_unlock (&priv->remote_content_lock);
 	g_mutex_clear (&priv->remote_content_lock);
@@ -1751,14 +1756,279 @@ mail_display_style_updated (GtkWidget *widget)
 		style_updated (widget);
 }
 
+static gboolean
+mail_display_image_exists_in_cache (const gchar *uri,
+				    gchar **out_cache_filename)
+{
+	gchar *filename;
+	gchar *hash;
+	gboolean exists = FALSE;
+
+	if (out_cache_filename)
+		*out_cache_filename = NULL;
+
+	if (!emd_global_http_cache | !uri)
+		return FALSE;
+
+	if (g_str_has_prefix (uri, "evo-"))
+		uri += 4;
+
+	hash = e_http_request_util_compute_uri_checksum (uri);
+	filename = camel_data_cache_get_filename (emd_global_http_cache, "http", hash);
+
+	if (filename != NULL) {
+		struct stat st;
+
+		exists = g_file_test (filename, G_FILE_TEST_EXISTS);
+		if (exists && g_stat (filename, &st) == 0) {
+			exists = st.st_size != 0;
+			if (exists && out_cache_filename) {
+				*out_cache_filename = filename;
+				filename = NULL;
+			}
+		} else {
+			exists = FALSE;
+		}
+		g_free (filename);
+	}
+
+	g_free (hash);
+
+	return exists;
+}
+
+static void
+mail_display_action_open_with_app_info_cb (GtkAction *action,
+					   EMailDisplay *mail_display)
+{
+	EAttachment *attachment;
+	GAppInfo *app_info;
+	gpointer parent;
+
+	parent = gtk_widget_get_toplevel (GTK_WIDGET (mail_display));
+	parent = gtk_widget_is_toplevel (parent) ? parent : NULL;
+
+	attachment = g_object_get_data (G_OBJECT (action), "attachment");
+	app_info = g_object_get_data (G_OBJECT (action), "app-info");
+
+	if (!app_info && !e_util_is_running_flatpak ()) {
+		GtkWidget *dialog;
+		GFileInfo *file_info;
+		const gchar *content_type;
+
+		file_info = e_attachment_ref_file_info (attachment);
+		g_return_if_fail (file_info != NULL);
+
+		content_type = g_file_info_get_content_type (file_info);
+
+		dialog = gtk_app_chooser_dialog_new_for_content_type (parent, 0, content_type);
+		if (gtk_dialog_run (GTK_DIALOG (dialog)) == GTK_RESPONSE_OK) {
+			GtkAppChooser *app_chooser = GTK_APP_CHOOSER (dialog);
+			app_info = gtk_app_chooser_get_app_info (app_chooser);
+		}
+
+		gtk_widget_destroy (dialog);
+		g_object_unref (file_info);
+	} else if (app_info) {
+		g_object_ref (app_info);
+	}
+
+	if (app_info) {
+		e_attachment_open_async (
+			attachment, app_info, (GAsyncReadyCallback)
+			e_attachment_open_handle_error, parent);
+		g_object_unref (app_info);
+	}
+}
+
+static void
+mai_display_fill_open_with (EWebView *web_view,
+			    const gchar *attachment_id)
+{
+	EMailDisplay *mail_display = E_MAIL_DISPLAY (web_view);
+	EAttachment *attachment;
+	GtkActionGroup *action_group;
+	GtkUIManager *ui_manager;
+	GList *apps, *link;
+
+	g_warn_if_fail (mail_display->priv->open_with_ui_id == 0);
+
+	attachment = g_hash_table_lookup (mail_display->priv->cid_attachments, attachment_id);
+	if (attachment) {
+		g_object_ref (attachment);
+	} else {
+		gchar *cache_filename = NULL;
+
+		if (g_ascii_strncasecmp (attachment_id, "cid:", 4) == 0) {
+			CamelMimePart *mime_part;
+
+			mime_part = e_cid_resolver_ref_part (E_CID_RESOLVER (mail_display), attachment_id);
+			if (!mime_part)
+				return;
+
+			attachment = e_attachment_new ();
+			e_attachment_set_mime_part (attachment, mime_part);
+
+			g_object_unref (mime_part);
+		} else if (mail_display_image_exists_in_cache (attachment_id, &cache_filename)) {
+			attachment = e_attachment_new_for_path (cache_filename);
+			g_free (cache_filename);
+		} else {
+			return;
+		}
+
+		/* To have set the file_info, which is used to get the list of apps */
+		e_attachment_load (attachment, NULL);
+
+		g_hash_table_insert (mail_display->priv->cid_attachments, g_strdup (attachment_id), g_object_ref (attachment));
+	}
+
+	ui_manager = e_web_view_get_ui_manager (web_view);
+	action_group = e_web_view_get_action_group (web_view, "image");
+	apps = e_attachment_list_apps (attachment);
+
+	if (!apps && e_util_is_running_flatpak ())
+		apps = g_list_prepend (apps, NULL);
+
+	for (link = apps; link; link = g_list_next (link)) {
+		GAppInfo *app_info = link->data;
+		GtkAction *action;
+		GIcon *app_icon;
+		const gchar *app_id;
+		const gchar *app_name;
+		gchar *action_tooltip;
+		gchar *action_label;
+		gchar *action_name;
+
+		if (app_info) {
+			app_id = g_app_info_get_id (app_info);
+			app_icon = g_app_info_get_icon (app_info);
+			app_name = g_app_info_get_name (app_info);
+		} else {
+			app_id = "org.gnome.evolution.flatpak.default-app";
+			app_icon = NULL;
+			app_name = NULL;
+		}
+
+		if (app_id == NULL)
+			continue;
+
+		/* Don't list 'Open With "Evolution"'. */
+		if (g_str_equal (app_id, "org.gnome.Evolution.desktop"))
+			continue;
+
+		action_name = g_strdup_printf ("mail-display-open-with-%s", app_id);
+
+		if (app_info) {
+			action_label = g_strdup_printf (_("Open With “%s”"), app_name);
+			action_tooltip = g_strdup_printf (_("Open this attachment in %s"), app_name);
+		} else {
+			action_label = g_strdup (_("Open With Default Application"));
+			action_tooltip = g_strdup (_("Open this attachment in default application"));
+		}
+
+		action = gtk_action_new (action_name, action_label, action_tooltip, NULL);
+
+		gtk_action_set_gicon (action, app_icon);
+
+		if (app_info) {
+			g_object_set_data_full (G_OBJECT (action), "app-info",
+				g_object_ref (app_info), g_object_unref);
+		}
+
+		g_object_set_data_full (G_OBJECT (action), "attachment",
+			g_object_ref (attachment), g_object_unref);
+
+		g_signal_connect (action, "activate",
+			G_CALLBACK (mail_display_action_open_with_app_info_cb), mail_display);
+
+		gtk_action_group_add_action (action_group, action);
+
+		if (!mail_display->priv->open_with_ui_id)
+			mail_display->priv->open_with_ui_id = gtk_ui_manager_new_merge_id (ui_manager);
+
+		gtk_ui_manager_add_ui (
+			ui_manager, mail_display->priv->open_with_ui_id,
+			"/context/custom-actions-3/open-actions", action_name,
+			action_name, GTK_UI_MANAGER_AUTO, FALSE);
+
+		g_free (action_name);
+		g_free (action_label);
+		g_free (action_tooltip);
+
+		if (!app_info) {
+			apps = g_list_remove (apps, app_info);
+			break;
+		}
+	}
+
+	if (link != apps && !e_util_is_running_flatpak ()) {
+		GtkAction *action;
+		const gchar *action_name = "mail-display-open-with-other";
+
+		action = gtk_action_new (action_name, _("Open With Other Application…"), NULL, NULL);
+
+		g_object_set_data_full (G_OBJECT (action), "attachment",
+			g_object_ref (attachment), g_object_unref);
+
+		g_signal_connect (action, "activate",
+			G_CALLBACK (mail_display_action_open_with_app_info_cb), mail_display);
+
+		gtk_action_group_add_action (action_group, action);
+
+		if (!mail_display->priv->open_with_ui_id)
+			mail_display->priv->open_with_ui_id = gtk_ui_manager_new_merge_id (ui_manager);
+
+		gtk_ui_manager_add_ui (
+			ui_manager, mail_display->priv->open_with_ui_id,
+			"/context/custom-actions-3/open-actions", action_name,
+			action_name, GTK_UI_MANAGER_AUTO, FALSE);
+	}
+
+	g_list_free_full (apps, g_object_unref);
+	g_object_unref (attachment);
+}
+
+static void
+mail_display_cleanup_open_with (EWebView *web_view)
+{
+	EMailDisplay *mail_display = E_MAIL_DISPLAY (web_view);
+	GtkActionGroup *action_group;
+	GList *actions, *link;
+
+	if (mail_display->priv->open_with_ui_id) {
+		GtkUIManager *ui_manager;
+
+		ui_manager = e_web_view_get_ui_manager (web_view);
+
+		gtk_ui_manager_remove_ui (ui_manager, mail_display->priv->open_with_ui_id);
+		mail_display->priv->open_with_ui_id = 0;
+	}
+
+	action_group = e_web_view_get_action_group (web_view, "image");
+	actions = gtk_action_group_list_actions (action_group);
+
+	for (link = actions; link; link = g_list_next (link)) {
+		GtkAction *action = link->data;
+		const gchar *name = gtk_action_get_name (action);
+		if (name && g_str_has_prefix (name, "mail-display-open-with-"))
+			gtk_action_group_remove_action (action_group, action);
+	}
+
+	g_list_free (actions);
+}
+
 static void
 mail_display_before_popup_event (EWebView *web_view,
 				 const gchar *uri)
 {
+	const gchar *cursor_image_source;
 	gchar *popup_iframe_src = NULL, *popup_iframe_id = NULL;
 	GList *list, *link;
 
 	e_web_view_get_last_popup_place (web_view, &popup_iframe_src, &popup_iframe_id, NULL, NULL);
+
+	mail_display_cleanup_open_with (web_view);
 
 	list = e_extensible_list_extensions (E_EXTENSIBLE (web_view), E_TYPE_EXTENSION);
 
@@ -1771,43 +2041,16 @@ mail_display_before_popup_event (EWebView *web_view,
 		e_mail_display_popup_extension_update_actions (E_MAIL_DISPLAY_POPUP_EXTENSION (extension), popup_iframe_src, popup_iframe_id);
 	}
 
+	cursor_image_source = e_web_view_get_cursor_image_src (web_view);
+	if (cursor_image_source)
+		mai_display_fill_open_with (web_view, cursor_image_source);
+
 	g_free (popup_iframe_src);
 	g_free (popup_iframe_id);
 	g_list_free (list);
 
 	/* Chain up to parent's method. */
 	E_WEB_VIEW_CLASS (e_mail_display_parent_class)->before_popup_event (web_view, uri);
-}
-
-static gboolean
-mail_display_image_exists_in_cache (const gchar *image_uri)
-{
-	gchar *filename;
-	gchar *hash;
-	gboolean exists = FALSE;
-
-	if (!emd_global_http_cache)
-		return FALSE;
-
-	hash = e_http_request_util_compute_uri_checksum (image_uri);
-	filename = camel_data_cache_get_filename (
-		emd_global_http_cache, "http", hash);
-
-	if (filename != NULL) {
-		struct stat st;
-
-		exists = g_file_test (filename, G_FILE_TEST_EXISTS);
-		if (exists && g_stat (filename, &st) == 0) {
-			exists = st.st_size != 0;
-		} else {
-			exists = FALSE;
-		}
-		g_free (filename);
-	}
-
-	g_free (hash);
-
-	return exists;
 }
 
 static void
@@ -1845,8 +2088,7 @@ mail_display_uri_requested_cb (EWebView *web_view,
 		can_download_uri = e_mail_display_can_download_uri (display, uri);
 		if (!can_download_uri) {
 			/* Check Evolution's cache */
-			can_download_uri = mail_display_image_exists_in_cache (
-				uri + (g_str_has_prefix (uri, "evo-") ? 4 : 0));
+			can_download_uri = mail_display_image_exists_in_cache (uri, NULL);
 		}
 
 		/* If the URI is not cached and we are not allowed to load it
@@ -2428,6 +2670,7 @@ e_mail_display_init (EMailDisplay *display)
 
 	display->priv->attachment_store = E_ATTACHMENT_STORE (e_attachment_store_new ());
 	display->priv->attachment_flags = g_hash_table_new (g_direct_hash, g_direct_equal);
+	display->priv->cid_attachments = g_hash_table_new_full (g_str_hash, g_str_equal, g_free, g_object_unref);
 	display->priv->attachment_inline_group = gtk_action_group_new ("e-mail-display-attachment-inline");
 	display->priv->attachment_accel_action_group = gtk_action_group_new ("e-mail-display-attachment-accel");
 	display->priv->attachment_accel_group = gtk_accel_group_new ();
