@@ -1320,32 +1320,20 @@ search_changed (ENameSelectorDialog *name_selector_dialog)
 
 	if (g_strcmp0 (category, _("Any Category")) == 0)
 		query_string = g_strdup_printf (
-			"(or (beginswith \"file_as\" %s) "
-			"    (beginswith \"full_name\" %s) "
-			"    (beginswith \"email\" %s) "
-			"    (beginswith \"nickname\" %s)"
-			"    (contains \"file_as\" %s) "
+			"(or (contains \"file_as\" %s) "
 			"    (contains \"full_name\" %s) "
 			"    (contains \"email\" %s) "
 			"    (contains \"nickname\" %s)))",
-			text_escaped, text_escaped,
-			text_escaped, text_escaped,
 			text_escaped, text_escaped,
 			text_escaped, text_escaped);
 	else
 		query_string = g_strdup_printf (
 			"(and (is \"category_list\" %s) "
-			"(or (beginswith \"file_as\" %s) "
-			"    (beginswith \"full_name\" %s) "
-			"    (beginswith \"email\" %s) "
-			"    (beginswith \"nickname\" %s)"
-			"    (contains \"file_as\" %s) "
+			"(or (contains \"file_as\" %s) "
 			"    (contains \"full_name\" %s) "
 			"    (contains \"email\" %s) "
 			"    (contains \"nickname\" %s)))",
 			category_escaped, text_escaped, text_escaped,
-			text_escaped, text_escaped,
-			text_escaped, text_escaped,
 			text_escaped, text_escaped);
 
 	book_query = e_book_query_from_string (query_string);
