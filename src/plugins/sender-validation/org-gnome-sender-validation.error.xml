@@ -3,7 +3,13 @@
 <error-list domain="org.gnome.evolution.plugins.sender-validation" default="GTK_RESPONSE_YES">
 	<error id="sender-validation" type="info">
 		<_primary>Confirm sender address</_primary>
-		<_secondary>The message contains recipient “{0}” for which it is set up to use sender account “{1}”, but the account “{2}” is used instead.</_secondary>
+		<_secondary>The message contains recipient “{0}” for which it is set to use sender account “{1}”, but the account “{2}” is used instead.</_secondary>
+		<button stock="gtk-cancel" response="GTK_RESPONSE_CANCEL" _label="_Edit Message"/>
+		<button response="GTK_RESPONSE_YES" _label="_Send Anyway"></button>
+	</error>
+	<error id="sender-validation-ar" type="info">
+		<_primary>Confirm recipient address</_primary>
+		<_secondary>The message contains recipient “{0}”, which does not match recipient pattern “{1}” for the account “{2}”.</_secondary>
 		<button stock="gtk-cancel" response="GTK_RESPONSE_CANCEL" _label="_Edit Message"/>
 		<button response="GTK_RESPONSE_YES" _label="_Send Anyway"></button>
 	</error>

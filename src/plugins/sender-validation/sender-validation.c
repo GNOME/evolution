@@ -29,7 +29,8 @@
 #include "mail/em-event.h"
 #include "shell/e-shell.h"
 
-#define CONF_KEY_NAME "assignments"
+#define RA_CONF_KEY_NAME "assignments"
+#define AR_CONF_KEY_NAME "account-for-recipients"
 
 gint		e_plugin_lib_enable			(EPlugin *ep,
 							 gint enable);
@@ -95,16 +96,32 @@ e_sender_validation_parse_assignments (gchar **in_assignments)
 }
 
 static gboolean
-e_sender_validation_ask (GtkWindow *window,
-			 const gchar *recipient,
-			 const gchar *expected_account,
-			 const gchar *used_account)
+e_sender_validation_ask_ra (GtkWindow *window,
+			    const gchar *recipient,
+			    const gchar *expected_account,
+			    const gchar *used_account)
 {
 	gint response;
 
 	response = e_alert_run_dialog_for_args (window,
 		"org.gnome.evolution.plugins.sender-validation:sender-validation",
 		recipient, expected_account, used_account,
+		NULL);
+
+	return response == GTK_RESPONSE_YES;
+}
+
+static gboolean
+e_sender_validation_ask_ar (GtkWindow *window,
+			    const gchar *recipient,
+			    const gchar *expected_recipient,
+			    const gchar *used_account)
+{
+	gint response;
+
+	response = e_alert_run_dialog_for_args (window,
+		"org.gnome.evolution.plugins.sender-validation:sender-validation-ar",
+		recipient, expected_recipient, used_account,
 		NULL);
 
 	return response == GTK_RESPONSE_YES;
@@ -121,9 +138,8 @@ e_sender_validation_check (EMsgComposer *composer)
 	g_return_val_if_fail (E_IS_MSG_COMPOSER (composer), FALSE);
 
 	settings = e_util_ref_settings ("org.gnome.evolution.plugin.sender-validation");
-	strv = g_settings_get_strv (settings, CONF_KEY_NAME);
-	g_clear_object (&settings);
 
+	strv = g_settings_get_strv (settings, RA_CONF_KEY_NAME);
 	assignments = e_sender_validation_parse_assignments (strv);
 
 	if (assignments) {
@@ -163,7 +179,7 @@ e_sender_validation_check (EMsgComposer *composer)
 					}
 
 					if (!has_match && has_mismatch) {
-						can_send = e_sender_validation_ask (GTK_WINDOW (composer), recipient, has_mismatch->account, from_address);
+						can_send = e_sender_validation_ask_ra (GTK_WINDOW (composer), recipient, has_mismatch->account, from_address);
 						break;
 					}
 				}
@@ -176,6 +192,76 @@ e_sender_validation_check (EMsgComposer *composer)
 	g_slist_free_full (assignments, e_sender_validation_free_assignment);
 	/* Can free 'strv' only after 'assignments', because 'assignments' is using the memory from 'strv' */
 	g_strfreev (strv);
+
+	if (!can_send) {
+		g_clear_object (&settings);
+		return can_send;
+	}
+
+	strv = g_settings_get_strv (settings, AR_CONF_KEY_NAME);
+	assignments = e_sender_validation_parse_assignments (strv);
+
+	if (assignments) {
+		EComposerHeaderTable *header_table;
+		const gchar *from_address;
+
+		header_table = e_msg_composer_get_header_table (composer);
+		from_address = e_composer_header_table_get_from_address (header_table);
+
+		if (from_address && *from_address) {
+			GSList *link, *usable_assignments = NULL;
+
+			for (link = assignments; link; link = g_slist_next (link)) {
+				const Assignment *assignment = link->data;
+
+				/* one account can be in the list multiple times */
+				if (camel_strstrcase (from_address, assignment->account))
+					usable_assignments = g_slist_prepend (usable_assignments, (gpointer) assignment);
+			}
+
+			usable_assignments = g_slist_reverse (usable_assignments);
+
+			if (usable_assignments) {
+				EDestination **destinations;
+				guint ii;
+
+				destinations = e_composer_header_table_get_destinations (header_table);
+
+				for (ii = 0; destinations && destinations[ii]; ii++) {
+					EDestination *dest = destinations[ii];
+					const gchar *recipient;
+
+					recipient = e_destination_get_address (dest);
+
+					if (recipient && *recipient) {
+						const Assignment *has_mismatch = NULL;
+						gboolean has_match = FALSE;
+
+						for (link = usable_assignments; link && !has_match; link = g_slist_next (link)) {
+							const Assignment *assignment = link->data;
+
+							if (camel_strstrcase (recipient, assignment->recipient))
+								has_match = TRUE;
+							else if (!has_mismatch)
+								has_mismatch = assignment;
+						}
+
+						if (!has_match && has_mismatch) {
+							can_send = e_sender_validation_ask_ar (GTK_WINDOW (composer), recipient, has_mismatch->recipient, from_address);
+							break;
+						}
+					}
+				}
+
+				e_destination_freev (destinations);
+			}
+		}
+	}
+
+	g_slist_free_full (assignments, e_sender_validation_free_assignment);
+	/* Can free 'strv' only after 'assignments', because 'assignments' is using the memory from 'strv' */
+	g_strfreev (strv);
+	g_clear_object (&settings);
 
 	return can_send;
 }
@@ -197,15 +283,25 @@ enum {
 
 typedef struct {
 	GSettings *settings;
-	GtkWidget *treeview;
-	GtkWidget *button_add;
-	GtkWidget *button_edit;
-	GtkWidget *button_remove;
-	GtkListStore *store;
+	/* 'ra' for Recipients~>Account */
+	GtkWidget *ra_tree_view;
+	GtkWidget *ra_button_add;
+	GtkWidget *ra_button_edit;
+	GtkWidget *ra_button_remove;
+	GtkListStore *ra_store;
+
+	/* 'ar' for Account~>Recipients */
+	GtkWidget *ar_tree_view;
+	GtkWidget *ar_button_add;
+	GtkWidget *ar_button_edit;
+	GtkWidget *ar_button_remove;
+	GtkListStore *ar_store;
 } UIData;
 
 static void
-commit_changes (UIData *ui)
+commit_changes (UIData *ui,
+		GtkWidget *tree_view,
+		const gchar *conf_key)
 {
 	GtkTreeModel *model = NULL;
 	GVariantBuilder builder;
@@ -213,7 +309,7 @@ commit_changes (UIData *ui)
 	GtkTreeIter iter;
 	gboolean valid;
 
-	model = gtk_tree_view_get_model (GTK_TREE_VIEW (ui->treeview));
+	model = gtk_tree_view_get_model (GTK_TREE_VIEW (tree_view));
 	valid = gtk_tree_model_get_iter_first (model, &iter);
 
 	g_variant_builder_init (&builder, G_VARIANT_TYPE ("as"));
@@ -245,66 +341,103 @@ commit_changes (UIData *ui)
 
 	/* A floating GVariant is returned, which is consumed by the g_settings_set_value() */
 	var = g_variant_builder_end (&builder);
-	g_settings_set_value (ui->settings, CONF_KEY_NAME, var);
+	g_settings_set_value (ui->settings, conf_key, var);
 }
 
 static void
 column_edited (UIData *ui,
-	       gint column,
+	       gint column_index,
 	       const gchar *path_string,
-	       const gchar *new_text)
+	       const gchar *new_text,
+	       GtkWidget *tree_view,
+	       const gchar *conf_key)
 {
 	GtkTreeIter iter;
+	GtkTreeModel *model;
 
-	gtk_tree_model_get_iter_from_string (GTK_TREE_MODEL (ui->store), &iter, path_string);
+	model = gtk_tree_view_get_model (GTK_TREE_VIEW (tree_view));
+	gtk_tree_model_get_iter_from_string (model, &iter, path_string);
 
-	gtk_list_store_set (ui->store, &iter, column, new_text, -1);
-	commit_changes (ui);
+	gtk_list_store_set (GTK_LIST_STORE (model), &iter, column_index, new_text, -1);
+	commit_changes (ui, tree_view, conf_key);
 }
 
 static void
-recipient_edited_cb (GtkCellRendererText *cell,
-		     const gchar *path_string,
-		     const gchar *new_text,
-		     UIData *ui)
+ra_recipient_edited_cb (GtkCellRendererText *cell,
+			const gchar *path_string,
+			const gchar *new_text,
+			UIData *ui)
 {
-	column_edited (ui, RECIPIENT_COLUMN, path_string, new_text);
+	column_edited (ui, RECIPIENT_COLUMN, path_string, new_text, ui->ra_tree_view, RA_CONF_KEY_NAME);
 }
 
 static void
-account_edited_cb (GtkCellRendererText *cell,
-		   const gchar *path_string,
-		   const gchar *new_text,
-		   UIData *ui)
+ra_account_edited_cb (GtkCellRendererText *cell,
+		      const gchar *path_string,
+		      const gchar *new_text,
+		      UIData *ui)
 {
-	column_edited (ui, ACCOUNT_COLUMN, path_string, new_text);
+	column_edited (ui, ACCOUNT_COLUMN, path_string, new_text, ui->ra_tree_view, RA_CONF_KEY_NAME);
 }
 
 static void
-button_add_clicked (GtkButton *button,
-		    UIData *ui)
+ar_recipient_edited_cb (GtkCellRendererText *cell,
+			const gchar *path_string,
+			const gchar *new_text,
+			UIData *ui)
+{
+	column_edited (ui, RECIPIENT_COLUMN, path_string, new_text, ui->ar_tree_view, AR_CONF_KEY_NAME);
+}
+
+static void
+ar_account_edited_cb (GtkCellRendererText *cell,
+		      const gchar *path_string,
+		      const gchar *new_text,
+		      UIData *ui)
+{
+	column_edited (ui, ACCOUNT_COLUMN, path_string, new_text, ui->ar_tree_view, AR_CONF_KEY_NAME);
+}
+
+static void
+add_clicked (GtkTreeView *tree_view,
+	     gint column_index)
 {
 	GtkTreeModel *model;
-	GtkTreeView *tree_view;
 	GtkTreeViewColumn *column;
 	GtkTreePath *path;
 	GtkTreeIter iter;
 
-	tree_view = GTK_TREE_VIEW (ui->treeview);
 	model = gtk_tree_view_get_model (tree_view);
 
 	gtk_list_store_append (GTK_LIST_STORE (model), &iter);
 
 	path = gtk_tree_model_get_path (model, &iter);
-	column = gtk_tree_view_get_column (tree_view, RECIPIENT_COLUMN);
+	column = gtk_tree_view_get_column (tree_view, column_index);
 	gtk_tree_view_set_cursor (tree_view, path, column, TRUE);
 	gtk_tree_view_row_activated (tree_view, path, column);
 	gtk_tree_path_free (path);
 }
 
 static void
-button_remove_clicked (GtkButton *button,
+ra_button_add_clicked (GtkButton *button,
 		       UIData *ui)
+{
+	add_clicked (GTK_TREE_VIEW (ui->ra_tree_view), RECIPIENT_COLUMN);
+}
+
+static void
+ar_button_add_clicked (GtkButton *button,
+		       UIData *ui)
+{
+	add_clicked (GTK_TREE_VIEW (ui->ar_tree_view), ACCOUNT_COLUMN);
+}
+
+static void
+remove_clicked (UIData *ui,
+		GtkTreeView *tree_view,
+		GtkWidget *button_edit,
+		GtkWidget *button_remove,
+		const gchar *conf_key)
 {
 	GtkTreeSelection *selection;
 	GtkTreeModel *model;
@@ -314,7 +447,7 @@ button_remove_clicked (GtkButton *button,
 	gint len;
 
 	valid = FALSE;
-	selection = gtk_tree_view_get_selection (GTK_TREE_VIEW (ui->treeview));
+	selection = gtk_tree_view_get_selection (tree_view);
 	if (!gtk_tree_selection_get_selected (selection, &model, &iter))
 		return;
 
@@ -336,19 +469,34 @@ button_remove_clicked (GtkButton *button,
 			}
 		}
 	} else {
-		gtk_widget_set_sensitive (ui->button_edit, FALSE);
-		gtk_widget_set_sensitive (ui->button_remove, FALSE);
+		gtk_widget_set_sensitive (button_edit, FALSE);
+		gtk_widget_set_sensitive (button_remove, FALSE);
 	}
 
-	gtk_widget_grab_focus (ui->treeview);
+	gtk_widget_grab_focus (GTK_WIDGET (tree_view));
 	gtk_tree_path_free (path);
 
-	commit_changes (ui);
+	commit_changes (ui, GTK_WIDGET (tree_view), conf_key);
 }
 
 static void
-button_edit_clicked (GtkButton *button,
-		     UIData *ui)
+ra_button_remove_clicked (GtkButton *button,
+			  UIData *ui)
+{
+	remove_clicked (ui, GTK_TREE_VIEW (ui->ra_tree_view), ui->ra_button_edit, ui->ra_button_remove, RA_CONF_KEY_NAME);
+}
+
+static void
+ar_button_remove_clicked (GtkButton *button,
+			  UIData *ui)
+{
+	remove_clicked (ui, GTK_TREE_VIEW (ui->ar_tree_view), ui->ar_button_edit, ui->ar_button_remove, AR_CONF_KEY_NAME);
+}
+
+static void
+edit_clicked (UIData *ui,
+	      GtkTreeView *tree_view,
+	      gint column_index)
 {
 	GtkTreeSelection *selection;
 	GtkTreeModel *model;
@@ -356,33 +504,61 @@ button_edit_clicked (GtkButton *button,
 	GtkTreeIter iter;
 	GtkTreeViewColumn *focus_col;
 
-	selection = gtk_tree_view_get_selection (GTK_TREE_VIEW (ui->treeview));
+	selection = gtk_tree_view_get_selection (tree_view);
 	if (!gtk_tree_selection_get_selected (selection, &model, &iter))
 		return;
 
-	focus_col = gtk_tree_view_get_column (GTK_TREE_VIEW (ui->treeview), RECIPIENT_COLUMN);
+	focus_col = gtk_tree_view_get_column (tree_view, column_index);
 	path = gtk_tree_model_get_path (model, &iter);
 
 	if (path) {
-		gtk_tree_view_set_cursor (GTK_TREE_VIEW (ui->treeview), path, focus_col, TRUE);
+		gtk_tree_view_set_cursor (tree_view, path, focus_col, TRUE);
 		gtk_tree_path_free (path);
 	}
 }
 
 static void
-selection_changed_cb (GtkTreeSelection *selection,
-		      UIData *ui)
+ra_button_edit_clicked (GtkButton *button,
+			UIData *ui)
 {
-	GtkTreeModel *model;
+	edit_clicked (ui, GTK_TREE_VIEW (ui->ra_tree_view), RECIPIENT_COLUMN);
+}
+
+static void
+ar_button_edit_clicked (GtkButton *button,
+			UIData *ui)
+{
+	edit_clicked (ui, GTK_TREE_VIEW (ui->ar_tree_view), ACCOUNT_COLUMN);
+}
+
+static void
+selection_changed (GtkTreeSelection *selection,
+		   GtkWidget *button_edit,
+		   GtkWidget *button_remove)
+{
 	GtkTreeIter iter;
 
-	if (gtk_tree_selection_get_selected (selection, &model, &iter)) {
-		gtk_widget_set_sensitive (ui->button_edit, TRUE);
-		gtk_widget_set_sensitive (ui->button_remove, TRUE);
+	if (gtk_tree_selection_get_selected (selection, NULL, &iter)) {
+		gtk_widget_set_sensitive (button_edit, TRUE);
+		gtk_widget_set_sensitive (button_remove, TRUE);
 	} else {
-		gtk_widget_set_sensitive (ui->button_edit, FALSE);
-		gtk_widget_set_sensitive (ui->button_remove, FALSE);
+		gtk_widget_set_sensitive (button_edit, FALSE);
+		gtk_widget_set_sensitive (button_remove, FALSE);
 	}
+}
+
+static void
+ra_selection_changed_cb (GtkTreeSelection *selection,
+			 UIData *ui)
+{
+	selection_changed (selection, ui->ra_button_edit, ui->ra_button_remove);
+}
+
+static void
+ar_selection_changed_cb (GtkTreeSelection *selection,
+			 UIData *ui)
+{
+	selection_changed (selection, ui->ar_button_edit, ui->ar_button_remove);
 }
 
 static void
@@ -460,6 +636,7 @@ e_plugin_lib_get_configure_widget (EPlugin *plugin)
 	GtkTreeIter iter;
 	GtkWidget *hbox;
 	GtkWidget *vbox;
+	GtkWidget *label;
 	GtkWidget *container;
 	GtkWidget *scrolledwindow;
 	GtkWidget *vbuttonbox;
@@ -473,6 +650,20 @@ e_plugin_lib_get_configure_widget (EPlugin *plugin)
 	gtk_widget_show (vbox);
 	gtk_widget_set_size_request (vbox, 385, 189);
 
+	label = gtk_label_new (_("Set which account should be used for certain recipient patterns.\n"
+		"For example, setting recipient as “@company.org” for account “me@company.org” will warn when a recipient containing “@company.org” is not used with the “me@company.org” account."));
+	g_object_set (label,
+		"halign", GTK_ALIGN_START,
+		"hexpand", TRUE,
+		"valign", GTK_ALIGN_START,
+		"vexpand", FALSE,
+		"wrap", TRUE,
+		"wrap-mode", PANGO_WRAP_WORD,
+		"max-width-chars", 80,
+		NULL);
+	gtk_widget_show (label);
+	gtk_box_pack_start (GTK_BOX (vbox), label, FALSE, FALSE, 6);
+
 	container = gtk_box_new (GTK_ORIENTATION_HORIZONTAL, 12);
 	gtk_widget_show (container);
 	gtk_box_pack_start (GTK_BOX (vbox), container, TRUE, TRUE, 0);
@@ -482,12 +673,12 @@ e_plugin_lib_get_configure_widget (EPlugin *plugin)
 	gtk_box_pack_start (GTK_BOX (container), scrolledwindow, TRUE, TRUE, 0);
 	gtk_scrolled_window_set_policy (GTK_SCROLLED_WINDOW (scrolledwindow), GTK_POLICY_AUTOMATIC, GTK_POLICY_AUTOMATIC);
 
-	ui->treeview = gtk_tree_view_new ();
-	gtk_widget_show (ui->treeview);
-	gtk_container_add (GTK_CONTAINER (scrolledwindow), ui->treeview);
-	gtk_container_set_border_width (GTK_CONTAINER (ui->treeview), 1);
-	gtk_tree_view_set_headers_visible (GTK_TREE_VIEW (ui->treeview), TRUE);
-	gtk_tree_view_set_headers_clickable (GTK_TREE_VIEW (ui->treeview), FALSE);
+	ui->ra_tree_view = gtk_tree_view_new ();
+	gtk_widget_show (ui->ra_tree_view);
+	gtk_container_add (GTK_CONTAINER (scrolledwindow), ui->ra_tree_view);
+	gtk_container_set_border_width (GTK_CONTAINER (ui->ra_tree_view), 1);
+	gtk_tree_view_set_headers_visible (GTK_TREE_VIEW (ui->ra_tree_view), TRUE);
+	gtk_tree_view_set_headers_clickable (GTK_TREE_VIEW (ui->ra_tree_view), FALSE);
 
 	vbuttonbox = gtk_button_box_new (GTK_ORIENTATION_VERTICAL);
 	gtk_widget_show (vbuttonbox);
@@ -495,74 +686,184 @@ e_plugin_lib_get_configure_widget (EPlugin *plugin)
 	gtk_button_box_set_layout (GTK_BUTTON_BOX (vbuttonbox), GTK_BUTTONBOX_START);
 	gtk_box_set_spacing (GTK_BOX (vbuttonbox), 6);
 
-	ui->button_add = e_dialog_button_new_with_icon ("list-add", _("_Add"));
-	gtk_widget_show (ui->button_add);
-	gtk_container_add (GTK_CONTAINER (vbuttonbox), ui->button_add);
-	gtk_widget_set_can_default (ui->button_add, TRUE);
+	ui->ra_button_add = e_dialog_button_new_with_icon ("list-add", _("_Add"));
+	gtk_widget_show (ui->ra_button_add);
+	gtk_container_add (GTK_CONTAINER (vbuttonbox), ui->ra_button_add);
+	gtk_widget_set_can_default (ui->ra_button_add, TRUE);
 
-	ui->button_edit = gtk_button_new_with_mnemonic (_("_Edit"));
-	gtk_widget_show (ui->button_edit);
-	gtk_container_add (GTK_CONTAINER (vbuttonbox), ui->button_edit);
-	gtk_widget_set_can_default (ui->button_edit, TRUE);
+	ui->ra_button_edit = gtk_button_new_with_mnemonic (_("_Edit"));
+	gtk_widget_show (ui->ra_button_edit);
+	gtk_container_add (GTK_CONTAINER (vbuttonbox), ui->ra_button_edit);
+	gtk_widget_set_can_default (ui->ra_button_edit, TRUE);
 
-	ui->button_remove = e_dialog_button_new_with_icon ("list-remove", _("_Remove"));
-	gtk_widget_show (ui->button_remove);
-	gtk_container_add (GTK_CONTAINER (vbuttonbox), ui->button_remove);
-	gtk_widget_set_can_default (ui->button_remove, TRUE);
+	ui->ra_button_remove = e_dialog_button_new_with_icon ("list-remove", _("_Remove"));
+	gtk_widget_show (ui->ra_button_remove);
+	gtk_container_add (GTK_CONTAINER (vbuttonbox), ui->ra_button_remove);
+	gtk_widget_set_can_default (ui->ra_button_remove, TRUE);
 
 	ui->settings = e_util_ref_settings ("org.gnome.evolution.plugin.sender-validation");
-	ui->store = gtk_list_store_new (N_COLUMNS, G_TYPE_STRING, G_TYPE_STRING);
+	ui->ra_store = gtk_list_store_new (N_COLUMNS, G_TYPE_STRING, G_TYPE_STRING);
 
-	gtk_tree_view_set_model (GTK_TREE_VIEW (ui->treeview), GTK_TREE_MODEL (ui->store));
+	gtk_tree_view_set_model (GTK_TREE_VIEW (ui->ra_tree_view), GTK_TREE_MODEL (ui->ra_store));
 
 	renderer = gtk_cell_renderer_text_new ();
 	gtk_tree_view_insert_column_with_attributes (
-		GTK_TREE_VIEW (ui->treeview), -1, _("Recipient Contains"),
+		GTK_TREE_VIEW (ui->ra_tree_view), -1, _("Recipient Contains"),
 		renderer, "text", RECIPIENT_COLUMN, NULL);
 	g_object_set (renderer, "editable", TRUE, NULL);
 	g_signal_connect (
 		renderer, "edited",
-		G_CALLBACK (recipient_edited_cb), ui);
+		G_CALLBACK (ra_recipient_edited_cb), ui);
 
 	renderer = gtk_cell_renderer_combo_new ();
 	e_sender_validation_fill_accounts (GTK_CELL_RENDERER_COMBO (renderer));
 	gtk_tree_view_insert_column_with_attributes (
-		GTK_TREE_VIEW (ui->treeview), -1, _("Account to Use"),
+		GTK_TREE_VIEW (ui->ra_tree_view), -1, _("Account to Use"),
 		renderer, "text", ACCOUNT_COLUMN, NULL);
 	g_object_set (renderer, "editable", TRUE, NULL);
 	g_signal_connect (
 		renderer, "edited",
-		G_CALLBACK (account_edited_cb), ui);
+		G_CALLBACK (ra_account_edited_cb), ui);
 
-	selection = gtk_tree_view_get_selection (GTK_TREE_VIEW (ui->treeview));
+	selection = gtk_tree_view_get_selection (GTK_TREE_VIEW (ui->ra_tree_view));
 	gtk_tree_selection_set_mode (selection, GTK_SELECTION_SINGLE);
 	g_signal_connect (
 		selection, "changed",
-		G_CALLBACK (selection_changed_cb), ui);
-	gtk_tree_view_set_headers_visible (GTK_TREE_VIEW (ui->treeview), TRUE);
+		G_CALLBACK (ra_selection_changed_cb), ui);
+	gtk_tree_view_set_headers_visible (GTK_TREE_VIEW (ui->ra_tree_view), TRUE);
 
 	g_signal_connect (
-		ui->button_add, "clicked",
-		G_CALLBACK (button_add_clicked), ui);
+		ui->ra_button_add, "clicked",
+		G_CALLBACK (ra_button_add_clicked), ui);
 
 	g_signal_connect (
-		ui->button_remove, "clicked",
-		G_CALLBACK (button_remove_clicked), ui);
-	gtk_widget_set_sensitive (ui->button_remove, FALSE);
+		ui->ra_button_remove, "clicked",
+		G_CALLBACK (ra_button_remove_clicked), ui);
+	gtk_widget_set_sensitive (ui->ra_button_remove, FALSE);
 
 	g_signal_connect (
-		ui->button_edit, "clicked",
-		G_CALLBACK (button_edit_clicked), ui);
-	gtk_widget_set_sensitive (ui->button_edit, FALSE);
+		ui->ra_button_edit, "clicked",
+		G_CALLBACK (ra_button_edit_clicked), ui);
+	gtk_widget_set_sensitive (ui->ra_button_edit, FALSE);
 
-	strv = g_settings_get_strv (ui->settings, CONF_KEY_NAME);
+	strv = g_settings_get_strv (ui->settings, RA_CONF_KEY_NAME);
 	assignments = e_sender_validation_parse_assignments (strv);
 
 	for (link = assignments; link; link = g_slist_next (link)) {
 		const Assignment *assignment = link->data;
 
-		gtk_list_store_append (ui->store, &iter);
-		gtk_list_store_set (ui->store, &iter,
+		gtk_list_store_append (ui->ra_store, &iter);
+		gtk_list_store_set (ui->ra_store, &iter,
+			RECIPIENT_COLUMN, assignment->recipient,
+			ACCOUNT_COLUMN, assignment->account,
+			-1);
+	}
+
+	g_slist_free_full (assignments, e_sender_validation_free_assignment);
+	g_strfreev (strv);
+
+	label = gtk_label_new (_("Set which recipient patterns can be used for certain account.\n"
+		"For example, setting account “me@company.org” for recipients “@company.org” will warn when any of the recipients does not contain “@company.org” when sending with the “me@company.org” account."));
+	g_object_set (label,
+		"halign", GTK_ALIGN_START,
+		"hexpand", TRUE,
+		"valign", GTK_ALIGN_START,
+		"vexpand", FALSE,
+		"wrap", TRUE,
+		"wrap-mode", PANGO_WRAP_WORD,
+		"max-width-chars", 80,
+		NULL);
+	gtk_widget_show (label);
+	gtk_box_pack_start (GTK_BOX (vbox), label, FALSE, FALSE, 6);
+
+	container = gtk_box_new (GTK_ORIENTATION_HORIZONTAL, 12);
+	gtk_widget_show (container);
+	gtk_box_pack_start (GTK_BOX (vbox), container, TRUE, TRUE, 0);
+
+	scrolledwindow = gtk_scrolled_window_new (NULL, NULL);
+	gtk_widget_show (scrolledwindow);
+	gtk_box_pack_start (GTK_BOX (container), scrolledwindow, TRUE, TRUE, 0);
+	gtk_scrolled_window_set_policy (GTK_SCROLLED_WINDOW (scrolledwindow), GTK_POLICY_AUTOMATIC, GTK_POLICY_AUTOMATIC);
+
+	ui->ar_tree_view = gtk_tree_view_new ();
+	gtk_widget_show (ui->ar_tree_view);
+	gtk_container_add (GTK_CONTAINER (scrolledwindow), ui->ar_tree_view);
+	gtk_container_set_border_width (GTK_CONTAINER (ui->ar_tree_view), 1);
+	gtk_tree_view_set_headers_visible (GTK_TREE_VIEW (ui->ar_tree_view), TRUE);
+	gtk_tree_view_set_headers_clickable (GTK_TREE_VIEW (ui->ar_tree_view), FALSE);
+
+	vbuttonbox = gtk_button_box_new (GTK_ORIENTATION_VERTICAL);
+	gtk_widget_show (vbuttonbox);
+	gtk_box_pack_start (GTK_BOX (container), vbuttonbox, FALSE, TRUE, 0);
+	gtk_button_box_set_layout (GTK_BUTTON_BOX (vbuttonbox), GTK_BUTTONBOX_START);
+	gtk_box_set_spacing (GTK_BOX (vbuttonbox), 6);
+
+	ui->ar_button_add = e_dialog_button_new_with_icon ("list-add", _("_Add"));
+	gtk_widget_show (ui->ar_button_add);
+	gtk_container_add (GTK_CONTAINER (vbuttonbox), ui->ar_button_add);
+
+	ui->ar_button_edit = gtk_button_new_with_mnemonic (_("_Edit"));
+	gtk_widget_show (ui->ar_button_edit);
+	gtk_container_add (GTK_CONTAINER (vbuttonbox), ui->ar_button_edit);
+	gtk_widget_set_can_default (ui->ar_button_edit, TRUE);
+
+	ui->ar_button_remove = e_dialog_button_new_with_icon ("list-remove", _("_Remove"));
+	gtk_widget_show (ui->ar_button_remove);
+	gtk_container_add (GTK_CONTAINER (vbuttonbox), ui->ar_button_remove);
+	gtk_widget_set_can_default (ui->ar_button_remove, TRUE);
+
+	ui->ar_store = gtk_list_store_new (N_COLUMNS, G_TYPE_STRING, G_TYPE_STRING);
+
+	gtk_tree_view_set_model (GTK_TREE_VIEW (ui->ar_tree_view), GTK_TREE_MODEL (ui->ar_store));
+
+	renderer = gtk_cell_renderer_combo_new ();
+	e_sender_validation_fill_accounts (GTK_CELL_RENDERER_COMBO (renderer));
+	gtk_tree_view_insert_column_with_attributes (
+		GTK_TREE_VIEW (ui->ar_tree_view), -1, _("Account"),
+		renderer, "text", ACCOUNT_COLUMN, NULL);
+	g_object_set (renderer, "editable", TRUE, NULL);
+	g_signal_connect (
+		renderer, "edited",
+		G_CALLBACK (ar_account_edited_cb), ui);
+
+	renderer = gtk_cell_renderer_text_new ();
+	gtk_tree_view_insert_column_with_attributes (
+		GTK_TREE_VIEW (ui->ar_tree_view), -1, _("Allow Recipients Which Contain"),
+		renderer, "text", RECIPIENT_COLUMN, NULL);
+	g_object_set (renderer, "editable", TRUE, NULL);
+	g_signal_connect (
+		renderer, "edited",
+		G_CALLBACK (ar_recipient_edited_cb), ui);
+
+	selection = gtk_tree_view_get_selection (GTK_TREE_VIEW (ui->ar_tree_view));
+	gtk_tree_selection_set_mode (selection, GTK_SELECTION_SINGLE);
+	g_signal_connect (
+		selection, "changed",
+		G_CALLBACK (ar_selection_changed_cb), ui);
+	gtk_tree_view_set_headers_visible (GTK_TREE_VIEW (ui->ar_tree_view), TRUE);
+
+	g_signal_connect (
+		ui->ar_button_add, "clicked",
+		G_CALLBACK (ar_button_add_clicked), ui);
+
+	g_signal_connect (
+		ui->ar_button_remove, "clicked",
+		G_CALLBACK (ar_button_remove_clicked), ui);
+	gtk_widget_set_sensitive (ui->ar_button_remove, FALSE);
+
+	g_signal_connect (
+		ui->ar_button_edit, "clicked",
+		G_CALLBACK (ar_button_edit_clicked), ui);
+	gtk_widget_set_sensitive (ui->ar_button_edit, FALSE);
+
+	strv = g_settings_get_strv (ui->settings, AR_CONF_KEY_NAME);
+	assignments = e_sender_validation_parse_assignments (strv);
+
+	for (link = assignments; link; link = g_slist_next (link)) {
+		const Assignment *assignment = link->data;
+
+		gtk_list_store_append (ui->ar_store, &iter);
+		gtk_list_store_set (ui->ar_store, &iter,
 			RECIPIENT_COLUMN, assignment->recipient,
 			ACCOUNT_COLUMN, assignment->account,
 			-1);
