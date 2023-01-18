@@ -1120,12 +1120,17 @@ type_ahead_complete (ENameSelectorEntry *name_selector_entry)
 	gchar         *cue_str;
 	gchar         *temp_str;
 	ENameSelectorEntryPrivate *priv;
+	GtkEntryCompletion *completion;
 
 	priv = E_NAME_SELECTOR_ENTRY_GET_PRIVATE (name_selector_entry);
 
 	cursor_pos = gtk_editable_get_position (GTK_EDITABLE (name_selector_entry));
 	if (cursor_pos < 0)
 		return;
+
+	completion = gtk_entry_get_completion (GTK_ENTRY (name_selector_entry));
+	if (completion)
+		gtk_entry_completion_complete (completion);
 
 	text = gtk_entry_get_text (GTK_ENTRY (name_selector_entry));
 	get_range_at_position (text, cursor_pos, &range_start, &range_end);
@@ -2346,6 +2351,12 @@ setup_contact_store (ENameSelectorEntry *name_selector_entry)
 		/* Set up callback for incoming matches */
 		g_signal_connect_swapped (
 			name_selector_entry->priv->contact_store, "row-inserted",
+			G_CALLBACK (ensure_type_ahead_complete_on_timeout), name_selector_entry);
+		g_signal_connect_swapped (
+			name_selector_entry->priv->contact_store, "row-changed",
+			G_CALLBACK (ensure_type_ahead_complete_on_timeout), name_selector_entry);
+		g_signal_connect_swapped (
+			name_selector_entry->priv->contact_store, "row-deleted",
 			G_CALLBACK (ensure_type_ahead_complete_on_timeout), name_selector_entry);
 	} else {
 		/* Remove the store from the entry completion */
