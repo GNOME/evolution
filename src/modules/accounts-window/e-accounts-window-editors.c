@@ -293,6 +293,7 @@ accounts_window_editors_edit_unmanaged_collection (EAccountsWindow *accounts_win
 
 	grid = GTK_GRID (widget);
 	gtk_grid_set_column_spacing (grid, 6);
+	gtk_grid_set_row_spacing (grid, 2);
 
 	label = gtk_label_new_with_mnemonic (_("_Name:"));
 	gtk_widget_set_halign (label, GTK_ALIGN_END);
@@ -311,14 +312,18 @@ accounts_window_editors_edit_unmanaged_collection (EAccountsWindow *accounts_win
 
 	label = gtk_label_new (_("Use for"));
 	gtk_widget_set_halign (label, GTK_ALIGN_END);
+	gtk_widget_set_valign (label, GTK_ALIGN_CENTER);
 	gtk_grid_attach (grid, label, 0, 1, 1, 1);
 
 	label = gtk_label_new_with_mnemonic (_("_Mail"));
 	gtk_widget_set_halign (label, GTK_ALIGN_START);
+	gtk_widget_set_valign (label, GTK_ALIGN_CENTER);
 	gtk_grid_attach (grid, label, 1, 1, 1, 1);
 
 	widget = gtk_switch_new ();
 	gtk_switch_set_active (GTK_SWITCH (widget), e_source_collection_get_mail_enabled (collection_extension));
+	gtk_widget_set_halign (widget, GTK_ALIGN_START);
+	gtk_widget_set_valign (widget, GTK_ALIGN_CENTER);
 	gtk_label_set_mnemonic_widget (GTK_LABEL (label), widget);
 	ced->mail_part = widget;
 
@@ -326,10 +331,13 @@ accounts_window_editors_edit_unmanaged_collection (EAccountsWindow *accounts_win
 
 	label = gtk_label_new_with_mnemonic (_("C_alendar"));
 	gtk_widget_set_halign (label, GTK_ALIGN_START);
+	gtk_widget_set_valign (label, GTK_ALIGN_CENTER);
 	gtk_grid_attach (grid, label, 1, 2, 1, 1);
 
 	widget = gtk_switch_new ();
 	gtk_switch_set_active (GTK_SWITCH (widget), e_source_collection_get_calendar_enabled (collection_extension));
+	gtk_widget_set_halign (widget, GTK_ALIGN_START);
+	gtk_widget_set_valign (widget, GTK_ALIGN_CENTER);
 	gtk_label_set_mnemonic_widget (GTK_LABEL (label), widget);
 	ced->calendar_part = widget;
 
@@ -337,10 +345,13 @@ accounts_window_editors_edit_unmanaged_collection (EAccountsWindow *accounts_win
 
 	label = gtk_label_new_with_mnemonic (_("Co_ntacts"));
 	gtk_widget_set_halign (label, GTK_ALIGN_START);
+	gtk_widget_set_valign (label, GTK_ALIGN_CENTER);
 	gtk_grid_attach (grid, label, 1, 3, 1, 1);
 
 	widget = gtk_switch_new ();
 	gtk_switch_set_active (GTK_SWITCH (widget), e_source_collection_get_contacts_enabled (collection_extension));
+	gtk_widget_set_halign (widget, GTK_ALIGN_START);
+	gtk_widget_set_valign (widget, GTK_ALIGN_CENTER);
 	gtk_label_set_mnemonic_widget (GTK_LABEL (label), widget);
 	ced->contacts_part = widget;
 
