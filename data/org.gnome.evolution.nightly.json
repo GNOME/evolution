@@ -356,6 +356,7 @@
 				"cflags": "-DTEMP_HOME=1 -Wno-deprecated-declarations"
 			},
 			"config-opts": [
+				"-DOVERRIDE_APPLICATION_ID=org.gnome.evolution-nightly",
 				"-DENABLE_MAINTAINER_MODE=ON",
 				"-DENABLE_AUTOAR=OFF",
 				"-DENABLE_CONTACT_MAPS=OFF",

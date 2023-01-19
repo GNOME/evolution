@@ -67,7 +67,11 @@
 
 #include "e-util/e-util.h"
 
+#ifdef OVERRIDE_APPLICATION_ID
+#define APPLICATION_ID OVERRIDE_APPLICATION_ID
+#else
 #define APPLICATION_ID "org.gnome.Evolution"
+#endif
 
 /* STABLE_VERSION is only defined for development versions. */
 #ifdef STABLE_VERSION

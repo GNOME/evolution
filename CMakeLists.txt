@@ -202,6 +202,12 @@ include(FindIntltool)
 include(FindLDAP)
 include(FindSMIME)
 
+# hidden option, usually not usable
+option(OVERRIDE_APPLICATION_ID "Override application ID" "")
+if(OVERRIDE_APPLICATION_ID STREQUAL "")
+	unset(OVERRIDE_APPLICATION_ID)
+endif(OVERRIDE_APPLICATION_ID STREQUAL "")
+
 add_printable_option(ENABLE_MAINTAINER_MODE "Enable maintainer mode" OFF)
 add_printable_variable(VERSION_SUBSTRING "Version substring, for packagers" "")
 add_printable_variable(VERSION_COMMENT "Define if you want a comment appended to the version number" "")
