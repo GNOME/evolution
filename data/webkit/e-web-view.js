@@ -928,6 +928,20 @@ Evo.mailDisplayResizeContentToPreviewWidth = function()
 
 			/* Add rules to every sub document */
 			for (ii = 0; ii < iframes.length; ii++) {
+				var jj, frmdoc = iframes[ii].contentDocument;
+				for (jj = 0; frmdoc && jj < frmdoc.images.length; jj++) {
+					var img = frmdoc.images[jj];
+					if (!img.hasAttribute("width") && !img.hasAttribute("height")) {
+						var can = img.hasAttribute("x-evo-width-modified");
+						if (!can)
+							can = img.style.width == "" && img.style.height == "";
+						if (can) {
+							img.setAttribute("x-evo-width-modified", "1");
+							img.style.width = local_width + "px";
+						}
+					}
+				}
+
 				if (!this.can_force_width_on_iframe (iframes[ii]))
 					continue;
 
