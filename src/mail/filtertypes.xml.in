@@ -801,6 +801,10 @@
    </option>
   </input>
  </part>
+ <part name="learn-junk">
+  <_title>Learn as Junk</_title>
+  <code>(set-system-flag "junklearn") (set-system-flag "junk")</code>
+ </part>
  <part name="beep">
   <_title>Beep</_title>
   <code>(beep)</code>
