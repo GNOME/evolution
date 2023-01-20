@@ -931,13 +931,26 @@ Evo.mailDisplayResizeContentToPreviewWidth = function()
 				var jj, frmdoc = iframes[ii].contentDocument;
 				for (jj = 0; frmdoc && jj < frmdoc.images.length; jj++) {
 					var img = frmdoc.images[jj];
-					if (!img.hasAttribute("width") && !img.hasAttribute("height")) {
-						var can = img.hasAttribute("x-evo-width-modified");
-						if (!can)
-							can = img.style.width == "" && img.style.height == "";
-						if (can) {
-							img.setAttribute("x-evo-width-modified", "1");
-							img.style.width = local_width + "px";
+					if (frmdoc.defaultView && !img.hasAttribute("width") && !img.hasAttribute("height")) {
+						var can1 = img.hasAttribute("x-evo-width-modified"), can2 = false;
+						if (!can1)
+							can2 = img.style.width == "" && img.style.height == "";
+						if (can1 || can2) {
+							var expected_width;
+							if (can1) {
+								expected_width = parseInt(img.getAttribute("x-evo-width-modified"));
+							} else {
+								var tmp = frmdoc.defaultView.getComputedStyle(img).width;
+								if (tmp && tmp.endsWith("px"))
+									expected_width = parseInt(tmp.slice(0, -2));
+								else
+									expected_width = tmp;
+								img.setAttribute("x-evo-width-modified", expected_width);
+							}
+							if (expected_width < local_width)
+								img.style.width = expected_width + "px";
+							else
+								img.style.width = local_width + "px";
 						}
 					}
 				}
