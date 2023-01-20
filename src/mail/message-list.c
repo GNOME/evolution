@@ -4704,10 +4704,12 @@ find_next_selectable (MessageList *message_list,
 {
 	ETreeTableAdapter *adapter;
 	GNode *node;
+	CamelMessageInfo *info;
+	GSettings *settings;
 	gint vrow_orig;
 	gint vrow;
+	gint vrow_inc;
 	gint row_count;
-	CamelMessageInfo *info;
 
 	node = g_hash_table_lookup (
 		message_list->uid_nodemap,
@@ -4722,30 +4724,39 @@ find_next_selectable (MessageList *message_list,
 	adapter = e_tree_get_table_adapter (E_TREE (message_list));
 	row_count = e_table_model_row_count (E_TABLE_MODEL (adapter));
 
+	settings = e_util_ref_settings ("org.gnome.evolution.mail");
+	if (g_settings_get_boolean (settings, "delete-selects-previous"))
+		vrow_inc = -1;
+	else
+		vrow_inc = 1;
+	g_clear_object (&settings);
+
 	/* model_to_view_row etc simply don't work for sorted views.  Sigh. */
 	vrow_orig = e_tree_table_adapter_row_of_node (adapter, node);
 
 	/* We already checked this node. */
-	vrow = vrow_orig + 1;
+	vrow = vrow_orig + vrow_inc;
 
-	while (vrow < row_count) {
+	while (vrow >= 0 && vrow < row_count) {
 		node = e_tree_table_adapter_node_at_row (adapter, vrow);
 		info = get_message_info (message_list, node);
 		if (info && is_node_selectable (message_list, info, removed_uids))
 			return g_strdup (camel_message_info_get_uid (info));
-		vrow++;
+		vrow += vrow_inc;
 	}
 
-	/* We didn't find any undeleted entries _below_ the currently selected one
- *       * so let's try to find one _above_ */
-	vrow = vrow_orig - 1;
+	vrow_inc = vrow_inc * (-1);
 
-	while (vrow >= 0) {
+	/* We didn't find any undeleted entries _below_ the currently selected one
+	 * so let's try to find one _above_ */
+	vrow = vrow_orig + vrow_inc;
+
+	while (vrow >= 0 && vrow < row_count) {
 		node = e_tree_table_adapter_node_at_row (adapter, vrow);
 		info = get_message_info (message_list, node);
 		if (info && is_node_selectable (message_list, info, removed_uids))
 			return g_strdup (camel_message_info_get_uid (info));
-		vrow--;
+		vrow += vrow_inc;
 	}
 
 	return NULL;
