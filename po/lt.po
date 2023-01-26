@@ -26713,7 +26713,6 @@ msgid "Failed to add feed: "
 msgstr "Nepavyko pridėti sklaidos kanalo: "
 
 #: ../src/modules/rss/evolution/e-rss-preferences.c:1332
-#| msgctxt "EmojiChooser"
 msgid "No RSS feeds found"
 msgstr "Nerasta RSS sklaidos kanalų"
 
