@@ -2,12 +2,12 @@
 # Copyright (C) 2020 evolution's COPYRIGHT HOLDER
 # This file is distributed under the same license as the evolution package.
 #
-# Yuri Chornoivan <yurchor@ukr.net>, 2020, 2021, 2022.
+# Yuri Chornoivan <yurchor@ukr.net>, 2020, 2021, 2022, 2023.
 msgid ""
 msgstr ""
 "Project-Id-Version: evolution master\n"
-"POT-Creation-Date: 2022-10-20 18:22+0000\n"
-"PO-Revision-Date: 2022-10-21 17:48+0300\n"
+"POT-Creation-Date: 2023-01-18 23:23+0000\n"
+"PO-Revision-Date: 2023-01-27 18:01+0200\n"
 "Last-Translator: Yuri Chornoivan <yurchor@ukr.net>\n"
 "Language-Team: Ukrainian <trans-uk@lists.fedoraproject.org>\n"
 "Language: uk\n"
@@ -4000,15 +4000,18 @@ msgid "Manage your email, contacts and schedule"
 msgstr "Ваша електронна пошта та розклад"
 
 #. (itstool) path: info/title
+#: C/index.page:6
+#| msgctxt "text"
+#| msgid "<app>Evolution</app> Mail and Calendar"
+msgctxt "link:trail"
+msgid "<app>Evolution</app> Mail and Calendar"
+msgstr "Електронна пошта та календар <app>Evolution</app>"
+
+#. (itstool) path: info/title
 #: C/index.page:7
 msgctxt "text"
 msgid "<app>Evolution</app> Mail and Calendar"
 msgstr "Електронна пошта та календар <app>Evolution</app>"
-
-#. (itstool) path: media/span
-#: C/index.page:25
-msgid "Evolution logo"
-msgstr "Логотип Evolution"
 
 #. (itstool) path: page/title
 #: C/index.page:23
@@ -4016,72 +4019,72 @@ msgid "<_:media-1/> <app>Evolution</app> Mail and Calendar"
 msgstr "<_:media-1/> Електронна пошта та календар <app>Evolution</app>"
 
 #. (itstool) path: section/title
-#: C/index.page:31
+#: C/index.page:29
 msgid "Getting Started"
 msgstr "Початкові зауваження"
 
 #. (itstool) path: section/title
-#: C/index.page:35
+#: C/index.page:33
 msgid "Mail Management"
 msgstr "Керування поштою"
 
 #. (itstool) path: section/title
-#: C/index.page:37
+#: C/index.page:35
 msgid "Advanced Mail Management"
 msgstr "Додаткові можливості керування поштою"
 
 #. (itstool) path: section/title
-#: C/index.page:42
+#: C/index.page:40
 msgid "Mail Composing"
 msgstr "Редагування повідомлення"
 
 #. (itstool) path: section/title
-#: C/index.page:44
+#: C/index.page:42
 msgid "Advanced Mail Composing"
 msgstr "Додаткові можливості з редагування повідомлень"
 
 #. (itstool) path: section/title
-#: C/index.page:49
+#: C/index.page:47
 msgid "Calendar Management"
 msgstr "Керування календарем"
 
 #. (itstool) path: section/title
-#: C/index.page:51
+#: C/index.page:49
 msgid "Advanced Calendar Management"
 msgstr "Додаткові можливості з керування календарем"
 
 #. (itstool) path: section/title
-#: C/index.page:56
+#: C/index.page:54
 msgid "Contacts Management"
 msgstr "Керування контактами"
 
 #. (itstool) path: section/title
-#: C/index.page:60
+#: C/index.page:58
 msgid "Memos and Tasks Management"
 msgstr "Керування примітками і завданнями"
 
 #. (itstool) path: section/title
-#: C/index.page:64
+#: C/index.page:62
 msgid "Data Migration and Synchronization"
 msgstr "Перенесення та синхронізація даних"
 
 #. (itstool) path: section/title
-#: C/index.page:68
+#: C/index.page:66
 msgid "Tracking down Problems"
 msgstr "Виявлення причин проблем"
 
 #. (itstool) path: section/title
-#: C/index.page:72
+#: C/index.page:70
 msgid "Common Mail Questions and Problems"
 msgstr "Типові питання щодо пошти і вирішення проблем"
 
 #. (itstool) path: section/title
-#: C/index.page:76
+#: C/index.page:74
 msgid "Common Other Questions and Problems"
 msgstr "Типові питання щодо інших речей і вирішення проблем"
 
 #. (itstool) path: section/title
-#: C/index.page:80
+#: C/index.page:78
 msgid "Further reading"
 msgstr "Інформація для подальшого ознайомлення"
 
@@ -14700,26 +14703,22 @@ msgstr "Як отримати допомогу"
 
 #. (itstool) path: page/p
 #: C/problems-getting-help.page:24
-#| msgid ""
-#| "To receive help on problems you can send an email to the <link href="
-#| "\"http://mail.gnome.org/mailman/listinfo/evolution-list\"><app>Evolution</"
-#| "app> mailing list</link> or talk to developers and other users in the IRC "
-#| "chat channel #evolution on the server irc.gimp.net. To connect to an IRC "
-#| "server you can for example <link xref=\"help:polari/\" href=\"https://"
-#| "help.gnome.org/users/polari/stable/\">use the application <app>Polari</"
-#| "app></link>."
 msgid ""
-"To receive help on problems you can open a thread on <link href=\"https://"
-"discourse.gnome.org/tag/evolution\"><app>GNOME Discourse</app> with the "
-"evolution tag</link> or talk to developers and other users in the IRC chat "
-"channel #evolution on the server irc.gimp.net. To connect to an IRC server "
-"you can for example <link xref=\"help:polari/\" href=\"https://help.gnome."
-"org/users/polari/stable/\">use the application <app>Polari</app></link>."
+"To receive help on problems you can send an email to the <link href="
+"\"https://lists.osuosl.org/mailman/listinfo/evolution-users"
+"\"><app>Evolution</app> mailing list</link>, open a thread on <link href="
+"\"https://discourse.gnome.org/tag/evolution\"><app>GNOME Discourse</app> "
+"with the evolution tag</link> or talk to developers and other users in the "
+"IRC chat channel #evolution on the server irc.gimp.net. To connect to an IRC "
+"server you can for example <link xref=\"help:polari/\" href=\"https://help."
+"gnome.org/users/polari/stable/\">use the application <app>Polari</app></"
+"link>."
 msgstr ""
-"Щоб отримати допомогу із вирішенням проблем, ви можете створити гілку"
-" обговорення у <link href=\"https://"
-"discourse.gnome.org/tag/evolution\"><app>GNOME Discourse</app> з міткою"
-" «evolution»</link> або "
+"Щоб отримати допомогу із вирішенням проблем, ви можете надіслати "
+"повідомлення електронної пошти до <link href=\"https://lists.osuosl.org/"
+"mailman/listinfo/evolution-users\">списку листування <app>Evolution</app></"
+"link>, створити гілку обговорення у <link href=\"https://discourse.gnome.org/"
+"tag/evolution\"><app>GNOME Discourse</app> з міткою «evolution»</link> або "
 "поспілкуватися із розробниками та іншими користувачами на каналі спілкування "
 "IRC #evolution на сервері irc.gimp.net. Щоб з'єднатися із сервером IRC ви "
 "можете, наприклад, <link xref=\"help:polari/\" href=\"https://help.gnome.org/"
@@ -15976,6 +15975,9 @@ msgstr ""
 #: C/xinclude-searching.xml:30
 msgid "Click <_:gui-1/>."
 msgstr "Натисніть <_:gui-1/>."
+
+#~ msgid "Evolution logo"
+#~ msgstr "Логотип Evolution"
 
 #~ msgid ""
 #~ "For connecting to a Microsoft Exchange 2007/2010 or OpenChange server. "
