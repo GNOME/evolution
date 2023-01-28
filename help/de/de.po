@@ -28,13 +28,13 @@
 # Bernd Homuth <dev@hmt.im>, 2015.
 # Tim Sabsch <tim@sabsch.com>, 2018, 2022.
 # Mario Blättermann <mario.blaettermann@gmail.com>, 2009-2013, 2016-2021.
-# Jürgen Benvenuti <gastornis@posteo.org>, 2022.
+# Jürgen Benvenuti <gastornis@posteo.org>, 2022, 2023
 msgid ""
 msgstr ""
 "Project-Id-Version: manual_evolution\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2022-11-25 08:52+0000\n"
-"PO-Revision-Date: 2022-12-09 21:48+0100\n"
+"POT-Creation-Date: 2022-11-01 08:10+0000\n"
+"PO-Revision-Date: 2023-01-10 19:13+0100\n"
 "Last-Translator: Jürgen Benvenuti <gastornis@posteo.org>\n"
 "Language-Team: German <gnome-de@gnome.org>\n"
 "Language: de\n"
@@ -55,7 +55,7 @@ msgstr ""
 "Gabor Karsay <gabor.karsay@gmx.at>, 2011-2012\n"
 "Bernd Homuth <dev@hmt.im>, 2015\n"
 "Tim Sabsch <tim@sabsch.com>, 2018, 2022\n"
-"Jürgen Benvenuti <gastornis@posteo.org>, 2022"
+"Jürgen Benvenuti <gastornis@posteo.org>, 2022, 2023"
 
 #. (itstool) path: info/desc
 #: C/backup-restore.page:18
@@ -1133,7 +1133,7 @@ msgid ""
 "calendar that you have chosen."
 msgstr ""
 "Sobald Sie auf <gui>Akzeptieren</gui> klicken, wird der Termin automatisch "
-"zum gewählten Kalnder hinzugefügt."
+"zum gewählten Kalender hinzugefügt."
 
 #. (itstool) path: page/p
 #: C/calendar-meetings-replying-to-invitation.page:30
@@ -3122,7 +3122,7 @@ msgid ""
 "gvfs/\" style=\"button\">Install gvfs</link>"
 msgstr ""
 "<link action=\"install:gvfs\" href=\"https://ftp.gnome.org/pub/gnome/sources/"
-"gvfs/\" style=\"button\">Installieren Sie gvfs</link>"
+"gvfs/\" style=\"button\">gvfs installieren</link>"
 
 #. (itstool) path: section/title
 #: C/default-browser.page:81
@@ -7131,7 +7131,7 @@ msgstr ""
 "Einstellungen</gui><gui>Allgemein</gui><gui>Ansichtseinstellungen auf alle "
 "Ordner anwenden</gui></guiseq>. Beachten Sie, dass diese Einstellung "
 "ebenfalls die Sichtbarkeit von <link xref=\"mail-sorting-message-list#email-"
-"threads\"><gui>Nach Threads gruppieren</gui></link> und der "
+"threads\"><gui>Nach Konversationen gruppieren</gui></link> und der "
 "<gui>Nachrichtenvorschau</gui> in allen Ordnern betrifft."
 
 #. (itstool) path: note/p
@@ -7279,7 +7279,7 @@ msgstr "<_:code-1/> (z.B. »15« für das Jahr 2015)"
 #. (itstool) path: info/desc
 #: C/mail-composer-custom-header-lines.page:5
 msgid "Using custom fields in the header of composed messages."
-msgstr "Angepasste Felder Im Kopf von verfassten Nachrichten verwenden."
+msgstr "Angepasste Felder im Kopf von verfassten Nachrichten verwenden."
 
 #. (itstool) path: page/title
 #: C/mail-composer-custom-header-lines.page:23
@@ -8674,7 +8674,7 @@ msgstr ""
 #. (itstool) path: section/title
 #: C/mail-composer-reply.page:32
 msgid "Using the Reply To All Feature"
-msgstr "Antwort an Alle"
+msgstr "Antwort an alle"
 
 #. (itstool) path: section/p
 #: C/mail-composer-reply.page:33
@@ -13408,7 +13408,7 @@ msgstr ""
 #. (itstool) path: section/title
 #: C/mail-sorting-message-list.page:33
 msgid "Sorting Mail in Email Threads"
-msgstr "E-Mails in E-Mail-Threads sortieren"
+msgstr "E-Mails in E-Mail-Konversationen sortieren"
 
 #. (itstool) path: section/p
 #: C/mail-sorting-message-list.page:34
@@ -13418,7 +13418,7 @@ msgid ""
 "press <keyseq><key>Ctrl</key><key>T</key></keyseq>."
 msgstr ""
 "Aktivieren Sie eine gruppierte Nachrichtenansicht, indem Sie auf "
-"<guiseq><gui>Ansicht</gui><gui>Nach Threads gruppieren</gui></guiseq> "
+"<guiseq><gui>Ansicht</gui><gui>Nach Konversationen gruppieren</gui></guiseq> "
 "klicken oder <keyseq><key>Strg</key><key>T</key></keyseq> drücken."
 
 #. (itstool) path: section/p
@@ -13455,8 +13455,8 @@ msgid ""
 "message received."
 msgstr ""
 "Sobald eine neue Nachricht eingeht, wird diese unter die übergeordnete "
-"Nachricht hinzugefügt. Threads werden nach Datum der zuletzt erhaltenen "
-"Nachricht sortiert und angezeigt."
+"Nachricht hinzugefügt. Konversationen werden nach Datum der zuletzt "
+"erhaltenen Nachricht sortiert und angezeigt."
 
 #. (itstool) path: note/p
 #: C/mail-sorting-message-list.page:38
@@ -13873,7 +13873,7 @@ msgid ""
 "\" style=\"button\">Install spamassassin</link>"
 msgstr ""
 "<link action=\"install:spamassassin\" href=\"http://spamassassin.apache.org/"
-"\" style=\"button\">Spamassassin installieren</link>"
+"\" style=\"button\">SpamAssassin installieren</link>"
 
 #. (itstool) path: section/p
 #: C/mail-spam-settings.page:52
@@ -13885,7 +13885,7 @@ msgid ""
 "work. You can modify the actions of SpamAssassin by training it as well."
 msgstr ""
 "SpamAssassin arbeitet über einen Satz vordefinierter Regeln, so dass es "
-"unerwünschte E-Mails unmittelbar erkennen kann. Bogofilter  wird nicht mit "
+"unerwünschte E-Mails unmittelbar erkennen kann. Bogofilter wird nicht mit "
 "einer Reihe von Kriterien ausgeliefert und filtert demnach auch nichts "
 "automatisch nach der Installation. Sie müssen diesen erst <link xref=\"mail-"
 "spam-marking\">trainieren</link>. Sie können die Aktionen von SpamAssassin "
