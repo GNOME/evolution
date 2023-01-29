@@ -18,8 +18,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: evolution master\n"
 "Report-Msgid-Bugs-To: https://gitlab.gnome.org/GNOME/evolution/issues\n"
-"POT-Creation-Date: 2023-01-01 11:12+0000\n"
-"PO-Revision-Date: 2023-01-03 19:49+0300\n"
+"POT-Creation-Date: 2023-01-24 19:19+0000\n"
+"PO-Revision-Date: 2023-01-24 23:47+0300\n"
 "Last-Translator: Aleksandr Melman <Alexmelman88@gmail.com>\n"
 "Language-Team: Russian <gnome-cyr@gnome.org>\n"
 "Language: ru\n"
@@ -3476,6 +3476,10 @@ msgstr ""
 "только частью адреса, а sender - полный адрес электронной почты, который "
 "должен точно соответствовать адресу From."
 
+#: ../data/org.gnome.evolution.plugin.sender-validator.gschema.xml.in.h:4
+msgid "List of assignments for an account, which recipients it accepts"
+msgstr "Список назначений для учетной записи, какие адресаты она принимает"
+
 #: ../data/org.gnome.evolution.plugin.templates.gschema.xml.in.h:1
 msgid ""
 "List of keyword/value pairs for the Templates plugin to substitute in a "
@@ -3533,7 +3537,7 @@ msgid ""
 msgstr "Фильтр сжатия используется при сжатии вложенных директорий с autoar."
 
 #: ../data/org.gnome.evolution.shell.gschema.xml.in.h:11
-#: ../src/shell/main.c:427
+#: ../src/shell/main.c:431
 msgid "Start in offline mode"
 msgstr "Запуск в автономном режиме"
 
@@ -3888,7 +3892,7 @@ msgstr "Почта"
 
 #: ../data/org.gnome.Evolution.desktop.in.in.h:11
 #: ../src/calendar/gui/e-memo-table.c:446 ../src/e-util/e-webdav-browser.c:523
-#: ../src/modules/calendar/e-cal-shell-content.c:1935
+#: ../src/modules/calendar/e-cal-shell-content.c:1940
 #: ../src/modules/calendar/e-memo-shell-view-actions.c:196
 #: ../src/modules/calendar/e-memo-shell-view-actions.c:211
 #: ../src/modules/calendar/e-memo-shell-view.c:335
@@ -3901,7 +3905,7 @@ msgstr "Заметки"
 #: ../src/calendar/importers/icalendar-importer.c:1151
 #: ../src/e-util/e-webdav-browser.c:524
 #: ../src/modules/calendar/e-calendar-preferences.ui.h:83
-#: ../src/modules/calendar/e-cal-shell-content.c:1895
+#: ../src/modules/calendar/e-cal-shell-content.c:1900
 #: ../src/modules/calendar/e-task-shell-view-actions.c:220
 #: ../src/modules/calendar/e-task-shell-view-actions.c:235
 #: ../src/modules/calendar/e-task-shell-view.c:530
@@ -4390,7 +4394,8 @@ msgstr ""
 #: ../src/plugins/attachment-reminder/attachment-reminder.c:559
 #: ../src/plugins/email-custom-header/email-custom-header.c:828
 #: ../src/plugins/publish-calendar/publish-calendar.ui.h:33
-#: ../src/plugins/sender-validation/sender-validation.c:498
+#: ../src/plugins/sender-validation/sender-validation.c:689
+#: ../src/plugins/sender-validation/sender-validation.c:801
 #: ../src/plugins/templates/templates.c:470
 msgid "_Add"
 msgstr "_Добавить"
@@ -4904,7 +4909,8 @@ msgstr "До_бавить X.509"
 #: ../src/plugins/email-custom-header/email-custom-header.c:838
 #: ../src/plugins/publish-calendar/publish-calendar.c:789
 #: ../src/plugins/publish-calendar/publish-calendar.ui.h:35
-#: ../src/plugins/sender-validation/sender-validation.c:508
+#: ../src/plugins/sender-validation/sender-validation.c:699
+#: ../src/plugins/sender-validation/sender-validation.c:810
 #: ../src/plugins/templates/templates.c:480
 msgid "_Remove"
 msgstr "_Удалить"
@@ -5117,7 +5123,7 @@ msgstr "_Справка"
 #: ../src/plugins/email-custom-header/org-gnome-email-custom-header.ui.h:4
 #: ../src/plugins/publish-calendar/url-editor-dialog.c:418
 #: ../src/shell/e-shell-content.c:643 ../src/shell/e-shell-content.c:749
-#: ../src/shell/main.c:273 ../src/smime/gui/certificate-manager.c:1278
+#: ../src/shell/main.c:277 ../src/smime/gui/certificate-manager.c:1278
 #: ../src/smime/gui/e-cert-selector.c:233 ../src/smime/gui/smime-ui.ui.h:18
 msgid "_OK"
 msgstr "_ОК"
@@ -8199,7 +8205,7 @@ msgstr "Время начала не является допустимым вр�
 #: ../src/em-format/e-mail-part-secure-button.c:97
 #: ../src/e-util/e-misc-utils.c:4145 ../src/e-util/e-misc-utils.c:4180
 #: ../src/e-util/e-misc-utils.c:4193 ../src/e-util/e-misc-utils.c:4207
-#: ../src/mail/e-mail-autoconfig.c:1129 ../src/mail/e-mail-display.c:2538
+#: ../src/mail/e-mail-autoconfig.c:1129 ../src/mail/e-mail-display.c:2781
 #: ../src/mail/e-mail-notes.c:930 ../src/mail/e-mail-reader-utils.c:805
 #: ../src/mail/em-composer-utils.c:3962 ../src/mail/em-composer-utils.c:3985
 #: ../src/mail/mail-send-recv.c:598 ../src/mail/mail-send-recv.c:1493
@@ -8571,7 +8577,8 @@ msgstr "_Участники…"
 #: ../src/plugins/attachment-reminder/attachment-reminder.c:564
 #: ../src/plugins/email-custom-header/email-custom-header.c:833
 #: ../src/plugins/publish-calendar/publish-calendar.ui.h:34
-#: ../src/plugins/sender-validation/sender-validation.c:503
+#: ../src/plugins/sender-validation/sender-validation.c:694
+#: ../src/plugins/sender-validation/sender-validation.c:805
 #: ../src/plugins/templates/templates.c:475
 #: ../src/shell/e-shell-window-actions.c:1107 ../src/smime/gui/smime-ui.ui.h:11
 msgid "_Edit"
@@ -10251,7 +10258,7 @@ msgid "Appointments and Meetings"
 msgstr "Встречи и собрания"
 
 #: ../src/calendar/importers/icalendar-importer.c:334
-#: ../src/modules/accounts-window/e-accounts-window-editors.c:480
+#: ../src/modules/accounts-window/e-accounts-window-editors.c:491
 #: ../src/modules/calendar/e-cal-base-shell-backend.c:89
 #: ../src/modules/calendar/e-cal-base-shell-backend.c:279
 #: ../src/modules/calendar/e-cal-shell-view-actions.c:181
@@ -10259,7 +10266,7 @@ msgid "New Calendar"
 msgstr "Создать календарь"
 
 #: ../src/calendar/importers/icalendar-importer.c:337
-#: ../src/modules/accounts-window/e-accounts-window-editors.c:488
+#: ../src/modules/accounts-window/e-accounts-window-editors.c:499
 #: ../src/modules/calendar/e-cal-base-shell-backend.c:287
 #: ../src/modules/calendar/e-task-shell-view-actions.c:204
 msgid "New Task List"
@@ -12193,7 +12200,7 @@ msgstr "Сохранить черновик"
 #: ../src/e-util/gal-view-instance-save-as-dialog.ui.h:2
 #: ../src/mail/e-mail-config-identity-page.c:551
 #: ../src/mail/e-mail-config-summary-page.c:327
-#: ../src/modules/accounts-window/e-accounts-window-editors.c:297
+#: ../src/modules/accounts-window/e-accounts-window-editors.c:298
 #: ../src/modules/rss/evolution/e-rss-preferences.c:830
 msgid "_Name:"
 msgstr "_Имя:"
@@ -13338,7 +13345,7 @@ msgstr "Сохранить _только извлечённые файлы"
 msgid "Save extracted files and the original _archive"
 msgstr "Сохранить извлечённые файлы и исходный _архив"
 
-#: ../src/e-util/e-attachment-view.c:308
+#: ../src/e-util/e-attachment-view.c:308 ../src/mail/e-mail-display.c:1969
 msgid "Open With Other Application…"
 msgstr "Открыть с помощью другого приложения…"
 
@@ -13371,21 +13378,21 @@ msgstr "_Добавить вложение…"
 msgid "_Properties"
 msgstr "_Свойства"
 
-#: ../src/e-util/e-attachment-view.c:784
+#: ../src/e-util/e-attachment-view.c:784 ../src/mail/e-mail-display.c:1923
 #, c-format
 msgid "Open With “%s”"
 msgstr "Открыть с помощью «%s»"
 
-#: ../src/e-util/e-attachment-view.c:785
+#: ../src/e-util/e-attachment-view.c:785 ../src/mail/e-mail-display.c:1924
 #, c-format
 msgid "Open this attachment in %s"
 msgstr "Открыть это вложение в %s"
 
-#: ../src/e-util/e-attachment-view.c:787
+#: ../src/e-util/e-attachment-view.c:787 ../src/mail/e-mail-display.c:1926
 msgid "Open With Default Application"
 msgstr "Открыть с помощью приложения по умолчанию"
 
-#: ../src/e-util/e-attachment-view.c:788
+#: ../src/e-util/e-attachment-view.c:788 ../src/mail/e-mail-display.c:1927
 msgid "Open this attachment in default application"
 msgstr "Открыть это вложение в приложении по умолчанию"
 
@@ -15156,31 +15163,31 @@ msgstr "_Линия"
 msgid "_Table"
 msgstr "_Таблица"
 
-#: ../src/e-util/e-html-editor-actions.c:2439 ../src/e-util/e-html-editor.c:973
+#: ../src/e-util/e-html-editor-actions.c:2439 ../src/e-util/e-html-editor.c:981
 msgid "Editing Mode"
 msgstr "Режим редактирования"
 
-#: ../src/e-util/e-html-editor.c:959
+#: ../src/e-util/e-html-editor.c:967
 msgid "Paragraph Style"
 msgstr "Стиль абзаца"
 
-#: ../src/e-util/e-html-editor.c:986
+#: ../src/e-util/e-html-editor.c:994
 msgid "Font Color"
 msgstr "Цвет шрифта"
 
-#: ../src/e-util/e-html-editor.c:997
+#: ../src/e-util/e-html-editor.c:1005
 msgid "Background Color"
 msgstr "Цвет фона"
 
-#: ../src/e-util/e-html-editor.c:1007
+#: ../src/e-util/e-html-editor.c:1015
 msgid "Font Size"
 msgstr "Размер шрифта"
 
-#: ../src/e-util/e-html-editor.c:1016
+#: ../src/e-util/e-html-editor.c:1024
 msgid "Font Name"
 msgstr "Наименование шрифта"
 
-#: ../src/e-util/e-html-editor.c:2147
+#: ../src/e-util/e-html-editor.c:2162
 msgid "Failed to obtain content of editor"
 msgstr "Не удалось получить содержимое редактора"
 
@@ -16047,7 +16054,7 @@ msgid "_Search:"
 msgstr "_Поиск:"
 
 #: ../src/e-util/e-name-selector-dialog.c:363
-#: ../src/e-util/e-name-selector-dialog.c:1324
+#: ../src/e-util/e-name-selector-dialog.c:1321
 #: ../src/modules/addressbook/e-book-shell-view-actions.c:1271
 #: ../src/modules/calendar/e-cal-shell-view-actions.c:1852
 #: ../src/modules/calendar/e-memo-shell-view-actions.c:783
@@ -16056,7 +16063,7 @@ msgid "Any Category"
 msgstr "Любая категория"
 
 #: ../src/e-util/e-name-selector-dialog.c:365
-#: ../src/modules/accounts-window/e-accounts-window-editors.c:338
+#: ../src/modules/accounts-window/e-accounts-window-editors.c:346
 msgid "Co_ntacts"
 msgstr "_Контакты"
 
@@ -16069,25 +16076,25 @@ msgid "Select Contacts from Address Book"
 msgstr "Выберите контакты из адресной книги"
 
 #. To Translators: This would be similiar to "Expand MyList Inline" where MyList is a Contact List
-#: ../src/e-util/e-name-selector-entry.c:3213
+#: ../src/e-util/e-name-selector-entry.c:3166
 #, c-format
 msgid "E_xpand %s Inline"
 msgstr "_Развернуть контейнер %s"
 
 #. Copy Contact Item
-#: ../src/e-util/e-name-selector-entry.c:3229
+#: ../src/e-util/e-name-selector-entry.c:3182
 #, c-format
 msgid "Cop_y %s"
 msgstr "_Копировать %s"
 
 #. Cut Contact Item
-#: ../src/e-util/e-name-selector-entry.c:3240
+#: ../src/e-util/e-name-selector-entry.c:3193
 #, c-format
 msgid "C_ut %s"
 msgstr "_Вырезать %s"
 
 #. Edit Contact item
-#: ../src/e-util/e-name-selector-entry.c:3258
+#: ../src/e-util/e-name-selector-entry.c:3211
 #, c-format
 msgid "_Edit %s"
 msgstr "_Изменить %s"
@@ -16471,7 +16478,7 @@ msgstr "Показать"
 msgid "Group name"
 msgstr "Имя группы"
 
-#: ../src/e-util/e-source-selector.c:3834 ../src/mail/e-mail-display.c:755
+#: ../src/e-util/e-source-selector.c:3834 ../src/mail/e-mail-display.c:758
 msgid "_Hide"
 msgstr "_Скрыть"
 
@@ -18372,55 +18379,55 @@ msgstr "Добро пожаловать"
 msgid "Account Editor"
 msgstr "Редактор учётной записи"
 
-#: ../src/mail/e-mail-display.c:142
+#: ../src/mail/e-mail-display.c:145
 msgid "_Add to Address Book…"
 msgstr "_Добавить в адресную книгу…"
 
-#: ../src/mail/e-mail-display.c:149
+#: ../src/mail/e-mail-display.c:152
 msgid "_To This Address"
 msgstr "_По этому адресу"
 
-#: ../src/mail/e-mail-display.c:156
+#: ../src/mail/e-mail-display.c:159
 msgid "_From This Address"
 msgstr "_С этого адреса"
 
-#: ../src/mail/e-mail-display.c:163
+#: ../src/mail/e-mail-display.c:166
 msgid "Send _Reply To…"
 msgstr "_Отправить ответ…"
 
-#: ../src/mail/e-mail-display.c:165
+#: ../src/mail/e-mail-display.c:168
 msgid "Send a reply message to this address"
 msgstr "Отправить ответ на этот адрес"
 
-#: ../src/mail/e-mail-display.c:172
+#: ../src/mail/e-mail-display.c:175
 msgid "Create Search _Folder"
 msgstr "_Создать папку поиска"
 
-#: ../src/mail/e-mail-display.c:762
+#: ../src/mail/e-mail-display.c:765
 msgid "Hid_e All"
 msgstr "Скрыть _все"
 
-#: ../src/mail/e-mail-display.c:769
+#: ../src/mail/e-mail-display.c:772
 msgid "_View Inline"
 msgstr "_Встроенный просмотр"
 
-#: ../src/mail/e-mail-display.c:776
+#: ../src/mail/e-mail-display.c:779
 msgid "Vie_w All Inline"
 msgstr "В_строенный просмотр для всех"
 
-#: ../src/mail/e-mail-display.c:783
+#: ../src/mail/e-mail-display.c:786
 msgid "_Zoom to 100%"
 msgstr "_Масштабировать до 100%"
 
-#: ../src/mail/e-mail-display.c:785
+#: ../src/mail/e-mail-display.c:788
 msgid "Zoom the image to its natural size"
 msgstr "Масштабировать изображение в натуральный размер"
 
-#: ../src/mail/e-mail-display.c:790
+#: ../src/mail/e-mail-display.c:793
 msgid "_Zoom to window"
 msgstr "_Масштабировать в рамках окна"
 
-#: ../src/mail/e-mail-display.c:792
+#: ../src/mail/e-mail-display.c:795
 msgid "Zoom large images to not be wider than the window width"
 msgstr ""
 "Масштабировать крупные изображения таким образом, чтобы они не были шире "
@@ -19382,7 +19389,7 @@ msgstr[2] ""
 "В папке «%s» находится %u дублируемых сообщений. Уверены, что хотите их "
 "удалить?"
 
-#: ../src/mail/e-mail-reader-utils.c:3004
+#: ../src/mail/e-mail-reader-utils.c:3005
 msgid "Save Message"
 msgid_plural "Save Messages"
 msgstr[0] "Сохранить сообщение"
@@ -19394,14 +19401,14 @@ msgstr[2] "Сохранить сообщения"
 #. * mbox format, when the first message doesn't have a
 #. * subject.  The extension ".mbox" is appended to the
 #. * string; for example "Message.mbox".
-#: ../src/mail/e-mail-reader-utils.c:3025
+#: ../src/mail/e-mail-reader-utils.c:3026
 msgid "Message"
 msgid_plural "Messages"
 msgstr[0] "Сообщение"
 msgstr[1] "Сообщения"
 msgstr[2] "Сообщений"
 
-#: ../src/mail/e-mail-reader-utils.c:3439
+#: ../src/mail/e-mail-reader-utils.c:3440
 msgid "Parsing message"
 msgstr "Разбор сообщения"
 
@@ -20383,22 +20390,26 @@ msgid "Unset Status"
 msgstr "Сбросить состояние"
 
 #: ../src/mail/filtertypes.xml.in.h:80
+msgid "Learn as Junk"
+msgstr "Пометить как спам"
+
+#: ../src/mail/filtertypes.xml.in.h:81
 msgid "Beep"
 msgstr "Сигнал"
 
-#: ../src/mail/filtertypes.xml.in.h:81
+#: ../src/mail/filtertypes.xml.in.h:82
 msgid "Play Sound"
 msgstr "Воспроизвести звук"
 
-#: ../src/mail/filtertypes.xml.in.h:82
+#: ../src/mail/filtertypes.xml.in.h:83
 msgid "Run Program"
 msgstr "Запустить программу"
 
-#: ../src/mail/filtertypes.xml.in.h:83
+#: ../src/mail/filtertypes.xml.in.h:84
 msgid "Forward to"
 msgstr "Перенаправить к"
 
-#: ../src/mail/filtertypes.xml.in.h:84
+#: ../src/mail/filtertypes.xml.in.h:85
 msgid "with"
 msgstr "с"
 
@@ -20765,6 +20776,7 @@ msgstr "Использовать для получателей"
 
 #. Translators: Label of a frame with a list of configured accounts in Send account overrides
 #: ../src/mail/mail-config.ui.h:74 ../src/modules/mail/em-composer-prefs.c:873
+#: ../src/plugins/sender-validation/sender-validation.c:822
 msgid "Account"
 msgstr "Учётная запись"
 
@@ -21332,14 +21344,14 @@ msgstr "_Открыть сообщения"
 
 #: ../src/mail/mail.error.xml.h:45
 msgid "You have unsent messages, do you wish to quit anyway?"
-msgstr "Имеются неотправленные сообщения, действительно выйти?"
+msgstr "Имеются неотправленные сообщения, действительно закрыть?"
 
 #: ../src/mail/mail.error.xml.h:46
 msgid ""
 "If you quit, these messages will not be sent until Evolution is started "
 "again."
 msgstr ""
-"Если выйти, эти сообщения не будут отправлены до повторного запуска "
+"Если закрыть, эти сообщения не будут отправлены до повторного запуска "
 "Evolution."
 
 #. Translators: the {0} is replaced with an operation name, which failed.
@@ -21620,7 +21632,7 @@ msgstr ""
 "Непустая папка в «{1}» уже существует.\n"
 "\n"
 "Вы можете игнорировать эту папку, перезаписать ее или добавить ее "
-"содержимое, или выйти."
+"содержимое, или закрыть."
 
 #: ../src/mail/mail.error.xml.h:117
 msgid "_Overwrite"
@@ -22207,15 +22219,15 @@ msgid "Messages"
 msgstr "Сообщения"
 
 #. default follow-up flag name to use when clicked in the message list column
-#: ../src/mail/message-list.c:5937
+#: ../src/mail/message-list.c:5948
 msgid "Follow-up"
 msgstr "К исполнению"
 
-#: ../src/mail/message-list.c:6686 ../src/mail/message-list.c:7132
+#: ../src/mail/message-list.c:6697 ../src/mail/message-list.c:7143
 msgid "Generating message list…"
 msgstr "Формирование списка сообщений…"
 
-#: ../src/mail/message-list.c:6689
+#: ../src/mail/message-list.c:6700
 msgid ""
 "No message satisfies your search criteria. Change search criteria by "
 "selecting a new Show message filter from the drop down list above or by "
@@ -22227,7 +22239,7 @@ msgstr ""
 "поиск, изменив запрос или очистив поиск с помощью пункта меню "
 "«Найти»→«Очистить»."
 
-#: ../src/mail/message-list.c:6696
+#: ../src/mail/message-list.c:6707
 msgid "There are no messages in this folder."
 msgstr "В папке нет сообщений."
 
@@ -22314,47 +22326,47 @@ msgstr "Выражение в произвольной форме"
 msgid "Edit Collection"
 msgstr "Редактировать коллекцию"
 
-#: ../src/modules/accounts-window/e-accounts-window-editors.c:312
+#: ../src/modules/accounts-window/e-accounts-window-editors.c:313
 msgid "Use for"
 msgstr "Использовать для"
 
-#: ../src/modules/accounts-window/e-accounts-window-editors.c:316
+#: ../src/modules/accounts-window/e-accounts-window-editors.c:318
 #: ../src/plugins/pst-import/pst-importer.c:522
 msgid "_Mail"
 msgstr "_Почта"
 
-#: ../src/modules/accounts-window/e-accounts-window-editors.c:327
+#: ../src/modules/accounts-window/e-accounts-window-editors.c:332
 msgid "C_alendar"
 msgstr "К_алендарь"
 
-#: ../src/modules/accounts-window/e-accounts-window-editors.c:476
+#: ../src/modules/accounts-window/e-accounts-window-editors.c:487
 #: ../src/modules/addressbook/e-book-shell-backend.c:269
 #: ../src/modules/addressbook/e-book-shell-view-actions.c:139
 msgid "New Address Book"
 msgstr "Новая адресная книга"
 
-#: ../src/modules/accounts-window/e-accounts-window-editors.c:484
+#: ../src/modules/accounts-window/e-accounts-window-editors.c:495
 #: ../src/modules/calendar/e-cal-base-shell-backend.c:283
 #: ../src/modules/calendar/e-memo-shell-view-actions.c:180
 msgid "New Memo List"
 msgstr "Создать список заметок"
 
-#: ../src/modules/accounts-window/e-accounts-window-editors.c:532
+#: ../src/modules/accounts-window/e-accounts-window-editors.c:543
 #: ../src/modules/addressbook/e-book-shell-view-actions.c:212
 msgid "Address Book Properties"
 msgstr "Свойства адресной книги"
 
-#: ../src/modules/accounts-window/e-accounts-window-editors.c:536
+#: ../src/modules/accounts-window/e-accounts-window-editors.c:547
 #: ../src/modules/calendar/e-cal-shell-view-actions.c:287
 msgid "Calendar Properties"
 msgstr "Свойства календаря"
 
-#: ../src/modules/accounts-window/e-accounts-window-editors.c:540
+#: ../src/modules/accounts-window/e-accounts-window-editors.c:551
 #: ../src/modules/calendar/e-memo-shell-view-actions.c:252
 msgid "Memo List Properties"
 msgstr "Свойства списка заметок"
 
-#: ../src/modules/accounts-window/e-accounts-window-editors.c:544
+#: ../src/modules/accounts-window/e-accounts-window-editors.c:555
 #: ../src/modules/calendar/e-task-shell-view-actions.c:276
 msgid "Task List Properties"
 msgstr "Свойства списка задач"
@@ -24193,7 +24205,7 @@ msgstr "Преобразовывает собрание во встречу"
 
 #: ../src/modules/calendar/e-cal-shell-view-actions.c:1607
 msgid "Quit"
-msgstr "Завершить"
+msgstr "Закрыть"
 
 #: ../src/modules/calendar/e-cal-shell-view-actions.c:1744
 msgid "Show Event _Preview"
@@ -28360,7 +28372,7 @@ msgstr "Подтверждение адреса отправителя"
 
 #: ../src/plugins/sender-validation/org-gnome-sender-validation.error.xml.h:2
 msgid ""
-"The message contains recipient “{0}” for which it is set up to use sender "
+"The message contains recipient “{0}” for which it is set to use sender "
 "account “{1}”, but the account “{2}” is used instead."
 msgstr ""
 "Сообщение содержит получателя «{0}», для которого настроено использование "
@@ -28371,13 +28383,56 @@ msgstr ""
 msgid "_Send Anyway"
 msgstr "Отправить в _любом случае"
 
-#: ../src/plugins/sender-validation/sender-validation.c:520
+#: ../src/plugins/sender-validation/org-gnome-sender-validation.error.xml.h:5
+msgid "Confirm recipient address"
+msgstr "Подтвердить адрес получателя"
+
+#: ../src/plugins/sender-validation/org-gnome-sender-validation.error.xml.h:6
+msgid ""
+"The message contains recipient “{0}”, which does not match recipient pattern "
+"“{1}” for the account “{2}”."
+msgstr ""
+"Сообщение содержит получателя \"{0}\", который не соответствует шаблону "
+"получателя \"{1}\" для учетной записи \"{2}\"."
+
+#: ../src/plugins/sender-validation/sender-validation.c:653
+msgid ""
+"Set which account should be used for certain recipient patterns.\n"
+"For example, setting recipient as “@company.org” for account “me@company."
+"org” will warn when a recipient containing “@company.org” is not used with "
+"the “me@company.org” account."
+msgstr ""
+"Установите, какая учетная запись должна использоваться для определенных "
+"шаблонов получателей.\n"
+"Например, установка получателя как \"@company.org\" для учетной записи "
+"\"me@company.org\" предупредит, когда получатель, содержащий \"@company."
+"org\", не будет использоваться с учетной записью \"me@company.org\"."
+
+#: ../src/plugins/sender-validation/sender-validation.c:711
 msgid "Recipient Contains"
 msgstr "Получатель содержит"
 
-#: ../src/plugins/sender-validation/sender-validation.c:530
+#: ../src/plugins/sender-validation/sender-validation.c:721
 msgid "Account to Use"
 msgstr "Используемая учётная запись"
+
+#: ../src/plugins/sender-validation/sender-validation.c:765
+msgid ""
+"Set which recipient patterns can be used for certain account.\n"
+"For example, setting account “me@company.org” for recipients “@company.org” "
+"will warn when any of the recipients does not contain “@company.org” when "
+"sending with the “me@company.org” account."
+msgstr ""
+"Установите, какие шаблоны получателей могут быть использованы для "
+"определенного аккаунта.\n"
+"Например, если установить учетную запись \"me@company.org\" для получателей "
+"\"@company.org\", то при отправке с учетной записью \"me@company.org\" будет "
+"выдаваться предупреждение, если ни один из получателей не содержит "
+"\"@company.org\"."
+
+#: ../src/plugins/sender-validation/sender-validation.c:831
+msgid "Allow Recipients Which Contain"
+msgstr "Разрешить получателей, которые содержат"
 
 #: ../src/plugins/templates/org-gnome-templates.eplug.xml.h:2
 msgid ""
@@ -28564,7 +28619,7 @@ msgstr "Управление доступными категориями"
 
 #: ../src/shell/e-shell-window-actions.c:1007
 msgid "_Quit"
-msgstr "_Завершить"
+msgstr "_Закрыть"
 
 #: ../src/shell/e-shell-window-actions.c:1009
 msgid "Exit the program"
@@ -28798,7 +28853,7 @@ msgid "%s — Evolution"
 msgstr "%s — Evolution"
 
 #. Preview/Alpha/Beta version warning message
-#: ../src/shell/main.c:288
+#: ../src/shell/main.c:292
 #, no-c-format
 msgid ""
 "Hi.  Thanks for taking the time to download this preview release\n"
@@ -28835,7 +28890,7 @@ msgstr ""
 "Надеемся, что вам понравится результат нашего труда,\n"
 "и с нетерпением ждём вашей помощи!\n"
 
-#: ../src/shell/main.c:313
+#: ../src/shell/main.c:317
 msgid ""
 "Thanks\n"
 "The Evolution Team\n"
@@ -28843,13 +28898,13 @@ msgstr ""
 "С благодарностью,\n"
 "команда Evolution\n"
 
-#: ../src/shell/main.c:319
+#: ../src/shell/main.c:323
 msgid "Do not tell me again"
 msgstr "Не показывать больше"
 
 #. Translators: Do NOT translate the five component
 #. * names, they MUST remain in English!
-#: ../src/shell/main.c:421
+#: ../src/shell/main.c:425
 msgid ""
 "Start Evolution showing the specified component. Available options are "
 "“mail”, “calendar”, “contacts”, “tasks”, and “memos”"
@@ -28858,39 +28913,39 @@ msgstr ""
 "«mail» (почта), «calendar» (календарь), «contacts» (контакты), "
 "«tasks» (задачи) и «memos» (заметки)"
 
-#: ../src/shell/main.c:425
+#: ../src/shell/main.c:429
 msgid "Apply the given geometry to the main window"
 msgstr "Применить данную геометрию к главному окну"
 
-#: ../src/shell/main.c:429
+#: ../src/shell/main.c:433
 msgid "Start in online mode"
 msgstr "Запуск в режиме подключения к интернету"
 
-#: ../src/shell/main.c:431
+#: ../src/shell/main.c:435
 msgid "Ignore network availability"
 msgstr "Игнорировать подключение к сети"
 
-#: ../src/shell/main.c:434
+#: ../src/shell/main.c:438
 msgid "Forcibly shut down Evolution"
 msgstr "Принудительное завершение работы Evolution"
 
-#: ../src/shell/main.c:437
+#: ../src/shell/main.c:441
 msgid "Disable loading of any plugins."
 msgstr "Запретить загрузку любых модулей."
 
-#: ../src/shell/main.c:439
+#: ../src/shell/main.c:443
 msgid "Disable preview pane of Mail, Contacts and Tasks."
 msgstr "Выключить область просмотра почты, контактов и задач."
 
-#: ../src/shell/main.c:443
+#: ../src/shell/main.c:447
 msgid "Import URIs or filenames given as rest of arguments."
 msgstr "Импортировать URI или имена файлов, указанные в качестве аргументов."
 
-#: ../src/shell/main.c:445
+#: ../src/shell/main.c:449
 msgid "Request a running Evolution process to quit"
 msgstr "Запрос на завершение запущенного процесса Evolution"
 
-#: ../src/shell/main.c:527
+#: ../src/shell/main.c:531
 #, c-format
 msgid ""
 "Cannot start Evolution.  Another Evolution instance may be unresponsive. "
@@ -28899,11 +28954,11 @@ msgstr ""
 "Не удалось запустить Evolution. Может быть запущена другая копия Evolution. "
 "Системная ошибка: %s"
 
-#: ../src/shell/main.c:596 ../src/shell/main.c:601
+#: ../src/shell/main.c:600 ../src/shell/main.c:605
 msgid "— The Evolution PIM and Email Client"
 msgstr "— Почтовый клиент и ежедневник Evolution"
 
-#: ../src/shell/main.c:657
+#: ../src/shell/main.c:661
 #, c-format
 msgid ""
 "%s: --online and --offline cannot be used together.\n"
@@ -28912,7 +28967,7 @@ msgstr ""
 "%s: --online и --offline не могут использоваться одновременно.\n"
 "  Выполните «%s --help» для получения более подробной информации.\n"
 
-#: ../src/shell/main.c:663
+#: ../src/shell/main.c:667
 #, c-format
 msgid ""
 "%s: --force-online and --offline cannot be used together.\n"
@@ -28947,7 +29002,7 @@ msgstr "Всё равно продолжить"
 
 #: ../src/shell/shell.error.xml.h:8
 msgid "Quit Now"
-msgstr "Выйти сейчас"
+msgstr "Закрыть сейчас"
 
 #: ../src/shell/shell.error.xml.h:9
 msgid "Cannot upgrade directly from version {0}"
