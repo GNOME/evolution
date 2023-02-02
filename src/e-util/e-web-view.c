@@ -3635,7 +3635,6 @@ e_web_view_get_default_webkit_settings (void)
 		"enable-javascript-markup", FALSE, /* Discards user-provided javascript in HTML */
 		"enable-offline-web-application-cache", FALSE,
 		"enable-page-cache", FALSE,
-		"enable-plugins", FALSE,
 		"enable-smooth-scrolling", FALSE,
 		"media-playback-allows-inline", FALSE,
 		"hardware-acceleration-policy", WEBKIT_HARDWARE_ACCELERATION_POLICY_NEVER,
