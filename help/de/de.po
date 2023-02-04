@@ -28,13 +28,13 @@
 # Bernd Homuth <dev@hmt.im>, 2015.
 # Tim Sabsch <tim@sabsch.com>, 2018, 2022.
 # Mario Blättermann <mario.blaettermann@gmail.com>, 2009-2013, 2016-2021.
-# Jürgen Benvenuti <gastornis@posteo.org>, 2022, 2023
+# Jürgen Benvenuti <gastornis@posteo.org>, 2022, 2023.
 msgid ""
 msgstr ""
 "Project-Id-Version: manual_evolution\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2022-11-01 08:10+0000\n"
-"PO-Revision-Date: 2023-01-10 19:13+0100\n"
+"POT-Creation-Date: 2023-01-25 17:04+0000\n"
+"PO-Revision-Date: 2023-01-30 11:06+0100\n"
 "Last-Translator: Jürgen Benvenuti <gastornis@posteo.org>\n"
 "Language-Team: German <gnome-de@gnome.org>\n"
 "Language: de\n"
@@ -1133,7 +1133,7 @@ msgid ""
 "calendar that you have chosen."
 msgstr ""
 "Sobald Sie auf <gui>Akzeptieren</gui> klicken, wird der Termin automatisch "
-"zum gewählten Kalender hinzugefügt."
+"zum gewählten Kalnder hinzugefügt."
 
 #. (itstool) path: page/p
 #: C/calendar-meetings-replying-to-invitation.page:30
@@ -1333,7 +1333,7 @@ msgid ""
 msgstr ""
 "In <app>Evolution</app> kann eine Besprechung nur einen Organisator haben, "
 "und nur der Organisator kann Teilnehmer hinzufügen. Es ist möglich den "
-"Organisator einer Besprechung zu ändern, aber dies ist  kein guter Weg, um "
+"Organisator einer Besprechung zu ändern, aber dies ist kein guter Weg, um "
 "zusätzliche Teilnehmer zu Besprechungen einzuladen. Falls Sie weitere "
 "Personen zu der Besprechung einladen möchten, aber nicht der Organisator "
 "sind, ist es am einfachsten, die eigentliche Einladungsnachricht des "
@@ -2584,9 +2584,9 @@ msgstr ""
 "Eine Kontaktliste ist eine Anzahl von Kontakten, die von Ihnen einen "
 "Spitznamen erhält. Wenn Sie eine E-Mail an diesen Spitznamen schicken, so "
 "wird diese E-Mail an alle Mitglieder dieser Kontaktliste verschickt. Der "
-"Unterschied zu einer klassischen Mailingliste ist, dass diese Kontaktliste "
+"Unterschied zu einer klassischen Mailing-Liste ist, dass diese Kontaktliste "
 "nur auf Ihrem Rechner zu Ihrer Bequemlichkeit existiert, und nicht wie eine "
-"echte Mailingliste von einer Software auf einem Server verwaltet wird."
+"echte Mailing-Liste von einer Software auf einem Server verwaltet wird."
 
 #. (itstool) path: page/p
 #: C/contacts-using-contact-lists.page:34
@@ -2797,7 +2797,7 @@ msgid ""
 "\">Mailing list</link>"
 msgstr ""
 "<link href=\"https://mail.gnome.org/mailman/listinfo/gnome-doc-list"
-"\">Mailingliste</link>"
+"\">Mailing-Liste</link>"
 
 #. (itstool) path: info/desc
 #: C/customize-ui-items.page:18
@@ -3122,7 +3122,7 @@ msgid ""
 "gvfs/\" style=\"button\">Install gvfs</link>"
 msgstr ""
 "<link action=\"install:gvfs\" href=\"https://ftp.gnome.org/pub/gnome/sources/"
-"gvfs/\" style=\"button\">gvfs installieren</link>"
+"gvfs/\" style=\"button\">Installieren Sie gvfs</link>"
 
 #. (itstool) path: section/title
 #: C/default-browser.page:81
@@ -3480,7 +3480,7 @@ msgid ""
 "method that you could try."
 msgstr ""
 "Folgen Sie <link href=\"https://mail.gnome.org/archives/evolution-list/2019-"
-"February/msg00055.html\">dieser Mailinglisten-Diskussion</link> für eine "
+"February/msg00055.html\">dieser Mailing-Listen-Diskussion</link> für eine "
 "alternative Methode, die Sie ausprobieren könnten."
 
 #. (itstool) path: item/p
@@ -4054,7 +4054,7 @@ msgid ""
 "app>. It is also called \"Personal Storage Table\"."
 msgstr ""
 "Ein Dateiformat, welches zum Speichern von lokalen Kopien von Nachrichten, "
-"Kalendereinträgen und weiteren Objekten von  <app>Microsoft Exchange Client</"
+"Kalendereinträgen und weiteren Objekten von <app>Microsoft Exchange Client</"
 "app>, <app>Windows Messaging</app> und <app>Microsoft Outlook</app> benutzt "
 "wird. Es wird auch »Personal Storage Table« genannt."
 
@@ -4071,15 +4071,16 @@ msgid "Manage your email, contacts and schedule"
 msgstr "Ihre E-Mails, Kontakte und Ihren Terminplan verwalten"
 
 #. (itstool) path: info/title
+#: C/index.page:6
+msgctxt "link:trail"
+msgid "<app>Evolution</app> Mail and Calendar"
+msgstr "<app>Evolution</app> E-Mail und Kalender"
+
+#. (itstool) path: info/title
 #: C/index.page:7
 msgctxt "text"
 msgid "<app>Evolution</app> Mail and Calendar"
 msgstr "<app>Evolution</app> E-Mail und Kalender"
-
-#. (itstool) path: media/span
-#: C/index.page:25
-msgid "Evolution logo"
-msgstr "Evolution-Symbol"
 
 #. (itstool) path: page/title
 #: C/index.page:23
@@ -4087,72 +4088,72 @@ msgid "<_:media-1/> <app>Evolution</app> Mail and Calendar"
 msgstr "<_:media-1/> <app>Evolution</app> E-Mail und -Kalender"
 
 #. (itstool) path: section/title
-#: C/index.page:31
+#: C/index.page:29
 msgid "Getting Started"
 msgstr "Erste Schritte"
 
 #. (itstool) path: section/title
-#: C/index.page:35
+#: C/index.page:33
 msgid "Mail Management"
 msgstr "Nachrichtenverwaltung"
 
 #. (itstool) path: section/title
-#: C/index.page:37
+#: C/index.page:35
 msgid "Advanced Mail Management"
 msgstr "Fortgeschrittene E-Mail-Verwaltung"
 
 #. (itstool) path: section/title
-#: C/index.page:42
+#: C/index.page:40
 msgid "Mail Composing"
 msgstr "Verfassen von Nachrichten"
 
 #. (itstool) path: section/title
-#: C/index.page:44
+#: C/index.page:42
 msgid "Advanced Mail Composing"
 msgstr "Fortgeschrittene E-Mail-Erstellung"
 
 #. (itstool) path: section/title
-#: C/index.page:49
+#: C/index.page:47
 msgid "Calendar Management"
 msgstr "Kalenderverwaltung"
 
 #. (itstool) path: section/title
-#: C/index.page:51
+#: C/index.page:49
 msgid "Advanced Calendar Management"
 msgstr "Fortgeschrittene Kalenderverwaltung"
 
 #. (itstool) path: section/title
-#: C/index.page:56
+#: C/index.page:54
 msgid "Contacts Management"
 msgstr "Verwaltung von Kontakten"
 
 #. (itstool) path: section/title
-#: C/index.page:60
+#: C/index.page:58
 msgid "Memos and Tasks Management"
 msgstr "Verwaltung von Notizen und Aufgaben"
 
 #. (itstool) path: section/title
-#: C/index.page:64
+#: C/index.page:62
 msgid "Data Migration and Synchronization"
 msgstr "Datenmigration und -abgleich"
 
 #. (itstool) path: section/title
-#: C/index.page:68
+#: C/index.page:66
 msgid "Tracking down Problems"
 msgstr "Eingrenzen von Problemen"
 
 #. (itstool) path: section/title
-#: C/index.page:72
+#: C/index.page:70
 msgid "Common Mail Questions and Problems"
 msgstr "Häufig gestellte Fragen und Probleme mit E-Mails"
 
 #. (itstool) path: section/title
-#: C/index.page:76
+#: C/index.page:74
 msgid "Common Other Questions and Problems"
 msgstr "Andere häufig gestellte Fragen und Probleme"
 
 #. (itstool) path: section/title
-#: C/index.page:80
+#: C/index.page:78
 msgid "Further reading"
 msgstr "Weiterer Lesestoff"
 
@@ -5779,7 +5780,7 @@ msgid ""
 "to import data from other applications or to restore from a backup file."
 msgstr ""
 "E-Mail-Konten können hinzugefügt werden, indem Sie <guiseq><gui>Datei</"
-"gui><gui>Neu</gui><gui>E-Mail-Konto</gui></guiseq>  oder "
+"gui><gui>Neu</gui><gui>E-Mail-Konto</gui></guiseq> oder "
 "<guiseq><gui>Bearbeiten</gui><gui>Einstellungen</gui><gui>E-Mail-Konten</"
 "gui><gui style=\"button\">Hinzufügen</gui></guiseq> wählen. Die Schritte "
 "sind nahezu identisch mit dem <link xref=\"intro-first-run\">Erste-Schritte-"
@@ -7279,7 +7280,7 @@ msgstr "<_:code-1/> (z.B. »15« für das Jahr 2015)"
 #. (itstool) path: info/desc
 #: C/mail-composer-custom-header-lines.page:5
 msgid "Using custom fields in the header of composed messages."
-msgstr "Angepasste Felder im Kopf von verfassten Nachrichten verwenden."
+msgstr "Angepasste Felder Im Kopf von verfassten Nachrichten verwenden."
 
 #. (itstool) path: page/title
 #: C/mail-composer-custom-header-lines.page:23
@@ -7518,7 +7519,7 @@ msgstr ""
 "guiseq>, den Knopf <gui>Weiterleiten</gui> in der Werkzeugleiste, oder "
 "drücken Sie <keyseq><key>Strg</key><key>F</key></keyseq>, um die "
 "voreingestellte Weiterleitungs-Methode zu verwenden. Falls Sie eine andere "
-"Weiterleitungs-Methode verwenden möchten, klicken Sie auf  "
+"Weiterleitungs-Methode verwenden möchten, klicken Sie auf "
 "<guiseq><gui>Nachricht</gui><gui>Weiterleiten als</gui></guiseq> oder den "
 "kleinen Abwärtspfeil neben dem Knopf <gui>Weiterleiten</gui> in der "
 "Werkzeugleiste, um die gewünschte Methode auszuwählen."
@@ -7662,7 +7663,7 @@ msgid ""
 "Framework</link> and/or <link href=\"https://en.wikipedia.org/wiki/"
 "DomainKeys_Identified_Mail\">DomainKeys Identified Mail</link> restrictions."
 msgstr ""
-"Das Festelegen einer beliebigen Aadresse steht eventuell im Konflikt mit den "
+"Das Festlegen einer beliebigen Adresse steht eventuell im Konflikt mit den "
 "<link href=\"https://de.wikipedia.org/wiki/Sender_Policy_Framework"
 "\">Richtlinien</link> Ihres E-Mail-Anbieters und ggfs. mit <link href="
 "\"https://de.wikipedia.org/wiki/DomainKeys\">DomainKeys</link>."
@@ -8489,7 +8490,7 @@ msgid ""
 "$ORIG[reply-to]</code>)."
 msgstr ""
 "Falls für eine Variable keine Ersetzung gefunden wird, so wird die Variable "
-"nicht  entfernt (außer <code>$ORIG[body]</code>), sondern verbleibt an ihrer "
+"nicht entfernt (außer <code>$ORIG[body]</code>), sondern verbleibt an ihrer "
 "Stelle, damit Sie erkennen können, dass etwas nicht stimmt. Dies könnte "
 "passieren, wenn Sie versuchen Kopfdaten zu verwenden, die nicht immer "
 "zwingend in der Originalnachricht vorhanden sind (wie z.B. <code>$ORIG[reply-"
@@ -8674,7 +8675,7 @@ msgstr ""
 #. (itstool) path: section/title
 #: C/mail-composer-reply.page:32
 msgid "Using the Reply To All Feature"
-msgstr "Antwort an alle"
+msgstr "Antwort an Alle"
 
 #. (itstool) path: section/p
 #: C/mail-composer-reply.page:33
@@ -8687,7 +8688,7 @@ msgid ""
 "shared with anyone."
 msgstr ""
 "Margit sendet eine E-Mail an einen Empfänger und schickt Kopien an Lothar "
-"und an eine firmeninterne Mailingliste von Mitarbeitern. Wenn nun Lothar "
+"und an eine firmeninterne Mailing-Liste von Mitarbeitern. Wenn nun Lothar "
 "einen Kommentar an alle Empfänger schicken will, so benutzt er <gui>Antwort "
 "an Alle</gui>, will er jedoch nur Margit schreiben, dass er einverstanden "
 "ist, so benutzt er <gui>Antwort</gui>. Seine Antwort wird nicht an Adressen "
@@ -8702,9 +8703,9 @@ msgid ""
 "list rather than to the sender, select <gui>Reply to List</gui> instead of "
 "<gui>Reply</gui> or <gui>Reply to All</gui>."
 msgstr ""
-"Falls Sie auf einer Mailingliste angemeldet sind und Ihre Antwort an die "
-"Mailingliste und nicht nur an den Absender verschickt werden soll, so wählen "
-"Sie <gui>Antwort an Liste</gui> anstelle von <gui>Antwort</gui> oder "
+"Falls Sie auf einer Mailing-Liste angemeldet sind und Ihre Antwort an die "
+"Mailing-Liste und nicht nur an den Absender verschickt werden soll, so "
+"wählen Sie <gui>Antwort an Liste</gui> anstelle von <gui>Antwort</gui> oder "
 "<gui>Antwort an alle</gui>."
 
 #. (itstool) path: section/title
@@ -9681,7 +9682,7 @@ msgid ""
 "Source</gui></guiseq> or press <keyseq><key>Ctrl</key><key>U</key></keyseq>. "
 "This will display the message data in a new window."
 msgstr ""
-"Klicken Sie zum Ansehen der Nachrichtendaten auf  <guiseq><gui>Ansicht</"
+"Klicken Sie zum Ansehen der Nachrichtendaten auf <guiseq><gui>Ansicht</"
 "gui><gui>Nachrichten-Quelltext</gui></guiseq> oder drücken Sie "
 "<keyseq><key>Strg</key><key>U</key></keyseq>. Die Nachrichtendaten werden "
 "daraufhin in einem neuen Fenster angezeigt."
@@ -9695,7 +9696,7 @@ msgid ""
 msgstr ""
 "Um nur die vollständigen Kopfzeilen einer Nachricht zu sehen, klicken Sie "
 "auf <guiseq><gui>Ansicht</gui><gui>Alle Nachrichtenköpfe</gui></guiseq>. "
-"Daraufhin  werden alle Nachrichtenkopfdaten in der Ansicht dargestellt."
+"Daraufhin werden alle Nachrichtenkopfdaten in der Ansicht dargestellt."
 
 #. (itstool) path: info/desc
 #: C/mail-duplicates.page:5
@@ -10664,7 +10665,7 @@ msgid ""
 "<keyseq><key>Ctrl</key><key>Y</key></keyseq>."
 msgstr ""
 "Um händisch Filter auf Nachrichten in einem Ordner anzuwenden, wählen Sie "
-"die Nachrichten und klicken Sie auf  <guiseq><gui>Nachricht</gui><gui>Filter "
+"die Nachrichten und klicken Sie auf <guiseq><gui>Nachricht</gui><gui>Filter "
 "anwenden</gui></guiseq>, oder drücken Sie <keyseq><key>Strg</key><key>Y</"
 "key></keyseq>."
 
@@ -13913,7 +13914,7 @@ msgid ""
 "The exact location depends on <link xref=\"mail-default-folder-locations"
 "\">your junk folder setting</link>."
 msgstr ""
-"Der genaue Ort ist von den  <link xref=\"mail-default-folder-locations"
+"Der genaue Ort ist von den <link xref=\"mail-default-folder-locations"
 "\">Einstellungen für Unerwünscht-Ordner</link> abhängig."
 
 #. (itstool) path: section/title
@@ -13999,8 +14000,8 @@ msgid ""
 msgstr ""
 "Einstellungen für unerwünschte E-Mails für ein bestimmtes E-Mail-Konto (für "
 "alle Kontentypen außer POP, welche die globalen Einstellungen verwenden) "
-"können Sie unter  <guiseq><gui>Bearbeiten</gui><gui>Einstellungen</"
-"gui><gui>E-Mail-Konten</gui><gui style=\"button\">Bearbeiten</"
+"können Sie unter <guiseq><gui>Bearbeiten</gui><gui>Einstellungen</gui><gui>E-"
+"Mail-Konten</gui><gui style=\"button\">Bearbeiten</"
 "gui><gui>Empfangsoptionen</gui><gui>Neue Nachrichten auf unerwünschten "
 "Inhalt prüfen</gui></guiseq> festlegen."
 
@@ -14728,16 +14729,21 @@ msgstr "Hilfe erhalten"
 #. (itstool) path: page/p
 #: C/problems-getting-help.page:24
 msgid ""
-"To receive help on problems you can open a thread on <link href=\"https://"
-"discourse.gnome.org/tag/evolution\"><app>GNOME Discourse</app> with the "
-"evolution tag</link> or talk to developers and other users in the IRC chat "
-"channel #evolution on the server irc.gimp.net. To connect to an IRC server "
-"you can for example <link xref=\"help:polari/\" href=\"https://help.gnome."
-"org/users/polari/stable/\">use the application <app>Polari</app></link>."
-msgstr ""
-"Um Hilfe bei Problemen zu erhalten, können Sie ein Thema auf <link href="
+"To receive help on problems you can send an email to the <link href="
+"\"https://lists.osuosl.org/mailman/listinfo/evolution-users"
+"\"><app>Evolution</app> mailing list</link>, open a thread on <link href="
 "\"https://discourse.gnome.org/tag/evolution\"><app>GNOME Discourse</app> "
-"eröffnen mit dem evolution-Schlagwort</link> oder kontaktieren Sie die "
+"with the evolution tag</link> or talk to developers and other users in the "
+"IRC chat channel #evolution on the server irc.gimp.net. To connect to an IRC "
+"server you can for example <link xref=\"help:polari/\" href=\"https://help."
+"gnome.org/users/polari/stable/\">use the application <app>Polari</app></"
+"link>."
+msgstr ""
+"Um Hilfe bei Problemen zu erhalten, können Sie eine E-Mail an die <link href="
+"\"https://lists.osuosl.org/mailman/listinfo/evolution-users"
+"\"><app>Evolution</app>-Mailing-Liste</link> senden, ein Thema auf <link "
+"href=\"https://discourse.gnome.org/tag/evolution\"><app>GNOME Discourse</"
+"app> eröffnen mit dem evolution-Schlagwort</link> oder kontaktieren Sie die "
 "Entwickler und andere Benutzer im IRC-Chat im Kanal #evolution auf dem "
 "Server irc.gimp.net. Verwenden Sie z.B. <link xref=\"help:polari/\" href="
 "\"https://help.gnome.org/users/polari/stable/\">die Anwendung <app>Polari</"
@@ -15791,7 +15797,7 @@ msgstr "Prüft, ob die Nachricht einen Anhang hat."
 #. (itstool) path: item/p
 #: C/xinclude-filter-vfolder-conditions.xml:58
 msgid "Mailing List:"
-msgstr "Mailingliste:"
+msgstr "Mailing-Liste:"
 
 #. (itstool) path: item/p
 #: C/xinclude-filter-vfolder-conditions.xml:59
@@ -15800,8 +15806,8 @@ msgid ""
 "for a variety of common mailing list related headers but might miss messages "
 "from some list servers if they use uncommon headers."
 msgstr ""
-"Filtert basierend auf der Mailingliste, von der die Nachricht kommt. Dieser "
-"Filter prüft aufgrund verschiedener auf Mailinglisten verweisender "
+"Filtert basierend auf der Mailing-Liste, von der die Nachricht kommt. Dieser "
+"Filter prüft aufgrund verschiedener auf Mailing-Listen verweisender "
 "Kopfzeileneinträge, aber könnte Nachrichten einiger Listenserver nicht "
 "berücksichtigen, falls diese unübliche Kopfzeilen enthalten."
 
@@ -15998,6 +16004,9 @@ msgstr "Bearbeiten Sie den Titel oder die Suchbedingungen im Dialog."
 #: C/xinclude-searching.xml:30
 msgid "Click <_:gui-1/>."
 msgstr "Klicken Sie auf <_:gui-1/>."
+
+#~ msgid "Evolution logo"
+#~ msgstr "Evolution-Symbol"
 
 #~ msgid "Click <gui style=\"button\">Apply</gui>."
 #~ msgstr "Klicken Sie auf <gui style=\"button\">Anwenden</gui>."
