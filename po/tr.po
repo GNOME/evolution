@@ -18,9 +18,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: evolution\n"
 "Report-Msgid-Bugs-To: https://gitlab.gnome.org/GNOME/evolution/issues\n"
-"POT-Creation-Date: 2023-01-24 19:19+0000\n"
-"PO-Revision-Date: 2023-01-25 01:06+0300\n"
-"Last-Translator: Emin Tufan Çetin <etcetin@gmail.com>\n"
+"POT-Creation-Date: 2023-02-01 15:22+0000\n"
+"PO-Revision-Date: 2023-02-06 00:55+0300\n"
+"Last-Translator: Sabri Ünal <libreajans@gmail.com>\n"
 "Language-Team: Turkish <gnome-turk@gnome.org>\n"
 "Language: tr\n"
 "MIME-Version: 1.0\n"
@@ -1632,8 +1632,8 @@ msgid ""
 "unlocalized version."
 msgstr ""
 "Doğru olarak belirlendiğinde, yönlendirme ve yanıtlama sırasında ileti "
-"Konusunda geçerli yerel çevirice sağlanan yerelleştirilmiş "
-"“Fwd”/“Re” kullanılır, diğer türlü yerelleştirilmemiş sürüm kullanılır."
+"Konusunda geçerli yerel çevirice sağlanan yerelleştirilmiş “Fwd”/“Re” "
+"kullanılır, diğer türlü yerelleştirilmemiş sürüm kullanılır."
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:71
 msgid "Number of characters for wrapping"
@@ -5574,17 +5574,14 @@ msgstr ""
 #: ../src/addressbook/gui/widgets/eab-gui-util.c:224
 #, c-format
 msgid "The backend for this address book was unable to parse this query. %s"
-msgstr ""
-"Bu adres defteri için kullanılan art alan uygulaması, bu sorguyu "
-"ayrıştıramadı. %s"
+msgstr "Bu adres defteri için kullanılan arka uç, bu sorguyu ayrıştıramadı. %s"
 
 #. Translators: %s is replaced with a detailed error message, or an empty string, if not provided
 #: ../src/addressbook/gui/widgets/eab-gui-util.c:229
 #, c-format
 msgid "The backend for this address book refused to perform this query. %s"
 msgstr ""
-"Bu adres defteri için kullanılan art alan uygulaması sorguyu işleme koymayı "
-"reddetti. %s"
+"Bu adres defteri için kullanılan arka uç sorguyu işleme koymayı reddetti. %s"
 
 #. Translators: %s is replaced with a detailed error message, or an empty string, if not provided
 #: ../src/addressbook/gui/widgets/eab-gui-util.c:235
@@ -28040,9 +28037,9 @@ msgid ""
 "the “me@company.org” account."
 msgstr ""
 "Belirli alıcı desenleri için hangi hesabın kullanılacağını ayarla.\n"
-"Örneğin, “ben@firma.org” hesabı için alıcıyı “@firma.org” olarak "
-"ayarlamak, “@firma.org” içeren bir alıcı “ben@firma.org” hesabıyla "
-"kullanılmadığında uyarır."
+"Örneğin, “ben@firma.org” hesabı için alıcıyı “@firma.org” olarak ayarlamak, "
+"“@firma.org” içeren bir alıcı “ben@firma.org” hesabıyla kullanılmadığında "
+"uyarır."
 
 #: ../src/plugins/sender-validation/sender-validation.c:711
 msgid "Recipient Contains"
@@ -28060,9 +28057,9 @@ msgid ""
 "sending with the “me@company.org” account."
 msgstr ""
 "Belirli bir hesap için hangi alıcı desenlerinin kullanılacağını ayarla.\n"
-"Örnegin, “@firma.org” alıcıları için “ben@firma.org” hesabının "
-"ayarlanması, “ben@firma.org” hesabıyla gönderim yaparken alıcılardan "
-"herhangi biri “@firma.org” içermediğinde uyarır."
+"Örnegin, “@firma.org” alıcıları için “ben@firma.org” hesabının ayarlanması, "
+"“ben@firma.org” hesabıyla gönderim yaparken alıcılardan herhangi biri "
+"“@firma.org” içermediğinde uyarır."
 
 #: ../src/plugins/sender-validation/sender-validation.c:831
 msgid "Allow Recipients Which Contain"
