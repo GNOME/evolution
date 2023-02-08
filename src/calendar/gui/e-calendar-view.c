@@ -49,6 +49,8 @@
 	(G_TYPE_INSTANCE_GET_PRIVATE \
 	((obj), E_TYPE_CALENDAR_VIEW, ECalendarViewPrivate))
 
+#define X_EVOLUTION_CLIENT_UID "X-EVOLUTION-CLIENT-UID"
+
 struct _ECalendarViewPrivate {
 	/* The calendar model we are monitoring */
 	ECalModel *model;
@@ -648,6 +650,7 @@ calendar_view_copy_clipboard (ESelectable *selectable)
 		ICalComponent *new_icomp;
 
 		new_icomp = i_cal_component_clone (sel_data->icalcomp);
+		e_cal_util_component_set_x_property (new_icomp, X_EVOLUTION_CLIENT_UID, e_source_get_uid (e_client_get_source (E_CLIENT (sel_data->client))));
 
 		/* do not remove RECURRENCE-IDs from copied objects */
 		i_cal_component_take_component (vcal_comp, new_icomp);
@@ -893,6 +896,101 @@ paste_clipboard_data_free (gpointer ptr)
 	}
 }
 
+static gboolean
+paste_recurring_component (ECalModel *model,
+			   ECalClient *client,
+			   ICalComponent *icomp,
+			   const gchar *extension_name,
+			   GHashTable *covered_comps, /* source_uid+icomp_uid ~> 1 */
+			   gboolean *out_did_cover,
+			   GCancellable *cancellable,
+			   GError **error)
+{
+	ESource *src_source;
+	EClient *src_client;
+	EClientCache *client_cache;
+	gchar *src_client_uid;
+	gchar *key = NULL;
+	gboolean success;
+	GError *local_error = NULL;
+
+	g_return_val_if_fail (E_IS_CAL_MODEL (model), FALSE);
+	g_return_val_if_fail (E_IS_CAL_CLIENT (client), FALSE);
+	g_return_val_if_fail (I_CAL_IS_COMPONENT (icomp), FALSE);
+	g_return_val_if_fail (out_did_cover != NULL, FALSE);
+
+	*out_did_cover = FALSE;
+
+	if (!e_cal_util_component_has_recurrences (icomp) &&
+	    !e_cal_util_component_is_instance (icomp)) {
+		e_cal_util_component_remove_x_property (icomp, X_EVOLUTION_CLIENT_UID);
+		return TRUE;
+	}
+
+	if (e_cal_util_component_has_recurrences (icomp)) {
+		ICalProperty *prop = i_cal_component_get_first_property (icomp, I_CAL_RRULE_PROPERTY);
+		if (prop) {
+			i_cal_property_remove_parameter_by_name (prop, "X-EVOLUTION-ENDDATE");
+			g_object_unref (prop);
+		}
+	}
+
+	src_client_uid = e_cal_util_component_dup_x_property (icomp, X_EVOLUTION_CLIENT_UID);
+	if (!src_client_uid)
+		return TRUE;
+
+	e_cal_util_component_remove_x_property (icomp, X_EVOLUTION_CLIENT_UID);
+
+	/* Let it move an instance only within the same client, otherwise transfer the whole series */
+	if (g_strcmp0 (src_client_uid, e_source_get_uid (e_client_get_source (E_CLIENT (client)))) == 0) {
+		g_free (src_client_uid);
+		return TRUE;
+	}
+
+	*out_did_cover = TRUE;
+
+	if (covered_comps) {
+		key = g_strconcat (src_client_uid, ":", i_cal_component_get_uid (icomp), NULL);
+		if (g_hash_table_contains (covered_comps, key)) {
+			g_free (src_client_uid);
+			g_free (key);
+			return TRUE;
+		}
+	}
+
+	client_cache = e_cal_model_get_client_cache (model);
+	src_source = e_source_registry_ref_source (e_cal_model_get_registry (model), src_client_uid);
+	src_client = src_source ? e_client_cache_get_client_sync (client_cache, src_source, extension_name, 30, cancellable, error) : NULL;
+
+	success = src_client != NULL;
+
+	if (success && !cal_comp_transfer_item_to_sync (E_CAL_CLIENT (src_client), client, icomp, TRUE, cancellable, &local_error)) {
+		if (g_error_matches (local_error, E_CAL_CLIENT_ERROR, E_CAL_CLIENT_ERROR_OBJECT_NOT_FOUND)) {
+			/* The event could be removed from the source calendar, then use what is stored in the clipboard */
+			*out_did_cover = FALSE;
+			g_clear_error (&local_error);
+		} else {
+			g_propagate_error (error, local_error);
+			success = FALSE;
+		}
+	} else if (!success && !src_client) {
+		/* ... similarly when the source client cannot be found */
+		*out_did_cover = FALSE;
+		success = TRUE;
+	}
+
+	if (success && *out_did_cover && key)
+		g_hash_table_insert (covered_comps, key, GINT_TO_POINTER (1));
+	else
+		g_free (key);
+
+	g_clear_object (&src_client);
+	g_clear_object (&src_source);
+	g_free (src_client_uid);
+
+	return success;
+}
+
 static void
 cal_view_paste_clipboard_thread (EAlertSinkThreadJobData *job_data,
 				 gpointer user_data,
@@ -914,6 +1012,7 @@ cal_view_paste_clipboard_thread (EAlertSinkThreadJobData *job_data,
 	gchar *display_name;
 	guint copied_components = 1;
 	gboolean all_day;
+	gboolean success = TRUE;
 	GError *local_error = NULL;
 
 	g_return_if_fail (pcd != NULL);
@@ -982,6 +1081,7 @@ cal_view_paste_clipboard_thread (EAlertSinkThreadJobData *job_data,
 	copied_components = 0;
 
 	if (kind == I_CAL_VCALENDAR_COMPONENT) {
+		GHashTable *covered_comps;
 		ICalComponent *subcomp;
 
 		/* add timezones first, to have them ready */
@@ -1002,34 +1102,48 @@ cal_view_paste_clipboard_thread (EAlertSinkThreadJobData *job_data,
 			g_object_unref (zone);
 		}
 
+		covered_comps = g_hash_table_new_full (g_str_hash, g_str_equal, g_free, NULL);
+
 		for (subcomp = i_cal_component_get_first_component (icomp, I_CAL_VEVENT_COMPONENT);
 		     subcomp;
 		     g_object_unref (subcomp), subcomp = i_cal_component_get_next_component (icomp, I_CAL_VEVENT_COMPONENT)) {
-			if (e_cal_util_component_has_recurrences (subcomp)) {
-				ICalProperty *prop = i_cal_component_get_first_property (subcomp, I_CAL_RRULE_PROPERTY);
-				if (prop) {
-					i_cal_property_remove_parameter_by_name (prop, "X-EVOLUTION-ENDDATE");
-					g_object_unref (prop);
-				}
+			gboolean did_cover = FALSE;
+
+			if (!paste_recurring_component (model, client, subcomp, extension_name, covered_comps, &did_cover, cancellable, error)) {
+				g_object_unref (subcomp);
+				success = FALSE;
+				break;
 			}
 
-			e_calendar_view_add_event_sync (model, client, pcd->selection_start, default_zone, subcomp, all_day,
-				pcd->is_day_view, pcd->time_division, pcd->top_level);
+			if (!did_cover) {
+				e_calendar_view_add_event_sync (model, client, pcd->selection_start, default_zone, subcomp, all_day,
+					pcd->is_day_view, pcd->time_division, pcd->top_level);
+			}
 
 			copied_components++;
 			if (pcd->selected_cut_list)
 				pcd->copied_uids = g_slist_prepend (pcd->copied_uids, g_strdup (i_cal_component_get_uid (subcomp)));
 		}
-	} else if (kind == e_cal_model_get_component_kind (model)) {
-		e_calendar_view_add_event_sync (model, client, pcd->selection_start, default_zone, icomp, all_day,
-			pcd->is_day_view, pcd->time_division, pcd->top_level);
 
-		copied_components++;
-		if (pcd->selected_cut_list)
-			pcd->copied_uids = g_slist_prepend (pcd->copied_uids, g_strdup (i_cal_component_get_uid (icomp)));
+		g_hash_table_destroy (covered_comps);
+	} else if (kind == e_cal_model_get_component_kind (model)) {
+		gboolean did_cover = FALSE;
+
+		if (!paste_recurring_component (model, client, icomp, extension_name, NULL, &did_cover, cancellable, error)) {
+			success = FALSE;
+		} else {
+			if (!did_cover) {
+				e_calendar_view_add_event_sync (model, client, pcd->selection_start, default_zone, icomp, all_day,
+					pcd->is_day_view, pcd->time_division, pcd->top_level);
+			}
+
+			copied_components++;
+			if (pcd->selected_cut_list)
+				pcd->copied_uids = g_slist_prepend (pcd->copied_uids, g_strdup (i_cal_component_get_uid (icomp)));
+		}
 	}
 
-	pcd->success = !g_cancellable_is_cancelled (cancellable);
+	pcd->success = success && !g_cancellable_is_cancelled (cancellable);
 	pcd->client = g_object_ref (client);
 
  out:
