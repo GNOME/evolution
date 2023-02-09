@@ -4118,7 +4118,7 @@ e_util_query_ldap_root_dse_sync (const gchar *host,
 
 	*out_root_dse = NULL;
 
-	timeout.tv_sec = 60;
+	timeout.tv_sec = 10;
 	timeout.tv_usec = 0;
 
 	G_LOCK (ldap);
@@ -4142,6 +4142,14 @@ e_util_query_ldap_root_dse_sync (const gchar *host,
 	if (ldap_error != LDAP_OPT_SUCCESS) {
 		g_set_error (error, G_IO_ERROR, G_IO_ERROR_NOT_INITIALIZED,
 			_("Failed to set protocol version to LDAPv3 (%d): %s"), ldap_error,
+			ldap_err2string (ldap_error) ? ldap_err2string (ldap_error) : _("Unknown error"));
+		goto exit;
+	}
+
+	ldap_error = ldap_set_option (ldap, LDAP_OPT_NETWORK_TIMEOUT, &timeout);
+	if (ldap_error != LDAP_OPT_SUCCESS) {
+		g_set_error (error, G_IO_ERROR, G_IO_ERROR_NOT_INITIALIZED,
+			_("Failed to set connection timeout option (%d): %s"), ldap_error,
 			ldap_err2string (ldap_error) ? ldap_err2string (ldap_error) : _("Unknown error"));
 		goto exit;
 	}
