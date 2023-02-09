@@ -12,8 +12,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: evolution\n"
 "Report-Msgid-Bugs-To: https://gitlab.gnome.org/GNOME/evolution/issues\n"
-"POT-Creation-Date: 2023-01-25 17:03+0000\n"
-"PO-Revision-Date: 2023-01-27 19:51+0200\n"
+"POT-Creation-Date: 2023-02-09 11:06+0000\n"
+"PO-Revision-Date: 2023-02-09 23:11+0200\n"
 "Last-Translator: Yuri Chornoivan <yurchor@ukr.net>\n"
 "Language-Team: Ukrainian <trans-uk@lists.fedoraproject.org>\n"
 "Language: uk\n"
@@ -3070,16 +3070,14 @@ msgstr ""
 "перевищуватиме вказаний, не буде показано вбудованими у повідомлення."
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:320
-#| msgid "Show preview pane"
 msgid "Show Preview Toolbar"
 msgstr "Показувати панель попереднього перегляду"
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:321
-#| msgid "Show the preview pane in the Year View"
 msgid "Show toolbar above preview panel in the Mail view."
 msgstr ""
-"Показувати панель інструментів над панеллю попереднього перегляду на панелі"
-" перегляду пошти."
+"Показувати панель інструментів над панеллю попереднього перегляду на панелі "
+"перегляду пошти."
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:322
 msgid "(Deprecated) Default forward style"
@@ -3463,7 +3461,6 @@ msgstr ""
 "полі «Від»."
 
 #: ../data/org.gnome.evolution.plugin.sender-validator.gschema.xml.in.h:4
-#| msgid "List of assignments for recipient and the address to be used with it"
 msgid "List of assignments for an account, which recipients it accepts"
 msgstr "Список призначень для облікового запису, яких отримувачів він приймає"
 
@@ -4552,7 +4549,7 @@ msgstr ""
 #: ../src/e-util/e-source-selector-dialog.c:336
 #: ../src/e-util/e-table-config.c:540 ../src/e-util/e-table-config.ui.h:3
 #: ../src/e-util/e-timezone-dialog.ui.h:2
-#: ../src/e-util/evolution-source-viewer.c:829 ../src/e-util/e-web-view.c:4026
+#: ../src/e-util/evolution-source-viewer.c:829 ../src/e-util/e-web-view.c:4025
 #: ../src/e-util/gal-view-instance-save-as-dialog.c:265
 #: ../src/mail/e-mail-config-window.c:310 ../src/mail/e-mail-label-dialog.c:187
 #: ../src/mail/e-mail-tag-editor.c:160 ../src/mail/em-composer-utils.c:4166
@@ -4646,7 +4643,7 @@ msgstr "Параметри"
 #: ../src/e-util/e-attachment-store.c:848
 #: ../src/e-util/e-attachment-store.c:855
 #: ../src/e-util/e-mail-signature-script-dialog.c:364
-#: ../src/e-util/e-webdav-browser.c:2633 ../src/e-util/e-web-view.c:4026
+#: ../src/e-util/e-webdav-browser.c:2633 ../src/e-util/e-web-view.c:4025
 #: ../src/e-util/gal-view-instance-save-as-dialog.c:266
 #: ../src/modules/rss/evolution/e-rss-preferences.c:864
 #: ../src/shell/e-shell-content.c:642 ../src/shell/e-shell-utils.c:133
@@ -4805,14 +4802,14 @@ msgstr "_Річниця:"
 #: ../src/addressbook/gui/contact-editor/contact-editor.ui.h:50
 #: ../src/addressbook/gui/widgets/eab-contact-formatter.c:1058
 #: ../src/addressbook/gui/widgets/e-addressbook-view.etspec.h:47
-#: ../src/calendar/gui/e-calendar-view.c:1822
+#: ../src/calendar/gui/e-calendar-view.c:1936
 msgid "Anniversary"
 msgstr "Річниця"
 
 #: ../src/addressbook/gui/contact-editor/contact-editor.ui.h:51
 #: ../src/addressbook/gui/widgets/eab-contact-formatter.c:1057
 #: ../src/addressbook/gui/widgets/e-addressbook-view.etspec.h:46
-#: ../src/calendar/gui/e-calendar-view.c:1821
+#: ../src/calendar/gui/e-calendar-view.c:1935
 msgid "Birthday"
 msgstr "День народження"
 
@@ -5340,7 +5337,7 @@ msgid "Send a mail message to this address"
 msgstr "Перетворити виділене повідомлення на завдання"
 
 #: ../src/addressbook/gui/widgets/eab-contact-display.c:318
-#: ../src/e-util/e-misc-utils.c:4755
+#: ../src/e-util/e-misc-utils.c:4763
 #, c-format
 msgid "Click to mail %s"
 msgstr "Клацніть, щоб надіслати лист %s"
@@ -7281,8 +7278,8 @@ msgid "Completed: %s"
 msgstr "Завершено: %s"
 
 #: ../src/calendar/gui/comp-util.c:2427 ../src/calendar/gui/e-to-do-pane.c:616
-#: ../src/e-util/e-misc-utils.c:4838 ../src/e-util/e-text.c:566
-#: ../src/e-util/e-web-view.c:4212
+#: ../src/e-util/e-misc-utils.c:4846 ../src/e-util/e-text.c:566
+#: ../src/e-util/e-web-view.c:4211
 msgid "…"
 msgstr "…"
 
@@ -7741,53 +7738,53 @@ msgstr "Надіслати мої нагадування з цією подіє�
 msgid "Notify new attendees _only"
 msgstr "Сповідати _лише нових учасників"
 
-#: ../src/calendar/gui/e-calendar-view.c:507
+#: ../src/calendar/gui/e-calendar-view.c:509
 msgid "Cut selected events to the clipboard"
 msgstr "Вирізати виділені події у буфер обміну"
 
-#: ../src/calendar/gui/e-calendar-view.c:513
+#: ../src/calendar/gui/e-calendar-view.c:515
 msgid "Copy selected events to the clipboard"
 msgstr "Копіювати виділені події у буфер обміну"
 
-#: ../src/calendar/gui/e-calendar-view.c:519
+#: ../src/calendar/gui/e-calendar-view.c:521
 msgid "Paste events from the clipboard"
 msgstr "Вставити події з буфера обміну"
 
-#: ../src/calendar/gui/e-calendar-view.c:525
+#: ../src/calendar/gui/e-calendar-view.c:527
 msgid "Delete selected events"
 msgstr "Вилучити вибрані події"
 
-#: ../src/calendar/gui/e-calendar-view.c:924
+#: ../src/calendar/gui/e-calendar-view.c:1023
 msgid "Pasted text doesn’t contain valid iCalendar data"
 msgstr "Вставлений текст не містить дійсних даних iCalendar"
 
-#: ../src/calendar/gui/e-calendar-view.c:935
+#: ../src/calendar/gui/e-calendar-view.c:1034
 #: ../src/calendar/gui/e-cal-ops.c:1583
 msgid "Default calendar not found"
 msgstr "Типовий календар не знайдено"
 
-#: ../src/calendar/gui/e-calendar-view.c:940
+#: ../src/calendar/gui/e-calendar-view.c:1039
 #: ../src/calendar/gui/e-cal-ops.c:1586
 msgid "Default memo list not found"
 msgstr "Типовий список приміток не знайдено"
 
-#: ../src/calendar/gui/e-calendar-view.c:945
+#: ../src/calendar/gui/e-calendar-view.c:1044
 #: ../src/calendar/gui/e-cal-ops.c:1589
 msgid "Default task list not found"
 msgstr "Типовий список завдань не знайдено"
 
-#: ../src/calendar/gui/e-calendar-view.c:1037
+#: ../src/calendar/gui/e-calendar-view.c:1151
 msgid "No suitable component found"
 msgstr "Не знайдено належний модель"
 
-#: ../src/calendar/gui/e-calendar-view.c:1102
+#: ../src/calendar/gui/e-calendar-view.c:1216
 msgid "Pasting iCalendar data"
 msgstr "Вставлення даних iCalendar"
 
-#: ../src/calendar/gui/e-calendar-view.c:1159
-#: ../src/calendar/gui/e-calendar-view.c:1162
-#: ../src/calendar/gui/e-calendar-view.c:1165
-#: ../src/calendar/gui/e-calendar-view.c:1166
+#: ../src/calendar/gui/e-calendar-view.c:1273
+#: ../src/calendar/gui/e-calendar-view.c:1276
+#: ../src/calendar/gui/e-calendar-view.c:1279
+#: ../src/calendar/gui/e-calendar-view.c:1280
 msgid "%d %b %Y"
 msgstr "%d %b %Y"
 
@@ -7796,14 +7793,14 @@ msgstr "%d %b %Y"
 #. strftime format %d = day of month, %b = abbreviated
 #. * month name. You can change the order but don't
 #. * change the specifiers or add anything.
-#: ../src/calendar/gui/e-calendar-view.c:1161
+#: ../src/calendar/gui/e-calendar-view.c:1275
 #: ../src/calendar/gui/e-day-view.c:3274
 #: ../src/calendar/gui/e-day-view-top-item.c:856
 #: ../src/calendar/gui/e-week-view-main-item.c:230
 msgid "%d %b"
 msgstr "%d %b"
 
-#: ../src/calendar/gui/e-calendar-view.c:1172
+#: ../src/calendar/gui/e-calendar-view.c:1286
 msgid "%A %d %b %Y"
 msgstr "%A, %d %b %Y"
 
@@ -7813,16 +7810,16 @@ msgstr "%A, %d %b %Y"
 #. * %d = day of month, %b = abbreviated month name.
 #. * You can change the order but don't change the
 #. * specifiers or add anything.
-#: ../src/calendar/gui/e-calendar-view.c:1174
+#: ../src/calendar/gui/e-calendar-view.c:1288
 #: ../src/calendar/gui/e-day-view.c:3258
 #: ../src/calendar/gui/e-day-view-top-item.c:852
 #: ../src/calendar/gui/e-week-view-main-item.c:216
 msgid "%a %d %b"
 msgstr "%a, %d %b"
 
-#: ../src/calendar/gui/e-calendar-view.c:1175
-#: ../src/calendar/gui/e-calendar-view.c:1177
-#: ../src/calendar/gui/e-calendar-view.c:1178
+#: ../src/calendar/gui/e-calendar-view.c:1289
+#: ../src/calendar/gui/e-calendar-view.c:1291
+#: ../src/calendar/gui/e-calendar-view.c:1292
 msgid "%a %d %b %Y"
 msgstr "%a, %d %b %Y"
 
@@ -7830,7 +7827,7 @@ msgstr "%a, %d %b %Y"
 #. The string is used for Birthday & Anniversary events where the first year is
 #. know, constructing a summary which also shows how many years the birthday or
 #. anniversary is for. Example: "Birthday: John Doe (13)"
-#: ../src/calendar/gui/e-calendar-view.c:1841
+#: ../src/calendar/gui/e-calendar-view.c:1955
 #, c-format
 msgctxt "BirthdaySummary"
 msgid "%s (%d)"
@@ -8219,12 +8216,13 @@ msgstr "Час початку — недійсний час"
 #: ../src/calendar/gui/e-comp-editor.c:345
 #: ../src/composer/e-composer-actions.c:180
 #: ../src/em-format/e-mail-part-secure-button.c:97
-#: ../src/e-util/e-misc-utils.c:4145 ../src/e-util/e-misc-utils.c:4180
-#: ../src/e-util/e-misc-utils.c:4193 ../src/e-util/e-misc-utils.c:4207
-#: ../src/mail/e-mail-autoconfig.c:1129 ../src/mail/e-mail-display.c:2781
-#: ../src/mail/e-mail-notes.c:930 ../src/mail/e-mail-reader-utils.c:805
-#: ../src/mail/em-composer-utils.c:3962 ../src/mail/em-composer-utils.c:3985
-#: ../src/mail/mail-send-recv.c:598 ../src/mail/mail-send-recv.c:1493
+#: ../src/e-util/e-misc-utils.c:4145 ../src/e-util/e-misc-utils.c:4153
+#: ../src/e-util/e-misc-utils.c:4188 ../src/e-util/e-misc-utils.c:4201
+#: ../src/e-util/e-misc-utils.c:4215 ../src/mail/e-mail-autoconfig.c:1129
+#: ../src/mail/e-mail-display.c:2781 ../src/mail/e-mail-notes.c:930
+#: ../src/mail/e-mail-reader-utils.c:805 ../src/mail/em-composer-utils.c:3962
+#: ../src/mail/em-composer-utils.c:3985 ../src/mail/mail-send-recv.c:598
+#: ../src/mail/mail-send-recv.c:1493
 #: ../src/modules/accounts-window/e-accounts-window-editors.c:172
 #: ../src/plugins/face/face.c:175
 #: ../src/plugins/mail-to-task/mail-to-task.c:951 ../src/shell/e-shell.c:1258
@@ -16006,17 +16004,23 @@ msgstr ""
 msgid "Failed to set protocol version to LDAPv3 (%d): %s"
 msgstr "Не вдалося встановити версію протоколу LDAPv3 (%d): %s"
 
-#: ../src/e-util/e-misc-utils.c:4179
+#: ../src/e-util/e-misc-utils.c:4152
+#, c-format
+#| msgid "Failed to set protocol version to LDAPv3 (%d): %s"
+msgid "Failed to set connection timeout option (%d): %s"
+msgstr "Не вдалося встановити параметр часу очікування на з'єднання (%d): %s"
+
+#: ../src/e-util/e-misc-utils.c:4187
 #, c-format
 msgid "Failed to use STARTTLS (%d): %s"
 msgstr "Не вдалося скористатися STARTTLS (%d): %s"
 
-#: ../src/e-util/e-misc-utils.c:4192
+#: ../src/e-util/e-misc-utils.c:4200
 #, c-format
 msgid "Failed to authenticate with LDAP server (%d): %s"
 msgstr "Не вдалося пройти розпізнавання на сервері LDAP (%d): %s"
 
-#: ../src/e-util/e-misc-utils.c:4206
+#: ../src/e-util/e-misc-utils.c:4214
 #, c-format
 msgid ""
 "This LDAP server may use an older version of LDAP, which does not support "
@@ -16032,7 +16036,7 @@ msgstr ""
 "\n"
 "Подробиці помилки (%d): %s"
 
-#: ../src/e-util/e-misc-utils.c:4217
+#: ../src/e-util/e-misc-utils.c:4225
 msgid ""
 "This LDAP server may use an older version of LDAP, which does not support "
 "this functionality or it may be misconfigured. Ask your administrator for "
@@ -16042,12 +16046,12 @@ msgstr ""
 "цю функціональність, або він може бути неправильно налаштований. Спитайте у "
 "вашого системного адміністратора які бази пошуку підтримуються."
 
-#: ../src/e-util/e-misc-utils.c:4250
+#: ../src/e-util/e-misc-utils.c:4258
 msgid "Evolution had not been compiled with LDAP support"
 msgstr "Evolution було зібрано без підтримки LDAP"
 
 #. Translators: %s is the language ISO code.
-#: ../src/e-util/e-misc-utils.c:4573
+#: ../src/e-util/e-misc-utils.c:4581
 #, c-format
 msgctxt "language"
 msgid "Unknown (%s)"
@@ -16055,31 +16059,31 @@ msgstr "Невідома (%s)"
 
 #. Translators: The first %s is the language name, and the
 #. * second is the country name. Example: "French (France)"
-#: ../src/e-util/e-misc-utils.c:4582
+#: ../src/e-util/e-misc-utils.c:4590
 #, c-format
 msgctxt "language"
 msgid "%s (%s)"
 msgstr "%s (%s)"
 
-#: ../src/e-util/e-misc-utils.c:4760
+#: ../src/e-util/e-misc-utils.c:4768
 #, c-format
 msgid "Click to call %s"
 msgstr "Клацніть, щоб подзвонити %s"
 
-#: ../src/e-util/e-misc-utils.c:4762
+#: ../src/e-util/e-misc-utils.c:4770
 msgid "Click to hide/unhide addresses"
 msgstr "Клацніть, щоб показати/сховати адреси "
 
-#: ../src/e-util/e-misc-utils.c:4775
+#: ../src/e-util/e-misc-utils.c:4783
 #, c-format
 msgid "Go to the section %s of the message"
 msgstr "Перейти до розділу %s повідомлення"
 
-#: ../src/e-util/e-misc-utils.c:4777
+#: ../src/e-util/e-misc-utils.c:4785
 msgid "Go to the beginning of the message"
 msgstr "Перейти до початку повідомлення"
 
-#: ../src/e-util/e-misc-utils.c:4783
+#: ../src/e-util/e-misc-utils.c:4791
 #, c-format
 msgid "Click to open %s"
 msgstr "Клацніть, щоб відкрити %s"
@@ -17154,20 +17158,20 @@ msgstr "Шукати позначений фрагмент тексту в ін�
 msgid "Select all text and images"
 msgstr "Виділити весь текст та зображення"
 
-#: ../src/e-util/e-web-view.c:3836
+#: ../src/e-util/e-web-view.c:3835
 msgid "Copying image to clipboard"
 msgstr "Копіювати зображення в буфер"
 
-#: ../src/e-util/e-web-view.c:4024
+#: ../src/e-util/e-web-view.c:4023
 msgid "Save Image"
 msgstr "Зберегти зображення"
 
-#: ../src/e-util/e-web-view.c:4061
+#: ../src/e-util/e-web-view.c:4060
 #, c-format
 msgid "Saving image to “%s”"
 msgstr "Збереження зображення до «%s»"
 
-#: ../src/e-util/e-web-view.c:4216
+#: ../src/e-util/e-web-view.c:4215
 #, c-format
 msgid "Cannot get URI “%s”, do not know how to download it."
 msgstr "Не вдалося отримати URI «%s», невідомо, як його завантажити."
@@ -20455,7 +20459,6 @@ msgid "Unset Status"
 msgstr "Скинути стан"
 
 #: ../src/mail/filtertypes.xml.in.h:80
-#| msgid "Mark as _Junk"
 msgid "Learn as Junk"
 msgstr "Вивчити як _спам"
 
@@ -22444,12 +22447,10 @@ msgstr "_GNOME"
 
 #. Translators: This belongs under "Title Bar Mode" setting, thus similar to "Title Bar Mode: Standard"
 #: ../src/modules/appearance-settings/evolution-appearance-settings.c:213
-#| msgid "Standard"
 msgid "_Standard"
 msgstr "С_тандартний"
 
 #: ../src/modules/appearance-settings/evolution-appearance-settings.c:241
-#| msgid "Override toolbar icon size"
 msgid "Toolbar Icon Size"
 msgstr "Розмір піктограм панелі"
 
@@ -22464,12 +22465,10 @@ msgid "_Large"
 msgstr "_Великий"
 
 #: ../src/modules/appearance-settings/evolution-appearance-settings.c:322
-#| msgid "Layout style"
 msgid "Layout"
 msgstr "Компонування"
 
 #: ../src/modules/appearance-settings/evolution-appearance-settings.c:333
-#| msgid "_Show Menu Bar"
 msgid "Show M_enu Bar"
 msgstr "_Показати панель меню"
 
@@ -22484,7 +22483,6 @@ msgid "Show Side _Bar"
 msgstr "Показати _бічну панель"
 
 #: ../src/modules/appearance-settings/evolution-appearance-settings.c:372
-#| msgid "Show _Status Bar"
 msgid "Show Stat_us Bar"
 msgstr "Показати панель _стану"
 
@@ -26347,12 +26345,10 @@ msgid "Show junk messages with a red line through them"
 msgstr "Показувати спам з лінією, що проходить повз них"
 
 #: ../src/modules/mail/e-mail-shell-view-actions.c:1966
-#| msgid "Show _Tool Bar"
 msgid "Show _Preview Tool Bar"
 msgstr "Показати панель _попереднього перегляду"
 
 #: ../src/modules/mail/e-mail-shell-view-actions.c:1968
-#| msgid "Show event preview pane"
 msgid "Show tool bar above the preview panel"
 msgstr "Показувати панель інструментів над панеллю перегляду"
 
@@ -28424,9 +28420,6 @@ msgid "Confirm sender address"
 msgstr "Підтвердження адреси відправника"
 
 #: ../src/plugins/sender-validation/org-gnome-sender-validation.error.xml.h:2
-#| msgid ""
-#| "The message contains recipient “{0}” for which it is set up to use sender "
-#| "account “{1}”, but the account “{2}” is used instead."
 msgid ""
 "The message contains recipient “{0}” for which it is set to use sender "
 "account “{1}”, but the account “{2}” is used instead."
@@ -28440,20 +28433,16 @@ msgid "_Send Anyway"
 msgstr "_Надіслати попри це"
 
 #: ../src/plugins/sender-validation/org-gnome-sender-validation.error.xml.h:5
-#| msgid "Confirm sender address"
 msgid "Confirm recipient address"
 msgstr "Підтвердження адреси отримувача"
 
 #: ../src/plugins/sender-validation/org-gnome-sender-validation.error.xml.h:6
-#| msgid ""
-#| "The message contains recipient “{0}” for which it is set up to use sender "
-#| "account “{1}”, but the account “{2}” is used instead."
 msgid ""
 "The message contains recipient “{0}”, which does not match recipient pattern "
 "“{1}” for the account “{2}”."
 msgstr ""
-"Повідомлення містить запис отримувача «{0}», який не відповідає взірцю"
-" отримувачів «{1}» для облікового запису «{2}»."
+"Повідомлення містить запис отримувача «{0}», який не відповідає взірцю "
+"отримувачів «{1}» для облікового запису «{2}»."
 
 #: ../src/plugins/sender-validation/sender-validation.c:653
 msgid ""
@@ -28462,11 +28451,11 @@ msgid ""
 "org” will warn when a recipient containing “@company.org” is not used with "
 "the “me@company.org” account."
 msgstr ""
-"Встановити, який обліковий запис слід використовувати для певних взірців"
-" отримувачів.\n"
-"Наприклад, встановлення отримувача «@company.org» для облікового запису"
-" «me@company.org» призведе до попередження, коли запис отримувача, що"
-" містить «@company.org», не використано з обліковим записом «me@company.org»."
+"Встановити, який обліковий запис слід використовувати для певних взірців "
+"отримувачів.\n"
+"Наприклад, встановлення отримувача «@company.org» для облікового запису "
+"«me@company.org» призведе до попередження, коли запис отримувача, що містить "
+"«@company.org», не використано з обліковим записом «me@company.org»."
 
 #: ../src/plugins/sender-validation/sender-validation.c:711
 msgid "Recipient Contains"
@@ -28483,15 +28472,14 @@ msgid ""
 "will warn when any of the recipients does not contain “@company.org” when "
 "sending with the “me@company.org” account."
 msgstr ""
-"Встановити, який обліковий запис може бути використано для певного"
-" облікового запису.\n"
-"Наприклад, встановлення облікового запису «@company.org» для отримувачів"
-" «me@company.org» призведе до попередження, якщо якийсь із записів"
-" отримувачів не містить «@company.org» при надсиланні із обліковим записом"
-" «me@company.org»."
+"Встановити, який обліковий запис може бути використано для певного "
+"облікового запису.\n"
+"Наприклад, встановлення облікового запису «@company.org» для отримувачів "
+"«me@company.org» призведе до попередження, якщо якийсь із записів "
+"отримувачів не містить «@company.org» при надсиланні із обліковим записом "
+"«me@company.org»."
 
 #: ../src/plugins/sender-validation/sender-validation.c:831
-#| msgid "Recipients contain"
 msgid "Allow Recipients Which Contain"
 msgstr "Дозволити отримувачів, записи яких містять"
 
