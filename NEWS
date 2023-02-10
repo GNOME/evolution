@@ -1,3 +1,22 @@
+Evolution 3.46.4 2023-02-10
+---------------------------
+
+Bug Fixes:
+	I#2191 - Moving message does not select previous message
+	I#2212 - "Private reply" addressed to list when sender is one of my accounts
+	I#2219 - Calendar: Preserve Work Week view on date change, if possible
+	I#2237 - Calendar: Copy through clipboard can break series
+	eds-I#353 - ENameSelectorEntry: Refresh completion results more ofter
+
+Miscellaneous:
+	Markdown: Enhance convert of mail signature into markdown
+	CollectionAccountEditor: Fix packing of the switch widgets
+
+Translations:
+	Boyuan Yang (zh_CN)
+	Jiri Grönroos (fi)
+	Jürgen Benvenuti (de)
+
 Evolution 3.46.3 2023-01-06
 ---------------------------
 
