@@ -1,3 +1,45 @@
+Evolution 3.47.2 2023-02-10
+---------------------------
+
+Bug Fixes:
+	I#2161 - Mail: Add 'Learn as Junk' message filter action
+	I#2179 - Remove all reference to user fields in name selector (Dacoda Strack)
+	I#2191 - Moving message does not select previous message
+	I#2196 - Mail: Allow directly open embedded images
+	I#2210 - Scale embedded images in HTML messages to respect viewport
+	I#2212 - "Private reply" addressed to list when sender is one of my accounts
+	I#2215 - Notify user when sending a mail to an external contact
+	I#2219 - Calendar: Preserve Work Week view on date change, if possible
+	I#2227 - LDAP: Set connection timeout for search bases query
+	I#2237 - Calendar: Copy through clipboard can break series
+	eds-I#353 - ENameSelectorEntry: Refresh completion results more ofter
+
+Miscellaneous:
+	Markdown: Enhance convert of mail signature into markdown
+	ENameSelectorDialog: Simplify book query
+	CollectionAccountEditor: Fix packing of the switch widgets
+	Enable GitLab CI for easier testing of the changes
+	Make it possible to run GitLab CI Flatpak artifact
+	EWebView: Stop trying to disable WebKitGTK plugins
+	help: Replace PNG Evolution icon with SVG (Sabri Ünal)
+
+Translations:
+	Aleksandr Melman (ru)
+	Asier Sarasua Garmendia (eu)
+	Aurimas Černius (lt)
+	Cheng-Chia Tseng (zh_TW)
+	Daniel Mustieles (es)
+	Ekaterine Papava (ka)
+	Fabio Tomat (fur)
+	Fran Dieguez (gl)
+	Hugo Carvalho (pt)
+	Jiri Grönroos (fi)
+	Jordi Mas (ca)
+	Jürgen Benvenuti (de)
+	Kukuh Syafaat (id)
+	Sabri Ünal (tr)
+	Yuri Chornoivan (uk)
+
 Evolution 3.47.1 2023-01-06
 ---------------------------
 
