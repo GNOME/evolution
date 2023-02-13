@@ -28,15 +28,15 @@
 # Wolfgang Stöggl <c72578@yahoo.de>, 2015, 2017-2018.
 # Christian Kirbach <christian.kirbach@gmail.com>, 2009-2013, 2017, 2020-2022.
 # Tim Sabsch <tim@sabsch.com>, 2019-2022.
-# Philipp Kiemle <philipp.kiemle@gmail.com>, 2021-2022.
+# Philipp Kiemle <philipp.kiemle@gmail.com>, 2021-2023.
 #
 msgid ""
 msgstr ""
 "Project-Id-Version: evolution master\n"
 "Report-Msgid-Bugs-To: https://gitlab.gnome.org/GNOME/evolution/issues\n"
-"POT-Creation-Date: 2022-10-20 18:22+0000\n"
-"PO-Revision-Date: 2022-10-21 11:34+0200\n"
-"Last-Translator: Christian Kirbach <christian.kirbach@gmail.com>\n"
+"POT-Creation-Date: 2023-01-25 16:59+0000\n"
+"PO-Revision-Date: 2023-02-13 22:52+0100\n"
+"Last-Translator: Philipp Kiemle <philipp.kiemle@gmail.com>\n"
 "Language-Team: German <gnome-de@gnome.org>\n"
 "Language: de\n"
 "MIME-Version: 1.0\n"
@@ -1142,10 +1142,10 @@ msgstr ""
 msgid ""
 "If the name doesn’t correspond to any known editor, then the built-in WebKit "
 "editor is used. The mode is optional, in which case the editor is used for all the "
-"modes it supports. Modes are “plain”, “html”, \"markdown-plain\", \"markdown-html"
-"\" and \"markdown\". Example values: “webkit” (to use WebKit for plain and html), "
-"“plain:first-editor,html:second-editor” (to use “first-editor” for the “plain” and "
-"“second-editor” for “html”)"
+"modes it supports. Modes are “plain”, “html”, \"markdown-plain\", \"markdown-"
+"html\" and \"markdown\". Example values: “webkit” (to use WebKit for plain and "
+"html), “plain:first-editor,html:second-editor” (to use “first-editor” for the "
+"“plain” and “second-editor” for “html”)"
 msgstr ""
 "Wenn der Name mit keinem bekannten Editor übereinstimmt, wird der integrierte "
 "WebKit-Editor verwendet. Zusätzlich kann der Modus angegeben werden, für den ein "
@@ -4229,8 +4229,7 @@ msgstr ""
 #: ../src/addressbook/addressbook.error.xml.h:44
 msgid "Cannot save a contact, address book is still opening"
 msgstr ""
-"Ein Kontakt kann nicht gespeichert werden. Das Öffnen des Adressbuchs läuft noch "
-"immer"
+"Kontakt kann nicht gespeichert werden. Das Adressbuch wird noch immer geöffnet"
 
 #. For Translators: {0} is the name of the address book source
 #: ../src/addressbook/addressbook.error.xml.h:46
@@ -4238,9 +4237,9 @@ msgid ""
 "Cannot save a contact to the address book “{0}”, because it is still opening. "
 "Either wait till it’s opened, or select a different address book."
 msgstr ""
-"Der Kontakt kann nicht im Adressbuch »{0}« gespeichert werden. Das Öffnen des "
-"Adressbuchs läuft noch immer. Warten Sie entweder, bis es erfolgreich geöffnet "
-"ist, oder wählen Sie ein anderes Adressbuch."
+"Der Kontakt kann nicht im Adressbuch »{0}« gespeichert werden. Das Adressbuch wird "
+"noch immer geöffnet. Warten Sie, bis es entweder geöffnet ist, oder wählen Sie ein "
+"anderes Adressbuch."
 
 #: ../src/addressbook/addressbook.error.xml.h:47
 msgid "Something has gone wrong when displaying the contact"
@@ -18218,7 +18217,7 @@ msgstr "Archi_vieren …"
 
 #: ../src/mail/e-mail-reader.c:2517
 msgid "Move selected messages to the Archive folder for the account"
-msgstr "Die gewählten Nachrichten in den Archivordner verschieben"
+msgstr "Gewählten Nachrichten in den Archivordner verschieben"
 
 #: ../src/mail/e-mail-reader.c:2522
 msgid "Check for _Junk"
@@ -26925,7 +26924,7 @@ msgstr "Betreff: %s"
 #: ../src/plugins/mail-notification/mail-notification.c:525
 #, c-format
 msgid "Folder: %s"
-msgstr "Ordner:%s"
+msgstr "Ordner: %s"
 
 #. Translators: %d is the count of mails received in addition
 #. * to the one displayed in this notification.
