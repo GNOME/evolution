@@ -666,4 +666,11 @@ in the folder will be available in offline mode.</_secondary>
     <_primary>Failed to generate message list</_primary>
     <secondary>{0}</secondary>
   </error>
+
+  <error id="ask-mark-as-junk" type="warning" default="GTK_RESPONSE_CANCEL">
+    <_primary>{0}</_primary>
+    <_secondary>{1}</_secondary>
+    <button stock="gtk-cancel" response="GTK_RESPONSE_CANCEL"/>
+    <button _label="_Mark as Junk" response="GTK_RESPONSE_YES"/>
+  </error>
 </error-list>

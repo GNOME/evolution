@@ -1042,6 +1042,36 @@ action_mail_mark_junk_cb (GtkAction *action,
 		CAMEL_MESSAGE_SEEN |
 		CAMEL_MESSAGE_JUNK |
 		CAMEL_MESSAGE_JUNK_LEARN;
+	GPtrArray *uids;
+	gchar *primary;
+	gboolean can_do_it;
+
+	uids = e_mail_reader_get_selected_uids_with_collapsed_threads (reader);
+
+	if (!uids || !uids->len) {
+		if (uids)
+			g_ptr_array_unref (uids);
+		return;
+	}
+
+	primary = g_strdup_printf (ngettext ("Are you sure you want to mark %d message as Junk?",
+					     "Are you sure you want to mark %d messages as Junk?",
+					     uids->len), uids->len);
+
+	can_do_it = e_util_prompt_user (e_mail_reader_get_window (reader),
+		"org.gnome.evolution.mail", "prompt-on-mark-as-junk",
+		"mail:ask-mark-as-junk",
+		primary,
+		ngettext ("The message will be shown in the Junk folder.",
+			  "The messages will be shown in the Junk folder.",
+			  uids->len),
+		NULL);
+
+	g_ptr_array_unref (uids);
+	g_free (primary);
+
+	if (!can_do_it)
+		return;
 
 	if (e_mail_reader_mark_selected (reader, mask, set) != 0 &&
 	    !e_mail_reader_close_on_delete_or_junk (reader)) {

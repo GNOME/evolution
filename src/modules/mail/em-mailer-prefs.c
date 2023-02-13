@@ -2105,6 +2105,12 @@ em_mailer_prefs_construct (EMMailerPrefs *prefs,
 		widget, "sensitive",
 		G_SETTINGS_BIND_GET);
 
+	widget = e_builder_get_widget (prefs->priv->builder, "chkPromptOnMarkAsJunk");
+	g_settings_bind (
+		settings, "prompt-on-mark-as-junk",
+		widget, "active",
+		G_SETTINGS_BIND_DEFAULT);
+
 	widget = e_builder_get_widget (prefs->priv->builder, "junk-module-options");
 	e_mail_junk_options_set_session (E_MAIL_JUNK_OPTIONS (widget), session);
 
