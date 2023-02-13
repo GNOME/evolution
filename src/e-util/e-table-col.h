@@ -72,7 +72,10 @@ struct _ETableCol {
 
 	gchar *text;
 	gchar *icon_name;
-	GdkPixbuf *pixbuf;
+	cairo_surface_t *surface;
+	gint surface_width;
+	gint surface_height;
+	gint surface_scale;
 	gint min_width;
 	gint width;
 	gdouble expansion;
@@ -97,7 +100,9 @@ ETableCol *	e_table_col_new		(ETableColumnSpecification *spec,
 					 const gchar *icon_name,
 					 ECell *ecell,
 					 GCompareDataFunc compare);
-
+void		e_table_col_ensure_surface
+					(ETableCol *etc,
+					 GtkWidget *widget);
 G_END_DECLS
 
 #endif /* E_TABLE_COL_H */

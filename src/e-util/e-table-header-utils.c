@@ -78,8 +78,9 @@ e_table_header_compute_height (ETableCol *ecol,
 	pango_layout_get_pixel_size (layout, NULL, &height);
 
 	if (ecol->icon_name != NULL) {
-		g_return_val_if_fail (ecol->pixbuf != NULL, -1);
-		height = MAX (height, gdk_pixbuf_get_height (ecol->pixbuf));
+		e_table_col_ensure_surface (ecol, widget);
+		g_return_val_if_fail (ecol->surface != NULL, -1);
+		height = MAX (height, ecol->surface_height);
 	}
 
 	height = MAX (height, MIN_ARROW_SIZE);
@@ -218,10 +219,12 @@ e_table_header_draw_button (cairo_t *cr,
 		gint clip_height;
 		gint xpos;
 
-		g_return_if_fail (ecol->pixbuf != NULL);
+		e_table_col_ensure_surface (ecol, widget);
 
-		pwidth = gdk_pixbuf_get_width (ecol->pixbuf);
-		pheight = gdk_pixbuf_get_height (ecol->pixbuf);
+		g_return_if_fail (ecol->surface != NULL);
+
+		pwidth = ecol->surface_width;
+		pheight = ecol->surface_height;
 
 		clip_height = MIN (pheight, inner_height);
 
@@ -247,8 +250,8 @@ e_table_header_draw_button (cairo_t *cr,
 				ypos, layout);
 		}
 
-		gtk_render_icon (
-			context, cr, ecol->pixbuf, xpos + 1,
+		gtk_render_icon_surface (
+			context, cr, ecol->surface, xpos + 1,
 			inner_y + (inner_height - clip_height) / 2);
 
 	} else {

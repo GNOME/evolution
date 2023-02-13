@@ -184,8 +184,8 @@ set(private_icons
 	hicolor_status_16x16_wrapped.png
 	hicolor_status_32x32_aspect-ratio-lock.png
 	hicolor_status_32x32_aspect-ratio-unlock.png
-	hicolor_status_32x32_offline.png
-	hicolor_status_32x32_online.png
+	hicolor_status_32x32_offline.svg
+	hicolor_status_32x32_online.svg
 	hicolor_status_scalable_rss.svg
 	hicolor_status_scalable_rss-symbolic.svg
 )
@@ -857,8 +857,6 @@ set(noinst_icons
 	hicolor_places_22x22_mail-inbox.svg
 	hicolor_places_22x22_mail-outbox.svg
 	hicolor_places_22x22_mail-sent.svg
-	hicolor_status_32x32_offline.svg
-	hicolor_status_32x32_online.svg
 	hicolor_status_scalable_aspect-ratio-lock.svg
 	hicolor_status_scalable_aspect-ratio-unlock.svg
 	source-symbols.svg

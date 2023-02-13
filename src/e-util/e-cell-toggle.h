@@ -74,7 +74,6 @@ ECell *		e_cell_toggle_new		(const gchar **icon_names,
 void		e_cell_toggle_construct		(ECellToggle *cell_toggle,
 						 const gchar **icon_names,
 						 guint n_icon_names);
-GPtrArray *	e_cell_toggle_get_pixbufs	(ECellToggle *cell_toggle);
 
 void		e_cell_toggle_set_icon_descriptions	(ECellToggle *cell_toggle,
 							 const gchar **descriptions,

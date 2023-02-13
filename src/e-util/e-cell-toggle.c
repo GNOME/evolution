@@ -45,7 +45,8 @@ struct _ECellTogglePrivate {
 	guint n_icon_names;
 
 	GdkPixbuf *empty;
-	GPtrArray *pixbufs;
+	GPtrArray *surfaces; /* SurfaceData * */
+	gint surface_scale;
 	gint height;
 
 	gint bg_color_column;
@@ -58,46 +59,92 @@ enum {
 
 G_DEFINE_TYPE (ECellToggle, e_cell_toggle, E_TYPE_CELL)
 
+typedef struct _SurfaceData {
+	cairo_surface_t *surface;
+	gint width;
+	gint height;
+} SurfaceData;
+
+static void
+surface_data_free (gpointer ptr)
+{
+	SurfaceData *sd = ptr;
+
+	if (sd) {
+		cairo_surface_destroy (sd->surface);
+		g_free (sd);
+	}
+}
+
 typedef struct {
 	ECellView cell_view;
 	GnomeCanvas *canvas;
 } ECellToggleView;
 
 static void
-cell_toggle_load_icons (ECellToggle *cell_toggle)
+cell_toggle_ensure_icons (ECellToggle *cell_toggle,
+			  ECellView *ecell_view)
 {
+	ETableItem *eti;
 	GtkIconTheme *icon_theme;
-	gint width, height;
+	gint width, height, scale = 1;
 	gint max_height = 0;
 	guint ii;
 	GError *error = NULL;
 
+	eti = E_TABLE_ITEM (ecell_view->e_table_item_view);
+	if (eti) {
+		GtkStyleContext *style_context;
+
+		style_context = gtk_widget_get_style_context (GTK_WIDGET (GNOME_CANVAS_ITEM (eti)->canvas));
+		scale = gtk_style_context_get_scale (style_context);
+	}
+
+	if (cell_toggle->priv->surfaces->len > 0 &&
+	    cell_toggle->priv->surface_scale == scale)
+		return;
+
+	g_ptr_array_set_size (cell_toggle->priv->surfaces, 0);
+
 	icon_theme = gtk_icon_theme_get_default ();
 	gtk_icon_size_lookup (GTK_ICON_SIZE_MENU, &width, &height);
-
-	g_ptr_array_set_size (cell_toggle->priv->pixbufs, 0);
 
 	for (ii = 0; ii < cell_toggle->priv->n_icon_names; ii++) {
 		const gchar *icon_name = cell_toggle->priv->icon_names[ii];
 		GdkPixbuf *pixbuf = NULL;
+		SurfaceData *sd;
+		gint unscaled_height;
 
 		if (icon_name != NULL)
-			pixbuf = gtk_icon_theme_load_icon (
-				icon_theme, icon_name, height, GTK_ICON_LOOKUP_FORCE_SIZE, &error);
+			pixbuf = gtk_icon_theme_load_icon_for_scale (
+				icon_theme, icon_name, height, scale, GTK_ICON_LOOKUP_FORCE_SIZE, &error);
 
 		if (error != NULL) {
 			g_warning ("%s", error->message);
 			g_clear_error (&error);
 		}
 
-		if (pixbuf == NULL)
+		if (pixbuf == NULL) {
 			pixbuf = g_object_ref (cell_toggle->priv->empty);
+			unscaled_height = gdk_pixbuf_get_height (pixbuf);
+		} else {
+			unscaled_height = gdk_pixbuf_get_height (pixbuf) / (scale > 1 ? scale : 1);
+		}
 
-		g_ptr_array_add (cell_toggle->priv->pixbufs, pixbuf);
-		max_height = MAX (max_height, gdk_pixbuf_get_height (pixbuf));
+		sd = g_new0 (SurfaceData, 1);
+		sd->surface = gdk_cairo_surface_create_from_pixbuf (pixbuf, scale, NULL);
+		sd->width = width;
+		sd->height = unscaled_height;
+
+		g_ptr_array_add (cell_toggle->priv->surfaces, sd);
+
+		max_height = MAX (max_height, unscaled_height);
+
+		g_clear_object (&pixbuf);
 	}
 
 	cell_toggle->priv->height = max_height;
+	cell_toggle->priv->surface_scale = scale;
 }
 
 static void
@@ -108,8 +155,8 @@ cell_toggle_dispose (GObject *object)
 	priv = E_CELL_TOGGLE_GET_PRIVATE (object);
 	g_clear_object (&priv->empty);
 
-	/* This unrefs all the elements. */
-	g_ptr_array_set_size (priv->pixbufs, 0);
+	/* This frees all the elements. */
+	g_ptr_array_set_size (priv->surfaces, 0);
 
 	/* Chain up to parent's dispose() method. */
 	G_OBJECT_CLASS (e_cell_toggle_parent_class)->dispose (object);
@@ -135,7 +182,7 @@ cell_toggle_finalize (GObject *object)
 		g_free (priv->icon_descriptions);
 	}
 
-	g_ptr_array_free (priv->pixbufs, TRUE);
+	g_ptr_array_free (priv->surfaces, TRUE);
 
 	/* Chain up to parent's finalize() method. */
 	G_OBJECT_CLASS (e_cell_toggle_parent_class)->finalize (object);
@@ -188,32 +235,42 @@ cell_toggle_draw (ECellView *ecell_view,
                   gint y2)
 {
 	ECellTogglePrivate *priv;
-	GdkPixbuf *image;
+	ETableItem *eti;
+	GtkStyleContext *style_context;
+	SurfaceData *sd;
 	gint x, y;
 
 	const gint value = GPOINTER_TO_INT (
 		e_table_model_value_at (ecell_view->e_table_model, model_col, row));
 
+	cell_toggle_ensure_icons (E_CELL_TOGGLE (ecell_view->ecell), ecell_view);
+
 	priv = E_CELL_TOGGLE_GET_PRIVATE (ecell_view->ecell);
 
-	if (value < 0 || value >= priv->pixbufs->len)
+	if (value < 0 || value >= priv->surfaces->len)
 		return;
 
-	image = g_ptr_array_index (priv->pixbufs, value);
+	sd = g_ptr_array_index (priv->surfaces, value);
 
-	if ((x2 - x1) < gdk_pixbuf_get_width (image))
+	if ((x2 - x1) < sd->width)
 		x = x1;
 	else
-		x = x1 + ((x2 - x1) - gdk_pixbuf_get_width (image)) / 2;
+		x = x1 + ((x2 - x1) - sd->width) / 2;
 
-	if ((y2 - y1) < gdk_pixbuf_get_height (image))
+	if ((y2 - y1) < sd->height)
 		y = y1;
 	else
-		y = y1 + ((y2 - y1) - gdk_pixbuf_get_height (image)) / 2;
+		y = y1 + ((y2 - y1) - sd->height) / 2;
+
+	eti = E_TABLE_ITEM (ecell_view->e_table_item_view);
+	if (eti)
+		style_context = gtk_widget_get_style_context (GTK_WIDGET (GNOME_CANVAS_ITEM (eti)->canvas));
+	else
+		style_context = NULL;
 
 	cairo_save (cr);
-	gdk_cairo_set_source_pixbuf (cr, image, x, y);
-	cairo_paint_with_alpha (cr, 1);
+	if (style_context)
+		gtk_render_icon_surface (style_context, cr, sd->surface, x, y);
 	cairo_restore (cr);
 }
 
@@ -226,9 +283,11 @@ etog_set_value (ECellToggleView *toggle_view,
 {
 	ECellTogglePrivate *priv;
 
+	cell_toggle_ensure_icons (E_CELL_TOGGLE (toggle_view->cell_view.ecell), &(toggle_view->cell_view));
+
 	priv = E_CELL_TOGGLE_GET_PRIVATE (toggle_view->cell_view.ecell);
 
-	if (value >= priv->pixbufs->len)
+	if (value >= priv->surfaces->len)
 		value = 0;
 
 	e_table_model_set_value_at (
@@ -293,26 +352,37 @@ cell_toggle_print (ECellView *ecell_view,
                    gdouble height)
 {
 	ECellTogglePrivate *priv;
-	GdkPixbuf *image;
+	SurfaceData *sd;
 	gdouble image_width, image_height;
 	const gint value = GPOINTER_TO_INT (
 			e_table_model_value_at (ecell_view->e_table_model, model_col, row));
 
 	cairo_t *cr;
 
+	cell_toggle_ensure_icons (E_CELL_TOGGLE (ecell_view->ecell), ecell_view);
+
 	priv = E_CELL_TOGGLE_GET_PRIVATE (ecell_view->ecell);
 
-	if (value >= priv->pixbufs->len)
+	if (value >= priv->surfaces->len)
 		return;
 
-	image = g_ptr_array_index (priv->pixbufs, value);
-	if (image) {
+	sd = g_ptr_array_index (priv->surfaces, value);
+	if (sd) {
+		ETableItem *eti;
+		GtkStyleContext *style_context;
+
+		eti = E_TABLE_ITEM (ecell_view->e_table_item_view);
+		if (eti)
+			style_context = gtk_widget_get_style_context (GTK_WIDGET (GNOME_CANVAS_ITEM (eti)->canvas));
+		else
+			style_context = NULL;
+
 		cr = gtk_print_context_get_cairo_context (context);
 		cairo_save (cr);
 		cairo_translate (cr, 0 , 0);
-		image = gdk_pixbuf_add_alpha (image, TRUE, 255, 255, 255);
-		image_width = (gdouble) gdk_pixbuf_get_width (image);
-		image_height = (gdouble) gdk_pixbuf_get_height (image);
+
+		image_width = (gdouble) sd->width;
+		image_height = (gdouble) sd->height;
 		cairo_rectangle (
 			cr,
 			image_width / 7,
@@ -320,8 +390,8 @@ cell_toggle_print (ECellView *ecell_view,
 			image_width - image_width / 4,
 			image_width - image_height / 7);
 		cairo_clip (cr);
-		gdk_cairo_set_source_pixbuf (cr, image, 0, image_height / 4);
-		cairo_paint (cr);
+		if (style_context)
+			gtk_render_icon_surface (style_context, cr, sd->surface, 0, image_height / 4);
 		cairo_restore (cr);
 	}
 }
@@ -351,19 +421,19 @@ cell_toggle_max_width (ECellView *ecell_view,
 	gint number_of_rows;
 	gint row;
 
+	cell_toggle_ensure_icons (E_CELL_TOGGLE (ecell_view->ecell), ecell_view);
+
 	priv = E_CELL_TOGGLE_GET_PRIVATE (ecell_view->ecell);
 
 	number_of_rows = e_table_model_row_count (ecell_view->e_table_model);
 	for (row = 0; row < number_of_rows; row++) {
-		GdkPixbuf *pixbuf;
+		SurfaceData *sd;
 		gpointer value;
 
-		value = e_table_model_value_at (
-			ecell_view->e_table_model, model_col, row);
-		pixbuf = g_ptr_array_index (
-			priv->pixbufs, GPOINTER_TO_INT (value));
+		value = e_table_model_value_at (ecell_view->e_table_model, model_col, row);
+		sd = g_ptr_array_index (priv->surfaces, GPOINTER_TO_INT (value));
 
-		max_width = MAX (max_width, gdk_pixbuf_get_width (pixbuf));
+		max_width = MAX (max_width, sd->width);
 	}
 
 	return max_width;
@@ -475,12 +545,9 @@ e_cell_toggle_init (ECellToggle *cell_toggle)
 {
 	cell_toggle->priv = E_CELL_TOGGLE_GET_PRIVATE (cell_toggle);
 
-	cell_toggle->priv->empty =
-		gdk_pixbuf_new_from_xpm_data (empty_xpm);
-
-	cell_toggle->priv->pixbufs =
-		g_ptr_array_new_with_free_func (g_object_unref);
-
+	cell_toggle->priv->empty = gdk_pixbuf_new_from_xpm_data (empty_xpm);
+	cell_toggle->priv->surfaces = g_ptr_array_new_with_free_func (surface_data_free);
+	cell_toggle->priv->surface_scale = 0;
 	cell_toggle->priv->bg_color_column = -1;
 }
 
@@ -510,7 +577,7 @@ e_cell_toggle_construct (ECellToggle *cell_toggle,
 	for (ii = 0; ii < n_icon_names; ii++)
 		cell_toggle->priv->icon_names[ii] = g_strdup (icon_names[ii]);
 
-	cell_toggle_load_icons (cell_toggle);
+	g_ptr_array_set_size (cell_toggle->priv->surfaces, 0);
 }
 
 /**
@@ -542,14 +609,6 @@ e_cell_toggle_new (const gchar **icon_names,
 	e_cell_toggle_construct (cell_toggle, icon_names, n_icon_names);
 
 	return (ECell *) cell_toggle;
-}
-
-GPtrArray *
-e_cell_toggle_get_pixbufs (ECellToggle *cell_toggle)
-{
-	g_return_val_if_fail (E_IS_CELL_TOGGLE (cell_toggle), NULL);
-
-	return cell_toggle->priv->pixbufs;
 }
 
 void

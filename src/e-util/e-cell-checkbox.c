@@ -29,9 +29,6 @@
 #include "e-table-item.h"
 #include "e-cell-checkbox.h"
 
-#include "data/xpm/check-empty.xpm"
-#include "data/xpm/check-filled.xpm"
-
 G_DEFINE_TYPE (ECellCheckbox, e_cell_checkbox, E_TYPE_CELL_TOGGLE)
 
 static void
@@ -112,6 +109,34 @@ ecc_draw (ECellView *ecell_view,
 	g_object_unref (style_context);
 }
 
+static gint
+ecc_height (ECellView *ecell_view,
+	    gint model_col,
+	    gint view_col,
+	    gint row)
+{
+	return 16;
+}
+
+static gdouble
+ecc_print_height (ECellView *ecell_view,
+		  GtkPrintContext *context,
+		  gint model_col,
+		  gint view_col,
+		  gint row,
+		  gdouble width)
+{
+	return 16.0;
+}
+
+static gint
+ecc_max_width (ECellView *ecell_view,
+	       gint model_col,
+	       gint view_col)
+{
+	return 16;
+}
+
 static void
 e_cell_checkbox_class_init (ECellCheckboxClass *class)
 {
@@ -119,39 +144,18 @@ e_cell_checkbox_class_init (ECellCheckboxClass *class)
 
 	ecc->print = ecc_print;
 	ecc->draw = ecc_draw;
-}
-
-static GdkPixbuf *
-ecc_get_check_singleton (gboolean the_empty)
-{
-	static GdkPixbuf *check_empty = NULL;
-	static GdkPixbuf *check_filled = NULL;
-	GdkPixbuf **pcheck;
-
-	if (the_empty)
-		pcheck = &check_empty;
-	else
-		pcheck = &check_filled;
-
-	if (*pcheck)
-		return g_object_ref (*pcheck);
-
-	*pcheck = gdk_pixbuf_new_from_xpm_data (the_empty ? check_empty_xpm : check_filled_xpm);
-
-	g_object_weak_ref (G_OBJECT (*pcheck), (GWeakNotify) g_nullify_pointer, pcheck);
-
-	return *pcheck;
+	ecc->height = ecc_height;
+	ecc->print_height = ecc_print_height;
+	ecc->max_width = ecc_max_width;
 }
 
 static void
 e_cell_checkbox_init (ECellCheckbox *eccb)
 {
-	GPtrArray *pixbufs;
+	/* Add only empty icons, they are not drawn anyway */
+	const gchar *icon_names[] = { NULL, NULL };
 
-	pixbufs = e_cell_toggle_get_pixbufs (E_CELL_TOGGLE (eccb));
-
-	g_ptr_array_add (pixbufs, ecc_get_check_singleton (TRUE));
-	g_ptr_array_add (pixbufs, ecc_get_check_singleton (FALSE));
+	e_cell_toggle_construct (E_CELL_TOGGLE (eccb), icon_names, G_N_ELEMENTS (icon_names));
 }
 
 /**

@@ -27,25 +27,45 @@
 
 G_DEFINE_TYPE (ETableCol, e_table_col, G_TYPE_OBJECT)
 
-static void
-etc_load_icon (ETableCol *etc)
+void
+e_table_col_ensure_surface (ETableCol *etc,
+			    GtkWidget *widget)
 {
 	/* FIXME This ignores theme changes. */
 
+	GtkStyleContext *style_context;
 	GtkIconTheme *icon_theme;
+	GdkPixbuf *pixbuf;
 	gint width, height;
 	GError *error = NULL;
+
+	g_return_if_fail (E_IS_TABLE_COL (etc));
+	g_return_if_fail (GTK_IS_WIDGET (widget));
 
 	icon_theme = gtk_icon_theme_get_default ();
 	gtk_icon_size_lookup (GTK_ICON_SIZE_MENU, &width, &height);
 
-	etc->pixbuf = gtk_icon_theme_load_icon (
-		icon_theme, etc->icon_name, height, GTK_ICON_LOOKUP_FORCE_SIZE, &error);
+	style_context = gtk_widget_get_style_context (widget);
+	if (etc->surface && etc->surface_scale == gtk_style_context_get_scale (style_context))
+		return;
+
+	g_clear_pointer (&etc->surface, cairo_surface_destroy);
+
+	etc->surface_scale = gtk_style_context_get_scale (style_context);
+
+	pixbuf = gtk_icon_theme_load_icon_for_scale (
+		icon_theme, etc->icon_name, height, etc->surface_scale, GTK_ICON_LOOKUP_FORCE_SIZE, &error);
 
 	if (error != NULL) {
 		g_warning ("%s", error->message);
 		g_error_free (error);
+	} else {
+		etc->surface = gdk_cairo_surface_create_from_pixbuf (pixbuf, etc->surface_scale, NULL);
+		etc->surface_width = gdk_pixbuf_get_width (pixbuf) / (etc->surface_scale > 1 ? etc->surface_scale : 1);
+		etc->surface_height = gdk_pixbuf_get_height (pixbuf) / (etc->surface_scale > 1 ? etc->surface_scale : 1);
 	}
+
+	g_clear_object (&pixbuf);
 }
 
 static void
@@ -55,7 +75,7 @@ etc_dispose (GObject *object)
 
 	g_clear_object (&etc->spec);
 	g_clear_object (&etc->ecell);
-	g_clear_object (&etc->pixbuf);
+	g_clear_pointer (&etc->surface, cairo_surface_destroy);
 
 	g_free (etc->text);
 	etc->text = NULL;
@@ -79,6 +99,8 @@ static void
 e_table_col_init (ETableCol *etc)
 {
 	etc->width = 0;
+	etc->surface_width = 0;
+	etc->surface_height = 0;
 	etc->justification = GTK_JUSTIFY_LEFT;
 }
 
@@ -129,16 +151,13 @@ e_table_col_new (ETableColumnSpecification *spec,
 	etc->spec = g_object_ref (spec);
 	etc->text = g_strdup (text);
 	etc->icon_name = g_strdup (icon_name);
-	etc->pixbuf = NULL;
+	etc->surface = NULL;
 	etc->min_width = spec->minimum_width;
 	etc->expansion = spec->expansion;
 	etc->ecell = g_object_ref (ecell);
 	etc->compare = compare;
 
 	etc->selected = 0;
-
-	if (etc->icon_name != NULL)
-		etc_load_icon (etc);
 
 	return etc;
 }
