@@ -13,8 +13,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: 3.12\n"
 "Report-Msgid-Bugs-To: https://gitlab.gnome.org/GNOME/evolution/issues\n"
-"POT-Creation-Date: 2023-02-13 21:59+0000\n"
-"PO-Revision-Date: 2023-02-14 11:24+0000\n"
+"POT-Creation-Date: 2023-02-14 16:25+0000\n"
+"PO-Revision-Date: 2023-02-14 16:53+0000\n"
 "Last-Translator: Hugo Carvalho <hugokarvalho@hotmail.com>\n"
 "Language-Team: Portuguese <https://l10n.gnome.org/teams/pt/>\n"
 "Language: pt\n"
@@ -3898,6 +3898,37 @@ msgstr ""
 "Microsoft Exchange através da extensão “Exchange Web Services” (EWS)."
 
 #: ../data/org.gnome.Evolution.appdata.xml.in.in.h:5
+msgid "Mail – Classic View"
+msgstr "Correio – Vista clássica"
+
+#: ../data/org.gnome.Evolution.appdata.xml.in.in.h:6
+msgid "Mail – Vertical View"
+msgstr "Correio – Vista vertical"
+
+#: ../data/org.gnome.Evolution.appdata.xml.in.in.h:7
+msgid "Mail Composer"
+msgstr "Compositor de correio"
+
+#: ../data/org.gnome.Evolution.appdata.xml.in.in.h:8
+#: ../data/org.gnome.Evolution.desktop.in.in.h:9
+#: ../src/addressbook/gui/widgets/eab-contact-formatter.c:1012
+#: ../src/e-util/e-collection-account-wizard.c:867
+#: ../src/e-util/e-send-options.c:544 ../src/e-util/e-webdav-browser.c:533
+#: ../src/modules/calendar/e-cal-shell-view-actions.c:200
+#: ../src/modules/calendar/e-cal-shell-view.c:635
+#: ../src/plugins/publish-calendar/publish-calendar.ui.h:22
+msgid "Calendar"
+msgstr "Calendário"
+
+#: ../data/org.gnome.Evolution.appdata.xml.in.in.h:9
+#: ../data/org.gnome.Evolution.desktop.in.in.h:8
+#: ../src/e-util/e-name-selector-dialog.c:448
+#: ../src/modules/addressbook/e-book-shell-backend.c:314
+#: ../src/modules/addressbook/e-book-shell-view.c:434
+msgid "Contacts"
+msgstr "Contactos"
+
+#: ../data/org.gnome.Evolution.appdata.xml.in.in.h:10
 msgid "The Evolution Team"
 msgstr "A Equipa do Evolution"
 
@@ -3923,23 +3954,6 @@ msgstr "Nova _janela"
 #: ../data/org.gnome.Evolution.desktop.in.in.h:7
 msgid "Compose a Message"
 msgstr "Escrever uma mensagem"
-
-#: ../data/org.gnome.Evolution.desktop.in.in.h:8
-#: ../src/e-util/e-name-selector-dialog.c:448
-#: ../src/modules/addressbook/e-book-shell-backend.c:314
-#: ../src/modules/addressbook/e-book-shell-view.c:434
-msgid "Contacts"
-msgstr "Contactos"
-
-#: ../data/org.gnome.Evolution.desktop.in.in.h:9
-#: ../src/addressbook/gui/widgets/eab-contact-formatter.c:1012
-#: ../src/e-util/e-collection-account-wizard.c:867
-#: ../src/e-util/e-send-options.c:544 ../src/e-util/e-webdav-browser.c:533
-#: ../src/modules/calendar/e-cal-shell-view-actions.c:200
-#: ../src/modules/calendar/e-cal-shell-view.c:635
-#: ../src/plugins/publish-calendar/publish-calendar.ui.h:22
-msgid "Calendar"
-msgstr "Calendário"
 
 #: ../data/org.gnome.Evolution.desktop.in.in.h:10
 #: ../src/e-util/e-send-options.c:536 ../src/mail/importers/elm-importer.c:330
@@ -22130,7 +22144,6 @@ msgid "Failed to generate message list"
 msgstr "Falha ao gerar a lista de mensagens"
 
 #: ../src/mail/mail.error.xml.h:220
-#| msgid "{0}"
 msgid "{1}"
 msgstr "{1}"
 
