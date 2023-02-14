@@ -12,8 +12,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: evolution\n"
 "Report-Msgid-Bugs-To: https://gitlab.gnome.org/GNOME/evolution/issues\n"
-"POT-Creation-Date: 2023-02-13 17:26+0000\n"
-"PO-Revision-Date: 2023-02-13 21:28+0200\n"
+"POT-Creation-Date: 2023-02-14 16:25+0000\n"
+"PO-Revision-Date: 2023-02-14 19:47+0200\n"
 "Last-Translator: Yuri Chornoivan <yurchor@ukr.net>\n"
 "Language-Team: Ukrainian <trans-uk@lists.fedoraproject.org>\n"
 "Language: uk\n"
@@ -2322,17 +2322,14 @@ msgid "Prompt the user when he or she tries to Empty a Junk folder."
 msgstr "Запитувати підтвердження у користувача при очищенні теки спаму."
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:196
-#| msgid "Prompt when user calls Empty Junk"
 msgid "Prompt when user marks message as Junk"
 msgstr "Запитувати, якщо користувач позначає повідомлення як спам"
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:197
-#| msgid ""
-#| "Prompt the user when he or she tries to send a message without a Subject."
 msgid "Prompt the user when he or she tries to mark a message as Junk."
 msgstr ""
-"Запитувати підтвердження у користувача коли він намагається позначити"
-" повідомлення як спам."
+"Запитувати підтвердження у користувача коли він намагається позначити "
+"повідомлення як спам."
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:198
 msgid "Prompt before sending to recipients not entered as mail addresses"
@@ -3848,6 +3845,40 @@ msgstr ""
 "«Exchange Web Services» (EWS)."
 
 #: ../data/org.gnome.Evolution.appdata.xml.in.in.h:5
+#| msgid "_Classic View"
+msgid "Mail – Classic View"
+msgstr "Пошта — Класичний вигляд"
+
+#: ../data/org.gnome.Evolution.appdata.xml.in.in.h:6
+#| msgid "_Vertical View"
+msgid "Mail – Vertical View"
+msgstr "Пошта — Вертикальний вигляд"
+
+#: ../data/org.gnome.Evolution.appdata.xml.in.in.h:7
+#| msgid "Mail from %s"
+msgid "Mail Composer"
+msgstr "Редактор повідомлень"
+
+#: ../data/org.gnome.Evolution.appdata.xml.in.in.h:8
+#: ../data/org.gnome.Evolution.desktop.in.in.h:9
+#: ../src/addressbook/gui/widgets/eab-contact-formatter.c:1012
+#: ../src/e-util/e-collection-account-wizard.c:867
+#: ../src/e-util/e-send-options.c:544 ../src/e-util/e-webdav-browser.c:533
+#: ../src/modules/calendar/e-cal-shell-view-actions.c:200
+#: ../src/modules/calendar/e-cal-shell-view.c:635
+#: ../src/plugins/publish-calendar/publish-calendar.ui.h:22
+msgid "Calendar"
+msgstr "Календар"
+
+#: ../data/org.gnome.Evolution.appdata.xml.in.in.h:9
+#: ../data/org.gnome.Evolution.desktop.in.in.h:8
+#: ../src/e-util/e-name-selector-dialog.c:448
+#: ../src/modules/addressbook/e-book-shell-backend.c:314
+#: ../src/modules/addressbook/e-book-shell-view.c:434
+msgid "Contacts"
+msgstr "Контакти"
+
+#: ../data/org.gnome.Evolution.appdata.xml.in.in.h:10
 msgid "The Evolution Team"
 msgstr "Команда розробників Evolution"
 
@@ -3871,23 +3902,6 @@ msgstr "Створити вікно"
 #: ../data/org.gnome.Evolution.desktop.in.in.h:7
 msgid "Compose a Message"
 msgstr "Створити повідомлення"
-
-#: ../data/org.gnome.Evolution.desktop.in.in.h:8
-#: ../src/e-util/e-name-selector-dialog.c:448
-#: ../src/modules/addressbook/e-book-shell-backend.c:314
-#: ../src/modules/addressbook/e-book-shell-view.c:434
-msgid "Contacts"
-msgstr "Контакти"
-
-#: ../data/org.gnome.Evolution.desktop.in.in.h:9
-#: ../src/addressbook/gui/widgets/eab-contact-formatter.c:1012
-#: ../src/e-util/e-collection-account-wizard.c:867
-#: ../src/e-util/e-send-options.c:544 ../src/e-util/e-webdav-browser.c:533
-#: ../src/modules/calendar/e-cal-shell-view-actions.c:200
-#: ../src/modules/calendar/e-cal-shell-view.c:635
-#: ../src/plugins/publish-calendar/publish-calendar.ui.h:22
-msgid "Calendar"
-msgstr "Календар"
 
 #: ../data/org.gnome.Evolution.desktop.in.in.h:10
 #: ../src/e-util/e-send-options.c:536 ../src/mail/importers/elm-importer.c:330
@@ -18723,8 +18737,6 @@ msgstr "Вилучення примітки до листа…"
 
 #: ../src/mail/e-mail-reader.c:1057
 #, c-format
-#| msgid "Are you sure you want to open %d message at once?"
-#| msgid_plural "Are you sure you want to open %d messages at once?"
 msgid "Are you sure you want to mark %d message as Junk?"
 msgid_plural "Are you sure you want to mark %d messages as Junk?"
 msgstr[0] "Ви справді хочете позначити %d повідомлення як спам?"
@@ -18733,7 +18745,6 @@ msgstr[2] "Ви справді хочете позначити %d повідом
 msgstr[3] "Ви справді хочете позначити %d повідомлення як спам?"
 
 #: ../src/mail/e-mail-reader.c:1065
-#| msgid "There are no messages in this folder."
 msgid "The message will be shown in the Junk folder."
 msgid_plural "The messages will be shown in the Junk folder."
 msgstr[0] "Повідомлення буде показано у теці «Спам»."
@@ -21121,7 +21132,6 @@ msgid "_Delete junk messages"
 msgstr "В_илучити листи зі спамом"
 
 #: ../src/mail/mail-config.ui.h:142
-#| msgid "Timeout for marking messages as seen"
 msgid "_Prompt before marking message as junk"
 msgstr "_Питати до позначення повідомлення як спаму"
 
@@ -22169,12 +22179,10 @@ msgid "Failed to generate message list"
 msgstr "Не вдалось створити список повідомлень"
 
 #: ../src/mail/mail.error.xml.h:220
-#| msgid "{0}"
 msgid "{1}"
 msgstr "{1}"
 
 #: ../src/mail/mail.error.xml.h:221
-#| msgid "Mark as _Junk"
 msgid "_Mark as Junk"
 msgstr "Позначити як сп_ам"
 
