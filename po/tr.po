@@ -18,16 +18,16 @@ msgid ""
 msgstr ""
 "Project-Id-Version: evolution\n"
 "Report-Msgid-Bugs-To: https://gitlab.gnome.org/GNOME/evolution/issues\n"
-"POT-Creation-Date: 2023-02-13 17:26+0000\n"
-"PO-Revision-Date: 2023-02-13 21:16+0300\n"
+"POT-Creation-Date: 2023-02-14 16:25+0000\n"
+"PO-Revision-Date: 2023-02-14 20:07+0300\n"
 "Last-Translator: Emin Tufan Çetin <etcetin@gmail.com>\n"
 "Language-Team: Turkish <gnome-turk@gnome.org>\n"
 "Language: tr\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Plural-Forms: nplurals=1; plural=0\n"
-"X-Generator: Gtranslator 42.0\n"
+"Plural-Forms: nplurals=1; plural=0;\n"
+"X-Generator: Poedit 3.1.1\n"
 
 #: ../data/org.gnome.evolution.addressbook.gschema.xml.in.h:1
 msgid "Enable address formatting"
@@ -784,7 +784,7 @@ msgid ""
 "years"
 msgstr ""
 "Zaman tabanlı arama seçilmiş günün yinelemesini ararken bu günden kaç yıl "
-"ileri ya da geriye gitmeli; ön tanımlı olarak on yıldır"
+"ileri ya da geriye gitmeli; öntanımlı olarak on yıldır"
 
 #: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:111
 msgid "Show appointment end times in week and month views"
@@ -1747,7 +1747,7 @@ msgstr ""
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:91
 msgid "Whether start Plain Text composer with Preformatted paragraph mode"
 msgstr ""
-"Düz Metin oluşturucusunun Önceden Biçimlendirilmiş paragraf kipinde "
+"Düz Metin düzenleyicinin Önceden Biçimlendirilmiş paragraf kipinde "
 "başlatılıp başlatılmayacağı"
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:92
@@ -2109,8 +2109,8 @@ msgid ""
 "This sets the number of addresses to show in default message list view, "
 "beyond which a “...” is shown."
 msgstr ""
-"Bu ön tanımlı ileti listesi görünümünde gösterilecek olan adreslerin "
-"sayısını belirtir, bu sayıdan sonrakiler “...” olarak gösterilir."
+"Bu öntanımlı ileti listesi görünümünde gösterilecek olan adreslerin sayısını "
+"belirtir, bu sayıdan sonrakiler “...” olarak gösterilir."
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:163
 msgid ""
@@ -3238,7 +3238,7 @@ msgstr "Yeni posta düzenlendiğinde kendiliğinden çalışsın"
 
 #: ../data/org.gnome.evolution.plugin.external-editor.gschema.xml.in.h:4
 msgid "Automatically launch editor when key is pressed in the mail composer."
-msgstr "Posta oluşturucuda tuşa basıldığı zaman kendiliğinden çalışsın."
+msgstr "Posta düzenleyicide tuşa basıldığı zaman kendiliğinden çalışsın."
 
 #: ../data/org.gnome.evolution.plugin.face-picture.gschema.xml.in.h:1
 msgid "Insert Face picture by default"
@@ -3785,6 +3785,37 @@ msgstr ""
 "Microsoft Exchange ile de sorunsuzca tümleşebilir."
 
 #: ../data/org.gnome.Evolution.appdata.xml.in.in.h:5
+msgid "Mail – Classic View"
+msgstr "Posta - Klasik Görünüm"
+
+#: ../data/org.gnome.Evolution.appdata.xml.in.in.h:6
+msgid "Mail – Vertical View"
+msgstr "Posta - Dikey Görünüm"
+
+#: ../data/org.gnome.Evolution.appdata.xml.in.in.h:7
+msgid "Mail Composer"
+msgstr "Posta Düzenleyici"
+
+#: ../data/org.gnome.Evolution.appdata.xml.in.in.h:8
+#: ../data/org.gnome.Evolution.desktop.in.in.h:9
+#: ../src/addressbook/gui/widgets/eab-contact-formatter.c:1012
+#: ../src/e-util/e-collection-account-wizard.c:867
+#: ../src/e-util/e-send-options.c:544 ../src/e-util/e-webdav-browser.c:533
+#: ../src/modules/calendar/e-cal-shell-view-actions.c:200
+#: ../src/modules/calendar/e-cal-shell-view.c:635
+#: ../src/plugins/publish-calendar/publish-calendar.ui.h:22
+msgid "Calendar"
+msgstr "Takvim"
+
+#: ../data/org.gnome.Evolution.appdata.xml.in.in.h:9
+#: ../data/org.gnome.Evolution.desktop.in.in.h:8
+#: ../src/e-util/e-name-selector-dialog.c:448
+#: ../src/modules/addressbook/e-book-shell-backend.c:314
+#: ../src/modules/addressbook/e-book-shell-view.c:434
+msgid "Contacts"
+msgstr "Bağlantılar"
+
+#: ../data/org.gnome.Evolution.appdata.xml.in.in.h:10
 msgid "The Evolution Team"
 msgstr "Evolution Takımı"
 
@@ -3808,23 +3839,6 @@ msgstr "Yeni Pencere"
 #: ../data/org.gnome.Evolution.desktop.in.in.h:7
 msgid "Compose a Message"
 msgstr "İleti Yaz"
-
-#: ../data/org.gnome.Evolution.desktop.in.in.h:8
-#: ../src/e-util/e-name-selector-dialog.c:448
-#: ../src/modules/addressbook/e-book-shell-backend.c:314
-#: ../src/modules/addressbook/e-book-shell-view.c:434
-msgid "Contacts"
-msgstr "Bağlantılar"
-
-#: ../data/org.gnome.Evolution.desktop.in.in.h:9
-#: ../src/addressbook/gui/widgets/eab-contact-formatter.c:1012
-#: ../src/e-util/e-collection-account-wizard.c:867
-#: ../src/e-util/e-send-options.c:544 ../src/e-util/e-webdav-browser.c:533
-#: ../src/modules/calendar/e-cal-shell-view-actions.c:200
-#: ../src/modules/calendar/e-cal-shell-view.c:635
-#: ../src/plugins/publish-calendar/publish-calendar.ui.h:22
-msgid "Calendar"
-msgstr "Takvim"
 
 #: ../data/org.gnome.Evolution.desktop.in.in.h:10
 #: ../src/e-util/e-send-options.c:536 ../src/mail/importers/elm-importer.c:330
@@ -23130,6 +23144,7 @@ msgstr "Evolutionʼın dosyayı güncellemesine izin ver"
 msgid "%s, %s"
 msgstr "%s, %s"
 
+# Çevirmen notlarındaki uyarıya uyacak şekilde düzeltildi.
 #. Translators: Please indicate whether your locale uses the
 #. * metric or imperial measurement system by changing this to
 #. * either "default:mm" or "default:inch", respectively.
@@ -23139,7 +23154,7 @@ msgstr "%s, %s"
 #: ../src/modules/cal-config-weather/evolution-cal-config-weather.c:199
 msgctxt "locale-metric"
 msgid "default:mm"
-msgstr "öntanımlı:mm"
+msgstr "default:mm"
 
 #. Translators: This is the temperature in degrees
 #. * Fahrenheit. (\302\260 is U+00B0 DEGREE SIGN)
@@ -23617,7 +23632,7 @@ msgstr "Hatırlatıcı bildirimleri için kaynakları seç:"
 
 #: ../src/modules/calendar/e-calendar-preferences.ui.h:102
 msgid "Default Free/Busy Server"
-msgstr "Ön tanımlı Serbest/Meşgul Sunucu"
+msgstr "Öntanımlı Serbest/Meşgul Sunucu"
 
 #: ../src/modules/calendar/e-calendar-preferences.ui.h:105
 #, no-c-format
@@ -23825,7 +23840,7 @@ msgstr "_Toplantıya Temsilci Ol…"
 
 #: ../src/modules/calendar/e-cal-shell-view-actions.c:1446
 msgid "_Delete Appointment"
-msgstr "Randevuyu _sil"
+msgstr "Randevuyu _Sil"
 
 #: ../src/modules/calendar/e-cal-shell-view-actions.c:1448
 msgid "Delete selected appointments"
