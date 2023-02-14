@@ -29,7 +29,24 @@
   </provides>
   <screenshots>
     <screenshot type="default">
-      <image>https://wiki.gnome.org/Apps/Evolution/Screenshots?action=AttachFile&amp;do=get&amp;target=evolution_mail.png</image>
+      <_caption>Mail – Classic View</_caption>
+      <image type="source" width="2504" height="1454">https://gitlab.gnome.org/GNOME/evolution/-/raw/master/data/screenshots/mail01.png?inline=false</image>
+    </screenshot>
+    <screenshot>
+      <_caption>Mail – Vertical View</_caption>
+      <image type="source" width="2504" height="1454">https://gitlab.gnome.org/GNOME/evolution/-/raw/master/data/screenshots/mail02-vertical.png?inline=false</image>
+    </screenshot>
+    <screenshot>
+      <_caption>Mail Composer</_caption>
+      <image type="source" width="2152" height="1256">https://gitlab.gnome.org/GNOME/evolution/-/raw/master/data/screenshots/composer01.png?inline=false</image>
+    </screenshot>
+    <screenshot>
+      <_caption>Calendar</_caption>
+      <image type="source" width="2504" height="1454">https://gitlab.gnome.org/GNOME/evolution/-/raw/master/data/screenshots/calendar01.png?inline=false</image>
+    </screenshot>
+    <screenshot>
+      <_caption>Contacts</_caption>
+      <image type="source" width="2504" height="1454">https://gitlab.gnome.org/GNOME/evolution/-/raw/master/data/screenshots/contacts01.png?inline=false</image>
     </screenshot>
   </screenshots>
   <_developer_name>The Evolution Team</_developer_name>
