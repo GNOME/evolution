@@ -187,20 +187,6 @@ enl_popup_ungrab (ENameSelectorList *list)
 }
 
 static gboolean
-enl_entry_focus_in (ENameSelectorList *list,
-                    GdkEventFocus *event,
-                    gpointer dummy)
-{
-	gint len;
-
-	/* FIXME: Dont select every thing by default- Code is there but still it does */
-	len = strlen (gtk_entry_get_text (GTK_ENTRY (list)));
-	gtk_editable_select_region (GTK_EDITABLE (list), len, -1);
-
-	return TRUE;
-}
-
-static gboolean
 enl_entry_focus_out (ENameSelectorList *list,
                      GdkEventFocus *event,
                      gpointer dummy)
@@ -775,9 +761,6 @@ e_name_selector_list_init (ENameSelectorList *list)
 	gtk_container_add (GTK_CONTAINER (scroll), list->priv->tree_view);
 	gtk_container_add (GTK_CONTAINER (vgrid), scroll);
 
-	g_signal_connect_after (
-		GTK_WIDGET (list), "focus-in-event",
-		G_CALLBACK (enl_entry_focus_in), NULL);
 	g_signal_connect (
 		GTK_WIDGET (list), "focus-out-event",
 		G_CALLBACK (enl_entry_focus_out), NULL);
