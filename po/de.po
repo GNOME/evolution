@@ -34,8 +34,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: evolution master\n"
 "Report-Msgid-Bugs-To: https://gitlab.gnome.org/GNOME/evolution/issues\n"
-"POT-Creation-Date: 2023-01-25 16:59+0000\n"
-"PO-Revision-Date: 2023-02-13 22:52+0100\n"
+"POT-Creation-Date: 2023-02-13 21:54+0000\n"
+"PO-Revision-Date: 2023-02-13 23:25+0100\n"
 "Last-Translator: Philipp Kiemle <philipp.kiemle@gmail.com>\n"
 "Language-Team: German <gnome-de@gnome.org>\n"
 "Language: de\n"
@@ -255,23 +255,23 @@ msgstr "Ordner für das Speichern der Erinnerungs-Klangdateien"
 
 #: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:3
 msgid "Birthday and anniversary reminder value"
-msgstr "Wert der Erinnerung an Geburts- und Jahrestage"
+msgstr "Wert der Erinnerung an Geburts- und Hochzeitstage"
 
 #: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:4
 msgid "Number of units for determining a birthday or anniversary reminder"
 msgstr ""
 "Anzahl der Einheiten zur Festlegung einer Erinnerung an einen Geburtstag oder "
-"Jahrestag"
+"Hochzeitstag"
 
 #: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:5
 msgid "Birthday and anniversary reminder units"
-msgstr "Einheiten der Erinnerung an Geburts- und Jahrestage"
+msgstr "Einheiten der Erinnerung an Geburts- und Hochzeitstage"
 
 #: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:6
 msgid "Units for a birthday or anniversary reminder, “minutes”, “hours” or “days”"
 msgstr ""
-"Einheit für Erinnerungen an Geburtstage oder Jahrestage (»minutes«, »hours« oder "
-"»days«)."
+"Einheit für Erinnerungen an Geburtstage oder Hochzeitstage (»minutes«, »hours« "
+"oder »days«)."
 
 #: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:7
 msgid "Compress weekends in month view"
@@ -935,7 +935,7 @@ msgstr ""
 
 #: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:141
 msgid "Birthday and anniversary reminder"
-msgstr "Erinnerung an Geburts- und Jahrestage"
+msgstr "Erinnerung an Geburts- und Hochzeitstage"
 
 #: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:142
 msgid "Whether to set a reminder for birthdays and anniversaries"
@@ -4563,14 +4563,14 @@ msgstr "_Geburtstag:"
 
 #: ../src/addressbook/gui/contact-editor/contact-editor.ui.h:51
 msgid "_Anniversary:"
-msgstr "_Jahrestag:"
+msgstr "_Hochzeitstag:"
 
 #: ../src/addressbook/gui/contact-editor/contact-editor.ui.h:52
 #: ../src/addressbook/gui/widgets/eab-contact-formatter.c:1052
 #: ../src/addressbook/gui/widgets/e-addressbook-view.etspec.h:47
 #: ../src/calendar/gui/e-calendar-view.c:2235
 msgid "Anniversary"
-msgstr "Jahrestag"
+msgstr "Hochzeitstag"
 
 #: ../src/addressbook/gui/contact-editor/contact-editor.ui.h:53
 #: ../src/addressbook/gui/widgets/eab-contact-formatter.c:1051
@@ -23286,7 +23286,7 @@ msgstr "Eine _Erinnerung anzeigen"
 #. This is the last half of a user preference. "Show a reminder [time-period] before every anniversary/birthday"
 #: ../src/modules/calendar/e-calendar-preferences.ui.h:91
 msgid "before every anniversary/birthday"
-msgstr "vor jedem Jahrestag/Geburtstag"
+msgstr "vor jedem Hochzeitstag/Geburtstag"
 
 #: ../src/modules/calendar/e-calendar-preferences.ui.h:92
 msgid "Select the sources for reminder notification:"
