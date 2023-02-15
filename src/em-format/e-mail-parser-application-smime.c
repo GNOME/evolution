@@ -114,6 +114,7 @@ empe_app_smime_parse (EMailParserExtension *extension,
 			local_error->message);
 		g_error_free (local_error);
 
+		e_mail_parser_wrap_as_non_expandable_attachment (parser, part, part_id, out_mail_parts);
 	} else {
 		CamelContentType *ct;
 		GQueue work_queue = G_QUEUE_INIT;
