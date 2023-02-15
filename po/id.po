@@ -15,8 +15,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: evolution master\n"
 "Report-Msgid-Bugs-To: https://gitlab.gnome.org/GNOME/evolution/issues\n"
-"POT-Creation-Date: 2023-02-13 21:59+0000\n"
-"PO-Revision-Date: 2023-02-14 09:29+0700\n"
+"POT-Creation-Date: 2023-02-14 16:25+0000\n"
+"PO-Revision-Date: 2023-02-15 10:37+0700\n"
 "Last-Translator: Kukuh Syafaat <kukuhsyafaat@gnome.org>\n"
 "Language-Team: Indonesian <gnome@i15n.org>\n"
 "Language: id\n"
@@ -3804,6 +3804,37 @@ msgstr ""
 "Microsoft Exchange melalui ekstensi \"Exchange Web Services\" (EWS)."
 
 #: ../data/org.gnome.Evolution.appdata.xml.in.in.h:5
+msgid "Mail – Classic View"
+msgstr "Surel - Tampilan Klasik"
+
+#: ../data/org.gnome.Evolution.appdata.xml.in.in.h:6
+msgid "Mail – Vertical View"
+msgstr "Surel - Tampilan Vertikal"
+
+#: ../data/org.gnome.Evolution.appdata.xml.in.in.h:7
+msgid "Mail Composer"
+msgstr "Komposer Surel"
+
+#: ../data/org.gnome.Evolution.appdata.xml.in.in.h:8
+#: ../data/org.gnome.Evolution.desktop.in.in.h:9
+#: ../src/addressbook/gui/widgets/eab-contact-formatter.c:1012
+#: ../src/e-util/e-collection-account-wizard.c:867
+#: ../src/e-util/e-send-options.c:544 ../src/e-util/e-webdav-browser.c:533
+#: ../src/modules/calendar/e-cal-shell-view-actions.c:200
+#: ../src/modules/calendar/e-cal-shell-view.c:635
+#: ../src/plugins/publish-calendar/publish-calendar.ui.h:22
+msgid "Calendar"
+msgstr "Kalender"
+
+#: ../data/org.gnome.Evolution.appdata.xml.in.in.h:9
+#: ../data/org.gnome.Evolution.desktop.in.in.h:8
+#: ../src/e-util/e-name-selector-dialog.c:448
+#: ../src/modules/addressbook/e-book-shell-backend.c:314
+#: ../src/modules/addressbook/e-book-shell-view.c:434
+msgid "Contacts"
+msgstr "Kontak"
+
+#: ../data/org.gnome.Evolution.appdata.xml.in.in.h:10
 msgid "The Evolution Team"
 msgstr "Tim Evolution"
 
@@ -3827,23 +3858,6 @@ msgstr "Jendela Baru"
 #: ../data/org.gnome.Evolution.desktop.in.in.h:7
 msgid "Compose a Message"
 msgstr "Tulis Pesan"
-
-#: ../data/org.gnome.Evolution.desktop.in.in.h:8
-#: ../src/e-util/e-name-selector-dialog.c:448
-#: ../src/modules/addressbook/e-book-shell-backend.c:314
-#: ../src/modules/addressbook/e-book-shell-view.c:434
-msgid "Contacts"
-msgstr "Kontak"
-
-#: ../data/org.gnome.Evolution.desktop.in.in.h:9
-#: ../src/addressbook/gui/widgets/eab-contact-formatter.c:1012
-#: ../src/e-util/e-collection-account-wizard.c:867
-#: ../src/e-util/e-send-options.c:544 ../src/e-util/e-webdav-browser.c:533
-#: ../src/modules/calendar/e-cal-shell-view-actions.c:200
-#: ../src/modules/calendar/e-cal-shell-view.c:635
-#: ../src/plugins/publish-calendar/publish-calendar.ui.h:22
-msgid "Calendar"
-msgstr "Kalender"
 
 #: ../data/org.gnome.Evolution.desktop.in.in.h:10
 #: ../src/e-util/e-send-options.c:536 ../src/mail/importers/elm-importer.c:330
