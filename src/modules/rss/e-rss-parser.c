@@ -62,14 +62,16 @@ e_rss_read_feed_person (xmlNodePtr author,
 			xmlChar **out_email)
 {
 	xmlNodePtr node;
+	gboolean email_set = FALSE;
 
-	for (node = author->children; node && (!*out_name || !*out_email); node = node->next) {
+	for (node = author->children; node && (!*out_name || !email_set); node = node->next) {
 		if (g_strcmp0 ((const gchar *) node->name, "name") == 0) {
 			g_clear_pointer (out_name, xmlFree);
 			*out_name = xmlNodeGetContent (node);
 		} else if (g_strcmp0 ((const gchar *) node->name, "email") == 0) {
 			g_clear_pointer (out_email, xmlFree);
 			*out_email = xmlNodeGetContent (node);
+			email_set = *out_email && **out_email;
 		} else if (g_strcmp0 ((const gchar *) node->name, "uri") == 0 &&
 			   (!*out_email || !**out_email)) {
 			g_clear_pointer (out_email, xmlFree);
@@ -81,6 +83,13 @@ e_rss_read_feed_person (xmlNodePtr author,
 		*out_name = xmlNodeGetContent (author);
 		if (*out_name && !**out_name)
 			g_clear_pointer (out_name, xmlFree);
+	}
+
+	if (*out_email && (
+	    g_ascii_strncasecmp ((const gchar *) *out_email, "http://", 7) == 0 ||
+	    g_ascii_strncasecmp ((const gchar *) *out_email, "https://", 8) == 0)) {
+		/* Do not use URIs as emails */
+		g_clear_pointer (out_email, xmlFree);
 	}
 }
 
