@@ -252,7 +252,7 @@ EvoEditor.maybeUpdateFormattingState = function(force)
 		textAlign : null
 	};
 
-	for (parent = anchorElem; parent && !(parent === document.body); parent = parent.parentElement) {
+	for (parent = anchorElem; parent; parent = parent.parentElement) {
 		if (obj.script == 0) {
 			if (parent.tagName == "SUB")
 				obj.script = -1;
@@ -352,6 +352,9 @@ EvoEditor.maybeUpdateFormattingState = function(force)
 
 		if (obj.textAlign === null && parent.style.textAlign)
 			obj.textAlign = parent.style.textAlign;
+
+		if (parent === document.body)
+			break;
 	}
 
 	value = obj.script;
@@ -437,7 +440,7 @@ EvoEditor.maybeUpdateFormattingState = function(force)
 	tmp = (obj.textAlign ? obj.textAlign : "").toLowerCase();
 	if (tmp == "left" || tmp == "start")
 		value = EvoEditor.E_CONTENT_EDITOR_ALIGNMENT_LEFT;
-	else if (tmp == "right")
+	else if (tmp == "right" || tmp == "end")
 		value = EvoEditor.E_CONTENT_EDITOR_ALIGNMENT_RIGHT;
 	else if (tmp == "center")
 		value = EvoEditor.E_CONTENT_EDITOR_ALIGNMENT_CENTER;
@@ -841,9 +844,22 @@ EvoEditor.SetAlignment = function(alignment)
 
 				traversar.anyChanged = true;
 
-				if ((traversar.toSet == "left" && element.style.direction != "rtl" && window.getComputedStyle(element).direction != "rtl") ||
-				    (traversar.toSet == "right" && (element.style.direction == "rtl" || window.getComputedStyle(element).direction == "rtl"))) {
+				var computedStyle = window.getComputedStyle(element);
+
+				if ((traversar.toSet == "left" && element.style.direction != "rtl" && computedStyle.direction != "rtl") ||
+				    (traversar.toSet == "right" && (element.style.direction == "rtl" || computedStyle.direction == "rtl"))) {
 					element.style.textAlign = "";
+
+					/* When any parent element/style defines text-align, then write the new too, to ensure it's applied */
+					if (computedStyle.textAlign != "") {
+						var same = computedStyle.textAlign == traversar.toSet;
+						if (!same)
+							same = traversar.toSet == "left" && computedStyle.textAlign == "start";
+						if (!same)
+							same = traversar.toSet == "right" && computedStyle.textAlign == "end";
+						if (!same)
+							element.style.textAlign = traversar.toSet;
+					}
 				} else {
 					element.style.textAlign = traversar.toSet;
 				}
