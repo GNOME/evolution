@@ -28,23 +28,23 @@
 # Wolfgang Stöggl <c72578@yahoo.de>, 2015, 2017-2018.
 # Philipp Kiemle <philipp.kiemle@gmail.com>, 2021-2023.
 # Christian Kirbach <christian.kirbach@gmail.com>, 2009-2022.
-# Tim Sabsch <tim@sabsch.com>, 2019-2022.
-# Jürgen Benvenuti <gastornis@posteo.org>, 2022.
+# Tim Sabsch <tim@sabsch.com>, 2019-2023.
+# Jürgen Benvenuti <gastornis@posteo.org>, 2022, 2023.
 #
 msgid ""
 msgstr ""
 "Project-Id-Version: evolution master\n"
 "Report-Msgid-Bugs-To: https://gitlab.gnome.org/GNOME/evolution/issues\n"
-"POT-Creation-Date: 2023-02-13 21:59+0000\n"
-"PO-Revision-Date: 2023-02-13 23:33+0100\n"
-"Last-Translator: Philipp Kiemle <philipp.kiemle@gmail.com>\n"
+"POT-Creation-Date: 2023-02-18 20:20+0000\n"
+"PO-Revision-Date: 2023-02-22 20:37+0100\n"
+"Last-Translator: Tim Sabsch <tim@sabsch.com>\n"
 "Language-Team: German <gnome-de@gnome.org>\n"
-"Language: de_DE\n"
+"Language: de\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
-"X-Generator: Poedit 3.1.1\n"
+"X-Generator: Poedit 3.2.2\n"
 
 #: ../data/org.gnome.evolution.addressbook.gschema.xml.in.h:1
 msgid "Enable address formatting"
@@ -1149,7 +1149,7 @@ msgstr ""
 
 #: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:176
 msgid "Whether to shorten event end time"
-msgstr "Gibt an, ob das Terminende gekürzt werden soll."
+msgstr "Gibt an, ob das Terminende gekürzt werden soll"
 
 #: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:177
 msgid ""
@@ -2368,18 +2368,14 @@ msgstr ""
 "Rückfragen, falls ein Benutzer versucht, einen Unerwünscht-Ordner zu säubern."
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:196
-#, fuzzy
-#| msgid "Prompt when user calls Empty Junk"
 msgid "Prompt when user marks message as Junk"
-msgstr "Beim Leeren des Unerwünscht-Ordners nachfragen"
+msgstr "Beim Markieren einer Nachricht als unerwünscht nachfragen"
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:197
-#, fuzzy
-#| msgid "Prompt the user when he or she tries to send a message without a Subject."
 msgid "Prompt the user when he or she tries to mark a message as Junk."
 msgstr ""
-"Rückfragen, falls ein Benutzer versucht, eine Nachricht ohne Betreff zu "
-"verschicken."
+"Nachfragen, falls ein Benutzer versucht, eine Nachricht als unerwünscht zu "
+"markieren."
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:198
 msgid "Prompt before sending to recipients not entered as mail addresses"
@@ -2428,7 +2424,7 @@ msgstr ""
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:206
 msgid "Prompt while marking multiple messages"
-msgstr "Anzeigen wenn mehrere Nachrichten markiert werden"
+msgstr "Beim Markieren mehrerer Nachrichten nachfragen"
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:207
 msgid "Enable or disable the prompt whilst marking multiple messages."
@@ -3126,16 +3122,13 @@ msgstr ""
 "können."
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:322
-#, fuzzy
-#| msgid "Show preview pane"
 msgid "Show Preview Toolbar"
-msgstr "Vorschaufeld anzeigen"
+msgstr "Vorschauwerkzeugleiste anzeigen"
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:323
-#, fuzzy
-#| msgid "Show the preview pane in the Year View"
 msgid "Show toolbar above preview panel in the Mail view."
-msgstr "Die Vorschauleiste in der Jahresansicht anzeigen"
+msgstr ""
+"Die Werkzeugleiste über der Vorschauleiste in der Nachrichtenansicht anzeigen."
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:324
 msgid "(Deprecated) Default forward style"
@@ -3528,12 +3521,8 @@ msgstr ""
 
 # Siehe https://gitlab.gnome.org/GNOME/evolution/-/issues/1255
 #: ../data/org.gnome.evolution.plugin.sender-validator.gschema.xml.in.h:4
-#, fuzzy
-#| msgid "List of assignments for recipient and the address to be used with it"
 msgid "List of assignments for an account, which recipients it accepts"
-msgstr ""
-"Liste an Zuweisungen für Empfänger und den Adressen, mit denen sie verknüpft sein "
-"sollen"
+msgstr "Liste an Zuweisungen für ein Konto, welche Empfänger es akzeptiert"
 
 #: ../data/org.gnome.evolution.plugin.templates.gschema.xml.in.h:1
 msgid ""
@@ -3795,16 +3784,17 @@ msgstr ""
 "Dialoge. Das Ändern dieser Option erfordert einen Neustart der Anwendung."
 
 #: ../data/org.gnome.evolution.shell.gschema.xml.in.h:48
-#, fuzzy
-#| msgid "Whether to show maps in preview pane"
 msgid "Whether the markdown editor show have live preview"
-msgstr "Legt fest, ob Karten im Vorschaufeld angezeigt werden sollen"
+msgstr ""
+"Legt fest, ob die Markdown-Editor-Ansicht eine aktuelle Vorschau anzeigen soll"
 
 #: ../data/org.gnome.evolution.shell.gschema.xml.in.h:49
 msgid ""
 "When enabled, the markdown editor shows a preview beside the editing text and "
 "updates it as the user types."
 msgstr ""
+"Wenn aktiviert, zeigt der Markdown-Editor eine Vorschau neben dem Bearbeitungstext "
+"an und aktualisiert diesen, während der Benutzer tippt."
 
 #: ../data/org.gnome.evolution.spamassassin.gschema.xml.in.h:1
 msgid "Use only local spam tests."
@@ -3891,6 +3881,37 @@ msgstr ""
 "Exchange mittels der Erweiterung »Exchange Web Services« (EWS) zusammen."
 
 #: ../data/org.gnome.Evolution.appdata.xml.in.in.h:5
+msgid "Mail – Classic View"
+msgstr "E-Mail – Klassische Ansicht"
+
+#: ../data/org.gnome.Evolution.appdata.xml.in.in.h:6
+msgid "Mail – Vertical View"
+msgstr "E-Mail – Vertikale Ansicht"
+
+#: ../data/org.gnome.Evolution.appdata.xml.in.in.h:7
+msgid "Mail Composer"
+msgstr "Nachrichteneditor"
+
+#: ../data/org.gnome.Evolution.appdata.xml.in.in.h:8
+#: ../data/org.gnome.Evolution.desktop.in.in.h:9
+#: ../src/addressbook/gui/widgets/eab-contact-formatter.c:1012
+#: ../src/e-util/e-collection-account-wizard.c:867 ../src/e-util/e-send-options.c:544
+#: ../src/e-util/e-webdav-browser.c:533
+#: ../src/modules/calendar/e-cal-shell-view-actions.c:200
+#: ../src/modules/calendar/e-cal-shell-view.c:635
+#: ../src/plugins/publish-calendar/publish-calendar.ui.h:22
+msgid "Calendar"
+msgstr "Kalender"
+
+#: ../data/org.gnome.Evolution.appdata.xml.in.in.h:9
+#: ../data/org.gnome.Evolution.desktop.in.in.h:8
+#: ../src/e-util/e-name-selector-dialog.c:448
+#: ../src/modules/addressbook/e-book-shell-backend.c:314
+#: ../src/modules/addressbook/e-book-shell-view.c:434
+msgid "Contacts"
+msgstr "Kontakte"
+
+#: ../data/org.gnome.Evolution.appdata.xml.in.in.h:10
 msgid "The Evolution Team"
 msgstr "Das Evolution-Team"
 
@@ -3913,23 +3934,6 @@ msgstr "Neues Fenster"
 #: ../data/org.gnome.Evolution.desktop.in.in.h:7
 msgid "Compose a Message"
 msgstr "Eine Nachricht verfassen"
-
-#: ../data/org.gnome.Evolution.desktop.in.in.h:8
-#: ../src/e-util/e-name-selector-dialog.c:448
-#: ../src/modules/addressbook/e-book-shell-backend.c:314
-#: ../src/modules/addressbook/e-book-shell-view.c:434
-msgid "Contacts"
-msgstr "Kontakte"
-
-#: ../data/org.gnome.Evolution.desktop.in.in.h:9
-#: ../src/addressbook/gui/widgets/eab-contact-formatter.c:1012
-#: ../src/e-util/e-collection-account-wizard.c:867 ../src/e-util/e-send-options.c:544
-#: ../src/e-util/e-webdav-browser.c:533
-#: ../src/modules/calendar/e-cal-shell-view-actions.c:200
-#: ../src/modules/calendar/e-cal-shell-view.c:635
-#: ../src/plugins/publish-calendar/publish-calendar.ui.h:22
-msgid "Calendar"
-msgstr "Kalender"
 
 #: ../data/org.gnome.Evolution.desktop.in.in.h:10 ../src/e-util/e-send-options.c:536
 #: ../src/mail/importers/elm-importer.c:330
@@ -12104,10 +12108,8 @@ msgid "S/MIME En_crypt"
 msgstr "Mit S/_MIME verschlüsseln"
 
 #: ../src/composer/e-composer-actions.c:476
-#, fuzzy
-#| msgid "Encrypt this message with PGP"
 msgid "Encrypt this message with S/MIME"
-msgstr "Diese Nachricht mit PGP verschlüsseln"
+msgstr "Diese Nachricht mit S/MIME verschlüsseln"
 
 #: ../src/composer/e-composer-actions.c:482
 msgid "S/MIME Sig_n"
@@ -14579,7 +14581,7 @@ msgstr "Die letzte rückgängig gemachte Änderung wiederholen"
 
 #: ../src/e-util/e-html-editor-actions.c:1163
 msgid "Undo the last action"
-msgstr "Die letzte Aktion zurück nehmen"
+msgstr "Die letzte Aktion zurücknehmen"
 
 #: ../src/e-util/e-html-editor-actions.c:1184
 msgid "For_mat"
@@ -15854,10 +15856,8 @@ msgid "Open online common mark documentation"
 msgstr "Online-Dokumentation zu Markdown öffnen"
 
 #: ../src/e-util/e-markdown-editor.c:1759
-#, fuzzy
-#| msgid "Show preview pane"
 msgid "Show preview beside text"
-msgstr "Vorschaufeld anzeigen"
+msgstr "Vorschau neben Text anzeigen"
 
 #: ../src/e-util/e-misc-utils.c:279
 msgid "Could not open the link."
@@ -15905,11 +15905,14 @@ msgstr ""
 msgid "Failed to set protocol version to LDAPv3 (%d): %s"
 msgstr "Protokollversion konnte nicht auf LDAPv3 gesetzt werden (%d): %s"
 
+# Bin mir nicht sicher, ob (%d) an der richtigen Stelle steht. - jb
+# Nach meinen (sehr beschränkten) C-Kenntnissen wird mit dem %d der Fehlercode ausgegeben, daher sollte es ans Ende - ts
 #: ../src/e-util/e-misc-utils.c:4152
-#, fuzzy, c-format
-#| msgid "Failed to set protocol version to LDAPv3 (%d): %s"
+#, c-format
 msgid "Failed to set connection timeout option (%d): %s"
-msgstr "Protokollversion konnte nicht auf LDAPv3 gesetzt werden (%d): %s"
+msgstr ""
+"Einstellung für Verbindungs-Zeitüberschreitung konnte nicht festgelegt werden "
+"(%d): %s"
 
 #: ../src/e-util/e-misc-utils.c:4187
 #, c-format
@@ -16050,7 +16053,7 @@ msgstr "%s ausschnei_den"
 msgid "_Edit %s"
 msgstr "%s _bearbeiten"
 
-#: ../src/e-util/e-name-selector-list.c:587
+#: ../src/e-util/e-name-selector-list.c:573
 #, c-format
 msgid "_Delete %s"
 msgstr "%s _löschen"
@@ -18588,21 +18591,18 @@ msgstr "Nachrichtennotiz wird gelöscht …"
 
 # Eigentlich Blödsinn, diese Frage. Aber was solls...
 #: ../src/mail/e-mail-reader.c:1057
-#, fuzzy, c-format
-#| msgid "Are you sure you want to open %d message at once?"
-#| msgid_plural "Are you sure you want to open %d messages at once?"
+#, c-format
 msgid "Are you sure you want to mark %d message as Junk?"
 msgid_plural "Are you sure you want to mark %d messages as Junk?"
-msgstr[0] "Sind Sie sicher, dass Sie %d Nachricht auf einmal öffnen wollen?"
-msgstr[1] "Sind Sie sicher, dass Sie %d Nachrichten auf einmal öffnen wollen?"
+msgstr[0] "Sind Sie sicher, dass Sie %d Nachricht als unerwünscht markieren wollen?"
+msgstr[1] ""
+"Sind Sie sicher, dass Sie %d Nachrichten als unerwünscht markieren wollen?"
 
 #: ../src/mail/e-mail-reader.c:1065
-#, fuzzy
-#| msgid "There are no messages in this folder."
 msgid "The message will be shown in the Junk folder."
 msgid_plural "The messages will be shown in the Junk folder."
-msgstr[0] "Es existieren keine Nachrichten in diesem Ordner."
-msgstr[1] "Es existieren keine Nachrichten in diesem Ordner."
+msgstr[0] "Die Nachricht wird im Unerwünscht-Ordner angezeigt."
+msgstr[1] "Die Nachrichten werden im Unerwünscht-Ordner angezeigt."
 
 #: ../src/mail/e-mail-reader.c:1734 ../src/mail/e-mail-reader.c:2026
 #: ../src/mail/e-mail-reader.c:2066
@@ -18636,7 +18636,7 @@ msgstr "Archi_vieren …"
 
 #: ../src/mail/e-mail-reader.c:2548
 msgid "Move selected messages to the Archive folder for the account"
-msgstr "Gewählten Nachrichten in den Archivordner verschieben"
+msgstr "Gewählte Nachrichten in den Archivordner verschieben"
 
 #: ../src/mail/e-mail-reader.c:2553
 msgid "Check for _Junk"
@@ -20323,10 +20323,8 @@ msgid "Unset Status"
 msgstr "Status nicht setzen"
 
 #: ../src/mail/filtertypes.xml.in.h:80
-#, fuzzy
-#| msgid "Mark as _Junk"
 msgid "Learn as Junk"
-msgstr "Als un_erwünscht markieren"
+msgstr "Als unerwünscht lernen"
 
 #: ../src/mail/filtertypes.xml.in.h:81
 msgid "Beep"
@@ -20395,6 +20393,7 @@ msgstr "Von"
 #: ../src/mail/importers/evolution-mbox-importer.c:533
 msgid "Showing only first few messages, more will be imported"
 msgstr ""
+"Es werden nur die ersten paar Nachrichten angezeigt, weitere werden importiert"
 
 #: ../src/mail/importers/evolution-mbox-importer.c:587
 #: ../src/shell/e-shell-utils.c:166
@@ -20953,10 +20952,8 @@ msgid "_Delete junk messages"
 msgstr "Unerwünscht-Ordner beim Beenden _leeren"
 
 #: ../src/mail/mail-config.ui.h:142
-#, fuzzy
-#| msgid "Timeout for marking messages as seen"
 msgid "_Prompt before marking message as junk"
-msgstr "Zeitintervall bis zum Markieren von Nachrichten als gelesen"
+msgstr "Vor dem Markieren einer Nachricht als unerwünscht _nachfragen"
 
 #: ../src/mail/mail-config.ui.h:143
 msgid "Junk Test Options"
@@ -22027,16 +22024,12 @@ msgid "Failed to generate message list"
 msgstr "Nachrichtenliste konnte nicht erstellt werden"
 
 #: ../src/mail/mail.error.xml.h:220
-#, fuzzy
-#| msgid "{0}"
 msgid "{1}"
-msgstr "{0}"
+msgstr "{1}"
 
 #: ../src/mail/mail.error.xml.h:221
-#, fuzzy
-#| msgid "Mark as _Junk"
 msgid "_Mark as Junk"
-msgstr "Als un_erwünscht markieren"
+msgstr "Als unerwünscht _markieren"
 
 #: ../src/mail/mail-send-recv.c:193
 msgid "Canceling…"
@@ -22342,45 +22335,37 @@ msgstr ""
 
 #: ../src/modules/appearance-settings/evolution-appearance-settings.c:175
 msgid "Title Bar Mode"
-msgstr ""
+msgstr "Titelleisten-Modus"
 
 #. Translators: This is the GNOME project name; you probably do not want to translate it, apart of changing the mnemonic
 #: ../src/modules/appearance-settings/evolution-appearance-settings.c:186
 msgid "_GNOME"
-msgstr ""
+msgstr "_GNOME"
 
 #. Translators: This belongs under "Title Bar Mode" setting, thus similar to "Title Bar Mode: Standard"
 #: ../src/modules/appearance-settings/evolution-appearance-settings.c:213
-#, fuzzy
-#| msgid "Standard"
 msgid "_Standard"
-msgstr "Standard"
+msgstr "_Standard"
 
 #: ../src/modules/appearance-settings/evolution-appearance-settings.c:241
-#, fuzzy
-#| msgid "Override toolbar icon size"
 msgid "Toolbar Icon Size"
-msgstr "Symbolgröße der Werkzeugleiste überschreiben"
+msgstr "Symbolgröße in Werkzeugleiste"
 
 #. Translators: This is for "Toolbar Icon Size: Small"
 #: ../src/modules/appearance-settings/evolution-appearance-settings.c:266
 msgid "Sm_all"
-msgstr ""
+msgstr "_Klein"
 
 #. Translators: This is for "Toolbar Icon Size: Large"
 #: ../src/modules/appearance-settings/evolution-appearance-settings.c:278
 msgid "_Large"
-msgstr ""
+msgstr "_Groß"
 
 #: ../src/modules/appearance-settings/evolution-appearance-settings.c:322
-#, fuzzy
-#| msgid "Layout style"
 msgid "Layout"
 msgstr "Anordnung"
 
 #: ../src/modules/appearance-settings/evolution-appearance-settings.c:333
-#, fuzzy
-#| msgid "_Show Menu Bar"
 msgid "Show M_enu Bar"
 msgstr "_Menüleiste anzeigen"
 
@@ -22395,8 +22380,6 @@ msgid "Show Side _Bar"
 msgstr "Sei_tenleiste anzeigen"
 
 #: ../src/modules/appearance-settings/evolution-appearance-settings.c:372
-#, fuzzy
-#| msgid "Show _Status Bar"
 msgid "Show Stat_us Bar"
 msgstr "Stat_usleiste anzeigen"
 
@@ -22879,7 +22862,7 @@ msgstr "Sichern der Evolution-Daten (E-Mails, Kontakte, Kalender, Aufgaben, Noti
 
 #: ../src/modules/backup-restore/evolution-backup-tool.c:556
 msgid "Checking validity of the archive"
-msgstr ""
+msgstr "Gültigkeit des Archivs wird überprüft"
 
 #: ../src/modules/backup-restore/evolution-backup-tool.c:563
 msgid "Back up complete"
@@ -22914,6 +22897,8 @@ msgstr "Registrierungsdienst wird neu geladen"
 #, c-format
 msgid "Failed to verify the backup file “%s”, the archive is broken."
 msgstr ""
+"Die Sicherungsdatei »%s« konnte nicht verifiziert werden, das Archiv ist "
+"beschädigt."
 
 #: ../src/modules/backup-restore/evolution-backup-tool.c:1213
 msgid "Evolution Back Up"
@@ -23931,11 +23916,11 @@ msgstr "Den gewählten Kalender löschen"
 
 #: ../src/modules/calendar/e-cal-shell-view-actions.c:1322
 msgid "Go Back"
-msgstr "Zurück gehen"
+msgstr "Zurückgehen"
 
 #: ../src/modules/calendar/e-cal-shell-view-actions.c:1329
 msgid "Go Forward"
-msgstr "Vor gehen"
+msgstr "Vorgehen"
 
 #: ../src/modules/calendar/e-cal-shell-view-actions.c:1336
 msgid "Select today"
@@ -25010,10 +24995,8 @@ msgid "%s has published the following meeting information:"
 msgstr "%s hat folgende Besprechungsinformationen veröffentlicht:"
 
 #: ../src/modules/itip-formatter/itip-view.c:493
-#, fuzzy
-#| msgid "%s has published the following meeting information:"
 msgid "The following meeting information has been published:"
-msgstr "%s hat folgende Besprechungsinformationen veröffentlicht:"
+msgstr "Die folgenden Besprechungsinformationen wurden veröffentlicht:"
 
 #: ../src/modules/itip-formatter/itip-view.c:499
 #, c-format
@@ -25273,8 +25256,6 @@ msgid "_Update"
 msgstr "A_ktualisieren"
 
 #: ../src/modules/itip-formatter/itip-view.c:1305
-#, fuzzy
-#| msgid "I_mport"
 msgid "Im_port"
 msgstr "I_mportieren"
 
@@ -25510,22 +25491,19 @@ msgid "Sent to memo list “%s” as cancelled"
 msgstr "In Notizliste »%s« als »Abgesagt« eingetragen"
 
 #: ../src/modules/itip-formatter/itip-view.c:5269
-#, fuzzy, c-format
-#| msgid "Opening calendar “%s”"
+#, c-format
 msgid "Imported to calendar “%s”"
-msgstr "Kalender »%s« wird geöffnet"
+msgstr "In Kalender »%s« importiert"
 
 #: ../src/modules/itip-formatter/itip-view.c:5274
-#, fuzzy, c-format
-#| msgid "Opening task list “%s”"
+#, c-format
 msgid "Imported to task list “%s”"
-msgstr "Aufgabenliste »%s« wird geöffnet"
+msgstr "In Aufgabenliste »%s« importiert"
 
 #: ../src/modules/itip-formatter/itip-view.c:5279
-#, fuzzy, c-format
-#| msgid "Opening memo list “%s”"
+#, c-format
 msgid "Imported to memo list “%s”"
-msgstr "Notizliste »%s« wird geöffnet"
+msgstr "In Notizliste »%s« importiert"
 
 #: ../src/modules/itip-formatter/itip-view.c:5298
 msgid "Saving changes to the calendar. Please wait…"
@@ -26257,16 +26235,12 @@ msgid "Show junk messages with a red line through them"
 msgstr "Unerwünschte Nachrichten rot durchgestrichen anzeigen"
 
 #: ../src/modules/mail/e-mail-shell-view-actions.c:1966
-#, fuzzy
-#| msgid "Show _Tool Bar"
 msgid "Show _Preview Tool Bar"
-msgstr "_Werkzeugleiste anzeigen"
+msgstr "Vorschau_werkzeugleiste anzeigen"
 
 #: ../src/modules/mail/e-mail-shell-view-actions.c:1968
-#, fuzzy
-#| msgid "Show event preview pane"
 msgid "Show tool bar above the preview panel"
-msgstr "Termin-Vorschaufeld anzeigen"
+msgstr "Werkzeugleiste über dem Vorschaufeld anzeigen"
 
 #: ../src/modules/mail/e-mail-shell-view-actions.c:1974
 msgid "_Group By Threads"
@@ -26685,12 +26659,12 @@ msgstr "Nachricht ist nicht verfügbar"
 #: ../src/modules/rss/camel/camel-rss-folder.c:274
 #, c-format
 msgid "Invalid Feed URL “%s”."
-msgstr "Ungültige Nachrichtenartikel-Adresse »%s«."
+msgstr "Ungültige Feed-Adresse »%s«."
 
 #: ../src/modules/rss/camel/camel-rss-folder.c:408
 #, c-format
 msgid "Invalid Feed URL."
-msgstr "Ungültige Nachrichtenartikel-Adresse."
+msgstr "Ungültige Feed-Adresse."
 
 #: ../src/modules/rss/camel/camel-rss-folder.c:663
 msgid "Apply message _filters to this folder"
@@ -26705,7 +26679,7 @@ msgstr "Artikel vollständig _herunterladen"
 #: ../src/modules/rss/camel/camel-rss-folder.c:689
 #: ../src/modules/rss/evolution/e-rss-preferences.c:860
 msgid "Download feed _enclosures"
-msgstr "Nachrichtenquellen-_Beilagen herunterladen"
+msgstr "Feed-_Beilagen herunterladen"
 
 #: ../src/modules/rss/camel/camel-rss-folder-summary.c:269
 msgid "Enclosures:"
@@ -26735,7 +26709,7 @@ msgstr "Ordner »%s« wurde nicht gefunden"
 msgid "Cannot create a folder in a News and Blogs store."
 msgstr "Es darf kein Ordner im Verkauf? für Neuigkeiten und Blogs angelegt werden."
 
-#: ../src/modules/rss/e-rss-parser.c:294
+#: ../src/modules/rss/e-rss-parser.c:303
 msgid "Unknown author"
 msgstr "Unbekannter Autor"
 
@@ -26747,36 +26721,36 @@ msgstr "Markdown"
 #: ../src/modules/rss/evolution/e-rss-preferences.c:414
 #, c-format
 msgid "Failed to fetch feed icon: %s"
-msgstr "Nachrichtenquellen-Symbol konnte nicht abgerufen werden: %s"
+msgstr "Feed-Symbol konnte nicht abgerufen werden: %s"
 
 #: ../src/modules/rss/evolution/e-rss-preferences.c:461
 msgid "Fetching feed icon…"
-msgstr "Nachrichtenquellen-Symbol wird abgerufen …"
+msgstr "Feed-Symbol wird abgerufen …"
 
 #: ../src/modules/rss/evolution/e-rss-preferences.c:475
 msgid "Failed to read feed information."
-msgstr "Nachrichtenquellen-Information konnte nicht gelesen werden."
+msgstr "Feed-Information konnte nicht gelesen werden."
 
 #: ../src/modules/rss/evolution/e-rss-preferences.c:494
 #, c-format
 msgid "Failed to fetch feed information: %s"
-msgstr "Nachrichtenquellen-Information konnte nicht abgerufen werden: %s"
+msgstr "Feed-Information konnte nicht abgerufen werden: %s"
 
 #: ../src/modules/rss/evolution/e-rss-preferences.c:524
 msgid "Fetching feed information…"
-msgstr "Nachrichtenquellen-Information wird abgerufen …"
+msgstr "Feed-Information wird abgerufen …"
 
 #: ../src/modules/rss/evolution/e-rss-preferences.c:529
 msgid "Invalid Feed URL"
-msgstr "Ungültige Nachrichtenquellen-Adresse"
+msgstr "Ungültige Feed-Adresse"
 
 #: ../src/modules/rss/evolution/e-rss-preferences.c:572
 msgid "Choose Feed Image"
-msgstr "Nachrichtenquellen-Bild auswählen"
+msgstr "Feed-Bild auswählen"
 
 #: ../src/modules/rss/evolution/e-rss-preferences.c:813
 msgid "Feed _URL:"
-msgstr "Nachrichtenquellen-_Adresse:"
+msgstr "Feed-_Adresse:"
 
 #: ../src/modules/rss/evolution/e-rss-preferences.c:826
 msgid "_Fetch"
@@ -26787,95 +26761,77 @@ msgid "C_ontent:"
 msgstr "_Inhalt:"
 
 #: ../src/modules/rss/evolution/e-rss-preferences.c:1090
-#, fuzzy
-#| msgid "Importing Files"
 msgid "Import RSS Feeds"
-msgstr "Dateien werden importiert"
+msgstr "RSS-Feeds importieren"
 
 #: ../src/modules/rss/evolution/e-rss-preferences.c:1090
 msgid "Export RSS Feeds"
-msgstr ""
+msgstr "RSS-Feeds exportieren"
 
 #: ../src/modules/rss/evolution/e-rss-preferences.c:1093
 #: ../src/modules/rss/evolution/e-rss-preferences.c:1780
-#, fuzzy
-#| msgid "I_mport"
 msgid "_Import"
-msgstr "I_mportieren"
+msgstr "_Importieren"
 
 #: ../src/modules/rss/evolution/e-rss-preferences.c:1093
-#, fuzzy
-#| msgid "I_mport"
 msgid "Export"
-msgstr "I_mportieren"
+msgstr "Exportieren"
 
 #: ../src/modules/rss/evolution/e-rss-preferences.c:1097
-#, fuzzy
-#| msgid "HTML file"
 msgid "OPML files"
-msgstr "HTML-Datei"
+msgstr "OPML-Dateien"
 
 #. Translators: This is a default file name for exported RSS feeds.
 #. Keep the extension (".opml") as is, translate only the "feeds" word, if needed.
 #: ../src/modules/rss/evolution/e-rss-preferences.c:1106
 msgid "feeds.opml"
-msgstr ""
+msgstr "feeds.opml"
 
 #: ../src/modules/rss/evolution/e-rss-preferences.c:1194
-#, fuzzy
-#| msgid "Failed to fetch feed icon: %s"
 msgid "Failed to export RSS feeds: "
-msgstr "Nachrichtenquellen-Symbol konnte nicht abgerufen werden: %s"
+msgstr "RSS-Feeds konnten nicht exportiert werden: "
 
 #: ../src/modules/rss/evolution/e-rss-preferences.c:1220
-#, fuzzy
-#| msgid "Failed to delete contact"
 msgid "Failed to read file content: "
-msgstr "Kontakt konnte nicht gelöscht werden"
+msgstr "Inhalt der Datei konnte nicht gelesen werden: "
 
 #: ../src/modules/rss/evolution/e-rss-preferences.c:1287
-#, fuzzy
-#| msgid "Failed to fetch feed icon: %s"
 msgid "Failed to add feed: "
-msgstr "Nachrichtenquellen-Symbol konnte nicht abgerufen werden: %s"
+msgstr "Feed konnte nicht hinzugefügt werden: "
 
 #: ../src/modules/rss/evolution/e-rss-preferences.c:1332
-#, fuzzy
-#| msgctxt "EmojiChooser"
-#| msgid "No Results Found"
 msgid "No RSS feeds found"
-msgstr "Keine Ergebnisse gefunden"
+msgstr "Keine RSS-Feeds gefunden"
 
 #: ../src/modules/rss/evolution/e-rss-preferences.c:1334
 msgid "No new RSS feeds imported"
-msgstr ""
+msgstr "Keine neuen RSS-Feeds importiert"
 
 #: ../src/modules/rss/evolution/e-rss-preferences.c:1337
-#, fuzzy, c-format
-#| msgid "Importer Type"
+#, c-format
 msgid "Imported %d feed"
 msgid_plural "Imported %d feeds"
-msgstr[0] "Importeurtyp"
-msgstr[1] "Importeurtyp"
+msgstr[0] "%d Feed importiert"
+msgstr[1] "%d Feeds importiert"
 
 #: ../src/modules/rss/evolution/e-rss-preferences.c:1341
 msgid "Failed to import data, the file does not contain valid OPML data."
 msgstr ""
+"Daten konnten nicht importiert werden, die Datei enthält keine gültigen OPML-Daten."
 
 #: ../src/modules/rss/evolution/e-rss-preferences.c:1346
 msgid "Failed to parse file content. Expected is an OPML file."
 msgstr ""
+"Datei-Inhalt konnte nicht verarbeitet werden. Es wird eine OPML-Datei erwartet."
 
 #: ../src/modules/rss/evolution/e-rss-preferences.c:1594
-#, fuzzy
-#| msgid "_Download complete articles"
 msgid "Download _feed enclosures"
-msgstr "Artikel vollständig _herunterladen"
+msgstr "Feed-_Beilagen herunterladen"
 
 #. Translators: This is part of "Do not download enclosures larger than [ nnn ] KB"
 #: ../src/modules/rss/evolution/e-rss-preferences.c:1613
 msgid "Do not download e_nclosures larger than"
-msgstr ""
+msgstr "Keine _Beilagen herunterladen, die größer sind als"
 
 #. Translators: This is part of "Do not download enclosures larger than [ nnn ] KB"
 #: ../src/modules/rss/evolution/e-rss-preferences.c:1636
@@ -26884,28 +26840,26 @@ msgstr "KB"
 
 #: ../src/modules/rss/evolution/e-rss-preferences.c:1642
 msgid "Feeds"
-msgstr "Nachrichtenquellen"
+msgstr "Feeds"
 
 #: ../src/modules/rss/evolution/e-rss-preferences.c:1707
 msgid "Content"
 msgstr "Inhalt"
 
 #: ../src/modules/rss/evolution/e-rss-preferences.c:1767
-#, fuzzy
-#| msgid "I_mport"
 msgid "E_xport"
-msgstr "I_mportieren"
+msgstr "E_xportieren"
 
 #: ../src/modules/rss/evolution/e-rss-shell-view-extension.c:210
 msgid "Re_load feed articles"
-msgstr "Nachrichtenartikel _neu laden"
+msgstr "Feed-Artikel _neu laden"
 
 #: ../src/modules/rss/evolution/e-rss-shell-view-extension.c:212
 msgid ""
 "Reload all feed articles from the server, updating existing and adding any missing"
 msgstr ""
-"Alle Nachrichtenartikel vom Server neu laden. Bestehende werden aktualisiert und "
-"fehlende hinzugefügt."
+"Alle Feed-Artikel vom Server neu laden. Vorhandene Artikel werden aktualisiert und "
+"fehlende hinzugefügt"
 
 #: ../src/modules/spamassassin/evolution-spamassassin.c:188
 #, c-format
@@ -28336,10 +28290,6 @@ msgid "Confirm sender address"
 msgstr "Absender bestätigen"
 
 #: ../src/plugins/sender-validation/org-gnome-sender-validation.error.xml.h:2
-#, fuzzy
-#| msgid ""
-#| "The message contains recipient “{0}” for which it is set up to use sender "
-#| "account “{1}”, but the account “{2}” is used instead."
 msgid ""
 "The message contains recipient “{0}” for which it is set to use sender account "
 "“{1}”, but the account “{2}” is used instead."
@@ -28352,22 +28302,16 @@ msgid "_Send Anyway"
 msgstr "Trotzdem _verschicken"
 
 #: ../src/plugins/sender-validation/org-gnome-sender-validation.error.xml.h:5
-#, fuzzy
-#| msgid "Confirm sender address"
 msgid "Confirm recipient address"
-msgstr "Absender bestätigen"
+msgstr "Empfängeradresse bestätigen"
 
 #: ../src/plugins/sender-validation/org-gnome-sender-validation.error.xml.h:6
-#, fuzzy
-#| msgid ""
-#| "The message contains recipient “{0}” for which it is set up to use sender "
-#| "account “{1}”, but the account “{2}” is used instead."
 msgid ""
 "The message contains recipient “{0}”, which does not match recipient pattern “{1}” "
 "for the account “{2}”."
 msgstr ""
-"Die Nachricht enthält den Empfänger »{0}«, welcher normalerweise das Senderkonto "
-"»{1}« verwendet. Stattdessen wird das Konto »{2}« verwendet."
+"Die Nachricht enthält den Empfänger »{0}«, welcher nicht mit dem Empfängermuster "
+"»{1}« für das Konto »{2}« übereinstimmt."
 
 #: ../src/plugins/sender-validation/sender-validation.c:653
 msgid ""
@@ -28376,6 +28320,10 @@ msgid ""
 "warn when a recipient containing “@company.org” is not used with the “me@company."
 "org” account."
 msgstr ""
+"Festlegen, welches Konto für gewisse Empfängermuster verwendet werden soll.\n"
+"Wird zum Beispiel »@firma.org« als Empfänger für das Konto »ich@firma.org« "
+"zugeordnet, erscheint eine Warnung, wenn eine Nachricht an »@firma.org« von einem "
+"anderen Konto als »ich@firma.org« gesendet werden soll."
 
 #: ../src/plugins/sender-validation/sender-validation.c:711
 msgid "Recipient Contains"
@@ -28392,12 +28340,15 @@ msgid ""
 "warn when any of the recipients does not contain “@company.org” when sending with "
 "the “me@company.org” account."
 msgstr ""
+"Festlegen, welche Empfängermuster für ein bestimmtes Konto verwendet werden "
+"können.\n"
+"Wird zum Beispiel dem Konto »ich@firma.org« der Empfänger »@firma.org« zugeordnet, "
+"erscheint eine Warnung, wenn beim Verschicken mit »ich@firma.org« irgendeiner der "
+"Empfänger nicht »@firma.org« enthält."
 
 #: ../src/plugins/sender-validation/sender-validation.c:831
-#, fuzzy
-#| msgid "Recipients contain"
 msgid "Allow Recipients Which Contain"
-msgstr "Empfänger enthalten"
+msgstr "Empfänger zulassen, die enthalten"
 
 #: ../src/plugins/templates/org-gnome-templates.eplug.xml.h:2
 msgid ""
