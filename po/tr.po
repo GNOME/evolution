@@ -18,8 +18,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: evolution\n"
 "Report-Msgid-Bugs-To: https://gitlab.gnome.org/GNOME/evolution/issues\n"
-"POT-Creation-Date: 2023-02-14 16:25+0000\n"
-"PO-Revision-Date: 2023-02-14 20:07+0300\n"
+"POT-Creation-Date: 2023-02-18 20:20+0000\n"
+"PO-Revision-Date: 2023-02-22 15:00+0300\n"
 "Last-Translator: Emin Tufan Çetin <etcetin@gmail.com>\n"
 "Language-Team: Turkish <gnome-turk@gnome.org>\n"
 "Language: tr\n"
@@ -2562,7 +2562,7 @@ msgstr "Gelen postaların gereksiz olup olmadığını denetle"
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:239
 msgid "Run junk test on incoming mail."
-msgstr "Gelen postalarda gereksiz sınaması uygula."
+msgstr "Gelen postalarda gereksiz sınaması çalıştır."
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:240
 msgid "Empty Junk folders on exit"
@@ -2728,7 +2728,7 @@ msgstr ""
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:267
 msgid "Allow expunge in virtual folders"
-msgstr "Sanal dizinlerde silmeye izin ver"
+msgstr "Sanal dizinlerde temizlemeye izin ver"
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:268
 msgid ""
@@ -2737,10 +2737,10 @@ msgid ""
 "folders for all deleted messages within the virtual folder, not only for "
 "deleted messages belonging to the virtual folder."
 msgstr ""
-"Sanal dizinlerde Silmeye izin verir, yani Dizin→Sil sanal dizinlerce de "
-"çağrılabilir olacaktır, silme sanal dizin içinde tüm dizinlerde ve tüm "
-"silinmiş iletilerde yapılır, yalnızca sanal dizine ait silinmiş iletilerde "
-"değil."
+"Sanal dizinlerde Temizlemeye izin verir, yani Dizin→Temizle sanal dizinlerce "
+"de çağrılabilir olacaktır, temizleme sanal dizin içinde tüm dizinlerde ve "
+"tüm silinmiş iletilerde yapılır, yalnızca sanal dizine ait silinmiş "
+"iletilerde değil."
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:269
 #: ../src/mail/mail-config.ui.h:10
@@ -3699,11 +3699,11 @@ msgstr ""
 
 #: ../data/org.gnome.evolution.spamassassin.gschema.xml.in.h:1
 msgid "Use only local spam tests."
-msgstr "Yalnızca yerel spam denetimlerini kullan."
+msgstr "Yalnızca yerel spam sınamalarını kullan."
 
 #: ../data/org.gnome.evolution.spamassassin.gschema.xml.in.h:2
 msgid "Use only the local spam tests (no DNS)."
-msgstr "Yalnızca yerel spam denetimlerini kullan (DNS yok)."
+msgstr "Yalnızca yerel spam sınamalarını kullan (DNS yok)."
 
 #: ../data/org.gnome.evolution.spamassassin.gschema.xml.in.h:3
 msgid "Full path command to run spamassassin"
@@ -4199,7 +4199,7 @@ msgstr "Bu adres defteri açılamadı."
 
 #: ../src/addressbook/addressbook.error.xml.h:2
 msgid "Failed to communicate with LDAP server."
-msgstr "LDAP sunucusuyla iletişim kurma başarısız oldu."
+msgstr "LDAP sunucusuyla iletişim kurulamadı."
 
 #: ../src/addressbook/addressbook.error.xml.h:3
 msgid "This address book server does not have any suggested search bases."
@@ -4267,7 +4267,7 @@ msgstr "Arama gerçekleştirilemedi."
 
 #: ../src/addressbook/addressbook.error.xml.h:17
 msgid "Failed to refresh address book “{0}”"
-msgstr "“{0}” adres defterini tazeleme başarısız"
+msgstr "“{0}” adres defteri yenilenemedi"
 
 #: ../src/addressbook/addressbook.error.xml.h:18
 msgid "Would you like to save your changes?"
@@ -4375,11 +4375,11 @@ msgstr ""
 
 #: ../src/addressbook/addressbook.error.xml.h:35
 msgid "Skip duplicates"
-msgstr "Çiftleri atla"
+msgstr "Yinelenenleri atla"
 
 #: ../src/addressbook/addressbook.error.xml.h:36
 msgid "Add with duplicates"
-msgstr "Çiftlerle birlikte ekle"
+msgstr "Yinelenenlerle birlikte ekle"
 
 #: ../src/addressbook/addressbook.error.xml.h:37
 msgid "List “{0}” is already in this contact list."
@@ -4396,7 +4396,7 @@ msgstr ""
 #: ../src/addressbook/addressbook.error.xml.h:39
 #: ../src/addressbook/gui/widgets/e-addressbook-view.c:1357
 msgid "Failed to delete contact"
-msgstr "Bağlantı silinirken başarısız olundu"
+msgstr "Bağlantı silinemedi"
 
 #: ../src/addressbook/addressbook.error.xml.h:40
 msgid "You do not have permission to delete contacts in this address book."
@@ -4983,7 +4983,7 @@ msgstr "Seçilen dosya, yerel dosya değil."
 #: ../src/addressbook/gui/contact-editor/e-contact-editor.c:3300
 #, c-format
 msgid "Failed to load certificate: %s"
-msgstr "Sertifika yükleme başarısız: %s"
+msgstr "Sertifika yüklenemedi: %s"
 
 #: ../src/addressbook/gui/contact-editor/e-contact-editor.c:3374
 msgctxt "cert-kind"
@@ -5006,7 +5006,7 @@ msgstr "X.509 sertifikasını kaydet"
 #: ../src/addressbook/gui/contact-editor/e-contact-editor.c:3571
 #, c-format
 msgid "Failed to save certificate: %s"
-msgstr "Sertifika kaydetme başarısız: %s"
+msgstr "Sertifika kaydedilemedi: %s"
 
 #: ../src/addressbook/gui/contact-editor/e-contact-editor.c:4378
 #: ../src/addressbook/gui/contact-editor/e-contact-editor.c:4384
@@ -5493,7 +5493,7 @@ msgstr "_Birleştir"
 
 #: ../src/addressbook/gui/widgets/eab-contact-merging.c:801
 msgid "Duplicate Contact Detected"
-msgstr "Çift Bağlantı Bulundu"
+msgstr "Yinelenen Bağlantı Bulundu"
 
 #: ../src/addressbook/gui/widgets/eab-contact-merging.c:859
 msgid ""
@@ -6606,12 +6606,12 @@ msgstr "Not listesi çevrim dışı kullanım için imlenmemiş."
 #. Translators: {0} is the name of the calendar/memo list/task list.
 #: ../src/calendar/calendar.error.xml.h:91
 msgid "Failed to add timezone to “{0}”"
-msgstr "“{0}” ögesine saat dilimi ekleme başarısız oldu"
+msgstr "“{0}” ögesine saat dilimi eklenemedi"
 
 #. The {0} is a calendar/memo list/task list name, which is useless here
 #: ../src/calendar/calendar.error.xml.h:93
 msgid "Failed to save attachments"
-msgstr "Ekleri kaydetme başarısız oldu"
+msgstr "Ekler kaydedilemedi"
 
 #. Translators: {0} is the name of the calendar.
 #: ../src/calendar/calendar.error.xml.h:95
@@ -6631,52 +6631,52 @@ msgstr "“{0}” görev listesi açılamadı"
 #. Translators: {0} is the name of the calendar.
 #: ../src/calendar/calendar.error.xml.h:101
 msgid "Failed to create an event in the calendar “{0}”"
-msgstr "“{0}” takviminde olay oluşturma başarısız"
+msgstr "“{0}” takviminde olay oluşturulamadı"
 
 #. Translators: {0} is the name of the memo list.
 #: ../src/calendar/calendar.error.xml.h:103
 msgid "Failed to create a memo in the memo list “{0}”"
-msgstr "“{0}” not listesinde not oluşturma başarısız"
+msgstr "“{0}” not listesinde not oluşturulamadı"
 
 #. Translators: {0} is the name of the task list.
 #: ../src/calendar/calendar.error.xml.h:105
 msgid "Failed to create a task in the task list “{0}”"
-msgstr "“{0}” görev listesinde görev oluşturma başarısız"
+msgstr "“{0}” görev listesinde görev oluşturulamadı"
 
 #. Translators: {0} is the name of the calendar.
 #: ../src/calendar/calendar.error.xml.h:107
 msgid "Failed to modify an event in the calendar “{0}”"
-msgstr "“{0}” takviminde olayı değiştirme başarısız"
+msgstr "“{0}” takviminde olay değiştirilemedi"
 
 #. Translators: {0} is the name of the memo list.
 #: ../src/calendar/calendar.error.xml.h:109
 msgid "Failed to modify a memo in the memo list “{0}”"
-msgstr "“{0}” not listesinde notu değiştirme başarısız"
+msgstr "“{0}” not listesinde not değiştirilemedi"
 
 #. Translators: {0} is the name of the task list.
 #: ../src/calendar/calendar.error.xml.h:111
 msgid "Failed to modify a task in the task list “{0}”"
-msgstr "“{0}” görev listesinde görevi değiştirme başarısız"
+msgstr "“{0}” görev listesinde görev değiştirilemedi"
 
 #. Translators: {0} is the name of the calendar.
 #: ../src/calendar/calendar.error.xml.h:113
 msgid "Failed to delete an event in the calendar “{0}”"
-msgstr "“{0}” takviminde olayı silme başarısız"
+msgstr "“{0}” takviminde olay silinemedi"
 
 #. Translators: {0} is the name of the memo list.
 #: ../src/calendar/calendar.error.xml.h:115
 msgid "Failed to delete a memo in the memo list “{0}”"
-msgstr "“{0}” not listesinde notu silme başarısız"
+msgstr "“{0}” not listesinde not silinemedi"
 
 #. Translators: {0} is the name of the task list.
 #: ../src/calendar/calendar.error.xml.h:117
 msgid "Failed to delete a task in the task list “{0}”"
-msgstr "“{0}” göerv listesinde görevi silme başarısız"
+msgstr "“{0}” görev listesinde görev silinemedi"
 
 #. Translators: {0} is the name of the calendar.
 #: ../src/calendar/calendar.error.xml.h:119
 msgid "Failed to update an event in the calendar “{0}”"
-msgstr "“{0}” takviminde olayı güncelleme başarısız"
+msgstr "“{0}” takviminde olayı güncellenemedi"
 
 #. Translators: {0} is the name of the memo list.
 #: ../src/calendar/calendar.error.xml.h:121
@@ -6691,17 +6691,17 @@ msgstr "“{0}” görev listesindeki görev güncellenemedi"
 #. Translators: {0} is the name of the calendar.
 #: ../src/calendar/calendar.error.xml.h:125
 msgid "Failed to send an event to the calendar “{0}”"
-msgstr "“{0}” takvimine olay gönderimi başarısız"
+msgstr "“{0}” takvimine olay gönderilemedi"
 
 #. Translators: {0} is the name of the memo list.
 #: ../src/calendar/calendar.error.xml.h:127
 msgid "Failed to send a memo to the memo list “{0}”"
-msgstr "“{0}” not listesine not gönderimi başarısız"
+msgstr "“{0}” not listesine not gönderilemedi"
 
 #. Translators: {0} is the name of the task list.
 #: ../src/calendar/calendar.error.xml.h:129
 msgid "Failed to send a task to the task list “{0}”"
-msgstr "“{0}” görev listesine görev gönderimi başarısız"
+msgstr "“{0}” görev listesine görev gönderilemedi"
 
 #. Translators: {0} is the name of the calendar.
 #: ../src/calendar/calendar.error.xml.h:131
@@ -6721,7 +6721,7 @@ msgstr "“{0}” not listesi için görünüm oluşturma başarısız"
 #. Translators: {0} is the name of the calendar.
 #: ../src/calendar/calendar.error.xml.h:137
 msgid "Failed to copy an event into the calendar “{0}”"
-msgstr "“{0}” takvimine olay kopyalama başarısız"
+msgstr "“{0}” takvimine olay kopyalanamadı"
 
 #. Translators: {0} is the name of the task list.
 #: ../src/calendar/calendar.error.xml.h:139
@@ -6751,17 +6751,17 @@ msgstr "Not, “{0}” not listesine taşınamadı"
 #. Translators: {0} is the name of the calendar.
 #: ../src/calendar/calendar.error.xml.h:149
 msgid "Failed to get an event from the calendar “{0}”"
-msgstr "“{0}” takviminden olayın alınması başarısız oldu"
+msgstr "“{0}” takviminden olay alınamadı"
 
 #. Translators: {0} is the name of the task list.
 #: ../src/calendar/calendar.error.xml.h:151
 msgid "Failed to get a task from the task list “{0}”"
-msgstr "“{0}” görev listesinden görevin alınması başarısız oldu"
+msgstr "“{0}” görev listesinden görev alınamadı"
 
 #. Translators: {0} is the name of the memo list.
 #: ../src/calendar/calendar.error.xml.h:153
 msgid "Failed to get a memo from the memo list “{0}”"
-msgstr "“{0}” not listesinden notun alınması başarısız oldu"
+msgstr "“{0}” not listesinden not alınamadı"
 
 #. Translators: {0} is the name of the calendar.
 #: ../src/calendar/calendar.error.xml.h:155
@@ -6796,21 +6796,21 @@ msgstr "Not, “{0}” not listesine taşınıyor"
 #. Translators: {0} is the name of the calendar.
 #: ../src/calendar/calendar.error.xml.h:167
 msgid "Failed to refresh calendar “{0}”"
-msgstr "“{0}” takvimi tazelenemedi"
+msgstr "“{0}” takvimi yenilememedi"
 
 #. Translators: {0} is the name of the task list.
 #: ../src/calendar/calendar.error.xml.h:169
 msgid "Failed to refresh task list “{0}”"
-msgstr "“{0}” görev listesi tazelenemedi"
+msgstr "“{0}” görev listesi yenilenemedi"
 
 #. Translators: {0} is the name of the memo list.
 #: ../src/calendar/calendar.error.xml.h:171
 msgid "Failed to refresh memo list “{0}”"
-msgstr "“{0}” not listesi tazelenemedi"
+msgstr "“{0}” not listesi yenilenemedi"
 
 #: ../src/calendar/calendar.error.xml.h:172
 msgid "Failed to make an occurrence movable"
-msgstr "Yinelemenin taşınabilir yapılması başarısız"
+msgstr "Yineleme taşınabilir yapılamadı"
 
 #: ../src/calendar/calendar.error.xml.h:173
 msgid "Something has gone wrong when displaying the event"
@@ -8400,7 +8400,7 @@ msgstr "Katılımcı “%s”i silmek için yeterince hak yok"
 #: ../src/calendar/gui/e-comp-editor-page-general.c:359
 msgid "Failed to delete selected attendee"
 msgid_plural "Failed to delete selected attendees"
-msgstr[0] "Seçili katılımcıyı silme başarısız oldu"
+msgstr[0] "Seçili katılımcı silinemedi"
 
 #: ../src/calendar/gui/e-comp-editor-page-general.c:473
 msgid "Organizer address is not a valid user mail address"
@@ -9910,7 +9910,7 @@ msgstr "İptal"
 #: ../src/calendar/gui/itip-utils.c:1362
 msgctxt "Meeting"
 msgid "Refresh"
-msgstr "Tazeleme"
+msgstr "Yenile"
 
 #. Translators: This is part of the subject line of a
 #. * meeting request or update email.  The full subject
@@ -12939,7 +12939,7 @@ msgstr "Yüz"
 #: ../src/em-format/e-mail-part-secure-button.c:96
 #, c-format
 msgid "Failed to import certificate: %s"
-msgstr "Sertifika içe aktarma başarısız: %s"
+msgstr "Sertifika içe aktarılamadı: %s"
 
 #: ../src/em-format/e-mail-part-utils.c:615
 #, c-format
@@ -13100,7 +13100,7 @@ msgstr "İ_ptal Et"
 
 #: ../src/e-util/e-alert-sink.c:244
 msgid "Failed to create a thread: "
-msgstr "İş ipliği oluşturma başarısız: "
+msgstr "İş ipliği oluşturulamadı: "
 
 #. To Translators: This text is set as a description of an attached
 #. * message when, for example, attaching it to a composer. When the
@@ -13574,7 +13574,7 @@ msgstr "Ulaşılamaz"
 #: ../src/e-util/e-client-selector.c:199 ../src/mail/em-folder-tree.c:1044
 msgctxt "Status"
 msgid "Failed to connect"
-msgstr "Bağlantı başarısız"
+msgstr "Bağlanamadı"
 
 #: ../src/e-util/e-collection-account-wizard.c:107
 #: ../src/modules/accounts-window/e-collection-wizard-page.c:83
@@ -13697,11 +13697,11 @@ msgstr "LDAP sunucusunun arama veri tabanı aranıyor…"
 
 #: ../src/e-util/e-collection-account-wizard.c:1361
 msgid "Failed to store password: "
-msgstr "Şifre saklanırken hata: "
+msgstr "Şifre depolanamadı: "
 
 #: ../src/e-util/e-collection-account-wizard.c:1371
 msgid "Failed to create sources: "
-msgstr "Kaynak oluşturulurken hata: "
+msgstr "Kaynak oluşturulamadı: "
 
 #: ../src/e-util/e-collection-account-wizard.c:1538
 msgid "Saving account settings, please wait…"
@@ -14438,11 +14438,11 @@ msgstr "Başka arama dene"
 
 #: ../src/e-util/e-html-editor-actions.c:81
 msgid "Failed to insert HTML file."
-msgstr "HTML dosyası ekleme başarısız."
+msgstr "HTML dosyası eklenemedi."
 
 #: ../src/e-util/e-html-editor-actions.c:119
 msgid "Failed to insert text file."
-msgstr "Metin dosyası ekleme başarısız."
+msgstr "Metin dosyası eklenemedi."
 
 #: ../src/e-util/e-html-editor-actions.c:393
 msgid "Insert HTML File"
@@ -15835,7 +15835,7 @@ msgstr "STARTTLS (%d) kullanılamadı: %s"
 #: ../src/e-util/e-misc-utils.c:4200
 #, c-format
 msgid "Failed to authenticate with LDAP server (%d): %s"
-msgstr "LDAP sunucuyla kimlik doğrulaması başarısız oldu (%d): %s"
+msgstr "LDAP sunucuyla kimlik doğrulanamadı (%d): %s"
 
 #: ../src/e-util/e-misc-utils.c:4214
 #, c-format
@@ -15966,7 +15966,7 @@ msgstr "_Kes %s"
 msgid "_Edit %s"
 msgstr "Dü_zenle %s"
 
-#: ../src/e-util/e-name-selector-list.c:587
+#: ../src/e-util/e-name-selector-list.c:573
 #, c-format
 msgid "_Delete %s"
 msgstr "_Sil %s"
@@ -16322,7 +16322,7 @@ msgstr "Ad boş olamaz"
 #. * "Refresh every [NUMERIC_ENTRY] [TIME_UNITS_COMBO]"
 #: ../src/e-util/e-source-config.c:1382
 msgid "Refresh every"
-msgstr "Tazeleme sıklığı"
+msgstr "Yenileme sıklığı"
 
 #: ../src/e-util/e-source-config.c:1412 ../src/e-util/e-source-config.c:1486
 msgid "Use a secure connection"
@@ -16805,7 +16805,7 @@ msgstr "Koleksiyon çocukları aranıyor…"
 
 #: ../src/e-util/e-webdav-browser.c:1451
 msgid "Failed to search for collection children"
-msgstr "Koleksiyon çocukları aranırken başarısız olundu"
+msgstr "Koleksiyon çocukları aranamadı"
 
 #: ../src/e-util/e-webdav-browser.c:1485
 msgid "Searching for user home, please wait…"
@@ -16813,7 +16813,7 @@ msgstr "Kullanıcı evi aranıyor, lütfen bekleyin…"
 
 #: ../src/e-util/e-webdav-browser.c:1487
 msgid "Failed to search for user home"
-msgstr "Kullanıcı evi aranırken başarısız olundu"
+msgstr "Kullanıcı evi aranamadı"
 
 #: ../src/e-util/e-webdav-browser.c:1876
 msgid "At least one component type should be set"
@@ -16821,7 +16821,7 @@ msgstr "En az bir bileşen türü ayarlanmış olmalı"
 
 #: ../src/e-util/e-webdav-browser.c:1895
 msgid "Failed to get selected collection HREF"
-msgstr "Seçili koleksiyon HREF’i alınırken başarısız olundu"
+msgstr "Seçili koleksiyon HREF’i alınamadı"
 
 #: ../src/e-util/e-webdav-browser.c:1928
 msgid "Failed to save changes"
@@ -16849,7 +16849,7 @@ msgstr "Yeni koleksiyon oluşturuluyor…"
 
 #: ../src/e-util/e-webdav-browser.c:1937
 msgid "Failed to create new collection"
-msgstr "Yeni koleksiyon oluşturulurken başarısız olundu"
+msgstr "Yeni koleksiyon oluşturulamadı"
 
 #: ../src/e-util/e-webdav-browser.c:2087
 msgid "It is not allowed to create book under another book or calendar"
@@ -16866,7 +16866,7 @@ msgstr "Defter siliniyor…"
 
 #: ../src/e-util/e-webdav-browser.c:2337
 msgid "Failed to delete book"
-msgstr "Defter silme başarısız"
+msgstr "Defter silinemedi"
 
 #: ../src/e-util/e-webdav-browser.c:2340
 msgid "Deleting calendar…"
@@ -16882,7 +16882,7 @@ msgstr "Koleksiyon siliniyor…"
 
 #: ../src/e-util/e-webdav-browser.c:2345
 msgid "Failed to delete collection"
-msgstr "Koleksiyon silinirken başarısız olundu"
+msgstr "Koleksiyon silinemedi"
 
 #. Translators: It's 'order' as 'sorting order'
 #: ../src/e-util/e-webdav-browser.c:2579
@@ -17250,7 +17250,7 @@ msgstr[0] "%d ileti alınıyor"
 
 #: ../src/libemail-engine/e-mail-folder-utils.c:779
 msgid "Scanning messages for duplicates"
-msgstr "Çiftlemeler için iletiler taranıyor"
+msgstr "Yinelenen iletiler taranıyor"
 
 #: ../src/libemail-engine/e-mail-folder-utils.c:1152
 #, c-format
@@ -17378,7 +17378,7 @@ msgstr "İleti “%s”e gönderiliyor"
 #: ../src/libemail-engine/mail-ops.c:741
 #, c-format
 msgid "Failed to apply outgoing filters: %s"
-msgstr "Giden süzgeçleri uygularken hata oluştu: %s"
+msgstr "Giden süzgeçleri uygulanamadı: %s"
 
 #: ../src/libemail-engine/e-mail-session-utils.c:689
 #: ../src/libemail-engine/e-mail-session-utils.c:724
@@ -17394,14 +17394,14 @@ msgid ""
 "Failed to append to %s: %s\n"
 "Appending to local “Sent” folder instead."
 msgstr ""
-"%s’e eklemede hata: %s\n"
+"%s’e eklenemedi: %s\n"
 "Onun yerine yerel “Gönderilen” klasörüne ekleniyor."
 
 #: ../src/libemail-engine/e-mail-session-utils.c:743
 #: ../src/libemail-engine/mail-ops.c:821
 #, c-format
 msgid "Failed to append to local “Sent” folder: %s"
-msgstr "Yerel “Gönderilen” klasörüne eklemede hata: %s"
+msgstr "Yerel “Gönderilen” klasörüne eklenemedi: %s"
 
 #: ../src/libemail-engine/e-mail-session-utils.c:936
 #: ../src/libemail-engine/mail-ops.c:1017
@@ -17456,8 +17456,8 @@ msgid ""
 "Filters.\n"
 "Original error was: %s"
 msgstr ""
-"Dışa giden süzgeçler uygulanamadı. Bir ya da daha çok süzgeçte ayarlanan "
-"klasör konumları yanlış olabilir. Lütfen Düzenle→İleti Süzgeçleri menüsünden "
+"Giden süzgeçleri uygulanamadı. Bir ya da daha çok süzgeçte ayarlanan klasör "
+"konumları yanlış olabilir. Lütfen Düzenle→İleti Süzgeçleri menüsünden "
 "süzgeçlerinizi denetleyin.\n"
 "Asıl hata şuydu: %s"
 
@@ -17473,7 +17473,7 @@ msgstr "%d / %d iletisi gönderiliyor"
 #, c-format
 msgid "Failed to send a message"
 msgid_plural "Failed to send %d of %d messages"
-msgstr[0] "%d / %d ileti gönderimi başarısız"
+msgstr[0] "%d / %d ileti gönderilemedi"
 
 #: ../src/libemail-engine/mail-ops.c:1092
 msgid "Cancelled."
@@ -17770,7 +17770,7 @@ msgstr "_Her zaman saklı bilgi gönder (bcc):"
 
 #: ../src/mail/e-mail-config-composing-page.c:467
 msgid "Re_ply style:"
-msgstr "_Yanıt biçimi:"
+msgstr "_Yanıt biçemi:"
 
 #: ../src/mail/e-mail-config-composing-page.c:495
 msgid "Lang_uage:"
@@ -18509,7 +18509,7 @@ msgstr "E-posta listelerindeki Yanıt-Adresi:ʼni her z_aman gözardı et."
 
 #: ../src/mail/e-mail-reader.c:2276
 msgid "Failed to retrieve message:"
-msgstr "İleti alınırken hata:"
+msgstr "İleti alınamadı:"
 
 #: ../src/mail/e-mail-reader.c:2335 ../src/mail/e-mail-reader.c:3863
 #, c-format
@@ -18952,7 +18952,7 @@ msgstr "_Yinelenen İletileri Kaldır"
 
 #: ../src/mail/e-mail-reader.c:2928
 msgid "Checks selected messages for duplicates"
-msgstr "Seçili iletilerin aynılarını arar"
+msgstr "Seçili iletilerin yinelenenlerini arar"
 
 #: ../src/mail/e-mail-reader.c:2933 ../src/mail/em-composer-utils.c:4218
 #: ../src/mail/mail.error.xml.h:28
@@ -19191,7 +19191,7 @@ msgstr "Gereksiz klasörü “%s”teki iletiler siliniyor…"
 #: ../src/mail/e-mail-reader-utils.c:727
 #, c-format
 msgid "Refreshing folder “%s”"
-msgstr "“%s” klasörü tazeleniyor"
+msgstr "“%s” klasörü yenileniyor"
 
 #: ../src/mail/e-mail-reader-utils.c:1334
 msgid "Marking thread to be ignored"
@@ -19224,7 +19224,7 @@ msgid_plural ""
 "Folder “%s” contains %u duplicate messages. Are you sure you want to delete "
 "them?"
 msgstr[0] ""
-"“%s” klasörü %u aynı ileti içeriyor. Silmek istediğinize emin misiniz?"
+"“%s” klasöründe %u yinelenen ileti var. Silmek istediğinize emin misiniz?"
 
 #: ../src/mail/e-mail-reader-utils.c:3005
 msgid "Save Message"
@@ -19837,7 +19837,7 @@ msgstr "Tümünü _Genişlet"
 
 #: ../src/mail/em-subscription-editor.c:1948
 msgid "Refresh the folder list"
-msgstr "Klasör listesini tazele"
+msgstr "Klasör listesini yenile"
 
 #: ../src/mail/em-subscription-editor.c:1960
 msgid "Stop the current operation"
@@ -20098,7 +20098,7 @@ msgstr "E-posta listesi"
 #: ../src/mail/filtertypes.xml.in.h:52 ../src/mail/searchtypes.xml.in.h:54
 #: ../src/mail/vfoldertypes.xml.in.h:55
 msgid "Regex Match"
-msgstr "Düzgün İfade Eşleşimi"
+msgstr "Kurallı İfade Eşleşimi"
 
 #: ../src/mail/filtertypes.xml.in.h:53 ../src/mail/searchtypes.xml.in.h:55
 #: ../src/mail/vfoldertypes.xml.in.h:56
@@ -20131,7 +20131,7 @@ msgstr "daha küçük dönerse"
 
 #: ../src/mail/filtertypes.xml.in.h:60
 msgid "Junk Test"
-msgstr "Gereksiz Testi"
+msgstr "Gereksiz Sınaması"
 
 #: ../src/mail/filtertypes.xml.in.h:61
 msgid "Message is Junk"
@@ -20821,7 +20821,7 @@ msgstr "İletiyi gereksiz olarak imlemeden önce _sor"
 
 #: ../src/mail/mail-config.ui.h:143
 msgid "Junk Test Options"
-msgstr "İstenmeyen Posta Test İşlemleri"
+msgstr "Gereksiz Posta Sınama İşlemleri"
 
 #: ../src/mail/mail-config.ui.h:144
 msgid "Do not mar_k messages as junk if sender is in my address book"
@@ -20928,7 +20928,7 @@ msgstr ""
 
 #: ../src/mail/mail.error.xml.h:3
 msgid "Your login to your server “{0}” as “{0}” failed."
-msgstr "“{0}” sunucunuza “{0}” olarak bağlantınız başarısız oldu."
+msgstr "“{0}” sunucunuza “{0}” olarak giriş yapılamadı."
 
 #: ../src/mail/mail.error.xml.h:4
 msgid ""
@@ -21204,7 +21204,7 @@ msgstr ""
 
 #: ../src/mail/mail.error.xml.h:63
 msgid "Failed to expunge folder “{0}”."
-msgstr "“{0}” klasörü silinemiyor."
+msgstr "“{0}” klasörü temizlenemedi."
 
 #: ../src/mail/mail.error.xml.h:65
 msgid "Failed to refresh folder “{0}”."
@@ -21482,8 +21482,7 @@ msgstr ""
 msgid ""
 "Failed to query server for a list of supported authentication mechanisms."
 msgstr ""
-"Desteklenen kimlik doğrulama mekanizmaları listesi için sunucu sorgulama "
-"başarısız."
+"Desteklenen kimlik doğrulama mekanizmaları listesi için sunucu sorgulanamadı."
 
 #: ../src/mail/mail.error.xml.h:130
 msgid "Failed to get server setup."
@@ -21636,7 +21635,7 @@ msgstr "“Gereksiz Bildir” Başarısız"
 
 #: ../src/mail/mail.error.xml.h:165
 msgid "“Report Not Junk” Failed"
-msgstr "“İstenmeyen Değil Raporlaması” Başarısız"
+msgstr "“Gereksiz Değil Raporlaması” Başarısız"
 
 #: ../src/mail/mail.error.xml.h:166
 msgid "Remove duplicate messages?"
@@ -21649,15 +21648,15 @@ msgstr "Yinelenen ileti bulunamadı."
 #. Translators: {0} is replaced with a folder name
 #: ../src/mail/mail.error.xml.h:169
 msgid "Folder “{0}” doesn’t contain any duplicate message."
-msgstr "“{0}” klasörü yinelenen ileti içermiyor."
+msgstr "“{0}” klasöründe yinelenen ileti yok."
 
 #: ../src/mail/mail.error.xml.h:170
 msgid "Failed to connect account “{0}”."
-msgstr "“{0}” hesabına bağlanma başarısız oldu."
+msgstr "“{0}” hesabına bağlanamadı"
 
 #: ../src/mail/mail.error.xml.h:171
 msgid "Failed to disconnect account “{0}”."
-msgstr "“{0}” hesabına bağlantıyı kesmede hata."
+msgstr "“{0}” hesabına bağlantıy kesilemedi."
 
 #: ../src/mail/mail.error.xml.h:172
 msgid "Failed to unsubscribe from folder “{0}”."
@@ -21695,23 +21694,23 @@ msgstr "Klasör açılamadı."
 
 #: ../src/mail/mail.error.xml.h:179
 msgid "Failed to find duplicate messages."
-msgstr "Eş iletilerin bulunması başarısız."
+msgstr "Yinelenen iletiler bulunamadı."
 
 #: ../src/mail/mail.error.xml.h:180
 msgid "Failed to retrieve messages."
-msgstr "İletinin alınması başarısız."
+msgstr "İletiler alınamadı."
 
 #: ../src/mail/mail.error.xml.h:181
 msgid "Failed to mark messages as read."
-msgstr "İletilerin okundu olarak imlenmesi başarısız."
+msgstr "İletiler okundu olarak imlenemedi."
 
 #: ../src/mail/mail.error.xml.h:182
 msgid "Failed to remove attachments from messages."
-msgstr "İletilerden eklerin kaldırılması başarısız."
+msgstr "İletilerden ekler kaldırılamadı."
 
 #: ../src/mail/mail.error.xml.h:183
 msgid "Failed to download messages for offline viewing for account “{0}”."
-msgstr "İletiler çevirim dışı görüntüleme için “{0}” hesabından indirilemedi."
+msgstr "İletiler çevrim dışı görüntüleme için “{0}” hesabından indirilemedi."
 
 #: ../src/mail/mail.error.xml.h:184
 msgid "Failed to save messages to disk."
@@ -21751,19 +21750,19 @@ msgstr "“{0}” hesabından ilet:"
 
 #: ../src/mail/mail.error.xml.h:192
 msgid "Failed to mark thread to be ignored in folder “{0}”"
-msgstr "“{0}” dizinindeki dizinin yok sayılacak olarak imlenmesi başarısız"
+msgstr "Dizi, “{0}” dizininde göz ardı edilecek olarak imlenemedi"
 
 #: ../src/mail/mail.error.xml.h:193
 msgid "Failed to unmark thread from being ignored in folder “{0}”"
-msgstr "Dizi “{0}” dizininde göz ardı edilmekten çıkarılırken hata"
+msgstr "Dizi, “{0}” dizininde göz ardı edilmekten çıkarılamadı"
 
 #: ../src/mail/mail.error.xml.h:194
 msgid "Failed to mark subthread to be ignored in folder “{0}”"
-msgstr "Alt dizi “{0}” dizininde göz ardı edilmek üzere imlenirken hata"
+msgstr "Alt dizi, “{0}” dizininde göz ardı edilmek üzere imlenemedi"
 
 #: ../src/mail/mail.error.xml.h:195
 msgid "Failed to unmark subthread from being ignored in folder “{0}”"
-msgstr "Alt dizi “{0}” dizininde göz ardı edilmekten çıkarılırken hata"
+msgstr "Alt dizi, “{0}” dizininde göz ardı edilmekten çıkarılamadı"
 
 #. Translators: This constructs a string like "Follow-up, Completed on Tuesday, January 13, 2009"
 #: ../src/mail/mail.error.xml.h:197
@@ -21787,12 +21786,12 @@ msgstr "Bu ileti notu değiştirildi fakat kaydedilmedi."
 #. Translators: {0} is the name of the folder where the delete of the message note failed.
 #: ../src/mail/mail.error.xml.h:206
 msgid "Failed to delete message note in folder “{0}”"
-msgstr "“{0}” klasöründeki ileti notunu silme başarısız oldu"
+msgstr "“{0}” klasöründeki ileti notu silinemedi"
 
 #. Translators: {0} is the name of the folder where the store of the message note failed.
 #: ../src/mail/mail.error.xml.h:208
 msgid "Failed to store message note in folder “{0}”"
-msgstr "İleti notunu “{0}” klasörüne kaydetme başarısız oldu"
+msgstr "İleti notu “{0}” klasörüne depolanamadı"
 
 #: ../src/mail/mail.error.xml.h:209
 msgid "Something has gone wrong when displaying the message"
@@ -21903,7 +21902,7 @@ msgstr "“%s”deki yeni posta denetleniyor"
 #: ../src/mail/mail-send-recv.c:1660
 #, c-format
 msgid "Deleting junk and expunging trash at “%s”"
-msgstr "İstenmeyen iletiler siliniyor ve “%s” çöpü boşaltılıyor"
+msgstr "Gereksiz iletiler siliniyor ve “%s” çöpü boşaltılıyor"
 
 #: ../src/mail/mail-send-recv.c:1662
 #, c-format
@@ -22372,11 +22371,11 @@ msgstr "Seçilen adres defterinin özelliklerini göster"
 #: ../src/modules/calendar/e-memo-shell-view-actions.c:626
 #: ../src/modules/calendar/e-task-shell-view-actions.c:752
 msgid "Re_fresh"
-msgstr "_Tazele"
+msgstr "_Yenile"
 
 #: ../src/modules/addressbook/e-book-shell-view-actions.c:1059
 msgid "Refresh the selected address book"
-msgstr "Seçilen adres defterini tazele"
+msgstr "Seçilen adres defterini yenile"
 
 #: ../src/modules/addressbook/e-book-shell-view-actions.c:1064
 msgid "Re_fresh list of account address books"
@@ -24304,7 +24303,7 @@ msgstr "Yeni _Not Listesi"
 
 #: ../src/modules/calendar/e-memo-shell-view-actions.c:628
 msgid "Refresh the selected memo list"
-msgstr "Seçili not listesini tazele"
+msgstr "Seçili not listesini yenile"
 
 #: ../src/modules/calendar/e-memo-shell-view-actions.c:633
 msgid "Re_fresh list of account memo lists"
@@ -25879,7 +25878,7 @@ msgstr "Bu klasörün özelliklerini değiştir"
 
 #: ../src/modules/mail/e-mail-shell-view-actions.c:1690
 msgid "Refresh the folder"
-msgstr "Klasörü tazele"
+msgstr "Klasörü yenile"
 
 #: ../src/modules/mail/e-mail-shell-view-actions.c:1697
 msgid "Change the name of this folder"
@@ -26502,7 +26501,7 @@ msgstr "'%s' klasörü bulunamadı"
 msgid "Cannot create a folder in a News and Blogs store."
 msgstr "Haberler ve Bloglar deposunda klasör oluşturulamaz."
 
-#: ../src/modules/rss/e-rss-parser.c:294
+#: ../src/modules/rss/e-rss-parser.c:303
 msgid "Unknown author"
 msgstr "Bilinmeyen yazar"
 
@@ -26656,7 +26655,7 @@ msgstr ""
 #: ../src/modules/spamassassin/evolution-spamassassin.c:188
 #, c-format
 msgid "Failed to spawn SpamAssassin (%s): "
-msgstr "SpamAssassin süreci başlatılamadı (%s): "
+msgstr "SpamAssassin (%s) süreci başlatılamadı: "
 
 #: ../src/modules/spamassassin/evolution-spamassassin.c:211
 msgid "Failed to stream mail message content to SpamAssassin: "
@@ -26681,11 +26680,11 @@ msgstr "SpamAssassin Seçenekleri"
 
 #: ../src/modules/spamassassin/evolution-spamassassin.c:551
 msgid "I_nclude remote tests"
-msgstr "Uzaktaki testleri de _kapsa"
+msgstr "Uzaktaki sınamaları da _kapsa"
 
 #: ../src/modules/spamassassin/evolution-spamassassin.c:565
 msgid "This will make SpamAssassin more reliable, but slower."
-msgstr "Bu SpamAssasinʼi daha yavaş, ama daha güvenilir kılacak."
+msgstr "Bu SpamAssasinʼi daha yavaş ancak daha güvenilir kılacak."
 
 #: ../src/modules/spamassassin/evolution-spamassassin.c:740
 #: ../src/modules/spamassassin/org.gnome.Evolution-spamassassin.metainfo.xml.in.h:1
@@ -27283,7 +27282,7 @@ msgstr "Giden iletilere küçük resminizi ekler."
 
 #: ../src/plugins/face/org-gnome-face.error.xml.h:1
 msgid "Failed Read"
-msgstr "Okuma Başarısız"
+msgstr "Okunamadı"
 
 #: ../src/plugins/face/org-gnome-face.error.xml.h:2
 msgid "The file cannot be read"
@@ -28664,7 +28663,7 @@ msgstr "Aktarıyor..."
 
 #: ../src/shell/shell.error.xml.h:2
 msgid "Upgrade from previous version failed:"
-msgstr "Önceki sürümden yükseltme başarısız:"
+msgstr "Önceki sürümden yükseltilemedi:"
 
 #: ../src/shell/shell.error.xml.h:3
 msgid ""
@@ -28727,11 +28726,11 @@ msgstr "“{0}”den değerler alınamadı"
 
 #: ../src/shell/shell.error.xml.h:16
 msgid "Failed to invoke authenticate for “{0}”"
-msgstr "“{0}” için kimlik doğrulama çalıştırma başarısız"
+msgstr "“{0}” için kimlik doğrulama çağrılamadı"
 
 #: ../src/shell/shell.error.xml.h:17
 msgid "Failed to connect “{0}”"
-msgstr "“{0}” bağlantısı başarısız"
+msgstr "“{0}” bağlanamadı"
 
 #: ../src/shell/shell.error.xml.h:18
 msgid "_Reconnect"
@@ -28739,31 +28738,31 @@ msgstr "_Yeniden Bağlan"
 
 #: ../src/shell/shell.error.xml.h:19
 msgid "Failed to connect address book “{0}”"
-msgstr "“{0}” adres defterine bağlanma başarısız oldu"
+msgstr "“{0}” adres defterine bağlanamadı"
 
 #: ../src/shell/shell.error.xml.h:20
 msgid "Failed to connect calendar “{0}”"
-msgstr "“{0}” takvimine bağlanma başarısız oldu"
+msgstr "“{0}” takvimine bağlanamadı"
 
 #: ../src/shell/shell.error.xml.h:21
 msgid "Failed to connect mail account “{0}”"
-msgstr "“{0}” posta hesabına bağlanma başarısız oldu"
+msgstr "“{0}” posta hesabına bağlanamadı"
 
 #: ../src/shell/shell.error.xml.h:22
 msgid "Failed to connect memo list “{0}”"
-msgstr "“{0}” not listesine bağlanma başarısız oldu"
+msgstr "“{0}” not listesine bağlanamadı"
 
 #: ../src/shell/shell.error.xml.h:23
 msgid "Failed to connect task list “{0}”"
-msgstr "“{0}” görev listesine bağlanma başarısız oldu"
+msgstr "“{0}” görev listesine bağlanamadı"
 
 #: ../src/shell/shell.error.xml.h:24
 msgid "Failed to prompt for credentials for “{0}”"
-msgstr "“{0}” için doğrulama sorma ekranı çıkarma başarısız"
+msgstr "“{0}” için kimlik bilgileri istenemedi"
 
 #: ../src/shell/shell.error.xml.h:25
 msgid "Failed to finish trust prompt for “{0}”"
-msgstr "“{0}” için güvenilirlik sorgusunun bitirilmesi başarısız"
+msgstr "“{0}” için güvenilirlik istemi bitirilemedi"
 
 #: ../src/shell/shell.error.xml.h:26
 msgid "SSL certificate for “{0}” is not trusted."
@@ -28979,7 +28978,7 @@ msgstr "Aktarılacak sertifika seç…"
 
 #: ../src/smime/gui/certificate-manager.c:988
 msgid "Failed to import certificate"
-msgstr "Sertifika içe aktarma başarısız"
+msgstr "Sertifika içe aktarılamadı"
 
 #: ../src/smime/gui/certificate-manager.c:1105
 msgctxt "CamelTrust"
