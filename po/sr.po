@@ -1,5 +1,5 @@
 # Serbian translation of evolution
-# Courtesy of Prevod.org team (http://prevod.org/) -- 2003–2021.
+# Courtesy of Prevod.org team (http://prevod.org/) -- 2003–2023.
 # This file is distributed under the same license as the evolution package.
 # Translators:
 # Игор Несторовић <igor@prevod.org>, 2005.
@@ -7,25 +7,25 @@
 # Милош Поповић <gpopac@gmail.com>, 2010–2015.
 # Марко М. Костић <marko.m.kostic@gmail.com>, 2015–2016.
 # Борисав Живановић <borisavzivanovic@gmail.com>, 2017.
-# Мирослав Николић <miroslavnikolic@rocketmail.com>, 2011–20-2022.
+# Мирослав Николић <miroslavnikolic@rocketmail.com>, 2011–2023.
 #
 msgid ""
 msgstr ""
 "Project-Id-Version: evolution\n"
 "Report-Msgid-Bugs-To: https://gitlab.gnome.org/GNOME/evolution/issues\n"
 "POT-Creation-Date: 2022-09-24 23:08+0000\n"
-"PO-Revision-Date: 2022-10-08 08:27+0200\n"
+"PO-Revision-Date: 2023-02-26 20:39+0100\n"
 "Last-Translator: Мирослав Николић <miroslavnikolic@rocketmail.com>\n"
-"Language-Team: Serbian <српски <gnome-sr@googlegroups.org>>\n"
+"Language-Team: Serbian <gnome-sr@googlegroups.org>\n"
 "Language: sr\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Plural-Forms: nplurals=4; plural=n==1? 3 : n%10==1 && n%100!=11 ? 0 : n"
-"%10>=2 && n%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2\n"
+"Plural-Forms: nplurals=4; plural=n==1? 3 : n%10==1 && n%100!=11 ? 0 : "
+"n%10>=2 && n%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2\n"
 "X-Project-Style: gnome\n"
 "X-Poedit-Bookmarks: -1,1163,-1,-1,-1,-1,-1,-1,-1,-1\n"
-"X-Generator: Gtranslator 3.36.0\n"
+"X-Generator: Gtranslator 41.0\n"
 
 #: ../data/org.gnome.evolution.addressbook.gschema.xml.in.h:1
 msgid "Enable address formatting"
@@ -911,7 +911,6 @@ msgid "Position of the task preview pane when oriented vertically"
 msgstr "Положај прегледа задатака када је постављено усправно"
 
 #: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:133
-#, fuzzy
 msgid "Highlight overdue tasks"
 msgstr "Истицање неиспуњених задатака"
 
@@ -1085,10 +1084,9 @@ msgstr ""
 
 #: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:168
 msgid "Layout style for the Year View"
-msgstr ""
+msgstr "Стил распореда за преглед године"
 
 #: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:169
-#, fuzzy
 #| msgid ""
 #| "The layout style determines where to place the preview pane in relation "
 #| "to the task list. “0” (Classic View) places the preview pane below the "
@@ -1099,71 +1097,69 @@ msgid ""
 "View) places the preview pane below the calendar. “1” (Vertical View) places "
 "the preview pane next to the calendar."
 msgstr ""
-"Стил размештаја утврђује положај прегледа у односу на списак задатака. "
-"„0“ (класичан преглед) поставља преглед испод списка задатака. "
-"„1“ (вертикалан преглед) поставља преглед поред списка задатака"
+"Стил размештаја утврђује где ће се ставити окно претпрегледа. „0“ (положен "
+"преглед) ставља окно претпрегледа испод календара. „1“ (усправан преглед) "
+"ставља окно претпрегледа поред календара."
 
 #: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:170
-#, fuzzy
 #| msgid "Month view horizontal pane position"
 msgid "Year view horizontal preview position"
-msgstr "Позиција положене површи Месечног прегледа"
+msgstr "Положај положеног претпрегледа прегледа године"
 
 #: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:171
-#, fuzzy
 #| msgid ""
 #| "Position of the horizontal pane, between the view and the date navigator "
 #| "calendar and task list in the month view, in pixels"
 msgid "Position of the horizontal event preview for the year view, in pixels"
-msgstr ""
-"Позиција положене површи, између прегледа и дела календара за датум и списка "
-"задатака у месечном прегледу, у пикселима"
+msgstr "Положај положеног претпрегледа догађаја за преглед године, у пикселима"
 
 #: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:172
-#, fuzzy
 #| msgid "Month view vertical pane position"
 msgid "Year view vertical preview position"
-msgstr "Позиција усправне површи Месечног прегледа"
+msgstr "Положај усправног претпрегледа прегледа године"
 
 #: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:173
-#, fuzzy
 #| msgid "Position of the task preview pane when oriented vertically"
 msgid "Position of the vertical event preview for the year view, in pixels"
-msgstr "Позиција прегледа задатака када је постављено вертикално"
+msgstr "Положај усправног претпрегледа догађаја за преглед године, у пикселима"
 
 #: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:174
-#, fuzzy
 #| msgid "Send after 5 minutes"
 msgid "Shorten event time by minutes"
-msgstr "Пошаљи након 5 минута"
+msgstr "Скраћено време догађаја у минутима"
 
 #: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:175
 msgid ""
 "By how many minutes to shorted new event time. Whether event end or start is "
 "changed is determined by \"shorten-time-end\" setting"
 msgstr ""
+"Са колико ће се минута скратити време новог догађаја. Да ли је крај или "
+"почетак је измењено је одређено поставком „shorten-time-end“"
 
 #: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:176
-#, fuzzy
 #| msgid "Whether to show the preview pane."
 msgid "Whether to shorten event end time"
-msgstr "Да ли ће бити приказана површ за преглед."
+msgstr "Да ли ће се скратити време завршетка догађаја"
 
 #: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:177
 msgid ""
 "A pair option for \"shorten-time\" setting, to change the end time or the "
 "start time"
 msgstr ""
+"Опција пара за поставку „shorten-time“, за измену времена завршетка или "
+"времена почетка"
 
 #: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:178
 msgid "Background color for the 'today' day"
-msgstr ""
+msgstr "Боја позадине за дан „данас“"
 
 #: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:179
 msgid ""
 "Leave empty to use a yellow color derived from the current theme, otherwise "
 "use the color of form `#RRGGBB`"
 msgstr ""
+"Оставите празно да се користи жута боја проистекла из текуће теме, у "
+"супротном користите боју из „#RRGGBB“"
 
 #: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:180
 msgid "(Deprecated) First day of the week, from Sunday (0) to Saturday (6)"
@@ -1553,17 +1549,21 @@ msgstr ""
 "кориснику да пошаље поруку по потреби."
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:53
-#, fuzzy
 #| msgid "Send messages through Outbox folder"
 msgid ""
 "How long to delay Outbox flush when sending messages through Outbox folder"
-msgstr "Шаљи поруку кроз фасциклу За слање"
+msgstr ""
+"Колико дуго ће се каснити са исписрањем „За слање“ приликом слања порука "
+"кроз фасциклу „За слање“"
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:54
 msgid ""
 "A delay, in minutes, to wait for the Outbox folder flush. Less than 0 means "
 "never flush, 0 means immediately, the rest is the delay interval in minutes."
 msgstr ""
+"Кашњење, у минутима, за чекање за испирање фасцикле „За слање“. Мање од 0 "
+"значи да се неће никада испирати, 0 значи одмах, остало је кашњење у "
+"минутима."
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:55
 msgid "Include signature in new messages only"
@@ -1703,30 +1703,24 @@ msgstr ""
 "вредност."
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:75
-#, fuzzy
 #| msgid "Whether to always show Sign and Encrypt buttons on the toolbar"
 msgid "Whether to always show main toolbar"
-msgstr ""
-"Да ли се приказују дугмићи за потпис и шифровање унутар палете са алата"
+msgstr "Да ли ће се увек приказивати главна трака алата"
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:76
-#, fuzzy
 #| msgid "If set to “true” quoted text in replies will be wrapped."
 msgid "If set to “true”, the main toolbar will be visible."
-msgstr "Ако је изабрано цитирани текст у одговорима биће преломљен."
+msgstr "Ако је изабрано, главна трака алата биће видљива."
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:77
-#, fuzzy
 #| msgid "Whether to always show Sign and Encrypt buttons on the toolbar"
 msgid "Whether to always show edit toolbar"
-msgstr ""
-"Да ли се приказују дугмићи за потпис и шифровање унутар палете са алата"
+msgstr "Да ли ће се увек приказивати трака алата уређивања"
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:78
-#, fuzzy
 #| msgid "If set to “true” quoted text in replies will be wrapped."
 msgid "If set to “true”, the edit toolbar will be visible."
-msgstr "Ако је изабрано цитирани текст у одговорима биће преломљен."
+msgstr "Ако је изабрано, трака алата уређивања биће видљива."
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:79
 msgid "Whether to always show Sign and Encrypt buttons on the toolbar"
@@ -1777,10 +1771,9 @@ msgstr ""
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:87
 msgid "Use user date format in reply credits"
-msgstr ""
+msgstr "Коришћење формата датума корисника у заслугама одговора"
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:88
-#, fuzzy
 #| msgid ""
 #| "Whether the time in reply credits should be converted to local time when "
 #| "it’s in UTC in the message."
@@ -1788,8 +1781,8 @@ msgid ""
 "Whether the date in reply credits should be shown in the user date format. "
 "If unset, shows the header value from the original message."
 msgstr ""
-"Да ли време у заслугама одговора треба претворити у локално време ако се "
-"користи УТЦ у поруци."
+"Да ли датум у заслугама одговора треба да се прикаже у корисничком формату "
+"датума. Ако није постављено, приказује вредност заглавља из изворне поруке."
 
 # bug: plural-forms
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:89
@@ -3051,15 +3044,14 @@ msgstr ""
 "ширења фасцикли у прозорчету, у супротном све фасцикле ће бити раширене."
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:316
-#, fuzzy
 #| msgid "Whether to emit a beep."
 msgid "Whether to print attachments."
-msgstr "Да ли да запишти."
+msgstr "Да ли ће се исписивати прилози."
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:317
 msgid ""
 "If enabled, and possible, attachment content is printed with the message."
-msgstr ""
+msgstr "Ако је укључено, и могуће, садржај прилога се исписује са поруком."
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:318
 msgid "Size limit for text attachments to show"
@@ -3680,26 +3672,27 @@ msgstr ""
 
 #: ../data/org.gnome.evolution.shell.gschema.xml.in.h:44
 msgid "Override toolbar icon size"
-msgstr ""
+msgstr "Преписује величину иконице траке алата"
 
 #: ../data/org.gnome.evolution.shell.gschema.xml.in.h:45
 msgid ""
 "Controls the toolbar icon size. The 'default' value lets the system/code "
 "decide what is the best icon size for the toolbar. Changing the option "
 "requires application restart."
-msgstr ""
+msgstr "Контролише величину иконице траке алата. Основна вредност (default) "
 
 #: ../data/org.gnome.evolution.shell.gschema.xml.in.h:46
-#, fuzzy
 #| msgid "Whether to show phone numbers in the editor"
 msgid "Whether to use header bar in the application"
-msgstr "Одређује да ли да прикаже број телефона у уређивачу"
+msgstr "Да ли ће се користити трака заглавља у програму"
 
 #: ../data/org.gnome.evolution.shell.gschema.xml.in.h:47
 msgid ""
 "When enabled, adds buttons to the header bar. This applies to dialogs as "
 "well. Changing the option requires application restart."
 msgstr ""
+"Када је укључено, додаје дугмад на траку заглавља. Ово се примењује такође и "
+"на прозорчиће. Промена опције захтева поновно покретање програма."
 
 #: ../data/org.gnome.evolution.spamassassin.gschema.xml.in.h:1
 msgid "Use only local spam tests."
@@ -4143,10 +4136,9 @@ msgid "_Month View"
 msgstr "_Месечни преглед"
 
 #: ../data/views/calendar/galview.xml.h:5
-#, fuzzy
 #| msgid "_Day View"
 msgid "_Year View"
-msgstr "_Дневни преглед"
+msgstr "_Преглед године"
 
 #: ../data/views/mail/galview.xml.h:1
 msgid "_Messages"
@@ -4438,7 +4430,6 @@ msgid "Something has gone wrong when displaying the contact"
 msgstr "Нешто је пошло наопако приликом приказивања контакта"
 
 #: ../src/addressbook/addressbook.error.xml.h:48
-#, fuzzy
 #| msgid ""
 #| "A WebKitWebProcess crashed when displaying the contact. You can try again "
 #| "by moving to another contact and back. If the issue persists, please file "
@@ -4448,9 +4439,9 @@ msgid ""
 "moving to another contact and back. If the issue persists, please file a bug "
 "report in GNOME GitLab."
 msgstr ""
-"Веб процес ВебКита се урушио приликом приказивања контакта. Можете га "
-"покренути поново тако што ћете отићи на неки други контакт и вратити се "
-"назад. Ако ни то не помогне, попуните извештај о грешци на Гномов Гитлаб."
+"Веб процес ВебКита се урушио приликом приказивања контакта. Можете покушати "
+"поново тако што ћете прећи на други контакт и вратити се. Ако ни то не "
+"помогне, попуните извештај о грешци на Гном Гитлаб-у."
 
 #: ../src/addressbook/addressbook.error.xml.h:49
 msgid "Failed to refresh list of account address books"
@@ -4470,16 +4461,17 @@ msgid "_Unset"
 msgstr "_Уклони"
 
 #: ../src/addressbook/addressbook.error.xml.h:53
-#, fuzzy
 #| msgid "Click here for the address book"
 msgid "Contact already exists in the address book."
-msgstr "Кликните овде за именик"
+msgstr "Контакт већ постоји у именику."
 
 #: ../src/addressbook/addressbook.error.xml.h:54
 msgid ""
 "Contact “{0}” already exists in the address book “{1}”. Do you want to add a "
 "copy of it instead?"
 msgstr ""
+"Контакт „{0} већ постоји у именику „{1}“. Да ли желите да додате његов "
+"умножак?"
 
 #. This is only shown if the EActivity has a GCancellable.
 #. no flags
@@ -6848,7 +6840,6 @@ msgid "Something has gone wrong when displaying the event"
 msgstr "Нешто је пошло наопако приликом приказивања догађаја"
 
 #: ../src/calendar/calendar.error.xml.h:174
-#, fuzzy
 #| msgid ""
 #| "A WebKitWebProcess crashed when displaying the event. You can try again "
 #| "by moving to another event and back. If the issue persists, please file a "
@@ -6858,16 +6849,15 @@ msgid ""
 "moving to another event and back. If the issue persists, please file a bug "
 "report in GNOME GitLab."
 msgstr ""
-"Веб процес ВебКита се урушио приликом приказивања догађаја. Можете га "
-"покренути поново тако што ћете отићи на неки други догађај и вратити се "
-"назад. Ако ни то не помаже, попуните извештај о грешци на Гномовом Гитлабу."
+"Веб процес ВебКита се урушио приликом приказивања догађаја. Можете покушати "
+"поново тако што ћете прећи на други догађај и вратити се. Ако ни то не "
+"помаже, попуните извештај о грешци на Гном Гитлаб-у."
 
 #: ../src/calendar/calendar.error.xml.h:175
 msgid "Something has gone wrong when displaying the memo"
 msgstr "Нешто је пошло наопако приликом приказивања белешке"
 
 #: ../src/calendar/calendar.error.xml.h:176
-#, fuzzy
 #| msgid ""
 #| "A WebKitWebProcess crashed when displaying the memo. You can try again by "
 #| "moving to another memo and back. If the issue persists, please file a bug "
@@ -6877,16 +6867,15 @@ msgid ""
 "moving to another memo and back. If the issue persists, please file a bug "
 "report in GNOME GitLab."
 msgstr ""
-"Веб процес ВебКита се урушио приликом приказивања белешке. Можете га "
-"покренути поново тако што ћете отићи на неку другу белешку и вратити се "
-"назад. Ако ни то не помаже, попуните извештај о грешци на Гномовом гитлабу."
+"Веб процес ВебКита се урушио приликом приказивања белешке. Можете покушати "
+"поново тако што ћете прећи на неку другу белешку и вратити се. Ако ни то не "
+"помаже, попуните извештај о грешци на Гном Гитлаб-у."
 
 #: ../src/calendar/calendar.error.xml.h:177
 msgid "Something has gone wrong when displaying the task"
 msgstr "Нешто је пошло наопако приликом приказивања задатка"
 
 #: ../src/calendar/calendar.error.xml.h:178
-#, fuzzy
 #| msgid ""
 #| "A WebKitWebProcess crashed when displaying the task. You can try again by "
 #| "moving to another task and back. If the issue persists, please file a bug "
@@ -6896,25 +6885,26 @@ msgid ""
 "moving to another task and back. If the issue persists, please file a bug "
 "report in GNOME GitLab."
 msgstr ""
-"Веб процес ВебКита се урушио приликом приказивања задатка. Можете га "
-"покренути поново тако што ћете отићи на неки други задатак и вратити се "
-"назад. Ако ни то не помаже, попуните извештај о грешци на Гномовом Гитлабу."
+"Веб процес ВебКита се урушио приликом приказивања задатка. Можете покушати "
+"поново тако што ћете прећи на други задатак и вратити се. Ако ни то не "
+"помаже, попуните извештај о грешци на Гном Гитлаб-у."
 
 #: ../src/calendar/calendar.error.xml.h:179
-#, fuzzy
 #| msgid "Do you want to recover unfinished messages?"
 msgid "Do you want to detach event from the series?"
-msgstr "Да ли желите да спасите недовршене поруке?"
+msgstr "Да ли желите да откачите догађај са низа?"
 
 #: ../src/calendar/calendar.error.xml.h:180
 msgid ""
 "The event “{0}” will be detached from its series and saved as a new "
 "standalone event."
 msgstr ""
+"Догађај „{0}“ ће бити откачен из својих низова и сачуван као нови самостални "
+"догађај."
 
 #: ../src/calendar/calendar.error.xml.h:182
 msgid "_Detach and Create Copy"
-msgstr ""
+msgstr "_Откачи и направи умножак"
 
 #: ../src/calendar/gui/caltypes.xml.in.h:1
 #: ../src/calendar/gui/e-cal-list-view.etspec.h:3
@@ -7269,10 +7259,10 @@ msgstr "Место: %s"
 
 #. Translators: It will display "Start: ActualStartDateAndTime (DurationOfTheMeeting)"
 #: ../src/calendar/gui/comp-util.c:2326
-#, fuzzy, c-format
+#, c-format
 #| msgid "Start: %s"
 msgid "Start: %s (%s)"
-msgstr "Почетак: %s"
+msgstr "Почетак: %s (%s)"
 
 #. Translators: It will display "Start: ActualStartDateAndTime"
 #. Translators: It will display "Start: StartDateAndTime"
@@ -9452,7 +9442,6 @@ msgid "Save current changes and close editor"
 msgstr "Сачувајте текуће измене и затворите уређивач"
 
 #: ../src/calendar/gui/e-comp-editor.c:2319
-#, fuzzy
 #| msgid "Show _Tool Bar"
 msgid "Show _toolbar"
 msgstr "Прикажи траку _алата"
@@ -9984,14 +9973,14 @@ msgstr "%d %B"
 
 #: ../src/calendar/gui/e-year-view.c:1005
 #: ../src/calendar/gui/e-year-view.c:1054
-#, fuzzy, c-format
+#, c-format
 #| msgid "event"
 msgid "%u event"
 msgid_plural "%u events"
-msgstr[0] "догађај"
-msgstr[1] "догађај"
-msgstr[2] "догађај"
-msgstr[3] "догађај"
+msgstr[0] "%u догађај"
+msgstr[1] "%u догађаја"
+msgstr[2] "%u догађаја"
+msgstr[3] "%u догађај"
 
 #: ../src/calendar/gui/itip-utils.c:952 ../src/calendar/gui/itip-utils.c:1024
 #: ../src/calendar/gui/itip-utils.c:1163
@@ -12174,16 +12163,14 @@ msgid "Main toolbar"
 msgstr "Главна алатница"
 
 #: ../src/composer/e-composer-actions.c:426
-#, fuzzy
 #| msgid "Show the tool bar"
 msgid "Edit _toolbar"
-msgstr "Прикажите траку алата"
+msgstr "Уреди _траку алата"
 
 #: ../src/composer/e-composer-actions.c:428
-#, fuzzy
 #| msgid "Show the tool bar"
 msgid "Edit toolbar"
-msgstr "Прикажите траку алата"
+msgstr "Уредите траку алата"
 
 #: ../src/composer/e-composer-actions.c:434
 msgid "PGP _Encrypt"
@@ -12684,7 +12671,6 @@ msgid "Something has gone wrong when editing the message"
 msgstr "Нешто је пошло наопако приликом уређивања поруке"
 
 #: ../src/composer/mail-composer.error.xml.h:57
-#, fuzzy
 #| msgid ""
 #| "A WebKitWebProcess crashed when editing the message. You can try again by "
 #| "closing the composer window and opening a new one. If the issue persists, "
@@ -12694,9 +12680,9 @@ msgid ""
 "closing the composer window and opening a new one. If the issue persists, "
 "please file a bug report in GNOME GitLab."
 msgstr ""
-"Веб процес ВебКита се урушио приликом уређивања поруке. Можете га поново "
-"покренути тако што ћете затворити прозор уређивача и отворити нови. Ако ни "
-"то не помаже, попуните извештај о грешци на Гномовом Гитлабу."
+"Веб процес ВебКита се урушио приликом уређивања поруке. Можете покушати "
+"поново тако што ћете затворити прозор уређивача и отворити нови. Ако ни то "
+"не помаже, попуните извештај о грешци на Гном Гитлаб-у."
 
 #: ../src/composer/mail-composer.error.xml.h:58
 msgid "An error occurred while creating message composer."
@@ -15144,10 +15130,9 @@ msgid "+4"
 msgstr "+4"
 
 #: ../src/e-util/e-html-editor-actions.c:1705
-#, fuzzy
 #| msgid "_Copy Link Location"
 msgid "Copy _Link Location"
-msgstr "_Умножи место везе"
+msgstr "Умножи _место везе"
 
 #: ../src/e-util/e-html-editor-actions.c:1707 ../src/e-util/e-web-view.c:408
 msgid "Copy the link to the clipboard"
@@ -16767,7 +16752,6 @@ msgid "Something has gone wrong"
 msgstr "Нешто је пошло наопако"
 
 #: ../src/e-util/e-system.error.xml.h:24
-#, fuzzy
 #| msgid ""
 #| "A WebKitWebProcess crashed when displaying the content. You can try again "
 #| "by reopening the window. If the issue persists, please file a bug report "
@@ -16777,9 +16761,9 @@ msgid ""
 "reopening the window. If the issue persists, please file a bug report in "
 "GNOME GitLab."
 msgstr ""
-"Веб процес ВебКита се урушио приликом приказивања садржаја. Можете га "
-"покренути поново тако што ћете поново отворити прозор. Ако ни то не помаже, "
-"попуните извештај о грешци на Гномовом Гитлабу."
+"Веб процес ВебКита се урушио приликом приказивања садржаја. Можете покушати "
+"поново тако што ћете поново отворити прозор. Ако ни то не помаже, попуните "
+"извештај о грешци на Гномовом Гитлабу."
 
 #: ../src/e-util/e-system.error.xml.h:25
 msgid "Are you sure you want to delete remote collection “{0}”?"
@@ -18287,10 +18271,9 @@ msgid "Looking up account details…"
 msgstr "Тражим податке о налогу…"
 
 #: ../src/mail/e-mail-config-provider-page.c:489
-#, fuzzy
 #| msgid "_Advanced Options"
 msgid "Advanced Options"
-msgstr "Н_апредне опције"
+msgstr "Напредне опције"
 
 #: ../src/mail/e-mail-config-provider-page.c:653
 msgid "Checking for New Mail"
@@ -18390,7 +18373,7 @@ msgstr ""
 
 #: ../src/mail/e-mail-config-security-page.c:629
 msgid "_Lookup keys for encryption in Web Key Directory (WKD)"
-msgstr ""
+msgstr "_Потражуи кључеве за шифровање у директоријуму веб кључа (WKD)"
 
 #: ../src/mail/e-mail-config-security-page.c:653
 msgid "Secure MIME (S/MIME)"
@@ -22187,7 +22170,6 @@ msgid "Something has gone wrong when displaying the message"
 msgstr "Нешто је пошло наопако приликом приказивања поруке"
 
 #: ../src/mail/mail.error.xml.h:210
-#, fuzzy
 #| msgid ""
 #| "A WebKitWebProcess crashed when displaying the message. You can try again "
 #| "by moving to another message and back. If the issue persists, please file "
@@ -22197,16 +22179,15 @@ msgid ""
 "moving to another message and back. If the issue persists, please file a bug "
 "report in GNOME GitLab."
 msgstr ""
-"Веб процес ВебКита се урушио приликом приказивања поруке. Можете га поново "
-"покренути тако што ћете отићи на неку другу поруку и вратити се назад. Ако "
-"ни то не помаже, попуните извештај о грешци на Гномовом Гитлабу."
+"Веб процес ВебКита се урушио приликом приказивања поруке. Можете покушати "
+"поново тако што ћете прећи на другу поруку и вратити се. Ако ни то не "
+"помаже, попуните извештај о грешци на Гномовом Гитлабу."
 
 #: ../src/mail/mail.error.xml.h:211
 msgid "Something has gone wrong when displaying the signature"
 msgstr "Нешто је пошло наопако приликом приказивања потписа"
 
 #: ../src/mail/mail.error.xml.h:212
-#, fuzzy
 #| msgid ""
 #| "A WebKitWebProcess crashed when displaying the signature. You can try "
 #| "again by moving to another signature and back. If the issue persists, "
@@ -22216,9 +22197,9 @@ msgid ""
 "by moving to another signature and back. If the issue persists, please file "
 "a bug report in GNOME GitLab."
 msgstr ""
-"Веб процес ВебКита се урушио приликом приказивања потписа. Можете га поново "
-"покренути тако што ћете отићи на неки други потпис и вратити се назад. Ако "
-"ни то не помаже, попуните извештај о грешци на Гномовом Гитлабу."
+"Веб процес ВебКита се урушио приликом приказивања потписа. Можете покушати "
+"поново тако што ћете прећи на други потпис и вратити се. Ако ни то не "
+"помаже, попуните извештај о грешци на Гномовом Гитлабу."
 
 #: ../src/mail/mail.error.xml.h:213
 msgid "Are you sure you want to delete all the messages in the Junk folder?"
@@ -23711,17 +23692,16 @@ msgstr "_24-часовни"
 #. Translators: This is part of
 #: ../src/modules/calendar/e-calendar-preferences.ui.h:19
 msgid "Sh_orten event time by"
-msgstr ""
+msgstr "_Скраћено време догађаја за"
 
 #: ../src/modules/calendar/e-calendar-preferences.ui.h:22
 msgid "End events earlier"
-msgstr ""
+msgstr "Заврши догађаје раније"
 
 #: ../src/modules/calendar/e-calendar-preferences.ui.h:23
-#, fuzzy
 #| msgid "Start Date"
 msgid "Start events later"
-msgstr "Датум почетка"
+msgstr "Започни догађаје раније"
 
 #: ../src/modules/calendar/e-calendar-preferences.ui.h:24
 #: ../src/modules/calendar/e-cal-shell-view-actions.c:1801
@@ -23922,10 +23902,9 @@ msgid "Keep reminder notification _window always on top"
 msgstr "Држи _прозор обавештења подсетника увек на врху"
 
 #: ../src/modules/calendar/e-calendar-preferences.ui.h:87
-#, fuzzy
 #| msgid "Enable _audio notifications"
 msgid "Enable de_sktop notifications"
-msgstr "Омогући звучн_а обавештења"
+msgstr "Омогући обавештења _радне површи"
 
 #: ../src/modules/calendar/e-calendar-preferences.ui.h:88
 msgid "Enable _audio notifications"
@@ -24324,16 +24303,14 @@ msgid "Quit"
 msgstr "Изађи"
 
 #: ../src/modules/calendar/e-cal-shell-view-actions.c:1744
-#, fuzzy
 #| msgid "Show Message _Preview"
 msgid "Show Event _Preview"
-msgstr "Прика_жи преглед поруке"
+msgstr "Прикажи _претпреглед догађаја"
 
 #: ../src/modules/calendar/e-cal-shell-view-actions.c:1746
-#, fuzzy
 #| msgid "Show preview pane"
 msgid "Show event preview pane"
-msgstr "Прикажи површ за преглед"
+msgstr "Прикажите површ претпрегледа догађаја"
 
 #: ../src/modules/calendar/e-cal-shell-view-actions.c:1752
 msgid "Show T_asks and Memos pane"
@@ -24384,30 +24361,26 @@ msgid "Year"
 msgstr "Година"
 
 #: ../src/modules/calendar/e-cal-shell-view-actions.c:1810
-#, fuzzy
 #| msgid "Show _Status Bar"
 msgid "Show as year"
-msgstr "Прикажи траку _стања"
+msgstr "Прикажи као годину"
 
 # Белешке:
 # Додај белешку
 #: ../src/modules/calendar/e-cal-shell-view-actions.c:1828
-#, fuzzy
 #| msgid "_Horizontal:"
 msgid "_Horizontal View"
-msgstr "_Водоравно:"
+msgstr "_Водораван преглед"
 
 #: ../src/modules/calendar/e-cal-shell-view-actions.c:1830
-#, fuzzy
 #| msgid "Show task preview below the task list"
 msgid "Show event preview below the calendar"
-msgstr "Прикажите преглед испод списка задатака"
+msgstr "Прикажите претпреглед догађаја испод календара"
 
 #: ../src/modules/calendar/e-cal-shell-view-actions.c:1837
-#, fuzzy
 #| msgid "Show task preview alongside the task list"
 msgid "Show event preview alongside the calendar"
-msgstr "Прикажите преглед поред списка задатака"
+msgstr "Прикажите претпреглед догађаја поред календара"
 
 #: ../src/modules/calendar/e-cal-shell-view-actions.c:1845
 msgid "Active Appointments"
@@ -26105,7 +26078,7 @@ msgstr "Увек на мрежи"
 
 #: ../src/modules/mail/e-mail-shell-backend.c:1073
 msgid "_Limit operations in Power Saver mode"
-msgstr ""
+msgstr "_Ограничи операције у режиму штедише напајања"
 
 #: ../src/modules/mail/e-mail-shell-backend.c:1140
 msgid "Mail Preferences"
@@ -26845,16 +26818,15 @@ msgid "View mail messages as plain text, even if they contain HTML content."
 msgstr "Прегледа поруке као обичан текст, чак и ако садрже ХТМЛ."
 
 #: ../src/modules/rss/camel/camel-rss-folder.c:133
-#, fuzzy, c-format
+#, c-format
 #| msgid "Cannot find message in its folder summary"
 msgid "Cannot add message into News and Blogs folder"
-msgstr "Не могу да нађем поруку у њеном сажетку фасцикле"
+msgstr "Не могу да додам поруку у фасциклу „Вести“ и „Блогови“"
 
 #: ../src/modules/rss/camel/camel-rss-folder.c:225
-#, fuzzy
 #| msgid "Message is not available in offline mode."
 msgid "Message is not available"
-msgstr "Порука није доступна у режиму ван мреже."
+msgstr "Порука није доступна"
 
 #: ../src/modules/rss/camel/camel-rss-folder.c:274
 #, c-format
@@ -26867,25 +26839,24 @@ msgid "Invalid Feed URL."
 msgstr "Неисправна адреса довода."
 
 #: ../src/modules/rss/camel/camel-rss-folder.c:663
-#, fuzzy
 #| msgid "Apply the same _view settings to all folders"
 msgid "Apply message _filters to this folder"
-msgstr "Примени иста подешавања _прегледа на свим фасциклама"
+msgstr "Примени _филтере поруке на овој фасцикли"
 
 #: ../src/modules/rss/camel/camel-rss-folder.c:676
 #: ../src/modules/rss/evolution/e-rss-preferences.c:831
 #: ../src/modules/rss/evolution/e-rss-preferences.c:1211
 msgid "_Download complete articles"
-msgstr ""
+msgstr "_преузми целе чланке"
 
 #: ../src/modules/rss/camel/camel-rss-folder.c:689
 #: ../src/modules/rss/evolution/e-rss-preferences.c:835
 msgid "Download feed _enclosures"
-msgstr ""
+msgstr "Преузми _податке тока"
 
 #: ../src/modules/rss/camel/camel-rss-folder-summary.c:269
 msgid "Enclosures:"
-msgstr ""
+msgstr "Подаци:"
 
 #: ../src/modules/rss/camel/camel-rss-provider.c:17
 #: ../src/modules/rss/camel/camel-rss-store.c:48
@@ -26896,21 +26867,21 @@ msgstr "Новости и блогови"
 
 #: ../src/modules/rss/camel/camel-rss-provider.c:19
 msgid "This is a provider for reading RSS news and blogs."
-msgstr ""
+msgstr "Ово је достављач за читање РСС вести и блогова."
 
 #: ../src/modules/rss/camel/camel-rss-store.c:77
 #: ../src/modules/rss/camel/camel-rss-store.c:123
 #: ../src/modules/rss/camel/camel-rss-store.c:176
 #: ../src/modules/rss/camel/camel-rss-store.c:232
-#, fuzzy, c-format
+#, c-format
 #| msgid "Book '%s' not found"
 msgid "Folder '%s' not found"
-msgstr "Књига „%s“ није нађена"
+msgstr "Нисам нашао фасциклу „%s“"
 
 #: ../src/modules/rss/camel/camel-rss-store.c:138
 #, c-format
 msgid "Cannot create a folder in a News and Blogs store."
-msgstr ""
+msgstr "Не могу да направим фасциклу радњи „Вести“ и „Блогови“."
 
 #: ../src/modules/rss/e-rss-parser.c:289
 msgid "Unknown author"
@@ -26922,45 +26893,41 @@ msgid "Markdown"
 msgstr "Маркдаун"
 
 #: ../src/modules/rss/evolution/e-rss-preferences.c:414
-#, fuzzy, c-format
+#, c-format
 #| msgid "Failed to load certificate: %s"
 msgid "Failed to fetch feed icon: %s"
-msgstr "Не могу да увезем уверење: %s"
+msgstr "Нисам успео да довучем иконицу тока: %s"
 
 #: ../src/modules/rss/evolution/e-rss-preferences.c:461
-#, fuzzy
 #| msgid "Deleting collection…"
 msgid "Fetching feed icon…"
-msgstr "Бришем збирку…"
+msgstr "Добављам иконицу тока…"
 
 # bug: plural-forms
 #: ../src/modules/rss/evolution/e-rss-preferences.c:475
-#, fuzzy
 #| msgid "Failed to create new collection"
 msgid "Failed to read feed information."
-msgstr "Не могу да направим збирку"
+msgstr "Нисам успео да прочитам информације тока."
 
 #: ../src/modules/rss/evolution/e-rss-preferences.c:494
-#, fuzzy, c-format
+#, c-format
 #| msgid "Failed to save certificate: %s"
 msgid "Failed to fetch feed information: %s"
-msgstr "Не могу да увезем уверење: %s"
+msgstr "Нисам успео да довучем информације тока: %s"
 
 #: ../src/modules/rss/evolution/e-rss-preferences.c:524
-#, fuzzy
 #| msgid "Meeting information sent"
 msgid "Fetching feed information…"
-msgstr "Податак о састанку је послат"
+msgstr "Довлачим информације тока…"
 
 #: ../src/modules/rss/evolution/e-rss-preferences.c:529
 msgid "Invalid Feed URL"
 msgstr "Неисправна адреса довода"
 
 #: ../src/modules/rss/evolution/e-rss-preferences.c:572
-#, fuzzy
 #| msgid "Change Face Image"
 msgid "Choose Feed Image"
-msgstr "Мења постојећу слику контакта"
+msgstr "Изабери слику тока"
 
 #: ../src/modules/rss/evolution/e-rss-preferences.c:788
 msgid "Feed _URL:"
@@ -26976,12 +26943,12 @@ msgstr "_Садржај:"
 
 #: ../src/modules/rss/evolution/e-rss-preferences.c:1224
 msgid "_Download feed enclosures"
-msgstr ""
+msgstr "_Преузми податке тока"
 
 #. Translators: This is part of "Do not download enclosures larger than [ nnn ] KB"
 #: ../src/modules/rss/evolution/e-rss-preferences.c:1243
 msgid "Do not download enclosures larger than"
-msgstr ""
+msgstr "Не преузимај податке веће од"
 
 #. Translators: This is part of "Do not download enclosures larger than [ nnn ] KB"
 #: ../src/modules/rss/evolution/e-rss-preferences.c:1266
@@ -26998,13 +26965,15 @@ msgstr "Садржај"
 
 #: ../src/modules/rss/evolution/e-rss-shell-view-extension.c:210
 msgid "Re_load feed articles"
-msgstr ""
+msgstr "_Поново учитај чланке тока"
 
 #: ../src/modules/rss/evolution/e-rss-shell-view-extension.c:212
 msgid ""
 "Reload all feed articles from the server, updating existing and adding any "
 "missing"
 msgstr ""
+"Поново учитајте чланке тока са сервера, освежавајући постојеће и додавајући "
+"оне што недостају"
 
 #: ../src/modules/spamassassin/evolution-spamassassin.c:188
 #, c-format
@@ -27360,10 +27329,10 @@ msgstr "Прикажите делове као контакт именика"
 
 #. Translators: The "%s" is replaced with a link, constructing a text like: "Ctrl-click to open a link “http://www.example.com”"
 #: ../src/modules/webkit-editor/e-webkit-editor.c:5493
-#, fuzzy, c-format
+#, c-format
 #| msgid "Ctrl-click to open a link"
 msgid "Ctrl-click to open a link “%s”"
-msgstr "Притисните тастер Ctrl и кликните да отворите везу"
+msgstr "Ктрл-клик да отворите везу „%s“"
 
 #: ../src/plugins/attachment-reminder/attachment-reminder.c:169
 msgid "_Do not show this message again."
@@ -28095,10 +28064,10 @@ msgstr ""
 "белешку. Изаберите други списак белешки."
 
 #: ../src/plugins/mail-to-task/mail-to-task.c:951
-#, fuzzy, c-format
+#, c-format
 #| msgid "Cannot create object"
 msgid "Cannot create component: %s"
-msgstr "Не могу да направим објекат"
+msgstr "Не могу да направим састојак: %s"
 
 #: ../src/plugins/mail-to-task/mail-to-task.c:1328
 msgid "Create an _Appointment"
@@ -30681,15 +30650,15 @@ msgstr "Увежено уверење"
 #~ msgstr "Боја за подвлачење правописних грешки приликом провере правописа."
 
 #~ msgid ""
-#~ "Determines whether to use the same fonts for both \"From\" and \"Subject"
-#~ "\" lines in the \"Messages\" column in vertical view"
+#~ "Determines whether to use the same fonts for both \"From\" and "
+#~ "\"Subject\" lines in the \"Messages\" column in vertical view"
 #~ msgstr ""
 #~ "Утврђује да ли да користи исти фонт у пољима „Шаље“ and „Наслов“ у "
 #~ "усправном прегледу колоне „Поруке“"
 
 #~ msgid ""
-#~ "Determines whether to use the same fonts for both \"From\" and \"Subject"
-#~ "\" lines in the \"Messages\" column in vertical view."
+#~ "Determines whether to use the same fonts for both \"From\" and "
+#~ "\"Subject\" lines in the \"Messages\" column in vertical view."
 #~ msgstr ""
 #~ "Утврђује да ли да користи исти фонт у пољима „Шаље“ and „Наслов“ у "
 #~ "усправном прегледу колоне „Поруке“."
