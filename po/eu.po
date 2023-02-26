@@ -9,8 +9,8 @@
 msgid ""
 msgstr "Project-Id-Version: evolution master\n"
 "Report-Msgid-Bugs-To: https://gitlab.gnome.org/GNOME/evolution/issues\n"
-"POT-Creation-Date: 2023-01-25 17:03+0000\n"
-"PO-Revision-Date: 2023-01-29 10:00+0100\n"
+"POT-Creation-Date: 2023-02-18 20:20+0000\n"
+"PO-Revision-Date: 2023-02-26 10:00+0100\n"
 "Last-Translator: Asier Sarasua Garmendia <asiersarasua@ni.eus>\n"
 "Language-Team: Basque <librezale@librezale.eus>\n"
 "Language: eu\n"
@@ -2006,7 +2006,7 @@ msgstr "Galdetu zakarrontzia hustean"
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:191
 msgid "Prompt the user when he or she tries to empty the trash."
-msgstr "Abisatu erabiltzaileari zakarrontzia betirako ezabatu aurretik."
+msgstr "Abisatu erabiltzaileari zakarrontzia betirako ezabatu aurretik"
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:192
 msgid "Prompt when user expunges"
@@ -2014,7 +2014,7 @@ msgstr "Abisatu erabiltzaileak betiko borratzean"
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:193
 msgid "Prompt the user when he or she tries to expunge a folder."
-msgstr "Abisatu erabiltzaileari, karpeta bat betiko ezabatu aurretik."
+msgstr "Abisatu erabiltzaileari, karpeta bat betiko ezabatu aurretik"
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:194
 msgid "Prompt when user calls Empty Junk"
@@ -2022,70 +2022,78 @@ msgstr "Galdetu erabiltzaileak Baztergarria hustean"
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:195
 msgid "Prompt the user when he or she tries to Empty a Junk folder."
-msgstr "Galdetu erabiltzaileak Baztergarria karpeta hustean."
+msgstr "Galdetu erabiltzaileak Baztergarria karpeta hustean"
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:196
+msgid "Prompt when user marks message as Junk"
+msgstr "Galdetu erabiltzaileak mezua zabor gisa markatzean"
+
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:197
+msgid "Prompt the user when he or she tries to mark a message as Junk."
+msgstr "Abisatu erabiltzaileari mezu bat zabor gisa markatzen saiatzen denean"
+
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:198
 msgid "Prompt before sending to recipients not entered as mail addresses"
 msgstr "Galdetu bidali aurretik hartzaileen helbide elektronikoa ez denean sartzen"
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:197
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:199
 msgid ""
 "It disables/enables the repeated prompts to warn that you are trying to send "
 "a message to recipients not entered as mail addresses"
 msgstr "Honek errepikatutako galdera gaitzen/desgaitzen du mezuaren jasotzaileen helbide elektronikorik ez dela sartu buruz abisu emateko"
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:198
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:200
 msgid "Prompt when user only fills Bcc"
 msgstr "Abisatu erabiltzaileak Bcc bakarrik betetzen duenean"
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:199
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:201
 msgid "Prompt when user tries to send a message with no To or Cc recipients."
 msgstr "Abisatu Nori edo Cc hartzailerik gabeko mezu bat bidali aurretik."
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:200
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:202
 msgid "Prompt when user tries to send unwanted HTML"
 msgstr "Abisatu HTMLrik nahi ez duenari HTML mezua bidali aurretik"
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:201
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:203
 msgid ""
 "Prompt when user tries to send HTML mail to recipients that may not want to "
 "receive HTML mail."
 msgstr "Abisatu HTML mezuak bidali aurretik beharbada HTML mezurik jaso nahi ez duten erabiltzaileei."
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:202
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:204
 msgid "Prompt when user tries to open 10 or more messages at once"
 msgstr "Abisatu erabiltzaileak 10 mezu edo gehiago aldi berean irekitzen saiatzean"
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:203
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:205
 msgid ""
 "If a user tries to open 10 or more messages at one time, ask the user if "
 "they really want to do it."
 msgstr "Erabiltzaileak 10 mezu edo gehiago irekitzen saiatzen bada aldi berean, galdetu erabiltzaileari benetan hori egitea nahi duen."
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:204
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:206
 msgid "Prompt while marking multiple messages"
 msgstr "Gonbitea hainbat mezu markatzean"
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:205
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:207
 msgid "Enable or disable the prompt whilst marking multiple messages."
 msgstr "Gonbitea gaitzen/desgaitzen du hainbat mezu markatzen den bitartean."
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:206
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:208
 msgid "Prompt when deleting messages in search folder"
 msgstr "Abisatu mezuak bilaketako karpetatik ezabatzean"
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:207
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:209
 msgid ""
 "It disables/enables the repeated prompts to warn that deleting messages from "
 "a search folder permanently deletes the message, not simply removing it from "
 "the search results."
 msgstr "Eskaera errepikakorra gaitzen/desgaitzen du bilaketako karpetatik mezuak ezabatzean behin betirako ezabatzen direla (ez direla bilaketako emaitzetik soilik kentzen) buruzko abisua emateko."
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:208
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:210
 msgid "Asks whether to copy a folder by drag &amp; drop in the folder tree"
 msgstr "Galdetu karpeta bat kopiatuko den edo ez karpeta-zuhaitzean arrastatu eta jaregitean"
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:209
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:211
 msgid ""
 "Possible values are: “never” — do not allow copy with drag &amp; drop of "
 "folders in folder tree, “always” — allow copy with drag &amp; drop of "
@@ -2093,11 +2101,11 @@ msgid ""
 "ask user."
 msgstr "Balio erabilgarriak: “never” (ez kopiatu inoiz karpetak arrastatu eta jaregitean karpeta-zuhaitzean); “always” (kopiatu beti galdetu gabe); “ask” (edo bestelako edozer balio) erabiltzaileari galdetu."
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:210
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:212
 msgid "Asks whether to move a folder by drag &amp; drop in the folder tree"
 msgstr "Galdetu karpeta bat lekuz aldatuko den edo ez karpeta-zuhaitzean arrastatu eta jaregitean"
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:211
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:213
 msgid ""
 "Possible values are: “never” — do not allow move with drag &amp; drop of "
 "folders in folder tree, “always” — allow move with drag &amp; drop of "
@@ -2105,174 +2113,174 @@ msgid ""
 "ask user."
 msgstr "Balio erabilgarriak: “never” (ez aldatu lekuz inoiz karpetak arrastatu eta jaregitean karpeta-zuhaitzean); “always” (aldatu lekuz galdetu gabe); “ask” (edo bestelako edozer balio) erabiltzaileari galdetu."
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:212
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:214
 msgid "Prompt when replying privately to list messages"
 msgstr "Galdetu zerrenden mezuei pribatuki erantzutean"
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:213
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:215
 msgid ""
 "It disables/enables the repeated prompts to warn that you are sending a "
 "private reply to a message which arrived via a mailing list."
 msgstr "Honek errepikatutako galdera gaitzen/desgaitzen du hainbat pertsonei mezu pribatua erantzuten ari zarenean abisu emateko."
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:214
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:216
 msgid "Prompt when mailing list hijacks private replies"
 msgstr "Galdetu posta-zerrendak erantzun pribatuak bahitzen dituenean"
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:215
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:217
 msgid ""
 "It disables/enables the repeated prompts to warn that you are trying sending "
 "a private reply to a message which arrived via a mailing list, but the list "
 "sets a Reply-To: header which redirects your reply back to the list"
 msgstr "Honek errepikatutako galdera gaitzen/desgaitzen du, posta-zerrenda bidez jasotako mezu bati erantzun pribatu bat (baina zerrendak ezarritako “Erantzun honi” goiburuak zerrendari erantzutera bideratzen zaituena) bidaltzen saiatzen ari zarela abisatuz."
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:216
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:218
 msgid "Prompt when replying to many recipients"
 msgstr "Galdetu hainbat hartzaileei erantzutean"
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:217
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:219
 msgid ""
 "It disables/enables the repeated prompts to warn that you are sending a "
 "reply to many people."
 msgstr "Honek errepikatutako galdera gaitzen/desgaitzen du hainbat pertsonei mezua erantzuten ari zarenean abisu emateko."
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:218
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:220
 msgid ""
 "Prompt when switching composer format and the content needs to lose its "
 "formatting"
 msgstr "Galdetu mezu-prestatzailearen modua noiz aldatu, baita edukiak bere formatua noiz galdu behar duen ere"
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:219
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:221
 msgid ""
 "It disables/enables the repeated prompts to warn that you are switching "
 "composer format and the content needs to lose its formatting."
 msgstr "Honek errepikatutako galdera gaitzen/desgaitzen du mezu-prestatzailearen modua aldatzeak bere formatua dakarrela adierazteko."
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:220
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:222
 msgid "Prompt when sending to many To and CC recipients"
 msgstr "Galdetu hainbat Nori eta CC hartzaileei bidaltzean"
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:221
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:223
 msgid ""
 "Enable or disable the prompt when sending to many To and CC recipients. The "
 "“composer-many-to-cc-recips-num” defines the threshold."
 msgstr "Gaitu edo desgaitu Nori eta CC eremuetan hartzaile askori bidaltzean. “composer-many-to-cc-recips-num” gakoak zehazten du atalasea."
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:222
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:224
 msgid ""
 "Policy for automatically closing the message browser window when forwarding "
 "or replying to the displayed message."
 msgstr "Bistaratutako mezuari birbidaltzean edo erantzutean mezuen arakatzailearen leihoa automatikoki ixteko araua."
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:223
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:225
 msgid "Empty Trash folders on exit"
 msgstr "Hustu zakarrontziko karpetak irtetzean"
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:224
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:226
 msgid "Empty all Trash folders when exiting Evolution."
 msgstr "Hustu zakarrontziko karpeta guztiak Evolution-etik irtetzean."
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:225
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:227
 msgid "Minimum days between emptying the trash on exit"
 msgstr "Irtetzean zakarrontzia husteko gutxieneko egun-kopurua"
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:226
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:228
 msgid "Minimum time between emptying the trash on exit, in days."
 msgstr "Irtetzean zakarrontzia husteko gutxieneko denbora (egunetan)."
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:227
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:229
 msgid "Last time Empty Trash was run"
 msgstr "Zakarrontzia hustu zen azken aldia"
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:228
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:230
 msgid ""
 "The last time Empty Trash was run, in days since January 1st, 1970 (Epoch)."
 msgstr "Zakarrontzia hustu zen azken aldia, 1970.eko Urtarrilaren 1etik (Epoch) iragandako egunetan."
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:229
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:231
 msgid "Amount of time in seconds the error should be shown on the status bar."
 msgstr "Denbora-kopurua (segundotan) errorea egoera-barran bistaratuta egoteko."
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:230
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:232
 msgid "Level beyond which the message should be logged."
 msgstr "Maila, hortik gora mezua erregistratzeko."
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:231
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:233
 msgid ""
 "This can have three possible values. “0” for errors. “1” for warnings. “2” "
 "for debug messages."
 msgstr "Honako hiru balio erabilgarri daude: “0” - erroreak. “1” - abisuak. “2” - mezuen arazketa."
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:232
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:234
 msgid "Show original “Date” header value."
 msgstr "Erakutsi jatorrizko “Date” goiburuaren balioa."
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:233
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:235
 msgid ""
 "Show the original “Date” header (with a local time only if the time zone "
 "differs). Otherwise always show “Date” header value in a user preferred "
 "format and local time zone."
 msgstr "Erakutsi jatorrizko “Date” goiburuaren balioa (ordu lokalean ordu-zona desberdina bada). Bestela, erakutsi beti “Date” goiburuaren balioa erabiltzaileak hobetsitako formatuan eta lokaleko ordu-zonan."
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:234
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:236
 msgid "List of Labels and their associated colors"
 msgstr "Etiketen zerrenda, eta bakoitzari asoziatutako koloreak"
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:235
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:237
 msgid ""
 "List of labels known to the mail component of Evolution. The list contains "
 "strings containing name:color where color uses the HTML hex encoding."
 msgstr "Evolution-en posta-osagaiak ezagutzen dituen etiketen zerrenda. Izena:kolorea duten kateak ditu, eta koloreak HTML kodeketa hamaseitarra erabiltzen du."
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:236
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:238
 msgid "Check incoming mail being junk"
 msgstr "Begiratu sarrerako mezuak baztergarriak diren"
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:237
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:239
 msgid "Run junk test on incoming mail."
 msgstr "Exekutatu mezu baztergarrien proba sarrerako mezuetan."
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:238
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:240
 msgid "Empty Junk folders on exit"
 msgstr "Hustu baztergarrien karpetak irtetzean"
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:239
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:241
 msgid "Empty all Junk folders when exiting Evolution."
 msgstr "Hustu baztergarrien karpeta guztiak Evolution-etik irtetzean."
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:240
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:242
 msgid "Minimum days between emptying the junk on exit"
 msgstr "Irtetzean baztergarria husteko gutxieneko egun-kopurua"
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:241
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:243
 msgid "Minimum time between emptying the junk on exit, in days."
 msgstr "Irtetzean baztergarria husteko gutxieneko denbora (egunetan)."
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:242
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:244
 msgid "Last time Empty Junk was run"
 msgstr "Baztergarria hustu zen azken aldia"
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:243
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:245
 msgid ""
 "The last time Empty Junk was run, in days since January 1st, 1970 (Epoch)."
 msgstr "Baztergarria hustu zen azken aldia, 1970.eko Urtarrilaren 1etik (Epoch) iragandako egunetan."
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:244
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:246
 msgid "The default plugin for Junk hook"
 msgstr "Baztergarrientzako plugin lehenetsia"
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:245
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:247
 msgid ""
 "This is the default junk plugin, even though there are multiple plugins "
 "enabled. If the default listed plugin is disabled, then it won’t fall back "
 "to the other available plugins."
 msgstr "Baztergarrien plugin lehenetsia da, nahiz eta hainbat plugin instalatuta egon. Zerrendatutako plugin lehenetsia desgaitzen bada, ez ditu beste plugin erabilgarririk erabiliko."
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:246
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:248
 msgid "Determines whether to lookup in address book for sender email"
 msgstr "Bidaltzailearen helbide elek. helbide-liburuan bilatu behar den ala ez zehazten du"
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:247
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:249
 msgid ""
 "Determines whether to lookup the sender email in address book. If found, it "
 "shouldn’t be a spam. It looks up in the books marked for autocompletion. It "
@@ -2280,96 +2288,96 @@ msgid ""
 "autocompletion."
 msgstr "Bidaltzailearen helbide elek. helbide-liburuan bilatu behar den ala ez zehazten du. Aurkitzen badu, mezua ez luke baztergarri izan behar. Osaketa automatikoa lantzeko liburuetan bilatuko du. Motela izan daiteke, urruneko helbide-liburua (LDAP bezalakoa) osaketa automatikoa lantzeko markatuta badago."
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:248
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:250
 msgid ""
 "Determines whether to look up addresses for junk filtering in local address "
 "book only"
 msgstr "Lokaleko helbide-liburuko helbide elektronikoan bilatu behar den mezu baztergarriak iragazteko ala ez zehazten du"
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:249
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:251
 msgid ""
 "This option is related to the key lookup_addressbook and is used to "
 "determine whether to look up addresses in local address book only to exclude "
 "mail sent by known contacts from junk filtering."
 msgstr "Aukera honek lookup_addressbook gakoarekin zerikusia du, eta baztergarrien iragazkitik kontaktu ezagunak kanpo gelditzeko lokaleko helbide-liburuan bilaketa landuko den ala ez zehazteko erabiltzen da."
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:250
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:252
 msgid "Determines whether to use custom headers to check for junk"
 msgstr "Mezu baztergarriak klasifikatzeko goiburu pertsonalizatuak erabiliko diren ala ez zehazten du"
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:251
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:253
 msgid ""
 "Determines whether to use custom headers to check for junk. If this option "
 "is enabled and the headers are mentioned, it will be improve the junk "
 "checking speed."
 msgstr "Mezu baztergarriak klasifikatzeko goiburu pertsonalizatuak erabiliko diren ala ez zehazten du. Aukera hau gaituta egonez gero, eta goiburuak aipatuta badaude, baztergarriak aztertzeko abiadura hobetuko da."
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:252
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:254
 msgid "Custom headers to use while checking for junk."
 msgstr "Erabiliko diren goiburu pertsonalizatuak mezu baztergarriak aztertzeko."
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:253
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:255
 msgid ""
 "Custom headers to use while checking for junk. The list elements are string "
 "in the format “headername=value”."
 msgstr "Erabiliko diren goiburu pertsonalizatuak mezu baztergarriak aztertzeko. Zerrendako elementuak “headername=balioa” formatukoak dira."
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:254
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:256
 msgid "UID string of the default account."
 msgstr "Kontu lehenetsiaren UID katea."
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:255
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:257
 msgid "Save directory"
 msgstr "Gorde direktorioa"
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:256
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:258
 msgid "Directory for saving mail component files."
 msgstr "Direktorioa mezuaren fitxategi-osagaiak gordetzeko."
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:257
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:259
 msgid "Composer load/attach directory"
 msgstr "Mezu-prestatzailearen kargatzeko/eransteko direktorioa"
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:258
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:260
 msgid "Directory for loading/attaching files to composer."
 msgstr "Direktorioa mezu-prestatzaileari fitxategiak kargatzeko/eransteko."
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:259
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:261
 msgid "Check for new messages on start"
 msgstr "Begiratu mezu berririk dagoen abioan"
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:260
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:262
 msgid ""
 "Whether to check for new messages when Evolution is started. This includes "
 "also sending messages from Outbox."
 msgstr "Evolution abiatzean mezu berriak iritsi diren begiratzea edo ez. Irteerako ontzitik mezuak bidaltzea ere eragiten du."
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:261
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:263
 msgid "Check for new messages in all active accounts"
 msgstr "Begiratu mezu berririk dagoen kontu aktibo guztietan."
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:262
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:264
 msgid ""
 "Whether to check for new messages in all active accounts regardless of the "
 "account “Check for new messages every X minutes” option when Evolution is "
 "started. This option is used only together with “send_recv_on_start” option."
 msgstr "Begiratu mezu berriak iritsi diren kontu aktibo guztietan kontuaren “Begiratu mezu berririk dagoen X minuturo” aukerari jaramonik egin gabe Evolution abiatzean edo ez begiratzea adierazten du. Aukera hau “send_recv_on_start” aukerarekin batera soilik erabil daiteke."
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:263
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:265
 msgid "Server synchronization interval"
 msgstr "Zerbitzariaren sinkronizazio tartea"
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:264
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:266
 msgid ""
 "Controls how frequently local changes are synchronized with the remote mail "
 "server. The interval must be at least 30 seconds."
 msgstr "Aldaketa lokala urruneko posta zerbitzariarekin sinkronizatzeko maiztasuna kontrolatzen du. Tartea gutxienez 30 segundokoa izan behar du."
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:265
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:267
 msgid "Allow expunge in virtual folders"
 msgstr "Baimendu karpeta birtualetatik betirako ezabatzea"
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:266
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:268
 msgid ""
 "Enables Expunge in virtual folders, which means that the Folder→Expunge will "
 "be callable in virtual folders, while the expunge itself will be done in all "
@@ -2377,192 +2385,192 @@ msgid ""
 "deleted messages belonging to the virtual folder."
 msgstr "Karpeta birtualetatik betirako ezabatzea gaitzen du, Karpeta->“Ezabatu betirako” erabilgarri egongo da karpeta birtualetan, betirako ezabatzeak karpeta birtualeko karpeta guztietako ezabatutako mezu guztietan egingo den bitartean, ez bakarrik karpeta birtualeko ezabatutako mezuetan."
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:267
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:269
 #: ../src/mail/mail-config.ui.h:10
 msgid "Inherit theme colors in HTML format"
 msgstr "Heredatutako gaiaren koloreak HTML moduan"
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:268
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:270
 msgid ""
 "When enabled the theme colors for background, text and links are sent in "
 "resulting HTML formatted message."
 msgstr "Gaiaren atzeko planoaren, testuaren eta esteken koloreak gaitzen direnean emaitzako HTML formatuko mezuan bidaltzen dira."
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:269
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:271
 msgid "An Archive folder for On This Computer folders."
 msgstr "“Ordenagailu honetan” karpeten “Artxiboa” karpeta."
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:270
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:272
 msgid ""
 "An Archive folder to use for Messages|Archive... feature when in an On This "
 "Computer folder."
 msgstr "“Artxiboa” karpeta Mezuak|Artxiboa-n erabiltzeko… eginbidea “Ordenagailu honetan” karpetan dagoenean."
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:271
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:273
 msgid "Whether the To Do bar is visible in the main window"
 msgstr "\"Egitekoak\" barra leiho nagusian ikusgai egongo den ala ez"
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:272
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:274
 msgid "Stores whether the To Do bar is visible in the main window."
 msgstr "\"Egitekoak\" barra leiho nagusian ikusgai egongo den ala ez gordetzen du."
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:273
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:275
 msgid "Width of the To Do bar in the main window"
 msgstr "\"Egitekoak\" barraren zabalera leiho nagusian"
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:274
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:276
 msgid "Holds the width of the To Do bar for the main window."
 msgstr "Leiho nagusiko \"Egitekoak\" barraren zabalera gordetzen du."
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:275
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:277
 msgid "Whether the To Do bar is visible in a sub-window"
 msgstr "\"Egitekoak\" barra azpi-leihoan ikusgai egongo den ala ez"
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:276
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:278
 msgid "Stores whether the To Do bar is visible in a sub-window."
 msgstr "\"Egitekoak\" barra azpi-leihoan ikusgai egongo den ala ez gordetzen du."
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:277
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:279
 msgid "Width of the To Do bar in a sub-window"
 msgstr "\"Egitekoak\" barraren zabalera azpi-leihoan"
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:278
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:280
 msgid "Holds the width of the To Do bar for a sub-window."
 msgstr "Azpi-leihoko \"Egitekoak\" barraren zabalera gordetzen du."
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:279
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:281
 msgid "Whether the To Do bar should show also completed tasks"
 msgstr "\"Egitekoak\" barrak burututako zereginak ere erakutsiko dituen ala ez"
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:280
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:282
 msgid "Stores whether the To Do bar should show also completed tasks."
 msgstr "\"Egitekoak\" barrak burututako zereginak ere erakutsiko dituen ala ez gordetzen du."
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:281
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:283
 msgid "Whether the To Do bar should show also tasks without Due date"
 msgstr "\"Egitekoak\" barrak mugaegunik gabeko zereginak erakutsiko dituen ala ez"
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:282
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:284
 msgid "Stores whether the To Do bar should show also tasks without Due date."
 msgstr "\"Egitekoak\" barrak mugaegunik gabeko zereginak ere erakutsiko dituen ala ez gordetzen du."
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:283
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:285
 msgid "How many days to show in the To Do bar"
 msgstr "\"Egitekoak\" barran zenbat egun erakutsiko diren"
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:284
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:286
 msgid "Values out of range are clamped to the boundary."
 msgstr "Barrutitik kanpoko balioak bridatu egingo dira mugetatik."
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:285
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:287
 msgid "Show start up wizard"
 msgstr "Erakutsi abioko morroia"
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:286
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:288
 msgid "Whether show start up wizard when there is no mail account configured."
 msgstr "Abioko morroia erakutsiko den ala ez postaren konturik ez dagoenean konfiguratuta."
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:287
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:289
 msgid "Whether go to the previous message after message deletion"
 msgstr "Mezua ezabatu ondoren aurreko mezura joango den ala ez"
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:288
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:290
 msgid ""
 "If set to true, goes to the previous message when the selected is deleted; "
 "or to the next message, when it’s set to false."
 msgstr "Egia ezartzen bada, aurreko mezura doa hautatutakoa ezabatzen denean; edo hurrengo mezura, faltsua ezartzen bada."
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:289
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:291
 msgid "Show Subject above Sender in Messages column"
 msgstr "Erakutsi gaia bidaltzailearen gainetik mezuen zutabean"
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:290
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:292
 msgid ""
 "Whether to show Subject above Sender (From/To) in the Messages column, "
 "usually shown in the Vertical/Wide view of the message list"
 msgstr "Gaia bidaltzailearen gainetik erakutsiko den ala ez mezuen zutabean, normalean mezu-zerrendaren bista bertikalean/zabalean erakusten da"
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:291
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:293
 msgid "Visually wrap long lines in composer"
 msgstr "Bisualki egokitu lerro luzeak konposatzailean"
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:292
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:294
 #: ../src/composer/e-composer-actions.c:572
 msgid ""
 "Whether to visually wrap long lines of text to avoid horizontal scrolling"
 msgstr "Testu-lerro luzeak bisualki egokituko diren edo ez korritze horizontala saihesteko."
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:293
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:295
 msgid "Alternative reply style"
 msgstr "Erantzuteko ordezko estiloa"
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:294
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:296
 msgid "Composer mode to use."
 msgstr "Erabiliko den modua mezu-prestatzailean."
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:295
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:297
 msgid "Put the cursor at the bottom of alternative replies"
 msgstr "Jarri kurtsorea ordezko erantzunen behean"
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:296
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:298
 msgid ""
 "This determines whether the cursor is placed at the top of the message or "
 "the bottom when using Alternative Reply."
 msgstr "Ordezko erantzuna erabiltzean, kurtsorea mezuaren goialdean ala behealdean kokatuko den zehazten du."
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:297
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:299
 msgid "Put the signature at the top of the message"
 msgstr "Jarri sinadura mezuaren goian"
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:298
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:300
 msgid ""
 "This determines whether the signature is placed at the top of the message or "
 "the bottom when using Alternative Reply."
 msgstr "Ordezko erantzuna erabiltzean, sinadura mezuaren goialdean ala behealdean kokatuko den zehazten du."
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:299
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:301
 msgid "Apply chosen template when using Alternative Reply"
 msgstr "Aplikatu aukeratutako txantiloia ordezko erantzuna erabiltzean"
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:300
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:302
 msgid "Last chosen template’s folder URI for Alternative Reply"
 msgstr "Ordezko erantzunerako azken aldian hautatutako txantiloiaren karpetaren URIa"
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:301
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:303
 msgid "Last chosen template’s message UID for Alternative Reply"
 msgstr "Ordezko erantzunerako azken aldian hautatutako txantiloiaren mezuaren UIDa"
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:302
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:304
 msgid ""
 "Whether preserve original message subject when applying template for "
 "Alternative Reply"
 msgstr "Ordezko erantzunerako txantiloia aplikatzean jatorrizko mezuaren gaiari eutsiko zaion"
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:303
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:305
 msgid ""
 "Whether set “body” in mailto: URI as Preformatted paragraph style. If set to "
 "“false”, then Normal paragraph style will be used."
 msgstr "Aurreformatudun paragrafo-estilo gisa “gorputza” ezarriko den ala ez 'mailto:' URIan. Faltsua bada, orduan paragrafo-estilo normala erabiliko da."
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:304
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:306
 msgid ""
 "Close the message browser window when the selected message is deleted or "
 "marked as Junk."
 msgstr "Itxi mezuaren nabigatzaile-leihoa hautatutako mezua ezabatzen denean edo zabor gisa markatzen denean."
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:305
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:307
 msgid ""
 "Collapse archive folders in Move/Copy message to Folder and Go to Folder "
 "selectors."
 msgstr "Tolestu 'Mugitu/Kopiatu mezua' ataleko artxibo-karpetak 'Karpeta' eta ?Joan karpetara' hautatzaileetan."
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:306
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:308
 msgid ""
 "Where to lookup recipient S/MIME certificates or PGP keys when encrypting "
 "messages."
 msgstr "Mezuak zifratzean, non bilatuko diren hartzailearen S/MIME ziurtagiriak edo PGP gakoak."
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:307
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:309
 msgid ""
 "The “off” value completely disables certificate lookup; the “autocompleted” "
 "value provides certificates only for auto-completed contacts; the “books” "
@@ -2570,122 +2578,122 @@ msgid ""
 "marked for auto-completion."
 msgstr "Honako balioak erabili daitezke: “off” balioak ziurtagirien bilaketa erabat desgaitzen du; “autocompleted” balioak automatikoki osatutako kontaktuetarako soilik ematen ditu ziurtagiriak; “books” balioak automatikoki osatutako kontaktuen ziurtagiriak erabiltzen ditu eta automatikoki osatzeko markatutako liburuetan bilatzen du."
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:308
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:310
 msgid "Whether Send/Receive should also download of messages for offline."
 msgstr "'Bidali/Jaso' aukerak mezuak lineaz kanpo erabiltzeko ere deskargatuko beharko lituzkeen ala ez."
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:309
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:311
 msgid ""
 "If enabled, whenever Send/Receive is run it also runs synchronization of "
 "messages for offline use. The option is disabled by default."
 msgstr "Gaituta badago, 'Bidali/Jaso' exekutatzen denean mezuen sinkronizazioa ere exekutatzen da, haiek lineaz kanpo erabili ahal izateko. Aukera hori desgaituta dago modu lehenetsian."
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:310
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:312
 msgid "Whether display delivery notification parts inline."
 msgstr "Bidalketaren jakinarazpenaren atalak integratuta bistaratuko diren ala ez."
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:311
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:313
 msgid ""
 "If enabled, the message/delivery-status and message/disposition-notification "
 "parts are shown automatically inline."
 msgstr "Gaituta badago, mezua/bidalketa-egoera eta mezua/jakinarapenaren-kokapena atalak automatikoki mezuan integratutako erakutsiko dira."
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:312
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:314
 msgid "Whether unset colors provided in HTML mails."
 msgstr "HTML postak emandako koloreak kenduko diren ala ez"
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:313
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:315
 msgid ""
 "If enabled, unset colors in HTML messages, forcing use of desktop theme "
 "colors instead."
 msgstr "Gaituta badago, HTML mezuetako koloreak kenduko dira eta mahaigainaren gaiak dituen koloreak erabiliko dira haien ordez."
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:314
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:316
 msgid ""
 "Whether to preserve expand state of the folders when calling Copy/Move to "
 "Folder."
 msgstr "Karpeten zabaltze-egoera mantenduko den ala ez 'Kopiatu/Eraman karpetara' erabiltzen denean."
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:315
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:317
 msgid ""
 "If enabled, the Copy/Move to Folder dialog will preserve the expand state of "
 "the folders in the dialog, otherwise all the folders will be expanded."
 msgstr "Gaituta badago, 'Kopiatu/Eraman karpetara' elkarrizketa-koadroak karpeten zabaltze-egoera mantenduko du elkarrizketa-koadroan; bestela karpeta guztiak zabalduko dira."
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:316
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:318
 msgid "Whether to print attachments."
 msgstr "Eranskinak inprimatuko diren ala ez."
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:317
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:319
 msgid ""
 "If enabled, and possible, attachment content is printed with the message."
 msgstr "Gaituta badago, eta posible bada, eranskinen edukia mezuarekin inprimatuko da."
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:318
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:320
 msgid "Size limit for text attachments to show"
 msgstr "Erakutsiko diren testu-eranskinen tamaina-muga"
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:319
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:321
 msgid ""
 "Defines the size in KB, the limit to show text attachments in the message "
 "preview. Anything above this limit will not be possible to show inline."
 msgstr "Mezuaren aurrebistan erakutsiko diren testu-eranskinen muga, alegia tamaina KBetan, definitzen du. Muga horretatik gora dagoen edozer ez da mezuan integratuta erakutsiko."
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:320
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:322
 msgid "Show Preview Toolbar"
 msgstr "Erakutsi aurrebistako tresna-barra"
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:321
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:323
 msgid "Show toolbar above preview panel in the Mail view."
 msgstr "Erakutsi tresna-barra aurrebistako panelaren gainean postaren ikuspegian."
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:322
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:324
 msgid "(Deprecated) Default forward style"
 msgstr "(Zaharkituta) Birbidaltzeko estilo lehenetsia"
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:323
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:325
 msgid ""
 "This key was deprecated in version 3.10 and should no longer be used. Use "
 "“forward-style-name” instead."
 msgstr "Gako hau 3.10 bertsioan zaharkitu zen eta aurrerantzean ez da gehiago erabiliko. Erabili “forward-style-name” horren ordez."
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:324
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:326
 msgid "(Deprecated) Default reply style"
 msgstr "(Zaharkituta) Erantzuteko estilo lehenetsia"
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:325
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:327
 msgid ""
 "This key was deprecated in version 3.10 and should no longer be used. Use "
 "“reply-style-name” instead."
 msgstr "Gako hau 3.10 bertsioan zaharkitu zen eta aurrerantzean ez da gehiago erabiliko. Erabili “reply-style-name” horren ordez."
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:326
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:328
 msgid "(Deprecated) List of custom headers and whether they are enabled."
 msgstr "(Zaharkituta) Goiburu pertsonalizatuen zerrenda, gaituta dauden edo ez zehaztuta."
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:327
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:329
 msgid ""
 "This key was deprecated in version 3.10 and should no longer be used. Use "
 "“show-headers” instead."
 msgstr "Gako hau 3.10 bertsioan zaharkitu zen eta aurrerantzean ez da gehiago erabiliko. Erabili “show-headers” horren ordez."
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:328
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:330
 msgid "(Deprecated) Load images for HTML messages over HTTP"
 msgstr "(Zaharkituta) Kargatu HTML mezuen irudiak HTTP bidez"
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:329
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:331
 msgid ""
 "This key was deprecated in version 3.10 and should no longer be used. Use "
 "“image-loading-policy” instead."
 msgstr "Gako hau 3.10 bertsioan zaharkitu zen eta aurrerantzean ez da gehiago erabiliko. Erabili “image-loading-policy” horren ordez."
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:330
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:332
 msgid ""
 "(Deprecated) Asks whether to close the message window when the user forwards "
 "or replies to the message shown in the window"
 msgstr "(Zaharkituta) Galdetu ea erabiltzaileak mezua birbidaltzean edo erantzutean mezuaren leihoa itxiko den edo ez"
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:331
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:333
 msgid ""
 "This key was deprecated in version 3.10 and should no longer be used. Use "
 "“browser-close-on-reply-policy” instead."
@@ -3276,6 +3284,37 @@ msgid ""
 msgstr "Evolution-ek industriaren datu-formatuen eta sareko protokoloen barruti handia onartzen du informazioa trukatzeko, eta bereziki estandarrak eta segurtasuna betetzen du. Evolution-ek Microsoft Exchange-rekin ere bateratzen da “Exchange Web Services” (EWS) hedapenaren bidez."
 
 #: ../data/org.gnome.Evolution.appdata.xml.in.in.h:5
+msgid "Mail – Classic View"
+msgstr "Posta - Ikuspegi klasikoa"
+
+#: ../data/org.gnome.Evolution.appdata.xml.in.in.h:6
+msgid "Mail – Vertical View"
+msgstr "Posta - Ikuspegi bertikala"
+
+#: ../data/org.gnome.Evolution.appdata.xml.in.in.h:7
+msgid "Mail Composer"
+msgstr "Posta-konposatzailea"
+
+#: ../data/org.gnome.Evolution.appdata.xml.in.in.h:8
+#: ../data/org.gnome.Evolution.desktop.in.in.h:9
+#: ../src/addressbook/gui/widgets/eab-contact-formatter.c:1012
+#: ../src/e-util/e-collection-account-wizard.c:867
+#: ../src/e-util/e-send-options.c:544 ../src/e-util/e-webdav-browser.c:533
+#: ../src/modules/calendar/e-cal-shell-view-actions.c:200
+#: ../src/modules/calendar/e-cal-shell-view.c:635
+#: ../src/plugins/publish-calendar/publish-calendar.ui.h:22
+msgid "Calendar"
+msgstr "Egutegia"
+
+#: ../data/org.gnome.Evolution.appdata.xml.in.in.h:9
+#: ../data/org.gnome.Evolution.desktop.in.in.h:8
+#: ../src/e-util/e-name-selector-dialog.c:448
+#: ../src/modules/addressbook/e-book-shell-backend.c:314
+#: ../src/modules/addressbook/e-book-shell-view.c:434
+msgid "Contacts"
+msgstr "Kontaktuak"
+
+#: ../data/org.gnome.Evolution.appdata.xml.in.in.h:10
 msgid "The Evolution Team"
 msgstr "Evolution taldea"
 
@@ -3299,23 +3338,6 @@ msgstr "_Leiho berria"
 #: ../data/org.gnome.Evolution.desktop.in.in.h:7
 msgid "Compose a Message"
 msgstr "Prestatu mezua"
-
-#: ../data/org.gnome.Evolution.desktop.in.in.h:8
-#: ../src/e-util/e-name-selector-dialog.c:448
-#: ../src/modules/addressbook/e-book-shell-backend.c:314
-#: ../src/modules/addressbook/e-book-shell-view.c:434
-msgid "Contacts"
-msgstr "Kontaktuak"
-
-#: ../data/org.gnome.Evolution.desktop.in.in.h:9
-#: ../src/addressbook/gui/widgets/eab-contact-formatter.c:1012
-#: ../src/e-util/e-collection-account-wizard.c:867
-#: ../src/e-util/e-send-options.c:544 ../src/e-util/e-webdav-browser.c:533
-#: ../src/modules/calendar/e-cal-shell-view-actions.c:200
-#: ../src/modules/calendar/e-cal-shell-view.c:635
-#: ../src/plugins/publish-calendar/publish-calendar.ui.h:22
-msgid "Calendar"
-msgstr "Egutegia"
 
 #: ../data/org.gnome.Evolution.desktop.in.in.h:10
 #: ../src/e-util/e-send-options.c:536 ../src/mail/importers/elm-importer.c:330
@@ -3971,7 +3993,7 @@ msgstr "“{0}” kontaktua badago lehendik “{1}” helbide-liburuan. Kopia ba
 #: ../src/e-util/e-source-selector-dialog.c:336
 #: ../src/e-util/e-table-config.c:540 ../src/e-util/e-table-config.ui.h:3
 #: ../src/e-util/e-timezone-dialog.ui.h:2
-#: ../src/e-util/evolution-source-viewer.c:829 ../src/e-util/e-web-view.c:4026
+#: ../src/e-util/evolution-source-viewer.c:829 ../src/e-util/e-web-view.c:4025
 #: ../src/e-util/gal-view-instance-save-as-dialog.c:265
 #: ../src/mail/e-mail-config-window.c:310 ../src/mail/e-mail-label-dialog.c:187
 #: ../src/mail/e-mail-tag-editor.c:160 ../src/mail/em-composer-utils.c:4166
@@ -4065,7 +4087,7 @@ msgstr "Aukerak"
 #: ../src/e-util/e-attachment-store.c:848
 #: ../src/e-util/e-attachment-store.c:855
 #: ../src/e-util/e-mail-signature-script-dialog.c:364
-#: ../src/e-util/e-webdav-browser.c:2633 ../src/e-util/e-web-view.c:4026
+#: ../src/e-util/e-webdav-browser.c:2633 ../src/e-util/e-web-view.c:4025
 #: ../src/e-util/gal-view-instance-save-as-dialog.c:266
 #: ../src/modules/rss/evolution/e-rss-preferences.c:864
 #: ../src/shell/e-shell-content.c:642 ../src/shell/e-shell-utils.c:133
@@ -4224,14 +4246,14 @@ msgstr "_Urteurrena:"
 #: ../src/addressbook/gui/contact-editor/contact-editor.ui.h:50
 #: ../src/addressbook/gui/widgets/eab-contact-formatter.c:1058
 #: ../src/addressbook/gui/widgets/e-addressbook-view.etspec.h:47
-#: ../src/calendar/gui/e-calendar-view.c:1822
+#: ../src/calendar/gui/e-calendar-view.c:1936
 msgid "Anniversary"
 msgstr "Urteurrena"
 
 #: ../src/addressbook/gui/contact-editor/contact-editor.ui.h:51
 #: ../src/addressbook/gui/widgets/eab-contact-formatter.c:1057
 #: ../src/addressbook/gui/widgets/e-addressbook-view.etspec.h:46
-#: ../src/calendar/gui/e-calendar-view.c:1821
+#: ../src/calendar/gui/e-calendar-view.c:1935
 msgid "Birthday"
 msgstr "Urtebetetzea"
 
@@ -4758,7 +4780,7 @@ msgid "Send a mail message to this address"
 msgstr "Bidali mezu bat helbide honetara"
 
 #: ../src/addressbook/gui/widgets/eab-contact-display.c:318
-#: ../src/e-util/e-misc-utils.c:4755
+#: ../src/e-util/e-misc-utils.c:4763
 #, c-format
 msgid "Click to mail %s"
 msgstr "Egin klik %s bidaltzeko"
@@ -5360,7 +5382,7 @@ msgstr "_Zooma handiagotu"
 
 #. Zoom-out button
 #: ../src/addressbook/gui/widgets/e-contact-map-window.c:417
-#: ../src/mail/e-mail-reader.c:2994
+#: ../src/mail/e-mail-reader.c:3024
 msgid "Zoom _Out"
 msgstr "_Txikiagotu"
 
@@ -6615,8 +6637,8 @@ msgid "Completed: %s"
 msgstr "Eginda: %s"
 
 #: ../src/calendar/gui/comp-util.c:2427 ../src/calendar/gui/e-to-do-pane.c:616
-#: ../src/e-util/e-misc-utils.c:4838 ../src/e-util/e-text.c:566
-#: ../src/e-util/e-web-view.c:4212
+#: ../src/e-util/e-misc-utils.c:4846 ../src/e-util/e-text.c:566
+#: ../src/e-util/e-web-view.c:4211
 msgid "…"
 msgstr "…"
 
@@ -7073,53 +7095,53 @@ msgstr "Bidali nire oroigarriak gertaera honekin"
 msgid "Notify new attendees _only"
 msgstr "Jakinarazi partaide berriak _soilik"
 
-#: ../src/calendar/gui/e-calendar-view.c:507
+#: ../src/calendar/gui/e-calendar-view.c:509
 msgid "Cut selected events to the clipboard"
 msgstr "Ebaki hautatutako gertaerak arbelera"
 
-#: ../src/calendar/gui/e-calendar-view.c:513
+#: ../src/calendar/gui/e-calendar-view.c:515
 msgid "Copy selected events to the clipboard"
 msgstr "Kopiatu hautatutako gertaerak arbelean"
 
-#: ../src/calendar/gui/e-calendar-view.c:519
+#: ../src/calendar/gui/e-calendar-view.c:521
 msgid "Paste events from the clipboard"
 msgstr "Itsatsi gertaerak arbeletik"
 
-#: ../src/calendar/gui/e-calendar-view.c:525
+#: ../src/calendar/gui/e-calendar-view.c:527
 msgid "Delete selected events"
 msgstr "Ezabatu hautatutako gertaerak"
 
-#: ../src/calendar/gui/e-calendar-view.c:924
+#: ../src/calendar/gui/e-calendar-view.c:1023
 msgid "Pasted text doesn’t contain valid iCalendar data"
 msgstr "Itsatsitako testuak ez dauka baliozko iCalendar daturik"
 
-#: ../src/calendar/gui/e-calendar-view.c:935
+#: ../src/calendar/gui/e-calendar-view.c:1034
 #: ../src/calendar/gui/e-cal-ops.c:1583
 msgid "Default calendar not found"
 msgstr "Ez da egutegi lehenetsia aurkitu"
 
-#: ../src/calendar/gui/e-calendar-view.c:940
+#: ../src/calendar/gui/e-calendar-view.c:1039
 #: ../src/calendar/gui/e-cal-ops.c:1586
 msgid "Default memo list not found"
 msgstr "Ez da zirkularren zerrenda lehenetsia aurkitu"
 
-#: ../src/calendar/gui/e-calendar-view.c:945
+#: ../src/calendar/gui/e-calendar-view.c:1044
 #: ../src/calendar/gui/e-cal-ops.c:1589
 msgid "Default task list not found"
 msgstr "Ez da zereginen zerrenda lehenetsia aurkitu"
 
-#: ../src/calendar/gui/e-calendar-view.c:1037
+#: ../src/calendar/gui/e-calendar-view.c:1151
 msgid "No suitable component found"
 msgstr "Ez da osagai egokirik aurkitu"
 
-#: ../src/calendar/gui/e-calendar-view.c:1102
+#: ../src/calendar/gui/e-calendar-view.c:1216
 msgid "Pasting iCalendar data"
 msgstr "iCalendar datuak itsasten"
 
-#: ../src/calendar/gui/e-calendar-view.c:1159
-#: ../src/calendar/gui/e-calendar-view.c:1162
-#: ../src/calendar/gui/e-calendar-view.c:1165
-#: ../src/calendar/gui/e-calendar-view.c:1166
+#: ../src/calendar/gui/e-calendar-view.c:1273
+#: ../src/calendar/gui/e-calendar-view.c:1276
+#: ../src/calendar/gui/e-calendar-view.c:1279
+#: ../src/calendar/gui/e-calendar-view.c:1280
 msgid "%d %b %Y"
 msgstr "%Y %b %d"
 
@@ -7128,14 +7150,14 @@ msgstr "%Y %b %d"
 #. strftime format %d = day of month, %b = abbreviated
 #. * month name. You can change the order but don't
 #. * change the specifiers or add anything.
-#: ../src/calendar/gui/e-calendar-view.c:1161
+#: ../src/calendar/gui/e-calendar-view.c:1275
 #: ../src/calendar/gui/e-day-view.c:3274
 #: ../src/calendar/gui/e-day-view-top-item.c:856
 #: ../src/calendar/gui/e-week-view-main-item.c:230
 msgid "%d %b"
 msgstr "%b %d"
 
-#: ../src/calendar/gui/e-calendar-view.c:1172
+#: ../src/calendar/gui/e-calendar-view.c:1286
 msgid "%A %d %b %Y"
 msgstr "%A, %Y %b %d"
 
@@ -7145,16 +7167,16 @@ msgstr "%A, %Y %b %d"
 #. * %d = day of month, %b = abbreviated month name.
 #. * You can change the order but don't change the
 #. * specifiers or add anything.
-#: ../src/calendar/gui/e-calendar-view.c:1174
+#: ../src/calendar/gui/e-calendar-view.c:1288
 #: ../src/calendar/gui/e-day-view.c:3258
 #: ../src/calendar/gui/e-day-view-top-item.c:852
 #: ../src/calendar/gui/e-week-view-main-item.c:216
 msgid "%a %d %b"
 msgstr "%a, %b %d"
 
-#: ../src/calendar/gui/e-calendar-view.c:1175
-#: ../src/calendar/gui/e-calendar-view.c:1177
-#: ../src/calendar/gui/e-calendar-view.c:1178
+#: ../src/calendar/gui/e-calendar-view.c:1289
+#: ../src/calendar/gui/e-calendar-view.c:1291
+#: ../src/calendar/gui/e-calendar-view.c:1292
 msgid "%a %d %b %Y"
 msgstr "%a, %Y %b %d"
 
@@ -7162,7 +7184,7 @@ msgstr "%a, %Y %b %d"
 #. The string is used for Birthday & Anniversary events where the first year is
 #. know, constructing a summary which also shows how many years the birthday or
 #. anniversary is for. Example: "Birthday: John Doe (13)"
-#: ../src/calendar/gui/e-calendar-view.c:1841
+#: ../src/calendar/gui/e-calendar-view.c:1955
 #, c-format
 msgctxt "BirthdaySummary"
 msgid "%s (%d)"
@@ -7519,12 +7541,13 @@ msgstr "Hasierako ordua ez da baliozko ordua"
 #: ../src/calendar/gui/e-comp-editor.c:345
 #: ../src/composer/e-composer-actions.c:180
 #: ../src/em-format/e-mail-part-secure-button.c:97
-#: ../src/e-util/e-misc-utils.c:4145 ../src/e-util/e-misc-utils.c:4180
-#: ../src/e-util/e-misc-utils.c:4193 ../src/e-util/e-misc-utils.c:4207
-#: ../src/mail/e-mail-autoconfig.c:1129 ../src/mail/e-mail-display.c:2781
-#: ../src/mail/e-mail-notes.c:930 ../src/mail/e-mail-reader-utils.c:805
-#: ../src/mail/em-composer-utils.c:3962 ../src/mail/em-composer-utils.c:3985
-#: ../src/mail/mail-send-recv.c:598 ../src/mail/mail-send-recv.c:1493
+#: ../src/e-util/e-misc-utils.c:4145 ../src/e-util/e-misc-utils.c:4153
+#: ../src/e-util/e-misc-utils.c:4188 ../src/e-util/e-misc-utils.c:4201
+#: ../src/e-util/e-misc-utils.c:4215 ../src/mail/e-mail-autoconfig.c:1129
+#: ../src/mail/e-mail-display.c:2781 ../src/mail/e-mail-notes.c:930
+#: ../src/mail/e-mail-reader-utils.c:805 ../src/mail/em-composer-utils.c:3962
+#: ../src/mail/em-composer-utils.c:3985 ../src/mail/mail-send-recv.c:598
+#: ../src/mail/mail-send-recv.c:1493
 #: ../src/modules/accounts-window/e-accounts-window-editors.c:172
 #: ../src/plugins/face/face.c:175
 #: ../src/plugins/mail-to-task/mail-to-task.c:951 ../src/shell/e-shell.c:1258
@@ -8625,13 +8648,13 @@ msgid "Paste the clipboard"
 msgstr "Arbelaren edukia itsasten du"
 
 #: ../src/calendar/gui/e-comp-editor.c:2215
-#: ../src/composer/e-composer-actions.c:387 ../src/mail/e-mail-reader.c:2868
+#: ../src/composer/e-composer-actions.c:387 ../src/mail/e-mail-reader.c:2898
 #: ../src/modules/addressbook/e-book-shell-view-actions.c:1319
 #: ../src/modules/addressbook/e-book-shell-view-actions.c:1333
 msgid "_Print…"
 msgstr "_Inprimatu…"
 
-#: ../src/calendar/gui/e-comp-editor.c:2222 ../src/mail/e-mail-reader.c:2875
+#: ../src/calendar/gui/e-comp-editor.c:2222 ../src/mail/e-mail-reader.c:2905
 #: ../src/modules/addressbook/e-book-shell-view-actions.c:1326
 #: ../src/modules/calendar/e-cal-shell-view-actions.c:1921
 #: ../src/modules/calendar/e-memo-shell-view-actions.c:838
@@ -13069,7 +13092,7 @@ msgstr "Aukeratu kolore pertsonalizatua"
 #: ../src/mail/e-mail-account-tree-view.c:135
 #: ../src/mail/e-mail-config-security-page.c:541
 #: ../src/mail/e-mail-config-security-page.c:717
-#: ../src/mail/e-mail-reader.c:5020 ../src/mail/mail-config.ui.h:79
+#: ../src/mail/e-mail-reader.c:5050 ../src/mail/mail-config.ui.h:79
 msgid "Default"
 msgstr "Lehenetsia"
 
@@ -15136,19 +15159,24 @@ msgstr "Helbide-liburuen zerbitzaria ezin da eskuratu edo zerbitzariaren izena o
 #: ../src/e-util/e-misc-utils.c:4144
 #, c-format
 msgid "Failed to set protocol version to LDAPv3 (%d): %s"
-msgstr "Huts egin du protokoloaren bertsioa LDAPv3 (%d) bertsiora ezartzea: %s"
+msgstr "Huts egin du protokoloaren bertsioa LDAPv3 (%d) bertsiora ezartzeak: %s"
 
-#: ../src/e-util/e-misc-utils.c:4179
+#: ../src/e-util/e-misc-utils.c:4152
+#, c-format
+msgid "Failed to set connection timeout option (%d): %s"
+msgstr "Huts egin du konexioaren denbora-mugaren aukera ezartzeak (%d): %s"
+
+#: ../src/e-util/e-misc-utils.c:4187
 #, c-format
 msgid "Failed to use STARTTLS (%d): %s"
 msgstr "Huts egin du STARTTLS (%d) erabiltzeak: %s"
 
-#: ../src/e-util/e-misc-utils.c:4192
+#: ../src/e-util/e-misc-utils.c:4200
 #, c-format
 msgid "Failed to authenticate with LDAP server (%d): %s"
 msgstr "Huts egin du LDAP zerbitzaria (%d) autentifikatzeak: %s"
 
-#: ../src/e-util/e-misc-utils.c:4206
+#: ../src/e-util/e-misc-utils.c:4214
 #, c-format
 msgid ""
 "This LDAP server may use an older version of LDAP, which does not support "
@@ -15160,19 +15188,19 @@ msgstr "LDAP zerbitzariak LDAPen bertsio zaharragoa duela dirudi (funtzionalitat
 "\n"
 "Errorearen (%d) xehetasunak: %s"
 
-#: ../src/e-util/e-misc-utils.c:4217
+#: ../src/e-util/e-misc-utils.c:4225
 msgid ""
 "This LDAP server may use an older version of LDAP, which does not support "
 "this functionality or it may be misconfigured. Ask your administrator for "
 "supported search bases."
 msgstr "LDAP zerbitzariak LDAPen bertsio zaharragoa duela dirudi (funtzionalitate hau onartzen ez duen bertsioa) edo gaizki konfiguratuta egon daiteke. Galdetu administratzaileari onartutako bilaketen oinarriei buruz."
 
-#: ../src/e-util/e-misc-utils.c:4250
+#: ../src/e-util/e-misc-utils.c:4258
 msgid "Evolution had not been compiled with LDAP support"
 msgstr "Evolution ez da konpilatu LDAP euskarriarekin"
 
 #. Translators: %s is the language ISO code.
-#: ../src/e-util/e-misc-utils.c:4573
+#: ../src/e-util/e-misc-utils.c:4581
 #, c-format
 msgctxt "language"
 msgid "Unknown (%s)"
@@ -15180,31 +15208,31 @@ msgstr "Ezezaguna (%s)"
 
 #. Translators: The first %s is the language name, and the
 #. * second is the country name. Example: "French (France)"
-#: ../src/e-util/e-misc-utils.c:4582
+#: ../src/e-util/e-misc-utils.c:4590
 #, c-format
 msgctxt "language"
 msgid "%s (%s)"
 msgstr "%s (%s)"
 
-#: ../src/e-util/e-misc-utils.c:4760
+#: ../src/e-util/e-misc-utils.c:4768
 #, c-format
 msgid "Click to call %s"
 msgstr "Egin klik %s(r)i deitzeko"
 
-#: ../src/e-util/e-misc-utils.c:4762
+#: ../src/e-util/e-misc-utils.c:4770
 msgid "Click to hide/unhide addresses"
 msgstr "Egin klik helbideak ezkutatzeko/bistaratzeko"
 
-#: ../src/e-util/e-misc-utils.c:4775
+#: ../src/e-util/e-misc-utils.c:4783
 #, c-format
 msgid "Go to the section %s of the message"
 msgstr "Joan mezuaren “%s” atalera"
 
-#: ../src/e-util/e-misc-utils.c:4777
+#: ../src/e-util/e-misc-utils.c:4785
 msgid "Go to the beginning of the message"
 msgstr "Joan mezuaren hasierara"
 
-#: ../src/e-util/e-misc-utils.c:4783
+#: ../src/e-util/e-misc-utils.c:4791
 #, c-format
 msgid "Click to open %s"
 msgstr "Egin klik %s irekitzeko"
@@ -15271,7 +15299,7 @@ msgstr "E_baki %s"
 msgid "_Edit %s"
 msgstr "E_ditatu %s"
 
-#: ../src/e-util/e-name-selector-list.c:587
+#: ../src/e-util/e-name-selector-list.c:573
 #, c-format
 msgid "_Delete %s"
 msgstr "E_zabatu %s"
@@ -16237,12 +16265,12 @@ msgid "Save the image to a file"
 msgstr "Gorde irudia fitxategi batean"
 
 #: ../src/e-util/e-web-view.c:476 ../src/mail/e-mail-browser.c:201
-#: ../src/mail/e-mail-reader.c:2952
+#: ../src/mail/e-mail-reader.c:2982
 msgid "Search _Web…"
 msgstr "Bilatu _webean…"
 
 #: ../src/e-util/e-web-view.c:478 ../src/mail/e-mail-browser.c:203
-#: ../src/mail/e-mail-reader.c:2954
+#: ../src/mail/e-mail-reader.c:2984
 msgid "Search the Web with the selected text"
 msgstr "Bilatu hautatutako testua webean"
 
@@ -16250,20 +16278,20 @@ msgstr "Bilatu hautatutako testua webean"
 msgid "Select all text and images"
 msgstr "Hautatu testu eta irudi guztiak"
 
-#: ../src/e-util/e-web-view.c:3836
+#: ../src/e-util/e-web-view.c:3835
 msgid "Copying image to clipboard"
 msgstr "Irudia arbelean kopiatzen"
 
-#: ../src/e-util/e-web-view.c:4024
+#: ../src/e-util/e-web-view.c:4023
 msgid "Save Image"
 msgstr "Gorde irudia"
 
-#: ../src/e-util/e-web-view.c:4061
+#: ../src/e-util/e-web-view.c:4060
 #, c-format
 msgid "Saving image to “%s”"
 msgstr "Irudia ”%s”(e)n gordetzen"
 
-#: ../src/e-util/e-web-view.c:4216
+#: ../src/e-util/e-web-view.c:4215
 #, c-format
 msgid "Cannot get URI “%s”, do not know how to download it."
 msgstr "Ezin da ”%s” URIa eskuratu, ez daki nola deskargatu."
@@ -16959,13 +16987,13 @@ msgstr "Aurrera"
 #. * (if possible and if that configuration option is enabled), or else
 #. * it will reply to all. The word "Group" was chosen because it covers
 #. * either of those, without too strongly implying one or the other.
-#: ../src/mail/e-mail-browser.c:547 ../src/mail/e-mail-reader.c:2917
-#: ../src/mail/e-mail-reader.c:5270 ../src/mail/e-mail-reader.c:5295
+#: ../src/mail/e-mail-browser.c:547 ../src/mail/e-mail-reader.c:2947
+#: ../src/mail/e-mail-reader.c:5300 ../src/mail/e-mail-reader.c:5325
 #: ../src/modules/mail/e-mail-shell-view-private.c:1545
 msgid "Group Reply"
 msgstr "Erantzun taldeari"
 
-#: ../src/mail/e-mail-browser.c:559 ../src/mail/e-mail-reader.c:5378
+#: ../src/mail/e-mail-browser.c:559 ../src/mail/e-mail-reader.c:5408
 #: ../src/mail/mail-dialogs.ui.h:9
 #: ../src/modules/mail/e-mail-shell-view-private.c:1557
 msgid "Reply"
@@ -17757,681 +17785,694 @@ msgstr "K_opiatu"
 msgid "Deleting message note…"
 msgstr "Mezuaren oharra ezabatzen…"
 
-#: ../src/mail/e-mail-reader.c:1704 ../src/mail/e-mail-reader.c:1996
-#: ../src/mail/e-mail-reader.c:2036
+#: ../src/mail/e-mail-reader.c:1057
+#, c-format
+msgid "Are you sure you want to mark %d message as Junk?"
+msgid_plural "Are you sure you want to mark %d messages as Junk?"
+msgstr[0] "Ziur zaude mezu %d zabor gisa markatu nahi duzula?"
+msgstr[1] "Ziur zaude %d mezu zabor gisa markatu nahi dituzula?"
+
+#: ../src/mail/e-mail-reader.c:1065
+msgid "The message will be shown in the Junk folder."
+msgid_plural "The messages will be shown in the Junk folder."
+msgstr[0] "Mezuak zaborraren karpetan erakutsiko dira."
+msgstr[1] "Ez dago mezurik karpeta honetan."
+
+#: ../src/mail/e-mail-reader.c:1734 ../src/mail/e-mail-reader.c:2026
+#: ../src/mail/e-mail-reader.c:2066
 msgid "_Do not ask me again."
 msgstr "_Ez galdetu berriro."
 
-#: ../src/mail/e-mail-reader.c:2042
+#: ../src/mail/e-mail-reader.c:2072
 msgid "_Always ignore Reply-To: for mailing lists."
 msgstr "_Beti ezikusi egin posta-zerrenden “Erantzun honi“"
 
-#: ../src/mail/e-mail-reader.c:2246
+#: ../src/mail/e-mail-reader.c:2276
 msgid "Failed to retrieve message:"
 msgstr "Huts egin du mezuak eskuratzean:"
 
-#: ../src/mail/e-mail-reader.c:2305 ../src/mail/e-mail-reader.c:3833
+#: ../src/mail/e-mail-reader.c:2335 ../src/mail/e-mail-reader.c:3863
 #, c-format
 msgid "Retrieving message “%s”"
 msgstr "”%s” mezua eskuratzen"
 
-#: ../src/mail/e-mail-reader.c:2509
+#: ../src/mail/e-mail-reader.c:2539
 msgid "A_dd Sender to Address Book"
 msgstr "Ge_hitu bidaltzailea helbide-liburuan"
 
-#: ../src/mail/e-mail-reader.c:2511
+#: ../src/mail/e-mail-reader.c:2541
 msgid "Add sender to address book"
 msgstr "Gehitu bidaltzailea helbide-liburuan"
 
-#: ../src/mail/e-mail-reader.c:2516
+#: ../src/mail/e-mail-reader.c:2546
 msgid "_Archive…"
 msgstr "_Artxiboa…"
 
-#: ../src/mail/e-mail-reader.c:2518
+#: ../src/mail/e-mail-reader.c:2548
 msgid "Move selected messages to the Archive folder for the account"
 msgstr "Eraman hautatutako mezuak kontuaren “Artxiboa” karpetara"
 
-#: ../src/mail/e-mail-reader.c:2523
+#: ../src/mail/e-mail-reader.c:2553
 msgid "Check for _Junk"
 msgstr "Begiratu mezu _baztergarririk dagoen"
 
-#: ../src/mail/e-mail-reader.c:2525
+#: ../src/mail/e-mail-reader.c:2555
 msgid "Filter the selected messages for junk status"
 msgstr "Iragazi hautatutako mezuak, baztergarri-egoeraren arabera"
 
-#: ../src/mail/e-mail-reader.c:2530
+#: ../src/mail/e-mail-reader.c:2560
 msgid "Assign C_olor…"
 msgstr "Esleitu k_olorea…"
 
-#: ../src/mail/e-mail-reader.c:2532
+#: ../src/mail/e-mail-reader.c:2562
 msgid "Assign color for the selected messages"
 msgstr "Esleitu kolorea hautatutako mezuei"
 
-#: ../src/mail/e-mail-reader.c:2537
+#: ../src/mail/e-mail-reader.c:2567
 msgid "Unse_t Color"
 msgstr "Kendu ko_lorea"
 
-#: ../src/mail/e-mail-reader.c:2539
+#: ../src/mail/e-mail-reader.c:2569
 msgid "Unset color for the selected messages"
 msgstr "Kendu kolorea hautatutako mezuei"
 
-#: ../src/mail/e-mail-reader.c:2544
+#: ../src/mail/e-mail-reader.c:2574
 msgid "_Copy to Folder…"
 msgstr "K_opiatu karpeta honetan…"
 
-#: ../src/mail/e-mail-reader.c:2546
+#: ../src/mail/e-mail-reader.c:2576
 msgid "Copy selected messages to another folder"
 msgstr "Kopiatu hautatutako mezuak beste karpeta batean"
 
-#: ../src/mail/e-mail-reader.c:2551
+#: ../src/mail/e-mail-reader.c:2581
 msgid "_Delete Message"
 msgstr "_Ezabatu mezua"
 
-#: ../src/mail/e-mail-reader.c:2553
+#: ../src/mail/e-mail-reader.c:2583
 msgid "Mark the selected messages for deletion"
 msgstr "Markatu hautatutako mezuak ezabatzeko gisa"
 
-#: ../src/mail/e-mail-reader.c:2558
+#: ../src/mail/e-mail-reader.c:2588
 msgid "_Add note…"
 msgstr "_Gehitu oharra…"
 
-#: ../src/mail/e-mail-reader.c:2560
+#: ../src/mail/e-mail-reader.c:2590
 msgid "Add a note for the selected message"
 msgstr "Gehitu ohar bat hautatutako mezuari"
 
-#: ../src/mail/e-mail-reader.c:2565
+#: ../src/mail/e-mail-reader.c:2595
 msgid "Delete no_te"
 msgstr "Ezabatu _oharra"
 
-#: ../src/mail/e-mail-reader.c:2567
+#: ../src/mail/e-mail-reader.c:2597
 msgid "Delete the note for the selected message"
 msgstr "Ezabatu oharra hautatutako mezutik"
 
-#: ../src/mail/e-mail-reader.c:2572
+#: ../src/mail/e-mail-reader.c:2602
 msgid "_Edit note…"
 msgstr "_Editatu oharra…"
 
-#: ../src/mail/e-mail-reader.c:2574
+#: ../src/mail/e-mail-reader.c:2604
 msgid "Edit a note for the selected message"
 msgstr "Editatu hautatutako mezuren ohar bat"
 
-#: ../src/mail/e-mail-reader.c:2579
+#: ../src/mail/e-mail-reader.c:2609
 msgid "Create a Filter Rule for Mailing _List…"
 msgstr "Sortu iragazkiaren araua _posta-zerrendarentzako…"
 
-#: ../src/mail/e-mail-reader.c:2581
+#: ../src/mail/e-mail-reader.c:2611
 msgid "Create a rule to filter messages to this mailing list"
 msgstr "Sortu araua posta-zerrenda honetako mezuak iragazteko"
 
-#: ../src/mail/e-mail-reader.c:2586
+#: ../src/mail/e-mail-reader.c:2616
 msgid "Create a Filter Rule for _Recipients…"
 msgstr "Sortu iragazkiaren araua _hartzailearentzako…"
 
-#: ../src/mail/e-mail-reader.c:2588
+#: ../src/mail/e-mail-reader.c:2618
 msgid "Create a rule to filter messages to these recipients"
 msgstr "Sortu araua hartzaile hauek dituzten mezuak iragazteko"
 
-#: ../src/mail/e-mail-reader.c:2593
+#: ../src/mail/e-mail-reader.c:2623
 msgid "Create a Filter Rule for Se_nder…"
 msgstr "Sortu iragazkiaren araua _bidaltzailearentzako…"
 
-#: ../src/mail/e-mail-reader.c:2595
+#: ../src/mail/e-mail-reader.c:2625
 msgid "Create a rule to filter messages from this sender"
 msgstr "Sortu araua bidaltzaile hau duten mezuak iragazteko"
 
-#: ../src/mail/e-mail-reader.c:2600
+#: ../src/mail/e-mail-reader.c:2630
 msgid "Create a Filter Rule for _Subject…"
 msgstr "Sortu iragazkiaren araua _gaiarentzako…"
 
-#: ../src/mail/e-mail-reader.c:2602
+#: ../src/mail/e-mail-reader.c:2632
 msgid "Create a rule to filter messages with this subject"
 msgstr "Sortu araua gai hau duten mezuak iragazteko"
 
-#: ../src/mail/e-mail-reader.c:2607
+#: ../src/mail/e-mail-reader.c:2637
 msgid "A_pply Filters"
 msgstr "_Aplikatu iragazkiak"
 
-#: ../src/mail/e-mail-reader.c:2609
+#: ../src/mail/e-mail-reader.c:2639
 msgid "Apply filter rules to the selected messages"
 msgstr "Aplikatu iragazki-arauak hautatutako mezuei"
 
-#: ../src/mail/e-mail-reader.c:2614
+#: ../src/mail/e-mail-reader.c:2644
 msgid "_Find in Message…"
 msgstr "_Bilatu mezuan…"
 
-#: ../src/mail/e-mail-reader.c:2616
+#: ../src/mail/e-mail-reader.c:2646
 msgid "Search for text in the body of the displayed message"
 msgstr "Bilatu testua bistaratutako mezuaren gorputzean"
 
-#: ../src/mail/e-mail-reader.c:2621
+#: ../src/mail/e-mail-reader.c:2651
 msgid "_Clear Flag"
 msgstr "_Garbitu bandera"
 
-#: ../src/mail/e-mail-reader.c:2623
+#: ../src/mail/e-mail-reader.c:2653
 msgid "Remove the follow-up flag from the selected messages"
 msgstr "Kendu jarraipenaren bandera hautatutako mezuetatik"
 
-#: ../src/mail/e-mail-reader.c:2628
+#: ../src/mail/e-mail-reader.c:2658
 msgid "_Flag Completed"
 msgstr "Ban_dera osatuta"
 
-#: ../src/mail/e-mail-reader.c:2630
+#: ../src/mail/e-mail-reader.c:2660
 msgid "Set the follow-up flag to completed on the selected messages"
 msgstr "Ezarri jarraipenaren bandera osatutakoei hautatutako mezuetan"
 
-#: ../src/mail/e-mail-reader.c:2635
+#: ../src/mail/e-mail-reader.c:2665
 msgid "Follow _Up…"
 msgstr "Jarrait_u…"
 
-#: ../src/mail/e-mail-reader.c:2637
+#: ../src/mail/e-mail-reader.c:2667
 msgid "Flag the selected messages for follow-up"
 msgstr "Markatu hautatutako mezuak jarraipena egiteko"
 
-#: ../src/mail/e-mail-reader.c:2642 ../src/mail/e-mail-reader.c:5225
-#: ../src/mail/e-mail-reader.c:5246
+#: ../src/mail/e-mail-reader.c:2672 ../src/mail/e-mail-reader.c:5255
+#: ../src/mail/e-mail-reader.c:5276
 #: ../src/modules/mail/e-mail-attachment-handler.c:389
 msgid "_Forward"
 msgstr "A_urrera"
 
-#: ../src/mail/e-mail-reader.c:2644 ../src/mail/e-mail-reader.c:5226
-#: ../src/mail/e-mail-reader.c:5247
+#: ../src/mail/e-mail-reader.c:2674 ../src/mail/e-mail-reader.c:5256
+#: ../src/mail/e-mail-reader.c:5277
 #: ../src/modules/mail/e-mail-attachment-handler.c:391
 msgid "Forward the selected message to someone"
 msgstr "Birbidali hautatutako mezua norbaiti"
 
-#: ../src/mail/e-mail-reader.c:2649
+#: ../src/mail/e-mail-reader.c:2679
 #: ../src/modules/mail/e-mail-attachment-handler.c:431
 msgid "_Attached"
 msgstr "_Erantsita"
 
-#: ../src/mail/e-mail-reader.c:2651 ../src/mail/e-mail-reader.c:2658
+#: ../src/mail/e-mail-reader.c:2681 ../src/mail/e-mail-reader.c:2688
 #: ../src/modules/mail/e-mail-attachment-handler.c:433
 msgid "Forward the selected message to someone as an attachment"
 msgstr "Birbidali hautatutako mezua norbaiti eranskin gisa"
 
-#: ../src/mail/e-mail-reader.c:2656
+#: ../src/mail/e-mail-reader.c:2686
 msgid "Forward As _Attached"
 msgstr "Birbidali _eranskin gisa"
 
-#: ../src/mail/e-mail-reader.c:2663
+#: ../src/mail/e-mail-reader.c:2693
 #: ../src/modules/mail/e-mail-attachment-handler.c:438
 msgid "_Inline"
 msgstr "_Barnean"
 
-#: ../src/mail/e-mail-reader.c:2665 ../src/mail/e-mail-reader.c:2672
+#: ../src/mail/e-mail-reader.c:2695 ../src/mail/e-mail-reader.c:2702
 #: ../src/modules/mail/e-mail-attachment-handler.c:440
 msgid "Forward the selected message in the body of a new message"
 msgstr "Birbidali hautatutako mezua beste mezu baten testuaren barnean"
 
-#: ../src/mail/e-mail-reader.c:2670
+#: ../src/mail/e-mail-reader.c:2700
 msgid "Forward As _Inline"
 msgstr "Birbidali _barnean gisa"
 
-#: ../src/mail/e-mail-reader.c:2677
+#: ../src/mail/e-mail-reader.c:2707
 #: ../src/modules/mail/e-mail-attachment-handler.c:445
 msgid "_Quoted"
 msgstr "_Aipamen gisa"
 
-#: ../src/mail/e-mail-reader.c:2679 ../src/mail/e-mail-reader.c:2686
+#: ../src/mail/e-mail-reader.c:2709 ../src/mail/e-mail-reader.c:2716
 #: ../src/modules/mail/e-mail-attachment-handler.c:447
 msgid "Forward the selected message quoted like a reply"
 msgstr "Birbidali hautatutako mezua erantzun gisa aipatuta"
 
-#: ../src/mail/e-mail-reader.c:2684
+#: ../src/mail/e-mail-reader.c:2714
 msgid "Forward As _Quoted"
 msgstr "Birbidali _aipamen gisa"
 
-#: ../src/mail/e-mail-reader.c:2691
+#: ../src/mail/e-mail-reader.c:2721
 msgid "_New Label"
 msgstr "Etiketa _berria"
 
 #. Translators: "None" is used in the message label context menu.
 #. *              It removes all labels from the selected messages.
-#: ../src/mail/e-mail-reader.c:2700
+#: ../src/mail/e-mail-reader.c:2730
 msgid "N_one"
 msgstr "_Bat ere ez"
 
-#: ../src/mail/e-mail-reader.c:2707
+#: ../src/mail/e-mail-reader.c:2737
 msgid "_Load Images"
 msgstr "Kargatu iru_diak"
 
-#: ../src/mail/e-mail-reader.c:2709
+#: ../src/mail/e-mail-reader.c:2739
 msgid "Force images in HTML mail to be loaded"
 msgstr "Kargarazi HTML mezuetako irudiak"
 
-#: ../src/mail/e-mail-reader.c:2714 ../src/mail/e-mail-reader.c:3147
+#: ../src/mail/e-mail-reader.c:2744 ../src/mail/e-mail-reader.c:3177
 msgid "_Ignore Subthread"
 msgstr "_Ez ikusi egin azpi-hariari"
 
-#: ../src/mail/e-mail-reader.c:2716
+#: ../src/mail/e-mail-reader.c:2746
 msgid "Mark new mails in a subthread as read automatically"
 msgstr "Markatu azpi-hariko mezu berriak irakurrita gisa automatikoki"
 
-#: ../src/mail/e-mail-reader.c:2721 ../src/mail/e-mail-reader.c:3151
+#: ../src/mail/e-mail-reader.c:2751 ../src/mail/e-mail-reader.c:3181
 msgid "_Ignore Thread"
 msgstr "_Ez ikusi egin hariari"
 
-#: ../src/mail/e-mail-reader.c:2723
+#: ../src/mail/e-mail-reader.c:2753
 msgid "Mark new mails in this thread as read automatically"
 msgstr "Markatu hariko mezu berriak irakurrita gisa automatikoki"
 
-#: ../src/mail/e-mail-reader.c:2728
+#: ../src/mail/e-mail-reader.c:2758
 msgid "_Important"
 msgstr "_Garrantzitsua"
 
-#: ../src/mail/e-mail-reader.c:2730
+#: ../src/mail/e-mail-reader.c:2760
 msgid "Mark the selected messages as important"
 msgstr "Markatu hautatutako mezuak garrantzitsu gisa"
 
-#: ../src/mail/e-mail-reader.c:2735
+#: ../src/mail/e-mail-reader.c:2765
 msgid "_Junk"
 msgstr "_Baztergarria"
 
-#: ../src/mail/e-mail-reader.c:2737
+#: ../src/mail/e-mail-reader.c:2767
 msgid "Mark the selected messages as junk"
 msgstr "Markatu hautatutako mezuak baztergarri gisa"
 
-#: ../src/mail/e-mail-reader.c:2742
+#: ../src/mail/e-mail-reader.c:2772
 msgid "_Not Junk"
 msgstr "E_z-baztergarria"
 
-#: ../src/mail/e-mail-reader.c:2744
+#: ../src/mail/e-mail-reader.c:2774
 msgid "Mark the selected messages as not being junk"
 msgstr "Markatu hautatutako mezuak ez-baztergarri gisa"
 
-#: ../src/mail/e-mail-reader.c:2749
+#: ../src/mail/e-mail-reader.c:2779
 msgid "_Read"
 msgstr "_Irakurri"
 
-#: ../src/mail/e-mail-reader.c:2751
+#: ../src/mail/e-mail-reader.c:2781
 msgid "Mark the selected messages as having been read"
 msgstr "Markatu hautatutako mezuak irakurritako gisa"
 
-#: ../src/mail/e-mail-reader.c:2756 ../src/mail/e-mail-reader.c:3171
+#: ../src/mail/e-mail-reader.c:2786 ../src/mail/e-mail-reader.c:3201
 msgid "Do not _Ignore Subthread"
 msgstr "Ez _baztertu azpi-haria"
 
-#: ../src/mail/e-mail-reader.c:2758
+#: ../src/mail/e-mail-reader.c:2788
 msgid "Do not mark new mails in a subthread as read automatically"
 msgstr "Ez markatu automatikoki azpi-hariko mezu berriak irakurrita gisa"
 
-#: ../src/mail/e-mail-reader.c:2763 ../src/mail/e-mail-reader.c:3175
+#: ../src/mail/e-mail-reader.c:2793 ../src/mail/e-mail-reader.c:3205
 msgid "Do not _Ignore Thread"
 msgstr "_Kontutan hartu haria"
 
-#: ../src/mail/e-mail-reader.c:2765
+#: ../src/mail/e-mail-reader.c:2795
 msgid "Do not mark new mails in this thread as read automatically"
 msgstr "Ez markatu hariko mezu berriak irakurrita gisa automatikoki"
 
-#: ../src/mail/e-mail-reader.c:2770
+#: ../src/mail/e-mail-reader.c:2800
 msgid "Uni_mportant"
 msgstr "Ez-garrantzitsua"
 
-#: ../src/mail/e-mail-reader.c:2772
+#: ../src/mail/e-mail-reader.c:2802
 msgid "Mark the selected messages as unimportant"
 msgstr "Markatu hautatutako mezuak ez-garrantzitsu gisa"
 
-#: ../src/mail/e-mail-reader.c:2777
+#: ../src/mail/e-mail-reader.c:2807
 msgid "_Unread"
 msgstr "_Irakurri gabea"
 
-#: ../src/mail/e-mail-reader.c:2779
+#: ../src/mail/e-mail-reader.c:2809
 msgid "Mark the selected messages as not having been read"
 msgstr "Markatu hautatutako mezuak irakurri gabeko gisa"
 
-#: ../src/mail/e-mail-reader.c:2784
+#: ../src/mail/e-mail-reader.c:2814
 #: ../src/modules/mail/e-mail-attachment-handler.c:417
 msgid "_Edit as New Message…"
 msgstr "_Editatu mezu berri gisa…"
 
-#: ../src/mail/e-mail-reader.c:2786
+#: ../src/mail/e-mail-reader.c:2816
 #: ../src/modules/mail/e-mail-attachment-handler.c:419
 msgid "Open the selected messages in the composer for editing"
 msgstr "Ireki hautatutako mezuak prestatzeko leihoan editatzeko"
 
-#: ../src/mail/e-mail-reader.c:2791
+#: ../src/mail/e-mail-reader.c:2821
 msgid "Compose _New Message"
 msgstr "Prestatu mezu _berria"
 
-#: ../src/mail/e-mail-reader.c:2793
+#: ../src/mail/e-mail-reader.c:2823
 msgid "Open a window for composing a mail message"
 msgstr "Ireki posta-mezua idazteko leihoa"
 
-#: ../src/mail/e-mail-reader.c:2798
+#: ../src/mail/e-mail-reader.c:2828
 msgid "_Open in New Window"
 msgstr "Ireki leiho _berrian"
 
-#: ../src/mail/e-mail-reader.c:2800
+#: ../src/mail/e-mail-reader.c:2830
 msgid "Open the selected messages in a new window"
 msgstr "Ireki hautatutako mezua leiho berri batean"
 
-#: ../src/mail/e-mail-reader.c:2805
+#: ../src/mail/e-mail-reader.c:2835
 msgid "_Move to Folder…"
 msgstr "_Eraman karpetara…"
 
-#: ../src/mail/e-mail-reader.c:2807
+#: ../src/mail/e-mail-reader.c:2837
 msgid "Move selected messages to another folder"
 msgstr "Eraman hautatutako mezuak beste karpeta batera"
 
-#: ../src/mail/e-mail-reader.c:2812
+#: ../src/mail/e-mail-reader.c:2842
 msgid "_Next Message"
 msgstr "_Hurrengo mezua"
 
-#: ../src/mail/e-mail-reader.c:2814
+#: ../src/mail/e-mail-reader.c:2844
 msgid "Display the next message"
 msgstr "Bistaratu hurrengo mezua"
 
-#: ../src/mail/e-mail-reader.c:2819
+#: ../src/mail/e-mail-reader.c:2849
 msgid "Next _Important Message"
 msgstr "Hurrengo mezu _garrantzitsua"
 
-#: ../src/mail/e-mail-reader.c:2821
+#: ../src/mail/e-mail-reader.c:2851
 msgid "Display the next important message"
 msgstr "Bistaratu hurrengo mezu garrantzitsua"
 
-#: ../src/mail/e-mail-reader.c:2826
+#: ../src/mail/e-mail-reader.c:2856
 msgid "Next _Thread"
 msgstr "_Hurrengo haria"
 
-#: ../src/mail/e-mail-reader.c:2828
+#: ../src/mail/e-mail-reader.c:2858
 msgid "Display the next thread"
 msgstr "Bistaratu hurrengo haria"
 
-#: ../src/mail/e-mail-reader.c:2833
+#: ../src/mail/e-mail-reader.c:2863
 msgid "Next _Unread Message"
 msgstr "Hurrengo _irakurri gabeko mezua"
 
-#: ../src/mail/e-mail-reader.c:2835
+#: ../src/mail/e-mail-reader.c:2865
 msgid "Display the next unread message"
 msgstr "Bistaratu irakurri gabeko hurrengo mezua"
 
-#: ../src/mail/e-mail-reader.c:2840
+#: ../src/mail/e-mail-reader.c:2870
 msgid "_Previous Message"
 msgstr "_Aurreko mezua"
 
-#: ../src/mail/e-mail-reader.c:2842
+#: ../src/mail/e-mail-reader.c:2872
 msgid "Display the previous message"
 msgstr "Bistaratu aurreko mezua"
 
-#: ../src/mail/e-mail-reader.c:2847
+#: ../src/mail/e-mail-reader.c:2877
 msgid "Pr_evious Important Message"
 msgstr "Aurreko _mezu garrantzitsua"
 
-#: ../src/mail/e-mail-reader.c:2849
+#: ../src/mail/e-mail-reader.c:2879
 msgid "Display the previous important message"
 msgstr "Bistaratu aurreko mezu garrantzitsua"
 
-#: ../src/mail/e-mail-reader.c:2854
+#: ../src/mail/e-mail-reader.c:2884
 msgid "Previous T_hread"
 msgstr "Aurreko _haria"
 
-#: ../src/mail/e-mail-reader.c:2856
+#: ../src/mail/e-mail-reader.c:2886
 msgid "Display the previous thread"
 msgstr "Bistaratu aurreko haria"
 
-#: ../src/mail/e-mail-reader.c:2861
+#: ../src/mail/e-mail-reader.c:2891
 msgid "P_revious Unread Message"
 msgstr "Irakurri _gabeko aurreko mezua"
 
-#: ../src/mail/e-mail-reader.c:2863
+#: ../src/mail/e-mail-reader.c:2893
 msgid "Display the previous unread message"
 msgstr "Bistaratu irakurri gabeko aurreko mezua"
 
-#: ../src/mail/e-mail-reader.c:2870
+#: ../src/mail/e-mail-reader.c:2900
 msgid "Print this message"
 msgstr "Inprimatu mezu hau"
 
-#: ../src/mail/e-mail-reader.c:2877
+#: ../src/mail/e-mail-reader.c:2907
 msgid "Preview the message to be printed"
 msgstr "Inprimatuko den mezuaren aurrebista eskaintzen du"
 
-#: ../src/mail/e-mail-reader.c:2882
+#: ../src/mail/e-mail-reader.c:2912
 #: ../src/modules/mail/e-mail-attachment-handler.c:452
 msgid "Re_direct"
 msgstr "Birbi_deratu"
 
-#: ../src/mail/e-mail-reader.c:2884
+#: ../src/mail/e-mail-reader.c:2914
 #: ../src/modules/mail/e-mail-attachment-handler.c:454
 msgid "Redirect (bounce) the selected message to someone"
 msgstr "Birbideratu (errebotatu) hautatutako mezua norbaiti"
 
-#: ../src/mail/e-mail-reader.c:2889
+#: ../src/mail/e-mail-reader.c:2919
 msgid "Remo_ve Attachments"
 msgstr "_Kendu eranskinak"
 
-#: ../src/mail/e-mail-reader.c:2891
+#: ../src/mail/e-mail-reader.c:2921
 msgid "Remove attachments"
 msgstr "Kendu eranskinak"
 
-#: ../src/mail/e-mail-reader.c:2896
+#: ../src/mail/e-mail-reader.c:2926
 msgid "Remove Du_plicate Messages"
 msgstr "Kendu _bikoiztutako mezuak"
 
-#: ../src/mail/e-mail-reader.c:2898
+#: ../src/mail/e-mail-reader.c:2928
 msgid "Checks selected messages for duplicates"
 msgstr "Markatu hautatutako mezuak bikoiztuta gisa"
 
-#: ../src/mail/e-mail-reader.c:2903 ../src/mail/em-composer-utils.c:4218
+#: ../src/mail/e-mail-reader.c:2933 ../src/mail/em-composer-utils.c:4218
 #: ../src/mail/mail.error.xml.h:28
 #: ../src/modules/calendar/e-cal-shell-view-actions.c:1586
 #: ../src/modules/mail/e-mail-attachment-handler.c:396
 msgid "Reply to _All"
 msgstr "Erantzun g_uztiei"
 
-#: ../src/mail/e-mail-reader.c:2905
+#: ../src/mail/e-mail-reader.c:2935
 #: ../src/modules/mail/e-mail-attachment-handler.c:398
 msgid "Compose a reply to all the recipients of the selected message"
 msgstr "Prestatu hautatutako mezuaren hartzaile guztientzako erantzuna"
 
-#: ../src/mail/e-mail-reader.c:2910
+#: ../src/mail/e-mail-reader.c:2940
 msgid "Al_ternative Reply…"
 msgstr "_Ordezko erantzuna…"
 
-#: ../src/mail/e-mail-reader.c:2912
+#: ../src/mail/e-mail-reader.c:2942
 msgid "Choose reply options for the selected message"
 msgstr "Aukeratu hautatutako mezuari erantzuteko aukerak"
 
-#: ../src/mail/e-mail-reader.c:2919 ../src/mail/e-mail-reader.c:5271
-#: ../src/mail/e-mail-reader.c:5296
+#: ../src/mail/e-mail-reader.c:2949 ../src/mail/e-mail-reader.c:5301
+#: ../src/mail/e-mail-reader.c:5326
 msgid "Reply to the mailing list, or to all recipients"
 msgstr "Erantzun posta-zerrendari, edo hartzaile guztiei"
 
-#: ../src/mail/e-mail-reader.c:2924 ../src/mail/em-composer-utils.c:4213
+#: ../src/mail/e-mail-reader.c:2954 ../src/mail/em-composer-utils.c:4213
 #: ../src/mail/mail.error.xml.h:26
 #: ../src/modules/mail/e-mail-attachment-handler.c:403
 msgid "Reply to _List"
 msgstr "Erantzun zerre_ndari"
 
-#: ../src/mail/e-mail-reader.c:2926
+#: ../src/mail/e-mail-reader.c:2956
 #: ../src/modules/mail/e-mail-attachment-handler.c:405
 msgid "Compose a reply to the mailing list of the selected message"
 msgstr "Prestatu hautatutako mezuaren posta-zerrendarentzako erantzuna"
 
-#: ../src/mail/e-mail-reader.c:2931
+#: ../src/mail/e-mail-reader.c:2961
 #: ../src/modules/mail/e-mail-attachment-handler.c:410
 msgid "_Reply to Sender"
 msgstr "Erantzun bidal_tzaileari"
 
-#: ../src/mail/e-mail-reader.c:2933
+#: ../src/mail/e-mail-reader.c:2963
 #: ../src/modules/mail/e-mail-attachment-handler.c:412
 msgid "Compose a reply to the sender of the selected message"
 msgstr "Prestatu hautatutako mezuaren bidaltzailearentzako erantzuna"
 
-#: ../src/mail/e-mail-reader.c:2938
+#: ../src/mail/e-mail-reader.c:2968
 msgid "Repl_y with Template"
 msgstr "Erantzun t_xantiloiarekin"
 
-#: ../src/mail/e-mail-reader.c:2945
+#: ../src/mail/e-mail-reader.c:2975
 msgid "_Save as mbox…"
 msgstr "_Gorde mbox gisa…"
 
-#: ../src/mail/e-mail-reader.c:2947
+#: ../src/mail/e-mail-reader.c:2977
 msgid "Save selected messages as an mbox file"
 msgstr "Gorde hautatutako mezuak mbox gisa"
 
-#: ../src/mail/e-mail-reader.c:2959
+#: ../src/mail/e-mail-reader.c:2989
 msgid "_Message Source"
 msgstr "_Mezuaren iturburua"
 
-#: ../src/mail/e-mail-reader.c:2961
+#: ../src/mail/e-mail-reader.c:2991
 msgid "Show the raw email source of the message"
 msgstr "Erakutsi mezu-iturburua formatu gabe"
 
-#: ../src/mail/e-mail-reader.c:2973
+#: ../src/mail/e-mail-reader.c:3003
 msgid "_Undelete Message"
 msgstr "_Berreskuratu mezua"
 
-#: ../src/mail/e-mail-reader.c:2975
+#: ../src/mail/e-mail-reader.c:3005
 msgid "Undelete the selected messages"
 msgstr "Desezabatu hautatutako mezuak"
 
-#: ../src/mail/e-mail-reader.c:2980
+#: ../src/mail/e-mail-reader.c:3010
 msgid "_Normal Size"
 msgstr "Tamaina _normala"
 
-#: ../src/mail/e-mail-reader.c:2982
+#: ../src/mail/e-mail-reader.c:3012
 msgid "Reset the text to its original size"
 msgstr "Testua jatorrizko tamainan berrezartzen du"
 
-#: ../src/mail/e-mail-reader.c:2987
+#: ../src/mail/e-mail-reader.c:3017
 msgid "_Zoom In"
 msgstr "_Handiagotu"
 
-#: ../src/mail/e-mail-reader.c:2989
+#: ../src/mail/e-mail-reader.c:3019
 msgid "Increase the text size"
 msgstr "Handitu testuaren tamaina"
 
-#: ../src/mail/e-mail-reader.c:2996
+#: ../src/mail/e-mail-reader.c:3026
 msgid "Decrease the text size"
 msgstr "Txikitu testuaren tamaina"
 
-#: ../src/mail/e-mail-reader.c:3003
+#: ../src/mail/e-mail-reader.c:3033
 msgid "Cre_ate"
 msgstr "_Sortu"
 
-#: ../src/mail/e-mail-reader.c:3010
+#: ../src/mail/e-mail-reader.c:3040
 msgid "Ch_aracter Encoding"
 msgstr "_Karaktere-kodeketa"
 
-#: ../src/mail/e-mail-reader.c:3017
+#: ../src/mail/e-mail-reader.c:3047
 #: ../src/modules/mail/e-mail-attachment-handler.c:424
 msgid "F_orward As"
 msgstr "_Birbidali honela"
 
-#: ../src/mail/e-mail-reader.c:3024
+#: ../src/mail/e-mail-reader.c:3054
 msgid "_Label"
 msgstr "_Etiketa"
 
-#: ../src/mail/e-mail-reader.c:3031
+#: ../src/mail/e-mail-reader.c:3061
 msgid "_Group Reply"
 msgstr "Erantzun _taldeari"
 
-#: ../src/mail/e-mail-reader.c:3038
+#: ../src/mail/e-mail-reader.c:3068
 msgid "_Go To"
 msgstr "_Joan hona"
 
-#: ../src/mail/e-mail-reader.c:3045
+#: ../src/mail/e-mail-reader.c:3075
 msgid "Mar_k As"
 msgstr "Mar_katu honela"
 
-#: ../src/mail/e-mail-reader.c:3052
+#: ../src/mail/e-mail-reader.c:3082
 msgid "_Message"
 msgstr "_Mezua"
 
-#: ../src/mail/e-mail-reader.c:3059
+#: ../src/mail/e-mail-reader.c:3089
 msgid "_Zoom"
 msgstr "_Zooma"
 
-#: ../src/mail/e-mail-reader.c:3069
+#: ../src/mail/e-mail-reader.c:3099
 msgid "Create a Search Folder from Mailing _List…"
 msgstr "Sortu _posta-zerrendaren bilaketa-karpeta…"
 
-#: ../src/mail/e-mail-reader.c:3071
+#: ../src/mail/e-mail-reader.c:3101
 msgid "Create a search folder for this mailing list"
 msgstr "Sortu bilaketa-karpeta posta-zerrenda honentzat"
 
-#: ../src/mail/e-mail-reader.c:3076
+#: ../src/mail/e-mail-reader.c:3106
 msgid "Create a Search Folder from Recipien_ts…"
 msgstr "Sortu _hartzailearen bilaketa-karpeta…"
 
-#: ../src/mail/e-mail-reader.c:3078
+#: ../src/mail/e-mail-reader.c:3108
 msgid "Create a search folder for these recipients"
 msgstr "Sortu bilaketa-karpeta hartzaile hauentzat"
 
-#: ../src/mail/e-mail-reader.c:3083
+#: ../src/mail/e-mail-reader.c:3113
 msgid "Create a Search Folder from Sen_der…"
 msgstr "Sortu _bidaltzailearen bilaketa-karpeta…"
 
-#: ../src/mail/e-mail-reader.c:3085
+#: ../src/mail/e-mail-reader.c:3115
 msgid "Create a search folder for this sender"
 msgstr "Sortu bilaketa-karpeta bidaltzaile honentzat"
 
-#: ../src/mail/e-mail-reader.c:3090
+#: ../src/mail/e-mail-reader.c:3120
 msgid "Create a Search Folder from S_ubject…"
 msgstr "Sortu _gaiaren bilaketa-karpeta…"
 
-#: ../src/mail/e-mail-reader.c:3092
+#: ../src/mail/e-mail-reader.c:3122
 msgid "Create a search folder for this subject"
 msgstr "Sortu bilaketa-karpeta gai honentzat"
 
-#: ../src/mail/e-mail-reader.c:3139
+#: ../src/mail/e-mail-reader.c:3169
 msgid "Mark for Follo_w Up…"
 msgstr "Markatu jarraitasunerako…"
 
-#: ../src/mail/e-mail-reader.c:3155
+#: ../src/mail/e-mail-reader.c:3185
 msgid "Mark as _Important"
 msgstr "Markatu garrantz_itsu gisa"
 
-#: ../src/mail/e-mail-reader.c:3159
+#: ../src/mail/e-mail-reader.c:3189
 msgid "Mark as _Junk"
 msgstr "Markatu _baztergarri gisa"
 
-#: ../src/mail/e-mail-reader.c:3163
+#: ../src/mail/e-mail-reader.c:3193
 msgid "Mark as _Not Junk"
 msgstr "Markatu _ez baztergarri gisa"
 
-#: ../src/mail/e-mail-reader.c:3167
+#: ../src/mail/e-mail-reader.c:3197
 msgid "Mar_k as Read"
 msgstr "Mar_katu irakurritako gisa"
 
-#: ../src/mail/e-mail-reader.c:3179
+#: ../src/mail/e-mail-reader.c:3209
 msgid "Mark as Uni_mportant"
 msgstr "Markatu _ez-garrantzitsu gisa"
 
-#: ../src/mail/e-mail-reader.c:3183
+#: ../src/mail/e-mail-reader.c:3213
 msgid "Mark as _Unread"
 msgstr "Markatu i_rakurri gabeko gisa"
 
-#: ../src/mail/e-mail-reader.c:3235
+#: ../src/mail/e-mail-reader.c:3265
 msgid "_Caret Mode"
 msgstr "Kurtsore _modua"
 
-#: ../src/mail/e-mail-reader.c:3237
+#: ../src/mail/e-mail-reader.c:3267
 msgid "Show a blinking cursor in the body of displayed messages"
 msgstr "Erakutsi kurtsore keinukaria bistaratutako mezuen gorputzean"
 
-#: ../src/mail/e-mail-reader.c:3243
+#: ../src/mail/e-mail-reader.c:3273
 msgid "All Message _Headers"
 msgstr "Mezu guztien _goiburuak"
 
-#: ../src/mail/e-mail-reader.c:3245
+#: ../src/mail/e-mail-reader.c:3275
 msgid "Show messages with all email headers"
 msgstr "Erakutsi mezuak posta-goiburu guztiekin"
 
-#: ../src/mail/e-mail-reader.c:3839
+#: ../src/mail/e-mail-reader.c:3869
 msgid "Retrieving message"
 msgstr "Mezua eskuratzen"
 
-#: ../src/mail/e-mail-reader.c:5353 ../src/mail/filtertypes.xml.in.h:70
+#: ../src/mail/e-mail-reader.c:5383 ../src/mail/filtertypes.xml.in.h:70
 msgid "Delete"
 msgstr "Ezabatu"
 
-#: ../src/mail/e-mail-reader.c:5365
+#: ../src/mail/e-mail-reader.c:5395
 #: ../src/modules/calendar/e-cal-shell-view-actions.c:1327
 msgid "Next"
 msgstr "Hurrengoa"
 
-#: ../src/mail/e-mail-reader.c:5369
+#: ../src/mail/e-mail-reader.c:5399
 #: ../src/modules/calendar/e-cal-shell-view-actions.c:1320
 msgid "Previous"
 msgstr "Aurrekoa"
@@ -18970,7 +19011,7 @@ msgid "Trash"
 msgstr "Zakarrontzia"
 
 #: ../src/mail/em-folder-tree-model.c:1575 ../src/mail/filtertypes.xml.in.h:41
-#: ../src/mail/mail-config.ui.h:146 ../src/mail/vfoldertypes.xml.in.h:44
+#: ../src/mail/mail-config.ui.h:147 ../src/mail/vfoldertypes.xml.in.h:44
 msgid "Junk"
 msgstr "Baztergarriak"
 
@@ -20063,32 +20104,36 @@ msgid "_Delete junk messages"
 msgstr "_Ezabatu mezu baztergarriak"
 
 #: ../src/mail/mail-config.ui.h:142
+msgid "_Prompt before marking message as junk"
+msgstr "_Galdetu mezuak zabor gisa markatu baino lehen"
+
+#: ../src/mail/mail-config.ui.h:143
 msgid "Junk Test Options"
 msgstr "Baztergarrien probako aukerak"
 
-#: ../src/mail/mail-config.ui.h:143
+#: ../src/mail/mail-config.ui.h:144
 msgid "Do not mar_k messages as junk if sender is in my address book"
 msgstr "_Ez markatu mezuak baztergarri gisa bidaltzailea nire helbide-liburuan badago"
 
-#: ../src/mail/mail-config.ui.h:144
+#: ../src/mail/mail-config.ui.h:145
 msgid "_Lookup in local address book only"
 msgstr "_Begiratu lokaleko helbide-liburuetan soilik"
 
-#: ../src/mail/mail-config.ui.h:145
+#: ../src/mail/mail-config.ui.h:146
 msgid "Check cu_stom headers for junk"
 msgstr "_Begiratu baztergarrien aurkako goiburu pertsonalizatuak"
 
-#: ../src/mail/mail-config.ui.h:147
+#: ../src/mail/mail-config.ui.h:148
 #: ../src/modules/mail-config/e-mail-config-remote-accounts.c:303
 #: ../src/modules/mail-config/e-mail-config-smtp-backend.c:247
 msgid "No encryption"
 msgstr "Zifratzerik gabe"
 
-#: ../src/mail/mail-config.ui.h:148
+#: ../src/mail/mail-config.ui.h:149
 msgid "TLS encryption"
 msgstr "TLS zifratzea"
 
-#: ../src/mail/mail-config.ui.h:149
+#: ../src/mail/mail-config.ui.h:150
 msgid "SSL encryption"
 msgstr "SSL zifratzea"
 
@@ -21009,6 +21054,14 @@ msgstr "Ez da artxiborako karpetarik konfiguratu. Konfiguratu bat konturako, mez
 #: ../src/mail/mail.error.xml.h:219
 msgid "Failed to generate message list"
 msgstr "Huts egin du mezuen zerrenda sortzeak"
+
+#: ../src/mail/mail.error.xml.h:220
+msgid "{1}"
+msgstr "{1}"
+
+#: ../src/mail/mail.error.xml.h:221
+msgid "_Mark as Junk"
+msgstr "_Markatu zabor gisa"
 
 #: ../src/mail/mail-send-recv.c:193
 msgid "Canceling…"
@@ -25614,7 +25667,7 @@ msgstr "Ez da '%s' karpeta aurkitu"
 msgid "Cannot create a folder in a News and Blogs store."
 msgstr "Ezin izan da karpeta sortu 'Berriak eta blogak' biltegian."
 
-#: ../src/modules/rss/e-rss-parser.c:294
+#: ../src/modules/rss/e-rss-parser.c:303
 msgid "Unknown author"
 msgstr "Egile ezezaguna"
 
