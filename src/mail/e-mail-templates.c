@@ -189,11 +189,12 @@ fill_template (CamelMimeMessage *message,
 	GByteArray *byte_array;
 	gint i;
 	guint jj, len;
-	gboolean message_html, template_html;
+	gboolean message_html, template_html, template_markdown;
 	gboolean has_quoted_body;
 
 	ct = camel_mime_part_get_content_type (template);
 	template_html = ct && camel_content_type_is (ct, "text", "html");
+	template_markdown = ct && camel_content_type_is (ct, "text", "markdown");
 
 	message_html = FALSE;
 	/* When template is html, then prefer HTML part of the original message. Otherwise go for plaintext */
@@ -212,7 +213,7 @@ fill_template (CamelMimeMessage *message,
 				message_part = camel_multipart_get_part (multipart, i);
 				message_html = TRUE;
 				break;
-			} else if (camel_content_type_is (ct, "text", "plain") && message_html == FALSE) {
+			} else if (!message_html && (camel_content_type_is (ct, "text", "plain") || camel_content_type_is (ct, "text", "markdown"))) {
 				message_part = camel_multipart_get_part (multipart, i);
 			}
 		}
@@ -288,7 +289,8 @@ fill_template (CamelMimeMessage *message,
 		g_string_append (template_body, "<!-- disable-format-prompt -->");
 	}
 
-	g_string_append (template_body, "<span id=\"x-evo-template-fix-paragraphs\"></span>");
+	if (!template_markdown)
+		g_string_append (template_body, "<span id=\"x-evo-template-fix-paragraphs\"></span>");
 
 	/* Now extract body of the original message and replace the $ORIG[body] modifier in template */
 	if (message_part && (has_quoted_body || e_util_strstrcase (template_body->str, "$ORIG[body]"))) {
@@ -456,6 +458,8 @@ fill_template (CamelMimeMessage *message,
 
 	if (template_html)
 		camel_mime_part_set_content (return_part, template_body->str, template_body->len, "text/html");
+	else if (template_markdown)
+		camel_mime_part_set_content (return_part, template_body->str, template_body->len, "text/markdown");
 	else
 		camel_mime_part_set_content (return_part, template_body->str, template_body->len, "text/plain");
 
@@ -489,7 +493,7 @@ find_template_part_in_multipart (CamelMultipart *multipart,
 			}
 		} else if (ct && camel_content_type_is (ct, "text", "html")) {
 			template_part = part;
-		} else if (ct && camel_content_type_is (ct, "text", "plain") && !template_part) {
+		} else if (!template_part && ct && (camel_content_type_is (ct, "text", "plain") || camel_content_type_is (ct, "text", "markdown"))) {
 			template_part = part;
 		} else {
 			/* Copy any other parts (attachments...) to the output message */
@@ -515,6 +519,7 @@ e_mail_templates_apply_sync (CamelMimeMessage *source_message,
 	CamelDataWrapper *dw;
 	const CamelNameValueArray *headers;
 	CamelMimePart *template_part = NULL;
+	const gchar *tmp_value;
 	gchar *references, *message_id;
 	guint ii, len;
 
@@ -543,7 +548,8 @@ e_mail_templates_apply_sync (CamelMimeMessage *source_message,
 		CamelContentType *ct = camel_mime_part_get_content_type (CAMEL_MIME_PART (template_message));
 
 		if (ct && (camel_content_type_is (ct, "text", "html") ||
-		    camel_content_type_is (ct, "text", "plain"))) {
+		    camel_content_type_is (ct, "text", "plain") ||
+		    camel_content_type_is (ct, "text", "markdown"))) {
 			template_part = CAMEL_MIME_PART (template_message);
 		}
 	}
@@ -654,6 +660,11 @@ e_mail_templates_apply_sync (CamelMimeMessage *source_message,
 	} else if (references && *references) {
 		camel_medium_add_header (CAMEL_MEDIUM (result_message), "References", references);
 	}
+
+	/* inherit composer mode from the template */
+	tmp_value = camel_medium_get_header (CAMEL_MEDIUM (template_message), "X-Evolution-Composer-Mode");
+	if (tmp_value && *tmp_value)
+		camel_medium_set_header (CAMEL_MEDIUM (result_message), "X-Evolution-Composer-Mode", tmp_value);
 
 	g_free (message_id);
 	g_free (references);

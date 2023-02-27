@@ -3886,10 +3886,6 @@ alt_reply_composer_created_cb (GObject *source_object,
 	composer = e_msg_composer_new_finish (result, &error);
 
 	if (composer) {
-		EHTMLEditor *editor;
-
-		editor = e_msg_composer_get_editor (composer);
-
 		if (context->new_message) {
 			CamelInternetAddress *to = NULL, *cc = NULL;
 			CamelNNTPAddress *postto = NULL;
@@ -3901,10 +3897,6 @@ alt_reply_composer_created_cb (GObject *source_object,
 				subject = emcu_construct_reply_subject (composer, camel_mime_message_get_subject (context->source_message));
 				camel_mime_message_set_subject (context->new_message, subject);
 				g_free (subject);
-			}
-
-			if ((context->flags & (E_MAIL_REPLY_FLAG_FORMAT_PLAIN | E_MAIL_REPLY_FLAG_FORMAT_HTML)) != 0) {
-				e_html_editor_set_mode (editor, (context->flags & E_MAIL_REPLY_FLAG_FORMAT_HTML) != 0 ? E_CONTENT_EDITOR_MODE_HTML : E_CONTENT_EDITOR_MODE_PLAIN_TEXT);
 			}
 
 			em_utils_edit_message (composer, context->folder, context->new_message, context->message_uid, TRUE, FALSE);
@@ -4269,6 +4261,11 @@ em_utils_reply_alternative (GtkWindow *parent,
 	gtk_label_set_mnemonic_widget (GTK_LABEL (widget), GTK_WIDGET (mode_combo));
 	gtk_box_pack_start (hbox, GTK_WIDGET (mode_combo), FALSE, FALSE, 0);
 
+	e_binding_bind_property (
+		mode_combo, "sensitive",
+		widget, "sensitive",
+		G_BINDING_SYNC_CREATE);
+
 	html_mode_radio_action = e_action_combo_box_get_action (mode_combo);
 	radio_action = gtk_radio_action_new ("unknown", _("Use global setting"), NULL, NULL, E_CONTENT_EDITOR_MODE_UNKNOWN);
 	gtk_radio_action_join_group (radio_action, html_mode_radio_action);
@@ -4422,6 +4419,11 @@ em_utils_reply_alternative (GtkWindow *parent,
 
 	emcu_connect_three_state_changer (bottom_posting);
 	emcu_connect_three_state_changer (top_signature);
+
+	e_binding_bind_property (
+		apply_template, "active",
+		mode_combo, "sensitive",
+		G_BINDING_SYNC_CREATE | G_BINDING_INVERT_BOOLEAN);
 
 	e_binding_bind_property (
 		apply_template, "active",

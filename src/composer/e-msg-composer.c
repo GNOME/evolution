@@ -1276,7 +1276,7 @@ composer_add_evolution_composer_mode_header (CamelMedium *medium,
 	editor = e_msg_composer_get_editor (composer);
 	mode = composer_get_editor_mode_format_text (e_html_editor_get_mode (editor));
 
-	camel_medium_add_header (medium, "X-Evolution-Composer-Mode", mode);
+	camel_medium_set_header (medium, "X-Evolution-Composer-Mode", mode);
 }
 
 static void
@@ -1288,7 +1288,11 @@ composer_add_evolution_format_header (CamelMedium *medium,
 
 	string = g_string_sized_new (128);
 
-	if ((flags & COMPOSER_FLAG_HTML_CONTENT) || (flags & COMPOSER_FLAG_SAVE_DRAFT))
+	if ((flags & COMPOSER_FLAG_HTML_CONTENT) != 0 || (
+	    (flags & COMPOSER_FLAG_SAVE_DRAFT) != 0 &&
+	    mode != E_CONTENT_EDITOR_MODE_MARKDOWN &&
+	    mode != E_CONTENT_EDITOR_MODE_MARKDOWN_PLAIN_TEXT &&
+	    mode != E_CONTENT_EDITOR_MODE_MARKDOWN_HTML))
 		g_string_append (string, "text/html");
 	else
 		g_string_append (string, "text/plain");
@@ -1305,7 +1309,7 @@ composer_add_evolution_format_header (CamelMedium *medium,
 	if (flags & COMPOSER_FLAG_SMIME_ENCRYPT)
 		g_string_append (string, ", smime-encrypt");
 
-	camel_medium_add_header (
+	camel_medium_set_header (
 		medium, "X-Evolution-Format", string->str);
 
 	g_string_free (string, TRUE);
@@ -1325,6 +1329,7 @@ composer_build_message (EMsgComposer *composer,
 	EAttachmentView *view;
 	EAttachmentStore *store;
 	EComposerHeaderTable *table;
+	EHTMLEditor *editor;
 	CamelDataWrapper *html;
 	ESourceMailIdentity *mi;
 	const gchar *extension_name;
@@ -1340,10 +1345,17 @@ composer_build_message (EMsgComposer *composer,
 	ESource *source;
 	gchar *charset, *message_uid;
 	const gchar *from_domain;
+	gboolean mode_is_markdown;
 	gint i;
 	GError *last_error = NULL;
 
 	e_msg_composer_inc_soft_busy (composer);
+
+	editor = e_msg_composer_get_editor (composer);
+
+	mode_is_markdown = e_html_editor_get_mode (editor) == E_CONTENT_EDITOR_MODE_MARKDOWN ||
+		e_html_editor_get_mode (editor) == E_CONTENT_EDITOR_MODE_MARKDOWN_PLAIN_TEXT ||
+		e_html_editor_get_mode (editor) == E_CONTENT_EDITOR_MODE_MARKDOWN_HTML;
 
 	priv = composer->priv;
 	table = e_msg_composer_get_header_table (composer);
@@ -1498,10 +1510,8 @@ composer_build_message (EMsgComposer *composer,
 
 	} else {
 		const gchar *text;
-		EHTMLEditor *editor;
 		EContentEditor *cnt_editor;
 
-		editor = e_msg_composer_get_editor (composer);
 		cnt_editor = e_html_editor_get_content_editor (editor);
 		data = g_byte_array_new ();
 
@@ -1519,7 +1529,9 @@ composer_build_message (EMsgComposer *composer,
 		if (!g_str_has_suffix (text, "\r\n") && !g_str_has_suffix (text, "\n"))
 			g_byte_array_append (data, (const guint8 *) "\r\n", 2);
 
-		if (e_html_editor_get_mode (editor) == E_CONTENT_EDITOR_MODE_MARKDOWN)
+		if (e_html_editor_get_mode (editor) == E_CONTENT_EDITOR_MODE_MARKDOWN || (
+		    (flags & COMPOSER_FLAG_SAVE_DRAFT) != 0 &&
+		    e_html_editor_get_mode (editor) == E_CONTENT_EDITOR_MODE_MARKDOWN_HTML))
 			type = camel_content_type_new ("text", "markdown");
 		else
 			type = camel_content_type_new ("text", "plain");
@@ -1531,10 +1543,7 @@ composer_build_message (EMsgComposer *composer,
 			g_free (charset);
 		}
 
-		if ((flags & COMPOSER_FLAG_SAVE_DRAFT) == 0 && (
-		    e_html_editor_get_mode (editor) == E_CONTENT_EDITOR_MODE_MARKDOWN ||
-		    e_html_editor_get_mode (editor) == E_CONTENT_EDITOR_MODE_MARKDOWN_PLAIN_TEXT ||
-		    e_html_editor_get_mode (editor) == E_CONTENT_EDITOR_MODE_MARKDOWN_HTML))
+		if ((flags & COMPOSER_FLAG_SAVE_DRAFT) == 0 && mode_is_markdown)
 			composer_add_evolution_composer_mode_header (CAMEL_MEDIUM (context->message), composer);
 	}
 
@@ -1585,7 +1594,7 @@ composer_build_message (EMsgComposer *composer,
 	 */
 
 	if ((flags & COMPOSER_FLAG_HTML_CONTENT) != 0 ||
-	    (flags & COMPOSER_FLAG_SAVE_DRAFT) != 0) {
+	    ((flags & COMPOSER_FLAG_SAVE_DRAFT) != 0 && !mode_is_markdown)) {
 		const gchar *text;
 		gsize length;
 		gboolean pre_encode;
@@ -1641,8 +1650,7 @@ composer_build_message (EMsgComposer *composer,
 			html, stream, NULL, NULL);
 		g_object_unref (stream);
 
-		camel_data_wrapper_set_mime_type (
-			html, "text/html; charset=utf-8");
+		camel_data_wrapper_set_mime_type (html, "text/html; charset=utf-8");
 
 		/* Avoid re-encoding the data when adding it to a MIME part. */
 		if (pre_encode)
@@ -1706,6 +1714,15 @@ composer_build_message (EMsgComposer *composer,
 			context->top_level_part =
 				CAMEL_DATA_WRAPPER (body);
 		}
+	/* cover drafts in the markdown mode */
+	} else if ((flags & COMPOSER_FLAG_SAVE_DRAFT) != 0 && mode_is_markdown) {
+		/* X-Evolution-Format */
+		composer_add_evolution_format_header (
+			CAMEL_MEDIUM (context->message), flags, e_html_editor_get_mode (composer->priv->editor));
+
+		/* X-Evolution-Composer-Mode */
+		composer_add_evolution_composer_mode_header (
+			CAMEL_MEDIUM (context->message), composer);
 	}
 
 	view = e_msg_composer_get_attachment_view (composer);
