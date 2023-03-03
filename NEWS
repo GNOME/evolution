@@ -1,3 +1,40 @@
+Evolution 3.47.3 2023-03-03
+---------------------------
+
+Bug Fixes:
+	I#705 - Icons in the message list are rendered in low resolution on HiDPI displays
+	I#2245 - Mail: Add option to confirm 'Mark as Junk'
+	I#2248 - Composer: Check parent element's text-align before unsetting it
+	I#2255 - Composer: "Select All" in context menu doesn't select recipients
+	I#2260 - Mail: Show S/MIME encrypted part as attachment on failed decryption
+	I#2261 - RSS: Read of author depends on element order
+	I#2268 - Mail: Inherit format from template in Alternative Reply
+	I#2274 - ECalendarItem: Use selected text color for day names and week numbers
+	I#2275 - iTIP: Override text color together with background color
+	M!117 - Add new screenshots for AppStream metadata (Jiri Eischmann)
+
+Miscellaneous:
+	RSS: Folder-specific options not save from Preferences
+	help: Replace docs mailing list URL by GNOME Discourse (Andre Klapper)
+
+Translations:
+	Alan Mortensen (da)
+	Asier Sarasua Garmendia (eu)
+	Aurimas Černius (lt)
+	Balázs Úr (hu)
+	Daniel Mustieles (es)
+	Emin Tufan Çetin (tr)
+	Fabio Tomat (fur)
+	Fran Dieguez (gl)
+	Hugo Carvalho (pt)
+	Jürgen Benvenuti (de)
+	Kjartan Maraas (nb)
+	Kukuh Syafaat (id)
+	Мирослав Николић (sr)
+	Philipp Kiemle (de)
+	Sabri Ünal (tr)
+	Yuri Chornoivan (uk)
+
 Evolution 3.47.2 2023-02-10
 ---------------------------
 
