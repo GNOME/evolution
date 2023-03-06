@@ -18,9 +18,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: evolution\n"
 "Report-Msgid-Bugs-To: https://gitlab.gnome.org/GNOME/evolution/issues\n"
-"POT-Creation-Date: 2023-02-18 20:20+0000\n"
-"PO-Revision-Date: 2023-02-22 15:00+0300\n"
-"Last-Translator: Emin Tufan Çetin <etcetin@gmail.com>\n"
+"POT-Creation-Date: 2023-03-05 19:49+0000\n"
+"PO-Revision-Date: 2023-03-06 16:08+0300\n"
+"Last-Translator: Sabri Ünal <libreajans@gmail.com>\n"
 "Language-Team: Turkish <gnome-turk@gnome.org>\n"
 "Language: tr\n"
 "MIME-Version: 1.0\n"
@@ -250,7 +250,7 @@ msgid ""
 "Convert message text to Unicode UTF-8 to unify spam/ham tokens coming from "
 "different character sets."
 msgstr ""
-"İleti metnini farklı karakter kümelerinden gelen spam/ham imlerini "
+"İleti metnini farklı karakter kümelerinden gelen spam/ham jetonlarını "
 "tekleştirmek için Unicode UTF-8ʼe çevirir."
 
 #: ../data/org.gnome.evolution.bogofilter.gschema.xml.in.h:3
@@ -4351,7 +4351,7 @@ msgstr ""
 #: ../src/mail/em-vfolder-editor-rule.c:405
 #: ../src/mail/em-vfolder-editor-rule.c:634 ../src/mail/mail-config.ui.h:64
 #: ../src/modules/mail/em-composer-prefs.c:420
-#: ../src/modules/rss/evolution/e-rss-preferences.c:1738
+#: ../src/modules/rss/evolution/e-rss-preferences.c:1739
 #: ../src/plugins/attachment-reminder/attachment-reminder.c:559
 #: ../src/plugins/email-custom-header/email-custom-header.c:828
 #: ../src/plugins/publish-calendar/publish-calendar.ui.h:33
@@ -4518,7 +4518,7 @@ msgstr ""
 #: ../src/e-util/evolution-source-viewer.c:829 ../src/e-util/e-web-view.c:4025
 #: ../src/e-util/gal-view-instance-save-as-dialog.c:265
 #: ../src/mail/e-mail-config-window.c:310 ../src/mail/e-mail-label-dialog.c:187
-#: ../src/mail/e-mail-tag-editor.c:160 ../src/mail/em-composer-utils.c:4166
+#: ../src/mail/e-mail-tag-editor.c:160 ../src/mail/em-composer-utils.c:4158
 #: ../src/mail/em-folder-selector.c:333 ../src/mail/mail-config.ui.h:2
 #: ../src/mail/mail.error.xml.h:16 ../src/mail/mail-send-recv.c:874
 #: ../src/mail/mail-send-recv.c:955 ../src/mail/mail-vfolder-ui.c:149
@@ -4527,7 +4527,7 @@ msgstr ""
 #: ../src/modules/backup-restore/evolution-backup-tool.c:1246
 #: ../src/modules/book-config-ldap/evolution-book-config-ldap.c:409
 #: ../src/modules/calendar/e-cal-attachment-handler.c:281
-#: ../src/modules/rss/evolution/e-rss-preferences.c:1094
+#: ../src/modules/rss/evolution/e-rss-preferences.c:1095
 #: ../src/plugins/email-custom-header/org-gnome-email-custom-header.ui.h:3
 #: ../src/plugins/face/face.c:298
 #: ../src/plugins/publish-calendar/publish-calendar.c:788
@@ -4611,7 +4611,7 @@ msgstr "Seçenekler"
 #: ../src/e-util/e-mail-signature-script-dialog.c:364
 #: ../src/e-util/e-webdav-browser.c:2633 ../src/e-util/e-web-view.c:4025
 #: ../src/e-util/gal-view-instance-save-as-dialog.c:266
-#: ../src/modules/rss/evolution/e-rss-preferences.c:864
+#: ../src/modules/rss/evolution/e-rss-preferences.c:865
 #: ../src/shell/e-shell-content.c:642 ../src/shell/e-shell-utils.c:133
 #: ../src/smime/gui/certificate-manager.c:646
 #: ../src/smime/gui/certificate-manager.c:715
@@ -4865,7 +4865,7 @@ msgstr "_X.509 Ekle"
 #: ../src/mail/e-mail-label-manager.c:373 ../src/mail/em-filter-rule.c:679
 #: ../src/mail/em-folder-properties.c:1366
 #: ../src/mail/em-vfolder-editor-rule.c:639 ../src/mail/mail-config.ui.h:65
-#: ../src/modules/rss/evolution/e-rss-preferences.c:1757
+#: ../src/modules/rss/evolution/e-rss-preferences.c:1758
 #: ../src/plugins/attachment-reminder/attachment-reminder.c:569
 #: ../src/plugins/email-custom-header/email-custom-header.c:838
 #: ../src/plugins/publish-calendar/publish-calendar.c:789
@@ -8140,8 +8140,8 @@ msgstr "Başlangıç saati geçerli zaman değil"
 #: ../src/e-util/e-misc-utils.c:4188 ../src/e-util/e-misc-utils.c:4201
 #: ../src/e-util/e-misc-utils.c:4215 ../src/mail/e-mail-autoconfig.c:1129
 #: ../src/mail/e-mail-display.c:2781 ../src/mail/e-mail-notes.c:930
-#: ../src/mail/e-mail-reader-utils.c:805 ../src/mail/em-composer-utils.c:3962
-#: ../src/mail/em-composer-utils.c:3985 ../src/mail/mail-send-recv.c:598
+#: ../src/mail/e-mail-reader-utils.c:805 ../src/mail/em-composer-utils.c:3954
+#: ../src/mail/em-composer-utils.c:3977 ../src/mail/mail-send-recv.c:598
 #: ../src/mail/mail-send-recv.c:1493
 #: ../src/modules/accounts-window/e-accounts-window-editors.c:172
 #: ../src/plugins/face/face.c:175
@@ -8494,7 +8494,7 @@ msgstr "Katılı_mcılar…"
 #: ../src/mail/e-mail-account-manager.c:730 ../src/mail/e-mail-browser.c:217
 #: ../src/mail/e-mail-label-manager.c:364
 #: ../src/mail/em-folder-properties.c:1363 ../src/mail/mail-config.ui.h:69
-#: ../src/modules/rss/evolution/e-rss-preferences.c:1744
+#: ../src/modules/rss/evolution/e-rss-preferences.c:1745
 #: ../src/plugins/attachment-reminder/attachment-reminder.c:564
 #: ../src/plugins/email-custom-header/email-custom-header.c:833
 #: ../src/plugins/publish-calendar/publish-calendar.ui.h:34
@@ -12105,7 +12105,7 @@ msgstr "Taslağı Kaydet"
 #: ../src/mail/e-mail-config-identity-page.c:551
 #: ../src/mail/e-mail-config-summary-page.c:327
 #: ../src/modules/accounts-window/e-accounts-window-editors.c:298
-#: ../src/modules/rss/evolution/e-rss-preferences.c:830
+#: ../src/modules/rss/evolution/e-rss-preferences.c:831
 msgid "_Name:"
 msgstr "İ_sim:"
 
@@ -12186,21 +12186,21 @@ msgstr ""
 "Gönderilecek iletiler şifrelenemiyor: Bu hesap için imzalama sertifikası "
 "belirtilmemiş"
 
-#: ../src/composer/e-msg-composer.c:1887 ../src/composer/e-msg-composer.c:2564
+#: ../src/composer/e-msg-composer.c:1904 ../src/composer/e-msg-composer.c:2581
 msgid "Compose Message"
 msgstr "İleti Yaz"
 
-#: ../src/composer/e-msg-composer.c:4716
+#: ../src/composer/e-msg-composer.c:4733
 #: ../src/modules/composer-to-meeting/e-composer-to-meeting.c:364
 msgid "Reading text content…"
 msgstr "Metin içeriği okunuyor…"
 
-#: ../src/composer/e-msg-composer.c:5526
+#: ../src/composer/e-msg-composer.c:5543
 msgid "Review attachment before sending."
 msgid_plural "Review attachments before sending."
 msgstr[0] "Ek(ler)i göndermeden gözden geçir."
 
-#: ../src/composer/e-msg-composer.c:5531
+#: ../src/composer/e-msg-composer.c:5548
 #, c-format
 msgid ""
 "There had been added %d attachment. Make sure it does not contain any "
@@ -12212,7 +12212,7 @@ msgstr[0] ""
 "%d ek eklendi. İletiyi göndermeden önce hassas bilgi barındırmadığından emin "
 "olun."
 
-#: ../src/composer/e-msg-composer.c:5664
+#: ../src/composer/e-msg-composer.c:5681
 msgid "The composer contains a non-text message body, which cannot be edited."
 msgstr ""
 "Düzenleyicide metin olmayan ve düzenlenemeyen ileti gövdesi bulunmaktadır."
@@ -12559,7 +12559,7 @@ msgstr "Parçayı RFC822 iletisi olarak biçimlendir"
 #: ../src/e-util/gal-view-instance-save-as-dialog.c:92
 #: ../src/mail/e-mail-label-tree-view.c:96
 #: ../src/modules/plugin-manager/evolution-plugin-manager.c:64
-#: ../src/modules/rss/evolution/e-rss-preferences.c:1686
+#: ../src/modules/rss/evolution/e-rss-preferences.c:1687
 msgid "Name"
 msgstr "Ad"
 
@@ -12601,7 +12601,7 @@ msgstr "Zengin metin olarak göster"
 #: ../src/em-format/e-mail-formatter-quote-text-html.c:93
 #: ../src/em-format/e-mail-formatter-text-html.c:389
 #: ../src/modules/rss/evolution/e-rss-preferences.c:56
-#: ../src/modules/rss/evolution/e-rss-preferences.c:850
+#: ../src/modules/rss/evolution/e-rss-preferences.c:851
 msgid "HTML"
 msgstr "HTML"
 
@@ -12613,7 +12613,7 @@ msgstr "HTML olarak biçimlendir"
 #: ../src/em-format/e-mail-formatter-quote-text-plain.c:130
 #: ../src/em-format/e-mail-formatter-text-plain.c:196
 #: ../src/modules/rss/evolution/e-rss-preferences.c:51
-#: ../src/modules/rss/evolution/e-rss-preferences.c:851
+#: ../src/modules/rss/evolution/e-rss-preferences.c:852
 msgid "Plain Text"
 msgstr "Düz Metin"
 
@@ -17751,7 +17751,7 @@ msgid "Do Not Quote"
 msgstr "Alıntı Yapma"
 
 #: ../src/mail/e-mail-config-composing-page.c:157
-#: ../src/mail/em-composer-utils.c:4273
+#: ../src/mail/em-composer-utils.c:4270
 msgid "Use global setting"
 msgstr "Genel ayarı kullan"
 
@@ -17783,12 +17783,12 @@ msgid "Language for Reply and Forward attribution text"
 msgstr "Yanıtla ve İlet öznitelik metni için dil"
 
 #: ../src/mail/e-mail-config-composing-page.c:524
-#: ../src/mail/em-composer-utils.c:4277 ../src/mail/mail-config.ui.h:23
+#: ../src/mail/em-composer-utils.c:4274 ../src/mail/mail-config.ui.h:23
 msgid "Start _typing at the bottom"
 msgstr "_Yazmaya aşağıdan başla"
 
 #: ../src/mail/e-mail-config-composing-page.c:531
-#: ../src/mail/em-composer-utils.c:4280 ../src/mail/mail-config.ui.h:24
+#: ../src/mail/em-composer-utils.c:4277 ../src/mail/mail-config.ui.h:24
 msgid "_Keep signature above the original message"
 msgstr "Yanıtlarken imzayı özgün iletinin üzerinde _tut"
 
@@ -18025,7 +18025,7 @@ msgstr "%s — %s"
 #: ../src/modules/calendar/e-calendar-preferences.c:648
 #: ../src/modules/calendar/e-calendar-preferences.ui.h:55
 #: ../src/modules/mail/e-mail-shell-backend.c:1018
-#: ../src/modules/rss/evolution/e-rss-preferences.c:1571
+#: ../src/modules/rss/evolution/e-rss-preferences.c:1572
 #: ../src/plugins/publish-calendar/publish-calendar.ui.h:17
 msgid "General"
 msgstr "Genel"
@@ -18954,7 +18954,7 @@ msgstr "_Yinelenen İletileri Kaldır"
 msgid "Checks selected messages for duplicates"
 msgstr "Seçili iletilerin yinelenenlerini arar"
 
-#: ../src/mail/e-mail-reader.c:2933 ../src/mail/em-composer-utils.c:4218
+#: ../src/mail/e-mail-reader.c:2933 ../src/mail/em-composer-utils.c:4210
 #: ../src/mail/mail.error.xml.h:28
 #: ../src/modules/calendar/e-cal-shell-view-actions.c:1586
 #: ../src/modules/mail/e-mail-attachment-handler.c:396
@@ -18979,7 +18979,7 @@ msgstr "Seçilen iletiye yanıt seçeneklerini seç"
 msgid "Reply to the mailing list, or to all recipients"
 msgstr "E-posta listesine, ya da tüm alıcılara yanıtla"
 
-#: ../src/mail/e-mail-reader.c:2954 ../src/mail/em-composer-utils.c:4213
+#: ../src/mail/e-mail-reader.c:2954 ../src/mail/em-composer-utils.c:4205
 #: ../src/mail/mail.error.xml.h:26
 #: ../src/modules/mail/e-mail-attachment-handler.c:403
 msgid "Reply to _List"
@@ -19375,74 +19375,74 @@ msgstr "Ynt: %s"
 msgid "an unknown sender"
 msgstr "bilinmeyen gönderici"
 
-#: ../src/mail/em-composer-utils.c:4164
+#: ../src/mail/em-composer-utils.c:4156
 msgid "Alternative Reply"
 msgstr "Alternatif Yanıt"
 
-#: ../src/mail/em-composer-utils.c:4167
+#: ../src/mail/em-composer-utils.c:4159
 #: ../src/modules/calendar/e-cal-shell-view-actions.c:1579
 msgid "_Reply"
 msgstr "_Yanıtla"
 
-#: ../src/mail/em-composer-utils.c:4180
+#: ../src/mail/em-composer-utils.c:4172
 msgid "Recipients:"
 msgstr "Alıcılar:"
 
-#: ../src/mail/em-composer-utils.c:4208
+#: ../src/mail/em-composer-utils.c:4200
 msgid "Reply to _Sender"
 msgstr "_Gönderene Yanıtla"
 
-#: ../src/mail/em-composer-utils.c:4230
+#: ../src/mail/em-composer-utils.c:4222
 msgid "Reply style:"
 msgstr "Yanıtlama biçemi:"
 
 #. Translators: This is for "Toolbar Icon Size: Default"
-#: ../src/mail/em-composer-utils.c:4238
+#: ../src/mail/em-composer-utils.c:4230
 #: ../src/modules/appearance-settings/evolution-appearance-settings.c:253
 msgid "_Default"
 msgstr "_Öntanımlı"
 
-#: ../src/mail/em-composer-utils.c:4242
+#: ../src/mail/em-composer-utils.c:4234
 msgid "Attach_ment"
 msgstr "_Ek"
 
-#: ../src/mail/em-composer-utils.c:4246
+#: ../src/mail/em-composer-utils.c:4238
 msgid "Inline (_Outlook style)"
 msgstr "Satır Arası (_Outlook biçimi)"
 
-#: ../src/mail/em-composer-utils.c:4250
+#: ../src/mail/em-composer-utils.c:4242
 msgid "_Quote"
 msgstr "_Alıntı"
 
-#: ../src/mail/em-composer-utils.c:4254
+#: ../src/mail/em-composer-utils.c:4246
 msgid "Do _Not Quote"
 msgstr "Alıntı Yap_ma"
 
 #. Translators: The text is followed by the format combo with values like 'Plain Text', 'HTML' and so on
-#: ../src/mail/em-composer-utils.c:4265
+#: ../src/mail/em-composer-utils.c:4257
 msgid "_Format message in"
 msgstr "İletiyi şununla _biçimle"
 
-#: ../src/mail/em-composer-utils.c:4287
+#: ../src/mail/em-composer-utils.c:4284
 msgid "Apply t_emplate"
 msgstr "Şabl_on uygula"
 
-#: ../src/mail/em-composer-utils.c:4299
+#: ../src/mail/em-composer-utils.c:4296
 msgid "Preserve original message S_ubject"
 msgstr "Özgün ileti Kon_usunu koru"
 
-#: ../src/mail/em-composer-utils.c:4365
+#: ../src/mail/em-composer-utils.c:4362
 #, c-format
 msgid "one recipient"
 msgid_plural "%d recipients"
 msgstr[0] "%d alıcı"
 
 #. FIXME GTK_WINDOW (composer)
-#: ../src/mail/em-composer-utils.c:4850
+#: ../src/mail/em-composer-utils.c:4852
 msgid "Posting destination"
 msgstr "Gönderme konumu"
 
-#: ../src/mail/em-composer-utils.c:4855
+#: ../src/mail/em-composer-utils.c:4857
 msgid "Choose folders to post the message to."
 msgstr "İletinin gönderileceği klasörleri seç."
 
@@ -26463,13 +26463,13 @@ msgid "Apply message _filters to this folder"
 msgstr "İleti _süzgeçlerini bu klasöre uygula"
 
 #: ../src/modules/rss/camel/camel-rss-folder.c:676
-#: ../src/modules/rss/evolution/e-rss-preferences.c:856
-#: ../src/modules/rss/evolution/e-rss-preferences.c:1581
+#: ../src/modules/rss/evolution/e-rss-preferences.c:857
+#: ../src/modules/rss/evolution/e-rss-preferences.c:1582
 msgid "_Download complete articles"
 msgstr "Makalelerin tümünü _indir"
 
 #: ../src/modules/rss/camel/camel-rss-folder.c:689
-#: ../src/modules/rss/evolution/e-rss-preferences.c:860
+#: ../src/modules/rss/evolution/e-rss-preferences.c:861
 msgid "Download feed _enclosures"
 msgstr "Besleme _eklerini indir"
 
@@ -26479,7 +26479,7 @@ msgstr "Ekler:"
 
 #: ../src/modules/rss/camel/camel-rss-provider.c:17
 #: ../src/modules/rss/camel/camel-rss-store.c:48
-#: ../src/modules/rss/evolution/e-rss-preferences.c:1822
+#: ../src/modules/rss/evolution/e-rss-preferences.c:1823
 #: ../src/modules/rss/evolution/e-rss-shell-extension.c:62
 msgid "News and Blogs"
 msgstr "Haberler ve Bloglar"
@@ -26506,137 +26506,137 @@ msgid "Unknown author"
 msgstr "Bilinmeyen yazar"
 
 #: ../src/modules/rss/evolution/e-rss-preferences.c:53
-#: ../src/modules/rss/evolution/e-rss-preferences.c:852
+#: ../src/modules/rss/evolution/e-rss-preferences.c:853
 msgid "Markdown"
 msgstr "Markdown"
 
-#: ../src/modules/rss/evolution/e-rss-preferences.c:414
+#: ../src/modules/rss/evolution/e-rss-preferences.c:415
 #, c-format
 msgid "Failed to fetch feed icon: %s"
 msgstr "Besleme simgesi alınamadı: %s"
 
-#: ../src/modules/rss/evolution/e-rss-preferences.c:461
+#: ../src/modules/rss/evolution/e-rss-preferences.c:462
 msgid "Fetching feed icon…"
 msgstr "Besleme simgesi alınıyor…"
 
-#: ../src/modules/rss/evolution/e-rss-preferences.c:475
+#: ../src/modules/rss/evolution/e-rss-preferences.c:476
 msgid "Failed to read feed information."
 msgstr "Besleme bilgisi okunamadı."
 
-#: ../src/modules/rss/evolution/e-rss-preferences.c:494
+#: ../src/modules/rss/evolution/e-rss-preferences.c:495
 #, c-format
 msgid "Failed to fetch feed information: %s"
 msgstr "Besleme bilgisi alınamadı: %s"
 
-#: ../src/modules/rss/evolution/e-rss-preferences.c:524
+#: ../src/modules/rss/evolution/e-rss-preferences.c:525
 msgid "Fetching feed information…"
 msgstr "Besleme bilgisi alınıyor…"
 
-#: ../src/modules/rss/evolution/e-rss-preferences.c:529
+#: ../src/modules/rss/evolution/e-rss-preferences.c:530
 msgid "Invalid Feed URL"
 msgstr "Geçersiz Besleme URL’si"
 
-#: ../src/modules/rss/evolution/e-rss-preferences.c:572
+#: ../src/modules/rss/evolution/e-rss-preferences.c:573
 msgid "Choose Feed Image"
 msgstr "Besleme Görüntüsü Seç"
 
-#: ../src/modules/rss/evolution/e-rss-preferences.c:813
+#: ../src/modules/rss/evolution/e-rss-preferences.c:814
 msgid "Feed _URL:"
 msgstr "Besleme _URL’si:"
 
-#: ../src/modules/rss/evolution/e-rss-preferences.c:826
+#: ../src/modules/rss/evolution/e-rss-preferences.c:827
 msgid "_Fetch"
 msgstr "_Al"
 
-#: ../src/modules/rss/evolution/e-rss-preferences.c:842
+#: ../src/modules/rss/evolution/e-rss-preferences.c:843
 msgid "C_ontent:"
 msgstr "İ_çerik:"
 
-#: ../src/modules/rss/evolution/e-rss-preferences.c:1090
+#: ../src/modules/rss/evolution/e-rss-preferences.c:1091
 msgid "Import RSS Feeds"
 msgstr "RSS Beslemelerini İçe Aktar"
 
-#: ../src/modules/rss/evolution/e-rss-preferences.c:1090
+#: ../src/modules/rss/evolution/e-rss-preferences.c:1091
 msgid "Export RSS Feeds"
 msgstr "RSS Beslemelerini Dışa Aktar"
 
-#: ../src/modules/rss/evolution/e-rss-preferences.c:1093
-#: ../src/modules/rss/evolution/e-rss-preferences.c:1780
+#: ../src/modules/rss/evolution/e-rss-preferences.c:1094
+#: ../src/modules/rss/evolution/e-rss-preferences.c:1781
 msgid "_Import"
 msgstr "İ_çe Aktar"
 
-#: ../src/modules/rss/evolution/e-rss-preferences.c:1093
+#: ../src/modules/rss/evolution/e-rss-preferences.c:1094
 msgid "Export"
 msgstr "Dışa Aktar"
 
-#: ../src/modules/rss/evolution/e-rss-preferences.c:1097
+#: ../src/modules/rss/evolution/e-rss-preferences.c:1098
 msgid "OPML files"
 msgstr "OPML dosyaları"
 
 #. Translators: This is a default file name for exported RSS feeds.
 #. Keep the extension (".opml") as is, translate only the "feeds" word, if needed.
-#: ../src/modules/rss/evolution/e-rss-preferences.c:1106
+#: ../src/modules/rss/evolution/e-rss-preferences.c:1107
 msgid "feeds.opml"
 msgstr "beslemeler.opml"
 
-#: ../src/modules/rss/evolution/e-rss-preferences.c:1194
+#: ../src/modules/rss/evolution/e-rss-preferences.c:1195
 msgid "Failed to export RSS feeds: "
 msgstr "RSS beslemeleri dışa aktarılamadı: "
 
-#: ../src/modules/rss/evolution/e-rss-preferences.c:1220
+#: ../src/modules/rss/evolution/e-rss-preferences.c:1221
 msgid "Failed to read file content: "
 msgstr "Dosya içeriği okunamadı: "
 
-#: ../src/modules/rss/evolution/e-rss-preferences.c:1287
+#: ../src/modules/rss/evolution/e-rss-preferences.c:1288
 msgid "Failed to add feed: "
 msgstr "Besleme eklenemedi: "
 
-#: ../src/modules/rss/evolution/e-rss-preferences.c:1332
+#: ../src/modules/rss/evolution/e-rss-preferences.c:1333
 msgid "No RSS feeds found"
 msgstr "RSS beslemesi bulunamadı"
 
-#: ../src/modules/rss/evolution/e-rss-preferences.c:1334
+#: ../src/modules/rss/evolution/e-rss-preferences.c:1335
 msgid "No new RSS feeds imported"
 msgstr "Yeni RSS beslemesi içe aktarılmadı"
 
 # Split sentence
-#: ../src/modules/rss/evolution/e-rss-preferences.c:1337
+#: ../src/modules/rss/evolution/e-rss-preferences.c:1338
 #, c-format
 msgid "Imported %d feed"
 msgid_plural "Imported %d feeds"
 msgstr[0] "%d besleme içe aktarıldı"
 
-#: ../src/modules/rss/evolution/e-rss-preferences.c:1341
+#: ../src/modules/rss/evolution/e-rss-preferences.c:1342
 msgid "Failed to import data, the file does not contain valid OPML data."
 msgstr "Veriler içe aktarılamadı, dosya geçerli OPML verisi içermiyor."
 
-#: ../src/modules/rss/evolution/e-rss-preferences.c:1346
+#: ../src/modules/rss/evolution/e-rss-preferences.c:1347
 msgid "Failed to parse file content. Expected is an OPML file."
 msgstr "Dosya içeriği ayrıştırılamadı. OPML dosyası bekleniyordu."
 
-#: ../src/modules/rss/evolution/e-rss-preferences.c:1594
+#: ../src/modules/rss/evolution/e-rss-preferences.c:1595
 msgid "Download _feed enclosures"
 msgstr "_Besleme eklerini indir"
 
 #. Translators: This is part of "Do not download enclosures larger than [ nnn ] KB"
-#: ../src/modules/rss/evolution/e-rss-preferences.c:1613
+#: ../src/modules/rss/evolution/e-rss-preferences.c:1614
 msgid "Do not download e_nclosures larger than"
 msgstr "Şundan büyük _ekleri indirme"
 
 #. Translators: This is part of "Do not download enclosures larger than [ nnn ] KB"
-#: ../src/modules/rss/evolution/e-rss-preferences.c:1636
+#: ../src/modules/rss/evolution/e-rss-preferences.c:1637
 msgid "KB"
 msgstr "KB"
 
-#: ../src/modules/rss/evolution/e-rss-preferences.c:1642
+#: ../src/modules/rss/evolution/e-rss-preferences.c:1643
 msgid "Feeds"
 msgstr "Beslemeler"
 
-#: ../src/modules/rss/evolution/e-rss-preferences.c:1707
+#: ../src/modules/rss/evolution/e-rss-preferences.c:1708
 msgid "Content"
 msgstr "İçerik"
 
-#: ../src/modules/rss/evolution/e-rss-preferences.c:1767
+#: ../src/modules/rss/evolution/e-rss-preferences.c:1768
 msgid "E_xport"
 msgstr "D_ışarı Aktar"
 
