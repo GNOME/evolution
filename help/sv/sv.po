@@ -1,8 +1,8 @@
 # Swedish messages for Evolution manual.
-# Copyright © 2007-2022 Free Software Foundation, Inc.
+# Copyright © 2007-2023 Free Software Foundation, Inc.
 # Daniel Nylander <po@danielnylander.se>, 2007.
 # Sebastian Rasmussen <sebras@gmail.com>, 2016, 2018.
-# Anders Jonsson <anders.jonsson@norsjovallen.se>, 2017, 2018, 2019, 2020, 2021, 2022.
+# Anders Jonsson <anders.jonsson@norsjovallen.se>, 2017, 2018, 2019, 2020, 2021, 2022, 2023.
 # Luna Jernberg <droidbittin@gmail.com>, 2021.
 #
 msgid ""
@@ -10,8 +10,8 @@ msgstr ""
 "Project-Id-Version: evolution.help.HEAD\n"
 "Report-Msgid-Bugs-To: http://bugzilla.gnome.org/enter_bug.cgi?"
 "product=evolution&keywords=I18N+L10N&component=User%20Documentation\n"
-"POT-Creation-Date: 2022-10-20 18:23+0000\n"
-"PO-Revision-Date: 2022-10-21 12:30+0200\n"
+"POT-Creation-Date: 2023-02-28 12:04+0000\n"
+"PO-Revision-Date: 2023-03-04 13:54+0100\n"
 "Last-Translator: Anders Jonsson <anders.jonsson@norsjovallen.se>\n"
 "Language-Team: Swedish <tp-sv@listor.tp-sv.se>\n"
 "Language: sv\n"
@@ -19,7 +19,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
-"X-Generator: Poedit 3.1.1\n"
+"X-Generator: Poedit 3.2.2\n"
 
 #. Put one translator per line, in the form NAME <EMAIL>, YEAR1, YEAR2
 msgctxt "_"
@@ -2683,12 +2683,14 @@ msgstr ""
 
 #. (itstool) path: item/p
 #: C/credits.page:94
+#| msgid ""
+#| "<link href=\"https://wiki.gnome.org/DocumentationProject\">Website</link>"
 msgid ""
-"<link href=\"https://mail.gnome.org/mailman/listinfo/gnome-doc-"
-"list\">Mailing list</link>"
+"<link href=\"https://discourse.gnome.org/tag/documentation\">GNOME "
+"Discourse</link>"
 msgstr ""
-"<link href=\"https://mail.gnome.org/mailman/listinfo/gnome-doc-"
-"list\">Sändlista</link>"
+"<link href=\"https://discourse.gnome.org/tag/documentation\">GNOME "
+"Discourse</link>"
 
 #. (itstool) path: info/desc
 #: C/customize-ui-items.page:18
@@ -3924,88 +3926,89 @@ msgid "Manage your email, contacts and schedule"
 msgstr "Hantera din e-post, dina kontakter och dina bokningar"
 
 #. (itstool) path: info/title
+#: C/index.page:6
+msgctxt "link:trail"
+msgid "<app>Evolution</app> Mail and Calendar"
+msgstr "<app>Evolution</app> e-post och kalender"
+
+#. (itstool) path: info/title
 #: C/index.page:7
 msgctxt "text"
 msgid "<app>Evolution</app> Mail and Calendar"
 msgstr "<app>Evolution</app> e-post och kalender"
 
-#. (itstool) path: media/span
-#: C/index.page:25
-msgid "Evolution logo"
-msgstr "Evolutions logotyp"
-
 #. (itstool) path: page/title
 #: C/index.page:23
 msgid "<_:media-1/> <app>Evolution</app> Mail and Calendar"
-msgstr "<_:media-1/> <app>Evolution</app> E-post och kalender"
+msgstr "<_:media-1/> <app>Evolution</app> e-post och kalender"
 
 #. (itstool) path: section/title
-#: C/index.page:31
+#: C/index.page:29
 msgid "Getting Started"
 msgstr "Komma igång"
 
 #. (itstool) path: section/title
-#: C/index.page:35
+#: C/index.page:33
 msgid "Mail Management"
 msgstr "Meddelandehantering"
 
 #. (itstool) path: section/title
-#: C/index.page:37
+#: C/index.page:35
 msgid "Advanced Mail Management"
 msgstr "Avancerad meddelandehantering"
 
 #. (itstool) path: section/title
-#: C/index.page:42
+#: C/index.page:40
 msgid "Mail Composing"
 msgstr "Redigering av e-postmeddelande"
 
 #. (itstool) path: section/title
-#: C/index.page:44
+#: C/index.page:42
 msgid "Advanced Mail Composing"
 msgstr "Avancerad redigering av e-postmeddelande"
 
 #. (itstool) path: section/title
-#: C/index.page:49
+#: C/index.page:47
 msgid "Calendar Management"
 msgstr "Kalenderhantering"
 
 #. (itstool) path: section/title
-#: C/index.page:51
+#: C/index.page:49
 msgid "Advanced Calendar Management"
 msgstr "Avancerad kalenderhantering"
 
 #. (itstool) path: section/title
-#: C/index.page:56
+#: C/index.page:54
 msgid "Contacts Management"
 msgstr "Kontakthantering"
 
 #. (itstool) path: section/title
-#: C/index.page:60
+#: C/index.page:58
 msgid "Memos and Tasks Management"
 msgstr "Hantering av memon och uppgifter"
 
 #. (itstool) path: section/title
-#: C/index.page:64
+#: C/index.page:62
 msgid "Data Migration and Synchronization"
 msgstr "Datamigrering och synkronisering"
 
 #. (itstool) path: section/title
-#: C/index.page:68
+#: C/index.page:66
 msgid "Tracking down Problems"
 msgstr "Spåra upp problem"
 
 #. (itstool) path: section/title
-#: C/index.page:72
+#: C/index.page:70
 msgid "Common Mail Questions and Problems"
 msgstr "Vanliga e-postfrågor och problem"
 
 #. (itstool) path: section/title
-#: C/index.page:76
+#: C/index.page:74
 msgid "Common Other Questions and Problems"
 msgstr "Vanliga frågor och problem om andra ämnen"
 
 #. (itstool) path: section/title
-#: C/index.page:80
+#: C/index.page:78
 msgid "Further reading"
 msgstr "Vidare läsning"
 
@@ -14382,19 +14385,25 @@ msgstr "Hur man får hjälp"
 #. (itstool) path: page/p
 #: C/problems-getting-help.page:24
 msgid ""
-"To receive help on problems you can open a thread on <link href=\"https://"
-"discourse.gnome.org/tag/evolution\"><app>GNOME Discourse</app> with the "
-"evolution tag</link> or talk to developers and other users in the IRC chat "
-"channel #evolution on the server irc.gimp.net. To connect to an IRC server "
-"you can for example <link xref=\"help:polari/\" href=\"https://help.gnome."
-"org/users/polari/stable/\">use the application <app>Polari</app></link>."
+"To receive help on problems you can send an email to the <link "
+"href=\"https://lists.osuosl.org/mailman/listinfo/evolution-"
+"users\"><app>Evolution</app> mailing list</link>, open a thread on <link "
+"href=\"https://discourse.gnome.org/tag/evolution\"><app>GNOME Discourse</"
+"app> with the evolution tag</link> or talk to developers and other users in "
+"the IRC chat channel #evolution on the server irc.gimp.net. To connect to an "
+"IRC server you can for example <link xref=\"help:polari/\" href=\"https://"
+"help.gnome.org/users/polari/stable/\">use the application <app>Polari</app></"
+"link>."
 msgstr ""
-"För att få hjälp med problem kan du öppna en tråd på <link href=\"https://"
-"discourse.gnome.org/tag/evolution\"><app>GNOME Discourse</app> med taggen "
-"evolution</link> eller prata med utvecklare och andra användare på IRC-"
-"chattkanalen #evolution på servern irc.gimp.net. För att ansluta till en IRC-"
-"server kan du till exempel <link xref=\"help:polari/\" href=\"https://help."
-"gnome.org/users/polari/stable/\">använda programmet <app>Polari</app></link>."
+"För att få hjälp med problem kan du skicka ett meddelande till <link "
+"href=\"https://lists.osuosl.org/mailman/listinfo/evolution-"
+"users\"><app>Evolution</app>s sändlista</link>, öppna en tråd på <link "
+"href=\"https://discourse.gnome.org/tag/evolution\"><app>GNOME Discourse</"
+"app> med taggen evolution</link> eller prata med utvecklare och andra "
+"användare på IRC-chattkanalen #evolution på servern irc.gimp.net. För att "
+"ansluta till en IRC-server kan du till exempel <link xref=\"help:polari/\" "
+"href=\"https://help.gnome.org/users/polari/stable/\">använda programmet "
+"<app>Polari</app></link>."
 
 #. (itstool) path: info/desc
 #: C/problems-reporting-bugs.page:5
@@ -15623,6 +15632,16 @@ msgstr "Redigera titeln eller sökvillkoren från dialogrutan."
 #: C/xinclude-searching.xml:30
 msgid "Click <_:gui-1/>."
 msgstr "Klicka på <_:gui-1/>."
+
+#~ msgid ""
+#~ "<link href=\"https://mail.gnome.org/mailman/listinfo/gnome-doc-"
+#~ "list\">Mailing list</link>"
+#~ msgstr ""
+#~ "<link href=\"https://mail.gnome.org/mailman/listinfo/gnome-doc-"
+#~ "list\">Sändlista</link>"
+
+#~ msgid "Evolution logo"
+#~ msgstr "Evolutions logotyp"
 
 #~ msgid ""
 #~ "For connecting to a Microsoft Exchange 2007/2010 or OpenChange server. "
