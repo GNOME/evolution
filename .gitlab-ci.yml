@@ -12,11 +12,23 @@ flatpak:
     FLATPAK_MODULE: "evolution"
     APP_ID: "org.gnome.evolution-nightly"
     RUNTIME_REPO: "https://nightly.gnome.org/gnome-nightly.flatpakrepo"
+  before_script:
+    - export PATH="/usr/lib/ccache:$PATH"
+    - export CCACHE_BASEDIR="$PWD"
+    - export CCACHE_DIR="$PWD/ccache"
   script:
+    - jq -M '(.modules[] | select(.name=="evolution")).sources[0].url = env.CI_REPOSITORY_URL' ${MANIFEST_PATH} > tmp.json && mv tmp.json ${MANIFEST_PATH}
+    - jq -M 'del((.modules[] | select(.name=="evolution")).sources[0].branch)' ${MANIFEST_PATH} > tmp.json && mv tmp.json ${MANIFEST_PATH}
+    - jq -M '(.modules[] | select(.name=="evolution")).sources[0].commit = env.CI_COMMIT_SHA' ${MANIFEST_PATH} > tmp.json && mv tmp.json ${MANIFEST_PATH}
+
     - >
       xvfb-run -a -s "-screen 0 1024x768x24"
-      flatpak-builder --keep-build-dirs --user --disable-rofiles-fuse flatpak_app --repo=repo ${BRANCH:+--default-branch=$BRANCH} ${MANIFEST_PATH}
+      flatpak-builder --keep-build-dirs --user --disable-rofiles-fuse flatpak_app --repo=repo --ccache ${BRANCH:+--default-branch=$BRANCH} ${MANIFEST_PATH}
     - flatpak build-bundle repo ${BUNDLE} --runtime-repo=${RUNTIME_REPO} ${APP_ID} ${BRANCH}
+  cache:
+    paths:
+      - ccache
+      - .flatpak-builder
   artifacts:
     name: "Flatpak artifacts"
     expose_as: "Get Flatpak bundle here"
