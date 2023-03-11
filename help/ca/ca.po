@@ -6504,7 +6504,7 @@ msgid ""
 "Add and edit a Standard Unix mbox Spool File account in <app>Evolution</app>."
 msgstr ""
 "Afegir i editar comptes de fitxers mbox estàndard per a cues de correu de "
-"l'Unix q <app>Evolution</app>."
+"l'Unix a <app>Evolution</app>."
 
 #. (itstool) path: info/title
 #: C/mail-account-manage-unix-mbox-spool-file.page:8
@@ -12598,7 +12598,7 @@ msgid ""
 "<code>&gt;</code> options can be used"
 msgstr ""
 "<code>score</code> compara l'etiqueta del missatge amb el valor donat; la "
-"comparació per defecte és igual, però, Es poden utilitzar opcions similars a "
+"comparació per defecte és igual, però, es poden utilitzar opcions similars a "
 "<code>size</code> a <code>&lt;</code> i <code>&gt;</code>"
 
 #. (itstool) path: td/p
@@ -12746,7 +12746,7 @@ msgid ""
 "code> filters messages from Bugzilla or addressed to John."
 msgstr ""
 "que permet crear expressions especialitzades. La conjunció per defecte (la "
-"més externa) és <code>and</code>. Per canviar-lo per <code>or</code> tancar "
+"més externa) és <code>and</code>. Per a canviar-lo per <code>or</code> tancar "
 "tot el filtre en <code>or:(....)</code>. Per exemple: <code>f:Bugzilla t:"
 "John</code> filtra tots els missatges que contenen <code>Bugzilla</code> de "
 "remitent i <code>John</code> a Per a, mentre que <code>or:(f:Bugzilla t:"
