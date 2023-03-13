@@ -668,8 +668,8 @@ in the folder will be available in offline mode.</_secondary>
   </error>
 
   <error id="ask-mark-as-junk" type="warning" default="GTK_RESPONSE_CANCEL">
-    <_primary>{0}</_primary>
-    <_secondary>{1}</_secondary>
+    <primary>{0}</primary>
+    <secondary>{1}</secondary>
     <button stock="gtk-cancel" response="GTK_RESPONSE_CANCEL"/>
     <button _label="_Mark as Junk" response="GTK_RESPONSE_YES"/>
   </error>
