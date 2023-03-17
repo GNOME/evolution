@@ -2678,6 +2678,21 @@ test_convert_to_plain (TestFixture *fixture)
 		"-- \n"
 		"hh ii\n"
 		"jj kk\n",
+		10 },
+	/* 72 */{ HTML ("<div>a72<b>\n</b>b72<div>"),
+		"a72\nb72\n",
+		10 },
+	/* 73 */{ HTML ("<div>a73<b> </b>b73<div>"),
+		"a73 b73\n",
+		10 },
+	/* 74 */{ HTML ("<div>a74<b>    \t   </b>b74<div>"),
+		"a74 b74\n",
+		10 },
+	/* 75 */{ HTML ("<div>a75<b>  \n \t \r\n  </b>b75<div>"),
+		"a75 b75\n",
+		10 },
+	/* 76 */{ HTML ("<div>a76  \n <b> x  </b>\r\n  </b>b76<div>"),
+		"a76 x b76\n",
 		10 }
 	};
 
