@@ -330,6 +330,17 @@ static GHashTable *unread_messages_by_folder = NULL;
 
 #ifdef HAVE_LIBUNITY
 static guint unread_message_count = 0;
+
+static void
+update_unity_launcher_entry (void)
+{
+	UnityLauncherEntry *entry = unity_launcher_entry_get_for_desktop_id ("org.gnome.Evolution.desktop");
+
+	if (entry) {
+		unity_launcher_entry_set_count (entry, unread_message_count);
+		unity_launcher_entry_set_count_visible (entry, unread_message_count != 0);
+	}
+}
 #endif
 
 static NotifyNotification *notify = NULL;
@@ -343,6 +354,11 @@ remove_notification (void)
 	notify = NULL;
 
 	status_count = 0;
+
+#ifdef HAVE_LIBUNITY
+	unread_message_count = 0;
+	update_unity_launcher_entry ();
+#endif
 }
 
 static gboolean
@@ -622,6 +638,12 @@ unread_notify_status (EMEventTargetFolderUnread *t)
 	 * messages in a folder. */
 	if (t->unread < old_unread)
 		remove_notification ();
+#ifdef HAVE_LIBUNITY
+	else if (t->is_inbox) {
+		unread_message_count += t->unread - old_unread;
+		update_unity_launcher_entry ();
+	}
+#endif
 
 	if (t->unread != old_unread) {
 		if (t->unread) {
@@ -630,15 +652,6 @@ unread_notify_status (EMEventTargetFolderUnread *t)
 			g_hash_table_remove (unread_messages_by_folder, t->folder_uri);
 		}
 	}
-
-#ifdef HAVE_LIBUNITY
-	if (t->is_inbox) {
-		UnityLauncherEntry *entry = unity_launcher_entry_get_for_desktop_id ("org.gnome.Evolution.desktop");
-		unread_message_count += t->unread - old_unread;
-		unity_launcher_entry_set_count (entry, unread_message_count);
-		unity_launcher_entry_set_count_visible (entry, unread_message_count != 0);
-	}
-#endif
 }
 
 static void
