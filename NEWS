@@ -1,3 +1,24 @@
+Evolution 3.48.0 2023-03-17
+---------------------------
+
+Miscellaneous:
+	mail.error.xml: Unmark two strings from translation
+
+Translations:
+	Aleksandr Melman (ru)
+	Anders Jonsson (sv)
+	Balázs Úr (hu)
+	Bruce Cowan (en_GB)
+	Changwoo Ryu (ko)
+	Dušan Kazik (sk)
+	Jean-Marc Tissières (fr)
+	Jordi Mas (ca)
+	Marek Černocký (cs)
+	Matej Urbančič (sl)
+	Sabri Ünal (tr)
+	Sergej A (ru)
+	Tim Sabsch (de)
+
 Evolution 3.47.3 2023-03-03
 ---------------------------
 

@@ -6,17 +6,13 @@
 	"command": "evolution",
 	"rename-icon": "evolution",
 	"copy-icon": true,
-	"branch": "gnome-43",
-	"desktop-file-name-suffix": " (3.46)",
+	"branch": "gnome-44",
+	"desktop-file-name-suffix": " (3.48)",
 	"build-options" : {
 		"cflags": "-O2 -g -Wno-deprecated-declarations",
 		"cxxflags": "-O2 -g -Wno-deprecated-declarations"
 	},
 	"cleanup": [
-		"/include",
-		"/lib/pkgconfig",
-		"/share/pkgconfig",
-		"/share/aclocal",
 		"*.la",
 		"*.a"
 	],
@@ -40,6 +36,16 @@
 		"--talk-name=org.gnome.keyring.SystemPrompter",
 		"--talk-name=org.gnome.OnlineAccounts"
 	],
+	"add-extensions": {
+		"org.gnome.Evolution.Extension": {
+			"directory": "evolution/extensions",
+			"add-ld-path": "lib",
+			"merge-dirs": "lib;share",
+			"subdirectories": true,
+			"no-autodownload": true,
+			"autodelete": true
+		}
+	},
 	"modules": [
 		{
 			"name": "intltool",
@@ -315,6 +321,7 @@
 			],
 			"config-opts": [
 				"-DDBUS_SERVICES_PREFIX=org.gnome.Evolution",
+				"-DEXTENSIONS_DIR=/app/evolution/extensions",
 				"-DENABLE_FILE_LOCKING=fcntl",
 				"-DENABLE_DOT_LOCKING=OFF",
 				"-DENABLE_GTK=ON",
@@ -334,10 +341,11 @@
 				{
 					"type": "git",
 					"url": "https://gitlab.gnome.org/GNOME/evolution-data-server.git",
-					"branch": "gnome-43"
+					"branch": "gnome-44"
 				}
 			],
 			"post-install": [
+				"install -d /app/evolution/extensions",
 				"cp NEWS /app/share/NEWS.eds"
 			]
 		},
@@ -389,7 +397,7 @@
 				{
 					"type": "git",
 					"url": "https://gitlab.gnome.org/GNOME/evolution.git",
-					"branch": "gnome-43"
+					"branch": "gnome-44"
 				},
 				{
 					"type": "shell",
@@ -480,7 +488,7 @@
 				{
 					"type": "git",
 					"url": "https://gitlab.gnome.org/GNOME/evolution-ews.git",
-					"branch": "gnome-43"
+					"branch": "gnome-44"
 				}
 			],
 			"post-install": [
