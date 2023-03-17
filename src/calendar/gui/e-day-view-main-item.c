@@ -739,6 +739,9 @@ day_view_main_item_draw_day_event (EDayViewMainItem *main_item,
 
 			#undef draw_pixbuf
 			#undef fit_in_event
+
+			if (icon_x_inc != 0)
+				icon_x += E_DAY_VIEW_ICON_X_PAD;
 		}
 
 		/* free memory */
@@ -813,6 +816,20 @@ day_view_main_item_draw_day_event (EDayViewMainItem *main_item,
 			}
 		}
 
+		if (day_view->row_height > 0 && event->canvas_item && item_h / day_view->row_height < 2) {
+			gchar *item_text = NULL;
+
+			g_object_get (event->canvas_item, "text", &item_text, NULL);
+
+			if (item_text && item_text[0] == ' ' && item_text[1] == '\n') {
+				gchar *tmp;
+				tmp = g_strconcat (text, " ", item_text + 2, NULL);
+				g_free (text);
+				text = tmp;
+			}
+
+			g_free (item_text);
+		}
 		cairo_save (cr);
 		cairo_rectangle (
 			cr, item_x + E_DAY_VIEW_BAR_WIDTH + 1.75, item_y + 2.75,
