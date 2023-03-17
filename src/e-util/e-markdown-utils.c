@@ -76,7 +76,10 @@ e_markdown_utils_text_to_html_full (const gchar *plain_text,
 		CMARK_OPT_VALIDATE_UTF8 | CMARK_OPT_UNSAFE |
 		((flags & E_MARKDOWN_TEXT_TO_HTML_FLAG_INCLUDE_SOURCEPOS) != 0 ? CMARK_OPT_SOURCEPOS : 0));
 
-	html = e_str_replace_string (converted, "<blockquote>", "<blockquote type=\"cite\">");
+	if ((flags & E_MARKDOWN_TEXT_TO_HTML_FLAG_INCLUDE_SOURCEPOS) != 0)
+		html = e_str_replace_string (converted, "<blockquote data-sourcepos=", "<blockquote type=\"cite\" data-sourcepos=");
+	else
+		html = e_str_replace_string (converted, "<blockquote>", "<blockquote type=\"cite\">");
 
 	g_free (converted);
 
