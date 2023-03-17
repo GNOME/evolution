@@ -2340,8 +2340,10 @@ EvoEditor.convertTags = function()
 
 		next = null;
 
-		/* Keep the signature SPAN there, it's required */
-		if (node.nodeType == node.ELEMENT_NODE && (node.tagName != "SPAN" || node.className != "-x-evo-signature")) {
+		/* Keep the signature DIV/SPAN there, it's required */
+		if (node.nodeType == node.ELEMENT_NODE &&
+		    (node.tagName != "DIV" || node.className != "-x-evo-signature-wrapper") &&
+		    (node.tagName != "SPAN" || node.className != "-x-evo-signature")) {
 			node.removeAttribute("class");
 			node.removeAttribute("style");
 
@@ -6136,7 +6138,14 @@ EvoEditor.processLoadedContent = function()
 		node.scrollIntoView();
 	}
 
-	if (EvoEditor.START_BOTTOM && document.body.firstElementChild && document.body.firstElementChild.nextElementSibling) {
+	if (document.head.hasAttribute("x-evo-selection")) {
+		var selection = EvoSelection.FromString(document.head.getAttribute("x-evo-selection"));
+
+		if (selection != null)
+			EvoSelection.Restore(document, selection);
+
+		document.head.removeAttribute("x-evo-selection");
+	} else if (EvoEditor.START_BOTTOM && document.body.firstElementChild && document.body.firstElementChild.nextElementSibling) {
 		node = EvoEditor.insertEmptyParagraphBefore(null);
 		document.getSelection().setPosition(node, 0);
 		node.scrollIntoView();
