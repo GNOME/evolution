@@ -775,12 +775,13 @@ EvoConvert.RemoveInsignificantNewLines = function(node, stripSingleSpace)
 	var str = "";
 
 	if (node && node.nodeType == node.TEXT_NODE) {
+		var has_rnt;
 		str = node.nodeValue;
 
-		if (str.indexOf("\r") >= 0 ||
-		    str.indexOf("\n") >= 0 ||
-		    str.indexOf("\t") >= 0 ||
-		    str.indexOf(" ") >= 0) {
+		has_rnt = str.indexOf("\r") >= 0 ||
+			  str.indexOf("\n") >= 0 ||
+			  str.indexOf("\t") >= 0;
+		if (has_rnt || str.indexOf(" ") >= 0) {
 			var whiteSpace = "normal";
 
 			if (node.parentElement)
@@ -790,8 +791,12 @@ EvoConvert.RemoveInsignificantNewLines = function(node, stripSingleSpace)
 				str = EvoConvert.mergeConsecutiveSpaces(str.replace(/\t/g, " "));
 			} else if (!whiteSpace || whiteSpace == "normal" || whiteSpace == "nowrap") {
 				if (str == "\n" || str == "\r" || str == "\r\n") {
-					str = "";
-				} else {
+					var previousSibling = node.previousElementSibling;
+					if (stripSingleSpace || (previousSibling && (previousSibling.tagName == "BR" ||
+					    previousSibling.tagName == "DIV" || previousSibling.tagName == "P" ||
+					    previousSibling.tagName == "BODY")))
+						str = "";
+				} else if (has_rnt) {
 					if ((!node.previousSibling || node.previousSibling.tagName) && (str[0] == '\r' || str[0] == '\n')) {
 						var ii;
 
@@ -812,11 +817,18 @@ EvoConvert.RemoveInsignificantNewLines = function(node, stripSingleSpace)
 						str = str.substr(0, ii + 1);
 					}
 
+					if (str.length == 0 && stripSingleSpace === false)
+						str = " ";
+
 					str = EvoConvert.mergeConsecutiveSpaces(str.replace(/\t/g, " ").replace(/\r/g, " ").replace(/\n/g, " "));
 
-					if ((!whiteSpace || whiteSpace == "normal") && str == " " && (stripSingleSpace || (
-					    !node.nextElementSibling || node.nextElementSibling.tagName == "DIV" || node.nextElementSibling.tagName == "P" || node.nextElementSibling.tagName == "PRE"))) {
-						str = "";
+					if ((!whiteSpace || whiteSpace == "normal") && str == " ") {
+						if (stripSingleSpace || (!node.previousElementSibling && !node.nextElementSibling &&
+						    node.parentElement && (node.parentElement.tagName == "DIV" ||
+						    node.parentElement.tagName == "DIV" || node.parentElement.tagName == "P" ||
+						    node.parentElement.tagName == "PRE" || node.parentElement.tagName == "BODY"))) {
+							str = "";
+						}
 					}
 				}
 			}
@@ -831,7 +843,7 @@ EvoConvert.processNode = function(node, normalDivWidth, quoteLevel)
 	var str = "";
 
 	if (node.nodeType == node.TEXT_NODE) {
-		str = EvoConvert.RemoveInsignificantNewLines(node);
+		str = EvoConvert.RemoveInsignificantNewLines(node, false);
 	} else if (node.nodeType == node.ELEMENT_NODE) {
 		if (node.hidden ||
 		    node.tagName == "STYLE" ||
