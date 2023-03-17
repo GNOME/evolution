@@ -766,8 +766,6 @@ mail_config_assistant_constructed (GObject *object)
 	page = e_mail_config_identity_page_new (registry, identity_source);
 	e_mail_config_identity_page_set_show_account_info (
 		E_MAIL_CONFIG_IDENTITY_PAGE (page), FALSE);
-	e_mail_config_identity_page_set_show_signatures (
-		E_MAIL_CONFIG_IDENTITY_PAGE (page), FALSE);
 	e_mail_config_identity_page_set_show_autodiscover_check (
 		E_MAIL_CONFIG_IDENTITY_PAGE (page), TRUE);
 	autodiscover_check = e_mail_config_identity_page_get_autodiscover_check (
