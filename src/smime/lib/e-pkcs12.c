@@ -169,7 +169,7 @@ prompt_for_password (gchar *title,
 			#endif
 			if (PORT_UCS2_ASCIIConversion (toUnicode, (unsigned char *) passwd, len, pwd->data, pwd->len, &pwd->len, swapUnicode) == PR_FALSE) {
 				res = FALSE;
-			} else if ((pwd->len >= 2) && (pwd->data[pwd->len - 1] || pwd->data[pwd->len - 2])) {
+			} else if ((!pwd->len) || ((pwd->len >= 2) && (pwd->data[pwd->len - 1] || pwd->data[pwd->len - 2]))) {
 				if (pwd->len + 2 > 3 * len)
 					pwd->data = (unsigned char *) PORT_Realloc (pwd->data, pwd->len + 2);
 				if (!pwd->data) {
@@ -269,6 +269,17 @@ import_from_file_helper (EPKCS12 *pkcs12,
 
 	/* First try without password */
 	dcx = read_with_password (slot, path, &passwd, &srv, &rv, NULL);
+
+	if (!dcx) {
+		/* Second with an empty password */
+		passwd.data = (unsigned char *) "\0\0";
+		passwd.len = 2;
+
+		dcx = read_with_password (slot, path, &passwd, &srv, &rv, NULL);
+
+		passwd.data = NULL;
+		passwd.len = 0;
+	}
 
 	/* if failed, ask for password */
 	if (!dcx) {
