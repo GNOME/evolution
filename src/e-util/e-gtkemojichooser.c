@@ -715,7 +715,7 @@ e_gtk_emoji_chooser_construct_without_template (EGtkEmojiChooser *chooser)
 
 	box = GTK_BOX (gtk_box_new (GTK_ORIENTATION_VERTICAL, 0));
 	gtk_widget_set_name (GTK_WIDGET (box), "list");
-	gtk_container_add (GTK_CONTAINER (chooser->stack), GTK_WIDGET (box));
+	gtk_stack_add_named (GTK_STACK (chooser->stack), GTK_WIDGET (box), "list");
 
 	chooser->scrolled_window = gtk_scrolled_window_new (NULL, NULL);
 	g_object_set (G_OBJECT (chooser->scrolled_window),
@@ -772,7 +772,7 @@ e_gtk_emoji_chooser_construct_without_template (EGtkEmojiChooser *chooser)
 		"valign", GTK_ALIGN_CENTER,
 		NULL);
 	gtk_style_context_add_class (gtk_widget_get_style_context (GTK_WIDGET (grid)), "dim-label");
-	gtk_container_add (GTK_CONTAINER (chooser->stack), GTK_WIDGET (grid));
+	gtk_stack_add_named (GTK_STACK (chooser->stack), GTK_WIDGET (grid), "empty");
 
 	widget = gtk_image_new ();
 	g_object_set (G_OBJECT (widget),
@@ -796,7 +796,7 @@ e_gtk_emoji_chooser_construct_without_template (EGtkEmojiChooser *chooser)
 
 	widget = gtk_label_new (C_("EmojiChooser", "Try a different search"));
 	gtk_style_context_add_class (gtk_widget_get_style_context (widget), "dim-label");
-	gtk_grid_attach (grid, widget, 0, 1, 1, 1);
+	gtk_grid_attach (grid, widget, 0, 2, 1, 1);
 
 	gtk_widget_show_all (GTK_WIDGET (chooser->stack));
 }
