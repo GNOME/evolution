@@ -4344,7 +4344,8 @@ webkit_editor_constructor (GType type,
 				webkit_web_context_add_path_to_sandbox (web_context, EVOLUTION_WEBKITDATADIR, TRUE);
 
 				plugins_path = g_build_filename (e_get_user_data_dir (), "webkit-editor-plugins", NULL);
-				webkit_web_context_add_path_to_sandbox (web_context, plugins_path, TRUE);
+				if (g_file_test (plugins_path, G_FILE_TEST_IS_DIR))
+					webkit_web_context_add_path_to_sandbox (web_context, plugins_path, TRUE);
 				g_free (plugins_path);
 
 				#ifdef ENABLE_MAINTAINER_MODE
