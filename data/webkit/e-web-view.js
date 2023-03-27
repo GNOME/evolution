@@ -805,6 +805,9 @@ Evo.MailDisplayUpdateIFramesHeight = function()
 
 	if (scrolly != -1 && document.defaultView.scrollY != scrolly)
 		document.defaultView.scrollTo(0, scrolly);
+
+	Evo.mailDisplayResizeContentToPreviewWidth();
+	Evo.mailDisplayUpdateMagicSpacebarState();
 }
 
 if (this instanceof Window && this.document) {
@@ -983,7 +986,9 @@ Evo.mailDisplayResizeContentToPreviewWidth = function()
 	width -= 20; /* 10 + 10 margins of body */
 
 	traversar.set_iframe_and_body_width(document, width, width, 0);
-	window.webkit.messageHandlers.scheduleIFramesHeightUpdate.postMessage(0);
+
+	if (document.documentElement.clientWidth - 20 > width)
+		window.webkit.messageHandlers.scheduleIFramesHeightUpdate.postMessage(0);
 }
 
 Evo.mailDisplayUpdateMagicSpacebarState = function()
@@ -1311,8 +1316,10 @@ Evo.MailDisplayBindDOM = function(iframe_id, markCitationColor)
 	Evo.mailDisplayResizeContentToPreviewWidth();
 	Evo.mailDisplayUpdateMagicSpacebarState();
 
-	document.defaultView.onresize = Evo.mailDisplayResized;
-	document.defaultView.onscroll = Evo.mailDisplayUpdateMagicSpacebarState;
+	if (document.body) {
+		document.body.onresize = Evo.mailDisplayResized;
+		document.body.onscroll = Evo.mailDisplayUpdateMagicSpacebarState;
+	}
 }
 
 Evo.MailDisplayShowAttachment = function(element_id, show)
