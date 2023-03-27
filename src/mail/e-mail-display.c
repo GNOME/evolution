@@ -2586,10 +2586,11 @@ e_mail_display_class_init (EMailDisplayClass *class)
 	g_object_class_install_property (
 		object_class,
 		PROP_FORMATTER,
-		g_param_spec_pointer (
+		g_param_spec_object (
 			"formatter",
 			"Mail Formatter",
 			NULL,
+			E_TYPE_MAIL_FORMATTER,
 			G_PARAM_READABLE |
 			G_PARAM_STATIC_STRINGS));
 
