@@ -428,7 +428,6 @@
 						"else",
 						"   export BOGOFILTER_DIR=\"${XDG_DATA_HOME}/bogofilter/\"",
 						"   export GIO_USE_NETWORK_MONITOR=base",
-						"   export WEBKIT_FORCE_SANDBOX=0",
 						"   gsettings reset org.gnome.evolution-data-server network-monitor-gio-name",
 						"",
 						"   gpg-agent --homedir ~/.gnupg --daemon --pinentry-program=/app/bin/pinentry",
