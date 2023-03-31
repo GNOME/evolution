@@ -5393,10 +5393,17 @@ EvoEditor.InsertContent = function(text, isHTML, quote, preferPre)
 		}
 
 		if (isHTML) {
+			var isPaste = false;
+
 			content.innerHTML = text;
 
 			// paste can contain <meta> elements, like the one with Content-Type, which can be removed
 			while (content.firstElementChild && content.firstElementChild.tagName == "META") {
+				if (!isPaste &&
+				    content.firstElementChild.hasAttribute("name") &&
+				    content.firstElementChild.getAttribute("name") == "x-evolution-is-paste")
+					isPaste = true;
+
 				content.removeChild(content.firstElementChild);
 			}
 
@@ -5411,12 +5418,24 @@ EvoEditor.InsertContent = function(text, isHTML, quote, preferPre)
 			while (node) {
 				var removeNode = false;
 
+				// workaround https://bugs.webkit.org/show_bug.cgi?id=250003
+				if (isPaste && node.nodeType == node.ELEMENT_NODE && node.tagName != "SPAN" &&
+				    node.hasAttribute("style")) {
+					node.removeAttribute("style");
+				}
+
 				if (node.nodeType == node.ELEMENT_NODE && node.tagName == "P") {
 					removeNode = true;
 
 					var div = document.createElement("DIV");
 					EvoEditor.moveNodeContent(node, div);
 					node.parentElement.insertBefore(div, node.nextSibling);
+				// workaround https://bugs.webkit.org/show_bug.cgi?id=250003
+				} else if (isPaste && node.nodeType == node.ELEMENT_NODE && node.tagName == "SPAN" &&
+					   node.attributes.length == 1 && node.attributes[0].name == "style" &&
+					   node.style.length > 0 && node.fontSize != "") {
+					EvoEditor.moveNodeContent(node, null);
+					removeNode = true;
 				}
 
 				next = EvoEditor.getNextNodeInHierarchy(node, content);

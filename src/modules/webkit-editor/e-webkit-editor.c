@@ -5123,18 +5123,25 @@ webkit_editor_paste_clipboard_targets_cb (GtkClipboard *clipboard,
 		return;
 	}
 
-	if (is_html)
+	if (is_html) {
+		gchar *paste_content;
+
+		paste_content = g_strconcat ("<meta name=\"x-evolution-is-paste\">", content, NULL);
+
 		webkit_editor_insert_content (
 			E_CONTENT_EDITOR (wk_editor),
-			content,
+			paste_content,
 			E_CONTENT_EDITOR_INSERT_TEXT_HTML);
-	else
+
+		g_free (paste_content);
+	} else {
 		webkit_editor_insert_content (
 			E_CONTENT_EDITOR (wk_editor),
 			content,
 			E_CONTENT_EDITOR_INSERT_TEXT_PLAIN |
 			E_CONTENT_EDITOR_INSERT_CONVERT |
 			(wk_editor->priv->paste_plain_prefer_pre ? E_CONTENT_EDITOR_INSERT_CONVERT_PREFER_PRE : 0));
+	}
 
 	g_free (content);
 }
