@@ -610,6 +610,8 @@ emfp_get_folder_item (EConfig *ec,
 		}
 
 		blurb = g_param_spec_get_blurb (properties[ii]);
+		if (!blurb)
+			continue;
 
 		switch (properties[ii]->value_type) {
 			case G_TYPE_BOOLEAN:
