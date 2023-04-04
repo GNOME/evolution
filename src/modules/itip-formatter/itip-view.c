@@ -578,10 +578,14 @@ set_tasklist_sender_text (ItipView *view)
 
 	switch (priv->mode) {
 	case ITIP_VIEW_MODE_PUBLISH:
-		if (priv->organizer_sentby)
-			sender = dupe_first_bold (_("%s through %s has published the following task:"), organizer, priv->organizer_sentby);
-		else
-			sender = dupe_first_bold (_("%s has published the following task:"), organizer, NULL);
+		if (priv->has_organizer) {
+			if (priv->organizer_sentby)
+				sender = dupe_first_bold (_("%s through %s has published the following task:"), organizer, priv->organizer_sentby);
+			else
+				sender = dupe_first_bold (_("%s has published the following task:"), organizer, NULL);
+		} else {
+			sender = g_strdup (_("The following task has been published:"));
+		}
 		break;
 	case ITIP_VIEW_MODE_REQUEST:
 		/* FIXME is the delegator stuff handled correctly here? */
@@ -667,10 +671,14 @@ set_journal_sender_text (ItipView *view)
 
 	switch (priv->mode) {
 	case ITIP_VIEW_MODE_PUBLISH:
-		if (priv->organizer_sentby)
-			sender = dupe_first_bold (_("%s through %s has published the following memo:"), organizer, priv->organizer_sentby);
-		else
-			sender = dupe_first_bold (_("%s has published the following memo:"), organizer, NULL);
+		if (priv->has_organizer) {
+			if (priv->organizer_sentby)
+				sender = dupe_first_bold (_("%s through %s has published the following memo:"), organizer, priv->organizer_sentby);
+			else
+				sender = dupe_first_bold (_("%s has published the following memo:"), organizer, NULL);
+		} else {
+			sender = g_strdup (_("The following memo has been published:"));
+		}
 		break;
 	case ITIP_VIEW_MODE_ADD:
 		/* FIXME What text for this? */
