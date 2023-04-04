@@ -3814,21 +3814,27 @@ e_util_check_gtk_bindings_in_key_press_event_cb (GtkWidget *widget,
 	if (gtk_bindings_activate_event (G_OBJECT (focused), key_event))
 		return TRUE;
 
-	if (WEBKIT_IS_WEB_VIEW (focused) &&
-	    (key_event->state & (GDK_CONTROL_MASK | GDK_MOD1_MASK)) != 0) {
+	if ((key_event->state & (GDK_CONTROL_MASK | GDK_MOD1_MASK)) != 0 &&
+	    WEBKIT_IS_WEB_VIEW (focused)) {
 		GtkWidget *text_view;
 		gboolean may_use;
 
 		/* WebKit uses GtkTextView to process key bindings. Do the same. */
-		text_view = gtk_text_view_new ();
+		text_view = g_object_get_data (G_OBJECT (focused), "evo-tmp-text-view-for-gtk-bindings");
+		if (!text_view) {
+			/* Remember the text view, to not create & destroy it on every key press with modifiers */
+			text_view = gtk_text_view_new ();
 
-		/* Stop emissing for clipboard signals, to not populate the text_view */
-		g_signal_connect (text_view, "copy-clipboard", G_CALLBACK (e_util_stop_signal_emission_cb), (gpointer) "copy-clipboard");
-		g_signal_connect (text_view, "cut-clipboard", G_CALLBACK (e_util_stop_signal_emission_cb), (gpointer) "cut-clipboard");
-		g_signal_connect (text_view, "paste-clipboard", G_CALLBACK (e_util_stop_signal_emission_cb), (gpointer) "paste-clipboard");
+			g_object_set_data_full (G_OBJECT (focused), "evo-tmp-text-view-for-gtk-bindings",
+				g_object_ref_sink (text_view), (GDestroyNotify) gtk_widget_destroy);
+
+			/* Stop emission for clipboard signals, to not populate the text_view */
+			g_signal_connect (text_view, "copy-clipboard", G_CALLBACK (e_util_stop_signal_emission_cb), (gpointer) "copy-clipboard");
+			g_signal_connect (text_view, "cut-clipboard", G_CALLBACK (e_util_stop_signal_emission_cb), (gpointer) "cut-clipboard");
+			g_signal_connect (text_view, "paste-clipboard", G_CALLBACK (e_util_stop_signal_emission_cb), (gpointer) "paste-clipboard");
+		}
 
 		may_use = gtk_bindings_activate_event (G_OBJECT (text_view), key_event);
-		gtk_widget_destroy (text_view);
 
 		if (may_use) {
 			gboolean result = FALSE;
