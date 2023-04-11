@@ -2631,12 +2631,13 @@ EvoEditor.SetFontName = function(name)
 	}
 }
 
-EvoEditor.convertHtmlToSend = function()
+EvoEditor.convertHtmlToSend = function(default_css_style)
 {
 	var html, bgcolor, text, link, vlink;
 	var unsetBgcolor = false, unsetText = false, unsetLink = false, unsetVlink = false;
 	var themeCss, inheritThemeColors = EvoEditor.inheritThemeColors;
 	var ii, styles, styleNode = null, topSignatureSpacers, signatureWrappers, signatures, signatureIds, elems;
+	var defaultCssStyleElem = null;
 
 	themeCss = EvoEditor.UpdateThemeStyleSheet(null);
 	bgcolor = document.documentElement.getAttribute("x-evo-bgcolor");
@@ -2648,6 +2649,12 @@ EvoEditor.convertHtmlToSend = function()
 	document.documentElement.removeAttribute("x-evo-text");
 	document.documentElement.removeAttribute("x-evo-link");
 	document.documentElement.removeAttribute("x-evo-vlink");
+
+	if (default_css_style) {
+		defaultCssStyleElem = document.createElement("STYLE");
+		defaultCssStyleElem.innerHTML = default_css_style;
+		document.head.append(defaultCssStyleElem);
+	}
 
 	topSignatureSpacers = document.querySelectorAll(".-x-evo-top-signature-spacer");
 	for (ii = topSignatureSpacers.length - 1; ii >= 0; ii--) {
@@ -2722,6 +2729,9 @@ EvoEditor.convertHtmlToSend = function()
 	if (styleNode)
 		styleNode.id = "x-evo-body-fontname";
 
+	if (defaultCssStyleElem)
+		document.head.removeChild(defaultCssStyleElem);
+
 	if (bgcolor)
 		document.documentElement.setAttribute("x-evo-bgcolor", bgcolor);
 	if (text)
@@ -2769,7 +2779,7 @@ EvoEditor.convertHtmlToSend = function()
 	return html;
 }
 
-EvoEditor.GetContent = function(flags, cid_uid_prefix)
+EvoEditor.GetContent = function(flags, cid_uid_prefix, default_css_style)
 {
 	var content_data = {};
 
@@ -2971,7 +2981,7 @@ EvoEditor.GetContent = function(flags, cid_uid_prefix)
 		}
 
 		if ((flags & EvoEditor.E_CONTENT_EDITOR_GET_TO_SEND_HTML) != 0)
-			content_data["to-send-html"] = EvoEditor.convertHtmlToSend();
+			content_data["to-send-html"] = EvoEditor.convertHtmlToSend(default_css_style);
 
 		if ((flags & EvoEditor.	E_CONTENT_EDITOR_GET_TO_SEND_PLAIN) != 0) {
 			content_data["to-send-plain"] = EvoConvert.ToPlainText(document.body, EvoEditor.NORMAL_PARAGRAPH_WIDTH);
