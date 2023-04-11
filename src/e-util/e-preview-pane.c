@@ -211,6 +211,8 @@ preview_pane_show_search_bar (EPreviewPane *preview_pane)
 
 	if (!gtk_widget_get_visible (search_bar))
 		gtk_widget_show (search_bar);
+	else
+		e_search_bar_focus_entry (E_SEARCH_BAR (search_bar));
 }
 
 static void

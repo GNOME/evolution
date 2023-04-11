@@ -880,3 +880,14 @@ e_search_bar_set_can_hide (ESearchBar *search_bar,
 
 	g_object_notify (G_OBJECT (search_bar), "can-hide");
 }
+
+void
+e_search_bar_focus_entry (ESearchBar *search_bar)
+{
+	g_return_if_fail (E_IS_SEARCH_BAR (search_bar));
+
+	if (!gtk_widget_get_visible (GTK_WIDGET (search_bar)))
+		return;
+
+	gtk_widget_grab_focus (search_bar->priv->entry);
+}
