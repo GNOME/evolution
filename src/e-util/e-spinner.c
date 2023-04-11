@@ -77,9 +77,15 @@ e_spinner_disable_spin (ESpinner *spinner)
 static void
 e_spinner_enable_spin (ESpinner *spinner)
 {
+	GtkSettings *settings;
+	gboolean enable_animations = TRUE;
+
+	settings = gtk_widget_get_settings (GTK_WIDGET (spinner));
+	g_object_get (settings, "gtk-enable-animations", &enable_animations, NULL);
+
 	e_spinner_disable_spin (spinner);
 
-	if (spinner->priv->pixbufs)
+	if (spinner->priv->pixbufs && enable_animations)
 		spinner->priv->timeout_id = g_timeout_add_full (
 			G_PRIORITY_LOW, FRAME_TIMEOUT_MS, e_spinner_update_frame_cb, spinner, NULL);
 }
