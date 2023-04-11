@@ -36,6 +36,23 @@
 #define SPACES_PER_LIST_LEVEL 3
 #define SPACES_ORDERED_LIST_FIRST_LEVEL 6
 
+#define DEFAULT_CSS_STYLE \
+	"pre,code,address {\n" \
+	"  margin: 0px;\n" \
+	"}\n" \
+	"h1,h2,h3,h4,h5,h6 {\n" \
+	"  margin-top: 0.2em;\n" \
+	"  margin-bottom: 0.2em;\n" \
+	"}\n" \
+	"ol,ul {\n" \
+	"  margin-top: 0em;\n" \
+	"  margin-bottom: 0em;\n" \
+	"}\n" \
+	"blockquote {\n" \
+	"  margin-top: 0em;\n" \
+	"  margin-bottom: 0em;\n" \
+	"}\n"
+
 enum {
 	PROP_0,
 	PROP_IS_MALFUNCTION,
@@ -1244,15 +1261,7 @@ webkit_editor_update_styles (EContentEditor *editor)
 		styles[pango_font_description_get_style (ms)]);
 
 	/* See bug #689777 for details */
-	g_string_append (
-		stylesheet,
-		"pre,code,address {\n"
-		"  margin: 0px;\n"
-		"}\n"
-		"h1,h2,h3,h4,h5,h6 {\n"
-		"  margin-top: 0.2em;\n"
-		"  margin-bottom: 0.2em;\n"
-		"}\n");
+	g_string_append (stylesheet, DEFAULT_CSS_STYLE);
 
 	/* When inserting a table into contenteditable element the width of the
 	 * cells is nearly zero and the td { min-height } doesn't work so put
@@ -1536,22 +1545,6 @@ webkit_editor_update_styles (EContentEditor *editor)
 		"{\n"
 		"  -webkit-padding-start: %dch; \n"
 		"}\n", SPACES_ORDERED_LIST_FIRST_LEVEL);
-
-	g_string_append (
-		stylesheet,
-		"ol,ul "
-		"{\n"
-		"  -webkit-margin-before: 0em; \n"
-		"  -webkit-margin-after: 0em; \n"
-		"}\n");
-
-	g_string_append (
-		stylesheet,
-		"blockquote "
-		"{\n"
-		"  -webkit-margin-before: 0em; \n"
-		"  -webkit-margin-after: 0em; \n"
-		"}\n");
 
 	if (wk_editor->priv->mode == E_CONTENT_EDITOR_MODE_HTML) {
 		g_string_append (
@@ -2114,7 +2107,7 @@ webkit_editor_get_content (EContentEditor *editor,
 	g_return_if_fail (E_IS_WEBKIT_EDITOR (editor));
 
 	cid_uid_prefix = camel_header_msgid_generate (inline_images_from_domain ? inline_images_from_domain : "");
-	script = e_web_view_jsc_printf_script ("EvoEditor.GetContent(%d, %s)", flags, cid_uid_prefix);
+	script = e_web_view_jsc_printf_script ("EvoEditor.GetContent(%d, %s, %s)", flags, cid_uid_prefix, DEFAULT_CSS_STYLE);
 
 	webkit_web_view_run_javascript (WEBKIT_WEB_VIEW (editor), script, cancellable, callback, user_data);
 
