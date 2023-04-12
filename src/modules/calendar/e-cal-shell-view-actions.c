@@ -1318,14 +1318,14 @@ static GtkActionEntry calendar_entries[] = {
 	{ "calendar-go-back",
 	  "go-previous",
 	  N_("Previous"),
-	  NULL,
+	  "<Control>Page_Up",
 	  N_("Go Back"),
 	  G_CALLBACK (action_calendar_go_back_cb) },
 
 	{ "calendar-go-forward",
 	  "go-next",
 	  N_("Next"),
-	  NULL,
+	  "<Control>Page_Down",
 	  N_("Go Forward"),
 	  G_CALLBACK (action_calendar_go_forward_cb) },
 

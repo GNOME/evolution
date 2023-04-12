@@ -6700,7 +6700,8 @@ e_day_view_do_key_press (GtkWidget *widget,
 			stop_emission = FALSE;
 			break;
 		}
-	} else if (!(event->state & GDK_MOD1_MASK)) {
+	} else if (!(event->state & GDK_MOD1_MASK) &&
+		   !(event->state & GDK_CONTROL_MASK)) {
 		switch (keyval) {
 		case GDK_KEY_Up:
 			e_day_view_cursor_key_up (day_view, event);
