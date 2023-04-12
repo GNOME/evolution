@@ -5039,6 +5039,8 @@ msg_composer_save_to_outbox_cb (EMsgComposer *composer,
 	cnt_editor = e_html_editor_get_content_editor (editor);
 	e_content_editor_set_changed (cnt_editor, TRUE);
 
+	e_msg_composer_unref_content_hash (composer);
+
 	async_context_free (context);
 }
 
@@ -5130,6 +5132,8 @@ msg_composer_print_cb (EMsgComposer *composer,
 		context->print_action, message, context->activity);
 
 	g_object_unref (message);
+
+	e_msg_composer_unref_content_hash (composer);
 
 	async_context_free (context);
 }
@@ -6018,6 +6022,7 @@ composer_build_message_wrapper_content_hash_ready_cb (EMsgComposer *composer,
 	if (error) {
 		g_simple_async_result_set_from_error (bmwd->simple, error);
 		g_simple_async_result_complete (bmwd->simple);
+		e_msg_composer_unref_content_hash (bmwd->composer);
 	} else {
 		composer_build_message (composer, bmwd->flags, bmwd->io_priority,
 			bmwd->cancellable, (GAsyncReadyCallback)
