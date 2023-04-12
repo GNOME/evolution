@@ -17,7 +17,7 @@ to the mailing list first, to avoid duplicated effort (and to make
 sure that you aren't basing your work on interfaces that are expected
 to change).
 
-There is also an [#evolution] IRC channel.
+There is also a [#gnome-evolution] IRC channel on [Libera.Chat].
 
 Help for Evolution is available in the user manual (select "Help" from
 the menu after running the application), at the
@@ -28,8 +28,9 @@ The rest of this file is dedicated to building Evolution.
 
 [icon]: https://raw.github.com/gnome-design-team/gnome-icons/master/apps/hicolor/48x48/apps/evolution.png "Evolution app icon"
 [gnome-wiki]: https://wiki.gnome.org/Apps/Evolution
-[mailing-list]: https://mail.gnome.org/mailman/listinfo
-[#evolution]: irc://irc.gnome.org/evolution
+[mailing-list]: https://lists.osuosl.org/mailman/listinfo/evolution-users
+[#gnome-evolution]: ircs://irc.libera.chat:6697/gnome-evolution
+[Libera.Chat]: https://libera.chat/
 [gnome-help]: https://help.gnome.org/users/evolution/stable/
 
 DEPENDENCIES
