@@ -6,16 +6,9 @@ the Evolution Team.
 
 See [the Evolution Gnome Wiki page][gnome-wiki] for more information.
 
-If you are using Evolution, you may wish to subscribe to the Evolution
-users mailing list.  If you are interested in contributing to
-development on it, you should certainly subscribe to [the Evolution
-Hackers mailing list][mailing-list].  Visit
-there to subscribe or view archives of the Evolution mailing lists.
-
-If you are planning to work on any part of Evolution, please send mail
-to the mailing list first, to avoid duplicated effort (and to make
-sure that you aren't basing your work on interfaces that are expected
-to change).
+If you are using Evolution, you may wish to subscribe to [the Evolution
+users mailing list][mailing-list]. Visit there to subscribe or view archives
+of the Evolution mailing list.
 
 There is also a [#gnome-evolution] IRC channel on [Libera.Chat].
 
