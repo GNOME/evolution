@@ -24,6 +24,8 @@
     </menu>
     <menu action='view-menu'>
       <menuitem action='calendar-go-today'/>
+      <menuitem action='calendar-go-back'/>
+      <menuitem action='calendar-go-forward'/>
       <menuitem action='calendar-jump-to'/>
       <menuitem action='calendar-manage-groups'/>
       <menu action='layout-menu'>
