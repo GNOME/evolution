@@ -200,6 +200,8 @@ struct _ItipViewPrivate {
 	gint state_response_id;
 
 	gboolean attendee_status_updated;
+
+	GHashTable *readonly_sources; /* gchar *uid ~> NULL */
 };
 
 enum {
@@ -1414,12 +1416,17 @@ itip_view_compare_sources_cb (gconstpointer aa,
 static void
 itip_view_rebuild_source_list (ItipView *view)
 {
+	const gchar *known_readonly_uids[] = {
+		"webcal-stub", "weather-stub", "contacts-stub",
+		"webcal", "weather", "contacts", "birthdays" };
+	GHashTable *known_readonly;
 	ESourceRegistry *registry;
 	EWebView *web_view;
 	GList *list, *link;
 	GString *script;
 	const gchar *extension_name;
 	SortData sd;
+	guint ii;
 
 	d (printf ("Assigning a new source list!\n"));
 
@@ -1443,6 +1450,11 @@ itip_view_rebuild_source_list (ItipView *view)
 		view->priv->part_id,
 		SELECT_ESOURCE);
 
+	known_readonly = g_hash_table_new (camel_strcase_hash, camel_strcase_equal);
+	for (ii = 0; ii < G_N_ELEMENTS (known_readonly_uids); ii++) {
+		g_hash_table_add (known_readonly, (gpointer) known_readonly_uids[ii]);
+	}
+
 	sd.registry = registry;
 	sd.groups_in_order = itip_view_get_groups_in_order (extension_name);
 	list = e_source_registry_list_enabled (registry, extension_name);
@@ -1452,6 +1464,12 @@ itip_view_rebuild_source_list (ItipView *view)
 		ESource *source = E_SOURCE (link->data);
 		ESource *parent;
 		const gchar *uid;
+
+		if (!e_source_get_writable (source) ||
+		    g_hash_table_contains (view->priv->readonly_sources, e_source_get_uid (source)) ||
+		    g_hash_table_contains (known_readonly, e_source_get_uid (source)) ||
+		    (e_source_get_parent (source) && g_hash_table_contains (known_readonly, e_source_get_parent (source))))
+			continue;
 
 		uid = e_source_get_parent (source);
 		parent = uid ? e_source_registry_ref_source (registry, uid) : NULL;
@@ -1472,6 +1490,7 @@ itip_view_rebuild_source_list (ItipView *view)
 		e_web_view_get_cancellable (web_view));
 
 	g_list_free_full (list, (GDestroyNotify) g_object_unref);
+	g_hash_table_destroy (known_readonly);
 	g_object_unref (web_view);
 	g_strfreev (sd.groups_in_order);
 
@@ -1676,6 +1695,7 @@ itip_view_finalize (GObject *object)
 	g_clear_object (&priv->main_comp);
 
 	g_hash_table_destroy (priv->real_comps);
+	g_hash_table_destroy (priv->readonly_sources);
 
 	/* Chain up to parent's finalize() method. */
 	G_OBJECT_CLASS (itip_view_parent_class)->finalize (object);
@@ -1800,6 +1820,16 @@ itip_view_set_extension_name (ItipView *view,
 	g_object_notify (G_OBJECT (view), "extension-name");
 
 	itip_view_rebuild_source_list (view);
+}
+
+static void
+itip_view_remember_readonly_source (ItipView *view,
+				    const gchar *uid)
+{
+	if (!uid || !*uid)
+		return;
+
+	g_hash_table_add (view->priv->readonly_sources, g_strdup (uid));
 }
 
 static void
@@ -2290,6 +2320,7 @@ itip_view_init (ItipView *view)
 	view->priv->web_view_weakref = e_weak_ref_new (NULL);
 	view->priv->real_comps = g_hash_table_new_full (g_str_hash, g_str_equal, g_free, g_object_unref);
 	view->priv->client_cache = g_object_ref (client_cache);
+	view->priv->readonly_sources = g_hash_table_new_full (g_str_hash, g_str_equal, g_free, NULL);
 }
 
 ItipView *
@@ -4785,6 +4816,7 @@ find_cal_opened_cb (GObject *source_object,
 
 	/* Do not process read-only calendars */
 	if (e_client_is_readonly (E_CLIENT (cal_client))) {
+		itip_view_remember_readonly_source (view, e_source_get_uid (source));
 		g_object_unref (cal_client);
 		decrease_find_data (fd);
 		return;
@@ -4854,6 +4886,8 @@ find_server (ItipView *view,
 		default:
 			g_return_if_reached ();
 	}
+
+	g_hash_table_remove_all (view->priv->readonly_sources);
 
 	list = e_source_registry_list_enabled (
 		view->priv->registry, extension_name);
