@@ -1316,6 +1316,101 @@ append_buttons_table (GString *buffer,
 	g_string_append (buffer, "</tr></table>");
 }
 
+static gchar **
+itip_view_get_groups_in_order (const gchar *extension_name)
+{
+	EShell *shell = e_shell_get_default ();
+	EShellBackend *backend = NULL;
+	GKeyFile *key_file;
+	gchar **groups_in_order = NULL;
+	gchar *filename;
+
+	if (!shell)
+		return NULL;
+
+	if (g_strcmp0 (extension_name, E_SOURCE_EXTENSION_CALENDAR) == 0)
+		backend = e_shell_get_backend_by_name (shell, "calendar");
+	else if (g_strcmp0 (extension_name, E_SOURCE_EXTENSION_MEMO_LIST) == 0)
+		backend = e_shell_get_backend_by_name (shell, "memos");
+	else if (g_strcmp0 (extension_name, E_SOURCE_EXTENSION_TASK_LIST) == 0)
+		backend = e_shell_get_backend_by_name (shell, "tasks");
+
+	if (!backend)
+		return NULL;
+
+	filename = g_build_filename (e_shell_backend_get_config_dir (backend), "state.ini", NULL);
+	key_file = g_key_file_new ();
+
+	if (g_key_file_load_from_file (key_file, filename, G_KEY_FILE_NONE, NULL)) {
+		gchar *key;
+
+		key = g_strconcat (extension_name, "-groups-order", NULL);
+		groups_in_order = g_key_file_get_string_list (key_file, E_SOURCE_SELECTOR_GROUPS_SETUP_NAME, key, NULL, NULL);
+		g_free (key);
+	}
+
+	g_key_file_unref (key_file);
+	g_free (filename);
+
+	return groups_in_order;
+}
+
+static gint
+itip_view_index_in_group_order (const gchar *group,
+				const gchar *const *groups_in_order)
+{
+	gint ii;
+
+	if (!group || !groups_in_order)
+		return G_MAXINT;
+
+	for (ii = 0; groups_in_order[ii]; ii++) {
+		if (g_strcmp0 (group, groups_in_order[ii]) == 0)
+			return ii;
+	}
+
+	return G_MAXINT;
+}
+
+typedef struct _SortData {
+	ESourceRegistry *registry;
+	gchar **groups_in_order;
+} SortData;
+
+static gint
+itip_view_compare_sources_cb (gconstpointer aa,
+			      gconstpointer bb,
+			      gpointer user_data)
+{
+	ESource *aa_source = (ESource *) aa;
+	ESource *bb_source = (ESource *) bb;
+	SortData *sd = user_data;
+	gint aa_value, bb_value, res;
+
+	aa_value = itip_view_index_in_group_order (e_source_get_parent (aa_source), (const gchar *const *) sd->groups_in_order);
+	bb_value = itip_view_index_in_group_order (e_source_get_parent (bb_source), (const gchar *const *) sd->groups_in_order);
+
+	res = aa_value - bb_value;
+
+	if (!res && aa_value == G_MAXINT && e_source_get_parent (aa_source) && e_source_get_parent (bb_source)) {
+		ESource *aa_parent, *bb_parent;
+
+		aa_parent = e_source_registry_ref_source (sd->registry, e_source_get_parent (aa_source));
+		bb_parent = e_source_registry_ref_source (sd->registry, e_source_get_parent (bb_source));
+
+		if (aa_parent && bb_parent)
+			res = g_utf8_collate (e_source_get_display_name (aa_parent), e_source_get_display_name (bb_parent));
+
+		g_clear_object (&aa_parent);
+		g_clear_object (&bb_parent);
+	}
+
+	if (!res)
+		res = g_utf8_collate (e_source_get_display_name (aa_source), e_source_get_display_name (bb_source));
+
+	return res;
+}
+
 static void
 itip_view_rebuild_source_list (ItipView *view)
 {
@@ -1324,6 +1419,7 @@ itip_view_rebuild_source_list (ItipView *view)
 	GList *list, *link;
 	GString *script;
 	const gchar *extension_name;
+	SortData sd;
 
 	d (printf ("Assigning a new source list!\n"));
 
@@ -1347,7 +1443,10 @@ itip_view_rebuild_source_list (ItipView *view)
 		view->priv->part_id,
 		SELECT_ESOURCE);
 
+	sd.registry = registry;
+	sd.groups_in_order = itip_view_get_groups_in_order (extension_name);
 	list = e_source_registry_list_enabled (registry, extension_name);
+	list = g_list_sort_with_data (list, itip_view_compare_sources_cb, &sd);
 
 	for (link = list; link != NULL; link = g_list_next (link)) {
 		ESource *source = E_SOURCE (link->data);
@@ -1374,6 +1473,7 @@ itip_view_rebuild_source_list (ItipView *view)
 
 	g_list_free_full (list, (GDestroyNotify) g_object_unref);
 	g_object_unref (web_view);
+	g_strfreev (sd.groups_in_order);
 
 	source_changed_cb (view);
 }
