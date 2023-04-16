@@ -695,21 +695,6 @@ Evo.initialize = function(elem)
 
 	if (doc.defaultView && !doc.defaultView.frameElement && !doc.body.hasAttribute("class"))
 		doc.body.className = "-e-web-view-background-color -e-web-view-text-color";
-
-	if (doc.documentElement.style.getPropertyValue("color") == "" ||
-	    doc.documentElement.style.getPropertyValue("color") == "text") {
-		if (doc.defaultView && doc.defaultView.frameElement && !doc.defaultView.frameElement.hasAttribute("x-e-unset-colors") &&
-		    doc.defaultView.frameElement.ownerDocument &&
-		    doc.defaultView.frameElement.ownerDocument.defaultView &&
-		    doc.defaultView.frameElement.ownerDocument.defaultView.window) {
-			var style = doc.defaultView.frameElement.ownerDocument.defaultView.window.getComputedStyle(doc.defaultView.frameElement);
-			if (style) {
-				doc.documentElement.style.setProperty("color", style.color);
-				doc.documentElement.style.setProperty("background-color", style.backgroundColor);
-			}
-		}
-	}
-
 	elems = doc.querySelectorAll("input, textarea, select, button, label");
 
 	for (ii = 0; ii < elems.length; ii++) {
