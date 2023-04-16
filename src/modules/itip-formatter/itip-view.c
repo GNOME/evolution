@@ -2163,7 +2163,7 @@ itip_view_write (gpointer itip_part_ptr,
 			uri,
 			e_mail_part_get_id (part),
 			e_mail_part_get_id (part),
-			g_settings_get_boolean (settings, "preview-unset-html-colors") ? "x-e-unset-colors=\"1\"" : "style=\"background-color: #ffffff; color:#000000;\"");
+			g_settings_get_boolean (settings, "preview-unset-html-colors") ? "x-e-unset-colors=\"1\"" : "style=\"background-color: #fff; color-scheme: light\"");
 
 		g_clear_object (&settings);
 		g_free (uri);
