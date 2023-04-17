@@ -199,7 +199,15 @@ ece_event_sensitize_widgets (ECompEditor *comp_editor,
 	action = e_comp_editor_get_action (comp_editor, "all-day-event");
 	gtk_action_set_sensitive (action, !force_insensitive);
 
-	action = e_comp_editor_get_action (comp_editor, "classification-menu");
+	/* Disable radio items, instead of the whole submenu,
+	   to see the value with read-only events/calendars. */
+	action = e_comp_editor_get_action (comp_editor, "classify-private");
+	gtk_action_set_sensitive (action, !force_insensitive);
+
+	action = e_comp_editor_get_action (comp_editor, "classify-confidential");
+	gtk_action_set_sensitive (action, !force_insensitive);
+
+	action = e_comp_editor_get_action (comp_editor, "classify-public");
 	gtk_action_set_sensitive (action, !force_insensitive);
 
 	if (event_editor->priv->insensitive_info_alert)
