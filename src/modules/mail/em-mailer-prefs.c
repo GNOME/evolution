@@ -2047,7 +2047,9 @@ em_mailer_prefs_construct (EMMailerPrefs *prefs,
 	g_object_set (renderer, "editable", TRUE, NULL);
 	gtk_tree_view_insert_column_with_attributes (
 		GTK_TREE_VIEW (prefs->priv->user_headers_list), -1,
-		_("Header"), renderer,
+		/* Translators: This is a column caption, in which a mail header name is shown.
+		   Example: Header: "X-GitLab-Project" Title: "GitLab Project" */
+		C_("UserHeaders", "Header"), renderer,
 		"text", USER_HEADERS_LIST_HEADER_COLUMN,
 		NULL);
 	g_signal_connect (renderer, "edited",
@@ -2058,7 +2060,10 @@ em_mailer_prefs_construct (EMMailerPrefs *prefs,
 	g_object_set (renderer, "editable", TRUE, NULL);
 	gtk_tree_view_insert_column_with_attributes (
 		GTK_TREE_VIEW (prefs->priv->user_headers_list), -1,
-		_("Title"), renderer,
+		/* Translators: This is a column caption, in which a mail header title is shown;
+		   it's the text the header is presented in the GUI, aka a user friendly name
+		   of the header. Example: Header: "X-GitLab-Project" Title: "GitLab Project" */
+		C_("UserHeaders", "Title"), renderer,
 		"text", USER_HEADERS_LIST_TITLE_COLUMN,
 		NULL);
 	g_signal_connect (renderer, "edited",
