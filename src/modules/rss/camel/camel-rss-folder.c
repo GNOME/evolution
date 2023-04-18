@@ -240,6 +240,8 @@ rss_folder_refresh_info_sync (CamelFolder *folder,
 	CamelFolderChangeInfo *changes = NULL;
 	CamelSession *session;
 	gchar *href;
+	gchar *last_etag;
+	gchar *last_modified;
 	gint64 last_updated;
 	gboolean success = TRUE;
 
@@ -260,14 +262,18 @@ rss_folder_refresh_info_sync (CamelFolder *folder,
 	camel_rss_store_summary_lock (rss_store_summary);
 
 	href = g_strdup (camel_rss_store_summary_get_href (rss_store_summary, self->priv->id));
+	last_etag = g_strdup (camel_rss_store_summary_get_last_etag (rss_store_summary, self->priv->id));
+	last_modified = g_strdup (camel_rss_store_summary_get_last_modified (rss_store_summary, self->priv->id));
 	last_updated = camel_rss_store_summary_get_last_updated (rss_store_summary, self->priv->id);
 
 	camel_rss_store_summary_unlock (rss_store_summary);
 
 	if (href && *href) {
 		SoupSession *soup_session;
+		SoupMessageHeaders *request_headers;
 		SoupMessage *message;
 		GBytes *bytes;
+		GError *local_error = NULL;
 
 		message = soup_message_new (SOUP_METHOD_GET, href);
 		if (!message) {
@@ -290,10 +296,22 @@ rss_folder_refresh_info_sync (CamelFolder *folder,
 			g_object_unref (logger);
 		}
 
-		bytes = soup_session_send_and_read (soup_session, message, cancellable, error);
+		request_headers = soup_message_get_request_headers (message);
 
-		if (bytes) {
+		soup_message_headers_append (request_headers, "Connection", "close");
+
+		if (last_etag && *last_etag)
+			soup_message_headers_append (request_headers, "If-None-Match", last_etag);
+		else if (last_modified && *last_modified)
+			soup_message_headers_append (request_headers, "If-Modified-Since", last_modified);
+
+		bytes = soup_session_send_and_read (soup_session, message, cancellable, &local_error);
+
+		if (soup_message_get_status (message) == SOUP_STATUS_NOT_MODIFIED) {
+			g_clear_error (&local_error);
+		} else if (bytes) {
 			GSList *feeds = NULL;
+			gboolean save_summary = FALSE;
 
 			success = SOUP_STATUS_IS_SUCCESSFUL (soup_message_get_status (message));
 
@@ -392,13 +410,49 @@ rss_folder_refresh_info_sync (CamelFolder *folder,
 					camel_rss_store_summary_set_last_updated (rss_store_summary, self->priv->id, max_last_modified);
 					camel_rss_store_summary_unlock (rss_store_summary);
 
-					success = camel_rss_store_summary_save (rss_store_summary, error);
+					save_summary = TRUE;
 				}
 			}
 
 			g_slist_free_full (feeds, e_rss_feed_free);
+
+			if (success) {
+				SoupMessageHeaders *response_headers;
+
+				response_headers = soup_message_get_response_headers (message);
+
+				if (response_headers) {
+					const gchar *tmp;
+
+					camel_rss_store_summary_lock (rss_store_summary);
+
+					tmp = soup_message_headers_get_one (response_headers, "ETag");
+					/* ignore weak ETag-s */
+					if (tmp && (g_ascii_strncasecmp (tmp, "W/", 2) == 0 || g_ascii_strncasecmp (tmp, "\"W/", 3) == 0))
+						tmp = NULL;
+					if (tmp && !*tmp)
+						tmp = NULL;
+
+					camel_rss_store_summary_set_last_etag (rss_store_summary, self->priv->id, tmp);
+
+					tmp = soup_message_headers_get_one (response_headers, "Last-Modified");
+					if (tmp && !*tmp)
+						tmp = NULL;
+
+					camel_rss_store_summary_set_last_modified (rss_store_summary, self->priv->id, tmp);
+
+					camel_rss_store_summary_unlock (rss_store_summary);
+
+					save_summary = TRUE;
+				}
+			}
+
+			if (success && save_summary)
+				success = camel_rss_store_summary_save (rss_store_summary, error);
 		} else {
 			success = FALSE;
+			if (local_error)
+				g_propagate_error (error, local_error);
 		}
 
 		g_clear_pointer (&bytes, g_bytes_unref);
@@ -409,6 +463,8 @@ rss_folder_refresh_info_sync (CamelFolder *folder,
 		success = FALSE;
 	}
 
+	g_free (last_modified);
+	g_free (last_etag);
 	g_free (href);
 
 	if (changes) {
