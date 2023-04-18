@@ -110,6 +110,18 @@ gint64		camel_rss_store_summary_get_last_updated(CamelRssStoreSummary *self,
 void		camel_rss_store_summary_set_last_updated(CamelRssStoreSummary *self,
 							 const gchar *id,
 							 gint64 last_updated);
+const gchar *	camel_rss_store_summary_get_last_etag	(CamelRssStoreSummary *self,
+							 const gchar *id);
+void		camel_rss_store_summary_set_last_etag	(CamelRssStoreSummary *self,
+							 const gchar *id,
+							 const gchar *last_etag);
+const gchar *	camel_rss_store_summary_get_last_modified
+							(CamelRssStoreSummary *self,
+							 const gchar *id);
+void		camel_rss_store_summary_set_last_modified
+							(CamelRssStoreSummary *self,
+							 const gchar *id,
+							 const gchar *last_modified);
 
 G_END_DECLS
 

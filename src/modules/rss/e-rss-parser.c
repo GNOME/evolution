@@ -592,10 +592,11 @@ e_rss_parser_parse (const gchar *xml,
 	xmlDoc *doc;
 	xmlNodePtr root;
 
-	g_return_val_if_fail (xml != NULL, FALSE);
-
 	if (out_feeds)
 		*out_feeds = NULL;
+
+	if (!xml || !xml_len)
+		return FALSE;
 
 	doc = e_xml_parse_data (xml, xml_len);
 

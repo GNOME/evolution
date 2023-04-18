@@ -124,6 +124,8 @@ action_rss_mail_folder_reload_cb (GtkAction *action,
 	g_object_get (store, "summary", &store_summary, NULL);
 
 	camel_rss_store_summary_set_last_updated (store_summary, folder_path, 0);
+	camel_rss_store_summary_set_last_etag (store_summary, folder_path, NULL);
+	camel_rss_store_summary_set_last_modified (store_summary, folder_path, NULL);
 
 	camel_store_get_folder (store, folder_path, CAMEL_STORE_FOLDER_NONE, G_PRIORITY_DEFAULT, NULL,
 		e_rss_mail_folder_reload_got_folder_cb, shell_view);

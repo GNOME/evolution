@@ -34,6 +34,8 @@ typedef struct _RssFeed {
 	gchar *href;
 	gchar *display_name;
 	gchar *icon_filename;
+	gchar *last_etag;
+	gchar *last_modified;
 	CamelRssContentType content_type;
 	guint32 total_count;
 	guint32 unread_count;
@@ -216,6 +218,8 @@ camel_rss_store_summary_load (CamelRssStoreSummary *self,
 				feed->href = g_key_file_get_string (key_file, group, "href", NULL);
 				feed->display_name = g_key_file_get_string (key_file, group, "display-name", NULL);
 				feed->icon_filename = g_key_file_get_string (key_file, group, "icon-filename", NULL);
+				feed->last_etag = g_key_file_get_string (key_file, group, "last-etag", NULL);
+				feed->last_modified = g_key_file_get_string (key_file, group, "last-modified", NULL);
 				feed->content_type = g_key_file_get_integer (key_file, group, "content-type", NULL);
 				feed->total_count = (guint32) g_key_file_get_uint64 (key_file, group, "total-count", NULL);
 				feed->unread_count = (guint32) g_key_file_get_uint64 (key_file, group, "unread-count", NULL);
@@ -291,6 +295,8 @@ camel_rss_store_summary_save (CamelRssStoreSummary *self,
 			g_key_file_set_string (key_file, group, "href", feed->href);
 			g_key_file_set_string (key_file, group, "display-name", feed->display_name);
 			g_key_file_set_string (key_file, group, "icon-filename", feed->icon_filename ? feed->icon_filename : "");
+			g_key_file_set_string (key_file, group, "last-etag", feed->last_etag ? feed->last_etag : "");
+			g_key_file_set_string (key_file, group, "last-modified", feed->last_modified ? feed->last_modified : "");
 			g_key_file_set_integer (key_file, group, "content-type", feed->content_type);
 			g_key_file_set_uint64 (key_file, group, "total-count", feed->total_count);
 			g_key_file_set_uint64 (key_file, group, "unread-count", feed->unread_count);
@@ -849,4 +855,104 @@ camel_rss_store_summary_set_last_updated (CamelRssStoreSummary *self,
 	}
 
 	camel_rss_store_summary_unlock (self);
+}
+
+const gchar *
+camel_rss_store_summary_get_last_etag (CamelRssStoreSummary *self,
+				       const gchar *id)
+{
+	RssFeed *feed;
+	const gchar *result = NULL;
+
+	g_return_val_if_fail (CAMEL_IS_RSS_STORE_SUMMARY (self), NULL);
+	g_return_val_if_fail (id != NULL, NULL);
+
+	camel_rss_store_summary_lock (self);
+
+	feed = g_hash_table_lookup (self->priv->feeds, id);
+	if (feed)
+		result = feed->last_etag;
+
+	camel_rss_store_summary_unlock (self);
+
+	return result;
+}
+
+void
+camel_rss_store_summary_set_last_etag (CamelRssStoreSummary *self,
+				       const gchar *id,
+				       const gchar *last_etag)
+{
+	RssFeed *feed;
+	gboolean changed = FALSE;
+
+	g_return_if_fail (CAMEL_IS_RSS_STORE_SUMMARY (self));
+	g_return_if_fail (id != NULL);
+
+	camel_rss_store_summary_lock (self);
+
+	feed = g_hash_table_lookup (self->priv->feeds, id);
+	if (feed) {
+		if (g_strcmp0 (feed->last_etag, last_etag) != 0) {
+			g_free (feed->last_etag);
+			feed->last_etag = g_strdup (last_etag);
+			self->priv->dirty = TRUE;
+			changed = TRUE;
+		}
+	}
+
+	camel_rss_store_summary_unlock (self);
+
+	if (changed)
+		camel_rss_store_summary_schedule_feed_changed (self, id);
+}
+
+const gchar *
+camel_rss_store_summary_get_last_modified (CamelRssStoreSummary *self,
+					   const gchar *id)
+{
+	RssFeed *feed;
+	const gchar *result = NULL;
+
+	g_return_val_if_fail (CAMEL_IS_RSS_STORE_SUMMARY (self), NULL);
+	g_return_val_if_fail (id != NULL, NULL);
+
+	camel_rss_store_summary_lock (self);
+
+	feed = g_hash_table_lookup (self->priv->feeds, id);
+	if (feed)
+		result = feed->last_modified;
+
+	camel_rss_store_summary_unlock (self);
+
+	return result;
+}
+
+void
+camel_rss_store_summary_set_last_modified (CamelRssStoreSummary *self,
+					   const gchar *id,
+					   const gchar *last_modified)
+{
+	RssFeed *feed;
+	gboolean changed = FALSE;
+
+	g_return_if_fail (CAMEL_IS_RSS_STORE_SUMMARY (self));
+	g_return_if_fail (id != NULL);
+
+	camel_rss_store_summary_lock (self);
+
+	feed = g_hash_table_lookup (self->priv->feeds, id);
+	if (feed) {
+		if (g_strcmp0 (feed->last_modified, last_modified) != 0) {
+			g_free (feed->last_modified);
+			feed->last_modified = g_strdup (last_modified);
+			self->priv->dirty = TRUE;
+			changed = TRUE;
+		}
+	}
+
+	camel_rss_store_summary_unlock (self);
+
+	if (changed)
+		camel_rss_store_summary_schedule_feed_changed (self, id);
 }
