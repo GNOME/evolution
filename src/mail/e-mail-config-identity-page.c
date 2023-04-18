@@ -676,7 +676,7 @@ mail_config_identity_page_constructed (GObject *object)
 	widget = gtk_grid_new ();
 	gtk_grid_set_row_spacing (GTK_GRID (widget), 6);
 	gtk_grid_set_column_spacing (GTK_GRID (widget), 6);
-	gtk_box_pack_start (GTK_BOX (main_box), widget, FALSE, FALSE, 0);
+	gtk_box_pack_start (GTK_BOX (main_box), widget, TRUE, TRUE, 0);
 	gtk_widget_show (widget);
 
 	container = widget;
@@ -798,6 +798,10 @@ mail_config_identity_page_constructed (GObject *object)
 	label = GTK_LABEL (widget);
 
 	widget = gtk_box_new (GTK_ORIENTATION_HORIZONTAL, 2);
+	g_object_set (G_OBJECT (widget),
+		"valign", GTK_ALIGN_FILL,
+		"vexpand", TRUE,
+		NULL);
 	gtk_grid_attach (GTK_GRID (container), widget, 1, 4, 2, 1);
 	gtk_widget_show (widget);
 
