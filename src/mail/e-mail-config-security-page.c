@@ -343,7 +343,7 @@ compare_by_display_name (gconstpointer v1,
 static GtkWidget *
 mail_security_page_get_openpgpg_combo (void)
 {
-	GtkWidget *widget;
+	GtkWidget *widget, *child;
 	GtkListStore *store;
 	GtkCellRenderer *cell;
 	GHashTable *keys_hash;
@@ -396,6 +396,10 @@ mail_security_page_get_openpgpg_combo (void)
 	cell = gtk_cell_renderer_text_new ();
 	gtk_cell_layout_pack_start (GTK_CELL_LAYOUT (widget), cell, TRUE);
 	gtk_cell_layout_set_attributes (GTK_CELL_LAYOUT (widget), cell, "text", 1, NULL);
+
+	child = gtk_bin_get_child (GTK_BIN (widget));
+	if (GTK_IS_ENTRY (child))
+		gtk_entry_set_placeholder_text (GTK_ENTRY (child), _("Use sender e-mail address"));
 
 	return widget;
 }
@@ -505,8 +509,10 @@ mail_config_security_page_constructed (GObject *object)
 	label = GTK_LABEL (widget);
 
 	widget = mail_security_page_get_openpgpg_combo ();
-	if (!widget)
+	if (!widget) {
 		widget = gtk_entry_new ();
+		gtk_entry_set_placeholder_text (GTK_ENTRY (widget), _("Use sender e-mail address"));
+	}
 
 	gtk_widget_set_hexpand (widget, TRUE);
 	gtk_label_set_mnemonic_widget (label, widget);
