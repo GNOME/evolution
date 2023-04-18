@@ -315,6 +315,14 @@ rss_folder_refresh_info_sync (CamelFolder *folder,
 
 			success = SOUP_STATUS_IS_SUCCESSFUL (soup_message_get_status (message));
 
+			if (!success) {
+				g_set_error (error, G_IO_ERROR, G_IO_ERROR_FAILED,
+					_("Failed to download feeds, error code %d (%s)"),
+					soup_message_get_status (message),
+					soup_message_get_reason_phrase (message) ? soup_message_get_reason_phrase (message) :
+					soup_status_get_phrase (soup_message_get_status (message)));
+			}
+
 			if (success && e_rss_parser_parse ((const gchar *) g_bytes_get_data (bytes, NULL), g_bytes_get_size (bytes), NULL, NULL, NULL, NULL, &feeds)) {
 				CamelSettings *settings;
 				CamelRssSettings *rss_settings;
