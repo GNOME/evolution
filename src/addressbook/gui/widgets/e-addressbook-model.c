@@ -446,7 +446,8 @@ addressbook_model_idle_cb (EAddressbookModel *model)
 		if (model->priv->first_get_view) {
 			model->priv->first_get_view = FALSE;
 
-			if (e_client_check_capability (E_CLIENT (model->priv->book_client), "do-initial-query")) {
+			if (e_client_check_capability (E_CLIENT (model->priv->book_client), "do-initial-query") ||
+			    g_strcmp0 (model->priv->query_str, "(contains \"x-evolution-any-field\" \"\")") != 0) {
 				e_book_client_get_view (
 					model->priv->book_client, model->priv->query_str,
 					NULL, client_view_ready_cb, model);
