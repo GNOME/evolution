@@ -381,7 +381,7 @@ e_composer_private_constructed (EMsgComposer *composer)
 
 	e_binding_bind_property (
 		cnt_editor, "editable",
-		widget, "sensitive",
+		widget, "editable",
 		G_BINDING_SYNC_CREATE);
 
 	container = e_attachment_paned_get_content_area (

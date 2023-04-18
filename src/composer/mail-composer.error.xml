@@ -153,4 +153,9 @@ Detailed error: {0}</_secondary>
   <_primary>An error occurred while creating message composer.</_primary>
   <secondary>{0}</secondary>
  </error>
+
+ <error id="info-message-redirect" type="info">
+   <_primary>Message Redirection</_primary>
+   <_secondary>This message is a redirection, which allows you to change the recipients, subject and other message attributes, but not the contents of the message.</_secondary>
+ </error>
 </error-list>

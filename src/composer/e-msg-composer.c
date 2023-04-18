@@ -4563,6 +4563,9 @@ e_msg_composer_setup_redirect (EMsgComposer *composer,
 	editor = e_msg_composer_get_editor (composer);
 	cnt_editor = e_html_editor_get_content_editor (editor);
 	e_content_editor_set_editable (cnt_editor, FALSE);
+
+	e_alert_submit (E_ALERT_SINK (editor),
+		"mail-composer:info-message-redirect", NULL);
 }
 
 /**
