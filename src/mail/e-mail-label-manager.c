@@ -145,28 +145,39 @@ mail_label_manager_add_label (EMailLabelManager *manager)
 	gpointer parent;
 	GdkColor label_color;
 	const gchar *label_name;
+	gboolean repeat = TRUE;
 
 	parent = gtk_widget_get_toplevel (GTK_WIDGET (manager));
 	parent = gtk_widget_is_toplevel (parent) ? parent : NULL;
 	dialog = e_mail_label_dialog_new (parent);
-
-	gtk_window_set_title (GTK_WINDOW (dialog), _("Add Label"));
-
-	if (gtk_dialog_run (GTK_DIALOG (dialog)) != GTK_RESPONSE_OK)
-		goto exit;
-
 	label_dialog = E_MAIL_LABEL_DIALOG (dialog);
-	label_name = e_mail_label_dialog_get_label_name (label_dialog);
-	e_mail_label_dialog_get_label_color (label_dialog, &label_color);
-
 	tree_view = GTK_TREE_VIEW (manager->priv->tree_view);
 	model = gtk_tree_view_get_model (tree_view);
 
-	e_mail_label_list_store_set (
-		E_MAIL_LABEL_LIST_STORE (model),
-		NULL, label_name, &label_color);
+	gtk_window_set_title (GTK_WINDOW (dialog), _("Add Label"));
 
-exit:
+	while (repeat) {
+		repeat = FALSE;
+
+		if (gtk_dialog_run (GTK_DIALOG (dialog)) != GTK_RESPONSE_OK)
+			break;
+
+		label_name = e_mail_label_dialog_get_label_name (label_dialog);
+		e_mail_label_dialog_get_label_color (label_dialog, &label_color);
+
+		if (e_mail_label_list_store_lookup_by_name (E_MAIL_LABEL_LIST_STORE (model), label_name, NULL)) {
+			repeat = TRUE;
+			e_alert_run_dialog_for_args (
+				GTK_WINDOW (dialog),
+				"mail:error-label-exists", label_name, NULL);
+			continue;
+		}
+
+		e_mail_label_list_store_set (
+			E_MAIL_LABEL_LIST_STORE (model),
+			NULL, label_name, &label_color);
+	}
+
 	gtk_widget_destroy (dialog);
 }
 
@@ -184,6 +195,7 @@ mail_label_manager_edit_label (EMailLabelManager *manager)
 	GdkColor label_color;
 	const gchar *new_name;
 	gchar *label_name;
+	gboolean repeat = TRUE;
 
 	tree_view = GTK_TREE_VIEW (manager->priv->tree_view);
 	selection = gtk_tree_view_get_selection (tree_view);
@@ -203,16 +215,28 @@ mail_label_manager_edit_label (EMailLabelManager *manager)
 	e_mail_label_dialog_set_label_color (label_dialog, &label_color);
 	gtk_window_set_title (GTK_WINDOW (dialog), _("Edit Label"));
 
-	if (gtk_dialog_run (GTK_DIALOG (dialog)) != GTK_RESPONSE_OK)
-		goto exit;
+	while (repeat) {
+		repeat = FALSE;
 
-	new_name = e_mail_label_dialog_get_label_name (label_dialog);
-	e_mail_label_dialog_get_label_color (label_dialog, &label_color);
+		if (gtk_dialog_run (GTK_DIALOG (dialog)) != GTK_RESPONSE_OK)
+			break;
 
-	e_mail_label_list_store_set (
-		label_store, &iter, new_name, &label_color);
+		new_name = e_mail_label_dialog_get_label_name (label_dialog);
+		e_mail_label_dialog_get_label_color (label_dialog, &label_color);
 
-exit:
+		if (g_strcmp0 (new_name, label_name) != 0 &&
+		    e_mail_label_list_store_lookup_by_name (label_store, new_name, NULL)) {
+			repeat = TRUE;
+			e_alert_run_dialog_for_args (
+				GTK_WINDOW (dialog),
+				"mail:error-label-exists", new_name, NULL);
+			continue;
+		}
+
+		e_mail_label_list_store_set (
+			label_store, &iter, new_name, &label_color);
+	}
+
 	gtk_widget_destroy (dialog);
 
 	g_free (label_name);

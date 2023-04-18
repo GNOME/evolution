@@ -673,4 +673,10 @@ in the folder will be available in offline mode.</_secondary>
     <button stock="gtk-cancel" response="GTK_RESPONSE_CANCEL"/>
     <button _label="_Mark as Junk" response="GTK_RESPONSE_YES"/>
   </error>
+
+  <error id="error-label-exists" type="error">
+    <!-- Translators: {0} is the name of the folder where the delete of the message note failed. -->
+    <_primary>Label named “{0}” already exists</_primary>
+    <_secondary>Choose a different name, please.</_secondary>
+  </error>
 </error-list>

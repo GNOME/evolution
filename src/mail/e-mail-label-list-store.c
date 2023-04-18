@@ -685,6 +685,38 @@ e_mail_label_list_store_lookup (EMailLabelListStore *store,
 }
 
 gboolean
+e_mail_label_list_store_lookup_by_name (EMailLabelListStore *store,
+					const gchar *name,
+					GtkTreeIter *out_iter)
+{
+	GHashTableIter hash_iter;
+	GtkTreeIter *stored_iter;
+	gpointer value;
+
+	g_return_val_if_fail (E_IS_MAIL_LABEL_LIST_STORE (store), FALSE);
+	g_return_val_if_fail (name != NULL, FALSE);
+
+	g_hash_table_iter_init (&hash_iter, store->priv->tag_index);
+	while (g_hash_table_iter_next (&hash_iter, NULL, &value)) {
+		gchar *stored_name;
+
+		stored_iter = value;
+		stored_name = e_mail_label_list_store_get_name (store, stored_iter);
+
+		if (g_strcmp0 (stored_name, name) == 0) {
+			g_free (stored_name);
+			if (out_iter)
+				*out_iter = *stored_iter;
+			return TRUE;
+		}
+
+		g_free (stored_name);
+	}
+
+	return FALSE;
+}
+
+gboolean
 e_mail_label_tag_is_default (const gchar *tag)
 {
 	g_return_val_if_fail (tag != NULL, FALSE);

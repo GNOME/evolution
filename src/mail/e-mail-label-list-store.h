@@ -82,6 +82,9 @@ void		e_mail_label_list_store_set_with_tag	(EMailLabelListStore *store,
 gboolean	e_mail_label_list_store_lookup		(EMailLabelListStore *store,
 							 const gchar *tag,
 							 GtkTreeIter *iter);
+gboolean	e_mail_label_list_store_lookup_by_name	(EMailLabelListStore *store,
+							 const gchar *name,
+							 GtkTreeIter *out_iter);
 gboolean	e_mail_label_tag_is_default		(const gchar *tag);
 
 G_END_DECLS

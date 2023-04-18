@@ -908,54 +908,65 @@ action_mail_label_new_cb (GtkAction *action,
 	gchar *label_tag;
 	gint n_children;
 	guint ii;
+	gboolean repeat = TRUE;
 
 	dialog = e_mail_label_dialog_new (e_mail_reader_get_window (reader));
 
 	gtk_window_set_title (GTK_WINDOW (dialog), _("Add Label"));
 
-	if (gtk_dialog_run (GTK_DIALOG (dialog)) != GTK_RESPONSE_OK)
-		goto exit;
-
 	backend = e_mail_reader_get_backend (reader);
 	session = e_mail_backend_get_session (backend);
-	label_store = e_mail_ui_session_get_label_store (
-		E_MAIL_UI_SESSION (session));
-
+	label_store = e_mail_ui_session_get_label_store (E_MAIL_UI_SESSION (session));
 	label_dialog = E_MAIL_LABEL_DIALOG (dialog);
-	label_name = e_mail_label_dialog_get_label_name (label_dialog);
-	e_mail_label_dialog_get_label_color (label_dialog, &label_color);
 
-	e_mail_label_list_store_set (
-		label_store, NULL, label_name, &label_color);
+	while (repeat) {
+		repeat = FALSE;
 
-	/* XXX This is awkward.  We've added a new label to the list store
-	 *     but we don't have the new label's tag nor an iterator to use
-	 *     to fetch it.  We know the label was appended to the store,
-	 *     so we have to dig it out manually.  EMailLabelListStore API
-	 *     probably needs some rethinking. */
-	model = GTK_TREE_MODEL (label_store);
-	n_children = gtk_tree_model_iter_n_children (model, NULL);
-	g_warn_if_fail (gtk_tree_model_iter_nth_child (model, &iter, NULL, n_children - 1));
-	label_tag = e_mail_label_list_store_get_tag (label_store, &iter);
+		if (gtk_dialog_run (GTK_DIALOG (dialog)) != GTK_RESPONSE_OK)
+			break;
 
-	uids = e_mail_reader_get_selected_uids (reader);
-	if (uids) {
-		CamelFolder *folder;
+		label_name = e_mail_label_dialog_get_label_name (label_dialog);
+		e_mail_label_dialog_get_label_color (label_dialog, &label_color);
 
-		folder = e_mail_reader_ref_folder (reader);
-
-		for (ii = 0; ii < uids->len; ii++) {
-			camel_folder_set_message_user_flag (
-				folder, uids->pdata[ii], label_tag, TRUE);
+		if (e_mail_label_list_store_lookup_by_name (label_store, label_name, NULL)) {
+			repeat = TRUE;
+			e_alert_run_dialog_for_args (
+				GTK_WINDOW (dialog),
+				"mail:error-label-exists", label_name, NULL);
+			continue;
 		}
 
-		g_clear_object (&folder);
-		g_ptr_array_unref (uids);
+		e_mail_label_list_store_set (
+			label_store, NULL, label_name, &label_color);
+
+		/* XXX This is awkward.  We've added a new label to the list store
+		 *     but we don't have the new label's tag nor an iterator to use
+		 *     to fetch it.  We know the label was appended to the store,
+		 *     so we have to dig it out manually.  EMailLabelListStore API
+		 *     probably needs some rethinking. */
+		model = GTK_TREE_MODEL (label_store);
+		n_children = gtk_tree_model_iter_n_children (model, NULL);
+		g_warn_if_fail (gtk_tree_model_iter_nth_child (model, &iter, NULL, n_children - 1));
+		label_tag = e_mail_label_list_store_get_tag (label_store, &iter);
+
+		uids = e_mail_reader_get_selected_uids (reader);
+		if (uids) {
+			CamelFolder *folder;
+
+			folder = e_mail_reader_ref_folder (reader);
+
+			for (ii = 0; ii < uids->len; ii++) {
+				camel_folder_set_message_user_flag (
+					folder, uids->pdata[ii], label_tag, TRUE);
+			}
+
+			g_clear_object (&folder);
+			g_ptr_array_unref (uids);
+		}
+
+		g_free (label_tag);
 	}
 
-	g_free (label_tag);
-
- exit:
 	gtk_widget_destroy (dialog);
 }
 
