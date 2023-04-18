@@ -507,8 +507,8 @@ update_system_tz_widgets (GtkCheckButton *button,
 	const gchar *display_name;
 	gchar *text;
 
-	widget = e_builder_get_widget (prefs->priv->builder, "system-tz-label");
-	g_return_if_fail (GTK_IS_LABEL (widget));
+	widget = e_builder_get_widget (prefs->priv->builder, "use-system-tz-check");
+	g_return_if_fail (GTK_IS_CHECK_BUTTON (widget));
 
 	zone = e_cal_util_get_system_timezone ();
 	if (zone != NULL)
@@ -516,8 +516,9 @@ update_system_tz_widgets (GtkCheckButton *button,
 	else
 		display_name = "UTC";
 
-	text = g_strdup_printf ("(%s)", display_name);
-	gtk_label_set_text (GTK_LABEL (widget), text);
+	/* Translators: The '%s' is replaced with the time zone name, like "America/New York" or "UTC" */
+	text = g_strdup_printf (_("Use s_ystem time zone (%s)"), display_name);
+	gtk_button_set_label (GTK_BUTTON (widget), text);
 	g_free (text);
 }
 
