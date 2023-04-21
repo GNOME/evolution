@@ -1,3 +1,38 @@
+Evolution 3.48.1 2023-04-21
+---------------------------
+
+Bug Fixes:
+	I#1950 - Composer: Copy/paste changes text size in HTML mode
+	I#2278 - Signature is re-added to a Draft mail after open
+	I#2282 - Calendar: Summary not always shown in the Day View
+	I#2288 - Blockquotes styling changes in Markdown live preview when editing area is focused
+	I#2290 - Composer: Preserve '\n' inside paragraph text
+	I#2291 - Mail: libunity badge counter does not disappear
+	I#2293 - Cannot import pkcs12 with empty password
+	I#2302 - Mail: Space bar no longer scrolls preview messages
+	I#2317 - ESpinner: Do not animate when animations are disabled
+	I#2318 - Ctrl+Shift+F does not focus the search field when already visible
+	I#2319 - Composer: Bulleted list margin inconsistent in HTML
+	I#2320 - Composer: Can send outdated message content
+	I#2324 - ECompEditor: Classification submenu inaccessible for read-only calendars
+	I#2326 - RSS: Limit re-download on content change, if possible
+	I#2330 - Contacts: LDAP not searching for contact after launch
+	M!118 - iTIP-formatter: respect the color-scheme in HTML MIME parts (Дилян Палаузов)
+
+Miscellaneous:
+	e-gtkemojichooser: Correct packing of the internal widgets
+	Add plugins' directory into WebKitGTK only when it exists
+	e-util: Optimize e_util_check_gtk_bindings_in_key_press_event_cb() a bit
+	Calendar: Add shortcuts for move to previous/next date
+	Misc: Update contact information in the README.md file
+	README.md: Update information about the mailing list
+
+Translations:
+	Boyuan Yang (zh_CN)
+	Danial Behzadi (fa)
+	Nathan Follens (nl)
+	Piotr Drąg (pl)
+
 Evolution 3.48.0 2023-03-17
 ---------------------------
 
