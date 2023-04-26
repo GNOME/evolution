@@ -2725,6 +2725,10 @@ e_mail_display_init (EMailDisplay *display)
 		display, "process-mailto",
 		G_CALLBACK (mail_display_process_mailto), NULL);
 
+	g_signal_connect (
+		display, "resource-loaded",
+		G_CALLBACK (mail_display_schedule_iframes_height_update), NULL);
+
 	g_signal_connect_after (
 		display, "drag-data-get",
 		G_CALLBACK (mail_display_drag_data_get), display);

@@ -135,6 +135,7 @@ enum {
 	URI_REQUESTED,
 	CONTENT_LOADED,
 	BEFORE_POPUP_EVENT,
+	RESOURCE_LOADED,
 	LAST_SIGNAL
 };
 
@@ -906,6 +907,7 @@ web_view_uri_request_done_cb (GObject *source_object,
 			      gpointer user_data)
 {
 	WebKitURISchemeRequest *request = user_data;
+	WebKitWebView *web_view;
 	GInputStream *stream = NULL;
 	gint64 stream_length = -1;
 	gchar *mime_type = NULL;
@@ -926,6 +928,9 @@ web_view_uri_request_done_cb (GObject *source_object,
 		g_clear_object (&stream);
 		g_free (mime_type);
 	}
+
+	web_view = webkit_uri_scheme_request_get_web_view (request);
+	g_signal_emit (web_view, signals[RESOURCE_LOADED], 0, NULL);
 
 	g_object_unref (request);
 }
@@ -2424,6 +2429,14 @@ e_web_view_class_init (EWebViewClass *class)
 		G_STRUCT_OFFSET (EWebViewClass, content_loaded),
 		NULL, NULL, NULL,
 		G_TYPE_NONE, 1, G_TYPE_STRING);
+
+	signals[RESOURCE_LOADED] = g_signal_new (
+		"resource-loaded",
+		G_TYPE_FROM_CLASS (class),
+		G_SIGNAL_RUN_LAST,
+		0,
+		NULL, NULL, NULL,
+		G_TYPE_NONE, 0, G_TYPE_NONE);
 }
 
 static void
