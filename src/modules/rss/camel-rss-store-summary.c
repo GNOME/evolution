@@ -51,6 +51,8 @@ rss_feed_free (gpointer ptr)
 		g_free (feed->href);
 		g_free (feed->display_name);
 		g_free (feed->icon_filename);
+		g_free (feed->last_etag);
+		g_free (feed->last_modified);
 		g_free (feed);
 	}
 }
