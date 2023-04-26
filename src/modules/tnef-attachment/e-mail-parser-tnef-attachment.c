@@ -76,7 +76,7 @@ static const gchar *parser_mime_types[] = {
 static gint verbose = 0;
 static gint saveRTF = 0;
 static gint saveintermediate = 0;
-static void processTnef (TNEFStruct *tnef, const gchar *tmpdir);
+static void processTnef (TNEFStruct *tnef, const gchar *tmpdir, CamelMimePart **out_mainpart, GSList **out_attachments);
 static void saveVCalendar (TNEFStruct *tnef, const gchar *tmpdir);
 static void saveVCard (TNEFStruct *tnef, const gchar *tmpdir);
 static void saveVTask (TNEFStruct *tnef, const gchar *tmpdir);
@@ -115,11 +115,9 @@ empe_tnef_attachment_parse (EMailParserExtension *extension,
 {
 	gchar *tmpdir, *name;
 	CamelStream *out;
-	struct dirent *d;
-	DIR *dir;
-	CamelMultipart *mp;
-	CamelMimePart *mainpart;
+	CamelMimePart *mainpart = NULL;
 	CamelDataWrapper *content;
+	GSList *attachments = NULL; /* CamelMimePart * */
 	TNEFStruct tnef;
 	gboolean success = FALSE;
 
@@ -160,69 +158,105 @@ empe_tnef_attachment_parse (EMailParserExtension *extension,
 	} else {
 		success = TRUE;
 	}
-	processTnef (&tnef, tmpdir);
+	processTnef (&tnef, tmpdir, &mainpart, &attachments);
 
 	TNEFFree (&tnef);
 	/* Extraction done */
 
-	dir = success ? opendir (tmpdir) : NULL;
-	if (dir == NULL) {
-		g_free (tmpdir);
-		g_free (name);
-		return FALSE;
-	}
+	if (mainpart) {
+		success = TRUE;
+		if (attachments) {
+			CamelMultipart *mp;
+			GSList *link;
 
-	mainpart = camel_mime_part_new ();
+			mp = camel_multipart_new ();
+			camel_data_wrapper_set_mime_type (CAMEL_DATA_WRAPPER (mp), "multipart/mixed");
+			camel_multipart_set_boundary (mp, NULL);
+			camel_multipart_add_part (mp, mainpart);
+			g_object_unref (mainpart);
 
-	mp = camel_multipart_new ();
-	camel_data_wrapper_set_mime_type ((CamelDataWrapper *) mp, "multipart/mixed");
-	camel_multipart_set_boundary (mp, NULL);
+			attachments = g_slist_reverse (attachments);
 
-	camel_medium_set_content ((CamelMedium *) mainpart, (CamelDataWrapper *) mp);
+			for (link = attachments; link; link = g_slist_next (link)) {
+				CamelMimePart *apart = link->data;
 
-	while ((d = readdir (dir))) {
-		CamelMimePart *part;
-		CamelDataWrapper *content;
-		CamelStream *stream;
-		gchar *path;
-		gchar *guessed_mime_type;
+				camel_multipart_add_part (mp, apart);
+			}
 
-		if (!strcmp (d->d_name, ".")
-		    || !strcmp (d->d_name, "..")
-		    || !strcmp (d->d_name, ".evo-attachment.tnef"))
-		    continue;
+			mainpart = camel_mime_part_new ();
+			camel_medium_set_content (CAMEL_MEDIUM (mainpart), CAMEL_DATA_WRAPPER (mp));
 
-		path = g_build_filename (tmpdir, d->d_name, NULL);
+			g_slist_free_full (attachments, g_object_unref);
+			g_object_unref (mp);
+		}
+	} else {
+		CamelMultipart *mp;
+		DIR *dir;
+		struct dirent *d;
 
-		stream = camel_stream_fs_new_with_name (path, O_RDONLY, 0, NULL);
-		content = camel_data_wrapper_new ();
-		camel_data_wrapper_construct_from_stream_sync (
-			content, stream, NULL, NULL);
-		g_object_unref (stream);
+		g_warn_if_fail (attachments == NULL);
 
-		part = camel_mime_part_new ();
-		camel_mime_part_set_encoding (part, CAMEL_TRANSFER_ENCODING_BINARY);
-
-		camel_medium_set_content ((CamelMedium *) part, content);
-		g_object_unref (content);
-
-		guessed_mime_type = e_mail_part_guess_mime_type (part);
-		if (guessed_mime_type) {
-			camel_data_wrapper_set_mime_type ((CamelDataWrapper *) part, guessed_mime_type);
-			g_free (guessed_mime_type);
+		dir = success ? opendir (tmpdir) : NULL;
+		if (dir == NULL) {
+			g_free (tmpdir);
+			g_free (name);
+			return FALSE;
 		}
 
-		camel_mime_part_set_filename (part, d->d_name);
+		mainpart = camel_mime_part_new ();
 
-		g_free (path);
+		mp = camel_multipart_new ();
+		camel_data_wrapper_set_mime_type ((CamelDataWrapper *) mp, "multipart/mixed");
+		camel_multipart_set_boundary (mp, NULL);
 
-		camel_multipart_add_part (mp, part);
-		g_object_unref (part);
+		camel_medium_set_content ((CamelMedium *) mainpart, (CamelDataWrapper *) mp);
+
+		while ((d = readdir (dir))) {
+			CamelMimePart *part;
+			CamelDataWrapper *content;
+			CamelStream *stream;
+			gchar *path;
+			gchar *guessed_mime_type;
+
+			if (!strcmp (d->d_name, ".")
+			    || !strcmp (d->d_name, "..")
+			    || !strcmp (d->d_name, ".evo-attachment.tnef"))
+			    continue;
+
+			path = g_build_filename (tmpdir, d->d_name, NULL);
+
+			stream = camel_stream_fs_new_with_name (path, O_RDONLY, 0, NULL);
+			content = camel_data_wrapper_new ();
+			camel_data_wrapper_construct_from_stream_sync (
+				content, stream, NULL, NULL);
+			g_object_unref (stream);
+
+			part = camel_mime_part_new ();
+			camel_mime_part_set_encoding (part, CAMEL_TRANSFER_ENCODING_BINARY);
+
+			camel_medium_set_content ((CamelMedium *) part, content);
+			g_object_unref (content);
+
+			guessed_mime_type = e_mail_part_guess_mime_type (part);
+			if (guessed_mime_type) {
+				camel_data_wrapper_set_mime_type ((CamelDataWrapper *) part, guessed_mime_type);
+				g_free (guessed_mime_type);
+			}
+
+			camel_mime_part_set_filename (part, d->d_name);
+
+			g_free (path);
+
+			camel_multipart_add_part (mp, part);
+			g_object_unref (part);
+		}
+
+		closedir (dir);
+
+		success = camel_multipart_get_number (mp) > 0;
+
+		g_object_unref (mp);
 	}
-
-	closedir (dir);
-
-	success = camel_multipart_get_number (mp) > 0;
 
 	if (success) {
 		GQueue work_queue = G_QUEUE_INIT;
@@ -240,7 +274,6 @@ empe_tnef_attachment_parse (EMailParserExtension *extension,
 		g_string_truncate (part_id, len);
 	}
 
-	g_object_unref (mp);
 	g_object_unref (mainpart);
 
 	g_free (name);
@@ -308,179 +341,247 @@ e_tnef_get_string_user_prop (MAPIProps *props,
 }
 
 static void
-processTnef (TNEFStruct *tnef,
-             const gchar *tmpdir)
+extract_attachments (TNEFStruct *tnef,
+		     const gchar *tmpdir,
+		     GSList **out_attachments)
 {
-    variableLength *filename;
-    variableLength *filedata;
-    Attachment *p;
-    gint RealAttachment;
-    gint object;
-    gchar *ifilename = NULL;
-    gchar *absfilename, *file;
-    gint count;
-    gint foundCal = 0;
+	variableLength *filename;
+	variableLength *filedata;
+	Attachment *p;
+	gint RealAttachment;
+	gint object;
+	gint count;
 
-    FILE *fptr;
+	p = tnef->starting_attach.next;
+	count = 0;
+	while (p != NULL) {
+		count++;
+		/* Make sure it has a size. */
+		if (p->FileData.size > 0) {
+			TNEFStruct emb_tnef;
+			DWORD signature;
 
-    /* First see if this requires special processing. */
-    /* ie: it's a Contact Card, Task, or Meeting request (vCal/vCard) */
-    if (tnef->messageClass[0] != 0)  {
+			object = 1;
+
+			/* See if the contents are stored as "attached data" */
+			/* Inside the MAPI blocks. */
+			if ((filedata = MAPIFindProperty (&(p->MAPI), PROP_TAG (PT_OBJECT, PR_ATTACH_DATA_OBJ))) == MAPI_UNDEFINED) {
+				if ((filedata = MAPIFindProperty (&(p->MAPI), PROP_TAG (PT_BINARY, PR_ATTACH_DATA_OBJ))) == MAPI_UNDEFINED) {
+					/* Nope, standard TNEF stuff. */
+					filedata = &(p->FileData);
+					object = 0;
+				}
+			}
+
+			/* See if this is an embedded TNEF stream. */
+			RealAttachment = 1;
+			/*  when this is an "embedded object", so skip the  16-byte identifier first. */
+			memcpy (&signature, filedata->data + (object ? 16 : 0), sizeof (DWORD));
+			if (TNEFCheckForSignature (signature) == 0) {
+				/* Has a TNEF signature, so process it. */
+				TNEFInitialize (&emb_tnef);
+				emb_tnef.Debug = tnef->Debug;
+				if (TNEFParseMemory ((guchar *) filedata->data + (object ? 16 : 0), filedata->size - (object ? 16 : 0), &emb_tnef) != -1) {
+					processTnef (&emb_tnef, tmpdir, NULL, out_attachments);
+					RealAttachment = 0;
+				}
+				TNEFFree (&emb_tnef);
+			}
+			if ((RealAttachment == 1) || (saveintermediate == 1)) {
+				gchar tmpname[20];
+				/* Ok, it's not an embedded stream, so now we */
+				/* process it. */
+				if ((filename = e_tnef_get_string_prop (&(p->MAPI), PR_ATTACH_LONG_FILENAME)) == MAPI_UNDEFINED) {
+					if ((filename = e_tnef_get_string_prop (&(p->MAPI), PR_ATTACH_FILENAME)) == MAPI_UNDEFINED) {
+						if ((filename = e_tnef_get_string_prop (&(p->MAPI), PR_DISPLAY_NAME)) == MAPI_UNDEFINED) {
+							filename = &(p->Title);
+						}
+					}
+				}
+				if (filename->size == 1) {
+					filename->size = 20;
+					g_sprintf (tmpname, "file_%03i.dat", count);
+					filename->data = (guchar *) tmpname;
+				}
+				if (out_attachments) {
+					CamelMimePart *apart;
+					variableLength *tmp;
+
+					apart = camel_mime_part_new ();
+					camel_mime_part_set_content (apart, (const gchar *) filedata->data + (object ? 16 : 0),
+						filedata->size - (object ? 16 : 0), "application/octet-stream");
+					camel_mime_part_set_filename (apart, (const gchar *) filename->data);
+					camel_mime_part_set_encoding (apart, CAMEL_TRANSFER_ENCODING_BASE64);
+
+					tmp = e_tnef_get_string_prop (&(p->MAPI), PR_ATTACH_CONTENT_ID);
+					if (tmp != MAPI_UNDEFINED)
+						camel_mime_part_set_content_id (apart, (const gchar *) tmp->data);
+
+					tmp = e_tnef_get_string_prop (&(p->MAPI), PR_ATTACH_CONTENT_LOCATION);
+					if (tmp != MAPI_UNDEFINED)
+						camel_mime_part_set_content_location (apart, (const gchar *) tmp->data);
+
+					tmp = e_tnef_get_string_prop (&(p->MAPI), PR_ATTACH_MIME_TAG);
+					if (tmp != MAPI_UNDEFINED) {
+						camel_data_wrapper_set_mime_type (CAMEL_DATA_WRAPPER (apart), (const gchar *) tmp->data);
+					} else {
+						gchar *guessed_mime_type;
+
+						guessed_mime_type = e_mail_part_guess_mime_type (apart);
+						if (guessed_mime_type) {
+							camel_data_wrapper_set_mime_type (CAMEL_DATA_WRAPPER (apart), guessed_mime_type);
+							g_free (guessed_mime_type);
+						}
+					}
+
+					*out_attachments = g_slist_prepend (*out_attachments, apart);
+				} else {
+					FILE *fptr;
+					gchar *absfilename, *ifilename;
+
+					absfilename = sanitize_filename ((const gchar *) filename->data);
+					if (!absfilename)
+						return;
+					ifilename = g_build_filename (tmpdir, absfilename, NULL);
+					g_free (absfilename);
+
+					if ((fptr = fopen (ifilename, "wb")) == NULL) {
+						printf ("ERROR: Error writing file to disk!");
+					} else {
+						fwrite (filedata->data + (object ? 16 : 0), sizeof (BYTE), filedata->size - (object ? 16 : 0), fptr);
+						fclose (fptr);
+					}
+					g_clear_pointer (&ifilename, g_free);
+				}
+			}
+		} /* if size>0 */
+		p = p->next;
+	} /* while p!= null */
+}
+
+static void
+processTnef (TNEFStruct *tnef,
+             const gchar *tmpdir,
+	     CamelMimePart **out_mainpart,
+	     GSList **out_attachments) /* CamelMimePart * */
+{
+	variableLength *filename;
+	gchar *ifilename = NULL;
+	gchar *absfilename, *file;
+	gint foundCal = 0;
+
+	/* First see if this requires special processing. */
+	/* ie: it's a Contact Card, Task, or Meeting request (vCal/vCard) */
 	if (strcmp (tnef->messageClass, "IPM.Contact") == 0) {
-	    saveVCard (tnef, tmpdir);
-	}
-	if (strcmp (tnef->messageClass, "IPM.Task") == 0) {
-	    saveVTask (tnef, tmpdir);
-	}
-	if (strcmp (tnef->messageClass, "IPM.Appointment") == 0 ||
-	    g_str_has_prefix (tnef->messageClass, "IPM.Microsoft Schedule.")) {
-	    saveVCalendar (tnef, tmpdir);
-	    foundCal = 1;
-	}
-    }
-
-    if ((filename = e_tnef_get_string_user_prop (&(tnef->MapiProperties), 0x24)) != MAPI_UNDEFINED) {
-	if (strcmp ((const gchar *) filename->data, "IPM.Appointment") == 0 ||
-	    g_str_has_prefix ((const gchar *) filename->data, "IPM.Microsoft Schedule.")) {
-             /* If it's "indicated" twice, we don't want to save 2 calendar entries. */
-	    if (foundCal == 0) {
+		saveVCard (tnef, tmpdir);
+	} else if (strcmp (tnef->messageClass, "IPM.Task") == 0) {
+		saveVTask (tnef, tmpdir);
+	} else if (strcmp (tnef->messageClass, "IPM.Appointment") == 0 ||
+		   g_str_has_prefix (tnef->messageClass, "IPM.Microsoft Schedule.")) {
 		saveVCalendar (tnef, tmpdir);
-	    }
+		foundCal = 1;
 	}
-    }
 
-    if (strcmp (tnef->messageClass, "IPM.Microsoft Mail.Note") == 0) {
-	if ((saveRTF == 1) && (tnef->subject.size > 0)) {
-            /*  Description */
-	    if ((filename = MAPIFindProperty (&(tnef->MapiProperties),
-					   PROP_TAG (PT_BINARY, PR_RTF_COMPRESSED)))
-		    != MAPI_UNDEFINED) {
-		variableLength buf;
-		if ((buf.data = DecompressRTF (filename, &buf.size)) != NULL) {
-		    file = sanitize_filename ((const gchar *) tnef->subject.data);
-		    if (!file)
-			    return;
-		    absfilename = g_strconcat (file, ".rtf", NULL);
-		    ifilename = g_build_filename (tmpdir, file, NULL);
-		    g_free (absfilename);
-		    g_free (file);
-
-		    if ((fptr = fopen (ifilename, "wb")) == NULL) {
-			printf ("ERROR: Error writing file to disk!");
-		    } else {
-			fwrite (
-				buf.data,
-				sizeof (BYTE),
-				buf.size,
-				fptr);
-			fclose (fptr);
-		    }
-		    free (buf.data);
+	if ((filename = e_tnef_get_string_user_prop (&(tnef->MapiProperties), 0x24)) != MAPI_UNDEFINED) {
+		if (strcmp ((const gchar *) filename->data, "IPM.Appointment") == 0 ||
+		    g_str_has_prefix ((const gchar *) filename->data, "IPM.Microsoft Schedule.")) {
+			/* If it's "indicated" twice, we don't want to save 2 calendar entries. */
+			if (foundCal == 0) {
+				saveVCalendar (tnef, tmpdir);
+			}
 		}
-	    }
 	}
-    }
 
-    /* Now process each attachment */
-    p = tnef->starting_attach.next;
-    count = 0;
-    while (p != NULL) {
-	count++;
-        /* Make sure it has a size. */
-	if (p->FileData.size > 0) {
-	    object = 1;
+	if (strcmp (tnef->messageClass, "IPM.Microsoft Mail.Note") == 0) {
+		if ((saveRTF == 1) && (tnef->subject.size > 0)) {
+			/* Description */
+			if ((filename = MAPIFindProperty (&(tnef->MapiProperties), PROP_TAG (PT_BINARY, PR_RTF_COMPRESSED))) != MAPI_UNDEFINED) {
+				variableLength buf;
+				if ((buf.data = DecompressRTF (filename, &buf.size)) != NULL) {
+					FILE *fptr;
 
-            /* See if the contents are stored as "attached data" */
-	    /* Inside the MAPI blocks. */
-	    if ((filedata = MAPIFindProperty (&(p->MAPI),
-				    PROP_TAG (PT_OBJECT, PR_ATTACH_DATA_OBJ)))
-		    == MAPI_UNDEFINED) {
-		if ((filedata = MAPIFindProperty (&(p->MAPI),
-				    PROP_TAG (PT_BINARY, PR_ATTACH_DATA_OBJ)))
-		   == MAPI_UNDEFINED) {
-                    /* Nope, standard TNEF stuff. */
-		    filedata = &(p->FileData);
-		    object = 0;
-		}
-	    }
-            /* See if this is an embedded TNEF stream. */
-	    RealAttachment = 1;
-	    if (object == 1) {
-                /*  This is an "embedded object", so skip the */
-                /* 16-byte identifier first. */
-		TNEFStruct emb_tnef;
-		DWORD signature;
-		memcpy (&signature, filedata->data + 16, sizeof (DWORD));
-		if (TNEFCheckForSignature (signature) == 0) {
-                    /* Has a TNEF signature, so process it. */
-		    TNEFInitialize (&emb_tnef);
-		    emb_tnef.Debug = tnef->Debug;
-		    if (TNEFParseMemory ((guchar *) filedata->data + 16,
-			     filedata->size - 16, &emb_tnef) != -1) {
-			processTnef (&emb_tnef, tmpdir);
-			RealAttachment = 0;
-		    }
-		    TNEFFree (&emb_tnef);
-		}
-	    } else {
-		TNEFStruct emb_tnef;
-		DWORD signature;
-		memcpy (&signature, filedata->data, sizeof (DWORD));
-		if (TNEFCheckForSignature (signature) == 0) {
-                    /* Has a TNEF signature, so process it. */
-		    TNEFInitialize (&emb_tnef);
-		    emb_tnef.Debug = tnef->Debug;
-		    if (TNEFParseMemory ((guchar *) filedata->data,
-			    filedata->size, &emb_tnef) != -1) {
-			processTnef (&emb_tnef, tmpdir);
-			RealAttachment = 0;
-		    }
-		    TNEFFree (&emb_tnef);
-		}
-	    }
-	    if ((RealAttachment == 1) || (saveintermediate == 1)) {
-		gchar tmpname[20];
-                /* Ok, it's not an embedded stream, so now we */
-		/* process it. */
-		if ((filename = e_tnef_get_string_prop (&(p->MAPI), PR_ATTACH_LONG_FILENAME)) == MAPI_UNDEFINED) {
-		    if ((filename = e_tnef_get_string_prop (&(p->MAPI), PR_DISPLAY_NAME)) == MAPI_UNDEFINED) {
-			filename = &(p->Title);
-		    }
-		}
-		if (filename->size == 1) {
-		    filename->size = 20;
-		    g_sprintf (tmpname, "file_%03i.dat", count);
-		    filename->data = (guchar *) tmpname;
-		}
-		absfilename = sanitize_filename ((const gchar *) filename->data);
-		if (!absfilename)
-		    return;
-		ifilename = g_build_filename (tmpdir, absfilename, NULL);
-		g_free (absfilename);
+					file = sanitize_filename ((const gchar *) tnef->subject.data);
+					if (!file)
+						return;
+					absfilename = g_strconcat (file, ".rtf", NULL);
+					ifilename = g_build_filename (tmpdir, file, NULL);
+					g_free (absfilename);
+					g_free (file);
 
-		if ((fptr = fopen (ifilename, "wb")) == NULL) {
-		    printf ("ERROR: Error writing file to disk!");
-		} else {
-		    if (object == 1) {
-			fwrite (
-				filedata->data + 16,
-				sizeof (BYTE),
-				filedata->size - 16,
-				fptr);
-		    } else {
-			fwrite (
-				filedata->data,
-				sizeof (BYTE),
-				filedata->size,
-				fptr);
-		    }
-		    fclose (fptr);
+					if ((fptr = fopen (ifilename, "wb")) == NULL) {
+						printf ("ERROR: Error writing file to disk!");
+					} else {
+						fwrite (buf.data, sizeof (BYTE), buf.size, fptr);
+						fclose (fptr);
+					}
+					free (buf.data);
+					g_clear_pointer (&ifilename, g_free);
+				}
+			}
+		} else if (out_mainpart) {
+			variableLength *body_html;
+
+			body_html = e_tnef_get_string_user_prop (&(tnef->MapiProperties), PR_BODY_HTML);
+			if (body_html == MAPI_UNDEFINED)
+				body_html = MAPIFindProperty (&(tnef->MapiProperties), PROP_TAG (PT_BINARY, PR_BODY_HTML));
+			if (body_html != MAPI_UNDEFINED) {
+				CamelMultipart *mp;
+				GSList *attachments = NULL, *link;
+
+				*out_mainpart = camel_mime_part_new ();
+				camel_mime_part_set_encoding (*out_mainpart, CAMEL_TRANSFER_ENCODING_BINARY);
+				camel_mime_part_set_content (*out_mainpart, (const gchar *) body_html->data, body_html->size, "text/html");
+
+				extract_attachments (tnef, tmpdir, &attachments);
+
+				if (attachments) {
+					GSList *noncid_attachments = NULL;
+					gboolean any_cid = FALSE;
+
+					for (link = attachments; link && !any_cid; link = g_slist_next (link)) {
+						CamelMimePart *apart = link->data;
+
+						any_cid = camel_mime_part_get_content_id (apart) != NULL;
+					}
+
+					if (any_cid) {
+						mp = camel_multipart_new ();
+						camel_data_wrapper_set_mime_type (CAMEL_DATA_WRAPPER (mp), "multipart/related");
+						camel_multipart_set_boundary (mp, NULL);
+						camel_multipart_add_part (mp, *out_mainpart);
+						g_object_unref (*out_mainpart);
+
+						*out_mainpart = camel_mime_part_new ();
+						camel_medium_set_content (CAMEL_MEDIUM (*out_mainpart), CAMEL_DATA_WRAPPER (mp));
+
+						attachments = g_slist_reverse (attachments);
+
+						for (link = attachments; link; link = g_slist_next (link)) {
+							CamelMimePart *apart = link->data;
+
+							if (camel_mime_part_get_content_id (apart)) {
+								camel_multipart_add_part (mp, apart);
+							} else {
+								noncid_attachments = g_slist_prepend (noncid_attachments, g_object_ref (apart));
+							}
+						}
+
+						g_slist_free_full (attachments, g_object_unref);
+						g_object_unref (mp);
+
+						*out_attachments = noncid_attachments;
+					} else {
+						*out_attachments = attachments;
+					}
+				}
+
+				return;
+			}
 		}
-	    }
-	} /* if size>0 */
-	p = p->next;
-    } /* while p!= null */
-    g_free (ifilename);
+	}
+
+	/* Now process each attachment */
+	extract_attachments (tnef, tmpdir, NULL);
 }
 
 static void
