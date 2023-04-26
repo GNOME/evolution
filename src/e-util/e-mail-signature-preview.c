@@ -110,7 +110,8 @@ mail_signature_preview_load_cb (ESource *source,
 }
 
 static void
-mail_signature_preview_web_process_crashed_cb (EMailSignaturePreview *preview)
+mail_signature_preview_web_process_terminated_cb (EMailSignaturePreview *preview,
+						  WebKitWebProcessTerminationReason reason)
 {
 	g_return_if_fail (E_IS_MAIL_SIGNATURE_PREVIEW (preview));
 
@@ -318,8 +319,8 @@ e_mail_signature_preview_init (EMailSignaturePreview *preview)
 	preview->priv->webprocess_crashed = FALSE;
 
 	g_signal_connect (
-		preview, "web-process-crashed",
-		G_CALLBACK (mail_signature_preview_web_process_crashed_cb), NULL);
+		preview, "web-process-terminated",
+		G_CALLBACK (mail_signature_preview_web_process_terminated_cb), NULL);
 }
 
 GtkWidget *

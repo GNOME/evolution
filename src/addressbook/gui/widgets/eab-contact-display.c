@@ -426,7 +426,8 @@ contact_display_update_actions (EWebView *web_view)
 }
 
 static void
-contact_display_web_process_crashed_cb (EABContactDisplay *display)
+contact_display_web_process_terminated_cb (EABContactDisplay *display,
+					   WebKitWebProcessTerminationReason reason)
 {
 	EAlertSink *alert_sink;
 
@@ -534,8 +535,8 @@ eab_contact_display_init (EABContactDisplay *display)
 	ui_manager = e_web_view_get_ui_manager (web_view);
 
 	g_signal_connect (
-		display, "web-process-crashed",
-		G_CALLBACK (contact_display_web_process_crashed_cb), NULL);
+		display, "web-process-terminated",
+		G_CALLBACK (contact_display_web_process_terminated_cb), NULL);
 
 	g_signal_connect (
 		web_view, "content-loaded",

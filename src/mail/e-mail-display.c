@@ -2459,7 +2459,8 @@ e_mail_display_test_change_and_reload_cb (EMailDisplay *mail_display,
 }
 
 static void
-mail_display_web_process_crashed_cb (EMailDisplay *display)
+mail_display_web_process_terminated_cb (EMailDisplay *display,
+					WebKitWebProcessTerminationReason reason)
 {
 	EAlertSink *alert_sink;
 
@@ -2713,8 +2714,8 @@ e_mail_display_init (EMailDisplay *display)
 	display->priv->scheduled_reload = 0;
 
 	g_signal_connect (
-		display, "web-process-crashed",
-		G_CALLBACK (mail_display_web_process_crashed_cb), NULL);
+		display, "web-process-terminated",
+		G_CALLBACK (mail_display_web_process_terminated_cb), NULL);
 
 	g_signal_connect (
 		display, "decide-policy",

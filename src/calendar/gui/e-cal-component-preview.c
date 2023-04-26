@@ -689,7 +689,8 @@ load_comp (ECalComponentPreview *preview)
 }
 
 static void
-cal_component_preview_web_process_crashed_cb (ECalComponentPreview *preview)
+cal_component_preview_web_process_terminated_cb (ECalComponentPreview *preview,
+						 WebKitWebProcessTerminationReason reason)
 {
 	EAlertSink *alert_sink;
 	const gchar *tagid;
@@ -742,8 +743,8 @@ e_cal_component_preview_init (ECalComponentPreview *preview)
 	preview->priv = E_CAL_COMPONENT_PREVIEW_GET_PRIVATE (preview);
 
 	g_signal_connect (
-		preview, "web-process-crashed",
-		G_CALLBACK (cal_component_preview_web_process_crashed_cb), NULL);
+		preview, "web-process-terminated",
+		G_CALLBACK (cal_component_preview_web_process_terminated_cb), NULL);
 }
 
 GtkWidget *

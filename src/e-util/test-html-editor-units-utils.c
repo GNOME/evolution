@@ -219,10 +219,14 @@ undo_content_test (TestFixture *fixture,
 }
 
 static gboolean
-test_utils_web_process_crashed_cb (WebKitWebView *web_view,
-				   gpointer user_data)
+test_utils_web_process_terminated_cb (WebKitWebView *web_view,
+				      WebKitWebProcessTerminationReason reason,
+				      gpointer user_data)
 {
-	g_warning ("%s:", G_STRFUNC);
+	g_warning ("%s: reason: %s", G_STRFUNC,
+		reason == WEBKIT_WEB_PROCESS_CRASHED ? "crashed" :
+		reason == WEBKIT_WEB_PROCESS_EXCEEDED_MEMORY_LIMIT ? "exceeded memory limit" :
+		reason == WEBKIT_WEB_PROCESS_TERMINATED_BY_API ? "terminated by API" : "unknown reason");
 
 	return FALSE;
 }
@@ -307,8 +311,8 @@ test_utils_html_editor_created_cb (GObject *source_object,
 		"height-request", 150,
 		NULL);
 
-	g_signal_connect (cnt_editor, "web-process-crashed",
-		G_CALLBACK (test_utils_web_process_crashed_cb), NULL);
+	g_signal_connect (cnt_editor, "web-process-terminated",
+		G_CALLBACK (test_utils_web_process_terminated_cb), NULL);
 
 	if (WEBKIT_IS_WEB_VIEW (cnt_editor)) {
 		WebKitSettings *web_settings;

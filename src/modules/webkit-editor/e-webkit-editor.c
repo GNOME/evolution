@@ -5356,7 +5356,8 @@ webkit_editor_drag_drop_cb (EWebKitEditor *wk_editor,
 }
 
 static void
-webkit_editor_web_process_crashed_cb (EWebKitEditor *wk_editor)
+webkit_editor_web_process_terminated_cb (EWebKitEditor *wk_editor,
+					 WebKitWebProcessTerminationReason reason)
 {
 	GtkWidget *widget;
 
@@ -5833,8 +5834,8 @@ e_webkit_editor_init (EWebKitEditor *wk_editor)
 		G_CALLBACK (webkit_editor_drag_motion_cb), NULL);
 
 	g_signal_connect (
-		wk_editor, "web-process-crashed",
-		G_CALLBACK (webkit_editor_web_process_crashed_cb), NULL);
+		wk_editor, "web-process-terminated",
+		G_CALLBACK (webkit_editor_web_process_terminated_cb), NULL);
 
 	g_signal_connect (
 		wk_editor, "style-updated",
