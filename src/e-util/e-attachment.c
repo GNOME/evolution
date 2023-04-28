@@ -55,7 +55,7 @@
 #define EMBLEM_SIGN_UNKNOWN	"stock_signature"
 
 /* Attributes needed for EAttachmentStore columns. */
-#define ATTACHMENT_QUERY "standard::*,preview::*,thumbnail::*"
+#define ATTACHMENT_QUERY "standard::*,preview::*,thumbnail::*," G_FILE_ATTRIBUTE_TIME_MODIFIED
 
 struct _EAttachmentPrivate {
 	GMutex property_lock;
@@ -2691,6 +2691,42 @@ e_attachment_open_async (EAttachment *attachment,
 
 	if (G_IS_APP_INFO (app_info))
 		open_context->app_info = g_object_ref (app_info);
+
+	/* open existing file only if it did not change */
+	if (file && mime_part) {
+		GFileInfo *disk_file_info;
+		gboolean same = FALSE;
+
+		disk_file_info = g_file_query_info (file, G_FILE_ATTRIBUTE_TIME_MODIFIED "," G_FILE_ATTRIBUTE_STANDARD_SIZE, G_FILE_QUERY_INFO_NONE, NULL, NULL);
+		if (disk_file_info) {
+			GFileInfo *attachment_file_info;
+
+			attachment_file_info = e_attachment_ref_file_info (attachment);
+			if (attachment_file_info) {
+				guint64 a_size, f_size;
+
+				a_size = g_file_info_get_attribute_uint64 (attachment_file_info, G_FILE_ATTRIBUTE_STANDARD_SIZE);
+				f_size = g_file_info_get_attribute_uint64 (disk_file_info, G_FILE_ATTRIBUTE_STANDARD_SIZE);
+
+				same = a_size == f_size;
+
+				if (same) {
+					guint64 a_modified, f_modified;
+
+					a_modified = g_file_info_get_attribute_uint64 (attachment_file_info, G_FILE_ATTRIBUTE_TIME_MODIFIED);
+					f_modified = g_file_info_get_attribute_uint64 (disk_file_info, G_FILE_ATTRIBUTE_TIME_MODIFIED);
+
+					same = a_modified == f_modified;
+				}
+			}
+
+			g_clear_object (&attachment_file_info);
+			g_clear_object (&disk_file_info);
+		}
+
+		if (!same)
+			g_clear_object (&file);
+	}
 
 	/* If the attachment already references a GFile, we can launch
 	 * the application directly.  Otherwise we have to save the MIME
