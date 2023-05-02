@@ -5431,7 +5431,10 @@ EvoEditor.InsertContent = function(text, isHTML, quote, preferPre)
 				// workaround https://bugs.webkit.org/show_bug.cgi?id=250003
 				if (isPaste && node.nodeType == node.ELEMENT_NODE && node.tagName != "SPAN" &&
 				    node.hasAttribute("style")) {
+					var backgroundColor = node.style.backgroundColor;
 					node.removeAttribute("style");
+					if (backgroundColor != "")
+						node.style.backgroundColor = backgroundColor;
 				}
 
 				if (node.nodeType == node.ELEMENT_NODE && node.tagName == "P") {
@@ -5444,8 +5447,12 @@ EvoEditor.InsertContent = function(text, isHTML, quote, preferPre)
 				} else if (isPaste && node.nodeType == node.ELEMENT_NODE && node.tagName == "SPAN" &&
 					   node.attributes.length == 1 && node.attributes[0].name == "style" &&
 					   node.style.length > 0 && node.fontSize != "") {
-					EvoEditor.moveNodeContent(node, null);
-					removeNode = true;
+					if (node.style.length == 1 && node.style.backgroundColor != "") {
+						// do nothing, the editor itself sets the backgroundColor too
+					} else {
+						EvoEditor.moveNodeContent(node, null);
+						removeNode = true;
+					}
 				}
 
 				next = EvoEditor.getNextNodeInHierarchy(node, content);
