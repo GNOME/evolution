@@ -5,15 +5,15 @@
 # Meelad Zakaria <meelad@farsiweb.info>, 2004, 2005, 2006.
 # Hamed Malek <hamed@farsiweb.info>, 2005.
 # Elnaz Sarbar <elnaz@farsiweb.info>, 2005, 2006.
-# Danial Behzadi <dani.behzi@gmail.com>, 2012, 2020-2022.
+# Danial Behzadi <dani.behzi@gmail.com>, 2012, 2020-2023.
 # haghighi <haghighi.ahmad@gmail.com>, 2022.
 #
 msgid ""
 msgstr ""
 "Project-Id-Version: evolution\n"
 "Report-Msgid-Bugs-To: https://gitlab.gnome.org/GNOME/evolution/issues\n"
-"POT-Creation-Date: 2023-03-22 11:38+0000\n"
-"PO-Revision-Date: 2023-03-22 15:21+0330\n"
+"POT-Creation-Date: 2023-04-18 16:30+0000\n"
+"PO-Revision-Date: 2023-05-03 13:32+0330\n"
 "Last-Translator: Danial Behzadi <dani.behzi@ubuntu.com>\n"
 "Language-Team: Persian <haghighi.ahmad@gmail.com>\n"
 "Language: fa\n"
@@ -2566,7 +2566,7 @@ msgstr "یادداشت‌ها"
 #: ../src/calendar/importers/icalendar-importer.c:77
 #: ../src/calendar/importers/icalendar-importer.c:1151
 #: ../src/e-util/e-webdav-browser.c:524
-#: ../src/modules/calendar/e-calendar-preferences.ui.h:83
+#: ../src/modules/calendar/e-calendar-preferences.ui.h:82
 #: ../src/modules/calendar/e-cal-shell-content.c:1900
 #: ../src/modules/calendar/e-task-shell-view-actions.c:220
 #: ../src/modules/calendar/e-task-shell-view-actions.c:235
@@ -3046,8 +3046,8 @@ msgstr ""
 #: ../src/e-util/e-accounts-window.c:1570
 #: ../src/e-util/e-mail-signature-manager.c:324
 #: ../src/e-util/e-name-selector-dialog.c:1028 ../src/e-util/filter.ui.h:25
-#: ../src/mail/e-mail-account-manager.c:721 ../src/mail/e-mail-label-manager.c:355
-#: ../src/mail/em-folder-properties.c:1360 ../src/mail/em-vfolder-editor-rule.c:405
+#: ../src/mail/e-mail-account-manager.c:721 ../src/mail/e-mail-label-manager.c:379
+#: ../src/mail/em-folder-properties.c:1391 ../src/mail/em-vfolder-editor-rule.c:405
 #: ../src/mail/em-vfolder-editor-rule.c:634 ../src/mail/mail-config.ui.h:64
 #: ../src/modules/mail/em-composer-prefs.c:420
 #: ../src/modules/rss/evolution/e-rss-preferences.c:1739
@@ -3208,7 +3208,7 @@ msgstr ""
 #: ../src/e-util/e-source-config-dialog.c:356
 #: ../src/e-util/e-source-selector-dialog.c:336 ../src/e-util/e-table-config.c:540
 #: ../src/e-util/e-table-config.ui.h:3 ../src/e-util/e-timezone-dialog.ui.h:2
-#: ../src/e-util/evolution-source-viewer.c:829 ../src/e-util/e-web-view.c:4025
+#: ../src/e-util/evolution-source-viewer.c:829 ../src/e-util/e-web-view.c:4026
 #: ../src/e-util/gal-view-instance-save-as-dialog.c:265
 #: ../src/mail/e-mail-config-window.c:310 ../src/mail/e-mail-label-dialog.c:187
 #: ../src/mail/e-mail-tag-editor.c:160 ../src/mail/em-composer-utils.c:4158
@@ -3299,7 +3299,7 @@ msgstr "گزینه‌ها"
 #: ../src/composer/e-composer-actions.c:242 ../src/composer/e-composer-actions.c:354
 #: ../src/e-util/e-attachment-store.c:848 ../src/e-util/e-attachment-store.c:855
 #: ../src/e-util/e-mail-signature-script-dialog.c:364
-#: ../src/e-util/e-webdav-browser.c:2633 ../src/e-util/e-web-view.c:4025
+#: ../src/e-util/e-webdav-browser.c:2633 ../src/e-util/e-web-view.c:4026
 #: ../src/e-util/gal-view-instance-save-as-dialog.c:266
 #: ../src/modules/rss/evolution/e-rss-preferences.c:865
 #: ../src/shell/e-shell-content.c:642 ../src/shell/e-shell-utils.c:133
@@ -3367,8 +3367,8 @@ msgid "_Home Page:"
 msgstr "صفحهٔ آغازه:"
 
 #: ../src/addressbook/gui/contact-editor/contact-editor.ui.h:28
-#: ../src/calendar/gui/e-comp-editor-event.c:925
-#: ../src/modules/itip-formatter/itip-view.c:2316
+#: ../src/calendar/gui/e-comp-editor-event.c:933
+#: ../src/modules/itip-formatter/itip-view.c:2455
 msgid "_Calendar:"
 msgstr "تقویم:"
 
@@ -3473,7 +3473,7 @@ msgstr "روز تولد"
 #: ../src/addressbook/gui/contact-editor/contact-editor.ui.h:52
 #: ../src/mail/e-mail-config-defaults-page.c:883
 #: ../src/modules/addressbook/autocompletion-config.c:127
-#: ../src/modules/calendar/e-calendar-preferences.ui.h:52
+#: ../src/modules/calendar/e-calendar-preferences.ui.h:51
 msgid "Miscellaneous"
 msgstr "متفرقه"
 
@@ -3550,9 +3550,9 @@ msgstr "افزودن _X.509"
 #: ../src/e-util/e-attachment-view.c:355 ../src/e-util/e-filter-rule.c:410
 #: ../src/e-util/e-mail-signature-manager.c:364
 #: ../src/e-util/e-name-selector-dialog.c:1032 ../src/e-util/filter.error.xml.h:18
-#: ../src/e-util/filter.ui.h:27 ../src/mail/e-mail-config-identity-page.c:872
-#: ../src/mail/e-mail-label-manager.c:373 ../src/mail/em-filter-rule.c:679
-#: ../src/mail/em-folder-properties.c:1366 ../src/mail/em-vfolder-editor-rule.c:639
+#: ../src/e-util/filter.ui.h:27 ../src/mail/e-mail-config-identity-page.c:876
+#: ../src/mail/e-mail-label-manager.c:397 ../src/mail/em-filter-rule.c:679
+#: ../src/mail/em-folder-properties.c:1397 ../src/mail/em-vfolder-editor-rule.c:639
 #: ../src/mail/mail-config.ui.h:65
 #: ../src/modules/rss/evolution/e-rss-preferences.c:1758
 #: ../src/plugins/attachment-reminder/attachment-reminder.c:569
@@ -3987,7 +3987,7 @@ msgid "Send a mail message to this address"
 msgstr "ارسال یک پیعام نامه به این نشانی"
 
 #: ../src/addressbook/gui/widgets/eab-contact-display.c:318
-#: ../src/e-util/e-misc-utils.c:4763
+#: ../src/e-util/e-misc-utils.c:4769
 #, c-format
 msgid "Click to mail %s"
 msgstr "برای فرستادن نامه به %s کلیک کنید"
@@ -4337,7 +4337,7 @@ msgstr[1] "%d آشنا"
 msgid "Error getting book view"
 msgstr "خطا در گرفتن نمای کتابی"
 
-#: ../src/addressbook/gui/widgets/e-addressbook-model.c:859
+#: ../src/addressbook/gui/widgets/e-addressbook-model.c:860
 msgid "Search Interrupted"
 msgstr "جست‌وجو با وقفه مواجه شد"
 
@@ -4541,7 +4541,6 @@ msgid "Unit"
 msgstr "واحد"
 
 #: ../src/addressbook/gui/widgets/e-addressbook-view.etspec.h:37
-#: ../src/modules/mail/em-mailer-prefs.c:2061
 msgid "Title"
 msgstr "عنوان"
 
@@ -4601,7 +4600,7 @@ msgstr "_بزرگ‌نمایی"
 
 #. Zoom-out button
 #: ../src/addressbook/gui/widgets/e-contact-map-window.c:417
-#: ../src/mail/e-mail-reader.c:3024
+#: ../src/mail/e-mail-reader.c:3035
 msgid "Zoom _Out"
 msgstr "زوم به _خارج"
 
@@ -5688,7 +5687,7 @@ msgstr "شرح‌ها حاوی"
 #: ../src/calendar/gui/comp-util.c:1616
 #: ../src/calendar/gui/e-cal-component-preview.c:528
 #: ../src/calendar/importers/icalendar-importer.c:1574
-#: ../src/modules/itip-formatter/itip-view.c:2727
+#: ../src/modules/itip-formatter/itip-view.c:2866
 #, c-format
 msgid "with one guest"
 msgid_plural "with %d guests"
@@ -5754,7 +5753,7 @@ msgstr "لغوشده"
 #: ../src/calendar/gui/e-meeting-list-view.c:205
 #: ../src/calendar/gui/e-meeting-store.c:179
 #: ../src/calendar/gui/e-meeting-store.c:202
-#: ../src/modules/itip-formatter/itip-view.c:6916
+#: ../src/modules/itip-formatter/itip-view.c:7058
 msgid "Accepted"
 msgstr "پذیرفته شد"
 
@@ -5762,7 +5761,7 @@ msgstr "پذیرفته شد"
 #: ../src/calendar/gui/e-meeting-list-view.c:206
 #: ../src/calendar/gui/e-meeting-store.c:181
 #: ../src/calendar/gui/e-meeting-store.c:204
-#: ../src/modules/itip-formatter/itip-view.c:6922
+#: ../src/modules/itip-formatter/itip-view.c:7064
 msgid "Declined"
 msgstr "رد شد"
 
@@ -5778,7 +5777,7 @@ msgstr "احتمالی"
 #: ../src/calendar/gui/e-meeting-list-view.c:208
 #: ../src/calendar/gui/e-meeting-store.c:185
 #: ../src/calendar/gui/e-meeting-store.c:208
-#: ../src/modules/itip-formatter/itip-view.c:6925
+#: ../src/modules/itip-formatter/itip-view.c:7067
 msgid "Delegated"
 msgstr "واگذار شد"
 
@@ -5870,8 +5869,8 @@ msgid "Completed: %s"
 msgstr "تکمیل: %s"
 
 #: ../src/calendar/gui/comp-util.c:2427 ../src/calendar/gui/e-to-do-pane.c:616
-#: ../src/e-util/e-misc-utils.c:4846 ../src/e-util/e-text.c:566
-#: ../src/e-util/e-web-view.c:4211
+#: ../src/e-util/e-misc-utils.c:4852 ../src/e-util/e-text.c:566
+#: ../src/e-util/e-web-view.c:4212
 msgid "…"
 msgstr "…"
 
@@ -6097,15 +6096,15 @@ msgid "Untitled"
 msgstr "بی‌عنوان"
 
 #: ../src/calendar/gui/e-cal-component-preview.c:255
-#: ../src/modules/itip-formatter/itip-view.c:1935
-#: ../src/modules/itip-formatter/itip-view.c:2153
+#: ../src/modules/itip-formatter/itip-view.c:2073
+#: ../src/modules/itip-formatter/itip-view.c:2291
 msgid "Categories:"
 msgstr "دسته‌ها:"
 
 #: ../src/calendar/gui/e-cal-component-preview.c:293
 #: ../src/modules/cal-config-weather/evolution-cal-config-weather.c:258
-#: ../src/modules/itip-formatter/itip-view.c:1926
-#: ../src/modules/itip-formatter/itip-view.c:2126
+#: ../src/modules/itip-formatter/itip-view.c:2064
+#: ../src/modules/itip-formatter/itip-view.c:2264
 msgid "Location:"
 msgstr "مکان:"
 
@@ -6118,8 +6117,8 @@ msgid "End Date:"
 msgstr "تاریخ پایان:"
 
 #: ../src/calendar/gui/e-cal-component-preview.c:334
-#: ../src/modules/itip-formatter/itip-view.c:1930
-#: ../src/modules/itip-formatter/itip-view.c:2138
+#: ../src/modules/itip-formatter/itip-view.c:2068
+#: ../src/modules/itip-formatter/itip-view.c:2276
 msgid "Recurs:"
 msgstr "تکرار:"
 
@@ -6128,14 +6127,14 @@ msgid "Due Date:"
 msgstr "تاریخ سررسید:"
 
 #: ../src/calendar/gui/e-cal-component-preview.c:360
-#: ../src/modules/itip-formatter/itip-view.c:1932
-#: ../src/modules/itip-formatter/itip-view.c:2144
+#: ../src/modules/itip-formatter/itip-view.c:2070
+#: ../src/modules/itip-formatter/itip-view.c:2282
 msgid "Estimated duration:"
 msgstr "طول تخمینی:"
 
 #: ../src/calendar/gui/e-cal-component-preview.c:376
-#: ../src/modules/itip-formatter/itip-view.c:1933
-#: ../src/modules/itip-formatter/itip-view.c:2147
+#: ../src/modules/itip-formatter/itip-view.c:2071
+#: ../src/modules/itip-formatter/itip-view.c:2285
 msgid "Status:"
 msgstr "وضعیت:"
 
@@ -6171,8 +6170,8 @@ msgid "Organizer:"
 msgstr "سازمان‌دهنده:"
 
 #: ../src/calendar/gui/e-cal-component-preview.c:464
-#: ../src/modules/itip-formatter/itip-view.c:1936
-#: ../src/modules/itip-formatter/itip-view.c:2156
+#: ../src/modules/itip-formatter/itip-view.c:2074
+#: ../src/modules/itip-formatter/itip-view.c:2294
 msgid "Attendees:"
 msgstr "شرکت‌کنندگان:"
 
@@ -6474,8 +6473,8 @@ msgstr "نوع"
 #: ../src/calendar/gui/e-meeting-store.c:170
 #: ../src/calendar/gui/e-meeting-store.c:215 ../src/calendar/gui/print.c:1291
 #: ../src/calendar/gui/print.c:1308 ../src/e-util/e-charset.c:49
-#: ../src/modules/itip-formatter/itip-view.c:3843
-#: ../src/modules/itip-formatter/itip-view.c:6928
+#: ../src/modules/itip-formatter/itip-view.c:3982
+#: ../src/modules/itip-formatter/itip-view.c:7070
 #: ../src/modules/plugin-manager/evolution-plugin-manager.c:97
 msgid "Unknown"
 msgstr "نامعلوم"
@@ -6734,15 +6733,15 @@ msgstr ""
 msgid "Event’s time is in the past"
 msgstr "زمان رویداد در گذشته است"
 
-#: ../src/calendar/gui/e-comp-editor-event.c:214
+#: ../src/calendar/gui/e-comp-editor-event.c:222
 msgid "Event cannot be edited, because the selected calendar could not be opened"
 msgstr "رویداد نتوانست ویرایش شود، زیرا تقویم گزیده نتوانست گشوده شود"
 
-#: ../src/calendar/gui/e-comp-editor-event.c:216
+#: ../src/calendar/gui/e-comp-editor-event.c:224
 msgid "Event cannot be edited, because the selected calendar is read only"
 msgstr "رویداد نمی‌تواند ویرایش شود، زیرا تقویم انتخابی فقط خواندنی است"
 
-#: ../src/calendar/gui/e-comp-editor-event.c:218
+#: ../src/calendar/gui/e-comp-editor-event.c:226
 msgid ""
 "Changes made to the event will not be sent to the attendees, because you are not "
 "the organizer"
@@ -6750,23 +6749,23 @@ msgstr ""
 "تغییرات انجام شده روی رویداد به شرکت‌کنندگان فرستاده نخواهد شد،. چرا که گرداننده "
 "نیستید"
 
-#: ../src/calendar/gui/e-comp-editor-event.c:552
+#: ../src/calendar/gui/e-comp-editor-event.c:560
 #: ../src/calendar/gui/e-comp-editor-task.c:619
 msgid "Start date is not a valid date"
 msgstr "تاریخ آغاز نامعتبر است"
 
-#: ../src/calendar/gui/e-comp-editor-event.c:554
+#: ../src/calendar/gui/e-comp-editor-event.c:562
 msgid "Start time is not a valid time"
 msgstr "زمان آغاز نامعتبر است"
 
-#: ../src/calendar/gui/e-comp-editor-event.c:558
-#: ../src/calendar/gui/e-comp-editor-event.c:574
+#: ../src/calendar/gui/e-comp-editor-event.c:566
+#: ../src/calendar/gui/e-comp-editor-event.c:582
 #: ../src/calendar/gui/e-comp-editor-page-attachments.c:206
 #: ../src/calendar/gui/e-comp-editor.c:345 ../src/composer/e-composer-actions.c:180
-#: ../src/em-format/e-mail-part-secure-button.c:97 ../src/e-util/e-misc-utils.c:4145
-#: ../src/e-util/e-misc-utils.c:4153 ../src/e-util/e-misc-utils.c:4188
-#: ../src/e-util/e-misc-utils.c:4201 ../src/e-util/e-misc-utils.c:4215
-#: ../src/mail/e-mail-autoconfig.c:1129 ../src/mail/e-mail-display.c:2781
+#: ../src/em-format/e-mail-part-secure-button.c:97 ../src/e-util/e-misc-utils.c:4151
+#: ../src/e-util/e-misc-utils.c:4159 ../src/e-util/e-misc-utils.c:4194
+#: ../src/e-util/e-misc-utils.c:4207 ../src/e-util/e-misc-utils.c:4221
+#: ../src/mail/e-mail-autoconfig.c:1129 ../src/mail/e-mail-display.c:2782
 #: ../src/mail/e-mail-notes.c:930 ../src/mail/e-mail-reader-utils.c:805
 #: ../src/mail/em-composer-utils.c:3954 ../src/mail/em-composer-utils.c:3977
 #: ../src/mail/mail-send-recv.c:598 ../src/mail/mail-send-recv.c:1493
@@ -6778,128 +6777,128 @@ msgstr "زمان آغاز نامعتبر است"
 msgid "Unknown error"
 msgstr "خطای ناشناخته"
 
-#: ../src/calendar/gui/e-comp-editor-event.c:568
+#: ../src/calendar/gui/e-comp-editor-event.c:576
 msgid "End date is not a valid date"
 msgstr "تاریخ پایان نامعتبر است"
 
-#: ../src/calendar/gui/e-comp-editor-event.c:570
+#: ../src/calendar/gui/e-comp-editor-event.c:578
 msgid "End time is not a valid time"
 msgstr "زمان پایان نامعتبر است"
 
-#: ../src/calendar/gui/e-comp-editor-event.c:767
+#: ../src/calendar/gui/e-comp-editor-event.c:775
 #: ../src/calendar/gui/e-comp-editor-memo.c:258
 #: ../src/calendar/gui/e-comp-editor-task.c:802
 msgid "_Categories"
 msgstr "دسته‌ها"
 
-#: ../src/calendar/gui/e-comp-editor-event.c:769
+#: ../src/calendar/gui/e-comp-editor-event.c:777
 #: ../src/calendar/gui/e-comp-editor-memo.c:260
 #: ../src/calendar/gui/e-comp-editor-task.c:804
 msgid "Toggles whether to display categories"
 msgstr "این که دسته‌ها نشان داده شوند یا نه"
 
-#: ../src/calendar/gui/e-comp-editor-event.c:775
+#: ../src/calendar/gui/e-comp-editor-event.c:783
 #: ../src/calendar/gui/e-comp-editor-task.c:810
 msgid "Time _Zone"
 msgstr "منطقهٔ زمانی"
 
-#: ../src/calendar/gui/e-comp-editor-event.c:777
+#: ../src/calendar/gui/e-comp-editor-event.c:785
 #: ../src/calendar/gui/e-comp-editor-task.c:812
 msgid "Toggles whether the time zone is displayed"
 msgstr "ضامن این که منطقهٔ زمانی نشان داده شود را می‌زند"
 
-#: ../src/calendar/gui/e-comp-editor-event.c:783
+#: ../src/calendar/gui/e-comp-editor-event.c:791
 msgid "All _Day Event"
 msgstr "رویداد تمام‌ روز"
 
-#: ../src/calendar/gui/e-comp-editor-event.c:785
+#: ../src/calendar/gui/e-comp-editor-event.c:793
 msgid "Toggles whether to have All Day Event"
 msgstr "ضامن این که فیلد رویداد تمام‌روز نشان داده شود را می‌زند"
 
-#: ../src/calendar/gui/e-comp-editor-event.c:791
+#: ../src/calendar/gui/e-comp-editor-event.c:799
 msgid "Show Time as _Busy"
 msgstr "نمایش زمان به شکل مشغول"
 
-#: ../src/calendar/gui/e-comp-editor-event.c:793
+#: ../src/calendar/gui/e-comp-editor-event.c:801
 msgid "Toggles whether to show time as busy"
 msgstr "ضامن این که زمان به شکل مشغول نشان داده شود را می‌زند"
 
-#: ../src/calendar/gui/e-comp-editor-event.c:802
+#: ../src/calendar/gui/e-comp-editor-event.c:810
 msgid "Pu_blic"
 msgstr "عمومی"
 
-#: ../src/calendar/gui/e-comp-editor-event.c:804
+#: ../src/calendar/gui/e-comp-editor-event.c:812
 msgid "Classify as public"
 msgstr "طبقه‌بندی به عنوان عمومی"
 
-#: ../src/calendar/gui/e-comp-editor-event.c:809
+#: ../src/calendar/gui/e-comp-editor-event.c:817
 msgid "_Private"
 msgstr "خصوصی"
 
-#: ../src/calendar/gui/e-comp-editor-event.c:811
+#: ../src/calendar/gui/e-comp-editor-event.c:819
 msgid "Classify as private"
 msgstr "طبقه‌بندی به عنوان خصوصی"
 
-#: ../src/calendar/gui/e-comp-editor-event.c:816
+#: ../src/calendar/gui/e-comp-editor-event.c:824
 msgid "_Confidential"
 msgstr "محرمانه"
 
-#: ../src/calendar/gui/e-comp-editor-event.c:818
+#: ../src/calendar/gui/e-comp-editor-event.c:826
 msgid "Classify as confidential"
 msgstr "طبقه‌بندی به عنوان محرمانه"
 
-#: ../src/calendar/gui/e-comp-editor-event.c:936
+#: ../src/calendar/gui/e-comp-editor-event.c:944
 msgctxt "ECompEditor"
 msgid "_Start time:"
 msgstr "زمان _آغاز:"
 
-#: ../src/calendar/gui/e-comp-editor-event.c:941
+#: ../src/calendar/gui/e-comp-editor-event.c:949
 msgctxt "ECompEditor"
 msgid "_End time:"
 msgstr "زمان _پایان:"
 
-#: ../src/calendar/gui/e-comp-editor-event.c:951
+#: ../src/calendar/gui/e-comp-editor-event.c:959
 msgctxt "ECompEditor"
 msgid "All da_y event"
 msgstr "رویداد _تمام‌‌روز"
 
-#: ../src/calendar/gui/e-comp-editor-event.c:1019
+#: ../src/calendar/gui/e-comp-editor-event.c:1027
 #: ../src/calendar/gui/e-comp-editor-memo.c:359
 #: ../src/calendar/gui/e-comp-editor-task.c:987
 msgctxt "ECompEditorPage"
 msgid "General"
 msgstr "عمومی"
 
-#: ../src/calendar/gui/e-comp-editor-event.c:1022
+#: ../src/calendar/gui/e-comp-editor-event.c:1030
 #: ../src/calendar/gui/e-comp-editor-task.c:1010
 msgctxt "ECompEditorPage"
 msgid "Reminders"
 msgstr "یادآوری‌ها"
 
-#: ../src/calendar/gui/e-comp-editor-event.c:1025
+#: ../src/calendar/gui/e-comp-editor-event.c:1033
 #: ../src/calendar/gui/e-comp-editor-task.c:1014
 msgctxt "ECompEditorPage"
 msgid "Recurrence"
 msgstr "تکرار"
 
-#: ../src/calendar/gui/e-comp-editor-event.c:1028
+#: ../src/calendar/gui/e-comp-editor-event.c:1036
 #: ../src/calendar/gui/e-comp-editor-memo.c:362
 #: ../src/calendar/gui/e-comp-editor-task.c:1018
 msgctxt "ECompEditorPage"
 msgid "Attachments"
 msgstr "پیوست‌ها"
 
-#: ../src/calendar/gui/e-comp-editor-event.c:1038
+#: ../src/calendar/gui/e-comp-editor-event.c:1046
 msgctxt "ECompEditorPage"
 msgid "Schedule"
 msgstr "زمان‌بندی"
 
-#: ../src/calendar/gui/e-comp-editor-event.c:1073
+#: ../src/calendar/gui/e-comp-editor-event.c:1081
 #, c-format
 msgid "Meeting — %s"
 msgstr "جلسه — %s"
 
-#: ../src/calendar/gui/e-comp-editor-event.c:1074
+#: ../src/calendar/gui/e-comp-editor-event.c:1082
 #, c-format
 msgid "Appointment — %s"
 msgstr "قرار — %s"
@@ -7111,7 +7110,7 @@ msgstr "_شرکت‌کنندگان…"
 #: ../src/e-util/e-mail-signature-manager.c:354
 #: ../src/e-util/e-webdav-browser.c:2850 ../src/e-util/filter.ui.h:26
 #: ../src/mail/e-mail-account-manager.c:730 ../src/mail/e-mail-browser.c:217
-#: ../src/mail/e-mail-label-manager.c:364 ../src/mail/em-folder-properties.c:1363
+#: ../src/mail/e-mail-label-manager.c:388 ../src/mail/em-folder-properties.c:1394
 #: ../src/mail/mail-config.ui.h:69
 #: ../src/modules/rss/evolution/e-rss-preferences.c:1745
 #: ../src/plugins/attachment-reminder/attachment-reminder.c:564
@@ -7382,7 +7381,7 @@ msgstr "استثناها"
 
 #: ../src/calendar/gui/e-comp-editor-page-recurrence.c:2304
 #: ../src/calendar/gui/e-comp-editor-page-reminders.c:2278
-#: ../src/mail/e-mail-config-identity-page.c:854 ../src/mail/mail-config.ui.h:68
+#: ../src/mail/e-mail-config-identity-page.c:858 ../src/mail/mail-config.ui.h:68
 msgid "A_dd"
 msgstr "افزودن"
 
@@ -7469,7 +7468,7 @@ msgid "_Add time"
 msgstr "ا_فزودن زمان"
 
 #: ../src/calendar/gui/e-comp-editor-page-reminders.c:2136
-#: ../src/modules/calendar/e-calendar-preferences.ui.h:84
+#: ../src/modules/calendar/e-calendar-preferences.ui.h:83
 msgid "Reminders"
 msgstr "یادآوری‌ها"
 
@@ -7794,7 +7793,7 @@ msgstr "ذخیره و بستن"
 #: ../src/e-util/e-preferences-window.c:334
 #: ../src/e-util/e-table-field-chooser-dialog.c:197 ../src/mail/e-mail-browser.c:166
 #: ../src/mail/e-mail-folder-sort-order-dialog.c:753 ../src/mail/e-mail-notes.c:1109
-#: ../src/mail/em-filter-editor.c:45 ../src/mail/em-folder-properties.c:1488
+#: ../src/mail/em-filter-editor.c:45 ../src/mail/em-folder-properties.c:1519
 #: ../src/mail/em-subscription-editor.c:1735
 #: ../src/shell/e-shell-window-actions.c:930
 #: ../src/smime/gui/certificate-manager.c:2132
@@ -7816,7 +7815,7 @@ msgstr "_رونوشت"
 #: ../src/calendar/gui/e-comp-editor.c:2182 ../src/e-util/e-focus-tracker.c:203
 #: ../src/e-util/e-focus-tracker.c:259 ../src/e-util/e-focus-tracker.c:312
 #: ../src/e-util/e-focus-tracker.c:807 ../src/e-util/e-web-view.c:471
-#: ../src/e-util/e-web-view.c:2072 ../src/mail/e-mail-browser.c:175
+#: ../src/e-util/e-web-view.c:2073 ../src/mail/e-mail-browser.c:175
 #: ../src/shell/e-shell-window-actions.c:953
 msgid "Copy the selection"
 msgstr "رونوشت از گزیده‌ها"
@@ -7830,7 +7829,7 @@ msgstr "_بریدن"
 
 #: ../src/calendar/gui/e-comp-editor.c:2189 ../src/e-util/e-focus-tracker.c:196
 #: ../src/e-util/e-focus-tracker.c:252 ../src/e-util/e-focus-tracker.c:306
-#: ../src/e-util/e-focus-tracker.c:802 ../src/e-util/e-web-view.c:2081
+#: ../src/e-util/e-focus-tracker.c:802 ../src/e-util/e-web-view.c:2082
 #: ../src/mail/e-mail-browser.c:182 ../src/shell/e-shell-window-actions.c:960
 msgid "Cut the selection"
 msgstr "بریدن گزیده‌ها"
@@ -7854,19 +7853,19 @@ msgstr "_جای‌گذاری"
 
 #: ../src/calendar/gui/e-comp-editor.c:2210 ../src/e-util/e-focus-tracker.c:210
 #: ../src/e-util/e-focus-tracker.c:266 ../src/e-util/e-focus-tracker.c:318
-#: ../src/e-util/e-focus-tracker.c:812 ../src/e-util/e-web-view.c:2090
+#: ../src/e-util/e-focus-tracker.c:812 ../src/e-util/e-web-view.c:2091
 #: ../src/mail/e-mail-browser.c:189 ../src/shell/e-shell-window-actions.c:988
 msgid "Paste the clipboard"
 msgstr "چسباندن تخته‌گیره"
 
 #: ../src/calendar/gui/e-comp-editor.c:2215 ../src/composer/e-composer-actions.c:387
-#: ../src/mail/e-mail-reader.c:2898
+#: ../src/mail/e-mail-reader.c:2909
 #: ../src/modules/addressbook/e-book-shell-view-actions.c:1319
 #: ../src/modules/addressbook/e-book-shell-view-actions.c:1333
 msgid "_Print…"
 msgstr "_چاپ…"
 
-#: ../src/calendar/gui/e-comp-editor.c:2222 ../src/mail/e-mail-reader.c:2905
+#: ../src/calendar/gui/e-comp-editor.c:2222 ../src/mail/e-mail-reader.c:2916
 #: ../src/modules/addressbook/e-book-shell-view-actions.c:1326
 #: ../src/modules/calendar/e-cal-shell-view-actions.c:1921
 #: ../src/modules/calendar/e-memo-shell-view-actions.c:838
@@ -8340,13 +8339,13 @@ msgstr "مدت: %s. %s"
 #: ../src/calendar/gui/e-to-do-pane.c:1638 ../src/e-util/e-cell-date-edit.c:338
 #: ../src/e-util/e-datetime-format.c:207
 #: ../src/modules/calendar/e-cal-shell-view-actions.c:2036
-#: ../src/modules/itip-formatter/itip-view.c:272
+#: ../src/modules/itip-formatter/itip-view.c:274
 msgid "Today"
 msgstr "امروز"
 
 #. strftime format of a weekday and a date.
 #: ../src/calendar/gui/e-to-do-pane.c:1640 ../src/e-util/e-datetime-format.c:218
-#: ../src/modules/itip-formatter/itip-view.c:300
+#: ../src/modules/itip-formatter/itip-view.c:302
 msgid "Tomorrow"
 msgstr "فردا"
 
@@ -10789,18 +10788,18 @@ msgstr ""
 msgid "Compose Message"
 msgstr "نگارش پیام"
 
-#: ../src/composer/e-msg-composer.c:4733
+#: ../src/composer/e-msg-composer.c:4736
 #: ../src/modules/composer-to-meeting/e-composer-to-meeting.c:364
 msgid "Reading text content…"
 msgstr "خواندن بافتار متن…"
 
-#: ../src/composer/e-msg-composer.c:5543
+#: ../src/composer/e-msg-composer.c:5550
 msgid "Review attachment before sending."
 msgid_plural "Review attachments before sending."
 msgstr[0] "بازبینی پیوست پیش از فرستادن."
 msgstr[1] "بازبینی پیوست‌ها پیش از فرستادن."
 
-#: ../src/composer/e-msg-composer.c:5548
+#: ../src/composer/e-msg-composer.c:5555
 #, c-format
 msgid ""
 "There had been added %d attachment. Make sure it does not contain any sensitive "
@@ -10814,7 +10813,7 @@ msgstr[1] ""
 "تعداد %Id پیوست افزوده شده. پیش از فرستادن پیام مطمئن شوید شامل هیچ اطّلاعات حسّاسی "
 "نیست."
 
-#: ../src/composer/e-msg-composer.c:5681
+#: ../src/composer/e-msg-composer.c:5688
 msgid "The composer contains a non-text message body, which cannot be edited."
 msgstr "نگارشگر حاوی بدنهٔ پیام غیر متنی است، که قابل ویرایش نیست."
 
@@ -11082,6 +11081,18 @@ msgstr ""
 #: ../src/composer/mail-composer.error.xml.h:58
 msgid "An error occurred while creating message composer."
 msgstr "هنگام ساخت ایجادگر پیام خطایی رخ داد."
+
+#: ../src/composer/mail-composer.error.xml.h:59
+msgid "Message Redirection"
+msgstr "مکان پیام‌تغییرمسیر پسام"
+
+#: ../src/composer/mail-composer.error.xml.h:60
+msgid ""
+"This message is a redirection, which allows you to change the recipients, subject "
+"and other message attributes, but not the contents of the message."
+msgstr ""
+"این پیام یک تغییر مسیر است که می‌گذارد گیرندگان، موضوع و دیگر مشخّصه‌های پیام را را "
+"تغییر دهید؛ ولی نه محتوای پیام را."
 
 #: ../src/em-format/e-mail-formatter-attachment.c:317
 msgid "Toggle View Inline"
@@ -11415,7 +11426,7 @@ msgid "partially S/MIME encrypted"
 msgstr "رمز شدهٔ جزیی با S/MIME"
 
 #: ../src/em-format/e-mail-formatter-utils.c:699
-#: ../src/mail/e-mail-config-security-page.c:865
+#: ../src/mail/e-mail-config-security-page.c:871
 #: ../src/modules/mail-config/e-mail-config-remote-accounts.c:273
 #: ../src/modules/mail-config/e-mail-config-smtp-backend.c:217
 msgid "Security"
@@ -11547,7 +11558,7 @@ msgstr "دفترچه نشانی"
 
 #: ../src/e-util/e-accounts-window.c:567 ../src/e-util/e-accounts-window.c:708
 #: ../src/e-util/e-accounts-window.c:916
-#: ../src/modules/calendar/e-calendar-preferences.ui.h:100
+#: ../src/modules/calendar/e-calendar-preferences.ui.h:99
 msgid "Calendars"
 msgstr "تقویم‌ها"
 
@@ -11558,7 +11569,7 @@ msgstr "سیاههٔ یادداشت‌ها"
 
 #: ../src/e-util/e-accounts-window.c:579 ../src/e-util/e-accounts-window.c:710
 #: ../src/e-util/e-accounts-window.c:918
-#: ../src/modules/calendar/e-calendar-preferences.ui.h:101
+#: ../src/modules/calendar/e-calendar-preferences.ui.h:100
 msgid "Task Lists"
 msgstr "سیاههٔ تکلیف"
 
@@ -12255,7 +12266,7 @@ msgid "Memo List"
 msgstr "سیاههٔ یادداشت"
 
 #: ../src/e-util/e-collection-account-wizard.c:869
-#: ../src/modules/calendar/e-calendar-preferences.ui.h:71
+#: ../src/modules/calendar/e-calendar-preferences.ui.h:70
 msgid "Task List"
 msgstr "سیاههٔ تکلیف"
 
@@ -12318,8 +12329,8 @@ msgstr "گزینش رنگ سفارشی"
 
 #: ../src/e-util/e-color-combo.c:476 ../src/e-util/e-html-editor.c:133
 #: ../src/mail/e-mail-account-tree-view.c:135
-#: ../src/mail/e-mail-config-security-page.c:541
-#: ../src/mail/e-mail-config-security-page.c:717 ../src/mail/e-mail-reader.c:5050
+#: ../src/mail/e-mail-config-security-page.c:547
+#: ../src/mail/e-mail-config-security-page.c:723 ../src/mail/e-mail-reader.c:5061
 #: ../src/mail/mail-config.ui.h:79
 msgid "Default"
 msgstr "پیش‌گزیده"
@@ -13940,7 +13951,7 @@ msgid "Background Image"
 msgstr "تصویر پس‌زمینه"
 
 #: ../src/e-util/e-html-editor-page-dialog.c:523
-#: ../src/modules/calendar/e-calendar-preferences.ui.h:103
+#: ../src/modules/calendar/e-calendar-preferences.ui.h:102
 msgid "_Template:"
 msgstr "_الگو:"
 
@@ -14205,7 +14216,7 @@ msgstr "کلیک روی «اعمال» برتی آغاز درون‌ریزی پ�
 #. Translators: This is part of
 #: ../src/e-util/e-interval-chooser.c:140 ../src/e-util/filter.ui.h:6
 #: ../src/mail/e-mail-config-provider-page.c:695
-#: ../src/modules/calendar/e-calendar-preferences.ui.h:21
+#: ../src/modules/calendar/e-calendar-preferences.ui.h:20
 msgid "minutes"
 msgstr "دقیقه"
 
@@ -14375,7 +14386,7 @@ msgstr "گشودن دفترچه نشانی «%s»"
 msgid "_Do not show this message again"
 msgstr "_دیگر این پیام نشان داده نشود"
 
-#: ../src/e-util/e-misc-utils.c:4132
+#: ../src/e-util/e-misc-utils.c:4138
 msgid ""
 "This address book server might be unreachable or the server name may be "
 "misspelled or your network connection could be down."
@@ -14383,27 +14394,27 @@ msgstr ""
 "ممکن است این کارساز دفترچه نشانی غیر قابل دسترسی باشد یا نام کارساز اشتباه نوشته "
 "شده باشد یا اتّصال شبکهٔ شما قطع باشد."
 
-#: ../src/e-util/e-misc-utils.c:4144
+#: ../src/e-util/e-misc-utils.c:4150
 #, c-format
 msgid "Failed to set protocol version to LDAPv3 (%d): %s"
 msgstr "شکست در تنظیم نگارش شیوه‌نامه به LDAPv3 (%Id): %s"
 
-#: ../src/e-util/e-misc-utils.c:4152
+#: ../src/e-util/e-misc-utils.c:4158
 #, c-format
 msgid "Failed to set connection timeout option (%d): %s"
 msgstr "شکست در تنظیم گزینهٔ زمان پایان (%Id): %s"
 
-#: ../src/e-util/e-misc-utils.c:4187
+#: ../src/e-util/e-misc-utils.c:4193
 #, c-format
 msgid "Failed to use STARTTLS (%d): %s"
 msgstr "شکست در استفاده از STARTTLS (%Id): %s"
 
-#: ../src/e-util/e-misc-utils.c:4200
+#: ../src/e-util/e-misc-utils.c:4206
 #, c-format
 msgid "Failed to authenticate with LDAP server (%d): %s"
 msgstr "شکست در تأیید هویت با کارساز LDAP (%Id): %s"
 
-#: ../src/e-util/e-misc-utils.c:4214
+#: ../src/e-util/e-misc-utils.c:4220
 #, c-format
 msgid ""
 "This LDAP server may use an older version of LDAP, which does not support this "
@@ -14418,7 +14429,7 @@ msgstr ""
 "\n"
 "خطای با جزییات (%Id): %s"
 
-#: ../src/e-util/e-misc-utils.c:4225
+#: ../src/e-util/e-misc-utils.c:4231
 msgid ""
 "This LDAP server may use an older version of LDAP, which does not support this "
 "functionality or it may be misconfigured. Ask your administrator for supported "
@@ -14428,12 +14439,12 @@ msgstr ""
 "پشتیبانی نمی‌کند یا شاید غلط پیکربندی شده باشد. پایه‌های جست‌وجوی پشتیبانی شده را از "
 "مدیرتان بپرسید."
 
-#: ../src/e-util/e-misc-utils.c:4258
+#: ../src/e-util/e-misc-utils.c:4264
 msgid "Evolution had not been compiled with LDAP support"
 msgstr "اوولوشن با پشتیبانی LDAP ترجمه نشده"
 
 #. Translators: %s is the language ISO code.
-#: ../src/e-util/e-misc-utils.c:4581
+#: ../src/e-util/e-misc-utils.c:4587
 #, c-format
 msgctxt "language"
 msgid "Unknown (%s)"
@@ -14441,31 +14452,31 @@ msgstr "ناشناخته (%s)"
 
 #. Translators: The first %s is the language name, and the
 #. * second is the country name. Example: "French (France)"
-#: ../src/e-util/e-misc-utils.c:4590
+#: ../src/e-util/e-misc-utils.c:4596
 #, c-format
 msgctxt "language"
 msgid "%s (%s)"
 msgstr "%s (%s)"
 
-#: ../src/e-util/e-misc-utils.c:4768
+#: ../src/e-util/e-misc-utils.c:4774
 #, c-format
 msgid "Click to call %s"
 msgstr "کلیک برای تماس با %s"
 
-#: ../src/e-util/e-misc-utils.c:4770
+#: ../src/e-util/e-misc-utils.c:4776
 msgid "Click to hide/unhide addresses"
 msgstr "کلیک برای نهفتن/آشکارسازی نشانی‌ها"
 
-#: ../src/e-util/e-misc-utils.c:4783
+#: ../src/e-util/e-misc-utils.c:4789
 #, c-format
 msgid "Go to the section %s of the message"
 msgstr "رفتن به بخش %s پیام"
 
-#: ../src/e-util/e-misc-utils.c:4785
+#: ../src/e-util/e-misc-utils.c:4791
 msgid "Go to the beginning of the message"
 msgstr "رفتن به ابتدای پیام"
 
-#: ../src/e-util/e-misc-utils.c:4791
+#: ../src/e-util/e-misc-utils.c:4797
 #, c-format
 msgid "Click to open %s"
 msgstr "برای گشودن %s کلیک کنید"
@@ -15331,7 +15342,7 @@ msgid "Flags"
 msgstr "پرچم‌ها"
 
 #: ../src/e-util/evolution-source-viewer.c:723
-#: ../src/mail/e-mail-config-identity-page.c:1231
+#: ../src/mail/e-mail-config-identity-page.c:1235
 msgid "Identity"
 msgstr "هویّت"
 
@@ -15501,33 +15512,33 @@ msgid "Save the image to a file"
 msgstr "ذخیرهٔ تصویر در یک پرونده"
 
 #: ../src/e-util/e-web-view.c:476 ../src/mail/e-mail-browser.c:201
-#: ../src/mail/e-mail-reader.c:2982
+#: ../src/mail/e-mail-reader.c:2993
 msgid "Search _Web…"
 msgstr "جست‌وجوی _وب…"
 
 #: ../src/e-util/e-web-view.c:478 ../src/mail/e-mail-browser.c:203
-#: ../src/mail/e-mail-reader.c:2984
+#: ../src/mail/e-mail-reader.c:2995
 msgid "Search the Web with the selected text"
 msgstr "جست‌وجوی وب با متن گزیده"
 
-#: ../src/e-util/e-web-view.c:488 ../src/e-util/e-web-view.c:2094
+#: ../src/e-util/e-web-view.c:488 ../src/e-util/e-web-view.c:2095
 msgid "Select all text and images"
 msgstr "گزینش تمامی متن و تصویرها"
 
-#: ../src/e-util/e-web-view.c:3835
+#: ../src/e-util/e-web-view.c:3836
 msgid "Copying image to clipboard"
 msgstr "رونوشت برداشتن از تصویر در تخته‌گیره"
 
-#: ../src/e-util/e-web-view.c:4023
+#: ../src/e-util/e-web-view.c:4024
 msgid "Save Image"
 msgstr "ذخیره تصویر"
 
-#: ../src/e-util/e-web-view.c:4060
+#: ../src/e-util/e-web-view.c:4061
 #, c-format
 msgid "Saving image to “%s”"
 msgstr "ذخیره کردن تصویر در «%s»"
 
-#: ../src/e-util/e-web-view.c:4215
+#: ../src/e-util/e-web-view.c:4216
 #, c-format
 msgid "Cannot get URI “%s”, do not know how to download it."
 msgstr "نتوانست نشانی «%s» را بگیرد. روش بارگیرش مشخّص نبود."
@@ -15836,7 +15847,7 @@ msgstr "نشانی شاخهٔ نامعتبر «%s»"
 
 #. Some local folders
 #: ../src/libemail-engine/e-mail-session.c:121
-#: ../src/mail/em-folder-properties.c:1474 ../src/mail/em-folder-tree-model.c:1543
+#: ../src/mail/em-folder-properties.c:1505 ../src/mail/em-folder-tree-model.c:1543
 #: ../src/mail/em-folder-tree-model.c:1573 ../src/mail/importers/kmail-libs.c:138
 #: ../src/modules/mail/e-mail-shell-view-private.c:1036
 #: ../src/modules/mail/e-mail-shell-view-private.c:1047
@@ -16225,13 +16236,13 @@ msgstr "ارجاع"
 #. * (if possible and if that configuration option is enabled), or else
 #. * it will reply to all. The word "Group" was chosen because it covers
 #. * either of those, without too strongly implying one or the other.
-#: ../src/mail/e-mail-browser.c:547 ../src/mail/e-mail-reader.c:2947
-#: ../src/mail/e-mail-reader.c:5300 ../src/mail/e-mail-reader.c:5325
+#: ../src/mail/e-mail-browser.c:547 ../src/mail/e-mail-reader.c:2958
+#: ../src/mail/e-mail-reader.c:5311 ../src/mail/e-mail-reader.c:5336
 #: ../src/modules/mail/e-mail-shell-view-private.c:1545
 msgid "Group Reply"
 msgstr "پاسخ گروهی"
 
-#: ../src/mail/e-mail-browser.c:559 ../src/mail/e-mail-reader.c:5408
+#: ../src/mail/e-mail-browser.c:559 ../src/mail/e-mail-reader.c:5419
 #: ../src/mail/mail-dialogs.ui.h:9
 #: ../src/modules/mail/e-mail-shell-view-private.c:1557
 msgid "Reply"
@@ -16254,7 +16265,7 @@ msgstr "_پرش از گشتن"
 msgid "Evolution Account Assistant"
 msgstr "دستیار حساب اوولوشن"
 
-#: ../src/mail/e-mail-config-assistant.c:1025
+#: ../src/mail/e-mail-config-assistant.c:1023
 msgid "_Revise Details"
 msgstr "_اصلاح جزییات"
 
@@ -16494,33 +16505,33 @@ msgstr "افزودن _امضای جدید…"
 msgid "A_liases:"
 msgstr "نام‌های _مستعار:"
 
-#: ../src/mail/e-mail-config-identity-page.c:863
+#: ../src/mail/e-mail-config-identity-page.c:867
 msgid "Edi_t"
 msgstr "_ویرایش"
 
-#: ../src/mail/e-mail-config-identity-page.c:886
+#: ../src/mail/e-mail-config-identity-page.c:890
 msgid "_Look up mail server details based on the entered e-mail address"
 msgstr "_گشتن به دنبال جزییات کارساز نامه بر پایهٔ نشانی رایانامهٔ وارده"
 
 #. This is only a warning, not a blocker
 #. complete = complete && correct;
-#: ../src/mail/e-mail-config-identity-page.c:935
+#: ../src/mail/e-mail-config-identity-page.c:939
 msgid "Full Name should not be empty"
 msgstr "نام کامل نباید خالی باشد"
 
-#: ../src/mail/e-mail-config-identity-page.c:942
+#: ../src/mail/e-mail-config-identity-page.c:946
 msgid "Email Address cannot be empty"
 msgstr "نشانی رایانامه نمی‌تواند خالی باشد"
 
-#: ../src/mail/e-mail-config-identity-page.c:947
+#: ../src/mail/e-mail-config-identity-page.c:951
 msgid "Email Address is not a valid email"
 msgstr "نشانی رایانامه یک رایانامهٔ معتبر نیست"
 
-#: ../src/mail/e-mail-config-identity-page.c:959
+#: ../src/mail/e-mail-config-identity-page.c:963
 msgid "Reply To is not a valid email"
 msgstr "پاسخ به، یک رایانامهٔ معتبر نیست"
 
-#: ../src/mail/e-mail-config-identity-page.c:970
+#: ../src/mail/e-mail-config-identity-page.c:974
 #: ../src/mail/e-mail-config-summary-page.c:630
 msgid "Account Name cannot be empty"
 msgstr "نام حساب نمی‌تواند خالی باشد"
@@ -16557,113 +16568,118 @@ msgctxt "PGPKeyDescription"
 msgid "%s — %s"
 msgstr "%s — %s"
 
-#: ../src/mail/e-mail-config-security-page.c:456
-#: ../src/mail/em-folder-properties.c:1397 ../src/mail/mail-config.ui.h:35
+#: ../src/mail/e-mail-config-security-page.c:402
+#: ../src/mail/e-mail-config-security-page.c:514
+msgid "Use sender e-mail address"
+msgstr "استفاده از نشانی رایانامهٔ فرستنده"
+
+#: ../src/mail/e-mail-config-security-page.c:460
+#: ../src/mail/em-folder-properties.c:1428 ../src/mail/mail-config.ui.h:35
 #: ../src/modules/addressbook/autocompletion-config.c:115
-#: ../src/modules/calendar/e-calendar-preferences.c:648
-#: ../src/modules/calendar/e-calendar-preferences.ui.h:55
+#: ../src/modules/calendar/e-calendar-preferences.c:649
+#: ../src/modules/calendar/e-calendar-preferences.ui.h:54
 #: ../src/modules/mail/e-mail-shell-backend.c:1018
 #: ../src/modules/rss/evolution/e-rss-preferences.c:1572
 #: ../src/plugins/publish-calendar/publish-calendar.ui.h:17
 msgid "General"
 msgstr "عمومی"
 
-#: ../src/mail/e-mail-config-security-page.c:465
+#: ../src/mail/e-mail-config-security-page.c:469
 msgid "_Do not sign meeting requests (for Outlook compatibility)"
 msgstr "درخواست‌های جلسه امضا _نشود (برای سازگاری با آوت‌لوک)"
 
-#: ../src/mail/e-mail-config-security-page.c:488
+#: ../src/mail/e-mail-config-security-page.c:492
 msgid "Pretty Good Privacy (OpenPGP)"
 msgstr "محرمانگی خیلی خوب (OpenPGP)"
 
-#: ../src/mail/e-mail-config-security-page.c:497
+#: ../src/mail/e-mail-config-security-page.c:501
 msgid "OpenPGP _Key ID:"
 msgstr "شناسهٔ _کلید OpenPGP:"
 
-#: ../src/mail/e-mail-config-security-page.c:528
+#: ../src/mail/e-mail-config-security-page.c:534
 msgid "Si_gning algorithm:"
 msgstr "الگوریتم _امضا:"
 
-#: ../src/mail/e-mail-config-security-page.c:544
-#: ../src/mail/e-mail-config-security-page.c:720 ../src/mail/mail-config.ui.h:80
+#: ../src/mail/e-mail-config-security-page.c:550
+#: ../src/mail/e-mail-config-security-page.c:726 ../src/mail/mail-config.ui.h:80
 msgid "SHA1"
 msgstr "SHA1"
 
-#: ../src/mail/e-mail-config-security-page.c:547
-#: ../src/mail/e-mail-config-security-page.c:723 ../src/mail/mail-config.ui.h:81
+#: ../src/mail/e-mail-config-security-page.c:553
+#: ../src/mail/e-mail-config-security-page.c:729 ../src/mail/mail-config.ui.h:81
 msgid "SHA256"
 msgstr "SHA256"
 
-#: ../src/mail/e-mail-config-security-page.c:550
-#: ../src/mail/e-mail-config-security-page.c:726 ../src/mail/mail-config.ui.h:82
+#: ../src/mail/e-mail-config-security-page.c:556
+#: ../src/mail/e-mail-config-security-page.c:732 ../src/mail/mail-config.ui.h:82
 msgid "SHA384"
 msgstr "SHA384"
 
-#: ../src/mail/e-mail-config-security-page.c:553
-#: ../src/mail/e-mail-config-security-page.c:729 ../src/mail/mail-config.ui.h:83
+#: ../src/mail/e-mail-config-security-page.c:559
+#: ../src/mail/e-mail-config-security-page.c:735 ../src/mail/mail-config.ui.h:83
 msgid "SHA512"
 msgstr "SHA512"
 
-#: ../src/mail/e-mail-config-security-page.c:569
+#: ../src/mail/e-mail-config-security-page.c:575
 msgid "Al_ways sign outgoing messages when using this account"
 msgstr "امضای _همیشگی پیام‌های صادره هنگام استفاده از این حساب"
 
-#: ../src/mail/e-mail-config-security-page.c:581
+#: ../src/mail/e-mail-config-security-page.c:587
 msgid "Always enc_rypt outgoing messages when using this account"
 msgstr "رمزنگاری _همیشگی پیام‌های خروجی هنگام استفاده از این حساب"
 
-#: ../src/mail/e-mail-config-security-page.c:593
+#: ../src/mail/e-mail-config-security-page.c:599
 msgid "Always encrypt to _myself when sending encrypted messages"
 msgstr "رمزنگاری همیشگی برای _خود هنگام فرستادن پیام‌های رمز شده"
 
-#: ../src/mail/e-mail-config-security-page.c:605
+#: ../src/mail/e-mail-config-security-page.c:611
 msgid "Always _trust keys in my keyring when encrypting"
 msgstr "ا_عتماد همیشگی به کلیدهای موجود در دسته‌کلید هنگام رمزنگاری"
 
-#: ../src/mail/e-mail-config-security-page.c:617
+#: ../src/mail/e-mail-config-security-page.c:623
 msgid "Prefer _inline sign/encrypt for plain text messages"
 msgstr "ترجیح امضا و رمزنگاری _درون‌خط برای پیام‌های متنی خام"
 
-#: ../src/mail/e-mail-config-security-page.c:629
+#: ../src/mail/e-mail-config-security-page.c:635
 msgid "_Lookup keys for encryption in Web Key Directory (WKD)"
 msgstr "_گشتن به دنبال کلیدهای رمزنگاری در شاخهٔ کلید وب (WKD)"
 
-#: ../src/mail/e-mail-config-security-page.c:653
+#: ../src/mail/e-mail-config-security-page.c:659
 msgid "Secure MIME (S/MIME)"
 msgstr "MIME امن (S/MIME)"
 
-#: ../src/mail/e-mail-config-security-page.c:662
+#: ../src/mail/e-mail-config-security-page.c:668
 msgid "Sig_ning certificate:"
 msgstr "گواهی ام_ضا:"
 
-#: ../src/mail/e-mail-config-security-page.c:686
-#: ../src/mail/e-mail-config-security-page.c:784
+#: ../src/mail/e-mail-config-security-page.c:692
+#: ../src/mail/e-mail-config-security-page.c:790
 msgid "Select"
 msgstr "گزینش"
 
-#: ../src/mail/e-mail-config-security-page.c:695
-#: ../src/mail/e-mail-config-security-page.c:793
+#: ../src/mail/e-mail-config-security-page.c:701
+#: ../src/mail/e-mail-config-security-page.c:799
 #: ../src/shell/e-shell-window-actions.c:1028
 msgid "_Clear"
 msgstr "_پاک کردن"
 
-#: ../src/mail/e-mail-config-security-page.c:704
+#: ../src/mail/e-mail-config-security-page.c:710
 msgid "Signing _algorithm:"
 msgstr "_الگوریتم امضا:"
 
-#: ../src/mail/e-mail-config-security-page.c:745
+#: ../src/mail/e-mail-config-security-page.c:751
 msgid "Always sign outgoing messages when using this account"
 msgstr "امضای همیشگی پیام‌های خروجی هنگام استفاده از این حساب"
 
-#: ../src/mail/e-mail-config-security-page.c:760
+#: ../src/mail/e-mail-config-security-page.c:766
 msgid "Encryption certificate:"
 msgstr "گواهی رمزنگاری:"
 
-#: ../src/mail/e-mail-config-security-page.c:802
+#: ../src/mail/e-mail-config-security-page.c:808
 msgid "Always encrypt outgoing messages when using this account"
 msgstr "رمزنگاری همیشگی پیام‌های خروجی هنگام استفاده از این حساب"
 
-#: ../src/mail/e-mail-config-security-page.c:814
+#: ../src/mail/e-mail-config-security-page.c:820
 msgid "Always encrypt to myself when sending encrypted messages"
 msgstr "رمزنگاری همیشگی برای خود هنگام فرستادن پیام‌های رمز شده"
 
@@ -16915,16 +16931,16 @@ msgstr "_رسیدگی شود"
 msgid "_Later"
 msgstr "_بعداً"
 
-#: ../src/mail/e-mail-label-manager.c:153 ../src/mail/e-mail-reader.c:914
-#: ../src/mail/em-folder-properties.c:1171
+#: ../src/mail/e-mail-label-manager.c:157 ../src/mail/e-mail-reader.c:915
+#: ../src/mail/em-folder-properties.c:1176
 msgid "Add Label"
 msgstr "افزودن برچسب"
 
-#: ../src/mail/e-mail-label-manager.c:204 ../src/mail/em-folder-properties.c:1198
+#: ../src/mail/e-mail-label-manager.c:216 ../src/mail/em-folder-properties.c:1215
 msgid "Edit Label"
 msgstr "ویرایش برچسب"
 
-#: ../src/mail/e-mail-label-manager.c:336
+#: ../src/mail/e-mail-label-manager.c:360
 msgid ""
 "Note: Underscore in the label name is used\n"
 "as mnemonic identifier in menu."
@@ -17018,694 +17034,694 @@ msgstr "رونوشت"
 msgid "Deleting message note…"
 msgstr "حذف کردن یادداشت پیام…"
 
-#: ../src/mail/e-mail-reader.c:1057
+#: ../src/mail/e-mail-reader.c:1068
 #, c-format
 msgid "Are you sure you want to mark %d message as Junk?"
 msgid_plural "Are you sure you want to mark %d messages as Junk?"
 msgstr[0] "مطمئنید می‌خواهید %Id پیام را به عنوان بنجل نشانه بگذارید؟"
 msgstr[1] "مطمئنید می‌خواهید %Id پیام را به عنوان بنجل نشانه بگذارید؟"
 
-#: ../src/mail/e-mail-reader.c:1065
+#: ../src/mail/e-mail-reader.c:1076
 msgid "The message will be shown in the Junk folder."
 msgid_plural "The messages will be shown in the Junk folder."
 msgstr[0] "این پیام در شاخهٔ بنجل نشان داده خواهد شد."
 msgstr[1] "این پیام‌ه در شاخهٔ بنجل نشان داده خواهند شد."
 
-#: ../src/mail/e-mail-reader.c:1734 ../src/mail/e-mail-reader.c:2026
-#: ../src/mail/e-mail-reader.c:2066
+#: ../src/mail/e-mail-reader.c:1745 ../src/mail/e-mail-reader.c:2037
+#: ../src/mail/e-mail-reader.c:2077
 msgid "_Do not ask me again."
 msgstr "_دیگر پرسیده نشود."
 
-#: ../src/mail/e-mail-reader.c:2072
+#: ../src/mail/e-mail-reader.c:2083
 msgid "_Always ignore Reply-To: for mailing lists."
 msgstr "_چشم‌پوشی همیشگی از پاسخ به: برای سیاه‌های پستی."
 
-#: ../src/mail/e-mail-reader.c:2276
+#: ../src/mail/e-mail-reader.c:2287
 msgid "Failed to retrieve message:"
 msgstr "شکست در بازیابی پیام:"
 
-#: ../src/mail/e-mail-reader.c:2335 ../src/mail/e-mail-reader.c:3863
+#: ../src/mail/e-mail-reader.c:2346 ../src/mail/e-mail-reader.c:3874
 #, c-format
 msgid "Retrieving message “%s”"
 msgstr "بازیابی کردن پیام %s"
 
-#: ../src/mail/e-mail-reader.c:2539
+#: ../src/mail/e-mail-reader.c:2550
 msgid "A_dd Sender to Address Book"
 msgstr "ا_ضافه کردن فرستنده به دفترچه نشانی"
 
-#: ../src/mail/e-mail-reader.c:2541
+#: ../src/mail/e-mail-reader.c:2552
 msgid "Add sender to address book"
 msgstr "افزودن فرستنده به دفترچه نشانی"
 
-#: ../src/mail/e-mail-reader.c:2546
+#: ../src/mail/e-mail-reader.c:2557
 msgid "_Archive…"
 msgstr "_بایگانی…"
 
-#: ../src/mail/e-mail-reader.c:2548
+#: ../src/mail/e-mail-reader.c:2559
 msgid "Move selected messages to the Archive folder for the account"
 msgstr "جابه‌جایی پیام‌های گزیده به شاخهٔ بایگانی حساب"
 
-#: ../src/mail/e-mail-reader.c:2553
+#: ../src/mail/e-mail-reader.c:2564
 msgid "Check for _Junk"
 msgstr "بررسی به دنبال آ_شغال"
 
-#: ../src/mail/e-mail-reader.c:2555
+#: ../src/mail/e-mail-reader.c:2566
 msgid "Filter the selected messages for junk status"
 msgstr "صافی پیام‌های گزیده برای وضعیت بنجل"
 
-#: ../src/mail/e-mail-reader.c:2560
+#: ../src/mail/e-mail-reader.c:2571
 msgid "Assign C_olor…"
 msgstr "تخصیص _رنگ…"
 
-#: ../src/mail/e-mail-reader.c:2562
+#: ../src/mail/e-mail-reader.c:2573
 msgid "Assign color for the selected messages"
 msgstr "تخصیص رنگ به پیام‌های گزیده"
 
-#: ../src/mail/e-mail-reader.c:2567
+#: ../src/mail/e-mail-reader.c:2578
 msgid "Unse_t Color"
 msgstr "نا_تنظیم رنگ"
 
-#: ../src/mail/e-mail-reader.c:2569
+#: ../src/mail/e-mail-reader.c:2580
 msgid "Unset color for the selected messages"
 msgstr "برداشتن رنگ پیام‌های گزیده"
 
-#: ../src/mail/e-mail-reader.c:2574
+#: ../src/mail/e-mail-reader.c:2585
 msgid "_Copy to Folder…"
 msgstr "_رونوشت در شاخه…"
 
-#: ../src/mail/e-mail-reader.c:2576
+#: ../src/mail/e-mail-reader.c:2587
 msgid "Copy selected messages to another folder"
 msgstr "رونوشت از پیام‌های گزیده در یک شاخهٔ دیگر"
 
-#: ../src/mail/e-mail-reader.c:2581
+#: ../src/mail/e-mail-reader.c:2592
 msgid "_Delete Message"
 msgstr "_حذف پیام"
 
-#: ../src/mail/e-mail-reader.c:2583
+#: ../src/mail/e-mail-reader.c:2594
 msgid "Mark the selected messages for deletion"
 msgstr "علامت‌گذاری پیام‌های گزیده برای حذف"
 
-#: ../src/mail/e-mail-reader.c:2588
+#: ../src/mail/e-mail-reader.c:2599
 msgid "_Add note…"
 msgstr "_افزودن یادداشت…"
 
-#: ../src/mail/e-mail-reader.c:2590
+#: ../src/mail/e-mail-reader.c:2601
 msgid "Add a note for the selected message"
 msgstr "افزودن یادداشتی برای پیام گزیده"
 
-#: ../src/mail/e-mail-reader.c:2595
+#: ../src/mail/e-mail-reader.c:2606
 msgid "Delete no_te"
 msgstr "حذف _یادداشت"
 
-#: ../src/mail/e-mail-reader.c:2597
+#: ../src/mail/e-mail-reader.c:2608
 msgid "Delete the note for the selected message"
 msgstr "حذف یادداشت برای پیام گزیده"
 
-#: ../src/mail/e-mail-reader.c:2602
+#: ../src/mail/e-mail-reader.c:2613
 msgid "_Edit note…"
 msgstr "_ویرایش یادداشت…"
 
-#: ../src/mail/e-mail-reader.c:2604
+#: ../src/mail/e-mail-reader.c:2615
 msgid "Edit a note for the selected message"
 msgstr "ویرایش یادداشتی برای پیام گزیده"
 
-#: ../src/mail/e-mail-reader.c:2609
+#: ../src/mail/e-mail-reader.c:2620
 msgid "Create a Filter Rule for Mailing _List…"
 msgstr "ایجاد قانون پالایش برای _سیاههٔ پستی…"
 
-#: ../src/mail/e-mail-reader.c:2611
+#: ../src/mail/e-mail-reader.c:2622
 msgid "Create a rule to filter messages to this mailing list"
 msgstr "ایجاد قاعده برای صافی کردن پیام‌های این فهرست پستی"
 
-#: ../src/mail/e-mail-reader.c:2616
+#: ../src/mail/e-mail-reader.c:2627
 msgid "Create a Filter Rule for _Recipients…"
 msgstr "ایجاد قانون پالایش برای _گیرندگان…"
 
-#: ../src/mail/e-mail-reader.c:2618
+#: ../src/mail/e-mail-reader.c:2629
 msgid "Create a rule to filter messages to these recipients"
 msgstr "ایجاد قاعده برای صافی پیام‌های این گیرندگان"
 
-#: ../src/mail/e-mail-reader.c:2623
+#: ../src/mail/e-mail-reader.c:2634
 msgid "Create a Filter Rule for Se_nder…"
 msgstr "ایجاد قانون پالایش برای _فرستنده…"
 
-#: ../src/mail/e-mail-reader.c:2625
+#: ../src/mail/e-mail-reader.c:2636
 msgid "Create a rule to filter messages from this sender"
 msgstr "ایجاد قاعده برای صافی کردن پیام‌های این فرستنده"
 
-#: ../src/mail/e-mail-reader.c:2630
+#: ../src/mail/e-mail-reader.c:2641
 msgid "Create a Filter Rule for _Subject…"
 msgstr "ایجاد قانون پالایش برای _موضوع…"
 
-#: ../src/mail/e-mail-reader.c:2632
+#: ../src/mail/e-mail-reader.c:2643
 msgid "Create a rule to filter messages with this subject"
 msgstr "ایجاد قاعده برای صافی کردن پیام‌های این موضوع"
 
-#: ../src/mail/e-mail-reader.c:2637
+#: ../src/mail/e-mail-reader.c:2648
 msgid "A_pply Filters"
 msgstr "اِ_عمال صافی‌ها"
 
-#: ../src/mail/e-mail-reader.c:2639
+#: ../src/mail/e-mail-reader.c:2650
 msgid "Apply filter rules to the selected messages"
 msgstr "اعمال قاعده‌های صافی به پیام‌های گزیده"
 
-#: ../src/mail/e-mail-reader.c:2644
+#: ../src/mail/e-mail-reader.c:2655
 msgid "_Find in Message…"
 msgstr "_یافتن در پیام…"
 
-#: ../src/mail/e-mail-reader.c:2646
+#: ../src/mail/e-mail-reader.c:2657
 msgid "Search for text in the body of the displayed message"
 msgstr "جست‌وجو به دنبال متن در بدنهٔ پیام نمایش داده شده"
 
-#: ../src/mail/e-mail-reader.c:2651
+#: ../src/mail/e-mail-reader.c:2662
 msgid "_Clear Flag"
 msgstr "_پاک کردن پرچم‌"
 
-#: ../src/mail/e-mail-reader.c:2653
+#: ../src/mail/e-mail-reader.c:2664
 msgid "Remove the follow-up flag from the selected messages"
 msgstr "برداشتن پرچم پیگیری از پیام‌های گزیده"
 
-#: ../src/mail/e-mail-reader.c:2658
+#: ../src/mail/e-mail-reader.c:2669
 msgid "_Flag Completed"
 msgstr "_پرچم گذاشتن برای انجام شده‌ها"
 
-#: ../src/mail/e-mail-reader.c:2660
+#: ../src/mail/e-mail-reader.c:2671
 msgid "Set the follow-up flag to completed on the selected messages"
 msgstr "تنظیم پرچم پیگیری به کامل شده برای پیام‌های گزیده"
 
-#: ../src/mail/e-mail-reader.c:2665
+#: ../src/mail/e-mail-reader.c:2676
 msgid "Follow _Up…"
 msgstr "_پی‌گیری…"
 
-#: ../src/mail/e-mail-reader.c:2667
+#: ../src/mail/e-mail-reader.c:2678
 msgid "Flag the selected messages for follow-up"
 msgstr "پرچم گذاری پیام‌های گزیده برای پی‌گیری"
 
-#: ../src/mail/e-mail-reader.c:2672 ../src/mail/e-mail-reader.c:5255
-#: ../src/mail/e-mail-reader.c:5276
+#: ../src/mail/e-mail-reader.c:2683 ../src/mail/e-mail-reader.c:5266
+#: ../src/mail/e-mail-reader.c:5287
 #: ../src/modules/mail/e-mail-attachment-handler.c:389
 msgid "_Forward"
 msgstr "_ارجاع"
 
-#: ../src/mail/e-mail-reader.c:2674 ../src/mail/e-mail-reader.c:5256
-#: ../src/mail/e-mail-reader.c:5277
+#: ../src/mail/e-mail-reader.c:2685 ../src/mail/e-mail-reader.c:5267
+#: ../src/mail/e-mail-reader.c:5288
 #: ../src/modules/mail/e-mail-attachment-handler.c:391
 msgid "Forward the selected message to someone"
 msgstr "ارجاع پیام گزیده به کسی"
 
-#: ../src/mail/e-mail-reader.c:2679
+#: ../src/mail/e-mail-reader.c:2690
 #: ../src/modules/mail/e-mail-attachment-handler.c:431
 msgid "_Attached"
 msgstr "_پیوست شده"
 
-#: ../src/mail/e-mail-reader.c:2681 ../src/mail/e-mail-reader.c:2688
+#: ../src/mail/e-mail-reader.c:2692 ../src/mail/e-mail-reader.c:2699
 #: ../src/modules/mail/e-mail-attachment-handler.c:433
 msgid "Forward the selected message to someone as an attachment"
 msgstr "ارجاع پیام گزیده به کسی با یک پیوست"
 
-#: ../src/mail/e-mail-reader.c:2686
+#: ../src/mail/e-mail-reader.c:2697
 msgid "Forward As _Attached"
 msgstr "هدایت به شکل _پیوست"
 
-#: ../src/mail/e-mail-reader.c:2693
+#: ../src/mail/e-mail-reader.c:2704
 #: ../src/modules/mail/e-mail-attachment-handler.c:438
 msgid "_Inline"
 msgstr "_درخط"
 
-#: ../src/mail/e-mail-reader.c:2695 ../src/mail/e-mail-reader.c:2702
+#: ../src/mail/e-mail-reader.c:2706 ../src/mail/e-mail-reader.c:2713
 #: ../src/modules/mail/e-mail-attachment-handler.c:440
 msgid "Forward the selected message in the body of a new message"
 msgstr "ارجاع پیام گزیده در بدنهٔ یک پیام جدید"
 
-#: ../src/mail/e-mail-reader.c:2700
+#: ../src/mail/e-mail-reader.c:2711
 msgid "Forward As _Inline"
 msgstr "هدایت به شکل _درخط"
 
-#: ../src/mail/e-mail-reader.c:2707
+#: ../src/mail/e-mail-reader.c:2718
 #: ../src/modules/mail/e-mail-attachment-handler.c:445
 msgid "_Quoted"
 msgstr "ن_قل قول شده"
 
-#: ../src/mail/e-mail-reader.c:2709 ../src/mail/e-mail-reader.c:2716
+#: ../src/mail/e-mail-reader.c:2720 ../src/mail/e-mail-reader.c:2727
 #: ../src/modules/mail/e-mail-attachment-handler.c:447
 msgid "Forward the selected message quoted like a reply"
 msgstr "ارجاع پیام گزیده به صورت نقل قول شده مثل پاسخ"
 
-#: ../src/mail/e-mail-reader.c:2714
+#: ../src/mail/e-mail-reader.c:2725
 msgid "Forward As _Quoted"
 msgstr "هدایت به شکل _نقل‌قول"
 
-#: ../src/mail/e-mail-reader.c:2721
+#: ../src/mail/e-mail-reader.c:2732
 msgid "_New Label"
 msgstr "برچسب _جدید"
 
 #. Translators: "None" is used in the message label context menu.
 #. *              It removes all labels from the selected messages.
-#: ../src/mail/e-mail-reader.c:2730
+#: ../src/mail/e-mail-reader.c:2741
 msgid "N_one"
 msgstr "_هیچ‌کدام"
 
-#: ../src/mail/e-mail-reader.c:2737
+#: ../src/mail/e-mail-reader.c:2748
 msgid "_Load Images"
 msgstr "_بار کردن تصاویر"
 
-#: ../src/mail/e-mail-reader.c:2739
+#: ../src/mail/e-mail-reader.c:2750
 msgid "Force images in HTML mail to be loaded"
 msgstr "اجبار به بار کردن تصاویر در نامه‌های HTML"
 
-#: ../src/mail/e-mail-reader.c:2744 ../src/mail/e-mail-reader.c:3177
+#: ../src/mail/e-mail-reader.c:2755 ../src/mail/e-mail-reader.c:3188
 msgid "_Ignore Subthread"
 msgstr "_نادیده گرفتن زیررشته"
 
-#: ../src/mail/e-mail-reader.c:2746
+#: ../src/mail/e-mail-reader.c:2757
 msgid "Mark new mails in a subthread as read automatically"
 msgstr "علامت زدن خودکار نامه‌های جدید در زیررشته به خوانده شده"
 
-#: ../src/mail/e-mail-reader.c:2751 ../src/mail/e-mail-reader.c:3181
+#: ../src/mail/e-mail-reader.c:2762 ../src/mail/e-mail-reader.c:3192
 msgid "_Ignore Thread"
 msgstr "_چشم‌پوشی از رشته"
 
-#: ../src/mail/e-mail-reader.c:2753
+#: ../src/mail/e-mail-reader.c:2764
 msgid "Mark new mails in this thread as read automatically"
 msgstr "علامت زدن خودکار نامه‌های جدید در این رشته به خوانده شده"
 
-#: ../src/mail/e-mail-reader.c:2758
+#: ../src/mail/e-mail-reader.c:2769
 msgid "_Important"
 msgstr "_مهم"
 
-#: ../src/mail/e-mail-reader.c:2760
+#: ../src/mail/e-mail-reader.c:2771
 msgid "Mark the selected messages as important"
 msgstr "علامت‌گذاری پیام‌های گزیده به عنوان مهم"
 
-#: ../src/mail/e-mail-reader.c:2765
+#: ../src/mail/e-mail-reader.c:2776
 msgid "_Junk"
 msgstr "آ_شغال"
 
-#: ../src/mail/e-mail-reader.c:2767
+#: ../src/mail/e-mail-reader.c:2778
 msgid "Mark the selected messages as junk"
 msgstr "علامت‌گذاری پیام‌های گزیده به این عنوان که بنجل هستند"
 
-#: ../src/mail/e-mail-reader.c:2772
+#: ../src/mail/e-mail-reader.c:2783
 msgid "_Not Junk"
 msgstr "بنجل _نیست"
 
-#: ../src/mail/e-mail-reader.c:2774
+#: ../src/mail/e-mail-reader.c:2785
 msgid "Mark the selected messages as not being junk"
 msgstr "علامت‌گذاری پیام‌های گزیده به این عنوان که بنجل نیستند"
 
-#: ../src/mail/e-mail-reader.c:2779
+#: ../src/mail/e-mail-reader.c:2790
 msgid "_Read"
 msgstr "_خواندن"
 
-#: ../src/mail/e-mail-reader.c:2781
+#: ../src/mail/e-mail-reader.c:2792
 msgid "Mark the selected messages as having been read"
 msgstr "‌علامت‌گذاری پیام‌های گزیده به این عنوان که خوانده شده‌اند"
 
-#: ../src/mail/e-mail-reader.c:2786 ../src/mail/e-mail-reader.c:3201
+#: ../src/mail/e-mail-reader.c:2797 ../src/mail/e-mail-reader.c:3212
 msgid "Do not _Ignore Subthread"
 msgstr "−چشم‌پوشی نکردن از زیررشته"
 
-#: ../src/mail/e-mail-reader.c:2788
+#: ../src/mail/e-mail-reader.c:2799
 msgid "Do not mark new mails in a subthread as read automatically"
 msgstr "علامت نزدن خودکار نامه‌های جدید در یک زیررشته به خوانده شده"
 
-#: ../src/mail/e-mail-reader.c:2793 ../src/mail/e-mail-reader.c:3205
+#: ../src/mail/e-mail-reader.c:2804 ../src/mail/e-mail-reader.c:3216
 msgid "Do not _Ignore Thread"
 msgstr "نادیده _نگرفتن رشته"
 
-#: ../src/mail/e-mail-reader.c:2795
+#: ../src/mail/e-mail-reader.c:2806
 msgid "Do not mark new mails in this thread as read automatically"
 msgstr "علامت نزدن خودکار نامه‌های جدید در این رشته به خوانده شده"
 
-#: ../src/mail/e-mail-reader.c:2800
+#: ../src/mail/e-mail-reader.c:2811
 msgid "Uni_mportant"
 msgstr "_نامهم"
 
-#: ../src/mail/e-mail-reader.c:2802
+#: ../src/mail/e-mail-reader.c:2813
 msgid "Mark the selected messages as unimportant"
 msgstr "علامت‌گذاری پیام‌های گزیده به عنوان بی‌اهمیت"
 
-#: ../src/mail/e-mail-reader.c:2807
+#: ../src/mail/e-mail-reader.c:2818
 msgid "_Unread"
 msgstr "_نخوانده"
 
-#: ../src/mail/e-mail-reader.c:2809
+#: ../src/mail/e-mail-reader.c:2820
 msgid "Mark the selected messages as not having been read"
 msgstr "علامت‌گذاری پیام‌های گزیده به عنوان خوانده‌نشده"
 
-#: ../src/mail/e-mail-reader.c:2814
+#: ../src/mail/e-mail-reader.c:2825
 #: ../src/modules/mail/e-mail-attachment-handler.c:417
 msgid "_Edit as New Message…"
 msgstr "_ویرایش به عنوان پیام جدید…"
 
-#: ../src/mail/e-mail-reader.c:2816
+#: ../src/mail/e-mail-reader.c:2827
 #: ../src/modules/mail/e-mail-attachment-handler.c:419
 msgid "Open the selected messages in the composer for editing"
 msgstr "گشودن پیام‌های گزیده در نگارشگر برای ویرایش"
 
-#: ../src/mail/e-mail-reader.c:2821
+#: ../src/mail/e-mail-reader.c:2832
 msgid "Compose _New Message"
 msgstr "نگارش پیام _جدید"
 
-#: ../src/mail/e-mail-reader.c:2823
+#: ../src/mail/e-mail-reader.c:2834
 msgid "Open a window for composing a mail message"
 msgstr "گشودن پنجره برای نگارش یک پیام نامه‌ای"
 
-#: ../src/mail/e-mail-reader.c:2828
+#: ../src/mail/e-mail-reader.c:2839
 msgid "_Open in New Window"
 msgstr "_گشودن در پنجرهٔ جدید"
 
-#: ../src/mail/e-mail-reader.c:2830
+#: ../src/mail/e-mail-reader.c:2841
 msgid "Open the selected messages in a new window"
 msgstr "گشودن پیام‌های گزیده در پنجرهٔ جدید"
 
-#: ../src/mail/e-mail-reader.c:2835
+#: ../src/mail/e-mail-reader.c:2846
 msgid "_Move to Folder…"
 msgstr "_جابه‌جایی به شاخه…"
 
-#: ../src/mail/e-mail-reader.c:2837
+#: ../src/mail/e-mail-reader.c:2848
 msgid "Move selected messages to another folder"
 msgstr "جابه‌جایی پیام‌های گزیده به یک شاخهٔ دیگر"
 
-#: ../src/mail/e-mail-reader.c:2842
+#: ../src/mail/e-mail-reader.c:2853
 msgid "_Next Message"
 msgstr "پیام _بعدی"
 
-#: ../src/mail/e-mail-reader.c:2844
+#: ../src/mail/e-mail-reader.c:2855
 msgid "Display the next message"
 msgstr "نمایش پیام بعدی"
 
-#: ../src/mail/e-mail-reader.c:2849
+#: ../src/mail/e-mail-reader.c:2860
 msgid "Next _Important Message"
 msgstr "پیام م_هم بعدی"
 
-#: ../src/mail/e-mail-reader.c:2851
+#: ../src/mail/e-mail-reader.c:2862
 msgid "Display the next important message"
 msgstr "نمایش پیام مهم بعدی"
 
-#: ../src/mail/e-mail-reader.c:2856
+#: ../src/mail/e-mail-reader.c:2867
 msgid "Next _Thread"
 msgstr "_رشتهٔ بعدی"
 
-#: ../src/mail/e-mail-reader.c:2858
+#: ../src/mail/e-mail-reader.c:2869
 msgid "Display the next thread"
 msgstr "نمایش رشتهٔ بعدی"
 
-#: ../src/mail/e-mail-reader.c:2863
+#: ../src/mail/e-mail-reader.c:2874
 msgid "Next _Unread Message"
 msgstr "پیام _نخواندهٔ بعدی"
 
-#: ../src/mail/e-mail-reader.c:2865
+#: ../src/mail/e-mail-reader.c:2876
 msgid "Display the next unread message"
 msgstr "نمایش پیام نخواندهٔ بعدی"
 
-#: ../src/mail/e-mail-reader.c:2870
+#: ../src/mail/e-mail-reader.c:2881
 msgid "_Previous Message"
 msgstr "پیام _قبلی"
 
-#: ../src/mail/e-mail-reader.c:2872
+#: ../src/mail/e-mail-reader.c:2883
 msgid "Display the previous message"
 msgstr "نمایش پیام قبلی"
 
-#: ../src/mail/e-mail-reader.c:2877
+#: ../src/mail/e-mail-reader.c:2888
 msgid "Pr_evious Important Message"
 msgstr "پیام مهم _قبلی"
 
-#: ../src/mail/e-mail-reader.c:2879
+#: ../src/mail/e-mail-reader.c:2890
 msgid "Display the previous important message"
 msgstr "نمایش پیام مهم قبلی"
 
-#: ../src/mail/e-mail-reader.c:2884
+#: ../src/mail/e-mail-reader.c:2895
 msgid "Previous T_hread"
 msgstr "_رشتهٔ پیشین"
 
-#: ../src/mail/e-mail-reader.c:2886
+#: ../src/mail/e-mail-reader.c:2897
 msgid "Display the previous thread"
 msgstr "نماش رشتهٔ پیشین"
 
-#: ../src/mail/e-mail-reader.c:2891
+#: ../src/mail/e-mail-reader.c:2902
 msgid "P_revious Unread Message"
 msgstr "پیام نخواندهٔ _قبلی"
 
-#: ../src/mail/e-mail-reader.c:2893
+#: ../src/mail/e-mail-reader.c:2904
 msgid "Display the previous unread message"
 msgstr "نمایش پیام نخواندهٔ قبلی"
 
-#: ../src/mail/e-mail-reader.c:2900
+#: ../src/mail/e-mail-reader.c:2911
 msgid "Print this message"
 msgstr "چاپ این پیام"
 
-#: ../src/mail/e-mail-reader.c:2907
+#: ../src/mail/e-mail-reader.c:2918
 msgid "Preview the message to be printed"
 msgstr "پیش‌نمایش پیامی که باید چاپ شود"
 
-#: ../src/mail/e-mail-reader.c:2912
+#: ../src/mail/e-mail-reader.c:2923
 #: ../src/modules/mail/e-mail-attachment-handler.c:452
 msgid "Re_direct"
 msgstr "ارسال به نشانی _جدید"
 
-#: ../src/mail/e-mail-reader.c:2914
+#: ../src/mail/e-mail-reader.c:2925
 #: ../src/modules/mail/e-mail-attachment-handler.c:454
 msgid "Redirect (bounce) the selected message to someone"
 msgstr "ارسال پیام گزیده به کسی دیگر (برگشت زدن)"
 
-#: ../src/mail/e-mail-reader.c:2919
+#: ../src/mail/e-mail-reader.c:2930
 msgid "Remo_ve Attachments"
 msgstr "_برداشتن پیوست‌ها"
 
-#: ../src/mail/e-mail-reader.c:2921
+#: ../src/mail/e-mail-reader.c:2932
 msgid "Remove attachments"
 msgstr "برداشتن پیوست‌ها"
 
-#: ../src/mail/e-mail-reader.c:2926
+#: ../src/mail/e-mail-reader.c:2937
 msgid "Remove Du_plicate Messages"
 msgstr "برداشتن پیام‌های تکراری"
 
-#: ../src/mail/e-mail-reader.c:2928
+#: ../src/mail/e-mail-reader.c:2939
 msgid "Checks selected messages for duplicates"
 msgstr "پیام‌های گزیده را برای موارد تکراری بررسی می‌کند"
 
-#: ../src/mail/e-mail-reader.c:2933 ../src/mail/em-composer-utils.c:4210
+#: ../src/mail/e-mail-reader.c:2944 ../src/mail/em-composer-utils.c:4210
 #: ../src/mail/mail.error.xml.h:28
 #: ../src/modules/calendar/e-cal-shell-view-actions.c:1586
 #: ../src/modules/mail/e-mail-attachment-handler.c:396
 msgid "Reply to _All"
 msgstr "پاسخ به _همه"
 
-#: ../src/mail/e-mail-reader.c:2935
+#: ../src/mail/e-mail-reader.c:2946
 #: ../src/modules/mail/e-mail-attachment-handler.c:398
 msgid "Compose a reply to all the recipients of the selected message"
 msgstr "نوشتن پاسخی به تمامی گیرندگان پیام گزیده"
 
-#: ../src/mail/e-mail-reader.c:2940
+#: ../src/mail/e-mail-reader.c:2951
 msgid "Al_ternative Reply…"
 msgstr "پاسخ _جایگزین…"
 
-#: ../src/mail/e-mail-reader.c:2942
+#: ../src/mail/e-mail-reader.c:2953
 msgid "Choose reply options for the selected message"
 msgstr "گزینش گزینه‌های پاسخ برای پیام گزیده"
 
-#: ../src/mail/e-mail-reader.c:2949 ../src/mail/e-mail-reader.c:5301
-#: ../src/mail/e-mail-reader.c:5326
+#: ../src/mail/e-mail-reader.c:2960 ../src/mail/e-mail-reader.c:5312
+#: ../src/mail/e-mail-reader.c:5337
 msgid "Reply to the mailing list, or to all recipients"
 msgstr "پاسخ به سیاههٔ پستی یا به تمام گیرندگان"
 
-#: ../src/mail/e-mail-reader.c:2954 ../src/mail/em-composer-utils.c:4205
+#: ../src/mail/e-mail-reader.c:2965 ../src/mail/em-composer-utils.c:4205
 #: ../src/mail/mail.error.xml.h:26
 #: ../src/modules/mail/e-mail-attachment-handler.c:403
 msgid "Reply to _List"
 msgstr "پاسخ به _فهرست"
 
-#: ../src/mail/e-mail-reader.c:2956
+#: ../src/mail/e-mail-reader.c:2967
 #: ../src/modules/mail/e-mail-attachment-handler.c:405
 msgid "Compose a reply to the mailing list of the selected message"
 msgstr "نگارش پاسخ برای فهرست پستی پیام گزیده"
 
-#: ../src/mail/e-mail-reader.c:2961
+#: ../src/mail/e-mail-reader.c:2972
 #: ../src/modules/mail/e-mail-attachment-handler.c:410
 msgid "_Reply to Sender"
 msgstr "پاسخ به _فرستنده"
 
-#: ../src/mail/e-mail-reader.c:2963
+#: ../src/mail/e-mail-reader.c:2974
 #: ../src/modules/mail/e-mail-attachment-handler.c:412
 msgid "Compose a reply to the sender of the selected message"
 msgstr "نگارش پاسخ برای فرستندهٔ پیام گزیده"
 
-#: ../src/mail/e-mail-reader.c:2968
+#: ../src/mail/e-mail-reader.c:2979
 msgid "Repl_y with Template"
 msgstr "_پاسخ با قالب"
 
-#: ../src/mail/e-mail-reader.c:2975
+#: ../src/mail/e-mail-reader.c:2986
 msgid "_Save as mbox…"
 msgstr "_ذخیره به شکل mbox…"
 
-#: ../src/mail/e-mail-reader.c:2977
+#: ../src/mail/e-mail-reader.c:2988
 msgid "Save selected messages as an mbox file"
 msgstr "ذخیرهٔ پیام‌های گزیده به شکل پروندهٔ mbox"
 
-#: ../src/mail/e-mail-reader.c:2989
+#: ../src/mail/e-mail-reader.c:3000
 msgid "_Message Source"
 msgstr "منبع _پیام"
 
-#: ../src/mail/e-mail-reader.c:2991
+#: ../src/mail/e-mail-reader.c:3002
 msgid "Show the raw email source of the message"
 msgstr "نمایش مبدأ رایانامهٔ خام پیام"
 
-#: ../src/mail/e-mail-reader.c:3003
+#: ../src/mail/e-mail-reader.c:3014
 msgid "_Undelete Message"
 msgstr "_احیای پیام"
 
-#: ../src/mail/e-mail-reader.c:3005
+#: ../src/mail/e-mail-reader.c:3016
 msgid "Undelete the selected messages"
 msgstr "احیای پیام‌های گزیده"
 
-#: ../src/mail/e-mail-reader.c:3010
+#: ../src/mail/e-mail-reader.c:3021
 msgid "_Normal Size"
 msgstr "اندازهٔ _عادی"
 
-#: ../src/mail/e-mail-reader.c:3012
+#: ../src/mail/e-mail-reader.c:3023
 msgid "Reset the text to its original size"
 msgstr "برگرداندن متن به اندازهٔ اصلی‌اش"
 
-#: ../src/mail/e-mail-reader.c:3017
+#: ../src/mail/e-mail-reader.c:3028
 msgid "_Zoom In"
 msgstr "زوم به _داخل"
 
-#: ../src/mail/e-mail-reader.c:3019
+#: ../src/mail/e-mail-reader.c:3030
 msgid "Increase the text size"
 msgstr "افزایش اندازهٔ متن"
 
-#: ../src/mail/e-mail-reader.c:3026
+#: ../src/mail/e-mail-reader.c:3037
 msgid "Decrease the text size"
 msgstr "کاهش اندازهٔ متن"
 
-#: ../src/mail/e-mail-reader.c:3033
+#: ../src/mail/e-mail-reader.c:3044
 msgid "Cre_ate"
 msgstr "_ایجاد"
 
-#: ../src/mail/e-mail-reader.c:3040
+#: ../src/mail/e-mail-reader.c:3051
 msgid "Ch_aracter Encoding"
 msgstr "کد_گذاری نویسه‌ها"
 
-#: ../src/mail/e-mail-reader.c:3047
+#: ../src/mail/e-mail-reader.c:3058
 #: ../src/modules/mail/e-mail-attachment-handler.c:424
 msgid "F_orward As"
 msgstr "_هدایت به شکل"
 
-#: ../src/mail/e-mail-reader.c:3054
+#: ../src/mail/e-mail-reader.c:3065
 msgid "_Label"
 msgstr "_برچسب"
 
-#: ../src/mail/e-mail-reader.c:3061
+#: ../src/mail/e-mail-reader.c:3072
 msgid "_Group Reply"
 msgstr "_پاسخ _گروهی"
 
-#: ../src/mail/e-mail-reader.c:3068
+#: ../src/mail/e-mail-reader.c:3079
 msgid "_Go To"
 msgstr "_رفتن به"
 
-#: ../src/mail/e-mail-reader.c:3075
+#: ../src/mail/e-mail-reader.c:3086
 msgid "Mar_k As"
 msgstr "_علامت‌گذاری به عنوان"
 
-#: ../src/mail/e-mail-reader.c:3082
+#: ../src/mail/e-mail-reader.c:3093
 msgid "_Message"
 msgstr "_پیام"
 
-#: ../src/mail/e-mail-reader.c:3089
+#: ../src/mail/e-mail-reader.c:3100
 msgid "_Zoom"
 msgstr "_بزرگ‌نمایی"
 
-#: ../src/mail/e-mail-reader.c:3099
+#: ../src/mail/e-mail-reader.c:3110
 msgid "Create a Search Folder from Mailing _List…"
 msgstr "ایجاد یک شاخهٔ جست‌وجو از _سیاههٔ پستی…"
 
-#: ../src/mail/e-mail-reader.c:3101
+#: ../src/mail/e-mail-reader.c:3112
 msgid "Create a search folder for this mailing list"
 msgstr "ایجاد یک شاخهٔ جست‌وجو برای این سیاههٔ پستی"
 
-#: ../src/mail/e-mail-reader.c:3106
+#: ../src/mail/e-mail-reader.c:3117
 msgid "Create a Search Folder from Recipien_ts…"
 msgstr "ایجاد یک شاخهٔ جست‌وجو از _گیرندگان…"
 
-#: ../src/mail/e-mail-reader.c:3108
+#: ../src/mail/e-mail-reader.c:3119
 msgid "Create a search folder for these recipients"
 msgstr "ایجاد یک شاخهٔ جست‌وجو برای این گیرندگان"
 
-#: ../src/mail/e-mail-reader.c:3113
+#: ../src/mail/e-mail-reader.c:3124
 msgid "Create a Search Folder from Sen_der…"
 msgstr "ایجاد یک شاخهٔ جست‌وجو از _فرستنده…"
 
-#: ../src/mail/e-mail-reader.c:3115
+#: ../src/mail/e-mail-reader.c:3126
 msgid "Create a search folder for this sender"
 msgstr "ایجاد یک شاخهٔ جست‌وجو برای این فرستنده"
 
-#: ../src/mail/e-mail-reader.c:3120
+#: ../src/mail/e-mail-reader.c:3131
 msgid "Create a Search Folder from S_ubject…"
 msgstr "ایجاد یک شاخهٔ جست‌وجو از _موضوع…"
 
-#: ../src/mail/e-mail-reader.c:3122
+#: ../src/mail/e-mail-reader.c:3133
 msgid "Create a search folder for this subject"
 msgstr "ایجاد یک شاخهٔ جست‌وجو برای این موضوع"
 
-#: ../src/mail/e-mail-reader.c:3169
+#: ../src/mail/e-mail-reader.c:3180
 msgid "Mark for Follo_w Up…"
 msgstr "علامت برای _پی‌گیری…"
 
-#: ../src/mail/e-mail-reader.c:3185
+#: ../src/mail/e-mail-reader.c:3196
 msgid "Mark as _Important"
 msgstr "علامت‌گذاری به عنوان _مهم"
 
-#: ../src/mail/e-mail-reader.c:3189
+#: ../src/mail/e-mail-reader.c:3200
 msgid "Mark as _Junk"
 msgstr "علامت‌گذاری به عنوان آ_شغال"
 
-#: ../src/mail/e-mail-reader.c:3193
+#: ../src/mail/e-mail-reader.c:3204
 msgid "Mark as _Not Junk"
 msgstr "علامت‌گذاری به عنوان _غیر بنجل"
 
-#: ../src/mail/e-mail-reader.c:3197
+#: ../src/mail/e-mail-reader.c:3208
 msgid "Mar_k as Read"
 msgstr "علامت‌گذاری به عنوان _خوانده"
 
-#: ../src/mail/e-mail-reader.c:3209
+#: ../src/mail/e-mail-reader.c:3220
 msgid "Mark as Uni_mportant"
 msgstr "علامت به _بی‌اهمیت"
 
-#: ../src/mail/e-mail-reader.c:3213
+#: ../src/mail/e-mail-reader.c:3224
 msgid "Mark as _Unread"
 msgstr "علامت‌گذاری به عنوان _نخوانده"
 
-#: ../src/mail/e-mail-reader.c:3265
+#: ../src/mail/e-mail-reader.c:3276
 msgid "_Caret Mode"
 msgstr "حالت _مکان‌نما"
 
-#: ../src/mail/e-mail-reader.c:3267
+#: ../src/mail/e-mail-reader.c:3278
 msgid "Show a blinking cursor in the body of displayed messages"
 msgstr "نمایش مکان‌نمای چشمک زن در بدنهٔ پیام نمایش داده شده"
 
-#: ../src/mail/e-mail-reader.c:3273
+#: ../src/mail/e-mail-reader.c:3284
 msgid "All Message _Headers"
 msgstr "همهٔ _سرنامه‌های پیام"
 
-#: ../src/mail/e-mail-reader.c:3275
+#: ../src/mail/e-mail-reader.c:3286
 msgid "Show messages with all email headers"
 msgstr "نمایش پیام‌ها با همهٔ سرنامه‌ها"
 
-#: ../src/mail/e-mail-reader.c:3869
+#: ../src/mail/e-mail-reader.c:3880
 msgid "Retrieving message"
 msgstr "بازیابی کردن پیام"
 
-#: ../src/mail/e-mail-reader.c:5383 ../src/mail/filtertypes.xml.in.h:70
+#: ../src/mail/e-mail-reader.c:5394 ../src/mail/filtertypes.xml.in.h:70
 msgid "Delete"
 msgstr "حذف"
 
-#: ../src/mail/e-mail-reader.c:5395
+#: ../src/mail/e-mail-reader.c:5406
 #: ../src/modules/calendar/e-cal-shell-view-actions.c:1327
 msgid "Next"
 msgstr "بعدی"
 
-#: ../src/mail/e-mail-reader.c:5399
+#: ../src/mail/e-mail-reader.c:5410
 #: ../src/modules/calendar/e-cal-shell-view-actions.c:1320
 msgid "Previous"
 msgstr "قبلی"
@@ -18089,87 +18105,87 @@ msgstr "استفاده از سهمیه"
 
 #. Translators: Label of a combo with a list of configured accounts where a user can
 #. choose which account to use as the sender when composing a message in this folder
-#: ../src/mail/em-folder-properties.c:702
+#: ../src/mail/em-folder-properties.c:704
 msgid "_Send Account Override:"
 msgstr "_فرستادن پایمالی حساب:"
 
-#: ../src/mail/em-folder-properties.c:942
+#: ../src/mail/em-folder-properties.c:944
 msgid "Archive this folder using these settings:"
 msgstr "بایگانی این شاخه با این تنظیمات:"
 
 #. Translators: This text is part of "Auto-cleanup messages older than [X] [days/weeks/months]"
-#: ../src/mail/em-folder-properties.c:954
+#: ../src/mail/em-folder-properties.c:956
 msgctxt "autoarchive"
 msgid "Auto-_cleanup messages older than"
 msgstr "_ پاک‌سازی خودکار پیام‌های قدیمی‌تر از"
 
 #. Translators: This text is part of "Auto-cleanup messages older than [X] [days/weeks/months]"
-#: ../src/mail/em-folder-properties.c:967
+#: ../src/mail/em-folder-properties.c:969
 msgctxt "autoarchive"
 msgid "days"
 msgstr "روز"
 
 #. Translators: This text is part of "Auto-cleanup messages older than [X] [days/weeks/months]"
-#: ../src/mail/em-folder-properties.c:969
+#: ../src/mail/em-folder-properties.c:971
 msgctxt "autoarchive"
 msgid "weeks"
 msgstr "هفته"
 
 #. Translators: This text is part of "Auto-cleanup messages older than [X] [days/weeks/months]"
-#: ../src/mail/em-folder-properties.c:971
+#: ../src/mail/em-folder-properties.c:973
 msgctxt "autoarchive"
 msgid "months"
 msgstr "ماه"
 
-#: ../src/mail/em-folder-properties.c:977
+#: ../src/mail/em-folder-properties.c:979
 msgid "Move messages to the default archive _folder"
 msgstr "جابه‌جایی پیام‌ها به شاخهٔ پیش‌گزیدهٔ _بایگانی"
 
-#: ../src/mail/em-folder-properties.c:984
+#: ../src/mail/em-folder-properties.c:986
 msgid "_Move messages to:"
 msgstr "_جابه‌جایی پیام‌ها به:"
 
-#: ../src/mail/em-folder-properties.c:988
+#: ../src/mail/em-folder-properties.c:990
 msgid "Archive folder"
 msgstr "شاخهٔ بایگانی"
 
-#: ../src/mail/em-folder-properties.c:988
+#: ../src/mail/em-folder-properties.c:990
 msgid "Select folder to use for Archive"
 msgstr "گزینش شاخه برای استفاده به عنوان بایگانی"
 
-#: ../src/mail/em-folder-properties.c:992
+#: ../src/mail/em-folder-properties.c:994
 msgid "_Delete messages"
 msgstr "_حذف پیام‌ها"
 
-#: ../src/mail/em-folder-properties.c:1347
+#: ../src/mail/em-folder-properties.c:1378
 msgid "Server Tag"
 msgstr "برچسب کارساز"
 
-#: ../src/mail/em-folder-properties.c:1351 ../src/mail/filtertypes.xml.in.h:29
+#: ../src/mail/em-folder-properties.c:1382 ../src/mail/filtertypes.xml.in.h:29
 #: ../src/mail/searchtypes.xml.in.h:31 ../src/mail/vfoldertypes.xml.in.h:31
 msgid "Label"
 msgstr "برچسب"
 
-#: ../src/mail/em-folder-properties.c:1400
+#: ../src/mail/em-folder-properties.c:1431
 #: ../src/modules/appearance-settings/evolution-appearance-settings.c:427
 msgid "Appearance"
 msgstr "ظاهر"
 
 #. Translators: "Archive" is a noun (This is a tab heading in the mail folder properties)
-#: ../src/mail/em-folder-properties.c:1404
+#: ../src/mail/em-folder-properties.c:1435
 msgid "Archive"
 msgstr "بایگانی"
 
-#: ../src/mail/em-folder-properties.c:1407 ../src/mail/mail-config.ui.h:128
+#: ../src/mail/em-folder-properties.c:1438 ../src/mail/mail-config.ui.h:128
 #: ../src/mail/message-list.etspec.h:19
 msgid "Labels"
 msgstr "برچسب‌ها"
 
-#: ../src/mail/em-folder-properties.c:1485
+#: ../src/mail/em-folder-properties.c:1516
 msgid "Folder Properties"
 msgstr "ویژگی‌های شاخه"
 
-#: ../src/mail/em-folder-properties.c:1724
+#: ../src/mail/em-folder-properties.c:1755
 msgid "Gathering folder properties"
 msgstr "جمع‌آوری مشخّصات شاخه"
 
@@ -19197,7 +19213,7 @@ msgid "Highlight _quotations with"
 msgstr "پررنگ کردن نقل _قول‌ها با"
 
 #: ../src/mail/mail-config.ui.h:101
-#: ../src/modules/calendar/e-calendar-preferences.ui.h:73
+#: ../src/modules/calendar/e-calendar-preferences.ui.h:72
 msgid "Pick a color"
 msgstr "یک رنگ انتخاب کنید"
 
@@ -19340,7 +19356,7 @@ msgstr "‌جدول سرایندهای کاربری سیاههٔ پیام"
 
 #: ../src/mail/mail-config.ui.h:138
 #: ../src/modules/addressbook/autocompletion-config.c:118
-#: ../src/modules/calendar/e-calendar-preferences.ui.h:51
+#: ../src/modules/calendar/e-calendar-preferences.ui.h:50
 msgid "Date/Time Format"
 msgstr "قالب تاریخ و زمان"
 
@@ -20378,6 +20394,15 @@ msgstr "شکست در ایجاد سیاههٔ پیام"
 msgid "_Mark as Junk"
 msgstr "_نشانه گذاری به عنوان بنجل"
 
+#. Translators: {0} is the name of the folder where the delete of the message note failed.
+#: ../src/mail/mail.error.xml.h:222
+msgid "Label named “{0}” already exists"
+msgstr "برچسب با نام «{0}» از پیش وجود دارد."
+
+#: ../src/mail/mail.error.xml.h:223
+msgid "Choose a different name, please."
+msgstr "لطفاً نامی دیگر برگزینید."
+
 #: ../src/mail/mail-send-recv.c:193
 msgid "Canceling…"
 msgstr "در حال لغو…"
@@ -20477,7 +20502,7 @@ msgstr "در حال تولید فهرست پیام‌ها"
 
 #. strftime format of a time,
 #. * in 12-hour format, without seconds.
-#: ../src/mail/message-list.c:2195 ../src/modules/itip-formatter/itip-view.c:286
+#: ../src/mail/message-list.c:2195 ../src/modules/itip-formatter/itip-view.c:288
 msgid "Today %l:%M %p"
 msgstr "امروز %OH:%OM"
 
@@ -20737,7 +20762,7 @@ msgstr "توجه: بعضی از تغییرات تا زمان راه‌انداز
 
 #. To Translators: 'Table column' is a label for configurable date/time format for table columns showing a date in message list
 #: ../src/modules/addressbook/autocompletion-config.c:124
-#: ../src/modules/mail/em-mailer-prefs.c:2077
+#: ../src/modules/mail/em-mailer-prefs.c:2082
 msgid "_Table column:"
 msgstr "ستون _جدول:"
 
@@ -21368,8 +21393,8 @@ msgstr "'گزینش یک دفترچه نشانی"
 #: ../src/modules/cal-config-webcal/evolution-cal-config-webcal.c:102
 #: ../src/modules/cal-config-webdav-notes/evolution-cal-config-webdav-notes.c:239
 #: ../src/modules/cal-config-webdav-notes/evolution-cal-config-webdav-notes.c:260
-#: ../src/modules/itip-formatter/itip-view.c:1927
-#: ../src/modules/itip-formatter/itip-view.c:2129
+#: ../src/modules/itip-formatter/itip-view.c:2065
+#: ../src/modules/itip-formatter/itip-view.c:2267
 msgid "URL:"
 msgstr "نشانی اینترنتی:"
 
@@ -21779,45 +21804,51 @@ msgstr "گزینشگر سیاههٔ یادداشت"
 msgid "Task List Selector"
 msgstr "گزینشگر سیاههٔ تکلیف"
 
-#: ../src/modules/calendar/e-calendar-preferences.c:548
+#. Translators: The '%s' is replaced with the time zone name, like "America/New York" or "UTC"
+#: ../src/modules/calendar/e-calendar-preferences.c:520
+#, c-format
+msgid "Use s_ystem time zone (%s)"
+msgstr "استفاده از ناحیهٔ _زمانی سامانه (%s)"
+
+#: ../src/modules/calendar/e-calendar-preferences.c:549
 msgid "Selected Calendars for Notifications of Reminders"
 msgstr "تقویم‌های گزیده برای آگاهی‌های یادآورها"
 
-#: ../src/modules/calendar/e-calendar-preferences.c:555
+#: ../src/modules/calendar/e-calendar-preferences.c:556
 msgid "Selected Task Lists for Notifications of Reminders"
 msgstr "سیاهه‌های تکلیف گزیده برای آگاهی‌های یادآورها"
 
-#: ../src/modules/calendar/e-calendar-preferences.c:639
+#: ../src/modules/calendar/e-calendar-preferences.c:640
 msgid "Meeting Invitations"
 msgstr "دعوت‌های جلسه"
 
-#: ../src/modules/calendar/e-calendar-preferences.c:665
+#: ../src/modules/calendar/e-calendar-preferences.c:666
 msgid "_Delete message after acting"
 msgstr "_حذف پیام بعد از کنش"
 
-#: ../src/modules/calendar/e-calendar-preferences.c:672
+#: ../src/modules/calendar/e-calendar-preferences.c:673
 msgid "_Preserve existing reminder by default"
 msgstr "_نگه داشتن یادآور موجود به شکل پیش‌گزیده"
 
-#: ../src/modules/calendar/e-calendar-preferences.c:679
+#: ../src/modules/calendar/e-calendar-preferences.c:680
 msgid "_Show invitation description provided by the sender"
 msgstr "_نمایش شرح دعوت فراهم شده به دست فرستنده"
 
-#: ../src/modules/calendar/e-calendar-preferences.c:693
-#: ../src/modules/calendar/e-calendar-preferences.c:724
+#: ../src/modules/calendar/e-calendar-preferences.c:694
+#: ../src/modules/calendar/e-calendar-preferences.c:725
 msgid "Conflict Search"
 msgstr "جست‌وجوی تداخل"
 
 #. Source selector
-#: ../src/modules/calendar/e-calendar-preferences.c:708
+#: ../src/modules/calendar/e-calendar-preferences.c:709
 msgid "Select the calendars to search for meeting conflicts"
 msgstr "انتخاب تقویم‌ها برای جست‌وجو به دنبال تداخل جسله‌ها"
 
-#: ../src/modules/calendar/e-calendar-preferences.c:1194
+#: ../src/modules/calendar/e-calendar-preferences.c:1195
 msgid "Ti_me and date:"
 msgstr "_زمان و تاریخ:"
 
-#: ../src/modules/calendar/e-calendar-preferences.c:1195
+#: ../src/modules/calendar/e-calendar-preferences.c:1196
 msgid "_Date only:"
 msgstr "فقط _تاریخ:"
 
@@ -21866,281 +21897,277 @@ msgid "Time _zone:"
 msgstr "منطقهٔ زمانی:"
 
 #: ../src/modules/calendar/e-calendar-preferences.ui.h:14
-msgid "Use s_ystem time zone"
-msgstr "استفاده از ناحیهٔ _زمانی سامانه"
-
-#: ../src/modules/calendar/e-calendar-preferences.ui.h:15
 msgid "Time format:"
 msgstr "قالب زمانی:"
 
-#: ../src/modules/calendar/e-calendar-preferences.ui.h:16
+#: ../src/modules/calendar/e-calendar-preferences.ui.h:15
 msgid "_12 hour (AM/PM)"
 msgstr "_۱۲ ساعتی"
 
-#: ../src/modules/calendar/e-calendar-preferences.ui.h:17
+#: ../src/modules/calendar/e-calendar-preferences.ui.h:16
 msgid "_24 hour"
 msgstr "_۲۴ ساعتی"
 
 #. Translators: This is part of
-#: ../src/modules/calendar/e-calendar-preferences.ui.h:19
+#: ../src/modules/calendar/e-calendar-preferences.ui.h:18
 msgid "Sh_orten event time by"
 msgstr "کوتاه‌کردن زمان رویداد با"
 
-#: ../src/modules/calendar/e-calendar-preferences.ui.h:22
+#: ../src/modules/calendar/e-calendar-preferences.ui.h:21
 msgid "End events earlier"
 msgstr "پایان دادن زودتر به رویدادها"
 
-#: ../src/modules/calendar/e-calendar-preferences.ui.h:23
+#: ../src/modules/calendar/e-calendar-preferences.ui.h:22
 msgid "Start events later"
 msgstr "آغاز دیرتر رویدادها"
 
-#: ../src/modules/calendar/e-calendar-preferences.ui.h:24
+#: ../src/modules/calendar/e-calendar-preferences.ui.h:23
 #: ../src/modules/calendar/e-cal-shell-view-actions.c:1801
 msgid "Work Week"
 msgstr "هفتهٔ کاری"
 
 #. A weekday like "Monday" follows
-#: ../src/modules/calendar/e-calendar-preferences.ui.h:26
+#: ../src/modules/calendar/e-calendar-preferences.ui.h:25
 msgid "Wee_k starts on:"
 msgstr "شروع _هفته:"
 
-#: ../src/modules/calendar/e-calendar-preferences.ui.h:27
+#: ../src/modules/calendar/e-calendar-preferences.ui.h:26
 msgid "Work days:"
 msgstr "روزهای کاری:"
 
-#: ../src/modules/calendar/e-calendar-preferences.ui.h:28
+#: ../src/modules/calendar/e-calendar-preferences.ui.h:27
 msgid "_Day begins:"
 msgstr "_شروع روز:"
 
 #. Monday
-#: ../src/modules/calendar/e-calendar-preferences.ui.h:30
+#: ../src/modules/calendar/e-calendar-preferences.ui.h:29
 msgid "_Mon"
 msgstr "_د"
 
-#: ../src/modules/calendar/e-calendar-preferences.ui.h:31
+#: ../src/modules/calendar/e-calendar-preferences.ui.h:30
 msgid "Monday"
 msgstr "دوشنبه"
 
 #. Tuesday
-#: ../src/modules/calendar/e-calendar-preferences.ui.h:33
+#: ../src/modules/calendar/e-calendar-preferences.ui.h:32
 msgid "_Tue"
 msgstr "_س"
 
-#: ../src/modules/calendar/e-calendar-preferences.ui.h:34
+#: ../src/modules/calendar/e-calendar-preferences.ui.h:33
 msgid "Tuesday"
 msgstr "سه‌شنبه"
 
 #. Wednesday
-#: ../src/modules/calendar/e-calendar-preferences.ui.h:36
+#: ../src/modules/calendar/e-calendar-preferences.ui.h:35
 msgid "_Wed"
 msgstr "_چ"
 
-#: ../src/modules/calendar/e-calendar-preferences.ui.h:37
+#: ../src/modules/calendar/e-calendar-preferences.ui.h:36
 msgid "Wednesday"
 msgstr "چهارشنبه"
 
 #. Thursday
-#: ../src/modules/calendar/e-calendar-preferences.ui.h:39
+#: ../src/modules/calendar/e-calendar-preferences.ui.h:38
 msgid "T_hu"
 msgstr "_پ"
 
-#: ../src/modules/calendar/e-calendar-preferences.ui.h:40
+#: ../src/modules/calendar/e-calendar-preferences.ui.h:39
 msgid "Thursday"
 msgstr "پنج‌شنبه"
 
 #. Friday
-#: ../src/modules/calendar/e-calendar-preferences.ui.h:42
+#: ../src/modules/calendar/e-calendar-preferences.ui.h:41
 msgid "_Fri"
 msgstr "_آ"
 
-#: ../src/modules/calendar/e-calendar-preferences.ui.h:43
+#: ../src/modules/calendar/e-calendar-preferences.ui.h:42
 msgid "Friday"
 msgstr "آدینه"
 
 #. Saturday
-#: ../src/modules/calendar/e-calendar-preferences.ui.h:45
+#: ../src/modules/calendar/e-calendar-preferences.ui.h:44
 msgid "_Sat"
 msgstr "_ش"
 
-#: ../src/modules/calendar/e-calendar-preferences.ui.h:46
+#: ../src/modules/calendar/e-calendar-preferences.ui.h:45
 msgid "Saturday"
 msgstr "شنبه"
 
 #. Sunday
-#: ../src/modules/calendar/e-calendar-preferences.ui.h:48
+#: ../src/modules/calendar/e-calendar-preferences.ui.h:47
 msgid "S_un"
 msgstr "_ی"
 
-#: ../src/modules/calendar/e-calendar-preferences.ui.h:49
+#: ../src/modules/calendar/e-calendar-preferences.ui.h:48
 msgid "Sunday"
 msgstr "یک‌شنبه"
 
-#: ../src/modules/calendar/e-calendar-preferences.ui.h:50
+#: ../src/modules/calendar/e-calendar-preferences.ui.h:49
 msgid "Day _ends:"
 msgstr "_پایان روزها:"
 
-#: ../src/modules/calendar/e-calendar-preferences.ui.h:53
+#: ../src/modules/calendar/e-calendar-preferences.ui.h:52
 msgid "Create events, memos and tasks as _Private by default"
 msgstr "ایجاد پیش‌گزیدهٔ رویدادها، یادداشت‌ها و تکلیف‌ها به صورت _خصوصی"
 
-#: ../src/modules/calendar/e-calendar-preferences.ui.h:54
+#: ../src/modules/calendar/e-calendar-preferences.ui.h:53
 msgid "Use ma_rkdown for Description in the component editor"
 msgstr "استفاده از _مارک‌دون برای شرح در ویرایشگر مولّفه"
 
-#: ../src/modules/calendar/e-calendar-preferences.ui.h:56
+#: ../src/modules/calendar/e-calendar-preferences.ui.h:55
 msgid "View Options"
 msgstr "گزینه‌های نما"
 
-#: ../src/modules/calendar/e-calendar-preferences.ui.h:57
+#: ../src/modules/calendar/e-calendar-preferences.ui.h:56
 msgid "_Time divisions:"
 msgstr "_تقسیمات زمانی:"
 
-#: ../src/modules/calendar/e-calendar-preferences.ui.h:58
+#: ../src/modules/calendar/e-calendar-preferences.ui.h:57
 msgid "_Show appointment end times in week and month view"
 msgstr "_نمایش زمان پایان قرارها در نمای هفته و ماه"
 
-#: ../src/modules/calendar/e-calendar-preferences.ui.h:59
+#: ../src/modules/calendar/e-calendar-preferences.ui.h:58
 msgid "Show appointment _icons in the month view"
 msgstr "نمایش _نقشک قرارها در نمای ماه"
 
-#: ../src/modules/calendar/e-calendar-preferences.ui.h:60
+#: ../src/modules/calendar/e-calendar-preferences.ui.h:59
 msgid "_Compress weekends in month view"
 msgstr "_فشرده کردن آخرهفته‌ها در نمای ماه"
 
-#: ../src/modules/calendar/e-calendar-preferences.ui.h:61
+#: ../src/modules/calendar/e-calendar-preferences.ui.h:60
 msgid "Show week _numbers"
 msgstr "نمایش _شمارهٔ هفته"
 
-#: ../src/modules/calendar/e-calendar-preferences.ui.h:62
+#: ../src/modules/calendar/e-calendar-preferences.ui.h:61
 msgid "Show r_ecurring events in italic in bottom left calendar"
 msgstr "نمایش رویدادهای _تکرار شونده به صورت کج در پایین راست تقویم"
 
-#: ../src/modules/calendar/e-calendar-preferences.ui.h:63
+#: ../src/modules/calendar/e-calendar-preferences.ui.h:62
 msgid "Sc_roll Month View by a week"
 msgstr "_لغزش نمای ماه بر حسب هفته"
 
-#: ../src/modules/calendar/e-calendar-preferences.ui.h:64
+#: ../src/modules/calendar/e-calendar-preferences.ui.h:63
 msgid "Start Month View with the c_urrent week"
 msgstr "آغاز نمای ماه با هفتهٔ _کنونی"
 
-#: ../src/modules/calendar/e-calendar-preferences.ui.h:65
+#: ../src/modules/calendar/e-calendar-preferences.ui.h:64
 msgid "Order days in Week View from _left to right"
 msgstr "چینش روزها در هفته از _راست به چپ"
 
-#: ../src/modules/calendar/e-calendar-preferences.ui.h:66
+#: ../src/modules/calendar/e-calendar-preferences.ui.h:65
 msgid "Allo_w direct edit of event Summary"
 msgstr "اجازه به ویرایش مستقیم _چکیدهٔ رویداد"
 
-#: ../src/modules/calendar/e-calendar-preferences.ui.h:67
+#: ../src/modules/calendar/e-calendar-preferences.ui.h:66
 msgid "Hi_de cancelled events"
 msgstr "_نهفتن رویدادهای لغو شده"
 
-#: ../src/modules/calendar/e-calendar-preferences.ui.h:68
+#: ../src/modules/calendar/e-calendar-preferences.ui.h:67
 msgid "Alerts"
 msgstr "هشدارها"
 
-#: ../src/modules/calendar/e-calendar-preferences.ui.h:69
+#: ../src/modules/calendar/e-calendar-preferences.ui.h:68
 msgid "_Ask for confirmation when deleting items"
 msgstr "_تأیید گرفتن هنگام حذف موارد"
 
-#: ../src/modules/calendar/e-calendar-preferences.ui.h:70
+#: ../src/modules/calendar/e-calendar-preferences.ui.h:69
 msgid "Display"
 msgstr "نمایش"
 
-#: ../src/modules/calendar/e-calendar-preferences.ui.h:72
+#: ../src/modules/calendar/e-calendar-preferences.ui.h:71
 msgid "Highlight t_asks due today"
 msgstr "نشانه‌گذاری _تکلیف‌های امروز"
 
-#: ../src/modules/calendar/e-calendar-preferences.ui.h:74
+#: ../src/modules/calendar/e-calendar-preferences.ui.h:73
 msgid "Highlight _overdue tasks"
 msgstr "برجسته کردن تکلیف‌های _عقب‌ افتاده"
 
-#: ../src/modules/calendar/e-calendar-preferences.ui.h:75
+#: ../src/modules/calendar/e-calendar-preferences.ui.h:74
 msgid "_Hide completed tasks after"
 msgstr "_نهفتن تکلیف‌های انجام شده پس از"
 
-#: ../src/modules/calendar/e-calendar-preferences.ui.h:76
+#: ../src/modules/calendar/e-calendar-preferences.ui.h:75
 msgid "Hid_e cancelled tasks"
 msgstr "نهفتن تکلیف‌های _لغو شده"
 
-#: ../src/modules/calendar/e-calendar-preferences.ui.h:77
+#: ../src/modules/calendar/e-calendar-preferences.ui.h:76
 msgid "To Do bar"
 msgstr "نوار برای انجام"
 
-#: ../src/modules/calendar/e-calendar-preferences.ui.h:78
+#: ../src/modules/calendar/e-calendar-preferences.ui.h:77
 msgid "Show Tasks without _Due date"
 msgstr "نمایش تکلیف‌ها بدون تاریخ _سررسید"
 
 #. Translators: This constructs: Show [spinner] days
-#: ../src/modules/calendar/e-calendar-preferences.ui.h:80
+#: ../src/modules/calendar/e-calendar-preferences.ui.h:79
 msgctxt "to-do-bar-n-days"
 msgid "Show"
 msgstr "نمایش"
 
 #. Translators: This constructs: Show [spinner] days
-#: ../src/modules/calendar/e-calendar-preferences.ui.h:82
+#: ../src/modules/calendar/e-calendar-preferences.ui.h:81
 msgctxt "to-do-bar-n-days"
 msgid "da_ys"
 msgstr "رو_ز"
 
-#: ../src/modules/calendar/e-calendar-preferences.ui.h:85
+#: ../src/modules/calendar/e-calendar-preferences.ui.h:84
 msgid "Display Reminders window with _notifications"
 msgstr "نمایش پنجرهٔ یادآور با _آگاهی‌ها"
 
-#: ../src/modules/calendar/e-calendar-preferences.ui.h:86
+#: ../src/modules/calendar/e-calendar-preferences.ui.h:85
 msgid "Keep reminder notification _window always on top"
 msgstr "همواره بالا نگه داشتن _پنجرهٔ آگاهی یادآور"
 
-#: ../src/modules/calendar/e-calendar-preferences.ui.h:87
+#: ../src/modules/calendar/e-calendar-preferences.ui.h:86
 msgid "Enable de_sktop notifications"
 msgstr "به کار انداختن آگاهی‌‌های _میزکار"
 
-#: ../src/modules/calendar/e-calendar-preferences.ui.h:88
+#: ../src/modules/calendar/e-calendar-preferences.ui.h:87
 msgid "Enable _audio notifications"
 msgstr "به کار انداختن آگاهی‌‌های _صوتی"
 
-#: ../src/modules/calendar/e-calendar-preferences.ui.h:89
+#: ../src/modules/calendar/e-calendar-preferences.ui.h:88
 msgid "Display reminders for completed _tasks"
 msgstr "نمایش یادآور برای _تکلیف‌های انجام شده"
 
-#: ../src/modules/calendar/e-calendar-preferences.ui.h:90
+#: ../src/modules/calendar/e-calendar-preferences.ui.h:89
 msgid "Display reminders for _past events"
 msgstr "نمایش یادآور برای رویدادهای _گذشته"
 
 #. This is the first half of a user preference. "Set default reminder [time-period] before every new appointment"
-#: ../src/modules/calendar/e-calendar-preferences.ui.h:92
+#: ../src/modules/calendar/e-calendar-preferences.ui.h:91
 msgid "Set _default reminder"
 msgstr "تنظیم یادآور _پیش‌گزیده"
 
 #. This is the last half of a user preference. "Set default reminder [time-period] before every new appointment"
-#: ../src/modules/calendar/e-calendar-preferences.ui.h:94
+#: ../src/modules/calendar/e-calendar-preferences.ui.h:93
 msgid "before every new appointment"
 msgstr "پیش از هر قرار جدید"
 
 #. This is the first half of a user preference. "Show a reminder [time-period] before every anniversary/birthday"
-#: ../src/modules/calendar/e-calendar-preferences.ui.h:96
+#: ../src/modules/calendar/e-calendar-preferences.ui.h:95
 msgid "Show a _reminder"
 msgstr "نمایش یک _یادآور"
 
 #. This is the last half of a user preference. "Show a reminder [time-period] before every anniversary/birthday"
-#: ../src/modules/calendar/e-calendar-preferences.ui.h:98
+#: ../src/modules/calendar/e-calendar-preferences.ui.h:97
 msgid "before every anniversary/birthday"
 msgstr "پیش از هر سالگرد/تولّد"
 
-#: ../src/modules/calendar/e-calendar-preferences.ui.h:99
+#: ../src/modules/calendar/e-calendar-preferences.ui.h:98
 msgid "Select the sources for reminder notification:"
 msgstr "گزینش منبع‌ها برای آگاهی یادآوری:"
 
-#: ../src/modules/calendar/e-calendar-preferences.ui.h:102
+#: ../src/modules/calendar/e-calendar-preferences.ui.h:101
 msgid "Default Free/Busy Server"
 msgstr "کارساز آزاد/مشغول پیش‌گزیده"
 
-#: ../src/modules/calendar/e-calendar-preferences.ui.h:105
+#: ../src/modules/calendar/e-calendar-preferences.ui.h:104
 #, no-c-format
 msgid "%u and %d will be replaced by user and domain from the email address."
 msgstr "%Iu و %Id با کاربر و دامنهٔ نشانی رایانامه جایگزین خواهند شد."
 
-#: ../src/modules/calendar/e-calendar-preferences.ui.h:106
+#: ../src/modules/calendar/e-calendar-preferences.ui.h:105
 msgid ""
 "Specify login user name as part of the URL in case the server requires "
 "authentication, like: https://USER@example.com/"
@@ -22148,7 +22175,7 @@ msgstr ""
 "در صورتی که کارساز نیاز به تأیید هویت داشت، نام‌های کاربری به عنوان بخشی از نشانی "
 "اینترنتی مشخّص شوند. مثال: ‪https://USER@example.com/"
 
-#: ../src/modules/calendar/e-calendar-preferences.ui.h:107
+#: ../src/modules/calendar/e-calendar-preferences.ui.h:106
 msgid "Publishing Information"
 msgstr "اطَلاعات انتشار"
 
@@ -22422,7 +22449,7 @@ msgid "Accept meeting request for selected instance only"
 msgstr "پذیرش درخواست جلسه فقط برای نمونهٔ گزیده"
 
 #: ../src/modules/calendar/e-cal-shell-view-actions.c:1523
-#: ../src/modules/itip-formatter/itip-view.c:1281
+#: ../src/modules/itip-formatter/itip-view.c:1291
 msgid "_Decline"
 msgstr "_رد"
 
@@ -23153,293 +23180,297 @@ msgstr "نمایش بخش به عنوان یک دعوت"
 
 #. strftime format of a time,
 #. * in 24-hour format, without seconds.
-#: ../src/modules/itip-formatter/itip-view.c:277
+#: ../src/modules/itip-formatter/itip-view.c:279
 msgid "Today %H:%M"
 msgstr "امروز %OH:%OM"
 
 #. strftime format of a time,
 #. * in 24-hour format.
-#: ../src/modules/itip-formatter/itip-view.c:281
+#: ../src/modules/itip-formatter/itip-view.c:283
 msgid "Today %H:%M:%S"
 msgstr "امروز %OH:%OM:%OS"
 
 #. strftime format of a time,
 #. * in 12-hour format.
-#: ../src/modules/itip-formatter/itip-view.c:290
+#: ../src/modules/itip-formatter/itip-view.c:292
 msgid "Today %l:%M:%S %p"
 msgstr "امروز %OH:%OM:%OS"
 
 #. strftime format of a time,
 #. * in 24-hour format, without seconds.
-#: ../src/modules/itip-formatter/itip-view.c:305
+#: ../src/modules/itip-formatter/itip-view.c:307
 msgid "Tomorrow %H:%M"
 msgstr "فردا %OH:%OM"
 
 #. strftime format of a time,
 #. * in 24-hour format.
-#: ../src/modules/itip-formatter/itip-view.c:309
+#: ../src/modules/itip-formatter/itip-view.c:311
 msgid "Tomorrow %H:%M:%S"
 msgstr "فردا %OH:%OM:%OS"
 
 #. strftime format of a time,
 #. * in 12-hour format, without seconds.
-#: ../src/modules/itip-formatter/itip-view.c:314
+#: ../src/modules/itip-formatter/itip-view.c:316
 msgid "Tomorrow %l:%M %p"
 msgstr "فردا %OH:%OM"
 
 #. strftime format of a time,
 #. * in 12-hour format.
-#: ../src/modules/itip-formatter/itip-view.c:318
+#: ../src/modules/itip-formatter/itip-view.c:320
 msgid "Tomorrow %l:%M:%S %p"
 msgstr "فردا %OH:%OM:%OS"
 
 #. strftime format of a weekday.
-#: ../src/modules/itip-formatter/itip-view.c:337
+#: ../src/modules/itip-formatter/itip-view.c:339
 #, c-format
 msgid "%A"
 msgstr "%A"
 
 #. strftime format of a weekday and a
 #. * time, in 24-hour format, without seconds.
-#: ../src/modules/itip-formatter/itip-view.c:342
+#: ../src/modules/itip-formatter/itip-view.c:344
 msgid "%A %H:%M"
 msgstr "%A %OH:%OM"
 
 #. strftime format of a weekday and a
 #. * time, in 24-hour format.
-#: ../src/modules/itip-formatter/itip-view.c:346
+#: ../src/modules/itip-formatter/itip-view.c:348
 msgid "%A %H:%M:%S"
 msgstr "%A %OH:%OM:%OS"
 
 #. strftime format of a weekday and a
 #. * time, in 12-hour format, without seconds.
-#: ../src/modules/itip-formatter/itip-view.c:351
+#: ../src/modules/itip-formatter/itip-view.c:353
 msgid "%A %l:%M %p"
 msgstr "%A %OH:%OM"
 
 #. strftime format of a weekday and a
 #. * time, in 12-hour format.
-#: ../src/modules/itip-formatter/itip-view.c:355
+#: ../src/modules/itip-formatter/itip-view.c:357
 msgid "%A %l:%M:%S %p"
 msgstr "%A %OH:%OM:%OS"
 
 #. strftime format of a weekday and a date
 #. * without a year.
-#: ../src/modules/itip-formatter/itip-view.c:366
+#: ../src/modules/itip-formatter/itip-view.c:368
 msgid "%A, %B %e"
 msgstr "%A، %Oe %B"
 
 #. strftime format of a weekday, a date
 #. * without a year and a time,
 #. * in 24-hour format, without seconds.
-#: ../src/modules/itip-formatter/itip-view.c:372
+#: ../src/modules/itip-formatter/itip-view.c:374
 msgid "%A, %B %e %H:%M"
 msgstr "%A، %Oe %B، %OH:%OM"
 
 #. strftime format of a weekday, a date without a year
 #. * and a time, in 24-hour format.
-#: ../src/modules/itip-formatter/itip-view.c:376
+#: ../src/modules/itip-formatter/itip-view.c:378
 msgid "%A, %B %e %H:%M:%S"
 msgstr "%A، %Oe %B، %OH:%OM:%OS"
 
 #. strftime format of a weekday, a date without a year
 #. * and a time, in 12-hour format, without seconds.
-#: ../src/modules/itip-formatter/itip-view.c:381
+#: ../src/modules/itip-formatter/itip-view.c:383
 msgid "%A, %B %e %l:%M %p"
 msgstr "%A، %Oe %B، %OH:%OM"
 
 #. strftime format of a weekday, a date without a year
 #. * and a time, in 12-hour format.
-#: ../src/modules/itip-formatter/itip-view.c:385
+#: ../src/modules/itip-formatter/itip-view.c:387
 msgid "%A, %B %e %l:%M:%S %p"
 msgstr "%A، %Oe %B، %OH:%OM:%OS"
 
 #. strftime format of a weekday and a date.
-#: ../src/modules/itip-formatter/itip-view.c:393
+#: ../src/modules/itip-formatter/itip-view.c:395
 msgid "%A, %B %e, %Y"
 msgstr "%A، %Oe %B %Oy"
 
 #. strftime format of a weekday, a date and a
 #. * time, in 24-hour format, without seconds.
-#: ../src/modules/itip-formatter/itip-view.c:398
+#: ../src/modules/itip-formatter/itip-view.c:400
 msgid "%A, %B %e, %Y %H:%M"
 msgstr "%A، %Oe %B %Oy، %OH:%OM"
 
 #. strftime format of a weekday, a date and a
 #. * time, in 24-hour format.
-#: ../src/modules/itip-formatter/itip-view.c:402
+#: ../src/modules/itip-formatter/itip-view.c:404
 msgid "%A, %B %e, %Y %H:%M:%S"
 msgstr "%A، %Oe %B %Oy، %OH:%OM:%OS"
 
 #. strftime format of a weekday, a date and a
 #. * time, in 12-hour format, without seconds.
-#: ../src/modules/itip-formatter/itip-view.c:407
+#: ../src/modules/itip-formatter/itip-view.c:409
 msgid "%A, %B %e, %Y %l:%M %p"
 msgstr "%A، %Oe %B %Oy، %OH:%OM"
 
 #. strftime format of a weekday, a date and a
 #. * time, in 12-hour format.
-#: ../src/modules/itip-formatter/itip-view.c:411
+#: ../src/modules/itip-formatter/itip-view.c:413
 msgid "%A, %B %e, %Y %l:%M:%S %p"
 msgstr "%A، %Oe %B %Oy، %OH:%OM:%OS"
 
 #. Translators: The first '%s' is replaced with an abbreviated date/time of an appointment start or end, like "Tomorrow" or "Tomorrow 10:30";
 #. the second '%s' is replaced with the actual date, to know what the 'Tomorrow' means. What the date looks like depends on the user settings.
 #. Example: 'Tomorrow 10:30 (20.2.2020)'
-#: ../src/modules/itip-formatter/itip-view.c:438
+#: ../src/modules/itip-formatter/itip-view.c:440
 #, c-format
 msgctxt "cal-itip"
 msgid "%s (%s)"
 msgstr "%s (%s)"
 
-#: ../src/modules/itip-formatter/itip-view.c:476
-#: ../src/modules/itip-formatter/itip-view.c:477
-#: ../src/modules/itip-formatter/itip-view.c:570
-#: ../src/modules/itip-formatter/itip-view.c:571
-#: ../src/modules/itip-formatter/itip-view.c:660
+#: ../src/modules/itip-formatter/itip-view.c:478
+#: ../src/modules/itip-formatter/itip-view.c:479
+#: ../src/modules/itip-formatter/itip-view.c:572
+#: ../src/modules/itip-formatter/itip-view.c:573
+#: ../src/modules/itip-formatter/itip-view.c:666
 msgid "An unknown person"
 msgstr "یک شخص نامعلوم"
 
-#: ../src/modules/itip-formatter/itip-view.c:481
-#: ../src/modules/itip-formatter/itip-view.c:575
-#: ../src/modules/itip-formatter/itip-view.c:664
+#: ../src/modules/itip-formatter/itip-view.c:483
+#: ../src/modules/itip-formatter/itip-view.c:577
+#: ../src/modules/itip-formatter/itip-view.c:670
 #, c-format
 msgid "Please respond on behalf of %s"
 msgstr "لطفاً از جانب %s پاسخ دهید"
 
-#: ../src/modules/itip-formatter/itip-view.c:483
-#: ../src/modules/itip-formatter/itip-view.c:577
-#: ../src/modules/itip-formatter/itip-view.c:666
+#: ../src/modules/itip-formatter/itip-view.c:485
+#: ../src/modules/itip-formatter/itip-view.c:579
+#: ../src/modules/itip-formatter/itip-view.c:672
 #, c-format
 msgid "Received on behalf of %s"
 msgstr "به نیابت از %s درسافت شد"
 
-#: ../src/modules/itip-formatter/itip-view.c:489
+#: ../src/modules/itip-formatter/itip-view.c:491
 #, c-format
 msgid "%s through %s has published the following meeting information:"
 msgstr "%s از طریق %s اطّلاعات جلسهٔ زیر را منتشر کرده:"
 
-#: ../src/modules/itip-formatter/itip-view.c:491
+#: ../src/modules/itip-formatter/itip-view.c:493
 #, c-format
 msgid "%s has published the following meeting information:"
 msgstr "%s اطّلاعات جلسهٔ زیر را منتشر کرده:"
 
-#: ../src/modules/itip-formatter/itip-view.c:493
+#: ../src/modules/itip-formatter/itip-view.c:495
 msgid "The following meeting information has been published:"
 msgstr "اطّلاعات جلسهٔ زیر منتشر شده است:"
 
-#: ../src/modules/itip-formatter/itip-view.c:499
+#: ../src/modules/itip-formatter/itip-view.c:501
 #, c-format
 msgid "%s has delegated the following meeting to you:"
 msgstr "%s جلسهٔ زیر را به شما واگذار کرده:"
 
-#: ../src/modules/itip-formatter/itip-view.c:502
+#: ../src/modules/itip-formatter/itip-view.c:504
 #, c-format
 msgid "%s through %s requests your presence at the following meeting:"
 msgstr "%s از طریق %s خواستار حضور شما در جلسهٔ زیر است:"
 
-#: ../src/modules/itip-formatter/itip-view.c:504
+#: ../src/modules/itip-formatter/itip-view.c:506
 #, c-format
 msgid "%s requests your presence at the following meeting:"
 msgstr "%s خواستار حضور شما در جلسهٔ زیر است:"
 
-#: ../src/modules/itip-formatter/itip-view.c:510
+#: ../src/modules/itip-formatter/itip-view.c:512
 #, c-format
 msgid "%s through %s wishes to add to an existing meeting:"
 msgstr "%s از طریق %s می‌خواهد به جلسهٔ موجود افزوده شود:"
 
-#: ../src/modules/itip-formatter/itip-view.c:512
+#: ../src/modules/itip-formatter/itip-view.c:514
 #, c-format
 msgid "%s wishes to add to an existing meeting:"
 msgstr "%s می‌خواهد به جلسهٔ موجود افزوده شود:"
 
-#: ../src/modules/itip-formatter/itip-view.c:516
+#: ../src/modules/itip-formatter/itip-view.c:518
 #, c-format
 msgid ""
 "%s through %s wishes to receive the latest information for the following meeting:"
 msgstr "%s از طریق %s مایل است آخرین اطلاعات جلسهٔ زیر را دریافت کند:"
 
-#: ../src/modules/itip-formatter/itip-view.c:518
+#: ../src/modules/itip-formatter/itip-view.c:520
 #, c-format
 msgid "%s wishes to receive the latest information for the following meeting:"
 msgstr "%s مایل است آخرین اطلاعات جلسهٔ زیر را دریافت کند:"
 
-#: ../src/modules/itip-formatter/itip-view.c:522
+#: ../src/modules/itip-formatter/itip-view.c:524
 #, c-format
 msgid "%s through %s has sent back the following meeting response:"
 msgstr "%s از طریق %s پاسخ جلسهٔ زیر را پس فرستاده:"
 
-#: ../src/modules/itip-formatter/itip-view.c:524
+#: ../src/modules/itip-formatter/itip-view.c:526
 #, c-format
 msgid "%s has sent back the following meeting response:"
 msgstr "%s پاسخ جلسهٔ زیر را پس فرستاده:"
 
-#: ../src/modules/itip-formatter/itip-view.c:528
+#: ../src/modules/itip-formatter/itip-view.c:530
 #, c-format
 msgid "%s through %s has cancelled the following meeting:"
 msgstr "%s از طریق %s جلسهٔ زیر را لغو کرده:"
 
-#: ../src/modules/itip-formatter/itip-view.c:530
+#: ../src/modules/itip-formatter/itip-view.c:532
 #, c-format
 msgid "%s has cancelled the following meeting:"
 msgstr "%s جلسهٔ زیر را لغو کرده:"
 
-#: ../src/modules/itip-formatter/itip-view.c:534
+#: ../src/modules/itip-formatter/itip-view.c:536
 #, c-format
 msgid "%s through %s has proposed the following meeting changes."
 msgstr "%s از طریق %s تغییرات جلسهٔ زیر را پیشنهاد داده."
 
-#: ../src/modules/itip-formatter/itip-view.c:536
+#: ../src/modules/itip-formatter/itip-view.c:538
 #, c-format
 msgid "%s has proposed the following meeting changes:"
 msgstr "%s تغییرات جلسهٔ زیر را پیشنهاد داده:"
 
-#: ../src/modules/itip-formatter/itip-view.c:540
+#: ../src/modules/itip-formatter/itip-view.c:542
 #, c-format
 msgid "%s through %s has declined the following meeting changes:"
 msgstr "%s از طریق %s تغییرات جلسهٔ زیر را رد کرده:"
 
-#: ../src/modules/itip-formatter/itip-view.c:542
+#: ../src/modules/itip-formatter/itip-view.c:544
 #, c-format
 msgid "%s has declined the following meeting changes:"
 msgstr "%s تغییرات جلسهٔ زیر را رد کرده:"
 
-#: ../src/modules/itip-formatter/itip-view.c:582
+#: ../src/modules/itip-formatter/itip-view.c:585
 #, c-format
 msgid "%s through %s has published the following task:"
 msgstr "%s از طریق %s تکلیف زیر را منتشر کرده:"
 
-#: ../src/modules/itip-formatter/itip-view.c:584
+#: ../src/modules/itip-formatter/itip-view.c:587
 #, c-format
 msgid "%s has published the following task:"
 msgstr "%s تکلیف زیر را منتشر کرده:"
 
 #: ../src/modules/itip-formatter/itip-view.c:589
+msgid "The following task has been published:"
+msgstr "وظیفهٔ زیر منتشر شده‌ است:"
+
+#: ../src/modules/itip-formatter/itip-view.c:595
 #, c-format
 msgid "%s requests the assignment of %s to the following task:"
 msgstr "%s خواستار تخصیص %s به تکلیف زیر شده:"
 
-#: ../src/modules/itip-formatter/itip-view.c:592
+#: ../src/modules/itip-formatter/itip-view.c:598
 #, c-format
 msgid "%s through %s has assigned you a task:"
 msgstr "%s از طریق %s تکلیفی را به شما تخصیص داد:"
 
-#: ../src/modules/itip-formatter/itip-view.c:594
+#: ../src/modules/itip-formatter/itip-view.c:600
 #, c-format
 msgid "%s has assigned you a task:"
 msgstr "%s تکلیفی را به شما تخصیص داد:"
 
-#: ../src/modules/itip-formatter/itip-view.c:600
+#: ../src/modules/itip-formatter/itip-view.c:606
 #, c-format
 msgid "%s through %s wishes to add to an existing task:"
 msgstr "%s از طریق %s می‌خواهد به تکلیف موجودی اضافه شود:"
 
-#: ../src/modules/itip-formatter/itip-view.c:602
+#: ../src/modules/itip-formatter/itip-view.c:608
 #, c-format
 msgid "%s wishes to add to an existing task:"
 msgstr "%s می‌خواهد به تکلیف موجودی اضافه شود:"
 
-#: ../src/modules/itip-formatter/itip-view.c:606
+#: ../src/modules/itip-formatter/itip-view.c:612
 #, c-format
 msgid ""
 "%s through %s wishes to receive the latest information for the following assigned "
@@ -23447,224 +23478,228 @@ msgid ""
 msgstr ""
 "%s از طریق %s مایل است آخرین اطلاعات تکلیف تخصیص داده شدهٔ زیر را دریافت کند:"
 
-#: ../src/modules/itip-formatter/itip-view.c:608
+#: ../src/modules/itip-formatter/itip-view.c:614
 #, c-format
 msgid "%s wishes to receive the latest information for the following assigned task:"
 msgstr "%s مایل است آخرین اطلاعات تکلیف تخصیص داده شدهٔ زیر را دریافت کند:"
 
-#: ../src/modules/itip-formatter/itip-view.c:612
+#: ../src/modules/itip-formatter/itip-view.c:618
 #, c-format
 msgid "%s through %s has sent back the following assigned task response:"
 msgstr "%s از طریق %s پاسخ تکلیف تخصیصی زیر را پس فرستاده:"
 
-#: ../src/modules/itip-formatter/itip-view.c:614
+#: ../src/modules/itip-formatter/itip-view.c:620
 #, c-format
 msgid "%s has sent back the following assigned task response:"
 msgstr "%s پاسخ تکلیف تخصیصی زیر را پس فرستاده:"
 
-#: ../src/modules/itip-formatter/itip-view.c:618
+#: ../src/modules/itip-formatter/itip-view.c:624
 #, c-format
 msgid "%s through %s has cancelled the following assigned task:"
 msgstr "%s از طریق %s تکلیف تخصیص داده شدهٔ زیر را لغو کرده است:"
 
-#: ../src/modules/itip-formatter/itip-view.c:620
+#: ../src/modules/itip-formatter/itip-view.c:626
 #, c-format
 msgid "%s has cancelled the following assigned task:"
 msgstr "%s تکلیف تخصیص داده شدهٔ زیر را لغو کرده است:"
 
-#: ../src/modules/itip-formatter/itip-view.c:624
+#: ../src/modules/itip-formatter/itip-view.c:630
 #, c-format
 msgid "%s through %s has proposed the following task assignment changes:"
 msgstr "%s از طریق %s تغییرات تکلیف تخصیصی زیر را پیشنهاد داده:"
 
-#: ../src/modules/itip-formatter/itip-view.c:626
+#: ../src/modules/itip-formatter/itip-view.c:632
 #, c-format
 msgid "%s has proposed the following task assignment changes:"
 msgstr "%s تغییرات تکلیف تخصیصی زیر را پیشنهاد داده:"
 
-#: ../src/modules/itip-formatter/itip-view.c:630
+#: ../src/modules/itip-formatter/itip-view.c:636
 #, c-format
 msgid "%s through %s has declined the following assigned task:"
 msgstr "%s از طریق %s تکلیف تخصیصی زیر را رد کرده:"
 
-#: ../src/modules/itip-formatter/itip-view.c:632
+#: ../src/modules/itip-formatter/itip-view.c:638
 #, c-format
 msgid "%s has declined the following assigned task:"
 msgstr "%s تکلیف تخصیصی زیر را رد کرده:"
 
-#: ../src/modules/itip-formatter/itip-view.c:671
+#: ../src/modules/itip-formatter/itip-view.c:678
 #, c-format
 msgid "%s through %s has published the following memo:"
 msgstr "%s از طریق %s یادداشت زیر را منتشر کرده است:"
 
-#: ../src/modules/itip-formatter/itip-view.c:673
+#: ../src/modules/itip-formatter/itip-view.c:680
 #, c-format
 msgid "%s has published the following memo:"
 msgstr "%s یادداشت زیر را منتشر کرده است:"
 
-#: ../src/modules/itip-formatter/itip-view.c:678
+#: ../src/modules/itip-formatter/itip-view.c:682
+msgid "The following memo has been published:"
+msgstr "یادداشت زیر منتشر شده است:"
+
+#: ../src/modules/itip-formatter/itip-view.c:688
 #, c-format
 msgid "%s through %s wishes to add to an existing memo:"
 msgstr "%s از طریق %s می‌خواهد یادداشت جدید بیفزاید:"
 
-#: ../src/modules/itip-formatter/itip-view.c:680
+#: ../src/modules/itip-formatter/itip-view.c:690
 #, c-format
 msgid "%s wishes to add to an existing memo:"
 msgstr "%s می‌خواهد یادداشت جدید بیفزاید:"
 
-#: ../src/modules/itip-formatter/itip-view.c:684
+#: ../src/modules/itip-formatter/itip-view.c:694
 #, c-format
 msgid "%s through %s has cancelled the following shared memo:"
 msgstr "%s از طریق %s یادداشت هم‌رساندهٔ زیر را لغو کرده:"
 
-#: ../src/modules/itip-formatter/itip-view.c:686
+#: ../src/modules/itip-formatter/itip-view.c:696
 #, c-format
 msgid "%s has cancelled the following shared memo:"
 msgstr "%s یادداشت هم‌رساندهٔ زیر را لغو کرده:"
 
-#: ../src/modules/itip-formatter/itip-view.c:884
+#: ../src/modules/itip-formatter/itip-view.c:894
 msgid "All day:"
 msgstr "تمام روز:"
 
-#: ../src/modules/itip-formatter/itip-view.c:890
+#: ../src/modules/itip-formatter/itip-view.c:900
 msgid "Start day:"
 msgstr "روز آغاز:"
 
-#: ../src/modules/itip-formatter/itip-view.c:890
-#: ../src/modules/itip-formatter/itip-view.c:1928
+#: ../src/modules/itip-formatter/itip-view.c:900
+#: ../src/modules/itip-formatter/itip-view.c:2066
 msgid "Start time:"
 msgstr "زمان آغاز:"
 
-#: ../src/modules/itip-formatter/itip-view.c:899
+#: ../src/modules/itip-formatter/itip-view.c:909
 msgid "End day:"
 msgstr "%روز پایان:"
 
-#: ../src/modules/itip-formatter/itip-view.c:899
-#: ../src/modules/itip-formatter/itip-view.c:1929
+#: ../src/modules/itip-formatter/itip-view.c:909
+#: ../src/modules/itip-formatter/itip-view.c:2067
 msgid "End time:"
 msgstr "زمان پایان:"
 
-#: ../src/modules/itip-formatter/itip-view.c:1275
+#: ../src/modules/itip-formatter/itip-view.c:1285
 msgid "Ope_n Calendar"
 msgstr "_گشودن تقویم"
 
-#: ../src/modules/itip-formatter/itip-view.c:1278
+#: ../src/modules/itip-formatter/itip-view.c:1288
 msgid "_Decline all"
 msgstr "_رد همه"
 
-#: ../src/modules/itip-formatter/itip-view.c:1284
+#: ../src/modules/itip-formatter/itip-view.c:1294
 msgid "_Tentative all"
 msgstr "همه _احتمالی"
 
-#: ../src/modules/itip-formatter/itip-view.c:1287
+#: ../src/modules/itip-formatter/itip-view.c:1297
 msgid "_Tentative"
 msgstr "_احتمالی"
 
-#: ../src/modules/itip-formatter/itip-view.c:1290
+#: ../src/modules/itip-formatter/itip-view.c:1300
 msgid "Acce_pt all"
 msgstr "پذیرش همه"
 
-#: ../src/modules/itip-formatter/itip-view.c:1293
+#: ../src/modules/itip-formatter/itip-view.c:1303
 msgid "Acce_pt"
 msgstr "پذیرش"
 
-#: ../src/modules/itip-formatter/itip-view.c:1296
+#: ../src/modules/itip-formatter/itip-view.c:1306
 msgid "Send _Information"
 msgstr "فرستادن _اطّلاعات"
 
-#: ../src/modules/itip-formatter/itip-view.c:1299
+#: ../src/modules/itip-formatter/itip-view.c:1309
 msgid "_Update Attendee Status"
 msgstr "_به‌هنگام‌سازی وضعیت شرکت‌کنندگان"
 
-#: ../src/modules/itip-formatter/itip-view.c:1302
+#: ../src/modules/itip-formatter/itip-view.c:1312
 #: ../src/smime/gui/certificate-manager.c:1607
 msgid "_Update"
 msgstr "_به‌هنگام سازی"
 
-#: ../src/modules/itip-formatter/itip-view.c:1305
+#: ../src/modules/itip-formatter/itip-view.c:1315
 msgid "Im_port"
 msgstr "_درون‌ریزی"
 
-#: ../src/modules/itip-formatter/itip-view.c:1931
-#: ../src/modules/itip-formatter/itip-view.c:2141
-#: ../src/modules/itip-formatter/itip-view.c:7245
+#: ../src/modules/itip-formatter/itip-view.c:2069
+#: ../src/modules/itip-formatter/itip-view.c:2279
+#: ../src/modules/itip-formatter/itip-view.c:7387
 msgid "Due date:"
 msgstr "تاریخ سررسید:"
 
-#: ../src/modules/itip-formatter/itip-view.c:1934
-#: ../src/modules/itip-formatter/itip-view.c:2067
-#: ../src/modules/itip-formatter/itip-view.c:2150
+#: ../src/modules/itip-formatter/itip-view.c:2072
+#: ../src/modules/itip-formatter/itip-view.c:2205
+#: ../src/modules/itip-formatter/itip-view.c:2288
 msgid "Comment:"
 msgstr "توضیح:"
 
-#: ../src/modules/itip-formatter/itip-view.c:1966
+#: ../src/modules/itip-formatter/itip-view.c:2104
 msgid "Show description provided by the sender"
 msgstr "نمایش شرح فراهم شده به دست فرستنده"
 
-#: ../src/modules/itip-formatter/itip-view.c:1967
+#: ../src/modules/itip-formatter/itip-view.c:2105
 msgid "Hide description provided by the sender"
 msgstr "نهفتن شرح فراهم شده به دست فرستنده"
 
 #. RSVP area
-#: ../src/modules/itip-formatter/itip-view.c:2055
+#: ../src/modules/itip-formatter/itip-view.c:2193
 msgid "Send reply to sender"
 msgstr "فرستادن پاسخ به فرستنده"
 
 #. Updates
-#: ../src/modules/itip-formatter/itip-view.c:2070
+#: ../src/modules/itip-formatter/itip-view.c:2208
 msgid "Send _updates to attendees"
 msgstr "فرستادن _به‌روز رسانی‌ها به شرکت‌کنندگان"
 
 #. The recurrence check button
-#: ../src/modules/itip-formatter/itip-view.c:2073
+#: ../src/modules/itip-formatter/itip-view.c:2211
 msgid "_Apply to all instances"
 msgstr "اِعمال به _تمامی نمونه‌ها"
 
-#: ../src/modules/itip-formatter/itip-view.c:2074
+#: ../src/modules/itip-formatter/itip-view.c:2212
 msgid "Show time as _free"
 msgstr "نمایش زمان به شکل _آزاد"
 
-#: ../src/modules/itip-formatter/itip-view.c:2075
+#: ../src/modules/itip-formatter/itip-view.c:2213
 msgid "_Preserve my reminder"
 msgstr "_نگه داشتن یادآورم"
 
-#: ../src/modules/itip-formatter/itip-view.c:2076
+#: ../src/modules/itip-formatter/itip-view.c:2214
 msgid "_Inherit reminder"
 msgstr "ار_ث‌بری یادآور"
 
-#: ../src/modules/itip-formatter/itip-view.c:2319
+#: ../src/modules/itip-formatter/itip-view.c:2458
 msgid "_Tasks:"
 msgstr "_تکلیف‌ها:"
 
-#: ../src/modules/itip-formatter/itip-view.c:2322
+#: ../src/modules/itip-formatter/itip-view.c:2461
 msgid "_Memos:"
 msgstr "_یادداشت‌ها:"
 
-#: ../src/modules/itip-formatter/itip-view.c:3391
+#: ../src/modules/itip-formatter/itip-view.c:3530
 msgid "Sa_ve"
 msgstr "_ذخیره"
 
-#: ../src/modules/itip-formatter/itip-view.c:3919
-#: ../src/modules/itip-formatter/itip-view.c:5706
+#: ../src/modules/itip-formatter/itip-view.c:4058
+#: ../src/modules/itip-formatter/itip-view.c:5848
 msgid "Attendee status updated"
 msgstr "وضعیت شرکت‌کنندگان به‌هنگام‌سازی شد"
 
-#: ../src/modules/itip-formatter/itip-view.c:4156
+#: ../src/modules/itip-formatter/itip-view.c:4295
 #, c-format
 msgid "An appointment “%s” in the calendar “%s” conflicts with this meeting"
 msgstr "قرار «%s» در تقویم «%s» با این جلسه تداخل دارد"
 
-#: ../src/modules/itip-formatter/itip-view.c:4163
+#: ../src/modules/itip-formatter/itip-view.c:4302
 #, c-format
 msgid "A task “%s” in the task list “%s” conflicts with this task"
 msgstr "تکلیف «%s» در سیاههٔ تکلیف «%s» با این تکلیف تداخل دارد"
 
-#: ../src/modules/itip-formatter/itip-view.c:4170
+#: ../src/modules/itip-formatter/itip-view.c:4309
 #, c-format
 msgid "A memo “%s” in the memo list “%s” conflicts with this memo"
 msgstr "یادداشت «%s» در سیاههٔ یادداشت «%s» با این یادداشت تداخل دارد"
 
-#: ../src/modules/itip-formatter/itip-view.c:4183
+#: ../src/modules/itip-formatter/itip-view.c:4322
 #, c-format
 msgid "The calendar “%s” contains an appointment which conflicts with this meeting"
 msgid_plural ""
@@ -23672,283 +23707,283 @@ msgid_plural ""
 msgstr[0] "تقویم «%s» قراری دارد که با این جلسه تداخل دارد"
 msgstr[1] "تقویم «%s» %Id قرار دارد که با این جلسه تداخل دارد"
 
-#: ../src/modules/itip-formatter/itip-view.c:4192
+#: ../src/modules/itip-formatter/itip-view.c:4331
 #, c-format
 msgid "The task list “%s” contains a task which conflicts with this task"
 msgid_plural "The task list “%s” contains %d tasks which conflict with this task"
 msgstr[0] "سیاههٔ تکلیف «%s» دارای تکلیفیست که با این تکلیف تداخل دارد"
 msgstr[1] "سیاههٔ تکلیف «%s» دارای %Id تکلیف است که با این تکلیف تداخل دارند"
 
-#: ../src/modules/itip-formatter/itip-view.c:4201
+#: ../src/modules/itip-formatter/itip-view.c:4340
 #, c-format
 msgid "The memo list “%s” contains a memo which conflicts with this memo"
 msgid_plural "The memo list “%s” contains %d memos which conflict with this memo"
 msgstr[0] "سیاههٔ یادداشت «%s» دارای یادداشتیست که با این یادداشت تداخل دارد"
 msgstr[1] "سیاههٔ یادداشت «%s» دارای %Id یادداشت است که با این یادداشت تداخل دارد"
 
-#: ../src/modules/itip-formatter/itip-view.c:4239
+#: ../src/modules/itip-formatter/itip-view.c:4378
 #, c-format
 msgid "Found the appointment in the calendar “%s”"
 msgstr "قرار در تقویم «%s» پیدا شد"
 
-#: ../src/modules/itip-formatter/itip-view.c:4244
+#: ../src/modules/itip-formatter/itip-view.c:4383
 #, c-format
 msgid "Found the task in the task list “%s”"
 msgstr "تکلیف در سیاههٔ تکلیف «%s» پیدا نشد"
 
-#: ../src/modules/itip-formatter/itip-view.c:4249
+#: ../src/modules/itip-formatter/itip-view.c:4388
 #, c-format
 msgid "Found the memo in the memo list “%s”"
 msgstr "یادداشت در سیاههٔ یادداشت «%s» پیدا شد"
 
-#: ../src/modules/itip-formatter/itip-view.c:4260
+#: ../src/modules/itip-formatter/itip-view.c:4399
 msgid "This meeting invitation is obsolete. It had been updated."
 msgstr "این دعوت جلسه منقضی شده. به‌روز شد."
 
-#: ../src/modules/itip-formatter/itip-view.c:4405
+#: ../src/modules/itip-formatter/itip-view.c:4544
 msgid "Unable to find any calendars"
 msgstr "هیچ تقویمی پیدا نشد"
 
-#: ../src/modules/itip-formatter/itip-view.c:4413
+#: ../src/modules/itip-formatter/itip-view.c:4552
 msgid "Unable to find this meeting in any calendar"
 msgstr "این جلسه در هیچ تقویمی پیدا نشد"
 
-#: ../src/modules/itip-formatter/itip-view.c:4418
+#: ../src/modules/itip-formatter/itip-view.c:4557
 msgid "Unable to find this task in any task list"
 msgstr "این تکلیف در هیچ سیاههٔ تکلیفی پیدا نشد"
 
-#: ../src/modules/itip-formatter/itip-view.c:4423
+#: ../src/modules/itip-formatter/itip-view.c:4562
 msgid "Unable to find this memo in any memo list"
 msgstr "ناتوان در یافتن این یادداشت در هیچ سیاههٔ یادداشتی"
 
-#: ../src/modules/itip-formatter/itip-view.c:4736
+#: ../src/modules/itip-formatter/itip-view.c:4876
 msgid "Searching for an existing version of this appointment"
 msgstr "در حال جست‌وجو برای نگارشی موجود از این قرار"
 
-#: ../src/modules/itip-formatter/itip-view.c:4740
+#: ../src/modules/itip-formatter/itip-view.c:4880
 msgid "Searching for an existing version of this task"
 msgstr "جست‌وجو کردن برای نگارش موجودی از این تکلیف"
 
-#: ../src/modules/itip-formatter/itip-view.c:4744
+#: ../src/modules/itip-formatter/itip-view.c:4884
 msgid "Searching for an existing version of this memo"
 msgstr "جست‌وجو کردن برای نگارش موجودی از این یادداشت"
 
-#: ../src/modules/itip-formatter/itip-view.c:4802
+#: ../src/modules/itip-formatter/itip-view.c:4944
 msgid "Opening the calendar. Please wait…"
 msgstr "گشودن تقویم. لطفاً شکیبا باشید…"
 
-#: ../src/modules/itip-formatter/itip-view.c:5152
+#: ../src/modules/itip-formatter/itip-view.c:5294
 #, c-format
 msgid "Unable to send item to calendar “%s”. %s"
 msgstr "ناتوان در فرستادن مورد به تقویم «%s». %s"
 
-#: ../src/modules/itip-formatter/itip-view.c:5160
+#: ../src/modules/itip-formatter/itip-view.c:5302
 #, c-format
 msgid "Unable to send item to task list “%s”. %s"
 msgstr "ناتوان در فرستادن مورد به سیاههٔ تکلیف «%s». %s"
 
-#: ../src/modules/itip-formatter/itip-view.c:5168
+#: ../src/modules/itip-formatter/itip-view.c:5310
 #, c-format
 msgid "Unable to send item to memo list “%s”. %s"
 msgstr "ناتوان در فرستادن مورد به سیاههٔ تکلیف «%s». %s"
 
-#: ../src/modules/itip-formatter/itip-view.c:5189
+#: ../src/modules/itip-formatter/itip-view.c:5331
 #, c-format
 msgid "Sent to calendar “%s” as accepted"
 msgstr "فرستاده به تقویم «%s» به عنوان پذیرفته"
 
-#: ../src/modules/itip-formatter/itip-view.c:5194
+#: ../src/modules/itip-formatter/itip-view.c:5336
 #, c-format
 msgid "Sent to task list “%s” as accepted"
 msgstr "فرستاده به سیاههٔ تکلیف «%s» به عنوان پذیرفته"
 
-#: ../src/modules/itip-formatter/itip-view.c:5199
+#: ../src/modules/itip-formatter/itip-view.c:5341
 #, c-format
 msgid "Sent to memo list “%s” as accepted"
 msgstr "فرستاده به سیاههٔ یادداشت «%s» به عنوان پذیرفته"
 
-#: ../src/modules/itip-formatter/itip-view.c:5209
+#: ../src/modules/itip-formatter/itip-view.c:5351
 #, c-format
 msgid "Sent to calendar “%s” as tentative"
 msgstr "فرستاده به تقویم «%s» به عنوان احتمالی"
 
-#: ../src/modules/itip-formatter/itip-view.c:5214
+#: ../src/modules/itip-formatter/itip-view.c:5356
 #, c-format
 msgid "Sent to task list “%s” as tentative"
 msgstr "فرستاده به سیاههٔ تکلیف «%s» به عنوان احتمالی"
 
-#: ../src/modules/itip-formatter/itip-view.c:5219
+#: ../src/modules/itip-formatter/itip-view.c:5361
 #, c-format
 msgid "Sent to memo list “%s” as tentative"
 msgstr "فرستاده به سیاههٔ یادداشت «%s» به عنوان احتمالی"
 
-#: ../src/modules/itip-formatter/itip-view.c:5229
+#: ../src/modules/itip-formatter/itip-view.c:5371
 #, c-format
 msgid "Sent to calendar “%s” as declined"
 msgstr "فرستاده به تقویم «%s» به عنوان رد شده"
 
-#: ../src/modules/itip-formatter/itip-view.c:5234
+#: ../src/modules/itip-formatter/itip-view.c:5376
 #, c-format
 msgid "Sent to task list “%s” as declined"
 msgstr "فرستاده به سیاههٔ تکلیف «%s» به عنوان رد شده"
 
-#: ../src/modules/itip-formatter/itip-view.c:5239
+#: ../src/modules/itip-formatter/itip-view.c:5381
 #, c-format
 msgid "Sent to memo list “%s” as declined"
 msgstr "فرستاده به سیاههٔ یادداشت «%s» به عنوان رد شده"
 
-#: ../src/modules/itip-formatter/itip-view.c:5249
+#: ../src/modules/itip-formatter/itip-view.c:5391
 #, c-format
 msgid "Sent to calendar “%s” as cancelled"
 msgstr "فرستاده به تقویم «%s» به عنوان لغو شده"
 
-#: ../src/modules/itip-formatter/itip-view.c:5254
+#: ../src/modules/itip-formatter/itip-view.c:5396
 #, c-format
 msgid "Sent to task list “%s” as cancelled"
 msgstr "فرستاده به سیاههٔ تکلیف «%s» به عنوان لغو شده"
 
-#: ../src/modules/itip-formatter/itip-view.c:5259
+#: ../src/modules/itip-formatter/itip-view.c:5401
 #, c-format
 msgid "Sent to memo list “%s” as cancelled"
 msgstr "فرستاده به سیاههٔ یادداشت «%s» به عنوان لغو شده"
 
-#: ../src/modules/itip-formatter/itip-view.c:5269
+#: ../src/modules/itip-formatter/itip-view.c:5411
 #, c-format
 msgid "Imported to calendar “%s”"
 msgstr "درون‌ریزی به تقویم «%s»"
 
-#: ../src/modules/itip-formatter/itip-view.c:5274
+#: ../src/modules/itip-formatter/itip-view.c:5416
 #, c-format
 msgid "Imported to task list “%s”"
 msgstr "درون‌ریزی به سیاههٔ تکلیف «%s»"
 
-#: ../src/modules/itip-formatter/itip-view.c:5279
+#: ../src/modules/itip-formatter/itip-view.c:5421
 #, c-format
 msgid "Imported to memo list “%s”"
 msgstr "درون‌ریزی به سیاههٔ یادداشت‌های «%s»"
 
-#: ../src/modules/itip-formatter/itip-view.c:5298
+#: ../src/modules/itip-formatter/itip-view.c:5440
 msgid "Saving changes to the calendar. Please wait…"
 msgstr "ذخیره کردن تغییرات در تقویم. لطفاً شکیبا باشید…"
 
-#: ../src/modules/itip-formatter/itip-view.c:5301
+#: ../src/modules/itip-formatter/itip-view.c:5443
 msgid "Saving changes to the task list. Please wait…"
 msgstr "ذخیره کردن تغییرات در سیاههٔ تکلیف. لطفاً شکیبا باشید…"
 
-#: ../src/modules/itip-formatter/itip-view.c:5304
+#: ../src/modules/itip-formatter/itip-view.c:5446
 msgid "Saving changes to the memo list. Please wait…"
 msgstr "ذخیره کردن تغییرات در سیاههٔ یادداشت. لطفاً شکیبا باشید…"
 
-#: ../src/modules/itip-formatter/itip-view.c:5442
+#: ../src/modules/itip-formatter/itip-view.c:5584
 msgid "Unable to parse item"
 msgstr "تجزیهٔ مورد ممکن نیست"
 
-#: ../src/modules/itip-formatter/itip-view.c:5630
+#: ../src/modules/itip-formatter/itip-view.c:5772
 #, c-format
 msgid "Organizer has removed the delegate %s "
 msgstr "سازمان‌دهنده نمایندهٔ %s را حذف کرد "
 
-#: ../src/modules/itip-formatter/itip-view.c:5647
+#: ../src/modules/itip-formatter/itip-view.c:5789
 msgid "Sent a cancellation notice to the delegate"
 msgstr "آگهی لغو به نماینده فرستاده شد"
 
-#: ../src/modules/itip-formatter/itip-view.c:5651
+#: ../src/modules/itip-formatter/itip-view.c:5793
 msgid "Could not send the cancellation notice to the delegate"
 msgstr "نتوانست آگهی لغو را به نماینده بفرستد"
 
-#: ../src/modules/itip-formatter/itip-view.c:5697
+#: ../src/modules/itip-formatter/itip-view.c:5839
 #, c-format
 msgid "Unable to update attendee. %s"
 msgstr "به‌هنگام‌سازی شرکت‌کنندگان ممکن نیست. %s"
 
-#: ../src/modules/itip-formatter/itip-view.c:5731
+#: ../src/modules/itip-formatter/itip-view.c:5873
 msgid "The meeting is invalid and cannot be updated"
 msgstr "جلسه نامعتبر است و نمی‌تواند به‌روز رسانی شود"
 
-#: ../src/modules/itip-formatter/itip-view.c:5817
+#: ../src/modules/itip-formatter/itip-view.c:5959
 msgid "Attendee status could not be updated because the status is invalid"
 msgstr "به‌هنگام‌سازی وضعیت شرکت‌کنندگان ممکن نیست چون وضعیت نامعتبر است"
 
-#: ../src/modules/itip-formatter/itip-view.c:5893
-#: ../src/modules/itip-formatter/itip-view.c:5931
+#: ../src/modules/itip-formatter/itip-view.c:6035
+#: ../src/modules/itip-formatter/itip-view.c:6073
 msgid "Attendee status can not be updated because the item no longer exists"
 msgstr "به‌هنگام‌سازی وضعیت شرکت‌کننده ممکن نیست چون مورد دیگر وجود ندارد"
 
-#: ../src/modules/itip-formatter/itip-view.c:5992
+#: ../src/modules/itip-formatter/itip-view.c:6134
 msgid "Meeting information sent"
 msgstr "اطّلاعات جلسه فرستاده شده"
 
-#: ../src/modules/itip-formatter/itip-view.c:5997
+#: ../src/modules/itip-formatter/itip-view.c:6139
 msgid "Task information sent"
 msgstr "اطّلاعات تکلیف فرستاده شده"
 
-#: ../src/modules/itip-formatter/itip-view.c:6002
+#: ../src/modules/itip-formatter/itip-view.c:6144
 msgid "Memo information sent"
 msgstr "اطّلاعات یادداشت فرستاده شده"
 
-#: ../src/modules/itip-formatter/itip-view.c:6013
+#: ../src/modules/itip-formatter/itip-view.c:6155
 msgid "Unable to send meeting information, the meeting does not exist"
 msgstr "ناتوان در فرستادن اطّلاعات جلسه. جلسه وجود ندارد"
 
-#: ../src/modules/itip-formatter/itip-view.c:6018
+#: ../src/modules/itip-formatter/itip-view.c:6160
 msgid "Unable to send task information, the task does not exist"
 msgstr "ناتوان در فرستادن اطّلاعات تکلیف. تکلیف وجود ندارد"
 
-#: ../src/modules/itip-formatter/itip-view.c:6023
+#: ../src/modules/itip-formatter/itip-view.c:6165
 msgid "Unable to send memo information, the memo does not exist"
 msgstr "ناتوان در فرستادن اطّلاعات یادداشت. یادداشت وجود ندارد"
 
 #. Translators: This is a default filename for a calendar.
-#: ../src/modules/itip-formatter/itip-view.c:6068
+#: ../src/modules/itip-formatter/itip-view.c:6210
 msgid "calendar.ics"
 msgstr "تقویم.ics"
 
-#: ../src/modules/itip-formatter/itip-view.c:6073
+#: ../src/modules/itip-formatter/itip-view.c:6215
 msgid "Save Calendar"
 msgstr "ذخیرهٔ تقویم"
 
-#: ../src/modules/itip-formatter/itip-view.c:6121
-#: ../src/modules/itip-formatter/itip-view.c:6134
+#: ../src/modules/itip-formatter/itip-view.c:6263
+#: ../src/modules/itip-formatter/itip-view.c:6276
 msgid "The calendar attached is not valid"
 msgstr "تقویم پیوست شده معتبر نیست"
 
-#: ../src/modules/itip-formatter/itip-view.c:6122
-#: ../src/modules/itip-formatter/itip-view.c:6135
+#: ../src/modules/itip-formatter/itip-view.c:6264
+#: ../src/modules/itip-formatter/itip-view.c:6277
 msgid ""
 "The message claims to contain a calendar, but the calendar is not a valid "
 "iCalendar."
 msgstr "پیام ادعا می‌کند حاوی یک تقویم است، اما تقویم یک آی‌کلندر استاندارد نیست."
 
-#: ../src/modules/itip-formatter/itip-view.c:6217
-#: ../src/modules/itip-formatter/itip-view.c:6301
-#: ../src/modules/itip-formatter/itip-view.c:6405
+#: ../src/modules/itip-formatter/itip-view.c:6359
+#: ../src/modules/itip-formatter/itip-view.c:6443
+#: ../src/modules/itip-formatter/itip-view.c:6547
 msgid "The item in the calendar is not valid"
 msgstr "مورد داخل تقویم معتبر نیست"
 
-#: ../src/modules/itip-formatter/itip-view.c:6218
-#: ../src/modules/itip-formatter/itip-view.c:6302
-#: ../src/modules/itip-formatter/itip-view.c:6406
+#: ../src/modules/itip-formatter/itip-view.c:6360
+#: ../src/modules/itip-formatter/itip-view.c:6444
+#: ../src/modules/itip-formatter/itip-view.c:6548
 msgid ""
 "The message does contain a calendar, but the calendar contains no events, tasks "
 "or free/busy information"
 msgstr ""
 "پیام شامل یک تقویم است اما تقویم شامل هیچ اتفاق، تکلیف، یا اطلاعات آزاد/مشغول نیست"
 
-#: ../src/modules/itip-formatter/itip-view.c:6311
+#: ../src/modules/itip-formatter/itip-view.c:6453
 msgid "The calendar attached contains multiple items"
 msgstr "تقویم پیوست شده حاوی موارد متعددی است"
 
-#: ../src/modules/itip-formatter/itip-view.c:6312
+#: ../src/modules/itip-formatter/itip-view.c:6454
 msgid ""
 "To process all of these items, the file should be saved and the calendar imported"
 msgstr "برای پردازش همهٔ این موارد،‌ پرونده باید ذخیره شود و تقویم وارد شود"
 
-#: ../src/modules/itip-formatter/itip-view.c:6895
+#: ../src/modules/itip-formatter/itip-view.c:7037
 msgctxt "cal-itip"
 msgid "None"
 msgstr "هیچ‌کدام"
 
-#: ../src/modules/itip-formatter/itip-view.c:6919
+#: ../src/modules/itip-formatter/itip-view.c:7061
 msgid "Tentatively Accepted"
 msgstr "به طور احتمالی پذیرفته شد"
 
@@ -24753,7 +24788,6 @@ msgid "Immediately, on folder leave"
 msgstr "بی‌درنگ هنگام خروج از شاخه"
 
 #: ../src/modules/mail/em-mailer-prefs.c:466
-#: ../src/modules/mail/em-mailer-prefs.c:2050
 msgid "Header"
 msgstr "سرصفحه"
 
@@ -24761,12 +24795,27 @@ msgstr "سرصفحه"
 msgid "Contains Value"
 msgstr "شامل مقدار"
 
+#. Translators: This is a column caption, in which a mail header name is shown.
+#. Example: Header: "X-GitLab-Project" Title: "GitLab Project"
+#: ../src/modules/mail/em-mailer-prefs.c:2052
+msgctxt "UserHeaders"
+msgid "Header"
+msgstr "سرایند"
+
+#. Translators: This is a column caption, in which a mail header title is shown;
+#. it's the text the header is presented in the GUI, aka a user friendly name
+#. of the header. Example: Header: "X-GitLab-Project" Title: "GitLab Project"
+#: ../src/modules/mail/em-mailer-prefs.c:2066
+msgctxt "UserHeaders"
+msgid "Title"
+msgstr "عنوان"
+
 #. To Translators: 'Date header' is a label for configurable date/time format for 'Date' header in mail message window/preview
-#: ../src/modules/mail/em-mailer-prefs.c:2079
+#: ../src/modules/mail/em-mailer-prefs.c:2084
 msgid "_Date header:"
 msgstr "سرایند _تاریخ:"
 
-#: ../src/modules/mail/em-mailer-prefs.c:2080
+#: ../src/modules/mail/em-mailer-prefs.c:2085
 msgid "Show _original header value"
 msgstr "نمایش مقدار سرایند _اصلی"
 
@@ -24944,27 +24993,32 @@ msgstr "نمی‌توان پیام‌ها را به شاخهٔ اخبار و و�
 msgid "Message is not available"
 msgstr "پیام موجود نیست"
 
-#: ../src/modules/rss/camel/camel-rss-folder.c:274
+#: ../src/modules/rss/camel/camel-rss-folder.c:280
 #, c-format
 msgid "Invalid Feed URL “%s”."
 msgstr "شاخهٔ خوراک نامعتبر «%s»."
 
-#: ../src/modules/rss/camel/camel-rss-folder.c:408
+#: ../src/modules/rss/camel/camel-rss-folder.c:320
+#, c-format
+msgid "Failed to download feeds, error code %d (%s)"
+msgstr "شکست در بارگیری خوراک‌ها. کد خطای %Id (%s)"
+
+#: ../src/modules/rss/camel/camel-rss-folder.c:470
 #, c-format
 msgid "Invalid Feed URL."
 msgstr "شاخهٔ خوراک نامعتبر."
 
-#: ../src/modules/rss/camel/camel-rss-folder.c:663
+#: ../src/modules/rss/camel/camel-rss-folder.c:727
 msgid "Apply message _filters to this folder"
 msgstr "اعمال _پالایه‌های پیام به این شاخه"
 
-#: ../src/modules/rss/camel/camel-rss-folder.c:676
+#: ../src/modules/rss/camel/camel-rss-folder.c:740
 #: ../src/modules/rss/evolution/e-rss-preferences.c:857
 #: ../src/modules/rss/evolution/e-rss-preferences.c:1582
 msgid "_Download complete articles"
 msgstr "_بارگیری مقاله‌های کامل"
 
-#: ../src/modules/rss/camel/camel-rss-folder.c:689
+#: ../src/modules/rss/camel/camel-rss-folder.c:753
 #: ../src/modules/rss/evolution/e-rss-preferences.c:861
 msgid "Download feed _enclosures"
 msgstr "بارگیری _ضمیمه‌های خوراک"
@@ -25136,11 +25190,11 @@ msgstr "محتوا"
 msgid "E_xport"
 msgstr "_برون‌ریزی"
 
-#: ../src/modules/rss/evolution/e-rss-shell-view-extension.c:210
+#: ../src/modules/rss/evolution/e-rss-shell-view-extension.c:212
 msgid "Re_load feed articles"
 msgstr "_بار کردن دوبارهٔ مقاله‌های خوراک"
 
-#: ../src/modules/rss/evolution/e-rss-shell-view-extension.c:212
+#: ../src/modules/rss/evolution/e-rss-shell-view-extension.c:214
 msgid ""
 "Reload all feed articles from the server, updating existing and adding any missing"
 msgstr ""
@@ -25494,7 +25548,7 @@ msgid "Display the part as an addressbook contact"
 msgstr "نمایش بخش به شکل یک آشنای دفترچه نشانی"
 
 #. Translators: The "%s" is replaced with a link, constructing a text like: "Ctrl-click to open a link “http://www.example.com”"
-#: ../src/modules/webkit-editor/e-webkit-editor.c:5497
+#: ../src/modules/webkit-editor/e-webkit-editor.c:5498
 #, c-format
 msgid "Ctrl-click to open a link “%s”"
 msgstr "برای گشودن یک پیوند «%s» مهار را گرفته و کلیک کنید"
