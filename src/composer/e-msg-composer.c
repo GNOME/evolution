@@ -35,6 +35,10 @@
 #include <fcntl.h>
 #include <enchant.h>
 
+#ifdef ENABLE_SMIME
+#include <cert.h>
+#endif
+
 #include "e-composer-from-header.h"
 #include "e-composer-text-header.h"
 #include "e-composer-private.h"
@@ -855,7 +859,7 @@ composer_get_recipient_certificate_cb (EMailSession *session,
 				       gpointer user_data)
 {
 	AsyncContext *context = user_data;
-	EContactField field_id;
+	const gchar *field_type;
 	GSList *link;
 	gchar *base64_cert = NULL;
 
@@ -865,33 +869,67 @@ composer_get_recipient_certificate_cb (EMailSession *session,
 		return NULL;
 
 	if ((flags & CAMEL_RECIPIENT_CERTIFICATE_SMIME) != 0)
-		field_id = E_CONTACT_X509_CERT;
+		field_type = "X509";
 	else
-		field_id = E_CONTACT_PGP_CERT;
+		field_type = "PGP";
 
 	for (link = context->recipients_with_certificate; link && !base64_cert; link = g_slist_next (link)) {
 		EContact *contact = link->data;
 		GList *emails, *elink;
-		EContactCert *cert;
-
-		cert = e_contact_get (contact, field_id);
-		if (!cert || !cert->data || !cert->length) {
-			e_contact_cert_free (cert);
-			continue;
-		}
+		gboolean email_matches = FALSE;
 
 		emails = e_contact_get (contact, E_CONTACT_EMAIL);
-
-		for (elink = emails; elink && !base64_cert; elink = g_list_next (elink)) {
+		for (elink = emails; elink && !email_matches; elink = g_list_next (elink)) {
 			const gchar *contact_email = elink->data;
 
-			if (contact_email && g_ascii_strcasecmp (contact_email, email_address) == 0) {
-				base64_cert = g_base64_encode ((const guchar *) cert->data, cert->length);
+			email_matches = contact_email && g_ascii_strcasecmp (contact_email, email_address) == 0;
+		}
+
+		if (email_matches) {
+			GList *attrs, *alink;
+
+			attrs = e_vcard_get_attributes (E_VCARD (contact));
+			for (alink = attrs; alink && !base64_cert; alink = g_list_next (alink)) {
+				EVCardAttribute *attr = alink->data;
+				GString *value;
+
+				if (!e_vcard_attribute_has_type (attr, field_type))
+					continue;
+
+				value = e_vcard_attribute_get_value_decoded (attr);
+				if (!value || !value->len) {
+					if (value)
+						g_string_free (value, TRUE);
+					continue;
+				}
+
+				/* Looking for an encryption certificate, while S/MIME can have
+				   disabled usage for encryption, thus verify this will skip
+				   such certificates. */
+				#ifdef ENABLE_SMIME
+				if ((flags & CAMEL_RECIPIENT_CERTIFICATE_SMIME) != 0) {
+					CERTCertificate *nss_cert;
+					gboolean usable;
+
+					nss_cert = CERT_DecodeCertFromPackage (value->str, value->len);
+					usable = nss_cert && (nss_cert->keyUsage & certificateUsageEmailRecipient) != 0;
+					if (nss_cert)
+						CERT_DestroyCertificate (nss_cert);
+
+					if (!usable) {
+						g_string_free (value, TRUE);
+						continue;
+					}
+				}
+				#endif
+
+				base64_cert = g_base64_encode ((const guchar *) value->str, value->len);
+
+				g_string_free (value, TRUE);
 			}
 		}
 
 		g_list_free_full (emails, g_free);
-		e_contact_cert_free (cert);
 	}
 
 	return base64_cert;
