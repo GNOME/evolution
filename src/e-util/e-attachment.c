@@ -47,6 +47,7 @@
 #define EMBLEM_CANCELLED	"process-stop"
 #define EMBLEM_LOADING		"emblem-downloads"
 #define EMBLEM_SAVING		"document-save"
+#define EMBLEM_MAY_RELOAD	"dialog-warning"
 #define EMBLEM_ENCRYPT_WEAK	"security-low"
 #define EMBLEM_ENCRYPT_STRONG	"security-high"
 #define EMBLEM_ENCRYPT_UNKNOWN	"security-medium"
@@ -74,6 +75,7 @@ struct _EAttachmentPrivate {
 	guint loading : 1;
 	guint saving : 1;
 	guint initially_shown : 1;
+	guint may_reload : 1;
 
 	guint save_self      : 1;
 	guint save_extracted : 1;
@@ -104,7 +106,8 @@ enum {
 	PROP_SAVE_EXTRACTED,
 	PROP_SAVING,
 	PROP_INITIALLY_SHOWN,
-	PROP_SIGNED
+	PROP_SIGNED,
+	PROP_MAY_RELOAD
 };
 
 enum {
@@ -385,6 +388,9 @@ attachment_update_icon_column_idle_cb (gpointer weak_ref)
 	else if (e_attachment_get_saving (attachment))
 		emblem_name = EMBLEM_SAVING;
 
+	else if (e_attachment_get_may_reload (attachment))
+		emblem_name = EMBLEM_MAY_RELOAD;
+
 	else if (e_attachment_get_encrypted (attachment))
 		switch (e_attachment_get_encrypted (attachment)) {
 			case CAMEL_CIPHER_VALIDITY_ENCRYPT_WEAK:
@@ -658,6 +664,12 @@ attachment_set_property (GObject *object,
 				E_ATTACHMENT (object),
 				g_value_get_boolean (value));
 			return;
+
+		case PROP_MAY_RELOAD:
+			e_attachment_set_may_reload (
+				E_ATTACHMENT (object),
+				g_value_get_boolean (value));
+			return;
 	}
 
 	G_OBJECT_WARN_INVALID_PROPERTY_ID (object, property_id, pspec);
@@ -765,6 +777,13 @@ attachment_get_property (GObject *object,
 			g_value_set_int (
 				value,
 				e_attachment_get_signed (
+				E_ATTACHMENT (object)));
+			return;
+
+		case PROP_MAY_RELOAD:
+			g_value_set_boolean (
+				value,
+				e_attachment_get_may_reload (
 				E_ATTACHMENT (object)));
 			return;
 	}
@@ -983,6 +1002,17 @@ e_attachment_class_init (EAttachmentClass *class)
 			CAMEL_CIPHER_VALIDITY_SIGN_NONE,
 			CAMEL_CIPHER_VALIDITY_SIGN_NEED_PUBLIC_KEY,
 			CAMEL_CIPHER_VALIDITY_SIGN_NONE,
+			G_PARAM_READWRITE |
+			G_PARAM_CONSTRUCT));
+
+	g_object_class_install_property (
+		object_class,
+		PROP_MAY_RELOAD,
+		g_param_spec_boolean (
+			"may-reload",
+			"May Reload",
+			NULL,
+			FALSE,
 			G_PARAM_READWRITE |
 			G_PARAM_CONSTRUCT));
 
@@ -1780,6 +1810,85 @@ e_attachment_update_store_columns (EAttachment *attachment)
 	attachment_update_progress_columns (attachment);
 }
 
+gboolean
+e_attachment_check_file_changed (EAttachment *attachment,
+				 gboolean *out_file_exists,
+				 GCancellable *cancellable)
+{
+	GFileInfo *disk_file_info;
+	GFile *file;
+	gboolean same = FALSE;
+	gboolean file_exists = FALSE;
+
+	g_return_val_if_fail (E_IS_ATTACHMENT (attachment), FALSE);
+
+	file = e_attachment_ref_file (attachment);
+	if (!file) {
+		if (out_file_exists)
+			*out_file_exists = FALSE;
+		return FALSE;
+	}
+
+	disk_file_info = g_file_query_info (file, G_FILE_ATTRIBUTE_TIME_MODIFIED "," G_FILE_ATTRIBUTE_STANDARD_SIZE, G_FILE_QUERY_INFO_NONE, cancellable, NULL);
+	if (disk_file_info) {
+		GFileInfo *attachment_file_info;
+
+		attachment_file_info = e_attachment_ref_file_info (attachment);
+		if (attachment_file_info) {
+			guint64 a_size, f_size;
+
+			a_size = g_file_info_get_attribute_uint64 (attachment_file_info, G_FILE_ATTRIBUTE_STANDARD_SIZE);
+			f_size = g_file_info_get_attribute_uint64 (disk_file_info, G_FILE_ATTRIBUTE_STANDARD_SIZE);
+
+			same = a_size == f_size;
+			file_exists = TRUE;
+
+			if (same) {
+				guint64 a_modified, f_modified;
+
+				a_modified = g_file_info_get_attribute_uint64 (attachment_file_info, G_FILE_ATTRIBUTE_TIME_MODIFIED);
+				f_modified = g_file_info_get_attribute_uint64 (disk_file_info, G_FILE_ATTRIBUTE_TIME_MODIFIED);
+
+				same = a_modified == f_modified;
+			}
+		}
+
+		g_clear_object (&attachment_file_info);
+		g_clear_object (&disk_file_info);
+	}
+
+	g_object_unref (file);
+
+	if (out_file_exists)
+		*out_file_exists = file_exists;
+
+	return !same;
+}
+
+void
+e_attachment_set_may_reload (EAttachment *attachment,
+			     gboolean may_reload)
+{
+	g_return_if_fail (E_IS_ATTACHMENT (attachment));
+
+	if ((!attachment->priv->may_reload) == (!may_reload))
+		return;
+
+	attachment->priv->may_reload = may_reload;
+
+	g_object_notify (G_OBJECT (attachment), "may-reload");
+
+	attachment_update_icon_column (attachment);
+}
+
+gboolean
+e_attachment_get_may_reload (EAttachment *attachment)
+{
+	g_return_val_if_fail (E_IS_ATTACHMENT (attachment), FALSE);
+
+	return attachment->priv->may_reload;
+}
+
 /************************* e_attachment_load_async() *************************/
 
 typedef struct _LoadContext LoadContext;
@@ -2424,6 +2533,7 @@ e_attachment_load_finish (EAttachment *attachment,
 			attachment, load_context->file_info);
 		e_attachment_set_mime_part (
 			attachment, load_context->mime_part);
+		e_attachment_set_may_reload (attachment, FALSE);
 	}
 
 	attachment_set_loading (attachment, FALSE);
@@ -2694,38 +2804,10 @@ e_attachment_open_async (EAttachment *attachment,
 
 	/* open existing file only if it did not change */
 	if (file && mime_part) {
-		GFileInfo *disk_file_info;
-		gboolean same = FALSE;
-
-		disk_file_info = g_file_query_info (file, G_FILE_ATTRIBUTE_TIME_MODIFIED "," G_FILE_ATTRIBUTE_STANDARD_SIZE, G_FILE_QUERY_INFO_NONE, NULL, NULL);
-		if (disk_file_info) {
-			GFileInfo *attachment_file_info;
-
-			attachment_file_info = e_attachment_ref_file_info (attachment);
-			if (attachment_file_info) {
-				guint64 a_size, f_size;
-
-				a_size = g_file_info_get_attribute_uint64 (attachment_file_info, G_FILE_ATTRIBUTE_STANDARD_SIZE);
-				f_size = g_file_info_get_attribute_uint64 (disk_file_info, G_FILE_ATTRIBUTE_STANDARD_SIZE);
-
-				same = a_size == f_size;
-
-				if (same) {
-					guint64 a_modified, f_modified;
-
-					a_modified = g_file_info_get_attribute_uint64 (attachment_file_info, G_FILE_ATTRIBUTE_TIME_MODIFIED);
-					f_modified = g_file_info_get_attribute_uint64 (disk_file_info, G_FILE_ATTRIBUTE_TIME_MODIFIED);
-
-					same = a_modified == f_modified;
-				}
-			}
-
-			g_clear_object (&attachment_file_info);
-			g_clear_object (&disk_file_info);
-		}
-
-		if (!same)
+		if (e_attachment_check_file_changed (attachment, NULL, NULL)) {
+			e_attachment_set_may_reload (attachment, TRUE);
 			g_clear_object (&file);
+		}
 	}
 
 	/* If the attachment already references a GFile, we can launch

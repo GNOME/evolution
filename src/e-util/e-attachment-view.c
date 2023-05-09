@@ -45,6 +45,7 @@ static const gchar *ui =
 "<ui>"
 "  <popup name='context'>"
 "    <menuitem action='cancel'/>"
+"    <menuitem action='reload'/>"
 "    <menuitem action='save-as'/>"
 "    <menuitem action='remove'/>"
 "    <menuitem action='properties'/>"
@@ -66,6 +67,21 @@ G_DEFINE_INTERFACE (
 	EAttachmentView,
 	e_attachment_view,
 	GTK_TYPE_WIDGET)
+
+static void
+call_attachment_load_handle_error (GObject *source_object,
+				   GAsyncResult *result,
+				   gpointer user_data)
+{
+	GtkWindow *window = user_data;
+
+	g_return_if_fail (E_IS_ATTACHMENT (source_object));
+	g_return_if_fail (!window || GTK_IS_WINDOW (window));
+
+	e_attachment_load_handle_error (E_ATTACHMENT (source_object), result, window);
+
+	g_clear_object (&window);
+}
 
 static void
 action_add_cb (GtkAction *action,
@@ -193,6 +209,37 @@ action_properties_cb (GtkAction *action,
 
 	g_list_foreach (list, (GFunc) g_object_unref, NULL);
 	g_list_free (list);
+}
+
+static void
+action_reload_cb (GtkAction *action,
+		  EAttachmentView *view)
+{
+	GList *list, *link;
+	gpointer parent;
+
+	g_return_if_fail (E_IS_ATTACHMENT_VIEW (view));
+
+	parent = gtk_widget_get_toplevel (GTK_WIDGET (view));
+	parent = gtk_widget_is_toplevel (parent) ? parent : NULL;
+
+	list = e_attachment_view_get_selected_attachments (view);
+
+	for (link = list; link; link = g_list_next (link)) {
+		EAttachment *attachment = link->data;
+		GFile *file;
+
+		file = e_attachment_ref_file (attachment);
+		if (file) {
+			e_attachment_load_async (
+				attachment, (GAsyncReadyCallback)
+				call_attachment_load_handle_error, parent ? g_object_ref (parent) : NULL);
+
+			g_clear_object (&file);
+		}
+	}
+
+	g_list_free_full (list, g_object_unref);
 }
 
 static void
@@ -350,6 +397,13 @@ static GtkActionEntry editable_entries[] = {
 	  NULL,  /* XXX Add a tooltip! */
 	  G_CALLBACK (action_properties_cb) },
 
+	{ "reload",
+	  "view-refresh",
+	  N_("Re_load"),
+	  NULL,
+	  N_("Reload attachment content"),
+	  G_CALLBACK (action_reload_cb) },
+
 	{ "remove",
 	  "list-remove",
 	  N_("_Remove"),
@@ -357,21 +411,6 @@ static GtkActionEntry editable_entries[] = {
 	  NULL,  /* XXX Add a tooltip! */
 	  G_CALLBACK (action_remove_cb) }
 };
-
-static void
-call_attachment_load_handle_error (GObject *source_object,
-				   GAsyncResult *result,
-				   gpointer user_data)
-{
-	GtkWindow *window = user_data;
-
-	g_return_if_fail (E_IS_ATTACHMENT (source_object));
-	g_return_if_fail (!window || GTK_IS_WINDOW (window));
-
-	e_attachment_load_handle_error (E_ATTACHMENT (source_object), result, window);
-
-	g_clear_object (&window);
-}
 
 static void
 attachment_view_netscape_url (EAttachmentView *view,
@@ -702,13 +741,26 @@ attachment_view_update_actions (EAttachmentView *view)
 	GList *list, *iter;
 	guint n_selected;
 	gboolean busy = FALSE;
+	gboolean may_reload = FALSE;
 
 	g_return_if_fail (E_IS_ATTACHMENT_VIEW (view));
 
 	priv = e_attachment_view_get_private (view);
 
 	list = e_attachment_view_get_selected_attachments (view);
-	n_selected = g_list_length (list);
+	n_selected = 0;
+
+	for (iter = list; iter && (!busy || !may_reload); iter = g_list_next (iter)) {
+		EAttachment *attach = iter->data;
+
+		n_selected++;
+
+		if (e_attachment_get_may_reload (attach)) {
+			may_reload = TRUE;
+			busy |= e_attachment_get_loading (attach);
+			busy |= e_attachment_get_saving (attach);
+		}
+	}
 
 	if (n_selected == 1) {
 		attachment = g_object_ref (list->data);
@@ -728,6 +780,10 @@ attachment_view_update_actions (EAttachmentView *view)
 
 	action = e_attachment_view_get_action (view, "properties");
 	gtk_action_set_visible (action, !busy && n_selected == 1);
+
+	action = e_attachment_view_get_action (view, "reload");
+	gtk_action_set_visible (action, may_reload);
+	gtk_action_set_sensitive (action, !busy);
 
 	action = e_attachment_view_get_action (view, "remove");
 	gtk_action_set_visible (action, !busy && n_selected > 0);

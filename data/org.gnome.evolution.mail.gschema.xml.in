@@ -939,6 +939,11 @@
       <_summary>(Deprecated) Asks whether to close the message window when the user forwards or replies to the message shown in the window</_summary>
       <_description>This key was deprecated in version 3.10 and should no longer be used.  Use “browser-close-on-reply-policy” instead.</_description>
     </key>
+    <key name="prompt-on-changed-attachment" type="b">
+      <default>true</default>
+      <_summary>Prompt before send when attachment changed on the disk</_summary>
+      <_description>Ask whether can send a message with attachments which changed on the disk since they had been attached to the message.</_description>
+    </key>
 
   </schema>
 

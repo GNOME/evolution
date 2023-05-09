@@ -1223,6 +1223,12 @@ em_composer_prefs_construct (EMComposerPrefs *prefs,
 		widget, "active",
 		G_SETTINGS_BIND_DEFAULT);
 
+	widget = e_builder_get_widget (prefs->builder, "chkPromptChangedAttachment");
+	g_settings_bind (
+		settings, "prompt-on-changed-attachment",
+		widget, "active",
+		G_SETTINGS_BIND_DEFAULT);
+
 	widget = e_builder_get_widget (prefs->builder, "chkAutoSmileys");
 	g_settings_bind (
 		settings, "composer-magic-smileys",

@@ -602,6 +602,79 @@ composer_presend_check_unwanted_html (EMsgComposer *composer,
 	return check_passed;
 }
 
+static gboolean
+composer_presend_check_attachments (EMsgComposer *composer,
+				    EMailSession *session)
+{
+	EAttachmentView *view;
+	EAttachmentStore *store;
+	GList *attachments, *link;
+	gboolean can_send = TRUE;
+	EAttachment *first_changed = NULL;
+	guint n_changed = 0;
+
+	view = e_msg_composer_get_attachment_view (composer);
+	store = e_attachment_view_get_store (view);
+	attachments = e_attachment_store_get_attachments (store);
+
+	for (link = attachments; link; link = g_list_next (link)) {
+		EAttachment *attach = link->data;
+		gboolean file_exists = FALSE;
+
+		if (e_attachment_check_file_changed (attach, &file_exists, NULL) &&
+		    file_exists) {
+			e_attachment_set_may_reload (attach, TRUE);
+			if (!first_changed)
+				first_changed = attach;
+			n_changed++;
+		} else {
+			e_attachment_set_may_reload (attach, FALSE);
+		}
+	}
+
+	if (n_changed > 0) {
+		GFileInfo *file_info = NULL;
+		const gchar *display_name = NULL;
+		gchar *title, *text;
+
+		if (n_changed == 1) {
+			file_info = e_attachment_ref_file_info (first_changed);
+			display_name = g_file_info_get_display_name (file_info);
+			if (display_name && !*display_name)
+				display_name = NULL;
+		}
+
+		title = g_strdup_printf (ngettext (
+			"Attachment changed",
+			"%d attachments changed",
+			n_changed), n_changed);
+
+		if (n_changed == 1 && display_name) {
+			text = g_strdup_printf (_("Attachment “%s” changed after being added to the message. Do you want to send the message anyway?"),
+				display_name);
+		} else {
+			text = g_strdup_printf (ngettext ("One attachment changed after being added to the message. Do you want to send the message anyway?",
+							  "%d attachments changed after being added to the message. Do you want to send the message anyway?",
+				n_changed), n_changed);
+		}
+
+		can_send = e_util_prompt_user (
+			GTK_WINDOW (composer),
+			"org.gnome.evolution.mail",
+			"prompt-on-changed-attachment",
+			"mail:ask-composer-changed-attachment",
+			title, text, NULL);
+
+		g_clear_object (&file_info);
+		g_free (title);
+		g_free (text);
+	}
+
+	g_list_free_full (attachments, g_object_unref);
+
+	return can_send;
+}
+
 static void
 composer_send_completed (GObject *source_object,
                          GAsyncResult *result,
@@ -4932,6 +5005,10 @@ em_configure_new_composer (EMsgComposer *composer,
 	g_signal_connect (
 		composer, "presend",
 		G_CALLBACK (composer_presend_check_unwanted_html), session);
+
+	g_signal_connect (
+		composer, "presend",
+		G_CALLBACK (composer_presend_check_attachments), session);
 
 	g_signal_connect (
 		composer, "send",

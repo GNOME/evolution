@@ -679,4 +679,11 @@ in the folder will be available in offline mode.</_secondary>
     <_primary>Label named “{0}” already exists</_primary>
     <_secondary>Choose a different name, please.</_secondary>
   </error>
+
+  <error id="ask-composer-changed-attachment" type="warning" default="GTK_RESPONSE_CANCEL">
+    <primary>{0}</primary>
+    <secondary>{1}</secondary>
+    <button response="GTK_RESPONSE_CANCEL" _label="_Cancel"/>
+    <button response="GTK_RESPONSE_YES" _label="_Send"></button>
+  </error>
 </error-list>
