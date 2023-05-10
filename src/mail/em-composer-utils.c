@@ -4205,6 +4205,7 @@ em_utils_reply_alternative (GtkWindow *parent,
 {
 	GtkWidget *dialog, *widget, *style_label;
 	GtkBox *hbox, *vbox;
+	GtkGrid *grid;
 	GtkRadioButton *recip_sender, *recip_list, *recip_all;
 	GtkLabel *sender_label, *list_label, *all_label;
 	GtkRadioButton *style_default, *style_attach, *style_inline, *style_quote, *style_no_quote;
@@ -4222,6 +4223,7 @@ em_utils_reply_alternative (GtkWindow *parent,
 	CamelInternetAddress *to, *cc;
 	CamelNNTPAddress *postto = NULL;
 	gint n_addresses;
+	guint row = 0;
 
 	g_return_if_fail (E_IS_SHELL (shell));
 	g_return_if_fail (CAMEL_IS_MIME_MESSAGE (message));
@@ -4238,23 +4240,29 @@ em_utils_reply_alternative (GtkWindow *parent,
 
 	vbox = GTK_BOX (gtk_dialog_get_content_area (GTK_DIALOG (dialog)));
 	gtk_container_set_border_width (GTK_CONTAINER (vbox), 12);
-	gtk_box_set_spacing (vbox, 2);
 
-	#define add_with_indent(x) \
+	grid = GTK_GRID (gtk_grid_new ());
+	gtk_grid_set_column_spacing (grid, 2);
+	gtk_grid_set_row_spacing (grid, 2);
+	gtk_box_pack_start (vbox, GTK_WIDGET (grid), TRUE, TRUE, 0);
+
+	#define add_with_indent(x, _cols) \
 		gtk_widget_set_margin_left (GTK_WIDGET (x), 12); \
-		gtk_box_pack_start (vbox, GTK_WIDGET (x), FALSE, FALSE, 0);
+		gtk_grid_attach (grid, GTK_WIDGET (x), 0, row, (_cols), 1); \
+		row++;
 
 	widget = gtk_label_new (_("Recipients:"));
 	g_object_set (G_OBJECT (widget),
 		"hexpand", FALSE,
 		"halign", GTK_ALIGN_START,
 		NULL);
-	gtk_box_pack_start (vbox, widget, FALSE, FALSE, 0);
+	gtk_grid_attach (grid, widget, 0, row, 1, 1);
+	row++;
 
 	attr_list = pango_attr_list_new ();
 	pango_attr_list_insert (attr_list, pango_attr_style_new (PANGO_STYLE_ITALIC));
 
-	#define add_with_label(wgt, lbl) G_STMT_START { \
+	#define add_with_label(wgt, lbl, _cols) G_STMT_START { \
 		GtkWidget *divider_label = gtk_label_new (":"); \
 		gtk_label_set_attributes (GTK_LABEL (lbl), attr_list); \
 		hbox = GTK_BOX (gtk_box_new (GTK_ORIENTATION_HORIZONTAL, 6)); \
@@ -4269,22 +4277,22 @@ em_utils_reply_alternative (GtkWindow *parent,
 			wgt, "sensitive", \
 			lbl, "visible", \
 			G_BINDING_SYNC_CREATE); \
-		add_with_indent (hbox); } G_STMT_END
+		add_with_indent (hbox, (_cols)); } G_STMT_END
 
 	recip_sender = GTK_RADIO_BUTTON (gtk_radio_button_new_with_mnemonic (
 		NULL, _("Reply to _Sender")));
 	sender_label = GTK_LABEL (gtk_label_new (""));
-	add_with_label (recip_sender, sender_label);
+	add_with_label (recip_sender, sender_label, 2);
 
 	recip_list = GTK_RADIO_BUTTON (gtk_radio_button_new_with_mnemonic (
 		gtk_radio_button_get_group (recip_sender), _("Reply to _List")));
 	list_label = GTK_LABEL (gtk_label_new (""));
-	add_with_label (recip_list, list_label);
+	add_with_label (recip_list, list_label, 2);
 
 	recip_all = GTK_RADIO_BUTTON (gtk_radio_button_new_with_mnemonic (
 		gtk_radio_button_get_group (recip_sender), _("Reply to _All")));
 	all_label = GTK_LABEL (gtk_label_new (""));
-	add_with_label (recip_all, all_label);
+	add_with_label (recip_all, all_label, 2);
 
 	#undef add_with_label
 
@@ -4292,41 +4300,53 @@ em_utils_reply_alternative (GtkWindow *parent,
 
 	/* One line gap between sections */
 	widget = gtk_label_new (" ");
-	gtk_box_pack_start (vbox, widget, FALSE, FALSE, 0);
+	gtk_grid_attach (grid, widget, 0, row, 1, 1);
+	row++;
 
 	style_label = gtk_label_new (_("Reply style:"));
 	g_object_set (G_OBJECT (style_label),
 		"hexpand", FALSE,
 		"halign", GTK_ALIGN_START,
 		NULL);
-	gtk_box_pack_start (vbox, style_label, FALSE, FALSE, 0);
+	gtk_grid_attach (grid, style_label, 0, row, 1, 1);
+	row++;
 
 	style_default = GTK_RADIO_BUTTON (gtk_radio_button_new_with_mnemonic (
 		NULL, _("_Default")));
-	add_with_indent (style_default);
+	add_with_indent (style_default, 1);
 
 	style_attach = GTK_RADIO_BUTTON (gtk_radio_button_new_with_mnemonic (
 		gtk_radio_button_get_group (style_default), _("Attach_ment")));
-	add_with_indent (style_attach);
+	add_with_indent (style_attach, 1);
 
 	style_inline = GTK_RADIO_BUTTON (gtk_radio_button_new_with_mnemonic (
 		gtk_radio_button_get_group (style_default), _("Inline (_Outlook style)")));
-	add_with_indent (style_inline);
+	add_with_indent (style_inline, 1);
 
 	style_quote = GTK_RADIO_BUTTON (gtk_radio_button_new_with_mnemonic (
 		gtk_radio_button_get_group (style_default), _("_Quote")));
-	add_with_indent (style_quote);
+	add_with_indent (style_quote, 1);
 
 	style_no_quote = GTK_RADIO_BUTTON (gtk_radio_button_new_with_mnemonic (
 		gtk_radio_button_get_group (style_default), _("Do _Not Quote")));
-	add_with_indent (style_no_quote);
+	add_with_indent (style_no_quote, 1);
+
+	bottom_posting = GTK_TOGGLE_BUTTON (gtk_check_button_new_with_mnemonic (_("Start _typing at the bottom")));
+	g_object_set (bottom_posting, "margin-start", 12, NULL);
+	gtk_grid_attach (grid, GTK_WIDGET (bottom_posting), 1, row - 5, 1, 1);
+
+	top_signature = GTK_TOGGLE_BUTTON (gtk_check_button_new_with_mnemonic (_("_Keep signature above the original message")));
+	g_object_set (top_signature, "margin-start", 12, NULL);
+	gtk_grid_attach (grid, GTK_WIDGET (top_signature), 1, row - 4, 1, 1);
 
 	/* One line gap between sections */
 	widget = gtk_label_new (" ");
-	gtk_box_pack_start (vbox, widget, FALSE, FALSE, 0);
+	gtk_grid_attach (grid, widget, 0, row, 1, 1);
+	row++;
 
 	hbox = GTK_BOX (gtk_box_new (GTK_ORIENTATION_HORIZONTAL, 6));
-	gtk_box_pack_start (vbox, GTK_WIDGET (hbox), FALSE, FALSE, 0);
+	gtk_grid_attach (grid, GTK_WIDGET (hbox), 0, row, 2, 1);
+	row++;
 
 	/* Translators: The text is followed by the format combo with values like 'Plain Text', 'HTML' and so on */
 	widget = gtk_label_new_with_mnemonic (_("_Format message in"));
@@ -4346,30 +4366,26 @@ em_utils_reply_alternative (GtkWindow *parent,
 	gtk_radio_action_join_group (radio_action, html_mode_radio_action);
 	e_action_combo_box_update_model (mode_combo);
 
-	bottom_posting = GTK_TOGGLE_BUTTON (gtk_check_button_new_with_mnemonic (_("Start _typing at the bottom")));
-	gtk_box_pack_start (vbox, GTK_WIDGET (bottom_posting), FALSE, FALSE, 0);
-
-	top_signature = GTK_TOGGLE_BUTTON (gtk_check_button_new_with_mnemonic (_("_Keep signature above the original message")));
-	gtk_box_pack_start (vbox, GTK_WIDGET (top_signature), FALSE, FALSE, 0);
-
 	/* One line gap between sections */
 	widget = gtk_label_new (" ");
-	gtk_box_pack_start (vbox, widget, FALSE, FALSE, 0);
+	gtk_grid_attach (grid, widget, 0, row, 1, 1);
+	row++;
 
 	apply_template = GTK_CHECK_BUTTON (gtk_check_button_new_with_mnemonic (_("Apply t_emplate")));
-	gtk_box_pack_start (vbox, GTK_WIDGET (apply_template), FALSE, FALSE, 0);
+	gtk_grid_attach (grid, GTK_WIDGET (apply_template), 0, row, 2, 1);
+	row++;
 
 	last_tmpl_folder_uri = g_settings_get_string (settings, "alt-reply-template-folder-uri");
 	last_tmpl_message_uid = g_settings_get_string (settings, "alt-reply-template-message-uid");
 
 	templates = emcu_create_templates_combo (shell, last_tmpl_folder_uri, last_tmpl_message_uid);
-	add_with_indent (templates);
+	add_with_indent (templates, 2);
 
 	g_free (last_tmpl_folder_uri);
 	g_free (last_tmpl_message_uid);
 
 	preserve_message_subject = GTK_CHECK_BUTTON (gtk_check_button_new_with_mnemonic (_("Preserve original message S_ubject")));
-	add_with_indent (preserve_message_subject);
+	add_with_indent (preserve_message_subject, 2);
 
 	#undef add_with_indent
 
