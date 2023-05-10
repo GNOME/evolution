@@ -48,6 +48,7 @@ empe_mp_mixed_maybe_update_message_info_headers (EMailParser *parser,
 						 GCancellable *cancellable)
 {
 	EMailPartList *part_list;
+	CamelMimeMessage *message;
 	CamelFolder *folder;
 	const gchar *message_uid;
 
@@ -64,6 +65,10 @@ empe_mp_mixed_maybe_update_message_info_headers (EMailParser *parser,
 	part_list = e_mail_parser_ref_part_list_for_operation (parser, cancellable);
 	if (!part_list)
 		return;
+
+	message = e_mail_part_list_get_message (part_list);
+	if (message)
+		camel_mime_message_set_subject (message, subject);
 
 	folder = e_mail_part_list_get_folder (part_list);
 	message_uid = e_mail_part_list_get_message_uid (part_list);
@@ -185,8 +190,18 @@ empe_mp_mixed_parse (EMailParserExtension *extension,
 
 				/* The multipart/mixed contains some of the original headers */
 				subject = camel_medium_get_header (CAMEL_MEDIUM (part), "Subject");
-				if (subject)
+				if (subject) {
+					gchar *tmp = NULL;
+
+					if (strchr (subject, '\n')) {
+						tmp = camel_header_unfold (subject);
+						subject = tmp;
+					}
+
 					empe_mp_mixed_maybe_update_message_info_headers (parser, part_id->str, subject, cancellable);
+
+					g_free (tmp);
+				}
 			}
 
 			ct = camel_mime_part_get_content_type (subpart);

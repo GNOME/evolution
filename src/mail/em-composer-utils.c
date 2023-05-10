@@ -2620,15 +2620,17 @@ forward_non_attached (EMsgComposer *composer,
 	   forward subject, because both rely on that account. */
 	set_up_new_composer (composer, NULL, folder, message, uid, FALSE);
 
-	subject = emcu_generate_forward_subject (composer, message, NULL);
-	table = e_msg_composer_get_header_table (composer);
-	e_composer_header_table_set_subject (table, subject);
-	g_free (subject);
-
 	forward = quoting_text (QUOTING_FORWARD, composer);
 	text = em_utils_message_to_html_ex (session, message, forward, flags, NULL, NULL, NULL, &validity_found, &part_list);
 
 	e_msg_composer_add_attachments_from_part_list (composer, part_list, FALSE);
+
+	/* Read the Subject after EMFormatter, because it can update
+	   it from an encrypted part */
+	subject = emcu_generate_forward_subject (composer, message, NULL);
+	table = e_msg_composer_get_header_table (composer);
+	e_composer_header_table_set_subject (table, subject);
+	g_free (subject);
 
 	if (text != NULL) {
 		e_msg_composer_set_body_text (composer, text, TRUE);
