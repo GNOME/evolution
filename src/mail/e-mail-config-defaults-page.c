@@ -695,32 +695,14 @@ mail_config_defaults_page_constructed (GObject *object)
 	disable_sent_folder = provider && (provider->flags & CAMEL_PROVIDER_DISABLE_SENT_FOLDER) != 0;
 
 	text = _("Sent _Messages Folder:");
-	if (disable_sent_folder) {
-		widget = gtk_label_new_with_mnemonic (text);
-		gtk_misc_set_alignment (GTK_MISC (widget), 1.0, 0.5);
-		gtk_widget_set_margin_left (widget, 12);
-		gtk_size_group_add_widget (size_group, widget);
-	} else {
-		widget = gtk_check_button_new_with_mnemonic (text);
-		g_object_set (G_OBJECT (widget),
-			"hexpand", TRUE,
-			"halign", GTK_ALIGN_END,
-			"vexpand", FALSE,
-			"valign", GTK_ALIGN_CENTER,
-			NULL);
-	}
+	widget = gtk_label_new_with_mnemonic (text);
+	gtk_misc_set_alignment (GTK_MISC (widget), 1.0, 0.5);
+	gtk_widget_set_margin_left (widget, 12);
+	gtk_size_group_add_widget (size_group, widget);
 	gtk_grid_attach (GTK_GRID (container), widget, 0, 2, 1, 1);
 	gtk_widget_show (widget);
 
-	if (disable_sent_folder) {
-		label = GTK_LABEL (widget);
-	} else {
-		e_binding_bind_property (
-			submission_ext, "use-sent-folder",
-			widget, "active",
-			G_BINDING_BIDIRECTIONAL |
-			G_BINDING_SYNC_CREATE);
-	}
+	label = GTK_LABEL (widget);
 
 	text = _("Choose a folder for saving sent messages.");
 	widget = em_folder_selection_button_new (session, "", text);
@@ -734,12 +716,6 @@ mail_config_defaults_page_constructed (GObject *object)
 	if (disable_sent_folder) {
 		gtk_widget_set_sensitive (GTK_WIDGET (label), FALSE);
 		gtk_widget_set_sensitive (widget, FALSE);
-	} else {
-		e_binding_bind_property (
-			submission_ext, "use-sent-folder",
-			widget, "sensitive",
-			G_BINDING_BIDIRECTIONAL |
-			G_BINDING_SYNC_CREATE);
 	}
 
 	e_binding_bind_object_text_property (
@@ -748,10 +724,27 @@ mail_config_defaults_page_constructed (GObject *object)
 		G_BINDING_BIDIRECTIONAL |
 		G_BINDING_SYNC_CREATE);
 
+	widget = gtk_check_button_new_with_mnemonic (_("Save s_ent messages into the Sent folder"));
+	g_object_set (G_OBJECT (widget),
+		"hexpand", TRUE,
+		"halign", GTK_ALIGN_START,
+		"vexpand", FALSE,
+		"valign", GTK_ALIGN_CENTER,
+		"sensitive", !disable_sent_folder,
+		"visible", TRUE,
+		NULL);
+	gtk_grid_attach (GTK_GRID (container), widget, 0, 3, 2, 1);
+
+	e_binding_bind_property (
+		submission_ext, "use-sent-folder",
+		widget, "active",
+		G_BINDING_BIDIRECTIONAL |
+		G_BINDING_SYNC_CREATE);
+
 	widget = gtk_check_button_new_with_mnemonic (_("S_ave replies in the folder of the message being replied to"));
 	g_object_set (widget, "xalign", 0.0, NULL);
 	gtk_widget_set_halign (widget, GTK_ALIGN_START);
-	gtk_grid_attach (GTK_GRID (container), widget, 0, 3, 2, 1);
+	gtk_grid_attach (GTK_GRID (container), widget, 0, 4, 2, 1);
 	page->priv->replies_toggle = widget; /* not referenced */
 	gtk_widget_show (widget);
 
@@ -776,7 +769,7 @@ mail_config_defaults_page_constructed (GObject *object)
 	gtk_widget_set_margin_left (widget, 12);
 	gtk_size_group_add_widget (size_group, widget);
 	gtk_misc_set_alignment (GTK_MISC (widget), 1.0, 0.5);
-	gtk_grid_attach (GTK_GRID (container), widget, 0, 4, 1, 1);
+	gtk_grid_attach (GTK_GRID (container), widget, 0, 5, 1, 1);
 	gtk_widget_show (widget);
 
 	label = GTK_LABEL (widget);
@@ -786,7 +779,7 @@ mail_config_defaults_page_constructed (GObject *object)
 	em_folder_selection_button_set_can_none (EM_FOLDER_SELECTION_BUTTON (widget), TRUE);
 	gtk_widget_set_hexpand (widget, TRUE);
 	gtk_label_set_mnemonic_widget (label, widget);
-	gtk_grid_attach (GTK_GRID (container), widget, 1, 4, 1, 1);
+	gtk_grid_attach (GTK_GRID (container), widget, 1, 5, 1, 1);
 	page->priv->archive_button = widget;  /* not referenced */
 	gtk_widget_show (widget);
 
@@ -801,7 +794,7 @@ mail_config_defaults_page_constructed (GObject *object)
 	gtk_widget_set_margin_left (widget, 12);
 	gtk_size_group_add_widget (size_group, widget);
 	gtk_misc_set_alignment (GTK_MISC (widget), 1.0, 0.5);
-	gtk_grid_attach (GTK_GRID (container), widget, 0, 5, 1, 1);
+	gtk_grid_attach (GTK_GRID (container), widget, 0, 6, 1, 1);
 	gtk_widget_show (widget);
 
 	label = GTK_LABEL (widget);
@@ -810,7 +803,7 @@ mail_config_defaults_page_constructed (GObject *object)
 	widget = em_folder_selection_button_new (session, "", text);
 	gtk_widget_set_hexpand (widget, TRUE);
 	gtk_label_set_mnemonic_widget (label, widget);
-	gtk_grid_attach (GTK_GRID (container), widget, 1, 5, 1, 1);
+	gtk_grid_attach (GTK_GRID (container), widget, 1, 6, 1, 1);
 	page->priv->templates_button = widget;  /* not referenced */
 	gtk_widget_show (widget);
 
@@ -821,7 +814,7 @@ mail_config_defaults_page_constructed (GObject *object)
 		G_BINDING_SYNC_CREATE);
 
 	hbox = gtk_box_new (GTK_ORIENTATION_HORIZONTAL, 4);
-	gtk_grid_attach (GTK_GRID (container), hbox, 1, 8, 1, 1);
+	gtk_grid_attach (GTK_GRID (container), hbox, 1, 9, 1, 1);
 	gtk_widget_show (hbox);
 
 	widget = gtk_button_new_with_mnemonic (_("_Restore Defaults"));
@@ -863,7 +856,7 @@ mail_config_defaults_page_constructed (GObject *object)
 		_("Choose a folder for deleted messages."),
 		"real-trash-path", "use-real-trash-path");
 	if (widget != NULL) {
-		gtk_grid_attach (GTK_GRID (container), widget, 0, 6, 2, 1);
+		gtk_grid_attach (GTK_GRID (container), widget, 0, 7, 2, 1);
 		gtk_widget_show (widget);
 	}
 
@@ -873,7 +866,7 @@ mail_config_defaults_page_constructed (GObject *object)
 		_("Choose a folder for junk messages."),
 		"real-junk-path", "use-real-junk-path");
 	if (widget != NULL) {
-		gtk_grid_attach (GTK_GRID (container), widget, 0, 7, 2, 1);
+		gtk_grid_attach (GTK_GRID (container), widget, 0, 8, 2, 1);
 		gtk_widget_show (widget);
 	}
 
@@ -884,13 +877,13 @@ mail_config_defaults_page_constructed (GObject *object)
 	widget = gtk_label_new (markup);
 	gtk_label_set_use_markup (GTK_LABEL (widget), TRUE);
 	gtk_misc_set_alignment (GTK_MISC (widget), 0.0, 0.5);
-	gtk_grid_attach (GTK_GRID (container), widget, 0, 9, 2, 1);
+	gtk_grid_attach (GTK_GRID (container), widget, 0, 10, 2, 1);
 	gtk_widget_show (widget);
 	g_free (markup);
 
 	widget = e_dialog_new_mark_seen_box (account_ext);
 	gtk_widget_set_margin_start (widget, 12);
-	gtk_grid_attach (GTK_GRID (container), widget, 0, 10, 2, 1);
+	gtk_grid_attach (GTK_GRID (container), widget, 0, 11, 2, 1);
 	gtk_widget_show (widget);
 
 	e_mail_config_page_set_content (E_MAIL_CONFIG_PAGE (page), main_box);

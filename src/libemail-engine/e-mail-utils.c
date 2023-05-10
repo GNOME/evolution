@@ -290,10 +290,6 @@ em_utils_folder_is_sent (ESourceRegistry *registry,
 		const gchar *sent_folder_uri;
 
 		extension = e_source_get_extension (source, extension_name);
-
-		if (!e_source_mail_submission_get_use_sent_folder (extension))
-			continue;
-
 		sent_folder_uri = e_source_mail_submission_get_sent_folder (extension);
 
 		if (sent_folder_uri != NULL)
