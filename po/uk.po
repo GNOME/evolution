@@ -12,8 +12,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: evolution\n"
 "Report-Msgid-Bugs-To: https://gitlab.gnome.org/GNOME/evolution/issues\n"
-"POT-Creation-Date: 2023-05-09 13:47+0000\n"
-"PO-Revision-Date: 2023-05-09 21:36+0300\n"
+"POT-Creation-Date: 2023-05-10 10:17+0000\n"
+"PO-Revision-Date: 2023-05-10 22:24+0300\n"
 "Last-Translator: Yuri Chornoivan <yurchor@ukr.net>\n"
 "Language-Team: Ukrainian <trans-uk@lists.fedoraproject.org>\n"
 "Language: uk\n"
@@ -3164,8 +3164,8 @@ msgid ""
 "Ask whether can send a message with attachments which changed on the disk "
 "since they had been attached to the message."
 msgstr ""
-"Запитувати, чи слід надсилати повідомлення з долученнями, до яких на диску"
-" внесено зміни з моменту останнього долучення їх до повідомлення."
+"Запитувати, чи слід надсилати повідомлення з долученнями, до яких на диску "
+"внесено зміни з моменту останнього долучення їх до повідомлення."
 
 #. Translators: This is a list of words for the attach reminder plugin to look
 #. for in a message body. Please use any number of words here in your language that might
@@ -3917,7 +3917,7 @@ msgstr "Створити повідомлення"
 #: ../src/e-util/e-send-options.c:536 ../src/mail/importers/elm-importer.c:330
 #: ../src/mail/importers/kmail-importer.c:249
 #: ../src/mail/importers/pine-importer.c:423
-#: ../src/modules/mail/e-mail-shell-view.c:1608
+#: ../src/modules/mail/e-mail-shell-view.c:1563
 #: ../src/smime/gui/certificate-manager.c:1612
 msgid "Mail"
 msgstr "Пошта"
@@ -4589,7 +4589,7 @@ msgstr ""
 #: ../src/e-util/evolution-source-viewer.c:829 ../src/e-util/e-web-view.c:4039
 #: ../src/e-util/gal-view-instance-save-as-dialog.c:265
 #: ../src/mail/e-mail-config-window.c:310 ../src/mail/e-mail-label-dialog.c:187
-#: ../src/mail/e-mail-tag-editor.c:160 ../src/mail/em-composer-utils.c:4231
+#: ../src/mail/e-mail-tag-editor.c:160 ../src/mail/em-composer-utils.c:4233
 #: ../src/mail/em-folder-selector.c:333 ../src/mail/mail-config.ui.h:2
 #: ../src/mail/mail.error.xml.h:16 ../src/mail/mail-send-recv.c:874
 #: ../src/mail/mail-send-recv.c:955 ../src/mail/mail-vfolder-ui.c:149
@@ -4852,7 +4852,7 @@ msgstr "День народження"
 
 #. Other options
 #: ../src/addressbook/gui/contact-editor/contact-editor.ui.h:52
-#: ../src/mail/e-mail-config-defaults-page.c:883
+#: ../src/mail/e-mail-config-defaults-page.c:876
 #: ../src/modules/addressbook/autocompletion-config.c:127
 #: ../src/modules/calendar/e-calendar-preferences.ui.h:51
 msgid "Miscellaneous"
@@ -8256,8 +8256,8 @@ msgstr "Час початку — недійсний час"
 #: ../src/e-util/e-misc-utils.c:4194 ../src/e-util/e-misc-utils.c:4207
 #: ../src/e-util/e-misc-utils.c:4221 ../src/mail/e-mail-autoconfig.c:1129
 #: ../src/mail/e-mail-display.c:2787 ../src/mail/e-mail-notes.c:930
-#: ../src/mail/e-mail-reader-utils.c:805 ../src/mail/em-composer-utils.c:4027
-#: ../src/mail/em-composer-utils.c:4050 ../src/mail/mail-send-recv.c:598
+#: ../src/mail/e-mail-reader-utils.c:805 ../src/mail/em-composer-utils.c:4029
+#: ../src/mail/em-composer-utils.c:4052 ../src/mail/mail-send-recv.c:598
 #: ../src/mail/mail-send-recv.c:1493
 #: ../src/modules/accounts-window/e-accounts-window-editors.c:172
 #: ../src/plugins/face/face.c:175
@@ -12662,7 +12662,6 @@ msgid "An error occurred while creating message composer."
 msgstr "Виникла помилка при відкриванні редактора повідомлень."
 
 #: ../src/composer/mail-composer.error.xml.h:59
-#| msgid "Message Location"
 msgid "Message Redirection"
 msgstr "Переспрямування повідомлення"
 
@@ -12671,8 +12670,8 @@ msgid ""
 "This message is a redirection, which allows you to change the recipients, "
 "subject and other message attributes, but not the contents of the message."
 msgstr ""
-"Це повідомлення є переспрямуванням, у якому вам можна змінити отримувачів,"
-" тему та інші атрибути повідомлення, але не вміст повідомлення."
+"Це повідомлення є переспрямуванням, у якому вам можна змінити отримувачів, "
+"тему та інші атрибути повідомлення, але не вміст повідомлення."
 
 #: ../src/em-format/e-mail-formatter-attachment.c:317
 msgid "Toggle View Inline"
@@ -13461,7 +13460,6 @@ msgid "Re_load"
 msgstr "П_ерезавантажити"
 
 #: ../src/e-util/e-attachment-view.c:404
-#| msgid "Reading text content…"
 msgid "Reload attachment content"
 msgstr "Перезавантажити вміст долучення"
 
@@ -17044,8 +17042,8 @@ msgstr "Адресна книга"
 msgid "Events"
 msgstr "Події"
 
-#: ../src/e-util/e-webdav-browser.c:595 ../src/mail/em-folder-tree-model.c:1630
-#: ../src/mail/em-folder-tree-model.c:2018
+#: ../src/e-util/e-webdav-browser.c:595 ../src/mail/em-folder-tree-model.c:1629
+#: ../src/mail/em-folder-tree-model.c:2017
 #: ../src/modules/cal-config-weather/e-weather-location-entry.c:893
 msgid "Loading…"
 msgstr "Завантаження…"
@@ -17542,45 +17540,45 @@ msgstr "Неправильний URI теки «%s»"
 #. Some local folders
 #: ../src/libemail-engine/e-mail-session.c:121
 #: ../src/mail/em-folder-properties.c:1505
-#: ../src/mail/em-folder-tree-model.c:1543
-#: ../src/mail/em-folder-tree-model.c:1573
+#: ../src/mail/em-folder-tree-model.c:1542
+#: ../src/mail/em-folder-tree-model.c:1572
 #: ../src/mail/importers/kmail-libs.c:138
-#: ../src/modules/mail/e-mail-shell-view-private.c:1036
-#: ../src/modules/mail/e-mail-shell-view-private.c:1047
+#: ../src/modules/mail/e-mail-shell-view-private.c:1027
+#: ../src/modules/mail/e-mail-shell-view-private.c:1038
 msgid "Inbox"
 msgstr "Вхідні"
 
 #. E_MAIL_LOCAL_FOLDER_INBOX
 #: ../src/libemail-engine/e-mail-session.c:122
-#: ../src/mail/em-folder-tree-model.c:1537
-#: ../src/mail/em-folder-tree-model.c:1577
+#: ../src/mail/em-folder-tree-model.c:1536
+#: ../src/mail/em-folder-tree-model.c:1576
 #: ../src/mail/importers/kmail-libs.c:144
-#: ../src/modules/mail/e-mail-shell-view-private.c:1034
+#: ../src/modules/mail/e-mail-shell-view-private.c:1025
 msgid "Drafts"
 msgstr "Чернетки"
 
 #. E_MAIL_LOCAL_FOLDER_DRAFTS
 #: ../src/libemail-engine/e-mail-session.c:123
-#: ../src/mail/em-folder-tree-model.c:1549
+#: ../src/mail/em-folder-tree-model.c:1548
 #: ../src/mail/importers/kmail-libs.c:140
-#: ../src/modules/mail/e-mail-shell-view-private.c:1038
+#: ../src/modules/mail/e-mail-shell-view-private.c:1029
 msgid "Outbox"
 msgstr "Вихідні"
 
 #. E_MAIL_LOCAL_FOLDER_OUTBOX
 #: ../src/libemail-engine/e-mail-session.c:124
-#: ../src/mail/em-folder-tree-model.c:1554
-#: ../src/mail/em-folder-tree-model.c:1576
+#: ../src/mail/em-folder-tree-model.c:1553
+#: ../src/mail/em-folder-tree-model.c:1575
 #: ../src/mail/importers/kmail-libs.c:142
-#: ../src/modules/mail/e-mail-shell-view-private.c:1040
+#: ../src/modules/mail/e-mail-shell-view-private.c:1031
 msgid "Sent"
 msgstr "Надіслані"
 
 #. E_MAIL_LOCAL_FOLDER_SENT
 #: ../src/libemail-engine/e-mail-session.c:125
-#: ../src/mail/em-folder-tree-model.c:1539
+#: ../src/mail/em-folder-tree-model.c:1538
 #: ../src/mail/importers/kmail-libs.c:146
-#: ../src/modules/mail/e-mail-shell-view-private.c:1042
+#: ../src/modules/mail/e-mail-shell-view-private.c:1033
 #: ../src/plugins/templates/org-gnome-templates.eplug.xml.h:1
 msgid "Templates"
 msgstr "Шаблони"
@@ -17945,7 +17943,7 @@ msgid "(No Subject)"
 msgstr "(Немає теми)"
 
 #: ../src/mail/e-mail-browser.c:536 ../src/mail/mail-dialogs.ui.h:5
-#: ../src/modules/mail/e-mail-shell-view-private.c:1534
+#: ../src/modules/mail/e-mail-shell-view-private.c:1525
 msgid "Forward"
 msgstr "Переслати"
 
@@ -17955,13 +17953,13 @@ msgstr "Переслати"
 #. * either of those, without too strongly implying one or the other.
 #: ../src/mail/e-mail-browser.c:547 ../src/mail/e-mail-reader.c:2958
 #: ../src/mail/e-mail-reader.c:5311 ../src/mail/e-mail-reader.c:5336
-#: ../src/modules/mail/e-mail-shell-view-private.c:1545
+#: ../src/modules/mail/e-mail-shell-view-private.c:1536
 msgid "Group Reply"
 msgstr "Групувати відповіді"
 
 #: ../src/mail/e-mail-browser.c:559 ../src/mail/e-mail-reader.c:5419
 #: ../src/mail/mail-dialogs.ui.h:9
-#: ../src/modules/mail/e-mail-shell-view-private.c:1557
+#: ../src/modules/mail/e-mail-shell-view-private.c:1548
 msgid "Reply"
 msgstr "Відповісти"
 
@@ -18024,7 +18022,7 @@ msgid "Do Not Quote"
 msgstr "Не цитувати"
 
 #: ../src/mail/e-mail-config-composing-page.c:157
-#: ../src/mail/em-composer-utils.c:4343
+#: ../src/mail/em-composer-utils.c:4345
 msgid "Use global setting"
 msgstr "Використовувати загальні параметри"
 
@@ -18057,12 +18055,12 @@ msgstr ""
 "Мова для тексту пояснення у відповідях та переспрямованих повідомленнях"
 
 #: ../src/mail/e-mail-config-composing-page.c:524
-#: ../src/mail/em-composer-utils.c:4347 ../src/mail/mail-config.ui.h:23
+#: ../src/mail/em-composer-utils.c:4349 ../src/mail/mail-config.ui.h:23
 msgid "Start _typing at the bottom"
 msgstr "Починати _набір знизу"
 
 #: ../src/mail/e-mail-config-composing-page.c:531
-#: ../src/mail/em-composer-utils.c:4350 ../src/mail/mail-config.ui.h:24
+#: ../src/mail/em-composer-utils.c:4352 ../src/mail/mail-config.ui.h:24
 msgid "_Keep signature above the original message"
 msgstr "_Залишати підпис над оригінальним повідомленням"
 
@@ -18125,56 +18123,61 @@ msgstr "Виберіть теку для зберігання чернеток."
 msgid "Sent _Messages Folder:"
 msgstr "Тека _надісланих повідомлень:"
 
-#: ../src/mail/e-mail-config-defaults-page.c:725
+#: ../src/mail/e-mail-config-defaults-page.c:707
 msgid "Choose a folder for saving sent messages."
 msgstr "Виберіть теку для зберігання надісланих листів."
 
-#: ../src/mail/e-mail-config-defaults-page.c:751
+#: ../src/mail/e-mail-config-defaults-page.c:727
+#| msgid "Move selected messages to another folder"
+msgid "Save s_ent messages into the Sent folder"
+msgstr "Зберігати _надіслані повідомлення до теки «Надіслані»"
+
+#: ../src/mail/e-mail-config-defaults-page.c:744
 msgid "S_ave replies in the folder of the message being replied to"
 msgstr "З_берегти відповіді в теці листа, на який воно відповідає"
 
-#: ../src/mail/e-mail-config-defaults-page.c:774
+#: ../src/mail/e-mail-config-defaults-page.c:767
 msgid "Archi_ve Folder:"
 msgstr "_Архівна тека:"
 
-#: ../src/mail/e-mail-config-defaults-page.c:784
+#: ../src/mail/e-mail-config-defaults-page.c:777
 #: ../src/modules/mail/em-mailer-prefs.c:1837
 msgid "Choose a folder to archive messages to."
 msgstr "Виберіть теку, в яку архівувати листи."
 
-#: ../src/mail/e-mail-config-defaults-page.c:799
+#: ../src/mail/e-mail-config-defaults-page.c:792
 msgid "_Templates Folder:"
 msgstr "Тека _шаблонів:"
 
-#: ../src/mail/e-mail-config-defaults-page.c:809
+#: ../src/mail/e-mail-config-defaults-page.c:802
 msgid "Choose a folder to use for template messages."
 msgstr "Виберіть теку для шаблонів листів."
 
-#: ../src/mail/e-mail-config-defaults-page.c:827
+#: ../src/mail/e-mail-config-defaults-page.c:820
 msgid "_Restore Defaults"
 msgstr "_Типові значення"
 
-#: ../src/mail/e-mail-config-defaults-page.c:844
+#: ../src/mail/e-mail-config-defaults-page.c:837
 msgid "_Lookup Folders"
 msgstr "Теки по_шуку"
 
-#: ../src/mail/e-mail-config-defaults-page.c:862
+#: ../src/mail/e-mail-config-defaults-page.c:855
 msgid "Use a Real Folder for _Trash:"
 msgstr "Використовувати справжню теку для _смітника:"
 
-#: ../src/mail/e-mail-config-defaults-page.c:863
+#: ../src/mail/e-mail-config-defaults-page.c:856
 msgid "Choose a folder for deleted messages."
 msgstr "Виберіть теку для вилучених листів."
 
-#: ../src/mail/e-mail-config-defaults-page.c:872
+#: ../src/mail/e-mail-config-defaults-page.c:865
 msgid "Use a Real Folder for _Junk:"
 msgstr "Використовувати справжню теку для _спаму:"
 
-#: ../src/mail/e-mail-config-defaults-page.c:873
+#: ../src/mail/e-mail-config-defaults-page.c:866
 msgid "Choose a folder for junk messages."
 msgstr "Виберіть теку для спаму."
 
-#: ../src/mail/e-mail-config-defaults-page.c:991
+#: ../src/mail/e-mail-config-defaults-page.c:984
 msgid "Defaults"
 msgstr "Умовчання"
 
@@ -18297,7 +18300,6 @@ msgstr "%s — %s"
 
 #: ../src/mail/e-mail-config-security-page.c:402
 #: ../src/mail/e-mail-config-security-page.c:514
-#| msgid "Using email address"
 msgid "Use sender e-mail address"
 msgstr "Використати адресу відправника"
 
@@ -19245,7 +19247,7 @@ msgstr "Вилучити п_одвійні повідомлення"
 msgid "Checks selected messages for duplicates"
 msgstr "Перевіряє, чи не повторювались вибрані повідомлення"
 
-#: ../src/mail/e-mail-reader.c:2944 ../src/mail/em-composer-utils.c:4283
+#: ../src/mail/e-mail-reader.c:2944 ../src/mail/em-composer-utils.c:4285
 #: ../src/mail/mail.error.xml.h:28
 #: ../src/modules/calendar/e-cal-shell-view-actions.c:1586
 #: ../src/modules/mail/e-mail-attachment-handler.c:396
@@ -19270,7 +19272,7 @@ msgstr "Обрати параметри відповіді для обраних
 msgid "Reply to the mailing list, or to all recipients"
 msgstr "Відповісти у список листування або всім одержувачам"
 
-#: ../src/mail/e-mail-reader.c:2965 ../src/mail/em-composer-utils.c:4278
+#: ../src/mail/e-mail-reader.c:2965 ../src/mail/em-composer-utils.c:4280
 #: ../src/mail/mail.error.xml.h:26
 #: ../src/modules/mail/e-mail-attachment-handler.c:403
 msgid "Reply to _List"
@@ -19663,8 +19665,6 @@ msgstr[3] ""
 
 #: ../src/mail/em-composer-utils.c:648
 #, c-format
-#| msgid "Attachment"
-#| msgid_plural "Attachments"
 msgid "Attachment changed"
 msgid_plural "%d attachments changed"
 msgstr[0] "%d долучення змінено"
@@ -19678,8 +19678,8 @@ msgid ""
 "Attachment “%s” changed after being added to the message. Do you want to "
 "send the message anyway?"
 msgstr ""
-"До долучення «%s» внесено зміни після додавання його до повідомлення. Хочете"
-" надіслати повідомлення попри це?"
+"До долучення «%s» внесено зміни після додавання його до повідомлення. Хочете "
+"надіслати повідомлення попри це?"
 
 #: ../src/mail/em-composer-utils.c:656
 #, c-format
@@ -19690,17 +19690,17 @@ msgid_plural ""
 "%d attachments changed after being added to the message. Do you want to send "
 "the message anyway?"
 msgstr[0] ""
-"До %d долучення внесено зміни після додавання їх до повідомлення. Хочете"
-" надіслати повідомлення попри це?"
+"До %d долучення внесено зміни після додавання їх до повідомлення. Хочете "
+"надіслати повідомлення попри це?"
 msgstr[1] ""
-"До %d долучень внесено зміни після додавання їх до повідомлення. Хочете"
-" надіслати повідомлення попри це?"
+"До %d долучень внесено зміни після додавання їх до повідомлення. Хочете "
+"надіслати повідомлення попри це?"
 msgstr[2] ""
-"До %d долучень внесено зміни після додавання їх до повідомлення. Хочете"
-" надіслати повідомлення попри це?"
+"До %d долучень внесено зміни після додавання їх до повідомлення. Хочете "
+"надіслати повідомлення попри це?"
 msgstr[3] ""
-"До долучення внесено зміни після додавання його до повідомлення. Хочете"
-" надіслати повідомлення попри це?"
+"До долучення внесено зміни після додавання його до повідомлення. Хочете "
+"надіслати повідомлення попри це?"
 
 #. This message is never removed from the camel operation, otherwise the GtkInfoBar
 #. hides itself and the user sees no feedback.
@@ -19729,73 +19729,73 @@ msgid "-----Original Message-----"
 msgstr "-------- Оригінальне повідомлення --------"
 
 #. Translators: This is a reply attribution in the message reply subject. The %s is replaced with the subject of the original message. Both 'Re'-s in the 'reply-attribution' translation context should translate into the same string, the same as the ':' separator.
-#: ../src/mail/em-composer-utils.c:2982
+#: ../src/mail/em-composer-utils.c:2984
 #, c-format
 msgctxt "reply-attribution"
 msgid "Re: %s"
 msgstr "На: %s"
 
-#: ../src/mail/em-composer-utils.c:3601
+#: ../src/mail/em-composer-utils.c:3603
 msgid "an unknown sender"
 msgstr "невідомий відправник"
 
-#: ../src/mail/em-composer-utils.c:4229
+#: ../src/mail/em-composer-utils.c:4231
 msgid "Alternative Reply"
 msgstr "Альтернативна відповідь"
 
-#: ../src/mail/em-composer-utils.c:4232
+#: ../src/mail/em-composer-utils.c:4234
 #: ../src/modules/calendar/e-cal-shell-view-actions.c:1579
 msgid "_Reply"
 msgstr "_Відповісти"
 
-#: ../src/mail/em-composer-utils.c:4245
+#: ../src/mail/em-composer-utils.c:4247
 msgid "Recipients:"
 msgstr "Отримувачі:"
 
-#: ../src/mail/em-composer-utils.c:4273
+#: ../src/mail/em-composer-utils.c:4275
 msgid "Reply to _Sender"
 msgstr "Відповісти _відправнику"
 
-#: ../src/mail/em-composer-utils.c:4295
+#: ../src/mail/em-composer-utils.c:4297
 msgid "Reply style:"
 msgstr "Стиль відповіді:"
 
 #. Translators: This is for "Toolbar Icon Size: Default"
-#: ../src/mail/em-composer-utils.c:4303
+#: ../src/mail/em-composer-utils.c:4305
 #: ../src/modules/appearance-settings/evolution-appearance-settings.c:253
 msgid "_Default"
 msgstr "_Типово"
 
-#: ../src/mail/em-composer-utils.c:4307
+#: ../src/mail/em-composer-utils.c:4309
 msgid "Attach_ment"
 msgstr "_Долучення"
 
-#: ../src/mail/em-composer-utils.c:4311
+#: ../src/mail/em-composer-utils.c:4313
 msgid "Inline (_Outlook style)"
 msgstr "Вбудовано (_стиль Outlook)"
 
-#: ../src/mail/em-composer-utils.c:4315
+#: ../src/mail/em-composer-utils.c:4317
 msgid "_Quote"
 msgstr "_Цитата"
 
-#: ../src/mail/em-composer-utils.c:4319
+#: ../src/mail/em-composer-utils.c:4321
 msgid "Do _Not Quote"
 msgstr "Не _цитувати"
 
 #. Translators: The text is followed by the format combo with values like 'Plain Text', 'HTML' and so on
-#: ../src/mail/em-composer-utils.c:4330
+#: ../src/mail/em-composer-utils.c:4332
 msgid "_Format message in"
 msgstr "_Форматувати повідомлення до"
 
-#: ../src/mail/em-composer-utils.c:4357
+#: ../src/mail/em-composer-utils.c:4359
 msgid "Apply t_emplate"
 msgstr "Застосувати ш_аблон"
 
-#: ../src/mail/em-composer-utils.c:4369
+#: ../src/mail/em-composer-utils.c:4371
 msgid "Preserve original message S_ubject"
 msgstr "Зберегти оригінальну т_ему повідомлення"
 
-#: ../src/mail/em-composer-utils.c:4435
+#: ../src/mail/em-composer-utils.c:4437
 #, c-format
 msgid "one recipient"
 msgid_plural "%d recipients"
@@ -19805,11 +19805,11 @@ msgstr[2] "%d отримувачів"
 msgstr[3] "один отримувач"
 
 #. FIXME GTK_WINDOW (composer)
-#: ../src/mail/em-composer-utils.c:4925
+#: ../src/mail/em-composer-utils.c:4927
 msgid "Posting destination"
 msgstr "Адреса призначення"
 
-#: ../src/mail/em-composer-utils.c:4930
+#: ../src/mail/em-composer-utils.c:4932
 msgid "Choose folders to post the message to."
 msgstr "Виберіть теку у яку надіслати повідомлення."
 
@@ -20082,13 +20082,13 @@ msgstr "Не вдалося скинути повідомлення у схов�
 msgid "UNMATCHED"
 msgstr "БЕЗВІДПОВІДНОСТІ"
 
-#: ../src/mail/em-folder-tree-model.c:1574
+#: ../src/mail/em-folder-tree-model.c:1573
 #: ../src/mail/importers/kmail-libs.c:148
-#: ../src/modules/mail/e-mail-shell-view-private.c:1044
+#: ../src/modules/mail/e-mail-shell-view-private.c:1035
 msgid "Trash"
 msgstr "Смітник"
 
-#: ../src/mail/em-folder-tree-model.c:1575 ../src/mail/filtertypes.xml.in.h:41
+#: ../src/mail/em-folder-tree-model.c:1574 ../src/mail/filtertypes.xml.in.h:41
 #: ../src/mail/mail-config.ui.h:149 ../src/mail/vfoldertypes.xml.in.h:44
 msgid "Junk"
 msgstr "Спам"
@@ -20148,9 +20148,9 @@ msgid "Unsubscribe From _All"
 msgstr "Відписатись від _усього"
 
 #: ../src/mail/em-subscription-editor.c:1315
-#: ../src/modules/mail/e-mail-shell-view-private.c:937
-#: ../src/modules/mail/e-mail-shell-view-private.c:969
-#: ../src/modules/mail/e-mail-shell-view-private.c:1013
+#: ../src/modules/mail/e-mail-shell-view-private.c:928
+#: ../src/modules/mail/e-mail-shell-view-private.c:960
+#: ../src/modules/mail/e-mail-shell-view-private.c:1004
 #, c-format
 msgid "%d unread, "
 msgid_plural "%d unread, "
@@ -20160,7 +20160,7 @@ msgstr[2] "%d не прочитаних"
 msgstr[3] "%d не прочитане"
 
 #: ../src/mail/em-subscription-editor.c:1319
-#: ../src/modules/mail/e-mail-shell-view-private.c:1023
+#: ../src/modules/mail/e-mail-shell-view-private.c:1014
 #, c-format
 msgid "%d total"
 msgid_plural "%d total"
@@ -20949,11 +20949,10 @@ msgstr "Перед зміною _формату редактора з  HTML на
 
 #. This is in the context of: Ask for confirmation before...
 #: ../src/mail/mail-config.ui.h:64
-#| msgid "Sending a message with _recipients not entered as mail addresses"
 msgid "Sending a message with _attachments which changed since being attached"
 msgstr ""
-"Надсилання повідомлення з д_олученнями, до яких внесено зміни з моменту"
-" долучення"
+"Надсилання повідомлення з д_олученнями, до яких внесено зміни з моменту "
+"долучення"
 
 #: ../src/mail/mail-config.ui.h:65
 msgid "Confirmations"
@@ -22270,7 +22269,6 @@ msgstr "Позначити як сп_ам"
 
 #. Translators: {0} is the name of the folder where the delete of the message note failed.
 #: ../src/mail/mail.error.xml.h:222
-#| msgid "Address “{0}” already exists."
 msgid "Label named “{0}” already exists"
 msgstr "Мітка з назвою «{0}» вже існує."
 
@@ -23692,7 +23690,6 @@ msgstr "Вибір списку задач"
 #. Translators: The '%s' is replaced with the time zone name, like "America/New York" or "UTC"
 #: ../src/modules/calendar/e-calendar-preferences.c:520
 #, c-format
-#| msgid "Use s_ystem time zone"
 msgid "Use s_ystem time zone (%s)"
 msgstr "Використовувати _системний часовий пояс (%s)"
 
@@ -25339,7 +25336,6 @@ msgid "%s has published the following task:"
 msgstr "%s оприлюднив таке завдання:"
 
 #: ../src/modules/itip-formatter/itip-view.c:589
-#| msgid "The following meeting information has been published:"
 msgid "The following task has been published:"
 msgstr "Було оприлюднено таке завдання:"
 
@@ -25433,7 +25429,6 @@ msgid "%s has published the following memo:"
 msgstr "%s оприлюднив таку примітку:"
 
 #: ../src/modules/itip-formatter/itip-view.c:682
-#| msgid "The following meeting information has been published:"
 msgid "The following memo has been published:"
 msgstr "Було оприлюднено таку нотатку:"
 
@@ -26605,19 +26600,19 @@ msgstr "Поточна тека"
 msgid "Current Folder and Subfolders"
 msgstr "Поточна тека і підтеки"
 
-#: ../src/modules/mail/e-mail-shell-view.c:1039
+#: ../src/modules/mail/e-mail-shell-view.c:1056
 msgid "Current Folder and Subfolders Search"
 msgstr "Пошук у поточній теці і підтеках"
 
-#: ../src/modules/mail/e-mail-shell-view.c:1159
+#: ../src/modules/mail/e-mail-shell-view.c:1144
 msgid "All Account Search"
 msgstr "Усі облікові записи"
 
-#: ../src/modules/mail/e-mail-shell-view.c:1267
+#: ../src/modules/mail/e-mail-shell-view.c:1220
 msgid "Account Search"
 msgstr "Поточний обліковий запис"
 
-#: ../src/modules/mail/e-mail-shell-view-private.c:930
+#: ../src/modules/mail/e-mail-shell-view-private.c:921
 #, c-format
 msgid "%d selected, "
 msgid_plural "%d selected, "
@@ -26626,8 +26621,8 @@ msgstr[1] "%d вибрано"
 msgstr[2] "%d вибрано"
 msgstr[3] "%d вибрано"
 
-#: ../src/modules/mail/e-mail-shell-view-private.c:945
-#: ../src/modules/mail/e-mail-shell-view-private.c:962
+#: ../src/modules/mail/e-mail-shell-view-private.c:936
+#: ../src/modules/mail/e-mail-shell-view-private.c:953
 #, c-format
 msgid "%d deleted"
 msgid_plural "%d deleted"
@@ -26636,8 +26631,8 @@ msgstr[1] "%d вилучено"
 msgstr[2] "%d вилучено"
 msgstr[3] "%d вилучено"
 
-#: ../src/modules/mail/e-mail-shell-view-private.c:976
-#: ../src/modules/mail/e-mail-shell-view-private.c:982
+#: ../src/modules/mail/e-mail-shell-view-private.c:967
+#: ../src/modules/mail/e-mail-shell-view-private.c:973
 #, c-format
 msgid "%d junk"
 msgid_plural "%d junk"
@@ -26646,7 +26641,7 @@ msgstr[1] "%d спам"
 msgstr[2] "%d спам"
 msgstr[3] "%d спам"
 
-#: ../src/modules/mail/e-mail-shell-view-private.c:989
+#: ../src/modules/mail/e-mail-shell-view-private.c:980
 #, c-format
 msgid "%d draft"
 msgid_plural "%d drafts"
@@ -26655,7 +26650,7 @@ msgstr[1] "%d чернетки"
 msgstr[2] "%d чернеток"
 msgstr[3] "%d чернетка"
 
-#: ../src/modules/mail/e-mail-shell-view-private.c:995
+#: ../src/modules/mail/e-mail-shell-view-private.c:986
 #, c-format
 msgid "%d unsent"
 msgid_plural "%d unsent"
@@ -26664,7 +26659,7 @@ msgstr[1] "%d не відіслано"
 msgstr[2] "%d не відіслано"
 msgstr[3] "%d не відіслано"
 
-#: ../src/modules/mail/e-mail-shell-view-private.c:1001
+#: ../src/modules/mail/e-mail-shell-view-private.c:992
 #, c-format
 msgid "%d sent"
 msgid_plural "%d sent"
@@ -26673,7 +26668,7 @@ msgstr[1] "%d відіслано"
 msgstr[2] "%d відіслано"
 msgstr[3] "%d відіслано"
 
-#: ../src/modules/mail/e-mail-shell-view-private.c:1018
+#: ../src/modules/mail/e-mail-shell-view-private.c:1009
 #, c-format
 msgid "%d unread"
 msgid_plural "%d unread"
@@ -26682,8 +26677,8 @@ msgstr[1] "%d непрочитані"
 msgstr[2] "%d непрочитаних"
 msgstr[3] "%d непрочитаний"
 
-#: ../src/modules/mail/e-mail-shell-view-private.c:1523
-#: ../src/modules/mail/e-mail-shell-view-private.c:1592
+#: ../src/modules/mail/e-mail-shell-view-private.c:1514
+#: ../src/modules/mail/e-mail-shell-view-private.c:1583
 msgid "Send / Receive"
 msgstr "Надіслати / Одержати"
 
@@ -26750,7 +26745,6 @@ msgstr "Містить значення"
 #. Translators: This is a column caption, in which a mail header name is shown.
 #. Example: Header: "X-GitLab-Project" Title: "GitLab Project"
 #: ../src/modules/mail/em-mailer-prefs.c:2052
-#| msgid "Header"
 msgctxt "UserHeaders"
 msgid "Header"
 msgstr "Заголовок"
@@ -26759,7 +26753,6 @@ msgstr "Заголовок"
 #. it's the text the header is presented in the GUI, aka a user friendly name
 #. of the header. Example: Header: "X-GitLab-Project" Title: "GitLab Project"
 #: ../src/modules/mail/em-mailer-prefs.c:2066
-#| msgid "Title"
 msgctxt "UserHeaders"
 msgid "Title"
 msgstr "Назва"
@@ -28730,19 +28723,19 @@ msgstr "Створити"
 #. * allows the user to filter the current view.  Examples of
 #. * items that appear in the combo box are "Unread Messages",
 #. * "Important Messages", or "Active Appointments".
-#: ../src/shell/e-shell-searchbar.c:929
+#: ../src/shell/e-shell-searchbar.c:944
 msgid "Sho_w:"
 msgstr "_Показати:"
 
 #. Translators: This is part of the quick search interface.
 #. * example: Search: [_______________] in [ Current Folder ]
-#: ../src/shell/e-shell-searchbar.c:955
+#: ../src/shell/e-shell-searchbar.c:970
 msgid "Sear_ch:"
 msgstr "З_найти:"
 
 #. Translators: This is part of the quick search interface.
 #. * example: Search: [_______________] in [ Current Folder ]
-#: ../src/shell/e-shell-searchbar.c:1023
+#: ../src/shell/e-shell-searchbar.c:1038
 msgid "i_n"
 msgstr " _у "
 
