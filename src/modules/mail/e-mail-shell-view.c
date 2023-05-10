@@ -636,6 +636,53 @@ mail_shell_view_construct_filter_message_thread (EMailShellView *mail_shell_view
 }
 
 static void
+mail_shell_view_restore_selected_folder (EShellView *shell_view)
+{
+	EShellSidebar *shell_sidebar;
+	EMailReader *reader;
+	EMFolderTree *folder_tree;
+	CamelStore *selected_store = NULL;
+	gchar *selected_folder_name = NULL;
+
+	shell_sidebar = e_shell_view_get_shell_sidebar (shell_view);
+	folder_tree = e_mail_shell_sidebar_get_folder_tree (E_MAIL_SHELL_SIDEBAR (shell_sidebar));
+
+	reader = E_MAIL_READER (e_mail_shell_content_get_mail_view (E_MAIL_SHELL_CONTENT (e_shell_view_get_shell_content (shell_view))));
+
+	/* Reset the message list to the current folder tree
+	 * selection.  This needs to happen synchronously to
+	 * avoid search conflicts, so we can't just grab the
+	 * folder URI and let the asynchronous callbacks run
+	 * after we've already kicked off the search. */
+	em_folder_tree_get_selected (folder_tree, &selected_store, &selected_folder_name);
+	if (selected_store != NULL && selected_folder_name != NULL) {
+		CamelFolder *sel_folder;
+
+		sel_folder = camel_store_get_folder_sync (
+			selected_store, selected_folder_name,
+			0, NULL, NULL);
+		e_mail_reader_set_folder (reader, sel_folder);
+		g_object_unref (sel_folder);
+	}
+
+	g_clear_object (&selected_store);
+	g_free (selected_folder_name);
+}
+
+static void
+mail_shell_view_stop_and_clear_search_vfolders (EMailShellView *mail_shell_view)
+{
+	if (mail_shell_view->priv->search_account_cancel) {
+		g_cancellable_cancel (mail_shell_view->priv->search_account_cancel);
+		g_clear_object (&mail_shell_view->priv->search_account_cancel);
+	}
+
+	g_clear_object (&mail_shell_view->priv->search_folder_and_subfolders);
+	g_clear_object (&mail_shell_view->priv->search_account_all);
+	g_clear_object (&mail_shell_view->priv->search_account_current);
+}
+
+static void
 mail_shell_view_execute_search (EShellView *shell_view)
 {
 	EMailShellViewPrivate *priv;
@@ -935,12 +982,16 @@ filter:
 			break;
 	}
 
+	gtk_widget_set_sensitive (GTK_WIDGET (folder_tree), TRUE);
+
 	/* Apply selected scope. */
 
 	combo_box = e_shell_searchbar_get_scope_combo_box (searchbar);
 	value = e_action_combo_box_get_current_value (combo_box);
 	switch (value) {
 		case MAIL_SCOPE_CURRENT_FOLDER:
+			mail_shell_view_stop_and_clear_search_vfolders (E_MAIL_SHELL_VIEW (shell_view));
+			mail_shell_view_restore_selected_folder (shell_view);
 			goto execute;
 
 		case MAIL_SCOPE_CURRENT_FOLDER_AND_SUBFOLDERS:
@@ -965,39 +1016,8 @@ filter:
 	 * account-wide searches still in progress. */
 	text = e_shell_searchbar_get_search_text (searchbar);
 	if ((text == NULL || *text == '\0') && !e_shell_view_get_search_rule (shell_view)) {
-		CamelStore *selected_store = NULL;
-		gchar *selected_folder_name = NULL;
-
-		g_clear_object (&priv->search_folder_and_subfolders);
-
-		if (priv->search_account_cancel != NULL) {
-			g_cancellable_cancel (priv->search_account_cancel);
-			g_object_unref (priv->search_account_cancel);
-			priv->search_account_cancel = NULL;
-		}
-
-		/* Reset the message list to the current folder tree
-		 * selection.  This needs to happen synchronously to
-		 * avoid search conflicts, so we can't just grab the
-		 * folder URI and let the asynchronous callbacks run
-		 * after we've already kicked off the search. */
-		em_folder_tree_get_selected (
-			folder_tree, &selected_store, &selected_folder_name);
-		if (selected_store != NULL && selected_folder_name != NULL) {
-			CamelFolder *sel_folder;
-
-			sel_folder = camel_store_get_folder_sync (
-				selected_store, selected_folder_name,
-				0, NULL, NULL);
-			e_mail_reader_set_folder (reader, sel_folder);
-			g_object_unref (sel_folder);
-		}
-
-		g_clear_object (&selected_store);
-		g_free (selected_folder_name);
-
-		gtk_widget_set_sensitive (GTK_WIDGET (combo_box), TRUE);
-
+		mail_shell_view_stop_and_clear_search_vfolders (E_MAIL_SHELL_VIEW (shell_view));
+		mail_shell_view_restore_selected_folder (shell_view);
 		goto execute;
 	}
 
@@ -1011,9 +1031,6 @@ filter:
 		if (g_strcmp0 (query, vf_query) == 0)
 			goto current_folder_and_subfolders_setup;
 	}
-
-	/* Disable the scope combo while search is in progress. */
-	gtk_widget_set_sensitive (GTK_WIDGET (combo_box), FALSE);
 
 	/* If we already have a search folder, reuse it. */
 	if (search_folder != NULL) {
@@ -1045,6 +1062,8 @@ filter:
 	camel_vee_folder_set_expression (search_folder, query);
 
  current_folder_and_subfolders_setup:
+
+	gtk_widget_set_sensitive (GTK_WIDGET (folder_tree), FALSE);
 
 	if (folder != NULL && folder != CAMEL_FOLDER (search_folder)) {
 		/* Just use the folder */
@@ -1084,39 +1103,8 @@ all_accounts:
 	 * account-wide searches still in progress. */
 	text = e_shell_searchbar_get_search_text (searchbar);
 	if ((text == NULL || *text == '\0') && !e_shell_view_get_search_rule (shell_view)) {
-		CamelStore *selected_store = NULL;
-		gchar *selected_folder_name = NULL;
-
-		g_clear_object (&priv->search_account_all);
-
-		if (priv->search_account_cancel != NULL) {
-			g_cancellable_cancel (priv->search_account_cancel);
-			g_object_unref (priv->search_account_cancel);
-			priv->search_account_cancel = NULL;
-		}
-
-		/* Reset the message list to the current folder tree
-		 * selection.  This needs to happen synchronously to
-		 * avoid search conflicts, so we can't just grab the
-		 * folder URI and let the asynchronous callbacks run
-		 * after we've already kicked off the search. */
-		em_folder_tree_get_selected (
-			folder_tree, &selected_store, &selected_folder_name);
-		if (selected_store != NULL && selected_folder_name != NULL) {
-			CamelFolder *sel_folder;
-
-			sel_folder = camel_store_get_folder_sync (
-				selected_store, selected_folder_name,
-				0, NULL, NULL);
-			e_mail_reader_set_folder (reader, sel_folder);
-			g_object_unref (sel_folder);
-		}
-
-		g_clear_object (&selected_store);
-		g_free (selected_folder_name);
-
-		gtk_widget_set_sensitive (GTK_WIDGET (combo_box), TRUE);
-
+		mail_shell_view_stop_and_clear_search_vfolders (E_MAIL_SHELL_VIEW (shell_view));
+		mail_shell_view_restore_selected_folder (shell_view);
 		goto execute;
 	}
 
@@ -1130,9 +1118,6 @@ all_accounts:
 		if (g_strcmp0 (query, vf_query) == 0)
 			goto all_accounts_setup;
 	}
-
-	/* Disable the scope combo while search is in progress. */
-	gtk_widget_set_sensitive (GTK_WIDGET (combo_box), FALSE);
 
 	/* If we already have a search folder, reuse it. */
 	if (search_folder != NULL) {
@@ -1166,6 +1151,8 @@ all_accounts:
 
 all_accounts_setup:
 
+	gtk_widget_set_sensitive (GTK_WIDGET (folder_tree), FALSE);
+
 	list = em_folder_tree_model_list_stores (EM_FOLDER_TREE_MODEL (
 		gtk_tree_view_get_model (GTK_TREE_VIEW (folder_tree))));
 	g_list_foreach (list, (GFunc) g_object_ref, NULL);
@@ -1192,39 +1179,8 @@ current_account:
 	 * account-wide searches still in progress. */
 	text = e_shell_searchbar_get_search_text (searchbar);
 	if ((text == NULL || *text == '\0') && !e_shell_view_get_search_rule (shell_view)) {
-		CamelStore *selected_store = NULL;
-		gchar *selected_folder_name = NULL;
-
-		g_clear_object (&priv->search_account_current);
-
-		if (priv->search_account_cancel != NULL) {
-			g_cancellable_cancel (priv->search_account_cancel);
-			g_object_unref (priv->search_account_cancel);
-			priv->search_account_cancel = NULL;
-		}
-
-		/* Reset the message list to the current folder tree
-		 * selection.  This needs to happen synchronously to
-		 * avoid search conflicts, so we can't just grab the
-		 * folder URI and let the asynchronous callbacks run
-		 * after we've already kicked off the search. */
-		em_folder_tree_get_selected (
-			folder_tree, &selected_store, &selected_folder_name);
-		if (selected_store != NULL && selected_folder_name != NULL) {
-			CamelFolder *sel_folder;
-
-			sel_folder = camel_store_get_folder_sync (
-				selected_store, selected_folder_name,
-				0, NULL, NULL);
-			e_mail_reader_set_folder (reader, sel_folder);
-			g_object_unref (sel_folder);
-		}
-
-		g_clear_object (&selected_store);
-		g_free (selected_folder_name);
-
-		gtk_widget_set_sensitive (GTK_WIDGET (combo_box), TRUE);
-
+		mail_shell_view_stop_and_clear_search_vfolders (E_MAIL_SHELL_VIEW (shell_view));
+		mail_shell_view_restore_selected_folder (shell_view);
 		goto execute;
 	}
 
@@ -1238,9 +1194,6 @@ current_account:
 		if (g_strcmp0 (query, vf_query) == 0)
 			goto current_accout_setup;
 	}
-
-	/* Disable the scope combo while search is in progress. */
-	gtk_widget_set_sensitive (GTK_WIDGET (combo_box), FALSE);
 
 	/* If we already have a search folder, reuse it. */
 	if (search_folder != NULL) {
@@ -1273,6 +1226,8 @@ current_account:
 	camel_vee_folder_set_expression (search_folder, query);
 
 current_accout_setup:
+
+	gtk_widget_set_sensitive (GTK_WIDGET (folder_tree), FALSE);
 
 	if (folder != NULL && folder != CAMEL_FOLDER (search_folder)) {
 		store = camel_folder_get_parent_store (folder);

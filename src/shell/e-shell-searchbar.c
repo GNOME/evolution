@@ -380,6 +380,18 @@ shell_searchbar_entry_changed_cb (EShellSearchbar *searchbar)
 }
 
 static void
+e_shell_searchbar_scope_changed_cb (EShellSearchbar *searchbar)
+{
+	if (gtk_widget_is_visible (searchbar->priv->scope_combo_box)) {
+		EShellView *shell_view;
+
+		shell_view = e_shell_searchbar_get_shell_view (searchbar);
+
+		e_shell_view_execute_search (shell_view);
+	}
+}
+
+static void
 shell_searchbar_entry_icon_press_cb (EShellSearchbar *searchbar,
                                      GtkEntryIconPosition icon_pos,
                                      GdkEvent *event)
@@ -1035,6 +1047,11 @@ e_shell_searchbar_init (EShellSearchbar *searchbar)
 	gtk_box_pack_start (box, widget, FALSE, FALSE, 0);
 	searchbar->priv->scope_combo_box = widget;
 	gtk_widget_show (widget);
+
+	g_signal_connect_object (
+		widget, "changed",
+		G_CALLBACK (e_shell_searchbar_scope_changed_cb),
+		searchbar, G_CONNECT_AFTER | G_CONNECT_SWAPPED);
 }
 
 /**

@@ -573,21 +573,12 @@ e_mail_shell_view_private_constructed (EMailShellView *mail_shell_view)
 	mail_shell_content = E_MAIL_SHELL_CONTENT (shell_content);
 	mail_view = e_mail_shell_content_get_mail_view (mail_shell_content);
 	searchbar = e_mail_shell_content_get_searchbar (mail_shell_content);
-	combo_box = e_shell_searchbar_get_scope_combo_box (searchbar);
 
 	reader = E_MAIL_READER (shell_content);
 	display = e_mail_reader_get_mail_display (reader);
 	message_list = e_mail_reader_get_message_list (reader);
 
 	em_folder_tree_set_selectable_widget (folder_tree, message_list);
-
-	/* The folder tree and scope combo box are both insensitive
-	 * when searching beyond the currently selected folder. */
-	e_binding_bind_property (
-		folder_tree, "sensitive",
-		combo_box, "sensitive",
-		G_BINDING_BIDIRECTIONAL |
-		G_BINDING_SYNC_CREATE);
 
 	combo_box = e_shell_searchbar_get_filter_combo_box (searchbar);
 	g_signal_connect_object (
