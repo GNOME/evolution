@@ -373,6 +373,9 @@ shell_searchbar_entry_changed_cb (EShellSearchbar *searchbar)
 
 		action = E_SHELL_WINDOW_ACTION_SEARCH_QUICK (shell_window);
 		gtk_action_set_sensitive (action, sensitive);
+
+		action = E_SHELL_WINDOW_ACTION_SEARCH_CLEAR (shell_window);
+		gtk_action_set_sensitive (action, sensitive || e_shell_view_get_search_rule (shell_view) != NULL);
 	}
 }
 
