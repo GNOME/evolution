@@ -15,8 +15,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: evolution master\n"
 "Report-Msgid-Bugs-To: https://gitlab.gnome.org/GNOME/evolution/issues\n"
-"POT-Creation-Date: 2023-05-09 13:47+0000\n"
-"PO-Revision-Date: 2023-05-10 13:42+0700\n"
+"POT-Creation-Date: 2023-05-10 10:17+0000\n"
+"PO-Revision-Date: 2023-05-12 16:03+0700\n"
 "Last-Translator: Kukuh Syafaat <kukuhsyafaat@gnome.org>\n"
 "Language-Team: Indonesian <gnome@i15n.org>\n"
 "Language: id\n"
@@ -3875,7 +3875,7 @@ msgstr "Tulis Pesan"
 #: ../src/e-util/e-send-options.c:536 ../src/mail/importers/elm-importer.c:330
 #: ../src/mail/importers/kmail-importer.c:249
 #: ../src/mail/importers/pine-importer.c:423
-#: ../src/modules/mail/e-mail-shell-view.c:1608
+#: ../src/modules/mail/e-mail-shell-view.c:1563
 #: ../src/smime/gui/certificate-manager.c:1612
 msgid "Mail"
 msgstr "Surat"
@@ -4554,7 +4554,7 @@ msgstr ""
 #: ../src/e-util/evolution-source-viewer.c:829 ../src/e-util/e-web-view.c:4039
 #: ../src/e-util/gal-view-instance-save-as-dialog.c:265
 #: ../src/mail/e-mail-config-window.c:310 ../src/mail/e-mail-label-dialog.c:187
-#: ../src/mail/e-mail-tag-editor.c:160 ../src/mail/em-composer-utils.c:4231
+#: ../src/mail/e-mail-tag-editor.c:160 ../src/mail/em-composer-utils.c:4233
 #: ../src/mail/em-folder-selector.c:333 ../src/mail/mail-config.ui.h:2
 #: ../src/mail/mail.error.xml.h:16 ../src/mail/mail-send-recv.c:874
 #: ../src/mail/mail-send-recv.c:955 ../src/mail/mail-vfolder-ui.c:149
@@ -4817,7 +4817,7 @@ msgstr "Ulang Tahun"
 
 #. Other options
 #: ../src/addressbook/gui/contact-editor/contact-editor.ui.h:52
-#: ../src/mail/e-mail-config-defaults-page.c:883
+#: ../src/mail/e-mail-config-defaults-page.c:876
 #: ../src/modules/addressbook/autocompletion-config.c:127
 #: ../src/modules/calendar/e-calendar-preferences.ui.h:51
 msgid "Miscellaneous"
@@ -8185,8 +8185,8 @@ msgstr "Waktu awal bukan waktu yang valid"
 #: ../src/e-util/e-misc-utils.c:4194 ../src/e-util/e-misc-utils.c:4207
 #: ../src/e-util/e-misc-utils.c:4221 ../src/mail/e-mail-autoconfig.c:1129
 #: ../src/mail/e-mail-display.c:2787 ../src/mail/e-mail-notes.c:930
-#: ../src/mail/e-mail-reader-utils.c:805 ../src/mail/em-composer-utils.c:4027
-#: ../src/mail/em-composer-utils.c:4050 ../src/mail/mail-send-recv.c:598
+#: ../src/mail/e-mail-reader-utils.c:805 ../src/mail/em-composer-utils.c:4029
+#: ../src/mail/em-composer-utils.c:4052 ../src/mail/mail-send-recv.c:598
 #: ../src/mail/mail-send-recv.c:1493
 #: ../src/modules/accounts-window/e-accounts-window-editors.c:172
 #: ../src/plugins/face/face.c:175
@@ -16875,8 +16875,8 @@ msgstr "Buku alamat"
 msgid "Events"
 msgstr "Acara"
 
-#: ../src/e-util/e-webdav-browser.c:595 ../src/mail/em-folder-tree-model.c:1630
-#: ../src/mail/em-folder-tree-model.c:2018
+#: ../src/e-util/e-webdav-browser.c:595 ../src/mail/em-folder-tree-model.c:1629
+#: ../src/mail/em-folder-tree-model.c:2017
 #: ../src/modules/cal-config-weather/e-weather-location-entry.c:893
 msgid "Loading…"
 msgstr "Memuat…"
@@ -17372,45 +17372,45 @@ msgstr "URI folder “%s” tidak valid"
 #. Some local folders
 #: ../src/libemail-engine/e-mail-session.c:121
 #: ../src/mail/em-folder-properties.c:1505
-#: ../src/mail/em-folder-tree-model.c:1543
-#: ../src/mail/em-folder-tree-model.c:1573
+#: ../src/mail/em-folder-tree-model.c:1542
+#: ../src/mail/em-folder-tree-model.c:1572
 #: ../src/mail/importers/kmail-libs.c:138
-#: ../src/modules/mail/e-mail-shell-view-private.c:1036
-#: ../src/modules/mail/e-mail-shell-view-private.c:1047
+#: ../src/modules/mail/e-mail-shell-view-private.c:1027
+#: ../src/modules/mail/e-mail-shell-view-private.c:1038
 msgid "Inbox"
 msgstr "Kotak Masuk"
 
 #. E_MAIL_LOCAL_FOLDER_INBOX
 #: ../src/libemail-engine/e-mail-session.c:122
-#: ../src/mail/em-folder-tree-model.c:1537
-#: ../src/mail/em-folder-tree-model.c:1577
+#: ../src/mail/em-folder-tree-model.c:1536
+#: ../src/mail/em-folder-tree-model.c:1576
 #: ../src/mail/importers/kmail-libs.c:144
-#: ../src/modules/mail/e-mail-shell-view-private.c:1034
+#: ../src/modules/mail/e-mail-shell-view-private.c:1025
 msgid "Drafts"
 msgstr "Rancangan"
 
 #. E_MAIL_LOCAL_FOLDER_DRAFTS
 #: ../src/libemail-engine/e-mail-session.c:123
-#: ../src/mail/em-folder-tree-model.c:1549
+#: ../src/mail/em-folder-tree-model.c:1548
 #: ../src/mail/importers/kmail-libs.c:140
-#: ../src/modules/mail/e-mail-shell-view-private.c:1038
+#: ../src/modules/mail/e-mail-shell-view-private.c:1029
 msgid "Outbox"
 msgstr "Outbox"
 
 #. E_MAIL_LOCAL_FOLDER_OUTBOX
 #: ../src/libemail-engine/e-mail-session.c:124
-#: ../src/mail/em-folder-tree-model.c:1554
-#: ../src/mail/em-folder-tree-model.c:1576
+#: ../src/mail/em-folder-tree-model.c:1553
+#: ../src/mail/em-folder-tree-model.c:1575
 #: ../src/mail/importers/kmail-libs.c:142
-#: ../src/modules/mail/e-mail-shell-view-private.c:1040
+#: ../src/modules/mail/e-mail-shell-view-private.c:1031
 msgid "Sent"
 msgstr "Terkirim"
 
 #. E_MAIL_LOCAL_FOLDER_SENT
 #: ../src/libemail-engine/e-mail-session.c:125
-#: ../src/mail/em-folder-tree-model.c:1539
+#: ../src/mail/em-folder-tree-model.c:1538
 #: ../src/mail/importers/kmail-libs.c:146
-#: ../src/modules/mail/e-mail-shell-view-private.c:1042
+#: ../src/modules/mail/e-mail-shell-view-private.c:1033
 #: ../src/plugins/templates/org-gnome-templates.eplug.xml.h:1
 msgid "Templates"
 msgstr "Palet"
@@ -17759,7 +17759,7 @@ msgid "(No Subject)"
 msgstr "(Tidak Ada Subjek)"
 
 #: ../src/mail/e-mail-browser.c:536 ../src/mail/mail-dialogs.ui.h:5
-#: ../src/modules/mail/e-mail-shell-view-private.c:1534
+#: ../src/modules/mail/e-mail-shell-view-private.c:1525
 msgid "Forward"
 msgstr "Teruskan"
 
@@ -17769,13 +17769,13 @@ msgstr "Teruskan"
 #. * either of those, without too strongly implying one or the other.
 #: ../src/mail/e-mail-browser.c:547 ../src/mail/e-mail-reader.c:2958
 #: ../src/mail/e-mail-reader.c:5311 ../src/mail/e-mail-reader.c:5336
-#: ../src/modules/mail/e-mail-shell-view-private.c:1545
+#: ../src/modules/mail/e-mail-shell-view-private.c:1536
 msgid "Group Reply"
 msgstr "Balasan Grup"
 
 #: ../src/mail/e-mail-browser.c:559 ../src/mail/e-mail-reader.c:5419
 #: ../src/mail/mail-dialogs.ui.h:9
-#: ../src/modules/mail/e-mail-shell-view-private.c:1557
+#: ../src/modules/mail/e-mail-shell-view-private.c:1548
 msgid "Reply"
 msgstr "Balas"
 
@@ -17838,7 +17838,7 @@ msgid "Do Not Quote"
 msgstr "Jangan Kutip"
 
 #: ../src/mail/e-mail-config-composing-page.c:157
-#: ../src/mail/em-composer-utils.c:4343
+#: ../src/mail/em-composer-utils.c:4345
 msgid "Use global setting"
 msgstr "Gunakan pengaturan global"
 
@@ -17870,12 +17870,12 @@ msgid "Language for Reply and Forward attribution text"
 msgstr "Bahasa untuk Balas dan Teruskan teks atribusi"
 
 #: ../src/mail/e-mail-config-composing-page.c:524
-#: ../src/mail/em-composer-utils.c:4347 ../src/mail/mail-config.ui.h:23
+#: ../src/mail/em-composer-utils.c:4349 ../src/mail/mail-config.ui.h:23
 msgid "Start _typing at the bottom"
 msgstr "Menge_tik balasan dimulai dari bawah"
 
 #: ../src/mail/e-mail-config-composing-page.c:531
-#: ../src/mail/em-composer-utils.c:4350 ../src/mail/mail-config.ui.h:24
+#: ../src/mail/em-composer-utils.c:4352 ../src/mail/mail-config.ui.h:24
 msgid "_Keep signature above the original message"
 msgstr "Pertahan_kan tanda tangan di atas pesan asli"
 
@@ -17938,56 +17938,60 @@ msgstr "Pilih folder tempat menyimpan pesan draf."
 msgid "Sent _Messages Folder:"
 msgstr "Folder E_mail Terkirim:"
 
-#: ../src/mail/e-mail-config-defaults-page.c:725
+#: ../src/mail/e-mail-config-defaults-page.c:707
 msgid "Choose a folder for saving sent messages."
 msgstr "Pilih folder tempat menyimpan pesan yang telah terkirim."
 
-#: ../src/mail/e-mail-config-defaults-page.c:751
+#: ../src/mail/e-mail-config-defaults-page.c:727
+msgid "Save s_ent messages into the Sent folder"
+msgstr "Simpan pesan t_erkirim ke folder Terkirim"
+
+#: ../src/mail/e-mail-config-defaults-page.c:744
 msgid "S_ave replies in the folder of the message being replied to"
 msgstr "Simp_an jawaban dalam folder pesan yang dijawab"
 
-#: ../src/mail/e-mail-config-defaults-page.c:774
+#: ../src/mail/e-mail-config-defaults-page.c:767
 msgid "Archi_ve Folder:"
 msgstr "_Folder Arsip:"
 
-#: ../src/mail/e-mail-config-defaults-page.c:784
+#: ../src/mail/e-mail-config-defaults-page.c:777
 #: ../src/modules/mail/em-mailer-prefs.c:1837
 msgid "Choose a folder to archive messages to."
 msgstr "Pilih folder tempat mengarsipkan pesan."
 
-#: ../src/mail/e-mail-config-defaults-page.c:799
+#: ../src/mail/e-mail-config-defaults-page.c:792
 msgid "_Templates Folder:"
 msgstr "Folder _Templat:"
 
-#: ../src/mail/e-mail-config-defaults-page.c:809
+#: ../src/mail/e-mail-config-defaults-page.c:802
 msgid "Choose a folder to use for template messages."
 msgstr "Pilih folder yang akan digunakan untuk pesan Templat."
 
-#: ../src/mail/e-mail-config-defaults-page.c:827
+#: ../src/mail/e-mail-config-defaults-page.c:820
 msgid "_Restore Defaults"
 msgstr "Kembalikan _Baku"
 
-#: ../src/mail/e-mail-config-defaults-page.c:844
+#: ../src/mail/e-mail-config-defaults-page.c:837
 msgid "_Lookup Folders"
 msgstr "_Lihat Folder"
 
-#: ../src/mail/e-mail-config-defaults-page.c:862
+#: ../src/mail/e-mail-config-defaults-page.c:855
 msgid "Use a Real Folder for _Trash:"
 msgstr "Pakai Folder Nyata bagi _Tong Sampah:"
 
-#: ../src/mail/e-mail-config-defaults-page.c:863
+#: ../src/mail/e-mail-config-defaults-page.c:856
 msgid "Choose a folder for deleted messages."
 msgstr "Pilih folder bagi pesan yang dihapus."
 
-#: ../src/mail/e-mail-config-defaults-page.c:872
+#: ../src/mail/e-mail-config-defaults-page.c:865
 msgid "Use a Real Folder for _Junk:"
 msgstr "Pakai Folder Nyata bagi _Spam:"
 
-#: ../src/mail/e-mail-config-defaults-page.c:873
+#: ../src/mail/e-mail-config-defaults-page.c:866
 msgid "Choose a folder for junk messages."
 msgstr "Pilih folder bagi pesan sampah."
 
-#: ../src/mail/e-mail-config-defaults-page.c:991
+#: ../src/mail/e-mail-config-defaults-page.c:984
 msgid "Defaults"
 msgstr "Standar"
 
@@ -19054,7 +19058,7 @@ msgstr "Hapus Pesan Du_plikat"
 msgid "Checks selected messages for duplicates"
 msgstr "Periksa apakah ada duplikat pada pesan-pesan yang dipilih"
 
-#: ../src/mail/e-mail-reader.c:2944 ../src/mail/em-composer-utils.c:4283
+#: ../src/mail/e-mail-reader.c:2944 ../src/mail/em-composer-utils.c:4285
 #: ../src/mail/mail.error.xml.h:28
 #: ../src/modules/calendar/e-cal-shell-view-actions.c:1586
 #: ../src/modules/mail/e-mail-attachment-handler.c:396
@@ -19079,7 +19083,7 @@ msgstr "Pilih opsi balasan untuk pesan yang dipilih"
 msgid "Reply to the mailing list, or to all recipients"
 msgstr "Balas ke milis atau ke semua penerima"
 
-#: ../src/mail/e-mail-reader.c:2965 ../src/mail/em-composer-utils.c:4278
+#: ../src/mail/e-mail-reader.c:2965 ../src/mail/em-composer-utils.c:4280
 #: ../src/mail/mail.error.xml.h:26
 #: ../src/modules/mail/e-mail-attachment-handler.c:403
 msgid "Reply to _List"
@@ -19492,84 +19496,84 @@ msgid "-----Original Message-----"
 msgstr "-----Isi Pesan Asli-----"
 
 #. Translators: This is a reply attribution in the message reply subject. The %s is replaced with the subject of the original message. Both 'Re'-s in the 'reply-attribution' translation context should translate into the same string, the same as the ':' separator.
-#: ../src/mail/em-composer-utils.c:2982
+#: ../src/mail/em-composer-utils.c:2984
 #, c-format
 msgctxt "reply-attribution"
 msgid "Re: %s"
 msgstr "Bls: %s"
 
-#: ../src/mail/em-composer-utils.c:3601
+#: ../src/mail/em-composer-utils.c:3603
 msgid "an unknown sender"
 msgstr "pengirim tidak diketahui"
 
-#: ../src/mail/em-composer-utils.c:4229
+#: ../src/mail/em-composer-utils.c:4231
 msgid "Alternative Reply"
 msgstr "Balasan Alternatif"
 
-#: ../src/mail/em-composer-utils.c:4232
+#: ../src/mail/em-composer-utils.c:4234
 #: ../src/modules/calendar/e-cal-shell-view-actions.c:1579
 msgid "_Reply"
 msgstr "_Balas"
 
-#: ../src/mail/em-composer-utils.c:4245
+#: ../src/mail/em-composer-utils.c:4247
 msgid "Recipients:"
 msgstr "Penerima:"
 
-#: ../src/mail/em-composer-utils.c:4273
+#: ../src/mail/em-composer-utils.c:4275
 msgid "Reply to _Sender"
 msgstr "Balas ke Pengirim"
 
-#: ../src/mail/em-composer-utils.c:4295
+#: ../src/mail/em-composer-utils.c:4297
 msgid "Reply style:"
 msgstr "Cara membalas:"
 
 #. Translators: This is for "Toolbar Icon Size: Default"
-#: ../src/mail/em-composer-utils.c:4303
+#: ../src/mail/em-composer-utils.c:4305
 #: ../src/modules/appearance-settings/evolution-appearance-settings.c:253
 msgid "_Default"
 msgstr "_Bawaan"
 
-#: ../src/mail/em-composer-utils.c:4307
+#: ../src/mail/em-composer-utils.c:4309
 msgid "Attach_ment"
 msgstr "La_mpiran"
 
-#: ../src/mail/em-composer-utils.c:4311
+#: ../src/mail/em-composer-utils.c:4313
 msgid "Inline (_Outlook style)"
 msgstr "Inline (Gaya _Outlook)"
 
-#: ../src/mail/em-composer-utils.c:4315
+#: ../src/mail/em-composer-utils.c:4317
 msgid "_Quote"
 msgstr "_Kutip"
 
-#: ../src/mail/em-composer-utils.c:4319
+#: ../src/mail/em-composer-utils.c:4321
 msgid "Do _Not Quote"
 msgstr "Janga_n Kutip"
 
 #. Translators: The text is followed by the format combo with values like 'Plain Text', 'HTML' and so on
-#: ../src/mail/em-composer-utils.c:4330
+#: ../src/mail/em-composer-utils.c:4332
 msgid "_Format message in"
 msgstr "_Format pesan di"
 
-#: ../src/mail/em-composer-utils.c:4357
+#: ../src/mail/em-composer-utils.c:4359
 msgid "Apply t_emplate"
 msgstr "Terapkan t_emplat"
 
-#: ../src/mail/em-composer-utils.c:4369
+#: ../src/mail/em-composer-utils.c:4371
 msgid "Preserve original message S_ubject"
 msgstr "Pertahankan S_ubjek pesan asli"
 
-#: ../src/mail/em-composer-utils.c:4435
+#: ../src/mail/em-composer-utils.c:4437
 #, c-format
 msgid "one recipient"
 msgid_plural "%d recipients"
 msgstr[0] "%d penerima"
 
 #. FIXME GTK_WINDOW (composer)
-#: ../src/mail/em-composer-utils.c:4925
+#: ../src/mail/em-composer-utils.c:4927
 msgid "Posting destination"
 msgstr "Tujuan posting"
 
-#: ../src/mail/em-composer-utils.c:4930
+#: ../src/mail/em-composer-utils.c:4932
 msgid "Choose folders to post the message to."
 msgstr "Pilih folder tempat melakukan posting."
 
@@ -19836,13 +19840,13 @@ msgstr "Tidak dapat menyimpan pesan pada penyimpanan tingkat atas"
 msgid "UNMATCHED"
 msgstr "UNMATCHED"
 
-#: ../src/mail/em-folder-tree-model.c:1574
+#: ../src/mail/em-folder-tree-model.c:1573
 #: ../src/mail/importers/kmail-libs.c:148
-#: ../src/modules/mail/e-mail-shell-view-private.c:1044
+#: ../src/modules/mail/e-mail-shell-view-private.c:1035
 msgid "Trash"
 msgstr "Tong Sampah"
 
-#: ../src/mail/em-folder-tree-model.c:1575 ../src/mail/filtertypes.xml.in.h:41
+#: ../src/mail/em-folder-tree-model.c:1574 ../src/mail/filtertypes.xml.in.h:41
 #: ../src/mail/mail-config.ui.h:149 ../src/mail/vfoldertypes.xml.in.h:44
 msgid "Junk"
 msgstr "Pesan Sampah"
@@ -19902,16 +19906,16 @@ msgid "Unsubscribe From _All"
 msgstr "Berhenti Berlangganan Dari Semu_a"
 
 #: ../src/mail/em-subscription-editor.c:1315
-#: ../src/modules/mail/e-mail-shell-view-private.c:937
-#: ../src/modules/mail/e-mail-shell-view-private.c:969
-#: ../src/modules/mail/e-mail-shell-view-private.c:1013
+#: ../src/modules/mail/e-mail-shell-view-private.c:928
+#: ../src/modules/mail/e-mail-shell-view-private.c:960
+#: ../src/modules/mail/e-mail-shell-view-private.c:1004
 #, c-format
 msgid "%d unread, "
 msgid_plural "%d unread, "
 msgstr[0] "%d belum dibaca, "
 
 #: ../src/mail/em-subscription-editor.c:1319
-#: ../src/modules/mail/e-mail-shell-view-private.c:1023
+#: ../src/modules/mail/e-mail-shell-view-private.c:1014
 #, c-format
 msgid "%d total"
 msgid_plural "%d total"
@@ -26315,64 +26319,64 @@ msgstr "Folder Saat ini"
 msgid "Current Folder and Subfolders"
 msgstr "Pencarian Folder dan Subfolder"
 
-#: ../src/modules/mail/e-mail-shell-view.c:1039
+#: ../src/modules/mail/e-mail-shell-view.c:1056
 msgid "Current Folder and Subfolders Search"
 msgstr "Pencarian Folder dan Subfolder Saat Ini"
 
-#: ../src/modules/mail/e-mail-shell-view.c:1159
+#: ../src/modules/mail/e-mail-shell-view.c:1144
 msgid "All Account Search"
 msgstr "Pencarian Semua Akun"
 
-#: ../src/modules/mail/e-mail-shell-view.c:1267
+#: ../src/modules/mail/e-mail-shell-view.c:1220
 msgid "Account Search"
 msgstr "Pencarian Akun"
 
-#: ../src/modules/mail/e-mail-shell-view-private.c:930
+#: ../src/modules/mail/e-mail-shell-view-private.c:921
 #, c-format
 msgid "%d selected, "
 msgid_plural "%d selected, "
 msgstr[0] "%d yang terpilih, "
 
-#: ../src/modules/mail/e-mail-shell-view-private.c:945
-#: ../src/modules/mail/e-mail-shell-view-private.c:962
+#: ../src/modules/mail/e-mail-shell-view-private.c:936
+#: ../src/modules/mail/e-mail-shell-view-private.c:953
 #, c-format
 msgid "%d deleted"
 msgid_plural "%d deleted"
 msgstr[0] "%d dihapus"
 
-#: ../src/modules/mail/e-mail-shell-view-private.c:976
-#: ../src/modules/mail/e-mail-shell-view-private.c:982
+#: ../src/modules/mail/e-mail-shell-view-private.c:967
+#: ../src/modules/mail/e-mail-shell-view-private.c:973
 #, c-format
 msgid "%d junk"
 msgid_plural "%d junk"
 msgstr[0] "%d pesan sampah"
 
-#: ../src/modules/mail/e-mail-shell-view-private.c:989
+#: ../src/modules/mail/e-mail-shell-view-private.c:980
 #, c-format
 msgid "%d draft"
 msgid_plural "%d drafts"
 msgstr[0] "%d rancangan"
 
-#: ../src/modules/mail/e-mail-shell-view-private.c:995
+#: ../src/modules/mail/e-mail-shell-view-private.c:986
 #, c-format
 msgid "%d unsent"
 msgid_plural "%d unsent"
 msgstr[0] "%d belum dikirim"
 
-#: ../src/modules/mail/e-mail-shell-view-private.c:1001
+#: ../src/modules/mail/e-mail-shell-view-private.c:992
 #, c-format
 msgid "%d sent"
 msgid_plural "%d sent"
 msgstr[0] "%d terkirim"
 
-#: ../src/modules/mail/e-mail-shell-view-private.c:1018
+#: ../src/modules/mail/e-mail-shell-view-private.c:1009
 #, c-format
 msgid "%d unread"
 msgid_plural "%d unread"
 msgstr[0] "%d belum dibaca"
 
-#: ../src/modules/mail/e-mail-shell-view-private.c:1523
-#: ../src/modules/mail/e-mail-shell-view-private.c:1592
+#: ../src/modules/mail/e-mail-shell-view-private.c:1514
+#: ../src/modules/mail/e-mail-shell-view-private.c:1583
 msgid "Send / Receive"
 msgstr "Kirim / Terima"
 
@@ -28384,19 +28388,19 @@ msgstr "Baru"
 #. * allows the user to filter the current view.  Examples of
 #. * items that appear in the combo box are "Unread Messages",
 #. * "Important Messages", or "Active Appointments".
-#: ../src/shell/e-shell-searchbar.c:929
+#: ../src/shell/e-shell-searchbar.c:944
 msgid "Sho_w:"
 msgstr "_Tampilkan:"
 
 #. Translators: This is part of the quick search interface.
 #. * example: Search: [_______________] in [ Current Folder ]
-#: ../src/shell/e-shell-searchbar.c:955
+#: ../src/shell/e-shell-searchbar.c:970
 msgid "Sear_ch:"
 msgstr "_Cari:"
 
 #. Translators: This is part of the quick search interface.
 #. * example: Search: [_______________] in [ Current Folder ]
-#: ../src/shell/e-shell-searchbar.c:1023
+#: ../src/shell/e-shell-searchbar.c:1038
 msgid "i_n"
 msgstr "dala_m"
 
