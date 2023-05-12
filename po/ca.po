@@ -22,7 +22,7 @@ msgstr ""
 "Project-Id-Version: evolution\n"
 "Report-Msgid-Bugs-To: https://gitlab.gnome.org/GNOME/evolution/issues\n"
 "POT-Creation-Date: 2022-08-15 18:29+0000\n"
-"PO-Revision-Date: 2022-08-15 10:08+0200\n"
+"PO-Revision-Date: 2023-05-12 10:08+0200\n"
 "Last-Translator: Jordi Mas i Hernàndez <jmas@softcatala.org>\n"
 "Language-Team: Catalan <info@softcatala.org>\n"
 "Language: ca\n"
@@ -8335,7 +8335,7 @@ msgstr "Error desconegut"
 
 #: ../src/calendar/gui/e-comp-editor-event.c:526
 msgid "End date is not a valid date"
-msgstr "La d'ata d'acabament no és vàlida"
+msgstr "La data d'acabament no és vàlida"
 
 #: ../src/calendar/gui/e-comp-editor-event.c:528
 msgid "End time is not a valid time"
@@ -10729,7 +10729,7 @@ msgstr "Àfrica/Bujumbura"
 
 #: ../src/calendar/zones.h:37
 msgid "Africa/Cairo"
-msgstr "Àfrica/Cairo"
+msgstr "Àfrica/El Caire"
 
 #: ../src/calendar/zones.h:38
 msgid "Africa/Casablanca"
@@ -23349,7 +23349,7 @@ msgstr "Port:"
 #: ../src/modules/mail-config/e-mail-config-remote-accounts.c:247
 #: ../src/modules/mail-config/e-mail-config-smtp-backend.c:203
 msgid "Port number is not valid"
-msgstr "El número de port de no és vàlid"
+msgstr "El número de port no és vàlid"
 
 #: ../src/modules/book-config-ldap/evolution-book-config-ldap.c:690
 msgid "StartTLS (recommended)"
@@ -26164,7 +26164,7 @@ msgstr "networkmanager"
 #: ../src/modules/mail/e-mail-shell-backend.c:1026
 msgctxt "NetworkMonitor"
 msgid "Method to detect _online state:"
-msgstr "_Mètode per a detectat l'estat en línia:"
+msgstr "_Mètode per a detectar l'estat en línia:"
 
 #. Translators: The '%s' is replaced with the actual name of the
 #. GNetworkMonitor implementation
