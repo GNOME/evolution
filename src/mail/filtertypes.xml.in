@@ -546,6 +546,29 @@
   </input>
  </part>
 
+ <part name="follow-up-due-by">
+  <_title>Follow Up Due By</_title>
+  <input type="optionlist" name="date-spec-type">
+   <option value="before">
+    <_title>is before</_title>
+    <code>(and (not (= (user-tag "follow-up") "")) (not (= (user-tag "due-by") "")) (&lt; (compare-date (make-time (user-tag "due-by")) ${versus}) 0))</code>
+   </option>
+   <option value="after">
+    <_title>is after</_title>
+    <code>(and (not (= (user-tag "follow-up") "")) (not (= (user-tag "due-by") "")) (&gt; (compare-date (make-time (user-tag "due-by")) ${versus}) 0))</code>
+   </option>
+   <option value="is">
+    <_title>is</_title>
+    <code>(and (not (= (user-tag "follow-up") "")) (not (= (user-tag "due-by") "")) (= (compare-date (make-time (user-tag "due-by")) ${versus}) 0))</code>
+   </option>
+   <option value="is-not">
+    <_title>is not</_title>
+    <code>(and (not (= (user-tag "follow-up") "")) (not (= (user-tag "due-by") "")) (not (= (compare-date (make-time (user-tag "due-by")) ${versus}) 0)))</code>
+   </option>
+  </input>
+  <input type="datespec" name="versus"/>
+ </part>
+
  <part name="attachments">
   <_title>Attachments</_title>
   <input type="optionlist" name="match-type">
