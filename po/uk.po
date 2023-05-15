@@ -12,8 +12,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: evolution\n"
 "Report-Msgid-Bugs-To: https://gitlab.gnome.org/GNOME/evolution/issues\n"
-"POT-Creation-Date: 2023-05-10 10:17+0000\n"
-"PO-Revision-Date: 2023-05-10 22:24+0300\n"
+"POT-Creation-Date: 2023-05-15 16:28+0000\n"
+"PO-Revision-Date: 2023-05-15 21:52+0300\n"
 "Last-Translator: Yuri Chornoivan <yurchor@ukr.net>\n"
 "Language-Team: Ukrainian <trans-uk@lists.fedoraproject.org>\n"
 "Language: uk\n"
@@ -4589,7 +4589,7 @@ msgstr ""
 #: ../src/e-util/evolution-source-viewer.c:829 ../src/e-util/e-web-view.c:4039
 #: ../src/e-util/gal-view-instance-save-as-dialog.c:265
 #: ../src/mail/e-mail-config-window.c:310 ../src/mail/e-mail-label-dialog.c:187
-#: ../src/mail/e-mail-tag-editor.c:160 ../src/mail/em-composer-utils.c:4233
+#: ../src/mail/e-mail-tag-editor.c:160 ../src/mail/em-composer-utils.c:4235
 #: ../src/mail/em-folder-selector.c:333 ../src/mail/mail-config.ui.h:2
 #: ../src/mail/mail.error.xml.h:16 ../src/mail/mail-send-recv.c:874
 #: ../src/mail/mail-send-recv.c:955 ../src/mail/mail-vfolder-ui.c:149
@@ -4912,8 +4912,8 @@ msgid "Mailing Address"
 msgstr "Поштова адреса"
 
 #: ../src/addressbook/gui/contact-editor/contact-editor.ui.h:64
-#: ../src/mail/filtertypes.xml.in.h:50 ../src/mail/searchtypes.xml.in.h:52
-#: ../src/mail/vfoldertypes.xml.in.h:53
+#: ../src/mail/filtertypes.xml.in.h:51 ../src/mail/searchtypes.xml.in.h:53
+#: ../src/mail/vfoldertypes.xml.in.h:54
 msgid "Notes"
 msgstr "Примітки"
 
@@ -7062,24 +7062,24 @@ msgstr "Категорія"
 #: ../src/calendar/gui/tasktypes.xml.in.h:15
 #: ../src/em-format/e-mail-formatter-print.c:50
 #: ../src/em-format/e-mail-formatter-print-headers.c:161
-#: ../src/mail/filtertypes.xml.in.h:47 ../src/mail/searchtypes.xml.in.h:49
-#: ../src/mail/vfoldertypes.xml.in.h:50
+#: ../src/mail/filtertypes.xml.in.h:48 ../src/mail/searchtypes.xml.in.h:50
+#: ../src/mail/vfoldertypes.xml.in.h:51
 msgid "Attachments"
 msgstr "Долучення"
 
 #: ../src/calendar/gui/caltypes.xml.in.h:17
 #: ../src/calendar/gui/memotypes.xml.in.h:15
 #: ../src/calendar/gui/tasktypes.xml.in.h:16
-#: ../src/mail/filtertypes.xml.in.h:48 ../src/mail/searchtypes.xml.in.h:50
-#: ../src/mail/vfoldertypes.xml.in.h:51
+#: ../src/mail/filtertypes.xml.in.h:49 ../src/mail/searchtypes.xml.in.h:51
+#: ../src/mail/vfoldertypes.xml.in.h:52
 msgid "Exist"
 msgstr "існує"
 
 #: ../src/calendar/gui/caltypes.xml.in.h:18
 #: ../src/calendar/gui/memotypes.xml.in.h:16
 #: ../src/calendar/gui/tasktypes.xml.in.h:17
-#: ../src/mail/filtertypes.xml.in.h:49 ../src/mail/searchtypes.xml.in.h:51
-#: ../src/mail/vfoldertypes.xml.in.h:52
+#: ../src/mail/filtertypes.xml.in.h:50 ../src/mail/searchtypes.xml.in.h:52
+#: ../src/mail/vfoldertypes.xml.in.h:53
 msgid "Do Not Exist"
 msgstr "не існує"
 
@@ -17033,8 +17033,8 @@ msgstr "Ознаки"
 msgid "Identity"
 msgstr "Особисті дані"
 
-#: ../src/e-util/e-webdav-browser.c:511 ../src/mail/filtertypes.xml.in.h:64
-#: ../src/mail/searchtypes.xml.in.h:56 ../src/mail/vfoldertypes.xml.in.h:58
+#: ../src/e-util/e-webdav-browser.c:511 ../src/mail/filtertypes.xml.in.h:65
+#: ../src/mail/searchtypes.xml.in.h:57 ../src/mail/vfoldertypes.xml.in.h:59
 msgid "Address book"
 msgstr "Адресна книга"
 
@@ -18022,7 +18022,7 @@ msgid "Do Not Quote"
 msgstr "Не цитувати"
 
 #: ../src/mail/e-mail-config-composing-page.c:157
-#: ../src/mail/em-composer-utils.c:4345
+#: ../src/mail/em-composer-utils.c:4365
 msgid "Use global setting"
 msgstr "Використовувати загальні параметри"
 
@@ -18055,12 +18055,12 @@ msgstr ""
 "Мова для тексту пояснення у відповідях та переспрямованих повідомленнях"
 
 #: ../src/mail/e-mail-config-composing-page.c:524
-#: ../src/mail/em-composer-utils.c:4349 ../src/mail/mail-config.ui.h:23
+#: ../src/mail/em-composer-utils.c:4334 ../src/mail/mail-config.ui.h:23
 msgid "Start _typing at the bottom"
 msgstr "Починати _набір знизу"
 
 #: ../src/mail/e-mail-config-composing-page.c:531
-#: ../src/mail/em-composer-utils.c:4352 ../src/mail/mail-config.ui.h:24
+#: ../src/mail/em-composer-utils.c:4338 ../src/mail/mail-config.ui.h:24
 msgid "_Keep signature above the original message"
 msgstr "_Залишати підпис над оригінальним повідомленням"
 
@@ -18128,7 +18128,6 @@ msgid "Choose a folder for saving sent messages."
 msgstr "Виберіть теку для зберігання надісланих листів."
 
 #: ../src/mail/e-mail-config-defaults-page.c:727
-#| msgid "Move selected messages to another folder"
 msgid "Save s_ent messages into the Sent folder"
 msgstr "Зберігати _надіслані повідомлення до теки «Надіслані»"
 
@@ -18753,11 +18752,11 @@ msgstr "Заголовки"
 msgid "Page %d of %d"
 msgstr "Сторінка %d з %d"
 
-#: ../src/mail/e-mail-reader.c:360 ../src/mail/filtertypes.xml.in.h:68
+#: ../src/mail/e-mail-reader.c:360 ../src/mail/filtertypes.xml.in.h:69
 msgid "Move to Folder"
 msgstr "Перемістити в теку"
 
-#: ../src/mail/e-mail-reader.c:360 ../src/mail/filtertypes.xml.in.h:69
+#: ../src/mail/e-mail-reader.c:360 ../src/mail/filtertypes.xml.in.h:70
 msgid "Copy to Folder"
 msgstr "Скопіювати у теку"
 
@@ -19247,7 +19246,7 @@ msgstr "Вилучити п_одвійні повідомлення"
 msgid "Checks selected messages for duplicates"
 msgstr "Перевіряє, чи не повторювались вибрані повідомлення"
 
-#: ../src/mail/e-mail-reader.c:2944 ../src/mail/em-composer-utils.c:4285
+#: ../src/mail/e-mail-reader.c:2944 ../src/mail/em-composer-utils.c:4293
 #: ../src/mail/mail.error.xml.h:28
 #: ../src/modules/calendar/e-cal-shell-view-actions.c:1586
 #: ../src/modules/mail/e-mail-attachment-handler.c:396
@@ -19272,7 +19271,7 @@ msgstr "Обрати параметри відповіді для обраних
 msgid "Reply to the mailing list, or to all recipients"
 msgstr "Відповісти у список листування або всім одержувачам"
 
-#: ../src/mail/e-mail-reader.c:2965 ../src/mail/em-composer-utils.c:4280
+#: ../src/mail/e-mail-reader.c:2965 ../src/mail/em-composer-utils.c:4288
 #: ../src/mail/mail.error.xml.h:26
 #: ../src/modules/mail/e-mail-attachment-handler.c:403
 msgid "Reply to _List"
@@ -19458,7 +19457,7 @@ msgstr "Показати повідомлення з усіма заголовк
 msgid "Retrieving message"
 msgstr "Одержання листа"
 
-#: ../src/mail/e-mail-reader.c:5394 ../src/mail/filtertypes.xml.in.h:70
+#: ../src/mail/e-mail-reader.c:5394 ../src/mail/filtertypes.xml.in.h:71
 msgid "Delete"
 msgstr "Вилучити"
 
@@ -19739,63 +19738,63 @@ msgstr "На: %s"
 msgid "an unknown sender"
 msgstr "невідомий відправник"
 
-#: ../src/mail/em-composer-utils.c:4231
+#: ../src/mail/em-composer-utils.c:4233
 msgid "Alternative Reply"
 msgstr "Альтернативна відповідь"
 
-#: ../src/mail/em-composer-utils.c:4234
+#: ../src/mail/em-composer-utils.c:4236
 #: ../src/modules/calendar/e-cal-shell-view-actions.c:1579
 msgid "_Reply"
 msgstr "_Відповісти"
 
-#: ../src/mail/em-composer-utils.c:4247
+#: ../src/mail/em-composer-utils.c:4254
 msgid "Recipients:"
 msgstr "Отримувачі:"
 
-#: ../src/mail/em-composer-utils.c:4275
+#: ../src/mail/em-composer-utils.c:4283
 msgid "Reply to _Sender"
 msgstr "Відповісти _відправнику"
 
-#: ../src/mail/em-composer-utils.c:4297
+#: ../src/mail/em-composer-utils.c:4306
 msgid "Reply style:"
 msgstr "Стиль відповіді:"
 
 #. Translators: This is for "Toolbar Icon Size: Default"
-#: ../src/mail/em-composer-utils.c:4305
+#: ../src/mail/em-composer-utils.c:4315
 #: ../src/modules/appearance-settings/evolution-appearance-settings.c:253
 msgid "_Default"
 msgstr "_Типово"
 
-#: ../src/mail/em-composer-utils.c:4309
+#: ../src/mail/em-composer-utils.c:4319
 msgid "Attach_ment"
 msgstr "_Долучення"
 
-#: ../src/mail/em-composer-utils.c:4313
+#: ../src/mail/em-composer-utils.c:4323
 msgid "Inline (_Outlook style)"
 msgstr "Вбудовано (_стиль Outlook)"
 
-#: ../src/mail/em-composer-utils.c:4317
+#: ../src/mail/em-composer-utils.c:4327
 msgid "_Quote"
 msgstr "_Цитата"
 
-#: ../src/mail/em-composer-utils.c:4321
+#: ../src/mail/em-composer-utils.c:4331
 msgid "Do _Not Quote"
 msgstr "Не _цитувати"
 
 #. Translators: The text is followed by the format combo with values like 'Plain Text', 'HTML' and so on
-#: ../src/mail/em-composer-utils.c:4332
+#: ../src/mail/em-composer-utils.c:4352
 msgid "_Format message in"
 msgstr "_Форматувати повідомлення до"
 
-#: ../src/mail/em-composer-utils.c:4359
+#: ../src/mail/em-composer-utils.c:4374
 msgid "Apply t_emplate"
 msgstr "Застосувати ш_аблон"
 
-#: ../src/mail/em-composer-utils.c:4371
+#: ../src/mail/em-composer-utils.c:4387
 msgid "Preserve original message S_ubject"
 msgstr "Зберегти оригінальну т_ему повідомлення"
 
-#: ../src/mail/em-composer-utils.c:4437
+#: ../src/mail/em-composer-utils.c:4453
 #, c-format
 msgid "one recipient"
 msgid_plural "%d recipients"
@@ -19805,11 +19804,11 @@ msgstr[2] "%d отримувачів"
 msgstr[3] "один отримувач"
 
 #. FIXME GTK_WINDOW (composer)
-#: ../src/mail/em-composer-utils.c:4927
+#: ../src/mail/em-composer-utils.c:4943
 msgid "Posting destination"
 msgstr "Адреса призначення"
 
-#: ../src/mail/em-composer-utils.c:4932
+#: ../src/mail/em-composer-utils.c:4948
 msgid "Choose folders to post the message to."
 msgstr "Виберіть теку у яку надіслати повідомлення."
 
@@ -20472,134 +20471,140 @@ msgstr "— завершено"
 msgid "is not Completed"
 msgstr "— незавершено"
 
-#: ../src/mail/filtertypes.xml.in.h:51 ../src/mail/searchtypes.xml.in.h:53
-#: ../src/mail/vfoldertypes.xml.in.h:54
-msgid "Mailing list"
-msgstr "Список розсилки"
+#: ../src/mail/filtertypes.xml.in.h:47 ../src/mail/searchtypes.xml.in.h:49
+#: ../src/mail/vfoldertypes.xml.in.h:50
+#| msgid "Follow Up"
+msgid "Follow Up Due By"
+msgstr "До виконання строком до"
 
 #: ../src/mail/filtertypes.xml.in.h:52 ../src/mail/searchtypes.xml.in.h:54
 #: ../src/mail/vfoldertypes.xml.in.h:55
-msgid "Regex Match"
-msgstr "Відповідність рег.виразу"
+msgid "Mailing list"
+msgstr "Список розсилки"
 
 #: ../src/mail/filtertypes.xml.in.h:53 ../src/mail/searchtypes.xml.in.h:55
 #: ../src/mail/vfoldertypes.xml.in.h:56
+msgid "Regex Match"
+msgstr "Відповідність рег.виразу"
+
+#: ../src/mail/filtertypes.xml.in.h:54 ../src/mail/searchtypes.xml.in.h:56
+#: ../src/mail/vfoldertypes.xml.in.h:57
 msgid "Message Header"
 msgstr "Заголовок повідомлення"
 
-#: ../src/mail/filtertypes.xml.in.h:54
+#: ../src/mail/filtertypes.xml.in.h:55
 msgid "Source Account"
 msgstr "Обліковий рахунок відправника"
 
-#: ../src/mail/filtertypes.xml.in.h:55
+#: ../src/mail/filtertypes.xml.in.h:56
 msgid "Pipe to Program"
 msgstr "Канал до програми"
 
-#: ../src/mail/filtertypes.xml.in.h:56
+#: ../src/mail/filtertypes.xml.in.h:57
 msgid "returns"
 msgstr "повертає"
 
-#: ../src/mail/filtertypes.xml.in.h:57
+#: ../src/mail/filtertypes.xml.in.h:58
 msgid "does not return"
 msgstr "не повертає"
 
-#: ../src/mail/filtertypes.xml.in.h:58
+#: ../src/mail/filtertypes.xml.in.h:59
 msgid "returns greater than"
 msgstr "повертає більше ніж"
 
-#: ../src/mail/filtertypes.xml.in.h:59
+#: ../src/mail/filtertypes.xml.in.h:60
 msgid "returns less than"
 msgstr "повертає менше ніж"
 
-#: ../src/mail/filtertypes.xml.in.h:60
+#: ../src/mail/filtertypes.xml.in.h:61
 msgid "Junk Test"
 msgstr "Перевірка на спам"
 
-#: ../src/mail/filtertypes.xml.in.h:61
+#: ../src/mail/filtertypes.xml.in.h:62
 msgid "Message is Junk"
 msgstr "Повідомлення є спамом"
 
-#: ../src/mail/filtertypes.xml.in.h:62
+#: ../src/mail/filtertypes.xml.in.h:63
 msgid "Message is not Junk"
 msgstr "Повідомлення не є спамом"
 
-#: ../src/mail/filtertypes.xml.in.h:63 ../src/mail/vfoldertypes.xml.in.h:57
+#: ../src/mail/filtertypes.xml.in.h:64 ../src/mail/vfoldertypes.xml.in.h:58
 msgid "Message Location"
 msgstr "Місцезнаходження повідомлення"
 
-#: ../src/mail/filtertypes.xml.in.h:65 ../src/mail/searchtypes.xml.in.h:57
-#: ../src/mail/vfoldertypes.xml.in.h:59
+#: ../src/mail/filtertypes.xml.in.h:66 ../src/mail/searchtypes.xml.in.h:58
+#: ../src/mail/vfoldertypes.xml.in.h:60
 msgid "contains Sender"
 msgstr "містить відправника"
 
-#: ../src/mail/filtertypes.xml.in.h:66 ../src/mail/searchtypes.xml.in.h:58
-#: ../src/mail/vfoldertypes.xml.in.h:60
+#: ../src/mail/filtertypes.xml.in.h:67 ../src/mail/searchtypes.xml.in.h:59
+#: ../src/mail/vfoldertypes.xml.in.h:61
 msgid "does not contain Sender"
 msgstr "не містить відправника"
 
-#: ../src/mail/filtertypes.xml.in.h:67 ../src/mail/searchtypes.xml.in.h:59
-#: ../src/mail/vfoldertypes.xml.in.h:61
+#: ../src/mail/filtertypes.xml.in.h:68 ../src/mail/searchtypes.xml.in.h:60
+#: ../src/mail/vfoldertypes.xml.in.h:62
 msgid "Match All"
 msgstr "Відповідає усім"
 
-#: ../src/mail/filtertypes.xml.in.h:71
+#: ../src/mail/filtertypes.xml.in.h:72
 msgid "Stop Processing"
 msgstr "Зупинити обробку"
 
-#: ../src/mail/filtertypes.xml.in.h:72
+#: ../src/mail/filtertypes.xml.in.h:73
 msgid "Set Label"
 msgstr "Встановити позначку"
 
-#: ../src/mail/filtertypes.xml.in.h:73
+#: ../src/mail/filtertypes.xml.in.h:74
 msgid "Assign Color"
 msgstr "Призначити колір"
 
-#: ../src/mail/filtertypes.xml.in.h:74
+#: ../src/mail/filtertypes.xml.in.h:75
 msgid "Unset Color"
 msgstr "Невказаний колір"
 
-#: ../src/mail/filtertypes.xml.in.h:75
+#: ../src/mail/filtertypes.xml.in.h:76
 msgid "Assign Score"
 msgstr "Призначити вагу"
 
-#: ../src/mail/filtertypes.xml.in.h:76
+#: ../src/mail/filtertypes.xml.in.h:77
 msgid "Adjust Score"
 msgstr "Скоригувати вагу"
 
-#: ../src/mail/filtertypes.xml.in.h:77
+#: ../src/mail/filtertypes.xml.in.h:78
 msgid "Set Status"
 msgstr "Встановити стан"
 
-#: ../src/mail/filtertypes.xml.in.h:78 ../src/mail/searchtypes.xml.in.h:40
+#: ../src/mail/filtertypes.xml.in.h:79 ../src/mail/searchtypes.xml.in.h:40
 #: ../src/mail/vfoldertypes.xml.in.h:40
 msgid "Deleted"
 msgstr "Вилучено"
 
-#: ../src/mail/filtertypes.xml.in.h:79
+#: ../src/mail/filtertypes.xml.in.h:80
 msgid "Unset Status"
 msgstr "Скинути стан"
 
-#: ../src/mail/filtertypes.xml.in.h:80
+#: ../src/mail/filtertypes.xml.in.h:81
 msgid "Learn as Junk"
 msgstr "Вивчити як _спам"
 
-#: ../src/mail/filtertypes.xml.in.h:81
+#: ../src/mail/filtertypes.xml.in.h:82
 msgid "Beep"
 msgstr "Звукове повідомлення"
 
-#: ../src/mail/filtertypes.xml.in.h:82
+#: ../src/mail/filtertypes.xml.in.h:83
 msgid "Play Sound"
 msgstr "Відтворити звук"
 
-#: ../src/mail/filtertypes.xml.in.h:83
+#: ../src/mail/filtertypes.xml.in.h:84
 msgid "Run Program"
 msgstr "Запустити програму"
 
-#: ../src/mail/filtertypes.xml.in.h:84
+#: ../src/mail/filtertypes.xml.in.h:85
 msgid "Forward to"
 msgstr "Переслати"
 
-#: ../src/mail/filtertypes.xml.in.h:85
+#: ../src/mail/filtertypes.xml.in.h:86
 msgid "with"
 msgstr "з"
 
@@ -22486,36 +22491,36 @@ msgstr "Пошта отримувачів"
 msgid "Any header"
 msgstr "Будь-який заголовок"
 
-#: ../src/mail/searchtypes.xml.in.h:60
+#: ../src/mail/searchtypes.xml.in.h:61
 msgid "Subject or Addresses contains"
 msgstr "Тема або адреси містять"
 
-#: ../src/mail/searchtypes.xml.in.h:61
+#: ../src/mail/searchtypes.xml.in.h:62
 #: ../src/modules/mail/e-mail-shell-view-actions.c:2129
 msgid "Recipients contain"
 msgstr "Отримувач містять"
 
-#: ../src/mail/searchtypes.xml.in.h:62
+#: ../src/mail/searchtypes.xml.in.h:63
 #: ../src/modules/mail/e-mail-shell-view-actions.c:2122
 msgid "Message contains"
 msgstr "Повідомлення містить"
 
-#: ../src/mail/searchtypes.xml.in.h:63
+#: ../src/mail/searchtypes.xml.in.h:64
 #: ../src/modules/mail/e-mail-shell-view-actions.c:2143
 msgid "Subject contains"
 msgstr "Тема містить"
 
-#: ../src/mail/searchtypes.xml.in.h:64
+#: ../src/mail/searchtypes.xml.in.h:65
 #: ../src/modules/mail/e-mail-shell-view-actions.c:2136
 msgid "Sender contains"
 msgstr "Відправник містить"
 
-#: ../src/mail/searchtypes.xml.in.h:65
+#: ../src/mail/searchtypes.xml.in.h:66
 #: ../src/modules/mail/e-mail-shell-view-actions.c:2108
 msgid "Body contains"
 msgstr "Вміст містить"
 
-#: ../src/mail/searchtypes.xml.in.h:66
+#: ../src/mail/searchtypes.xml.in.h:67
 #: ../src/modules/mail/e-mail-shell-view-actions.c:2115
 msgid "Free form expression"
 msgstr "Вираз у довільній формі"
