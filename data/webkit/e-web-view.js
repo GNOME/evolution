@@ -1177,9 +1177,26 @@ Evo.unsetHTMLColors = function(doc)
 	}
 }
 
+Evo.mailDisplaySizeChanged = function(entries, observer)
+{
+	for (const entry of entries) {
+		if (entry.target.ownerDocument.defaultView.frameElement && entry.borderBoxSize?.length > 0) {
+			var value = entry.borderBoxSize[0].blockSize;
+			entry.target.ownerDocument.defaultView.frameElement.height = 10;
+			if (value < entry.target.ownerDocument.scrollingElement.scrollHeight)
+				value = entry.target.ownerDocument.scrollingElement.scrollHeight;
+			if (entry.target.ownerDocument.scrollingElement.scrollWidth > entry.target.ownerDocument.scrollingElement.clientWidth)
+				value += 20;
+			entry.target.ownerDocument.defaultView.frameElement.height = value;
+		}
+	}
+}
+
 Evo.MailDisplayBindDOM = function(iframe_id, markCitationColor)
 {
 	Evo.markCitationColor = markCitationColor != "" ? markCitationColor : null;
+	if (!Evo.mailDisplayResizeObserver)
+		Evo.mailDisplayResizeObserver = new ResizeObserver(Evo.mailDisplaySizeChanged);
 
 	var traversar = {
 		unstyleBlockquotes : function(doc) {
@@ -1287,6 +1304,11 @@ Evo.MailDisplayBindDOM = function(iframe_id, markCitationColor)
 					"a.evo-awrap",
 					"white-space: normal; word-break: break-all;");
 				Evo.unsetHTMLColors(doc);
+
+				if (doc.body) {
+					Evo.mailDisplayResizeObserver.observe(doc.body);
+					doc.body.onresize = Evo.mailDisplayResized;
+				}
 			}
 
 			return true;
@@ -1302,6 +1324,7 @@ Evo.MailDisplayBindDOM = function(iframe_id, markCitationColor)
 	Evo.mailDisplayUpdateMagicSpacebarState();
 
 	if (document.body) {
+		Evo.mailDisplayResizeObserver.observe(document.body);
 		document.body.onresize = Evo.mailDisplayResized;
 		document.body.onscroll = Evo.mailDisplayUpdateMagicSpacebarState;
 	}
