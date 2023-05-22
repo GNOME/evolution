@@ -18,9 +18,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: evolution master\n"
 "Report-Msgid-Bugs-To: https://gitlab.gnome.org/GNOME/evolution/issues\n"
-"POT-Creation-Date: 2023-04-18 16:30+0000\n"
-"PO-Revision-Date: 2023-04-19 12:17+0300\n"
-"Last-Translator: Aleksandr Melman <Alexmelman88@gmail.com>\n"
+"POT-Creation-Date: 2023-05-17 04:30+0000\n"
+"PO-Revision-Date: 2023-05-18 06:43+1000\n"
+"Last-Translator: Ser82-png <asvmail.as@gmail.com>\n"
 "Language-Team: Russian <gnome-cyr@gnome.org>\n"
 "Language: ru\n"
 "MIME-Version: 1.0\n"
@@ -28,7 +28,7 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && "
 "n%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2);\n"
-"X-Generator: Poedit 3.2.2\n"
+"X-Generator: Poedit 3.0.1\n"
 
 #: ../data/org.gnome.evolution.addressbook.gschema.xml.in.h:1
 msgid "Enable address formatting"
@@ -212,7 +212,7 @@ msgstr "Отображать ли прочие сведения в редакт�
 
 #: ../data/org.gnome.evolution.addressbook.gschema.xml.in.h:39
 msgid "Show notes-tab"
-msgstr "Показать вкладку Заметки"
+msgstr "Показать вкладку «Заметки»"
 
 #: ../data/org.gnome.evolution.addressbook.gschema.xml.in.h:40
 msgid "Whether to show notes in the editor"
@@ -220,7 +220,7 @@ msgstr "Отображать ли заметки в редакторе"
 
 #: ../data/org.gnome.evolution.addressbook.gschema.xml.in.h:41
 msgid "Show Certificates tab"
-msgstr "Показать вкладку Сертификаты"
+msgstr "Показать вкладку «Сертификаты»"
 
 #: ../data/org.gnome.evolution.addressbook.gschema.xml.in.h:42
 msgid "Whether to show Certificates tab in the editor"
@@ -1126,12 +1126,12 @@ msgid ""
 "A pair option for \"shorten-time\" setting, to change the end time or the "
 "start time"
 msgstr ""
-"Парная опция для настройки \"сократить время\", чтобы изменить время "
-"окончания или время начала"
+"Парная опция для настройки «сократить время», чтобы изменить время окончания "
+"или время начала"
 
 #: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:178
 msgid "Background color for the 'today' day"
-msgstr "Цвет фона для 'сегодняшнего' дня"
+msgstr "Цвет фона для «сегодняшнего» дня"
 
 #: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:179
 msgid ""
@@ -1868,7 +1868,7 @@ msgstr "Включить использование одинаковых пар�
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:106
 msgid "This is considered only in combination with the 'global-view-setting'."
-msgstr "Это рассматривается только в сочетании с ‘global-view-setting’."
+msgstr "Это рассматривается только в сочетании с «global-view-setting»."
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:107
 msgid "Mark citations in the message “Preview”"
@@ -3166,6 +3166,20 @@ msgstr ""
 "Этот ключ устарел в версии 3.10 и больше не должен использоваться. "
 "Используйте вместо него «browser-close-on-reply-policy»."
 
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:334
+msgid "Prompt before send when attachment changed on the disk"
+msgstr ""
+"Спрашивать, прежде чем отправлять вложение, в которое внесены изменения на "
+"диске"
+
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:335
+msgid ""
+"Ask whether can send a message with attachments which changed on the disk "
+"since they had been attached to the message."
+msgstr ""
+"Спрашивать, можно ли отправить сообщение с вложениями, в которые были "
+"внесены изменения на диске после того, как они были прикреплены к сообщению."
+
 #. Translators: This is a list of words for the attach reminder plugin to look
 #. for in a message body. Please use any number of words here in your language that might
 #. indicate that an attachment should have been attached to the message.
@@ -3480,9 +3494,9 @@ msgid ""
 "be part of the address only and the sender is a full email address, which "
 "should match the From address precisely."
 msgstr ""
-"Список имеет формат 'recipient&lt;tab&gt;sender', где recipient может быть "
-"только частью адреса, а sender - полный адрес электронной почты, который "
-"должен точно соответствовать адресу From."
+"Список имеет формат «recipient&lt;tab&gt;sender», где «recipient» может быть "
+"только частью адреса, а «sender» - полный адрес электронной почты, который "
+"должен точно соответствовать адресу «From»."
 
 #: ../data/org.gnome.evolution.plugin.sender-validator.gschema.xml.in.h:4
 msgid "List of assignments for an account, which recipients it accepts"
@@ -3801,7 +3815,7 @@ msgstr "Включен ли модуль выделения текста"
 
 #: ../data/org.gnome.evolution.text-highlight.gschema.xml.in.h:2
 msgid "Theme name to use, defaults to “bclear”"
-msgstr "Имя используемой темы, по умолчанию «bclear»"
+msgstr "Название используемой темы, по умолчанию «bclear»"
 
 #: ../data/org.gnome.evolution.text-highlight.gschema.xml.in.h:3
 msgid ""
@@ -3907,7 +3921,7 @@ msgstr "Новое сообщение"
 #: ../src/e-util/e-send-options.c:536 ../src/mail/importers/elm-importer.c:330
 #: ../src/mail/importers/kmail-importer.c:249
 #: ../src/mail/importers/pine-importer.c:423
-#: ../src/modules/mail/e-mail-shell-view.c:1608
+#: ../src/modules/mail/e-mail-shell-view.c:1563
 #: ../src/smime/gui/certificate-manager.c:1612
 msgid "Mail"
 msgstr "Почта"
@@ -4410,7 +4424,7 @@ msgstr ""
 #: ../src/mail/e-mail-label-manager.c:379
 #: ../src/mail/em-folder-properties.c:1391
 #: ../src/mail/em-vfolder-editor-rule.c:405
-#: ../src/mail/em-vfolder-editor-rule.c:634 ../src/mail/mail-config.ui.h:64
+#: ../src/mail/em-vfolder-editor-rule.c:634 ../src/mail/mail-config.ui.h:66
 #: ../src/modules/mail/em-composer-prefs.c:420
 #: ../src/modules/rss/evolution/e-rss-preferences.c:1739
 #: ../src/plugins/attachment-reminder/attachment-reminder.c:559
@@ -4529,8 +4543,8 @@ msgid ""
 "Contact “{0}” already exists in the address book “{1}”. Do you want to add a "
 "copy of it instead?"
 msgstr ""
-"Контакт \"{0}\" уже существует в адресной книге \"{1}\". Хотите ли вы "
-"добавить его копию вместо этого?"
+"Контакт «{0}» уже существует в адресной книге «{1}». Хотите ли вы добавить "
+"его копию вместо этого?"
 
 #. This is only shown if the EActivity has a GCancellable.
 #. no flags
@@ -4556,7 +4570,7 @@ msgstr ""
 #: ../src/e-util/e-attachment-store.c:658
 #: ../src/e-util/e-attachment-store.c:668
 #: ../src/e-util/e-attachment-store.c:848
-#: ../src/e-util/e-attachment-store.c:854 ../src/e-util/e-attachment-view.c:301
+#: ../src/e-util/e-attachment-store.c:854 ../src/e-util/e-attachment-view.c:348
 #: ../src/e-util/e-categories-dialog.c:81 ../src/e-util/e-category-editor.c:168
 #: ../src/e-util/e-category-editor.c:252 ../src/e-util/e-charset-combo-box.c:99
 #: ../src/e-util/e-collection-account-wizard.c:240
@@ -4576,10 +4590,10 @@ msgstr ""
 #: ../src/e-util/e-source-selector-dialog.c:336
 #: ../src/e-util/e-table-config.c:540 ../src/e-util/e-table-config.ui.h:3
 #: ../src/e-util/e-timezone-dialog.ui.h:2
-#: ../src/e-util/evolution-source-viewer.c:829 ../src/e-util/e-web-view.c:4026
+#: ../src/e-util/evolution-source-viewer.c:829 ../src/e-util/e-web-view.c:4039
 #: ../src/e-util/gal-view-instance-save-as-dialog.c:265
 #: ../src/mail/e-mail-config-window.c:310 ../src/mail/e-mail-label-dialog.c:187
-#: ../src/mail/e-mail-tag-editor.c:160 ../src/mail/em-composer-utils.c:4158
+#: ../src/mail/e-mail-tag-editor.c:160 ../src/mail/em-composer-utils.c:4235
 #: ../src/mail/em-folder-selector.c:333 ../src/mail/mail-config.ui.h:2
 #: ../src/mail/mail.error.xml.h:16 ../src/mail/mail-send-recv.c:874
 #: ../src/mail/mail-send-recv.c:955 ../src/mail/mail-vfolder-ui.c:149
@@ -4670,7 +4684,7 @@ msgstr "Параметры"
 #: ../src/e-util/e-attachment-store.c:848
 #: ../src/e-util/e-attachment-store.c:855
 #: ../src/e-util/e-mail-signature-script-dialog.c:364
-#: ../src/e-util/e-webdav-browser.c:2633 ../src/e-util/e-web-view.c:4026
+#: ../src/e-util/e-webdav-browser.c:2633 ../src/e-util/e-web-view.c:4039
 #: ../src/e-util/gal-view-instance-save-as-dialog.c:266
 #: ../src/modules/rss/evolution/e-rss-preferences.c:865
 #: ../src/shell/e-shell-content.c:642 ../src/shell/e-shell-utils.c:133
@@ -4842,7 +4856,7 @@ msgstr "День рождения"
 
 #. Other options
 #: ../src/addressbook/gui/contact-editor/contact-editor.ui.h:52
-#: ../src/mail/e-mail-config-defaults-page.c:883
+#: ../src/mail/e-mail-config-defaults-page.c:876
 #: ../src/modules/addressbook/autocompletion-config.c:127
 #: ../src/modules/calendar/e-calendar-preferences.ui.h:51
 msgid "Miscellaneous"
@@ -4902,8 +4916,8 @@ msgid "Mailing Address"
 msgstr "Почтовый адрес"
 
 #: ../src/addressbook/gui/contact-editor/contact-editor.ui.h:64
-#: ../src/mail/filtertypes.xml.in.h:50 ../src/mail/searchtypes.xml.in.h:52
-#: ../src/mail/vfoldertypes.xml.in.h:53
+#: ../src/mail/filtertypes.xml.in.h:51 ../src/mail/searchtypes.xml.in.h:53
+#: ../src/mail/vfoldertypes.xml.in.h:54
 msgid "Notes"
 msgstr "Заметки"
 
@@ -4918,14 +4932,14 @@ msgstr "До_бавить X.509"
 #: ../src/addressbook/gui/contact-editor/contact-editor.ui.h:67
 #: ../src/addressbook/gui/contact-list-editor/contact-list-editor.ui.h:11
 #: ../src/calendar/gui/e-comp-editor-page-general.c:1513
-#: ../src/e-util/e-attachment-view.c:355 ../src/e-util/e-filter-rule.c:410
+#: ../src/e-util/e-attachment-view.c:409 ../src/e-util/e-filter-rule.c:410
 #: ../src/e-util/e-mail-signature-manager.c:364
 #: ../src/e-util/e-name-selector-dialog.c:1032
 #: ../src/e-util/filter.error.xml.h:18 ../src/e-util/filter.ui.h:27
 #: ../src/mail/e-mail-config-identity-page.c:876
 #: ../src/mail/e-mail-label-manager.c:397 ../src/mail/em-filter-rule.c:679
 #: ../src/mail/em-folder-properties.c:1397
-#: ../src/mail/em-vfolder-editor-rule.c:639 ../src/mail/mail-config.ui.h:65
+#: ../src/mail/em-vfolder-editor-rule.c:639 ../src/mail/mail-config.ui.h:67
 #: ../src/modules/rss/evolution/e-rss-preferences.c:1758
 #: ../src/plugins/attachment-reminder/attachment-reminder.c:569
 #: ../src/plugins/email-custom-header/email-custom-header.c:838
@@ -5247,7 +5261,7 @@ msgstr "Редактор списка контактов"
 
 #: ../src/addressbook/gui/contact-list-editor/contact-list-editor.ui.h:4
 msgid "_List name:"
-msgstr "Имя _списка:"
+msgstr "Название _списка:"
 
 #: ../src/addressbook/gui/contact-list-editor/contact-list-editor.ui.h:6
 msgid "Members"
@@ -5350,17 +5364,17 @@ msgid "Copy _Email Address"
 msgstr "Копировать адрес _эл. почты"
 
 #: ../src/addressbook/gui/widgets/eab-contact-display.c:188
-#: ../src/e-util/e-web-view.c:430
+#: ../src/e-util/e-web-view.c:431
 msgid "Copy the email address to the clipboard"
 msgstr "Копировать адрес эл. почты в буфер обмена"
 
 #: ../src/addressbook/gui/widgets/eab-contact-display.c:193
-#: ../src/e-util/e-web-view.c:442
+#: ../src/e-util/e-web-view.c:443
 msgid "_Send New Message To…"
 msgstr "Отправить новое сообщение в…"
 
 #: ../src/addressbook/gui/widgets/eab-contact-display.c:195
-#: ../src/e-util/e-web-view.c:444
+#: ../src/e-util/e-web-view.c:445
 msgid "Send a mail message to this address"
 msgstr "Отправить сообщение этому адресату"
 
@@ -6919,7 +6933,7 @@ msgid ""
 "The event “{0}” will be detached from its series and saved as a new "
 "standalone event."
 msgstr ""
-"Событие “{0}” будет отделено от своей серии и сохранено как новое отдельное "
+"Событие «{0}» будет отделено от своей серии и сохранено как новое отдельное "
 "событие."
 
 #: ../src/calendar/calendar.error.xml.h:182
@@ -7047,24 +7061,24 @@ msgstr "Категория"
 #: ../src/calendar/gui/tasktypes.xml.in.h:15
 #: ../src/em-format/e-mail-formatter-print.c:50
 #: ../src/em-format/e-mail-formatter-print-headers.c:161
-#: ../src/mail/filtertypes.xml.in.h:47 ../src/mail/searchtypes.xml.in.h:49
-#: ../src/mail/vfoldertypes.xml.in.h:50
+#: ../src/mail/filtertypes.xml.in.h:48 ../src/mail/searchtypes.xml.in.h:50
+#: ../src/mail/vfoldertypes.xml.in.h:51
 msgid "Attachments"
 msgstr "Вложения"
 
 #: ../src/calendar/gui/caltypes.xml.in.h:17
 #: ../src/calendar/gui/memotypes.xml.in.h:15
 #: ../src/calendar/gui/tasktypes.xml.in.h:16
-#: ../src/mail/filtertypes.xml.in.h:48 ../src/mail/searchtypes.xml.in.h:50
-#: ../src/mail/vfoldertypes.xml.in.h:51
+#: ../src/mail/filtertypes.xml.in.h:49 ../src/mail/searchtypes.xml.in.h:51
+#: ../src/mail/vfoldertypes.xml.in.h:52
 msgid "Exist"
 msgstr "Существует"
 
 #: ../src/calendar/gui/caltypes.xml.in.h:18
 #: ../src/calendar/gui/memotypes.xml.in.h:16
 #: ../src/calendar/gui/tasktypes.xml.in.h:17
-#: ../src/mail/filtertypes.xml.in.h:49 ../src/mail/searchtypes.xml.in.h:51
-#: ../src/mail/vfoldertypes.xml.in.h:52
+#: ../src/mail/filtertypes.xml.in.h:50 ../src/mail/searchtypes.xml.in.h:52
+#: ../src/mail/vfoldertypes.xml.in.h:53
 msgid "Do Not Exist"
 msgstr "Не существует"
 
@@ -7299,7 +7313,7 @@ msgstr "Завершено: %s"
 
 #: ../src/calendar/gui/comp-util.c:2427 ../src/calendar/gui/e-to-do-pane.c:616
 #: ../src/e-util/e-misc-utils.c:4852 ../src/e-util/e-text.c:566
-#: ../src/e-util/e-web-view.c:4212
+#: ../src/e-util/e-web-view.c:4225
 msgid "…"
 msgstr "…"
 
@@ -8227,9 +8241,9 @@ msgstr "Время начала не является допустимым вр�
 #: ../src/e-util/e-misc-utils.c:4151 ../src/e-util/e-misc-utils.c:4159
 #: ../src/e-util/e-misc-utils.c:4194 ../src/e-util/e-misc-utils.c:4207
 #: ../src/e-util/e-misc-utils.c:4221 ../src/mail/e-mail-autoconfig.c:1129
-#: ../src/mail/e-mail-display.c:2782 ../src/mail/e-mail-notes.c:930
-#: ../src/mail/e-mail-reader-utils.c:805 ../src/mail/em-composer-utils.c:3954
-#: ../src/mail/em-composer-utils.c:3977 ../src/mail/mail-send-recv.c:598
+#: ../src/mail/e-mail-display.c:2787 ../src/mail/e-mail-notes.c:930
+#: ../src/mail/e-mail-reader-utils.c:805 ../src/mail/em-composer-utils.c:4029
+#: ../src/mail/em-composer-utils.c:4052 ../src/mail/mail-send-recv.c:598
 #: ../src/mail/mail-send-recv.c:1493
 #: ../src/modules/accounts-window/e-accounts-window-editors.c:172
 #: ../src/plugins/face/face.c:175
@@ -8425,13 +8439,13 @@ msgstr[1] "Вложения"
 msgstr[2] "Вложений"
 
 #: ../src/calendar/gui/e-comp-editor-page-attachments.c:201
-#: ../src/e-util/e-attachment.c:2469
+#: ../src/e-util/e-attachment.c:2579
 #, c-format
 msgid "Could not load “%s”"
 msgstr "Не удалось загрузить «%s»"
 
 #: ../src/calendar/gui/e-comp-editor-page-attachments.c:203
-#: ../src/e-util/e-attachment.c:2472
+#: ../src/e-util/e-attachment.c:2582
 #, c-format
 msgid "Could not load the attachment"
 msgstr "Не удалось загрузить вложение"
@@ -8461,7 +8475,7 @@ msgstr "_Вложение…"
 
 #: ../src/calendar/gui/e-comp-editor-page-attachments.c:625
 #: ../src/composer/e-composer-actions.c:328
-#: ../src/e-util/e-attachment-view.c:343
+#: ../src/e-util/e-attachment-view.c:390
 msgid "Attach a file"
 msgstr "Прикрепить файл"
 
@@ -8594,7 +8608,7 @@ msgstr "_Участники…"
 #: ../src/e-util/e-webdav-browser.c:2850 ../src/e-util/filter.ui.h:26
 #: ../src/mail/e-mail-account-manager.c:730 ../src/mail/e-mail-browser.c:217
 #: ../src/mail/e-mail-label-manager.c:388
-#: ../src/mail/em-folder-properties.c:1394 ../src/mail/mail-config.ui.h:69
+#: ../src/mail/em-folder-properties.c:1394 ../src/mail/mail-config.ui.h:71
 #: ../src/modules/rss/evolution/e-rss-preferences.c:1745
 #: ../src/plugins/attachment-reminder/attachment-reminder.c:564
 #: ../src/plugins/email-custom-header/email-custom-header.c:833
@@ -8865,13 +8879,13 @@ msgstr "Исключения"
 #: ../src/calendar/gui/e-comp-editor-page-recurrence.c:2304
 #: ../src/calendar/gui/e-comp-editor-page-reminders.c:2278
 #: ../src/mail/e-mail-config-identity-page.c:858
-#: ../src/mail/mail-config.ui.h:68
+#: ../src/mail/mail-config.ui.h:70
 msgid "A_dd"
 msgstr "_Добавить"
 
 #: ../src/calendar/gui/e-comp-editor-page-recurrence.c:2320
 #: ../src/calendar/gui/e-comp-editor-page-reminders.c:2286
-#: ../src/mail/mail-config.ui.h:70
+#: ../src/mail/mail-config.ui.h:72
 msgid "Re_move"
 msgstr "_Удалить"
 
@@ -9302,15 +9316,15 @@ msgstr "Закрыть текущее окно"
 #. copy menu item
 #: ../src/calendar/gui/e-comp-editor.c:2180 ../src/e-util/e-focus-tracker.c:806
 #: ../src/e-util/e-html-editor-actions.c:1126 ../src/e-util/e-text.c:2065
-#: ../src/e-util/e-web-view.c:469 ../src/mail/e-mail-browser.c:173
+#: ../src/e-util/e-web-view.c:470 ../src/mail/e-mail-browser.c:173
 #: ../src/mail/mail.error.xml.h:147 ../src/shell/e-shell-window-actions.c:951
 msgid "_Copy"
 msgstr "_Копировать"
 
 #: ../src/calendar/gui/e-comp-editor.c:2182 ../src/e-util/e-focus-tracker.c:203
 #: ../src/e-util/e-focus-tracker.c:259 ../src/e-util/e-focus-tracker.c:312
-#: ../src/e-util/e-focus-tracker.c:807 ../src/e-util/e-web-view.c:471
-#: ../src/e-util/e-web-view.c:2073 ../src/mail/e-mail-browser.c:175
+#: ../src/e-util/e-focus-tracker.c:807 ../src/e-util/e-web-view.c:472
+#: ../src/e-util/e-web-view.c:2078 ../src/mail/e-mail-browser.c:175
 #: ../src/shell/e-shell-window-actions.c:953
 msgid "Copy the selection"
 msgstr "Копировать выделение"
@@ -9324,7 +9338,7 @@ msgstr "В_ырезать"
 
 #: ../src/calendar/gui/e-comp-editor.c:2189 ../src/e-util/e-focus-tracker.c:196
 #: ../src/e-util/e-focus-tracker.c:252 ../src/e-util/e-focus-tracker.c:306
-#: ../src/e-util/e-focus-tracker.c:802 ../src/e-util/e-web-view.c:2082
+#: ../src/e-util/e-focus-tracker.c:802 ../src/e-util/e-web-view.c:2087
 #: ../src/mail/e-mail-browser.c:182 ../src/shell/e-shell-window-actions.c:960
 msgid "Cut the selection"
 msgstr "Вырезать выделение"
@@ -9348,7 +9362,7 @@ msgstr "_Вставить"
 
 #: ../src/calendar/gui/e-comp-editor.c:2210 ../src/e-util/e-focus-tracker.c:210
 #: ../src/e-util/e-focus-tracker.c:266 ../src/e-util/e-focus-tracker.c:318
-#: ../src/e-util/e-focus-tracker.c:812 ../src/e-util/e-web-view.c:2091
+#: ../src/e-util/e-focus-tracker.c:812 ../src/e-util/e-web-view.c:2096
 #: ../src/mail/e-mail-browser.c:189 ../src/shell/e-shell-window-actions.c:988
 msgid "Paste the clipboard"
 msgstr "Вставить из буфера обмена"
@@ -9369,7 +9383,7 @@ msgid "Pre_view…"
 msgstr "Предварительный _просмотр…"
 
 #: ../src/calendar/gui/e-comp-editor.c:2229 ../src/e-util/e-focus-tracker.c:821
-#: ../src/e-util/e-html-editor-actions.c:1154 ../src/e-util/e-web-view.c:486
+#: ../src/e-util/e-html-editor-actions.c:1154 ../src/e-util/e-web-view.c:487
 #: ../src/mail/e-mail-browser.c:194 ../src/shell/e-shell-window-actions.c:1063
 msgid "Select _All"
 msgstr "Выделить _всё"
@@ -12288,7 +12302,7 @@ msgstr "Нажмите, чтобы выбрать папки для помеще
 msgid "Send"
 msgstr "Отправить"
 
-#: ../src/composer/e-msg-composer.c:1077
+#: ../src/composer/e-msg-composer.c:1115
 #, c-format
 msgid ""
 "Cannot sign outgoing message: No signing certificate set for this account"
@@ -12296,7 +12310,7 @@ msgstr ""
 "Не удалось подписать исходящее сообщение: нет сертификата подписи для этой "
 "учётной записи"
 
-#: ../src/composer/e-msg-composer.c:1086
+#: ../src/composer/e-msg-composer.c:1124
 #, c-format
 msgid ""
 "Cannot encrypt outgoing message: No encryption certificate set for this "
@@ -12305,23 +12319,23 @@ msgstr ""
 "Не удалось зашифровать исходящее сообщение: нет сертификата шифрования для "
 "этой учётной записи"
 
-#: ../src/composer/e-msg-composer.c:1904 ../src/composer/e-msg-composer.c:2581
+#: ../src/composer/e-msg-composer.c:1942 ../src/composer/e-msg-composer.c:2619
 msgid "Compose Message"
 msgstr "Новое сообщение"
 
-#: ../src/composer/e-msg-composer.c:4736
+#: ../src/composer/e-msg-composer.c:4774
 #: ../src/modules/composer-to-meeting/e-composer-to-meeting.c:364
 msgid "Reading text content…"
 msgstr "Чтение содержания текста…"
 
-#: ../src/composer/e-msg-composer.c:5550
+#: ../src/composer/e-msg-composer.c:5588
 msgid "Review attachment before sending."
 msgid_plural "Review attachments before sending."
 msgstr[0] "Просмотрите вложение перед отправкой."
 msgstr[1] "Просмотрите вложения перед отправкой."
 msgstr[2] "Просмотрите вложения перед отправкой."
 
-#: ../src/composer/e-msg-composer.c:5555
+#: ../src/composer/e-msg-composer.c:5593
 #, c-format
 msgid ""
 "There had been added %d attachment. Make sure it does not contain any "
@@ -12339,7 +12353,7 @@ msgstr[2] ""
 "Было добавлено %d вложений. Перед отправкой сообщения убедитесь, что они не "
 "содержат конфиденциальной информации."
 
-#: ../src/composer/e-msg-composer.c:5688
+#: ../src/composer/e-msg-composer.c:5726
 msgid "The composer contains a non-text message body, which cannot be edited."
 msgstr "Редактор содержит нетекстовое тело сообщения, которое нельзя изменить."
 
@@ -13130,7 +13144,7 @@ msgstr "Списки задач"
 
 #: ../src/e-util/e-accounts-window.c:1406 ../src/e-util/filter.ui.h:23
 #: ../src/mail/e-mail-account-tree-view.c:84
-#: ../src/modules/mail/em-composer-prefs.c:1354
+#: ../src/modules/mail/em-composer-prefs.c:1360
 #: ../src/modules/plugin-manager/evolution-plugin-manager.c:405
 #: ../src/plugins/mail-notification/mail-notification.c:1192
 #: ../src/plugins/publish-calendar/publish-calendar.c:853
@@ -13247,48 +13261,48 @@ msgstr "Не удалось создать поток: "
 #. * message when, for example, attaching it to a composer. When the
 #. * message to be attached has also filled Subject, then this text is
 #. * of form "Attached message - Subject", otherwise it's left as is.
-#: ../src/e-util/e-attachment.c:1138
+#: ../src/e-util/e-attachment.c:1168
 msgid "Attached message"
 msgstr "Вложенное сообщение"
 
-#: ../src/e-util/e-attachment.c:2085 ../src/e-util/e-attachment.c:3130
+#: ../src/e-util/e-attachment.c:2194 ../src/e-util/e-attachment.c:3248
 msgid "Operation was cancelled"
 msgstr "Операция была отменена"
 
 #. Translators: Default attachment filename.
-#: ../src/e-util/e-attachment.c:2270 ../src/e-util/e-attachment.c:2974
-#: ../src/e-util/e-attachment.c:3426 ../src/e-util/e-attachment-store.c:914
+#: ../src/e-util/e-attachment.c:2379 ../src/e-util/e-attachment.c:3092
+#: ../src/e-util/e-attachment.c:3544 ../src/e-util/e-attachment-store.c:914
 msgid "attachment.dat"
 msgstr "attachment.dat"
 
-#: ../src/e-util/e-attachment.c:2352 ../src/e-util/e-attachment.c:3486
+#: ../src/e-util/e-attachment.c:2461 ../src/e-util/e-attachment.c:3604
 msgid "A load operation is already in progress"
 msgstr "Операция загрузки уже выполняется"
 
-#: ../src/e-util/e-attachment.c:2360 ../src/e-util/e-attachment.c:3494
+#: ../src/e-util/e-attachment.c:2469 ../src/e-util/e-attachment.c:3612
 msgid "A save operation is already in progress"
 msgstr "Операция сохранения уже выполняется"
 
-#: ../src/e-util/e-attachment.c:2757
+#: ../src/e-util/e-attachment.c:2875
 #, c-format
 msgid "Could not open “%s”"
 msgstr "Не удалось открыть «%s»"
 
-#: ../src/e-util/e-attachment.c:2760
+#: ../src/e-util/e-attachment.c:2878
 #, c-format
 msgid "Could not open the attachment"
 msgstr "Не удалось открыть вложение"
 
-#: ../src/e-util/e-attachment.c:3503
+#: ../src/e-util/e-attachment.c:3621
 msgid "Attachment contents not loaded"
 msgstr "Содержимое вложения не загружено"
 
-#: ../src/e-util/e-attachment.c:3594
+#: ../src/e-util/e-attachment.c:3712
 #, c-format
 msgid "Could not save “%s”"
 msgstr "Не удалось сохранить изображение «%s»"
 
-#: ../src/e-util/e-attachment.c:3597
+#: ../src/e-util/e-attachment.c:3715
 #, c-format
 msgid "Could not save the attachment"
 msgstr "Не удалось сохранить вложение"
@@ -13379,30 +13393,30 @@ msgstr "Сохранить _только извлечённые файлы"
 msgid "Save extracted files and the original _archive"
 msgstr "Сохранить извлечённые файлы и исходный _архив"
 
-#: ../src/e-util/e-attachment-view.c:308 ../src/mail/e-mail-display.c:1969
+#: ../src/e-util/e-attachment-view.c:355 ../src/mail/e-mail-display.c:1969
 msgid "Open With Other Application…"
 msgstr "Открыть с помощью другого приложения…"
 
-#: ../src/e-util/e-attachment-view.c:315
+#: ../src/e-util/e-attachment-view.c:362
 msgid "S_ave All"
 msgstr "С_охранить все"
 
-#: ../src/e-util/e-attachment-view.c:322
+#: ../src/e-util/e-attachment-view.c:369
 msgid "Sa_ve As"
 msgstr "Со_хранить как"
 
-#: ../src/e-util/e-attachment-view.c:331
+#: ../src/e-util/e-attachment-view.c:378
 #: ../src/plugins/save-calendar/save-calendar.c:345
 #: ../src/plugins/save-calendar/save-calendar.c:384
 #: ../src/plugins/save-calendar/save-calendar.c:423
 msgid "Save _As"
 msgstr "Сохранить _как"
 
-#: ../src/e-util/e-attachment-view.c:341
+#: ../src/e-util/e-attachment-view.c:388
 msgid "A_dd Attachment…"
 msgstr "_Добавить вложение…"
 
-#: ../src/e-util/e-attachment-view.c:348
+#: ../src/e-util/e-attachment-view.c:395
 #: ../src/modules/addressbook/e-book-shell-view-actions.c:1181
 #: ../src/modules/calendar/e-cal-shell-view-actions.c:1362
 #: ../src/modules/calendar/e-memo-shell-view-actions.c:619
@@ -13412,21 +13426,29 @@ msgstr "_Добавить вложение…"
 msgid "_Properties"
 msgstr "_Свойства"
 
-#: ../src/e-util/e-attachment-view.c:784 ../src/mail/e-mail-display.c:1923
+#: ../src/e-util/e-attachment-view.c:402
+msgid "Re_load"
+msgstr "_Перезагрузить"
+
+#: ../src/e-util/e-attachment-view.c:404
+msgid "Reload attachment content"
+msgstr "Перезагрузить содержимое вложения"
+
+#: ../src/e-util/e-attachment-view.c:840 ../src/mail/e-mail-display.c:1923
 #, c-format
 msgid "Open With “%s”"
 msgstr "Открыть с помощью «%s»"
 
-#: ../src/e-util/e-attachment-view.c:785 ../src/mail/e-mail-display.c:1924
+#: ../src/e-util/e-attachment-view.c:841 ../src/mail/e-mail-display.c:1924
 #, c-format
 msgid "Open this attachment in %s"
 msgstr "Открыть это вложение в %s"
 
-#: ../src/e-util/e-attachment-view.c:787 ../src/mail/e-mail-display.c:1926
+#: ../src/e-util/e-attachment-view.c:843 ../src/mail/e-mail-display.c:1926
 msgid "Open With Default Application"
 msgstr "Открыть с помощью приложения по умолчанию"
 
-#: ../src/e-util/e-attachment-view.c:788 ../src/mail/e-mail-display.c:1927
+#: ../src/e-util/e-attachment-view.c:844 ../src/mail/e-mail-display.c:1927
 msgid "Open this attachment in default application"
 msgstr "Открыть это вложение в приложении по умолчанию"
 
@@ -13897,7 +13919,7 @@ msgstr "Выберите собственный цвет"
 #: ../src/mail/e-mail-account-tree-view.c:135
 #: ../src/mail/e-mail-config-security-page.c:547
 #: ../src/mail/e-mail-config-security-page.c:723
-#: ../src/mail/e-mail-reader.c:5061 ../src/mail/mail-config.ui.h:79
+#: ../src/mail/e-mail-reader.c:5061 ../src/mail/mail-config.ui.h:81
 msgid "Default"
 msgstr "По умолчанию"
 
@@ -15036,15 +15058,15 @@ msgstr "+4"
 msgid "Copy _Link Location"
 msgstr "Копировать _ссылку"
 
-#: ../src/e-util/e-html-editor-actions.c:1707 ../src/e-util/e-web-view.c:410
+#: ../src/e-util/e-html-editor-actions.c:1707 ../src/e-util/e-web-view.c:411
 msgid "Copy the link to the clipboard"
 msgstr "Копировать ссылку в буфер обмена"
 
-#: ../src/e-util/e-html-editor-actions.c:1712 ../src/e-util/e-web-view.c:418
+#: ../src/e-util/e-html-editor-actions.c:1712 ../src/e-util/e-web-view.c:419
 msgid "_Open Link in Browser"
 msgstr "_Открыть ссылку в веб-браузере"
 
-#: ../src/e-util/e-html-editor-actions.c:1714 ../src/e-util/e-web-view.c:420
+#: ../src/e-util/e-html-editor-actions.c:1714 ../src/e-util/e-web-view.c:421
 msgid "Open the link in a web browser"
 msgstr "Открыть ссылку в браузере"
 
@@ -16570,16 +16592,16 @@ msgstr "Файл с именем «{0}» уже существует. Замен
 msgid ""
 "The file already exists in “{0}”. Replacing it will overwrite its contents."
 msgstr ""
-"Файл уже существует в “{0}”. Его замена приведёт к полной перезаписи его "
+"Файл уже существует в «{0}». Его замена приведёт к полной перезаписи его "
 "содержимого."
 
 #: ../src/e-util/e-system.error.xml.h:4
 msgid "Cannot save file “{0}”."
-msgstr "Не удалось сохранить файл “{0}”."
+msgstr "Не удалось сохранить файл «{0}»."
 
 #: ../src/e-util/e-system.error.xml.h:6
 msgid "Cannot open file “{0}”."
-msgstr "Не удалось открыть файл “{0}”."
+msgstr "Не удалось открыть файл «{0}»."
 
 #: ../src/e-util/e-system.error.xml.h:7
 msgid "Failed to remove data source “{0}”."
@@ -16963,8 +16985,8 @@ msgstr "Метки"
 msgid "Identity"
 msgstr "Учётная запись"
 
-#: ../src/e-util/e-webdav-browser.c:511 ../src/mail/filtertypes.xml.in.h:64
-#: ../src/mail/searchtypes.xml.in.h:56 ../src/mail/vfoldertypes.xml.in.h:58
+#: ../src/e-util/e-webdav-browser.c:511 ../src/mail/filtertypes.xml.in.h:65
+#: ../src/mail/searchtypes.xml.in.h:57 ../src/mail/vfoldertypes.xml.in.h:59
 msgid "Address book"
 msgstr "Адресная книга"
 
@@ -16972,8 +16994,8 @@ msgstr "Адресная книга"
 msgid "Events"
 msgstr "События"
 
-#: ../src/e-util/e-webdav-browser.c:595 ../src/mail/em-folder-tree-model.c:1630
-#: ../src/mail/em-folder-tree-model.c:2018
+#: ../src/e-util/e-webdav-browser.c:595 ../src/mail/em-folder-tree-model.c:1629
+#: ../src/mail/em-folder-tree-model.c:2017
 #: ../src/modules/cal-config-weather/e-weather-location-entry.c:893
 msgid "Loading…"
 msgstr "Загрузка…"
@@ -17096,66 +17118,66 @@ msgstr "Создать _календарь"
 msgid "Create Collectio_n"
 msgstr "Создать колле_кцию"
 
-#: ../src/e-util/e-web-view.c:408
+#: ../src/e-util/e-web-view.c:409
 msgid "_Copy Link Location"
 msgstr "_Копировать ссылку"
 
-#: ../src/e-util/e-web-view.c:428
+#: ../src/e-util/e-web-view.c:429
 msgid "_Copy Email Address"
 msgstr "_Копировать адрес эл. почты"
 
-#: ../src/e-util/e-web-view.c:435
+#: ../src/e-util/e-web-view.c:436
 msgid "Copy _Raw Email Address"
 msgstr "Копировать адрес _эл. почты"
 
-#: ../src/e-util/e-web-view.c:437
+#: ../src/e-util/e-web-view.c:438
 msgid "Copy the raw email address to the clipboard"
 msgstr "Копировать адрес эл. почты в буфер обмена"
 
-#: ../src/e-util/e-web-view.c:452
+#: ../src/e-util/e-web-view.c:453
 msgid "_Copy Image"
 msgstr "_Копировать изображение"
 
-#: ../src/e-util/e-web-view.c:454
+#: ../src/e-util/e-web-view.c:455
 msgid "Copy the image to the clipboard"
 msgstr "Копировать изображение в буфер обмена"
 
-#: ../src/e-util/e-web-view.c:459
+#: ../src/e-util/e-web-view.c:460
 msgid "Save _Image…"
 msgstr "Сохранить _изображение…"
 
-#: ../src/e-util/e-web-view.c:461
+#: ../src/e-util/e-web-view.c:462
 msgid "Save the image to a file"
 msgstr "Сохранить изображение в файл"
 
-#: ../src/e-util/e-web-view.c:476 ../src/mail/e-mail-browser.c:201
+#: ../src/e-util/e-web-view.c:477 ../src/mail/e-mail-browser.c:201
 #: ../src/mail/e-mail-reader.c:2993
 msgid "Search _Web…"
 msgstr "Поиск в _интернете…"
 
-#: ../src/e-util/e-web-view.c:478 ../src/mail/e-mail-browser.c:203
+#: ../src/e-util/e-web-view.c:479 ../src/mail/e-mail-browser.c:203
 #: ../src/mail/e-mail-reader.c:2995
 msgid "Search the Web with the selected text"
 msgstr "Поиск в интернете по выбранному тексту"
 
-#: ../src/e-util/e-web-view.c:488 ../src/e-util/e-web-view.c:2095
+#: ../src/e-util/e-web-view.c:489 ../src/e-util/e-web-view.c:2100
 msgid "Select all text and images"
 msgstr "Выделить весь текст и изображения"
 
-#: ../src/e-util/e-web-view.c:3836
+#: ../src/e-util/e-web-view.c:3849
 msgid "Copying image to clipboard"
 msgstr "Копирование изображения в буфер обмена"
 
-#: ../src/e-util/e-web-view.c:4024
+#: ../src/e-util/e-web-view.c:4037
 msgid "Save Image"
 msgstr "Сохранить изображение"
 
-#: ../src/e-util/e-web-view.c:4061
+#: ../src/e-util/e-web-view.c:4074
 #, c-format
 msgid "Saving image to “%s”"
 msgstr "Сохранение изображения в «%s»"
 
-#: ../src/e-util/e-web-view.c:4216
+#: ../src/e-util/e-web-view.c:4229
 #, c-format
 msgid "Cannot get URI “%s”, do not know how to download it."
 msgstr "Не удалось получить URI «%s», загрузка приостановлена."
@@ -17256,7 +17278,7 @@ msgstr "время, указанное вами"
 msgid "a time relative to the current time"
 msgstr "время относительно текущего времени"
 
-#: ../src/e-util/filter.ui.h:5 ../src/mail/mail-config.ui.h:99
+#: ../src/e-util/filter.ui.h:5 ../src/mail/mail-config.ui.h:101
 msgid "seconds"
 msgstr "секунд"
 
@@ -17467,45 +17489,45 @@ msgstr "Недопустимый URI папки «%s»"
 #. Some local folders
 #: ../src/libemail-engine/e-mail-session.c:121
 #: ../src/mail/em-folder-properties.c:1505
-#: ../src/mail/em-folder-tree-model.c:1543
-#: ../src/mail/em-folder-tree-model.c:1573
+#: ../src/mail/em-folder-tree-model.c:1542
+#: ../src/mail/em-folder-tree-model.c:1572
 #: ../src/mail/importers/kmail-libs.c:138
-#: ../src/modules/mail/e-mail-shell-view-private.c:1036
-#: ../src/modules/mail/e-mail-shell-view-private.c:1047
+#: ../src/modules/mail/e-mail-shell-view-private.c:1027
+#: ../src/modules/mail/e-mail-shell-view-private.c:1038
 msgid "Inbox"
 msgstr "Входящие"
 
 #. E_MAIL_LOCAL_FOLDER_INBOX
 #: ../src/libemail-engine/e-mail-session.c:122
-#: ../src/mail/em-folder-tree-model.c:1537
-#: ../src/mail/em-folder-tree-model.c:1577
+#: ../src/mail/em-folder-tree-model.c:1536
+#: ../src/mail/em-folder-tree-model.c:1576
 #: ../src/mail/importers/kmail-libs.c:144
-#: ../src/modules/mail/e-mail-shell-view-private.c:1034
+#: ../src/modules/mail/e-mail-shell-view-private.c:1025
 msgid "Drafts"
 msgstr "Черновики"
 
 #. E_MAIL_LOCAL_FOLDER_DRAFTS
 #: ../src/libemail-engine/e-mail-session.c:123
-#: ../src/mail/em-folder-tree-model.c:1549
+#: ../src/mail/em-folder-tree-model.c:1548
 #: ../src/mail/importers/kmail-libs.c:140
-#: ../src/modules/mail/e-mail-shell-view-private.c:1038
+#: ../src/modules/mail/e-mail-shell-view-private.c:1029
 msgid "Outbox"
 msgstr "Исходящие"
 
 #. E_MAIL_LOCAL_FOLDER_OUTBOX
 #: ../src/libemail-engine/e-mail-session.c:124
-#: ../src/mail/em-folder-tree-model.c:1554
-#: ../src/mail/em-folder-tree-model.c:1576
+#: ../src/mail/em-folder-tree-model.c:1553
+#: ../src/mail/em-folder-tree-model.c:1575
 #: ../src/mail/importers/kmail-libs.c:142
-#: ../src/modules/mail/e-mail-shell-view-private.c:1040
+#: ../src/modules/mail/e-mail-shell-view-private.c:1031
 msgid "Sent"
 msgstr "Отправленные"
 
 #. E_MAIL_LOCAL_FOLDER_SENT
 #: ../src/libemail-engine/e-mail-session.c:125
-#: ../src/mail/em-folder-tree-model.c:1539
+#: ../src/mail/em-folder-tree-model.c:1538
 #: ../src/mail/importers/kmail-libs.c:146
-#: ../src/modules/mail/e-mail-shell-view-private.c:1042
+#: ../src/modules/mail/e-mail-shell-view-private.c:1033
 #: ../src/plugins/templates/org-gnome-templates.eplug.xml.h:1
 msgid "Templates"
 msgstr "Шаблоны"
@@ -17869,7 +17891,7 @@ msgid "(No Subject)"
 msgstr "(Без темы)"
 
 #: ../src/mail/e-mail-browser.c:536 ../src/mail/mail-dialogs.ui.h:5
-#: ../src/modules/mail/e-mail-shell-view-private.c:1534
+#: ../src/modules/mail/e-mail-shell-view-private.c:1525
 msgid "Forward"
 msgstr "Перенаправить"
 
@@ -17879,13 +17901,13 @@ msgstr "Перенаправить"
 #. * either of those, without too strongly implying one or the other.
 #: ../src/mail/e-mail-browser.c:547 ../src/mail/e-mail-reader.c:2958
 #: ../src/mail/e-mail-reader.c:5311 ../src/mail/e-mail-reader.c:5336
-#: ../src/modules/mail/e-mail-shell-view-private.c:1545
+#: ../src/modules/mail/e-mail-shell-view-private.c:1536
 msgid "Group Reply"
 msgstr "Ответить всем"
 
 #: ../src/mail/e-mail-browser.c:559 ../src/mail/e-mail-reader.c:5419
 #: ../src/mail/mail-dialogs.ui.h:9
-#: ../src/modules/mail/e-mail-shell-view-private.c:1557
+#: ../src/modules/mail/e-mail-shell-view-private.c:1548
 msgid "Reply"
 msgstr "Ответить"
 
@@ -17948,7 +17970,7 @@ msgid "Do Not Quote"
 msgstr "Не цитировать"
 
 #: ../src/mail/e-mail-config-composing-page.c:157
-#: ../src/mail/em-composer-utils.c:4270
+#: ../src/mail/em-composer-utils.c:4365
 msgid "Use global setting"
 msgstr "Использовать глобальные настройки"
 
@@ -17980,12 +18002,12 @@ msgid "Language for Reply and Forward attribution text"
 msgstr "Язык для ответа и переадресации"
 
 #: ../src/mail/e-mail-config-composing-page.c:524
-#: ../src/mail/em-composer-utils.c:4274 ../src/mail/mail-config.ui.h:23
+#: ../src/mail/em-composer-utils.c:4334 ../src/mail/mail-config.ui.h:23
 msgid "Start _typing at the bottom"
 msgstr "При ответе начинать _ввод после цитаты"
 
 #: ../src/mail/e-mail-config-composing-page.c:531
-#: ../src/mail/em-composer-utils.c:4277 ../src/mail/mail-config.ui.h:24
+#: ../src/mail/em-composer-utils.c:4338 ../src/mail/mail-config.ui.h:24
 msgid "_Keep signature above the original message"
 msgstr "Помещать подпись _над исходным сообщением при ответе"
 
@@ -18047,56 +18069,60 @@ msgstr "Выберите папку для сохранения черновик
 msgid "Sent _Messages Folder:"
 msgstr "Папка _отправленных сообщений:"
 
-#: ../src/mail/e-mail-config-defaults-page.c:725
+#: ../src/mail/e-mail-config-defaults-page.c:707
 msgid "Choose a folder for saving sent messages."
 msgstr "Выберите папку для сохранения отправленных сообщений."
 
-#: ../src/mail/e-mail-config-defaults-page.c:751
+#: ../src/mail/e-mail-config-defaults-page.c:727
+msgid "Save s_ent messages into the Sent folder"
+msgstr "Сохранять _отправленные сообщения в папку «Отправленные»"
+
+#: ../src/mail/e-mail-config-defaults-page.c:744
 msgid "S_ave replies in the folder of the message being replied to"
 msgstr "_Сохранять ответы в папке сообщения, на которое пишется ответ"
 
-#: ../src/mail/e-mail-config-defaults-page.c:774
+#: ../src/mail/e-mail-config-defaults-page.c:767
 msgid "Archi_ve Folder:"
 msgstr "Архивна_я папка:"
 
-#: ../src/mail/e-mail-config-defaults-page.c:784
+#: ../src/mail/e-mail-config-defaults-page.c:777
 #: ../src/modules/mail/em-mailer-prefs.c:1837
 msgid "Choose a folder to archive messages to."
 msgstr "Выберите папку для архивации сообщений."
 
-#: ../src/mail/e-mail-config-defaults-page.c:799
+#: ../src/mail/e-mail-config-defaults-page.c:792
 msgid "_Templates Folder:"
 msgstr "Папка _шаблонов:"
 
-#: ../src/mail/e-mail-config-defaults-page.c:809
+#: ../src/mail/e-mail-config-defaults-page.c:802
 msgid "Choose a folder to use for template messages."
 msgstr "Выберите папку для шаблонов сообщений."
 
-#: ../src/mail/e-mail-config-defaults-page.c:827
+#: ../src/mail/e-mail-config-defaults-page.c:820
 msgid "_Restore Defaults"
 msgstr "По _умолчанию"
 
-#: ../src/mail/e-mail-config-defaults-page.c:844
+#: ../src/mail/e-mail-config-defaults-page.c:837
 msgid "_Lookup Folders"
 msgstr "_Папки поиска"
 
-#: ../src/mail/e-mail-config-defaults-page.c:862
+#: ../src/mail/e-mail-config-defaults-page.c:855
 msgid "Use a Real Folder for _Trash:"
 msgstr "Использовать настоящую папку для _корзины:"
 
-#: ../src/mail/e-mail-config-defaults-page.c:863
+#: ../src/mail/e-mail-config-defaults-page.c:856
 msgid "Choose a folder for deleted messages."
 msgstr "Выберите папку для удалённых сообщений."
 
-#: ../src/mail/e-mail-config-defaults-page.c:872
+#: ../src/mail/e-mail-config-defaults-page.c:865
 msgid "Use a Real Folder for _Junk:"
 msgstr "Использовать реальную папку для _спама:"
 
-#: ../src/mail/e-mail-config-defaults-page.c:873
+#: ../src/mail/e-mail-config-defaults-page.c:866
 msgid "Choose a folder for junk messages."
 msgstr "Выберите папку для спама."
 
-#: ../src/mail/e-mail-config-defaults-page.c:991
+#: ../src/mail/e-mail-config-defaults-page.c:984
 msgid "Defaults"
 msgstr "По умолчанию"
 
@@ -18249,25 +18275,25 @@ msgstr "А_лгоритм подписи:"
 
 #: ../src/mail/e-mail-config-security-page.c:550
 #: ../src/mail/e-mail-config-security-page.c:726
-#: ../src/mail/mail-config.ui.h:80
+#: ../src/mail/mail-config.ui.h:82
 msgid "SHA1"
 msgstr "SHA1"
 
 #: ../src/mail/e-mail-config-security-page.c:553
 #: ../src/mail/e-mail-config-security-page.c:729
-#: ../src/mail/mail-config.ui.h:81
+#: ../src/mail/mail-config.ui.h:83
 msgid "SHA256"
 msgstr "SHA256"
 
 #: ../src/mail/e-mail-config-security-page.c:556
 #: ../src/mail/e-mail-config-security-page.c:732
-#: ../src/mail/mail-config.ui.h:82
+#: ../src/mail/mail-config.ui.h:84
 msgid "SHA384"
 msgstr "SHA384"
 
 #: ../src/mail/e-mail-config-security-page.c:559
 #: ../src/mail/e-mail-config-security-page.c:735
-#: ../src/mail/mail-config.ui.h:83
+#: ../src/mail/mail-config.ui.h:85
 msgid "SHA512"
 msgstr "SHA512"
 
@@ -18664,7 +18690,7 @@ msgstr "Название заголовка"
 msgid "Header Value"
 msgstr "Значение заголовка"
 
-#: ../src/mail/e-mail-printer.c:103 ../src/mail/mail-config.ui.h:139
+#: ../src/mail/e-mail-printer.c:103 ../src/mail/mail-config.ui.h:141
 msgid "Headers"
 msgstr "Заголовки"
 
@@ -18673,11 +18699,11 @@ msgstr "Заголовки"
 msgid "Page %d of %d"
 msgstr "Страница %d из %d"
 
-#: ../src/mail/e-mail-reader.c:360 ../src/mail/filtertypes.xml.in.h:68
+#: ../src/mail/e-mail-reader.c:360 ../src/mail/filtertypes.xml.in.h:69
 msgid "Move to Folder"
 msgstr "Переместить в папку"
 
-#: ../src/mail/e-mail-reader.c:360 ../src/mail/filtertypes.xml.in.h:69
+#: ../src/mail/e-mail-reader.c:360 ../src/mail/filtertypes.xml.in.h:70
 msgid "Copy to Folder"
 msgstr "Копировать в папку"
 
@@ -19167,7 +19193,7 @@ msgstr "Удалить _дублируемые сообщения"
 msgid "Checks selected messages for duplicates"
 msgstr "Проверить выделенные сообщения на наличие дубликатов"
 
-#: ../src/mail/e-mail-reader.c:2944 ../src/mail/em-composer-utils.c:4210
+#: ../src/mail/e-mail-reader.c:2944 ../src/mail/em-composer-utils.c:4293
 #: ../src/mail/mail.error.xml.h:28
 #: ../src/modules/calendar/e-cal-shell-view-actions.c:1586
 #: ../src/modules/mail/e-mail-attachment-handler.c:396
@@ -19192,7 +19218,7 @@ msgstr "Выберите параметры ответа для выбранно
 msgid "Reply to the mailing list, or to all recipients"
 msgstr "Ответить в список рассылки или всем получателям"
 
-#: ../src/mail/e-mail-reader.c:2965 ../src/mail/em-composer-utils.c:4205
+#: ../src/mail/e-mail-reader.c:2965 ../src/mail/em-composer-utils.c:4288
 #: ../src/mail/mail.error.xml.h:26
 #: ../src/modules/mail/e-mail-attachment-handler.c:403
 msgid "Reply to _List"
@@ -19378,7 +19404,7 @@ msgstr "Отображать сообщения со всеми заголовк
 msgid "Retrieving message"
 msgstr "Загрузка сообщения"
 
-#: ../src/mail/e-mail-reader.c:5394 ../src/mail/filtertypes.xml.in.h:70
+#: ../src/mail/e-mail-reader.c:5394 ../src/mail/filtertypes.xml.in.h:71
 msgid "Delete"
 msgstr "Удалить"
 
@@ -19575,9 +19601,44 @@ msgstr[2] ""
 "между собой или из соображений безопасности. Возможно, вместо этого стоит "
 "добавить получателей в поле слепой копии."
 
+#: ../src/mail/em-composer-utils.c:648
+#, c-format
+msgid "Attachment changed"
+msgid_plural "%d attachments changed"
+msgstr[0] "%d вложение изменено"
+msgstr[1] "%d вложения изменено"
+msgstr[2] "%d вложений изменено"
+
+#: ../src/mail/em-composer-utils.c:653
+#, c-format
+msgid ""
+"Attachment “%s” changed after being added to the message. Do you want to "
+"send the message anyway?"
+msgstr ""
+"Вложение «%s» было изменено после добавления в сообщение. Вы всё равно "
+"хотите отправить сообщение?"
+
+#: ../src/mail/em-composer-utils.c:656
+#, c-format
+msgid ""
+"One attachment changed after being added to the message. Do you want to send "
+"the message anyway?"
+msgid_plural ""
+"%d attachments changed after being added to the message. Do you want to send "
+"the message anyway?"
+msgstr[0] ""
+"%d вложение было изменено после добавления его в сообщение. Вы всё равно "
+"хотите отправить сообщение?"
+msgstr[1] ""
+"%d вложения были изменены после добавления их в сообщение. Вы всё равно "
+"хотите отправить сообщение?"
+msgstr[2] ""
+"%d вложений были изменены после добавления их в сообщение. Вы всё равно "
+"хотите отправить сообщение?"
+
 #. This message is never removed from the camel operation, otherwise the GtkInfoBar
 #. hides itself and the user sees no feedback.
-#: ../src/mail/em-composer-utils.c:880
+#: ../src/mail/em-composer-utils.c:953
 msgid "Waiting for attachments to load…"
 msgstr "Ожидание загрузки вложений…"
 
@@ -19585,7 +19646,7 @@ msgstr "Ожидание загрузки вложений…"
 #. * when quoting messages.  Each ${Variable} gets replaced
 #. * with a value.  To see a full list of available variables,
 #. * see mail/em-composer-utils.c:attribvars array.
-#: ../src/mail/em-composer-utils.c:2085
+#: ../src/mail/em-composer-utils.c:2158
 msgid ""
 "On ${AbbrevWeekdayName}, ${Year}-${Month}-${Day} at ${24Hour}:${Minute} "
 "${TimeZone}, ${Sender} wrote:"
@@ -19593,82 +19654,82 @@ msgstr ""
 "В ${AbbrevWeekdayName}, ${Day}/${Month}/${Year} в ${24Hour}:${Minute} "
 "${TimeZone}, ${Sender} пишет:"
 
-#: ../src/mail/em-composer-utils.c:2091
+#: ../src/mail/em-composer-utils.c:2164
 msgid "-------- Forwarded Message --------"
 msgstr "-------- Пересылаемое сообщение --------"
 
-#: ../src/mail/em-composer-utils.c:2096
+#: ../src/mail/em-composer-utils.c:2169
 msgid "-----Original Message-----"
 msgstr "-------- Исходное сообщение --------"
 
 #. Translators: This is a reply attribution in the message reply subject. The %s is replaced with the subject of the original message. Both 'Re'-s in the 'reply-attribution' translation context should translate into the same string, the same as the ':' separator.
-#: ../src/mail/em-composer-utils.c:2909
+#: ../src/mail/em-composer-utils.c:2984
 #, c-format
 msgctxt "reply-attribution"
 msgid "Re: %s"
 msgstr "Ответ: %s"
 
-#: ../src/mail/em-composer-utils.c:3528
+#: ../src/mail/em-composer-utils.c:3603
 msgid "an unknown sender"
 msgstr "неизвестный отправитель"
 
-#: ../src/mail/em-composer-utils.c:4156
+#: ../src/mail/em-composer-utils.c:4233
 msgid "Alternative Reply"
 msgstr "Альтернативный ответ"
 
-#: ../src/mail/em-composer-utils.c:4159
+#: ../src/mail/em-composer-utils.c:4236
 #: ../src/modules/calendar/e-cal-shell-view-actions.c:1579
 msgid "_Reply"
 msgstr "_Ответить"
 
-#: ../src/mail/em-composer-utils.c:4172
+#: ../src/mail/em-composer-utils.c:4254
 msgid "Recipients:"
 msgstr "Получатели:"
 
-#: ../src/mail/em-composer-utils.c:4200
+#: ../src/mail/em-composer-utils.c:4283
 msgid "Reply to _Sender"
 msgstr "Ответить _отправителю"
 
-#: ../src/mail/em-composer-utils.c:4222
+#: ../src/mail/em-composer-utils.c:4306
 msgid "Reply style:"
 msgstr "Стиль ответа:"
 
 #. Translators: This is for "Toolbar Icon Size: Default"
-#: ../src/mail/em-composer-utils.c:4230
+#: ../src/mail/em-composer-utils.c:4315
 #: ../src/modules/appearance-settings/evolution-appearance-settings.c:253
 msgid "_Default"
 msgstr "По _умолчанию"
 
-#: ../src/mail/em-composer-utils.c:4234
+#: ../src/mail/em-composer-utils.c:4319
 msgid "Attach_ment"
 msgstr "Вложение"
 
-#: ../src/mail/em-composer-utils.c:4238
+#: ../src/mail/em-composer-utils.c:4323
 msgid "Inline (_Outlook style)"
 msgstr "Встроенный (в стиле _Outlook)"
 
-#: ../src/mail/em-composer-utils.c:4242
+#: ../src/mail/em-composer-utils.c:4327
 msgid "_Quote"
 msgstr "_Цитировать"
 
-#: ../src/mail/em-composer-utils.c:4246
+#: ../src/mail/em-composer-utils.c:4331
 msgid "Do _Not Quote"
 msgstr "Не цитировать"
 
 #. Translators: The text is followed by the format combo with values like 'Plain Text', 'HTML' and so on
-#: ../src/mail/em-composer-utils.c:4257
+#: ../src/mail/em-composer-utils.c:4352
 msgid "_Format message in"
 msgstr "_Форматировать сообщение в"
 
-#: ../src/mail/em-composer-utils.c:4284
+#: ../src/mail/em-composer-utils.c:4374
 msgid "Apply t_emplate"
 msgstr "Применить _шаблон"
 
-#: ../src/mail/em-composer-utils.c:4296
+#: ../src/mail/em-composer-utils.c:4387
 msgid "Preserve original message S_ubject"
 msgstr "Сохранить тему исходного сообщения"
 
-#: ../src/mail/em-composer-utils.c:4362
+#: ../src/mail/em-composer-utils.c:4453
 #, c-format
 msgid "one recipient"
 msgid_plural "%d recipients"
@@ -19677,11 +19738,11 @@ msgstr[1] "%d получателя"
 msgstr[2] "%d получателей"
 
 #. FIXME GTK_WINDOW (composer)
-#: ../src/mail/em-composer-utils.c:4852
+#: ../src/mail/em-composer-utils.c:4943
 msgid "Posting destination"
 msgstr "Назначение"
 
-#: ../src/mail/em-composer-utils.c:4857
+#: ../src/mail/em-composer-utils.c:4948
 msgid "Choose folders to post the message to."
 msgstr "Выберите папки для помещения в них сообщений."
 
@@ -19868,7 +19929,7 @@ msgstr "Вид"
 msgid "Archive"
 msgstr "Архивировать"
 
-#: ../src/mail/em-folder-properties.c:1438 ../src/mail/mail-config.ui.h:128
+#: ../src/mail/em-folder-properties.c:1438 ../src/mail/mail-config.ui.h:130
 #: ../src/mail/message-list.etspec.h:19
 msgid "Labels"
 msgstr "Метки"
@@ -19952,14 +20013,14 @@ msgstr "Нельзя перетащить сообщение в хранилищ
 msgid "UNMATCHED"
 msgstr "UNMATCHED"
 
-#: ../src/mail/em-folder-tree-model.c:1574
+#: ../src/mail/em-folder-tree-model.c:1573
 #: ../src/mail/importers/kmail-libs.c:148
-#: ../src/modules/mail/e-mail-shell-view-private.c:1044
+#: ../src/modules/mail/e-mail-shell-view-private.c:1035
 msgid "Trash"
 msgstr "Корзина"
 
-#: ../src/mail/em-folder-tree-model.c:1575 ../src/mail/filtertypes.xml.in.h:41
-#: ../src/mail/mail-config.ui.h:147 ../src/mail/vfoldertypes.xml.in.h:44
+#: ../src/mail/em-folder-tree-model.c:1574 ../src/mail/filtertypes.xml.in.h:41
+#: ../src/mail/mail-config.ui.h:149 ../src/mail/vfoldertypes.xml.in.h:44
 msgid "Junk"
 msgstr "Спам"
 
@@ -20018,9 +20079,9 @@ msgid "Unsubscribe From _All"
 msgstr "Отписаться ото _всех"
 
 #: ../src/mail/em-subscription-editor.c:1315
-#: ../src/modules/mail/e-mail-shell-view-private.c:937
-#: ../src/modules/mail/e-mail-shell-view-private.c:969
-#: ../src/modules/mail/e-mail-shell-view-private.c:1013
+#: ../src/modules/mail/e-mail-shell-view-private.c:928
+#: ../src/modules/mail/e-mail-shell-view-private.c:960
+#: ../src/modules/mail/e-mail-shell-view-private.c:1004
 #, c-format
 msgid "%d unread, "
 msgid_plural "%d unread, "
@@ -20029,7 +20090,7 @@ msgstr[1] "%d непрочитанных, "
 msgstr[2] "%d непрочитанных, "
 
 #: ../src/mail/em-subscription-editor.c:1319
-#: ../src/modules/mail/e-mail-shell-view-private.c:1023
+#: ../src/modules/mail/e-mail-shell-view-private.c:1014
 #, c-format
 msgid "%d total"
 msgid_plural "%d total"
@@ -20332,141 +20393,146 @@ msgstr "не отмечено"
 #: ../src/mail/filtertypes.xml.in.h:45 ../src/mail/searchtypes.xml.in.h:47
 #: ../src/mail/vfoldertypes.xml.in.h:48
 msgid "is Completed"
-msgstr "(Завершено"
+msgstr "завершено"
 
 #: ../src/mail/filtertypes.xml.in.h:46 ../src/mail/searchtypes.xml.in.h:48
 #: ../src/mail/vfoldertypes.xml.in.h:49
 msgid "is not Completed"
 msgstr "не завершено"
 
-#: ../src/mail/filtertypes.xml.in.h:51 ../src/mail/searchtypes.xml.in.h:53
-#: ../src/mail/vfoldertypes.xml.in.h:54
-msgid "Mailing list"
-msgstr "Список рассылки"
+#: ../src/mail/filtertypes.xml.in.h:47 ../src/mail/searchtypes.xml.in.h:49
+#: ../src/mail/vfoldertypes.xml.in.h:50
+msgid "Follow Up Due By"
+msgstr "К исполнению до"
 
 #: ../src/mail/filtertypes.xml.in.h:52 ../src/mail/searchtypes.xml.in.h:54
 #: ../src/mail/vfoldertypes.xml.in.h:55
-msgid "Regex Match"
-msgstr "Соответствует рег. выражению"
+msgid "Mailing list"
+msgstr "Список рассылки"
 
 #: ../src/mail/filtertypes.xml.in.h:53 ../src/mail/searchtypes.xml.in.h:55
 #: ../src/mail/vfoldertypes.xml.in.h:56
+msgid "Regex Match"
+msgstr "Соответствует рег. выражению"
+
+#: ../src/mail/filtertypes.xml.in.h:54 ../src/mail/searchtypes.xml.in.h:56
+#: ../src/mail/vfoldertypes.xml.in.h:57
 msgid "Message Header"
 msgstr "Заголовок сообщения"
 
-#: ../src/mail/filtertypes.xml.in.h:54
+#: ../src/mail/filtertypes.xml.in.h:55
 msgid "Source Account"
 msgstr "Учётная запись — источник"
 
-#: ../src/mail/filtertypes.xml.in.h:55
+#: ../src/mail/filtertypes.xml.in.h:56
 msgid "Pipe to Program"
 msgstr "Передать программе через канал"
 
-#: ../src/mail/filtertypes.xml.in.h:56
+#: ../src/mail/filtertypes.xml.in.h:57
 msgid "returns"
 msgstr "возвращает"
 
-#: ../src/mail/filtertypes.xml.in.h:57
+#: ../src/mail/filtertypes.xml.in.h:58
 msgid "does not return"
 msgstr "не возвращает"
 
-#: ../src/mail/filtertypes.xml.in.h:58
+#: ../src/mail/filtertypes.xml.in.h:59
 msgid "returns greater than"
 msgstr "возвращает больше чем"
 
-#: ../src/mail/filtertypes.xml.in.h:59
+#: ../src/mail/filtertypes.xml.in.h:60
 msgid "returns less than"
 msgstr "возвращает меньше чем"
 
-#: ../src/mail/filtertypes.xml.in.h:60
+#: ../src/mail/filtertypes.xml.in.h:61
 msgid "Junk Test"
 msgstr "Тест на спам"
 
-#: ../src/mail/filtertypes.xml.in.h:61
+#: ../src/mail/filtertypes.xml.in.h:62
 msgid "Message is Junk"
 msgstr "Сообщение является спамом"
 
-#: ../src/mail/filtertypes.xml.in.h:62
+#: ../src/mail/filtertypes.xml.in.h:63
 msgid "Message is not Junk"
 msgstr "Сообщение не является спамом"
 
-#: ../src/mail/filtertypes.xml.in.h:63 ../src/mail/vfoldertypes.xml.in.h:57
+#: ../src/mail/filtertypes.xml.in.h:64 ../src/mail/vfoldertypes.xml.in.h:58
 msgid "Message Location"
 msgstr "Местоположение сообщения"
 
-#: ../src/mail/filtertypes.xml.in.h:65 ../src/mail/searchtypes.xml.in.h:57
-#: ../src/mail/vfoldertypes.xml.in.h:59
+#: ../src/mail/filtertypes.xml.in.h:66 ../src/mail/searchtypes.xml.in.h:58
+#: ../src/mail/vfoldertypes.xml.in.h:60
 msgid "contains Sender"
 msgstr "содержит отправителя"
 
-#: ../src/mail/filtertypes.xml.in.h:66 ../src/mail/searchtypes.xml.in.h:58
-#: ../src/mail/vfoldertypes.xml.in.h:60
+#: ../src/mail/filtertypes.xml.in.h:67 ../src/mail/searchtypes.xml.in.h:59
+#: ../src/mail/vfoldertypes.xml.in.h:61
 msgid "does not contain Sender"
 msgstr "не содержит отправителя"
 
-#: ../src/mail/filtertypes.xml.in.h:67 ../src/mail/searchtypes.xml.in.h:59
-#: ../src/mail/vfoldertypes.xml.in.h:61
+#: ../src/mail/filtertypes.xml.in.h:68 ../src/mail/searchtypes.xml.in.h:60
+#: ../src/mail/vfoldertypes.xml.in.h:62
 msgid "Match All"
 msgstr "Соответствует всем"
 
-#: ../src/mail/filtertypes.xml.in.h:71
+#: ../src/mail/filtertypes.xml.in.h:72
 msgid "Stop Processing"
 msgstr "Остановить обработку"
 
-#: ../src/mail/filtertypes.xml.in.h:72
+#: ../src/mail/filtertypes.xml.in.h:73
 msgid "Set Label"
 msgstr "Установить метку"
 
-#: ../src/mail/filtertypes.xml.in.h:73
+#: ../src/mail/filtertypes.xml.in.h:74
 msgid "Assign Color"
 msgstr "Назначить цвет"
 
-#: ../src/mail/filtertypes.xml.in.h:74
+#: ../src/mail/filtertypes.xml.in.h:75
 msgid "Unset Color"
 msgstr "Сбросить цвет"
 
-#: ../src/mail/filtertypes.xml.in.h:75
+#: ../src/mail/filtertypes.xml.in.h:76
 msgid "Assign Score"
 msgstr "Назначить вес"
 
-#: ../src/mail/filtertypes.xml.in.h:76
+#: ../src/mail/filtertypes.xml.in.h:77
 msgid "Adjust Score"
 msgstr "Скорректировать вес"
 
-#: ../src/mail/filtertypes.xml.in.h:77
+#: ../src/mail/filtertypes.xml.in.h:78
 msgid "Set Status"
 msgstr "Установить состояние"
 
-#: ../src/mail/filtertypes.xml.in.h:78 ../src/mail/searchtypes.xml.in.h:40
+#: ../src/mail/filtertypes.xml.in.h:79 ../src/mail/searchtypes.xml.in.h:40
 #: ../src/mail/vfoldertypes.xml.in.h:40
 msgid "Deleted"
 msgstr "Удалено"
 
-#: ../src/mail/filtertypes.xml.in.h:79
+#: ../src/mail/filtertypes.xml.in.h:80
 msgid "Unset Status"
 msgstr "Сбросить состояние"
 
-#: ../src/mail/filtertypes.xml.in.h:80
+#: ../src/mail/filtertypes.xml.in.h:81
 msgid "Learn as Junk"
 msgstr "Пометить как спам"
 
-#: ../src/mail/filtertypes.xml.in.h:81
+#: ../src/mail/filtertypes.xml.in.h:82
 msgid "Beep"
 msgstr "Сигнал"
 
-#: ../src/mail/filtertypes.xml.in.h:82
+#: ../src/mail/filtertypes.xml.in.h:83
 msgid "Play Sound"
 msgstr "Воспроизвести звук"
 
-#: ../src/mail/filtertypes.xml.in.h:83
+#: ../src/mail/filtertypes.xml.in.h:84
 msgid "Run Program"
 msgstr "Запустить программу"
 
-#: ../src/mail/filtertypes.xml.in.h:84
+#: ../src/mail/filtertypes.xml.in.h:85
 msgid "Forward to"
 msgstr "Перенаправить к"
 
-#: ../src/mail/filtertypes.xml.in.h:85
+#: ../src/mail/filtertypes.xml.in.h:86
 msgid "with"
 msgstr "с"
 
@@ -20817,31 +20883,37 @@ msgstr "Отправлять сообщение с помощью комбина
 msgid "Before composer _format changes from HTML to Plain Text"
 msgstr "Перед редактированием менять формат с HTML на обычный текст"
 
-#: ../src/mail/mail-config.ui.h:63
+#. This is in the context of: Ask for confirmation before...
+#: ../src/mail/mail-config.ui.h:64
+msgid "Sending a message with _attachments which changed since being attached"
+msgstr ""
+"Отправка сообщения с вложениями, которые были изменены после их прикрепления"
+
+#: ../src/mail/mail-config.ui.h:65
 msgid "Confirmations"
 msgstr "Подтверждения"
 
 #. Translators: Label of a frame with a list of folders for which to use selected account in Send account overrides
-#: ../src/mail/mail-config.ui.h:67
+#: ../src/mail/mail-config.ui.h:69
 msgid "Use for Folders"
 msgstr "Использовать для папок"
 
 #. Translators: Label of a frame with a list of recipients for whom to use selected account in Send account overrides
-#: ../src/mail/mail-config.ui.h:72
+#: ../src/mail/mail-config.ui.h:74
 msgid "Use for Recipients"
 msgstr "Использовать для получателей"
 
 #. Translators: Label of a frame with a list of configured accounts in Send account overrides
-#: ../src/mail/mail-config.ui.h:74 ../src/modules/mail/em-composer-prefs.c:873
+#: ../src/mail/mail-config.ui.h:76 ../src/modules/mail/em-composer-prefs.c:873
 #: ../src/plugins/sender-validation/sender-validation.c:822
 msgid "Account"
 msgstr "Учётная запись"
 
-#: ../src/mail/mail-config.ui.h:75
+#: ../src/mail/mail-config.ui.h:77
 msgid "Send account overrides"
 msgstr "Переопределение отправителя"
 
-#: ../src/mail/mail-config.ui.h:76
+#: ../src/mail/mail-config.ui.h:78
 msgid ""
 "Assign which account should be used as a send account for respective folders "
 "or recipients, an override for usual send account detection. List of "
@@ -20853,271 +20925,271 @@ msgstr ""
 "содержать неполные адреса и имена. Части имён и адресов сравниваются "
 "отдельно."
 
-#: ../src/mail/mail-config.ui.h:77
+#: ../src/mail/mail-config.ui.h:79
 msgid "_Folder override has precedence over Recipient override"
 msgstr ""
 "_Переназначение для папок имеет приоритет над переназначением для получателей"
 
-#: ../src/mail/mail-config.ui.h:78
+#: ../src/mail/mail-config.ui.h:80
 msgid "Send Account"
 msgstr "Учётная запись отправителя"
 
-#: ../src/mail/mail-config.ui.h:84 ../src/smime/gui/smime-ui.ui.h:27
+#: ../src/mail/mail-config.ui.h:86 ../src/smime/gui/smime-ui.ui.h:27
 msgid "a"
 msgstr "a"
 
-#: ../src/mail/mail-config.ui.h:85 ../src/smime/gui/smime-ui.ui.h:28
+#: ../src/mail/mail-config.ui.h:87 ../src/smime/gui/smime-ui.ui.h:28
 msgid "b"
 msgstr "b"
 
-#: ../src/mail/mail-config.ui.h:86
+#: ../src/mail/mail-config.ui.h:88
 msgid "Start up"
 msgstr "Запуск"
 
-#: ../src/mail/mail-config.ui.h:87
+#: ../src/mail/mail-config.ui.h:89
 msgid "Check for new _messages on start"
 msgstr "Проверять почту при _запуске"
 
-#: ../src/mail/mail-config.ui.h:88
+#: ../src/mail/mail-config.ui.h:90
 msgid "Check for new messa_ges in all active accounts"
 msgstr "Проверять почту для _всех включённых уч. записей"
 
-#: ../src/mail/mail-config.ui.h:89
+#: ../src/mail/mail-config.ui.h:91
 msgid "Message Display"
 msgstr "Отображение сообщений"
 
-#: ../src/mail/mail-config.ui.h:90
+#: ../src/mail/mail-config.ui.h:92
 msgid "_Use the same fonts as other applications"
 msgstr "_Использовать такие же шрифты, как и прочие приложения"
 
-#: ../src/mail/mail-config.ui.h:91
+#: ../src/mail/mail-config.ui.h:93
 msgid "S_tandard Font:"
 msgstr "С_тандартный шрифт:"
 
-#: ../src/mail/mail-config.ui.h:92
+#: ../src/mail/mail-config.ui.h:94
 msgid "Select HTML fixed width font"
 msgstr "Выбрать шрифт HTML фиксированной ширины"
 
-#: ../src/mail/mail-config.ui.h:93
+#: ../src/mail/mail-config.ui.h:95
 msgid "Select HTML variable width font"
 msgstr "Выбрать шрифт HTML переменной ширины"
 
-#: ../src/mail/mail-config.ui.h:94
+#: ../src/mail/mail-config.ui.h:96
 msgid "Fix_ed Width Font:"
 msgstr "_Моноширинный шрифт:"
 
-#: ../src/mail/mail-config.ui.h:95
+#: ../src/mail/mail-config.ui.h:97
 msgid "Minimum Font _Size:"
 msgstr "Минимальный размер шрифта:"
 
 #. Translators: This is part of
-#: ../src/mail/mail-config.ui.h:97
+#: ../src/mail/mail-config.ui.h:99
 msgid "(in pixels)"
 msgstr "(в пикселях)"
 
-#: ../src/mail/mail-config.ui.h:98
+#: ../src/mail/mail-config.ui.h:100
 msgid "_Mark messages as read after"
 msgstr "_Помечать сообщения как прочитанные после"
 
-#: ../src/mail/mail-config.ui.h:100
+#: ../src/mail/mail-config.ui.h:102
 msgid "Highlight _quotations with"
 msgstr "Выделять _цитирование цветом"
 
-#: ../src/mail/mail-config.ui.h:101
+#: ../src/mail/mail-config.ui.h:103
 #: ../src/modules/calendar/e-calendar-preferences.ui.h:72
 msgid "Pick a color"
 msgstr "Выберите цвет"
 
-#: ../src/mail/mail-config.ui.h:102
+#: ../src/mail/mail-config.ui.h:104
 msgid "color"
 msgstr "цвет"
 
-#: ../src/mail/mail-config.ui.h:103
+#: ../src/mail/mail-config.ui.h:105
 msgid "Default character e_ncoding:"
 msgstr "_Кодировка символов по умолчанию:"
 
-#: ../src/mail/mail-config.ui.h:104
+#: ../src/mail/mail-config.ui.h:106
 msgid "Apply the same _view settings to all folders"
 msgstr "_Применить эти параметры отображения для всех папок"
 
-#: ../src/mail/mail-config.ui.h:105
+#: ../src/mail/mail-config.ui.h:107
 msgid "F_all back to threading messages by subject"
 msgstr "Вернуться к обсуждению по _теме"
 
-#: ../src/mail/mail-config.ui.h:106
+#: ../src/mail/mail-config.ui.h:108
 msgid "Delete Mail"
 msgstr "Удаление сообщений"
 
-#: ../src/mail/mail-config.ui.h:107
+#: ../src/mail/mail-config.ui.h:109
 msgid "Empty _trash folders"
 msgstr "Очистить _корзины"
 
-#: ../src/mail/mail-config.ui.h:108
+#: ../src/mail/mail-config.ui.h:110
 msgid "Confirm _when expunging a folder"
 msgstr "_Запрашивать подтверждение очистки папки от удалённых сообщений"
 
-#: ../src/mail/mail-config.ui.h:109
+#: ../src/mail/mail-config.ui.h:111
 msgid "Confirm when emptying a _Junk folder"
 msgstr "_Запрашивать подтверждение очистки папки спам"
 
-#: ../src/mail/mail-config.ui.h:110
+#: ../src/mail/mail-config.ui.h:112
 msgid "Go to the previ_ous message after message deletion"
 msgstr "Перейти к пре_дыдущему сообщению после удаления сообщения"
 
-#: ../src/mail/mail-config.ui.h:111
+#: ../src/mail/mail-config.ui.h:113
 msgid "Archive Mail"
 msgstr "Архивировать почту"
 
-#: ../src/mail/mail-config.ui.h:112
+#: ../src/mail/mail-config.ui.h:114
 msgid "Archive folder to use for On This Computer messages"
 msgstr "Используемая архивная папка для сообщений «На этом компьютере»"
 
-#: ../src/mail/mail-config.ui.h:113
+#: ../src/mail/mail-config.ui.h:115
 msgid "On This Computer A_rchive folder:"
 msgstr "Архивная папка «На этом компьютере»:"
 
 #. If enabled, show animation; if disabled, only display a static image without any animation
-#: ../src/mail/mail-config.ui.h:115
+#: ../src/mail/mail-config.ui.h:117
 msgid "_Show animated images"
 msgstr "Показывать _анимированные изображения"
 
-#: ../src/mail/mail-config.ui.h:116
+#: ../src/mail/mail-config.ui.h:118
 msgid "Unset colors provided in HTML mails in message previe_w"
 msgstr ""
 "Неустановленные цвета, предоставляемые в HTML-почте при предварительном "
 "п_росмотре сообщения"
 
-#: ../src/mail/mail-config.ui.h:117
+#: ../src/mail/mail-config.ui.h:119
 msgid "_Prompt on sending HTML mail to contacts that do not want them"
 msgstr ""
 "П_редупреждать при отправке сообщений в формате HTML тем, кто не желает этого"
 
-#: ../src/mail/mail-config.ui.h:118
+#: ../src/mail/mail-config.ui.h:120
 msgid "Loading Remote Content"
 msgstr "Загрузка удалённого (не локального) содержимого"
 
-#: ../src/mail/mail-config.ui.h:119
+#: ../src/mail/mail-config.ui.h:121
 msgid "_Never load remote content from the Internet"
 msgstr "_Никогда не загружать удалённое(не локальное) содержимое из интернета"
 
-#: ../src/mail/mail-config.ui.h:120
+#: ../src/mail/mail-config.ui.h:122
 msgid "_Load remote content only in messages from contacts"
 msgstr ""
 "_Загружать удалённое(не локальное) содержимое только для сообщений от "
 "добавленных контактов"
 
-#: ../src/mail/mail-config.ui.h:121
+#: ../src/mail/mail-config.ui.h:123
 msgid "_Always load remote content from the Internet"
 msgstr "_Всегда загружать удалённое (не локальное) содержимое из интернета"
 
-#: ../src/mail/mail-config.ui.h:122
+#: ../src/mail/mail-config.ui.h:124
 msgid "Notify about _missing remote content in the message preview"
 msgstr ""
 "Уведомлять об _отсутствии удалённого содержимого при предпросмотре сообщения"
 
-#: ../src/mail/mail-config.ui.h:123
+#: ../src/mail/mail-config.ui.h:125
 msgid "Add"
 msgstr "Добавить"
 
-#: ../src/mail/mail-config.ui.h:124
+#: ../src/mail/mail-config.ui.h:126
 msgid "Remove"
 msgstr "Удалить"
 
-#: ../src/mail/mail-config.ui.h:125
+#: ../src/mail/mail-config.ui.h:127
 msgid "Allow for sites:"
 msgstr "Разрешить для сайтов:"
 
-#: ../src/mail/mail-config.ui.h:126
+#: ../src/mail/mail-config.ui.h:128
 msgid "Allow for senders:"
 msgstr "Разрешить для отправителей:"
 
-#: ../src/mail/mail-config.ui.h:127
+#: ../src/mail/mail-config.ui.h:129
 msgid "HTML Messages"
 msgstr "Сообщения HTML"
 
-#: ../src/mail/mail-config.ui.h:129
+#: ../src/mail/mail-config.ui.h:131
 msgid "Sender Photograph"
 msgstr "Фотография отправителя"
 
-#: ../src/mail/mail-config.ui.h:130
+#: ../src/mail/mail-config.ui.h:132
 msgid "_Show the photograph of sender in the message preview"
 msgstr "Показывать фотографию _отправителя в панели просмотра почты"
 
-#: ../src/mail/mail-config.ui.h:131
+#: ../src/mail/mail-config.ui.h:133
 msgid "Search libra_vatar.org for the photograph of sender"
 msgstr "Поиск фотографии отправителя на libra_vatar.org"
 
-#: ../src/mail/mail-config.ui.h:132
+#: ../src/mail/mail-config.ui.h:134
 msgid "Displayed Message Headers"
 msgstr "Отображаемые заголовки сообщений"
 
-#: ../src/mail/mail-config.ui.h:133
+#: ../src/mail/mail-config.ui.h:135
 msgid "Show _full mail addresses in message preview"
 msgstr ""
 "Показывать полные почтовые адреса при предварительном просмотре сообщения"
 
-#: ../src/mail/mail-config.ui.h:134
+#: ../src/mail/mail-config.ui.h:136
 msgid "Mail Headers Table"
 msgstr "Таблица заголовков почты"
 
-#: ../src/mail/mail-config.ui.h:135
+#: ../src/mail/mail-config.ui.h:137
 msgid "Re_set"
 msgstr "С_бросить"
 
-#: ../src/mail/mail-config.ui.h:136
+#: ../src/mail/mail-config.ui.h:138
 msgid "Message List User Headers"
 msgstr "Пользовательские заголовки списка сообщений"
 
-#: ../src/mail/mail-config.ui.h:137
+#: ../src/mail/mail-config.ui.h:139
 msgid "Message List User Headers Table"
 msgstr "Таблица пользовательских заголовков списка сообщений"
 
-#: ../src/mail/mail-config.ui.h:138
+#: ../src/mail/mail-config.ui.h:140
 #: ../src/modules/addressbook/autocompletion-config.c:118
 #: ../src/modules/calendar/e-calendar-preferences.ui.h:50
 msgid "Date/Time Format"
 msgstr "Формат даты и времени"
 
-#: ../src/mail/mail-config.ui.h:140
+#: ../src/mail/mail-config.ui.h:142
 msgid "Check incoming _messages for junk"
 msgstr "Проверять в_ходящие сообщения на спам"
 
-#: ../src/mail/mail-config.ui.h:141
+#: ../src/mail/mail-config.ui.h:143
 msgid "_Delete junk messages"
 msgstr "_Удалить спам"
 
-#: ../src/mail/mail-config.ui.h:142
+#: ../src/mail/mail-config.ui.h:144
 msgid "_Prompt before marking message as junk"
 msgstr "_Предупреждать перед пометкой сообщения как спам"
 
-#: ../src/mail/mail-config.ui.h:143
+#: ../src/mail/mail-config.ui.h:145
 msgid "Junk Test Options"
 msgstr "Тест на спам"
 
-#: ../src/mail/mail-config.ui.h:144
+#: ../src/mail/mail-config.ui.h:146
 msgid "Do not mar_k messages as junk if sender is in my address book"
 msgstr ""
 "Не поме_чать сообщения как спам, если отправитель есть в моей адресной книге"
 
-#: ../src/mail/mail-config.ui.h:145
+#: ../src/mail/mail-config.ui.h:147
 msgid "_Lookup in local address book only"
 msgstr "Просматривать только _локальную адресную книгу"
 
-#: ../src/mail/mail-config.ui.h:146
+#: ../src/mail/mail-config.ui.h:148
 msgid "Check cu_stom headers for junk"
 msgstr "Про_верять дополнительные заголовки для определения спама"
 
-#: ../src/mail/mail-config.ui.h:148
+#: ../src/mail/mail-config.ui.h:150
 #: ../src/modules/mail-config/e-mail-config-remote-accounts.c:303
 #: ../src/modules/mail-config/e-mail-config-smtp-backend.c:247
 msgid "No encryption"
 msgstr "Без шифрования"
 
-#: ../src/mail/mail-config.ui.h:149
+#: ../src/mail/mail-config.ui.h:151
 msgid "TLS encryption"
 msgstr "Шифрование TLS"
 
-#: ../src/mail/mail-config.ui.h:150
+#: ../src/mail/mail-config.ui.h:152
 msgid "SSL encryption"
 msgstr "Шифрование SSL"
 
@@ -22132,7 +22204,7 @@ msgid ""
 "No Archive folder is configured. Please configure one for the account in "
 "order to be able to archive messages."
 msgstr ""
-"Не настроена папка \"Архив\". Пожалуйста, настройте ее для учетной записи, "
+"Не настроена папка «Архив». Пожалуйста, настройте ее для учетной записи, "
 "чтобы иметь возможность архивировать сообщения."
 
 #: ../src/mail/mail.error.xml.h:219
@@ -22146,7 +22218,7 @@ msgstr "_Пометить как спам"
 #. Translators: {0} is the name of the folder where the delete of the message note failed.
 #: ../src/mail/mail.error.xml.h:222
 msgid "Label named “{0}” already exists"
-msgstr "Метка с именем \"{0}\" уже существует"
+msgstr "Метка с именем «{0}» уже существует"
 
 #: ../src/mail/mail.error.xml.h:223
 msgid "Choose a different name, please."
@@ -22362,36 +22434,36 @@ msgstr "Почта получателя"
 msgid "Any header"
 msgstr "Любой заголовок"
 
-#: ../src/mail/searchtypes.xml.in.h:60
+#: ../src/mail/searchtypes.xml.in.h:61
 msgid "Subject or Addresses contains"
 msgstr "Тема или получатели содержат"
 
-#: ../src/mail/searchtypes.xml.in.h:61
+#: ../src/mail/searchtypes.xml.in.h:62
 #: ../src/modules/mail/e-mail-shell-view-actions.c:2129
 msgid "Recipients contain"
 msgstr "Получатели содержат"
 
-#: ../src/mail/searchtypes.xml.in.h:62
+#: ../src/mail/searchtypes.xml.in.h:63
 #: ../src/modules/mail/e-mail-shell-view-actions.c:2122
 msgid "Message contains"
 msgstr "Сообщение содержит"
 
-#: ../src/mail/searchtypes.xml.in.h:63
+#: ../src/mail/searchtypes.xml.in.h:64
 #: ../src/modules/mail/e-mail-shell-view-actions.c:2143
 msgid "Subject contains"
 msgstr "Тема содержит"
 
-#: ../src/mail/searchtypes.xml.in.h:64
+#: ../src/mail/searchtypes.xml.in.h:65
 #: ../src/modules/mail/e-mail-shell-view-actions.c:2136
 msgid "Sender contains"
 msgstr "Отправитель содержит"
 
-#: ../src/mail/searchtypes.xml.in.h:65
+#: ../src/mail/searchtypes.xml.in.h:66
 #: ../src/modules/mail/e-mail-shell-view-actions.c:2108
 msgid "Body contains"
 msgstr "Тело содержит"
 
-#: ../src/mail/searchtypes.xml.in.h:66
+#: ../src/mail/searchtypes.xml.in.h:67
 #: ../src/modules/mail/e-mail-shell-view-actions.c:2115
 msgid "Free form expression"
 msgstr "Выражение в произвольной форме"
@@ -23013,7 +23085,7 @@ msgstr "Перезагрузка службы регистрации"
 #: ../src/modules/backup-restore/evolution-backup-tool.c:1115
 #, c-format
 msgid "Failed to verify the backup file “%s”, the archive is broken."
-msgstr "Не удалось проверить файл резервной копии \"%s\", архив поврежден."
+msgstr "Не удалось проверить файл резервной копии «%s», архив поврежден."
 
 #: ../src/modules/backup-restore/evolution-backup-tool.c:1213
 msgid "Evolution Back Up"
@@ -23062,7 +23134,7 @@ msgstr "Некорректный файл резервной копии Evolutio
 
 #: ../src/modules/backup-restore/org-gnome-backup-restore.error.xml.h:2
 msgid "File “{0}” is not a valid Evolution backup file."
-msgstr "Файл “{0}” не является верным файлом резервной копии Evolution."
+msgstr "Файл «{0}» не является верным файлом резервной копии Evolution."
 
 #: ../src/modules/backup-restore/org-gnome-backup-restore.error.xml.h:3
 msgid "Are you sure you want to close Evolution?"
@@ -25642,17 +25714,17 @@ msgstr "Отправить в список заметок «%s» как отме
 #: ../src/modules/itip-formatter/itip-view.c:5411
 #, c-format
 msgid "Imported to calendar “%s”"
-msgstr "Импортировано в календарь \"%s\""
+msgstr "Импортировано в календарь «%s»"
 
 #: ../src/modules/itip-formatter/itip-view.c:5416
 #, c-format
 msgid "Imported to task list “%s”"
-msgstr "Импортировано в список задач \"%s\""
+msgstr "Импортировано в список задач «%s»"
 
 #: ../src/modules/itip-formatter/itip-view.c:5421
 #, c-format
 msgid "Imported to memo list “%s”"
-msgstr "Импортировано в список заметок \"%s\""
+msgstr "Импортировано в список заметок «%s»"
 
 #: ../src/modules/itip-formatter/itip-view.c:5440
 msgid "Saving changes to the calendar. Please wait…"
@@ -26480,22 +26552,22 @@ msgstr "Текущая папка"
 msgid "Current Folder and Subfolders"
 msgstr "Текущая папка и вложенные папки"
 
-#: ../src/modules/mail/e-mail-shell-view.c:1039
+#: ../src/modules/mail/e-mail-shell-view.c:1056
 msgid "Current Folder and Subfolders Search"
 msgstr "Поиск в текущей папке и во вложенных папках"
 
 # This translation and below will be used
 # in search bar in main window, so it should
 # be shorter
-#: ../src/modules/mail/e-mail-shell-view.c:1159
+#: ../src/modules/mail/e-mail-shell-view.c:1144
 msgid "All Account Search"
 msgstr "Поиск по всем учётным записям"
 
-#: ../src/modules/mail/e-mail-shell-view.c:1267
+#: ../src/modules/mail/e-mail-shell-view.c:1220
 msgid "Account Search"
 msgstr "Поиск по учётной записи"
 
-#: ../src/modules/mail/e-mail-shell-view-private.c:930
+#: ../src/modules/mail/e-mail-shell-view-private.c:921
 #, c-format
 msgid "%d selected, "
 msgid_plural "%d selected, "
@@ -26503,8 +26575,8 @@ msgstr[0] "выделено %d, "
 msgstr[1] "выделено %d, "
 msgstr[2] "выделено %d, "
 
-#: ../src/modules/mail/e-mail-shell-view-private.c:945
-#: ../src/modules/mail/e-mail-shell-view-private.c:962
+#: ../src/modules/mail/e-mail-shell-view-private.c:936
+#: ../src/modules/mail/e-mail-shell-view-private.c:953
 #, c-format
 msgid "%d deleted"
 msgid_plural "%d deleted"
@@ -26512,8 +26584,8 @@ msgstr[0] "%d удалённое"
 msgstr[1] "%d удалённых"
 msgstr[2] "%d удалённых"
 
-#: ../src/modules/mail/e-mail-shell-view-private.c:976
-#: ../src/modules/mail/e-mail-shell-view-private.c:982
+#: ../src/modules/mail/e-mail-shell-view-private.c:967
+#: ../src/modules/mail/e-mail-shell-view-private.c:973
 #, c-format
 msgid "%d junk"
 msgid_plural "%d junk"
@@ -26521,7 +26593,7 @@ msgstr[0] "%d спам"
 msgstr[1] "%d спам"
 msgstr[2] "%d спам"
 
-#: ../src/modules/mail/e-mail-shell-view-private.c:989
+#: ../src/modules/mail/e-mail-shell-view-private.c:980
 #, c-format
 msgid "%d draft"
 msgid_plural "%d drafts"
@@ -26529,7 +26601,7 @@ msgstr[0] "%d черновик"
 msgstr[1] "%d черновика"
 msgstr[2] "%d черновиков"
 
-#: ../src/modules/mail/e-mail-shell-view-private.c:995
+#: ../src/modules/mail/e-mail-shell-view-private.c:986
 #, c-format
 msgid "%d unsent"
 msgid_plural "%d unsent"
@@ -26537,7 +26609,7 @@ msgstr[0] "%d неотправленное"
 msgstr[1] "%d неотправленных"
 msgstr[2] "%d неотправленных"
 
-#: ../src/modules/mail/e-mail-shell-view-private.c:1001
+#: ../src/modules/mail/e-mail-shell-view-private.c:992
 #, c-format
 msgid "%d sent"
 msgid_plural "%d sent"
@@ -26545,7 +26617,7 @@ msgstr[0] "%d отправленное"
 msgstr[1] "%d отправленных"
 msgstr[2] "%d отправленных"
 
-#: ../src/modules/mail/e-mail-shell-view-private.c:1018
+#: ../src/modules/mail/e-mail-shell-view-private.c:1009
 #, c-format
 msgid "%d unread"
 msgid_plural "%d unread"
@@ -26553,8 +26625,8 @@ msgstr[0] "%d непрочитанное"
 msgstr[1] "%d непрочитанных"
 msgstr[2] "%d непрочитанных"
 
-#: ../src/modules/mail/e-mail-shell-view-private.c:1523
-#: ../src/modules/mail/e-mail-shell-view-private.c:1592
+#: ../src/modules/mail/e-mail-shell-view-private.c:1514
+#: ../src/modules/mail/e-mail-shell-view-private.c:1583
 msgid "Send / Receive"
 msgstr "Отправить / Получить"
 
@@ -26570,23 +26642,23 @@ msgstr "Папка"
 msgid "Recipient"
 msgstr "Получатель"
 
-#: ../src/modules/mail/em-composer-prefs.c:1271
+#: ../src/modules/mail/em-composer-prefs.c:1277
 msgid "Keep in Outbox"
 msgstr "Сохранить в исходящих"
 
-#: ../src/modules/mail/em-composer-prefs.c:1272
+#: ../src/modules/mail/em-composer-prefs.c:1278
 msgid "Send immediately"
 msgstr "Отправить сразу же"
 
-#: ../src/modules/mail/em-composer-prefs.c:1273
+#: ../src/modules/mail/em-composer-prefs.c:1279
 msgid "Send after 5 minutes"
 msgstr "Отправить через 5 минут"
 
-#: ../src/modules/mail/em-composer-prefs.c:1358
+#: ../src/modules/mail/em-composer-prefs.c:1364
 msgid "Language(s)"
 msgstr "Язык(и)"
 
-#: ../src/modules/mail/em-composer-prefs.c:1388
+#: ../src/modules/mail/em-composer-prefs.c:1394
 msgid "Same as user interface"
 msgstr "Такой же как пользовательский интерфейс"
 
@@ -26830,7 +26902,7 @@ msgstr "Сообщение недоступно"
 #: ../src/modules/rss/camel/camel-rss-folder.c:280
 #, c-format
 msgid "Invalid Feed URL “%s”."
-msgstr "Недопустимый URL канала \"%s\"."
+msgstr "Недопустимый URL канала «%s»."
 
 #: ../src/modules/rss/camel/camel-rss-folder.c:320
 #, c-format
@@ -26878,7 +26950,7 @@ msgstr "Это поставщик для чтения RSS новостей и б
 #: ../src/modules/rss/camel/camel-rss-store.c:232
 #, c-format
 msgid "Folder '%s' not found"
-msgstr "Папка '%s' не найдена"
+msgstr "Папка «%s» не найдена"
 
 #: ../src/modules/rss/camel/camel-rss-store.c:138
 #, c-format
@@ -27391,10 +27463,10 @@ msgid "Display the part as an addressbook contact"
 msgstr "Показать часть в виде контакта адресной книги"
 
 #. Translators: The "%s" is replaced with a link, constructing a text like: "Ctrl-click to open a link “http://www.example.com”"
-#: ../src/modules/webkit-editor/e-webkit-editor.c:5498
+#: ../src/modules/webkit-editor/e-webkit-editor.c:5546
 #, c-format
 msgid "Ctrl-click to open a link “%s”"
-msgstr "Нажмите Ctrl, чтобы открыть ссылку \"%s\""
+msgstr "Нажмите Ctrl, чтобы открыть ссылку «%s»"
 
 #: ../src/plugins/attachment-reminder/attachment-reminder.c:169
 msgid "_Do not show this message again."
@@ -28495,8 +28567,8 @@ msgid ""
 "The message contains recipient “{0}”, which does not match recipient pattern "
 "“{1}” for the account “{2}”."
 msgstr ""
-"Сообщение содержит получателя \"{0}\", который не соответствует шаблону "
-"получателя \"{1}\" для учетной записи \"{2}\"."
+"Сообщение содержит получателя «{0}», который не соответствует шаблону "
+"получателя «{1}» для учетной записи «{2}»."
 
 #: ../src/plugins/sender-validation/sender-validation.c:653
 msgid ""
@@ -28603,19 +28675,19 @@ msgstr "Создать"
 #. * allows the user to filter the current view.  Examples of
 #. * items that appear in the combo box are "Unread Messages",
 #. * "Important Messages", or "Active Appointments".
-#: ../src/shell/e-shell-searchbar.c:929
+#: ../src/shell/e-shell-searchbar.c:944
 msgid "Sho_w:"
 msgstr "По_казывать:"
 
 #. Translators: This is part of the quick search interface.
 #. * example: Search: [_______________] in [ Current Folder ]
-#: ../src/shell/e-shell-searchbar.c:955
+#: ../src/shell/e-shell-searchbar.c:970
 msgid "Sear_ch:"
 msgstr "По_иск:"
 
 #. Translators: This is part of the quick search interface.
 #. * example: Search: [_______________] in [ Current Folder ]
-#: ../src/shell/e-shell-searchbar.c:1023
+#: ../src/shell/e-shell-searchbar.c:1038
 msgid "i_n"
 msgstr "_в"
 
@@ -29249,7 +29321,7 @@ msgstr ""
 #: ../src/smime/gui/certificate-manager.c:95
 #: ../src/smime/gui/certificate-manager.c:116
 msgid "Certificate Name"
-msgstr "Имя сертификата"
+msgstr "Название сертификата"
 
 #: ../src/smime/gui/certificate-manager.c:76
 #: ../src/smime/gui/certificate-manager.c:97
@@ -29523,7 +29595,7 @@ msgstr "Все файлы с сертификатами почты"
 msgid "All CA certificate files"
 msgstr "Все файлы сертификатов CA"
 
-#: ../src/smime/gui/cert-trust-dialog.c:150
+#: ../src/smime/gui/cert-trust-dialog.c:83
 msgid ""
 "Because you trust the certificate authority that issued this certificate, "
 "then you trust the authenticity of this certificate unless otherwise "
@@ -29532,7 +29604,7 @@ msgstr ""
 "Поскольку вы доверяете поставщику этого сертификата, вы доверяете также и "
 "аутентичности этого сертификата, если тут не отмечено иначе"
 
-#: ../src/smime/gui/cert-trust-dialog.c:155
+#: ../src/smime/gui/cert-trust-dialog.c:88
 msgid ""
 "Because you do not trust the certificate authority that issued this "
 "certificate, then you do not trust the authenticity of this certificate "
