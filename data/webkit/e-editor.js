@@ -5999,8 +5999,11 @@ EvoEditor.processLoadedContent = function()
 	}
 
 	if (EvoEditor.mode == EvoEditor.MODE_PLAIN_TEXT) {
-		EvoEditor.convertTags();
-		EvoEditor.convertParagraphs(document.body, 0, EvoEditor.NORMAL_PARAGRAPH_WIDTH, didCite);
+		// drafts have paragraphs set as expected
+		if (!document.body.hasAttribute("data-evo-draft")) {
+			EvoEditor.convertTags();
+			EvoEditor.convertParagraphs(document.body, 0, EvoEditor.NORMAL_PARAGRAPH_WIDTH, didCite);
+		}
 
 		if (EvoEditor.MAGIC_LINKS) {
 			var next;
