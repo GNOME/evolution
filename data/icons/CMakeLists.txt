@@ -77,6 +77,8 @@ set(private_icons
 	hicolor_actions_16x16_view-calendar-week.png
 	hicolor_actions_16x16_view-calendar-workweek.png
 	hicolor_actions_16x16_view-calendar-year.png
+	hicolor_actions_16x16_x-office-address-book.png
+	hicolor_actions_16x16_x-office-calendar.png
 	hicolor_actions_22x22_go-today.png
 	hicolor_actions_22x22_view-calendar-day.png
 	hicolor_actions_22x22_view-calendar-list.png
@@ -84,6 +86,8 @@ set(private_icons
 	hicolor_actions_22x22_view-calendar-week.png
 	hicolor_actions_22x22_view-calendar-workweek.png
 	hicolor_actions_22x22_view-calendar-year.png
+	hicolor_actions_22x22_x-office-address-book.png
+	hicolor_actions_22x22_x-office-calendar.png
 	hicolor_actions_24x24_go-today.png
 	hicolor_actions_24x24_mail-archive.png
 	hicolor_actions_24x24_query-free-busy.png
@@ -93,12 +97,18 @@ set(private_icons
 	hicolor_actions_24x24_view-calendar-week.png
 	hicolor_actions_24x24_view-calendar-workweek.png
 	hicolor_actions_24x24_view-calendar-year.png
+	hicolor_actions_24x24_x-office-address-book.png
+	hicolor_actions_24x24_x-office-calendar.png
 	hicolor_actions_32x32_view-calendar-day.png
 	hicolor_actions_32x32_view-calendar-list.png
 	hicolor_actions_32x32_view-calendar-month.png
 	hicolor_actions_32x32_view-calendar-week.png
 	hicolor_actions_32x32_view-calendar-workweek.png
 	hicolor_actions_32x32_view-calendar-year.png
+	hicolor_actions_32x32_x-office-address-book.png
+	hicolor_actions_32x32_x-office-calendar.png
+	hicolor_actions_48x48_x-office-address-book.png
+	hicolor_actions_48x48_x-office-calendar.png
 	hicolor_actions_scalable_accessories-text-editor-symbolic.svg
 	hicolor_actions_scalable_folder-saved-search-symbolic.svg
 	hicolor_actions_scalable_go-today-symbolic.svg
