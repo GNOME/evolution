@@ -12,8 +12,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: evolution\n"
 "Report-Msgid-Bugs-To: https://gitlab.gnome.org/GNOME/evolution/issues\n"
-"POT-Creation-Date: 2023-05-15 16:28+0000\n"
-"PO-Revision-Date: 2023-05-15 21:52+0300\n"
+"POT-Creation-Date: 2023-05-26 09:15+0000\n"
+"PO-Revision-Date: 2023-05-26 13:35+0300\n"
 "Last-Translator: Yuri Chornoivan <yurchor@ukr.net>\n"
 "Language-Team: Ukrainian <trans-uk@lists.fedoraproject.org>\n"
 "Language: uk\n"
@@ -3090,10 +3090,26 @@ msgstr ""
 "перегляду пошти."
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:324
+msgid ""
+"Whether the markdown composer should sanitize input text also for the "
+"'Markdown as Plain text' mode"
+msgstr ""
+"Визначає, чи має редактор markdown удосконалювати вхідний текст і у режимі"
+" «Markdown як звичайний текст»"
+
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:325
+msgid ""
+"Disabling the sanitization allows to use the Markdown editor as a very "
+"simple text editor without mangling the input text."
+msgstr ""
+"Вимикання удосконалення коду надає змогу скористатися редактором Markdown як"
+" дуже простим текстовим редактором без правлення до вхідного тексту."
+
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:326
 msgid "(Deprecated) Default forward style"
 msgstr "(Застаріло) Типовий стиль пересилання"
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:325
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:327
 msgid ""
 "This key was deprecated in version 3.10 and should no longer be used. Use "
 "“forward-style-name” instead."
@@ -3101,11 +3117,11 @@ msgstr ""
 "Цей ключ застарілий для версії 3.10 і більше не використовуватиметься. "
 "Використовуйте «forward-style-name» натомість."
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:326
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:328
 msgid "(Deprecated) Default reply style"
 msgstr "(Застаріло) Типовий стиль відповіді"
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:327
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:329
 msgid ""
 "This key was deprecated in version 3.10 and should no longer be used. Use "
 "“reply-style-name” instead."
@@ -3113,11 +3129,11 @@ msgstr ""
 "Цей ключ застарілий для версії 3.10 і більше не використовуватиметься. "
 "Використовуйте «reply-style-name» натомість."
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:328
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:330
 msgid "(Deprecated) List of custom headers and whether they are enabled."
 msgstr "(Застаріло) Список власних заголовків та їхній стан."
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:329
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:331
 msgid ""
 "This key was deprecated in version 3.10 and should no longer be used. Use "
 "“show-headers” instead."
@@ -3125,12 +3141,12 @@ msgstr ""
 "Цей ключ застарілий для версії 3.10 і більше не використовуватиметься. "
 "Використовуйте «show-headers» натомість."
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:330
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:332
 msgid "(Deprecated) Load images for HTML messages over HTTP"
 msgstr ""
 "(Застаріло) Автоматично завантажувати зображення у листах HTML через HTTP"
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:331
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:333
 msgid ""
 "This key was deprecated in version 3.10 and should no longer be used. Use "
 "“image-loading-policy” instead."
@@ -3138,7 +3154,7 @@ msgstr ""
 "Цей ключ застарілий для версії 3.10 і більше не використовуватиметься. "
 "Використовуйте «image-loading-policy» натомість."
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:332
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:334
 msgid ""
 "(Deprecated) Asks whether to close the message window when the user forwards "
 "or replies to the message shown in the window"
@@ -3146,7 +3162,7 @@ msgstr ""
 "(Застаріло) Запитує, чи закривати вікно листа, коли користувач пересилає або "
 "відповідає на показане лист у вікні"
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:333
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:335
 msgid ""
 "This key was deprecated in version 3.10 and should no longer be used. Use "
 "“browser-close-on-reply-policy” instead."
@@ -3154,12 +3170,12 @@ msgstr ""
 "Цей ключ застарілий для версії 3.10 і більше не використовуватиметься. "
 "Використовуйте «browser-close-on-reply-policy» натомість."
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:334
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:336
 msgid "Prompt before send when attachment changed on the disk"
 msgstr ""
 "Запитувати, перш ніж надсилати долучення, до якого внесено зміни на диску"
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:335
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:337
 msgid ""
 "Ask whether can send a message with attachments which changed on the disk "
 "since they had been attached to the message."
@@ -14762,7 +14778,7 @@ msgstr "_Емодзі"
 
 #: ../src/e-util/e-html-editor-actions.c:1238
 #: ../src/e-util/e-html-editor-actions.c:1245
-#: ../src/e-util/e-markdown-editor.c:1755
+#: ../src/e-util/e-markdown-editor.c:1767
 msgid "Insert Emoji"
 msgstr "Вставити емодзі"
 
@@ -15958,14 +15974,14 @@ msgstr ""
 "Інтерактивна мапа для вибору часового поясу мишею. За допомогою клавіатури "
 "часовий пояс можна вибрати у розкривному списку, розташованому нижче."
 
-#: ../src/e-util/e-markdown-editor.c:1680
 #: ../src/e-util/e-markdown-editor.c:1692
-#: ../src/e-util/e-markdown-editor.c:2235
+#: ../src/e-util/e-markdown-editor.c:1704
+#: ../src/e-util/e-markdown-editor.c:2247
 msgid "_Write"
 msgstr "З_апис"
 
-#: ../src/e-util/e-markdown-editor.c:1694
-#: ../src/e-util/e-markdown-editor.c:2270
+#: ../src/e-util/e-markdown-editor.c:1706
+#: ../src/e-util/e-markdown-editor.c:2282
 #: ../src/modules/addressbook/e-book-shell-view-actions.c:1164
 #: ../src/modules/calendar/e-cal-shell-view-actions.c:1623
 #: ../src/modules/calendar/e-memo-shell-view-actions.c:684
@@ -15974,43 +15990,43 @@ msgstr "З_апис"
 msgid "_Preview"
 msgstr "_Попередній перегляд"
 
-#: ../src/e-util/e-markdown-editor.c:1747
+#: ../src/e-util/e-markdown-editor.c:1759
 msgid "Add bold text"
 msgstr "Додати текст напівжирним"
 
-#: ../src/e-util/e-markdown-editor.c:1748
+#: ../src/e-util/e-markdown-editor.c:1760
 msgid "Add italic text"
 msgstr "Додати текст курсивом"
 
-#: ../src/e-util/e-markdown-editor.c:1749
+#: ../src/e-util/e-markdown-editor.c:1761
 msgid "Insert a quote"
 msgstr "Вставити цитату"
 
-#: ../src/e-util/e-markdown-editor.c:1750
+#: ../src/e-util/e-markdown-editor.c:1762
 msgid "Insert code"
 msgstr "Вставити код"
 
-#: ../src/e-util/e-markdown-editor.c:1751
+#: ../src/e-util/e-markdown-editor.c:1763
 msgid "Add a link"
 msgstr "Додати посилання"
 
-#: ../src/e-util/e-markdown-editor.c:1752
+#: ../src/e-util/e-markdown-editor.c:1764
 msgid "Add a bullet list"
 msgstr "Додати список з пунктами"
 
-#: ../src/e-util/e-markdown-editor.c:1753
+#: ../src/e-util/e-markdown-editor.c:1765
 msgid "Add a numbered list"
 msgstr "Додати нумерований список"
 
-#: ../src/e-util/e-markdown-editor.c:1754
+#: ../src/e-util/e-markdown-editor.c:1766
 msgid "Add a header"
 msgstr "Додати заголовок"
 
-#: ../src/e-util/e-markdown-editor.c:1757
+#: ../src/e-util/e-markdown-editor.c:1769
 msgid "Open online common mark documentation"
 msgstr "Відкрити документацію щодо типової розмітки в інтернеті"
 
-#: ../src/e-util/e-markdown-editor.c:1759
+#: ../src/e-util/e-markdown-editor.c:1771
 msgid "Show preview beside text"
 msgstr "Показувати панель перегляду поруч із текстом"
 
@@ -20473,7 +20489,6 @@ msgstr "— незавершено"
 
 #: ../src/mail/filtertypes.xml.in.h:47 ../src/mail/searchtypes.xml.in.h:49
 #: ../src/mail/vfoldertypes.xml.in.h:50
-#| msgid "Follow Up"
 msgid "Follow Up Due By"
 msgstr "До виконання строком до"
 
