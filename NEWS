@@ -1,3 +1,25 @@
+Evolution 3.48.2 2023-05-26
+---------------------------
+
+Bug Fixes:
+	I#1463 - Updated attachments are shown as updated, but sent in old version
+	I#1810 - TNEF attached message decoded incorrectly
+	I#2310 - Mail: Preview panel has too many vertical scrollbars
+	I#2332 - Mail: Recalc preview iframe heights more often
+	I#2335 - Composer: HTML formatting lost on paste from external browser
+	I#2340 - Inconsistent S/MIME signature validation results
+	I#2345 - Wrong S/MIME certificate selection for encrypted email
+	I#2355 - Search input field's clear button unclickable during first entry
+	I#2356 - PGP-MIME: Show decrypted protected header as Subject in preview
+	I#2371 - Composer: Added extra quotation level after draft open
+	I#2372 - Bundle 'x-office-...' non-symbolic icons
+
+Miscellaneous:
+	rss: Fix recently introduced memory leaks
+
+Translations:
+	Danial Behzadi (fa)
+
 Evolution 3.48.1 2023-04-21
 ---------------------------
 
