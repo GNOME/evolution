@@ -74,7 +74,10 @@ emqfe_text_plain_format (EMailFormatterExtension *extension,
 	settings = e_util_ref_settings ("org.gnome.evolution.mail");
 
 	if (g_settings_get_boolean (settings, "composer-wrap-quoted-text-in-replies"))
-		text_flags |= CAMEL_MIME_FILTER_TOHTML_DIV | CAMEL_MIME_FILTER_TOHTML_CONVERT_NL | CAMEL_MIME_FILTER_TOHTML_CONVERT_SPACES;
+		text_flags |= CAMEL_MIME_FILTER_TOHTML_DIV |
+			      CAMEL_MIME_FILTER_TOHTML_CONVERT_NL |
+			      CAMEL_MIME_FILTER_TOHTML_CONVERT_SPACES |
+			      CAMEL_MIME_FILTER_TOHTML_PRESERVE_TABS;
 	else
 		text_flags |= CAMEL_MIME_FILTER_TOHTML_PRE;
 
