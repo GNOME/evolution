@@ -662,7 +662,7 @@ mail_shell_view_restore_selected_folder (EShellView *shell_view)
 			selected_store, selected_folder_name,
 			0, NULL, NULL);
 		e_mail_reader_set_folder (reader, sel_folder);
-		g_object_unref (sel_folder);
+		g_clear_object (&sel_folder);
 	}
 
 	g_clear_object (&selected_store);
