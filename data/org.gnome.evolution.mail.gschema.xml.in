@@ -911,6 +911,11 @@
       <_summary>Show Preview Toolbar</_summary>
       <_description>Show toolbar above preview panel in the Mail view.</_description>
     </key>
+    <key name="composer-sanitize-markdown-plaintext-input" type="b">
+      <default>true</default>
+      <_summary>Whether the markdown composer should sanitize input text also for the 'Markdown as Plain text' mode</_summary>
+      <_description>Disabling the sanitization allows to use the Markdown editor as a very simple text editor without mangling the input text.</_description>
+    </key>
 
     <!-- The following keys are deprecated. -->
 

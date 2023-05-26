@@ -212,7 +212,7 @@ markdown_utils_append_text (HTMLToTextData *data,
 		if ((text_len == -1 || text_len > 0) && *text) {
 			gint ii, from_index = data->buffer->len;
 
-			if (data->line_start && !data->in_pre && !data->in_li && data->buffer->len > 1 &&
+			if (data->line_start && !data->in_pre && !data->in_li && !data->plain_text && data->buffer->len > 1 &&
 			    data->buffer->str[data->buffer->len - 1] == '\n' &&
 			    data->buffer->str[data->buffer->len - 2] != '\n' && (data->buffer->len < 3 ||
 			    (data->buffer->str[data->buffer->len - 2] != ' ' || data->buffer->str[data->buffer->len - 3] != ' '))) {
@@ -227,7 +227,7 @@ markdown_utils_append_text (HTMLToTextData *data,
 
 			g_string_append_len (data->buffer, text, text_len);
 
-			if (can_convert_nl && !data->in_pre && !data->in_li) {
+			if (can_convert_nl && !data->in_pre && !data->in_li && !data->plain_text) {
 				for (ii = from_index; ii < data->buffer->len; ii++) {
 					if (data->buffer->str[ii] == '\n') {
 						if (data->significant_nl) {
