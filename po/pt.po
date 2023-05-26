@@ -13,8 +13,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: 3.12\n"
 "Report-Msgid-Bugs-To: https://gitlab.gnome.org/GNOME/evolution/issues\n"
-"POT-Creation-Date: 2023-05-15 16:28+0000\n"
-"PO-Revision-Date: 2023-05-18 18:46+0100\n"
+"POT-Creation-Date: 2023-05-26 09:15+0000\n"
+"PO-Revision-Date: 2023-05-26 21:08+0100\n"
 "Last-Translator: Hugo Carvalho <hugokarvalho@hotmail.com>\n"
 "Language-Team: Portuguese <https://l10n.gnome.org/teams/pt/>\n"
 "Language: pt\n"
@@ -23,7 +23,7 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 "X-DamnedLies-Scope: partial\n"
-"X-Generator: Poedit 3.3\n"
+"X-Generator: Poedit 3.3.1\n"
 "X-Language: pt_PT\n"
 "X-Source-Language: C\n"
 "X-Project-Style: gnome\n"
@@ -3149,10 +3149,26 @@ msgstr ""
 "visualização do Correio."
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:324
+msgid ""
+"Whether the markdown composer should sanitize input text also for the "
+"'Markdown as Plain text' mode"
+msgstr ""
+"Se o compositor de markdown deve sanitizar o texto de entrada também para o "
+"modo \"Markdown como texto simples"
+
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:325
+msgid ""
+"Disabling the sanitization allows to use the Markdown editor as a very "
+"simple text editor without mangling the input text."
+msgstr ""
+"Desativar a sanitização permite utilizar o editor Markdown como um editor de "
+"texto muito simples sem manipular o texto de entrada."
+
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:326
 msgid "(Deprecated) Default forward style"
 msgstr "(Obsoleta) Estilo de reencaminhamento predefinido"
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:325
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:327
 msgid ""
 "This key was deprecated in version 3.10 and should no longer be used. Use "
 "“forward-style-name” instead."
@@ -3160,11 +3176,11 @@ msgstr ""
 "Esta chave foi tornada obsoleta na versão 3.10 e não mais deverá ser "
 "utilizada. Utilize antes a “forward-style-name”."
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:326
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:328
 msgid "(Deprecated) Default reply style"
 msgstr "(Obsoleta) Estilo predefinido de resposta"
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:327
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:329
 msgid ""
 "This key was deprecated in version 3.10 and should no longer be used. Use "
 "“reply-style-name” instead."
@@ -3172,11 +3188,11 @@ msgstr ""
 "Esta chave foi tornada obsoleta na versão 3.10 e não mais deverá ser "
 "utilizada. Utilize antes a “reply-style-name”."
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:328
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:330
 msgid "(Deprecated) List of custom headers and whether they are enabled."
 msgstr "(Obsoleta) Lista de cabeçalhos personalizados e se estes estão ativos."
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:329
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:331
 msgid ""
 "This key was deprecated in version 3.10 and should no longer be used. Use "
 "“show-headers” instead."
@@ -3184,11 +3200,11 @@ msgstr ""
 "Esta chave foi tornada obsoleta na versão 3.10 e não mais deverá ser "
 "utilizada. Utilize antes a “show-headers”."
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:330
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:332
 msgid "(Deprecated) Load images for HTML messages over HTTP"
 msgstr "(Obsoleta) Carregar imagens de mensagens HTML através de HTTP"
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:331
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:333
 msgid ""
 "This key was deprecated in version 3.10 and should no longer be used. Use "
 "“image-loading-policy” instead."
@@ -3196,7 +3212,7 @@ msgstr ""
 "Esta chave foi tornada obsoleta na versão 3.10 e não mais deverá ser "
 "utilizada. Utilize antes a “image-loading-policy”."
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:332
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:334
 msgid ""
 "(Deprecated) Asks whether to close the message window when the user forwards "
 "or replies to the message shown in the window"
@@ -3204,7 +3220,7 @@ msgstr ""
 "(Obsoleta) Pergunta sobre se fechar ou não a janela de mensagem quando o "
 "utilizador reencaminha ou responde à mensagem mostrada na janela"
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:333
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:335
 msgid ""
 "This key was deprecated in version 3.10 and should no longer be used. Use "
 "“browser-close-on-reply-policy” instead."
@@ -3212,11 +3228,11 @@ msgstr ""
 "Esta chave foi tornada obsoleta na versão 3.10 e não mais deverá ser "
 "utilizada. Utilize antes a “browser-close-on-reply-policy”."
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:334
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:336
 msgid "Prompt before send when attachment changed on the disk"
 msgstr "Avisar antes de enviar quando o anexo for alterado no disco"
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:335
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:337
 msgid ""
 "Ask whether can send a message with attachments which changed on the disk "
 "since they had been attached to the message."
@@ -14757,7 +14773,7 @@ msgstr "E_moji"
 
 #: ../src/e-util/e-html-editor-actions.c:1238
 #: ../src/e-util/e-html-editor-actions.c:1245
-#: ../src/e-util/e-markdown-editor.c:1755
+#: ../src/e-util/e-markdown-editor.c:1767
 msgid "Insert Emoji"
 msgstr "Inserir Emoji"
 
@@ -15953,14 +15969,14 @@ msgstr ""
 "Utilizadores só com teclado deverão antes selecionar o fuso horário na caixa "
 "de seleção abaixo."
 
-#: ../src/e-util/e-markdown-editor.c:1680
 #: ../src/e-util/e-markdown-editor.c:1692
-#: ../src/e-util/e-markdown-editor.c:2235
+#: ../src/e-util/e-markdown-editor.c:1704
+#: ../src/e-util/e-markdown-editor.c:2247
 msgid "_Write"
 msgstr "_Escrever"
 
-#: ../src/e-util/e-markdown-editor.c:1694
-#: ../src/e-util/e-markdown-editor.c:2270
+#: ../src/e-util/e-markdown-editor.c:1706
+#: ../src/e-util/e-markdown-editor.c:2282
 #: ../src/modules/addressbook/e-book-shell-view-actions.c:1164
 #: ../src/modules/calendar/e-cal-shell-view-actions.c:1623
 #: ../src/modules/calendar/e-memo-shell-view-actions.c:684
@@ -15969,43 +15985,43 @@ msgstr "_Escrever"
 msgid "_Preview"
 msgstr "_Antever"
 
-#: ../src/e-util/e-markdown-editor.c:1747
+#: ../src/e-util/e-markdown-editor.c:1759
 msgid "Add bold text"
 msgstr "Adicionar texto em negrito"
 
-#: ../src/e-util/e-markdown-editor.c:1748
+#: ../src/e-util/e-markdown-editor.c:1760
 msgid "Add italic text"
 msgstr "Adicionar texto em itálico"
 
-#: ../src/e-util/e-markdown-editor.c:1749
+#: ../src/e-util/e-markdown-editor.c:1761
 msgid "Insert a quote"
 msgstr "Inserir uma citação"
 
-#: ../src/e-util/e-markdown-editor.c:1750
+#: ../src/e-util/e-markdown-editor.c:1762
 msgid "Insert code"
 msgstr "Inserir código"
 
-#: ../src/e-util/e-markdown-editor.c:1751
+#: ../src/e-util/e-markdown-editor.c:1763
 msgid "Add a link"
 msgstr "Adicionar uma ligação"
 
-#: ../src/e-util/e-markdown-editor.c:1752
+#: ../src/e-util/e-markdown-editor.c:1764
 msgid "Add a bullet list"
 msgstr "Adicionar uma lista de marcas"
 
-#: ../src/e-util/e-markdown-editor.c:1753
+#: ../src/e-util/e-markdown-editor.c:1765
 msgid "Add a numbered list"
 msgstr "Adicionar uma lista numerada"
 
-#: ../src/e-util/e-markdown-editor.c:1754
+#: ../src/e-util/e-markdown-editor.c:1766
 msgid "Add a header"
 msgstr "Adicionar um cabeçalho"
 
-#: ../src/e-util/e-markdown-editor.c:1757
+#: ../src/e-util/e-markdown-editor.c:1769
 msgid "Open online common mark documentation"
 msgstr "Abrir documentação de marca comum online"
 
-#: ../src/e-util/e-markdown-editor.c:1759
+#: ../src/e-util/e-markdown-editor.c:1771
 msgid "Show preview beside text"
 msgstr "Mostrar pré-visualização ao lado do texto"
 
