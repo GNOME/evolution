@@ -760,6 +760,20 @@ Evo.EnsureMainDocumentInitialized = function()
 	Evo.initializeAndPostContentLoaded(null);
 }
 
+Evo.mailDisplayGetScrollbarHeight = function()
+{
+	if (Evo.mailDisplayCachedScrollbarHeight != undefined)
+		return Evo.mailDisplayCachedScrollbarHeight;
+
+	var el = document.createElement("div");
+	el.style.cssText = "overflow:scroll; visibility:hidden; position:absolute;";
+	document.body.appendChild(el);
+	Evo.mailDisplayCachedScrollbarHeight = el.offsetHeight - el.clientHeight
+	el.remove();
+
+	return Evo.mailDisplayCachedScrollbarHeight;
+}
+
 Evo.mailDisplayUpdateIFramesHeightRecursive = function(doc)
 {
 	if (!doc)
@@ -779,7 +793,8 @@ Evo.mailDisplayUpdateIFramesHeightRecursive = function(doc)
 
 	if (doc.defaultView.frameElement.height == doc.scrollingElement.scrollHeight)
 		doc.defaultView.frameElement.height = 10;
-	doc.defaultView.frameElement.height = doc.scrollingElement.scrollHeight + 2 + (doc.scrollingElement.scrollWidth > doc.scrollingElement.clientWidth ? 20 : 0);
+	doc.defaultView.frameElement.height = doc.scrollingElement.scrollHeight + 2 +
+		(doc.scrollingElement.scrollWidth > doc.scrollingElement.clientWidth ? Evo.mailDisplayGetScrollbarHeight() : 0);
 }
 
 Evo.MailDisplayUpdateIFramesHeight = function()
@@ -1186,7 +1201,7 @@ Evo.mailDisplaySizeChanged = function(entries, observer)
 			if (value < entry.target.ownerDocument.scrollingElement.scrollHeight)
 				value = entry.target.ownerDocument.scrollingElement.scrollHeight;
 			if (entry.target.ownerDocument.scrollingElement.scrollWidth > entry.target.ownerDocument.scrollingElement.clientWidth)
-				value += 20;
+				value += Evo.mailDisplayGetScrollbarHeight();
 			entry.target.ownerDocument.defaultView.frameElement.height = value;
 		}
 	}
