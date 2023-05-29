@@ -2012,6 +2012,11 @@ EvoEditor.quoteParagraph = function(paragraph, blockquoteLevel, wrapWidth)
 
 	EvoEditor.removeQuoteMarks(paragraph);
 
+	if (!EvoEditor.WRAP_QUOTED_TEXT_IN_REPLIES && EvoEditor.mode == EvoEditor.MODE_PLAIN_TEXT &&
+	    (paragraph.tagName == "DIV" || paragraph.tagName == "P")) {
+		paragraph = EvoEditor.renameElement(paragraph, "PRE", null, null, null);
+	}
+
 	if (paragraph.tagName == "PRE")
 		wrapWidth = -1;
 
@@ -2184,7 +2189,8 @@ EvoEditor.convertParagraphs = function(parent, blockquoteLevel, wrapWidth, canCh
 		var child = parent.children.item(ii);
 
 		if (child.tagName == "DIV") {
-			if (wrapWidth == -1 || (EvoEditor.mode == EvoEditor.MODE_PLAIN_TEXT && blockquoteLevel > 0)) {
+			if (wrapWidth == -1 || !EvoEditor.WRAP_QUOTED_TEXT_IN_REPLIES ||
+			    (EvoEditor.mode == EvoEditor.MODE_PLAIN_TEXT && blockquoteLevel > 0)) {
 				child.style.width = "";
 				EvoEditor.removeEmptyStyleAttribute(child);
 			} else {
