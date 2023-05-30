@@ -760,6 +760,24 @@ Evo.EnsureMainDocumentInitialized = function()
 	Evo.initializeAndPostContentLoaded(null);
 }
 
+Evo.mailDisplaySetIFrameHeight = function(iframe, height, forWidth, force)
+{
+	if (!force && iframe.hasAttribute("x-evo-height-for-width") && iframe.hasAttribute("x-evo-cached-height")) {
+		var heightForWidth = parseInt(iframe.getAttribute("x-evo-height-for-width"));
+		if (heightForWidth == forWidth) {
+			var cachedHeight = parseInt(iframe.getAttribute("x-evo-cached-height"));
+			if (cachedHeight > 0) {
+				iframe.height = cachedHeight;
+				return;
+			}
+		}
+	}
+
+	iframe.setAttribute("x-evo-height-for-width", forWidth);
+	iframe.setAttribute("x-evo-cached-height", height);
+	iframe.height = height;
+}
+
 Evo.mailDisplayGetScrollbarHeight = function()
 {
 	if (Evo.mailDisplayCachedScrollbarHeight != undefined)
@@ -779,7 +797,7 @@ Evo.mailDisplayUpdateIFramesHeightRecursive = function(doc)
 	if (!doc)
 		return;
 
-	var ii, iframes;
+	var ii, iframes, force = false;
 
 	iframes = doc.getElementsByTagName("iframe");
 
@@ -791,20 +809,27 @@ Evo.mailDisplayUpdateIFramesHeightRecursive = function(doc)
 	if (!doc.scrollingElement || !doc.defaultView || !doc.defaultView.frameElement)
 		return;
 
-	if (doc.defaultView.frameElement.height == doc.scrollingElement.scrollHeight)
+	if (doc.defaultView.frameElement.height == doc.scrollingElement.scrollHeight) {
 		doc.defaultView.frameElement.height = 10;
-	doc.defaultView.frameElement.height = doc.scrollingElement.scrollHeight + 2 +
-		(doc.scrollingElement.scrollWidth > doc.scrollingElement.clientWidth ? Evo.mailDisplayGetScrollbarHeight() : 0);
+		force = true;
+	}
+
+	Evo.mailDisplaySetIFrameHeight(doc.defaultView.frameElement, doc.scrollingElement.scrollHeight + 2 +
+		(doc.scrollingElement.scrollWidth > doc.scrollingElement.clientWidth ? Evo.mailDisplayGetScrollbarHeight() : 0),
+		doc.scrollingElement.clientWidth, force);
 }
 
 Evo.MailDisplayUpdateIFramesHeight = function()
 {
+	var scrollx = document.defaultView ? document.defaultView.scrollX : -1;
 	var scrolly = document.defaultView ? document.defaultView.scrollY : -1;
 
 	Evo.mailDisplayUpdateIFramesHeightRecursive(document);
 
-	if (scrolly != -1 && document.defaultView.scrollY != scrolly)
-		document.defaultView.scrollTo(0, scrolly);
+	if (scrollx != -1 && scrolly != -1 && (
+	    document.defaultView.scrollX != scrollx ||
+	    document.defaultView.scrollY != scrolly))
+		document.defaultView.scrollTo(scrollx, scrolly);
 
 	Evo.mailDisplayResizeContentToPreviewWidth();
 	Evo.mailDisplayUpdateMagicSpacebarState();
@@ -1194,6 +1219,9 @@ Evo.unsetHTMLColors = function(doc)
 
 Evo.mailDisplaySizeChanged = function(entries, observer)
 {
+	var scrollx = document.defaultView ? document.defaultView.scrollX : -1;
+	var scrolly = document.defaultView ? document.defaultView.scrollY : -1;
+
 	for (const entry of entries) {
 		if (entry.target.ownerDocument.defaultView.frameElement && entry.borderBoxSize?.length > 0) {
 			var value = entry.borderBoxSize[0].blockSize;
@@ -1202,9 +1230,15 @@ Evo.mailDisplaySizeChanged = function(entries, observer)
 				value = entry.target.ownerDocument.scrollingElement.scrollHeight;
 			if (entry.target.ownerDocument.scrollingElement.scrollWidth > entry.target.ownerDocument.scrollingElement.clientWidth)
 				value += Evo.mailDisplayGetScrollbarHeight();
-			entry.target.ownerDocument.defaultView.frameElement.height = value;
+			Evo.mailDisplaySetIFrameHeight(entry.target.ownerDocument.defaultView.frameElement, value,
+				entry.target.ownerDocument.scrollingElement.clientWidth, false);
 		}
 	}
+
+	if (scrollx != -1 && scrolly != -1 && (
+	    document.defaultView.scrollX != scrollx ||
+	    document.defaultView.scrollY != scrolly))
+		document.defaultView.scrollTo(scrollx, scrolly);
 }
 
 Evo.MailDisplayBindDOM = function(iframe_id, markCitationColor)
