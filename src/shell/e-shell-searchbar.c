@@ -63,6 +63,8 @@ struct _EShellSearchbarPrivate {
 	/* State Key File */
 	gchar *state_group;
 
+	gchar *active_search_text;
+
 	gboolean filter_visible;
 	gboolean scope_visible;
 	gboolean state_dirty;
@@ -229,6 +231,7 @@ shell_searchbar_update_search_widgets (EShellSearchbar *searchbar)
 	search_text = e_shell_searchbar_get_search_text (searchbar);
 
 	sensitive =
+		(searchbar->priv->active_search_text && *searchbar->priv->active_search_text) ||
 		(search_text != NULL && *search_text != '\0') ||
 		(e_shell_view_get_search_rule (shell_view) != NULL);
 
@@ -306,6 +309,13 @@ shell_searchbar_execute_search_cb (EShellView *shell_view,
                                    EShellSearchbar *searchbar)
 {
 	EShellContent *shell_content;
+	const gchar *search_text;
+
+	search_text = e_shell_searchbar_get_search_text (searchbar);
+
+	g_clear_pointer (&searchbar->priv->active_search_text, g_free);
+	if (search_text && *search_text)
+		searchbar->priv->active_search_text = g_strdup (search_text);
 
 	shell_searchbar_update_search_widgets (searchbar);
 
@@ -375,7 +385,9 @@ shell_searchbar_entry_changed_cb (EShellSearchbar *searchbar)
 		gtk_action_set_sensitive (action, sensitive);
 
 		action = E_SHELL_WINDOW_ACTION_SEARCH_CLEAR (shell_window);
-		gtk_action_set_sensitive (action, sensitive || e_shell_view_get_search_rule (shell_view) != NULL);
+		gtk_action_set_sensitive (action, sensitive ||
+			(searchbar->priv->active_search_text && *searchbar->priv->active_search_text) ||
+			e_shell_view_get_search_rule (shell_view) != NULL);
 	}
 }
 
@@ -505,6 +517,9 @@ shell_searchbar_entry_focus_out_cb (GtkWidget *entry,
                                     GdkEvent *event,
                                     EShellSearchbar *searchbar)
 {
+	if (e_util_strcmp0 (searchbar->priv->active_search_text, gtk_entry_get_text (GTK_ENTRY (searchbar->priv->search_entry))) != 0)
+		gtk_entry_set_text (GTK_ENTRY (searchbar->priv->search_entry), searchbar->priv->active_search_text);
+
 	shell_searchbar_update_search_widgets (searchbar);
 
 	return FALSE;
@@ -675,6 +690,7 @@ shell_searchbar_finalize (GObject *object)
 	priv = E_SHELL_SEARCHBAR_GET_PRIVATE (object);
 
 	g_free (priv->state_group);
+	g_free (priv->active_search_text);
 
 	/* Chain up to parent's finalize() method. */
 	G_OBJECT_CLASS (e_shell_searchbar_parent_class)->finalize (object);
