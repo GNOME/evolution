@@ -141,6 +141,13 @@ merge_cb (GObject *source_object,
 	}
 
 	if (error != NULL) {
+		e_alert_run_dialog_for_args (
+			e_shell_get_active_window (NULL),
+			"addressbook:load-error",
+			e_source_get_display_name (qa->source),
+			error->message,
+			NULL);
+
 		if (qa->cb)
 			qa->cb (NULL, qa->closure);
 		g_error_free (error);
@@ -238,9 +245,12 @@ ce_have_contact (EBookClient *book_client,
 	if (error != NULL) {
 		if (book_client)
 			g_object_unref (book_client);
-		g_warning (
-			"Failed to find contact, status %d (%s).",
-			error->code, error->message);
+		e_alert_run_dialog_for_args (
+			e_shell_get_active_window (NULL),
+			"addressbook:generic-error",
+			_("Failed to find contact"),
+			error->message,
+			NULL);
 		quick_add_unref (qa);
 	} else {
 		EShell *shell;
@@ -308,7 +318,12 @@ ce_have_book (GObject *source_object,
 	}
 
 	if (error != NULL) {
-		g_warning ("%s", error->message);
+		e_alert_run_dialog_for_args (
+			e_shell_get_active_window (NULL),
+			"addressbook:load-error",
+			e_source_get_display_name (qa->source),
+			error->message,
+			NULL);
 		quick_add_unref (qa);
 		g_error_free (error);
 		return;
@@ -758,11 +773,16 @@ e_contact_quick_add_vcard (EClientCache *client_cache,
 			g_list_free (emails);
 		}
 	} else {
+		e_alert_run_dialog_for_args (
+			e_shell_get_active_window (NULL),
+			"addressbook:generic-error",
+			_("Failed to parse vCard data"),
+			qa->vcard,
+			NULL);
 		if (cb)
 			cb (NULL, closure);
 
 		quick_add_unref (qa);
-		g_warning ("Contact's vCard parsing failed!");
 		return;
 	}
 
