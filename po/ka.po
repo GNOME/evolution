@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: evolution\n"
 "Report-Msgid-Bugs-To: https://gitlab.gnome.org/GNOME/evolution/issues\n"
-"POT-Creation-Date: 2023-05-09 13:47+0000\n"
-"PO-Revision-Date: 2023-05-10 05:16+0200\n"
+"POT-Creation-Date: 2023-05-30 07:54+0000\n"
+"PO-Revision-Date: 2023-05-31 06:49+0200\n"
 "Last-Translator: Ekaterine Papava <papava.e@gtu.ge>\n"
 "Language-Team: Georgian <(nothing)>\n"
 "Language: ka\n"
@@ -16,7 +16,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=1; plural=0;\n"
-"X-Generator: Poedit 3.2.2\n"
+"X-Generator: Poedit 3.3.1\n"
 
 #: ../data/org.gnome.evolution.addressbook.gschema.xml.in.h:1
 msgid "Enable address formatting"
@@ -2647,62 +2647,74 @@ msgid "Show toolbar above preview panel in the Mail view."
 msgstr ""
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:324
-msgid "(Deprecated) Default forward style"
+msgid ""
+"Whether the markdown composer should sanitize input text also for the "
+"'Markdown as Plain text' mode"
 msgstr ""
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:325
 msgid ""
-"This key was deprecated in version 3.10 and should no longer be used. Use "
-"“forward-style-name” instead."
+"Disabling the sanitization allows to use the Markdown editor as a very "
+"simple text editor without mangling the input text."
 msgstr ""
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:326
-msgid "(Deprecated) Default reply style"
+msgid "(Deprecated) Default forward style"
 msgstr ""
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:327
 msgid ""
 "This key was deprecated in version 3.10 and should no longer be used. Use "
-"“reply-style-name” instead."
+"“forward-style-name” instead."
 msgstr ""
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:328
-msgid "(Deprecated) List of custom headers and whether they are enabled."
+msgid "(Deprecated) Default reply style"
 msgstr ""
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:329
 msgid ""
 "This key was deprecated in version 3.10 and should no longer be used. Use "
-"“show-headers” instead."
+"“reply-style-name” instead."
 msgstr ""
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:330
-msgid "(Deprecated) Load images for HTML messages over HTTP"
+msgid "(Deprecated) List of custom headers and whether they are enabled."
 msgstr ""
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:331
 msgid ""
 "This key was deprecated in version 3.10 and should no longer be used. Use "
-"“image-loading-policy” instead."
+"“show-headers” instead."
 msgstr ""
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:332
-msgid ""
-"(Deprecated) Asks whether to close the message window when the user forwards "
-"or replies to the message shown in the window"
+msgid "(Deprecated) Load images for HTML messages over HTTP"
 msgstr ""
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:333
 msgid ""
 "This key was deprecated in version 3.10 and should no longer be used. Use "
-"“browser-close-on-reply-policy” instead."
+"“image-loading-policy” instead."
 msgstr ""
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:334
-msgid "Prompt before send when attachment changed on the disk"
+msgid ""
+"(Deprecated) Asks whether to close the message window when the user forwards "
+"or replies to the message shown in the window"
 msgstr ""
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:335
+msgid ""
+"This key was deprecated in version 3.10 and should no longer be used. Use "
+"“browser-close-on-reply-policy” instead."
+msgstr ""
+
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:336
+msgid "Prompt before send when attachment changed on the disk"
+msgstr ""
+
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:337
 msgid ""
 "Ask whether can send a message with attachments which changed on the disk "
 "since they had been attached to the message."
@@ -3352,7 +3364,7 @@ msgstr ""
 #: ../src/e-util/e-send-options.c:536 ../src/mail/importers/elm-importer.c:330
 #: ../src/mail/importers/kmail-importer.c:249
 #: ../src/mail/importers/pine-importer.c:423
-#: ../src/modules/mail/e-mail-shell-view.c:1608
+#: ../src/modules/mail/e-mail-shell-view.c:1563
 #: ../src/smime/gui/certificate-manager.c:1612
 msgid "Mail"
 msgstr "წერილი"
@@ -3967,7 +3979,7 @@ msgstr ""
 #: ../src/addressbook/gui/contact-editor/e-contact-editor.c:4381
 #: ../src/addressbook/gui/contact-editor/e-contact-editor.c:4387
 #: ../src/addressbook/gui/contact-editor/e-contact-editor-fullname.c:212
-#: ../src/addressbook/gui/contact-editor/e-contact-quick-add.c:453
+#: ../src/addressbook/gui/contact-editor/e-contact-quick-add.c:468
 #: ../src/addressbook/gui/contact-editor/fullname.ui.h:14
 #: ../src/addressbook/gui/contact-list-editor/contact-list-editor.ui.h:2
 #: ../src/addressbook/gui/widgets/eab-contact-merging.c:561
@@ -4005,7 +4017,7 @@ msgstr ""
 #: ../src/e-util/evolution-source-viewer.c:829 ../src/e-util/e-web-view.c:4039
 #: ../src/e-util/gal-view-instance-save-as-dialog.c:265
 #: ../src/mail/e-mail-config-window.c:310 ../src/mail/e-mail-label-dialog.c:187
-#: ../src/mail/e-mail-tag-editor.c:160 ../src/mail/em-composer-utils.c:4231
+#: ../src/mail/e-mail-tag-editor.c:160 ../src/mail/em-composer-utils.c:4235
 #: ../src/mail/em-folder-selector.c:333 ../src/mail/mail-config.ui.h:2
 #: ../src/mail/mail.error.xml.h:16 ../src/mail/mail-send-recv.c:874
 #: ../src/mail/mail-send-recv.c:955 ../src/mail/mail-vfolder-ui.c:149
@@ -4268,7 +4280,7 @@ msgstr "დაბადების დღე"
 
 #. Other options
 #: ../src/addressbook/gui/contact-editor/contact-editor.ui.h:52
-#: ../src/mail/e-mail-config-defaults-page.c:883
+#: ../src/mail/e-mail-config-defaults-page.c:876
 #: ../src/modules/addressbook/autocompletion-config.c:127
 #: ../src/modules/calendar/e-calendar-preferences.ui.h:51
 msgid "Miscellaneous"
@@ -4328,8 +4340,8 @@ msgid "Mailing Address"
 msgstr ""
 
 #: ../src/addressbook/gui/contact-editor/contact-editor.ui.h:64
-#: ../src/mail/filtertypes.xml.in.h:50 ../src/mail/searchtypes.xml.in.h:52
-#: ../src/mail/vfoldertypes.xml.in.h:53
+#: ../src/mail/filtertypes.xml.in.h:51 ../src/mail/searchtypes.xml.in.h:53
+#: ../src/mail/vfoldertypes.xml.in.h:54
 msgid "Notes"
 msgstr "შენიშვნები"
 
@@ -4545,7 +4557,7 @@ msgid "_Help"
 msgstr "და_ხმარება"
 
 #: ../src/addressbook/gui/contact-editor/e-contact-editor-fullname.c:213
-#: ../src/addressbook/gui/contact-editor/e-contact-quick-add.c:454
+#: ../src/addressbook/gui/contact-editor/e-contact-quick-add.c:469
 #: ../src/addressbook/gui/contact-editor/fullname.ui.h:13
 #: ../src/addressbook/gui/widgets/eab-gui-util.c:317
 #: ../src/calendar/gui/e-comp-editor-page-recurrence.c:306
@@ -4574,24 +4586,32 @@ msgstr "და_ხმარება"
 msgid "_OK"
 msgstr "_დიახ"
 
-#: ../src/addressbook/gui/contact-editor/e-contact-quick-add.c:449
+#: ../src/addressbook/gui/contact-editor/e-contact-quick-add.c:251
+msgid "Failed to find contact"
+msgstr "კონტაქტის პოვნა ვერ მოხერხდა"
+
+#: ../src/addressbook/gui/contact-editor/e-contact-quick-add.c:464
 msgid "Contact Quick-Add"
 msgstr ""
 
-#: ../src/addressbook/gui/contact-editor/e-contact-quick-add.c:452
+#: ../src/addressbook/gui/contact-editor/e-contact-quick-add.c:467
 msgid "_Edit Full"
 msgstr ""
 
-#: ../src/addressbook/gui/contact-editor/e-contact-quick-add.c:503
+#: ../src/addressbook/gui/contact-editor/e-contact-quick-add.c:518
 msgid "_Full name"
 msgstr "_სრული სახელი"
 
-#: ../src/addressbook/gui/contact-editor/e-contact-quick-add.c:516
+#: ../src/addressbook/gui/contact-editor/e-contact-quick-add.c:531
 msgid "E_mail"
 msgstr ""
 
-#: ../src/addressbook/gui/contact-editor/e-contact-quick-add.c:529
+#: ../src/addressbook/gui/contact-editor/e-contact-quick-add.c:544
 msgid "_Select Address Book"
+msgstr ""
+
+#: ../src/addressbook/gui/contact-editor/e-contact-quick-add.c:779
+msgid "Failed to parse vCard data"
 msgstr ""
 
 #: ../src/addressbook/gui/contact-editor/fullname.ui.h:1
@@ -6366,24 +6386,24 @@ msgstr "კატეგორია"
 #: ../src/calendar/gui/tasktypes.xml.in.h:15
 #: ../src/em-format/e-mail-formatter-print.c:50
 #: ../src/em-format/e-mail-formatter-print-headers.c:161
-#: ../src/mail/filtertypes.xml.in.h:47 ../src/mail/searchtypes.xml.in.h:49
-#: ../src/mail/vfoldertypes.xml.in.h:50
+#: ../src/mail/filtertypes.xml.in.h:48 ../src/mail/searchtypes.xml.in.h:50
+#: ../src/mail/vfoldertypes.xml.in.h:51
 msgid "Attachments"
 msgstr "დანართი"
 
 #: ../src/calendar/gui/caltypes.xml.in.h:17
 #: ../src/calendar/gui/memotypes.xml.in.h:15
 #: ../src/calendar/gui/tasktypes.xml.in.h:16
-#: ../src/mail/filtertypes.xml.in.h:48 ../src/mail/searchtypes.xml.in.h:50
-#: ../src/mail/vfoldertypes.xml.in.h:51
+#: ../src/mail/filtertypes.xml.in.h:49 ../src/mail/searchtypes.xml.in.h:51
+#: ../src/mail/vfoldertypes.xml.in.h:52
 msgid "Exist"
 msgstr ""
 
 #: ../src/calendar/gui/caltypes.xml.in.h:18
 #: ../src/calendar/gui/memotypes.xml.in.h:16
 #: ../src/calendar/gui/tasktypes.xml.in.h:17
-#: ../src/mail/filtertypes.xml.in.h:49 ../src/mail/searchtypes.xml.in.h:51
-#: ../src/mail/vfoldertypes.xml.in.h:52
+#: ../src/mail/filtertypes.xml.in.h:50 ../src/mail/searchtypes.xml.in.h:52
+#: ../src/mail/vfoldertypes.xml.in.h:53
 msgid "Do Not Exist"
 msgstr ""
 
@@ -7506,8 +7526,8 @@ msgstr ""
 #: ../src/e-util/e-misc-utils.c:4194 ../src/e-util/e-misc-utils.c:4207
 #: ../src/e-util/e-misc-utils.c:4221 ../src/mail/e-mail-autoconfig.c:1129
 #: ../src/mail/e-mail-display.c:2787 ../src/mail/e-mail-notes.c:930
-#: ../src/mail/e-mail-reader-utils.c:805 ../src/mail/em-composer-utils.c:4027
-#: ../src/mail/em-composer-utils.c:4050 ../src/mail/mail-send-recv.c:598
+#: ../src/mail/e-mail-reader-utils.c:805 ../src/mail/em-composer-utils.c:4029
+#: ../src/mail/em-composer-utils.c:4052 ../src/mail/mail-send-recv.c:598
 #: ../src/mail/mail-send-recv.c:1493
 #: ../src/modules/accounts-window/e-accounts-window-editors.c:172
 #: ../src/plugins/face/face.c:175
@@ -11935,14 +11955,14 @@ msgstr "HTML"
 msgid "Format part as HTML"
 msgstr ""
 
-#: ../src/em-format/e-mail-formatter-quote-text-plain.c:130
+#: ../src/em-format/e-mail-formatter-quote-text-plain.c:133
 #: ../src/em-format/e-mail-formatter-text-plain.c:196
 #: ../src/modules/rss/evolution/e-rss-preferences.c:51
 #: ../src/modules/rss/evolution/e-rss-preferences.c:852
 msgid "Plain Text"
 msgstr "უბრალო ტექსტი"
 
-#: ../src/em-format/e-mail-formatter-quote-text-plain.c:131
+#: ../src/em-format/e-mail-formatter-quote-text-plain.c:134
 #: ../src/em-format/e-mail-formatter-text-plain.c:197
 msgid "Format part as plain text"
 msgstr ""
@@ -13827,7 +13847,7 @@ msgstr ""
 
 #: ../src/e-util/e-html-editor-actions.c:1238
 #: ../src/e-util/e-html-editor-actions.c:1245
-#: ../src/e-util/e-markdown-editor.c:1755
+#: ../src/e-util/e-markdown-editor.c:1767
 msgid "Insert Emoji"
 msgstr "ემოჯის ჩასმა"
 
@@ -15007,14 +15027,14 @@ msgid ""
 "should instead select the timezone from the drop-down combination box below."
 msgstr ""
 
-#: ../src/e-util/e-markdown-editor.c:1680
 #: ../src/e-util/e-markdown-editor.c:1692
-#: ../src/e-util/e-markdown-editor.c:2235
+#: ../src/e-util/e-markdown-editor.c:1704
+#: ../src/e-util/e-markdown-editor.c:2247
 msgid "_Write"
 msgstr "_ჩაწერა"
 
-#: ../src/e-util/e-markdown-editor.c:1694
-#: ../src/e-util/e-markdown-editor.c:2270
+#: ../src/e-util/e-markdown-editor.c:1706
+#: ../src/e-util/e-markdown-editor.c:2282
 #: ../src/modules/addressbook/e-book-shell-view-actions.c:1164
 #: ../src/modules/calendar/e-cal-shell-view-actions.c:1623
 #: ../src/modules/calendar/e-memo-shell-view-actions.c:684
@@ -15023,43 +15043,43 @@ msgstr "_ჩაწერა"
 msgid "_Preview"
 msgstr "_მინიატურა"
 
-#: ../src/e-util/e-markdown-editor.c:1747
+#: ../src/e-util/e-markdown-editor.c:1759
 msgid "Add bold text"
 msgstr "დაამატე მუქი ტექსტი"
 
-#: ../src/e-util/e-markdown-editor.c:1748
+#: ../src/e-util/e-markdown-editor.c:1760
 msgid "Add italic text"
 msgstr "კურსივი ტექსტის დამატება"
 
-#: ../src/e-util/e-markdown-editor.c:1749
+#: ../src/e-util/e-markdown-editor.c:1761
 msgid "Insert a quote"
 msgstr "ციტატის ჩასმა"
 
-#: ../src/e-util/e-markdown-editor.c:1750
+#: ../src/e-util/e-markdown-editor.c:1762
 msgid "Insert code"
 msgstr "Ჩაწერეთ კოდი"
 
-#: ../src/e-util/e-markdown-editor.c:1751
+#: ../src/e-util/e-markdown-editor.c:1763
 msgid "Add a link"
 msgstr "ბმულის დამატება"
 
-#: ../src/e-util/e-markdown-editor.c:1752
+#: ../src/e-util/e-markdown-editor.c:1764
 msgid "Add a bullet list"
 msgstr "დაამატე დაუნომრავი სია"
 
-#: ../src/e-util/e-markdown-editor.c:1753
+#: ../src/e-util/e-markdown-editor.c:1765
 msgid "Add a numbered list"
 msgstr "დაამატე დანომრილი სია"
 
-#: ../src/e-util/e-markdown-editor.c:1754
+#: ../src/e-util/e-markdown-editor.c:1766
 msgid "Add a header"
 msgstr ""
 
-#: ../src/e-util/e-markdown-editor.c:1757
+#: ../src/e-util/e-markdown-editor.c:1769
 msgid "Open online common mark documentation"
 msgstr ""
 
-#: ../src/e-util/e-markdown-editor.c:1759
+#: ../src/e-util/e-markdown-editor.c:1771
 msgid "Show preview beside text"
 msgstr "ტექსტის ხატულის გვერდით ჩვენება"
 
@@ -15634,7 +15654,7 @@ msgstr "ხელმისაწვდომი ჯგუფები:"
 
 #: ../src/e-util/e-source-selector-dialog.c:328
 msgid "Select destination"
-msgstr ""
+msgstr "აირჩიეთ სამიზნე"
 
 #. no suggestions. Put something in the menu anyway...
 #: ../src/e-util/e-spell-entry.c:479
@@ -16039,8 +16059,8 @@ msgstr "ალმები"
 msgid "Identity"
 msgstr "იდენტიფიკაცია"
 
-#: ../src/e-util/e-webdav-browser.c:511 ../src/mail/filtertypes.xml.in.h:64
-#: ../src/mail/searchtypes.xml.in.h:56 ../src/mail/vfoldertypes.xml.in.h:58
+#: ../src/e-util/e-webdav-browser.c:511 ../src/mail/filtertypes.xml.in.h:65
+#: ../src/mail/searchtypes.xml.in.h:57 ../src/mail/vfoldertypes.xml.in.h:59
 msgid "Address book"
 msgstr ""
 
@@ -16048,8 +16068,8 @@ msgstr ""
 msgid "Events"
 msgstr "მოვლენები"
 
-#: ../src/e-util/e-webdav-browser.c:595 ../src/mail/em-folder-tree-model.c:1630
-#: ../src/mail/em-folder-tree-model.c:2018
+#: ../src/e-util/e-webdav-browser.c:595 ../src/mail/em-folder-tree-model.c:1629
+#: ../src/mail/em-folder-tree-model.c:2017
 #: ../src/modules/cal-config-weather/e-weather-location-entry.c:893
 msgid "Loading…"
 msgstr "ჩატვირთვა…"
@@ -16533,45 +16553,45 @@ msgstr ""
 #. Some local folders
 #: ../src/libemail-engine/e-mail-session.c:121
 #: ../src/mail/em-folder-properties.c:1505
-#: ../src/mail/em-folder-tree-model.c:1543
-#: ../src/mail/em-folder-tree-model.c:1573
+#: ../src/mail/em-folder-tree-model.c:1542
+#: ../src/mail/em-folder-tree-model.c:1572
 #: ../src/mail/importers/kmail-libs.c:138
-#: ../src/modules/mail/e-mail-shell-view-private.c:1036
-#: ../src/modules/mail/e-mail-shell-view-private.c:1047
+#: ../src/modules/mail/e-mail-shell-view-private.c:1027
+#: ../src/modules/mail/e-mail-shell-view-private.c:1038
 msgid "Inbox"
 msgstr "საფოსტო ყუთი"
 
 #. E_MAIL_LOCAL_FOLDER_INBOX
 #: ../src/libemail-engine/e-mail-session.c:122
-#: ../src/mail/em-folder-tree-model.c:1537
-#: ../src/mail/em-folder-tree-model.c:1577
+#: ../src/mail/em-folder-tree-model.c:1536
+#: ../src/mail/em-folder-tree-model.c:1576
 #: ../src/mail/importers/kmail-libs.c:144
-#: ../src/modules/mail/e-mail-shell-view-private.c:1034
+#: ../src/modules/mail/e-mail-shell-view-private.c:1025
 msgid "Drafts"
 msgstr "მონახაზები"
 
 #. E_MAIL_LOCAL_FOLDER_DRAFTS
 #: ../src/libemail-engine/e-mail-session.c:123
-#: ../src/mail/em-folder-tree-model.c:1549
+#: ../src/mail/em-folder-tree-model.c:1548
 #: ../src/mail/importers/kmail-libs.c:140
-#: ../src/modules/mail/e-mail-shell-view-private.c:1038
+#: ../src/modules/mail/e-mail-shell-view-private.c:1029
 msgid "Outbox"
 msgstr "გამავლები"
 
 #. E_MAIL_LOCAL_FOLDER_OUTBOX
 #: ../src/libemail-engine/e-mail-session.c:124
-#: ../src/mail/em-folder-tree-model.c:1554
-#: ../src/mail/em-folder-tree-model.c:1576
+#: ../src/mail/em-folder-tree-model.c:1553
+#: ../src/mail/em-folder-tree-model.c:1575
 #: ../src/mail/importers/kmail-libs.c:142
-#: ../src/modules/mail/e-mail-shell-view-private.c:1040
+#: ../src/modules/mail/e-mail-shell-view-private.c:1031
 msgid "Sent"
 msgstr "გაგზავნილია"
 
 #. E_MAIL_LOCAL_FOLDER_SENT
 #: ../src/libemail-engine/e-mail-session.c:125
-#: ../src/mail/em-folder-tree-model.c:1539
+#: ../src/mail/em-folder-tree-model.c:1538
 #: ../src/mail/importers/kmail-libs.c:146
-#: ../src/modules/mail/e-mail-shell-view-private.c:1042
+#: ../src/modules/mail/e-mail-shell-view-private.c:1033
 #: ../src/plugins/templates/org-gnome-templates.eplug.xml.h:1
 msgid "Templates"
 msgstr "შაბლონები"
@@ -16906,7 +16926,7 @@ msgid "(No Subject)"
 msgstr ""
 
 #: ../src/mail/e-mail-browser.c:536 ../src/mail/mail-dialogs.ui.h:5
-#: ../src/modules/mail/e-mail-shell-view-private.c:1534
+#: ../src/modules/mail/e-mail-shell-view-private.c:1525
 msgid "Forward"
 msgstr "წინ"
 
@@ -16916,13 +16936,13 @@ msgstr "წინ"
 #. * either of those, without too strongly implying one or the other.
 #: ../src/mail/e-mail-browser.c:547 ../src/mail/e-mail-reader.c:2958
 #: ../src/mail/e-mail-reader.c:5311 ../src/mail/e-mail-reader.c:5336
-#: ../src/modules/mail/e-mail-shell-view-private.c:1545
+#: ../src/modules/mail/e-mail-shell-view-private.c:1536
 msgid "Group Reply"
 msgstr ""
 
 #: ../src/mail/e-mail-browser.c:559 ../src/mail/e-mail-reader.c:5419
 #: ../src/mail/mail-dialogs.ui.h:9
-#: ../src/modules/mail/e-mail-shell-view-private.c:1557
+#: ../src/modules/mail/e-mail-shell-view-private.c:1548
 msgid "Reply"
 msgstr "პასუხი"
 
@@ -16985,7 +17005,7 @@ msgid "Do Not Quote"
 msgstr ""
 
 #: ../src/mail/e-mail-config-composing-page.c:157
-#: ../src/mail/em-composer-utils.c:4343
+#: ../src/mail/em-composer-utils.c:4365
 msgid "Use global setting"
 msgstr ""
 
@@ -17017,12 +17037,12 @@ msgid "Language for Reply and Forward attribution text"
 msgstr ""
 
 #: ../src/mail/e-mail-config-composing-page.c:524
-#: ../src/mail/em-composer-utils.c:4347 ../src/mail/mail-config.ui.h:23
+#: ../src/mail/em-composer-utils.c:4334 ../src/mail/mail-config.ui.h:23
 msgid "Start _typing at the bottom"
 msgstr ""
 
 #: ../src/mail/e-mail-config-composing-page.c:531
-#: ../src/mail/em-composer-utils.c:4350 ../src/mail/mail-config.ui.h:24
+#: ../src/mail/em-composer-utils.c:4338 ../src/mail/mail-config.ui.h:24
 msgid "_Keep signature above the original message"
 msgstr ""
 
@@ -17079,56 +17099,60 @@ msgstr ""
 msgid "Sent _Messages Folder:"
 msgstr ""
 
-#: ../src/mail/e-mail-config-defaults-page.c:725
+#: ../src/mail/e-mail-config-defaults-page.c:707
 msgid "Choose a folder for saving sent messages."
 msgstr ""
 
-#: ../src/mail/e-mail-config-defaults-page.c:751
+#: ../src/mail/e-mail-config-defaults-page.c:727
+msgid "Save s_ent messages into the Sent folder"
+msgstr ""
+
+#: ../src/mail/e-mail-config-defaults-page.c:744
 msgid "S_ave replies in the folder of the message being replied to"
 msgstr ""
 
-#: ../src/mail/e-mail-config-defaults-page.c:774
+#: ../src/mail/e-mail-config-defaults-page.c:767
 msgid "Archi_ve Folder:"
 msgstr ""
 
-#: ../src/mail/e-mail-config-defaults-page.c:784
+#: ../src/mail/e-mail-config-defaults-page.c:777
 #: ../src/modules/mail/em-mailer-prefs.c:1837
 msgid "Choose a folder to archive messages to."
 msgstr ""
 
-#: ../src/mail/e-mail-config-defaults-page.c:799
+#: ../src/mail/e-mail-config-defaults-page.c:792
 msgid "_Templates Folder:"
 msgstr ""
 
-#: ../src/mail/e-mail-config-defaults-page.c:809
+#: ../src/mail/e-mail-config-defaults-page.c:802
 msgid "Choose a folder to use for template messages."
 msgstr ""
 
-#: ../src/mail/e-mail-config-defaults-page.c:827
+#: ../src/mail/e-mail-config-defaults-page.c:820
 msgid "_Restore Defaults"
 msgstr "_ნაგულისხმევი მნიშვნელობების აღდგენა"
 
-#: ../src/mail/e-mail-config-defaults-page.c:844
+#: ../src/mail/e-mail-config-defaults-page.c:837
 msgid "_Lookup Folders"
 msgstr ""
 
-#: ../src/mail/e-mail-config-defaults-page.c:862
+#: ../src/mail/e-mail-config-defaults-page.c:855
 msgid "Use a Real Folder for _Trash:"
 msgstr ""
 
-#: ../src/mail/e-mail-config-defaults-page.c:863
+#: ../src/mail/e-mail-config-defaults-page.c:856
 msgid "Choose a folder for deleted messages."
 msgstr ""
 
-#: ../src/mail/e-mail-config-defaults-page.c:872
+#: ../src/mail/e-mail-config-defaults-page.c:865
 msgid "Use a Real Folder for _Junk:"
 msgstr ""
 
-#: ../src/mail/e-mail-config-defaults-page.c:873
+#: ../src/mail/e-mail-config-defaults-page.c:866
 msgid "Choose a folder for junk messages."
 msgstr ""
 
-#: ../src/mail/e-mail-config-defaults-page.c:991
+#: ../src/mail/e-mail-config-defaults-page.c:984
 msgid "Defaults"
 msgstr "ნაგულისხმევი მნიშვნელობები"
 
@@ -17688,11 +17712,11 @@ msgstr "სათაურები"
 msgid "Page %d of %d"
 msgstr "%d-ე გვერდი %d-დან"
 
-#: ../src/mail/e-mail-reader.c:360 ../src/mail/filtertypes.xml.in.h:68
+#: ../src/mail/e-mail-reader.c:360 ../src/mail/filtertypes.xml.in.h:69
 msgid "Move to Folder"
 msgstr ""
 
-#: ../src/mail/e-mail-reader.c:360 ../src/mail/filtertypes.xml.in.h:69
+#: ../src/mail/e-mail-reader.c:360 ../src/mail/filtertypes.xml.in.h:70
 msgid "Copy to Folder"
 msgstr ""
 
@@ -18174,7 +18198,7 @@ msgstr ""
 msgid "Checks selected messages for duplicates"
 msgstr ""
 
-#: ../src/mail/e-mail-reader.c:2944 ../src/mail/em-composer-utils.c:4283
+#: ../src/mail/e-mail-reader.c:2944 ../src/mail/em-composer-utils.c:4293
 #: ../src/mail/mail.error.xml.h:28
 #: ../src/modules/calendar/e-cal-shell-view-actions.c:1586
 #: ../src/modules/mail/e-mail-attachment-handler.c:396
@@ -18199,7 +18223,7 @@ msgstr ""
 msgid "Reply to the mailing list, or to all recipients"
 msgstr ""
 
-#: ../src/mail/e-mail-reader.c:2965 ../src/mail/em-composer-utils.c:4278
+#: ../src/mail/e-mail-reader.c:2965 ../src/mail/em-composer-utils.c:4288
 #: ../src/mail/mail.error.xml.h:26
 #: ../src/modules/mail/e-mail-attachment-handler.c:403
 msgid "Reply to _List"
@@ -18385,7 +18409,7 @@ msgstr ""
 msgid "Retrieving message"
 msgstr ""
 
-#: ../src/mail/e-mail-reader.c:5394 ../src/mail/filtertypes.xml.in.h:70
+#: ../src/mail/e-mail-reader.c:5394 ../src/mail/filtertypes.xml.in.h:71
 msgid "Delete"
 msgstr "წაშლა"
 
@@ -18597,84 +18621,84 @@ msgid "-----Original Message-----"
 msgstr ""
 
 #. Translators: This is a reply attribution in the message reply subject. The %s is replaced with the subject of the original message. Both 'Re'-s in the 'reply-attribution' translation context should translate into the same string, the same as the ':' separator.
-#: ../src/mail/em-composer-utils.c:2982
+#: ../src/mail/em-composer-utils.c:2984
 #, c-format
 msgctxt "reply-attribution"
 msgid "Re: %s"
 msgstr ""
 
-#: ../src/mail/em-composer-utils.c:3601
+#: ../src/mail/em-composer-utils.c:3603
 msgid "an unknown sender"
 msgstr ""
 
-#: ../src/mail/em-composer-utils.c:4229
+#: ../src/mail/em-composer-utils.c:4233
 msgid "Alternative Reply"
 msgstr ""
 
-#: ../src/mail/em-composer-utils.c:4232
+#: ../src/mail/em-composer-utils.c:4236
 #: ../src/modules/calendar/e-cal-shell-view-actions.c:1579
 msgid "_Reply"
 msgstr "_პასუხი"
 
-#: ../src/mail/em-composer-utils.c:4245
+#: ../src/mail/em-composer-utils.c:4254
 msgid "Recipients:"
 msgstr "მიმღები:"
 
-#: ../src/mail/em-composer-utils.c:4273
+#: ../src/mail/em-composer-utils.c:4283
 msgid "Reply to _Sender"
 msgstr ""
 
-#: ../src/mail/em-composer-utils.c:4295
+#: ../src/mail/em-composer-utils.c:4306
 msgid "Reply style:"
 msgstr ""
 
 #. Translators: This is for "Toolbar Icon Size: Default"
-#: ../src/mail/em-composer-utils.c:4303
+#: ../src/mail/em-composer-utils.c:4315
 #: ../src/modules/appearance-settings/evolution-appearance-settings.c:253
 msgid "_Default"
 msgstr "_ნაგულისხმები"
 
-#: ../src/mail/em-composer-utils.c:4307
+#: ../src/mail/em-composer-utils.c:4319
 msgid "Attach_ment"
 msgstr ""
 
-#: ../src/mail/em-composer-utils.c:4311
+#: ../src/mail/em-composer-utils.c:4323
 msgid "Inline (_Outlook style)"
 msgstr ""
 
-#: ../src/mail/em-composer-utils.c:4315
+#: ../src/mail/em-composer-utils.c:4327
 msgid "_Quote"
 msgstr ""
 
-#: ../src/mail/em-composer-utils.c:4319
+#: ../src/mail/em-composer-utils.c:4331
 msgid "Do _Not Quote"
 msgstr ""
 
 #. Translators: The text is followed by the format combo with values like 'Plain Text', 'HTML' and so on
-#: ../src/mail/em-composer-utils.c:4330
+#: ../src/mail/em-composer-utils.c:4352
 msgid "_Format message in"
 msgstr ""
 
-#: ../src/mail/em-composer-utils.c:4357
+#: ../src/mail/em-composer-utils.c:4374
 msgid "Apply t_emplate"
 msgstr ""
 
-#: ../src/mail/em-composer-utils.c:4369
+#: ../src/mail/em-composer-utils.c:4387
 msgid "Preserve original message S_ubject"
 msgstr ""
 
-#: ../src/mail/em-composer-utils.c:4435
+#: ../src/mail/em-composer-utils.c:4453
 #, c-format
 msgid "one recipient"
 msgid_plural "%d recipients"
 msgstr[0] ""
 
 #. FIXME GTK_WINDOW (composer)
-#: ../src/mail/em-composer-utils.c:4925
+#: ../src/mail/em-composer-utils.c:4943
 msgid "Posting destination"
 msgstr ""
 
-#: ../src/mail/em-composer-utils.c:4930
+#: ../src/mail/em-composer-utils.c:4948
 msgid "Choose folders to post the message to."
 msgstr ""
 
@@ -18941,13 +18965,13 @@ msgstr ""
 msgid "UNMATCHED"
 msgstr ""
 
-#: ../src/mail/em-folder-tree-model.c:1574
+#: ../src/mail/em-folder-tree-model.c:1573
 #: ../src/mail/importers/kmail-libs.c:148
-#: ../src/modules/mail/e-mail-shell-view-private.c:1044
+#: ../src/modules/mail/e-mail-shell-view-private.c:1035
 msgid "Trash"
 msgstr "ნაგავი"
 
-#: ../src/mail/em-folder-tree-model.c:1575 ../src/mail/filtertypes.xml.in.h:41
+#: ../src/mail/em-folder-tree-model.c:1574 ../src/mail/filtertypes.xml.in.h:41
 #: ../src/mail/mail-config.ui.h:149 ../src/mail/vfoldertypes.xml.in.h:44
 msgid "Junk"
 msgstr ""
@@ -19007,16 +19031,16 @@ msgid "Unsubscribe From _All"
 msgstr ""
 
 #: ../src/mail/em-subscription-editor.c:1315
-#: ../src/modules/mail/e-mail-shell-view-private.c:937
-#: ../src/modules/mail/e-mail-shell-view-private.c:969
-#: ../src/modules/mail/e-mail-shell-view-private.c:1013
+#: ../src/modules/mail/e-mail-shell-view-private.c:928
+#: ../src/modules/mail/e-mail-shell-view-private.c:960
+#: ../src/modules/mail/e-mail-shell-view-private.c:1004
 #, c-format
 msgid "%d unread, "
 msgid_plural "%d unread, "
 msgstr[0] ""
 
 #: ../src/mail/em-subscription-editor.c:1319
-#: ../src/modules/mail/e-mail-shell-view-private.c:1023
+#: ../src/modules/mail/e-mail-shell-view-private.c:1014
 #, c-format
 msgid "%d total"
 msgid_plural "%d total"
@@ -19322,134 +19346,139 @@ msgstr ""
 msgid "is not Completed"
 msgstr ""
 
-#: ../src/mail/filtertypes.xml.in.h:51 ../src/mail/searchtypes.xml.in.h:53
-#: ../src/mail/vfoldertypes.xml.in.h:54
-msgid "Mailing list"
-msgstr "დაგზავნის სია"
+#: ../src/mail/filtertypes.xml.in.h:47 ../src/mail/searchtypes.xml.in.h:49
+#: ../src/mail/vfoldertypes.xml.in.h:50
+msgid "Follow Up Due By"
+msgstr ""
 
 #: ../src/mail/filtertypes.xml.in.h:52 ../src/mail/searchtypes.xml.in.h:54
 #: ../src/mail/vfoldertypes.xml.in.h:55
-msgid "Regex Match"
-msgstr ""
+msgid "Mailing list"
+msgstr "დაგზავნის სია"
 
 #: ../src/mail/filtertypes.xml.in.h:53 ../src/mail/searchtypes.xml.in.h:55
 #: ../src/mail/vfoldertypes.xml.in.h:56
+msgid "Regex Match"
+msgstr ""
+
+#: ../src/mail/filtertypes.xml.in.h:54 ../src/mail/searchtypes.xml.in.h:56
+#: ../src/mail/vfoldertypes.xml.in.h:57
 msgid "Message Header"
 msgstr ""
 
-#: ../src/mail/filtertypes.xml.in.h:54
+#: ../src/mail/filtertypes.xml.in.h:55
 msgid "Source Account"
 msgstr ""
 
-#: ../src/mail/filtertypes.xml.in.h:55
+#: ../src/mail/filtertypes.xml.in.h:56
 msgid "Pipe to Program"
 msgstr ""
 
-#: ../src/mail/filtertypes.xml.in.h:56
+#: ../src/mail/filtertypes.xml.in.h:57
 msgid "returns"
 msgstr ""
 
-#: ../src/mail/filtertypes.xml.in.h:57
+#: ../src/mail/filtertypes.xml.in.h:58
 msgid "does not return"
 msgstr ""
 
-#: ../src/mail/filtertypes.xml.in.h:58
+#: ../src/mail/filtertypes.xml.in.h:59
 msgid "returns greater than"
 msgstr ""
 
-#: ../src/mail/filtertypes.xml.in.h:59
+#: ../src/mail/filtertypes.xml.in.h:60
 msgid "returns less than"
 msgstr ""
 
-#: ../src/mail/filtertypes.xml.in.h:60
+#: ../src/mail/filtertypes.xml.in.h:61
 msgid "Junk Test"
 msgstr ""
 
-#: ../src/mail/filtertypes.xml.in.h:61
+#: ../src/mail/filtertypes.xml.in.h:62
 msgid "Message is Junk"
 msgstr ""
 
-#: ../src/mail/filtertypes.xml.in.h:62
+#: ../src/mail/filtertypes.xml.in.h:63
 msgid "Message is not Junk"
 msgstr ""
 
-#: ../src/mail/filtertypes.xml.in.h:63 ../src/mail/vfoldertypes.xml.in.h:57
+#: ../src/mail/filtertypes.xml.in.h:64 ../src/mail/vfoldertypes.xml.in.h:58
 msgid "Message Location"
-msgstr ""
-
-#: ../src/mail/filtertypes.xml.in.h:65 ../src/mail/searchtypes.xml.in.h:57
-#: ../src/mail/vfoldertypes.xml.in.h:59
-msgid "contains Sender"
 msgstr ""
 
 #: ../src/mail/filtertypes.xml.in.h:66 ../src/mail/searchtypes.xml.in.h:58
 #: ../src/mail/vfoldertypes.xml.in.h:60
-msgid "does not contain Sender"
+msgid "contains Sender"
 msgstr ""
 
 #: ../src/mail/filtertypes.xml.in.h:67 ../src/mail/searchtypes.xml.in.h:59
 #: ../src/mail/vfoldertypes.xml.in.h:61
+msgid "does not contain Sender"
+msgstr ""
+
+#: ../src/mail/filtertypes.xml.in.h:68 ../src/mail/searchtypes.xml.in.h:60
+#: ../src/mail/vfoldertypes.xml.in.h:62
 msgid "Match All"
 msgstr ""
 
-#: ../src/mail/filtertypes.xml.in.h:71
+#: ../src/mail/filtertypes.xml.in.h:72
 msgid "Stop Processing"
 msgstr ""
 
-#: ../src/mail/filtertypes.xml.in.h:72
+#: ../src/mail/filtertypes.xml.in.h:73
 msgid "Set Label"
 msgstr "ჭდის დადება"
 
-#: ../src/mail/filtertypes.xml.in.h:73
+#: ../src/mail/filtertypes.xml.in.h:74
 msgid "Assign Color"
 msgstr ""
 
-#: ../src/mail/filtertypes.xml.in.h:74
+#: ../src/mail/filtertypes.xml.in.h:75
 msgid "Unset Color"
 msgstr ""
 
-#: ../src/mail/filtertypes.xml.in.h:75
+#: ../src/mail/filtertypes.xml.in.h:76
 msgid "Assign Score"
 msgstr ""
 
-#: ../src/mail/filtertypes.xml.in.h:76
+#: ../src/mail/filtertypes.xml.in.h:77
 msgid "Adjust Score"
 msgstr ""
 
-#: ../src/mail/filtertypes.xml.in.h:77
+#: ../src/mail/filtertypes.xml.in.h:78
 msgid "Set Status"
 msgstr ""
 
-#: ../src/mail/filtertypes.xml.in.h:78 ../src/mail/searchtypes.xml.in.h:40
+#: ../src/mail/filtertypes.xml.in.h:79 ../src/mail/searchtypes.xml.in.h:40
 #: ../src/mail/vfoldertypes.xml.in.h:40
 msgid "Deleted"
 msgstr "წაშლილია"
 
-#: ../src/mail/filtertypes.xml.in.h:79
+#: ../src/mail/filtertypes.xml.in.h:80
 msgid "Unset Status"
 msgstr ""
 
-#: ../src/mail/filtertypes.xml.in.h:80
+#: ../src/mail/filtertypes.xml.in.h:81
 msgid "Learn as Junk"
 msgstr ""
 
-#: ../src/mail/filtertypes.xml.in.h:81
+#: ../src/mail/filtertypes.xml.in.h:82
 msgid "Beep"
 msgstr "პიპინი"
 
-#: ../src/mail/filtertypes.xml.in.h:82
+#: ../src/mail/filtertypes.xml.in.h:83
 msgid "Play Sound"
 msgstr "ხმის დაკვრა"
 
-#: ../src/mail/filtertypes.xml.in.h:83
+#: ../src/mail/filtertypes.xml.in.h:84
 msgid "Run Program"
 msgstr "პროგრამის გაშვება"
 
-#: ../src/mail/filtertypes.xml.in.h:84
+#: ../src/mail/filtertypes.xml.in.h:85
 msgid "Forward to"
 msgstr "გადაგზავნა"
 
-#: ../src/mail/filtertypes.xml.in.h:85
+#: ../src/mail/filtertypes.xml.in.h:86
 msgid "with"
 msgstr ""
 
@@ -21193,36 +21222,36 @@ msgstr ""
 msgid "Any header"
 msgstr ""
 
-#: ../src/mail/searchtypes.xml.in.h:60
+#: ../src/mail/searchtypes.xml.in.h:61
 msgid "Subject or Addresses contains"
 msgstr ""
 
-#: ../src/mail/searchtypes.xml.in.h:61
+#: ../src/mail/searchtypes.xml.in.h:62
 #: ../src/modules/mail/e-mail-shell-view-actions.c:2129
 msgid "Recipients contain"
 msgstr ""
 
-#: ../src/mail/searchtypes.xml.in.h:62
+#: ../src/mail/searchtypes.xml.in.h:63
 #: ../src/modules/mail/e-mail-shell-view-actions.c:2122
 msgid "Message contains"
 msgstr ""
 
-#: ../src/mail/searchtypes.xml.in.h:63
+#: ../src/mail/searchtypes.xml.in.h:64
 #: ../src/modules/mail/e-mail-shell-view-actions.c:2143
 msgid "Subject contains"
 msgstr ""
 
-#: ../src/mail/searchtypes.xml.in.h:64
+#: ../src/mail/searchtypes.xml.in.h:65
 #: ../src/modules/mail/e-mail-shell-view-actions.c:2136
 msgid "Sender contains"
 msgstr ""
 
-#: ../src/mail/searchtypes.xml.in.h:65
+#: ../src/mail/searchtypes.xml.in.h:66
 #: ../src/modules/mail/e-mail-shell-view-actions.c:2108
 msgid "Body contains"
 msgstr ""
 
-#: ../src/mail/searchtypes.xml.in.h:66
+#: ../src/mail/searchtypes.xml.in.h:67
 #: ../src/modules/mail/e-mail-shell-view-actions.c:2115
 msgid "Free form expression"
 msgstr ""
@@ -25221,64 +25250,64 @@ msgstr ""
 msgid "Current Folder and Subfolders"
 msgstr ""
 
-#: ../src/modules/mail/e-mail-shell-view.c:1039
+#: ../src/modules/mail/e-mail-shell-view.c:1056
 msgid "Current Folder and Subfolders Search"
 msgstr ""
 
-#: ../src/modules/mail/e-mail-shell-view.c:1159
+#: ../src/modules/mail/e-mail-shell-view.c:1144
 msgid "All Account Search"
 msgstr ""
 
-#: ../src/modules/mail/e-mail-shell-view.c:1267
+#: ../src/modules/mail/e-mail-shell-view.c:1220
 msgid "Account Search"
 msgstr ""
 
-#: ../src/modules/mail/e-mail-shell-view-private.c:930
+#: ../src/modules/mail/e-mail-shell-view-private.c:921
 #, c-format
 msgid "%d selected, "
 msgid_plural "%d selected, "
 msgstr[0] ""
 
-#: ../src/modules/mail/e-mail-shell-view-private.c:945
-#: ../src/modules/mail/e-mail-shell-view-private.c:962
+#: ../src/modules/mail/e-mail-shell-view-private.c:936
+#: ../src/modules/mail/e-mail-shell-view-private.c:953
 #, c-format
 msgid "%d deleted"
 msgid_plural "%d deleted"
 msgstr[0] ""
 
-#: ../src/modules/mail/e-mail-shell-view-private.c:976
-#: ../src/modules/mail/e-mail-shell-view-private.c:982
+#: ../src/modules/mail/e-mail-shell-view-private.c:967
+#: ../src/modules/mail/e-mail-shell-view-private.c:973
 #, c-format
 msgid "%d junk"
 msgid_plural "%d junk"
 msgstr[0] ""
 
-#: ../src/modules/mail/e-mail-shell-view-private.c:989
+#: ../src/modules/mail/e-mail-shell-view-private.c:980
 #, c-format
 msgid "%d draft"
 msgid_plural "%d drafts"
 msgstr[0] ""
 
-#: ../src/modules/mail/e-mail-shell-view-private.c:995
+#: ../src/modules/mail/e-mail-shell-view-private.c:986
 #, c-format
 msgid "%d unsent"
 msgid_plural "%d unsent"
 msgstr[0] ""
 
-#: ../src/modules/mail/e-mail-shell-view-private.c:1001
+#: ../src/modules/mail/e-mail-shell-view-private.c:992
 #, c-format
 msgid "%d sent"
 msgid_plural "%d sent"
 msgstr[0] ""
 
-#: ../src/modules/mail/e-mail-shell-view-private.c:1018
+#: ../src/modules/mail/e-mail-shell-view-private.c:1009
 #, c-format
 msgid "%d unread"
 msgid_plural "%d unread"
 msgstr[0] ""
 
-#: ../src/modules/mail/e-mail-shell-view-private.c:1523
-#: ../src/modules/mail/e-mail-shell-view-private.c:1592
+#: ../src/modules/mail/e-mail-shell-view-private.c:1514
+#: ../src/modules/mail/e-mail-shell-view-private.c:1583
 msgid "Send / Receive"
 msgstr ""
 
@@ -25768,7 +25797,7 @@ msgstr ""
 
 #: ../src/modules/spamassassin/evolution-spamassassin.c:536
 msgid "SpamAssassin Options"
-msgstr ""
+msgstr "SpamAssassin-ის მორგება"
 
 #: ../src/modules/spamassassin/evolution-spamassassin.c:551
 msgid "I_nclude remote tests"
@@ -25792,15 +25821,15 @@ msgstr ""
 #: ../src/modules/startup-wizard/e-mail-config-import-page.c:271
 #: ../src/modules/startup-wizard/e-mail-config-import-progress-page.c:336
 msgid "Importing Files"
-msgstr ""
+msgstr "ფაილების შემოტანა"
 
 #: ../src/modules/startup-wizard/e-mail-config-import-progress-page.c:253
 msgid "Import cancelled."
-msgstr ""
+msgstr "შემოტანა გაუქმდა."
 
 #: ../src/modules/startup-wizard/e-mail-config-import-progress-page.c:270
 msgid "Import complete."
-msgstr ""
+msgstr "შემოტანა დასრულდა."
 
 #: ../src/modules/startup-wizard/e-startup-assistant.c:174
 msgid ""
@@ -25812,7 +25841,7 @@ msgstr ""
 
 #: ../src/modules/startup-wizard/e-startup-assistant.c:181
 msgid "Do not _show this wizard again"
-msgstr ""
+msgstr "_ეს ოსტატი აღარ მაჩვენო"
 
 #. Translators: This is part of "Alternatively, you can %s (email, contacts and calendaring) instead." sentence from the same translation context.
 #: ../src/modules/startup-wizard/e-startup-assistant.c:194
@@ -25829,7 +25858,7 @@ msgstr ""
 
 #: ../src/modules/startup-wizard/evolution-startup-wizard.c:194
 msgid "Loading accounts…"
-msgstr ""
+msgstr "ანგარიშების ჩატვირთვა…"
 
 #: ../src/modules/text-highlight/e-mail-display-popup-text-highlight.c:94
 msgid "_Format as…"
@@ -25837,83 +25866,83 @@ msgstr ""
 
 #: ../src/modules/text-highlight/e-mail-display-popup-text-highlight.c:102
 msgid "_Other languages"
-msgstr ""
+msgstr "_სხვა ენები"
 
 #: ../src/modules/text-highlight/e-mail-formatter-text-highlight.c:503
 msgid "Text Highlight"
-msgstr ""
+msgstr "ტექსტის გამოკვეთა"
 
 #: ../src/modules/text-highlight/e-mail-formatter-text-highlight.c:504
 msgid "Syntax highlighting of mail parts"
-msgstr ""
+msgstr "ელფოსტის ნაწილების სინტაქსის გამოკვეთა"
 
 #: ../src/modules/text-highlight/languages.c:29
 msgid "_Plain text"
-msgstr ""
+msgstr "_უბრალო ტექსტი"
 
 #: ../src/modules/text-highlight/languages.c:35
 msgid "_Assembler"
-msgstr ""
+msgstr "_ასემბლერი"
 
 #: ../src/modules/text-highlight/languages.c:40
 msgid "_Bash"
-msgstr ""
+msgstr "_Bash"
 
 #: ../src/modules/text-highlight/languages.c:51
 msgid "_C/C++"
-msgstr ""
+msgstr "_C/C++"
 
 #: ../src/modules/text-highlight/languages.c:60
 msgid "_C#"
-msgstr ""
+msgstr "_C#"
 
 #: ../src/modules/text-highlight/languages.c:65
 msgid "_Cascade Style Sheet"
-msgstr ""
+msgstr "_კასკადური სტილის ფურცლები"
 
 #: ../src/modules/text-highlight/languages.c:78
 msgid "_Java"
-msgstr ""
+msgstr "_Java"
 
 #: ../src/modules/text-highlight/languages.c:84
 msgid "_JavaScript"
-msgstr ""
+msgstr "_JavaScript"
 
 #: ../src/modules/text-highlight/languages.c:90
 msgid "_Patch/diff"
-msgstr ""
+msgstr "_Patch/diff"
 
 #: ../src/modules/text-highlight/languages.c:101
 msgid "_Perl"
-msgstr ""
+msgstr "_Perl"
 
 #: ../src/modules/text-highlight/languages.c:112
 msgid "_PHP"
-msgstr ""
+msgstr "_PHP"
 
 #: ../src/modules/text-highlight/languages.c:125
 msgid "_Python"
-msgstr ""
+msgstr "_Python"
 
 #: ../src/modules/text-highlight/languages.c:130
 msgid "_Ruby"
-msgstr ""
+msgstr "_Ruby"
 
 #: ../src/modules/text-highlight/languages.c:137
 msgid "_Tcl/Tk"
-msgstr ""
+msgstr "_Tcl/Tk"
 
 #: ../src/modules/text-highlight/languages.c:143
 msgid "_TeX/LaTeX"
-msgstr ""
+msgstr "_TeX/LaTeX"
 
 #: ../src/modules/text-highlight/languages.c:149
 msgid "_Vala"
-msgstr ""
+msgstr "_Vala"
 
 #: ../src/modules/text-highlight/languages.c:154
 msgid "_Visual Basic"
-msgstr ""
+msgstr "_Visual Basic"
 
 #: ../src/modules/text-highlight/languages.c:161
 msgid "_XML"
@@ -25921,47 +25950,47 @@ msgstr "_XML"
 
 #: ../src/modules/text-highlight/languages.c:179
 msgid "_ActionScript"
-msgstr ""
+msgstr "_ActionScript"
 
 #: ../src/modules/text-highlight/languages.c:184
 msgid "_ADA95"
-msgstr ""
+msgstr "_ADA95"
 
 #: ../src/modules/text-highlight/languages.c:191
 msgid "_ALGOL 68"
-msgstr ""
+msgstr "_ALGOL 68"
 
 #: ../src/modules/text-highlight/languages.c:196
 msgid "(_G)AWK"
-msgstr ""
+msgstr "(_G)AWK"
 
 #: ../src/modules/text-highlight/languages.c:201
 msgid "_COBOL"
-msgstr ""
+msgstr "_COBOL"
 
 #: ../src/modules/text-highlight/languages.c:206
 msgid "_DOS Batch"
-msgstr ""
+msgstr "_DOS Batch"
 
 #: ../src/modules/text-highlight/languages.c:211
 msgid "_D"
-msgstr ""
+msgstr "_D"
 
 #: ../src/modules/text-highlight/languages.c:216
 msgid "_Erlang"
-msgstr ""
+msgstr "_Erlang"
 
 #: ../src/modules/text-highlight/languages.c:221
 msgid "_FORTRAN 77"
-msgstr ""
+msgstr "_FORTRAN 77"
 
 #: ../src/modules/text-highlight/languages.c:227
 msgid "_FORTRAN 90"
-msgstr ""
+msgstr "_FORTRAN 90"
 
 #: ../src/modules/text-highlight/languages.c:232
 msgid "_F#"
-msgstr ""
+msgstr "_F#"
 
 #: ../src/modules/text-highlight/languages.c:237
 msgid "_Go"
@@ -25969,67 +25998,67 @@ msgstr "გადასვლა"
 
 #: ../src/modules/text-highlight/languages.c:242
 msgid "_Haskell"
-msgstr ""
+msgstr "_Haskell"
 
 #: ../src/modules/text-highlight/languages.c:247
 msgid "_JSP"
-msgstr ""
+msgstr "_JSP"
 
 #: ../src/modules/text-highlight/languages.c:252
 msgid "_Lisp"
-msgstr ""
+msgstr "_Lisp"
 
 #: ../src/modules/text-highlight/languages.c:260
 msgid "_Lotus"
-msgstr ""
+msgstr "_Lotus"
 
 #: ../src/modules/text-highlight/languages.c:265
 msgid "_Lua"
-msgstr ""
+msgstr "_Lua"
 
 #: ../src/modules/text-highlight/languages.c:270
 msgid "_Maple"
-msgstr ""
+msgstr "_Maple"
 
 #: ../src/modules/text-highlight/languages.c:275
 msgid "_Matlab"
-msgstr ""
+msgstr "_Matlab"
 
 #: ../src/modules/text-highlight/languages.c:280
 msgid "_Maya"
-msgstr ""
+msgstr "_Maya"
 
 #: ../src/modules/text-highlight/languages.c:285
 msgid "_Oberon"
-msgstr ""
+msgstr "_Oberon"
 
 #: ../src/modules/text-highlight/languages.c:290
 msgid "_Objective C"
-msgstr ""
+msgstr "_Objective C"
 
 #: ../src/modules/text-highlight/languages.c:296
 msgid "_OCaml"
-msgstr ""
+msgstr "_OCaml"
 
 #: ../src/modules/text-highlight/languages.c:301
 msgid "_Octave"
-msgstr ""
+msgstr "_Octave"
 
 #: ../src/modules/text-highlight/languages.c:306
 msgid "_Object Script"
-msgstr ""
+msgstr "_Object Script"
 
 #: ../src/modules/text-highlight/languages.c:311
 msgid "_Pascal"
-msgstr ""
+msgstr "_Pascal"
 
 #: ../src/modules/text-highlight/languages.c:316
 msgid "_POV-Ray"
-msgstr ""
+msgstr "_POV-Ray"
 
 #: ../src/modules/text-highlight/languages.c:321
 msgid "_Prolog"
-msgstr ""
+msgstr "_Prolog"
 
 #: ../src/modules/text-highlight/languages.c:326
 msgid "_R"
@@ -26037,23 +26066,23 @@ msgstr "_R"
 
 #: ../src/modules/text-highlight/languages.c:331
 msgid "_RPM Spec"
-msgstr ""
+msgstr "_RPM Spec"
 
 #: ../src/modules/text-highlight/languages.c:336
 msgid "_Scala"
-msgstr ""
+msgstr "_Scala"
 
 #: ../src/modules/text-highlight/languages.c:341
 msgid "_Smalltalk"
-msgstr ""
+msgstr "_Smalltalk"
 
 #: ../src/modules/text-highlight/languages.c:347
 msgid "_TCSH"
-msgstr ""
+msgstr "_TCSH"
 
 #: ../src/modules/text-highlight/languages.c:352
 msgid "_VHDL"
-msgstr ""
+msgstr "_VHDL"
 
 #: ../src/modules/vcard-inline/e-mail-formatter-vcard.c:153
 msgid "Show F_ull vCard"
@@ -26118,7 +26147,7 @@ msgstr ""
 #: ../src/plugins/attachment-reminder/org-gnome-attachment-reminder.error.xml.h:4
 #: ../src/plugins/sender-validation/org-gnome-sender-validation.error.xml.h:3
 msgid "_Edit Message"
-msgstr ""
+msgstr "შეტყობინების _ჩასწორება"
 
 #: ../src/plugins/attachment-reminder/org-gnome-evolution-attachment-reminder.eplug.xml.h:1
 msgid "Attachment Reminder"
@@ -26167,7 +26196,7 @@ msgstr ""
 
 #: ../src/plugins/bbdb/org-gnome-evolution-bbdb.eplug.xml.h:2
 msgid "BBDB"
-msgstr ""
+msgstr "BBDB"
 
 #: ../src/plugins/bbdb/org-gnome-evolution-bbdb.eplug.xml.h:3
 msgid ""
@@ -26290,7 +26319,7 @@ msgstr ""
 
 #: ../src/plugins/external-editor/org-gnome-external-editor.eplug.xml.h:1
 msgid "External Editor"
-msgstr ""
+msgstr "გარე რედაქტორი"
 
 #: ../src/plugins/external-editor/org-gnome-external-editor.eplug.xml.h:2
 msgid "Use an external editor to compose plain-text mail messages."
@@ -26298,7 +26327,7 @@ msgstr ""
 
 #: ../src/plugins/external-editor/org-gnome-external-editor.error.xml.h:1
 msgid "Editor not launchable"
-msgstr ""
+msgstr "რედაქტორი გაშვებადი არაა"
 
 #: ../src/plugins/external-editor/org-gnome-external-editor.error.xml.h:2
 msgid ""
@@ -26308,7 +26337,7 @@ msgstr ""
 
 #: ../src/plugins/external-editor/org-gnome-external-editor.error.xml.h:3
 msgid "Cannot create Temporary File"
-msgstr ""
+msgstr "დროებითი ფაილის შექმნის შეცდომა"
 
 #: ../src/plugins/external-editor/org-gnome-external-editor.error.xml.h:4
 msgid ""
@@ -26318,7 +26347,7 @@ msgstr ""
 
 #: ../src/plugins/external-editor/org-gnome-external-editor.error.xml.h:5
 msgid "External editor still running"
-msgstr ""
+msgstr "გარე რედაქტორი ჯერ კიდევ გაშვებულია"
 
 #: ../src/plugins/external-editor/org-gnome-external-editor.error.xml.h:6
 msgid ""
@@ -26328,7 +26357,7 @@ msgstr ""
 
 #: ../src/plugins/face/face.c:295
 msgid "Select a Face Picture"
-msgstr ""
+msgstr "აირჩიეთ სახის სურათი"
 
 #: ../src/plugins/face/face.c:389
 msgid "_Insert Face picture by default"
@@ -26538,14 +26567,14 @@ msgstr "ვისგან: %s"
 #: ../src/plugins/mail-notification/mail-notification.c:533
 #, c-format
 msgid "Subject: %s"
-msgstr ""
+msgstr "სათაური: %s"
 
 #. Translators: The '%s' is replaced by the folder name, where a new
 #. * mail message arrived. Example: "Folder: On This Computer : Inbox"
 #: ../src/plugins/mail-notification/mail-notification.c:541
 #, c-format
 msgid "Folder: %s"
-msgstr ""
+msgstr "საქაღალდე: %s"
 
 #. Translators: %d is the count of mails received in addition
 #. * to the one displayed in this notification.
@@ -26794,7 +26823,7 @@ msgstr "დანიშნულების საქაღალდე:"
 
 #: ../src/plugins/pst-import/pst-importer.c:561
 msgid "_Address Book"
-msgstr ""
+msgstr "მისამართების _წიგნი"
 
 #: ../src/plugins/pst-import/pst-importer.c:566
 msgid "A_ppointments"
@@ -26802,7 +26831,7 @@ msgstr ""
 
 #: ../src/plugins/pst-import/pst-importer.c:576
 msgid "_Journal entries"
-msgstr ""
+msgstr "_ჟურნალის ჩანაწერები"
 
 #: ../src/plugins/pst-import/pst-importer.c:693
 msgid "Importing Outlook data"
@@ -26841,7 +26870,7 @@ msgstr ""
 #: ../src/plugins/publish-calendar/publish-calendar.c:289
 #, c-format
 msgid "Mount of %s failed:"
-msgstr ""
+msgstr "%s-ის მიმაგრების შეცდომა:"
 
 #: ../src/plugins/publish-calendar/publish-calendar.c:787
 msgid "Are you sure you want to remove this location?"
@@ -26860,7 +26889,7 @@ msgstr ""
 
 #: ../src/plugins/publish-calendar/publish-calendar.ui.h:1
 msgid "iCal"
-msgstr ""
+msgstr "iCal"
 
 #: ../src/plugins/publish-calendar/publish-calendar.ui.h:3
 msgid "Free/Busy with Details"
@@ -26924,7 +26953,7 @@ msgstr "წყაროები"
 
 #: ../src/plugins/publish-calendar/publish-calendar.ui.h:24
 msgid "Service _type:"
-msgstr ""
+msgstr "სერვისის _ტიპი:"
 
 #: ../src/plugins/publish-calendar/publish-calendar.ui.h:26
 msgid "_File:"
@@ -26932,7 +26961,7 @@ msgstr "ფაილი:"
 
 #: ../src/plugins/publish-calendar/publish-calendar.ui.h:28
 msgid "P_ort:"
-msgstr ""
+msgstr "_პორტი:"
 
 #: ../src/plugins/publish-calendar/publish-calendar.ui.h:32
 msgid "Publishing Location"
@@ -26957,19 +26986,19 @@ msgstr "მდებარეობის ჩასწორება"
 #. * of the date in the csv-file.
 #: ../src/plugins/save-calendar/csv-format.c:154
 msgid "%F %T"
-msgstr ""
+msgstr "%F %T"
 
 #: ../src/plugins/save-calendar/csv-format.c:363
 msgid "Description List"
-msgstr ""
+msgstr "აღწერის სია"
 
 #: ../src/plugins/save-calendar/csv-format.c:364
 msgid "Categories List"
-msgstr ""
+msgstr "კატეგორიების სია"
 
 #: ../src/plugins/save-calendar/csv-format.c:365
 msgid "Comment List"
-msgstr ""
+msgstr "კომენტარების სია"
 
 #: ../src/plugins/save-calendar/csv-format.c:368
 msgid "Contact List"
@@ -26989,7 +27018,7 @@ msgstr "ვადა"
 
 #: ../src/plugins/save-calendar/csv-format.c:372
 msgid "percent Done"
-msgstr ""
+msgstr "შესრულებული პროცენტი"
 
 #: ../src/plugins/save-calendar/csv-format.c:374
 msgid "URL"
@@ -26997,7 +27026,7 @@ msgstr "ბმული"
 
 #: ../src/plugins/save-calendar/csv-format.c:375
 msgid "Attendees List"
-msgstr ""
+msgstr "დამსწრეთა სია"
 
 #: ../src/plugins/save-calendar/csv-format.c:377
 msgid "Modified"
@@ -27030,7 +27059,7 @@ msgstr ""
 #: ../src/plugins/save-calendar/ical-format.c:181
 #: ../src/shell/e-shell-utils.c:172
 msgid "iCalendar (.ics)"
-msgstr ""
+msgstr "iCalendar (.ics)"
 
 #: ../src/plugins/save-calendar/org-gnome-save-calendar.eplug.xml.h:1
 msgid "Save Selected"
@@ -27047,11 +27076,11 @@ msgstr ""
 #. *
 #: ../src/plugins/save-calendar/rdf-format.c:145
 msgid "%FT%T"
-msgstr ""
+msgstr "%FT%T"
 
 #: ../src/plugins/save-calendar/rdf-format.c:373
 msgid "RDF (.rdf)"
-msgstr ""
+msgstr "RDF (.rdf)"
 
 #: ../src/plugins/save-calendar/save-calendar.c:114
 msgid "_Format:"
@@ -27059,11 +27088,11 @@ msgstr "_ფორატი:"
 
 #: ../src/plugins/save-calendar/save-calendar.c:181
 msgid "Select destination file"
-msgstr ""
+msgstr "აირჩიეთ სამიზნე ფაილი"
 
 #: ../src/plugins/save-calendar/save-calendar.c:184
 msgid "_Save As"
-msgstr ""
+msgstr "_შენახვა, როგორც"
 
 #: ../src/plugins/save-calendar/save-calendar.c:343
 msgid "Save the selected calendar to disk"
@@ -27079,7 +27108,7 @@ msgstr ""
 
 #: ../src/plugins/sender-validation/org-gnome-evolution-sender-validation.eplug.xml.h:1
 msgid "Sender Validation"
-msgstr ""
+msgstr "გამგზავნის გადამოწმება"
 
 #: ../src/plugins/sender-validation/org-gnome-evolution-sender-validation.eplug.xml.h:2
 msgid ""
@@ -27201,25 +27230,25 @@ msgstr "ახალი"
 #. * allows the user to filter the current view.  Examples of
 #. * items that appear in the combo box are "Unread Messages",
 #. * "Important Messages", or "Active Appointments".
-#: ../src/shell/e-shell-searchbar.c:929
+#: ../src/shell/e-shell-searchbar.c:960
 msgid "Sho_w:"
-msgstr ""
+msgstr "_ჩვენება:"
 
 #. Translators: This is part of the quick search interface.
 #. * example: Search: [_______________] in [ Current Folder ]
-#: ../src/shell/e-shell-searchbar.c:955
+#: ../src/shell/e-shell-searchbar.c:986
 msgid "Sear_ch:"
-msgstr ""
+msgstr "_ძებნა:"
 
 #. Translators: This is part of the quick search interface.
 #. * example: Search: [_______________] in [ Current Folder ]
-#: ../src/shell/e-shell-searchbar.c:1023
+#: ../src/shell/e-shell-searchbar.c:1054
 msgid "i_n"
 msgstr ""
 
 #: ../src/shell/e-shell-utils.c:169
 msgid "vCard (.vcf)"
-msgstr ""
+msgstr "vCard (.vcf)"
 
 #: ../src/shell/e-shell-utils.c:195
 msgid "All Files (*)"
@@ -27270,7 +27299,7 @@ msgstr ""
 
 #: ../src/shell/e-shell-window-actions.c:916
 msgid "_Accounts"
-msgstr ""
+msgstr "_ანგარიშები"
 
 #: ../src/shell/e-shell-window-actions.c:918
 msgid "Configure Evolution Accounts"
@@ -27291,7 +27320,7 @@ msgstr ""
 
 #: ../src/shell/e-shell-window-actions.c:972
 msgid "I_mport…"
-msgstr ""
+msgstr "_შემოტანა…"
 
 #: ../src/shell/e-shell-window-actions.c:974
 msgid "Import data from other programs"
@@ -27307,7 +27336,7 @@ msgstr ""
 
 #: ../src/shell/e-shell-window-actions.c:993
 msgid "Available Cate_gories"
-msgstr ""
+msgstr "ხელმისაწვდომი _კატეგორიები"
 
 #: ../src/shell/e-shell-window-actions.c:995
 msgid "Manage available categories"
@@ -27407,7 +27436,7 @@ msgstr ""
 
 #: ../src/shell/e-shell-window-actions.c:1128
 msgid "Lay_out"
-msgstr ""
+msgstr "_განლაგება"
 
 #. Translators: This is a New menu item caption, under File->New
 #: ../src/shell/e-shell-window-actions.c:1136
@@ -27666,7 +27695,7 @@ msgstr "მაინც გაგრძელება"
 
 #: ../src/shell/shell.error.xml.h:8
 msgid "Quit Now"
-msgstr ""
+msgstr "ახლავე გასვლა"
 
 #: ../src/shell/shell.error.xml.h:9
 msgid "Cannot upgrade directly from version {0}"
@@ -27856,19 +27885,19 @@ msgstr "იწურება"
 #: ../src/smime/gui/certificate-manager.c:106
 #: ../src/smime/gui/certificate-manager.c:125
 msgid "SHA256 Fingerprint"
-msgstr ""
+msgstr "SHA256 ანაბეჭდი"
 
 #: ../src/smime/gui/certificate-manager.c:86
 #: ../src/smime/gui/certificate-manager.c:107
 #: ../src/smime/gui/certificate-manager.c:126
 msgid "SHA1 Fingerprint"
-msgstr ""
+msgstr "SHA1 ანაბეჭდი"
 
 #: ../src/smime/gui/certificate-manager.c:87
 #: ../src/smime/gui/certificate-manager.c:108
 #: ../src/smime/gui/certificate-manager.c:127
 msgid "MD5 Fingerprint"
-msgstr ""
+msgstr "MD5 ანაბეჭდი"
 
 #: ../src/smime/gui/certificate-manager.c:96
 #: ../src/smime/gui/certificate-manager.c:117
@@ -27887,7 +27916,7 @@ msgstr ""
 #: ../src/smime/gui/certificate-manager.c:653
 #, c-format
 msgid "%s-backup.p12"
-msgstr ""
+msgstr "%s-backup.p12"
 
 #: ../src/smime/gui/certificate-manager.c:712
 msgid "Backup Certificate"
@@ -27896,7 +27925,7 @@ msgstr ""
 #. filename selection
 #: ../src/smime/gui/certificate-manager.c:727
 msgid "_File name:"
-msgstr ""
+msgstr "ფაილის _სახელი:"
 
 #. FIXME when gtk_file_chooser_button allows GTK_FILE_CHOOSER_ACTION_SAVE use it
 #: ../src/smime/gui/certificate-manager.c:732
@@ -27976,7 +28005,7 @@ msgstr "მთლიანად"
 #: ../src/smime/gui/certificate-manager.c:1115
 msgctxt "CamelTrust"
 msgid "Temporarily"
-msgstr ""
+msgstr "დროებით"
 
 #: ../src/smime/gui/certificate-manager.c:1275
 msgid "Change certificate trust"
@@ -28049,15 +28078,15 @@ msgstr "ნდობა"
 
 #: ../src/smime/gui/certificate-manager.c:1597
 msgid "_Edit Trust"
-msgstr ""
+msgstr "ნდობის _ჩასწორება"
 
 #: ../src/smime/gui/certificate-manager.c:2033
 msgid "All PKCS12 files"
-msgstr ""
+msgstr "ყველა PKCS12 ფაილი"
 
 #: ../src/smime/gui/certificate-manager.c:2050
 msgid "All email certificate files"
-msgstr ""
+msgstr "ყველა ელფოსტის სერტიფიკატის ფაილი"
 
 #: ../src/smime/gui/certificate-manager.c:2067
 msgid "All CA certificate files"
@@ -28098,7 +28127,7 @@ msgstr "შეიყვანეთ ახალი პაროლი"
 
 #: ../src/smime/gui/e-cert-selector.c:172
 msgid "Select certificate"
-msgstr ""
+msgstr "აირჩიეთ სერტიფიკატი"
 
 #: ../src/smime/gui/smime-ui.ui.h:1
 msgid "You have certificates from these organizations that identify you:"
@@ -28106,7 +28135,7 @@ msgstr ""
 
 #: ../src/smime/gui/smime-ui.ui.h:2
 msgid "Certificates Table"
-msgstr ""
+msgstr "სერთიფიკატების ცხრილი"
 
 #. This is a verb, as in "make a backup".
 #: ../src/smime/gui/smime-ui.ui.h:5
@@ -28191,11 +28220,11 @@ msgstr "დაშიფრვა"
 
 #: ../src/smime/lib/e-cert-db.c:788
 msgid "Certificate already exists"
-msgstr ""
+msgstr "სერტიფიკატი უკვე არსებობს"
 
 #: ../src/smime/lib/e-pkcs12.c:288
 msgid "PKCS12 File Password"
-msgstr ""
+msgstr "PKCS12 ფაილის პაროლი"
 
 #: ../src/smime/lib/e-pkcs12.c:289
 msgid "Enter password for PKCS12 file:"
