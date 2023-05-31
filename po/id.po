@@ -15,8 +15,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: evolution master\n"
 "Report-Msgid-Bugs-To: https://gitlab.gnome.org/GNOME/evolution/issues\n"
-"POT-Creation-Date: 2023-05-15 16:28+0000\n"
-"PO-Revision-Date: 2023-05-17 11:28+0700\n"
+"POT-Creation-Date: 2023-05-30 07:54+0000\n"
+"PO-Revision-Date: 2023-05-31 19:44+0700\n"
 "Last-Translator: Kukuh Syafaat <kukuhsyafaat@gnome.org>\n"
 "Language-Team: Indonesian <gnome@i15n.org>\n"
 "Language: id\n"
@@ -3069,10 +3069,26 @@ msgid "Show toolbar above preview panel in the Mail view."
 msgstr "Tampilkan bilah alat di atas panel pratinjau dalam tampilan Surel."
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:324
+msgid ""
+"Whether the markdown composer should sanitize input text also for the "
+"'Markdown as Plain text' mode"
+msgstr ""
+"Apakah pembuat markdown harus membersihkan teks masukan juga untuk mode "
+"'Markdown as Plain text'"
+
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:325
+msgid ""
+"Disabling the sanitization allows to use the Markdown editor as a very "
+"simple text editor without mangling the input text."
+msgstr ""
+"Menonaktifkan sanitasi memungkinkan untuk menggunakan penyunting Markdown "
+"sebagai penyunting teks yang sangat sederhana tanpa merusak teks masukan."
+
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:326
 msgid "(Deprecated) Default forward style"
 msgstr "(Tak dipakai lagi) Gaya baku untuk penerusan surat"
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:325
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:327
 msgid ""
 "This key was deprecated in version 3.10 and should no longer be used. Use "
 "“forward-style-name” instead."
@@ -3080,11 +3096,11 @@ msgstr ""
 "Kunci ini dipensiunkan dalam versi 3.10 dan mestinya tak dipakai lagi. "
 "Gunakan \"forward-style-name\" sebagai gantinya."
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:326
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:328
 msgid "(Deprecated) Default reply style"
 msgstr "(Tak dipakai lagi) Gaya baku jawaban"
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:327
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:329
 msgid ""
 "This key was deprecated in version 3.10 and should no longer be used. Use "
 "“reply-style-name” instead."
@@ -3092,11 +3108,11 @@ msgstr ""
 "Kunci ini dipensiunkan dalam versi 3.10 dan mestinya tak dipakai lagi. "
 "Gunakan \"reply-style-name\" sebagai gantinya."
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:328
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:330
 msgid "(Deprecated) List of custom headers and whether they are enabled."
 msgstr "(Tak dipakai lagi) Daftar tajuk gubahan dan apakah mereka diaktifkan."
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:329
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:331
 msgid ""
 "This key was deprecated in version 3.10 and should no longer be used. Use "
 "“show-headers” instead."
@@ -3104,11 +3120,11 @@ msgstr ""
 "Kunci ini dipensiunkan dalam versi 3.10 dan mestinya tak dipakai lagi. "
 "Gunakan \"show-headers\" sebagai gantinya."
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:330
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:332
 msgid "(Deprecated) Load images for HTML messages over HTTP"
 msgstr "(Tak dipakai lagi) Muat gambar untuk pesan HTML melalui HTTP"
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:331
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:333
 msgid ""
 "This key was deprecated in version 3.10 and should no longer be used. Use "
 "“image-loading-policy” instead."
@@ -3116,7 +3132,7 @@ msgstr ""
 "Kunci ini dipensiunkan dalam versi 3.10 dan mestinya tak dipakai lagi. "
 "Gunakan \"image-loading-policy\" sebagai gantinya."
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:332
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:334
 msgid ""
 "(Deprecated) Asks whether to close the message window when the user forwards "
 "or replies to the message shown in the window"
@@ -3124,7 +3140,7 @@ msgstr ""
 "(Tak dipakai lagi) Menanyakan apakah menutup jendela pesan ketika pengguna "
 "meneruskan atau menjawab pesan yang ditampilkan di jendela"
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:333
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:335
 msgid ""
 "This key was deprecated in version 3.10 and should no longer be used. Use "
 "“browser-close-on-reply-policy” instead."
@@ -3132,11 +3148,11 @@ msgstr ""
 "Kunci ini dipensiunkan dalam versi 3.10 dan mestinya tak dipakai lagi. "
 "Gunakan \"browser-close-on-reply-policy\" sebagai gantinya."
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:334
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:336
 msgid "Prompt before send when attachment changed on the disk"
 msgstr "Konfirmasi sebelum mengirim saat lampiran diubah pada diska"
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:335
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:337
 msgid ""
 "Ask whether can send a message with attachments which changed on the disk "
 "since they had been attached to the message."
@@ -4516,7 +4532,7 @@ msgstr ""
 #: ../src/addressbook/gui/contact-editor/e-contact-editor.c:4381
 #: ../src/addressbook/gui/contact-editor/e-contact-editor.c:4387
 #: ../src/addressbook/gui/contact-editor/e-contact-editor-fullname.c:212
-#: ../src/addressbook/gui/contact-editor/e-contact-quick-add.c:453
+#: ../src/addressbook/gui/contact-editor/e-contact-quick-add.c:468
 #: ../src/addressbook/gui/contact-editor/fullname.ui.h:14
 #: ../src/addressbook/gui/contact-list-editor/contact-list-editor.ui.h:2
 #: ../src/addressbook/gui/widgets/eab-contact-merging.c:561
@@ -5096,7 +5112,7 @@ msgid "_Help"
 msgstr "Ba_ntuan"
 
 #: ../src/addressbook/gui/contact-editor/e-contact-editor-fullname.c:213
-#: ../src/addressbook/gui/contact-editor/e-contact-quick-add.c:454
+#: ../src/addressbook/gui/contact-editor/e-contact-quick-add.c:469
 #: ../src/addressbook/gui/contact-editor/fullname.ui.h:13
 #: ../src/addressbook/gui/widgets/eab-gui-util.c:317
 #: ../src/calendar/gui/e-comp-editor-page-recurrence.c:306
@@ -5125,25 +5141,33 @@ msgstr "Ba_ntuan"
 msgid "_OK"
 msgstr "_OK"
 
-#: ../src/addressbook/gui/contact-editor/e-contact-quick-add.c:449
+#: ../src/addressbook/gui/contact-editor/e-contact-quick-add.c:251
+msgid "Failed to find contact"
+msgstr "Gagal menemukan kontak"
+
+#: ../src/addressbook/gui/contact-editor/e-contact-quick-add.c:464
 msgid "Contact Quick-Add"
 msgstr "Tambah Kontak versi Cepat"
 
-#: ../src/addressbook/gui/contact-editor/e-contact-quick-add.c:452
+#: ../src/addressbook/gui/contact-editor/e-contact-quick-add.c:467
 msgid "_Edit Full"
 msgstr "_Ubah Semua"
 
-#: ../src/addressbook/gui/contact-editor/e-contact-quick-add.c:503
+#: ../src/addressbook/gui/contact-editor/e-contact-quick-add.c:518
 msgid "_Full name"
 msgstr "Nama _lengkap"
 
-#: ../src/addressbook/gui/contact-editor/e-contact-quick-add.c:516
+#: ../src/addressbook/gui/contact-editor/e-contact-quick-add.c:531
 msgid "E_mail"
 msgstr "S_urel"
 
-#: ../src/addressbook/gui/contact-editor/e-contact-quick-add.c:529
+#: ../src/addressbook/gui/contact-editor/e-contact-quick-add.c:544
 msgid "_Select Address Book"
 msgstr "_Pilih Buku Alamat"
+
+#: ../src/addressbook/gui/contact-editor/e-contact-quick-add.c:779
+msgid "Failed to parse vCard data"
+msgstr "Gagal mengurai data vCard"
 
 #: ../src/addressbook/gui/contact-editor/fullname.ui.h:1
 msgid "Mr."
@@ -12681,14 +12705,14 @@ msgstr "HTML"
 msgid "Format part as HTML"
 msgstr "Format bagian sebagai HTML"
 
-#: ../src/em-format/e-mail-formatter-quote-text-plain.c:130
+#: ../src/em-format/e-mail-formatter-quote-text-plain.c:133
 #: ../src/em-format/e-mail-formatter-text-plain.c:196
 #: ../src/modules/rss/evolution/e-rss-preferences.c:51
 #: ../src/modules/rss/evolution/e-rss-preferences.c:852
 msgid "Plain Text"
 msgstr "Teks Biasa"
 
-#: ../src/em-format/e-mail-formatter-quote-text-plain.c:131
+#: ../src/em-format/e-mail-formatter-quote-text-plain.c:134
 #: ../src/em-format/e-mail-formatter-text-plain.c:197
 msgid "Format part as plain text"
 msgstr "Format bagian sebagai teks biasa"
@@ -14607,7 +14631,7 @@ msgstr "E_moji"
 
 #: ../src/e-util/e-html-editor-actions.c:1238
 #: ../src/e-util/e-html-editor-actions.c:1245
-#: ../src/e-util/e-markdown-editor.c:1755
+#: ../src/e-util/e-markdown-editor.c:1767
 msgid "Insert Emoji"
 msgstr "Sisipkan Emoji"
 
@@ -15801,14 +15825,14 @@ msgstr ""
 "hanya menggunakan papan ketik, pilihlah zona waktu dari kotak kombo di bawah "
 "ini."
 
-#: ../src/e-util/e-markdown-editor.c:1680
 #: ../src/e-util/e-markdown-editor.c:1692
-#: ../src/e-util/e-markdown-editor.c:2235
+#: ../src/e-util/e-markdown-editor.c:1704
+#: ../src/e-util/e-markdown-editor.c:2247
 msgid "_Write"
 msgstr "_Tulis"
 
-#: ../src/e-util/e-markdown-editor.c:1694
-#: ../src/e-util/e-markdown-editor.c:2270
+#: ../src/e-util/e-markdown-editor.c:1706
+#: ../src/e-util/e-markdown-editor.c:2282
 #: ../src/modules/addressbook/e-book-shell-view-actions.c:1164
 #: ../src/modules/calendar/e-cal-shell-view-actions.c:1623
 #: ../src/modules/calendar/e-memo-shell-view-actions.c:684
@@ -15817,43 +15841,43 @@ msgstr "_Tulis"
 msgid "_Preview"
 msgstr "_Pratinjau"
 
-#: ../src/e-util/e-markdown-editor.c:1747
+#: ../src/e-util/e-markdown-editor.c:1759
 msgid "Add bold text"
 msgstr "Tambah teks tebal"
 
-#: ../src/e-util/e-markdown-editor.c:1748
+#: ../src/e-util/e-markdown-editor.c:1760
 msgid "Add italic text"
 msgstr "Tambah teks miring"
 
-#: ../src/e-util/e-markdown-editor.c:1749
+#: ../src/e-util/e-markdown-editor.c:1761
 msgid "Insert a quote"
 msgstr "Sisipkan kutipan"
 
-#: ../src/e-util/e-markdown-editor.c:1750
+#: ../src/e-util/e-markdown-editor.c:1762
 msgid "Insert code"
 msgstr "Sisipkan kode"
 
-#: ../src/e-util/e-markdown-editor.c:1751
+#: ../src/e-util/e-markdown-editor.c:1763
 msgid "Add a link"
 msgstr "Tambah tautan"
 
-#: ../src/e-util/e-markdown-editor.c:1752
+#: ../src/e-util/e-markdown-editor.c:1764
 msgid "Add a bullet list"
 msgstr "Tambah daftar poin"
 
-#: ../src/e-util/e-markdown-editor.c:1753
+#: ../src/e-util/e-markdown-editor.c:1765
 msgid "Add a numbered list"
 msgstr "Tambah daftar bernomor"
 
-#: ../src/e-util/e-markdown-editor.c:1754
+#: ../src/e-util/e-markdown-editor.c:1766
 msgid "Add a header"
 msgstr "Tambah tajuk"
 
-#: ../src/e-util/e-markdown-editor.c:1757
+#: ../src/e-util/e-markdown-editor.c:1769
 msgid "Open online common mark documentation"
 msgstr "Buka dokumentasi tanda umum daring"
 
-#: ../src/e-util/e-markdown-editor.c:1759
+#: ../src/e-util/e-markdown-editor.c:1771
 msgid "Show preview beside text"
 msgstr "Tampilkan pratinjau di samping teks"
 
@@ -28393,19 +28417,19 @@ msgstr "Baru"
 #. * allows the user to filter the current view.  Examples of
 #. * items that appear in the combo box are "Unread Messages",
 #. * "Important Messages", or "Active Appointments".
-#: ../src/shell/e-shell-searchbar.c:944
+#: ../src/shell/e-shell-searchbar.c:960
 msgid "Sho_w:"
 msgstr "_Tampilkan:"
 
 #. Translators: This is part of the quick search interface.
 #. * example: Search: [_______________] in [ Current Folder ]
-#: ../src/shell/e-shell-searchbar.c:970
+#: ../src/shell/e-shell-searchbar.c:986
 msgid "Sear_ch:"
 msgstr "_Cari:"
 
 #. Translators: This is part of the quick search interface.
 #. * example: Search: [_______________] in [ Current Folder ]
-#: ../src/shell/e-shell-searchbar.c:1038
+#: ../src/shell/e-shell-searchbar.c:1054
 msgid "i_n"
 msgstr "dala_m"
 
