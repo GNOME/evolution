@@ -13,8 +13,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: 3.12\n"
 "Report-Msgid-Bugs-To: https://gitlab.gnome.org/GNOME/evolution/issues\n"
-"POT-Creation-Date: 2023-05-26 09:15+0000\n"
-"PO-Revision-Date: 2023-05-26 21:08+0100\n"
+"POT-Creation-Date: 2023-05-30 07:54+0000\n"
+"PO-Revision-Date: 2023-05-31 12:21+0100\n"
 "Last-Translator: Hugo Carvalho <hugokarvalho@hotmail.com>\n"
 "Language-Team: Portuguese <https://l10n.gnome.org/teams/pt/>\n"
 "Language: pt\n"
@@ -4629,7 +4629,7 @@ msgstr ""
 #: ../src/addressbook/gui/contact-editor/e-contact-editor.c:4381
 #: ../src/addressbook/gui/contact-editor/e-contact-editor.c:4387
 #: ../src/addressbook/gui/contact-editor/e-contact-editor-fullname.c:212
-#: ../src/addressbook/gui/contact-editor/e-contact-quick-add.c:453
+#: ../src/addressbook/gui/contact-editor/e-contact-quick-add.c:468
 #: ../src/addressbook/gui/contact-editor/fullname.ui.h:14
 #: ../src/addressbook/gui/contact-list-editor/contact-list-editor.ui.h:2
 #: ../src/addressbook/gui/widgets/eab-contact-merging.c:561
@@ -5209,7 +5209,7 @@ msgid "_Help"
 msgstr "A_juda"
 
 #: ../src/addressbook/gui/contact-editor/e-contact-editor-fullname.c:213
-#: ../src/addressbook/gui/contact-editor/e-contact-quick-add.c:454
+#: ../src/addressbook/gui/contact-editor/e-contact-quick-add.c:469
 #: ../src/addressbook/gui/contact-editor/fullname.ui.h:13
 #: ../src/addressbook/gui/widgets/eab-gui-util.c:317
 #: ../src/calendar/gui/e-comp-editor-page-recurrence.c:306
@@ -5238,25 +5238,33 @@ msgstr "A_juda"
 msgid "_OK"
 msgstr "_Aceitar"
 
-#: ../src/addressbook/gui/contact-editor/e-contact-quick-add.c:449
+#: ../src/addressbook/gui/contact-editor/e-contact-quick-add.c:251
+msgid "Failed to find contact"
+msgstr "Falha ao localizar o contacto"
+
+#: ../src/addressbook/gui/contact-editor/e-contact-quick-add.c:464
 msgid "Contact Quick-Add"
 msgstr "Adição rápida de contacto"
 
-#: ../src/addressbook/gui/contact-editor/e-contact-quick-add.c:452
+#: ../src/addressbook/gui/contact-editor/e-contact-quick-add.c:467
 msgid "_Edit Full"
 msgstr "_Edição completa"
 
-#: ../src/addressbook/gui/contact-editor/e-contact-quick-add.c:503
+#: ../src/addressbook/gui/contact-editor/e-contact-quick-add.c:518
 msgid "_Full name"
 msgstr "Nome comp_leto"
 
-#: ../src/addressbook/gui/contact-editor/e-contact-quick-add.c:516
+#: ../src/addressbook/gui/contact-editor/e-contact-quick-add.c:531
 msgid "E_mail"
 msgstr "Correio _eletrónico"
 
-#: ../src/addressbook/gui/contact-editor/e-contact-quick-add.c:529
+#: ../src/addressbook/gui/contact-editor/e-contact-quick-add.c:544
 msgid "_Select Address Book"
 msgstr "_Selecione o livro de endereços"
+
+#: ../src/addressbook/gui/contact-editor/e-contact-quick-add.c:779
+msgid "Failed to parse vCard data"
+msgstr "Falha ao analisar os dados vCard"
 
 #: ../src/addressbook/gui/contact-editor/fullname.ui.h:1
 msgid "Mr."
@@ -12821,14 +12829,14 @@ msgstr "HTML"
 msgid "Format part as HTML"
 msgstr "Formatar parte como HTML"
 
-#: ../src/em-format/e-mail-formatter-quote-text-plain.c:130
+#: ../src/em-format/e-mail-formatter-quote-text-plain.c:133
 #: ../src/em-format/e-mail-formatter-text-plain.c:196
 #: ../src/modules/rss/evolution/e-rss-preferences.c:51
 #: ../src/modules/rss/evolution/e-rss-preferences.c:852
 msgid "Plain Text"
 msgstr "Texto simples"
 
-#: ../src/em-format/e-mail-formatter-quote-text-plain.c:131
+#: ../src/em-format/e-mail-formatter-quote-text-plain.c:134
 #: ../src/em-format/e-mail-formatter-text-plain.c:197
 msgid "Format part as plain text"
 msgstr "Formatar parte como texto simples"
@@ -28705,19 +28713,19 @@ msgstr "Novo"
 #. * allows the user to filter the current view.  Examples of
 #. * items that appear in the combo box are "Unread Messages",
 #. * "Important Messages", or "Active Appointments".
-#: ../src/shell/e-shell-searchbar.c:944
+#: ../src/shell/e-shell-searchbar.c:960
 msgid "Sho_w:"
 msgstr "_Mostrar:"
 
 #. Translators: This is part of the quick search interface.
 #. * example: Search: [_______________] in [ Current Folder ]
-#: ../src/shell/e-shell-searchbar.c:970
+#: ../src/shell/e-shell-searchbar.c:986
 msgid "Sear_ch:"
 msgstr "Pro_curar:"
 
 #. Translators: This is part of the quick search interface.
 #. * example: Search: [_______________] in [ Current Folder ]
-#: ../src/shell/e-shell-searchbar.c:1038
+#: ../src/shell/e-shell-searchbar.c:1054
 msgid "i_n"
 msgstr "_Em"
 
