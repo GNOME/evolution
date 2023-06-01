@@ -12,8 +12,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: evolution\n"
 "Report-Msgid-Bugs-To: https://gitlab.gnome.org/GNOME/evolution/issues\n"
-"POT-Creation-Date: 2023-05-26 09:15+0000\n"
-"PO-Revision-Date: 2023-05-26 13:35+0300\n"
+"POT-Creation-Date: 2023-05-30 07:54+0000\n"
+"PO-Revision-Date: 2023-06-01 22:07+0300\n"
 "Last-Translator: Yuri Chornoivan <yurchor@ukr.net>\n"
 "Language-Team: Ukrainian <trans-uk@lists.fedoraproject.org>\n"
 "Language: uk\n"
@@ -3094,16 +3094,16 @@ msgid ""
 "Whether the markdown composer should sanitize input text also for the "
 "'Markdown as Plain text' mode"
 msgstr ""
-"Визначає, чи має редактор markdown удосконалювати вхідний текст і у режимі"
-" «Markdown як звичайний текст»"
+"Визначає, чи має редактор markdown удосконалювати вхідний текст і у режимі "
+"«Markdown як звичайний текст»"
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:325
 msgid ""
 "Disabling the sanitization allows to use the Markdown editor as a very "
 "simple text editor without mangling the input text."
 msgstr ""
-"Вимикання удосконалення коду надає змогу скористатися редактором Markdown як"
-" дуже простим текстовим редактором без правлення до вхідного тексту."
+"Вимикання удосконалення коду надає змогу скористатися редактором Markdown як "
+"дуже простим текстовим редактором без правлення до вхідного тексту."
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:326
 msgid "(Deprecated) Default forward style"
@@ -4567,7 +4567,7 @@ msgstr ""
 #: ../src/addressbook/gui/contact-editor/e-contact-editor.c:4381
 #: ../src/addressbook/gui/contact-editor/e-contact-editor.c:4387
 #: ../src/addressbook/gui/contact-editor/e-contact-editor-fullname.c:212
-#: ../src/addressbook/gui/contact-editor/e-contact-quick-add.c:453
+#: ../src/addressbook/gui/contact-editor/e-contact-quick-add.c:468
 #: ../src/addressbook/gui/contact-editor/fullname.ui.h:14
 #: ../src/addressbook/gui/contact-list-editor/contact-list-editor.ui.h:2
 #: ../src/addressbook/gui/widgets/eab-contact-merging.c:561
@@ -5147,7 +5147,7 @@ msgid "_Help"
 msgstr "_Довідка"
 
 #: ../src/addressbook/gui/contact-editor/e-contact-editor-fullname.c:213
-#: ../src/addressbook/gui/contact-editor/e-contact-quick-add.c:454
+#: ../src/addressbook/gui/contact-editor/e-contact-quick-add.c:469
 #: ../src/addressbook/gui/contact-editor/fullname.ui.h:13
 #: ../src/addressbook/gui/widgets/eab-gui-util.c:317
 #: ../src/calendar/gui/e-comp-editor-page-recurrence.c:306
@@ -5176,25 +5176,35 @@ msgstr "_Довідка"
 msgid "_OK"
 msgstr "_Гаразд"
 
-#: ../src/addressbook/gui/contact-editor/e-contact-quick-add.c:449
+#: ../src/addressbook/gui/contact-editor/e-contact-quick-add.c:251
+#| msgid "Failed to delete contact"
+msgid "Failed to find contact"
+msgstr "Не вдалось знайти контакт"
+
+#: ../src/addressbook/gui/contact-editor/e-contact-quick-add.c:464
 msgid "Contact Quick-Add"
 msgstr "Швидке додавання контакту"
 
-#: ../src/addressbook/gui/contact-editor/e-contact-quick-add.c:452
+#: ../src/addressbook/gui/contact-editor/e-contact-quick-add.c:467
 msgid "_Edit Full"
 msgstr "_Зміна повного імені"
 
-#: ../src/addressbook/gui/contact-editor/e-contact-quick-add.c:503
+#: ../src/addressbook/gui/contact-editor/e-contact-quick-add.c:518
 msgid "_Full name"
 msgstr "_Повне ім'я"
 
-#: ../src/addressbook/gui/contact-editor/e-contact-quick-add.c:516
+#: ../src/addressbook/gui/contact-editor/e-contact-quick-add.c:531
 msgid "E_mail"
 msgstr "Ел._пошта"
 
-#: ../src/addressbook/gui/contact-editor/e-contact-quick-add.c:529
+#: ../src/addressbook/gui/contact-editor/e-contact-quick-add.c:544
 msgid "_Select Address Book"
 msgstr "_Виберіть адресну книгу"
+
+#: ../src/addressbook/gui/contact-editor/e-contact-quick-add.c:779
+#| msgid "Failed to store password: "
+msgid "Failed to parse vCard data"
+msgstr "Не вдалося обробити дані vCard"
 
 #: ../src/addressbook/gui/contact-editor/fullname.ui.h:1
 msgid "Mr."
@@ -12806,14 +12816,14 @@ msgstr "HTML"
 msgid "Format part as HTML"
 msgstr "Форматувати частину як HTML"
 
-#: ../src/em-format/e-mail-formatter-quote-text-plain.c:130
+#: ../src/em-format/e-mail-formatter-quote-text-plain.c:133
 #: ../src/em-format/e-mail-formatter-text-plain.c:196
 #: ../src/modules/rss/evolution/e-rss-preferences.c:51
 #: ../src/modules/rss/evolution/e-rss-preferences.c:852
 msgid "Plain Text"
 msgstr "Звичайний текст"
 
-#: ../src/em-format/e-mail-formatter-quote-text-plain.c:131
+#: ../src/em-format/e-mail-formatter-quote-text-plain.c:134
 #: ../src/em-format/e-mail-formatter-text-plain.c:197
 msgid "Format part as plain text"
 msgstr "Форматувати частину як звичайний текст"
@@ -28743,19 +28753,19 @@ msgstr "Створити"
 #. * allows the user to filter the current view.  Examples of
 #. * items that appear in the combo box are "Unread Messages",
 #. * "Important Messages", or "Active Appointments".
-#: ../src/shell/e-shell-searchbar.c:944
+#: ../src/shell/e-shell-searchbar.c:960
 msgid "Sho_w:"
 msgstr "_Показати:"
 
 #. Translators: This is part of the quick search interface.
 #. * example: Search: [_______________] in [ Current Folder ]
-#: ../src/shell/e-shell-searchbar.c:970
+#: ../src/shell/e-shell-searchbar.c:986
 msgid "Sear_ch:"
 msgstr "З_найти:"
 
 #. Translators: This is part of the quick search interface.
 #. * example: Search: [_______________] in [ Current Folder ]
-#: ../src/shell/e-shell-searchbar.c:1038
+#: ../src/shell/e-shell-searchbar.c:1054
 msgid "i_n"
 msgstr " _у "
 
