@@ -1,3 +1,12 @@
+Evolution 3.48.3 2023-06-02
+---------------------------
+
+Bug Fixes:
+	I#2362 - EShellSearchbar: Cannot clear search by deleting text
+	I#2380 - Mail: Preview content sometimes grows indefinitely
+	I#2381 - Composer: Use 'Wrap quoted text in replies' option also for text/html parts
+	I#2382 - Mail: Workaround recursion in iframe height computation
+
 Evolution 3.48.2 2023-05-26
 ---------------------------
 
