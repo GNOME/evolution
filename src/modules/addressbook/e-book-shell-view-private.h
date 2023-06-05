@@ -93,8 +93,6 @@ struct _EBookShellViewPrivate {
 
 	GHashTable *uid_to_view;
 
-	gint preview_index;
-
 	/* Can track whether search changed while locked,
 	 * but it is not usable at the moment. */
 	gint search_locked;

@@ -46,7 +46,7 @@ void		eab_transfer_contacts		(ESourceRegistry *registry,
 						 GSList *contacts, /* adopted */
 						 gboolean delete_from_source,
 						 EAlertSink *alert_sink);
-gchar *		eab_suggest_filename		(const GSList *contact_list);
+gchar *		eab_suggest_filename		(EContact *contact);
 ESource *	eab_select_source		(ESourceRegistry *registry,
 						 ESource *except_source,
 						 const gchar *title,

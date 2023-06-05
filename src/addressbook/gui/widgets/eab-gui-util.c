@@ -374,14 +374,11 @@ eab_select_source (ESourceRegistry *registry,
 }
 
 gchar *
-eab_suggest_filename (const GSList *contact_list)
+eab_suggest_filename (EContact *contact)
 {
 	gchar *res = NULL;
 
-	g_return_val_if_fail (contact_list != NULL, NULL);
-
-	if (!contact_list->next) {
-		EContact *contact = E_CONTACT (contact_list->data);
+	if (contact) {
 		gchar *string;
 
 		string = e_contact_get (contact, E_CONTACT_FILE_AS);

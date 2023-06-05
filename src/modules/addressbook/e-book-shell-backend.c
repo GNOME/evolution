@@ -132,8 +132,6 @@ book_shell_backend_new_contact_list_cb (GObject *source_object,
 {
 	EShellWindow *shell_window = user_data;
 	EClient *client;
-	EContact *contact;
-	EABEditor *editor;
 	GError *error = NULL;
 
 	client = e_client_cache_get_client_finish (
@@ -151,19 +149,10 @@ book_shell_backend_new_contact_list_cb (GObject *source_object,
 		goto exit;
 	}
 
-	contact = e_contact_new ();
+	e_book_shell_view_open_list_editor_with_prefill (
+		e_shell_window_get_shell_view (shell_window, e_shell_window_get_active_view (shell_window)),
+		E_BOOK_CLIENT (client));
 
-	e_book_shell_view_maybe_prefill_list_with_selection (
-		e_shell_window_get_shell_view (shell_window,
-		e_shell_window_get_active_view (shell_window)), contact);
-
-	editor = e_contact_list_editor_new (
-		e_shell_window_get_shell (shell_window), E_BOOK_CLIENT (client), contact, TRUE, TRUE);
-	gtk_window_set_transient_for (eab_editor_get_window (editor), GTK_WINDOW (shell_window));
-
-	eab_editor_show (editor);
-
-	g_object_unref (contact);
 	g_object_unref (client);
 
 exit:
@@ -191,7 +180,6 @@ action_contact_new_cb (GtkAction *action,
 		if (shell_view && E_IS_BOOK_SHELL_VIEW (shell_view)) {
 			EBookShellContent *book_shell_content;
 			EAddressbookView *view;
-			EAddressbookModel *model;
 			EBookClient *book_client;
 
 			book_shell_content = NULL;
@@ -201,8 +189,7 @@ action_contact_new_cb (GtkAction *action,
 			view = e_book_shell_content_get_current_view (book_shell_content);
 			g_return_if_fail (view != NULL);
 
-			model = e_addressbook_view_get_model (view);
-			book_client = e_addressbook_model_get_client (model);
+			book_client = e_addressbook_view_get_client (view);
 			g_return_if_fail (book_client != NULL);
 
 			source = g_object_ref (e_client_get_source (E_CLIENT (book_client)));

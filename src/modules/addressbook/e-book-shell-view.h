@@ -62,9 +62,9 @@ void		e_book_shell_view_type_register	(GTypeModule *type_module);
 
 void		e_book_shell_view_disable_searching (EBookShellView *book_shell_view);
 void		e_book_shell_view_enable_searching (EBookShellView *book_shell_view);
-void		e_book_shell_view_maybe_prefill_list_with_selection
-						(EShellView *shell_view,
-						 EContact *contact);
+void		e_book_shell_view_open_list_editor_with_prefill
+							(EShellView *shell_view,
+							 EBookClient *destination_book);
 ESource *	e_book_shell_view_get_clicked_source	(EShellView *shell_view);
 void		e_book_shell_view_preselect_source_config
 							(EShellView *shell_view,

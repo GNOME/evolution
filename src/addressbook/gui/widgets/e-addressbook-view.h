@@ -70,21 +70,37 @@ struct _EAddressbookViewClass {
 						 GdkEvent *event);
 	void	(*command_state_change)		(EAddressbookView *view);
 	void	(*selection_change)		(EAddressbookView *view);
+	void	(*status_message)		(EAddressbookView *view,
+						 const gchar *message,
+						 gint percent);
 };
 
 GType		e_addressbook_view_get_type	(void);
 GtkWidget *	e_addressbook_view_new		(EShellView *shell_view,
 						 ESource *source);
-EAddressbookModel *
-		e_addressbook_view_get_model	(EAddressbookView *view);
+EBookClient *
+		e_addressbook_view_get_client	(EAddressbookView *view);
+void		e_addressbook_view_set_client	(EAddressbookView *view,
+						 EBookClient *book_client);
+gboolean	e_addressbook_view_get_editable	(EAddressbookView *view);
+void		e_addressbook_view_force_folder_bar_message
+						(EAddressbookView *view);
+GPtrArray *	e_addressbook_view_peek_selected_contacts /* EContact * */
+						(EAddressbookView *view);
+void		e_addressbook_view_dup_selected_contacts
+						(EAddressbookView *view,
+						 GCancellable *cancellable,
+						 GAsyncReadyCallback cb,
+						 gpointer user_data);
+GPtrArray *	e_addressbook_view_dup_selected_contacts_finish
+						(EAddressbookView *view,
+						 GAsyncResult *result,
+						 GError **error);
+guint		e_addressbook_view_get_n_total	(EAddressbookView *view);
+guint		e_addressbook_view_get_n_selected
+						(EAddressbookView *view);
 GalViewInstance *
 		e_addressbook_view_get_view_instance
-						(EAddressbookView *view);
-GObject *	e_addressbook_view_get_view_object
-						(EAddressbookView *view);
-GSList *	e_addressbook_view_get_selected	(EAddressbookView *view);
-ESelectionModel *
-		e_addressbook_view_get_selection_model
 						(EAddressbookView *view);
 EShellView *	e_addressbook_view_get_shell_view
 						(EAddressbookView *view);
@@ -97,10 +113,7 @@ void		e_addressbook_view_view		(EAddressbookView *view);
 void		e_addressbook_view_print	(EAddressbookView *view,
 						 gboolean selection_only,
 						 GtkPrintOperationAction action);
-void		e_addressbook_view_delete_selection
-						(EAddressbookView *view,
-						 gboolean is_delete);
-void		e_addressbook_view_show_all	(EAddressbookView *view);
+gboolean	e_addressbook_view_can_stop	(EAddressbookView *view);
 void		e_addressbook_view_stop		(EAddressbookView *view);
 void		e_addressbook_view_copy_to_folder
 						(EAddressbookView *view,
@@ -112,11 +125,13 @@ void		e_addressbook_view_move_to_folder
 gboolean	e_addressbook_view_can_create	(EAddressbookView *view);
 
 void		e_addressbook_view_set_search	(EAddressbookView *view,
+						 const gchar *query,
 						 gint filter_id,
 						 gint search_id,
 						 const gchar *search_text,
 						 EFilterRule *advanced_search);
-
+const gchar *	e_addressbook_view_get_search_query
+						(EAddressbookView *view);
 void		e_addressbook_view_get_search	(EAddressbookView *view,
 						 gint *filter_id,
 						 gint *search_id,

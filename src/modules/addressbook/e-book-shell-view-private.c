@@ -94,7 +94,6 @@ open_contact (EBookShellView *book_shell_view,
 	EShell *shell;
 	EShellView *shell_view;
 	EShellWindow *shell_window;
-	EAddressbookModel *model;
 	EABEditor *editor;
 	EBookClient *book;
 	gboolean editable;
@@ -103,9 +102,8 @@ open_contact (EBookShellView *book_shell_view,
 	shell_window = e_shell_view_get_shell_window (shell_view);
 	shell = e_shell_window_get_shell (shell_window);
 
-	model = e_addressbook_view_get_model (view);
-	book = e_addressbook_model_get_client (model);
-	editable = e_addressbook_model_get_editable (model);
+	book = e_addressbook_view_get_client (view);
+	editable = e_addressbook_view_get_editable (view);
 
 	if (e_contact_get (contact, E_CONTACT_IS_LIST))
 		editor = e_contact_list_editor_new (
@@ -127,39 +125,13 @@ popup_event (EShellView *shell_view,
 }
 
 static void
-book_shell_view_selection_change_foreach (gint row,
-                                          EBookShellView *book_shell_view)
-{
-	EBookShellContent *book_shell_content;
-	EAddressbookView *view;
-	EAddressbookModel *model;
-	EContact *contact;
-
-	/* XXX A "foreach" function is kind of a silly way to retrieve
-	 *     the one and only selected contact, but this is the only
-	 *     means that ESelectionModel provides. */
-
-	book_shell_content = book_shell_view->priv->book_shell_content;
-	view = e_book_shell_content_get_current_view (book_shell_content);
-	model = e_addressbook_view_get_model (view);
-	contact = e_addressbook_model_get_contact (model, row);
-
-	e_book_shell_content_set_preview_contact (book_shell_content, contact);
-	book_shell_view->priv->preview_index = row;
-
-	if (contact)
-		g_object_unref (contact);
-}
-
-static void
 selection_change (EBookShellView *book_shell_view,
                   EAddressbookView *view)
 {
 	EBookShellContent *book_shell_content;
 	EAddressbookView *current_view;
-	ESelectionModel *selection_model;
 	EShellView *shell_view;
-	gint n_selected;
+	EContact *contact = NULL;
 
 	shell_view = E_SHELL_VIEW (book_shell_view);
 	book_shell_content = book_shell_view->priv->book_shell_content;
@@ -168,92 +140,24 @@ selection_change (EBookShellView *book_shell_view,
 	if (view != current_view)
 		return;
 
+	if (e_addressbook_view_get_n_selected (view) == 1) {
+		GPtrArray *contacts;
+
+		contacts = e_addressbook_view_peek_selected_contacts (view);
+
+		if (contacts) {
+			if (contacts->len == 1)
+				contact = g_object_ref (g_ptr_array_index (contacts, 0));
+
+			g_ptr_array_unref (contacts);
+		}
+	}
+
 	e_shell_view_update_actions (shell_view);
 
-	selection_model = e_addressbook_view_get_selection_model (view);
-
-	n_selected = (selection_model != NULL) ?
-		e_selection_model_selected_count (selection_model) : 0;
-
-	if (n_selected == 1)
-		e_selection_model_foreach (
-			selection_model, (EForeachFunc)
-			book_shell_view_selection_change_foreach,
-			book_shell_view);
-	else {
-		e_book_shell_content_set_preview_contact (
-			book_shell_content, NULL);
-		book_shell_view->priv->preview_index = -1;
-	}
-}
-
-static void
-contact_changed (EBookShellView *book_shell_view,
-                 gint index,
-                 EAddressbookModel *model)
-{
-	EBookShellContent *book_shell_content;
-	EContact *contact;
-
-	g_return_if_fail (E_IS_SHELL_VIEW (book_shell_view));
-	g_return_if_fail (book_shell_view->priv != NULL);
-
-	book_shell_content = book_shell_view->priv->book_shell_content;
-
-	contact = e_addressbook_model_contact_at (model, index);
-
-	if (book_shell_view->priv->preview_index != index)
-		return;
-
-	/* Re-render the same contact. */
 	e_book_shell_content_set_preview_contact (book_shell_content, contact);
-}
 
-static void
-contacts_removed (EBookShellView *book_shell_view,
-                  GArray *removed_indices,
-                  EAddressbookModel *model)
-{
-	EBookShellContent *book_shell_content;
-	EContact *preview_contact;
-
-	g_return_if_fail (E_IS_SHELL_VIEW (book_shell_view));
-	g_return_if_fail (book_shell_view->priv != NULL);
-
-	book_shell_content = book_shell_view->priv->book_shell_content;
-
-	preview_contact =
-		e_book_shell_content_get_preview_contact (book_shell_content);
-
-	if (preview_contact == NULL)
-		return;
-
-	/* Is the displayed contact still in the model? */
-	if (e_addressbook_model_find (model, preview_contact) < 0)
-		return;
-
-	/* If not, clear the contact display. */
-	e_book_shell_content_set_preview_contact (book_shell_content, NULL);
-	book_shell_view->priv->preview_index = -1;
-}
-
-static void
-model_query_changed_cb (EBookShellView *book_shell_view,
-                        GParamSpec *param,
-                        EAddressbookModel *model)
-{
-	EBookShellContent *book_shell_content;
-	EAddressbookView *current_view;
-
-	book_shell_content = book_shell_view->priv->book_shell_content;
-	current_view = e_book_shell_content_get_current_view (book_shell_content);
-
-	if (!current_view || e_addressbook_view_get_model (current_view) != model)
-		return;
-
-	/* clear the contact preview when model's query changed */
-	e_book_shell_content_set_preview_contact (book_shell_content, NULL);
-	book_shell_view->priv->preview_index = -1;
+	g_clear_object (&contact);
 }
 
 static void
@@ -263,7 +167,6 @@ book_shell_view_client_connect_cb (GObject *source_object,
 {
 	EAddressbookView *view = user_data;
 	EClient *client;
-	EAddressbookModel *model;
 	GError *error = NULL;
 
 	client = e_client_selector_get_client_finish (
@@ -296,29 +199,26 @@ book_shell_view_client_connect_cb (GObject *source_object,
 		goto exit;
 	}
 
-	model = e_addressbook_view_get_model (view);
-	e_addressbook_model_set_client (model, E_BOOK_CLIENT (client));
-	e_addressbook_model_force_folder_bar_message (model);
+	e_addressbook_view_set_client (view, E_BOOK_CLIENT (client));
 
 exit:
 	g_object_unref (view);
 }
 
 static void
-model_status_message_cb (EAddressbookModel *model,
-			 const gchar *message,
-			 gint percent,
-			 gpointer user_data)
+view_status_message_cb (EAddressbookView *view,
+			const gchar *message,
+			gint percent,
+			gpointer user_data)
 {
 	EShellView *shell_view = user_data;
 	EBookClient *book_client;
 	ESource *source;
 	ESourceSelector *selector;
 
-	g_return_if_fail (E_IS_ADDRESSBOOK_MODEL (model));
 	g_return_if_fail (E_IS_BOOK_SHELL_VIEW (shell_view));
 
-	book_client = e_addressbook_model_get_client (model);
+	book_client = e_addressbook_view_get_client (view);
 	source = e_client_get_source (E_CLIENT (book_client));
 
 	if (!source)
@@ -351,7 +251,6 @@ book_shell_view_activate_selected_source (EBookShellView *book_shell_view,
 	EShellView *shell_view;
 	EBookShellContent *book_shell_content;
 	EAddressbookView *view;
-	EAddressbookModel *model;
 	ESource *source;
 	GalViewInstance *view_instance;
 	GHashTable *hash_table;
@@ -390,8 +289,6 @@ book_shell_view_activate_selected_source (EBookShellView *book_shell_view,
 
 	if (widget != NULL) {
 		view = E_ADDRESSBOOK_VIEW (widget);
-		model = e_addressbook_view_get_model (view);
-
 	} else {
 		/* Create a view for this UID. */
 		widget = e_addressbook_view_new (shell_view, source);
@@ -400,7 +297,7 @@ book_shell_view_activate_selected_source (EBookShellView *book_shell_view,
 		/* Default searching options for a new view. */
 		e_addressbook_view_set_search (
 			E_ADDRESSBOOK_VIEW (widget),
-			CONTACT_FILTER_ANY_CATEGORY,
+			NULL, CONTACT_FILTER_ANY_CATEGORY,
 			CONTACT_SEARCH_NAME_CONTAINS,
 			NULL, NULL);
 
@@ -429,27 +326,11 @@ book_shell_view_activate_selected_source (EBookShellView *book_shell_view,
 			widget, "selection-change", G_CALLBACK (selection_change),
 			book_shell_view, G_CONNECT_SWAPPED);
 
+		g_signal_connect_object (
+			widget, "status-message",
+			G_CALLBACK (view_status_message_cb), book_shell_view, 0);
+
 		view = E_ADDRESSBOOK_VIEW (widget);
-		model = e_addressbook_view_get_model (view);
-
-		g_signal_connect_object (
-			model, "contact-changed",
-			G_CALLBACK (contact_changed),
-			book_shell_view, G_CONNECT_SWAPPED);
-
-		g_signal_connect_object (
-			model, "contacts-removed",
-			G_CALLBACK (contacts_removed),
-			book_shell_view, G_CONNECT_SWAPPED);
-
-		g_signal_connect_object (
-			model, "status-message",
-			G_CALLBACK (model_status_message_cb), book_shell_view, 0);
-
-		e_signal_connect_notify_object (
-			model, "notify::query",
-			G_CALLBACK (model_query_changed_cb),
-			book_shell_view, G_CONNECT_SWAPPED);
 	}
 
 	/* XXX No way to cancel this? */
@@ -478,7 +359,7 @@ book_shell_view_activate_selected_source (EBookShellView *book_shell_view,
 	e_shell_view_set_view_id (shell_view, view_id);
 	g_free (view_id);
 
-	e_addressbook_model_force_folder_bar_message (model);
+	e_addressbook_view_force_folder_bar_message (view);
 	selection_change (book_shell_view, view);
 
 	/* Make sure change to no-category re-filters the view, like when switching
@@ -584,7 +465,6 @@ e_book_shell_view_private_init (EBookShellView *book_shell_view)
 		(GDestroyNotify) g_object_unref);
 
 	priv->uid_to_view = uid_to_view;
-	priv->preview_index = -1;
 
 	e_signal_connect_notify (
 		book_shell_view, "notify::view-id",

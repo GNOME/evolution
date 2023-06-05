@@ -72,7 +72,7 @@ enum {
 	BEFORE_SEARCH,
 	SEARCH_STARTED,
 	SEARCH_RESULT,
-	FOLDER_BAR_MESSAGE,
+	COUNT_CHANGED,
 	CONTACT_ADDED,
 	CONTACTS_REMOVED,
 	CONTACT_CHANGED,
@@ -150,29 +150,6 @@ remove_book_view (EAddressbookModel *model)
 }
 
 static void
-update_folder_bar_message (EAddressbookModel *model)
-{
-	guint count;
-	gchar *message;
-
-	count = model->priv->contacts->len;
-
-	switch (count) {
-	case 0:
-		message = g_strdup (_("No contacts"));
-		break;
-	default:
-		message = g_strdup_printf (
-			ngettext ("%d contact", "%d contacts", count), count);
-		break;
-	}
-
-	g_signal_emit (model, signals[FOLDER_BAR_MESSAGE], 0, message);
-
-	g_free (message);
-}
-
-static void
 view_create_contact_cb (EBookClientView *client_view,
                         const GSList *contact_list,
                         EAddressbookModel *model)
@@ -193,7 +170,7 @@ view_create_contact_cb (EBookClientView *client_view,
 	}
 
 	g_signal_emit (model, signals[CONTACT_ADDED], 0, index, count);
-	update_folder_bar_message (model);
+	g_signal_emit (model, signals[COUNT_CHANGED], 0, NULL);
 }
 
 static gint
@@ -259,7 +236,7 @@ view_remove_contact_cb (EBookClientView *client_view,
 	g_signal_emit (model, signals[CONTACTS_REMOVED], 0, indices);
 	g_array_free (indices, TRUE);
 
-	update_folder_bar_message (model);
+	g_signal_emit (model, signals[COUNT_CHANGED], 0, NULL);
 }
 
 static void
@@ -746,15 +723,14 @@ e_addressbook_model_class_init (EAddressbookModelClass *class)
 		G_TYPE_NONE, 1,
 		G_TYPE_ERROR);
 
-	signals[FOLDER_BAR_MESSAGE] = g_signal_new (
-		"folder_bar_message",
+	signals[COUNT_CHANGED] = g_signal_new (
+		"count-changed",
 		G_OBJECT_CLASS_TYPE (object_class),
 		G_SIGNAL_RUN_LAST,
-		G_STRUCT_OFFSET (EAddressbookModelClass, folder_bar_message),
+		G_STRUCT_OFFSET (EAddressbookModelClass, count_changed),
 		NULL, NULL,
-		g_cclosure_marshal_VOID__POINTER,
-		G_TYPE_NONE, 1,
-		G_TYPE_POINTER);
+		g_cclosure_marshal_VOID__VOID,
+		G_TYPE_NONE, 0);
 
 	signals[CONTACT_ADDED] = g_signal_new (
 		"contact_added",
@@ -876,14 +852,6 @@ e_addressbook_model_can_stop (EAddressbookModel *model)
 	return model->priv->search_in_progress;
 }
 
-void
-e_addressbook_model_force_folder_bar_message (EAddressbookModel *model)
-{
-	g_return_if_fail (E_IS_ADDRESSBOOK_MODEL (model));
-
-	update_folder_bar_message (model);
-}
-
 gint
 e_addressbook_model_contact_count (EAddressbookModel *model)
 {
@@ -939,7 +907,8 @@ e_addressbook_model_set_client (EAddressbookModel *model,
 	gboolean editable;
 
 	g_return_if_fail (E_IS_ADDRESSBOOK_MODEL (model));
-	g_return_if_fail (E_IS_BOOK_CLIENT (book_client));
+	if (book_client)
+		g_return_if_fail (E_IS_BOOK_CLIENT (book_client));
 
 	if (model->priv->book_client == book_client)
 		return;
@@ -947,13 +916,13 @@ e_addressbook_model_set_client (EAddressbookModel *model,
 	if (model->priv->book_client != NULL)
 		g_object_unref (model->priv->book_client);
 
-	model->priv->book_client = g_object_ref (book_client);
+	model->priv->book_client = book_client ? g_object_ref (book_client) : NULL;
 	model->priv->first_get_view = TRUE;
 
-	editable = !e_client_is_readonly (E_CLIENT (book_client));
+	editable = book_client && !e_client_is_readonly (E_CLIENT (book_client));
 	e_addressbook_model_set_editable (model, editable);
 
-	if (model->priv->client_view_idle_id == 0)
+	if (book_client && model->priv->client_view_idle_id == 0)
 		model->priv->client_view_idle_id = g_idle_add (
 			(GSourceFunc) addressbook_model_idle_cb,
 			g_object_ref (model));
@@ -986,7 +955,7 @@ e_addressbook_model_set_editable (EAddressbookModel *model,
 	}
 }
 
-gchar *
+const gchar *
 e_addressbook_model_get_query (EAddressbookModel *model)
 {
 	g_return_val_if_fail (E_IS_ADDRESSBOOK_MODEL (model), NULL);

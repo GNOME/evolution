@@ -379,6 +379,23 @@ eab_contact_list_from_string (const gchar *str)
 	return g_slist_reverse (contacts);
 }
 
+static void
+eab_add_contact_to_string (GString *str,
+			   EContact *contact)
+{
+	gchar *vcard_str;
+
+	e_contact_inline_local_photos (contact, NULL);
+	vcard_str = e_vcard_to_string (E_VCARD (contact), EVC_FORMAT_VCARD_30);
+
+	if (str->len)
+		g_string_append (str, "\r\n\r\n");
+
+	g_string_append (str, vcard_str);
+
+	g_free (vcard_str);
+}
+
 gchar *
 eab_contact_list_to_string (const GSList *contacts)
 {
@@ -387,17 +404,23 @@ eab_contact_list_to_string (const GSList *contacts)
 
 	for (l = contacts; l; l = l->next) {
 		EContact *contact = l->data;
-		gchar *vcard_str;
 
-		e_contact_inline_local_photos (contact, NULL);
-		vcard_str = e_vcard_to_string (
-			E_VCARD (contact), EVC_FORMAT_VCARD_30);
+		eab_add_contact_to_string (str, contact);
+	}
 
-		g_string_append (str, vcard_str);
-		g_free (vcard_str);
+	return g_string_free (str, FALSE);
+}
 
-		if (l->next)
-			g_string_append (str, "\r\n\r\n");
+gchar *
+eab_contact_array_to_string (const GPtrArray *contacts)
+{
+	GString *str = g_string_new ("");
+	guint ii;
+
+	for (ii = 0; contacts && ii < contacts->len; ii++) {
+		EContact *contact = g_ptr_array_index (contacts, ii);
+
+		eab_add_contact_to_string (str, contact);
 	}
 
 	return g_string_free (str, FALSE);
@@ -453,30 +476,51 @@ eab_source_and_contact_list_from_string (ESourceRegistry *registry,
 	return success;
 }
 
+static gchar *
+eab_add_book_to_string (EBookClient *book_client,
+			gchar *inout_str)
+{
+	ESource *source;
+	const gchar *uid;
+	gchar *str;
+
+	if (!book_client)
+		return inout_str;
+
+	source = e_client_get_source (E_CLIENT (book_client));
+	uid = e_source_get_uid (source);
+
+	str = g_strconcat ("Book: ", uid, "\r\n", inout_str, NULL);
+
+	g_free (inout_str);
+
+	return str;
+}
+
+gchar *
+eab_book_and_contact_array_to_string (EBookClient *book_client,
+				      const GPtrArray *contacts)
+{
+	gchar *str;
+
+	str = eab_contact_array_to_string (contacts);
+	if (!str)
+		str = g_strdup ("");
+
+	return eab_add_book_to_string (book_client, str);
+}
+
 gchar *
 eab_book_and_contact_list_to_string (EBookClient *book_client,
                                      const GSList *contacts)
 {
-	gchar *s0, *s1;
+	gchar *str;
 
-	s0 = eab_contact_list_to_string (contacts);
-	if (!s0)
-		s0 = g_strdup ("");
+	str = eab_contact_list_to_string (contacts);
+	if (!str)
+		str = g_strdup ("");
 
-	if (book_client != NULL) {
-		EClient *client;
-		ESource *source;
-		const gchar *uid;
-
-		client = E_CLIENT (book_client);
-		source = e_client_get_source (client);
-		uid = e_source_get_uid (source);
-		s1 = g_strconcat ("Book: ", uid, "\r\n", s0, NULL);
-	} else
-		s1 = g_strdup (s0);
-
-	g_free (s0);
-	return s1;
+	return eab_add_book_to_string (book_client, str);
 }
 
 /* bad place for this i know. */

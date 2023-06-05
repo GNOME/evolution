@@ -1027,7 +1027,7 @@ get_view_ready_cb (GObject *source_object,
 void
 e_contact_print (EBookClient *book_client,
                  EBookQuery *query,
-                 const GSList *contact_list,
+                 GPtrArray *contacts,
                  GtkPrintOperationAction action)
 {
 	GtkPrintOperation *operation;
@@ -1035,12 +1035,21 @@ e_contact_print (EBookClient *book_client,
 
 	ctxt = g_new0 (EContactPrintContext, 1);
 	ctxt->action = action;
-	ctxt->contact_list = g_slist_copy_deep (
-		(GSList *) contact_list,
-		(GCopyFunc) g_object_ref, NULL);
+	ctxt->contact_list = NULL;
 	ctxt->style = g_new0 (EContactPrintStyle, 1);
 	ctxt->page_nr = 0;
 	ctxt->pages = 0;
+
+	if (contacts) {
+		guint ii;
+
+		for (ii = 0; ii < contacts->len; ii++) {
+			/* prepend in reverse order, to avoid g_slist_reverse() call */
+			EContact *contact = g_ptr_array_index (contacts, contacts->len - ii - 1);
+
+			ctxt->contact_list = g_slist_prepend (ctxt->contact_list, g_object_ref (contact));
+		}
+	}
 
 	operation = e_print_operation_new ();
 	gtk_print_operation_set_n_pages (operation, 1);

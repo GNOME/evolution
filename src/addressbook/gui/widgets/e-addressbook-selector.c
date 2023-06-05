@@ -507,7 +507,6 @@ addressbook_selector_data_dropped (ESourceSelector *selector,
 {
 	EAddressbookSelectorPrivate *priv;
 	MergeContext *merge_context;
-	EAddressbookModel *model;
 	EBookClient *source_client;
 	ESource *source_source = NULL;
 	ESourceRegistry *registry;
@@ -534,8 +533,7 @@ addressbook_selector_data_dropped (ESourceSelector *selector,
 		return FALSE;
 	}
 
-	model = e_addressbook_view_get_model (priv->current_view);
-	source_client = e_addressbook_model_get_client (model);
+	source_client = e_addressbook_view_get_client (priv->current_view);
 	g_return_val_if_fail (E_IS_BOOK_CLIENT (source_client), FALSE);
 
 	if (remove_from_source && source_source &&

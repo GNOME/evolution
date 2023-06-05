@@ -66,8 +66,7 @@ struct _EAddressbookModelClass {
 	void		(*status_message)	(EAddressbookModel *model,
 						 const gchar *message,
 						 gint percent);
-	void		(*folder_bar_message)	(EAddressbookModel *model,
-						 const gchar *message);
+	void		(*count_changed)	(EAddressbookModel *model);
 	void		(*contact_added)	(EAddressbookModel *model,
 						 gint index,
 						 gint count);
@@ -92,9 +91,6 @@ EContact *	e_addressbook_model_get_contact	(EAddressbookModel *model,
 void		e_addressbook_model_stop	(EAddressbookModel *model);
 gboolean	e_addressbook_model_can_stop	(EAddressbookModel *model);
 
-void		e_addressbook_model_force_folder_bar_message
-						(EAddressbookModel *model);
-
 gint		e_addressbook_model_contact_count
 						(EAddressbookModel *model);
 EContact *	e_addressbook_model_contact_at	(EAddressbookModel *model,
@@ -109,7 +105,7 @@ gboolean	e_addressbook_model_get_editable
 void		e_addressbook_model_set_editable
 						(EAddressbookModel *model,
 						 gboolean editable);
-gchar *		e_addressbook_model_get_query	(EAddressbookModel *model);
+const gchar *	e_addressbook_model_get_query	(EAddressbookModel *model);
 void		e_addressbook_model_set_query	(EAddressbookModel *model,
 						 const gchar *query);
 

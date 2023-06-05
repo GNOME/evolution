@@ -98,7 +98,6 @@ book_shell_view_execute_search (EShellView *shell_view)
 	EActionComboBox *combo_box;
 	GtkRadioAction *action;
 	EAddressbookView *view;
-	EAddressbookModel *model;
 	gchar *query;
 	gchar *temp;
 	gchar *selected_category;
@@ -224,10 +223,7 @@ book_shell_view_execute_search (EShellView *shell_view)
 
 	/* Submit the query. */
 	view = e_book_shell_content_get_current_view (book_shell_content);
-	model = e_addressbook_view_get_model (view);
-	e_addressbook_model_set_query (model, query);
-	e_addressbook_view_set_search (
-		view, filter_id, search_id, search_text, advanced_search);
+	e_addressbook_view_set_search (view, query, filter_id, search_id, search_text, advanced_search);
 	g_free (query);
 	g_free (search_text);
 }
@@ -509,106 +505,181 @@ e_book_shell_view_enable_searching (EBookShellView *book_shell_view)
 	priv->search_locked--;
 }
 
-typedef struct _AddToListData {
-	EAddressbookModel *model;
-	EContact *list_contact;
-	gboolean any_added;
-} AddToListData;
-
 static void
-book_shell_view_add_to_list_cb (gint row,
-				gpointer user_data)
+e_book_shell_view_open_list_editor_with_prefill_contacts (EShellView *shell_view,
+							  EBookClient *destination_book,
+							  GPtrArray *contacts, /* EContact *, (nullable) */
+							  EBookClient *source_book)
 {
-	AddToListData *atld = user_data;
-	EContact *contact;
+	EABEditor *editor;
+	EContact *new_contact;
+	EShellWindow *shell_window;
 
-	g_return_if_fail (atld != NULL);
+	g_return_if_fail (E_IS_SHELL_VIEW (shell_view));
+	g_return_if_fail (E_IS_BOOK_CLIENT (destination_book));
 
-	contact = e_addressbook_model_get_contact (atld->model, row);
-	if (contact) {
-		EBookClient *book_client = e_addressbook_model_get_client (atld->model);
-		GList *emails;
-		gint ii, len;
-		gboolean is_list;
+	shell_window = e_shell_view_get_shell_window (shell_view);
 
-		emails = e_contact_get (contact, E_CONTACT_EMAIL);
-		len = g_list_length (emails);
-		g_list_free_full (emails, g_free);
+	new_contact = e_contact_new ();
 
-		is_list = e_contact_get (contact, E_CONTACT_IS_LIST) != NULL;
+	if (contacts) {
+		EVCard *vcard = E_VCARD (new_contact);
+		gboolean any_added = FALSE;
+		guint ii;
 
-		if (len > 0) {
-			EDestination *dest;
-			EVCardAttribute *attr;
-			EVCard *vcard = E_VCARD (atld->list_contact);
+		for (ii = 0; ii < contacts->len; ii++) {
+			EContact *contact = g_ptr_array_index (contacts, ii);
+			GList *emails;
+			gint jj, len;
+			gboolean is_list;
 
-			if (is_list)
-				e_contact_set (contact, E_CONTACT_IS_LIST, GINT_TO_POINTER (FALSE));
+			emails = e_contact_get (contact, E_CONTACT_EMAIL);
+			len = g_list_length (emails);
+			g_list_free_full (emails, g_free);
 
-			atld->any_added = TRUE;
+			is_list = e_contact_get (contact, E_CONTACT_IS_LIST) != NULL;
 
-			for (ii = 0; ii < len; ii++) {
-				dest = e_destination_new ();
+			if (len > 0) {
+				if (is_list)
+					e_contact_set (contact, E_CONTACT_IS_LIST, GINT_TO_POINTER (FALSE));
 
-				if (book_client)
-					e_destination_set_client (dest, book_client);
+				any_added = TRUE;
 
-				e_destination_set_contact (dest, contact, ii);
+				for (jj = 0; jj < len; jj++) {
+					EDestination *dest;
+					EVCardAttribute *attr;
 
-				attr = e_vcard_attribute_new (NULL, EVC_EMAIL);
-				e_destination_export_to_vcard_attribute (dest, attr);
+					dest = e_destination_new ();
 
-				e_vcard_append_attribute (vcard, attr);
+					if (source_book)
+						e_destination_set_client (dest, source_book);
 
-				g_object_unref (dest);
+					e_destination_set_contact (dest, contact, jj);
+
+					attr = e_vcard_attribute_new (NULL, EVC_EMAIL);
+					e_destination_export_to_vcard_attribute (dest, attr);
+
+					e_vcard_append_attribute (vcard, attr);
+
+					g_object_unref (dest);
+				}
+
+				if (is_list)
+					e_contact_set (contact, E_CONTACT_IS_LIST, GINT_TO_POINTER (TRUE));
 			}
-
-			if (is_list)
-				e_contact_set (contact, E_CONTACT_IS_LIST, GINT_TO_POINTER (TRUE));
 		}
 
-		g_object_unref (contact);
+		if (any_added)
+			e_contact_set (new_contact, E_CONTACT_IS_LIST, GINT_TO_POINTER (TRUE));
 	}
+
+	editor = e_contact_list_editor_new (e_shell_window_get_shell (shell_window), destination_book, new_contact, TRUE, TRUE);
+	gtk_window_set_transient_for (eab_editor_get_window (editor), GTK_WINDOW (e_shell_view_get_shell_window (shell_view)));
+	eab_editor_show (editor);
+
+	g_object_unref (new_contact);
+}
+
+typedef struct _DupContactsData {
+	EActivity *activity;
+	EShellView *shell_view;
+	EBookClient *destination_book;
+	EBookClient *source_book;
+} DupContactsData;
+
+static void
+e_book_shell_view_get_selected_contacts_for_list_editor_prefill_cb (GObject *source_object,
+								    GAsyncResult *result,
+								    gpointer user_data)
+{
+	DupContactsData *dcd = user_data;
+	GPtrArray *contacts;
+	GError *error = NULL;
+
+	g_return_if_fail (dcd != NULL);
+
+	contacts = e_addressbook_view_dup_selected_contacts_finish (E_ADDRESSBOOK_VIEW (source_object), result, &error);
+	if (!contacts) {
+		if (!e_activity_handle_cancellation (dcd->activity, error)) {
+			g_warning ("%s: Failed to retrieve selected contacts: %s", G_STRFUNC, error ? error->message : "Unknown error");
+			e_activity_set_state (dcd->activity, E_ACTIVITY_COMPLETED);
+		}
+	} else {
+		e_activity_set_state (dcd->activity, E_ACTIVITY_COMPLETED);
+	}
+
+	e_book_shell_view_open_list_editor_with_prefill_contacts (dcd->shell_view, dcd->destination_book, contacts, dcd->source_book);
+
+	g_clear_error (&error);
+	g_clear_pointer (&contacts, g_ptr_array_unref);
+	g_clear_object (&dcd->activity);
+	g_clear_object (&dcd->shell_view);
+	g_clear_object (&dcd->destination_book);
+	g_clear_object (&dcd->source_book);
+	g_free (dcd);
 }
 
 void
-e_book_shell_view_maybe_prefill_list_with_selection (EShellView *shell_view,
-						     EContact *contact)
+e_book_shell_view_open_list_editor_with_prefill (EShellView *shell_view,
+						 EBookClient *destination_book)
 {
-	EBookShellView *book_shell_view;
-	EBookShellContent *book_shell_content;
-	EAddressbookView *current_view;
-	ESelectionModel *selection_model;
-	gint n_selected;
+	g_return_if_fail (E_IS_SHELL_VIEW (shell_view));
+	g_return_if_fail (E_IS_BOOK_CLIENT (destination_book));
 
-	g_return_if_fail (E_IS_CONTACT (contact));
+	if (E_IS_BOOK_SHELL_VIEW (shell_view)) {
+		EBookShellView *book_shell_view;
+		EBookShellContent *book_shell_content;
+		EAddressbookView *current_view;
 
-	if (!E_IS_BOOK_SHELL_VIEW (shell_view))
-		return;
+		book_shell_view = E_BOOK_SHELL_VIEW (shell_view);
+		book_shell_content = book_shell_view->priv->book_shell_content;
+		current_view = e_book_shell_content_get_current_view (book_shell_content);
 
-	book_shell_view = E_BOOK_SHELL_VIEW (shell_view);
-	book_shell_content = book_shell_view->priv->book_shell_content;
-	current_view = e_book_shell_content_get_current_view (book_shell_content);
+		if (current_view && e_addressbook_view_get_n_selected (current_view) >= 1) {
+			GPtrArray *contacts;
 
-	if (!current_view)
-		return;
+			contacts = e_addressbook_view_peek_selected_contacts (current_view);
 
-	selection_model = e_addressbook_view_get_selection_model (current_view);
+			if (contacts) {
+				e_book_shell_view_open_list_editor_with_prefill_contacts (shell_view, destination_book, contacts,
+					e_addressbook_view_get_client (current_view));
 
-	n_selected = selection_model ? e_selection_model_selected_count (selection_model) : 0;
+				g_ptr_array_unref (contacts);
+			} else {
+				DupContactsData *dcd;
+				EActivity *activity;
+				GCancellable *cancellable;
 
-	if (n_selected >= 1) {
-		AddToListData atld;
+				activity = e_activity_new ();
+				cancellable = camel_operation_new ();
 
-		atld.model = e_addressbook_view_get_model (current_view);
-		atld.list_contact = contact;
-		atld.any_added = FALSE;
+				e_activity_set_alert_sink (activity, E_ALERT_SINK (e_shell_view_get_shell_content (shell_view)));
+				e_activity_set_cancellable (activity, cancellable);
+				e_activity_set_text (activity, _("Retrieving selected contacts…"));
 
-		e_selection_model_foreach (selection_model, book_shell_view_add_to_list_cb, &atld);
+				camel_operation_push_message (cancellable, "%s", e_activity_get_text (activity));
 
-		if (atld.any_added)
-			e_contact_set (contact, E_CONTACT_IS_LIST, GINT_TO_POINTER (TRUE));
+				e_shell_backend_add_activity (e_shell_view_get_shell_backend (shell_view), activity);
+
+				dcd = g_new0 (DupContactsData, 1);
+				dcd->activity = activity;
+				dcd->shell_view = g_object_ref (shell_view);
+				dcd->destination_book = g_object_ref (destination_book);
+				dcd->source_book = e_addressbook_view_get_client (current_view);
+				if (dcd->source_book)
+					g_object_ref (dcd->source_book);
+
+				e_addressbook_view_dup_selected_contacts (current_view, cancellable,
+					e_book_shell_view_get_selected_contacts_for_list_editor_prefill_cb, dcd);
+
+				g_object_unref (cancellable);
+			}
+
+			return;
+		}
 	}
+
+	e_book_shell_view_open_list_editor_with_prefill_contacts (shell_view, destination_book, NULL, NULL);
 }
 
 ESource *

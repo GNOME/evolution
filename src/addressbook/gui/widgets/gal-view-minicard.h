@@ -25,7 +25,6 @@
 #define GAL_VIEW_MINICARD_H
 
 #include <e-util/e-util.h>
-#include "e-minicard-view-widget.h"
 #include "e-addressbook-view.h"
 
 /* Standard GObject macros */
@@ -56,9 +55,6 @@ struct _GalViewMinicard {
 	GalView              parent;
 
 	gdouble               column_width;
-
-	EMinicardViewWidget *emvw;
-	guint                emvw_column_width_changed_id;
 };
 
 struct _GalViewMinicardClass {

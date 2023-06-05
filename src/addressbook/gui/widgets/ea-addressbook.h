@@ -26,7 +26,5 @@
 #define _EA_ADDRESSBOOK_H__
 
 void eab_view_a11y_init (void);
-void e_minicard_view_a11y_init (void);
-void e_minicard_a11y_init (void);
 
 #endif /* _EA_ADDRESSBOOK_H__ */

@@ -324,39 +324,36 @@ book_shell_content_constructed (GObject *object)
 }
 
 static void
-book_shell_content_check_state_foreach (gint row,
-                                        gpointer user_data)
+e_book_shell_content_got_selected_contacts_cb (GObject *source_object,
+					       GAsyncResult *result,
+					       gpointer user_data)
 {
-	EContact *contact;
+	EShellContent *shell_content = user_data;
+	GPtrArray *contacts;
+	GError *error = NULL;
 
-	struct {
-		EAddressbookModel *model;
-		GList *list;
-	} *foreach_data = user_data;
+	contacts = e_addressbook_view_dup_selected_contacts_finish (E_ADDRESSBOOK_VIEW (source_object), result, &error);
 
-	contact = e_addressbook_model_get_contact (foreach_data->model, row);
-	g_return_if_fail (E_IS_CONTACT (contact));
+	if (contacts) {
+		e_shell_view_update_actions (e_shell_content_get_shell_view (shell_content));
+		g_ptr_array_unref (contacts);
+	} else if (!g_error_matches (error, G_IO_ERROR, G_IO_ERROR_CANCELLED)) {
+		g_message ("%s: Failed to retrieve selected contacts: %s", G_STRFUNC, error ? error->message : "Unknown error");
+	}
 
-	foreach_data->list = g_list_prepend (foreach_data->list, contact);
+	g_object_unref (shell_content);
 }
 
 static guint32
 book_shell_content_check_state (EShellContent *shell_content)
 {
 	EBookShellContent *book_shell_content;
-	ESelectionModel *selection_model;
-	EAddressbookModel *model;
 	EAddressbookView *view;
 	GtkNotebook *notebook;
-	gboolean has_email = TRUE;
-	gboolean is_contact_list = TRUE;
+	gboolean has_email = FALSE;
+	gboolean is_contact_list = FALSE;
 	guint32 state = 0;
-	gint n_selected;
-
-	struct {
-		EAddressbookModel *model;
-		GList *list;
-	} foreach_data;
+	guint n_selected;
 
 	book_shell_content = E_BOOK_SHELL_CONTENT (shell_content);
 
@@ -367,37 +364,35 @@ book_shell_content_check_state (EShellContent *shell_content)
 		return 0;
 
 	view = e_book_shell_content_get_current_view (book_shell_content);
-	model = e_addressbook_view_get_model (view);
+	n_selected = e_addressbook_view_get_n_selected (view);
 
-	selection_model = e_addressbook_view_get_selection_model (view);
-	n_selected = (selection_model != NULL) ?
-		e_selection_model_selected_count (selection_model) : 0;
+	if (n_selected > 0) {
+		GPtrArray *contacts;
 
-	foreach_data.model = model;
-	foreach_data.list = NULL;
+		contacts = e_addressbook_view_peek_selected_contacts (view);
 
-	if (selection_model != NULL)
-		e_selection_model_foreach (
-			selection_model, (EForeachFunc)
-			book_shell_content_check_state_foreach,
-			&foreach_data);
+		if (contacts) {
+			guint ii;
 
-	while (foreach_data.list != NULL) {
-		EContact *contact = E_CONTACT (foreach_data.list->data);
-		GList *email_list;
+			has_email = contacts->len > 0;
+			is_contact_list = contacts->len > 0;
 
-		email_list = e_contact_get (contact, E_CONTACT_EMAIL);
-		has_email &= (email_list != NULL);
-		g_list_foreach (email_list, (GFunc) g_free, NULL);
-		g_list_free (email_list);
+			for (ii = 0; ii < contacts->len && (has_email || is_contact_list); ii++) {
+				EContact *contact = g_ptr_array_index (contacts, ii);
+				GList *email_list;
 
-		is_contact_list &=
-			(e_contact_get (contact, E_CONTACT_IS_LIST) != NULL);
+				email_list = e_contact_get (contact, E_CONTACT_EMAIL);
+				has_email &= (email_list != NULL);
+				g_list_free_full (email_list, g_free);
 
-		g_object_unref (contact);
+				is_contact_list &= (e_contact_get (contact, E_CONTACT_IS_LIST) != NULL);
+			}
 
-		foreach_data.list = g_list_delete_link (
-			foreach_data.list, foreach_data.list);
+			g_ptr_array_unref (contacts);
+		} else {
+			/* Need to update actions after all the selected contacts are available */
+			e_addressbook_view_dup_selected_contacts (view, NULL, e_book_shell_content_got_selected_contacts_cb, g_object_ref (shell_content));
+		}
 	}
 
 	if (n_selected == 1)
@@ -408,9 +403,9 @@ book_shell_content_check_state (EShellContent *shell_content)
 		state |= E_BOOK_SHELL_CONTENT_SELECTION_HAS_EMAIL;
 	if (n_selected == 1 && is_contact_list)
 		state |= E_BOOK_SHELL_CONTENT_SELECTION_IS_CONTACT_LIST;
-	if (e_addressbook_model_can_stop (model))
+	if (e_addressbook_view_can_stop (view))
 		state |= E_BOOK_SHELL_CONTENT_SOURCE_IS_BUSY;
-	if (e_addressbook_model_get_editable (model))
+	if (e_addressbook_view_get_editable (view))
 		state |= E_BOOK_SHELL_CONTENT_SOURCE_IS_EDITABLE;
 
 	return state;

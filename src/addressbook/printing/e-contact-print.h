@@ -29,7 +29,7 @@
 
 void            e_contact_print               (EBookClient *book_client,
 					       EBookQuery *query,
-					       const GSList *contact_list,
+					       GPtrArray *contacts,
 					       GtkPrintOperationAction action);
 void		contact_page_draw_footer      (GtkPrintOperation *operation,
 						GtkPrintContext *context,

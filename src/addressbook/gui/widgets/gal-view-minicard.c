@@ -34,24 +34,6 @@ G_DEFINE_TYPE (
 	GAL_TYPE_VIEW)
 
 static void
-view_minicard_column_width_changed (EAddressbookView *address_view,
-                                    gdouble width)
-{
-	GalView *view;
-	GalViewInstance *view_instance;
-	GalViewMinicard *view_minicard;
-
-	view_instance = e_addressbook_view_get_view_instance (address_view);
-	view = gal_view_instance_get_current_view (view_instance);
-	view_minicard = GAL_VIEW_MINICARD (view);
-
-	if (view_minicard->column_width != width) {
-		view_minicard->column_width = width;
-		gal_view_changed (view);
-	}
-}
-
-static void
 view_minicard_finalize (GObject *object)
 {
 	GalViewMinicard *view = GAL_VIEW_MINICARD (object);
@@ -137,10 +119,8 @@ gal_view_minicard_class_init (GalViewMinicardClass *class)
 static void
 gal_view_minicard_init (GalViewMinicard *gvm)
 {
+	/* Left just in case it would be useful in the future, but it's unused now */
 	gvm->column_width = 225.0;
-
-	gvm->emvw = NULL;
-	gvm->emvw_column_width_changed_id = 0;
 }
 
 /**
@@ -162,40 +142,16 @@ void
 gal_view_minicard_attach (GalViewMinicard *view,
                           EAddressbookView *address_view)
 {
-	GObject *object;
-
 	g_return_if_fail (GAL_IS_VIEW_MINICARD (view));
 	g_return_if_fail (E_IS_ADDRESSBOOK_VIEW (address_view));
 
-	object = e_addressbook_view_get_view_object (address_view);
-	g_return_if_fail (E_IS_MINICARD_VIEW_WIDGET (object));
-
 	gal_view_minicard_detach (view);
-	view->emvw = E_MINICARD_VIEW_WIDGET (g_object_ref (object));
 
-	g_object_set (view->emvw, "column-width", view->column_width, NULL);
-
-	view->emvw_column_width_changed_id =
-		g_signal_connect_swapped (
-			view->emvw, "column-width-changed",
-			G_CALLBACK (view_minicard_column_width_changed),
-			address_view);
+	/* Nothing to store at the moment */
 }
 
 void
 gal_view_minicard_detach (GalViewMinicard *view)
 {
 	g_return_if_fail (GAL_IS_VIEW_MINICARD (view));
-
-	if (view->emvw == NULL)
-		return;
-
-	if (view->emvw_column_width_changed_id > 0) {
-		g_signal_handler_disconnect (
-			view->emvw, view->emvw_column_width_changed_id);
-		view->emvw_column_width_changed_id = 0;
-	}
-
-	g_object_unref (view->emvw);
-	view->emvw = NULL;
 }

@@ -27,20 +27,18 @@ set(SOURCES
 	eab-contact-merging.h
 	eab-gui-util.c
 	eab-gui-util.h
+	e-alphabet-box.c
+	e-alphabet-box.h
+	e-card-view.c
+	e-card-view.h
+	e-contact-card-box.c
+	e-contact-card-box.h
+	e-contact-card.c
+	e-contact-card.h
 	e-contact-map.c
 	e-contact-map.h
 	e-contact-map-window.c
 	e-contact-map-window.h
-	e-minicard.c
-	e-minicard.h
-	e-minicard-label.c
-	e-minicard-label.h
-	e-minicard-view.c
-	e-minicard-view.h
-	e-minicard-view-widget.c
-	e-minicard-view-widget.h
-	e-addressbook-reflow-adapter.c
-	e-addressbook-reflow-adapter.h
 	e-addressbook-table-adapter.c
 	e-addressbook-table-adapter.h
 	e-addressbook-model.c
@@ -51,10 +49,6 @@ set(SOURCES
 	e-addressbook-view.h
 	gal-view-minicard.c
 	gal-view-minicard.h
-	ea-minicard.c
-	ea-minicard.h
-	ea-minicard-view.c
-	ea-minicard-view.h
 	ea-addressbook-view.c
 	ea-addressbook-view.h
 	ea-addressbook.c
