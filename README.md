@@ -4,7 +4,7 @@
 **Evolution** is the integrated mail, calendar and address book suite from
 the Evolution Team.
 
-See [the Evolution Gnome Wiki page][gnome-wiki] for more information.
+See [the Evolution GNOME Wiki page][gnome-wiki] for more information.
 
 If you are using Evolution, you may wish to subscribe to [the Evolution
 users mailing list][mailing-list]. Visit there to subscribe or view archives
