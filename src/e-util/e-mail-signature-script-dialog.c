@@ -424,12 +424,19 @@ mail_signature_script_dialog_constructed (GObject *object)
 	dialog->priv->file_chooser = widget;  /* not referenced */
 	gtk_widget_show (widget);
 
-	/* Restrict file selection to executable files. */
 	filter = gtk_file_filter_new ();
-	gtk_file_filter_add_custom (
-		filter, GTK_FILE_FILTER_FILENAME,
-		(GtkFileFilterFunc) mail_signature_script_dialog_filter_cb,
-		NULL, NULL);
+
+	if (e_util_is_running_flatpak ()) {
+		gtk_file_filter_set_name (filter, _("All files"));
+		gtk_file_filter_add_pattern (filter, "*");
+	} else {
+		/* Restrict file selection to executable files. */
+		gtk_file_filter_add_custom (
+			filter, GTK_FILE_FILTER_FILENAME,
+			(GtkFileFilterFunc) mail_signature_script_dialog_filter_cb,
+			NULL, NULL);
+	}
+
 	gtk_file_chooser_set_filter (GTK_FILE_CHOOSER (widget), filter);
 
 	/* We create symbolic links to script files from the "signatures"
