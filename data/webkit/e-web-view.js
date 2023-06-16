@@ -760,24 +760,6 @@ Evo.EnsureMainDocumentInitialized = function()
 	Evo.initializeAndPostContentLoaded(null);
 }
 
-Evo.mailDisplaySetIFrameHeight = function(iframe, height, forWidth, force)
-{
-	if (!force && iframe.hasAttribute("x-evo-height-for-width") && iframe.hasAttribute("x-evo-cached-height")) {
-		var heightForWidth = parseInt(iframe.getAttribute("x-evo-height-for-width"));
-		if (heightForWidth == forWidth) {
-			var cachedHeight = parseInt(iframe.getAttribute("x-evo-cached-height"));
-			if (cachedHeight > 0) {
-				iframe.height = cachedHeight;
-				return;
-			}
-		}
-	}
-
-	iframe.setAttribute("x-evo-height-for-width", forWidth);
-	iframe.setAttribute("x-evo-cached-height", height);
-	iframe.height = height;
-}
-
 Evo.mailDisplayGetScrollbarHeight = function()
 {
 	if (Evo.mailDisplayCachedScrollbarHeight != undefined)
@@ -797,7 +779,7 @@ Evo.mailDisplayUpdateIFramesHeightRecursive = function(doc)
 	if (!doc)
 		return;
 
-	var ii, iframes, force = false;
+	var ii, iframes;
 
 	iframes = doc.getElementsByTagName("iframe");
 
@@ -809,18 +791,20 @@ Evo.mailDisplayUpdateIFramesHeightRecursive = function(doc)
 	if (!doc.scrollingElement || !doc.defaultView || !doc.defaultView.frameElement)
 		return;
 
-	if (doc.defaultView.frameElement.height == doc.scrollingElement.scrollHeight) {
+	if (doc.defaultView.frameElement.height == doc.scrollingElement.scrollHeight)
 		doc.defaultView.frameElement.height = 10;
-		force = true;
-	}
 
-	Evo.mailDisplaySetIFrameHeight(doc.defaultView.frameElement, doc.scrollingElement.scrollHeight + 2 +
-		(doc.scrollingElement.scrollWidth > doc.scrollingElement.clientWidth ? Evo.mailDisplayGetScrollbarHeight() : 0),
-		doc.scrollingElement.clientWidth, force);
+	doc.defaultView.frameElement.height = doc.scrollingElement.scrollHeight + 2 +
+		(doc.scrollingElement.scrollWidth > doc.scrollingElement.clientWidth ? Evo.mailDisplayGetScrollbarHeight() : 0);
 }
 
-Evo.MailDisplayUpdateIFramesHeight = function()
+Evo.mailDisplayUpdateIFramesHeightCB = function(timeStamp)
 {
+	if (Evo.mailDisplayRecalcHeightTimeStamp === timeStamp)
+		return;
+
+	Evo.mailDisplayRecalcHeightTimeStamp = timeStamp;
+
 	var scrollx = document.defaultView ? document.defaultView.scrollX : -1;
 	var scrolly = document.defaultView ? document.defaultView.scrollY : -1;
 
@@ -833,6 +817,11 @@ Evo.MailDisplayUpdateIFramesHeight = function()
 
 	Evo.mailDisplayResizeContentToPreviewWidth();
 	Evo.mailDisplayUpdateMagicSpacebarState();
+}
+
+Evo.MailDisplayUpdateIFramesHeight = function()
+{
+	window.requestAnimationFrame(Evo.mailDisplayUpdateIFramesHeightCB);
 }
 
 if (this instanceof Window && this.document) {
@@ -886,8 +875,13 @@ Evo.VCardBind = function(iframe_id)
 	Evo.runTraversarForIFrameId(iframe_id, traversar);
 }
 
-Evo.mailDisplayResizeContentToPreviewWidth = function()
+Evo.mailDisplayResizeContentToPreviewWidthCB = function(timeStamp)
 {
+	if (Evo.mailDisplayPreviewWidthTimeStamp === timeStamp)
+		return;
+
+	Evo.mailDisplayPreviewWidthTimeStamp = timeStamp;
+
 	if (!document || !document.documentElement ||
 	    document.documentElement.scrollWidth < document.documentElement.clientWidth) {
 		return;
@@ -1014,6 +1008,11 @@ Evo.mailDisplayResizeContentToPreviewWidth = function()
 
 	if (document.documentElement.clientWidth - 20 > width)
 		window.webkit.messageHandlers.scheduleIFramesHeightUpdate.postMessage(0);
+}
+
+Evo.mailDisplayResizeContentToPreviewWidth = function()
+{
+	window.requestAnimationFrame(Evo.mailDisplayResizeContentToPreviewWidthCB);
 }
 
 Evo.mailDisplayUpdateMagicSpacebarState = function()
@@ -1217,35 +1216,88 @@ Evo.unsetHTMLColors = function(doc)
 	}
 }
 
-Evo.mailDisplaySizeChanged = function(entries, observer)
+Evo.mailDisplaySetIFrameHeightForDocument = function(doc, minHeight)
 {
+	if (!doc || !doc.defaultView || !doc.scrollingElement)
+		return;
+
+	var iframe = doc.defaultView.frameElement;
+
+	if (!iframe)
+		return;
+
+	var value = minHeight;
+
+	iframe.height = 10;
+
+	if (value < doc.scrollingElement.scrollHeight)
+		value = doc.scrollingElement.scrollHeight;
+	if (doc.scrollingElement.scrollWidth > doc.scrollingElement.clientWidth)
+		value += Evo.mailDisplayGetScrollbarHeight();
+
+	// to ignore size change notifications made by itself
+	if (Evo.mailDisplayResizeObserver)
+		Evo.mailDisplayResizeObserver.expectChange++;
+
+	iframe.height = value;
+
+	// update also parent
+	if (iframe.ownerDocument && iframe.ownerDocument.defaultView && iframe.ownerDocument.defaultView.frameElement)
+		Evo.mailDisplaySetIFrameHeightForDocument(iframe.ownerDocument, 10);
+}
+
+Evo.mailDisplayHandleSizeEntries = function(timeStamp)
+{
+	if (!Evo.mailDisplaySizeEntries || !Evo.mailDisplaySizeEntries.length)
+		return;
+
 	var scrollx = document.defaultView ? document.defaultView.scrollX : -1;
 	var scrolly = document.defaultView ? document.defaultView.scrollY : -1;
+	var covered = [], ii;
 
-	for (const entry of entries) {
-		if (entry.target.ownerDocument.defaultView.frameElement && entry.borderBoxSize?.length > 0) {
-			var value = entry.borderBoxSize[0].blockSize;
-			entry.target.ownerDocument.defaultView.frameElement.height = 10;
-			if (value < entry.target.ownerDocument.scrollingElement.scrollHeight)
-				value = entry.target.ownerDocument.scrollingElement.scrollHeight;
-			if (entry.target.ownerDocument.scrollingElement.scrollWidth > entry.target.ownerDocument.scrollingElement.clientWidth)
-				value += Evo.mailDisplayGetScrollbarHeight();
-			Evo.mailDisplaySetIFrameHeight(entry.target.ownerDocument.defaultView.frameElement, value,
-				entry.target.ownerDocument.scrollingElement.clientWidth, false);
+	for (ii = Evo.mailDisplaySizeEntries.length - 1; ii >= 0; ii--) {
+		var entries = Evo.mailDisplaySizeEntries[ii];
+
+		for (const entry of entries) {
+			if (covered.includes(entry.target))
+				continue;
+			covered[covered.length] = entry.target;
+
+			if (entry.target.ownerDocument && entry.target.ownerDocument.defaultView &&
+			    entry.target.ownerDocument.defaultView.frameElement && entry.borderBoxSize?.length > 0) {
+				Evo.mailDisplaySetIFrameHeightForDocument(entry.target.ownerDocument, entry.borderBoxSize[0].blockSize);
+			}
 		}
+
+		if (scrollx != -1 && scrolly != -1 && (
+		    document.defaultView.scrollX != scrollx ||
+		    document.defaultView.scrollY != scrolly))
+			document.defaultView.scrollTo(scrollx, scrolly);
 	}
 
-	if (scrollx != -1 && scrolly != -1 && (
-	    document.defaultView.scrollX != scrollx ||
-	    document.defaultView.scrollY != scrolly))
-		document.defaultView.scrollTo(scrollx, scrolly);
+	Evo.mailDisplaySizeEntries = [];
+}
+
+Evo.mailDisplaySizeChanged = function(entries, observer)
+{
+	if (Evo.mailDisplaySizeEntries === undefined) {
+		Evo.mailDisplaySizeEntries = [];
+	}
+	Evo.mailDisplaySizeEntries[Evo.mailDisplaySizeEntries.length] = entries;
+	if (Evo.mailDisplayResizeObserver.expectChange > 0) {
+		Evo.mailDisplayResizeObserver.expectChange--;
+		return;
+	}
+	window.requestAnimationFrame(Evo.mailDisplayHandleSizeEntries);
 }
 
 Evo.MailDisplayBindDOM = function(iframe_id, markCitationColor)
 {
 	Evo.markCitationColor = markCitationColor != "" ? markCitationColor : null;
-	if (!Evo.mailDisplayResizeObserver)
+	if (!Evo.mailDisplayResizeObserver) {
 		Evo.mailDisplayResizeObserver = new ResizeObserver(Evo.mailDisplaySizeChanged);
+		Evo.mailDisplayResizeObserver.expectChange = 0;
+	}
 
 	var traversar = {
 		unstyleBlockquotes : function(doc) {
