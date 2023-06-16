@@ -1852,3 +1852,24 @@ EvoItip.GetState = function(iframe_id)
 
 	return res;
 }
+
+EvoItip.FlipAlternativeHTMLPart = function(iframe_id, element_value, img_id, span_id)
+{
+	var elem = Evo.FindElement(iframe_id, element_value);
+	if (elem) {
+		elem.hidden = !elem.hidden;
+	}
+	elem = Evo.FindElement(iframe_id, img_id);
+	if (elem) {
+		var tmp = elem.src;
+		elem.src = elem.getAttribute("othersrc");
+		elem.setAttribute("othersrc", tmp);
+	}
+	elem = Evo.FindElement(iframe_id, span_id);
+	if (elem) {
+		var tmp = elem.innerText;
+		elem.innerText = elem.getAttribute("othertext");
+		elem.setAttribute("othertext", tmp);
+	}
+	window.webkit.messageHandlers.scheduleIFramesHeightUpdate.postMessage(0);
+}

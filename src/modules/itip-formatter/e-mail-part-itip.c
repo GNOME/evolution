@@ -93,25 +93,7 @@ itip_view_alternative_html_clicked_cb (EWebView *web_view,
 		g_return_if_fail (g_snprintf (tmp, sizeof (tmp), "%s-img", element_value) < sizeof (tmp));
 
 		e_web_view_jsc_run_script (WEBKIT_WEB_VIEW (web_view), e_web_view_get_cancellable (web_view),
-			"var elem = Evo.FindElement(%s, %s);\n"
-			"if (elem) {\n"
-			"	elem.hidden = !elem.hidden;\n"
-			"}\n"
-			"elem = Evo.FindElement(%s, %s);\n"
-			"if (elem) {\n"
-			"	var tmp = elem.src;\n"
-			"	elem.src = elem.getAttribute(\"othersrc\");\n"
-			"	elem.setAttribute(\"othersrc\", tmp);\n"
-			"}\n"
-			"elem = Evo.FindElement(%s, %s);\n"
-			"if (elem) {\n"
-			"	var tmp = elem.innerText;\n"
-			"	elem.innerText = elem.getAttribute(\"othertext\");\n"
-			"	elem.setAttribute(\"othertext\", tmp);\n"
-			"}\n",
-			iframe_id, element_value,
-			iframe_id, tmp,
-			iframe_id, spn);
+			"EvoItip.FlipAlternativeHTMLPart(%s,%s,%s,%s);", iframe_id, element_value, tmp, spn);
 	}
 }
 
