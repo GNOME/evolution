@@ -599,7 +599,6 @@ static void
 e_mail_formatter_class_init (EMailFormatterClass *class)
 {
 	GObjectClass *object_class;
-	GdkRGBA *rgba;
 
 	e_mail_formatter_parent_class = g_type_class_peek_parent (class);
 	g_type_class_add_private (class, sizeof (EMailFormatterPrivate));
@@ -613,21 +612,6 @@ e_mail_formatter_class_init (EMailFormatterClass *class)
 	class->context_size = sizeof (EMailFormatterContext);
 	class->run = mail_formatter_run;
 	class->update_style = mail_formatter_update_style;
-
-	rgba = &class->colors[E_MAIL_FORMATTER_COLOR_BODY];
-	gdk_rgba_parse (rgba, "#eeeeee");
-
-	rgba = &class->colors[E_MAIL_FORMATTER_COLOR_CONTENT];
-	gdk_rgba_parse (rgba, "#ffffff");
-
-	rgba = &class->colors[E_MAIL_FORMATTER_COLOR_FRAME];
-	gdk_rgba_parse (rgba, "#3f3f3f");
-
-	rgba = &class->colors[E_MAIL_FORMATTER_COLOR_HEADER];
-	gdk_rgba_parse (rgba, "#000000");
-
-	rgba = &class->colors[E_MAIL_FORMATTER_COLOR_TEXT];
-	gdk_rgba_parse (rgba, "#000000");
 
 	g_object_class_install_property (
 		object_class,
@@ -795,19 +779,26 @@ e_mail_formatter_class_init (EMailFormatterClass *class)
 static void
 e_mail_formatter_init (EMailFormatter *formatter)
 {
-	EMailFormatterClass *klass;
-	guint ii;
+	GdkRGBA *rgba;
 
 	formatter->priv = E_MAIL_FORMATTER_GET_PRIVATE (formatter);
 
 	g_mutex_init (&formatter->priv->property_lock);
 
-	klass = E_MAIL_FORMATTER_GET_CLASS (formatter);
-	g_return_if_fail (klass != NULL);
+	rgba = &formatter->priv->colors[E_MAIL_FORMATTER_COLOR_BODY];
+	gdk_rgba_parse (rgba, "#eeeeee");
 
-	for (ii = 0; ii < E_MAIL_FORMATTER_NUM_COLOR_TYPES; ii++) {
-		formatter->priv->colors[ii] = klass->colors[ii];
-	}
+	rgba = &formatter->priv->colors[E_MAIL_FORMATTER_COLOR_CONTENT];
+	gdk_rgba_parse (rgba, "#ffffff");
+
+	rgba = &formatter->priv->colors[E_MAIL_FORMATTER_COLOR_FRAME];
+	gdk_rgba_parse (rgba, "#3f3f3f");
+
+	rgba = &formatter->priv->colors[E_MAIL_FORMATTER_COLOR_HEADER];
+	gdk_rgba_parse (rgba, "#000000");
+
+	rgba = &formatter->priv->colors[E_MAIL_FORMATTER_COLOR_TEXT];
+	gdk_rgba_parse (rgba, "#000000");
 }
 
 static void

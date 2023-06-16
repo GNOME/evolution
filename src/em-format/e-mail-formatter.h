@@ -69,9 +69,6 @@ struct _EMailFormatterClass {
 	EMailFormatterExtensionRegistry *extension_registry;
 	CamelMimeFilterToHTMLFlags text_html_flags;
 
-	/* Colors cannot apply globally, it's a per-instance matter, but keep these as the defaults */
-	GdkRGBA colors[E_MAIL_FORMATTER_NUM_COLOR_TYPES];
-
 	/* sizeof(EMailFormatterContext) or some derivative struct */
 	gsize context_size;
 
