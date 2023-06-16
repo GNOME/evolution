@@ -53,6 +53,8 @@ struct _EMailFormatterPrivate {
 
 	gchar *charset;
 	gchar *default_charset;
+
+	GdkRGBA colors[E_MAIL_FORMATTER_NUM_COLOR_TYPES];
 };
 
 struct _AsyncContext {
@@ -793,9 +795,19 @@ e_mail_formatter_class_init (EMailFormatterClass *class)
 static void
 e_mail_formatter_init (EMailFormatter *formatter)
 {
+	EMailFormatterClass *klass;
+	guint ii;
+
 	formatter->priv = E_MAIL_FORMATTER_GET_PRIVATE (formatter);
 
 	g_mutex_init (&formatter->priv->property_lock);
+
+	klass = E_MAIL_FORMATTER_GET_CLASS (formatter);
+	g_return_if_fail (klass != NULL);
+
+	for (ii = 0; ii < E_MAIL_FORMATTER_NUM_COLOR_TYPES; ii++) {
+		formatter->priv->colors[ii] = klass->colors[ii];
+	}
 }
 
 static void
@@ -1209,15 +1221,10 @@ const GdkRGBA *
 e_mail_formatter_get_color (EMailFormatter *formatter,
                             EMailFormatterColor type)
 {
-	EMailFormatterClass *klass;
-
 	g_return_val_if_fail (E_IS_MAIL_FORMATTER (formatter), NULL);
 	g_return_val_if_fail (type < E_MAIL_FORMATTER_NUM_COLOR_TYPES, NULL);
 
-	klass = E_MAIL_FORMATTER_GET_CLASS (formatter);
-	g_return_val_if_fail (klass != NULL, NULL);
-
-	return &(klass->colors[type]);
+	return &(formatter->priv->colors[type]);
 }
 
 void
@@ -1225,7 +1232,6 @@ e_mail_formatter_set_color (EMailFormatter *formatter,
                             EMailFormatterColor type,
                             const GdkRGBA *color)
 {
-	EMailFormatterClass *klass;
 	GdkRGBA *format_color;
 	const gchar *property_name;
 
@@ -1233,10 +1239,7 @@ e_mail_formatter_set_color (EMailFormatter *formatter,
 	g_return_if_fail (type < E_MAIL_FORMATTER_NUM_COLOR_TYPES);
 	g_return_if_fail (color != NULL);
 
-	klass = E_MAIL_FORMATTER_GET_CLASS (formatter);
-	g_return_if_fail (klass != NULL);
-
-	format_color = &(klass->colors[type]);
+	format_color = &(formatter->priv->colors[type]);
 
 	if (gdk_rgba_equal (color, format_color))
 		return;
