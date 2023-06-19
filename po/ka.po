@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: evolution\n"
 "Report-Msgid-Bugs-To: https://gitlab.gnome.org/GNOME/evolution/issues\n"
-"POT-Creation-Date: 2023-05-30 07:54+0000\n"
-"PO-Revision-Date: 2023-05-31 06:49+0200\n"
+"POT-Creation-Date: 2023-06-19 07:06+0000\n"
+"PO-Revision-Date: 2023-06-19 17:40+0200\n"
 "Last-Translator: Ekaterine Papava <papava.e@gtu.ge>\n"
 "Language-Team: Georgian <(nothing)>\n"
 "Language: ka\n"
@@ -160,7 +160,7 @@ msgstr ""
 
 #: ../data/org.gnome.evolution.addressbook.gschema.xml.in.h:33
 msgid "Show web addresses"
-msgstr ""
+msgstr "ვებ-მისამართების ჩვენება"
 
 #: ../data/org.gnome.evolution.addressbook.gschema.xml.in.h:34
 msgid "Whether to show Web Addresses in the editor"
@@ -192,7 +192,7 @@ msgstr ""
 
 #: ../data/org.gnome.evolution.addressbook.gschema.xml.in.h:41
 msgid "Show Certificates tab"
-msgstr ""
+msgstr "სერტიფიკატის ჩანართის ჩვენება"
 
 #: ../data/org.gnome.evolution.addressbook.gschema.xml.in.h:42
 msgid "Whether to show Certificates tab in the editor"
@@ -200,7 +200,7 @@ msgstr ""
 
 #: ../data/org.gnome.evolution.addressbook.gschema.xml.in.h:43
 msgid "Where to open contact locations"
-msgstr ""
+msgstr "სად გავხსნათ საკონტაქტო ადგილები"
 
 #: ../data/org.gnome.evolution.addressbook.gschema.xml.in.h:44
 msgid ""
@@ -790,7 +790,7 @@ msgstr ""
 
 #: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:129
 msgid "Task layout style"
-msgstr ""
+msgstr "ამოცანის განლაგების სტილი"
 
 #: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:130
 msgid ""
@@ -1058,19 +1058,19 @@ msgstr ""
 
 #: ../data/org.gnome.evolution.gschema.xml.in.h:5
 msgid "The window’s X coordinate"
-msgstr ""
+msgstr "ფანჯრის X კოორდინატი"
 
 #: ../data/org.gnome.evolution.gschema.xml.in.h:6
 msgid "The window’s Y coordinate"
-msgstr ""
+msgstr "ფანჯრის Y კოორდინატი"
 
 #: ../data/org.gnome.evolution.gschema.xml.in.h:7
 msgid "The window’s width in pixels"
-msgstr ""
+msgstr "ფანჯრის სიგანე პიქსელებში"
 
 #: ../data/org.gnome.evolution.gschema.xml.in.h:8
 msgid "The window’s height in pixels"
-msgstr ""
+msgstr "ფანჯრის სიმაღლე პიქსელებში"
 
 #: ../data/org.gnome.evolution.gschema.xml.in.h:9
 msgid "Whether the window is maximized"
@@ -1570,7 +1570,7 @@ msgstr ""
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:97
 msgid "Show image animations"
-msgstr ""
+msgstr "სურათის ანიმაციების ჩვენება"
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:98
 msgid ""
@@ -1808,7 +1808,7 @@ msgstr ""
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:151
 msgid "Layout style"
-msgstr ""
+msgstr "განლაგების სტილი"
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:152
 msgid ""
@@ -1820,7 +1820,7 @@ msgstr ""
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:153
 msgid "Variable width font"
-msgstr ""
+msgstr "ცვალებადი სიგანის ფონტი"
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:154
 msgid "The variable width font for mail display."
@@ -1828,7 +1828,7 @@ msgstr ""
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:155
 msgid "Terminal font"
-msgstr ""
+msgstr "ტერმინალის ფონტი"
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:156
 msgid "The terminal font for mail display."
@@ -1836,7 +1836,7 @@ msgstr ""
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:157
 msgid "Use custom fonts"
-msgstr ""
+msgstr "ფონტის ხელით მითითება"
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:158
 msgid "Use custom fonts for displaying mail."
@@ -2984,7 +2984,7 @@ msgstr ""
 
 #: ../data/org.gnome.evolution.plugin.sender-validator.gschema.xml.in.h:1
 msgid "[]"
-msgstr ""
+msgstr "[]"
 
 #: ../data/org.gnome.evolution.plugin.sender-validator.gschema.xml.in.h:2
 msgid "List of assignments for recipient and the address to be used with it"
@@ -3769,11 +3769,11 @@ msgstr ""
 #: ../src/calendar/calendar.error.xml.h:65
 #: ../src/e-util/e-system.error.xml.h:28
 msgid "_Delete From Server"
-msgstr ""
+msgstr "_სერვერიდან წაშლა"
 
 #: ../src/addressbook/addressbook.error.xml.h:14
 msgid "Category editor not available."
-msgstr ""
+msgstr "კატეგორიის რედაქტორი მიუწვდომელია."
 
 #: ../src/addressbook/addressbook.error.xml.h:15
 msgid "Unable to open address book “{0}”"
@@ -4044,7 +4044,7 @@ msgstr "_გაუქმება"
 
 #: ../src/addressbook/addressbook.error.xml.h:56
 msgid "_Add Copy"
-msgstr ""
+msgstr "_ასლის დამატება"
 
 #: ../src/addressbook/gui/contact-editor/contact-editor.ui.h:1
 msgid "Show Telephone"
@@ -4088,7 +4088,7 @@ msgstr "ჩანაწერების ჩვენება"
 
 #: ../src/addressbook/gui/contact-editor/contact-editor.ui.h:11
 msgid "Show Certificates"
-msgstr ""
+msgstr "სერტიფიკატის ჩვენება"
 
 #: ../src/addressbook/gui/contact-editor/contact-editor.ui.h:12
 #: ../src/calendar/gui/e-comp-editor-page-reminders.c:2489
@@ -4115,7 +4115,7 @@ msgstr "გამართვა"
 #: ../src/smime/gui/certificate-manager.c:646
 #: ../src/smime/gui/certificate-manager.c:715
 msgid "_Save"
-msgstr ""
+msgstr "_შენახვა"
 
 #: ../src/addressbook/gui/contact-editor/contact-editor.ui.h:15
 #: ../src/e-util/e-misc-utils.c:3725
@@ -4137,11 +4137,11 @@ msgstr ""
 
 #: ../src/addressbook/gui/contact-editor/contact-editor.ui.h:19
 msgid "Ca_tegories..."
-msgstr ""
+msgstr "_კატეგორიები..."
 
 #: ../src/addressbook/gui/contact-editor/contact-editor.ui.h:20
 msgid "Full _Name..."
-msgstr ""
+msgstr "_სრული სახელი..."
 
 #: ../src/addressbook/gui/contact-editor/contact-editor.ui.h:21
 #: ../src/addressbook/gui/widgets/eab-contact-formatter.c:926
@@ -4160,7 +4160,7 @@ msgstr "ტელეფონი"
 
 #: ../src/addressbook/gui/contact-editor/contact-editor.ui.h:24
 msgid "SIP Address"
-msgstr ""
+msgstr "SIP მისამართი"
 
 #: ../src/addressbook/gui/contact-editor/contact-editor.ui.h:25
 msgid "Instant Messaging"
@@ -4173,7 +4173,7 @@ msgstr "კონტაქტი"
 
 #: ../src/addressbook/gui/contact-editor/contact-editor.ui.h:27
 msgid "_Home Page:"
-msgstr ""
+msgstr "_საწყისი გვერდი:"
 
 #: ../src/addressbook/gui/contact-editor/contact-editor.ui.h:28
 #: ../src/calendar/gui/e-comp-editor-event.c:933
@@ -4183,7 +4183,7 @@ msgstr "_კალენდარი:"
 
 #: ../src/addressbook/gui/contact-editor/contact-editor.ui.h:29
 msgid "_Free/Busy:"
-msgstr ""
+msgstr "_თავისუფალი/დაკავებული:"
 
 #: ../src/addressbook/gui/contact-editor/contact-editor.ui.h:30
 msgid "_Video Chat:"
@@ -4217,7 +4217,7 @@ msgstr ""
 
 #: ../src/addressbook/gui/contact-editor/contact-editor.ui.h:38
 msgid "Web Addresses"
-msgstr ""
+msgstr "ვებ მისამართები"
 
 #: ../src/addressbook/gui/contact-editor/contact-editor.ui.h:39
 msgid "_Profession:"
@@ -4230,7 +4230,7 @@ msgstr "_სათაური:"
 
 #: ../src/addressbook/gui/contact-editor/contact-editor.ui.h:41
 msgid "_Company:"
-msgstr ""
+msgstr "_კომპანია:"
 
 #: ../src/addressbook/gui/contact-editor/contact-editor.ui.h:42
 msgid "_Department:"
@@ -4238,7 +4238,7 @@ msgstr "_განყოფილება:"
 
 #: ../src/addressbook/gui/contact-editor/contact-editor.ui.h:43
 msgid "_Office:"
-msgstr ""
+msgstr "_ოფისი:"
 
 #: ../src/addressbook/gui/contact-editor/contact-editor.ui.h:44
 msgid "_Manager:"
@@ -4246,7 +4246,7 @@ msgstr "მ_მართველი:"
 
 #: ../src/addressbook/gui/contact-editor/contact-editor.ui.h:45
 msgid "_Assistant:"
-msgstr ""
+msgstr "_დამხმარე:"
 
 #: ../src/addressbook/gui/contact-editor/contact-editor.ui.h:46
 msgid "Job"
@@ -4254,15 +4254,15 @@ msgstr "დავალება"
 
 #: ../src/addressbook/gui/contact-editor/contact-editor.ui.h:47
 msgid "_Spouse:"
-msgstr ""
+msgstr "_მეუღლე:"
 
 #: ../src/addressbook/gui/contact-editor/contact-editor.ui.h:48
 msgid "_Birthday:"
-msgstr ""
+msgstr "_დაბადების დღე:"
 
 #: ../src/addressbook/gui/contact-editor/contact-editor.ui.h:49
 msgid "_Anniversary:"
-msgstr ""
+msgstr "_დღეობა:"
 
 #: ../src/addressbook/gui/contact-editor/contact-editor.ui.h:50
 #: ../src/addressbook/gui/widgets/eab-contact-formatter.c:1058
@@ -4449,6 +4449,7 @@ msgstr "PGP გასაღები"
 #: ../src/addressbook/gui/contact-editor/e-contact-editor.c:3250
 #: ../src/e-util/e-html-editor-actions.c:448
 #: ../src/e-util/e-image-chooser-dialog.c:193
+#: ../src/e-util/e-mail-signature-script-dialog.c:430
 #: ../src/smime/gui/certificate-manager.c:667
 #: ../src/smime/gui/certificate-manager.c:952
 msgid "All files"
@@ -4545,7 +4546,7 @@ msgstr ""
 
 #: ../src/addressbook/gui/contact-editor/e-contact-editor.c:4817
 msgid "Invalid contact."
-msgstr ""
+msgstr "არასწორი კონტაქტი."
 
 #: ../src/addressbook/gui/contact-editor/e-contact-editor.c:5132
 #: ../src/calendar/gui/e-comp-editor.c:2201
@@ -4604,11 +4605,11 @@ msgstr "_სრული სახელი"
 
 #: ../src/addressbook/gui/contact-editor/e-contact-quick-add.c:531
 msgid "E_mail"
-msgstr ""
+msgstr "_ელფოსტა"
 
 #: ../src/addressbook/gui/contact-editor/e-contact-quick-add.c:544
 msgid "_Select Address Book"
-msgstr ""
+msgstr "_არჩიეთ მისამართების წიგნი"
 
 #: ../src/addressbook/gui/contact-editor/e-contact-quick-add.c:779
 msgid "Failed to parse vCard data"
@@ -4665,7 +4666,7 @@ msgstr "სრული სახელი"
 
 #: ../src/addressbook/gui/contact-editor/fullname.ui.h:15
 msgid "_First:"
-msgstr ""
+msgstr "_პირველი:"
 
 #: ../src/addressbook/gui/contact-editor/fullname.ui.h:16
 msgctxt "FullName"
@@ -4674,15 +4675,15 @@ msgstr "_სათაური:"
 
 #: ../src/addressbook/gui/contact-editor/fullname.ui.h:17
 msgid "_Middle:"
-msgstr ""
+msgstr "_შუა:"
 
 #: ../src/addressbook/gui/contact-editor/fullname.ui.h:18
 msgid "_Last:"
-msgstr ""
+msgstr "_ბოლო:"
 
 #: ../src/addressbook/gui/contact-editor/fullname.ui.h:19
 msgid "_Suffix:"
-msgstr ""
+msgstr "_სუფიქსი:"
 
 #: ../src/addressbook/gui/contact-list-editor/contact-list-editor.ui.h:1
 #: ../src/addressbook/gui/contact-list-editor/e-contact-list-editor.c:825
@@ -4691,7 +4692,7 @@ msgstr ""
 
 #: ../src/addressbook/gui/contact-list-editor/contact-list-editor.ui.h:4
 msgid "_List name:"
-msgstr ""
+msgstr "_სიის სახელი:"
 
 #: ../src/addressbook/gui/contact-list-editor/contact-list-editor.ui.h:6
 msgid "Members"
@@ -4715,7 +4716,7 @@ msgstr ""
 
 #: ../src/addressbook/gui/contact-list-editor/contact-list-editor.ui.h:13
 msgid "_Select..."
-msgstr ""
+msgstr "_აირჩიეთ:"
 
 #: ../src/addressbook/gui/contact-list-editor/contact-list-editor.ui.h:14
 msgid "Insert email addresses from Address Book"
@@ -5130,7 +5131,7 @@ msgstr "კონტაქტების გარეშე"
 #, c-format
 msgid "%d contact"
 msgid_plural "%d contacts"
-msgstr[0] ""
+msgstr[0] "%d კონტაქტი"
 
 #: ../src/addressbook/gui/widgets/e-addressbook-model.c:391
 msgid "Error getting book view"
@@ -5232,7 +5233,7 @@ msgstr ""
 
 #: ../src/addressbook/gui/widgets/e-addressbook-view.etspec.h:1
 msgid "File As"
-msgstr ""
+msgstr "ფაილი როგორც"
 
 #: ../src/addressbook/gui/widgets/e-addressbook-view.etspec.h:3
 msgid "Given Name"
@@ -5292,7 +5293,7 @@ msgstr "სახლის ფაქსი"
 
 #: ../src/addressbook/gui/widgets/e-addressbook-view.etspec.h:19
 msgid "ISDN Phone"
-msgstr ""
+msgstr "ISDN ტელეფონი"
 
 #: ../src/addressbook/gui/widgets/e-addressbook-view.etspec.h:20
 msgid "Mobile Phone"
@@ -5330,7 +5331,7 @@ msgstr "Telex"
 #. different and established translation for this in your language.
 #: ../src/addressbook/gui/widgets/e-addressbook-view.etspec.h:33
 msgid "TTYTDD"
-msgstr ""
+msgstr "TTYTDD"
 
 #: ../src/addressbook/gui/widgets/e-addressbook-view.etspec.h:35
 msgid "Unit"
@@ -5360,11 +5361,11 @@ msgstr "გახსნა"
 
 #: ../src/addressbook/gui/widgets/ea-minicard.c:157
 msgid "Contact List: "
-msgstr ""
+msgstr "კონტაქტების სია: "
 
 #: ../src/addressbook/gui/widgets/ea-minicard.c:158
 msgid "Contact: "
-msgstr ""
+msgstr "კონტაქტი: "
 
 #: ../src/addressbook/gui/widgets/ea-minicard.c:180
 msgid "evolution minicard"
@@ -5497,7 +5498,7 @@ msgstr ""
 
 #: ../src/addressbook/importers/evolution-vcard-importer.c:489
 msgid "vCard (.vcf, .gcrd)"
-msgstr ""
+msgstr "vCard (.vcf, .gcrd)"
 
 #: ../src/addressbook/importers/evolution-vcard-importer.c:490
 msgid "Evolution vCard Importer"
@@ -5538,7 +5539,7 @@ msgstr ""
 #: ../src/addressbook/util/eab-book-util.c:44
 msgctxt "addressbook-label"
 msgid "Other SIP"
-msgstr ""
+msgstr "სხვა SIP"
 
 #: ../src/addressbook/util/eab-book-util.c:72
 msgctxt "addressbook-label"
@@ -6316,14 +6317,14 @@ msgstr "კლასიფიკაცია"
 #: ../src/calendar/gui/tasktypes.xml.in.h:9 ../src/mail/filtertypes.xml.in.h:4
 #: ../src/mail/searchtypes.xml.in.h:4 ../src/mail/vfoldertypes.xml.in.h:4
 msgid "is"
-msgstr ""
+msgstr "არის"
 
 #: ../src/calendar/gui/caltypes.xml.in.h:8
 #: ../src/calendar/gui/memotypes.xml.in.h:9
 #: ../src/calendar/gui/tasktypes.xml.in.h:10 ../src/mail/filtertypes.xml.in.h:5
 #: ../src/mail/searchtypes.xml.in.h:5 ../src/mail/vfoldertypes.xml.in.h:5
 msgid "is not"
-msgstr ""
+msgstr "არ არის"
 
 #: ../src/calendar/gui/caltypes.xml.in.h:9
 #: ../src/calendar/gui/e-cal-list-view.c:289
@@ -6397,7 +6398,7 @@ msgstr "დანართი"
 #: ../src/mail/filtertypes.xml.in.h:49 ../src/mail/searchtypes.xml.in.h:51
 #: ../src/mail/vfoldertypes.xml.in.h:52
 msgid "Exist"
-msgstr ""
+msgstr "არსებობს"
 
 #: ../src/calendar/gui/caltypes.xml.in.h:18
 #: ../src/calendar/gui/memotypes.xml.in.h:16
@@ -6405,7 +6406,7 @@ msgstr ""
 #: ../src/mail/filtertypes.xml.in.h:50 ../src/mail/searchtypes.xml.in.h:52
 #: ../src/mail/vfoldertypes.xml.in.h:53
 msgid "Do Not Exist"
-msgstr ""
+msgstr "არ არსებობს"
 
 #: ../src/calendar/gui/caltypes.xml.in.h:19
 #: ../src/calendar/gui/e-comp-editor-page-recurrence.c:2092
@@ -6414,7 +6415,7 @@ msgstr "გამეორებადობა"
 
 #: ../src/calendar/gui/caltypes.xml.in.h:20
 msgid "Occurs"
-msgstr ""
+msgstr "ხდება"
 
 #: ../src/calendar/gui/caltypes.xml.in.h:21
 msgid "Less Than"
@@ -6426,7 +6427,7 @@ msgstr "ზუსტად"
 
 #: ../src/calendar/gui/caltypes.xml.in.h:23
 msgid "More Than"
-msgstr ""
+msgstr "მეტი, ვიდრე"
 
 #: ../src/calendar/gui/caltypes.xml.in.h:24
 #: ../src/calendar/gui/memotypes.xml.in.h:17
@@ -6495,7 +6496,7 @@ msgstr "არ დაწყებულა"
 #: ../src/calendar/gui/comp-util.c:1696
 msgctxt "iCalendarStatus"
 msgid "Needs Action"
-msgstr ""
+msgstr "სჭირდება მოქმედება"
 
 #: ../src/calendar/gui/comp-util.c:1697
 msgctxt "iCalendarStatus"
@@ -6546,7 +6547,7 @@ msgstr "დელეგირებული"
 
 #: ../src/calendar/gui/comp-util.c:1964
 msgid "Needs action"
-msgstr ""
+msgstr "საჭიროებს ქმედებას"
 
 #. Translators: 'Status' here means the state of the attendees, the resulting string will be in a form:
 #. * Status: Accepted: X   Declined: Y   ...
@@ -6875,11 +6876,11 @@ msgstr "მდებარეობა:"
 
 #: ../src/calendar/gui/e-cal-component-preview.c:311
 msgid "Start Date:"
-msgstr ""
+msgstr "დაწყების თარიღი:"
 
 #: ../src/calendar/gui/e-cal-component-preview.c:320
 msgid "End Date:"
-msgstr ""
+msgstr "დასრულების თარიღი:"
 
 #: ../src/calendar/gui/e-cal-component-preview.c:334
 #: ../src/modules/itip-formatter/itip-view.c:2068
@@ -7275,7 +7276,7 @@ msgstr ""
 #: ../src/calendar/gui/e-cal-model.c:1493 ../src/calendar/gui/e-cal-ops.c:202
 #: ../src/calendar/gui/e-cal-ops.c:1393
 msgid "Creating a task"
-msgstr ""
+msgstr "დავალების შექმნა"
 
 #: ../src/calendar/gui/e-cal-model.c:1890
 msgid "Recurring"
@@ -8119,7 +8120,7 @@ msgstr "წელი"
 #: ../src/calendar/gui/e-comp-editor-page-recurrence.c:2206
 msgctxt "ECompEditorPageRecur"
 msgid "for"
-msgstr ""
+msgstr "ვისთვის"
 
 #. Translators: Entire string is for example:     'This appointment recurs/Every[x][day(s)][for][1]occurrences' (combobox options are in [square brackets])
 #: ../src/calendar/gui/e-comp-editor-page-recurrence.c:2208
@@ -8859,7 +8860,7 @@ msgstr ""
 #: ../src/calendar/gui/e-meeting-list-view.c:675
 #: ../src/calendar/gui/e-meeting-time-sel.etspec.h:6
 msgid "RSVP"
-msgstr ""
+msgstr "RSVP"
 
 #: ../src/calendar/gui/e-meeting-store.c:187
 #: ../src/calendar/gui/e-meeting-store.c:210
@@ -9458,7 +9459,7 @@ msgstr "სტატუსი: %s"
 #: ../src/calendar/gui/print.c:3751
 #, c-format
 msgid "Priority: %s"
-msgstr ""
+msgstr "პრიორიტეტი: %s"
 
 #: ../src/calendar/gui/print.c:3766
 #, c-format
@@ -9468,7 +9469,7 @@ msgstr ""
 #: ../src/calendar/gui/print.c:3781
 #, c-format
 msgid "URL: %s"
-msgstr ""
+msgstr "URL: %s"
 
 #: ../src/calendar/gui/print.c:3797
 #, c-format
@@ -15009,11 +15010,11 @@ msgid ""
 "for display purposes only."
 msgstr ""
 
-#: ../src/e-util/e-mail-signature-script-dialog.c:439
+#: ../src/e-util/e-mail-signature-script-dialog.c:446
 msgid "S_cript:"
 msgstr ""
 
-#: ../src/e-util/e-mail-signature-script-dialog.c:470
+#: ../src/e-util/e-mail-signature-script-dialog.c:477
 msgid "Script file must be executable."
 msgstr ""
 
@@ -21667,9 +21668,6 @@ msgid "Show contact preview alongside the contact list"
 msgstr ""
 
 #: ../src/modules/addressbook/e-book-shell-view-actions.c:1278
-#: ../src/modules/calendar/e-cal-shell-view-actions.c:1873
-#: ../src/modules/calendar/e-memo-shell-view-actions.c:790
-#: ../src/modules/calendar/e-task-shell-view-actions.c:1012
 msgid "Unmatched"
 msgstr ""
 
@@ -23197,6 +23195,16 @@ msgstr ""
 msgid "Occurs Less Than 5 Times"
 msgstr ""
 
+#: ../src/modules/calendar/e-cal-shell-view-actions.c:1873
+#: ../src/modules/calendar/e-memo-shell-view-actions.c:790
+#: ../src/modules/calendar/e-task-shell-view-actions.c:1012
+msgid "Without Category"
+msgstr "კატეგორიის გარეშე"
+
+#: ../src/modules/calendar/e-cal-shell-view-actions.c:1875
+msgid "Show events with no category set"
+msgstr ""
+
 #: ../src/modules/calendar/e-cal-shell-view-actions.c:1897
 #: ../src/modules/calendar/e-memo-shell-view-actions.c:814
 #: ../src/modules/calendar/e-task-shell-view-actions.c:1043
@@ -23460,6 +23468,10 @@ msgstr ""
 msgid "Show memo preview alongside the memo list"
 msgstr ""
 
+#: ../src/modules/calendar/e-memo-shell-view-actions.c:792
+msgid "Show memos with no category set"
+msgstr ""
+
 #: ../src/modules/calendar/e-memo-shell-view-actions.c:833
 msgid "Print the list of memos"
 msgstr ""
@@ -23629,6 +23641,10 @@ msgstr ""
 
 #: ../src/modules/calendar/e-task-shell-view-actions.c:1005
 msgid "Tasks with Attachments"
+msgstr ""
+
+#: ../src/modules/calendar/e-task-shell-view-actions.c:1014
+msgid "Show tasks with no category set"
 msgstr ""
 
 #: ../src/modules/calendar/e-task-shell-view-actions.c:1019
