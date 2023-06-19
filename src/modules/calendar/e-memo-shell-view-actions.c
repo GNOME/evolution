@@ -787,9 +787,9 @@ static GtkRadioActionEntry memo_filter_entries[] = {
 
 	{ "memo-filter-unmatched",
 	  NULL,
-	  N_("Unmatched"),
+	  N_("Without Category"),
 	  NULL,
-	  NULL,
+	  N_("Show memos with no category set"),
 	  MEMO_FILTER_UNMATCHED }
 };
 

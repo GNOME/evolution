@@ -1009,9 +1009,9 @@ static GtkRadioActionEntry task_filter_entries[] = {
 
 	{ "task-filter-unmatched",
 	  NULL,
-	  N_("Unmatched"),
+	  N_("Without Category"),
 	  NULL,
-	  NULL,  /* XXX Add a tooltip! */
+	  N_("Show tasks with no category set"),
 	  TASK_FILTER_UNMATCHED },
 
 	{ "task-filter-started",

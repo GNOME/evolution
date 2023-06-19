@@ -1870,9 +1870,9 @@ static GtkRadioActionEntry calendar_filter_entries[] = {
 
 	{ "calendar-filter-unmatched",
 	  NULL,
-	  N_("Unmatched"),
+	  N_("Without Category"),
 	  NULL,
-	  NULL,  /* XXX Add a tooltip! */
+	  N_("Show events with no category set"),
 	  CALENDAR_FILTER_UNMATCHED }
 };
 
