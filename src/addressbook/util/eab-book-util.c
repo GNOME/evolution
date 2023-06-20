@@ -394,6 +394,8 @@ eab_contact_list_to_string (const GSList *contacts)
 			E_VCARD (contact), EVC_FORMAT_VCARD_30);
 
 		g_string_append (str, vcard_str);
+		g_free (vcard_str);
+
 		if (l->next)
 			g_string_append (str, "\r\n\r\n");
 	}

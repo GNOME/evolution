@@ -568,13 +568,15 @@ name_to_style (const EContactName *name,
 		}
 		*midstrptr = NULL;
 		stringptr = strings;
-		*(stringptr++) = g_strjoinv(", ", midstring);
+		substring = g_strjoinv (", ", midstring);
+		*(stringptr++) = substring;
 		if (name) {
 			if (name->additional && *name->additional)
 				*(stringptr++) = name->additional;
 		}
 		*stringptr = NULL;
 		string = g_strjoinv (" ", strings);
+		g_free (substring);
 		break;
 	case 3:
 		string = g_strdup (company);

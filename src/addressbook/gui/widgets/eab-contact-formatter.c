@@ -1387,6 +1387,7 @@ render_compact (EABContactFormatter *formatter,
 			g_string_append_printf (
 				buffer, "<b>%s:</b> %s<br>",
 				_ ("Blog"), html);
+			g_free (html);
 		}
 	}
 
