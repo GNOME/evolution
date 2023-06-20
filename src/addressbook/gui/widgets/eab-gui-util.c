@@ -597,8 +597,10 @@ eab_transfer_contacts (ESourceRegistry *registry,
 	destination = eab_select_source (
 		registry, source, desc, NULL, last_uid, window);
 
-	if (!destination)
+	if (!destination) {
+		g_slist_free_full (contacts, g_object_unref);
 		return;
+	}
 
 	if (strcmp (last_uid, e_source_get_uid (destination)) != 0) {
 		g_free (last_uid);
