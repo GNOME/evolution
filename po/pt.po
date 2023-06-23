@@ -13,8 +13,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: 3.12\n"
 "Report-Msgid-Bugs-To: https://gitlab.gnome.org/GNOME/evolution/issues\n"
-"POT-Creation-Date: 2023-05-30 07:54+0000\n"
-"PO-Revision-Date: 2023-05-31 12:21+0100\n"
+"POT-Creation-Date: 2023-06-19 07:06+0000\n"
+"PO-Revision-Date: 2023-06-23 17:23+0100\n"
 "Last-Translator: Hugo Carvalho <hugokarvalho@hotmail.com>\n"
 "Language-Team: Portuguese <https://l10n.gnome.org/teams/pt/>\n"
 "Language: pt\n"
@@ -5099,6 +5099,7 @@ msgstr "Chaves PGP"
 #: ../src/addressbook/gui/contact-editor/e-contact-editor.c:3250
 #: ../src/e-util/e-html-editor-actions.c:448
 #: ../src/e-util/e-image-chooser-dialog.c:193
+#: ../src/e-util/e-mail-signature-script-dialog.c:430
 #: ../src/smime/gui/certificate-manager.c:667
 #: ../src/smime/gui/certificate-manager.c:952
 msgid "All files"
@@ -15956,11 +15957,11 @@ msgstr ""
 "assinatura. O nome que especificar será utilizado\n"
 "apenas para visualização."
 
-#: ../src/e-util/e-mail-signature-script-dialog.c:439
+#: ../src/e-util/e-mail-signature-script-dialog.c:446
 msgid "S_cript:"
 msgstr "S_cript:"
 
-#: ../src/e-util/e-mail-signature-script-dialog.c:470
+#: ../src/e-util/e-mail-signature-script-dialog.c:477
 msgid "Script file must be executable."
 msgstr "O ficheiro de script tem de ser executável."
 
@@ -22922,9 +22923,6 @@ msgid "Show contact preview alongside the contact list"
 msgstr "Mostrar a antevisão de contactos ao lado da lista de contactos"
 
 #: ../src/modules/addressbook/e-book-shell-view-actions.c:1278
-#: ../src/modules/calendar/e-cal-shell-view-actions.c:1873
-#: ../src/modules/calendar/e-memo-shell-view-actions.c:790
-#: ../src/modules/calendar/e-task-shell-view-actions.c:1012
 msgid "Unmatched"
 msgstr "Sem equivalência"
 
@@ -24494,6 +24492,16 @@ msgstr "Compromissos dos próximos 7 dias"
 msgid "Occurs Less Than 5 Times"
 msgstr "Ocorre menos de 5 vezes"
 
+#: ../src/modules/calendar/e-cal-shell-view-actions.c:1873
+#: ../src/modules/calendar/e-memo-shell-view-actions.c:790
+#: ../src/modules/calendar/e-task-shell-view-actions.c:1012
+msgid "Without Category"
+msgstr "Sem categoria"
+
+#: ../src/modules/calendar/e-cal-shell-view-actions.c:1875
+msgid "Show events with no category set"
+msgstr "Mostrar eventos sem categoria definida"
+
 #: ../src/modules/calendar/e-cal-shell-view-actions.c:1897
 #: ../src/modules/calendar/e-memo-shell-view-actions.c:814
 #: ../src/modules/calendar/e-task-shell-view-actions.c:1043
@@ -24759,6 +24767,10 @@ msgstr "Mostrar a antevisão de memorandos por baixo da lista de memorandos"
 msgid "Show memo preview alongside the memo list"
 msgstr "Mostrar a antevisão de memorandos ao lado da lista de memorandos"
 
+#: ../src/modules/calendar/e-memo-shell-view-actions.c:792
+msgid "Show memos with no category set"
+msgstr "Mostrar memorandos sem categoria definida"
+
 #: ../src/modules/calendar/e-memo-shell-view-actions.c:833
 msgid "Print the list of memos"
 msgstr "Imprime a lista de memorandos"
@@ -24937,9 +24949,13 @@ msgstr "Tarefas atrasadas"
 msgid "Tasks with Attachments"
 msgstr "Tarefas com anexos"
 
+#: ../src/modules/calendar/e-task-shell-view-actions.c:1014
+msgid "Show tasks with no category set"
+msgstr "Mostrar tarefas sem categoria definida"
+
 #: ../src/modules/calendar/e-task-shell-view-actions.c:1019
 msgid "Started Tasks"
-msgstr "Tarefas Iniciadas"
+msgstr "Tarefas iniciadas"
 
 #: ../src/modules/calendar/e-task-shell-view-actions.c:1021
 msgid ""
@@ -30632,9 +30648,6 @@ msgstr "Certificado importado"
 
 #~ msgid "This event has reminders"
 #~ msgstr "Este evento possui lembretes"
-
-#~ msgid "Event with no start date"
-#~ msgstr "Evento sem data de início"
 
 #~ msgid "Event with no end date"
 #~ msgstr "Evento sem data de fim"
