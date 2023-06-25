@@ -12,8 +12,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: evolution\n"
 "Report-Msgid-Bugs-To: https://gitlab.gnome.org/GNOME/evolution/issues\n"
-"POT-Creation-Date: 2023-05-30 07:54+0000\n"
-"PO-Revision-Date: 2023-06-01 22:07+0300\n"
+"POT-Creation-Date: 2023-06-19 07:06+0000\n"
+"PO-Revision-Date: 2023-06-25 16:32+0300\n"
 "Last-Translator: Yuri Chornoivan <yurchor@ukr.net>\n"
 "Language-Team: Ukrainian <trans-uk@lists.fedoraproject.org>\n"
 "Language: uk\n"
@@ -5037,6 +5037,7 @@ msgstr "Ключі PGP"
 #: ../src/addressbook/gui/contact-editor/e-contact-editor.c:3250
 #: ../src/e-util/e-html-editor-actions.c:448
 #: ../src/e-util/e-image-chooser-dialog.c:193
+#: ../src/e-util/e-mail-signature-script-dialog.c:430
 #: ../src/smime/gui/certificate-manager.c:667
 #: ../src/smime/gui/certificate-manager.c:952
 msgid "All files"
@@ -5177,7 +5178,6 @@ msgid "_OK"
 msgstr "_Гаразд"
 
 #: ../src/addressbook/gui/contact-editor/e-contact-quick-add.c:251
-#| msgid "Failed to delete contact"
 msgid "Failed to find contact"
 msgstr "Не вдалось знайти контакт"
 
@@ -5202,7 +5202,6 @@ msgid "_Select Address Book"
 msgstr "_Виберіть адресну книгу"
 
 #: ../src/addressbook/gui/contact-editor/e-contact-quick-add.c:779
-#| msgid "Failed to store password: "
 msgid "Failed to parse vCard data"
 msgstr "Не вдалося обробити дані vCard"
 
@@ -15964,11 +15963,11 @@ msgstr ""
 "ваш цифровий підпис. Вказане вами ім'я буде використано\n"
 "лише для показу."
 
-#: ../src/e-util/e-mail-signature-script-dialog.c:439
+#: ../src/e-util/e-mail-signature-script-dialog.c:446
 msgid "S_cript:"
 msgstr "_Сценарій:"
 
-#: ../src/e-util/e-mail-signature-script-dialog.c:470
+#: ../src/e-util/e-mail-signature-script-dialog.c:477
 msgid "Script file must be executable."
 msgstr "Файл сценарію повинен бути виконуваним."
 
@@ -22963,9 +22962,6 @@ msgid "Show contact preview alongside the contact list"
 msgstr "Показувати попередній перегляд контактів поруч зі списком контактів"
 
 #: ../src/modules/addressbook/e-book-shell-view-actions.c:1278
-#: ../src/modules/calendar/e-cal-shell-view-actions.c:1873
-#: ../src/modules/calendar/e-memo-shell-view-actions.c:790
-#: ../src/modules/calendar/e-task-shell-view-actions.c:1012
 msgid "Unmatched"
 msgstr "Інше"
 
@@ -24516,6 +24512,17 @@ msgstr "Зустрічі найближчого тижня"
 msgid "Occurs Less Than 5 Times"
 msgstr "Трапилось менше за 5 разів"
 
+#: ../src/modules/calendar/e-cal-shell-view-actions.c:1873
+#: ../src/modules/calendar/e-memo-shell-view-actions.c:790
+#: ../src/modules/calendar/e-task-shell-view-actions.c:1012
+#| msgid "Category"
+msgid "Without Category"
+msgstr "Без категорії"
+
+#: ../src/modules/calendar/e-cal-shell-view-actions.c:1875
+msgid "Show events with no category set"
+msgstr "Показувати записи подій без встановлено категорії"
+
 #: ../src/modules/calendar/e-cal-shell-view-actions.c:1897
 #: ../src/modules/calendar/e-memo-shell-view-actions.c:814
 #: ../src/modules/calendar/e-task-shell-view-actions.c:1043
@@ -24785,6 +24792,10 @@ msgstr "Показувати панель попереднього перегл�
 msgid "Show memo preview alongside the memo list"
 msgstr "Показувати панель попереднього перегляду приміток зі списком приміток"
 
+#: ../src/modules/calendar/e-memo-shell-view-actions.c:792
+msgid "Show memos with no category set"
+msgstr "Показувати записи приміток без встановлено категорії"
+
 #: ../src/modules/calendar/e-memo-shell-view-actions.c:833
 msgid "Print the list of memos"
 msgstr "Друкувати список приміток"
@@ -24962,6 +24973,11 @@ msgstr "Прострочені завдання"
 #: ../src/modules/calendar/e-task-shell-view-actions.c:1005
 msgid "Tasks with Attachments"
 msgstr "Завдання з долученнями"
+
+#: ../src/modules/calendar/e-task-shell-view-actions.c:1014
+#| msgid "_Show Tasks without Due date"
+msgid "Show tasks with no category set"
+msgstr "Показувати записи завдань без встановлено категорії"
 
 #: ../src/modules/calendar/e-task-shell-view-actions.c:1019
 msgid "Started Tasks"
