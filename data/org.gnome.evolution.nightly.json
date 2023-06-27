@@ -3,12 +3,19 @@
 	"runtime": "org.gnome.Platform",
 	"runtime-version": "master",
 	"sdk": "org.gnome.Sdk",
+	"sdk-extensions" : [
+		"org.freedesktop.Sdk.Extension.vala"
+	],
 	"command": "evolution",
 	"rename-icon": "evolution",
 	"copy-icon": true,
 	"branch": "master",
 	"desktop-file-name-suffix": " (Nightly)",
 	"tags": [ "devel" ],
+	"build-options" : {
+		"prepend-path" : "/usr/lib/sdk/vala/bin/",
+		"prepend-ld-library-path" : "/usr/lib/sdk/vala/lib"
+	},
 	"cleanup": [
 		"*.la",
 		"*.a"
