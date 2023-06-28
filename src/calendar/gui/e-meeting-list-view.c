@@ -227,18 +227,19 @@ value_edited (GtkTreeView *view,
 static guint
 get_index_from_role (ICalParameterRole role)
 {
-	switch (role)	{
-		case I_CAL_ROLE_CHAIR:
-			return 0;
-		case I_CAL_ROLE_REQPARTICIPANT:
-			return 1;
-		case I_CAL_ROLE_OPTPARTICIPANT:
-			return 2;
-		case I_CAL_ROLE_NONPARTICIPANT:
-			return 3;
-		default:
-			return 1;
+	guint ii;
+
+	for (ii = 0; roles[ii] != I_CAL_ROLE_NONE; ii++) {
+		if (role == roles[ii])
+			return ii;
 	}
+
+	g_warn_if_fail (role != I_CAL_ROLE_REQPARTICIPANT);
+
+	if (role == I_CAL_ROLE_REQPARTICIPANT)
+		return 0;
+
+	return get_index_from_role (I_CAL_ROLE_REQPARTICIPANT);
 }
 
 void
