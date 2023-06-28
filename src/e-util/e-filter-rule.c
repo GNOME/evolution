@@ -470,6 +470,25 @@ do_grab_focus_cb (GtkWidget *widget,
 static void parts_grid_mapped_cb (GtkWidget *widget,
 				  GtkScrolledWindow *scrolled_window);
 
+static gboolean
+scroll_to_new_part_idle_cb (gpointer user_data)
+{
+	GtkScrolledWindow *scrolled_window = user_data;
+	GtkAdjustment *adjustment;
+
+	adjustment = gtk_scrolled_window_get_vadjustment (scrolled_window);
+	if (adjustment) {
+		gdouble upper;
+
+		upper = gtk_adjustment_get_upper (adjustment);
+		gtk_adjustment_set_value (adjustment, upper);
+	}
+
+	g_object_unref (scrolled_window);
+
+	return G_SOURCE_REMOVE;
+}
+
 static void
 more_parts (GtkWidget *button,
             FilterRuleData *data)
@@ -514,18 +533,11 @@ more_parts (GtkWidget *button,
 		/* also scroll down to see new part */
 		w = (GtkWidget *) g_object_get_data (G_OBJECT (button), "scrolled-window");
 		if (w) {
-			GtkAdjustment *adjustment;
-
-			adjustment = gtk_scrolled_window_get_vadjustment (
-				GTK_SCROLLED_WINDOW (w));
-			if (adjustment) {
-				gdouble upper;
-
-				upper = gtk_adjustment_get_upper (adjustment);
-				gtk_adjustment_set_value (adjustment, upper);
-			}
-
 			parts_grid_mapped_cb (NULL, GTK_SCROLLED_WINDOW (w));
+
+			/* let the scrolled window some time to recalculate size of its
+			   content and propagate it into the vertical adjustment */
+			g_idle_add (scroll_to_new_part_idle_cb, g_object_ref (w));
 		}
 	}
 }
