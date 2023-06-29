@@ -151,6 +151,14 @@ book_shell_view_execute_search (EShellView *shell_view)
 				format = "(beginswith \"email\" %s)";
 				break;
 
+			case CONTACT_SEARCH_EMAIL_CONTAINS:
+				format = "(contains \"email\" %s)";
+				break;
+
+			case CONTACT_SEARCH_PHONE_CONTAINS:
+				format = "(contains \"phone\" %s)";
+				break;
+
 			default:
 				text = "";
 				/* fall through */

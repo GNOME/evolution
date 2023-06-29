@@ -97,6 +97,8 @@
     <menuitem action='contact-search-advanced-hidden'/>
     <menuitem action='contact-search-name-contains'/>
     <menuitem action='contact-search-email-begins-with'/>
+    <menuitem action='contact-search-email-contains'/>
+    <menuitem action='contact-search-phone-contains'/>
     <menuitem action='contact-search-any-field-contains'/>
     <separator/>
     <menuitem action='search-advanced'/>

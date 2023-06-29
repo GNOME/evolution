@@ -1304,6 +1304,20 @@ static GtkRadioActionEntry contact_search_entries[] = {
 	  NULL,  /* XXX Add a tooltip! */
 	  CONTACT_SEARCH_EMAIL_BEGINS_WITH },
 
+	{ "contact-search-email-contains",
+	  NULL,
+	  N_("Email contains"),
+	  NULL,
+	  NULL,  /* XXX Add a tooltip! */
+	  CONTACT_SEARCH_EMAIL_CONTAINS },
+
+	{ "contact-search-phone-contains",
+	  NULL,
+	  N_("Phone contains"),
+	  NULL,
+	  NULL,  /* XXX Add a tooltip! */
+	  CONTACT_SEARCH_PHONE_CONTAINS },
+
 	{ "contact-search-name-contains",
 	  NULL,
 	  N_("Name contains"),

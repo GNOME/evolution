@@ -90,8 +90,12 @@
 	E_SHELL_WINDOW_ACTION ((window), "contact-search-any-field-contains")
 #define E_SHELL_WINDOW_ACTION_CONTACT_SEARCH_EMAIL_BEGINS_WITH(window) \
 	E_SHELL_WINDOW_ACTION ((window), "contact-search-email-begins-with")
+#define E_SHELL_WINDOW_ACTION_CONTACT_SEARCH_EMAIL_CONTAINS(window) \
+	E_SHELL_WINDOW_ACTION ((window), "contact-search-email-contains")
 #define E_SHELL_WINDOW_ACTION_CONTACT_SEARCH_NAME_CONTAINS(window) \
 	E_SHELL_WINDOW_ACTION ((window), "contact-search-name-contains")
+#define E_SHELL_WINDOW_ACTION_CONTACT_SEARCH_PHONE_CONTAINS(window) \
+	E_SHELL_WINDOW_ACTION ((window), "contact-search-phone-contains")
 
 /* Action Groups */
 #define E_SHELL_WINDOW_ACTION_GROUP_CONTACTS(window) \

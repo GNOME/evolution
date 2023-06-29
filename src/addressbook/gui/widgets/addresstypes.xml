@@ -2,74 +2,112 @@
 <filterdescription>
 <partset>
  <part name="name">
-  <title>Name</title>
+  <_title>Name</_title>
    <input type="optionlist" name="name-type">
     <option value="contains">
-        <title>contains</title>
+        <_title>contains</_title>
 	<code>(contains "full_name" ${name})</code>
     </option>
     <option value="not contains">
-        <title>does not contain</title>
+        <_title>does not contain</_title>
 	<code>(not (contains "full_name" ${name}))</code>
     </option>
     <option value="is">
-        <title>is</title>
+        <_title>is</_title>
 	<code>(is "full_name" ${name})))</code>
     </option>
     <option value="is not">
-        <title>is not</title>
+        <_title>is not</_title>
 	<code>(not (is "full_name" ${name}))</code>
     </option>
     <option value="begin">
-        <title>begins with</title>
+        <_title>starts with</_title>
 	<code>(beginswith "full_name" ${name})</code>
     </option>
     <option value="end">
-        <title>ends in</title>
+        <_title>ends with</_title>
 	<code>(endswith "full_name" ${name})</code>
     </option>
    </input>
    <input type="string" name="name"/>
  </part>
  <part name="email">
-  <title>Email</title>
+  <_title>Email</_title>
    <input type="optionlist" name="email-type">
     <option value="contains">
-        <title>contains</title>
+        <_title>contains</_title>
 	<code>(contains "email" ${email})</code>
     </option>
     <option value="not contains">
-        <title>does not contain</title>
+        <_title>does not contain</_title>
 	<code>(not (contains "email" ${email}))</code>
     </option>
     <option value="is">
-        <title>is</title>
+        <_title>is</_title>
 	<code>(is "email" ${email})</code>
     </option>
     <option value="is not">
-        <title>is not</title>
+        <_title>is not</_title>
 	<code>(not (is "email" ${email}))</code>
+    </option>
+    <option value="begin">
+        <_title>starts with</_title>
+	<code>(beginswith "email" ${email})</code>
+    </option>
+    <option value="end">
+        <_title>ends with</_title>
+	<code>(endswith "email" ${email})</code>
     </option>
    </input>
    <input type="address" name="email"/>
  </part>
+ <part name="phone">
+  <_title>Phone</_title>
+   <input type="optionlist" name="phone-type">
+    <option value="contains">
+        <_title>contains</_title>
+	<code>(contains "phone" ${value})</code>
+    </option>
+    <option value="not contains">
+        <_title>does not contain</_title>
+	<code>(not (contains "phone" ${value}))</code>
+    </option>
+    <option value="is">
+        <_title>is</_title>
+	<code>(is "phone" ${value})</code>
+    </option>
+    <option value="is not">
+        <_title>is not</_title>
+	<code>(not (is "phone" ${value}))</code>
+    </option>
+    <option value="begin">
+        <_title>starts with</_title>
+	<code>(beginswith "phone" ${value})</code>
+    </option>
+    <option value="end">
+        <_title>ends with</_title>
+	<code>(endswith "phone" ${value})</code>
+    </option>
+   </input>
+   <input type="string" name="value"/>
+ </part>
  <part name="category">
-  <title>Category</title>
+  <_title>Category</_title>
    <input type="optionlist" name="category-type">
     <option value="contains">
-        <title>contains</title>
+        <_title>contains</_title>
 	<code>(contains "category_list" ${category})</code>
     </option>
     <option value="not contains">
-        <title>does not contain</title>
+        <_title>does not contain</_title>
 	<code>(not (contains "category_list" ${category}))</code>
     </option>
     <option value="is">
-        <title>is</title>
+        <_title>is</_title>
 	<code>(is "category_list" ${category})</code>
     </option>
     <option value="is not">
-        <title>is not</title>
+        <_title>is not</_title>
 	<code>(not (is "category_list" ${category}))</code>
     </option>
    </input>
@@ -78,7 +116,7 @@
    </input>
  </part>
  <part name="sexp">
-   <title>Expression</title>
+   <_title>Expression</_title>
    <input type="rawcode" name="rawcode"/>
   </part>
 </partset>
@@ -89,16 +127,26 @@
       <_title>Name contains</_title>
       <sources/>
     </rule>
-    
+
     <rule grouping="any" source="demand">
       <_title>Email begins with</_title>
       <sources/>
     </rule>
-    
+
+    <rule grouping="any" source="demand">
+      <_title>Email contains</_title>
+      <sources/>
+    </rule>
+
+    <rule grouping="any" source="demand">
+      <_title>Phone contains</_title>
+      <sources/>
+    </rule>
+
     <rule grouping="any" source="demand">
       <_title>Any field contains</_title>
       <sources/>
     </rule>
- 
+
   </ruleset>
 </filterdescription>
