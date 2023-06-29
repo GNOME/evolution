@@ -12,8 +12,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: evolution\n"
 "Report-Msgid-Bugs-To: https://gitlab.gnome.org/GNOME/evolution/issues\n"
-"POT-Creation-Date: 2023-06-19 07:06+0000\n"
-"PO-Revision-Date: 2023-06-25 16:32+0300\n"
+"POT-Creation-Date: 2023-06-29 14:31+0000\n"
+"PO-Revision-Date: 2023-06-29 20:55+0300\n"
 "Last-Translator: Yuri Chornoivan <yurchor@ukr.net>\n"
 "Language-Team: Ukrainian <trans-uk@lists.fedoraproject.org>\n"
 "Language: uk\n"
@@ -3899,8 +3899,8 @@ msgstr "Календар"
 #: ../data/org.gnome.Evolution.appdata.xml.in.in.h:9
 #: ../data/org.gnome.Evolution.desktop.in.in.h:8
 #: ../src/e-util/e-name-selector-dialog.c:448
-#: ../src/modules/addressbook/e-book-shell-backend.c:314
-#: ../src/modules/addressbook/e-book-shell-view.c:434
+#: ../src/modules/addressbook/e-book-shell-backend.c:301
+#: ../src/modules/addressbook/e-book-shell-view.c:438
 msgid "Contacts"
 msgstr "Контакти"
 
@@ -4482,7 +4482,7 @@ msgstr ""
 "додати попри це?"
 
 #: ../src/addressbook/addressbook.error.xml.h:39
-#: ../src/addressbook/gui/widgets/e-addressbook-view.c:1357
+#: ../src/addressbook/gui/widgets/e-addressbook-view.c:1764
 msgid "Failed to delete contact"
 msgstr "Не вдалось вилучити контакт"
 
@@ -4562,10 +4562,10 @@ msgstr ""
 #. no flags
 #: ../src/addressbook/addressbook.error.xml.h:55
 #: ../src/addressbook/gui/contact-editor/contact-editor.ui.h:13
-#: ../src/addressbook/gui/contact-editor/e-contact-editor.c:3272
-#: ../src/addressbook/gui/contact-editor/e-contact-editor.c:3546
-#: ../src/addressbook/gui/contact-editor/e-contact-editor.c:4381
-#: ../src/addressbook/gui/contact-editor/e-contact-editor.c:4387
+#: ../src/addressbook/gui/contact-editor/e-contact-editor.c:3274
+#: ../src/addressbook/gui/contact-editor/e-contact-editor.c:3548
+#: ../src/addressbook/gui/contact-editor/e-contact-editor.c:4383
+#: ../src/addressbook/gui/contact-editor/e-contact-editor.c:4389
 #: ../src/addressbook/gui/contact-editor/e-contact-editor-fullname.c:212
 #: ../src/addressbook/gui/contact-editor/e-contact-quick-add.c:468
 #: ../src/addressbook/gui/contact-editor/fullname.ui.h:14
@@ -4573,7 +4573,7 @@ msgstr ""
 #: ../src/addressbook/gui/widgets/eab-contact-merging.c:561
 #: ../src/addressbook/gui/widgets/eab-contact-merging.c:806
 #: ../src/addressbook/gui/widgets/eab-gui-util.c:316
-#: ../src/addressbook/gui/widgets/e-addressbook-view.c:1437
+#: ../src/addressbook/gui/widgets/e-addressbook-view.c:1844
 #: ../src/calendar/calendar.error.xml.h:181
 #: ../src/calendar/gui/e-cal-dialogs.c:690
 #: ../src/calendar/gui/e-comp-editor-page-recurrence.c:305
@@ -4686,7 +4686,7 @@ msgid "Options"
 msgstr "Параметри"
 
 #: ../src/addressbook/gui/contact-editor/contact-editor.ui.h:14
-#: ../src/addressbook/gui/contact-editor/e-contact-editor.c:3546
+#: ../src/addressbook/gui/contact-editor/e-contact-editor.c:3548
 #: ../src/addressbook/gui/contact-list-editor/contact-list-editor.ui.h:3
 #: ../src/addressbook/gui/widgets/eab-contact-merging.c:809
 #: ../src/calendar/calendar.error.xml.h:47
@@ -4732,6 +4732,7 @@ msgid "Full _Name..."
 msgstr "Повне _ім'я…"
 
 #: ../src/addressbook/gui/contact-editor/contact-editor.ui.h:21
+#: ../src/addressbook/gui/widgets/addresstypes.xml.h:8
 #: ../src/addressbook/gui/widgets/eab-contact-formatter.c:926
 #: ../src/addressbook/gui/widgets/eab-contact-formatter.c:1353
 #: ../src/addressbook/gui/widgets/e-addressbook-view.etspec.h:6
@@ -4972,7 +4973,7 @@ msgid "_Load X.509"
 msgstr "_Завантажити X.509"
 
 #: ../src/addressbook/gui/contact-editor/contact-editor.ui.h:70
-#: ../src/modules/addressbook/e-book-shell-backend.c:325
+#: ../src/modules/addressbook/e-book-shell-backend.c:312
 msgid "Certificates"
 msgstr "Сертифікати"
 
@@ -5001,7 +5002,7 @@ msgid "Redo"
 msgstr "Повторити"
 
 #: ../src/addressbook/gui/contact-editor/e-contact-editor.c:301
-#: ../src/addressbook/gui/widgets/eab-gui-util.c:501
+#: ../src/addressbook/gui/widgets/eab-gui-util.c:498
 msgid "Error adding contact"
 msgstr "Помилка при додаванні картки"
 
@@ -5013,28 +5014,28 @@ msgstr "Помилка при модифікації контакту"
 msgid "Error removing contact"
 msgstr "Помилка при вилученні контакту"
 
-#: ../src/addressbook/gui/contact-editor/e-contact-editor.c:723
-#: ../src/addressbook/gui/contact-editor/e-contact-editor.c:745
-#: ../src/addressbook/gui/contact-editor/e-contact-editor.c:3110
-#: ../src/addressbook/gui/contact-editor/e-contact-editor.c:5093
+#: ../src/addressbook/gui/contact-editor/e-contact-editor.c:725
+#: ../src/addressbook/gui/contact-editor/e-contact-editor.c:747
+#: ../src/addressbook/gui/contact-editor/e-contact-editor.c:3112
+#: ../src/addressbook/gui/contact-editor/e-contact-editor.c:5095
 msgid "Contact Editor"
 msgstr "Редактор контактів"
 
-#: ../src/addressbook/gui/contact-editor/e-contact-editor.c:739
-#: ../src/addressbook/gui/contact-editor/e-contact-editor.c:3104
+#: ../src/addressbook/gui/contact-editor/e-contact-editor.c:741
+#: ../src/addressbook/gui/contact-editor/e-contact-editor.c:3106
 #, c-format
 msgid "Contact Editor — %s"
 msgstr "Редактор контактів – %s"
 
-#: ../src/addressbook/gui/contact-editor/e-contact-editor.c:3239
+#: ../src/addressbook/gui/contact-editor/e-contact-editor.c:3241
 msgid "X.509 certificates"
 msgstr "Сертифікати X.509"
 
-#: ../src/addressbook/gui/contact-editor/e-contact-editor.c:3244
+#: ../src/addressbook/gui/contact-editor/e-contact-editor.c:3246
 msgid "PGP keys"
 msgstr "Ключі PGP"
 
-#: ../src/addressbook/gui/contact-editor/e-contact-editor.c:3250
+#: ../src/addressbook/gui/contact-editor/e-contact-editor.c:3252
 #: ../src/e-util/e-html-editor-actions.c:448
 #: ../src/e-util/e-image-chooser-dialog.c:193
 #: ../src/e-util/e-mail-signature-script-dialog.c:430
@@ -5043,17 +5044,17 @@ msgstr "Ключі PGP"
 msgid "All files"
 msgstr "Усі файли"
 
-#: ../src/addressbook/gui/contact-editor/e-contact-editor.c:3270
+#: ../src/addressbook/gui/contact-editor/e-contact-editor.c:3272
 msgid "Open PGP key"
 msgstr "Відкрити ключ PGP"
 
-#: ../src/addressbook/gui/contact-editor/e-contact-editor.c:3270
+#: ../src/addressbook/gui/contact-editor/e-contact-editor.c:3272
 msgid "Open X.509 certificate"
 msgstr "Відкрити сертифікат X.509"
 
-#: ../src/addressbook/gui/contact-editor/e-contact-editor.c:3272
-#: ../src/addressbook/gui/contact-editor/e-contact-editor.c:4381
-#: ../src/addressbook/gui/contact-editor/e-contact-editor.c:4388
+#: ../src/addressbook/gui/contact-editor/e-contact-editor.c:3274
+#: ../src/addressbook/gui/contact-editor/e-contact-editor.c:4383
+#: ../src/addressbook/gui/contact-editor/e-contact-editor.c:4390
 #: ../src/e-util/e-attachment-store.c:666 ../src/e-util/e-category-editor.c:176
 #: ../src/e-util/e-html-editor-actions.c:395
 #: ../src/e-util/e-html-editor-actions.c:439
@@ -5063,49 +5064,49 @@ msgstr "Відкрити сертифікат X.509"
 msgid "_Open"
 msgstr "_Відкрити"
 
-#: ../src/addressbook/gui/contact-editor/e-contact-editor.c:3287
-#: ../src/addressbook/gui/contact-editor/e-contact-editor.c:3559
+#: ../src/addressbook/gui/contact-editor/e-contact-editor.c:3289
+#: ../src/addressbook/gui/contact-editor/e-contact-editor.c:3561
 msgid "Chosen file is not a local file."
 msgstr "Вибраний файл не є локальним файлом."
 
-#: ../src/addressbook/gui/contact-editor/e-contact-editor.c:3300
+#: ../src/addressbook/gui/contact-editor/e-contact-editor.c:3302
 #, c-format
 msgid "Failed to load certificate: %s"
 msgstr "Не вдалося завантажити сертифікат: %s"
 
-#: ../src/addressbook/gui/contact-editor/e-contact-editor.c:3374
+#: ../src/addressbook/gui/contact-editor/e-contact-editor.c:3376
 msgctxt "cert-kind"
 msgid "X.509"
 msgstr "X.509"
 
-#: ../src/addressbook/gui/contact-editor/e-contact-editor.c:3374
+#: ../src/addressbook/gui/contact-editor/e-contact-editor.c:3376
 msgctxt "cert-kind"
 msgid "PGP"
 msgstr "PGP"
 
-#: ../src/addressbook/gui/contact-editor/e-contact-editor.c:3544
+#: ../src/addressbook/gui/contact-editor/e-contact-editor.c:3546
 msgid "Save PGP key"
 msgstr "Зберегти ключ PGP"
 
-#: ../src/addressbook/gui/contact-editor/e-contact-editor.c:3544
+#: ../src/addressbook/gui/contact-editor/e-contact-editor.c:3546
 msgid "Save X.509 certificate"
 msgstr "Зберегти сертифікат X.509"
 
-#: ../src/addressbook/gui/contact-editor/e-contact-editor.c:3571
+#: ../src/addressbook/gui/contact-editor/e-contact-editor.c:3573
 #, c-format
 msgid "Failed to save certificate: %s"
 msgstr "Не вдалося зберегти сертифікат: %s"
 
-#: ../src/addressbook/gui/contact-editor/e-contact-editor.c:4378
-#: ../src/addressbook/gui/contact-editor/e-contact-editor.c:4384
+#: ../src/addressbook/gui/contact-editor/e-contact-editor.c:4380
+#: ../src/addressbook/gui/contact-editor/e-contact-editor.c:4386
 msgid "Please select an image for this contact"
 msgstr "Виберіть зображення для цього контакту"
 
-#: ../src/addressbook/gui/contact-editor/e-contact-editor.c:4389
+#: ../src/addressbook/gui/contact-editor/e-contact-editor.c:4391
 msgid "_No image"
 msgstr "_Немає зображення"
 
-#: ../src/addressbook/gui/contact-editor/e-contact-editor.c:4753
+#: ../src/addressbook/gui/contact-editor/e-contact-editor.c:4755
 msgid ""
 "The contact data is invalid:\n"
 "\n"
@@ -5113,32 +5114,32 @@ msgstr ""
 "Неправильні дані контакту:\n"
 "\n"
 
-#: ../src/addressbook/gui/contact-editor/e-contact-editor.c:4759
+#: ../src/addressbook/gui/contact-editor/e-contact-editor.c:4761
 #, c-format
 msgid "“%s” has an invalid format"
 msgstr "«%s» має некоректний формат"
 
-#: ../src/addressbook/gui/contact-editor/e-contact-editor.c:4767
+#: ../src/addressbook/gui/contact-editor/e-contact-editor.c:4769
 #, c-format
 msgid "“%s” cannot be a future date"
 msgstr "«%s» не може бути датою у майбутньому"
 
-#: ../src/addressbook/gui/contact-editor/e-contact-editor.c:4775
+#: ../src/addressbook/gui/contact-editor/e-contact-editor.c:4777
 #, c-format
 msgid "%s“%s” has an invalid format"
 msgstr "%s«%s» має неправильний формат"
 
-#: ../src/addressbook/gui/contact-editor/e-contact-editor.c:4788
-#: ../src/addressbook/gui/contact-editor/e-contact-editor.c:4802
+#: ../src/addressbook/gui/contact-editor/e-contact-editor.c:4790
+#: ../src/addressbook/gui/contact-editor/e-contact-editor.c:4804
 #, c-format
 msgid "%s“%s” is empty"
 msgstr "%s«%s» порожнє"
 
-#: ../src/addressbook/gui/contact-editor/e-contact-editor.c:4817
+#: ../src/addressbook/gui/contact-editor/e-contact-editor.c:4819
 msgid "Invalid contact."
 msgstr "Неправильний контакт."
 
-#: ../src/addressbook/gui/contact-editor/e-contact-editor.c:5132
+#: ../src/addressbook/gui/contact-editor/e-contact-editor.c:5134
 #: ../src/calendar/gui/e-comp-editor.c:2201
 #: ../src/calendar/gui/e-comp-editor.c:2273
 #: ../src/e-util/e-send-options.ui.h:15
@@ -5353,20 +5354,108 @@ msgid "Error removing list"
 msgstr "Помилка при вилученні списку"
 
 #: ../src/addressbook/gui/widgets/addresstypes.xml.h:1
-#: ../src/modules/addressbook/e-book-shell-view-actions.c:1309
+#: ../src/em-format/e-mail-formatter-print.c:50
+#: ../src/e-util/e-webdav-browser.c:2501
+#: ../src/e-util/gal-view-instance-save-as-dialog.c:92
+#: ../src/mail/e-mail-label-tree-view.c:96
+#: ../src/modules/plugin-manager/evolution-plugin-manager.c:64
+#: ../src/modules/rss/evolution/e-rss-preferences.c:1687
+msgid "Name"
+msgstr "Ім'я"
+
+#: ../src/addressbook/gui/widgets/addresstypes.xml.h:2
+#: ../src/calendar/gui/caltypes.xml.in.h:2
+#: ../src/calendar/gui/memotypes.xml.in.h:2
+#: ../src/calendar/gui/tasktypes.xml.in.h:2 ../src/mail/filtertypes.xml.in.h:2
+#: ../src/mail/searchtypes.xml.in.h:2 ../src/mail/vfoldertypes.xml.in.h:2
+msgid "contains"
+msgstr "містить"
+
+#: ../src/addressbook/gui/widgets/addresstypes.xml.h:3
+#: ../src/calendar/gui/caltypes.xml.in.h:3
+#: ../src/calendar/gui/memotypes.xml.in.h:3
+#: ../src/calendar/gui/tasktypes.xml.in.h:3 ../src/mail/filtertypes.xml.in.h:3
+#: ../src/mail/searchtypes.xml.in.h:3 ../src/mail/vfoldertypes.xml.in.h:3
+msgid "does not contain"
+msgstr "не містить"
+
+#: ../src/addressbook/gui/widgets/addresstypes.xml.h:4
+#: ../src/calendar/gui/caltypes.xml.in.h:7
+#: ../src/calendar/gui/memotypes.xml.in.h:8
+#: ../src/calendar/gui/tasktypes.xml.in.h:9 ../src/mail/filtertypes.xml.in.h:4
+#: ../src/mail/searchtypes.xml.in.h:4 ../src/mail/vfoldertypes.xml.in.h:4
+msgid "is"
+msgstr "збігається з"
+
+#: ../src/addressbook/gui/widgets/addresstypes.xml.h:5
+#: ../src/calendar/gui/caltypes.xml.in.h:8
+#: ../src/calendar/gui/memotypes.xml.in.h:9
+#: ../src/calendar/gui/tasktypes.xml.in.h:10 ../src/mail/filtertypes.xml.in.h:5
+#: ../src/mail/searchtypes.xml.in.h:5 ../src/mail/vfoldertypes.xml.in.h:5
+msgid "is not"
+msgstr "не збігається з"
+
+#: ../src/addressbook/gui/widgets/addresstypes.xml.h:6
+#: ../src/mail/filtertypes.xml.in.h:6 ../src/mail/searchtypes.xml.in.h:6
+#: ../src/mail/vfoldertypes.xml.in.h:6
+msgid "starts with"
+msgstr "починається з"
+
+#: ../src/addressbook/gui/widgets/addresstypes.xml.h:7
+#: ../src/mail/filtertypes.xml.in.h:8 ../src/mail/searchtypes.xml.in.h:8
+#: ../src/mail/vfoldertypes.xml.in.h:8
+msgid "ends with"
+msgstr "закінчується на"
+
+#: ../src/addressbook/gui/widgets/addresstypes.xml.h:9
+#: ../src/addressbook/gui/widgets/eab-contact-formatter.c:785
+msgid "Phone"
+msgstr "Телефон"
+
+#: ../src/addressbook/gui/widgets/addresstypes.xml.h:10
+#: ../src/calendar/gui/caltypes.xml.in.h:15
+#: ../src/calendar/gui/memotypes.xml.in.h:13
+#: ../src/calendar/gui/tasktypes.xml.in.h:23
+#: ../src/e-util/e-categories-selector.c:324
+msgid "Category"
+msgstr "Категорія"
+
+#: ../src/addressbook/gui/widgets/addresstypes.xml.h:11
+#: ../src/calendar/gui/caltypes.xml.in.h:24
+#: ../src/calendar/gui/memotypes.xml.in.h:17
+#: ../src/calendar/gui/tasktypes.xml.in.h:35
+#: ../src/mail/filtertypes.xml.in.h:23 ../src/mail/searchtypes.xml.in.h:25
+#: ../src/mail/vfoldertypes.xml.in.h:25
+msgid "Expression"
+msgstr "Вираз"
+
+#: ../src/addressbook/gui/widgets/addresstypes.xml.h:12
+#: ../src/modules/addressbook/e-book-shell-view-actions.c:1491
 msgid "Name contains"
 msgstr "Ім'я містить"
 
-#: ../src/addressbook/gui/widgets/addresstypes.xml.h:2
-#: ../src/modules/addressbook/e-book-shell-view-actions.c:1302
+#: ../src/addressbook/gui/widgets/addresstypes.xml.h:13
+#: ../src/modules/addressbook/e-book-shell-view-actions.c:1470
 msgid "Email begins with"
 msgstr "Поштова адреса починається з"
 
-#: ../src/addressbook/gui/widgets/addresstypes.xml.h:3
+#: ../src/addressbook/gui/widgets/addresstypes.xml.h:14
+#: ../src/modules/addressbook/e-book-shell-view-actions.c:1477
+#| msgid "Name contains"
+msgid "Email contains"
+msgstr "Адреса ел. пошти містить"
+
+#: ../src/addressbook/gui/widgets/addresstypes.xml.h:15
+#: ../src/modules/addressbook/e-book-shell-view-actions.c:1484
+#| msgid "Sender contains"
+msgid "Phone contains"
+msgstr "Телефон містить"
+
+#: ../src/addressbook/gui/widgets/addresstypes.xml.h:16
 #: ../src/calendar/gui/caltypes.xml.in.h:27
 #: ../src/calendar/gui/memotypes.xml.in.h:20
 #: ../src/calendar/gui/tasktypes.xml.in.h:38
-#: ../src/modules/addressbook/e-book-shell-view-actions.c:1295
+#: ../src/modules/addressbook/e-book-shell-view-actions.c:1463
 #: ../src/modules/calendar/e-cal-shell-view-actions.c:1890
 #: ../src/modules/calendar/e-memo-shell-view-actions.c:807
 #: ../src/modules/calendar/e-task-shell-view-actions.c:1036
@@ -5375,7 +5464,6 @@ msgstr "Будь-яке поле містить"
 
 #: ../src/addressbook/gui/widgets/ea-addressbook-view.c:92
 #: ../src/addressbook/gui/widgets/ea-addressbook-view.c:101
-#: ../src/addressbook/gui/widgets/ea-minicard-view.c:223
 msgid "evolution address book"
 msgstr "адресна книга evolution"
 
@@ -5424,10 +5512,6 @@ msgstr "Перелік учасників:"
 #: ../src/addressbook/gui/widgets/eab-contact-formatter.c:783
 msgid "Fax"
 msgstr "Факс"
-
-#: ../src/addressbook/gui/widgets/eab-contact-formatter.c:785
-msgid "Phone"
-msgstr "Телефон"
 
 #: ../src/addressbook/gui/widgets/eab-contact-formatter.c:931
 #: ../src/addressbook/gui/widgets/e-addressbook-view.etspec.h:5
@@ -5716,44 +5800,31 @@ msgstr "card.vcf"
 msgid "Select Address Book"
 msgstr "Виберіть адресну книга"
 
-#: ../src/addressbook/gui/widgets/eab-gui-util.c:396
+#: ../src/addressbook/gui/widgets/eab-gui-util.c:393
 msgid "list"
 msgstr "список"
 
-#: ../src/addressbook/gui/widgets/eab-gui-util.c:585
+#: ../src/addressbook/gui/widgets/eab-gui-util.c:582
 msgid "Move contact to"
 msgstr "Переміщення контакту у"
 
-#: ../src/addressbook/gui/widgets/eab-gui-util.c:587
+#: ../src/addressbook/gui/widgets/eab-gui-util.c:584
 msgid "Copy contact to"
 msgstr "Копіювання контакту у"
 
-#: ../src/addressbook/gui/widgets/eab-gui-util.c:590
+#: ../src/addressbook/gui/widgets/eab-gui-util.c:587
 msgid "Move contacts to"
 msgstr "Переміщення контактів у"
 
-#: ../src/addressbook/gui/widgets/eab-gui-util.c:592
+#: ../src/addressbook/gui/widgets/eab-gui-util.c:589
 msgid "Copy contacts to"
 msgstr "Копіювання контактів у"
 
-#: ../src/addressbook/gui/widgets/e-addressbook-model.c:162
-msgid "No contacts"
-msgstr "Немає контактів"
-
-#: ../src/addressbook/gui/widgets/e-addressbook-model.c:166
-#, c-format
-msgid "%d contact"
-msgid_plural "%d contacts"
-msgstr[0] "%d контакт"
-msgstr[1] "%d контакти"
-msgstr[2] "%d контактів"
-msgstr[3] "%d контакт"
-
-#: ../src/addressbook/gui/widgets/e-addressbook-model.c:391
+#: ../src/addressbook/gui/widgets/e-addressbook-model.c:368
 msgid "Error getting book view"
 msgstr "Помилка при отриманні вигляду книги"
 
-#: ../src/addressbook/gui/widgets/e-addressbook-model.c:860
+#: ../src/addressbook/gui/widgets/e-addressbook-model.c:836
 msgid "Search Interrupted"
 msgstr "Пошук перервано"
 
@@ -5761,64 +5832,85 @@ msgstr "Пошук перервано"
 msgid "Error modifying card"
 msgstr "Помилка при модифікації картки"
 
-#: ../src/addressbook/gui/widgets/e-addressbook-view.c:767
+#: ../src/addressbook/gui/widgets/e-addressbook-view.c:347
+msgid "No contacts"
+msgstr "Немає контактів"
+
+#: ../src/addressbook/gui/widgets/e-addressbook-view.c:350
+#, c-format
+#| msgid "%d contact"
+#| msgid_plural "%d contacts"
+msgid "%u contact"
+msgid_plural "%u contacts"
+msgstr[0] "%u контакт"
+msgstr[1] "%u контакти"
+msgstr[2] "%u контактів"
+msgstr[3] "%u контакт"
+
+#: ../src/addressbook/gui/widgets/e-addressbook-view.c:979
 msgid "Cut selected contacts to the clipboard"
 msgstr "Вирізати виділені контакти у буфер обміну"
 
-#: ../src/addressbook/gui/widgets/e-addressbook-view.c:773
+#: ../src/addressbook/gui/widgets/e-addressbook-view.c:985
 msgid "Copy selected contacts to the clipboard"
 msgstr "Копіювати виділені контакти у буфер обміну"
 
-#: ../src/addressbook/gui/widgets/e-addressbook-view.c:779
+#: ../src/addressbook/gui/widgets/e-addressbook-view.c:991
 msgid "Paste contacts from the clipboard"
 msgstr "Вставити контакти з буферу обміну"
 
-#: ../src/addressbook/gui/widgets/e-addressbook-view.c:785
-#: ../src/modules/addressbook/e-book-shell-view-actions.c:1101
+#: ../src/addressbook/gui/widgets/e-addressbook-view.c:997
+#: ../src/modules/addressbook/e-book-shell-view-actions.c:1269
 msgid "Delete selected contacts"
 msgstr "Вилучити вибрані контакти"
 
-#: ../src/addressbook/gui/widgets/e-addressbook-view.c:791
+#: ../src/addressbook/gui/widgets/e-addressbook-view.c:1003
 msgid "Select all visible contacts"
 msgstr "Вибрати всі видимі контакти"
 
-#: ../src/addressbook/gui/widgets/e-addressbook-view.c:1032
+#: ../src/addressbook/gui/widgets/e-addressbook-view.c:1281
+#: ../src/addressbook/gui/widgets/e-card-view.c:81
 msgid "Searching for the Contacts…"
 msgstr "Пошук контактів…"
 
-#: ../src/addressbook/gui/widgets/e-addressbook-view.c:1405
+#: ../src/addressbook/gui/widgets/e-addressbook-view.c:1458
+#| msgid "Failed to communicate with LDAP server."
+msgid "Failed to get contacts with unknown error"
+msgstr "Не вдалося отримати контакти, невідома помилка"
+
+#: ../src/addressbook/gui/widgets/e-addressbook-view.c:1812
 msgid "Are you sure you want to delete these contact lists?"
 msgstr "Вилучити ці списки контактів?"
 
-#: ../src/addressbook/gui/widgets/e-addressbook-view.c:1409
+#: ../src/addressbook/gui/widgets/e-addressbook-view.c:1816
 msgid "Are you sure you want to delete this contact list?"
 msgstr "Вилучити цей список контактів?"
 
-#: ../src/addressbook/gui/widgets/e-addressbook-view.c:1413
+#: ../src/addressbook/gui/widgets/e-addressbook-view.c:1820
 #, c-format
 msgid "Are you sure you want to delete this contact list (%s)?"
 msgstr "Вилучити список контактів (%s)?"
 
-#: ../src/addressbook/gui/widgets/e-addressbook-view.c:1419
+#: ../src/addressbook/gui/widgets/e-addressbook-view.c:1826
 msgid "Are you sure you want to delete these contacts?"
 msgstr "Вилучити ці контакти?"
 
-#: ../src/addressbook/gui/widgets/e-addressbook-view.c:1423
+#: ../src/addressbook/gui/widgets/e-addressbook-view.c:1830
 msgid "Are you sure you want to delete this contact?"
 msgstr "Вилучити ці контакти?"
 
-#: ../src/addressbook/gui/widgets/e-addressbook-view.c:1427
+#: ../src/addressbook/gui/widgets/e-addressbook-view.c:1834
 #, c-format
 msgid "Are you sure you want to delete this contact (%s)?"
 msgstr "Вилучити цей контакт (%s)?"
 
-#: ../src/addressbook/gui/widgets/e-addressbook-view.c:1438
+#: ../src/addressbook/gui/widgets/e-addressbook-view.c:1845
 #: ../src/calendar/gui/e-comp-editor.c:2194
 #: ../src/e-util/e-accounts-window.c:1760 ../src/e-util/e-focus-tracker.c:816
 #: ../src/e-util/evolution-source-viewer.c:800
 #: ../src/e-util/e-webdav-browser.c:2857
 #: ../src/mail/e-mail-account-manager.c:739
-#: ../src/modules/addressbook/e-book-shell-view-actions.c:1173
+#: ../src/modules/addressbook/e-book-shell-view-actions.c:1341
 #: ../src/modules/calendar/e-cal-shell-view-actions.c:1640
 #: ../src/modules/calendar/e-memo-shell-view-actions.c:697
 #: ../src/modules/calendar/e-task-shell-view-actions.c:851
@@ -5829,7 +5921,7 @@ msgid "_Delete"
 msgstr "В_илучити"
 
 #. Translators: This is shown for > 5 contacts.
-#: ../src/addressbook/gui/widgets/e-addressbook-view.c:1586
+#: ../src/addressbook/gui/widgets/e-addressbook-view.c:2026
 #, c-format
 msgid ""
 "Opening %d contacts will open %d new windows as well.\n"
@@ -5850,11 +5942,11 @@ msgstr[3] ""
 "Відкривання %d контакту призведе до відкривання %d нового вікна.\n"
 "Показати цей контакт?"
 
-#: ../src/addressbook/gui/widgets/e-addressbook-view.c:1594
+#: ../src/addressbook/gui/widgets/e-addressbook-view.c:2034
 msgid "_Don’t Display"
 msgstr "_Не показувати"
 
-#: ../src/addressbook/gui/widgets/e-addressbook-view.c:1595
+#: ../src/addressbook/gui/widgets/e-addressbook-view.c:2035
 msgid "Display _All Contacts"
 msgstr "Відображати _всі контакти"
 
@@ -5969,7 +6061,7 @@ msgid "Title"
 msgstr "Титул"
 
 #: ../src/addressbook/gui/widgets/e-addressbook-view.etspec.h:38
-#: ../src/calendar/gui/e-meeting-list-view.c:660
+#: ../src/calendar/gui/e-meeting-list-view.c:661
 #: ../src/calendar/gui/e-meeting-time-sel.etspec.h:5
 msgid "Role"
 msgstr "Роль"
@@ -5982,38 +6074,53 @@ msgstr "Сайт"
 msgid "Journal"
 msgstr "Журнал"
 
-#: ../src/addressbook/gui/widgets/ea-minicard.c:31
-msgid "Open"
-msgstr "Відкрити"
+#: ../src/addressbook/gui/widgets/e-card-view.c:84
+#| msgid ""
+#| "\n"
+#| "\n"
+#| "Search for the Contact\n"
+#| "\n"
+#| "or double-click here to create a new Contact."
+msgid ""
+"Search for the Contact\n"
+"\n"
+"or double-click here to create a new Contact."
+msgstr ""
+"Пошук контакту\n"
+"\n"
+"Двічі клацніть для створення нового контакту."
 
-#: ../src/addressbook/gui/widgets/ea-minicard.c:157
-msgid "Contact List: "
-msgstr "Список контактів:"
+#: ../src/addressbook/gui/widgets/e-card-view.c:86
+#| msgid ""
+#| "\n"
+#| "\n"
+#| "There are no items to show in this view.\n"
+#| "\n"
+#| "Double-click here to create a new Contact."
+msgid ""
+"There are no items to show in this view.\n"
+"\n"
+"Double-click here to create a new Contact."
+msgstr ""
+"Немає елементів для показу у цьому вікні\n"
+"\n"
+"Двічі клацніть для створення нового контакту."
 
-#: ../src/addressbook/gui/widgets/ea-minicard.c:158
-msgid "Contact: "
-msgstr "Контакт:"
+#: ../src/addressbook/gui/widgets/e-card-view.c:89
+#| msgid ""
+#| "\n"
+#| "\n"
+#| "Search for the Contact."
+msgid "Search for the Contact."
+msgstr "Пошук контакту."
 
-#: ../src/addressbook/gui/widgets/ea-minicard.c:180
-msgid "evolution minicard"
-msgstr "міні-картка Evolution"
-
-#: ../src/addressbook/gui/widgets/ea-minicard-view.c:33
-msgid "New Contact"
-msgstr "Створити контакт"
-
-#: ../src/addressbook/gui/widgets/ea-minicard-view.c:34
-msgid "New Contact List"
-msgstr "Створити список контактів"
-
-#: ../src/addressbook/gui/widgets/ea-minicard-view.c:206
-#, c-format
-msgid "current address book folder %s has %d card"
-msgid_plural "current address book folder %s has %d cards"
-msgstr[0] "у поточній теці адресної книги %s є %d картка"
-msgstr[1] "у поточній теці адресної книги %s є %d картки"
-msgstr[2] "у поточній теці адресної книги %s є %d карток"
-msgstr[3] "у поточній теці адресної книги %s є %d картка"
+#: ../src/addressbook/gui/widgets/e-card-view.c:91
+#| msgid ""
+#| "\n"
+#| "\n"
+#| "There are no items to show in this view."
+msgid "There are no items to show in this view."
+msgstr "Немає елементів для показу у цьому вікні."
 
 #: ../src/addressbook/gui/widgets/e-contact-map-window.c:374
 msgid "Contacts Map"
@@ -6037,64 +6144,6 @@ msgstr "З_меншити"
 #: ../src/shell/e-shell-window-actions.c:1042
 msgid "_Find"
 msgstr "З_найти"
-
-#: ../src/addressbook/gui/widgets/e-minicard-view.c:186
-msgid ""
-"\n"
-"\n"
-"Searching for the Contacts…"
-msgstr ""
-"\n"
-"\n"
-"Пошук контактів…"
-
-#: ../src/addressbook/gui/widgets/e-minicard-view.c:189
-msgid ""
-"\n"
-"\n"
-"Search for the Contact\n"
-"\n"
-"or double-click here to create a new Contact."
-msgstr ""
-"\n"
-"\n"
-"Пошук контакту\n"
-"\n"
-"Двічі клацніть для створення нового контакту."
-
-#: ../src/addressbook/gui/widgets/e-minicard-view.c:192
-msgid ""
-"\n"
-"\n"
-"There are no items to show in this view.\n"
-"\n"
-"Double-click here to create a new Contact."
-msgstr ""
-"\n"
-"\n"
-"Немає елементів для показу у цьому вікні\n"
-"\n"
-"Двічі клацніть для створення нового контакту."
-
-#: ../src/addressbook/gui/widgets/e-minicard-view.c:196
-msgid ""
-"\n"
-"\n"
-"Search for the Contact."
-msgstr ""
-"\n"
-"\n"
-"Пошук контакту."
-
-#: ../src/addressbook/gui/widgets/e-minicard-view.c:198
-msgid ""
-"\n"
-"\n"
-"There are no items to show in this view."
-msgstr ""
-"\n"
-"\n"
-"Немає елементів для показу у цьому вікні."
 
 #: ../src/addressbook/importers/evolution-csv-importer.c:796
 #: ../src/addressbook/importers/evolution-ldif-importer.c:547
@@ -6976,20 +7025,6 @@ msgstr "В_ід'єднати і створити копію"
 msgid "Summary"
 msgstr "Зведення"
 
-#: ../src/calendar/gui/caltypes.xml.in.h:2
-#: ../src/calendar/gui/memotypes.xml.in.h:2
-#: ../src/calendar/gui/tasktypes.xml.in.h:2 ../src/mail/filtertypes.xml.in.h:2
-#: ../src/mail/searchtypes.xml.in.h:2 ../src/mail/vfoldertypes.xml.in.h:2
-msgid "contains"
-msgstr "містить"
-
-#: ../src/calendar/gui/caltypes.xml.in.h:3
-#: ../src/calendar/gui/memotypes.xml.in.h:3
-#: ../src/calendar/gui/tasktypes.xml.in.h:3 ../src/mail/filtertypes.xml.in.h:3
-#: ../src/mail/searchtypes.xml.in.h:3 ../src/mail/vfoldertypes.xml.in.h:3
-msgid "does not contain"
-msgstr "не містить"
-
 #: ../src/calendar/gui/caltypes.xml.in.h:4
 #: ../src/calendar/gui/e-cal-list-view.etspec.h:4
 #: ../src/calendar/gui/memotypes.xml.in.h:4
@@ -7011,20 +7046,6 @@ msgstr "Будь-яке поле"
 #: ../src/calendar/gui/memotypes.xml.in.h:7
 msgid "Classification"
 msgstr "Класифікація"
-
-#: ../src/calendar/gui/caltypes.xml.in.h:7
-#: ../src/calendar/gui/memotypes.xml.in.h:8
-#: ../src/calendar/gui/tasktypes.xml.in.h:9 ../src/mail/filtertypes.xml.in.h:4
-#: ../src/mail/searchtypes.xml.in.h:4 ../src/mail/vfoldertypes.xml.in.h:4
-msgid "is"
-msgstr "збігається з"
-
-#: ../src/calendar/gui/caltypes.xml.in.h:8
-#: ../src/calendar/gui/memotypes.xml.in.h:9
-#: ../src/calendar/gui/tasktypes.xml.in.h:10 ../src/mail/filtertypes.xml.in.h:5
-#: ../src/mail/searchtypes.xml.in.h:5 ../src/mail/vfoldertypes.xml.in.h:5
-msgid "is not"
-msgstr "не збігається з"
 
 #: ../src/calendar/gui/caltypes.xml.in.h:9
 #: ../src/calendar/gui/e-cal-list-view.c:289
@@ -7059,7 +7080,7 @@ msgid "Organizer"
 msgstr "Організатор"
 
 #: ../src/calendar/gui/caltypes.xml.in.h:13
-#: ../src/calendar/gui/e-meeting-list-view.c:620
+#: ../src/calendar/gui/e-meeting-list-view.c:621
 #: ../src/calendar/gui/e-meeting-time-sel.etspec.h:2
 #: ../src/calendar/gui/tasktypes.xml.in.h:6
 msgid "Attendee"
@@ -7074,13 +7095,6 @@ msgstr "Присутній"
 #: ../src/plugins/save-calendar/csv-format.c:376
 msgid "Location"
 msgstr "Адреса"
-
-#: ../src/calendar/gui/caltypes.xml.in.h:15
-#: ../src/calendar/gui/memotypes.xml.in.h:13
-#: ../src/calendar/gui/tasktypes.xml.in.h:23
-#: ../src/e-util/e-categories-selector.c:324
-msgid "Category"
-msgstr "Категорія"
 
 #: ../src/calendar/gui/caltypes.xml.in.h:16
 #: ../src/calendar/gui/memotypes.xml.in.h:14
@@ -7128,14 +7142,6 @@ msgstr "Точно"
 #: ../src/calendar/gui/caltypes.xml.in.h:23
 msgid "More Than"
 msgstr "Більше за"
-
-#: ../src/calendar/gui/caltypes.xml.in.h:24
-#: ../src/calendar/gui/memotypes.xml.in.h:17
-#: ../src/calendar/gui/tasktypes.xml.in.h:35
-#: ../src/mail/filtertypes.xml.in.h:23 ../src/mail/searchtypes.xml.in.h:25
-#: ../src/mail/vfoldertypes.xml.in.h:25
-msgid "Expression"
-msgstr "Вираз"
 
 #: ../src/calendar/gui/caltypes.xml.in.h:25
 #: ../src/calendar/gui/memotypes.xml.in.h:18
@@ -7256,7 +7262,7 @@ msgstr "Необхідна дія"
 #. * Status: Accepted: X   Declined: Y   ...
 #: ../src/calendar/gui/comp-util.c:2029
 #: ../src/calendar/gui/e-cal-list-view.etspec.h:10
-#: ../src/calendar/gui/e-meeting-list-view.c:689
+#: ../src/calendar/gui/e-meeting-list-view.c:690
 #: ../src/calendar/gui/e-meeting-time-sel.etspec.h:9
 #: ../src/calendar/gui/e-memo-table.etspec.h:9
 #: ../src/calendar/gui/e-task-table.etspec.h:11
@@ -7563,7 +7569,7 @@ msgid "calendar view for one or more weeks"
 msgstr "вікно календаря одного чи більше тижнів"
 
 #: ../src/calendar/gui/e-cal-component-preview.c:241
-#: ../src/e-util/e-filter-rule.c:1016 ../src/mail/e-mail-config-page.c:124
+#: ../src/e-util/e-filter-rule.c:1028 ../src/mail/e-mail-config-page.c:124
 msgid "Untitled"
 msgstr "Без заголовку"
 
@@ -7940,7 +7946,7 @@ msgid "Source"
 msgstr "Джерело"
 
 #: ../src/calendar/gui/e-cal-list-view.etspec.h:11
-#: ../src/calendar/gui/e-meeting-list-view.c:646
+#: ../src/calendar/gui/e-meeting-list-view.c:647
 #: ../src/calendar/gui/e-meeting-time-sel.etspec.h:4
 #: ../src/calendar/gui/e-memo-table.etspec.h:3
 #: ../src/calendar/gui/e-task-table.etspec.h:3
@@ -9409,13 +9415,13 @@ msgstr "Вставити з буфера обміну"
 
 #: ../src/calendar/gui/e-comp-editor.c:2215
 #: ../src/composer/e-composer-actions.c:387 ../src/mail/e-mail-reader.c:2909
-#: ../src/modules/addressbook/e-book-shell-view-actions.c:1319
-#: ../src/modules/addressbook/e-book-shell-view-actions.c:1333
+#: ../src/modules/addressbook/e-book-shell-view-actions.c:1501
+#: ../src/modules/addressbook/e-book-shell-view-actions.c:1515
 msgid "_Print…"
 msgstr "Над_рукувати…"
 
 #: ../src/calendar/gui/e-comp-editor.c:2222 ../src/mail/e-mail-reader.c:2916
-#: ../src/modules/addressbook/e-book-shell-view-actions.c:1326
+#: ../src/modules/addressbook/e-book-shell-view-actions.c:1508
 #: ../src/modules/calendar/e-cal-shell-view-actions.c:1921
 #: ../src/modules/calendar/e-memo-shell-view-actions.c:838
 #: ../src/modules/calendar/e-task-shell-view-actions.c:1067
@@ -9637,7 +9643,7 @@ msgid "Needs Action"
 msgstr "Необхідна дія"
 
 #. To translators: RSVP means "please reply"
-#: ../src/calendar/gui/e-meeting-list-view.c:675
+#: ../src/calendar/gui/e-meeting-list-view.c:676
 #: ../src/calendar/gui/e-meeting-time-sel.etspec.h:6
 msgid "RSVP"
 msgstr "Зацікавлена особа"
@@ -12760,15 +12766,6 @@ msgid "Format part as an RFC822 message"
 msgstr "Форматувати частину як лист RFC822"
 
 #: ../src/em-format/e-mail-formatter-print.c:50
-#: ../src/e-util/e-webdav-browser.c:2501
-#: ../src/e-util/gal-view-instance-save-as-dialog.c:92
-#: ../src/mail/e-mail-label-tree-view.c:96
-#: ../src/modules/plugin-manager/evolution-plugin-manager.c:64
-#: ../src/modules/rss/evolution/e-rss-preferences.c:1687
-msgid "Name"
-msgstr "Ім'я"
-
-#: ../src/em-format/e-mail-formatter-print.c:50
 #: ../src/e-util/e-attachment-tree-view.c:193
 #: ../src/mail/message-list.etspec.h:10
 msgid "Size"
@@ -13286,7 +13283,7 @@ msgstr "%s"
 #. *              percent complete is known.
 #. Translators: This is a running activity whose percent complete is known.
 #: ../src/e-util/e-activity.c:269
-#: ../src/modules/addressbook/e-book-shell-view-private.c:334
+#: ../src/modules/addressbook/e-book-shell-view-private.c:234
 #: ../src/modules/calendar/e-cal-base-shell-content.c:143
 #, c-format
 msgid "%s (%d%% complete)"
@@ -13471,7 +13468,7 @@ msgid "A_dd Attachment…"
 msgstr "_Додати долучення…"
 
 #: ../src/e-util/e-attachment-view.c:395
-#: ../src/modules/addressbook/e-book-shell-view-actions.c:1181
+#: ../src/modules/addressbook/e-book-shell-view-actions.c:1349
 #: ../src/modules/calendar/e-cal-shell-view-actions.c:1362
 #: ../src/modules/calendar/e-memo-shell-view-actions.c:619
 #: ../src/modules/calendar/e-task-shell-view-actions.c:745
@@ -14570,23 +14567,23 @@ msgstr "Вибір часу для порівняння"
 msgid "Choose a File"
 msgstr "Виберіть файл"
 
-#: ../src/e-util/e-filter-rule.c:1009
+#: ../src/e-util/e-filter-rule.c:1021
 msgid "R_ule name:"
 msgstr "_Назва правила"
 
-#: ../src/e-util/e-filter-rule.c:1065
+#: ../src/e-util/e-filter-rule.c:1077
 msgid "all the following conditions"
 msgstr "усі подальші умови"
 
-#: ../src/e-util/e-filter-rule.c:1066
+#: ../src/e-util/e-filter-rule.c:1078
 msgid "any of the following conditions"
 msgstr "будь-який з подальших умов"
 
-#: ../src/e-util/e-filter-rule.c:1072
+#: ../src/e-util/e-filter-rule.c:1084
 msgid "_Find items which match:"
 msgstr "З_найти об'єкти, які збігаються:"
 
-#: ../src/e-util/e-filter-rule.c:1095
+#: ../src/e-util/e-filter-rule.c:1107
 msgid "Find items that meet the following conditions"
 msgstr "Знайти елементи, що відповідають вказаним критеріям"
 
@@ -14594,7 +14591,7 @@ msgstr "Знайти елементи, що відповідають вказа�
 #. * part of "Include threads: None"
 #. protocol:
 #. name:
-#: ../src/e-util/e-filter-rule.c:1110
+#: ../src/e-util/e-filter-rule.c:1122
 #: ../src/e-util/e-html-editor-page-dialog.c:62
 #: ../src/e-util/e-mail-identity-combo-box.c:798
 #: ../src/e-util/e-mail-signature-combo-box.c:422
@@ -14605,36 +14602,36 @@ msgstr "Знайти елементи, що відповідають вказа�
 msgid "None"
 msgstr "Немає"
 
-#: ../src/e-util/e-filter-rule.c:1111
+#: ../src/e-util/e-filter-rule.c:1123
 msgid "All related"
 msgstr "Усе пов'язане"
 
-#: ../src/e-util/e-filter-rule.c:1112 ../src/e-util/e-send-options.ui.h:24
+#: ../src/e-util/e-filter-rule.c:1124 ../src/e-util/e-send-options.ui.h:24
 msgid "Replies"
 msgstr "Відповіді"
 
-#: ../src/e-util/e-filter-rule.c:1113
+#: ../src/e-util/e-filter-rule.c:1125
 msgid "Replies and parents"
 msgstr "Відповіді та батьківські"
 
-#: ../src/e-util/e-filter-rule.c:1114
+#: ../src/e-util/e-filter-rule.c:1126
 msgid "No reply or parent"
 msgstr "Не є відповіддю чи батьківським"
 
-#: ../src/e-util/e-filter-rule.c:1117
+#: ../src/e-util/e-filter-rule.c:1129
 msgid "I_nclude threads:"
 msgstr "_Ураховуючи гілки:"
 
-#: ../src/e-util/e-filter-rule.c:1195
+#: ../src/e-util/e-filter-rule.c:1207
 msgid "A_dd Condition"
 msgstr "Додати _критерій"
 
-#: ../src/e-util/e-filter-rule.c:1515 ../src/e-util/filter.ui.h:1
-#: ../src/mail/em-filter-rule.c:986 ../src/mail/em-utils.c:166
+#: ../src/e-util/e-filter-rule.c:1527 ../src/e-util/filter.ui.h:1
+#: ../src/mail/em-filter-rule.c:997 ../src/mail/em-utils.c:166
 msgid "Incoming"
 msgstr "Вхідні"
 
-#: ../src/e-util/e-filter-rule.c:1515 ../src/mail/em-filter-rule.c:987
+#: ../src/e-util/e-filter-rule.c:1527 ../src/mail/em-filter-rule.c:998
 #: ../src/mail/em-utils.c:167
 msgid "Outgoing"
 msgstr "Вихідні"
@@ -15991,7 +15988,7 @@ msgstr "З_апис"
 
 #: ../src/e-util/e-markdown-editor.c:1706
 #: ../src/e-util/e-markdown-editor.c:2282
-#: ../src/modules/addressbook/e-book-shell-view-actions.c:1164
+#: ../src/modules/addressbook/e-book-shell-view-actions.c:1332
 #: ../src/modules/calendar/e-cal-shell-view-actions.c:1623
 #: ../src/modules/calendar/e-memo-shell-view-actions.c:684
 #: ../src/modules/calendar/e-task-shell-view-actions.c:838
@@ -16186,7 +16183,7 @@ msgstr "По_шук :"
 
 #: ../src/e-util/e-name-selector-dialog.c:363
 #: ../src/e-util/e-name-selector-dialog.c:1321
-#: ../src/modules/addressbook/e-book-shell-view-actions.c:1271
+#: ../src/modules/addressbook/e-book-shell-view-actions.c:1439
 #: ../src/modules/calendar/e-cal-shell-view-actions.c:1852
 #: ../src/modules/calendar/e-memo-shell-view-actions.c:783
 #: ../src/modules/calendar/e-task-shell-view-actions.c:956
@@ -19873,7 +19870,7 @@ msgid "If any of the following conditions are met"
 msgstr "Якщо виконано будь-яку з наступних умов"
 
 #. and now for the action area
-#: ../src/mail/em-filter-editor.c:211 ../src/mail/em-filter-rule.c:1011
+#: ../src/mail/em-filter-editor.c:211 ../src/mail/em-filter-rule.c:1022
 msgid "Then"
 msgstr "Потім"
 
@@ -19890,20 +19887,20 @@ msgid "Default Account"
 msgstr "Типовий обліковий запис"
 
 #. Translators: This is in a Mail filter rule editor, part of "For account: [ Any   ]" section
-#: ../src/mail/em-filter-rule.c:880
+#: ../src/mail/em-filter-rule.c:891
 msgctxt "mail-filter-rule"
 msgid "Any"
 msgstr "Будь-який"
 
-#: ../src/mail/em-filter-rule.c:981
+#: ../src/mail/em-filter-rule.c:992
 msgid "Rul_e type:"
 msgstr "Тип прав_ила:"
 
-#: ../src/mail/em-filter-rule.c:999
+#: ../src/mail/em-filter-rule.c:1010
 msgid "_For Account:"
 msgstr "_Для облікового запису:"
 
-#: ../src/mail/em-filter-rule.c:1084
+#: ../src/mail/em-filter-rule.c:1095
 msgid "Add Ac_tion"
 msgstr "Додати д_ію"
 
@@ -20247,7 +20244,7 @@ msgid "Stop the current operation"
 msgstr "Зупинити поточну дію"
 
 #: ../src/mail/em-subscription-editor.c:1961
-#: ../src/modules/addressbook/e-book-shell-view-actions.c:1085
+#: ../src/modules/addressbook/e-book-shell-view-actions.c:1253
 msgid "_Stop"
 msgstr "З_упинити"
 
@@ -20330,20 +20327,10 @@ msgstr "залучити підтеки"
 msgid "Sender"
 msgstr "Відправник"
 
-#: ../src/mail/filtertypes.xml.in.h:6 ../src/mail/searchtypes.xml.in.h:6
-#: ../src/mail/vfoldertypes.xml.in.h:6
-msgid "starts with"
-msgstr "починається з"
-
 #: ../src/mail/filtertypes.xml.in.h:7 ../src/mail/searchtypes.xml.in.h:7
 #: ../src/mail/vfoldertypes.xml.in.h:7
 msgid "does not start with"
 msgstr "не починається з"
-
-#: ../src/mail/filtertypes.xml.in.h:8 ../src/mail/searchtypes.xml.in.h:8
-#: ../src/mail/vfoldertypes.xml.in.h:8
-msgid "ends with"
-msgstr "закінчується на"
 
 #: ../src/mail/filtertypes.xml.in.h:9 ../src/mail/searchtypes.xml.in.h:9
 #: ../src/mail/vfoldertypes.xml.in.h:9
@@ -22567,7 +22554,7 @@ msgid "C_alendar"
 msgstr "К_алендар"
 
 #: ../src/modules/accounts-window/e-accounts-window-editors.c:487
-#: ../src/modules/addressbook/e-book-shell-backend.c:269
+#: ../src/modules/addressbook/e-book-shell-backend.c:256
 #: ../src/modules/addressbook/e-book-shell-view-actions.c:139
 msgid "New Address Book"
 msgstr "Нова адресна книга"
@@ -22725,111 +22712,117 @@ msgstr "Інформація про контакт"
 msgid "Contact information for %s"
 msgstr "Інформація про контакт для %s"
 
-#: ../src/modules/addressbook/e-book-shell-backend.c:278
+#: ../src/modules/addressbook/e-book-shell-backend.c:265
 msgctxt "New"
 msgid "_Contact"
 msgstr "_Контакт"
 
-#: ../src/modules/addressbook/e-book-shell-backend.c:280
-#: ../src/modules/addressbook/e-book-shell-view-actions.c:1129
+#: ../src/modules/addressbook/e-book-shell-backend.c:267
+#: ../src/modules/addressbook/e-book-shell-view-actions.c:1297
 msgid "Create a new contact"
 msgstr "Створити новий контакт"
 
-#: ../src/modules/addressbook/e-book-shell-backend.c:285
+#: ../src/modules/addressbook/e-book-shell-backend.c:272
 msgctxt "New"
 msgid "Contact _List"
 msgstr "_Список контактів"
 
-#: ../src/modules/addressbook/e-book-shell-backend.c:287
-#: ../src/modules/addressbook/e-book-shell-view-actions.c:1136
+#: ../src/modules/addressbook/e-book-shell-backend.c:274
+#: ../src/modules/addressbook/e-book-shell-view-actions.c:1304
 msgid "Create a new contact list"
 msgstr "Створити новий список контактів"
 
-#: ../src/modules/addressbook/e-book-shell-backend.c:295
+#: ../src/modules/addressbook/e-book-shell-backend.c:282
 msgctxt "New"
 msgid "Address _Book"
 msgstr "Адресна _книга"
 
-#: ../src/modules/addressbook/e-book-shell-backend.c:297
-#: ../src/modules/addressbook/e-book-shell-view-actions.c:1045
+#: ../src/modules/addressbook/e-book-shell-backend.c:284
+#: ../src/modules/addressbook/e-book-shell-view-actions.c:1213
 msgid "Create a new address book"
 msgstr "Створити нову адресну книгу"
 
 #. Translators: This is a save dialog title
-#: ../src/modules/addressbook/e-book-shell-view-actions.c:607
-#: ../src/modules/addressbook/e-book-shell-view-actions.c:908
+#: ../src/modules/addressbook/e-book-shell-view-actions.c:605
+#: ../src/modules/addressbook/e-book-shell-view-actions.c:962
 msgid "Save as vCard"
 msgstr "Зберегти як VCard"
 
-#: ../src/modules/addressbook/e-book-shell-view-actions.c:1015
+#: ../src/modules/addressbook/e-book-shell-view-actions.c:716
+#: ../src/modules/addressbook/e-book-shell-view.c:658
+#| msgid "Print selected contacts"
+msgid "Retrieving selected contacts…"
+msgstr "Отримуємо вибрані контакти…"
+
+#: ../src/modules/addressbook/e-book-shell-view-actions.c:1183
 msgid "Co_py All Contacts To…"
 msgstr "К_опіювати контакти до…"
 
-#: ../src/modules/addressbook/e-book-shell-view-actions.c:1017
+#: ../src/modules/addressbook/e-book-shell-view-actions.c:1185
 msgid "Copy the contacts of the selected address book to another"
 msgstr "Копіювати контакти з виділеної адресної книги у іншу книгу"
 
-#: ../src/modules/addressbook/e-book-shell-view-actions.c:1022
+#: ../src/modules/addressbook/e-book-shell-view-actions.c:1190
 msgid "D_elete Address Book"
 msgstr "В_илучити адресну книгу"
 
-#: ../src/modules/addressbook/e-book-shell-view-actions.c:1024
+#: ../src/modules/addressbook/e-book-shell-view-actions.c:1192
 msgid "Delete the selected address book"
 msgstr "Вилучити вибрану адресну книгу"
 
-#: ../src/modules/addressbook/e-book-shell-view-actions.c:1029
+#: ../src/modules/addressbook/e-book-shell-view-actions.c:1197
 msgid "_Manage Address Book groups…"
 msgstr "_Організувати групи адресної книги…"
 
-#: ../src/modules/addressbook/e-book-shell-view-actions.c:1031
+#: ../src/modules/addressbook/e-book-shell-view-actions.c:1199
 #: ../src/modules/calendar/e-task-shell-view-actions.c:733
 msgid "Manage task list groups order and visibility"
 msgstr "Керувати порядком списку груп і їхньою видимістю"
 
-#: ../src/modules/addressbook/e-book-shell-view-actions.c:1036
+#: ../src/modules/addressbook/e-book-shell-view-actions.c:1204
 msgid "Mo_ve All Contacts To…"
 msgstr "Пере_містити усі контакти до…"
 
-#: ../src/modules/addressbook/e-book-shell-view-actions.c:1038
+#: ../src/modules/addressbook/e-book-shell-view-actions.c:1206
 msgid "Move the contacts of the selected address book to another"
 msgstr "Перемістити контакти з виділеної адресної книги у іншу адресну книгу"
 
-#: ../src/modules/addressbook/e-book-shell-view-actions.c:1043
+#: ../src/modules/addressbook/e-book-shell-view-actions.c:1211
 msgid "_New Address Book"
 msgstr "_Нова адресна книга"
 
-#: ../src/modules/addressbook/e-book-shell-view-actions.c:1050
+#: ../src/modules/addressbook/e-book-shell-view-actions.c:1218
 msgid "Address _Book Properties"
 msgstr "Властивості адресної _книги"
 
-#: ../src/modules/addressbook/e-book-shell-view-actions.c:1052
+#: ../src/modules/addressbook/e-book-shell-view-actions.c:1220
 msgid "Show properties of the selected address book"
 msgstr "Показати властивості вибраної адресної книги"
 
-#: ../src/modules/addressbook/e-book-shell-view-actions.c:1057
+#: ../src/modules/addressbook/e-book-shell-view-actions.c:1225
 #: ../src/modules/calendar/e-cal-shell-view-actions.c:1376
 #: ../src/modules/calendar/e-memo-shell-view-actions.c:626
 #: ../src/modules/calendar/e-task-shell-view-actions.c:752
 msgid "Re_fresh"
 msgstr "О_новити"
 
-#: ../src/modules/addressbook/e-book-shell-view-actions.c:1059
+#: ../src/modules/addressbook/e-book-shell-view-actions.c:1227
 msgid "Refresh the selected address book"
 msgstr "Оновити вибрану адресну книгу"
 
-#: ../src/modules/addressbook/e-book-shell-view-actions.c:1064
+#: ../src/modules/addressbook/e-book-shell-view-actions.c:1232
 msgid "Re_fresh list of account address books"
 msgstr "Оно_вити список облікових записів адресної книги"
 
-#: ../src/modules/addressbook/e-book-shell-view-actions.c:1071
+#: ../src/modules/addressbook/e-book-shell-view-actions.c:1239
 msgid "Address Book _Map"
 msgstr "_Карта адресної книги"
 
-#: ../src/modules/addressbook/e-book-shell-view-actions.c:1073
+#: ../src/modules/addressbook/e-book-shell-view-actions.c:1241
 msgid "Show map with all contacts from selected address book"
 msgstr "Показати карту з усіма контактами з вибраної адресної книги"
 
-#: ../src/modules/addressbook/e-book-shell-view-actions.c:1078
+#: ../src/modules/addressbook/e-book-shell-view-actions.c:1246
 #: ../src/modules/calendar/e-cal-shell-view-actions.c:1390
 #: ../src/modules/calendar/e-memo-shell-view-actions.c:640
 #: ../src/modules/calendar/e-task-shell-view-actions.c:766
@@ -22837,119 +22830,119 @@ msgstr "Показати карту з усіма контактами з виб
 msgid "_Rename…"
 msgstr "Пере_йменувати…"
 
-#: ../src/modules/addressbook/e-book-shell-view-actions.c:1080
+#: ../src/modules/addressbook/e-book-shell-view-actions.c:1248
 msgid "Rename the selected address book"
 msgstr "Перейменувати виділену адресну книгу"
 
-#: ../src/modules/addressbook/e-book-shell-view-actions.c:1087
+#: ../src/modules/addressbook/e-book-shell-view-actions.c:1255
 msgid "Stop loading"
 msgstr "Зупинити завантаження"
 
-#: ../src/modules/addressbook/e-book-shell-view-actions.c:1092
+#: ../src/modules/addressbook/e-book-shell-view-actions.c:1260
 msgid "_Copy Contact To…"
 msgstr "_Копіювати контакт до…"
 
-#: ../src/modules/addressbook/e-book-shell-view-actions.c:1094
+#: ../src/modules/addressbook/e-book-shell-view-actions.c:1262
 msgid "Copy selected contacts to another address book"
 msgstr "Копіювати вибрані контакти у іншу адресну книгу"
 
-#: ../src/modules/addressbook/e-book-shell-view-actions.c:1099
+#: ../src/modules/addressbook/e-book-shell-view-actions.c:1267
 msgid "_Delete Contact"
 msgstr "В_илучити контакт"
 
-#: ../src/modules/addressbook/e-book-shell-view-actions.c:1106
+#: ../src/modules/addressbook/e-book-shell-view-actions.c:1274
 msgid "_Find in Contact…"
 msgstr "З_найти у контакті…"
 
-#: ../src/modules/addressbook/e-book-shell-view-actions.c:1108
+#: ../src/modules/addressbook/e-book-shell-view-actions.c:1276
 msgid "Search for text in the displayed contact"
 msgstr "Пошук тексті у показаному повідомленні"
 
-#: ../src/modules/addressbook/e-book-shell-view-actions.c:1113
+#: ../src/modules/addressbook/e-book-shell-view-actions.c:1281
 msgid "_Forward Contact…"
 msgstr "_Переслати контакт…"
 
-#: ../src/modules/addressbook/e-book-shell-view-actions.c:1115
+#: ../src/modules/addressbook/e-book-shell-view-actions.c:1283
 msgid "Send selected contacts to another person"
 msgstr "Відіслати виділені контакти іншій особі"
 
-#: ../src/modules/addressbook/e-book-shell-view-actions.c:1120
+#: ../src/modules/addressbook/e-book-shell-view-actions.c:1288
 msgid "_Move Contact To…"
 msgstr "Пере_містити контакт до…"
 
-#: ../src/modules/addressbook/e-book-shell-view-actions.c:1122
+#: ../src/modules/addressbook/e-book-shell-view-actions.c:1290
 msgid "Move selected contacts to another address book"
 msgstr "Перемістити вибрані контакти у іншу адресну книгу"
 
-#: ../src/modules/addressbook/e-book-shell-view-actions.c:1127
+#: ../src/modules/addressbook/e-book-shell-view-actions.c:1295
 msgid "_New Contact…"
 msgstr "С_творити контакт…"
 
-#: ../src/modules/addressbook/e-book-shell-view-actions.c:1134
+#: ../src/modules/addressbook/e-book-shell-view-actions.c:1302
 msgid "New Contact _List…"
 msgstr "Ств_орити список контактів…"
 
-#: ../src/modules/addressbook/e-book-shell-view-actions.c:1141
+#: ../src/modules/addressbook/e-book-shell-view-actions.c:1309
 msgid "_Open Contact"
 msgstr "_Відкрити контакт"
 
-#: ../src/modules/addressbook/e-book-shell-view-actions.c:1143
+#: ../src/modules/addressbook/e-book-shell-view-actions.c:1311
 msgid "View the current contact"
 msgstr "Переглянути поточний контакт"
 
-#: ../src/modules/addressbook/e-book-shell-view-actions.c:1148
+#: ../src/modules/addressbook/e-book-shell-view-actions.c:1316
 msgid "_Send Message to Contact…"
 msgstr "Надіслати _повідомлення контакту…"
 
-#: ../src/modules/addressbook/e-book-shell-view-actions.c:1150
+#: ../src/modules/addressbook/e-book-shell-view-actions.c:1318
 msgid "Send a message to the selected contacts"
 msgstr "Надіслати повідомлення до обраних контактів"
 
-#: ../src/modules/addressbook/e-book-shell-view-actions.c:1157
+#: ../src/modules/addressbook/e-book-shell-view-actions.c:1325
 #: ../src/modules/calendar/e-cal-shell-view-actions.c:1616
 #: ../src/modules/calendar/e-task-shell-view-actions.c:831
 msgid "_Actions"
 msgstr "Ді_ї"
 
-#: ../src/modules/addressbook/e-book-shell-view-actions.c:1177
+#: ../src/modules/addressbook/e-book-shell-view-actions.c:1345
 #: ../src/modules/calendar/e-cal-shell-view-actions.c:1652
 #: ../src/modules/calendar/e-memo-shell-view-actions.c:701
 #: ../src/modules/calendar/e-task-shell-view-actions.c:855
 msgid "_Manage groups…"
 msgstr "_Організувати групи…"
 
-#: ../src/modules/addressbook/e-book-shell-view-actions.c:1193
+#: ../src/modules/addressbook/e-book-shell-view-actions.c:1361
 msgid "Address Book Map"
 msgstr "Карта адресної книги"
 
-#: ../src/modules/addressbook/e-book-shell-view-actions.c:1225
+#: ../src/modules/addressbook/e-book-shell-view-actions.c:1393
 msgid "Contact _Preview"
 msgstr "_Попередній перегляд контакту"
 
-#: ../src/modules/addressbook/e-book-shell-view-actions.c:1227
+#: ../src/modules/addressbook/e-book-shell-view-actions.c:1395
 msgid "Show contact preview window"
 msgstr "Показати вікно перегляду контакту"
 
-#: ../src/modules/addressbook/e-book-shell-view-actions.c:1233
+#: ../src/modules/addressbook/e-book-shell-view-actions.c:1401
 msgid "Show _Maps"
 msgstr "Показати _карти"
 
-#: ../src/modules/addressbook/e-book-shell-view-actions.c:1235
+#: ../src/modules/addressbook/e-book-shell-view-actions.c:1403
 msgid "Show maps in contact preview window"
 msgstr "Показати карти у вікні перегляду контактів"
 
-#: ../src/modules/addressbook/e-book-shell-view-actions.c:1254
+#: ../src/modules/addressbook/e-book-shell-view-actions.c:1422
 #: ../src/modules/calendar/e-memo-shell-view-actions.c:766
 #: ../src/modules/calendar/e-task-shell-view-actions.c:932
 #: ../src/modules/mail/e-mail-shell-view-actions.c:2010
 msgid "_Classic View"
 msgstr "_Класичний вигляд"
 
-#: ../src/modules/addressbook/e-book-shell-view-actions.c:1256
+#: ../src/modules/addressbook/e-book-shell-view-actions.c:1424
 msgid "Show contact preview below the contact list"
 msgstr "Показувати попередній перегляд контактів нижче списку контактів"
 
-#: ../src/modules/addressbook/e-book-shell-view-actions.c:1261
+#: ../src/modules/addressbook/e-book-shell-view-actions.c:1429
 #: ../src/modules/calendar/e-cal-shell-view-actions.c:1835
 #: ../src/modules/calendar/e-memo-shell-view-actions.c:773
 #: ../src/modules/calendar/e-task-shell-view-actions.c:939
@@ -22957,15 +22950,15 @@ msgstr "Показувати попередній перегляд контак�
 msgid "_Vertical View"
 msgstr "_Вертикальний вигляд"
 
-#: ../src/modules/addressbook/e-book-shell-view-actions.c:1263
+#: ../src/modules/addressbook/e-book-shell-view-actions.c:1431
 msgid "Show contact preview alongside the contact list"
 msgstr "Показувати попередній перегляд контактів поруч зі списком контактів"
 
-#: ../src/modules/addressbook/e-book-shell-view-actions.c:1278
+#: ../src/modules/addressbook/e-book-shell-view-actions.c:1446
 msgid "Unmatched"
 msgstr "Інше"
 
-#: ../src/modules/addressbook/e-book-shell-view-actions.c:1288
+#: ../src/modules/addressbook/e-book-shell-view-actions.c:1456
 #: ../src/modules/calendar/e-cal-shell-view-actions.c:1883
 #: ../src/modules/calendar/e-memo-shell-view-actions.c:800
 #: ../src/modules/calendar/e-task-shell-view-actions.c:1029
@@ -22974,53 +22967,53 @@ msgstr "Інше"
 msgid "Advanced Search"
 msgstr "Розширений пошук"
 
-#: ../src/modules/addressbook/e-book-shell-view-actions.c:1321
+#: ../src/modules/addressbook/e-book-shell-view-actions.c:1503
 msgid "Print all shown contacts"
 msgstr "Друкувати всіх виділених контактів"
 
-#: ../src/modules/addressbook/e-book-shell-view-actions.c:1328
+#: ../src/modules/addressbook/e-book-shell-view-actions.c:1510
 msgid "Preview the contacts to be printed"
 msgstr "Попередній перегляд контактів для друку"
 
-#: ../src/modules/addressbook/e-book-shell-view-actions.c:1335
+#: ../src/modules/addressbook/e-book-shell-view-actions.c:1517
 msgid "Print selected contacts"
 msgstr "Надрукувати виділені контакти"
 
-#: ../src/modules/addressbook/e-book-shell-view-actions.c:1350
+#: ../src/modules/addressbook/e-book-shell-view-actions.c:1532
 msgid "S_ave Address Book as vCard"
 msgstr "З_берегти адресну книгу у форматі VCard"
 
-#: ../src/modules/addressbook/e-book-shell-view-actions.c:1352
+#: ../src/modules/addressbook/e-book-shell-view-actions.c:1534
 msgid "Save the contacts of the selected address book as a vCard"
 msgstr "Зберегти контакти з обраної адресної книги у форматі vCard"
 
 #. Translators: This is an action label
-#: ../src/modules/addressbook/e-book-shell-view-actions.c:1358
-#: ../src/modules/addressbook/e-book-shell-view-actions.c:1368
+#: ../src/modules/addressbook/e-book-shell-view-actions.c:1540
+#: ../src/modules/addressbook/e-book-shell-view-actions.c:1550
 msgid "_Save as vCard…"
 msgstr "З_берегти як vCard…"
 
-#: ../src/modules/addressbook/e-book-shell-view-actions.c:1360
+#: ../src/modules/addressbook/e-book-shell-view-actions.c:1542
 msgid "Save selected contacts as a vCard"
 msgstr "Зберегти виділені контакти як vCard"
 
-#: ../src/modules/addressbook/e-book-shell-view.c:368
+#: ../src/modules/addressbook/e-book-shell-view.c:372
 msgid "_Forward Contacts"
 msgstr "_Переслати контакти"
 
-#: ../src/modules/addressbook/e-book-shell-view.c:370
+#: ../src/modules/addressbook/e-book-shell-view.c:374
 msgid "_Forward Contact"
 msgstr "_Переслати контакт"
 
-#: ../src/modules/addressbook/e-book-shell-view.c:401
+#: ../src/modules/addressbook/e-book-shell-view.c:405
 msgid "_Send Message to Contacts"
 msgstr "Надіслати _повідомлення контактам"
 
-#: ../src/modules/addressbook/e-book-shell-view.c:403
+#: ../src/modules/addressbook/e-book-shell-view.c:407
 msgid "_Send Message to List"
 msgstr "Надіслати _повідомлення у список"
 
-#: ../src/modules/addressbook/e-book-shell-view.c:405
+#: ../src/modules/addressbook/e-book-shell-view.c:409
 msgid "_Send Message to Contact"
 msgstr "Надіслати _повідомлення контакту"
 
@@ -24515,7 +24508,6 @@ msgstr "Трапилось менше за 5 разів"
 #: ../src/modules/calendar/e-cal-shell-view-actions.c:1873
 #: ../src/modules/calendar/e-memo-shell-view-actions.c:790
 #: ../src/modules/calendar/e-task-shell-view-actions.c:1012
-#| msgid "Category"
 msgid "Without Category"
 msgstr "Без категорії"
 
@@ -24975,7 +24967,6 @@ msgid "Tasks with Attachments"
 msgstr "Завдання з долученнями"
 
 #: ../src/modules/calendar/e-task-shell-view-actions.c:1014
-#| msgid "_Show Tasks without Due date"
 msgid "Show tasks with no category set"
 msgstr "Показувати записи завдань без встановлено категорії"
 
@@ -29860,6 +29851,41 @@ msgstr "Неможливо записати сховище на диск, код
 #: ../src/smime/lib/e-pkcs12.c:471
 msgid "Imported Certificate"
 msgstr "Імпортований сертифікат"
+
+#~ msgid "Open"
+#~ msgstr "Відкрити"
+
+#~ msgid "Contact List: "
+#~ msgstr "Список контактів:"
+
+#~ msgid "Contact: "
+#~ msgstr "Контакт:"
+
+#~ msgid "evolution minicard"
+#~ msgstr "міні-картка Evolution"
+
+#~ msgid "New Contact"
+#~ msgstr "Створити контакт"
+
+#~ msgid "New Contact List"
+#~ msgstr "Створити список контактів"
+
+#, c-format
+#~ msgid "current address book folder %s has %d card"
+#~ msgid_plural "current address book folder %s has %d cards"
+#~ msgstr[0] "у поточній теці адресної книги %s є %d картка"
+#~ msgstr[1] "у поточній теці адресної книги %s є %d картки"
+#~ msgstr[2] "у поточній теці адресної книги %s є %d карток"
+#~ msgstr[3] "у поточній теці адресної книги %s є %d картка"
+
+#~ msgid ""
+#~ "\n"
+#~ "\n"
+#~ "Searching for the Contacts…"
+#~ msgstr ""
+#~ "\n"
+#~ "\n"
+#~ "Пошук контактів…"
 
 #~ msgid "{1}"
 #~ msgstr "{1}"
