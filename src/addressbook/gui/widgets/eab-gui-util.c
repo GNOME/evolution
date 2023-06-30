@@ -318,9 +318,6 @@ eab_select_source (ESourceRegistry *registry,
 		NULL);
 	gtk_window_set_default_size (GTK_WINDOW (dialog), 350, 300);
 
-	gtk_dialog_set_response_sensitive (
-		GTK_DIALOG (dialog), GTK_RESPONSE_ACCEPT, FALSE);
-
 	/* label = gtk_label_new (message); */
 
 	extension_name = E_SOURCE_EXTENSION_ADDRESS_BOOK;
@@ -347,6 +344,8 @@ eab_select_source (ESourceRegistry *registry,
 			g_object_unref (source);
 		}
 	}
+
+	source_selection_changed_cb (E_SOURCE_SELECTOR (selector), ok_button);
 
 	scrolled_window = gtk_scrolled_window_new (NULL, NULL);
 	gtk_scrolled_window_set_shadow_type (GTK_SCROLLED_WINDOW (scrolled_window), GTK_SHADOW_IN);
