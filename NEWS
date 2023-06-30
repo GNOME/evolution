@@ -1,3 +1,14 @@
+Evolution 3.48.4 2023-06-30
+---------------------------
+
+Bug Fixes:
+	I#2400 - HTML attachment viewport is tiny
+	I#2401 - EMailFormatter: Style change not propagated to all instances
+
+Miscellaneous:
+	EMailSignatureScriptDialog: Cannot choose script file under Flatpak
+	EMeetingListStore: Wrong role section picked in Attendees dialog
+
 Evolution 3.48.3 2023-06-02
 ---------------------------
 
