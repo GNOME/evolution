@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: evolution\n"
 "Report-Msgid-Bugs-To: https://gitlab.gnome.org/GNOME/evolution/issues\n"
-"POT-Creation-Date: 2023-06-19 07:06+0000\n"
-"PO-Revision-Date: 2023-06-19 17:40+0200\n"
+"POT-Creation-Date: 2023-06-29 14:31+0000\n"
+"PO-Revision-Date: 2023-06-30 06:26+0200\n"
 "Last-Translator: Ekaterine Papava <papava.e@gtu.ge>\n"
 "Language-Team: Georgian <(nothing)>\n"
 "Language: ka\n"
@@ -16,7 +16,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=1; plural=0;\n"
-"X-Generator: Poedit 3.3.1\n"
+"X-Generator: Poedit 3.3.2\n"
 
 #: ../data/org.gnome.evolution.addressbook.gschema.xml.in.h:1
 msgid "Enable address formatting"
@@ -3330,8 +3330,8 @@ msgstr "კალენდარი"
 #: ../data/org.gnome.Evolution.appdata.xml.in.in.h:9
 #: ../data/org.gnome.Evolution.desktop.in.in.h:8
 #: ../src/e-util/e-name-selector-dialog.c:448
-#: ../src/modules/addressbook/e-book-shell-backend.c:314
-#: ../src/modules/addressbook/e-book-shell-view.c:434
+#: ../src/modules/addressbook/e-book-shell-backend.c:301
+#: ../src/modules/addressbook/e-book-shell-view.c:438
 msgid "Contacts"
 msgstr "კონტაქტები"
 
@@ -3902,7 +3902,7 @@ msgid ""
 msgstr ""
 
 #: ../src/addressbook/addressbook.error.xml.h:39
-#: ../src/addressbook/gui/widgets/e-addressbook-view.c:1357
+#: ../src/addressbook/gui/widgets/e-addressbook-view.c:1764
 msgid "Failed to delete contact"
 msgstr ""
 
@@ -3974,10 +3974,10 @@ msgstr ""
 #. no flags
 #: ../src/addressbook/addressbook.error.xml.h:55
 #: ../src/addressbook/gui/contact-editor/contact-editor.ui.h:13
-#: ../src/addressbook/gui/contact-editor/e-contact-editor.c:3272
-#: ../src/addressbook/gui/contact-editor/e-contact-editor.c:3546
-#: ../src/addressbook/gui/contact-editor/e-contact-editor.c:4381
-#: ../src/addressbook/gui/contact-editor/e-contact-editor.c:4387
+#: ../src/addressbook/gui/contact-editor/e-contact-editor.c:3274
+#: ../src/addressbook/gui/contact-editor/e-contact-editor.c:3548
+#: ../src/addressbook/gui/contact-editor/e-contact-editor.c:4383
+#: ../src/addressbook/gui/contact-editor/e-contact-editor.c:4389
 #: ../src/addressbook/gui/contact-editor/e-contact-editor-fullname.c:212
 #: ../src/addressbook/gui/contact-editor/e-contact-quick-add.c:468
 #: ../src/addressbook/gui/contact-editor/fullname.ui.h:14
@@ -3985,7 +3985,7 @@ msgstr ""
 #: ../src/addressbook/gui/widgets/eab-contact-merging.c:561
 #: ../src/addressbook/gui/widgets/eab-contact-merging.c:806
 #: ../src/addressbook/gui/widgets/eab-gui-util.c:316
-#: ../src/addressbook/gui/widgets/e-addressbook-view.c:1437
+#: ../src/addressbook/gui/widgets/e-addressbook-view.c:1844
 #: ../src/calendar/calendar.error.xml.h:181
 #: ../src/calendar/gui/e-cal-dialogs.c:690
 #: ../src/calendar/gui/e-comp-editor-page-recurrence.c:305
@@ -4098,7 +4098,7 @@ msgid "Options"
 msgstr "გამართვა"
 
 #: ../src/addressbook/gui/contact-editor/contact-editor.ui.h:14
-#: ../src/addressbook/gui/contact-editor/e-contact-editor.c:3546
+#: ../src/addressbook/gui/contact-editor/e-contact-editor.c:3548
 #: ../src/addressbook/gui/contact-list-editor/contact-list-editor.ui.h:3
 #: ../src/addressbook/gui/widgets/eab-contact-merging.c:809
 #: ../src/calendar/calendar.error.xml.h:47
@@ -4144,6 +4144,7 @@ msgid "Full _Name..."
 msgstr "_სრული სახელი..."
 
 #: ../src/addressbook/gui/contact-editor/contact-editor.ui.h:21
+#: ../src/addressbook/gui/widgets/addresstypes.xml.h:8
 #: ../src/addressbook/gui/widgets/eab-contact-formatter.c:926
 #: ../src/addressbook/gui/widgets/eab-contact-formatter.c:1353
 #: ../src/addressbook/gui/widgets/e-addressbook-view.etspec.h:6
@@ -4384,7 +4385,7 @@ msgid "_Load X.509"
 msgstr ""
 
 #: ../src/addressbook/gui/contact-editor/contact-editor.ui.h:70
-#: ../src/modules/addressbook/e-book-shell-backend.c:325
+#: ../src/modules/addressbook/e-book-shell-backend.c:312
 msgid "Certificates"
 msgstr "სერტიფიკატები"
 
@@ -4413,7 +4414,7 @@ msgid "Redo"
 msgstr "ბრძანების აღდგენა"
 
 #: ../src/addressbook/gui/contact-editor/e-contact-editor.c:301
-#: ../src/addressbook/gui/widgets/eab-gui-util.c:501
+#: ../src/addressbook/gui/widgets/eab-gui-util.c:498
 msgid "Error adding contact"
 msgstr "კონტაქტის დამატების შეცდომა"
 
@@ -4425,28 +4426,28 @@ msgstr ""
 msgid "Error removing contact"
 msgstr ""
 
-#: ../src/addressbook/gui/contact-editor/e-contact-editor.c:723
-#: ../src/addressbook/gui/contact-editor/e-contact-editor.c:745
-#: ../src/addressbook/gui/contact-editor/e-contact-editor.c:3110
-#: ../src/addressbook/gui/contact-editor/e-contact-editor.c:5093
+#: ../src/addressbook/gui/contact-editor/e-contact-editor.c:725
+#: ../src/addressbook/gui/contact-editor/e-contact-editor.c:747
+#: ../src/addressbook/gui/contact-editor/e-contact-editor.c:3112
+#: ../src/addressbook/gui/contact-editor/e-contact-editor.c:5095
 msgid "Contact Editor"
 msgstr "კონტაქტების რედაქტორი"
 
-#: ../src/addressbook/gui/contact-editor/e-contact-editor.c:739
-#: ../src/addressbook/gui/contact-editor/e-contact-editor.c:3104
+#: ../src/addressbook/gui/contact-editor/e-contact-editor.c:741
+#: ../src/addressbook/gui/contact-editor/e-contact-editor.c:3106
 #, c-format
 msgid "Contact Editor — %s"
 msgstr ""
 
-#: ../src/addressbook/gui/contact-editor/e-contact-editor.c:3239
+#: ../src/addressbook/gui/contact-editor/e-contact-editor.c:3241
 msgid "X.509 certificates"
 msgstr ""
 
-#: ../src/addressbook/gui/contact-editor/e-contact-editor.c:3244
+#: ../src/addressbook/gui/contact-editor/e-contact-editor.c:3246
 msgid "PGP keys"
 msgstr "PGP გასაღები"
 
-#: ../src/addressbook/gui/contact-editor/e-contact-editor.c:3250
+#: ../src/addressbook/gui/contact-editor/e-contact-editor.c:3252
 #: ../src/e-util/e-html-editor-actions.c:448
 #: ../src/e-util/e-image-chooser-dialog.c:193
 #: ../src/e-util/e-mail-signature-script-dialog.c:430
@@ -4455,17 +4456,17 @@ msgstr "PGP გასაღები"
 msgid "All files"
 msgstr "ყველა ფაილი"
 
-#: ../src/addressbook/gui/contact-editor/e-contact-editor.c:3270
+#: ../src/addressbook/gui/contact-editor/e-contact-editor.c:3272
 msgid "Open PGP key"
 msgstr ""
 
-#: ../src/addressbook/gui/contact-editor/e-contact-editor.c:3270
+#: ../src/addressbook/gui/contact-editor/e-contact-editor.c:3272
 msgid "Open X.509 certificate"
 msgstr ""
 
-#: ../src/addressbook/gui/contact-editor/e-contact-editor.c:3272
-#: ../src/addressbook/gui/contact-editor/e-contact-editor.c:4381
-#: ../src/addressbook/gui/contact-editor/e-contact-editor.c:4388
+#: ../src/addressbook/gui/contact-editor/e-contact-editor.c:3274
+#: ../src/addressbook/gui/contact-editor/e-contact-editor.c:4383
+#: ../src/addressbook/gui/contact-editor/e-contact-editor.c:4390
 #: ../src/e-util/e-attachment-store.c:666 ../src/e-util/e-category-editor.c:176
 #: ../src/e-util/e-html-editor-actions.c:395
 #: ../src/e-util/e-html-editor-actions.c:439
@@ -4475,80 +4476,80 @@ msgstr ""
 msgid "_Open"
 msgstr "გახსნა"
 
-#: ../src/addressbook/gui/contact-editor/e-contact-editor.c:3287
-#: ../src/addressbook/gui/contact-editor/e-contact-editor.c:3559
+#: ../src/addressbook/gui/contact-editor/e-contact-editor.c:3289
+#: ../src/addressbook/gui/contact-editor/e-contact-editor.c:3561
 msgid "Chosen file is not a local file."
 msgstr ""
 
-#: ../src/addressbook/gui/contact-editor/e-contact-editor.c:3300
+#: ../src/addressbook/gui/contact-editor/e-contact-editor.c:3302
 #, c-format
 msgid "Failed to load certificate: %s"
 msgstr ""
 
-#: ../src/addressbook/gui/contact-editor/e-contact-editor.c:3374
+#: ../src/addressbook/gui/contact-editor/e-contact-editor.c:3376
 msgctxt "cert-kind"
 msgid "X.509"
 msgstr "X.509"
 
-#: ../src/addressbook/gui/contact-editor/e-contact-editor.c:3374
+#: ../src/addressbook/gui/contact-editor/e-contact-editor.c:3376
 msgctxt "cert-kind"
 msgid "PGP"
 msgstr "PGP"
 
-#: ../src/addressbook/gui/contact-editor/e-contact-editor.c:3544
+#: ../src/addressbook/gui/contact-editor/e-contact-editor.c:3546
 msgid "Save PGP key"
 msgstr ""
 
-#: ../src/addressbook/gui/contact-editor/e-contact-editor.c:3544
+#: ../src/addressbook/gui/contact-editor/e-contact-editor.c:3546
 msgid "Save X.509 certificate"
 msgstr ""
 
-#: ../src/addressbook/gui/contact-editor/e-contact-editor.c:3571
+#: ../src/addressbook/gui/contact-editor/e-contact-editor.c:3573
 #, c-format
 msgid "Failed to save certificate: %s"
 msgstr ""
 
-#: ../src/addressbook/gui/contact-editor/e-contact-editor.c:4378
-#: ../src/addressbook/gui/contact-editor/e-contact-editor.c:4384
+#: ../src/addressbook/gui/contact-editor/e-contact-editor.c:4380
+#: ../src/addressbook/gui/contact-editor/e-contact-editor.c:4386
 msgid "Please select an image for this contact"
 msgstr ""
 
-#: ../src/addressbook/gui/contact-editor/e-contact-editor.c:4389
+#: ../src/addressbook/gui/contact-editor/e-contact-editor.c:4391
 msgid "_No image"
 msgstr ""
 
-#: ../src/addressbook/gui/contact-editor/e-contact-editor.c:4753
+#: ../src/addressbook/gui/contact-editor/e-contact-editor.c:4755
 msgid ""
 "The contact data is invalid:\n"
 "\n"
 msgstr ""
 
-#: ../src/addressbook/gui/contact-editor/e-contact-editor.c:4759
+#: ../src/addressbook/gui/contact-editor/e-contact-editor.c:4761
 #, c-format
 msgid "“%s” has an invalid format"
 msgstr ""
 
-#: ../src/addressbook/gui/contact-editor/e-contact-editor.c:4767
+#: ../src/addressbook/gui/contact-editor/e-contact-editor.c:4769
 #, c-format
 msgid "“%s” cannot be a future date"
 msgstr ""
 
-#: ../src/addressbook/gui/contact-editor/e-contact-editor.c:4775
+#: ../src/addressbook/gui/contact-editor/e-contact-editor.c:4777
 #, c-format
 msgid "%s“%s” has an invalid format"
 msgstr ""
 
-#: ../src/addressbook/gui/contact-editor/e-contact-editor.c:4788
-#: ../src/addressbook/gui/contact-editor/e-contact-editor.c:4802
+#: ../src/addressbook/gui/contact-editor/e-contact-editor.c:4790
+#: ../src/addressbook/gui/contact-editor/e-contact-editor.c:4804
 #, c-format
 msgid "%s“%s” is empty"
 msgstr ""
 
-#: ../src/addressbook/gui/contact-editor/e-contact-editor.c:4817
+#: ../src/addressbook/gui/contact-editor/e-contact-editor.c:4819
 msgid "Invalid contact."
 msgstr "არასწორი კონტაქტი."
 
-#: ../src/addressbook/gui/contact-editor/e-contact-editor.c:5132
+#: ../src/addressbook/gui/contact-editor/e-contact-editor.c:5134
 #: ../src/calendar/gui/e-comp-editor.c:2201
 #: ../src/calendar/gui/e-comp-editor.c:2273
 #: ../src/e-util/e-send-options.ui.h:15
@@ -4716,7 +4717,7 @@ msgstr ""
 
 #: ../src/addressbook/gui/contact-list-editor/contact-list-editor.ui.h:13
 msgid "_Select..."
-msgstr "_აირჩიეთ:"
+msgstr "_აირჩიეთ..."
 
 #: ../src/addressbook/gui/contact-list-editor/contact-list-editor.ui.h:14
 msgid "Insert email addresses from Address Book"
@@ -4763,20 +4764,106 @@ msgid "Error removing list"
 msgstr ""
 
 #: ../src/addressbook/gui/widgets/addresstypes.xml.h:1
-#: ../src/modules/addressbook/e-book-shell-view-actions.c:1309
+#: ../src/em-format/e-mail-formatter-print.c:50
+#: ../src/e-util/e-webdav-browser.c:2501
+#: ../src/e-util/gal-view-instance-save-as-dialog.c:92
+#: ../src/mail/e-mail-label-tree-view.c:96
+#: ../src/modules/plugin-manager/evolution-plugin-manager.c:64
+#: ../src/modules/rss/evolution/e-rss-preferences.c:1687
+msgid "Name"
+msgstr ""
+
+#: ../src/addressbook/gui/widgets/addresstypes.xml.h:2
+#: ../src/calendar/gui/caltypes.xml.in.h:2
+#: ../src/calendar/gui/memotypes.xml.in.h:2
+#: ../src/calendar/gui/tasktypes.xml.in.h:2 ../src/mail/filtertypes.xml.in.h:2
+#: ../src/mail/searchtypes.xml.in.h:2 ../src/mail/vfoldertypes.xml.in.h:2
+msgid "contains"
+msgstr "შეიცავს"
+
+#: ../src/addressbook/gui/widgets/addresstypes.xml.h:3
+#: ../src/calendar/gui/caltypes.xml.in.h:3
+#: ../src/calendar/gui/memotypes.xml.in.h:3
+#: ../src/calendar/gui/tasktypes.xml.in.h:3 ../src/mail/filtertypes.xml.in.h:3
+#: ../src/mail/searchtypes.xml.in.h:3 ../src/mail/vfoldertypes.xml.in.h:3
+msgid "does not contain"
+msgstr "არ შეიცავს"
+
+#: ../src/addressbook/gui/widgets/addresstypes.xml.h:4
+#: ../src/calendar/gui/caltypes.xml.in.h:7
+#: ../src/calendar/gui/memotypes.xml.in.h:8
+#: ../src/calendar/gui/tasktypes.xml.in.h:9 ../src/mail/filtertypes.xml.in.h:4
+#: ../src/mail/searchtypes.xml.in.h:4 ../src/mail/vfoldertypes.xml.in.h:4
+msgid "is"
+msgstr "არის"
+
+#: ../src/addressbook/gui/widgets/addresstypes.xml.h:5
+#: ../src/calendar/gui/caltypes.xml.in.h:8
+#: ../src/calendar/gui/memotypes.xml.in.h:9
+#: ../src/calendar/gui/tasktypes.xml.in.h:10 ../src/mail/filtertypes.xml.in.h:5
+#: ../src/mail/searchtypes.xml.in.h:5 ../src/mail/vfoldertypes.xml.in.h:5
+msgid "is not"
+msgstr "არ არის"
+
+#: ../src/addressbook/gui/widgets/addresstypes.xml.h:6
+#: ../src/mail/filtertypes.xml.in.h:6 ../src/mail/searchtypes.xml.in.h:6
+#: ../src/mail/vfoldertypes.xml.in.h:6
+msgid "starts with"
+msgstr "იწყება"
+
+#: ../src/addressbook/gui/widgets/addresstypes.xml.h:7
+#: ../src/mail/filtertypes.xml.in.h:8 ../src/mail/searchtypes.xml.in.h:8
+#: ../src/mail/vfoldertypes.xml.in.h:8
+msgid "ends with"
+msgstr "მთავრდება"
+
+#: ../src/addressbook/gui/widgets/addresstypes.xml.h:9
+#: ../src/addressbook/gui/widgets/eab-contact-formatter.c:785
+msgid "Phone"
+msgstr "ტელეფონი"
+
+#: ../src/addressbook/gui/widgets/addresstypes.xml.h:10
+#: ../src/calendar/gui/caltypes.xml.in.h:15
+#: ../src/calendar/gui/memotypes.xml.in.h:13
+#: ../src/calendar/gui/tasktypes.xml.in.h:23
+#: ../src/e-util/e-categories-selector.c:324
+msgid "Category"
+msgstr "კატეგორია"
+
+#: ../src/addressbook/gui/widgets/addresstypes.xml.h:11
+#: ../src/calendar/gui/caltypes.xml.in.h:24
+#: ../src/calendar/gui/memotypes.xml.in.h:17
+#: ../src/calendar/gui/tasktypes.xml.in.h:35
+#: ../src/mail/filtertypes.xml.in.h:23 ../src/mail/searchtypes.xml.in.h:25
+#: ../src/mail/vfoldertypes.xml.in.h:25
+msgid "Expression"
+msgstr "გამოსახულება"
+
+#: ../src/addressbook/gui/widgets/addresstypes.xml.h:12
+#: ../src/modules/addressbook/e-book-shell-view-actions.c:1491
 msgid "Name contains"
 msgstr "სახელი შეიცავს"
 
-#: ../src/addressbook/gui/widgets/addresstypes.xml.h:2
-#: ../src/modules/addressbook/e-book-shell-view-actions.c:1302
+#: ../src/addressbook/gui/widgets/addresstypes.xml.h:13
+#: ../src/modules/addressbook/e-book-shell-view-actions.c:1470
 msgid "Email begins with"
 msgstr ""
 
-#: ../src/addressbook/gui/widgets/addresstypes.xml.h:3
+#: ../src/addressbook/gui/widgets/addresstypes.xml.h:14
+#: ../src/modules/addressbook/e-book-shell-view-actions.c:1477
+msgid "Email contains"
+msgstr "ელფოსტა შეიცავს"
+
+#: ../src/addressbook/gui/widgets/addresstypes.xml.h:15
+#: ../src/modules/addressbook/e-book-shell-view-actions.c:1484
+msgid "Phone contains"
+msgstr "ტელეფონი შეიცავს"
+
+#: ../src/addressbook/gui/widgets/addresstypes.xml.h:16
 #: ../src/calendar/gui/caltypes.xml.in.h:27
 #: ../src/calendar/gui/memotypes.xml.in.h:20
 #: ../src/calendar/gui/tasktypes.xml.in.h:38
-#: ../src/modules/addressbook/e-book-shell-view-actions.c:1295
+#: ../src/modules/addressbook/e-book-shell-view-actions.c:1463
 #: ../src/modules/calendar/e-cal-shell-view-actions.c:1890
 #: ../src/modules/calendar/e-memo-shell-view-actions.c:807
 #: ../src/modules/calendar/e-task-shell-view-actions.c:1036
@@ -4785,7 +4872,6 @@ msgstr ""
 
 #: ../src/addressbook/gui/widgets/ea-addressbook-view.c:92
 #: ../src/addressbook/gui/widgets/ea-addressbook-view.c:101
-#: ../src/addressbook/gui/widgets/ea-minicard-view.c:223
 msgid "evolution address book"
 msgstr ""
 
@@ -4834,10 +4920,6 @@ msgstr ""
 #: ../src/addressbook/gui/widgets/eab-contact-formatter.c:783
 msgid "Fax"
 msgstr "ფაქსი"
-
-#: ../src/addressbook/gui/widgets/eab-contact-formatter.c:785
-msgid "Phone"
-msgstr "ტელეფონი"
 
 #: ../src/addressbook/gui/widgets/eab-contact-formatter.c:931
 #: ../src/addressbook/gui/widgets/e-addressbook-view.etspec.h:5
@@ -5103,41 +5185,31 @@ msgstr ""
 msgid "Select Address Book"
 msgstr "არჩიეთ მისამართების წიგნი"
 
-#: ../src/addressbook/gui/widgets/eab-gui-util.c:396
+#: ../src/addressbook/gui/widgets/eab-gui-util.c:393
 msgid "list"
 msgstr "სია"
 
-#: ../src/addressbook/gui/widgets/eab-gui-util.c:585
+#: ../src/addressbook/gui/widgets/eab-gui-util.c:582
 msgid "Move contact to"
 msgstr ""
 
-#: ../src/addressbook/gui/widgets/eab-gui-util.c:587
+#: ../src/addressbook/gui/widgets/eab-gui-util.c:584
 msgid "Copy contact to"
 msgstr ""
 
-#: ../src/addressbook/gui/widgets/eab-gui-util.c:590
+#: ../src/addressbook/gui/widgets/eab-gui-util.c:587
 msgid "Move contacts to"
 msgstr ""
 
-#: ../src/addressbook/gui/widgets/eab-gui-util.c:592
+#: ../src/addressbook/gui/widgets/eab-gui-util.c:589
 msgid "Copy contacts to"
 msgstr ""
 
-#: ../src/addressbook/gui/widgets/e-addressbook-model.c:162
-msgid "No contacts"
-msgstr "კონტაქტების გარეშე"
-
-#: ../src/addressbook/gui/widgets/e-addressbook-model.c:166
-#, c-format
-msgid "%d contact"
-msgid_plural "%d contacts"
-msgstr[0] "%d კონტაქტი"
-
-#: ../src/addressbook/gui/widgets/e-addressbook-model.c:391
+#: ../src/addressbook/gui/widgets/e-addressbook-model.c:368
 msgid "Error getting book view"
 msgstr ""
 
-#: ../src/addressbook/gui/widgets/e-addressbook-model.c:860
+#: ../src/addressbook/gui/widgets/e-addressbook-model.c:836
 msgid "Search Interrupted"
 msgstr ""
 
@@ -5145,64 +5217,79 @@ msgstr ""
 msgid "Error modifying card"
 msgstr ""
 
-#: ../src/addressbook/gui/widgets/e-addressbook-view.c:767
+#: ../src/addressbook/gui/widgets/e-addressbook-view.c:347
+msgid "No contacts"
+msgstr "კონტაქტების გარეშე"
+
+#: ../src/addressbook/gui/widgets/e-addressbook-view.c:350
+#, c-format
+msgid "%u contact"
+msgid_plural "%u contacts"
+msgstr[0] "%u კონტაქტი"
+
+#: ../src/addressbook/gui/widgets/e-addressbook-view.c:979
 msgid "Cut selected contacts to the clipboard"
 msgstr ""
 
-#: ../src/addressbook/gui/widgets/e-addressbook-view.c:773
+#: ../src/addressbook/gui/widgets/e-addressbook-view.c:985
 msgid "Copy selected contacts to the clipboard"
 msgstr ""
 
-#: ../src/addressbook/gui/widgets/e-addressbook-view.c:779
+#: ../src/addressbook/gui/widgets/e-addressbook-view.c:991
 msgid "Paste contacts from the clipboard"
 msgstr ""
 
-#: ../src/addressbook/gui/widgets/e-addressbook-view.c:785
-#: ../src/modules/addressbook/e-book-shell-view-actions.c:1101
+#: ../src/addressbook/gui/widgets/e-addressbook-view.c:997
+#: ../src/modules/addressbook/e-book-shell-view-actions.c:1269
 msgid "Delete selected contacts"
 msgstr ""
 
-#: ../src/addressbook/gui/widgets/e-addressbook-view.c:791
+#: ../src/addressbook/gui/widgets/e-addressbook-view.c:1003
 msgid "Select all visible contacts"
 msgstr ""
 
-#: ../src/addressbook/gui/widgets/e-addressbook-view.c:1032
+#: ../src/addressbook/gui/widgets/e-addressbook-view.c:1281
+#: ../src/addressbook/gui/widgets/e-card-view.c:81
 msgid "Searching for the Contacts…"
 msgstr ""
 
-#: ../src/addressbook/gui/widgets/e-addressbook-view.c:1405
+#: ../src/addressbook/gui/widgets/e-addressbook-view.c:1458
+msgid "Failed to get contacts with unknown error"
+msgstr ""
+
+#: ../src/addressbook/gui/widgets/e-addressbook-view.c:1812
 msgid "Are you sure you want to delete these contact lists?"
 msgstr ""
 
-#: ../src/addressbook/gui/widgets/e-addressbook-view.c:1409
+#: ../src/addressbook/gui/widgets/e-addressbook-view.c:1816
 msgid "Are you sure you want to delete this contact list?"
 msgstr ""
 
-#: ../src/addressbook/gui/widgets/e-addressbook-view.c:1413
+#: ../src/addressbook/gui/widgets/e-addressbook-view.c:1820
 #, c-format
 msgid "Are you sure you want to delete this contact list (%s)?"
 msgstr ""
 
-#: ../src/addressbook/gui/widgets/e-addressbook-view.c:1419
+#: ../src/addressbook/gui/widgets/e-addressbook-view.c:1826
 msgid "Are you sure you want to delete these contacts?"
 msgstr ""
 
-#: ../src/addressbook/gui/widgets/e-addressbook-view.c:1423
+#: ../src/addressbook/gui/widgets/e-addressbook-view.c:1830
 msgid "Are you sure you want to delete this contact?"
 msgstr ""
 
-#: ../src/addressbook/gui/widgets/e-addressbook-view.c:1427
+#: ../src/addressbook/gui/widgets/e-addressbook-view.c:1834
 #, c-format
 msgid "Are you sure you want to delete this contact (%s)?"
 msgstr ""
 
-#: ../src/addressbook/gui/widgets/e-addressbook-view.c:1438
+#: ../src/addressbook/gui/widgets/e-addressbook-view.c:1845
 #: ../src/calendar/gui/e-comp-editor.c:2194
 #: ../src/e-util/e-accounts-window.c:1760 ../src/e-util/e-focus-tracker.c:816
 #: ../src/e-util/evolution-source-viewer.c:800
 #: ../src/e-util/e-webdav-browser.c:2857
 #: ../src/mail/e-mail-account-manager.c:739
-#: ../src/modules/addressbook/e-book-shell-view-actions.c:1173
+#: ../src/modules/addressbook/e-book-shell-view-actions.c:1341
 #: ../src/modules/calendar/e-cal-shell-view-actions.c:1640
 #: ../src/modules/calendar/e-memo-shell-view-actions.c:697
 #: ../src/modules/calendar/e-task-shell-view-actions.c:851
@@ -5213,7 +5300,7 @@ msgid "_Delete"
 msgstr "_წაშლა"
 
 #. Translators: This is shown for > 5 contacts.
-#: ../src/addressbook/gui/widgets/e-addressbook-view.c:1586
+#: ../src/addressbook/gui/widgets/e-addressbook-view.c:2026
 #, c-format
 msgid ""
 "Opening %d contacts will open %d new windows as well.\n"
@@ -5223,11 +5310,11 @@ msgid_plural ""
 "Do you really want to display all of these contacts?"
 msgstr[0] ""
 
-#: ../src/addressbook/gui/widgets/e-addressbook-view.c:1594
+#: ../src/addressbook/gui/widgets/e-addressbook-view.c:2034
 msgid "_Don’t Display"
 msgstr ""
 
-#: ../src/addressbook/gui/widgets/e-addressbook-view.c:1595
+#: ../src/addressbook/gui/widgets/e-addressbook-view.c:2035
 msgid "Display _All Contacts"
 msgstr ""
 
@@ -5342,7 +5429,7 @@ msgid "Title"
 msgstr "სათაური"
 
 #: ../src/addressbook/gui/widgets/e-addressbook-view.etspec.h:38
-#: ../src/calendar/gui/e-meeting-list-view.c:660
+#: ../src/calendar/gui/e-meeting-list-view.c:661
 #: ../src/calendar/gui/e-meeting-time-sel.etspec.h:5
 msgid "Role"
 msgstr "როლი"
@@ -5355,35 +5442,27 @@ msgstr "ვებგვერდი"
 msgid "Journal"
 msgstr "ჟურნალი"
 
-#: ../src/addressbook/gui/widgets/ea-minicard.c:31
-msgid "Open"
-msgstr "გახსნა"
-
-#: ../src/addressbook/gui/widgets/ea-minicard.c:157
-msgid "Contact List: "
-msgstr "კონტაქტების სია: "
-
-#: ../src/addressbook/gui/widgets/ea-minicard.c:158
-msgid "Contact: "
-msgstr "კონტაქტი: "
-
-#: ../src/addressbook/gui/widgets/ea-minicard.c:180
-msgid "evolution minicard"
+#: ../src/addressbook/gui/widgets/e-card-view.c:84
+msgid ""
+"Search for the Contact\n"
+"\n"
+"or double-click here to create a new Contact."
 msgstr ""
 
-#: ../src/addressbook/gui/widgets/ea-minicard-view.c:33
-msgid "New Contact"
-msgstr "ახალი"
-
-#: ../src/addressbook/gui/widgets/ea-minicard-view.c:34
-msgid "New Contact List"
+#: ../src/addressbook/gui/widgets/e-card-view.c:86
+msgid ""
+"There are no items to show in this view.\n"
+"\n"
+"Double-click here to create a new Contact."
 msgstr ""
 
-#: ../src/addressbook/gui/widgets/ea-minicard-view.c:206
-#, c-format
-msgid "current address book folder %s has %d card"
-msgid_plural "current address book folder %s has %d cards"
-msgstr[0] ""
+#: ../src/addressbook/gui/widgets/e-card-view.c:89
+msgid "Search for the Contact."
+msgstr "კონტაქტის ძებნა."
+
+#: ../src/addressbook/gui/widgets/e-card-view.c:91
+msgid "There are no items to show in this view."
+msgstr ""
 
 #: ../src/addressbook/gui/widgets/e-contact-map-window.c:374
 msgid "Contacts Map"
@@ -5407,45 +5486,6 @@ msgstr "და_პატარავება"
 #: ../src/shell/e-shell-window-actions.c:1042
 msgid "_Find"
 msgstr "_ძებნა"
-
-#: ../src/addressbook/gui/widgets/e-minicard-view.c:186
-msgid ""
-"\n"
-"\n"
-"Searching for the Contacts…"
-msgstr ""
-
-#: ../src/addressbook/gui/widgets/e-minicard-view.c:189
-msgid ""
-"\n"
-"\n"
-"Search for the Contact\n"
-"\n"
-"or double-click here to create a new Contact."
-msgstr ""
-
-#: ../src/addressbook/gui/widgets/e-minicard-view.c:192
-msgid ""
-"\n"
-"\n"
-"There are no items to show in this view.\n"
-"\n"
-"Double-click here to create a new Contact."
-msgstr ""
-
-#: ../src/addressbook/gui/widgets/e-minicard-view.c:196
-msgid ""
-"\n"
-"\n"
-"Search for the Contact."
-msgstr ""
-
-#: ../src/addressbook/gui/widgets/e-minicard-view.c:198
-msgid ""
-"\n"
-"\n"
-"There are no items to show in this view."
-msgstr ""
 
 #: ../src/addressbook/importers/evolution-csv-importer.c:796
 #: ../src/addressbook/importers/evolution-ldif-importer.c:547
@@ -6276,20 +6316,6 @@ msgstr ""
 msgid "Summary"
 msgstr "შეჯამება"
 
-#: ../src/calendar/gui/caltypes.xml.in.h:2
-#: ../src/calendar/gui/memotypes.xml.in.h:2
-#: ../src/calendar/gui/tasktypes.xml.in.h:2 ../src/mail/filtertypes.xml.in.h:2
-#: ../src/mail/searchtypes.xml.in.h:2 ../src/mail/vfoldertypes.xml.in.h:2
-msgid "contains"
-msgstr "შეიცავს"
-
-#: ../src/calendar/gui/caltypes.xml.in.h:3
-#: ../src/calendar/gui/memotypes.xml.in.h:3
-#: ../src/calendar/gui/tasktypes.xml.in.h:3 ../src/mail/filtertypes.xml.in.h:3
-#: ../src/mail/searchtypes.xml.in.h:3 ../src/mail/vfoldertypes.xml.in.h:3
-msgid "does not contain"
-msgstr "არ შეიცავს"
-
 #: ../src/calendar/gui/caltypes.xml.in.h:4
 #: ../src/calendar/gui/e-cal-list-view.etspec.h:4
 #: ../src/calendar/gui/memotypes.xml.in.h:4
@@ -6311,20 +6337,6 @@ msgstr "ნებისმიერი ველი"
 #: ../src/calendar/gui/memotypes.xml.in.h:7
 msgid "Classification"
 msgstr "კლასიფიკაცია"
-
-#: ../src/calendar/gui/caltypes.xml.in.h:7
-#: ../src/calendar/gui/memotypes.xml.in.h:8
-#: ../src/calendar/gui/tasktypes.xml.in.h:9 ../src/mail/filtertypes.xml.in.h:4
-#: ../src/mail/searchtypes.xml.in.h:4 ../src/mail/vfoldertypes.xml.in.h:4
-msgid "is"
-msgstr "არის"
-
-#: ../src/calendar/gui/caltypes.xml.in.h:8
-#: ../src/calendar/gui/memotypes.xml.in.h:9
-#: ../src/calendar/gui/tasktypes.xml.in.h:10 ../src/mail/filtertypes.xml.in.h:5
-#: ../src/mail/searchtypes.xml.in.h:5 ../src/mail/vfoldertypes.xml.in.h:5
-msgid "is not"
-msgstr "არ არის"
 
 #: ../src/calendar/gui/caltypes.xml.in.h:9
 #: ../src/calendar/gui/e-cal-list-view.c:289
@@ -6359,7 +6371,7 @@ msgid "Organizer"
 msgstr "ორგანიზატორი"
 
 #: ../src/calendar/gui/caltypes.xml.in.h:13
-#: ../src/calendar/gui/e-meeting-list-view.c:620
+#: ../src/calendar/gui/e-meeting-list-view.c:621
 #: ../src/calendar/gui/e-meeting-time-sel.etspec.h:2
 #: ../src/calendar/gui/tasktypes.xml.in.h:6
 msgid "Attendee"
@@ -6374,13 +6386,6 @@ msgstr "მონაწილე"
 #: ../src/plugins/save-calendar/csv-format.c:376
 msgid "Location"
 msgstr "მდებარეობა"
-
-#: ../src/calendar/gui/caltypes.xml.in.h:15
-#: ../src/calendar/gui/memotypes.xml.in.h:13
-#: ../src/calendar/gui/tasktypes.xml.in.h:23
-#: ../src/e-util/e-categories-selector.c:324
-msgid "Category"
-msgstr "კატეგორია"
 
 #: ../src/calendar/gui/caltypes.xml.in.h:16
 #: ../src/calendar/gui/memotypes.xml.in.h:14
@@ -6428,14 +6433,6 @@ msgstr "ზუსტად"
 #: ../src/calendar/gui/caltypes.xml.in.h:23
 msgid "More Than"
 msgstr "მეტი, ვიდრე"
-
-#: ../src/calendar/gui/caltypes.xml.in.h:24
-#: ../src/calendar/gui/memotypes.xml.in.h:17
-#: ../src/calendar/gui/tasktypes.xml.in.h:35
-#: ../src/mail/filtertypes.xml.in.h:23 ../src/mail/searchtypes.xml.in.h:25
-#: ../src/mail/vfoldertypes.xml.in.h:25
-msgid "Expression"
-msgstr "გამოსახულება"
 
 #: ../src/calendar/gui/caltypes.xml.in.h:25
 #: ../src/calendar/gui/memotypes.xml.in.h:18
@@ -6553,7 +6550,7 @@ msgstr "საჭიროებს ქმედებას"
 #. * Status: Accepted: X   Declined: Y   ...
 #: ../src/calendar/gui/comp-util.c:2029
 #: ../src/calendar/gui/e-cal-list-view.etspec.h:10
-#: ../src/calendar/gui/e-meeting-list-view.c:689
+#: ../src/calendar/gui/e-meeting-list-view.c:690
 #: ../src/calendar/gui/e-meeting-time-sel.etspec.h:9
 #: ../src/calendar/gui/e-memo-table.etspec.h:9
 #: ../src/calendar/gui/e-task-table.etspec.h:11
@@ -6857,7 +6854,7 @@ msgid "calendar view for one or more weeks"
 msgstr ""
 
 #: ../src/calendar/gui/e-cal-component-preview.c:241
-#: ../src/e-util/e-filter-rule.c:1016 ../src/mail/e-mail-config-page.c:124
+#: ../src/e-util/e-filter-rule.c:1028 ../src/mail/e-mail-config-page.c:124
 msgid "Untitled"
 msgstr "უსახელო"
 
@@ -7231,7 +7228,7 @@ msgid "Source"
 msgstr "წყარო"
 
 #: ../src/calendar/gui/e-cal-list-view.etspec.h:11
-#: ../src/calendar/gui/e-meeting-list-view.c:646
+#: ../src/calendar/gui/e-meeting-list-view.c:647
 #: ../src/calendar/gui/e-meeting-time-sel.etspec.h:4
 #: ../src/calendar/gui/e-memo-table.etspec.h:3
 #: ../src/calendar/gui/e-task-table.etspec.h:3
@@ -8629,13 +8626,13 @@ msgstr ""
 
 #: ../src/calendar/gui/e-comp-editor.c:2215
 #: ../src/composer/e-composer-actions.c:387 ../src/mail/e-mail-reader.c:2909
-#: ../src/modules/addressbook/e-book-shell-view-actions.c:1319
-#: ../src/modules/addressbook/e-book-shell-view-actions.c:1333
+#: ../src/modules/addressbook/e-book-shell-view-actions.c:1501
+#: ../src/modules/addressbook/e-book-shell-view-actions.c:1515
 msgid "_Print…"
 msgstr "_ბეჭდვა…"
 
 #: ../src/calendar/gui/e-comp-editor.c:2222 ../src/mail/e-mail-reader.c:2916
-#: ../src/modules/addressbook/e-book-shell-view-actions.c:1326
+#: ../src/modules/addressbook/e-book-shell-view-actions.c:1508
 #: ../src/modules/calendar/e-cal-shell-view-actions.c:1921
 #: ../src/modules/calendar/e-memo-shell-view-actions.c:838
 #: ../src/modules/calendar/e-task-shell-view-actions.c:1067
@@ -8857,7 +8854,7 @@ msgid "Needs Action"
 msgstr ""
 
 #. To translators: RSVP means "please reply"
-#: ../src/calendar/gui/e-meeting-list-view.c:675
+#: ../src/calendar/gui/e-meeting-list-view.c:676
 #: ../src/calendar/gui/e-meeting-time-sel.etspec.h:6
 msgid "RSVP"
 msgstr "RSVP"
@@ -11901,15 +11898,6 @@ msgid "Format part as an RFC822 message"
 msgstr ""
 
 #: ../src/em-format/e-mail-formatter-print.c:50
-#: ../src/e-util/e-webdav-browser.c:2501
-#: ../src/e-util/gal-view-instance-save-as-dialog.c:92
-#: ../src/mail/e-mail-label-tree-view.c:96
-#: ../src/modules/plugin-manager/evolution-plugin-manager.c:64
-#: ../src/modules/rss/evolution/e-rss-preferences.c:1687
-msgid "Name"
-msgstr ""
-
-#: ../src/em-format/e-mail-formatter-print.c:50
 #: ../src/e-util/e-attachment-tree-view.c:193
 #: ../src/mail/message-list.etspec.h:10
 msgid "Size"
@@ -12402,7 +12390,7 @@ msgstr ""
 #. *              percent complete is known.
 #. Translators: This is a running activity whose percent complete is known.
 #: ../src/e-util/e-activity.c:269
-#: ../src/modules/addressbook/e-book-shell-view-private.c:334
+#: ../src/modules/addressbook/e-book-shell-view-private.c:234
 #: ../src/modules/calendar/e-cal-base-shell-content.c:143
 #, c-format
 msgid "%s (%d%% complete)"
@@ -12584,7 +12572,7 @@ msgid "A_dd Attachment…"
 msgstr ""
 
 #: ../src/e-util/e-attachment-view.c:395
-#: ../src/modules/addressbook/e-book-shell-view-actions.c:1181
+#: ../src/modules/addressbook/e-book-shell-view-actions.c:1349
 #: ../src/modules/calendar/e-cal-shell-view-actions.c:1362
 #: ../src/modules/calendar/e-memo-shell-view-actions.c:619
 #: ../src/modules/calendar/e-task-shell-view-actions.c:745
@@ -13631,23 +13619,23 @@ msgstr ""
 msgid "Choose a File"
 msgstr ""
 
-#: ../src/e-util/e-filter-rule.c:1009
+#: ../src/e-util/e-filter-rule.c:1021
 msgid "R_ule name:"
 msgstr ""
 
-#: ../src/e-util/e-filter-rule.c:1065
+#: ../src/e-util/e-filter-rule.c:1077
 msgid "all the following conditions"
 msgstr ""
 
-#: ../src/e-util/e-filter-rule.c:1066
+#: ../src/e-util/e-filter-rule.c:1078
 msgid "any of the following conditions"
 msgstr ""
 
-#: ../src/e-util/e-filter-rule.c:1072
+#: ../src/e-util/e-filter-rule.c:1084
 msgid "_Find items which match:"
 msgstr ""
 
-#: ../src/e-util/e-filter-rule.c:1095
+#: ../src/e-util/e-filter-rule.c:1107
 msgid "Find items that meet the following conditions"
 msgstr ""
 
@@ -13655,7 +13643,7 @@ msgstr ""
 #. * part of "Include threads: None"
 #. protocol:
 #. name:
-#: ../src/e-util/e-filter-rule.c:1110
+#: ../src/e-util/e-filter-rule.c:1122
 #: ../src/e-util/e-html-editor-page-dialog.c:62
 #: ../src/e-util/e-mail-identity-combo-box.c:798
 #: ../src/e-util/e-mail-signature-combo-box.c:422
@@ -13666,36 +13654,36 @@ msgstr ""
 msgid "None"
 msgstr "არცერთი"
 
-#: ../src/e-util/e-filter-rule.c:1111
+#: ../src/e-util/e-filter-rule.c:1123
 msgid "All related"
 msgstr ""
 
-#: ../src/e-util/e-filter-rule.c:1112 ../src/e-util/e-send-options.ui.h:24
+#: ../src/e-util/e-filter-rule.c:1124 ../src/e-util/e-send-options.ui.h:24
 msgid "Replies"
 msgstr ""
 
-#: ../src/e-util/e-filter-rule.c:1113
+#: ../src/e-util/e-filter-rule.c:1125
 msgid "Replies and parents"
 msgstr ""
 
-#: ../src/e-util/e-filter-rule.c:1114
+#: ../src/e-util/e-filter-rule.c:1126
 msgid "No reply or parent"
 msgstr ""
 
-#: ../src/e-util/e-filter-rule.c:1117
+#: ../src/e-util/e-filter-rule.c:1129
 msgid "I_nclude threads:"
 msgstr ""
 
-#: ../src/e-util/e-filter-rule.c:1195
+#: ../src/e-util/e-filter-rule.c:1207
 msgid "A_dd Condition"
 msgstr ""
 
-#: ../src/e-util/e-filter-rule.c:1515 ../src/e-util/filter.ui.h:1
-#: ../src/mail/em-filter-rule.c:986 ../src/mail/em-utils.c:166
+#: ../src/e-util/e-filter-rule.c:1527 ../src/e-util/filter.ui.h:1
+#: ../src/mail/em-filter-rule.c:997 ../src/mail/em-utils.c:166
 msgid "Incoming"
 msgstr "შემომავალი"
 
-#: ../src/e-util/e-filter-rule.c:1515 ../src/mail/em-filter-rule.c:987
+#: ../src/e-util/e-filter-rule.c:1527 ../src/mail/em-filter-rule.c:998
 #: ../src/mail/em-utils.c:167
 msgid "Outgoing"
 msgstr "გამავალი"
@@ -14670,7 +14658,7 @@ msgstr ""
 
 #: ../src/e-util/e-html-editor-page-dialog.c:467
 msgid "_Background:"
-msgstr ""
+msgstr "_ფონი:"
 
 #. == Text ==
 #: ../src/e-util/e-html-editor-page-dialog.c:475
@@ -15036,7 +15024,7 @@ msgstr "_ჩაწერა"
 
 #: ../src/e-util/e-markdown-editor.c:1706
 #: ../src/e-util/e-markdown-editor.c:2282
-#: ../src/modules/addressbook/e-book-shell-view-actions.c:1164
+#: ../src/modules/addressbook/e-book-shell-view-actions.c:1332
 #: ../src/modules/calendar/e-cal-shell-view-actions.c:1623
 #: ../src/modules/calendar/e-memo-shell-view-actions.c:684
 #: ../src/modules/calendar/e-task-shell-view-actions.c:838
@@ -15220,7 +15208,7 @@ msgstr ""
 
 #: ../src/e-util/e-name-selector-dialog.c:363
 #: ../src/e-util/e-name-selector-dialog.c:1321
-#: ../src/modules/addressbook/e-book-shell-view-actions.c:1271
+#: ../src/modules/addressbook/e-book-shell-view-actions.c:1439
 #: ../src/modules/calendar/e-cal-shell-view-actions.c:1852
 #: ../src/modules/calendar/e-memo-shell-view-actions.c:783
 #: ../src/modules/calendar/e-task-shell-view-actions.c:956
@@ -15516,7 +15504,7 @@ msgstr ""
 #: ../src/e-util/e-send-options.ui.h:28
 msgctxt "ESendOptionsAfter"
 msgid "_After"
-msgstr ""
+msgstr "_შემდეგ"
 
 #. Translators: This is part of
 #: ../src/e-util/e-send-options.ui.h:30
@@ -18739,7 +18727,7 @@ msgid "If any of the following conditions are met"
 msgstr ""
 
 #. and now for the action area
-#: ../src/mail/em-filter-editor.c:211 ../src/mail/em-filter-rule.c:1011
+#: ../src/mail/em-filter-editor.c:211 ../src/mail/em-filter-rule.c:1022
 msgid "Then"
 msgstr ""
 
@@ -18756,20 +18744,20 @@ msgid "Default Account"
 msgstr ""
 
 #. Translators: This is in a Mail filter rule editor, part of "For account: [ Any   ]" section
-#: ../src/mail/em-filter-rule.c:880
+#: ../src/mail/em-filter-rule.c:891
 msgctxt "mail-filter-rule"
 msgid "Any"
 msgstr "ნებისმიერი"
 
-#: ../src/mail/em-filter-rule.c:981
+#: ../src/mail/em-filter-rule.c:992
 msgid "Rul_e type:"
 msgstr ""
 
-#: ../src/mail/em-filter-rule.c:999
+#: ../src/mail/em-filter-rule.c:1010
 msgid "_For Account:"
 msgstr ""
 
-#: ../src/mail/em-filter-rule.c:1084
+#: ../src/mail/em-filter-rule.c:1095
 msgid "Add Ac_tion"
 msgstr ""
 
@@ -19101,7 +19089,7 @@ msgid "Stop the current operation"
 msgstr ""
 
 #: ../src/mail/em-subscription-editor.c:1961
-#: ../src/modules/addressbook/e-book-shell-view-actions.c:1085
+#: ../src/modules/addressbook/e-book-shell-view-actions.c:1253
 msgid "_Stop"
 msgstr "_შეჩერება"
 
@@ -19181,20 +19169,10 @@ msgstr ""
 msgid "Sender"
 msgstr "გამგზავნი"
 
-#: ../src/mail/filtertypes.xml.in.h:6 ../src/mail/searchtypes.xml.in.h:6
-#: ../src/mail/vfoldertypes.xml.in.h:6
-msgid "starts with"
-msgstr "იწყება"
-
 #: ../src/mail/filtertypes.xml.in.h:7 ../src/mail/searchtypes.xml.in.h:7
 #: ../src/mail/vfoldertypes.xml.in.h:7
 msgid "does not start with"
 msgstr "არ იწყება"
-
-#: ../src/mail/filtertypes.xml.in.h:8 ../src/mail/searchtypes.xml.in.h:8
-#: ../src/mail/vfoldertypes.xml.in.h:8
-msgid "ends with"
-msgstr "მთავრდება"
 
 #: ../src/mail/filtertypes.xml.in.h:9 ../src/mail/searchtypes.xml.in.h:9
 #: ../src/mail/vfoldertypes.xml.in.h:9
@@ -20677,7 +20655,7 @@ msgstr ""
 
 #: ../src/mail/mail.error.xml.h:134
 msgid "_Synchronize"
-msgstr ""
+msgstr "_სინქრონიზაცია"
 
 #: ../src/mail/mail.error.xml.h:135
 msgid "Do you want to mark all messages as read?"
@@ -21275,7 +21253,7 @@ msgid "C_alendar"
 msgstr "_კალენდარი"
 
 #: ../src/modules/accounts-window/e-accounts-window-editors.c:487
-#: ../src/modules/addressbook/e-book-shell-backend.c:269
+#: ../src/modules/addressbook/e-book-shell-backend.c:256
 #: ../src/modules/addressbook/e-book-shell-view-actions.c:139
 msgid "New Address Book"
 msgstr ""
@@ -21431,111 +21409,116 @@ msgstr "საკონტაქტო ინფორმაცია"
 msgid "Contact information for %s"
 msgstr ""
 
-#: ../src/modules/addressbook/e-book-shell-backend.c:278
+#: ../src/modules/addressbook/e-book-shell-backend.c:265
 msgctxt "New"
 msgid "_Contact"
 msgstr "_კონტაქტი"
 
-#: ../src/modules/addressbook/e-book-shell-backend.c:280
-#: ../src/modules/addressbook/e-book-shell-view-actions.c:1129
+#: ../src/modules/addressbook/e-book-shell-backend.c:267
+#: ../src/modules/addressbook/e-book-shell-view-actions.c:1297
 msgid "Create a new contact"
 msgstr "ახალი კონტაქტის შექმნა"
 
-#: ../src/modules/addressbook/e-book-shell-backend.c:285
+#: ../src/modules/addressbook/e-book-shell-backend.c:272
 msgctxt "New"
 msgid "Contact _List"
 msgstr ""
 
-#: ../src/modules/addressbook/e-book-shell-backend.c:287
-#: ../src/modules/addressbook/e-book-shell-view-actions.c:1136
+#: ../src/modules/addressbook/e-book-shell-backend.c:274
+#: ../src/modules/addressbook/e-book-shell-view-actions.c:1304
 msgid "Create a new contact list"
 msgstr ""
 
-#: ../src/modules/addressbook/e-book-shell-backend.c:295
+#: ../src/modules/addressbook/e-book-shell-backend.c:282
 msgctxt "New"
 msgid "Address _Book"
 msgstr ""
 
-#: ../src/modules/addressbook/e-book-shell-backend.c:297
-#: ../src/modules/addressbook/e-book-shell-view-actions.c:1045
+#: ../src/modules/addressbook/e-book-shell-backend.c:284
+#: ../src/modules/addressbook/e-book-shell-view-actions.c:1213
 msgid "Create a new address book"
 msgstr ""
 
 #. Translators: This is a save dialog title
-#: ../src/modules/addressbook/e-book-shell-view-actions.c:607
-#: ../src/modules/addressbook/e-book-shell-view-actions.c:908
+#: ../src/modules/addressbook/e-book-shell-view-actions.c:605
+#: ../src/modules/addressbook/e-book-shell-view-actions.c:962
 msgid "Save as vCard"
 msgstr ""
 
-#: ../src/modules/addressbook/e-book-shell-view-actions.c:1015
+#: ../src/modules/addressbook/e-book-shell-view-actions.c:716
+#: ../src/modules/addressbook/e-book-shell-view.c:658
+msgid "Retrieving selected contacts…"
+msgstr ""
+
+#: ../src/modules/addressbook/e-book-shell-view-actions.c:1183
 msgid "Co_py All Contacts To…"
 msgstr ""
 
-#: ../src/modules/addressbook/e-book-shell-view-actions.c:1017
+#: ../src/modules/addressbook/e-book-shell-view-actions.c:1185
 msgid "Copy the contacts of the selected address book to another"
 msgstr ""
 
-#: ../src/modules/addressbook/e-book-shell-view-actions.c:1022
+#: ../src/modules/addressbook/e-book-shell-view-actions.c:1190
 msgid "D_elete Address Book"
 msgstr ""
 
-#: ../src/modules/addressbook/e-book-shell-view-actions.c:1024
+#: ../src/modules/addressbook/e-book-shell-view-actions.c:1192
 msgid "Delete the selected address book"
 msgstr ""
 
-#: ../src/modules/addressbook/e-book-shell-view-actions.c:1029
+#: ../src/modules/addressbook/e-book-shell-view-actions.c:1197
 msgid "_Manage Address Book groups…"
 msgstr ""
 
-#: ../src/modules/addressbook/e-book-shell-view-actions.c:1031
+#: ../src/modules/addressbook/e-book-shell-view-actions.c:1199
 #: ../src/modules/calendar/e-task-shell-view-actions.c:733
 msgid "Manage task list groups order and visibility"
 msgstr ""
 
-#: ../src/modules/addressbook/e-book-shell-view-actions.c:1036
+#: ../src/modules/addressbook/e-book-shell-view-actions.c:1204
 msgid "Mo_ve All Contacts To…"
 msgstr ""
 
-#: ../src/modules/addressbook/e-book-shell-view-actions.c:1038
+#: ../src/modules/addressbook/e-book-shell-view-actions.c:1206
 msgid "Move the contacts of the selected address book to another"
 msgstr ""
 
-#: ../src/modules/addressbook/e-book-shell-view-actions.c:1043
+#: ../src/modules/addressbook/e-book-shell-view-actions.c:1211
 msgid "_New Address Book"
 msgstr ""
 
-#: ../src/modules/addressbook/e-book-shell-view-actions.c:1050
+#: ../src/modules/addressbook/e-book-shell-view-actions.c:1218
 msgid "Address _Book Properties"
 msgstr ""
 
-#: ../src/modules/addressbook/e-book-shell-view-actions.c:1052
+#: ../src/modules/addressbook/e-book-shell-view-actions.c:1220
 msgid "Show properties of the selected address book"
 msgstr ""
 
-#: ../src/modules/addressbook/e-book-shell-view-actions.c:1057
+#: ../src/modules/addressbook/e-book-shell-view-actions.c:1225
 #: ../src/modules/calendar/e-cal-shell-view-actions.c:1376
 #: ../src/modules/calendar/e-memo-shell-view-actions.c:626
 #: ../src/modules/calendar/e-task-shell-view-actions.c:752
 msgid "Re_fresh"
 msgstr "_განახლება"
 
-#: ../src/modules/addressbook/e-book-shell-view-actions.c:1059
+#: ../src/modules/addressbook/e-book-shell-view-actions.c:1227
 msgid "Refresh the selected address book"
 msgstr ""
 
-#: ../src/modules/addressbook/e-book-shell-view-actions.c:1064
+#: ../src/modules/addressbook/e-book-shell-view-actions.c:1232
 msgid "Re_fresh list of account address books"
 msgstr ""
 
-#: ../src/modules/addressbook/e-book-shell-view-actions.c:1071
+#: ../src/modules/addressbook/e-book-shell-view-actions.c:1239
 msgid "Address Book _Map"
 msgstr ""
 
-#: ../src/modules/addressbook/e-book-shell-view-actions.c:1073
+#: ../src/modules/addressbook/e-book-shell-view-actions.c:1241
 msgid "Show map with all contacts from selected address book"
 msgstr ""
 
-#: ../src/modules/addressbook/e-book-shell-view-actions.c:1078
+#: ../src/modules/addressbook/e-book-shell-view-actions.c:1246
 #: ../src/modules/calendar/e-cal-shell-view-actions.c:1390
 #: ../src/modules/calendar/e-memo-shell-view-actions.c:640
 #: ../src/modules/calendar/e-task-shell-view-actions.c:766
@@ -21543,119 +21526,119 @@ msgstr ""
 msgid "_Rename…"
 msgstr "_გადარქმევა…"
 
-#: ../src/modules/addressbook/e-book-shell-view-actions.c:1080
+#: ../src/modules/addressbook/e-book-shell-view-actions.c:1248
 msgid "Rename the selected address book"
 msgstr ""
 
-#: ../src/modules/addressbook/e-book-shell-view-actions.c:1087
+#: ../src/modules/addressbook/e-book-shell-view-actions.c:1255
 msgid "Stop loading"
 msgstr "ჩატვირთვის შეჩერება"
 
-#: ../src/modules/addressbook/e-book-shell-view-actions.c:1092
+#: ../src/modules/addressbook/e-book-shell-view-actions.c:1260
 msgid "_Copy Contact To…"
 msgstr ""
 
-#: ../src/modules/addressbook/e-book-shell-view-actions.c:1094
+#: ../src/modules/addressbook/e-book-shell-view-actions.c:1262
 msgid "Copy selected contacts to another address book"
 msgstr ""
 
-#: ../src/modules/addressbook/e-book-shell-view-actions.c:1099
+#: ../src/modules/addressbook/e-book-shell-view-actions.c:1267
 msgid "_Delete Contact"
 msgstr ""
 
-#: ../src/modules/addressbook/e-book-shell-view-actions.c:1106
+#: ../src/modules/addressbook/e-book-shell-view-actions.c:1274
 msgid "_Find in Contact…"
 msgstr ""
 
-#: ../src/modules/addressbook/e-book-shell-view-actions.c:1108
+#: ../src/modules/addressbook/e-book-shell-view-actions.c:1276
 msgid "Search for text in the displayed contact"
 msgstr ""
 
-#: ../src/modules/addressbook/e-book-shell-view-actions.c:1113
+#: ../src/modules/addressbook/e-book-shell-view-actions.c:1281
 msgid "_Forward Contact…"
 msgstr ""
 
-#: ../src/modules/addressbook/e-book-shell-view-actions.c:1115
+#: ../src/modules/addressbook/e-book-shell-view-actions.c:1283
 msgid "Send selected contacts to another person"
 msgstr ""
 
-#: ../src/modules/addressbook/e-book-shell-view-actions.c:1120
+#: ../src/modules/addressbook/e-book-shell-view-actions.c:1288
 msgid "_Move Contact To…"
 msgstr ""
 
-#: ../src/modules/addressbook/e-book-shell-view-actions.c:1122
+#: ../src/modules/addressbook/e-book-shell-view-actions.c:1290
 msgid "Move selected contacts to another address book"
 msgstr ""
 
-#: ../src/modules/addressbook/e-book-shell-view-actions.c:1127
+#: ../src/modules/addressbook/e-book-shell-view-actions.c:1295
 msgid "_New Contact…"
 msgstr ""
 
-#: ../src/modules/addressbook/e-book-shell-view-actions.c:1134
+#: ../src/modules/addressbook/e-book-shell-view-actions.c:1302
 msgid "New Contact _List…"
 msgstr ""
 
-#: ../src/modules/addressbook/e-book-shell-view-actions.c:1141
+#: ../src/modules/addressbook/e-book-shell-view-actions.c:1309
 msgid "_Open Contact"
 msgstr ""
 
-#: ../src/modules/addressbook/e-book-shell-view-actions.c:1143
+#: ../src/modules/addressbook/e-book-shell-view-actions.c:1311
 msgid "View the current contact"
 msgstr ""
 
-#: ../src/modules/addressbook/e-book-shell-view-actions.c:1148
+#: ../src/modules/addressbook/e-book-shell-view-actions.c:1316
 msgid "_Send Message to Contact…"
 msgstr ""
 
-#: ../src/modules/addressbook/e-book-shell-view-actions.c:1150
+#: ../src/modules/addressbook/e-book-shell-view-actions.c:1318
 msgid "Send a message to the selected contacts"
 msgstr ""
 
-#: ../src/modules/addressbook/e-book-shell-view-actions.c:1157
+#: ../src/modules/addressbook/e-book-shell-view-actions.c:1325
 #: ../src/modules/calendar/e-cal-shell-view-actions.c:1616
 #: ../src/modules/calendar/e-task-shell-view-actions.c:831
 msgid "_Actions"
 msgstr "მოქმედებები"
 
-#: ../src/modules/addressbook/e-book-shell-view-actions.c:1177
+#: ../src/modules/addressbook/e-book-shell-view-actions.c:1345
 #: ../src/modules/calendar/e-cal-shell-view-actions.c:1652
 #: ../src/modules/calendar/e-memo-shell-view-actions.c:701
 #: ../src/modules/calendar/e-task-shell-view-actions.c:855
 msgid "_Manage groups…"
 msgstr ""
 
-#: ../src/modules/addressbook/e-book-shell-view-actions.c:1193
+#: ../src/modules/addressbook/e-book-shell-view-actions.c:1361
 msgid "Address Book Map"
 msgstr ""
 
-#: ../src/modules/addressbook/e-book-shell-view-actions.c:1225
+#: ../src/modules/addressbook/e-book-shell-view-actions.c:1393
 msgid "Contact _Preview"
 msgstr ""
 
-#: ../src/modules/addressbook/e-book-shell-view-actions.c:1227
+#: ../src/modules/addressbook/e-book-shell-view-actions.c:1395
 msgid "Show contact preview window"
 msgstr ""
 
-#: ../src/modules/addressbook/e-book-shell-view-actions.c:1233
+#: ../src/modules/addressbook/e-book-shell-view-actions.c:1401
 msgid "Show _Maps"
 msgstr ""
 
-#: ../src/modules/addressbook/e-book-shell-view-actions.c:1235
+#: ../src/modules/addressbook/e-book-shell-view-actions.c:1403
 msgid "Show maps in contact preview window"
 msgstr ""
 
-#: ../src/modules/addressbook/e-book-shell-view-actions.c:1254
+#: ../src/modules/addressbook/e-book-shell-view-actions.c:1422
 #: ../src/modules/calendar/e-memo-shell-view-actions.c:766
 #: ../src/modules/calendar/e-task-shell-view-actions.c:932
 #: ../src/modules/mail/e-mail-shell-view-actions.c:2010
 msgid "_Classic View"
 msgstr ""
 
-#: ../src/modules/addressbook/e-book-shell-view-actions.c:1256
+#: ../src/modules/addressbook/e-book-shell-view-actions.c:1424
 msgid "Show contact preview below the contact list"
 msgstr ""
 
-#: ../src/modules/addressbook/e-book-shell-view-actions.c:1261
+#: ../src/modules/addressbook/e-book-shell-view-actions.c:1429
 #: ../src/modules/calendar/e-cal-shell-view-actions.c:1835
 #: ../src/modules/calendar/e-memo-shell-view-actions.c:773
 #: ../src/modules/calendar/e-task-shell-view-actions.c:939
@@ -21663,15 +21646,15 @@ msgstr ""
 msgid "_Vertical View"
 msgstr ""
 
-#: ../src/modules/addressbook/e-book-shell-view-actions.c:1263
+#: ../src/modules/addressbook/e-book-shell-view-actions.c:1431
 msgid "Show contact preview alongside the contact list"
 msgstr ""
 
-#: ../src/modules/addressbook/e-book-shell-view-actions.c:1278
+#: ../src/modules/addressbook/e-book-shell-view-actions.c:1446
 msgid "Unmatched"
 msgstr ""
 
-#: ../src/modules/addressbook/e-book-shell-view-actions.c:1288
+#: ../src/modules/addressbook/e-book-shell-view-actions.c:1456
 #: ../src/modules/calendar/e-cal-shell-view-actions.c:1883
 #: ../src/modules/calendar/e-memo-shell-view-actions.c:800
 #: ../src/modules/calendar/e-task-shell-view-actions.c:1029
@@ -21680,53 +21663,53 @@ msgstr ""
 msgid "Advanced Search"
 msgstr "გაფართოებული ძებნა"
 
-#: ../src/modules/addressbook/e-book-shell-view-actions.c:1321
+#: ../src/modules/addressbook/e-book-shell-view-actions.c:1503
 msgid "Print all shown contacts"
 msgstr ""
 
-#: ../src/modules/addressbook/e-book-shell-view-actions.c:1328
+#: ../src/modules/addressbook/e-book-shell-view-actions.c:1510
 msgid "Preview the contacts to be printed"
 msgstr ""
 
-#: ../src/modules/addressbook/e-book-shell-view-actions.c:1335
+#: ../src/modules/addressbook/e-book-shell-view-actions.c:1517
 msgid "Print selected contacts"
 msgstr ""
 
-#: ../src/modules/addressbook/e-book-shell-view-actions.c:1350
+#: ../src/modules/addressbook/e-book-shell-view-actions.c:1532
 msgid "S_ave Address Book as vCard"
 msgstr ""
 
-#: ../src/modules/addressbook/e-book-shell-view-actions.c:1352
+#: ../src/modules/addressbook/e-book-shell-view-actions.c:1534
 msgid "Save the contacts of the selected address book as a vCard"
 msgstr ""
 
 #. Translators: This is an action label
-#: ../src/modules/addressbook/e-book-shell-view-actions.c:1358
-#: ../src/modules/addressbook/e-book-shell-view-actions.c:1368
+#: ../src/modules/addressbook/e-book-shell-view-actions.c:1540
+#: ../src/modules/addressbook/e-book-shell-view-actions.c:1550
 msgid "_Save as vCard…"
 msgstr ""
 
-#: ../src/modules/addressbook/e-book-shell-view-actions.c:1360
+#: ../src/modules/addressbook/e-book-shell-view-actions.c:1542
 msgid "Save selected contacts as a vCard"
 msgstr ""
 
-#: ../src/modules/addressbook/e-book-shell-view.c:368
+#: ../src/modules/addressbook/e-book-shell-view.c:372
 msgid "_Forward Contacts"
 msgstr ""
 
-#: ../src/modules/addressbook/e-book-shell-view.c:370
+#: ../src/modules/addressbook/e-book-shell-view.c:374
 msgid "_Forward Contact"
 msgstr ""
 
-#: ../src/modules/addressbook/e-book-shell-view.c:401
+#: ../src/modules/addressbook/e-book-shell-view.c:405
 msgid "_Send Message to Contacts"
 msgstr ""
 
-#: ../src/modules/addressbook/e-book-shell-view.c:403
+#: ../src/modules/addressbook/e-book-shell-view.c:407
 msgid "_Send Message to List"
 msgstr ""
 
-#: ../src/modules/addressbook/e-book-shell-view.c:405
+#: ../src/modules/addressbook/e-book-shell-view.c:409
 msgid "_Send Message to Contact"
 msgstr ""
 
@@ -28274,3 +28257,15 @@ msgstr ""
 #: ../src/smime/lib/e-pkcs12.c:471
 msgid "Imported Certificate"
 msgstr ""
+
+#~ msgid "Open"
+#~ msgstr "გახსნა"
+
+#~ msgid "Contact List: "
+#~ msgstr "კონტაქტების სია: "
+
+#~ msgid "Contact: "
+#~ msgstr "კონტაქტი: "
+
+#~ msgid "New Contact"
+#~ msgstr "ახალი"
