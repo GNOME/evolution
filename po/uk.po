@@ -12,8 +12,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: evolution\n"
 "Report-Msgid-Bugs-To: https://gitlab.gnome.org/GNOME/evolution/issues\n"
-"POT-Creation-Date: 2023-06-29 14:31+0000\n"
-"PO-Revision-Date: 2023-06-29 20:55+0300\n"
+"POT-Creation-Date: 2023-06-30 10:27+0000\n"
+"PO-Revision-Date: 2023-07-01 23:00+0300\n"
 "Last-Translator: Yuri Chornoivan <yurchor@ukr.net>\n"
 "Language-Team: Ukrainian <trans-uk@lists.fedoraproject.org>\n"
 "Language: uk\n"
@@ -5441,13 +5441,11 @@ msgstr "Поштова адреса починається з"
 
 #: ../src/addressbook/gui/widgets/addresstypes.xml.h:14
 #: ../src/modules/addressbook/e-book-shell-view-actions.c:1477
-#| msgid "Name contains"
 msgid "Email contains"
 msgstr "Адреса ел. пошти містить"
 
 #: ../src/addressbook/gui/widgets/addresstypes.xml.h:15
 #: ../src/modules/addressbook/e-book-shell-view-actions.c:1484
-#| msgid "Sender contains"
 msgid "Phone contains"
 msgstr "Телефон містить"
 
@@ -5838,8 +5836,6 @@ msgstr "Немає контактів"
 
 #: ../src/addressbook/gui/widgets/e-addressbook-view.c:350
 #, c-format
-#| msgid "%d contact"
-#| msgid_plural "%d contacts"
 msgid "%u contact"
 msgid_plural "%u contacts"
 msgstr[0] "%u контакт"
@@ -5874,7 +5870,6 @@ msgid "Searching for the Contacts…"
 msgstr "Пошук контактів…"
 
 #: ../src/addressbook/gui/widgets/e-addressbook-view.c:1458
-#| msgid "Failed to communicate with LDAP server."
 msgid "Failed to get contacts with unknown error"
 msgstr "Не вдалося отримати контакти, невідома помилка"
 
@@ -6075,12 +6070,6 @@ msgid "Journal"
 msgstr "Журнал"
 
 #: ../src/addressbook/gui/widgets/e-card-view.c:84
-#| msgid ""
-#| "\n"
-#| "\n"
-#| "Search for the Contact\n"
-#| "\n"
-#| "or double-click here to create a new Contact."
 msgid ""
 "Search for the Contact\n"
 "\n"
@@ -6091,12 +6080,6 @@ msgstr ""
 "Двічі клацніть для створення нового контакту."
 
 #: ../src/addressbook/gui/widgets/e-card-view.c:86
-#| msgid ""
-#| "\n"
-#| "\n"
-#| "There are no items to show in this view.\n"
-#| "\n"
-#| "Double-click here to create a new Contact."
 msgid ""
 "There are no items to show in this view.\n"
 "\n"
@@ -6107,18 +6090,10 @@ msgstr ""
 "Двічі клацніть для створення нового контакту."
 
 #: ../src/addressbook/gui/widgets/e-card-view.c:89
-#| msgid ""
-#| "\n"
-#| "\n"
-#| "Search for the Contact."
 msgid "Search for the Contact."
 msgstr "Пошук контакту."
 
 #: ../src/addressbook/gui/widgets/e-card-view.c:91
-#| msgid ""
-#| "\n"
-#| "\n"
-#| "There are no items to show in this view."
 msgid "There are no items to show in this view."
 msgstr "Немає елементів для показу у цьому вікні."
 
@@ -18839,8 +18814,9 @@ msgid "Add sender to address book"
 msgstr "Додати відправника до адресної книги"
 
 #: ../src/mail/e-mail-reader.c:2557
-msgid "_Archive…"
-msgstr "_Архівувати…"
+#| msgid "Archive"
+msgid "_Archive"
+msgstr "_Архівувати"
 
 #: ../src/mail/e-mail-reader.c:2559
 msgid "Move selected messages to the Archive folder for the account"
@@ -22750,7 +22726,6 @@ msgstr "Зберегти як VCard"
 
 #: ../src/modules/addressbook/e-book-shell-view-actions.c:716
 #: ../src/modules/addressbook/e-book-shell-view.c:658
-#| msgid "Print selected contacts"
 msgid "Retrieving selected contacts…"
 msgstr "Отримуємо вибрані контакти…"
 
@@ -29851,6 +29826,9 @@ msgstr "Неможливо записати сховище на диск, код
 #: ../src/smime/lib/e-pkcs12.c:471
 msgid "Imported Certificate"
 msgstr "Імпортований сертифікат"
+
+#~ msgid "_Archive…"
+#~ msgstr "_Архівувати…"
 
 #~ msgid "Open"
 #~ msgstr "Відкрити"
