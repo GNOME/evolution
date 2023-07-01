@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: evolution\n"
 "Report-Msgid-Bugs-To: https://gitlab.gnome.org/GNOME/evolution/issues\n"
-"POT-Creation-Date: 2023-06-29 14:31+0000\n"
-"PO-Revision-Date: 2023-06-30 06:26+0200\n"
+"POT-Creation-Date: 2023-06-30 10:27+0000\n"
+"PO-Revision-Date: 2023-07-01 07:55+0200\n"
 "Last-Translator: Ekaterine Papava <papava.e@gtu.ge>\n"
 "Language-Team: Georgian <(nothing)>\n"
 "Language: ka\n"
@@ -17760,8 +17760,8 @@ msgid "Add sender to address book"
 msgstr ""
 
 #: ../src/mail/e-mail-reader.c:2557
-msgid "_Archive…"
-msgstr ""
+msgid "_Archive"
+msgstr "_დაარქივება"
 
 #: ../src/mail/e-mail-reader.c:2559
 msgid "Move selected messages to the Archive folder for the account"
