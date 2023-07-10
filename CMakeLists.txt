@@ -85,7 +85,7 @@ set(webkit2gtk_minimum_version 2.34.0)
 set(sqlite_minimum_version 3.7.17)
 
 # Optional Packages
-set(champlain_minimum_version 0.12)
+set(champlain_minimum_version 0.12.21)
 set(clutter_gtk_minimum_version 0.90)
 set(geocode_glib_minimum_version 3.26.3)
 set(gladeui_minimum_version 3.10.0)
@@ -716,11 +716,21 @@ endif(ENABLE_WEATHER)
 add_printable_option(ENABLE_CONTACT_MAPS "Enable contact maps" OFF)
 
 if(ENABLE_CONTACT_MAPS)
-	message("Contact maps auto-disabled due to no champlain-gtk, which uses libsoup3")
-	set(ENABLE_CONTACT_MAPS OFF)
-#	pkg_check_modules_for_option(ENABLE_CONTACT_MAPS "contact maps" CHAMPLAIN champlain-gtk-0.12>=${champlain_minimum_version})
-#	pkg_check_modules_for_option(ENABLE_CONTACT_MAPS "contact maps" GEO geocode-glib-2.0>=${geocode_glib_minimum_version})
-#	pkg_check_modules_for_option(ENABLE_CONTACT_MAPS "contact maps" CLUTTER_GTK clutter-gtk-1.0>=${clutter_gtk_minimum_version})
+	pkg_check_modules_for_option(ENABLE_CONTACT_MAPS "contact maps" CHAMPLAIN champlain-gtk-0.12>=${champlain_minimum_version})
+	pkg_check_modules_for_option(ENABLE_CONTACT_MAPS "contact maps" GEO geocode-glib-2.0>=${geocode_glib_minimum_version})
+	pkg_check_modules_for_option(ENABLE_CONTACT_MAPS "contact maps" CLUTTER_GTK clutter-gtk-1.0>=${clutter_gtk_minimum_version})
+
+	pkg_check_variable(champlain_soupapiversion champlain-0.12 soupapiversion)
+	if(NOT "${champlain_soupapiversion}" STREQUAL "3.0")
+		message(FATAL_ERROR "Requires libchamplain compiled with libsoup 3.0 API, but found version '${champlain_soupapiversion}' instead. If you want to disable contact maps, please use -DENABLE_CONTACT_MAPS=OFF argument to cmake command.")
+	endif(NOT "${champlain_soupapiversion}" STREQUAL "3.0")
+	unset(champlain_soupapiversion)
+
+	pkg_check_variable(geocode_glib_soupapiversion geocode-glib-2.0 soupapiversion)
+	if(NOT "${geocode_glib_soupapiversion}" STREQUAL "3.0")
+		message(FATAL_ERROR "Requires geocode-glib compiled with libsoup 3.0 API, but found version '${geocode_glib_soupapiversion}' instead. If you want to disable contact maps, please use -DENABLE_CONTACT_MAPS=OFF argument to cmake command.")
+	endif(NOT "${geocode_glib_soupapiversion}" STREQUAL "3.0")
+	unset(geocode_glib_soupapiversion)
 endif(ENABLE_CONTACT_MAPS)
 
 # pst-import plugin
