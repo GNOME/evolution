@@ -12,8 +12,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: evolution\n"
 "Report-Msgid-Bugs-To: https://gitlab.gnome.org/GNOME/evolution/issues\n"
-"POT-Creation-Date: 2023-06-30 10:27+0000\n"
-"PO-Revision-Date: 2023-07-01 23:00+0300\n"
+"POT-Creation-Date: 2023-07-10 15:50+0000\n"
+"PO-Revision-Date: 2023-07-10 22:35+0300\n"
 "Last-Translator: Yuri Chornoivan <yurchor@ukr.net>\n"
 "Language-Team: Ukrainian <trans-uk@lists.fedoraproject.org>\n"
 "Language: uk\n"
@@ -5002,7 +5002,7 @@ msgid "Redo"
 msgstr "Повторити"
 
 #: ../src/addressbook/gui/contact-editor/e-contact-editor.c:301
-#: ../src/addressbook/gui/widgets/eab-gui-util.c:498
+#: ../src/addressbook/gui/widgets/eab-gui-util.c:497
 msgid "Error adding contact"
 msgstr "Помилка при додаванні картки"
 
@@ -5798,23 +5798,23 @@ msgstr "card.vcf"
 msgid "Select Address Book"
 msgstr "Виберіть адресну книга"
 
-#: ../src/addressbook/gui/widgets/eab-gui-util.c:393
+#: ../src/addressbook/gui/widgets/eab-gui-util.c:392
 msgid "list"
 msgstr "список"
 
-#: ../src/addressbook/gui/widgets/eab-gui-util.c:582
+#: ../src/addressbook/gui/widgets/eab-gui-util.c:581
 msgid "Move contact to"
 msgstr "Переміщення контакту у"
 
-#: ../src/addressbook/gui/widgets/eab-gui-util.c:584
+#: ../src/addressbook/gui/widgets/eab-gui-util.c:583
 msgid "Copy contact to"
 msgstr "Копіювання контакту у"
 
-#: ../src/addressbook/gui/widgets/eab-gui-util.c:587
+#: ../src/addressbook/gui/widgets/eab-gui-util.c:586
 msgid "Move contacts to"
 msgstr "Переміщення контактів у"
 
-#: ../src/addressbook/gui/widgets/eab-gui-util.c:589
+#: ../src/addressbook/gui/widgets/eab-gui-util.c:588
 msgid "Copy contacts to"
 msgstr "Копіювання контактів у"
 
@@ -12361,23 +12361,33 @@ msgstr[3] "Переглянути долучення перед надсилан
 
 #: ../src/composer/e-msg-composer.c:5593
 #, c-format
+#| msgid ""
+#| "There had been added %d attachment. Make sure it does not contain any "
+#| "sensitive information before sending the message."
+#| msgid_plural ""
+#| "There had been added %d attachments. Make sure they do not contain any "
+#| "sensitive information before sending the message."
 msgid ""
-"There had been added %d attachment. Make sure it does not contain any "
-"sensitive information before sending the message."
+"%d attachment was added by an external application. Make sure it does not "
+"contain any sensitive information before sending the message."
 msgid_plural ""
-"There had been added %d attachments. Make sure they do not contain any "
-"sensitive information before sending the message."
+"%d attachments were added by an external application. Make sure they do not "
+"contain any sensitive information before sending the message."
 msgstr[0] ""
-"Додано %d долучення. Перш ніж надсилати повідомлення, переконайтеся, що у "
+"Зовнішньою програмою додано %d долучення. Перш ніж надсилати повідомлення,"
+" переконайтеся, що у "
 "долученні не міститься ніяких конфіденційних даних."
 msgstr[1] ""
-"Додано %d долучення. Перш ніж надсилати повідомлення, переконайтеся, що у "
+"Зовнішньою програмою додано %d долучення. Перш ніж надсилати повідомлення,"
+" переконайтеся, що у "
 "долученні не міститься ніяких конфіденційних даних."
 msgstr[2] ""
-"Додано %d долучень. Перш ніж надсилати повідомлення, переконайтеся, що у "
+"Зовнішньою програмою додано %d долучень. Перш ніж надсилати повідомлення,"
+" переконайтеся, що у "
 "долученні не міститься ніяких конфіденційних даних."
 msgstr[3] ""
-"Додано одне долучення. Перш ніж надсилати повідомлення, переконайтеся, що у "
+"Зовнішньою програмою додано одне долучення. Перш ніж надсилати повідомлення,"
+" переконайтеся, що у "
 "долученні не міститься ніяких конфіденційних даних."
 
 #: ../src/composer/e-msg-composer.c:5726
@@ -18302,7 +18312,7 @@ msgstr "Використати адресу відправника"
 #: ../src/mail/e-mail-config-security-page.c:460
 #: ../src/mail/em-folder-properties.c:1428 ../src/mail/mail-config.ui.h:35
 #: ../src/modules/addressbook/autocompletion-config.c:115
-#: ../src/modules/calendar/e-calendar-preferences.c:649
+#: ../src/modules/calendar/e-calendar-preferences.c:650
 #: ../src/modules/calendar/e-calendar-preferences.ui.h:54
 #: ../src/modules/mail/e-mail-shell-backend.c:1018
 #: ../src/modules/rss/evolution/e-rss-preferences.c:1572
@@ -18814,7 +18824,6 @@ msgid "Add sender to address book"
 msgstr "Додати відправника до адресної книги"
 
 #: ../src/mail/e-mail-reader.c:2557
-#| msgid "Archive"
 msgid "_Archive"
 msgstr "_Архівувати"
 
@@ -23695,37 +23704,41 @@ msgstr "Вибрані календарі для сповіщень про на�
 msgid "Selected Task Lists for Notifications of Reminders"
 msgstr "Вибрані списки завдань для сповіщень про нагадування"
 
-#: ../src/modules/calendar/e-calendar-preferences.c:640
+#: ../src/modules/calendar/e-calendar-preferences.c:641
 msgid "Meeting Invitations"
 msgstr "Запрошення на зібрання"
 
-#: ../src/modules/calendar/e-calendar-preferences.c:666
+#: ../src/modules/calendar/e-calendar-preferences.c:667
 msgid "_Delete message after acting"
 msgstr "В_илучити повідомлення після дії"
 
-#: ../src/modules/calendar/e-calendar-preferences.c:673
+#: ../src/modules/calendar/e-calendar-preferences.c:674
+msgid "Delete _meeting from calendar on Decline"
+msgstr "Вилучити з_устріч з календаря при відхиленні"
+
+#: ../src/modules/calendar/e-calendar-preferences.c:677
 msgid "_Preserve existing reminder by default"
 msgstr "Типово з_берігати наявне нагадування"
 
-#: ../src/modules/calendar/e-calendar-preferences.c:680
+#: ../src/modules/calendar/e-calendar-preferences.c:684
 msgid "_Show invitation description provided by the sender"
 msgstr "_Показувати опис запрошення, який надано відправником"
 
-#: ../src/modules/calendar/e-calendar-preferences.c:694
-#: ../src/modules/calendar/e-calendar-preferences.c:725
+#: ../src/modules/calendar/e-calendar-preferences.c:706
+#: ../src/modules/calendar/e-calendar-preferences.c:737
 msgid "Conflict Search"
 msgstr "Пошук конфліктів"
 
 #. Source selector
-#: ../src/modules/calendar/e-calendar-preferences.c:709
+#: ../src/modules/calendar/e-calendar-preferences.c:721
 msgid "Select the calendars to search for meeting conflicts"
 msgstr "Виберіть календарі для пошуку конфліктуючих зібрань"
 
-#: ../src/modules/calendar/e-calendar-preferences.c:1195
+#: ../src/modules/calendar/e-calendar-preferences.c:1207
 msgid "Ti_me and date:"
 msgstr "Дата й _час:"
 
-#: ../src/modules/calendar/e-calendar-preferences.c:1196
+#: ../src/modules/calendar/e-calendar-preferences.c:1208
 msgid "_Date only:"
 msgstr "Лише _дата:"
 
