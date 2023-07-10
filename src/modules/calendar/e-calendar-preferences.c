@@ -624,6 +624,7 @@ calendar_preferences_add_itip_formatter_page (EShell *shell,
 	GtkWidget *hbox;
 	GtkWidget *inner_vbox;
 	GtkWidget *check;
+	GtkWidget *check_delete_on_decline;
 	GtkWidget *label;
 	GtkWidget *ess;
 	GtkWidget *scrolledwin;
@@ -670,6 +671,9 @@ calendar_preferences_add_itip_formatter_page (EShell *shell,
 		check, "active",
 		G_SETTINGS_BIND_DEFAULT);
 
+	check_delete_on_decline = gtk_check_button_new_with_mnemonic (_("Delete _meeting from calendar on Decline"));
+	gtk_box_pack_start (GTK_BOX (inner_vbox), check_delete_on_decline, FALSE, FALSE, 0);
+
 	check = gtk_check_button_new_with_mnemonic (_("_Preserve existing reminder by default"));
 	gtk_box_pack_start (GTK_BOX (inner_vbox), check, FALSE, FALSE, 0);
 
@@ -682,6 +686,14 @@ calendar_preferences_add_itip_formatter_page (EShell *shell,
 
 	g_settings_bind (settings, "show-message-description",
 		check, "active",
+		G_SETTINGS_BIND_DEFAULT);
+
+	g_object_unref (settings);
+
+	settings = e_util_ref_settings ("org.gnome.evolution-data-server.calendar");
+
+	g_settings_bind (settings, "delete-meeting-on-decline",
+		check_delete_on_decline, "active",
 		G_SETTINGS_BIND_DEFAULT);
 
 	g_object_unref (settings);
