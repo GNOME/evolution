@@ -163,9 +163,9 @@
     <property name="step_increment">1</property>
     <property name="page_increment">10</property>
   </object>
-  <object class="GtkAdjustment" id="adjustment7">
+  <object class="GtkAdjustment" id="adjustment_wrap-length">
     <property name="lower">31</property>
-    <property name="upper">200</property>
+    <property name="upper">998</property>
     <property name="value">71</property>
     <property name="step_increment">1</property>
     <property name="page_increment">1</property>
@@ -381,7 +381,7 @@
                             <property name="can_focus">True</property>
                             <property name="max_length">3</property>
                             <property name="caps_lock_warning">False</property>
-                            <property name="adjustment">adjustment7</property>
+                            <property name="adjustment">adjustment_wrap-length</property>
                             <property name="numeric">True</property>
                             <property name="update_policy">if-valid</property>
                           </object>
