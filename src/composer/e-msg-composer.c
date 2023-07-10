@@ -5590,8 +5590,8 @@ handle_mailto (EMsgComposer *composer,
 			has_attachments);
 
 		secondary = g_strdup_printf (g_dngettext (GETTEXT_PACKAGE,
-			"There had been added %d attachment. Make sure it does not contain any sensitive information before sending the message.",
-			"There had been added %d attachments. Make sure they do not contain any sensitive information before sending the message.",
+			"%d attachment was added by an external application. Make sure it does not contain any sensitive information before sending the message.",
+			"%d attachments were added by an external application. Make sure they do not contain any sensitive information before sending the message.",
 			has_attachments),
 			has_attachments);
 
