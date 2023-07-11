@@ -46,6 +46,7 @@
 struct _EMeetingTimeSelectorPrivate {
 	gboolean use_24_hour_format;
 	gulong notify_free_busy_template_id;
+	gulong notify_timezone_id;
 };
 
 /* An array of hour strings for 24 hour time, "0:00" .. "23:00". */
@@ -185,7 +186,7 @@ static void row_inserted_cb (GtkTreeModel *model, GtkTreePath *path, GtkTreeIter
 static void row_changed_cb (GtkTreeModel *model, GtkTreePath *path, GtkTreeIter *iter, gpointer data);
 static void row_deleted_cb (GtkTreeModel *model, GtkTreePath *path, gpointer data);
 
-static void free_busy_template_changed_cb (EMeetingTimeSelector *mts);
+static void free_busy_schedule_refresh_cb (EMeetingTimeSelector *mts);
 
 G_DEFINE_TYPE_WITH_CODE (
 	EMeetingTimeSelector, e_meeting_time_selector, GTK_TYPE_TABLE,
@@ -240,6 +241,7 @@ meeting_time_selector_dispose (GObject *object)
 			mts->model, G_SIGNAL_MATCH_DATA,
 			0, 0, NULL, NULL, mts);
 		e_signal_disconnect_notify_handler (mts->model, &mts->priv->notify_free_busy_template_id);
+		e_signal_disconnect_notify_handler (mts->model, &mts->priv->notify_timezone_id);
 
 		g_object_unref (mts->model);
 		mts->model = NULL;
@@ -394,7 +396,10 @@ e_meeting_time_selector_construct (EMeetingTimeSelector *mts,
 
 	mts->priv->notify_free_busy_template_id = e_signal_connect_notify_swapped (
 		mts->model, "notify::free-busy-template",
-		G_CALLBACK (free_busy_template_changed_cb), mts);
+		G_CALLBACK (free_busy_schedule_refresh_cb), mts);
+	mts->priv->notify_timezone_id = e_signal_connect_notify_swapped (
+		mts->model, "notify::timezone",
+		G_CALLBACK (free_busy_schedule_refresh_cb), mts);
 
 	g_signal_connect (
 		mts->model, "row_inserted",
@@ -3192,7 +3197,7 @@ row_deleted_cb (GtkTreeModel *model,
 	gtk_widget_queue_draw (mts->display_main);
 }
 
-#define REFRESH_PAUSE 5
+#define REFRESH_PAUSE 2
 
 static gboolean
 free_busy_timeout_refresh (gpointer data)
@@ -3208,9 +3213,9 @@ free_busy_timeout_refresh (gpointer data)
 }
 
 static void
-free_busy_template_changed_cb (EMeetingTimeSelector *mts)
+free_busy_schedule_refresh_cb (EMeetingTimeSelector *mts)
 {
-	/* Wait REFRESH_PAUSE before refreshing, using the latest uri value */
+	/* Wait REFRESH_PAUSE before refreshing, using the latest uri value or timezone */
 	if (mts->fb_refresh_not != 0)
 		g_source_remove (mts->fb_refresh_not);
 

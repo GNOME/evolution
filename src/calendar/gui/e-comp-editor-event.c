@@ -921,6 +921,7 @@ e_comp_editor_event_constructed (GObject *object)
 	ECompEditorPropertyPart *part;
 	ECompEditorPropertyPart *summary;
 	EFocusTracker *focus_tracker;
+	EMeetingStore *meeting_store;
 	GtkWidget *widget;
 
 	G_OBJECT_CLASS (e_comp_editor_event_parent_class)->constructed (object);
@@ -933,6 +934,8 @@ e_comp_editor_event_constructed (GObject *object)
 		_("_Calendar:"), E_SOURCE_EXTENSION_CALENDAR,
 		NULL, FALSE, 2);
 	event_editor->priv->page_general = page;
+
+	meeting_store = e_comp_editor_page_general_get_meeting_store (E_COMP_EDITOR_PAGE_GENERAL (event_editor->priv->page_general));
 
 	part = e_comp_editor_property_part_summary_new (focus_tracker);
 	e_comp_editor_page_add_property_part (page, part, 0, 2, 3, 1);
@@ -994,6 +997,11 @@ e_comp_editor_event_constructed (GObject *object)
 	event_editor->priv->description = part;
 
 	widget = e_comp_editor_property_part_get_edit_widget (event_editor->priv->timezone);
+
+	e_binding_bind_property (widget, "timezone",
+		meeting_store, "timezone",
+		G_BINDING_SYNC_CREATE);
+
 	e_comp_editor_property_part_datetime_attach_timezone_entry (
 		E_COMP_EDITOR_PROPERTY_PART_DATETIME (event_editor->priv->dtstart),
 		E_TIMEZONE_ENTRY (widget));
@@ -1035,9 +1043,7 @@ e_comp_editor_event_constructed (GObject *object)
 	page = e_comp_editor_page_attachments_new (comp_editor);
 	e_comp_editor_add_page (comp_editor, C_("ECompEditorPage", "Attachments"), page);
 
-	page = e_comp_editor_page_schedule_new (comp_editor,
-		e_comp_editor_page_general_get_meeting_store (
-		E_COMP_EDITOR_PAGE_GENERAL (event_editor->priv->page_general)));
+	page = e_comp_editor_page_schedule_new (comp_editor, meeting_store);
 	e_binding_bind_property (
 		event_editor->priv->page_general, "show-attendees",
 		page, "visible",
