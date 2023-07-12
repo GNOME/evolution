@@ -1395,6 +1395,31 @@ e_source_config_add_refresh_interval (ESourceConfig *config,
 }
 
 void
+e_source_config_add_refresh_on_metered_network (ESourceConfig *config,
+						ESource *scratch_source)
+{
+	GtkWidget *widget;
+	ESourceExtension *extension;
+	const gchar *label;
+
+	g_return_if_fail (E_IS_SOURCE_CONFIG (config));
+	g_return_if_fail (E_IS_SOURCE (scratch_source));
+
+	extension = e_source_get_extension (scratch_source, E_SOURCE_EXTENSION_REFRESH);
+
+	label = _("Refresh content on metered network");
+	widget = gtk_check_button_new_with_label (label);
+	e_source_config_insert_widget (config, scratch_source, NULL, widget);
+	gtk_widget_show (widget);
+
+	e_binding_bind_property (
+		extension, "enabled-on-metered-network",
+		widget, "active",
+		G_BINDING_BIDIRECTIONAL |
+		G_BINDING_SYNC_CREATE);
+}
+
+void
 e_source_config_add_secure_connection (ESourceConfig *config,
                                        ESource *scratch_source)
 {

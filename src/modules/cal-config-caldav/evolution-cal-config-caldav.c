@@ -321,6 +321,7 @@ cal_config_caldav_insert_widgets (ESourceConfigBackend *backend,
 	}
 
 	e_source_config_add_refresh_interval (config, scratch_source);
+	e_source_config_add_refresh_on_metered_network (config, scratch_source);
 
 	extension_name = E_SOURCE_EXTENSION_WEBDAV_BACKEND;
 	extension = e_source_get_extension (scratch_source, extension_name);

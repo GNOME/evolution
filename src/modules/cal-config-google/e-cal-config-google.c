@@ -106,6 +106,7 @@ cal_config_google_insert_widgets (ESourceConfigBackend *backend,
 	g_free (markup);
 
 	e_source_config_add_refresh_interval (config, scratch_source);
+	e_source_config_add_refresh_on_metered_network (config, scratch_source);
 }
 
 static void

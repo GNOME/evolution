@@ -238,6 +238,7 @@ book_config_carddav_insert_widgets (ESourceConfigBackend *backend,
 	gtk_widget_show (widget);
 
 	e_source_config_add_refresh_interval (config, scratch_source);
+	e_source_config_add_refresh_on_metered_network (config, scratch_source);
 
 	e_binding_bind_property (
 		extension, "avoid-ifmatch",
