@@ -12,8 +12,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: evolution\n"
 "Report-Msgid-Bugs-To: https://gitlab.gnome.org/GNOME/evolution/issues\n"
-"POT-Creation-Date: 2023-07-10 15:50+0000\n"
-"PO-Revision-Date: 2023-07-10 22:35+0300\n"
+"POT-Creation-Date: 2023-07-12 09:12+0000\n"
+"PO-Revision-Date: 2023-07-12 17:49+0300\n"
 "Last-Translator: Yuri Chornoivan <yurchor@ukr.net>\n"
 "Language-Team: Ukrainian <trans-uk@lists.fedoraproject.org>\n"
 "Language: uk\n"
@@ -4765,7 +4765,7 @@ msgid "_Home Page:"
 msgstr "_Домашня сторінка:"
 
 #: ../src/addressbook/gui/contact-editor/contact-editor.ui.h:28
-#: ../src/calendar/gui/e-comp-editor-event.c:933
+#: ../src/calendar/gui/e-comp-editor-event.c:934
 #: ../src/modules/itip-formatter/itip-view.c:2455
 msgid "_Calendar:"
 msgstr "_Календар:"
@@ -7217,7 +7217,7 @@ msgstr "Відхилено"
 #: ../src/calendar/gui/e-meeting-list-view.c:207
 #: ../src/calendar/gui/e-meeting-store.c:183
 #: ../src/calendar/gui/e-meeting-store.c:206
-#: ../src/calendar/gui/e-meeting-time-sel.c:523
+#: ../src/calendar/gui/e-meeting-time-sel.c:528
 msgid "Tentative"
 msgstr "Експериментальний"
 
@@ -7286,7 +7286,7 @@ msgstr "Організатор: %s"
 #. Translators: It will display "Location: PlaceOfTheMeeting"
 #. Translators: It will display "Location: LocationOfTheAppointment"
 #: ../src/calendar/gui/comp-util.c:2271
-#: ../src/calendar/gui/e-meeting-time-sel.c:2580
+#: ../src/calendar/gui/e-meeting-time-sel.c:2585
 #: ../src/calendar/gui/e-to-do-pane.c:401 ../src/calendar/gui/print.c:3655
 #, c-format
 msgid "Location: %s"
@@ -7992,7 +7992,7 @@ msgid "Free"
 msgstr "Вільний"
 
 #: ../src/calendar/gui/e-cal-model-calendar.c:94
-#: ../src/calendar/gui/e-meeting-time-sel.c:524
+#: ../src/calendar/gui/e-meeting-time-sel.c:529
 #: ../src/calendar/gui/e-task-table.c:535
 msgid "Busy"
 msgstr "Зайнятий"
@@ -8343,58 +8343,58 @@ msgstr "К_онфіденційне"
 msgid "Classify as confidential"
 msgstr "Класифікувати як конфіденційне"
 
-#: ../src/calendar/gui/e-comp-editor-event.c:944
+#: ../src/calendar/gui/e-comp-editor-event.c:947
 msgctxt "ECompEditor"
 msgid "_Start time:"
 msgstr "По_чаток:"
 
-#: ../src/calendar/gui/e-comp-editor-event.c:949
+#: ../src/calendar/gui/e-comp-editor-event.c:952
 msgctxt "ECompEditor"
 msgid "_End time:"
 msgstr "Кіне_ць:"
 
-#: ../src/calendar/gui/e-comp-editor-event.c:959
+#: ../src/calendar/gui/e-comp-editor-event.c:962
 msgctxt "ECompEditor"
 msgid "All da_y event"
 msgstr "Подія на весь _день"
 
-#: ../src/calendar/gui/e-comp-editor-event.c:1027
+#: ../src/calendar/gui/e-comp-editor-event.c:1035
 #: ../src/calendar/gui/e-comp-editor-memo.c:359
 #: ../src/calendar/gui/e-comp-editor-task.c:987
 msgctxt "ECompEditorPage"
 msgid "General"
 msgstr "Загальне"
 
-#: ../src/calendar/gui/e-comp-editor-event.c:1030
+#: ../src/calendar/gui/e-comp-editor-event.c:1038
 #: ../src/calendar/gui/e-comp-editor-task.c:1010
 msgctxt "ECompEditorPage"
 msgid "Reminders"
 msgstr "Нагадування"
 
-#: ../src/calendar/gui/e-comp-editor-event.c:1033
+#: ../src/calendar/gui/e-comp-editor-event.c:1041
 #: ../src/calendar/gui/e-comp-editor-task.c:1014
 msgctxt "ECompEditorPage"
 msgid "Recurrence"
 msgstr "Повторення"
 
-#: ../src/calendar/gui/e-comp-editor-event.c:1036
+#: ../src/calendar/gui/e-comp-editor-event.c:1044
 #: ../src/calendar/gui/e-comp-editor-memo.c:362
 #: ../src/calendar/gui/e-comp-editor-task.c:1018
 msgctxt "ECompEditorPage"
 msgid "Attachments"
 msgstr "Долучення"
 
-#: ../src/calendar/gui/e-comp-editor-event.c:1046
+#: ../src/calendar/gui/e-comp-editor-event.c:1052
 msgctxt "ECompEditorPage"
 msgid "Schedule"
 msgstr "Розклад"
 
-#: ../src/calendar/gui/e-comp-editor-event.c:1081
+#: ../src/calendar/gui/e-comp-editor-event.c:1087
 #, c-format
 msgid "Meeting — %s"
 msgstr "Зібрання — %s"
 
-#: ../src/calendar/gui/e-comp-editor-event.c:1082
+#: ../src/calendar/gui/e-comp-editor-event.c:1088
 #, c-format
 msgid "Appointment — %s"
 msgstr "Зустріч — %s"
@@ -9653,71 +9653,71 @@ msgstr "Причина помилки: %s"
 msgid "Enter password"
 msgstr "Ввід паролю"
 
-#: ../src/calendar/gui/e-meeting-time-sel.c:525
+#: ../src/calendar/gui/e-meeting-time-sel.c:530
 msgid "Out of Office"
 msgstr "За межами офісу"
 
-#: ../src/calendar/gui/e-meeting-time-sel.c:527
+#: ../src/calendar/gui/e-meeting-time-sel.c:532
 msgid "No Information"
 msgstr "Немає інформації"
 
-#: ../src/calendar/gui/e-meeting-time-sel.c:543
+#: ../src/calendar/gui/e-meeting-time-sel.c:548
 msgid "Atte_ndees…"
 msgstr "_Учасники…"
 
-#: ../src/calendar/gui/e-meeting-time-sel.c:562
+#: ../src/calendar/gui/e-meeting-time-sel.c:567
 msgid "O_ptions"
 msgstr "_Параметри"
 
-#: ../src/calendar/gui/e-meeting-time-sel.c:583
+#: ../src/calendar/gui/e-meeting-time-sel.c:588
 msgid "Show _only working hours"
 msgstr "Показувати _лише робочі години"
 
-#: ../src/calendar/gui/e-meeting-time-sel.c:596
+#: ../src/calendar/gui/e-meeting-time-sel.c:601
 msgid "Show _zoomed out"
 msgstr "Показати _зменшене"
 
-#: ../src/calendar/gui/e-meeting-time-sel.c:614
+#: ../src/calendar/gui/e-meeting-time-sel.c:619
 msgid "_Update free/busy"
 msgstr "_Оновити інформацію про зайнятість"
 
-#: ../src/calendar/gui/e-meeting-time-sel.c:631
+#: ../src/calendar/gui/e-meeting-time-sel.c:636
 msgid "_<<"
 msgstr "_<<"
 
-#: ../src/calendar/gui/e-meeting-time-sel.c:651
+#: ../src/calendar/gui/e-meeting-time-sel.c:656
 msgid "_Autopick"
 msgstr "_Автовибір"
 
-#: ../src/calendar/gui/e-meeting-time-sel.c:668
+#: ../src/calendar/gui/e-meeting-time-sel.c:673
 msgid ">_>"
 msgstr "_>>"
 
-#: ../src/calendar/gui/e-meeting-time-sel.c:690
+#: ../src/calendar/gui/e-meeting-time-sel.c:695
 msgid "_All people and resources"
 msgstr "_Всі люди і ресурси"
 
-#: ../src/calendar/gui/e-meeting-time-sel.c:701
+#: ../src/calendar/gui/e-meeting-time-sel.c:706
 msgid "All _people and one resource"
 msgstr "Всі _люди і один ресурс"
 
-#: ../src/calendar/gui/e-meeting-time-sel.c:712
+#: ../src/calendar/gui/e-meeting-time-sel.c:717
 msgid "_Required people"
 msgstr "_Потрібні люди"
 
-#: ../src/calendar/gui/e-meeting-time-sel.c:722
+#: ../src/calendar/gui/e-meeting-time-sel.c:727
 msgid "Required people and _one resource"
 msgstr "Потрібні люди і _один ресурс"
 
-#: ../src/calendar/gui/e-meeting-time-sel.c:761
+#: ../src/calendar/gui/e-meeting-time-sel.c:766
 msgid "_Start time:"
 msgstr "По_чаток:"
 
-#: ../src/calendar/gui/e-meeting-time-sel.c:790
+#: ../src/calendar/gui/e-meeting-time-sel.c:795
 msgid "_End time:"
 msgstr "Кіне_ць:"
 
-#: ../src/calendar/gui/e-meeting-time-sel.c:2576
+#: ../src/calendar/gui/e-meeting-time-sel.c:2581
 #, c-format
 msgid ""
 "Summary: %s\n"
@@ -9726,7 +9726,7 @@ msgstr ""
 "Зведення: %s\n"
 "Адреса: %s"
 
-#: ../src/calendar/gui/e-meeting-time-sel.c:2578
+#: ../src/calendar/gui/e-meeting-time-sel.c:2583
 #: ../src/calendar/gui/print.c:3644
 #, c-format
 msgid "Summary: %s"
@@ -12361,12 +12361,6 @@ msgstr[3] "Переглянути долучення перед надсилан
 
 #: ../src/composer/e-msg-composer.c:5593
 #, c-format
-#| msgid ""
-#| "There had been added %d attachment. Make sure it does not contain any "
-#| "sensitive information before sending the message."
-#| msgid_plural ""
-#| "There had been added %d attachments. Make sure they do not contain any "
-#| "sensitive information before sending the message."
 msgid ""
 "%d attachment was added by an external application. Make sure it does not "
 "contain any sensitive information before sending the message."
@@ -12374,21 +12368,17 @@ msgid_plural ""
 "%d attachments were added by an external application. Make sure they do not "
 "contain any sensitive information before sending the message."
 msgstr[0] ""
-"Зовнішньою програмою додано %d долучення. Перш ніж надсилати повідомлення,"
-" переконайтеся, що у "
-"долученні не міститься ніяких конфіденційних даних."
+"Зовнішньою програмою додано %d долучення. Перш ніж надсилати повідомлення, "
+"переконайтеся, що у долученні не міститься ніяких конфіденційних даних."
 msgstr[1] ""
-"Зовнішньою програмою додано %d долучення. Перш ніж надсилати повідомлення,"
-" переконайтеся, що у "
-"долученні не міститься ніяких конфіденційних даних."
+"Зовнішньою програмою додано %d долучення. Перш ніж надсилати повідомлення, "
+"переконайтеся, що у долученні не міститься ніяких конфіденційних даних."
 msgstr[2] ""
-"Зовнішньою програмою додано %d долучень. Перш ніж надсилати повідомлення,"
-" переконайтеся, що у "
-"долученні не міститься ніяких конфіденційних даних."
+"Зовнішньою програмою додано %d долучень. Перш ніж надсилати повідомлення, "
+"переконайтеся, що у долученні не міститься ніяких конфіденційних даних."
 msgstr[3] ""
-"Зовнішньою програмою додано одне долучення. Перш ніж надсилати повідомлення,"
-" переконайтеся, що у "
-"долученні не міститься ніяких конфіденційних даних."
+"Зовнішньою програмою додано одне долучення. Перш ніж надсилати повідомлення, "
+"переконайтеся, що у долученні не міститься ніяких конфіденційних даних."
 
 #: ../src/composer/e-msg-composer.c:5726
 msgid "The composer contains a non-text message body, which cannot be edited."
@@ -13838,10 +13828,10 @@ msgstr[2] "Знайдено %d кандидатів"
 msgstr[3] "Знайдено одного кандидата"
 
 #: ../src/e-util/e-collection-account-wizard.c:667
-#: ../src/modules/book-config-google/evolution-book-config-google.c:101
+#: ../src/modules/book-config-google/evolution-book-config-google.c:102
 #: ../src/modules/book-config-ldap/evolution-book-config-ldap.c:1070
-#: ../src/modules/cal-config-google/e-cal-config-google.c:187
-#: ../src/modules/cal-config-google/e-cal-config-gtasks.c:116
+#: ../src/modules/cal-config-google/e-cal-config-google.c:188
+#: ../src/modules/cal-config-google/e-cal-config-gtasks.c:117
 #: ../src/modules/mail-config/e-mail-config-remote-accounts.c:445
 #: ../src/modules/mail-config/e-mail-config-smtp-backend.c:484
 msgid ""
@@ -16573,15 +16563,19 @@ msgstr "Назва не може бути порожня"
 msgid "Refresh every"
 msgstr "Оновлювати кожні"
 
-#: ../src/e-util/e-source-config.c:1412 ../src/e-util/e-source-config.c:1486
+#: ../src/e-util/e-source-config.c:1410
+msgid "Refresh content on metered network"
+msgstr "Оновлювати дані у мережі із обліком даних"
+
+#: ../src/e-util/e-source-config.c:1437 ../src/e-util/e-source-config.c:1511
 msgid "Use a secure connection"
 msgstr "Використовувати безпечне з'єднання"
 
-#: ../src/e-util/e-source-config.c:1513
+#: ../src/e-util/e-source-config.c:1538
 msgid "Unset _trust for SSL/TLS certificate"
 msgstr "Скасувати _довіру з цього сертифіката SSL/TLS"
 
-#: ../src/e-util/e-source-config.c:1549
+#: ../src/e-util/e-source-config.c:1574
 msgid "User:"
 msgstr "Користувач:"
 
@@ -23291,10 +23285,10 @@ msgstr "Знайти адресну книгу"
 msgid "Avoid IfMatch (needed on Apache < 2.2.8)"
 msgstr "Уникати IfMatch (потрібно для Apache < 2.2.8)"
 
-#: ../src/modules/book-config-carddav/evolution-book-config-carddav.c:289
-#: ../src/modules/cal-config-caldav/evolution-cal-config-caldav.c:391
-#: ../src/modules/cal-config-webcal/evolution-cal-config-webcal.c:169
-#: ../src/modules/cal-config-webdav-notes/evolution-cal-config-webdav-notes.c:373
+#: ../src/modules/book-config-carddav/evolution-book-config-carddav.c:290
+#: ../src/modules/cal-config-caldav/evolution-cal-config-caldav.c:392
+#: ../src/modules/cal-config-webcal/evolution-cal-config-webcal.c:170
+#: ../src/modules/cal-config-webdav-notes/evolution-cal-config-webdav-notes.c:374
 msgid "URL is not a valid http:// nor https:// URL"
 msgstr ""
 "Неправильне посилання, воно не починається ні на http://, ні на https://"
@@ -23307,10 +23301,10 @@ msgstr "Типова адресна книга користувача"
 msgid "Address Book:"
 msgstr "Адресна книга:"
 
-#: ../src/modules/book-config-google/evolution-book-config-google.c:102
+#: ../src/modules/book-config-google/evolution-book-config-google.c:103
 #: ../src/modules/book-config-ldap/evolution-book-config-ldap.c:1071
-#: ../src/modules/cal-config-google/e-cal-config-google.c:188
-#: ../src/modules/cal-config-google/e-cal-config-gtasks.c:117
+#: ../src/modules/cal-config-google/e-cal-config-google.c:189
+#: ../src/modules/cal-config-google/e-cal-config-gtasks.c:118
 #: ../src/modules/mail-config/e-mail-config-remote-accounts.c:446
 #: ../src/modules/mail-config/e-mail-config-smtp-backend.c:485
 msgid "User name cannot be empty"
@@ -23603,7 +23597,7 @@ msgstr "Вибір нотаток"
 msgid "Find Notes"
 msgstr "Пошук нотаток"
 
-#: ../src/modules/cal-config-webdav-notes/evolution-cal-config-webdav-notes.c:302
+#: ../src/modules/cal-config-webdav-notes/evolution-cal-config-webdav-notes.c:303
 msgid "File extension for new notes:"
 msgstr "Суфікс назв файлів для нових нотаток:"
 
