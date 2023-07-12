@@ -863,6 +863,17 @@ e_cal_dialogs_recur_component (ECalClient *client,
 
 	g_return_val_if_fail (E_IS_CAL_COMPONENT (comp), FALSE);
 
+	if (!e_cal_component_is_instance (comp)) {
+		*mod = E_CAL_OBJ_MOD_ALL;
+		return TRUE;
+	}
+
+	/* It's a detached instance, modify only that one */
+	if (!e_cal_component_has_recurrences (comp)) {
+		*mod = E_CAL_OBJ_MOD_THIS;
+		return TRUE;
+	}
+
 	vtype = e_cal_component_get_vtype (comp);
 
 	switch (vtype) {
