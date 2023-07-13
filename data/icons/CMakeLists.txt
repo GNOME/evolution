@@ -140,6 +140,7 @@ set(private_icons
 	hicolor_actions_scalable_markdown-preview-dark.svg
 	hicolor_actions_scalable_markdown-quote.svg
 	hicolor_actions_scalable_markdown-quote-dark.svg
+	hicolor_actions_scalable_stock_bell-symbolic.svg
 	hicolor_actions_scalable_stock_insert-note-symbolic.svg
 	hicolor_actions_scalable_stock_insert-rule-symbolic.svg
 	hicolor_actions_scalable_stock_insert-table-symbolic.svg
@@ -152,6 +153,7 @@ set(private_icons
 	hicolor_actions_scalable_stock_task-symbolic.svg
 	hicolor_actions_scalable_stock_task-assigned-symbolic.svg
 	hicolor_actions_scalable_stock_task-assigned-to-symbolic.svg
+	hicolor_actions_scalable_stock_timezone-symbolic.svg
 	hicolor_actions_scalable_user-trash-symbolic.svg
 	hicolor_actions_scalable_view-calendar-day.svg
 	hicolor_actions_scalable_view-calendar-day-symbolic.svg
@@ -165,6 +167,8 @@ set(private_icons
 	hicolor_actions_scalable_view-calendar-workweek-symbolic.svg
 	hicolor_actions_scalable_view-calendar-year.svg
 	hicolor_actions_scalable_view-calendar-year-symbolic.svg
+	hicolor_actions_scalable_view-pin.svg
+	hicolor_actions_scalable_view-pin-symbolic.svg
 	hicolor_actions_scalable_x-office-address-book-symbolic.svg
 	hicolor_actions_scalable_x-office-calendar-symbolic.svg
 	hicolor_categories_24x24_preferences-calendar-and-tasks.svg

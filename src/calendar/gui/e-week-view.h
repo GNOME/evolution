@@ -260,6 +260,7 @@ struct _EWeekView {
 	/* The icons. */
 	GdkPixbuf *reminder_icon;
 	GdkPixbuf *recurrence_icon;
+	GdkPixbuf *detached_recurrence_icon;
 	GdkPixbuf *attach_icon;
 	GdkPixbuf *timezone_icon;
 	GdkPixbuf *meeting_icon;

@@ -191,7 +191,7 @@ day_view_main_item_draw_day_event (EDayViewMainItem *main_item,
 	ECalComponent *comp;
 	gint num_icons, icon_x = 0, icon_y, icon_x_inc = 0, icon_y_inc = 0;
 	gint max_icon_w, max_icon_h;
-	gboolean draw_reminder_icon, draw_recurrence_icon, draw_timezone_icon, draw_meeting_icon;
+	gboolean draw_reminder_icon, draw_recurrence_icon, draw_detached_recurrence_icon, draw_timezone_icon, draw_meeting_icon;
 	gboolean draw_attach_icon;
 	ECalComponentTransparency transparency;
 	cairo_pattern_t *pat;
@@ -646,6 +646,7 @@ day_view_main_item_draw_day_event (EDayViewMainItem *main_item,
 		num_icons = 0;
 		draw_reminder_icon = FALSE;
 		draw_recurrence_icon = FALSE;
+		draw_detached_recurrence_icon = FALSE;
 		draw_timezone_icon = FALSE;
 		draw_meeting_icon = FALSE;
 		draw_attach_icon = FALSE;
@@ -658,8 +659,11 @@ day_view_main_item_draw_day_event (EDayViewMainItem *main_item,
 			num_icons++;
 		}
 
-		if (e_cal_component_has_recurrences (comp) || e_cal_component_is_instance (comp)) {
+		if (e_cal_component_has_recurrences (comp)) {
 			draw_recurrence_icon = TRUE;
+			num_icons++;
+		} else if (e_cal_component_is_instance (comp)) {
+			draw_detached_recurrence_icon = TRUE;
 			num_icons++;
 		}
 		if (e_cal_component_has_attachments (comp)) {
@@ -716,6 +720,9 @@ day_view_main_item_draw_day_event (EDayViewMainItem *main_item,
 
 			if (draw_recurrence_icon && fit_in_event ()) {
 				draw_pixbuf (day_view->recurrence_icon);
+			}
+			if (draw_detached_recurrence_icon && fit_in_event ()) {
+				draw_pixbuf (day_view->detached_recurrence_icon);
 			}
 			if (draw_attach_icon && fit_in_event ()) {
 				draw_pixbuf (day_view->attach_icon);

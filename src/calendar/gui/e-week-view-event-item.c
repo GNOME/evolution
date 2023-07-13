@@ -424,7 +424,7 @@ week_view_event_item_draw_icons (EWeekViewEventItem *event_item,
 	GnomeCanvas *canvas;
 	GtkWidget *parent;
 	gint num_icons = 0, icon_x_inc;
-	gboolean draw_reminder_icon = FALSE, draw_recurrence_icon = FALSE;
+	gboolean draw_reminder_icon = FALSE, draw_recurrence_icon = FALSE, draw_detached_recurrence_icon = FALSE;
 	gboolean draw_timezone_icon = FALSE, draw_attach_icon = FALSE;
 	gboolean draw_meeting_icon = FALSE;
 	GSList *categories_pixbufs = NULL, *pixbufs;
@@ -455,9 +455,11 @@ week_view_event_item_draw_icons (EWeekViewEventItem *event_item,
 		num_icons++;
 	}
 
-	if (e_cal_component_has_recurrences (comp) ||
-	    e_cal_component_is_instance (comp)) {
+	if (e_cal_component_has_recurrences (comp)) {
 		draw_recurrence_icon = TRUE;
+		num_icons++;
+	} else if (e_cal_component_is_instance (comp)) {
+		draw_detached_recurrence_icon = TRUE;
 		num_icons++;
 	}
 
@@ -504,6 +506,10 @@ week_view_event_item_draw_icons (EWeekViewEventItem *event_item,
 
 	if (draw_recurrence_icon && icon_x + E_WEEK_VIEW_ICON_WIDTH <= x2) {
 		draw_pixbuf (week_view->recurrence_icon);
+	}
+
+	if (draw_detached_recurrence_icon && icon_x + E_WEEK_VIEW_ICON_WIDTH <= x2) {
+		draw_pixbuf (week_view->detached_recurrence_icon);
 	}
 
 	if (draw_timezone_icon && icon_x + E_WEEK_VIEW_ICON_WIDTH <= x2) {

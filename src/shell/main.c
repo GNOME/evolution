@@ -190,6 +190,8 @@ e_setup_theme_icons_theme_changed_cb (GtkSettings *settings)
 	}
 
 	#undef KEY_NAME
+
+	e_icon_factory_set_prefer_symbolic_icons (use_symbolic_icons);
 }
 
 static void

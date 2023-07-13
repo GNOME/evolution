@@ -1137,16 +1137,12 @@ week_view_realize (GtkWidget *widget)
 	week_view_update_style_settings (week_view);
 
 	/* Create the pixmaps. */
-	week_view->reminder_icon =
-		e_icon_factory_get_icon ("stock_bell", GTK_ICON_SIZE_MENU);
-	week_view->recurrence_icon =
-		e_icon_factory_get_icon ("view-refresh", GTK_ICON_SIZE_MENU);
-	week_view->timezone_icon =
-		e_icon_factory_get_icon ("stock_timezone", GTK_ICON_SIZE_MENU);
-	week_view->attach_icon =
-		e_icon_factory_get_icon ("mail-attachment", GTK_ICON_SIZE_MENU);
-	week_view->meeting_icon =
-		e_icon_factory_get_icon ("stock_people", GTK_ICON_SIZE_MENU);
+	week_view->reminder_icon = e_icon_factory_get_icon ("stock_bell", GTK_ICON_SIZE_MENU);
+	week_view->recurrence_icon = e_icon_factory_get_icon ("view-refresh", GTK_ICON_SIZE_MENU);
+	week_view->detached_recurrence_icon = e_icon_factory_get_icon ("view-pin", GTK_ICON_SIZE_MENU);
+	week_view->timezone_icon = e_icon_factory_get_icon ("stock_timezone", GTK_ICON_SIZE_MENU);
+	week_view->attach_icon = e_icon_factory_get_icon ("mail-attachment", GTK_ICON_SIZE_MENU);
+	week_view->meeting_icon = e_icon_factory_get_icon ("stock_people", GTK_ICON_SIZE_MENU);
 }
 
 static void
@@ -1156,16 +1152,12 @@ week_view_unrealize (GtkWidget *widget)
 
 	week_view = E_WEEK_VIEW (widget);
 
-	g_object_unref (week_view->reminder_icon);
-	week_view->reminder_icon = NULL;
-	g_object_unref (week_view->recurrence_icon);
-	week_view->recurrence_icon = NULL;
-	g_object_unref (week_view->timezone_icon);
-	week_view->timezone_icon = NULL;
-	g_object_unref (week_view->attach_icon);
-	week_view->attach_icon = NULL;
-	g_object_unref (week_view->meeting_icon);
-	week_view->meeting_icon = NULL;
+	g_clear_object (&week_view->reminder_icon);
+	g_clear_object (&week_view->recurrence_icon);
+	g_clear_object (&week_view->detached_recurrence_icon);
+	g_clear_object (&week_view->timezone_icon);
+	g_clear_object (&week_view->attach_icon);
+	g_clear_object (&week_view->meeting_icon);
 
 	if (GTK_WIDGET_CLASS (e_week_view_parent_class)->unrealize)
 		(*GTK_WIDGET_CLASS (e_week_view_parent_class)->unrealize)(widget);

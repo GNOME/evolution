@@ -29,6 +29,10 @@
 
 #include <gtk/gtk.h>
 
+void		e_icon_factory_set_prefer_symbolic_icons
+						(gboolean prefer);
+gboolean	e_icon_factory_get_prefer_symbolic_icons
+						(void);
 gchar *		e_icon_factory_get_icon_filename (const gchar *icon_name,
 						 GtkIconSize icon_size);
 GdkPixbuf *	e_icon_factory_get_icon		(const gchar *icon_name,

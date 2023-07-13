@@ -1647,6 +1647,7 @@ day_view_realize (GtkWidget *widget)
 	/* Create the pixmaps. */
 	day_view->reminder_icon = e_icon_factory_get_icon ("stock_bell", GTK_ICON_SIZE_MENU);
 	day_view->recurrence_icon = e_icon_factory_get_icon ("view-refresh", GTK_ICON_SIZE_MENU);
+	day_view->detached_recurrence_icon = e_icon_factory_get_icon ("view-pin", GTK_ICON_SIZE_MENU);
 	day_view->timezone_icon = e_icon_factory_get_icon ("stock_timezone", GTK_ICON_SIZE_MENU);
 	day_view->meeting_icon = e_icon_factory_get_icon ("stock_people", GTK_ICON_SIZE_MENU);
 	day_view->attach_icon = e_icon_factory_get_icon ("mail-attachment", GTK_ICON_SIZE_MENU);
@@ -1678,16 +1679,12 @@ day_view_unrealize (GtkWidget *widget)
 
 	day_view = E_DAY_VIEW (widget);
 
-	g_object_unref (day_view->reminder_icon);
-	day_view->reminder_icon = NULL;
-	g_object_unref (day_view->recurrence_icon);
-	day_view->recurrence_icon = NULL;
-	g_object_unref (day_view->timezone_icon);
-	day_view->timezone_icon = NULL;
-	g_object_unref (day_view->meeting_icon);
-	day_view->meeting_icon = NULL;
-	g_object_unref (day_view->attach_icon);
-	day_view->attach_icon = NULL;
+	g_clear_object (&day_view->reminder_icon);
+	g_clear_object (&day_view->recurrence_icon);
+	g_clear_object (&day_view->detached_recurrence_icon);
+	g_clear_object (&day_view->timezone_icon);
+	g_clear_object (&day_view->meeting_icon);
+	g_clear_object (&day_view->attach_icon);
 
 	if (GTK_WIDGET_CLASS (e_day_view_parent_class)->unrealize)
 		(*GTK_WIDGET_CLASS (e_day_view_parent_class)->unrealize)(widget);

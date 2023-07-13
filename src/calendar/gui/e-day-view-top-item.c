@@ -421,7 +421,8 @@ day_view_top_item_draw_long_event (EDayViewTopItem *top_item,
 		e_cal_component_has_recurrences (comp) ||
 		e_cal_component_is_instance (comp))) {
 		cairo_save (cr);
-		gdk_cairo_set_source_pixbuf (cr, day_view->recurrence_icon, icon_x, icon_y);
+		gdk_cairo_set_source_pixbuf (cr,
+			e_cal_component_has_recurrences (comp) ? day_view->recurrence_icon : day_view->detached_recurrence_icon, icon_x, icon_y);
 		cairo_paint (cr);
 		cairo_restore (cr);
 
