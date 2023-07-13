@@ -1905,6 +1905,28 @@ e_html_editor_set_mode (EHTMLEditor *editor,
 }
 
 /**
+ * e_html_editor_cancel_mode_change_content_update:
+ * @editor: an #EHTMLEditor
+ *
+ * Cancels any ongoing content update after the mode change. This is useful
+ * when setting content before the read of the current editor's content
+ * is finished, which can happen due to reading the editor's content
+ * asynchronously.
+ *
+ * Since: 3.50
+ **/
+void
+e_html_editor_cancel_mode_change_content_update (EHTMLEditor *editor)
+{
+	g_return_if_fail (E_IS_HTML_EDITOR (editor));
+
+	if (editor->priv->mode_change_content_cancellable) {
+		g_cancellable_cancel (editor->priv->mode_change_content_cancellable);
+		g_clear_object (&editor->priv->mode_change_content_cancellable);
+	}
+}
+
+/**
  * e_html_editor_get_ui_manager:
  * @editor: an #EHTMLEditor
  *

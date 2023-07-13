@@ -1893,6 +1893,8 @@ set_editor_text (EMsgComposer *composer,
 	editor = e_msg_composer_get_editor (composer);
 	cnt_editor = e_html_editor_get_content_editor (editor);
 
+	e_html_editor_cancel_mode_change_content_update (editor);
+
 	if (is_html)
 		e_content_editor_insert_content (
 			cnt_editor,

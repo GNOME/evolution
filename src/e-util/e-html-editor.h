@@ -96,6 +96,8 @@ EContentEditorMode
 		e_html_editor_get_mode		(EHTMLEditor *editor);
 void		e_html_editor_set_mode		(EHTMLEditor *editor,
 						 EContentEditorMode mode);
+void		e_html_editor_cancel_mode_change_content_update
+						(EHTMLEditor *editor);
 GtkBuilder *	e_html_editor_get_builder	(EHTMLEditor *editor);
 GtkUIManager *	e_html_editor_get_ui_manager	(EHTMLEditor *editor);
 GtkAction *	e_html_editor_get_action	(EHTMLEditor *editor,
