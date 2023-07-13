@@ -2400,6 +2400,17 @@ em_utils_edit_message (EMsgComposer *composer,
 			e_msg_composer_set_header (composer, "X-Evolution-Source-Message", hdr_message);
 			e_msg_composer_set_header (composer, "X-Evolution-Source-Flags", hdr_flags);
 		}
+	} else if (folder_is_templates) {
+		gchar *folder_uri;
+
+		folder_uri = e_mail_folder_uri_from_folder (folder);
+
+		if (folder_uri && message_uid) {
+			e_msg_composer_set_header (composer, "X-Evolution-Templates-Folder", folder_uri);
+			e_msg_composer_set_header (composer, "X-Evolution-Templates-Message", message_uid);
+		}
+
+		g_free (folder_uri);
 	}
 
 	e_msg_composer_setup_with_message (composer, message, keep_signature, override_identity_uid, override_alias_name, override_alias_address, NULL);

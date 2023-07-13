@@ -1470,10 +1470,13 @@ composer_build_message (EMsgComposer *composer,
 
 	build_message_headers (composer, context->message, FALSE);
 	for (i = 0; i < priv->extra_hdr_names->len; i++) {
-		camel_medium_add_header (
-			CAMEL_MEDIUM (context->message),
-			priv->extra_hdr_names->pdata[i],
-			priv->extra_hdr_values->pdata[i]);
+		/* Skip headers related to the templates, they are not meant to be part of the message */
+		if (g_ascii_strncasecmp (priv->extra_hdr_names->pdata[i], "X-Evolution-Templates-", 22) != 0) {
+			camel_medium_add_header (
+				CAMEL_MEDIUM (context->message),
+				priv->extra_hdr_names->pdata[i],
+				priv->extra_hdr_values->pdata[i]);
+		}
 	}
 
 	if (source) {

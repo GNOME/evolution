@@ -775,6 +775,8 @@ typedef struct _SaveTemplateAsyncData {
 	CamelMimeMessage *message;
 	CamelMessageInfo *info;
 	gchar *templates_folder_uri;
+	gchar *delete_message_uid;
+	gchar *new_message_uid;
 } SaveTemplateAsyncData;
 
 static void
@@ -783,11 +785,34 @@ save_template_async_data_free (gpointer ptr)
 	SaveTemplateAsyncData *sta = ptr;
 
 	if (sta) {
+		if (sta->templates_folder_uri && sta->new_message_uid) {
+			EHTMLEditor *editor;
+			GtkActionGroup *action_group;
+			GtkAction *action;
+
+			e_msg_composer_set_header (sta->composer, "X-Evolution-Templates-Folder", sta->templates_folder_uri);
+			e_msg_composer_set_header (sta->composer, "X-Evolution-Templates-Message", sta->new_message_uid);
+
+			editor = e_msg_composer_get_editor (sta->composer);
+			action_group = e_html_editor_get_action_group (editor, "composer");
+
+			if (action_group) {
+				action = gtk_action_group_get_action (action_group, "template-replace");
+
+				if (action) {
+					gtk_action_set_visible (action, TRUE);
+					gtk_action_set_sensitive (action, TRUE);
+				}
+			}
+		}
+
 		g_clear_object (&sta->composer);
 		g_clear_object (&sta->session);
 		g_clear_object (&sta->message);
 		g_clear_object (&sta->info);
 		g_free (sta->templates_folder_uri);
+		g_free (sta->delete_message_uid);
+		g_free (sta->new_message_uid);
 		g_slice_free (SaveTemplateAsyncData, sta);
 	}
 }
@@ -800,6 +825,7 @@ save_template_thread (EAlertSinkThreadJobData *job_data,
 {
 	SaveTemplateAsyncData *sta = user_data;
 	CamelFolder *templates_folder = NULL;
+	gboolean success;
 
 	if (sta->templates_folder_uri && *sta->templates_folder_uri) {
 		templates_folder = e_mail_session_uri_to_folder_sync (sta->session,
@@ -809,23 +835,32 @@ save_template_thread (EAlertSinkThreadJobData *job_data,
 	}
 
 	if (!templates_folder) {
-		e_mail_session_append_to_local_folder_sync (
+		g_clear_pointer (&sta->templates_folder_uri, g_free);
+		sta->templates_folder_uri = g_strdup (e_mail_session_get_local_folder_uri (sta->session, E_MAIL_LOCAL_FOLDER_TEMPLATES));
+
+		success = e_mail_session_append_to_local_folder_sync (
 			sta->session, E_MAIL_LOCAL_FOLDER_TEMPLATES,
 			sta->message, sta->info,
-			NULL, cancellable, error);
+			&sta->new_message_uid, cancellable, error);
 	} else {
-		e_mail_folder_append_message_sync (
+		success = e_mail_folder_append_message_sync (
 			templates_folder, sta->message, sta->info,
-			NULL, cancellable, error);
+			&sta->new_message_uid, cancellable, error);
 	}
+
+	if (success && sta->delete_message_uid && templates_folder)
+		camel_folder_set_message_flags (templates_folder, sta->delete_message_uid, CAMEL_MESSAGE_DELETED, CAMEL_MESSAGE_DELETED);
 
 	g_clear_object (&templates_folder);
 }
 
 static void
-got_message_draft_cb (EMsgComposer *composer,
-                      GAsyncResult *result)
+got_message_draft_cb (GObject *source_object,
+                      GAsyncResult *result,
+		      gpointer user_data)
 {
+	EMsgComposer *composer = E_MSG_COMPOSER (source_object);
+	gboolean replace_template = GPOINTER_TO_INT (user_data) == 1;
 	EShell *shell;
 	EShellBackend *shell_backend;
 	EMailBackend *backend;
@@ -879,7 +914,22 @@ got_message_draft_cb (EMsgComposer *composer,
 	sta->session = g_object_ref (session);
 	sta->message = message;
 	sta->info = info;
-	sta->templates_folder_uri = get_account_templates_folder_uri (composer);
+
+	if (replace_template) {
+		const gchar *existing_folder_uri;
+		const gchar *existing_message_uid;
+
+		existing_folder_uri = e_msg_composer_get_header (composer, "X-Evolution-Templates-Folder", 0);
+		existing_message_uid = e_msg_composer_get_header (composer, "X-Evolution-Templates-Message", 0);
+
+		if (existing_folder_uri && *existing_folder_uri && existing_message_uid && *existing_message_uid) {
+			sta->templates_folder_uri = g_strdup (existing_folder_uri);
+			sta->delete_message_uid = g_strdup (existing_message_uid);
+		}
+	}
+
+	if (!sta->templates_folder_uri)
+		sta->templates_folder_uri = get_account_templates_folder_uri (composer);
 
 	html_editor = e_msg_composer_get_editor (composer);
 
@@ -892,28 +942,71 @@ got_message_draft_cb (EMsgComposer *composer,
 }
 
 static void
-action_template_cb (GtkAction *action,
-                    EMsgComposer *composer)
+action_template_replace_cb (GtkAction *action,
+			    EMsgComposer *composer)
 {
 	/* XXX Pass a GCancellable */
 	e_msg_composer_get_message_draft (
 		composer, G_PRIORITY_DEFAULT, NULL,
-		(GAsyncReadyCallback) got_message_draft_cb, NULL);
+		got_message_draft_cb, GINT_TO_POINTER (1));
+}
+
+static void
+action_template_save_new_cb (GtkAction *action,
+			     EMsgComposer *composer)
+{
+	/* XXX Pass a GCancellable */
+	e_msg_composer_get_message_draft (
+		composer, G_PRIORITY_DEFAULT, NULL,
+		got_message_draft_cb, GINT_TO_POINTER (0));
 }
 
 static GtkActionEntry composer_entries[] = {
 
-	{ "template",
+	{ "template-replace",
 	  "document-save",
-	  N_("Save as _Template"),
+	  N_("Save _Template"),
 	  "<Shift><Control>t",
+	  N_("Replace opened Template message"),
+	  G_CALLBACK (action_template_replace_cb) },
+
+	{ "template-save-new",
+	  "document-save",
+	  N_("Save as _New Template"),
+	  NULL,
 	  N_("Save as Template"),
-	  G_CALLBACK (action_template_cb) }
+	  G_CALLBACK (action_template_save_new_cb) }
 };
 
 static void
-templates_update_actions_cb (EShellView *shell_view,
-			     GtkActionGroup *action_group)
+templates_composer_realize_cb (EMsgComposer *composer,
+			       gpointer user_data)
+{
+	EHTMLEditor *editor;
+	GtkActionGroup *action_group;
+	GtkAction *action;
+	const gchar *existing_folder_uri;
+	const gchar *existing_message_uid;
+
+	editor = e_msg_composer_get_editor (composer);
+	action_group = e_html_editor_get_action_group (editor, "composer");
+	if (!action_group)
+		return;
+
+	action = gtk_action_group_get_action (action_group, "template-replace");
+	if (!action)
+		return;
+
+	existing_folder_uri = e_msg_composer_get_header (composer, "X-Evolution-Templates-Folder", 0);
+	existing_message_uid = e_msg_composer_get_header (composer, "X-Evolution-Templates-Message", 0);
+
+	gtk_action_set_visible (action, existing_folder_uri && *existing_folder_uri && existing_message_uid && *existing_message_uid);
+	gtk_action_set_sensitive (action, gtk_action_get_visible (action));
+}
+
+static void
+templates_shell_view_update_actions_cb (EShellView *shell_view,
+					GtkActionGroup *action_group)
 {
 	TemplatesData *td;
 
@@ -955,6 +1048,9 @@ init_composer_actions (GtkUIManager *ui_manager,
 	gtk_action_group_add_actions (
 		e_html_editor_get_action_group (editor, "composer"),
 		composer_entries, G_N_ELEMENTS (composer_entries), composer);
+
+	g_signal_connect (composer, "realize",
+		G_CALLBACK (templates_composer_realize_cb), NULL);
 
 	return TRUE;
 }
@@ -1000,7 +1096,7 @@ mail_shell_view_created_cb (EShellWindow *shell_window,
 
 	g_signal_connect (
 		shell_view, "update-actions",
-		G_CALLBACK (templates_update_actions_cb), action_group);
+		G_CALLBACK (templates_shell_view_update_actions_cb), action_group);
 }
 
 gboolean

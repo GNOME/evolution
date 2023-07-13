@@ -21,7 +21,8 @@
               <placeholder name='pre-edit-menu'>
                 <menu action='file-menu'>
                   <placeholder name="template-holder">
-                    <menuitem action="template"/>
+                    <menuitem action="template-replace"/>
+                    <menuitem action="template-save-new"/>
                   </placeholder>
                 </menu>
               </placeholder>
