@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: evolution\n"
 "Report-Msgid-Bugs-To: https://gitlab.gnome.org/GNOME/evolution/issues\n"
-"POT-Creation-Date: 2023-06-30 10:27+0000\n"
-"PO-Revision-Date: 2023-07-01 07:55+0200\n"
+"POT-Creation-Date: 2023-07-13 15:07+0000\n"
+"PO-Revision-Date: 2023-07-14 06:59+0200\n"
 "Last-Translator: Ekaterine Papava <papava.e@gtu.ge>\n"
 "Language-Team: Georgian <(nothing)>\n"
 "Language: ka\n"
@@ -3052,7 +3052,7 @@ msgid ""
 msgstr ""
 
 #: ../data/org.gnome.evolution.shell.gschema.xml.in.h:11
-#: ../src/shell/main.c:431
+#: ../src/shell/main.c:433
 msgid "Start in offline mode"
 msgstr ""
 
@@ -4017,7 +4017,7 @@ msgstr ""
 #: ../src/e-util/evolution-source-viewer.c:829 ../src/e-util/e-web-view.c:4039
 #: ../src/e-util/gal-view-instance-save-as-dialog.c:265
 #: ../src/mail/e-mail-config-window.c:310 ../src/mail/e-mail-label-dialog.c:187
-#: ../src/mail/e-mail-tag-editor.c:160 ../src/mail/em-composer-utils.c:4235
+#: ../src/mail/e-mail-tag-editor.c:160 ../src/mail/em-composer-utils.c:4246
 #: ../src/mail/em-folder-selector.c:333 ../src/mail/mail-config.ui.h:2
 #: ../src/mail/mail.error.xml.h:16 ../src/mail/mail-send-recv.c:874
 #: ../src/mail/mail-send-recv.c:955 ../src/mail/mail-vfolder-ui.c:149
@@ -4177,7 +4177,7 @@ msgid "_Home Page:"
 msgstr "_საწყისი გვერდი:"
 
 #: ../src/addressbook/gui/contact-editor/contact-editor.ui.h:28
-#: ../src/calendar/gui/e-comp-editor-event.c:933
+#: ../src/calendar/gui/e-comp-editor-event.c:934
 #: ../src/modules/itip-formatter/itip-view.c:2455
 msgid "_Calendar:"
 msgstr "_კალენდარი:"
@@ -4414,7 +4414,7 @@ msgid "Redo"
 msgstr "ბრძანების აღდგენა"
 
 #: ../src/addressbook/gui/contact-editor/e-contact-editor.c:301
-#: ../src/addressbook/gui/widgets/eab-gui-util.c:498
+#: ../src/addressbook/gui/widgets/eab-gui-util.c:497
 msgid "Error adding contact"
 msgstr "კონტაქტის დამატების შეცდომა"
 
@@ -4583,7 +4583,7 @@ msgstr "და_ხმარება"
 #: ../src/plugins/email-custom-header/org-gnome-email-custom-header.ui.h:4
 #: ../src/plugins/publish-calendar/url-editor-dialog.c:418
 #: ../src/shell/e-shell-content.c:643 ../src/shell/e-shell-content.c:749
-#: ../src/shell/main.c:277 ../src/smime/gui/certificate-manager.c:1278
+#: ../src/shell/main.c:279 ../src/smime/gui/certificate-manager.c:1278
 #: ../src/smime/gui/e-cert-selector.c:233 ../src/smime/gui/smime-ui.ui.h:18
 msgid "_OK"
 msgstr "_დიახ"
@@ -5185,23 +5185,23 @@ msgstr ""
 msgid "Select Address Book"
 msgstr "არჩიეთ მისამართების წიგნი"
 
-#: ../src/addressbook/gui/widgets/eab-gui-util.c:393
+#: ../src/addressbook/gui/widgets/eab-gui-util.c:392
 msgid "list"
 msgstr "სია"
 
-#: ../src/addressbook/gui/widgets/eab-gui-util.c:582
+#: ../src/addressbook/gui/widgets/eab-gui-util.c:581
 msgid "Move contact to"
 msgstr ""
 
-#: ../src/addressbook/gui/widgets/eab-gui-util.c:584
+#: ../src/addressbook/gui/widgets/eab-gui-util.c:583
 msgid "Copy contact to"
 msgstr ""
 
-#: ../src/addressbook/gui/widgets/eab-gui-util.c:587
+#: ../src/addressbook/gui/widgets/eab-gui-util.c:586
 msgid "Move contacts to"
 msgstr ""
 
-#: ../src/addressbook/gui/widgets/eab-gui-util.c:589
+#: ../src/addressbook/gui/widgets/eab-gui-util.c:588
 msgid "Copy contacts to"
 msgstr ""
 
@@ -6530,7 +6530,7 @@ msgstr "უარყოფილია"
 #: ../src/calendar/gui/e-meeting-list-view.c:207
 #: ../src/calendar/gui/e-meeting-store.c:183
 #: ../src/calendar/gui/e-meeting-store.c:206
-#: ../src/calendar/gui/e-meeting-time-sel.c:523
+#: ../src/calendar/gui/e-meeting-time-sel.c:528
 msgid "Tentative"
 msgstr "სავარაუდო"
 
@@ -6561,18 +6561,18 @@ msgid "Status"
 msgstr "სტატუსი"
 
 #. String to use in 12-hour time format for times in the morning.
-#: ../src/calendar/gui/comp-util.c:2091 ../src/calendar/gui/e-day-view.c:2338
+#: ../src/calendar/gui/comp-util.c:2091 ../src/calendar/gui/e-day-view.c:2335
 #: ../src/calendar/gui/e-to-do-pane.c:268
-#: ../src/calendar/gui/e-week-view.c:1969 ../src/calendar/gui/print.c:1102
+#: ../src/calendar/gui/e-week-view.c:1961 ../src/calendar/gui/print.c:1102
 #: ../src/calendar/gui/print.c:1121 ../src/calendar/gui/print.c:2689
 #: ../src/calendar/gui/print.c:2709
 msgid "am"
 msgstr "am"
 
 #. String to use in 12-hour time format for times in the afternoon.
-#: ../src/calendar/gui/comp-util.c:2095 ../src/calendar/gui/e-day-view.c:2341
+#: ../src/calendar/gui/comp-util.c:2095 ../src/calendar/gui/e-day-view.c:2338
 #: ../src/calendar/gui/e-to-do-pane.c:272
-#: ../src/calendar/gui/e-week-view.c:1972 ../src/calendar/gui/print.c:1107
+#: ../src/calendar/gui/e-week-view.c:1964 ../src/calendar/gui/print.c:1107
 #: ../src/calendar/gui/print.c:1123 ../src/calendar/gui/print.c:2694
 #: ../src/calendar/gui/print.c:2711
 msgid "pm"
@@ -6599,7 +6599,7 @@ msgstr ""
 #. Translators: It will display "Location: PlaceOfTheMeeting"
 #. Translators: It will display "Location: LocationOfTheAppointment"
 #: ../src/calendar/gui/comp-util.c:2271
-#: ../src/calendar/gui/e-meeting-time-sel.c:2580
+#: ../src/calendar/gui/e-meeting-time-sel.c:2585
 #: ../src/calendar/gui/e-to-do-pane.c:401 ../src/calendar/gui/print.c:3655
 #, c-format
 msgid "Location: %s"
@@ -7044,49 +7044,49 @@ msgstr "ნოემბერი"
 msgid "December"
 msgstr "დეკემბერი"
 
-#: ../src/calendar/gui/e-cal-dialogs.c:871
+#: ../src/calendar/gui/e-cal-dialogs.c:882
 #, c-format
 msgid "You are modifying a recurring event. What would you like to modify?"
 msgstr ""
 
-#: ../src/calendar/gui/e-cal-dialogs.c:873
+#: ../src/calendar/gui/e-cal-dialogs.c:884
 #, c-format
 msgid "You are delegating a recurring event. What would you like to delegate?"
 msgstr ""
 
-#: ../src/calendar/gui/e-cal-dialogs.c:877
+#: ../src/calendar/gui/e-cal-dialogs.c:888
 #, c-format
 msgid "You are modifying a recurring task. What would you like to modify?"
 msgstr ""
 
-#: ../src/calendar/gui/e-cal-dialogs.c:881
+#: ../src/calendar/gui/e-cal-dialogs.c:892
 #, c-format
 msgid "You are modifying a recurring memo. What would you like to modify?"
 msgstr ""
 
-#: ../src/calendar/gui/e-cal-dialogs.c:908
+#: ../src/calendar/gui/e-cal-dialogs.c:919
 msgid "This Instance Only"
 msgstr ""
 
-#: ../src/calendar/gui/e-cal-dialogs.c:912
+#: ../src/calendar/gui/e-cal-dialogs.c:923
 msgid "This and Prior Instances"
 msgstr ""
 
-#: ../src/calendar/gui/e-cal-dialogs.c:918
+#: ../src/calendar/gui/e-cal-dialogs.c:929
 msgid "This and Future Instances"
 msgstr ""
 
-#: ../src/calendar/gui/e-cal-dialogs.c:923
+#: ../src/calendar/gui/e-cal-dialogs.c:934
 msgid "All Instances"
 msgstr ""
 
-#: ../src/calendar/gui/e-cal-dialogs.c:1171
-#: ../src/calendar/gui/e-cal-dialogs.c:1253
+#: ../src/calendar/gui/e-cal-dialogs.c:1182
+#: ../src/calendar/gui/e-cal-dialogs.c:1264
 msgid "Send my reminders with this event"
 msgstr ""
 
-#: ../src/calendar/gui/e-cal-dialogs.c:1173
-#: ../src/calendar/gui/e-cal-dialogs.c:1255
+#: ../src/calendar/gui/e-cal-dialogs.c:1184
+#: ../src/calendar/gui/e-cal-dialogs.c:1266
 msgid "Notify new attendees _only"
 msgstr ""
 
@@ -7146,8 +7146,8 @@ msgstr "%d %b %Y"
 #. * month name. You can change the order but don't
 #. * change the specifiers or add anything.
 #: ../src/calendar/gui/e-calendar-view.c:1275
-#: ../src/calendar/gui/e-day-view.c:3274
-#: ../src/calendar/gui/e-day-view-top-item.c:856
+#: ../src/calendar/gui/e-day-view.c:3271
+#: ../src/calendar/gui/e-day-view-top-item.c:857
 #: ../src/calendar/gui/e-week-view-main-item.c:230
 msgid "%d %b"
 msgstr "%d %b"
@@ -7163,8 +7163,8 @@ msgstr "%A %d %b %Y"
 #. * You can change the order but don't change the
 #. * specifiers or add anything.
 #: ../src/calendar/gui/e-calendar-view.c:1288
-#: ../src/calendar/gui/e-day-view.c:3258
-#: ../src/calendar/gui/e-day-view-top-item.c:852
+#: ../src/calendar/gui/e-day-view.c:3255
+#: ../src/calendar/gui/e-day-view-top-item.c:853
 #: ../src/calendar/gui/e-week-view-main-item.c:216
 msgid "%a %d %b"
 msgstr "%a %d %b"
@@ -7299,7 +7299,7 @@ msgid "Free"
 msgstr "თავისუფალი"
 
 #: ../src/calendar/gui/e-cal-model-calendar.c:94
-#: ../src/calendar/gui/e-meeting-time-sel.c:524
+#: ../src/calendar/gui/e-meeting-time-sel.c:529
 #: ../src/calendar/gui/e-task-table.c:535
 msgid "Busy"
 msgstr "დაკავებულია"
@@ -7524,8 +7524,8 @@ msgstr ""
 #: ../src/e-util/e-misc-utils.c:4194 ../src/e-util/e-misc-utils.c:4207
 #: ../src/e-util/e-misc-utils.c:4221 ../src/mail/e-mail-autoconfig.c:1129
 #: ../src/mail/e-mail-display.c:2787 ../src/mail/e-mail-notes.c:930
-#: ../src/mail/e-mail-reader-utils.c:805 ../src/mail/em-composer-utils.c:4029
-#: ../src/mail/em-composer-utils.c:4052 ../src/mail/mail-send-recv.c:598
+#: ../src/mail/e-mail-reader-utils.c:805 ../src/mail/em-composer-utils.c:4040
+#: ../src/mail/em-composer-utils.c:4063 ../src/mail/mail-send-recv.c:598
 #: ../src/mail/mail-send-recv.c:1493
 #: ../src/modules/accounts-window/e-accounts-window-editors.c:172
 #: ../src/plugins/face/face.c:175
@@ -7605,58 +7605,58 @@ msgstr ""
 msgid "Classify as confidential"
 msgstr ""
 
-#: ../src/calendar/gui/e-comp-editor-event.c:944
+#: ../src/calendar/gui/e-comp-editor-event.c:947
 msgctxt "ECompEditor"
 msgid "_Start time:"
 msgstr ""
 
-#: ../src/calendar/gui/e-comp-editor-event.c:949
+#: ../src/calendar/gui/e-comp-editor-event.c:952
 msgctxt "ECompEditor"
 msgid "_End time:"
 msgstr ""
 
-#: ../src/calendar/gui/e-comp-editor-event.c:959
+#: ../src/calendar/gui/e-comp-editor-event.c:962
 msgctxt "ECompEditor"
 msgid "All da_y event"
 msgstr ""
 
-#: ../src/calendar/gui/e-comp-editor-event.c:1027
+#: ../src/calendar/gui/e-comp-editor-event.c:1035
 #: ../src/calendar/gui/e-comp-editor-memo.c:359
 #: ../src/calendar/gui/e-comp-editor-task.c:987
 msgctxt "ECompEditorPage"
 msgid "General"
 msgstr "ძირითადი"
 
-#: ../src/calendar/gui/e-comp-editor-event.c:1030
+#: ../src/calendar/gui/e-comp-editor-event.c:1038
 #: ../src/calendar/gui/e-comp-editor-task.c:1010
 msgctxt "ECompEditorPage"
 msgid "Reminders"
 msgstr "შეხსენებები"
 
-#: ../src/calendar/gui/e-comp-editor-event.c:1033
+#: ../src/calendar/gui/e-comp-editor-event.c:1041
 #: ../src/calendar/gui/e-comp-editor-task.c:1014
 msgctxt "ECompEditorPage"
 msgid "Recurrence"
 msgstr "გამეორებადობა"
 
-#: ../src/calendar/gui/e-comp-editor-event.c:1036
+#: ../src/calendar/gui/e-comp-editor-event.c:1044
 #: ../src/calendar/gui/e-comp-editor-memo.c:362
 #: ../src/calendar/gui/e-comp-editor-task.c:1018
 msgctxt "ECompEditorPage"
 msgid "Attachments"
 msgstr "დანართი"
 
-#: ../src/calendar/gui/e-comp-editor-event.c:1046
+#: ../src/calendar/gui/e-comp-editor-event.c:1052
 msgctxt "ECompEditorPage"
 msgid "Schedule"
 msgstr "განრიგი"
 
-#: ../src/calendar/gui/e-comp-editor-event.c:1081
+#: ../src/calendar/gui/e-comp-editor-event.c:1087
 #, c-format
 msgid "Meeting — %s"
 msgstr ""
 
-#: ../src/calendar/gui/e-comp-editor-event.c:1082
+#: ../src/calendar/gui/e-comp-editor-event.c:1088
 #, c-format
 msgid "Appointment — %s"
 msgstr ""
@@ -8697,15 +8697,15 @@ msgstr ""
 #. * month, %B = full month name. You can change the
 #. * order but don't change the specifiers or add
 #. * anything.
-#: ../src/calendar/gui/e-day-view.c:3241
-#: ../src/calendar/gui/e-day-view-top-item.c:848
+#: ../src/calendar/gui/e-day-view.c:3238
+#: ../src/calendar/gui/e-day-view-top-item.c:849
 #: ../src/calendar/gui/e-week-view-main-item.c:207
 #: ../src/calendar/gui/print.c:2143
 msgid "%A %d %B"
 msgstr "%A %d %B"
 
 #. To Translators: the %d stands for a week number, it's value between 1 and 52/53
-#: ../src/calendar/gui/e-day-view.c:3978
+#: ../src/calendar/gui/e-day-view.c:3975
 #, c-format
 msgid "Week %d"
 msgstr "კვირა %d"
@@ -8888,78 +8888,78 @@ msgstr ""
 msgid "Enter password"
 msgstr "შეიყვანეთ პაროლი"
 
-#: ../src/calendar/gui/e-meeting-time-sel.c:525
+#: ../src/calendar/gui/e-meeting-time-sel.c:530
 msgid "Out of Office"
 msgstr ""
 
-#: ../src/calendar/gui/e-meeting-time-sel.c:527
+#: ../src/calendar/gui/e-meeting-time-sel.c:532
 msgid "No Information"
 msgstr ""
 
-#: ../src/calendar/gui/e-meeting-time-sel.c:543
+#: ../src/calendar/gui/e-meeting-time-sel.c:548
 msgid "Atte_ndees…"
 msgstr ""
 
-#: ../src/calendar/gui/e-meeting-time-sel.c:562
+#: ../src/calendar/gui/e-meeting-time-sel.c:567
 msgid "O_ptions"
 msgstr "მორგება"
 
-#: ../src/calendar/gui/e-meeting-time-sel.c:583
+#: ../src/calendar/gui/e-meeting-time-sel.c:588
 msgid "Show _only working hours"
 msgstr ""
 
-#: ../src/calendar/gui/e-meeting-time-sel.c:596
+#: ../src/calendar/gui/e-meeting-time-sel.c:601
 msgid "Show _zoomed out"
 msgstr ""
 
-#: ../src/calendar/gui/e-meeting-time-sel.c:614
+#: ../src/calendar/gui/e-meeting-time-sel.c:619
 msgid "_Update free/busy"
 msgstr ""
 
-#: ../src/calendar/gui/e-meeting-time-sel.c:631
+#: ../src/calendar/gui/e-meeting-time-sel.c:636
 msgid "_<<"
 msgstr "_<<"
 
-#: ../src/calendar/gui/e-meeting-time-sel.c:651
+#: ../src/calendar/gui/e-meeting-time-sel.c:656
 msgid "_Autopick"
 msgstr ""
 
-#: ../src/calendar/gui/e-meeting-time-sel.c:668
+#: ../src/calendar/gui/e-meeting-time-sel.c:673
 msgid ">_>"
 msgstr ">_>"
 
-#: ../src/calendar/gui/e-meeting-time-sel.c:690
+#: ../src/calendar/gui/e-meeting-time-sel.c:695
 msgid "_All people and resources"
 msgstr ""
 
-#: ../src/calendar/gui/e-meeting-time-sel.c:701
+#: ../src/calendar/gui/e-meeting-time-sel.c:706
 msgid "All _people and one resource"
 msgstr ""
 
-#: ../src/calendar/gui/e-meeting-time-sel.c:712
+#: ../src/calendar/gui/e-meeting-time-sel.c:717
 msgid "_Required people"
 msgstr ""
 
-#: ../src/calendar/gui/e-meeting-time-sel.c:722
+#: ../src/calendar/gui/e-meeting-time-sel.c:727
 msgid "Required people and _one resource"
 msgstr ""
 
-#: ../src/calendar/gui/e-meeting-time-sel.c:761
+#: ../src/calendar/gui/e-meeting-time-sel.c:766
 msgid "_Start time:"
 msgstr ""
 
-#: ../src/calendar/gui/e-meeting-time-sel.c:790
+#: ../src/calendar/gui/e-meeting-time-sel.c:795
 msgid "_End time:"
 msgstr ""
 
-#: ../src/calendar/gui/e-meeting-time-sel.c:2576
+#: ../src/calendar/gui/e-meeting-time-sel.c:2581
 #, c-format
 msgid ""
 "Summary: %s\n"
 "Location: %s"
 msgstr ""
 
-#: ../src/calendar/gui/e-meeting-time-sel.c:2578
+#: ../src/calendar/gui/e-meeting-time-sel.c:2583
 #: ../src/calendar/gui/print.c:3644
 #, c-format
 msgid "Summary: %s"
@@ -9171,7 +9171,7 @@ msgstr "გასაკეთებელი"
 #. Translators: the first '%s' is replaced with a component summary;
 #. the second '%s' is replaced with an event location.
 #. Example: "Meet John Doe (Central Park)"
-#: ../src/calendar/gui/e-week-view.c:3878
+#: ../src/calendar/gui/e-week-view.c:3870
 #, c-format
 msgctxt "SummaryWithLocation"
 msgid "%s (%s)"
@@ -11551,31 +11551,31 @@ msgid ""
 "account"
 msgstr ""
 
-#: ../src/composer/e-msg-composer.c:1942 ../src/composer/e-msg-composer.c:2619
+#: ../src/composer/e-msg-composer.c:1947 ../src/composer/e-msg-composer.c:2624
 msgid "Compose Message"
 msgstr "შეტყობინების შედგენა"
 
-#: ../src/composer/e-msg-composer.c:4774
+#: ../src/composer/e-msg-composer.c:4779
 #: ../src/modules/composer-to-meeting/e-composer-to-meeting.c:364
 msgid "Reading text content…"
 msgstr ""
 
-#: ../src/composer/e-msg-composer.c:5588
+#: ../src/composer/e-msg-composer.c:5593
 msgid "Review attachment before sending."
 msgid_plural "Review attachments before sending."
 msgstr[0] ""
 
-#: ../src/composer/e-msg-composer.c:5593
+#: ../src/composer/e-msg-composer.c:5598
 #, c-format
 msgid ""
-"There had been added %d attachment. Make sure it does not contain any "
-"sensitive information before sending the message."
+"%d attachment was added by an external application. Make sure it does not "
+"contain any sensitive information before sending the message."
 msgid_plural ""
-"There had been added %d attachments. Make sure they do not contain any "
-"sensitive information before sending the message."
+"%d attachments were added by an external application. Make sure they do not "
+"contain any sensitive information before sending the message."
 msgstr[0] ""
 
-#: ../src/composer/e-msg-composer.c:5726
+#: ../src/composer/e-msg-composer.c:5731
 msgid "The composer contains a non-text message body, which cannot be edited."
 msgstr ""
 
@@ -12951,10 +12951,10 @@ msgid_plural "Found %d candidates"
 msgstr[0] ""
 
 #: ../src/e-util/e-collection-account-wizard.c:667
-#: ../src/modules/book-config-google/evolution-book-config-google.c:101
+#: ../src/modules/book-config-google/evolution-book-config-google.c:102
 #: ../src/modules/book-config-ldap/evolution-book-config-ldap.c:1070
-#: ../src/modules/cal-config-google/e-cal-config-google.c:187
-#: ../src/modules/cal-config-google/e-cal-config-gtasks.c:116
+#: ../src/modules/cal-config-google/e-cal-config-google.c:188
+#: ../src/modules/cal-config-google/e-cal-config-gtasks.c:117
 #: ../src/modules/mail-config/e-mail-config-remote-accounts.c:445
 #: ../src/modules/mail-config/e-mail-config-smtp-backend.c:484
 msgid ""
@@ -14361,7 +14361,7 @@ msgstr "ფონტის ზომა"
 msgid "Font Name"
 msgstr "ფონტის სახელი"
 
-#: ../src/e-util/e-html-editor.c:2162
+#: ../src/e-util/e-html-editor.c:2184
 msgid "Failed to obtain content of editor"
 msgstr ""
 
@@ -15604,15 +15604,19 @@ msgstr ""
 msgid "Refresh every"
 msgstr "განახლება"
 
-#: ../src/e-util/e-source-config.c:1412 ../src/e-util/e-source-config.c:1486
+#: ../src/e-util/e-source-config.c:1410
+msgid "Refresh content on metered network"
+msgstr ""
+
+#: ../src/e-util/e-source-config.c:1437 ../src/e-util/e-source-config.c:1511
 msgid "Use a secure connection"
 msgstr ""
 
-#: ../src/e-util/e-source-config.c:1513
+#: ../src/e-util/e-source-config.c:1538
 msgid "Unset _trust for SSL/TLS certificate"
 msgstr ""
 
-#: ../src/e-util/e-source-config.c:1549
+#: ../src/e-util/e-source-config.c:1574
 msgid "User:"
 msgstr "მომხმარებელი:"
 
@@ -16994,7 +16998,7 @@ msgid "Do Not Quote"
 msgstr ""
 
 #: ../src/mail/e-mail-config-composing-page.c:157
-#: ../src/mail/em-composer-utils.c:4365
+#: ../src/mail/em-composer-utils.c:4376
 msgid "Use global setting"
 msgstr ""
 
@@ -17026,12 +17030,12 @@ msgid "Language for Reply and Forward attribution text"
 msgstr ""
 
 #: ../src/mail/e-mail-config-composing-page.c:524
-#: ../src/mail/em-composer-utils.c:4334 ../src/mail/mail-config.ui.h:23
+#: ../src/mail/em-composer-utils.c:4345 ../src/mail/mail-config.ui.h:23
 msgid "Start _typing at the bottom"
 msgstr ""
 
 #: ../src/mail/e-mail-config-composing-page.c:531
-#: ../src/mail/em-composer-utils.c:4338 ../src/mail/mail-config.ui.h:24
+#: ../src/mail/em-composer-utils.c:4349 ../src/mail/mail-config.ui.h:24
 msgid "_Keep signature above the original message"
 msgstr ""
 
@@ -17263,7 +17267,7 @@ msgstr ""
 #: ../src/mail/e-mail-config-security-page.c:460
 #: ../src/mail/em-folder-properties.c:1428 ../src/mail/mail-config.ui.h:35
 #: ../src/modules/addressbook/autocompletion-config.c:115
-#: ../src/modules/calendar/e-calendar-preferences.c:649
+#: ../src/modules/calendar/e-calendar-preferences.c:650
 #: ../src/modules/calendar/e-calendar-preferences.ui.h:54
 #: ../src/modules/mail/e-mail-shell-backend.c:1018
 #: ../src/modules/rss/evolution/e-rss-preferences.c:1572
@@ -18187,7 +18191,7 @@ msgstr ""
 msgid "Checks selected messages for duplicates"
 msgstr ""
 
-#: ../src/mail/e-mail-reader.c:2944 ../src/mail/em-composer-utils.c:4293
+#: ../src/mail/e-mail-reader.c:2944 ../src/mail/em-composer-utils.c:4304
 #: ../src/mail/mail.error.xml.h:28
 #: ../src/modules/calendar/e-cal-shell-view-actions.c:1586
 #: ../src/modules/mail/e-mail-attachment-handler.c:396
@@ -18212,7 +18216,7 @@ msgstr ""
 msgid "Reply to the mailing list, or to all recipients"
 msgstr ""
 
-#: ../src/mail/e-mail-reader.c:2965 ../src/mail/em-composer-utils.c:4288
+#: ../src/mail/e-mail-reader.c:2965 ../src/mail/em-composer-utils.c:4299
 #: ../src/mail/mail.error.xml.h:26
 #: ../src/modules/mail/e-mail-attachment-handler.c:403
 msgid "Reply to _List"
@@ -18610,84 +18614,84 @@ msgid "-----Original Message-----"
 msgstr ""
 
 #. Translators: This is a reply attribution in the message reply subject. The %s is replaced with the subject of the original message. Both 'Re'-s in the 'reply-attribution' translation context should translate into the same string, the same as the ':' separator.
-#: ../src/mail/em-composer-utils.c:2984
+#: ../src/mail/em-composer-utils.c:2995
 #, c-format
 msgctxt "reply-attribution"
 msgid "Re: %s"
 msgstr ""
 
-#: ../src/mail/em-composer-utils.c:3603
+#: ../src/mail/em-composer-utils.c:3614
 msgid "an unknown sender"
 msgstr ""
 
-#: ../src/mail/em-composer-utils.c:4233
+#: ../src/mail/em-composer-utils.c:4244
 msgid "Alternative Reply"
 msgstr ""
 
-#: ../src/mail/em-composer-utils.c:4236
+#: ../src/mail/em-composer-utils.c:4247
 #: ../src/modules/calendar/e-cal-shell-view-actions.c:1579
 msgid "_Reply"
 msgstr "_პასუხი"
 
-#: ../src/mail/em-composer-utils.c:4254
+#: ../src/mail/em-composer-utils.c:4265
 msgid "Recipients:"
 msgstr "მიმღები:"
 
-#: ../src/mail/em-composer-utils.c:4283
+#: ../src/mail/em-composer-utils.c:4294
 msgid "Reply to _Sender"
 msgstr ""
 
-#: ../src/mail/em-composer-utils.c:4306
+#: ../src/mail/em-composer-utils.c:4317
 msgid "Reply style:"
 msgstr ""
 
 #. Translators: This is for "Toolbar Icon Size: Default"
-#: ../src/mail/em-composer-utils.c:4315
+#: ../src/mail/em-composer-utils.c:4326
 #: ../src/modules/appearance-settings/evolution-appearance-settings.c:253
 msgid "_Default"
 msgstr "_ნაგულისხმები"
 
-#: ../src/mail/em-composer-utils.c:4319
+#: ../src/mail/em-composer-utils.c:4330
 msgid "Attach_ment"
 msgstr ""
 
-#: ../src/mail/em-composer-utils.c:4323
+#: ../src/mail/em-composer-utils.c:4334
 msgid "Inline (_Outlook style)"
 msgstr ""
 
-#: ../src/mail/em-composer-utils.c:4327
+#: ../src/mail/em-composer-utils.c:4338
 msgid "_Quote"
 msgstr ""
 
-#: ../src/mail/em-composer-utils.c:4331
+#: ../src/mail/em-composer-utils.c:4342
 msgid "Do _Not Quote"
 msgstr ""
 
 #. Translators: The text is followed by the format combo with values like 'Plain Text', 'HTML' and so on
-#: ../src/mail/em-composer-utils.c:4352
+#: ../src/mail/em-composer-utils.c:4363
 msgid "_Format message in"
 msgstr ""
 
-#: ../src/mail/em-composer-utils.c:4374
+#: ../src/mail/em-composer-utils.c:4385
 msgid "Apply t_emplate"
 msgstr ""
 
-#: ../src/mail/em-composer-utils.c:4387
+#: ../src/mail/em-composer-utils.c:4398
 msgid "Preserve original message S_ubject"
 msgstr ""
 
-#: ../src/mail/em-composer-utils.c:4453
+#: ../src/mail/em-composer-utils.c:4464
 #, c-format
 msgid "one recipient"
 msgid_plural "%d recipients"
 msgstr[0] ""
 
 #. FIXME GTK_WINDOW (composer)
-#: ../src/mail/em-composer-utils.c:4943
+#: ../src/mail/em-composer-utils.c:4954
 msgid "Posting destination"
 msgstr ""
 
-#: ../src/mail/em-composer-utils.c:4948
+#: ../src/mail/em-composer-utils.c:4959
 msgid "Choose folders to post the message to."
 msgstr ""
 
@@ -21990,10 +21994,10 @@ msgstr ""
 msgid "Avoid IfMatch (needed on Apache < 2.2.8)"
 msgstr ""
 
-#: ../src/modules/book-config-carddav/evolution-book-config-carddav.c:289
-#: ../src/modules/cal-config-caldav/evolution-cal-config-caldav.c:391
-#: ../src/modules/cal-config-webcal/evolution-cal-config-webcal.c:169
-#: ../src/modules/cal-config-webdav-notes/evolution-cal-config-webdav-notes.c:373
+#: ../src/modules/book-config-carddav/evolution-book-config-carddav.c:290
+#: ../src/modules/cal-config-caldav/evolution-cal-config-caldav.c:392
+#: ../src/modules/cal-config-webcal/evolution-cal-config-webcal.c:170
+#: ../src/modules/cal-config-webdav-notes/evolution-cal-config-webdav-notes.c:374
 msgid "URL is not a valid http:// nor https:// URL"
 msgstr ""
 
@@ -22005,10 +22009,10 @@ msgstr ""
 msgid "Address Book:"
 msgstr "მისამართების წიგნი:"
 
-#: ../src/modules/book-config-google/evolution-book-config-google.c:102
+#: ../src/modules/book-config-google/evolution-book-config-google.c:103
 #: ../src/modules/book-config-ldap/evolution-book-config-ldap.c:1071
-#: ../src/modules/cal-config-google/e-cal-config-google.c:188
-#: ../src/modules/cal-config-google/e-cal-config-gtasks.c:117
+#: ../src/modules/cal-config-google/e-cal-config-google.c:189
+#: ../src/modules/cal-config-google/e-cal-config-gtasks.c:118
 #: ../src/modules/mail-config/e-mail-config-remote-accounts.c:446
 #: ../src/modules/mail-config/e-mail-config-smtp-backend.c:485
 msgid "User name cannot be empty"
@@ -22297,7 +22301,7 @@ msgstr ""
 msgid "Find Notes"
 msgstr ""
 
-#: ../src/modules/cal-config-webdav-notes/evolution-cal-config-webdav-notes.c:302
+#: ../src/modules/cal-config-webdav-notes/evolution-cal-config-webdav-notes.c:303
 msgid "File extension for new notes:"
 msgstr ""
 
@@ -22398,37 +22402,41 @@ msgstr ""
 msgid "Selected Task Lists for Notifications of Reminders"
 msgstr ""
 
-#: ../src/modules/calendar/e-calendar-preferences.c:640
+#: ../src/modules/calendar/e-calendar-preferences.c:641
 msgid "Meeting Invitations"
 msgstr ""
 
-#: ../src/modules/calendar/e-calendar-preferences.c:666
+#: ../src/modules/calendar/e-calendar-preferences.c:667
 msgid "_Delete message after acting"
 msgstr ""
 
-#: ../src/modules/calendar/e-calendar-preferences.c:673
+#: ../src/modules/calendar/e-calendar-preferences.c:674
+msgid "Delete _meeting from calendar on Decline"
+msgstr ""
+
+#: ../src/modules/calendar/e-calendar-preferences.c:677
 msgid "_Preserve existing reminder by default"
 msgstr ""
 
-#: ../src/modules/calendar/e-calendar-preferences.c:680
+#: ../src/modules/calendar/e-calendar-preferences.c:684
 msgid "_Show invitation description provided by the sender"
 msgstr ""
 
-#: ../src/modules/calendar/e-calendar-preferences.c:694
-#: ../src/modules/calendar/e-calendar-preferences.c:725
+#: ../src/modules/calendar/e-calendar-preferences.c:706
+#: ../src/modules/calendar/e-calendar-preferences.c:737
 msgid "Conflict Search"
 msgstr ""
 
 #. Source selector
-#: ../src/modules/calendar/e-calendar-preferences.c:709
+#: ../src/modules/calendar/e-calendar-preferences.c:721
 msgid "Select the calendars to search for meeting conflicts"
 msgstr ""
 
-#: ../src/modules/calendar/e-calendar-preferences.c:1195
+#: ../src/modules/calendar/e-calendar-preferences.c:1207
 msgid "Ti_me and date:"
 msgstr ""
 
-#: ../src/modules/calendar/e-calendar-preferences.c:1196
+#: ../src/modules/calendar/e-calendar-preferences.c:1208
 msgid "_Date only:"
 msgstr ""
 
@@ -23767,7 +23775,7 @@ msgstr ""
 #. * in 24-hour format, without seconds.
 #: ../src/modules/itip-formatter/itip-view.c:279
 msgid "Today %H:%M"
-msgstr ""
+msgstr "%a %H:%M"
 
 #. strftime format of a time,
 #. * in 24-hour format.
@@ -27174,15 +27182,23 @@ msgid ""
 "credits], which will be replaced by values from an email you are replying to."
 msgstr ""
 
-#: ../src/plugins/templates/templates.c:887
+#: ../src/plugins/templates/templates.c:937
 msgid "Saving message template"
 msgstr ""
 
-#: ../src/plugins/templates/templates.c:908
-msgid "Save as _Template"
+#: ../src/plugins/templates/templates.c:968
+msgid "Save _Template"
+msgstr "_შაბლონის შენახვა"
+
+#: ../src/plugins/templates/templates.c:970
+msgid "Replace opened Template message"
 msgstr ""
 
-#: ../src/plugins/templates/templates.c:910
+#: ../src/plugins/templates/templates.c:975
+msgid "Save as _New Template"
+msgstr "_ახალ შაბლონად შენახვა"
+
+#: ../src/plugins/templates/templates.c:977
 msgid "Save as Template"
 msgstr "შაბლონად შენახვა"
 
@@ -27576,7 +27592,7 @@ msgid "%s — Evolution"
 msgstr "%s — Evolution"
 
 #. Preview/Alpha/Beta version warning message
-#: ../src/shell/main.c:292
+#: ../src/shell/main.c:294
 #, no-c-format
 msgid ""
 "Hi.  Thanks for taking the time to download this preview release\n"
@@ -27597,75 +27613,75 @@ msgid ""
 "eagerly await your contributions!\n"
 msgstr ""
 
-#: ../src/shell/main.c:317
+#: ../src/shell/main.c:319
 msgid ""
 "Thanks\n"
 "The Evolution Team\n"
 msgstr ""
 
-#: ../src/shell/main.c:323
+#: ../src/shell/main.c:325
 msgid "Do not tell me again"
 msgstr ""
 
 #. Translators: Do NOT translate the five component
 #. * names, they MUST remain in English!
-#: ../src/shell/main.c:425
+#: ../src/shell/main.c:427
 msgid ""
 "Start Evolution showing the specified component. Available options are "
 "“mail”, “calendar”, “contacts”, “tasks”, and “memos”"
 msgstr ""
 
-#: ../src/shell/main.c:429
+#: ../src/shell/main.c:431
 msgid "Apply the given geometry to the main window"
 msgstr ""
 
-#: ../src/shell/main.c:433
+#: ../src/shell/main.c:435
 msgid "Start in online mode"
 msgstr ""
 
-#: ../src/shell/main.c:435
+#: ../src/shell/main.c:437
 msgid "Ignore network availability"
 msgstr ""
 
-#: ../src/shell/main.c:438
+#: ../src/shell/main.c:440
 msgid "Forcibly shut down Evolution"
 msgstr ""
 
-#: ../src/shell/main.c:441
+#: ../src/shell/main.c:443
 msgid "Disable loading of any plugins."
 msgstr ""
 
-#: ../src/shell/main.c:443
+#: ../src/shell/main.c:445
 msgid "Disable preview pane of Mail, Contacts and Tasks."
 msgstr ""
 
-#: ../src/shell/main.c:447
+#: ../src/shell/main.c:449
 msgid "Import URIs or filenames given as rest of arguments."
 msgstr ""
 
-#: ../src/shell/main.c:449
+#: ../src/shell/main.c:451
 msgid "Request a running Evolution process to quit"
 msgstr ""
 
-#: ../src/shell/main.c:531
+#: ../src/shell/main.c:533
 #, c-format
 msgid ""
 "Cannot start Evolution.  Another Evolution instance may be unresponsive. "
 "System error: %s"
 msgstr ""
 
-#: ../src/shell/main.c:600 ../src/shell/main.c:605
+#: ../src/shell/main.c:602 ../src/shell/main.c:607
 msgid "— The Evolution PIM and Email Client"
 msgstr ""
 
-#: ../src/shell/main.c:661
+#: ../src/shell/main.c:663
 #, c-format
 msgid ""
 "%s: --online and --offline cannot be used together.\n"
 "  Run “%s --help” for more information.\n"
 msgstr ""
 
-#: ../src/shell/main.c:667
+#: ../src/shell/main.c:669
 #, c-format
 msgid ""
 "%s: --force-online and --offline cannot be used together.\n"
