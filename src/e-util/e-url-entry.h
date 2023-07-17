@@ -56,6 +56,10 @@ struct _EUrlEntry {
 
 struct _EUrlEntryClass {
 	GtkEntryClass parent_class;
+
+	/* gboolean	(*open_url)	(EUrlEntry *entry,
+					 GtkWindow *parent_window,
+					 const gchar *url); */
 };
 
 GType		e_url_entry_get_type		(void) G_GNUC_CONST;

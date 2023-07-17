@@ -41,9 +41,6 @@
 #define TEXT_IS_RIGHT_TO_LEFT \
 	(gtk_widget_get_default_direction () == GTK_TEXT_DIR_RTL)
 
-#define GOOGLE_MAP_PREFIX "https://maps.google.com?q="
-#define OPENSTREETMAP_PREFIX "https://www.openstreetmap.org/search?query="
-
 struct _EABContactDisplayPrivate {
 	EContact *contact;
 
@@ -82,39 +79,6 @@ G_DEFINE_TYPE (
 	EABContactDisplay,
 	eab_contact_display,
 	E_TYPE_WEB_VIEW)
-
-static void
-contact_display_open_map (EABContactDisplay *display,
-			  const gchar *query)
-{
-	GSettings *settings;
-	gchar *open_map_target;
-	gpointer parent;
-	gchar *uri;
-	const gchar *prefix;
-
-	g_return_if_fail (EAB_IS_CONTACT_DISPLAY (display));
-	g_return_if_fail (query != NULL);
-
-	parent = gtk_widget_get_toplevel (GTK_WIDGET (display));
-	parent = gtk_widget_is_toplevel (parent) ? parent : NULL;
-
-	settings = e_util_ref_settings ("org.gnome.evolution.addressbook");
-	open_map_target = g_settings_get_string (settings, "open-map-target");
-	g_object_unref (settings);
-
-	if (open_map_target && g_ascii_strcasecmp (open_map_target, "google") == 0) {
-		prefix = GOOGLE_MAP_PREFIX;
-	} else {
-		prefix = OPENSTREETMAP_PREFIX;
-	}
-
-	g_free (open_map_target);
-
-	uri = g_strconcat (prefix, query, NULL);
-	e_show_uri (parent, uri);
-	g_free (uri);
-}
 
 static void
 contact_display_emit_send_message (EABContactDisplay *display,
@@ -372,7 +336,13 @@ contact_display_link_clicked (EWebView *web_view,
 
 		guri = g_uri_parse (uri, SOUP_HTTP_URI_FLAGS | G_URI_FLAGS_PARSE_RELAXED, NULL);
 		if (guri) {
-			contact_display_open_map (display, g_uri_get_path (guri));
+			gpointer parent;
+
+			parent = gtk_widget_get_toplevel (GTK_WIDGET (display));
+			parent = gtk_widget_is_toplevel (parent) ? parent : NULL;
+
+			e_open_map_uri (parent, g_uri_get_path (guri));
+
 			g_uri_unref (guri);
 		}
 

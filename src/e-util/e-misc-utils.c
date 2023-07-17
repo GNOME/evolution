@@ -4979,3 +4979,34 @@ e_util_get_use_header_bar (void)
 
 	return use_header_bar != 0;
 }
+
+void
+e_open_map_uri (GtkWindow *parent,
+		const gchar *location)
+{
+	#define GOOGLE_MAP_PREFIX "https://maps.google.com?q="
+	#define OPENSTREETMAP_PREFIX "https://www.openstreetmap.org/search?query="
+
+	GSettings *settings;
+	gchar *open_map_target;
+	gchar *uri;
+	const gchar *prefix;
+
+	g_return_if_fail (location != NULL);
+
+	settings = e_util_ref_settings ("org.gnome.evolution.addressbook");
+	open_map_target = g_settings_get_string (settings, "open-map-target");
+	g_object_unref (settings);
+
+	if (open_map_target && g_ascii_strcasecmp (open_map_target, "google") == 0) {
+		prefix = GOOGLE_MAP_PREFIX;
+	} else {
+		prefix = OPENSTREETMAP_PREFIX;
+	}
+
+	g_free (open_map_target);
+
+	uri = g_strconcat (prefix, location, NULL);
+	e_show_uri (parent, uri);
+	g_free (uri);
+}

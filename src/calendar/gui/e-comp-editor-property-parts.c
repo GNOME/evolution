@@ -307,40 +307,79 @@ ecepp_location_save_list (GtkEntry *entry)
 }
 
 static gboolean
+ecepp_location_is_known_scheme (const gchar *url)
+{
+	struct _schemas {
+		const gchar *schema;
+		gint len;
+	} schemas[] = {
+		{ "http:", 5 },
+		{ "https:", 6 },
+		{ "www.", 4 },
+		{ "ftp:", 4 },
+		{ "sip:", 4 },
+		{ "tel:", 4 },
+		{ "xmpp:", 5 },
+		{ "map:", 4 }
+	};
+	gint ii;
+
+	if (!url || !*url)
+		return FALSE;
+
+	for (ii = 0; ii < G_N_ELEMENTS (schemas); ii++) {
+		if (g_ascii_strncasecmp (url, schemas[ii].schema, schemas[ii].len) == 0)
+			return TRUE;
+	}
+
+	return FALSE;
+}
+
+static gboolean
 ecepp_location_text_to_icon_visible (GBinding *binding,
 				     const GValue *source_value,
 				     GValue *target_value,
 				     gpointer user_data)
 {
+	GObject *object;
 	const gchar *text;
-	gboolean icon_visible = FALSE;
 
 	text = g_value_get_string (source_value);
 
-	if (text && *text) {
-		struct _schemas {
-			const gchar *schema;
-			gint len;
-		} schemas[] = {
-			{ "http:", 5 },
-			{ "https:", 6 },
-			{ "www.", 4 },
-			{ "ftp:", 4 },
-			{ "sip:", 4 },
-			{ "tel:", 4 },
-			{ "xmpp:", 5 }
-		};
-		gint ii;
+	while (text && g_ascii_isspace (*text))
+		text++;
 
-		for (ii = 0; ii < G_N_ELEMENTS (schemas); ii++) {
-			if (g_ascii_strncasecmp (text, schemas[ii].schema, schemas[ii].len) == 0) {
-				icon_visible = TRUE;
-				break;
-			}
-		}
+	g_value_set_boolean (target_value, text && *text);
+
+	object = g_binding_get_target (binding);
+
+	if (E_IS_URL_ENTRY (object)) {
+		GtkEntry *entry = GTK_ENTRY (object);
+
+		if (ecepp_location_is_known_scheme (text))
+			gtk_entry_set_icon_tooltip_text (entry, GTK_ENTRY_ICON_SECONDARY, _("Click here to open the URL"));
+		else
+			gtk_entry_set_icon_tooltip_text (entry, GTK_ENTRY_ICON_SECONDARY, _("Click here to open map"));
 	}
 
-	g_value_set_boolean (target_value, icon_visible);
+	return TRUE;
+}
+
+static gboolean
+ecepp_location_open_url_cb (EUrlEntry *entry,
+			    GtkWindow *parent_window,
+			    const gchar *url,
+			    gpointer user_data)
+{
+	if (!url || !*url)
+		return FALSE;
+
+	if (ecepp_location_is_known_scheme (url)) {
+		/* let the URL be opened in the browser/registered app, using the default handler */
+		return FALSE;
+	}
+
+	e_open_map_uri (parent_window, url);
 
 	return TRUE;
 }
@@ -387,6 +426,9 @@ ecepp_location_create_widgets (ECompEditorPropertyPart *property_part,
 
 	*out_label_widget = gtk_label_new_with_mnemonic (C_("ECompEditor", "_Location:"));
 	gtk_label_set_mnemonic_widget (GTK_LABEL (*out_label_widget), *out_edit_widget);
+
+	g_signal_connect (*out_edit_widget, "open-url",
+		G_CALLBACK (ecepp_location_open_url_cb), NULL);
 
 	g_object_set (G_OBJECT (*out_label_widget),
 		"hexpand", FALSE,
