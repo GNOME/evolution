@@ -505,10 +505,14 @@ cal_shell_content_datepicker_selection_changed_cb (ECalendarItem *calitem,
 			e_cal_shell_content_change_view (cal_shell_content, E_CAL_VIEW_KIND_WEEK, &sel_start, &sel_end, FALSE);
 		} else if (cal_shell_content->priv->current_view == E_CAL_VIEW_KIND_MONTH ||
 			   cal_shell_content->priv->current_view == E_CAL_VIEW_KIND_LIST) {
-			/* whole month */
-			g_date_set_day (&sel_start, 1);
 			sel_end = sel_start;
-			g_date_set_day (&sel_end, g_date_get_days_in_month (g_date_get_month (&sel_start), g_date_get_year (&sel_start)) - 1);
+			if (cal_shell_content->priv->current_view == E_CAL_VIEW_KIND_MONTH) {
+				g_date_add_days (&sel_end, 7 * e_week_view_get_weeks_shown (E_WEEK_VIEW (cal_shell_content->priv->views[E_CAL_VIEW_KIND_WEEK])));
+			} else {
+				/* whole month */
+				g_date_set_day (&sel_start, 1);
+				g_date_set_day (&sel_end, g_date_get_days_in_month (g_date_get_month (&sel_start), g_date_get_year (&sel_start)) - 1);
+			}
 			cal_shell_content_clamp_for_whole_weeks (calitem->week_start_day, &sel_start, &sel_end, cal_shell_content->priv->current_view == E_CAL_VIEW_KIND_MONTH);
 
 			e_cal_shell_content_change_view (cal_shell_content, cal_shell_content->priv->current_view, &sel_start, &sel_end, FALSE);
@@ -2454,6 +2458,7 @@ cal_shell_content_move_view_range_relative (ECalShellContent *cal_shell_content,
 			break;
 		case E_CAL_VIEW_KIND_WORKWEEK:
 		case E_CAL_VIEW_KIND_WEEK:
+		case E_CAL_VIEW_KIND_MONTH:
 			if (direction > 0) {
 				g_date_add_days (&start, direction * 7);
 				g_date_add_days (&end, direction * 7);
@@ -2462,7 +2467,6 @@ cal_shell_content_move_view_range_relative (ECalShellContent *cal_shell_content,
 				g_date_subtract_days (&end, direction * -7);
 			}
 			break;
-		case E_CAL_VIEW_KIND_MONTH:
 		case E_CAL_VIEW_KIND_LIST:
 			if (g_date_get_day (&start) != 1) {
 				g_date_add_months (&start, 1);
