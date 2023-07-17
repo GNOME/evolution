@@ -597,6 +597,19 @@ ecep_general_target_client_notify_cb (ECompEditor *comp_editor,
 	}
 }
 
+static void
+ecep_general_editor_flags_notify_cb (ECompEditor *comp_editor,
+				     GParamSpec *param,
+				     ECompEditorPageGeneral *page_general)
+{
+	g_return_if_fail (E_IS_COMP_EDITOR (comp_editor));
+	g_return_if_fail (E_IS_COMP_EDITOR_PAGE_GENERAL (page_general));
+
+	/* Allow changing target client only for new components */
+	gtk_widget_set_sensitive (page_general->priv->source_combo_box,
+		(e_comp_editor_get_flags (comp_editor) & E_COMP_EDITOR_FLAG_IS_NEW) != 0);
+}
+
 static gboolean
 ecep_general_list_view_event_cb (EMeetingListView *list_view,
 				 GdkEvent *event,
@@ -1518,7 +1531,10 @@ ecep_general_constructed (GObject *object)
 
 	g_signal_connect (widget, "clicked", G_CALLBACK (ecep_general_attendees_remove_clicked_cb), page_general);
 
-	e_signal_connect_notify (comp_editor, "notify::target-client", G_CALLBACK (ecep_general_target_client_notify_cb), page_general);
+	e_signal_connect_notify_object (comp_editor, "notify::target-client", G_CALLBACK (ecep_general_target_client_notify_cb), page_general, 0);
+	e_signal_connect_notify_object (comp_editor, "notify::flags", G_CALLBACK (ecep_general_editor_flags_notify_cb), page_general, 0);
+
+	ecep_general_editor_flags_notify_cb (comp_editor, NULL, page_general);
 
 	ecep_general_init_ui (page_general, comp_editor);
 

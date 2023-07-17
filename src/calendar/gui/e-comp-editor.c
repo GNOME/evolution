@@ -334,7 +334,7 @@ save_data_free (SaveData *sd)
 				g_clear_object (&sd->comp_editor->priv->source_client);
 				sd->comp_editor->priv->source_client = g_object_ref (sd->target_client);
 
-				sd->comp_editor->priv->flags = sd->comp_editor->priv->flags & (~E_COMP_EDITOR_FLAG_IS_NEW);
+				e_comp_editor_set_flags (sd->comp_editor, e_comp_editor_get_flags (sd->comp_editor) & (~E_COMP_EDITOR_FLAG_IS_NEW));
 
 				e_comp_editor_sensitize_widgets (sd->comp_editor);
 				e_comp_editor_set_changed (sd->comp_editor, FALSE);
