@@ -83,7 +83,7 @@ void		em_utils_reply_to_message	(EMsgComposer *composer,
 						 EMailReplyStyle style,
 						 EMailPartList *source,
 						 CamelInternetAddress *address,
-						 guint32 reply_flags); /* bit-or of EMailReplyFlags */
+						 EMailReplyFlags reply_flags);
 void		em_utils_reply_alternative	(GtkWindow *parent,
 						 EShell *shell,
 						 EAlertSink *alert_sink,
