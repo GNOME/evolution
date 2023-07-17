@@ -34,6 +34,41 @@
 #include <libxml/parser.h>
 #include <libxml/xmlmemory.h>
 
+/* preserve order with the #define-s */
+typedef enum _EAddressField {
+	E_ADDRESS_FIELD_STREET,
+	E_ADDRESS_FIELD_EXT,
+	E_ADDRESS_FIELD_POBOX,
+	E_ADDRESS_FIELD_CITY,
+	E_ADDRESS_FIELD_ZIP,
+	E_ADDRESS_FIELD_STATE,
+	E_ADDRESS_FIELD_COUNTRY
+} EAddressField;
+
+#define E_VIRT_COLUMN_FIRST			170
+#define E_VIRT_COLUMN_HOME_ADDRESS_STREET	(E_VIRT_COLUMN_FIRST)
+#define E_VIRT_COLUMN_HOME_ADDRESS_EXT		(E_VIRT_COLUMN_HOME_ADDRESS_STREET + 1)
+#define E_VIRT_COLUMN_HOME_ADDRESS_POBOX	(E_VIRT_COLUMN_HOME_ADDRESS_EXT + 1)
+#define E_VIRT_COLUMN_HOME_ADDRESS_CITY		(E_VIRT_COLUMN_HOME_ADDRESS_POBOX + 1)
+#define E_VIRT_COLUMN_HOME_ADDRESS_ZIP		(E_VIRT_COLUMN_HOME_ADDRESS_CITY + 1)
+#define E_VIRT_COLUMN_HOME_ADDRESS_STATE	(E_VIRT_COLUMN_HOME_ADDRESS_ZIP + 1)
+#define E_VIRT_COLUMN_HOME_ADDRESS_COUNTRY	(E_VIRT_COLUMN_HOME_ADDRESS_STATE + 1)
+#define E_VIRT_COLUMN_WORK_ADDRESS_STREET	(E_VIRT_COLUMN_HOME_ADDRESS_COUNTRY + 1)
+#define E_VIRT_COLUMN_WORK_ADDRESS_EXT		(E_VIRT_COLUMN_WORK_ADDRESS_STREET + 1)
+#define E_VIRT_COLUMN_WORK_ADDRESS_POBOX	(E_VIRT_COLUMN_WORK_ADDRESS_EXT + 1)
+#define E_VIRT_COLUMN_WORK_ADDRESS_CITY		(E_VIRT_COLUMN_WORK_ADDRESS_POBOX + 1)
+#define E_VIRT_COLUMN_WORK_ADDRESS_ZIP		(E_VIRT_COLUMN_WORK_ADDRESS_CITY + 1)
+#define E_VIRT_COLUMN_WORK_ADDRESS_STATE	(E_VIRT_COLUMN_WORK_ADDRESS_ZIP + 1)
+#define E_VIRT_COLUMN_WORK_ADDRESS_COUNTRY	(E_VIRT_COLUMN_WORK_ADDRESS_STATE + 1)
+#define E_VIRT_COLUMN_OTHER_ADDRESS_STREET	(E_VIRT_COLUMN_WORK_ADDRESS_COUNTRY + 1)
+#define E_VIRT_COLUMN_OTHER_ADDRESS_EXT		(E_VIRT_COLUMN_OTHER_ADDRESS_STREET + 1)
+#define E_VIRT_COLUMN_OTHER_ADDRESS_POBOX	(E_VIRT_COLUMN_OTHER_ADDRESS_EXT + 1)
+#define E_VIRT_COLUMN_OTHER_ADDRESS_CITY	(E_VIRT_COLUMN_OTHER_ADDRESS_POBOX + 1)
+#define E_VIRT_COLUMN_OTHER_ADDRESS_ZIP		(E_VIRT_COLUMN_OTHER_ADDRESS_CITY + 1)
+#define E_VIRT_COLUMN_OTHER_ADDRESS_STATE	(E_VIRT_COLUMN_OTHER_ADDRESS_ZIP + 1)
+#define E_VIRT_COLUMN_OTHER_ADDRESS_COUNTRY	(E_VIRT_COLUMN_OTHER_ADDRESS_STATE + 1)
+#define E_VIRT_COLUMN_LAST			(E_VIRT_COLUMN_OTHER_ADDRESS_COUNTRY)
+
 #define E_ADDRESSBOOK_TABLE_ADAPTER_GET_PRIVATE(obj) \
 	(G_TYPE_INSTANCE_GET_PRIVATE \
 	((obj), E_TYPE_ADDRESSBOOK_TABLE_ADAPTER, EAddressbookTableAdapterPrivate))
@@ -57,6 +92,56 @@ G_DEFINE_TYPE_WITH_CODE (
 	G_IMPLEMENT_INTERFACE (
 		E_TYPE_TABLE_MODEL,
 		e_addressbook_table_adapter_table_model_init))
+
+static gchar *
+eata_dup_address_field (EContact *contact,
+			EContactField contact_field,
+			EAddressField address_field)
+{
+	EContactAddress *address;
+	const gchar *value = NULL;
+	gchar *res;
+
+	g_return_val_if_fail (E_IS_CONTACT (contact), NULL);
+
+	address = e_contact_get (contact, contact_field);
+
+	if (!address)
+		return NULL;
+
+	switch (address_field) {
+	case E_ADDRESS_FIELD_STREET:
+		value = address->street;
+		break;
+	case E_ADDRESS_FIELD_EXT:
+		value = address->ext;
+		break;
+	case E_ADDRESS_FIELD_POBOX:
+		value = address->po;
+		break;
+	case E_ADDRESS_FIELD_CITY:
+		value = address->locality;
+		break;
+	case E_ADDRESS_FIELD_ZIP:
+		value = address->code;
+		break;
+	case E_ADDRESS_FIELD_STATE:
+		value = address->region;
+		break;
+	case E_ADDRESS_FIELD_COUNTRY:
+		value = address->country;
+		break;
+	}
+
+	if (value && *value)
+		res = g_strdup (value);
+	else
+		res = NULL;
+
+	e_contact_address_free (address);
+
+	return res;
+}
 
 static void
 unlink_model (EAddressbookTableAdapter *adapter)
@@ -97,7 +182,7 @@ addressbook_finalize (GObject *object)
 static gint
 addressbook_col_count (ETableModel *etc)
 {
-	return E_CONTACT_FIELD_LAST;
+	return E_VIRT_COLUMN_LAST + 1;
 }
 
 /* This function returns the number of rows in our ETableModel. */
@@ -155,13 +240,27 @@ addressbook_value_at (ETableModel *etc,
 	EContact *contact;
 	const gchar *value;
 
-	if (col >= E_CONTACT_FIELD_LAST)
+	if (col >= E_CONTACT_FIELD_LAST && (col < E_VIRT_COLUMN_FIRST || col > E_VIRT_COLUMN_LAST))
 		return NULL;
 
 	if (row >= e_addressbook_model_contact_count (priv->model))
 		return NULL;
 
 	contact = e_addressbook_model_contact_at (priv->model, row);
+
+	if (col >= E_VIRT_COLUMN_FIRST && col <= E_VIRT_COLUMN_LAST) {
+		if (col >= E_VIRT_COLUMN_HOME_ADDRESS_STREET && col <= E_VIRT_COLUMN_HOME_ADDRESS_COUNTRY)
+			return eata_dup_address_field (contact, E_CONTACT_ADDRESS_HOME, col - E_VIRT_COLUMN_HOME_ADDRESS_STREET);
+		if (col >= E_VIRT_COLUMN_WORK_ADDRESS_STREET && col <= E_VIRT_COLUMN_WORK_ADDRESS_COUNTRY)
+			return eata_dup_address_field (contact, E_CONTACT_ADDRESS_WORK, col - E_VIRT_COLUMN_WORK_ADDRESS_STREET);
+		if (col >= E_VIRT_COLUMN_OTHER_ADDRESS_STREET && col <= E_VIRT_COLUMN_OTHER_ADDRESS_COUNTRY)
+			return eata_dup_address_field (contact, E_CONTACT_ADDRESS_OTHER, col - E_VIRT_COLUMN_OTHER_ADDRESS_STREET);
+
+		g_warn_if_reached ();
+
+		return NULL;
+	}
+
 	if (col == E_CONTACT_BIRTH_DATE ||
 	    col == E_CONTACT_ANNIVERSARY) {
 		EContactDate *date;
@@ -332,7 +431,7 @@ addressbook_value_is_empty (ETableModel *etc,
 	    col == E_CONTACT_ANNIVERSARY)
 		return GPOINTER_TO_INT (value) <= 0;
 
-	return !(value && *(gchar *) value);
+	return !(value && *((const gchar *) value));
 }
 
 static gchar *
@@ -363,6 +462,17 @@ e_addressbook_table_adapter_class_init (EAddressbookTableAdapterClass *class)
 
 	object_class = G_OBJECT_CLASS (class);
 	object_class->finalize = addressbook_finalize;
+
+	#if ENABLE_MAINTAINER_MODE
+	if (E_CONTACT_FIELD_LAST >= E_VIRT_COLUMN_FIRST) {
+		static gboolean i_know = FALSE;
+		if (!i_know) {
+			i_know = TRUE;
+			g_warning ("%s: E_VIRT_COLUMN_FIRST (%d) should be larger than E_CONTACT_FIELD_LAST (%d). Correct it and update e-addressbook-view.etspec accordingly",
+				G_STRFUNC, E_VIRT_COLUMN_FIRST, E_CONTACT_FIELD_LAST);
+		}
+	}
+	#endif
 }
 
 static void
