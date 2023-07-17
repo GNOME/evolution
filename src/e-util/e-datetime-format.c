@@ -28,7 +28,6 @@
 
 #include "e-misc-utils.h"
 
-#define KEYS_FILENAME "datetime-formats.ini"
 #define KEYS_GROUPNAME "formats"
 
 #ifdef G_OS_WIN32
@@ -39,7 +38,38 @@
 #define localtime_r(timep, result)  (localtime (timep) ? memcpy ((result), localtime (timep), sizeof (*(result))) : 0)
 #endif
 
+/**
+ * e_datetime_format_dup_config_filename:
+ *
+ * Returns configuration file name for the date/time format.
+ *
+ * Returns: (transfer full): configuration file name for the date/time format
+ *
+ * Since: 3.50
+ **/
+gchar *
+e_datetime_format_dup_config_filename (void)
+{
+	return g_build_filename (e_get_user_data_dir (), "datetime-formats.ini", NULL);
+}
+
 static GHashTable *key2fmt = NULL;
+
+/**
+ * e_datetime_format_free_memory:
+ *
+ * Frees loaded configuration from the memory. The next call to the date/time
+ * format functions will load the configuration again. This function should be
+ * called from the same thread as the other date/time format functions, which
+ * is usually the main/GUI thread.
+ *
+ * Since: 3.50
+ **/
+void
+e_datetime_format_free_memory (void)
+{
+	g_clear_pointer (&key2fmt, g_hash_table_destroy);
+}
 
 static GKeyFile *setup_keyfile = NULL; /* used on the combo */
 static gint setup_keyfile_instances = 0;
@@ -54,7 +84,7 @@ save_keyfile (GKeyFile *keyfile)
 
 	g_return_if_fail (keyfile != NULL);
 
-	filename = g_build_filename (e_get_user_data_dir (), KEYS_FILENAME, NULL);
+	filename = e_datetime_format_dup_config_filename ();
 	contents = g_key_file_to_data (keyfile, &length, NULL);
 
 	g_file_set_contents (filename, contents, length, &error);
@@ -81,7 +111,7 @@ ensure_loaded (void)
 	key2fmt = g_hash_table_new_full (g_str_hash, g_str_equal, g_free, g_free);
 	keyfile = g_key_file_new ();
 
-	str = g_build_filename (e_get_user_data_dir (), KEYS_FILENAME, NULL);
+	str = e_datetime_format_dup_config_filename ();
 	g_key_file_load_from_file (keyfile, str, G_KEY_FILE_NONE, NULL);
 	g_free (str);
 
@@ -635,7 +665,7 @@ e_datetime_format_add_setup_widget (GtkWidget *table,
 	if (!setup_keyfile) {
 		gchar *filename;
 
-		filename = g_build_filename (e_get_user_data_dir (), KEYS_FILENAME, NULL);
+		filename = e_datetime_format_dup_config_filename ();
 		setup_keyfile = g_key_file_new ();
 		g_key_file_load_from_file (setup_keyfile, filename, G_KEY_FILE_NONE, NULL);
 		g_free (filename);

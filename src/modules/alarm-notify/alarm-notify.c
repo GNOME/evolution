@@ -50,6 +50,7 @@ typedef struct _EAlarmNotifyModuleClass EAlarmNotifyModuleClass;
 
 struct _EAlarmNotifyModule {
 	EExtension parent;
+	GFileMonitor *monitor;
 };
 
 struct _EAlarmNotifyModuleClass {
@@ -175,11 +176,36 @@ alarm_notify_module_row_activated_cb (ERemindersWidget *reminders,
 }
 
 static void
+alarm_notify_datetime_format_changed_cb (GFileMonitor *monitor,
+					 GFile *file,
+					 GFile *other_file,
+					 GFileMonitorEvent event_type,
+					 gpointer user_data)
+{
+	EAlarmNotifyModule *self = user_data;
+	ERemindersWidget *reminders;
+	EReminderWatcher *watcher;
+
+	g_return_if_fail (E_IS_ALARM_NOTIFY_MODULE (self));
+
+	e_datetime_format_free_memory ();
+
+	reminders = E_REMINDERS_WIDGET (e_extension_get_extensible (E_EXTENSION (self)));
+	watcher = e_reminders_widget_get_watcher (reminders);
+
+	/* This causes the reminders widget to refresh its content, thus to use the new format */
+	g_signal_emit_by_name (watcher, "changed", NULL);
+}
+
+static void
 alarm_notify_module_constructed (GObject *object)
 {
+	EAlarmNotifyModule *self = E_ALARM_NOTIFY_MODULE (object);
 	ERemindersWidget *reminders;
 	EReminderWatcher *watcher;
 	GSettings *settings;
+	GFile *file;
+	gchar *filename;
 
 	/* Chain up to parent's method. */
 	G_OBJECT_CLASS (e_alarm_notify_module_parent_class)->constructed (object);
@@ -204,6 +230,28 @@ alarm_notify_module_constructed (GObject *object)
 
 	g_signal_connect (reminders, "activated",
 		G_CALLBACK (alarm_notify_module_row_activated_cb), object);
+
+	filename = e_datetime_format_dup_config_filename ();
+	file = g_file_new_for_path (filename);
+
+	self->monitor = g_file_monitor_file (file, G_FILE_MONITOR_NONE, NULL, NULL);
+
+	g_signal_connect (self->monitor, "changed",
+		G_CALLBACK (alarm_notify_datetime_format_changed_cb), self);
+
+	g_clear_object (&file);
+	g_free (filename);
+}
+
+static void
+alarm_notify_module_finalize (GObject *object)
+{
+	EAlarmNotifyModule *self = E_ALARM_NOTIFY_MODULE (object);
+
+	g_clear_object (&self->monitor);
+
+	/* Chain up to parent's method. */
+	G_OBJECT_CLASS (e_alarm_notify_module_parent_class)->finalize (object);
 }
 
 static void
@@ -214,6 +262,7 @@ e_alarm_notify_module_class_init (EAlarmNotifyModuleClass *class)
 
 	object_class = G_OBJECT_CLASS (class);
 	object_class->constructed = alarm_notify_module_constructed;
+	object_class->finalize = alarm_notify_module_finalize;
 
 	extension_class = E_EXTENSION_CLASS (class);
 	extension_class->extensible_type = E_TYPE_REMINDERS_WIDGET;
