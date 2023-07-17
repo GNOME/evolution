@@ -434,6 +434,9 @@ ecep_recurrence_checkbox_toggled_cb (GtkToggleButton *checkbox,
 
 	g_return_if_fail (E_IS_COMP_EDITOR_PAGE_RECURRENCE (page_recurrence));
 
+	if (page_recurrence->priv->is_custom && !gtk_toggle_button_get_active (checkbox))
+		page_recurrence->priv->is_custom = FALSE;
+
 	page = E_COMP_EDITOR_PAGE (page_recurrence);
 	comp_editor = e_comp_editor_page_ref_editor (page);
 	e_comp_editor_sensitize_widgets (comp_editor);
@@ -1502,11 +1505,14 @@ ecep_recurrence_sensitize_widgets (ECompEditorPage *page,
 
 	selection = gtk_tree_view_get_selection (GTK_TREE_VIEW (page_recurrence->priv->exceptions_tree_view));
 
-	force_insensitive = force_insensitive || page_recurrence->priv->is_custom;
 	create_recurrence = gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (page_recurrence->priv->recr_check_box));
 	any_selected = gtk_tree_selection_count_selected_rows (selection) > 0;
 
+	/* Let it be possible to unset the recurrence even if it cannot be edited */
 	gtk_widget_set_sensitive (page_recurrence->priv->recr_check_box, !force_insensitive);
+
+	force_insensitive = force_insensitive || page_recurrence->priv->is_custom;
+
 	gtk_widget_set_sensitive (page_recurrence->priv->recr_hbox, !force_insensitive && create_recurrence);
 
 	gtk_widget_set_sensitive (page_recurrence->priv->exceptions_tree_view, !force_insensitive && create_recurrence);
