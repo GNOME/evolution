@@ -1674,6 +1674,12 @@ em_mailer_prefs_construct (EMMailerPrefs *prefs,
 		widget, "active",
 		G_SETTINGS_BIND_DEFAULT);
 
+	widget = e_builder_get_widget (prefs->priv->builder, "thread-flat");
+	g_settings_bind (
+		settings, "thread-flat",
+		widget, "active",
+		G_SETTINGS_BIND_DEFAULT);
+
 	/* Deleting Mail */
 	widget = e_builder_get_widget (prefs->priv->builder, "chkEmptyTrashOnExit");
 	g_settings_bind (

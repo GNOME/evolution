@@ -94,9 +94,6 @@ struct _MessageListPrivate {
 
 	gboolean thaw_needs_regen;
 
-	GMutex thread_tree_lock;
-	CamelFolderThread *thread_tree;
-
 	struct _MLSelection clipboard;
 	gboolean destroyed;
 
@@ -107,6 +104,7 @@ struct _MessageListPrivate {
 	gboolean thread_latest;
 	gboolean thread_subject;
 	gboolean thread_compress;
+	gboolean thread_flat;
 	gboolean any_row_changed; /* save state before regen list when this is set to true */
 	gboolean show_subject_above_sender;
 	gboolean regen_selects_unread;
@@ -163,6 +161,8 @@ struct _RegenData {
 
 	gboolean group_by_threads;
 	gboolean thread_subject;
+	gboolean thread_flat;
+	gboolean thread_latest;
 	gboolean select_unread;
 
 	CamelFolderThread *thread_tree;
@@ -200,7 +200,8 @@ enum {
 	PROP_SHOW_SUBJECT_ABOVE_SENDER,
 	PROP_THREAD_LATEST,
 	PROP_THREAD_SUBJECT,
-	PROP_THREAD_COMPRESS
+	PROP_THREAD_COMPRESS,
+	PROP_THREAD_FLAT
 };
 
 /* Forward Declarations */
@@ -575,26 +576,6 @@ regen_data_unref (RegenData *regen_data)
 
 		g_slice_free (RegenData, regen_data);
 	}
-}
-
-static void
-message_list_set_thread_tree (MessageList *message_list,
-                              CamelFolderThread *thread_tree)
-{
-	g_return_if_fail (IS_MESSAGE_LIST (message_list));
-
-	g_mutex_lock (&message_list->priv->thread_tree_lock);
-
-	if (thread_tree != NULL)
-		camel_folder_thread_messages_ref (thread_tree);
-
-	if (message_list->priv->thread_tree != NULL)
-		camel_folder_thread_messages_unref (
-			message_list->priv->thread_tree);
-
-	message_list->priv->thread_tree = thread_tree;
-
-	g_mutex_unlock (&message_list->priv->thread_tree_lock);
 }
 
 static RegenData *
@@ -2951,9 +2932,6 @@ ml_tree_sorting_changed (ETreeTableAdapter *adapter,
 
 	if (group_by_threads && message_list->frozen == 0) {
 
-		/* Invalidate the thread tree. */
-		message_list_set_thread_tree (message_list, NULL);
-
 		mail_regen_list (message_list, NULL, NULL);
 
 		return TRUE;
@@ -3293,6 +3271,12 @@ message_list_set_property (GObject *object,
 				MESSAGE_LIST (object),
 				g_value_get_boolean (value));
 			return;
+
+		case PROP_THREAD_FLAT:
+			message_list_set_thread_flat (
+				MESSAGE_LIST (object),
+				g_value_get_boolean (value));
+			return;
 	}
 
 	G_OBJECT_WARN_INVALID_PROPERTY_ID (object, property_id, pspec);
@@ -3379,6 +3363,13 @@ message_list_get_property (GObject *object,
 			g_value_set_boolean (
 				value,
 				message_list_get_thread_compress (
+				MESSAGE_LIST (object)));
+			return;
+
+		case PROP_THREAD_FLAT:
+			g_value_set_boolean (
+				value,
+				message_list_get_thread_flat (
 				MESSAGE_LIST (object)));
 			return;
 	}
@@ -3472,10 +3463,6 @@ message_list_finalize (GObject *object)
 
 	g_hash_table_destroy (message_list->normalised_hash);
 
-	if (message_list->priv->thread_tree != NULL)
-		camel_folder_thread_messages_unref (
-			message_list->priv->thread_tree);
-
 	g_free (message_list->search);
 	g_free (message_list->frozen_search);
 	g_free (message_list->cursor_uid);
@@ -3483,7 +3470,6 @@ message_list_finalize (GObject *object)
 	g_strfreev (message_list->priv->re_separators);
 
 	g_mutex_clear (&message_list->priv->regen_lock);
-	g_mutex_clear (&message_list->priv->thread_tree_lock);
 	g_mutex_clear (&message_list->priv->re_prefixes_lock);
 
 	clear_selection (message_list, &message_list->priv->clipboard);
@@ -3606,9 +3592,11 @@ static guint
 message_list_depth (ETreeModel *tree_model,
                     ETreePath path)
 {
+	MessageList *message_list = MESSAGE_LIST (tree_model);
 	guint depth;
 
-	if (message_list_get_thread_compress (MESSAGE_LIST (tree_model))) {
+	if (message_list_get_thread_compress (message_list) &&
+	    !message_list_get_thread_flat (message_list)) {
 		GNode *node = ((GNode *) path);
 
 		depth = 1;
@@ -3697,7 +3685,8 @@ message_list_sort_value_at (ETreeModel *tree_model,
 	ld.latest = 0;
 
 	latest_foreach (tree_model, path, &ld);
-	if (message_list->priv->thread_latest && (!e_tree_get_sort_children_ascending (E_TREE (message_list)) ||
+	if (message_list->priv->thread_latest && !message_list->priv->thread_flat &&
+	    (!e_tree_get_sort_children_ascending (E_TREE (message_list)) ||
 	    !path_node || !path_node->parent || !path_node->parent->parent))
 		e_tree_model_node_traverse (
 			tree_model, path, latest_foreach, &ld);
@@ -4155,6 +4144,18 @@ message_list_class_init (MessageListClass *class)
 			G_PARAM_CONSTRUCT |
 			G_PARAM_STATIC_STRINGS));
 
+	g_object_class_install_property (
+		object_class,
+		PROP_THREAD_FLAT,
+		g_param_spec_boolean (
+			"thread-flat",
+			"Thread Flat",
+			"Generate flat threads",
+			TRUE,
+			G_PARAM_READWRITE |
+			G_PARAM_CONSTRUCT |
+			G_PARAM_STATIC_STRINGS));
+
 	gtk_widget_class_install_style_property (
 		GTK_WIDGET_CLASS (class),
 		g_param_spec_boxed (
@@ -4257,7 +4258,6 @@ message_list_init (MessageList *message_list)
 	message_list->last_sel_single = FALSE;
 
 	g_mutex_init (&message_list->priv->regen_lock);
-	g_mutex_init (&message_list->priv->thread_tree_lock);
 	g_mutex_init (&message_list->priv->re_prefixes_lock);
 
 	/* TODO: Should this only get the selection if we're realised? */
@@ -4834,17 +4834,22 @@ ml_uid_nodemap_remove (MessageList *message_list,
 static void	build_subtree			(MessageList *message_list,
 						 GNode *parent,
 						 CamelFolderThreadNode *c,
+						 gboolean thread_flat,
+						 gboolean thread_latest,
 						 gint *row);
 
 static void	build_subtree_diff		(MessageList *message_list,
 						 GNode *parent,
 						 GNode *node,
 						 CamelFolderThreadNode *c,
+						 gboolean thread_flat,
 						 gint *row);
 
 static void
 build_tree (MessageList *message_list,
             CamelFolderThread *thread,
+	    gboolean thread_flat,
+	    gboolean thread_latest,
             gboolean folder_changed)
 {
 	gint row = 0;
@@ -4879,7 +4884,10 @@ build_tree (MessageList *message_list,
 	build_subtree (
 		message_list,
 		message_list->priv->tree_model_root,
-		thread ? thread->tree : NULL, &row);
+		thread ? thread->tree : NULL,
+		thread_flat,
+		thread_latest,
+		&row);
 
 	message_list_tree_model_thaw (message_list);
 
@@ -4907,6 +4915,8 @@ static void
 build_subtree (MessageList *message_list,
                GNode *parent,
                CamelFolderThreadNode *c,
+	       gboolean thread_flat,
+	       gboolean thread_latest,
                gint *row)
 {
 	GNode *node;
@@ -4923,8 +4933,21 @@ build_subtree (MessageList *message_list,
 			message_list,
 			(CamelMessageInfo *) c->message, parent, -1);
 
+		if (thread_latest && thread_flat && parent && node && parent->data && node->data) {
+			CamelMessageInfo *parent_nfo, *node_nfo;
+
+			parent_nfo = parent->data;
+			node_nfo = node->data;
+
+			if (camel_message_info_get_date_received (parent_nfo) < camel_message_info_get_date_received (node_nfo)) {
+				/* Swap the root node's message info with the added one, because the added is the latest */
+				parent->data = node_nfo;
+				node->data = parent_nfo;
+			}
+		}
+
 		if (c->child) {
-			build_subtree (message_list, node, c->child, row);
+			build_subtree (message_list, (c->parent && thread_flat) ? parent : node, c->child, thread_flat, thread_latest, row);
 		}
 		c = c->next;
 	}
@@ -4949,6 +4972,7 @@ add_node_diff (MessageList *message_list,
                GNode *parent,
                GNode *node,
                CamelFolderThreadNode *c,
+	       gboolean thread_flat,
                gint *row,
                gint myrow)
 {
@@ -4967,7 +4991,7 @@ add_node_diff (MessageList *message_list,
 
 	if (c->child) {
 		build_subtree_diff (
-			message_list, new_node, NULL, c->child, row);
+			message_list, new_node, NULL, c->child, thread_flat, row);
 	}
 }
 
@@ -5008,6 +5032,7 @@ build_subtree_diff (MessageList *message_list,
                     GNode *parent,
                     GNode *node,
                     CamelFolderThreadNode *c,
+		    gboolean thread_flat,
                     gint *row)
 {
 	ETreeModel *tree_model;
@@ -5026,7 +5051,7 @@ build_subtree_diff (MessageList *message_list,
 			t (printf ("out of old nodes\n"));
 			/* ran out of old nodes - remaining nodes are added */
 			add_node_diff (
-				message_list, parent, ap, bp, row, myrow);
+				message_list, parent, ap, bp, thread_flat, row, myrow);
 			myrow++;
 			bp = bp->next;
 		} else if (bp == NULL) {
@@ -5042,7 +5067,7 @@ build_subtree_diff (MessageList *message_list,
 			/* make child lists match (if either has one) */
 			if (bp->child || tmp) {
 				build_subtree_diff (
-					message_list, ap, tmp, bp->child, row);
+					message_list, ap, tmp, bp->child, thread_flat, row);
 			}
 			ap = g_node_next_sibling (ap);
 			bp = bp->next;
@@ -5066,7 +5091,7 @@ build_subtree_diff (MessageList *message_list,
 					while (bt != bi) {
 						t (printf ("adding new node 0\n"));
 						add_node_diff (
-							message_list, parent, NULL, bt, row, myrow);
+							message_list, parent, NULL, bt, thread_flat, row, myrow);
 						myrow++;
 						bt = bt->next;
 					}
@@ -5075,7 +5100,7 @@ build_subtree_diff (MessageList *message_list,
 					t (printf ("adding new node 1\n"));
 					/* no match in new nodes, add one, try next */
 					add_node_diff (
-						message_list, parent, NULL, bp, row, myrow);
+						message_list, parent, NULL, bp, thread_flat, row, myrow);
 					myrow++;
 					bp = bp->next;
 				}
@@ -5094,7 +5119,7 @@ build_subtree_diff (MessageList *message_list,
 					t (printf ("adding new node 2\n"));
 					/* didn't find match in old nodes, must be new node? */
 					add_node_diff (
-						message_list, parent, NULL, bp, row, myrow);
+						message_list, parent, NULL, bp, thread_flat, row, myrow);
 					myrow++;
 					bp = bp->next;
 				}
@@ -5481,9 +5506,6 @@ message_list_set_folder (MessageList *message_list,
 		g_clear_object (&message_list->priv->folder);
 	}
 
-	/* Invalidate the thread tree. */
-	message_list_set_thread_tree (message_list, NULL);
-
 	g_free (message_list->cursor_uid);
 	message_list->cursor_uid = NULL;
 
@@ -5625,9 +5647,6 @@ message_list_set_show_deleted (MessageList *message_list,
 
 	g_object_notify (G_OBJECT (message_list), "show-deleted");
 
-	/* Invalidate the thread tree. */
-	message_list_set_thread_tree (message_list, NULL);
-
 	/* Changing this property triggers a message list regen. */
 	if (message_list->frozen == 0)
 		mail_regen_list (message_list, NULL, NULL);
@@ -5655,9 +5674,6 @@ message_list_set_show_junk (MessageList *message_list,
 	message_list->priv->show_junk = show_junk;
 
 	g_object_notify (G_OBJECT (message_list), "show-junk");
-
-	/* Invalidate the thread tree. */
-	message_list_set_thread_tree (message_list, NULL);
 
 	/* Changing this property triggers a message list regen. */
 	if (message_list->frozen == 0)
@@ -5771,6 +5787,35 @@ message_list_set_thread_compress (MessageList *message_list,
 	g_object_notify (G_OBJECT (message_list), "thread-compress");
 
 	gtk_widget_queue_draw (GTK_WIDGET (message_list));
+}
+
+gboolean
+message_list_get_thread_flat (MessageList *message_list)
+{
+	g_return_val_if_fail (IS_MESSAGE_LIST (message_list), FALSE);
+
+	return message_list->priv->thread_flat;
+}
+
+void
+message_list_set_thread_flat (MessageList *message_list,
+			      gboolean thread_flat)
+{
+	g_return_if_fail (IS_MESSAGE_LIST (message_list));
+
+	if ((thread_flat ? 1 : 0) == (message_list->priv->thread_flat ? 1 : 0))
+		return;
+
+	message_list->priv->thread_flat = thread_flat;
+
+	g_object_notify (G_OBJECT (message_list), "thread-flat");
+
+	if (message_list->priv->group_by_threads) {
+		if (!message_list->frozen)
+			mail_regen_list (message_list, NULL, NULL);
+		else
+			message_list->priv->thaw_needs_regen = TRUE;
+	}
 }
 
 gboolean
@@ -6292,9 +6337,6 @@ message_list_set_search (MessageList *message_list,
 
 	if (current_regen_data)
 		regen_data_unref (current_regen_data);
-
-	/* Invalidate the thread tree. */
-	message_list_set_thread_tree (message_list, NULL);
 
 	if (message_list->frozen == 0)
 		mail_regen_list (message_list, search ? search : "", NULL);
@@ -6851,10 +6893,9 @@ message_list_regen_done_cb (GObject *source_object,
 		build_tree (
 			message_list,
 			regen_data->thread_tree,
+			regen_data->thread_flat,
+			regen_data->thread_latest,
 			regen_data->folder_changed);
-
-		message_list_set_thread_tree (
-			message_list, regen_data->thread_tree);
 
 		if (forcing_expand_state) {
 			if (message_list->priv->folder != NULL && tree != NULL)
@@ -7123,12 +7164,11 @@ message_list_regen_idle_cb (gpointer user_data)
 
 	/* Capture MessageList state to use for this regen. */
 
-	regen_data->group_by_threads =
-		message_list_get_group_by_threads (message_list);
-	regen_data->thread_subject =
-		message_list_get_thread_subject (message_list);
-	regen_data->select_unread =
-		message_list_get_regen_selects_unread (message_list);
+	regen_data->group_by_threads = message_list_get_group_by_threads (message_list);
+	regen_data->thread_subject = message_list_get_thread_subject (message_list);
+	regen_data->thread_flat = message_list_get_thread_flat (message_list);
+	regen_data->thread_latest = message_list_get_thread_latest (message_list);
+	regen_data->select_unread = message_list_get_regen_selects_unread (message_list);
 
 	if (regen_data->select_unread)
 		message_list_set_regen_selects_unread (message_list, FALSE);

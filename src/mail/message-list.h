@@ -196,6 +196,9 @@ void		message_list_set_thread_subject	(MessageList *message_list,
 gboolean	message_list_get_thread_compress(MessageList *message_list);
 void		message_list_set_thread_compress(MessageList *message_list,
 						 gboolean thread_compress);
+gboolean	message_list_get_thread_flat	(MessageList *message_list);
+void		message_list_set_thread_flat	(MessageList *message_list,
+						 gboolean thread_flat);
 gboolean	message_list_get_regen_selects_unread
 						(MessageList *message_list);
 void		message_list_set_regen_selects_unread

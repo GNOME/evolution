@@ -81,6 +81,11 @@ settings_message_list_constructed (GObject *object)
 		message_list, "thread-compress",
 		G_SETTINGS_BIND_GET);
 
+	g_settings_bind (
+		settings, "thread-flat",
+		message_list, "thread-flat",
+		G_SETTINGS_BIND_GET);
+
 	/* This setting only controls the initial message list
 	 * state when in threaded mode, so just apply it here. */
 	message_list_set_expanded_default (

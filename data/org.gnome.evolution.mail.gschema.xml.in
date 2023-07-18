@@ -506,6 +506,11 @@
       <_summary>Whether to compress thread level</_summary>
       <_description>Set to true to compress thread levels for flat conversations, to make the level not so deep.</_description>
     </key>
+    <key name="thread-flat" type="b">
+      <default>false</default>
+      <_summary>Whether to generate flat threads</_summary>
+      <_description>Set to true to generate flat threads. That is, the thread will have only one level, with no sublevels.</_description>
+    </key>
     <key name="sort-accounts-alpha" type="b">
       <default>true</default>
       <_summary>Sort accounts alphabetically in a folder tree</_summary>
