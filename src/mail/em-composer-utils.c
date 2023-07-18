@@ -2680,7 +2680,8 @@ forward_non_attached (EMsgComposer *composer,
                       CamelFolder *folder,
                       const gchar *uid,
                       CamelMimeMessage *message,
-                      EMailForwardStyle style)
+                      EMailForwardStyle style,
+		      gboolean skip_insecure_parts)
 {
 	CamelSession *session;
 	EComposerHeaderTable *table;
@@ -2694,7 +2695,8 @@ forward_non_attached (EMsgComposer *composer,
 	session = e_msg_composer_ref_session (composer);
 
 	flags = E_MAIL_FORMATTER_QUOTE_FLAG_HEADERS |
-		E_MAIL_FORMATTER_QUOTE_FLAG_KEEP_SIG;
+		E_MAIL_FORMATTER_QUOTE_FLAG_KEEP_SIG |
+		(skip_insecure_parts ? E_MAIL_FORMATTER_QUOTE_FLAG_SKIP_INSECURE_PARTS : 0);
 	if (style == E_MAIL_FORWARD_STYLE_QUOTED)
 		flags |= E_MAIL_FORMATTER_QUOTE_FLAG_CITE;
 	if (e_html_editor_get_mode (e_msg_composer_get_editor (composer)) != E_CONTENT_EDITOR_MODE_HTML)
@@ -2743,6 +2745,7 @@ forward_non_attached (EMsgComposer *composer,
  * @style: the forward style to use
  * @folder: (nullable):  a #CamelFolder, or %NULL
  * @uid: (nullable): the UID of %message, or %NULL
+ * @skip_insecure_parts: whether to not quote insecure parts
  *
  * Forwards @message in the given @style.
  *
@@ -2765,7 +2768,8 @@ em_utils_forward_message (EMsgComposer *composer,
                           CamelMimeMessage *message,
                           EMailForwardStyle style,
                           CamelFolder *folder,
-                          const gchar *uid)
+                          const gchar *uid,
+			  gboolean skip_insecure_parts)
 {
 	CamelMimePart *part;
 	GPtrArray *uids = NULL;
@@ -2792,7 +2796,7 @@ em_utils_forward_message (EMsgComposer *composer,
 
 		case E_MAIL_FORWARD_STYLE_INLINE:
 		case E_MAIL_FORWARD_STYLE_QUOTED:
-			forward_non_attached (composer, folder, uid, message, style);
+			forward_non_attached (composer, folder, uid, message, style, skip_insecure_parts);
 			break;
 	}
 
@@ -3816,6 +3820,7 @@ static void
 composer_set_body (EMsgComposer *composer,
                    CamelMimeMessage *message,
                    EMailReplyStyle style,
+		   gboolean skip_insecure_parts,
                    EMailPartList *parts_list,
 		   EMailPartList **out_used_part_list)
 {
@@ -3824,12 +3829,15 @@ composer_set_body (EMsgComposer *composer,
 	CamelMimePart *part;
 	CamelSession *session;
 	GSettings *settings;
-	guint32 validity_found = 0, keep_sig_flag = 0;
+	guint32 validity_found = 0, add_flags = 0;
 
 	settings = e_util_ref_settings ("org.gnome.evolution.mail");
 	if (g_settings_get_boolean (settings, "composer-reply-keep-signature"))
-		keep_sig_flag = E_MAIL_FORMATTER_QUOTE_FLAG_KEEP_SIG;
+		add_flags = E_MAIL_FORMATTER_QUOTE_FLAG_KEEP_SIG;
 	g_clear_object (&settings);
+
+	if (skip_insecure_parts)
+		add_flags |= E_MAIL_FORMATTER_QUOTE_FLAG_SKIP_INSECURE_PARTS;
 
 	session = e_msg_composer_ref_session (composer);
 
@@ -3846,7 +3854,7 @@ composer_set_body (EMsgComposer *composer,
 	case E_MAIL_REPLY_STYLE_OUTLOOK:
 		original = quoting_text (QUOTING_ORIGINAL, composer);
 		text = em_utils_message_to_html_ex (
-			session, message, original, E_MAIL_FORMATTER_QUOTE_FLAG_HEADERS | keep_sig_flag,
+			session, message, original, E_MAIL_FORMATTER_QUOTE_FLAG_HEADERS | add_flags,
 			parts_list, NULL, NULL, &validity_found, out_used_part_list);
 		e_msg_composer_set_body_text (composer, text, TRUE);
 		g_free (text);
@@ -3864,7 +3872,7 @@ composer_set_body (EMsgComposer *composer,
 		g_clear_object (&identity_source);
 
 		text = em_utils_message_to_html_ex (
-			session, message, credits, E_MAIL_FORMATTER_QUOTE_FLAG_CITE | keep_sig_flag,
+			session, message, credits, E_MAIL_FORMATTER_QUOTE_FLAG_CITE | add_flags,
 			parts_list, NULL, NULL, &validity_found, out_used_part_list);
 		g_free (credits);
 		e_msg_composer_set_body_text (composer, text, TRUE);
@@ -4195,6 +4203,7 @@ emcu_create_templates_combo (EShell *shell,
  * @source: (nullable): source to inherit view settings from
  * @validity_pgp_sum: a bit-or of #EMailPartValidityFlags for PGP from original message part list
  * @validity_smime_sum: a bit-or of #EMailPartValidityFlags for S/MIME from original message part list
+ * @skip_insecure_parts: whether to not quote insecure parts
  *
  * This is similar to em_utils_reply_to_message(), except it asks user to
  * change some settings before sending. It calls em_utils_reply_to_message()
@@ -4212,7 +4221,8 @@ em_utils_reply_alternative (GtkWindow *parent,
 			    EMailReplyStyle default_style,
 			    EMailPartList *source,
 			    EMailPartValidityFlags validity_pgp_sum,
-			    EMailPartValidityFlags validity_smime_sum)
+			    EMailPartValidityFlags validity_smime_sum,
+			    gboolean skip_insecure_parts)
 {
 	GtkWidget *dialog, *widget, *style_label;
 	GtkBox *hbox, *vbox;
@@ -4649,6 +4659,9 @@ em_utils_reply_alternative (GtkWindow *parent,
 		else if (three_state == E_THREE_STATE_OFF)
 			context->flags |= E_MAIL_REPLY_FLAG_BOTTOM_SIGNATURE;
 
+		if (skip_insecure_parts)
+			context->flags |= E_MAIL_REPLY_FLAG_SKIP_INSECURE_PARTS;
+
 		g_settings_set_enum (settings, "alt-reply-style", context->style);
 		g_settings_set_boolean (settings, "alt-reply-template-apply", gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (apply_template)));
 		g_settings_set_boolean (settings, "alt-reply-template-preserve-subject", gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (preserve_message_subject)));
@@ -4910,7 +4923,7 @@ em_utils_reply_to_message (EMsgComposer *composer,
 			break;
 	}
 
-	composer_set_body (composer, message, style, parts_list, &used_part_list);
+	composer_set_body (composer, message, style, (reply_flags & E_MAIL_REPLY_FLAG_SKIP_INSECURE_PARTS) != 0, parts_list, &used_part_list);
 
 	e_msg_composer_add_attachments_from_part_list (composer, used_part_list, TRUE);
 	g_clear_object (&used_part_list);

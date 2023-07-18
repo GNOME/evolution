@@ -468,6 +468,8 @@ e_mail_formatter_format_header (EMailFormatter *formatter,
 		   g_str_has_prefix (canon_name, "Arc-")) {
 		/* don't unfold Received nor extension headers */
 		txt = value = camel_header_decode_string (header_value, charset);
+	} else if (g_strcmp0 (header_name, _("Security")) == 0) {
+		txt = header_value;
 	} else {
 		buf = camel_header_unfold (header_value);
 		txt = value = camel_header_decode_string (buf, charset);
@@ -695,8 +697,34 @@ e_mail_formatter_format_security_header (EMailFormatter *formatter,
 			break;
 		}
 
-		if (tmp->len > 0)
+		if (tmp->len > 0) {
+			if (is_partial && context && context->mode == E_MAIL_FORMATTER_MODE_NORMAL) {
+				gint icon_width, icon_height;
+				gchar *escaped;
+
+				if (!gtk_icon_size_lookup (GTK_ICON_SIZE_BUTTON, &icon_width, &icon_height)) {
+					icon_width = 16;
+					icon_height = 16;
+				}
+
+				escaped = g_markup_escape_text (tmp->str, tmp->len);
+				g_string_assign (tmp, escaped);
+				g_free (escaped);
+
+				e_util_markup_append_escaped (tmp,
+					"&nbsp;&nbsp;&nbsp; (<img src=\"gtk-stock://dialog-warning?size=%d\" width=\"%dpx\" height=\"%dpx\" style=\"vertical-align:middle;\"/>&nbsp;"
+					"<a class=\"manage-insecure-parts\" id=\"show:%s\" value=\"%s\" style=\"cursor:pointer;\">%s</a>"
+					"<a class=\"manage-insecure-parts\" id=\"hide:%s\" value=\"%s\" style=\"cursor:pointer;\" hidden>%s</a>"
+					")",
+					GTK_ICON_SIZE_BUTTON, icon_width, icon_height,
+					part_id_prefix, part_id_prefix, _("Show parts not being secured"),
+					part_id_prefix, part_id_prefix, _("Hide parts not being secured"));
+
+				flags |= E_MAIL_FORMATTER_HEADER_FLAG_HTML;
+			}
+
 			e_mail_formatter_format_header (formatter, buffer, _("Security"), tmp->str, flags, "UTF-8");
+		}
 
 		g_string_free (tmp, TRUE);
 	}

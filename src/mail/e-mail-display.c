@@ -30,6 +30,7 @@
 #include <em-format/e-mail-formatter-enumtypes.h>
 #include <em-format/e-mail-formatter-extension.h>
 #include <em-format/e-mail-formatter-print.h>
+#include <em-format/e-mail-formatter-utils.h>
 #include <em-format/e-mail-part-attachment.h>
 #include <em-format/e-mail-part-utils.h>
 
@@ -81,6 +82,10 @@ struct _EMailDisplayPrivate {
 	gboolean headers_collapsable;
 	gboolean headers_collapsed;
 	gboolean force_image_load;
+	gboolean has_secured_parts;
+	gboolean skip_insecure_parts;
+
+	GSList *insecure_part_ids;
 
 	GSettings *settings;
 
@@ -1285,6 +1290,55 @@ mail_display_remote_content_clicked_cb (EWebView *web_view,
 }
 
 static void
+mail_display_manage_insecure_parts_clicked_cb (EWebView *web_view,
+					       const gchar *iframe_id,
+					       const gchar *element_id,
+					       const gchar *element_class,
+					       const gchar *element_value,
+					       const GtkAllocation *element_position,
+					       gpointer user_data)
+{
+	EMailDisplay *mail_display;
+	const gchar *part_id_prefix = element_value;
+	GSList *link;
+	GString *jsc_cmd;
+
+	g_return_if_fail (E_IS_MAIL_DISPLAY (web_view));
+	g_return_if_fail (element_id != NULL);
+	g_return_if_fail (element_value != NULL);
+
+	mail_display = E_MAIL_DISPLAY (web_view);
+
+	if (!mail_display->priv->insecure_part_ids)
+		return;
+
+	mail_display->priv->skip_insecure_parts = !g_str_has_prefix (element_id, "show:");
+
+	jsc_cmd = g_string_new ("");
+
+	e_web_view_jsc_printf_script_gstring (jsc_cmd,
+		"Evo.MailDisplayManageInsecureParts(%s,%s,%x,[",
+		iframe_id,
+		part_id_prefix,
+		!mail_display->priv->skip_insecure_parts);
+
+	for (link = mail_display->priv->insecure_part_ids; link; link = g_slist_next (link)) {
+		const gchar *part_id = link->data;
+
+		if (link != mail_display->priv->insecure_part_ids)
+			g_string_append_c (jsc_cmd, ',');
+
+		e_web_view_jsc_printf_script_gstring (jsc_cmd, "%s", part_id);
+	}
+
+	g_string_append (jsc_cmd, "]);");
+
+	e_web_view_jsc_run_script_take (WEBKIT_WEB_VIEW (web_view),
+		g_string_free (jsc_cmd, FALSE),
+		e_web_view_get_cancellable (web_view));
+}
+
+static void
 mail_display_load_changed_cb (WebKitWebView *wk_web_view,
 			      WebKitLoadEvent load_event,
 			      gpointer user_data)
@@ -1324,6 +1378,8 @@ mail_display_content_loaded_cb (EWebView *web_view,
 			mail_display_attachment_menu_clicked_cb, NULL);
 		e_web_view_register_element_clicked (web_view, "__evo-remote-content-img",
 			mail_display_remote_content_clicked_cb, NULL);
+		e_web_view_register_element_clicked (web_view, "manage-insecure-parts",
+			mail_display_manage_insecure_parts_clicked_cb, NULL);
 	}
 
 	if (g_settings_get_boolean (mail_display->priv->settings, "mark-citations")) {
@@ -1370,6 +1426,16 @@ mail_display_content_loaded_cb (EWebView *web_view,
 				e_mail_part_content_loaded (part, web_view, iframe_id);
 
 			g_clear_object (&part);
+		}
+
+		if (mail_display->priv->has_secured_parts) {
+			GSList *link;
+
+			for (link = mail_display->priv->insecure_part_ids; link; link = g_slist_next (link)) {
+				e_web_view_jsc_set_element_hidden (WEBKIT_WEB_VIEW (web_view),
+					"*", link->data, TRUE,
+					e_web_view_get_cancellable (web_view));
+			}
 		}
 	}
 
@@ -1564,6 +1630,7 @@ mail_display_finalize (GObject *object)
 
 	g_mutex_lock (&priv->remote_content_lock);
 	g_clear_pointer (&priv->skipped_remote_content_sites, g_hash_table_destroy);
+	g_slist_free_full (priv->insecure_part_ids, g_free);
 	g_hash_table_destroy (priv->attachment_flags);
 	g_hash_table_destroy (priv->cid_attachments);
 	g_clear_object (&priv->remote_content);
@@ -2676,6 +2743,7 @@ e_mail_display_init (EMailDisplay *display)
 	display->priv->attachment_inline_group = gtk_action_group_new ("e-mail-display-attachment-inline");
 	display->priv->attachment_accel_action_group = gtk_action_group_new ("e-mail-display-attachment-accel");
 	display->priv->attachment_accel_group = gtk_accel_group_new ();
+	display->priv->skip_insecure_parts = TRUE;
 
 	gtk_action_group_add_actions (
 		display->priv->attachment_inline_group, attachment_inline_entries,
@@ -2988,6 +3056,9 @@ void
 e_mail_display_set_part_list (EMailDisplay *display,
                               EMailPartList *part_list)
 {
+	GSList *insecure_part_ids = NULL;
+	gboolean has_secured_parts = FALSE;
+
 	g_return_if_fail (E_IS_MAIL_DISPLAY (display));
 
 	if (display->priv->part_list == part_list)
@@ -3002,6 +3073,52 @@ e_mail_display_set_part_list (EMailDisplay *display,
 		g_object_unref (display->priv->part_list);
 
 	display->priv->part_list = part_list;
+
+	if (part_list) {
+		GQueue queue = G_QUEUE_INIT;
+		GList *link;
+
+		e_mail_part_list_queue_parts (part_list, NULL, &queue);
+
+		for (link = g_queue_peek_head_link (&queue); link && !has_secured_parts; link = g_list_next (link)) {
+			has_secured_parts = e_mail_part_has_validity (link->data);
+		}
+
+		if (has_secured_parts) {
+			gboolean has_encypted_part = FALSE;
+
+			for (link = g_queue_peek_head_link (&queue); link; link = g_list_next (link)) {
+				EMailPart *part = link->data;
+
+				if (!e_mail_part_get_id (part) ||
+				    !g_strcmp0 (e_mail_part_get_id (part), ".message") ||
+				    e_mail_part_id_has_suffix (part, ".secure_button") ||
+				    e_mail_part_id_has_suffix (part, ".rfc822") ||
+				    e_mail_part_id_has_suffix (part, ".rfc822.end") ||
+				    e_mail_part_id_has_suffix (part, ".headers"))
+					continue;
+
+				if (!e_mail_part_has_validity (part)) {
+					insecure_part_ids = g_slist_prepend (insecure_part_ids, g_strdup (e_mail_part_get_id (part)));
+				} else if (e_mail_part_get_validity (part, E_MAIL_PART_VALIDITY_ENCRYPTED)) {
+					if (has_encypted_part) {
+						/* consider the second and following encrypted parts as evil */
+						insecure_part_ids = g_slist_prepend (insecure_part_ids, g_strdup (e_mail_part_get_id (part)));
+					} else {
+						has_encypted_part = TRUE;
+					}
+				}
+			}
+		}
+
+		while (!g_queue_is_empty (&queue))
+			g_object_unref (g_queue_pop_head (&queue));
+	}
+
+	g_slist_free_full (display->priv->insecure_part_ids, g_free);
+	display->priv->insecure_part_ids = insecure_part_ids;
+	display->priv->has_secured_parts = has_secured_parts;
+	display->priv->skip_insecure_parts = TRUE;
 
 	g_object_notify (G_OBJECT (display), "part-list");
 }
@@ -3373,4 +3490,13 @@ e_mail_display_need_key_event (EMailDisplay *mail_display,
 
 	return gtk_accel_group_activate (accel_group, accel_quark, G_OBJECT (mail_display),
 		event->keyval, accel_mods);
+}
+
+gboolean
+e_mail_display_get_skip_insecure_parts (EMailDisplay *mail_display)
+{
+	return !mail_display ||
+	       !gtk_widget_is_visible (GTK_WIDGET (mail_display)) ||
+	       !mail_display->priv->insecure_part_ids ||
+	       mail_display->priv->skip_insecure_parts;
 }

@@ -79,6 +79,7 @@ typedef enum {
  *    with @E_MAIL_REPLY_FLAG_TOP_SIGNATURE. If none is set, then uses global settings.
  * @E_MAIL_REPLY_FLAG_FORCE_SENDER_REPLY: Force sender reply, to not switch it to reply-all, when
  *    the From address of the message is the user.
+ * @E_MAIL_REPLY_FLAG_SKIP_INSECURE_PARTS: Skip insecure parts, that's those without validity. Since: 3.50
  *
  * Flags influencing behavior of em_utils_reply_to_message().
  *
@@ -96,7 +97,8 @@ typedef enum { /*< flags >*/
 	E_MAIL_REPLY_FLAG_FORCE_SENDER_REPLY	= 1 << 7,
 	E_MAIL_REPLY_FLAG_FORMAT_MARKDOWN	= 1 << 8,
 	E_MAIL_REPLY_FLAG_FORMAT_MARKDOWN_PLAIN	= 1 << 9,
-	E_MAIL_REPLY_FLAG_FORMAT_MARKDOWN_HTML	= 1 << 10
+	E_MAIL_REPLY_FLAG_FORMAT_MARKDOWN_HTML	= 1 << 10,
+	E_MAIL_REPLY_FLAG_SKIP_INSECURE_PARTS	= 1 << 11
 } EMailReplyFlags;
 
 G_END_DECLS

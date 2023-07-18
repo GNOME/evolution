@@ -57,6 +57,8 @@ mail_formatter_quote_run (EMailFormatter *formatter,
 	GQueue queue = G_QUEUE_INIT;
 	GList *head, *link;
 	const gchar *string;
+	gboolean skip_insecure_parts;
+	gboolean has_encrypted_part = FALSE;
 
 	if (g_cancellable_is_cancelled (cancellable))
 		return;
@@ -65,6 +67,8 @@ mail_formatter_quote_run (EMailFormatter *formatter,
 
 	qf_context = (EMailFormatterQuoteContext *) context;
 	qf_context->qf_flags = qf->priv->flags;
+
+	skip_insecure_parts = (qf->priv->flags & E_MAIL_FORMATTER_QUOTE_FLAG_SKIP_INSECURE_PARTS) != 0;
 
 	if ((qf_context->qf_flags & E_MAIL_FORMATTER_QUOTE_FLAG_NO_FORMATTING) != 0)
 		context->flags |= E_MAIL_FORMATTER_HEADER_FLAG_NO_FORMATTING;
@@ -76,6 +80,20 @@ mail_formatter_quote_run (EMailFormatter *formatter,
 	e_mail_part_list_queue_parts (context->part_list, NULL, &queue);
 
 	head = g_queue_peek_head_link (&queue);
+
+	/* Skip insecure parts only if there is a part with a validity (aka a secure part) */
+	if (skip_insecure_parts) {
+		skip_insecure_parts = FALSE;
+
+		for (link = head; link && !skip_insecure_parts; link = g_list_next (link)) {
+			EMailPart *part = E_MAIL_PART (link->data);
+
+			if (part->is_hidden || e_mail_part_get_is_attachment (part))
+				continue;
+
+			skip_insecure_parts = e_mail_part_has_validity (part);
+		}
+	}
 
 	for (link = head; link != NULL; link = g_list_next (link)) {
 		EMailPart *part = E_MAIL_PART (link->data);
@@ -96,6 +114,26 @@ mail_formatter_quote_run (EMailFormatter *formatter,
 
 		if (e_mail_part_get_is_attachment (part))
 			continue;
+
+		if (skip_insecure_parts &&
+		    e_mail_part_get_id (part) &&
+		    g_strcmp0 (e_mail_part_get_id (part), ".message") != 0 &&
+		    !e_mail_part_id_has_suffix (part, ".secure_button") &&
+		    !e_mail_part_id_has_suffix (part, ".rfc822") &&
+		    !e_mail_part_id_has_suffix (part, ".rfc822.end") &&
+		    !e_mail_part_id_has_suffix (part, ".headers")) {
+
+			if (!e_mail_part_has_validity (part))
+				continue;
+
+			if (e_mail_part_get_validity (part, E_MAIL_PART_VALIDITY_ENCRYPTED)) {
+				/* consider the second and following encrypted parts as evil */
+				if (has_encrypted_part)
+					continue;
+
+				has_encrypted_part = TRUE;
+			}
+		}
 
 		mime_type = e_mail_part_get_mime_type (part);
 

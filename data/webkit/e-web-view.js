@@ -1482,6 +1482,28 @@ Evo.MailDisplayProcessMagicSpacebar = function(towards_bottom)
 	Evo.mailDisplayUpdateMagicSpacebarState();
 }
 
+Evo.MailDisplayManageInsecureParts = function(iframe_id, part_id_prefix, show, partids)
+{
+	var ii, elem;
+
+	elem = Evo.FindElement(iframe_id, "show:" + part_id_prefix);
+	if (elem) {
+		elem.hidden = show
+	}
+
+	elem = Evo.FindElement(iframe_id, "hide:" + part_id_prefix);
+	if (elem) {
+		elem.hidden = !show
+	}
+
+	for (ii = 0; ii < partids.length; ii++) {
+		elem = Evo.FindElement(iframe_id, partids[ii]);
+
+		if (elem)
+			elem.hidden = !show;
+	}
+}
+
 var EvoItip = {
 	SELECT_ESOURCE : "select_esource",
 	TEXTAREA_RSVP_COMMENT : "textarea_rsvp_comment",

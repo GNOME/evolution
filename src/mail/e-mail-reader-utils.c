@@ -70,11 +70,14 @@ struct _AsyncContext {
 	gint filter_type;
 	gboolean replace;
 	gboolean keep_signature;
+	GSList *hidden_parts; /* EMailPart, to have set ::is_hidden = FALSE; */
 };
 
 static void
 async_context_free (AsyncContext *async_context)
 {
+	GSList *link;
+
 	g_clear_object (&async_context->activity);
 	g_clear_object (&async_context->folder);
 	g_clear_object (&async_context->message);
@@ -87,6 +90,15 @@ async_context_free (AsyncContext *async_context)
 
 	g_free (async_context->folder_name);
 	g_free (async_context->message_uid);
+
+	for (link = async_context->hidden_parts; link; link = g_slist_next (link)) {
+		EMailPart *part = link->data;
+
+		part->is_hidden = FALSE;
+	}
+
+	g_slist_free_full (async_context->hidden_parts, g_object_unref);
+	async_context->hidden_parts = NULL;
 
 	g_slice_free (AsyncContext, async_context);
 }
@@ -1598,6 +1610,62 @@ mail_reader_print_parse_message_cb (GObject *source_object,
 	formatter = e_mail_display_get_formatter (mail_display);
 	remote_content = e_mail_display_ref_remote_content (mail_display);
 
+	if (e_mail_display_get_skip_insecure_parts (mail_display)) {
+		GList *head, *link;
+		GQueue queue = G_QUEUE_INIT;
+		gboolean skip_insecure_parts = FALSE;
+
+		e_mail_part_list_queue_parts (part_list, NULL, &queue);
+
+		head = g_queue_peek_head_link (&queue);
+
+		for (link = head; link && !skip_insecure_parts; link = g_list_next (link)) {
+			EMailPart *part = E_MAIL_PART (link->data);
+
+			if (part->is_hidden || e_mail_part_get_is_attachment (part))
+				continue;
+
+			skip_insecure_parts = e_mail_part_has_validity (part);
+		}
+
+		if (skip_insecure_parts) {
+			gboolean has_encrypted_part = FALSE;
+
+			for (link = head; link != NULL; link = g_list_next (link)) {
+				EMailPart *part = E_MAIL_PART (link->data);
+
+				if (!e_mail_part_get_id (part) ||
+				    part->is_hidden ||
+				    g_strcmp0 (e_mail_part_get_id (part), ".message") == 0 ||
+				    e_mail_part_id_has_suffix (part, ".secure_button") ||
+				    e_mail_part_id_has_suffix (part, ".rfc822") ||
+				    e_mail_part_id_has_suffix (part, ".rfc822.end") ||
+				    e_mail_part_id_has_suffix (part, ".headers")) {
+					continue;
+				}
+
+				if (!e_mail_part_has_validity (part)) {
+					part->is_hidden = TRUE;
+					async_context->hidden_parts = g_slist_prepend (async_context->hidden_parts, g_object_ref (part));
+					continue;
+				}
+
+				if (e_mail_part_get_validity (part, E_MAIL_PART_VALIDITY_ENCRYPTED)) {
+					/* consider the second and following encrypted parts as evil */
+					if (has_encrypted_part) {
+						part->is_hidden = TRUE;
+						async_context->hidden_parts = g_slist_prepend (async_context->hidden_parts, g_object_ref (part));
+					} else {
+						has_encrypted_part = TRUE;
+					}
+				}
+			}
+		}
+
+		while (!g_queue_is_empty (&queue))
+			g_object_unref (g_queue_pop_head (&queue));
+	}
+
 	printer = e_mail_printer_new (part_list, remote_content);
 	export_basename = em_utils_build_export_basename (
 		CAMEL_FOLDER (async_context->folder),
@@ -1926,6 +1994,15 @@ e_mail_reader_remove_duplicates (EMailReader *reader)
 	g_ptr_array_unref (uids);
 }
 
+static gboolean
+emr_utils_get_skip_insecure_parts (EMailReader *reader)
+{
+	if (!reader)
+		return TRUE;
+
+	return e_mail_display_get_skip_insecure_parts (e_mail_reader_get_mail_display (reader));
+}
+
 typedef struct _CreateComposerData {
 	EMailReader *reader;
 	CamelFolder *folder;
@@ -1941,6 +2018,7 @@ typedef struct _CreateComposerData {
 	EMailPartValidityFlags validity_pgp_sum;
 	EMailPartValidityFlags validity_smime_sum;
 	gboolean is_selection;
+	gboolean skip_insecure_parts;
 
 	EMailForwardStyle forward_style;
 
@@ -2019,6 +2097,7 @@ mail_reader_edit_messages_cb (GObject *source_object,
 	GHashTable *hash_table;
 	GHashTableIter iter;
 	gpointer key, value;
+	gboolean skip_insecure_parts;
 	AsyncContext *async_context;
 	GError *local_error = NULL;
 
@@ -2051,6 +2130,7 @@ mail_reader_edit_messages_cb (GObject *source_object,
 
 	backend = e_mail_reader_get_backend (async_context->reader);
 	shell = e_shell_backend_get_shell (E_SHELL_BACKEND (backend));
+	skip_insecure_parts = emr_utils_get_skip_insecure_parts (async_context->reader);
 
 	/* Open each message in its own composer window. */
 
@@ -2066,6 +2146,7 @@ mail_reader_edit_messages_cb (GObject *source_object,
 		ccd->message_uid = camel_pstring_strdup ((const gchar *) key);
 		ccd->keep_signature = async_context->keep_signature;
 		ccd->replace = async_context->replace;
+		ccd->skip_insecure_parts = skip_insecure_parts;
 
 		e_msg_composer_new (shell, mail_reader_edit_messages_composer_created_cb, ccd);
 	}
@@ -2201,6 +2282,7 @@ mail_reader_forward_attachment_cb (GObject *source_object,
 	ccd->attached_part = part;
 	ccd->attached_subject = subject;
 	ccd->attached_uids = async_context->uids ? g_ptr_array_ref (async_context->uids) : NULL;
+	ccd->skip_insecure_parts = emr_utils_get_skip_insecure_parts (async_context->reader);
 
 	backend = e_mail_reader_get_backend (async_context->reader);
 	shell = e_shell_backend_get_shell (E_SHELL_BACKEND (backend));
@@ -2232,7 +2314,8 @@ mail_reader_forward_message_composer_created_cb (GObject *source_object,
 		em_utils_forward_message (
 			composer, ccd->message,
 			ccd->forward_style,
-			ccd->folder, ccd->message_uid);
+			ccd->folder, ccd->message_uid,
+			ccd->skip_insecure_parts);
 
 		e_mail_reader_composer_created (
 			ccd->reader, composer, ccd->message);
@@ -2254,6 +2337,7 @@ mail_reader_forward_messages_cb (GObject *source_object,
 	GHashTable *hash_table;
 	GHashTableIter iter;
 	gpointer key, value;
+	gboolean skip_insecure_parts;
 	AsyncContext *async_context;
 	GError *local_error = NULL;
 
@@ -2287,6 +2371,8 @@ mail_reader_forward_messages_cb (GObject *source_object,
 		goto exit;
 	}
 
+	skip_insecure_parts = emr_utils_get_skip_insecure_parts (async_context->reader);
+
 	/* Create a new composer window for each message. */
 
 	g_hash_table_iter_init (&iter, hash_table);
@@ -2305,6 +2391,7 @@ mail_reader_forward_messages_cb (GObject *source_object,
 		ccd->message = g_object_ref (message);
 		ccd->message_uid = camel_pstring_strdup (message_uid);
 		ccd->forward_style = async_context->forward_style;
+		ccd->skip_insecure_parts = skip_insecure_parts;
 
 		e_msg_composer_new (shell, mail_reader_forward_message_composer_created_cb, ccd);
 	}
@@ -2475,10 +2562,15 @@ mail_reader_reply_to_message_composer_created_cb (GObject *source_object,
 		g_warning ("%s: failed to create msg composer: %s", G_STRFUNC, error->message);
 		g_clear_error (&error);
 	} else {
+		guint32 add_flags = 0;
+
+		if (!ccd->is_selection && ccd->skip_insecure_parts)
+			add_flags = E_MAIL_REPLY_FLAG_SKIP_INSECURE_PARTS;
+
 		em_utils_reply_to_message (
 			composer, ccd->message, ccd->folder, ccd->message_uid,
 			ccd->reply_type, ccd->reply_style, ccd->is_selection ? NULL : ccd->part_list, ccd->address,
-			ccd->reply_type == E_MAIL_REPLY_TO_SENDER ? E_MAIL_REPLY_FLAG_FORCE_SENDER_REPLY : E_MAIL_REPLY_FLAG_NONE);
+			(ccd->reply_type == E_MAIL_REPLY_TO_SENDER ? E_MAIL_REPLY_FLAG_FORCE_SENDER_REPLY : E_MAIL_REPLY_FLAG_NONE) | add_flags);
 
 		em_composer_utils_update_security (composer, ccd->validity_pgp_sum, ccd->validity_smime_sum);
 
@@ -2553,6 +2645,7 @@ typedef struct _SelectionOrMessageData {
 	const gchar *message_uid; /* Allocated on the string pool, use camel_pstring_strdup/free */
 	gboolean is_selection;
 	gboolean selection_is_html;
+	gboolean skip_insecure_parts;
 } SelectionOrMessageData;
 
 static void
@@ -2885,6 +2978,7 @@ reply_to_message_got_message_cb (GObject *source_object,
 	ccd->reader = g_object_ref (reader);
 	ccd->reply_type = reply_type;
 	ccd->reply_style = e_mail_reader_get_reply_style (reader);
+	ccd->skip_insecure_parts = emr_utils_get_skip_insecure_parts (reader);
 
 	ccd->message = e_mail_reader_utils_get_selection_or_message_finish (reader, result,
 			&ccd->is_selection, &ccd->folder, &ccd->message_uid, &ccd->part_list,

@@ -1835,6 +1835,15 @@ action_mail_reply_all_cb (GtkAction *action,
 	e_mail_reader_reply_to_message (reader, NULL, E_MAIL_REPLY_TO_ALL);
 }
 
+static gboolean
+emr_get_skip_insecure_parts (EMailReader *reader)
+{
+	if (!reader)
+		return TRUE;
+
+	return e_mail_display_get_skip_insecure_parts (e_mail_reader_get_mail_display (reader));
+}
+
 static void
 action_mail_reply_alternative_got_message (GObject *source_object,
 					   GAsyncResult *result,
@@ -1880,7 +1889,8 @@ action_mail_reply_alternative_got_message (GObject *source_object,
 		e_shell_backend_get_shell (E_SHELL_BACKEND (e_mail_reader_get_backend (closure->reader))),
 		alert_sink, message, folder, message_uid,
 		e_mail_reader_get_reply_style (closure->reader),
-		is_selection ? NULL : part_list, validity_pgp_sum, validity_smime_sum);
+		is_selection ? NULL : part_list, validity_pgp_sum, validity_smime_sum,
+		!is_selection && emr_get_skip_insecure_parts (closure->reader));
 
 	mail_reader_closure_free (closure);
 	camel_pstring_free (message_uid);

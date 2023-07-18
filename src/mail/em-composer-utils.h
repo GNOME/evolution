@@ -58,7 +58,8 @@ void		em_utils_forward_message	(EMsgComposer *composer,
 						 CamelMimeMessage *message,
 						 EMailForwardStyle style,
 						 CamelFolder *folder,
-						 const gchar *uid);
+						 const gchar *uid,
+						 gboolean skip_insecure_parts);
 void		em_utils_forward_attachment	(EMsgComposer *composer,
 						 CamelMimePart *part,
 						 const gchar *orig_subject,
@@ -93,7 +94,8 @@ void		em_utils_reply_alternative	(GtkWindow *parent,
 						 EMailReplyStyle default_style,
 						 EMailPartList *source,
 						 EMailPartValidityFlags validity_pgp_sum,
-						 EMailPartValidityFlags validity_smime_sum);
+						 EMailPartValidityFlags validity_smime_sum,
+						 gboolean skip_insecure_parts);
 EDestination **	em_utils_camel_address_to_destination
 						(CamelInternetAddress *iaddr);
 void		em_configure_new_composer	(EMsgComposer *composer,
