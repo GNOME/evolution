@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: evolution\n"
 "Report-Msgid-Bugs-To: https://gitlab.gnome.org/GNOME/evolution/issues\n"
-"POT-Creation-Date: 2023-07-13 15:07+0000\n"
-"PO-Revision-Date: 2023-07-14 06:59+0200\n"
+"POT-Creation-Date: 2023-07-17 19:24+0000\n"
+"PO-Revision-Date: 2023-07-18 05:29+0200\n"
 "Last-Translator: Ekaterine Papava <papava.e@gtu.ge>\n"
 "Language-Team: Georgian <(nothing)>\n"
 "Language: ka\n"
@@ -3371,7 +3371,7 @@ msgstr "წერილი"
 
 #: ../data/org.gnome.Evolution.desktop.in.in.h:11
 #: ../src/calendar/gui/e-memo-table.c:446 ../src/e-util/e-webdav-browser.c:523
-#: ../src/modules/calendar/e-cal-shell-content.c:1940
+#: ../src/modules/calendar/e-cal-shell-content.c:1944
 #: ../src/modules/calendar/e-memo-shell-view-actions.c:196
 #: ../src/modules/calendar/e-memo-shell-view-actions.c:211
 #: ../src/modules/calendar/e-memo-shell-view.c:335
@@ -3384,7 +3384,7 @@ msgstr "ჩანაწერები"
 #: ../src/calendar/importers/icalendar-importer.c:1151
 #: ../src/e-util/e-webdav-browser.c:524
 #: ../src/modules/calendar/e-calendar-preferences.ui.h:82
-#: ../src/modules/calendar/e-cal-shell-content.c:1900
+#: ../src/modules/calendar/e-cal-shell-content.c:1904
 #: ../src/modules/calendar/e-task-shell-view-actions.c:220
 #: ../src/modules/calendar/e-task-shell-view-actions.c:235
 #: ../src/modules/calendar/e-task-shell-view.c:530
@@ -3853,7 +3853,7 @@ msgstr ""
 #: ../src/addressbook/addressbook.error.xml.h:32
 #: ../src/addressbook/gui/contact-list-editor/contact-list-editor.ui.h:9
 #: ../src/addressbook/gui/widgets/eab-contact-merging.c:811
-#: ../src/calendar/gui/e-comp-editor-page-general.c:1497
+#: ../src/calendar/gui/e-comp-editor-page-general.c:1510
 #: ../src/e-util/e-accounts-window.c:1570
 #: ../src/e-util/e-mail-signature-manager.c:324
 #: ../src/e-util/e-name-selector-dialog.c:1028 ../src/e-util/filter.ui.h:25
@@ -4356,7 +4356,7 @@ msgstr ""
 
 #: ../src/addressbook/gui/contact-editor/contact-editor.ui.h:67
 #: ../src/addressbook/gui/contact-list-editor/contact-list-editor.ui.h:11
-#: ../src/calendar/gui/e-comp-editor-page-general.c:1513
+#: ../src/calendar/gui/e-comp-editor-page-general.c:1526
 #: ../src/e-util/e-attachment-view.c:409 ../src/e-util/e-filter-rule.c:410
 #: ../src/e-util/e-mail-signature-manager.c:364
 #: ../src/e-util/e-name-selector-dialog.c:1032
@@ -4875,32 +4875,32 @@ msgstr ""
 msgid "evolution address book"
 msgstr ""
 
-#: ../src/addressbook/gui/widgets/eab-contact-display.c:186
+#: ../src/addressbook/gui/widgets/eab-contact-display.c:150
 msgid "Copy _Email Address"
 msgstr ""
 
-#: ../src/addressbook/gui/widgets/eab-contact-display.c:188
+#: ../src/addressbook/gui/widgets/eab-contact-display.c:152
 #: ../src/e-util/e-web-view.c:431
 msgid "Copy the email address to the clipboard"
 msgstr ""
 
-#: ../src/addressbook/gui/widgets/eab-contact-display.c:193
+#: ../src/addressbook/gui/widgets/eab-contact-display.c:157
 #: ../src/e-util/e-web-view.c:443
 msgid "_Send New Message To…"
 msgstr ""
 
-#: ../src/addressbook/gui/widgets/eab-contact-display.c:195
+#: ../src/addressbook/gui/widgets/eab-contact-display.c:159
 #: ../src/e-util/e-web-view.c:445
 msgid "Send a mail message to this address"
 msgstr ""
 
-#: ../src/addressbook/gui/widgets/eab-contact-display.c:318
+#: ../src/addressbook/gui/widgets/eab-contact-display.c:282
 #: ../src/e-util/e-misc-utils.c:4769
 #, c-format
 msgid "Click to mail %s"
 msgstr ""
 
-#: ../src/addressbook/gui/widgets/eab-contact-display.c:333
+#: ../src/addressbook/gui/widgets/eab-contact-display.c:297
 #, c-format
 msgid "Click to open map for %s"
 msgstr ""
@@ -5213,7 +5213,7 @@ msgstr ""
 msgid "Search Interrupted"
 msgstr ""
 
-#: ../src/addressbook/gui/widgets/e-addressbook-table-adapter.c:219
+#: ../src/addressbook/gui/widgets/e-addressbook-table-adapter.c:318
 msgid "Error modifying card"
 msgstr ""
 
@@ -5441,6 +5441,90 @@ msgstr "ვებგვერდი"
 #: ../src/addressbook/gui/widgets/e-addressbook-view.etspec.h:42
 msgid "Journal"
 msgstr "ჟურნალი"
+
+#: ../src/addressbook/gui/widgets/e-addressbook-view.etspec.h:48
+msgid "Home Address Street"
+msgstr "სახლის მისამართი ქუჩა"
+
+#: ../src/addressbook/gui/widgets/e-addressbook-view.etspec.h:49
+msgid "Home Address Extended"
+msgstr ""
+
+#: ../src/addressbook/gui/widgets/e-addressbook-view.etspec.h:50
+msgid "Home Address PO Box"
+msgstr "სახლის საფოსტო ყუთი"
+
+#: ../src/addressbook/gui/widgets/e-addressbook-view.etspec.h:51
+msgid "Home Address City"
+msgstr "სახლის მისამართი ქალაქი"
+
+#: ../src/addressbook/gui/widgets/e-addressbook-view.etspec.h:52
+msgid "Home Address Zip/Postal code"
+msgstr ""
+
+#: ../src/addressbook/gui/widgets/e-addressbook-view.etspec.h:53
+msgid "Home Address State/Province"
+msgstr "სახლის მისამართი მხარე/პროვინცია"
+
+#: ../src/addressbook/gui/widgets/e-addressbook-view.etspec.h:54
+msgid "Home Address Country"
+msgstr "სახლის მისამართი ქვეყანა"
+
+#: ../src/addressbook/gui/widgets/e-addressbook-view.etspec.h:55
+msgid "Work Address Street"
+msgstr "სამსახურის მისამართი ქუჩა"
+
+#: ../src/addressbook/gui/widgets/e-addressbook-view.etspec.h:56
+msgid "Work Address Extended"
+msgstr ""
+
+#: ../src/addressbook/gui/widgets/e-addressbook-view.etspec.h:57
+msgid "Work Address PO Box"
+msgstr "სამსახურის საფოსტო ყუთი"
+
+#: ../src/addressbook/gui/widgets/e-addressbook-view.etspec.h:58
+msgid "Work Address City"
+msgstr "სამსახურის მისამართი ქალაქი"
+
+#: ../src/addressbook/gui/widgets/e-addressbook-view.etspec.h:59
+msgid "Work Address Zip/Postal code"
+msgstr ""
+
+#: ../src/addressbook/gui/widgets/e-addressbook-view.etspec.h:60
+msgid "Work Address State/Province"
+msgstr "სამსახურის მისამართი მხარე/პროვინცია"
+
+#: ../src/addressbook/gui/widgets/e-addressbook-view.etspec.h:61
+msgid "Work Address Country"
+msgstr ""
+
+#: ../src/addressbook/gui/widgets/e-addressbook-view.etspec.h:62
+msgid "Other Address Street"
+msgstr "სხვა მისამართი ქუჩა"
+
+#: ../src/addressbook/gui/widgets/e-addressbook-view.etspec.h:63
+msgid "Other Address Extended"
+msgstr ""
+
+#: ../src/addressbook/gui/widgets/e-addressbook-view.etspec.h:64
+msgid "Other Address PO Box"
+msgstr "სხვა საფოსტო ყუთი"
+
+#: ../src/addressbook/gui/widgets/e-addressbook-view.etspec.h:65
+msgid "Other Address City"
+msgstr ""
+
+#: ../src/addressbook/gui/widgets/e-addressbook-view.etspec.h:66
+msgid "Other Address Zip/Postal code"
+msgstr ""
+
+#: ../src/addressbook/gui/widgets/e-addressbook-view.etspec.h:67
+msgid "Other Address State/Province"
+msgstr "სხვა მისამართ მხარე/პროვინცია"
+
+#: ../src/addressbook/gui/widgets/e-addressbook-view.etspec.h:68
+msgid "Other Address Country"
+msgstr ""
 
 #: ../src/addressbook/gui/widgets/e-card-view.c:84
 msgid ""
@@ -6414,7 +6498,7 @@ msgid "Do Not Exist"
 msgstr "არ არსებობს"
 
 #: ../src/calendar/gui/caltypes.xml.in.h:19
-#: ../src/calendar/gui/e-comp-editor-page-recurrence.c:2092
+#: ../src/calendar/gui/e-comp-editor-page-recurrence.c:2098
 msgid "Recurrence"
 msgstr "გამეორებადობა"
 
@@ -7788,82 +7872,82 @@ msgstr[0] ""
 msgid "Organizer address is not a valid user mail address"
 msgstr ""
 
-#: ../src/calendar/gui/e-comp-editor-page-general.c:686
+#: ../src/calendar/gui/e-comp-editor-page-general.c:699
 msgid "A_ttendees"
 msgstr ""
 
-#: ../src/calendar/gui/e-comp-editor-page-general.c:688
+#: ../src/calendar/gui/e-comp-editor-page-general.c:701
 msgid "Toggles whether the Attendees are displayed"
 msgstr ""
 
-#: ../src/calendar/gui/e-comp-editor-page-general.c:697
+#: ../src/calendar/gui/e-comp-editor-page-general.c:710
 msgid "R_ole Field"
 msgstr ""
 
-#: ../src/calendar/gui/e-comp-editor-page-general.c:699
+#: ../src/calendar/gui/e-comp-editor-page-general.c:712
 msgid "Toggles whether the Role field is displayed"
 msgstr ""
 
-#: ../src/calendar/gui/e-comp-editor-page-general.c:705
+#: ../src/calendar/gui/e-comp-editor-page-general.c:718
 msgid "_RSVP"
 msgstr ""
 
-#: ../src/calendar/gui/e-comp-editor-page-general.c:707
+#: ../src/calendar/gui/e-comp-editor-page-general.c:720
 msgid "Toggles whether the RSVP field is displayed"
 msgstr ""
 
-#: ../src/calendar/gui/e-comp-editor-page-general.c:713
+#: ../src/calendar/gui/e-comp-editor-page-general.c:726
 msgid "_Status Field"
 msgstr ""
 
-#: ../src/calendar/gui/e-comp-editor-page-general.c:715
+#: ../src/calendar/gui/e-comp-editor-page-general.c:728
 msgid "Toggles whether the Status field is displayed"
 msgstr ""
 
-#: ../src/calendar/gui/e-comp-editor-page-general.c:721
+#: ../src/calendar/gui/e-comp-editor-page-general.c:734
 msgid "_Type Field"
 msgstr ""
 
-#: ../src/calendar/gui/e-comp-editor-page-general.c:723
+#: ../src/calendar/gui/e-comp-editor-page-general.c:736
 msgid "Toggles whether the Attendee Type is displayed"
 msgstr ""
 
-#: ../src/calendar/gui/e-comp-editor-page-general.c:1032
+#: ../src/calendar/gui/e-comp-editor-page-general.c:1045
 msgid "An organizer is required."
 msgstr ""
 
-#: ../src/calendar/gui/e-comp-editor-page-general.c:1042
-#: ../src/calendar/gui/e-comp-editor-page-general.c:1184
+#: ../src/calendar/gui/e-comp-editor-page-general.c:1055
+#: ../src/calendar/gui/e-comp-editor-page-general.c:1197
 msgid "At least one attendee is required."
 msgstr ""
 
-#: ../src/calendar/gui/e-comp-editor-page-general.c:1308
+#: ../src/calendar/gui/e-comp-editor-page-general.c:1321
 msgid "Or_ganizer:"
 msgstr ""
 
-#: ../src/calendar/gui/e-comp-editor-page-general.c:1407
+#: ../src/calendar/gui/e-comp-editor-page-general.c:1420
 msgid ""
 "Override color of the event. If not set, then color of the calendar is used."
 msgstr ""
 
-#: ../src/calendar/gui/e-comp-editor-page-general.c:1409
+#: ../src/calendar/gui/e-comp-editor-page-general.c:1422
 msgid ""
 "Override color of the memo. If not set, then color of the memo list is used."
 msgstr ""
 
 #. E_SOURCE_EXTENSION_TASK_LIST
-#: ../src/calendar/gui/e-comp-editor-page-general.c:1411
+#: ../src/calendar/gui/e-comp-editor-page-general.c:1424
 msgid ""
 "Override color of the task. If not set, then color of the task list is used."
 msgstr ""
 
-#: ../src/calendar/gui/e-comp-editor-page-general.c:1422
+#: ../src/calendar/gui/e-comp-editor-page-general.c:1435
 msgctxt "ECompEditor"
 msgid "Atte_ndees…"
 msgstr ""
 
-#: ../src/calendar/gui/e-comp-editor-page-general.c:1505
-#: ../src/calendar/gui/e-comp-editor-page-recurrence.c:2312
+#: ../src/calendar/gui/e-comp-editor-page-general.c:1518
+#: ../src/calendar/gui/e-comp-editor-page-recurrence.c:2318
 #: ../src/calendar/gui/e-comp-editor.c:2259
 #: ../src/e-util/e-accounts-window.c:1752
 #: ../src/e-util/e-html-editor-actions.c:1170
@@ -7893,7 +7977,7 @@ msgstr ""
 
 #. TRANSLATORS: Entire string is for example: This appointment recurs/Every [x] week(s) on [Wednesday] [forever]'
 #. * (dropdown menu options are in [square brackets]). This means that after the 'on', name of a week day always follows.
-#: ../src/calendar/gui/e-comp-editor-page-recurrence.c:503
+#: ../src/calendar/gui/e-comp-editor-page-recurrence.c:506
 msgid "on"
 msgstr ""
 
@@ -7901,7 +7985,7 @@ msgstr ""
 #. * (dropdown menu options are in [square brackets]). This means that after 'first', either the string 'day' or
 #. * the name of a week day (like 'Monday' or 'Friday') always follow.
 #.
-#: ../src/calendar/gui/e-comp-editor-page-recurrence.c:584
+#: ../src/calendar/gui/e-comp-editor-page-recurrence.c:587
 msgctxt "ECompEditorPageRecur"
 msgid "first"
 msgstr "პირველი"
@@ -7911,7 +7995,7 @@ msgstr "პირველი"
 #. * (dropdown menu options are in [square brackets]). This means that after 'second', either the string 'day' or
 #. * the name of a week day (like 'Monday' or 'Friday') always follow.
 #.
-#: ../src/calendar/gui/e-comp-editor-page-recurrence.c:590
+#: ../src/calendar/gui/e-comp-editor-page-recurrence.c:593
 msgctxt "ECompEditorPageRecur"
 msgid "second"
 msgstr "წამი"
@@ -7920,7 +8004,7 @@ msgstr "წამი"
 #. * (dropdown menu options are in [square brackets]). This means that after 'third', either the string 'day' or
 #. * the name of a week day (like 'Monday' or 'Friday') always follow.
 #.
-#: ../src/calendar/gui/e-comp-editor-page-recurrence.c:595
+#: ../src/calendar/gui/e-comp-editor-page-recurrence.c:598
 msgctxt "ECompEditorPageRecur"
 msgid "third"
 msgstr "მესამე"
@@ -7929,7 +8013,7 @@ msgstr "მესამე"
 #. * (dropdown menu options are in [square brackets]). This means that after 'fourth', either the string 'day' or
 #. * the name of a week day (like 'Monday' or 'Friday') always follow.
 #.
-#: ../src/calendar/gui/e-comp-editor-page-recurrence.c:600
+#: ../src/calendar/gui/e-comp-editor-page-recurrence.c:603
 msgctxt "ECompEditorPageRecur"
 msgid "fourth"
 msgstr "მეოთხე"
@@ -7938,7 +8022,7 @@ msgstr "მეოთხე"
 #. * (dropdown menu options are in [square brackets]). This means that after 'fifth', either the string 'day' or
 #. * the name of a week day (like 'Monday' or 'Friday') always follow.
 #.
-#: ../src/calendar/gui/e-comp-editor-page-recurrence.c:605
+#: ../src/calendar/gui/e-comp-editor-page-recurrence.c:608
 msgctxt "ECompEditorPageRecur"
 msgid "fifth"
 msgstr "მეხუთე"
@@ -7947,14 +8031,14 @@ msgstr "მეხუთე"
 #. * (dropdown menu options are in [square brackets]). This means that after 'last', either the string 'day' or
 #. * the name of a week day (like 'Monday' or 'Friday') always follow.
 #.
-#: ../src/calendar/gui/e-comp-editor-page-recurrence.c:610
+#: ../src/calendar/gui/e-comp-editor-page-recurrence.c:613
 msgctxt "ECompEditorPageRecur"
 msgid "last"
 msgstr "ბოლო"
 
 #. TRANSLATORS: Entire string is for example: This appointment recurs/Every [x] month(s) on the [Other date] [11th to 20th] [17th] [forever]'
 #. * (dropdown menu options are in [square brackets]).
-#: ../src/calendar/gui/e-comp-editor-page-recurrence.c:637
+#: ../src/calendar/gui/e-comp-editor-page-recurrence.c:640
 msgctxt "ECompEditorPageRecur"
 msgid "Other Date"
 msgstr ""
@@ -7963,7 +8047,7 @@ msgstr ""
 #. * the month to setup an appointment recurrence. The entire string is for example: This appointment recurs/Every [x] month(s)
 #. * on the [Other date] [1st to 10th] [7th] [forever]' (dropdown menu options are in [square brackets]).
 #.
-#: ../src/calendar/gui/e-comp-editor-page-recurrence.c:643
+#: ../src/calendar/gui/e-comp-editor-page-recurrence.c:646
 msgctxt "ECompEditorPageRecur"
 msgid "1st to 10th"
 msgstr ""
@@ -7972,7 +8056,7 @@ msgstr ""
 #. * the month to setup an appointment recurrence. The entire string is for example: This appointment recurs/Every [x] month(s)
 #. * on the [Other date] [11th to 20th] [17th] [forever]' (dropdown menu options are in [square brackets]).
 #.
-#: ../src/calendar/gui/e-comp-editor-page-recurrence.c:649
+#: ../src/calendar/gui/e-comp-editor-page-recurrence.c:652
 msgctxt "ECompEditorPageRecur"
 msgid "11th to 20th"
 msgstr ""
@@ -7981,7 +8065,7 @@ msgstr ""
 #. * the month to setup an appointment recurrence. The entire string is for example: This appointment recurs/Every [x] month(s)
 #. * on the [Other date] [21th to 31th] [27th] [forever]' (dropdown menu options are in [square brackets]).
 #.
-#: ../src/calendar/gui/e-comp-editor-page-recurrence.c:655
+#: ../src/calendar/gui/e-comp-editor-page-recurrence.c:658
 msgctxt "ECompEditorPageRecur"
 msgid "21st to 31st"
 msgstr ""
@@ -7989,42 +8073,42 @@ msgstr ""
 #. For Translator : 'day' is part of the sentence of the form 'appointment recurs/Every [x] month(s) on the [first] [day] [forever]'
 #. * (dropdown menu options are in[square brackets]). This means that after 'first', either the string 'day' or
 #. * the name of a week day (like 'Monday' or 'Friday') always follow.
-#: ../src/calendar/gui/e-comp-editor-page-recurrence.c:681
+#: ../src/calendar/gui/e-comp-editor-page-recurrence.c:684
 msgctxt "ECompEditorPageRecur"
 msgid "day"
 msgstr "დღე"
 
-#: ../src/calendar/gui/e-comp-editor-page-recurrence.c:682
+#: ../src/calendar/gui/e-comp-editor-page-recurrence.c:685
 msgctxt "ECompEditorPageRecur"
 msgid "Monday"
 msgstr "ორშაბათი"
 
-#: ../src/calendar/gui/e-comp-editor-page-recurrence.c:683
+#: ../src/calendar/gui/e-comp-editor-page-recurrence.c:686
 msgctxt "ECompEditorPageRecur"
 msgid "Tuesday"
 msgstr "სამშაბათი"
 
-#: ../src/calendar/gui/e-comp-editor-page-recurrence.c:684
+#: ../src/calendar/gui/e-comp-editor-page-recurrence.c:687
 msgctxt "ECompEditorPageRecur"
 msgid "Wednesday"
 msgstr "ოთხშაბათი"
 
-#: ../src/calendar/gui/e-comp-editor-page-recurrence.c:685
+#: ../src/calendar/gui/e-comp-editor-page-recurrence.c:688
 msgctxt "ECompEditorPageRecur"
 msgid "Thursday"
 msgstr "ხუთშაბათი"
 
-#: ../src/calendar/gui/e-comp-editor-page-recurrence.c:686
+#: ../src/calendar/gui/e-comp-editor-page-recurrence.c:689
 msgctxt "ECompEditorPageRecur"
 msgid "Friday"
 msgstr "პარასკევი"
 
-#: ../src/calendar/gui/e-comp-editor-page-recurrence.c:687
+#: ../src/calendar/gui/e-comp-editor-page-recurrence.c:690
 msgctxt "ECompEditorPageRecur"
 msgid "Saturday"
 msgstr "შაბათი"
 
-#: ../src/calendar/gui/e-comp-editor-page-recurrence.c:688
+#: ../src/calendar/gui/e-comp-editor-page-recurrence.c:691
 msgctxt "ECompEditorPageRecur"
 msgid "Sunday"
 msgstr "კვირა"
@@ -8032,127 +8116,127 @@ msgstr "კვირა"
 #. TRANSLATORS: Entire string is for example: 'This appointment recurs/Every [x] month(s) on the [second] [Tuesday] [forever]'
 #. * (dropdown menu options are in [square brackets])."
 #.
-#: ../src/calendar/gui/e-comp-editor-page-recurrence.c:817
+#: ../src/calendar/gui/e-comp-editor-page-recurrence.c:820
 msgctxt "ECompEditorPageRecur"
 msgid "on the"
 msgstr ""
 
-#: ../src/calendar/gui/e-comp-editor-page-recurrence.c:1091
+#: ../src/calendar/gui/e-comp-editor-page-recurrence.c:1094
 msgctxt "ECompEditorPageRecur"
 msgid "occurrences"
 msgstr "შემთხვევა"
 
 #. Translators: Entire string is for example:     'This appointment recurs/Every[x][day(s)][for][1]occurrences' (combobox options are in [square brackets])
-#: ../src/calendar/gui/e-comp-editor-page-recurrence.c:1552
-#: ../src/calendar/gui/e-comp-editor-page-recurrence.c:2104
+#: ../src/calendar/gui/e-comp-editor-page-recurrence.c:1558
+#: ../src/calendar/gui/e-comp-editor-page-recurrence.c:2110
 msgctxt "ECompEditorPageRecur"
 msgid "This appointment rec_urs"
 msgstr ""
 
 #. Translators: Entire string is for example:     'This task recurs/Every[x][day(s)][for][1]occurrences' (combobox options are in [square brackets])
-#: ../src/calendar/gui/e-comp-editor-page-recurrence.c:1557
+#: ../src/calendar/gui/e-comp-editor-page-recurrence.c:1563
 msgctxt "ECompEditorPageRecur"
 msgid "This task rec_urs"
 msgstr ""
 
 #. Translators: Entire string is for example:     'This memo recurs/Every[x][day(s)][for][1]occurrences' (combobox options are in [square brackets])
-#: ../src/calendar/gui/e-comp-editor-page-recurrence.c:1562
+#: ../src/calendar/gui/e-comp-editor-page-recurrence.c:1568
 msgctxt "ECompEditorPageRecur"
 msgid "This memo rec_urs"
 msgstr ""
 
 #. Translators: Entire string is for example:     'This component recurs/Every[x][day(s)][for][1]occurrences' (combobox options are in [square brackets])
-#: ../src/calendar/gui/e-comp-editor-page-recurrence.c:1567
+#: ../src/calendar/gui/e-comp-editor-page-recurrence.c:1573
 msgctxt "ECompEditorPageRecur"
 msgid "This component rec_urs"
 msgstr ""
 
-#: ../src/calendar/gui/e-comp-editor-page-recurrence.c:1938
+#: ../src/calendar/gui/e-comp-editor-page-recurrence.c:1944
 msgid "Recurrence exception date is invalid"
 msgstr ""
 
-#: ../src/calendar/gui/e-comp-editor-page-recurrence.c:1994
+#: ../src/calendar/gui/e-comp-editor-page-recurrence.c:2000
 msgid "End time of the recurrence is before the start"
 msgstr ""
 
-#: ../src/calendar/gui/e-comp-editor-page-recurrence.c:2032
+#: ../src/calendar/gui/e-comp-editor-page-recurrence.c:2038
 msgid "R_ecurrence"
 msgstr ""
 
-#: ../src/calendar/gui/e-comp-editor-page-recurrence.c:2034
+#: ../src/calendar/gui/e-comp-editor-page-recurrence.c:2040
 msgid "Set or unset recurrence"
 msgstr ""
 
 #. Translators: Entire string is for example:     'This appointment recurs/Every[x][day(s)][for][1]occurrences' (combobox options are in [square brackets])
-#: ../src/calendar/gui/e-comp-editor-page-recurrence.c:2136
+#: ../src/calendar/gui/e-comp-editor-page-recurrence.c:2142
 msgctxt "ECompEditorPageRecur"
 msgid "Every"
 msgstr "ყოველ"
 
 #. Translators: Entire string is for example:     'This appointment recurs/Every[x][day(s)][for][1]occurrences' (combobox options are in [square brackets])
-#: ../src/calendar/gui/e-comp-editor-page-recurrence.c:2171
+#: ../src/calendar/gui/e-comp-editor-page-recurrence.c:2177
 msgctxt "ECompEditorPageRecur"
 msgid "day(s)"
 msgstr "დღე(ები)"
 
 #. Translators: Entire string is for example:     'This appointment recurs/Every[x][day(s)][for][1]occurrences' (combobox options are in [square brackets])
-#: ../src/calendar/gui/e-comp-editor-page-recurrence.c:2173
+#: ../src/calendar/gui/e-comp-editor-page-recurrence.c:2179
 msgctxt "ECompEditorPageRecur"
 msgid "week(s)"
 msgstr "კვირა"
 
 #. Translators: Entire string is for example:     'This appointment recurs/Every[x][day(s)][for][1]occurrences' (combobox options are in [square brackets])
-#: ../src/calendar/gui/e-comp-editor-page-recurrence.c:2175
+#: ../src/calendar/gui/e-comp-editor-page-recurrence.c:2181
 msgctxt "ECompEditorPageRecur"
 msgid "month(s)"
 msgstr "თვე"
 
 #. Translators: Entire string is for example:     'This appointment recurs/Every[x][day(s)][for][1]occurrences' (combobox options are in [square brackets])
-#: ../src/calendar/gui/e-comp-editor-page-recurrence.c:2177
+#: ../src/calendar/gui/e-comp-editor-page-recurrence.c:2183
 msgctxt "ECompEditorPageRecur"
 msgid "year(s)"
 msgstr "წელი"
 
 #. Translators: Entire string is for example:     'This appointment recurs/Every[x][day(s)][for][1]occurrences' (combobox options are in [square brackets])
-#: ../src/calendar/gui/e-comp-editor-page-recurrence.c:2206
+#: ../src/calendar/gui/e-comp-editor-page-recurrence.c:2212
 msgctxt "ECompEditorPageRecur"
 msgid "for"
 msgstr "ვისთვის"
 
 #. Translators: Entire string is for example:     'This appointment recurs/Every[x][day(s)][for][1]occurrences' (combobox options are in [square brackets])
-#: ../src/calendar/gui/e-comp-editor-page-recurrence.c:2208
+#: ../src/calendar/gui/e-comp-editor-page-recurrence.c:2214
 msgctxt "ECompEditorPageRecur"
 msgid "until"
 msgstr "დასასრულის დრო"
 
 #. Translators: Entire string is for example:     'This appointment recurs/Every[x][day(s)][for][1]occurrences' (combobox options are in [square brackets])
-#: ../src/calendar/gui/e-comp-editor-page-recurrence.c:2210
+#: ../src/calendar/gui/e-comp-editor-page-recurrence.c:2216
 msgctxt "ECompEditorPageRecur"
 msgid "forever"
 msgstr "სამუდამოდ"
 
-#: ../src/calendar/gui/e-comp-editor-page-recurrence.c:2226
+#: ../src/calendar/gui/e-comp-editor-page-recurrence.c:2232
 msgid "This appointment contains recurrences that Evolution cannot edit."
 msgstr ""
 
-#: ../src/calendar/gui/e-comp-editor-page-recurrence.c:2239
+#: ../src/calendar/gui/e-comp-editor-page-recurrence.c:2245
 msgid "Exceptions"
 msgstr "გამონაკლისები"
 
-#: ../src/calendar/gui/e-comp-editor-page-recurrence.c:2304
+#: ../src/calendar/gui/e-comp-editor-page-recurrence.c:2310
 #: ../src/calendar/gui/e-comp-editor-page-reminders.c:2278
 #: ../src/mail/e-mail-config-identity-page.c:858
 #: ../src/mail/mail-config.ui.h:70
 msgid "A_dd"
 msgstr "_დამატება"
 
-#: ../src/calendar/gui/e-comp-editor-page-recurrence.c:2320
+#: ../src/calendar/gui/e-comp-editor-page-recurrence.c:2326
 #: ../src/calendar/gui/e-comp-editor-page-reminders.c:2286
 #: ../src/mail/mail-config.ui.h:72
 msgid "Re_move"
 msgstr "_წაშლა"
 
-#: ../src/calendar/gui/e-comp-editor-page-recurrence.c:2328
+#: ../src/calendar/gui/e-comp-editor-page-recurrence.c:2334
 msgid "Preview"
 msgstr "გადახედვა"
 
@@ -8349,120 +8433,129 @@ msgctxt "ECompEditor"
 msgid "_Summary:"
 msgstr ""
 
-#: ../src/calendar/gui/e-comp-editor-property-parts.c:388
+#: ../src/calendar/gui/e-comp-editor-property-parts.c:360
+#: ../src/e-util/e-url-entry.c:180
+msgid "Click here to open the URL"
+msgstr ""
+
+#: ../src/calendar/gui/e-comp-editor-property-parts.c:362
+msgid "Click here to open map"
+msgstr ""
+
+#: ../src/calendar/gui/e-comp-editor-property-parts.c:427
 msgctxt "ECompEditor"
 msgid "_Location:"
 msgstr "_მდებარეობა:"
 
-#: ../src/calendar/gui/e-comp-editor-property-parts.c:522
+#: ../src/calendar/gui/e-comp-editor-property-parts.c:564
 msgctxt "ECompEditor"
 msgid "_Categories…"
 msgstr ""
 
-#: ../src/calendar/gui/e-comp-editor-property-parts.c:635
+#: ../src/calendar/gui/e-comp-editor-property-parts.c:677
 msgid "Edit as text"
 msgstr ""
 
-#: ../src/calendar/gui/e-comp-editor-property-parts.c:635
+#: ../src/calendar/gui/e-comp-editor-property-parts.c:677
 msgid "View as text"
 msgstr ""
 
-#: ../src/calendar/gui/e-comp-editor-property-parts.c:635
+#: ../src/calendar/gui/e-comp-editor-property-parts.c:677
 msgid "View as HTML"
 msgstr ""
 
-#: ../src/calendar/gui/e-comp-editor-property-parts.c:770
+#: ../src/calendar/gui/e-comp-editor-property-parts.c:812
 msgctxt "ECompEditor"
 msgid "_Description:"
 msgstr "_აღწერილობა:"
 
-#: ../src/calendar/gui/e-comp-editor-property-parts.c:1126
+#: ../src/calendar/gui/e-comp-editor-property-parts.c:1168
 msgctxt "ECompEditor"
 msgid "_Web page:"
 msgstr ""
 
-#: ../src/calendar/gui/e-comp-editor-property-parts.c:1768
+#: ../src/calendar/gui/e-comp-editor-property-parts.c:1810
 msgctxt "ECompEditor"
 msgid "D_ue date:"
 msgstr ""
 
-#: ../src/calendar/gui/e-comp-editor-property-parts.c:1862
+#: ../src/calendar/gui/e-comp-editor-property-parts.c:1904
 msgctxt "ECompEditor"
 msgid "Date _completed:"
 msgstr ""
 
-#: ../src/calendar/gui/e-comp-editor-property-parts.c:1878
+#: ../src/calendar/gui/e-comp-editor-property-parts.c:1920
 msgctxt "ECompEditor"
 msgid "Public"
 msgstr "საჯარო"
 
-#: ../src/calendar/gui/e-comp-editor-property-parts.c:1879
+#: ../src/calendar/gui/e-comp-editor-property-parts.c:1921
 msgctxt "ECompEditor"
 msgid "Private"
 msgstr "პირადი"
 
-#: ../src/calendar/gui/e-comp-editor-property-parts.c:1880
+#: ../src/calendar/gui/e-comp-editor-property-parts.c:1922
 msgctxt "ECompEditor"
 msgid "Confidential"
 msgstr "Კონფიდენციალური"
 
-#: ../src/calendar/gui/e-comp-editor-property-parts.c:1896
+#: ../src/calendar/gui/e-comp-editor-property-parts.c:1938
 msgctxt "ECompEditor"
 msgid "C_lassification:"
 msgstr ""
 
-#: ../src/calendar/gui/e-comp-editor-property-parts.c:1959
+#: ../src/calendar/gui/e-comp-editor-property-parts.c:2001
 msgctxt "ECompEditor"
 msgid "_Status:"
 msgstr "_სტატუსი:"
 
-#: ../src/calendar/gui/e-comp-editor-property-parts.c:1989
+#: ../src/calendar/gui/e-comp-editor-property-parts.c:2031
 msgctxt "ECompEditor"
 msgid "Undefined"
 msgstr "გაურკვეველი"
 
-#: ../src/calendar/gui/e-comp-editor-property-parts.c:1990
+#: ../src/calendar/gui/e-comp-editor-property-parts.c:2032
 msgctxt "ECompEditor"
 msgid "High"
 msgstr "მაღალი"
 
-#: ../src/calendar/gui/e-comp-editor-property-parts.c:1991
+#: ../src/calendar/gui/e-comp-editor-property-parts.c:2033
 msgctxt "ECompEditor"
 msgid "Normal"
 msgstr "ჩვეულებრივი"
 
-#: ../src/calendar/gui/e-comp-editor-property-parts.c:1992
+#: ../src/calendar/gui/e-comp-editor-property-parts.c:2034
 msgctxt "ECompEditor"
 msgid "Low"
 msgstr "დაბალი"
 
-#: ../src/calendar/gui/e-comp-editor-property-parts.c:2001
+#: ../src/calendar/gui/e-comp-editor-property-parts.c:2043
 msgctxt "ECompEditor"
 msgid "Priorit_y:"
 msgstr ""
 
-#: ../src/calendar/gui/e-comp-editor-property-parts.c:2055
+#: ../src/calendar/gui/e-comp-editor-property-parts.c:2097
 msgctxt "ECompEditor"
 msgid "Percent complete:"
 msgstr ""
 
-#: ../src/calendar/gui/e-comp-editor-property-parts.c:2136
+#: ../src/calendar/gui/e-comp-editor-property-parts.c:2178
 msgctxt "ECompEditor"
 msgid "Time _zone:"
 msgstr ""
 
-#: ../src/calendar/gui/e-comp-editor-property-parts.c:2232
+#: ../src/calendar/gui/e-comp-editor-property-parts.c:2274
 msgctxt "ECompEditor"
 msgid "Show time as _busy"
 msgstr ""
 
 #. Translators: This 'None' is meant for 'Color' in calendar component editor, like 'None color'
-#: ../src/calendar/gui/e-comp-editor-property-parts.c:2653
+#: ../src/calendar/gui/e-comp-editor-property-parts.c:2695
 msgctxt "ECompEditor"
 msgid "None"
 msgstr "არცერთი"
 
-#: ../src/calendar/gui/e-comp-editor-property-parts.c:2814
+#: ../src/calendar/gui/e-comp-editor-property-parts.c:2856
 msgid "Esti_mated duration:"
 msgstr ""
 
@@ -9105,7 +9198,7 @@ msgstr "დრო: %s %s"
 
 #. strftime format of a weekday and a date.
 #: ../src/calendar/gui/e-to-do-pane.c:1638 ../src/e-util/e-cell-date-edit.c:338
-#: ../src/e-util/e-datetime-format.c:207
+#: ../src/e-util/e-datetime-format.c:237
 #: ../src/modules/calendar/e-cal-shell-view-actions.c:2036
 #: ../src/modules/itip-formatter/itip-view.c:274
 msgid "Today"
@@ -9113,7 +9206,7 @@ msgstr "დღეს"
 
 #. strftime format of a weekday and a date.
 #: ../src/calendar/gui/e-to-do-pane.c:1640
-#: ../src/e-util/e-datetime-format.c:218
+#: ../src/e-util/e-datetime-format.c:248
 #: ../src/modules/itip-formatter/itip-view.c:302
 msgid "Tomorrow"
 msgstr "ხვალ"
@@ -13283,14 +13376,14 @@ msgstr ""
 msgid "Invalid Time Value"
 msgstr ""
 
-#: ../src/e-util/e-datetime-format.c:220
+#: ../src/e-util/e-datetime-format.c:250
 msgid "Yesterday"
 msgstr "გუშინ"
 
 #. Translators: This is used for abbreviated days in the future.
 #. *         You can use strftime modifiers here too, like "Next %a", to avoid
 #. * repeated translation of the abbreviated day name.
-#: ../src/e-util/e-datetime-format.c:228
+#: ../src/e-util/e-datetime-format.c:258
 msgctxt "DateFmt"
 msgid "Next Mon"
 msgstr ""
@@ -13298,7 +13391,7 @@ msgstr ""
 #. Translators: This is used for abbreviated days in the future.
 #. *         You can use strftime modifiers here too, like "Next %a", to avoid
 #. * repeated translation of the abbreviated day name.
-#: ../src/e-util/e-datetime-format.c:234
+#: ../src/e-util/e-datetime-format.c:264
 msgctxt "DateFmt"
 msgid "Next Tue"
 msgstr ""
@@ -13306,7 +13399,7 @@ msgstr ""
 #. Translators: This is used for abbreviated days in the future.
 #. *         You can use strftime modifiers here too, like "Next %a", to avoid
 #. * repeated translation of the abbreviated day name.
-#: ../src/e-util/e-datetime-format.c:240
+#: ../src/e-util/e-datetime-format.c:270
 msgctxt "DateFmt"
 msgid "Next Wed"
 msgstr ""
@@ -13314,7 +13407,7 @@ msgstr ""
 #. Translators: This is used for abbreviated days in the future.
 #. *         You can use strftime modifiers here too, like "Next %a", to avoid
 #. * repeated translation of the abbreviated day name.
-#: ../src/e-util/e-datetime-format.c:246
+#: ../src/e-util/e-datetime-format.c:276
 msgctxt "DateFmt"
 msgid "Next Thu"
 msgstr ""
@@ -13322,7 +13415,7 @@ msgstr ""
 #. Translators: This is used for abbreviated days in the future.
 #. *         You can use strftime modifiers here too, like "Next %a", to avoid
 #. * repeated translation of the abbreviated day name.
-#: ../src/e-util/e-datetime-format.c:252
+#: ../src/e-util/e-datetime-format.c:282
 msgctxt "DateFmt"
 msgid "Next Fri"
 msgstr ""
@@ -13330,7 +13423,7 @@ msgstr ""
 #. Translators: This is used for abbreviated days in the future.
 #. *         You can use strftime modifiers here too, like "Next %a", to avoid
 #. * repeated translation of the abbreviated day name.
-#: ../src/e-util/e-datetime-format.c:258
+#: ../src/e-util/e-datetime-format.c:288
 msgctxt "DateFmt"
 msgid "Next Sat"
 msgstr ""
@@ -13338,17 +13431,17 @@ msgstr ""
 #. Translators: This is used for abbreviated days in the future.
 #. *         You can use strftime modifiers here too, like "Next %a", to avoid
 #. * repeated translation of the abbreviated day name.
-#: ../src/e-util/e-datetime-format.c:264
+#: ../src/e-util/e-datetime-format.c:294
 msgctxt "DateFmt"
 msgid "Next Sun"
 msgstr ""
 
-#: ../src/e-util/e-datetime-format.c:368 ../src/e-util/e-datetime-format.c:378
-#: ../src/e-util/e-datetime-format.c:387
+#: ../src/e-util/e-datetime-format.c:398 ../src/e-util/e-datetime-format.c:408
+#: ../src/e-util/e-datetime-format.c:417
 msgid "Use locale default"
 msgstr ""
 
-#: ../src/e-util/e-datetime-format.c:610
+#: ../src/e-util/e-datetime-format.c:640
 msgid "Format:"
 msgstr "ფორმატი:"
 
@@ -16026,11 +16119,7 @@ msgstr "მონიშნული"
 msgid "Timezone drop-down combination box"
 msgstr ""
 
-#: ../src/e-util/e-url-entry.c:155
-msgid "Click here to open the URL"
-msgstr ""
-
-#: ../src/e-util/e-url-entry.c:192
+#: ../src/e-util/e-url-entry.c:217
 msgid "Enter a URL here"
 msgstr ""
 
@@ -18999,7 +19088,7 @@ msgstr ""
 
 #: ../src/mail/em-subscription-editor.c:813
 msgid "_Subscribe"
-msgstr ""
+msgstr "_გამოწერა"
 
 #: ../src/mail/em-subscription-editor.c:822
 msgid "Su_bscribe To Shown"
@@ -21717,7 +21806,7 @@ msgstr ""
 msgid "_Send Message to Contact"
 msgstr ""
 
-#: ../src/modules/alarm-notify/alarm-notify.c:163
+#: ../src/modules/alarm-notify/alarm-notify.c:164
 #, c-format
 msgid "Failed to launch command “%s”:"
 msgstr ""
