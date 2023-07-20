@@ -24,6 +24,15 @@
     </menu>
     <menu action='view-menu'>
       <menuitem action='address-book-manage-groups'/>
+      <menu action='gal-view-menu'>
+        <placeholder name='gal-customize-view-placeholder'>
+          <menu action='contact-cards-sort-by-menu'>
+            <menuitem action='contact-cards-sort-by-file-as'/>
+            <menuitem action='contact-cards-sort-by-given-name'/>
+            <menuitem action='contact-cards-sort-by-family-name'/>
+          </menu>
+        </placeholder>
+      </menu>
       <placeholder name='view-custom-menus'>
         <menu action='contact-preview-menu'>
           <menuitem action='contact-preview'/>

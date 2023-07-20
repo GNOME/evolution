@@ -1558,6 +1558,14 @@ e_addressbook_view_get_view_instance (EAddressbookView *view)
 	return view->priv->view_instance;
 }
 
+GObject *
+e_addressbook_view_get_content_object (EAddressbookView *view)
+{
+	g_return_val_if_fail (E_IS_ADDRESSBOOK_VIEW (view), NULL);
+
+	return view->priv->object;
+}
+
 EShellView *
 e_addressbook_view_get_shell_view (EAddressbookView *view)
 {

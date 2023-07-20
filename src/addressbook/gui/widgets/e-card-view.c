@@ -250,6 +250,8 @@ e_card_view_take_book_view (ECardView *self,
 	}
 
 	if (book_view) {
+		GError *local_error = NULL;
+
 		self->priv->book_view = book_view;
 		self->priv->searching = TRUE;
 
@@ -265,6 +267,13 @@ e_card_view_take_book_view (ECardView *self,
 			G_CALLBACK (e_card_view_view_notify_indices_cb), self);
 
 		e_book_client_view_set_flags (self->priv->book_view, E_BOOK_CLIENT_VIEW_FLAGS_MANUAL_QUERY, NULL);
+
+		if (!e_book_client_view_set_sort_fields_sync (self->priv->book_view, self->priv->sort_fields, self->priv->cancellable, &local_error) &&
+		    !g_error_matches (local_error, G_IO_ERROR, G_IO_ERROR_CANCELLED))
+			g_warning ("%s: Failed to set view sort fields: %s", G_STRFUNC, local_error ? local_error->message : "Unknown error");
+
+		g_clear_error (&local_error);
+
 		e_book_client_view_start (self->priv->book_view, NULL);
 
 		if (self->priv->alphabet_box) {

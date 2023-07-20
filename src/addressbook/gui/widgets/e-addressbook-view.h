@@ -102,6 +102,8 @@ guint		e_addressbook_view_get_n_selected
 GalViewInstance *
 		e_addressbook_view_get_view_instance
 						(EAddressbookView *view);
+GObject *	e_addressbook_view_get_content_object
+						(EAddressbookView *view);
 EShellView *	e_addressbook_view_get_shell_view
 						(EAddressbookView *view);
 ESource *	e_addressbook_view_get_source	(EAddressbookView *view);

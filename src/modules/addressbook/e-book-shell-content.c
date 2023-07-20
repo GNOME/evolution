@@ -25,6 +25,8 @@
 #include <glib/gi18n.h>
 
 #include "shell/e-shell-utils.h"
+#include "addressbook/gui/widgets/gal-view-minicard.h"
+#include "e-book-shell-view-private.h"
 #include "e-book-shell-view.h"
 
 #define E_BOOK_SHELL_CONTENT_GET_PRIVATE(obj) \
@@ -579,6 +581,7 @@ e_book_shell_content_set_current_view (EBookShellContent *book_shell_content,
 	EShellView *shell_view;
 	EShellContent *shell_content;
 	EShellSearchbar *searchbar;
+	EShellWindow *shell_window;
 	EBookShellView *book_shell_view;
 	GtkNotebook *notebook;
 	GtkWidget *child;
@@ -589,6 +592,7 @@ e_book_shell_content_set_current_view (EBookShellContent *book_shell_content,
 
 	shell_content = E_SHELL_CONTENT (book_shell_content);
 	shell_view = e_shell_content_get_shell_view (shell_content);
+	shell_window = e_shell_view_get_shell_window (shell_view);
 
 	book_shell_view = E_BOOK_SHELL_VIEW (shell_view);
 	searchbar = e_book_shell_content_get_searchbar (book_shell_content);
@@ -602,8 +606,11 @@ e_book_shell_content_set_current_view (EBookShellContent *book_shell_content,
 	gtk_notebook_set_current_page (notebook, page_num);
 
 	if (old_page_num != page_num) {
+		GalViewInstance *view_instance;
+		GalView *gl_view;
 		EActionComboBox *combo_box;
-		GtkRadioAction *action;
+		GtkAction *action;
+		GtkRadioAction *radio_action;
 		gint filter_id = 0, search_id = 0;
 		gchar *search_text = NULL;
 		EFilterRule *advanced_search = NULL;
@@ -617,8 +624,8 @@ e_book_shell_content_set_current_view (EBookShellContent *book_shell_content,
 		combo_box = e_shell_searchbar_get_filter_combo_box (searchbar);
 		e_action_combo_box_set_current_value (combo_box, filter_id);
 
-		action = e_shell_searchbar_get_search_option (searchbar);
-		gtk_radio_action_set_current_value (action, search_id);
+		radio_action = e_shell_searchbar_get_search_option (searchbar);
+		gtk_radio_action_set_current_value (radio_action, search_id);
 
 		e_shell_searchbar_set_search_text (searchbar, search_text);
 
@@ -630,6 +637,17 @@ e_book_shell_content_set_current_view (EBookShellContent *book_shell_content,
 			g_object_unref (advanced_search);
 
 		e_book_shell_view_enable_searching (book_shell_view);
+
+		view_instance = e_addressbook_view_get_view_instance (addressbook_view);
+		gl_view = gal_view_instance_get_current_view (view_instance);
+
+		action = ACTION (CONTACT_CARDS_SORT_BY_MENU);
+		gtk_action_set_visible (action, GAL_IS_VIEW_MINICARD (gl_view));
+
+		if (GAL_IS_VIEW_MINICARD (gl_view)) {
+			action = ACTION (CONTACT_CARDS_SORT_BY_FILE_AS);
+			gtk_radio_action_set_current_value (GTK_RADIO_ACTION (action), gal_view_minicard_get_sort_by (GAL_VIEW_MINICARD (gl_view)));
+		}
 	}
 
 	g_object_notify (G_OBJECT (book_shell_content), "current-view");

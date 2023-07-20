@@ -97,6 +97,16 @@
 #define E_SHELL_WINDOW_ACTION_CONTACT_SEARCH_PHONE_CONTAINS(window) \
 	E_SHELL_WINDOW_ACTION ((window), "contact-search-phone-contains")
 
+/* Sort Cards By Actions */
+#define E_SHELL_WINDOW_ACTION_CONTACT_CARDS_SORT_BY_MENU(window) \
+	E_SHELL_WINDOW_ACTION ((window), "contact-cards-sort-by-menu")
+#define E_SHELL_WINDOW_ACTION_CONTACT_CARDS_SORT_BY_FILE_AS(window) \
+	E_SHELL_WINDOW_ACTION ((window), "contact-cards-sort-by-file-as")
+#define E_SHELL_WINDOW_ACTION_CONTACT_CARDS_SORT_BY_GIVEN_NAME(window) \
+	E_SHELL_WINDOW_ACTION ((window), "contact-cards-sort-by-given-name")
+#define E_SHELL_WINDOW_ACTION_CONTACT_CARDS_SORT_BY_FAMILY_NAME(window) \
+	E_SHELL_WINDOW_ACTION ((window), "contact-cards-sort-by-family-name")
+
 /* Action Groups */
 #define E_SHELL_WINDOW_ACTION_GROUP_CONTACTS(window) \
 	E_SHELL_WINDOW_ACTION_GROUP ((window), "contacts")

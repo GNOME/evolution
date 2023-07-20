@@ -81,6 +81,12 @@ void		gal_view_set_title		(GalView *view,
 GalView *	gal_view_clone			(GalView *view);
 void		gal_view_changed		(GalView *view);
 
+#ifndef __GI_SCANNER__
+#ifdef G_DEFINE_AUTOPTR_CLEANUP_FUNC
+G_DEFINE_AUTOPTR_CLEANUP_FUNC(GalView, g_object_unref)
+#endif
+#endif
+
 G_END_DECLS
 
 #endif /* GAL_VIEW_H */

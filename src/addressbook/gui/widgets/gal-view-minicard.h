@@ -27,45 +27,25 @@
 #include <e-util/e-util.h>
 #include "e-addressbook-view.h"
 
-/* Standard GObject macros */
-#define GAL_TYPE_VIEW_MINICARD \
-	(gal_view_minicard_get_type ())
-#define GAL_VIEW_MINICARD(obj) \
-	(G_TYPE_CHECK_INSTANCE_CAST \
-	((obj), GAL_TYPE_VIEW_MINICARD, GalViewMinicard))
-#define GAL_VIEW_MINICARD_CLASS(cls) \
-	(G_TYPE_CHECK_CLASS_CAST \
-	((cls), GAL_TYPE_VIEW_MINICARD, GalViewMinicardClass))
-#define GAL_IS_VIEW_MINICARD(obj) \
-	(G_TYPE_CHECK_INSTANCE_TYPE \
-	((obj), GAL_TYPE_VIEW_MINICARD))
-#define GAL_IS_VIEW_MINICARD_CLASS(cls) \
-	(G_TYPE_CHECK_CLASS_TYPE \
-	((cls), GAL_TYPE_VIEW_MINICARD))
-#define GAL_VIEW_MINICARD_GET_CLASS(obj) \
-	(G_TYPE_INSTANCE_GET_CLASS \
-	((obj), GAL_TYPE_VIEW_MINICARD, GalViewMinicardClass))
+#define GAL_TYPE_VIEW_MINICARD	(gal_view_minicard_get_type ())
 
 G_BEGIN_DECLS
 
-typedef struct _GalViewMinicard GalViewMinicard;
-typedef struct _GalViewMinicardClass GalViewMinicardClass;
+typedef enum _ECardsSortBy {
+	E_CARDS_SORT_BY_FILE_AS = 0,
+	E_CARDS_SORT_BY_GIVEN_NAME,
+	E_CARDS_SORT_BY_FAMILY_NAME
+} ECardsSortBy;
 
-struct _GalViewMinicard {
-	GalView              parent;
+G_DECLARE_FINAL_TYPE (GalViewMinicard, gal_view_minicard, GAL, VIEW_MINICARD, GalView)
 
-	gdouble               column_width;
-};
-
-struct _GalViewMinicardClass {
-	GalViewClass parent_class;
-};
-
-GType		gal_view_minicard_get_type	(void);
 GalView *	gal_view_minicard_new		(const gchar *title);
 void		gal_view_minicard_attach	(GalViewMinicard *view,
 						 EAddressbookView *address_view);
 void		gal_view_minicard_detach	(GalViewMinicard *view);
+ECardsSortBy	gal_view_minicard_get_sort_by	(GalViewMinicard *self);
+void		gal_view_minicard_set_sort_by	(GalViewMinicard *self,
+						 ECardsSortBy sort_by);
 
 G_END_DECLS
 

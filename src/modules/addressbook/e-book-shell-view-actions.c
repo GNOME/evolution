@@ -21,6 +21,7 @@
 #include "evolution-config.h"
 
 #include "e-book-shell-view-private.h"
+#include "addressbook/gui/widgets/gal-view-minicard.h"
 
 #include <e-util/e-util.h>
 
@@ -1176,6 +1177,25 @@ action_contact_view_cb (GtkRadioAction *action,
 	gtk_orientable_set_orientation (orientable, orientation);
 }
 
+static void
+action_contact_cards_sort_by_cb (GtkRadioAction *action,
+				 GtkRadioAction *current,
+				 EBookShellView *book_shell_view)
+{
+	GalViewInstance *view_instance;
+	GalView *gl_view;
+	EAddressbookView *addr_view;
+
+	addr_view = e_book_shell_content_get_current_view (book_shell_view->priv->book_shell_content);
+	view_instance = e_addressbook_view_get_view_instance (addr_view);
+	gl_view = gal_view_instance_get_current_view (view_instance);
+
+	if (GAL_IS_VIEW_MINICARD (gl_view))
+		gal_view_minicard_set_sort_by (GAL_VIEW_MINICARD (gl_view), gtk_radio_action_get_current_value (action));
+	else
+		g_warn_if_reached ();
+}
+
 static GtkActionEntry contact_entries[] = {
 
 	{ "address-book-copy",
@@ -1332,7 +1352,14 @@ static GtkActionEntry contact_entries[] = {
 	  N_("_Preview"),
 	  NULL,
 	  NULL,
-	  NULL }
+	  NULL },
+
+	{ "contact-cards-sort-by-menu",
+	  NULL,
+	  N_("_Sort Cards By"),
+	  NULL,
+	  NULL,
+	  NULL },
 };
 
 static EPopupActionEntry contact_popup_entries[] = {
@@ -1494,6 +1521,30 @@ static GtkRadioActionEntry contact_search_entries[] = {
 	  CONTACT_SEARCH_NAME_CONTAINS }
 };
 
+static GtkRadioActionEntry contact_cards_sort_by_entries[] = {
+
+	{ "contact-cards-sort-by-file-as",
+	  NULL,
+	  N_("_File Under"),
+	  NULL,
+	  NULL,
+	  E_CARDS_SORT_BY_FILE_AS },
+
+	{ "contact-cards-sort-by-given-name",
+	  NULL,
+	  N_("_Given Name"),
+	  NULL,
+	  NULL,
+	  E_CARDS_SORT_BY_GIVEN_NAME },
+
+	{ "contact-cards-sort-by-family-name",
+	  NULL,
+	  N_("Family _Name"),
+	  NULL,
+	  NULL,
+	  E_CARDS_SORT_BY_FAMILY_NAME },
+};
+
 static GtkActionEntry lockdown_printing_entries[] = {
 
 	{ "address-book-print",
@@ -1595,6 +1646,10 @@ e_book_shell_view_actions_init (EBookShellView *book_shell_view)
 		action_group, contact_search_entries,
 		G_N_ELEMENTS (contact_search_entries),
 		-1, NULL, NULL);
+	gtk_action_group_add_radio_actions (
+		action_group, contact_cards_sort_by_entries,
+		G_N_ELEMENTS (contact_cards_sort_by_entries), -1,
+		G_CALLBACK (action_contact_cards_sort_by_cb), book_shell_view);
 
 	/* Advanced Search Action */
 	action = ACTION (CONTACT_SEARCH_ADVANCED_HIDDEN);
@@ -1670,6 +1725,9 @@ e_book_shell_view_actions_init (EBookShellView *book_shell_view)
 	   See also accum_address_map() in eab-contact-formatter.cpp.
 	*/
 	gtk_action_set_visible (ACTION (CONTACT_PREVIEW_SHOW_MAPS), FALSE);
+
+	/* Hide it from the start */
+	gtk_action_set_visible (ACTION (CONTACT_CARDS_SORT_BY_MENU), FALSE);
 }
 
 void

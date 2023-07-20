@@ -21,6 +21,7 @@
 #include "evolution-config.h"
 
 #include "e-util/e-util-private.h"
+#include "addressbook/gui/widgets/gal-view-minicard.h"
 
 #include "e-book-shell-view-private.h"
 
@@ -433,8 +434,11 @@ static void
 book_shell_view_notify_view_id_cb (EBookShellView *book_shell_view)
 {
 	EBookShellContent *book_shell_content;
+	EShellWindow *shell_window;
 	EAddressbookView *address_view;
 	GalViewInstance *view_instance;
+	GalView *gl_view;
+	GtkAction *action;
 	const gchar *view_id;
 
 	book_shell_content = book_shell_view->priv->book_shell_content;
@@ -451,6 +455,17 @@ book_shell_view_notify_view_id_cb (EBookShellView *book_shell_view)
 		return;
 
 	gal_view_instance_set_current_view_id (view_instance, view_id);
+
+	shell_window = e_shell_view_get_shell_window (E_SHELL_VIEW (book_shell_view));
+	gl_view = gal_view_instance_get_current_view (view_instance);
+
+	action = ACTION (CONTACT_CARDS_SORT_BY_MENU);
+	gtk_action_set_visible (action, GAL_IS_VIEW_MINICARD (gl_view));
+
+	if (GAL_IS_VIEW_MINICARD (gl_view)) {
+		action = ACTION (CONTACT_CARDS_SORT_BY_FILE_AS);
+		gtk_radio_action_set_current_value (GTK_RADIO_ACTION (action), gal_view_minicard_get_sort_by (GAL_VIEW_MINICARD (gl_view)));
+	}
 }
 
 void
