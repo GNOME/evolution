@@ -2993,7 +2993,7 @@ static GtkActionEntry mail_reader_entries[] = {
 
 	{ "mail-save-as",
 	  "document-save-as",
-	  N_("_Save as mbox…"),
+	  N_("_Save to File…"),
 	  "<Control>s",
 	  N_("Save selected messages as an mbox file"),
 	  G_CALLBACK (action_mail_save_as_cb) },

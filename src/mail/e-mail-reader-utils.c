@@ -3064,6 +3064,103 @@ mail_reader_save_messages_cb (GObject *source_object,
 	async_context_free (async_context);
 }
 
+static void
+emru_file_chooser_filter_changed_cb (GtkFileChooser *file_chooser,
+				     GParamSpec *param,
+				     gpointer user_data)
+{
+	GtkFileFilter *filter;
+	const gchar *extension = NULL;
+	gchar *current_name;
+	GtkFileFilterInfo file_info = { 0, };
+
+	g_return_if_fail (GTK_IS_FILE_CHOOSER (file_chooser));
+
+	filter = gtk_file_chooser_get_filter (file_chooser);
+	if (!filter)
+		return;
+
+	file_info.contains = GTK_FILE_FILTER_FILENAME | GTK_FILE_FILTER_MIME_TYPE;
+	file_info.filename = "message.eml";
+	file_info.mime_type = "message/rfc822";
+
+	if (gtk_file_filter_filter (filter, &file_info))
+		extension = ".eml";
+
+	if (!extension) {
+		file_info.filename = "message.mbox";
+		file_info.mime_type = "application/mbox";
+
+		if (gtk_file_filter_filter (filter, &file_info))
+			extension = ".mbox";
+	}
+
+	if (!extension)
+		return;
+
+	current_name = gtk_file_chooser_get_current_name (file_chooser);
+	if (!current_name)
+		return;
+
+	if (!g_str_has_suffix (current_name, extension) &&
+	    (g_str_has_suffix (current_name, ".eml") ||
+	     g_str_has_suffix (current_name, ".mbox"))) {
+		gchar *ptr, *tmp;
+
+		ptr = strrchr (current_name, '.');
+		*ptr = '\0';
+
+		tmp = g_strconcat (current_name, extension, NULL);
+
+		gtk_file_chooser_set_current_name (file_chooser, tmp);
+
+		g_free (tmp);
+	}
+
+	g_free (current_name);
+}
+
+static void
+emru_setup_filters (GtkFileChooserNative *file_chooser_native,
+		    gpointer user_data)
+{
+	const gchar *default_extension = user_data;
+	GtkFileChooser *file_chooser;
+
+	file_chooser = GTK_FILE_CHOOSER (file_chooser_native);
+
+	if (g_strcmp0 (default_extension, ".eml") == 0) {
+		GSList *filters, *link;
+		GtkFileFilterInfo file_info = { 0, };
+
+		file_info.contains = GTK_FILE_FILTER_FILENAME | GTK_FILE_FILTER_MIME_TYPE;
+		file_info.filename = "message.eml";
+		file_info.mime_type = "message/rfc822";
+
+		filters = gtk_file_chooser_list_filters (file_chooser);
+
+		for (link = filters; link; link = g_slist_next (link)) {
+			GtkFileFilter *filter = link->data;
+
+			if (gtk_file_filter_filter (filter, &file_info)) {
+				gtk_file_chooser_set_filter (file_chooser, filter);
+				break;
+			}
+		}
+
+		g_slist_free (filters);
+	}
+
+	/* This does not seem to work for GtkFileChooserNative */
+	g_signal_connect (file_chooser, "notify::filter",
+		G_CALLBACK (emru_file_chooser_filter_changed_cb), NULL);
+}
+
+typedef enum _EMailReaderSaveToFileFormat {
+	E_MAIL_READER_SAVE_TO_FILE_FORMAT_MBOX = 0,
+	E_MAIL_READER_SAVE_TO_FILE_FORMAT_EML
+} EMailReaderSaveToFileFormat;
+
 void
 e_mail_reader_save_messages (EMailReader *reader)
 {
@@ -3079,7 +3176,9 @@ e_mail_reader_save_messages (EMailReader *reader)
 	GPtrArray *uids;
 	const gchar *message_uid;
 	const gchar *title;
+	const gchar *default_extension;
 	gchar *suggestion = NULL;
+	EMailReaderSaveToFileFormat file_format;
 
 	folder = e_mail_reader_ref_folder (reader);
 	backend = e_mail_reader_get_backend (reader);
@@ -3092,10 +3191,21 @@ e_mail_reader_save_messages (EMailReader *reader)
 
 		message_list = e_mail_reader_get_message_list (reader);
 		message_list_sort_uids (MESSAGE_LIST (message_list), uids);
+		file_format = E_MAIL_READER_SAVE_TO_FILE_FORMAT_MBOX;
+	} else {
+		GSettings *settings;
+
+		settings = e_util_ref_settings ("org.gnome.evolution.mail");
+		file_format = g_settings_get_enum (settings, "save-format");
+		g_clear_object (&settings);
 	}
 
-	message_uid = g_ptr_array_index (uids, 0);
+	if (file_format == E_MAIL_READER_SAVE_TO_FILE_FORMAT_EML)
+		default_extension = ".eml";
+	else
+		default_extension = ".mbox";
 
+	message_uid = g_ptr_array_index (uids, 0);
 	title = ngettext ("Save Message", "Save Messages", uids->len);
 
 	/* Suggest as a filename the subject of the first message. */
@@ -3105,7 +3215,7 @@ e_mail_reader_save_messages (EMailReader *reader)
 
 		subject = camel_message_info_get_subject (info);
 		if (subject != NULL)
-			suggestion = g_strconcat (subject, ".mbox", NULL);
+			suggestion = g_strconcat (subject, default_extension, NULL);
 		g_clear_object (&info);
 	}
 
@@ -3118,7 +3228,7 @@ e_mail_reader_save_messages (EMailReader *reader)
 		 * subject.  The extension ".mbox" is appended to the
 		 * string; for example "Message.mbox". */
 		basename = ngettext ("Message", "Messages", uids->len);
-		suggestion = g_strconcat (basename, ".mbox", NULL);
+		suggestion = g_strconcat (basename, default_extension, NULL);
 	}
 
 	shell_backend = E_SHELL_BACKEND (backend);
@@ -3126,10 +3236,34 @@ e_mail_reader_save_messages (EMailReader *reader)
 
 	destination = e_shell_run_save_dialog (
 		shell, title, suggestion,
-		"*.mbox:application/mbox,message/rfc822", NULL, NULL);
+		uids->len > 1 ? "*.mbox:application/mbox,message/rfc822" :
+		"*.mbox:application/mbox;*.eml:message/rfc822",
+		uids->len > 1 ? NULL : emru_setup_filters, (gpointer) default_extension);
 
 	if (destination == NULL)
 		goto exit;
+
+	if (uids->len == 1 && g_file_peek_path (destination)) {
+		const gchar *path = g_file_peek_path (destination);
+		gsize len = strlen (path);
+
+		if (len > 4) {
+			EMailReaderSaveToFileFormat chosen_file_format;
+
+			if (g_ascii_strncasecmp (path + len - 4, ".eml", 4) == 0)
+				chosen_file_format = E_MAIL_READER_SAVE_TO_FILE_FORMAT_EML;
+			else
+				chosen_file_format = E_MAIL_READER_SAVE_TO_FILE_FORMAT_MBOX;
+
+			if (file_format != chosen_file_format) {
+				GSettings *settings;
+
+				settings = e_util_ref_settings ("org.gnome.evolution.mail");
+				g_settings_set_enum (settings, "save-format", chosen_file_format);
+				g_clear_object (&settings);
+			}
+		}
+	}
 
 	/* Save messages asynchronously. */
 

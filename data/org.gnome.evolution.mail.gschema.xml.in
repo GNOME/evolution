@@ -54,6 +54,12 @@
     <value nick='markdown-html'       value='4'/>
   </enum>
 
+  <!-- Keep this synchronized with EMailReaderSaveToFileFormat. -->
+  <enum id="org.gnome.evolution.mail.MailReaderSaveToFileFormat">
+    <value nick='mbox' value='0'/>
+    <value nick='eml'  value='1'/>
+  </enum>
+
   <schema gettext-domain="evolution" id="org.gnome.evolution.mail" path="/org/gnome/evolution/mail/">
     <key name="prompt-check-if-default-mailer" type="b">
       <default>true</default>
@@ -731,6 +737,11 @@
       <default>''</default>
       <_summary>Save directory</_summary>
       <_description>Directory for saving mail component files.</_description>
+    </key>
+    <key name="save-format" enum="org.gnome.evolution.mail.MailReaderSaveToFileFormat">
+      <default>'mbox'</default>
+      <_summary>Save format</_summary>
+      <_description>Last used format when saving messages to file.</_description>
     </key>
     <key name="composer-current-folder" type="s">
       <default>''</default>

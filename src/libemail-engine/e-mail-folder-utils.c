@@ -1570,6 +1570,7 @@ e_mail_folder_save_messages_sync (CamelFolder *folder,
 	GFileOutputStream *file_output_stream;
 	CamelStream *base_stream = NULL;
 	GByteArray *byte_array;
+	gboolean is_mbox = TRUE;
 	gboolean success = TRUE;
 	guint ii;
 
@@ -1598,6 +1599,14 @@ e_mail_folder_save_messages_sync (CamelFolder *folder,
 		return FALSE;
 	}
 
+	if (message_uids->len == 1 && g_file_peek_path (destination)) {
+		const gchar *path = g_file_peek_path (destination);
+		gsize len = strlen (path);
+
+		if (len > 4 && g_ascii_strncasecmp (path + len - 4, ".eml", 4) == 0)
+			is_mbox = FALSE;
+	}
+
 	byte_array = g_byte_array_new ();
 
 	for (ii = 0; ii < message_uids->len; ii++) {
@@ -1605,7 +1614,6 @@ e_mail_folder_save_messages_sync (CamelFolder *folder,
 		CamelMimeFilter *filter;
 		CamelStream *stream;
 		const gchar *uid;
-		gchar *from_line;
 		gint percent;
 		gint retval;
 
@@ -1631,15 +1639,19 @@ e_mail_folder_save_messages_sync (CamelFolder *folder,
 
 		mail_folder_save_prepare_part (CAMEL_MIME_PART (message));
 
-		from_line = camel_mime_message_build_mbox_from (message);
-		g_return_val_if_fail (from_line != NULL, FALSE);
+		if (is_mbox) {
+			gchar *from_line;
 
-		success = g_output_stream_write_all (
-			G_OUTPUT_STREAM (file_output_stream),
-			from_line, strlen (from_line), NULL,
-			cancellable, error);
+			from_line = camel_mime_message_build_mbox_from (message);
+			g_return_val_if_fail (from_line != NULL, FALSE);
 
-		g_free (from_line);
+			success = g_output_stream_write_all (
+				G_OUTPUT_STREAM (file_output_stream),
+				from_line, strlen (from_line), NULL,
+				cancellable, error);
+
+			g_free (from_line);
+		}
 
 		if (!success) {
 			g_object_unref (message);

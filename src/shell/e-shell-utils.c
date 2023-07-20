@@ -164,6 +164,9 @@ e_shell_run_save_dialog (EShell *shell,
 			if (g_ascii_strcasecmp (flt, "*.mbox") == 0)
 				gtk_file_filter_set_name (
 					filter, _("Berkeley Mailbox (mbox)"));
+			else if (g_ascii_strcasecmp (flt, "*.eml") == 0)
+				gtk_file_filter_set_name (
+					filter, _("Mail Message (eml)"));
 			else if (g_ascii_strcasecmp (flt, "*.vcf") == 0)
 				gtk_file_filter_set_name (
 					filter, _("vCard (.vcf)"));
