@@ -73,6 +73,9 @@ gboolean	e_datetime_format_includes_day_name
 						(const gchar *component,
 						 const gchar *part,
 						 DTFormatKind kind);
+const gchar *	e_datetime_format_get_format	(const gchar *component,
+						 const gchar *part,
+						 DTFormatKind kind);
 
 G_END_DECLS
 

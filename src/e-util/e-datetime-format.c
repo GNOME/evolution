@@ -795,3 +795,24 @@ e_datetime_format_includes_day_name (const gchar *component,
 
 	return res;
 }
+
+const gchar *
+e_datetime_format_get_format (const gchar *component,
+			      const gchar *part,
+			      DTFormatKind kind)
+{
+	gchar *key;
+	const gchar *fmt;
+
+	g_return_val_if_fail (component != NULL, NULL);
+	g_return_val_if_fail (*component != 0, NULL);
+
+	key = gen_key (component, part, kind);
+	g_return_val_if_fail (key != NULL, NULL);
+
+	fmt = get_format_internal (key, kind);
+
+	g_free (key);
+
+	return (fmt && !*fmt) ? NULL : fmt;
+}

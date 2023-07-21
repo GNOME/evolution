@@ -219,6 +219,9 @@ void		e_date_edit_set_shorten_time	(EDateEdit *self,
 gboolean	e_date_edit_get_shorten_time_end(EDateEdit *self);
 void		e_date_edit_set_shorten_time_end(EDateEdit *self,
 						 gboolean shorten_time_end);
+const gchar *	e_date_edit_get_date_format	(EDateEdit *self);
+void		e_date_edit_set_date_format	(EDateEdit *self,
+						 const gchar *strftime_format);
 
 G_END_DECLS
 

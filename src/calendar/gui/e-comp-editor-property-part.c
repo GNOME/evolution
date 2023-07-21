@@ -776,6 +776,7 @@ ecepp_datetime_create_widgets (ECompEditorPropertyPart *property_part,
 			       GtkWidget **out_edit_widget)
 {
 	ECompEditorPropertyPartDatetimeClass *klass;
+	EDateEdit *date_edit;
 
 	g_return_if_fail (E_IS_COMP_EDITOR_PROPERTY_PART_DATETIME (property_part));
 	g_return_if_fail (out_label_widget != NULL);
@@ -797,9 +798,13 @@ ecepp_datetime_create_widgets (ECompEditorPropertyPart *property_part,
 
 	gtk_widget_show (*out_edit_widget);
 
-	e_date_edit_set_get_time_callback (E_DATE_EDIT (*out_edit_widget),
+	date_edit = E_DATE_EDIT (*out_edit_widget);
+
+	e_date_edit_set_get_time_callback (date_edit,
 		ecepp_datetime_get_current_time_cb,
 		e_weak_ref_new (property_part), (GDestroyNotify) e_weak_ref_free);
+
+	e_date_edit_set_date_format (date_edit, e_datetime_format_get_format ("calendar", "table",  DTFormatKindDate));
 
 	g_signal_connect_swapped (*out_edit_widget, "changed",
 		G_CALLBACK (ecepp_datetime_changed_cb), property_part);

@@ -62,6 +62,8 @@ struct _EDateEditPrivate {
 	GdkDevice *grabbed_keyboard;
 	GdkDevice *grabbed_pointer;
 
+	gchar *date_format;
+
 	gboolean show_date;
 	gboolean show_time;
 	gboolean use_24_hour_format;
@@ -365,6 +367,7 @@ date_edit_dispose (GObject *object)
 	e_date_edit_set_get_time_callback (dedit, NULL, NULL, NULL);
 
 	g_clear_pointer (&dedit->priv->cal_popup, gtk_widget_destroy);
+	g_clear_pointer (&dedit->priv->date_format, g_free);
 
 	if (dedit->priv->grabbed_keyboard != NULL) {
 		gdk_device_ungrab (
@@ -1906,8 +1909,13 @@ e_date_edit_parse_date (EDateEdit *dedit,
                         struct tm *date_tm)
 {
 	gboolean twodigit_year = FALSE;
+	gboolean retry = TRUE;
 
-	if (e_time_parse_date_ex (date_text, date_tm, &twodigit_year) != E_TIME_PARSE_OK)
+	if (dedit->priv->date_format &&
+	    e_time_parse_date_format (date_text, dedit->priv->date_format, date_tm, &twodigit_year) == E_TIME_PARSE_OK)
+		retry = FALSE;
+
+	if (retry && e_time_parse_date_ex (date_text, date_tm, &twodigit_year) != E_TIME_PARSE_OK)
 		return FALSE;
 
 	if (twodigit_year && !dedit->priv->twodigit_year_can_future) {
@@ -2211,11 +2219,15 @@ e_date_edit_update_date_entry (EDateEdit *dedit)
 	if (priv->date_set_to_none || !priv->date_is_valid) {
 		gtk_entry_set_text (GTK_ENTRY (priv->date_entry), C_("date", "None"));
 	} else {
-		/* This is a strftime() format for a short date.
-		 * %x the preferred date representation for the current locale
-		 * without the time, but is forced to use 4 digit year. */
-		gchar *format = e_time_get_d_fmt_with_4digit_year ();
+		gchar *format = NULL;
 		time_t tt;
+
+		if (!dedit->priv->date_format) {
+			/* This is a strftime() format for a short date.
+			 * %x the preferred date representation for the current locale
+			 * without the time, but is forced to use 4 digit year. */
+			format = e_time_get_d_fmt_with_4digit_year ();
+		}
 
 		tmp_tm.tm_year = priv->year;
 		tmp_tm.tm_mon = priv->month;
@@ -2227,7 +2239,7 @@ e_date_edit_update_date_entry (EDateEdit *dedit)
 		if (tt && localtime (&tt))
 			tmp_tm = *localtime (&tt);
 
-		e_utf8_strftime (buffer, sizeof (buffer), format, &tmp_tm);
+		e_utf8_strftime (buffer, sizeof (buffer), dedit->priv->date_format ? dedit->priv->date_format : format, &tmp_tm);
 		g_free (format);
 		gtk_entry_set_text (GTK_ENTRY (priv->date_entry), buffer);
 	}
@@ -2734,5 +2746,30 @@ e_date_edit_set_shorten_time_end (EDateEdit *self,
 			rebuild_time_popup (self);
 
 		g_object_notify (G_OBJECT (self), "shorten-time-end");
+	}
+}
+
+const gchar *
+e_date_edit_get_date_format (EDateEdit *self)
+{
+	g_return_val_if_fail (E_IS_DATE_EDIT (self), NULL);
+
+	return self->priv->date_format;
+}
+
+void
+e_date_edit_set_date_format (EDateEdit *self,
+			     const gchar *strftime_format)
+{
+	g_return_if_fail (E_IS_DATE_EDIT (self));
+
+	if (strftime_format && !*strftime_format)
+		strftime_format = NULL;
+
+	if (g_strcmp0 (self->priv->date_format, strftime_format) != 0) {
+		g_free (self->priv->date_format);
+		self->priv->date_format = g_strdup (strftime_format);
+
+		e_date_edit_update_date_entry (self);
 	}
 }
