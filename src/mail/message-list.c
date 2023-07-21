@@ -4806,28 +4806,6 @@ ml_uid_nodemap_insert (MessageList *message_list,
 	return node;
 }
 
-static void
-ml_uid_nodemap_remove (MessageList *message_list,
-                       CamelMessageInfo *info)
-{
-	const gchar *uid;
-
-	uid = camel_message_info_get_uid (info);
-
-	if (uid == message_list->priv->newest_read_uid) {
-		message_list->priv->newest_read_date = 0;
-		message_list->priv->newest_read_uid = NULL;
-	}
-
-	if (uid == message_list->priv->oldest_unread_uid) {
-		message_list->priv->oldest_unread_date = 0;
-		message_list->priv->oldest_unread_uid = NULL;
-	}
-
-	g_hash_table_remove (message_list->uid_nodemap, uid);
-	g_clear_object (&info);
-}
-
 /* only call if we have a tree model */
 /* builds the tree structure */
 
@@ -4836,13 +4814,6 @@ static void	build_subtree			(MessageList *message_list,
 						 CamelFolderThreadNode *c,
 						 gboolean thread_flat,
 						 gboolean thread_latest,
-						 gint *row);
-
-static void	build_subtree_diff		(MessageList *message_list,
-						 GNode *parent,
-						 GNode *node,
-						 CamelFolderThreadNode *c,
-						 gboolean thread_flat,
 						 gint *row);
 
 static void
@@ -4907,10 +4878,6 @@ build_tree (MessageList *message_list,
 #endif
 }
 
-/* this is about 20% faster than build_subtree_diff,
- * entirely because e_tree_model_node_insert (xx, -1 xx)
- * is faster than inserting to the right row :( */
-/* Otherwise, this code would probably go as it does the same thing essentially */
 static void
 build_subtree (MessageList *message_list,
                GNode *parent,
@@ -4950,181 +4917,6 @@ build_subtree (MessageList *message_list,
 			build_subtree (message_list, (c->parent && thread_flat) ? parent : node, c->child, thread_flat, thread_latest, row);
 		}
 		c = c->next;
-	}
-}
-
-/* compares a thread tree node with the etable tree node to see if they point to
- * the same object */
-static gint
-node_equal (ETreeModel *etm,
-            GNode *ap,
-            CamelFolderThreadNode *bp)
-{
-	if (bp->message && strcmp (camel_message_info_get_uid (ap->data), camel_message_info_get_uid (bp->message)) == 0)
-		return 1;
-
-	return 0;
-}
-
-/* adds a single node, retains save state, and handles adding children if required */
-static void
-add_node_diff (MessageList *message_list,
-               GNode *parent,
-               GNode *node,
-               CamelFolderThreadNode *c,
-	       gboolean thread_flat,
-               gint *row,
-               gint myrow)
-{
-	CamelMessageInfo *info;
-	GNode *new_node;
-
-	g_return_if_fail (c->message != NULL);
-
-	/* XXX Casting away constness. */
-	info = (CamelMessageInfo *) c->message;
-
-	/* we just update the hashtable key */
-	ml_uid_nodemap_remove (message_list, info);
-	new_node = ml_uid_nodemap_insert (message_list, info, parent, myrow);
-	(*row)++;
-
-	if (c->child) {
-		build_subtree_diff (
-			message_list, new_node, NULL, c->child, thread_flat, row);
-	}
-}
-
-/* removes node, children recursively and all associated data */
-static void
-remove_node_diff (MessageList *message_list,
-                  GNode *node,
-                  gint depth)
-{
-	ETreePath cp, cn;
-	CamelMessageInfo *info;
-
-	t (printf ("Removing node: %s\n", (gchar *) node->data));
-
-	/* we depth-first remove all node data's ... */
-	cp = g_node_first_child (node);
-	while (cp) {
-		cn = g_node_next_sibling (cp);
-		remove_node_diff (message_list, cp, depth + 1);
-		cp = cn;
-	}
-
-	/* and the rowid entry - if and only if it is referencing this node */
-	info = node->data;
-
-	/* and only at the toplevel, remove the node (etree should optimise this remove somewhat) */
-	if (depth == 0)
-		message_list_tree_model_remove (message_list, node);
-
-	g_return_if_fail (info);
-	ml_uid_nodemap_remove (message_list, info);
-}
-
-/* applies a new tree structure to an existing tree, but only by changing things
- * that have changed */
-static void
-build_subtree_diff (MessageList *message_list,
-                    GNode *parent,
-                    GNode *node,
-                    CamelFolderThreadNode *c,
-		    gboolean thread_flat,
-                    gint *row)
-{
-	ETreeModel *tree_model;
-	GNode *ap, *ai, *at, *tmp;
-	CamelFolderThreadNode *bp, *bi, *bt;
-	gint i, j, myrow = 0;
-
-	tree_model = E_TREE_MODEL (message_list);
-
-	ap = node;
-	bp = c;
-
-	while (ap || bp) {
-		t (printf ("Processing row: %d (subtree row %d)\n", *row, myrow));
-		if (ap == NULL) {
-			t (printf ("out of old nodes\n"));
-			/* ran out of old nodes - remaining nodes are added */
-			add_node_diff (
-				message_list, parent, ap, bp, thread_flat, row, myrow);
-			myrow++;
-			bp = bp->next;
-		} else if (bp == NULL) {
-			t (printf ("out of new nodes\n"));
-			/* ran out of new nodes - remaining nodes are removed */
-			tmp = g_node_next_sibling (ap);
-			remove_node_diff (message_list, ap, 0);
-			ap = tmp;
-		} else if (node_equal (tree_model, ap, bp)) {
-			*row = (*row)+1;
-			myrow++;
-			tmp = g_node_first_child (ap);
-			/* make child lists match (if either has one) */
-			if (bp->child || tmp) {
-				build_subtree_diff (
-					message_list, ap, tmp, bp->child, thread_flat, row);
-			}
-			ap = g_node_next_sibling (ap);
-			bp = bp->next;
-		} else {
-			t (printf ("searching for matches\n"));
-			/* we have to scan each side for a match */
-			bi = bp->next;
-			ai = g_node_next_sibling (ap);
-			for (i = 1; bi != NULL; i++,bi = bi->next) {
-				if (node_equal (tree_model, ap, bi))
-					break;
-			}
-			for (j = 1; ai != NULL; j++,ai = g_node_next_sibling (ai)) {
-				if (node_equal (tree_model, ai, bp))
-					break;
-			}
-			if (i < j) {
-				/* smaller run of new nodes - must be nodes to add */
-				if (bi) {
-					bt = bp;
-					while (bt != bi) {
-						t (printf ("adding new node 0\n"));
-						add_node_diff (
-							message_list, parent, NULL, bt, thread_flat, row, myrow);
-						myrow++;
-						bt = bt->next;
-					}
-					bp = bi;
-				} else {
-					t (printf ("adding new node 1\n"));
-					/* no match in new nodes, add one, try next */
-					add_node_diff (
-						message_list, parent, NULL, bp, thread_flat, row, myrow);
-					myrow++;
-					bp = bp->next;
-				}
-			} else {
-				/* bigger run of old nodes - must be nodes to remove */
-				if (ai) {
-					at = ap;
-					while (at != NULL && at != ai) {
-						t (printf ("removing old node 0\n"));
-						tmp = g_node_next_sibling (at);
-						remove_node_diff (message_list, at, 0);
-						at = tmp;
-					}
-					ap = ai;
-				} else {
-					t (printf ("adding new node 2\n"));
-					/* didn't find match in old nodes, must be new node? */
-					add_node_diff (
-						message_list, parent, NULL, bp, thread_flat, row, myrow);
-					myrow++;
-					bp = bp->next;
-				}
-			}
-		}
 	}
 }
 
