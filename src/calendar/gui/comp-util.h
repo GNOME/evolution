@@ -229,4 +229,10 @@ gboolean	cal_comp_util_move_component_by_days
 void		cal_comp_util_add_reminder	(ECalComponent *comp,
 						 gint reminder_interval,
 						 EDurationType reminder_units);
+void		cal_comp_util_write_to_html	(GString *html_buffer,
+						 ECalClient *client,
+						 ECalComponent *comp,
+						 ICalTimezone *zone,
+						 gboolean use_24_hour_format);
+
 #endif

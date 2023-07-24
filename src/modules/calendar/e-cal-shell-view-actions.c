@@ -788,7 +788,7 @@ action_event_forward_cb (GtkAction *action,
 
 	itip_send_component_with_model (e_calendar_view_get_model (calendar_view),
 		I_CAL_METHOD_PUBLISH, component, client,
-		NULL, NULL, NULL, E_ITIP_SEND_COMPONENT_FLAG_STRIP_ALARMS | E_ITIP_SEND_COMPONENT_FLAG_ENSURE_MASTER_OBJECT);
+		NULL, NULL, NULL, E_ITIP_SEND_COMPONENT_FLAG_STRIP_ALARMS | E_ITIP_SEND_COMPONENT_FLAG_ENSURE_MASTER_OBJECT | E_ITIP_SEND_COMPONENT_FLAG_AS_ATTACHMENT);
 
 	g_object_unref (component);
 	g_slist_free_full (selected, e_calendar_view_selection_data_free);

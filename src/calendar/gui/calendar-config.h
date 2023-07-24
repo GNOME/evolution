@@ -87,5 +87,6 @@ gboolean calendar_config_get_prefer_meeting (void);
 GDateWeekday	calendar_config_get_week_start_day		(void);
 gint		calendar_config_get_default_reminder_interval	(void);
 EDurationType	calendar_config_get_default_reminder_units	(void);
+gboolean	calendar_config_get_itip_attach_components	(void);
 
 #endif /* _CALENDAR_CONFIG_H_ */

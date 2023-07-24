@@ -491,19 +491,6 @@ get_attendee_if_attendee_sentby_is_user (GSList *attendees,
 	return NULL;
 }
 
-static gchar *
-html_new_lines_for (const gchar *string)
-{
-	gchar **lines;
-	gchar *joined;
-
-	lines = g_strsplit_set (string, "\n", -1);
-	joined = g_strjoinv ("<br>", lines);
-	g_strfreev (lines);
-
-	return joined;
-}
-
 gboolean
 itip_attendee_is_user (ESourceRegistry *registry,
 		       ECalComponent *comp,
@@ -1244,7 +1231,8 @@ comp_to_list (ESourceRegistry *registry,
 static gchar *
 comp_subject (ESourceRegistry *registry,
               ICalPropertyMethod method,
-              ECalComponent *comp)
+              ECalComponent *comp,
+	      gboolean is_reply)
 {
 	ECalComponentText *caltext;
 	const gchar *description, *prefix = NULL;
@@ -1377,13 +1365,21 @@ comp_subject (ESourceRegistry *registry,
 		break;
 
 	default:
+		/* Do not localize this string; it also ignores "composer-use-localized-fwd-re" setting */
+		if (is_reply)
+			prefix = "Re";
 		break;
 	}
 
-	if (prefix != NULL)
-		subject = g_strdup_printf ("%s: %s", prefix, description);
-	else
+	if (prefix != NULL) {
+		/* Translators: This constructs a meeting subject,
+		   where the first "%s" is prefix, like "Accepted" or "Re",
+		   and the second "%s" is the meeting summary. The full
+		   subject line would be: "Accepted: Meeting Name". */
+		subject = g_strdup_printf (C_("Meeting", "%s: %s"), prefix, description);
+	} else {
 		subject = g_strdup (description);
+	}
 
 	e_cal_component_text_free (caltext);
 
@@ -2347,10 +2343,12 @@ typedef struct _CreateComposerData {
 	gchar *subject;
 	gchar *ical_string;
 	gchar *content_type;
-	gchar *event_body_text;
+	gchar *html_body;
 	GSList *attachments_list;
 	GSList *send_comps; /* ECalComponent * */
 	gboolean show_only;
+	gboolean without_ical_data;
+	EItipSendComponentFlags flags;
 } CreateComposerData;
 
 static void
@@ -2385,24 +2383,15 @@ itip_send_component_composer_created_cb (GObject *source_object,
 
 	e_composer_header_table_set_subject (table, ccd->subject);
 	e_composer_header_table_set_destinations_to (table, ccd->destinations);
+	e_msg_composer_set_body_text (composer, ccd->html_body, TRUE);
 
-	if (e_cal_component_get_vtype (ccd->send_comps->data) == E_CAL_COMPONENT_EVENT) {
-		if (ccd->event_body_text)
-			e_msg_composer_set_body_text (composer, ccd->event_body_text, TRUE);
-		else
-			e_msg_composer_set_body (composer, ccd->ical_string, ccd->content_type);
-	} else {
+	if (!ccd->without_ical_data) {
 		CamelMimePart *attachment;
 		const gchar *filename;
 		gchar *description;
-		gchar *body;
 
 		filename = comp_filename (ccd->send_comps->data);
 		description = comp_description (ccd->send_comps->data, use_24hour_format);
-
-		body = camel_text_to_html (description, CAMEL_MIME_FILTER_TOHTML_PRE, 0);
-		e_msg_composer_set_body_text (composer, body, TRUE);
-		g_free (body);
 
 		attachment = camel_mime_part_new ();
 		camel_mime_part_set_content (
@@ -2413,7 +2402,10 @@ itip_send_component_composer_created_cb (GObject *source_object,
 		if (description != NULL && *description != '\0')
 			camel_mime_part_set_description (attachment, description);
 		camel_mime_part_set_disposition (attachment, "inline");
-		e_msg_composer_attach (composer, attachment);
+		if ((ccd->flags & E_ITIP_SEND_COMPONENT_FLAG_AS_ATTACHMENT) != 0)
+			e_msg_composer_attach (composer, attachment);
+		else
+			e_msg_composer_set_alternative_body (composer, attachment);
 		g_object_unref (attachment);
 
 		g_free (description);
@@ -2436,7 +2428,7 @@ itip_send_component_composer_created_cb (GObject *source_object,
 	g_free (ccd->subject);
 	g_free (ccd->ical_string);
 	g_free (ccd->content_type);
-	g_free (ccd->event_body_text);
+	g_free (ccd->html_body);
 	g_slice_free (CreateComposerData, ccd);
 }
 
@@ -2448,6 +2440,7 @@ itip_send_component_complete (ItipSendComponentData *isc)
 	EShell *shell;
 	ICalComponent *top_level = NULL;
 	ICalTimezone *default_zone;
+	GString *html;
 	gchar *identity_uid, *identity_name = NULL, *identity_address = NULL;
 
 	g_return_if_fail (isc != NULL);
@@ -2488,6 +2481,10 @@ itip_send_component_complete (ItipSendComponentData *isc)
 		}
 	}
 
+	html = g_string_new ("");
+
+	cal_comp_util_write_to_html (html, isc->cal_client, isc->send_comps->data, default_zone, calendar_config_get_24_hour_format ());
+
 	top_level = comp_toplevel_with_zones (isc->method, isc->send_comps, isc->cal_client, isc->zones);
 
 	ccd = g_slice_new0 (CreateComposerData);
@@ -2495,13 +2492,17 @@ itip_send_component_complete (ItipSendComponentData *isc)
 	ccd->identity_name = identity_name;
 	ccd->identity_address = identity_address;
 	ccd->destinations = destinations;
-	ccd->subject = comp_subject (isc->registry, isc->method, isc->send_comps->data);
+	ccd->subject = comp_subject (isc->registry, isc->method, isc->send_comps->data, FALSE);
+	ccd->html_body = g_string_free (html, FALSE);
 	ccd->ical_string = i_cal_component_as_ical_string (top_level);
 	ccd->content_type = comp_content_type (isc->send_comps->data, isc->method);
-	ccd->event_body_text = NULL;
 	ccd->attachments_list = isc->attachments_list;
 	ccd->send_comps = isc->send_comps;
 	ccd->show_only = isc->method == I_CAL_METHOD_PUBLISH && !isc->users;
+	ccd->flags = isc->flags;
+
+	if (calendar_config_get_itip_attach_components ())
+		ccd->flags |= E_ITIP_SEND_COMPONENT_FLAG_AS_ATTACHMENT;
 
 	isc->attachments_list = NULL;
 	isc->send_comps = NULL;
@@ -2743,6 +2744,7 @@ reply_to_calendar_comp (ESourceRegistry *registry,
 	gboolean retval = FALSE;
 	gchar *identity_uid, *identity_name = NULL, *identity_address = NULL;
 	GSList *ecomps;
+	GString *html;
 	CreateComposerData *ccd;
 
 	g_return_val_if_fail (E_IS_SOURCE_REGISTRY (registry), FALSE);
@@ -2766,131 +2768,42 @@ reply_to_calendar_comp (ESourceRegistry *registry,
 
 	top_level = comp_toplevel_with_zones (method, ecomps, cal_client, zones);
 
+	html = g_string_new ("");
+
+	if (e_cal_component_get_vtype (ecomps->data) == E_CAL_COMPONENT_EVENT) {
+		gchar *str;
+
+		str = g_markup_escape_text (_("Original Appointment"), -1);
+
+		g_string_append_printf (html,
+			"<div><br></div>"
+			"<div><br></div>"
+			"<hr>"
+			"<div><br></div>"
+			"<div><b>______ %s ______ </b><br></div>"
+			"<div><br></div>", str);
+
+		g_free (str);
+	}
+
+	cal_comp_util_write_to_html (html, cal_client, send_comp, default_zone, calendar_config_get_24_hour_format ());
+
 	ccd = g_slice_new0 (CreateComposerData);
 	ccd->identity_uid = identity_uid;
 	ccd->identity_name = identity_name;
 	ccd->identity_address = identity_address;
 	ccd->destinations = comp_to_list (registry, method, ecomps->data, NULL, reply_all, NULL);
 	/* Using I_CAL_METHOD_NONE to not get attendee's response as a prefix */
-	ccd->subject = comp_subject (registry, I_CAL_METHOD_NONE, ecomps->data);
+	ccd->subject = comp_subject (registry, I_CAL_METHOD_NONE, ecomps->data, TRUE);
+	ccd->html_body = g_string_free (html, FALSE);
 	ccd->ical_string = i_cal_component_as_ical_string (top_level);
 	ccd->send_comps = ecomps;
 	ccd->show_only = TRUE;
+	ccd->without_ical_data = e_cal_component_get_vtype (ecomps->data) == E_CAL_COMPONENT_EVENT;
+	ccd->flags = 0;
 
-	if (e_cal_component_get_vtype (ecomps->data) == E_CAL_COMPONENT_EVENT) {
-		ECalComponent *comp = ecomps->data;
-		GString *body;
-		gchar *orig_from = NULL;
-		gchar *description = NULL;
-		gchar *subject = NULL;
-		gchar *location;
-		gchar *time = NULL;
-		gchar *html_description = NULL;
-		ECalComponentOrganizer *organizer;
-		ECalComponentText *text;
-		ECalComponentDateTime *dtstart;
-		ICalTimezone *start_zone = NULL;
-		time_t start;
-		const gchar *organizer_email;
-
-		text = e_cal_component_dup_description_for_locale (comp, NULL);
-		if (text && e_cal_component_text_get_value (text))
-			description = g_strdup (e_cal_component_text_get_value (text));
-		e_cal_component_text_free (text);
-
-		text = e_cal_component_dup_summary_for_locale (comp, NULL);
-		if (text && e_cal_component_text_get_value (text))
-			subject = g_strdup (e_cal_component_text_get_value (text));
-		e_cal_component_text_free (text);
-
-		organizer = e_cal_component_get_organizer (comp);
-		organizer_email = cal_comp_util_get_organizer_email (organizer);
-		if (organizer_email)
-			orig_from = g_strdup (organizer_email);
-		e_cal_component_organizer_free (organizer);
-
-		location = e_cal_component_get_location (comp);
-		if (!location) {
-			/* Translator: This is used as a placeholder when an event doesn't have set a location */
-			location = g_strdup (C_("Location", "Unspecified"));
-		}
-
-		dtstart = e_cal_component_get_dtstart (comp);
-		if (dtstart && e_cal_component_datetime_get_value (dtstart)) {
-			ICalTime *itt;
-
-			itt = e_cal_component_datetime_get_value (dtstart);
-
-			start_zone = e_cal_component_datetime_get_tzid (dtstart) ?
-				i_cal_timezone_get_builtin_timezone_from_tzid (e_cal_component_datetime_get_tzid (dtstart)) : NULL;
-			if (!start_zone && e_cal_component_datetime_get_tzid (dtstart)) {
-				GError *error = NULL;
-
-				if (!e_cal_client_get_timezone_sync (
-					cal_client, e_cal_component_datetime_get_tzid (dtstart),
-					&start_zone, NULL, &error))
-					start_zone = NULL;
-
-				if (error != NULL) {
-					g_warning (
-						"%s: Couldn't get timezone '%s' from server: %s",
-						G_STRFUNC,
-						e_cal_component_datetime_get_tzid (dtstart) ?
-						e_cal_component_datetime_get_tzid (dtstart) : "",
-						error->message);
-					g_error_free (error);
-				}
-			}
-
-			if (!start_zone || i_cal_time_is_date (itt))
-				start_zone = default_zone;
-
-			start = i_cal_time_as_timet_with_zone (itt, start_zone);
-			time = g_strdup (ctime (&start));
-		}
-		e_cal_component_datetime_free (dtstart);
-
-		body = g_string_new (
-			"<div><br></div><div><br></div><hr><div><br></div><div><b>"
-			"______ Original Appointment ______ "
-			"</b><br></div><div><br></div><table>");
-
-		if (orig_from && *orig_from)
-			g_string_append_printf (
-				body,
-				"<tr><td><b>From</b></td>"
-				"<td>:</td><td>%s</td></tr>", orig_from);
-		g_free (orig_from);
-
-		if (subject)
-			g_string_append_printf (
-				body,
-				"<tr><td><b>Subject</b></td>"
-				"<td>:</td><td>%s</td></tr>", subject);
-		g_free (subject);
-
-		g_string_append_printf (
-			body,
-			"<tr><td><b>Location</b></td>"
-			"<td>:</td><td>%s</td></tr>", location);
-		g_free (location);
-
-		if (time)
-			g_string_append_printf (
-				body,
-				"<tr><td><b>Time</b></td>"
-				"<td>:</td><td>%s</td></tr>", time);
-		g_free (time);
-
-		g_string_append_printf (body, "</table><div><br></div>");
-
-		html_description = html_new_lines_for (description ? description : "");
-		g_string_append (body, html_description);
-		g_free (html_description);
-		g_free (description);
-
-		ccd->event_body_text = g_string_free (body, FALSE);
-	}
+	if (calendar_config_get_itip_attach_components ())
+		ccd->flags |= E_ITIP_SEND_COMPONENT_FLAG_AS_ATTACHMENT;
 
 	e_msg_composer_new (shell, itip_send_component_composer_created_cb, ccd);
 

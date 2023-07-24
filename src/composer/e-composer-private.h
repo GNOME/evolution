@@ -130,6 +130,7 @@ struct _EMsgComposerPrivate {
 	EContentEditorContentHash *content_hash;
 
 	GCancellable *load_signature_cancellable;
+	EAttachment *alternative_body_attachment; /* not referenced, only used for pointer comparison  */
 };
 
 void		e_composer_private_constructed	(EMsgComposer *composer);

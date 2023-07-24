@@ -145,6 +145,9 @@ void		e_msg_composer_set_source_headers
 						 CamelMessageFlags flags);
 void		e_msg_composer_attach		(EMsgComposer *composer,
 						 CamelMimePart *mime_part);
+void		e_msg_composer_set_alternative_body
+						(EMsgComposer *composer,
+						 CamelMimePart *mime_part);
 void		e_msg_composer_get_message	(EMsgComposer *composer,
 						 gint io_priority,
 						 GCancellable *cancellable,

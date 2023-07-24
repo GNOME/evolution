@@ -1366,6 +1366,7 @@ composer_build_message (EMsgComposer *composer,
 	AsyncContext *context;
 	EAttachmentView *view;
 	EAttachmentStore *store;
+	EAttachment *alternative_body;
 	EComposerHeaderTable *table;
 	EHTMLEditor *editor;
 	CamelDataWrapper *html;
@@ -1618,6 +1619,32 @@ composer_build_message (EMsgComposer *composer,
 
 	camel_content_type_unref (type);
 
+	alternative_body = NULL;
+	view = e_msg_composer_get_attachment_view (composer);
+	store = e_attachment_view_get_store (view);
+
+	if (composer->priv->alternative_body_attachment) {
+		GList *attachments, *link;
+
+		attachments = e_attachment_store_get_attachments (store);
+
+		for (link = attachments; link; link = g_list_next (link)) {
+			EAttachment *attachment = link->data;
+
+			/* Skip the attachment if it's still loading. */
+			if (!e_attachment_get_loading (attachment) &&
+			    attachment == composer->priv->alternative_body_attachment) {
+				alternative_body = g_object_ref (attachment);
+				break;
+			}
+		}
+
+		g_list_free_full (attachments, g_object_unref);
+
+		if (!alternative_body)
+			composer->priv->alternative_body_attachment = NULL;
+	}
+
 	/* Build the text/html part, and wrap it and the text/plain part
 	 * in a multipart/alternative part.  Additionally, if there are
 	 * inline images then wrap the multipart/alternative part along
@@ -1722,6 +1749,9 @@ composer_build_message (EMsgComposer *composer,
 		g_object_unref (context->top_level_part);
 		g_object_unref (html);
 
+		if (alternative_body)
+			e_attachment_add_to_multipart (alternative_body, body, composer->priv->charset);
+
 		/* If there are inlined images, construct a multipart/related
 		 * containing the multipart/alternative and the images. */
 		if (inline_images_parts) {
@@ -1755,23 +1785,39 @@ composer_build_message (EMsgComposer *composer,
 			context->top_level_part =
 				CAMEL_DATA_WRAPPER (body);
 		}
-	/* cover drafts in the markdown mode */
-	} else if ((flags & COMPOSER_FLAG_SAVE_DRAFT) != 0 && mode_is_markdown) {
-		/* X-Evolution-Format */
-		composer_add_evolution_format_header (
-			CAMEL_MEDIUM (context->message), flags, e_html_editor_get_mode (composer->priv->editor));
+	} else {
+		/* cover drafts in the markdown mode */
+		if ((flags & COMPOSER_FLAG_SAVE_DRAFT) != 0 && mode_is_markdown) {
+			/* X-Evolution-Format */
+			composer_add_evolution_format_header (
+				CAMEL_MEDIUM (context->message), flags, e_html_editor_get_mode (composer->priv->editor));
 
-		/* X-Evolution-Composer-Mode */
-		composer_add_evolution_composer_mode_header (
-			CAMEL_MEDIUM (context->message), composer);
+			/* X-Evolution-Composer-Mode */
+			composer_add_evolution_composer_mode_header (
+				CAMEL_MEDIUM (context->message), composer);
+		}
+
+		if (alternative_body) {
+			body = camel_multipart_new ();
+			camel_data_wrapper_set_mime_type (CAMEL_DATA_WRAPPER (body), "multipart/alternative");
+			camel_multipart_set_boundary (body, NULL);
+
+			part = camel_mime_part_new ();
+			camel_medium_set_content (CAMEL_MEDIUM (part), context->top_level_part);
+			camel_mime_part_set_encoding (part, context->plain_encoding);
+			camel_multipart_add_part (body, part);
+			g_object_unref (part);
+
+			e_attachment_add_to_multipart (alternative_body, body, composer->priv->charset);
+
+			g_object_unref (context->top_level_part);
+			context->top_level_part = CAMEL_DATA_WRAPPER (body);
+		}
 	}
-
-	view = e_msg_composer_get_attachment_view (composer);
-	store = e_attachment_view_get_store (view);
 
 	/* If there are attachments, wrap what we've built so far
 	 * along with the attachments in a multipart/mixed part. */
-	if (e_attachment_store_get_num_attachments (store) > 0) {
+	if (e_attachment_store_get_num_attachments (store) - (alternative_body ? 1 : 0) > 0) {
 		CamelMultipart *multipart = camel_multipart_new ();
 
 		/* Generate a random boundary. */
@@ -1787,12 +1833,31 @@ composer_build_message (EMsgComposer *composer,
 		camel_multipart_add_part (multipart, part);
 		g_object_unref (part);
 
-		e_attachment_store_add_to_multipart (
-			store, multipart, priv->charset);
+		if (alternative_body) {
+			GList *attachments, *link;
+
+			attachments = e_attachment_store_get_attachments (store);
+
+			for (link = attachments; link; link = g_list_next (link)) {
+				EAttachment *attachment = link->data;
+
+				/* Skip the attachment if it's still loading. */
+				if (!e_attachment_get_loading (attachment) &&
+				    attachment != alternative_body) {
+					e_attachment_add_to_multipart (attachment, multipart, composer->priv->charset);
+				}
+			}
+
+			g_list_free_full (attachments, g_object_unref);
+		} else {
+			e_attachment_store_add_to_multipart (store, multipart, priv->charset);
+		}
 
 		g_object_unref (context->top_level_part);
 		context->top_level_part = CAMEL_DATA_WRAPPER (multipart);
 	}
+
+	g_clear_object (&alternative_body);
 
 	if (last_error) {
 		g_simple_async_result_take_error (simple, last_error);
@@ -3838,6 +3903,7 @@ handle_multipart_alternative (EMsgComposer *composer,
 		} else if (camel_content_type_is (content_type, "text", "html")) {
 			/* text/html is preferable, so once we find it we're done... */
 			text_part = mime_part;
+			i++;
 			break;
 		} else if (camel_content_type_is (content_type, "text", "markdown") ||
 			   emcu_format_as_plain_text (composer, content_type)) {
@@ -3848,10 +3914,11 @@ handle_multipart_alternative (EMsgComposer *composer,
 			if (text) {
 				e_msg_composer_set_pending_body (composer, text, length, FALSE);
 				text_part = NULL;
+				i++;
 				break;
 			}
 		} else if (camel_content_type_is (content_type, "text", "*")) {
-			/* anyt text part not text/html is second rate so the first
+			/* any text part not text/html is second rate so the first
 			 * text part we find isn't necessarily the one we'll use. */
 			if (!text_part)
 				text_part = mime_part;
@@ -3860,8 +3927,36 @@ handle_multipart_alternative (EMsgComposer *composer,
 			 * the text/plain should be used */
 			if (camel_content_type_is (content_type, "text", "plain"))
 				fallback_text_part = mime_part;
+			else if (!composer->priv->alternative_body_attachment && depth == 0)
+				e_msg_composer_set_alternative_body (composer, mime_part);
 		} else {
-			e_msg_composer_attach (composer, mime_part);
+			if (!composer->priv->alternative_body_attachment && depth == 0)
+				e_msg_composer_set_alternative_body (composer, mime_part);
+			else
+				e_msg_composer_attach (composer, mime_part);
+		}
+	}
+
+	if (!composer->priv->alternative_body_attachment && depth == 0 && i < nparts) {
+		while (i < nparts) {
+			CamelMimePart *mime_part;
+
+			mime_part = camel_multipart_get_part (multipart, i);
+
+			if (mime_part && !CAMEL_IS_MULTIPART (camel_medium_get_content (CAMEL_MEDIUM (mime_part)))) {
+				CamelContentType *content_type;
+
+				content_type = camel_mime_part_get_content_type (mime_part);
+
+				if (!camel_content_type_is (content_type, "text", "plain") &&
+				    !camel_content_type_is (content_type, "text", "html") &&
+				    !camel_content_type_is (content_type, "text", "markdown")) {
+					e_msg_composer_set_alternative_body (composer, mime_part);
+					break;
+				}
+			}
+
+			i++;
 		}
 	}
 
@@ -5982,6 +6077,45 @@ e_msg_composer_attach (EMsgComposer *composer,
 	store = e_attachment_view_get_store (view);
 
 	attachment = e_attachment_new ();
+	e_attachment_set_mime_part (attachment, mime_part);
+	e_attachment_store_add_attachment (store, attachment);
+	e_attachment_load_async (
+		attachment, (GAsyncReadyCallback)
+		e_attachment_load_handle_error, composer);
+	g_object_unref (attachment);
+}
+
+/**
+ * e_msg_composer_set_alternative_body:
+ * @composer: an #EMsgComposer
+ * @mime_part: the #CamelMimePart to attach
+ *
+ * Sets the @mime_part as an alternative body to the composer
+ * content. It should not be "text/plain" nor "text/html" and
+ * it should be the best format, because it's added as the last
+ * part of the "multipart/alternative" code.
+ *
+ * It is still shown as a regular attachment in the GUI, thus
+ * the user can review or delete it.
+ *
+ * Since: 3.50
+ **/
+void
+e_msg_composer_set_alternative_body (EMsgComposer *composer,
+				     CamelMimePart *mime_part)
+{
+	EAttachmentView *view;
+	EAttachmentStore *store;
+	EAttachment *attachment;
+
+	g_return_if_fail (E_IS_MSG_COMPOSER (composer));
+	g_return_if_fail (CAMEL_IS_MIME_PART (mime_part));
+
+	view = e_msg_composer_get_attachment_view (composer);
+	store = e_attachment_view_get_store (view);
+
+	attachment = e_attachment_new ();
+	composer->priv->alternative_body_attachment = attachment;
 	e_attachment_set_mime_part (attachment, mime_part);
 	e_attachment_store_add_attachment (store, attachment);
 	e_attachment_load_async (

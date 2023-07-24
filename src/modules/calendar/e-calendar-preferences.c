@@ -688,6 +688,13 @@ calendar_preferences_add_itip_formatter_page (EShell *shell,
 		check, "active",
 		G_SETTINGS_BIND_DEFAULT);
 
+	check = gtk_check_button_new_with_mnemonic (_("_Always attach components in mail messages"));
+	gtk_box_pack_start (GTK_BOX (inner_vbox), check, FALSE, FALSE, 0);
+
+	g_settings_bind (settings, "attach-components",
+		check, "active",
+		G_SETTINGS_BIND_DEFAULT);
+
 	g_object_unref (settings);
 
 	settings = e_util_ref_settings ("org.gnome.evolution-data-server.calendar");

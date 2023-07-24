@@ -15,5 +15,10 @@
       <_summary>Show invitation description provided by the sender</_summary>
       <_description>Set to true to show invitation description as provided by the sender, if such is available</_description>
     </key>
+    <key name="attach-components" type="b">
+      <default>false</default>
+      <_summary>Whether to attach components in mail messages</_summary>
+      <_description>Attach components in mail messages like meeting invitations or responses, instead of saving them as a body alternative</_description>
+    </key>
   </schema>
 </schemalist>

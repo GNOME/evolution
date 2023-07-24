@@ -527,3 +527,18 @@ calendar_config_get_default_reminder_units (void)
 
 	return res;
 }
+
+gboolean
+calendar_config_get_itip_attach_components (void)
+{
+	GSettings *settings;
+	gboolean res;
+
+	settings = e_util_ref_settings ("org.gnome.evolution.plugin.itip");
+
+	res = g_settings_get_boolean (settings, "attach-components");
+
+	g_object_unref (settings);
+
+	return res;
+}

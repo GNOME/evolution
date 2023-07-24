@@ -2668,3 +2668,522 @@ cal_comp_util_move_component_by_days (GtkWindow *parent,
 
 	return TRUE;
 }
+
+/* Converts a time_t to a string, relative to the specified timezone */
+static gchar *
+timet_to_str_with_zone (ECalComponentDateTime *dt,
+			ECalClient *client,
+			ICalTimezone *default_zone)
+{
+	ICalTime *itt;
+	ICalTimezone *zone = NULL;
+	struct tm tm;
+
+	if (!dt)
+		return NULL;
+
+	itt = e_cal_component_datetime_get_value (dt);
+
+	if (e_cal_component_datetime_get_tzid (dt)) {
+		if (client) {
+			if (!e_cal_client_get_timezone_sync (client, e_cal_component_datetime_get_tzid (dt), &zone, NULL, NULL))
+				zone = NULL;
+		} else {
+			zone = i_cal_timezone_get_builtin_timezone_from_tzid (e_cal_component_datetime_get_tzid (dt));
+			if (!zone)
+				zone = i_cal_timezone_get_builtin_timezone (e_cal_component_datetime_get_tzid (dt));
+		}
+	} else if (i_cal_time_is_utc (itt)) {
+		zone = i_cal_timezone_get_utc_timezone ();
+	}
+
+	if (zone != NULL)
+		i_cal_time_convert_timezone (itt, zone, default_zone);
+	tm = e_cal_util_icaltime_to_tm (itt);
+
+	return e_datetime_format_format_tm ("calendar", "table", i_cal_time_is_date (itt) ? DTFormatKindDate : DTFormatKindDateTime, &tm);
+}
+
+static void
+cal_comp_util_write_to_html_add_table_line (GString *html,
+					    const gchar *header,
+					    const gchar *value)
+{
+	gchar *markup_header, *markup_value;
+
+	g_return_if_fail (html != NULL);
+
+	if (!value || !*value)
+		return;
+
+	markup_header = header ? g_markup_escape_text (header, -1) : NULL;
+	markup_value = g_markup_escape_text (value, -1);
+
+	g_string_append_printf (html,
+		"<tr><th>%s</th><td>%s</td></tr>",
+		markup_header ? markup_header : "",
+		markup_value);
+
+	g_free (markup_header);
+	g_free (markup_value);
+}
+
+#define DESCRIPTION_STYLE "style=\"font-family: monospace; font-size: 1em;\""
+
+/* Converts the @comp into HTML adding the code into the @html_buffer (it's without the <body/> tag) */
+void
+cal_comp_util_write_to_html (GString *html_buffer,
+			     ECalClient *client,
+			     ECalComponent *comp,
+			     ICalTimezone *default_zone,
+			     gboolean use_24_hour_format)
+{
+	ECalComponentText *text;
+	ECalComponentDateTime *dt;
+	gchar *str;
+	GString *string;
+	GSList *list, *iter;
+	ICalComponent *icomp;
+	ICalProperty *prop;
+	ICalPropertyStatus status;
+	const gchar *tmp;
+	gchar *location, *url;
+	gint priority;
+	gchar *markup;
+
+	g_return_if_fail (html_buffer != NULL);
+	if (client)
+		g_return_if_fail (E_IS_CAL_CLIENT (client));
+	g_return_if_fail (E_IS_CAL_COMPONENT (comp));
+
+	str = e_calendar_view_dup_component_summary (e_cal_component_get_icalcomponent (comp));
+	markup = g_markup_escape_text (str ? str : _("Untitled"), -1);
+	if (str)
+		g_string_append_printf (html_buffer, "<div><h2>%s</h2></div>", markup);
+	else
+		g_string_append_printf (html_buffer, "<div><h2><i>%s</i></h2></div>", markup);
+	g_free (markup);
+	g_free (str);
+
+	g_string_append (html_buffer, "<table border=\"0\" cellspacing=\"5\">");
+
+	/* write icons for the categories */
+	string = g_string_new (NULL);
+	list = e_cal_component_get_categories_list (comp);
+	if (list != NULL) {
+		markup = g_markup_escape_text (_("Categories:"), -1);
+		g_string_append_printf (html_buffer, "<tr><th>%s</th><td>", markup);
+		g_free (markup);
+	}
+	for (iter = list; iter != NULL; iter = iter->next) {
+		const gchar *category = iter->data;
+		gchar *icon_file;
+
+		icon_file = e_categories_dup_icon_file_for (category);
+		if (icon_file && g_file_test (icon_file, G_FILE_TEST_EXISTS)) {
+			gchar *uri;
+
+			uri = g_filename_to_uri (icon_file, NULL, NULL);
+			g_string_append_printf (
+				html_buffer, "<img alt=\"%s\" src=\"evo-%s\">",
+				category, uri);
+			g_free (uri);
+		} else {
+			if (iter != list)
+				g_string_append_len (string, ", ", 2);
+
+			markup = g_markup_escape_text (category, -1);
+			g_string_append (string, markup);
+			g_free (markup);
+		}
+
+		g_free (icon_file);
+	}
+	if (string->len > 0)
+		g_string_append_printf (html_buffer, "%s", string->str);
+	if (list != NULL)
+		g_string_append (html_buffer, "</td></tr>");
+	g_slist_free_full (list, g_free);
+	g_string_free (string, TRUE);
+
+	/* write location */
+	location = e_cal_component_get_location (comp);
+	if (location && *location) {
+		markup = g_markup_escape_text (_("Location:"), -1);
+		g_string_append_printf (html_buffer, "<tr><th>%s</th>", markup);
+		g_free (markup);
+
+		markup = camel_text_to_html (location,
+			CAMEL_MIME_FILTER_TOHTML_CONVERT_NL |
+			CAMEL_MIME_FILTER_TOHTML_CONVERT_SPACES |
+			CAMEL_MIME_FILTER_TOHTML_CONVERT_URLS |
+			CAMEL_MIME_FILTER_TOHTML_CONVERT_ADDRESSES, 0);
+		g_string_append_printf (html_buffer, "<td>%s</td></tr>", markup);
+		g_free (markup);
+	}
+	g_free (location);
+
+	/* write start date */
+	dt = e_cal_component_get_dtstart (comp);
+	if (dt && e_cal_component_datetime_get_value (dt)) {
+		str = timet_to_str_with_zone (dt, client, default_zone);
+		cal_comp_util_write_to_html_add_table_line (html_buffer, _("Start Date:"), str);
+		g_free (str);
+	}
+	e_cal_component_datetime_free (dt);
+
+	/* write end date */
+	dt = e_cal_component_get_vtype (comp) == E_CAL_COMPONENT_EVENT ? e_cal_component_get_dtend (comp) : NULL;
+	if (dt && e_cal_component_datetime_get_value (dt)) {
+		str = timet_to_str_with_zone (dt, client, default_zone);
+		cal_comp_util_write_to_html_add_table_line (html_buffer, _("End Date:"), str);
+		g_free (str);
+	}
+	e_cal_component_datetime_free (dt);
+
+	icomp = e_cal_component_get_icalcomponent (comp);
+
+	if (e_cal_util_component_has_recurrences (icomp)) {
+		str = e_cal_recur_describe_recurrence_ex (icomp,
+			calendar_config_get_week_start_day (),
+			E_CAL_RECUR_DESCRIBE_RECURRENCE_FLAG_NONE,
+			cal_comp_util_format_itt);
+
+		if (str) {
+			cal_comp_util_write_to_html_add_table_line (html_buffer, _("Recurs:"), str);
+			g_free (str);
+		}
+	}
+
+	/* write Due Date */
+	dt = e_cal_component_get_vtype (comp) == E_CAL_COMPONENT_TODO ? e_cal_component_get_due (comp) : NULL;
+	if (dt && e_cal_component_datetime_get_value (dt)) {
+		str = timet_to_str_with_zone (dt, client, default_zone);
+		cal_comp_util_write_to_html_add_table_line (html_buffer, _("Due Date:"), str);
+		g_free (str);
+	}
+	e_cal_component_datetime_free (dt);
+
+	prop = i_cal_component_get_first_property (icomp, I_CAL_ESTIMATEDDURATION_PROPERTY);
+	if (prop) {
+		ICalDuration *duration;
+
+		duration = i_cal_property_get_estimatedduration (prop);
+
+		if (duration) {
+			gint seconds;
+
+			seconds = i_cal_duration_as_int (duration);
+			if (seconds > 0) {
+				str = e_cal_util_seconds_to_string (seconds);
+				cal_comp_util_write_to_html_add_table_line (html_buffer, _("Estimated duration:"), str);
+				g_free (str);
+			}
+		}
+
+		g_clear_object (&duration);
+		g_object_unref (prop);
+	}
+
+	/* write status */
+	prop = i_cal_component_get_first_property (icomp, I_CAL_STATUS_PROPERTY);
+	if (prop) {
+		status = e_cal_component_get_status (comp);
+		tmp = cal_comp_util_status_to_localized_string (i_cal_component_isa (icomp), status);
+
+		if (tmp)
+			cal_comp_util_write_to_html_add_table_line (html_buffer, _("Status:"), tmp);
+
+		g_object_unref (prop);
+	}
+
+	/* write priority */
+	priority = e_cal_component_get_priority (comp);
+	if (priority > 0) {
+		if (priority <= 4)
+			tmp = _("High");
+		else if (priority == 5)
+			tmp = _("Normal");
+		else
+			tmp = _("Low");
+
+		cal_comp_util_write_to_html_add_table_line (html_buffer, _("Priority:"), tmp);
+	}
+
+	prop = i_cal_component_get_first_property (icomp, I_CAL_CLASS_PROPERTY);
+	if (prop) {
+		switch (i_cal_property_get_class (prop)) {
+		case I_CAL_CLASS_PRIVATE:
+			tmp = _("Private");
+			break;
+		case I_CAL_CLASS_CONFIDENTIAL:
+			tmp = _("Confidential");
+			break;
+		default:
+			tmp = NULL;
+			break;
+		}
+
+		if (tmp)
+			cal_comp_util_write_to_html_add_table_line (html_buffer, _("Classification:"), tmp);
+
+		g_object_unref (prop);
+	}
+
+	if (e_cal_component_has_organizer (comp)) {
+		ECalComponentOrganizer *organizer;
+		const gchar *organizer_email;
+
+		organizer = e_cal_component_get_organizer (comp);
+		organizer_email = cal_comp_util_get_organizer_email (organizer);
+
+		if (organizer_email) {
+			markup = g_markup_escape_text (_("Organizer:"), -1);
+			g_string_append_printf (html_buffer, "<tr><th>%s</th>", markup);
+			g_free (markup);
+			if (e_cal_component_organizer_get_cn (organizer) && e_cal_component_organizer_get_cn (organizer)[0]) {
+				gchar *html;
+
+				str = g_strconcat (e_cal_component_organizer_get_cn (organizer), " <", organizer_email, ">", NULL);
+				html = camel_text_to_html (str,
+					CAMEL_MIME_FILTER_TOHTML_CONVERT_NL |
+					CAMEL_MIME_FILTER_TOHTML_CONVERT_SPACES |
+					CAMEL_MIME_FILTER_TOHTML_CONVERT_ADDRESSES, 0);
+				g_string_append_printf (html_buffer, "<td>%s</td></tr>", html);
+				g_free (html);
+				g_free (str);
+			} else {
+				str = camel_text_to_html (organizer_email,
+					CAMEL_MIME_FILTER_TOHTML_CONVERT_NL |
+					CAMEL_MIME_FILTER_TOHTML_CONVERT_SPACES |
+					CAMEL_MIME_FILTER_TOHTML_CONVERT_ADDRESSES, 0);
+				g_string_append_printf (html_buffer, "<td>%s</td></tr>", str);
+				g_free (str);
+			}
+		}
+
+		e_cal_component_organizer_free (organizer);
+	}
+
+	if (e_cal_component_has_attendees (comp)) {
+		GSList *attendees = NULL, *a;
+		gboolean have = FALSE;
+
+		attendees = e_cal_component_get_attendees (comp);
+
+		for (a = attendees; a; a = a->next) {
+			ECalComponentAttendee *attnd = a->data;
+			ECalComponentParameterBag *param_bag;
+			const gchar *email = cal_comp_util_get_attendee_email (attnd);
+
+			if (!attnd || !email || !*email)
+				continue;
+
+			if (!have) {
+				markup = g_markup_escape_text (_("Attendees:"), -1);
+				g_string_append_printf (html_buffer, "<tr><th>%s</th><td>", markup);
+				g_free (markup);
+			} else {
+				g_string_append (html_buffer, "<br>");
+			}
+
+			if (!email)
+				email = "";
+
+			if (e_cal_component_attendee_get_cn (attnd) && e_cal_component_attendee_get_cn (attnd)[0]) {
+				gchar *html;
+
+				str = g_strconcat (e_cal_component_attendee_get_cn (attnd), " <", email, ">", NULL);
+				html = camel_text_to_html (str,
+					CAMEL_MIME_FILTER_TOHTML_CONVERT_NL |
+					CAMEL_MIME_FILTER_TOHTML_CONVERT_URLS |
+					CAMEL_MIME_FILTER_TOHTML_CONVERT_SPACES |
+					CAMEL_MIME_FILTER_TOHTML_CONVERT_ADDRESSES, 0);
+				g_string_append (html_buffer, html);
+				g_free (html);
+				g_free (str);
+			} else {
+				str = camel_text_to_html (email,
+					CAMEL_MIME_FILTER_TOHTML_CONVERT_NL |
+					CAMEL_MIME_FILTER_TOHTML_CONVERT_URLS |
+					CAMEL_MIME_FILTER_TOHTML_CONVERT_SPACES |
+					CAMEL_MIME_FILTER_TOHTML_CONVERT_ADDRESSES, 0);
+				g_string_append (html_buffer, str);
+				g_free (str);
+			}
+
+			param_bag = e_cal_component_attendee_get_parameter_bag (attnd);
+			if (param_bag) {
+				ICalParameter *num_guests = NULL;
+				ICalParameter *response_comment = NULL;
+				guint ii, count;
+
+				count = e_cal_component_parameter_bag_get_count (param_bag);
+				for (ii = 0; ii < count && (!num_guests || !response_comment); ii++) {
+					ICalParameter *param = e_cal_component_parameter_bag_get (param_bag, ii);
+
+					if (param && i_cal_parameter_isa (param) == I_CAL_X_PARAMETER) {
+						const gchar *xname = i_cal_parameter_get_xname (param);
+
+						if (!xname)
+							continue;
+
+						if (!num_guests && g_ascii_strcasecmp (xname, "X-NUM-GUESTS") == 0)
+							num_guests = param;
+
+						if (!response_comment && g_ascii_strcasecmp (xname, "X-RESPONSE-COMMENT") == 0)
+							response_comment = param;
+					}
+				}
+
+				if (num_guests && i_cal_parameter_get_xvalue (num_guests)) {
+					gint n_guests;
+
+					n_guests = (gint) g_ascii_strtoll (i_cal_parameter_get_xvalue (num_guests), NULL, 10);
+
+					if (n_guests > 0) {
+						gchar *str, *escaped;
+
+						str = g_strdup_printf (g_dngettext (GETTEXT_PACKAGE, "with one guest", "with %d guests", n_guests), n_guests);
+						escaped = g_markup_escape_text (str, -1);
+
+						g_string_append_c (html_buffer, ' ');
+						g_string_append (html_buffer, escaped);
+
+						g_free (escaped);
+						g_free (str);
+					}
+				}
+
+				if (response_comment) {
+					const gchar *value = i_cal_parameter_get_xvalue (response_comment);
+
+					if (value && *value) {
+						gchar *escaped;
+
+						escaped = g_markup_escape_text (value, -1);
+
+						g_string_append (html_buffer, " (");
+						g_string_append (html_buffer, escaped);
+						g_string_append_c (html_buffer, ')');
+
+						g_free (escaped);
+					}
+				}
+			}
+
+			have = TRUE;
+		}
+
+		if (have)
+			g_string_append (html_buffer, "</td></tr>");
+
+		g_slist_free_full (attendees, e_cal_component_attendee_free);
+	}
+
+	/* URL */
+	url = e_cal_component_get_url (comp);
+	if (url) {
+		gchar *scheme, *header_markup;
+		const gchar *href = url;
+
+		str = NULL;
+
+		scheme = g_uri_parse_scheme (url);
+		if (!scheme || !*scheme) {
+			str = g_strconcat ("http://", url, NULL);
+			href = str;
+		}
+
+		g_free (scheme);
+
+		if (strchr (href, '\"')) {
+			markup = g_markup_escape_text (href, -1);
+			g_free (str);
+			str = markup;
+			href = str;
+		}
+
+		header_markup = g_markup_escape_text (_("Web Page:"), -1);
+		markup = g_markup_escape_text (url, -1);
+
+		g_string_append_printf (
+			html_buffer, "<tr><th>%s</th><td><a href=\"%s\">%s</a></td></tr>",
+			header_markup, href, markup);
+
+		g_free (header_markup);
+		g_free (markup);
+		g_free (str);
+		g_free (url);
+	}
+
+	g_string_append (html_buffer, "<tr><td colspan=\"2\"><hr></td></tr>");
+
+	/* Write description as the last, using full width */
+
+	if (e_cal_component_get_vtype (comp) == E_CAL_COMPONENT_JOURNAL) {
+		list = e_cal_component_get_descriptions (comp);
+		if (list) {
+			GSList *node;
+			gboolean has_header = FALSE;
+
+			for (node = list; node != NULL; node = node->next) {
+				gchar *html;
+
+				text = node->data;
+				if (!text || !e_cal_component_text_get_value (text))
+					continue;
+
+				html = camel_text_to_html (
+					e_cal_component_text_get_value (text),
+					CAMEL_MIME_FILTER_TOHTML_CONVERT_NL |
+					CAMEL_MIME_FILTER_TOHTML_CONVERT_SPACES |
+					CAMEL_MIME_FILTER_TOHTML_CONVERT_URLS |
+					CAMEL_MIME_FILTER_TOHTML_CONVERT_ADDRESSES, 0);
+
+				if (html) {
+					if (!has_header) {
+						has_header = TRUE;
+
+						g_string_append (html_buffer, "<tr><td colspan=\"2\" " DESCRIPTION_STYLE ">");
+					}
+
+					g_string_append_printf (html_buffer, "%s", html);
+				}
+
+				g_free (html);
+			}
+
+			if (has_header)
+				g_string_append (html_buffer, "</td></tr>");
+
+			g_slist_free_full (list, e_cal_component_text_free);
+		}
+	} else {
+		text = e_cal_component_dup_description_for_locale (comp, NULL);
+		if (text) {
+			if (e_cal_component_text_get_value (text)) {
+				gchar *html;
+
+				html = camel_text_to_html (
+					e_cal_component_text_get_value (text),
+					CAMEL_MIME_FILTER_TOHTML_CONVERT_NL |
+					CAMEL_MIME_FILTER_TOHTML_CONVERT_SPACES |
+					CAMEL_MIME_FILTER_TOHTML_CONVERT_URLS |
+					CAMEL_MIME_FILTER_TOHTML_CONVERT_ADDRESSES, 0);
+
+				if (html) {
+					g_string_append (html_buffer, "<tr><td colspan=\"2\" " DESCRIPTION_STYLE ">");
+					g_string_append_printf (html_buffer, "%s", html);
+					g_string_append (html_buffer, "</td></tr>");
+				}
+
+				g_free (html);
+			}
+
+			e_cal_component_text_free (text);
+		}
+	}
+
+	g_string_append (html_buffer, "</table>");
+}
