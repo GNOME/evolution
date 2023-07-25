@@ -4255,6 +4255,19 @@ itip_view_dup_source_full_display_name (ItipView *view,
 	return display_name;
 }
 
+static gboolean
+itip_view_can_show_rsvp (ItipView *view)
+{
+	/*
+	 * Only enable it for forwarded invitiations (PUBLISH) or direct
+	 * invitiations (REQUEST), but not replies (REPLY).
+	 * Replies only make sense for events with an organizer.
+	 */
+	return (view->priv->method == I_CAL_METHOD_PUBLISH ||
+		view->priv->method == I_CAL_METHOD_REQUEST) &&
+		view->priv->has_organizer;
+}
+
 static void
 find_cal_update_ui (FormatItipFindData *fd,
                     ECalClient *cal_client)
@@ -4350,7 +4363,6 @@ find_cal_update_ui (FormatItipFindData *fd,
 	/* search for a master object if the detached object doesn't exist in the calendar */
 	if (view->priv->current_client && view->priv->current_client == cal_client) {
 		const gchar *extension_name;
-		gboolean rsvp_enabled = FALSE;
 
 		itip_view_set_show_keep_alarm_check (view, fd->keep_alarm_check);
 
@@ -4406,16 +4418,7 @@ find_cal_update_ui (FormatItipFindData *fd,
 			itip_view_set_show_update_check (view, FALSE);
 			set_buttons_sensitive (view);
 		} else {
-			/*
-			 * Only enable it for forwarded invitiations (PUBLISH) or direct
-			 * invitiations (REQUEST), but not replies (REPLY).
-			 * Replies only make sense for events with an organizer.
-			 */
-			if ((view->priv->method == I_CAL_METHOD_PUBLISH || view->priv->method == I_CAL_METHOD_REQUEST) &&
-			    view->priv->has_organizer) {
-				rsvp_enabled = TRUE;
-			}
-			itip_view_set_show_rsvp_check (view, rsvp_enabled);
+			itip_view_set_show_rsvp_check (view, itip_view_can_show_rsvp (view));
 
 			/* default is chosen in extract_itip_data() based on content of the VEVENT */
 			itip_view_set_rsvp (view, !view->priv->no_reply_wanted);
@@ -4482,22 +4485,12 @@ decrease_find_data (FormatItipFindData *fd)
 	d (printf ("Decreasing itip formatter search count to %d\n", fd->count));
 
 	if (fd->count == 0 && !g_cancellable_is_cancelled (fd->cancellable)) {
-		gboolean rsvp_enabled = FALSE;
 		ItipView *view = fd->view;
 
 		itip_view_remove_lower_info_item (view, view->priv->progress_info_id);
 		view->priv->progress_info_id = 0;
 
-		/*
-		 * Only enable it for forwarded invitiations (PUBLISH) or direct
-		 * invitiations (REQUEST), but not replies (REPLY).
-		 * Replies only make sense for events with an organizer.
-		 */
-		if ((view->priv->method == I_CAL_METHOD_PUBLISH || view->priv->method == I_CAL_METHOD_REQUEST) &&
-		    view->priv->has_organizer) {
-			rsvp_enabled = TRUE;
-		}
-		itip_view_set_show_rsvp_check (view, rsvp_enabled);
+		itip_view_set_show_rsvp_check (view, itip_view_can_show_rsvp (view));
 
 		/* default is chosen in extract_itip_data() based on content of the VEVENT */
 		itip_view_set_rsvp (view, !view->priv->no_reply_wanted);
@@ -5547,6 +5540,7 @@ update_item (ItipView *view,
 {
 	ICalComponent *toplevel_clone, *clone;
 	gboolean remove_alarms;
+	gboolean with_rsvp = TRUE;
 	ECalComponent *clone_comp;
 
 	claim_progress_saving_changes (view);
@@ -5628,12 +5622,15 @@ update_item (ItipView *view,
 
 	view->priv->update_item_response = response;
 
-	itip_view_add_rsvp_comment (view, clone_comp);
+	if (itip_view_get_rsvp (view))
+		itip_view_add_rsvp_comment (view, clone_comp);
+	else if (itip_view_can_show_rsvp (view))
+		with_rsvp = FALSE;
 
 	e_cal_client_receive_objects (
 		view->priv->current_client,
 		toplevel_clone,
-		E_CAL_OPERATION_FLAG_NONE,
+		with_rsvp ? E_CAL_OPERATION_FLAG_NONE : E_CAL_OPERATION_FLAG_DISABLE_ITIP_MESSAGE,
 		view->priv->cancellable,
 		receive_objects_ready_cb,
 		view);
@@ -5685,7 +5682,7 @@ import_item (ItipView *view)
 	e_cal_client_receive_objects (
 		view->priv->current_client,
 		main_comp_clone,
-		E_CAL_OPERATION_FLAG_NONE,
+		E_CAL_OPERATION_FLAG_DISABLE_ITIP_MESSAGE,
 		view->priv->cancellable,
 		receive_objects_ready_cb,
 		view);
