@@ -4407,13 +4407,11 @@ find_cal_update_ui (FormatItipFindData *fd,
 			set_buttons_sensitive (view);
 		} else {
 			/*
-			 * Only allow replies if backend doesn't do that automatically.
 			 * Only enable it for forwarded invitiations (PUBLISH) or direct
 			 * invitiations (REQUEST), but not replies (REPLY).
 			 * Replies only make sense for events with an organizer.
 			 */
-			if ((!view->priv->current_client || !e_cal_client_check_save_schedules (view->priv->current_client)) &&
-			    (view->priv->method == I_CAL_METHOD_PUBLISH || view->priv->method == I_CAL_METHOD_REQUEST) &&
+			if ((view->priv->method == I_CAL_METHOD_PUBLISH || view->priv->method == I_CAL_METHOD_REQUEST) &&
 			    view->priv->has_organizer) {
 				rsvp_enabled = TRUE;
 			}
@@ -4491,13 +4489,11 @@ decrease_find_data (FormatItipFindData *fd)
 		view->priv->progress_info_id = 0;
 
 		/*
-		 * Only allow replies if backend doesn't do that automatically.
 		 * Only enable it for forwarded invitiations (PUBLISH) or direct
 		 * invitiations (REQUEST), but not replies (REPLY).
 		 * Replies only make sense for events with an organizer.
 		 */
-		if ((!view->priv->current_client || !e_cal_client_check_save_schedules (view->priv->current_client)) &&
-		    (view->priv->method == I_CAL_METHOD_PUBLISH || view->priv->method == I_CAL_METHOD_REQUEST) &&
+		if ((view->priv->method == I_CAL_METHOD_PUBLISH || view->priv->method == I_CAL_METHOD_REQUEST) &&
 		    view->priv->has_organizer) {
 			rsvp_enabled = TRUE;
 		}
@@ -5175,6 +5171,29 @@ itip_view_get_delete_message (void)
 }
 
 static void
+itip_view_add_rsvp_comment (ItipView *view,
+			    ECalComponent *comp)
+{
+	const gchar *comment;
+
+	comment = itip_view_get_rsvp_comment (view);
+
+	if (comment && *comment) {
+		GSList comments;
+		ECalComponentText *text;
+
+		text = e_cal_component_text_new (comment, NULL);
+
+		comments.data = text;
+		comments.next = NULL;
+
+		e_cal_component_set_comments (comp, &comments);
+
+		e_cal_component_text_free (text);
+	}
+}
+
+static void
 finish_message_delete_with_rsvp (ItipView *view,
                                  ECalClient *client)
 {
@@ -5186,7 +5205,6 @@ finish_message_delete_with_rsvp (ItipView *view,
 		ICalComponent *icomp;
 		ICalProperty *prop;
 		const gchar *attendee;
-		const gchar *comment;
 		GSList *l, *list = NULL;
 		gboolean found;
 
@@ -5230,20 +5248,7 @@ finish_message_delete_with_rsvp (ItipView *view,
 		g_slist_free_full (list, g_object_unref);
 
 		/* Add a comment if there user set one */
-		comment = itip_view_get_rsvp_comment (view);
-		if (comment) {
-			GSList comments;
-			ECalComponentText *text;
-
-			text = e_cal_component_text_new (comment, NULL);
-
-			comments.data = text;
-			comments.next = NULL;
-
-			e_cal_component_set_comments (comp, &comments);
-
-			e_cal_component_text_free (text);
-		}
+		itip_view_add_rsvp_comment (view, comp);
 
 		if (itip_send_comp_sync (
 				view->priv->registry,
@@ -5622,6 +5627,8 @@ update_item (ItipView *view,
 	}
 
 	view->priv->update_item_response = response;
+
+	itip_view_add_rsvp_comment (view, clone_comp);
 
 	e_cal_client_receive_objects (
 		view->priv->current_client,
