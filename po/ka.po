@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: evolution\n"
 "Report-Msgid-Bugs-To: https://gitlab.gnome.org/GNOME/evolution/issues\n"
-"POT-Creation-Date: 2023-07-24 13:04+0000\n"
-"PO-Revision-Date: 2023-07-25 04:02+0200\n"
+"POT-Creation-Date: 2023-07-25 02:04+0000\n"
+"PO-Revision-Date: 2023-07-25 04:08+0200\n"
 "Last-Translator: Ekaterine Papava <papava.e@gtu.ge>\n"
 "Language-Team: Georgian <(nothing)>\n"
 "Language: ka\n"
@@ -9415,7 +9415,6 @@ msgstr ""
 #. subject line would be: "Accepted: Meeting Name".
 #: ../src/calendar/gui/itip-utils.c:1379
 #, c-format
-#| msgid "User: %s"
 msgctxt "Meeting"
 msgid "%s: %s"
 msgstr "%s: %s"
@@ -14635,7 +14634,6 @@ msgstr "უჯრედის თვისებები"
 
 #: ../src/e-util/e-html-editor-find-dialog.c:67
 #: ../src/e-util/e-html-editor-replace-dialog.c:68
-#, fuzzy
 msgid "No match found"
 msgstr "დამთხვევა ვერ ვიპოვე"
 
@@ -18431,7 +18429,6 @@ msgid "F_orward As"
 msgstr ""
 
 #: ../src/mail/e-mail-reader.c:3075
-#, fuzzy
 msgid "_Label"
 msgstr "_ჭდე"
 
@@ -18449,7 +18446,7 @@ msgstr ""
 
 #: ../src/mail/e-mail-reader.c:3103
 msgid "_Message"
-msgstr ""
+msgstr "_შეტყობინება"
 
 #: ../src/mail/e-mail-reader.c:3110
 msgid "_Zoom"
@@ -18635,7 +18632,7 @@ msgstr "მეტჯერ აღარ აჩვენო ეს გაფრ�
 
 #: ../src/mail/e-mail-remote-content-popover.c:320
 msgid "Load remote content"
-msgstr ""
+msgstr "დაშორებული შემცველობის ჩატვირთვა"
 
 #: ../src/mail/e-mail-remote-content-popover.c:395
 msgid ""
@@ -18755,7 +18752,7 @@ msgstr ""
 
 #: ../src/mail/em-composer-utils.c:3618
 msgid "an unknown sender"
-msgstr ""
+msgstr "უცნობი გამომგზავნი"
 
 #: ../src/mail/em-composer-utils.c:4254
 msgid "Alternative Reply"
@@ -18866,7 +18863,7 @@ msgstr ""
 #. and now for the action area
 #: ../src/mail/em-filter-editor.c:211 ../src/mail/em-filter-rule.c:1022
 msgid "Then"
-msgstr ""
+msgstr "მაშინ"
 
 #: ../src/mail/em-filter-editor.c:416
 msgid "De_scribe Filters…"
@@ -18888,15 +18885,15 @@ msgstr "ნებისმიერი"
 
 #: ../src/mail/em-filter-rule.c:992
 msgid "Rul_e type:"
-msgstr ""
+msgstr "_წესის ტიპი:"
 
 #: ../src/mail/em-filter-rule.c:1010
 msgid "_For Account:"
-msgstr ""
+msgstr "_ანგარიშისთვის:"
 
 #: ../src/mail/em-filter-rule.c:1095
 msgid "Add Ac_tion"
-msgstr ""
+msgstr "_ქმედების დამატება"
 
 #: ../src/mail/em-folder-properties.c:170
 msgid "Select Custom Icon"
@@ -18978,7 +18975,7 @@ msgstr ""
 
 #: ../src/mail/em-folder-properties.c:990
 msgid "Archive folder"
-msgstr ""
+msgstr "არქივის საქაღალდე"
 
 #: ../src/mail/em-folder-properties.c:990
 msgid "Select folder to use for Archive"
@@ -18986,11 +18983,11 @@ msgstr ""
 
 #: ../src/mail/em-folder-properties.c:994
 msgid "_Delete messages"
-msgstr ""
+msgstr "შეტყობინებების _წაშლა"
 
 #: ../src/mail/em-folder-properties.c:1378
 msgid "Server Tag"
-msgstr ""
+msgstr "სერვერის ჭდე"
 
 #: ../src/mail/em-folder-properties.c:1382 ../src/mail/filtertypes.xml.in.h:29
 #: ../src/mail/searchtypes.xml.in.h:31 ../src/mail/vfoldertypes.xml.in.h:31
@@ -19026,7 +19023,7 @@ msgstr ""
 
 #: ../src/mail/em-folder-selector.c:422
 msgid "Create a new folder"
-msgstr ""
+msgstr "ახალი საქაღალდის შექმნა"
 
 #: ../src/mail/em-folder-tree.c:685
 msgid "Folder names cannot contain “/”"
@@ -19054,7 +19051,7 @@ msgstr "საქაღალდის სახელი არ შეიძლ
 #, c-format
 msgctxt "folder-display"
 msgid "%s (%u%s)"
-msgstr ""
+msgstr "%s (%u%s)"
 
 #: ../src/mail/em-folder-tree.c:1826
 msgid "Mail Folder Tree"
@@ -19259,7 +19256,7 @@ msgstr "რე"
 #: ../src/mail/em-utils.c:1652
 msgctxt "reply-attribution"
 msgid ":"
-msgstr ""
+msgstr ":"
 
 #: ../src/mail/em-utils.c:1952
 msgid "Deleting old messages"
@@ -19562,7 +19559,6 @@ msgid "Adjust Score"
 msgstr ""
 
 #: ../src/mail/filtertypes.xml.in.h:78
-#, fuzzy
 msgid "Set Status"
 msgstr "სტატუსის დაყენება"
 
@@ -19854,11 +19850,11 @@ msgstr "ხელმოწერები"
 
 #: ../src/mail/mail-config.ui.h:38
 msgid "_Languages"
-msgstr ""
+msgstr "_ენები"
 
 #: ../src/mail/mail-config.ui.h:39
 msgid "Languages Table"
-msgstr ""
+msgstr "ენების ცხილი"
 
 #: ../src/mail/mail-config.ui.h:40
 msgid ""
