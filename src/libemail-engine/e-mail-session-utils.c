@@ -1038,9 +1038,6 @@ mail_session_ref_origin_folder (EMailSession *session,
 	if (header_value == NULL)
 		return NULL;
 
-	if (strstr (header_value, "FORWARDED") != NULL)
-		return NULL;
-
 	/* Check that a "X-Evolution-Source-Message" header is present. */
 
 	header_name = "X-Evolution-Source-Message";

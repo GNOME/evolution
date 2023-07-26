@@ -741,7 +741,7 @@ mail_config_defaults_page_constructed (GObject *object)
 		G_BINDING_BIDIRECTIONAL |
 		G_BINDING_SYNC_CREATE);
 
-	widget = gtk_check_button_new_with_mnemonic (_("S_ave replies in the folder of the message being replied to"));
+	widget = gtk_check_button_new_with_mnemonic (_("S_ave replies and forwards in the folder of the original message"));
 	g_object_set (widget, "xalign", 0.0, NULL);
 	gtk_widget_set_halign (widget, GTK_ALIGN_START);
 	gtk_grid_attach (GTK_GRID (container), widget, 0, 4, 2, 1);
