@@ -2363,8 +2363,7 @@ print_month_summary (GtkPrintContext *context,
 		multi_week_view = e_week_view_get_multi_week_view (week_view);
 		e_week_view_get_first_day_shown (week_view, &first_day_shown);
 
-		if (multi_week_view && !(weeks_shown >= 4 &&
-		    g_date_valid (&first_day_shown))) {
+		if (multi_week_view) {
 			weeks = weeks_shown;
 			date = whence;
 		}
@@ -3511,36 +3510,10 @@ print_calendar (ECalendarView *cal_view,
 	g_return_if_fail (E_IS_CALENDAR_VIEW (cal_view));
 
 	if (print_view_type == E_PRINT_VIEW_MONTH) {
-		EWeekView *week_view;
-		GDate date;
-		gboolean multi_week_view;
-		gint weeks_shown;
+		EWeekView *week_view = E_WEEK_VIEW (cal_view);
 
-		week_view = E_WEEK_VIEW (cal_view);
-		weeks_shown = e_week_view_get_weeks_shown (week_view);
-		multi_week_view = e_week_view_get_multi_week_view (week_view);
-		e_week_view_get_first_day_shown (week_view, &date);
-
-		if (multi_week_view &&
-		    weeks_shown >= 4 &&
-		    g_date_valid (&date)) {
-			ICalTime *start_tt;
-
-			g_date_add_days (&date, 7);
-
-			start_tt = i_cal_time_new_null_time ();
-			i_cal_time_set_is_date (start_tt, TRUE);
-			i_cal_time_set_date (start_tt,
-				g_date_get_year (&date),
-				g_date_get_month (&date),
-				g_date_get_day (&date));
-
-			start = i_cal_time_as_timet (start_tt);
-
-			g_clear_object (&start_tt);
-		} else if (multi_week_view) {
+		if (e_week_view_get_multi_week_view (week_view))
 			start = week_view->day_starts[0];
-		}
 	}
 
 	pci = g_slice_new0 (PrintCalItem);
