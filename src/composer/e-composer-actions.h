@@ -40,6 +40,8 @@
 	E_COMPOSER_ACTION ((composer), "prioritize-message")
 #define E_COMPOSER_ACTION_REQUEST_READ_RECEIPT(composer) \
 	E_COMPOSER_ACTION ((composer), "request-read-receipt")
+#define E_COMPOSER_ACTION_DELIVERY_STATUS_NOTIFICATION(composer) \
+	E_COMPOSER_ACTION ((composer), "delivery-status-notification")
 #define E_COMPOSER_ACTION_SAVE(composer) \
 	E_COMPOSER_ACTION ((composer), "save")
 #define E_COMPOSER_ACTION_SAVE_AS(composer) \

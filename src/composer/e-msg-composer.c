@@ -82,15 +82,16 @@ struct _AsyncContext {
 
 /* Flags for building a message. */
 typedef enum {
-	COMPOSER_FLAG_HTML_CONTENT		= 1 << 0,
-	COMPOSER_FLAG_SAVE_OBJECT_DATA		= 1 << 1,
-	COMPOSER_FLAG_PRIORITIZE_MESSAGE	= 1 << 2,
-	COMPOSER_FLAG_REQUEST_READ_RECEIPT	= 1 << 3,
-	COMPOSER_FLAG_PGP_SIGN			= 1 << 4,
-	COMPOSER_FLAG_PGP_ENCRYPT		= 1 << 5,
-	COMPOSER_FLAG_SMIME_SIGN		= 1 << 6,
-	COMPOSER_FLAG_SMIME_ENCRYPT		= 1 << 7,
-	COMPOSER_FLAG_SAVE_DRAFT		= 1 << 8
+	COMPOSER_FLAG_HTML_CONTENT			= 1 << 0,
+	COMPOSER_FLAG_SAVE_OBJECT_DATA			= 1 << 1,
+	COMPOSER_FLAG_PRIORITIZE_MESSAGE		= 1 << 2,
+	COMPOSER_FLAG_REQUEST_READ_RECEIPT		= 1 << 3,
+	COMPOSER_FLAG_DELIVERY_STATUS_NOTIFICATION	= 1 << 4,
+	COMPOSER_FLAG_PGP_SIGN				= 1 << 5,
+	COMPOSER_FLAG_PGP_ENCRYPT			= 1 << 6,
+	COMPOSER_FLAG_SMIME_SIGN			= 1 << 7,
+	COMPOSER_FLAG_SMIME_ENCRYPT			= 1 << 8,
+	COMPOSER_FLAG_SAVE_DRAFT			= 1 << 9
 } ComposerFlags;
 
 enum {
@@ -1527,6 +1528,9 @@ composer_build_message (EMsgComposer *composer,
 			CAMEL_MEDIUM (context->message),
 			"X-Priority", "1");
 
+	if ((flags & COMPOSER_FLAG_DELIVERY_STATUS_NOTIFICATION) != 0)
+		camel_medium_add_header (CAMEL_MEDIUM (context->message), "X-Evolution-Request-DSN", "1");
+
 	/* Build the text/plain part. */
 
 	if (priv->mime_body) {
@@ -2727,8 +2731,13 @@ msg_composer_constructed (GObject *object)
 
 	/* FIXME This should be an EMsgComposer property. */
 	settings = e_util_ref_settings ("org.gnome.evolution.mail");
+
 	action = GTK_TOGGLE_ACTION (ACTION (REQUEST_READ_RECEIPT));
 	active = g_settings_get_boolean (settings, "composer-request-receipt");
+	gtk_toggle_action_set_active (action, active);
+
+	action = GTK_TOGGLE_ACTION (ACTION (DELIVERY_STATUS_NOTIFICATION));
+	active = g_settings_get_boolean (settings, "composer-request-dsn");
 	gtk_toggle_action_set_active (action, active);
 
 	g_object_unref (settings);
@@ -4495,6 +4504,11 @@ e_msg_composer_setup_with_message (EMsgComposer *composer,
 
 		if (reply_to)
 			e_composer_header_table_set_reply_to (table, reply_to);
+	}
+
+	if (g_strcmp0 (camel_medium_get_header (CAMEL_MEDIUM (message), "X-Evolution-Request-DSN"), "1") == 0) {
+		action = GTK_TOGGLE_ACTION (ACTION (DELIVERY_STATUS_NOTIFICATION));
+		gtk_toggle_action_set_active (action, TRUE);
 	}
 
 	/* Remove any other X-Evolution-* headers that may have been set */
@@ -6268,6 +6282,10 @@ e_msg_composer_get_message (EMsgComposer *composer,
 	if (gtk_toggle_action_get_active (GTK_TOGGLE_ACTION (action)))
 		flags |= COMPOSER_FLAG_REQUEST_READ_RECEIPT;
 
+	action = ACTION (DELIVERY_STATUS_NOTIFICATION);
+	if (gtk_toggle_action_get_active (GTK_TOGGLE_ACTION (action)))
+		flags |= COMPOSER_FLAG_DELIVERY_STATUS_NOTIFICATION;
+
 	action = ACTION (PGP_SIGN);
 	if (gtk_toggle_action_get_active (GTK_TOGGLE_ACTION (action)))
 		flags |= COMPOSER_FLAG_PGP_SIGN;
@@ -6390,6 +6408,10 @@ e_msg_composer_get_message_draft (EMsgComposer *composer,
 	action = ACTION (REQUEST_READ_RECEIPT);
 	if (gtk_toggle_action_get_active (GTK_TOGGLE_ACTION (action)))
 		flags |= COMPOSER_FLAG_REQUEST_READ_RECEIPT;
+
+	action = ACTION (DELIVERY_STATUS_NOTIFICATION);
+	if (gtk_toggle_action_get_active (GTK_TOGGLE_ACTION (action)))
+		flags |= COMPOSER_FLAG_DELIVERY_STATUS_NOTIFICATION;
 
 	action = ACTION (PGP_SIGN);
 	if (gtk_toggle_action_get_active (GTK_TOGGLE_ACTION (action)))

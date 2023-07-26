@@ -469,6 +469,14 @@ static GtkToggleActionEntry toggle_entries[] = {
 	  NULL,  /* no callback */
 	  FALSE },
 
+	{ "delivery-status-notification",
+	  NULL,
+	  N_("Request _Delivery Status Notification"),
+	  NULL,
+	  N_("Get delivery status notification for the message"),
+	  NULL,  /* no callback */
+	  FALSE },
+
 	{ "smime-encrypt",
 	  NULL,
 	  N_("S/MIME En_crypt"),

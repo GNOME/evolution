@@ -54,6 +54,7 @@
       <menuitem action='smime-encrypt'/>
       <separator/>
       <menuitem action='request-read-receipt'/>
+      <menuitem action='delivery-status-notification'/>
       <menuitem action='prioritize-message'/>
       <separator/>
       <menu action='charset-menu'/>

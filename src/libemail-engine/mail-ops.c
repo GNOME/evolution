@@ -589,6 +589,7 @@ mail_send_message (struct _send_queue_msg *m,
 	GError *local_error = NULL;
 	gboolean did_connect = FALSE;
 	gboolean sent_message_saved = FALSE;
+	gboolean request_dsn;
 
 	message = camel_folder_get_message_sync (
 		queue, uid, cancellable, error);
@@ -597,6 +598,8 @@ mail_send_message (struct _send_queue_msg *m,
 
 	if (!camel_medium_get_header (CAMEL_MEDIUM (message), "X-Evolution-Is-Redirect"))
 		camel_medium_set_header (CAMEL_MEDIUM (message), "User-Agent", USER_AGENT);
+
+	request_dsn = g_strcmp0 (camel_medium_get_header (CAMEL_MEDIUM (message), "X-Evolution-Request-DSN"), "1") == 0;
 
 	/* Do this before removing "X-Evolution" headers. */
 	service = e_mail_session_ref_transport_for_message (
@@ -675,6 +678,8 @@ mail_send_message (struct _send_queue_msg *m,
 
 		/* expand, or remove empty, group addresses */
 		em_utils_expand_groups (CAMEL_INTERNET_ADDRESS (recipients));
+
+		camel_transport_set_request_dsn (CAMEL_TRANSPORT (service), request_dsn);
 
 		if (!camel_transport_send_to_sync (
 			CAMEL_TRANSPORT (service), message,

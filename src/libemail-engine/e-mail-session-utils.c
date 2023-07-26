@@ -61,6 +61,7 @@ struct _AsyncContext {
 	gchar *message_uid;
 
 	gboolean use_sent_folder;
+	gboolean request_dsn;
 };
 
 static void
@@ -566,6 +567,8 @@ mail_session_send_to_thread (GSimpleAsyncResult *simple,
 	if (provider->flags & CAMEL_PROVIDER_DISABLE_SENT_FOLDER)
 		copy_to_sent = FALSE;
 
+	camel_transport_set_request_dsn (CAMEL_TRANSPORT (context->transport), context->request_dsn);
+
 	camel_transport_send_to_sync (
 		CAMEL_TRANSPORT (context->transport),
 		context->message, context->from,
@@ -816,6 +819,7 @@ e_mail_session_send_to (EMailSession *session,
 	GPtrArray *post_to_uris;
 	CamelNameValueArray *xev_headers;
 	const gchar *resent_from;
+	gboolean request_dsn;
 	guint ii, len;
 	GError *error = NULL;
 
@@ -826,6 +830,8 @@ e_mail_session_send_to (EMailSession *session,
 
 	if (!camel_medium_get_header (medium, "X-Evolution-Is-Redirect"))
 		camel_medium_set_header (medium, "User-Agent", USER_AGENT);
+
+	request_dsn = g_strcmp0 (camel_medium_get_header (medium, "X-Evolution-Request-DSN"), "1") == 0;
 
 	/* Do this before removing "X-Evolution" headers. */
 	transport = e_mail_session_ref_transport_for_message (
@@ -913,6 +919,7 @@ e_mail_session_send_to (EMailSession *session,
 	context->from = from;
 	context->recipients = recipients;
 	context->info = info;
+	context->request_dsn = request_dsn;
 	context->xev_headers = xev_headers;
 	context->post_to_uris = post_to_uris;
 	context->transport = transport;

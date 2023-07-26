@@ -131,6 +131,11 @@
       <_summary>Always request read receipt</_summary>
       <_description>Whether a read receipt request gets added to every message by default.</_description>
     </key>
+    <key name="composer-request-dsn" type="b">
+      <default>false</default>
+      <_summary>Always request Delivery Status Notification</_summary>
+      <_description>Whether a Delivery Status Notification request gets added to every message by default.</_description>
+    </key>
     <key name="composer-mode" enum="org.gnome.evolution.mail.ContentEditorMode">
       <default>'plain-text'</default>
       <_summary>What mode open the composer with</_summary>
