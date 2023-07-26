@@ -29,11 +29,13 @@
 
 #include "evolution-config.h"
 
-#include "e-timezone-entry.h"
-
-#include <glib/gi18n.h>
+#include <glib/gi18n-lib.h>
+#include <libedataserver/libedataserver.h>
+#include <libecal/libecal.h>
 
 #include "e-util/e-util.h"
+
+#include "e-timezone-entry.h"
 
 #define E_TIMEZONE_ENTRY_GET_PRIVATE(obj) \
 	(G_TYPE_INSTANCE_GET_PRIVATE \
@@ -284,6 +286,159 @@ timezone_entry_focus (GtkWidget *widget,
 	return TRUE;
 }
 
+static gboolean
+timezone_entry_focus_out_event_cb (GtkWidget *widget,
+				   GdkEvent *event,
+				   gpointer user_data)
+{
+	ETimezoneEntry *self = user_data;
+
+	timezone_entry_update_entry (self);
+
+	return FALSE;
+}
+
+static gboolean
+timezone_entry_completion_match_cb (GtkEntryCompletion *completion,
+				    const gchar *key,
+				    GtkTreeIter *iter,
+				    gpointer user_data)
+{
+	GtkTreeModel *model = gtk_entry_completion_get_model (completion);
+	gchar *value = NULL;
+	gboolean match;
+
+	if (!model || !key || !*key)
+		return FALSE;
+
+	gtk_tree_model_get (model, iter, gtk_entry_completion_get_text_column (completion), &value, -1);
+
+	if (!value)
+		return FALSE;
+
+	match = e_util_utf8_strstrcase (value, key) != NULL;
+
+	g_free (value);
+
+	return match;
+}
+
+struct _zone_data {
+	const gchar *location;
+	ICalTimezone *zone;
+};
+
+static void
+zone_data_clear (gpointer ptr)
+{
+	struct _zone_data *zone_data = ptr;
+
+	if (zone_data)
+		g_clear_object (&zone_data->zone);
+}
+
+static gint
+timezone_entry_compare_zone_data (gconstpointer aa,
+				  gconstpointer bb)
+{
+	const struct _zone_data *zda = aa;
+	const struct _zone_data *zdb = bb;
+
+	return g_utf8_collate (zda->location, zdb->location);
+}
+
+static gboolean
+timezone_entry_match_selected_cb (GtkEntryCompletion *completion,
+				  GtkTreeModel *model,
+				  GtkTreeIter *iter,
+				  gpointer user_data)
+{
+	ETimezoneEntry *self = user_data;
+	ICalTimezone *zone = NULL;
+
+	gtk_tree_model_get (model, iter, 1, &zone, -1);
+
+	e_timezone_entry_set_timezone (self, zone);
+
+	g_clear_object (&zone);
+
+	return TRUE;
+}
+
+static void
+timezone_entry_set_completion (ETimezoneEntry *self)
+{
+	struct _zone_data *zone_data;
+	GtkEntryCompletion *completion;
+	GtkListStore *store;
+	GtkTreeIter iter;
+	ICalArray *zones;
+	GSList *sorted_zones = NULL, *link;
+	gint ii, sz;
+
+	zones = i_cal_timezone_get_builtin_timezones ();
+
+	sz = i_cal_array_size (zones);
+	if (sz <= 0)
+		return;
+
+	zone_data = g_new0 (struct _zone_data, sz);
+
+	for (ii = 0; ii < sz; ii++) {
+		ICalTimezone *zone;
+
+		zone = i_cal_timezone_array_element_at (zones, ii);
+		if (zone) {
+			zone_data[ii].location = _(i_cal_timezone_get_location (zone));
+
+			if (!zone_data[ii].location) {
+				g_clear_object (&zone);
+				continue;
+			}
+
+			zone_data[ii].zone = zone;
+
+			sorted_zones = g_slist_prepend (sorted_zones, &(zone_data[ii]));
+		}
+	}
+
+	sorted_zones = g_slist_sort (sorted_zones, timezone_entry_compare_zone_data);
+
+	store = gtk_list_store_new (2, G_TYPE_STRING, I_CAL_TYPE_TIMEZONE);
+
+	if (self->priv->allow_none) {
+		gtk_list_store_append (store, &iter);
+		gtk_list_store_set (store, &iter, 0, C_("timezone", "None"), -1);
+	}
+
+	gtk_list_store_append (store, &iter);
+	gtk_list_store_set (store, &iter, 0, _("UTC"), 1, i_cal_timezone_get_utc_timezone (), -1);
+
+	for (link = sorted_zones; link; link = g_slist_next (link)) {
+		struct _zone_data *zd = link->data;
+
+		gtk_list_store_append (store, &iter);
+		gtk_list_store_set (store, &iter, 0, zd->location, 1, zd->zone, -1);
+	}
+
+	g_slist_free_full (sorted_zones, zone_data_clear);
+	g_free (zone_data);
+
+	completion = gtk_entry_completion_new ();
+
+	gtk_entry_completion_set_text_column (completion, 0);
+	gtk_entry_completion_set_model (completion, GTK_TREE_MODEL (store));
+	gtk_entry_completion_set_match_func (completion, timezone_entry_completion_match_cb, NULL, NULL);
+
+	gtk_entry_set_completion (GTK_ENTRY (self->priv->entry), completion);
+
+	g_signal_connect_object (completion, "match-selected",
+		G_CALLBACK (timezone_entry_match_selected_cb), self, 0);
+
+	g_clear_object (&completion);
+	g_clear_object (&store);
+}
+
 static void
 e_timezone_entry_class_init (ETimezoneEntryClass *class)
 {
@@ -334,7 +489,7 @@ e_timezone_entry_init (ETimezoneEntry *timezone_entry)
 	gtk_orientable_set_orientation (GTK_ORIENTABLE (timezone_entry), GTK_ORIENTATION_HORIZONTAL);
 
 	widget = gtk_entry_new ();
-	gtk_editable_set_editable (GTK_EDITABLE (widget), FALSE);
+	gtk_editable_set_editable (GTK_EDITABLE (widget), TRUE);
 	gtk_box_pack_start (GTK_BOX (timezone_entry), widget, TRUE, TRUE, 0);
 	timezone_entry->priv->entry = widget;
 	gtk_widget_show (widget);
@@ -342,6 +497,9 @@ e_timezone_entry_init (ETimezoneEntry *timezone_entry)
 	g_signal_connect_swapped (
 		widget, "changed",
 		G_CALLBACK (timezone_entry_emit_changed), timezone_entry);
+
+	g_signal_connect_object (widget, "focus-out-event",
+		G_CALLBACK (timezone_entry_focus_out_event_cb), timezone_entry, G_CONNECT_AFTER);
 
 	widget = gtk_button_new_with_label (_("Select…"));
 	gtk_box_pack_start (GTK_BOX (timezone_entry), widget, FALSE, FALSE, 6);
@@ -355,6 +513,8 @@ e_timezone_entry_init (ETimezoneEntry *timezone_entry)
 	a11y = gtk_widget_get_accessible (timezone_entry->priv->button);
 	if (a11y != NULL)
 		atk_object_set_name (a11y, _("Select Timezone"));
+
+	timezone_entry_set_completion (timezone_entry);
 }
 
 GtkWidget *
@@ -402,10 +562,40 @@ void
 e_timezone_entry_set_allow_none (ETimezoneEntry *timezone_entry,
 				 gboolean allow_none)
 {
+	GtkEntryCompletion *completion;
+	GtkTreeModel *model;
+	GtkTreeIter iter;
+
 	g_return_if_fail (E_IS_TIMEZONE_ENTRY (timezone_entry));
 
 	if ((timezone_entry->priv->allow_none ? 1 : 0) == (allow_none ? 1 : 0))
 		return;
 
 	timezone_entry->priv->allow_none = allow_none;
+
+	completion = gtk_entry_get_completion (GTK_ENTRY (timezone_entry->priv->entry));
+	if (!completion)
+		return;
+
+	model = gtk_entry_completion_get_model (completion);
+	if (!model)
+		return;
+
+	if (allow_none) {
+		gtk_list_store_prepend (GTK_LIST_STORE (model), &iter);
+		gtk_list_store_set (GTK_LIST_STORE (model), &iter, 0, C_("timezone", "None"), -1);
+	} else if (gtk_tree_model_get_iter_first (model, &iter)) {
+		do {
+			ICalTimezone *zone = NULL;
+
+			gtk_tree_model_get (model, &iter, 1, &zone, -1);
+
+			if (zone) {
+				g_clear_object (&zone);
+			} else {
+				gtk_list_store_remove (GTK_LIST_STORE (model), &iter);
+				break;
+			}
+		} while (gtk_tree_model_iter_next (model, &iter));
+	}
 }
