@@ -602,12 +602,16 @@ ecep_general_editor_flags_notify_cb (ECompEditor *comp_editor,
 				     GParamSpec *param,
 				     ECompEditorPageGeneral *page_general)
 {
+	gboolean is_new_component;
+
 	g_return_if_fail (E_IS_COMP_EDITOR (comp_editor));
 	g_return_if_fail (E_IS_COMP_EDITOR_PAGE_GENERAL (page_general));
 
+	is_new_component = (e_comp_editor_get_flags (comp_editor) & E_COMP_EDITOR_FLAG_IS_NEW) != 0;
+
 	/* Allow changing target client only for new components */
-	gtk_widget_set_sensitive (page_general->priv->source_combo_box,
-		(e_comp_editor_get_flags (comp_editor) & E_COMP_EDITOR_FLAG_IS_NEW) != 0);
+	gtk_widget_set_sensitive (page_general->priv->source_combo_box, is_new_component);
+	e_source_combo_box_set_show_full_name (E_SOURCE_COMBO_BOX (page_general->priv->source_combo_box), !is_new_component);
 }
 
 static gboolean

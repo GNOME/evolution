@@ -89,6 +89,11 @@ gint		e_source_combo_box_get_max_natural_width
 void		e_source_combo_box_set_max_natural_width
 						(ESourceComboBox *combo_box,
 						 gint value);
+gboolean	e_source_combo_box_get_show_full_name
+						(ESourceComboBox *combo_box);
+void		e_source_combo_box_set_show_full_name
+						(ESourceComboBox *combo_box,
+						 gboolean show_full_name);
 
 G_END_DECLS
 

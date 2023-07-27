@@ -39,6 +39,7 @@ struct _ESourceComboBoxPrivate {
 
 	gboolean show_colors;
 	gint max_natural_width;
+	gboolean show_full_name;
 };
 
 enum {
@@ -52,6 +53,7 @@ enum {
 enum {
 	COLUMN_COLOR,		/* GDK_TYPE_RGBA */
 	COLUMN_NAME,		/* G_TYPE_STRING */
+	COLUMN_FULL_NAME,	/* G_TYPE_STRING */
 	COLUMN_SENSITIVE,	/* G_TYPE_BOOLEAN */
 	COLUMN_UID,		/* G_TYPE_STRING */
 	NUM_COLUMNS
@@ -72,6 +74,7 @@ source_combo_box_traverse (GNode *node,
 	const gchar *ext_name;
 	const gchar *display_name;
 	const gchar *uid;
+	gchar *full_name;
 	gboolean sensitive = FALSE;
 	gboolean use_color = FALSE;
 	guint depth;
@@ -106,6 +109,7 @@ source_combo_box_traverse (GNode *node,
 	}
 
 	display_name = e_source_get_display_name (source);
+	full_name = e_util_get_source_full_name (combo_box->priv->registry, source);
 
 	model = gtk_combo_box_get_model (GTK_COMBO_BOX (combo_box));
 	gtk_list_store_append (GTK_LIST_STORE (model), &iter);
@@ -130,11 +134,13 @@ source_combo_box_traverse (GNode *node,
 		GTK_LIST_STORE (model), &iter,
 		COLUMN_COLOR, use_color ? &rgba : NULL,
 		COLUMN_NAME, indented->str,
+		COLUMN_FULL_NAME, full_name && *full_name ? full_name : display_name,
 		COLUMN_SENSITIVE, sensitive,
 		COLUMN_UID, uid,
 		-1);
 
 	g_string_free (indented, TRUE);
+	g_free (full_name);
 
 	return FALSE;
 }
@@ -404,6 +410,7 @@ source_combo_box_constructed (GObject *object)
 		NUM_COLUMNS,
 		GDK_TYPE_RGBA,		/* COLUMN_COLOR */
 		G_TYPE_STRING,		/* COLUMN_NAME */
+		G_TYPE_STRING,		/* COLUMN_FULL_NAME */
 		G_TYPE_BOOLEAN,		/* COLUMN_SENSITIVE */
 		G_TYPE_STRING);		/* COLUMN_UID */
 	gtk_combo_box_set_model (
@@ -432,7 +439,7 @@ source_combo_box_constructed (GObject *object)
 	gtk_cell_layout_pack_start (layout, renderer, TRUE);
 	gtk_cell_layout_set_attributes (
 		layout, renderer,
-		"text", COLUMN_NAME,
+		"text", combo_box->priv->show_full_name ? COLUMN_FULL_NAME : COLUMN_NAME,
 		"sensitive", COLUMN_SENSITIVE,
 		NULL);
 
@@ -886,4 +893,50 @@ e_source_combo_box_set_max_natural_width (ESourceComboBox *combo_box,
 		gtk_widget_queue_resize (widget);
 
 	g_object_notify (G_OBJECT (combo_box), "max-natural-width");
+}
+
+/**
+ * e_source_combo_box_get_show_full_name:
+ * @combo_box: an #ESourceComboBox
+ *
+ * Returns whether should show full name of the sources.
+ *
+ * Returns: whether should show full name of the sources
+ *
+ * Since: 3.50
+ **/
+gboolean
+e_source_combo_box_get_show_full_name (ESourceComboBox *combo_box)
+{
+	g_return_val_if_fail (E_IS_SOURCE_COMBO_BOX (combo_box), FALSE);
+
+	return combo_box->priv->show_full_name;
+}
+
+/**
+ * e_source_combo_box_set_show_full_name:
+ * @combo_box: an #ESourceComboBox
+ * @show_full_name: value to set
+ *
+ * Sets whether should show full name of the sources.
+ *
+ * Since: 3.50
+ **/
+void
+e_source_combo_box_set_show_full_name (ESourceComboBox *combo_box,
+				       gboolean show_full_name)
+{
+	g_return_if_fail (E_IS_SOURCE_COMBO_BOX (combo_box));
+
+	if ((combo_box->priv->show_full_name ? 1 : 0) == (show_full_name ? 1 : 0))
+		return;
+
+	combo_box->priv->show_full_name = show_full_name;
+
+	if (combo_box->priv->name_renderer) {
+		gtk_cell_layout_set_attributes (
+			GTK_CELL_LAYOUT (combo_box), combo_box->priv->name_renderer,
+			"text", combo_box->priv->show_full_name ? COLUMN_FULL_NAME : COLUMN_NAME,
+			NULL);
+	}
 }
