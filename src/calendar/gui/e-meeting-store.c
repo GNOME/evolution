@@ -984,7 +984,7 @@ e_meeting_store_set_timezone (EMeetingStore *store,
 		return;
 
 	g_clear_object (&store->priv->zone);
-	store->priv->zone = e_cal_util_copy_timezone (timezone);
+	store->priv->zone = timezone ? e_cal_util_copy_timezone (timezone) : NULL;
 
 	g_object_notify (G_OBJECT (store), "timezone");
 }
