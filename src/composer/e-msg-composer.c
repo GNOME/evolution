@@ -2047,6 +2047,7 @@ msg_composer_mail_identity_changed_cb (EMsgComposer *composer)
 
 	/* Silently return if no identity is selected. */
 	if (!uid) {
+		e_msg_composer_check_autocrypt (composer, NULL);
 		e_content_editor_set_start_bottom (cnt_editor, E_THREE_STATE_INCONSISTENT);
 		e_content_editor_set_top_signature (cnt_editor,
 			e_msg_composer_get_is_reply_or_forward (composer) ? E_THREE_STATE_INCONSISTENT :
@@ -2148,6 +2149,8 @@ msg_composer_mail_identity_changed_cb (EMsgComposer *composer)
 
 	g_free (alias_name);
 	g_free (alias_address);
+
+	e_msg_composer_check_autocrypt (composer, NULL);
 }
 
 static void
@@ -4658,6 +4661,7 @@ e_msg_composer_setup_with_message (EMsgComposer *composer,
 	 * ensure that the attachment bar has all the attachments before
 	 * we request them. */
 	e_msg_composer_flush_pending_body (composer);
+	e_msg_composer_check_autocrypt (composer, message);
 
 	set_signature_gui (composer);
 
@@ -5948,6 +5952,7 @@ e_msg_composer_remove_header (EMsgComposer *composer,
 			g_free (priv->extra_hdr_values->pdata[ii]);
 			g_ptr_array_remove_index (priv->extra_hdr_names, ii);
 			g_ptr_array_remove_index (priv->extra_hdr_values, ii);
+			ii--;
 		}
 	}
 }
@@ -6822,4 +6827,389 @@ e_msg_composer_set_is_reply_or_forward (EMsgComposer *composer,
 	g_object_notify (G_OBJECT (composer), "is-reply-or-forward");
 
 	msg_composer_mail_identity_changed_cb (composer);
+}
+
+static void
+e_msg_composer_get_autocrypt_settings (EMsgComposer *composer,
+				       gchar **out_from_email,
+				       gchar **out_keyid,
+				       gboolean *out_send_public_key,
+				       gboolean *out_send_prefer_encrypt)
+{
+	EComposerHeaderTable *table;
+	gchar *identity_uid;
+
+	table = e_msg_composer_get_header_table (composer);
+
+	*out_from_email = NULL;
+	*out_keyid = NULL;
+	*out_send_public_key = FALSE;
+	*out_send_prefer_encrypt = FALSE;
+
+	identity_uid = e_composer_header_table_dup_identity_uid (table, NULL, out_from_email);
+	if (identity_uid) {
+		ESource *source;
+
+		source = e_composer_header_table_ref_source (table, identity_uid);
+
+		g_free (identity_uid);
+
+		if (source) {
+			if (e_source_has_extension (source, E_SOURCE_EXTENSION_OPENPGP)) {
+				ESourceOpenPGP *extension;
+
+				extension = e_source_get_extension (source, E_SOURCE_EXTENSION_OPENPGP);
+
+				*out_keyid = e_source_openpgp_dup_key_id (extension);
+				*out_send_public_key = e_source_openpgp_get_send_public_key (extension);
+				*out_send_prefer_encrypt = e_source_openpgp_get_send_prefer_encrypt (extension);
+
+				if (!*out_from_email) {
+					ESourceMailIdentity *identity_extension;
+
+					identity_extension = e_source_get_extension (source, E_SOURCE_EXTENSION_MAIL_IDENTITY);
+
+					*out_from_email = e_source_mail_identity_dup_address (identity_extension);
+				}
+			}
+
+			g_object_unref (source);
+		}
+	}
+}
+
+static gboolean
+e_msg_composer_set_destination_autocrypt_key_in_destinations (EDestination **dests,
+							      const gchar *email,
+							      const guchar *keydata,
+							      gsize keydata_size)
+{
+	guint ii;
+
+	if (!dests)
+		return FALSE;
+
+	for (ii = 0; dests[ii]; ii++) {
+		EDestination *dest = dests[ii];
+
+		if (e_destination_get_email (dest) && g_ascii_strcasecmp (e_destination_get_email (dest), email) == 0) {
+			EContact *contact;
+			EContactCert *cert;
+			gint email_num;
+
+			contact = e_destination_get_contact (dest);
+			if (contact) {
+				g_object_ref (contact);
+				email_num = e_destination_get_email_num (dest);
+			} else {
+				email_num = 0;
+				contact = e_contact_new ();
+				e_contact_set (contact, E_CONTACT_FULL_NAME, e_destination_get_name (dest));
+				e_contact_set (contact, E_CONTACT_EMAIL_1, e_destination_get_email (dest));
+			}
+
+			cert = e_contact_cert_new ();
+			cert->length = keydata_size;
+			cert->data = (gchar *) keydata;
+
+			e_contact_set (contact, E_CONTACT_PGP_CERT, cert);
+
+			e_destination_set_contact (dest, contact, email_num);
+
+			/* Cannot free the 'data', it's only borrowed */
+			cert->data = NULL;
+
+			e_contact_cert_free (cert);
+			g_clear_object (&contact);
+
+			return TRUE;
+		}
+	}
+
+	return FALSE;
+}
+
+static gboolean
+e_msg_composer_set_destination_autocrypt_key (EMsgComposer *composer,
+					      const gchar *email,
+					      const guchar *keydata,
+					      gsize keydata_size)
+{
+	EComposerHeaderTable *table;
+	EDestination **dests;
+
+	if (!email || !*email || !keydata || !keydata_size)
+		return FALSE;
+
+	table = e_msg_composer_get_header_table (composer);
+
+	dests = e_composer_header_table_get_destinations_to (table);
+	if (e_msg_composer_set_destination_autocrypt_key_in_destinations (dests, email, keydata, keydata_size)) {
+		e_composer_header_table_set_destinations_to (table, dests);
+		e_destination_freev (dests);
+
+		return TRUE;
+	}
+
+	e_destination_freev (dests);
+
+	dests = e_composer_header_table_get_destinations_cc (table);
+	if (e_msg_composer_set_destination_autocrypt_key_in_destinations (dests, email, keydata, keydata_size)) {
+		e_composer_header_table_set_destinations_cc (table, dests);
+		e_destination_freev (dests);
+
+		return TRUE;
+	}
+
+	e_destination_freev (dests);
+
+	dests = e_composer_header_table_get_destinations_bcc (table);
+	if (e_msg_composer_set_destination_autocrypt_key_in_destinations (dests, email, keydata, keydata_size)) {
+		e_composer_header_table_set_destinations_bcc (table, dests);
+		e_destination_freev (dests);
+
+		return TRUE;
+	}
+
+	e_destination_freev (dests);
+
+	return FALSE;
+}
+
+/* cannot use camel_header_param_list_decode(), because it doesn't
+   like '@' in the 'addr' param, and it's kinda strict, thus have
+   here a relaxed form of the decoder */
+static CamelHeaderParam *
+e_msg_composer_decode_autocrypt_header (const gchar *value)
+{
+	CamelHeaderParam *params = NULL, *last = NULL;
+	gchar *unfolded, *ptr, *from;
+
+	if (!value || !*value)
+		return NULL;
+
+	unfolded = camel_header_unfold (value);
+
+	if (!unfolded)
+		return NULL;
+
+	ptr = unfolded;
+
+	while (*ptr && camel_mime_is_lwsp (*ptr))
+		ptr++;
+
+	for (from = ptr; *ptr; ptr++) {
+		if ((*ptr == ';' || ptr[1] == '\0') && from + 1 < ptr) {
+			CamelHeaderParam *param;
+			gchar *end = ptr + (ptr[1] == '\0' ? 1 : 0);
+			gchar *name_end;
+
+			for (name_end = from; name_end != end && *name_end && *name_end != '='; name_end++) {
+				/* only find the '=' */
+			}
+
+			if (*name_end != '=') {
+				g_free (unfolded);
+				if (params)
+					camel_header_param_list_free (params);
+				return NULL;
+			}
+
+			*name_end = '\0';
+			*end = '\0';
+
+			param = g_malloc (sizeof (*param));
+			param->next = NULL;
+			param->name = g_strdup (from);
+			param->value = g_strdup (name_end + 1);
+
+			*name_end = '=';
+			*end = end == ptr ? ';' : '\0';
+
+			if (last)
+				last->next = param;
+			else
+				params = param;
+
+			last = param;
+
+			/* skip whitespace after parameter delimiter */
+			ptr++;
+			while (*ptr && camel_mime_is_lwsp (*ptr))
+				ptr++;
+			from = ptr;
+			ptr--;
+		}
+	}
+
+	g_free (unfolded);
+
+	return params;
+}
+
+void
+e_msg_composer_check_autocrypt (EMsgComposer *composer,
+				CamelMimeMessage *original_message)
+{
+	gchar *from_email = NULL;
+	gchar *keyid = NULL;
+	gboolean send_public_key = FALSE;
+	gboolean send_prefer_encrypt = FALSE;
+	gboolean sender_prefer_encrypt = FALSE;
+
+	g_return_if_fail (E_IS_MSG_COMPOSER (composer));
+	if (original_message)
+		g_return_if_fail (CAMEL_IS_MIME_MESSAGE (original_message));
+
+	e_msg_composer_remove_header (composer, "Autocrypt");
+
+	if (gtk_toggle_action_get_active (GTK_TOGGLE_ACTION (ACTION (SMIME_SIGN))) ||
+	    gtk_toggle_action_get_active (GTK_TOGGLE_ACTION (ACTION (SMIME_ENCRYPT)))) {
+		/* Autocrypt is about GPG, thus ignore it when the user uses S/MIME */
+		return;
+	}
+
+	e_msg_composer_get_autocrypt_settings (composer, &from_email, &keyid, &send_public_key, &send_prefer_encrypt);
+
+	if (original_message && camel_mime_message_get_from (original_message) &&
+	    camel_medium_get_header (CAMEL_MEDIUM (original_message), "Autocrypt")) {
+		CamelInternetAddress *from;
+		const CamelNameValueArray *headers;
+		const gchar *from_email = NULL;
+
+		from = camel_mime_message_get_from (original_message);
+		if (!camel_internet_address_get	(from, 0, NULL, &from_email))
+			from_email = NULL;
+
+		headers = camel_medium_get_headers (CAMEL_MEDIUM (original_message));
+		if (headers && from_email) {
+			guchar *sender_keydata = NULL;
+			gsize sender_keydata_size = 0;
+			guint ii, sz;
+
+			sz = camel_name_value_array_get_length (headers);
+			for (ii = 0; ii < sz; ii++) {
+				gboolean eligible;
+				const gchar *value;
+				const gchar *sender_keydata_base64 = NULL;
+				CamelHeaderParam *params, *param;
+
+				if (g_ascii_strcasecmp (camel_name_value_array_get_name (headers, ii), "Autocrypt") != 0)
+					continue;
+
+				value = camel_name_value_array_get_value (headers, ii);
+				if (!value)
+					continue;
+
+				params = e_msg_composer_decode_autocrypt_header (value);
+				if (!params)
+					continue;
+
+				eligible = TRUE;
+				sender_prefer_encrypt = FALSE;
+
+				for (param = params; param; param = param->next) {
+					if (!param->name || !param->value)
+						continue;
+					/* ignore non-critical parameters */
+					if (*(param->name) == '_')
+						continue;
+					if (g_ascii_strcasecmp (param->name, "addr") == 0) {
+						/* 'addr' parameter should match the 'from' email */
+						if (g_ascii_strcasecmp (param->value, from_email) != 0) {
+							eligible = FALSE;
+							break;
+						}
+					} else if (g_ascii_strcasecmp (param->name, "prefer-encrypt") == 0) {
+						sender_prefer_encrypt = g_ascii_strcasecmp (param->value, "mutual") == 0;
+					} else if (g_ascii_strcasecmp (param->name, "keydata") == 0) {
+						sender_keydata_base64 = param->value;
+					} else {
+						/* ignore the header when there are unknown/unsupported critical parameters */
+						eligible = FALSE;
+					}
+				}
+
+				if (eligible && sender_keydata_base64 && *sender_keydata_base64) {
+					sender_keydata = g_base64_decode (sender_keydata_base64, &sender_keydata_size);
+					if (!sender_keydata) {
+						eligible = FALSE;
+						sender_keydata_size = 0;
+					}
+				} else {
+					eligible = FALSE;
+				}
+
+				camel_header_param_list_free (params);
+
+				if (eligible)
+					break;
+
+				sender_prefer_encrypt = FALSE;
+			}
+
+			if (sender_keydata && sender_keydata_size > 0) {
+				/* Extract the sender's key even if the sender does not prefer encrypt,
+				   thus the key is available later, if needed */
+				sender_prefer_encrypt = e_msg_composer_set_destination_autocrypt_key (composer, from_email, sender_keydata, sender_keydata_size) &&
+					sender_prefer_encrypt;
+			}
+
+			g_free (sender_keydata);
+		}
+	}
+
+	if (send_public_key && from_email && *from_email) {
+		CamelSession *session;
+		CamelGpgContext *gpgctx;
+		gchar *keydata = NULL;
+
+		session = e_msg_composer_ref_session (composer);
+		gpgctx = CAMEL_GPG_CONTEXT (camel_gpg_context_new (session));
+
+		if (gpgctx) {
+			guint8 *data = NULL;
+			gsize data_size = 0;
+
+			/* This should do no network I/O, aka be lightning fast */
+			if (camel_gpg_context_get_public_key_sync (gpgctx, keyid ? keyid : from_email, 0, &data, &data_size, NULL, NULL) && data && data_size > 0) {
+				keydata = g_base64_encode ((const guchar *) data, data_size);
+
+				g_free (data);
+			}
+		}
+
+		if (keydata) {
+			GString *value;
+
+			value = g_string_sized_new (strlen (keydata) + strlen (from_email) + 64);
+
+			g_string_append (value, "addr=");
+			g_string_append (value, from_email);
+
+			if (send_prefer_encrypt)
+				g_string_append (value, "; prefer-encrypt=mutual");
+
+			/* keep it as the last parameter */
+			g_string_append (value, "; keydata=");
+			g_string_append (value, keydata);
+
+			e_msg_composer_add_header (composer, "Autocrypt", value->str);
+
+			g_string_free (value, TRUE);
+		}
+
+		g_clear_object (&gpgctx);
+		g_clear_object (&session);
+		g_free (keydata);
+	}
+
+	if (send_prefer_encrypt && sender_prefer_encrypt) {
+		/* Set both sign & encrypt, not only encrypt */
+		gtk_toggle_action_set_active (GTK_TOGGLE_ACTION (ACTION (PGP_SIGN)), TRUE);
+		gtk_toggle_action_set_active (GTK_TOGGLE_ACTION (ACTION (PGP_ENCRYPT)), TRUE);
+	}
+
+	g_free (from_email);
+	g_free (keyid);
 }

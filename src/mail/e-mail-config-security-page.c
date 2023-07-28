@@ -415,6 +415,8 @@ mail_config_security_page_constructed (GObject *object)
 	GtkWidget *widget;
 	GtkWidget *container;
 	GtkWidget *main_box;
+	GtkWidget *expander;
+	GtkWidget *expander_vbox;
 	GtkSizeGroup *size_group;
 	const gchar *extension_name;
 	const gchar *text;
@@ -608,10 +610,39 @@ mail_config_security_page_constructed (GObject *object)
 		G_BINDING_SYNC_CREATE |
 		G_BINDING_BIDIRECTIONAL);
 
+	expander = gtk_expander_new_with_mnemonic (_("Ad_vanced Options"));
+	gtk_widget_set_margin_start (expander, 12);
+	widget = gtk_expander_get_label_widget (GTK_EXPANDER (expander));
+	if (widget) {
+		PangoAttrList *bold;
+
+		bold = pango_attr_list_new ();
+		pango_attr_list_insert (bold, pango_attr_weight_new (PANGO_WEIGHT_BOLD));
+
+		gtk_label_set_attributes (GTK_LABEL (widget), bold);
+
+		pango_attr_list_unref (bold);
+	}
+	gtk_expander_set_expanded (GTK_EXPANDER (expander), FALSE);
+
+	gtk_widget_show (expander);
+
+	expander_vbox = gtk_box_new (GTK_ORIENTATION_VERTICAL, 0);
+	gtk_box_set_spacing (GTK_BOX (expander_vbox), 6);
+	gtk_widget_set_margin_start (expander_vbox, 24);
+	gtk_widget_show (expander_vbox);
+
+	gtk_grid_attach (GTK_GRID (container), expander, 0, 6, 2, 1);
+	gtk_grid_attach (GTK_GRID (container), expander_vbox, 0, 7, 2, 1);
+
+	e_binding_bind_property (
+		expander, "expanded",
+		expander_vbox, "visible",
+		G_BINDING_SYNC_CREATE);
+
 	text = _("Always _trust keys in my keyring when encrypting");
 	widget = gtk_check_button_new_with_mnemonic (text);
-	gtk_widget_set_margin_left (widget, 12);
-	gtk_grid_attach (GTK_GRID (container), widget, 0, 6, 2, 1);
+	gtk_box_pack_start (GTK_BOX (expander_vbox), widget, FALSE, FALSE, 0);
 	gtk_widget_show (widget);
 
 	e_binding_bind_property (
@@ -622,8 +653,7 @@ mail_config_security_page_constructed (GObject *object)
 
 	text = _("Prefer _inline sign/encrypt for plain text messages");
 	widget = gtk_check_button_new_with_mnemonic (text);
-	gtk_widget_set_margin_left (widget, 12);
-	gtk_grid_attach (GTK_GRID (container), widget, 0, 7, 2, 1);
+	gtk_box_pack_start (GTK_BOX (expander_vbox), widget, FALSE, FALSE, 0);
 	gtk_widget_show (widget);
 
 	e_binding_bind_property (
@@ -634,13 +664,41 @@ mail_config_security_page_constructed (GObject *object)
 
 	text = _("_Lookup keys for encryption in Web Key Directory (WKD)");
 	widget = gtk_check_button_new_with_mnemonic (text);
-	gtk_widget_set_margin_left (widget, 12);
-	gtk_grid_attach (GTK_GRID (container), widget, 0, 8, 2, 1);
+	gtk_box_pack_start (GTK_BOX (expander_vbox), widget, FALSE, FALSE, 0);
 	gtk_widget_show (widget);
 
 	e_binding_bind_property (
 		openpgp_ext, "locate-keys",
 		widget, "active",
+		G_BINDING_SYNC_CREATE |
+		G_BINDING_BIDIRECTIONAL);
+
+	text = _("Send own _public key in outgoing mails");
+	widget = gtk_check_button_new_with_mnemonic (text);
+	gtk_box_pack_start (GTK_BOX (expander_vbox), widget, FALSE, FALSE, 0);
+	gtk_widget_show (widget);
+
+	e_binding_bind_property (
+		openpgp_ext, "send-public-key",
+		widget, "active",
+		G_BINDING_SYNC_CREATE |
+		G_BINDING_BIDIRECTIONAL);
+
+	text = _("Advertise encryption is pre_ferred");
+	widget = gtk_check_button_new_with_mnemonic (text);
+	gtk_widget_set_margin_start (widget, 12);
+	gtk_box_pack_start (GTK_BOX (expander_vbox), widget, FALSE, FALSE, 0);
+	gtk_widget_show (widget);
+
+	e_binding_bind_property (
+		openpgp_ext, "send-prefer-encrypt",
+		widget, "active",
+		G_BINDING_SYNC_CREATE |
+		G_BINDING_BIDIRECTIONAL);
+
+	e_binding_bind_property (
+		openpgp_ext, "send-public-key",
+		widget, "sensitive",
 		G_BINDING_SYNC_CREATE |
 		G_BINDING_BIDIRECTIONAL);
 

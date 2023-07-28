@@ -4025,6 +4025,7 @@ alt_reply_composer_created_cb (GObject *source_object,
 			}
 
 			reply_setup_composer_recipients (composer, to, cc, context->folder, context->message_uid, postto);
+			e_msg_composer_check_autocrypt (composer, context->source_message);
 
 			composer_set_no_change (composer);
 
@@ -4936,6 +4937,7 @@ em_utils_reply_to_message (EMsgComposer *composer,
 
 	/* This is required to be done (also) at the end */
 	em_utils_update_by_reply_flags (cnt_editor, reply_flags);
+	e_msg_composer_check_autocrypt (composer, message);
 
 	composer_set_no_change (composer);
 
