@@ -126,6 +126,11 @@ gchar *		em_utils_account_path_to_folder_uri
 EMailBrowser *	em_utils_find_message_window	(EMailFormatterMode display_mode,
 						 CamelFolder *folder,
 						 const gchar *message_uid);
+gboolean	em_utils_import_pgp_key		(GtkWindow *parent,
+						 CamelSession *session,
+						 const guint8 *keydata,
+						 gsize keydata_size,
+						 GError **error);
 
 G_END_DECLS
 

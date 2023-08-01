@@ -1029,3 +1029,204 @@ em_utils_sender_is_user (ESourceRegistry *registry,
 
 	return em_utils_address_is_user (registry, addr, only_enabled_accounts);
 }
+
+/* cannot use camel_header_param_list_decode(), because it doesn't
+   like '@' in the 'addr' param, and it's kinda strict, thus have
+   here a relaxed form of the decoder */
+static CamelHeaderParam *
+emu_decode_autocrypt_header (const gchar *value)
+{
+	CamelHeaderParam *params = NULL, *last = NULL;
+	gchar *unfolded, *ptr, *from;
+
+	if (!value || !*value)
+		return NULL;
+
+	unfolded = camel_header_unfold (value);
+
+	if (!unfolded)
+		return NULL;
+
+	ptr = unfolded;
+
+	while (*ptr && camel_mime_is_lwsp (*ptr))
+		ptr++;
+
+	for (from = ptr; *ptr; ptr++) {
+		if ((*ptr == ';' || ptr[1] == '\0') && from + 1 < ptr) {
+			CamelHeaderParam *param;
+			gchar *end = ptr + (ptr[1] == '\0' ? 1 : 0);
+			gchar *name_end;
+
+			for (name_end = from; name_end != end && *name_end && *name_end != '='; name_end++) {
+				/* only find the '=' */
+			}
+
+			if (*name_end != '=') {
+				g_free (unfolded);
+				if (params)
+					camel_header_param_list_free (params);
+				return NULL;
+			}
+
+			*name_end = '\0';
+			*end = '\0';
+
+			param = g_malloc (sizeof (*param));
+			param->next = NULL;
+			param->name = g_strdup (from);
+			param->value = g_strdup (name_end + 1);
+
+			*name_end = '=';
+			*end = end == ptr ? ';' : '\0';
+
+			if (last)
+				last->next = param;
+			else
+				params = param;
+
+			last = param;
+
+			/* skip whitespace after parameter delimiter */
+			ptr++;
+			while (*ptr && camel_mime_is_lwsp (*ptr))
+				ptr++;
+			from = ptr;
+			ptr--;
+		}
+	}
+
+	g_free (unfolded);
+
+	return params;
+}
+
+/**
+ * em_utils_decode_autocrypt_header:
+ * @message: a #CamelMessage
+ * @index: which Autocrypt header to decode, 0-based
+ * @out_prefer_encrypt: (out) (optional): optional return location for a flag whether the sender prefers encryption, or %NULL
+ * @out_keydata: (out callee-allocates) (transfer full): optional return location for provided key data, or %NULL
+ * @out_keydata_size: (out): optional return location for the size of the @out_keydata, or %NULL
+ *
+ * Decodes an Autocrypt header stored in the @message with index @index (as an n-th header),
+ * valid for the @message sender.
+ *
+ * Either both @out_keydata and @out_keydata_size can be provided or %NULL,
+ * because both of the values are needed to know the key data details.
+ *
+ * Returns: %TRUE when there was found @index -th valid Autocrypt header, %FALSE otherwise
+ *
+ * Since: 3.50
+ **/
+gboolean
+em_utils_decode_autocrypt_header (CamelMimeMessage *message,
+				  guint index,
+				  gboolean *out_prefer_encrypt,
+				  guint8 **out_keydata,
+				  gsize *out_keydata_size)
+{
+	CamelInternetAddress *from;
+	const CamelNameValueArray *headers;
+	const gchar *from_email = NULL;
+	gboolean eligible = FALSE;
+	guint ii, sz;
+
+	g_return_val_if_fail (CAMEL_IS_MIME_MESSAGE (message), FALSE);
+
+	if (out_prefer_encrypt)
+		*out_prefer_encrypt = FALSE;
+	if (out_keydata)
+		*out_keydata = NULL;
+	if (out_keydata_size)
+		*out_keydata_size = 0;
+
+	if (!camel_mime_message_get_from (message))
+		return FALSE;
+
+	from = camel_mime_message_get_from (message);
+	if (!camel_internet_address_get	(from, 0, NULL, &from_email))
+		from_email = NULL;
+
+	headers = camel_medium_get_headers (CAMEL_MEDIUM (message));
+	if (!headers || !from_email)
+		return FALSE;
+
+	sz = camel_name_value_array_get_length (headers);
+	for (ii = 0; ii < sz; ii++) {
+		gboolean prefer_encrypt;
+		const gchar *value;
+		const gchar *keydata_base64 = NULL;
+		CamelHeaderParam *params, *param;
+
+		if (g_ascii_strcasecmp (camel_name_value_array_get_name (headers, ii), "Autocrypt") != 0)
+			continue;
+
+		value = camel_name_value_array_get_value (headers, ii);
+		if (!value)
+			continue;
+
+		params = emu_decode_autocrypt_header (value);
+		if (!params)
+			continue;
+
+		eligible = TRUE;
+		prefer_encrypt = FALSE;
+		keydata_base64 = NULL;
+
+		for (param = params; param; param = param->next) {
+			if (!param->name || !param->value)
+				continue;
+			/* ignore non-critical parameters */
+			if (*(param->name) == '_')
+				continue;
+			if (g_ascii_strcasecmp (param->name, "addr") == 0) {
+				/* 'addr' parameter should match the 'from' email */
+				if (g_ascii_strcasecmp (param->value, from_email) != 0) {
+					eligible = FALSE;
+					break;
+				}
+			} else if (g_ascii_strcasecmp (param->name, "prefer-encrypt") == 0) {
+				prefer_encrypt = g_ascii_strcasecmp (param->value, "mutual") == 0;
+			} else if (g_ascii_strcasecmp (param->name, "keydata") == 0) {
+				keydata_base64 = param->value;
+			} else {
+				/* ignore the header when there are unknown/unsupported critical parameters */
+				eligible = FALSE;
+			}
+		}
+
+		if (eligible && keydata_base64 && *keydata_base64) {
+			if (index) {
+				index--;
+				eligible = FALSE;
+			} else {
+				guchar *keydata;
+				gsize keydata_size = 0;
+
+				keydata = g_base64_decode (keydata_base64, &keydata_size);
+				if (!keydata) {
+					eligible = FALSE;
+				} else {
+					if (out_prefer_encrypt)
+						*out_prefer_encrypt = prefer_encrypt;
+					if (out_keydata)
+						*out_keydata = (guint8 *) keydata;
+					if (out_keydata_size)
+						*out_keydata_size = keydata_size;
+				}
+			}
+		} else {
+			eligible = FALSE;
+		}
+
+		camel_header_param_list_free (params);
+
+		if (eligible)
+			break;
+
+		prefer_encrypt = FALSE;
+	}
+
+	return eligible && index == 0;
+}

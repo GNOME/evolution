@@ -23,8 +23,9 @@
 
 #include <libebackend/libebackend.h>
 
-#include <shell/e-shell.h>
-#include <shell/e-shell-window.h>
+#include "shell/e-shell.h"
+#include "shell/e-shell-window.h"
+#include "libemail-engine/libemail-engine.h"
 
 #include "e-mail-parser-extension.h"
 #include "e-mail-part-attachment.h"
@@ -144,6 +145,78 @@ mail_parser_move_security_before_headers (GQueue *part_queue)
 }
 
 static void
+e_mail_parser_extract_autocrypt_keys (CamelMimeMessage *message,
+				      EMailPartList *part_list,
+				      GCancellable *cancellable)
+{
+	GPtrArray *keys = NULL;
+	CamelGpgContext *gpgctx = NULL;
+	gboolean done = FALSE;
+	guint idx;
+
+	for (idx = 0; !done; idx++) {
+		guint8 *keydata = NULL;
+		gsize keydata_size = 0;
+
+		done = !em_utils_decode_autocrypt_header (message, idx, NULL, &keydata, &keydata_size);
+
+		if (!done && keydata) {
+			GSList *infos = NULL, *link;
+			gboolean keydata_used = FALSE;
+
+			if (!gpgctx)
+				gpgctx = CAMEL_GPG_CONTEXT (camel_gpg_context_new (NULL));
+
+			if (camel_gpg_context_get_key_data_info_sync (gpgctx, keydata, keydata_size, 0, &infos, cancellable, NULL) && infos) {
+				for (link = infos; link && !g_cancellable_is_cancelled (cancellable); link = g_slist_next (link)) {
+					CamelGpgKeyInfo *nfo = link->data;
+
+					if (nfo && keys) {
+						guint ii;
+
+						for (ii = 0; ii < keys->len; ii++) {
+							EMailAutocryptKey *ackey = g_ptr_array_index (keys, ii);
+
+							if (ackey && ackey->info &&
+							    g_strcmp0 (camel_gpg_key_info_get_id (ackey->info), camel_gpg_key_info_get_id (nfo)) == 0) {
+								/* a key with the same ID is already part of the 'keys' => skip it */
+								nfo = NULL;
+								break;
+							}
+						}
+					}
+
+					/* add it only if the key is not already imported */
+					if (nfo && !camel_gpg_context_has_public_key_sync (gpgctx, camel_gpg_key_info_get_id (nfo), cancellable, NULL)) {
+						EMailAutocryptKey *ackey;
+
+						ackey = e_mail_autocrypt_key_new (nfo, keydata_used ? g_memdup2 (keydata, keydata_size) : keydata, keydata_size);
+
+						if (!keys)
+							keys = g_ptr_array_new_with_free_func ((GDestroyNotify) e_mail_autocrypt_key_free);
+
+						g_ptr_array_add (keys, ackey);
+
+						/* stole the nfo */
+						link->data = NULL;
+						keydata_used = TRUE;
+					}
+				}
+
+				g_slist_free_full (infos, (GDestroyNotify) camel_gpg_key_info_free);
+			}
+
+			if (!keydata_used)
+				g_free (keydata);
+		}
+	}
+
+	g_clear_object (&gpgctx);
+
+	e_mail_part_list_take_autocrypt_keys (part_list, keys);
+}
+
+static void
 mail_parser_run (EMailParser *parser,
                  EMailPartList *part_list,
                  GCancellable *cancellable)
@@ -166,6 +239,7 @@ mail_parser_run (EMailParser *parser,
 	g_mutex_unlock (&parser->priv->mutex);
 
 	message = e_mail_part_list_get_message (part_list);
+	e_mail_parser_extract_autocrypt_keys (message, part_list, cancellable);
 
 	reg = e_mail_parser_get_extension_registry (parser);
 

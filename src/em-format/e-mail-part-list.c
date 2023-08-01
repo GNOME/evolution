@@ -27,6 +27,7 @@ struct _EMailPartListPrivate {
 	CamelFolder *folder;
 	CamelMimeMessage *message;
 	gchar *message_uid;
+	GPtrArray *autocrypt_keys;
 
 	GQueue queue;
 	GMutex queue_lock;
@@ -43,6 +44,35 @@ G_DEFINE_TYPE (EMailPartList, e_mail_part_list, G_TYPE_OBJECT)
 
 static CamelObjectBag *registry = NULL;
 G_LOCK_DEFINE_STATIC (registry);
+
+/* takes, aka assumes ownership, of all the pointers, which cannot be NULL */
+EMailAutocryptKey *
+e_mail_autocrypt_key_new (CamelGpgKeyInfo *info,
+			  guint8 *keydata,
+			  gsize keydata_size)
+{
+	EMailAutocryptKey *key;
+
+	g_return_val_if_fail (info != NULL, NULL);
+	g_return_val_if_fail (keydata != NULL, NULL);
+
+	key = g_new0 (EMailAutocryptKey, 1);
+	key->info = info;
+	key->keydata = keydata;
+	key->keydata_size = keydata_size;
+
+	return key;
+}
+
+void
+e_mail_autocrypt_key_free (EMailAutocryptKey *key)
+{
+	if (key) {
+		camel_gpg_key_info_free (key->info);
+		g_free (key->keydata);
+		g_free (key);
+	}
+}
 
 static void
 mail_part_list_set_folder (EMailPartList *part_list,
@@ -149,6 +179,7 @@ mail_part_list_dispose (GObject *object)
 	priv = E_MAIL_PART_LIST_GET_PRIVATE (object);
 	g_clear_object (&priv->folder);
 	g_clear_object (&priv->message);
+	g_clear_pointer (&priv->autocrypt_keys, g_ptr_array_unref);
 
 	g_mutex_lock (&priv->queue_lock);
 	while (!g_queue_is_empty (&priv->queue))
@@ -447,6 +478,27 @@ e_mail_part_list_sum_validity (EMailPartList *part_list,
 
 	if (out_validity_smime_sum)
 		*out_validity_smime_sum = validity_smime_sum;
+}
+
+
+GPtrArray * /* EMailAutocryptKey * */
+e_mail_part_list_get_autocrypt_keys (EMailPartList *part_list)
+{
+	g_return_val_if_fail (E_IS_MAIL_PART_LIST (part_list), NULL);
+
+	return part_list->priv->autocrypt_keys;
+}
+
+void
+e_mail_part_list_take_autocrypt_keys (EMailPartList *part_list,
+				      GPtrArray *keys) /* EMailAutocryptKey * */
+{
+	g_return_if_fail (E_IS_MAIL_PART_LIST (part_list));
+
+	if (part_list->priv->autocrypt_keys != keys) {
+		g_clear_pointer (&part_list->priv->autocrypt_keys, g_ptr_array_unref);
+		part_list->priv->autocrypt_keys = keys;
+	}
 }
 
 /**

@@ -3545,6 +3545,47 @@ mail_reader_remote_content_clicked_cb (EMailReader *reader,
 }
 
 static void
+mail_reader_autocrypt_import_clicked_cb (EMailReader *reader,
+					 const GdkRectangle *position,
+					 gpointer user_data)
+{
+	EMailDisplay *mail_display = user_data;
+	EMailPartList *part_list;
+	GPtrArray *autocrypt_keys;
+
+	g_return_if_fail (E_IS_MAIL_READER (reader));
+	g_return_if_fail (E_IS_MAIL_DISPLAY (mail_display));
+
+	part_list = e_mail_display_get_part_list (mail_display);
+	autocrypt_keys = e_mail_part_list_get_autocrypt_keys (part_list);
+
+	if (autocrypt_keys) {
+		GtkWindow *parent;
+		guint ii;
+
+		parent = e_mail_reader_get_window (reader);
+
+		for (ii = 0; ii < autocrypt_keys->len; ii++) {
+			EMailAutocryptKey *key = g_ptr_array_index (autocrypt_keys, ii);
+			GError *error = NULL;
+
+			if (key && !em_utils_import_pgp_key (parent, NULL, key->keydata, key->keydata_size, &error) &&
+			    !g_error_matches (error, G_IO_ERROR, G_IO_ERROR_CANCELLED)) {
+				EAlertSink *alert_sink;
+
+				alert_sink = e_mail_reader_get_alert_sink (reader);
+				e_alert_submit (alert_sink, "mail:error-import-pgp-key", error ? error->message : _("Unknown error"), NULL);
+
+				g_clear_error (&error);
+				break;
+			}
+
+			g_clear_error (&error);
+		}
+	}
+}
+
+static void
 maybe_schedule_timeout_mark_seen (EMailReader *reader)
 {
 	EMailReaderPrivate *priv;
@@ -5515,6 +5556,10 @@ connect_signals:
 	g_signal_connect_swapped (
 		display, "remote-content-clicked",
 		G_CALLBACK (mail_reader_remote_content_clicked_cb), reader);
+
+	g_signal_connect_swapped (
+		display, "autocrypt-import-clicked",
+		G_CALLBACK (mail_reader_autocrypt_import_clicked_cb), reader);
 
 	g_signal_connect_swapped (
 		message_list, "message-selected",

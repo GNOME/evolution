@@ -44,6 +44,8 @@ static const gchar *ui =
 "<ui>"
 "  <popup name='context'>"
 "    <placeholder name='custom-actions'>"
+"      <menuitem action='mail-import-pgp-key'/>"
+"      <separator/>"
 "      <menuitem action='mail-message-edit'/>"
 "      <separator/>"
 "      <menuitem action='mail-reply-sender'/>"
@@ -382,6 +384,75 @@ mail_attachment_handler_redirect (GtkAction *action,
 	e_msg_composer_new (shell, mail_attachment_handler_composer_created_cb, ccd);
 }
 
+static void
+action_mail_import_pgp_key_cb (GtkAction *action,
+			       EAttachmentHandler *handler)
+{
+	EAttachmentView *view;
+	EAttachment *attachment;
+	EAttachmentStore *store;
+	CamelMimePart *part;
+	GtkTreePath *path;
+	GtkTreeIter iter;
+	GList *list;
+	gpointer parent;
+
+	view = e_attachment_handler_get_view (handler);
+	parent = gtk_widget_get_toplevel (GTK_WIDGET (view));
+	parent = gtk_widget_is_toplevel (parent) ? parent : NULL;
+
+	list = e_attachment_view_get_selected_paths (view);
+	g_return_if_fail (g_list_length (list) == 1);
+	path = list->data;
+
+	store = e_attachment_view_get_store (view);
+	gtk_tree_model_get_iter (GTK_TREE_MODEL (store), &iter, path);
+	gtk_tree_model_get (GTK_TREE_MODEL (store), &iter, E_ATTACHMENT_STORE_COLUMN_ATTACHMENT, &attachment, -1);
+
+	g_list_free_full (list, (GDestroyNotify) gtk_tree_path_free);
+
+	g_return_if_fail (E_IS_ATTACHMENT (attachment));
+
+	part = e_attachment_ref_mime_part (attachment);
+
+	if (part) {
+		CamelMimePart *mime_part;
+		CamelSession *session;
+		CamelStream *stream;
+		GByteArray *buffer;
+		GError *error = NULL;
+
+		session = CAMEL_SESSION (e_mail_backend_get_session (E_MAIL_ATTACHMENT_HANDLER (handler)->priv->backend));
+		mime_part = e_attachment_ref_mime_part (attachment);
+
+		buffer = g_byte_array_new ();
+		stream = camel_stream_mem_new ();
+		camel_stream_mem_set_byte_array (CAMEL_STREAM_MEM (stream), buffer);
+		camel_data_wrapper_decode_to_stream_sync (camel_medium_get_content (CAMEL_MEDIUM (mime_part)), stream, NULL, NULL);
+		g_object_unref (stream);
+
+		if (!em_utils_import_pgp_key (parent, session, buffer->data, buffer->len, &error) &&
+		    !g_error_matches (error, G_IO_ERROR, G_IO_ERROR_CANCELLED)) {
+			GtkWidget *parent, *alert_sink = NULL;
+
+			for (parent = gtk_widget_get_parent (GTK_WIDGET (view)); parent && !alert_sink; parent = gtk_widget_get_parent (parent)) {
+				if (E_IS_ALERT_SINK (parent))
+					alert_sink = parent;
+			}
+
+			if (alert_sink)
+				e_alert_submit (E_ALERT_SINK (alert_sink), "mail:error-import-pgp-key", error ? error->message : _("Unknown error"), NULL);
+			else
+				g_warning ("Failed to import PGP key: %s", error ? error->message : "Unknown error");
+		}
+
+		g_byte_array_unref (buffer);
+		g_clear_error (&error);
+	}
+
+	g_clear_object (&part);
+}
+
 static GtkActionEntry standard_entries[] = {
 
 	{ "mail-forward",
@@ -453,6 +524,16 @@ static GtkActionEntry standard_entries[] = {
 	  NULL,
 	  N_("Redirect (bounce) the selected message to someone"),
 	  G_CALLBACK (mail_attachment_handler_redirect) }
+};
+
+static GtkActionEntry custom_entries[] = {
+
+	{ "mail-import-pgp-key",
+	  "stock_signature",
+	  N_("Import OpenP_GP key…"),
+	  NULL,
+	  N_("Import Pretty Good Privacy (OpenPGP) key"),
+	  G_CALLBACK (action_mail_import_pgp_key_cb) }
 };
 
 static void
@@ -685,7 +766,7 @@ mail_attachment_handler_update_actions (EAttachmentView *view,
 	GtkActionGroup *action_group;
 	GtkAction *action;
 	GList *selected;
-	gboolean visible = FALSE, has_list_post = FALSE;
+	gboolean visible = FALSE, has_list_post = FALSE, can_import_pgp_key = FALSE;
 
 	selected = e_attachment_view_get_selected_attachments (view);
 
@@ -703,6 +784,7 @@ mail_attachment_handler_update_actions (EAttachmentView *view,
 	if (mime_part != NULL) {
 		CamelMedium *medium;
 		CamelDataWrapper *content;
+		gchar *mime_type;
 
 		medium = CAMEL_MEDIUM (mime_part);
 		content = camel_medium_get_content (medium);
@@ -711,6 +793,10 @@ mail_attachment_handler_update_actions (EAttachmentView *view,
 		if (visible)
 			has_list_post = camel_medium_get_header (CAMEL_MEDIUM (content), "List-Post") != NULL;
 
+		mime_type = e_attachment_dup_mime_type (attachment);
+		can_import_pgp_key = mime_type && g_ascii_strcasecmp (mime_type, "application/pgp-keys") == 0;
+
+		g_clear_pointer (&mime_type, g_free);
 		g_object_unref (mime_part);
 	}
 
@@ -720,6 +806,9 @@ exit:
 
 	action = gtk_action_group_get_action (action_group, "mail-reply-list");
 	gtk_action_set_visible (action, has_list_post);
+
+	action = e_attachment_view_get_action (view, "mail-import-pgp-key");
+	gtk_action_set_visible (action, can_import_pgp_key);
 
 	g_list_foreach (selected, (GFunc) g_object_unref, NULL);
 	g_list_free (selected);
@@ -766,6 +855,11 @@ mail_attachment_handler_constructed (GObject *object)
 	gtk_action_group_add_actions (
 		action_group, standard_entries,
 		G_N_ELEMENTS (standard_entries), handler);
+
+	action_group = e_attachment_view_add_action_group (view, "mail-custom");
+	gtk_action_group_add_actions (
+		action_group, custom_entries,
+		G_N_ELEMENTS (custom_entries), handler);
 
 	ui_manager = e_attachment_view_get_ui_manager (view);
 	gtk_ui_manager_add_ui_from_string (ui_manager, ui, -1, &error);

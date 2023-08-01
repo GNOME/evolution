@@ -42,6 +42,18 @@
 
 G_BEGIN_DECLS
 
+typedef struct _EMailAutocryptKey {
+	CamelGpgKeyInfo *info;
+	guint8 *keydata;
+	gsize keydata_size;
+} EMailAutocryptKey;
+
+EMailAutocryptKey *
+		e_mail_autocrypt_key_new	(CamelGpgKeyInfo *info,
+						 guint8 *keydata,
+						 gsize keydata_size);
+void		e_mail_autocrypt_key_free	(EMailAutocryptKey *key);
+
 typedef struct _EMailPartList EMailPartList;
 typedef struct _EMailPartListClass EMailPartListClass;
 typedef struct _EMailPartListPrivate EMailPartListPrivate;
@@ -75,6 +87,12 @@ gboolean	e_mail_part_list_is_empty	(EMailPartList *part_list);
 void		e_mail_part_list_sum_validity	(EMailPartList *part_list,
 						 EMailPartValidityFlags *out_validity_pgp_sum,
 						 EMailPartValidityFlags *out_validity_smime_sum);
+GPtrArray * /* EMailAutocryptKey * */
+		e_mail_part_list_get_autocrypt_keys
+						(EMailPartList *part_list);
+void		e_mail_part_list_take_autocrypt_keys
+						(EMailPartList *part_list,
+						 GPtrArray *keys); /* EMailAutocryptKey * */
 
 CamelObjectBag *
 		e_mail_part_list_get_registry	(void);

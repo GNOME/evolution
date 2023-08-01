@@ -97,5 +97,10 @@ gboolean	em_utils_address_is_user	(ESourceRegistry *registry,
 gboolean	em_utils_sender_is_user		(ESourceRegistry *registry,
 						 CamelMimeMessage *message,
 						 gboolean only_enabled_accounts);
+gboolean	em_utils_decode_autocrypt_header(CamelMimeMessage *message,
+						 guint index,
+						 gboolean *out_prefer_encrypt,
+						 guint8 **out_keydata,
+						 gsize *out_keydata_size);
 
 #endif /* E_MAIL_UTILS_H */

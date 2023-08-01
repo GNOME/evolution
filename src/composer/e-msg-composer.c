@@ -6976,77 +6976,6 @@ e_msg_composer_set_destination_autocrypt_key (EMsgComposer *composer,
 	return FALSE;
 }
 
-/* cannot use camel_header_param_list_decode(), because it doesn't
-   like '@' in the 'addr' param, and it's kinda strict, thus have
-   here a relaxed form of the decoder */
-static CamelHeaderParam *
-e_msg_composer_decode_autocrypt_header (const gchar *value)
-{
-	CamelHeaderParam *params = NULL, *last = NULL;
-	gchar *unfolded, *ptr, *from;
-
-	if (!value || !*value)
-		return NULL;
-
-	unfolded = camel_header_unfold (value);
-
-	if (!unfolded)
-		return NULL;
-
-	ptr = unfolded;
-
-	while (*ptr && camel_mime_is_lwsp (*ptr))
-		ptr++;
-
-	for (from = ptr; *ptr; ptr++) {
-		if ((*ptr == ';' || ptr[1] == '\0') && from + 1 < ptr) {
-			CamelHeaderParam *param;
-			gchar *end = ptr + (ptr[1] == '\0' ? 1 : 0);
-			gchar *name_end;
-
-			for (name_end = from; name_end != end && *name_end && *name_end != '='; name_end++) {
-				/* only find the '=' */
-			}
-
-			if (*name_end != '=') {
-				g_free (unfolded);
-				if (params)
-					camel_header_param_list_free (params);
-				return NULL;
-			}
-
-			*name_end = '\0';
-			*end = '\0';
-
-			param = g_malloc (sizeof (*param));
-			param->next = NULL;
-			param->name = g_strdup (from);
-			param->value = g_strdup (name_end + 1);
-
-			*name_end = '=';
-			*end = end == ptr ? ';' : '\0';
-
-			if (last)
-				last->next = param;
-			else
-				params = param;
-
-			last = param;
-
-			/* skip whitespace after parameter delimiter */
-			ptr++;
-			while (*ptr && camel_mime_is_lwsp (*ptr))
-				ptr++;
-			from = ptr;
-			ptr--;
-		}
-	}
-
-	g_free (unfolded);
-
-	return params;
-}
-
 void
 e_msg_composer_check_autocrypt (EMsgComposer *composer,
 				CamelMimeMessage *original_message)
@@ -7073,86 +7002,21 @@ e_msg_composer_check_autocrypt (EMsgComposer *composer,
 
 	if (original_message && camel_mime_message_get_from (original_message) &&
 	    camel_medium_get_header (CAMEL_MEDIUM (original_message), "Autocrypt")) {
-		CamelInternetAddress *from;
-		const CamelNameValueArray *headers;
-		const gchar *from_email = NULL;
+		gboolean done = FALSE;
+		guint ii;
 
-		from = camel_mime_message_get_from (original_message);
-		if (!camel_internet_address_get	(from, 0, NULL, &from_email))
-			from_email = NULL;
-
-		headers = camel_medium_get_headers (CAMEL_MEDIUM (original_message));
-		if (headers && from_email) {
+		for (ii = 0; !done; ii++) {
 			guchar *sender_keydata = NULL;
 			gsize sender_keydata_size = 0;
-			guint ii, sz;
 
-			sz = camel_name_value_array_get_length (headers);
-			for (ii = 0; ii < sz; ii++) {
-				gboolean eligible;
-				const gchar *value;
-				const gchar *sender_keydata_base64 = NULL;
-				CamelHeaderParam *params, *param;
+			done = !em_utils_decode_autocrypt_header (original_message, ii, &sender_prefer_encrypt, &sender_keydata, &sender_keydata_size);
 
-				if (g_ascii_strcasecmp (camel_name_value_array_get_name (headers, ii), "Autocrypt") != 0)
-					continue;
-
-				value = camel_name_value_array_get_value (headers, ii);
-				if (!value)
-					continue;
-
-				params = e_msg_composer_decode_autocrypt_header (value);
-				if (!params)
-					continue;
-
-				eligible = TRUE;
-				sender_prefer_encrypt = FALSE;
-
-				for (param = params; param; param = param->next) {
-					if (!param->name || !param->value)
-						continue;
-					/* ignore non-critical parameters */
-					if (*(param->name) == '_')
-						continue;
-					if (g_ascii_strcasecmp (param->name, "addr") == 0) {
-						/* 'addr' parameter should match the 'from' email */
-						if (g_ascii_strcasecmp (param->value, from_email) != 0) {
-							eligible = FALSE;
-							break;
-						}
-					} else if (g_ascii_strcasecmp (param->name, "prefer-encrypt") == 0) {
-						sender_prefer_encrypt = g_ascii_strcasecmp (param->value, "mutual") == 0;
-					} else if (g_ascii_strcasecmp (param->name, "keydata") == 0) {
-						sender_keydata_base64 = param->value;
-					} else {
-						/* ignore the header when there are unknown/unsupported critical parameters */
-						eligible = FALSE;
-					}
-				}
-
-				if (eligible && sender_keydata_base64 && *sender_keydata_base64) {
-					sender_keydata = g_base64_decode (sender_keydata_base64, &sender_keydata_size);
-					if (!sender_keydata) {
-						eligible = FALSE;
-						sender_keydata_size = 0;
-					}
-				} else {
-					eligible = FALSE;
-				}
-
-				camel_header_param_list_free (params);
-
-				if (eligible)
-					break;
-
-				sender_prefer_encrypt = FALSE;
-			}
-
-			if (sender_keydata && sender_keydata_size > 0) {
+			if (!done && sender_keydata && sender_keydata_size > 0) {
 				/* Extract the sender's key even if the sender does not prefer encrypt,
 				   thus the key is available later, if needed */
 				sender_prefer_encrypt = e_msg_composer_set_destination_autocrypt_key (composer, from_email, sender_keydata, sender_keydata_size) &&
 					sender_prefer_encrypt;
+				done = TRUE;
 			}
 
 			g_free (sender_keydata);

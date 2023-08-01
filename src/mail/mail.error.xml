@@ -686,4 +686,15 @@ in the folder will be available in offline mode.</_secondary>
     <button response="GTK_RESPONSE_CANCEL" _label="_Cancel"/>
     <button response="GTK_RESPONSE_YES" _label="_Send"></button>
   </error>
+
+  <error id="ask-import-pgp-key" type="question" default="GTK_RESPONSE_YES">
+    <_primary>Do you wish to import OpenPGP key?</_primary>
+    <button _label="_Cancel" response="GTK_RESPONSE_CANCEL"/>
+    <button _label="_Import" response="GTK_RESPONSE_YES"/>
+  </error>
+
+  <error id="error-import-pgp-key" type="error">
+    <_primary>Failed to import OpenPGP key</_primary>
+    <secondary>{0}</secondary>
+  </error>
 </error-list>

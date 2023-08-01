@@ -115,6 +115,7 @@ enum {
 
 enum {
 	REMOTE_CONTENT_CLICKED,
+	AUTOCRYPT_IMPORT_CLICKED,
 	LAST_SIGNAL
 };
 
@@ -1290,6 +1291,20 @@ mail_display_remote_content_clicked_cb (EWebView *web_view,
 }
 
 static void
+mail_display_autocrypt_import_clicked_cb (EWebView *web_view,
+					  const gchar *iframe_id,
+					  const gchar *element_id,
+					  const gchar *element_class,
+					  const gchar *element_value,
+					  const GtkAllocation *element_position,
+					  gpointer user_data)
+{
+	g_return_if_fail (E_IS_MAIL_DISPLAY (web_view));
+
+	g_signal_emit (web_view, signals[AUTOCRYPT_IMPORT_CLICKED], 0, element_position, NULL);
+}
+
+static void
 mail_display_manage_insecure_parts_clicked_cb (EWebView *web_view,
 					       const gchar *iframe_id,
 					       const gchar *element_id,
@@ -1380,6 +1395,8 @@ mail_display_content_loaded_cb (EWebView *web_view,
 			mail_display_remote_content_clicked_cb, NULL);
 		e_web_view_register_element_clicked (web_view, "manage-insecure-parts",
 			mail_display_manage_insecure_parts_clicked_cb, NULL);
+		e_web_view_register_element_clicked (web_view, "__evo-autocrypt-import-img",
+			mail_display_autocrypt_import_clicked_cb, NULL);
 	}
 
 	if (g_settings_get_boolean (mail_display->priv->settings, "mark-citations")) {
@@ -1436,6 +1453,16 @@ mail_display_content_loaded_cb (EWebView *web_view,
 					"*", link->data, TRUE,
 					e_web_view_get_cancellable (web_view));
 			}
+		}
+
+		if (e_mail_part_list_get_autocrypt_keys (mail_display->priv->part_list)) {
+			e_web_view_jsc_set_element_hidden (WEBKIT_WEB_VIEW (web_view),
+				"", "__evo-autocrypt-import-img-small", FALSE,
+				e_web_view_get_cancellable (web_view));
+
+			e_web_view_jsc_set_element_hidden (WEBKIT_WEB_VIEW (web_view),
+				"", "__evo-autocrypt-import-img-large", FALSE,
+				e_web_view_get_cancellable (web_view));
 		}
 	}
 
@@ -2719,6 +2746,16 @@ e_mail_display_class_init (EMailDisplayClass *class)
 
 	signals[REMOTE_CONTENT_CLICKED] = g_signal_new (
 		"remote-content-clicked",
+		G_TYPE_FROM_CLASS (class),
+		G_SIGNAL_RUN_FIRST | G_SIGNAL_ACTION,
+		0,
+		NULL, NULL,
+		g_cclosure_marshal_VOID__BOXED,
+		G_TYPE_NONE, 1,
+		GDK_TYPE_RECTANGLE);
+
+	signals[AUTOCRYPT_IMPORT_CLICKED] = g_signal_new (
+		"autocrypt-import-clicked",
 		G_TYPE_FROM_CLASS (class),
 		G_SIGNAL_RUN_FIRST | G_SIGNAL_ACTION,
 		0,
