@@ -25,7 +25,8 @@
 gboolean	e_cal_dialogs_cancel_component	(GtkWindow *parent,
 						 ECalClient *cal_client,
 						 ECalComponent *comp,
-						 gboolean deleting);
+						 gboolean is_retract,
+						 gboolean organizer_is_user);
 void		e_cal_dialogs_copy_source	(GtkWindow *parent,
 						 ECalModel *model,
 						 ESource *from_source);

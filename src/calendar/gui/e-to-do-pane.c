@@ -2076,6 +2076,7 @@ typedef struct _RemoveOperationData {
 	gchar *uid;
 	gchar *rid;
 	ECalObjModType mod;
+	ECalOperationFlags op_flags;
 } RemoveOperationData;
 
 static void
@@ -2101,7 +2102,7 @@ etdp_remove_component_thread (EAlertSinkThreadJobData *job_data,
 
 	g_return_if_fail (rod != NULL);
 
-	e_cal_client_remove_object_sync (rod->client, rod->uid, rod->rid, rod->mod, E_CAL_OPERATION_FLAG_NONE, cancellable, error);
+	e_cal_client_remove_object_sync (rod->client, rod->uid, rod->rid, rod->mod, rod->op_flags, cancellable, error);
 }
 
 static void
@@ -2114,6 +2115,8 @@ etdp_delete_common (EToDoPane *to_do_pane,
 	g_return_if_fail (E_IS_TO_DO_PANE (to_do_pane));
 
 	if (etdp_get_tree_view_selected_one (to_do_pane, &client, &comp) && client && comp) {
+		ECalOperationFlags op_flags = E_CAL_OPERATION_FLAG_NONE;
+		ESourceRegistry *registry;
 		const gchar *description;
 		const gchar *alert_ident;
 		gchar *display_name;
@@ -2131,6 +2134,19 @@ etdp_delete_common (EToDoPane *to_do_pane,
 			g_clear_object (&comp);
 			return;
 		}
+
+		registry = e_client_cache_ref_registry (to_do_pane->priv->client_cache);
+
+		if (itip_has_any_attendees (comp) &&
+		    (itip_organizer_is_user (registry, comp, client) ||
+		     itip_sentby_is_user (registry, comp, client))) {
+			if (!e_cal_dialogs_cancel_component ((GtkWindow *) gtk_widget_get_toplevel (GTK_WIDGET (to_do_pane)), client, comp,
+				FALSE, itip_organizer_is_user (registry, comp, client))) {
+				op_flags = E_CAL_OPERATION_FLAG_DISABLE_ITIP_MESSAGE;
+			}
+		}
+
+		g_clear_object (&registry);
 
 		switch (e_cal_client_get_source_type (client)) {
 			case E_CAL_CLIENT_SOURCE_TYPE_EVENTS:
@@ -2158,6 +2174,7 @@ etdp_delete_common (EToDoPane *to_do_pane,
 		rod->uid = g_strdup (e_cal_component_id_get_uid (id));
 		rod->rid = mod == E_CAL_OBJ_MOD_ALL ? NULL : g_strdup (e_cal_component_id_get_rid (id));
 		rod->mod = mod;
+		rod->op_flags = op_flags;
 
 		source = e_client_get_source (E_CLIENT (client));
 		display_name = e_util_get_source_full_name (e_source_registry_watcher_get_registry (to_do_pane->priv->watcher), source);

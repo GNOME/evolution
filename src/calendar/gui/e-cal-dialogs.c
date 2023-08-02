@@ -73,12 +73,15 @@ gboolean
 e_cal_dialogs_cancel_component (GtkWindow *parent,
 				ECalClient *cal_client,
 				ECalComponent *comp,
-				gboolean deleting)
+				gboolean is_retract,
+				gboolean organizer_is_user)
 {
 	ECalComponentVType vtype;
 	const gchar *id;
 
-	if (deleting && e_cal_client_check_save_schedules (cal_client))
+	if (e_cal_client_check_save_schedules (cal_client) &&
+	    (is_retract || organizer_is_user ||
+	     !e_client_check_capability (E_CLIENT (cal_client), E_CAL_STATIC_CAPABILITY_ITIP_SUPPRESS_ON_REMOVE_SUPPORTED)))
 		return TRUE;
 
 	vtype = e_cal_component_get_vtype (comp);
@@ -89,24 +92,15 @@ e_cal_dialogs_cancel_component (GtkWindow *parent,
 			/* don't ask neither send notification to others on past events */
 			return FALSE;
 		}
-		if (deleting)
-			id = "calendar:prompt-cancel-meeting";
-		else
-			id = "calendar:prompt-delete-meeting";
+		id = "calendar:prompt-cancel-meeting";
 		break;
 
 	case E_CAL_COMPONENT_TODO:
-		if (deleting)
-			id = "calendar:prompt-cancel-task";
-		else
-			id = "calendar:prompt-delete-task";
+		id = "calendar:prompt-cancel-task";
 		break;
 
 	case E_CAL_COMPONENT_JOURNAL:
-		if (deleting)
-			id = "calendar:prompt-cancel-memo";
-		else
-			id = "calendar:prompt-delete-memo";
+		id = "calendar:prompt-cancel-memo";
 		break;
 
 	default:

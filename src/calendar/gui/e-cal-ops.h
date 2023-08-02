@@ -59,7 +59,8 @@ void	e_cal_ops_remove_component		(ECalModel *model,
 						 const gchar *uid,
 						 const gchar *rid,
 						 ECalObjModType mod,
-						 gboolean check_detached_instance);
+						 gboolean check_detached_instance,
+						 ECalOperationFlags op_flags);
 void	e_cal_ops_delete_ecalmodel_components	(ECalModel *model,
 						 const GSList *objects); /* data is 'ECalModelComponent *' */
 void	e_cal_ops_paste_components		(ECalModel *model,

@@ -86,6 +86,7 @@ typedef struct {
 	ECalClient *client;
 	ICalComponent *icomp;
 	ECalObjModType mod;
+	ECalOperationFlags op_flags;
 	gchar *uid;
 	gchar *rid;
 	gboolean check_detached_instance;
@@ -380,7 +381,7 @@ cal_ops_remove_component_thread (EAlertSinkThreadJobData *job_data,
 		g_clear_object (&icomp);
 	}
 
-	bod->success = e_cal_client_remove_object_sync (bod->client, bod->uid, bod->rid, bod->mod, E_CAL_OPERATION_FLAG_NONE, cancellable, error);
+	bod->success = e_cal_client_remove_object_sync (bod->client, bod->uid, bod->rid, bod->mod, bod->op_flags, cancellable, error);
 }
 
 /**
@@ -391,6 +392,7 @@ cal_ops_remove_component_thread (EAlertSinkThreadJobData *job_data,
  * @rid: (allow none): a recurrence ID of the component; can be #NULL
  * @mod: a mode to use for the component removal
  * @check_detached_instance: whether to test whether a detached instance is to be removed
+ * @op_flags: operation flags, bit-or of #ECalOperationFlags
  *
  * Removes component identified by @uid and @rid from the @client using mode @mod.
  * The @check_detached_instance influences behaviour when removing only one instance.
@@ -407,7 +409,8 @@ e_cal_ops_remove_component (ECalModel *model,
 			    const gchar *uid,
 			    const gchar *rid,
 			    ECalObjModType mod,
-			    gboolean check_detached_instance)
+			    gboolean check_detached_instance,
+			    ECalOperationFlags op_flags)
 {
 	ECalDataModel *data_model;
 	ESource *source;
@@ -449,6 +452,7 @@ e_cal_ops_remove_component (ECalModel *model,
 	bod->rid = g_strdup (rid);
 	bod->mod = mod;
 	bod->check_detached_instance = check_detached_instance;
+	bod->op_flags = op_flags;
 
 	display_name = e_util_get_source_full_name (e_cal_model_get_registry (model), source);
 	cancellable = e_cal_data_model_submit_thread_job (data_model, description, alert_ident,
