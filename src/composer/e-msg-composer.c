@@ -5041,6 +5041,7 @@ e_msg_composer_send (EMsgComposer *composer)
 	g_return_if_fail (E_IS_MSG_COMPOSER (composer));
 
 	editor = e_msg_composer_get_editor (composer);
+	e_html_editor_clear_alerts (editor);
 
 	context = g_slice_new0 (AsyncContext);
 	context->activity = e_html_editor_new_activity (editor);

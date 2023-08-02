@@ -141,7 +141,7 @@ void		e_html_editor_remove_all_cid_parts
 						(EHTMLEditor *editor);
 CamelMimePart * e_html_editor_ref_cid_part	(EHTMLEditor *editor,
 						 const gchar *cid_uri);
-
+void		e_html_editor_clear_alerts	(EHTMLEditor *editor);
 EActionComboBox *
 		e_html_editor_util_new_mode_combobox
 						(void);

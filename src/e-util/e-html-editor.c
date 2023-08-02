@@ -2459,3 +2459,20 @@ e_html_editor_ref_cid_part (EHTMLEditor *editor,
 
 	return mime_part;
 }
+
+/**
+ * e_html_editor_clear_alerts:
+ * @editor: an #EHTMLEditor
+ *
+ * Clears all shown alerts in the @editor.
+ *
+ * Since: 3.50
+ **/
+void
+e_html_editor_clear_alerts (EHTMLEditor *editor)
+{
+	g_return_if_fail (E_IS_HTML_EDITOR (editor));
+
+	if (editor->priv->alert_bar)
+		e_alert_bar_clear (E_ALERT_BAR (editor->priv->alert_bar));
+}
