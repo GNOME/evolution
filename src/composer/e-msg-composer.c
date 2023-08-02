@@ -4914,24 +4914,59 @@ e_msg_composer_prepare_content_hash (EMsgComposer *composer,
 	g_clear_object (&from);
 }
 
+static void
+msg_composer_alert_response_cb (EAlert *alert,
+				gint response_id,
+				gpointer user_data)
+{
+	if (response_id == GTK_RESPONSE_ACCEPT) {
+		EMsgComposer *composer = user_data;
+		GtkAction *action;
+
+		g_return_if_fail (E_IS_MSG_COMPOSER (composer));
+
+		action = ACTION (PGP_ENCRYPT);
+		gtk_toggle_action_set_active (GTK_TOGGLE_ACTION (action), FALSE);
+
+		#ifdef ENABLE_SMIME
+		action = ACTION (SMIME_ENCRYPT);
+		gtk_toggle_action_set_active (GTK_TOGGLE_ACTION (action), FALSE);
+		#endif
+
+		e_msg_composer_send (composer);
+	}
+}
+
 static gboolean
 e_msg_composer_claim_no_build_message_error (EMsgComposer *composer,
 					     EActivity *activity,
 					     const GError *error,
-					     gboolean unref_content_hash_on_error)
+					     gboolean unref_content_hash_on_error,
+					     gboolean is_send_op)
 {
 	g_return_val_if_fail (E_IS_MSG_COMPOSER (composer), FALSE);
 
 	if (error) {
 		if (!e_activity_handle_cancellation (activity, error)) {
 			EAlertSink *alert_sink;
+			EAlert *alert;
 
 			alert_sink = e_activity_get_alert_sink (activity);
+			alert = e_alert_new ("mail-composer:no-build-message", error->message, NULL);
 
-			e_alert_submit (
-				alert_sink,
-				"mail-composer:no-build-message",
-				error->message, NULL);
+			if (is_send_op && g_error_matches (error, CAMEL_CIPHER_CONTEXT_ERROR, CAMEL_CIPHER_CONTEXT_ERROR_KEY_NOT_FOUND)) {
+				GtkAction *action;
+
+				action = gtk_action_new ("msg-composer-alert-action-0", _("Send _without encryption"), NULL, NULL);
+				e_alert_add_action (alert, action, GTK_RESPONSE_ACCEPT, FALSE);
+				g_object_unref (action);
+
+				g_signal_connect_object (alert, "response",
+					G_CALLBACK (msg_composer_alert_response_cb), composer, 0);
+			}
+
+			e_alert_sink_submit_alert (alert_sink, alert);
+			g_object_unref (alert);
 		}
 
 		if (e_msg_composer_is_exiting (composer)) {
@@ -4960,7 +4995,7 @@ msg_composer_send_cb (EMsgComposer *composer,
 
 	message = e_msg_composer_get_message_finish (composer, result, &error);
 
-	if (e_msg_composer_claim_no_build_message_error (composer, context->activity, error, TRUE)) {
+	if (e_msg_composer_claim_no_build_message_error (composer, context->activity, error, TRUE, TRUE)) {
 		g_warn_if_fail (message == NULL);
 		async_context_free (context);
 		g_clear_error (&error);
@@ -4998,7 +5033,7 @@ e_msg_composer_send_content_hash_ready_cb (EMsgComposer *composer,
 
 	g_return_if_fail (context != NULL);
 
-	if (e_msg_composer_claim_no_build_message_error (composer, context->activity, error, FALSE)) {
+	if (e_msg_composer_claim_no_build_message_error (composer, context->activity, error, FALSE, FALSE)) {
 		async_context_free (context);
 		return;
 	}
@@ -5088,7 +5123,7 @@ msg_composer_save_to_drafts_cb (EMsgComposer *composer,
 
 	message = e_msg_composer_get_message_draft_finish (composer, result, &error);
 
-	if (e_msg_composer_claim_no_build_message_error (composer, context->activity, error, TRUE)) {
+	if (e_msg_composer_claim_no_build_message_error (composer, context->activity, error, TRUE, FALSE)) {
 		g_warn_if_fail (message == NULL);
 		async_context_free (context);
 		g_clear_error (&error);
@@ -5126,7 +5161,7 @@ e_msg_composer_save_to_drafts_content_hash_ready_cb (EMsgComposer *composer,
 
 	g_return_if_fail (context != NULL);
 
-	if (e_msg_composer_claim_no_build_message_error (composer, context->activity, error, FALSE)) {
+	if (e_msg_composer_claim_no_build_message_error (composer, context->activity, error, FALSE, FALSE)) {
 		if (e_msg_composer_is_exiting (composer)) {
 			gtk_window_present (GTK_WINDOW (composer));
 			composer->priv->application_exiting = FALSE;
@@ -5180,7 +5215,7 @@ msg_composer_save_to_outbox_cb (EMsgComposer *composer,
 
 	message = e_msg_composer_get_message_finish (composer, result, &error);
 
-	if (e_msg_composer_claim_no_build_message_error (composer, context->activity, error, TRUE)) {
+	if (e_msg_composer_claim_no_build_message_error (composer, context->activity, error, TRUE, FALSE)) {
 		g_warn_if_fail (message == NULL);
 		async_context_free (context);
 		g_clear_error (&error);
@@ -5213,7 +5248,7 @@ e_msg_composer_save_to_outbox_content_hash_ready_cb (EMsgComposer *composer,
 
 	g_return_if_fail (context != NULL);
 
-	if (e_msg_composer_claim_no_build_message_error (composer, context->activity, error, FALSE)) {
+	if (e_msg_composer_claim_no_build_message_error (composer, context->activity, error, FALSE, FALSE)) {
 		async_context_free (context);
 		return;
 	}
@@ -5278,7 +5313,7 @@ msg_composer_print_cb (EMsgComposer *composer,
 
 	message = e_msg_composer_get_message_print_finish (composer, result, &error);
 
-	if (e_msg_composer_claim_no_build_message_error (composer, context->activity, error, TRUE)) {
+	if (e_msg_composer_claim_no_build_message_error (composer, context->activity, error, TRUE, FALSE)) {
 		g_warn_if_fail (message == NULL);
 		async_context_free (context);
 		g_clear_error (&error);
@@ -5307,7 +5342,7 @@ e_msg_composer_print_content_hash_ready_cb (EMsgComposer *composer,
 
 	g_return_if_fail (context != NULL);
 
-	if (e_msg_composer_claim_no_build_message_error (composer, context->activity, error, FALSE)) {
+	if (e_msg_composer_claim_no_build_message_error (composer, context->activity, error, FALSE, FALSE)) {
 		async_context_free (context);
 		return;
 	}
