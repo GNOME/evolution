@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: evolution\n"
 "Report-Msgid-Bugs-To: https://gitlab.gnome.org/GNOME/evolution/issues\n"
-"POT-Creation-Date: 2023-08-01 19:54+0000\n"
-"PO-Revision-Date: 2023-08-02 06:18+0200\n"
+"POT-Creation-Date: 2023-08-02 10:37+0000\n"
+"PO-Revision-Date: 2023-08-04 06:09+0200\n"
 "Last-Translator: Ekaterine Papava <papava.e@gtu.ge>\n"
 "Language-Team: Georgian <(nothing)>\n"
 "Language: ka\n"
@@ -11714,12 +11714,16 @@ msgstr "შეტყობინების შედგენა"
 msgid "Reading text content…"
 msgstr ""
 
-#: ../src/composer/e-msg-composer.c:5706
+#: ../src/composer/e-msg-composer.c:4960
+msgid "Send _without encryption"
+msgstr "_გაგზავნა დაშიფვრის გარეშე"
+
+#: ../src/composer/e-msg-composer.c:5742
 msgid "Review attachment before sending."
 msgid_plural "Review attachments before sending."
 msgstr[0] ""
 
-#: ../src/composer/e-msg-composer.c:5711
+#: ../src/composer/e-msg-composer.c:5747
 #, c-format
 msgid ""
 "%d attachment was added by an external application. Make sure it does not "
@@ -11729,7 +11733,7 @@ msgid_plural ""
 "contain any sensitive information before sending the message."
 msgstr[0] ""
 
-#: ../src/composer/e-msg-composer.c:5844
+#: ../src/composer/e-msg-composer.c:5880
 msgid "The composer contains a non-text message body, which cannot be edited."
 msgstr ""
 
