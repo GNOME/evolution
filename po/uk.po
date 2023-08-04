@@ -12,8 +12,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: evolution\n"
 "Report-Msgid-Bugs-To: https://gitlab.gnome.org/GNOME/evolution/issues\n"
-"POT-Creation-Date: 2023-07-28 10:37+0000\n"
-"PO-Revision-Date: 2023-07-28 16:28+0300\n"
+"POT-Creation-Date: 2023-08-02 10:37+0000\n"
+"PO-Revision-Date: 2023-08-04 22:49+0300\n"
 "Last-Translator: Yuri Chornoivan <yurchor@ukr.net>\n"
 "Language-Team: Ukrainian <trans-uk@lists.fedoraproject.org>\n"
 "Language: uk\n"
@@ -1387,14 +1387,12 @@ msgid "Always request Delivery Status Notification"
 msgstr "Завжди надсилати запит на сповіщення про отримання"
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:30
-#| msgid ""
-#| "Whether a read receipt request gets added to every message by default."
 msgid ""
 "Whether a Delivery Status Notification request gets added to every message "
 "by default."
 msgstr ""
-"Визначає, чи додаватиметься типово запит на сповіщення щодо стану отримання"
-" для кожного повідомлення."
+"Визначає, чи додаватиметься типово запит на сповіщення щодо стану отримання "
+"для кожного повідомлення."
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:31
 msgid "What mode open the composer with"
@@ -8387,11 +8385,12 @@ msgstr "Час початку — недійсний час"
 #: ../src/e-util/e-misc-utils.c:4151 ../src/e-util/e-misc-utils.c:4159
 #: ../src/e-util/e-misc-utils.c:4194 ../src/e-util/e-misc-utils.c:4207
 #: ../src/e-util/e-misc-utils.c:4221 ../src/mail/e-mail-autoconfig.c:1129
-#: ../src/mail/e-mail-display.c:2855 ../src/mail/e-mail-notes.c:930
-#: ../src/mail/e-mail-reader-utils.c:817 ../src/mail/em-composer-utils.c:4049
-#: ../src/mail/em-composer-utils.c:4072 ../src/mail/mail-send-recv.c:598
-#: ../src/mail/mail-send-recv.c:1493
+#: ../src/mail/e-mail-display.c:2892 ../src/mail/e-mail-notes.c:930
+#: ../src/mail/e-mail-reader.c:3577 ../src/mail/e-mail-reader-utils.c:817
+#: ../src/mail/em-composer-utils.c:4049 ../src/mail/em-composer-utils.c:4072
+#: ../src/mail/mail-send-recv.c:598 ../src/mail/mail-send-recv.c:1493
 #: ../src/modules/accounts-window/e-accounts-window-editors.c:172
+#: ../src/modules/mail/e-mail-attachment-handler.c:444
 #: ../src/plugins/face/face.c:175
 #: ../src/plugins/mail-to-task/mail-to-task.c:951 ../src/shell/e-shell.c:1258
 #: ../src/shell/e-shell.c:1283 ../src/smime/gui/certificate-manager.c:353
@@ -12344,12 +12343,10 @@ msgstr ""
 "Встановіть, щоб отримати сповіщення про прочитання вашого повідомлення"
 
 #: ../src/composer/e-composer-actions.c:474
-#| msgid "Return Notification"
 msgid "Request _Delivery Status Notification"
 msgstr "Надсилати запит щодо с_повіщення про стан отримання"
 
 #: ../src/composer/e-composer-actions.c:476
-#| msgid "Get delivery notification when your message is read"
 msgid "Get delivery status notification for the message"
 msgstr "Отримувати сповіщення щодо стану доставлення для повідомлення"
 
@@ -12514,7 +12511,12 @@ msgstr "Нове повідомлення"
 msgid "Reading text content…"
 msgstr "Читаємо текстові дані…"
 
-#: ../src/composer/e-msg-composer.c:5706
+#: ../src/composer/e-msg-composer.c:4960
+#| msgid "No encryption"
+msgid "Send _without encryption"
+msgstr "Надіслати _без шифрування"
+
+#: ../src/composer/e-msg-composer.c:5742
 msgid "Review attachment before sending."
 msgid_plural "Review attachments before sending."
 msgstr[0] "Переглянути долучення перед надсиланням."
@@ -12522,7 +12524,7 @@ msgstr[1] "Переглянути долучення перед надсилан
 msgstr[2] "Переглянути долучення перед надсиланням."
 msgstr[3] "Переглянути долучення перед надсиланням."
 
-#: ../src/composer/e-msg-composer.c:5711
+#: ../src/composer/e-msg-composer.c:5747
 #, c-format
 msgid ""
 "%d attachment was added by an external application. Make sure it does not "
@@ -12543,7 +12545,7 @@ msgstr[3] ""
 "Зовнішньою програмою додано одне долучення. Перш ніж надсилати повідомлення, "
 "переконайтеся, що у долученні не міститься ніяких конфіденційних даних."
 
-#: ../src/composer/e-msg-composer.c:5844
+#: ../src/composer/e-msg-composer.c:5880
 msgid "The composer contains a non-text message body, which cannot be edited."
 msgstr "Редактор містить не текстовий вміст, який неможливо редагувати."
 
@@ -12874,15 +12876,20 @@ msgid "(no subject)"
 msgstr "(без теми)"
 
 #: ../src/em-format/e-mail-formatter-headers.c:150
-#: ../src/em-format/e-mail-formatter-headers.c:514
+#: ../src/em-format/e-mail-formatter-headers.c:520
 #: ../src/mail/e-mail-remote-content-popover.c:381
 msgid "Remote content download had been blocked for this message."
 msgstr "Звантаження віддаленого вмісту заблоковано для цього листа."
 
+#: ../src/em-format/e-mail-formatter-headers.c:156
+#: ../src/em-format/e-mail-formatter-headers.c:526
+msgid "Import OpenPGP key provided in this message"
+msgstr "Імпортувати ключ OpenPGP, який надано у цьому повідомленні"
+
 #. Translators: This message suggests to the recipients
 #. * that the sender of the mail is different from the one
 #. * listed in From field.
-#: ../src/em-format/e-mail-formatter-headers.c:359
+#: ../src/em-format/e-mail-formatter-headers.c:365
 #, c-format
 msgid "This message was sent by %s on behalf of %s"
 msgstr "Це повідомлення надіслав %s від імені %s"
@@ -13463,6 +13470,7 @@ msgid "Attached message"
 msgstr "Долучене повідомлення"
 
 #: ../src/e-util/e-attachment.c:2194 ../src/e-util/e-attachment.c:3248
+#: ../src/mail/em-utils.c:2307
 msgid "Operation was cancelled"
 msgstr "Операцію було відмінено"
 
@@ -13591,7 +13599,7 @@ msgstr "Зберегти _лише видобуті файли"
 msgid "Save extracted files and the original _archive"
 msgstr "Зберегти видобуті файли і початковий _архів"
 
-#: ../src/e-util/e-attachment-view.c:355 ../src/mail/e-mail-display.c:2036
+#: ../src/e-util/e-attachment-view.c:355 ../src/mail/e-mail-display.c:2063
 msgid "Open With Other Application…"
 msgstr "Відкрити за допомогою іншої програми…"
 
@@ -13632,21 +13640,21 @@ msgstr "П_ерезавантажити"
 msgid "Reload attachment content"
 msgstr "Перезавантажити вміст долучення"
 
-#: ../src/e-util/e-attachment-view.c:840 ../src/mail/e-mail-display.c:1990
+#: ../src/e-util/e-attachment-view.c:840 ../src/mail/e-mail-display.c:2017
 #, c-format
 msgid "Open With “%s”"
 msgstr "Відкрити у «%s»"
 
-#: ../src/e-util/e-attachment-view.c:841 ../src/mail/e-mail-display.c:1991
+#: ../src/e-util/e-attachment-view.c:841 ../src/mail/e-mail-display.c:2018
 #, c-format
 msgid "Open this attachment in %s"
 msgstr "Відкрити долучення в %s"
 
-#: ../src/e-util/e-attachment-view.c:843 ../src/mail/e-mail-display.c:1993
+#: ../src/e-util/e-attachment-view.c:843 ../src/mail/e-mail-display.c:2020
 msgid "Open With Default Application"
 msgstr "Відкрити за допомогою типової програми"
 
-#: ../src/e-util/e-attachment-view.c:844 ../src/mail/e-mail-display.c:1994
+#: ../src/e-util/e-attachment-view.c:844 ../src/mail/e-mail-display.c:2021
 msgid "Open this attachment in default application"
 msgstr "Відкрити це долучення у типовій програмі"
 
@@ -14118,7 +14126,7 @@ msgstr "Вибрати нетиповий колір"
 #: ../src/mail/e-mail-account-tree-view.c:135
 #: ../src/mail/e-mail-config-security-page.c:549
 #: ../src/mail/e-mail-config-security-page.c:781
-#: ../src/mail/e-mail-reader.c:5071 ../src/mail/mail-config.ui.h:82
+#: ../src/mail/e-mail-reader.c:5112 ../src/mail/mail-config.ui.h:82
 msgid "Default"
 msgstr "Типовий"
 
@@ -16759,7 +16767,7 @@ msgstr "Показати"
 msgid "Group name"
 msgstr "Назва групи"
 
-#: ../src/e-util/e-source-selector.c:3834 ../src/mail/e-mail-display.c:763
+#: ../src/e-util/e-source-selector.c:3834 ../src/mail/e-mail-display.c:764
 msgid "_Hide"
 msgstr "С_ховати"
 
@@ -18114,12 +18122,12 @@ msgstr "Переслати"
 #. * it will reply to all. The word "Group" was chosen because it covers
 #. * either of those, without too strongly implying one or the other.
 #: ../src/mail/e-mail-browser.c:547 ../src/mail/e-mail-reader.c:2968
-#: ../src/mail/e-mail-reader.c:5321 ../src/mail/e-mail-reader.c:5346
+#: ../src/mail/e-mail-reader.c:5362 ../src/mail/e-mail-reader.c:5387
 #: ../src/modules/mail/e-mail-shell-view-private.c:1536
 msgid "Group Reply"
 msgstr "Групувати відповіді"
 
-#: ../src/mail/e-mail-browser.c:559 ../src/mail/e-mail-reader.c:5429
+#: ../src/mail/e-mail-browser.c:559 ../src/mail/e-mail-reader.c:5470
 #: ../src/mail/mail-dialogs.ui.h:9
 #: ../src/modules/mail/e-mail-shell-view-private.c:1548
 msgid "Reply"
@@ -18294,7 +18302,6 @@ msgid "Save s_ent messages into the Sent folder"
 msgstr "Зберігати _надіслані повідомлення до теки «Надіслані»"
 
 #: ../src/mail/e-mail-config-defaults-page.c:744
-#| msgid "S_ave replies in the folder of the message being replied to"
 msgid "S_ave replies and forwards in the folder of the original message"
 msgstr "З_берегти відповіді і переспрямування у теці початкового повідомлення"
 
@@ -18531,7 +18538,6 @@ msgid "Always encrypt to _myself when sending encrypted messages"
 msgstr "Завжди ши_фрувати для себе при надсиланні шифрованої пошти"
 
 #: ../src/mail/e-mail-config-security-page.c:613
-#| msgid "Advanced Options"
 msgid "Ad_vanced Options"
 msgstr "Д_одаткові параметри"
 
@@ -18677,55 +18683,55 @@ msgstr "Ласкаво просимо"
 msgid "Account Editor"
 msgstr "Редактор облікових записів"
 
-#: ../src/mail/e-mail-display.c:150
+#: ../src/mail/e-mail-display.c:151
 msgid "_Add to Address Book…"
 msgstr "_Додати до адресної книги…"
 
-#: ../src/mail/e-mail-display.c:157
+#: ../src/mail/e-mail-display.c:158
 msgid "_To This Address"
 msgstr "_За цією адресою"
 
-#: ../src/mail/e-mail-display.c:164
+#: ../src/mail/e-mail-display.c:165
 msgid "_From This Address"
 msgstr "_З цієї адреси"
 
-#: ../src/mail/e-mail-display.c:171
+#: ../src/mail/e-mail-display.c:172
 msgid "Send _Reply To…"
 msgstr "Надіслати _відповідь до…"
 
-#: ../src/mail/e-mail-display.c:173
+#: ../src/mail/e-mail-display.c:174
 msgid "Send a reply message to this address"
 msgstr "Надіслати відповідь на лист до цієї адреси"
 
-#: ../src/mail/e-mail-display.c:180
+#: ../src/mail/e-mail-display.c:181
 msgid "Create Search _Folder"
 msgstr "Створити теку _пошуку"
 
-#: ../src/mail/e-mail-display.c:770
+#: ../src/mail/e-mail-display.c:771
 msgid "Hid_e All"
 msgstr "С_ховати все"
 
-#: ../src/mail/e-mail-display.c:777
+#: ../src/mail/e-mail-display.c:778
 msgid "_View Inline"
 msgstr "_Вбудований перегляд"
 
-#: ../src/mail/e-mail-display.c:784
+#: ../src/mail/e-mail-display.c:785
 msgid "Vie_w All Inline"
 msgstr "Пере_глянути всі вбудовані"
 
-#: ../src/mail/e-mail-display.c:791
+#: ../src/mail/e-mail-display.c:792
 msgid "_Zoom to 100%"
 msgstr "_Масштабувати до 100%"
 
-#: ../src/mail/e-mail-display.c:793
+#: ../src/mail/e-mail-display.c:794
 msgid "Zoom the image to its natural size"
 msgstr "Масштабувати до оригінального розміру зображення"
 
-#: ../src/mail/e-mail-display.c:798
+#: ../src/mail/e-mail-display.c:799
 msgid "_Zoom to window"
 msgstr "_Масштабувати до вікна"
 
-#: ../src/mail/e-mail-display.c:800
+#: ../src/mail/e-mail-display.c:801
 msgid "Zoom large images to not be wider than the window width"
 msgstr ""
 "Масштабувати великі зображення, щоб вони не були ширші за ширину вікна"
@@ -18979,7 +18985,7 @@ msgstr "_Завжди ігнорувати відповісти на: для с�
 msgid "Failed to retrieve message:"
 msgstr "Не вдалося одержати лист:"
 
-#: ../src/mail/e-mail-reader.c:2356 ../src/mail/e-mail-reader.c:3884
+#: ../src/mail/e-mail-reader.c:2356 ../src/mail/e-mail-reader.c:3925
 #, c-format
 msgid "Retrieving message “%s”"
 msgstr "Отримання повідомлення «%s»"
@@ -19138,25 +19144,25 @@ msgstr "До ви_конання…"
 msgid "Flag the selected messages for follow-up"
 msgstr "Позначити «до виконання» обрані повідомлення"
 
-#: ../src/mail/e-mail-reader.c:2693 ../src/mail/e-mail-reader.c:5276
-#: ../src/mail/e-mail-reader.c:5297
-#: ../src/modules/mail/e-mail-attachment-handler.c:389
+#: ../src/mail/e-mail-reader.c:2693 ../src/mail/e-mail-reader.c:5317
+#: ../src/mail/e-mail-reader.c:5338
+#: ../src/modules/mail/e-mail-attachment-handler.c:460
 msgid "_Forward"
 msgstr "_Переслати"
 
-#: ../src/mail/e-mail-reader.c:2695 ../src/mail/e-mail-reader.c:5277
-#: ../src/mail/e-mail-reader.c:5298
-#: ../src/modules/mail/e-mail-attachment-handler.c:391
+#: ../src/mail/e-mail-reader.c:2695 ../src/mail/e-mail-reader.c:5318
+#: ../src/mail/e-mail-reader.c:5339
+#: ../src/modules/mail/e-mail-attachment-handler.c:462
 msgid "Forward the selected message to someone"
 msgstr "Переслати вибране повідомлення до когось"
 
 #: ../src/mail/e-mail-reader.c:2700
-#: ../src/modules/mail/e-mail-attachment-handler.c:431
+#: ../src/modules/mail/e-mail-attachment-handler.c:502
 msgid "_Attached"
 msgstr "До_лучено"
 
 #: ../src/mail/e-mail-reader.c:2702 ../src/mail/e-mail-reader.c:2709
-#: ../src/modules/mail/e-mail-attachment-handler.c:433
+#: ../src/modules/mail/e-mail-attachment-handler.c:504
 msgid "Forward the selected message to someone as an attachment"
 msgstr "Переслати вибране повідомлення до когось як долучення"
 
@@ -19165,12 +19171,12 @@ msgid "Forward As _Attached"
 msgstr "Переслати як до_лучення"
 
 #: ../src/mail/e-mail-reader.c:2714
-#: ../src/modules/mail/e-mail-attachment-handler.c:438
+#: ../src/modules/mail/e-mail-attachment-handler.c:509
 msgid "_Inline"
 msgstr "В_будоване"
 
 #: ../src/mail/e-mail-reader.c:2716 ../src/mail/e-mail-reader.c:2723
-#: ../src/modules/mail/e-mail-attachment-handler.c:440
+#: ../src/modules/mail/e-mail-attachment-handler.c:511
 msgid "Forward the selected message in the body of a new message"
 msgstr "Переслати вибране повідомлення в тілі нового повідомлення"
 
@@ -19179,12 +19185,12 @@ msgid "Forward As _Inline"
 msgstr "Переслати як в_будоване"
 
 #: ../src/mail/e-mail-reader.c:2728
-#: ../src/modules/mail/e-mail-attachment-handler.c:445
+#: ../src/modules/mail/e-mail-attachment-handler.c:516
 msgid "_Quoted"
 msgstr "_Цитування"
 
 #: ../src/mail/e-mail-reader.c:2730 ../src/mail/e-mail-reader.c:2737
-#: ../src/modules/mail/e-mail-attachment-handler.c:447
+#: ../src/modules/mail/e-mail-attachment-handler.c:518
 msgid "Forward the selected message quoted like a reply"
 msgstr "Переслати вибране повідомлення процитоване як відповідь"
 
@@ -19291,12 +19297,12 @@ msgid "Mark the selected messages as not having been read"
 msgstr "Позначити вибрані повідомлення як непрочитані"
 
 #: ../src/mail/e-mail-reader.c:2835
-#: ../src/modules/mail/e-mail-attachment-handler.c:417
+#: ../src/modules/mail/e-mail-attachment-handler.c:488
 msgid "_Edit as New Message…"
 msgstr "_Редагувати як нове повідомлення…"
 
 #: ../src/mail/e-mail-reader.c:2837
-#: ../src/modules/mail/e-mail-attachment-handler.c:419
+#: ../src/modules/mail/e-mail-attachment-handler.c:490
 msgid "Open the selected messages in the composer for editing"
 msgstr "Відкрити виділені повідомлення у редакторі для редагування"
 
@@ -19397,12 +19403,12 @@ msgid "Preview the message to be printed"
 msgstr "Переглянути вигляд повідомлення при друку"
 
 #: ../src/mail/e-mail-reader.c:2933
-#: ../src/modules/mail/e-mail-attachment-handler.c:452
+#: ../src/modules/mail/e-mail-attachment-handler.c:523
 msgid "Re_direct"
 msgstr "_Перенаправити"
 
 #: ../src/mail/e-mail-reader.c:2935
-#: ../src/modules/mail/e-mail-attachment-handler.c:454
+#: ../src/modules/mail/e-mail-attachment-handler.c:525
 msgid "Redirect (bounce) the selected message to someone"
 msgstr "Перенаправити вибране повідомлення до когось"
 
@@ -19425,12 +19431,12 @@ msgstr "Перевіряє, чи не повторювались вибрані 
 #: ../src/mail/e-mail-reader.c:2954 ../src/mail/em-composer-utils.c:4315
 #: ../src/mail/mail.error.xml.h:28
 #: ../src/modules/calendar/e-cal-shell-view-actions.c:1586
-#: ../src/modules/mail/e-mail-attachment-handler.c:396
+#: ../src/modules/mail/e-mail-attachment-handler.c:467
 msgid "Reply to _All"
 msgstr "Відповісти _усім"
 
 #: ../src/mail/e-mail-reader.c:2956
-#: ../src/modules/mail/e-mail-attachment-handler.c:398
+#: ../src/modules/mail/e-mail-attachment-handler.c:469
 msgid "Compose a reply to all the recipients of the selected message"
 msgstr "Відповісти усім отримувачам виділеного повідомлення"
 
@@ -19442,29 +19448,29 @@ msgstr "Аль_тернативна Відповідь…"
 msgid "Choose reply options for the selected message"
 msgstr "Обрати параметри відповіді для обраних повідомлень"
 
-#: ../src/mail/e-mail-reader.c:2970 ../src/mail/e-mail-reader.c:5322
-#: ../src/mail/e-mail-reader.c:5347
+#: ../src/mail/e-mail-reader.c:2970 ../src/mail/e-mail-reader.c:5363
+#: ../src/mail/e-mail-reader.c:5388
 msgid "Reply to the mailing list, or to all recipients"
 msgstr "Відповісти у список листування або всім одержувачам"
 
 #: ../src/mail/e-mail-reader.c:2975 ../src/mail/em-composer-utils.c:4310
 #: ../src/mail/mail.error.xml.h:26
-#: ../src/modules/mail/e-mail-attachment-handler.c:403
+#: ../src/modules/mail/e-mail-attachment-handler.c:474
 msgid "Reply to _List"
 msgstr "Відповісти у _список"
 
 #: ../src/mail/e-mail-reader.c:2977
-#: ../src/modules/mail/e-mail-attachment-handler.c:405
+#: ../src/modules/mail/e-mail-attachment-handler.c:476
 msgid "Compose a reply to the mailing list of the selected message"
 msgstr "Відповісти у список розсилки цього повідомлення"
 
 #: ../src/mail/e-mail-reader.c:2982
-#: ../src/modules/mail/e-mail-attachment-handler.c:410
+#: ../src/modules/mail/e-mail-attachment-handler.c:481
 msgid "_Reply to Sender"
 msgstr "В_ідповісти відправнику"
 
 #: ../src/mail/e-mail-reader.c:2984
-#: ../src/modules/mail/e-mail-attachment-handler.c:412
+#: ../src/modules/mail/e-mail-attachment-handler.c:483
 msgid "Compose a reply to the sender of the selected message"
 msgstr "Відповісти відправнику цього повідомлення"
 
@@ -19525,7 +19531,7 @@ msgid "Ch_aracter Encoding"
 msgstr "Набір си_мволів"
 
 #: ../src/mail/e-mail-reader.c:3068
-#: ../src/modules/mail/e-mail-attachment-handler.c:424
+#: ../src/modules/mail/e-mail-attachment-handler.c:495
 msgid "F_orward As"
 msgstr "_Переслати як…"
 
@@ -19629,20 +19635,20 @@ msgstr "Усі заг_оловки повідомлень"
 msgid "Show messages with all email headers"
 msgstr "Показати повідомлення з усіма заголовками"
 
-#: ../src/mail/e-mail-reader.c:3890
+#: ../src/mail/e-mail-reader.c:3931
 msgid "Retrieving message"
 msgstr "Одержання листа"
 
-#: ../src/mail/e-mail-reader.c:5404 ../src/mail/filtertypes.xml.in.h:71
+#: ../src/mail/e-mail-reader.c:5445 ../src/mail/filtertypes.xml.in.h:71
 msgid "Delete"
 msgstr "Вилучити"
 
-#: ../src/mail/e-mail-reader.c:5416
+#: ../src/mail/e-mail-reader.c:5457
 #: ../src/modules/calendar/e-cal-shell-view-actions.c:1327
 msgid "Next"
 msgstr "Далі"
 
-#: ../src/mail/e-mail-reader.c:5420
+#: ../src/mail/e-mail-reader.c:5461
 #: ../src/modules/calendar/e-cal-shell-view-actions.c:1320
 msgid "Previous"
 msgstr "Попереднє"
@@ -20439,6 +20445,68 @@ msgstr ":"
 #: ../src/mail/em-utils.c:1952
 msgid "Deleting old messages"
 msgstr "Вилучення старих листів"
+
+#: ../src/mail/em-utils.c:2141
+#| msgid "Unknown"
+msgctxt "trust"
+msgid "_Unknown"
+msgstr "_Невідома"
+
+#: ../src/mail/em-utils.c:2142
+#| msgid "Never"
+msgctxt "trust"
+msgid "_Never"
+msgstr "Ні_коли"
+
+#: ../src/mail/em-utils.c:2143
+#| msgctxt "CamelTrust"
+#| msgid "Marginally"
+msgctxt "trust"
+msgid "_Marginal"
+msgstr "_Неповна"
+
+#: ../src/mail/em-utils.c:2144
+#| msgctxt "CamelTrust"
+#| msgid "Fully"
+msgctxt "trust"
+msgid "_Full"
+msgstr "_Повна"
+
+#: ../src/mail/em-utils.c:2145
+#| msgctxt "CamelTrust"
+#| msgid "Ultimately"
+msgctxt "trust"
+msgid "_Ultimate"
+msgstr "_Беззастережна"
+
+#: ../src/mail/em-utils.c:2184
+#, c-format
+#| msgctxt "reply-attribution"
+#| msgid "Re: %s"
+msgid "Key ID: %s"
+msgstr "Ід. ключа: %s"
+
+#: ../src/mail/em-utils.c:2195
+#, c-format
+#| msgid "Fingerprint"
+msgid "Fingerprint: %s"
+msgstr "Відбиток: %s"
+
+#: ../src/mail/em-utils.c:2211
+#, c-format
+#| msgid "Created"
+msgid "Created: %s"
+msgstr "Створено: %s"
+
+#: ../src/mail/em-utils.c:2243
+#, c-format
+#| msgid "User: %s"
+msgid "User ID: %s"
+msgstr "Користувач: %s"
+
+#: ../src/mail/em-utils.c:2264
+msgid "Set trust level for the key:"
+msgstr "Встановити такий рівень довіри до ключа:"
 
 #: ../src/mail/em-vfolder-editor.c:102
 msgid "Search _Folders"
@@ -22453,6 +22521,22 @@ msgstr "Мітка з назвою «{0}» вже існує."
 #: ../src/mail/mail.error.xml.h:223
 msgid "Choose a different name, please."
 msgstr "Виберіть, будь ласка, іншу назву."
+
+#: ../src/mail/mail.error.xml.h:224
+#| msgid "Do you wish to save your changes?"
+msgid "Do you wish to import OpenPGP key?"
+msgstr "Хочете імпортувати ключ OpenPGP?"
+
+#: ../src/mail/mail.error.xml.h:225
+#: ../src/modules/rss/evolution/e-rss-preferences.c:1094
+#: ../src/modules/rss/evolution/e-rss-preferences.c:1781
+msgid "_Import"
+msgstr "_Імпортувати"
+
+#: ../src/mail/mail.error.xml.h:226
+#| msgid "Failed to import certificate"
+msgid "Failed to import OpenPGP key"
+msgstr "Не вдалося імпортувати ключ OpenPGP"
 
 #: ../src/mail/mail-send-recv.c:193
 msgid "Canceling…"
@@ -26331,7 +26415,17 @@ msgstr "Можливості Yahoo!"
 msgid "Add Ca_lendar and Tasks to this account"
 msgstr "Додати ка_лендар і завдання до цього облікового запису"
 
-#: ../src/modules/mail/e-mail-attachment-handler.c:644
+#: ../src/modules/mail/e-mail-attachment-handler.c:533
+#| msgid "Open PGP key"
+msgid "Import OpenP_GP key…"
+msgstr "Імпортувати ключ OpenP_GP…"
+
+#: ../src/modules/mail/e-mail-attachment-handler.c:535
+#| msgid "Pretty Good Privacy (OpenPGP)"
+msgid "Import Pretty Good Privacy (OpenPGP) key"
+msgstr "Імпортувати ключ Pretty Good Privacy (OpenPGP)"
+
+#: ../src/modules/mail/e-mail-attachment-handler.c:725
 #, c-format
 msgid "%d attached message"
 msgid_plural "%d attached messages"
@@ -27290,11 +27384,6 @@ msgstr "Імпортувати стрічки RSS"
 #: ../src/modules/rss/evolution/e-rss-preferences.c:1091
 msgid "Export RSS Feeds"
 msgstr "Експортувати стрічки RSS"
-
-#: ../src/modules/rss/evolution/e-rss-preferences.c:1094
-#: ../src/modules/rss/evolution/e-rss-preferences.c:1781
-msgid "_Import"
-msgstr "_Імпортувати"
 
 #: ../src/modules/rss/evolution/e-rss-preferences.c:1094
 msgid "Export"
