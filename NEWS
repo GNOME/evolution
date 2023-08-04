@@ -1,3 +1,58 @@
+Evolution 3.49.2 2023-08-04
+---------------------------
+
+Bug Fixes:
+	I#17 - Sorting Contacts in the 'Address cards' view
+	I#130 - itip-formatter: Send meeting invitations as multipart/alternative
+	I#203 - Improve handling of suspiciously signed/encrypted emails (multiparts)
+	I#375 - Support Autocrypt
+	I#609 - Calendar: Use user-configured date format in the editor
+	I#662 - Option to get Delivery Status Notification (DSN)
+	I#848 - Allow to save forwarded mails in the original message folder
+	I#883 - ETimezoneEntry: Enable completion by timezone location
+	I#967 - Add save e-mails individually as eml format
+	I#1081 - Mail: Allow to import PGP keys
+	I#1180 - Calendar: Disallow change of target client for existing components
+	I#1750 - Composer: Offer to send without encryption when key is missing
+	I#2347 - CompEditor: Open map from Location field
+	I#2364 - Mail: Add option to group messages into flat threads
+	I#2398 - CompEditor: Allow unset recurrence for uneditable recurrences
+	I#2399 - alarm-notify: Detect format change in settings
+	I#2407 - Contacts: Add columns for mailing address fields
+	I#2412 - Composer: Format change can discard message text
+	I#2413 - Ability to update / overwrite a template when saving it
+	I#2415 - "Archive…" direct action should not have ellipsis dots at the end
+	I#2416 - The "Select Address Book" dialog has disabled OK button after open
+	I#2417 - Calendar: Use meeting's timezone in the comp editor Schedule tab
+	I#2423 - Re-enable contact maps feature
+	I#2430 - Calendar: Disallow save for all instances on a detached instance
+	I#2433 - Calendar does not remember selected weeks when scrolling via button
+	I#2443 - Calendar: Missing events in Month view print out
+	M!120 - Correct wording of mail composer's external attachments warning infobar (Jeff Fortin Tam)
+	M!121 - Composer: Change Max Line Length to RFC 2822 Limits (Cameron)
+	eds-I#59 - CalDAV: Allow to disable schedule reply on remove
+	eds-I#180 - Add option to reduce book/cal data usage when on a metered connection
+	eds-I#483 - Calendar: Add option to (not) delete "Declined" meeting
+
+Miscellaneous:
+	Calendar: Indicate detached instance of a recurring event
+	Mail: Correct function prototype declaration (-Wenum-int-mismatch)
+	MessageList: Remove unused code
+	itip-formatter: Allow writing user response comments for all calendars
+	itip-formatter: Disable send of iTip messages when disabled by the user
+	CompEditor: Show source full name for existing components
+	EMeetingStore: Avoid runtime warning when setting NULL time zone
+	Composer: Clear old alerts before sending a message
+
+Translations:
+	Asier Sarasua Garmendia (eu)
+	Ekaterine Papava (ka)
+	Hugo Carvalho (pt)
+	Kukuh Syafaat (id)
+	Roberto MF (es)
+	Sergej A (ru)
+	Yuri Chornoivan (uk)
+
 Evolution 3.49.1 2023-06-30
 ---------------------------
 
