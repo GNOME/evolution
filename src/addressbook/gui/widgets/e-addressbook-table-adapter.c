@@ -463,7 +463,7 @@ e_addressbook_table_adapter_class_init (EAddressbookTableAdapterClass *class)
 	object_class = G_OBJECT_CLASS (class);
 	object_class->finalize = addressbook_finalize;
 
-	#if ENABLE_MAINTAINER_MODE
+	#ifdef ENABLE_MAINTAINER_MODE
 	if (E_CONTACT_FIELD_LAST >= E_VIRT_COLUMN_FIRST) {
 		static gboolean i_know = FALSE;
 		if (!i_know) {
