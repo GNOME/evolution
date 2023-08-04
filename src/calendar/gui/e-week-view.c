@@ -2898,11 +2898,11 @@ set_style_from_attendee (EWeekViewEvent *event,
 		if (!attendee)
 			continue;
 
-		value = cal_comp_util_get_attendee_email (attendee);
+		value = e_cal_util_get_attendee_email (attendee);
 		sentby = e_cal_component_attendee_get_sentby (attendee);
 
-		if (itip_email_addresses_equal (value, address) ||
-		    itip_email_addresses_equal (sentby, address)) {
+		if (e_cal_util_email_addresses_equal (value, address) ||
+		    e_cal_util_email_addresses_equal (sentby, address)) {
 			partstat = e_cal_component_attendee_get_partstat (attendee);
 			break;
 		}

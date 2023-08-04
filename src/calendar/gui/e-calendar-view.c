@@ -168,11 +168,11 @@ calendar_view_check_for_retract (ECalComponent *comp,
 	if (!organizer)
 		return FALSE;
 
-	strip = cal_comp_util_get_organizer_email (organizer);
+	strip = e_cal_util_get_organizer_email (organizer);
 
 	ret_val =
 		e_client_get_backend_property_sync (E_CLIENT (client), E_CAL_BACKEND_PROPERTY_CAL_EMAIL_ADDRESS, &email, NULL, NULL) &&
-		itip_email_addresses_equal (email, strip);
+		e_cal_util_email_addresses_equal (email, strip);
 
 	g_free (email);
 

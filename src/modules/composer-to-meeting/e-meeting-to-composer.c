@@ -193,7 +193,7 @@ meeting_to_composer_composer_created_cb (GObject *source_object,
 		const gchar *organizer;
 
 		from_header = e_composer_header_table_get_header (header_table, E_COMPOSER_HEADER_FROM);
-		organizer = cal_comp_util_get_property_email (prop);
+		organizer = e_cal_util_get_property_email (prop);
 
 		if (organizer && *organizer && from_header) {
 			GtkComboBox *identities_combo;
@@ -246,7 +246,7 @@ meeting_to_composer_composer_created_cb (GObject *source_object,
 		const gchar *name = NULL, *address;
 		EDestination *dest;
 
-		address = cal_comp_util_get_property_email (prop);
+		address = e_cal_util_get_property_email (prop);
 		if (!address || !*address)
 			continue;
 

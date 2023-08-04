@@ -1616,7 +1616,7 @@ cal_comp_util_get_attendee_comments (ICalComponent *icomp)
 			guests_str = g_strdup_printf (g_dngettext (GETTEXT_PACKAGE, "with one guest", "with %d guests", num_guests), num_guests);
 
 		if (guests_str || (value && *value)) {
-			const gchar *email = cal_comp_util_get_property_email (prop);
+			const gchar *email = e_cal_util_get_property_email (prop);
 			const gchar *cn = NULL;
 			ICalParameter *cnparam;
 
@@ -1627,7 +1627,7 @@ cal_comp_util_get_attendee_comments (ICalComponent *icomp)
 					cn = NULL;
 			}
 
-			email = itip_strip_mailto (email);
+			email = e_cal_util_strip_mailto (email);
 
 			if ((email && *email) || (cn && *cn)) {
 				if (!comments)
@@ -2246,7 +2246,7 @@ cal_comp_util_dup_tooltip (ECalComponent *comp,
 	if (organizer && e_cal_component_organizer_get_cn (organizer)) {
 		const gchar *email;
 
-		email = cal_comp_util_get_organizer_email (organizer);
+		email = e_cal_util_get_organizer_email (organizer);
 
 		if (email) {
 			/* Translators: It will display "Organizer: NameOfTheUser <email@ofuser.com>" */
@@ -2438,121 +2438,6 @@ cal_comp_util_dup_tooltip (ECalComponent *comp,
 	g_clear_object (&prop);
 
 	return g_string_free (tooltip, FALSE);
-}
-
-const gchar *
-cal_comp_util_get_property_email (ICalProperty *prop)
-{
-	ICalParameter *param;
-	const gchar *email = NULL;
-
-	if (!prop)
-		return NULL;
-
-	#ifdef HAVE_I_CAL_EMAIL_PARAMETER
-	param = i_cal_property_get_first_parameter (prop, I_CAL_EMAIL_PARAMETER);
-
-	if (param) {
-		email = i_cal_parameter_get_email (param);
-		if (email)
-			email = itip_strip_mailto (email);
-
-		g_clear_object (&param);
-	}
-	#else
-	param = i_cal_property_get_first_parameter (prop, (ICalParameterKind) ICAL_EMAIL_PARAMETER);
-
-	if (param) {
-		email = icalparameter_get_email (i_cal_object_get_native (I_CAL_OBJECT (param)));
-		if (email)
-			email = itip_strip_mailto (email);
-
-		g_clear_object (&param);
-	}
-	#endif /* HAVE_I_CAL_EMAIL_PARAMETER */
-
-	if (!email || !*email) {
-		if (i_cal_property_isa (prop) == I_CAL_ORGANIZER_PROPERTY)
-			email = i_cal_property_get_organizer (prop);
-		else if (i_cal_property_isa (prop) == I_CAL_ATTENDEE_PROPERTY)
-			email = i_cal_property_get_attendee (prop);
-		else
-			g_warn_if_reached ();
-
-		email = itip_strip_mailto (email);
-	}
-
-	if (email && !*email)
-		email = NULL;
-
-	return email;
-}
-
-static const gchar *
-cal_comp_util_get_property_value_email (const gchar *value,
-					ECalComponentParameterBag *params)
-{
-	const gchar *address = NULL;
-
-	if (params) {
-		guint email_index;
-
-		#ifdef HAVE_I_CAL_EMAIL_PARAMETER
-		email_index = e_cal_component_parameter_bag_get_first_by_kind (params, I_CAL_EMAIL_PARAMETER);
-		#else
-		email_index = e_cal_component_parameter_bag_get_first_by_kind (params, (ICalParameterKind) ICAL_EMAIL_PARAMETER);
-		#endif
-
-		if (email_index < e_cal_component_parameter_bag_get_count (params)) {
-			ICalParameter *param;
-
-			param = e_cal_component_parameter_bag_get (params, email_index);
-
-			if (param) {
-				#ifdef HAVE_I_CAL_EMAIL_PARAMETER
-				address = i_cal_parameter_get_email (param);
-				#else
-				address = icalparameter_get_email (i_cal_object_get_native (I_CAL_OBJECT (param)));
-				#endif
-
-				if (address && !*address)
-					address = NULL;
-			}
-		}
-	}
-
-	if (!address)
-		address = value;
-
-	if (address)
-		address = itip_strip_mailto (address);
-
-	if (address && !*address)
-		address = NULL;
-
-	return address;
-}
-
-const gchar *
-cal_comp_util_get_organizer_email (const ECalComponentOrganizer *organizer)
-{
-	if (!organizer)
-		return NULL;
-
-	return cal_comp_util_get_property_value_email (
-		e_cal_component_organizer_get_value (organizer),
-		e_cal_component_organizer_get_parameter_bag (organizer));
-}
-
-const gchar *
-cal_comp_util_get_attendee_email (const ECalComponentAttendee *attendee)
-{
-	if (!attendee)
-		return NULL;
-
-	return cal_comp_util_get_property_value_email (
-		e_cal_component_attendee_get_value (attendee),
-		e_cal_component_attendee_get_parameter_bag (attendee));
 }
 
 /* moves the @comp by @days days, preserving its time and duration */
@@ -2935,7 +2820,7 @@ cal_comp_util_write_to_html (GString *html_buffer,
 		const gchar *organizer_email;
 
 		organizer = e_cal_component_get_organizer (comp);
-		organizer_email = cal_comp_util_get_organizer_email (organizer);
+		organizer_email = e_cal_util_get_organizer_email (organizer);
 
 		if (organizer_email) {
 			markup = g_markup_escape_text (_("Organizer:"), -1);
@@ -2974,7 +2859,7 @@ cal_comp_util_write_to_html (GString *html_buffer,
 		for (a = attendees; a; a = a->next) {
 			ECalComponentAttendee *attnd = a->data;
 			ECalComponentParameterBag *param_bag;
-			const gchar *email = cal_comp_util_get_attendee_email (attnd);
+			const gchar *email = e_cal_util_get_attendee_email (attnd);
 
 			if (!attnd || !email || !*email)
 				continue;

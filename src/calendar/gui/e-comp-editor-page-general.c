@@ -326,7 +326,7 @@ ecep_general_attendees_remove_clicked_cb (GtkButton *button,
 				errors = g_string_new ("");
 			else
 				g_string_append_c (errors, '\n');
-			g_string_append_printf (errors, _("Not enough rights to delete attendee “%s”"), itip_strip_mailto (e_meeting_attendee_get_address (attendee)));
+			g_string_append_printf (errors, _("Not enough rights to delete attendee “%s”"), e_cal_util_strip_mailto (e_meeting_attendee_get_address (attendee)));
 			failures++;
 		} else {
 			ecep_general_remove_attendee (page_general, attendee);
@@ -468,7 +468,7 @@ ecep_general_get_organizer (ECompEditorPageGeneral *page_general,
 			if (out_name)
 				*out_name = g_strdup (str_name);
 			if (out_mailto)
-				*out_mailto = g_strconcat ("mailto:", itip_strip_mailto (str_address), NULL);
+				*out_mailto = g_strconcat ("mailto:", e_cal_util_strip_mailto (str_address), NULL);
 		} else if (out_error_message) {
 			*out_error_message = _("Organizer address is not a valid user mail address");
 		}
@@ -527,7 +527,7 @@ ecep_general_pick_organizer_for_email_address (ECompEditorPageGeneral *page_gene
 	if (can_add)
 		ecep_general_remove_organizer_backend_address (combo_box);
 
-	email_address = itip_strip_mailto (email_address);
+	email_address = e_cal_util_strip_mailto (email_address);
 
 	if (!email_address || !*email_address) {
 		if (can_add && gtk_combo_box_get_active (combo_box) == -1 &&
@@ -902,7 +902,7 @@ ecep_general_fill_widgets (ECompEditorPage *page,
 	     g_object_unref (prop), prop = i_cal_component_get_next_property (component, I_CAL_ATTENDEE_PROPERTY)) {
 		const gchar *address;
 
-		address = cal_comp_util_get_property_email (prop);
+		address = e_cal_util_get_property_email (prop);
 		if (address)
 			page_general->priv->orig_attendees = g_slist_prepend (page_general->priv->orig_attendees, g_strdup (address));
 	}
@@ -914,7 +914,7 @@ ecep_general_fill_widgets (ECompEditorPage *page,
 		ICalParameter *param;
 		const gchar *organizer;
 
-		organizer = cal_comp_util_get_property_email (prop);
+		organizer = e_cal_util_get_property_email (prop);
 
 		if (organizer && *organizer) {
 			ECompEditor *comp_editor;
@@ -928,7 +928,7 @@ ecep_general_fill_widgets (ECompEditorPage *page,
 
 			flags = flags & E_COMP_EDITOR_FLAG_ORGANIZER_IS_USER;
 
-			if (itip_address_is_user (registry, itip_strip_mailto (organizer))) {
+			if (itip_address_is_user (registry, e_cal_util_strip_mailto (organizer))) {
 				flags = flags | E_COMP_EDITOR_FLAG_ORGANIZER_IS_USER;
 			} else {
 				param = i_cal_property_get_first_parameter (prop, I_CAL_SENTBY_PARAMETER);
@@ -936,7 +936,7 @@ ecep_general_fill_widgets (ECompEditorPage *page,
 					const gchar *sentby = i_cal_parameter_get_sentby (param);
 
 					if (sentby && *sentby &&
-					    itip_address_is_user (registry, itip_strip_mailto (organizer))) {
+					    itip_address_is_user (registry, e_cal_util_strip_mailto (organizer))) {
 						flags = flags | E_COMP_EDITOR_FLAG_ORGANIZER_IS_USER;
 					}
 
@@ -952,14 +952,14 @@ ecep_general_fill_widgets (ECompEditorPage *page,
 
 				cn = i_cal_parameter_get_cn (param);
 				if (cn && *cn) {
-					value = camel_internet_address_format_address (cn, itip_strip_mailto (organizer));
+					value = camel_internet_address_format_address (cn, e_cal_util_strip_mailto (organizer));
 				}
 
 				g_object_unref (param);
 			}
 
 			if (!value)
-				value = g_strdup (itip_strip_mailto (organizer));
+				value = g_strdup (e_cal_util_strip_mailto (organizer));
 
 			if (!(flags & E_COMP_EDITOR_FLAG_ORGANIZER_IS_USER) ||
 			    !ecep_general_pick_organizer_for_email_address (page_general, organizer, FALSE)) {
@@ -990,7 +990,7 @@ ecep_general_fill_widgets (ECompEditorPage *page,
 	     g_object_unref (prop), prop = i_cal_component_get_next_property (component, I_CAL_ATTENDEE_PROPERTY)) {
 		const gchar *address;
 
-		address = cal_comp_util_get_property_email (prop);
+		address = e_cal_util_get_property_email (prop);
 		if (address) {
 			EMeetingAttendee *attendee;
 			ECalComponentAttendee *comp_attendee;
@@ -1128,7 +1128,7 @@ ecep_general_fill_component (ECompEditorPage *page,
 			EMeetingAttendee *attendee = g_ptr_array_index (attendees, ii);
 			const gchar *address;
 
-			address = itip_strip_mailto (e_meeting_attendee_get_address (attendee));
+			address = e_cal_util_strip_mailto (e_meeting_attendee_get_address (attendee));
 			if (address) {
 				ICalParameter *param;
 
@@ -1958,7 +1958,7 @@ e_comp_editor_page_general_get_added_attendees (ECompEditorPageGeneral *page_gen
 		EMeetingAttendee *attendee = g_ptr_array_index (attendees, ii);
 		const gchar *address;
 
-		address = itip_strip_mailto (e_meeting_attendee_get_address (attendee));
+		address = e_cal_util_strip_mailto (e_meeting_attendee_get_address (attendee));
 
 		if (address && (!orig_attendees || !g_hash_table_contains (orig_attendees, address)))
 			added_attendees = g_slist_prepend (added_attendees, g_strdup (address));
@@ -2002,7 +2002,7 @@ e_comp_editor_page_general_get_removed_attendees (ECompEditorPageGeneral *page_g
 		EMeetingAttendee *attendee = g_ptr_array_index (attendees, ii);
 		const gchar *address;
 
-		address = itip_strip_mailto (e_meeting_attendee_get_address (attendee));
+		address = e_cal_util_strip_mailto (e_meeting_attendee_get_address (attendee));
 		if (address)
 			g_hash_table_insert (new_attendees, (gpointer) address, GINT_TO_POINTER (1));
 	}

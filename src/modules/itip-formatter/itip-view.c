@@ -2773,7 +2773,7 @@ itip_view_format_attendee_plaintext (ICalProperty *prop)
 	if (!prop)
 		return NULL;
 
-	email = cal_comp_util_get_property_email (prop);
+	email = e_cal_util_get_property_email (prop);
 	cnparam = i_cal_property_get_first_parameter (prop, I_CAL_CN_PARAMETER);
 	if (cnparam) {
 		cn = i_cal_parameter_get_cn (cnparam);
@@ -3594,7 +3594,7 @@ find_attendee_if_sentby (ICalComponent *icomp,
 			continue;
 		}
 
-		text = g_strdup (itip_strip_mailto (attendee_sentby));
+		text = g_strdup (e_cal_util_strip_mailto (attendee_sentby));
 		text = g_strstrip (text);
 		if (text && !g_ascii_strcasecmp (address, text)) {
 			g_object_unref (param);
@@ -3694,7 +3694,7 @@ find_to_address (ItipView *view,
 
 		text = i_cal_property_get_value_as_string (prop);
 
-		view->priv->to_address = g_strdup (itip_strip_mailto (text));
+		view->priv->to_address = g_strdup (e_cal_util_strip_mailto (text));
 		g_free (text);
 		g_strstrip (view->priv->to_address);
 
@@ -3783,7 +3783,7 @@ find_to_address (ItipView *view,
 
 		text = i_cal_property_get_value_as_string (prop);
 
-		view->priv->to_address = g_strdup (itip_strip_mailto (text));
+		view->priv->to_address = g_strdup (e_cal_util_strip_mailto (text));
 		g_free (text);
 		g_strstrip (view->priv->to_address);
 
@@ -3852,7 +3852,7 @@ find_from_address (ItipView *view,
 
 	organizer = i_cal_property_get_value_as_string (prop);
 	if (organizer) {
-		organizer_clean = g_strdup (itip_strip_mailto (organizer));
+		organizer_clean = g_strdup (e_cal_util_strip_mailto (organizer));
 		organizer_clean = g_strstrip (organizer_clean);
 		g_free (organizer);
 	}
@@ -3861,7 +3861,7 @@ find_from_address (ItipView *view,
 	if (param) {
 		organizer_sentby = i_cal_parameter_get_sentby (param);
 		if (organizer_sentby) {
-			organizer_sentby_clean = g_strdup (itip_strip_mailto (organizer_sentby));
+			organizer_sentby_clean = g_strdup (e_cal_util_strip_mailto (organizer_sentby));
 			organizer_sentby_clean = g_strstrip (organizer_sentby_clean);
 		}
 		g_clear_object (&param);
@@ -4020,8 +4020,8 @@ same_attendee_status (ItipView *view,
 			if (!sattendee)
 				continue;
 
-			if (itip_email_addresses_equal (cal_comp_util_get_attendee_email (rattendee),
-							cal_comp_util_get_attendee_email (sattendee))) {
+			if (e_cal_util_email_addresses_equal (e_cal_util_get_attendee_email (rattendee),
+							e_cal_util_get_attendee_email (sattendee))) {
 				same = e_cal_component_attendee_get_partstat (rattendee) == e_cal_component_attendee_get_partstat (sattendee);
 				break;
 			}
@@ -5218,7 +5218,7 @@ finish_message_delete_with_rsvp (ItipView *view,
 		     g_object_unref (prop), prop = i_cal_component_get_next_property (icomp, I_CAL_ATTENDEE_PROPERTY)) {
 			gchar *text;
 
-			attendee = cal_comp_util_get_property_email (prop);
+			attendee = e_cal_util_get_property_email (prop);
 			if (!attendee)
 				continue;
 
@@ -5227,9 +5227,9 @@ finish_message_delete_with_rsvp (ItipView *view,
 
 			/* We do this to ensure there is at most one
 			 * attendee in the response */
-			if (found || !itip_email_addresses_equal (view->priv->to_address, text))
+			if (found || !e_cal_util_email_addresses_equal (view->priv->to_address, text))
 				list = g_slist_prepend (list, g_object_ref (prop));
-			else if (itip_email_addresses_equal (view->priv->to_address, text))
+			else if (e_cal_util_email_addresses_equal (view->priv->to_address, text))
 				found = TRUE;
 			g_free (text);
 		}
@@ -5774,7 +5774,7 @@ remove_delegate (ItipView *view,
 
 	comment = g_strdup_printf (
 		_("Organizer has removed the delegate %s "),
-		itip_strip_mailto (delegate));
+		e_cal_util_strip_mailto (delegate));
 
 	/* send cancellation notice to delegate */
 	status = send_comp_to_attendee (
@@ -5886,19 +5886,19 @@ update_attendee_status_icomp (ItipView *view,
 			ECalComponentAttendee *a = attendees->data;
 			ICalProperty *prop, *del_prop = NULL, *delto = NULL;
 			EShell *shell = e_shell_get_default ();
-			const gchar *attendee_email = cal_comp_util_get_attendee_email (a);
+			const gchar *attendee_email = e_cal_util_get_attendee_email (a);
 
 			prop = itip_utils_find_attendee_property (icomp, attendee_email);
 			if ((e_cal_component_attendee_get_partstat (a) == I_CAL_PARTSTAT_DELEGATED) &&
-			    (del_prop = itip_utils_find_attendee_property (org_icomp, itip_strip_mailto (e_cal_component_attendee_get_delegatedto (a)))) &&
-			    !(delto = itip_utils_find_attendee_property (icomp, itip_strip_mailto (e_cal_component_attendee_get_delegatedto (a))))) {
+			    (del_prop = itip_utils_find_attendee_property (org_icomp, e_cal_util_strip_mailto (e_cal_component_attendee_get_delegatedto (a)))) &&
+			    !(delto = itip_utils_find_attendee_property (icomp, e_cal_util_strip_mailto (e_cal_component_attendee_get_delegatedto (a))))) {
 				gint response;
-				delegate = cal_comp_util_get_property_email (del_prop);
+				delegate = e_cal_util_get_property_email (del_prop);
 				response = e_alert_run_dialog_for_args (
 					e_shell_get_active_window (shell),
 					"org.gnome.itip-formatter:add-delegate",
 					attendee_email,
-					itip_strip_mailto (delegate), NULL);
+					e_cal_util_strip_mailto (delegate), NULL);
 				if (response == GTK_RESPONSE_YES) {
 					i_cal_component_take_property (icomp, i_cal_property_clone (del_prop));
 				} else if (response == GTK_RESPONSE_NO) {
@@ -5926,7 +5926,7 @@ update_attendee_status_icomp (ItipView *view,
 					response = e_alert_run_dialog_for_args (
 						e_shell_get_active_window (shell),
 						"org.gnome.itip-formatter:add-delegate",
-						itip_strip_mailto (delfrom),
+						e_cal_util_strip_mailto (delfrom),
 						attendee_email, NULL);
 					if (response == GTK_RESPONSE_YES) {
 						/* Already declared in this function */
@@ -5936,7 +5936,7 @@ update_attendee_status_icomp (ItipView *view,
 						remove_delegate (
 							view,
 							attendee_email,
-							itip_strip_mailto (delfrom),
+							e_cal_util_strip_mailto (delfrom),
 							comp);
 						goto cleanup;
 					} else {
@@ -6484,7 +6484,7 @@ extract_itip_data (ItipView *view,
 			if ((param = i_cal_property_get_first_parameter (prop, I_CAL_DELEGATEDFROM_PARAMETER))) {
 				delfrom = i_cal_parameter_get_delegatedfrom (param);
 
-				view->priv->delegator_address = g_strdup (itip_strip_mailto (delfrom));
+				view->priv->delegator_address = g_strdup (e_cal_util_strip_mailto (delfrom));
 
 				g_object_unref (param);
 			}
@@ -6959,11 +6959,11 @@ itip_view_init_view (ItipView *view)
 					break;
 
 				org = e_cal_component_organizer_get_cn (organizer) ? e_cal_component_organizer_get_cn (organizer) :
-					cal_comp_util_get_organizer_email (organizer);
+					e_cal_util_get_organizer_email (organizer);
 
 				itip_view_set_organizer (view, org);
 				if (e_cal_component_organizer_get_sentby (organizer)) {
-					const gchar *sentby = itip_strip_mailto (e_cal_component_organizer_get_sentby (organizer));
+					const gchar *sentby = e_cal_util_strip_mailto (e_cal_component_organizer_get_sentby (organizer));
 
 					if (sentby && *sentby) {
 						gchar *tmp = NULL;
@@ -6979,7 +6979,7 @@ itip_view_init_view (ItipView *view)
 								if (camel_address_decode (CAMEL_ADDRESS (addr), sender) == 1 &&
 								    camel_internet_address_get (addr, 0, &name, &email) &&
 								    name && *name && email && *email &&
-								    itip_email_addresses_equal (sentby, email)) {
+								    e_cal_util_email_addresses_equal (sentby, email)) {
 									tmp = camel_internet_address_format_address (name, sentby);
 									sentby = tmp;
 								}
@@ -6995,9 +6995,9 @@ itip_view_init_view (ItipView *view)
 				}
 
 				if (view->priv->my_address) {
-					if (!itip_email_addresses_equal (cal_comp_util_get_organizer_email (organizer), view->priv->my_address) &&
-					    !itip_email_addresses_equal (e_cal_component_organizer_get_sentby (organizer), view->priv->my_address) &&
-					    (view->priv->to_address && !itip_email_addresses_equal (view->priv->to_address, view->priv->my_address)))
+					if (!e_cal_util_email_addresses_equal (e_cal_util_get_organizer_email (organizer), view->priv->my_address) &&
+					    !e_cal_util_email_addresses_equal (e_cal_component_organizer_get_sentby (organizer), view->priv->my_address) &&
+					    (view->priv->to_address && !e_cal_util_email_addresses_equal (view->priv->to_address, view->priv->my_address)))
 						itip_view_set_proxy (view, view->priv->to_name ? view->priv->to_name : view->priv->to_address);
 				}
 
@@ -7016,15 +7016,15 @@ itip_view_init_view (ItipView *view)
 					attendee = list->data;
 
 					itip_view_set_attendee (view, e_cal_component_attendee_get_cn (attendee) ?
-						e_cal_component_attendee_get_cn (attendee) : cal_comp_util_get_attendee_email (attendee));
+						e_cal_component_attendee_get_cn (attendee) : e_cal_util_get_attendee_email (attendee));
 
 					if (e_cal_component_attendee_get_sentby (attendee))
-						itip_view_set_attendee_sentby (view, itip_strip_mailto (e_cal_component_attendee_get_sentby (attendee)));
+						itip_view_set_attendee_sentby (view, e_cal_util_strip_mailto (e_cal_component_attendee_get_sentby (attendee)));
 
 					if (view->priv->my_address) {
-						if (!itip_email_addresses_equal (cal_comp_util_get_attendee_email (attendee), view->priv->my_address) &&
-						    !itip_email_addresses_equal (e_cal_component_attendee_get_sentby (attendee), view->priv->my_address) &&
-						    (view->priv->from_address && !itip_email_addresses_equal (view->priv->from_address, view->priv->my_address)))
+						if (!e_cal_util_email_addresses_equal (e_cal_util_get_attendee_email (attendee), view->priv->my_address) &&
+						    !e_cal_util_email_addresses_equal (e_cal_component_attendee_get_sentby (attendee), view->priv->my_address) &&
+						    (view->priv->from_address && !e_cal_util_email_addresses_equal (view->priv->from_address, view->priv->my_address)))
 							itip_view_set_proxy (view, view->priv->from_name ? view->priv->from_name : view->priv->from_address);
 					}
 

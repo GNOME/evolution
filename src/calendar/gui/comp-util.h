@@ -213,12 +213,6 @@ gchar *		cal_comp_util_dup_tooltip	(ECalComponent *comp,
 						 ECalClient *client,
 						 ESourceRegistry *registry,
 						 ICalTimezone *default_zone);
-const gchar *	cal_comp_util_get_property_email
-						(ICalProperty *prop);
-const gchar *	cal_comp_util_get_organizer_email
-						(const ECalComponentOrganizer *organizer);
-const gchar *	cal_comp_util_get_attendee_email
-						(const ECalComponentAttendee *attendee);
 gboolean	cal_comp_util_move_component_by_days
 						(GtkWindow *parent,
 						 ECalModel *model,

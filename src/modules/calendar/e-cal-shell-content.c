@@ -912,9 +912,9 @@ cal_shell_content_get_attendee_prop (ICalComponent *icomp,
 	     g_object_unref (prop), prop = i_cal_component_get_next_property (icomp, I_CAL_ATTENDEE_PROPERTY)) {
 		const gchar *attendee;
 
-		attendee = cal_comp_util_get_property_email (prop);
+		attendee = e_cal_util_get_property_email (prop);
 
-		if (itip_email_addresses_equal (attendee, address))
+		if (e_cal_util_email_addresses_equal (attendee, address))
 			return prop;
 	}
 
@@ -935,7 +935,7 @@ cal_shell_content_icomp_is_delegated (ICalComponent *icomp,
 	if (prop) {
 		param = i_cal_property_get_first_parameter (prop, I_CAL_DELEGATEDTO_PARAMETER);
 		if (param) {
-			delto = g_strdup (itip_strip_mailto (i_cal_parameter_get_delegatedto (param)));
+			delto = g_strdup (e_cal_util_strip_mailto (i_cal_parameter_get_delegatedto (param)));
 			g_object_unref (param);
 		}
 
@@ -951,7 +951,7 @@ cal_shell_content_icomp_is_delegated (ICalComponent *icomp,
 
 		param = i_cal_property_get_first_parameter (prop, I_CAL_DELEGATEDFROM_PARAMETER);
 		if (param) {
-			delfrom = g_strdup (itip_strip_mailto (i_cal_parameter_get_delegatedfrom (param)));
+			delfrom = g_strdup (e_cal_util_strip_mailto (i_cal_parameter_get_delegatedfrom (param)));
 			g_object_unref (param);
 		}
 

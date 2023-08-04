@@ -1614,7 +1614,7 @@ cal_model_value_at (ETableModel *etm,
 						ECalComponentAttendee *ca = sl->data;
 						const gchar *text;
 
-						text = cal_comp_util_get_attendee_email (ca);
+						text = e_cal_util_get_attendee_email (ca);
 						if (itip_address_is_user (registry, text)) {
 							if (e_cal_component_attendee_get_delegatedto (ca) != NULL)
 								retval = 3;

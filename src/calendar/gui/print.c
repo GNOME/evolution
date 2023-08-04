@@ -1338,7 +1338,7 @@ print_attendees (GtkPrintContext *context,
 		if (!attendee)
 			continue;
 
-		value = cal_comp_util_get_attendee_email (attendee);
+		value = e_cal_util_get_attendee_email (attendee);
 		if (value && *value) {
 			GString *text;
 			const gchar *tmp;
@@ -1352,7 +1352,7 @@ print_attendees (GtkPrintContext *context,
 			if (e_cal_component_attendee_get_cn (attendee) && e_cal_component_attendee_get_cn (attendee)[0])
 				g_string_append (text, e_cal_component_attendee_get_cn (attendee));
 			else {
-				g_string_append (text, itip_strip_mailto (value));
+				g_string_append (text, e_cal_util_strip_mailto (value));
 			}
 
 			tmp = get_role_as_string (e_cal_component_attendee_get_role (attendee));

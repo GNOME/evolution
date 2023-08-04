@@ -260,7 +260,7 @@ e_meeting_list_view_add_attendee_to_name_selector (EMeetingListView *view,
 		name_selector_model, sections[i],
 		NULL, &destination_store);
 	des = e_destination_new ();
-	e_destination_set_email (des, itip_strip_mailto (e_meeting_attendee_get_address (ma)));
+	e_destination_set_email (des, e_cal_util_strip_mailto (e_meeting_attendee_get_address (ma)));
 	e_destination_set_name (des, e_meeting_attendee_get_cn (ma));
 	e_destination_store_append_destination (destination_store, des);
 	g_object_unref (des);
@@ -285,7 +285,7 @@ e_meeting_list_view_remove_attendee_from_name_selector (EMeetingListView *view,
 		name_selector_model, sections[i],
 		NULL, &destination_store);
 	destinations = e_destination_store_list_destinations (destination_store);
-	madd = itip_strip_mailto (e_meeting_attendee_get_address (ma));
+	madd = e_cal_util_strip_mailto (e_meeting_attendee_get_address (ma));
 
 	for (l = destinations; l; l = g_list_next (l)) {
 		const gchar *attendee = NULL;
@@ -1031,7 +1031,7 @@ add_to_list (gpointer data,
 {
 	GSList **user_data = u_data;
 
-	*user_data = g_slist_append (*user_data, (gpointer)itip_strip_mailto (e_meeting_attendee_get_address (data)));
+	*user_data = g_slist_append (*user_data, (gpointer)e_cal_util_strip_mailto (e_meeting_attendee_get_address (data)));
 }
 
 static void

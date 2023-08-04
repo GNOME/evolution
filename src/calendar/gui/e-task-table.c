@@ -1071,7 +1071,7 @@ check_for_retract (ECalComponent *comp,
 		return FALSE;
 
 	org = e_cal_component_get_organizer (comp);
-	strip = cal_comp_util_get_organizer_email (org);
+	strip = e_cal_util_get_organizer_email (org);
 
 	if (!strip || !*strip) {
 		e_cal_component_organizer_free (org);
@@ -1082,7 +1082,7 @@ check_for_retract (ECalComponent *comp,
 		E_CLIENT (client),
 		E_CAL_BACKEND_PROPERTY_CAL_EMAIL_ADDRESS,
 		&email, NULL, NULL) && email != NULL &&
-		itip_email_addresses_equal (email, strip);
+		e_cal_util_email_addresses_equal (email, strip);
 
 	e_cal_component_organizer_free (org);
 	g_free (email);

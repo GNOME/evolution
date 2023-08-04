@@ -588,7 +588,7 @@ ecep_reminders_selected_to_widgets (ECompEditorPageReminders *page_reminders)
 			if (att && e_cal_component_attendee_get_cn (att) && e_cal_component_attendee_get_cn (att)[0])
 				e_destination_set_name (dest, e_cal_component_attendee_get_cn (att));
 
-			att_email = cal_comp_util_get_attendee_email (att);
+			att_email = e_cal_util_get_attendee_email (att);
 			if (att_email)
 				e_destination_set_email (dest, att_email);
 

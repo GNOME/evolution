@@ -1078,7 +1078,7 @@ etdp_add_component (EToDoPane *to_do_pane,
 					ECalComponentAttendee *ca = link->data;
 					const gchar *text;
 
-					text = cal_comp_util_get_attendee_email (ca);
+					text = e_cal_util_get_attendee_email (ca);
 					if (itip_address_is_user (registry, text)) {
 						if (e_cal_component_attendee_get_delegatedto (ca))
 							icon_name = "stock_task-assigned-to";

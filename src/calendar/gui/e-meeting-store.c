@@ -325,7 +325,7 @@ get_value (GtkTreeModel *model,
 	case E_MEETING_STORE_ADDRESS_COL:
 		g_value_init (value, G_TYPE_STRING);
 		g_value_set_string (
-			value, itip_strip_mailto (
+			value, e_cal_util_strip_mailto (
 			e_meeting_attendee_get_address (attendee)));
 		break;
 	case E_MEETING_STORE_MEMBER_COL:
@@ -353,13 +353,13 @@ get_value (GtkTreeModel *model,
 	case E_MEETING_STORE_DELTO_COL:
 		g_value_init (value, G_TYPE_STRING);
 		g_value_set_string (
-			value, itip_strip_mailto (
+			value, e_cal_util_strip_mailto (
 			e_meeting_attendee_get_delto (attendee)));
 		break;
 	case E_MEETING_STORE_DELFROM_COL:
 		g_value_init (value, G_TYPE_STRING);
 		g_value_set_string (
-			value, itip_strip_mailto (
+			value, e_cal_util_strip_mailto (
 			e_meeting_attendee_get_delfrom (attendee)));
 		break;
 	case E_MEETING_STORE_STATUS_COL:
@@ -384,7 +384,7 @@ get_value (GtkTreeModel *model,
 		if (cn && *cn) {
 			if (e_meeting_store_get_show_address (store) ||
 			    e_meeting_attendee_get_show_address (attendee)) {
-				const gchar *email = itip_strip_mailto (e_meeting_attendee_get_address (attendee));
+				const gchar *email = e_cal_util_strip_mailto (e_meeting_attendee_get_address (attendee));
 
 				if (email && *email) {
 					g_value_take_string (value, camel_internet_address_format_address (cn, email));
@@ -396,7 +396,7 @@ get_value (GtkTreeModel *model,
 			}
 		} else {
 			g_value_set_string (
-				value, itip_strip_mailto (
+				value, e_cal_util_strip_mailto (
 				e_meeting_attendee_get_address (attendee)));
 		}
 		break;
@@ -596,7 +596,7 @@ refresh_queue_remove (EMeetingStore *store,
 
 	/* Free the queue data */
 	qdata = g_hash_table_lookup (
-		priv->refresh_data, itip_strip_mailto (
+		priv->refresh_data, e_cal_util_strip_mailto (
 		e_meeting_attendee_get_address (attendee)));
 	if (!qdata) {
 		struct FindAttendeeData fad = { 0 };
@@ -612,7 +612,7 @@ refresh_queue_remove (EMeetingStore *store,
 	if (qdata) {
 		g_mutex_lock (&priv->mutex);
 		g_hash_table_remove (
-			priv->refresh_data, itip_strip_mailto (
+			priv->refresh_data, e_cal_util_strip_mailto (
 			e_meeting_attendee_get_address (attendee)));
 		g_mutex_unlock (&priv->mutex);
 		g_ptr_array_free (qdata->call_backs, TRUE);
@@ -1228,8 +1228,8 @@ e_meeting_store_find_attendee (EMeetingStore *store,
 
 		attendee_address = e_meeting_attendee_get_address (attendee);
 		if (attendee_address && !g_ascii_strcasecmp (
-			itip_strip_mailto (attendee_address),
-			itip_strip_mailto (address))) {
+			e_cal_util_strip_mailto (attendee_address),
+			e_cal_util_strip_mailto (address))) {
 			if (row != NULL)
 				*row = i;
 
@@ -1752,7 +1752,7 @@ refresh_busy_periods (gpointer data)
 		g_return_val_if_fail (attendee != NULL, FALSE);
 
 		qdata = g_hash_table_lookup (
-			priv->refresh_data, itip_strip_mailto (
+			priv->refresh_data, e_cal_util_strip_mailto (
 			e_meeting_attendee_get_address (attendee)));
 		if (!qdata)
 			continue;
@@ -1781,7 +1781,7 @@ refresh_busy_periods (gpointer data)
 	fbd->qdata = qdata;
 	fbd->fb_uri = priv->fb_uri;
 	fbd->store = store;
-	fbd->email = g_strdup (itip_strip_mailto (
+	fbd->email = g_strdup (e_cal_util_strip_mailto (
 		e_meeting_attendee_get_address (attendee)));
 
 	/* Check the server for free busy data */
@@ -1857,7 +1857,7 @@ refresh_queue_add (EMeetingStore *store,
 	priv = store->priv;
 
 	attendee = g_ptr_array_index (priv->attendees, row);
-	if ((attendee == NULL) || !strcmp (itip_strip_mailto (
+	if ((attendee == NULL) || !strcmp (e_cal_util_strip_mailto (
 		e_meeting_attendee_get_address (attendee)), ""))
 		return;
 
@@ -1874,7 +1874,7 @@ refresh_queue_add (EMeetingStore *store,
 
 	g_mutex_lock (&priv->mutex);
 	qdata = g_hash_table_lookup (
-		priv->refresh_data, itip_strip_mailto (
+		priv->refresh_data, e_cal_util_strip_mailto (
 		e_meeting_attendee_get_address (attendee)));
 
 	if (qdata == NULL) {
@@ -1894,7 +1894,7 @@ refresh_queue_add (EMeetingStore *store,
 		g_ptr_array_add (qdata->data, data);
 
 		g_hash_table_insert (
-			priv->refresh_data, g_strdup (itip_strip_mailto (
+			priv->refresh_data, g_strdup (e_cal_util_strip_mailto (
 			e_meeting_attendee_get_address (attendee))), qdata);
 	} else {
 		if (e_meeting_time_compare_times (start, &qdata->start) == -1)

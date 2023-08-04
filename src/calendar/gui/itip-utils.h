@@ -47,12 +47,6 @@ struct CalMimeAttach {
 };
 
 void		itip_cal_mime_attach_free	(gpointer ptr); /* struct CalMimeAttach * */
-gboolean	itip_email_addresses_equal	(const gchar *email1,
-						 const gchar *email2);
-gboolean	itip_get_default_name_and_address
-						(ESourceRegistry *registry,
-						 gchar **name,
-						 gchar **address);
 gchar **	itip_get_user_identities	(ESourceRegistry *registry);
 gchar *		itip_get_fallback_identity	(ESourceRegistry *registry);
 gboolean	itip_address_is_user		(ESourceRegistry *registry,
@@ -68,7 +62,6 @@ gboolean	itip_sentby_is_user		(ESourceRegistry *registry,
 						 ECalComponent *comp,
 						 ECalClient *cal_client);
 gboolean	itip_has_any_attendees		(ECalComponent *comp);
-const gchar *	itip_strip_mailto		(const gchar *address);
 gboolean	itip_attendee_is_user		(ESourceRegistry *registry,
 						 ECalComponent *comp,
 						 ECalClient *cal_client);

@@ -238,7 +238,7 @@ e_meeting_attendee_new_from_e_cal_component_attendee (const ECalComponentAttende
 
 	ia = E_MEETING_ATTENDEE (g_object_new (E_TYPE_MEETING_ATTENDEE, NULL));
 
-	e_meeting_attendee_set_address (ia, cal_comp_util_get_attendee_email (ca));
+	e_meeting_attendee_set_address (ia, e_cal_util_get_attendee_email (ca));
 	e_meeting_attendee_set_member (ia, e_cal_component_attendee_get_member (ca));
 	e_meeting_attendee_set_cutype (ia, e_cal_component_attendee_get_cutype (ca));
 	e_meeting_attendee_set_role (ia, e_cal_component_attendee_get_role (ca));

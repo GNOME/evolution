@@ -173,15 +173,15 @@ ece_set_attendees_for_delegation (ECalComponent *comp,
 	     prop;
 	     g_object_unref (prop), prop = again ? i_cal_component_get_first_property (icomp, I_CAL_ATTENDEE_PROPERTY) :
 	     i_cal_component_get_next_property (icomp, I_CAL_ATTENDEE_PROPERTY)) {
-		const gchar *attendee = cal_comp_util_get_property_email (prop);
+		const gchar *attendee = e_cal_util_get_property_email (prop);
 		const gchar *delfrom = NULL;
 
 		again = FALSE;
 		param = i_cal_property_get_first_parameter (prop, I_CAL_DELEGATEDFROM_PARAMETER);
 		if (param)
 			delfrom = i_cal_parameter_get_delegatedfrom (param);
-		if (!(itip_email_addresses_equal (attendee, address) ||
-		     ((delfrom && *delfrom) && itip_email_addresses_equal (delfrom, address)))) {
+		if (!(e_cal_util_email_addresses_equal (attendee, address) ||
+		     ((delfrom && *delfrom) && e_cal_util_email_addresses_equal (delfrom, address)))) {
 			i_cal_component_remove_property (icomp, prop);
 			again = TRUE;
 		}
@@ -1520,7 +1520,7 @@ ece_organizer_email_address_is_user (ECompEditor *comp_editor,
 	g_return_val_if_fail (E_IS_COMP_EDITOR (comp_editor), FALSE);
 	g_return_val_if_fail (E_IS_CAL_CLIENT (client), FALSE);
 
-	email_address = itip_strip_mailto (email_address);
+	email_address = e_cal_util_strip_mailto (email_address);
 
 	if (!email_address || !*email_address)
 		return FALSE;
@@ -1558,7 +1558,7 @@ ece_organizer_is_user (ECompEditor *comp_editor,
 		return FALSE;
 	}
 
-	organizer = cal_comp_util_get_property_email (prop);
+	organizer = e_cal_util_get_property_email (prop);
 	if (!organizer || !*organizer) {
 		g_clear_object (&prop);
 		return FALSE;

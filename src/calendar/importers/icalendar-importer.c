@@ -1232,82 +1232,6 @@ format_dt (const ECalComponentDateTime *dt,
 	return e_datetime_format_format_tm ("calendar", "table", i_cal_time_is_date (tt) ? DTFormatKindDate : DTFormatKindDateTime, &tm);
 }
 
-static const gchar *
-strip_mailto (const gchar *str)
-{
-	if (!str || g_ascii_strncasecmp (str, "mailto:", 7) != 0)
-		return str;
-
-	return str + 7;
-}
-
-static const gchar *
-get_property_value_email (const gchar *value,
-			  ECalComponentParameterBag *params)
-{
-	const gchar *address = NULL;
-
-	if (params) {
-		guint email_index;
-
-		#ifdef HAVE_I_CAL_EMAIL_PARAMETER
-		email_index = e_cal_component_parameter_bag_get_first_by_kind (params, I_CAL_EMAIL_PARAMETER);
-		#else
-		email_index = e_cal_component_parameter_bag_get_first_by_kind (params, (ICalParameterKind) ICAL_EMAIL_PARAMETER);
-		#endif
-
-		if (email_index < e_cal_component_parameter_bag_get_count (params)) {
-			ICalParameter *param;
-
-			param = e_cal_component_parameter_bag_get (params, email_index);
-
-			if (param) {
-				#ifdef HAVE_I_CAL_EMAIL_PARAMETER
-				address = i_cal_parameter_get_email (param);
-				#else
-				address = icalparameter_get_email (i_cal_object_get_native (I_CAL_OBJECT (param)));
-				#endif
-
-				if (address && !*address)
-					address = NULL;
-			}
-		}
-	}
-
-	if (!address)
-		address = value;
-
-	if (address)
-		address = strip_mailto (address);
-
-	if (address && !*address)
-		address = NULL;
-
-	return address;
-}
-
-static const gchar *
-get_organizer_email (ECalComponentOrganizer *organizer)
-{
-	if (!organizer)
-		return NULL;
-
-	return get_property_value_email (
-		e_cal_component_organizer_get_value (organizer),
-		e_cal_component_organizer_get_parameter_bag (organizer));
-}
-
-static const gchar *
-get_attendee_email (ECalComponentAttendee *attendee)
-{
-	if (!attendee)
-		return NULL;
-
-	return get_property_value_email (
-		e_cal_component_attendee_get_value (attendee),
-		e_cal_component_attendee_get_parameter_bag (attendee));
-}
-
 static void
 add_url_section (EWebViewPreview *preview,
 		 const gchar *section,
@@ -1491,7 +1415,7 @@ preview_comp (EWebViewPreview *preview,
 		const gchar *organizer_email;
 
 		organizer = e_cal_component_get_organizer (comp);
-		organizer_email = get_organizer_email (organizer);
+		organizer_email = e_cal_util_get_organizer_email (organizer);
 
 		if (organizer_email) {
 			const gchar *cn;
@@ -1526,7 +1450,7 @@ preview_comp (EWebViewPreview *preview,
 			if (!attnd)
 				continue;
 
-			value = get_attendee_email (attnd);
+			value = e_cal_util_get_attendee_email (attnd);
 			if (!value || !*value)
 				continue;
 
@@ -1535,9 +1459,9 @@ preview_comp (EWebViewPreview *preview,
 			str = g_string_new ("");
 
 			if (cn && *cn) {
-				g_string_append_printf (str, "%s <%s>", cn, strip_mailto (value));
+				g_string_append_printf (str, "%s <%s>", cn, e_cal_util_strip_mailto (value));
 			} else {
-				g_string_append (str, strip_mailto (value));
+				g_string_append (str, e_cal_util_strip_mailto (value));
 			}
 
 			param_bag = e_cal_component_attendee_get_parameter_bag (attnd);
